@@ -22,9 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 // global:
-HINSTANCE ghInst = NULL;
-FI_INTERFACE *FIP = NULL;		//freeimage interface
-CLIST_INTERFACE *pcli = NULL;
+HINSTANCE ghInst = nullptr;
+FI_INTERFACE *FIP = nullptr;		//freeimage interface
+CLIST_INTERFACE *pcli = nullptr;
 
 MGLOBAL			myGlobals;
 pfnDwmIsCompositionEnabled	dwmIsCompositionEnabled;
@@ -134,7 +134,7 @@ unsigned int __fastcall hash_M2(const void * key, unsigned int len)
 
 unsigned int hashSettingW_M2(const char * key)
 {
-	if (key == NULL) return 0;
+	if (key == nullptr) return 0;
 	const unsigned int len = (unsigned int)mir_wstrlen((const wchar_t*)key);
 	char* buf = (char*)alloca(len + 1);
 	for (unsigned i = 0; i <= len ; ++i)
@@ -144,14 +144,14 @@ unsigned int hashSettingW_M2(const char * key)
 
 unsigned int hashSetting_M2(const char * key)
 {
-	if (key == NULL) return 0;
+	if (key == nullptr) return 0;
 	const unsigned int len = (unsigned int)mir_strlen((const char*)key);
 	return hash_M2(key, len);
 }
 
 unsigned int hashSetting_M2(const wchar_t * key)
 {
-	if (key == NULL) return 0;
+	if (key == nullptr) return 0;
 	const unsigned int len = (unsigned int)mir_wstrlen((const wchar_t*)key);
 	return hash_M2(key, len * sizeof(wchar_t));
 }

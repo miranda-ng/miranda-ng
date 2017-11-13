@@ -58,7 +58,7 @@ BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LP
 /* Global variables */
 
 UINT    g_dwMainThreadID = 0;
-HANDLE  g_hAwayMsgThread = 0, g_hGetTextAsyncThread = 0, g_hSmoothAnimationThread = 0;
+HANDLE  g_hAwayMsgThread = nullptr, g_hGetTextAsyncThread = nullptr, g_hSmoothAnimationThread = nullptr;
 
 HMENU   g_hMenuMain;
 BOOL    g_bTransparentFlag = FALSE;
@@ -157,7 +157,7 @@ void CLUI::cliOnCreateClc(void)
 
 int CLUI::OnEvent_ModulesLoaded(WPARAM, LPARAM)
 {
-	cliCluiProtocolStatusChanged(0, 0);
+	cliCluiProtocolStatusChanged(0, nullptr);
 	SleepEx(0, TRUE);
 	g_flag_bOnModulesLoadedCalled = TRUE;
 
@@ -174,7 +174,7 @@ int CLUI::OnEvent_FontReload(WPARAM wParam, LPARAM lParam)
 
 	g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (DWORD)SETTING_KEYCOLOR_DEFAULT);
 
-	cliInvalidateRect(pcli->hwndContactList, 0, 0);
+	cliInvalidateRect(pcli->hwndContactList, nullptr, 0);
 	return 0;
 }
 
@@ -580,7 +580,7 @@ void CLUI_UpdateAeroGlass()
 	if (g_proc_DWMEnableBlurBehindWindow && (tAeroGlass != g_CluiData.fAeroGlass)) {
 		if (g_CluiData.hAeroGlassRgn) {
 			DeleteObject(g_CluiData.hAeroGlassRgn);
-			g_CluiData.hAeroGlassRgn = 0;
+			g_CluiData.hAeroGlassRgn = nullptr;
 		}
 
 		DWM_BLURBEHIND bb = { 0 };
@@ -974,7 +974,7 @@ static bool StartTicksTimer(PROTOTICKS *pt)
 			DestroyIcon(ic);
 		}
 	}
-	CLUI_SafeSetTimer(pcli->hwndContactList, TM_STATUSBARUPDATE + pt->nIndex, nAnimatedIconStep, 0);
+	CLUI_SafeSetTimer(pcli->hwndContactList, TM_STATUSBARUPDATE + pt->nIndex, nAnimatedIconStep, nullptr);
 	pt->bTimerCreated = 1;
 	pt->nCycleStartTick = GetTickCount();
 	return true;
@@ -1009,7 +1009,7 @@ static BOOL CALLBACK BroadcastEnumChildProc(HWND hwndChild, LPARAM lParam)
 
 static LRESULT BroadCastMessageToChild(HWND hwnd, int message, WPARAM wParam, LPARAM lParam)
 {
-	MSG msg = { 0 };
+	MSG msg = {};
 	msg.hwnd = hwnd;
 	msg.lParam = lParam;
 	msg.wParam = wParam;
@@ -1498,7 +1498,7 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName, char *szDesc
 
 	wchar_t fileFull[MAX_PATH] = { 0 };
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.section.a = szSectionName;
 	sid.pszName = szIcoID;
 	sid.flags |= SIDF_PATH_UNICODE;
@@ -1805,7 +1805,7 @@ LRESULT CLUI::OnPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (!g_CluiData.fLayered && IsWindowVisible(m_hWnd)) {
 		RECT w = { 0 };
 		RECT w2 = { 0 };
-		PAINTSTRUCT ps = { 0 };
+		PAINTSTRUCT ps = {};
 
 		GetClientRect(m_hWnd, &w);
 		if (!(w.right > 0 && w.bottom > 0))
@@ -1841,7 +1841,7 @@ LRESULT CLUI::OnPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 			else {
 				RECT w = { 0 };
 				RECT w2 = { 0 };
-				PAINTSTRUCT ps = { 0 };
+				PAINTSTRUCT ps = {};
 				GetWindowRect(m_hWnd, &w);
 				OffsetRect(&w, -w.left, -w.top);
 				BeginPaint(m_hWnd, &ps);
@@ -1862,7 +1862,7 @@ LRESULT CLUI::OnCreate(UINT, WPARAM, LPARAM)
 {
 	TranslateMenu(GetMenu(m_hWnd));
 	DrawMenuBar(m_hWnd);
-	cliCluiProtocolStatusChanged(0, 0);
+	cliCluiProtocolStatusChanged(0, nullptr);
 
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
@@ -2270,7 +2270,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 		rcWindow = rcSizingRect;
 	else
 		GetWindowRect(m_hWnd, &rcWindow);
-	if (!g_CluiData.fAutoSize || pcli->hwndContactTree == 0 || Clist_IsDocked())
+	if (!g_CluiData.fAutoSize || pcli->hwndContactTree == nullptr || Clist_IsDocked())
 		return FALSE;
 
 	maxHeight = db_get_b(0, "CLUI", "MaxSizeHeight", SETTING_MAXSIZEHEIGHT_DEFAULT);
@@ -2325,7 +2325,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 	}
 	else bNeedFixSizingRect = 0;
 
-	SetWindowPos(m_hWnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
+	SetWindowPos(m_hWnd, nullptr, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	nRequiredHeight = 0;
 

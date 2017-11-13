@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HWND hDlgDld = NULL;
+HWND hDlgDld = nullptr;
 INT UpdatesCount = 0;
 
 void PopupAction(HWND hWnd, BYTE action)
@@ -139,7 +139,7 @@ void show_popup(HWND hDlg, LPCTSTR pszTitle, LPCTSTR pszText, int iNumber, int A
 		pd.iSeconds = -1;
 	else
 		pd.iSeconds = MyOptions.Timeout;
-	pd.hNotification = NULL;
+	pd.hNotification = nullptr;
 	pd.lpActions = pmpd->pa;
 
 	pmpd->hDialog = hDlg;
@@ -177,10 +177,10 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM)
 static void __stdcall CreateDownloadDialog(void*)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
-		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgDownloadPop);
+		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgDownloadPop);
 	else if (db_get_b(NULL, MODNAME, "Popups3M", DEFAULT_MESSAGE_ENABLED)) {
 		mir_wstrncpy(tszDialogMsg, Text, _countof(tszDialogMsg));
-		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DlgDownload);
+		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), nullptr, DlgDownload);
 	}
 }
 
@@ -191,18 +191,18 @@ static void __stdcall DestroyDownloadDialog(void*)
 
 void DlgDownloadProc()
 {
-	CallFunctionAsync(CreateDownloadDialog, 0);
+	CallFunctionAsync(CreateDownloadDialog, nullptr);
 	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath)) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("An error occurred while downloading the update.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
-			show_popup(0, Title, Text, Number, 0);
+			show_popup(nullptr, Title, Text, Number, 0);
 		}
 		else if (db_get_b(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONSTOP);
+			MessageBox(nullptr, Text, Title, MB_ICONSTOP);
 	}
-	CallFunctionAsync(DestroyDownloadDialog, 0);
+	CallFunctionAsync(DestroyDownloadDialog, nullptr);
 }
 
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 				ShowWindow(hDlg, SW_HIDE);
 				wchar_t tszBuff[2048] = { 0 }, tszFileDest[MAX_PATH] = { 0 }, tszFilePathDest[MAX_PATH] = { 0 }, tszFilePathBack[MAX_PATH] = { 0 }, tszFileName[MAX_PATH] = { 0 };
-				wchar_t* tszExt = NULL;
+				wchar_t* tszExt = nullptr;
 				char szKey[64] = { 0 };
 				vector<int> arFileType;
 				vector<tString> arFilePath;
@@ -350,30 +350,30 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						switch (todo[i].FileType) {
 						case 1:
 							mir_snwprintf(tszFileDest, L"%s\\Pack", tszRoot);
-							CreateDirectory(tszFileDest, NULL);
+							CreateDirectory(tszFileDest, nullptr);
 							break;
 						case 2:
 							mir_snwprintf(tszFileDest, L"%s\\Plugins", tszRoot);
-							CreateDirectory(tszFileDest, NULL);
+							CreateDirectory(tszFileDest, nullptr);
 							break;
 						case 3:
 							mir_snwprintf(tszFileDest, L"%s\\Icons", tszRoot);
-							CreateDirectory(tszFileDest, NULL);
+							CreateDirectory(tszFileDest, nullptr);
 							break;
 						case 4:
 							mir_snwprintf(tszFileDest, L"%s\\Others", tszRoot);
-							CreateDirectory(tszFileDest, NULL);
+							CreateDirectory(tszFileDest, nullptr);
 							break;
 						case 5:
 							mir_snwprintf(tszFileDest, L"%s\\Others", tszRoot);
-							CreateDirectory(tszFileDest, NULL);
+							CreateDirectory(tszFileDest, nullptr);
 							break;
 						default:
 							mir_wstrncpy(tszFileDest, tszRoot, _countof(tszFileDest));
 							break;
 						}
 						mir_snwprintf(tszBuff, L"%s\\Backups", tszRoot);
-						CreateDirectory(tszBuff, NULL);
+						CreateDirectory(tszBuff, nullptr);
 						mir_wstrncpy(tszFileName, todo[i].File.tszDiskPath, _countof(tszFileName));
 						mir_snwprintf(todo[i].File.tszDiskPath, L"%s\\%s", tszFileDest, tszFileName);
 						UpdatesCount++;
@@ -421,14 +421,14 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					Title = TranslateT("Pack Updater");
 					Text = tszBuff;
 					if (ServiceExists(MS_POPUP_ADDPOPUPT) && ServiceExists(MS_POPUP_REGISTERACTIONS) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (db_get_dw(NULL, "Popup", "Actions", 0) & 1))
-						rc = DialogBox(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgMsgPop);
+						rc = DialogBox(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), nullptr, DlgMsgPop);
 					else
-						rc = MessageBox(NULL, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
+						rc = MessageBox(nullptr, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
 					if (rc == IDYES) {
 						for (int i = 0; i < UpdatesCount; i++) {
-							wchar_t* tszUtilRootPlug = NULL;
-							wchar_t* tszUtilRootIco = NULL;
-							wchar_t* tszUtilRoot = NULL;
+							wchar_t* tszUtilRootPlug = nullptr;
+							wchar_t* tszUtilRootIco = nullptr;
+							wchar_t* tszUtilRoot = nullptr;
 							wchar_t  tszCurrentDir[MAX_PATH];
 
 							switch (arFileType[i]) {
@@ -445,9 +445,9 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									wchar_t *p = wcsrchr(tszCurrentDir, '\\');
 									if (p) *p = 0;
 								}
-								CreateProcess(arFilePath[i].c_str(), L"", NULL, NULL, FALSE, NULL, NULL, tszCurrentDir, &si, &pi);
+								CreateProcess(arFilePath[i].c_str(), L"", nullptr, nullptr, FALSE, NULL, nullptr, tszCurrentDir, &si, &pi);
 								i = UpdatesCount;
-								CallFunctionAsync(ExitMe, 0);
+								CallFunctionAsync(ExitMe, nullptr);
 								break;
 							case 2:
 								tszUtilRootPlug = Utils_ReplaceVarsW(L"%miranda_path%\\Plugins");
@@ -460,7 +460,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								MoveFile(arFilePath[i].c_str(), tszFilePathDest);
 								mir_free(tszUtilRootPlug);
 								if (i == UpdatesCount - 1)
-									CallFunctionAsync(RestartMe, 0);
+									CallFunctionAsync(RestartMe, nullptr);
 								break;
 							case 3:
 								tszUtilRootIco = Utils_ReplaceVarsW(L"%miranda_path%\\Icons");
@@ -473,7 +473,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								MoveFile(arFilePath[i].c_str(), tszFilePathDest);
 								mir_free(tszUtilRootIco);
 								if (i == UpdatesCount - 1)
-									CallFunctionAsync(RestartMe, 0);
+									CallFunctionAsync(RestartMe, nullptr);
 								break;
 							case 4:
 								tszUtilRoot = Utils_ReplaceVarsW(L"%miranda_path%");
@@ -486,7 +486,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								MoveFile(arFilePath[i].c_str(), tszFilePathDest);
 								mir_free(tszUtilRoot);
 								if (i == UpdatesCount - 1)
-									CallFunctionAsync(RestartMe, 0);
+									CallFunctionAsync(RestartMe, nullptr);
 								break;
 							case 5:
 								tszUtilRoot = Utils_ReplaceVarsW(L"%miranda_path%");
@@ -510,10 +510,10 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						Text = tszBuff;
 						if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 							Number = 2;
-							show_popup(0, Title, Text, Number, 0);
+							show_popup(nullptr, Title, Text, Number, 0);
 						}
 						else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
-							MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
+							MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 					}
 				}
 			}

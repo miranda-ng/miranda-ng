@@ -142,17 +142,17 @@ BOOL CIrcProto::ShowMessage(const CIrcMessage* pmsg)
 	if ((iTemp > 400 || iTemp < 500) && pmsg->sCommand[0] == '4' //all error messages	
 		|| pmsg->sCommand == L"303"		//ISON command
 		|| pmsg->sCommand == L"INVITE"
-		|| ((pmsg->sCommand == L"NOTICE") && ((pmsg->parameters.getCount() > 2) ? (wcsstr(pmsg->parameters[1].c_str(), L"\001") == NULL) : false)) // CTCP answers should go to m_network Log window!
+		|| ((pmsg->sCommand == L"NOTICE") && ((pmsg->parameters.getCount() > 2) ? (wcsstr(pmsg->parameters[1].c_str(), L"\001") == nullptr) : false)) // CTCP answers should go to m_network Log window!
 		|| pmsg->sCommand == L"515")		//chanserv error
 	{
-		DoEvent(GC_EVENT_INFORMATION, NULL, pmsg->m_bIncoming ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(), mess.c_str(), NULL, NULL, NULL, true, pmsg->m_bIncoming ? false : true);
+		DoEvent(GC_EVENT_INFORMATION, nullptr, pmsg->m_bIncoming ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(), mess.c_str(), nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
 		return TRUE;
 	}
 
 	if (m_useServer) {
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW,
 			(pmsg->m_bIncoming) ? pmsg->prefix.sNick.c_str() : m_info.sNick.c_str(),
-			mess.c_str(), NULL, NULL, NULL, true, pmsg->m_bIncoming ? false : true);
+			mess.c_str(), nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
 		return true;
 	}
 	return false;

@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "stdafx.h"
 
-static HANDLE hService[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static HANDLE hService[11] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 INT_PTR MText_Register(WPARAM, LPARAM);
 INT_PTR MText_Create(WPARAM, LPARAM);
@@ -37,7 +37,7 @@ struct TextObject
 {
 	DWORD options;
 	IFormattedTextDraw *ftd;
-	TextObject() : options(0), ftd(0) {}
+	TextObject() : options(0), ftd(nullptr) {}
 	~TextObject() { if (ftd) delete ftd; }
 };
 
@@ -62,8 +62,8 @@ void MText_InitFormatting1(TextObject *text)
 	SMADD_RICHEDIT3 sm = { 0 };
 	sm.cbSize = sizeof(sm);
 	sm.hwndRichEditControl = hwnd;
-	sm.rangeToReplace = 0;
-	sm.Protocolname = 0;
+	sm.rangeToReplace = nullptr;
+	sm.Protocolname = nullptr;
 	sm.flags = SAFLRE_INSERTEMF;
 	CallService(MS_SMILEYADD_REPLACESMILEYS, RGB(0xff, 0xff, 0xff), (LPARAM)&sm);
 	DestroyWindow(hwnd);
@@ -164,7 +164,7 @@ MTI_MTextCreateEx(HANDLE userHandle, void *text, DWORD flags)
 	MText_InitFormatting1(result);
 	delete result;
 
-	return 0;
+	return nullptr;
 }
 
 INT_PTR MText_CreateEx(WPARAM wParam, LPARAM lParam)
@@ -272,7 +272,7 @@ MTI_MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lPa
 
 	if (hwnd && (msg == WM_MOUSEMOVE)) {
 		HDC hdc = GetDC(hwnd);
-		((TextObject *)text)->ftd->getTextService()->OnTxSetCursor(DVASPECT_CONTENT, 0, NULL, NULL, hdc, NULL, NULL, LOWORD(0), HIWORD(0));
+		((TextObject *)text)->ftd->getTextService()->OnTxSetCursor(DVASPECT_CONTENT, 0, nullptr, nullptr, hdc, nullptr, nullptr, LOWORD(0), HIWORD(0));
 		ReleaseDC(hwnd, hdc);
 	}
 
@@ -291,7 +291,7 @@ INT_PTR MText_SendMessage(WPARAM wParam, LPARAM)
 HWND DLL_CALLCONV
 MTI_MTextCreateProxy(HANDLE text)
 {
-	if (!text) return 0;
+	if (!text) return nullptr;
 	return CreateProxyWindow(((TextObject *)text)->ftd->getTextService());
 }
 
@@ -325,7 +325,7 @@ INT_PTR MText_Destroy(WPARAM wParam, LPARAM)
 INT_PTR MText_GetInterface(WPARAM, LPARAM lParam)
 {
 	MTEXT_INTERFACE *MText = (MTEXT_INTERFACE *)lParam;
-	if (MText == NULL)
+	if (MText == nullptr)
 		return CALLSERVICE_NOTFOUND;
 
 	MText->version = pluginInfoEx.version;

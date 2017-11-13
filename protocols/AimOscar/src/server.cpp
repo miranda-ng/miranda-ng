@@ -35,7 +35,7 @@ int CAimProto::snac_authorization_reply(SNAC &snac)//family 0x0017
 	int res = 0;
 
 	if (snac.subcmp(0x0003)) {
-		char* server = NULL;
+		char* server = nullptr;
 		int address = 0;
 		unsigned short port;
 		unsigned char use_ssl = 0;
@@ -47,7 +47,7 @@ int CAimProto::snac_authorization_reply(SNAC &snac)//family 0x0017
 			else if (tlv.cmp(0x0006)) {
 				Netlib_CloseHandle(m_hServerConn);
 
-				if (server == NULL) return 3;
+				if (server == nullptr) return 3;
 				char* delim = strchr(server, ':');
 				port = delim ? (unsigned short)atoi(delim + 1) : get_default_port();
 				if (delim) *delim = 0;
@@ -57,7 +57,7 @@ int CAimProto::snac_authorization_reply(SNAC &snac)//family 0x0017
 					mir_free(COOKIE);
 					COOKIE_LENGTH = tlv.len();
 					COOKIE = tlv.dup();
-					ForkThread(&CAimProto::aim_protocol_negotiation, 0);
+					ForkThread(&CAimProto::aim_protocol_negotiation, nullptr);
 					res = 1;
 				}
 				else
@@ -165,7 +165,7 @@ void CAimProto::snac_icbm_limitations(SNAC &snac, HNETLIBCONN hServerConn, unsig
 		}
 
 		char** msgptr = get_status_msg_loc(m_iDesiredStatus);
-		replaceStr(m_last_status_msg, msgptr ? *msgptr: NULL);
+		replaceStr(m_last_status_msg, msgptr ? *msgptr: nullptr);
 		aim_set_statusmsg(hServerConn, seqno, m_last_status_msg);
 
 		if (m_iDesiredStatus == ID_STATUS_AWAY)
@@ -215,7 +215,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 		bool caps_included = false;
 		unsigned long status_type = 0;	// 0 = online
 
-		char *hash_sm = NULL, *hash_lg = NULL;
+		char *hash_sm = nullptr, *hash_lg = nullptr;
 
 		unsigned char sn_len = snac.ubyte();
 		char* sn = snac.part(1, sn_len);
@@ -488,7 +488,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 									db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_SM, msg_s);
 
 									wchar_t* tszMsg = mir_utf8decodeW(msg_s);
-									ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszMsg);
+									ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)tszMsg);
 									mir_free(tszMsg);
 									mir_free(msg);
 									mir_free(msg_s);
@@ -727,7 +727,7 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 				tlv_offset += TLV_HEADER_SIZE + tlv.len();
 			}
 			if (m_list_received)
-				avatar_request_handler(NULL, NULL, 0);
+				avatar_request_handler(NULL, nullptr, 0);
 		}
 		break;
 
@@ -856,7 +856,7 @@ void CAimProto::modify_ssi_list(SNAC &snac, int &offset)
 				}
 				tlv_offset += TLV_HEADER_SIZE + tlv.len();
 			}
-			avatar_request_handler(NULL, NULL, 0);
+			avatar_request_handler(NULL, nullptr, 0);
 		}
 		break;
 	}
@@ -900,14 +900,14 @@ void CAimProto::delete_ssi_list(SNAC &snac, int &offset)
 		if (mir_strcmp(name, "1")) {
 			m_avatar_id_sm = 0;
 			mir_free(m_hash_sm);
-			m_hash_sm = NULL;
+			m_hash_sm = nullptr;
 		}
 		else if (!mir_strcmp(name, "12")) {
 			m_avatar_id_lg = 0;
 			mir_free(m_hash_lg);
-			m_hash_lg = NULL;
+			m_hash_lg = nullptr;
 		}
-		avatar_request_handler(NULL, NULL, 0);
+		avatar_request_handler(NULL, nullptr, 0);
 		break;
 	}
 	mir_free(name);
@@ -947,7 +947,7 @@ void CAimProto::snac_contact_list(SNAC &snac, HNETLIBCONN hServerConn, unsigned 
 			if (getByte(AIM_KEY_CM, 0))
 				aim_new_service_request(hServerConn, seqno, 0x0018);//mail
 
-			avatar_request_handler(NULL, NULL, 0);
+			avatar_request_handler(NULL, nullptr, 0);
 
 			debugLogA("Connection Negotiation Finished");
 			m_state = 1;
@@ -979,7 +979,7 @@ void CAimProto::snac_message_accepted(SNAC &snac)//family 0x004
 			msg_ack_param *msg_ack = (msg_ack_param*)mir_alloc(sizeof(msg_ack_param));
 			msg_ack->hContact = hContact;
 			msg_ack->id = *(int*)icbm_cookie & 0x7fffffff;
-			msg_ack->msg = NULL;
+			msg_ack->msg = nullptr;
 			msg_ack->success = true;
 			ForkThread(&CAimProto::msg_ack_success, msg_ack);
 		}
@@ -999,12 +999,12 @@ void CAimProto::snac_received_message(SNAC &snac, HNETLIBCONN hServerConn, unsig
 
 		int offset = 15 + sn_length;
 
-		char *msg_buf = NULL;
+		char *msg_buf = nullptr;
 		unsigned long offline_timestamp = 0;
 		bool is_offline = false;
 		//file transfer stuff
-		char *icbm_cookie = NULL;
-		char *filename = NULL;
+		char *icbm_cookie = nullptr;
+		char *filename = nullptr;
 		unsigned __int64 file_size = 0;
 		bool auto_response = false;
 		bool force_proxy = false;
@@ -1190,7 +1190,7 @@ void CAimProto::snac_received_message(SNAC &snac, HNETLIBCONN hServerConn, unsig
 			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hMsgContact, 0);
 			{
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = (is_offline) ? offline_timestamp : (DWORD)time(0);
+				pre.timestamp = (is_offline) ? offline_timestamp : (DWORD)time(nullptr);
 				pre.szMessage = msg_buf;
 				ProtoChainRecvMsg(hMsgContact, &pre);
 			}
@@ -1209,7 +1209,7 @@ void CAimProto::snac_received_message(SNAC &snac, HNETLIBCONN hServerConn, unsig
 
 					DBEVENTINFO dbei = {};
 					dbei.szModule = m_szModuleName;
-					dbei.timestamp = (DWORD)time(NULL);
+					dbei.timestamp = (DWORD)time(nullptr);
 					dbei.flags = DBEF_SENT | DBEF_UTF;
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.cbBlob = (int)len;
@@ -1219,7 +1219,7 @@ void CAimProto::snac_received_message(SNAC &snac, HNETLIBCONN hServerConn, unsig
 					aim_send_message(hServerConn, seqno, sn, s_msg, true, getBool(hContact, AIM_KEY_BLS, false));
 					mir_free(s_msg);
 				}
-				setDword(hContact, AIM_KEY_LM, (DWORD)time(NULL));
+				setDword(hContact, AIM_KEY_LM, (DWORD)time(nullptr));
 			}
 		}
 		else if (channel == 2) { // File Transfer
@@ -1245,14 +1245,14 @@ void CAimProto::snac_received_message(SNAC &snac, HNETLIBCONN hServerConn, unsig
 
 				m_ft_list.insert(ft);
 
-				if (!descr_included) msg_buf = NULL;
+				if (!descr_included) msg_buf = nullptr;
 
 				wchar_t* filenameT = mir_utf8decodeW(filename);
 
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
-				pre.timestamp = time(NULL);
+				pre.timestamp = time(nullptr);
 				pre.descr.w = mir_utf8decodeW(msg_buf);
 				pre.files.w = &filenameT;
 				pre.lParam = (LPARAM)ft;
@@ -1338,7 +1338,7 @@ void CAimProto::snac_file_decline(SNAC &snac)//family 0x0004
 
 			msg_ack_param *msg_ack = (msg_ack_param*)mir_alloc(sizeof(msg_ack_param));
 			msg_ack->hContact = hContact;
-			msg_ack->msg = NULL;
+			msg_ack->msg = nullptr;
 			msg_ack->id = *(int*)icbm_cookie & 0x7fffffff;
 			msg_ack->success = false;
 			ForkThread(&CAimProto::msg_ack_success, msg_ack);
@@ -1391,8 +1391,8 @@ void CAimProto::snac_received_info(SNAC &snac)//family 0x0002
 			if (++i > tlv_count) {
 				if (tlv.cmp(0x0001)) { //profile encoding
 					char *enc = tlv.dup();
-					profile_unicode = strstr(enc, "unicode-2-0") != NULL;
-					profile_utf = strstr(enc, "utf-8") != NULL;
+					profile_unicode = strstr(enc, "unicode-2-0") != nullptr;
+					profile_utf = strstr(enc, "utf-8") != nullptr;
 					mir_free(enc);
 				}
 				else if (tlv.cmp(0x0002)) { //profile message string
@@ -1404,8 +1404,8 @@ void CAimProto::snac_received_info(SNAC &snac)//family 0x0002
 				}
 				else if (tlv.cmp(0x0003)) { //away message encoding
 					char *enc = tlv.dup();
-					away_message_unicode = strstr(enc, "unicode-2-0") != NULL;
-					away_message_utf = strstr(enc, "utf-8") != NULL;
+					away_message_unicode = strstr(enc, "unicode-2-0") != nullptr;
+					away_message_utf = strstr(enc, "utf-8") != nullptr;
 					mir_free(enc);
 				}
 				else if (tlv.cmp(0x0004)) { // away message string
@@ -1533,9 +1533,9 @@ void CAimProto::snac_list_modification_ack(SNAC &snac)//family 0x0013
 void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 {
 	if (snac.subcmp(0x0005)) {
-		char* server = NULL;
-		char* local_cookie = NULL;
-		char* host = NULL;
+		char* server = nullptr;
+		char* local_cookie = nullptr;
+		char* host = nullptr;
 		int local_cookie_length = 0;
 		unsigned short family = 0;
 		unsigned char use_ssl = 0;
@@ -1567,7 +1567,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 				debugLogA("Successfully Connected to the Mail Server.");
 				MAIL_COOKIE = local_cookie;
 				MAIL_COOKIE_LENGTH = local_cookie_length;
-				ForkThread(&CAimProto::aim_mail_negotiation, 0);
+				ForkThread(&CAimProto::aim_mail_negotiation, nullptr);
 			}
 			else debugLogA("Failed to connect to the Mail Server.");
 		}
@@ -1577,7 +1577,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 				debugLogA("Successfully Connected to the Avatar Server.");
 				AVATAR_COOKIE = local_cookie;
 				AVATAR_COOKIE_LENGTH = local_cookie_length;
-				ForkThread(&CAimProto::aim_avatar_negotiation, 0);
+				ForkThread(&CAimProto::aim_avatar_negotiation, nullptr);
 			}
 			else debugLogA("Failed to connect to the Avatar Server.");
 		}
@@ -1587,7 +1587,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 				debugLogA("Successfully Connected to the Chat Navigation Server.");
 				CHATNAV_COOKIE = local_cookie;
 				CHATNAV_COOKIE_LENGTH = local_cookie_length;
-				ForkThread(&CAimProto::aim_chatnav_negotiation, 0);
+				ForkThread(&CAimProto::aim_chatnav_negotiation, nullptr);
 			}
 			else debugLogA("Failed to connect to the Chat Navigation Server.");
 		}
@@ -1611,7 +1611,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 				debugLogA("Successfully Connected to the Admin Server.");
 				ADMIN_COOKIE = local_cookie;
 				ADMIN_COOKIE_LENGTH = local_cookie_length;
-				ForkThread(&CAimProto::aim_admin_negotiation, 0);
+				ForkThread(&CAimProto::aim_admin_negotiation, nullptr);
 			}
 			else debugLogA("Failed to connect to the Admin Server.");
 		}
@@ -1623,13 +1623,13 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 void CAimProto::snac_mail_response(SNAC &snac)//family 0x0018
 {
 	if (snac.subcmp(0x0007)) {
-		char* sn = NULL;
+		char* sn = nullptr;
 		time_t time = 0;
 		unsigned short num_msgs = 0;
 		unsigned short flags = 0;
 		char new_mail = 0;
-		char* url = NULL;
-		char* address = NULL;
+		char* url = nullptr;
+		char* address = nullptr;
 
 		int position = 26;
 		int num_tlvs = snac.ushort(24);
@@ -1666,7 +1666,7 @@ void CAimProto::snac_mail_response(SNAC &snac)//family 0x0018
 
 			SYSTEMTIME stLocal;
 			GetLocalTime(&stLocal);
-			GetTimeFormat(LOCALE_USER_DEFAULT, 0, &stLocal, NULL, msg + len, _countof(msg) - len);
+			GetTimeFormat(LOCALE_USER_DEFAULT, 0, &stLocal, nullptr, msg + len, _countof(msg) - len);
 
 			ShowPopup((char*)msg, MAIL_POPUP | TCHAR_POPUP, url);
 		}
@@ -1769,7 +1769,7 @@ void CAimProto::snac_chatnav_info_response(SNAC &snac, HNETLIBCONN hServerConn, 
 				// Main TLV info
 				unsigned short exchange = 0;
 				unsigned short cookie_len = 0;
-				char* cookie = 0;
+				char* cookie = nullptr;
 				unsigned short instance = 0;
 				unsigned short num_tlv = 0;
 				unsigned short tlv_offset = 0;
@@ -1781,7 +1781,7 @@ void CAimProto::snac_chatnav_info_response(SNAC &snac, HNETLIBCONN hServerConn, 
 				num_tlv = info_tlv.ushort(6 + cookie_len);	// Number of TLVs
 				tlv_offset = 8 + cookie_len;					// We're looking at any remaining TLVs
 
-				char* name = 0;
+				char* name = nullptr;
 				for (int i = 0; i < num_tlv; i++)	// Loop through all the TLVs
 				{
 					TLV tlv(info_tlv.val() + tlv_offset);
@@ -1793,7 +1793,7 @@ void CAimProto::snac_chatnav_info_response(SNAC &snac, HNETLIBCONN hServerConn, 
 				}
 
 				chat_list_item *item = find_chat_by_id(name);
-				if (item == NULL) {
+				if (item == nullptr) {
 					item = new chat_list_item(name, cookie, exchange, instance);
 					m_chat_rooms.insert(item);
 
@@ -1834,8 +1834,8 @@ void CAimProto::snac_chat_joined_left_users(SNAC &snac, chat_list_item* item)//f
 void CAimProto::snac_chat_received_message(SNAC &snac, chat_list_item* item)//family 0x000E
 {
 	if (snac.subcmp(0x0006)) {
-		wchar_t* message = NULL;
-		char* sn = NULL;
+		wchar_t* message = nullptr;
+		char* sn = nullptr;
 
 		//		unsigned long cookie = snac.ulong(0);
 		//		unsigned short channel = snac.ushort(8);
@@ -1882,8 +1882,8 @@ void CAimProto::snac_chat_received_message(SNAC &snac, chat_list_item* item)//fa
 					}
 					else if (msg_tlv.cmp(0x0002)) {
 						char* enc = msg_tlv.dup();
-						uni = strstr(enc, "unicode-2-0") != NULL;
-						utf = strstr(enc, "utf-8") != NULL;
+						uni = strstr(enc, "unicode-2-0") != nullptr;
+						utf = strstr(enc, "utf-8") != nullptr;
 						mir_free(enc);
 					}
 
@@ -1918,8 +1918,8 @@ void CAimProto::snac_admin_account_infomod(SNAC &snac) //family 0x0007
 
 		WORD num_tlv = snac.ushort(2); // Number of TLVs
 
-		char *sn = NULL; // Screen Name
-		char *email = NULL; // Email address
+		char *sn = nullptr; // Screen Name
+		char *email = nullptr; // Email address
 
 		unsigned short offset = 0;
 		for (int i = 0; i < num_tlv; i++)	// Loop through all the TLVs

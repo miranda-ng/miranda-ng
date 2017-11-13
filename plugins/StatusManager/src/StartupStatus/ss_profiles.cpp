@@ -114,7 +114,7 @@ INT_PTR GetProfileCount(WPARAM wParam, LPARAM)
 {
 	int *def = (int*)wParam;
 	int count = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
-	if (def != 0) {
+	if (def != nullptr) {
 		*def = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 		if (*def >= count)
 			*def = 0;

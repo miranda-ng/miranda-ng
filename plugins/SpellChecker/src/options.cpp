@@ -140,7 +140,7 @@ static void DrawItem(LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 		HICON hFlag = IcoLib_GetIconByHandle(dict->hIcolib);
 
 		rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
-		DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);
+		DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, nullptr, DI_NORMAL);
 
 		rc.left += ICON_SIZE + 4;
 
@@ -343,7 +343,7 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 	AutoreplaceData *data = (AutoreplaceData *)SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETITEMDATA, sel, 0);
 
 	wchar_t find[256];
-	const wchar_t *replace = NULL;
+	const wchar_t *replace = nullptr;
 	BOOL useVariables = FALSE;
 
 	if (item < 0)

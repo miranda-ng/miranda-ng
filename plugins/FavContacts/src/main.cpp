@@ -48,7 +48,7 @@ IconItem iconList[] =
 	{ LPGEN("Regular Contact"), "favcontacts_regular", IDI_REGULAR },
 };
 
-CContactCache *g_contactCache = NULL;
+CContactCache *g_contactCache = nullptr;
 
 Options g_Options = { 0 };
 

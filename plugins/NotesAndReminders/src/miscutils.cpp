@@ -33,7 +33,7 @@ void ReadSettingBlob(MCONTACT hContact, char *ModuleName, char *SettingName, WOR
 	dbv.type = DBVT_BLOB;
 	if (db_get(hContact, ModuleName, SettingName, &dbv)) {
 		*pSize = 0;
-		*pbBlob = NULL;
+		*pbBlob = nullptr;
 	}
 	else {
 		*pSize = LOWORD(dbv.cpbVal);
@@ -88,11 +88,11 @@ void TreeAddSorted(TREEELEMENT **root, void *Data, int(*CompareCb)(TREEELEMENT*,
 		return;
 
 	NTE->ptrdata = Data;
-	NTE->next = NULL;
+	NTE->next = nullptr;
 
 	// insert sorted
 
-	TREEELEMENT *Prev = NULL;
+	TREEELEMENT *Prev = nullptr;
 	TREEELEMENT *TTE = *root;
 
 	while (TTE) {
@@ -119,7 +119,7 @@ void TreeAddSorted(TREEELEMENT **root, void *Data, int(*CompareCb)(TREEELEMENT*,
 
 void TreeDelete(TREEELEMENT **root, void *iItem)
 {
-	TREEELEMENT *TTE = *root, *Prev = NULL;
+	TREEELEMENT *TTE = *root, *Prev = nullptr;
 	if (!TTE)
 		return;
 
@@ -139,7 +139,7 @@ void TreeDelete(TREEELEMENT **root, void *iItem)
 void *TreeGetAt(TREEELEMENT *root, int iItem)
 {
 	if (!root)
-		return NULL;
+		return nullptr;
 
 	TREEELEMENT *TTE = root;
 	int i = 0;
@@ -147,7 +147,7 @@ void *TreeGetAt(TREEELEMENT *root, int iItem)
 		TTE = (TREEELEMENT*)TTE->next;
 		i++;
 	}
-	return (!TTE) ? NULL : TTE->ptrdata;
+	return (!TTE) ? nullptr : TTE->ptrdata;
 }
 
 int TreeGetCount(TREEELEMENT *root)

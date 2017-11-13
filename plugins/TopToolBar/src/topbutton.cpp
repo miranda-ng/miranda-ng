@@ -13,7 +13,7 @@ TopButtonInt::~TopButtonInt()
 	if (dwFlags & TTBBF_ISLBUTTON) {
 		mir_free(ptszProgram);
 	}
-	else if (pszService != NULL)
+	else if (pszService != nullptr)
 		mir_free(pszService);
 
 	mir_free(pszName);
@@ -53,7 +53,7 @@ DWORD TopButtonInt::CheckFlags(DWORD Flags)
 void TopButtonInt::CreateWnd()
 {
 	if (!(dwFlags & TTBBF_ISSEPARATOR)) {
-		hwnd = CreateWindow(TTB_BUTTON_CLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, this);
+		hwnd = CreateWindow(TTB_BUTTON_CLASS, L"", BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, nullptr, hInst, this);
 
 		if (dwFlags & TTBBF_ASPUSHBUTTON)
 			SendMessage(hwnd, BUTTONSETASPUSHBTN, 1, 0);
@@ -65,7 +65,7 @@ void TopButtonInt::CreateWnd()
 	}
 	// maybe SEPWIDTH, not g_ctrl->nButtonWidth?
 	else
-		hwnd = CreateWindow(L"STATIC", L"", WS_CHILD | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, NULL, hInst, 0);
+		hwnd = CreateWindow(L"STATIC", L"", WS_CHILD | SS_NOTIFY, 0, 0, g_ctrl->nButtonWidth, g_ctrl->nButtonHeight, g_ctrl->hWnd, nullptr, hInst, nullptr);
 
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, id);
 	SetBitmap();

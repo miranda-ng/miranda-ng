@@ -73,7 +73,7 @@ int MsgWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData* data = (MessageWindowEventData*)lParam;
 
-	if (data == NULL)
+	if (data == nullptr)
 		return 0;
 
 	switch (data->uType) {

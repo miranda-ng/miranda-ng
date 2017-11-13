@@ -33,10 +33,10 @@ static int bListInit = 0;
 static HANDLE hItemAll;
 static int dwUploadDelay = 1000; // initial setting, it is too low for icq server but good for short updates
 
-static HWND hwndUploadContacts = NULL;
+static HWND hwndUploadContacts = nullptr;
 static const UINT settingsControls[] = { IDOK };
 
-static WORD *pwGroupIds = NULL;
+static WORD *pwGroupIds = nullptr;
 static int cbGroupIds = 0;
 
 // Init default clist options
@@ -140,7 +140,7 @@ static int GroupEnumIdsEnumProc(const char *szSetting, LPARAM lParam)
 			return 0; // this converts all string types to DBVT_ASCIIZ
 
 		pwGroupIds = (WORD*)SAFE_REALLOC(pwGroupIds, (cbGroupIds + 1)*sizeof(WORD));
-		pwGroupIds[cbGroupIds] = (WORD)strtoul(szSetting, NULL, 0x10);
+		pwGroupIds[cbGroupIds] = (WORD)strtoul(szSetting, nullptr, 0x10);
 		cbGroupIds++;
 	}
 	return 0;
@@ -164,7 +164,7 @@ static DWORD sendUploadGroup(CIcqProto* ppro, WORD wAction, WORD wGroupId, char*
 		dwCookie = ppro->AllocateCookie(CKT_SERVERLIST, wAction, 0, ack);
 		ack->lParam = dwCookie;
 
-		ppro->icq_sendServerGroup(dwCookie, wAction, ack->wGroupId, szItemName, NULL, 0, 0);
+		ppro->icq_sendServerGroup(dwCookie, wAction, ack->wGroupId, szItemName, nullptr, 0, 0);
 		return dwCookie;
 	}
 	return 0;
@@ -173,7 +173,7 @@ static DWORD sendUploadGroup(CIcqProto* ppro, WORD wAction, WORD wGroupId, char*
 static DWORD sendUploadBuddy(CIcqProto* ppro, MCONTACT hContact, WORD wAction, DWORD dwUin, char *szUID, WORD wContactId, WORD wGroupId, WORD wItemType)
 {
 	cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
-	if (ack == NULL)
+	if (ack == nullptr)
 		return 0;
 	
 	// we have cookie good, go on
@@ -185,7 +185,7 @@ static DWORD sendUploadBuddy(CIcqProto* ppro, MCONTACT hContact, WORD wAction, D
 	ack->lParam = dwCookie;
 
 	if (wItemType == SSI_ITEM_BUDDY)
-		ppro->icq_sendServerContact(hContact, dwCookie, wAction, ack->wGroupId, ack->wContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 500, NULL);
+		ppro->icq_sendServerContact(hContact, dwCookie, wAction, ack->wGroupId, ack->wContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 500, nullptr);
 	else
 		ppro->icq_sendSimpleItem(dwCookie, wAction, dwUin, szUID, ack->wGroupId, ack->wContactId, wItemType, SSOP_ITEM_ACTION, 500);
 
@@ -253,7 +253,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 			char str[MAX_PATH];
 
 			working = 0;
-			hProtoAckHook = NULL;
+			hProtoAckHook = nullptr;
 			currentState = STATE_READY;
 
 			ResetCListOptions(GetDlgItem(hwndDlg, IDC_CLIST));
@@ -371,7 +371,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 			case ACTION_REMOVEGROUP:
 				if (ack->result == ACKRESULT_SUCCESS) {
 					ppro->FreeServerID(wNewGroupId, SSIT_GROUP);
-					ppro->setServListGroupName(wNewGroupId, NULL); // remove group from list
+					ppro->setServListGroupName(wNewGroupId, nullptr); // remove group from list
 					ppro->removeGroupPathLinks(wNewGroupId); // grouppath is known
 
 					int groupSize;
@@ -439,7 +439,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 				ICQTranslateUtfStatic(getServerResultDesc(ack->lParam), str, MAX_PATH));
 
 			if (!bMulti)
-				SetTimer(hwndDlg, M_UPLOADMORE, dwUploadDelay, 0); // delay
+				SetTimer(hwndDlg, M_UPLOADMORE, dwUploadDelay, nullptr); // delay
 		}
 		break;
 
@@ -496,7 +496,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 						// Is this one out of sync?
 						if (bUidOk && (isChecked != isOnServer)) {
 							// Only upload custom nicks
-							char *pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
+							char *pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", nullptr);
 
 							if (isChecked) {  // Queue for uploading
 								char *pszGroup = ppro->getContactCListGroup(hContact);
@@ -505,7 +505,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 
 								// Get group ID from cache, if not ready use parent group, if still not ready create one
 								wNewGroupId = ppro->getServListGroupLinkID(pszGroup);
-								if (!wNewGroupId && strstrnull(pszGroup, "\\") != NULL) { // if it is sub-group, take master parent
+								if (!wNewGroupId && strstrnull(pszGroup, "\\") != nullptr) { // if it is sub-group, take master parent
 									strstrnull(pszGroup, "\\")[0] = '\0';
 									wNewGroupId = ppro->getServListGroupLinkID(pszGroup);
 								}
@@ -569,7 +569,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 								pszGroup = null_strdup(DEFAULT_SS_GROUP);
 
 							wNewGroupId = ppro->getServListGroupLinkID(pszGroup);
-							if (!wNewGroupId && strstrnull(pszGroup, "\\") != NULL) { // if it is sub-group, take master parent
+							if (!wNewGroupId && strstrnull(pszGroup, "\\") != nullptr) { // if it is sub-group, take master parent
 								strstrnull(pszGroup, "\\")[0] = '\0';
 								wNewGroupId = ppro->getServListGroupLinkID(pszGroup);
 							}
@@ -589,7 +589,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 							if (wNewGroupId && (wNewGroupId != wCurrentGroupId)) {
 								WORD wCurrentContactId = ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 
-								char *pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
+								char *pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", nullptr);
 								if (pszNick)
 									AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("Moving %s to group \"%s\"..."), str, MAX_PATH), pszNick, pszGroup);
 								else
@@ -731,7 +731,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 							currentAction = ACTION_UPDATESTATE;
 							AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("Updating group \"%s\"..."), str, MAX_PATH), pszGroup);
 
-							ppro->icq_sendServerGroup(currentSequence, ICQ_LISTS_UPDATEGROUP, wNewGroupId, pszGroup, 0, 0, 0);
+							ppro->icq_sendServerGroup(currentSequence, ICQ_LISTS_UPDATEGROUP, wNewGroupId, pszGroup, nullptr, 0, 0);
 
 							SAFE_FREE((void**)&pszGroup);
 						}
@@ -752,7 +752,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 				SetDlgItemText(hwndDlg, IDCANCEL, TranslateT("Close"));
 
 				// end server modifications here
-				ppro->servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100);
+				ppro->servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100);
 				working = 0;
 				UpdateCheckmarks(GetDlgItem(hwndDlg, IDC_CLIST), ppro, hItemAll);
 				if (hProtoAckHook)
@@ -779,7 +779,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 			hProtoAckHook = HookEventMessage(ME_PROTO_ACK, hwndDlg, M_PROTOACK);
 
 			// start server modifications here
-			ppro->servlistPostPacket(NULL, 0, SSO_BEGIN_OPERATION | SSOF_IMPORT_OPERATION, 100);
+			ppro->servlistPostPacket(nullptr, 0, SSO_BEGIN_OPERATION | SSOF_IMPORT_OPERATION, 100);
 			PostMessage(hwndDlg, M_UPLOADMORE, 0, 0);
 			break;
 
@@ -814,7 +814,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 					if (ppro) {
 						DeleteOtherContactsFromControl(hClist, ppro);
 						if (!bListInit) // do not enter twice
-							bCheck = UpdateCheckmarks(hClist, ppro, NULL);
+							bCheck = UpdateCheckmarks(hClist, ppro, nullptr);
 					}
 
 					if (!hItemAll) { // Add the "All contacts" item
@@ -858,9 +858,9 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 		if (hProtoAckHook)
 			UnhookEvent(hProtoAckHook);
 		if (working) // end server modifications here
-			ppro->servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100);
+			ppro->servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100);
 
-		hwndUploadContacts = NULL;
+		hwndUploadContacts = nullptr;
 		working = 0;
 		break;
 	}
@@ -870,9 +870,9 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 
 void CIcqProto::ShowUploadContactsDialog(void)
 {
-	if (hwndUploadContacts == NULL) {
-		hItemAll = NULL;
-		hwndUploadContacts = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ICQUPLOADLIST), NULL, DlgProcUploadList, LPARAM(this));
+	if (hwndUploadContacts == nullptr) {
+		hItemAll = nullptr;
+		hwndUploadContacts = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ICQUPLOADLIST), nullptr, DlgProcUploadList, LPARAM(this));
 	}
 
 	SetForegroundWindow(hwndUploadContacts);

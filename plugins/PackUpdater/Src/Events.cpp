@@ -38,7 +38,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	if (AllowUpdateOnStartup())
 		DoCheck(UpdateOnStartup);
 
-	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
+	Timer = CreateWaitableTimer(nullptr, FALSE, nullptr);
 	InitTimer();
 
 	return 0;
@@ -54,14 +54,14 @@ INT_PTR MenuCommand(WPARAM, LPARAM)
 INT_PTR EmptyFolder(WPARAM, LPARAM lParam)
 {
 	SHFILEOPSTRUCT file_op = {
-		NULL,
+		nullptr,
 		FO_DELETE,
 		tszRoot,
 		L"",
 		FOF_NOERRORUI |
 		FOF_SILENT,
 		false,
-		0,
+		nullptr,
 		L"" };
 	if (lParam)
 		file_op.fFlags |= FOF_NOCONFIRMATION;

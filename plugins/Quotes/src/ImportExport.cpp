@@ -173,7 +173,7 @@ bool show_open_file_dialog(bool bOpen, tstring& rsFile)
 
 	ofn.lStructSize = sizeof(OPENFILENAME);
 
-	ofn.hwndOwner = NULL;
+	ofn.hwndOwner = nullptr;
 	ofn.lpstrFilter = prepare_filter(szFilter, MAX_PATH);
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER;
 	ofn.lpstrDefExt = L"xml";
@@ -203,7 +203,7 @@ INT_PTR Quotes_Export(WPARAM wp, LPARAM lp)
 {
 	tstring sFileName;
 	const char* pszFile = reinterpret_cast<const char*>(lp);
-	if (NULL == pszFile) {
+	if (nullptr == pszFile) {
 		if (false == show_open_file_dialog(false, sFileName))
 			return -1;
 	}
@@ -626,7 +626,7 @@ INT_PTR Quotes_Import(WPARAM wp, LPARAM lp)
 
 	tstring sFileName;
 	const char* pszFile = reinterpret_cast<const char*>(lp);
-	if (NULL == pszFile) {
+	if (nullptr == pszFile) {
 		if (false == show_open_file_dialog(true, sFileName))
 			return -1;
 	}

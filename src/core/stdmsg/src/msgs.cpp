@@ -490,7 +490,7 @@ static wchar_t tszError[] = LPGENW("Miranda could not load the built-in message 
 int LoadSendRecvMessageModule(void)
 {
 	if ((hMsftEdit = LoadLibrary(L"Msftedit.dll")) == nullptr) {
-		if (IDYES != MessageBox(0, TranslateW(tszError), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
+		if (IDYES != MessageBox(nullptr, TranslateW(tszError), TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;
 		return 0;
 	}

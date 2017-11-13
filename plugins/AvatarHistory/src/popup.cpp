@@ -26,7 +26,7 @@ Boston, MA 02111-1307, USA.
 
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-HWND hPopupWindow = NULL;
+HWND hPopupWindow = nullptr;
 
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -43,7 +43,7 @@ void InitPopups()
 	// window needed for popup commands
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MODULE_NAME) L"_PopupWindow",
 		0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
-		NULL, hInst, NULL);
+		nullptr, hInst, nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 }
 
@@ -56,14 +56,14 @@ void DeInitPopups()
 // Show an error popup
 void ShowErrPopup(const wchar_t *description, const wchar_t *title)
 {
-	ShowPopupEx(NULL, title == NULL ? _A2W(MODULE_NAME) L" Error" : title, description,
-		NULL, POPUP_TYPE_ERROR, NULL);
+	ShowPopupEx(NULL, title == nullptr ? _A2W(MODULE_NAME) L" Error" : title, description,
+		nullptr, POPUP_TYPE_ERROR, nullptr);
 }
 
 
 void ShowTestPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *description, const Options *op)
 {
-	ShowPopupEx(hContact, title, description, NULL, POPUP_TYPE_TEST, op);
+	ShowPopupEx(hContact, title, description, nullptr, POPUP_TYPE_TEST, op);
 }
 
 
@@ -101,13 +101,13 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		((PopupDataType*)ppd.PluginData)->plugin_data = plugin_data;
 		((PopupDataType*)ppd.PluginData)->hIcon = ppd.lchIcon;
 
-		if (title != NULL)
+		if (title != nullptr)
 			mir_wstrncpy(ppd.lptzContactName, title, _countof(ppd.lptzContactName));
 		else if (hContact != NULL)
 			mir_wstrncpy(ppd.lptzContactName, (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
 				_countof(ppd.lptzContactName));
 
-		if (description != NULL)
+		if (description != nullptr)
 			mir_wstrncpy(ppd.lptzText, description, _countof(ppd.lptzText));
 
 		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
@@ -163,7 +163,7 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 		PUAddPopupT(&ppd);
 	}
 	else {
-		MessageBox(NULL, description, title ? title : (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
+		MessageBox(nullptr, description, title ? title : (wchar_t *)pcli->pfnGetContactDisplayName(hContact, 0),
 			MB_OK);
 	}
 

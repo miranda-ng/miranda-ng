@@ -286,7 +286,7 @@ XCHAR *ReplaceVariables(const XCHAR *str, MCONTACT hContact, REPLACEVARSARRAY *v
 	if (!str)
 		return nullptr;
 
-	const XCHAR *varStart = 0, *p;
+	const XCHAR *varStart = nullptr, *p;
 	size_t length = 0;
 	bool bFree;
 
@@ -302,7 +302,7 @@ XCHAR *ReplaceVariables(const XCHAR *str, MCONTACT hContact, REPLACEVARSARRAY *v
 				else // variable not found
 					length += p-varStart+2;
 
-				varStart = 0;
+				varStart = nullptr;
 			}
 			else varStart = p+1;
 		}
@@ -331,7 +331,7 @@ XCHAR *ReplaceVariables(const XCHAR *str, MCONTACT hContact, REPLACEVARSARRAY *v
 					_xcsncpy(q, varStart-1, p-varStart+2);
 					q += p-varStart+2;
 				}
-				varStart = 0;
+				varStart = nullptr;
 			}
 			else varStart = p+1;
 		}

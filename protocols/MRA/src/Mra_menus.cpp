@@ -30,7 +30,7 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM, LPARAM)
 	if (!m_bLoggedIn)
 		return 0;
 
-	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+	if (MessageBox(nullptr, TranslateT("Are you sure?"), TranslateT(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
@@ -42,7 +42,7 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM, LPARAM)
 
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM, LPARAM)
 {
-	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+	if (MessageBox(nullptr, TranslateT("Are you sure?"), TranslateT(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
@@ -58,10 +58,10 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM, LPARAM)
 	if (!m_bLoggedIn)
 		return 0;
 
-	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+	if (MessageBox(nullptr, TranslateT("Are you sure?"), TranslateT(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			DWORD dwContactSeverFlags;
-			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL) == NO_ERROR)
+			if (GetContactBasicInfoW(hContact, nullptr, nullptr, nullptr, &dwContactSeverFlags, nullptr, nullptr, nullptr, nullptr) == NO_ERROR)
 			if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)
 				MraRequestAuthorization(hContact, 0);
 		}
@@ -84,7 +84,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM)
 	CMStringA szEmail;
 	if (mraGetStringA(hContact, "e-mail", szEmail)) {
 		BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
-		int iRet = MraMessage(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEmail, wszAuthMessage, NULL, 0);
+		int iRet = MraMessage(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEmail, wszAuthMessage, nullptr, 0);
 		if (bSlowSend == FALSE)
 			ProtoBroadcastAck(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 
@@ -222,7 +222,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM)
 		bHasEMail = true;
 		bHasEMailMR = true;
 		bChatAgent = IsContactChatAgent(hContact);
-		GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
+		GetContactBasicInfoW(hContact, nullptr, nullptr, nullptr, &dwContactSeverFlags, nullptr, nullptr, nullptr, nullptr);
 		mraGetStringW(hContact, DBSETTING_BLOGSTATUS, blogStatusMsgSize);
 	}
 	// non proto contact
@@ -315,7 +315,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 		}
 		else {
 			mi.name.w = (wchar_t*)lpcszXStatusNameDef[i];
-			mi.hIcolibItem = NULL;
+			mi.hIcolibItem = nullptr;
 		}
 		hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi, m_szModuleName);
 	}
@@ -327,7 +327,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bIsMain, const IconItem *pgdiItems, size_t dwCount, HGENMENU *hResult)
 {
 	if (!pgdiItems || !dwCount || !hResult)
-		return NULL;
+		return nullptr;
 
 	char szServiceFunction[MAX_PATH];
 
@@ -338,7 +338,7 @@ HGENMENU CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, BOOL bI
 		fnAddFunc = Menu_AddProtoMenuItem;
 
 		hRootMenu = Menu_GetProtocolRoot(this);
-		if (hRootMenu == NULL) {
+		if (hRootMenu == nullptr) {
 			mi.name.w = m_tszUserName;
 			mi.flags = CMIF_UNICODE | CMIF_KEEPUNTRANSLATED;
 			mi.hIcolibItem = g_hMainIcon;

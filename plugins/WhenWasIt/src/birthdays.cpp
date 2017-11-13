@@ -26,7 +26,7 @@ CBirthdays::CBirthdays(int initialSize)
 {
 	count = 0;
 	size = 0;
-	birthdays = NULL;
+	birthdays = nullptr;
 	advancedIcon = CLIST_ICON;
 
 	Realloc(initialSize);
@@ -42,7 +42,7 @@ void CBirthdays::Destroy()
 	if (birthdays) {
 		Clear();
 		free(birthdays);
-		birthdays = NULL;
+		birthdays = nullptr;
 	}
 }
 
@@ -57,7 +57,7 @@ void CBirthdays::Clear()
 void CBirthdays::ClearItem(int index)
 {
 	free(birthdays[index]);
-	birthdays[index] = NULL;
+	birthdays[index] = nullptr;
 }
 
 int CBirthdays::Count() const

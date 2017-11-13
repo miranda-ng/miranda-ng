@@ -9,8 +9,8 @@ CLan::CLan()
 	m_filesoc = INVALID_SOCKET;
 	m_status = LS_OK;
 	m_mode = LM_OFF;
-	m_hListenThread = NULL;
-	m_hAcceptTCPThread = NULL;
+	m_hListenThread = nullptr;
+	m_hAcceptTCPThread = nullptr;
 	Startup();
 }
 
@@ -69,11 +69,11 @@ void CLan::StopListen()
 	if (m_hListenThread) {
 		shutdown(m_income, SD_BOTH);
 		WaitForSingleObject(m_hListenThread, INFINITE);
-		m_hListenThread = NULL;
+		m_hListenThread = nullptr;
 	}
 	if (m_hAcceptTCPThread) {
 		TerminateThread(m_hAcceptTCPThread, 0);
-		m_hAcceptTCPThread = NULL;
+		m_hAcceptTCPThread = nullptr;
 	}
 	if (m_income != INVALID_SOCKET) {
 		closesocket(m_income);
@@ -133,7 +133,7 @@ void CLan::StartListen()
 
 		m_hListenThread = mir_forkthread(ListenProc, (void*)this);
 		m_hAcceptTCPThread = mir_forkthread(AcceptTCPProc, (void*)this);
-		if (m_hListenThread == NULL || m_hAcceptTCPThread == NULL) {
+		if (m_hListenThread == nullptr || m_hAcceptTCPThread == nullptr) {
 			m_mode = LM_ON;
 			m_status = LS_CANT_CREATE_THREADS;
 			StopListen();
@@ -174,7 +174,7 @@ void CLan::Listen()
 			OnRecvPacket((u_char*)buf, recLen, addr.sin_addr);
 		}
 	}
-	m_hListenThread = NULL;
+	m_hListenThread = nullptr;
 }
 
 void CLan::SendPacketBroadcast(const u_char* mes, int len)
@@ -219,7 +219,7 @@ void CLan::AcceptTCP()
 		mir_forkthread(OnInTCPConnectionProc, (void*)tcp_conn);
 		Sleep(100);
 	}
-	m_hAcceptTCPThread = NULL;
+	m_hAcceptTCPThread = nullptr;
 }
 
 void __cdecl CLan::OnInTCPConnectionProc(void *lpParameter)

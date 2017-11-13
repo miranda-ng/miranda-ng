@@ -180,7 +180,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 		pbuf++;
 	}
 
-	wchar_t *c1 = 0, *c2 = 0;
+	wchar_t *c1 = nullptr, *c2 = nullptr;
 	if ( i1 == 1 )
 		c1 = mir_wstrdup(pcli->pfnGetContactDisplayName(wParam, 0));
 	else if ( i1 == 2 )

@@ -162,14 +162,14 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
-	if (rcPaint == NULL)
+	if (rcPaint == nullptr)
 		rcPaint = &clRect;
 	if (IsRectEmpty(rcPaint))
 		return;
 
 	int y = -dat->yScroll;
 	HDC hdcMem = CreateCompatibleDC(hdc);
-	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
+	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), nullptr);
 	HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
 
 	TEXTMETRIC tm;
@@ -180,7 +180,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	GetTextMetrics(hdcMem, &tm);
 	groupCountsFontTopShift -= tm.tmAscent;
 
-	HBRUSH hBrushAlternateGrey = NULL;
+	HBRUSH hBrushAlternateGrey = nullptr;
 	if (style & CLS_GREYALTERNATE)
 		hBrushAlternateGrey = CreateSolidBrush(GetNearestColor(hdcMem, RGB(GetRValue(tmpbkcolour) - 10, GetGValue(tmpbkcolour) - 10, GetBValue(tmpbkcolour) - 10)));
 
@@ -266,7 +266,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	int indent = 0;
 	for (int index = 0; y < rcPaint->bottom;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			indent--;
@@ -316,7 +316,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			GetTextExtentPoint32(hdcMem, cc->szText, (int)mir_wstrlen(cc->szText), &textSize);
 			width = textSize.cx;
 
-			wchar_t *ptszGroupCount = NULL;
+			wchar_t *ptszGroupCount = nullptr;
 			if (cc->type == CLCIT_GROUP) {
 				ptszGroupCount = pcli->pfnGetGroupCountsText(dat, cc);
 				if (*ptszGroupCount) {
@@ -432,7 +432,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					else if (hottrack)
 						SetHotTrackColour(hdcMem, dat);
 					rc.right--;
-					ExtTextOut(hdcMem, rc.left, rc.top, ETO_CLIPPED, &rc, cc->szText, (int)mir_wstrlen(cc->szText), NULL);
+					ExtTextOut(hdcMem, rc.left, rc.top, ETO_CLIPPED, &rc, cc->szText, (int)mir_wstrlen(cc->szText), nullptr);
 				}
 				else TextOut(hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace, y + ((dat->rowHeight - fontHeight) >> 1), cc->szText, (int)mir_wstrlen(cc->szText));
 

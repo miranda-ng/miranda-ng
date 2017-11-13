@@ -27,8 +27,8 @@ MCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick,
 {
 	MCONTACT hContact = NULL;
 
-	char *szEmail, *szNet = NULL;
-	parseWLID(NEWSTR_ALLOCA(wlid), &szNet, &szEmail, NULL);
+	char *szEmail, *szNet = nullptr;
+	parseWLID(NEWSTR_ALLOCA(wlid), &szNet, &szEmail, nullptr);
 
 	MsnContact *msc = Lists_Get(szEmail);
 	if (msc && msc->hContact)
@@ -76,7 +76,7 @@ MCONTACT CMsnProto::MSN_HContactFromChatID(const char* wlid)
 void CMsnProto::MSN_SetContactDb(MCONTACT hContact, const char *szEmail)
 {
 	MsnContact *cont = Lists_Get(szEmail);
-	if (cont == NULL)
+	if (cont == nullptr)
 		return;
 	const int listId = cont->list;
 
@@ -155,7 +155,7 @@ bool CMsnProto::MSN_AddUser(MCONTACT hContact, const char* email, int netId, int
 					if (leaveHotmail)
 						res = MSN_ABAddRemoveContact(id, netId2, false);
 					else
-						res = MSN_ABAddDelContactGroup(id, NULL, "ABContactDelete");
+						res = MSN_ABAddDelContactGroup(id, nullptr, "ABContactDelete");
 					if (res)
 						AddDelUserContList(email, flags, netId2, true);
 

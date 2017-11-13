@@ -89,7 +89,7 @@ static const struct CheckBoxValues_t offlineValues[] =
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
 {
 	TVINSERTSTRUCT tvis;
-	tvis.hParent = NULL;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
@@ -120,7 +120,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 static LONG CalcMinRowHeight()
 {
 	LONG minHeight = 16;
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	for (int i = 0; i < FONTID_LAST; i++) {
 		LOGFONT lf;
 		COLORREF color;
@@ -135,7 +135,7 @@ static LONG CalcMinRowHeight()
 		hFont = (HFONT)SelectObject(hdc, hFont);
 		DeleteObject(hFont);
 	}
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	return minHeight;
 }
 
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
-			ofn.hInstance = NULL;
+			ofn.hInstance = nullptr;
 			Bitmap_GetFilter(filter, _countof(filter));
 			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = str;

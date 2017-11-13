@@ -190,7 +190,7 @@ namespace External
 		if (pDispParams == nullptr || pDispParams->cArgs < 5)
 			return E_INVALIDARG;
 
-		HINSTANCE res = ShellExecuteW(NULL, pDispParams->rgvarg[4].bstrVal, pDispParams->rgvarg[3].bstrVal, pDispParams->rgvarg[2].bstrVal, pDispParams->rgvarg[1].bstrVal, pDispParams->rgvarg[0].intVal);
+		HINSTANCE res = ShellExecuteW(nullptr, pDispParams->rgvarg[4].bstrVal, pDispParams->rgvarg[3].bstrVal, pDispParams->rgvarg[2].bstrVal, pDispParams->rgvarg[1].bstrVal, pDispParams->rgvarg[0].intVal);
 
 		if (pVarResult != nullptr)
 		{
@@ -207,7 +207,7 @@ namespace External
 			return E_INVALIDARG;
 
 		BSTR data = pDispParams->rgvarg[0].bstrVal;
-		if (OpenClipboard(NULL)) 
+		if (OpenClipboard(nullptr)) 
 		{
 			EmptyClipboard();
 			size_t size = sizeof(wchar_t)* (mir_wstrlen(data) + 1);

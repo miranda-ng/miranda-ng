@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 MimeHeaders::MimeHeaders() :
 	mCount(0),
 	mAllocCount(0),
-	mVals(NULL)
+	mVals(nullptr)
 {
 }
 
@@ -71,7 +71,7 @@ unsigned MimeHeaders::allocSlot(void)
 
 void MimeHeaders::addString(const char* name, const char* szValue, unsigned flags)
 {
-	if (szValue == NULL) return;
+	if (szValue == nullptr) return;
 
 	MimeHeader& H = mVals[allocSlot()];
 	H.name = name;
@@ -184,7 +184,7 @@ char* MimeHeaders::readFromBuffer(char* src)
 	while (*src) {
 		char* peol = strchr(src, '\n');
 
-		if (peol == NULL)
+		if (peol == nullptr)
 			return strchr(src, 0);
 		else if (peol == src)
 			return src + 1;
@@ -232,7 +232,7 @@ const char* MimeHeaders::find(const char* szFieldName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static const struct _tag_cpltbl
@@ -391,7 +391,7 @@ static void  PQDecode(char* str)
 static size_t utf8toutf16(char* str, wchar_t* res)
 {
 	wchar_t *dec = mir_utf8decodeW(str);
-	if (dec == NULL) dec = mir_a2u(str);
+	if (dec == nullptr) dec = mir_a2u(str);
 	mir_wstrcpy(res, dec);
 	mir_free(dec);
 	return mir_wstrlen(res);
@@ -410,7 +410,7 @@ wchar_t* MimeHeaders::decode(const char* val)
 	char *p = tbuf;
 	while (*p) {
 		char *cp = strstr(p, "=?");
-		if (cp == NULL) break;
+		if (cp == nullptr) break;
 		*cp = 0;
 
 		size_t sz = utf8toutf16(p, resp);
@@ -418,21 +418,21 @@ wchar_t* MimeHeaders::decode(const char* val)
 		cp += 2;
 
 		char *enc = strchr(cp, '?');
-		if (enc == NULL) break;
+		if (enc == nullptr) break;
 		*(enc++) = 0;
 
 		char *fld = strchr(enc, '?');
-		if (fld == NULL) break;
+		if (fld == nullptr) break;
 		*(fld++) = 0;
 
 		char *pe = strstr(fld, "?=");
-		if (pe == NULL) break;
+		if (pe == nullptr) break;
 		*pe = 0;
 
 		switch (*enc) {
 		case 'b':
 		case 'B':
-			mir_strcpy(fld, ptrA((char*)mir_base64_decode(fld, 0)));
+			mir_strcpy(fld, ptrA((char*)mir_base64_decode(fld, nullptr)));
 			break;
 
 		case 'q':
@@ -469,7 +469,7 @@ char* MimeHeaders::decodeMailBody(char* msgBody)
 			else *(dst++) = *(src++);
 		}
 		*dst = 0;
-		res = (char*)mir_base64_decode(msgBody, 0);
+		res = (char*)mir_base64_decode(msgBody, nullptr);
 	}
 	else {
 		res = mir_strdup(msgBody);

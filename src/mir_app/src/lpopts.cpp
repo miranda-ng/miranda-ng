@@ -35,7 +35,7 @@ static void ReloadOptions(void *hWnd)
 	while (IsWindow((HWND)hWnd))
 		Sleep(50);
 
-	CallFunctionAsync(OpenOptions, 0);
+	CallFunctionAsync(OpenOptions, nullptr);
 }
 
 MIR_CORE_DLL(int) LoadLangPackDescr(const wchar_t *szLangPack, LANGPACK_INFO *lpInfo);
@@ -132,7 +132,7 @@ void CLangpackDlg::LoadLangpacks()
 
 		if (GetModuleFileName(nullptr, pack.tszFullPath, _countof(pack.tszFullPath))) {
 			mir_wstrcpy(pack.tszFileName, L"default");
-			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+			HANDLE hFile = CreateFile(pack.tszFileName, 0, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 			if (hFile != INVALID_HANDLE_VALUE) {
 				GetFileTime(hFile, nullptr, nullptr, &pack.ftFileDate);
 				CloseHandle(hFile);

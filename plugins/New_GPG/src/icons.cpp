@@ -39,7 +39,7 @@ void setClistIcon(MCONTACT hContact)
 	bool enabled = isContactSecured(hContact);
 	extern HANDLE g_hCLIcon;
 	MCONTACT hMC = db_mc_tryMeta(hContact);
-	const char *szIconId = (enabled) ? "secured" : NULL;
+	const char *szIconId = (enabled) ? "secured" : nullptr;
 	ExtraIcon_SetIconByName(g_hCLIcon, hContact, szIconId);
 	if(hMC != hContact)
 		ExtraIcon_SetIconByName(g_hCLIcon, hMC, szIconId);

@@ -28,8 +28,8 @@ enum ECascadeType {
 	MCAS_NOTINITIATED = 128
 };
 
-HGENMENU hMenuItemRefresh = NULL;
-HGENMENU *hMenuItemAccount	= NULL;
+HGENMENU hMenuItemRefresh = nullptr;
+HGENMENU *hMenuItemAccount	= nullptr;
 
 /**
  * Helper function to remove all menu items backward (first item second group).
@@ -48,7 +48,7 @@ INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
 	while (Count--) {
 		if (pItems[Count]) {
 			Menu_RemoveItem(pItems[Count]);
-			pItems[Count] = NULL;
+			pItems[Count] = nullptr;
 		}
 	}
 	return 0;
@@ -65,9 +65,9 @@ INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
  **/
 void RebuildContact()
 {
-	HGENMENU mhRoot = NULL;
-	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[4] = { NULL, NULL, NULL, NULL };
+	HGENMENU mhRoot = nullptr;
+	HGENMENU mhExIm = nullptr;
+	static HGENMENU hMenuItem[4] = { nullptr, nullptr, nullptr, nullptr };
 
 	SvcEMailRebuildMenu();
 	SvcHomepageRebuildMenu();
@@ -89,8 +89,8 @@ void RebuildContact()
 	switch (flag) {
 	case 3:
 		//cascade off
-		mhRoot = mhExIm = NULL;
-		hMenuItem[0] = NULL;
+		mhRoot = mhExIm = nullptr;
+		hMenuItem[0] = nullptr;
 		break;
 	case 5:
 		//cascade all
@@ -110,7 +110,7 @@ void RebuildContact()
 		mi.name.a = LPGEN("Export/import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
 		hMenuItem[0] = mhExIm;
-		mhRoot = NULL;
+		mhRoot = nullptr;
 		break;
 	default:
 		//disable Menu
@@ -161,9 +161,9 @@ void RebuildMain()
 {
 	BYTE item = 0;
 
-	HGENMENU mhRoot = NULL;
-	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	HGENMENU mhRoot = nullptr;
+	HGENMENU mhExIm = nullptr;
+	static HGENMENU hMenuItem[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 	// load options
 	int flag = db_get_b(NULL, MODNAME, SET_MI_MAIN, MCAS_NOTINITIATED);
@@ -181,8 +181,8 @@ void RebuildMain()
 	switch (flag) {
 	case 3:
 		//cascade off
-		mhRoot = mhExIm = NULL;
-		hMenuItem[item++] = NULL;
+		mhRoot = mhExIm = nullptr;
+		hMenuItem[item++] = nullptr;
 		break;
 	case 5:
 		//cascade all
@@ -202,7 +202,7 @@ void RebuildMain()
 		mi.name.a = LPGEN("Export/import contact");
 		mhExIm = Menu_AddMainMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
-		mhRoot = NULL;
+		mhRoot = nullptr;
 		break;
 	default:
 		//disable Menue
@@ -260,8 +260,8 @@ void RebuildMain()
 		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 	else {
-		hMenuItem[item++] = NULL;
-		hMenuItem[item++] = NULL;
+		hMenuItem[item++] = nullptr;
+		hMenuItem[item++] = nullptr;
 	}
 
 	// Refresh Contact Details
@@ -295,9 +295,9 @@ void RebuildGroup()
 	int flag = 0;
 	BYTE item = 0;
 
-	HGENMENU mhRoot = NULL;
-	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[3] = { NULL, NULL, NULL };
+	HGENMENU mhRoot = nullptr;
+	HGENMENU mhExIm = nullptr;
+	static HGENMENU hMenuItem[3] = { nullptr, nullptr, nullptr };
 
 	// load options
 	flag = db_get_b(NULL, MODNAME, SET_MI_GROUP, MCAS_NOTINITIATED);
@@ -319,8 +319,8 @@ void RebuildGroup()
 	switch (flag) {
 	case 3:
 		//cascade off
-		mhRoot = mhExIm = NULL;
-		hMenuItem[item++] = NULL;
+		mhRoot = mhExIm = nullptr;
+		hMenuItem[item++] = nullptr;
 		break;
 	case 5:
 		//cascade all
@@ -340,7 +340,7 @@ void RebuildGroup()
 		mi.name.a = LPGEN("Export/import contact");
 		mhExIm = Menu_AddGroupMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
-		mhRoot = NULL;
+		mhRoot = nullptr;
 		break;
 	default:
 		//disable Menue
@@ -386,9 +386,9 @@ void RebuildSubGroup()
 	BYTE item = 0;
 	GroupMenuParam gmp = { 0 };
 
-	HGENMENU mhRoot = NULL;
-	HGENMENU mhExIm = NULL;
-	static HGENMENU hMenuItem[3] = { NULL, NULL, NULL };
+	HGENMENU mhRoot = nullptr;
+	HGENMENU mhExIm = nullptr;
+	static HGENMENU hMenuItem[3] = { nullptr, nullptr, nullptr };
 
 	// load options
 	flag = db_get_b(NULL, MODNAME, SET_MI_SUBGROUP, MCAS_NOTINITIATED);
@@ -411,8 +411,8 @@ void RebuildSubGroup()
 	switch (flag) {
 	case 3:
 		//cascade off
-		mhRoot = mhExIm = NULL;
-		hMenuItem[item++] = NULL;
+		mhRoot = mhExIm = nullptr;
+		hMenuItem[item++] = nullptr;
 		break;
 	case 5:
 		//cascade all
@@ -432,7 +432,7 @@ void RebuildSubGroup()
 		mi.name.a = LPGEN("Export/import group");
 		mhExIm = Menu_AddSubGroupMenuItem(&mi);
 		hMenuItem[item++] = mhExIm;
-		mhRoot = NULL;
+		mhRoot = nullptr;
 		break;
 	default:
 		//disable Menue
@@ -510,7 +510,7 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 		item = 0;
 
 		HGENMENU mhRoot = pcli->menuProtos[i].pMenu, mhExIm;
-		if (mhRoot == NULL)
+		if (mhRoot == nullptr)
 			break;
 
 		PROTOACCOUNT *pa = Proto_GetAccount(pcli->menuProtos[i].szProto);

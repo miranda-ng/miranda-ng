@@ -67,15 +67,15 @@ static int CheckBlock(void* blk)
 MIR_C_CORE_DLL(void*) mir_alloc(size_t size)
 {
 	if (size == 0)
-		return NULL;
+		return nullptr;
 
 	char *p = (char*)malloc(size + sizeof(DWORD)* 3);
-	if (p == NULL) {
+	if (p == nullptr) {
 		OutputDebugStringA("memory overflow\n");
 		#if defined(_DEBUG)
 			DebugBreak();
 		#endif
-		return NULL;
+		return nullptr;
 	}
 
 	*(DWORD*)p = (DWORD)size;
@@ -89,7 +89,7 @@ MIR_C_CORE_DLL(void*) mir_alloc(size_t size)
 MIR_C_CORE_DLL(void*) mir_calloc(size_t size)
 {
 	void* p = mir_alloc(size);
-	if (p != NULL)
+	if (p != nullptr)
 		memset(p, 0, size);
 	return p;
 }
@@ -100,20 +100,20 @@ MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 {
 	char *p;
 
-	if (ptr != NULL) {
+	if (ptr != nullptr) {
 		if (!CheckBlock(ptr))
-			return NULL;
+			return nullptr;
 		p = (char*)ptr - sizeof(DWORD)*2;
 	}
-	else p = NULL;
+	else p = nullptr;
 
 	p = (char*)realloc(p, size + sizeof(DWORD)*3);
-	if (p == NULL) {
+	if (p == nullptr) {
 		OutputDebugStringA("memory overflow\n");
 		#if defined(_DEBUG)
 			DebugBreak();
 		#endif
-		return NULL;
+		return nullptr;
 	}
 
 	*(DWORD*)p = (DWORD)size;
@@ -129,7 +129,7 @@ MIR_C_CORE_DLL(void) mir_free(void* ptr)
 	char* p;
 	DWORD size;
 
-	if (ptr == NULL)
+	if (ptr == nullptr)
 		return;
 	if (!CheckBlock(ptr))
 		return;
@@ -146,8 +146,8 @@ MIR_C_CORE_DLL(void) mir_free(void* ptr)
 
 MIR_CORE_DLL(char*) mir_strdup(const char *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	char *p = (char*)mir_alloc(strlen(str)+1);
 	if (p)
@@ -157,8 +157,8 @@ MIR_CORE_DLL(char*) mir_strdup(const char *str)
 
 MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	WCHAR *p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(wcslen(str)+1));
 	if (p)
@@ -170,8 +170,8 @@ MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR *str)
 
 MIR_CORE_DLL(char*) mir_strndup(const char *str, size_t len)
 {
-	if (str == NULL || len == 0)
-		return NULL;
+	if (str == nullptr || len == 0)
+		return nullptr;
 
 	char *p = (char*)mir_alloc(len+1);
 	if (p) {
@@ -183,8 +183,8 @@ MIR_CORE_DLL(char*) mir_strndup(const char *str, size_t len)
 
 MIR_CORE_DLL(WCHAR*) mir_wstrndup(const WCHAR *str, size_t len)
 {
-	if (str == NULL || len == 0)
-		return NULL;
+	if (str == nullptr || len == 0)
+		return nullptr;
 
 	WCHAR *p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(len+1));
 	if (p) {
@@ -240,13 +240,13 @@ MIR_CORE_DLL(int) mir_vsnwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, 
 
 MIR_CORE_DLL(wchar_t*) mir_a2u_cp(const char* src, int codepage)
 {
-	if (src == NULL)
-		return NULL;
+	if (src == nullptr)
+		return nullptr;
 
-	int cbLen = MultiByteToWideChar(codepage, 0, src, -1, NULL, 0);
+	int cbLen = MultiByteToWideChar(codepage, 0, src, -1, nullptr, 0);
 	wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen+1));
-	if (result == NULL)
-		return NULL;
+	if (result == nullptr)
+		return nullptr;
 
 	MultiByteToWideChar(codepage, 0, src, -1, result, cbLen);
 	result[cbLen] = 0;
@@ -264,15 +264,15 @@ MIR_CORE_DLL(wchar_t*) mir_a2u(const char* src)
 
 MIR_CORE_DLL(char*) mir_u2a_cp(const wchar_t* src, int codepage)
 {
-	if (src == NULL)
-		return NULL;
+	if (src == nullptr)
+		return nullptr;
 
-	int cbLen = WideCharToMultiByte(codepage, 0, src, -1, NULL, 0, NULL, NULL);
+	int cbLen = WideCharToMultiByte(codepage, 0, src, -1, nullptr, 0, nullptr, nullptr);
 	char* result = (char*)mir_alloc(cbLen+1);
-	if (result == NULL)
-		return NULL;
+	if (result == nullptr)
+		return nullptr;
 
-	WideCharToMultiByte(codepage, 0, src, -1, result, cbLen, NULL, NULL);
+	WideCharToMultiByte(codepage, 0, src, -1, result, cbLen, nullptr, nullptr);
 	result[cbLen] = 0;
 	return result;
 }

@@ -8,8 +8,8 @@
 ColInOutGraph::ColInOutGraph()
 	: m_nSource(0), m_bAbsolute(false), m_nAbsTime(1), m_bShowSum(true),
 	m_bDetail(true), m_bDetailPercent(false), m_bDetailInvert(false), m_bGraphPercent(true),
-	m_hSource(NULL), m_hAbsolute(NULL), m_hAbsTime(NULL), m_hShowSum(NULL),
-	m_hDetail(NULL), m_hDetailPercent(NULL), m_hDetailInvert(NULL), m_hGraphPercent(NULL)
+	m_hSource(nullptr), m_hAbsolute(nullptr), m_hAbsTime(nullptr), m_hShowSum(nullptr),
+	m_hDetail(nullptr), m_hDetailPercent(nullptr), m_hDetailInvert(nullptr), m_hGraphPercent(nullptr)
 {
 }
 
@@ -56,13 +56,13 @@ void ColInOutGraph::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	OptionsCtrl::Group hTemp;
 
 	hTemp               = Opt.insertGroup(hGroup, TranslateT("Data source"));
-		m_hSource        = Opt.insertRadio(hTemp, NULL, TranslateT("Characters"));
+		m_hSource        = Opt.insertRadio(hTemp, nullptr, TranslateT("Characters"));
 		                   Opt.insertRadio(hTemp, m_hSource, TranslateT("Messages"));
 		                   Opt.insertRadio(hTemp, m_hSource, TranslateT("Chats"));
 	hTemp               = Opt.insertGroup(hGroup, TranslateT("Display as"));
-		m_hAbsolute      = Opt.insertRadio(hTemp, NULL, TranslateT("Absolute"));
+		m_hAbsolute      = Opt.insertRadio(hTemp, nullptr, TranslateT("Absolute"));
 		m_hAbsolute      = Opt.insertRadio(hTemp, m_hAbsolute, TranslateT("Average"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-			m_hAbsTime    = Opt.insertRadio(m_hAbsolute, NULL, TranslateT("Units per day"));
+			m_hAbsTime    = Opt.insertRadio(m_hAbsolute, nullptr, TranslateT("Units per day"));
 			                Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per week"));
 			                Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per month (30 days)"));
 	m_hShowSum          = Opt.insertCheck(hGroup, TranslateT("Show sum of incoming and outgoing"));
@@ -272,10 +272,10 @@ void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& conta
 		HDC hDC = canvas.beginDraw();
 
 		SetBkColor(hDC, con::ColorOut);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 0, outW, 15), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 0, outW, 15), nullptr, 0, nullptr);
 
 		SetBkColor(hDC, con::ColorIn);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(100 - inW, 0, 100, 15), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(100 - inW, 0, 100, 15), nullptr, 0, nullptr);
 
 		if (m_bGraphPercent)
 		{

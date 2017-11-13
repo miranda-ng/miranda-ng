@@ -30,7 +30,7 @@ struct AccountMap
 		szSrcAcc(mir_strdup(_src)),
 		iSrcIndex(_origIdx),
 		tszSrcName(mir_wstrdup(_srcName)),
-		pa(NULL)
+		pa(nullptr)
 	{}
 
 	~AccountMap() {}
@@ -114,7 +114,7 @@ static int myGetD(MCONTACT hContact, const char *szModule, const char *szSetting
 static wchar_t* myGetWs(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
 	DBVARIANT dbv = { DBVT_WCHAR };
-	return srcDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? NULL : dbv.ptszVal;
+	return srcDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv) ? nullptr : dbv.ptszVal;
 }
 
 static BOOL myGetS(MCONTACT hContact, const char *szModule, const char *szSetting, char *dest)
@@ -131,7 +131,7 @@ static MCONTACT HContactFromNumericID(char *pszProtoName, char *pszSetting, DWOR
 	for (MCONTACT hContact = dstDb->FindFirstContact(); hContact; hContact = dstDb->FindNextContact(hContact)) {
 		if (db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID) {
 			char* szProto = GetContactProto(hContact);
-			if (szProto != NULL && !mir_strcmp(szProto, pszProtoName))
+			if (szProto != nullptr && !mir_strcmp(szProto, pszProtoName))
 				return hContact;
 		}
 	}
@@ -181,7 +181,7 @@ static int iPrevIndex = -1;
 
 static void SetAccountName(int idx, PROTOACCOUNT *pa)
 {
-	ListView_SetItemText(hwndList, idx, 1, (pa == NULL) ? TranslateT("<New account>") : pa->tszAccountName);
+	ListView_SetItemText(hwndList, idx, 1, (pa == nullptr) ? TranslateT("<New account>") : pa->tszAccountName);
 }
 
 static LRESULT CALLBACK ComboWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -192,7 +192,7 @@ static LRESULT CALLBACK ComboWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 			int idx = SendMessage(hwnd, CB_GETCURSEL, 0, 0);
 			if (idx == 0)
-				pMap->pa = NULL;
+				pMap->pa = nullptr;
 			else
 				pMap->pa = (PROTOACCOUNT*)SendMessage(hwnd, CB_GETITEMDATA, idx, 0);
 
@@ -201,7 +201,7 @@ static LRESULT CALLBACK ComboWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 		}
 
 		DestroyWindow(hwnd);
-		hwndCombo = 0;
+		hwndCombo = nullptr;
 	}
 	return mir_callNextSubclass(hwnd, ComboWndProc, uMsg, wParam, lParam);
 }
@@ -234,11 +234,11 @@ static LRESULT CALLBACK ListWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 		lvitem.mask = LVIF_PARAM;
 		ListView_GetItem(hwnd, &lvitem);
 
-		if (hwndCombo != NULL)
+		if (hwndCombo != nullptr)
 			SendMessage(hwndCombo, WM_KILLFOCUS, 0, (LPARAM)hwndCombo);
 
 		hwndCombo = CreateWindowEx(WS_EX_CLIENTEDGE, WC_COMBOBOX, L"", WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
-			r.left + 3, r.top, r.right - r.left - 3, r.bottom - r.top, hwnd, 0, hInst, NULL);
+			r.left + 3, r.top, r.right - r.left - 3, r.bottom - r.top, hwnd, nullptr, hInst, nullptr);
 
 		// copy a font from listview
 		HFONT hFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
@@ -310,7 +310,7 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			if (hwndCombo != NULL)
+			if (hwndCombo != nullptr)
 				SendMessage(hwndCombo, WM_KILLFOCUS, 0, (LPARAM)hwndCombo);
 			EndDialog(hwndDlg, IDOK);
 			break;
@@ -325,7 +325,7 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		break;
 
 	case WM_DESTROY:
-		hwndAccMerge = NULL;
+		hwndAccMerge = nullptr;
 		break;
 
 	case WM_NOTIFY:
@@ -347,14 +347,14 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 static char* newStr(const char *s)
 {
-	return (s == NULL) ? NULL : mir_strcpy(new char[mir_strlen(s) + 1], s);
+	return (s == nullptr) ? nullptr : mir_strcpy(new char[mir_strlen(s) + 1], s);
 }
 
 static bool FindDestAccount(const char *szProto)
 {
 	for (int i = 0; i < arAccountMap.getCount(); i++) {
 		AccountMap &pam = arAccountMap[i];
-		if (pam.pa == NULL)
+		if (pam.pa == nullptr)
 			continue;
 
 		if (!mir_strcmp(pam.pa->szModuleName, szProto))
@@ -370,7 +370,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 	PROTOACCOUNT **destAccs;
 	Proto_EnumAccounts(&destProtoCount, &destAccs);
 
-	PROTOACCOUNT *pProto = NULL;
+	PROTOACCOUNT *pProto = nullptr;
 	for (int i = 0; i < destProtoCount; i++) {
 		PROTOACCOUNT *pa = destAccs[i];
 		// already used? skip
@@ -410,7 +410,7 @@ static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto,
 		if (bEqual)
 			return pa;
 	}
-	return (bStrict) ? NULL : pProto;
+	return (bStrict) ? nullptr : pProto;
 }
 
 bool ImportAccounts(OBJLIST<char> &arSkippedModules)
@@ -453,14 +453,14 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 
 	// all accounts to be converted automatically, no need to raise a dialog
 	if (bNeedManualMerge)
-		if (DialogBox(hInst, MAKEINTRESOURCE(IDD_ACCMERGE), NULL, AccountsMatcherProc) != IDOK)
+		if (DialogBox(hInst, MAKEINTRESOURCE(IDD_ACCMERGE), nullptr, AccountsMatcherProc) != IDOK)
 			return false;
 
 	bool bImportSysAll = (nImportOptions & IOPT_SYS_SETTINGS) != 0;
 
 	for (int i = 0; i < arAccountMap.getCount(); i++) {
 		AccountMap &p = arAccountMap[i];
-		if (p.pa != NULL || p.szBaseProto == NULL || !mir_strcmp(p.szSrcAcc, META_PROTO))
+		if (p.pa != nullptr || p.szBaseProto == NULL || !mir_strcmp(p.szSrcAcc, META_PROTO))
 			continue;
 
 		if (!Proto_IsProtocolLoaded(p.szBaseProto)) {
@@ -470,11 +470,11 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 
 		ACC_CREATE newacc;
 		newacc.pszBaseProto = p.szBaseProto;
-		newacc.pszInternal = NULL;
+		newacc.pszInternal = nullptr;
 		newacc.ptszAccountName = p.tszSrcName;
 
 		p.pa = ProtoCreateAccount(&newacc);
-		if (p.pa == NULL) {
+		if (p.pa == nullptr) {
 			AddMessage(LPGENW("Unable to create an account %s of protocol %S"), p.tszSrcName, p.szBaseProto);
 			return false;
 		}
@@ -517,7 +517,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 static MCONTACT MapContact(MCONTACT hSrc)
 {
 	ContactMap *pDestContact = arContactMap.find((ContactMap*)&hSrc);
-	return (pDestContact == NULL) ? INVALID_CONTACT_ID : pDestContact->dstID;
+	return (pDestContact == nullptr) ? INVALID_CONTACT_ID : pDestContact->dstID;
 }
 
 static MCONTACT AddContact(char *szProto, char *pszUniqueSetting, DBVARIANT *id, const wchar_t *pszUserID, wchar_t *nick, wchar_t *group)
@@ -563,7 +563,7 @@ int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
 
 void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 {
-	if (pda->pa == NULL)
+	if (pda->pa == nullptr)
 		return;
 
 	ImportContactData icd = { hSrc, hDst, pda->szSrcAcc, pda->pa->szModuleName };
@@ -577,7 +577,7 @@ static int ImportGroup(const char* szSettingName, LPARAM lParam)
 	int *pnGroups = (int*)lParam;
 
 	wchar_t *tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
-	if (tszGroup != NULL) {
+	if (tszGroup != nullptr) {
 		if (CreateGroup(tszGroup + 1, NULL))
 			pnGroups[0]++;
 		mir_free(tszGroup);
@@ -612,7 +612,7 @@ DBCachedContact* FindDestMeta(DBCachedContact *ccSrc)
 			return cc;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 MCONTACT FindExistingMeta(DBCachedContact *ccSrc)
@@ -626,7 +626,7 @@ MCONTACT FindExistingMeta(DBCachedContact *ccSrc)
 			continue;
 
 		DBCachedContact *cc = dstDb->m_cache->GetCachedContact(hDestSub);
-		if (cc == NULL || !cc->IsSub()) // check if it's a sub
+		if (cc == nullptr || !cc->IsSub()) // check if it's a sub
 			continue;
 
 		if (hResult == INVALID_CONTACT_ID)
@@ -645,7 +645,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 
 	// check first that the precise copy of metacontact exists
 	DBCachedContact *ccDst = FindDestMeta(ccSrc);
-	if (ccDst == NULL) {
+	if (ccDst == nullptr) {
 		MCONTACT hDest = FindExistingMeta(ccSrc);
 		if (hDest == 0) {
 			AddMessage(LPGENW("Metacontact cannot be imported due to its ambiguity."));
@@ -663,7 +663,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 			CopySettings(ccSrc->contactID, META_PROTO, hDest, META_PROTO);
 
 			ccDst = dstDb->m_cache->GetCachedContact(hDest);
-			if (ccDst == NULL) // normally it shouldn't happen
+			if (ccDst == nullptr) // normally it shouldn't happen
 				return;
 
 			// simply copy the whole metacontact structure
@@ -688,7 +688,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 		}
 		else { // add missing subs
 			ccDst = dstDb->m_cache->GetCachedContact(hDest);
-			if (ccDst == NULL) // normally it shouldn't happen
+			if (ccDst == nullptr) // normally it shouldn't happen
 				return;
 
 			for (int i = 0; i < ccSrc->nSubs; i++) {
@@ -723,7 +723,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 {
 	// Check what protocol this contact belongs to
 	DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hSrc);
-	if (cc == NULL || cc->szProto == NULL) {
+	if (cc == nullptr || cc->szProto == nullptr) {
 		AddMessage(LPGENW("Skipping contact with no protocol"));
 		return NULL;
 	}
@@ -734,7 +734,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	AccountMap *pda = arAccountMap.find((AccountMap*)&cc->szProto);
-	if (pda == NULL || pda->pa == NULL) {
+	if (pda == nullptr || pda->pa == nullptr) {
 		AddMessage(LPGENW("Skipping contact, account %S cannot be mapped."), cc->szProto);
 		return NULL;
 	}
@@ -774,7 +774,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 
 	default:
 		hDst = INVALID_CONTACT_ID;
-		pszUniqueID = NULL;
+		pszUniqueID = nullptr;
 	}
 
 	if (hDst != INVALID_CONTACT_ID) {
@@ -824,7 +824,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 		// we ignore history import for metacontacts
 		// the metahistory will be generated automatically by gathering subs' histories
 		DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hContact);
-		if (cc == NULL)
+		if (cc == nullptr)
 			return;
 
 		// for k/v databases we read history for subs only
@@ -937,7 +937,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 		if (!(i % 10)) {
 			MSG msg;
-			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
@@ -961,18 +961,18 @@ void MirandaImport(HWND hdlg)
 {
 	hdlgProgress = hdlg;
 
-	if ((dstDb = db_get_current()) == NULL) {
+	if ((dstDb = db_get_current()) == nullptr) {
 		AddMessage(LPGENW("Error retrieving current profile, exiting."));
 		return;
 	}
 
 	DATABASELINK *dblink = FindDatabasePlugin(importFile);
-	if (dblink == NULL) {
+	if (dblink == nullptr) {
 		AddMessage(LPGENW("There's no database driver to open the input file, exiting."));
 		return;
 	}
 
-	if ((srcDb = dblink->Load(importFile, TRUE)) == NULL) {
+	if ((srcDb = dblink->Load(importFile, TRUE)) == nullptr) {
 		AddMessage(LPGENW("Error loading source file, exiting."));
 		return;
 	}
@@ -995,7 +995,7 @@ void MirandaImport(HWND hdlg)
 	dstDb->SetCacheSafetyMode(FALSE);
 
 	// Start benchmark timer
-	DWORD dwTimer = time(NULL);
+	DWORD dwTimer = time(nullptr);
 
 	OBJLIST<char> arSkippedAccs(1, CompareModules);
 	if (!ImportAccounts(arSkippedAccs)) {
@@ -1034,7 +1034,7 @@ void MirandaImport(HWND hdlg)
 
 			// Process queued messages
 			MSG msg;
-			if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+			if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
@@ -1068,7 +1068,7 @@ void MirandaImport(HWND hdlg)
 		AddMessage(LPGENW("Importing history."));
 		MCONTACT hContact = srcDb->FindFirstContact();
 		for (int i = 1; hContact != NULL; i++) {
-			ImportHistory(hContact, NULL, NULL);
+			ImportHistory(hContact, nullptr, NULL);
 
 			SetProgress(100 * i / nNumberOfContacts);
 			hContact = srcDb->FindNextContact(hContact);
@@ -1084,7 +1084,7 @@ void MirandaImport(HWND hdlg)
 	dblink->Unload(srcDb);
 
 	// Stop timer
-	dwTimer = time(NULL) - dwTimer;
+	dwTimer = time(nullptr) - dwTimer;
 
 	// Print statistics
 	AddMessage(LPGENW("Import completed in %d seconds."), dwTimer);

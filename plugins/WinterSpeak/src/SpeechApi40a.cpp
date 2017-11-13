@@ -19,7 +19,7 @@
 #include <memory>
 
 //------------------------------------------------------------------------------
-SpeechApi40a::SpeechApi40a() : m_tts_central(0), m_tts_attribs(0), m_state(TextToSpeech::State_Unloaded), m_voice(L""), m_volume(50), m_pitch(50), m_rate(50)
+SpeechApi40a::SpeechApi40a() : m_tts_central(nullptr), m_tts_attribs(nullptr), m_state(TextToSpeech::State_Unloaded), m_voice(L""), m_volume(50), m_pitch(50), m_rate(50)
 {
 }
 
@@ -33,13 +33,13 @@ SpeechApi40a::~SpeechApi40a()
 //------------------------------------------------------------------------------
 bool SpeechApi40a::isAvailable()
 {
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	PITTSENUM pITTSEnum;
 	bool      ret = true;
 
 	// create the enumerator
-	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, NULL, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
+	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, nullptr, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
 	{
 		ret = false;
 	}
@@ -66,13 +66,13 @@ bool SpeechApi40a::unload()
 	if (m_tts_attribs) 
 	{
 		m_tts_attribs->Release();
-		m_tts_attribs = 0;
+		m_tts_attribs = nullptr;
 	}
 
 	if (m_tts_central) 
 	{
 		m_tts_central->Release();
-		m_tts_central = 0;
+		m_tts_central = nullptr;
 	}
 
 	m_state = TextToSpeech::State_Unloaded;
@@ -101,7 +101,7 @@ bool SpeechApi40a::say(const std::wstring &sentence)
 		SDATA data;
 		data.dwSize = (DWORD)(sentence.size() * sizeof(WCHAR));
 		data.pData = (WCHAR *)sentence.c_str();
-		m_tts_central->TextData(CHARSET_TEXT, 0, data, NULL, IID_ITTSBufNotifySinkA);
+		m_tts_central->TextData(CHARSET_TEXT, 0, data, nullptr, IID_ITTSBufNotifySinkA);
 	}
 
 	return ret;
@@ -175,17 +175,17 @@ std::vector<std::wstring> SpeechApi40a::getVoices() const
 {
 	std::vector<std::wstring> ret;
 	
-	PITTSENUM pITTSEnum = NULL;
+	PITTSENUM pITTSEnum = nullptr;
 	TTSMODEINFO inf;
 
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
-	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, NULL, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
+	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, nullptr, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
 	{
 		return ret;
 	}
 
-	while (!pITTSEnum->Next(1, &inf, NULL))
+	while (!pITTSEnum->Next(1, &inf, nullptr))
 	{
 		ret.push_back(inf.szModeName);
 	}
@@ -220,22 +220,22 @@ std::wstring SpeechApi40a::getDescription()
 //------------------------------------------------------------------------------
 bool SpeechApi40a::loadWithVoice(const std::wstring &voice)
 {
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 	
 	PITTSENUM    pITTSEnum;
 	TTSMODEINFO  inf;
 	LPUNKNOWN    pAudioDest;
 
 	// create the enumerator
-	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, NULL, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
+	if (FAILED(CoCreateInstance(CLSID_TTSEnumerator, nullptr, CLSCTX_ALL, IID_ITTSEnum, (void**)&pITTSEnum)))
 		return false;
 
 	// iterate through the voices until we find the right one
-	while (!pITTSEnum->Next(1, &inf, NULL))
+	while (!pITTSEnum->Next(1, &inf, nullptr))
 		if (inf.szModeName == voice)
 			break;
 
-	if (FAILED(CoCreateInstance(CLSID_MMAudioDest, NULL, CLSCTX_ALL, IID_IAudioMultiMediaDevice, (void**)&pAudioDest)))
+	if (FAILED(CoCreateInstance(CLSID_MMAudioDest, nullptr, CLSCTX_ALL, IID_IAudioMultiMediaDevice, (void**)&pAudioDest)))
 	{
 		pITTSEnum->Release();
 		return false;

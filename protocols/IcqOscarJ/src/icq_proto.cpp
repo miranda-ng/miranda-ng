@@ -240,7 +240,7 @@ int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
 	char pszP2PName[MAX_PATH];
 	char pszGroupsName[MAX_PATH];
 	char pszSrvGroupsName[MAX_PATH];
-	char* modules[5] = { 0, 0, 0, 0, 0 };
+	char* modules[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
 
 	mir_snprintf(pszP2PName, "%sP2P", m_szModuleName);
 	mir_snprintf(pszGroupsName, "%sGroups", m_szModuleName);
@@ -283,7 +283,7 @@ int CIcqProto::OnPreShutdown(WPARAM, LPARAM)
 
 MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	if (psr == NULL) return 0;
+	if (psr == nullptr) return 0;
 
 	char szUid[MAX_PATH];
 	if (psr->cbSize == sizeof(ICQSEARCHRESULT)) {
@@ -469,13 +469,13 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const w
 	DWORD dwUin;
 	uid_str szUid;
 	if (getContactUid(hContact, &dwUin, &szUid))
-		return 0; // Invalid contact
+		return nullptr; // Invalid contact
 
 	if (icqOnline() && hContact && szPath && hTransfer) { // approve old fashioned file transfer
 		basic_filetransfer *bft = (basic_filetransfer *)hTransfer;
 
 		if (!IsValidFileTransfer(bft))
-			return 0; // Invalid transfer
+			return nullptr; // Invalid transfer
 
 		if (dwUin && bft->ft_magic == FT_MAGIC_ICQ) {
 			filetransfer *ft = (filetransfer *)hTransfer;
@@ -498,7 +498,7 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const w
 		}
 	}
 
-	return 0; // Failure
+	return nullptr; // Failure
 }
 
 
@@ -719,7 +719,7 @@ void CIcqProto::CheekySearchThread(void*)
 HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
 {
 	if (mir_wstrlen(pszSearch) == 0)
-		return 0;
+		return nullptr;
 
 	char pszUIN[255];
 	int nHandle = 0;
@@ -746,7 +746,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
 			cheekySearchId = GenerateCookie(0);
 			cheekySearchUin = dwUin;
 			cheekySearchUid = null_strdup(pszUIN);
-			ForkThread(&CIcqProto::CheekySearchThread, 0); // The caller needs to get this return value before the results
+			ForkThread(&CIcqProto::CheekySearchThread, nullptr); // The caller needs to get this return value before the results
 			nHandle = cheekySearchId;
 		}
 		else if (icqOnline()) {
@@ -758,7 +758,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const wchar_t *pszSearch)
 	}
 
 	// Failure
-	return 0;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -781,7 +781,7 @@ HANDLE __cdecl CIcqProto::SearchByEmail(const wchar_t *email)
 			return (HANDLE)dwSecId;
 	}
 
-	return 0; // Failure
+	return nullptr; // Failure
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -806,7 +806,7 @@ HANDLE __cdecl CIcqProto::SearchByName(const wchar_t *nick, const wchar_t *first
 		}
 	}
 
-	return 0; // Failure
+	return nullptr; // Failure
 }
 
 
@@ -815,7 +815,7 @@ HWND __cdecl CIcqProto::CreateExtendedSearchUI(HWND parent)
 	if (parent && hInst)
 		return CreateDialog(hInst, MAKEINTRESOURCE(IDD_ICQADVANCEDSEARCH), parent, AdvancedSearchDlgProc);
 
-	return NULL; // Failure
+	return nullptr; // Failure
 }
 
 HWND __cdecl CIcqProto::SearchAdvanced(HWND hwndDlg)
@@ -831,7 +831,7 @@ HWND __cdecl CIcqProto::SearchAdvanced(HWND hwndDlg)
 		}
 	}
 
-	return NULL; // Failure
+	return nullptr; // Failure
 }
 
 
@@ -909,7 +909,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 			dwCookie = ReportGenericSendError(hContact, ACKTYPE_CONTACTS, "Bad data (internal error #1)");
 		else { // OK
 			if (CheckContactCapabilities(hContact, CAPF_CONTACTS) && wRecipientStatus != ID_STATUS_OFFLINE) { // Use the new format if possible
-				struct icq_contactsend_s* contacts = NULL;
+				struct icq_contactsend_s* contacts = nullptr;
 
 				// Format the data part and the names part
 				// This is kinda messy, but there is no simple way to do it. First
@@ -926,7 +926,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 						break; // Abort if a non icq contact is found
 					if (getContactUid(hContactsList[i], &contacts[i].uin, &szContactUid))
 						break; // Abort if invalid contact
-					contacts[i].uid = contacts[i].uin ? NULL : null_strdup(szContactUid);
+					contacts[i].uid = contacts[i].uin ? nullptr : null_strdup(szContactUid);
 					contacts[i].szNick = NickFromHandleUtf(hContactsList[i]);
 					nDataLen += getUIDLen(contacts[i].uin, contacts[i].uid) + 4;
 					nNamesLen += mir_strlen(contacts[i].szNick) + 8;
@@ -1002,7 +1002,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 
 					// This will stop the message dialog from waiting for the real message delivery ack
 					if (pCookieData->nAckType == ACKTYPE_NONE) {
-						SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_CONTACTS, NULL);
+						SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_CONTACTS, nullptr);
 						// We need to free this here since we will never see the real ack
 						// The actual cookie value will still have to be returned to the message dialog though
 						ReleaseCookie(dwCookie);
@@ -1023,7 +1023,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 			else if (dwUin) { // old format is only understood by ICQ clients
 				char szContactUin[UINMAXLEN];
 				char szCount[17];
-				struct icq_contactsend_s* contacts = NULL;
+				struct icq_contactsend_s* contacts = nullptr;
 				uid_str szContactUid;
 				int i;
 
@@ -1039,7 +1039,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 							break; // Abort if a non icq contact is found
 						if (getContactUid(hContactsList[i], &contacts[i].uin, &szContactUid))
 							break; // Abort if invalid contact
-						contacts[i].uid = contacts[i].uin ? NULL : null_strdup(szContactUid);
+						contacts[i].uid = contacts[i].uin ? nullptr : null_strdup(szContactUid);
 						contacts[i].szNick = NickFromHandle(hContactsList[i]);
 						// Compute this contact's length
 						nBodyLength += getUIDLen(contacts[i].uin, contacts[i].uid) + 1;
@@ -1081,7 +1081,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 						cookie_message_data *pCookieData = CreateMessageCookieData(MTYPE_CONTACTS, hContact, dwUin, TRUE);
 
 						if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
-							int iRes = icq_SendDirectMessage(hContact, pBody, nBodyLength, pCookieData, NULL);
+							int iRes = icq_SendDirectMessage(hContact, pBody, nBodyLength, pCookieData, nullptr);
 							if (iRes) {
 								SAFE_FREE((void**)&pBody);
 								return iRes; // we succeded, return
@@ -1103,11 +1103,11 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 						else
 							wPriority = 0x0021;
 
-						dwCookie = icq_SendChannel2Message(dwUin, hContact, pBody, nBodyLength, wPriority, pCookieData, NULL);
+						dwCookie = icq_SendChannel2Message(dwUin, hContact, pBody, nBodyLength, wPriority, pCookieData, nullptr);
 
 						// This will stop the message dialog from waiting for the real message delivery ack
 						if (pCookieData->nAckType == ACKTYPE_NONE) {
-							SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_CONTACTS, NULL);
+							SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_CONTACTS, nullptr);
 							// We need to free this here since we will never see the real ack
 							// The actual cookie value will still have to be returned to the message dialog though
 							ReleaseCookie(dwCookie);
@@ -1133,13 +1133,13 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
 {
 	if (!icqOnline())
-		return 0;
+		return nullptr;
 
 	if (hContact && szDescription && ppszFiles) {
 		DWORD dwUin;
 		uid_str szUid;
 		if (getContactUid(hContact, &dwUin, &szUid))
-			return 0; // Invalid contact
+			return nullptr; // Invalid contact
 
 		if (getContactStatus(hContact) != ID_STATUS_OFFLINE) {
 			if (CheckContactCapabilities(hContact, CAPF_OSCAR_FILE))
@@ -1162,7 +1162,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 					ft->pszFiles = (char **)SAFE_MALLOC(sizeof(char *)* ft->dwFileCount);
 					ft->dwTotalSize = 0;
 					for (i = 0; i < (int)ft->dwFileCount; i++) {
-						ft->pszFiles[i] = (ppszFiles[i]) ? make_utf8_string(ppszFiles[i]) : NULL;
+						ft->pszFiles[i] = (ppszFiles[i]) ? make_utf8_string(ppszFiles[i]) : nullptr;
 
 						if (_wstat(ppszFiles[i], &statbuf))
 							debugLogA("IcqSendFile() was passed invalid filename(s)");
@@ -1175,7 +1175,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 					ft->fileId = -1;
 					ft->iCurrentFile = 0;
 					ft->dwCookie = AllocateCookie(CKT_FILE, 0, hContact, ft);
-					ft->hConnection = NULL;
+					ft->hConnection = nullptr;
 
 					// Send file transfer request
 					debugLogA("Init file send");
@@ -1219,7 +1219,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 		}
 	}
 
-	return 0; // Failure
+	return nullptr; // Failure
 }
 
 
@@ -1228,7 +1228,7 @@ HANDLE __cdecl CIcqProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 
 int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
-	if (hContact == NULL || pszSrc == NULL)
+	if (hContact == NULL || pszSrc == nullptr)
 		return NULL;
 
 	DWORD dwCookie;
@@ -1262,7 +1262,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 		if (dwUin && m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) { // send thru direct
 			char *dc_msg = puszText;
 			char *dc_cap = plain_ascii ? NULL : CAP_UTF8MSGS;
-			char *szUserAnsi = NULL;
+			char *szUserAnsi = nullptr;
 
 			if (!plain_ascii && oldAnsi) {
 				szUserAnsi = ConvertMsgToUserSpecificAnsi(hContact, puszText);
@@ -1296,7 +1296,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 			bNeedFreeU = 1;
 		}
 
-		WCHAR *pwszText = plain_ascii ? NULL : make_unicode_string(puszText);
+		WCHAR *pwszText = plain_ascii ? nullptr : make_unicode_string(puszText);
 		if ((plain_ascii ? mir_strlen(puszText) : mir_wstrlen(pwszText) * sizeof(WCHAR)) > MAX_MESSAGESNACSIZE) { // max length check // TLV(2) is currently limited to 0xA00 bytes in online mode
 			// only limit to not get disconnected, all other will be handled by error 0x0A
 			dwCookie = ReportGenericSendError(hContact, ACKTYPE_MESSAGE, "The message could not be delivered, it is too long.");
@@ -1329,7 +1329,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 		// This will stop the message dialog from waiting for the real message delivery ack
 		if (pCookieData && pCookieData->nAckType == ACKTYPE_NONE) {
-			SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_MESSAGE, NULL);
+			SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_MESSAGE, nullptr);
 			// We need to free this here since we will never see the real ack
 			// The actual cookie value will still have to be returned to the message dialog though
 			ReleaseCookie(dwCookie);
@@ -1347,11 +1347,11 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 {
-	if (hContact == NULL || url == NULL)
+	if (hContact == NULL || url == nullptr)
 		return 0;
 
 	DWORD dwUin;
-	if (getContactUid(hContact, &dwUin, NULL)) // Invalid contact
+	if (getContactUid(hContact, &dwUin, nullptr)) // Invalid contact
 		return ReportGenericSendError(hContact, ACKTYPE_URL, "The receiver has an invalid user ID.");
 
 	WORD wRecipientStatus = getContactStatus(hContact);
@@ -1376,7 +1376,7 @@ int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 	mir_strcpy(szBody + nDescLen + 1, url);
 
 	if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
-		int iRes = icq_SendDirectMessage(hContact, szBody, nBodyLen, pCookieData, NULL);
+		int iRes = icq_SendDirectMessage(hContact, szBody, nBodyLen, pCookieData, nullptr);
 		if (iRes)
 			return iRes; // we succeded, return
 	}
@@ -1394,11 +1394,11 @@ int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 	else
 		wPriority = 0x0021;
 
-	DWORD dwCookie = icq_SendChannel2Message(dwUin, hContact, szBody, nBodyLen, wPriority, pCookieData, NULL);
+	DWORD dwCookie = icq_SendChannel2Message(dwUin, hContact, szBody, nBodyLen, wPriority, pCookieData, nullptr);
 
 	// This will stop the message dialog from waiting for the real message delivery ack
 	if (pCookieData->nAckType == ACKTYPE_NONE) {
-		SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_URL, NULL);
+		SendProtoAck(hContact, dwCookie, ACKRESULT_SUCCESS, ACKTYPE_URL, nullptr);
 		// We need to free this here since we will never see the real ack
 		// The actual cookie value will still have to be returned to the message dialog though
 		ReleaseCookie(dwCookie);
@@ -1459,15 +1459,15 @@ int __cdecl CIcqProto::SetApparentMode(MCONTACT hContact, int mode)
 
 char* CIcqProto::PrepareStatusNote(int nStatus)
 {
-	char *szStatusNote = NULL;
+	char *szStatusNote = nullptr;
 	BYTE bXStatus = getContactXStatus(NULL);
 
 	// use custom status message as status note
 	if (bXStatus)
-		szStatusNote = getSettingStringUtf(NULL, DBSETTING_XSTATUS_MSG, NULL);
+		szStatusNote = getSettingStringUtf(NULL, DBSETTING_XSTATUS_MSG, nullptr);
 
 	// get standard status message (no custom status defined)
-	if (szStatusNote == NULL) {
+	if (szStatusNote == nullptr) {
 		mir_cslock l(m_modeMsgsMutex);
 
 		char **pszStatusNote = MirandaStatusToAwayMsg(nStatus);
@@ -1475,7 +1475,7 @@ char* CIcqProto::PrepareStatusNote(int nStatus)
 			szStatusNote = null_strdup(*pszStatusNote);
 	}
 
-	if (szStatusNote == NULL) // nothing available. set empty status note
+	if (szStatusNote == nullptr) // nothing available. set empty status note
 		szStatusNote = null_strdup("");
 
 	return szStatusNote;
@@ -1533,7 +1533,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 			m_dwLocalUIN = getContactUin(NULL);
 			if (m_dwLocalUIN == 0) {
 				SetCurrentStatus(ID_STATUS_OFFLINE);
-				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_BADUSERID);
 				icq_LogMessage(LOG_FATAL, LPGEN("You have not entered an ICQ number.\nConfigure this in Options -> Network -> ICQ and try again."));
 				return 0;
 			}
@@ -1585,7 +1585,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 			if (pszStatusNote)
 				icq_sendSetAimAwayMsgServ(*pszStatusNote);
 			else // clear the away message
-				icq_sendSetAimAwayMsgServ(NULL);
+				icq_sendSetAimAwayMsgServ(nullptr);
 		}
 	}
 
@@ -1630,10 +1630,10 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
 	DWORD dwUin;
 	uid_str szUID;
 	if (getContactUid(hContact, &dwUin, &szUID))
-		return 0; // Invalid contact
+		return nullptr; // Invalid contact
 
 	if (!dwUin || !CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES)) { // No individual status messages, check if the contact has Status Note, if yes give it
-		char *szStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, NULL);
+		char *szStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, nullptr);
 
 		if (mir_strlen(szStatusNote) > 0) { // Give Status Note
 			status_message_thread_data *pThreadData = (status_message_thread_data*)SAFE_MALLOC(sizeof(status_message_thread_data));
@@ -1649,7 +1649,7 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
 	}
 
 	if (!icqOnline())
-		return 0;
+		return nullptr;
 
 	WORD wStatus = getContactStatus(hContact);
 
@@ -1701,7 +1701,7 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
 			return (HANDLE)icq_sendGetAimAwayMsgServ(hContact, szUID, MTYPE_AUTOAWAY);
 	}
 
-	return 0; // Failure
+	return nullptr; // Failure
 }
 
 
@@ -1739,7 +1739,7 @@ int __cdecl CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
 
 		// Set new message
 		*ppszMsg = szNewUtf;
-		szNewUtf = NULL;
+		szNewUtf = nullptr;
 
 		if ((m_iStatus == status) && icqOnline()) {	// update current status note
 			char *szNote = *ppszMsg ? *ppszMsg : "";

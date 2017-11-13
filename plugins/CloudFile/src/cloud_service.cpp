@@ -84,7 +84,7 @@ void CCloudService::Report(MCONTACT hContact, const wchar_t *data)
 
 char* CCloudService::PreparePath(const char *oldPath, char *newPath)
 {
-	if (oldPath == NULL)
+	if (oldPath == nullptr)
 		mir_strcpy(newPath, "");
 	else if (*oldPath != '/')
 	{
@@ -136,7 +136,7 @@ void CCloudService::HttpResponseToError(NETLIBHTTPREQUEST *response)
 
 void CCloudService::HandleHttpError(NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		throw Exception(HttpStatusToError());
 
 	if (!HTTP_CODE_SUCCESS(response->resultCode))

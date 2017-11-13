@@ -143,7 +143,7 @@ void FacebookProto::ProcessFriendList(void*)
 
 						// Wasn't we already been notified about this contact?
 						if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0)) {
-							setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
+							setDword(hContact, FACEBOOK_KEY_DELETED, ::time(nullptr));
 
 							// Notify it, if user wants to be notified
 							if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
@@ -208,7 +208,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 void FacebookProto::ProcessUnreadMessage(void *pParam)
 {
-	if (pParam == NULL)
+	if (pParam == nullptr)
 		return;
 
 	std::vector<std::string> *threads = (std::vector<std::string>*)pParam;
@@ -269,7 +269,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 
 void FacebookProto::LoadLastMessages(void *pParam)
 {
-	if (pParam == NULL)
+	if (pParam == nullptr)
 		return;
 
 	MCONTACT hContact = *(MCONTACT*)pParam;
@@ -328,7 +328,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 
 void FacebookProto::LoadHistory(void *pParam)
 {
-	if (pParam == NULL)
+	if (pParam == nullptr)
 		return;
 
 	MCONTACT hContact = *(MCONTACT*)pParam;
@@ -384,7 +384,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	wcsncpy(pd.lptzContactName, m_tszUserName, MAX_CONTACTNAME);
 	wcsncpy(pd.lptzText, TranslateT("Loading history started."), MAX_SECONDLINE);
 
-	HWND popupHwnd = NULL;
+	HWND popupHwnd = nullptr;
 	if (ServiceExists(MS_POPUP_ADDPOPUPW)) {
 		popupHwnd = (HWND)CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, (LPARAM)APF_RETURN_HWND);
 	}
@@ -835,11 +835,11 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				UpdateChat(fbc->thread_id.c_str(), msg.user_id.c_str(), name.c_str(), msg.message_text.c_str(), msg.time);
 				break;
 			case ADMIN_TEXT:
-				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				break;
 			case SUBSCRIBE:
 			case UNSUBSCRIBE:
-				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				{
 					std::vector<std::string> ids;
 					utils::text::explode(msg.data, ";", &ids);
@@ -866,7 +866,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				}
 				break;
 			case THREAD_NAME: {
-				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 
 				std::string chatName = (!msg.data.empty() ? msg.data : GenerateChatName(fbc));
 				// proto->RenameChat(thread_id.c_str(), chatName.c_str()); // this don't work, why?
@@ -874,7 +874,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				break;
 			}
 			case THREAD_IMAGE:
-				UpdateChat(thread_id.c_str(), NULL, NULL, msg.message_text.c_str());
+				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				break;
 			}
 
@@ -958,7 +958,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 
 void FacebookProto::ProcessMessages(void* data)
 {
-	if (data == NULL)
+	if (data == nullptr)
 		return;
 
 	std::string* resp = (std::string*)data;
@@ -994,7 +994,7 @@ void FacebookProto::ShowNotifications() {
 	// Show popups for unseen notifications and/or write them to chatroom
 	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end(); ++it) {
 		facebook_notification *notification = it->second;
-		if (notification != NULL && !notification->seen) {
+		if (notification != nullptr && !notification->seen) {
 			debugLogA("    Showing popup for notification ID: %s", notification->id.c_str());
 			ptrW szText(mir_utf8decodeW(notification->text.c_str()));
 			MCONTACT hContact = (notification->user_id.empty() ? NULL : ContactIDToHContact(notification->user_id));
@@ -1115,11 +1115,11 @@ void FacebookProto::ProcessFriendRequests(void *p)
 				isNew = true;
 				setString(hContact, "RequestTime", time.c_str());
 
-				DB_AUTH_BLOB blob(hContact, fbu.real_name.c_str(), 0, 0, fbu.user_id.c_str(), reason.c_str());
+				DB_AUTH_BLOB blob(hContact, fbu.real_name.c_str(), nullptr, nullptr, fbu.user_id.c_str(), reason.c_str());
 
 				DBEVENTINFO dbei = {};
 				dbei.szModule = m_szModuleName;
-				dbei.timestamp = ::time(NULL);
+				dbei.timestamp = ::time(nullptr);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = EVENTTYPE_AUTHREQUEST;
 				dbei.cbBlob = blob.size();
@@ -1285,7 +1285,7 @@ void FacebookProto::SearchAckThread(void *targ)
 				// sld is Base64 encoded and then URL encoded string. So replace potential "%3D" with "="
 				utils::text::replace_all(&sld, "%3D", "=");
 				// decode Base64 string
-				ptrA data_((char*)mir_base64_decode(sld.c_str(), 0));
+				ptrA data_((char*)mir_base64_decode(sld.c_str(), nullptr));
 				if (data_) {
 					std::string data = data_;
 					id = utils::text::source_get_value2(&data, "\"ent_id\":", ",}");

@@ -42,7 +42,7 @@ static bool threadRunning;
 bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwnl)
 {
 	int result = 0xBADBAD;
-	char *szRedirUrl = NULL;
+	char *szRedirUrl = nullptr;
 	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
@@ -94,7 +94,7 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 							const char *szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
 							const char *szPath = strchr(szPref, '/');
-							rlen = szPath != NULL ? szPath - szUrl : mir_strlen(szUrl);
+							rlen = szPath != nullptr ? szPath - szUrl : mir_strlen(szUrl);
 						}
 
 						szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + mir_strlen(nlhrReply->headers[i].szValue) * 3 + 1);
@@ -110,7 +110,7 @@ bool InternetDownloadFile(const char *szUrl, char *szDest, HNETLIBCONN &hHttpDwn
 			else result = 1;
 		}
 		else {
-			hHttpDwnl = NULL;
+			hHttpDwnl = nullptr;
 			result = 1;
 		}
 
@@ -127,7 +127,7 @@ void __cdecl SmileyDownloadThread(void*)
 	Thread_SetName("SmileyAdd: SmileyDownloadThread");
 
 	bool needext = false;
-	HNETLIBCONN hHttpDwnl = NULL;
+	HNETLIBCONN hHttpDwnl = nullptr;
 	WaitForSingleObject(g_hDlMutex, 3000);
 	while (!Miranda_IsTerminated() && dlQueue.getCount()) {
 		ReleaseMutex(g_hDlMutex);
@@ -193,7 +193,7 @@ bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 
 	if (!threadRunning) {
 		threadRunning = true;
-		mir_forkthread(SmileyDownloadThread, NULL);
+		mir_forkthread(SmileyDownloadThread, nullptr);
 	}
 
 	url = filename;
@@ -225,7 +225,7 @@ void DownloadInit(void)
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	GetSmileyCacheFolder();
-	g_hDlMutex = CreateMutex(NULL, FALSE, NULL);
+	g_hDlMutex = CreateMutex(nullptr, FALSE, nullptr);
 }
 
 void DownloadClose(void)

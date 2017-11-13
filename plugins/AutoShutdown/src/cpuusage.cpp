@@ -35,7 +35,7 @@ static BOOL WinNT_PerfStatsSwitch(wchar_t *pszServiceName, BOOL fDisable)
 		if (!RegOpenKeyEx(hKeyServices, pszServiceName, 0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyService)) {
 			if (!RegOpenKeyEx(hKeyService, L"Performance", 0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyPerf)) {
 				dwDataSize = sizeof(DWORD);
-				if (!RegQueryValueEx(hKeyPerf, L"Disable Performance Counters", NULL, NULL, (BYTE*)&dwData, &dwDataSize))
+				if (!RegQueryValueEx(hKeyPerf, L"Disable Performance Counters", nullptr, nullptr, (BYTE*)&dwData, &dwDataSize))
 					if ((dwData != 0) != fDisable)
 						fSwitched = !RegSetValueEx(hKeyPerf, L"Disable Performance Counters", 0, REG_DWORD, (BYTE*)&fDisable, dwDataSize);
 				RegCloseKey(hKeyPerf);
@@ -59,11 +59,11 @@ struct CpuUsageThreadParams
 
 static BOOL CallBackAndWait(struct CpuUsageThreadParams *param, BYTE nCpuUsage)
 {
-	if (param->hFirstEvent != NULL) {
+	if (param->hFirstEvent != nullptr) {
 		/* return value for PollCpuUsage() */
 		*param->pidThread = GetCurrentThreadId();
 		SetEvent(param->hFirstEvent);
-		param->hFirstEvent = NULL;
+		param->hFirstEvent = nullptr;
 		/* lower priority after first call */
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_IDLE);
 	}
@@ -77,8 +77,8 @@ static void WinNT_PollThread(void *vparam)
 	CpuUsageThreadParams *param = (CpuUsageThreadParams*)vparam;
 
 	DWORD dwBufferSize = 0, dwCount;
-	BYTE *pBuffer = NULL;
-	PERF_DATA_BLOCK *pPerfData = NULL;
+	BYTE *pBuffer = nullptr;
+	PERF_DATA_BLOCK *pPerfData = nullptr;
 	LONG res, lCount;
 	PERF_OBJECT_TYPE *pPerfObj;
 	PERF_COUNTER_DEFINITION *pPerfCounter;
@@ -100,12 +100,12 @@ static void WinNT_PollThread(void *vparam)
 	/* poll */
 	for (;;) {
 		/* retrieve data for given object */
-		res = RegQueryValueExW(HKEY_PERFORMANCE_DATA, wszValueName, NULL, NULL, (BYTE*)pPerfData, &dwBufferSize);
+		res = RegQueryValueExW(HKEY_PERFORMANCE_DATA, wszValueName, nullptr, nullptr, (BYTE*)pPerfData, &dwBufferSize);
 		while (!pBuffer || res == ERROR_MORE_DATA) {
 			pBuffer = (BYTE*)mir_realloc(pPerfData, dwBufferSize += 256);
 			if (!pBuffer) break;
 			pPerfData = (PERF_DATA_BLOCK*)pBuffer;
-			res = RegQueryValueExW(HKEY_PERFORMANCE_DATA, wszValueName, NULL, NULL, pBuffer, &dwBufferSize);
+			res = RegQueryValueExW(HKEY_PERFORMANCE_DATA, wszValueName, nullptr, nullptr, pBuffer, &dwBufferSize);
 		}
 		if (res != ERROR_SUCCESS) break;
 
@@ -174,7 +174,7 @@ static void WinNT_PollThread(void *vparam)
 		WinNT_PerfStatsSwitch(L"PerfOS", TRUE);
 
 	/* return error for PollCpuUsage() if never succeeded */
-	if (param->hFirstEvent != NULL)
+	if (param->hFirstEvent != nullptr)
 		SetEvent(param->hFirstEvent);
 	mir_free(param);
 }
@@ -188,11 +188,11 @@ DWORD PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc, LPARAM lParam, DWORD dwDe
 
 	/* init params */
 	CpuUsageThreadParams *param = (struct CpuUsageThreadParams*)mir_alloc(sizeof(struct CpuUsageThreadParams));
-	if (param == NULL)
+	if (param == nullptr)
 		return FALSE;
 
-	HANDLE hFirstEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	if (hFirstEvent == NULL) {
+	HANDLE hFirstEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (hFirstEvent == nullptr) {
 		mir_free(param);
 		return FALSE;
 	}

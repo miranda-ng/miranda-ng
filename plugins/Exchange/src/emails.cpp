@@ -134,7 +134,7 @@ void InitSocketAddr(sockaddr_in *addrServer, char *szServer)
 	hostent *hp;
 	hp = gethostbyname(szServer);
 	addrServer->sin_family = AF_INET;
-	if (hp == NULL)
+	if (hp == nullptr)
 		addrServer->sin_addr.s_addr = inet_addr(szServer);
 	else
 		memcpy(&(addrServer->sin_addr), hp->h_addr, hp->h_length);		
@@ -204,14 +204,14 @@ int CExchangeServer::GetEmailHeader(int iUnreadEmail, TEmailHeader *emailInfo)
 
 #ifndef NO_EXCHANGE_TEST
 
-	if (NULL != m_HeadersKeeper[iUnreadEmail]) {
+	if (nullptr != m_HeadersKeeper[iUnreadEmail]) {
 		wchar_t* szSender  = m_HeadersKeeper[iUnreadEmail]->m_szSender;
 		wchar_t* szSubject = m_HeadersKeeper[iUnreadEmail]->m_szSubject;
 
-		if (NULL == szSender)
+		if (nullptr == szSender)
 			szSender = L"";
 
-		if (NULL == szSubject)
+		if (nullptr == szSubject)
 			szSubject = L"";
 
 		emailInfo->szSender  = szSender;
@@ -317,7 +317,7 @@ int ShowPopupMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)
 
 int ShowMessageBoxMessage(wchar_t *title, wchar_t *message, int cUnreadEmails)
 {
-	if (MessageBox(0, message, title, MB_YESNO) == IDYES)
+	if (MessageBox(nullptr, message, title, MB_YESNO) == IDYES)
 		ShowEmailsWindow(cUnreadEmails);
 	return 0;
 }
@@ -326,7 +326,7 @@ int ShowEmailsWindow(int cUnreadEmails)
 {
 	if (cUnreadEmails > 0) { //show window only if there are unread emails
 		if (!hEmailsDlg)
-			hEmailsDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails);
+			hEmailsDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), nullptr, DlgProcEmails);
 		
 		SetWindowLongPtr(hEmailsDlg, GWLP_USERDATA, cUnreadEmails);
 		if (IsWindowVisible(hEmailsDlg))

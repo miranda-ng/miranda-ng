@@ -7,19 +7,19 @@ extern HANDLE hkFontChange;
 extern HANDLE hkColorChange;
 
 BOOL g_CloseAfterAddReminder, g_UseDefaultPlaySound;
-HICON g_hReminderIcon = NULL;
+HICON g_hReminderIcon = nullptr;
 
 LOGFONT lfBody,lfCaption;
-HFONT hBodyFont = NULL, hCaptionFont = NULL;
+HFONT hBodyFont = nullptr, hCaptionFont = nullptr;
 long BodyColor;
 long CaptionFontColor,BodyFontColor;
 BOOL g_ShowNotesAtStart,g_ShowScrollbar,g_AddContListMI,g_ShowNoteButtons;
 int g_NoteTitleDate, g_NoteTitleTime;
 int g_NoteWidth,g_NoteHeight;
 int g_Transparency;
-char *g_RemindSMS = NULL;
+char *g_RemindSMS = nullptr;
 
-char *g_lpszAltBrowser = NULL;
+char *g_lpszAltBrowser = nullptr;
 
 int g_reminderListGeom[4] = {0};
 int g_reminderListColGeom[2] = { 150, 205 };
@@ -169,9 +169,9 @@ static BYTE MsgDlgGetFontDefaultCharset(const char *szFont)
 	lf.lfCharSet = MsgDlgGetCPDefaultCharset();
 
 	// check if the font supports specified charset
-	HDC hdc = GetDC(0);
+	HDC hdc = GetDC(nullptr);
 	EnumFontFamiliesEx(hdc, &lf, &EnumFontFamExProc, (LPARAM)&found, 0);
-	ReleaseDC(0, hdc);
+	ReleaseDC(nullptr, hdc);
 
 	if (found)
 		return lf.lfCharSet;
@@ -234,9 +234,9 @@ void RegisterFontServiceFonts()
 	strncpy(fontid.dbSettingsGroup, MODULENAME, _countof(fontid.dbSettingsGroup));
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
-	HDC hDC = GetDC(NULL);
+	HDC hDC = GetDC(nullptr);
 	int nFontScale = GetDeviceCaps(hDC, LOGPIXELSY);
-	ReleaseDC(NULL, hDC);
+	ReleaseDC(nullptr, hDC);
 
 	for (int i = 0; i < _countof(fontOptionsList); i++) {
 		fontid.order = i;
@@ -397,12 +397,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 				TrimString(g_lpszAltBrowser);
 				if (!*g_lpszAltBrowser) {
 					mir_free(g_lpszAltBrowser);
-					g_lpszAltBrowser = NULL;
+					g_lpszAltBrowser = nullptr;
 				}
 			}
 			else if (g_lpszAltBrowser) {
 				mir_free(g_lpszAltBrowser);
-				g_lpszAltBrowser = NULL;
+				g_lpszAltBrowser = nullptr;
 			}
 			SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser ? g_lpszAltBrowser : "");
 			if (g_lpszAltBrowser)
@@ -457,7 +457,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 			SetDlgItemText(hdlg, IDC_EDIT_EMAILSMS, "");
 			if (g_lpszAltBrowser) {
 				mir_free(g_lpszAltBrowser);
-				g_lpszAltBrowser = NULL;
+				g_lpszAltBrowser = nullptr;
 			}
 			SetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, "");
 			g_ShowNotesAtStart = TRUE;
@@ -515,12 +515,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 
 void InitSettings(void)
 {
-	void *P = NULL;
+	void *P = nullptr;
 	short Sz1 = MAX_PATH;
 
 	ReadSettingBlob(0, MODULENAME, "RemindEmail", (WORD*)&Sz1, &P);
 	if (!(Sz1 && P))
-		g_RemindSMS = NULL;
+		g_RemindSMS = nullptr;
 	else {
 		g_RemindSMS = (char*)malloc(Sz1 + 1);
 		memcpy(g_RemindSMS, P, Sz1);
@@ -572,6 +572,6 @@ void TermSettings(void)
 
 	if (g_lpszAltBrowser) {
 		mir_free(g_lpszAltBrowser);
-		g_lpszAltBrowser = NULL;
+		g_lpszAltBrowser = nullptr;
 	}
 }

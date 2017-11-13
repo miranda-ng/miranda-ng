@@ -67,7 +67,7 @@ IconItem iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	int wdsize = GetCurrentDirectory(0, NULL);
+	int wdsize = GetCurrentDirectory(0, nullptr);
 	wchar_t *workingDir = new wchar_t[wdsize];
 	GetCurrentDirectory(wdsize, workingDir);
 	Utils::convertPath(workingDir);

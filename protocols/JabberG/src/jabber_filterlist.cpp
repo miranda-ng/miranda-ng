@@ -98,7 +98,7 @@ static LRESULT CALLBACK sttEditBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			if (fdat->m_filterText) mir_free(fdat->m_filterText);
 			int length = GetWindowTextLength(hwnd) + 1;
 			if (length == 1)
-				fdat->m_filterText = 0;
+				fdat->m_filterText = nullptr;
 			else {
 				fdat->m_filterText = (wchar_t *)mir_alloc(sizeof(wchar_t) * length);
 				GetWindowText(hwnd, fdat->m_filterText, length);
@@ -165,10 +165,10 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 
 		case 1:
 			if (m_trackFilter && fdat->m_hwndEditBox) {
-				wchar_t *str = 0;
+				wchar_t *str = nullptr;
 				int length = GetWindowTextLength(fdat->m_hwndEditBox) + 1;
 				if (length == 1)
-					str = 0;
+					str = nullptr;
 				else {
 					str = (wchar_t *)mir_alloc(sizeof(wchar_t) * length);
 					GetWindowText(fdat->m_hwndEditBox, str, length);

@@ -31,7 +31,7 @@ int FacebookProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 void FacebookProto::SendMsgWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	send_direct *data = static_cast<send_direct*>(p);
@@ -69,7 +69,7 @@ void FacebookProto::SendMsgWorker(void *p)
 
 void FacebookProto::SendChatMsgWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	send_chat *data = static_cast<send_chat*>(p);
@@ -101,7 +101,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 				UpdateChat(data->chat_id.c_str(), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
 			else {
 				ptrA text(mir_utf8encode(err_message.c_str()));
-				UpdateChat(data->chat_id.c_str(), NULL, NULL, text);
+				UpdateChat(data->chat_id.c_str(), nullptr, nullptr, text);
 			}
 		}
 	}
@@ -128,7 +128,7 @@ int FacebookProto::UserIsTyping(MCONTACT hContact, int type)
 
 void FacebookProto::SendTypingWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	send_typing *typing = static_cast<send_typing*>(p);
@@ -159,7 +159,7 @@ void FacebookProto::SendTypingWorker(void *p)
 
 void FacebookProto::ReadMessageWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	if (getBool(FACEBOOK_KEY_KEEP_UNREAD, 0))
@@ -215,7 +215,7 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 
 	// Check if we have this sticker already and download it if not
 	if (GetFileAttributes(filename.c_str()) == INVALID_FILE_ATTRIBUTES) {
-		HNETLIBCONN nlc = NULL;
+		HNETLIBCONN nlc = nullptr;
 		facy.save_url(url, filename, nlc);
 		Netlib_CloseHandle(nlc);
 	}

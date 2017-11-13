@@ -22,8 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 char ModuleName[] = "ExchangeNotify";
 HINSTANCE hInstance;
-HICON hiMailIcon = NULL;
-HWND hEmailsDlg = NULL;
+HICON hiMailIcon = nullptr;
+HWND hEmailsDlg = nullptr;
 int hLangpack=0;
 
 CExchangeServer exchangeServer;

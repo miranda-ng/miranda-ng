@@ -28,10 +28,10 @@
 TRecvContactsData::TRecvContactsData(MCONTACT contact)
 {
 	mhContact = contact;
-	hHook = NULL;
+	hHook = nullptr;
 	cbReceived = 0;
-	maReceived = NULL;
-	haUin = NULL;
+	maReceived = nullptr;
+	haUin = nullptr;
 }
 
 TRecvContactsData::~TRecvContactsData()
@@ -103,12 +103,12 @@ static void EnableGroupCombo(HWND hwndDlg)
 
 static void RebuildGroupCombo(HWND hwndDlg)
 {
-	int bHasGroups = Clist_GroupGetName(0, NULL) != 0;
+	int bHasGroups = Clist_GroupGetName(0, nullptr) != nullptr;
 	HWND hGroupsCombo = GetDlgItem(hwndDlg, IDC_GROUPS);
 
 	if (bHasGroups) {
 		int curs = SendMessage(hGroupsCombo, CB_GETCURSEL, 0, 0);
-		wchar_t *curst = NULL;
+		wchar_t *curst = nullptr;
 
 		EnableDlgItem(hwndDlg, IDC_ENABLEGROUPS, TRUE);
 		EnableGroupCombo(hwndDlg);
@@ -120,7 +120,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
 		SendMessage(hGroupsCombo, CB_RESETCONTENT, 0, 0);
 
 		wchar_t *szGroup;
-		for (int i=1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++) {
+		for (int i=1; (szGroup = Clist_GroupGetName(i, nullptr)) != nullptr; i++) {
 			int nIndex = SendMessage(hGroupsCombo, CB_ADDSTRING, 0, (LPARAM)szGroup);
 			SendMessage(hGroupsCombo, CB_SETITEMDATA, nIndex, i);
 		}
@@ -299,7 +299,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					HWND hGroupsCombo = GetDlgItem(hwndDlg, IDC_GROUPS);
 					HWND hGroupsCheck = GetDlgItem(hwndDlg, IDC_ENABLEGROUPS);
 					int curs = SendMessage(hGroupsCombo, CB_GETCURSEL, 0, 0);
-					wchar_t* caGroup = NULL;
+					wchar_t* caGroup = nullptr;
 					int nGroupId = -1;
 					if (curs != CB_ERR && IsWindowEnabled(hGroupsCheck) && SendMessage(hGroupsCheck, BM_GETCHECK, 0, 0))
 					{ //got groups, get the one selected in combo
@@ -375,7 +375,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					RECT rc;
 					GetWindowRect(GetDlgItem(hwndDlg,IDC_USERMENU), &rc);
 					HMENU hMenu = Menu_BuildContactMenu(wndData->mhContact);
-					TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
+					TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, nullptr);
 					DestroyMenu(hMenu);
 				}
 				break;
@@ -413,7 +413,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			int ci = ListView_HitTest(hLV, &lvh);
 			if (ci==-1) break; // mouse is not over any item
 			wndData->iPopupItem = ci;
-			TrackPopupMenu(GetSubMenu(wndData->mhPopup, 0), TPM_LEFTALIGN|TPM_TOPALIGN, LOWORD(lParam), HIWORD(lParam), 0, hwndDlg, NULL);
+			TrackPopupMenu(GetSubMenu(wndData->mhPopup, 0), TPM_LEFTALIGN|TPM_TOPALIGN, LOWORD(lParam), HIWORD(lParam), 0, hwndDlg, nullptr);
 		}
 		break;
 

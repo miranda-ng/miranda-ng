@@ -70,7 +70,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	wchar_t path[MAX_PATH];
 	mir_snwprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
-	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hDumpFile != INVALID_HANDLE_VALUE) {
 		CMStringW buffer;
 		PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR);
@@ -120,7 +120,7 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 	}
 	else {
 		DWORD dwFlags = wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR;
-		hViewWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), NULL, DlgProcView, dwFlags);
+		hViewWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_VIEWVERSION), nullptr, DlgProcView, dwFlags);
 	}
 
 	return 0;
@@ -144,7 +144,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
 	case 0:
-		ShellExecute(NULL, TEXT("explore"), CrashLogFolder, NULL, NULL, SW_SHOW);
+		ShellExecute(nullptr, TEXT("explore"), CrashLogFolder, nullptr, nullptr, SW_SHOW);
 		break;
 
 	case 1:
@@ -166,10 +166,10 @@ INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
 		LPSTR buf = (LPSTR)GlobalLock(hData);
 		memcpy(buf, buffer, bufLen);
 
-		OpenClipboard(NULL);
+		OpenClipboard(nullptr);
 		EmptyClipboard();
 
-		if (SetClipboardData(CF_UNICODETEXT, hData) == NULL)
+		if (SetClipboardData(CF_UNICODETEXT, hData) == nullptr)
 			GlobalFree(hData);
 		CloseClipboard();
 	}
@@ -213,7 +213,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 
 static int ToolbarModulesLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To Clipboard");
 	ttb.hIconHandleUp = GetIconHandle(IDI_VITOCLIP);
@@ -355,7 +355,7 @@ static int PreShutdown(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	hMsftedit = LoadLibrary(L"Msftedit.dll");
-	if (hMsftedit == NULL)
+	if (hMsftedit == nullptr)
 		return 1;
 
 	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;

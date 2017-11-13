@@ -45,11 +45,11 @@ static icons[] =
 HINSTANCE LoadIconsPack(const char* szIconsPack)
 {
 	HINSTANCE hNewIconInst = LoadLibrary(szIconsPack);
-	if (hNewIconInst != NULL) {
+	if (hNewIconInst != nullptr) {
 		for (int i = ID_FIRSTICON; i <= ID_LASTICON; i++)
-			if (LoadIcon(hNewIconInst, MAKEINTRESOURCE(i)) == NULL) {
+			if (LoadIcon(hNewIconInst, MAKEINTRESOURCE(i)) == nullptr) {
 			FreeLibrary(hNewIconInst);
-			hNewIconInst = NULL;
+			hNewIconInst = nullptr;
 			break;
 			}
 	}
@@ -73,22 +73,22 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam)
 
 void InitIcons(void)
 {
-	HINSTANCE hNewIconInst = NULL;
+	HINSTANCE hNewIconInst = nullptr;
 
 	if (g_hFolders) {
 		char pathname[MAX_PATH];
 		FoldersGetCustomPath(g_hFolders, pathname, MAX_PATH, "icons\\");
-		if (hNewIconInst == NULL)
+		if (hNewIconInst == nullptr)
 			hNewIconInst = LoadIconsPack(pathname);
 	}
 
-	if (hNewIconInst == NULL)
+	if (hNewIconInst == nullptr)
 		hNewIconInst = LoadIconsPack("icons\\secureim_icons.dll");
 
-	if (hNewIconInst == NULL)
+	if (hNewIconInst == nullptr)
 		hNewIconInst = LoadIconsPack("plugins\\secureim_icons.dll");
 
-	if (hNewIconInst == NULL)
+	if (hNewIconInst == nullptr)
 		g_hIconInst = g_hInst;
 	else
 		g_hIconInst = hNewIconInst;
@@ -96,7 +96,7 @@ void InitIcons(void)
 	char tszPath[MAX_PATH];
 	GetModuleFileName(g_hIconInst, tszPath, _countof(tszPath));
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.section.a = "SecureIM";
 	sid.defaultFile.a = tszPath;
 

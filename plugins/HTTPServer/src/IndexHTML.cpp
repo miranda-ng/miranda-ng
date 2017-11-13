@@ -19,7 +19,7 @@
 
 eIndexCreationMode indexCreationMode;
 
-static char* szIndexHTMLTemplate = NULL;
+static char* szIndexHTMLTemplate = nullptr;
 static const int MAX_PARAM_LENGTH = 5;
 
 // signs below 32 are not used anyway
@@ -55,7 +55,7 @@ enum Symbol
 
 bool LoadIndexHTMLTemplate()
 {
-	if (szIndexHTMLTemplate != NULL)
+	if (szIndexHTMLTemplate != nullptr)
 		return true;
 
 	char  szBuf[10000];
@@ -67,14 +67,14 @@ bool LoadIndexHTMLTemplate()
 	mir_snprintf(szBuf, "%s%s", szPluginPath, szIndexHTMLTemplateFile);
 
 	HANDLE hFile = CreateFile(pszBuf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
-		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		MessageBox(NULL, "HTTPServerIndex.html not found in Plugin Path", MSG_BOX_TITEL, MB_OK);
+		MessageBox(nullptr, "HTTPServerIndex.html not found in Plugin Path", MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
 	DWORD dwBytesRead = 0;
-	if (ReadFile(hFile, pszBuf, sizeof(szBuf), &dwBytesRead, NULL) || dwBytesRead <= 0) {
+	if (ReadFile(hFile, pszBuf, sizeof(szBuf), &dwBytesRead, nullptr) || dwBytesRead <= 0) {
 		while (dwBytesRead > (DWORD)(pszBuf - szBuf)) {
 			if (*pszBuf == '[') {
 				char* pszKeywordBegin = pszBuf + 1;
@@ -259,9 +259,9 @@ bool LoadIndexHTMLTemplate()
 
 void FreeIndexHTMLTemplate()
 {
-	if (szIndexHTMLTemplate != NULL) {
+	if (szIndexHTMLTemplate != nullptr) {
 		delete[] szIndexHTMLTemplate;
-		szIndexHTMLTemplate = NULL;
+		szIndexHTMLTemplate = nullptr;
 	}
 }
 
@@ -283,7 +283,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 {
 	#define RelativeJump(begin) { pszPos += *((WORD*)(begin+1)) & 0x7FFF; }
 
-	if (szIndexHTMLTemplate == NULL)
+	if (szIndexHTMLTemplate == nullptr)
 		return false;
 
 	// check if directory exists
@@ -297,10 +297,10 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 		return FALSE;
 
 	FindClose(hFind);
-	hFind = 0;
+	hFind = nullptr;
 
 	HANDLE hFile = CreateFile(pszIndexPath, GENERIC_WRITE, FILE_SHARE_READ,
-		NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
+		nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, nullptr);
 
 	if (hFile == INVALID_HANDLE_VALUE)
 		return FALSE;
@@ -339,12 +339,12 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 		switch (*pszPos) {
 		case SY_FOR_FILES:
 		case SY_FOR_DIRS:
-			if (hFind == 0) {
+			if (hFind == nullptr) {
 				pszLevelBegin[iLevel++] = pszPos;
 				iCurrentAction = *pszPos;
 
 				hFind = FindFirstFile(szMask, &fdFindFileData);
-				if (hFind == 0) {
+				if (hFind == nullptr) {
 					iCurrentAction = 0;
 					RelativeJump(pszLevelBegin[iLevel - 1]);
 					break;
@@ -353,7 +353,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 			else {
 				if (!FindNextFile(hFind, &fdFindFileData)) {
 					FindClose(hFind);
-					hFind = 0;
+					hFind = nullptr;
 					iCurrentAction = 0;
 					RelativeJump(pszLevelBegin[iLevel - 1]);
 					break;
@@ -366,7 +366,7 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 				((*pszPos == 19) == ((fdFindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0))) {
 				if (!FindNextFile(hFind, &fdFindFileData)) {
 					FindClose(hFind);
-					hFind = 0;
+					hFind = nullptr;
 					iCurrentAction = 0;
 					RelativeJump(pszLevelBegin[iLevel - 1]);
 					break;
@@ -503,14 +503,14 @@ bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 
 		// flush the buffer from time to time
 		if (*pszPos == '\0' || pszBuffer - szBuffer > 8000) {
-			if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
+			if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, nullptr))
 				break;
 
 			pszBuffer = szBuffer;
 		}
 	} while (*pszPos != '\0');
 
-	if (hFind != 0)
+	if (hFind != nullptr)
 		FindClose(hFind);
 
 	SetEndOfFile(hFile);

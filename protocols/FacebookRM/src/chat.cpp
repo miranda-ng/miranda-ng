@@ -37,8 +37,8 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 
 	GCEVENT gce = { m_szModuleName, tchat_id, GC_EVENT_MESSAGE };
 	gce.ptszText = ttext;
-	gce.time = timestamp ? timestamp : ::time(NULL);
-	if (id != NULL)
+	gce.time = timestamp ? timestamp : ::time(nullptr);
+	if (id != nullptr)
 		gce.bIsMe = !mir_strcmp(id, facy.self_.user_id.c_str());
 	gce.dwFlags |= GCEF_ADDTOLOG;
 	if (is_old) {
@@ -172,7 +172,7 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 	gce.dwFlags = addToLog ? GCEF_ADDTOLOG : 0;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = ::time(NULL);
+	gce.time = ::time(nullptr);
 	gce.bIsMe = (user.role == ROLE_ME);
 
 	if (user.is_former) {
@@ -209,7 +209,7 @@ void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = ::time(NULL);
+	gce.time = ::time(nullptr);
 	gce.bIsMe = false;
 
 	Chat_Event(&gce);
@@ -233,7 +233,7 @@ char *FacebookProto::GetChatUsers(const char *chat_id)
 bool FacebookProto::IsChatContact(const char *chat_id, const char *id)
 {
 	ptrA users(GetChatUsers(chat_id));
-	return (users != NULL && strstr(users, id) != NULL);
+	return (users != NULL && strstr(users, id) != nullptr);
 }
 
 void FacebookProto::AddChat(const char *id, const wchar_t *tname)
@@ -308,7 +308,7 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 
 INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam, LPARAM)
 {
-	ptrW idT(wParam ? getWStringA(wParam, "ChatRoomID") : NULL);
+	ptrW idT(wParam ? getWStringA(wParam, "ChatRoomID") : nullptr);
 
 	Chat_Control(m_szModuleName, idT, SESSION_OFFLINE);
 	Chat_Terminate(m_szModuleName, idT);
@@ -335,7 +335,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 
-	if (gcmi == NULL || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
+	if (gcmi == nullptr || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
 
 	if (gcmi->Type == MENU_ON_LOG)
 	{
@@ -416,7 +416,7 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 
 	GCEVENT gce = { m_szModuleName, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
 	gce.ptszText = messageT;
-	gce.time = notification->time ? notification->time : ::time(NULL);
+	gce.time = notification->time ? notification->time : ::time(nullptr);
 	gce.bIsMe = false;
 	gce.dwFlags |= GCEF_ADDTOLOG;
 	gce.ptszNick = TranslateT("Notifications");

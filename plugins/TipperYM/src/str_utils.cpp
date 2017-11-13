@@ -30,7 +30,7 @@ bool a2w(const char *as, wchar_t *buff, int bufflen)
 
 bool w2a(const wchar_t *ws, char *buff, int bufflen) 
 {
-	if (ws) WideCharToMultiByte(iCodePage, 0, ws, -1, buff, bufflen, 0, 0);
+	if (ws) WideCharToMultiByte(iCodePage, 0, ws, -1, buff, bufflen, nullptr, nullptr);
 	return true;
 }
 
@@ -42,7 +42,7 @@ bool utf2w(const char *us, wchar_t *buff, int bufflen)
 
 bool w2utf(const wchar_t *ws, char *buff, int bufflen) 
 {
-	if (ws) WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, bufflen, 0, 0);
+	if (ws) WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, bufflen, nullptr, nullptr);
 	return true;
 }
 
@@ -51,7 +51,7 @@ bool a2utf(const char *as, char *buff, int bufflen)
 	if (!as) return false;
 
 	wchar_t *ws = a2w(as);
-	if (ws) WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, bufflen, 0, 0);
+	if (ws) WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, bufflen, nullptr, nullptr);
 	mir_free(ws);
 	return true;
 }
@@ -61,7 +61,7 @@ bool utf2a(const char *us, char *buff, int bufflen)
 	if (!us) return false;
 
 	wchar_t *ws = utf2w(us);
-	if (ws) WideCharToMultiByte(iCodePage, 0, ws, -1, buff, bufflen, 0, 0);
+	if (ws) WideCharToMultiByte(iCodePage, 0, ws, -1, buff, bufflen, nullptr, nullptr);
 	mir_free(ws);
 	return true;
 }
@@ -103,14 +103,14 @@ wchar_t *utf2w(const char *us)
 {
 	if (us)
 	{
-		int size = MultiByteToWideChar(CP_UTF8, 0, us, -1, 0, 0);
+		int size = MultiByteToWideChar(CP_UTF8, 0, us, -1, nullptr, 0);
 		wchar_t *buff = (wchar_t *)mir_alloc(size * sizeof(wchar_t));
 		MultiByteToWideChar(CP_UTF8, 0, us, -1, buff, size);
 		return buff;
 	} 
 	else
 	{
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -118,20 +118,20 @@ char *w2utf(const wchar_t *ws)
 {
 	if (ws)
 	{
-		int size = WideCharToMultiByte(CP_UTF8, 0, ws, -1, 0, 0, 0, 0);
+		int size = WideCharToMultiByte(CP_UTF8, 0, ws, -1, nullptr, 0, nullptr, nullptr);
 		char *buff = (char *)mir_alloc(size);
-		WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, size, 0, 0);
+		WideCharToMultiByte(CP_UTF8, 0, ws, -1, buff, size, nullptr, nullptr);
 		return buff;
 	} 
 	else 
 	{
-		return 0;
+		return nullptr;
 	}
 }
 
 wchar_t *a2w(const char *as)
 {
-	int size = MultiByteToWideChar(iCodePage, 0, as, -1, 0, 0);
+	int size = MultiByteToWideChar(iCodePage, 0, as, -1, nullptr, 0);
 	wchar_t *buff = (wchar_t *)mir_alloc(size * sizeof(wchar_t));
 	MultiByteToWideChar(iCodePage, 0, as, -1, buff, size);
 	return buff;
@@ -139,9 +139,9 @@ wchar_t *a2w(const char *as)
 
 char *w2a(const wchar_t *ws)
 {
-	int size = WideCharToMultiByte(iCodePage, 0, ws, -1, 0, 0, 0, 0);
+	int size = WideCharToMultiByte(iCodePage, 0, ws, -1, nullptr, 0, nullptr, nullptr);
 	char *buff = (char *)mir_alloc(size);
-	WideCharToMultiByte(iCodePage, 0, ws, -1, buff, size, 0, 0);
+	WideCharToMultiByte(iCodePage, 0, ws, -1, buff, size, nullptr, nullptr);
 	return buff;
 }
 

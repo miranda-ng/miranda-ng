@@ -36,7 +36,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 			unpackWord(&pBuffer, &wError);
 
 			cookie_servlist_action *sc;
-			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc)) { // look for action cookie
+			if (FindCookie(pSnacHeader->dwRef, nullptr, (void**)&sc)) { // look for action cookie
 				debugLogA("Received expected server list ack, action: %d, result: %d", sc->dwAction, wError);
 				FreeCookie(pSnacHeader->dwRef); // release cookie
 
@@ -85,7 +85,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 			BOOL blWork = bIsSyncingCL;
 			bIsSyncingCL = TRUE; // this is not used if cookie takes place
 
-			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc)) { // we do it by reliable cookie
+			if (FindCookie(pSnacHeader->dwRef, nullptr, (void**)&sc)) { // we do it by reliable cookie
 				if (!sc->lParam) { // is this first packet ?
 					ResetSettingsOnListReload();
 					sc->lParam = 1;
@@ -107,7 +107,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 		bIsSyncingCL = FALSE;
 		{
 			cookie_servlist_action* sc;
-			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc)) { // we requested servlist check
+			if (FindCookie(pSnacHeader->dwRef, nullptr, (void**)&sc)) { // we requested servlist check
 				debugLogA("Server stated roster is ok.");
 				ReleaseCookie(pSnacHeader->dwRef);
 				LoadServerIDs();
@@ -141,7 +141,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 
 				if (unpackServerListItem(&pBuffer, &wBufferLength, szRecordName, &wGroupId, &wItemId, &wItemType, &wTlvLen)) {
 					BYTE *buf = pBuffer;
-					oscar_tlv_chain *pChain = NULL;
+					oscar_tlv_chain *pChain = nullptr;
 
 					nItems++;
 
@@ -208,7 +208,7 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 
 			unpackWord(&pBuffer, &wError);
 
-			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&sc)) { // look for action cookie
+			if (FindCookie(pSnacHeader->dwRef, nullptr, (void**)&sc)) { // look for action cookie
 				debugLogA("Received server list error, action: %d, result: %d", sc->dwAction, wError);
 				FreeCookie(pSnacHeader->dwRef); // release cookie
 
@@ -351,9 +351,9 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 
 				setByte(sc->hContact, "Auth", 1); // we need auth
 				DWORD dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_ADDTOLIST, sc->hContact, sc);
-				icq_sendServerContact(sc->hContact, dwCookie, ICQ_LISTS_ADDTOLIST, sc->wGroupId, sc->wContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 500, NULL);
+				icq_sendServerContact(sc->hContact, dwCookie, ICQ_LISTS_ADDTOLIST, sc->wGroupId, sc->wContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 500, nullptr);
 
-				sc = NULL; // we do not want it to be freed now
+				sc = nullptr; // we do not want it to be freed now
 				break;
 			}
 			FreeServerID(sc->wContactId, SSIT_ITEM);
@@ -363,7 +363,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 
 			servlistPendingRemoveContact(sc->hContact, 0, sc->wGroupId, PENDING_RESULT_FAILED);
 
-			servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100); // end server modifications here
+			servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100); // end server modifications here
 		}
 		else {
 			void* groupData;
@@ -380,7 +380,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			}
 			else { // this should never happen
 				debugLogA("Group update failed.");
-				servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100); // end server modifications here
+				servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100); // end server modifications here
 			}
 		}
 		break;
@@ -421,7 +421,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 				icq_sendServerGroup(dwCookie, ICQ_LISTS_UPDATEGROUP, 0, ack->szGroupName, groupData, groupSize, SSOF_END_OPERATION);
 			}
 			else // end server modifications here
-				servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100);
+				servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100);
 
 			SAFE_FREE((void**)&groupData);
 		}
@@ -461,7 +461,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 
 			servlistPendingRemoveContact(sc->hContact, sc->wContactId, sc->wGroupId, PENDING_RESULT_FAILED);
 
-			servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100); // end server modifications here
+			servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100); // end server modifications here
 		}
 		break;
 
@@ -481,14 +481,14 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 
 			servlistPendingRemoveGroup(sc->szGroup, 0, PENDING_RESULT_FAILED);
 
-			servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100); // end server modifications here
+			servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100); // end server modifications here
 			SAFE_FREE((void**)&sc->szGroup);
 		}
 		else { // group removed, we need to update master group
 			void* groupData;
 			int groupSize;
 
-			setServListGroupName(sc->wGroupId, NULL); // clear group from namelist
+			setServListGroupName(sc->wGroupId, nullptr); // clear group from namelist
 			FreeServerID(sc->wGroupId, SSIT_GROUP);
 			removeGroupPathLinks(sc->wGroupId);
 
@@ -498,13 +498,13 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			groupData = collectGroups(&groupSize);
 			sc->wGroupId = 0;
 			sc->dwAction = SSA_GROUP_UPDATE;
-			sc->szGroupName = NULL;
+			sc->szGroupName = nullptr;
 			DWORD dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_UPDATEGROUP, 0, sc);
 
 			icq_sendServerGroup(dwCookie, ICQ_LISTS_UPDATEGROUP, 0, sc->szGroupName, groupData, groupSize, SSOF_END_OPERATION);
 			// end server modifications here
 
-			sc = NULL; // we do not want to be freed here
+			sc = nullptr; // we do not want to be freed here
 
 			SAFE_FREE((void**)&groupData);
 		}
@@ -526,10 +526,10 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 					setByte(sc->hContact, "Auth", 0);
 				}
 				DWORD dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_ADDTOLIST, sc->hContact, sc);
-				icq_sendServerContact(sc->hContact, dwCookie, ICQ_LISTS_ADDTOLIST, sc->wNewGroupId, sc->wNewContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 400, NULL);
+				icq_sendServerContact(sc->hContact, dwCookie, ICQ_LISTS_ADDTOLIST, sc->wNewGroupId, sc->wNewContactId, SSOP_ITEM_ACTION | SSOF_CONTACT, 400, nullptr);
 
 				sc->lParam = 2; // do not cycle
-				sc = NULL; // we do not want to be freed here
+				sc = nullptr; // we do not want to be freed here
 				break;
 			}
 			FreeServerID(sc->wNewContactId, SSIT_ITEM);
@@ -538,11 +538,11 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 
 			servlistPendingRemoveContact(sc->hContact, 0, (WORD)(sc->lParam ? sc->wGroupId : sc->wNewGroupId), PENDING_RESULT_FAILED);
 
-			servlistPostPacket(NULL, 0, SSO_END_OPERATION, 100); // end server modifications here
+			servlistPostPacket(nullptr, 0, SSO_END_OPERATION, 100); // end server modifications here
 
 			if (!sc->lParam) { // is this first ack ?
 				sc->lParam = -1;
-				sc = NULL; // this can't be freed here
+				sc = nullptr; // this can't be freed here
 			}
 			break;
 		}
@@ -582,7 +582,7 @@ void CIcqProto::handleServerCListAck(cookie_servlist_action* sc, WORD wError)
 			delSetting(sc->hContact, DBSETTING_SERVLIST_GROUP);
 			FreeServerID(sc->wContactId, SSIT_ITEM); // release old contact id
 			sc->lParam = 1;
-			sc = NULL; // wait for second ack
+			sc = nullptr; // wait for second ack
 		}
 		break;
 
@@ -705,9 +705,9 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 	size_t wTlvLength;
 	BOOL bIsLastPacket;
 	uid_str szRecordName;
-	oscar_tlv_chain* pChain = NULL;
-	oscar_tlv* pTLV = NULL;
-	char *szActiveSrvGroup = NULL;
+	oscar_tlv_chain* pChain = nullptr;
+	oscar_tlv* pTLV = nullptr;
+	char *szActiveSrvGroup = nullptr;
 	WORD wActiveSrvGroupId = -1;
 
 	// If flag bit 1 is set, this is not the last
@@ -761,7 +761,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 			pChain = readIntoTLVChain(&buf, wTlvLength, 0);
 			wLen -= wTlvLength;
 		}
-		else pChain = NULL;
+		else pChain = nullptr;
 
 		switch (wTlvType) {
 		case SSI_ITEM_BUDDY:
@@ -853,7 +853,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 								if (getByte("LoadServerDetails", DEFAULT_SS_LOAD) || bAdded) { // if just added contact, save details always - does no harm
 									char *szOldNick;
 
-									if (szOldNick = getSettingStringUtf(hContact, "CList", "MyHandle", NULL)) {
+									if (szOldNick = getSettingStringUtf(hContact, "CList", "MyHandle", nullptr)) {
 										if ((mir_strcmp(szOldNick, pszNick)) && (mir_strlen(pszNick) > 0)) { // check if the truncated nick changed, i.e. do not overwrite locally stored longer nick
 											if (mir_strlen(szOldNick) <= mir_strlen(pszNick) || strncmp(szOldNick, pszNick, null_strcut(szOldNick, MAX_SSI_TLV_NAME_SIZE))) {
 												// Yes, we really do need to delete it first. Otherwise the CLUI nick
@@ -896,7 +896,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 								if (getByte("LoadServerDetails", DEFAULT_SS_LOAD) || bAdded) { // if just added contact, save details always - does no harm
 									char *szOldComment;
 
-									if (szOldComment = getSettingStringUtf(hContact, "UserInfo", "MyNotes", NULL)) {
+									if (szOldComment = getSettingStringUtf(hContact, "UserInfo", "MyNotes", nullptr)) {
 										if ((mir_strcmp(szOldComment, pszComment)) && (mir_strlen(pszComment) > 0)) // check if the truncated comment changed, i.e. do not overwrite locally stored longer comment
 											if (mir_strlen(szOldComment) <= mir_strlen(pszComment) || strncmp((char*)szOldComment, (char*)pszComment, null_strcut(szOldComment, MAX_SSI_TLV_COMMENT_SIZE)))
 												db_set_utf(hContact, "UserInfo", "MyNotes", pszComment);
@@ -1207,7 +1207,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 				ack->dwAction = SSA_GROUP_UPDATE;
 				ack->szGroupName = null_strdup("");
 				dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_ADDTOLIST, 0, ack);
-				icq_sendServerGroup(dwCookie, ICQ_LISTS_ADDTOLIST, 0, ack->szGroupName, NULL, 0, 0);
+				icq_sendServerGroup(dwCookie, ICQ_LISTS_ADDTOLIST, 0, ack->szGroupName, nullptr, 0, 0);
 			}
 		}
 		// serv-list sync finished, clear just added contacts
@@ -1234,7 +1234,7 @@ void CIcqProto::handleServerCListItemAdd(WORD wItemId, WORD wItemType, oscar_tlv
 
 void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wItemType, oscar_tlv_chain *pItemData)
 {
-	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
+	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, nullptr) : NULL;
 
 	if (hContact != INVALID_CONTACT_ID && wItemType == SSI_ITEM_BUDDY) { // a contact was updated on server
 		if (pItemData) {
@@ -1335,7 +1335,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wItem
 
 void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wItemId, WORD wItemType)
 {
-	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
+	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, nullptr) : NULL;
 
 	if (hContact != INVALID_CONTACT_ID && wItemType == SSI_ITEM_BUDDY) { // a contact was removed from our list
 		if (getWord(hContact, DBSETTING_SERVLIST_ID, 0) == wItemId) {
@@ -1387,18 +1387,18 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 	// Read nick name from DB
 	char *szNick;
 	if (dwUin)
-		szNick = getSettingStringUtf(hContact, "Nick", NULL);
+		szNick = getSettingStringUtf(hContact, "Nick", nullptr);
 	else
 		szNick = null_strdup(szUid);
 
-	DB_AUTH_BLOB blob(hContact, szNick, 0, 0, 0, szReason);
+	DB_AUTH_BLOB blob(hContact, szNick, nullptr, nullptr, nullptr, szReason);
 	blob.set_uin(dwUin);
 
 	setByte(hContact, "Grant", 1);
 
 	// TODO: Change for new auth system, include all known informations
 	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = time(NULL);
+	pre.timestamp = time(nullptr);
 	pre.lParam = blob.size();
 	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
@@ -1427,7 +1427,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 
 	size_t nNickLen, cbBlob = sizeof(DWORD) * 2 + 4;
 
-	char *szNick = NULL;
+	char *szNick = nullptr;
 	if (dwUin) {
 		if (getString(hContact, "Nick", &dbv))
 			nNickLen = 0;
@@ -1458,14 +1458,14 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 	*(char*)pCurBlob = 0;
 	// TODO: Change for new auth system
 
-	AddEvent(NULL, EVENTTYPE_ADDED, time(NULL), 0, cbBlob, pBlob);
+	AddEvent(NULL, EVENTTYPE_ADDED, time(nullptr), 0, cbBlob, pBlob);
 }
 
 void CIcqProto::handleRecvAuthResponse(unsigned char *buf, size_t wLen)
 {
 	DWORD dwUin;
 	uid_str szUid;
-	char* szNick = NULL;
+	char* szNick = nullptr;
 	WORD nReasonLen;
 	char* szReason;
 	int bAdded;
@@ -1584,8 +1584,8 @@ void CIcqProto::updateServVisibilityCode(BYTE bCode)
 // not stored in the local DB, a new ID will be added to the server list.
 void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 {
-	void** pDoubleObject = NULL;
-	void* doubleObject = NULL;
+	void** pDoubleObject = nullptr;
+	void* doubleObject = nullptr;
 	DWORD dwOperationFlags = 0;
 	WORD wAvatarID;
 	WORD wCommand;
@@ -1622,7 +1622,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 			ack->dwAction = SSA_REMOVEAVATAR; // update avatar hash
 			ack->wContactId = wAvatarID;
 			DWORD dwCookie = AllocateCookie(CKT_SERVERLIST, ICQ_LISTS_REMOVEFROMLIST, 0, ack); // take cookie
-			icq_sendServerItem(dwCookie, ICQ_LISTS_REMOVEFROMLIST, 0, wAvatarID, szItemName, NULL, 0, SSI_ITEM_BUDDYICON, SSOP_ITEM_ACTION | dwOperationFlags, 400, pDoubleObject);
+			icq_sendServerItem(dwCookie, ICQ_LISTS_REMOVEFROMLIST, 0, wAvatarID, szItemName, nullptr, 0, SSI_ITEM_BUDDYICON, SSOP_ITEM_ACTION | dwOperationFlags, 400, pDoubleObject);
 		}
 	}
 
@@ -1660,7 +1660,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 	pBuffer.pData = (BYTE *)_alloca(wTLVlen);
 	pBuffer.wLen = wTLVlen;
 
-	packTLV(&pBuffer, SSI_TLV_NAME, 0, NULL);                    // TLV (Name)
+	packTLV(&pBuffer, SSI_TLV_NAME, 0, nullptr);                    // TLV (Name)
 	packTLV(&pBuffer, SSI_TLV_AVATARHASH, hashsize, pHash + 2);  // TLV (Hash)
 
 	icq_sendServerItem(dwCookie, wCommand, 0, wAvatarID, szItemName, pBuffer.pData, wTLVlen, SSI_ITEM_BUDDYICON, SSOP_ITEM_ACTION | dwOperationFlags, 400, pDoubleObject);

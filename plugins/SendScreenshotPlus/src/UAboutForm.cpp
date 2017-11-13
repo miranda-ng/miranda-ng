@@ -171,7 +171,7 @@ TfrmAbout::TfrmAbout(HWND Owner)
 	m_hWndOwner = Owner;
 	m_Page = 1;
 	// create window
-	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UAboutForm), 0, DlgTfrmAbout, (LPARAM)this);
+	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UAboutForm), nullptr, DlgTfrmAbout, (LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 }
@@ -212,5 +212,5 @@ void TfrmAbout::btnPageClick()
 	mir_free(pszPlug);
 	mir_free(pszVer);
 	SetDlgItemText(m_hWnd, IDC_HEADERBAR, newTitle);
-	InvalidateRect(GetDlgItem(m_hWnd, IDC_HEADERBAR), NULL, 1);
+	InvalidateRect(GetDlgItem(m_hWnd, IDC_HEADERBAR), nullptr, 1);
 }

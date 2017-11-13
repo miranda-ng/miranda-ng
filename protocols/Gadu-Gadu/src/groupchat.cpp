@@ -86,7 +86,7 @@ int GGPROTO::gc_destroy()
 		GGGC *chat = (GGGC *)l->data;
 		free(chat->recipients);
 	}
-	list_destroy(chats, 1); chats = NULL;
+	list_destroy(chats, 1); chats = nullptr;
 	return 1;
 }
 
@@ -102,13 +102,13 @@ GGGC* GGPROTO::gc_lookup(const wchar_t *id)
 			return chat;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK *)lParam;
-	GGGC *chat = NULL;
+	GGGC *chat = nullptr;
 	uin_t uin;
 
 	// Check if we got our protocol, and fields are set
@@ -164,7 +164,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 		while(lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r'))
 			gch->ptszText[lc --] = 0;
 
-		gce.time = time(NULL);
+		gce.time = time(nullptr);
 		gce.bIsMe = 1;
 		gce.dwFlags = GCEF_ADDTOLOG;
 		debugLogW(L"gc_event(): Sending conference message to room %s, \"%s\".", gch->ptszID, gch->ptszText);
@@ -182,7 +182,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 	if (gch->iType == GC_USER_PRIVMESS)
 	{
 		MCONTACT hContact = NULL;
-		if ((uin = _wtoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
+		if ((uin = _wtoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, nullptr)))
 			CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	}
 	debugLogW(L"gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->iType, chat, uin, gch->ptszText);
@@ -209,7 +209,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	uin_t uin;
 
 	debugLogA("gc_getchat(): Count %d.", recipients_count);
-	if (!recipients) return NULL;
+	if (!recipients) return nullptr;
 
 	// Look for existing chat
 	for(l = chats; l; l = l->next)
@@ -240,7 +240,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 					debugLogW(L"gc_getchat(): Ignoring existing id %s, size %d.", chat->id, chat->recipients_count);
 				else
 					debugLogW(L"gc_getchat(): Returning existing id %s, size %d.", chat->id, chat->recipients_count);
-				return !(chat->ignore) ? chat->id : NULL;
+				return !(chat->ignore) ? chat->id : nullptr;
 			}
 		}
 	}
@@ -253,10 +253,10 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	// Check groupchat policy (new) / only for incoming
 	if (sender)
 	{
-		int unknown = (getcontact(sender, 0, 0, NULL) == NULL),
+		int unknown = (getcontact(sender, 0, 0, nullptr) == NULL),
 			unknownSender = unknown;
 		for(int i = 0; i < recipients_count; i++)
-			if (!getcontact(recipients[i], 0, 0, NULL))
+			if (!getcontact(recipients[i], 0, 0, nullptr))
 				unknown ++;
 		if ((getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 2) ||
 		   (getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 2 &&
@@ -271,11 +271,11 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 			unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN))))
 		{
 			wchar_t *senderName = unknownSender ?
-				TranslateT("Unknown") : pcli->pfnGetContactDisplayName(getcontact(sender, 0, 0, NULL), 0);
+				TranslateT("Unknown") : pcli->pfnGetContactDisplayName(getcontact(sender, 0, 0, nullptr), 0);
 			wchar_t error[256];
 			mir_snwprintf(error, TranslateT("%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?"),
 				senderName, recipients_count + 1, unknown);
-			chat->ignore = MessageBox(NULL, error, m_tszUserName, MB_OKCANCEL | MB_ICONEXCLAMATION) != IDOK;
+			chat->ignore = MessageBox(nullptr, error, m_tszUserName, MB_OKCANCEL | MB_ICONEXCLAMATION) != IDOK;
 		}
 		if (chat->ignore)
 		{
@@ -288,7 +288,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 			if (sender) chat->recipients[i] = sender;
 			debugLogW(L"gc_getchat(): Ignoring new chat %s, count %d.", chat->id, chat->recipients_count);
 			list_add(&chats, chat, 0);
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -297,12 +297,12 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	wchar_t *senderName;
 	if (sender)
 	{
-		senderName = pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0);
+		senderName = pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, nullptr), 0);
 		mir_snwprintf(status, TranslateT("%s initiated the conference.") , senderName);
 	}
 	else
 	{
-		senderName = NULL;
+		senderName = nullptr;
 		mir_snwprintf(status, TranslateT("This is my own conference."));
 	}
 
@@ -346,7 +346,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 
 	// Add contacts
 	for(i = 0; i < chat->recipients_count; i++) {
-		MCONTACT hContact = getcontact(chat->recipients[i], 1, 0, NULL);
+		MCONTACT hContact = getcontact(chat->recipients[i], 1, 0, nullptr);
 		UIN2IDT(chat->recipients[i], id);
 		if (hContact)
 			gce.ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
@@ -431,7 +431,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 					// Check if connected
 					if (!gg->isonline())
 					{
-						MessageBox(NULL,
+						MessageBox(nullptr,
 							TranslateT("You have to be connected to open new conference."),
 							gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 					}
@@ -500,7 +500,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 										uin = (uin_t)gg->getDword(hContact, GG_KEY_UIN, 0);
 									}
 
-									if (szProto == NULL || mir_strcmp(szProto, gg->m_szModuleName) || !uin || uin == gg->getDword(GG_KEY_UIN, 0))
+									if (szProto == nullptr || mir_strcmp(szProto, gg->m_szModuleName) || !uin || uin == gg->getDword(GG_KEY_UIN, 0))
 										SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_DELETEITEM, (WPARAM)hItem, 0);
 								}
 							}
@@ -556,7 +556,7 @@ INT_PTR GGPROTO::gc_clearignored(WPARAM, LPARAM)
 			cleared = TRUE;
 		}
 	}
-	MessageBox( NULL,
+	MessageBox( nullptr,
 		cleared ?
 			TranslateT("All ignored conferences are now unignored and the conference policy will act again.") :
 			TranslateT("There are no ignored conferences."),
@@ -571,14 +571,14 @@ INT_PTR GGPROTO::gc_openconf(WPARAM, LPARAM)
 	// Check if connected
 	if (!isonline())
 	{
-		MessageBox(NULL,
+		MessageBox(nullptr,
 			TranslateT("You have to be connected to open new conference."),
 			m_tszUserName, MB_OK | MB_ICONSTOP
 		);
 		return 0;
 	}
 
-	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_CONFERENCE), NULL, gg_gc_openconfdlg, (LPARAM)this);
+	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_CONFERENCE), nullptr, gg_gc_openconfdlg, (LPARAM)this);
 	return 1;
 }
 

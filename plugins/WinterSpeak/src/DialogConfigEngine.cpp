@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "DialogConfigEngine.h"
 
-DialogConfigEngine *DialogConfigEngine::m_instance = 0;
+DialogConfigEngine *DialogConfigEngine::m_instance = nullptr;
 
 //------------------------------------------------------------------------------
 // public:
 //------------------------------------------------------------------------------
-DialogConfigEngine::DialogConfigEngine(ConfigDatabase &db) : m_db(db), m_test_tts(0)
+DialogConfigEngine::DialogConfigEngine(ConfigDatabase &db) : m_db(db), m_test_tts(nullptr)
 {
 	m_instance = this;
 }
@@ -14,7 +14,7 @@ DialogConfigEngine::DialogConfigEngine(ConfigDatabase &db) : m_db(db), m_test_tt
 //------------------------------------------------------------------------------
 DialogConfigEngine::~DialogConfigEngine()
 {
-	m_instance = 0;
+	m_instance = nullptr;
 }
 
 //------------------------------------------------------------------------------

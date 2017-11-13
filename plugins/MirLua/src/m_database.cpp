@@ -87,7 +87,7 @@ static int db_ContactIterator(lua_State *L)
 
 static int db_Contacts(lua_State *L)
 {
-	const char *szModule = NULL;
+	const char *szModule = nullptr;
 
 	switch (lua_type(L, 1))
 	{
@@ -131,7 +131,7 @@ static const char *mods[] =
 	"FullName",
 	"Uid",
 	"DisplayName",
-	NULL
+	nullptr
 };
 
 static int db_GetContactInfo(lua_State *L)
@@ -145,7 +145,7 @@ static int db_GetContactInfo(lua_State *L)
 		type = luaL_checkinteger(L, 2);
 		break;
 	case LUA_TSTRING:
-		type = luaL_checkoption(L, 2, NULL, mods) + 1;
+		type = luaL_checkoption(L, 2, nullptr, mods) + 1;
 		break;
 	default:
 		luaL_argerror(L, 2, luaL_typename(L, 2));
@@ -641,14 +641,14 @@ static luaL_Reg databaseApi[] =
 	{ "SetSetting", db_WriteSetting },
 	{ "DeleteSetting", db_DeleteSetting },
 
-	{ "DBVT_BYTE", NULL },
-	{ "DBVT_WORD", NULL },
-	{ "DBVT_DWORD", NULL },
-	{ "DBVT_ASCIIZ", NULL },
-	{ "DBVT_UTF8", NULL },
-	{ "DBVT_WCHAR", NULL },
+	{ "DBVT_BYTE", nullptr },
+	{ "DBVT_WORD", nullptr },
+	{ "DBVT_DWORD", nullptr },
+	{ "DBVT_ASCIIZ", nullptr },
+	{ "DBVT_UTF8", nullptr },
+	{ "DBVT_WCHAR", nullptr },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/

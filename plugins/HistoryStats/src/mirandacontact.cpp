@@ -46,7 +46,7 @@ void MirandaContact::stripMetaID(DBEVENTINFO& dbe)
 		if (dbe.cbBlob >= 6 && !pTextBegin[dbe.cbBlob - 1]) {
 			char* pIDEnd = pTextBegin + dbe.cbBlob - 1;
 			char* pIDBegin = pIDEnd;
-			char* pIDSep = NULL;
+			char* pIDSep = nullptr;
 
 			while (pIDBegin >= pTextBegin + 2 && *--pIDBegin)
 				if (*pIDBegin == '*')
@@ -104,7 +104,7 @@ void MirandaContact::beginRead()
 
 		ci.hContact = m_Sources[j];
 		ci.hEvent = db_event_first(ci.hContact);
-		ci.ei.dbe.pBlob = NULL;
+		ci.ei.dbe.pBlob = nullptr;
 		ci.ei.nAllocated = 0;
 
 		fetchSlot(j);
@@ -209,7 +209,7 @@ void MirandaContactTolerantMerge::fillQueue()
 				m_SpareEIs.pop_front();
 			}
 			else {
-				ci.ei.dbe.pBlob = NULL;
+				ci.ei.dbe.pBlob = nullptr;
 				ci.ei.nAllocated = 0;
 			}
 		}
@@ -273,7 +273,7 @@ void MirandaContactStrictMerge::fillQueue()
 				m_SpareEIs.pop_front();
 			}
 			else {
-				ci.ei.dbe.pBlob = NULL;
+				ci.ei.dbe.pBlob = nullptr;
 				ci.ei.nAllocated = 0;
 			}
 		}
@@ -310,7 +310,7 @@ void MirandaContactNoMerge::fillQueue()
 			m_SpareEIs.pop_front();
 		}
 		else {
-			ci.ei.dbe.pBlob = NULL;
+			ci.ei.dbe.pBlob = nullptr;
 			ci.ei.nAllocated = 0;
 		}
 
@@ -335,6 +335,6 @@ MirandaContact* MirandaContactFactory::makeMirandaContact(int MergeMode, const e
 		return new MirandaContactNoMerge(strNick, strProtocol, strGroup, sources);
 
 	default:
-		return 0;
+		return nullptr;
 	}
 }

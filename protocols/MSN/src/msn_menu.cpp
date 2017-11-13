@@ -100,8 +100,8 @@ INT_PTR CMsnProto::MsnEditProfile(WPARAM, LPARAM)
 // MsnInviteCommand - invite command callback function
 INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 {
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
-		LPARAM(new InviteChatParam(NULL, NULL, this)));
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
+		LPARAM(new InviteChatParam(nullptr, NULL, this)));
 	return 0;
 }
 
@@ -178,7 +178,7 @@ void CMsnProto::MsnInitMainMenu(void)
 void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 {
 	for (int i = 0; i < _countof(menuItemsMain); i++)
-		Menu_ModifyItem(menuItemsMain[i], NULL, INVALID_HANDLE_VALUE, bEnable ? 0 : CMIF_GRAYED);
+		Menu_ModifyItem(menuItemsMain[i], nullptr, INVALID_HANDLE_VALUE, bEnable ? 0 : CMIF_GRAYED);
 
 	if (bEnable)
 		Menu_ShowItem(menuItemsMain[1], emailEnabled);
@@ -189,14 +189,14 @@ void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 static CMsnProto* GetProtoInstanceByHContact(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return nullptr;
 
 	for (int i = 0; i < g_Instances.getCount(); i++)
 		if (!mir_strcmp(szProto, g_Instances[i].m_szModuleName))
 			return &g_Instances[i];
 
-	return NULL;
+	return nullptr;
 }
 
 static INT_PTR MsnMenuBlockCommand(WPARAM wParam, LPARAM lParam)

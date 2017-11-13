@@ -25,9 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 int hLangpack;
-HINSTANCE g_hInst = 0;
-CLIST_INTERFACE *pcli = NULL, coreCli;
-HIMAGELIST himlCListClc = NULL;
+HINSTANCE g_hInst = nullptr;
+CLIST_INTERFACE *pcli = nullptr, coreCli;
+HIMAGELIST himlCListClc = nullptr;
 
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -189,13 +189,13 @@ wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* set
 			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, out, (int)len);
 		else if (dbv.type == DBVT_WCHAR)
 			mir_wstrncpy(out, dbv.pwszVal, (int)len);
-		else if (def != NULL)
+		else if (def != nullptr)
 			mir_wstrncpy(out, def, (int)len);
 
 		db_free(&dbv);
 	}
 	else {
-		if (def != NULL)
+		if (def != nullptr)
 			mir_wstrncpy(out, def, (int)len);
 	}
 
@@ -219,7 +219,7 @@ int CopyData(StringHelper *str, const wchar_t *text, size_t len)
 	if (len == 0)
 		return 0;
 
-	if (text == NULL)
+	if (text == nullptr)
 		return 0;
 
 	totalSize = str->used + len + 1;
@@ -227,10 +227,10 @@ int CopyData(StringHelper *str, const wchar_t *text, size_t len)
 	if (totalSize > str->allocated) {
 		totalSize += DATA_BLOCK - (totalSize % DATA_BLOCK);
 
-		if (str->text != NULL) {
+		if (str->text != nullptr) {
 			wchar_t *tmp = (wchar_t *)mir_realloc(str->text, sizeof(wchar_t) * totalSize);
 
-			if (tmp == NULL) {
+			if (tmp == nullptr) {
 				mir_free(str->text);
 				return -1;
 			}
@@ -240,7 +240,7 @@ int CopyData(StringHelper *str, const wchar_t *text, size_t len)
 		else {
 			str->text = (wchar_t *)mir_alloc(sizeof(wchar_t) * totalSize);
 
-			if (str->text == NULL) {
+			if (str->text == nullptr) {
 				return -2;
 			}
 		}
@@ -262,7 +262,7 @@ wchar_t * ParseText(const wchar_t *text,
 {
 	size_t length = mir_wstrlen(text);
 	size_t nextPos = 0;
-	StringHelper ret = { 0 };
+	StringHelper ret = {};
 	size_t i;
 
 	// length - 1 because a % in last char will be a % and point
@@ -271,11 +271,11 @@ wchar_t * ParseText(const wchar_t *text,
 			BOOL found = FALSE;
 
 			if (CopyData(&ret, &text[nextPos], i - nextPos))
-				return NULL;
+				return nullptr;
 
 			if (text[i + 1] == '%') {
 				if (CopyData(&ret, L"%", 1))
-					return NULL;
+					return nullptr;
 
 				i++;
 
@@ -291,7 +291,7 @@ wchar_t * ParseText(const wchar_t *text,
 
 					if (wcsnicmp(&text[i], variables[j], vlen) == 0) {
 						if (CopyData(&ret, data[j], mir_wstrlen(data[j])))
-							return NULL;
+							return nullptr;
 
 						i += vlen - 1;
 
@@ -311,7 +311,7 @@ wchar_t * ParseText(const wchar_t *text,
 
 	if (nextPos < length)
 		if (CopyData(&ret, &text[nextPos], length - nextPos))
-			return NULL;
+			return nullptr;
 
 	return ret.text;
 }
@@ -343,16 +343,16 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		dat->hwnd_list = CreateWindow(L"LISTBOX", L"",
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_NOTIFY | LBS_WANTKEYBOARDINPUT | WS_VSCROLL),
-			0, 0, 0, 0, hwnd, NULL, g_hInst, 0);
+			0, 0, 0, 0, hwnd, nullptr, g_hInst, nullptr);
 		dat->need_rebuild = FALSE;
 
 		GetClientRect(hwnd, &r);
-		SetWindowPos(dat->hwnd_list, 0, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
+		SetWindowPos(dat->hwnd_list, nullptr, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
 		break;
 
 	case WM_SIZE:
 		GetClientRect(hwnd, &r);
-		SetWindowPos(dat->hwnd_list, 0, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
+		SetWindowPos(dat->hwnd_list, nullptr, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
 		break;
 
 	case WM_PRINTCLIENT:
@@ -396,7 +396,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		dat->szQuickSearch[0] = 0;
-		pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
+		pcli->pfnInvalidateRect(hwnd, nullptr, FALSE);
 		pcli->pfnEnsureVisible(hwnd, (ClcData*)dat, dat->selection, 0);
 		UpdateWindow(hwnd);
 		break;
@@ -416,11 +416,11 @@ wchar_t* GetStatusName(struct ClcContact *item)
 	int status;
 
 	status_name[0] = '\0';
-	if (item->hContact == NULL || item->proto == NULL)
+	if (item->hContact == NULL || item->proto == nullptr)
 		return status_name;
 
 	// Get XStatusName
-	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusName", status_name, _countof(status_name), NULL);
+	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusName", status_name, _countof(status_name), nullptr);
 	if (status_name[0] != '\0')
 		return status_name;
 
@@ -436,16 +436,16 @@ wchar_t status_message[256];
 wchar_t* GetStatusMessage(struct ClcContact *item)
 {
 	status_message[0] = '\0';
-	if (item->hContact == NULL || item->proto == NULL)
+	if (item->hContact == NULL || item->proto == nullptr)
 		return status_message;
 
 	// Get XStatusMsg
-	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusMsg", status_message, _countof(status_message), NULL);
+	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusMsg", status_message, _countof(status_message), nullptr);
 	if (status_message[0] != '\0')
 		return status_message;
 
 	// Get status message
-	MyDBGetContactSettingTString(item->hContact, "CList", "StatusMsg", status_message, _countof(status_message), NULL);
+	MyDBGetContactSettingTString(item->hContact, "CList", "StatusMsg", status_message, _countof(status_message), nullptr);
 
 	return status_message;
 }
@@ -459,13 +459,13 @@ wchar_t* GetProtoName(struct ClcContact *item)
 	#endif
 
 	proto_name[0] = '\0';
-	if (item->hContact == NULL || item->proto == NULL) {
+	if (item->hContact == NULL || item->proto == nullptr) {
 		mir_wstrncpy(proto_name, TranslateT("Unknown protocol"), _countof(proto_name));
 		return proto_name;
 	}
 
 	PROTOACCOUNT *acc = Proto_GetAccount(item->proto);
-	if (acc == NULL) {
+	if (acc == nullptr) {
 		#ifdef UNICODE
 		CallProtoService(item->proto, PS_GETNAME, sizeof(description), (LPARAM)description);
 		mir_snwprintf(proto_name, L"%S", description);
@@ -516,7 +516,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	size_t size = _countof(tmp);
 	while (true) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			text -= 2;
 			size += 2;
@@ -547,7 +547,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 					count[0] = '\0';
 
 				wchar_t *txt = ParseText(template_group, t, _countof(t), v, _countof(v));
-				if (txt != NULL)
+				if (txt != nullptr)
 					mir_wstrncpy(text, txt, size);
 				mir_free(txt);
 			}
@@ -569,7 +569,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				};
 
 				wchar_t *txt = ParseText(template_contact, t, _countof(t), v, _countof(v));
-				if (txt != NULL)
+				if (txt != nullptr)
 					mir_wstrncpy(text, txt, size);
 				mir_free(txt);
 			}
@@ -599,7 +599,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	}
 
 	SendMessage(dat->hwnd_list, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(dat->hwnd_list, NULL, TRUE);
+	InvalidateRect(dat->hwnd_list, nullptr, TRUE);
 
 	dat->selection = selection;
 	SendMessage(dat->hwnd_list, LB_SETCURSEL, dat->selection, 0);

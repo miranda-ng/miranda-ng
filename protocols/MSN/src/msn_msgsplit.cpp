@@ -25,7 +25,7 @@ chunkedmsg::chunkedmsg(const char* tid, const size_t totsz, const bool tbychunk)
 	: size(totsz), recvsz(0), bychunk(tbychunk)
 {
 	id = mir_strdup(tid);
-	msg = tbychunk ? NULL : (char*)mir_alloc(totsz + 1);
+	msg = tbychunk ? nullptr : (char*)mir_alloc(totsz + 1);
 }
 
 chunkedmsg::~chunkedmsg()
@@ -61,7 +61,7 @@ bool chunkedmsg::get(char*& tmsg, size_t& tsize)
 		msg[recvsz] = 0;
 		tmsg = msg;
 		tsize = recvsz;
-		msg = NULL;
+		msg = nullptr;
 	}
 
 	return alldata;

@@ -37,8 +37,8 @@ static int isSelf(TlenProtocol *proto, const char *roomID, const char *nick)
 	int result;
 	result=0;
 	item = TlenListGetItemPtr(proto, LIST_CHATROOM, roomID);
-	if (item != NULL) {
-		if (item->nick == NULL) {
+	if (item != nullptr) {
+		if (item->nick == nullptr) {
 			if (!mir_strcmp(nick, proto->threadData->username)) result = 1;
 		} else if (nick[0] == '~') {
 			if (!mir_strcmp(nick+1, item->nick)) {
@@ -84,7 +84,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char*, const char *from, const char*)
 {
 	int	 ignore, ask, groupChatPolicy;
-	if (roomId == NULL) return 1;
+	if (roomId == nullptr) return 1;
 	groupChatPolicy = db_get_w(NULL, proto->m_szModuleName, "GroupChatPolicy", 0);
 	ask = TRUE;
 	ignore = FALSE;
@@ -141,27 +141,27 @@ static int TlenMUCSendPresence(TlenProtocol *proto, const char *roomID, const ch
 	if (!proto->isOnline) {
 		return 1;
 	}
-	if (nick != NULL) {
+	if (nick != nullptr) {
 		mir_snprintf(str, "%s/%s", roomID, nick);
 	} else {
 		strncpy_s(str, roomID, _TRUNCATE);
 	}
-	if ((jid = TlenTextEncode(str)) != NULL) {
+	if ((jid = TlenTextEncode(str)) != nullptr) {
 		switch (desiredStatus) {
 			case ID_STATUS_ONLINE:
 				TlenSend(proto, "<p to='%s'/>", jid);
 				item = TlenListGetItemPtr(proto, LIST_CHATROOM, roomID);
-				if (item != NULL) {
-					if (item->nick != NULL) mir_free(item->nick);
-					item->nick = NULL;
-					if (nick != NULL) {
+				if (item != nullptr) {
+					if (item->nick != nullptr) mir_free(item->nick);
+					item->nick = nullptr;
+					if (nick != nullptr) {
 						item->nick = mir_strdup(nick);
 					}
 				}
 				break;
 			default:
 				item = TlenListGetItemPtr(proto, LIST_CHATROOM, roomID);
-				if (item != NULL) {
+				if (item != nullptr) {
 					TlenSend(proto, "<p to='%s'><s>unavailable</s></p>", jid);
 					TlenListRemove(proto, LIST_CHATROOM, roomID);
 				}
@@ -185,7 +185,7 @@ static int TlenMUCSendQuery(TlenProtocol *proto, int type, const char *parent, i
 		item->roomName = mir_strdup(parent);
 		TlenSend(proto, "<iq to='c' type='3' n='%s' id='%s'/>", parent, serialId);
 	} else {
-		if (parent == NULL) {
+		if (parent == nullptr) {
 			TlenSend(proto, "<iq to='c' type='%d'/>", type);
 		} else { // 1 - groups, 2 - chat rooms, 7 - user nicks, 8 - user rooms
 			if (type == 1 || (type == 2 && page == 0) || type == 7 || type == 8) {

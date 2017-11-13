@@ -20,10 +20,10 @@ bool is_idle = false;
 
 void free_alarm_data(ALARM *alarm)
 {
-	mir_free(alarm->szTitle); alarm->szTitle = 0;
-	mir_free(alarm->szDesc); alarm->szDesc = 0;
-	mir_free(alarm->szCommand); alarm->szCommand = 0;
-	mir_free(alarm->szCommandParams); alarm->szCommandParams = 0;
+	mir_free(alarm->szTitle); alarm->szTitle = nullptr;
+	mir_free(alarm->szDesc); alarm->szDesc = nullptr;
+	mir_free(alarm->szCommand); alarm->szCommand = nullptr;
+	mir_free(alarm->szCommandParams); alarm->szCommandParams = nullptr;
 }
 
 void copy_alarm_data(ALARM *dest, ALARM *src)
@@ -651,7 +651,7 @@ void DoAlarm(ALARM *alarm)
 				Skin_PlaySound(buff);
 			}
 			else if (alarm->sound_num == 4) {
-				if (alarm->szTitle != NULL && alarm->szTitle[0] != '\0') {
+				if (alarm->szTitle != nullptr && alarm->szTitle[0] != '\0') {
 					if (ServiceExists("Speak/Say")) {
 						CallService("Speak/Say", 0, (LPARAM)alarm->szTitle);
 					}
@@ -679,7 +679,7 @@ void DoAlarm(ALARM *alarm)
 		}
 
 		if (alarm->action & AAF_COMMAND)
-			ShellExecute(0, 0, alarm->szCommand, alarm->szCommandParams, 0, SW_NORMAL);
+			ShellExecute(nullptr, nullptr, alarm->szCommand, alarm->szCommandParams, nullptr, SW_NORMAL);
 
 		if (alarm->action & AAF_SYSTRAY) {
 			CLISTEVENT cle = {};
@@ -802,7 +802,7 @@ void InitList()
 
 	InitAlarmWin();
 
-	timer_id = SetTimer(0, 0, TIMER_PERIOD, TimerProc);
+	timer_id = SetTimer(nullptr, 0, TIMER_PERIOD, TimerProc);
 
 	HookEvent(ME_IDLE_CHANGED, IdleChanged);
 }
@@ -814,7 +814,7 @@ void DeinitList()
 
 	// i don't think this should be necessary, but...
 	mir_cslock lck(alarm_cs);
-	KillTimer(0, timer_id);
+	KillTimer(nullptr, timer_id);
 
 	DestroyHookableEvent(hAlarmTriggeredEvent);
 

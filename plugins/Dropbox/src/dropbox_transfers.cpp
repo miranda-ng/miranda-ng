@@ -203,7 +203,7 @@ UINT CDropbox::UploadAndRaiseEvent(void *owner, void *arg)
 
 	int res = UploadToDropbox(owner, arg);
 
-	DropboxUploadResult ur = { 0 };
+	DropboxUploadResult ur = {};
 	ur.hProcess = (HANDLE)ftp->GetId();
 	ur.status = res;
 	ur.data = T2Utf(ftp->GetData());

@@ -4,13 +4,13 @@
 #define ID_TIMER_SOUND				10101
 #define SOUND_REPEAT_PERIOD			5000	// milliseconds
 #define SPEACH_REPEAT_PERIOD		15000	// milliseconds
-MWindowList hAlarmWindowList = 0;
+MWindowList hAlarmWindowList = nullptr;
 
 FontIDW title_font_id, window_font_id;
 ColourIDW bk_colour_id;
-HFONT hTitleFont = 0, hWindowFont = 0;
+HFONT hTitleFont = nullptr, hWindowFont = nullptr;
 COLORREF title_font_colour, window_font_colour;
-HBRUSH hBackgroundBrush = 0;
+HBRUSH hBackgroundBrush = nullptr;
 
 #define WMU_SETFONTS		(WM_USER + 61)
 #define WMU_REFRESH			(WM_USER + 62)
@@ -43,7 +43,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		wd = new WindowData;
 		wd->moving = false;
-		wd->alarm = 0;
+		wd->alarm = nullptr;
 		wd->win_num = win_num++;
 
 		if (wd->win_num > 0) {
@@ -52,7 +52,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			r.top += 20;
 			r.left += 20;
 
-			SetWindowPos(hwndDlg, 0, r.left, r.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
+			SetWindowPos(hwndDlg, nullptr, r.left, r.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 			Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 		}
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)wd);
@@ -65,7 +65,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		return FALSE;
 
 	case WMU_REFRESH:
-		InvalidateRect(hwndDlg, 0, TRUE);
+		InvalidateRect(hwndDlg, nullptr, TRUE);
 		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
@@ -99,7 +99,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		if (hBackgroundBrush) {
 			SetClassLongPtr(hwndDlg, GCLP_HBRBACKGROUND, (LONG_PTR)hBackgroundBrush);
-			InvalidateRect(hwndDlg, 0, TRUE);
+			InvalidateRect(hwndDlg, nullptr, TRUE);
 		}
 		return TRUE;
 
@@ -154,9 +154,9 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			if (data->action & AAF_SOUND && options.loop_sound) {
 				if (data->sound_num <= 3)
-					SetTimer(hwndDlg, ID_TIMER_SOUND, SOUND_REPEAT_PERIOD, 0);
+					SetTimer(hwndDlg, ID_TIMER_SOUND, SOUND_REPEAT_PERIOD, nullptr);
 				else if (data->sound_num == 4)
-					SetTimer(hwndDlg, ID_TIMER_SOUND, SPEACH_REPEAT_PERIOD, 0);
+					SetTimer(hwndDlg, ID_TIMER_SOUND, SPEACH_REPEAT_PERIOD, nullptr);
 			}
 
 			HWND hw = GetDlgItem(hwndDlg, IDC_SNOOZE);
@@ -181,7 +181,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					Skin_PlaySound(buff);
 				}
 				else if (data->sound_num == 4) {
-					if (data->szTitle != NULL && data->szTitle[0] != '\0') {
+					if (data->szTitle != nullptr && data->szTitle[0] != '\0') {
 						if (ServiceExists("Speak/Say")) {
 							CallService("Speak/Say", 0, (LPARAM)data->szTitle);
 						}
@@ -312,7 +312,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				RECT r;
 				GetWindowRect(hwndDlg, &r);
 
-				SetWindowPos(hwndDlg, 0, r.left + (newp.x - wd->p.x), r.top + (newp.y - wd->p.y), 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+				SetWindowPos(hwndDlg, nullptr, r.left + (newp.x - wd->p.x), r.top + (newp.y - wd->p.y), 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 			}
 			wd->p.x = newp.x;
 			wd->p.y = newp.y;

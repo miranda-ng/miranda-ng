@@ -50,13 +50,13 @@ void TlenP2PFreeFileTransfer(TLEN_FILE_TRANSFER *ft)
 TLEN_FILE_PACKET *TlenP2PPacketCreate(int datalen)
 {
 	TLEN_FILE_PACKET *packet=(TLEN_FILE_PACKET *) mir_alloc(sizeof(TLEN_FILE_PACKET));
-	if (packet == NULL)
-		return NULL;
-	packet->packet = NULL;
+	if (packet == nullptr)
+		return nullptr;
+	packet->packet = nullptr;
 	if (datalen > 0) {
-		if ((packet->packet=(char *) mir_alloc(datalen)) == NULL) {
+		if ((packet->packet=(char *) mir_alloc(datalen)) == nullptr) {
 			mir_free(packet);
-			return NULL;
+			return nullptr;
 		}
 	}
 	packet->maxDataLen = datalen;
@@ -67,8 +67,8 @@ TLEN_FILE_PACKET *TlenP2PPacketCreate(int datalen)
 
 void TlenP2PPacketFree(TLEN_FILE_PACKET *packet)
 {
-	if (packet != NULL) {
-		if (packet->packet != NULL)
+	if (packet != nullptr) {
+		if (packet->packet != nullptr)
 			mir_free(packet->packet);
 		mir_free(packet);
 	}
@@ -76,21 +76,21 @@ void TlenP2PPacketFree(TLEN_FILE_PACKET *packet)
 
 void TlenP2PPacketSetType(TLEN_FILE_PACKET *packet, DWORD type)
 {
-	if (packet != NULL) {
+	if (packet != nullptr) {
 		packet->type = type;
 	}
 }
 
 void TlenP2PPacketSetLen(TLEN_FILE_PACKET *packet, DWORD len)
 {
-	if (packet != NULL) {
+	if (packet != nullptr) {
 		packet->len = len;
 	}
 }
 
 void TlenP2PPacketPackDword(TLEN_FILE_PACKET *packet, DWORD data)
 {
-	if (packet != NULL && packet->packet != NULL) {
+	if (packet != nullptr && packet->packet != nullptr) {
 		if (packet->len + sizeof(DWORD) <= packet->maxDataLen) {
 			(*((DWORD*)((packet->packet)+(packet->len)))) = data;
 			packet->len += sizeof(DWORD);
@@ -100,7 +100,7 @@ void TlenP2PPacketPackDword(TLEN_FILE_PACKET *packet, DWORD data)
 
 void TlenP2PPacketPackBuffer(TLEN_FILE_PACKET *packet, char *buffer, int len)
 {
-	if (packet != NULL && packet->packet != NULL) {
+	if (packet != nullptr && packet->packet != nullptr) {
 		if (packet->len + len <= packet->maxDataLen) {
 			memcpy((packet->packet)+(packet->len), buffer, len);
 			packet->len += len;
@@ -117,7 +117,7 @@ void TlenP2PUninit() {
 int TlenP2PPacketSend(HNETLIBCONN s, TLEN_FILE_PACKET *packet)
 {
 	DWORD sendResult;
-	if (packet != NULL && packet->packet != NULL) {
+	if (packet != nullptr && packet->packet != nullptr) {
 		Netlib_Send(s, (char *)&packet->type, 4, MSG_NODUMP);
 		Netlib_Send(s, (char *)&packet->len, 4, MSG_NODUMP);
 		sendResult=Netlib_Send(s, packet->packet, packet->len, MSG_NODUMP);
@@ -130,9 +130,9 @@ TLEN_FILE_PACKET* TlenP2PPacketReceive(HNETLIBCONN s)
 {
 	DWORD type, len, pos;
 	DWORD recvResult = Netlib_Recv(s, (char *)&type, 4, MSG_NODUMP);
-	if (recvResult == 0 || recvResult == SOCKET_ERROR) return NULL;
+	if (recvResult == 0 || recvResult == SOCKET_ERROR) return nullptr;
 	recvResult = Netlib_Recv(s, (char *)&len, 4, MSG_NODUMP);
-	if (recvResult == 0 || recvResult == SOCKET_ERROR) return NULL;
+	if (recvResult == 0 || recvResult == SOCKET_ERROR) return nullptr;
 	TLEN_FILE_PACKET *packet = TlenP2PPacketCreate(len);
 	TlenP2PPacketSetType(packet, type);
 	TlenP2PPacketSetLen(packet, len);
@@ -141,7 +141,7 @@ TLEN_FILE_PACKET* TlenP2PPacketReceive(HNETLIBCONN s)
 		recvResult = Netlib_Recv(s, packet->packet+pos, len, MSG_NODUMP);
 		if (recvResult == 0 || recvResult == SOCKET_ERROR) {
 			TlenP2PPacketFree(packet);
-			return NULL;
+			return nullptr;
 		}
 		len -= recvResult;
 		pos += recvResult;
@@ -157,7 +157,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 	proto->debugLogA("Establishing outgoing connection.");
 	ft->state = FT_ERROR;
 	TLEN_FILE_PACKET *packet = TlenP2PPacketCreate(2*sizeof(DWORD) + 20);
-	if (packet != NULL) {
+	if (packet != nullptr) {
 		TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_CONNECTION_REQUEST);
 		TlenP2PPacketPackDword(packet, 1);
 		TlenP2PPacketPackDword(packet, (DWORD) atoi(ft->iqId));
@@ -168,7 +168,7 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 		TlenP2PPacketSend(ft->s, packet);
 		TlenP2PPacketFree(packet);
 		packet = TlenP2PPacketReceive(ft->s);
-		if (packet != NULL) {
+		if (packet != nullptr) {
 			if (packet->type == TLEN_FILE_PACKET_CONNECTION_REQUEST_ACK) { // acknowledge
 				if ((int)(*((DWORD*)packet->packet)) == atoi(ft->iqId)) {
 					ft->state = FT_CONNECTING;
@@ -192,18 +192,18 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HNET
 	// (DWORD) id
 	// (BYTE) hash[20]
 	TLEN_FILE_PACKET *packet = TlenP2PPacketReceive(s);
-	if (packet == NULL || packet->type != TLEN_FILE_PACKET_CONNECTION_REQUEST || packet->len<28) {
-		if (packet != NULL) {
+	if (packet == nullptr || packet->type != TLEN_FILE_PACKET_CONNECTION_REQUEST || packet->len<28) {
+		if (packet != nullptr) {
 			TlenP2PPacketFree(packet);
 		}
-		return NULL;
+		return nullptr;
 	}
 	iqId = *((DWORD *)(packet->packet+sizeof(DWORD)));
 	int i = 0;
 	TLEN_LIST_ITEM *item;
 	while ((i=TlenListFindNext(proto, list, i)) >= 0) {
 		item = TlenListGetItemPtrFromIndex(proto, i);
-		if (item != NULL) {
+		if (item != nullptr) {
 			mir_snprintf(str, "%d", iqId);
 			if (!mir_strcmp(item->ft->iqId, str)) {
 				char *hash, *nick;
@@ -223,7 +223,7 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HNET
 	}
 	TlenP2PPacketFree(packet);
 	if (i >=0) {
-		if ((packet=TlenP2PPacketCreate(sizeof(DWORD))) != NULL) {
+		if ((packet=TlenP2PPacketCreate(sizeof(DWORD))) != nullptr) {
 			// Send connection establishment acknowledgement
 			TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_CONNECTION_REQUEST_ACK);
 			TlenP2PPacketPackDword(packet, (DWORD) atoi(item->ft->iqId));
@@ -236,7 +236,7 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HNET
 			return item->ft;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
@@ -252,7 +252,7 @@ static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
 		status = 0;
 	}
 	if (!status) {
-		ft->pfnNewConnectionV2(ft->s, 0, NULL);
+		ft->pfnNewConnectionV2(ft->s, 0, nullptr);
 	} else {
 		if (ft->state != FT_SWITCH) {
 			ft->state = FT_ERROR;
@@ -260,7 +260,7 @@ static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
 	}
 	ft->proto->debugLogA("Closing connection for this file transfer...");
 //	Netlib_CloseHandle(ft->s);
-	if (ft->hFileEvent != NULL)
+	if (ft->hFileEvent != nullptr)
 		SetEvent(ft->hFileEvent);
 
 }
@@ -277,7 +277,7 @@ static void __cdecl TlenFileBindSocks5Thread(TLEN_FILE_TRANSFER* ft)
 		status = 0;
 	}
 	if (!status) {
-		ft->pfnNewConnectionV2(ft->s, 0, NULL);
+		ft->pfnNewConnectionV2(ft->s, 0, nullptr);
 	} else {
 		if (ft->state != FT_SWITCH) {
 			ft->state = FT_ERROR;
@@ -285,7 +285,7 @@ static void __cdecl TlenFileBindSocks5Thread(TLEN_FILE_TRANSFER* ft)
 	}
 //	TlenLog("Closing connection for this file transfer...");
 //	Netlib_CloseHandle(ft->s);
-	if (ft->hFileEvent != NULL)
+	if (ft->hFileEvent != nullptr)
 		SetEvent(ft->hFileEvent);
 
 }
@@ -301,9 +301,9 @@ static HNETLIBCONN TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
 	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
-	if (s == NULL) {
+	if (s == nullptr) {
 //		TlenLog("Connection failed (%d), thread ended", WSAGetLastError());
-		return NULL;
+		return nullptr;
 	}
 	buf[0] = 4;  //socks4
 	buf[1] = 2;  //2-bind, 1-connect
@@ -321,19 +321,19 @@ static HNETLIBCONN TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	if (status == SOCKET_ERROR || status < len) {
 //		TlenLog("Send failed (%d), thread ended", WSAGetLastError());
 		Netlib_CloseHandle(s);
-		return NULL;
+		return nullptr;
 	}
 	status = Netlib_Recv(s, (char*)buf, 8, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < 8 || buf[1] != 90) {
 //		TlenLog("SOCKS4 negotiation failed");
 		Netlib_CloseHandle(s);
-		return NULL;
+		return nullptr;
 	}
 	status = Netlib_Recv(s, (char*)buf, sizeof(buf), MSG_NODUMP);
 	if ( status == SOCKET_ERROR || status < 7 || buf[0] != 5 || buf[1] != 0) {
 //		TlenLog("SOCKS5 request failed");
 		Netlib_CloseHandle(s);
-		return NULL;
+		return nullptr;
 	}
 	in.S_un.S_addr = *(PDWORD)(buf+4);
 	strncpy(sb->szHost, inet_ntoa(in), sizeof(sb->szHost)-1);
@@ -353,9 +353,9 @@ static HNETLIBCONN TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	nloc.szHost = sb->szHost;
 	nloc.wPort = sb->wPort;
 	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->hFileNetlibUser, &nloc);
-	if (s == NULL) {
+	if (s == nullptr) {
 		ft->proto->debugLogA("Connection failed (%d), thread ended", WSAGetLastError());
-		return NULL;
+		return nullptr;
 	}
 	buf[0] = 5;  //yep, socks5
 	buf[1] = 1;  //one auth method
@@ -364,13 +364,13 @@ static HNETLIBCONN TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 	if (status == SOCKET_ERROR || status < 3) {
 		ft->proto->debugLogA("Send failed (%d), thread ended", WSAGetLastError());
 		Netlib_CloseHandle(s);
-		return NULL;
+		return nullptr;
 	}
 	status = Netlib_Recv(s, (char*)buf, 2, MSG_NODUMP);
 	if (status == SOCKET_ERROR || status < 2 || (buf[1] != 0 && buf[1] != 2)) {
 		ft->proto->debugLogA("SOCKS5 negotiation failed");
 		Netlib_CloseHandle(s);
-		return NULL;
+		return nullptr;
 	}
 	if (buf[1] == 2) {		//rfc1929
 		int nUserLen, nPassLen;
@@ -389,13 +389,13 @@ static HNETLIBCONN TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		if (status == SOCKET_ERROR || status < 3 + nUserLen+nPassLen) {
 			ft->proto->debugLogA("Send failed (%d), thread ended", WSAGetLastError());
 			Netlib_CloseHandle(s);
-			return NULL;
+			return nullptr;
 		}
 		status = Netlib_Recv(s, (char*)buf, sizeof(buf), MSG_NODUMP);
 		if (status == SOCKET_ERROR || status < 2 || buf[1] != 0) {
 			ft->proto->debugLogA("SOCKS5 sub-negotiation failed");
 			Netlib_CloseHandle(s);
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -414,14 +414,14 @@ static HNETLIBCONN TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		if (status == SOCKET_ERROR || status < 6 + nHostLen) {
 //			TlenLog("Send failed (%d), thread ended", WSAGetLastError());
 			Netlib_CloseHandle(s);
-			return NULL;
+			return nullptr;
 		}
 	}
 	status = Netlib_Recv(s, (char*)buf, sizeof(buf), MSG_NODUMP);
 	if ( status == SOCKET_ERROR || status < 7 || buf[0] != 5 || buf[1] != 0) {
 //		TlenLog("SOCKS5 request failed");
 		Netlib_CloseHandle(s);
-		return NULL;
+		return nullptr;
 	}
 	if (buf[2] == 1) { // domain
 		len = buf[4];
@@ -443,15 +443,15 @@ static HNETLIBCONN TlenP2PBindSocks5(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 
 HNETLIBCONN TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 {
-	HNETLIBCONN s = NULL;
+	HNETLIBCONN s = nullptr;
 	int	  useProxy;
 	DBVARIANT dbv;
 	SOCKSBIND sb;
 	struct in_addr in;
 	TlenProtocol *proto = ft->proto;
 	useProxy=0;
-	if (ft->localName != NULL) mir_free(ft->localName);
-	ft->localName = NULL;
+	if (ft->localName != nullptr) mir_free(ft->localName);
+	ft->localName = nullptr;
 	ft->wPort = 0;
 	if (db_get_b(NULL, proto->m_szModuleName, "UseFileProxy", FALSE)) {
 		if (!db_get(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
@@ -506,14 +506,14 @@ HNETLIBCONN TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 		ft->wPort = nlb.wPort;
 		ft->wLocalPort = nlb.wExPort;
 	}
-	if (s != NULL) {
+	if (s != nullptr) {
 //		listenCount++;
 	}
 	return s;
 }
 
 void TlenP2PStopListening(HANDLE s) {
-	if (s != NULL) {
+	if (s != nullptr) {
 //		listenCount--;
 //		if (listenCount <= 0) {
 //			Netlib_CloseHandle(s);

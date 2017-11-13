@@ -35,7 +35,7 @@
 
 void CTabBaseDlg::DM_SaveLogAsRTF() const
 {
-	if (m_hwndIEView != 0) {
+	if (m_hwndIEView != nullptr) {
 		IEVIEWEVENT event = { sizeof(event) };
 		event.hwnd = m_hwndIEView;
 		event.hContact = m_hContact;
@@ -130,7 +130,7 @@ bool CTabBaseDlg::DM_GenericHotkeysCheck(MSG *message)
 		return true;
 
 	case TABSRMM_HK_CONTAINEROPTIONS:
-		if (m_pContainer->hWndOptions == 0)
+		if (m_pContainer->hWndOptions == nullptr)
 			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_pContainer->m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
 		return true;
 
@@ -385,7 +385,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			break;
 		case ID_SENDMENU_SENDTOCONTAINER:
 			m_sendMode ^= SMODE_CONTAINER;
-			RedrawWindow(m_hwnd, 0, 0, RDW_ERASENOW | RDW_UPDATENOW);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_ERASENOW | RDW_UPDATENOW);
 			break;
 		case ID_SENDMENU_SENDLATER:
 			if (sendLater->isAvail())
@@ -402,18 +402,18 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 			break;
 		}
 		db_set_b(m_hContact, SRMSGMOD_T, "no_ack", (BYTE)(m_sendMode & SMODE_NOACK ? 1 : 0));
-		SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
+		SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
 		if (m_sendMode & SMODE_MULTIPLE || m_sendMode & SMODE_CONTAINER) {
-			SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
+			SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 				SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
-			RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
 		else {
 			if (IsWindow(GetDlgItem(m_hwnd, IDC_CLIST)))
 				DestroyWindow(GetDlgItem(m_hwnd, IDC_CLIST));
-			SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
+			SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 				SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
-			RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
 		SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 		Resize();
@@ -459,9 +459,9 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 				DM_ScrollToBottom(0, 1);
 			}
 		}
-		SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
+		SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
-		RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
+		RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
 
 		if (m_bEditNotesActive)
 			CWarning::show(CWarning::WARN_EDITUSERNOTES, MB_OK | MB_ICONINFORMATION);
@@ -764,7 +764,7 @@ void CTabBaseDlg::DM_RecalcPictureSize()
 
 void CTabBaseDlg::DM_UpdateLastMessage() const
 {
-	if (m_pContainer->hwndStatus == 0 || m_pContainer->m_hwndActive != m_hwnd)
+	if (m_pContainer->hwndStatus == nullptr || m_pContainer->m_hwndActive != m_hwnd)
 		return;
 
 	wchar_t szBuf[100];
@@ -822,7 +822,7 @@ HWND CTabBaseDlg::DM_CreateClist()
 	if (!sendLater->isAvail()) {
 		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart."));
 		m_sendMode &= ~SMODE_MULTIPLE;
-		return 0;
+		return nullptr;
 	}
 
 	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248, 184, 0, 30, 30, m_hwnd, (HMENU)IDC_CLIST, g_hInst, nullptr);
@@ -843,7 +843,7 @@ HWND CTabBaseDlg::DM_CreateClist()
 	SendMessage(hwndClist, CLM_FIRST + 106, 0, 1);
 	SendMessage(hwndClist, CLM_AUTOREBUILD, 0, 0);
 	if (hwndClist)
-		RedrawWindow(hwndClist, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
+		RedrawWindow(hwndClist, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
 	return hwndClist;
 }
 
@@ -885,7 +885,7 @@ LRESULT CTabBaseDlg::DM_MouseWheelHandler(WPARAM wParam, LPARAM lParam)
 		HWND hwndLog = (m_hwndIEView || m_hwndHPP) ? m_hwndIWebBrowserControl : m_log.GetHwnd();
 		short wDirection = (short)HIWORD(wParam);
 
-		if (hwndLog == 0)
+		if (hwndLog == nullptr)
 			hwndLog = WindowFromPoint(pt);
 
 		if (LOWORD(wParam) & MK_SHIFT || M.GetByte("fastscroll", 0)) {
@@ -910,15 +910,15 @@ void CTabBaseDlg::DM_FreeTheme()
 {
 	if (m_hTheme) {
 		CloseThemeData(m_hTheme);
-		m_hTheme = 0;
+		m_hTheme = nullptr;
 	}
 	if (m_hThemeIP) {
 		CloseThemeData(m_hThemeIP);
-		m_hThemeIP = 0;
+		m_hThemeIP = nullptr;
 	}
 	if (m_hThemeToolbar) {
 		CloseThemeData(m_hThemeToolbar);
-		m_hThemeToolbar = 0;
+		m_hThemeToolbar = nullptr;
 	}
 }
 
@@ -929,17 +929,17 @@ void CTabBaseDlg::DM_ThemeChanged()
 
 	m_hTheme = OpenThemeData(m_hwnd, L"EDIT");
 
-	if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
+	if (m_hTheme != nullptr || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
 		SetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_log.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 		if (isChat())
 			SetWindowLongPtr(m_nickList.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_nickList.GetHwnd(), GWL_EXSTYLE) & ~(WS_EX_CLIENTEDGE | WS_EX_STATICEDGE));
 	}
 	
-	if (m_hTheme != 0 || (CSkin::m_skinEnabled && !item_msg->IGNORED))
+	if (m_hTheme != nullptr || (CSkin::m_skinEnabled && !item_msg->IGNORED))
 		SetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE, GetWindowLongPtr(m_message.GetHwnd(), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 
-	m_hThemeIP = M.isAero() ? OpenThemeData(m_hwnd, L"ButtonStyle") : 0;
-	m_hThemeToolbar = (M.isAero() || (!CSkin::m_skinEnabled && M.isVSThemed())) ? OpenThemeData(m_hwnd, L"REBAR") : 0;
+	m_hThemeIP = M.isAero() ? OpenThemeData(m_hwnd, L"ButtonStyle") : nullptr;
+	m_hThemeToolbar = (M.isAero() || (!CSkin::m_skinEnabled && M.isVSThemed())) ? OpenThemeData(m_hwnd, L"REBAR") : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1004,7 +1004,7 @@ void CSrmmWindow::DM_OptionsApplied(WPARAM, LPARAM lParam)
 	}
 
 	LoadLocalFlags();
-	m_hTimeZone = TimeZone_CreateByContact(m_hContact, 0, TZF_KNOWNONLY);
+	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 
 	m_bShowUIElements = (m_pContainer->dwFlags & CNT_HIDETOOLBAR) == 0;
 
@@ -1105,7 +1105,7 @@ void CTabBaseDlg::DM_Typing(bool fForceOff)
 					HandleIconFeedback(this, PluginConfig.g_IconTypingEvent);
 			}
 		}
-		if ((GetForegroundWindow() != hwndContainer) || (m_pContainer->hwndStatus == 0) || (m_pContainer->m_hwndActive != m_hwnd))
+		if ((GetForegroundWindow() != hwndContainer) || (m_pContainer->hwndStatus == nullptr) || (m_pContainer->m_hwndActive != m_hwnd))
 			SendMessage(hwndContainer, DM_SETICON, (WPARAM)this, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 
 		m_bShowTyping = 1;

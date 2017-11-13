@@ -24,7 +24,7 @@ CAppletManager *CAppletManager::GetInstance()
 CAppletManager::CAppletManager()
 {
 	m_uiTimer = NULL;
-	m_pLastScreen = NULL;
+	m_pLastScreen = nullptr;
 
 
 }
@@ -84,8 +84,8 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	int iCount;
 	int iProtoCount = 0;
 	PROTOACCOUNT **ppAccounts;
-	CProtocolData *pProtoData = NULL;
-	CIRCConnection *pIRCConnection = NULL;
+	CProtocolData *pProtoData = nullptr;
+	CIRCConnection *pIRCConnection = nullptr;
 
 	Proto_EnumAccounts(&iCount, &ppAccounts);
 	for (int i = 0; i < iCount; i++) {
@@ -127,7 +127,7 @@ bool CAppletManager::Initialize(tstring strAppletName)
 	m_ahLargeEventBitmaps[3] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(IDB_EVENT_INFO_LARGE), IMAGE_BITMAP, 8, 8, LR_MONOCHROME);
 
 	// start the update timer
-	m_uiTimer = SetTimer(0, 0, 1000 / 10, CAppletManager::UpdateTimer);
+	m_uiTimer = SetTimer(nullptr, 0, 1000 / 10, CAppletManager::UpdateTimer);
 
 	return true;
 }
@@ -141,7 +141,7 @@ bool CAppletManager::Shutdown()
 		return false;
 
 	// stop the update timer
-	KillTimer(0, m_uiTimer);
+	KillTimer(nullptr, m_uiTimer);
 
 	// delete status bitmaps
 	for (int i = 0; i < 8; i++)
@@ -230,7 +230,7 @@ CProtocolData* CAppletManager::GetProtocolData(tstring strProtocol)
 		if (m_vProtocolData[i]->strProtocol == strProtocol)
 			return m_vProtocolData[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //************************************************************************
@@ -568,7 +568,7 @@ void CAppletManager::HandleEvent(CEvent *pEvent)
 	// check for protocol filters
 	if (pEvent->hContact != NULL && pEvent->eType != EVENT_CONTACT_ADDED) {
 		char *szProto = GetContactProto(pEvent->hContact);
-		if (szProto == NULL || !CConfig::GetProtocolNotificationFilter(toTstring(szProto)))
+		if (szProto == nullptr || !CConfig::GetProtocolNotificationFilter(toTstring(szProto)))
 			pEvent->bNotification = false;
 	}
 	pEvent->bLog = pEvent->bNotification;
@@ -666,9 +666,9 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = szProto;
-				dbei.timestamp = time(NULL);
+				dbei.timestamp = time(nullptr);
 				// Check if protocoll is valid
-				if (dbei.szModule == NULL)
+				if (dbei.szModule == nullptr)
 					return;
 
 				dbei.cbBlob = pJob->iBufferSize;
@@ -970,7 +970,7 @@ CIRCConnection *CAppletManager::GetIRCConnection(tstring strProtocol)
 			return *iter;
 		iter++;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //************************************************************************
@@ -998,7 +998,7 @@ CIRCHistory *CAppletManager::GetIRCHistory(MCONTACT hContact)
 			return *iter;
 		iter++;
 	}
-	return NULL;
+	return nullptr;
 }
 
 CIRCHistory *CAppletManager::GetIRCHistoryByName(tstring strProtocol, tstring strChannel)
@@ -1009,7 +1009,7 @@ CIRCHistory *CAppletManager::GetIRCHistoryByName(tstring strProtocol, tstring st
 			return *iter;
 		iter++;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //************************************************************************
@@ -1041,7 +1041,7 @@ CIRCHistory *CAppletManager::CreateIRCHistory(MCONTACT hContact, tstring strChan
 {
 	char *szProto = GetContactProto(hContact);
 	if (!szProto)
-		return NULL;
+		return nullptr;
 
 	CIRCHistory *pHistory = GetIRCHistoryByName(toTstring(szProto), strChannel);
 	if (pHistory) {
@@ -1085,7 +1085,7 @@ CIRCHistory *CAppletManager::CreateIRCHistoryByName(tstring strProtocol, tstring
 int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
-	if (gce == NULL) {
+	if (gce == nullptr) {
 		TRACE(L"<< [%s] skipping invalid event\n");
 		return 0;
 	}
@@ -1116,7 +1116,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 	Event.iValue = gce->iType;
 	Event.hValue = lParam;
 
-	CIRCHistory *pHistory = NULL;
+	CIRCHistory *pHistory = nullptr;
 	if (gce->ptszID) {
 		tstring strChannel = toTstring(gce->ptszID);
 		tstring::size_type pos = strChannel.find('-');
@@ -1146,7 +1146,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		Event.hContact = NULL;
 
 	// Ignore events from hidden chatrooms, except for join events
-	if (gce->ptszID != NULL && db_get_b(Event.hContact, "CList", "Hidden", 0)) {
+	if (gce->ptszID != nullptr && db_get_b(Event.hContact, "CList", "Hidden", 0)) {
 		if (gce->iType == GC_EVENT_JOIN && pHistory)
 			pHistory->LUsers.push_back(toTstring(gce->ptszNick));
 
@@ -1282,7 +1282,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	if (gce->bIsMe || gce->ptszID == NULL)
+	if (gce->bIsMe || gce->ptszID == nullptr)
 		Event.bNotification = false;
 
 	// set the event's timestamp
@@ -1335,7 +1335,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	else if (gce->ptszID != NULL) {
+	else if (gce->ptszID != nullptr) {
 		TRACE(L"OK!\n");
 		return 0;
 	}
@@ -1429,7 +1429,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 	tstring strProto = toTstring(szProto);
 
 	CProtocolData *pProtocolData = CAppletManager::GetInstance()->GetProtocolData(toTstring(szProto));
-	if (pProtocolData == NULL)
+	if (pProtocolData == nullptr)
 		return false;
 
 	// Fetch the contacts name
@@ -1553,7 +1553,7 @@ int CAppletManager::HookProtoAck(WPARAM, LPARAM lParam)
 			return 0;
 
 		CProtocolData *pProtoData = CAppletManager::GetInstance()->GetProtocolData(strProto);
-		if (pProtoData == NULL)
+		if (pProtoData == nullptr)
 			return 0;
 
 		// Skip connecting status

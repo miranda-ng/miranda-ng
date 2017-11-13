@@ -53,7 +53,7 @@ void RecvSMSWindowDestroy()
 	RECV_SMS_WINDOW_DATA *prswdWindowData;
 
 	ListMTLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
-	while (ListMTItemGetFirst(&ssSMSSettings.lmtRecvSMSWindowsListMT, NULL, (LPVOID*)&prswdWindowData) == NO_ERROR) {// цикл
+	while (ListMTItemGetFirst(&ssSMSSettings.lmtRecvSMSWindowsListMT, nullptr, (LPVOID*)&prswdWindowData) == NO_ERROR) {// цикл
 		RecvSMSWindowRemove(prswdWindowData->hWnd);
 	}
 	ListMTUnLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
@@ -77,7 +77,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			LOGFONT lf;
 			HFONT hFont = (HFONT)SendDlgItemMessage(hWndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
 			if (hFont && hFont != (HFONT)SendDlgItemMessage(hWndDlg, IDOK, WM_GETFONT, 0, 0)) DeleteObject(hFont);
-			LoadMsgDlgFont(MSGFONTID_YOURMSG, &lf, NULL);
+			LoadMsgDlgFont(MSGFONTID_YOURMSG, &lf, nullptr);
 			hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hWndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
@@ -87,16 +87,16 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 
 		// def pos
 		if (Utils_RestoreWindowPosition(hWndDlg, (DB_SMS_GetByte(NULL, "SavePerContact", 0) ? prswdWindowData->hContact : NULL), PROTOCOL_NAMEA, "recv"))
-			SetWindowPos(hWndDlg, 0, 200, 200, 400, 350, SWP_NOZORDER);
+			SetWindowPos(hWndDlg, nullptr, 200, 200, 400, 350, SWP_NOZORDER);
 
-		InvalidateRect(GetDlgItem(hWndDlg, IDC_MESSAGE), NULL, FALSE);
+		InvalidateRect(GetDlgItem(hWndDlg, IDC_MESSAGE), nullptr, FALSE);
 		break;
 
 	case WM_CTLCOLORSTATIC:
 		if ((HWND)lParam == GetDlgItem(hWndDlg, IDC_MESSAGE)) {
 			COLORREF colour;
 
-			LoadMsgDlgFont(MSGFONTID_YOURMSG, NULL, &colour);
+			LoadMsgDlgFont(MSGFONTID_YOURMSG, nullptr, &colour);
 			SetTextColor((HDC)wParam, colour);
 			SetBkColor((HDC)wParam, db_get_dw(NULL, SRMMMOD, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 			return (INT_PTR)prswdWindowData->hBkgBrush;
@@ -114,15 +114,15 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 		{
 			int cx = rcWin.right - rcWin.left - 10;
 			int cy = rcWin.bottom - rcWin.top - 10;
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_MESSAGE), 0, 0, 0, cx - 14, cy - 112, SWP_NOZORDER | SWP_NOMOVE);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_NAME), 0, 0, 0, (cx * 35) / 100, 20, SWP_NOZORDER | SWP_NOMOVE);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_NUMBER), 0, cx - (cx * 35) / 100 - 11, 5, (cx * 35) / 100, 20, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_ST_NUMBER), 0, cx - (cx * 35) / 100 - 58, 5, 40, 20, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_READNEXT), 0, cx - 87, cy - 60, 80, 25, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDOK), 0, cx / 2 - 87, cy - 60, 80, 25, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDCANCEL), 0, cx / 2 + 7, cy - 60, 80, 25, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_MESSAGE), nullptr, 0, 0, cx - 14, cy - 112, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_NAME), nullptr, 0, 0, (cx * 35) / 100, 20, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_NUMBER), nullptr, cx - (cx * 35) / 100 - 11, 5, (cx * 35) / 100, 20, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_ST_NUMBER), nullptr, cx - (cx * 35) / 100 - 58, 5, 40, 20, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_READNEXT), nullptr, cx - 87, cy - 60, 80, 25, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDOK), nullptr, cx / 2 - 87, cy - 60, 80, 25, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDCANCEL), nullptr, cx / 2 + 7, cy - 60, 80, 25, SWP_NOZORDER);
 		}
-		RedrawWindow(hWndDlg, NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
+		RedrawWindow(hWndDlg, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
 		break;
 
 	case WM_COMMAND:
@@ -160,22 +160,22 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 //The function gets void and return the window HWND
 HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, size_t dwPhoneSize, LPSTR lpszMessage, size_t dwMessageSize)
 {
-	HWND hRet = NULL;
+	HWND hRet = nullptr;
 
 	if ((dwPhoneSize + dwMessageSize) <= MIN_SMS_DBEVENT_LEN)
-		return NULL;
+		return nullptr;
 
 	LPWSTR lpwszMessage;
 	lpwszMessage = (LPWSTR)MEMALLOC(((dwMessageSize + MAX_PATH) * sizeof(WCHAR)));
 	if (!lpwszMessage)
-		return NULL;
+		return nullptr;
 
 	RECV_SMS_WINDOW_DATA *prswdWindowData;
 
 	prswdWindowData = (RECV_SMS_WINDOW_DATA*)MEMALLOC(sizeof(RECV_SMS_WINDOW_DATA));
 	if (prswdWindowData) {
 		prswdWindowData->hContact = hContact;
-		prswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_RECVSMS), NULL, RecvSmsDlgProc, (LPARAM)prswdWindowData);
+		prswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_RECVSMS), nullptr, RecvSmsDlgProc, (LPARAM)prswdWindowData);
 		if (prswdWindowData->hWnd) {
 			HICON hIcon;
 			WCHAR wszTitle[MAX_PATH] = { 0 }, wszPhoneLocal[MAX_PHONE_LEN] = { 0 };
@@ -193,19 +193,19 @@ HWND RecvSMSWindowAdd(MCONTACT hContact, DWORD dwEventType, LPWSTR lpwszPhone, s
 				break;
 			case ICQEVENTTYPE_SMSCONFIRMATION:
 				lpwszTitlepart = TranslateT("Received SMS Confirmation");
-				GetDataFromMessage(lpszMessage, dwMessageSize, NULL, NULL, 0, NULL, &iIcon);
+				GetDataFromMessage(lpszMessage, dwMessageSize, nullptr, nullptr, 0, nullptr, &iIcon);
 				hIcon = (HICON)LoadImage(ssSMSSettings.hInstance, MAKEINTRESOURCE(iIcon), IMAGE_ICON, 0, 0, LR_SHARED);
 				break;
 			default:
 				lpwszTitlepart = L"Unknown event type";
-				hIcon = 0;
+				hIcon = nullptr;
 			}
 
 			wszPhoneLocal[0] = '+';
 			if (dwPhoneSize)
 				dwPhoneSize = CopyNumberW((wszPhoneLocal + 1), lpwszPhone, dwPhoneSize);
 			else {
-				GetDataFromMessage(lpszMessage, dwMessageSize, NULL, (wszPhoneLocal + 1), (_countof(wszPhoneLocal) - 1), &dwPhoneSize, NULL);
+				GetDataFromMessage(lpszMessage, dwMessageSize, nullptr, (wszPhoneLocal + 1), (_countof(wszPhoneLocal) - 1), &dwPhoneSize, nullptr);
 				dwPhoneSize++;
 			}
 

@@ -64,7 +64,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 				CreateMessageAcknowlegedWindow(ack->hContact,ack->result == ACKRESULT_SUCCESS);
 			if (ack->result == ACKRESULT_SUCCESS) {
 				// wrtie it to the DB
-				DBEVENTINFO dbei = { 0 };
+				DBEVENTINFO dbei = {};
 				DBVARIANT dbv;
 				int reuse = db_get_b(ack->hContact,modname, "Reuse", 0);
 				if (!db_get_ws(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
@@ -72,7 +72,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_UTF | DBEF_SENT;
 					dbei.szModule = (char*)ack->szModule;
-					dbei.timestamp = time(NULL);
+					dbei.timestamp = time(nullptr);
 					dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
 					dbei.pBlob = (PBYTE)(char*)pszUtf;
 					db_event_add(ack->hContact, &dbei);
@@ -133,7 +133,7 @@ int statusCheck(int statusFlag, int status)
 }
 int CheckDate(MCONTACT hContact)
 {
-	time_t curtime = time (NULL);
+	time_t curtime = time (nullptr);
 	if(!db_get_b(hContact,modname,"GiveUpDays",0))
 		return 1;
 	if(db_get_b(hContact,modname,"GiveUpDays",0) && ( abs((time_t)db_get_dw(hContact,modname,"GiveUpDate",0)) > curtime))
@@ -171,7 +171,7 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 							wchar_t *message = mir_wstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
-							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, SendPounceDlgProc, (LPARAM)spdps);
+							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), nullptr, SendPounceDlgProc, (LPARAM)spdps);
 							// set the confirmation window to send the msg when the timeout is done
 							mir_free(message);
 						}
@@ -188,9 +188,9 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM)
 {
 	if (db_get_b(NULL, modname, "UseAdvanced", 0) || db_get_b(hContact, modname, "UseAdvanced", 0))
-		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE),0,BuddyPounceDlgProc, hContact);
+		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE),nullptr,BuddyPounceDlgProc, hContact);
 	else
-		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE_SIMPLE),0,BuddyPounceSimpleDlgProc, hContact);
+		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE_SIMPLE),nullptr,BuddyPounceSimpleDlgProc, hContact);
 	return 0;
 }
 

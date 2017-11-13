@@ -146,7 +146,7 @@ DWORD CMraProto::MraSelectEMailDlgShow(MCONTACT hContact, DWORD dwType)
 		dat->ppro = this;
 		dat->hContact = hContact;
 		dat->dwType = dwType;
-		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_DIALOG_SELECT_EMAIL), NULL, MraSelectEMailDlgProc, (LPARAM)dat);
+		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_DIALOG_SELECT_EMAIL), nullptr, MraSelectEMailDlgProc, (LPARAM)dat);
 	}
 	return 0;
 }

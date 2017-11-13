@@ -67,7 +67,7 @@ void InitMenu()
 
 	// adding contact menu items
 	SET_UID(mi, 0x92be499c, 0x928c, 0x4789, 0x8f, 0x36, 0x28, 0xa2, 0x9f, 0xb7, 0x1a, 0x97);
-	mi.root = NULL;
+	mi.root = nullptr;
 	mi.position = -0x7FFFFFFA;
 	mi.hIcolibItem = GetIconHandle("checkfeed");
 	mi.name.w = LPGENW("Check feed");
@@ -79,5 +79,5 @@ void InitMenu()
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
 	hService2[6] = Menu_AddContactMenuItem(&mi, MODULE);
 
-	Menu_ModifyItem(hService2[0], NULL, GetIconHandle(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? "enabled" : "disabled"));
+	Menu_ModifyItem(hService2[0], nullptr, GetIconHandle(db_get_b(NULL, MODULE, "AutoUpdate", 1) ? "enabled" : "disabled"));
 }

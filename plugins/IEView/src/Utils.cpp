@@ -51,7 +51,7 @@ static int countNoWhitespace(const wchar_t *str)
 
 void Utils::convertPath(char *path)
 {
-	if (path != NULL) {
+	if (path != nullptr) {
 		for (; *path != '\0'; path++) {
 			if (*path == '\\') *path = '/';
 		}
@@ -60,7 +60,7 @@ void Utils::convertPath(char *path)
 
 void Utils::convertPath(wchar_t *path)
 {
-	if (path != NULL) {
+	if (path != nullptr) {
 		for (; *path != '\0'; path++) {
 			if (*path == '\\') *path = '/';
 		}
@@ -89,8 +89,8 @@ int Utils::detectURL(const wchar_t *text)
 
 char *Utils::escapeString(const char *a)
 {
-	if (a == NULL)
-		return NULL;
+	if (a == nullptr)
+		return nullptr;
 
 	int i, l, len = (int)mir_strlen(a);
 	for (i = l = 0; i < len; i++, l++) {

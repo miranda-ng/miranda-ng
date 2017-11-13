@@ -6,20 +6,20 @@
  */
 
 DlgOption::SubInput::SubInput() :
-	m_hChatSessionMinDur(NULL),
-	m_hChatSessionTimeout(NULL),
-	m_hAverageMinTime(NULL),
-	m_hWordDelimiters(NULL),
-	m_hMetaContactsMode(NULL),
-	m_hMergeContacts(NULL),
-	m_hMergeContactsGroups(NULL),
-	m_hMergeMode(NULL),
-	m_hProtocols(NULL),
-	m_hIgnoreOlder(NULL),
-	m_hIgnoreBefore(NULL),
-	m_hIgnoreAfter(NULL),
-	m_hFilterRawRTF(NULL),
-	m_hFilterBBCodes(NULL)
+	m_hChatSessionMinDur(nullptr),
+	m_hChatSessionTimeout(nullptr),
+	m_hAverageMinTime(nullptr),
+	m_hWordDelimiters(nullptr),
+	m_hMetaContactsMode(nullptr),
+	m_hMergeContacts(nullptr),
+	m_hMergeContactsGroups(nullptr),
+	m_hMergeMode(nullptr),
+	m_hProtocols(nullptr),
+	m_hIgnoreOlder(nullptr),
+	m_hIgnoreBefore(nullptr),
+	m_hIgnoreAfter(nullptr),
+	m_hFilterRawRTF(nullptr),
+	m_hFilterBBCodes(nullptr)
 {
 }
 
@@ -68,16 +68,16 @@ void DlgOption::SubInput::onWMInitDialog()
 	// settings
 	OptionsCtrl::Item hTemp, hTemp2;
 
-	hTemp = m_Options.insertGroup(NULL, TranslateT("History interpretation"), OptionsCtrl::OCF_ROOTGROUP);
+	hTemp = m_Options.insertGroup(nullptr, TranslateT("History interpretation"), OptionsCtrl::OCF_ROOTGROUP);
 	m_hChatSessionMinDur = m_Options.insertEdit(hTemp, TranslateT("Time a chat session must last to be counted (seconds)"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hChatSessionTimeout = m_Options.insertEdit(hTemp, TranslateT("Time between two chat sessions (seconds)"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hAverageMinTime = m_Options.insertEdit(hTemp, TranslateT("Minimum time to assume when calculating average (days)"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hWordDelimiters = m_Options.insertEdit(hTemp, TranslateT("Word delimiting characters"));
-	hTemp = m_Options.insertGroup(NULL, TranslateT("Contact filtering"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
+	hTemp = m_Options.insertGroup(nullptr, TranslateT("Contact filtering"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 	m_hProtocols = m_Options.insertGroup(hTemp, TranslateT("Ignore all contacts with protocol..."));
 
 	hTemp2 = m_Options.insertGroup(hTemp, TranslateT("History read mode for metacontacts"), 0);
-	m_hMetaContactsMode = m_Options.insertRadio(hTemp2, NULL, TranslateT("Use only metacontact's history"));
+	m_hMetaContactsMode = m_Options.insertRadio(hTemp2, nullptr, TranslateT("Use only metacontact's history"));
 	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Use only subcontacts' histories (for one metacontact)"));
 	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Use metacontact's history and its subcontacts' histories"));
 	m_Options.insertRadio(hTemp2, m_hMetaContactsMode, TranslateT("Treat metacontacts and subcontacts as normal contacts"));
@@ -85,10 +85,10 @@ void DlgOption::SubInput::onWMInitDialog()
 	m_hMergeContacts = m_Options.insertCheck(hTemp, TranslateT("Merge contacts with same name"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 	m_hMergeContactsGroups = m_Options.insertCheck(m_hMergeContacts, TranslateT("Only merge if contacts are in the same group"));
 	hTemp2 = m_Options.insertGroup(hTemp, TranslateT("Duplicate detection when reading merged contacts"));
-	m_hMergeMode = m_Options.insertRadio(hTemp2, NULL, TranslateT("Merge events (tolerant)"));
+	m_hMergeMode = m_Options.insertRadio(hTemp2, nullptr, TranslateT("Merge events (tolerant)"));
 	m_Options.insertRadio(hTemp2, m_hMergeMode, TranslateT("Merge events (strict)"));
 	m_Options.insertRadio(hTemp2, m_hMergeMode, TranslateT("Don't merge events"));
-	hTemp = m_Options.insertGroup(NULL, TranslateT("Message filtering"), OptionsCtrl::OCF_ROOTGROUP);
+	hTemp = m_Options.insertGroup(nullptr, TranslateT("Message filtering"), OptionsCtrl::OCF_ROOTGROUP);
 	hTemp2 = m_Options.insertGroup(hTemp, TranslateT("Ignore messages..."));
 	m_hIgnoreOlder = m_Options.insertEdit(hTemp2, TranslateT("...older than (days, 0=no limit)"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hIgnoreBefore = m_Options.insertDateTime(hTemp2, TranslateT("...before date (none=no limit)"), 0, L"%Y-%m-%d", OptionsCtrl::OCF_ALLOWNONE);
@@ -115,7 +115,7 @@ void DlgOption::SubInput::onWMInitDialog()
 	if (!RTFFilter::available())
 		m_Options.enableItem(m_hFilterRawRTF, false);
 
-	m_Options.ensureVisible(NULL);
+	m_Options.ensureVisible(nullptr);
 }
 
 void DlgOption::SubInput::loadSettings()

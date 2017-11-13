@@ -30,16 +30,16 @@ BOOL RowHeight::Init(ClcData *dat)
 	dat->rowHeight = 0;
 	dat->row_heights_size = 0;
 	dat->row_heights_allocated = 0;
-	dat->row_heights = NULL;
+	dat->row_heights = nullptr;
 
 	return TRUE;
 }
 
 void RowHeight::Free(ClcData *dat)
 {
-	if (dat->row_heights != NULL) {
+	if (dat->row_heights != nullptr) {
 		free(dat->row_heights);
-		dat->row_heights = NULL;
+		dat->row_heights = nullptr;
 	}
 
 	dat->row_heights_allocated = 0;
@@ -60,10 +60,10 @@ BOOL RowHeight::Alloc(ClcData *dat, int size)
 
 			size_grow += 100 - (size_grow % 100);
 
-			if (dat->row_heights != NULL) {
+			if (dat->row_heights != nullptr) {
 				int *tmp = (int *)realloc((void *)dat->row_heights, sizeof(int) * size_grow);
 
-				if (tmp == NULL) {
+				if (tmp == nullptr) {
 					Free(dat);
 					return FALSE;
 				}
@@ -73,7 +73,7 @@ BOOL RowHeight::Alloc(ClcData *dat, int size)
 			else {
 				dat->row_heights = (int *)malloc(sizeof(int) * size_grow);
 
-				if (dat->row_heights == NULL) {
+				if (dat->row_heights == nullptr) {
 					Free(dat);
 					return FALSE;
 				}
@@ -141,7 +141,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 	while (true) {
 		if (group->scanIndex == group->cl.getCount()) {
 			group = group->parent;
-			if (group == NULL) break;	// Finished list
+			if (group == nullptr) break;	// Finished list
 			group->scanIndex++;
 			continue;
 		}
@@ -216,7 +216,7 @@ int RowHeight::hitTest(ClcData *dat, int pos_y)
 
 int RowHeight::getHeight(ClcData *dat, int item)
 {
-	if (dat->row_heights == 0)
+	if (dat->row_heights == nullptr)
 		return 0;
 
 	return dat->row_heights[item];

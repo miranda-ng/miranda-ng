@@ -52,10 +52,10 @@ static BOOL WinNT_SetPrivilege(wchar_t *pszPrivName, BOOL bEnable)
 	if (OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken)) {
 		tkp.PrivilegeCount = 1; /* one privilege is to set */
 		/* get the LUID for the shutdown privilege */
-		if (LookupPrivilegeValue(NULL, pszPrivName, &tkp.Privileges[0].Luid)) {
+		if (LookupPrivilegeValue(nullptr, pszPrivName, &tkp.Privileges[0].Luid)) {
 			tkp.Privileges[0].Attributes = bEnable ? SE_PRIVILEGE_ENABLED : 0;
 			/* get the shutdown privilege for this process */
-			bReturn = AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, (PTOKEN_PRIVILEGES)NULL, 0);
+			bReturn = AdjustTokenPrivileges(hToken, FALSE, &tkp, 0, nullptr, nullptr);
 		}
 		CloseHandle(hToken);
 	}
@@ -89,7 +89,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 			bReturn = TRUE;
 			if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				dwSize = sizeof(dwSetting);
-				if (RegQueryValueEx(hKey, L"NoLogOff", 0, NULL, (LPBYTE)&dwSetting, &dwSize) == ERROR_SUCCESS)
+				if (RegQueryValueEx(hKey, L"NoLogOff", nullptr, nullptr, (LPBYTE)&dwSetting, &dwSize) == ERROR_SUCCESS)
 					if (dwSetting) bReturn = FALSE;
 				RegCloseKey(hKey);
 			}
@@ -103,7 +103,7 @@ static BOOL IsShutdownTypeEnabled(BYTE shutdownType)
 			bReturn = TRUE;
 			if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
 				dwSize = sizeof(dwSetting);
-				if (!RegQueryValueEx(hKey, L"DisableLockWorkstation", 0, NULL, (LPBYTE)&dwSetting, &dwSize))
+				if (!RegQueryValueEx(hKey, L"DisableLockWorkstation", nullptr, nullptr, (LPBYTE)&dwSetting, &dwSize))
 					if (dwSetting)
 						bReturn = FALSE;
 				RegCloseKey(hKey);
@@ -183,16 +183,16 @@ static DWORD ShutdownNow(BYTE shutdownType)
 			DWORD dwConnItems = 0;
 			RASCONN *paConn = (RASCONN*)mir_alloc(dwConnSize);
 			dwErrCode = ERROR_NOT_ENOUGH_MEMORY;
-			if (paConn != NULL) {
+			if (paConn != nullptr) {
 				for (dwRetries = 5; dwRetries != 0; dwRetries--) { /* prevent infinite loop (rare) */
 					memset(paConn, 0, dwConnSize);
 					paConn[0].dwSize = sizeof(RASCONN);
 					dwErrCode = RasEnumConnections(paConn, &dwConnSize, &dwConnItems);
 					if (dwErrCode != ERROR_BUFFER_TOO_SMALL) break;
 					RASCONN *paConnBuf = (RASCONN*)mir_realloc(paConn, dwConnSize);
-					if (paConnBuf == NULL) {
+					if (paConnBuf == nullptr) {
 						mir_free(paConn);
-						paConn = NULL;
+						paConn = nullptr;
 						dwErrCode = ERROR_NOT_ENOUGH_MEMORY;
 						break;
 					}
@@ -202,11 +202,11 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					for (dw = 0; dw < dwConnItems; ++dw) {
 						if (dwErrCode) {
 							if (RasHangUp(paConn[dw].hrasconn))
-								paConn[dw].hrasconn = NULL; /* do not wait for on error */
+								paConn[dw].hrasconn = nullptr; /* do not wait for on error */
 						}
 						else {
 							dwErrCode = RasHangUp(paConn[dw].hrasconn);
-							if (!dwErrCode) paConn[dw].hrasconn = NULL; /* do not wait for on error */
+							if (!dwErrCode) paConn[dw].hrasconn = nullptr; /* do not wait for on error */
 						}
 					}
 					/* RAS does not allow to quit directly after HangUp (see docs) */
@@ -214,7 +214,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					memset(&rcs, 0, sizeof(RASCONNSTATUS));
 					rcs.dwSize = sizeof(RASCONNSTATUS);
 					for (dw = 0; dw < dwConnItems; ++dw) {
-						if (paConn[dw].hrasconn != NULL) {
+						if (paConn[dw].hrasconn != nullptr) {
 							while (RasGetConnectStatus(paConn[dw].hrasconn, &rcs) != ERROR_INVALID_HANDLE) {
 								Sleep(0); /* give rest of time silce to other threads with equal priority */
 								/* infinite loop protection (3000ms defined in docs) */
@@ -248,7 +248,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 			BroadcastEndSession(BSM_APPLICATIONS | BSM_ALLDESKTOPS, ENDSESSION_CLOSEAPP); /* app should close itself */
 			WinNT_SetPrivilege(SE_TCB_NAME, FALSE);
 
-			if (!InitiateSystemShutdownEx(NULL, TranslateT("AutoShutdown"), 0, TRUE, shutdownType == SDSDT_REBOOT, SHTDN_REASON_MAJOR_OTHER | SHTDN_REASON_MINOR_OTHER | SHTDN_REASON_FLAG_PLANNED))
+			if (!InitiateSystemShutdownEx(nullptr, TranslateT("AutoShutdown"), 0, TRUE, shutdownType == SDSDT_REBOOT, SHTDN_REASON_MAJOR_OTHER | SHTDN_REASON_MINOR_OTHER | SHTDN_REASON_FLAG_PLANNED))
 				dwErrCode = GetLastError();
 
 			/* cleanly close Miranda */
@@ -317,7 +317,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				lf.lfWeight = FW_BOLD;
 				hBoldFont = CreateFontIndirect(&lf);
 			}
-			else hBoldFont = NULL;
+			else hBoldFont = nullptr;
 			SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_SETFONT, (WPARAM)hBoldFont, FALSE);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, (LONG_PTR)hBoldFont);
 		}
@@ -329,7 +329,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendMessage(hwndDlg, M_UPDATE_COUNTDOWN, 0, countdown);
 		}
 		Skin_PlaySound("AutoShutdown_Countdown");
-		if (!SetTimer(hwndDlg, 1, 1000, NULL))
+		if (!SetTimer(hwndDlg, 1, 1000, nullptr))
 			PostMessage(hwndDlg, M_START_SHUTDOWN, 0, 0);
 
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, "AutoShutdown", "ConfirmDlg_");
@@ -343,14 +343,14 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_DESTROY:
 		{
-			hwndShutdownDlg = NULL;
+			hwndShutdownDlg = nullptr;
 			ShowWindow(hwndDlg, SW_HIDE);
 			/* reallow foreground window changes (WinMe/2000+) */
 			LockSetForegroundWindow(LSFW_UNLOCK);
 			Utils_SaveWindowPosition(hwndDlg, NULL, "AutoShutdown", "ConfirmDlg_");
 			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_GETFONT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_SETFONT, 0, FALSE); /* no return value */
-			if (hFont != NULL) DeleteObject(hFont);
+			if (hFont != nullptr) DeleteObject(hFont);
 		}
 		return TRUE;
 
@@ -361,8 +361,8 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			DWORD dwErrCode = ShutdownNow(shutdownType);
 			if (dwErrCode != ERROR_SUCCESS) {
 				char *pszErr = GetWinErrorDescription(dwErrCode);
-				ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("The shutdown process failed!\nReason: %s"), (pszErr != NULL) ? pszErr : Translate("Unknown"));
-				if (pszErr != NULL) LocalFree(pszErr);
+				ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("The shutdown process failed!\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));
+				if (pszErr != nullptr) LocalFree(pszErr);
 			}
 			DestroyWindow(hwndDlg);
 		}
@@ -419,7 +419,7 @@ INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 	/* passing 0 as wParam is only to be used internally, undocumented */
 	if (!wParam) wParam = db_get_b(NULL, "AutoShutdown", "ShutdownType", SETTING_SHUTDOWNTYPE_DEFAULT);
 	if (!IsShutdownTypeEnabled((BYTE)wParam)) return 1; /* does shutdownType range check */
-	if ((BOOL)lParam && hwndShutdownDlg != NULL) return 2;
+	if ((BOOL)lParam && hwndShutdownDlg != nullptr) return 2;
 
 	/* ask others if allowed */
 	if (NotifyEventHooks(hEventOkToShutdown, wParam, lParam)) {
@@ -430,15 +430,15 @@ INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 	NotifyEventHooks(hEventShutdown, wParam, lParam);
 	/* show dialog */
 	if (lParam && db_get_b(NULL, "AutoShutdown", "ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT))
-		if (CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHUTDOWNNOW), NULL, ShutdownDlgProc, (BYTE)wParam) != NULL)
+		if (CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHUTDOWNNOW), nullptr, ShutdownDlgProc, (BYTE)wParam) != nullptr)
 			return 0;
 	/* show error */
 
 	DWORD dwErrCode = ShutdownNow((BYTE)wParam);
 	if (dwErrCode != ERROR_SUCCESS) {
 		char *pszErr = GetWinErrorDescription(dwErrCode);
-		ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("Initiating the shutdown process failed!\nReason: %s"), (pszErr != NULL) ? pszErr : Translate("Unknown"));
-		if (pszErr != NULL)
+		ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("Initiating the shutdown process failed!\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));
+		if (pszErr != nullptr)
 			LocalFree(pszErr);
 		return 4;
 	}
@@ -482,7 +482,7 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam, LPARAM lParam)
 	if (!(lParam&GSTDF_UNICODE)) {
 		static char szConvBuf[128];
 		char *buf = u2a(pszDesc);
-		if (buf == NULL) return 0;
+		if (buf == nullptr) return 0;
 		mir_strncpy(szConvBuf, buf, sizeof(szConvBuf));
 		mir_free(buf);
 		return (INT_PTR)szConvBuf;
@@ -495,7 +495,7 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam, LPARAM lParam)
 void InitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
-	hwndShutdownDlg = NULL;
+	hwndShutdownDlg = nullptr;
 	Skin_AddSound("AutoShutdown_Countdown", LPGENW("Alerts"), LPGENW("Automatic shutdown countdown"));
 
 	/* Events */
@@ -511,7 +511,7 @@ void InitShutdownSvc(void)
 void UninitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
-	if (hwndShutdownDlg != NULL)
+	if (hwndShutdownDlg != nullptr)
 		DestroyWindow(hwndShutdownDlg);
 
 	/* Services */

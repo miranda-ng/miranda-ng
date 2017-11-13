@@ -5,10 +5,10 @@
 #define NAME "WUMF"
 #define WM_MYCMD 0x0401
 
-PWumf list = NULL;
-PWumf lst = NULL;
+PWumf list = nullptr;
+PWumf lst = nullptr;
 
-HANDLE hLogger = NULL;
+HANDLE hLogger = nullptr;
 BOOL wumf();
 
 static int DlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
@@ -83,12 +83,12 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 			lvc.cx = 50;
 			lvc.pszText = TranslateT("Access");
 			ListView_InsertColumn(hList, 3, &lvc);
-			KillTimer(NULL, 777);
+			KillTimer(nullptr, 777);
 			lst = cpy_list(&list);
 			if (IsUserAnAdmin())
-				SetTimer(NULL, 777, TIME, TimerProc);
+				SetTimer(nullptr, 777, TIME, TimerProc);
 			else
-				MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
+				MessageBox(nullptr, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
 			ShowList(lst, hList);
 		}
 		Utils_RestoreWindowPosition(hWnd, NULL, MODULENAME,"conn");
@@ -136,12 +136,12 @@ void LogWumf(PWumf w)
 {
 	if (!WumfOptions.LogFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
 
-	if (hLogger == NULL) {
+	if (hLogger == nullptr) {
 		hLogger = mir_createLog("wumf", L"WhoIsUsingMyFiles log file", WumfOptions.LogFile, 0);
-		if (hLogger == NULL) {
+		if (hLogger == nullptr) {
 			wchar_t str[256];
 			mir_snwprintf(str, L"Can't open log file %s", WumfOptions.LogFile);
-			MessageBox(NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
+			MessageBox(nullptr, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
 			WumfOptions.LogToFile = FALSE;
 			return;
 		}
@@ -151,17 +151,17 @@ void LogWumf(PWumf w)
 	GetLocalTime(&time);
 
 	wchar_t lpDateStr[20], lpTimeStr[20];
-	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &time, NULL, lpDateStr, 20);
-	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, NULL, lpTimeStr, 20);
+	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &time, nullptr, lpDateStr, 20);
+	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, nullptr, lpTimeStr, 20);
 	mir_writeLogW(hLogger, L"%s %s %20s\t%s\r\n", lpDateStr, lpTimeStr, w->szUser, w->szPath);
 }
 
 BOOL wumf()
 {
-	LPSESSION_INFO_1 s_info = NULL;
+	LPSESSION_INFO_1 s_info = nullptr;
 	DWORD ent_read = 0, ent_total = 0, res_handle = 0;
 	NET_API_STATUS res = NERR_Success;
-	if ((res = NetSessionEnum(NULL, NULL, NULL, 1, (LPBYTE *)&s_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, &res_handle)) == NERR_Success ||
+	if ((res = NetSessionEnum(nullptr, nullptr, nullptr, 1, (LPBYTE *)&s_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, &res_handle)) == NERR_Success ||
 		res == ERROR_MORE_DATA)
 	{
 		mark_all(&list, TRUE);
@@ -177,10 +177,10 @@ BOOL wumf()
 
 void process_session(SESSION_INFO_1 s_info)
 {
-	LPFILE_INFO_3 f_info = NULL;
+	LPFILE_INFO_3 f_info = nullptr;
 	DWORD ent_read = 0, ent_total = 0, res_handle = 0;
 	NET_API_STATUS res = NERR_Success;
-	if ((res = NetFileEnum(NULL, NULL, s_info.sesi1_username, 3, (LPBYTE *)&f_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, (PDWORD_PTR)&res_handle)) == NERR_Success ||
+	if ((res = NetFileEnum(nullptr, nullptr, s_info.sesi1_username, 3, (LPBYTE *)&f_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, (PDWORD_PTR)&res_handle)) == NERR_Success ||
 			res == ERROR_MORE_DATA)
 	{
 		for(unsigned i=0; i < ent_read; i++)
@@ -195,7 +195,7 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info)
 {
 	PWumf w = fnd_cell(&list, f_info.fi3_id);
 	if (!w) {
-		w = new_wumf(f_info.fi3_id, f_info.fi3_username, f_info.fi3_pathname, s_info.sesi1_cname, NULL, 0, f_info.fi3_permissions, GetFileAttributes(f_info.fi3_pathname));
+		w = new_wumf(f_info.fi3_id, f_info.fi3_username, f_info.fi3_pathname, s_info.sesi1_cname, nullptr, 0, f_info.fi3_permissions, GetFileAttributes(f_info.fi3_pathname));
 		w->mark = FALSE;
 		if (!add_cell(&list, w))
 			msg(TranslateT("Error memory allocation"));
@@ -209,7 +209,7 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info)
 void printError(DWORD res) 
 {
 	LPVOID lpMsgBuf;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, NULL, res, 0, (LPTSTR) &lpMsgBuf, 0, NULL );
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, res, 0, (LPTSTR) &lpMsgBuf, 0, nullptr );
 	OutputDebugString((LPCTSTR)lpMsgBuf);
 	msg((LPCTSTR)lpMsgBuf);
 	LocalFree( lpMsgBuf );
@@ -218,7 +218,7 @@ void printError(DWORD res)
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	if (!wumf())
-		KillTimer(NULL, 777);
+		KillTimer(nullptr, 777);
 };
 
 void FreeAll()

@@ -24,14 +24,14 @@ HANDLE hCheckMenu, hListMenu, hAddBirthdayContact, hRefreshUserDetails;
 HANDLE hImportBirthdays, hExportBirthdays;
 
 const int cDTB = 10;
-HANDLE hDTB[cDTB] = { NULL };
-HANDLE hDTBMore = NULL;
+HANDLE hDTB[cDTB] = {};
+HANDLE hDTBMore = nullptr;
 
 HANDLE hWWIExtraIcons = (HANDLE)-1;
 
 static HANDLE AddIcon(char *name, char *description, wchar_t *tszPath, int iDefaultIdx)
 {
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.flags = SIDF_PATH_UNICODE;
 	sid.section.a = LPGEN("WhenWasIt");
 	sid.description.a = description;

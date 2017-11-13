@@ -60,8 +60,8 @@ static BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC, LPRECT, LPARAM 
 
 size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen)
 {
-	MONITORS tmp = { 0, 0 };
-	if (EnumDisplayMonitors(NULL, NULL, MonitorInfoEnumProc, (LPARAM)&tmp)) {
+	MONITORS tmp = { 0, nullptr };
+	if (EnumDisplayMonitors(nullptr, nullptr, MonitorInfoEnumProc, (LPARAM)&tmp)) {
 		myMonitors = tmp.info;
 		memset(&virtualScreen, 0, sizeof(virtualScreen));
 		for (size_t i = 0; i < tmp.count; ++i) {
@@ -74,7 +74,7 @@ size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen)
 	return 0;
 }
 
-FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture = 0);
+FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // capture window as FIBITMAP - caller must FIP->FI_Unload(dib)
@@ -86,7 +86,7 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 	RECT rect;//cropping rect
 
 	if (!hCapture || !IsWindow(hCapture))
-		return NULL;
+		return nullptr;
 	hForegroundWin = GetForegroundWindow();	// old foreground window
 	SetForegroundWindow(hCapture);			// force target foreground
 	BringWindowToTop(hCapture);				// bring it to top as well
@@ -95,7 +95,7 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 
 	HWND hParent = GetAncestor(hCapture, GA_PARENT);
 	if (hParent && !IsChild(hParent, hCapture))
-		hParent = NULL;
+		hParent = nullptr;
 	if (bIndirectCapture) {
 		intptr_t wastopmost = GetWindowLongPtr(hCapture, GWL_EXSTYLE)&WS_EX_TOPMOST;
 		if (!wastopmost)
@@ -107,7 +107,7 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 		}
 		else
 			GetWindowRect(hCapture, &rect);
-		dib = CaptureMonitor(NULL, &rect);
+		dib = CaptureMonitor(nullptr, &rect);
 		if (!wastopmost)
 			SetWindowPos(hCapture, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	}
@@ -151,14 +151,14 @@ FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
 	
 	/// get screen resolution
 	if (!szDevice) {
-		hScrDC = CreateDC(L"DISPLAY", NULL, NULL, NULL);
+		hScrDC = CreateDC(L"DISPLAY", nullptr, nullptr, nullptr);
 		rect.left = GetSystemMetrics(SM_XVIRTUALSCREEN);
 		rect.top = GetSystemMetrics(SM_YVIRTUALSCREEN);
 		rect.right = GetSystemMetrics(SM_XVIRTUALSCREEN) + GetSystemMetrics(SM_CXVIRTUALSCREEN);
 		rect.bottom = GetSystemMetrics(SM_YVIRTUALSCREEN) + GetSystemMetrics(SM_CYVIRTUALSCREEN);
 	}
 	else {
-		hScrDC = CreateDC(szDevice, NULL, NULL, NULL);
+		hScrDC = CreateDC(szDevice, nullptr, nullptr, nullptr);
 		rect.left = rect.top = 0;
 		rect.right = GetDeviceCaps(hScrDC, HORZRES);
 		rect.bottom = GetDeviceCaps(hScrDC, VERTRES);
@@ -171,7 +171,7 @@ FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
 	}
 	
 	FIBITMAP *dib = CreateDIBFromDC(hScrDC, &rect);
-	ReleaseDC(NULL, hScrDC);
+	ReleaseDC(nullptr, hScrDC);
 	return dib;
 }
 
@@ -204,8 +204,8 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	bool bFixAlpha = true;
 	bool bInvert = false;
 	HBRUSH hBr = CreateSolidBrush(RGB(255, 255, 255));//Create a SolidBrush object for non transparent area
-	HBITMAP hMask = CreateBitmap(width, height, 1, 1, NULL);// Create monochrome (1 bit) B+W mask bitmap.
-	HDC hMaskDC = CreateCompatibleDC(0);
+	HBITMAP hMask = CreateBitmap(width, height, 1, 1, nullptr);// Create monochrome (1 bit) B+W mask bitmap.
+	HDC hMaskDC = CreateCompatibleDC(nullptr);
 	SelectBitmap(hMaskDC, hMask);
 	HRGN hRgn = CreateRectRgn(0, 0, 0, 0);
 	if (hCapture && GetWindowRgn(hCapture, hRgn) == ERROR) {
@@ -254,7 +254,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	DeleteDC(hMemDC);
 	DeleteObject(hBitmap);
 	if (!hDC)
-		ReleaseDC(NULL, hScrDC);
+		ReleaseDC(nullptr, hScrDC);
 
 #ifdef _DEBUG
 	switch (FIP->FI_GetImageType(dib)) {
@@ -349,7 +349,7 @@ void SaveGIF(HBITMAP hBmp, const wchar_t *szFilename)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR                    gdiplusToken;
-	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 
 	Gdiplus::Bitmap *pBitmap = Gdiplus::Bitmap::FromHBITMAP(hBmp, (HPALETTE)GetStockObject(DEFAULT_PALETTE));
 	if (pBitmap) {
@@ -357,7 +357,7 @@ void SaveGIF(HBITMAP hBmp, const wchar_t *szFilename)
 		CLSID clsidEncoder;
 		if (GetEncoderClsid(L"image/gif", clsidEncoder)) {
 			LPWSTR pswFile = mir_wstrdup(szFilename);
-			pBitmap->Save((const WCHAR*)pswFile, &clsidEncoder, NULL);
+			pBitmap->Save((const WCHAR*)pswFile, &clsidEncoder, nullptr);
 			mir_free(pswFile);
 		}
 		delete pBitmap;
@@ -373,7 +373,7 @@ void SaveTIF(HBITMAP hBmp, const wchar_t *szFilename)
 	ULONG_PTR						gdiplusToken;
 	Gdiplus::GdiplusStartupInput	gdiplusStartupInput;
 	Gdiplus::Status stat;
-	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 
 	Gdiplus::Bitmap *pBitmap = Gdiplus::Bitmap::FromHBITMAP(hBmp, (HPALETTE)GetStockObject(DEFAULT_PALETTE));
 	if (pBitmap) {

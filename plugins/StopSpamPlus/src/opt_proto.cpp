@@ -16,7 +16,7 @@ int FillTree(HWND hwnd)
 	ProtocolData *PD;
 
 	TVINSERTSTRUCT tvis;
-	tvis.hParent = NULL;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
@@ -79,7 +79,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 				tvi.hItem = TreeView_GetRoot(hwndProto);
 				tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 
-				while (tvi.hItem != NULL) {
+				while (tvi.hItem != nullptr) {
 					TreeView_GetItem(hwndProto, &tvi);
 
 					if (tvi.lParam != 0) {

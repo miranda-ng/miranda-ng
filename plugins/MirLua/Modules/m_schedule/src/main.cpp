@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
 static mir_cs threadLock;
-static HANDLE hScheduleEvent = NULL;
-static HANDLE hScheduleThread = NULL;
+static HANDLE hScheduleEvent = nullptr;
+static HANDLE hScheduleThread = nullptr;
 
 #define STOP ((void *) -1)
 
@@ -24,7 +24,7 @@ struct ScheduleTask
 
 	ScheduleTask()
 	{
-		timestamp = time(NULL);
+		timestamp = time(nullptr);
 		interval = 0;
 		repeat = false;
 	}
@@ -63,7 +63,7 @@ void ExecuteTaskThread(void *arg)
 	{
 		mir_cslock lock(threadLock);
 
-		time_t now = time(NULL);
+		time_t now = time(nullptr);
 		if (task->timestamp + task->interval >= now)
 			task->timestamp += task->interval;
 		else
@@ -87,7 +87,7 @@ wait:	WaitForSingleObject(hScheduleEvent, waitTime);
 			if (Miranda_IsTerminated())
 				return;
 
-			time_t now = time(NULL);
+			time_t now = time(nullptr);
 			if (task->timestamp > now)
 			{
 				waitTime = (task->timestamp - now) * 1000;
@@ -165,7 +165,7 @@ static int fluent_Do(lua_State *L)
 
 	ScheduleTask *task = *(ScheduleTask**)lua_touserdata(L, lua_upvalueindex(1));
 
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	if (task->timestamp < now)
 	{
 		if (task->interval == 0)
@@ -200,7 +200,7 @@ static int fluent_From(lua_State *L)
 	const luaL_Reg funcs[] =
 	{
 		{ "Do", fluent_Do },
-		{ NULL, NULL }
+		{ nullptr, nullptr }
 	};
 
 	lua_pushvalue(L, lua_upvalueindex(1));
@@ -214,7 +214,7 @@ static const luaL_Reg fluentApi[] =
 	{ "From", fluent_From },
 	{ "Do", fluent_Do },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 static int fluent_Second(lua_State *L)
@@ -323,7 +323,7 @@ static int fluent_Week(lua_State *L)
 
 static int fluent_Monday(lua_State *L)
 {
-	time_t timestamp = time(NULL);
+	time_t timestamp = time(nullptr);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(1 - ti->tm_wday);
 
@@ -339,7 +339,7 @@ static int fluent_Monday(lua_State *L)
 
 static int fluent_Tuesday(lua_State *L)
 {
-	time_t timestamp = time(NULL);
+	time_t timestamp = time(nullptr);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(2 - ti->tm_wday);
 
@@ -355,7 +355,7 @@ static int fluent_Tuesday(lua_State *L)
 
 static int fluent_Wednesday(lua_State *L)
 {
-	time_t timestamp = time(NULL);
+	time_t timestamp = time(nullptr);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(3 - ti->tm_wday);
 
@@ -371,7 +371,7 @@ static int fluent_Wednesday(lua_State *L)
 
 static int fluent_Thursday(lua_State *L)
 {
-	time_t timestamp = time(NULL);
+	time_t timestamp = time(nullptr);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(4 - ti->tm_wday);
 
@@ -387,7 +387,7 @@ static int fluent_Thursday(lua_State *L)
 
 static int fluent_Friday(lua_State *L)
 {
-	time_t timestamp = time(NULL);
+	time_t timestamp = time(nullptr);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(5 - ti->tm_wday);
 
@@ -403,7 +403,7 @@ static int fluent_Friday(lua_State *L)
 
 static int fluent_Saturday(lua_State *L)
 {
-	time_t timestamp = time(NULL);
+	time_t timestamp = time(nullptr);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(6 - ti->tm_wday);
 
@@ -419,7 +419,7 @@ static int fluent_Saturday(lua_State *L)
 
 static int fluent_Sunday(lua_State *L)
 {
-	time_t timestamp = time(NULL);
+	time_t timestamp = time(nullptr);
 	struct tm *ti = localtime(&timestamp);
 	ti->tm_mday += abs(-ti->tm_wday);
 
@@ -439,14 +439,14 @@ static const luaL_Reg scheduleAtApi[] =
 {
 	{ "Do", fluent_Do },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 static int schedule_At(lua_State *L)
 {
 	ScheduleTask **task = (ScheduleTask**)lua_newuserdata(L, sizeof(ScheduleTask));
 	*task = new ScheduleTask();
-	(*task)->timestamp = luaM_opttimestamp(L, 1, time(NULL));
+	(*task)->timestamp = luaM_opttimestamp(L, 1, time(nullptr));
 
 	lua_newtable(L);
 	lua_newtable(L);
@@ -475,7 +475,7 @@ static const luaL_Reg scheduleEvery1Api[] =
 	{ "Saturday", fluent_Saturday },
 	{ "Sunday", fluent_Sunday },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 static const luaL_Reg scheduleEvery2Api[] =
@@ -485,7 +485,7 @@ static const luaL_Reg scheduleEvery2Api[] =
 	{ "Hours", fluent_Hours },
 	{ "Days", fluent_Days },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 static int schedule_Every(lua_State *L)
@@ -522,7 +522,7 @@ static const luaL_Reg scheduleWait1Api[] =
 	{ "Day", fluent_Day },
 	{ "Week", fluent_Week },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 static const luaL_Reg scheduleWait2Api[] =
@@ -532,7 +532,7 @@ static const luaL_Reg scheduleWait2Api[] =
 	{ "Hours", fluent_Hours },
 	{ "Days", fluent_Days },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 static int schedule_Wait(lua_State *L)
@@ -564,9 +564,9 @@ static const luaL_Reg scheduleApi[] =
 	{ "Every", schedule_Every },
 	{ "Wait", schedule_Wait },
 
-	{ "STOP", NULL },
+	{ "STOP", nullptr },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/
@@ -577,10 +577,10 @@ extern "C" LUAMOD_API int luaopen_m_schedule(lua_State *L)
 	lua_pushlightuserdata(L, STOP);
 	lua_setfield(L, -2, "STOP");
 
-	if (hScheduleEvent == NULL)
-		hScheduleEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	if (hScheduleEvent == nullptr)
+		hScheduleEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
-	if (hScheduleThread == NULL)
+	if (hScheduleThread == nullptr)
 		hScheduleThread = mir_forkthread(ScheduleThread);
 
 	return 1;

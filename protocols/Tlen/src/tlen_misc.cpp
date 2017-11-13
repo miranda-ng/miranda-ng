@@ -28,7 +28,7 @@ void TlenDBAddEvent(TlenProtocol *proto, MCONTACT hContact, int eventType, DWORD
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = proto->m_szModuleName;
-	dbei.timestamp = (DWORD) time(NULL);
+	dbei.timestamp = (DWORD) time(nullptr);
 	dbei.flags = flags;
 	dbei.eventType = eventType;
 	dbei.cbBlob = cbBlob;
@@ -53,13 +53,13 @@ void TlenDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 	db_set_s(hContact, proto->m_szModuleName, "Nick", nick);
 	
 	proto->debugLogA("auth request: %s, %s", jid, nick);
-	DB_AUTH_BLOB blob(hContact, nick, 0, 0, jid, 0);
+	DB_AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 	TlenDBAddEvent(proto, NULL, EVENTTYPE_AUTHREQUEST, 0, blob, blob.size());
 }
 
 char *TlenJIDFromHContact(TlenProtocol *proto, MCONTACT hContact)
 {
-	char *p = NULL;
+	char *p = nullptr;
 	DBVARIANT dbv;
 	if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 		p = mir_strdup(dbv.pszVal);
@@ -72,14 +72,14 @@ MCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid)
 {
 	DBVARIANT dbv;
 	char *p;
-	if (jid == NULL)
+	if (jid == nullptr)
 		return NULL;
 
 	for (MCONTACT hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
 		if ( db_get_s(hContact, proto->m_szModuleName, "jid", &dbv))
 			continue;
 
-		if ((p=dbv.pszVal) != NULL) {
+		if ((p=dbv.pszVal) != nullptr) {
 			if (!mir_strcmpi(p, jid)) {	// exact match (node@domain/resource)
 				db_free(&dbv);
 				return hContact;
@@ -94,14 +94,14 @@ MCONTACT TlenHContactFromJID(TlenProtocol *proto, const char *jid)
 MCONTACT TlenDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL temporary)
 {
 	MCONTACT hContact;
-	if (jid == NULL || jid[0] == '\0')
+	if (jid == nullptr || jid[0] == '\0')
 		return NULL;
 
 	if ((hContact=TlenHContactFromJID(proto, jid)) == NULL) {
 		hContact = db_add_contact();
 		Proto_AddToContact(hContact, proto->m_szModuleName);
 		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
-		if (nick != NULL && nick[0] != '\0')
+		if (nick != nullptr && nick[0] != '\0')
 			db_set_s(hContact, proto->m_szModuleName, "Nick", nick);
 		if (temporary)
 			db_set_b(hContact, "CList", "NotOnList", 1);

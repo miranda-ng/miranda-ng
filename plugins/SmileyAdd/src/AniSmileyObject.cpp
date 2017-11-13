@@ -60,7 +60,7 @@ public:
 
 	void LoadSmiley()
 	{
-		if (m_img != NULL) return;
+		if (m_img != nullptr) return;
 
 		m_img = m_sml->CreateCachedImage();
 		if (m_img && m_img->IsAnimated() && opt.AnimateDlg) {
@@ -76,15 +76,15 @@ public:
 			m_bRegistered = false;
 		}
 
-		if (m_img != NULL) {
+		if (m_img != nullptr) {
 			m_img->Release();
-			m_img = NULL;
+			m_img = nullptr;
 		}
 	}
 
 	void GetDrawingProp()
 	{
-		if (m_hwnd == NULL)
+		if (m_hwnd == nullptr)
 			return;
 
 		REOBJECT reObj = { 0 };
@@ -173,7 +173,7 @@ public:
 
 			DoDirectDraw(hdc);
 
-			SelectClipRgn(hdc, res < 1 ? NULL : hrgnOld);
+			SelectClipRgn(hdc, res < 1 ? nullptr : hrgnOld);
 			DeleteObject(hrgnOld);
 		}
 		else {
@@ -186,7 +186,7 @@ public:
 
 	void DrawOnHPP()
 	{
-		FVCNDATA_NMHDR nmh = { 0 };
+		FVCNDATA_NMHDR nmh = {};
 		nmh.code = NM_FIREVIEWCHANGE;
 		nmh.hwndFrom = m_hwnd;
 
@@ -263,7 +263,7 @@ public:
 		if (m_visible) LoadSmiley();
 		else UnloadSmiley();
 
-		if (lpRect == NULL) return;
+		if (lpRect == nullptr) return;
 		if (m_animtype == animStdOle) {
 			m_animtype = animDrctRichEd;
 			GetDrawingProp();
@@ -296,11 +296,11 @@ public:
 	STDMETHOD(Draw)(DWORD dwAspect, LONG, void*, DVTARGETDEVICE*, HDC, HDC hdc, LPCRECTL pRectBounds, LPCRECTL, BOOL(__stdcall *)(ULONG_PTR), ULONG_PTR)
 	{
 		if (dwAspect != DVASPECT_CONTENT) return DV_E_DVASPECT;
-		if (pRectBounds == NULL) return E_INVALIDARG;
+		if (pRectBounds == nullptr) return E_INVALIDARG;
 
 		LoadSmiley();
 
-		if (m_img == NULL) return E_FAIL;
+		if (m_img == nullptr) return E_FAIL;
 
 		m_sizeExtent.cx = pRectBounds->right - pRectBounds->left;
 		m_sizeExtent.cy = pRectBounds->bottom - pRectBounds->top;
@@ -358,7 +358,7 @@ public:
 ISmileyBase* CreateAniSmileyObject(SmileyType *sml, COLORREF clr, bool ishpp)
 {
 	if (!sml->IsValid())
-		return NULL;
+		return nullptr;
 
 	return new CAniSmileyObject(sml, clr, ishpp);
 }

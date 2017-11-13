@@ -164,7 +164,7 @@ static INT_PTR icqGetInfo(WPARAM, LPARAM lParam)
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE)
+	if (u == nullptr || icq.statusVal <= ID_STATUS_OFFLINE)
 		return 1;
 
 	icq.getUserInfo(u, ccs->wParam & SGIF_MINIMAL);
@@ -180,7 +180,7 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
 	//  uin = db_get_dw(ccs->hContact, ICQCORP_PROTONAME, "UIN", 0);
-	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE)
+	if (u == nullptr || icq.statusVal <= ID_STATUS_OFFLINE)
 		return 0;
 
 	ICQEvent *icqEvent = icq.sendMessage(u, ptrA(mir_utf8decodeA((char*)ccs->lParam)));
@@ -220,7 +220,7 @@ static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 	T("[   ] send url\n");
 
 	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || icq.statusVal <= ID_STATUS_OFFLINE)
+	if (u == nullptr || icq.statusVal <= ID_STATUS_OFFLINE)
 		return 0;
 
 	icqEvent = icq.sendUrl(u, (char*)ccs->lParam);
@@ -277,7 +277,7 @@ static INT_PTR icqGetAwayMsg(WPARAM, LPARAM lParam)
 	T("[   ] send get away msg\n");
 
 	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || u->statusVal <= ID_STATUS_ONLINE) return 0;
+	if (u == nullptr || u->statusVal <= ID_STATUS_ONLINE) return 0;
 
 	icqEvent = icq.sendReadAwayMsg(u);
 	return icqEvent ? icqEvent->sequence : 0;
@@ -308,7 +308,7 @@ static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 	T("[   ] send file\n");
 
 	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || u->statusVal == ID_STATUS_OFFLINE || icq.statusVal <= ID_STATUS_OFFLINE) return 0;
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE || icq.statusVal <= ID_STATUS_OFFLINE) return 0;
 
 	unsigned long filesCount, directoriesCount, filesSize = 0;
 	char filename[MAX_PATH], format[32];
@@ -347,7 +347,7 @@ static INT_PTR icqFileAllow(WPARAM, LPARAM lParam)
 	T("[   ] send accept file request\n");
 
 	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || u->statusVal == ID_STATUS_OFFLINE) return 0;
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE) return 0;
 
 	t->path = _strdup((char*)ccs->lParam);
 
@@ -366,7 +366,7 @@ static INT_PTR icqFileDeny(WPARAM, LPARAM lParam)
 	T("[   ] send refuse file request\n");
 
 	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || u->statusVal == ID_STATUS_OFFLINE) return 0;
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE) return 0;
 
 	icq.refuseFile(u, t->sequence, (char*)ccs->lParam);
 
@@ -393,7 +393,7 @@ static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 	T("[   ] file cancel\n");
 
 	u = icq.getUserByContact(ccs->hContact);
-	if (u == NULL || u->statusVal == ID_STATUS_OFFLINE) return 0;
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE) return 0;
 
 	//	icq.refuseFile(u, t->sequence, (char*)ccs->lParam);
 
@@ -485,7 +485,7 @@ static int icqContactDeleted(WPARAM wParam, LPARAM)
 
 	T("[   ] contact deleted\n");
 
-	if ((u = icq.getUserByContact((MCONTACT)wParam)) != NULL) icq.removeUser(u);
+	if ((u = icq.getUserByContact((MCONTACT)wParam)) != nullptr) icq.removeUser(u);
 	return 0;
 }
 

@@ -60,7 +60,7 @@ static int lua_AddButton(lua_State *L)
 {
 	if (lua_type(L, 1) != LUA_TTABLE)
 	{
-		lua_pushlightuserdata(L, 0);
+		lua_pushlightuserdata(L, nullptr);
 		return 1;
 	}
 
@@ -98,7 +98,7 @@ static luaL_Reg toptoolbarApi[] =
 	{ "AddButton", lua_AddButton },
 	{ "RemoveButton", lua_RemoveButton },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 extern "C" LUAMOD_API int luaopen_m_toptoolbar(lua_State *L)

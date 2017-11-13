@@ -55,10 +55,10 @@ VOID CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 void InitIdleTimer()
 {
 	minutes = db_get_b(NULL, MOD_NAME, "time", 10);
-	hTimer = SetTimer(NULL, 0, 2000, IdleTimer);
+	hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
 }
 
 void UninitIdleTimer()
 {
-	KillTimer(NULL, hTimer);
+	KillTimer(nullptr, hTimer);
 }

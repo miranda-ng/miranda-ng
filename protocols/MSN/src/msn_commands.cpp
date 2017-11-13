@@ -75,8 +75,8 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	}
 
 	int msgBytes;
-	char *nick = NULL, *email = NULL;
-	wchar_t *mChatID = NULL;
+	char *nick = nullptr, *email = nullptr;
+	wchar_t *mChatID = nullptr;
 	bool ubmMsg = strncmp(cmdString, "UBM", 3) == 0;
 	bool sdgMsg = strncmp(cmdString, "SDG", 3) == 0;
 	bool nfyMsg = strncmp(cmdString, "NFY", 3) == 0;
@@ -112,7 +112,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	HReadBuffer buf(info, 0);
 	BYTE* msgb = buf.surelyRead(msgBytes);
-	if (msgb == NULL) return;
+	if (msgb == nullptr) return;
 
 	memcpy(msg, msgb, msgBytes);
 	msg[msgBytes] = 0;
@@ -150,7 +150,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	if (tMsgId) lastMsgId=_atoi64(tMsgId);
 
 	// Chunked message
-	char* newbody = NULL;
+	char* newbody = nullptr;
 	if (!sdgMsg && tMsgId) {
 		int idx;
 		const char* tChunks = tHeader["Chunks"];
@@ -165,11 +165,11 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 	}
 
 	// message from the server (probably)
-	if (!ubmMsg && !sdgMsg && !nfyMsg && strchr(email, '@') == NULL && _stricmp(email, "Hotmail"))
+	if (!ubmMsg && !sdgMsg && !nfyMsg && strchr(email, '@') == nullptr && _stricmp(email, "Hotmail"))
 		return;
 
 	const char* tContentType = tHeader["Content-Type"];
-	if (tContentType == NULL)
+	if (tContentType == nullptr)
 		return;
 
 	if (nfyMsg)
@@ -182,7 +182,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 		MCONTACT hContact = MSN_HContactFromEmail(email);
 		const char* mirver = tFileInfo["Client-Name"];
-		if (hContact != NULL && mirver != NULL) {
+		if (hContact != NULL && mirver != nullptr) {
 			setString(hContact, "MirVer", mirver);
 			delSetting(hContact, "StdMirVer");
 		}
@@ -233,7 +233,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 						}
 						if (cnt) {
 							PROTORECVEVENT pre = { 0 };
-							pre.timestamp = (DWORD)time(NULL);
+							pre.timestamp = (DWORD)time(nullptr);
 							pre.szMessage = (char *)psr;
 							pre.lParam = cnt;
 							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
@@ -254,13 +254,13 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, 0);
 		else {
 			const char* p = tHeader["X-MMS-IM-Format"];
-			bool isRtl = p != NULL && strstr(p, "RL=1") != NULL;
+			bool isRtl = p != nullptr && strstr(p, "RL=1") != nullptr;
 
 			/*if (info->mJoinedContactsWLID.getCount() > 1)
 				MSN_ChatStart(info);
 			else */{
 				char *szNet, *szEmail;
-				parseWLID(NEWSTR_ALLOCA(email), &szNet, &szEmail, NULL);
+				parseWLID(NEWSTR_ALLOCA(email), &szNet, &szEmail, nullptr);
 				sentMsg = _stricmp(szEmail, GetMyUsername(atoi(szNet))) == 0;
 				if (sentMsg)
 					hContact = ubmMsg ? MSN_HContactFromEmail(datau.toEmail, nick) : info->getContactHandle();
@@ -283,7 +283,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 						ezxml_free(xmli);
 					}
 				}
-				else MSN_GCAddMessage(mChatID, hContact, email, time(NULL), sentMsg, msgBody);
+				else MSN_GCAddMessage(mChatID, hContact, email, time(nullptr), sentMsg, msgBody);
 			}
 			else if (hContact) {
 				if (!sentMsg) {
@@ -292,7 +292,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 					PROTORECVEVENT pre = { 0 };
 					pre.szMessage = (char*)msgBody;
 					pre.flags = (isRtl ? PREF_RTL : 0);
-					pre.timestamp = (DWORD)time(NULL);
+					pre.timestamp = (DWORD)time(nullptr);
 					pre.lParam = 0;
 					ProtoChainRecvMsg(hContact, &pre);
 				}
@@ -303,7 +303,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_SENT | DBEF_UTF | (haveWnd ? 0 : DBEF_READ) | (isRtl ? DBEF_RTL : 0);
 					dbei.szModule = m_szModuleName;
-					dbei.timestamp = time(NULL);
+					dbei.timestamp = time(nullptr);
 					dbei.cbBlob = (unsigned)mir_strlen(msgBody) + 1;
 					dbei.pBlob = (PBYTE)msgBody;
 					db_event_add(hContact, &dbei);
@@ -318,7 +318,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 		emailEnabled = atol(tHeader["EmailEnabled"]) != 0;
 
 		if (!MSN_RefreshContactList()) {
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NOSERVER);
 			info->sendTerminate();
 		}
 		else {
@@ -330,7 +330,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			 (sdgMsg && !_strnicmp(tContentType, "Application/Message", 19))) {
 		const char* tTypingUser = sdgMsg?email:tHeader["TypingUser"];
 
-		if (tTypingUser != NULL && info->mChatID[0] == 0 && _stricmp(email, MyOptions.szEmail)) {
+		if (tTypingUser != nullptr && info->mChatID[0] == 0 && _stricmp(email, MyOptions.szEmail)) {
 			MCONTACT hContact = MSN_HContactFromEmail(tTypingUser, tTypingUser);
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, 
 				sdgMsg && !_stricmp(tHeader["Message-Type"], "Control/ClearTyping")?0:7);
@@ -389,7 +389,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 		if (uri) {
 			// First get HTTP header of file to get content length
 			unsigned __int64  fileSize = 0;
-			NETLIBHTTPHEADER nlbhHeaders[2] = { 0 };
+			NETLIBHTTPHEADER nlbhHeaders[2] = {};
 			nlbhHeaders[0].szName = "User-Agent";		nlbhHeaders[0].szValue = (LPSTR)MSN_USER_AGENT;
 			nlbhHeaders[1].szName = "Authorization";	nlbhHeaders[1].szValue = (char*)pszSkypeToken;
 
@@ -419,7 +419,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				}
 
 				Netlib_FreeHttpRequest(nlhrReply);
-			}  else hHttpsConnection = NULL;
+			}  else hHttpsConnection = nullptr;
 
 			if (fileSize) {
 				filetransfer* ft = new filetransfer(this);
@@ -455,16 +455,16 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
-				pre.timestamp = time(NULL);
+				pre.timestamp = time(nullptr);
 				pre.descr.w = (desc = ezxml_child(xmli, "Description"))?mir_utf8decodeW(desc->txt):tComment;
 				pre.files.w = &ft->std.tszCurrentFile;
 				pre.lParam = (LPARAM)ft;
 				ProtoChainRecvFile(ft->std.hContact, &pre);
 				if (desc) mir_free(pre.descr.w);
-			} else uri=NULL;
+			} else uri=nullptr;
 		}
 
-		if (uri == NULL) {
+		if (uri == nullptr) {
 			// Fallback: Just filter out the link and post it as a message
 			CallService(MS_PROTO_CONTACTISTYPING, WPARAM(hContact), 0);
 
@@ -473,7 +473,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 			ezxml_t urllnk;
 			if (urllnk=ezxml_child(xmli, "a")) msgtxt.AppendFormat(" %s", ezxml_txt(urllnk));
 			pre.szMessage = (char*)(const char*)msgtxt;
-			pre.timestamp = (DWORD)time(NULL);
+			pre.timestamp = (DWORD)time(nullptr);
 			ProtoChainRecvMsg(hContact, &pre);
 		}
 	}
@@ -484,7 +484,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 
 void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 {
-	if (buf == NULL) return;
+	if (buf == nullptr) return;
 	ezxml_t xmli = ezxml_parse_str(buf, len);
 
 	ezxml_t dom = ezxml_child(xmli, "d");
@@ -497,8 +497,8 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 	mir_snprintf(szEmail, "%s@%s", szCont, szDom);
 
 	const char *szNetId = ezxml_attr(cont, "t");
-	if (msnSearchId != NULL) {
-		if (szNetId != NULL) {
+	if (msnSearchId != nullptr) {
+		if (szNetId != nullptr) {
 			ptrW szEmailT(mir_utf8decodeW(szEmail));
 
 			PROTOSEARCHRESULT psr = { 0 };
@@ -511,10 +511,10 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 		}
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, msnSearchId, 0);
 
-		msnSearchId = NULL;
+		msnSearchId = nullptr;
 	}
 	else {
-		if (szNetId != NULL) {
+		if (szNetId != nullptr) {
 			int netId = atol(szNetId);
 			MCONTACT hContact = MSN_HContactFromEmail(szEmail, szEmail, true, false);
 			if (MSN_AddUser(hContact, szEmail, netId, LIST_FL)) {
@@ -575,14 +575,14 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 
 		int newStatus = MSNStatusToMiranda(userStatus);
 		setWord(hContact, "Status", newStatus != ID_STATUS_IDLE ? newStatus : ID_STATUS_AWAY);
-		setDword(hContact, "IdleTS", newStatus != ID_STATUS_IDLE ? 0 : time(NULL));
+		setDword(hContact, "IdleTS", newStatus != ID_STATUS_IDLE ? 0 : time(nullptr));
 	}
 
 	if (cont) {
 		if (objid) {
-			char* end = NULL;
+			char* end = nullptr;
 			cont->cap1 = strtoul(objid, &end, 10);
-			cont->cap2 = end && *end == ':' ? strtoul(end + 1, NULL, 10) : 0;
+			cont->cap2 = end && *end == ':' ? strtoul(end + 1, nullptr, 10) : 0;
 		}
 
 		if (szInst) MSN_SetMirVer(hContact, cont->places.find((MsnPlace*)&szInst));
@@ -621,7 +621,7 @@ void CMsnProto::MSN_ProcessNLN(const char *userStatus, const char *wlid, char *u
 			delSetting(hContact, "PictContext");
 			delSetting(hContact, "PictSavedContext");
 
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 		}
 	}
 	else if (lastStatus == ID_STATUS_OFFLINE)
@@ -637,7 +637,7 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 	parseWLID(NEWSTR_ALLOCA(wlid), &szNetId, &szEmail, &szInst);
 
 	bool bHasPSM=false;
-	char* szStatMsg = NULL;
+	char* szStatMsg = nullptr;
 
 	for (ezxml_t s = ezxml_child(xmli, "s"); s; s = s->next) {
 		const char *n = ezxml_attr(s, "n");
@@ -663,9 +663,9 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		if (!mir_strcmp(n, "IM")) {
 			const char *id = ezxml_attr(endp, "epid");
 			const char *caps = ezxml_txt(ezxml_child(endp, "Capabilities"));
-			char* end = NULL;
+			char* end = nullptr;
 			unsigned cap1 = caps ? strtoul(caps, &end, 10) : 0;
-			unsigned cap2 = end && *end == ':' ? strtoul(end + 1, NULL, 10) : 0;
+			unsigned cap2 = end && *end == ':' ? strtoul(end + 1, nullptr, 10) : 0;
 
 			Lists_AddPlace(szEmail, id, cap1, cap2);
 		}
@@ -685,12 +685,12 @@ void CMsnProto::MSN_ProcessStatusMessage(ezxml_t xmli, const char* wlid)
 		if (cont->places.getCount() > 0)
 			MSN_SetMirVer(hContact, &cont->places[0]);
 	}
-	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, ptrW(mir_utf8decodeW(szStatMsg)));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, ptrW(mir_utf8decodeW(szStatMsg)));
 }
 
 void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 {
-	if (buf == NULL) return;
+	if (buf == nullptr) return;
 	ezxml_t xmlnot = ezxml_parse_str(buf, len);
 
 	if (mir_strcmp(ezxml_attr(xmlnot, "siteid"), "0") == 0) {
@@ -703,12 +703,12 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 	ezxml_t xmlbdy = ezxml_child(xmlmsg, "BODY");
 	ezxml_t xmltxt = ezxml_child(xmlbdy, "TEXT");
 
-	if (xmltxt != NULL) {
+	if (xmltxt != nullptr) {
 		char fullurl[1024];
 		size_t sz = 0;
 
 		const char* acturl = ezxml_attr(xmlact, "url");
-		if (acturl == NULL || strstr(acturl, "://") == NULL)
+		if (acturl == nullptr || strstr(acturl, "://") == nullptr)
 			sz += mir_snprintf((fullurl + sz), (_countof(fullurl) - sz), "%s", ezxml_attr(xmlnot, "siteurl"));
 
 		sz += mir_snprintf((fullurl + sz), (_countof(fullurl) - sz), "%s", acturl);
@@ -728,7 +728,7 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, size_t len)
 		const char *txt = ezxml_txt(xmlbdy);
 		if (strstr(txt, "ABCHInternal")) {
 			MSN_SharingFindMembership(true);
-			MSN_ABFind("ABFindContactsPaged", NULL, true);
+			MSN_ABFind("ABFindContactsPaged", nullptr, true);
 			MSN_StoreGetProfile();
 		}
 	}
@@ -796,7 +796,7 @@ LBL_InvalidCommand:
 					MSN_SetServerStatus(m_iDesiredStatus);
 					MSN_EnableMenuItems(true);
 					// Fork refreshing and populating contact list to the background
-					ForkThread(&CMsnProto::msn_loginThread, NULL);
+					ForkThread(&CMsnProto::msn_loginThread, nullptr);
 				}
 			} else bIgnoreATH = false;
 		}
@@ -874,7 +874,7 @@ LBL_InvalidCommand:
 
 			bSentBND = false;
 			if (!hKeepAliveThreadEvt)
-				ForkThread(&CMsnProto::msn_keepAliveThread, NULL);
+				ForkThread(&CMsnProto::msn_keepAliveThread, nullptr);
 		}
 		break;
 
@@ -900,7 +900,7 @@ LBL_InvalidCommand:
 			{
 				if (!mir_strcmp(xmli->name, "recentconversations-response"))
 				{
-					for (ezxml_t conv = ezxml_get(xmli, "conversations", 0, "conversation", -1); conv != NULL; conv = ezxml_next(conv)) {
+					for (ezxml_t conv = ezxml_get(xmli, "conversations", 0, "conversation", -1); conv != nullptr; conv = ezxml_next(conv)) {
 						ezxml_t id;
 						MCONTACT hContact;
 						MEVENT hDbEvent;
@@ -914,7 +914,7 @@ LBL_InvalidCommand:
 								hContact = MSN_HContactFromChatID(id->txt);
 								msnNsThread->sendPacketPayload("GET", "MSGR\\THREADS", 
 									"<threads><thread><id>%s</id></thread></threads>", id->txt);
-							} else hContact = MSN_HContactFromEmail(id->txt, NULL, false, false);
+							} else hContact = MSN_HContactFromEmail(id->txt, nullptr, false, false);
 
 							if (hContact) {
 								// There are messages to be fetched
@@ -940,12 +940,12 @@ LBL_InvalidCommand:
 						bool bIsChat = strncmp(id->txt, "19:", 3)==0;
 						bool bHasMore = mir_strcmpi(ezxml_txt(ezxml_child(xmli, "hasmore")), "true") == 0;
 						ezxml_t syncstate;
-						hContact = MSN_HContactFromEmail(id->txt, NULL, false, false);
+						hContact = MSN_HContactFromEmail(id->txt, nullptr, false, false);
 						if (!bHasMore && hContact) db_unset(hContact, m_szModuleName, "syncTS");
 
 						/* We have to traverse the list in reverse order as newest events are on top (which is the opposite direction of Groupchat) */
 						LIST<ezxml> msgs(10,PtrKeySortT);
-						for (ezxml_t msg = ezxml_get(xmli, "messages", 0, "message", -1); msg != NULL; msg = ezxml_next(msg)) msgs.insert(msg, 0);
+						for (ezxml_t msg = ezxml_get(xmli, "messages", 0, "message", -1); msg != nullptr; msg = ezxml_next(msg)) msgs.insert(msg, 0);
 						for (int i=0; i<msgs.getCount(); i++) {
 							ezxml_t msg = msgs[i];
 							ezxml_t arrtime = ezxml_child(msg, "originalarrivaltime"), from = ezxml_child(msg, "from"),
@@ -956,7 +956,7 @@ LBL_InvalidCommand:
 
 							if (!arrtime || !from || !content) continue;
 							ts=IsoToUnixTime(arrtime->txt);
-							parseWLID(NEWSTR_ALLOCA(from->txt), &netId, &email, NULL);
+							parseWLID(NEWSTR_ALLOCA(from->txt), &netId, &email, nullptr);
 							message=content->txt;
 							sentMsg = mir_strcmpi(email, GetMyUsername(atoi(netId)))==0;
 							if (msgtype) {
@@ -980,7 +980,7 @@ LBL_InvalidCommand:
 							}
 
 							if (bIsChat) {
-								hContact = MSN_HContactFromEmail(from->txt, NULL, false, false);
+								hContact = MSN_HContactFromEmail(from->txt, nullptr, false, false);
 								if (hContact)
 									db_unset(hContact, m_szModuleName, "syncTS");
 								MSN_GCAddMessage(_A2T(id->txt), hContact, email, ts, sentMsg, message);
@@ -1035,7 +1035,7 @@ LBL_InvalidCommand:
 					}
 				}
 				else if (!mir_strcmp(xmli->name, "threads-response")) {
-					for (ezxml_t thread = ezxml_get(xmli, "threads", 0, "thread", -1); thread != NULL; thread = ezxml_next(thread))
+					for (ezxml_t thread = ezxml_get(xmli, "threads", 0, "thread", -1); thread != nullptr; thread = ezxml_next(thread))
 						MSN_ChatStart(thread);
 				}
 				ezxml_free(xmli);
@@ -1056,7 +1056,7 @@ LBL_InvalidCommand:
 
 			HReadBuffer buf(info, 0);
 			char* msgBody = (char*)buf.surelyRead(atol(data.strMsgBytes));
-			if (msgBody == NULL) break;
+			if (msgBody == nullptr) break;
 			if (!mir_strcmp(data.typeId, "MSGR\\HOTMAIL")) {
 				char szParam[128];
 				mir_snprintf(szParam, sizeof(szParam), "%s %s", data.typeId, data.strMsgBytes);
@@ -1074,8 +1074,8 @@ LBL_InvalidCommand:
 
 				int i;
 				for (i=0; i<2; i++) msgBody = tHeader.readFromBuffer(msgBody);
-				char *pszTo = NULL, *pszToNet;
-				if (tHeader["To"]) parseWLID(NEWSTR_ALLOCA(tHeader["To"]), &pszToNet, &pszTo, NULL);
+				char *pszTo = nullptr, *pszToNet;
+				if (tHeader["To"]) parseWLID(NEWSTR_ALLOCA(tHeader["To"]), &pszToNet, &pszTo, nullptr);
 				const char *pszFrom =  tHeader["From"];
 				for (i=0; i<2; i++) msgBody = tHeader.readFromBuffer(msgBody);
 
@@ -1094,7 +1094,7 @@ LBL_InvalidCommand:
 								// These capabilities seem to be something different than in previous MSNP versions?
 								//ezxml_t xmlcaps = ezxml_get(xmli, "sep", 0, "Capabilities", -1);
 								ezxml_t usertile = ezxml_get(xmli, "s", 1, "UserTileLocation", -1);
-								MSN_ProcessNLN(ezxml_txt(xmlstatus), pszFrom, NULL, NULL, usertile?usertile->txt:NULL);
+								MSN_ProcessNLN(ezxml_txt(xmlstatus), pszFrom, nullptr, nullptr, usertile?usertile->txt:nullptr);
 							}
 							MSN_ProcessStatusMessage(xmli, pszFrom);
 						}
@@ -1136,7 +1136,7 @@ LBL_InvalidCommand:
 				if (ezxml_t xmli = ezxml_parse_str(msgBody, mir_strlen(msgBody))) {
 					if (ezxml_t wait = ezxml_child(xmli, "wait")) {
 						msnPingTimeout = atoi(ezxml_txt(wait));
-						if (msnPingTimeout && hKeepAliveThreadEvt != NULL)
+						if (msnPingTimeout && hKeepAliveThreadEvt != nullptr)
 							SetEvent(hKeepAliveThreadEvt);
 					}
 					ezxml_free(xmli);
@@ -1149,7 +1149,7 @@ LBL_InvalidCommand:
 						if ((user = ezxml_child(xmli, "user")) && (from = ezxml_child(xmli, "from"))) {
 							if (ezxml_t xmlstatus = ezxml_get(user, "s", 0, "Status", -1)) {
 								ezxml_t usertile = ezxml_get(user, "s", 1, "UserTileLocation", -1);
-								MSN_ProcessNLN(ezxml_txt(xmlstatus), from->txt, NULL, NULL, usertile?usertile->txt:NULL);
+								MSN_ProcessNLN(ezxml_txt(xmlstatus), from->txt, nullptr, nullptr, usertile?usertile->txt:nullptr);
 							} else {
 								int oldMode = m_iStatus;
 								m_iStatus = m_iDesiredStatus;

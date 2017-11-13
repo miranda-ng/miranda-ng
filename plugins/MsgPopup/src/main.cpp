@@ -86,7 +86,7 @@ void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 	ppd.colorText = options.FG[indx];
 	ppd.iSeconds = options.Timeout[indx];
 
-	ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
+	ppd.lchIcon = (HICON)LoadImage(nullptr, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
 	mir_wstrcpy(ppd.lptzContactName, lpCaption);
 	mir_wstrcpy(ppd.lptzText, lpText);
 	PUAddPopupT(&ppd);
@@ -112,7 +112,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 	ULONG ulSize;
 	PIMAGE_IMPORT_DESCRIPTOR pImportDesc = (PIMAGE_IMPORT_DESCRIPTOR)
 		ImageDirectoryEntryToData(hModule, TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &ulSize);
-	if (pImportDesc == NULL)
+	if (pImportDesc == nullptr)
 		return;
 
 	for (; pImportDesc->Name; pImportDesc++) {
@@ -136,14 +136,14 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 
 					g_HookError = TRUE;
 					mir_snwprintf(buf, TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
-					prevMessageBox(0, buf, TranslateT("Error"), MB_OK);
+					prevMessageBox(nullptr, buf, TranslateT("Error"), MB_OK);
 				}
 			}
 			*(PVOID*)ppfn = lpNewFunc;
 			if (*(PVOID*)ppfn != lpNewFunc) {
 				if (!g_HookError2) {
 					g_HookError2 = TRUE;
-					prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author"), TranslateT("Error"), MB_OK);
+					prevMessageBox(nullptr, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author"), TranslateT("Error"), MB_OK);
 				}
 			}
 		}

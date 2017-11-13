@@ -90,7 +90,7 @@ static void InitAlteredPlacesBar()
  **/
 static void ResetAlteredPlaceBars()
 {
-	RegOverridePredefKey(HKEY_CURRENT_USER, NULL);
+	RegOverridePredefKey(HKEY_CURRENT_USER, nullptr);
 	SHDeleteKey(HKEY_CURRENT_USER, HKEY_MIRANDA_PLACESBAR);
 }
 
@@ -174,7 +174,7 @@ static UINT_PTR CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM, LP
 			HWND hPlacesBar = GetDlgItem(GetParent(hDlg), ctl1);
 
 			// we have a places bar?
-			if (hPlacesBar != NULL) {
+			if (hPlacesBar != nullptr) {
 				InitAlteredPlacesBar();
 				// finally subclass the places bar
 				mir_subclassWindow(hPlacesBar, PlacesBarSubclassProc);

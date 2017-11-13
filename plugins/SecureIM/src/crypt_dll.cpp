@@ -131,10 +131,10 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg)
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = (PROTORECVEVENT *)pccsd->lParam;
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = cpp_decodeU(ptr->cntx, szEncMsg);
 
-	if (szOldMsg == NULL) {
+	if (szOldMsg == nullptr) {
 		ptr->decoded = false;
 		switch (cpp_get_error(ptr->cntx)) {
 		case CPP_ERROR_BAD_LEN:

@@ -110,7 +110,7 @@ static BOOL bModuleInitialized = FALSE;
 
 BOOL IsTerminalDisconnected()
 {
-	PVOID pBuffer = NULL;
+	PVOID pBuffer = nullptr;
 	DWORD pBytesReturned = 0;
 	BOOL result = FALSE;
 
@@ -166,7 +166,7 @@ static void IdleObject_ReadSettings(IdleObject * obj)
 static void IdleObject_Create(IdleObject * obj)
 {
 	memset(obj, 0, sizeof(IdleObject));
-	obj->hTimer = SetTimer(NULL, 0, 2000, IdleTimer);
+	obj->hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
 	IdleObject_ReadSettings(obj);
 }
 
@@ -175,7 +175,7 @@ static void IdleObject_Destroy(IdleObject * obj)
 	if (IdleObject_IsIdle(obj))
 		NotifyEventHooks(hIdleEvent, 0, 0);
 	IdleObject_ClearIdle(obj);
-	KillTimer(NULL, obj->hTimer);
+	KillTimer(nullptr, obj->hTimer);
 }
 
 static int IdleObject_IsUserIdle(IdleObject * obj)
@@ -386,5 +386,5 @@ void UnloadIdleModule()
 
 	IdleObject_Destroy(&gIdleObject);
 	DestroyHookableEvent(hIdleEvent);
-	hIdleEvent = NULL;
+	hIdleEvent = nullptr;
 }

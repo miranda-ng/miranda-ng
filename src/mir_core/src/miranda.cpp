@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HWND hAPCWindow = NULL;
+HWND hAPCWindow = nullptr;
 
 int  InitPathUtils(void);
 void RecalculateTime(void);
@@ -41,7 +41,7 @@ void InitTimeZones();
 void InitWinver();
 
 int hLangpack = 0;
-HINSTANCE g_hInst = 0;
+HINSTANCE g_hInst = nullptr;
 
 HCURSOR g_hCursorNS, g_hCursorWE;
 HANDLE hStackMutex, hThreadQueueEmpty;
@@ -55,7 +55,7 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM lParam)
 	if (lParam)
 		wcsncpy_s(mirandaPath, (const wchar_t*)lParam, _TRUNCATE);
 	else
-		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+		GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
 
 	if (wParam) {
 		VARSW profilename(L"%miranda_profilename%");
@@ -68,7 +68,7 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM lParam)
 	PROCESS_INFORMATION pi;
 	STARTUPINFO startupInfo = { 0 };
 	startupInfo.cb = sizeof(startupInfo);
-	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &startupInfo, &pi);
+	CreateProcess(mirandaPath, cmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &pi);
 	return 0;
 }
 
@@ -99,15 +99,15 @@ static void LoadCoreModule(void)
 	icce.dwICC = ICC_WIN95_CLASSES | ICC_USEREX_CLASSES;
 	InitCommonControlsEx(&icce);
 
-	hAPCWindow = CreateWindowEx(0, L"ComboLBox", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hAPCWindow = CreateWindowEx(0, L"ComboLBox", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetClassLongPtr(hAPCWindow, GCL_STYLE, GetClassLongPtr(hAPCWindow, GCL_STYLE) | CS_DROPSHADOW);
 	DestroyWindow(hAPCWindow);
 
-	hAPCWindow = CreateWindowEx(0, L"STATIC", NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
+	hAPCWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
-	SetTimer(hAPCWindow, 1, 1000, NULL);
-	hStackMutex = CreateMutex(NULL, FALSE, NULL);
-	hThreadQueueEmpty = CreateEvent(NULL, TRUE, TRUE, NULL);
+	SetTimer(hAPCWindow, 1, 1000, nullptr);
+	hStackMutex = CreateMutex(nullptr, FALSE, nullptr);
+	hThreadQueueEmpty = CreateEvent(nullptr, TRUE, TRUE, nullptr);
 
 	InitWinver();
 	InitPathUtils();

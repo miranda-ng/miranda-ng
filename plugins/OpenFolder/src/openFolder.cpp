@@ -30,15 +30,15 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 {
 	wchar_t szMirandaPath[MAX_PATH];
-	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, _countof(szMirandaPath));
+	GetModuleFileName(GetModuleHandle(nullptr), szMirandaPath, _countof(szMirandaPath));
 	wchar_t *p = wcsrchr(szMirandaPath, '\\');
 	if (p)
 		p[1] = 0;
 
 	if ( GetAsyncKeyState( VK_CONTROL ) & 0x8000 )
-		ShellExecute(0, L"explore", szMirandaPath, 0, 0, SW_SHOWNORMAL);
+		ShellExecute(nullptr, L"explore", szMirandaPath, nullptr, nullptr, SW_SHOWNORMAL);
 	else
-		ShellExecute(0, L"open", szMirandaPath, 0, 0, SW_SHOWNORMAL);
+		ShellExecute(nullptr, L"open", szMirandaPath, nullptr, nullptr, SW_SHOWNORMAL);
 
 	return 0;
 }
@@ -46,7 +46,7 @@ static INT_PTR MenuCommand_OpenFolder(WPARAM, LPARAM)
 // toptoolbar (if plugin is installed)
 static int ToptoolBarHook(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconHandleUp = icon.hIcolib;
 	ttb.pszService = MS_OPENFOLDER_OPEN;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;

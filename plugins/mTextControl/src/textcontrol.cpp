@@ -39,12 +39,12 @@ void MTextControl_RegisterClass()
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
-	wcl.hIcon = NULL;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
+	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = MODULNAMEW;
-	wcl.hIconSm = 0;
+	wcl.hIconSm = nullptr;
 	RegisterClassEx(&wcl);
 }
 
@@ -54,8 +54,8 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	switch (msg) {
 	case WM_CREATE:
 		data = new TextControlData;
-		data->text = 0;
-		data->mtext = 0;
+		data->text = nullptr;
+		data->mtext = nullptr;
 		data->htu = htuDefault;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 		PostMessage(hwnd, MTM_UPDATE, 0, 0);
@@ -81,7 +81,7 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			RECT rc; GetClientRect(hwnd, &rc);
 			MTI_MTextSetParent(data->mtext, hwnd, rc);
 
-			InvalidateRect(hwnd, 0, TRUE);
+			InvalidateRect(hwnd, nullptr, TRUE);
 		}
 		return TRUE;
 
@@ -120,7 +120,7 @@ LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM, LPARAM)
 	// Find the text to draw
 	TextControlData *data = (TextControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (data->mtext) {
-		HFONT hfntSave = 0;
+		HFONT hfntSave = nullptr;
 		HFONT hfnt = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
 		if (!hfnt)
 			hfnt = (HFONT)SendMessage(GetParent(hwnd), WM_GETFONT, 0, 0);

@@ -37,24 +37,24 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 		}
 
-		InvalidateRect(hwnd, 0, FALSE);
+		InvalidateRect(hwnd, nullptr, FALSE);
 	}
 	return TRUE;
 	case WM_SHOWWINDOW:
 		if (wParam == TRUE && lParam == 0) {
 			WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-			if (wd->hwnd_chk_grid == 0) {
-				wd->hwnd_chk_grid = CreateWindow(L"BUTTON", TranslateT("Show grid lines"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, 0, hInst, 0);
+			if (wd->hwnd_chk_grid == nullptr) {
+				wd->hwnd_chk_grid = CreateWindow(L"BUTTON", TranslateT("Show grid lines"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
 				SendMessage(wd->hwnd_chk_grid, BM_SETCHECK, wd->show_grid ? BST_CHECKED : BST_UNCHECKED, 0);
 			}
-			if (wd->hwnd_chk_stat == 0) {
-				wd->hwnd_chk_stat = CreateWindow(L"BUTTON", TranslateT("Show stats"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, 0, hInst, 0);
+			if (wd->hwnd_chk_stat == nullptr) {
+				wd->hwnd_chk_stat = CreateWindow(L"BUTTON", TranslateT("Show stats"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
 				SendMessage(wd->hwnd_chk_stat, BM_SETCHECK, wd->show_stat ? BST_CHECKED : BST_UNCHECKED, 0);
 			}
 			KillTimer(hwnd, ID_REPAINT_TIMER);
 #ifdef min
-			SetTimer(hwnd, ID_REPAINT_TIMER, min(options.ping_period * 1000, 5000), 0);
+			SetTimer(hwnd, ID_REPAINT_TIMER, min(options.ping_period * 1000, 5000), nullptr);
 #else
 			SetTimer(hwnd, ID_REPAINT_TIMER, std::min(options.ping_period * 1000, 5000), 0);
 #endif
@@ -71,7 +71,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			else if ((HWND)lParam == wd->hwnd_chk_stat) {
 				wd->show_stat = (SendMessage(wd->hwnd_chk_stat, BM_GETCHECK, 0, 0) == BST_CHECKED);
 			}
-			InvalidateRect(hwnd, 0, TRUE);
+			InvalidateRect(hwnd, nullptr, TRUE);
 		}
 		return TRUE;
 	case WM_TIMER:
@@ -85,7 +85,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		HDC hdc;
 		RECT r;
 		WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (wd && (hdc = BeginPaint(hwnd, &ps)) != 0)
+		if (wd && (hdc = BeginPaint(hwnd, &ps)) != nullptr)
 		{
 			GetClientRect(hwnd, &r);
 			FillRect(hdc, &r, GetSysColorBrush(COLOR_WINDOW));
@@ -144,7 +144,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				if (time / MARK_PERIOD != last_time / MARK_PERIOD)
 				{ // new minute
-					MoveToEx(hdc, bar.left, r.bottom, 0);
+					MoveToEx(hdc, bar.left, r.bottom, nullptr);
 					LineTo(hdc, bar.left, r.top);
 				}
 
@@ -160,7 +160,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				// draw horizontal lines to mark every 100ms
 				for (int li = 0; li < graph_height; li += MARK_TIME)
 				{
-					MoveToEx(hdc, r.left, r.bottom - (int)(li * unit_height + 0.5f), 0);
+					MoveToEx(hdc, r.left, r.bottom - (int)(li * unit_height + 0.5f), nullptr);
 					LineTo(hdc, r.right, r.bottom - (int)(li * unit_height + 0.5f));
 				}
 			}
@@ -169,13 +169,13 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (wd->show_stat)
 			{
 				SelectObject(hdc, hPen2);
-				MoveToEx(hdc, r.left, r.bottom - (int)(avg * unit_height + 0.5f), 0);
+				MoveToEx(hdc, r.left, r.bottom - (int)(avg * unit_height + 0.5f), nullptr);
 				LineTo(hdc, r.right, r.bottom - (int)(avg * unit_height + 0.5f));
 				if (max_value != avg)
 				{
-					MoveToEx(hdc, r.left, r.bottom - (int)(max_value * unit_height + 0.5f), 0);
+					MoveToEx(hdc, r.left, r.bottom - (int)(max_value * unit_height + 0.5f), nullptr);
 					LineTo(hdc, r.right, r.bottom - (int)(max_value * unit_height + 0.5f));
-					MoveToEx(hdc, r.left, r.bottom - (int)(min_value * unit_height + 0.5f), 0);
+					MoveToEx(hdc, r.left, r.bottom - (int)(min_value * unit_height + 0.5f), nullptr);
 					LineTo(hdc, r.right, r.bottom - (int)(min_value * unit_height + 0.5f));
 				}
 			}
@@ -220,10 +220,10 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 		RECT r;
 		GetClientRect(hwnd, &r);
-		if (wd->hwnd_chk_grid != 0) SetWindowPos(wd->hwnd_chk_grid, 0, r.right - 150, r.top + 10, 120, 20, SWP_NOZORDER | SWP_NOACTIVATE);
-		if (wd->hwnd_chk_stat != 0) SetWindowPos(wd->hwnd_chk_stat, 0, r.right - 150, r.top + 30, 120, 20, SWP_NOZORDER | SWP_NOACTIVATE);
+		if (wd->hwnd_chk_grid != nullptr) SetWindowPos(wd->hwnd_chk_grid, nullptr, r.right - 150, r.top + 10, 120, 20, SWP_NOZORDER | SWP_NOACTIVATE);
+		if (wd->hwnd_chk_stat != nullptr) SetWindowPos(wd->hwnd_chk_stat, nullptr, r.right - 150, r.top + 30, 120, 20, SWP_NOZORDER | SWP_NOACTIVATE);
 	}
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(hwnd, nullptr, FALSE);
 	break;
 	case WM_CLOSE:
 	{
@@ -269,9 +269,9 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = hInst;
 	wndclass.hIcon = hIconResponding;
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	wndclass.lpszMenuName = NULL;
+	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = _A2W(PLUG) L"GraphWindow";
 	RegisterClass(&wndclass);
 
@@ -282,15 +282,15 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 		mir_wstrncat(title, (wchar_t *)lParam, _countof(title) - mir_wstrlen(title));
 	}
 
-	HWND parent = 0;
+	HWND parent = nullptr;
 	hGraphWnd = CreateWindowEx(0, _A2W(PLUG) L"GraphWindow", title,
 		(WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~CS_VREDRAW & ~CS_HREDRAW,
-		0, 0, 800, 600, parent, NULL, hInst, NULL);
+		0, 0, 800, 600, parent, nullptr, hInst, nullptr);
 
 	WindowData *wd = new WindowData;
 	wd->item_id = (DWORD)wParam; // wParam is destination id
-	wd->hwnd_chk_grid = 0;
-	wd->hwnd_chk_stat = 0;
+	wd->hwnd_chk_grid = nullptr;
+	wd->hwnd_chk_stat = nullptr;
 	wd->show_grid = db_get_b(0, PLUG, "ShowGridLines", 0) ? true : false;
 	wd->show_stat = db_get_b(0, PLUG, "ShowStats", 1) ? true : false;
 

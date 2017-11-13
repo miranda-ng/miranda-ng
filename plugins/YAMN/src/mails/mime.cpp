@@ -69,7 +69,7 @@ void CopyToHeader(char *srcstart,char *srcend,char **dest,int mode)
 {
 	char *dst;
 
-	if (dest==NULL)
+	if (dest==nullptr)
 		return;
 	if (srcstart>=srcend)
 		return;
@@ -83,9 +83,9 @@ void CopyToHeader(char *srcstart,char *srcend,char **dest,int mode)
 	if (srcstart>=srcend)
 		return;
 
-	if (NULL != *dest)
+	if (nullptr != *dest)
 		delete[] *dest;
-	if (NULL==(*dest=new char[srcend-srcstart+1]))
+	if (nullptr==(*dest=new char[srcend-srcstart+1]))
 		return;
 
 	dst=*dest;
@@ -106,9 +106,9 @@ void CopyToHeader(char *srcstart,char *srcend,char **dest,int mode)
 
 void ExtractAddressFromLine(char *finder,char **storeto,char **storetonick)
 {
-	if (finder==NULL)
+	if (finder==nullptr)
 	{
-		*storeto=*storetonick=NULL;
+		*storeto=*storetonick=nullptr;
 		return;
 	}
 	while(WS(finder)) finder++;
@@ -163,9 +163,9 @@ void ExtractAddressFromLine(char *finder,char **storeto,char **storetonick)
 
 void ExtractStringFromLine(char *finder,char **storeto)
 {
-	if (finder==NULL)
+	if (finder==nullptr)
 	{
-		*storeto=NULL;
+		*storeto=nullptr;
 		return;
 	}
 	while(WS(finder)) finder++;
@@ -186,9 +186,9 @@ char *ExtractFromContentType(char *ContentType,char *value)
 	char *lowered = _strdup(ContentType);
 	ToLower(lowered);
 	char *finder=strstr(lowered,value);
-	if (finder==NULL) {
+	if (finder==nullptr) {
 		free (lowered);
-		return NULL;
+		return nullptr;
 	}
 	finder = finder-lowered+ContentType;
 	free (lowered);
@@ -199,7 +199,7 @@ char *ExtractFromContentType(char *ContentType,char *value)
 	temp=finder-1;
 	while((temp>ContentType) && WS(temp)) temp--;			//now we have to find, if the word "Charset=" is located after ';' like "; Charset="
 	if (*temp != ';' && !ENDLINE(temp) && temp != ContentType)
-		return NULL;
+		return nullptr;
 	finder=finder+mir_strlen(value);						//jump over value string
 
 	while(WS(finder)) finder++;					//jump over whitespaces
@@ -211,8 +211,8 @@ char *ExtractFromContentType(char *ContentType,char *value)
 		finder++;
 		if (*temp=='\"') temp--;
 	}
-	if (NULL==(CopiedString=new char[++temp-finder+1]))
-		return NULL;
+	if (nullptr==(CopiedString=new char[++temp-finder+1]))
+		return nullptr;
 	for (copier=CopiedString;finder != temp;*copier++=*finder++);			//copy string
 	*copier=0;						//and end it with zero character
 
@@ -221,13 +221,13 @@ char *ExtractFromContentType(char *ContentType,char *value)
 
 void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 {
-	for (;items != NULL;items=items->Next)
+	for (;items != nullptr;items=items->Next)
 	{
 		//at the start of line
 		//MessageBox(NULL,items->value,items->name,0);
 		if (0==_strnicmp(items->name,"From",4))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting from>");
@@ -239,7 +239,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 		}
 		else if (0==_strnicmp(items->name,"Return-Path",11))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting return-path>");
@@ -251,7 +251,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 		}
 		else if (0==_strnicmp(items->name,"Subject",7))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting subject>");
@@ -263,7 +263,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 		}
 		else if (0==_strnicmp(items->name,"Body",4))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting body>");
@@ -275,7 +275,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 		}
 		else if (0==_strnicmp(items->name,"Date",4))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting date>");
@@ -287,10 +287,10 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 		}
 		else if (0==_strnicmp(items->name,"Content-Type",12))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 
-			char *ContentType=NULL,*CharSetStr;
+			char *ContentType=nullptr,*CharSetStr;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting Content-Type>");
 			#endif
@@ -299,7 +299,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 			DebugLog(DecodeFile,"</Extracting>\n");
 			#endif
 			ToLower(ContentType);
-			if (NULL != (CharSetStr=ExtractFromContentType(ContentType,"charset=")))
+			if (nullptr != (CharSetStr=ExtractFromContentType(ContentType,"charset=")))
 			{
 				head->CP=GetCharsetFromString(CharSetStr,mir_strlen(CharSetStr));
 				delete[] CharSetStr;
@@ -308,7 +308,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 		}
 		else if (0==_strnicmp(items->name,"Importance",10))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<Extracting importance>");
@@ -328,7 +328,7 @@ void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 		}
 		else if (0==_strnicmp(items->name,"X-Priority",10))
 		{
-			if (items->value==NULL)
+			if (items->value==nullptr)
 				continue;
 			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile,"<X-Priority>");
@@ -424,40 +424,40 @@ void ExtractHeader(struct CMimeItem *items,int &CP,struct CHeader *head)
 
 void DeleteShortHeaderContent(struct CShortHeader *head)
 {
-	if (head->From != NULL) delete[] head->From;
-	if (head->FromNick != NULL) delete[] head->FromNick;
-	if (head->ReturnPath != NULL) delete[] head->ReturnPath;
-	if (head->ReturnPathNick != NULL) delete[] head->ReturnPathNick;
-	if (head->Subject != NULL) delete[] head->Subject;
-	if (head->Date != NULL) delete[] head->Date;
-	if (head->To != NULL) DeleteShortNames(head->To);
-	if (head->Cc != NULL) DeleteShortNames(head->Cc);
-	if (head->Bcc != NULL) DeleteShortNames(head->Bcc);
-	if (head->Body != NULL) delete[] head->Body;
+	if (head->From != nullptr) delete[] head->From;
+	if (head->FromNick != nullptr) delete[] head->FromNick;
+	if (head->ReturnPath != nullptr) delete[] head->ReturnPath;
+	if (head->ReturnPathNick != nullptr) delete[] head->ReturnPathNick;
+	if (head->Subject != nullptr) delete[] head->Subject;
+	if (head->Date != nullptr) delete[] head->Date;
+	if (head->To != nullptr) DeleteShortNames(head->To);
+	if (head->Cc != nullptr) DeleteShortNames(head->Cc);
+	if (head->Bcc != nullptr) DeleteShortNames(head->Bcc);
+	if (head->Body != nullptr) delete[] head->Body;
 }
 
 void DeleteHeaderContent(struct CHeader *head)
 {
-	if (head->From != NULL) delete[] head->From;
-	if (head->FromNick != NULL) delete[] head->FromNick;
-	if (head->ReturnPath != NULL) delete[] head->ReturnPath;
-	if (head->ReturnPathNick != NULL) delete[] head->ReturnPathNick;
-	if (head->Subject != NULL) delete[] head->Subject;
-	if (head->Date != NULL) delete[] head->Date;
-	if (head->Body != NULL) delete[] head->Body;
-	if (head->To != NULL) DeleteNames(head->To);
-	if (head->Cc != NULL) DeleteNames(head->Cc);
-	if (head->Bcc != NULL) DeleteNames(head->Bcc);
+	if (head->From != nullptr) delete[] head->From;
+	if (head->FromNick != nullptr) delete[] head->FromNick;
+	if (head->ReturnPath != nullptr) delete[] head->ReturnPath;
+	if (head->ReturnPathNick != nullptr) delete[] head->ReturnPathNick;
+	if (head->Subject != nullptr) delete[] head->Subject;
+	if (head->Date != nullptr) delete[] head->Date;
+	if (head->Body != nullptr) delete[] head->Body;
+	if (head->To != nullptr) DeleteNames(head->To);
+	if (head->Cc != nullptr) DeleteNames(head->Cc);
+	if (head->Bcc != nullptr) DeleteNames(head->Bcc);
 }
 
 void DeleteNames(PYAMN_MIMENAMES Names)
 {
 	PYAMN_MIMENAMES Parser=Names,Old;
-	for (;Parser != NULL;Parser=Parser->Next)
+	for (;Parser != nullptr;Parser=Parser->Next)
 	{
-		if (Parser->Value != NULL)
+		if (Parser->Value != nullptr)
 			delete[] Parser->Value;
-		if (Parser->ValueNick != NULL)
+		if (Parser->ValueNick != nullptr)
 			delete[] Parser->ValueNick;
 		Old=Parser;
 		Parser=Parser->Next;
@@ -468,11 +468,11 @@ void DeleteNames(PYAMN_MIMENAMES Names)
 void DeleteShortNames(PYAMN_MIMESHORTNAMES Names)
 {
 	PYAMN_MIMESHORTNAMES Parser=Names,Old;
-	for (;Parser != NULL;Parser=Parser->Next)
+	for (;Parser != nullptr;Parser=Parser->Next)
 	{
-		if (Parser->Value != NULL)
+		if (Parser->Value != nullptr)
 			delete[] Parser->Value;
-		if (Parser->ValueNick != NULL)
+		if (Parser->ValueNick != nullptr)
 			delete[] Parser->ValueNick;
 		Old=Parser;
 		Parser=Parser->Next;
@@ -579,7 +579,7 @@ void ParseAPart(APartDataType *data)
 	}
 	catch(...)
 	{
-		MessageBox(NULL, TranslateT("Translate header error"), L"", 0);
+		MessageBox(nullptr, TranslateT("Translate header error"), L"", 0);
 	}
 	if (data->body) data->bodyLen = (int)mir_strlen(data->body);
 }
@@ -616,14 +616,14 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 			}
 			if (partData[i].ContType) {
 				char *CharSetStr;
-				if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"charset=")))
+				if (nullptr != (CharSetStr=ExtractFromContentType(partData[i].ContType,"charset=")))
 				{
 					partData[i].CodePage=GetCharsetFromString(CharSetStr,mir_strlen(CharSetStr));
 					delete[] CharSetStr;
 				}
 			}
 			if (partData[i].ContType && !_strnicmp(partData[i].ContType,"text",4)) {
-				char *localBody=0;
+				char *localBody=nullptr;
 				switch (partData[i].TransEncType) {
 					case TE_BASE64:
 					{
@@ -642,8 +642,8 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 				if (localBody) delete[] localBody;
 			} else if (partData[i].ContType && !_strnicmp(partData[i].ContType,"multipart/",10)) {
 				//Multipart in mulitipart recursive? should be SPAM. Ah well
-				char *bondary=NULL;
-				if (NULL != (bondary=ExtractFromContentType(partData[i].ContType,"boundary=")))
+				char *bondary=nullptr;
+				if (nullptr != (bondary=ExtractFromContentType(partData[i].ContType,"boundary=")))
 				{
 					partData[i].wBody = ParseMultipartBody(partData[i].body,bondary);
 					delete[] bondary;
@@ -674,12 +674,12 @@ FailBackRaw:
 					mir_snprintf(infoline + linesize, _countof(infoline) - linesize, "; %s", partData[i].ContType);
 					linesize = mir_strlen(infoline);
 					partData[i].ContType=CharSetStr+1;
-					if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"charset="))) {
+					if (nullptr != (CharSetStr=ExtractFromContentType(partData[i].ContType,"charset="))) {
 						mir_snprintf(infoline + linesize, _countof(infoline) - linesize, "; %s", CharSetStr);
 						linesize = mir_strlen(infoline);
 						delete[] CharSetStr;
 					}
-					if (NULL != (CharSetStr=ExtractFromContentType(partData[i].ContType,"name="))) {
+					if (nullptr != (CharSetStr=ExtractFromContentType(partData[i].ContType,"name="))) {
 						mir_snprintf(infoline + linesize, _countof(infoline) - linesize, "; \"%s\"", CharSetStr);
 						linesize = mir_strlen(infoline);
 						delete[] CharSetStr;
@@ -692,7 +692,7 @@ FailBackRaw:
 			}
 			mir_snprintf(infoline + linesize, _countof(infoline) - linesize, ".\r\n");
 			{
-				WCHAR *temp=0;
+				WCHAR *temp=nullptr;
 				dest[destpos] = dest[destpos+1] = dest[destpos+2] = 0x2022; // bullet;
 				destpos += 3;
 				ConvertStringToUnicode(infoline,CP_ACP,&temp);

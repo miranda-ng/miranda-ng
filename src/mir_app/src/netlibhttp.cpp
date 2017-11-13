@@ -821,7 +821,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHT
 		nlhr->szUrl == nullptr || nlhr->szUrl[0] == 0)
 	{
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return 0;
+		return nullptr;
 	}
 
 	if (nlhr->nlc != nullptr && GetNetlibHandleType(nlhr->nlc) != NLH_CONNECTION)
@@ -829,7 +829,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHT
 
 	NetlibConnection *nlc = NetlibHttpProcessUrl(nlhr, nlu, (NetlibConnection*)nlhr->nlc);
 	if (nlc == nullptr)
-		return 0;
+		return nullptr;
 
 	NETLIBHTTPREQUEST nlhrSend = *nlhr;
 	nlhrSend.flags |= NLHRF_SMARTREMOVEHOST;
@@ -869,7 +869,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHT
 		if (!doneUserAgentHeader || !doneAcceptEncoding) mir_free(nlhrSend.headers);
 		nlhr->resultCode = nlhrSend.resultCode;
 		Netlib_CloseHandle(nlc);
-		return 0;
+		return nullptr;
 	}
 	if (!doneUserAgentHeader || !doneAcceptEncoding)
 		mir_free(nlhrSend.headers);

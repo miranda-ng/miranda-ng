@@ -313,7 +313,7 @@ static BOOL CompareModernMask(MODERNMASK *mmValue, MODERNMASK *mmTemplate)
 
 BOOL CompareStrWithModernMask(char *szValue, MODERNMASK *mmTemplate)
 {
-	MODERNMASK mmValue = { 0 };
+	MODERNMASK mmValue = {};
 	if (!ParseToModernMask(&mmValue, szValue)) {
 		BOOL res = CompareModernMask(&mmValue, mmTemplate);
 		SkinSelector_DeleteMask(&mmValue);
@@ -328,7 +328,7 @@ int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODE
 	if (!szStr || !mmTemplateList)
 		return -1;
 
-	MODERNMASK mm = { 0 };
+	MODERNMASK mm = {};
 	if (ParseToModernMask(&mm, szStr))
 		return -1;
 
@@ -356,7 +356,7 @@ SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mm
 	if (!mmTemplateList)
 		return nullptr;
 
-	MODERNMASK mm = { 0 };
+	MODERNMASK mm = {};
 	ParseToModernMask(&mm, szValue);
 	SKINOBJECTDESCRIPTOR *res = skin_FindObjectByMask(&mm, mmTemplateList);
 	SkinSelector_DeleteMask(&mm);

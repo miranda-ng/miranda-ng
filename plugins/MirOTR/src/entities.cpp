@@ -277,7 +277,7 @@ static const char *get_named_entity(const char *name)
 		sizeof(named_entities) / sizeof(*named_entities),
 		sizeof(*named_entities), cmp);
 
-	return entity ? entity[1] : NULL;
+	return entity ? entity[1] : nullptr;
 }
 
 static size_t putc_utf8(unsigned long cp, char *buffer)
@@ -325,7 +325,7 @@ static bool parse_entity(const char *current, char **to,
 
 	if(current[1] == '#')
 	{
-		char *tail = NULL;
+		char *tail = nullptr;
 		errno = 0;
 
 		bool hex = current[2] == 'x' || current[2] == 'X';
@@ -395,7 +395,7 @@ char* encode_html_entities_utf8(const char *src)
 {
 	const char *pos = strpbrk(src, "&<>\"\r");
 	if (!pos)
-		return NULL;
+		return nullptr;
 
 	const char *start = src;
 	std::string buf;

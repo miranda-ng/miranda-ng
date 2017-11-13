@@ -146,7 +146,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 	mir_snwprintf(szBuffer, TranslateT("%s plugin connections"), m_tszUserName);
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	m_DisplayNameCache = NULL;
+	m_DisplayNameCache = nullptr;
 }
 
 CMsnProto::~CMsnProto()
@@ -200,7 +200,7 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 int CMsnProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	g_bTerminated = true;
-	ReleaseSemaphore(hevAvatarQueue, 1, NULL);
+	ReleaseSemaphore(hevAvatarQueue, 1, nullptr);
 
 	Popup_UnregisterClass(hPopupError);
 	Popup_UnregisterClass(hPopupHotmail);
@@ -344,7 +344,7 @@ int CMsnProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	DB_AUTH_BLOB blob(dbei.pBlob);
 
 	MsnContact* msc = Lists_Get(blob.get_email());
-	if (msc == NULL) return 0;
+	if (msc == nullptr) return 0;
 
 	MSN_AddUser(NULL, blob.get_email(), msc->netId, LIST_PL + LIST_REMOVE);
 	MSN_AddUser(NULL, blob.get_email(), msc->netId, LIST_BL);
@@ -367,7 +367,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 	T2Utf email(emailT);
 
 	if (Lists_IsInList(LIST_FL, email)) {
-		MSN_ShowPopup(emailT, TranslateT("Contact already in your contact list"), MSN_ALLOW_MSGBOX, NULL);
+		MSN_ShowPopup(emailT, TranslateT("Contact already in your contact list"), MSN_ALLOW_MSGBOX, nullptr);
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		mir_free(arg);
 		return;
@@ -375,7 +375,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 
 	if (MyOptions.netId == NETID_SKYPE) MSN_SKYABSearch(email, arg);
 	else {
-		unsigned res = MSN_ABContactAdd(email, NULL, NETID_MSN, NULL, 1, true);
+		unsigned res = MSN_ABContactAdd(email, nullptr, NETID_MSN, nullptr, 1, true);
 		switch (res) {
 		case 0:
 		case 2:
@@ -394,7 +394,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 		break;
 
 		case 1:
-			if (strstr(email, "@yahoo.com") == NULL)
+			if (strstr(email, "@yahoo.com") == nullptr)
 				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 			break;
 
@@ -409,7 +409,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 
 HANDLE __cdecl CMsnProto::SearchBasic(const wchar_t* id)
 {
-	if (!msnLoggedIn) return 0;
+	if (!msnLoggedIn) return nullptr;
 
 	wchar_t* email = mir_wstrdup(id);
 	ForkThread(&CMsnProto::MsnSearchAckThread, email);
@@ -440,7 +440,7 @@ static void MyNetlibConnFromUrl(const char* szUrl, NETLIBOPENCONNECTION &nloc)
 	char* pcolon = strrchr(szHost, ':');
 	if (pcolon) {
 		*pcolon = '\0';
-		nloc.wPort = (WORD)strtol(pcolon+1, NULL, 10);
+		nloc.wPort = (WORD)strtol(pcolon+1, nullptr, 10);
 	}
 	else nloc.wPort = secur ? 443 : 80;
 	nloc.flags = (secur ? NLOCF_SSL : 0);
@@ -467,7 +467,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 		const char *pszSkypeToken;
 
 		if (ft->fileId != -1 && (pszSkypeToken=authSkypeToken.Token())) {
-			NETLIBHTTPHEADER nlbhHeaders[3] = { 0 };
+			NETLIBHTTPHEADER nlbhHeaders[3] = {};
 			NETLIBHTTPREQUEST nlhr = { 0 }, *nlhrReply;
 			char szRange[32];
 
@@ -527,7 +527,7 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* s
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
-	if ((ft->std.tszWorkingDir = mir_wstrdup(szPath)) == NULL) {
+	if ((ft->std.tszWorkingDir = mir_wstrdup(szPath)) == nullptr) {
 		wchar_t szCurrDir[MAX_PATH];
 		GetCurrentDirectory(_countof(szCurrDir), szCurrDir);
 		ft->std.tszWorkingDir = mir_wstrdup(szCurrDir);
@@ -750,7 +750,7 @@ void CMsnProto::MsnFakeAck(void* arg)
 // MsnSendMessage - sends the message to a server
 int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 {
-	const char *errMsg = NULL;
+	const char *errMsg = nullptr;
 
 	if (!msnLoggedIn) {
 		errMsg = Translate("Protocol is offline");
@@ -766,7 +766,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	}
 
 	char *msg = (char*)pszSrc;
-	if (msg == NULL)
+	if (msg == nullptr)
 		return 0;
 
 	int rtlFlag = (flags & PREF_RTL) ? MSG_RTL : 0;
@@ -781,7 +781,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			seq = 999997;
 		}
 		else {
-			errMsg = NULL;
+			errMsg = nullptr;
 			seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag);
 		}
 		ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, errMsg, this));
@@ -795,7 +795,7 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		}
 		else {
 			seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag);
-			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, NULL, this));
+			ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this));
 		}
 		break;
 
@@ -808,13 +808,13 @@ int __cdecl CMsnProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 		else {
 			// MSNP24 doesn't have a switchboard anymore
 			bool isOffline = true;
-			ThreadData *thread = NULL;
+			ThreadData *thread = nullptr;
 
-			if (thread == NULL) {
+			if (thread == nullptr) {
 				if (isOffline) {
 					if (netId != NETID_LCS) {
 						seq = msnNsThread->sendMessage('1', tEmail, netId, msg, rtlFlag | MSG_OFFLINE);
-						ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, NULL, this));
+						ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this));
 					}
 					else {
 						seq = 999993;
@@ -850,7 +850,7 @@ int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 	}
 	msg.Append("</contacts>");
 	seq = msnNsThread->sendMessage('1', tEmail, netId, msg, MSG_CONTACT);
-	ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, NULL, this, ACKTYPE_CONTACTS));
+	ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, seq, nullptr, this, ACKTYPE_CONTACTS));
 	return seq;
 }
 
@@ -859,7 +859,7 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	char** msgptr = GetStatusMsgLoc(status);
 
-	if (msgptr == NULL)
+	if (msgptr == nullptr)
 		return 1;
 
 	mir_free(*msgptr);
@@ -899,13 +899,13 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 		char szPassword[100];
 		int ps = db_get_static(NULL, m_szModuleName, "Password", szPassword, sizeof(szPassword));
 		if (ps != 0 || *szPassword == 0) {
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			return 0;
 		}
 
 		if (*MyOptions.szEmail == 0) {
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_BADUSERID);
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			return 0;
 		}

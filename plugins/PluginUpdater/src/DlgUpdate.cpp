@@ -67,7 +67,7 @@ static void ApplyUpdates(void *param)
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
-	HNETLIBCONN nlc = NULL;
+	HNETLIBCONN nlc = nullptr;
 	for (int i=0; i < todo.getCount(); i++) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if (!todo[i].bEnabled) {
@@ -139,7 +139,7 @@ static void ApplyUpdates(void *param)
 
 	if (opts.bChangePlatform) {
 		wchar_t mirandaPath[MAX_PATH];
-		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+		GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
 		db_set_ws(NULL, MODNAME, "OldBin2", mirandaPath);
 
 		db_unset(NULL, MODNAME, DB_SETTING_CHANGEPLATFORM);
@@ -186,7 +186,7 @@ static void ResizeVert(HWND hDlg, int yy)
 	RECT r = { 0, 0, 244, yy };
 	MapDialogRect(hDlg, &r);
 	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
-	SetWindowPos(hDlg, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+	SetWindowPos(hDlg, nullptr, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
 }
 
 static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -208,12 +208,12 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6)
 			{
 				wchar_t szPath[MAX_PATH];
-				GetModuleFileName(NULL, szPath, _countof(szPath));
+				GetModuleFileName(nullptr, szPath, _countof(szPath));
 				wchar_t *ext = wcsrchr(szPath, '.');
-				if (ext != NULL)
+				if (ext != nullptr)
 					*ext = '\0';
 				wcscat(szPath, L".test");
-				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 				if (hFile == INVALID_HANDLE_VALUE)
 					// Running Windows Vista or later (major version >= 6).
 					Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
@@ -270,9 +270,9 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			for (int i = 0; i < todo.getCount(); ++i) {
 				LVITEM lvI = {0};
 				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-				lvI.iGroupId = (wcsstr(todo[i].tszOldName, L"Plugins") != NULL) ? 1 :
-					((wcsstr(todo[i].tszOldName, L"Languages") != NULL) ? 3 :
-						((wcsstr(todo[i].tszOldName, L"Icons") != NULL) ? 4 : 2));
+				lvI.iGroupId = (wcsstr(todo[i].tszOldName, L"Plugins") != nullptr) ? 1 :
+					((wcsstr(todo[i].tszOldName, L"Languages") != nullptr) ? 3 :
+						((wcsstr(todo[i].tszOldName, L"Icons") != nullptr) ? 4 : 2));
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
 				lvI.pszText = todo[i].tszOldName;
@@ -381,13 +381,13 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hDlg);
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ConfirmWindow");
-		hwndDialog = NULL;
+		hwndDialog = nullptr;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 #if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(NULL));
+		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(nullptr));
 #endif
-		mir_forkthread(InitTimer, 0);
+		mir_forkthread(InitTimer, nullptr);
 		break;
 	}
 
@@ -421,7 +421,7 @@ static void DlgUpdateSilent(void *param)
 	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
-	HNETLIBCONN nlc = NULL;
+	HNETLIBCONN nlc = nullptr;
 	// Count all updates that have been enabled
 	int count = 0;
 	for (int i = 0; i < UpdateFiles.getCount(); i++) {
@@ -505,7 +505,7 @@ static void DlgUpdateSilent(void *param)
 			wchar_t tszText[200];
 			mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
-			if (MessageBox(NULL, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
+			if (MessageBox(nullptr, tszText, tszTitle, MB_ICONINFORMATION | MB_YESNO) == IDYES)
 #if MIRANDA_VER >= 0x0A00
 				CallServiceSync(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
 #else
@@ -563,12 +563,12 @@ static renameTable[] =
 #if MIRANDA_VER >= 0x0A00
 	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },
 	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmap.dll" },
-	{ L"rc4.dll",                        NULL },
-	{ L"athena.dll",                     NULL },
-	{ L"skypekit.exe",                   NULL },
-	{ L"mir_app.dll",                    NULL },
-	{ L"mir_core.dll",                   NULL },
-	{ L"zlib.dll",                       NULL },
+	{ L"rc4.dll",                        nullptr },
+	{ L"athena.dll",                     nullptr },
+	{ L"skypekit.exe",                   nullptr },
+	{ L"mir_app.dll",                    nullptr },
+	{ L"mir_core.dll",                   nullptr },
+	{ L"zlib.dll",                       nullptr },
 #endif
 
 	{ L"proto_newsaggr.dll",             L"Icons\\proto_newsaggregator.dll" },
@@ -577,26 +577,26 @@ static renameTable[] =
 
 	{ L"langpack_*.txt",                 L"Languages\\*" },
 
-	{ L"pcre16.dll",                     NULL },
-	{ L"clist_classic.dll",              NULL },
-	{ L"chat.dll",                       NULL },
-	{ L"srmm.dll",                       NULL },
-	{ L"stdchat.dll",                    NULL },
-	{ L"stdurl.dll",                     NULL },
-	{ L"extraicons.dll",                 NULL },
-	{ L"firstrun.dll",                   NULL },
-	{ L"flashavatars.dll",               NULL },
-	{ L"gender.dll",                     NULL },
-	{ L"gtalkext.dll",                   NULL },
-	{ L"langman.dll",                    NULL },
-	{ L"metacontacts.dll",               NULL },
-	{ L"modernopt.dll",                  NULL },
-	{ L"msvcp100.dll",                   NULL },
-	{ L"msvcr100.dll",                   NULL },
-	{ L"xfire.dll",                      NULL },
-	{ L"yahoo.dll",                      NULL },
-	{ L"yahoogroups.dll",                NULL },
-	{ L"WART-*.exe",                     NULL },
+	{ L"pcre16.dll",                     nullptr },
+	{ L"clist_classic.dll",              nullptr },
+	{ L"chat.dll",                       nullptr },
+	{ L"srmm.dll",                       nullptr },
+	{ L"stdchat.dll",                    nullptr },
+	{ L"stdurl.dll",                     nullptr },
+	{ L"extraicons.dll",                 nullptr },
+	{ L"firstrun.dll",                   nullptr },
+	{ L"flashavatars.dll",               nullptr },
+	{ L"gender.dll",                     nullptr },
+	{ L"gtalkext.dll",                   nullptr },
+	{ L"langman.dll",                    nullptr },
+	{ L"metacontacts.dll",               nullptr },
+	{ L"modernopt.dll",                  nullptr },
+	{ L"msvcp100.dll",                   nullptr },
+	{ L"msvcr100.dll",                   nullptr },
+	{ L"xfire.dll",                      nullptr },
+	{ L"yahoo.dll",                      nullptr },
+	{ L"yahoogroups.dll",                nullptr },
+	{ L"WART-*.exe",                     nullptr },
 };
 
 // Checks if file needs to be renamed and copies it in pNewName
@@ -606,7 +606,7 @@ static bool CheckFileRename(const wchar_t *ptszOldName, wchar_t *pNewName)
 	for (int i = 0; i < _countof(renameTable); i++) {
 		if (wildcmpiw(ptszOldName, renameTable[i].oldName)) {
 			wchar_t *ptszDest = renameTable[i].newName;
-			if (ptszDest == NULL)
+			if (ptszDest == nullptr)
 				*pNewName = 0;
 			else {
 				wcsncpy_s(pNewName, MAX_PATH, ptszDest, _TRUNCATE);
@@ -627,7 +627,7 @@ static bool isValidExtension(const wchar_t *ptszFileName)
 {
 	const wchar_t *pExt = wcsrchr(ptszFileName, '.');
 
-	return (pExt != NULL) && (!_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt"));
+	return (pExt != nullptr) && (!_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt"));
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
@@ -687,7 +687,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 				wchar_t *pName = tszNewName;
 				ServListEntry *item = hashes.find((ServListEntry*)&pName);
 				// Not in list? Check for trailing 'W' or 'w'
-				if (item == NULL) {
+				if (item == nullptr) {
 					wchar_t *p = wcsrchr(tszNewName, '.');
 					if (p[-1] != 'w' && p[-1] != 'W') {
 						Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
@@ -697,7 +697,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 					// remove trailing w or W and try again
 					int iPos = int(p - tszNewName) - 1;
 					strdelw(p - 1, 1);
-					if ((item = hashes.find((ServListEntry*)&pName)) == NULL) {
+					if ((item = hashes.find((ServListEntry*)&pName)) == nullptr) {
 						Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 						continue;
 					}
@@ -761,7 +761,7 @@ static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t 
 
 			mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, p);
 			mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszBuf);
-			for (p = wcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = wcschr(p, '\\'))
+			for (p = wcschr(FileInfo->File.tszDownloadURL, '\\'); p != nullptr; p = wcschr(p, '\\'))
 				*p++ = '/';
 
 			// remember whether the user has decided not to update this component with this particular new version
@@ -812,10 +812,10 @@ static void CheckUpdates(void *)
 		else CallFunctionAsync(LaunchDialog, UpdateFiles);
 	}
 
-	mir_forkthread(InitTimer, (success ? 0 : (void*)2));
+	mir_forkthread(InitTimer, (success ? nullptr : (void*)2));
 
 	hashes.destroy();
-	hCheckThread = NULL;
+	hCheckThread = nullptr;
 }
 
 static void DoCheck(bool bSilent = true)
@@ -830,9 +830,9 @@ static void DoCheck(bool bSilent = true)
 	else {
 		opts.bSilent = bSilent;
 #if MIRANDA_VER >= 0x0A00
-		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(NULL));
+		db_set_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, time(nullptr));
 #endif
-		hCheckThread = mir_forkthread(CheckUpdates, 0);
+		hCheckThread = mir_forkthread(CheckUpdates, nullptr);
 	}
 }
 
@@ -840,7 +840,7 @@ void UninitCheck()
 {
 	CancelWaitableTimer(hTimer);
 	CloseHandle(hTimer);
-	if (hwndDialog != NULL)
+	if (hwndDialog != nullptr)
 		DestroyWindow(hwndDialog);
 }
 
@@ -860,14 +860,14 @@ void InitCheck()
 void UnloadCheck()
 {
 	if (hCheckThread)
-		hCheckThread = NULL;
+		hCheckThread = nullptr;
 }
 
 void CheckUpdateOnStartup()
 {
 	if (opts.bUpdateOnStartup) {
 		if (opts.bOnlyOnceADay) {
-			time_t now = time(NULL),
+			time_t now = time(nullptr),
 				was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
 
 			if ((now - was) < 86400)
@@ -914,7 +914,7 @@ void InitTimer(void *type)
 	switch ((INT_PTR)type) {
 	case 0: // default, plan next check relative to last check
 		{
-			time_t now = time(NULL);
+			time_t now = time(nullptr);
 			time_t was = db_get_dw(NULL, MODNAME, DB_SETTING_LAST_UPDATE, 0);
 
 			interval = PeriodToMilliseconds(opts.Period, opts.bPeriodMeasure);
@@ -939,13 +939,13 @@ void InitTimer(void *type)
 	li.LowPart = ft.dwLowDateTime;
 	li.HighPart = ft.dwHighDateTime;
 	li.QuadPart += interval * 10000LL;
-	SetWaitableTimer(hTimer, &li, 0, TimerAPCProc, NULL, 0);
+	SetWaitableTimer(hTimer, &li, 0, TimerAPCProc, nullptr, 0);
 
 	// Wait in an alertable state for the timer to go off.
 	SleepEx(INFINITE, TRUE);
 }
 
 void CreateTimer() {
-	hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
-	mir_forkthread(InitTimer, 0);
+	hTimer = CreateWaitableTimer(nullptr, FALSE, nullptr);
+	mir_forkthread(InitTimer, nullptr);
 }

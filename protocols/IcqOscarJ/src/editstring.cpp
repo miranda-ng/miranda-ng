@@ -27,8 +27,8 @@
 
 #include "stdafx.h"
 
-static ChangeInfoData *dataStringEdit = NULL;
-static HWND hwndEdit = NULL, hwndExpandButton = NULL, hwndUpDown = NULL;
+static ChangeInfoData *dataStringEdit = nullptr;
+static HWND hwndEdit = nullptr, hwndExpandButton = nullptr, hwndUpDown = nullptr;
 
 static const char escapes[]={'a','\a',
 'b','\b',
@@ -188,7 +188,7 @@ static LRESULT CALLBACK ExpandButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 			SendMessage(hwndEdit, EM_GETSEL, (WPARAM)&selStart, (LPARAM)&selEnd);
 			DestroyWindow(hwndEdit);
 			EscapesToMultiline(text, &selStart, &selEnd);
-			hwndEdit = CreateWindowExA(WS_EX_TOOLWINDOW, "EDIT", "", WS_POPUP | WS_BORDER | WS_VISIBLE | ES_WANTRETURN | ES_AUTOVSCROLL | WS_VSCROLL | ES_MULTILINE, rcStart.left, rcStart.top, rcStart.right - rcStart.left, rcStart.bottom - rcStart.top, NULL, NULL, hInst, NULL);
+			hwndEdit = CreateWindowExA(WS_EX_TOOLWINDOW, "EDIT", "", WS_POPUP | WS_BORDER | WS_VISIBLE | ES_WANTRETURN | ES_AUTOVSCROLL | WS_VSCROLL | ES_MULTILINE, rcStart.left, rcStart.top, rcStart.right - rcStart.left, rcStart.bottom - rcStart.top, nullptr, nullptr, hInst, nullptr);
 			SetWindowTextUcs(hwndEdit, text);
 			mir_subclassWindow(hwndEdit, StringEditSubclassProc);
 			SendMessage(hwndEdit, WM_SETFONT, (WPARAM)dataStringEdit->hListFont, 0);
@@ -207,13 +207,13 @@ static LRESULT CALLBACK ExpandButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 					UpdateWindow(hwndEdit);
 					timeNow = GetTickCount();
 					if (timeNow > startTime + 200) break;
-					SetWindowPos(hwndEdit, 0, rcEnd.left, rcEnd.top, (rcEnd.right - rcStart.right)*(timeNow - startTime) / 200 + rcStart.right - rcEnd.left, (rcEnd.bottom - rcStart.bottom)*(timeNow - startTime) / 200 + rcStart.bottom - rcEnd.top, SWP_NOZORDER);
+					SetWindowPos(hwndEdit, nullptr, rcEnd.left, rcEnd.top, (rcEnd.right - rcStart.right)*(timeNow - startTime) / 200 + rcStart.right - rcEnd.left, (rcEnd.bottom - rcStart.bottom)*(timeNow - startTime) / 200 + rcStart.bottom - rcEnd.top, SWP_NOZORDER);
 				}
 			}
-			SetWindowPos(hwndEdit, 0, rcEnd.left, rcEnd.top, rcEnd.right - rcEnd.left, rcEnd.bottom - rcEnd.top, SWP_NOZORDER);
+			SetWindowPos(hwndEdit, nullptr, rcEnd.left, rcEnd.top, rcEnd.right - rcEnd.left, rcEnd.bottom - rcEnd.top, SWP_NOZORDER);
 
 			DestroyWindow(hwnd);
-			hwndExpandButton = NULL;
+			hwndExpandButton = nullptr;
 
 			SAFE_FREE((void**)&text);
 		}
@@ -251,13 +251,13 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 
 	if ((si.displayType & LIM_TYPE) == LI_LONGSTRING) {
 		rc->right -= rc->bottom - rc->top;
-		hwndExpandButton = CreateWindowA("BUTTON", "", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_ICON, rc->right, rc->top, rc->bottom - rc->top, rc->bottom - rc->top, hwndList, NULL, hInst, NULL);
+		hwndExpandButton = CreateWindowA("BUTTON", "", WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON | BS_ICON, rc->right, rc->top, rc->bottom - rc->top, rc->bottom - rc->top, hwndList, nullptr, hInst, nullptr);
 		SendMessage(hwndExpandButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[0].hIcolib));
 		mir_subclassWindow(hwndExpandButton, ExpandButtonSubclassProc);
 	}
 
 	dataStringEdit = this;
-	hwndEdit = CreateWindow(L"EDIT", L"", WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL | ((si.displayType&LIM_TYPE) == LI_NUMBER ? ES_NUMBER : 0) | (si.displayType&LIF_PASSWORD ? ES_PASSWORD : 0), rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, hwndList, NULL, hInst, NULL);
+	hwndEdit = CreateWindow(L"EDIT", L"", WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL | ((si.displayType&LIM_TYPE) == LI_NUMBER ? ES_NUMBER : 0) | (si.displayType&LIF_PASSWORD ? ES_PASSWORD : 0), rc->left, rc->top, rc->right - rc->left, rc->bottom - rc->top, hwndList, nullptr, hInst, nullptr);
 	SetWindowTextUtf(hwndEdit, szValue);
 	if (alloced) SAFE_FREE(&szValue);
 	mir_subclassWindow(hwndEdit, StringEditSubclassProc);
@@ -265,14 +265,14 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 	if ((si.displayType & LIM_TYPE) == LI_NUMBER) {
 		int *range = (int*)si.pList;
 		RECT rcUpDown;
-		hwndUpDown = CreateWindow(UPDOWN_CLASS, L"", WS_VISIBLE | WS_CHILD | UDS_AUTOBUDDY | UDS_ALIGNRIGHT | UDS_HOTTRACK | UDS_NOTHOUSANDS | UDS_SETBUDDYINT, 0, 0, 0, 0, hwndList, NULL, hInst, NULL);
+		hwndUpDown = CreateWindow(UPDOWN_CLASS, L"", WS_VISIBLE | WS_CHILD | UDS_AUTOBUDDY | UDS_ALIGNRIGHT | UDS_HOTTRACK | UDS_NOTHOUSANDS | UDS_SETBUDDYINT, 0, 0, 0, 0, hwndList, nullptr, hInst, nullptr);
 		SendMessage(hwndUpDown, UDM_SETRANGE32, range[0], range[1]);
 		SendMessage(hwndUpDown, UDM_SETPOS32, 0, sid.value);
 		if (!(si.displayType & LIF_ZEROISVALID) && sid.value == 0)
 			SetWindowTextA(hwndEdit, "");
 		GetClientRect(hwndUpDown, &rcUpDown);
 		rc->right -= rcUpDown.right;
-		SetWindowPos(hwndEdit, 0, 0, 0, rc->right - rc->left, rc->bottom - rc->top, SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(hwndEdit, nullptr, 0, 0, rc->right - rc->left, rc->bottom - rc->top, SWP_NOZORDER | SWP_NOMOVE);
 	}
 	SendMessage(hwndEdit, EM_SETSEL, 0, (LPARAM)-1);
 	SetFocus(hwndEdit);
@@ -281,7 +281,7 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 
 void ChangeInfoData::EndStringEdit(int save)
 {
-	if (hwndEdit == NULL || iEditItem == -1 || this != dataStringEdit)
+	if (hwndEdit == nullptr || iEditItem == -1 || this != dataStringEdit)
 		return;
 
 	if (save) {
@@ -334,13 +334,13 @@ void ChangeInfoData::EndStringEdit(int save)
 
 	ListView_RedrawItems(hwndList, iEditItem, iEditItem);
 	iEditItem = -1;
-	dataStringEdit = NULL;
+	dataStringEdit = nullptr;
 	DestroyWindow(hwndEdit);
-	hwndEdit = NULL;
+	hwndEdit = nullptr;
 	if (hwndExpandButton) DestroyWindow(hwndExpandButton);
-	hwndExpandButton = NULL;
+	hwndExpandButton = nullptr;
 	if (hwndUpDown) DestroyWindow(hwndUpDown);
-	hwndUpDown = NULL;
+	hwndUpDown = nullptr;
 }
 
 int IsStringEditWindow(HWND hwnd)

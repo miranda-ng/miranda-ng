@@ -85,7 +85,7 @@ void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 	if (node && m_pDlgConsole) {
 		if (XmlGetName(node)) {
 			if (FilterXml(node, flags)) {
-				StringBuf buf = {0};
+				StringBuf buf = {};
 				sttAppendBufRaw(&buf, RTF_HEADER);
 				sttRtfAppendXml(&buf, node, flags, 1);
 				sttAppendBufRaw(&buf, RTF_SEPARATOR);
@@ -186,7 +186,7 @@ static void sttAppendBufW(StringBuf *buf, const WCHAR *str)
 static void sttEmptyBuf(StringBuf *buf)
 {
 	if (buf->buf) mir_free(buf->buf);
-	buf->buf = 0;
+	buf->buf = nullptr;
 	buf->size = 0;
 	buf->offset = 0;
 }
@@ -509,7 +509,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (xmlTmp)
 					m_proto->m_ThreadInfo->send(xmlTmp);
 				else {
-					StringBuf buf = { 0 };
+					StringBuf buf = {};
 					sttAppendBufRaw(&buf, RTF_HEADER);
 					sttAppendBufRaw(&buf, RTF_BEGINPLAINXML);
 					sttAppendBufT(&buf, TranslateT("Outgoing XML parsing error"));
@@ -614,7 +614,7 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 
 void CJabberProto::ConsoleInit()
 {
-	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
+	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, nullptr, &m_dwConsoleThreadId);
 }
 
 void CJabberProto::ConsoleUninit()

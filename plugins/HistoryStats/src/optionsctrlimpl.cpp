@@ -9,7 +9,7 @@
  */
 
 const wchar_t* OptionsCtrlImpl::m_ClassName = L"HistoryStatsOptions";
-HIMAGELIST OptionsCtrlImpl::m_hStateIcons = NULL;
+HIMAGELIST OptionsCtrlImpl::m_hStateIcons = nullptr;
 int OptionsCtrlImpl::m_nStateIconsRef = 0;
 
 LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -56,7 +56,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wPar
 	case WM_WINDOWPOSCHANGED:
 		{
 			WINDOWPOS* pWP = reinterpret_cast<WINDOWPOS*>(lParam);
-			SetWindowPos(pCtrl->m_hTree, NULL, 0, 0, pWP->cx, pWP->cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+			SetWindowPos(pCtrl->m_hTree, nullptr, 0, 0, pWP->cx, pWP->cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 		}
 		return 0;
 
@@ -346,7 +346,7 @@ void OptionsCtrlImpl::staticFreeStateImages()
 		IconLib::unregisterCallback(staticUpdateStateImages, 0);
 		ImageList_Destroy(m_hStateIcons);
 
-		m_hStateIcons = NULL;
+		m_hStateIcons = nullptr;
 	}
 }
 
@@ -390,12 +390,12 @@ bool OptionsCtrlImpl::registerClass()
 		0,							// cbClsExtra
 		sizeof(OptionsCtrlImpl*),	// cbWndExtra
 		g_hInst,					// hInstance
-		NULL,						// hIcon
-		NULL,						// hCursor
-		NULL,						// hbrBackground
-		NULL,						// lpszMenuName
+		nullptr,						// hIcon
+		nullptr,						// hCursor
+		nullptr,						// hbrBackground
+		nullptr,						// lpszMenuName
 		m_ClassName,				// lpszClassName
-		NULL						// hIconSm
+		nullptr						// hIconSm
 	};
 
 	if (!RegisterClassEx(&wcx))
@@ -416,7 +416,7 @@ void OptionsCtrlImpl::unregisterClass()
 }
 
 OptionsCtrlImpl::OptionsCtrlImpl(HWND hWnd, UINT_PTR nOwnId) :
-	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hTree(NULL), m_pfnOldTreeProc(NULL), m_bModified(true), m_hDragItem(NULL)
+	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hTree(nullptr), m_pfnOldTreeProc(nullptr), m_bModified(true), m_hDragItem(nullptr)
 {
 }
 
@@ -443,7 +443,7 @@ LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 		m_hWnd,
 		reinterpret_cast<HMENU>(ccTree),
 		g_hInst,
-		NULL);
+		nullptr);
 
 	if (!m_hTree)
 		return -1;
@@ -468,11 +468,11 @@ void OptionsCtrlImpl::onWMDestroy()
 
 	// undo subclassing of tree view
 	SetWindowLongPtr(m_hTree, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(m_pfnOldTreeProc));
-	m_pfnOldTreeProc = NULL;
+	m_pfnOldTreeProc = nullptr;
 
 	// destroy tree view before invalidating 'this'
 	DestroyWindow(m_hTree);
-	m_hTree = NULL;
+	m_hTree = nullptr;
 }
 
 void OptionsCtrlImpl::onNMClick()
@@ -547,7 +547,7 @@ void OptionsCtrlImpl::onTVNDeleteItem(NMTREEVIEW* pNMTreeView)
 		nmoc.hdr.code = OCN_SELCHANGING;
 		nmoc.hdr.hwndFrom = m_hWnd;
 		nmoc.hdr.idFrom = m_nOwnId;
-		nmoc.hItem = 0;
+		nmoc.hItem = nullptr;
 		nmoc.dwData = 0;
 
 		SendMessage(GetParent(m_hWnd), WM_NOTIFY, nmoc.hdr.idFrom, reinterpret_cast<LPARAM>(&nmoc));
@@ -559,7 +559,7 @@ void OptionsCtrlImpl::onTVNDeleteItem(NMTREEVIEW* pNMTreeView)
 
 		// do actual delete
 		Item* pItem = getItem(pNMTreeView->itemOld.hItem);
-		setItem(pNMTreeView->itemOld.hItem, NULL);
+		setItem(pNMTreeView->itemOld.hItem, nullptr);
 
 		pItem->onDeselect();
 
@@ -638,7 +638,7 @@ void OptionsCtrlImpl::onWMLButtonUp(const POINT& pt)
 	HTREEITEM hDragItem = m_hDragItem;
 
 	TreeView_SetInsertMark(m_hTree, NULL, FALSE);
-	m_hDragItem = NULL;
+	m_hDragItem = nullptr;
 	ReleaseCapture();
 
 	// check for drop target and handle
@@ -773,7 +773,7 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertGroup(HTREEITEM hParent, OCGROUP* pGroup)
 	assert(pGroup);
 	assert(pGroup->szLabel);
 
-	return (new Group(this, hParent ? getItem(hParent) : NULL, pGroup->szLabel, pGroup->dwFlags, pGroup->dwData))->m_hItem;
+	return (new Group(this, hParent ? getItem(hParent) : nullptr, pGroup->szLabel, pGroup->dwFlags, pGroup->dwData))->m_hItem;
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertCheck(HTREEITEM hParent, OCCHECK* pCheck)
@@ -781,7 +781,7 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertCheck(HTREEITEM hParent, OCCHECK* pCheck)
 	assert(pCheck);
 	assert(pCheck->szLabel);
 
-	return (new Check(this, hParent ? getItem(hParent) : NULL, pCheck->szLabel, pCheck->dwFlags, pCheck->dwData))->m_hItem;
+	return (new Check(this, hParent ? getItem(hParent) : nullptr, pCheck->szLabel, pCheck->dwFlags, pCheck->dwData))->m_hItem;
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertRadio(HTREEITEM hParent, OCRADIO* pRadio)
@@ -789,11 +789,11 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertRadio(HTREEITEM hParent, OCRADIO* pRadio)
 	assert(pRadio);
 	assert(pRadio->szLabel);
 
-	Item* pSibling = pRadio->hSibling ? getItem(reinterpret_cast<HTREEITEM>(pRadio->hSibling)) : NULL;
+	Item* pSibling = pRadio->hSibling ? getItem(reinterpret_cast<HTREEITEM>(pRadio->hSibling)) : nullptr;
 
 	assert(!pSibling || pSibling->m_ItemType == itRadio);
 
-	return (new Radio(this, hParent ? getItem(hParent) : NULL, reinterpret_cast<Radio*>(pSibling), pRadio->szLabel, pRadio->dwFlags, pRadio->dwData))->m_hItem;
+	return (new Radio(this, hParent ? getItem(hParent) : nullptr, reinterpret_cast<Radio*>(pSibling), pRadio->szLabel, pRadio->dwFlags, pRadio->dwData))->m_hItem;
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertEdit(HTREEITEM hParent, OCEDIT* pEdit)
@@ -802,7 +802,7 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertEdit(HTREEITEM hParent, OCEDIT* pEdit)
 	assert(pEdit->szLabel);
 	assert(pEdit->szEdit);
 
-	return (new Edit(this, hParent ? getItem(hParent) : NULL, pEdit->szLabel, pEdit->szEdit, pEdit->dwFlags, pEdit->dwData))->m_hItem;
+	return (new Edit(this, hParent ? getItem(hParent) : nullptr, pEdit->szLabel, pEdit->szEdit, pEdit->dwFlags, pEdit->dwData))->m_hItem;
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertCombo(HTREEITEM hParent, OCCOMBO* pCombo)
@@ -810,7 +810,7 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertCombo(HTREEITEM hParent, OCCOMBO* pCombo)
 	assert(pCombo);
 	assert(pCombo->szLabel);
 
-	return (new Combo(this, hParent ? getItem(hParent) : NULL, pCombo->szLabel, pCombo->dwFlags, pCombo->dwData))->m_hItem;
+	return (new Combo(this, hParent ? getItem(hParent) : nullptr, pCombo->szLabel, pCombo->dwFlags, pCombo->dwData))->m_hItem;
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertButton(HTREEITEM hParent, OCBUTTON* pButton)
@@ -819,7 +819,7 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertButton(HTREEITEM hParent, OCBUTTON* pButto
 	assert(pButton->szLabel);
 	assert(pButton->szButton);
 
-	return (new Button(this, hParent ? getItem(hParent) : NULL, pButton->szLabel, pButton->szButton, pButton->dwFlags, pButton->dwData))->m_hItem;
+	return (new Button(this, hParent ? getItem(hParent) : nullptr, pButton->szLabel, pButton->szButton, pButton->dwFlags, pButton->dwData))->m_hItem;
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertDateTime(HTREEITEM hParent, OCDATETIME* pDateTime)
@@ -828,7 +828,7 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertDateTime(HTREEITEM hParent, OCDATETIME* pD
 	assert(pDateTime->szLabel);
 	assert(pDateTime->szFormat);
 
-	return (new DateTime(this, hParent ? getItem(hParent) : NULL, pDateTime->szLabel, pDateTime->szFormat, pDateTime->dwDateTime, pDateTime->dwFlags, pDateTime->dwData))->m_hItem;
+	return (new DateTime(this, hParent ? getItem(hParent) : nullptr, pDateTime->szLabel, pDateTime->szFormat, pDateTime->dwDateTime, pDateTime->dwFlags, pDateTime->dwData))->m_hItem;
 }
 
 HTREEITEM OptionsCtrlImpl::onOCMInsertColor(HTREEITEM hParent, OCCOLOR* pColor)
@@ -836,7 +836,7 @@ HTREEITEM OptionsCtrlImpl::onOCMInsertColor(HTREEITEM hParent, OCCOLOR* pColor)
 	assert(pColor);
 	assert(pColor->szLabel);
 
-	return (new Color(this, hParent ? getItem(hParent) : NULL, pColor->szLabel, pColor->crColor, pColor->dwFlags, pColor->dwData))->m_hItem;
+	return (new Color(this, hParent ? getItem(hParent) : nullptr, pColor->szLabel, pColor->crColor, pColor->dwFlags, pColor->dwData))->m_hItem;
 }
 
 const wchar_t* OptionsCtrlImpl::onOCMGetItemLabel(HTREEITEM hItem)
@@ -1015,7 +1015,7 @@ HTREEITEM OptionsCtrlImpl::onOCMGetItem(HTREEITEM hItem, DWORD dwFlag)
 		return TreeView_GetPrevSibling(m_hTree, hItem);
 
 	default:
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1152,7 +1152,7 @@ bool OptionsCtrlImpl::isItemValid(HTREEITEM hItem)
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
-	Item* pItem = TreeView_GetItem(m_hTree, &tvi) ? reinterpret_cast<Item*>(tvi.lParam) : NULL;
+	Item* pItem = TreeView_GetItem(m_hTree, &tvi) ? reinterpret_cast<Item*>(tvi.lParam) : nullptr;
 
 	return bool_(pItem);
 }
@@ -1164,7 +1164,7 @@ OptionsCtrlImpl::Item* OptionsCtrlImpl::getItem(HTREEITEM hItem)
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 	tvi.hItem = hItem;
-	Item* pItem = TreeView_GetItem(m_hTree, &tvi) ? reinterpret_cast<Item*>(tvi.lParam) : NULL;
+	Item* pItem = TreeView_GetItem(m_hTree, &tvi) ? reinterpret_cast<Item*>(tvi.lParam) : nullptr;
 
 	assert(pItem);
 

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
-HWND hwnd2watchedVarsWindow = NULL;
+HWND hwnd2watchedVarsWindow = nullptr;
 
-static WatchListArrayStruct WatchListArray = {0};
+static WatchListArrayStruct WatchListArray = {};
 
 static int lastColumn = -1;
 
@@ -12,7 +12,7 @@ ColumnsSettings csWatchList[] = {
 	{ LPGENW("Setting"), 2, "Watch2width", 100 },
 	{ LPGENW("Value"),   3, "Watch3width", 200 },
 	{ LPGENW("Type"),    4, "Watch4width", 75 },
-	{0}
+	{nullptr}
 };
 
 
@@ -47,7 +47,7 @@ int addSettingToWatchList(MCONTACT hContact, const char *module, const char *set
 	if (setting) 
 		WatchListArray.item[WatchListArray.count].setting = mir_strdup(setting);
 	else
-		WatchListArray.item[WatchListArray.count].setting = 0;
+		WatchListArray.item[WatchListArray.count].setting = nullptr;
 
 	WatchListArray.count++;
 	return 1;
@@ -61,12 +61,12 @@ void freeWatchListItem(int item)
 	if (WatchListArray.item[item].module) 
 		mir_free(WatchListArray.item[item].module);
 
-	WatchListArray.item[item].module = 0;
+	WatchListArray.item[item].module = nullptr;
 
 	if (WatchListArray.item[item].setting) 
 		mir_free(WatchListArray.item[item].setting);
 
-	WatchListArray.item[item].setting = 0;
+	WatchListArray.item[item].setting = nullptr;
 	db_free(&(WatchListArray.item[item].dbv));
 	WatchListArray.item[item].hContact = 0;
 }
@@ -111,7 +111,7 @@ void addwatchtolist(HWND hwnd, struct DBsetting *lParam)
 
 	wchar_t data[32], tmp[16], name[NAME_SIZE];
 
-	GetContactName(lParam->hContact, NULL, name, _countof(name));
+	GetContactName(lParam->hContact, nullptr, name, _countof(name));
 	lvItem.pszText = name;
 
 	int index = ListView_InsertItem(hwnd, &lvItem);
@@ -197,7 +197,7 @@ void freeAllWatches()
 		freeWatchListItem(i);
 	}
 	mir_free(WatchListArray.item);
-	WatchListArray.item = 0;
+	WatchListArray.item = nullptr;
 	WatchListArray.count = 0;
 }
 
@@ -274,7 +274,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_EXIT:
 		case IDCANCEL:
-			hwnd2watchedVarsWindow = NULL;
+			hwnd2watchedVarsWindow = nullptr;
 			DestroyWindow(hwnd);
 			break;
 		case MENU_REFRESH:
@@ -331,7 +331,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		ListView_DeleteAllItems(GetDlgItem(hwnd, IDC_VARS));
 		saveListSettings(GetDlgItem(hwnd, IDC_VARS), csWatchList);
 		Utils_SaveWindowPosition(hwnd, NULL, modname, "Watch_");
-		hwnd2watchedVarsWindow = NULL;
+		hwnd2watchedVarsWindow = nullptr;
 		break;
 	}
 	return 0;
@@ -340,7 +340,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 void openWatchedVarWindow()
 {
 	if (!hwnd2watchedVarsWindow) 
-		CreateDialog(hInst, MAKEINTRESOURCE(IDD_WATCH_DIAG), NULL, WatchDlgProc);
+		CreateDialog(hInst, MAKEINTRESOURCE(IDD_WATCH_DIAG), nullptr, WatchDlgProc);
 	else
 		SetForegroundWindow(hwnd2watchedVarsWindow);
 }
@@ -353,7 +353,7 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 	int timeout = db_get_b(NULL, modname, "PopupDelay", 3);
 
 	wchar_t name[NAME_SIZE], text[MAX_SECONDLINE], value[MAX_SECONDLINE];
-	GetContactName(hContact, NULL, name, _countof(name));
+	GetContactName(hContact, nullptr, name, _countof(name));
 
 	// 2nd line
 	int type = GetValue(hContact, module, setting, value, _countof(value));

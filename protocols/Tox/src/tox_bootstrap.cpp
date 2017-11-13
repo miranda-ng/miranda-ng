@@ -5,7 +5,7 @@ void CToxProto::BootstrapUdpNode(Tox *tox, const char *address, int port, const 
 	if (!toxThread)
 		return;
 
-	if (address == NULL || hexKey == NULL)
+	if (address == nullptr || hexKey == nullptr)
 		return;
 
 	ToxBinAddress binKey(hexKey, TOX_PUBLIC_KEY_SIZE * 2);
@@ -19,7 +19,7 @@ void CToxProto::BootstrapTcpRelay(Tox *tox, const char *address, int port, const
 	if (!toxThread)
 		return;
 
-	if (address == NULL || hexKey == NULL)
+	if (address == nullptr || hexKey == nullptr)
 		return;
 
 	ToxBinAddress binKey(hexKey, TOX_PUBLIC_KEY_SIZE * 2);
@@ -65,7 +65,7 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 
 	if (IsFileExists(path)) {
 		FILE *hFile = _wfopen(path, L"r");
-		if (hFile != NULL) {
+		if (hFile != nullptr) {
 			_fseeki64(hFile, 0, SEEK_END);
 			size_t size = _ftelli64(hFile);
 			json = (char*)mir_calloc(size);
@@ -141,8 +141,8 @@ void CToxProto::UpdateNodes()
 
 	ptrW path(mir_wstrdup((wchar_t*)VARSW(_A2W(TOX_JSON_PATH))));
 	if (!IsFileExists(path)) {
-		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hProfile == NULL) {
+		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (hProfile == nullptr) {
 			debugLogA(__FUNCTION__": failed to create tox.json");
 			return;
 		}

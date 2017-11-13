@@ -133,7 +133,7 @@ const struct luaL_Reg jsonApi[] =
 	{ "__tostring", json__tostring },
 	{ "__gc", json__gc },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 
@@ -195,7 +195,7 @@ static int lua_Encode(lua_State *L)
 		break;
 	}
 	case LUA_TLIGHTUSERDATA:
-		if (lua_touserdata(L, 1) == NULL)
+		if (lua_touserdata(L, 1) == nullptr)
 		{
 			lua_pushliteral(L, "null");
 			break;
@@ -212,7 +212,7 @@ static const luaL_Reg methods[] =
 	{ "Decode", lua_Decode },
 	{ "Encode", lua_Encode },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_json(lua_State *L)

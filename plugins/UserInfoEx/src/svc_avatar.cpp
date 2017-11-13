@@ -25,7 +25,7 @@ namespace NServices
 {
 	namespace NAvatar
 	{
-		static HANDLE ghChangedHook = NULL;
+		static HANDLE ghChangedHook = nullptr;
 
 		static int GetContactAvatarFileName(LPCWSTR zodiac, LPWSTR szFileName, int cchFileName)
 		{
@@ -141,7 +141,7 @@ namespace NServices
 			}
 			else if (!bEnable && ghChangedHook) {
 				UnhookEvent(ghChangedHook);
-				ghChangedHook = NULL;
+				ghChangedHook = nullptr;
 
 				// walk through all the contacts stored in the DB
 				for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))

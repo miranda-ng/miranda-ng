@@ -82,7 +82,7 @@ void LoadLogfont(int section, int i, LOGFONTA * lf, COLORREF * colour, char *szM
 
 HIMAGELIST g_himlOptions;
 
-static HWND hwndTabConfig = 0;
+static HWND hwndTabConfig = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // scan a single skin directory and find the.TSK file.Fill the combobox and set the
@@ -227,7 +227,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_SKIN_LOADTEMPLATES, loadMode & THEME_READ_TEMPLATES ? BST_CHECKED : BST_UNCHECKED);
 
 		SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-		SetTimer(hwndDlg, 1000, 100, 0);
+		SetTimer(hwndDlg, 1000, 100, nullptr);
 		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
@@ -242,7 +242,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		// windows must be closed.
 	case WM_USER + 100:
 		{
-			bool fWindowsOpen = (pFirstContainer != 0 ? true : false);
+			bool fWindowsOpen = (pFirstContainer != nullptr ? true : false);
 			for (int i = 0; _ctrls[i]; i++)
 				Utils::enableDlgControl(hwndDlg, _ctrls[i], !fWindowsOpen);
 
@@ -294,7 +294,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				const wchar_t *szFilename = GetThemeFileName(1);
 				if (szFilename != nullptr)
-					WriteThemeToINI(szFilename, 0);
+					WriteThemeToINI(szFilename, nullptr);
 			}
 			break;
 
@@ -313,13 +313,13 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				DWORD dwFlags = THEME_READ_FONTS;
 
 				if (szFilename != nullptr) {
-					int result = MessageBox(0, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all."),
+					int result = MessageBox(nullptr, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all."),
 						TranslateT("Load theme"), MB_YESNOCANCEL);
 					if (result == IDCANCEL)
 						return 1;
 					if (result == IDYES)
 						dwFlags |= THEME_READ_TEMPLATES;
-					ReadThemeFromINI(szFilename, 0, 0, dwFlags);
+					ReadThemeFromINI(szFilename, nullptr, 0, dwFlags);
 					CacheLogFonts();
 					CacheMsgLogIcons();
 					PluginConfig.reloadSettings();
@@ -386,7 +386,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 {
-	TVINSERTSTRUCT tvi = { 0 };
+	TVINSERTSTRUCT tvi = {};
 	TOptionListGroup *lvGroups = CTranslator::getGroupTree(id);
 	TOptionListItem *lvItems = CTranslator::getTree(id);
 
@@ -396,7 +396,7 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 
 	// fill the list box, create groups first, then add items
 	for (int i = 0; lvGroups[i].szName != nullptr; i++) {
-		tvi.hParent = 0;
+		tvi.hParent = nullptr;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvi.item.pszText = TranslateW(lvGroups[i].szName);
@@ -505,7 +505,7 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 		hti.pt.x = (short)LOWORD(GetMessagePos());
 		hti.pt.y = (short)HIWORD(GetMessagePos());
 		ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-		if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) == 0)
+		if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) == nullptr)
 			return FALSE;
 		if ((hti.flags & TVHT_ONITEMICON) == 0)
 			return FALSE;
@@ -1518,7 +1518,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 {
 	DWORD dwStatusMask = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	static DWORD dwNewStatusMask = 0;
-	static HWND hwndParent = 0;
+	static HWND hwndParent = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:

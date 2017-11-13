@@ -28,7 +28,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 	DWORD tmp, tmpsn = 0, tmprn = 0, tmpst = 0, tmprt = 0;
 	BYTE ed;
 
-	if (ai->argc != 5) return NULL;
+	if (ai->argc != 5) return nullptr;
 
 	if (!mir_wstrcmp(ai->targv[1], L"overall"))
 	{
@@ -65,7 +65,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 			}
 			mir_free(buf);
 		}
-		if (tmp != 0xAA) return NULL;
+		if (tmp != 0xAA) return nullptr;
 	}
 
 	if (!mir_wstrcmp(ai->targv[2], L"now"))
@@ -75,7 +75,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprn;
 		else
 		if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprn + tmpsn;
-		else return NULL;
+		else return nullptr;
 	}
 	else
 	if (!mir_wstrcmp(ai->targv[2], L"total"))
@@ -85,9 +85,9 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 		if (!mir_wstrcmp(ai->targv[3], L"received")) tmp = tmprt;
 		else
 		if (!mir_wstrcmp(ai->targv[3], L"both")) tmp = tmprt + tmpst;
-		else return NULL;
+		else return nullptr;
 	}
-	else return NULL;
+	else return nullptr;
 
 	if (!mir_wstrcmp(ai->targv[4], L"b")) ed = 0;
 	else
@@ -96,18 +96,18 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 	if (!mir_wstrcmp(ai->targv[4], L"m")) ed = 2;
 	else
 	if (!mir_wstrcmp(ai->targv[4], L"d")) ed = 3;
-	else return NULL;
+	else return nullptr;
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
-	size_t l = GetFormattedTraffic(tmp, ed, NULL, 0);
+	size_t l = GetFormattedTraffic(tmp, ed, nullptr, 0);
 	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
-	if (!res) return NULL;
+	if (!res) return nullptr;
 	if (GetFormattedTraffic(tmp, ed, res, l))
 		return res;
 
 	mir_free(res);
-	return NULL;
+	return nullptr;
 }
 
 static wchar_t* GetTime(ARGUMENTSINFO *ai)
@@ -115,7 +115,7 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 	BYTE ed, flag;
 	DWORD Duration;
 
-	if (ai->argc != 4) return NULL;
+	if (ai->argc != 4) return nullptr;
 
 	// Ищем индекс протокола, переданного первым аргументом
 	for (flag = ed = 0; ed < NumberOfAccounts; ed++)
@@ -145,13 +145,13 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 		else flag = 0;
 	}
 	
-	if (flag != 0xAA) return NULL;
+	if (flag != 0xAA) return nullptr;
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
-	size_t l = GetDurationFormatM(Duration, ai->targv[3], NULL, 0);
+	size_t l = GetDurationFormatM(Duration, ai->targv[3], nullptr, 0);
 	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
-	if (!res) return NULL;
+	if (!res) return nullptr;
 	GetDurationFormatM(Duration, ai->targv[3], res, l);
 
 	return res;

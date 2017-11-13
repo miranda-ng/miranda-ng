@@ -154,7 +154,7 @@ DWORD MraSymbolsToRTFTags(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMes
 
 	while (dwFoundCount) {
 		for (i = 0;i<SYMBOLS_COUNT;i++)
-			if (lpszFounded[i] && (lpszFounded[i]<lpszFounded[dwFirstFoundIndex] || lpszFounded[dwFirstFoundIndex] == NULL))
+			if (lpszFounded[i] && (lpszFounded[i]<lpszFounded[dwFirstFoundIndex] || lpszFounded[dwFirstFoundIndex] == nullptr))
 				dwFirstFoundIndex = i;
 
 		if (lpszFounded[dwFirstFoundIndex]) { // found
@@ -206,12 +206,12 @@ DWORD CMraProto::MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMess
 	LOGFONT lf = {0};
 
 	dwRTFFontColour = getDword("RTFFontColour", MRA_DEFAULT_RTF_FONT_COLOUR);
-	if ( !mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), NULL)) {
-		HDC hDC = GetDC(NULL);// kegl
+	if ( !mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), nullptr)) {
+		HDC hDC = GetDC(nullptr);// kegl
 		lf.lfCharSet = MRA_DEFAULT_RTF_FONT_CHARSET;
 		lf.lfHeight = -MulDiv(MRA_DEFAULT_RTF_FONT_SIZE, GetDeviceCaps(hDC, LOGPIXELSY), 72);
 		mir_wstrncpy(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
-		ReleaseDC(NULL, hDC);
+		ReleaseDC(nullptr, hDC);
 	}
 	dwFontSize = ((-lf.lfHeight)+(((-lf.lfHeight)+4)/8));
 

@@ -42,7 +42,7 @@ bool CMsnProto::Lists_IsInList(int list, const char* email)
 	mir_cslock lck(m_csLists);
 
 	MsnContact *p = m_arContacts.find((MsnContact*)&email);
-	if (p == NULL)
+	if (p == nullptr)
 		return false;
 	if (list == -1)
 		return true;
@@ -63,13 +63,13 @@ MsnContact* CMsnProto::Lists_Get(MCONTACT hContact)
 		if (m_arContacts[i].hContact == hContact)
 			return &m_arContacts[i];
 
-	return NULL;
+	return nullptr;
 }
 
 MsnPlace* CMsnProto::Lists_GetPlace(const char* wlid)
 {
 	char *szEmail, *szInst;
-	parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, &szInst);
+	parseWLID(NEWSTR_ALLOCA(wlid), nullptr, &szEmail, &szInst);
 
 	return Lists_GetPlace(szEmail, szInst);
 }
@@ -78,12 +78,12 @@ MsnPlace* CMsnProto::Lists_GetPlace(const char* szEmail, const char *szInst)
 {
 	mir_cslock lck(m_csLists);
 
-	if (szInst == NULL)
+	if (szInst == nullptr)
 		szInst = (char*)sttVoidUid;
 
 	MsnContact* p = m_arContacts.find((MsnContact*)&szEmail);
-	if (p == NULL)
-		return NULL;
+	if (p == nullptr)
+		return nullptr;
 
 	return p->places.find((MsnPlace*)&szInst);
 }
@@ -93,11 +93,11 @@ MsnPlace* CMsnProto::Lists_AddPlace(const char* email, const char* id, unsigned 
 	mir_cslock lck(m_csLists);
 
 	MsnContact *p = m_arContacts.find((MsnContact*)&email);
-	if (p == NULL)
-		return NULL;
+	if (p == nullptr)
+		return nullptr;
 
 	MsnPlace *pl = p->places.find((MsnPlace*)&id);
-	if (pl == NULL) {
+	if (pl == nullptr) {
 		pl = new MsnPlace;
 		pl->id = mir_strdup(id);
 		pl->cap1 = cap1;
@@ -116,8 +116,8 @@ MsnContact* CMsnProto::Lists_GetNext(int &i)
 {
 	mir_cslock lck(m_csLists);
 
-	MsnContact *p = NULL;
-	while (p == NULL && ++i < m_arContacts.getCount())
+	MsnContact *p = nullptr;
+	while (p == nullptr && ++i < m_arContacts.getCount())
 		if (m_arContacts[i].hContact)
 			p = &m_arContacts[i];
 
@@ -147,7 +147,7 @@ int CMsnProto::Lists_Add(int list, int netId, const char* email, MCONTACT hConta
 	mir_cslock lck(m_csLists);
 
 	MsnContact* p = m_arContacts.find((MsnContact*)&email);
-	if (p == NULL) {
+	if (p == nullptr) {
 		p = new MsnContact;
 		p->list = list;
 		p->netId = netId;
@@ -177,7 +177,7 @@ void CMsnProto::Lists_Remove(int list, const char* email)
 	if (i != -1) {
 		MsnContact &p = m_arContacts[i];
 		p.list &= ~list;
-		if (list & LIST_PL) { mir_free(p.invite); p.invite = NULL; }
+		if (list & LIST_PL) { mir_free(p.invite); p.invite = nullptr; }
 		if (p.list == 0 && p.hContact == NULL)
 			m_arContacts.remove(i);
 	}
@@ -232,7 +232,7 @@ void CMsnProto::MSN_CleanupLists(void)
 				wchar_t title[128];
 				mir_snwprintf(title, TranslateT("%s protocol"), m_tszUserName);
 
-				if (MessageBox(NULL, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
+				if (MessageBox(nullptr, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
 					MSN_AddUser(p.hContact, p.email, 0, LIST_LL);
 					setByte(p.hContact, "LocalList", 1);
 					continue;
@@ -287,7 +287,7 @@ void CMsnProto::MSN_CreateContList(void)
 				}
 
 				const char *dom = strchr(C.email, '@');
-				if (dom == NULL && lastds == NULL) {
+				if (dom == nullptr && lastds == nullptr) {
 					if (newdom) {
 						cxml.Append("<skp>");
 						newdom = false;
@@ -411,7 +411,7 @@ static void SaveListItem(MCONTACT hContact, const char* szEmail, int list, int i
 	if (iNewValue == 0) {
 		if (list & LIST_FL) {
 			DeleteParam param = { proto, hContact };
-			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), NULL, DlgDeleteContactUI, (LPARAM)&param);
+			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), nullptr, DlgDeleteContactUI, (LPARAM)&param);
 			return;
 		}
 
@@ -443,7 +443,7 @@ static void SaveSettings(MCONTACT hItem, HWND hwndList, CMsnProto* proto)
 			else if (IsHContactInfo(hItem)) {
 				wchar_t buf[MSN_MAX_EMAIL_LEN];
 				SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
-				WideCharToMultiByte(CP_ACP, 0, buf, -1, szEmail, sizeof(szEmail), 0, 0);
+				WideCharToMultiByte(CP_ACP, 0, buf, -1, szEmail, sizeof(szEmail), nullptr, nullptr);
 
 			}
 
@@ -556,7 +556,7 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				// Find clicked item
 				DWORD hitFlags;
 				HANDLE hItem = (HANDLE)SendMessage(nmc->hdr.hwndFrom, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y));
-				if (hItem == NULL || !(IsHContactContact(hItem) || IsHContactInfo(hItem)))
+				if (hItem == nullptr || !(IsHContactContact(hItem) || IsHContactInfo(hItem)))
 					break;
 
 				// It was not our extended icon

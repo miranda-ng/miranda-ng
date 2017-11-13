@@ -192,7 +192,7 @@ void parseURL(char* szUrl, char* szHost, unsigned short* sPort, char* szPath)
 
 static void LongLog(char* szData)
 {
-	Netlib_Logf(0, szData);
+	Netlib_Logf(nullptr, szData);
 }
 
 static void closeRouterConnection(void)

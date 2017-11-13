@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static HFONT hBoldFont = NULL;
-static HENHMETAFILE hEmfHeaderLogo = NULL;
+static HFONT hBoldFont = nullptr;
+static HENHMETAFILE hEmfHeaderLogo = nullptr;
 
 static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 {
@@ -41,7 +41,7 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 			makeBold = 1;
 	}
 	if (makeBold) {
-		if (hBoldFont == NULL) {
+		if (hBoldFont == nullptr) {
 			LOGFONT lf;
 			hBoldFont = (HFONT)SendMessage(hwnd, WM_GETFONT, 0, 0);
 			GetObject(hBoldFont, sizeof(lf), &lf);
@@ -50,7 +50,7 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 		}
 		SendMessage(hwnd, WM_SETFONT, (WPARAM)hBoldFont, 0);
 		SetWindowLongPtr(hwnd, GWL_EXSTYLE, exstyle&~WS_EX_CLIENTEDGE);
-		SetWindowPos(hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+		SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 	}
 	return TRUE;
 }
@@ -60,7 +60,7 @@ int DoMyControlProcessing(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam,
 	switch (message) {
 	case WM_INITDIALOG:
 		EnumChildWindows(hdlg, MyControlsEnumChildren, 0);
-		if (hEmfHeaderLogo == NULL) {
+		if (hEmfHeaderLogo == nullptr) {
 			HRSRC hRsrc = FindResourceA(hInst, MAKEINTRESOURCEA(IDE_HDRLOGO), "EMF");
 			HGLOBAL hGlob = LoadResource(hInst, hRsrc);
 			hEmfHeaderLogo = SetEnhMetaFileBits(SizeofResource(hInst, hRsrc), (PBYTE)LockResource(hGlob));
@@ -97,7 +97,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	switch (message) {
 	case WM_INITDIALOG:
 		SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(IDI_DBTOOL)));
-		hdlgPage = NULL;
+		hdlgPage = nullptr;
 		if (bShortMode)
 			SendMessage(hdlg, WZM_GOTOPAGE, IDD_SELECTDB, (LPARAM)SelectDbDlgProc);
 		else
@@ -106,14 +106,14 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WZM_GOTOPAGE:
-		if (hdlgPage != NULL) DestroyWindow(hdlgPage);
+		if (hdlgPage != nullptr) DestroyWindow(hdlgPage);
 		EnableWindow(GetDlgItem(hdlg, IDC_BACK), TRUE);
 		EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
 		EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
 		SetDlgItemText(hdlg, IDCANCEL, TranslateT("Cancel"));
 		hdlgPage = CreateDialog(hInst, MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam);
 		TranslateDialogDefault(hdlgPage);
-		SetWindowPos(hdlgPage, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		SetWindowPos(hdlgPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hdlgPage, SW_SHOW);
 		break;
 
@@ -136,20 +136,20 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_DESTROY:
 		if (opts.dbChecker) {
 			opts.dbChecker->Destroy();
-			opts.dbChecker = NULL;
+			opts.dbChecker = nullptr;
 		}
 
 		if (opts.hOutFile)
 			CloseHandle(opts.hOutFile);
 
 		DestroyWindow(hdlgPage);
-		if (hBoldFont != NULL) {
+		if (hBoldFont != nullptr) {
 			DeleteObject(hBoldFont);
-			hBoldFont = NULL;
+			hBoldFont = nullptr;
 		}
-		if (hEmfHeaderLogo != NULL) {
+		if (hEmfHeaderLogo != nullptr) {
 			DeleteEnhMetaFile(hEmfHeaderLogo);
-			hEmfHeaderLogo = NULL;
+			hEmfHeaderLogo = nullptr;
 		}
 		break;
 	}

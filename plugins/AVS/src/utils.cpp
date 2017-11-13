@@ -70,16 +70,16 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto)
 	ptrW  tszValue;
 	wchar_t tszFilename[MAX_PATH]; tszFilename[0] = 0;
 
-	ace->hbmPic = 0;
+	ace->hbmPic = nullptr;
 	ace->dwFlags = 0;
 	ace->bmHeight = 0;
 	ace->bmWidth = 0;
-	ace->lpDIBSection = NULL;
+	ace->lpDIBSection = nullptr;
 	ace->szFilename[0] = 0;
 
-	if (szProto == NULL) {
+	if (szProto == nullptr) {
 		char *proto = GetContactProto(hContact);
-		if (proto == NULL || !db_get_b(NULL, AVS_MODULE, proto, 1))
+		if (proto == nullptr || !db_get_b(NULL, AVS_MODULE, proto, 1))
 			return -1;
 
 		if (db_get_b(hContact, "ContactPhoto", "Locked", 0) && (tszValue = db_get_wsa(hContact, "ContactPhoto", "Backup")))
@@ -100,7 +100,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto)
 
 				if (!strstr(szProto, "Global avatar for")) {
 					PROTOACCOUNT* pdescr = Proto_GetAccount(szProto);
-					if (pdescr == NULL)
+					if (pdescr == nullptr)
 						return -1;
 					char key[MAX_PATH];
 					mir_snprintf(key, "Global avatar for %s accounts", pdescr->szProtoName);
@@ -148,10 +148,10 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto)
 	ace->dwFlags = 0;
 	ace->bmHeight = 0;
 	ace->bmWidth = 0;
-	ace->lpDIBSection = NULL;
+	ace->lpDIBSection = nullptr;
 	wcsncpy(ace->szFilename, tszFilename, MAX_PATH);
 	ace->szFilename[MAX_PATH - 1] = 0;
-	if (ace->hbmPic == 0)
+	if (ace->hbmPic == nullptr)
 		return -1;
 
 	BITMAP bminfo;
@@ -232,7 +232,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto)
 
 int GetFileHash(wchar_t* filename)
 {
-	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return 0;
 
@@ -242,7 +242,7 @@ int GetFileHash(wchar_t* filename)
 	do {
 		// Read file chunk
 		dwRead = 0;
-		ReadFile(hFile, data, 1024, &dwRead, NULL);
+		ReadFile(hFile, data, 1024, &dwRead, nullptr);
 
 		/* loop through each byte of data */
 		for (int byte = 0; byte < (int)dwRead; ++byte) {
@@ -269,7 +269,7 @@ int GetFileHash(wchar_t* filename)
 
 protoPicCacheEntry::~protoPicCacheEntry()
 {
-	if (hbmPic != 0)
+	if (hbmPic != nullptr)
 		DeleteObject(hbmPic);
 	mir_free(szProtoname);
 	mir_free(tszAccName);
@@ -277,7 +277,7 @@ protoPicCacheEntry::~protoPicCacheEntry()
 
 void protoPicCacheEntry::clear()
 {
-	if (hbmPic != 0)
+	if (hbmPic != nullptr)
 		DeleteObject(hbmPic);
 
 	memset(this, 0, sizeof(AVATARCACHEENTRY));
@@ -384,11 +384,11 @@ protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact)
 	if (szProto) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (!mir_strcmp(p.szProtoname, szProto) && p.hbmPic != NULL)
+			if (!mir_strcmp(p.szProtoname, szProto) && p.hbmPic != nullptr)
 				return &g_ProtoPictures[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 MCONTACT GetContactThatHaveTheAvatar(MCONTACT hContact, int locked)
@@ -412,7 +412,7 @@ int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist, int pa_format)
 
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hContact, g_AvatarHistoryAvail && fNotifyHist, true);
-	if (node == NULL)
+	if (node == nullptr)
 		return 0;
 
 	if (fNotifyHist)
@@ -446,7 +446,7 @@ void DeleteGlobalUserAvatar()
 void SetIgnoreNotify(char *protocol, BOOL ignore)
 {
 	for (int i = 0; i < g_MyAvatars.getCount(); i++) {
-		if (protocol == NULL || !mir_strcmp(g_MyAvatars[i].szProtoname, protocol)) {
+		if (protocol == nullptr || !mir_strcmp(g_MyAvatars[i].szProtoname, protocol)) {
 			if (ignore)
 				g_MyAvatars[i].dwFlags |= AVS_IGNORENOTIFY;
 			else

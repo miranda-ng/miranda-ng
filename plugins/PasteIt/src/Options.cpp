@@ -66,7 +66,7 @@ Options::~Options()
 {
 	for (int i = 0; i < PasteToWeb::pages; ++i) {
 		delete webOptions[i];
-		webOptions[i] = NULL;
+		webOptions[i] = nullptr;
 	}
 }
 
@@ -139,7 +139,7 @@ public:
 	{
 		for (int i = 0; i < PasteToWeb::pages; ++i) {
 			delete webOptions[i];
-			webOptions[i] = NULL;
+			webOptions[i] = nullptr;
 		}
 	}
 
@@ -228,7 +228,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 			HWND btnhwnd = GetDlgItem(hwndDlg, IDC_PASTEBIN_LOGIN);
 			int btSize = Button_GetTextLength(btnhwnd);
 			if (btSize > 20) {
-				SetWindowPos(btnhwnd, NULL, 0, 0, 115, 34, SWP_NOZORDER | SWP_NOMOVE | SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOREDRAW);
+				SetWindowPos(btnhwnd, nullptr, 0, 0, 115, 34, SWP_NOZORDER | SWP_NOMOVE | SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOREDRAW);
 			}
 
 			for (int i = 0; i < PasteToWeb::pages; ++i) {
@@ -613,7 +613,7 @@ unsigned int Options::GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int 
 	if (selCpIdx < 0) {
 		wchar_t text[128];
 		ComboBox_GetText(hwndCB, text, 128);
-		wchar_t * stopOn = NULL;
+		wchar_t * stopOn = nullptr;
 		long cp = wcstol(text, &stopOn, 10);
 		if (errorReport && (stopOn == text || *stopOn != '\0' || cp < 0 || cp > 0xffff)) {
 			MessageBox(GetParent(hwndCB), TranslateT("You've entered invalid codepage. Select codepage from combo box or enter correct number."), TranslateT("Invalid codepage"), MB_OK | MB_ICONERROR);
@@ -780,7 +780,7 @@ void Options::Load()
 			webOptions[i]->formats.clear();
 			int k = 0;
 			wchar_t *id = forms.pwszVal;
-			wchar_t *name = NULL;
+			wchar_t *name = nullptr;
 			while (forms.pwszVal[k]) {
 				if (forms.pwszVal[k] == L'=') {
 					forms.pwszVal[k] = 0;

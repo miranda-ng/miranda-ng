@@ -145,7 +145,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case PSN_APPLY:
 			char str[128];
 
-			ppro->setDword(UNIQUEIDSETTING, GetDlgItemInt(hwndDlg, IDC_ICQNUM, NULL, FALSE));
+			ppro->setDword(UNIQUEIDSETTING, GetDlgItemInt(hwndDlg, IDC_ICQNUM, nullptr, FALSE));
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, _countof(ppro->m_szPassword));
 			if (mir_strlen(str)) {
 				mir_strcpy(ppro->m_szPassword, str);
@@ -157,7 +157,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			GetDlgItemTextA(hwndDlg, IDC_ICQSERVER, str, _countof(str));
 			ppro->setString("OscarServer", str);
 
-			ppro->setWord("OscarPort", (WORD)GetDlgItemInt(hwndDlg, IDC_ICQPORT, NULL, FALSE));
+			ppro->setWord("OscarPort", (WORD)GetDlgItemInt(hwndDlg, IDC_ICQPORT, nullptr, FALSE));
 
 			StoreDBCheckState(ppro, hwndDlg, IDC_KEEPALIVE, "KeepAlive");
 			StoreDBCheckState(ppro, hwndDlg, IDC_SSL, "SecureConnection");
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			StoreDBCheckState(ppro, hwndDlg, IDC_ADD_AUTH, "Auth");
 
 			if (ppro->icqOnline()) {
-				PBYTE buf = NULL;
+				PBYTE buf = nullptr;
 				size_t buflen = 0;
 
 				ppackTLVWord(&buf, &buflen, 0x19A, !ppro->getByte("Auth", 1));
@@ -275,10 +275,10 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				if (ppro->m_iStatus == ID_STATUS_INVISIBLE) {
 					if (ppro->m_bSsiEnabled)
 						ppro->updateServVisibilityCode(3);
-					ppro->icq_setstatus(wStatus, NULL);
+					ppro->icq_setstatus(wStatus, nullptr);
 				}
 				else {
-					ppro->icq_setstatus(wStatus, NULL);
+					ppro->icq_setstatus(wStatus, nullptr);
 					if (ppro->m_bSsiEnabled)
 						ppro->updateServVisibilityCode(4);
 				}
@@ -316,13 +316,13 @@ struct CPTABLE cpTable[] = {
 	{ 1257, LPGEN("Baltic") },
 	{ 1258, LPGEN("Vietnamese") },
 	{ 1361, LPGEN("Korean (Johab)") },
-	{ -1, NULL }
+	{ -1, nullptr }
 };
 
 static BOOL CALLBACK FillCpCombo(LPSTR str)
 {
 	UINT i, cp = atoi(str);
-	for (i = 0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
+	for (i = 0; cpTable[i].cpName != nullptr && cpTable[i].cpId != cp; i++);
 	if (cpTable[i].cpName)
 		ComboBoxAddStringUtf(hCpCombo, cpTable[i].cpName, cpTable[i].cpId);
 
@@ -537,7 +537,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.pfnDlgProc = DlgProcIcqPopupOpts;
 		odp.szGroup.w = LPGENW("Popups");
-		odp.szTab.w = NULL;
+		odp.szTab.w = nullptr;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

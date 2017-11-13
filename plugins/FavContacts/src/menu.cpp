@@ -25,7 +25,7 @@ float g_widthMultiplier = 0;
 
 wchar_t g_filter[1024] = { 0 };
 
-HWND g_hwndMenuHost = NULL;
+HWND g_hwndMenuHost = nullptr;
 
 static wchar_t* sttGetGroupName(int id)
 {
@@ -35,7 +35,7 @@ static wchar_t* sttGetGroupName(int id)
 		return TranslateT("Favorite Contacts");
 	}
 
-	return Clist_GroupGetName(id - 1, NULL);
+	return Clist_GroupGetName(id - 1, nullptr);
 }
 
 static BOOL sttMeasureItem_Group(LPMEASUREITEMSTRUCT lpmis, Options *options)
@@ -72,7 +72,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	if (options->bSecondLine) {
 		bool bFree = false;
 		wchar_t *title = db_get_wsa(hContact, "CList", "StatusMsg");
-		if (title == NULL) {
+		if (title == nullptr) {
 			char *proto = GetContactProto(hContact);
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			title = pcli->pfnGetStatusModeDescription(status, 0);
@@ -137,7 +137,7 @@ BOOL MenuMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options)
 	return FALSE;
 }
 
-static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
+static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = nullptr)
 {
 	lpdis->rcItem.top++;
 	lpdis->rcItem.bottom--;
@@ -183,7 +183,7 @@ void ImageList_DrawDimmed(HIMAGELIST himl, int i, HDC hdc, int left, int top, UI
 	DeleteDC(dcMem);
 }
 
-static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
+static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = nullptr)
 {
 	MCONTACT hContact = (MCONTACT)lpdis->itemData;
 
@@ -259,7 +259,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0)) {
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			IcoLib_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
+			IcoLib_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, nullptr, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 
@@ -316,7 +316,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	if (options->bSecondLine) {
 		bool bFree = false;
 		wchar_t *title = db_get_wsa(hContact, "CList", "StatusMsg");
-		if (title == NULL) {
+		if (title == nullptr) {
 			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			title = pcli->pfnGetStatusModeDescription(status, 0);
 		}
@@ -428,7 +428,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 		GetCursorPos(&pt);
 		HWND hwndSave = GetForegroundWindow();
 		SetForegroundWindow(g_hwndMenuHost);
-		int res = TrackPopupMenu(hMenu, TPM_RECURSE | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, NULL);
+		int res = TrackPopupMenu(hMenu, TPM_RECURSE | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, nullptr);
 		SetForegroundWindow(hwndSave);
 		DestroyMenu(hMenu);
 
@@ -444,7 +444,7 @@ int ShowMenu(bool centered)
 	HMENU hMenu = CreatePopupMenu();
 	SIZE szMenu = { 0 };
 	SIZE szColumn = { 0 };
-	wchar_t *prevGroup = NULL;
+	wchar_t *prevGroup = nullptr;
 	int idItem = 100;
 	MCONTACT hContact;
 
@@ -457,7 +457,7 @@ int ShowMenu(bool centered)
 	if (g_Options.bUseColumns)
 		g_maxItemWidth /= favList.groupCount();
 
-	prevGroup = NULL;
+	prevGroup = nullptr;
 	for (int i = 0; i < favList.getCount(); ++i) {
 		hContact = favList[i]->getHandle();
 
@@ -517,7 +517,7 @@ int ShowMenu(bool centered)
 	hContact = NULL;
 	g_filter[0] = 0;
 
-	if (int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, NULL)) {
+	if (int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, g_hwndMenuHost, nullptr)) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
@@ -538,13 +538,13 @@ void InitMenu()
 	WNDCLASSEX wcl = { sizeof(wcl) };
 	wcl.lpfnWndProc = MenuHostWndProc;
 	wcl.hInstance = g_hInst;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = L"FavContactsMenuHostWnd";
 	RegisterClassEx(&wcl);
 
-	g_hwndMenuHost = CreateWindow(L"FavContactsMenuHostWnd", NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInst, NULL);
-	SetWindowPos(g_hwndMenuHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
+	g_hwndMenuHost = CreateWindow(L"FavContactsMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
+	SetWindowPos(g_hwndMenuHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 }
 
 void UninitMenu()

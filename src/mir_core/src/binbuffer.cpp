@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 MBinBuffer::MBinBuffer() :
-	m_buf(NULL),
+	m_buf(nullptr),
 	m_len(0)
 {
 }
@@ -30,7 +30,7 @@ MBinBuffer::~MBinBuffer()
 
 void MBinBuffer::append(void *pBuf, size_t bufLen)
 {
-	if (pBuf == NULL || bufLen == 0)
+	if (pBuf == nullptr || bufLen == 0)
 		return;
 
 	m_buf = (char*)mir_realloc(m_buf, bufLen + m_len);
@@ -43,7 +43,7 @@ void MBinBuffer::append(void *pBuf, size_t bufLen)
 
 void MBinBuffer::appendBefore(void *pBuf, size_t bufLen)
 {
-	if (pBuf == NULL || bufLen == 0)
+	if (pBuf == nullptr || bufLen == 0)
 		return;
 
 	m_buf = (char*)mir_realloc(m_buf, bufLen + m_len);
@@ -62,7 +62,7 @@ void MBinBuffer::remove(size_t sz)
 
 	if (m_len == sz) {
 		m_len = 0;
-		mir_free(m_buf); m_buf = NULL;
+		mir_free(m_buf); m_buf = nullptr;
 	}
 	else {
 		memmove(m_buf, m_buf + sz, m_len - sz);

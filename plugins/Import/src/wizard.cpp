@@ -66,7 +66,7 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 				char sModuleFileName[MAX_PATH];
 				GetModuleFileNameA(hInst, sModuleFileName, sizeof(sModuleFileName));
 				char *pszFileName = strrchr(sModuleFileName, '\\');
-				if (pszFileName == NULL)
+				if (pszFileName == nullptr)
 					pszFileName = sModuleFileName;
 				else
 					pszFileName++;
@@ -96,7 +96,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		hwndPage = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARDINTRO), hdlg, WizardIntroPageProc);
-		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		SetWindowPos(hwndPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hwndPage, SW_SHOW);
 		ShowWindow(hdlg, SW_SHOW);
 		Window_SetIcon_IcoLib(hdlg, GetIconHandle(IDI_IMPORT));
@@ -109,7 +109,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
 		SetDlgItemText(hdlg, IDCANCEL, TranslateT("Cancel"));
 		hwndPage = CreateDialog(hInst, MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam);
-		SetWindowPos(hwndPage, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		SetWindowPos(hwndPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hwndPage, SW_SHOW);
 		break;
 

@@ -23,14 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t* username) :
-	PROTO<MinecraftDynmapProto>(proto_name, username), m_interval(0), hConnection(0), hEventsConnection(0),
+	PROTO<MinecraftDynmapProto>(proto_name, username), m_interval(0), hConnection(nullptr), hEventsConnection(nullptr),
 	m_updateRate(5000), m_nick("")
 {
-	this->signon_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->connection_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->events_loop_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->events_loop_event_ = CreateEvent(NULL, FALSE, FALSE, NULL);
+	this->signon_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	this->send_message_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	this->connection_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	this->events_loop_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	this->events_loop_event_ = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	// Group chats
 	CreateProtoService(PS_JOINCHAT, &MinecraftDynmapProto::OnJoinChat);
@@ -50,15 +50,15 @@ MinecraftDynmapProto::MinecraftDynmapProto(const char* proto_name, const wchar_t
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	if (m_hNetlibUser == NULL) {
+	if (m_hNetlibUser == nullptr) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	// Client instantiation
 	this->error_count_ = 0;
-	this->chatHandle_ = NULL;
+	this->chatHandle_ = nullptr;
 }
 
 MinecraftDynmapProto::~MinecraftDynmapProto()

@@ -32,7 +32,7 @@ IEEmbedSink::~IEEmbedSink() {}
 
 STDMETHODIMP IEEmbedSink::QueryInterface(REFIID riid, PVOID *ppv)
 {
-	*ppv = NULL;
+	*ppv = nullptr;
 	if (IID_IUnknown == riid)
 		*ppv = (IUnknown *)this;
 
@@ -42,7 +42,7 @@ STDMETHODIMP IEEmbedSink::QueryInterface(REFIID riid, PVOID *ppv)
 	if (DIID_DWebBrowserEvents2 == riid)
 		*ppv = (DWebBrowserEvents2*)this;
 
-	if (NULL != *ppv) {
+	if (nullptr != *ppv) {
 		((LPUNKNOWN)*ppv)->AddRef();
 		return NOERROR;
 	}
@@ -184,19 +184,19 @@ IEEmbed::IEEmbed(HWND _parent)
 	MSG msg;
 	parent = _parent;
 	GetClientRect(_parent, &rcClient);
-	if (SUCCEEDED(pWebBrowser.CoCreateInstance(CLSID_WebBrowser, NULL, CLSCTX_INPROC))) {
+	if (SUCCEEDED(pWebBrowser.CoCreateInstance(CLSID_WebBrowser, nullptr, CLSCTX_INPROC))) {
 		CComPtr<IOleObject> pOleObject;
 		if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleObject))) {
 			pOleObject->SetClientSite(this);
 			pOleObject->DoVerb(OLEIVERB_INPLACEACTIVATE, &msg, this, 0, this->parent, &rcClient);
 		}
-		else MessageBox(NULL, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
+		else MessageBox(nullptr, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 
 		CComPtr<IOleInPlaceObject> pOleInPlace;
 		if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleInPlace)))
 			pOleInPlace->GetWindow(&hwnd);
 		else
-			MessageBox(NULL, TranslateT("IID_IOleInPlaceObject failed."), TranslateT("RESULT"), MB_OK);
+			MessageBox(nullptr, TranslateT("IID_IOleInPlaceObject failed."), TranslateT("RESULT"), MB_OK);
 
 		//setBorder();
 		CComPtr<IConnectionPointContainer> pCPContainer;
@@ -209,7 +209,7 @@ IEEmbed::IEEmbed(HWND _parent)
 				// want to sink its events.
 				sink = new IEEmbedSink(this);
 				if (FAILED(m_pConnectionPoint->Advise(sink, &m_dwCookie)))
-					MessageBox(NULL, TranslateT("Failed to Advise"), TranslateT("C++ Event Sink"), MB_OK);
+					MessageBox(nullptr, TranslateT("Failed to Advise"), TranslateT("C++ Event Sink"), MB_OK);
 			}
 		}
 		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)IEEmbedWindowProcedure));
@@ -223,14 +223,14 @@ IEEmbed::~IEEmbed()
 {
 	CComPtr<IOleObject> pOleObject;
 	if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleObject)))
-		pOleObject->SetClientSite(NULL);
+		pOleObject->SetClientSite(nullptr);
 	else
-		MessageBox(NULL, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
+		MessageBox(nullptr, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 
-	if (m_pConnectionPoint != NULL)
+	if (m_pConnectionPoint != nullptr)
 		m_pConnectionPoint->Unadvise(m_dwCookie);
 
-	if (sink != NULL)
+	if (sink != nullptr)
 		delete sink;
 	DestroyWindow(hwnd);
 }
@@ -248,7 +248,7 @@ void IEEmbed::ResizeBrowser()
 // IUnknown
 STDMETHODIMP IEEmbed::QueryInterface(REFIID riid, PVOID *ppv)
 {
-	*ppv = NULL;
+	*ppv = nullptr;
 	if (IID_IUnknown == riid)
 		*ppv = this;
 	if (IID_IOleClientSite == riid)
@@ -256,7 +256,7 @@ STDMETHODIMP IEEmbed::QueryInterface(REFIID riid, PVOID *ppv)
 	if (IID_IOleWindow == riid || IID_IOleInPlaceSite == riid)
 		*ppv = (IOleInPlaceSite*)this;//m_pIOleIPSite;
 
-	if (NULL != *ppv) {
+	if (nullptr != *ppv) {
 		((LPUNKNOWN)*ppv)->AddRef();
 		return NOERROR;
 	}
@@ -356,7 +356,7 @@ void IEEmbed::write(const wchar_t *text)
 	if (!document) return;
 
 	SAFEARRAY *safe_array = ::SafeArrayCreateVector(VT_VARIANT, 0, 1);
-	if (safe_array != NULL) {
+	if (safe_array != nullptr) {
 		VARIANT *variant;
 		::SafeArrayAccessData(safe_array, (LPVOID *)&variant);
 		variant->vt = VT_BSTR;
@@ -383,9 +383,9 @@ void IEEmbed::addCookie(const wchar_t *cookieString)
 BSTR IEEmbed::getCookies()
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
-	BSTR cookie = NULL;
+	BSTR cookie = nullptr;
 
-	if (!document) return NULL;
+	if (!document) return nullptr;
 	document->get_cookie(&cookie);
 	return cookie;
 }
@@ -393,18 +393,18 @@ BSTR IEEmbed::getCookies()
 IHTMLDocument2* IEEmbed::getDocument()
 {
 	CComPtr<IDispatch> dispatch;
-	if (SUCCEEDED(pWebBrowser->get_Document(&dispatch)) && dispatch != NULL) {
+	if (SUCCEEDED(pWebBrowser->get_Document(&dispatch)) && dispatch != nullptr) {
 		CComPtr<IHTMLDocument2> document;
 		dispatch.QueryInterface(&document);
 		return document.Detach();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void IEEmbed::navigate(const wchar_t *url)
 {
-	pWebBrowser->Navigate((WCHAR *)url, NULL, NULL, NULL, NULL);
+	pWebBrowser->Navigate((WCHAR *)url, nullptr, nullptr, nullptr, nullptr);
 }
 
 void IEEmbed::navigate(char *url)
@@ -432,7 +432,7 @@ void IEEmbed::navigate(NETLIBHTTPREQUEST *nlhr)
     SafeArrayUnaccessData(psa);
     V_VT(&vPostData) = VT_ARRAY | VT_UI1;
     V_ARRAY(&vPostData) = psa;
-	pWebBrowser->Navigate(szUrl, NULL, NULL, &vPostData, &vHeaders);
+	pWebBrowser->Navigate(szUrl, nullptr, nullptr, &vPostData, &vHeaders);
 	SysFreeString(bstrHeaders);
 	VariantClear(&vPostData);
 	mir_free(szUrl);
@@ -440,7 +440,7 @@ void IEEmbed::navigate(NETLIBHTTPREQUEST *nlhr)
 
 char *IEEmbed::GetHTMLDoc() {
 	CComPtr<IDispatch> spDispDoc;
-	char *pszRet = NULL;
+	char *pszRet = nullptr;
 
 	if (SUCCEEDED(pWebBrowser->get_Document(&spDispDoc))) {
 		CComPtr<IHTMLDocument3> spDoc;

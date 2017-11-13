@@ -410,7 +410,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 {
 	facy.handle_entry("DeleteContactFromServer");
 
-	if (data == NULL)
+	if (data == nullptr)
 		return;
 
 	std::string id = *(std::string*)data;
@@ -436,7 +436,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		if (hContact != NULL) {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-			setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
+			setDword(hContact, FACEBOOK_KEY_DELETED, ::time(nullptr));
 		}
 
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, EVENT_FRIENDSHIP);
@@ -453,7 +453,7 @@ void FacebookProto::AddContactToServer(void *data)
 {
 	facy.handle_entry("AddContactToServer");
 
-	if (data == NULL)
+	if (data == nullptr)
 		return;
 
 	std::string id = *(std::string*)data;
@@ -485,7 +485,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 {
 	facy.handle_entry("ApproveContactToServer");
 
-	if (data == NULL)
+	if (data == nullptr)
 		return;
 
 	MCONTACT hContact = *(MCONTACT*)data;
@@ -517,7 +517,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 {
 	facy.handle_entry("CancelFriendsRequest");
 
-	if (data == NULL)
+	if (data == nullptr)
 		return;
 
 	MCONTACT hContact = *(MCONTACT*)data;
@@ -549,7 +549,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 {
 	facy.handle_entry("IgnoreFriendshipRequest");
 
-	if (data == NULL)
+	if (data == nullptr)
 		return;
 
 	MCONTACT hContact = *(MCONTACT*)data;
@@ -585,7 +585,7 @@ void FacebookProto::SendPokeWorker(void *p)
 {
 	facy.handle_entry("SendPokeWorker");
 
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	std::string *id = (std::string*)p;
@@ -622,7 +622,7 @@ void FacebookProto::SendPokeWorker(void *p)
 
 void FacebookProto::RefreshUserInfo(void *data)
 {
-	if (data == NULL)
+	if (data == nullptr)
 		return;
 
 	MCONTACT hContact = *(MCONTACT*)data;
@@ -630,7 +630,7 @@ void FacebookProto::RefreshUserInfo(void *data)
 
 	ptrA user_id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (user_id == NULL || isOffline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)0, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)nullptr, 0);
 		return;
 	}
 	
@@ -700,13 +700,13 @@ void FacebookProto::RefreshUserInfo(void *data)
 		}
 	}
 
-	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)0, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)nullptr, 0);
 }
 
 
 HANDLE FacebookProto::GetAwayMsg(MCONTACT)
 {
-	return 0; // Status messages are disabled
+	return nullptr; // Status messages are disabled
 }
 
 int FacebookProto::OnContactDeleted(WPARAM wParam, LPARAM)

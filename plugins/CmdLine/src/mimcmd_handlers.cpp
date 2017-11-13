@@ -70,7 +70,7 @@ int Get2StateValue(char *state)
 int AccountName2Protocol(const char *accountName, OUT char *uniqueProtocolName, size_t length)
 {
 	int count;
-	PROTOACCOUNT **accounts = NULL;
+	PROTOACCOUNT **accounts = nullptr;
 	Proto_EnumAccounts(&count, &accounts);
 
 	strncpy_s(uniqueProtocolName, length, accountName, _TRUNCATE);
@@ -213,7 +213,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 			CMStringA perAccountStatus;
 
 			int count;
-			PROTOACCOUNT **accounts = NULL;
+			PROTOACCOUNT **accounts = nullptr;
 			Proto_EnumAccounts(&count, &accounts);
 
 			char pn[128];
@@ -243,7 +243,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				INT_PTR old = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 				char po[128];
 				if (ServiceExists(MS_KS_ANNOUNCESTATUSCHANGE)) {
-					announce_status_change(NULL, status, NULL);
+					announce_status_change(nullptr, status, nullptr);
 				}
 
 				PrettyStatusMode(old, po, sizeof(po));
@@ -272,7 +272,7 @@ void HandleStatusCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				INT_PTR old = CallProtoService(protocol, PS_GETSTATUS, 0, 0);
 				char po[128];
 				if (ServiceExists(MS_KS_ANNOUNCESTATUSCHANGE)) {
-					announce_status_change(protocol, status, NULL);
+					announce_status_change(protocol, status, nullptr);
 				}
 
 				PrettyStatusMode(old, po, sizeof(po));
@@ -316,7 +316,7 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 		{
 			char *awayMsg = argv[2];
 			int count = 0;
-			PROTOACCOUNT **accounts = NULL;
+			PROTOACCOUNT **accounts = nullptr;
 			Proto_EnumAccounts(&count, &accounts);
 
 			CMStringA szReply;
@@ -704,8 +704,8 @@ void HandleCallServiceCommand(PCommand command, TArgument *argv, int argc, PRepl
 		{
 			char *service = argv[2];
 			if (ServiceExists(service)) {
-				void *wParam = NULL;
-				void *lParam = NULL;
+				void *wParam = nullptr;
+				void *lParam = nullptr;
 				INT_PTR res1 = ParseValueParam(argv[3], wParam);
 				INT_PTR res2 = ParseValueParam(argv[4], lParam);
 				if ((res1 != 0) && (res2 != 0)) {
@@ -757,8 +757,8 @@ MCONTACT ParseContactParam(char *contact)
 	char account[128];
 	char protocol[128];
 	char *p = strrchr(contact, ':');
-	if (p == 0)
-		return GetContactFromID(contact, (char*)NULL);
+	if (p == nullptr)
+		return GetContactFromID(contact, (char*)nullptr);
 
 	*p = 0;
 	strncpy_s(name, contact, _TRUNCATE);
@@ -775,7 +775,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 		ParseMessage(message, argv[argc - 1]); //get the message
 
 		CMStringA szReply;
-		ACKDATA *ack = NULL;
+		ACKDATA *ack = nullptr;
 		for (int i = 2; i < argc - 1; i++) {
 			char *contact = argv[i];
 			MCONTACT hContact = ParseContactParam(contact);
@@ -788,7 +788,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 				HANDLE hProcess = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message);
 				const int MAX_COUNT = 60;
 				int counter = 0;
-				while (((ack = GetAck(hProcess)) == NULL) && (counter < MAX_COUNT)) {
+				while (((ack = GetAck(hProcess)) == nullptr) && (counter < MAX_COUNT)) {
 					SleepEx(250, TRUE);
 					counter++;
 				}
@@ -799,7 +799,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 						if (ack->szModule) {
 							szReply.AppendFormat(Translate("Message sent to '%s'."), contact);
 
-							DBEVENTINFO e = { 0 };
+							DBEVENTINFO e = {};
 							char module[128];
 							e.eventType = EVENTTYPE_MESSAGE;
 							e.flags = DBEF_SENT;
@@ -809,7 +809,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 							strncpy_s(module, ack->szModule, sizeof(module));
 							e.szModule = module;
-							e.timestamp = (DWORD)time(NULL);
+							e.timestamp = (DWORD)time(nullptr);
 
 							db_event_add(ack->hContact, &e);
 						}
@@ -903,8 +903,8 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 				char *module = argv[3];
 				char *key = argv[4];
 
-				void *value = NULL;
-				char *wrote = NULL;
+				void *value = nullptr;
+				char *wrote = nullptr;
 				int type = ParseValueParam(argv[5], value);
 
 				switch (type) {
@@ -1130,7 +1130,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				int type = ParseProxyType(argv[4]);
 				char *host = argv[5];
 				long port;
-				char *stop = NULL;
+				char *stop = nullptr;
 				port = strtol(argv[6], &stop, 10);
 
 				if ((*stop == 0) && (type > 0)) {
@@ -1181,7 +1181,7 @@ void HandleProxyCommand(PCommand command, TArgument *argv, int argc, PReply repl
 		AccountName2Protocol(account, protocol, sizeof(protocol));
 
 		int count = 0;
-		PROTOACCOUNT **accounts = NULL;
+		PROTOACCOUNT **accounts = nullptr;
 		Proto_EnumAccounts(&count, &accounts);
 
 		int i;
@@ -1243,7 +1243,7 @@ int ContactMatchSearch(MCONTACT hContact, char *contact, char *id, char *account
 		pos = strstr(lwrKeyword, "account:");
 		if (pos) {
 			pos += 8;
-			if (strstr(lwrAccount, pos) == NULL) {
+			if (strstr(lwrAccount, pos) == nullptr) {
 				matches = 0;
 
 				break;
@@ -1267,12 +1267,12 @@ int ContactMatchSearch(MCONTACT hContact, char *contact, char *id, char *account
 				pos = strstr(lwrKeyword, "id:");
 				if (pos) {
 					pos += 3;
-					if (strstr(lwrID, pos) == NULL) {
+					if (strstr(lwrID, pos) == nullptr) {
 						matches = 0;
 						break;
 					}
 				}
-				else if ((strstr(lwrName, lwrKeyword) == NULL)) {
+				else if ((strstr(lwrName, lwrKeyword) == nullptr)) {
 					matches = 0;
 					break;
 				}
@@ -1483,8 +1483,8 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 				MCONTACT hContact = ParseContactParam(contact);
 				if (hContact) {
 					if (_stricmp(cmd, "show") == 0) {
-						char *stop1 = NULL;
-						char *stop2 = NULL;
+						char *stop1 = nullptr;
+						char *stop2 = nullptr;
 						long start = strtol(argv[4], &stop1, 10);
 						long stop = strtol(argv[5], &stop2, 10);
 						if (!(*stop1) && !(*stop2)) {
@@ -1619,7 +1619,7 @@ void HandleLuaCommand(PCommand command, TArgument *argv, int argc, PReply reply)
 
 	if (_stricmp(argv[2], "call") == 0) {
 		wchar_t *result = argc == 4
-			? lua_call(NULL, _A2T(argv[3]))
+			? lua_call(nullptr, _A2T(argv[3]))
 			: lua_call(_A2T(argv[3]), _A2T(argv[4]));
 		mir_strcpy(reply->message, _T2A(result));
 		mir_free(result);

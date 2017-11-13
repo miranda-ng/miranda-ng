@@ -111,7 +111,7 @@ unsigned long Socket::lookup(char *h)
 
 	// try and resolve hostname
 	struct hostent *host = gethostbyname(h);
-	if (host == NULL) // Couldn't resolve hostname/ip
+	if (host == nullptr) // Couldn't resolve hostname/ip
 		return 0;
 
 	// return the ip

@@ -150,20 +150,20 @@ void exportDB(MCONTACT hContact, const char *module)
 
 	wchar_t fileName[MAX_PATH];
 
-	if (Openfile(fileName, (hContact == INVALID_CONTACT_ID) ? NULL : module, MAX_PATH)) {
+	if (Openfile(fileName, (hContact == INVALID_CONTACT_ID) ? nullptr : module, MAX_PATH)) {
 		FILE *file = _wfopen(fileName, L"wt");
 		if (!file) {
 			msg(TranslateT("Couldn't open file for writing"));
 			return;
 		}
 
-		SetCursor(LoadCursor(NULL, IDC_WAIT));
+		SetCursor(LoadCursor(nullptr, IDC_WAIT));
 
 		// exporting entire db
 		if (hContact == INVALID_CONTACT_ID) {
 			hContact = NULL;
 
-			if (module == NULL) {
+			if (module == nullptr) {
 				fprintf(file, "SETTINGS:\n");
 				mod = modlist.first;
 				while (mod) {
@@ -179,7 +179,7 @@ void exportDB(MCONTACT hContact, const char *module)
 			}
 			else {
 				if (*module == 0)
-					module = NULL; // reset module for all contacts export
+					module = nullptr; // reset module for all contacts export
 			}
 
 			hContact = db_find_first();
@@ -195,7 +195,7 @@ void exportDB(MCONTACT hContact, const char *module)
 
 				fprintf(file, "CONTACT: %s\n", NickFromHContact(hContact));
 
-				if (module == NULL) // export all modules
+				if (module == nullptr) // export all modules
 				{
 					mod = modlist.first;
 					while (mod) {
@@ -247,7 +247,7 @@ void exportDB(MCONTACT hContact, const char *module)
 		}
 		fclose(file);
 
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	}
 
 	FreeModuleSettingLL(&modlist);
@@ -276,18 +276,18 @@ void importSettings(MCONTACT hContact, char *utf8)
 
 	importstring = strtok(importstring, "\n");
 
-	SetCursor(LoadCursor(NULL, IDC_WAIT));
+	SetCursor(LoadCursor(nullptr, IDC_WAIT));
 
-	while (importstring != NULL) {
+	while (importstring != nullptr) {
 		i = 0;
 		rtrim(importstring);
 		if (importstring[i] == '\0') {
-			importstring = strtok(NULL, "\n");
+			importstring = strtok(nullptr, "\n");
 			continue;
 		}
 
 		if (!strncmp(&importstring[i], "SETTINGS:", mir_strlen("SETTINGS:"))) {
-			importstring = strtok(NULL, "\n");
+			importstring = strtok(nullptr, "\n");
 			continue;
 		}
 
@@ -414,9 +414,9 @@ void importSettings(MCONTACT hContact, char *utf8)
 				}
 			}
 		}
-		importstring = strtok(NULL, "\n");
+		importstring = strtok(nullptr, "\n");
 	}
-	SetCursor(LoadCursor(NULL, IDC_ARROW));
+	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 }
 
 INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -429,7 +429,7 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		wchar_t name[NAME_SIZE], msg[MSG_SIZE];
 
-		GetContactName((MCONTACT)lParam, NULL, name, _countof(name));
+		GetContactName((MCONTACT)lParam, nullptr, name, _countof(name));
 
 		mir_snwprintf(msg, TranslateT("Import to \"%s\""), name);
 		SetWindowText(hwnd, msg);
@@ -515,10 +515,10 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 			mir_wstrcat(szFile, &szFileNames[index]);
 			index += (int)mir_wstrlen(&szFileNames[index]) + 1;
 
-			HANDLE hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+			HANDLE hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 			if (hFile != INVALID_HANDLE_VALUE) {
-				if (GetFileSize(hFile, NULL) > 0) {
-					HANDLE hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
+				if (GetFileSize(hFile, nullptr) > 0) {
+					HANDLE hMap = CreateFileMapping(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
 					if (hMap) {
 						char *pFile = (char*)MapViewOfFile(hMap, FILE_MAP_COPY, 0, 0, 0);
 						if (pFile) {

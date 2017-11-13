@@ -38,7 +38,7 @@ static ICON_CACHE& getCacheItem(int mode, int type)
 	ICON_CACHE *p = new ICON_CACHE;
 	p->icon = icon;
 	p->mode = (type << 8) | mode;
-	p->hCLIcon = NULL;
+	p->hCLIcon = nullptr;
 	arIcoList.insert(p);
 
 	return *p;
@@ -55,7 +55,7 @@ HANDLE mode2clicon(int mode, int type)
 		return INVALID_HANDLE_VALUE;
 
 	ICON_CACHE &p = getCacheItem(mode, type);
-	if (p.hCLIcon == NULL)
+	if (p.hCLIcon == nullptr)
 		p.hCLIcon = ExtraIcon_AddIcon(p.icon);
 
 	return p.hCLIcon;
@@ -107,7 +107,7 @@ void ShowStatusIconNotify(MCONTACT hContact)
 void RefreshContactListIcons(void)
 {
 	for (int i = 0; i < arIcoList.getCount(); i++)
-		arIcoList[i].hCLIcon = 0;
+		arIcoList[i].hCLIcon = nullptr;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (isSecureProtocol(hContact))

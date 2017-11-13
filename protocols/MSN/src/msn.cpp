@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst, g_hOpenssl = NULL;
+HINSTANCE g_hInst, g_hOpenssl = nullptr;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////

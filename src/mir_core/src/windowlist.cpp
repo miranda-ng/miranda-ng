@@ -55,7 +55,7 @@ MIR_CORE_DLL(void) WindowList_Destroy(MWindowList &hList)
 
 MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, MCONTACT hContact)
 {
-	if (hList == NULL)
+	if (hList == nullptr)
 		return 1;
 
 	hList->insert(new TWindowListItem(hContact, hwnd));
@@ -64,7 +64,7 @@ MIR_CORE_DLL(int) WindowList_Add(MWindowList hList, HWND hwnd, MCONTACT hContact
 
 MIR_CORE_DLL(int) WindowList_Remove(MWindowList hList, HWND hwnd)
 {
-	if (hList == NULL) return 1;
+	if (hList == nullptr) return 1;
 	
 	for (int i = 0; i < hList->getCount(); i++) {
 		if ((*hList)[i].hWnd == hwnd) {
@@ -77,16 +77,16 @@ MIR_CORE_DLL(int) WindowList_Remove(MWindowList hList, HWND hwnd)
 
 MIR_CORE_DLL(HWND) WindowList_Find(MWindowList hList, MCONTACT hContact)
 {
-	if (hList == NULL)
-		return NULL;
+	if (hList == nullptr)
+		return nullptr;
 
 	TWindowListItem *p = hList->find((TWindowListItem*)&hContact);
-	return (p == NULL) ? NULL : p->hWnd;
+	return (p == nullptr) ? nullptr : p->hWnd;
 }
 
 MIR_CORE_DLL(int) WindowList_Broadcast(MWindowList hList, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (hList == NULL)
+	if (hList == nullptr)
 		return NULL;
 
 	for (int i = hList->getCount()-1; i >= 0; i--)
@@ -96,7 +96,7 @@ MIR_CORE_DLL(int) WindowList_Broadcast(MWindowList hList, UINT message, WPARAM w
 
 MIR_CORE_DLL(int) WindowList_BroadcastAsync(MWindowList hList, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (hList == NULL)
+	if (hList == nullptr)
 		return NULL;
 
 	for (int i = hList->getCount()-1; i >= 0; i--)

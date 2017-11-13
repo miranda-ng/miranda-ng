@@ -178,7 +178,7 @@ bool get_dif_value(const IHTMLNode::THTMLNodePtr& pNode, CGoogleInfo& rInfo, int
 			++i;
 	}
 
-	double* pValue = NULL;
+	double* pValue = nullptr;
 	switch (nItem) {
 	case CGoogleInfo::giPercentChangeAfterHours:
 		pValue = &rInfo.m_dPercentChangeAfterHours;

@@ -29,8 +29,8 @@ int hLangpack;
 HGENMENU hSSMenuToggleOnOff;
 HANDLE GetIconHandle(char *szIcon);
 HANDLE hOptionsInitialize;
-HANDLE hTTBarloaded = NULL;
-HANDLE Buttons = NULL;
+HANDLE hTTBarloaded = nullptr;
+HANDLE Buttons = nullptr;
 int InitializeOptions(WPARAM wParam,LPARAM lParam);
 int DisablePopup(WPARAM wParam, LPARAM lParam);
 int ModulesLoaded(WPARAM wParam, LPARAM lParam);
@@ -91,7 +91,7 @@ INT_PTR StartupSilence()
 {
 	InitSettings();
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	mir_forkthread((pThreadFunc)AdvSt, NULL);
+	mir_forkthread((pThreadFunc)AdvSt, nullptr);
 	CreateServiceFunction(SS_SERVICE_NAME, StartupSilenceEnabled);
 	CreateServiceFunction(SS_SILENCE_CONNECTION, SilenceConnection);
 	IsMenu();
@@ -108,7 +108,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	if (hTTBarloaded != NULL){
+	if (hTTBarloaded != nullptr){
 		UnhookEvent(hTTBarloaded);
 	}
 	return 0;
@@ -118,7 +118,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_POPUP_FILTER, DisablePopup);
 	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
-	if (TTBButtons == 1 && hTTBarloaded != NULL) {
+	if (TTBButtons == 1 && hTTBarloaded != nullptr) {
 		Icon_Register(hInst, "Toolbar/" MENU_NAME, iconttbList, _countof(iconttbList), MENU_NAME);
 		RemoveTTButtons();
 		CreateTTButtons(0,0);
@@ -311,13 +311,13 @@ void UpdateMenu()
 
 void UpdateTTB()
 {
-	if (hTTBarloaded != NULL && TTBButtons == 1)
+	if (hTTBarloaded != nullptr && TTBButtons == 1)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)Buttons, (Enabled == 1 ?  0 : TTBST_PUSHED));
 }
 
 static int CreateTTButtons(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = (Enabled == 1 ? 0 : TTBBF_PUSHED) | TTBBF_VISIBLE | TTBBF_ASPUSHBUTTON;
 	ttb.pszService = SS_SERVICE_NAME;
 	ttb.hIconHandleDn = GetIconHandle(DISABLE_SILENCETTB);
@@ -379,7 +379,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_SSTIME:
 			DWORD min;
 			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return FALSE;
-				min = GetDlgItemInt(hwndDlg, IDC_SSTIME, NULL, FALSE);
+				min = GetDlgItemInt(hwndDlg, IDC_SSTIME, nullptr, FALSE);
 			if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SSTIME)))
 				SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETPOS, 0, MAKELONG((short) 1, 0));
 			delay = (DWORD)db_set_dw(NULL, MODULE_NAME, DelayComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_GETPOS, 0, 0)));
@@ -387,7 +387,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_SSPOPUPTIME:
 			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return FALSE;
-				min = GetDlgItemInt(hwndDlg, IDC_SSPOPUPTIME, NULL, FALSE);
+				min = GetDlgItemInt(hwndDlg, IDC_SSPOPUPTIME, nullptr, FALSE);
 			if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SSPOPUPTIME)))
 				SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((short) 1, 0));
 			PopUpTime = (DWORD)db_set_dw(NULL, MODULE_NAME, PopUpTimeComp, (DWORD)(SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_GETPOS, 0, 0)));
@@ -399,7 +399,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_DELAY2:
 			if (!ServiceExists(MS_POPUP_QUERY)) {
-				MessageBox(0, NEEDPOPUP, NOTICE, MB_OK);
+				MessageBox(nullptr, NEEDPOPUP, NOTICE, MB_OK);
 				CheckDlgButton(hwndDlg, IDC_DELAY2, BST_UNCHECKED);
 				PopUp = (BYTE)db_set_b(NULL, MODULE_NAME, PopUpComp, 0);
 			}
@@ -412,7 +412,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_TTB:
 			if (!hTTBarloaded) {
-				MessageBox(0, NEEDTTBMOD, NOTICE, MB_OK);
+				MessageBox(nullptr, NEEDTTBMOD, NOTICE, MB_OK);
 				CheckDlgButton(hwndDlg, IDC_TTB, BST_UNCHECKED);
 				TTBButtons = (BYTE)db_set_b(NULL, MODULE_NAME, TTBButtonsComp, 0);
 			}

@@ -77,7 +77,7 @@ int ExtraImage_ExtraIDToColumnNum(int extra)
 
 int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 {
-	if (cli.hwndContactTree == 0)
+	if (cli.hwndContactTree == nullptr)
 		return -1;
 
 	int icol = ExtraImage_ExtraIDToColumnNum(ConvertToClistSlot(slot));
@@ -85,7 +85,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 		return -1;
 
 	HANDLE hItem = (HANDLE)SendMessage(cli.hwndContactTree, CLM_FINDCONTACT, hContact, 0);
-	if (hItem == 0)
+	if (hItem == nullptr)
 		return -1;
 
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol, hImage));
@@ -280,7 +280,7 @@ static HIMAGELIST hExtraImageList;
 
 MIR_APP_DLL(HANDLE) ExtraIcon_AddIcon(HICON hIcon)
 {
-	if (hExtraImageList == 0 || hIcon == 0)
+	if (hExtraImageList == nullptr || hIcon == nullptr)
 		return INVALID_HANDLE_VALUE;
 
 	int res = ImageList_AddIcon(hExtraImageList, hIcon);
@@ -305,7 +305,7 @@ void fnReloadExtraIcons()
 
 void fnSetAllExtraIcons(MCONTACT hContact)
 {
-	if (cli.hwndContactTree == 0)
+	if (cli.hwndContactTree == nullptr)
 		return;
 
 	bool hcontgiven = (hContact != 0);
@@ -392,14 +392,14 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const 
 {
 	// EXTRAICON_TYPE_CALLBACK 
 	if (IsEmpty(name) || IsEmpty(description))
-		return 0;
+		return nullptr;
 
 	if (ApplyIcon == nullptr || RebuildIcons == nullptr)
-		return 0;
+		return nullptr;
 
 	// no way to merge
 	if (GetExtraIconByName(name) != nullptr)
-		return 0;
+		return nullptr;
 
 	ptrW tszDesc(mir_a2u(description));
 	wchar_t *desc = TranslateW_LP(tszDesc, _hLang);
@@ -414,7 +414,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 	MIRANDAHOOKPARAM OnClick, LPARAM onClickParam, int flags, int _hLang)
 {
 	if (IsEmpty(name) || IsEmpty(description))
-		return 0;
+		return nullptr;
 
 	ptrW tszDesc(mir_a2u(description));
 	wchar_t *desc = TranslateW_LP(tszDesc, _hLang);
@@ -422,7 +422,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const ch
 	BaseExtraIcon *extra = GetExtraIconByName(name);
 	if (extra != nullptr) {
 		if (extra->getType() != EXTRAICON_TYPE_ICOLIB)
-			return 0;
+			return nullptr;
 
 		// Found one, now merge it
 		if (mir_wstrcmpi(extra->getDescription(), desc)) {

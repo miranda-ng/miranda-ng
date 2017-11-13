@@ -175,13 +175,13 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST*, PBYTE buf, int len, int* out
 			unpackByte(&tbuf, &bRes);
 			wLen -= 1;
 			if (!bRes)
-				Netlib_Logf( NULL, "Gateway Connection #%d Established.", dwPackSeq);
+				Netlib_Logf( nullptr, "Gateway Connection #%d Established.", dwPackSeq);
 			else
-				Netlib_Logf( NULL, "Gateway Connection #%d Failed, error: %d", dwPackSeq, bRes);
+				Netlib_Logf( nullptr, "Gateway Connection #%d Failed, error: %d", dwPackSeq, bRes);
 		}
 		else if (wType == HTTP_PACKETTYPE_CLOSEREPLY)
 		{ // "virtual connection" closed - only received if any other "virual connection" still active
-			Netlib_Logf( NULL, "Gateway Connection #%d Closed.", dwPackSeq);
+			Netlib_Logf( nullptr, "Gateway Connection #%d Closed.", dwPackSeq);
 		}
 		tbuf += wLen - 12;
 	}

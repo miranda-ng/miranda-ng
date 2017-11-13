@@ -44,10 +44,10 @@ static void TlenPsPostThread(void *ptr) {
 	TLEN_LIST_ITEM *item = data->item;
 	HNETLIBCONN socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
 	BOOL bSent = FALSE;
-	if (socket != NULL) {
+	if (socket != nullptr) {
 		char header[512];
 		item->ft->s = socket;
-		item->ft->hFileEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+		item->ft->hFileEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 		int ret = mir_snprintf(header, "<pic auth='%s' t='p' to='%s' size='%d' idt='%s'/>", proto->threadData->username, item->ft->jid, item->ft->fileTotalSize, item->jid);
 		TlenWsSend(proto, socket, header, ret);
 		ret = WaitForSingleObject(item->ft->hFileEvent, 1000 * 60 * 5);
@@ -100,7 +100,7 @@ static void TlenPsGetThread(void *ptr) {
 	fp = fopen( item->ft->files[0], "wb" );
 	if (fp) {
 		HNETLIBCONN socket = TlenWsConnect(proto, "ps.tlen.pl", 443);
-		if (socket != NULL) {
+		if (socket != nullptr) {
 			XmlState xmlState;
 			char header[512];
 			char fileBuffer[2048];
@@ -121,7 +121,7 @@ static void TlenPsGetThread(void *ptr) {
 					if (bHeader) {
 						char * tagend = (char*)memchr(fileBuffer, '/', totalcount);
 						tagend = (char*)memchr(tagend + 1, '>', totalcount - (tagend - fileBuffer) - 1);
-						if (tagend != NULL) {
+						if (tagend != nullptr) {
 							int parsed = TlenXmlParse(&xmlState, fileBuffer, tagend - fileBuffer + 1);
 							if (parsed == 0) {
 								continue;
@@ -166,7 +166,7 @@ static void TlenPsGet(TlenProtocol *proto, TLEN_LIST_ITEM *item) {
 }
 
 void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
-	TLEN_LIST_ITEM *item = NULL;
+	TLEN_LIST_ITEM *item = nullptr;
 	char *crc, *crc_c, *idt, *size, *from, *fromRaw, *rt;
 	from = TlenXmlGetAttrValue(node, "from");
 	fromRaw = TlenLoginFromJID(from);
@@ -175,22 +175,22 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 	crc_c = TlenXmlGetAttrValue(node, "crc_c");
 	crc = TlenXmlGetAttrValue(node, "crc");
 	rt = TlenXmlGetAttrValue(node, "rt");
-	if (idt != NULL) {
+	if (idt != nullptr) {
 		item = TlenListGetItemPtr(proto, LIST_PICTURE, idt);
 	}
-	if (item != NULL) {
+	if (item != nullptr) {
 		if (!mir_strcmp(from, "ps")) {
 			char *st = TlenXmlGetAttrValue(node, "st");
-			if (st != NULL) {
+			if (st != nullptr) {
 				item->ft->iqId = mir_strdup(st);
 				item->ft->id2 = mir_strdup(rt);
-				if (item->ft->hFileEvent != NULL) {
+				if (item->ft->hFileEvent != nullptr) {
 					SetEvent(item->ft->hFileEvent);
-					item->ft->hFileEvent = NULL;
+					item->ft->hFileEvent = nullptr;
 				}
 			}
 		} else if (!mir_strcmp(item->ft->jid, fromRaw)) {
-			if (crc_c != NULL) {
+			if (crc_c != nullptr) {
 				if (!mir_strcmp(crc_c, "n")) {
 					/* crc_c = n, picture transfer accepted */
 					TlenPsPost(proto, item);
@@ -200,12 +200,12 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 					TlenP2PFreeFileTransfer(item->ft);
 					TlenListRemove(proto, LIST_PICTURE, idt);
 				}
-			} else if (rt != NULL) {
+			} else if (rt != nullptr) {
 				item->ft->id2 = mir_strdup(rt);
 				TlenPsGet(proto, item);
 			}
 		}
-	} else if (crc != NULL) {
+	} else if (crc != nullptr) {
 		BOOL bAccept = proto->tlenOptions.imagePolicy == TLEN_IMAGES_ACCEPT_ALL || (proto->tlenOptions.imagePolicy == TLEN_IMAGES_IGNORE_NIR && IsAuthorized(proto, from));
 		if (bAccept) {
 			FILE* fp;
@@ -257,7 +257,7 @@ BOOL SendPicture(TlenProtocol *proto, MCONTACT hContact) {
 		OPENFILENAME ofn = {0};
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 		ofn.lpstrFilter = tszFilter;
-		ofn.lpstrCustomFilter = NULL;
+		ofn.lpstrCustomFilter = nullptr;
 		ofn.lpstrFile = tszFileName;
 		ofn.nMaxFile = _MAX_PATH;
 		ofn.Flags = OFN_FILEMUSTEXIST;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-PFolderItem lastItem = NULL;
+PFolderItem lastItem = nullptr;
 
 static int bInitializing = 0;
 
@@ -8,7 +8,7 @@ static PFolderItem GetSelectedItem(HWND hWnd)
 {
 	int index = SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETCURSEL, 0, 0);
 	if (index == LB_ERR)
-		return NULL;
+		return nullptr;
 
 	return (PFolderItem)SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETITEMDATA, index, 0);
 }
@@ -173,7 +173,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		lastItem = NULL;
+		lastItem = nullptr;
 		TranslateDialogDefault(hWnd);
 		bInitializing = 1;
 		LoadRegisteredFolderSections(hWnd);
@@ -204,7 +204,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			case LBN_SELCHANGE:
 				CheckForChanges(hWnd);
 				LoadRegisteredFolderItems(hWnd);
-				lastItem = NULL;
+				lastItem = nullptr;
 				SetEditText(hWnd, L"");
 				RefreshPreview(hWnd);
 			}
@@ -214,7 +214,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			switch (HIWORD(wParam)) {
 			case LBN_SELCHANGE:
 				item = GetSelectedItem(hWnd);
-				if (item != NULL) {
+				if (item != nullptr) {
 					CheckForChanges(hWnd);
 					LoadItem(hWnd, item);
 				}

@@ -9,7 +9,7 @@
 
 ColWordCount::ColWordCount()
 	: m_nVisMode(0), m_bDetail(true),
-	m_hVisMode(NULL), m_hDetail(NULL)
+	m_hVisMode(nullptr), m_hDetail(nullptr)
 {
 }
 
@@ -46,7 +46,7 @@ void ColWordCount::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	OptionsCtrl::Group hTemp;
 	
 	hTemp         = Opt.insertGroup(hGroup, TranslateT("Word count type"));
-		m_hVisMode = Opt.insertRadio(hTemp, NULL, TranslateT("Total words"));
+		m_hVisMode = Opt.insertRadio(hTemp, nullptr, TranslateT("Total words"));
 		             Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Distinct words"));
 		             Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Ratio total/distinct words"));
 	m_hDetail     = Opt.insertCheck(hGroup, TranslateT("Additional info in tooltip (depends on type)"));
@@ -72,7 +72,7 @@ void ColWordCount::impl_contactDataFree(Contact& contact) const
 	if (pTrData)
 	{
 		delete pTrData;
-		contact.setSlot(contactDataTransformSlotGet(), NULL);
+		contact.setSlot(contactDataTransformSlotGet(), nullptr);
 	}
 }
 
@@ -104,7 +104,7 @@ void ColWordCount::impl_contactDataTransformCleanup(Contact& contact) const
 		pData->clear();
 
 		delete[] pData;
-		contact.setSlot(contactDataSlotGet(), NULL);
+		contact.setSlot(contactDataSlotGet(), nullptr);
 	}
 }
 

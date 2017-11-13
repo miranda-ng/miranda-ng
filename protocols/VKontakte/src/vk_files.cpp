@@ -23,7 +23,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 	if (!IsOnline() || ((userID == VK_INVALID_USER || userID == VK_FEED_USER) && !isChatRoom(hContact)) || !files || !files[0])
-		return (HANDLE)0;
+		return (HANDLE)nullptr;
 
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
 
@@ -31,7 +31,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 
 	if (!fup->IsAccess()) {
 		SendFileFiled(fup, VKERR_FILE_NOT_EXIST);
-		return (HANDLE)0;
+		return (HANDLE)nullptr;
 	}
 
 	AsyncHttpRequest *pReq;
@@ -47,7 +47,7 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 		break;
 	default:
 		SendFileFiled(fup, VKERR_FTYPE_NOT_SUPPORTED);
-		return (HANDLE)0;
+		return (HANDLE)nullptr;
 	}
 	pReq->pUserInfo = fup;
 	Push(pReq);

@@ -37,35 +37,35 @@
 #include "stdafx.h"
 
 static UINT 	WM_TASKBARCREATED;
-static HANDLE 	hSvcHotkeyProcessor = 0;
+static HANDLE 	hSvcHotkeyProcessor = nullptr;
 
 static HOTKEYDESC _hotkeydescs[] = {
 	{ "tabsrmm_mostrecent", LPGEN("Most recent unread session"), TABSRMM_HK_SECTION_IM, MS_TABMSG_HOTKEYPROCESS, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'R'), TABSRMM_HK_LASTUNREAD },
-	{ "tabsrmm_paste_and_send", LPGEN("Paste and send"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'D'), TABSRMM_HK_PASTEANDSEND },
-	{ "tabsrmm_uprefs", LPGEN("Contact's messaging preferences"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C'), TABSRMM_HK_SETUSERPREFS },
-	{ "tabsrmm_copts", LPGEN("Container options"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'O'), TABSRMM_HK_CONTAINEROPTIONS },
-	{ "tabsrmm_sendfile", LPGEN("Send a file"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'F'), TABSRMM_HK_SENDFILE },
-	{ "tabsrmm_quote", LPGEN("Quote message"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'Q'), TABSRMM_HK_QUOTEMSG },
-	{ "tabsrmm_sendlater", LPGEN("Toggle send later"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'S'), TABSRMM_HK_TOGGLESENDLATER },
+	{ "tabsrmm_paste_and_send", LPGEN("Paste and send"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'D'), TABSRMM_HK_PASTEANDSEND },
+	{ "tabsrmm_uprefs", LPGEN("Contact's messaging preferences"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C'), TABSRMM_HK_SETUSERPREFS },
+	{ "tabsrmm_copts", LPGEN("Container options"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'O'), TABSRMM_HK_CONTAINEROPTIONS },
+	{ "tabsrmm_sendfile", LPGEN("Send a file"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'F'), TABSRMM_HK_SENDFILE },
+	{ "tabsrmm_quote", LPGEN("Quote message"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'Q'), TABSRMM_HK_QUOTEMSG },
+	{ "tabsrmm_sendlater", LPGEN("Toggle send later"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'S'), TABSRMM_HK_TOGGLESENDLATER },
 
-	{ "tabsrmm_send", LPGEN("Send message"), TABSRMM_HK_SECTION_GENERIC, 0, 0, TABSRMM_HK_SEND },
-	{ "tabsrmm_hist", LPGEN("Show message history"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT, 'H'), TABSRMM_HK_HISTORY },
-	{ "tabsrmm_sendmenu", LPGEN("Show send menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'S'), TABSRMM_HK_SENDMENU },
-	{ "tabsrmm_protomenu", LPGEN("Show protocol menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'P'), TABSRMM_HK_PROTOMENU },
-	{ "tabsrmm_umenu", LPGEN("Show user menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'D'), TABSRMM_HK_USERMENU },
-	{ "tabsrmm_udet", LPGEN("Show user details"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'U'), TABSRMM_HK_USERDETAILS },
-	{ "tabsrmm_tbar", LPGEN("Toggle toolbar"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_SHIFT, 'T'), TABSRMM_HK_TOGGLETOOLBAR },
-	{ "tabsrmm_ipanel", LPGEN("Toggle info panel"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'I'), TABSRMM_HK_TOGGLEINFOPANEL },
-	{ "tabsrmm_rtl", LPGEN("Toggle text direction"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'B'), TABSRMM_HK_TOGGLERTL },
-	{ "tabsrmm_msend", LPGEN("Toggle multi send"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'M'), TABSRMM_HK_TOGGLEMULTISEND },
-	{ "tabsrmm_clearlog", LPGEN("Clear message log"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'L'), TABSRMM_HK_CLEARLOG },
-	{ "tabsrmm_notes", LPGEN("Edit user notes"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), TABSRMM_HK_EDITNOTES },
-	{ "tabsrmm_sbar", LPGEN("Collapse side bar"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(0, VK_F9), TABSRMM_HK_TOGGLESIDEBAR },
-	{ "tabsrmm_muc_cmgr", LPGEN("Channel manager"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'C'), TABSRMM_HK_CHANNELMGR },
-	{ "tabsrmm_muc_filter", LPGEN("Toggle filter"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'F'), TABSRMM_HK_FILTERTOGGLE },
-	{ "tabsrmm_muc_nick", LPGEN("Toggle nick list"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), TABSRMM_HK_LISTTOGGLE },
-	{ "tabsrmm_muc_server_show", LPGEN("Show server window"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, '1'), TABSRMM_HK_MUC_SHOWSERVER },
-	{ "tabsrmm_close_other", LPGEN("Close other tabs"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
+	{ "tabsrmm_send", LPGEN("Send message"), TABSRMM_HK_SECTION_GENERIC, nullptr, 0, TABSRMM_HK_SEND },
+	{ "tabsrmm_hist", LPGEN("Show message history"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'H'), TABSRMM_HK_HISTORY },
+	{ "tabsrmm_sendmenu", LPGEN("Show send menu"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'S'), TABSRMM_HK_SENDMENU },
+	{ "tabsrmm_protomenu", LPGEN("Show protocol menu"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'P'), TABSRMM_HK_PROTOMENU },
+	{ "tabsrmm_umenu", LPGEN("Show user menu"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'D'), TABSRMM_HK_USERMENU },
+	{ "tabsrmm_udet", LPGEN("Show user details"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'U'), TABSRMM_HK_USERDETAILS },
+	{ "tabsrmm_tbar", LPGEN("Toggle toolbar"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_SHIFT, 'T'), TABSRMM_HK_TOGGLETOOLBAR },
+	{ "tabsrmm_ipanel", LPGEN("Toggle info panel"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'I'), TABSRMM_HK_TOGGLEINFOPANEL },
+	{ "tabsrmm_rtl", LPGEN("Toggle text direction"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'B'), TABSRMM_HK_TOGGLERTL },
+	{ "tabsrmm_msend", LPGEN("Toggle multi send"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'M'), TABSRMM_HK_TOGGLEMULTISEND },
+	{ "tabsrmm_clearlog", LPGEN("Clear message log"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'L'), TABSRMM_HK_CLEARLOG },
+	{ "tabsrmm_notes", LPGEN("Edit user notes"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), TABSRMM_HK_EDITNOTES },
+	{ "tabsrmm_sbar", LPGEN("Collapse side bar"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(0, VK_F9), TABSRMM_HK_TOGGLESIDEBAR },
+	{ "tabsrmm_muc_cmgr", LPGEN("Channel manager"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'C'), TABSRMM_HK_CHANNELMGR },
+	{ "tabsrmm_muc_filter", LPGEN("Toggle filter"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'F'), TABSRMM_HK_FILTERTOGGLE },
+	{ "tabsrmm_muc_nick", LPGEN("Toggle nick list"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), TABSRMM_HK_LISTTOGGLE },
+	{ "tabsrmm_muc_server_show", LPGEN("Show server window"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, '1'), TABSRMM_HK_MUC_SHOWSERVER },
+	{ "tabsrmm_close_other", LPGEN("Close other tabs"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
 };
 
 LRESULT ProcessHotkeysByMsgFilter(const CCtrlBase &pCtrl, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -95,11 +95,11 @@ void TSAPI HandleMenuEntryFromhContact(MCONTACT hContact)
 
 	HWND hWnd = Srmm_FindWindow(hContact);
 	if (hWnd && IsWindow(hWnd)) {
-		TContainerData *pContainer = 0;
+		TContainerData *pContainer = nullptr;
 		SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 		if (pContainer) {
 			ActivateExistingTab(pContainer, hWnd);
-			pContainer->hwndSaved = 0;
+			pContainer->hwndSaved = nullptr;
 			SetForegroundWindow(pContainer->m_hwnd);
 		}
 		else CallService(MS_MSG_SENDMESSAGE, hContact, 0);
@@ -115,7 +115,7 @@ void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle)
 	if (dwIdle)
 		CSkin::DrawDimmedIcon(dis->hDC, 2, (dis->rcItem.bottom + dis->rcItem.top - 16) / 2, 16, 16, hIcon, 180);
 	else
-		DrawIconEx(dis->hDC, 2, (dis->rcItem.bottom + dis->rcItem.top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
+		DrawIconEx(dis->hDC, 2, (dis->rcItem.bottom + dis->rcItem.top - 16) / 2, hIcon, 16, 16, 0, nullptr, DI_NORMAL | DI_COMPAT);
 }
 
 LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -183,7 +183,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					hWnd = si ? si->pDlg->GetHwnd() : nullptr;
 				}
 
-				CSrmmWindow *dat = 0;
+				CSrmmWindow *dat = nullptr;
 				if (hWnd)
 					dat = (CSrmmWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
@@ -193,7 +193,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (dis->itemData > 0)
 						hIcon = (dis->itemData & 0x10000000) ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
 					else if (dat != nullptr) {
-						hIcon = dat->GetMyContactIcon(0);
+						hIcon = dat->GetMyContactIcon(nullptr);
 						idle = dat->m_idle;
 					}
 					else hIcon = PluginConfig.g_iconContainer;
@@ -353,7 +353,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			HWND hWnd = Srmm_FindWindow(lParam);
 			if (hWnd && IsWindow(hWnd)) {
-				TContainerData *pContainer = 0;
+				TContainerData *pContainer = nullptr;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
 					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS));
@@ -475,7 +475,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (IsWindow(job->hOwnerWnd))
 					::SendMessage(job->hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
 				else
-					sendQueue->ackMessage(0, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
+					sendQueue->ackMessage(nullptr, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
 			}
 		}
 		return 0;
@@ -512,7 +512,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SelectObject(pCont->cachedDC, pCont->oldHBM);
 				DeleteObject(pCont->cachedHBM);
 				DeleteDC(pCont->cachedDC);
-				pCont->cachedDC = 0;
+				pCont->cachedDC = nullptr;
 				RedrawWindow(pCont->m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 			}
 		break;
@@ -533,8 +533,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendMessage(pCont->m_hwnd, WM_TIMER, TIMERID_HEARTBEAT, 0);
 
 			// process send later contacts and jobs, if enough time has elapsed
-			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(0) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
-				sendLater->setLastProcessed(time(0));
+			if (sendLater->isAvail() && !sendLater->isInteractive() && (time(nullptr) - sendLater->lastProcessed()) > CSendLater::SENDLATER_PROCESS_INTERVAL) {
+				sendLater->setLastProcessed(time(nullptr));
 
 				// check the list of contacts that may have new send later jobs
 				// (added on user's request)
@@ -544,7 +544,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (!sendLater->isJobListEmpty()) {
 					KillTimer(hwndDlg, wParam);
 					sendLater->startJobListProcess();
-					SetTimer(hwndDlg, TIMERID_SENDLATER_TICK, TIMEOUT_SENDLATER_TICK, 0);
+					SetTimer(hwndDlg, TIMERID_SENDLATER_TICK, TIMEOUT_SENDLATER_TICK, nullptr);
 				}
 			}
 		}
@@ -555,7 +555,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		else if (wParam == TIMERID_SENDLATER_TICK) {
 			if (!sendLater->haveJobs()) {
 				KillTimer(hwndDlg, wParam);
-				SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, 0);
+				SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, nullptr);
 				sendLater->qMgrUpdate(true);
 			}
 			else sendLater->processCurrentJob();

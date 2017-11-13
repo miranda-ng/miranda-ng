@@ -933,7 +933,7 @@ CRijndael::~CRijndael()
 // blockSize  - The block size in bytes of this Rijndael (16, 24 or 32 bytes).
 int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int blockSize)
 {
-	if (NULL == key)
+	if (nullptr == key)
 		return 1;
 	if (!(16 == keylength || 24 == keylength || 32 == keylength))
 		return 2;

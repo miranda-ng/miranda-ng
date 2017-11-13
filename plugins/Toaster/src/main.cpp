@@ -29,8 +29,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	if (!IsWinVer8Plus())
 	{
-		MessageBox(NULL, TranslateT("This plugin requires Windows 8 or higher"), _T(MODULE), MB_OK | MB_ICONERROR);
-		return NULL;
+		MessageBox(nullptr, TranslateT("This plugin requires Windows 8 or higher"), _T(MODULE), MB_OK | MB_ICONERROR);
+		return nullptr;
 	}
 	return &pluginInfo;
 }
@@ -54,7 +54,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	}
 	else
 	{
-		MessageBox(NULL, TranslateT("Failed to create temporary directory"), _T(MODULE), MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, TranslateT("Failed to create temporary directory"), _T(MODULE), MB_OK | MB_ICONERROR);
 	}
 
 	return 0;
@@ -70,13 +70,13 @@ int OnPreShutdown(WPARAM, LPARAM)
 	CleanupClasses();
 
 	SHFILEOPSTRUCT file_op = {
-		NULL,
+		nullptr,
 		FO_DELETE,
 		wszTempDir,
 		L"",
 		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
-		0,
+		nullptr,
 		L""
 	};
 	SHFileOperation(&file_op);

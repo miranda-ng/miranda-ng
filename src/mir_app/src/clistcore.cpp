@@ -65,7 +65,7 @@ static void fnReloadProtoMenus(void)
 	RebuildMenuOrder();
 	if (db_get_b(0, "CList", "MoveProtoMenus", TRUE))
 		BuildProtoMenus();
-	cli.pfnCluiProtocolStatusChanged(0, 0);
+	cli.pfnCluiProtocolStatusChanged(0, nullptr);
 }
 
 MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)

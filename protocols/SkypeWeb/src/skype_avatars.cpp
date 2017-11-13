@@ -54,7 +54,7 @@ void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
 
 void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL || response->pData == NULL)
+	if (response == nullptr || response->pData == nullptr)
 		return;
 	
 	MCONTACT hContact = (DWORD_PTR)arg;
@@ -67,7 +67,7 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 	GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
 
 	FILE *out = _wfopen(ai.filename, L"wb");
-	if (out == NULL) {
+	if (out == nullptr) {
 		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai, 0);
 		return;
 	}
@@ -80,7 +80,7 @@ void CSkypeProto::OnReceiveAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSkypeProto::OnSentAvatar(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -167,7 +167,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 	wchar_t *path = (wchar_t*)lParam;
 	wchar_t avatarPath[MAX_PATH];
 	GetAvatarFileName(NULL, avatarPath, _countof(avatarPath));
-	if (path != NULL) {
+	if (path != nullptr) {
 		if (CopyFile(path, avatarPath, FALSE)) {
 			FILE *hFile = _wfopen(path, L"rb");
 			if (hFile) {

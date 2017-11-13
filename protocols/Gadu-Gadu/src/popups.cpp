@@ -38,7 +38,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case WM_COMMAND:
 		{
 			PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
-			if (puData != NULL)
+			if (puData != nullptr)
 			{
 				if (puData->flags & GG_POPUP_MULTILOGON)
 					puData->gg->sessions_view(0, 0);
@@ -54,7 +54,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case UM_FREEPLUGINDATA:
 		{
 			PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
-			if (puData != NULL && puData != (PopupData*)CALLSERVICE_NOTFOUND)
+			if (puData != nullptr && puData != (PopupData*)CALLSERVICE_NOTFOUND)
 			{
 				mir_free(puData->title);
 				mir_free(puData->text);
@@ -94,7 +94,7 @@ void GGPROTO::initpopups()
 	puc.colorBack = RGB(191, 0, 0); // Red
 	puc.colorText = RGB(255, 245, 225); // Yellow
 	puc.iSeconds = 60;
-	puc.hIcon = (HICON)LoadImage(NULL, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
+	puc.hIcon = (HICON)LoadImage(nullptr, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
 	mir_snwprintf(szDescr, L"%s/%s", m_tszUserName, TranslateT("Error"));
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
 	hPopupError = Popup_RegisterClass(&puc);
@@ -129,19 +129,19 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 		BOOL bShow = TRUE;
 
 		if (puData->flags & GG_POPUP_ONCE) {
-			HWND hWnd = FindWindow(NULL, gg->m_tszUserName);
-			while (hWnd != NULL) {
-				if (FindWindowEx(hWnd, NULL, NULL, puData->text) != NULL) {
+			HWND hWnd = FindWindow(nullptr, gg->m_tszUserName);
+			while (hWnd != nullptr) {
+				if (FindWindowEx(hWnd, nullptr, nullptr, puData->text) != nullptr) {
 					bShow = FALSE;
 					break;
 				}
-				hWnd = FindWindowEx(NULL, hWnd, NULL, gg->m_tszUserName);
+				hWnd = FindWindowEx(nullptr, hWnd, nullptr, gg->m_tszUserName);
 			}
 		}
 
 		if (bShow) {
 			UINT uIcon = puData->flags & GG_POPUP_ERROR ? MB_ICONERROR : puData->flags & GG_POPUP_WARNING ? MB_ICONEXCLAMATION : MB_ICONINFORMATION;
-			MessageBox(NULL, puData->text, gg->m_tszUserName, MB_OK | uIcon);
+			MessageBox(nullptr, puData->text, gg->m_tszUserName, MB_OK | uIcon);
 		}
 	}
 	mir_free(puData->title);

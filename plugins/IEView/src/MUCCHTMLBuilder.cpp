@@ -37,7 +37,7 @@ static const char *classNames[] = {
 MUCCHTMLBuilder::MUCCHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(NULL));
+	setLastEventTime(time(nullptr));
 }
 
 void MUCCHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
@@ -86,7 +86,7 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 
 	szResult[0] = '\0';
 	struct tm tm_now, tm_today;
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	time_t today;
 	tm_now = *localtime(&now);
 	tm_today = tm_now;
@@ -116,7 +116,7 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	LOGFONTA lf;
 	COLORREF color;
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE)
@@ -128,9 +128,9 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 		str.Append("<html><head>");
 		str.Append("<style type=\"text/css\">\n");
 		COLORREF bkgColor = db_get_dw(NULL, MUCCMOD, "BackgroundLog", 0xFFFFFF);
@@ -181,7 +181,7 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		DWORD dwData = eventData->dwData;
 		bool isSent = eventData->bIsMe != 0;
 		CMStringA str, style;
@@ -270,7 +270,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 void MUCCHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
-	if (protoSettings != NULL)
+	if (protoSettings != nullptr)
 		appendEventNonTemplate(view, event);
 }
 

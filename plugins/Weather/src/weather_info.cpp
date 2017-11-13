@@ -43,7 +43,7 @@ static void INIInfo(HWND hwndDlg)
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = 0;
-	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next) {
+	for (WIDATALIST *Item = WIHead; Item != nullptr; Item = Item->next) {
 		// get the data for the ini file
 		lvi.iSubItem = 0;
 		lvi.pszText = Item->Data.InternalName;
@@ -146,9 +146,9 @@ void GetINIInfo(wchar_t *pszSvc)
 	wchar_t str2[2048];
 	WIDATA *sData = GetWIData(pszSvc);
 	// if the service does not exist among the loaded INI's
-	if (sData == NULL) {
+	if (sData == nullptr) {
 		mir_snwprintf(str2, TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
-		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
 	}
 	// if exist, get the information
 	else {
@@ -197,7 +197,7 @@ void GetINIInfo(wchar_t *pszSvc)
 		mir_wstrncat(str2, sData->Description, _countof(str2) - mir_wstrlen(str2));
 
 		// display the message box and quit
-		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
 	}
 }
 
@@ -213,16 +213,16 @@ void MoreVarList(void)
 	wcsncpy(str, VARS_LIST, _countof(str) - 1);
 	mir_wstrncat(str, L"\n\n", _countof(str) - mir_wstrlen(str));
 	// loop through all weather services to find custom variables
-	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next) {
+	for (WIDATALIST *Item = WIHead; Item != nullptr; Item = Item->next) {
 		// loop through all update items in a service
-		for (WIDATAITEMLIST *WItem = Item->Data.UpdateData; WItem != NULL; WItem = WItem->Next) {
+		for (WIDATAITEMLIST *WItem = Item->Data.UpdateData; WItem != nullptr; WItem = WItem->Next) {
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
 			if (mir_wstrcmp(WItem->Item.Name, L"Ignore") && WItem->Item.Name[0] != '#') {
 				mir_snwprintf(tempstr, L"%c[%s]", '%', WItem->Item.Name);
 				wchar_t *find = wcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
-				if (find == NULL) {
+				if (find == nullptr) {
 					mir_wstrncat(str, tempstr, _countof(str) - mir_wstrlen(str));
 					mir_wstrncat(str, L", ", _countof(str) - mir_wstrlen(str));
 				}
@@ -231,10 +231,10 @@ void MoreVarList(void)
 	}
 	// remove the last comma in the list
 	wchar_t* find = wcsrchr(str, ',');
-	if (find != NULL)
+	if (find != nullptr)
 		*find = '\0';
 
 	// display the list in a message box
-	MessageBox(NULL, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
+	MessageBox(nullptr, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
 }
 

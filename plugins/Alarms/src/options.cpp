@@ -18,10 +18,10 @@ struct AddEditParam
 	BOOL self_add;
 };
 
-HGENMENU hMainMenuItem = 0;
+HGENMENU hMainMenuItem = nullptr;
 
 // store options dialog window handle statically so it can be refreshed by non-modal add alarm dialog
-HWND hwndOptionsDialog = 0;
+HWND hwndOptionsDialog = nullptr;
 
 static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemText(hwndDlg, IDC_DESC, buff, _countof(buff));
 					replaceStrW(add_edit_alarm->szDesc, buff);
 
-					if (add_edit_alarm->szTitle == 0 || add_edit_alarm->szTitle[0] == '\0') {
+					if (add_edit_alarm->szTitle == nullptr || add_edit_alarm->szTitle[0] == '\0') {
 						MessageBox(hwndDlg, TranslateT("Please enter a title for this alarm."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						return TRUE;
 					}
@@ -847,13 +847,13 @@ public:
 	class Node
 	{
 	public:
-		Node() : next(0) {}
+		Node() : next(nullptr) {}
 		unsigned short value;
 		Node *next;
 	};
 
 
-	ShortList() : head(0) {}
+	ShortList() : head(nullptr) {}
 	virtual ~ShortList() { clear(); }
 
 	void clear()
@@ -1198,7 +1198,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_DESTROY:
-		hwndOptionsDialog = 0;
+		hwndOptionsDialog = nullptr;
 		added_list.clear();
 		modified_list.clear();
 		deleted_list.clear();

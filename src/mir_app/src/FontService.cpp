@@ -115,7 +115,7 @@ void ConvertLOGFONT(LOGFONTW *lfw, LOGFONTA *lfa)
 	lfa->lfQuality = lfw->lfQuality;
 	lfa->lfPitchAndFamily = lfw->lfPitchAndFamily;
 
-	WideCharToMultiByte(code_page, 0, lfw->lfFaceName, -1, lfa->lfFaceName, LF_FACESIZE, 0, 0);
+	WideCharToMultiByte(code_page, 0, lfw->lfFaceName, -1, lfa->lfFaceName, LF_FACESIZE, nullptr, nullptr);
 }
 
 static void GetDefaultFontSetting(LOGFONT *lf, COLORREF *colour)
@@ -126,9 +126,9 @@ static void GetDefaultFontSetting(LOGFONT *lf, COLORREF *colour)
 
 	lf->lfHeight = 10;
 
-	HDC hdc = GetDC(0);
+	HDC hdc = GetDC(nullptr);
 	lf->lfHeight = -MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-	ReleaseDC(0, hdc);
+	ReleaseDC(nullptr, hdc);
 }
 
 int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORREF *colour, DWORD flags)
@@ -175,7 +175,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 	lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
 	if (lf->lfHeight > 0) {
-		HDC hdc = GetDC(0);
+		HDC hdc = GetDC(nullptr);
 		if (flags & FIDF_SAVEPOINTSIZE)
 			lf->lfHeight = -MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		else { // assume SAVEACTUALHEIGHT
@@ -190,7 +190,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 			DeleteObject(hFont);
 		}
 
-		ReleaseDC(0, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	return retval;
@@ -198,7 +198,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 
 int CreateFromFontSettings(FontSettingsW *fs, LOGFONT *lf)
 {
-	GetDefaultFontSetting(lf, 0);
+	GetDefaultFontSetting(lf, nullptr);
 
 	wcsncpy_s(lf->lfFaceName, fs->szFace, _TRUNCATE);
 

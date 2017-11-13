@@ -36,7 +36,7 @@ http::response Omegle_client::flap(const int request_type, std::string *post_dat
 	nlhr.timeout = 1000 * ((request_type == OMEGLE_REQUEST_EVENTS) ? 65 : 20);
 
 	// Set request type (GET/POST) and eventually also POST data
-	if (post_data != NULL) {
+	if (post_data != nullptr) {
 		nlhr.requestType = REQUEST_POST;
 		nlhr.pData = (char*)(*post_data).c_str();
 		nlhr.dataLength = (int)post_data->length();
@@ -61,7 +61,7 @@ http::response Omegle_client::flap(const int request_type, std::string *post_dat
 	switch (request_type)
 	{
 	case OMEGLE_REQUEST_HOME:
-		nlhr.nlc = NULL;
+		nlhr.nlc = nullptr;
 		break;
 
 	case OMEGLE_REQUEST_EVENTS:
@@ -90,17 +90,17 @@ http::response Omegle_client::flap(const int request_type, std::string *post_dat
 		break;
 
 	case OMEGLE_REQUEST_EVENTS:
-		hEventsConnection = pnlhr ? pnlhr->nlc : NULL;
+		hEventsConnection = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 
 	default:
 		ReleaseMutex(connection_lock_);
-		hConnection = pnlhr ? pnlhr->nlc : NULL;
+		hConnection = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 	}
 
 	// Check and copy response data
-	if (pnlhr != NULL)
+	if (pnlhr != nullptr)
 	{
 		parent->debugLogA("@@@@@ Got response with code %d", pnlhr->resultCode);
 		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
@@ -154,7 +154,7 @@ bool Omegle_client::handle_error(const std::string &method, bool force_disconnec
 	if (result == false)
 	{
 		reset_error();
-		parent->UpdateChat(NULL, TranslateT("Connection error."));
+		parent->UpdateChat(nullptr, TranslateT("Connection error."));
 		parent->StopChat(false);
 	}
 
@@ -172,7 +172,7 @@ std::string Omegle_client::get_server(bool not_last)
 		server = 0;
 
 	if (server == 0) {
-		srand(::time(NULL));
+		srand(::time(nullptr));
 		server = (rand() % (_countof(servers) - 1 - q)) + 1;
 	}
 
@@ -218,7 +218,7 @@ std::string Omegle_client::choose_action(int request_type, std::string* get_data
 	{
 		std::string action = "/start?rcs=1&spid=&lang=";
 		action += get_language();
-		if (get_data != NULL)
+		if (get_data != nullptr)
 			action += (*get_data);
 
 		return action;
@@ -371,7 +371,7 @@ bool Omegle_client::start()
 			mir_snprintf(str, Translate("Connected to server %s. There are %s users online now."), server_.c_str(), count.c_str());
 
 			wchar_t *msg = mir_a2u(str);
-			parent->UpdateChat(NULL, msg);
+			parent->UpdateChat(nullptr, msg);
 			mir_free(msg);
 		}
 	}
@@ -380,12 +380,12 @@ bool Omegle_client::start()
 		mir_snprintf(str, Translate("Connected to server %s."), server_.c_str());
 
 		wchar_t *msg = mir_a2u(str);
-		parent->UpdateChat(NULL, msg);
+		parent->UpdateChat(nullptr, msg);
 		mir_free(msg);
 	}
 
 	// Send validation
-	http::response resp = flap(OMEGLE_REQUEST_START, NULL, &data);
+	http::response resp = flap(OMEGLE_REQUEST_START, nullptr, &data);
 
 	switch (resp.code)
 	{
@@ -429,11 +429,11 @@ bool Omegle_client::stop()
 
 	if (hConnection)
 		Netlib_CloseHandle(hConnection);
-	hConnection = NULL;
+	hConnection = nullptr;
 
 	if (hEventsConnection)
 		Netlib_CloseHandle(hEventsConnection);
-	hEventsConnection = NULL;
+	hEventsConnection = nullptr;
 
 	if (resp.data == "win") {
 		return HANDLE_SUCCESS;
@@ -477,7 +477,7 @@ bool Omegle_client::events()
 		}
 
 		JSONROOT root(resp.data.c_str());
-		if (root == NULL)
+		if (root == nullptr)
 			return HANDLE_ERROR(false);
 
 		bool newStranger = false;
@@ -485,7 +485,7 @@ bool Omegle_client::events()
 
 		for (size_t i = 0; i < json_size(root); i++) {
 			JSONNode *item = json_at(root, i);
-			if (item == NULL)
+			if (item == nullptr)
 				continue;
 
 			std::string name = _T2A(json_as_string(json_at(item, 0)));
@@ -514,11 +514,11 @@ bool Omegle_client::events()
 				wchar_t strT[255];
 				mir_snwprintf(strT, TranslateT("On whole Omegle are %s strangers online now."), count);
 
-				parent->UpdateChat(NULL, strT);
+				parent->UpdateChat(nullptr, strT);
 			}
 			else if (name == "serverMessage") {
 				ptrW message(json_as_string(json_at(item, 1)));
-				parent->UpdateChat(NULL, TranslateW(message));
+				parent->UpdateChat(nullptr, TranslateW(message));
 			}
 			else if (name == "connected") {
 				// Stranger connected
@@ -613,7 +613,7 @@ bool Omegle_client::events()
 
 				wchar_t strT[255];
 				mir_snwprintf(strT, TranslateT("%s disconnected."), TranslateW(stranger));
-				parent->UpdateChat(NULL, strT);
+				parent->UpdateChat(nullptr, strT);
 
 				// Stranger disconnected
 				if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
@@ -626,7 +626,7 @@ bool Omegle_client::events()
 			}
 			else if (name == "recaptchaRequired") {
 				// Nothing to do with recaptcha
-				parent->UpdateChat(NULL, TranslateT("Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again."));
+				parent->UpdateChat(nullptr, TranslateT("Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again."));
 				parent->StopChat(false);
 			}
 			else if (name == "recaptchaRejected") {
@@ -638,7 +638,7 @@ bool Omegle_client::events()
 
 				wchar_t strT[255];
 				mir_snwprintf(strT, TranslateT("Error: %s"), TranslateW(error));
-				parent->UpdateChat(NULL, strT);
+				parent->UpdateChat(nullptr, strT);
 			}
 		}
 		
@@ -663,7 +663,7 @@ bool Omegle_client::events()
 
 		if (waiting) {
 			// If we are only waiting in this event...
-			parent->UpdateChat(NULL, TranslateT("We are still waiting..."));
+			parent->UpdateChat(nullptr, TranslateT("We are still waiting..."));
 		}
 
 		return HANDLE_SUCCESS;

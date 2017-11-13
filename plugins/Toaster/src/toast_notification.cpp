@@ -39,23 +39,23 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocumentIO> xmlDocument;
 	CHECKHR(Windows::Foundation::ActivateInstance(StringReferenceWrapper(RuntimeClass_Windows_Data_Xml_Dom_XmlDocument).Get(), &xmlDocument));
 
-	HXML xmlToast = xmlCreateNode(L"toast", NULL, 0);
+	HXML xmlToast = xmlCreateNode(L"toast", nullptr, 0);
 
-	HXML xmlAudioNode = xmlAddChild(xmlToast, L"audio", NULL);
+	HXML xmlAudioNode = xmlAddChild(xmlToast, L"audio", nullptr);
 	xmlAddAttr(xmlAudioNode, L"silent", L"true");
 
-	HXML xmlVisualNode = xmlAddChild(xmlToast, L"visual", NULL);
+	HXML xmlVisualNode = xmlAddChild(xmlToast, L"visual", nullptr);
 
-	HXML xmlBindingNode = xmlAddChild(xmlVisualNode, L"binding", NULL);
+	HXML xmlBindingNode = xmlAddChild(xmlVisualNode, L"binding", nullptr);
 	xmlAddAttr(xmlBindingNode, L"template", L"ToastImageAndText02");
 	if (_imagePath)
 	{
-		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", NULL);
+		HXML xmlImageNode = xmlAddChild(xmlBindingNode, L"image", nullptr);
 		xmlAddAttr(xmlImageNode, L"id", L"1");
 		xmlAddAttr(xmlImageNode, L"src", CMStringW(FORMAT, L"file:///%s", _imagePath));
 	}
 
-	HXML xmlTitleNode = xmlAddChild(xmlBindingNode, L"text", _caption != NULL ? _caption : L"Miranda NG");
+	HXML xmlTitleNode = xmlAddChild(xmlBindingNode, L"text", _caption != nullptr ? _caption : L"Miranda NG");
 	xmlAddAttr(xmlTitleNode, L"id", L"1");
 	if (_text)
 	{

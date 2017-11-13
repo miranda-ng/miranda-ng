@@ -153,13 +153,13 @@ private:
 CHTMLParserMS::CHTMLParserMS() : m_bCallUninit(false)
 {
 	try {
-		CheckError(::CoInitialize(NULL));
+		CheckError(::CoInitialize(nullptr));
 
 		m_bCallUninit = true;
 
 		_com_util::CheckError(
 			::CoCreateInstance(CLSID_HTMLDocument,
-				NULL,
+				nullptr,
 				CLSCTX_INPROC_SERVER,
 				IID_IHTMLDocument2,
 				(LPVOID*)&m_pDoc)
@@ -217,14 +217,14 @@ bool CHTMLParserMS::IsInstalled()
 	bool bResult = true;
 	bool bCallUninit = false;
 	try {
-		CheckError(::CoInitialize(NULL));
+		CheckError(::CoInitialize(nullptr));
 
 		bCallUninit = true;
 
 		CComPtr<IHTMLDocument2> pDoc;
 		_com_util::CheckError(
 			::CoCreateInstance(CLSID_HTMLDocument,
-				NULL,
+				nullptr,
 				CLSCTX_INPROC_SERVER,
 				IID_IHTMLDocument2,
 				reinterpret_cast<LPVOID*>(&pDoc))

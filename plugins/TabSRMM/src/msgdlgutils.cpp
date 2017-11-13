@@ -143,9 +143,9 @@ static void SaveAvatarToFile(CTabBaseDlg *dat, HBITMAP hbm, int isOwnPic)
 	mir_snwprintf(szFinalPath, L"%s\\%s", M.getSavedAvatarPath(), szProto);
 	mir_free(szProto);
 
-	if (CreateDirectory(szFinalPath, 0) == 0) {
+	if (CreateDirectory(szFinalPath, nullptr) == 0) {
 		if (GetLastError() != ERROR_ALREADY_EXISTS) {
-			MessageBox(0, TranslateT("Error creating destination directory"),
+			MessageBox(nullptr, TranslateT("Error creating destination directory"),
 				TranslateT("Save contact picture"), MB_OK | MB_ICONSTOP);
 			return;
 		}
@@ -178,7 +178,7 @@ static void SaveAvatarToFile(CTabBaseDlg *dat, HBITMAP hbm, int isOwnPic)
 	ofn.lCustData = (LPARAM)&setView;
 	if (GetSaveFileName(&ofn)) {
 		if (PathFileExists(szFinalFilename))
-			if (MessageBox(0, TranslateT("The file exists. Do you want to overwrite it?"), TranslateT("Save contact picture"), MB_YESNO | MB_ICONQUESTION) == IDNO)
+			if (MessageBox(nullptr, TranslateT("The file exists. Do you want to overwrite it?"), TranslateT("Save contact picture"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 				return;
 
 		IMGSRVC_INFO ii;
@@ -260,7 +260,7 @@ int CTabBaseDlg::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 		wchar_t *szText = nullptr;
 		char  avOverride = (char)M.GetByte(m_hContact, "hideavatar", -1);
 		HMENU visMenu = GetSubMenu(submenu, 0);
-		BOOL picValid = bInfoPanel ? (m_hOwnPic != 0) : (m_ace && m_ace->hbmPic && m_ace->hbmPic != PluginConfig.g_hbmUnknown);
+		BOOL picValid = bInfoPanel ? (m_hOwnPic != nullptr) : (m_ace && m_ace->hbmPic && m_ace->hbmPic != PluginConfig.g_hbmUnknown);
 
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);
@@ -309,7 +309,7 @@ int CTabBaseDlg::MsgWindowMenuHandler(int selection, int menuId)
 			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), m_hwnd, SelectContainerDlgProc, (LPARAM)m_hwnd);
 			return 1;
 		case ID_TABMENU_CONTAINEROPTIONS:
-			if (m_pContainer->hWndOptions == 0)
+			if (m_pContainer->hWndOptions == nullptr)
 				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), m_hwnd, DlgProcContainerOptions, (LPARAM)m_pContainer);
 			return 1;
 		case ID_TABMENU_CLOSECONTAINER:
@@ -562,7 +562,7 @@ bool CTabBaseDlg::GetAvatarVisibility()
 		if (!bOwnAvatarMode) {
 			m_bShowAvatar = (m_hOwnPic && m_hOwnPic != PluginConfig.g_hbmUnknown);
 			if (!m_hwndContactPic)
-				m_hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, L"", WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(m_hwnd, IDC_CONTACTPIC), (HMENU)0, nullptr, nullptr);
+				m_hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, L"", WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(m_hwnd, IDC_CONTACTPIC), (HMENU)nullptr, nullptr, nullptr);
 		}
 
 		switch (bAvatarMode) {
@@ -572,7 +572,7 @@ bool CTabBaseDlg::GetAvatarVisibility()
 		case 0:
 			m_bShowInfoAvatar = true;
 		case 1:
-			HBITMAP hbm = ((m_ace && !(m_ace->dwFlags & AVS_HIDEONCLIST)) ? m_ace->hbmPic : 0);
+			HBITMAP hbm = ((m_ace && !(m_ace->dwFlags & AVS_HIDEONCLIST)) ? m_ace->hbmPic : nullptr);
 			if (hbm == nullptr && !bAvatarMode) {
 				m_bShowInfoAvatar = false;
 				break;
@@ -605,14 +605,14 @@ bool CTabBaseDlg::GetAvatarVisibility()
 			m_bShowAvatar = true;
 LBL_Check:
 			if (!m_hwndContactPic)
-				m_hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, L"", WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(m_hwnd, IDC_CONTACTPIC), (HMENU)0, nullptr, nullptr);
+				m_hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, L"", WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(m_hwnd, IDC_CONTACTPIC), (HMENU)nullptr, nullptr, nullptr);
 			break;
 		case 2: // globally OFF
 			m_bShowAvatar = false;
 			break;
 		case 3: // on, if present
 		case 1:
-			HBITMAP hbm = (m_ace && !(m_ace->dwFlags & AVS_HIDEONCLIST)) ? m_ace->hbmPic : 0;
+			HBITMAP hbm = (m_ace && !(m_ace->dwFlags & AVS_HIDEONCLIST)) ? m_ace->hbmPic : nullptr;
 			m_bShowAvatar = (hbm && hbm != PluginConfig.g_hbmUnknown);
 			goto LBL_Check;
 		}
@@ -1223,18 +1223,18 @@ void CTabBaseDlg::GetLocaleID(const wchar_t *szKLName)
 	 * Vista+: read ISO locale names from the registry
 	 */
 	if (PluginConfig.m_bIsVista) {
-		HKEY	hKey = 0;
+		HKEY	hKey = nullptr;
 		wchar_t	szKey[20];
 		DWORD	dwLID = wcstoul(szKLName, &stopped, 16);
 
 		mir_snwprintf(szKey, L"%04.04x", LOWORD(dwLID));
 		if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, L"MIME\\Database\\Rfc1766", 0, KEY_READ, &hKey)) {
 			DWORD dwLength = 255;
-			if (ERROR_SUCCESS == RegQueryValueEx(hKey, szKey, 0, 0, (unsigned char *)szLI, &dwLength)) {
+			if (ERROR_SUCCESS == RegQueryValueEx(hKey, szKey, nullptr, nullptr, (unsigned char *)szLI, &dwLength)) {
 				wchar_t*	p;
 
 				szLI[255] = 0;
-				if ((p = wcschr(szLI, ';')) != 0)
+				if ((p = wcschr(szLI, ';')) != nullptr)
 					*p = 0;
 			}
 			RegCloseKey(hKey);
@@ -1419,7 +1419,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 
 		bool bAero = M.isAero();
 
-		HRGN clipRgn = 0;
+		HRGN clipRgn = nullptr;
 		HBRUSH hOldBrush = (HBRUSH)SelectObject(hdcDraw, bAero ? (HBRUSH)GetStockObject(HOLLOW_BRUSH) : GetSysColorBrush(COLOR_3DFACE));
 		rcFrame = rcClient;
 
@@ -1518,7 +1518,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 		else
 			CSkin::FillBack(dis->hDC, &dis->rcItem);
 		DrawIconEx(dis->hDC, (dis->rcItem.right - dis->rcItem.left) / 2 - 8, (dis->rcItem.bottom - dis->rcItem.top) / 2 - 8,
-			PluginConfig.g_iconErr, 16, 16, 0, 0, DI_NORMAL);
+			PluginConfig.g_iconErr, 16, 16, 0, nullptr, DI_NORMAL);
 		return TRUE;
 	}
 

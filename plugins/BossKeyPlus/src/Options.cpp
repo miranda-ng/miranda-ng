@@ -115,7 +115,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		BYTE bSelection = (BYTE)SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_GETCURSEL, 0, 0);
 		WORD wMode = STATUS_ARR_TO_ID[bSelection];
 		if (IsDlgButtonChecked(hwndDlg, IDC_MAINOPT_USEDEFMSG) == BST_CHECKED) {
-			wchar_t *ptszDefMsg = GetDefStatusMsg(wMode, 0);
+			wchar_t *ptszDefMsg = GetDefStatusMsg(wMode, nullptr);
 			SetDlgItemText(hwndDlg, IDC_MAINOPT_STATMSG, ptszDefMsg);
 			if (ptszDefMsg)
 				mir_free(ptszDefMsg);
@@ -179,7 +179,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 				return true;
 
 			case IDC_MAINOPT_VARHELP:
-				variables_showhelp(hwndDlg, IDC_MAINOPT_STATMSG, VHF_INPUT | VHF_HELP, 0, 0);
+				variables_showhelp(hwndDlg, IDC_MAINOPT_STATMSG, VHF_INPUT | VHF_HELP, nullptr, nullptr);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				return true;
 
@@ -246,11 +246,11 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (IsDlgButtonChecked(hwndDlg, IDC_MAINOPT_RESTORE) == BST_CHECKED)			wMaskAdv |= OPT_RESTORE;
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_MAINOPT_MENUITEM) == BST_CHECKED) {
-				if (g_hMenuItem == 0)
+				if (g_hMenuItem == nullptr)
 					BossKeyMenuItemInit();
 				wMaskAdv |= OPT_MENUITEM;
 			}
-			else if (g_hMenuItem != 0)
+			else if (g_hMenuItem != nullptr)
 				BossKeyMenuItemUnInit();
 
 			wchar_t szMinutes[4] = { 0 };

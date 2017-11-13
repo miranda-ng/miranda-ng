@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void CMsnProto::MSN_AddGroup(const char* grpName, const char *grpId, bool init)
 {
 	ServerGroupItem* p = m_arGroups.find((ServerGroupItem*)&grpId);
-	if (p != NULL) return;
+	if (p != nullptr) return;
 
 	p = (ServerGroupItem*)mir_alloc(sizeof(ServerGroupItem));
 	p->id = mir_strdup(grpId);
@@ -63,12 +63,12 @@ void CMsnProto::MSN_DeleteServerGroup(LPCSTR szId)
 {
 	if (!MyOptions.ManageServer) return;
 
-	MSN_ABAddDelContactGroup(NULL, szId, "ABGroupDelete");
+	MSN_ABAddDelContactGroup(nullptr, szId, "ABGroupDelete");
 
 	int count = -1;
 	for (;;) {
 		MsnContact *msc = Lists_GetNext(count);
-		if (msc == NULL) break;
+		if (msc == nullptr) break;
 
 		char szGroupID[100];
 		if (!db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID))) {
@@ -99,7 +99,7 @@ void CMsnProto::MSN_FreeGroups(void)
 LPCSTR CMsnProto::MSN_GetGroupById(const char* pId)
 {
 	ServerGroupItem* p = m_arGroups.find((ServerGroupItem*)&pId);
-	return p ? p->name : NULL;
+	return p ? p->name : nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ LPCSTR CMsnProto::MSN_GetGroupByName(const char* pName)
 			return p->id;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ LPCSTR CMsnProto::MSN_GetGroupByName(const char* pName)
 void CMsnProto::MSN_SetGroupName(const char* pId, const char* pNewName)
 {
 	ServerGroupItem* p = m_arGroups.find((ServerGroupItem*)&pId);
-	if (p != NULL)
+	if (p != nullptr)
 		replaceStr(p->name, pNewName);
 }
 
@@ -133,7 +133,7 @@ void CMsnProto::MSN_MoveContactToGroup(MCONTACT hContact, const char* grpName)
 {
 	if (!MyOptions.ManageServer) return;
 
-	LPCSTR szId = NULL;
+	LPCSTR szId = nullptr;
 	char szContactID[100], szGroupID[100];
 	if (db_get_static(hContact, m_szModuleName, "ID", szContactID, sizeof(szContactID)))
 		return;
@@ -143,13 +143,13 @@ void CMsnProto::MSN_MoveContactToGroup(MCONTACT hContact, const char* grpName)
 
 	bool bInsert = false, bDelete = szGroupID[0] != 0;
 
-	if (grpName != NULL) {
+	if (grpName != nullptr) {
 		szId = MSN_GetGroupByName(grpName);
-		if (szId == NULL) {
+		if (szId == nullptr) {
 			MSN_ABAddGroup(grpName);
 			szId = MSN_GetGroupByName(grpName);
 		}
-		if (szId == NULL) return;
+		if (szId == nullptr) return;
 		if (_stricmp(szGroupID, szId) == 0) bDelete = false;
 		else                                bInsert = true;
 	}
@@ -180,7 +180,7 @@ void CMsnProto::MSN_RemoveEmptyGroups(void)
 	int count = -1;
 	for (;;) {
 		MsnContact *msc = Lists_GetNext(count);
-		if (msc == NULL) break;
+		if (msc == nullptr) break;
 
 		char szGroupID[100];
 		if (!db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID))) {
@@ -216,12 +216,12 @@ void CMsnProto::MSN_UploadServerGroups(char* group)
 	int count = -1;
 	for (;;) {
 		MsnContact *msc = Lists_GetNext(count);
-		if (msc == NULL) break;
+		if (msc == nullptr) break;
 
 		DBVARIANT dbv;
 		if (!db_get_utf(msc->hContact, "CList", "Group", &dbv)) {
 			char szGroupID[100];
-			if (group == NULL || (mir_strcmp(group, dbv.pszVal) == 0 &&
+			if (group == nullptr || (mir_strcmp(group, dbv.pszVal) == 0 &&
 				db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID)) != 0)) {
 				MSN_MoveContactToGroup(msc->hContact, dbv.pszVal);
 			}
@@ -247,21 +247,21 @@ void CMsnProto::MSN_SyncContactToServerGroup(MCONTACT hContact, const char* szCo
 		db_free(&dbv);
 	}
 
-	const char* szGrpIdF = NULL;
-	while (cgrp != NULL) {
+	const char* szGrpIdF = nullptr;
+	while (cgrp != nullptr) {
 		const char* szGrpId = ezxml_txt(cgrp);
 		cgrp = ezxml_next(cgrp);
 
 		const char* szGrpNameById = MSN_GetGroupById(szGrpId);
 
 		if (szGrpNameById && (mir_strcmp(szGrpNameById, szGrpName) == 0 ||
-			(cgrp == NULL && szGrpIdF == NULL)))
+			(cgrp == nullptr && szGrpIdF == nullptr)))
 			szGrpIdF = szGrpId;
 		else
 			MSN_ABAddDelContactGroup(szContId, szGrpId, "ABGroupContactDelete");
 	}
 
-	if (szGrpIdF != NULL) {
+	if (szGrpIdF != nullptr) {
 		setString(hContact, "GroupID", szGrpIdF);
 		const char* szGrpNameById = MSN_GetGroupById(szGrpIdF);
 		if (mir_strcmp(szGrpNameById, szGrpName))
@@ -301,7 +301,7 @@ void CMsnProto::msn_storeAvatarThread(void* arg)
 	if (photoid[0] && dat)
 		MSN_StoreUpdateDocument(dat->szName, dat->szMimeType, szEncBuf);
 	else {
-		MSN_StoreUpdateProfile(NULL, NULL, 1);
+		MSN_StoreUpdateProfile(nullptr, nullptr, 1);
 
 		if (photoid[0]) {
 			MSN_StoreDeleteRelationships(true);
@@ -314,7 +314,7 @@ void CMsnProto::msn_storeAvatarThread(void* arg)
 			MSN_StoreCreateRelationships();
 		}
 
-		MSN_StoreUpdateProfile(NULL, NULL, 0);
+		MSN_StoreUpdateProfile(nullptr, nullptr, 0);
 	}
 
 	MSN_ABUpdateDynamicItem();
@@ -332,15 +332,15 @@ void CMsnProto::msn_storeAvatarThread(void* arg)
 void CMsnProto::msn_storeProfileThread(void* param)
 {
 	DBVARIANT dbv;
-	char *szNick = NULL;
+	char *szNick = nullptr;
 	bool needFree = false;
 	if (!getStringUtf("Nick", &dbv)) {
-		szNick = dbv.pszVal[0] ? dbv.pszVal : NULL;
+		szNick = dbv.pszVal[0] ? dbv.pszVal : nullptr;
 		needFree = true;
 	}
 
 	char** msgptr = GetStatusMsgLoc(m_iStatus);
-	char *szStatus = msgptr ? *msgptr : NULL;
+	char *szStatus = msgptr ? *msgptr : nullptr;
 
 	if (param || (msnLastStatusMsg != szStatus && (msnLastStatusMsg && szStatus && mir_strcmp(msnLastStatusMsg, szStatus))))
 		if (MSN_StoreUpdateProfile(szNick, szStatus, false))

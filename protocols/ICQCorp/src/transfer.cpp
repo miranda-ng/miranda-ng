@@ -25,7 +25,7 @@ std::vector <ICQTransfer *> icqTransfers;
 
 void WINAPI transferTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
 {
-	KillTimer(NULL, hTimer);
+	KillTimer(nullptr, hTimer);
 
 	for (size_t i = 0; i < icqTransfers.size(); i++)
 		if (hTimer == icqTransfers[i]->hTimer)
@@ -40,14 +40,14 @@ ICQTransfer::ICQTransfer(ICQUser *u, unsigned int theSequence) :
 	uin = u->uin;
 	hContact = u->hContact;
 	sequence = theSequence;
-	files = NULL;
-	description = NULL;
-	path = NULL;
+	files = nullptr;
+	description = nullptr;
+	path = nullptr;
 	sending = 0;
 	speed = 100;
 	count = 0;
 	current = -1;
-	fileName = NULL;
+	fileName = nullptr;
 	fileSize = 0;
 	fileProgress = 0;
 	totalSize = 0;
@@ -70,7 +70,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 {
 	unsigned int /*i,*/ status, junkLong;
 	unsigned char cmd/*, junkChar*/;
-	char *name = NULL, *directoryName = NULL;
+	char *name = nullptr, *directoryName = nullptr;
 
 	packet >> cmd;
 	switch (cmd) {
@@ -160,7 +160,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 	case 0x06:
 		unsigned long result;
 
-		WriteFile(hFile, packet.data(), packet.dataSize(), &result, NULL);
+		WriteFile(hFile, packet.data(), packet.dataSize(), &result, nullptr);
 
 		fileProgress += result;
 		totalProgress += result;
@@ -283,7 +283,7 @@ void ICQTransfer::sendPacket0x06()
 	packet << (unsigned char)0x06;
 
 	unsigned long result;
-	ReadFile(hFile, packet.data(), 2048, &result, NULL);
+	ReadFile(hFile, packet.data(), 2048, &result, nullptr);
 	if (result == 0)
 		return;
 
@@ -354,7 +354,7 @@ void ICQTransfer::process()
 	ack(ACKRESULT_DATA);
 
 	if (fileProgress < fileSize)
-		hTimer = SetTimer(NULL, 0, 1, transferTimerProc);
+		hTimer = SetTimer(nullptr, 0, 1, transferTimerProc);
 	else if (current < count - 1)
 		sendPacket0x02();
 }
@@ -425,29 +425,29 @@ void ICQTransfer::openFile()
 	}
 	directory = 0;
 
-	hFile = CreateFile(fileName, sending ? GENERIC_READ : GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, 0, NULL);
+	hFile = CreateFile(fileName, sending ? GENERIC_READ : GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, 0, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		char msg[2048];
 
 		T("can't open file %s\n", fileName);
 		sprintf(msg, "%s\n%s", sending ? Translate("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.") : Translate("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."), fileName);
-		MessageBox(NULL, msg, Translate(protoName), MB_ICONWARNING | MB_OK);
+		MessageBox(nullptr, msg, Translate(protoName), MB_ICONWARNING | MB_OK);
 		return;
 	}
 
 	__int64 fileTime;
 	if (sending) {
 		fileProgress = 0;
-		fileSize = GetFileSize(hFile, NULL);
+		fileSize = GetFileSize(hFile, nullptr);
 
-		GetFileTime(hFile, NULL, NULL, (LPFILETIME)&fileTime);
+		GetFileTime(hFile, nullptr, nullptr, (LPFILETIME)&fileTime);
 		fileDate = fileTime / 10000000 - 11644473600i64;
 	}
 	else {
-		fileProgress = GetFileSize(hFile, NULL);
+		fileProgress = GetFileSize(hFile, nullptr);
 
 		fileTime = (11644473600i64 + (__int64)fileDate) * 10000000;
-		SetFileTime(hFile, NULL, NULL, (LPFILETIME)&fileTime);
+		SetFileTime(hFile, nullptr, nullptr, (LPFILETIME)&fileTime);
 	}
 }
 
@@ -464,7 +464,7 @@ void ICQTransfer::closeFile()
 void ICQTransfer::setFilePosition()
 {
 	if (hFile != INVALID_HANDLE_VALUE)
-		SetFilePointer(hFile, fileProgress, NULL, FILE_BEGIN);
+		SetFilePointer(hFile, fileProgress, nullptr, FILE_BEGIN);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -475,7 +475,7 @@ void ICQTransfer::createDirectory()
 		SetCurrentDirectory(path);
 
 	fileName = files[current];
-	CreateDirectory(fileName, NULL);
+	CreateDirectory(fileName, nullptr);
 
 	fileProgress = 0;
 }

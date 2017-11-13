@@ -53,22 +53,22 @@ static wchar_t* Proto_GetContactInfoSettingStr(bool proto_service, MCONTACT hCon
 	DBCONTACTGETSETTING cgs = { szModule, szSetting, &dbv };
 	dbv.type = DBVT_WCHAR;
 	if (CallProtoService(szModule, PS_GETINFOSETTING, hContact, (LPARAM)&cgs))
-		return NULL;
+		return nullptr;
 
 	return dbv.ptszVal;
 }
 
 static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
 {
-	char str[80], *pstr = NULL;
-	wchar_t *ptstr = NULL;
+	char str[80], *pstr = nullptr;
+	wchar_t *ptstr = nullptr;
 	char *szProto = GetContactProto(hContact);
 	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
 	DBVARIANT dbv = { DBVT_DELETED };
 
 	int unspecified;
-	if (szModule == NULL)
+	if (szModule == nullptr)
 		unspecified = 1;
 	else if (proto_service)
 		unspecified = Proto_GetContactInfoSetting(hContact, szProto, szModule, szSetting, &dbv, 0);
@@ -159,7 +159,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				}
 
 				pstr = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, wSave, 0));
-				unspecified = pstr == NULL;
+				unspecified = pstr == nullptr;
 			}
 			else {
 				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
@@ -194,7 +194,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 			}
 
 			pstr = dbv.pszVal;
-			Utf8Decode(dbv.pszVal, NULL);
+			Utf8Decode(dbv.pszVal, nullptr);
 			break;
 
 		default:
@@ -206,7 +206,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 
 	if (unspecified)
 		SetDlgItemText(hwndDlg, idCtrl, TranslateT("<not specified>"));
-	else if (ptstr != NULL)
+	else if (ptstr != nullptr)
 		SetDlgItemText(hwndDlg, idCtrl, ptstr);
 	else
 		SetDlgItemTextA(hwndDlg, idCtrl, pstr);
@@ -230,7 +230,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
 					char *szProto = GetContactProto(hContact);
-					if (szProto == NULL)
+					if (szProto == nullptr)
 						break;
 
 					SetValue(hwndDlg, IDC_NICK, hContact, szProto, "Nick", 0);
@@ -275,7 +275,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		TranslateDialogDefault(hwndDlg);
-		SetTimer(hwndDlg, 1, 1000, NULL);
+		SetTimer(hwndDlg, 1, 1000, nullptr);
 
 		TimeZone_PrepareList(lParam, NULL, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
 		SendMessage(hwndDlg, WM_TIMER, 0, 0);
@@ -305,7 +305,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
 					char *szProto = GetContactProto(hContact);
-					if (szProto == NULL)
+					if (szProto == nullptr)
 						break;
 
 					SetValue(hwndDlg, IDC_STREET, hContact, szProto, "Street", SVS_ZEROISUNSPEC);
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
 					char *szProto = GetContactProto(hContact);
-					if (szProto == NULL) break;
+					if (szProto == nullptr) break;
 					SetValue(hwndDlg, IDC_COMPANY, hContact, szProto, "Company", SVS_ZEROISUNSPEC);
 					SetValue(hwndDlg, IDC_DEPARTMENT, hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
 					SetValue(hwndDlg, IDC_POSITION, hContact, szProto, "CompanyPosition", SVS_ZEROISUNSPEC);
@@ -432,7 +432,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
 					char *szProto = GetContactProto(hContact);
-					if (szProto == NULL)
+					if (szProto == nullptr)
 						break;
 
 					bool proto_service = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) == PF4_INFOSETTINGSVC;
@@ -604,7 +604,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (lParam == NULL)
 		return 0;
 
-	if (GetContactProto(lParam) == 0)
+	if (GetContactProto(lParam) == nullptr)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { 0 };

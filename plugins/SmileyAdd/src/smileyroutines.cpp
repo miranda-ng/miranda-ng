@@ -32,10 +32,10 @@ const GUID IID_ITextDocument =
 
 void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, const wchar_t *lpstrText, SmileysQueueType &smllist, const bool firstOnly)
 {
-	if (lpstrText == NULL || *lpstrText == 0) return;
+	if (lpstrText == nullptr || *lpstrText == 0) return;
 
-	SmileyPackType::SmileyLookupType *sml  = smileyPack ? smileyPack->GetSmileyLookup() : NULL;
-	SmileyPackCType::SmileyLookupType *smlc = smileyCPack ? &smileyCPack->GetSmileyLookup() : NULL;
+	SmileyPackType::SmileyLookupType *sml  = smileyPack ? smileyPack->GetSmileyLookup() : nullptr;
+	SmileyPackCType::SmileyLookupType *smlc = smileyCPack ? &smileyCPack->GetSmileyLookup() : nullptr;
 
 	// Precompute number of smileys
 	int smlszo = sml  ? sml->getCount()  : 0;
@@ -72,7 +72,7 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 	while (true) {
 		int firstSml = -1;
 		int firstSmlRef = -1;
-		SmileyLookup::SmileyLocVecType *smlf = NULL;
+		SmileyLookup::SmileyLocVecType *smlf = nullptr;
 
 		for (int csml=0; csml < smlsz; csml++) {
 			SmileyLookup::SmileyLocVecType &smlv = smileys[csml];
@@ -106,7 +106,7 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 
 		// check if leading space exist
 		const wchar_t *prech = _wcsdec(textToSearch, textSmlStart);
-		dat->ldspace = prech != NULL ? iswspace(*prech) != 0 : smloff == 0;
+		dat->ldspace = prech != nullptr ? iswspace(*prech) != 0 : smloff == 0;
 
 		// check if trailing space exist
 		dat->trspace = *textSmlEnd == 0 || iswspace(*textSmlEnd);
@@ -121,14 +121,14 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 
 			if (firstSml < smlszo) {
 				dat->sml = smileyPack->GetSmiley((*sml)[firstSml].GetIndex());
-				dat->smlc = NULL;
+				dat->smlc = nullptr;
 			}
 			else {
 				dat->smlc = smileyCPack->GetSmiley((*smlc)[firstSml-smlszo].GetIndex());
-				dat->sml = NULL;
+				dat->sml = nullptr;
 			}
 
-			if (dat->sml != NULL || dat->smlc != NULL) {
+			if (dat->sml != nullptr || dat->smlc != nullptr) {
 				// First smiley found record it
 				smllist.insert(dat);
 				if (firstOnly) break; 
@@ -148,10 +148,10 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 void FindSmileyInText(SmileyPackType *smp, const wchar_t *str, unsigned &first, unsigned &size, SmileyType **sml)
 {
 	SmileysQueueType smllist;
-	LookupAllSmileys(smp, NULL, str, smllist, true);
+	LookupAllSmileys(smp, nullptr, str, smllist, true);
 	if (smllist.getCount() == 0) {
 		size = 0;
-		*sml = NULL;
+		*sml = nullptr;
 	}
 	else {
 		first = smllist[0].loc.cpMin;
@@ -190,7 +190,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 	CComPtr<IRichEditOle> RichEditOle;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 		return;
-	if (RichEditOle == NULL)
+	if (RichEditOle == nullptr)
 		return;
 
 	CComPtr<ITextDocument> TextDocument;
@@ -198,7 +198,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		return;
 
 	long cnt;
-	if (smp == NULL && smcp == NULL) {
+	if (smp == nullptr && smcp == nullptr) {
 		if (unFreeze)
 			TextDocument->Unfreeze(&cnt);
 		return;
@@ -210,7 +210,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 		return;
 
 	// retrieve text to parse for smileys 
-	BSTR btxt = 0;
+	BSTR btxt = nullptr;
 	if (TextRange->GetText(&btxt) != S_OK)
 		return;
 
@@ -296,15 +296,15 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 
 			SmileyType *sml = smllist[j].sml;
 			SmileyCType *smlc = smllist[j].smlc;
-			if (sml == NULL && smlc == NULL)
+			if (sml == nullptr && smlc == nullptr)
 				continue;
 
 			// Select text analyze
 			TextSelection->SetRange(smlpos.cpMin, smlpos.cpMax);
 
-			BSTR bstrText = NULL;
+			BSTR bstrText = nullptr;
 
-			if (smlc == NULL && sml->IsText()) {
+			if (smlc == nullptr && sml->IsText()) {
 				bstrText = SysAllocString(sml->GetToolText().c_str());
 				TextSelection->SetText(bstrText);
 			}
@@ -343,7 +343,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 					sizeY = osize.cy;
 				}
 
-				if (smlc != NULL && opt.MaxCustomSmileySize && (unsigned)sizeY > opt.MaxCustomSmileySize) {
+				if (smlc != nullptr && opt.MaxCustomSmileySize && (unsigned)sizeY > opt.MaxCustomSmileySize) {
 					sizeY = opt.MaxCustomSmileySize;
 					sizeX = osize.cx * sizeY / osize.cy;
 
@@ -391,13 +391,13 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 				else UpdateSelection(oldSel, smlpos.cpMin, -(int)SysStringLen(bstrText)+1);
 
 				ISmileyBase *smileyBase = CreateAniSmileyObject(smlc ? smlc : sml, chf.crBackColor, ishpp);
-				if (smileyBase == NULL)
+				if (smileyBase == nullptr)
 					continue;
 
 				smileyBase->SetExtent(DVASPECT_CONTENT, &sizehm);
 				smileyBase->SetHint(bstrText);
 
-				smileyBase->SetPosition(hwnd, NULL);
+				smileyBase->SetPosition(hwnd, nullptr);
 
 				// Get the RichEdit container site
 				IOleClientSite *pOleClientSite; 
@@ -448,10 +448,10 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType *smp, SmileyPackCType *smcp, const
 
 void ReplaceSmileysWithText(HWND hwnd, CHARRANGE &sel, bool keepFrozen)
 {
-	CComPtr<IRichEditOle> RichEditOle = NULL;
+	CComPtr<IRichEditOle> RichEditOle = nullptr;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 		return;
-	if (RichEditOle == NULL)
+	if (RichEditOle == nullptr)
 		return;
 
 	CComPtr<ITextDocument> TextDocument;
@@ -487,17 +487,17 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE &sel, bool keepFrozen)
 			break;
 		}
 
-		ISmileyBase *igsc = NULL;
+		ISmileyBase *igsc = nullptr;
 		if (reObj.cp < sel.cpMax && reObj.clsid == CLSID_NULL) 
 			reObj.poleobj->QueryInterface(IID_ISmileyAddSmiley, (void**) &igsc);
 
 		reObj.poleobj->Release();
-		if (igsc == NULL)
+		if (igsc == nullptr)
 			continue;
 
 		TextRange->SetRange(reObj.cp, reObj.cp + 1);
 
-		BSTR bstr = NULL;
+		BSTR bstr = nullptr;
 		igsc->GetTooltip(&bstr);
 		TextRange->SetText(bstr);
 

@@ -165,12 +165,12 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 			cf.lpLogFont = &lf;
 			cf.rgbColors = ppro->getDword("RTFFontColour", MRA_DEFAULT_RTF_FONT_COLOUR);
 			cf.Flags = (CF_SCREENFONTS | CF_EFFECTS | CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT);
-			if (ppro->mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), NULL) == FALSE) {
-				HDC hDC = GetDC(NULL);// kegl
+			if (ppro->mraGetContactSettingBlob(NULL, "RTFFont", &lf, sizeof(LOGFONT), nullptr) == FALSE) {
+				HDC hDC = GetDC(nullptr);// kegl
 				lf.lfCharSet = MRA_DEFAULT_RTF_FONT_CHARSET;
 				lf.lfHeight = -MulDiv(MRA_DEFAULT_RTF_FONT_SIZE, GetDeviceCaps(hDC, LOGPIXELSY), 72);
 				mir_wstrncpy(lf.lfFaceName, MRA_DEFAULT_RTF_FONT_NAME, LF_FACESIZE);
-				ReleaseDC(NULL, hDC);
+				ReleaseDC(nullptr, hDC);
 			}
 
 			if (ChooseFont(&cf)) {
@@ -189,7 +189,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 			wchar_t szBuff[MAX_PATH];
 			GetDlgItemText(hWndDlg, IDC_SERVER, szBuff, _countof(szBuff));
 			ppro->mraSetStringW(NULL, "Server", szBuff);
-			ppro->setWord("ServerPort", (WORD)GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
+			ppro->setWord("ServerPort", (WORD)GetDlgItemInt(hWndDlg, IDC_SERVERPORT, nullptr, FALSE));
 			ppro->setByte("AutoAddContactsToServer", IsDlgButtonChecked(hWndDlg, IDC_AUTO_ADD_CONTACTS_TO_SERVER));
 			ppro->setByte("AutoAuthRequestOnLogon", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON));
 			ppro->setByte("AutoAuthGrandUsersInCList", IsDlgButtonChecked(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST));

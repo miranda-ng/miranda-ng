@@ -20,7 +20,7 @@ Avatar History Plugin
 
 #include "stdafx.h"
 
-HGENMENU hMenu = NULL;
+HGENMENU hMenu = nullptr;
 static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int ShowSaveDialog(HWND hwnd, wchar_t* fn, MCONTACT hContact = NULL);
 
@@ -49,8 +49,8 @@ public:
 	ListEntry()
 	{
 		hDbEvent = NULL;
-		filename = NULL;
-		filelink = NULL;
+		filename = nullptr;
+		filelink = nullptr;
 	}
 
 	~ListEntry()
@@ -82,7 +82,7 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 	struct AvatarDialogData *avdlg = (struct AvatarDialogData*)malloc(sizeof(struct AvatarDialogData));
 	memset(avdlg, 0, sizeof(struct AvatarDialogData));
 	avdlg->hContact = hContact;
-	if (fn == NULL)
+	if (fn == nullptr)
 		avdlg->fn[0] = '\0';
 	else
 		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, _countof(avdlg->fn));
@@ -143,7 +143,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwnd);
 			EnableDisableControls(hwnd);
 			free(data);
-			data = NULL;
+			data = nullptr;
 		}
 		break;
 
@@ -204,7 +204,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 			POINT p;
 			p.x = LOWORD(lParam);
 			p.y = HIWORD(lParam);
-			int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, p.x, p.y, 0, hwndList, NULL);
+			int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, p.x, p.y, 0, hwndList, nullptr);
 			DestroyMenu(menu);
 
 			ListEntry *le = (ListEntry*)SendMessage(hwndList, LB_GETITEMDATA, pos, 0);
@@ -312,7 +312,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 				wchar_t avfolder[MAX_PATH];
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				GetContactFolder(avfolder, hContact);
-				ShellExecute(NULL, db_get_b(NULL, MODULE_NAME, "OpenFolderMethod", 0) ? L"explore" : L"open", avfolder, NULL, NULL, SW_SHOWNORMAL);
+				ShellExecute(nullptr, db_get_b(NULL, MODULE_NAME, "OpenFolderMethod", 0) ? L"explore" : L"open", avfolder, nullptr, nullptr, SW_SHOWNORMAL);
 				return TRUE;
 			}
 			break;
@@ -352,7 +352,7 @@ int AddFileToList(wchar_t *path, wchar_t *lnk, wchar_t *filename, HWND list)
 	le->filelink = mir_wstrdup(lnk);
 
 	wchar_t *p = wcschr(filename, '.');
-	if (p != NULL)
+	if (p != nullptr)
 		p[0] = '\0';
 	int max_pos = SendMessage(list, LB_ADDSTRING, 0, (LPARAM)filename);
 	SendMessage(list, LB_SETITEMDATA, max_pos, (LPARAM)le);
@@ -464,7 +464,7 @@ bool UpdateAvatarPic(HWND hwnd)
 
 	HBITMAP avpic = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)le->filename, IMGL_WCHAR);
 
-	bool found_image = (avpic != NULL);
+	bool found_image = (avpic != nullptr);
 
 	avpic = (HBITMAP)SendMessage(hwndpic, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)avpic);
 	if (avpic)

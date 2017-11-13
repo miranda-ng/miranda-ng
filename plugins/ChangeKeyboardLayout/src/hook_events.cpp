@@ -126,7 +126,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	Skin_AddSound(SND_ChangeCase,   ModuleNameW, LPGENW("Changing Case"));
 
 	// Хук на нажатие клавиши
-	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, NULL, GetCurrentThreadId());
+	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, nullptr, GetCurrentThreadId());
 
 	CreateServiceFunction(MS_CKL_CHANGELAYOUT, APIChangeLayout);
 	CreateServiceFunction(MS_CKL_GETLAYOUTOFTEXT, APIGetLayoutOfText);
@@ -174,15 +174,15 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 		// Проверка на пустой хоткей. Иначе - пиздец, как в версии 1.4
 		if (lcode != 0) {
 			if ((lcode == moOptions.dwHotkey_Layout) && (!(lParam & 0x40000000))) {
-				ChangeLayout(NULL, TOT_Layout, moOptions.CurrentWordLayout);
+				ChangeLayout(nullptr, TOT_Layout, moOptions.CurrentWordLayout);
 				return 1;
 			}
 			if ((lcode == moOptions.dwHotkey_Layout2) && (!(lParam & 0x40000000))) {
-				ChangeLayout(NULL, TOT_Layout, moOptions.CurrentWordLayout2);
+				ChangeLayout(nullptr, TOT_Layout, moOptions.CurrentWordLayout2);
 				return 1;
 			}
 			if ((lcode == moOptions.dwHotkey_Case) && (!(lParam & 0x40000000))) {
-				ChangeLayout(NULL, TOT_Case, moOptions.CurrentWordCase);
+				ChangeLayout(nullptr, TOT_Case, moOptions.CurrentWordCase);
 				return 1;
 			}
 		}

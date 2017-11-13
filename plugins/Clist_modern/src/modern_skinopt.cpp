@@ -90,7 +90,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case IDC_BUTTON_INFO:
 			{
 				HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
-				if (hti == 0)
+				if (hti == nullptr)
 					return 0;
 
 				TVITEM tvi = { 0 };
@@ -126,7 +126,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		case IDC_BUTTON_APPLY_SKIN:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
-				if (hti == 0)
+				if (hti == nullptr)
 					return 0;
 
 				TVITEM tvi = { 0 };
@@ -255,7 +255,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						InvalidateRect(GetDlgItem(hwndDlg, IDC_PREVIEW), nullptr, TRUE);
 					else { // prepare text
 						HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_TREE1));
-						if (hti == 0)
+						if (hti == nullptr)
 							return 0;
 
 						TVITEM tvi = { 0 };
@@ -380,7 +380,7 @@ HTREEITEM AddSkinToList(HWND hwndDlg, wchar_t *path, wchar_t *file)
 	wchar_t fullName[MAX_PATH], defskinname[MAX_PATH];
 	SkinListData *sd = (SkinListData*)mir_alloc(sizeof(SkinListData));
 	if (!sd)
-		return 0;
+		return nullptr;
 
 	if (!file || wcschr(file, '%')) {
 		mir_snwprintf(sd->File, L"%%Default Skin%%");
@@ -435,9 +435,9 @@ HTREEITEM AddItemToTree(HWND hTree, wchar_t *itemName, void *data)
 {
 	HTREEITEM cItem = nullptr;
 	// Insert item node
-	cItem = FindChild(hTree, 0, itemName, data);
+	cItem = FindChild(hTree, nullptr, itemName, data);
 	if (!cItem) {
-		TVINSERTSTRUCT tvis = { 0 };
+		TVINSERTSTRUCT tvis = {};
 		tvis.hInsertAfter = TVI_SORT;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_PARAM;
 		tvis.item.pszText = itemName;

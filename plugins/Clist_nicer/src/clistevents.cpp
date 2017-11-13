@@ -25,14 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "cluiframes.h"
 
-static HWND hwndEventFrame = 0;
+static HWND hwndEventFrame = nullptr;
 HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight);
 
 extern FRAMEWND *wndFrameEventArea;
 
 extern HPEN g_hPenCLUIFrames;
 
-HWND g_hwndEventArea = 0;
+HWND g_hwndEventArea = nullptr;
 
 struct CListImlIcon
 {
@@ -71,7 +71,7 @@ static CLISTEVENT* MyGetEvent(int iSelection)
 		if (p.menuId == iSelection)
 			return &p;
 	}
-	return NULL;
+	return nullptr;
 }
 
 LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -110,7 +110,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			if (dis->hwndItem == (HWND)cfg::dat.hMenuNotify) {
 				MENUITEMINFOA mii = { 0 };
 
-				struct NotifyMenuItemExData *nmi = 0;
+				struct NotifyMenuItemExData *nmi = nullptr;
 				int iIcon;
 				HICON hIcon;
 
@@ -136,7 +136,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NOTIFYBUTTON) {
 			int iSelection;
-			struct NotifyMenuItemExData *nmi = 0;
+			struct NotifyMenuItemExData *nmi = nullptr;
 			int iCount = GetMenuItemCount(cfg::dat.hMenuNotify);
 
 			POINT pt;
@@ -146,7 +146,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_DATA;
 			if (iCount > 1)
-				iSelection = TrackPopupMenu(cfg::dat.hMenuNotify, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+				iSelection = TrackPopupMenu(cfg::dat.hMenuNotify, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 			else
 				iSelection = GetMenuItemID(cfg::dat.hMenuNotify, 0);
 			
@@ -156,12 +156,12 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				if (nmi) {
 					CLISTEVENT *cle = MyGetEvent(iSelection);
 					if (cle) {
-						CLISTEVENT *cle1 = NULL;
+						CLISTEVENT *cle1 = nullptr;
 						CallService(cle->pszService, (WPARAM)NULL, (LPARAM)cle);
 						// re-obtain the pointer, it may already be invalid/point to another event if the
 						// event we're interested in was removed by the service (nasty one...)
 						cle1 = MyGetEvent(iSelection);
-						if (cle1 != NULL)
+						if (cle1 != nullptr)
 							pcli->pfnRemoveEvent(cle->hContact, cle->hDbEvent);
 					}
 				}
@@ -186,7 +186,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			HBITMAP hbmold = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hbm));
 			SetBkMode(hdcMem, TRANSPARENT);
 
-			HFONT hFontOld = 0;
+			HFONT hFontOld = nullptr;
 			if (cfg::clcdat) {
 				int height;
 				hFontOld = ChangeToFont(hdcMem, cfg::clcdat, FONTID_EVENTAREA, &height);
@@ -247,7 +247,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 			for (int j = 0; j < GetMenuItemCount(cfg::dat.hMenuNotify); j++) {
 				if (GetMenuItemInfo(cfg::dat.hMenuNotify, j, TRUE, &mii) != 0) {
 					NotifyMenuItemExData *nmi = (NotifyMenuItemExData*)mii.dwItemData;
-					if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->hContact && nmi->iIcon == p->imlIconIndex)
+					if (nmi != nullptr && (HANDLE)nmi->hContact == (HANDLE)p->hContact && nmi->iIcon == p->imlIconIndex)
 						return p;
 				}
 			}
@@ -304,7 +304,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 			HideShowNotifyFrame();
 		}
 	}
-	InvalidateRect(hwndEventFrame, NULL, FALSE);
+	InvalidateRect(hwndEventFrame, nullptr, FALSE);
 
 	return p;
 }
@@ -363,7 +363,7 @@ int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 		cfg::dat.hUpdateContact = 0;
 
 	if (cfg::dat.notifyActive)
-		InvalidateRect(hwndEventFrame, NULL, FALSE);
+		InvalidateRect(hwndEventFrame, nullptr, FALSE);
 
 	return res;
 }

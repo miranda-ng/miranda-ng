@@ -28,7 +28,7 @@ TLV::TLV(char* buf)
         memcpy(value_,&buf[4],length_);
     }
     else
-        value_= NULL;
+        value_= nullptr;
 }
 
 TLV::TLV(unsigned short type, unsigned short length, const char* value)
@@ -41,7 +41,7 @@ TLV::TLV(unsigned short type, unsigned short length, const char* value)
         memcpy(value_, value, length_);
     }
     else
-        value_= NULL;
+        value_= nullptr;
 }
 
 TLV::~TLV()
@@ -71,7 +71,7 @@ unsigned char TLV::ubyte(int pos)
 
 char* TLV::part(int pos, int length)//returns part of the tlv value
 {
-    if ((pos + length) > length_) return NULL;
+    if ((pos + length) > length_) return nullptr;
 
     char* value = (char*)mir_alloc(length + 2);
     memcpy(value, &value_[pos], length);

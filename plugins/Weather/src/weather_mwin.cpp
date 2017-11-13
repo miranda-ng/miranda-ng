@@ -48,7 +48,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 		data->hContact = (DWORD_PTR)((LPCREATESTRUCT)lParam)->lpCreateParams;
 		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD,
-			0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, NULL, hInst, 0);
+			0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, nullptr, hInst, nullptr);
 		if (data->hAvt) SendMessage(data->hAvt, AVATAR_SETCONTACT, 0, (LPARAM)data->hContact);
 		break;
 
@@ -61,7 +61,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			POINT pt;
 			GetCursorPos(&pt);
 			HMENU hMenu = Menu_BuildContactMenu(data->hContact);
-			TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hwnd, NULL);
+			TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hwnd, nullptr);
 			DestroyMenu(hMenu);
 		}
 		break;
@@ -121,14 +121,14 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				LONG_PTR style = GetWindowLongPtr(data->hAvt, GWL_STYLE);
 				data->haveAvatar = newava;
 				SetWindowLongPtr(data->hAvt, GWL_STYLE, newava ? (style | WS_VISIBLE) : (style & ~WS_VISIBLE));
-				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
+				RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE);
 			}
 		}
 		break;
 
 	case WM_REDRAWWIN:
-		if (data->hAvt != NULL) MoveWindow(data->hAvt, 0, 0, opt.AvatarSize, opt.AvatarSize, TRUE);
-		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+		if (data->hAvt != nullptr) MoveWindow(data->hAvt, 0, 0, opt.AvatarSize, opt.AvatarSize, TRUE);
+		RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
 
 	case WM_PAINT:
@@ -141,7 +141,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				COLORREF fntc, fntc1;
 				COLORREF clr;
 				int picSize = opt.AvatarSize;
-				HICON hIcon = NULL;
+				HICON hIcon = nullptr;
 
 				if (!data->haveAvatar) {
 					int statusIcon = db_get_w(data->hContact, WEATHERPROTONAME, "Status", 0);
@@ -182,7 +182,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				}
 
 				if (!data->haveAvatar)
-					DrawIconEx(hdc, 1, 1, hIcon, 0, 0, 0, NULL, DI_NORMAL);
+					DrawIconEx(hdc, 1, 1, hIcon, 0, 0, 0, nullptr, DI_NORMAL);
 
 				SetBkMode(hdc, TRANSPARENT);
 
@@ -238,7 +238,7 @@ static void addWindow(MCONTACT hContact)
 	db_free(&dbv);
 
 	HWND hWnd = CreateWindow(L"WeatherFrame", L"", WS_CHILD | WS_VISIBLE,
-		0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, (void*)hContact);
+		0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, (void*)hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
 	CLISTFrame Frame = { 0 };
@@ -269,13 +269,13 @@ void removeWindow(MCONTACT hContact)
 void UpdateMwinData(MCONTACT hContact)
 {
 	HWND hwnd = WindowList_Find(hMwinWindowList, hContact);
-	if (hwnd != NULL)
-		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+	if (hwnd != nullptr)
+		RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 }
 
 INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 {
-	BOOL addwnd = WindowList_Find(hMwinWindowList, wParam) == NULL;
+	BOOL addwnd = WindowList_Find(hMwinWindowList, wParam) == nullptr;
 	if (addwnd)
 		addWindow(wParam);
 	else
@@ -286,7 +286,7 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 int BuildContactMenu(WPARAM wparam, LPARAM)
 {
 	int flags = db_get_dw(wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0;
-	Menu_ModifyItem(hMwinMenu, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_ModifyItem(hMwinMenu, nullptr, INVALID_HANDLE_VALUE, flags);
 	return 0;
 }
 
@@ -309,10 +309,10 @@ void InitMwin(void)
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = hInst;
-	wndclass.hIcon = NULL;
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wndclass.hbrBackground = 0; //(HBRUSH)(COLOR_3DFACE+1);
-	wndclass.lpszMenuName = NULL;
+	wndclass.hIcon = nullptr;
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wndclass.hbrBackground = nullptr; //(HBRUSH)(COLOR_3DFACE+1);
+	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = L"WeatherFrame";
 	RegisterClass(&wndclass);
 
@@ -333,9 +333,9 @@ void InitMwin(void)
 	mir_wstrcpy(fontid.name, LPGENW("Frame Font"));
 	mir_strcpy(fontid.prefix, "fnt0");
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	fontid.deffontsettings.size = -13;
-	ReleaseDC(0, hdc);
+	ReleaseDC(nullptr, hdc);
 
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	mir_wstrcpy(fontid.deffontsettings.szFace, L"Verdana");

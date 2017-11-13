@@ -32,11 +32,11 @@
 /* set maxTlvs<=0 to get all TLVs in length, or a positive integer to get at most the first n */
 oscar_tlv_chain* readIntoTLVChain(BYTE **buf, size_t wLen, int maxTlvs)
 {
-	oscar_tlv_chain *now, *last = NULL, *chain = NULL;
+	oscar_tlv_chain *now, *last = nullptr, *chain = nullptr;
 	WORD now_tlv_len;
 
 	if (!buf || !wLen)
-		return NULL;
+		return nullptr;
 
 	intptr_t len = wLen;
 	while (len > 0) { /* don't use unsigned variable for this check */
@@ -44,7 +44,7 @@ oscar_tlv_chain* readIntoTLVChain(BYTE **buf, size_t wLen, int maxTlvs)
 
 		if (!now) {
 			disposeChain(&chain);
-			return NULL;
+			return nullptr;
 		}
 
 		unpackWord(buf, &(now->tlv.wType));
@@ -53,7 +53,7 @@ oscar_tlv_chain* readIntoTLVChain(BYTE **buf, size_t wLen, int maxTlvs)
 		len -= 4;
 
 		if (now_tlv_len < 1)
-			now->tlv.pData = NULL;
+			now->tlv.pData = nullptr;
 		else if (now_tlv_len <= len) {
 			now->tlv.pData = (BYTE *)SAFE_MALLOC(now_tlv_len);
 			if (now->tlv.pData)
@@ -98,7 +98,7 @@ oscar_tlv* oscar_tlv_chain::getTLV(WORD wType, WORD wIndex)
 		list = list->next;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 WORD oscar_tlv_chain::getChainLength()
@@ -141,7 +141,7 @@ oscar_tlv* oscar_tlv_chain::putTLV(WORD wType, size_t wLen, BYTE *pData, BOOL bR
 
 oscar_tlv_chain* oscar_tlv_chain::removeTLV(oscar_tlv *pTLV)
 {
-	oscar_tlv_chain *list = this, *prev = NULL, *chain = this;
+	oscar_tlv_chain *list = this, *prev = nullptr, *chain = this;
 	while (list) {
 		if (&list->tlv == pTLV) {
 			if (prev) // relink
@@ -151,7 +151,7 @@ oscar_tlv_chain* oscar_tlv_chain::removeTLV(oscar_tlv *pTLV)
 				list = list->next;
 			}
 			else // result is an empty chain (NULL)
-				chain = NULL;
+				chain = nullptr;
 			// release chain item memory
 			SAFE_FREE((void**)&list->tlv.pData);
 			SAFE_FREE((void**)&list);
@@ -249,14 +249,14 @@ char* oscar_tlv_chain::getString(WORD wType, WORD wIndex)
 	if (pTLV) {
 		char *str = (char*)SAFE_MALLOC(pTLV->wLen + 1); /* For \0 */
 		if (!str)
-			return NULL;
+			return nullptr;
 
 		memcpy(str, pTLV->pData, pTLV->wLen);
 		str[pTLV->wLen] = '\0';
 		return str;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void disposeChain(oscar_tlv_chain **chain)
@@ -273,12 +273,12 @@ void disposeChain(oscar_tlv_chain **chain)
 		now = next;
 	}
 
-	*chain = NULL;
+	*chain = nullptr;
 }
 
 oscar_tlv_record_list* readIntoTLVRecordList(BYTE **buf, size_t wLen, int nCount)
 {
-	oscar_tlv_record_list *list = NULL, *last = NULL;
+	oscar_tlv_record_list *list = nullptr, *last = nullptr;
 
 	while (wLen >= 2) {
 		WORD wRecordSize;
@@ -325,7 +325,7 @@ void disposeRecordList(oscar_tlv_record_list** list)
 		now = next;
 	}
 
-	*list = NULL;
+	*list = nullptr;
 }
 
 oscar_tlv_chain* oscar_tlv_record_list::getRecordByTLV(WORD wType, int nValue)
@@ -337,5 +337,5 @@ oscar_tlv_chain* oscar_tlv_record_list::getRecordByTLV(WORD wType, int nValue)
 		list = list->next;
 	}
 
-	return NULL;
+	return nullptr;
 }

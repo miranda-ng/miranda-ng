@@ -61,12 +61,12 @@ void CMLuaOptions::OnInitDialog()
 
 	wchar_t scriptDir[MAX_PATH], relativeScriptDir[MAX_PATH], header[MAX_PATH + 100];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
-	PathToRelativeW(scriptDir, relativeScriptDir, NULL);
+	PathToRelativeW(scriptDir, relativeScriptDir, nullptr);
 	mir_snwprintf(header, L"%s (%s)", TranslateT("Common scripts"), relativeScriptDir);
 
 	m_scripts.AddColumn(0, L"Script", 380);
-	m_scripts.AddColumn(1, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
-	m_scripts.AddColumn(2, NULL, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scripts.AddColumn(1, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
+	m_scripts.AddColumn(2, nullptr, 32 - GetSystemMetrics(SM_CXVSCROLL));
 
 	LoadScripts();
 
@@ -126,7 +126,7 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 	switch (lvi.iSubItem)
 	{
 	case 1:
-		ShellExecute(m_hwnd, L"Open", script->GetFilePath(), NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(m_hwnd, L"Open", script->GetFilePath(), nullptr, nullptr, SW_SHOWNORMAL);
 		break;
 
 	case 2:

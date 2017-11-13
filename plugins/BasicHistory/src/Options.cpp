@@ -207,24 +207,24 @@ static ColorOptionsList g_ColorOptionsList[] = {
 
 static HotkeyOptionsList g_HotkeyOptionsList[] = {
 	{ "basichistory_hot_showall", LPGENW("Open global history"), LPGENW("History"), MS_HISTORY_SHOWCONTACTHISTORY, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'H') | HKF_MIRANDA_LOCAL, 0 },
-	{ "basichistory_hot_find", LPGENW("Find"), LPGENW("History"), 0, HOTKEYCODE(HOTKEYF_CONTROL, 'F'), HISTORY_HK_FIND },
-	{ "basichistory_hot_findnext", LPGENW("Find Next"), LPGENW("History"), 0, VK_F3, HISTORY_HK_FINDNEXT },
-	{ "basichistory_hot_findprev", LPGENW("Find Previous"), LPGENW("History"), 0, VK_F2, HISTORY_HK_FINDPREV },
-	{ "basichistory_hot_matchcase", LPGENW("Switch Match Case"), LPGENW("History"), 0, 0, HISTORY_HK_MATCHCASE },
-	{ "basichistory_hot_matchwhole", LPGENW("Switch Match Whole Word"), LPGENW("History"), 0, 0, HISTORY_HK_MATCHWHOLE },
-	{ "basichistory_hot_showcontacts", LPGENW("Show/Hide Contacts"), LPGENW("History"), 0, 0, HISTORY_HK_SHOWCONTACTS },
-	{ "basichistory_hot_onlyin", LPGENW("Switch Only Incoming Messages"), LPGENW("History"), 0, 0, HISTORY_HK_ONLYIN },
-	{ "basichistory_hot_onlyout", LPGENW("Switch Only Outgoing Messages"), LPGENW("History"), 0, 0, HISTORY_HK_ONLYOUT },
-	{ "basichistory_hot_onlygroup", LPGENW("Switch Only Selected Group"), LPGENW("History"), 0, 0, HISTORY_HK_ONLYGROUP },
-	{ "basichistory_hot_allcontacts", LPGENW("Switch All Contacts"), LPGENW("History"), 0, 0, HISTORY_HK_ALLCONTACTS },
-	{ "basichistory_hot_delete", LPGENW("Delete"), LPGENW("History"), 0, VK_DELETE, HISTORY_HK_DELETE },
-	{ "basichistory_hot_exrhtml", LPGENW("Export To Rich Html"), LPGENW("History"), 0, 0, HISTORY_HK_EXRHTML },
-	{ "basichistory_hot_exphtml", LPGENW("Export To Plain Html"), LPGENW("History"), 0, 0, HISTORY_HK_EXPHTML },
-	{ "basichistory_hot_extxt", LPGENW("Export To Txt"), LPGENW("History"), 0, 0, HISTORY_HK_EXTXT },
-	{ "basichistory_hot_exbin", LPGENW("Export To Binary"), LPGENW("History"), 0, 0, HISTORY_HK_EXBIN },
-	{ "basichistory_hot_impbin", LPGENW("Import From Binary"), LPGENW("History"), 0, 0, HISTORY_HK_IMPBIN },
-	{ "basichistory_hot_exdat", LPGENW("Export To Dat (mContacts)"), LPGENW("History"), 0, 0, HISTORY_HK_EXDAT },
-	{ "basichistory_hot_impdat", LPGENW("Import From Dat (mContacts)"), LPGENW("History"), 0, 0, HISTORY_HK_IMPDAT },
+	{ "basichistory_hot_find", LPGENW("Find"), LPGENW("History"), nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'F'), HISTORY_HK_FIND },
+	{ "basichistory_hot_findnext", LPGENW("Find Next"), LPGENW("History"), nullptr, VK_F3, HISTORY_HK_FINDNEXT },
+	{ "basichistory_hot_findprev", LPGENW("Find Previous"), LPGENW("History"), nullptr, VK_F2, HISTORY_HK_FINDPREV },
+	{ "basichistory_hot_matchcase", LPGENW("Switch Match Case"), LPGENW("History"), nullptr, 0, HISTORY_HK_MATCHCASE },
+	{ "basichistory_hot_matchwhole", LPGENW("Switch Match Whole Word"), LPGENW("History"), nullptr, 0, HISTORY_HK_MATCHWHOLE },
+	{ "basichistory_hot_showcontacts", LPGENW("Show/Hide Contacts"), LPGENW("History"), nullptr, 0, HISTORY_HK_SHOWCONTACTS },
+	{ "basichistory_hot_onlyin", LPGENW("Switch Only Incoming Messages"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYIN },
+	{ "basichistory_hot_onlyout", LPGENW("Switch Only Outgoing Messages"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYOUT },
+	{ "basichistory_hot_onlygroup", LPGENW("Switch Only Selected Group"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYGROUP },
+	{ "basichistory_hot_allcontacts", LPGENW("Switch All Contacts"), LPGENW("History"), nullptr, 0, HISTORY_HK_ALLCONTACTS },
+	{ "basichistory_hot_delete", LPGENW("Delete"), LPGENW("History"), nullptr, VK_DELETE, HISTORY_HK_DELETE },
+	{ "basichistory_hot_exrhtml", LPGENW("Export To Rich Html"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXRHTML },
+	{ "basichistory_hot_exphtml", LPGENW("Export To Plain Html"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXPHTML },
+	{ "basichistory_hot_extxt", LPGENW("Export To Txt"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXTXT },
+	{ "basichistory_hot_exbin", LPGENW("Export To Binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXBIN },
+	{ "basichistory_hot_impbin", LPGENW("Import From Binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_IMPBIN },
+	{ "basichistory_hot_exdat", LPGENW("Export To Dat (mContacts)"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXDAT },
+	{ "basichistory_hot_impdat", LPGENW("Import From Dat (mContacts)"), LPGENW("History"), nullptr, 0, HISTORY_HK_IMPDAT },
 };
 
 const int g_fontsSize = _countof(g_FontOptionsList);
@@ -237,7 +237,7 @@ void Options::Load(void)
 {
 	FontIDW fid = { 0 };
 	ColourIDW cid = { 0 };
-	HOTKEYDESC hid = { 0 };
+	HOTKEYDESC hid = {};
 	fid.cbSize = sizeof(FontIDW);
 	cid.cbSize = sizeof(ColourIDW);
 	strncpy_s(fid.dbSettingsGroup, "BasicHistory_Fonts", _TRUNCATE);
@@ -335,7 +335,7 @@ void Options::Load(void)
 			while (eventsV.pszVal[k]) {
 				if (eventsV.pszVal[k] == ';') {
 					eventsV.pszVal[k] = 0;
-					fo.events.push_back(strtol(id, NULL, 16));
+					fo.events.push_back(strtol(id, nullptr, 16));
 					id = eventsV.pszVal + k + 1;
 				}
 
@@ -729,7 +729,7 @@ int GetEventCB(HWND hwndCB, bool errorReport, int &eventId)
 	if (selCpIdx < 0) {
 		wchar_t text[24];
 		ComboBox_GetText(hwndCB, text, 24);
-		wchar_t * stopOn = NULL;
+		wchar_t * stopOn = nullptr;
 		long cp = wcstol(text, &stopOn, 10);
 		if (errorReport && (stopOn == text || *stopOn != '\0' || cp < 0)) {
 			MessageBox(GetParent(hwndCB), TranslateT("Invalid event number"), TranslateT("Error"), MB_OK | MB_ICONERROR);
@@ -1300,7 +1300,7 @@ unsigned int GetCodepageCB(HWND hwndCB, bool errorReport, unsigned int, const st
 			name = str.substr(pos + 1);
 		}
 
-		wchar_t * stopOn = NULL;
+		wchar_t * stopOn = nullptr;
 		long cp = wcstol(text, &stopOn, 10);
 		if ((pos >= str.length() || name.empty() || stopOn == text || *stopOn != '\0' || cp < 0 || cp > 0xffff)) {
 			if (errorReport) {
@@ -1569,7 +1569,7 @@ void SaveList(HWND hwnd, MCONTACT hSystem, TaskOptions* to)
 	}
 }
 
-bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = NULL, std::wstring* err = NULL, std::wstring* errDescr = NULL);
+bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = nullptr, std::wstring* err = nullptr, std::wstring* errDescr = nullptr);
 
 #ifndef LOCALE_SSHORTTIME
 #define LOCALE_SSHORTTIME             0x00000079
@@ -1808,7 +1808,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 					break;
 				}
 
-				toCp.lastExport = time(NULL);
+				toCp.lastExport = time(nullptr);
 
 				*to = toCp;
 				EndDialog(hwndDlg, IDOK);

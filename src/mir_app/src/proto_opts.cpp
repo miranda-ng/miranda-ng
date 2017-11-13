@@ -296,7 +296,7 @@ class CAccountManagerDlg : public CDlgBase
 				m_btnEdit.Enable(!pa->bOldProto && !pa->bDynDisabled);
 				m_btnRemove.Enable(true);
 				m_btnUpgrade.Enable(pa->bOldProto || pa->bDynDisabled);
-				m_btnOptions.Enable(pa->ppro != 0);
+				m_btnOptions.Enable(pa->ppro != nullptr);
 
 				if (m_iSelected >= 0) {
 					PROTOACCOUNT *pa_old = (PROTOACCOUNT *)m_accList.GetItemData(m_iSelected);

@@ -47,7 +47,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 		case PSN_APPLY:
 		{
-			plSets->MaxQuestCount = GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE);
+			plSets->MaxQuestCount = GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, nullptr, FALSE);
 			plSets->InfTalkProtection = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_INFTALKPROT));
 			plSets->AddPermanent = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_ADDPERMANENT));
 			plSets->HandleAuthReq = (BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HANDLEAUTHREQ));
@@ -103,7 +103,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			return TRUE;
 		case IDC_VARS:
-			variables_showhelp(hwnd, msg, VHF_FULLDLG | VHF_SETLASTSUBJECT, NULL, NULL);
+			variables_showhelp(hwnd, msg, VHF_FULLDLG | VHF_SETLASTSUBJECT, nullptr, nullptr);
 			return TRUE;
 		}
 		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

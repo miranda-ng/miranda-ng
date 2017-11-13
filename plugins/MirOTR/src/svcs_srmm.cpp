@@ -149,7 +149,7 @@ void DeinitSRMM()
 	IcoLib_Release(ICON_FINISHED, 0);
 	IcoLib_Release(ICON_PRIVATE, 0);
 	IcoLib_Release(ICON_UNVERIFIED, 0);
-	hIconNotSecure = hIconFinished = hIconPrivate = hIconUnverified =0;
+	hIconNotSecure = hIconFinished = hIconPrivate = hIconUnverified =nullptr;
 
 	UninitMirOTRMenu();
 }

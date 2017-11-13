@@ -75,7 +75,7 @@ static wchar_t* GetExecuteParam(wchar_t **ppszString)
 	if (fQuoted)
 		pszParam++;
 	wchar_t *p = wcschr(pszParam, (wchar_t)(fQuoted ? '"' : ','));
-	if (p != NULL) {
+	if (p != nullptr) {
 		*(p++) = 0;
 		if (fQuoted && *p == ',') p++;
 	}
@@ -105,14 +105,14 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 	case WM_DDE_EXECUTE: /* posted message */
 		HGLOBAL hCommand;
-		if (UnpackDDElParam(msg, lParam, NULL, (PUINT_PTR)&hCommand)) {
+		if (UnpackDDElParam(msg, lParam, nullptr, (PUINT_PTR)&hCommand)) {
 			/* ANSI execute command can't happen for shell */
 			if (IsWindowUnicode((HWND)wParam)) {
 				wchar_t *pszCommand = (wchar_t*)GlobalLock(hCommand);
-				if (pszCommand != NULL) {
+				if (pszCommand != nullptr) {
 					wchar_t *pszAction = GetExecuteParam(&pszCommand);
 					wchar_t *pszArg = GetExecuteParam(&pszCommand);
-					if (pszArg != NULL) {
+					if (pszArg != nullptr) {
 						/* we are inside miranda here, we make it async so the shell does
 							* not timeout regardless what the plugins try to do. */
 						if (!mir_wstrcmpi(pszAction, L"file"))
@@ -147,7 +147,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			ATOM hSzItem;
 			DDEACK ack;
 			memset(&ack, 0, sizeof(ack));
-			if (UnpackDDElParam(msg, lParam, NULL, (PUINT_PTR)&hSzItem)) {
+			if (UnpackDDElParam(msg, lParam, nullptr, (PUINT_PTR)&hSzItem)) {
 				lParam = ReuseDDElParam(lParam, msg, WM_DDE_ACK, *(PUINT)&ack, (UINT)hSzItem);
 				if (!PostMessage((HWND)wParam, WM_DDE_ACK, (WPARAM)hwnd, lParam)) {
 					if (hSzItem) GlobalDeleteAtom(hSzItem);
@@ -166,18 +166,18 @@ static HANDLE StartupMainProcess(wchar_t *pszDatabasePath)
 	wchar_t *p, szPath[MAX_PATH];
 
 	/* we are inside RunDll32 here */
-	if (!GetModuleFileName(hInst, szPath, _countof(szPath))) return NULL;
+	if (!GetModuleFileName(hInst, szPath, _countof(szPath))) return nullptr;
 	p = wcsrchr(szPath, '\\');
-	if (p != NULL) { *p = 0; p = wcsrchr(szPath, '\\'); }
-	if (p == NULL) return NULL;
+	if (p != nullptr) { *p = 0; p = wcsrchr(szPath, '\\'); }
+	if (p == nullptr) return nullptr;
 	mir_wstrcpy(++p, L"miranda32.exe");
 
 	/* inherit startup data from RunDll32 process */
 	STARTUPINFO si;
 	GetStartupInfo(&si);
 	PROCESS_INFORMATION pi;
-	if (!CreateProcess(szPath, pszDatabasePath, NULL, NULL, TRUE, GetPriorityClass(GetCurrentProcess()), NULL, NULL, &si, &pi))
-		return NULL;
+	if (!CreateProcess(szPath, pszDatabasePath, nullptr, nullptr, TRUE, GetPriorityClass(GetCurrentProcess()), nullptr, nullptr, &si, &pi))
+		return nullptr;
 	CloseHandle(pi.hThread);
 	return pi.hProcess;
 }
@@ -189,10 +189,10 @@ EXTERN_C __declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, wchar_t
 	DWORD dwTick;
 
 	/* wait for dde window to be available (avoiding race condition) */
-	pHandles[0] = CreateEvent(NULL, TRUE, FALSE, WNDCLASS_DDEMSGWINDOW);
-	if (pHandles[0] != NULL) {
+	pHandles[0] = CreateEvent(nullptr, TRUE, FALSE, WNDCLASS_DDEMSGWINDOW);
+	if (pHandles[0] != nullptr) {
 		pHandles[1] = StartupMainProcess(pszCmdLine); /* obeys nCmdShow using GetStartupInfo() */
-		if (pHandles[1] != NULL) {
+		if (pHandles[1] != nullptr) {
 			dwTick = GetTickCount();
 			/* either process terminated or dde window created */
 			if (WaitForMultipleObjects(_countof(pHandles), pHandles, FALSE, DDEMESSAGETIMEOUT) == WAIT_OBJECT_0) {
@@ -213,7 +213,7 @@ EXTERN_C __declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, wchar_t
 static int DdePreShutdown(WPARAM, LPARAM)
 {
 	/* dde needs to be stopped before any plugins are unloaded */
-	if (hwndDdeMsg != NULL) DestroyWindow(hwndDdeMsg);
+	if (hwndDdeMsg != nullptr) DestroyWindow(hwndDdeMsg);
 	UnregisterClass(WNDCLASS_DDEMSGWINDOW, hInst);
 	return 0;
 }
@@ -226,19 +226,19 @@ static int DdeModulesLoaded2(WPARAM, LPARAM)
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
-	wcl.hCursor = NULL;
+	wcl.hCursor = nullptr;
 	wcl.lpszClassName = WNDCLASS_DDEMSGWINDOW;
-	wcl.hbrBackground = NULL;
-	wcl.hIcon = NULL;
-	wcl.lpszMenuName = NULL;
+	wcl.hbrBackground = nullptr;
+	wcl.hIcon = nullptr;
+	wcl.lpszMenuName = nullptr;
 	wcl.style = 0;
 	RegisterClass(&wcl);
 	/* Note: use of HWND_MESSAGE does not fit for DDE as the window must be a top-level one */
-	hwndDdeMsg = CreateWindow(WNDCLASS_DDEMSGWINDOW, NULL, 0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	hwndDdeMsg = CreateWindow(WNDCLASS_DDEMSGWINDOW, nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
 
 	/* make known dde startup code is passed */
 	HANDLE hEvent = OpenEvent(EVENT_MODIFY_STATE, FALSE, WNDCLASS_DDEMSGWINDOW);
-	if (hEvent != NULL) {
+	if (hEvent != nullptr) {
 		SetEvent(hEvent);
 		CloseHandle(hEvent);
 	}

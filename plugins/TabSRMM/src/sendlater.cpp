@@ -28,7 +28,7 @@
 
 #include "stdafx.h"
 
-CSendLater *sendLater = 0;
+CSendLater *sendLater = nullptr;
 
 // implementation of the CSendLaterJob class
 CSendLaterJob::CSendLaterJob()
@@ -139,7 +139,7 @@ CSendLaterJob::~CSendLaterJob()
 				ppd.colorBack = fFailed ? RGB(191, 0, 0) : nen_options.colBackMsg;
 				ppd.PluginWindowProc = Utils::PopupDlgProcError;
 				ppd.lchIcon = fFailed ? PluginConfig.g_iconErr : PluginConfig.g_IconMsgEvent;
-				ppd.PluginData = 0;
+				ppd.PluginData = nullptr;
 				ppd.iSeconds = fFailed ? -1 : nen_options.iDelayMsg;
 				PUAddPopupT(&ppd);
 			}
@@ -161,7 +161,7 @@ CSendLater::CSendLater() :
 	m_hFilter(0)
 {
 	m_fAvail = M.GetByte("sendLaterAvail", 0) != 0;
-	m_last_sendlater_processed = time(0);
+	m_last_sendlater_processed = time(nullptr);
 	m_fIsInteractive = false;
 	m_fErrorPopups = M.GetByte("qmgrErrorPopups", 0) != 0;
 	m_fSuccessPopups = M.GetByte("qmgrSuccessPopups", 0) != 0;
@@ -276,7 +276,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 {
 	MCONTACT	hContact = lParam;
 	DBVARIANT dbv = { 0 };
-	char *szOrig_Utf = 0;
+	char *szOrig_Utf = nullptr;
 
 	if (!m_fAvail || !szSetting || !mir_strcmp(szSetting, "count") || mir_strlen(szSetting) < 8)
 		return 0;
@@ -319,7 +319,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	job->sendBuffer[iLen] = 0;
 
 	// construct conventional send buffer
-	wchar_t *szWchar = 0;
+	wchar_t *szWchar = nullptr;
 	char *szAnsi = mir_utf8decodecp(szOrig_Utf, CP_ACP, &szWchar);
 	iLen = mir_strlen(szAnsi);
 	size_t required = iLen + 1;
@@ -347,7 +347,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 // this is ONLY called from the WM_TIMER handler and should never be executed directly.
 int CSendLater::sendIt(CSendLaterJob *job)
 {
-	time_t now = time(0);
+	time_t now = time(nullptr);
 	if (job->bCode == CSendLaterJob::JOB_HOLD || job->bCode == CSendLaterJob::JOB_DEFERRED || job->fSuccess || job->fFailed || job->lastSent > now)
 		return 0;											// this one is frozen or done (will be removed soon), don't process it now.
 
@@ -376,7 +376,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 
 	MCONTACT hContact = c->getActiveContact();
 	const char *szProto = c->getActiveProto();
-	if (!hContact || szProto == 0)
+	if (!hContact || szProto == nullptr)
 		return 0;
 
 	WORD wMyStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
@@ -434,7 +434,7 @@ void CSendLater::addContact(const MCONTACT hContact)
 HANDLE CSendLater::processAck(const ACKDATA *ack)
 {
 	if (m_sendLaterJobList.getCount() == 0 || !m_fAvail)
-		return 0;
+		return nullptr;
 
 	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
 		CSendLaterJob *p = m_sendLaterJobList[i];
@@ -456,10 +456,10 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 			p->hProcess = (HANDLE)-1;
 			p->bCode = '-';
 			qMgrUpdate();
-			return 0;
+			return nullptr;
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 // UI stuff (dialog procedures for the queue manager dialog
@@ -541,7 +541,7 @@ void CSendLater::qMgrFillList(bool fClear)
 		mir_free(preview);
 		mir_free(msg);
 
-		const wchar_t *tszStatusText = 0;
+		const wchar_t *tszStatusText = nullptr;
 		if (p->fFailed) {
 			tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ?
 				TranslateT("Removed") : TranslateT("Failed");
@@ -773,7 +773,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				item.stateMask = LVIS_SELECTED;
 
 				if (HIWORD(wParam) != ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD) {
-					if (MessageBox(0, TranslateT("You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone."), TranslateT("Queue manager"),
+					if (MessageBox(nullptr, TranslateT("You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone."), TranslateT("Queue manager"),
 						MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 						break;
 				}
@@ -809,7 +809,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							else if (job->bCode == CSendLaterJob::JOB_AGE) {
 								job->fFailed = false;
 								job->bCode = '-';
-								job->created = time(0);
+								job->created = time(nullptr);
 							}
 							break;
 						}
@@ -825,7 +825,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NCDESTROY:
-		m_hwndDlg = 0;
+		m_hwndDlg = nullptr;
 		db_set_dw(0, SRMSGMOD_T, "qmgrFilterContact", m_hFilter);
 		break;
 	}
@@ -835,8 +835,8 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 // invoke queue manager dialog - do nothing if this dialog is already open
 void CSendLater::invokeQueueMgrDlg()
 {
-	if (m_hwndDlg == 0)
-		m_hwndDlg = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SENDLATER_QMGR), 0, CSendLater::DlgProcStub, LPARAM(this));
+	if (m_hwndDlg == nullptr)
+		m_hwndDlg = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SENDLATER_QMGR), nullptr, CSendLater::DlgProcStub, LPARAM(this));
 }
 
 // service function to invoke the queue manager

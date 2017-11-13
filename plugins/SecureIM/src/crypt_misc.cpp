@@ -17,7 +17,7 @@ static void sttWaitForExchange(LPVOID param)
 
 	// if keyexchange failed or timeout
 	if (ptr->waitForExchange == 1 || ptr->waitForExchange == 3) { // протухло - отправляем незашифрованно, если надо
-		if (ptr->msgQueue && msgbox1(0, sim104, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
+		if (ptr->msgQueue && msgbox1(nullptr, sim104, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			mir_cslock lck(localQueueMutex);
 			ptr->sendQueue = true;
 			pWM ptrMessage = ptr->msgQueue;
@@ -31,7 +31,7 @@ static void sttWaitForExchange(LPVOID param)
 				ptrMessage = ptrMessage->nextMessage;
 				mir_free(tmp);
 			}
-			ptr->msgQueue = NULL;
+			ptr->msgQueue = nullptr;
 			ptr->sendQueue = false;
 		}
 		ptr->waitForExchange = 0;
@@ -51,7 +51,7 @@ static void sttWaitForExchange(LPVOID param)
 			ptrMessage = ptrMessage->nextMessage;
 			mir_free(tmp);
 		}
-		ptr->msgQueue = NULL;
+		ptr->msgQueue = nullptr;
 		ptr->waitForExchange = 0;
 	}
 	else if (ptr->waitForExchange == 0) { // очистить очередь
@@ -64,7 +64,7 @@ static void sttWaitForExchange(LPVOID param)
 			ptrMessage = ptrMessage->nextMessage;
 			mir_free(tmp);
 		}
-		ptr->msgQueue = NULL;
+		ptr->msgQueue = nullptr;
 	}
 }
 

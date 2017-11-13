@@ -36,14 +36,14 @@ BOOL IsUnicodeAscii(const wchar_t* pBuffer, int nSize)
 wstring 
 toWideString( const char* pStr , int len )
 {
-	if ( pStr == NULL )
+	if ( pStr == nullptr )
         return L"" ;
 
     //ASSERT_PTR( pStr ) ; 
     ASSERT( len >= 0 || len == -1); 
 
     // figure out how many wide characters we are going to get 
-    int nChars = MultiByteToWideChar( CP_ACP , 0 , pStr , len , NULL , 0 ) ; 
+    int nChars = MultiByteToWideChar( CP_ACP , 0 , pStr , len , nullptr , 0 ) ; 
     if ( len == -1 )
         -- nChars ; 
     if ( nChars == 0 )
@@ -69,7 +69,7 @@ toNarrowString( const wchar_t* pStr , int len )
 
     // figure out how many narrow characters we are going to get 
     int nChars = WideCharToMultiByte( CP_ACP , 0 , 
-             pStr , len , NULL , 0 , NULL , NULL ) ; 
+             pStr , len , nullptr , 0 , nullptr , nullptr ) ; 
     if ( len == -1 )
         -- nChars ; 
     if ( nChars == 0 )
@@ -81,7 +81,7 @@ toNarrowString( const wchar_t* pStr , int len )
     buf.resize( nChars  ) ;
 	//char *test = (char*)malloc((nChars+1)*sizeof(char));
 	WideCharToMultiByte( CP_ACP , 0 , pStr , len , 
-          const_cast<char*>(buf.c_str()), nChars , NULL , NULL ) ; 
+          const_cast<char*>(buf.c_str()), nChars , nullptr , nullptr ) ; 
 
     return buf ; 
 }
@@ -112,14 +112,14 @@ tstring Utf8_Decode(const char *str)
 
 	int i;
 	char *p;
-	WCHAR *wszTemp = NULL;
+	WCHAR *wszTemp = nullptr;
 
-	if (str == NULL)
+	if (str == nullptr)
 		return strRes;
 
 	size_t len = mir_strlen(str);
 
-    if ((wszTemp = (WCHAR *) malloc(sizeof(wchar_t) * (len + 2))) == NULL)
+    if ((wszTemp = (WCHAR *) malloc(sizeof(wchar_t) * (len + 2))) == nullptr)
 		return strRes;
 	
 	p = (char *) str;
@@ -154,11 +154,11 @@ string Utf8_Encode(const WCHAR *str)
 {
 	string strRes = "";
 
-	unsigned char *szOut = NULL;
+	unsigned char *szOut = nullptr;
 	int len, i;
 	const WCHAR *wszTemp, *w;
     
-	if (str == NULL) 
+	if (str == nullptr) 
         return strRes;
 
     wszTemp = str;
@@ -171,7 +171,7 @@ string Utf8_Encode(const WCHAR *str)
 		else len += 3;
 	}
 
-	if ((szOut = (unsigned char *) malloc(len + 2)) == NULL)
+	if ((szOut = (unsigned char *) malloc(len + 2)) == nullptr)
 		return strRes;
 
 	i = 0;

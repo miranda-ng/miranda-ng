@@ -45,15 +45,15 @@ static void __stdcall MainThreadMapping(void *param)
 	HANDLE *phDoneEvent = (HANDLE*)param;
 	ServiceShutdown(0, TRUE); /* ensure main thread (for cpu usage shutdown) */
 	ServiceStopWatcher(0, 0);
-	if (*phDoneEvent != NULL)
+	if (*phDoneEvent != nullptr)
 		SetEvent(*phDoneEvent);
 }
 
 static void __inline ShutdownAndStopWatcher(void)
 {
-	HANDLE hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	HANDLE hDoneEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	CallFunctionAsync(MainThreadMapping, &hDoneEvent);
-	if (hDoneEvent != NULL) {
+	if (hDoneEvent != nullptr) {
 		WaitForSingleObject(hDoneEvent, INFINITE);
 		CloseHandle(hDoneEvent);
 	}
@@ -72,13 +72,13 @@ static wchar_t* GetMessageText(BYTE **ppBlob, DWORD *pcbBlob)
 		return (WCHAR*)&(*ppBlob)[cb];
 	}
 	/* no Unicode data present, convert from ANSI */
-	int len = MultiByteToWideChar(CP_ACP, 0, (char*)*ppBlob, -1, NULL, 0);
+	int len = MultiByteToWideChar(CP_ACP, 0, (char*)*ppBlob, -1, nullptr, 0);
 	if (!len)
-		return NULL;
+		return nullptr;
 
 	BYTE *buf = (BYTE*)mir_realloc(*ppBlob, (*pcbBlob) + (len*sizeof(WCHAR)));
-	if (buf == NULL)
-		return NULL;
+	if (buf == nullptr)
+		return nullptr;
 
 	*pcbBlob += len*sizeof(WCHAR);
 	*ppBlob = buf;
@@ -94,7 +94,7 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 		DBEVENTINFO dbe = {};
 		dbe.cbBlob = db_event_getBlobSize(hDbEvent);
 		dbe.pBlob = (BYTE*)mir_alloc(dbe.cbBlob + 2); /* ensure term zero */
-		if (dbe.pBlob == NULL)
+		if (dbe.pBlob == nullptr)
 			return 0;
 		if (!db_event_get(hDbEvent, &dbe))
 			if (dbe.eventType == EVENTTYPE_MESSAGE && !(dbe.flags & DBEF_SENT)) {
@@ -102,7 +102,7 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 				if (!db_get_ws(NULL, "AutoShutdown", "Message", &dbv)) {
 					TrimString(dbv.ptszVal);
 					wchar_t *pszMsg = GetMessageText(&dbe.pBlob, &dbe.cbBlob);
-					if (pszMsg != NULL && wcsstr(pszMsg, dbv.ptszVal) != NULL)
+					if (pszMsg != nullptr && wcsstr(pszMsg, dbv.ptszVal) != nullptr)
 						ShutdownAndStopWatcher(); /* msg with specified text recvd */
 					mir_free(dbv.ptszVal); /* does NULL check */
 				}
@@ -131,7 +131,7 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 					break; /* already in list */
 			/* insert into list */
 			HANDLE *buf = (HANDLE*)mir_realloc(transfers, (nTransfersCount + 1)*sizeof(HANDLE));
-			if (buf != NULL) {
+			if (buf != nullptr) {
 				transfers = buf;
 				transfers[nTransfersCount] = ack->hProcess;
 				++nTransfersCount;
@@ -148,8 +148,8 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 					memmove(&transfers[i], &transfers[i + 1], (nTransfersCount - i - 1)*sizeof(HANDLE));
 				--nTransfersCount;
 				HANDLE *buf = (HANDLE*)mir_realloc(transfers, nTransfersCount*sizeof(HANDLE));
-				if (buf != NULL) transfers = buf;
-				else if (!nTransfersCount) transfers = NULL;
+				if (buf != nullptr) transfers = buf;
+				else if (!nTransfersCount) transfers = nullptr;
 				/* stop watcher */
 				if (!nTransfersCount && (currentWatcherType&SDWTF_FILETRANSFER))
 					ShutdownAndStopWatcher();
@@ -178,7 +178,7 @@ static BOOL CheckAllContactsOffline(void)
 	fSmartCheck = db_get_b(NULL, "AutoShutdown", "SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT);
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *pszProto = GetContactProto(hContact);
-		if (pszProto != NULL && CallProtoService(pszProto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
+		if (pszProto != nullptr && CallProtoService(pszProto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
 			if (db_get_b(hContact, pszProto, "ChatRoom", 0)) continue;
 			if (db_get_w(hContact, pszProto, "Status", 0) != ID_STATUS_OFFLINE) {
 				if (fSmartCheck) {
@@ -197,9 +197,9 @@ static int StatusSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (currentWatcherType&SDWTF_STATUS) {
 		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING*)lParam;
-		if ((HANDLE)wParam != NULL && dbcws->value.wVal == ID_STATUS_OFFLINE && !strcmp(dbcws->szSetting, "Status")) {
+		if ((HANDLE)wParam != nullptr && dbcws->value.wVal == ID_STATUS_OFFLINE && !strcmp(dbcws->szSetting, "Status")) {
 			char *pszProto = GetContactProto(wParam);
-			if (pszProto != NULL && !strcmp(dbcws->szModule, pszProto))
+			if (pszProto != nullptr && !strcmp(dbcws->szModule, pszProto))
 				if (CheckAllContactsOffline())
 					ShutdownAndStopWatcher();
 		}
@@ -235,7 +235,7 @@ static BOOL CALLBACK CpuUsageWatcherProc(BYTE nCpuUsage, LPARAM lParam)
 static int WeatherUpdated(WPARAM wParam, LPARAM lParam)
 {
 	char *pszProto = GetContactProto(wParam);
-	if ((BOOL)lParam && pszProto != NULL && CallProtoService(pszProto, PS_GETSTATUS, 0, 0) == THUNDER)
+	if ((BOOL)lParam && pszProto != nullptr && CallProtoService(pszProto, PS_GETSTATUS, 0, 0) == THUNDER)
 		if (db_get_b(NULL, "AutoShutdown", "WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT))
 			ServiceShutdown(SDSDT_SHUTDOWN, TRUE);
 	return 0;
@@ -334,11 +334,11 @@ void InitWatcher(void)
 	/* Idle Shutdown */
 	hHookIdleChanged = HookEvent(ME_IDLE_CHANGED, IdleChanged);
 	/* Transfer Shutdown */
-	transfers = NULL;
+	transfers = nullptr;
 	nTransfersCount = 0;
 	hHookProtoAck = HookEvent(ME_PROTO_ACK, ProtoAck);
 	/* Weather Shutdown */
-	hHookWeatherUpdated = NULL;
+	hHookWeatherUpdated = nullptr;
 	/* Services */
 	hEventWatcherChanged = CreateHookableEvent(ME_AUTOSHUTDOWN_WATCHERCHANGED);
 	CreateServiceFunction(MS_AUTOSHUTDOWN_STARTWATCHER, ServiceStartWatcher);

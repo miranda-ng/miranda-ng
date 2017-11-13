@@ -29,7 +29,7 @@ static void TlenListFreeItemInternal(TLEN_LIST_ITEM *item);
 
 void TlenListInit(TlenProtocol *proto)
 {
-	proto->lists = NULL;
+	proto->lists = nullptr;
 	proto->listsCount = 0;
 }
 
@@ -45,9 +45,9 @@ void TlenListWipe(TlenProtocol *proto)
 	mir_cslock lck(proto->csLists);
 	for (i=0; i<proto->listsCount; i++)
 		TlenListFreeItemInternal(&(proto->lists[i]));
-	if (proto->lists != NULL) {
+	if (proto->lists != nullptr) {
 		mir_free(proto->lists);
-		proto->lists = NULL;
+		proto->lists = nullptr;
 	}
 	proto->listsCount=0;
 }
@@ -69,7 +69,7 @@ void TlenListWipeSpecial(TlenProtocol *proto)
 
 static void TlenListFreeItemInternal(TLEN_LIST_ITEM *item)
 {
-	if (item == NULL)
+	if (item == nullptr)
 		return;
 
 	if (item->jid) mir_free(item->jid);
@@ -96,8 +96,8 @@ static char * GetItemId(TLEN_LIST list, const char *jid)
 	if (list != LIST_PICTURE) {
 		_strlwr(s);
 		// strip resouce name if any
-		if ((p=strchr(s, '@')) != NULL) {
-			if ((q=strchr(p, '/')) != NULL)
+		if ((p=strchr(s, '@')) != nullptr) {
+			if ((q=strchr(p, '/')) != nullptr)
 				*q = '\0';
 		}
 	}
@@ -132,7 +132,7 @@ TLEN_LIST_ITEM *TlenListAdd(TlenProtocol *proto, TLEN_LIST list, const char *jid
 	TLEN_LIST_ITEM *item;
 
 	mir_cslock lck(proto->csLists);
-	if ((item=TlenListGetItemPtr(proto, list, jid)) != NULL) {
+	if ((item=TlenListGetItemPtr(proto, list, jid)) != nullptr) {
 		return item;
 	}
 
@@ -142,20 +142,20 @@ TLEN_LIST_ITEM *TlenListAdd(TlenProtocol *proto, TLEN_LIST list, const char *jid
 	memset(item, 0, sizeof(TLEN_LIST_ITEM));
 	item->list = list;
 	item->jid = s;
-	item->nick = NULL;
+	item->nick = nullptr;
 	item->status = ID_STATUS_OFFLINE;
-	item->statusMessage = NULL;
-	item->group = NULL;
-	item->messageEventIdStr = NULL;
+	item->statusMessage = nullptr;
+	item->group = nullptr;
+	item->messageEventIdStr = nullptr;
 	item->wantComposingEvent = FALSE;
 	item->isTyping = FALSE;
 //	item->type = NULL;
-	item->ft = NULL;
-	item->roomName = NULL;
-	item->version = NULL;
-	item->software = NULL;
-	item->system = NULL;
-	item->avatarHash = NULL;
+	item->ft = nullptr;
+	item->roomName = nullptr;
+	item->version = nullptr;
+	item->software = nullptr;
+	item->system = nullptr;
+	item->avatarHash = nullptr;
 	item->avatarFormat = PA_FORMAT_UNKNOWN;
 	item->newAvatarDownloading = FALSE;
 	item->versionRequested = FALSE;
@@ -213,12 +213,12 @@ void TlenListAddResource(TlenProtocol *proto, TLEN_LIST list, const char *jid, i
 	}
 	i--;
 
-	if (proto->lists[i].statusMessage != NULL)
+	if (proto->lists[i].statusMessage != nullptr)
 		mir_free(proto->lists[i].statusMessage);
 	if (statusMessage)
 		proto->lists[i].statusMessage = mir_strdup(statusMessage);
 	else
-		proto->lists[i].statusMessage = NULL;
+		proto->lists[i].statusMessage = nullptr;
 }
 
 void TlenListRemoveResource(TlenProtocol *proto, TLEN_LIST list, const char *jid)
@@ -252,7 +252,7 @@ TLEN_LIST_ITEM *TlenListGetItemPtr(TlenProtocol *proto, TLEN_LIST list, const ch
 	mir_cslock lck(proto->csLists);
 	i = TlenListExist(proto, list, jid);
 	if (!i) {
-		return NULL;
+		return nullptr;
 	}
 	i--;
 	return &(proto->lists[i]);
@@ -271,14 +271,14 @@ TLEN_LIST_ITEM *TlenListFindItemPtrById2(TlenProtocol *proto, TLEN_LIST list, co
 	for (i=0; i<proto->listsCount; i++) {
 		if (proto->lists[i].list == list) {
 			p = proto->lists[i].id2;
-			if (p != NULL) {
+			if (p != nullptr) {
 				if (!strncmp(p, id, len)) {
 					return &(proto->lists[i]);
 				}
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 TLEN_LIST_ITEM *TlenListGetItemPtrFromIndex(TlenProtocol *proto, int index)
@@ -287,6 +287,6 @@ TLEN_LIST_ITEM *TlenListGetItemPtrFromIndex(TlenProtocol *proto, int index)
 	if (index >= 0 && index<proto->listsCount) {
 		return &(proto->lists[index]);
 	}
-	return NULL;
+	return nullptr;
 }
 

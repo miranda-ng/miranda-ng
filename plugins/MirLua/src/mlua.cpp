@@ -10,7 +10,7 @@ static int CompareScripts(const CMLuaScript* p1, const CMLuaScript* p2)
 	return mir_strcmpi(p1->GetModuleName(), p2->GetModuleName());
 }
 
-CMLua::CMLua() : L(NULL), Scripts(10, CompareScripts)
+CMLua::CMLua() : L(nullptr), Scripts(10, CompareScripts)
 {
 	MUUID muidLast = MIID_LAST;
 	hMLuaLangpack = GetPluginLangId(muidLast, 0);
@@ -67,7 +67,7 @@ static int mlua_toansi(lua_State *L)
 	int codepage = luaL_optinteger(L, 2, Langpack_GetDefaultCodePage());
 
 	ptrA string(mir_strdup(value));
-	lua_pushstring(L, mir_utf8decodecp(string, codepage, NULL));
+	lua_pushstring(L, mir_utf8decodecp(string, codepage, nullptr));
 
 	return 1;
 }
@@ -270,7 +270,7 @@ void CMLua::KillLuaRefs()
 	while (HookRefs.getCount())
 	{
 		HandleRefParam *param = (HandleRefParam*)HookRefs[0];
-		if (param != NULL)
+		if (param != nullptr)
 		{
 			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
 			HookRefs.remove(0);
@@ -281,7 +281,7 @@ void CMLua::KillLuaRefs()
 	while (ServiceRefs.getCount())
 	{
 		HandleRefParam *param = (HandleRefParam*)ServiceRefs[0];
-		if (param != NULL)
+		if (param != nullptr)
 		{
 			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
 			ServiceRefs.remove(0);

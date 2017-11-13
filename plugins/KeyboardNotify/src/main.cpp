@@ -32,17 +32,17 @@ CLIST_INTERFACE *pcli;
 int hLangpack;
 
 DWORD IDThread = 0;
-HANDLE hThread = NULL;
+HANDLE hThread = nullptr;
 HANDLE hFlashEvent;
 HANDLE hExitEvent;
 
-HHOOK hMirandaMouseHook = NULL;
-HHOOK hMirandaKeyBoardHook = NULL;
-HHOOK hMirandaWndProcHook = NULL;
+HHOOK hMirandaMouseHook = nullptr;
+HHOOK hMirandaKeyBoardHook = nullptr;
+HHOOK hMirandaWndProcHook = nullptr;
 UINT hReminderTimer = 0;
 
-HHOOK hMouseHook = NULL;
-HHOOK hKeyBoardHook = NULL;
+HHOOK hMouseHook = nullptr;
+HHOOK hKeyBoardHook = nullptr;
 BYTE  bEmulateKeypresses = 0;
 DWORD dwLastInput = 0;
 POINT lastGlobalMousePos = { 0, 0 };
@@ -77,8 +77,8 @@ BYTE bTrillianLedsURL;
 BYTE bTrillianLedsFile;
 BYTE bTrillianLedsOther;
 
-PROTOCOL_LIST ProtoList = { 0, NULL };
-PROCESS_LIST ProcessList = { 0, NULL };
+PROTOCOL_LIST ProtoList = { 0, nullptr };
+PROCESS_LIST ProcessList = { 0, nullptr };
 
 int nWaitDelay;
 unsigned int nExternCount = 0;
@@ -529,7 +529,7 @@ void createProcessList(void)
 
 void destroyProcessList(void)
 {
-	if (ProcessList.szFileName == NULL)
+	if (ProcessList.szFileName == nullptr)
 		return;
 
 	for (int i = 0; i < ProcessList.count; i++)
@@ -538,7 +538,7 @@ void destroyProcessList(void)
 
 	mir_free(ProcessList.szFileName);
 	ProcessList.count = 0;
-	ProcessList.szFileName = NULL;
+	ProcessList.szFileName = nullptr;
 }
 
 //========================== Windows hooks ==========================
@@ -623,26 +623,26 @@ static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPAR
 int HookWindowsHooks()
 {
 	if (wReminderCheck)
-		hReminderTimer = SetTimer(NULL, 0, wReminderCheck * 60000, ReminderTimer);
+		hReminderTimer = SetTimer(nullptr, 0, wReminderCheck * 60000, ReminderTimer);
 
 	if (bFlashUntil & UNTIL_REATTENDED) {
 		switch (bMirandaOrWindows) {
 		case ACTIVE_WINDOWS:
 			if (bEmulateKeypresses) {
-				if (hMouseHook == NULL)
-					hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
-				if (hKeyBoardHook == NULL)
-					hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
+				if (hMouseHook == nullptr)
+					hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, nullptr, GetCurrentThreadId());
+				if (hKeyBoardHook == nullptr)
+					hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, nullptr, GetCurrentThreadId());
 			}
 			break;
 
 		case ACTIVE_MIRANDA:
-			if (hMirandaMouseHook == NULL)
-				hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, NULL, GetCurrentThreadId());
-			if (hMirandaKeyBoardHook == NULL)
-				hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, NULL, GetCurrentThreadId());
-			if (hMirandaWndProcHook == NULL)
-				hMirandaWndProcHook = SetWindowsHookEx(WH_CALLWNDPROC, MirandaWndProcHookFunction, NULL, GetCurrentThreadId());
+			if (hMirandaMouseHook == nullptr)
+				hMirandaMouseHook = SetWindowsHookEx(WH_MOUSE, MirandaMouseHookFunction, nullptr, GetCurrentThreadId());
+			if (hMirandaKeyBoardHook == nullptr)
+				hMirandaKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, MirandaKeyBoardHookFunction, nullptr, GetCurrentThreadId());
+			if (hMirandaWndProcHook == nullptr)
+				hMirandaWndProcHook = SetWindowsHookEx(WH_CALLWNDPROC, MirandaWndProcHookFunction, nullptr, GetCurrentThreadId());
 		}
 	}
 
@@ -652,7 +652,7 @@ int HookWindowsHooks()
 int UnhookWindowsHooks()
 {
 	if (hReminderTimer)
-		KillTimer(NULL, hReminderTimer);
+		KillTimer(nullptr, hReminderTimer);
 	if (hMouseHook)
 		UnhookWindowsHookEx(hMouseHook);
 	if (hKeyBoardHook)
@@ -665,7 +665,7 @@ int UnhookWindowsHooks()
 		UnhookWindowsHookEx(hMirandaWndProcHook);
 
 	hReminderTimer = 0;
-	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = hMirandaWndProcHook = NULL;
+	hMouseHook = hKeyBoardHook = hMirandaMouseHook = hMirandaKeyBoardHook = hMirandaWndProcHook = nullptr;
 	return 0;
 }
 
@@ -781,7 +781,7 @@ void createProtocolList(void)
 
 	for (int i = 0; i < ProtoList.protoCount; i++) {
 		ProtoList.protoInfo[i].xstatus.count = 0;
-		ProtoList.protoInfo[i].xstatus.enabled = NULL;
+		ProtoList.protoInfo[i].xstatus.enabled = nullptr;
 		ProtoList.protoInfo[i].szProto = mir_strdup(proto[i]->szModuleName);
 		if (!ProtoList.protoInfo[i].szProto) {
 			ProtoList.protoInfo[i].enabled = FALSE;
@@ -801,7 +801,7 @@ void createProtocolList(void)
 
 static void destroyProtocolList(void)
 {
-	if (ProtoList.protoInfo == NULL)
+	if (ProtoList.protoInfo == nullptr)
 		return;
 
 	for (int i = 0; i < ProtoList.protoCount; i++) {
@@ -813,7 +813,7 @@ static void destroyProtocolList(void)
 
 	mir_free(ProtoList.protoInfo);
 	ProtoList.protoCount = 0;
-	ProtoList.protoInfo = NULL;
+	ProtoList.protoInfo = nullptr;
 }
 
 
@@ -911,11 +911,11 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	// Create some synchronisation objects
 	createEventPrefix(eventPrefix, MAX_PATH - 11);
 	mir_snwprintf(eventName, L"%s/FlashEvent", eventPrefix);
-	hFlashEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
+	hFlashEvent = CreateEvent(nullptr, FALSE, FALSE, eventName);
 	mir_snwprintf(eventName, L"%s/ExitEvent", eventPrefix);
-	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
+	hExitEvent = CreateEvent(nullptr, FALSE, FALSE, eventName);
 
-	hThread = mir_forkthread(FlashThreadFunction, 0);
+	hThread = mir_forkthread(FlashThreadFunction, nullptr);
 
 	HookEvent(ME_MC_ENABLED, OnMetaChanged);
 	HookEvent(ME_DB_EVENT_ADDED, PluginMessageEventHook);

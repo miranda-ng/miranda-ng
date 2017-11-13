@@ -47,7 +47,7 @@ LRESULT CALLBACK NotifyHotKeyWndProc(HWND AHwnd, UINT Message, WPARAM wParam, LP
 	case WM_TIMER:
 		KillTimer(HKHwnd, 1026);
 		BOOL b = CheckRemindersAndStart();
-		SetTimer(HKHwnd, 1026, b ? REMINDER_UPDATE_INTERVAL_SHORT : REMINDER_UPDATE_INTERVAL, 0);
+		SetTimer(HKHwnd, 1026, b ? REMINDER_UPDATE_INTERVAL_SHORT : REMINDER_UPDATE_INTERVAL, nullptr);
 
 		return FALSE;
 	}
@@ -57,7 +57,7 @@ LRESULT CALLBACK NotifyHotKeyWndProc(HWND AHwnd, UINT Message, WPARAM wParam, LP
 
 void CreateMsgWindow(void)
 {
-	HWND hParent = NULL;
+	HWND hParent = nullptr;
 	WNDCLASSEX TWC = { 0 };
 
 	if (!GetClassInfoEx(hmiranda, MSG_WND_CLASS, &TWC)) {
@@ -65,10 +65,10 @@ void CreateMsgWindow(void)
 		TWC.cbClsExtra = 0;
 		TWC.cbWndExtra = 0;
 		TWC.hInstance = hmiranda;
-		TWC.hIcon = 0;
-		TWC.hCursor = 0;
-		TWC.hbrBackground = 0;
-		TWC.lpszMenuName = NULL;
+		TWC.hIcon = nullptr;
+		TWC.hCursor = nullptr;
+		TWC.hbrBackground = nullptr;
+		TWC.lpszMenuName = nullptr;
 		TWC.lpszClassName = MSG_WND_CLASS;
 		TWC.cbSize = sizeof(TWC);
 		TWC.lpfnWndProc = NotifyHotKeyWndProc;
@@ -77,8 +77,8 @@ void CreateMsgWindow(void)
 
 	hParent = HWND_MESSAGE;
 
-	HKHwnd = CreateWindowEx(WS_EX_TOOLWINDOW, MSG_WND_CLASS, "StickyNotes", 0, 0, 0, 0, 0, hParent, NULL, hmiranda, NULL);
-	SetTimer(HKHwnd, 1026, REMINDER_UPDATE_INTERVAL, 0);
+	HKHwnd = CreateWindowEx(WS_EX_TOOLWINDOW, MSG_WND_CLASS, "StickyNotes", 0, 0, 0, 0, 0, hParent, nullptr, hmiranda, nullptr);
+	SetTimer(HKHwnd, 1026, REMINDER_UPDATE_INTERVAL, nullptr);
 }
 
 void DestroyMsgWindow(void)

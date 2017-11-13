@@ -411,7 +411,7 @@ ext::a::string utils::convertWToA(const WCHAR* str, size_t len)
 {
 	char* buf = new char[len + 1];
 
-	len = WideCharToMultiByte(CP_ACP, 0, str, len, buf, len, NULL, NULL);
+	len = WideCharToMultiByte(CP_ACP, 0, str, len, buf, len, nullptr, nullptr);
 
 	buf[len] = '\0';
 
@@ -759,7 +759,7 @@ bool utils::createPath(const ext::string& path)
 
 		curPath += curDir;
 
-		if (!CreateDirectory(curPath.c_str(), NULL)) {
+		if (!CreateDirectory(curPath.c_str(), nullptr)) {
 			return false;
 		}
 
@@ -848,7 +848,7 @@ void utils::centerDialog(HWND hDlg, HWND hParent /* = NULL */)
 	if (GetWindowRect(hParent, &rParent) && GetWindowRect(hDlg, &rDlg)) {
 		SetWindowPos(
 			hDlg,
-			0,
+			nullptr,
 			(rParent.right + rParent.left - rDlg.right + rDlg.left) / 2,
 			(rParent.bottom + rParent.top - rDlg.bottom + rDlg.top) / 2,
 			0,
@@ -858,7 +858,7 @@ void utils::centerDialog(HWND hDlg, HWND hParent /* = NULL */)
 	else if (GetWindowRect(hDlg, &rDlg)) {
 		SetWindowPos(
 			hDlg,
-			0,
+			nullptr,
 			(GetSystemMetrics(SM_CXSCREEN) - rDlg.right + rDlg.left) / 2,
 			(GetSystemMetrics(SM_CYSCREEN) - rDlg.bottom + rDlg.top) / 2,
 			0,
@@ -971,7 +971,7 @@ Locale Locale::m_Data;
 /*
  * RTFFilter
  */
-RTFFilter::RTFFilter() : m_hRTFConv(NULL), m_RTFConvString(0)
+RTFFilter::RTFFilter() : m_hRTFConv(nullptr), m_RTFConvString(nullptr)
 {
 }
 
@@ -983,7 +983,7 @@ void RTFFilter::init()
 
 	if (!(m_Data.m_RTFConvString = reinterpret_cast<RTFCONVSTRING>(GetProcAddress(m_Data.m_hRTFConv, "RtfconvString")))) {
 		FreeLibrary(m_Data.m_hRTFConv);
-		m_Data.m_hRTFConv = NULL;
+		m_Data.m_hRTFConv = nullptr;
 	}
 
 }
@@ -993,8 +993,8 @@ void RTFFilter::uninit()
 	if (m_Data.m_hRTFConv) {
 		FreeLibrary(m_Data.m_hRTFConv);
 
-		m_Data.m_hRTFConv = NULL;
-		m_Data.m_RTFConvString = NULL;
+		m_Data.m_hRTFConv = nullptr;
+		m_Data.m_RTFConvString = nullptr;
 	}
 }
 
@@ -1011,7 +1011,7 @@ ext::t::string RTFFilter::filter(const ext::t::string& str)
 
 	intptr_t len = m_Data.m_RTFConvString(
 		strA.c_str(),
-		NULL,
+		nullptr,
 		0,
 		CP_UNICODE,
 		CONVMODE_USE_SYSTEM_TABLE | CONVMODE_NO_OUTPUT_BOM,

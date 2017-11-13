@@ -204,7 +204,7 @@ TLogIcon::TLogIcon(HICON hIcon, COLORREF backgroundColor)
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
 
-	m_hdc = GetDC(0);
+	m_hdc = GetDC(nullptr);
 	m_hBmp = CreateCompatibleBitmap(m_hdc, bih.biWidth, bih.biHeight);
 	m_hdcMem = CreateCompatibleDC(m_hdc);
 
@@ -435,8 +435,8 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 	struct tm event_time = { 0 };
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
 
-	DBEVENTINFO dbei = { 0 };
-	if (streamData->dbei != 0)
+	DBEVENTINFO dbei = {};
+	if (streamData->dbei != nullptr)
 		dbei = *(streamData->dbei);
 	else {
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -997,7 +997,7 @@ static char* Template_CreateRTFFromDbEvent(CTabBaseDlg *dat, MCONTACT hContact, 
 
 	str.Append("\\par");
 
-	if (streamData->dbei == 0)
+	if (streamData->dbei == nullptr)
 		mir_free(dbei.pBlob);
 
 	dat->m_iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
@@ -1326,7 +1326,7 @@ void CTabBaseDlg::StreamInEvents(MEVENT hDbEventFirst, int count, int fAppend, D
 	}
 
 	BOOL isSent;
-	if (streamData.dbei != 0)
+	if (streamData.dbei != nullptr)
 		isSent = (streamData.dbei->flags & DBEF_SENT) != 0;
 	else {
 		DBEVENTINFO dbei = {};

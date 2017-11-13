@@ -22,12 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int g_iOPButtonsCount;
 BOOL bNeedRestart = FALSE;
 BOOL drag = FALSE, bOptionsInit = TRUE;
-HTREEITEM hDragItem = NULL;
-HWND hButtonsList = NULL;
-HWND hMenuTree = NULL;
-HWND hwndEdit = NULL;
+HTREEITEM hDragItem = nullptr;
+HWND hButtonsList = nullptr;
+HWND hMenuTree = nullptr;
+HWND hwndEdit = nullptr;
 
-HWND g_opHdlg = NULL, g_varhelpDlg = NULL;
+HWND g_opHdlg = nullptr, g_varhelpDlg = nullptr;
 
 INT_PTR CALLBACK HelpDlgProc(HWND hdlg, UINT msg, WPARAM, LPARAM lparam)
 {
@@ -54,7 +54,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hdlg, UINT msg, WPARAM, LPARAM lparam)
 			SendDlgItemMessage(hdlg, IDC_VARCLNAME, WM_SETFONT, (WPARAM)hFont, 0);
 
 			GetWindowRect(g_opHdlg, &rc);
-			SetWindowPos(hdlg, 0, rc.left, rc.top, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+			SetWindowPos(hdlg, nullptr, rc.left, rc.top, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
 		}
 		break;
 
@@ -65,7 +65,7 @@ INT_PTR CALLBACK HelpDlgProc(HWND hdlg, UINT msg, WPARAM, LPARAM lparam)
 	case WM_CLOSE:
 	case WM_DESTROY:
 		DestroyWindow(g_varhelpDlg);
-		g_varhelpDlg = NULL;
+		g_varhelpDlg = nullptr;
 		break;
 
 	default:
@@ -110,7 +110,7 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 void SetMenuEntryProperties(HWND hdlg)
 {
 	TVITEM tvi;
-	HTREEITEM hItem = NULL;
+	HTREEITEM hItem = nullptr;
 	int pos = 0;
 
 	if (TreeView_GetCount(hButtonsList) && (tvi.hItem = TreeView_GetSelection(hButtonsList))) {
@@ -130,7 +130,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		}
 	}
 
-	tvi.hItem = NULL;
+	tvi.hItem = nullptr;
 	if (TreeView_GetCount(hMenuTree) && (tvi.hItem = TreeView_GetSelection(hMenuTree))) {
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		TreeView_GetItem(hMenuTree, &tvi);
@@ -163,7 +163,7 @@ void SetMenuEntryProperties(HWND hdlg)
 
 			if (bd->pszOpValue) {
 				mir_free(bd->pszOpValue);
-				bd->pszOpValue = NULL;
+				bd->pszOpValue = nullptr;
 			}
 			tvi.hItem = hItem;
 			continue;
@@ -172,7 +172,7 @@ void SetMenuEntryProperties(HWND hdlg)
 			if (bd->fEntryOpType&QMF_EX_SEPARATOR) {
 				if (bd->pszOpValue) {
 					mir_free(bd->pszOpValue);
-					bd->pszOpValue = NULL;
+					bd->pszOpValue = nullptr;
 				}
 			}
 			else {
@@ -199,7 +199,7 @@ void SaveMenuTree()
 	BOOL bDeleted = FALSE;
 	char szMEntry[256] = { '\0' };
 	wchar_t strbuf[256];
-	HTREEITEM hti = NULL;
+	HTREEITEM hti = nullptr;
 	TVITEM tvi;
 
 	g_iButtonsCount = TreeView_GetCount(hButtonsList);
@@ -216,7 +216,7 @@ void SaveMenuTree()
 	BalanceButtons(iBtd, g_iButtonsCount);
 
 	while (ButtonsList[iBl]) {
-		SortedList * sl = NULL;
+		SortedList * sl = nullptr;
 		ListData* ld = ButtonsList[iBl];
 
 		if (!ld->sl) break;
@@ -233,7 +233,7 @@ void SaveMenuTree()
 			if (ld->ptszQValue)
 				mir_free(ld->ptszQValue);
 
-			ld->ptszQValue = (ld->ptszOPQValue) ? ld->ptszOPQValue : NULL;
+			ld->ptszQValue = (ld->ptszOPQValue) ? ld->ptszOPQValue : nullptr;
 		}
 
 		if (ld->ptszButtonName)
@@ -253,7 +253,7 @@ void SaveMenuTree()
 		}
 
 		if (((ld->dwOPFlags & QMF_NEW) || (ld->dwOPFlags & QMF_RENAMED) || bDeleted)) {
-			BBButton bb = { 0 };
+			BBButton bb = {};
 			bb.pszModuleName = PLGNAME;
 			bb.dwButtonID = iBl;
 			bb.pwszTooltip = ld->ptszButtonName;
@@ -289,13 +289,13 @@ void SaveMenuTree()
 			if (bd->pszName != bd->pszOpName) {
 				if (bd->pszName)
 					mir_free(bd->pszName);
-				bd->pszName = bd->pszOpName ? bd->pszOpName : NULL;
+				bd->pszName = bd->pszOpName ? bd->pszOpName : nullptr;
 			}
 
 			if (bd->pszValue != bd->pszOpValue) {
 				if (bd->pszValue)
 					mir_free(bd->pszValue);
-				bd->pszValue = bd->pszOpValue ? bd->pszOpValue : NULL;
+				bd->pszValue = bd->pszOpValue ? bd->pszOpValue : nullptr;
 			}
 			if (bd->bInQMenu) {
 				QuickData* qd = (QuickData *)mir_alloc(sizeof(QuickData));
@@ -322,7 +322,7 @@ void RestoreModuleData()
 	int iBl = 0, i = 0;
 
 	while (ButtonsList[iBl]) {
-		SortedList * sl = NULL;
+		SortedList * sl = nullptr;
 		ListData* ld = ButtonsList[iBl];
 
 		if (!(sl = ld->sl)) break;
@@ -336,7 +336,7 @@ void RestoreModuleData()
 			if (ld->ptszOPQValue)
 				mir_free(ld->ptszOPQValue);
 
-			ld->ptszOPQValue = (ld->ptszQValue) ? ld->ptszQValue : NULL;
+			ld->ptszOPQValue = (ld->ptszQValue) ? ld->ptszQValue : nullptr;
 		}
 
 		ld->bIsOpServName = ld->bIsServName;
@@ -360,13 +360,13 @@ void RestoreModuleData()
 			if (bd->pszName != bd->pszOpName) {
 				if (bd->pszOpName)
 					mir_free(bd->pszOpName);
-				bd->pszOpName = bd->pszName ? bd->pszName : NULL;
+				bd->pszOpName = bd->pszName ? bd->pszName : nullptr;
 			}
 
 			if (bd->pszValue != bd->pszOpValue) {
 				if (bd->pszOpValue)
 					mir_free(bd->pszOpValue);
-				bd->pszOpValue = bd->pszValue ? bd->pszValue : NULL;
+				bd->pszOpValue = bd->pszValue ? bd->pszValue : nullptr;
 			}
 		}
 		iBl++;
@@ -377,8 +377,8 @@ static int BuildMenuTree(HWND hToolBarTree, SortedList * sl)
 {
 	TVINSERTSTRUCT tvis;
 	int i;
-	HTREEITEM hParent = NULL;
-	tvis.hParent = NULL;
+	HTREEITEM hParent = nullptr;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT;
 
@@ -397,7 +397,7 @@ static int BuildMenuTree(HWND hToolBarTree, SortedList * sl)
 		tvis.item.pszText = bd->pszOpName;
 
 		if (bd->fEntryOpType == 0)
-			tvis.hParent = NULL;
+			tvis.hParent = nullptr;
 
 		hParent = TreeView_InsertItem(hToolBarTree, &tvis);
 		if (tvis.hParent) TreeView_Expand(hMenuTree, tvis.hParent, TVE_EXPAND);
@@ -412,7 +412,7 @@ static int BuildButtonsList(HWND hToolBarTree)
 {
 	TVINSERTSTRUCT tvis;
 	int i = 0;
-	tvis.hParent = NULL;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT;
 
@@ -563,8 +563,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_LBUTTONUP:
 		if (drag) {
 			TVHITTESTINFO hti;
-			HTREEITEM htiAfter = NULL;
-			ButtonData* bd = NULL;
+			HTREEITEM htiAfter = nullptr;
+			ButtonData* bd = nullptr;
 			TVITEM tvi;
 			RECT rc;
 			BYTE height;
@@ -572,7 +572,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 			TreeView_SetInsertMark(hMenuTree, NULL, 0);
 			ReleaseCapture();
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
 			hti.pt.x = (SHORT)LOWORD(lparam);
 			hti.pt.y = (SHORT)HIWORD(lparam);
@@ -658,17 +658,17 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					BYTE height = (BYTE)(rc.bottom - rc.top);
 
 					if (hti.pt.y - (height / 3) < rc.top) {
-						SetCursor(LoadCursor(NULL, IDC_ARROW));
+						SetCursor(LoadCursor(nullptr, IDC_ARROW));
 						TreeView_SetInsertMark(hMenuTree, hti.hItem, 0);
 					}
 					else
 						if (hti.pt.y + (height / 3) > rc.bottom) {
-							SetCursor(LoadCursor(NULL, IDC_ARROW));
+							SetCursor(LoadCursor(nullptr, IDC_ARROW));
 							TreeView_SetInsertMark(hMenuTree, hti.hItem, 1);
 						}
 						else {
 							TreeView_SetInsertMark(hMenuTree, NULL, 0);
-							SetCursor(LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(183)));
+							SetCursor(LoadCursor(GetModuleHandle(nullptr), MAKEINTRESOURCE(183)));
 						}
 				}
 			}
@@ -683,7 +683,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_DESTROY:
 		if (g_varhelpDlg)
 			DestroyWindow(g_varhelpDlg);
-		g_varhelpDlg = NULL;
+		g_varhelpDlg = nullptr;
 		break;
 
 	case WM_NOTIFY:
@@ -724,7 +724,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			case TVN_ENDLABELEDIT:
 				{
 					TVITEM tvi;
-					ButtonData* bd = NULL;
+					ButtonData* bd = nullptr;
 					wchar_t strbuf[256];
 					wchar_t szLabel[256];
 
@@ -735,7 +735,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					TreeView_GetItem(hMenuTree, &tvi);
 
 					GetWindowText(hwndEdit, szLabel, _countof(szLabel));
-					hwndEdit = NULL;
+					hwndEdit = nullptr;
 					if (!mir_wstrlen(szLabel)) break;
 					if (bd = (ButtonData*)tvi.lParam) {
 						if (!mir_wstrcmp(szLabel, L"---")) {
@@ -778,7 +778,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			case TVN_SELCHANGING:
 				{
 					HTREEITEM hti = TreeView_GetSelection(hMenuTree);
-					if (hti == NULL)
+					if (hti == nullptr)
 						break;
 
 					TVITEM tvi;
@@ -806,7 +806,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			case TVN_SELCHANGED:
 				{
 					HTREEITEM hti = TreeView_GetSelection(hMenuTree);
-					if (hti == NULL)
+					if (hti == nullptr)
 						break;
 
 					TVITEM tvi;
@@ -864,7 +864,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					TreeView_GetItem(hButtonsList, &tvi);
 
 					GetWindowText(hwndEdit, szLabel, _countof(szLabel));
-					hwndEdit = NULL;
+					hwndEdit = nullptr;
 					if (!mir_wstrlen(szLabel)) break;
 
 					tvi.pszText = szLabel;
@@ -882,7 +882,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			case TVN_SELCHANGED:
 				{
 					HTREEITEM hti = TreeView_GetSelection(hButtonsList);
-					if (hti == NULL || !TreeView_GetCount(hButtonsList)) {
+					if (hti == nullptr || !TreeView_GetCount(hButtonsList)) {
 						EnableWindow(GetDlgItem(hdlg, IDC_MENUVALUE), FALSE);
 						EnableWindow(GetDlgItem(hdlg, IDC_ISSERVNAME), FALSE);
 						EnableWindow(GetDlgItem(hdlg, IDC_INQMENU), FALSE);
@@ -920,20 +920,20 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		switch (LOWORD(wparam)) {
 		case IDC_VARHELP:
 			if (!g_varhelpDlg)
-				g_varhelpDlg = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_HELPDIALOG), 0, HelpDlgProc);
+				g_varhelpDlg = CreateDialog(hinstance, MAKEINTRESOURCE(IDD_HELPDIALOG), nullptr, HelpDlgProc);
 			else
 				//ShowWindow(g_varhelpDlg,SW_SHOWDEFAULT);
-				SetWindowPos(g_varhelpDlg, 0, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
+				SetWindowPos(g_varhelpDlg, nullptr, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOSIZE);
 			break;
 		case IDC_BLISTADD:
 			{
 				TVINSERTSTRUCT tvis;
-				ListData* ld = NULL;
+				ListData* ld = nullptr;
 				wchar_t namebuff[MAX_PATH] = { '\0' };
 				int count = TreeView_GetCount(hButtonsList);
 				if (count > 10) break;
 				if (g_iOPButtonsCount == 99) {
-					MessageBox(NULL, TranslateT("Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D"), TranslateT("You win!"), MB_OK);
+					MessageBox(nullptr, TranslateT("Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D"), TranslateT("You win!"), MB_OK);
 					break;
 				}
 
@@ -943,10 +943,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 				ld->sl = List_Create(0, 1);
 				ld->dwOPFlags = QMF_NEW;
 				ld->bIsOpServName = 0;
-				ld->ptszButtonName = NULL;
-				ld->ptszOPQValue = NULL;
-				ld->ptszQValue = NULL;
-				tvis.hParent = NULL;
+				ld->ptszButtonName = nullptr;
+				ld->ptszOPQValue = nullptr;
+				ld->ptszQValue = nullptr;
+				tvis.hParent = nullptr;
 				tvis.hInsertAfter = TVI_LAST;
 
 				GetDlgItemText(hdlg, IDC_BUTTONNAME, namebuff, _countof(namebuff));
@@ -989,8 +989,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			{
 				TVINSERTSTRUCT tvis;
 				TVITEM tvi;
-				ButtonData *bd = NULL;
-				SortedList *sl = NULL;
+				ButtonData *bd = nullptr;
+				SortedList *sl = nullptr;
 				wchar_t namebuff[MAX_PATH] = { '\0' };
 
 				if (!TreeView_GetCount(hButtonsList)) break;
@@ -1006,8 +1006,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 				bd->pszOpValue = mir_wstrdup(bd->pszOpName);
 				bd->fEntryOpType = !mir_wstrcmp(namebuff, L"---") ? QMF_EX_SEPARATOR : 0;
 				bd->dwOPFlags = QMF_NEW;
-				bd->pszName = NULL;
-				bd->pszValue = NULL;
+				bd->pszName = nullptr;
+				bd->pszValue = nullptr;
 
 
 				tvi.mask = TVIF_HANDLE | TVIF_PARAM;
@@ -1018,7 +1018,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 				List_InsertPtr(sl, bd);
 
-				tvis.hParent = NULL;
+				tvis.hParent = nullptr;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_PARAM | TVIF_TEXT;
 				tvis.item.pszText = bd->pszOpName;
@@ -1030,8 +1030,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			{
 				TVITEM tvi;
 				TVINSERTSTRUCT tvis;
-				HTREEITEM hti = NULL;
-				ButtonData *bd = NULL;
+				HTREEITEM hti = nullptr;
+				ButtonData *bd = nullptr;
 				tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 				if (!(tvi.hItem = TreeView_GetSelection(hMenuTree)))
 					break;
@@ -1050,7 +1050,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 						tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 
 						TreeView_GetItem(hMenuTree, &tvi);
-						tvis.hParent = NULL;
+						tvis.hParent = nullptr;
 						tvis.item = tvi;
 						TreeView_InsertItem(hMenuTree, &tvis);
 						tvi.hItem = TreeView_GetNextSibling(hMenuTree, tvi.hItem);

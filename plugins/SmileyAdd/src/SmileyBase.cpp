@@ -20,10 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static void HiMetricToPixel(const SIZEL *lpSizeInHiMetric, LPSIZEL lpSizeInPix)
 {
-	HDC hDCScreen = GetDC(NULL);
+	HDC hDCScreen = GetDC(nullptr);
 	const int nPixelsPerInchX = GetDeviceCaps(hDCScreen, LOGPIXELSX);
 	const int nPixelsPerInchY = GetDeviceCaps(hDCScreen, LOGPIXELSY);
-	ReleaseDC(NULL, hDCScreen);
+	ReleaseDC(nullptr, hDCScreen);
 
 	lpSizeInPix->cx = (lpSizeInHiMetric->cx * nPixelsPerInchX + (2540 / 2)) / 2540;
 	lpSizeInPix->cy = (lpSizeInHiMetric->cy * nPixelsPerInchY + (2540 / 2)) / 2540;
@@ -41,13 +41,13 @@ const GUID IID_ITooltipData =
 
 ISmileyBase::ISmileyBase(void)
 {
-	m_spAdviseSink = NULL;
-	m_spClientSite = NULL;
-	m_spAdviseHolder = NULL;
+	m_spAdviseSink = nullptr;
+	m_spClientSite = nullptr;
+	m_spAdviseHolder = nullptr;
 	m_lRefCount = 1;
 	m_advf = 0;
-	m_smltxt = NULL;
-	m_hwnd = NULL;
+	m_smltxt = nullptr;
+	m_hwnd = nullptr;
 	m_visible = false;
 	m_dirAniAllow = false;
 
@@ -66,12 +66,12 @@ ISmileyBase::~ISmileyBase(void)
 
 	if (m_spClientSite) {
 		m_spClientSite->Release();
-		m_spClientSite = NULL;
+		m_spClientSite = nullptr;
 	}
 	
 	if (m_spAdviseHolder) {
 		m_spAdviseHolder->Release();
-		m_spAdviseHolder = NULL;
+		m_spAdviseHolder = nullptr;
 	}
 }
 
@@ -86,7 +86,7 @@ void ISmileyBase::SendOnViewChange(void)
 	if (m_spAdviseSink) m_spAdviseSink->OnViewChange(DVASPECT_CONTENT, -1);
 	if (m_advf & ADVF_ONLYONCE) {
 		m_spAdviseSink->Release();
-		m_spAdviseSink = NULL;
+		m_spAdviseSink = nullptr;
 		m_advf = 0;
 	}
 }
@@ -110,7 +110,7 @@ void ISmileyBase::SetHint(wchar_t *smltxt)
 void ISmileyBase::SetPosition(HWND hwnd, LPCRECT lpRect)
 {
 	m_hwnd = hwnd;
-	if (lpRect == NULL || lpRect->top == -1 || lpRect->bottom == -1) {
+	if (lpRect == nullptr || lpRect->top == -1 || lpRect->bottom == -1) {
 		m_visible = false;
 		return;
 	}
@@ -154,7 +154,7 @@ ULONG ISmileyBase::Release(void)
 HRESULT ISmileyBase::QueryInterface(REFIID iid, void **ppvObject)
 {
 	// check to see what interface has been requested
-	if (ppvObject == NULL) return E_POINTER;
+	if (ppvObject == nullptr) return E_POINTER;
 	if (iid == IID_ISmileyAddSmiley)
 		*ppvObject = this;
 	else if (iid == IID_ITooltipData)
@@ -168,7 +168,7 @@ HRESULT ISmileyBase::QueryInterface(REFIID iid, void **ppvObject)
 	else if (iid == IID_IViewObject2)
 		*ppvObject = static_cast<IViewObject2*>(this);
 	else {
-		*ppvObject = NULL;
+		*ppvObject = nullptr;
 		return E_NOINTERFACE;
 	}
 	AddRef();
@@ -180,17 +180,17 @@ HRESULT ISmileyBase::QueryInterface(REFIID iid, void **ppvObject)
 //
 HRESULT ISmileyBase::SetClientSite(IOleClientSite *pClientSite)
 {
-	if (m_spClientSite != NULL) m_spClientSite->Release();
+	if (m_spClientSite != nullptr) m_spClientSite->Release();
 	m_spClientSite = pClientSite;
-	if (m_spClientSite != NULL) m_spClientSite->AddRef();
+	if (m_spClientSite != nullptr) m_spClientSite->AddRef();
 	return S_OK;
 }
 
 HRESULT ISmileyBase::GetClientSite(IOleClientSite **ppClientSite)
 {
-	if (ppClientSite == NULL) return E_POINTER;
+	if (ppClientSite == nullptr) return E_POINTER;
 	*ppClientSite = m_spClientSite;
-	if (m_spClientSite != NULL) m_spClientSite->AddRef();
+	if (m_spClientSite != nullptr) m_spClientSite->AddRef();
 	return S_OK;
 }
 
@@ -205,7 +205,7 @@ HRESULT ISmileyBase::Close(DWORD)
 
 	if (m_spAdviseSink) {
 		m_spAdviseSink->Release();
-		m_spAdviseSink = NULL;
+		m_spAdviseSink = nullptr;
 	}
 
 	return S_OK;
@@ -255,7 +255,7 @@ HRESULT ISmileyBase::GetUserType(DWORD, LPOLESTR*)
 HRESULT ISmileyBase::SetExtent(DWORD dwDrawAspect, SIZEL *psizel)
 {
 	if (dwDrawAspect != DVASPECT_CONTENT) return E_FAIL;
-	if (psizel == NULL) return E_POINTER;
+	if (psizel == nullptr) return E_POINTER;
 
 	HiMetricToPixel(psizel, &m_sizeExtent);
 	m_sizeExtentHiM = *psizel;
@@ -265,7 +265,7 @@ HRESULT ISmileyBase::SetExtent(DWORD dwDrawAspect, SIZEL *psizel)
 HRESULT ISmileyBase::GetExtent(DWORD dwDrawAspect, SIZEL *psizel)
 {
 	if (dwDrawAspect != DVASPECT_CONTENT) return E_FAIL;
-	if (psizel == NULL) return E_POINTER;
+	if (psizel == nullptr) return E_POINTER;
 
 	*psizel = m_sizeExtentHiM;
 	return S_OK;
@@ -274,12 +274,12 @@ HRESULT ISmileyBase::GetExtent(DWORD dwDrawAspect, SIZEL *psizel)
 HRESULT ISmileyBase::Advise(IAdviseSink *pAdvSink, DWORD *pdwConnection)
 {
 	HRESULT hr = S_OK;
-	if (m_spAdviseHolder == NULL)
+	if (m_spAdviseHolder == nullptr)
 		hr = CreateOleAdviseHolder(&m_spAdviseHolder);
 	if (SUCCEEDED(hr))
 		hr = m_spAdviseHolder->Advise(pAdvSink, pdwConnection);
 	else
-		m_spAdviseHolder = NULL;
+		m_spAdviseHolder = nullptr;
 	return hr;
 }
 
@@ -290,13 +290,13 @@ HRESULT ISmileyBase::Unadvise(DWORD dwConnection)
 
 HRESULT ISmileyBase::EnumAdvise(IEnumSTATDATA **ppEnumAdvise)
 {
-	if (ppEnumAdvise == NULL) return E_POINTER;
+	if (ppEnumAdvise == nullptr) return E_POINTER;
 	return m_spAdviseHolder ? m_spAdviseHolder->EnumAdvise(ppEnumAdvise) : E_FAIL;
 }
 
 HRESULT ISmileyBase::GetMiscStatus(DWORD dwAspect, DWORD *pdwStatus)
 {
-	if (pdwStatus == NULL) return E_POINTER;
+	if (pdwStatus == nullptr) return E_POINTER;
 	if (dwAspect == DVASPECT_CONTENT) {
 		*pdwStatus = OLEMISC_STATIC | OLEMISC_INVISIBLEATRUNTIME |
 			OLEMISC_CANTLINKINSIDE | OLEMISC_NOUIACTIVATE;
@@ -343,7 +343,7 @@ HRESULT ISmileyBase::GetColorSet(DWORD, long, void*, DVTARGETDEVICE*, HDC, LOGPA
 //
 HRESULT ISmileyBase::GetExtent(DWORD aspect, long, DVTARGETDEVICE*, SIZEL *pSize)
 {
-	if (pSize == NULL) return E_POINTER;
+	if (pSize == nullptr) return E_POINTER;
 	if (aspect != DVASPECT_CONTENT) return DV_E_DVASPECT;
 	*pSize = m_sizeExtent;
 	return S_OK;
@@ -360,7 +360,7 @@ HRESULT ISmileyBase::SetTooltip(BSTR)
 
 HRESULT ISmileyBase::GetTooltip(BSTR *bstrHint)
 {
-	if (bstrHint == NULL) return E_POINTER;
+	if (bstrHint == nullptr) return E_POINTER;
 	*bstrHint = SysAllocString(m_smltxt);
 	return S_OK;
 }

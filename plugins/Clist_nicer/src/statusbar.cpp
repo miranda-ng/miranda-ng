@@ -53,7 +53,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			tooltip_active = FALSE;
 		}
 		KillTimer(hwnd, TIMERID_HOVER);
-		SetTimer(hwnd, TIMERID_HOVER, 750, 0);
+		SetTimer(hwnd, TIMERID_HOVER, 750, nullptr);
 		break;
 
 	case WM_NCHITTEST:
@@ -150,7 +150,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&rc);
 					if (PtInRect(&rc, pt)) {
 						ProtocolData *PD = (ProtocolData *)SendMessageA(hwnd, SB_GETTEXTA, i, 0);
-						if (PD == NULL)
+						if (PD == nullptr)
 							continue;
 
 						if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event

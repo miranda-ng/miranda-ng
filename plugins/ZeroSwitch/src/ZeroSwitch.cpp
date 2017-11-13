@@ -5,7 +5,7 @@
 
 HINSTANCE hInst;
 HHOOK hHook;
-HWND hDummyWnd = NULL, hHelperWnd = NULL, hMirandaWnd = NULL;
+HWND hDummyWnd = nullptr, hHelperWnd = nullptr, hMirandaWnd = nullptr;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -44,9 +44,9 @@ LRESULT CALLBACK HelperProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		break;
 	case WM_DESTROY:
 		if (hWnd == hHelperWnd)
-			hHelperWnd = NULL;
+			hHelperWnd = nullptr;
 		else
-			hDummyWnd = NULL;
+			hDummyWnd = nullptr;
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -76,19 +76,19 @@ void CreateHelperWnd()
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInst;
 	wcex.hIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA, true);
-	wcex.hCursor = NULL;
+	wcex.hCursor = nullptr;
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = NULL;
+	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = L"ZeroSwitchHlp";
 	wcex.hIconSm = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 
 	if (NULL == RegisterClassEx(&wcex))
 		return; // wtf
 
-	hDummyWnd = CreateWindow(L"ZeroSwitchHlp", L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	hDummyWnd = CreateWindow(L"ZeroSwitchHlp", L"", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
 	if (!hDummyWnd)
 		UnregisterClass(L"ZeroSwitchHlp", hInst);
-	hHelperWnd = CreateWindow(L"ZeroSwitchHlp", L"Miranda NG", WS_OVERLAPPEDWINDOW | WS_VISIBLE, -100, -100, 90, 90, hDummyWnd, NULL, hInst, NULL);
+	hHelperWnd = CreateWindow(L"ZeroSwitchHlp", L"Miranda NG", WS_OVERLAPPEDWINDOW | WS_VISIBLE, -100, -100, 90, 90, hDummyWnd, nullptr, hInst, nullptr);
 	if (!hHelperWnd)
 	{
 		DestroyWindow(hDummyWnd);
@@ -127,7 +127,7 @@ LRESULT CALLBACK CallWndRetProc(int nCode, WPARAM wParam, LPARAM lParam)
 			}
 		}
 	}
-	return CallNextHookEx(NULL, nCode, wParam, lParam); // Pass the message to other hooks in chain
+	return CallNextHookEx(nullptr, nCode, wParam, lParam); // Pass the message to other hooks in chain
 }
 
 extern "C" int __declspec(dllexport) Load(void)
@@ -136,14 +136,14 @@ extern "C" int __declspec(dllexport) Load(void)
  	pcli = Clist_GetInterface();
 
 	if (IsWinVerVistaPlus()) {
-		MessageBox(NULL, TranslateT("Plugin works under Windows XP only"), TranslateT("ZeroSwitch plugin failed"), MB_ICONSTOP);
+		MessageBox(nullptr, TranslateT("Plugin works under Windows XP only"), TranslateT("ZeroSwitch plugin failed"), MB_ICONSTOP);
 		return 1;
 	}
 
 	// Let's setup shop :)
-	hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, CallWndRetProc, NULL, GetCurrentThreadId());
-	if (hHook == NULL)
-		MessageBox(NULL, TranslateT("Oops, we've got a big hook error here :("), TranslateT("ZeroSwitch plugin failed"), MB_ICONSTOP);
+	hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, CallWndRetProc, nullptr, GetCurrentThreadId());
+	if (hHook == nullptr)
+		MessageBox(nullptr, TranslateT("Oops, we've got a big hook error here :("), TranslateT("ZeroSwitch plugin failed"), MB_ICONSTOP);
 	return 0;
 }
 

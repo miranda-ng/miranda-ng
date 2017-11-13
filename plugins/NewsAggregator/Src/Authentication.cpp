@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg)
 {
-	wchar_t *tlogin = NULL, *tpass = NULL;
+	wchar_t *tlogin = nullptr, *tpass = nullptr;
 	if (hContact && db_get_b(hContact, MODULE, "UseAuth", 0)) {
 		tlogin = db_get_wsa(hContact, MODULE, "Login");
 		tpass = db_get_wsa(hContact, MODULE, "Password");

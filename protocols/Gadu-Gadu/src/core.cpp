@@ -43,7 +43,7 @@ int GGPROTO::isonline()
 	int isonline;
 
 	gg_EnterCriticalSection(&sess_mutex, "isonline", 76, "sess_mutex", 1);
-	isonline = (sess != NULL);
+	isonline = (sess != nullptr);
 	gg_LeaveCriticalSection(&sess_mutex, "isonline", 76, 1, "sess_mutex", 1);
 
 	return isonline;
@@ -58,7 +58,7 @@ void GGPROTO::disconnect()
 	if (isonline())
 	{
 		// Fetch proper status msg
-		char *szMsg = NULL;
+		char *szMsg = nullptr;
 
 		// Loadup status
 		if (getByte(GG_KEY_LEAVESTATUSMSG, GG_KEYDEF_LEAVESTATUSMSG))
@@ -184,8 +184,8 @@ typedef struct
 int gg_decodehosts(char *var, GGHOST *hosts, int max)
 {
 	int hp = 0;
-	char *hostname = NULL;
-	char *portname = NULL;
+	char *hostname = nullptr;
+	char *portname = nullptr;
 
 	while(var && *var && hp < max)
 	{
@@ -212,8 +212,8 @@ int gg_decodehosts(char *var, GGHOST *hosts, int max)
 			hp ++;
 
 			// Zero the names
-			hostname = NULL;
-			portname = NULL;
+			hostname = nullptr;
+			portname = nullptr;
 		}
 		else
 			var ++;
@@ -294,7 +294,7 @@ void __cdecl GGPROTO::mainthread(void *)
 			gg_proxy_username = nlus.szProxyAuthUser;
 			gg_proxy_password = nlus.szProxyAuthPassword;
 		}
-		else gg_proxy_username = gg_proxy_password = NULL;
+		else gg_proxy_username = gg_proxy_password = nullptr;
 	}
 	else {
 		debugLogA("mainthread() (%x): Failed loading proxy settings.", this);
@@ -344,7 +344,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	////////////////////////////// DCC STARTUP /////////////////////////////
 	// Uin is ok so startup dcc if not started already
 	if (!dcc) {
-		hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 		dccstart();
 
 		// Wait for DCC
@@ -352,7 +352,7 @@ void __cdecl GGPROTO::mainthread(void *)
 		debugLogA("mainthread() (%x): Waiting DCC service to start...", this);
 #endif
 		while (WaitForSingleObjectEx(hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
-		CloseHandle(hEvent); hEvent = NULL;
+		CloseHandle(hEvent); hEvent = nullptr;
 	}
 
 	// Check if dcc is running and setup forwarding port
@@ -379,7 +379,7 @@ retry:
 	gg_EnterCriticalSection(&modemsg_mutex, "mainthread", 13, "modemsg_mutex", 1);
 
 	p.status_descr = mir_utf8encodeW(getstatusmsg(m_iDesiredStatus));
-	p.status = status_m2gg(m_iDesiredStatus, p.status_descr != NULL);
+	p.status = status_m2gg(m_iDesiredStatus, p.status_descr != nullptr);
 
 	debugLogW(L"mainthread() (%x): Connecting with number %d, status %d and description \"%s\".", this, p.uin, m_iDesiredStatus,
 				p.status_descr ? getstatusmsg(m_iDesiredStatus) : L"<none>");
@@ -414,7 +414,7 @@ retry:
 		// Check if connection attempt wasn't cancelled by the user
 		if (m_iDesiredStatus != ID_STATUS_OFFLINE)
 		{
-			wchar_t error[128], *perror = NULL;
+			wchar_t error[128], *perror = nullptr;
 			// Lookup for error desciption
 			if (errno == EACCES) {
 				for (int i = 0; reason[i].type; i++) if (reason[i].type == gg_failno) {
@@ -438,13 +438,13 @@ retry:
 				DWORD dwInterval = getDword(GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL), dwResult;
 				BOOL bRetry = TRUE;
 
-				hConnStopEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+				hConnStopEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 				dwResult = WaitForSingleObjectEx(hConnStopEvent, dwInterval, TRUE);
 				if ((dwResult == WAIT_OBJECT_0 && m_iDesiredStatus == ID_STATUS_OFFLINE)
 					|| (dwResult == WAIT_IO_COMPLETION && Miranda_IsTerminated()))
 					bRetry = FALSE;
 				CloseHandle(hConnStopEvent);
-				hConnStopEvent = NULL;
+				hConnStopEvent = nullptr;
 
 				// Reconnect to the next server on the list
 				if (bRetry)
@@ -466,7 +466,7 @@ retry:
 	else
 	{
 		// Successfully connected
-		logonTime = time(NULL);
+		logonTime = time(nullptr);
 		setDword(GG_KEY_LOGONTIME, logonTime);
 		gg_EnterCriticalSection(&sess_mutex, "mainthread", 15, "sess_mutex", 1);
 		sess = local_sess;
@@ -510,7 +510,7 @@ retry:
 			debugLogA("mainthread() (%x): Connection closed.", this);
 			gg_EnterCriticalSection(&sess_mutex, "mainthread", 16, "sess_mutex", 1);
 			gg_free_session(sess);
-			sess = NULL;
+			sess = nullptr;
 			gg_LeaveCriticalSection(&sess_mutex, "mainthread", 16, 1, "sess_mutex", 1);
 			break;
 		}
@@ -533,7 +533,7 @@ retry:
 			case GG_EVENT_DISCONNECT:
 				gg_EnterCriticalSection(&sess_mutex, "mainthread", 17, "sess_mutex", 1);
 				gg_free_session(sess);
-				sess = NULL;
+				sess = nullptr;
 				gg_LeaveCriticalSection(&sess_mutex, "mainthread", 17, 1, "sess_mutex", 1);
 				break;
 
@@ -547,7 +547,7 @@ retry:
 			case GG_EVENT_ACK:
 				if (e->event.ack.seq && e->event.ack.recipient)
 				{
-					ProtoBroadcastAck(getcontact((DWORD)e->event.ack.recipient, 0, 0, NULL),
+					ProtoBroadcastAck(getcontact((DWORD)e->event.ack.recipient, 0, 0, nullptr),
 						ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)e->event.ack.seq, 0);
 				}
 				break;
@@ -562,7 +562,7 @@ retry:
 
 				for (; n->uin; n++)
 				{
-					wchar_t *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeW(e->event.notify_descr.descr) : NULL;
+					wchar_t *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeW(e->event.notify_descr.descr) : nullptr;
 					changecontactstatus(n->uin, n->status, descrT, 0, n->remote_ip, n->remote_port, n->version);
 					if (descrT) mir_free(descrT);
 				}
@@ -580,7 +580,7 @@ retry:
 						e->event.notify60[i].time, e->event.notify60[i].remote_ip, e->event.notify60[i].remote_port,
 						e->event.notify60[i].version);
 					mir_free(descrT);
-					requestAvatarInfo(getcontact(e->event.notify60[i].uin, 0, 0, NULL), 0);
+					requestAvatarInfo(getcontact(e->event.notify60[i].uin, 0, 0, nullptr), 0);
 				}
 				break;
 			}
@@ -628,7 +628,7 @@ retry:
 						const char *__status = gg_pubdir50_get(res, i, GG_PUBDIR50_STATUS);
 						uin_t uin = __fmnumber ? atoi(__fmnumber) : 0;
 
-						MCONTACT hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, NULL);
+						MCONTACT hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, nullptr);
 						debugLogA("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
 						if (res->seq == GG_SEQ_SEARCH)
 						{
@@ -641,7 +641,7 @@ retry:
 								mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));
 							}
 							if (__birthyear) {
-								time_t t = time(NULL);
+								time_t t = time(nullptr);
 								struct tm *lt = localtime(&t);
 								int br = atoi(__birthyear);
 
@@ -704,7 +704,7 @@ retry:
 
 							if (__birthyear)
 							{
-								time_t t = time(NULL);
+								time_t t = time(nullptr);
 								struct tm *lt = localtime(&t);
 								int br = atoi(__birthyear);
 								if (br > 0)
@@ -766,7 +766,7 @@ retry:
 			// Status (version >= 6.0)
 			case GG_EVENT_STATUS60:
 				{
-					MCONTACT hContact = getcontact(e->event.status60.uin, 0, 0, NULL);
+					MCONTACT hContact = getcontact(e->event.status60.uin, 0, 0, nullptr);
 					int oldstatus = getWord(hContact, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE);
 					uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
 
@@ -796,15 +796,15 @@ retry:
 				case GG_USERLIST_GET_REPLY:
 					if (e->event.userlist.reply) {
 						parsecontacts(e->event.userlist.reply);
-						MessageBox(NULL, TranslateT("List import successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
+						MessageBox(nullptr, TranslateT("List import successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 					}
 					break;
 
 				case GG_USERLIST_PUT_REPLY:
 					if (is_list_remove)
-						MessageBox(NULL, TranslateT("List remove successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
+						MessageBox(nullptr, TranslateT("List remove successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 					else
-						MessageBox(NULL, TranslateT("List export successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
+						MessageBox(nullptr, TranslateT("List export successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 					break;
 				}
 				break;
@@ -829,11 +829,11 @@ retry:
 							UIN2IDT(e->event.msg.sender, id);
 
 							GCEVENT gce = { m_szModuleName, chat, GC_EVENT_MESSAGE };
-							time_t t = time(NULL);
+							time_t t = time(nullptr);
 							gce.ptszUID = id;
 							wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
 							gce.ptszText = messageT;
-							gce.ptszNick = (wchar_t*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, NULL), 0);
+							gce.ptszNick = (wchar_t*) pcli->pfnGetContactDisplayName( getcontact(e->event.msg.sender, 1, 0, nullptr), 0);
 							gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gce.dwFlags = GCEF_ADDTOLOG;
 							debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
@@ -845,16 +845,16 @@ retry:
 					else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp(e->event.msg.message, "\xA0\0"))
 					{
 						PROTORECVEVENT pre = {0};
-						time_t t = time(NULL);
+						time_t t = time(nullptr);
 						pre.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 						pre.szMessage = e->event.msg.message;
-						ProtoChainRecvMsg( getcontact(e->event.msg.sender, 1, 0, NULL), &pre);
+						ProtoChainRecvMsg( getcontact(e->event.msg.sender, 1, 0, nullptr), &pre);
 					}
 
 					// RichEdit format included (image)
 					if (e->event.msg.formats_length &&
 						getByte(GG_KEY_IMGRECEIVE, GG_KEYDEF_IMGRECEIVE) &&
-						!(db_get_dw(getcontact(e->event.msg.sender, 1, 0, NULL), "Ignore", "Mask1", 0) & IGNOREEVENT_MESSAGE))
+						!(db_get_dw(getcontact(e->event.msg.sender, 1, 0, nullptr), "Ignore", "Mask1", 0) & IGNOREEVENT_MESSAGE))
 					{
 						char *formats = (char*)e->event.msg.formats;
 						int len = 0, formats_len = e->event.msg.formats_length, add_ptr;
@@ -921,7 +921,7 @@ retry:
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.cbBlob = (DWORD)mir_strlen(e->event.multilogon_msg.message) + 1;
 					dbei.pBlob = (PBYTE)e->event.multilogon_msg.message;
-					db_event_add( getcontact(e->event.multilogon_msg.sender, 1, 0, NULL), &dbei);
+					db_event_add( getcontact(e->event.multilogon_msg.sender, 1, 0, nullptr), &dbei);
 				}
 				break;
 
@@ -929,7 +929,7 @@ retry:
 			case GG_EVENT_MULTILOGON_INFO:
 				{
 					list_t l;
-					int* iIndexes = NULL, i;
+					int* iIndexes = nullptr, i;
 					debugLogA("mainthread(): Concurrent sessions count: %d.", e->event.multilogon_info.count);
 					if (e->event.multilogon_info.count > 0)
 						iIndexes = (int*)mir_calloc(e->event.multilogon_info.count * sizeof(int));
@@ -949,7 +949,7 @@ retry:
 						mir_free(msess);
 					}
 					list_destroy(sessions, 0);
-					sessions = NULL;
+					sessions = nullptr;
 					for (i = 0; i < e->event.multilogon_info.count; i++)
 					{
 						gg_multilogon_session* msess = (gg_multilogon_session*)mir_alloc(sizeof(struct gg_multilogon_session));
@@ -963,7 +963,7 @@ retry:
 					sessions_updatedlg();
 					if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
 					{
-						const wchar_t* szText = time(NULL) - logonTime > 3
+						const wchar_t* szText = time(nullptr) - logonTime > 3
 							? TranslateT("You have logged in at another location")
 							: TranslateT("You are logged in at another location");
 						for (i = 0; i < e->event.multilogon_info.count; i++)
@@ -987,8 +987,8 @@ retry:
 				// Get rid of empty image
 				if (e->event.image_reply.size && e->event.image_reply.image)
 				{
-					MCONTACT hContact = getcontact(e->event.image_reply.sender, 1, 0, NULL);
-					void *img = (void *)img_loadpicture(e, 0);
+					MCONTACT hContact = getcontact(e->event.image_reply.sender, 1, 0, nullptr);
+					void *img = (void *)img_loadpicture(e, nullptr);
 
 					if (!img)
 						break;
@@ -1030,12 +1030,12 @@ retry:
 				{
 					struct gg_dcc7 *dcc7 = e->event.dcc7_new;
 					debugLogA("mainthread() (%x): Incoming direct connection.", this);
-					dcc7->contact = (void*)getcontact(dcc7->peer_uin, 0, 0, NULL);
+					dcc7->contact = (void*)getcontact(dcc7->peer_uin, 0, 0, nullptr);
 
 					// Check if user is on the list and if it is my uin
 					if (!dcc7->contact || getDword(GG_KEY_UIN, -1) != dcc7->uin) {
 						gg_dcc7_free(dcc7);
-						e->event.dcc7_new = NULL;
+						e->event.dcc7_new = nullptr;
 						break;
 					}
 
@@ -1055,14 +1055,14 @@ retry:
 					PROTORECVFILET pre = {0};
 					pre.dwFlags = PRFF_UNICODE;
 					pre.fileCount = 1;
-					pre.timestamp = time(NULL);
+					pre.timestamp = time(nullptr);
 					pre.descr.w = filenameT;
 					pre.files.w = &filenameT;
 					pre.lParam = (LPARAM)dcc7;
 					ProtoChainRecvFile((UINT_PTR)dcc7->contact, &pre);
 
 					mir_free(filenameT);
-					e->event.dcc7_new = NULL;
+					e->event.dcc7_new = nullptr;
 				}
 				break;
 
@@ -1149,26 +1149,26 @@ retry:
 
 					xmlAction = mir_a2u(e->event.xml_action.data);
 					tag = mir_a2u("events");
-					hXml = xmlParseString(xmlAction, 0, tag);
+					hXml = xmlParseString(xmlAction, nullptr, tag);
 
-					if (hXml != NULL) {
+					if (hXml != nullptr) {
 						HXML node;
 						char *type, *sender;
 						
 						mir_free(tag);
 						tag = mir_a2u("event/type");
 						node = xmlGetChildByPath(hXml, tag, 0);
-						type = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
+						type = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
 
 						mir_free(tag);
 						tag = mir_a2u("event/sender");
 						node = xmlGetChildByPath(hXml, tag, 0);
-						sender = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
-						debugLogA("mainthread() (%x): XML Action type: %s.", this, type != NULL ? type : "unknown");
+						sender = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
+						debugLogA("mainthread() (%x): XML Action type: %s.", this, type != nullptr ? type : "unknown");
 						// Avatar change notify
-						if (type != NULL && !mir_strcmp(type, "28")) {
+						if (type != nullptr && !mir_strcmp(type, "28")) {
 							debugLogA("mainthread() (%x): Client %s changed his avatar.", this, sender);
-							requestAvatarInfo(getcontact(atoi(sender), 0, 0, NULL), 0);
+							requestAvatarInfo(getcontact(atoi(sender), 0, 0, nullptr), 0);
 						}
 						mir_free(type);
 						mir_free(sender);
@@ -1181,7 +1181,7 @@ retry:
 
 			case GG_EVENT_TYPING_NOTIFICATION:
 				{
-					MCONTACT hContact = getcontact(e->event.typing_notification.uin, 0, 0, NULL);
+					MCONTACT hContact = getcontact(e->event.typing_notification.uin, 0, 0, nullptr);
 #ifdef DEBUGMODE
 					debugLogA("mainthread() (%x): Typing notification from %d (%d).", this,
 						e->event.typing_notification.uin, e->event.typing_notification.length);
@@ -1224,7 +1224,7 @@ retry:
 			mir_free(msess);
 		}
 		list_destroy(sessions, 0);
-		sessions = NULL;
+		sessions = nullptr;
 		gg_LeaveCriticalSection(&sessions_mutex, "mainthread", 23, 1, "sessions_mutex", 1);
 	}
 
@@ -1310,7 +1310,7 @@ static wchar_t* sttSettingToTchar( DBVARIANT* value )
 	case DBVT_WCHAR:
 		return mir_wstrdup(value->pwszVal);
 	}
-	return NULL;
+	return nullptr;
 }
 
 int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
@@ -1336,7 +1336,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 	if (gc_enabled && !strcmp(cws->szModule, m_szModuleName) && !strcmp(cws->szSetting, GG_KEY_NICK)){
 
 		wchar_t* ptszVal = sttSettingToTchar(&(cws->value));
-		if(ptszVal==NULL) return 0;
+		if(ptszVal==nullptr) return 0;
 
 		// Groupchat window contact is being renamed
 		DBVARIANT dbv;
@@ -1366,7 +1366,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 		// If name changed... change nick
 		if (!strcmp(cws->szSetting, "MyHandle")){
 			wchar_t* ptszVal = sttSettingToTchar(&(cws->value));
-			if(ptszVal==NULL) return 0;
+			if(ptszVal==nullptr) return 0;
 			setWString(hContact, GG_KEY_NICK, ptszVal);
 			mir_free(ptszVal);
 		}
@@ -1471,7 +1471,7 @@ void GGPROTO::notifyall()
 	if (count == 0) {
 		if (isonline()) {
 			gg_EnterCriticalSection(&sess_mutex, "notifyall", 29, "sess_mutex", 1);
-			gg_notify_ex(sess, NULL, NULL, 0);
+			gg_notify_ex(sess, nullptr, nullptr, 0);
 			gg_LeaveCriticalSection(&sess_mutex, "notifyall", 29, 1, "sess_mutex", 1);
 		}
 		return;
@@ -1583,7 +1583,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 			gg_EnterCriticalSection(&modemsg_mutex, "getcontact", 33, "modemsg_mutex", 1);
 			wchar_t *szMsg = mir_wstrdup(getstatusmsg(m_iStatus));
 			gg_LeaveCriticalSection(&modemsg_mutex, "getcontact", 33, 1, "modemsg_mutex", 1);
-			changecontactstatus(uin, status_m2gg(m_iStatus, szMsg != NULL), szMsg, 0, 0, 0, 0);
+			changecontactstatus(uin, status_m2gg(m_iStatus, szMsg != nullptr), szMsg, 0, 0, 0, 0);
 			mir_free(szMsg);
 		}
 	}
@@ -1680,7 +1680,7 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const wchar_t *idescr, 
 #ifdef DEBUGMODE
 	debugLogA("changecontactstatus(): uin=%d status=%d", uin, status);
 #endif
-	MCONTACT hContact = getcontact(uin, 0, 0, NULL);
+	MCONTACT hContact = getcontact(uin, 0, 0, nullptr);
 
 	// Check if contact is on list
 	if (!hContact) return;

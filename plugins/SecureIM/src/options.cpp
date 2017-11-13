@@ -10,7 +10,7 @@ BOOL hasKey(pUinKey ptr)
 	BOOL ret = 0;
 	if (ptr->mode == MODE_NATIVE) {
 		LPSTR str = db_get_sa(ptr->hContact, MODULENAME, "PSK");
-		ret = (str != NULL); SAFE_FREE(str);
+		ret = (str != nullptr); SAFE_FREE(str);
 	}
 	else if (ptr->mode == MODE_RSAAES) {
 		DBVARIANT dbv;
@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
 		ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 		{
-			static const char *szColHdr[] = { sim203, sim204, sim230, sim205, "", sim234, 0 };
+			static const char *szColHdr[] = { sim203, sim204, sim230, sim205, "", sim234, nullptr };
 			static int iColWidth[] = { 150, 110, 60, 55, 35, 330 };
 
 			LVCOLUMN lvc;
@@ -243,7 +243,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 
 	case WM_PAINT:
 		if (!iInit)
-			InvalidateRect(hDlg, NULL, FALSE);
+			InvalidateRect(hDlg, nullptr, FALSE);
 		break;
 
 	case WM_COMMAND:
@@ -280,7 +280,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			if (ptr) {
 				LPSTR buffer = (LPSTR)alloca(PSKSIZE + 1);
 				getContactName(ptr->hContact, buffer);
-				int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PSK), NULL, DlgProcSetPSK, (LPARAM)buffer);
+				int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PSK), nullptr, DlgProcSetPSK, (LPARAM)buffer);
 				if (res == IDOK) {
 					setListViewPSK(hLV, idx, 1);
 					db_set_s(ptr->hContact, MODULENAME, "tPSK", buffer);
@@ -429,7 +429,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 				ptr = (pUinKey)getListViewParam(hLV, lpLV->iItem);
 				if (ptr) {
 					POINT p; GetCursorPos(&p);
-					HMENU hMenu = NULL;
+					HMENU hMenu = nullptr;
 					if (ptr->tmode == MODE_NATIVE || ptr->tmode == MODE_RSAAES) {
 						switch (lpLV->iSubItem) {
 						case 2: // mode
@@ -463,7 +463,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 					CheckMenuItem(hMenu, ID_SIM_NATIVE + ptr->tmode, MF_CHECKED);
 					if (!bPGP) EnableMenuItem(hMenu, ID_SIM_PGP, MF_GRAYED);
 					if (!bGPG) EnableMenuItem(hMenu, ID_SIM_GPG, MF_GRAYED);
-					TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, hDlg, 0);
+					TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, hDlg, nullptr);
 					DestroyMenu(hMenu);
 				}
 			}
@@ -511,7 +511,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 
 	case WM_PAINT:
 		if (!iInit)
-			InvalidateRect(hDlg, NULL, FALSE);
+			InvalidateRect(hDlg, nullptr, FALSE);
 		break;
 
 	case WM_COMMAND:
@@ -525,7 +525,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		case IDC_RSA_EXP:
 		{
 			LPSTR pub = (LPSTR)alloca(RSASIZE);
-			mir_exp->rsa_export_keypair(CPP_MODE_RSA, NULL, pub, NULL);
+			mir_exp->rsa_export_keypair(CPP_MODE_RSA, nullptr, pub, nullptr);
 			if (!SaveExportRSAKeyDlg(hDlg, pub, 0))
 				msgbox(hDlg, sim114, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 		}
@@ -534,10 +534,10 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		case IDC_RSA_EXPPRIV:
 		{
 			LPSTR passphrase = (LPSTR)alloca(RSASIZE);
-			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), NULL, DlgProcSetPassphrase, (LPARAM)passphrase);
+			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), nullptr, DlgProcSetPassphrase, (LPARAM)passphrase);
 			if (res == IDOK) {
 				LPSTR priv = (LPSTR)alloca(RSASIZE);
-				mir_exp->rsa_export_keypair(CPP_MODE_RSA, priv, NULL, passphrase);
+				mir_exp->rsa_export_keypair(CPP_MODE_RSA, priv, nullptr, passphrase);
 				if (!SaveExportRSAKeyDlg(hDlg, priv, 1))
 					msgbox(hDlg, sim112, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 			}
@@ -551,7 +551,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 				return TRUE;
 
 			LPSTR passphrase = (LPSTR)alloca(RSASIZE);
-			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), NULL, DlgProcSetPassphrase, (LPARAM)passphrase);
+			int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_PASSPHRASE), nullptr, DlgProcSetPassphrase, (LPARAM)passphrase);
 			if (res == IDOK) {
 				if (!mir_exp->rsa_import_keypair(CPP_MODE_RSA, priv, passphrase))
 					msgbox(hDlg, sim113, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
@@ -644,7 +644,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
 		ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 		{
-			static const char *szColHdr[] = { sim203, sim204, sim215, 0 };
+			static const char *szColHdr[] = { sim203, sim204, sim215, nullptr };
 			static int iColWidth[] = { 160, 150, 80 };
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
@@ -667,7 +667,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 	case WM_PAINT:
 		if (!iInit)
-			InvalidateRect(hDlg, NULL, FALSE);
+			InvalidateRect(hDlg, nullptr, FALSE);
 		break;
 
 	case WM_COMMAND:
@@ -770,7 +770,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
 		ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 		{
-			static const char *szColHdr[] = { sim203, sim204, sim215, sim227, 0 };
+			static const char *szColHdr[] = { sim203, sim204, sim215, sim227, nullptr };
 			static int iColWidth[] = { 140, 120, 120, 40 };
 			LVCOLUMN lvc;
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
@@ -794,7 +794,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 	case WM_PAINT:
 		if (!iInit)
-			InvalidateRect(hDlg, NULL, FALSE);
+			InvalidateRect(hDlg, nullptr, FALSE);
 		break;
 
 	case WM_COMMAND:
@@ -1025,7 +1025,7 @@ void RefreshProtoDlg(HWND hDlg)
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITON), false);
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITOFF), false);
 
-	BYTE sha[64]; int len; mir_exp->rsa_get_keyhash(CPP_MODE_RSA, NULL, NULL, (PBYTE)&sha, &len);
+	BYTE sha[64]; int len; mir_exp->rsa_get_keyhash(CPP_MODE_RSA, nullptr, nullptr, (PBYTE)&sha, &len);
 	LPSTR txt = mir_strdup(to_hex(sha, len));
 	SetDlgItemText(hDlg, IDC_RSA_SHA, txt);
 	mir_free(txt);
@@ -1067,7 +1067,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 			LPSTR szKeyID = db_get_sa(hContact, MODULENAME, "pgp_abbr");
 
 			lvi.iItem++;
-			lvi.iImage = (szKeyID != 0);
+			lvi.iImage = (szKeyID != nullptr);
 			lvi.lParam = (LPARAM)ptr;
 
 			getContactName(hContact, tmp);
@@ -1130,7 +1130,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 			LPSTR szKeyID = db_get_sa(hContact, MODULENAME, "gpg");
 
 			lvi.iItem++;
-			lvi.iImage = (szKeyID != 0);
+			lvi.iImage = (szKeyID != nullptr);
 			lvi.lParam = (LPARAM)ptr;
 
 			getContactName(hContact, tmp);
@@ -1340,14 +1340,14 @@ void ApplyGPGSettings(HWND hDlg)
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, _countof(tmp));
 	db_set_s(0, MODULENAME, "gpgLog", tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
-	else gpg_set_log(0);
+	else gpg_set_log(nullptr);
 
 	BOOL bgpgTmpFlag = (IsDlgButtonChecked(hDlg, IDC_TMPPATHON_CBOX) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgTmpFlag", bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, _countof(tmp));
 	db_set_s(0, MODULENAME, "gpgTmp", tmp);
 	if (bgpgTmpFlag)	gpg_set_tmp(tmp);
-	else gpg_set_tmp(0);
+	else gpg_set_tmp(nullptr);
 
 	HWND hLV = GetDlgItem(hDlg, IDC_GPG_USERLIST);
 	int i = ListView_GetNextItem(hLV, (UINT)-1, LVNI_ALL);
@@ -1438,7 +1438,7 @@ void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 	strncpy(str, (iStatus) ? Translate(sim233) : "-", sizeof(str)-1);
 	LV_SetItemTextA(hLV, iItem, 4, str);
 
-	LPSTR sha = NULL;
+	LPSTR sha = nullptr;
 	if (iStatus) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
@@ -1587,7 +1587,7 @@ LPCSTR publ_end = "-----END PGP PUBLIC KEY BLOCK-----";
 LPSTR LoadKeys(LPCSTR file, BOOL priv)
 {
 	FILE *f = fopen(file, "r");
-	if (!f) return NULL;
+	if (!f) return nullptr;
 
 	fseek(f, 0, SEEK_END);
 	int flen = ftell(f);

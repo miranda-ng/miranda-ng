@@ -28,7 +28,7 @@
 
 #include "stdafx.h"
 
-SendQueue *sendQueue = 0;
+SendQueue *sendQueue = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // searches the queue for a message belonging to the given contact which has been marked
@@ -224,7 +224,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
-				doSendLater(iEntry, 0, hContact, false);
+				doSendLater(iEntry, nullptr, hContact, false);
 				iJobs++;
 			}
 		}
@@ -342,7 +342,7 @@ void SendQueue::checkQueue(const CTabBaseDlg *dat) const
 
 void SendQueue::logError(CTabBaseDlg *dat, int iSendJobIndex, const wchar_t *szErrMsg) const
 {
-	if (dat == 0)
+	if (dat == nullptr)
 		return;
 
 	size_t iMsgLen;
@@ -416,7 +416,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 
-	TContainerData *m_pContainer = 0;
+	TContainerData *m_pContainer = nullptr;
 	if (dat)
 		m_pContainer = dat->m_pContainer;
 
@@ -520,7 +520,7 @@ int SendQueue::ackMessage(CTabBaseDlg *dat, WPARAM wParam, LPARAM lParam)
 
 LRESULT SendQueue::WarnPendingJobs(unsigned int)
 {
-	return MessageBox(0,
+	return MessageBox(nullptr,
 		TranslateT("There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?"),
 		TranslateT("Message window warning"), MB_YESNO | MB_ICONHAND);
 }
@@ -540,7 +540,7 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 {
 	bool  fAvail = sendLater->isAvail();
 
-	const wchar_t *szNote = 0;
+	const wchar_t *szNote = nullptr;
 
 	if (fIsSendLater && dat) {
 		if (fAvail)
@@ -579,13 +579,13 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 	wchar_t tszHeader[150];
 
 	if (fIsSendLater) {
-		time_t now = time(0);
+		time_t now = time(nullptr);
 		wchar_t tszTimestamp[30];
 		wcsftime(tszTimestamp, _countof(tszTimestamp), L"%Y.%m.%d - %H:%M", _localtime32((__time32_t *)&now));
 		mir_snprintf(szKeyName, "S%d", now);
 		mir_snwprintf(tszHeader, TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 	}
-	else mir_snwprintf(tszHeader, L"M%d|", time(0));
+	else mir_snwprintf(tszHeader, L"M%d|", time(nullptr));
 
 	T2Utf utf_header(tszHeader);
 	size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;

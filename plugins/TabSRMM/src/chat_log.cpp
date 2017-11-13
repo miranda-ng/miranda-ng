@@ -828,7 +828,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 void CChatRoomDlg::StreamInEvents(LOGINFO *lin, bool bRedraw)
 {
-	if (m_hwnd == 0 || lin == 0 || m_si == 0)
+	if (m_hwnd == nullptr || lin == nullptr || m_si == nullptr)
 		return;
 
 	LOGSTREAMDATA streamData;

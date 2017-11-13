@@ -40,7 +40,7 @@ struct UserInfoStringBuf
 	wchar_t *buf;
 	size_t size, offset;
 
-	UserInfoStringBuf() { buf = 0; size = 0; offset = 0; }
+	UserInfoStringBuf() { buf = nullptr; size = 0; offset = 0; }
 	~UserInfoStringBuf() { mir_free(buf); }
 
 	void append(wchar_t *str) {
@@ -151,7 +151,7 @@ void sttCleanupInfo(HWND hwndTree, int stage)
 			break;
 		}
 
-		HTREEITEM hItemTmp = 0;
+		HTREEITEM hItemTmp = nullptr;
 		if (hItemTmp = TreeView_GetChild(hwndTree, hItem))
 			hItem = hItemTmp;
 		else if (hItemTmp = TreeView_GetNextSibling(hwndTree, hItem))
@@ -178,7 +178,7 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 	else
 		mir_wstrncpy(buf, value, _countof(buf));
 
-	TVINSERTSTRUCT tvis = {0};
+	TVINSERTSTRUCT tvis = {};
 	tvis.hParent = htiRoot;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.itemex.mask = TVIF_TEXT|TVIF_PARAM;
@@ -505,7 +505,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_TV_INFO) {
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			HTREEITEM hItem = 0;
+			HTREEITEM hItem = nullptr;
 
 			if ((pt.x == -1) && (pt.y == -1)) {
 				if (hItem = TreeView_GetSelection(hwndTree)) {

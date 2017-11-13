@@ -35,8 +35,8 @@ struct {
 }
 static const statusMsg[] = {
 	{ "CList", "StatusMsg", LPGENW("Status message"), 1 },
-	{ 0, "XStatusName", LPGENW("xStatus title"), 4 },
-	{ 0, "XStatusMsg", LPGENW("xStatus message"), 2 },
+	{ nullptr, "XStatusName", LPGENW("xStatus title"), 4 },
+	{ nullptr, "XStatusMsg", LPGENW("xStatus message"), 2 },
 	{ "AdvStatus", "tune/text", LPGENW("Listening to"), 8 },
 	{ "AdvStatus", "activity/title", LPGENW("Activity title"), 8 },
 	{ "AdvStatus", "activity/text", LPGENW("Activity text"), 8 }
@@ -113,7 +113,7 @@ static int enumModulesSettingsProc(const char *szName, LPARAM lParam)
 		msll->first = (struct ModSetLinkLinkItem *)malloc(sizeof(struct ModSetLinkLinkItem));
 		if (!msll->first) return 1;
 		msll->first->name = _strdup(szName);
-		msll->first->next = 0;
+		msll->first->next = nullptr;
 		msll->last = msll->first;
 	}
 	else
@@ -123,7 +123,7 @@ static int enumModulesSettingsProc(const char *szName, LPARAM lParam)
 		msll->last->next = (BYTE*)item;
 		msll->last = (struct ModSetLinkLinkItem *)item;
 		item->name = _strdup(szName);
-		item->next = 0;
+		item->next = nullptr;
 	}
 	return 0;
 }
@@ -140,26 +140,26 @@ static void FreeModuleSettingLL(ModuleSettingLL* msll)
 			if (item->name)
 			{
 				free(item->name);
-				item->name = 0;
+				item->name = nullptr;
 			}
 			temp = item;
 			item = (struct ModSetLinkLinkItem *)item->next;
 			if (temp)
 			{
 				free(temp);
-				temp = 0;
+				temp = nullptr;
 			}
 		}
 
-		msll->first = 0;
-		msll->last = 0;
+		msll->first = nullptr;
+		msll->last = nullptr;
 	}
 }
 
 static void RenameDbProto(MCONTACT hContact, MCONTACT hContactNew, char* oldName, char* newName, int delOld)
 {
 	// enum all setting the contact has for the module
-	ModuleSettingLL settinglist = { NULL, NULL };
+	ModuleSettingLL settinglist = { nullptr, nullptr };
 	db_enum_settings(hContact, enumModulesSettingsProc, oldName, &settinglist);
 
 	for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = (ModSetLinkLinkItem *)setting->next) {
@@ -196,7 +196,7 @@ static void RenameDbProto(MCONTACT hContact, MCONTACT hContactNew, char* oldName
 static void ShowPopup(char* szText, wchar_t* tszText, MCONTACT hContact)
 {
 	POPUPDATAT ppd = { 0 };
-	wchar_t* text = 0;
+	wchar_t* text = nullptr;
 
 	if (tszText)
 		text = mir_wstrdup(tszText);
@@ -224,13 +224,13 @@ BOOL DirectoryExists(MCONTACT hContact)
 
 void CopyToClipboard(HWND, LPSTR pszMsg, LPTSTR ptszMsg)
 {
-	LPTSTR buf = 0;
+	LPTSTR buf = nullptr;
 	if (ptszMsg)
 		buf = mir_wstrdup(ptszMsg);
 	else if (pszMsg)
 		buf = mir_a2u(pszMsg);
 
-	if (buf == 0)
+	if (buf == nullptr)
 		return;
 
 	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(buf) + 1)*sizeof(wchar_t));
@@ -239,7 +239,7 @@ void CopyToClipboard(HWND, LPSTR pszMsg, LPTSTR ptszMsg)
 	mir_free(buf);
 	GlobalUnlock(hglbCopy);
 
-	if (OpenClipboard(NULL) == NULL)
+	if (OpenClipboard(nullptr) == NULL)
 		return;
 
 	EmptyClipboard();
@@ -263,7 +263,7 @@ void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID, size_t dwIDSize)
 	DBVARIANT dbv_uniqueid;
 	LPSTR uID = (LPSTR)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if (uID == (LPSTR)CALLSERVICE_NOTFOUND)
-		uID = NULL;
+		uID = nullptr;
 
 	szID[0] = 0;
 	if (uID && db_get(hContact, szProto, uID, &dbv_uniqueid) == 0) {
@@ -344,7 +344,7 @@ void getIP(MCONTACT hContact, LPSTR szProto, LPSTR szIP)
 LPTSTR getMirVer(MCONTACT hContact)
 {
 	LPSTR szProto = GetContactProto(hContact);
-	if (!szProto) return NULL;
+	if (!szProto) return nullptr;
 
 	LPTSTR msg = db_get_wsa(hContact, szProto, "MirVer");
 	if (msg) {
@@ -353,7 +353,7 @@ LPTSTR getMirVer(MCONTACT hContact)
 		mir_free(msg);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static LRESULT CALLBACK AuthReqEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -460,12 +460,12 @@ static INT_PTR onHide(WPARAM wparam, LPARAM)
 // following 4 functions should be self-explanatory
 static void ModifyVisibleSet(int mode, BOOL alpha)
 {
-	Menu_ModifyItem(hmenuVis, NULL, (mode) ? hIcons[1] : (alpha ? hIcons[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
+	Menu_ModifyItem(hmenuVis, nullptr, (mode) ? hIcons[1] : (alpha ? hIcons[3] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
 }
 
 static void ModifyInvisSet(int mode, BOOL alpha)
 {
-	Menu_ModifyItem(hmenuOff, NULL, (mode) ? hIcons[2] : (alpha ? hIcons[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
+	Menu_ModifyItem(hmenuOff, nullptr, (mode) ? hIcons[2] : (alpha ? hIcons[4] : Skin_LoadIcon(SKINICON_OTHER_SMALLDOT)));
 }
 
 static void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
@@ -524,7 +524,7 @@ static void ModifyStatusMsg(MCONTACT hContact)
 		hIconSMsg = hIcon;
 	}
 
-	Menu_ModifyItem(hmenuStatusMsg, NULL, hIconSMsg);
+	Menu_ModifyItem(hmenuStatusMsg, nullptr, hIconSMsg);
 	DestroyIcon(hIconSMsg);
 }
 
@@ -543,13 +543,13 @@ static void ModifyCopyIP(MCONTACT hContact)
 		hIconCIP = hIcon;
 	}
 
-	Menu_ModifyItem(hmenuCopyIP, NULL, hIconCIP);
+	Menu_ModifyItem(hmenuCopyIP, nullptr, hIconCIP);
 	DestroyIcon(hIconCIP);
 }
 
 static void ModifyCopyMirVer(MCONTACT hContact)
 {
-	HICON hMenuIcon = NULL;
+	HICON hMenuIcon = nullptr;
 	if (ServiceExists(MS_FP_GETCLIENTICONT)) {
 		LPTSTR msg = getMirVer(hContact);
 		if (msg) {
@@ -557,9 +557,9 @@ static void ModifyCopyMirVer(MCONTACT hContact)
 			mir_free(msg);
 		}
 	}
-	if (hMenuIcon == NULL)
+	if (hMenuIcon == nullptr)
 		hMenuIcon = hIcons[0];
-	Menu_ModifyItem(hmenuCopyMirVer, NULL, hMenuIcon);
+	Menu_ModifyItem(hmenuCopyMirVer, nullptr, hMenuIcon);
 }
 
 static INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
@@ -575,7 +575,7 @@ static INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 	}
 
 	LPSTR szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 0;
 
 	GetID(hContact, szProto, (LPSTR)&szID, _countof(szID));
@@ -591,9 +591,9 @@ static INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 	else
 		strncpy(buffer, szID, _countof(buffer)-1);
 
-	CopyToClipboard((HWND)lparam, buffer, 0);
+	CopyToClipboard((HWND)lparam, buffer, nullptr);
 	if (CTRL_IS_PRESSED && bPopupService)
-		ShowPopup(buffer, 0, hContact);
+		ShowPopup(buffer, nullptr, hContact);
 
 	return 0;
 }
@@ -630,9 +630,9 @@ static INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 		}
 	}
 
-	CopyToClipboard((HWND)lparam, 0, buffer);
+	CopyToClipboard((HWND)lparam, nullptr, buffer);
 	if (CTRL_IS_PRESSED && bPopupService)
-		ShowPopup(0, buffer, hContact);
+		ShowPopup(nullptr, buffer, hContact);
 
 	return 0;
 }
@@ -644,9 +644,9 @@ static INT_PTR onCopyIP(WPARAM wparam, LPARAM lparam)
 	char szIP[128];
 	getIP((MCONTACT)wparam, szProto, (LPSTR)&szIP);
 
-	CopyToClipboard((HWND)lparam, szIP, 0);
+	CopyToClipboard((HWND)lparam, szIP, nullptr);
 	if (CTRL_IS_PRESSED && bPopupService)
-		ShowPopup(szIP, 0, (MCONTACT)wparam);
+		ShowPopup(szIP, nullptr, (MCONTACT)wparam);
 
 	return 0;
 }
@@ -655,9 +655,9 @@ static INT_PTR onCopyMirVer(WPARAM wparam, LPARAM lparam)
 {
 	LPTSTR msg = getMirVer((MCONTACT)wparam);
 	if (msg) {
-		CopyToClipboard((HWND)lparam, _T2A(msg), 0);
+		CopyToClipboard((HWND)lparam, _T2A(msg), nullptr);
 		if (CTRL_IS_PRESSED && bPopupService)
-			ShowPopup(_T2A(msg), 0, (MCONTACT)wparam);
+			ShowPopup(_T2A(msg), nullptr, (MCONTACT)wparam);
 
 		mir_free(msg);
 	}
@@ -674,7 +674,7 @@ static INT_PTR onRecvFiles(WPARAM wparam, LPARAM)
 {
 	char path[MAX_PATH];
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, wparam, (LPARAM)&path);
-	ShellExecuteA(0, "open", path, 0, 0, SW_SHOW);
+	ShellExecuteA(nullptr, "open", path, nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 
@@ -702,7 +702,7 @@ static INT_PTR onChangeProto(WPARAM wparam, LPARAM lparam)
 		else
 			return 0;
 	}
-	if (MessageBox(NULL, TranslateT("Do you want to send authorization request\nto new contact?"),
+	if (MessageBox(nullptr, TranslateT("Do you want to send authorization request\nto new contact?"),
 		L"Miranda NG", MB_OKCANCEL | MB_SETFOREGROUND | MB_TOPMOST) == IDOK)
 
 		onSendAuthRequest((WPARAM)hContactNew, 0);
@@ -754,7 +754,7 @@ static void ModifySubmenuItem(HGENMENU hItem, int checked, int hidden)
 		flags |= CMIF_CHECKED;
 	if (hidden)
 		flags |= CMIF_HIDDEN;
-	Menu_ModifyItem(hItem, NULL, INVALID_HANDLE_VALUE, flags);
+	Menu_ModifyItem(hItem, nullptr, INVALID_HANDLE_VALUE, flags);
 }
 
 // called when the contact-menu is built
@@ -867,7 +867,7 @@ static int EnumProtoSubmenu(WPARAM, LPARAM)
 			if (hProtoItem[i])
 			{
 				Menu_RemoveItem(hProtoItem[i]);
-				hProtoItem[i] = 0;
+				hProtoItem[i] = nullptr;
 			}
 		}
 	}
@@ -896,7 +896,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 
 static int TabsrmmButtonsInit(WPARAM, LPARAM)
 {
-	BBButton bbd = { 0 };
+	BBButton bbd = {};
 	bbd.pszModuleName = MODULENAME;
 	bbd.dwDefPos = 1000;
 	bbd.pwszTooltip = LPGENW("Browse Received Files");
@@ -964,7 +964,7 @@ static int PluginInit(WPARAM, LPARAM)
 	SET_UID(mi, 0xe09c04d4, 0xc6b1, 0x4048, 0x98, 0xd6, 0xbe, 0x11, 0xf6, 0x91, 0x15, 0xba);
 	mi.position++;
 	mi.name.w = LPGENW("Ignore");
-	mi.pszService = 0;
+	mi.pszService = nullptr;
 	mi.hIcolibItem = IcoLib_GetIcon("miex_ignore");
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
 
@@ -1019,7 +1019,7 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position++;
 	mi.name.w = LPGENW("Copy Status Message");
 	mi.pszService = MS_STATUSMSG;
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	hmenuStatusMsg = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x3847bfcd, 0xfcd5, 0x4435, 0xa6, 0x54, 0x2e, 0x9, 0xc5, 0xba, 0xcf, 0x71);

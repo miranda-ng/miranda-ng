@@ -81,7 +81,7 @@ void StripBBCodesInPlace(wchar_t *ptszText)
 	if (!db_get_b(0, MODULE, "StripBBCodes", 1))
 		return;
 
-	if (ptszText == 0)
+	if (ptszText == nullptr)
 		return;
 
 	size_t iRead = 0, iWrite = 0;
@@ -170,8 +170,8 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
 			dbei.pBlob = (BYTE *)alloca(dbei.cbBlob);
 			db_event_get(hDbEvent, &dbei);
-			if (dbei.cbBlob == 0 || dbei.pBlob == 0)
-				return 0;
+			if (dbei.cbBlob == 0 || dbei.pBlob == nullptr)
+				return nullptr;
 
 			wchar_t *buff = DbEvent_GetTextW( &dbei, CP_ACP );
 			wchar_t *swzMsg = mir_wstrdup(buff);
@@ -182,7 +182,7 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto)
@@ -208,7 +208,7 @@ bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto)
 
 wchar_t* GetStatusMessageText(MCONTACT hContact)
 {
-	wchar_t *swzMsg = NULL;
+	wchar_t *swzMsg = nullptr;
 	DBVARIANT dbv;
 
 	char *szProto = GetContactProto(hContact);
@@ -218,7 +218,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 		else {
 			WORD wStatus = (int)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			if (wStatus == ID_STATUS_OFFLINE)
-				return NULL;
+				return nullptr;
 
 			if (!db_get_ws(hContact, MODULE, "TempStatusMsg", &dbv)) {
 				if (mir_wstrlen(dbv.ptszVal) != 0)
@@ -230,7 +230,7 @@ wchar_t* GetStatusMessageText(MCONTACT hContact)
 		if (!swzMsg) {
 			if (CanRetrieveStatusMsg(hContact, szProto))
 				if (ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
-					return NULL;
+					return nullptr;
 
 			if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
 				if (mir_wstrlen(dbv.ptszVal) != 0)
@@ -251,7 +251,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 	bool recv = false;
 
 	if (!mir_wstrcmp(swzRawSpec, L"uid"))
-		return Uid(hContact, 0, buff, bufflen);
+		return Uid(hContact, nullptr, buff, bufflen);
 
 	if (!mir_wstrcmp(swzRawSpec, L"proto")) {
 		char *szProto = GetContactProto(hContact);
@@ -314,7 +314,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		if (!hSubContact || (INT_PTR)hSubContact == CALLSERVICE_NOTFOUND)
 			return false;
-		return Uid(hSubContact, 0, buff, bufflen);
+		return Uid(hSubContact, nullptr, buff, bufflen);
 	}
 	else if (!mir_wstrcmp(swzRawSpec, L"meta_subproto")) {
 		// get protocol of active subcontact
@@ -338,7 +338,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 	else if ((recv = !mir_wstrcmp(swzRawSpec, L"last_msg_reltime")) || !mir_wstrcmp(swzRawSpec, L"last_msg_out_reltime")) {
 		DWORD ts = LastMessageTimestamp(hContact, recv);
 		if (ts == 0) return false;
-		DWORD t = (DWORD)time(0);
+		DWORD t = (DWORD)time(nullptr);
 		DWORD diff = (t - ts);
 		int d = (diff / 60 / 60 / 24);
 		int h = (diff - d * 60 * 60 * 24) / 60 / 60;
@@ -366,7 +366,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 			if (i > 0)
 				hTmpContact = db_mc_getSub(hContact, i);
 			dwRecountTs = db_get_dw(hTmpContact, MODULE, "LastCountTS", 0);
-			dwTime = (DWORD)time(0);
+			dwTime = (DWORD)time(nullptr);
 			dwDiff = (dwTime - dwRecountTs);
 			if (dwDiff > (60 * 60 * 24 * 3)) {
 				db_set_dw(hTmpContact, MODULE, "LastCountTS", dwTime);
@@ -420,7 +420,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 
 bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, wchar_t *buff, int bufflen)
 {
-	TranslateFunc *transFunc = 0;
+	TranslateFunc *transFunc = nullptr;
 	for (int i = 0; i < iTransFuncsCount; i++)
 		if (translations[i].id == (DWORD)ds.iTranslateFuncId) {
 			transFunc = translations[i].transFunc;
@@ -432,13 +432,13 @@ bool GetSubstText(MCONTACT hContact, const DISPLAYSUBST &ds, wchar_t *buff, int 
 
 	switch (ds.type) {
 	case DVT_DB:
-		return transFunc(hContact, ds.szModuleName, ds.szSettingName, buff, bufflen) != 0;
+		return transFunc(hContact, ds.szModuleName, ds.szSettingName, buff, bufflen) != nullptr;
 	case DVT_PROTODB:
 		char *szProto = GetContactProto(hContact);
 		if (szProto) {
-			if (transFunc(hContact, szProto, ds.szSettingName, buff, bufflen) != 0)
+			if (transFunc(hContact, szProto, ds.szSettingName, buff, bufflen) != nullptr)
 				return true;
-			return transFunc(hContact, "UserInfo", ds.szSettingName, buff, bufflen) != 0;
+			return transFunc(hContact, "UserInfo", ds.szSettingName, buff, bufflen) != nullptr;
 		}
 		break;
 	}
@@ -454,13 +454,13 @@ bool GetRawSubstText(MCONTACT hContact, char *szRawSpec, wchar_t *buff, int buff
 			if (mir_strlen(szRawSpec) == 0) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto) {
-					if (translations[0].transFunc(hContact, szProto, &szRawSpec[i + 1], buff, bufflen) != 0)
+					if (translations[0].transFunc(hContact, szProto, &szRawSpec[i + 1], buff, bufflen) != nullptr)
 						return true;
-					return translations[0].transFunc(hContact, "UserInfo", &szRawSpec[i + 1], buff, bufflen) != 0;
+					return translations[0].transFunc(hContact, "UserInfo", &szRawSpec[i + 1], buff, bufflen) != nullptr;
 				}
 				return false;
 			}
-			return translations[0].transFunc(hContact, szRawSpec, &szRawSpec[i + 1], buff, bufflen) != 0;
+			return translations[0].transFunc(hContact, szRawSpec, &szRawSpec[i + 1], buff, bufflen) != nullptr;
 		}
 	}
 	return false;
@@ -475,7 +475,7 @@ bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVar
 	}
 
 	// pass to variables plugin if available
-	wchar_t *swzVarSrc = (parseTipperVarsFirst ? mir_wstrdup(swzSource) : variables_parsedup((wchar_t *)swzSource, 0, hContact));
+	wchar_t *swzVarSrc = (parseTipperVarsFirst ? mir_wstrdup(swzSource) : variables_parsedup((wchar_t *)swzSource, nullptr, hContact));
 
 	size_t iSourceLen = mir_wstrlen(swzVarSrc);
 	size_t si = 0, di = 0, v = 0;
@@ -508,14 +508,14 @@ bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVar
 					p++;
 					if (*p) {
 						char *cp = GetContactProto(hContact);
-						if (cp != NULL) {
+						if (cp != nullptr) {
 							PROTOACCOUNT *acc = Proto_GetAccount(cp);
-							if (acc != NULL) {
+							if (acc != nullptr) {
 								cp = acc->szProtoName;
 							}
 						}
 
-						if (cp == NULL)
+						if (cp == nullptr)
 							goto empty;
 
 						bool negate = false;
@@ -639,7 +639,7 @@ bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVar
 	swzDest[di] = 0;
 
 	if (parseTipperVarsFirst) {
-		swzVarSrc = variables_parsedup(swzDest, 0, hContact);
+		swzVarSrc = variables_parsedup(swzDest, nullptr, hContact);
 		wcsncpy(swzDest, swzVarSrc, iDestLen);
 		mir_free(swzVarSrc);
 	}
@@ -687,18 +687,18 @@ void TruncateString(wchar_t *ptszText)
 wchar_t* GetProtoStatusMessage(char *szProto, WORD wStatus)
 {
 	if (!szProto || wStatus == ID_STATUS_OFFLINE)
-		return NULL;
+		return nullptr;
 
 	// check if protocol supports status message for status
 	int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0);
 	if (!(flags & Proto_Status2Flag(wStatus)))
-		return NULL;
+		return nullptr;
 
 	wchar_t *ptszText = (wchar_t *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_UNICODE);
 	if ((INT_PTR)ptszText == CALLSERVICE_NOTFOUND)
 		ptszText = (wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGW, wStatus, (LPARAM)szProto);
 
-	else if (ptszText == NULL) {
+	else if (ptszText == nullptr) {
 		// try to use service without SGMA_TCHAR
 		char *tmpMsg = (char *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, 0);
 		if (tmpMsg && (INT_PTR)tmpMsg != CALLSERVICE_NOTFOUND) {
@@ -710,7 +710,7 @@ wchar_t* GetProtoStatusMessage(char *szProto, WORD wStatus)
 
 	if (ptszText && !ptszText[0]) {
 		mir_free(ptszText);
-		ptszText = NULL;
+		ptszText = nullptr;
 	}
 
 	if (ptszText && opt.bLimitMsg)
@@ -722,12 +722,12 @@ wchar_t* GetProtoStatusMessage(char *szProto, WORD wStatus)
 wchar_t* GetProtoExtraStatusTitle(char *szProto)
 {
 	if (!szProto)
-		return NULL;
+		return nullptr;
 
 	wchar_t *ptszText = db_get_wsa(0, szProto, "XStatusName");
 	if (!ptszText) {
 		wchar_t buff[256];
-		if (EmptyXStatusToDefaultName(0, szProto, 0, buff, 256))
+		if (EmptyXStatusToDefaultName(0, szProto, nullptr, buff, 256))
 			ptszText = mir_wstrdup(buff);
 	}
 
@@ -740,11 +740,11 @@ wchar_t* GetProtoExtraStatusTitle(char *szProto)
 wchar_t* GetProtoExtraStatusMessage(char *szProto)
 {
 	if (!szProto)
-		return NULL;
+		return nullptr;
 
 	wchar_t *ptszText = db_get_wsa(0, szProto, "XStatusMsg");
-	if (ptszText == NULL)
-		return NULL;
+	if (ptszText == nullptr)
+		return nullptr;
 
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		MCONTACT hContact = db_find_first();
@@ -759,7 +759,7 @@ wchar_t* GetProtoExtraStatusMessage(char *szProto)
 			}
 		}
 
-		wchar_t *tszParsed = variables_parse(ptszText, NULL, hContact);
+		wchar_t *tszParsed = variables_parse(ptszText, nullptr, hContact);
 		if (tszParsed)
 		{
 			mir_free(ptszText);
@@ -776,7 +776,7 @@ wchar_t* GetProtoExtraStatusMessage(char *szProto)
 wchar_t* GetListeningTo(char *szProto)
 {
 	if (!szProto)
-		return NULL;
+		return nullptr;
 
 	wchar_t *ptszText = db_get_wsa(0, szProto, "ListeningTo");
 	if (opt.bLimitMsg)
@@ -788,7 +788,7 @@ wchar_t* GetListeningTo(char *szProto)
 wchar_t* GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szValue)
 {
 	if (!szProto)
-		return NULL;
+		return nullptr;
 
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, szSlot, szValue);
@@ -802,10 +802,10 @@ wchar_t* GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *s
 HICON GetJabberActivityIcon(MCONTACT hContact, char *szProto)
 {
 	if (!szProto)
-		return NULL;
+		return nullptr;
 
 	char szSetting[128];
 	mir_snprintf(szSetting, "%s/%s/%s", szProto, "activity", "icon");
 	ptrA szIcon(db_get_sa(hContact, "AdvStatus", szSetting));
-	return (szIcon != NULL) ? IcoLib_GetIcon(szIcon) : NULL;
+	return (szIcon != NULL) ? IcoLib_GetIcon(szIcon) : nullptr;
 }

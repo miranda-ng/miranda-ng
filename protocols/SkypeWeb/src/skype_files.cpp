@@ -37,7 +37,7 @@ void CSkypeProto::OnASMObjectCreated(const NETLIBHTTPREQUEST *response, void *ar
 		std::string strObjectId = node["id"].as_string();
 		fup->uid = mir_strdup(strObjectId.c_str());
 		FILE *pFile = _wfopen(fup->tszFileName, L"rb");
-		if (pFile == NULL) return;
+		if (pFile == nullptr) return;
 
 		fseek(pFile, 0, SEEK_END);
 		long lFileLen = ftell(pFile);

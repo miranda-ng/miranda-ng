@@ -115,7 +115,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 	right = clRect.right;
 
 	// avatar check
-	if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1)
+	if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != nullptr && hitcontact->avatarLeft != -1)
 		if (testx < right - hitcontact->avatarLeft && testx > right - hitcontact->avatarLeft - cfg::dat.avatarSize)
 			if (flags)
 				*flags |= CLCHT_ONAVATAR;
@@ -196,8 +196,8 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontac
 
 int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags)
 {
-	ClcContact *hitcontact = NULL;
-	ClcGroup *hitgroup = NULL;
+	ClcContact *hitcontact = nullptr;
+	ClcGroup *hitgroup = nullptr;
 	int indent, width, i;
 	int checkboxWidth;
 	SIZE textSize;
@@ -256,7 +256,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	}
 
 	// avatar check
-	if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1) {
+	if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != nullptr && hitcontact->avatarLeft != -1) {
 		if (testx > hitcontact->avatarLeft && testx < hitcontact->avatarLeft + cfg::dat.avatarSize) {
 			if (flags)
 				*flags |= CLCHT_ONAVATAR;
@@ -366,10 +366,10 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 			if (nowTick >= startTick + dat->scrollTime)
 				break;
 			dat->yScroll = oldy + (desty - oldy) * (int)(nowTick - startTick) / dat->scrollTime;
-			if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL)
-				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
+			if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == nullptr)
+				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE);
 			else
-				InvalidateRect(hwnd, NULL, FALSE);
+				InvalidateRect(hwnd, nullptr, FALSE);
 			previousy = dat->yScroll;
 			if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
 				CoolSB_SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
@@ -379,14 +379,14 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 		}
 	}
 	dat->yScroll = desty;
-	if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL) {
+	if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == nullptr) {
 		if (!noSmooth)
-			ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
+			ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE);
 		else
-			InvalidateRect(hwnd, NULL, FALSE);
+			InvalidateRect(hwnd, nullptr, FALSE);
 	}
 	else
-		InvalidateRect(hwnd, NULL, FALSE);
+		InvalidateRect(hwnd, nullptr, FALSE);
 
 	if (cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
 		CoolSB_SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
@@ -453,7 +453,7 @@ void SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newStat
 			return;
 		group->expanded = newState != 0;
 	}
-	InvalidateRect(hwnd, NULL, FALSE);
+	InvalidateRect(hwnd, nullptr, FALSE);
 	contentCount = pcli->pfnGetGroupContentsCount(group, 1);
 
 	groupy = pcli->pfnGetRowsPriorTo(&dat->list, group, -1);
@@ -536,7 +536,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 			if (h < dat->fontInfo[i].fontHeight + 2) h = dat->fontInfo[i].fontHeight + 2;
 	}
 
-	dat->hwndRenameEdit = CreateWindowEx(0, L"RICHEDIT50W", contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, NULL, g_hInst, NULL);
+	dat->hwndRenameEdit = CreateWindowEx(0, L"RICHEDIT50W", contact->szText, WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOHSCROLL, x, y, clRect.right - x, h, hwnd, nullptr, g_hInst, nullptr);
 	{
 		if ((contact->type == CLCIT_CONTACT && contact->pExtra->dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
 			PARAFORMAT2 pf2;
@@ -599,8 +599,8 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 			if (cfg::dat.hdcPic) {
 				SelectObject(cfg::dat.hdcPic, cfg::dat.hbmPicOld);
 				DeleteDC(cfg::dat.hdcPic);
-				cfg::dat.hdcPic = 0;
-				cfg::dat.hbmPicOld = 0;
+				cfg::dat.hdcPic = nullptr;
+				cfg::dat.hbmPicOld = nullptr;
 			}
 		}
 
@@ -618,14 +618,14 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst)
 		char wpbuf[MAX_PATH];
 		if (dat->hBmpBackground) {
 			DeleteObject(dat->hBmpBackground);
-			dat->hBmpBackground = NULL;
+			dat->hBmpBackground = nullptr;
 		}
 
 		SystemParametersInfoA(SPI_GETDESKWALLPAPER, MAX_PATH, wpbuf, 0);
 
 		// we have a wallpaper string
 		if (wpbuf[0] != 0)
-			dat->hBmpBackground = reinterpret_cast<HBITMAP>(LoadImageA(NULL, wpbuf, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
+			dat->hBmpBackground = reinterpret_cast<HBITMAP>(LoadImageA(nullptr, wpbuf, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE));
 
 		cfg::dat.bmpBackground = dat->hBmpBackground;
 		if (cfg::dat.bmpBackground) {

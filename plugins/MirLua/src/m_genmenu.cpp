@@ -122,7 +122,7 @@ static luaL_Reg genmenuApi[] =
 	{ "CheckMenuItem", genmenu_CheckMenuItem },
 	{ "RemoveMenuItem", genmenu_RemoveMenuItem },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_genmenu(lua_State *L)

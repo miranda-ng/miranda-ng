@@ -98,7 +98,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 	interval = db_get_w(NULL, protocolname, KEY_REPEATINTERVAL, 300);
 
 	wchar_t *ptszVal = db_get_wsa(NULL, protocolname, KEY_HEADING);
-	if (ptszVal == 0)
+	if (ptszVal == nullptr)
 		// Heading not set
 		db_set_ws(NULL, protocolname, KEY_HEADING, TranslateT("Dear %user%, the owner left the following message:"));
 	else
@@ -111,7 +111,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 			char szStatus[6] = { 0 };
 			mir_snprintf(szStatus, "%d", c);
 			ptszVal = db_get_wsa(NULL, protocolname, szStatus);
-			if (ptszVal == 0) {
+			if (ptszVal == nullptr) {
 				wchar_t *ptszDefault;
 				if (c < ID_STATUS_FREECHAT)
 					// This mode does not have a preset message
@@ -119,7 +119,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 				else if (c > ID_STATUS_INVISIBLE)
 					ptszDefault = ptszDefaultMsg[c - ID_STATUS_ONLINE - 3];
 				else
-					ptszDefault = 0;
+					ptszDefault = nullptr;
 				if (ptszDefault)
 					db_set_ws(NULL, protocolname, szStatus, TranslateW(ptszDefault));
 			}
@@ -165,7 +165,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			return FALSE;
 
 		wchar_t *ptszVal = db_get_wsa(hContact, "Protocol", "p");
-		if (ptszVal == NULL) // Contact with no protocol ?!!
+		if (ptszVal == nullptr) // Contact with no protocol ?!!
 			return FALSE;
 		mir_free(ptszVal);
 
@@ -176,7 +176,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			return FALSE;
 
 		if (!(dbei.flags & DBEF_SENT)) {
-			int timeBetween = time(NULL) - db_get_dw(hContact, protocolname, "LastReplyTS", 0);
+			int timeBetween = time(nullptr) - db_get_dw(hContact, protocolname, "LastReplyTS", 0);
 			if (timeBetween > interval || db_get_w(hContact, protocolname, "LastStatus", 0) != status) {
 				size_t msgLen = 1;
 				int isQun = db_get_b(hContact, pszProto, "IsQun", 0);
@@ -191,7 +191,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						CMStringW ptszTemp;
 
 						wchar_t *ptszNick = db_get_wsa(hContact, pszProto, "Nick");
-						if (ptszNick == 0) {
+						if (ptszNick == nullptr) {
 							mir_free(ptszVal);
 							return FALSE;
 						}
@@ -199,7 +199,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						msgLen += mir_wstrlen(ptszVal);
 
 						wchar_t *ptszHead = db_get_wsa(NULL, protocolname, KEY_HEADING);
-						if (ptszHead != NULL) {
+						if (ptszHead != nullptr) {
 							ptszTemp = ptszHead;
 							ptszTemp.Replace(L"%user%", ptszNick);
 							msgLen += mir_wstrlen(ptszTemp);
@@ -209,7 +209,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						wchar_t *ptszTemp2 = (wchar_t*)mir_alloc(sizeof(wchar_t) * (msgLen + 5));
 						mir_snwprintf(ptszTemp2, msgLen + 5, L"%s\r\n\r\n%s", ptszTemp.c_str(), ptszVal);
 						if (ServiceExists(MS_VARS_FORMATSTRING)) {
-							ptszTemp = variables_parse(ptszTemp2, 0, hContact);
+							ptszTemp = variables_parse(ptszTemp2, nullptr, hContact);
 						}
 						else ptszTemp = Utils_ReplaceVarsW(ptszTemp2);
 
@@ -219,7 +219,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						dbei.eventType = EVENTTYPE_MESSAGE;
 						dbei.flags = DBEF_UTF | DBEF_SENT; //DBEF_READ;
 						dbei.szModule = pszProto;
-						dbei.timestamp = time(NULL);
+						dbei.timestamp = time(nullptr);
 						dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
 						dbei.pBlob = (PBYTE)pszUtf;
 						db_event_add(hContact, &dbei);
@@ -232,7 +232,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 			}
 		}
 
-		db_set_dw(hContact, protocolname, "LastReplyTS", time(NULL));
+		db_set_dw(hContact, protocolname, "LastReplyTS", time(nullptr));
 		db_set_w(hContact, protocolname, "LastStatus", status);
 	}
 	return 0;

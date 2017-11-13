@@ -128,7 +128,7 @@ HRESULT __stdcall CDataObject::QueryInterface(REFIID iid, void **ppvObject)
 		return S_OK;
 	}
 
-	*ppvObject = 0;
+	*ppvObject = nullptr;
 	return E_NOINTERFACE;
 }
 
@@ -163,7 +163,7 @@ HRESULT __stdcall CDataObject::GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium
 	// found a match! transfer the data into the supplied storage-medium
 	//
 	pMedium->tymed = m_pFormatEtc[idx].tymed;
-	pMedium->pUnkForRelease = 0;
+	pMedium->pUnkForRelease = nullptr;
 
 	switch (pMedium->tymed) {
 	case TYMED_HGLOBAL:
@@ -176,7 +176,7 @@ HRESULT __stdcall CDataObject::GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium
 	default:
 		return DV_E_FORMATETC;
 	}
-	if (pMedium->hBitmap == NULL) return STG_E_MEDIUMFULL;
+	if (pMedium->hBitmap == nullptr) return STG_E_MEDIUMFULL;
 
 	return S_OK;
 }
@@ -210,7 +210,7 @@ HRESULT __stdcall CDataObject::QueryGetData(FORMATETC *pFormatEtc)
 HRESULT __stdcall CDataObject::GetCanonicalFormatEtc(FORMATETC *, FORMATETC *pFormatEtcOut)
 {
 	// Apparently we have to set this field to NULL even though we don't do anything else
-	pFormatEtcOut->ptd = NULL;
+	pFormatEtcOut->ptd = nullptr;
 	return E_NOTIMPL;
 }
 
@@ -267,7 +267,7 @@ HRESULT __stdcall CDataObject::EnumDAdvise(IEnumSTATDATA **)
 //
 HRESULT CreateDataObject(const FORMATETC *fmtetc, const STGMEDIUM *stgmeds, UINT count, IDataObject **ppDataObject)
 {
-	if (ppDataObject == 0)
+	if (ppDataObject == nullptr)
 		return E_INVALIDARG;
 
 	*ppDataObject = new CDataObject(fmtetc, stgmeds, count);

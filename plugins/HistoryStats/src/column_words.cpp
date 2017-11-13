@@ -79,12 +79,12 @@ ColWords::ColWords()
 	, m_bDetail(true)
 	, m_bDetailInOut(false)
 	, m_bInOutColor(false)
-	, m_hVisMode(NULL)
-	, m_hNum(NULL)
-	, m_hOffset(NULL)
-	, m_hDetail(NULL)
-	, m_hDetailInOut(NULL)
-	, m_hInOutColor(NULL)
+	, m_hVisMode(nullptr)
+	, m_hNum(nullptr)
+	, m_hOffset(nullptr)
+	, m_hDetail(nullptr)
+	, m_hDetailInOut(nullptr)
+	, m_hInOutColor(nullptr)
 {
 }
 
@@ -133,7 +133,7 @@ void ColWords::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	OptionsCtrl::Group hTemp;
 
 	hTemp          = Opt.insertGroup(hGroup, TranslateT("Words type"));
-		m_hVisMode  = Opt.insertRadio(hTemp, NULL, TranslateT("Most common words"));
+		m_hVisMode  = Opt.insertRadio(hTemp, nullptr, TranslateT("Most common words"));
 		              Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Least common words"));
 				        Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Longest words"));
 	m_hNum         = Opt.insertEdit (hGroup, TranslateT("Number of words"), L"", OptionsCtrl::OCF_NUMBER);
@@ -174,7 +174,7 @@ void ColWords::impl_contactDataFree(Contact& contact) const
 	if (pTrData)
 	{
 		delete pTrData;
-		contact.setSlot(contactDataTransformSlotGet(), NULL);
+		contact.setSlot(contactDataTransformSlotGet(), nullptr);
 	}
 }
 
@@ -197,7 +197,7 @@ void ColWords::impl_contactDataTransformCleanup(Contact& contact) const
 		pData->clear();
 
 		delete pData;
-		contact.setSlot(contactDataSlotGet(), NULL);
+		contact.setSlot(contactDataSlotGet(), nullptr);
 	}
 }
 

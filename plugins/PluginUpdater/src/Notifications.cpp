@@ -73,7 +73,7 @@ static void _stdcall RestartPrompt(void *)
 	wchar_t tszText[200];
 	mir_snwprintf(tszText, L"%s\n\n%s", TranslateT("You need to restart your Miranda to apply installed updates."), TranslateT("Would you like to restart it now?"));
 
-	if (MessageBox(0, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) == IDYES)
+	if (MessageBox(nullptr, tszText, TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION | MB_TOPMOST) == IDYES)
 		CallService(MS_SYSTEM_RESTART, db_get_b(NULL, MODNAME, "RestartCurrentProfile", 1) ? 1 : 0, 0);
 }
 
@@ -85,7 +85,7 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 		break;
 	case WM_COMMAND:
 		PUDeletePopup(hPopup);
-		CallFunctionAsync(RestartPrompt, 0);
+		CallFunctionAsync(RestartPrompt, nullptr);
 
 		break;
 	}
@@ -141,5 +141,5 @@ void ShowPopup(LPCTSTR ptszTitle, LPCTSTR ptszText, int Number)
 	}
 
 	if (Number == POPUP_TYPE_ERROR)
-		MessageBox(0, ptszText, ptszTitle, MB_ICONINFORMATION);
+		MessageBox(nullptr, ptszText, ptszTitle, MB_ICONINFORMATION);
 }

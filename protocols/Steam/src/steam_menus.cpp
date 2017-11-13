@@ -110,7 +110,7 @@ void CSteamProto::OnInitStatusMenu()
 
 void CSteamProto::InitMenus()
 {
-	hChooserMenu = Menu_AddObject("SteamAccountChooser", LPGEN("Steam menu chooser"), 0, "Steam/MenuChoose");
+	hChooserMenu = Menu_AddObject("SteamAccountChooser", LPGEN("Steam menu chooser"), nullptr, "Steam/MenuChoose");
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Contact menu initialization
@@ -142,7 +142,7 @@ void CSteamProto::InitMenus()
 	mi.pszService = MODULE "/JoinToGame";
 	mi.name.w = LPGENW("Join to game");
 	mi.position = -200001000 + CMI_JOIN_GAME;
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	contactMenuItems[CMI_JOIN_GAME] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::JoinToGameCommand>);
 }

@@ -67,12 +67,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	wndclass.lpfnWndProc = ProgressBarDlg;
 	wndclass.hInstance = hInst;
 	wndclass.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wndclass.lpszClassName = L"Progressbar";
 	RegisterClass(&wndclass);
 
-	splitCursor = LoadCursor(NULL, IDC_SIZENS);
+	splitCursor = LoadCursor(nullptr, IDC_SIZENS);
 
 	HookEvent(ME_OPT_INITIALISE, InitOptionsDlg);
 	HookEvent(ME_DB_EVENT_ADDED, DBUpdate);
@@ -108,7 +108,7 @@ int InitOptionsDlg(WPARAM wParam, LPARAM)
 static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 {
 	HWND hWnd = WindowList_Find(hWindowList, hContact);
-	if (hWnd != NULL) {
+	if (hWnd != nullptr) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 		int len = GetWindowTextLength(GetDlgItem(hWnd, IDC_MAIN));
@@ -118,7 +118,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	
 	MEVENT hEvent = db_event_first(hContact);
 	if (hEvent == NULL) {
-		MessageBox(NULL, TXT_EMPTYHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
+		MessageBox(nullptr, TXT_EMPTYHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
 		return 0;
 	}
 
@@ -132,10 +132,10 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 
 	RECT DesktopRect;
 	GetWindowRect(GetDesktopWindow(), &DesktopRect);
-	HWND hWndProgress = CreateWindow(L"Progressbar", TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
-	if (hWndProgress == NULL) {
+	HWND hWndProgress = CreateWindow(L"Progressbar", TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, nullptr, nullptr, hInst, nullptr);
+	if (hWndProgress == nullptr) {
 		mir_free(dbe.pBlob);
-		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );
+		MessageBox(nullptr, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );
 		return -1;
 	}
 	SetWindowPos(hWndProgress, HWND_TOP, (int)((DesktopRect.right / 2) - 175), (int)((DesktopRect.bottom / 2) - 22), 0, 0, SWP_NOSIZE);
@@ -151,7 +151,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 			if (ExtractURI(&dbe, hEvent, listStart) < 0) {
 				mir_free(dbe.pBlob);
 				RemoveList(listStart);
-				MessageBox(NULL, TranslateT("Could not allocate memory!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
+				MessageBox(nullptr, TranslateT("Could not allocate memory!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
 				return -1;
 			}
 		}
@@ -172,7 +172,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	SendMessage(hWndProgress, WM_CLOSE, 0, 0);
 	if (ListCount(listStart) <= 0) {	
 		RemoveList(listStart);
-		MessageBox(NULL, TXT_NOLINKINHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
+		MessageBox(nullptr, TXT_NOLINKINHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
 		return 0;
 	}
 
@@ -183,11 +183,11 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	DlgParam->chrg.cpMax = -1;
 	DlgParam->chrg.cpMin = -1;
 
-	HWND hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN_DLG), NULL, MainDlgProc, (LPARAM)DlgParam);
-	if (hWndMain == NULL) {
+	HWND hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN_DLG), nullptr, MainDlgProc, (LPARAM)DlgParam);
+	if (hWndMain == nullptr) {
 		mir_free(DlgParam);
 		RemoveList(listStart);
-		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), (MB_OK | MB_ICONEXCLAMATION));
+		MessageBox(nullptr, TranslateT("Could not create window!"), TranslateT("Error"), (MB_OK | MB_ICONEXCLAMATION));
 		return -1;
 	}
 

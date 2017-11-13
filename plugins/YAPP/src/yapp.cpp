@@ -3,10 +3,10 @@
 
 #include "stdafx.h"
 
-HMODULE hInst = 0;
+HMODULE hInst = nullptr;
 bool bShutdown = false;
 
-MNOTIFYLINK *notifyLink = 0;
+MNOTIFYLINK *notifyLink = nullptr;
 
 // used to work around a bug in neweventnotify and others with the address passed in the GetPluginData function
 bool ignore_gpd_passed_addy = false;
@@ -15,7 +15,7 @@ FontIDW font_id_firstline = {0}, font_id_secondline = {0}, font_id_time = {0};
 ColourIDW colour_id_bg = {0}, colour_id_border = {0}, colour_id_sidebar = {0}, colour_id_titleunderline = {0};
 
 COLORREF colBg = GetSysColor(COLOR_3DSHADOW);
-HFONT hFontFirstLine = 0, hFontSecondLine = 0, hFontTime = 0;
+HFONT hFontFirstLine = nullptr, hFontSecondLine = nullptr, hFontTime = nullptr;
 COLORREF colFirstLine = RGB(255, 0, 0), colSecondLine = 0, colTime = RGB(0, 0, 255), colBorder = RGB(0, 0, 0), 
 	colSidebar = RGB(128, 128, 128), colTitleUnderline = GetSysColor(COLOR_3DSHADOW);
 
@@ -75,7 +75,7 @@ int ReloadFont(WPARAM, LPARAM)
 
 int TTBLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.pszService = "Popup/EnableDisableMenuCommand";
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;

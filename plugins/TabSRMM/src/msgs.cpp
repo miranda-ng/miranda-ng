@@ -32,8 +32,8 @@
 #define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 
 NEN_OPTIONS nen_options;
-static HANDLE hUserPrefsWindowLis = 0;
-HMODULE g_hIconDLL = 0, g_hMsftedit;
+static HANDLE hUserPrefsWindowLis = nullptr;
+HMODULE g_hIconDLL = nullptr, g_hMsftedit;
 
 static void UnloadIcons();
 
@@ -270,7 +270,7 @@ void CTabBaseDlg::NotifyDeliveryFailure() const
 
 	ppd.PluginWindowProc = Utils::PopupDlgProcError;
 	ppd.lchIcon = PluginConfig.g_iconErr;
-	ppd.PluginData = 0;
+	ppd.PluginData = nullptr;
 	ppd.iSeconds = (int)M.GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
 	PUAddPopupT(&ppd);
 }
@@ -304,7 +304,7 @@ static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 		SetForegroundWindow(hWnd);			// already open, bring it to front
 		return 0;
 	}
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS_FRAME), 0, DlgProcUserPrefsFrame, (LPARAM)wParam);
+	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS_FRAME), nullptr, DlgProcUserPrefsFrame, (LPARAM)wParam);
 	return 0;
 }
 
@@ -331,7 +331,7 @@ static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
 
 int TSAPI MessageWindowOpened(MCONTACT hContact, HWND _hwnd)
 {
-	HWND hwnd = 0;
+	HWND hwnd = nullptr;
 	TContainerData *pContainer = nullptr;
 
 	if (hContact)
@@ -374,7 +374,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	MCONTACT hContact = ((CLISTEVENT *)lParam)->hContact;
 
 	HWND hwndExisting = Srmm_FindWindow(hContact);
-	if (hwndExisting != 0)
+	if (hwndExisting != nullptr)
 		SendMessage(hwndExisting, DM_ACTIVATEME, 0, 0);
 	else {
 		wchar_t szName[CONTAINER_NAMELEN + 1];
@@ -513,7 +513,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 	if (!dat || !pContainer)
 		return FALSE;
 
-	NMHDR nmhdr = { 0 };
+	NMHDR nmhdr = {};
 	nmhdr.code = TCN_SELCHANGE;
 	if (TabCtrl_GetItemCount(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
 		TabCtrl_SetCurSel(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->m_hwnd, IDC_MSGTABS), hwndChild));
@@ -558,16 +558,16 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTab, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent, bool bIsUnicode, const char *pszInitialText)
 {
-	if (Srmm_FindWindow(hContact) != 0) {
+	if (Srmm_FindWindow(hContact) != nullptr) {
 		_DebugPopup(hContact, L"Warning: trying to create duplicate window");
-		return 0;
+		return nullptr;
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
-				return 0;
+				return nullptr;
 
 	char *szProto = GetContactProto(hContact);
 
@@ -743,10 +743,10 @@ void TSAPI CreateImageList(BOOL bInitial)
 	PluginConfig.g_IconMsgEvent = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	PluginConfig.g_IconMsgEventBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconMsgEventBig)
-		PluginConfig.g_IconMsgEventBig = 0;
+		PluginConfig.g_IconMsgEventBig = nullptr;
 	PluginConfig.g_IconTypingEventBig = Skin_LoadIcon(SKINICON_OTHER_TYPING, true);
 	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconTypingEventBig)
-		PluginConfig.g_IconTypingEventBig = 0;
+		PluginConfig.g_IconTypingEventBig = nullptr;
 	PluginConfig.g_IconSend = PluginConfig.g_buttonBarIcons[9];
 	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 }
@@ -859,7 +859,7 @@ static int TSAPI SetupIconLibConfig()
 	wchar_t szFilename[MAX_PATH];
 	wcsncpy(szFilename, L"icons\\tabsrmm_icons.dll", MAX_PATH);
 	g_hIconDLL = LoadLibrary(szFilename);
-	if (g_hIconDLL == 0) {
+	if (g_hIconDLL == nullptr) {
 		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE | MB_ICONERROR | MB_OK);
 		return 0;
 	}
@@ -868,9 +868,9 @@ static int TSAPI SetupIconLibConfig()
 	Chat_AddIcons();
 	version = GetIconPackVersion(g_hIconDLL);
 	FreeLibrary(g_hIconDLL);
-	g_hIconDLL = 0;
+	g_hIconDLL = nullptr;
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.defaultFile.w = szFilename;
 	sid.flags = SIDF_PATH_UNICODE;
 
@@ -967,9 +967,9 @@ static void UnloadIcons()
 {
 	for (int n = 0; n < _countof(ICONBLOCKS); n++)
 		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
-			if (*(ICONBLOCKS[n].idesc[i].phIcon) != 0) {
+			if (*(ICONBLOCKS[n].idesc[i].phIcon) != nullptr) {
 				DestroyIcon(*(ICONBLOCKS[n].idesc[i].phIcon));
-				*(ICONBLOCKS[n].idesc[i].phIcon) = 0;
+				*(ICONBLOCKS[n].idesc[i].phIcon) = nullptr;
 			}
 
 	if (PluginConfig.g_hbmUnknown)
@@ -1036,8 +1036,8 @@ static void TSAPI InitAPI()
 
 int LoadSendRecvMessageModule(void)
 {
-	if (FIF == 0) {
-		MessageBox(0, TranslateT("The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
+	if (FIF == nullptr) {
+		MessageBox(nullptr, TranslateT("The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 

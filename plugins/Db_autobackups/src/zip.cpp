@@ -3,7 +3,7 @@
 
 int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback)
 {
-	zipFile hZip = zipOpen2_64(_A2T(szDestPath), APPEND_STATUS_CREATE, NULL, NULL);
+	zipFile hZip = zipOpen2_64(_A2T(szDestPath), APPEND_STATUS_CREATE, nullptr, nullptr);
 	if (!hZip) return 1;
 
 	zip_fileinfo fi = { 0 };
@@ -13,10 +13,10 @@ int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std:
 	{
 		ZipFile &zf = lstFiles[i];
 
-		HANDLE hSrcFile = CreateFileA(zf.sPath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE hSrcFile = CreateFileA(zf.sPath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hSrcFile != INVALID_HANDLE_VALUE)
 		{
-			int iOpenRes = zipOpenNewFileInZip(hZip, zf.sZipPath.c_str(), &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION);
+			int iOpenRes = zipOpenNewFileInZip(hZip, zf.sZipPath.c_str(), &fi, nullptr, 0, nullptr, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION);
 
 			if (iOpenRes == ZIP_OK)
 			{

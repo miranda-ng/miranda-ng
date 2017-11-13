@@ -134,11 +134,11 @@ static LPLCITEM ProfileList_GetItemData(HWND hList, int iItem)
 	LVITEM lvi;
 
 	if (iItem < 0)
-		return NULL;
+		return nullptr;
 	lvi.mask = LVIF_PARAM;
 	lvi.iSubItem = 0;
 	lvi.iItem = iItem;
-	return (SendMessage(hList, LVM_GETITEM, NULL, (LPARAM)&lvi)) ? (LPLCITEM)lvi.lParam : NULL;
+	return (SendMessage(hList, LVM_GETITEM, NULL, (LPARAM)&lvi)) ? (LPLCITEM)lvi.lParam : nullptr;
 }
 
 /**
@@ -205,11 +205,11 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 		return 1;
 	// set hEdit NULL to indicate the endlabeledit call and prevent other calls
 	hEdit = pList->labelEdit.hEdit;
-	pList->labelEdit.hEdit = NULL;
+	pList->labelEdit.hEdit = nullptr;
 
 	if (bSave != FALSE && pList->labelEdit.pItem) {
 		WORD ccText;
-		LPTSTR	szEdit = NULL;
+		LPTSTR	szEdit = nullptr;
 		BYTE bChanged = FALSE;
 
 		// an list element was selected
@@ -217,7 +217,7 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 			pList->labelEdit.pItem->iListItem = pList->labelEdit.dropDown.iItem;
 			if (pList->labelEdit.pItem->pszText[0]) {
 				mir_free(pList->labelEdit.pItem->pszText[0]);
-				pList->labelEdit.pItem->pszText[0] = NULL;
+				pList->labelEdit.pItem->pszText[0] = nullptr;
 			}
 			bChanged = TRUE;
 		}
@@ -278,7 +278,7 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 	RECT rcList;
 	
 	if (!PtrIsValid(pList)) 
-		return NULL;
+		return nullptr;
 	if (pList->labelEdit.hEdit)
 		ProfileList_EndLabelEdit(pList, FALSE);
 
@@ -288,7 +288,7 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 	lvi.iSubItem = iSubItem;
 
 	if (!ListView_GetItem(pList->hList, &lvi))
-		return NULL;
+		return nullptr;
 
 	pItem = (LPLCITEM)lvi.lParam;
 
@@ -296,7 +296,7 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 
 	// do not edit deviders or protocol based contact information
 	if (!(lvi.state & LVIS_SELECTED) || !PtrIsValid(pItem) || (hContact && (pItem->wFlags & CTRLF_HASPROTO)))
-		return NULL;
+		return nullptr;
 
 	ListView_EnsureVisible(pList->hList, iItem, FALSE);
 	ListView_GetSubItemRect(pList->hList, iItem, iSubItem, LVIR_BOUNDS, &pList->labelEdit.rcCombo);
@@ -314,11 +314,11 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 
 	// create the button control for the combobox
 	if (!iSubItem && pItem->idstrList) {
-		pList->labelEdit.hBtn = CreateWindowEx(WS_EX_NOPARENTNOTIFY, UINFOBUTTONCLASS, NULL, WS_VISIBLE | WS_CHILD | MBS_DOWNARROW,
+		pList->labelEdit.hBtn = CreateWindowEx(WS_EX_NOPARENTNOTIFY, UINFOBUTTONCLASS, nullptr, WS_VISIBLE | WS_CHILD | MBS_DOWNARROW,
 			pList->labelEdit.rcCombo.right - (pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top), pList->labelEdit.rcCombo.top,
 			pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top,
 			pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top,
-			pList->hList, NULL, ghInst, NULL);
+			pList->hList, nullptr, ghInst, nullptr);
 		if (pList->labelEdit.hBtn) {
 			SetWindowLongPtr(pList->labelEdit.hBtn, GWLP_ID, BTN_EDIT);
 			pList->labelEdit.rcCombo.right -= pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top;
@@ -341,9 +341,9 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem
 				pList->labelEdit.rcCombo.left, pList->labelEdit.rcCombo.top,
 				pList->labelEdit.rcCombo.right - pList->labelEdit.rcCombo.left,
 				pList->labelEdit.rcCombo.bottom - pList->labelEdit.rcCombo.top,
-				pList->hList, NULL, ghInst, NULL);
+				pList->hList, nullptr, ghInst, nullptr);
 	if (!pList->labelEdit.hEdit)
-		return NULL;
+		return nullptr;
 	SendMessage(pList->labelEdit.hEdit, WM_SETFONT, (WPARAM)(pList->hFont), 0);
 	SendMessage(pList->labelEdit.hEdit, EM_SETSEL, 0, (LPARAM)-1);
 	SetUserData(pList->labelEdit.hEdit, pList);
@@ -430,8 +430,8 @@ static BYTE ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILEENT
 		pItem->nType = CTRL_LIST_ITEM;
 		pItem->wFlags = hContact ? CTRLF_HASCUSTOM : 0;
 		pItem->iListItem = 0;
-		pItem->pszText[0] = NULL;
-		pItem->pszText[1] = NULL;
+		pItem->pszText[0] = nullptr;
+		pItem->pszText[1] = nullptr;
 		// get category list
 		pEntry->GetList((WPARAM)&pItem->idstrListCount, (LPARAM)&pItem->idstrList);
 
@@ -505,13 +505,13 @@ static int ProfileList_AddItemlistFromDB(
 		pItem->idstrList = idList;
 		pItem->idstrListCount = nList;
 		pItem->iListItem = 0;
-		pItem->pszText[0] = NULL;
+		pItem->pszText[0] = nullptr;
 		pItem->pszText[1] = dbvVal.ptszVal;
 		pItem->wFlags = wFlags;
 		lvi.lParam = (LPARAM)pItem;
 		
 		// get id-str-list-item for the category string
-		if (idList != NULL) {
+		if (idList != nullptr) {
 			for (j = 0; j < nList; j++) {
 				switch (dbvCat.type) {
 				case DBVT_BYTE:
@@ -536,7 +536,7 @@ static int ProfileList_AddItemlistFromDB(
 			}
 		}
 		// item not found in the predefined category list?
-		if ((idList == NULL || j == nList) && dbvCat.type == DBVT_ASCIIZ) {
+		if ((idList == nullptr || j == nList) && dbvCat.type == DBVT_ASCIIZ) {
 			pItem->pszText[0] = mir_a2u(dbvCat.pszVal);
 			db_free(&dbvCat);
 		}
@@ -661,7 +661,7 @@ static LRESULT CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wP
 				if (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_WANTRETURN && !(GetKeyState(VK_CONTROL) & 0x8000))
 					break;
 				if (PtrIsValid(pList = (LPLISTCTRL)GetUserData(hwnd))) {
-					bEditNext = !pList->labelEdit.iSubItem && !ProfileList_GetItemText(pList->hList, pList->labelEdit.iItem, 1, NULL, NULL);
+					bEditNext = !pList->labelEdit.iSubItem && !ProfileList_GetItemText(pList->hList, pList->labelEdit.iItem, 1, nullptr, NULL);
 					iItem = pList->labelEdit.iItem;
 					ProfileList_EndLabelEdit(pList->hList, TRUE);
 					if (bEditNext) ProfileList_BeginLabelEdit(pList->hList, pList->labelEdit.iItem, 1);
@@ -824,7 +824,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 
 					// calculate size of text on the screen
 					HDC hDC = GetDC(GetParent(hwnd));
-					if (hDC != NULL) {
+					if (hDC != nullptr) {
 						SelectObject(hDC, (HFONT)SendMessage(GetParent(hwnd), WM_GETFONT, NULL, NULL));
 						GetTextExtentPoint32(hDC, pItem->pszText[hi.iSubItem], (int)mir_wstrlen(pItem->pszText[hi.iSubItem]), &textSize);
 						ReleaseDC(GetParent(hwnd), hDC);
@@ -850,7 +850,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 								? pItem->pszText[0]
 								: TranslateT("<empty>"))
 								);
-							InvalidateRect(pList->hTip, NULL, TRUE);
+							InvalidateRect(pList->hTip, nullptr, TRUE);
 						}
 						else
 							SendMessage(pList->hTip, TTM_SETTITLE, 0, (LPARAM)"");
@@ -914,7 +914,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 				GetWindowText(pList->labelEdit.hEdit, szEdit, _countof(szEdit));
 
 				// need to create the dropdown list?
-				if (pList->labelEdit.dropDown.hDrop == NULL) {
+				if (pList->labelEdit.dropDown.hDrop == nullptr) {
 					const int listHeight = 120;
 					RECT rc, rcList;
 					int add;
@@ -933,10 +933,10 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 						rc.bottom = rc.top + listHeight;
 					}
 
-					pList->labelEdit.dropDown.hDrop = CreateWindowEx(0, L"LISTBOX", NULL,
+					pList->labelEdit.dropDown.hDrop = CreateWindowEx(0, L"LISTBOX", nullptr,
 						WS_CHILD | WS_BORDER | WS_VSCROLL | LBS_COMBOBOX | LBS_HASSTRINGS,
 						rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top,
-						hwnd, NULL, ghInst, NULL);
+						hwnd, nullptr, ghInst, nullptr);
 					if (!pList->labelEdit.dropDown.hDrop)
 						return FALSE;
 					SetUserData(pList->labelEdit.dropDown.hDrop, pList);
@@ -1073,8 +1073,8 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			rc.right -= GetSystemMetrics(SM_CXVSCROLL);
 
 			// initiate the tooltips
-			pList->hTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_BALLOON | TTS_NOPREFIX | TTS_ALWAYSTIP,
-				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hList, NULL, ghInst, NULL);
+			pList->hTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_BALLOON | TTS_NOPREFIX | TTS_ALWAYSTIP,
+				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hList, nullptr, ghInst, nullptr);
 			if (pList->hTip) {
 				SetWindowPos(pList->hTip, HWND_TOPMOST, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 					SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -1307,7 +1307,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						mii.dwTypeData = TranslateT("Delete");
 						InsertMenuItem(hMenu, 7, TRUE, &mii);
 					}
-					TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hDlg, 0);
+					TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hDlg, nullptr);
 					DestroyMenu(hMenu);
 				}
 				return 0;

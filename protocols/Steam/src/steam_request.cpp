@@ -13,17 +13,17 @@ private:
 
 public:
 	SteamResponseDelegate(CSteamProto *proto, SteamResponseCallback responseCallback)
-		: proto(proto), responseCallback(responseCallback), responseWithArgCallback(NULL), arg(NULL), httpFinallyCallback(NULL), hasArg(false) {}
+		: proto(proto), responseCallback(responseCallback), responseWithArgCallback(nullptr), arg(nullptr), httpFinallyCallback(nullptr), hasArg(false) {}
 
 	SteamResponseDelegate(CSteamProto *proto, SteamResponseWithArgCallback responseCallback, void *arg, HttpFinallyCallback httpFinallyCallback)
-		: proto(proto), responseCallback(NULL), responseWithArgCallback(responseCallback), arg(arg), httpFinallyCallback(httpFinallyCallback), hasArg(true) { }
+		: proto(proto), responseCallback(nullptr), responseWithArgCallback(responseCallback), arg(arg), httpFinallyCallback(httpFinallyCallback), hasArg(true) { }
 
 	void Invoke(const HttpResponse *response)
 	{
 		if (hasArg)
 		{
 			(proto->*(responseWithArgCallback))(response, arg);
-			if (httpFinallyCallback != NULL)
+			if (httpFinallyCallback != nullptr)
 				httpFinallyCallback(arg);
 		}
 		else

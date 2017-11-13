@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static void logInfo(const char *filename, const char *fmt, ...) {
 	va_list vararg;
 	FILE *flog=fopen(filename,"at");
-	if (flog != NULL) {
+	if (flog != nullptr) {
 		SYSTEMTIME time;
 		GetLocalTime(&time);
 		va_start(vararg, fmt);
@@ -60,10 +60,10 @@ void __cdecl TlenNewFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 		toad.sin_family = AF_INET;
 		toad.sin_addr.s_addr = inet_addr(ft->hostName);
 		toad.sin_port = htons(ft->wPort);
-		if (fout != NULL) {
+		if (fout != nullptr) {
 			fprintf(fout, "START:\n");
 		}
-		if (fout != NULL) {
+		if (fout != nullptr) {
 			fclose(fout);
 		}
 		while (ft->udps != INVALID_SOCKET) {
@@ -78,7 +78,7 @@ void __cdecl TlenNewFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 			}
 			logInfo("tlen_recv.dxx", "UDP");
 			fout = fopen("tlen_recv.dxx", "at");
-			if (fout != NULL) {
+			if (fout != nullptr) {
 				fprintf(fout, "\n|RECV %d bytes from %s:%d|",n, inet_ntoa(cad.sin_addr), cad.sin_port);
 				for (j = 0; j < n; j++) {
 					fprintf(fout, "%02X-", buff[j]);
@@ -87,14 +87,14 @@ void __cdecl TlenNewFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 			if (n == 1) {
 				alen = sizeof(struct sockaddr);
 				n = sendto(ft->udps, (char*)buff, n, 0,(struct sockaddr *) &toad, alen);
-				if (fout != NULL) {
+				if (fout != nullptr) {
 					fprintf(fout, "\n|SEND |");
 					for (j = 0; j < n; j++) {
 						fprintf(fout, "%02X-", buff[j]);
 					}
 				}
 			}
-			if (fout != NULL) {
+			if (fout != nullptr) {
 				fprintf(fout, "\n");
 				fclose(fout);
 			}
@@ -129,7 +129,7 @@ void __cdecl TlenNewFileSendThread(TLEN_FILE_TRANSFER *ft)
 		toad.sin_addr.s_addr = inet_addr(ft->hostName);
 		toad.sin_port = htons(ft->wPort);
 
-		if (fout != NULL) {
+		if (fout != nullptr) {
 			fprintf(fout, "START:");
 		}
 		for (step = 0; step < 10; step ++) {
@@ -150,18 +150,18 @@ void __cdecl TlenNewFileSendThread(TLEN_FILE_TRANSFER *ft)
 			}
 			n=sendto(ft->udps, (char*)buff, n, 0, (struct sockaddr *)&toad, alen);
 			logInfo("tlen_send.dxx", "UDP");
-			if (fout != NULL) {
+			if (fout != nullptr) {
 				fprintf(fout, "|send: %d %s %d|",n, inet_ntoa(toad.sin_addr), toad.sin_port);
 				for (j = 0; j < n; j++) {
 					fprintf(fout, "%02X-", buff[j]);
 				}
 			}
-			if (fout != NULL) {
+			if (fout != nullptr) {
 				fprintf(fout, "\n");
 			}
 			SleepEx(1000, TRUE);
 		}
-		if (fout != NULL) {
+		if (fout != nullptr) {
 			fclose(fout);
 		}
 	}
@@ -224,10 +224,10 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 	TLEN_LIST_ITEM *item;
 	char *from;
 
-	if (info == NULL) return;
+	if (info == nullptr) return;
 
 	queryNode = TlenXmlGetChild(node, "query");
-	if ((from=TlenXmlGetAttrValue(node, "from")) != NULL) {
+	if ((from=TlenXmlGetAttrValue(node, "from")) != nullptr) {
 		XmlNode *fs , *vs, *dcng, *dc;
 		/* file send */
 		fs = TlenXmlGetChild(queryNode, "fs");
@@ -235,7 +235,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 		vs  = TlenXmlGetChild(queryNode, "vs");
 		dcng  = TlenXmlGetChild(queryNode, "dcng");
 		dc  = TlenXmlGetChild(queryNode, "dc");
-		if (fs  != NULL) {
+		if (fs  != nullptr) {
 			char *e, *id;
 			/* e - step in the process (starting with 1)*/
 			/* i - id of the file */
@@ -244,7 +244,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 			/* v - ??? */
 			e = TlenXmlGetAttrValue(fs, "e");
 			id = TlenXmlGetAttrValue(fs, "i");
-			if (e != NULL) {
+			if (e != nullptr) {
 				if (!mir_strcmp(e, "1")) {
 					TLEN_FILE_TRANSFER * ft = (TLEN_FILE_TRANSFER *) mir_alloc(sizeof(TLEN_FILE_TRANSFER));
 					memset(ft, 0, sizeof(TLEN_FILE_TRANSFER));
@@ -256,7 +256,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 					ft->iqId = mir_strdup(id);
 					ft->fileTotalSize = atoi(s);
 					ft->newP2P = TRUE;
-					if ((item=TlenListAdd(ft->proto, LIST_FILE, ft->iqId)) != NULL) {
+					if ((item=TlenListAdd(ft->proto, LIST_FILE, ft->iqId)) != nullptr) {
 						char fileInfo[128];
 						item->ft = ft;
 						mir_snprintf(fileInfo, "%s file(s), %s bytes", c, s);
@@ -264,7 +264,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 						PROTORECVFILET pre = { 0 };
 						pre.dwFlags = PRFF_UNICODE;
 						pre.fileCount = 1;
-						pre.timestamp = time(NULL);
+						pre.timestamp = time(nullptr);
 						pre.descr.w = filenameT;
 						pre.files.w = &filenameT;
 						pre.lParam = (LPARAM)ft;
@@ -278,16 +278,16 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 					/* transfer denied */
 				} else if (!mir_strcmp(e, "5")) {
 					/* transfer accepted */
-					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != NULL) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != nullptr) {
 						item->id2 = mir_strdup("84273372");
 						item->ft->id2 = mir_strdup("84273372");
 						TlenSend(info->proto, "<iq to='%s'><query xmlns='p2p'><dcng n='file_send' k='5' v='2' s='1' i='%s' ck='o7a32V9n2UZYCWpBUhSbFw==' ks='16' iv='MhjWEj9WTsovrQc=o7a32V9n2UZYCWpBUhSbFw==' mi='%s'/></query></iq>", from, item->id2, id);
 					}
 				}
 			}
-		} else if (vs != NULL) {
+		} else if (vs != nullptr) {
 
-		} else if (dcng != NULL) {
+		} else if (dcng != nullptr) {
 			info->proto->debugLogA("DCNG");
 			char *s = TlenXmlGetAttrValue(dcng, "s");
 			char *id2 = TlenXmlGetAttrValue(dcng, "i");
@@ -304,7 +304,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 				/* v - ? */
 				char *n = TlenXmlGetAttrValue(dcng, "n"); // n - name (file_send)
 				if (!mir_strcmp(n, "file_send")) {
-					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != NULL) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != nullptr) {
 						item->id2 = mir_strdup(id2);
 						item->ft->id2 = mir_strdup(id2);
 						TlenBindUDPSocket(item->ft);
@@ -317,7 +317,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 				info->proto->debugLogA("%s",from);
 				info->proto->debugLogA("%s",id2);
 				/* IP and port */
-				if ((item=TlenListFindItemPtrById2(info->proto, LIST_FILE, id2)) != NULL) {
+				if ((item=TlenListFindItemPtrById2(info->proto, LIST_FILE, id2)) != nullptr) {
 					item->ft->hostName = mir_strdup(TlenXmlGetAttrValue(dcng, "pa"));
 					item->ft->wPort = atoi(TlenXmlGetAttrValue(dcng, "pp"));
 					TlenBindUDPSocket(item->ft);
@@ -328,7 +328,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 				}
 			} else if (!mir_strcmp(s, "4")) {
 				/* IP and port */
-				if ((item=TlenListFindItemPtrById2(info->proto, LIST_FILE, id2)) != NULL) {
+				if ((item=TlenListFindItemPtrById2(info->proto, LIST_FILE, id2)) != nullptr) {
 					info->proto->debugLogA("step = 4");
 					item->ft->hostName = mir_strdup(TlenXmlGetAttrValue(dcng, "pa"));
 					item->ft->wPort = atoi(TlenXmlGetAttrValue(dcng, "pp"));
@@ -336,7 +336,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 				}
 			}
 
-		} else if (dc != NULL) {
+		} else if (dc != nullptr) {
 
 		}
 	}

@@ -35,7 +35,7 @@ static int QueueSortItems(const CQueueItem *i1, const CQueueItem *i2)
 CContactQueue::CContactQueue(int initialSize) :
 	_queue(initialSize, QueueSortItems)
 {
-	_hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	_hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	_status = RUNNING;
 
 	mir_forkthread((pThreadFunc)CContactQueue::ThreadProc, this);

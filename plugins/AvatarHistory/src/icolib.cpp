@@ -25,7 +25,7 @@ static void ReleaseIconEx(HICON hIcon)
 static void IcoLibUpdateMenus()
 {
 	HICON hIcon = createDefaultOverlayedIcon(FALSE);
-	Menu_ModifyItem(hMenu, 0, hIcon, 0);
+	Menu_ModifyItem(hMenu, nullptr, hIcon, 0);
 	DestroyIcon(hIcon);
 }
 

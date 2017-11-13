@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-HANDLE hExtraIcon = NULL;
+HANDLE hExtraIcon = nullptr;
 
 int ExtraIconsApply(WPARAM hContact, LPARAM force)
 {

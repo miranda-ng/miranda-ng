@@ -138,7 +138,7 @@ int UpdateWeather(MCONTACT hContact)
 	else
 		db_unset(hContact, "CList", "StatusMsg");
 
-	ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)(str2[0] ? str2 : 0));
+	ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
 
 	// save descriptions in MyNotes
 	GetDisplay(&winfo, opt.nText, str2);
@@ -174,7 +174,7 @@ int UpdateWeather(MCONTACT hContact)
 				// open the file and set point to the end of file
 				FILE *file = _wfopen(dbv.ptszVal, L"a");
 				db_free(&dbv);
-				if (file != NULL) {
+				if (file != nullptr) {
 					// write data to the file and close
 					GetDisplay(&winfo, opt.eText, str2);
 					fputws(str2, file);
@@ -191,7 +191,7 @@ int UpdateWeather(MCONTACT hContact)
 
 			DBEVENTINFO dbei = {};
 			dbei.szModule = WEATHERPROTONAME;
-			dbei.timestamp = (DWORD)time(NULL);
+			dbei.timestamp = (DWORD)time(nullptr);
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.pBlob = szMessage;
@@ -211,7 +211,7 @@ int UpdateWeather(MCONTACT hContact)
 
 	// update brief info if its opened
 	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
-	if (hMoreDataDlg != NULL)
+	if (hMoreDataDlg != nullptr)
 		PostMessage(hMoreDataDlg, WM_UPDATEDATA, 0, 0);
 	return 0;
 }
@@ -225,11 +225,11 @@ void UpdateListAdd(MCONTACT hContact)
 {
 	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
-	newItem->next = NULL;
+	newItem->next = nullptr;
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListTail == NULL) UpdateListHead = newItem;
+	if (UpdateListTail == nullptr) UpdateListHead = newItem;
 	else UpdateListTail->next = newItem;
 	UpdateListTail = newItem;
 
@@ -244,15 +244,15 @@ MCONTACT UpdateGetFirst()
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListHead != NULL) {
+	if (UpdateListHead != nullptr) {
 		UPDATELIST* Item = UpdateListHead;
 
 		hContact = Item->hContact;
 		UpdateListHead = Item->next;
 		mir_free(Item);
 
-		if (UpdateListHead == NULL)
-			UpdateListTail = NULL;
+		if (UpdateListHead == nullptr)
+			UpdateListTail = nullptr;
 	}
 
 	ReleaseMutex(hUpdateMutex);
@@ -266,13 +266,13 @@ void DestroyUpdateList(void)
 
 	// free the list one by one
 	UPDATELIST *temp = UpdateListHead;
-	while (temp != NULL) {
+	while (temp != nullptr) {
 		UpdateListHead = temp->next;
 		mir_free(temp);
 		temp = UpdateListHead;
 	}
 	// make sure the entire list is clear
-	UpdateListTail = NULL;
+	UpdateListTail = nullptr;
 
 	ReleaseMutex(hUpdateMutex);
 }
@@ -290,7 +290,7 @@ static void UpdateThreadProc(void *)
 	ReleaseMutex(hUpdateMutex);
 
 	// update weather by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != NULL && !Miranda_IsTerminated())
+	while (UpdateListHead != nullptr && !Miranda_IsTerminated())
 		UpdateWeather(UpdateGetFirst());
 
 	NetlibHttpDisconnect();
@@ -384,7 +384,7 @@ int GetWeatherData(MCONTACT hContact)
 
 	// test ID format
 	wchar_t* szInfo = wcschr(id, '/');
-	if (szInfo == NULL)
+	if (szInfo == nullptr)
 		return INVALID_ID_FORMAT;
 
 	GetID(id);
@@ -399,7 +399,7 @@ int GetWeatherData(MCONTACT hContact)
 
 	// get the update strings (loaded to memory from ini files)
 	WIDATA *Data = GetWIData(Svc);
-	if (Data == NULL)
+	if (Data == nullptr)
 		return SVC_NOT_FOUND;	// the ini for the station cannot be found
 
 	WORD cond = NA;
@@ -431,13 +431,13 @@ int GetWeatherData(MCONTACT hContact)
 			continue;
 
 		// download the html file from the internet
-		wchar_t* szData = NULL;
+		wchar_t* szData = nullptr;
 		int retval = InternetDownloadFile(loc, Data->Cookie, Data->UserAgent, &szData);
 		if (retval != 0) {
 			mir_free(szData);
 			return retval;
 		}
-		if (wcsstr(szData, L"Document Not Found") != NULL) {
+		if (wcsstr(szData, L"Document Not Found") != nullptr) {
 			mir_free(szData);
 			return DOC_NOT_FOUND;
 		}
@@ -446,7 +446,7 @@ int GetWeatherData(MCONTACT hContact)
 		WIDATAITEMLIST *Item = Data->UpdateData;
 
 		// begin parsing item by item
-		while (Item != NULL) {
+		while (Item != nullptr) {
 			if (Item->Item.Url[0] != 0 && Item->Item.Url[0] != (i + '1')) {
 				Item = Item->Next;
 				continue;
@@ -477,7 +477,7 @@ int GetWeatherData(MCONTACT hContact)
 					do {
 						// the end of the string, last item
 						chop = wcsstr(str, L" & ");
-						if (chop == NULL)
+						if (chop == nullptr)
 							chop = wcschr(str, '\0');
 
 						stl = min(sizeof(str2) - 1, (unsigned)(chop - str - 2));
@@ -523,7 +523,7 @@ int GetWeatherData(MCONTACT hContact)
 
 					// generate the strings
 					wchar_t* end = wcsstr(DataValue, Item->Item.Break);
-					if (end == NULL) {
+					if (end == nullptr) {
 						DataValue[0] = 0;
 						break;	// exit if break string is not found
 					}
@@ -597,7 +597,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 // when this is run, it kill the old startup timer and create the permenant one above
 void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(NULL, timerId);
+	KillTimer(nullptr, timerId);
 	ThreadRunning = FALSE;
 
 	if (Miranda_IsTerminated())
@@ -605,5 +605,5 @@ void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 
 	if (opt.StartupUpdate && opt.NoProtoCondition)
 		UpdateAll(FALSE, FALSE);
-	timerId = SetTimer(NULL, 0, ((int)opt.UpdateTime) * 60000, timerProc);
+	timerId = SetTimer(nullptr, 0, ((int)opt.UpdateTime) * 60000, timerProc);
 }

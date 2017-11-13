@@ -107,7 +107,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	}
 
 	if (!rsa_4096)
-		mir_forkthread(sttGenerateRSA, NULL);
+		mir_forkthread(sttGenerateRSA, nullptr);
 
 	mir_exp->rsa_set_timeout(db_get_w(0, MODULENAME, "ket", 10));
 
@@ -236,7 +236,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 	g_hMenu[0] = MyAddMenuItem(sim301, 110000, "5A8C2F35-4699-43A4-A820-516DEB83FCA1", g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
 	g_hMenu[1] = MyAddMenuItem(sim302, 110001, "0B092254-DA91-42D6-A89D-365981BB3D91", g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
 
-	g_hMenu[2] = MyAddMenuItem(sim312[0], 110002, "635576BB-A927-4F64-B205-DD464F57CC99", NULL, NULL);
+	g_hMenu[2] = MyAddMenuItem(sim312[0], 110002, "635576BB-A927-4F64-B205-DD464F57CC99", nullptr, nullptr);
 	g_hMenu[3] = MyAddSubItem(g_hMenu[2], sim232[0], 110003, 110002, MODULENAME"/SIM_ST_DIS");
 	g_hMenu[4] = MyAddSubItem(g_hMenu[2], sim232[1], 110004, 110002, MODULENAME"/SIM_ST_ENA");
 	g_hMenu[5] = MyAddSubItem(g_hMenu[2], sim232[2], 110005, 110002, MODULENAME"/SIM_ST_TRY");
@@ -251,7 +251,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 		g_hMenu[9] = MyAddMenuItem(sim309, 110009, "5C60AD6F-6B1B-4758-BB68-C008168BF32B", mode2icon(MODE_GPG, 2), MODULENAME"/GPG_DEL", 0);
 	}
 
-	g_hMenu[10] = MyAddMenuItem(sim311[0], 110010, "D56DD118-863B-4069-9A6A-C0057BA99CC6", NULL, NULL);
+	g_hMenu[10] = MyAddMenuItem(sim311[0], 110010, "D56DD118-863B-4069-9A6A-C0057BA99CC6", nullptr, nullptr);
 	g_hMenu[11] = MyAddSubItem(g_hMenu[10], sim231[0], 110011, 110010, MODULENAME"/MODE_NAT");
 	g_hMenu[12] = MyAddSubItem(g_hMenu[10], sim231[1], 110012, 110010, MODULENAME"/MODE_PGP");
 	g_hMenu[13] = MyAddSubItem(g_hMenu[10], sim231[2], 110013, 110010, MODULENAME"/MODE_GPG");
@@ -324,7 +324,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 
 	// load crypo++ dll
 	if (!loadlib()) {
-		msgbox1(0, sim107, MODULENAME, MB_OK | MB_ICONSTOP);
+		msgbox1(nullptr, sim107, MODULENAME, MB_OK | MB_ICONSTOP);
 		return 1;
 	}
 

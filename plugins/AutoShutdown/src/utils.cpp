@@ -26,23 +26,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // mir_free() the return value
 char* u2a(const WCHAR *pszUnicode)
 {
-	if (pszUnicode == NULL)
-		return NULL;
+	if (pszUnicode == nullptr)
+		return nullptr;
 	
 	int codepage = Langpack_GetDefaultCodePage();
 
 	/* without WC_COMPOSITECHECK some characters might get out strange (see MS blog) */
 	DWORD flags;
-	int cch = WideCharToMultiByte(codepage, flags = WC_COMPOSITECHECK, pszUnicode, -1, NULL, 0, NULL, NULL);
+	int cch = WideCharToMultiByte(codepage, flags = WC_COMPOSITECHECK, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
 	if (!cch)
-		cch = WideCharToMultiByte(codepage, flags = 0, pszUnicode, -1, NULL, 0, NULL, NULL);
+		cch = WideCharToMultiByte(codepage, flags = 0, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
 	if (!cch)
-		return NULL;
+		return nullptr;
 
 	char *psz = (char*)mir_alloc(cch);
-	if (psz != NULL && !WideCharToMultiByte(codepage, flags, pszUnicode, -1, psz, cch, NULL, NULL)) {
+	if (psz != nullptr && !WideCharToMultiByte(codepage, flags, pszUnicode, -1, psz, cch, nullptr, nullptr)) {
 		mir_free(psz);
-		return NULL;
+		return nullptr;
 	}
 	return psz;
 }
@@ -84,11 +84,11 @@ void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, .
 	mir_vsnprintf(szText, _countof(szText), pszTextFmt, va);
 	va_end(va);
 
-	if (!Clist_TrayNotifyA(NULL, pszTitle, szText, flags, 30000)) // success
+	if (!Clist_TrayNotifyA(nullptr, pszTitle, szText, flags, 30000)) // success
 		return;
 
 	MSGBOXPARAMSA *mbp = (MSGBOXPARAMSA*)mir_calloc(sizeof(*mbp));
-	if (mbp == NULL) return;
+	if (mbp == nullptr) return;
 	mbp->cbSize = sizeof(*mbp);
 	mbp->lpszCaption = mir_strdup(pszTitle);
 	mbp->lpszText = mir_strdup(szText);
@@ -105,11 +105,11 @@ void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, .
 // LocalFree() the return value
 char* GetWinErrorDescription(DWORD dwLastError)
 {
-	char *buf = NULL;
+	char *buf = nullptr;
 	DWORD flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM;
-	if (!FormatMessageA(flags, NULL, dwLastError, LANGIDFROMLCID(Langpack_GetDefaultLocale()), (char*)&buf, 0, NULL))
+	if (!FormatMessageA(flags, nullptr, dwLastError, LANGIDFROMLCID(Langpack_GetDefaultLocale()), (char*)&buf, 0, nullptr))
 		if (GetLastError() == ERROR_RESOURCE_LANG_NOT_FOUND)
-			FormatMessageA(flags, NULL, dwLastError, 0, (char*)&buf, 0, NULL);
+			FormatMessageA(flags, nullptr, dwLastError, 0, (char*)&buf, 0, nullptr);
 	return buf;
 }
 
@@ -160,12 +160,12 @@ BOOL GetFormatedCountdown(wchar_t *pszOut, int nSize, time_t countdown)
 	}
 	
 	/* WinVista */
-	if (pfnGetDurationFormat != NULL) {
+	if (pfnGetDurationFormat != nullptr) {
 		SYSTEMTIME st;
 		LCID locale;
 		locale = Langpack_GetDefaultLocale();
 		if (TimeStampToSystemTime(countdown, &st))
-			if (pfnGetDurationFormat(locale, 0, &st, 0, NULL, pszOut, nSize))
+			if (pfnGetDurationFormat(locale, 0, &st, 0, nullptr, pszOut, nSize))
 				return TRUE;
 		return FALSE;
 	}
@@ -182,13 +182,13 @@ BOOL GetFormatedDateTime(wchar_t *pszOut, int nSize, time_t timestamp, BOOL fSho
 	TimeStampToSystemTime(timestamp, &st);
 	/* today: no need to show the date */
 	if (!fShowDateEvenToday && st.wDay == stNow.wDay && st.wMonth == stNow.wMonth && st.wYear == stNow.wYear)
-		return GetTimeFormat(locale, ((st.wSecond == 0) ? TIME_NOSECONDS : 0) | TIME_FORCE24HOURFORMAT, &st, NULL, pszOut, nSize) != 0;
+		return GetTimeFormat(locale, ((st.wSecond == 0) ? TIME_NOSECONDS : 0) | TIME_FORCE24HOURFORMAT, &st, nullptr, pszOut, nSize) != 0;
 	/* show both date and time */
 	{
 		wchar_t szDate[128], szTime[128];
-		if (!GetTimeFormat(locale, ((st.wSecond == 0) ? TIME_NOSECONDS : 0) | TIME_FORCE24HOURFORMAT, &st, NULL, szTime, _countof(szTime)))
+		if (!GetTimeFormat(locale, ((st.wSecond == 0) ? TIME_NOSECONDS : 0) | TIME_FORCE24HOURFORMAT, &st, nullptr, szTime, _countof(szTime)))
 			return FALSE;
-		if (!GetDateFormat(locale, DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate)))
+		if (!GetDateFormat(locale, DATE_SHORTDATE, &st, nullptr, szDate, _countof(szDate)))
 			return FALSE;
 		mir_snwprintf(pszOut, nSize, L"%s %s", szTime, szDate);
 		return TRUE;

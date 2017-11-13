@@ -86,7 +86,7 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), BST_CHECKED == IsDlgButtonChecked(hwndDlg, IDC_USEGROUPS));
 			break;
 		case IDC_REMOVE:
-			if (IDYES == MessageBox(0,
+			if (IDYES == MessageBox(nullptr,
 				TranslateT("Are you sure? This will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer"),
 				TranslateT("Disable/Remove shlext"), MB_YESNO | MB_ICONQUESTION)) {
 				db_unset(0, SHLExt_Name, SHLExt_UseGroups);

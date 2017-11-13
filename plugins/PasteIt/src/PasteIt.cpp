@@ -28,7 +28,7 @@ HANDLE hPrebuildContactMenu;
 HGENMENU hContactMenu;
 HGENMENU hWebPageMenus[PasteToWeb::pages];
 HANDLE hOptionsInit;
-HANDLE hWindowEvent = NULL;
+HANDLE hWindowEvent = nullptr;
 HINSTANCE hInst;
 
 #define FROM_CLIPBOARD 10
@@ -78,7 +78,7 @@ std::wstring GetFile()
 	stzFilePath[1] = 0;
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = 0;
+	ofn.hwndOwner = nullptr;
 	ofn.lpstrFilter = filter;
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = stzFilePath;
@@ -111,9 +111,9 @@ void PasteIt(MCONTACT hContact, int mode)
 	}
 	else return;
 
-	if (pasteToWeb->szFileLink[0] == 0 && pasteToWeb->error != NULL)
+	if (pasteToWeb->szFileLink[0] == 0 && pasteToWeb->error != nullptr)
 	{
-		MessageBox(NULL, pasteToWeb->error, TranslateT("Error"), MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, pasteToWeb->error, TranslateT("Error"), MB_OK | MB_ICONERROR);
 	}
 	else if (hContact != NULL && pasteToWeb->szFileLink[0] != 0)
 	{
@@ -129,7 +129,7 @@ void PasteIt(MCONTACT hContact, int mode)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_SENT;
 					dbei.szModule = szProto;
-					dbei.timestamp = (DWORD)time(NULL);
+					dbei.timestamp = (DWORD)time(nullptr);
 					dbei.cbBlob = (DWORD)mir_strlen(pasteToWeb->szFileLink) + 1;
 					dbei.pBlob = (PBYTE)pasteToWeb->szFileLink;
 					db_event_add(hContact, &dbei);
@@ -232,7 +232,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 					RECT rc;
 					GetWindowRect(hwndBtn, &rc);
 					SetForegroundWindow(cbc->hwndFrom);
-					int selected = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, cbc->hwndFrom, 0);
+					int selected = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, cbc->hwndFrom, nullptr);
 					if (selected != 0)
 					{
 						if (selected >= DEF_PAGES_START)
@@ -328,7 +328,7 @@ void DefWebPageChanged()
 {
 	for (int i = 0; i < PasteToWeb::pages; i++) {
 		int flags = (Options::instance->defWeb == i) ? CMIF_CHECKED : 0;
-		Menu_ModifyItem(hWebPageMenus[i], NULL, INVALID_HANDLE_VALUE, flags);
+		Menu_ModifyItem(hWebPageMenus[i], nullptr, INVALID_HANDLE_VALUE, flags);
 	}
 }
 
@@ -343,7 +343,7 @@ void InitTabsrmmButton()
 	btn.pwszTooltip = TranslateT("Paste It");
 	Srmm_AddButton(&btn);
 
-	if (hTabsrmmButtonPressed != NULL)
+	if (hTabsrmmButtonPressed != nullptr)
 		UnhookEvent(hTabsrmmButtonPressed);
 
 	hTabsrmmButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
@@ -406,7 +406,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Options::instance->Load();
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	hOptionsInit = HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
-	hTabsrmmButtonPressed = NULL;
+	hTabsrmmButtonPressed = nullptr;
 	CreateServiceFunction(MS_PASTEIT_CONTACTMENU, ContactMenuService);
 	contactWindows = new std::map<MCONTACT, HWND>();
 	return 0;
@@ -417,22 +417,22 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UnhookEvent(hModulesLoaded);
 	UnhookEvent(hPrebuildContactMenu);
 	UnhookEvent(hOptionsInit);
-	if (hWindowEvent != NULL)
+	if (hWindowEvent != nullptr)
 		UnhookEvent(hWindowEvent);
 
 	Netlib_CloseHandle(g_hNetlibUser);
-	if (hTabsrmmButtonPressed != NULL)
+	if (hTabsrmmButtonPressed != nullptr)
 		UnhookEvent(hTabsrmmButtonPressed);
 
 	for (int i = 0; i < PasteToWeb::pages; ++i)
-		if (pasteToWebs[i] != NULL) {
+		if (pasteToWebs[i] != nullptr) {
 			delete pasteToWebs[i];
-			pasteToWebs[i] = NULL;
+			pasteToWebs[i] = nullptr;
 		}
 
-	if (Options::instance != NULL) {
+	if (Options::instance != nullptr) {
 		delete Options::instance;
-		Options::instance = NULL;
+		Options::instance = nullptr;
 	}
 
 	delete contactWindows;

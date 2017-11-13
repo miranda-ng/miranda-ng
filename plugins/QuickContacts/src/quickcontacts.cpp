@@ -41,12 +41,12 @@ HINSTANCE hInst;
 HIMAGELIST hIml;
 int hLangpack = 0;
 
-HANDLE hModulesLoaded = NULL;
-HANDLE hEventAdded = NULL;
-HANDLE hHotkeyPressed = NULL;
+HANDLE hModulesLoaded = nullptr;
+HANDLE hEventAdded = nullptr;
+HANDLE hHotkeyPressed = nullptr;
 
 long main_dialog_open = 0;
-HWND hwndMain = NULL;
+HWND hwndMain = nullptr;
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam);
 int EventAdded(WPARAM wparam, LPARAM lparam);
@@ -128,7 +128,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_ALT, 'Q');
 	Hotkey_Register(&hkd);
 
-	hkd.pszService = NULL;
+	hkd.pszService = nullptr;
 
 	hkd.lParam = HOTKEY_FILE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'F');
@@ -304,12 +304,12 @@ void SortArray(void)
 }
 
 
-int GetStatus(MCONTACT hContact, char *proto = NULL)
+int GetStatus(MCONTACT hContact, char *proto = nullptr)
 {
-	if (proto == NULL)
+	if (proto == nullptr)
 		proto = GetContactProto(hContact);
 
-	if (proto == NULL)
+	if (proto == nullptr)
 		return ID_STATUS_OFFLINE;
 
 	return db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
@@ -340,7 +340,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *pszProto = GetContactProto(hContact);
-		if(pszProto == NULL)
+		if(pszProto == nullptr)
 			continue;
 
 		// Get meta
@@ -398,7 +398,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			DBVARIANT dbv;
 			if (db_get_ws(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
 			{
-				if (dbv.ptszVal != NULL)
+				if (dbv.ptszVal != nullptr)
 					mir_wstrncpy(contact->szgroup, dbv.ptszVal, _countof(contact->szgroup));
 
 				db_free(&dbv);
@@ -410,7 +410,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		mir_wstrncpy(contact->szname, tmp, _countof(contact->szname));
 
 		PROTOACCOUNT *acc = Proto_GetAccount(pszProto);
-		if (acc != NULL)
+		if (acc != nullptr)
 			mir_wstrncpy(contact->proto, acc->tszAccountName, _countof(contact->proto));
 
 		contact->hcontact = hContact;
@@ -455,7 +455,7 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 		INT_PTR caps = 0;
 
 		char *pszProto = GetContactProto(hContact);
-		if (pszProto != NULL)
+		if (pszProto != nullptr)
 			caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), caps & PF1_IMSEND ? TRUE : FALSE);
@@ -476,7 +476,7 @@ int CheckText(HWND hdlg, wchar_t *sztext, BOOL only_enable = FALSE)
 {
 	EnableButtons(hwndMain, NULL);
 
-	if(sztext == NULL || sztext[0] == '\0')
+	if(sztext == nullptr || sztext[0] == '\0')
 		return 0;
 
 	size_t len = mir_wstrlen(sztext);
@@ -709,7 +709,7 @@ static void FillButton(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key, H
 	wchar_t tmp[256];
 	wchar_t *full = tmp;
 
-	if (key == NULL)
+	if (key == nullptr)
 		full = TranslateW(name);
 	else
 		mir_snwprintf(tmp, L"%s (%s)", TranslateW(name), key);
@@ -725,7 +725,7 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, wchar_t *name, wchar_t *key)
 	wchar_t tmp[256];
 	wchar_t *full = tmp;
 
-	if (key == NULL)
+	if (key == nullptr)
 		full = TranslateW(name);
 	else
 		mir_snwprintf(tmp, L"%s (%s)", TranslateW(name), key);
@@ -746,12 +746,12 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			CreateWindow(L"STATIC", L"", WS_CHILD | WS_VISIBLE | SS_ICON | SS_CENTERIMAGE, 
 				rc.left - 20, rc.top + (rc.bottom - rc.top - 16) / 2, 16, 16, hwndDlg, (HMENU) IDC_ICO, 
-				hInst, NULL);
+				hInst, nullptr);
 
 			if (!hasNewHotkeyModule)
 				hAcct = LoadAccelerators(hInst, MAKEINTRESOURCE(ACCEL_TABLE));
 
-			hHook = SetWindowsHookEx(WH_MSGFILTER, HookProc, 0, GetCurrentThreadId());
+			hHook = SetWindowsHookEx(WH_MSGFILTER, HookProc, nullptr, GetCurrentThreadId());
 
 			// Combo
 			SendDlgItemMessage(hwndDlg, IDC_USERNAME, EM_LIMITTEXT, (WPARAM)119, 0);
@@ -759,7 +759,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			// Buttons
 			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENW("Show all contacts"), hasNewHotkeyModule ? NULL : L"Ctrl+A");
-			FillButton(hwndDlg, IDC_MESSAGE, LPGENW("Send message"), NULL, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
+			FillButton(hwndDlg, IDC_MESSAGE, LPGENW("Send message"), nullptr, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			FillButton(hwndDlg, IDC_FILE, LPGENW("Send file"), hasNewHotkeyModule ? NULL : L"Ctrl+F", Skin_LoadIcon(SKINICON_EVENT_FILE));
 			FillButton(hwndDlg, IDC_URL, LPGENW("Send URL"), hasNewHotkeyModule ? NULL : L"Ctrl+U", Skin_LoadIcon(SKINICON_EVENT_URL));
 			FillButton(hwndDlg, IDC_USERINFO, LPGENW("Open user info"), hasNewHotkeyModule ? NULL : L"Ctrl+I", Skin_LoadIcon(SKINICON_OTHER_USERDETAILS));
@@ -934,7 +934,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				RECT rc;
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_MENU), &rc);
 				HMENU hMenu = Menu_BuildContactMenu(hContact);
-				int ret = TrackPopupMenu(hMenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
+				int ret = TrackPopupMenu(hMenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, nullptr);
 				DestroyMenu(hMenu);
 
 				if(ret)
@@ -984,7 +984,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_DESTROY:
 		UnhookWindowsHookEx(hHook);
-		hwndMain = NULL;
+		hwndMain = nullptr;
 		FreeContacts();
 		InterlockedExchange(&main_dialog_open, 0);
 		break;
@@ -1122,7 +1122,7 @@ INT_PTR ShowDialog(WPARAM, LPARAM)
 	{
 		InterlockedExchange(&main_dialog_open, 1);
 
-		hwndMain = CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, MainDlgProc);
+		hwndMain = CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), nullptr, MainDlgProc);
 	}
 
 	// Show it

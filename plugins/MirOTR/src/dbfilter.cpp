@@ -14,16 +14,16 @@ struct DeleteEventHead {
 	DeleteEventNode *first;
 	DeleteEventNode *last;
 };
-static DeleteEventHead DeleteEvents = {0,0};
+static DeleteEventHead DeleteEvents = {nullptr,nullptr};
 
 void CALLBACK DeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) {
 	if (!DeleteEvents.first) return;
 	mir_cslock lck(RemoveChainCS);
-	DeleteEventNode *prev =0, *current, *next;
+	DeleteEventNode *prev =nullptr, *current, *next;
 	DBEVENTINFO info = {};
 	next = DeleteEvents.first;
 	while (current = next) {
-		if (difftime(time(0), current->timestamp) < 1) break;
+		if (difftime(time(nullptr), current->timestamp) < 1) break;
 		if (!db_event_get(current->hDbEvent, &info)) // && info.flags&DBEF_READ)
 		{
 			db_event_delete(current->hContact, current->hDbEvent);
@@ -37,7 +37,7 @@ void CALLBACK DeleteTimerProc(HWND, UINT, UINT_PTR, DWORD) {
 			next = current->next;
 		}
 	}
-	if (!DeleteEvents.first) DeleteEvents.last = 0;
+	if (!DeleteEvents.first) DeleteEvents.last = nullptr;
 }
 
 
@@ -51,7 +51,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	if ((dbei->eventType != EVENTTYPE_MESSAGE) || !(dbei->flags & DBEF_SENT) || (dbei->flags & DBEF_OTR_PREFIXED))
 		return 0;
 
-	if (dbei->cbBlob == 0 || dbei->pBlob == 0)
+	if (dbei->cbBlob == 0 || dbei->pBlob == nullptr)
 		return 0; // just to be safe
 
 	const char *proto = GetContactProto(hContact);
@@ -133,8 +133,8 @@ int OnDatabaseEventAdded(WPARAM hContact, LPARAM lParam)
 			DeleteEventNode *node = new DeleteEventNode();
 			node->hContact = hContact;
 			node->hDbEvent = lParam;
-			node->timestamp = time(0);
-			node->next = 0;
+			node->timestamp = time(nullptr);
+			node->next = nullptr;
 			mir_cslock lck(RemoveChainCS);
 			if (DeleteEvents.last)
 				DeleteEvents.last->next = node;
@@ -201,7 +201,7 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam)
 
 	ConnContext *context = otr_user_state->context_root;
 	while (context) {
-		if (context->msgstate == OTRL_MSGSTATE_ENCRYPTED && (proto == 0 || mir_strcmp(proto, context->protocol) == 0)) {
+		if (context->msgstate == OTRL_MSGSTATE_ENCRYPTED && (proto == nullptr || mir_strcmp(proto, context->protocol) == 0)) {
 			MCONTACT hContact = (UINT_PTR)context->app_data;
 
 			if (hContact) {
@@ -257,17 +257,17 @@ void InitDBFilter()
 	hDBEventPreAdd = HookEvent(ME_DB_EVENT_FILTER_ADD, OnDatabaseEventPreAdd);
 	hDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, OnDatabaseEventAdded);
 	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
-	timerId = SetTimer(0, 0, 1000, DeleteTimerProc);
+	timerId = SetTimer(nullptr, 0, 1000, DeleteTimerProc);
 }
 
 void DeinitDBFilter()
 {
 	UnhookEvent(hDBEventPreAdd);
-	hDBEventPreAdd = 0;
+	hDBEventPreAdd = nullptr;
 	UnhookEvent(hDBEventAdded);
-	hDBEventAdded = 0;
+	hDBEventAdded = nullptr;
 	UnhookEvent(hContactSettingChanged);
-	hContactSettingChanged = 0;
-	if (timerId) KillTimer(0, timerId);
-	DeleteTimerProc(0, 0, 0, 0);
+	hContactSettingChanged = nullptr;
+	if (timerId) KillTimer(nullptr, timerId);
+	DeleteTimerProc(nullptr, 0, 0, 0);
 }

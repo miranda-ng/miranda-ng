@@ -22,7 +22,7 @@
 static wchar_t *parseAdd(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
-		return NULL;
+		return nullptr;
 
 	int result = 0;
 	for (unsigned int i = 1; i < ai->argc; i++)
@@ -34,12 +34,12 @@ static wchar_t *parseAdd(ARGUMENTSINFO *ai)
 static wchar_t *parseDiv(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	int val1 = ttoi(ai->targv[1]);
 	int val2 = ttoi(ai->targv[2]);
 	if (val2 == 0)
-		return NULL;
+		return nullptr;
 
 	return itot(val1 / val2);
 }
@@ -50,15 +50,15 @@ static wchar_t *parseHex(ARGUMENTSINFO *ai)
 	wchar_t szVal[34];
 
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	int val = ttoi(ai->targv[1]);
 	int padding = ttoi(ai->targv[2]);
 	mir_snwprintf(szVal, L"%x", val);
 	unsigned int zeros = max(padding - (signed int)mir_wstrlen(szVal), 0);
 	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_wstrlen(szVal) + 3)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((zeros + mir_wstrlen(szVal) + 3) * sizeof(wchar_t)));
 	mir_wstrcpy(res, L"0x");
@@ -72,12 +72,12 @@ static wchar_t *parseHex(ARGUMENTSINFO *ai)
 static wchar_t *parseMod(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	int val1 = ttoi(ai->targv[1]);
 	int val2 = ttoi(ai->targv[2]);
 	if (val2 == 0)
-		return NULL;
+		return nullptr;
 
 	return itot(val1 % val2);
 }
@@ -85,7 +85,7 @@ static wchar_t *parseMod(ARGUMENTSINFO *ai)
 static wchar_t *parseMul(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
-		return NULL;
+		return nullptr;
 
 	int result = ttoi(ai->targv[1]);
 	for (unsigned i = 2; i < ai->argc; i++)
@@ -97,10 +97,10 @@ static wchar_t *parseMul(ARGUMENTSINFO *ai)
 static wchar_t *parseMuldiv(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
-		return NULL;
+		return nullptr;
 
 	if (ttoi(ai->targv[3]) == 0)
-		return NULL;
+		return nullptr;
 
 	return itot((ttoi(ai->targv[1])*ttoi(ai->targv[2])) / ttoi(ai->targv[3]));
 }
@@ -108,7 +108,7 @@ static wchar_t *parseMuldiv(ARGUMENTSINFO *ai)
 static wchar_t *parseMin(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
-		return NULL;
+		return nullptr;
 
 	int minVal = ttoi(ai->targv[1]);
 	for (unsigned i = 2; i < ai->argc; i++)
@@ -120,7 +120,7 @@ static wchar_t *parseMin(ARGUMENTSINFO *ai)
 static wchar_t *parseMax(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
-		return NULL;
+		return nullptr;
 
 	int maxVal = ttoi(ai->targv[1]);
 	for (unsigned i = 2; i < ai->argc; i++)
@@ -132,19 +132,19 @@ static wchar_t *parseMax(ARGUMENTSINFO *ai)
 static wchar_t *parseNum(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	int val = ttoi(ai->targv[1]);
 	int padding = ttoi(ai->targv[2]);
 	wchar_t *szVal = itot(val);
-	if (szVal == NULL)
-		return NULL;
+	if (szVal == nullptr)
+		return nullptr;
 
 	unsigned zeros = max(padding - (signed int)mir_wstrlen(szVal), 0);
 	wchar_t *res = (wchar_t*)mir_alloc((zeros + mir_wstrlen(szVal) + 1)*sizeof(wchar_t));
-	if (res == NULL) {
+	if (res == nullptr) {
 		mir_free(szVal);
-		return NULL;
+		return nullptr;
 	}
 
 	memset(res, 0, ((zeros + mir_wstrlen(szVal) + 1) * sizeof(wchar_t)));
@@ -166,7 +166,7 @@ static wchar_t *parseRand(ARGUMENTSINFO *)
 static wchar_t *parseSub(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
-		return NULL;
+		return nullptr;
 
 	int result = ttoi(ai->targv[1]);
 	for (unsigned i = 2; i < ai->argc; i++)

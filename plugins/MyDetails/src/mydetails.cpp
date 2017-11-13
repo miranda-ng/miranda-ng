@@ -97,7 +97,7 @@ static int MainInit(WPARAM, LPARAM)
 
 	mi.flags =  CMIF_UNICODE;
 	mi.root = hMenuRoot;
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 
 	if (protocols->CanSetAvatars()) {
 		SET_UID(mi, 0xe5b2d79e, 0xd25a, 0x4f72, 0xa4, 0x1a, 0x21, 0xfd, 0x48, 0x6b, 0xb5, 0x6);
@@ -153,7 +153,7 @@ extern "C" __declspec(dllexport) int Load()
 	// Options
 	InitOptions();
 
-	if (IcoLib_GetIcon("LISTENING_TO_ICON") == NULL)
+	if (IcoLib_GetIcon("LISTENING_TO_ICON") == nullptr)
 		Icon_Register(hInst, LPGEN("Contact list"), iconList, 1);
 
 	Icon_Register(hInst, LPGEN("My details"), iconList + 1, _countof(iconList) - 1);

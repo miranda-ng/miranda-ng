@@ -254,7 +254,7 @@ tPaintCallbackProc CLCPaint::PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hWnd, 0);
 	if (dat)
 		cliPaintClc(hWnd, dat, hDC, rcPaint);
-	return 0;
+	return nullptr;
 }
 
 void CLCPaint::_FillQuickHash()
@@ -530,7 +530,7 @@ void CLCPaint::_AddParamShort(MODERNMASK *mpModernMask, DWORD dwParamIndex, DWOR
 MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat)
 {
 	if (Drawing == nullptr)
-		return 0;
+		return nullptr;
 
 	char buf[BUF2SIZE] = { 0 };
 	MODERNMASK *mpModernMask = (MODERNMASK*)mir_calloc(sizeof(MODERNMASK));
@@ -1697,7 +1697,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT *rcPaint,
 						mpRequest = _GetCLCContactRowBackModernMask(group, Drawing, indent, line_num, selected, hottrack, dat);
 
 						RECT mrc = row_rc;
-						if (group->parent == 0
+						if (group->parent == nullptr
 							&& group->scanIndex != 0
 							&& group->scanIndex < group->cl.getCount()
 							&& group->cl[group->scanIndex]->type == CLCIT_GROUP) {

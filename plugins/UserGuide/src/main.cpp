@@ -25,7 +25,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 
 	wchar_t *ptszHelpFile = db_get_wsa(NULL, "UserGuide", "PathToHelpFile");
 	
-	if (ptszHelpFile==0)
+	if (ptszHelpFile==nullptr)
 	{
 			mir_wstrcpy(pszDirName, L"%miranda_path%\\Plugins");
 			mir_wstrcpy(pszFileName, L"UserGuide.chm");			
@@ -40,7 +40,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 		else 
 		{
 			LPTSTR pszDivider = wcsrchr(ptszHelpFile, '\\');
-			if (pszDivider == NULL)
+			if (pszDivider == nullptr)
 			{	
 				mir_wstrcpy(pszDirName, L"");
 				wcsncpy(pszFileName, ptszHelpFile, mir_wstrlen(ptszHelpFile));
@@ -59,7 +59,7 @@ static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 	pszDirNameEx = Utils_ReplaceVarsW(pszDirName);
 	mir_free(pszDirName);
 
-	ShellExecute(NULL, L"open", pszFileName, NULL, pszDirNameEx, SW_SHOW);
+	ShellExecute(nullptr, L"open", pszFileName, nullptr, pszDirNameEx, SW_SHOW);
 	mir_free(pszFileName);
 	mir_free(pszDirNameEx);
 	return 0;

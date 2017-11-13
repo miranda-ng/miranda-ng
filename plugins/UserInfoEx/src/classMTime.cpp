@@ -326,7 +326,7 @@ WORD	MTime::TimeFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 {
 	if (!ptszTimeFormat || !cchTimeFormat)
 		return 0;
-	if ((cchTimeFormat = GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &_SysTime, NULL, ptszTimeFormat, cchTimeFormat)) == 0) {
+	if ((cchTimeFormat = GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &_SysTime, nullptr, ptszTimeFormat, cchTimeFormat)) == 0) {
 		*ptszTimeFormat = 0;
 		return 0;
 	}
@@ -337,7 +337,7 @@ WORD	MTime::DateFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 {
 	if (!ptszTimeFormat || !cchTimeFormat)
 		return 0;
-	if ((cchTimeFormat = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &_SysTime, NULL, ptszTimeFormat, cchTimeFormat)) == 0) {
+	if ((cchTimeFormat = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &_SysTime, nullptr, ptszTimeFormat, cchTimeFormat)) == 0) {
 		*ptszTimeFormat = 0;
 		return 0;
 	}
@@ -358,7 +358,7 @@ WORD	MTime::DateFormatAlt(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 	mtNow.GetLocalTime();
 	AltSysTime.wYear=mtNow.Year();
 
-	if ((cchTimeFormat = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &AltSysTime, NULL, ptszTimeFormat, cchTimeFormat)) == 0) {
+	if ((cchTimeFormat = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &AltSysTime, nullptr, ptszTimeFormat, cchTimeFormat)) == 0) {
 		*ptszTimeFormat = 0;
 		return 0;
 	}
@@ -381,7 +381,7 @@ WORD	MTime::DateFormatLong(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 {
 	if (!ptszTimeFormat || !cchTimeFormat)
 		return 0;
-	if ((cchTimeFormat = GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &_SysTime, NULL, ptszTimeFormat, cchTimeFormat)) == 0) {
+	if ((cchTimeFormat = GetDateFormat(LOCALE_USER_DEFAULT, DATE_LONGDATE, &_SysTime, nullptr, ptszTimeFormat, cchTimeFormat)) == 0) {
 		*ptszTimeFormat = 0;
 		return 0;
 	}
@@ -458,7 +458,7 @@ void	MTime::GetLocalTime(MCONTACT hContact)
 
 int MTime::DBGetStamp  (MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	if (hContact == INVALID_CONTACT_ID || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0) {
+	if (hContact == INVALID_CONTACT_ID || pszModule == nullptr || pszModule[0] == 0 || pszSetting == nullptr || pszSetting[0] == 0) {
 		ZeroDate();
 		return 1;
 	}
@@ -475,7 +475,7 @@ int MTime::DBGetStamp  (MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 
 int MTime::DBWriteStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	if (hContact == INVALID_CONTACT_ID || pszModule == NULL || pszModule[0] == 0 || pszSetting == NULL || pszSetting[0] == 0)
+	if (hContact == INVALID_CONTACT_ID || pszModule == nullptr || pszModule[0] == 0 || pszSetting == nullptr || pszSetting[0] == 0)
 		return 1;
 
 	return db_set_dw(hContact, pszModule, pszSetting, TimeStamp());

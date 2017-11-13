@@ -72,11 +72,11 @@ int StartServer()
 	{
 		if (sdCmdLine->instances == 0)
 		{
-			HANDLE server = mir_forkthread(ServerWorkerThread, 0);
+			HANDLE server = mir_forkthread(ServerWorkerThread, nullptr);
 			if (server)
 			{
 				char path[MIMFOLDER_SIZE];
-				GetModuleFileNameA(GetModuleHandle(NULL), path, sizeof(path));
+				GetModuleFileNameA(GetModuleHandle(nullptr), path, sizeof(path));
 				char *p = strrchr(path, '\\');
 				if (p) { *p = 0; }
 				strncpy_s(sdCmdLine->mimFolder, path, _TRUNCATE);
@@ -86,7 +86,7 @@ int StartServer()
 			}
 			else PUShowMessageT(TranslateT("Could not create CommandLine listening server!"), SM_WARNING);
 		}
-		else MessageBox(NULL, TranslateT("You can only run one instance of CmdLine plugin."), TranslateT("Error"), MB_ICONERROR | MB_OK);
+		else MessageBox(nullptr, TranslateT("You can only run one instance of CmdLine plugin."), TranslateT("Error"), MB_ICONERROR | MB_OK);
 	}
 
 	return failure;

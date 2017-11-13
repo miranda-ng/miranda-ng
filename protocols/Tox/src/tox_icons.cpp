@@ -20,5 +20,5 @@ HANDLE CToxProto::GetIconHandle(int iconId)
 		if (Icons[i].defIconID == iconId)
 			return Icons[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }

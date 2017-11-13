@@ -56,7 +56,7 @@ void RegisterCListFonts()
 	strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
 	wcsncpy(fontid.group, LPGENW("Contact list"), _countof(fontid.group));
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	for (int i = 0; i < _countof(clistFontDescr); i++) {
 		LOGFONT lf;
 		pcli->pfnGetFontSetting(i, &lf, &fontid.deffontsettings.colour);
@@ -78,7 +78,7 @@ void RegisterCListFonts()
 		fontid.order = i;
 		Font_RegisterW(&fontid);
 	}
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 
 	// and colours
 	ColourIDW colourid = { 0 };

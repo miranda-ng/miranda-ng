@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int DetailsInit(WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static MWindowList hWindowList = NULL;
+static MWindowList hWindowList = nullptr;
 static HANDLE hDetailsInitEvent;
 
 struct DetailsPageInit
@@ -103,7 +103,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 
 	DetailsPageInit opi = { 0 };
 	opi.pageCount = 0;
-	opi.odp = NULL;
+	opi.odp = nullptr;
 	NotifyEventHooks(hDetailsInitEvent, (WPARAM)&opi, wParam);
 	if (opi.pageCount == 0)
 		return 0;
@@ -112,16 +112,16 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 
 	PROPSHEETHEADER psh = { sizeof(psh) };
 	psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
-	psh.hwndParent = NULL;
+	psh.hwndParent = nullptr;
 	psh.nPages = opi.pageCount;
-	psh.pStartPage = 0;
+	psh.pStartPage = nullptr;
 	psh.pszCaption = (wchar_t*)wParam;	  //more abuses of structure: this is hContact
 	psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
 	for (int i = 0; i < opi.pageCount; i++) {
 		//cleanup moved to WM_DESTROY
-		if (opi.odp[i].szGroup.w != NULL)
+		if (opi.odp[i].szGroup.w != nullptr)
 			mir_free(opi.odp[i].szGroup.a);
 		if ((DWORD_PTR)opi.odp[i].pszTemplate & 0xFFFF0000)
 			mir_free((char*)opi.odp[i].pszTemplate);
@@ -135,7 +135,7 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)lParam;
 	struct DetailsPageInit *opi = (struct DetailsPageInit*)wParam;
 
-	if (odp == NULL || opi == NULL)
+	if (odp == nullptr || opi == nullptr)
 		return 1;
 
 	opi->odp = (OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount + 1));
@@ -147,12 +147,12 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	dst->pszTemplate = ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000) ? mir_strdup(odp->pszTemplate) : odp->pszTemplate;
 
 	if (odp->flags & ODPF_UNICODE) {
-		dst->szTitle.w = (odp->szTitle.w == 0) ? NULL : mir_wstrdup(odp->szTitle.w);
-		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_wstrdup(odp->szTab.w) : NULL;
+		dst->szTitle.w = (odp->szTitle.w == nullptr) ? nullptr : mir_wstrdup(odp->szTitle.w);
+		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_wstrdup(odp->szTab.w) : nullptr;
 	}
 	else {
 		dst->szTitle.w = mir_a2u(odp->szTitle.a);
-		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_a2u(odp->szTab.a) : NULL;
+		dst->szTab.w = (odp->flags & ODPF_USERINFOTAB) ? mir_a2u(odp->szTab.a) : nullptr;
 	}
 
 	dst->hLangpack = odp->hLangpack;
@@ -218,7 +218,7 @@ static void CreateDetailsPageWindow(HWND hwndDlg, DetailsData *dat, DetailsPageD
 static int UserInfoContactDelete(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = WindowList_Find(hWindowList, wParam);
-	if (hwnd != NULL)
+	if (hwnd != nullptr)
 		DestroyWindow(hwnd);
 	return 0;
 }
@@ -269,7 +269,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ptszLastTab = NEWWSTR_ALLOCA(dbv.ptszVal);
 				db_free(&dbv);
 			}
-			else ptszLastTab = NULL;
+			else ptszLastTab = nullptr;
 
 			dat->currentPage = 0;
 			dat->pageCount = psh->nPages;
@@ -296,7 +296,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 
 				TVINSERTSTRUCT tvis;
-				tvis.hParent = NULL;
+				tvis.hParent = nullptr;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
 				tvis.item.lParam = (LPARAM)i;
@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendMessage(hwndDlg, M_CHECKONLINE, 0, 0);
 			if (!ProtoChainSend(dat->hContact, PSS_GETINFO, SGIF_ONOPEN, 0)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
-				SetTimer(hwndDlg, 1, 100, NULL);
+				SetTimer(hwndDlg, 1, 100, nullptr);
 			}
 			else ShowWindow(GetDlgItem(hwndDlg, IDC_UPDATING), SW_HIDE);
 
@@ -394,7 +394,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		for (i = 0; i < dat->pageCount; i++) {
 			DetailsPageData &odp = dat->opd[i];
 			pshn.hdr.hwndFrom = odp.hwnd;
-			if (odp.hwnd != NULL)
+			if (odp.hwnd != nullptr)
 				SendMessage(odp.hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 		}
 		break;
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case M_CHECKONLINE:
 		if (dat->hContact != NULL) {
 			char *szProto = GetContactProto(dat->hContact);
-			if (szProto == NULL)
+			if (szProto == nullptr)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 			else {
 				if (CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE)
@@ -431,7 +431,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendMessage(hwndDlg, M_CHECKONLINE, 0, 0);
 				break;
 			} //if
-			if (dat->infosUpdated == NULL)
+			if (dat->infosUpdated == nullptr)
 				dat->infosUpdated = (int*)mir_calloc(sizeof(int)*(INT_PTR)ack->hProcess);
 			if (ack->result == ACKRESULT_SUCCESS || ack->result == ACKRESULT_FAILED)
 				dat->infosUpdated[ack->lParam] = 1;
@@ -521,7 +521,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			for (i = 0; i < dat->pageCount; i++) {
 				DetailsPageData &odp = dat->opd[i];
-				if (odp.hwnd == NULL || !odp.changed)
+				if (odp.hwnd == nullptr || !odp.changed)
 					continue;
 				pshn.hdr.hwndFrom = odp.hwnd;
 				SendMessage(odp.hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -542,7 +542,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			pshn.hdr.code = PSN_APPLY;
 			for (i = 0; i < dat->pageCount; i++) {
 				DetailsPageData &odp = dat->opd[i];
-				if (odp.hwnd == NULL || !odp.changed)
+				if (odp.hwnd == nullptr || !odp.changed)
 					continue;
 				pshn.hdr.hwndFrom = odp.hwnd;
 				if (SendMessage(odp.hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
@@ -565,7 +565,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (!ProtoChainSend(dat->hContact, PSS_GETINFO, 0, 0)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 					ShowWindow(GetDlgItem(hwndDlg, IDC_UPDATING), SW_SHOW);
-					SetTimer(hwndDlg, 1, 100, NULL);
+					SetTimer(hwndDlg, 1, 100, nullptr);
 				}
 			}
 			break;
@@ -594,7 +594,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		for (i = 0; i < dat->pageCount; i++) {
 			DetailsPageData &odp = dat->opd[i];
-			if (odp.hwnd != NULL)
+			if (odp.hwnd != nullptr)
 				DestroyWindow(odp.hwnd);
 			mir_free(odp.ptszTitle);
 			mir_free(odp.ptszTab);

@@ -70,12 +70,12 @@ static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 // wParam = hContact
 {
 	POINT pt;
-	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MOD_NAME) L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
+	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MOD_NAME) L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInstance, nullptr);
 	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
 	HMENU hMenu = Menu_BuildContactMenu(wParam);
 	GetCursorPos(&pt);
 	SetForegroundWindow(hMenuWnd);
-	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, NULL), MPCF_CONTACTMENU, wParam);
+	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, nullptr), MPCF_CONTACTMENU, wParam);
 	PostMessage(hMenuWnd, WM_NULL, 0, 0);
 	DestroyMenu(hMenu);
 	DestroyWindow(hMenuWnd);
@@ -166,7 +166,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	if (!ppd.lchIcon || (INT_PTR)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
 		// if we didn't succeed retrieving client icon, show the usual status icon instead
 		ppd.lchIcon = Skin_LoadProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
-		pdata->hIcon = NULL;
+		pdata->hIcon = nullptr;
 	}
 	wcsncpy(ppd.lptzContactName, (wchar_t*)pcli->pfnGetContactDisplayName(sd->hContact, 0), _countof(ppd.lptzContactName) - 1);
 	wcsncpy(ppd.lptzText, PopupText, _countof(ppd.lptzText) - 1);
@@ -344,7 +344,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 	// seems that Fingerprint is not installed
 	if (!bFingerprintExists && !db_get_b(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 0))
-		CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_CCN_ERROR), NULL, CCNErrorDlgProc);
+		CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_CCN_ERROR), nullptr, CCNErrorDlgProc);
 
 	return 0;
 }

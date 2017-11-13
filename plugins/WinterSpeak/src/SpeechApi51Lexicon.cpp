@@ -6,7 +6,7 @@
 extern HINSTANCE g_hInst;
 
 //------------------------------------------------------------------------------
-SpeechApi51Lexicon::SpeechApi51Lexicon(HWND window) : m_parent_window(window), m_window(0)
+SpeechApi51Lexicon::SpeechApi51Lexicon(HWND window) : m_parent_window(window), m_window(nullptr)
 {
 }
 

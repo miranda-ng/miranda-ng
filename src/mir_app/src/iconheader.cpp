@@ -129,7 +129,7 @@ static void MIcoTab_FillRect(HDC hdc, int x, int y, int width, int height, COLOR
 	COLORREF oldColor = SetBkColor(hdc, cl);
 
 	RECT rc; SetRect(&rc, x, y, x + width, y + height);
-	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
+	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, nullptr);
 
 	SetBkMode(hdc, oldMode);
 	SetBkColor(hdc, oldColor);
@@ -151,7 +151,7 @@ static void MIcoTab_DrawGradient(HDC hdc, int x, int y, int width, int height, R
 		rc.top = rc.bottom = i;
 		++rc.bottom;
 		SetBkColor(hdc, color);
-		ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
+		ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, nullptr);
 	}
 
 	SetBkMode(hdc, oldMode);

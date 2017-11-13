@@ -25,10 +25,10 @@ int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_g
 char ModuleName[] = "IEHistory";
 HICON hIcon;
 HINSTANCE hInstance;
-MWindowList hOpenWindowsList = NULL;
+MWindowList hOpenWindowsList = nullptr;
 
-HMODULE hUxTheme = 0;
-BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = NULL;
+HMODULE hUxTheme = nullptr;
+BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = nullptr;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -65,7 +65,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitCommonControlsEx(&icex);
 
-	if ((hUxTheme = LoadLibraryA("uxtheme.dll")) != 0)
+	if ((hUxTheme = LoadLibraryA("uxtheme.dll")) != nullptr)
 		MyEnableThemeDialogTexture = (BOOL(WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 
 	/// all initialization here

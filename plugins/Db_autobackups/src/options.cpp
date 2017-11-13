@@ -8,11 +8,11 @@ Options	options;
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 {
 	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
-		TOOLTIPS_CLASS, NULL,
+		TOOLTIPS_CLASS, nullptr,
 		(WS_POPUP | TTS_NOPREFIX),
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndParent, NULL, g_hInstance, NULL);
+		hwndParent, nullptr, g_hInstance, nullptr);
 
 	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0, (SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE));
 
@@ -221,7 +221,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 
 		if (hPathTip)
-			SetTimer(hwndDlg, 0, 3000, NULL);
+			SetTimer(hwndDlg, 0, 3000, nullptr);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -277,7 +277,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				BROWSEINFO bi;
 				bi.hwndOwner = hwndDlg;
-				bi.pidlRoot = 0;
+				bi.pidlRoot = nullptr;
 				bi.pszDisplayName = folder_buff;
 				bi.lpszTitle = TranslateT("Select backup folder");
 				bi.ulFlags = BIF_NEWDIALOGSTYLE;
@@ -286,7 +286,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				bi.iImage = 0;
 
 				LPCITEMIDLIST pidl = SHBrowseForFolder(&bi);
-				if (pidl != 0) {
+				if (pidl != nullptr) {
 					SHGetPathFromIDList(pidl, folder_buff);
 
 					SetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff);
@@ -298,7 +298,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 			}
 			case IDC_BUT_NOW:
-				BackupStart(NULL);
+				BackupStart(nullptr);
 				break;
 			case IDC_CHK_NOPROG:
 				new_options.disable_progress = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOPROG);
@@ -362,8 +362,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				int err = CreateDirectoryTreeW(backupfolder);
 				if (err != ERROR_ALREADY_EXISTS && err != 0) {
 					wchar_t msg_buff[512];
-					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg_buff, 512, 0);
-					MessageBox(0, msg_buff, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
+					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, 0, msg_buff, 512, nullptr);
+					MessageBox(nullptr, msg_buff, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
 					folder_ok = FALSE;
 				}
 
@@ -386,7 +386,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (hPathTip) {
 			KillTimer(hwndDlg, 0);
 			DestroyWindow(hPathTip);
-			hPathTip = 0;
+			hPathTip = nullptr;
 		}
 		return FALSE;
 	}

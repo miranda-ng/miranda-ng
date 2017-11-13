@@ -25,7 +25,7 @@ PlainHtmlExport::~PlainHtmlExport()
 {
 }
 
-extern std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = NULL);
+extern std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = nullptr);
 extern std::wstring UrlHighlightHtml(const std::wstring& message, bool& isUrl);
 
 void PlainHtmlExport::WriteHeader(const std::wstring&, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string&, const std::wstring& encoding)

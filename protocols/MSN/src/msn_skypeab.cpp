@@ -46,11 +46,11 @@ static wchar_t* get_json_str(JSONNode *item, const char *pszValue)
 		wchar_t *ret = json_as_string(node);
 		if (!mir_wstrcmp(ret, L"null")) {
 			mir_free(ret);
-			return NULL;
+			return nullptr;
 		}
 		return ret;
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool CMsnProto::MSN_SKYABRefreshClist(void)
@@ -73,7 +73,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
-			if (root == NULL)
+			if (root == nullptr)
 				return false;
 
 			JSONNode *items = json_as_array(root), *item;
@@ -82,7 +82,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 				ptrW nick;
 
 				item = json_at(items, i);
-				if (item == NULL)
+				if (item == nullptr)
 					break;
 
 				ptrA skypename(mir_u2a(ptrW(json_as_string(json_get(item, "skypename")))));
@@ -93,7 +93,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 				if (hContact) {
 					if (!json_as_bool(json_get(item, "authorized"))) lstId = LIST_PL;
 					if (!json_as_bool(json_get(item, "blocked"))) lstId = LIST_BL;
-					Lists_Add(lstId, NETID_SKYPE, skypename, NULL, pszNick, NULL);
+					Lists_Add(lstId, NETID_SKYPE, skypename, NULL, pszNick, nullptr);
 					post.AppendFormat("contacts[]=%s&", skypename);
 				}
 			}
@@ -103,7 +103,7 @@ bool CMsnProto::MSN_SKYABRefreshClist(void)
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -128,12 +128,12 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
-			if (root == NULL) return false;
+			if (root == nullptr) return false;
 
 			JSONNode *items = json_as_array(root), *item, *node;
 			for (size_t i = 0; i < json_size(items); i++) {
 				item = json_at(items, i);
-				if (item == NULL)
+				if (item == nullptr)
 					break;
 
 				node = json_get(item, "username");
@@ -157,7 +157,7 @@ bool CMsnProto::MSN_SKYABGetProfiles(const char *pszPOST)
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -181,7 +181,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT item(nlhrReply->pData);
-			if (item == NULL)
+			if (item == nullptr)
 				return false;
 
 			ptrA skypename(mir_u2a(ptrW(json_as_string(json_get(item, "username")))));
@@ -229,7 +229,7 @@ bool CMsnProto::MSN_SKYABGetProfile(const char *wlid)
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -260,7 +260,7 @@ bool CMsnProto::MSN_SKYABBlockContact(const char *wlid, const char *pszAction)
 		Netlib_FreeHttpRequest(nlhrReply);
 		bRet = true;
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -288,7 +288,7 @@ bool CMsnProto::MSN_SKYABDeleteContact(const char *wlid)
 		Netlib_FreeHttpRequest(nlhrReply);
 		bRet = true;
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -314,7 +314,7 @@ bool CMsnProto::MSN_SKYABAuthRsp(const char *wlid, const char *pszAction)
 		Netlib_FreeHttpRequest(nlhrReply);
 		bRet = true;
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -346,7 +346,7 @@ bool CMsnProto::MSN_SKYABAuthRq(const char *wlid, const char *pszGreeting)
 		Netlib_FreeHttpRequest(nlhrReply);
 		bRet = true;
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -376,7 +376,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 		hHttpsConnection = nlhrReply->nlc;
 		if (nlhrReply->resultCode == 200 && nlhrReply->pData) {
 			JSONROOT root(nlhrReply->pData);
-			if (root == NULL) {
+			if (root == nullptr) {
 				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
 				return false;
 			}
@@ -402,7 +402,7 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 

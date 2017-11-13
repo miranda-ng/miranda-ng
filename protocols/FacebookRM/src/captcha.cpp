@@ -111,7 +111,7 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 	req.flags = NLHRF_NODUMPHEADERS;
 
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(facy.handle_, &req);
-	if (reply == NULL)
+	if (reply == nullptr)
 		return false;
 
 	if (reply->resultCode != HTTP_CODE_OK) {
@@ -119,7 +119,7 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 		return false;
 	}
 
-	CAPTCHA_FORM_PARAMS param = { 0 };
+	CAPTCHA_FORM_PARAMS param = {};
 
 	IMGSRVC_MEMIO memio = { 0 };
 	memio.iLen = reply->dataLength;
@@ -131,7 +131,7 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 	GetObject(param.bmp, sizeof(bmp), &bmp);
 	param.w = bmp.bmWidth;
 	param.h = bmp.bmHeight;
-	int res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, CaptchaFormDlgProc, (LPARAM)&param);
+	int res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CAPTCHAFORM), nullptr, CaptchaFormDlgProc, (LPARAM)&param);
 	if (res == 0)
 		return false;
 

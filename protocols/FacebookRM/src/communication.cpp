@@ -42,7 +42,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	}
 
 	// Check and append user defined locale if request doesn't have it forced already
-	if (!parent->m_locale.empty() && strstr(request->szUrl, "&locale=") == NULL)
+	if (!parent->m_locale.empty() && strstr(request->szUrl, "&locale=") == nullptr)
 		request->Url << CHAR_VALUE("locale", parent->m_locale.c_str());
 
 	request->Headers
@@ -68,7 +68,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	// Set persistent connection (or not)
 	switch (request->Persistent) {
 	case ChannelRequest::NONE:
-		request->nlc = NULL;
+		request->nlc = nullptr;
 		request->flags &= ~NLHRF_PERSISTENT;
 		break;
 	case ChannelRequest::CHANNEL:
@@ -96,19 +96,19 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	case ChannelRequest::NONE:
 		break;
 	case ChannelRequest::CHANNEL:
-		hChannelCon = pnlhr ? pnlhr->nlc : NULL;
+		hChannelCon = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 	case ChannelRequest::MESSAGES:
-		hMessagesCon = pnlhr ? pnlhr->nlc : NULL;
+		hMessagesCon = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 	case ChannelRequest::DEFAULT:
 		ReleaseMutex(fcb_conn_lock_);
-		hFcbCon = pnlhr ? pnlhr->nlc : NULL;
+		hFcbCon = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 	}
 
 	// Check and copy response data
-	if (pnlhr != NULL) {
+	if (pnlhr != nullptr) {
 		parent->debugLogA("@@@ Got response with code %d", pnlhr->resultCode);
 		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
 		resp.code = pnlhr->resultCode;
@@ -293,7 +293,7 @@ void facebook_client::clear_notifications()
 	ScopedLock s(notifications_lock_);
 
 	for (auto it = notifications.begin(); it != notifications.end();) {
-		if (it->second->hWndPopup != NULL)
+		if (it->second->hWndPopup != nullptr)
 			PUDeletePopup(it->second->hWndPopup); // close popup
 
 		delete it->second;
@@ -570,7 +570,7 @@ bool facebook_client::login(const char *username, const char *password)
 						tszMessage.AppendFormat(L"\n\n%s", ptrW(mir_utf8decodeW(activity.c_str())));
 					}
 
-					if (MessageBox(0, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) != IDYES) {
+					if (MessageBox(nullptr, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) != IDYES) {
 						// We will cancel connecting right away, because we don't want to handle password changing via Miranda
 						client_notify(TranslateT("Login error: You need to confirm last unknown login or revoke it from web browser."));
 						return handle_error("login", FORCE_QUIT);
@@ -1007,7 +1007,7 @@ bool facebook_client::activity_ping()
 	http::response resp = sendRequest(request);
 
 	// Remember this last ping time
-	parent->m_pingTS = ::time(NULL);
+	parent->m_pingTS = ::time(nullptr);
 
 	if (resp.data.empty() || resp.data.find("\"t\":\"pong\"") == resp.data.npos) {
 		// Something went wrong
@@ -1143,7 +1143,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 
 bool facebook_client::post_status(status_data *status)
 {
-	if (status == NULL || (status->text.empty() && status->url.empty()))
+	if (status == nullptr || (status->text.empty() && status->url.empty()))
 		return false;
 
 	handle_entry("post_status");
@@ -1213,7 +1213,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 
 		// Write to file
 		FILE *f = _wfopen(filename.c_str(), L"wb");
-		if (f != NULL) {
+		if (f != nullptr) {
 			fwrite(resp->pData, 1, resp->dataLength, f);
 			fclose(f);
 
@@ -1223,7 +1223,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 		Netlib_FreeHttpRequest(resp);
 	}
 	else {
-		nlc = NULL;
+		nlc = nullptr;
 	}
 
 	return ret;

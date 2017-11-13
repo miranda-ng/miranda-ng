@@ -33,7 +33,7 @@ ConnContext * otrl_context_find_miranda(OtrlUserState us, MCONTACT hContact)
 {
 	const char *proto = GetContactProto(hContact);
 	char *username = contact_get_id(hContact);
-	ConnContext* ret = otrl_context_find(us, username, proto, proto, OTRL_INSTAG_BEST, 0, NULL, NULL, NULL);
+	ConnContext* ret = otrl_context_find(us, username, proto, proto, OTRL_INSTAG_BEST, 0, nullptr, nullptr, nullptr);
 	mir_free(username);
 	return ret;
 }
@@ -58,7 +58,7 @@ TrustLevel otr_context_get_trust(ConnContext *context)
 /* Set verification of fingerprint */
 void VerifyFingerprint(ConnContext *context, bool verify) {
 	lib_cs_lock();
-	otrl_context_set_trust(context->active_fingerprint, (verify)?"verified":NULL);
+	otrl_context_set_trust(context->active_fingerprint, (verify)?"verified":nullptr);
 	otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 	VerifyFingerprintMessage(context, verify);
 }
@@ -106,7 +106,7 @@ __inline const wchar_t* contact_get_nameT(MCONTACT hContact) {
 wchar_t* ProtoGetNickname(const char* proto)
 {
 	wchar_t *p = Contact_GetInfo(CNF_NICK, NULL, proto);
-	return (p != NULL) ? p : mir_wstrdup(L"");
+	return (p != nullptr) ? p : mir_wstrdup(L"");
 }
 
 void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact) {
@@ -120,12 +120,12 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 			int size = int(mir_wstrlen(line1) + mir_wstrlen(line2) + 3);
 			wchar_t *message = new wchar_t[size]; // newline and null terminator
 			mir_snwprintf(message, size, L"%s\r\n%s", line1, line2);
-			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
+			MessageBox( nullptr, message, title, MB_OK | MB_ICONINFORMATION );
 			delete[] message;
 		} else if(line1) {
-			MessageBox( NULL, line1, title, MB_OK | MB_ICONINFORMATION );
+			MessageBox( nullptr, line1, title, MB_OK | MB_ICONINFORMATION );
 		} else if(line2) {
-			MessageBox( NULL, line2, title, MB_OK | MB_ICONINFORMATION );
+			MessageBox( nullptr, line2, title, MB_OK | MB_ICONINFORMATION );
 		}
 		return;
 	}
@@ -134,7 +134,7 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 	//memset((void *)&ppd, 0, sizeof(POPUPDATAT));
 
 	ppd.lchContact = hContact;
-	ppd.lchIcon = NULL;
+	ppd.lchIcon = nullptr;
 
 	if(line1 && line2) {
 		wcsncpy( ppd.lptzContactName, line1, MAX_CONTACTNAME-1 );
@@ -146,8 +146,8 @@ void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MC
 
 	ppd.iSeconds = timeout;
 
-	ppd.PluginWindowProc = NULL;
-	ppd.PluginData = NULL;
+	ppd.PluginWindowProc = nullptr;
+	ppd.PluginData = nullptr;
 
 	PUAddPopupT(&ppd);
 
@@ -174,7 +174,7 @@ void ShowWarning(wchar_t *msg) {
 		}
 		break;
 	case ED_MB:
-		MessageBox(0, msg, buffer, MB_OK | MB_ICONWARNING);
+		MessageBox(nullptr, msg, buffer, MB_OK | MB_ICONWARNING);
 		break;
 	case ED_BAL:
 		Clist_TrayNotifyW(MODULENAME, buffer, msg, NIIF_WARNING, 10000);
@@ -204,7 +204,7 @@ void ShowError(wchar_t *msg) {
 		}
 		break;
 	case ED_MB:
-		MessageBox(0, msg, buffer, MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, msg, buffer, MB_OK | MB_ICONERROR);
 		break;
 	case ED_BAL:
 		Clist_TrayNotifyW(MODULENAME, buffer, msg, NIIF_ERROR, 10000);
@@ -214,20 +214,20 @@ void ShowError(wchar_t *msg) {
 
 
 void ShowPopupUtf(const char* line1, const char* line2, int timeout, const MCONTACT hContact) {
-	wchar_t* l1 = (line1) ? mir_utf8decodeW(line1) : NULL;
-	wchar_t* l2 = (line2) ? mir_utf8decodeW(line2) : NULL;
+	wchar_t* l1 = (line1) ? mir_utf8decodeW(line1) : nullptr;
+	wchar_t* l2 = (line2) ? mir_utf8decodeW(line2) : nullptr;
 	ShowPopup(l1, l2, timeout, hContact);
 	if (l1) mir_free(l1);
 	if (l2) mir_free(l2);
 }
 
 void ShowWarningUtf(char* msg) {
-	wchar_t* m = (msg) ? mir_utf8decodeW(msg) : NULL;
+	wchar_t* m = (msg) ? mir_utf8decodeW(msg) : nullptr;
 	ShowWarning(m);
 	if (m) mir_free(m);
 }
 void ShowErrorUtf(char* msg) {
-	wchar_t* m = (msg) ? mir_utf8decodeW(msg) : NULL;
+	wchar_t* m = (msg) ? mir_utf8decodeW(msg) : nullptr;
 	ShowError(m);
 	if (m) mir_free(m);
 }
@@ -238,7 +238,7 @@ void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg) {
 	T2Utf utf(buff);
 
 	PROTORECVEVENT pre = {0};
-	pre.timestamp = time(0);
+	pre.timestamp = time(nullptr);
 	pre.szMessage = utf;
 	pre.flags = PREF_BYPASS_OTR;
 	ProtoChainRecvMsg(hContact, &pre);	
@@ -249,7 +249,7 @@ void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg) {
 	mir_snprintf(buff, "%s%s", LANG_INLINE_PREFIX, msg);
 
 	PROTORECVEVENT pre = {0};
-	pre.timestamp = time(0);
+	pre.timestamp = time(nullptr);
 	pre.szMessage = buff;
 	pre.flags = PREF_BYPASS_OTR;
 	ProtoChainRecvMsg(hContact, &pre);

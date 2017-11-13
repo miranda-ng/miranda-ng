@@ -31,8 +31,8 @@ void Canvas::updateTrans(BYTE* pData)
 
 Canvas::Canvas(int nWidth, int nHeight) : m_nChannels(4), m_nWidth(nWidth),
 	m_nHeight(nHeight), m_nLineLength((m_nChannels * m_nWidth + 3) & ~0x3),
-	m_bTransColor(false), m_TransColor(0),	m_pBMIH(NULL), m_hDC(0),
-	m_hBmp(0), m_hOldBmp(0)
+	m_bTransColor(false), m_TransColor(0),	m_pBMIH(nullptr), m_hDC(nullptr),
+	m_hBmp(nullptr), m_hOldBmp(nullptr)
 {}
 
 Canvas::~Canvas()
@@ -65,7 +65,7 @@ void Canvas::fillBackground(COLORREF bkColor)
 	RECT rAll = { 0, 0, m_nWidth, m_nHeight };
 
 	SetBkColor(hDC, bkColor);
-	ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rAll, NULL, 0, NULL);
+	ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rAll, nullptr, 0, nullptr);
 
 	endDraw();
 }
@@ -87,10 +87,10 @@ HDC Canvas::beginDraw()
 		m_pBMIH->biClrUsed = 0;
 		m_pBMIH->biClrImportant = 0;
 
-		BYTE* pData = 0;
+		BYTE* pData = nullptr;
 
-		m_hDC = CreateCompatibleDC(NULL);
-		m_hBmp = CreateDIBSection(m_hDC, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS, reinterpret_cast<void**>(&pData), NULL, 0);
+		m_hDC = CreateCompatibleDC(nullptr);
+		m_hBmp = CreateDIBSection(m_hDC, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS, reinterpret_cast<void**>(&pData), nullptr, 0);
 	}
 
 	m_hOldBmp = SelectObject(m_hDC, m_hBmp);
@@ -101,7 +101,7 @@ HDC Canvas::beginDraw()
 void Canvas::endDraw()
 {
 	SelectObject(m_hDC, m_hOldBmp);
-	m_hOldBmp = NULL;
+	m_hOldBmp = nullptr;
 }
 
 bool Canvas::getDigest(Digest& digest)

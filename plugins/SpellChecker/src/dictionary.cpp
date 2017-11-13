@@ -368,7 +368,7 @@ protected:
 		mir_snwprintf(filename, L"%s\\%s.cdic", userPath, language);
 
 		FILE *file = _wfopen(filename, L"rb");
-		if (file != NULL) {
+		if (file != nullptr) {
 			char tmp[1024];
 			int c, pos = 0;
 			while ((c = fgetc(file)) != EOF) {
@@ -396,7 +396,7 @@ protected:
 		mir_snwprintf(filename, L"%s\\%s.cdic", userPath, language);
 
 		FILE *file = _wfopen(filename, L"ab");
-		if (file != NULL) {
+		if (file != nullptr) {
 			char tmp[1024];
 			toHunspell(tmp, word, _countof(tmp));
 			fprintf(file, "%s\n", tmp);
@@ -417,12 +417,12 @@ protected:
 
 	void toHunspell(char *hunspellWord, const wchar_t *word, size_t hunspellWordLen)
 	{
-		WideCharToMultiByte(codePage, 0, word, -1, hunspellWord, (int)hunspellWordLen, NULL, NULL);
+		WideCharToMultiByte(codePage, 0, word, -1, hunspellWord, (int)hunspellWordLen, nullptr, nullptr);
 	}
 
 	wchar_t* fromHunspell(const char *hunspellWord)
 	{
-		int len = MultiByteToWideChar(codePage, 0, hunspellWord, -1, NULL, 0);
+		int len = MultiByteToWideChar(codePage, 0, hunspellWord, -1, nullptr, 0);
 		WCHAR *ret = (WCHAR *)malloc((len + 1) * sizeof(WCHAR));
 		MultiByteToWideChar(codePage, 0, hunspellWord, -1, ret, len + 1);
 		return ret;
@@ -430,8 +430,8 @@ protected:
 
 	wchar_t* fromHunspellAndFree(char *hunspellWord)
 	{
-		if (hunspellWord == NULL)
-			return NULL;
+		if (hunspellWord == nullptr)
+			return nullptr;
 
 		wchar_t *ret = fromHunspell(hunspellWord);
 		free(hunspellWord);
@@ -444,7 +444,7 @@ public:
 		mir_wstrncpy(language, aLanguage, _countof(language));
 		mir_wstrncpy(fileWithoutExtension, aFileWithoutExtension, _countof(fileWithoutExtension));
 		mir_wstrncpy(userPath, anUserPath, _countof(userPath));
-		if (aSource == NULL)
+		if (aSource == nullptr)
 			source[0] = '\0';
 		else
 			mir_wstrncpy(source, aSource, _countof(source));
@@ -453,24 +453,24 @@ public:
 		localized_name[0] = '\0';
 		english_name[0] = '\0';
 		full_name[0] = '\0';
-		hunspell = NULL;
-		wordChars = NULL;
+		hunspell = nullptr;
+		wordChars = nullptr;
 		codePage = CP_ACP;
-		autoReplace = NULL;
+		autoReplace = nullptr;
 	}
 
 	virtual ~HunspellDictionary()
 	{
-		if (hunspell != NULL)
+		if (hunspell != nullptr)
 			delete hunspell;
-		if (wordChars != NULL)
+		if (wordChars != nullptr)
 			free(wordChars);
 	}
 
 	wchar_t * merge(wchar_t * s1, wchar_t *s2)
 	{
-		int len1 = (s1 == NULL ? 0 : mir_wstrlen(s1));
-		int len2 = (s2 == NULL ? 0 : mir_wstrlen(s2));
+		int len1 = (s1 == nullptr ? 0 : mir_wstrlen(s1));
+		int len2 = (s2 == nullptr ? 0 : mir_wstrlen(s2));
 
 		wchar_t *ret;
 		if (len1 > 0 && len2 > 0) {
@@ -556,11 +556,11 @@ public:
 		wordChars = merge(merge(casechars, hwordchars), try_string);
 
 		// Make a suggestion to load hunspell internalls
-		char ** words = NULL;
+		char ** words = nullptr;
 		int count = hunspell->suggest(&words, "asdf");
 		for (int i = 0; i < count; i++)
 			free(words[i]);
-		if (words != NULL)
+		if (words != nullptr)
 			free(words);
 
 		loadCustomDict();
@@ -586,7 +586,7 @@ public:
 	// Return a list of suggestions to a word
 	virtual Suggestions suggest(const wchar_t * word)
 	{
-		Suggestions ret = { 0 };
+		Suggestions ret = {};
 
 		load();
 		if (loaded != LANGUAGE_LOADED)
@@ -595,10 +595,10 @@ public:
 		char hunspell_word[1024];
 		toHunspell(hunspell_word, word, _countof(hunspell_word));
 
-		char ** words = NULL;
+		char ** words = nullptr;
 		ret.count = hunspell->suggest(&words, hunspell_word);
 
-		if (ret.count > 0 && words != NULL) {
+		if (ret.count > 0 && words != nullptr) {
 			// Oki, lets make our array
 			ret.words = (wchar_t **)malloc(ret.count * sizeof(wchar_t *));
 			for (unsigned i = 0; i < ret.count; i++) {
@@ -606,7 +606,7 @@ public:
 				free(words[i]);
 			}
 		}
-		if (words != NULL)
+		if (words != nullptr)
 			free(words);
 
 		return ret;
@@ -615,7 +615,7 @@ public:
 	// Return a list of auto suggestions to a word
 	virtual Suggestions autoSuggest(const wchar_t * word)
 	{
-		Suggestions ret = { 0 };
+		Suggestions ret = {};
 
 		load();
 		if (loaded != LANGUAGE_LOADED)
@@ -648,7 +648,7 @@ public:
 	{
 		load();
 		if (loaded != LANGUAGE_LOADED)
-			return NULL;
+			return nullptr;
 
 		char hunspell_word[1024];
 		toHunspell(hunspell_word, word, _countof(hunspell_word));
@@ -657,7 +657,7 @@ public:
 		int count = hunspell->suggest(&words, hunspell_word);
 
 		if (count <= 0)
-			return NULL;
+			return nullptr;
 
 		wchar_t *ret = fromHunspell(words[0]);
 
@@ -679,7 +679,7 @@ public:
 		if (loaded != LANGUAGE_LOADED)
 			return TRUE;
 
-		return wcschr(wordChars, c) != NULL;
+		return wcschr(wordChars, c) != nullptr;
 	}
 
 	// Assert that all needed data is loaded
@@ -725,7 +725,7 @@ LIST<Dictionary> *tmp_dicts;
 // To get the names of the languages
 BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 {
-	wchar_t *stopped = NULL;
+	wchar_t *stopped = nullptr;
 	USHORT langID = (USHORT)wcstol(lpLocaleString, &stopped, 16);
 
 	wchar_t ini[32];
@@ -782,7 +782,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 			DBVARIANT dbv;
 
 			char lang[128];
-			WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), NULL, NULL);
+			WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), nullptr, nullptr);
 			if (!db_get_ws(NULL, MODULE_NAME, lang, &dbv)) {
 				mir_wstrncpy(dict->localized_name, dbv.ptszVal, _countof(dict->localized_name));
 				db_free(&dbv);
@@ -864,7 +864,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, w
 void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path)
 {
 	// Get miranda folder dicts
-	GetHunspellDictionariesFromFolder(dicts, path, user_path, NULL);
+	GetHunspellDictionariesFromFolder(dicts, path, user_path, nullptr);
 
 	if (opts.use_other_apps_dicts) {
 		// Get other apps dicts
@@ -872,11 +872,11 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 			wchar_t key[1024];
 			mir_snwprintf(key, APPPATH, otherHunspellApps[i].key);
 
-			HKEY hKey = 0;
+			HKEY hKey = nullptr;
 			LONG lResult = 0;
 			if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, key, 0, KEY_QUERY_VALUE, &hKey)) {
 				DWORD size = _countof(key);
-				lResult = RegQueryValueEx(hKey, L"Path", NULL, NULL, (LPBYTE)key, &size);
+				lResult = RegQueryValueEx(hKey, L"Path", nullptr, nullptr, (LPBYTE)key, &size);
 				RegCloseKey(hKey);
 			}
 			else {
@@ -884,13 +884,13 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 				lResult = RegOpenKeyEx(HKEY_CURRENT_USER, MUICACHE, 0, KEY_QUERY_VALUE, &hKey);
 				if (ERROR_SUCCESS == lResult) {
 					DWORD numValues;
-					if (ERROR_SUCCESS != RegQueryInfoKey(hKey, NULL, NULL, NULL, NULL, NULL, NULL, &numValues, NULL, NULL, NULL, NULL))
+					if (ERROR_SUCCESS != RegQueryInfoKey(hKey, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, &numValues, nullptr, nullptr, nullptr, nullptr))
 						numValues = 0;
 
 					lResult = ERROR_NO_MORE_ITEMS;
 					for (DWORD local = 0; local < numValues; local++) {
 						DWORD cchValue = _countof(key);
-						if (ERROR_SUCCESS != RegEnumValue(hKey, local, key, &cchValue, NULL, NULL, NULL, NULL))
+						if (ERROR_SUCCESS != RegEnumValue(hKey, local, key, &cchValue, nullptr, nullptr, nullptr, nullptr))
 							break;
 						key[cchValue] = 0;
 						wchar_t *pos;
@@ -955,6 +955,6 @@ void FreeSuggestions(Suggestions &suggestions)
 
 	free(suggestions.words);
 
-	suggestions.words = NULL;
+	suggestions.words = nullptr;
 	suggestions.count = 0;
 }

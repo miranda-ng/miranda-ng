@@ -104,7 +104,7 @@ void CWhoisDlg::OnDestroy()
 	SendDlgItemMessage(m_hwnd, IDC_CAPTION, WM_SETFONT, SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0), 0);
 	DeleteObject(hFont2);
 
-	m_proto->m_whoisDlg = NULL;
+	m_proto->m_whoisDlg = nullptr;
 }
 
 void CWhoisDlg::OnGo(CCtrlButton*)
@@ -126,7 +126,7 @@ void CWhoisDlg::OnPing(CCtrlButton*)
 	wchar_t szTemp[255];
 	m_InfoNick.GetText(szTemp, _countof(szTemp));
 	m_Reply.SetText(TranslateT("Please wait..."));
-	m_proto->PostIrcMessage(L"/PRIVMSG %s \001PING %u\001", szTemp, time(0));
+	m_proto->PostIrcMessage(L"/PRIVMSG %s \001PING %u\001", szTemp, time(nullptr));
 }
 
 void CWhoisDlg::OnUserInfo(CCtrlButton*)
@@ -175,7 +175,7 @@ void CWhoisDlg::ShowMessage(const CIrcMessage* pmsg)
 	if (IsIconic(m_hwnd))
 		ShowWindow(m_hwnd, SW_SHOWNORMAL);
 	SendMessage(m_hwnd, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(m_hwnd, NULL, TRUE);
+	InvalidateRect(m_hwnd, nullptr, TRUE);
 }
 
 void CWhoisDlg::ShowMessageNoUser(const CIrcMessage *pmsg)
@@ -223,7 +223,7 @@ void CNickDlg::OnInitDialog()
 void CNickDlg::OnDestroy()
 {
 	CCoolIrcDlg::OnDestroy();
-	m_proto->m_nickDlg = NULL;
+	m_proto->m_nickDlg = nullptr;
 }
 
 void CNickDlg::OnOk(CCtrlButton*)
@@ -327,7 +327,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				// Match the text?
 				wchar_t* t = wcsstr(lvm.pszText, strFilterText);
-				if (t == NULL) { // If no, then Check if in the topics
+				if (t == nullptr) { // If no, then Check if in the topics
 					m_list.GetItem(&lvm);
 
 					// Match the text?
@@ -393,7 +393,7 @@ INT_PTR CListDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 void CListDlg::OnChange(CCtrlBase *ctrl)
 {
 	if (ctrl->GetCtrlId() == IDC_FILTER_STRING)
-		m_timer = ::SetTimer(m_hwnd, LIST_TIMER, 200, NULL);
+		m_timer = ::SetTimer(m_hwnd, LIST_TIMER, 200, nullptr);
 }
 
 void CListDlg::OnDestroy()
@@ -401,7 +401,7 @@ void CListDlg::OnDestroy()
 	if (m_timer)
 		::KillTimer(m_hwnd, m_timer);
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "channelList_");
-	m_proto->m_listDlg = NULL;
+	m_proto->m_listDlg = nullptr;
 }
 
 struct ListViewSortParam
@@ -518,7 +518,7 @@ void CJoinDlg::OnInitDialog()
 void CJoinDlg::OnDestroy()
 {
 	CCoolIrcDlg::OnDestroy();
-	m_proto->m_joinDlg = NULL;
+	m_proto->m_joinDlg = nullptr;
 }
 
 void CJoinDlg::OnOk(CCtrlButton*)
@@ -599,7 +599,7 @@ void CQuickDlg::OnInitDialog()
 
 	if (m_proto->m_quickComboSelection != -1) {
 		m_serverCombo.SetCurSel(m_proto->m_quickComboSelection);
-		OnServerCombo(NULL);
+		OnServerCombo(nullptr);
 	}
 	else EnableWindow(GetDlgItem(m_hwnd, IDOK), false);
 }
@@ -609,7 +609,7 @@ void CQuickDlg::OnDestroy()
 	CCoolIrcDlg::OnDestroy();
 
 	delete m_si;
-	m_proto->m_quickDlg = NULL;
+	m_proto->m_quickDlg = nullptr;
 }
 
 void CQuickDlg::OnOk(CCtrlButton*)
@@ -705,7 +705,7 @@ CQuestionDlg::CQuestionDlg(CIrcProto *_pro, CManagerDlg *owner)
 	m_Ok(this, IDOK),
 	m_owner(owner)
 {
-	if (owner != NULL)
+	if (owner != nullptr)
 		m_hwndParent = owner->GetHwnd();
 	m_Ok.OnClick = Callback(this, &CQuestionDlg::OnOk);
 }
@@ -736,7 +736,7 @@ void CQuestionDlg::OnOk(CCtrlButton*)
 
 		wchar_t *text = wcsstr(m, L"%question");
 		wchar_t *p1 = text;
-		wchar_t *p2 = NULL;
+		wchar_t *p2 = nullptr;
 		if (p1) {
 			p1 += 9;
 			if (*p1 == '=' && p1[1] == '\"') {
@@ -759,7 +759,7 @@ void CQuestionDlg::OnOk(CCtrlButton*)
 		CMStringW S('\0', j + 2);
 		GetDlgItemText(m_hwnd, IDC_HIDDENEDIT, S.GetBuffer(), j + 1);
 		S.Replace(text, l);
-		m_proto->PostIrcMessageWnd(NULL, NULL, S);
+		m_proto->PostIrcMessageWnd(nullptr, NULL, S);
 
 		delete[]m;
 		delete[]l;
@@ -893,7 +893,7 @@ void CManagerDlg::OnInitDialog()
 void CManagerDlg::OnClose()
 {
 	if (m_applyModes.Enabled() || m_applyTopic.Enabled()) {
-		int i = MessageBox(NULL, TranslateT("You have not applied all changes!\n\nApply before exiting?"), TranslateT("IRC warning"), MB_YESNOCANCEL | MB_ICONWARNING | MB_DEFBUTTON3);
+		int i = MessageBox(nullptr, TranslateT("You have not applied all changes!\n\nApply before exiting?"), TranslateT("IRC warning"), MB_YESNOCANCEL | MB_ICONWARNING | MB_DEFBUTTON3);
 		if (i == IDCANCEL) {
 			m_lresult = TRUE;
 			return;
@@ -901,9 +901,9 @@ void CManagerDlg::OnClose()
 
 		if (i == IDYES) {
 			if (m_applyModes.Enabled())
-				OnApplyModes(NULL);
+				OnApplyModes(nullptr);
 			if (m_applyTopic.Enabled())
-				OnApplyTopic(NULL);
+				OnApplyTopic(nullptr);
 		}
 	}
 
@@ -934,7 +934,7 @@ void CManagerDlg::OnClose()
 void CManagerDlg::OnDestroy()
 {
 	CCoolIrcDlg::OnDestroy();
-	m_proto->m_managerDlg = NULL;
+	m_proto->m_managerDlg = nullptr;
 }
 
 void CManagerDlg::OnAdd(CCtrlButton*)
@@ -1054,7 +1054,7 @@ void CManagerDlg::OnRemove(CCtrlButton*)
 
 void CManagerDlg::OnListDblClick(CCtrlListBox*)
 {
-	OnEdit(NULL);
+	OnEdit(nullptr);
 }
 
 void CManagerDlg::OnChangeList(CCtrlListBox*)

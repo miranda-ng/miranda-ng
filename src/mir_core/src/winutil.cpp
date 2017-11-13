@@ -91,7 +91,7 @@ EXTERN_C MIR_CORE_DLL(int) Utils_RestoreWindowPosition(HWND hwnd, MCONTACT hCont
 
 MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc)
 {
-	if (rc == NULL)
+	if (rc == nullptr)
 		return -1;
 
 	RECT rcScreen;

@@ -6,9 +6,9 @@ HMODULE h;
 BOOL loadlib(void)
 {
 	h = LoadLibrary("plugins/cryptopp.dll");
-	if (h == NULL) {
+	if (h == nullptr) {
 		h = LoadLibrary("cryptopp.dll");
-		if (h == NULL) return 0;
+		if (h == nullptr) return 0;
 	}
 
 	cpp.cc = (_cpp_create_context)GetProcAddress(h, "cpp_create_context");

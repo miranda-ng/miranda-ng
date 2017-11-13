@@ -107,7 +107,7 @@ void showLastError()
 
 	LPVOID lpMsgBuf;
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+		nullptr, err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, nullptr);
 
 	dbg_msg((wchar_t *)lpMsgBuf, SM_WARNING);
 
@@ -154,11 +154,11 @@ HICON getIcon(const std::wstring &name)
 		init = true;
 
 		// windows icons
-		icons[L"exclamation"] = icons[L"warning"] = LoadIcon(NULL, IDI_WARNING);
-		deficon = icons[L"information"] = icons[L"asterisk"] = LoadIcon(NULL, IDI_ASTERISK);
-		icons[L"hand"] = icons[L"error"] = LoadIcon(NULL, IDI_ERROR);
-		icons[L"question"] = LoadIcon(NULL, IDI_QUESTION);
-		icons[L"winlogo"] = LoadIcon(NULL, IDI_WINLOGO);
+		icons[L"exclamation"] = icons[L"warning"] = LoadIcon(nullptr, IDI_WARNING);
+		deficon = icons[L"information"] = icons[L"asterisk"] = LoadIcon(nullptr, IDI_ASTERISK);
+		icons[L"hand"] = icons[L"error"] = LoadIcon(nullptr, IDI_ERROR);
+		icons[L"question"] = LoadIcon(nullptr, IDI_QUESTION);
+		icons[L"winlogo"] = LoadIcon(nullptr, IDI_WINLOGO);
 
 		// miranda icons
 		icons[L"online"] = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
@@ -184,8 +184,8 @@ HICON getIcon(const std::wstring &name)
 	size_t p = name.rfind(',');
 	if (p == name.npos) {
 		// try to load icon file
-		HANDLE h = LoadImage(NULL, name.c_str(), IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
-		if (h != NULL)
+		HANDLE h = LoadImage(nullptr, name.c_str(), IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
+		if (h != nullptr)
 			return icons[name] = (HICON)h;
 
 		showLastError();
@@ -200,7 +200,7 @@ HICON getIcon(const std::wstring &name)
 		return deficon;
 	}
 
-	HMODULE module = LoadLibraryEx(file.c_str(), NULL, LOAD_LIBRARY_AS_DATAFILE);
+	HMODULE module = LoadLibraryEx(file.c_str(), nullptr, LOAD_LIBRARY_AS_DATAFILE);
 	if (!module) {
 		showLastError();
 		return deficon;
@@ -302,7 +302,7 @@ void getAll(std::vector<std::wstring> &out, std::wstring &in, wchar_t sep, bool 
 
 const wchar_t *decode_se_arg(std::wstring &str)
 {
-	return (str.empty()) ? 0 : str.c_str();
+	return (str.empty()) ? nullptr : str.c_str();
 }
 
 void processSingleAction(const std::wstring &what, bool &closeflag)
@@ -357,7 +357,7 @@ void processSingleAction(const std::wstring &what, bool &closeflag)
 
 		const wchar_t *cargs = decode_se_arg(args);
 
-		if ((INT_PTR)ShellExecute(0, L"open", file.c_str(), cargs, 0, SW_SHOWNORMAL) <= 32)
+		if ((INT_PTR)ShellExecute(nullptr, L"open", file.c_str(), cargs, nullptr, SW_SHOWNORMAL) <= 32)
 			throw L"Failed to open: " + file + L" " + args;
 
 	}
@@ -381,7 +381,7 @@ void processSingleAction(const std::wstring &what, bool &closeflag)
 		args = strip(args);
 		dir = /*unquote(*/strip(dir)/*)*/;
 
-		if ((INT_PTR)ShellExecute(0, decode_se_arg(verb), decode_se_arg(file), decode_se_arg(args), decode_se_arg(dir), SW_SHOWNORMAL) <= 32)
+		if ((INT_PTR)ShellExecute(nullptr, decode_se_arg(verb), decode_se_arg(file), decode_se_arg(args), decode_se_arg(dir), SW_SHOWNORMAL) <= 32)
 			throw L"Failed: " + what;
 	}
 	else if (what == L"close")
@@ -575,7 +575,7 @@ COLORREF parseColor(const std::wstring &buf, bool &ok)
 
 void loadDefaults(popup_t &msg, char ch)
 {
-	msg.hwnd = NULL;
+	msg.hwnd = nullptr;
 	msg.replace = xno;
 	msg.delay = 0;
 	switch (ch) {
@@ -930,7 +930,7 @@ void __cdecl udptcpThreadFunc(void *useUdp)
 		mir_strcpy(buf, Translate("NotifyAnything: Failed to format error message"));
 
 		DWORD fm = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL, ec, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 4096, NULL);
+			nullptr, ec, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 4096, nullptr);
 
 		if (!fm) {
 			t += Translate("NotifyAnything: FormatMessage failed, error code was 0x");
@@ -940,7 +940,7 @@ void __cdecl udptcpThreadFunc(void *useUdp)
 		else
 			t += buf;
 
-		MessageBoxA(0, t.c_str(), Translate("Error"), MB_OK);
+		MessageBoxA(nullptr, t.c_str(), Translate("Error"), MB_OK);
 		return;
 	}
 }
@@ -949,7 +949,7 @@ void start_threads()
 {
 	g_exit_threads = false;
 	g_udp_thread = mir_forkthread(udptcpThreadFunc, (void *)1);
-	g_tcp_thread = mir_forkthread(udptcpThreadFunc, 0);
+	g_tcp_thread = mir_forkthread(udptcpThreadFunc, nullptr);
 }
 
 void stop_threads()

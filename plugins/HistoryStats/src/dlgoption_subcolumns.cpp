@@ -67,7 +67,7 @@ INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARA
 }
 
 DlgOption::SubColumns::SubColumns() :
-	m_hColTitle(NULL),
+	m_hColTitle(nullptr),
 	m_bShowInfo(true),
 	m_nInfoHeight(0)
 {
@@ -213,11 +213,11 @@ void DlgOption::SubColumns::loadSettings()
 {
 	// remeber currently selected item
 	HANDLE hSelItem = m_Columns.getSelection();
-	Column* pPrevCol = NULL;
+	Column* pPrevCol = nullptr;
 
 	if (hSelItem) {
 		pPrevCol = reinterpret_cast<Column*>(m_Columns.getItemData(hSelItem));
-		hSelItem = NULL;
+		hSelItem = nullptr;
 	}
 
 	// remember scroll bar position
@@ -233,7 +233,7 @@ void DlgOption::SubColumns::loadSettings()
 	{
 		Column* pCol = localS.getCol(j);
 		ext::string colTitle = pCol->getTitleForOptions();
-		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, colTitle.c_str(), 0, reinterpret_cast<INT_PTR>(pCol));
+		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(nullptr, colTitle.c_str(), 0, reinterpret_cast<INT_PTR>(pCol));
 
 		m_Columns.checkItem(hColCheck, pCol->isEnabled());
 
@@ -241,7 +241,7 @@ void DlgOption::SubColumns::loadSettings()
 			hSelItem = hColCheck;
 	}
 
-	m_Columns.ensureVisible(NULL);
+	m_Columns.ensureVisible(nullptr);
 	m_Columns.setRedraw(true);
 
 	// restore scroll bar position
@@ -257,7 +257,7 @@ void DlgOption::SubColumns::saveSettings()
 
 	if (hSelItem) {
 		// deselect and select current item to save its options to localS
-		m_Columns.selectItem(NULL);
+		m_Columns.selectItem(nullptr);
 		m_Columns.selectItem(hSelItem);
 	}
 
@@ -327,7 +327,7 @@ void DlgOption::SubColumns::addCol(int nCol)
 
 		getParent()->getLocalSettings().addCol(pCol);
 
-		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, TranslateW(pCol->getTitle()), 0, reinterpret_cast<INT_PTR>(pCol));
+		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(nullptr, TranslateW(pCol->getTitle()), 0, reinterpret_cast<INT_PTR>(pCol));
 
 		m_Columns.checkItem(hColCheck, pCol->isEnabled());
 
@@ -349,7 +349,7 @@ void DlgOption::SubColumns::onColSelChanging(HANDLE hItem, INT_PTR)
 
 			m_Columns.setItemLabel(hItem, colTitle.c_str());
 
-			m_hColTitle = NULL;
+			m_hColTitle = nullptr;
 		}
 
 		// column specific settings
@@ -378,25 +378,25 @@ void DlgOption::SubColumns::onColSelChanged(HANDLE hItem, INT_PTR)
 		Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
 
 		// general column settings
-		OptionsCtrl::Group hGeneral = m_Options.insertGroup(NULL, TranslateT("General column settings"), OptionsCtrl::OCF_ROOTGROUP);
+		OptionsCtrl::Group hGeneral = m_Options.insertGroup(nullptr, TranslateT("General column settings"), OptionsCtrl::OCF_ROOTGROUP);
 
 		m_hColTitle = m_Options.insertEdit(hGeneral, TranslateT("Title (default if empty)"), pCol->getCustomTitle().c_str());
 
 		// column specific settings
 		if (pCol->getFeatures() & Column::cfHasConfig) {
-			OptionsCtrl::Group hSpecific = m_Options.insertGroup(NULL, TranslateT("Column specific settings"), OptionsCtrl::OCF_ROOTGROUP);
+			OptionsCtrl::Group hSpecific = m_Options.insertGroup(nullptr, TranslateT("Column specific settings"), OptionsCtrl::OCF_ROOTGROUP);
 
 			pCol->configToUI(m_Options, hSpecific);
 		}
 
-		m_Options.ensureVisible(NULL);
+		m_Options.ensureVisible(nullptr);
 
 		// show output info for current column
 		HWND hInfo = GetDlgItem(getHWnd(), IDC_INFO);
 		TVINSERTSTRUCT tvi;
 		bool bPNGOutput = getParent()->isPNGOutput();
 		int nPNGMode = getParent()->getPNGMode();
-		int restrictions = pCol->configGetRestrictions(NULL);
+		int restrictions = pCol->configGetRestrictions(nullptr);
 
 		SendMessage(hInfo, WM_SETREDRAW, FALSE, 0);
 		TreeView_DeleteAllItems(hInfo);
@@ -494,9 +494,9 @@ void DlgOption::SubColumns::onColItemDropped(HANDLE hItem, HANDLE hDropTarget, B
 
 	// perform move
 	Column* pItem = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
-	Column* pDropTaregt = hDropTarget ? reinterpret_cast<Column*>(m_Columns.getItemData(hDropTarget)) : NULL;
+	Column* pDropTaregt = hDropTarget ? reinterpret_cast<Column*>(m_Columns.getItemData(hDropTarget)) : nullptr;
 
-	m_Columns.selectItem(NULL);
+	m_Columns.selectItem(nullptr);
 
 	getParent()->getLocalSettings().moveCol(pItem, pDropTaregt);
 	m_Columns.moveItem(hItem, hDropTarget);
@@ -551,7 +551,7 @@ void DlgOption::SubColumns::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 			ptMenu.y,
 			0,
 			getHWnd(),
-			NULL);
+			nullptr);
 
 		DestroyMenu(hPopup);
 
@@ -595,9 +595,9 @@ void DlgOption::SubColumns::onMoveUp()
 	hPrev2 = m_Columns.getPrevItem(hPrev2);
 
 	Column* pSelCol = reinterpret_cast<Column*>(m_Columns.getItemData(hSel));
-	Column* pPrev2Col = hPrev2 ? reinterpret_cast<Column*>(m_Columns.getItemData(hPrev2)) : NULL;
+	Column* pPrev2Col = hPrev2 ? reinterpret_cast<Column*>(m_Columns.getItemData(hPrev2)) : nullptr;
 
-	m_Columns.selectItem(NULL);
+	m_Columns.selectItem(nullptr);
 
 	getParent()->getLocalSettings().moveCol(pSelCol, pPrev2Col);
 	m_Columns.moveItem(hSel, hPrev2);
@@ -620,7 +620,7 @@ void DlgOption::SubColumns::onMoveDown()
 	Column* pSelCol = reinterpret_cast<Column*>(m_Columns.getItemData(hSel));
 	Column* pNextCol = reinterpret_cast<Column*>(m_Columns.getItemData(hNext));
 
-	m_Columns.selectItem(NULL);
+	m_Columns.selectItem(nullptr);
 
 	getParent()->getLocalSettings().moveCol(pSelCol, pNextCol);
 	m_Columns.moveItem(hSel, hNext);
@@ -658,12 +658,12 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 			Column* pCol = reinterpret_cast<Column*>(m_Columns.getItemData(hItem));
 
 			if (pCol) {
-				int restrictions = pCol->configGetRestrictions(pHelp ? &curDetails : NULL);
+				int restrictions = pCol->configGetRestrictions(pHelp ? &curDetails : nullptr);
 
 				// sanity check: either HTML or PNG has to be fully supported
 				if ((restrictions & Column::crHTMLMask) != Column::crHTMLFull &&
 					 (restrictions & Column::crPNGMask) != Column::crPNGFull) {
-					MessageBox(NULL,
+					MessageBox(nullptr,
 						TranslateT("An internal column configuration error occurred. Please contact the author of this plugin."),
 						TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
 				}

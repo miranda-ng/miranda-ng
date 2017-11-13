@@ -28,12 +28,12 @@ HINSTANCE hInst;
 
 DWORD mirVer;
 
-HANDLE hFolder = NULL;
+HANDLE hFolder = nullptr;
 
 wchar_t profilePath[MAX_PATH];		// database profile path (read at startup only)
 wchar_t basedir[MAX_PATH];
 int hLangpack = 0;
-MWindowList hAvatarWindowsList = NULL;
+MWindowList hAvatarWindowsList = nullptr;
 
 int OptInit(WPARAM wParam, LPARAM lParam);
 
@@ -109,7 +109,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	char *proto = GetContactProto(hContact);
-	if (proto == NULL)
+	if (proto == nullptr)
 		return 0;
 
 	if (mir_strcmp(META_PROTO, proto) == 0)
@@ -119,7 +119,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 	bool ret = (db_get_ws(hContact, MODULE_NAME, "AvatarHash", &dbvOldHash) == 0);
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
-	if (avatar == NULL) {
+	if (avatar == nullptr) {
 		if (!ret || !mir_wstrcmp(dbvOldHash.ptszVal, L"-")) {
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
@@ -133,7 +133,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		db_set_ws(hContact, MODULE_NAME, "AvatarHash", L"-");
 
 		if (ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS) && opts.popup_show_removed)
-			ShowPopup(hContact, NULL, opts.popup_removed);
+			ShowPopup(hContact, nullptr, opts.popup_removed);
 	}
 	else {
 		if (ret && !mir_wstrcmp(dbvOldHash.ptszVal, avatar->hash)) {
@@ -177,7 +177,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 				wchar_t *file = GetCachedAvatar(proto, hash);
 
-				if (file != NULL) {
+				if (file != nullptr) {
 					mir_wstrncpy(history_filename, file, _countof(history_filename));
 					mir_free(file);
 				}
@@ -207,7 +207,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 		}
 
 		if (ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS) && opts.popup_show_changed)
-			ShowPopup(hContact, NULL, opts.popup_changed);
+			ShowPopup(hContact, nullptr, opts.popup_changed);
 
 		if (ContactEnabled(hContact, "LogToHistory", AVH_DEF_LOGTOHISTORY)) {
 			wchar_t rel_path[MAX_PATH];
@@ -217,7 +217,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			DBEVENTINFO dbei = {};
 			dbei.szModule = GetContactProto(hContact);
 			dbei.flags = DBEF_READ | DBEF_UTF;
-			dbei.timestamp = (DWORD)time(NULL);
+			dbei.timestamp = (DWORD)time(nullptr);
 			dbei.eventType = EVENTTYPE_AVATAR_CHANGE;
 			dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
 			dbei.pBlob = blob;
@@ -294,12 +294,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	// Is first run?
 	if (db_get_b(NULL, MODULE_NAME, "FirstRun", 1)) {
 		// Show dialog
-		int ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FIRST_RUN), NULL, FirstRunDlgProc, 0);
+		int ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FIRST_RUN), nullptr, FirstRunDlgProc, 0);
 		if (ret == 0)
 			return -1;
 

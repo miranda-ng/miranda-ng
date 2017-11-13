@@ -57,7 +57,7 @@ char* m_aastrcat(LPCSTR strA, LPCSTR strB)
 	return str;
 }
 
-LPSTR m_string = NULL;
+LPSTR m_string = nullptr;
 
 // ANSIz + ANSIz = ANSIz
 char* m_ustrcat(LPCSTR strA, LPCSTR strB)
@@ -68,7 +68,7 @@ char* m_ustrcat(LPCSTR strA, LPCSTR strB)
 	return m_string;
 }
 
-LPSTR m_hex = NULL;
+LPSTR m_hex = nullptr;
 
 LPSTR to_hex(PBYTE bin, int len)
 {
@@ -90,7 +90,7 @@ void __fastcall safe_free(void** p)
 {
 	if (*p) {
 		mir_free(*p);
-		*p = NULL;
+		*p = nullptr;
 	}
 }
 
@@ -98,7 +98,7 @@ void __fastcall safe_delete(void** p)
 {
 	if (*p) {
 		delete(*p);
-		*p = NULL;
+		*p = nullptr;
 	}
 }
 

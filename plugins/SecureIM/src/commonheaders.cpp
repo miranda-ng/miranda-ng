@@ -5,13 +5,13 @@ HINSTANCE g_hInst, g_hIconInst;
 char TEMP[MAX_PATH];
 int  TEMP_SIZE = 0;
 
-HANDLE   g_hEvent[2], g_hCLIcon, g_hFolders = 0;
+HANDLE   g_hEvent[2], g_hCLIcon, g_hFolders = nullptr;
 HGENMENU g_hMenu[15];
 
 int iService = 0;
 int iHook = 0;
 
-HICON g_hICO[ICO_CNT], g_hPOP[POP_CNT], g_hIEC[1 + IEC_CNT*MODE_CNT] = { 0 };
+HICON g_hICO[ICO_CNT], g_hPOP[POP_CNT], g_hIEC[1 + IEC_CNT*MODE_CNT] = {};
 HANDLE g_IEC[1 + IEC_CNT*MODE_CNT];
 
 int iBmpDepth;
@@ -25,7 +25,7 @@ mir_cs localQueueMutex;
 LPSTR myDBGetStringDecode(MCONTACT hContact, const char *szModule, const char *szSetting)
 {
 	char *val = db_get_sa(hContact, szModule, szSetting);
-	if (!val) return NULL;
+	if (!val) return nullptr;
 	size_t len = mir_strlen(val) + 64;
 	char *buf = (LPSTR)mir_alloc(len);
 	strncpy(buf, val, len); mir_free(val);
@@ -86,7 +86,7 @@ void CopyToClipboard(HWND hwnd, LPSTR msg)
 	mir_strcpy(lpstrCopy, msg);
 	GlobalUnlock(hglbCopy);
 
-	if(OpenClipboard(NULL)) {
+	if(OpenClipboard(nullptr)) {
 		EmptyClipboard();
 		SetClipboardData(CF_TEXT, hglbCopy);
 		CloseClipboard();

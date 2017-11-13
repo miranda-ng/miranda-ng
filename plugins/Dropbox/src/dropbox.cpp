@@ -160,7 +160,7 @@ UINT CDropbox::RequestAccessTokenAsync(void *owner, void *param)
 	GetAccessTokenRequest request(requestToken);
 	NLHR_PTR response(request.Send(instance->hNetlibConnection));
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
+	if (response == nullptr || response->resultCode != HTTP_STATUS_OK) {
 		Netlib_Logf(instance->hNetlibConnection, "%s: %s", MODULE, HttpStatusToText(HTTP_STATUS_ERROR));
 		if (hwndDlg)
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("server does not respond"));

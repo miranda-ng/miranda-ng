@@ -159,7 +159,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_MARKMESSAGESASREAD, &CVkProto::SvcMarkMessagesAsRead);
 
 	for (int i = 0; i < PMI_COUNT; i++)
-		m_hProtoMenuItems[i] = 0;
+		m_hProtoMenuItems[i] = nullptr;
 
 	CMenuItem mi;
 	mi.root = Menu_GetProtocolRoot(this);

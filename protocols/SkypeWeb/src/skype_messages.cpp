@@ -52,7 +52,7 @@ int CSkypeProto::OnSendMessage(MCONTACT hContact, int, const char *szMessage)
 
 	SendMessageParam *param = new SendMessageParam();
 	param->hContact = hContact;
-	param->hMessage = time(NULL);
+	param->hMessage = time(nullptr);
 
 	ptrA username(getStringA(hContact, "Skypename"));
 
@@ -75,10 +75,10 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	HANDLE hMessage = (HANDLE)param->hMessage;
 	delete param;
 
-	if (response != NULL) {
+	if (response != nullptr) {
 		if (response->resultCode == 201) {
 			if (m_OutMessages.getIndex(hMessage) != -1) {
-				if (response->pData != NULL) {
+				if (response->pData != nullptr) {
 					JSONNode jRoot = JSONNode::parse(response->pData);
 					if (m_mpOutMessages.find(hMessage) == m_mpOutMessages.end()) {
 						m_mpOutMessages[hMessage] = std::stoull(jRoot["OriginalArrivalTime"].as_string()) / 1000;
@@ -94,7 +94,7 @@ void CSkypeProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		else {
 			std::string strError = Translate("Unknown error!");
 
-			if (response->pData != NULL) {
+			if (response->pData != nullptr) {
 				JSONNode jRoot = JSONNode::parse(response->pData);
 				const JSONNode &jErr = jRoot["errorCode"];
 
@@ -245,7 +245,7 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)
 {
-	HXML xmlNode = xmlParseString(mir_utf8decodeW(szContent), 0, L"contacts");
+	HXML xmlNode = xmlParseString(mir_utf8decodeW(szContent), nullptr, L"contacts");
 	if (xmlNode) {
 		int nCount = 0;
 		PROTOSEARCHRESULT **psr;
@@ -256,7 +256,7 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 			nCount = 0;
 			for (int i = 0; i < xmlGetChildCount(xmlNode); i++) {
 				HXML xmlContact = xmlGetNthChild(xmlNode, L"c", i);
-				if (xmlContact != NULL) {
+				if (xmlContact != nullptr) {
 					const wchar_t *tszContactId = xmlGetAttrValue(xmlContact, L"s");
 					//const wchar_t *tszContactName = xmlGetAttrValue(xmlContact, L"f");
 

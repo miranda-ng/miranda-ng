@@ -13,7 +13,7 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	BYTE *p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	memset(p, 0, dwLen);
@@ -31,8 +31,8 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * 4;
 	BYTE *p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
-		return NULL;
+	if (p == nullptr)
+		return nullptr;
 
 	// Create bitmap
 	BITMAPINFO RGB32BitsBITMAPINFO;
@@ -44,14 +44,14 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
 	BYTE *ptPixels;
-	HBITMAP hDirectBitmap = CreateDIBSection(NULL, (BITMAPINFO *)&RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, NULL, 0);
+	HBITMAP hDirectBitmap = CreateDIBSection(nullptr, (BITMAPINFO *)&RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, nullptr, 0);
 
 	// Copy data
 	if (bmp.bmBitsPixel != 32) {
-		HDC hdcOrig = CreateCompatibleDC(NULL);
+		HDC hdcOrig = CreateCompatibleDC(nullptr);
 		HBITMAP oldOrig = (HBITMAP)SelectObject(hdcOrig, hBitmap);
 
-		HDC hdcDest = CreateCompatibleDC(NULL);
+		HDC hdcDest = CreateCompatibleDC(nullptr);
 		HBITMAP oldDest = (HBITMAP)SelectObject(hdcDest, hDirectBitmap);
 
 		BitBlt(hdcDest, 0, 0, bmp.bmWidth, bmp.bmHeight, hdcOrig, 0, 0, SRCCOPY);
@@ -85,7 +85,7 @@ HBITMAP CreateBitmap32(int cx, int cy)
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
 	UINT *ptPixels;
-	return CreateDIBSection(NULL, (BITMAPINFO *)&RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, NULL, 0);
+	return CreateDIBSection(nullptr, (BITMAPINFO *)&RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, nullptr, 0);
 }
 
 // Set the color of points that are transparent
@@ -99,7 +99,7 @@ void SetTranspBkgColor(HBITMAP hBitmap, COLORREF color)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	BYTE *p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
 
@@ -161,22 +161,22 @@ void SetHIMETRICtoDP(HDC hdc, SIZE* sz)
 
 HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const wchar_t *ptszFilename)
 {
-	if (fei == NULL)
-		return 0;
+	if (fei == nullptr)
+		return nullptr;
 
 	FIBITMAP *dib = (FIBITMAP*)CallService(MS_IMG_LOAD, (WPARAM)ptszFilename, IMGL_RETURNDIB | IMGL_WCHAR);
-	if (dib == NULL)
-		return 0;
+	if (dib == nullptr)
+		return nullptr;
 
-	FIBITMAP *dib32 = NULL;
+	FIBITMAP *dib32 = nullptr;
 	if (fei->FI_GetBPP(dib) != 32) {
 		dib32 = fei->FI_ConvertTo32Bits(dib);
 		fei->FI_Unload(dib);
 	}
 	else dib32 = dib;
 
-	if (dib32 == NULL)
-		return NULL;
+	if (dib32 == nullptr)
+		return nullptr;
 
 	if (fei->FI_IsTransparent(dib32))
 		if (bIsTransparent)
@@ -185,8 +185,8 @@ HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const wchar_t *ptszFilename)
 	if (fei->FI_GetWidth(dib32) > 128 || fei->FI_GetHeight(dib32) > 128) {
 		FIBITMAP *dib_new = fei->FI_MakeThumbnail(dib32, 128, FALSE);
 		fei->FI_Unload(dib32);
-		if (dib_new == NULL)
-			return 0;
+		if (dib_new == nullptr)
+			return nullptr;
 		dib32 = dib_new;
 	}
 
@@ -196,7 +196,7 @@ HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const wchar_t *ptszFilename)
 	return bitmap;
 }
 
-static HWND hwndClui = 0;
+static HWND hwndClui = nullptr;
 
 //
 // Save ///////////////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +205,7 @@ static HWND hwndClui = 0;
 
 int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 {
-	if (fei == NULL)
+	if (fei == nullptr)
 		return -1;
 
 	wchar_t tszFilename[MAX_PATH];
@@ -278,7 +278,7 @@ DWORD GetImgHash(HBITMAP hBitmap)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	WORD *p = (WORD *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return 0;
 	memset(p, 0, dwLen);
 
@@ -334,7 +334,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 
 	DWORD dwLen = width * height * 4;
 	BYTE *p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return FALSE;
 
 	HBITMAP hBmpTmp;
@@ -490,7 +490,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	bool transpProportional = (db_get_b(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0) != 0);
 
 	int *stack = (int *)malloc(width * height * 2 * sizeof(int));
-	if (stack == NULL) {
+	if (stack == nullptr) {
 		free(p);
 		return FALSE;
 	}

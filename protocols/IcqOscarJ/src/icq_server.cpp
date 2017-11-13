@@ -45,7 +45,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	// store server port
 	info.wServerPort = infoParam->nloc.wPort;
 
-	srand(time(NULL));
+	srand(time(nullptr));
 
 	ResetSettingsOnConnect();
 
@@ -57,13 +57,13 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		if (m_bGatewayMode)
 			nloc.flags |= NLOCF_HTTPGATEWAY;
 
-		hServerConn = NetLib_OpenConnection(m_hNetlibUser, NULL, &nloc);
+		hServerConn = NetLib_OpenConnection(m_hNetlibUser, nullptr, &nloc);
 
 		SAFE_FREE((void**)&nloc.szHost);
 		SAFE_FREE((void**)&infoParam);
 
 		if (hServerConn && m_bSecureConnection) {
-			if (!Netlib_StartSsl(hServerConn, 0)) {
+			if (!Netlib_StartSsl(hServerConn, nullptr)) {
 				icq_LogMessage(LOG_ERROR, LPGEN("Unable to connect to ICQ login server, SSL could not be negotiated"));
 				SetCurrentStatus(ID_STATUS_OFFLINE);
 				NetLib_CloseConnection(&hServerConn, TRUE);
@@ -73,7 +73,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	}
 
 	// Login error
-	if (hServerConn == NULL) {
+	if (hServerConn == nullptr) {
 		DWORD dwError = GetLastError();
 
 		SetCurrentStatus(ID_STATUS_OFFLINE);
@@ -142,7 +142,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 		CheckKeepAlive(&info);
 		packetRecv.bytesUsed = handleServerPackets(packetRecv.buffer, packetRecv.bytesAvailable, &info);
 	}
-	serverThreadHandle = NULL;
+	serverThreadHandle = nullptr;
 
 	// Time to shutdown
 	debugLogA("Closing server connections...");
@@ -153,7 +153,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 	// Close DC port
 	Netlib_CloseHandle(info.hDirectBoundPort);
-	info.hDirectBoundPort = NULL;
+	info.hDirectBoundPort = nullptr;
 
 	// disable auto info-update thread
 	icq_EnableUserLookup(FALSE);
@@ -199,9 +199,9 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	// release rates queues
 	{
 		mir_cslock l(m_ratesMutex);
-		delete m_ratesQueue_Request; m_ratesQueue_Request = NULL;
-		delete m_ratesQueue_Response;	m_ratesQueue_Response = NULL;
-		delete m_rates; m_rates = NULL;
+		delete m_ratesQueue_Request; m_ratesQueue_Request = nullptr;
+		delete m_ratesQueue_Response;	m_ratesQueue_Response = nullptr;
+		delete m_rates; m_rates = nullptr;
 	}
 
 	FlushServerIDs();         // clear server IDs list
@@ -221,7 +221,7 @@ void CIcqProto::icq_serverDisconnect()
 	if (serverThreadHandle) {
 		debugLogA("Closing server thread handle: %08p", serverThreadHandle);
 		CloseHandle(serverThreadHandle);
-		serverThreadHandle = NULL;
+		serverThreadHandle = nullptr;
 	}
 
 	SetCurrentStatus(ID_STATUS_OFFLINE);

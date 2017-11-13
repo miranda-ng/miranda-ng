@@ -41,7 +41,7 @@ Settings::CharMapper::CharMapper(const Settings& settings)
 Settings::Filter::Filter(const ext::string& strID)
 	: m_strID(strID), m_nMode(fwmWordsMatching), m_nRef(0)
 {
-	time_t curTime = time(NULL);
+	time_t curTime = time(nullptr);
 	struct tm* curTM = localtime(&curTime);
 
 	m_strName += utils::intToPadded(1900 + curTM->tm_year, 4);
@@ -393,7 +393,7 @@ const Settings::Filter* Settings::getFilter(const ext::string& strID) const
 			return &(*i);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 Settings& Settings::operator =(const Settings& other)
@@ -569,7 +569,7 @@ void Settings::ensureConstraints()
 void Settings::openURL(const wchar_t *szURL)
 {
 	if (m_PathToBrowser.empty())
-		ShellExecute(NULL, L"open", szURL, NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(nullptr, L"open", szURL, nullptr, nullptr, SW_SHOWNORMAL);
 	else
-		ShellExecute(NULL, L"open", m_PathToBrowser.c_str(), szURL, NULL, SW_SHOWNORMAL);
+		ShellExecute(nullptr, L"open", m_PathToBrowser.c_str(), szURL, nullptr, SW_SHOWNORMAL);
 }

@@ -5,7 +5,7 @@
 
 MFLogger::MFLogger()
 {
-	logFunction = NULL;
+	logFunction = nullptr;
 	memcpy(m_prefix, L"      ", PREFIX_SIZE * sizeof(m_prefix[0]));
 }
 
@@ -21,7 +21,7 @@ void MFLogger::set6CharsPrefix(const wchar_t* prefix){
 }
 
 void MFLogger::releaseLogger(){
-	logFunction = NULL;
+	logFunction = nullptr;
 	DeleteCriticalSection(&logCs);
 }
 

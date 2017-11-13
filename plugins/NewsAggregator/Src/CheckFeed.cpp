@@ -22,18 +22,18 @@ Boston, MA 02111-1307, USA.
 LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 {
 	Netlib_LogfW(hNetlibUser, L"Started validating feed %s.", tszURL);
-	char *szData = NULL;
+	char *szData = nullptr;
 	GetNewsData(tszURL, &szData, NULL, hwndDlg);
 	if (szData) {
 		wchar_t *tszData = mir_utf8decodeW(szData);
 		if (!tszData)
 			tszData = mir_a2u(szData);
 		int bytesParsed = 0;
-		HXML hXml = xmlParseString(tszData, &bytesParsed, NULL);
+		HXML hXml = xmlParseString(tszData, &bytesParsed, nullptr);
 		mir_free(tszData);
 		mir_free(szData);
-		if (hXml != NULL) {
-			LPCTSTR codepage = NULL;
+		if (hXml != nullptr) {
+			LPCTSTR codepage = nullptr;
 			int childcount = 0;
 			HXML node;
 			HXML tmpnode = xmlGetFirstChild(hXml);
@@ -107,7 +107,7 @@ LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 	wchar_t mes[MAX_PATH];
 	mir_snwprintf(mes, TranslateT("%s\nis not a valid feed's address."), tszURL);
 	MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
-	return NULL;
+	return nullptr;
 }
 
 static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStringW &descr, CMStringW &author, CMStringW &comments, CMStringW &guid, CMStringW &category, time_t stamp)
@@ -176,7 +176,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 
 	if (!MesExist) {
 		if (stamp == 0)
-			stamp = time(NULL);
+			stamp = time(nullptr);
 
 		T2Utf pszMessage(message);
 
@@ -194,13 +194,13 @@ void CheckCurrentFeed(MCONTACT hContact)
 		return;
 
 	wchar_t *szURL = db_get_wsa(hContact, MODULE, "URL");
-	if (szURL == NULL)
+	if (szURL == nullptr)
 		return;
 
 	Netlib_LogfW(hNetlibUser, L"Started checking feed %s.", szURL);
 
-	char *szData = NULL;
-	GetNewsData(szURL, &szData, hContact, NULL);
+	char *szData = nullptr;
+	GetNewsData(szURL, &szData, hContact, nullptr);
 	mir_free(szURL);
 
 	if (szData) {
@@ -208,13 +208,13 @@ void CheckCurrentFeed(MCONTACT hContact)
 		if (!tszData)
 			tszData = mir_a2u(szData);
 		int bytesParsed = 0;
-		HXML hXml = xmlParseString(tszData, &bytesParsed, NULL);
+		HXML hXml = xmlParseString(tszData, &bytesParsed, nullptr);
 		mir_free(tszData);
 		mir_free(szData);
 
 		CMStringW szValue;
-		if (hXml != NULL) {
-			LPCTSTR codepage = NULL;
+		if (hXml != nullptr) {
+			LPCTSTR codepage = nullptr;
 			int childcount = 0;
 			HXML node;
 			HXML tmpnode = xmlGetFirstChild(hXml);
@@ -265,7 +265,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						HXML child = xmlGetChild(chan, j);
 						LPCTSTR childName = xmlGetName(child);
 						if (!mir_wstrcmpi(childName, L"title")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -277,7 +277,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								db_set_ws(hContact, MODULE, "FirstName", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"link")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -289,7 +289,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								db_set_ws(hContact, MODULE, "Homepage", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"description")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -304,7 +304,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							}
 						}
 						else if (!mir_wstrcmpi(childName, L"language")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -316,7 +316,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								db_set_ws(hContact, MODULE, "Language1", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"managingEditor")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -328,7 +328,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								db_set_ws(hContact, MODULE, "e-mail", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"category")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -340,7 +340,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 								db_set_ws(hContact, MODULE, "Interest0Text", ClearText(szValue, szChildText));
 						}
 						else if (!mir_wstrcmpi(childName, L"copyright")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -382,7 +382,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							}
 						}
 						else if (!mir_wstrcmpi(childName, L"lastBuildDate")) {
-							LPCTSTR szChildText = NULL;
+							LPCTSTR szChildText = nullptr;
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -392,10 +392,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 								szChildText = xmlGetText(child);
 							if (szChildText) {
 								time_t stamp = DateToUnixTime(szChildText, 0);
-								double deltaupd = difftime(time(NULL), stamp);
-								double deltacheck = difftime(time(NULL), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltaupd = difftime(time(nullptr), stamp);
+								double deltacheck = difftime(time(nullptr), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(NULL));
+									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(nullptr));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -407,7 +407,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 							for (int z = 0; z < xmlGetChildCount(child); z++) {
 								HXML itemval = xmlGetChild(child, z);
 								LPCTSTR itemName = xmlGetName(itemval);
-								LPCTSTR value = NULL;
+								LPCTSTR value = nullptr;
 								if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 									wchar_t buf[MAX_PATH];
 									MultiByteToWideChar(20866, 0, _T2A(xmlGetText(itemval)), -1, buf, _countof(buf));
@@ -525,10 +525,10 @@ void CheckCurrentFeed(MCONTACT hContact)
 							if (szChildText) {
 								wchar_t *lastupdtime = (wchar_t *)szChildText;
 								time_t stamp = DateToUnixTime(lastupdtime, 1);
-								double deltaupd = difftime(time(NULL), stamp);
-								double deltacheck = difftime(time(NULL), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+								double deltaupd = difftime(time(nullptr), stamp);
+								double deltacheck = difftime(time(nullptr), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(NULL));
+									db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(nullptr));
 									xmlDestroyNode(hXml);
 									return;
 								}
@@ -601,7 +601,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 			xmlDestroyNode(hXml);
 		}
 	}
-	db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(NULL));
+	db_set_dw(hContact, MODULE, "LastCheck", (DWORD)time(nullptr));
 }
 
 void CheckCurrentFeedAvatar(MCONTACT hContact)
@@ -610,24 +610,24 @@ void CheckCurrentFeedAvatar(MCONTACT hContact)
 		return;
 
 	wchar_t *szURL = db_get_wsa(hContact, MODULE, "URL");
-	if (szURL == NULL)
+	if (szURL == nullptr)
 		return;
 
-	char *szData = NULL;
-	GetNewsData(szURL, &szData, hContact, NULL);
+	char *szData = nullptr;
+	GetNewsData(szURL, &szData, hContact, nullptr);
 	mir_free(szURL);
 
-	if (szData == NULL)
+	if (szData == nullptr)
 		return;
 
 	wchar_t *tszData = mir_utf8decodeW(szData);
 	if (!tszData)
 		tszData = mir_a2u(szData);
 	int bytesParsed = 0;
-	HXML hXml = xmlParseString(tszData, &bytesParsed, NULL);
+	HXML hXml = xmlParseString(tszData, &bytesParsed, nullptr);
 	mir_free(tszData);
 	mir_free(szData);
-	if (hXml == NULL)
+	if (hXml == nullptr)
 		return;
 
 	int childcount = 0;

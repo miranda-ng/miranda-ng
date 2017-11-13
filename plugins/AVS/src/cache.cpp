@@ -25,7 +25,7 @@ CacheNode::CacheNode()
 
 CacheNode::~CacheNode()
 {
-	if (hbmPic != 0)
+	if (hbmPic != nullptr)
 		DeleteObject(hbmPic);
 }
 
@@ -69,11 +69,11 @@ void PushAvatarRequest(CacheNode *cc)
 CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 {
 	if (g_shutDown)
-		return NULL;
+		return nullptr;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL || !db_get_b(NULL, AVS_MODULE, szProto, 1))
-		return NULL;
+	if (szProto == nullptr || !db_get_b(NULL, AVS_MODULE, szProto, 1))
+		return nullptr;
 
 	AVATARCACHEENTRY tmp;
 	tmp.hContact = hContact;
@@ -82,13 +82,13 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 
 	CacheNode *cc = arCache.find((CacheNode*)&tmp);
 	if (cc) {
-		cc->t_lastAccess = time(NULL);
-		return (cc->loaded || findAny) ? cc : NULL;
+		cc->t_lastAccess = time(nullptr);
+		return (cc->loaded || findAny) ? cc : nullptr;
 	}
 
 	// not found
 	if (!add)
-		return NULL;
+		return nullptr;
 
 	cc = new CacheNode();
 	cc->hContact = hContact;
@@ -97,7 +97,7 @@ CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny)
 	PushAvatarRequest(cc);
 
 	SetEvent(hLoaderEvent);    // wake him up
-	return NULL;
+	return nullptr;
 }
 
 // output a notification message.
@@ -133,7 +133,7 @@ void NotifyMetaAware(MCONTACT hContact, CacheNode *node, AVATARCACHEENTRY *ace)
 
 			// Get hash
 			char *szProto = GetContactProto(hContact);
-			if (szProto != NULL) {
+			if (szProto != nullptr) {
 				DBVARIANT dbv = { 0 };
 				if (!db_get_s(hContact, szProto, "AvatarHash", &dbv)) {
 					if (dbv.type == DBVT_WCHAR)
@@ -198,7 +198,7 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 
 	mir_cslock lck(cachecs);
 	CacheNode *cc = arCache.find((CacheNode*)&tmp);
-	if (cc != NULL) {
+	if (cc != nullptr) {
 		DWORD dwFlags = cc->dwFlags;
 		cc->dwFlags = mode ? (cc->dwFlags | attrib) : (cc->dwFlags & ~attrib);
 		if (cc->dwFlags != dwFlags)
@@ -231,7 +231,7 @@ void PicLoader(LPVOID)
 				if (node)
 					arQueue.remove(0);
 			}
-			if (node == NULL)
+			if (node == nullptr)
 				break;
 
 			if (db_get_b(node->hContact, "ContactPhoto", "NeedUpdate", 0))
@@ -239,18 +239,18 @@ void PicLoader(LPVOID)
 
 			AVATARCACHEENTRY ace_temp;
 			memcpy(&ace_temp, node, sizeof(AVATARCACHEENTRY));
-			ace_temp.hbmPic = 0;
+			ace_temp.hbmPic = nullptr;
 
-			int result = CreateAvatarInCache(node->hContact, &ace_temp, NULL);
+			int result = CreateAvatarInCache(node->hContact, &ace_temp, nullptr);
 			if (result == -2) {
 				char *szProto = GetContactProto(node->hContact);
-				if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
+				if (szProto == nullptr || Proto_NeedDelaysForAvatars(szProto))
 					QueueAdd(node->hContact);
 				else if (FetchAvatarFor(node->hContact, szProto) == GAIR_SUCCESS) // Try to create again
-					result = CreateAvatarInCache(node->hContact, &ace_temp, NULL);
+					result = CreateAvatarInCache(node->hContact, &ace_temp, nullptr);
 			}
 
-			if (result == 1 && ace_temp.hbmPic != 0) { // Loaded
+			if (result == 1 && ace_temp.hbmPic != nullptr) { // Loaded
 				HBITMAP oldPic = node->hbmPic;
 				{
 					mir_cslock l(cachecs);

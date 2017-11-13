@@ -58,7 +58,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 	return FALSE;
 }
 
-static WNDPROC g_PrevBtnWndProc = 0;
+static WNDPROC g_PrevBtnWndProc = nullptr;
 
 LRESULT CALLBACK ButtWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -73,7 +73,7 @@ LRESULT CALLBACK ButtWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		rc.top += (rc.bottom - rc.top - 16) / 2;
 		if (isPressed)
 			OffsetRect(&rc, 1, 1);
-		DrawIconEx(dc, rc.left, rc.top, (HICON)GetWindowLongPtr(hWnd, GWLP_USERDATA), 16, 16, 0, 0, DI_NORMAL);
+		DrawIconEx(dc, rc.left, rc.top, (HICON)GetWindowLongPtr(hWnd, GWLP_USERDATA), 16, 16, 0, nullptr, DI_NORMAL);
 		ReleaseDC(hWnd, dc);
 	}
 
@@ -87,7 +87,7 @@ int BrowseForFolder(HWND hwnd, char *szPath)
 
 	if (SUCCEEDED(CoGetMalloc(1, &pMalloc))) {
 		ptrW tszPath(mir_a2u(szPath));
-		BROWSEINFO bi = { 0 };
+		BROWSEINFO bi = {};
 		bi.hwndOwner = hwnd;
 		bi.pszDisplayName = tszPath;
 		bi.lpszTitle = TranslateT("Select Folder");
@@ -132,7 +132,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			/* group*/
 			wchar_t *szGroup;
-			for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++)
+			for (int i = 1; (szGroup = Clist_GroupGetName(i, nullptr)) != nullptr; i++)
 				SendDlgItemMessage(hwnd, IDC_GROUP, CB_INSERTSTRING, 0, LPARAM(szGroup));
 
 			if (!db_get_ws(hContact, "CList", "Group", &dbv)) {
@@ -631,7 +631,7 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 				}
 			}
 
-			if (MessageBoxA(0, msg, modFullname, MB_YESNO) == IDYES) {
+			if (MessageBoxA(nullptr, msg, modFullname, MB_YESNO) == IDYES) {
 				if (!(hContact = db_add_contact())) {
 					msg("contact did get created", "");
 					continue;

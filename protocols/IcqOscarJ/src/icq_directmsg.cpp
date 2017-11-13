@@ -33,7 +33,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 	WORD wStatus;
 	WORD wFlags;
 	WORD wTextLen;
-	char* pszText = NULL;
+	char* pszText = nullptr;
 
 	// The first part of the packet should always be at least 31 bytes
 	if (wLen < 31) {
@@ -136,7 +136,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 			pMsgAck.wCookie = wCookie;
 			pMsgAck.msgType = bMsgType;
 			pMsgAck.bFlags = bMsgFlags;
-			handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)bMsgType, (int)bMsgFlags, 0, (DWORD)wLen, wTextLen, (char*)buf, MTF_DIRECT, &pMsgAck);
+			handleMessageTypes(dc->dwRemoteUin, szUID, time(nullptr), 0, 0, wCookie, dc->wVersion, (int)bMsgType, (int)bMsgFlags, 0, (DWORD)wLen, wTextLen, (char*)buf, MTF_DIRECT, &pMsgAck);
 			break;
 		}
 	}
@@ -148,11 +148,11 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 			buf -= wTextLen;
 			wLen += wTextLen;
 
-			handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)bMsgType, (int)bMsgFlags, 2, (DWORD)wLen, wTextLen, (char*)buf, MTF_DIRECT, NULL);
+			handleMessageTypes(dc->dwRemoteUin, szUID, time(nullptr), 0, 0, wCookie, dc->wVersion, (int)bMsgType, (int)bMsgFlags, 2, (DWORD)wLen, wTextLen, (char*)buf, MTF_DIRECT, nullptr);
 		}
 		else {
 			MCONTACT hCookieContact;
-			cookie_message_data *pCookieData = NULL;
+			cookie_message_data *pCookieData = nullptr;
 			if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData))
 				NetLog_Direct("Received an unexpected direct ack");
 			else if (hCookieContact != dc->hContact) {
@@ -251,7 +251,7 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t
 		pMsgAck.pDC = dc;
 		pMsgAck.wCookie = wCookie;
 		pMsgAck.msgType = typeId;
-		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, typeId, 0, 0, dwLengthToEnd, dwDataLength, (char*)buf, MTF_PLUGIN | MTF_DIRECT, &pMsgAck);
+		handleMessageTypes(dc->dwRemoteUin, szUID, time(nullptr), 0, 0, wCookie, dc->wVersion, typeId, 0, 0, dwLengthToEnd, dwDataLength, (char*)buf, MTF_PLUGIN | MTF_DIRECT, &pMsgAck);
 	}
 	else if (typeId == MTYPE_STATUSMSGEXT && wCommand == DIRECT_ACK) { // especially for icq2003b
 		NetLog_Direct("This is extended status reply");
@@ -261,11 +261,11 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t
 		szMsg[dwDataLength] = '\0';
 
 		uid_str szUID;
-		handleMessageTypes(dc->dwRemoteUin, szUID, time(NULL), 0, 0, wCookie, dc->wVersion, (int)(qt + 0xE7), 3, 2, wLen, dwDataLength, szMsg, MTF_PLUGIN | MTF_DIRECT, NULL);
+		handleMessageTypes(dc->dwRemoteUin, szUID, time(nullptr), 0, 0, wCookie, dc->wVersion, (int)(qt + 0xE7), 3, 2, wLen, dwDataLength, szMsg, MTF_PLUGIN | MTF_DIRECT, nullptr);
 	}
 	else if (typeId && wCommand == DIRECT_ACK) {
 		MCONTACT hCookieContact;
-		cookie_message_data *pCookieData = NULL;
+		cookie_message_data *pCookieData = nullptr;
 
 		if (!FindCookie(wCookie, &hCookieContact, (void**)&pCookieData)) {
 			NetLog_Direct("Received an unexpected direct ack");

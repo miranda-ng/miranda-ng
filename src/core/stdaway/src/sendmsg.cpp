@@ -42,7 +42,7 @@ static const wchar_t *GetDefaultMessage(int status)
 		case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
 		case ID_STATUS_IDLE: return TranslateT("idleeeeeeee");
 	}
-	return NULL;
+	return nullptr;
 }
 
 static const char *StatusModeToDbSetting(int status, const char *suffix)
@@ -63,7 +63,7 @@ static const char *StatusModeToDbSetting(int status, const char *suffix)
 		case ID_STATUS_ONTHEPHONE:	prefix = "Otp";			break;
 		case ID_STATUS_OUTTOLUNCH:	prefix = "Otl";			break;
 		case ID_STATUS_IDLE:		prefix = "Idl";			break;
-		default: return NULL;
+		default: return nullptr;
 	}
 	mir_snprintf(str, "%s%s", prefix, suffix);
 	return str;
@@ -82,10 +82,10 @@ static void SetStatusModeByte(int status, const char *suffix, BYTE value)
 static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 {
 	if (szProto && !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
-		return NULL;
+		return nullptr;
 
 	if ( GetStatusModeByte(statusMode, "Ignore"))
-		return NULL;
+		return nullptr;
 
 	DBVARIANT dbv;
 	if ( GetStatusModeByte(statusMode, "UsePrev")) {
@@ -173,7 +173,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 void ChangeAllProtoMessages(char *szProto, int statusMode, wchar_t *msg)
 {
-	if (szProto == NULL) {
+	if (szProto == nullptr) {
 		int nAccounts;
 		PROTOACCOUNT **accounts;
 		Proto_EnumAccounts(&nAccounts, &accounts);
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			SendMessage(hwndDlg, WM_TIMER, 0, 0);
 			Window_SetProtoIcon_IcoLib(hwndDlg, dat->szProto, dat->statusMode);
 			Utils_RestoreWindowPosition(hwndDlg, NULL, "SRAway", "AwayMsgDlg");
-			SetTimer(hwndDlg, 1, 1000, 0);
+			SetTimer(hwndDlg, 1, 1000, nullptr);
 			dat->hPreshutdown = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, DM_SRAWAY_SHUTDOWN);
 		}
 		return TRUE;
@@ -298,7 +298,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		UnhookEvent(dat->hPreshutdown);
 		Window_FreeIcon_IcoLib(hwndDlg);
 		mir_free(dat);
-		hwndStatusMsg = NULL;
+		hwndStatusMsg = nullptr;
 		break;
 	}
 	return FALSE;
@@ -326,7 +326,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 
 	BOOL bScreenSaverRunning = IsScreenSaverRunning();
 	if (GetStatusModeByte(statusMode, "Ignore"))
-		ChangeAllProtoMessages(szProto, statusMode, NULL);
+		ChangeAllProtoMessages(szProto, statusMode, nullptr);
 
 	else if (bScreenSaverRunning || GetStatusModeByte(statusMode, "NoDlg", true)) {
 		wchar_t *msg = GetAwayMessage(statusMode, szProto);
@@ -435,7 +435,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 
 			RECT rc = dis->rcItem;
-			DrawIconEx(dis->hDC, 3, (rc.top + rc.bottom - 16) / 2, Skin_LoadProtoIcon(NULL, dis->itemData), 16, 16, 0, NULL, DI_NORMAL);
+			DrawIconEx(dis->hDC, 3, (rc.top + rc.bottom - 16) / 2, Skin_LoadProtoIcon(nullptr, dis->itemData), 16, 16, 0, nullptr, DI_NORMAL);
 			rc.left += 25;
 			SetBkMode(dis->hDC, TRANSPARENT);
 			DrawText(dis->hDC, buf, -1, &rc, DT_LEFT | DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX);

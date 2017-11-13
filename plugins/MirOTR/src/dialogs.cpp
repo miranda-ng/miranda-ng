@@ -52,7 +52,7 @@ static INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			// Move window to screen center
 			// Get the owner window and dialog box rectangles. 
 			HWND hwndOwner; RECT rcOwner, rcDlg, rc;
-			if ((hwndOwner = GetParent(hwndDlg)) == NULL) {
+			if ((hwndOwner = GetParent(hwndDlg)) == nullptr) {
 				hwndOwner = GetDesktopWindow();
 			}
 
@@ -153,7 +153,7 @@ static void SMPInitUpdateDialog(ConnContext *context, bool responder)
 	data->context = context;
 	data->oldlevel = otr_context_get_trust(context);
 	data->responder = responder;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_PROGRESS), 0, DlgSMPUpdateProc, (LPARAM)data);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_PROGRESS), nullptr, DlgSMPUpdateProc, (LPARAM)data);
 }
 
 static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -233,7 +233,7 @@ static INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			// Move window to screen center
 			// Get the owner window and dialog box rectangles. 
 			HWND hwndOwner = GetParent(hwndDlg); 
-			if (hwndOwner == NULL)
+			if (hwndOwner == nullptr)
 				hwndOwner = GetDesktopWindow();
 
 			RECT rcOwner, rcDlg, rc;
@@ -336,7 +336,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			// Move window to screen center
 			// Get the owner window and dialog box rectangles. 
 			HWND hwndOwner = GetParent(hwndDlg); 
-			if (hwndOwner == NULL)
+			if (hwndOwner == nullptr)
 				hwndOwner = GetDesktopWindow();
 
 			RECT rcOwner, rcDlg, rc;
@@ -452,7 +452,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 							delete[] answer;
 
 							SMPInitUpdateDialog(context, false);
-							otr_start_smp(context, NULL, (const unsigned char*)ans, mir_strlen(ans));
+							otr_start_smp(context, nullptr, (const unsigned char*)ans, mir_strlen(ans));
 						}
 
 					}
@@ -570,7 +570,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 void SMPInitDialog(ConnContext *context)
 {
 	if (context)
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgProcSMPInitProc, (LPARAM)context);
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgProcSMPInitProc, (LPARAM)context);
 }
 
 void SMPDialogUpdate(ConnContext *context, int percent)
@@ -608,8 +608,8 @@ void SMPDialogReply(ConnContext *context, const char* question)
 	data->context = context;
 	data->oldlevel = TRUST_NOT_PRIVATE;
 	data->responder = true;
-	data->question = (question) ? mir_utf8decodeW(question) : NULL;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgSMPResponseProc, (LPARAM)data);
+	data->question = (question) ? mir_utf8decodeW(question) : nullptr;
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgSMPResponseProc, (LPARAM)data);
 	/*
 	ShowError(L"SMP requires user password (NOT IMPL YET)");
 	otr_abort_smp(context);
@@ -634,7 +634,7 @@ static INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM w
 		// Move window to screen center
 		// Get the owner window and dialog box rectangles. 
 		HWND hwndOwner = GetParent(hwndDlg);
-		if (hwndOwner == NULL)
+		if (hwndOwner == nullptr)
 			hwndOwner = GetDesktopWindow();
 
 		RECT rcOwner, rcDlg, rc;
@@ -723,13 +723,13 @@ static INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM w
 
 static unsigned int CALLBACK verify_context_thread(void *param)
 {
-	Thread_Push(0);
+	Thread_Push(nullptr);
 
 	if (param) {
 		ConnContext *context = (ConnContext *)param;
 		MCONTACT hContact = (UINT_PTR)context->app_data;
 		wchar_t msg[1024];
-		switch (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgBoxProcVerifyContext, (LPARAM)param)) {
+		switch (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), nullptr, DlgBoxProcVerifyContext, (LPARAM)param)) {
 		case IDOK:
 		case IDYES:
 			lib_cs_lock();
@@ -742,7 +742,7 @@ static unsigned int CALLBACK verify_context_thread(void *param)
 
 		case IDNO:
 			lib_cs_lock();
-			otrl_context_set_trust(context->active_fingerprint, NULL);
+			otrl_context_set_trust(context->active_fingerprint, nullptr);
 			otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 			mir_snwprintf(msg, TranslateW(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
 			ShowMessage(hContact, msg);
@@ -758,5 +758,5 @@ static unsigned int CALLBACK verify_context_thread(void *param)
 void VerifyContextDialog(ConnContext* context)
 {
 	if (!context) return;
-	CloseHandle((HANDLE)_beginthreadex(0, 0, verify_context_thread, context, 0, 0));
+	CloseHandle((HANDLE)_beginthreadex(nullptr, 0, verify_context_thread, context, 0, nullptr));
 }

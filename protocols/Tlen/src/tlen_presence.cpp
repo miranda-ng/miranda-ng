@@ -33,19 +33,19 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 	int status, laststatus = ID_STATUS_OFFLINE;
 	char *p;
 
-	if ((from=TlenXmlGetAttrValue(node, "from")) != NULL) {
+	if ((from=TlenXmlGetAttrValue(node, "from")) != nullptr) {
 		if (TlenListExist(proto, LIST_CHATROOM, from)); //TlenGroupchatProcessPresence(node, userdata);
 
 		else {
 			type = TlenXmlGetAttrValue(node, "type");
 			item = TlenListGetItemPtr(proto, LIST_ROSTER, from);
-			if (item != NULL) {
+			if (item != nullptr) {
 				if (proto->tlenOptions.enableAvatars) {
 					TlenProcessPresenceAvatar(proto, node, item);
 				}
 			}
-			if (type == NULL || (!mir_strcmp(type, "available"))) {
-				if ((nick=TlenLocalNickFromJID(from)) != NULL) {
+			if (type == nullptr || (!mir_strcmp(type, "available"))) {
+				if ((nick=TlenLocalNickFromJID(from)) != nullptr) {
 					if ((hContact=TlenHContactFromJID(proto, from)) == NULL)
 						hContact = TlenDBCreateContact(proto, from, nick, FALSE);
 					if (!TlenListExist(proto, LIST_ROSTER, from)) {
@@ -53,8 +53,8 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						TlenListAdd(proto, LIST_ROSTER, from);
 					}
 					status = ID_STATUS_ONLINE;
-					if ((showNode=TlenXmlGetChild(node, "show")) != NULL) {
-						if ((show=showNode->text) != NULL) {
+					if ((showNode=TlenXmlGetChild(node, "show")) != nullptr) {
+						if ((show=showNode->text) != nullptr) {
 							if (!mir_strcmp(show, "away")) status = ID_STATUS_AWAY;
 							else if (!mir_strcmp(show, "xa")) status = ID_STATUS_NA;
 							else if (!mir_strcmp(show, "dnd")) status = ID_STATUS_DND;
@@ -70,9 +70,9 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					if (statusNode)
 						p = TlenTextDecode(statusNode->text);
 					else
-						p = NULL;
-					TlenListAddResource(proto, LIST_ROSTER, from, status, statusNode?p:NULL);
-					if (p != NULL && *p) {
+						p = nullptr;
+					TlenListAddResource(proto, LIST_ROSTER, from, status, statusNode?p:nullptr);
+					if (p != nullptr && *p) {
 						char* statusMsg_utf8 = mir_utf8encode(p);
 						db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
 						mir_free(statusMsg_utf8);
@@ -81,15 +81,15 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						db_unset(hContact, "CList", "StatusMsg");
 					}
 					// Determine status to show for the contact and request version information
-					if (item != NULL) {
+					if (item != nullptr) {
 						laststatus = item->status;
 						item->status = status;
 					}
-					if (strchr(from, '@') != NULL || db_get_b(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
+					if (strchr(from, '@') != nullptr || db_get_b(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
 						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
 							db_set_w(hContact, proto->m_szModuleName, "Status", (WORD) status);
 					}
-					if (item != NULL) {
+					if (item != nullptr) {
 						if (!item->infoRequested) {
 							int iqId = TlenSerialNext(proto);
 							item->infoRequested = TRUE;
@@ -123,10 +123,10 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					p = TlenTextDecode(statusNode->text);
 				}
 				else
-					p = NULL;
+					p = nullptr;
 				TlenListAddResource(proto, LIST_ROSTER, from, status, p);
 				if ((hContact=TlenHContactFromJID(proto, from)) != NULL) {
-					if (p != NULL && *p) {
+					if (p != nullptr && *p) {
 						char* statusMsg_utf8 = mir_utf8encode(p);
 						db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
 						mir_free(statusMsg_utf8);
@@ -135,18 +135,18 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						db_unset(hContact, "CList", "StatusMsg");
 					}
 				}
-				if ((item=TlenListGetItemPtr(proto, LIST_ROSTER, from)) != NULL) {
+				if ((item=TlenListGetItemPtr(proto, LIST_ROSTER, from)) != nullptr) {
 					// Determine status to show for the contact based on the remaining resources
 					item->status = status;
 					item->versionRequested = FALSE;
 					item->infoRequested = FALSE;
 				}
 				if ((hContact=TlenHContactFromJID(proto, from)) != NULL) {
-					if (strchr(from, '@') != NULL || db_get_b(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
+					if (strchr(from, '@') != nullptr || db_get_b(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
 						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
 							db_set_w(hContact, proto->m_szModuleName, "Status", (WORD) status);
 					}
-					if (item != NULL && item->isTyping) {
+					if (item != nullptr && item->isTyping) {
 						item->isTyping = FALSE;
 						CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 					}
@@ -154,18 +154,18 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 				}
 			}
 			else if (!mir_strcmp(type, "subscribe")) {
-				if (strchr(from, '@') == NULL) {
+				if (strchr(from, '@') == nullptr) {
 					// automatically send authorization allowed to agent/transport
 					TlenSend(proto, "<presence to='%s' type='subscribed'/>", from);
 				}
-				else if ((nick=TlenNickFromJID(from)) != NULL) {
+				else if ((nick=TlenNickFromJID(from)) != nullptr) {
 					proto->debugLogA("%s (%s) requests authorization", nick, from);
 					TlenDBAddAuthRequest(proto, from, nick);
 					mir_free(nick);
 				}
 			}
 			else if (!mir_strcmp(type, "subscribed")) {
-				if ((item=TlenListGetItemPtr(proto, LIST_ROSTER, from)) != NULL) {
+				if ((item=TlenListGetItemPtr(proto, LIST_ROSTER, from)) != nullptr) {
 					if (item->subscription == SUB_FROM) item->subscription = SUB_BOTH;
 					else if (item->subscription == SUB_NONE) {
 						item->subscription = SUB_TO;
@@ -184,7 +184,7 @@ void setOwnStatusOnCList(TlenProtocol *proto, int status, char *statusMsg)
 	if(hContact){
 		if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
 			db_set_w(hContact, proto->m_szModuleName, "Status", (WORD)status);
-		if (statusMsg != NULL && *statusMsg) {
+		if (statusMsg != nullptr && *statusMsg) {
 			char* statusMsg_utf8 = mir_utf8encode(statusMsg);
 			db_set_utf(hContact, "CList", "StatusMsg", statusMsg_utf8);
 			mir_free(statusMsg_utf8);
@@ -197,7 +197,7 @@ void setOwnStatusOnCList(TlenProtocol *proto, int status, char *statusMsg)
 static void TlenSendPresenceTo(TlenProtocol *proto, int status, char*)
 {
 	char *showBody, *statusMsg, *presenceType;
-	char *ptr = NULL;
+	char *ptr = nullptr;
 
 	if (!proto->isOnline) return;
 
@@ -205,9 +205,9 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char*)
 	// Note: tlenModeMsg is already encoded using TlenTextEncode()
 	mir_cslock lck(proto->modeMsgMutex);
 
-	showBody = NULL;
-	statusMsg = NULL;
-	presenceType = NULL;
+	showBody = nullptr;
+	statusMsg = nullptr;
+	presenceType = nullptr;
 	switch (status) {
 	case ID_STATUS_ONLINE:
 		showBody = "available";
@@ -277,9 +277,9 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char*)
 					for (i=0;ptr[i];i++) {
 						if (ptr[i] != '%') continue;
 						if (!_strnicmp(ptr+i,"%time%",6))
-							GetTimeFormatA(LOCALE_USER_DEFAULT,TIME_NOSECONDS,NULL,NULL,substituteStr,sizeof(substituteStr));
+							GetTimeFormatA(LOCALE_USER_DEFAULT,TIME_NOSECONDS,nullptr,nullptr,substituteStr,sizeof(substituteStr));
 						else if (!_strnicmp(ptr+i,"%date%",6))
-							GetDateFormatA(LOCALE_USER_DEFAULT,DATE_SHORTDATE,NULL,NULL,substituteStr,sizeof(substituteStr));
+							GetDateFormatA(LOCALE_USER_DEFAULT,DATE_SHORTDATE,nullptr,nullptr,substituteStr,sizeof(substituteStr));
 						else continue;
 						if (mir_strlen(substituteStr)>6) ptr=(char*)mir_realloc(ptr,mir_strlen(ptr)+1+mir_strlen(substituteStr)-6);
 						memmove(ptr+i+mir_strlen(substituteStr),ptr+i+6,mir_strlen(ptr)-i-5);
@@ -297,12 +297,12 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char*)
 	}
 	proto->m_iStatus = status;
 	if (presenceType) {
-		if (statusMsg != NULL && *statusMsg)
+		if (statusMsg != nullptr && *statusMsg)
 			TlenSend(proto, "<presence type='%s'><status>%s</status></presence>", presenceType, ptrA(TlenTextEncode(statusMsg)));
 		else
 			TlenSend(proto, "<presence type='%s'></presence>", presenceType);
 	} else {
-		if (statusMsg != NULL && *statusMsg)
+		if (statusMsg != nullptr && *statusMsg)
 			TlenSend(proto, "<presence><show>%s</show><status>%s</status></presence>", showBody, ptrA(TlenTextEncode(statusMsg)));
 		else
 			TlenSend(proto, "<presence><show>%s</show></presence>", showBody);
@@ -335,7 +335,7 @@ void TlenSendPresence(TlenProtocol *proto, int statusIn)
 			statusOut = ID_STATUS_DND;
 			break;
 	}
-	TlenSendPresenceTo(proto, statusOut, NULL);
+	TlenSendPresenceTo(proto, statusOut, nullptr);
 }
 
 

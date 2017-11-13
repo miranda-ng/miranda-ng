@@ -14,7 +14,7 @@ static const FieldNames GenderField[] =
 {
 	{ 1, LPGENW("Male")         },
 	{ 2, LPGENW("Female")       },
-	{ 0, NULL                   }
+	{ 0, nullptr                   }
 };
 
 static const FieldNames MonthField[] =
@@ -31,7 +31,7 @@ static const FieldNames MonthField[] =
 	{ 10, LPGENW("October")     },
 	{ 11, LPGENW("November")    },
 	{ 12, LPGENW("December")    },
-	{ 0,  NULL                  }
+	{ 0,  nullptr                  }
 };
 
 static const FieldNames ZodiakField[] =
@@ -48,7 +48,7 @@ static const FieldNames ZodiakField[] =
 	{ 10, LPGENW("Capricorn")   },
 	{ 11, LPGENW("Aquarius")    },
 	{ 12, LPGENW("Pisces")      },
-	{ 0,  NULL                  }
+	{ 0,  nullptr                  }
 };
 
 void ResetComboBox(HWND hWndCombo)
@@ -309,5 +309,5 @@ HWND CMraProto::CreateExtendedSearchUI(HWND owner)
 	if (g_hInstance && owner)
 		return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MRAADVANCEDSEARCH), owner, AdvancedSearchDlgProc, (LPARAM)this);
 
-	return NULL;
+	return nullptr;
 }

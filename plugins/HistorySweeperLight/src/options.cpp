@@ -72,7 +72,7 @@ HANDLE GetIconHandle(const char* name)
 		if (mir_strcmp(iconList[i].szName, name) == 0)
 			return hIconLibItem[i];
 
-	return NULL;
+	return nullptr;
 }
 
 void  ReleaseIconEx(const char* name)
@@ -168,7 +168,7 @@ void SaveSettings(HWND hwndDlg)
 	// set tooltips
 	int st = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 
-	StatusIconData sid = { 0 };
+	StatusIconData sid = {};
 	sid.szModule = ModuleName;
 	sid.dwId = 0;
 	sid.hIcon = LoadIconEx("actG");
@@ -249,7 +249,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 				// Find clicked item
 				hItem = (HANDLE)SendMessage(nmc->hdr.hwndFrom, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y));
 				// Nothing was clicked
-				if (hItem == NULL || !(IsHContactContact(hItem) || IsHContactInfo(hItem)))
+				if (hItem == nullptr || !(IsHContactContact(hItem) || IsHContactInfo(hItem)))
 					break;
 
 				// It was not our extended icon

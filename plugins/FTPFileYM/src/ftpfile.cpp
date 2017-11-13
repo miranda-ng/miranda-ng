@@ -113,7 +113,7 @@ void InitMenuItems()
 		if (DB::getStringF(0, MODULE, "Name%d", i, stzName))
 			mir_snwprintf(stzName, TranslateT("FTP Server %d"), i + 1);
 
-		mi.root = (opt.bUseSubmenu) ? hMenu : 0;
+		mi.root = (opt.bUseSubmenu) ? hMenu : nullptr;
 		mi.hIcolibItem = iconList[i].hIcolib;
 		hSubMenu[i] = Menu_AddContactMenuItem(&mi);
 		Menu_ConfigureItem(hSubMenu[i], MCI_OPT_EXECPARAM, i + 1000);
@@ -248,7 +248,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 						RECT rc;
 						GetWindowRect(hwndBtn, &rc);
 						SetForegroundWindow(cbc->hwndFrom);
-						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, cbc->hwndFrom, 0);
+						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, cbc->hwndFrom, nullptr);
 						if (selected != 0) {
 							int ftpNum = selected & (1 | 2 | 4);
 							int mode = selected & (UploadJob::FTP_RAWFILE | UploadJob::FTP_ZIPFILE | UploadJob::FTP_ZIPFOLDER);
@@ -280,7 +280,7 @@ int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode, void **
 		job = new PackerJob(hContact, m_iFtpNum, mode);
 
 	int result;
-	if (objects != NULL)
+	if (objects != nullptr)
 		result = job->getFiles(objects, objCount, flags);
 	else
 		result = job->getFiles();
@@ -306,7 +306,7 @@ int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode, void **
 
 int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode)
 {
-	return UploadFile(hContact, m_iFtpNum, mode, NULL, 0, 0);
+	return UploadFile(hContact, m_iFtpNum, mode, nullptr, 0, 0);
 }
 
 //------------ MIRANDA SERVICES ------------//
@@ -314,7 +314,7 @@ int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode)
 INT_PTR UploadService(WPARAM, LPARAM lParam)
 {
 	FTPUPLOAD *ftpu = (FTPUPLOAD *)lParam;
-	if (ftpu == NULL || ftpu->cbSize != sizeof(FTPUPLOAD))
+	if (ftpu == nullptr || ftpu->cbSize != sizeof(FTPUPLOAD))
 		return 1;
 
 	int ftpNum = (ftpu->ftpNum == FNUM_DEFAULT) ? opt.defaultFTP : ftpu->ftpNum - 1;
@@ -389,7 +389,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);

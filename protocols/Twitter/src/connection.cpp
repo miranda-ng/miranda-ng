@@ -68,7 +68,7 @@ void TwitterProto::SignOn(void*)
 			OnJoinChat(0, true);
 
 		SetAllContactStatuses(ID_STATUS_ONLINE);
-		hMsgLoop_ = ForkThreadEx(&TwitterProto::MessageLoop, NULL, 0);
+		hMsgLoop_ = ForkThreadEx(&TwitterProto::MessageLoop, nullptr, nullptr);
 	}
 
 	debugLogA("***** SignOn complete");
@@ -170,7 +170,7 @@ bool TwitterProto::NegotiateConnection()
 		mir_snwprintf(buf, _countof(buf), AuthorizeUrl.c_str(), oauthToken.c_str());
 
 		debugLogW(L"**NegotiateConnection - Launching %s", buf);
-		ShellExecute(NULL, L"open", buf, NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(nullptr, L"open", buf, nullptr, nullptr, SW_SHOWNORMAL);
 
 		ShowPinDialog();
 	}
@@ -388,7 +388,7 @@ struct update_avatar
 /* void *p should always be a struct of type update_avatar */
 void TwitterProto::UpdateAvatarWorker(void *p)
 {
-	if (p == 0)
+	if (p == nullptr)
 		return;
 	std::auto_ptr<update_avatar> data(static_cast<update_avatar*>(p));
 	DBVARIANT dbv = { 0 };
@@ -497,7 +497,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 	case WM_COMMAND:
 		// Get the plugin data (we need the Popup service to do it)
 		url = (std::string *)PUGetPluginData(hwnd);
-		if (url != NULL)
+		if (url != nullptr)
 			Utils_OpenUrl(url->c_str());
 
 		// Intentionally no break here
@@ -540,7 +540,7 @@ void TwitterProto::ShowContactPopup(MCONTACT hContact, const std::string &text, 
 		db_free(&dbv);
 	}
 
-	if (url != NULL) {
+	if (url != nullptr) {
 		popup.PluginWindowProc = PopupWindowProc;
 		popup.PluginData = (void *)url;
 	}

@@ -56,7 +56,7 @@ BOOL ThreadRunning;
 // variable to determine if module loaded
 BOOL ModuleLoaded;
 
-HANDLE hTBButton = NULL;
+HANDLE hTBButton = nullptr;
 
 // plugin info
 static const PLUGININFOEX pluginInfoEx =
@@ -87,7 +87,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 int WeatherShutdown(WPARAM, LPARAM)
 {
-	KillTimer(NULL, timerId);		// kill update timer
+	KillTimer(nullptr, timerId);		// kill update timer
 
 	SaveOptions();					// save options once more
 	status = ID_STATUS_OFFLINE;		// set status to offline
@@ -103,7 +103,7 @@ int WeatherShutdown(WPARAM, LPARAM)
 
 int OnToolbarLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.name = LPGEN("Enable/disable auto update");
 	ttb.pszService = MS_WEATHER_ENABLED;
 	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");
@@ -128,7 +128,7 @@ int WeatherInit(WPARAM, LPARAM)
 	AddMenuItems();
 
 	// timer for the first update
-	timerId = SetTimer(NULL, 0, 5000, timerProc2);  // first update is 5 sec after load
+	timerId = SetTimer(nullptr, 0, 5000, timerProc2);  // first update is 5 sec after load
 
 	// weather user detail
 	HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
@@ -142,8 +142,8 @@ int WeatherInit(WPARAM, LPARAM)
 void InitVar()
 {
 	// setup the linklist for weather update list
-	UpdateListTail = NULL;
-	UpdateListHead = NULL;
+	UpdateListTail = nullptr;
+	UpdateListHead = nullptr;
 
 	// other settings
 	timerId = 0;
@@ -213,7 +213,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hDataWindowList = WindowList_Create();
 	hWindowList = WindowList_Create();
 
-	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
+	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
 
 	// register weather protocol
 	PROTOCOLDESCRIPTOR pd = { 0 };
@@ -233,7 +233,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	wchar_t SvcFunc[100];
 	mir_snwprintf(SvcFunc, L"%s__PopupWindow", _A2W(WEATHERPROTONAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
+		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, hInst, nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 	return 0;
 }

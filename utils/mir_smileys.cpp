@@ -89,9 +89,9 @@ SmileysParseInfo Smileys_PreParse(const wchar_t* lpString, int nCount, const cha
 
 void Smileys_FreeParse(SmileysParseInfo parseInfo)
 {
-	if (parseInfo != NULL)
+	if (parseInfo != nullptr)
 	{
-		if (parseInfo->pieces != NULL)
+		if (parseInfo->pieces != nullptr)
 			DestroySmileyList(parseInfo->pieces);
 
 		mir_free(parseInfo);
@@ -134,7 +134,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 		nCount = (int)mir_wstrlen(lpString);
 
 	// Get parse info
-	if (parseInfo == NULL)
+	if (parseInfo == nullptr)
 		info = Smileys_PreParse(lpString, nCount, protocol);
 	else
 		info = parseInfo;
@@ -162,14 +162,14 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 		if (GetClipRgn(hDC, oldRgn) != 1)
 		{
 			DeleteObject(oldRgn);
-			oldRgn = NULL;
+			oldRgn = nullptr;
 		}
 
 		HRGN rgn = CreateRectRgnIndirect(lpRect);
 		ExtSelectClipRgn(hDC, rgn, RGN_AND);
 
 		// Draw
-		if (info->pieces == NULL)
+		if (info->pieces == nullptr)
 		{
 			ret = skin_DrawText(hDC, lpString, nCount, lpRect, uFormat);
 		}
@@ -200,7 +200,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 
 
 	// Free parse info
-	if (parseInfo == NULL)
+	if (parseInfo == nullptr)
 		Smileys_FreeParse(info);
 
 	return ret;
@@ -212,7 +212,7 @@ SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SortedList *plText, UINT uTe
 {
 	SIZE text_size;
 
-	if (szText == NULL) {
+	if (szText == nullptr) {
 		text_size.cy = 0;
 		text_size.cx = 0;
 	}
@@ -223,7 +223,7 @@ SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SortedList *plText, UINT uTe
 		DrawText(hdcMem, szText, -1, &text_rc, DT_CALCRECT | uTextFormat);
 		text_size.cy = text_rc.bottom - text_rc.top;
 
-		if (plText == NULL)
+		if (plText == nullptr)
 			text_size.cx = text_rc.right - text_rc.left;
 		else {
 			if (!(uTextFormat & DT_RESIZE_SMILEYS))
@@ -260,7 +260,7 @@ SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SortedList *plText, UINT uTe
 
 void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height)
 {
-	if (szText == NULL)
+	if (szText == nullptr)
 		return;
 
 	uTextFormat &= ~DT_RIGHT;
@@ -345,7 +345,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, So
 						text_rc.top += (row_height - (LONG)(piece->smiley_height * factor)) >> 1;
 
 						skin_DrawIconEx(hdcMem, text_rc.left, text_rc.top, piece->smiley,
-							(LONG)(piece->smiley_width * factor), (LONG)(piece->smiley_height * factor), 0, NULL, DI_NORMAL);
+							(LONG)(piece->smiley_width * factor), (LONG)(piece->smiley_height * factor), 0, nullptr, DI_NORMAL);
 					}
 					else
 					{
@@ -363,17 +363,17 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, So
 
 void DestroySmileyList(SortedList* p_list)
 {
-	if (p_list == NULL)
+	if (p_list == nullptr)
 		return;
 
-	if (p_list->items != NULL)
+	if (p_list->items != nullptr)
 	{
 		int i;
 		for (i = 0; i < p_list->realCount; i++)
 		{
 			TextPiece *piece = (TextPiece *)p_list->items[i];
 
-			if (piece != NULL)
+			if (piece != nullptr)
 			{
 				if (piece->type == TEXT_PIECE_TYPE_SMILEY)
 					DestroyIcon(piece->smiley);
@@ -394,7 +394,7 @@ SortedList * ReplaceSmileys(const wchar_t *text, int text_size, const char *prot
 	*max_smiley_height = 0;
 
 	if (text[0] == '\0' || !ServiceExists(MS_SMILEYADD_BATCHPARSE))
-		return NULL;
+		return nullptr;
 
 	// Parse it!
 	SMADD_BATCHPARSE2 sp = { sizeof(sp) };
@@ -402,9 +402,9 @@ SortedList * ReplaceSmileys(const wchar_t *text, int text_size, const char *prot
 	sp.str = (wchar_t*)text;
 	sp.flag = SAFL_TCHAR;
 	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
-	if (spres == NULL)
+	if (spres == nullptr)
 		// Did not find a simley
-		return NULL;
+		return nullptr;
 
 	// Lets add smileys
 	SortedList *plText = List_Create(0, 10);
@@ -416,7 +416,7 @@ SortedList * ReplaceSmileys(const wchar_t *text, int text_size, const char *prot
 		wchar_t *start = _wcsninc(text, spres[i].startChar);
 		wchar_t *end = _wcsninc(start, spres[i].size);
 
-		if (spres[i].hIcon != NULL) { // For defective smileypacks
+		if (spres[i].hIcon != nullptr) { // For defective smileypacks
 			// Add text
 			if (start > next_text_pos) {
 				TextPiece *piece = (TextPiece *)mir_calloc(sizeof(TextPiece));

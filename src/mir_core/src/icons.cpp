@@ -28,7 +28,7 @@ MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char *szSection, IconIte
 	wchar_t szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.defaultFile.w = szFile;
 	sid.section.a = (char*)szSection;
 	sid.flags = SIDF_PATH_UNICODE;
@@ -53,7 +53,7 @@ MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t *szSection, Ico
 	wchar_t szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.defaultFile.w = szFile;
 	sid.section.w = (wchar_t*)szSection;
 	sid.flags = SIDF_ALL_UNICODE;

@@ -88,7 +88,7 @@ HANDLE GetIconHandle(int iCommand)
 		if (iconList[i].defIconID == iCommand)
 			return iconList[i].hIcolib;
 
-	return 0;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -28,7 +28,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 
 static INT_PTR ABService(WPARAM, LPARAM)
 {
-	BackupStart(NULL);
+	BackupStart(nullptr);
 	return 0;
 }
 
@@ -90,7 +90,7 @@ static int ModulesLoad(WPARAM, LPARAM)
 	options.use_dropbox = (BOOL)(db_get_b(0, "AutoBackups", "UseDropbox", 0) && ServiceExists(MS_DROPBOX_UPLOAD));
 
 	if (options.backup_types & BT_START)
-		BackupStart(NULL);
+		BackupStart(nullptr);
 	return 0;
 }
 
@@ -100,7 +100,7 @@ static int PreShutdown(WPARAM, LPARAM)
 {
 	if (options.backup_types & BT_EXIT) {
 		options.disable_popups = 1; // Don't try to show popups on exit
-		BackupStart(NULL);
+		BackupStart(nullptr);
 	}
 	return 0;
 }

@@ -102,7 +102,7 @@ void Mind::Load(wstring filename)
 
 	file.open(filename.c_str(), ios_base::in | ios_base::binary);
 	wstring s1, st;
-	wchar_t *c, *co = NULL;
+	wchar_t *c, *co = nullptr;
 	size_t count;
 	int error = 0;
 	int line = 1;

@@ -8,8 +8,8 @@
 ColNick::ColNick()
 	: m_bDetail(true)
 	, m_bContactCount(true)
-	, m_hDetail(NULL)
-	, m_hContactCount(NULL)
+	, m_hDetail(nullptr)
+	, m_hContactCount(nullptr)
 {
 }
 

@@ -31,7 +31,7 @@ extern int avsPresent;
 INT_PTR CMsnProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	char** msgptr = GetStatusMsgLoc(wParam ? wParam : m_iStatus);
-	if (msgptr == NULL)	return 0;
+	if (msgptr == nullptr)	return 0;
 
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_utf8decodeW(*msgptr) : (INT_PTR)mir_utf8decodeA(*msgptr);
 }
@@ -44,10 +44,10 @@ INT_PTR CMsnProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 	wchar_t* buf = (wchar_t*)wParam;
 	int  size = (int)lParam;
 
-	if (buf == NULL || size <= 0)
+	if (buf == nullptr || size <= 0)
 		return -1;
 
-	MSN_GetAvatarFileName(NULL, buf, size, NULL);
+	MSN_GetAvatarFileName(NULL, buf, size, nullptr);
 	return _waccess(buf, 0);
 }
 
@@ -65,11 +65,11 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 	wchar_t filename[MAX_PATH];
-	MsnContact *cont = NULL;
+	MsnContact *cont = nullptr;
 
 	if (pai->hContact) {
 		cont = Lists_Get(pai->hContact);
-		if (cont == NULL) return GAIR_NOAVATAR;
+		if (cont == nullptr) return GAIR_NOAVATAR;
 
 		/*
 		if ((cont->cap1 & 0xf0000000) == 0)
@@ -78,7 +78,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	}
 
 	if (pai->hContact == NULL || _stricmp(cont->email, MyOptions.szEmail) == 0) {
-		MSN_GetAvatarFileName(NULL, filename, _countof(filename), NULL);
+		MSN_GetAvatarFileName(NULL, filename, _countof(filename), nullptr);
 		pai->format = ProtoGetAvatarFormat(filename);
 		if (pai->format != PA_FORMAT_UNKNOWN)
 			mir_wstrcpy(pai->filename, filename);
@@ -93,7 +93,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	}
 	else return GAIR_NOAVATAR;
 
-	MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), NULL);
+	MSN_GetAvatarFileName(pai->hContact, filename, _countof(filename), nullptr);
 	pai->format = ProtoGetAvatarFormat(filename);
 
 	if (pai->format != PA_FORMAT_UNKNOWN) {
@@ -108,7 +108,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 			// Store also avatar hash
 			char* szAvatarHash = MSN_GetAvatarHash(szContext);
-			if (szAvatarHash != NULL) {
+			if (szAvatarHash != nullptr) {
 				setString(pai->hContact, "AvatarSavedHash", szAvatarHash);
 				mir_free(szAvatarHash);
 			}
@@ -175,13 +175,13 @@ INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 	wchar_t* szFileName = (wchar_t*)lParam;
 
 	wchar_t tFileName[MAX_PATH];
-	MSN_GetAvatarFileName(NULL, tFileName, _countof(tFileName), NULL);
+	MSN_GetAvatarFileName(NULL, tFileName, _countof(tFileName), nullptr);
 	_wremove(tFileName);
 
-	if (szFileName == NULL) {
+	if (szFileName == nullptr) {
 		delSetting("PictObject");
 		delSetting("AvatarHash");
-		ForkThread(&CMsnProto::msn_storeAvatarThread, NULL);
+		ForkThread(&CMsnProto::msn_storeAvatarThread, nullptr);
 	}
 	else {
 		int fileId = _wopen(szFileName, _O_RDONLY | _O_BINARY, _S_IREAD);
@@ -189,7 +189,7 @@ INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 
 		size_t dwPngSize = _filelengthi64(fileId);
 		unsigned char* pData = (unsigned char*)mir_alloc(dwPngSize);
-		if (pData == NULL) {
+		if (pData == nullptr) {
 			_close(fileId);
 			return 2;
 		}
@@ -267,7 +267,7 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
 
 			if (Lists_IsInList(LIST_FL, szEmail)) {
 				DeleteParam param = { this, MCONTACT(hContact) };
-				DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), NULL, DlgDeleteContactUI, (LPARAM)&param);
+				DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), nullptr, DlgDeleteContactUI, (LPARAM)&param);
 
 				MsnContact *msc = Lists_Get(szEmail);
 				if (msc)
@@ -290,14 +290,14 @@ int CMsnProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 	const CLISTGROUPCHANGE* grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (hContact == NULL) {
-		if (grpchg->pszNewName == NULL && grpchg->pszOldName != NULL) {
+		if (grpchg->pszNewName == nullptr && grpchg->pszOldName != nullptr) {
 			LPCSTR szId = MSN_GetGroupByName(UTF8(grpchg->pszOldName));
-			if (szId != NULL)
+			if (szId != nullptr)
 				MSN_DeleteServerGroup(szId);
 		}
-		else if (grpchg->pszNewName != NULL && grpchg->pszOldName != NULL) {
+		else if (grpchg->pszNewName != nullptr && grpchg->pszOldName != nullptr) {
 			LPCSTR szId = MSN_GetGroupByName(UTF8(grpchg->pszOldName));
-			if (szId != NULL)
+			if (szId != nullptr)
 				MSN_RenameServerGroup(szId, UTF8(grpchg->pszNewName));
 		}
 	}
@@ -323,7 +323,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		if (MyOptions.SlowSend && strcmp(cws->szSetting, "MessageTimeout") == 0 &&
 			(strcmp(cws->szModule, "SRMM") == 0 || strcmp(cws->szModule, "SRMsg") == 0)) {
 			if (cws->value.dVal < 60000)
-				MessageBox(NULL, TranslateT("MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value."),
+				MessageBox(nullptr, TranslateT("MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value."),
 				TranslateT("MSN Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
 		return 0;
@@ -357,7 +357,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 					else
 						MSN_ABUpdateNick(UTF8(cws->value.pszVal), szContactID);
 				}
-				else MSN_ABUpdateNick(NULL, szContactID);
+				else MSN_ABUpdateNick(nullptr, szContactID);
 			}
 
 			if (isMe)
@@ -406,7 +406,7 @@ int CMsnProto::OnWindowPopup(WPARAM, LPARAM lParam)
 
 	case MSG_WINDOWPOPUP_SELECTED:
 		if (mwpd->selection == 13465)
-			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat, LPARAM(new InviteChatParam(NULL, mwpd->hContact, this)));
+			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat, LPARAM(new InviteChatParam(nullptr, mwpd->hContact, this)));
 		break;
 	}
 

@@ -9,7 +9,7 @@
 
 OptionsCtrlImpl::Button::Button(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szButton, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itButton, szLabel, dwFlags, dwData)
-	, m_hButtonWnd(NULL)
+	, m_hButtonWnd(nullptr)
 	, m_strButton(szButton)
 {
 	m_pCtrl->insertItem(pParent, this, m_strLabel.c_str(), dwFlags, m_bEnabled ? siButton : siButtonG);
@@ -47,7 +47,7 @@ void OptionsCtrlImpl::Button::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			0, WC_BUTTON, m_strButton.c_str(), dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccButton), g_hInst, NULL))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccButton), g_hInst, nullptr))
 		{
 			SendMessage(hTempWnd, WM_SETFONT, reinterpret_cast<WPARAM>(hTreeFront), MAKELPARAM(TRUE, 0));
 
@@ -74,9 +74,9 @@ void OptionsCtrlImpl::Button::onDeselect()
 		m_pCtrl->setNodeText(m_hItem, m_strLabel.c_str());
 
 		DestroyWindow(m_hButtonWnd);
-		m_hButtonWnd = NULL;
+		m_hButtonWnd = nullptr;
 
-		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : NULL, TRUE);
+		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : nullptr, TRUE);
 	}
 }
 

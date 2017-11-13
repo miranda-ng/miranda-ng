@@ -52,7 +52,7 @@ void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 
 	if (dat && dat->hWnd == pcli->hwndContactTree) {
 		DWORD flags = dat->contact_time_show_only_if_different ? TZF_DIFONLY : 0;
-		pdnce->hTimeZone = TimeZone_CreateByContact(hContact, 0, flags);
+		pdnce->hTimeZone = TimeZone_CreateByContact(hContact, nullptr, flags);
 	}
 }
 

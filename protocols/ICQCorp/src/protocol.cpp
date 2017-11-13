@@ -150,7 +150,7 @@ bool ICQ::load()
 	WSADATA data;
 
 	if (WSAStartup(MAKEWORD(2, 2), &data)) {
-		MessageBox(NULL, Translate("ICQ Corporate plugin used only WinSock v2.2 or later."), protoName, MB_ICONWARNING | MB_OK);
+		MessageBox(nullptr, Translate("ICQ Corporate plugin used only WinSock v2.2 or later."), protoName, MB_ICONWARNING | MB_OK);
 		return false;
 	}
 
@@ -161,11 +161,11 @@ bool ICQ::load()
 	awayMessage = new char[1];
 	awayMessage[0] = 0;
 
-	WNDCLASS wc = { 0, messageWndProc, 0, 0, hInstance, NULL, NULL, NULL, NULL, protoName };
+	WNDCLASS wc = { 0, messageWndProc, 0, 0, hInstance, nullptr, nullptr, nullptr, nullptr, protoName };
 	if (!RegisterClass(&wc)) return false;
 
-	hWnd = CreateWindowEx(0, protoName, NULL, 0, 0, 0, 0, 0, (unsigned short)GetVersion() >= 5 ? HWND_MESSAGE : 0, NULL, hInstance, NULL);
-	if (hWnd == NULL) return false;
+	hWnd = CreateWindowEx(0, protoName, nullptr, 0, 0, 0, 0, 0, (unsigned short)GetVersion() >= 5 ? HWND_MESSAGE : nullptr, nullptr, hInstance, nullptr);
+	if (hWnd == nullptr) return false;
 
 	return true;
 }
@@ -176,7 +176,7 @@ void ICQ::unload()
 {
 	if (statusVal != ID_STATUS_OFFLINE) logoff(false);
 
-	KillTimer(NULL, pingTimer);
+	KillTimer(nullptr, pingTimer);
 	pingTimer = NULL;
 
 	delete[] awayMessage;
@@ -199,7 +199,7 @@ bool ICQ::logon(unsigned short logonStatus)
 		db_free(&dbv);
 	}
 	else {
-		MessageBox(NULL, Translate("You need specify ICQ Corporate login server."), protoName, MB_ICONWARNING | MB_OK);
+		MessageBox(nullptr, Translate("You need specify ICQ Corporate login server."), protoName, MB_ICONWARNING | MB_OK);
 		return false;
 	}
 
@@ -213,7 +213,7 @@ bool ICQ::logon(unsigned short logonStatus)
 	}
 
 	if (pingTimer == NULL)
-		pingTimer = SetTimer(NULL, 0, PING_FREQUENCY, pingTimerProc);
+		pingTimer = SetTimer(nullptr, 0, PING_FREQUENCY, pingTimerProc);
 
 	updateContactList();
 
@@ -323,7 +323,7 @@ ICQEvent *ICQ::sendICQ(Socket &socket, Packet &packet, unsigned short cmd, unsig
 	ICQEvent *result;
 
 	if (!socket.connected())
-		return NULL;
+		return nullptr;
 
 	if (cmd != ICQ_CMDxTCP_START)
 		sequenceVal++;
@@ -331,7 +331,7 @@ ICQEvent *ICQ::sendICQ(Socket &socket, Packet &packet, unsigned short cmd, unsig
 	icqEvents.push_back(result = new ICQEvent(cmd, subCmd, sequence, uin, &socket, &packet, reply));
 	if (!result->start()) {
 		cancelEvent(result);
-		return NULL;
+		return nullptr;
 	}
 	return result;
 }
@@ -432,7 +432,7 @@ void ICQ::cancelEvent(ICQEvent *&e)
 	icqEvents.pop_back();
 
 	delete e;
-	e = NULL;
+	e = nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -442,7 +442,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 	unsigned short version, command, newCommand, theSequence, theSequence1, searchSequence, junkShort;
 	unsigned int checkUin, userIP, realIP, junkl, newStatus, userPort, timedataStamp;
 	unsigned char junkChar;
-	char *message = NULL;
+	char *message = nullptr;
 	ICQUser *u;
 	ICQEvent *e;
 
@@ -467,7 +467,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		packet >> message;
 
 		T("%s\n", message);
-		MessageBox(NULL, message, protoName, MB_ICONERROR | MB_OK);
+		MessageBox(nullptr, message, protoName, MB_ICONERROR | MB_OK);
 		delete[] message;
 		break;
 
@@ -477,7 +477,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		T("[udp] user %d is online\n", checkUin);
 		ackUDP(theSequence);
 
-		if ((u = getUserByUIN(checkUin, false)) == NULL) break;
+		if ((u = getUserByUIN(checkUin, false)) == nullptr) break;
 
 		packet >> userIP
 			>> userPort
@@ -499,7 +499,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		T("[udp] user %d is offline\n", checkUin);
 		ackUDP(theSequence);
 
-		if ((u = getUserByUIN(checkUin, false)) == NULL) break;
+		if ((u = getUserByUIN(checkUin, false)) == nullptr) break;
 
 		u->setStatus(ID_STATUS_OFFLINE);
 		u->socket.closeConnection();
@@ -514,9 +514,9 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		T("[udp] user information packet (%d)\n", theSequence);
 		ackUDP(theSequence);
 
-		if ((e = getEvent(udpSocket.handleVal, theSequence1)) == NULL) break;
+		if ((e = getEvent(udpSocket.handleVal, theSequence1)) == nullptr) break;
 		checkUin = e->uin;
-		if ((u = getUserByUIN(checkUin, false)) == NULL) break;
+		if ((u = getUserByUIN(checkUin, false)) == nullptr) break;
 
 		char *buffer;
 		buffer = new char[1024];
@@ -603,7 +603,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 			break;
 		}
 
-		if (e->reply == 0) ProtoBroadcastAck(protoName, u->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0, 0);
+		if (e->reply == 0) ProtoBroadcastAck(protoName, u->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr, 0);
 		doneEvent(true, udpSocket.handleVal, theSequence1);
 		delete[] buffer;
 		break;
@@ -612,7 +612,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		T("[udp] invalid uin\n");
 		ackUDP(theSequence);
 
-		if ((e = getEvent(udpSocket.handleVal, theSequence1)) == NULL) break;
+		if ((e = getEvent(udpSocket.handleVal, theSequence1)) == nullptr) break;
 
 		checkUin = e->uin;
 		T("invalid uin: %d\n", checkUin);
@@ -626,7 +626,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 
 		packet >> newStatus;
 
-		if ((u = getUserByUIN(checkUin, false)) == NULL) break;
+		if ((u = getUserByUIN(checkUin, false)) == nullptr) break;
 		u->setStatus(toIdStatus(newStatus));
 		break;
 
@@ -642,10 +642,10 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		char *alias, *firstName, *lastName, *email;
 		unsigned char auth;
 
-		alias = NULL;
-		firstName = NULL;
-		lastName = NULL;
-		email = NULL;
+		alias = nullptr;
+		firstName = nullptr;
+		lastName = nullptr;
+		email = nullptr;
 		packet >> checkUin >> alias >> firstName >> lastName >> email >> auth;
 		{
 			ICQSEARCHRESULT psr = { 0 };
@@ -696,7 +696,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		packet >> checkUin
 			>> newCommand;
 
-		processSystemMessage(packet, checkUin, newCommand, time(NULL));
+		processSystemMessage(packet, checkUin, newCommand, time(nullptr));
 		break;
 
 	case ICQ_CMDxRCV_SYSxMSGxDONE: // end of system messages
@@ -778,7 +778,7 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 		packet >> checkUin
 			>> newCommand;
 
-		processSystemMessage(packet, checkUin, newCommand, time(NULL));
+		processSystemMessage(packet, checkUin, newCommand, time(nullptr));
 		break;
 
 	case ICQ_CMDxRCV_BROADCASTxDONE:
@@ -822,8 +822,8 @@ unsigned short ICQ::processUdpPacket(Packet &packet)
 
 	case ICQ_CMDxRCV_WRONGxPASSWD: // incorrect password sent in logon
 		T("[udp] incorrect password.\n");
-		ProtoBroadcastAck(protoName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
-		MessageBox(NULL, Translate("Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again."), protoName, MB_ICONERROR | MB_OK);
+		ProtoBroadcastAck(protoName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
+		MessageBox(nullptr, Translate("Your ICQ Corp number and password combination was rejected by the ICQ Corporate server. Please go to Options -> Network -> ICQCorp and try again."), protoName, MB_ICONERROR | MB_OK);
 		break;
 
 	case ICQ_CMDxRCV_BUSY: // server too busy to respond
@@ -849,7 +849,7 @@ void ICQ::processSystemMessage(Packet &packet, unsigned long checkUin, unsigned 
 
 	u = getUserByUIN(checkUin);
 
-	message = NULL;
+	message = nullptr;
 	packet >> message;
 
 	switch (newCommand) {
@@ -1023,7 +1023,7 @@ ICQUser *ICQ::getUserByUIN(unsigned long uin, bool allowAdd)
 	}
 
 	T("ICQ sent unknown user %d\n", uin);
-	return NULL;
+	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1040,7 +1040,7 @@ ICQUser *ICQ::getUserByContact(MCONTACT hContact)
 		u = icqUsers[i];
 		if (u->hContact == hContact) return u;
 	}
-	return NULL;
+	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1118,7 +1118,7 @@ void ICQ::updateContactList()
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		proto = GetContactProto(hContact);
 		if (proto && !mir_strcmp(proto, protoName)) {
-			if ((u = getUserByContact(hContact)) == NULL) {
+			if ((u = getUserByContact(hContact)) == nullptr) {
 				u = new ICQUser();
 				u->hContact = hContact;
 				u->uin = db_get_dw(hContact, protoName, "UIN", 0);
@@ -1361,7 +1361,7 @@ ICQEvent *ICQ::send(ICQUser *u, unsigned short cmd, char *cmdStr, char *m)
 {
 	ICQEvent *result;
 
-	if (u->statusVal > ID_STATUS_OFFLINE && (result = sendTCP(u, cmd, cmdStr, m)) != NULL) return result;
+	if (u->statusVal > ID_STATUS_OFFLINE && (result = sendTCP(u, cmd, cmdStr, m)) != nullptr) return result;
 	else return sendUDP(u, cmd, cmdStr, m);
 }
 
@@ -1408,7 +1408,7 @@ bool ICQ::openConnection(TCPSocket &socket)
 ICQEvent *ICQ::sendTCP(ICQUser *u, unsigned short cmd, char *cmdStr, char *m)
 {
 	if (!u->socket.connected() && !openConnection(u->socket))
-		return NULL;
+		return nullptr;
 
 	unsigned int status;
 	switch (statusVal) {
@@ -1540,7 +1540,7 @@ ICQEvent *ICQ::sendReadAwayMsg(ICQUser *u)
 	case ID_STATUS_NA: cmd = ICQ_CMDxTCP_READxNAxMSG; break;
 	case ID_STATUS_OCCUPIED: cmd = ICQ_CMDxTCP_READxOCCUPIEDxMSG; break;
 	case ID_STATUS_FREECHAT: cmd = ICQ_CMDxTCP_READxFREECHATxMSG; break;
-	default: return NULL;
+	default: return nullptr;
 	}
 
 	return sendTCP(u, cmd, "away message request", "");
@@ -1551,7 +1551,7 @@ ICQEvent *ICQ::sendReadAwayMsg(ICQUser *u)
 ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsigned int size, char **files)
 {
 	if (!u->socket.connected() && !openConnection(u->socket))
-		return NULL;
+		return nullptr;
 
 	unsigned int i;
 
@@ -1560,7 +1560,7 @@ ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsign
 	for (i = 0; files[i]; i++);
 	transfer->files = new char*[i + 1];
 	for (i = 0; files[i]; i++) transfer->files[i] = _strdup(files[i]);
-	transfer->files[i] = 0;
+	transfer->files[i] = nullptr;
 
 	transfer->description = _strdup(description);
 	transfer->count = i;
@@ -1568,7 +1568,7 @@ ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsign
 
 	transfer->path = _strdup(transfer->files[0]);
 	char *s = strrchr(transfer->path, '\\');
-	if (s != NULL)
+	if (s != nullptr)
 		*s = 0;
 
 	icqTransfers.push_back(transfer);
@@ -1752,7 +1752,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 	unsigned int i, checkUin, senderIp, localIp, userStatus, senderPort, junkLong, thePort, theTCPSequence = 0;
 	unsigned short version, command, junkShort, newCommand, /*messageLen,*/ cicqVersion;
 	unsigned char cicqChar, junkChar;
-	char *message = NULL;
+	char *message = nullptr;
 	ICQUser *u;
 	static unsigned int chatUin, chatSequence;
 
@@ -1779,7 +1779,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 			packet >> theTCPSequence;
 
 			ackTCP(packet, u, newCommand, theTCPSequence);
-			addMessage(u, message, ICQ_CMDxTCP_START, ICQ_CMDxTCP_MSG, theTCPSequence, time(NULL));
+			addMessage(u, message, ICQ_CMDxTCP_START, ICQ_CMDxTCP_MSG, theTCPSequence, time(nullptr));
 			break;
 
 		case ICQ_CMDxTCP_CHAT:
@@ -1800,14 +1800,14 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 			packet >> theTCPSequence;
 
 			ackTCP(packet, u, newCommand, theTCPSequence);
-			addUrl(u, message, ICQ_CMDxTCP_START, ICQ_CMDxTCP_URL, theTCPSequence, time(NULL));
+			addUrl(u, message, ICQ_CMDxTCP_START, ICQ_CMDxTCP_URL, theTCPSequence, time(nullptr));
 			break;
 
 		case ICQ_CMDxTCP_FILE:
 			unsigned int size;
 			char *fileName;
 
-			fileName = NULL;
+			fileName = nullptr;
 			packet >> junkLong
 				>> fileName
 				>> size
@@ -1816,7 +1816,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 
 			T("[tcp] file transfer request from %d (%d)\n", checkUin, theTCPSequence);
 
-			addFileReq(u, message, fileName, size, ICQ_CMDxTCP_START, ICQ_CMDxTCP_FILE, theTCPSequence, time(NULL));
+			addFileReq(u, message, fileName, size, ICQ_CMDxTCP_START, ICQ_CMDxTCP_FILE, theTCPSequence, time(nullptr));
 			delete[] fileName;
 			break;
 
@@ -1901,7 +1901,7 @@ void ICQ::processTcpPacket(Packet &packet, unsigned int hSocket)
 		case ICQ_CMDxTCP_READxDNDxMSG:
 		case ICQ_CMDxTCP_READxFREECHATxMSG:
 			packet >> theTCPSequence;
-			addAwayMsg(u, message, ICQ_CMDxTCP_START, ICQ_CMDxTCP_READxAWAYxMSG, theTCPSequence, time(NULL));
+			addAwayMsg(u, message, ICQ_CMDxTCP_START, ICQ_CMDxTCP_READxAWAYxMSG, theTCPSequence, time(nullptr));
 			break;
 		}
 

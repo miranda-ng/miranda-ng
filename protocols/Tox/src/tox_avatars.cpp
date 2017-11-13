@@ -77,14 +77,14 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 			debugLogA(__FUNCTION__": send avatar to friend (%d)", friendNumber);
 
 			TOX_ERR_FILE_SEND error;
-			uint32_t fileNumber = tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
+			uint32_t fileNumber = tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, nullptr, 0, &error);
 			if (error != TOX_ERR_FILE_SEND_OK) {
 				mir_free(data);
 				debugLogA(__FUNCTION__": failed to set new avatar (%d)", error);
 				return;
 			}
 
-			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, nullptr, length);
 			transfer->pfts.flags |= PFTS_SENDING;
 			memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
 			transfer->pfts.hContact = hContact;
@@ -149,7 +149,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	debugLogA(__FUNCTION__": setting avatar");
 	wchar_t *path = (wchar_t*)lParam;
 	ptrW avatarPath(GetAvatarFilePath());
-	if (path != NULL) {
+	if (path != nullptr) {
 		debugLogA(__FUNCTION__": copy new avatar");
 		if (!CopyFile(path, avatarPath, FALSE)) {
 			debugLogA(__FUNCTION__": failed to copy new avatar to avatar cache");
@@ -173,7 +173,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			debugLogA(__FUNCTION__": unset avatar for friend (%d)", friendNumber);
 
 			TOX_ERR_FILE_SEND error;
-			tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, &error);
+			tox_file_send(toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, nullptr, nullptr, 0, &error);
 			if (error != TOX_ERR_FILE_SEND_OK) {
 				debugLogA(__FUNCTION__": failed to unset avatar (%d)", error);
 				return 0;
@@ -199,7 +199,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 
 		transfers.Remove(transfer);
 		delSetting(hConact, TOX_SETTINGS_AVATAR_HASH);
-		ProtoBroadcastAck(hConact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0, 0);
+		ProtoBroadcastAck(hConact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
 		return;
 	}
 
@@ -228,7 +228,7 @@ void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)
 	mir_wstrcpy(ai.filename, transfer->pfts.tszCurrentFile);
 
 	fclose(transfer->hFile);
-	transfer->hFile = NULL;
+	transfer->hFile = nullptr;
 
 	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 	transfers.Remove(transfer);

@@ -43,9 +43,9 @@ wchar_t* FixButtonText(wchar_t *url, size_t len)
 	wcsncpy_s(buttontext, url, _TRUNCATE);
 	wcsncpy_s(newbuttontext, url, _TRUNCATE);
 
-	if (wcschr(newbuttontext, '&') != 0) {
+	if (wcschr(newbuttontext, '&') != nullptr) {
 		while (true) {
-			if (wcschr(newbuttontext, '&') == 0)
+			if (wcschr(newbuttontext, '&') == nullptr)
 				break;
 
 			wcsncpy_s(buttontext, newbuttontext, _TRUNCATE);
@@ -62,12 +62,12 @@ wchar_t* FixButtonText(wchar_t *url, size_t len)
 		}
 
 		while (true) {
-			if (wcschr(newbuttontext, '!') != 0) {
+			if (wcschr(newbuttontext, '!') != nullptr) {
 				wchar_t *stringafter = wcschr(newbuttontext, '!');
 				int pos = (stringafter - newbuttontext);
 				newbuttontext[pos] = '&';
 			}
-			if (wcschr(newbuttontext, '!') == 0)
+			if (wcschr(newbuttontext, '!') == nullptr)
 				break;
 		}
 	}
@@ -211,7 +211,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				mir_wstrcpy(ppd.lptzText, TranslateT("This is a preview popup."));
 				ppd.colorBack = BGColour;
 				ppd.colorText = TextColour;
-				ppd.PluginWindowProc = NULL;
+				ppd.PluginWindowProc = nullptr;
 				ppd.iSeconds = _wtol(str3);
 				// display popups
 				PUAddPopupT(&ppd);
@@ -445,7 +445,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				OPENFILENAME ofn = { 0 };
 				ofn.lStructSize = sizeof(ofn);
 				ofn.hwndOwner = hwndDlg;
-				ofn.hInstance = NULL;
+				ofn.hInstance = nullptr;
 				ofn.lpstrFilter = L"TEXT Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0\0";
 				ofn.lpstrFile = szFileName;
 				ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
@@ -715,18 +715,18 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (eventIndex == 0) // string present
 					if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_ALERT_STRING))))
 						if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
-							MessageBox(NULL, TranslateT("You need to supply a search string."), _A2W(MODULENAME), MB_OK);
+							MessageBox(nullptr, TranslateT("You need to supply a search string."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 
 				if (eventIndex == 2) // part of web page changed
 					if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
 						if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_START2)))) {
-							MessageBox(NULL, TranslateT("You need to supply a start string."), _A2W(MODULENAME), MB_OK);
+							MessageBox(nullptr, TranslateT("You need to supply a start string."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 						if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_END2)))) {
-							MessageBox(NULL, TranslateT("You need to supply an end string."), _A2W(MODULENAME), MB_OK);
+							MessageBox(nullptr, TranslateT("You need to supply an end string."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 					}
@@ -734,14 +734,14 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (alertIndex == 1) // log to file
 					if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_FILENAME))))
 						if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
-							MessageBox(NULL, TranslateT("You need to supply a file name and path."), _A2W(MODULENAME), MB_OK);
+							MessageBox(nullptr, TranslateT("You need to supply a file name and path."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_LOG))
 					if (!(GetWindowTextLength(GetDlgItem(hwndDlg, IDC_FILENAME))))
 						if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)) {
-							MessageBox(NULL, TranslateT("You need to supply a file name and path."), _A2W(MODULENAME), MB_OK);
+							MessageBox(nullptr, TranslateT("You need to supply a file name and path."), _A2W(MODULENAME), MB_OK);
 							break;
 						}
 
@@ -780,7 +780,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		WindowList_Remove(hWindowList, hwndDlg);
 		if (hwndDlg) {
 			DestroyWindow(hwndDlg);
-			hwndDlg = NULL;
+			hwndDlg = nullptr;
 		}
 		break;
 
@@ -887,7 +887,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case IDCANCEL:
 			if (hwndDlg) {
 				DestroyWindow(hwndDlg);
-				hwndDlg = NULL;
+				hwndDlg = nullptr;
 			}
 			return TRUE;
 
@@ -952,61 +952,61 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				wchar_t str[128], contactname[128];
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_URL))) {
-					MessageBox(NULL, TranslateT("You need to supply a URL."), _A2W(MODULENAME), MB_OK);
+					MessageBox(nullptr, TranslateT("You need to supply a URL."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_START))) {
 					if (IsDlgButtonChecked(hwndDlg, IDC_U_SE_STRINGS)) {
-						MessageBox(NULL, TranslateT("You need to supply a start string."), _A2W(MODULENAME), MB_OK);
+						MessageBox(nullptr, TranslateT("You need to supply a start string."), _A2W(MODULENAME), MB_OK);
 						break;
 					}
 				}
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_END))) {
 					if (IsDlgButtonChecked(hwndDlg, IDC_U_SE_STRINGS)) {
-						MessageBox(NULL, TranslateT("You need to supply an end string."), _A2W(MODULENAME), MB_OK);
+						MessageBox(nullptr, TranslateT("You need to supply an end string."), _A2W(MODULENAME), MB_OK);
 						break;
 					}
 				}
 				if (!GetWindowTextLength(GetDlgItem(hwndDlg, IDC_SITE_NAME))) {
-					MessageBox(NULL, TranslateT("You need to supply a name for the contact."), _A2W(MODULENAME), MB_OK);
+					MessageBox(nullptr, TranslateT("You need to supply a name for the contact."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 
 				GetDlgItemText(hwndDlg, IDC_SITE_NAME, contactname, _countof(contactname));
-				if (wcschr(contactname, '\\') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '\\') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, '/') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '/') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, ':') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, ':') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, '*') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '*') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, '?') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '?') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, '\"') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '\"') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, '<') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '<') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, '>') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '>') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
-				if (wcschr(contactname, '|') != NULL) {
-					MessageBox(NULL, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
+				if (wcschr(contactname, '|') != nullptr) {
+					MessageBox(nullptr, TranslateT("Invalid symbol present in contact name."), _A2W(MODULENAME), MB_OK);
 					break;
 				}
 
@@ -1041,7 +1041,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					EnableWindow(GetDlgItem(ParentHwnd, IDC_ALERT_BUTTON), 1);
 					if (hwndDlg) {
 						DestroyWindow(hwndDlg);
-						hwndDlg = NULL;
+						hwndDlg = nullptr;
 					}
 				}
 			}
@@ -1053,7 +1053,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			WindowList_Remove(hWindowList, hwndDlg);
 			if (hwndDlg) {
 				DestroyWindow(hwndDlg);
-				hwndDlg = NULL;
+				hwndDlg = nullptr;
 			}
 		}
 		break;
@@ -1271,31 +1271,31 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 			GetDlgItemText(hwndDlg, IDC_TYPEFACE, str, _countof(str));
 			db_set_ws(NULL, MODULENAME, FONT_FACE_KEY, str);
 
-			db_set_b(NULL, MODULENAME, FONT_SIZE_KEY, (GetDlgItemInt(hwndDlg, IDC_FONTSIZE, NULL, FALSE)));
+			db_set_b(NULL, MODULENAME, FONT_SIZE_KEY, (GetDlgItemInt(hwndDlg, IDC_FONTSIZE, nullptr, FALSE)));
 			db_set_b(NULL, MODULENAME, FONT_SCRIPT_KEY, ((BYTE)SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCURSEL, 0, 0), 0)));
 
 			db_set_b(NULL, MODULENAME, ERROR_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ERROR_POPUP));
 
-			timerval = GetDlgItemInt(hwndDlg, IDC_TIME, NULL, FALSE);
+			timerval = GetDlgItemInt(hwndDlg, IDC_TIME, nullptr, FALSE);
 			db_set_dw(NULL, MODULENAME, REFRESH_KEY, timerval);
 			db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, timerval);
 
 
-			delaytime = GetDlgItemInt(hwndDlg, IDC_START_DELAY, NULL, FALSE);
+			delaytime = GetDlgItemInt(hwndDlg, IDC_START_DELAY, nullptr, FALSE);
 			db_set_dw(NULL, MODULENAME, START_DELAY_KEY, delaytime);
 
 			BackgoundClr = (SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0));
 			TextClr = (SendDlgItemMessage(hwndDlg, IDC_TXTCOLOR, CPM_GETCOLOUR, 0, 0));
 
 			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) != 0)) {
-				KillTimer(NULL, timerId);
-				KillTimer(NULL, Countdown);
-				timerId = SetTimer(NULL, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0)) * MINUTE), timerfunc);
-				Countdown = SetTimer(NULL, 0, MINUTE, Countdownfunc);
+				KillTimer(nullptr, timerId);
+				KillTimer(nullptr, Countdown);
+				timerId = SetTimer(nullptr, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0)) * MINUTE), timerfunc);
+				Countdown = SetTimer(nullptr, 0, MINUTE, Countdownfunc);
 			}
 			if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, 0) == 0)) {
-				KillTimer(NULL, timerId);
-				KillTimer(NULL, Countdown);
+				KillTimer(nullptr, timerId);
+				KillTimer(nullptr, Countdown);
 			}
 			test = 0;
 		}

@@ -104,13 +104,13 @@ void T(char *format, ...)
 
 	static HANDLE hFile = INVALID_HANDLE_VALUE;
 	if (hFile == INVALID_HANDLE_VALUE) {
-		hFile = CreateFile("ICQ Corp.log", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, 0, NULL);
-		SetFilePointer(hFile, 0, 0, FILE_END);
+		hFile = CreateFile("ICQ Corp.log", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_ALWAYS, 0, nullptr);
+		SetFilePointer(hFile, 0, nullptr, FILE_END);
 	}
 
 	DWORD result;
-	WriteFile(hFile, bufferTime, (DWORD)mir_strlen(bufferTime), &result, NULL);
-	WriteFile(hFile, buffer, (DWORD)mir_strlen(buffer), &result, NULL);
+	WriteFile(hFile, bufferTime, (DWORD)mir_strlen(bufferTime), &result, nullptr);
+	WriteFile(hFile, buffer, (DWORD)mir_strlen(buffer), &result, nullptr);
 }
 #endif
 

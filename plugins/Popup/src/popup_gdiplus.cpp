@@ -41,7 +41,7 @@ void LoadGDIPlus()
 	gbGdiPlusLoaded = false;
 	__try {
 		if (g_gdiplusToken == 0)
-			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
+			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, nullptr);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -74,7 +74,7 @@ using namespace Gdiplus;
 HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
 {
 	if (cx < 0 || cy < 0) {
-		return NULL;
+		return nullptr;
 	}
 
 	BITMAPINFO RGB32BitsBITMAPINFO;
@@ -88,8 +88,8 @@ HBITMAP SkinEngine_CreateDIB32(int cx, int cy)
 
 
 	UINT *ptPixels;
-	HBITMAP DirectBitmap = CreateDIBSection(NULL, &RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, NULL, 0);
-	if ((DirectBitmap == NULL || ptPixels == NULL) && cx != 0 && cy != 0) {
+	HBITMAP DirectBitmap = CreateDIBSection(nullptr, &RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, nullptr, 0);
+	if ((DirectBitmap == nullptr || ptPixels == nullptr) && cx != 0 && cy != 0) {
 		;
 	}
 	else {
@@ -163,7 +163,7 @@ void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP 
 	clipHeight = (int)(xscale*imHeight + .5);
 
 	HBITMAP hBitmap = SkinEngine_CreateDIB32(clipWidth*nFrameCount, height);
-	HDC hdc = CreateCompatibleDC(NULL);
+	HDC hdc = CreateCompatibleDC(nullptr);
 	HBITMAP oldBmp = (HBITMAP)SelectObject(hdc, hBitmap);
 	Graphics graphics(hdc);
 	ImageAttributes attr;
@@ -175,7 +175,7 @@ void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP 
 	for (int i = 1; i < nFrameCount + 1; i++) {
 		GUID pageGuid = FrameDimensionTime;
 		RectF rect((float)(i - 1)*clipWidth, (float)0, (float)clipWidth, (float)clipHeight);
-		graphics.DrawImage(&image, rect, (float)0, (float)0, (float)imWidth, (float)imHeight, UnitPixel, &attr, NULL, NULL);
+		graphics.DrawImage(&image, rect, (float)0, (float)0, (float)imWidth, (float)imHeight, UnitPixel, &attr, nullptr, nullptr);
 		image.SelectActiveFrame(&pageGuid, i);
 		long lPause = ((long*)pPropertyItem->value)[i - 1] * 10;
 		delays[i - 1] = (int)lPause;
@@ -183,7 +183,7 @@ void GDIPlus_ExtractAnimatedGIF(wchar_t *szName, int width, int height, HBITMAP 
 	SelectObject(hdc, oldBmp);
 	DeleteDC(hdc);
 	mir_free(pPropertyItem);
-	pPropertyItem = NULL;
+	pPropertyItem = nullptr;
 	delete[]pDimensionIDs;
 
 	pBitmap = hBitmap;

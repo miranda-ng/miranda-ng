@@ -31,8 +31,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static MWindowList hWindowList = 0;
-static HGENMENU hContactMenu = 0;
+static MWindowList hWindowList = nullptr;
+static HGENMENU hContactMenu = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Fills the events list
@@ -96,7 +96,7 @@ static void GetObjectDescription(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 
 static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t* str, int cbStr)
 {
-	wchar_t* pszSrc, *pszTmp = NULL;
+	wchar_t* pszSrc, *pszTmp = nullptr;
 
 	switch(dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -320,7 +320,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			GetObjectDescription(&dbei, str, _countof(str));
 			if (str[0]) {
 				CharUpperBuff(str, (int)mir_wstrlen(str));
-				if (wcsstr(str, (const wchar_t*)lParam) != NULL) {
+				if (wcsstr(str, (const wchar_t*)lParam) != nullptr) {
 					SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
 					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
 					break;
@@ -378,7 +378,7 @@ static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
 static int HistoryContactDelete(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = WindowList_Find(hWindowList, wParam);
-	if (hwnd != NULL)
+	if (hwnd != nullptr)
 		DestroyWindow(hwnd);
 	return 0;
 }

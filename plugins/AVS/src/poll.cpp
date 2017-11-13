@@ -63,7 +63,7 @@ static mir_cs cs;
 void InitPolls()
 {
 	// Init request queue
-	mir_forkthread(RequestThread, NULL);
+	mir_forkthread(RequestThread, nullptr);
 }
 
 void UninitPolls()
@@ -97,7 +97,7 @@ static BOOL PollContactCanHaveAvatar(MCONTACT hContact, const char *szProto)
 // Return true if this contact has to be checked
 static BOOL PollCheckContact(MCONTACT hContact)
 {
-	return !db_get_b(hContact, "ContactPhoto", "Locked", 0) && FindAvatarInCache(hContact, false, true) != NULL;
+	return !db_get_b(hContact, "ContactPhoto", "Locked", 0) && FindAvatarInCache(hContact, false, true) != nullptr;
 }
 
 static void QueueRemove(MCONTACT hContact)
@@ -114,7 +114,7 @@ static void QueueRemove(MCONTACT hContact)
 // Add an contact to a queue
 void QueueAdd(MCONTACT hContact, int waitTime)
 {
-	if (fei == NULL || g_shutDown)
+	if (fei == nullptr || g_shutDown)
 		return;
 
 	mir_cslock lck(cs);
@@ -135,7 +135,7 @@ void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pa
 	QueueRemove(hContact);
 
 	if (type == GAIR_SUCCESS) {
-		if (pai == NULL)
+		if (pai == nullptr)
 			return;
 
 		// Fix settings in DB
@@ -186,10 +186,10 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 {
 	int result = GAIR_NOAVATAR;
 
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		szProto = GetContactProto(hContact);
 
-	if (szProto != NULL && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
+	if (szProto != nullptr && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
 		// Can have avatar, but must request it?
 		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) || (PollCheckProtocol(szProto) && PollCheckContact(hContact)))
 		{

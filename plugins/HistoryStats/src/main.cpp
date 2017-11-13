@@ -31,17 +31,17 @@ PLUGININFOEX g_pluginInfoEx = {
 	{0xf184f5a0, 0xc198, 0x4454, {0xa9, 0xb4, 0xf6, 0xe2, 0xfd, 0x53, 0x41, 0x33}},
 };
 
-SettingsSerializer* g_pSettings = NULL;
+SettingsSerializer* g_pSettings = nullptr;
 
 bool g_bMainMenuExists    = false;
 bool g_bContactMenuExists = false;
 bool g_bExcludeLock       = false;
 bool g_bConfigureLock     = false;
 
-static HGENMENU g_hMenuCreateStatistics = NULL;
-static HGENMENU g_hMenuShowStatistics   = NULL;
-static HGENMENU g_hMenuConfigure        = NULL;
-static HGENMENU g_hMenuToggleExclude    = NULL;
+static HGENMENU g_hMenuCreateStatistics = nullptr;
+static HGENMENU g_hMenuShowStatistics   = nullptr;
+static HGENMENU g_hMenuConfigure        = nullptr;
+static HGENMENU g_hMenuToggleExclude    = nullptr;
 
 #if defined(HISTORYSTATS_HISTORYCOPY)
 	static HGENMENU g_hMenuHistoryCopy    = NULL;
@@ -93,16 +93,16 @@ static INT_PTR SvcSetExclude(WPARAM hContact, LPARAM lParam)
 static void MenuIconsChanged(LPARAM)
 {
 	if (g_hMenuCreateStatistics)
-		Menu_ModifyItem(g_hMenuCreateStatistics, NULL, IconLib::getIcon(IconLib::iiMenuCreateStatistics));
+		Menu_ModifyItem(g_hMenuCreateStatistics, nullptr, IconLib::getIcon(IconLib::iiMenuCreateStatistics));
 
 	if (g_hMenuShowStatistics)
-		Menu_ModifyItem(g_hMenuShowStatistics, NULL, IconLib::getIcon(IconLib::iiMenuShowStatistics));
+		Menu_ModifyItem(g_hMenuShowStatistics, nullptr, IconLib::getIcon(IconLib::iiMenuShowStatistics));
 
 	if (g_hMenuConfigure)
-		Menu_ModifyItem(g_hMenuConfigure, NULL, IconLib::getIcon(IconLib::iiMenuConfigure));
+		Menu_ModifyItem(g_hMenuConfigure, nullptr, IconLib::getIcon(IconLib::iiMenuConfigure));
 
 	if (g_hMenuToggleExclude)
-		Menu_ModifyItem(g_hMenuToggleExclude, NULL, IconLib::getIcon(IconLib::iiContactMenu));
+		Menu_ModifyItem(g_hMenuToggleExclude, nullptr, IconLib::getIcon(IconLib::iiContactMenu));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ static INT_PTR MenuShowStatistics(WPARAM, LPARAM)
 	if (g_pSettings->canShowStatistics())
 		g_pSettings->showStatistics();
 	else
-		MessageBox(NULL,
+		MessageBox(nullptr,
 			TranslateT("The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore."),
 			TranslateT("HistoryStats - Warning"), MB_ICONWARNING | MB_OK);
 
@@ -145,7 +145,7 @@ void AddMainMenu()
 	CreateServiceFunction(con::SvcShowStatistics, MenuShowStatistics);
 	CreateServiceFunction(con::SvcConfigure, MenuConfigure);
 
-	HGENMENU hRoot = bInPopup ? Menu_CreateRoot(MO_MAIN, LPGENW("Statistics"), 1910000000) : NULL;
+	HGENMENU hRoot = bInPopup ? Menu_CreateRoot(MO_MAIN, LPGENW("Statistics"), 1910000000) : nullptr;
 	Menu_ConfigureItem(hRoot, MCI_OPT_UID, "7F116B24-9D84-4D04-B6AA-EED95051A184");
 
 	g_hMenuCreateStatistics = mu::clist::addMainMenuItem(
@@ -339,7 +339,7 @@ static int EventOptInitialise(WPARAM wParam, LPARAM)
 		wParam,
 		TranslateT("History"),
 		TranslateT("Statistics"),
-		NULL,
+		nullptr,
 		DlgOption::staticDlgProc,
 		MAKEINTRESOURCEA(IDD_OPTIONS),
 		g_hInst);
@@ -406,13 +406,13 @@ extern "C" __declspec(dllexport) int Load()
 	pcli = Clist_GetInterface();
 
 	// init COM, needed for GUID generation
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	// register our own window classes
 	if (!BandCtrlImpl::registerClass() || !OptionsCtrlImpl::registerClass())
 	{
 		MessageBox(
-			0,
+			nullptr,
 			L"Failed to register a required window class. Can't continue loading plugin.",
 			L"HistoryStats - Error",
 			MB_OK | MB_ICONERROR);
@@ -424,7 +424,7 @@ extern "C" __declspec(dllexport) int Load()
 	if (!mu::load())
 	{
 		MessageBox(
-			0,
+			nullptr,
 			L"This version of HistoryStats isn't compatible with your Miranda NG "
 			L"version. Possibly, your Miranda NG is outdated or you are trying to "
 			L"use the Unicode version with a non-Unicode Miranda NG.\r\n\r\n"

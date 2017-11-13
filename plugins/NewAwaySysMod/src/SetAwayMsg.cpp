@@ -105,7 +105,7 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam,
 		return HTCLIENT;
 
 	case WM_SETCURSOR:
-		SetCursor(LoadCursor(NULL, IDC_SIZEWE));
+		SetCursor(LoadCursor(nullptr, IDC_SIZEWE));
 		return true;
 
 	case WM_LBUTTONDOWN:
@@ -305,7 +305,7 @@ void SetExtraIcon(CCList *CList, int nColumn, HTREEITEM hItem, int nIcon)
 void SetCListGroupIcons(CCList *CList)
 {
 	_ASSERT(CList);
-	HTREEITEM hItem = CList->GetNextItem(MCLGN_LAST, NULL); // start from last item, so every item is processed before its parents
+	HTREEITEM hItem = CList->GetNextItem(MCLGN_LAST, nullptr); // start from last item, so every item is processed before its parents
 	if (!hItem)
 		return;
 
@@ -340,7 +340,7 @@ void SetCListGroupIcons(CCList *CList)
 }
 
 
-int GetSelContactsNum(CCList *CList, PTREEITEMARRAY Selection = NULL, bool *bOnlyInfo = NULL) // "SelContacts" mean not only contacts, but everything with "personal" status messages and settings - i.e. "All contacts" and protocol items are counted too.
+int GetSelContactsNum(CCList *CList, PTREEITEMARRAY Selection = nullptr, bool *bOnlyInfo = nullptr) // "SelContacts" mean not only contacts, but everything with "personal" status messages and settings - i.e. "All contacts" and protocol items are counted too.
 {
 	if (!CList)
 		return (Selection == CLSEL_DAT_NOTHING) ? 0 : 1; // Selection == NULL means we need to retrieve current selection by ourselves, and current selection is always CLSEL_DAT_CONTACT in this case
@@ -362,7 +362,7 @@ int GetSelContactsNum(CCList *CList, PTREEITEMARRAY Selection = NULL, bool *bOnl
 	return nContacts;
 }
 
-void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY Selection = NULL)
+void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY Selection = nullptr)
 {
 	TCString Message;
 	HWND hwndDlg = g_SetAwayMsgPage.GetWnd();
@@ -466,8 +466,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 	static HWND hWndTooltips;
 	static int UpdateLock = 0;
 	static int Countdown;
-	static CMsgTree *MsgTree = NULL;
-	static CCList *CList = NULL;
+	static CMsgTree *MsgTree = nullptr;
+	static CCList *CList = nullptr;
 
 	NMCLIST nm;
 
@@ -534,7 +534,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					DlgPosX = rcWorkArea.left;
 					DlgPosY = rcWorkArea.top;
 				}
-				SetWindowPos(hwndDlg, NULL, DlgPosX, DlgPosY, DlgSizeX, DlgSizeY, SWP_NOZORDER);
+				SetWindowPos(hwndDlg, nullptr, DlgPosX, DlgPosY, DlgSizeX, DlgSizeY, SWP_NOZORDER);
 				g_MsgSplitterX = MsgSplitterX;
 				g_ContactSplitterX = ContactSplitterX;
 			}
@@ -545,7 +545,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			// Attention: it's important to call NEW and DELETE in a proper order, as CMsgTree and CCList are setting their own WNDPROCs for the parent window, so we must prevent WNDPROC conflicts.
 			MsgTree = new CMsgTree(GetDlgItem(hwndDlg, IDC_SAWAYMSG_TREE));
-			CList = NULL;
+			CList = nullptr;
 			if (g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWCONTACTTREE))
 				SendMessage(hwndDlg, UM_SAM_INITCLIST, 0, 0);
 			else {
@@ -591,7 +591,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				SetDlgItemText(hwndDlg, IDC_OK, TranslateT("OK"));
 			else {
 				SendMessage(hwndDlg, WM_TIMER, SAM_TIMER_ID, NULL);
-				SetTimer(hwndDlg, SAM_TIMER_ID, 1000, NULL);
+				SetTimer(hwndDlg, SAM_TIMER_ID, 1000, nullptr);
 			}
 
 			// init image buttons
@@ -759,7 +759,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					if (nNewContacts == 1) {
 						WindowTitle += TCString(TranslateT("\" ("));
 						MCONTACT hContact = NULL;
-						char *szProto = NULL;
+						char *szProto = nullptr;
 						if (CList) {
 							for (int i = 0; i < pnm->NewSelection->GetSize(); i++) {
 								HTREEITEM hItem = (*pnm->NewSelection)[i];
@@ -908,7 +908,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 	case UM_SAM_APPLYANDCLOSE:
 		KillTimer(hwndDlg, SAM_TIMER_ID);
 		if (CList)
-			CList->SelectItem(NULL);
+			CList->SelectItem(nullptr);
 		else {
 			nm.hdr.code = MCLN_SELCHANGED;
 			nm.hdr.hwndFrom = GetDlgItem(hwndDlg, IDC_SAWAYMSG_CONTACTSTREE);
@@ -1071,7 +1071,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					if (!VariablesInstalled)
 						EnableMenuItem(hPopupMenu, IDM_SAM_OPTIONS_DISABLEVARIABLES, MF_BYCOMMAND | MF_GRAYED);
 
-					switch (TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, (short)LOWORD(GetMessagePos()), (short)HIWORD(GetMessagePos()), 0, hwndDlg, NULL)) {
+					switch (TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, (short)LOWORD(GetMessagePos()), (short)HIWORD(GetMessagePos()), 0, hwndDlg, nullptr)) {
 					case IDM_SAM_OPTIONS_SHOWMSGTREE:
 						{
 							int bShow = !g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWMSGTREE);
@@ -1080,7 +1080,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							GetWindowRect(hwndDlg, &rcDlg);
 							rcDlg.left -= bShow ? g_MsgSplitterX : -g_MsgSplitterX;
 							SendMessage(hwndDlg, WM_SIZING, WMSZ_LEFT, (LPARAM)&rcDlg);
-							SetWindowPos(hwndDlg, NULL, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, SWP_NOZORDER);
+							SetWindowPos(hwndDlg, nullptr, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, SWP_NOZORDER);
 							SendMessage(hwndDlg, WM_SIZE, 0, 0); // show/hide dialog controls accordingly
 						}
 						break;
@@ -1101,7 +1101,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							GetWindowRect(hwndDlg, &rcDlg);
 							rcDlg.right += bShow ? g_ContactSplitterX : -g_ContactSplitterX;
 							SendMessage(hwndDlg, WM_SIZING, WMSZ_RIGHT, (LPARAM)&rcDlg);
-							SetWindowPos(hwndDlg, NULL, 0, 0, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, SWP_NOZORDER | SWP_NOMOVE);
+							SetWindowPos(hwndDlg, nullptr, 0, 0, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, SWP_NOZORDER | SWP_NOMOVE);
 							SendMessage(hwndDlg, WM_SIZE, 0, 0); // show/hide dialog controls accordingly
 						}
 						break;
@@ -1309,20 +1309,20 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(hTreeView, &pt);
 				CList->HitTest(&pt, &hitFlags);
-				HCURSOR hCursor = NULL;
+				HCURSOR hCursor = nullptr;
 				if (hitFlags & (MCLCHT_ONITEM | MCLCHT_ONITEMEXTRA)) {
 					SetClassLong(hTreeView, GCLP_HCURSOR, NULL);
-					hCursor = LoadCursor(NULL, IDC_HAND); // set mouse cursor to a hand when hovering over items or their extra images
+					hCursor = LoadCursor(nullptr, IDC_HAND); // set mouse cursor to a hand when hovering over items or their extra images
 				}
-				else SetClassLongPtr(hTreeView, GCLP_HCURSOR, (LONG_PTR)LoadCursor(NULL, IDC_ARROW));
+				else SetClassLongPtr(hTreeView, GCLP_HCURSOR, (LONG_PTR)LoadCursor(nullptr, IDC_ARROW));
 
 				if (!hCursor)
-					hCursor = LoadCursor(NULL, IDC_ARROW);
+					hCursor = LoadCursor(nullptr, IDC_ARROW);
 
 				SetCursor(hCursor);
 				return true;
 			}
-			else SetClassLongPtr(hTreeView, GCLP_HCURSOR, (LONG_PTR)LoadCursor(NULL, IDC_ARROW));
+			else SetClassLongPtr(hTreeView, GCLP_HCURSOR, (LONG_PTR)LoadCursor(nullptr, IDC_ARROW));
 		}
 		break;
 
@@ -1338,11 +1338,11 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		delete dat;
 		if (CList) {
 			delete CList;
-			CList = NULL;
+			CList = nullptr;
 		}
 		delete MsgTree;
-		MsgTree = NULL;
-		g_SetAwayMsgPage.SetWnd(NULL);
+		MsgTree = nullptr;
+		g_SetAwayMsgPage.SetWnd(nullptr);
 		DestroyWindow(hWndTooltips);
 		return false;
 	}

@@ -870,7 +870,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			else if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_CUSTOM)) {
 				wchar_t szDelay[4];
 				GetDlgItemText(hDlg, EDIT_DELAY, szDelay, _countof(szDelay));
-				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, (BYTE)wcstol(szDelay, NULL, 10));
+				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, (BYTE)wcstol(szDelay, nullptr, 10));
 			}
 			else
 				db_unset(NULL, MODNAME, SET_POPUP_DELAY);

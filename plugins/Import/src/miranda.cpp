@@ -46,7 +46,7 @@ static void SearchForLists(HWND hwndDlg, const wchar_t *mirandaPath, const wchar
 			continue;
 
 		// skip the current profile too
-		if (mirandaProf != NULL && !mir_wstrcmpi(mirandaProf, fd.cFileName))
+		if (mirandaProf != nullptr && !mir_wstrcmpi(mirandaProf, fd.cFileName))
 			continue;
 
 		wchar_t buf[MAX_PATH], profile[MAX_PATH];
@@ -77,9 +77,9 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg, UINT message, WPARAM wParam, LPAR
 			VARSW pfn(L"%miranda_profilename%");
 
 			SearchForLists(hwndDlg, pfd2, pfn);
-			SearchForLists(hwndDlg, pfd1, NULL);
+			SearchForLists(hwndDlg, pfd1, nullptr);
 			if (mir_wstrcmpi(pfd, pfd2))
-				SearchForLists(hwndDlg, pfd, NULL);
+				SearchForLists(hwndDlg, pfd, nullptr);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, 0, 0);
 		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_LIST, LBN_SELCHANGE), 0);
@@ -222,7 +222,7 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			dwSinceDate = db_get_dw(NULL, IMPORT_MODULE, "ImportSinceTS", time(NULL));
+			dwSinceDate = db_get_dw(NULL, IMPORT_MODULE, "ImportSinceTS", time(nullptr));
 			struct tm *TM = localtime(&dwSinceDate);
 
 			struct _SYSTEMTIME ST = { 0 };

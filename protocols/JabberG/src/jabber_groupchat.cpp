@@ -277,8 +277,8 @@ static int sttRoomListAppend(HWND hwndList, RoomInfo::Overlay overlay, const wch
 {
 	RoomInfo *info = (RoomInfo *)mir_alloc(sizeof(RoomInfo));
 	info->overlay = overlay;
-	info->line1 = line1 ? mir_wstrdup(line1) : 0;
-	info->line2 = line2 ? mir_wstrdup(line2) : 0;
+	info->line1 = line1 ? mir_wstrdup(line1) : nullptr;
+	info->line2 = line2 ? mir_wstrdup(line2) : nullptr;
 
 	int id = SendMessage(hwndList, CB_ADDSTRING, 0, (LPARAM)name);
 	SendMessage(hwndList, CB_SETITEMDATA, id, (LPARAM)info);
@@ -650,7 +650,7 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				LISTFOREACH(i, m_proto, LIST_BOOKMARK)
 				{
-					JABBER_LIST_ITEM *item = 0;
+					JABBER_LIST_ITEM *item = nullptr;
 					if (item = m_proto->ListGetItemPtrFromIndex(i))
 						if (!mir_wstrcmp(item->type, L"conference"))
 							AppendMenu(hMenu, MF_STRING, (UINT_PTR)item, item->name);
@@ -800,7 +800,7 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const wchar_t *
 	GCEVENT gce = { m_szModuleName, item->jid, GC_EVENT_NICK };
 	if (jid != nullptr)
 		gce.ptszUserInfo = jid;
-	gce.time = time(0);
+	gce.time = time(nullptr);
 	gce.ptszNick = oldNick;
 	gce.ptszUID = newNick;
 	gce.ptszText = newNick;
@@ -946,7 +946,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 	// leaving room
 	else if (!mir_wstrcmp(type, L"unavailable")) {
-		const wchar_t *str = 0;
+		const wchar_t *str = nullptr;
 		if (xNode != nullptr && item->nick != nullptr) {
 			HXML reasonNode = XmlGetChild(itemNode, "reason");
 			str = XmlGetAttrValue(itemNode, L"jid");

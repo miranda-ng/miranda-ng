@@ -159,9 +159,9 @@ Packet& Packet::operator >> (char *&in)
 	unsigned short s;
 
 	operator >> (s);
-	if (nextData + s > buff + sizeVal) in = 0;
+	if (nextData + s > buff + sizeVal) in = nullptr;
 	else {
-		if (in == NULL) in = new char[s];
+		if (in == nullptr) in = new char[s];
 		memcpy(in, nextData, s);
 		nextData += s;
 	}

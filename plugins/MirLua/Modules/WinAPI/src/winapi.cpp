@@ -28,7 +28,7 @@ static int lua_ShellExecute(lua_State *L)
 	ptrW args(mir_utf8decodeW(lua_tostring(L, 3)));
 	int flags = lua_tointeger(L, 4);
 
-	::ShellExecute(NULL, command, file, args, NULL, flags);
+	::ShellExecute(nullptr, command, file, args, nullptr, flags);
 
 	return 0;
 }
@@ -41,7 +41,7 @@ static int lua_FindIterator(lua_State *L)
 	wchar_t* path = (wchar_t*)lua_touserdata(L, lua_upvalueindex(2));
 
 	WIN32_FIND_DATA ffd = { 0 };
-	if (hFind == NULL)
+	if (hFind == nullptr)
 	{
 		hFind = FindFirstFile(path, &ffd);
 		if (hFind == INVALID_HANDLE_VALUE)
@@ -100,7 +100,7 @@ static int lua_Find(lua_State *L)
 {
 	wchar_t *path = mir_utf8decodeW(luaL_checkstring(L, 1));
 
-	lua_pushlightuserdata(L, NULL);
+	lua_pushlightuserdata(L, nullptr);
 	lua_pushlightuserdata(L, path);
 	lua_pushcclosure(L, lua_FindIterator, 2);
 
@@ -168,7 +168,7 @@ static int lua_DeleteIniValue(lua_State *L)
 	ptrW section(mir_utf8decodeW(luaL_checkstring(L, 2)));
 	ptrW key(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
-	bool res = ::WritePrivateProfileString(section, key, NULL, path) != 0;
+	bool res = ::WritePrivateProfileString(section, key, nullptr, path) != 0;
 	lua_pushboolean(L, res);
 
 	return 1;
@@ -182,7 +182,7 @@ static int lua_GetRegValue(lua_State *L)
 	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 2)));
 	ptrW valueName(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
-	HKEY hKey = 0;
+	HKEY hKey = nullptr;
 	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_READ, &hKey);
 	if (res != ERROR_SUCCESS)
 	{
@@ -193,12 +193,12 @@ static int lua_GetRegValue(lua_State *L)
 	DWORD type = 0;
 	DWORD length = 1024;
 	BYTE* value = (BYTE*)mir_alloc(length);
-	res = ::RegQueryValueEx(hKey, valueName, NULL, &type, (LPBYTE)value, &length);
+	res = ::RegQueryValueEx(hKey, valueName, nullptr, &type, (LPBYTE)value, &length);
 	while (res == ERROR_MORE_DATA)
 	{
 		length += length;
 		value = (BYTE*)mir_realloc(value, length);
-		res = ::RegQueryValueEx(hKey, valueName, NULL, &type, (LPBYTE)value, &length);
+		res = ::RegQueryValueEx(hKey, valueName, nullptr, &type, (LPBYTE)value, &length);
 	}
 
 	if (res == ERROR_SUCCESS)
@@ -243,7 +243,7 @@ static int lua_SetRegValue(lua_State *L)
 	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 2)));
 	ptrW valueName(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
-	HKEY hKey = 0;
+	HKEY hKey = nullptr;
 	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_WRITE, &hKey);
 	if (res != ERROR_SUCCESS)
 	{
@@ -253,7 +253,7 @@ static int lua_SetRegValue(lua_State *L)
 
 	DWORD type = 0;
 	DWORD length = 0;
-	BYTE* value = NULL;
+	BYTE* value = nullptr;
 	switch (lua_type(L, 4))
 	{
 	case LUA_TNUMBER:
@@ -299,7 +299,7 @@ static int lua_DeleteRegValue(lua_State *L)
 	ptrW path(mir_utf8decodeW(luaL_checkstring(L, 2)));
 	ptrW valueName(mir_utf8decodeW(luaL_checkstring(L, 3)));
 
-	HKEY hKey = 0;
+	HKEY hKey = nullptr;
 	LSTATUS res = ::RegOpenKeyEx(hRootKey, path, NULL, KEY_WRITE, &hKey);
 	if (res != ERROR_SUCCESS)
 	{
@@ -321,7 +321,7 @@ static int global_FindWindow(lua_State *L)
 {
 	const char *cname = luaL_checkstring(L, 1);
 	const char *wname = luaL_checkstring(L, 2);
-	lua_pushnumber(L, (intptr_t)FindWindowA(cname[0] ? cname : NULL, wname[0] ? wname : NULL));
+	lua_pushnumber(L, (intptr_t)FindWindowA(cname[0] ? cname : nullptr, wname[0] ? wname : nullptr));
 	return(1);
 }
 
@@ -333,8 +333,8 @@ static int global_FindWindowEx(lua_State *L)
 	const char *wname = luaL_checkstring(L, 4);
 
 	long lrc = (long)FindWindowExA(parent, childaft,
-		cname[0] ? cname : NULL,
-		wname[0] ? wname : NULL);
+		cname[0] ? cname : nullptr,
+		wname[0] ? wname : nullptr);
 
 	lua_pushnumber(L, lrc);
 
@@ -575,7 +575,7 @@ static int global_CreateEvent(lua_State *L)
 	const char *name;
 
 	sa.nLength = sizeof(sa);
-	sa.lpSecurityDescriptor = NULL;
+	sa.lpSecurityDescriptor = nullptr;
 	sa.bInheritHandle = FALSE;
 
 	if (lua_istable(L, 1)) {
@@ -635,7 +635,7 @@ static int global_CreateMutex(lua_State *L)
 	const char *name;
 
 	sa.nLength = sizeof(sa);
-	sa.lpSecurityDescriptor = NULL;
+	sa.lpSecurityDescriptor = nullptr;
 	sa.bInheritHandle = FALSE;
 
 	if (lua_istable(L, 1)) {
@@ -676,7 +676,7 @@ static int global_CreateSemaphore(lua_State *L)
 	const char *name;
 
 	sa.nLength = sizeof(sa);
-	sa.lpSecurityDescriptor = NULL;
+	sa.lpSecurityDescriptor = nullptr;
 	sa.bInheritHandle = FALSE;
 
 	if (lua_istable(L, 1)) {
@@ -732,7 +732,7 @@ static int global_CreateProcess(lua_State *L)
 	const char *cd = lua_tostring(L, 8);
 
 	psa.nLength = sizeof(psa);
-	psa.lpSecurityDescriptor = NULL;
+	psa.lpSecurityDescriptor = nullptr;
 	psa.bInheritHandle = FALSE;
 	if (lua_istable(L, 3)) {
 		lua_pushstring(L, "bInheritHandle");
@@ -743,7 +743,7 @@ static int global_CreateProcess(lua_State *L)
 	}
 
 	tsa.nLength = sizeof(tsa);
-	tsa.lpSecurityDescriptor = NULL;
+	tsa.lpSecurityDescriptor = nullptr;
 	tsa.bInheritHandle = FALSE;
 	if (lua_istable(L, 4)) {
 		lua_pushstring(L, "bInheritHandle");
@@ -753,7 +753,7 @@ static int global_CreateProcess(lua_State *L)
 		lua_pop(L, 4);
 	}
 
-	env = NULL;
+	env = nullptr;
 
 	memset(&si, 0, sizeof(si));
 	si.cb = sizeof(si);
@@ -813,9 +813,9 @@ static int global_CreateProcess(lua_State *L)
 
 	brc = CreateProcessA(an, (char *)cl, &psa, &tsa, ih, cf, env, cd, &si, &pi);
 
-	if (si.lpDesktop != NULL)
+	if (si.lpDesktop != nullptr)
 		mir_free(si.lpDesktop);
-	if (si.lpTitle != NULL)
+	if (si.lpTitle != nullptr)
 		mir_free(si.lpTitle);
 
 	lua_pushnumber(L, brc);
@@ -900,7 +900,7 @@ static int global_CreateNamedPipe(lua_State *L)
 	DWORD nOutBufferSize = luaL_checknumber(L, 5);
 	DWORD nInBufferSize = luaL_checknumber(L, 6);
 	DWORD nDefaultTimeOut = luaL_checknumber(L, 7);
-	SECURITY_ATTRIBUTES sa = { sizeof(sa), NULL, false };
+	SECURITY_ATTRIBUTES sa = { sizeof(sa), nullptr, false };
 
 	HANDLE hPipe = CreateNamedPipeA(lpName, dwOpenMode, dwPipeMode, nMaxInstances, nOutBufferSize, nInBufferSize, nDefaultTimeOut, &sa);
 	lua_pushnumber(L, (intptr_t)hPipe);
@@ -941,7 +941,7 @@ static int global_CreateFile(lua_State *L)
 	intptr_t th = 0;
 
 	sa.nLength = sizeof(sa);
-	sa.lpSecurityDescriptor = NULL;
+	sa.lpSecurityDescriptor = nullptr;
 	sa.bInheritHandle = FALSE;
 	if (lua_istable(L, 4)) {
 		lua_pushstring(L, "bInheritHandle");
@@ -983,9 +983,9 @@ static int global_ReadFile(lua_State *L) {
 	DWORD btoread = (DWORD)luaL_checknumber(L, 2);
 
 	buf = (char*)mir_alloc(btoread);
-	if (buf != NULL) 
+	if (buf != nullptr) 
 	{
-		brc = ReadFile(h, buf, btoread, &bread, NULL);
+		brc = ReadFile(h, buf, btoread, &bread, nullptr);
 		lua_pushboolean(L, TRUE);
 		lua_pushlstring(L, buf, bread);
 		mir_free(buf);
@@ -1022,7 +1022,7 @@ static int global_WriteFile(lua_State *L) {
 	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	const char *buf = luaL_checklstring(L, 2, (size_t*)&btowrite);
 
-	brc = WriteFile(h, buf, btowrite, &bwrite, NULL);
+	brc = WriteFile(h, buf, btowrite, &bwrite, nullptr);
 	lua_pushboolean(L, brc);
 	luaM_PushNumberIf(L, bwrite, brc);
 	return(2);
@@ -1128,7 +1128,7 @@ static int global_RegQueryValueEx(lua_State *L)
 	rv = RegOpenKeyExA(hkey, subkey, 0, KEY_QUERY_VALUE, &hsk);
 	if (rv == ERROR_SUCCESS) {
 		len = sizeof(dwdata);
-		rv = RegQueryValueExA(hsk, valuename, NULL, &type, (LPBYTE)&dwdata, &len);
+		rv = RegQueryValueExA(hsk, valuename, nullptr, &type, (LPBYTE)&dwdata, &len);
 		if ((rv == ERROR_SUCCESS) || (rv == ERROR_MORE_DATA)) {
 			switch (type) {
 			case REG_DWORD_BIG_ENDIAN:
@@ -1141,11 +1141,11 @@ static int global_RegQueryValueEx(lua_State *L)
 			case REG_SZ:
 				if (rv == ERROR_MORE_DATA) {
 					szdata = (char*)mir_alloc(len);
-					if (szdata == NULL) {
+					if (szdata == nullptr) {
 						lua_pushnil(L);
 					}
 					else {
-						rv = RegQueryValueExA(hsk, valuename, NULL, &type, (LPBYTE)szdata, &len);
+						rv = RegQueryValueExA(hsk, valuename, nullptr, &type, (LPBYTE)szdata, &len);
 						if (rv == ERROR_SUCCESS)
 							lua_pushlstring(L, szdata, mir_strlen(szdata));
 						else
@@ -1176,7 +1176,7 @@ static int global_RegSetValueEx(lua_State *L) {
 	DWORD type;
 	DWORD dwdata;
 	DWORD len = 0;
-	char *szdata = NULL;
+	char *szdata = nullptr;
 	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
 	const char *valuename = luaL_checkstring(L, 3);
@@ -1190,9 +1190,9 @@ static int global_RegSetValueEx(lua_State *L) {
 		type = (DWORD)luaL_optnumber(L, 5, REG_SZ);
 	}
 
-	rv = RegCreateKeyExA(hkey, subkey, 0, "", REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hsk, NULL);
+	rv = RegCreateKeyExA(hkey, subkey, 0, "", REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hsk, nullptr);
 	if (rv == ERROR_SUCCESS) {
-		if (szdata == NULL)
+		if (szdata == nullptr)
 			rv = RegSetValueExA(hsk, valuename, 0, type, (CONST BYTE *) &dwdata, sizeof(dwdata));
 		else
 			rv = RegSetValueExA(hsk, valuename, 0, type, (CONST BYTE *) szdata, len + 1);
@@ -1251,7 +1251,7 @@ static int global_RegEnumKeyEx(lua_State *L)
 		{
 			len = sizeof(name);
 			if (RegEnumKeyExA(hsk, index, name, &len,
-				NULL, NULL, NULL, &ft) != ERROR_SUCCESS)
+				nullptr, nullptr, nullptr, &ft) != ERROR_SUCCESS)
 				break;
 			lua_pushnumber(L, index + 1);
 			lua_pushstring(L, name);
@@ -1282,7 +1282,7 @@ static int global_RegEnumValue(lua_State *L) {
 		{
 			len = sizeof(name);
 			if (RegEnumValueA(hsk, index, name, &len,
-				NULL, NULL, NULL, NULL) != ERROR_SUCCESS)
+				nullptr, nullptr, nullptr, nullptr) != ERROR_SUCCESS)
 				break;
 			lua_pushnumber(L, index + 1);
 			lua_pushstring(L, name);
@@ -1402,7 +1402,7 @@ static int global_FindFirstFile(lua_State *L)
 	const char *fname = luaL_checkstring(L, 1);
 
 	hfd = FindFirstFileA(fname, &wfd);
-	if (hfd == NULL) {
+	if (hfd == nullptr) {
 		lua_pushnumber(L, 0);
 		lua_pushnil(L);
 	}
@@ -1509,7 +1509,7 @@ static int global_IsUserAdmin(lua_State *L)
 		&AdministratorsGroup);
 	if (b) 
 	{
-		if (!CheckTokenMembership(NULL, AdministratorsGroup, &b))
+		if (!CheckTokenMembership(nullptr, AdministratorsGroup, &b))
 			b = FALSE;
 		FreeSid(AdministratorsGroup);
 	}
@@ -1525,7 +1525,7 @@ static int global_OpenProcess(lua_State *L) {
 	DWORD pid = (DWORD)luaL_checknumber(L, 3);
 
 	h = OpenProcess(da, ih, pid);
-	if (h != NULL)
+	if (h != nullptr)
 		lua_pushnumber(L, (long)h);
 	else
 		lua_pushnil(L);
@@ -1539,7 +1539,7 @@ static int global_IsRunning(lua_State *L) {
 	DWORD pid = (DWORD)luaL_checknumber(L, 1);
 
 	h = OpenProcess(SYNCHRONIZE, FALSE, pid);
-	if (h != NULL) {
+	if (h != nullptr) {
 		b = TRUE;
 		CloseHandle(h);
 	}
@@ -1562,7 +1562,7 @@ static int global_GetWindowThreadProcessId(lua_State *L)
 
 static int global_OpenSCManager(lua_State *L) 
 {
-	lua_pushnumber(L, (intptr_t)OpenSCManager(NULL, NULL, SC_MANAGER_ALL_ACCESS));
+	lua_pushnumber(L, (intptr_t)OpenSCManager(nullptr, nullptr, SC_MANAGER_ALL_ACCESS));
 	return 1;
 }
 
@@ -1657,7 +1657,7 @@ static int global_DeleteService(lua_State *L)
 static int global_StartService(lua_State *L) 
 {
 	SC_HANDLE h = (SC_HANDLE)(intptr_t)luaL_checknumber(L, 1);
-	lua_pushboolean(L, StartService(h, 0, NULL));
+	lua_pushboolean(L, StartService(h, 0, nullptr));
 
 	return 1;
 }
@@ -1665,7 +1665,7 @@ static int global_StartService(lua_State *L)
 static int global_mciSendString(lua_State *L) 
 {
 	const char *cmd = luaL_checkstring(L, 1);  // only one string parameter is used
-	DWORD lrc = mciSendStringA(cmd, NULL, 0, NULL);
+	DWORD lrc = mciSendStringA(cmd, nullptr, 0, nullptr);
 	lua_pushnumber(L, lrc);
 	return(1);
 }
@@ -1686,7 +1686,7 @@ static int global_Beep(lua_State *L)
 
 static int global_CoInitialize(lua_State *L) 
 {
-	HRESULT lrc = CoInitialize(NULL);
+	HRESULT lrc = CoInitialize(nullptr);
 	lua_pushinteger(L, lrc);
 	return(1);
 }
@@ -1884,7 +1884,7 @@ static luaM_consts consts[] =
 	{ "MB_OK", MB_OK },
 
 	{ "BM_CLICK", BM_CLICK },
-	{ NULL, 0 }
+	{ nullptr, 0 }
 };
 
 /***********************************************/
@@ -1984,14 +1984,14 @@ static luaL_Reg winApi[] =
 	{ "GetCurrentProcessId", global_GetCurrentProcessId },
 	{ "GetOpenFileName", global_GetOpenFileName },
 	
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUA_WINAPI_LIB luaopen_winapi(lua_State *L)
 {
 	luaL_newlib(L, winApi);
 	
-	for (size_t i = 0; consts[i].name != NULL; i++)
+	for (size_t i = 0; consts[i].name != nullptr; i++)
 	{
 		lua_pushstring(L, consts[i].name);
 		lua_pushnumber(L, consts[i].value);

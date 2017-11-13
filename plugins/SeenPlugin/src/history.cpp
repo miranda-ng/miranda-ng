@@ -104,7 +104,7 @@ HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	POINT pt;
 	RECT rcinit;
 
-	if (NULL == hwndDlg) /* Wine fix. */
+	if (nullptr == hwndDlg) /* Wine fix. */
 		return hDwp;
 	// get current bounding rectangle
 	GetWindowRect(hwndControl, &rcinit);
@@ -115,7 +115,7 @@ HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	ScreenToClient(hwndDlg, &pt);
 
 	// resize control
-	return DeferWindowPos(hDwp, hwndControl, NULL,
+	return DeferWindowPos(hDwp, hwndControl, nullptr,
 		pt.x + nHorizontalOffset,
 		pt.y + nVerticalOffset,
 		rcinit.right - rcinit.left + nWidthOffset,
@@ -132,7 +132,7 @@ HDWP MyHorizCenterWindow(HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	POINT pt;
 	RECT rcinit;
 
-	if (NULL == hwndDlg) /* Wine fix. */
+	if (nullptr == hwndDlg) /* Wine fix. */
 		return hDwp;
 	// get current bounding rectangle
 	GetWindowRect(hwndControl, &rcinit);
@@ -143,7 +143,7 @@ HDWP MyHorizCenterWindow(HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	ScreenToClient(hwndDlg, &pt);
 
 	// resize control
-	return DeferWindowPos(hDwp, hwndControl, NULL,
+	return DeferWindowPos(hDwp, hwndControl, nullptr,
 		(int)((nClientWidth - (rcinit.right - rcinit.left)) / 2),
 		pt.y + nVerticalOffset,
 		rcinit.right - rcinit.left,
@@ -223,7 +223,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 				RECT rc;
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rc);
 				HMENU hMenu = Menu_BuildContactMenu(hContact);
-				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
+				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, nullptr);
 				DestroyMenu(hMenu);
 			}
 			break;
@@ -285,8 +285,8 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 void ShowHistory(MCONTACT hContact, BYTE isAlert)
 {
 	HWND hHistoryDlg = WindowList_Find(hWindowList, hContact);
-	if (hHistoryDlg == NULL) {
-		hHistoryDlg = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_HISTORY), NULL, HistoryDlgProc, hContact);
+	if (hHistoryDlg == nullptr) {
+		hHistoryDlg = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryDlgProc, hContact);
 		LoadHistoryList(hContact, hHistoryDlg, IDC_HISTORYLIST);
 		WindowList_Add(hWindowList, hHistoryDlg, hContact);
 	}

@@ -98,7 +98,7 @@ COptItem *COptPage::Find(int m_dlgItemID)
 			return Items[i];
 
 	_ASSERT(0);
-	return 0;
+	return nullptr;
 }
 
 COptPage& COptPage::operator = (const COptPage& Page)
@@ -282,7 +282,7 @@ int TreeReadEnum(const char *szSetting, LPARAM lParam)
 			pItem.ID = ID;
 			pItem.ParentID = ParentID;
 			pItem.Flags = Flags;
-			pItem.hItem = NULL;
+			pItem.hItem = nullptr;
 			pItem.Title = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, L"");
 			pItem.User_Str1 = (pData->TreeCtrl->User_Str1_DBName == NULL) ? NULL :
 				db_get_s(NULL, pData->sModule,
@@ -372,7 +372,7 @@ void COptItem_TreeCtrl::MemToWnd(HWND hWnd)
 		SetWindowLongPtr(hTreeView, GWL_STYLE, Style | TVS_CHECKBOXES);
 	}
 
-	TVINSERTSTRUCT tvIn = { 0 };
+	TVINSERTSTRUCT tvIn = {};
 	int ScrollPos = GetScrollPos(hTreeView, SB_VERT);
 	int SelectOrder = IDToOrder(GetSelectedItemID(hWnd));
 	SendMessage(hTreeView, WM_SETREDRAW, false, 0);
@@ -524,7 +524,7 @@ CTreeItem* COptItem_TreeCtrl::InsertItem(HWND hWnd, CTreeItem &Item)
 	TVITEM tvi;
 	int SelOrder = -1;
 	Item.ParentID = RootItems[0].ID;
-	TVINSERTSTRUCT tvIn = { 0 };
+	TVINSERTSTRUCT tvIn = {};
 	tvIn.hParent = RootItems[0].hItem;
 	tvIn.hInsertAfter = TVI_FIRST;
 	if (tvi.hItem = TreeView_GetSelection(hTreeView)) {

@@ -134,7 +134,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 			const char* saveProto = szProto; szProto = "CList";
 			if (hContact != 0 && !ProcessDatabaseValueDefault(hContact, szProto, "MyHandle")) {
 				szProto = saveProto;
-				return 0;
+				return nullptr;
 			}
 			szProto = saveProto;
 		}
@@ -270,7 +270,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 		return ProcessDatabaseValueDefault(hContact, "UserInfo", "MyNotes");
 
 	case CNF_TIMEZONE:
-		HANDLE hTz = TimeZone_CreateByContact(hContact, 0, TZF_KNOWNONLY);
+		HANDLE hTz = TimeZone_CreateByContact(hContact, nullptr, TZF_KNOWNONLY);
 		if (hTz) {
 			LPTIME_ZONE_INFORMATION tzi = TimeZone_GetInfo(hTz);
 			int offset = tzi->Bias + tzi->StandardBias;

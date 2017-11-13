@@ -172,7 +172,7 @@ static int InternalGetDIB(HBITMAP bitmap, HPALETTE palette, void *bitmapInfo, vo
 {
 	if (InitializeBitmapInfoHeader(bitmap, (BITMAPINFOHEADER*)bitmapInfo)) return 1; // Failure
 
-	HDC DC = CreateCompatibleDC(0);
+	HDC DC = CreateCompatibleDC(nullptr);
 	HPALETTE oldPal;
 	if (palette) {
 		oldPal = SelectPalette(DC, palette, FALSE);
@@ -246,8 +246,8 @@ int IconSourceItem::getIconData(HICON hIcon)
 		ColorInfo((BYTE*)mir_calloc(ColorInfoSize)),
 		ColorBits((BYTE*)mir_calloc(ColorBitsSize));
 
-	if (InternalGetDIB(iconInfo.hbmMask, 0, MonoInfo, MonoBits)
-		|| InternalGetDIB(iconInfo.hbmColor, 0, ColorInfo, ColorBits)) {
+	if (InternalGetDIB(iconInfo.hbmMask, nullptr, MonoInfo, MonoBits)
+		|| InternalGetDIB(iconInfo.hbmColor, nullptr, ColorInfo, ColorBits)) {
 		DeleteObject(iconInfo.hbmColor);
 		DeleteObject(iconInfo.hbmMask);
 		return 1; // Failure
@@ -415,7 +415,7 @@ static void IcoLib_RemoveSection(SectionItem *section)
 IcolibItem* IcoLib_FindIcon(const char *pszIconName)
 {
 	int indx = iconList.getIndex((IcolibItem*)&pszIconName);
-	return (indx != -1) ? iconList[indx] : 0;
+	return (indx != -1) ? iconList[indx] : nullptr;
 }
 
 IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)

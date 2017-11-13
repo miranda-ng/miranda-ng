@@ -58,7 +58,7 @@ int GenericJob::openFileDialog()
 	mir_snwprintf(temp, L"%s\0*.*\0", TranslateT("All Files (*.*)"));
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = 0;
+	ofn.hwndOwner = nullptr;
 	ofn.lpstrFilter = temp;
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = m_tszFilePath;
@@ -70,11 +70,11 @@ int GenericJob::openFileDialog()
 
 int GenericJob::openFolderDialog()
 {
-	BROWSEINFO bi = { 0 };
+	BROWSEINFO bi = {};
 	bi.lpszTitle = TranslateT("FTP File - Select a folder");
 	bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_NONEWFOLDERBUTTON | BIF_DONTGOBELOWDOMAIN;
 	LPITEMIDLIST pidl = SHBrowseForFolder(&bi);
-	if (pidl != 0) {
+	if (pidl != nullptr) {
 		SHGetPathFromIDList(pidl, m_tszFilePath);
 		CoTaskMemFree(pidl);
 		return 1;

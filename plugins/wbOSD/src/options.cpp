@@ -11,14 +11,14 @@ Distributed under GNU's GPL 2 or later
 
 COLORREF pencustcolors[16];
 
-const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), 0, 0 };
+const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), nullptr, 0 };
 
 void FillCheckBoxTree(HWND hwndTree, DWORD style)
 {
 	logmsg("FillCheckBoxTree");
 
-	TVINSERTSTRUCT tvis = { 0 };
-	tvis.hParent = NULL;
+	TVINSERTSTRUCT tvis = {};
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (WORD status = ID_STATUS_OFFLINE; status <= ID_STATUS_OUTTOLUNCH; status++) {
@@ -226,7 +226,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		ps[1] = ps[0];
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)ps);
 		SetWindowLongPtr(g_hWnd, GWL_STYLE, WS_POPUP | WS_SIZEBOX);
-		SetWindowPos(g_hWnd, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+		SetWindowPos(g_hWnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 
 		SetWindowLongPtr(GetDlgItem(hDlg, IDC_TREE1), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hDlg, IDC_TREE1), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hDlg, IDC_TREE2), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hDlg, IDC_TREE1), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
@@ -277,9 +277,9 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		saveDBSettings(&ps[0]);
 
 		SetWindowLongPtr(g_hWnd, GWL_STYLE, WS_POPUP);
-		SetWindowPos(g_hWnd, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_FRAMECHANGED);
+		SetWindowPos(g_hWnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_FRAMECHANGED);
 
-		SetWindowPos(g_hWnd, 0, ps->winxpos, ps->winypos, ps->winx, ps->winy, SWP_NOZORDER | SWP_NOACTIVATE);
+		SetWindowPos(g_hWnd, nullptr, ps->winxpos, ps->winypos, ps->winx, ps->winy, SWP_NOZORDER | SWP_NOACTIVATE);
 		SetLayeredWindowAttributes(g_hWnd, ps->bkclr, ps->alpha, (ps->transparent ? LWA_COLORKEY : 0) | LWA_ALPHA);
 
 		free((void*)GetWindowLongPtr(hDlg, GWLP_USERDATA));
@@ -318,10 +318,10 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		case IDC_CHECK2:
 			ps->showMsgWindow = IsDlgButtonChecked(hDlg, IDC_CHECK2);
 		case IDC_EDIT1:
-			ps->distance = GetDlgItemInt(hDlg, IDC_EDIT1, 0, 0);
+			ps->distance = GetDlgItemInt(hDlg, IDC_EDIT1, nullptr, 0);
 			break;
 		case IDC_EDIT5:
-			ps->timeout = GetDlgItemInt(hDlg, IDC_EDIT5, 0, 0);
+			ps->timeout = GetDlgItemInt(hDlg, IDC_EDIT5, nullptr, 0);
 			break;
 		case IDC_CHECK3:
 			ps->transparent = IsDlgButtonChecked(hDlg, IDC_CHECK3);
@@ -362,12 +362,12 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		}
 xxx:
 		saveDBSettings(ps);
-		SetWindowPos(g_hWnd, 0, 0, 0, ps->winx, ps->winy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+		SetWindowPos(g_hWnd, nullptr, 0, 0, ps->winx, ps->winy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 		SetLayeredWindowAttributes(g_hWnd, 
 			db_get_dw(NULL, THIS_MODULE, "bkclr", DEFAULT_BKCLR), 
 			db_get_b(NULL, THIS_MODULE, "alpha", DEFAULT_ALPHA), 
 			(db_get_b(NULL, THIS_MODULE, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
-		InvalidateRect(g_hWnd, 0, TRUE);
+		InvalidateRect(g_hWnd, nullptr, TRUE);
 		SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 
 		return 0;
@@ -398,7 +398,7 @@ xxx:
 
 			saveDBSettings(ps);
 			SetLayeredWindowAttributes(g_hWnd, db_get_dw(NULL, THIS_MODULE, "bkclr", DEFAULT_BKCLR), db_get_b(NULL, THIS_MODULE, "alpha", DEFAULT_ALPHA), (db_get_b(NULL, THIS_MODULE, "transparent", DEFAULT_TRANPARENT) ? LWA_COLORKEY : 0) | LWA_ALPHA);
-			InvalidateRect(g_hWnd, 0, TRUE);
+			InvalidateRect(g_hWnd, nullptr, TRUE);
 			break;
 		}
 		break;

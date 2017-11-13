@@ -58,14 +58,14 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 	{
 		wchar_t error[128];
 		mir_snwprintf(error, TranslateT("Password could not be reminded because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
-		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
+		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLogW(L"remindpasswordthread(): Password could not be reminded. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	else
 	{
 		gg_pubdir_free(h);
 		debugLogA("remindpasswordthread(): Password remind successful.");
-		MessageBox(NULL, TranslateT("Password was sent to your e-mail."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, TranslateT("Password was sent to your e-mail."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
 	free(rp);

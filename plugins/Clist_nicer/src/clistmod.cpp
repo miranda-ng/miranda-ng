@@ -40,13 +40,13 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 
 int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON *phIcon)
 {
-	if (phIcon != NULL)
-		*phIcon = NULL;
+	if (phIcon != nullptr)
+		*phIcon = nullptr;
 
 	char *szFinalProto;
 	int finalStatus;
 
-	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO) && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
+	if (szProto != nullptr && !mir_strcmp(szProto, META_PROTO) && hContact != 0 && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		szFinalProto = GetContactProto(hSubContact);
 		finalStatus = (status == 0) ? (WORD)db_get_w(hSubContact, szFinalProto, "Status", ID_STATUS_OFFLINE) : status;
@@ -57,7 +57,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 		finalStatus = status;
 	}
 
-	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE && phIcon != NULL) {
+	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE && phIcon != nullptr) {
 		if (szProto) {
 			char szBuf[128];
 			mir_snprintf(szBuf, "%s_conn", szProto);
@@ -100,9 +100,9 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	POINT pt = { 0 };
 	register int i = 0, j = 0, width = 0, height = 0, iCountedDots = 0, iNotCoveredDots = 0;
 	BOOL bPartiallyCovered = FALSE;
-	HWND hAux = 0;
+	HWND hAux = nullptr;
 
-	if (hWnd == NULL) {
+	if (hWnd == nullptr) {
 		SetLastError(0x00000006); //Wrong handle
 		return -1;
 	}
@@ -111,7 +111,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
 
-	HRGN rgn = 0;
+	HRGN rgn = nullptr;
 	POINT ptOrig;
 	RECT  rcClient;
 	int clip = (int)cfg::dat.bClipBorder;
@@ -153,7 +153,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 		for (j = rc.left + clip; j < rc.right; j += (width / iStepX)) {
 			pt.x = j;
 			hAux = WindowFromPoint(pt);
-			while (GetParent(hAux) != NULL)
+			while (GetParent(hAux) != nullptr)
 				hAux = GetParent(hAux);
 			if (hAux != hWnd && hAux) //There's another window!
 				bPartiallyCovered = TRUE;

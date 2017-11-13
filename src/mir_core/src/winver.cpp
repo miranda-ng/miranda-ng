@@ -90,7 +90,7 @@ MIR_CORE_DLL(BOOL) IsFullScreen()
 MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 {
 	HDESK hDesk = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
-	if (hDesk == NULL)
+	if (hDesk == nullptr)
 		return true;
 
 	wchar_t tszName[100];
@@ -200,7 +200,7 @@ typedef LPCSTR(WINAPI *WGV)(void);
 
 MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 {
-	if (buf == NULL || bufSize == 0)
+	if (buf == nullptr || bufSize == 0)
 		return 0;
 
 	buf[0] = 0;
@@ -263,7 +263,7 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 		DWORD dwType = 0;
 		HMODULE hKernel = GetModuleHandle(L"kernel32.dll");
 		PGPI pGPI = (PGPI)GetProcAddress(hKernel, "GetProductInfo");
-		if (pGPI != NULL)
+		if (pGPI != nullptr)
 			pGPI(osvi.dwMajorVersion, osvi.dwMinorVersion, 0, 0, &dwType);
 
 		switch (dwType) {

@@ -32,10 +32,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CHECKRES(sub) if (sub != S_OK) return S_FALSE;
 
-HINSTANCE g_hInst = 0, g_hMirApp = 0;
+HINSTANCE g_hInst = nullptr, g_hMirApp = nullptr;
 CLIST_INTERFACE *pcli = nullptr;
 CLIST_INTERFACE corecli = { 0 };
-CLUIDATA g_CluiData = { 0 };
+CLUIDATA g_CluiData = {};
 int hLangpack;
 
 static HRESULT SubclassClistInterface();

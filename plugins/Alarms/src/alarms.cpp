@@ -78,7 +78,7 @@ void ShowPopup(MCONTACT hContact, const wchar_t *msg)
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = RGB(0, 0, 0);
 		ppd.PluginWindowProc = PopupDlgProc;
-		ppd.PluginData = 0;
+		ppd.PluginData = nullptr;
 		ppd.iSeconds = 3;
 
 		// Now that every field has been filled, we want to see the popup.
@@ -103,18 +103,18 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 
 	HBRUSH hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
 	FillRect(hdcMem, &rc, hBkgBrush);
-	DrawIconEx(hdcMem, 2, 0, hIcon, 16, 16, 0, NULL, DI_NORMAL);
+	DrawIconEx(hdcMem, 2, 0, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 
 	SelectObject(hdcMem, hoBmp);
 	DeleteDC(hdcMem);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	DeleteObject(hBkgBrush);
 
 	DeleteObject(hIcon);
@@ -124,7 +124,7 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 
 static int InitTopToolbarButton(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
 	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
 	ttb.pszService = MODULE "/NewAlarm";

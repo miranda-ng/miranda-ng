@@ -132,7 +132,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		case WM_USER + 100:
-			CSrmmWindow *dat = 0;
+			CSrmmWindow *dat = nullptr;
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
 			unsigned int iOldIEView = 0;
 			HWND	hWnd = Srmm_FindWindow(hContact);
@@ -182,7 +182,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE)) {
 				if (!M.GetByte(hContact, "isFavorite", 0))
-					AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, 0, 1, PluginConfig.g_hMenuFavorites);
+					AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, nullptr, 1, PluginConfig.g_hMenuFavorites);
 			}
 			else DeleteMenu(PluginConfig.g_hMenuFavorites, hContact, MF_BYCOMMAND);
 

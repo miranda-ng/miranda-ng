@@ -4,8 +4,8 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack = 0;
 
-HNETLIBUSER hNetlibUser = 0;
-HANDLE hFillListEvent = 0;
+HNETLIBUSER hNetlibUser = nullptr;
+HANDLE hFillListEvent = nullptr;
 
 bool use_raw_ping = true;
 
@@ -131,7 +131,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	db_set_b(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0);
-	hWakeEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\ThreadWaitEvent");
+	hWakeEvent = CreateEvent(nullptr, FALSE, FALSE, L"Local\\ThreadWaitEvent");
 
 	// create services before loading options - so we can have the 'getlogfilename' service!
 	CreatePluginServices();

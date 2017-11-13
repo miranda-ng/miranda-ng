@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include <win2k.h>
 
-static const CIrcProto* pZero = NULL;
+static const CIrcProto* pZero = nullptr;
 
 void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 {
@@ -56,7 +56,7 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 				if (p->size != -1)
 					*ptr = 0;
 				else
-					*(char**)ptr = NULL;
+					*(char**)ptr = nullptr;
 			}
 			break;
 		case DBVT_WCHAR:
@@ -71,7 +71,7 @@ void CIrcProto::ReadSettings(TDbSetting* sets, int count)
 			}
 			else {
 				if (p->size != -1) {
-					if (p->defStr == NULL)
+					if (p->defStr == nullptr)
 						*ptr = 0;
 					else
 						mir_wstrncpy((wchar_t*)ptr, p->defStr, (int)p->size);
@@ -213,7 +213,7 @@ HICON LoadIconEx(int iconId, bool big)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 
-	return NULL;
+	return nullptr;
 }
 
 HANDLE GetIconHandle(int iconId)
@@ -222,7 +222,7 @@ HANDLE GetIconHandle(int iconId)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -383,7 +383,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 
 		int iItem = m_owner->m_serverCombo.AddStringA(pData->m_name, (LPARAM)pData);
 		m_owner->m_serverCombo.SetCurSel(iItem);
-		m_owner->OnServerCombo(NULL);
+		m_owner->OnServerCombo(nullptr);
 
 		m_owner->m_serverlistModified = true;
 		Close();
@@ -607,7 +607,7 @@ void CConnectPrefsDlg::OnDeleteServer(CCtrlButton*)
 		if (i >= m_serverCombo.GetCount())
 			i--;
 		m_serverCombo.SetCurSel(i);
-		OnServerCombo(NULL);
+		OnServerCombo(nullptr);
 		SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
 		m_serverlistModified = true;
 	}
@@ -750,7 +750,7 @@ void CConnectPrefsDlg::OnApply()
 		if (j != CB_ERR && j != 0) {
 			for (int index2 = 0; index2 < j; index2++) {
 				pData = (SERVER_INFO*)m_serverCombo.GetItemData(index2);
-				if (pData == NULL || (INT_PTR)pData == CB_ERR)
+				if (pData == nullptr || (INT_PTR)pData == CB_ERR)
 					continue;
 
 				char TextLine[512];
@@ -761,7 +761,7 @@ void CConnectPrefsDlg::OnApply()
 				db_set_s(NULL, SERVERSMODULE, pData->m_name, TextLine);
 
 				// combobox might contain new items
-				if (g_servers.find(pData) == NULL)
+				if (g_servers.find(pData) == nullptr)
 					g_servers.insert(pData);
 			}
 		}
@@ -1036,7 +1036,7 @@ void COtherPrefsDlg::OnInitDialog()
 	}
 
 	m_performCombo.SetCurSel(0);
-	OnPerformCombo(NULL);
+	OnPerformCombo(nullptr);
 	m_autodetect.SetState(m_proto->m_utfAutodetect);
 }
 
@@ -1049,7 +1049,7 @@ void COtherPrefsDlg::OnPerformCombo(CCtrlData*)
 {
 	int i = m_performCombo.GetCurSel();
 	PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
-	if (pPerf == 0)
+	if (pPerf == nullptr)
 		m_pertormEdit.SetTextA("");
 	else
 		m_pertormEdit.SetText(pPerf->mText.c_str());
@@ -1089,12 +1089,12 @@ void COtherPrefsDlg::OnAdd(CCtrlButton*)
 	wchar_t* temp = m_pertormEdit.GetText();
 
 	if (my_strstri(temp, L"/away"))
-		MessageBox(NULL, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
+		MessageBox(nullptr, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
 	else {
 		int i = m_performCombo.GetCurSel();
 		if (i != CB_ERR) {
 			PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
-			if (pPerf != NULL)
+			if (pPerf != nullptr)
 				pPerf->mText = temp;
 
 			m_add.Disable();
@@ -1109,7 +1109,7 @@ void COtherPrefsDlg::OnDelete(CCtrlButton*)
 	int i = m_performCombo.GetCurSel();
 	if (i != CB_ERR) {
 		PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(i);
-		if (pPerf != NULL) {
+		if (pPerf != nullptr) {
 			pPerf->mText = L"";
 			m_pertormEdit.SetTextA("");
 			m_delete.Disable();
@@ -1126,7 +1126,7 @@ void COtherPrefsDlg::OnDestroy()
 	if (i != CB_ERR && i != 0) {
 		for (int index = 0; index < i; index++) {
 			PERFORM_INFO* pPerf = (PERFORM_INFO*)m_performCombo.GetItemData(index);
-			if ((INT_PTR)pPerf != CB_ERR && pPerf != NULL)
+			if ((INT_PTR)pPerf != CB_ERR && pPerf != nullptr)
 				delete pPerf;
 		}
 	}
@@ -1147,7 +1147,7 @@ void COtherPrefsDlg::OnApply()
 	m_proto->m_perform = m_perform.GetState();
 	m_proto->m_scriptingEnabled = m_scripting.GetState();
 	if (m_add.Enabled())
-		OnAdd(NULL);
+		OnAdd(nullptr);
 
 	if (m_performlistModified) {
 		int count = m_performCombo.GetCount();
@@ -1190,7 +1190,7 @@ CAddIgnoreDlg::CAddIgnoreDlg(CIrcProto* _pro, const wchar_t* mask, CIgnorePrefsD
 {
 	m_hwndParent = _owner->GetHwnd();
 
-	if (mask == NULL)
+	if (mask == nullptr)
 		szOldMask[0] = 0;
 	else
 		wcsncpy(szOldMask, mask, _countof(szOldMask));
@@ -1316,7 +1316,7 @@ void CIrcProto::InitIgnore(void)
 	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_ignore.ini", m_szModuleName);
 	wchar_t *szLoadFileName = Utils_ReplaceVarsW(szTemp);
 	char* pszIgnoreData = IrcLoadFile(szLoadFileName);
-	if (pszIgnoreData != NULL) {
+	if (pszIgnoreData != nullptr) {
 		char *p1 = pszIgnoreData;
 		while (*p1 != '\0') {
 			while (*p1 == '\r' || *p1 == '\n')
@@ -1429,7 +1429,7 @@ void CIgnorePrefsDlg::OnInitDialog()
 		lvC.iSubItem = index;
 		lvC.cx = COLUMNS_SIZES[index];
 
-		wchar_t* text = NULL;
+		wchar_t* text = nullptr;
 		switch (index) {
 		case 0: text = TranslateT("Ignore mask"); break;
 		case 1: text = TranslateT("Flags"); break;
@@ -1476,7 +1476,7 @@ void CIgnorePrefsDlg::OnIgnoreChat(CCtrlData*)
 
 void CIgnorePrefsDlg::OnAdd(CCtrlButton*)
 {
-	CAddIgnoreDlg *dlg = new CAddIgnoreDlg(m_proto, NULL, this);
+	CAddIgnoreDlg *dlg = new CAddIgnoreDlg(m_proto, nullptr, this);
 	dlg->Show();
 	SetWindowText(dlg->GetHwnd(), TranslateT("Add ignore"));
 	m_add.Disable();
@@ -1550,7 +1550,7 @@ void CIgnorePrefsDlg::OnApply()
 
 void CIgnorePrefsDlg::OnDestroy()
 {
-	m_proto->m_ignoreDlg = NULL;
+	m_proto->m_ignoreDlg = nullptr;
 	m_proto->m_ignoreItems.destroy();
 
 	int i = m_list.GetItemCount();
@@ -1697,7 +1697,7 @@ void CIrcProto::InitPrefs(void)
 
 	m_mySpecifiedHostIP[0] = 0;
 
-	if (m_alias == NULL)
+	if (m_alias == nullptr)
 		m_alias = mir_wstrdup(L"/op /mode ## +ooo $1 $2 $3\r\n/dop /mode ## -ooo $1 $2 $3\r\n/voice /mode ## +vvv $1 $2 $3\r\n/dvoice /mode ## -vvv $1 $2 $3\r\n/j /join #$1 $2-\r\n/p /part ## $1-\r\n/w /whois $1\r\n/k /kick ## $1 $2-\r\n/q /query $1\r\n/logon /log on ##\r\n/logoff /log off ##\r\n/save /log buffer $1\r\n/slap /me slaps $1 around a bit with a large trout");
 
 	m_quickComboSelection = getDword("QuickComboSelection", m_serverComboSelection + 1);
@@ -1819,7 +1819,7 @@ INT_PTR CIrcProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 static void sttImportIni(const wchar_t* szIniFile)
 {
 	FILE* serverFile = _wfopen(szIniFile, L"r");
-	if (serverFile == NULL)
+	if (serverFile == nullptr)
 		return;
 
 	char buf1[500], buf2[200];

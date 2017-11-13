@@ -176,14 +176,14 @@ HRESULT CFormattedTextDraw::Draw(void *hdcDraw, RECT *prc)
 	m_spTextServices->TxDraw(
 		DVASPECT_CONTENT,  		// Draw Aspect
 		0,						// Lindex
-		NULL,					// Info for drawing optimization
-		NULL,					// target device information
+		nullptr,					// Info for drawing optimization
+		nullptr,					// target device information
 		(HDC)hdcDraw,			// Draw device HDC
-		NULL,			 	   	// Target device HDC
+		nullptr,			 	   	// Target device HDC
 		(RECTL *)prc,			// Bounding client rectangle
-		NULL,					// Clipping rectangle for metafiles
-		(RECT *)NULL,			// Update rectangle
-		NULL, 	   				// Call back function
+		nullptr,					// Clipping rectangle for metafiles
+		(RECT *)nullptr,			// Update rectangle
+		nullptr, 	   				// Call back function
 		NULL,					// Call back parameter
 		TXTVIEW_INACTIVE);		// What view of the object could be TXTVIEW_ACTIVE
 	return S_OK;
@@ -223,7 +223,7 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 	SIZEL szExtent;
 	szExtent.cx = *Width;
 	szExtent.cy = *Height;
-	if (m_spTextServices->TxGetNaturalSize(DVASPECT_CONTENT, (HDC)hdcDraw, NULL, NULL, TXTNS_FITTOCONTENT, &szExtent, Width, Height) != S_OK)
+	if (m_spTextServices->TxGetNaturalSize(DVASPECT_CONTENT, (HDC)hdcDraw, nullptr, nullptr, TXTNS_FITTOCONTENT, &szExtent, Width, Height) != S_OK)
 		return S_FALSE;
 
 	return S_OK;
@@ -234,7 +234,7 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 
 HDC CFormattedTextDraw::TxGetDC()
 {
-	return NULL;
+	return nullptr;
 }
 
 INT CFormattedTextDraw::TxReleaseDC(HDC)
@@ -307,7 +307,7 @@ void CFormattedTextDraw::TxSetFocus()
 void CFormattedTextDraw::TxSetCursor(HCURSOR hcur, BOOL fText)
 {
 	if (fText)
-		SetCursor(LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW)));
+		SetCursor(LoadCursor(nullptr, MAKEINTRESOURCE(IDC_ARROW)));
 	else
 		SetCursor(hcur);
 }
@@ -425,7 +425,7 @@ HRESULT	CFormattedTextDraw::TxNotify(DWORD, void *)
 
 HIMC CFormattedTextDraw::TxImmGetContext()
 {
-	return NULL;
+	return nullptr;
 }
 
 void CFormattedTextDraw::TxImmReleaseContext(HIMC)
@@ -490,7 +490,7 @@ HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont)
 
 HRESULT CFormattedTextDraw::InitDefaultCharFormat()
 {
-	return CharFormatFromHFONT(m_pCF, NULL);
+	return CharFormatFromHFONT(m_pCF, nullptr);
 }
 
 HRESULT CFormattedTextDraw::InitDefaultParaFormat()
@@ -507,7 +507,7 @@ HRESULT CFormattedTextDraw::InitDefaultParaFormat()
 HRESULT CFormattedTextDraw::CreateTextServicesObject()
 {
 	IUnknown *spUnk;
-	HRESULT hr = MyCreateTextServices(NULL, static_cast<ITextHost*>(this), &spUnk);
+	HRESULT hr = MyCreateTextServices(nullptr, static_cast<ITextHost*>(this), &spUnk);
 	if (hr == S_OK) {
 		hr = spUnk->QueryInterface(IID_ITextServices, (void**)&m_spTextServices);
 		hr = spUnk->QueryInterface(IID_ITextDocument, (void**)&m_spTextDocument);

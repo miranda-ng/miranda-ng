@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define AVATAR_TIMER  1608
 #define CURSOR_TIMER  1609
 
-HWND	ghwndMenuHost = NULL;
+HWND	ghwndMenuHost = nullptr;
 
 void	WindowThread(void *arg);
 
@@ -52,7 +52,7 @@ bool	LoadPopupWnd2()
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = PopupWnd2::WindowProc;
 	wcl.hInstance = hInst;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = POPUP_WNDCLASS;
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
@@ -62,12 +62,12 @@ bool	LoadPopupWnd2()
 		res = false;
 		wchar_t msg[1024];
 		mir_snwprintf(msg, TranslateT("Failed to register %s class."), wcl.lpszClassName);
-		MessageBox(NULL, msg, MODULNAME_LONG, MB_ICONSTOP | MB_OK);
+		MessageBox(nullptr, msg, MODULNAME_LONG, MB_ICONSTOP | MB_OK);
 	}
 
 	WNDCLASSEX wclw = { 0 };
 	wclw.cbSize = sizeof(wclw);
-	if (!GetClassInfoEx(NULL, L"EDIT", &wclw))
+	if (!GetClassInfoEx(nullptr, L"EDIT", &wclw))
 		MSGERROR(TranslateT("Failed to GetClassInfoExW from EDIT class."));
 	wclw.hInstance = hInst;
 	wclw.lpszClassName = L"PopupEditBox";
@@ -90,10 +90,10 @@ bool	LoadPopupWnd2()
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
-	wcl.hIcon = NULL;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
+	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupMenuHostWnd";
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupMenuHostWnd = RegisterClassEx(&wcl);
@@ -105,8 +105,8 @@ bool	LoadPopupWnd2()
 		MSGERROR(msg);
 	}
 
-	ghwndMenuHost = CreateWindow(L"PopupMenuHostWnd", NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
-	SetWindowPos(ghwndMenuHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
+	ghwndMenuHost = CreateWindow(L"PopupMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, hInst, nullptr);
+	SetWindowPos(ghwndMenuHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	INITCOMMONCONTROLSEX iccex;
 	iccex.dwICC = ICC_WIN95_CLASSES;
@@ -138,7 +138,7 @@ PopupWnd2::PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions, bool rende
 PopupWnd2::~PopupWnd2()
 {
 	m_signature = 0;
-	setIcon(NULL);
+	setIcon(nullptr);
 
 	mir_free(m_lpzSkin);
 	mir_free(m_lptzTitle);
@@ -167,14 +167,14 @@ void PopupWnd2::create()
 		WS_EX_TRANSPARENT |					//  prevents unwanted clicks
 		WS_EX_TOOLWINDOW | WS_EX_TOPMOST,		//  dwStyleEx
 		POPUP_WNDCLASS,					//  Class name
-		NULL,								//  Title
+		nullptr,								//  Title
 		DS_SETFONT | DS_FIXEDSYS | WS_POPUP,	//  dwStyle
 		CW_USEDEFAULT,						//  x
 		CW_USEDEFAULT,						//  y
 		CW_USEDEFAULT,						//  Width
 		CW_USEDEFAULT,						//  Height
 		HWND_DESKTOP,						//  Parent
-		NULL,								//  menu handle
+		nullptr,								//  menu handle
 		hInst,								//  Instance
 		(LPVOID)this);
 
@@ -188,10 +188,10 @@ void PopupWnd2::create()
 	SetClassLongPtr(m_hwnd, GCL_STYLE, style);
 
 	//  tooltips
-	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+	m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, nullptr,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-		m_hwnd, NULL, hInst, NULL);
+		m_hwnd, nullptr, hInst, nullptr);
 	SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	m_bWindowCreated = true;
@@ -213,7 +213,7 @@ void PopupWnd2::updateLayered(BYTE opacity)
 		blend.SourceConstantAlpha = opacity; // m_options->UseTransparency ? opacity : 255;
 		blend.AlphaFormat = AC_SRC_ALPHA;
 
-		UpdateLayeredWindow(m_hwnd, NULL, &ptDst, &m_sz,
+		UpdateLayeredWindow(m_hwnd, nullptr, &ptDst, &m_sz,
 			m_bmpAnimate ? m_bmpAnimate->getDC() : m_bmp->getDC(),
 			&ptSrc, 0xffffffff, &blend, ULW_ALPHA);
 
@@ -243,7 +243,7 @@ void PopupWnd2::update()
 	//  destroy content bitmap so animate() can reallocate it if needed
 	if (m_bmp) {
 		delete m_bmp;
-		m_bmp = NULL;
+		m_bmp = nullptr;
 	}
 
 	//  measure popup
@@ -285,7 +285,7 @@ void PopupWnd2::animate()
 		if (m_bmpBase) {
 			if (m_bmp) delete m_bmp;
 			m_bmp = m_bmpBase;
-			m_bmpBase = NULL;
+			m_bmpBase = nullptr;
 		}
 
 	//  update layered window if supported
@@ -323,7 +323,7 @@ void PopupWnd2::animate()
 void PopupWnd2::show()
 {
 	if ((m_options->UseEffect || (m_options->UseAnimations && !m_customPopup)) && m_options->FadeIn) {
-		IPopupPlusEffect *effect = NULL;
+		IPopupPlusEffect *effect = nullptr;
 		m_bSlide = m_bFade = false;
 		DWORD dwTime, dwTime0 = GetTickCount();
 		DWORD dwTime1 = dwTime0 + m_options->FadeIn;
@@ -354,10 +354,10 @@ void PopupWnd2::show()
 				m_ptPosition0.x -= m_sz.cx + 2 * 5;
 			else
 				m_ptPosition0.x += m_sz.cx + 2 * 5;
-			SetWindowPos(m_hwnd, 0, m_ptPosition0.x, m_ptPosition0.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+			SetWindowPos(m_hwnd, nullptr, m_ptPosition0.x, m_ptPosition0.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 		}
 		else {
-			SetWindowPos(m_hwnd, 0, m_pos.x, m_pos.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+			SetWindowPos(m_hwnd, nullptr, m_pos.x, m_pos.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 		}
 		while ((dwTime = GetTickCount()) < dwTime1) {
 			if (m_bFade) {
@@ -383,7 +383,7 @@ void PopupWnd2::show()
 				}
 			}
 			if (m_bSlide)
-				SetWindowPos(m_hwnd, 0,
+				SetWindowPos(m_hwnd, nullptr,
 					(int)m_ptPosition0.x + ((int)m_ptPosition1.x - (int)m_ptPosition0.x) * int(dwTime - dwTime0) / (int)m_options->FadeIn,
 					(int)m_ptPosition0.y + ((int)m_ptPosition1.y - (int)m_ptPosition0.y) * int(dwTime - dwTime0) / (int)m_options->FadeIn,
 					0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
@@ -395,7 +395,7 @@ void PopupWnd2::show()
 			effect->endEffect();
 			effect->destroy();
 			delete m_bmpAnimate;
-			m_bmpAnimate = NULL;
+			m_bmpAnimate = nullptr;
 		}
 	}
 
@@ -403,14 +403,14 @@ void PopupWnd2::show()
 
 	updateLayered((m_options->UseTransparency && !(m_bIsHovered && m_options->OpaqueOnHover)) ? m_options->Alpha : 255);
 	// updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
-	SetWindowPos(m_hwnd, 0, m_pos.x, m_pos.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+	SetWindowPos(m_hwnd, nullptr, m_pos.x, m_pos.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 }
 
 void PopupWnd2::hide()
 {
 	if ((m_options->UseEffect || (m_options->UseAnimations && !m_customPopup)) && m_options->FadeOut) {
 		m_bDestroy = true;
-		IPopupPlusEffect *effect = NULL;
+		IPopupPlusEffect *effect = nullptr;
 		m_bFade = m_bSlide = false;
 		DWORD dwTime, dwTime0 = GetTickCount();
 		DWORD dwTime1 = dwTime0 + m_options->FadeOut;
@@ -438,7 +438,7 @@ void PopupWnd2::hide()
 				m_ptPosition1.x -= m_sz.cx + 2 * 5;
 			else
 				m_ptPosition1.x += m_sz.cx + 2 * 5;
-			SetWindowPos(m_hwnd, 0, m_ptPosition0.x, m_ptPosition0.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
+			SetWindowPos(m_hwnd, nullptr, m_ptPosition0.x, m_ptPosition0.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 		}
 		while ((dwTime = GetTickCount()) < dwTime1) {
 			if (m_bFade) {
@@ -464,7 +464,7 @@ void PopupWnd2::hide()
 				}
 			}
 			if (m_bSlide)
-				SetWindowPos(m_hwnd, 0,
+				SetWindowPos(m_hwnd, nullptr,
 					(int)m_ptPosition0.x + ((int)m_ptPosition1.x - (int)m_ptPosition0.x) * int(dwTime - dwTime0) / (int)m_options->FadeOut,
 					(int)m_ptPosition0.y + ((int)m_ptPosition1.y - (int)m_ptPosition0.y) * int(dwTime - dwTime0) / (int)m_options->FadeOut,
 					0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
@@ -476,11 +476,11 @@ void PopupWnd2::hide()
 			effect->endEffect();
 			effect->destroy();
 			delete m_bmpAnimate;
-			m_bmpAnimate = NULL;
+			m_bmpAnimate = nullptr;
 		}
 	}
 
-	SetWindowPos(m_hwnd, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
+	SetWindowPos(m_hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 	DestroyWindow(m_hwnd);
 	//	hwnd = 0;
 }
@@ -641,7 +641,7 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count, int additional)
 {
 	m_actionCount = 0;
 	if (m_actions) delete[] m_actions;
-	m_actions = NULL;
+	m_actions = nullptr;
 
 	int i;
 
@@ -697,7 +697,7 @@ void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	m_PluginWindowProc = ppd->PluginWindowProc;
 
 	if (m_options->DisplayTime)
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", m_time, _countof(m_time));
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", m_time, _countof(m_time));
 	else m_time[0] = 0;
 
 	fixDefaults();
@@ -721,8 +721,8 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 		replaceStrW(m_lptzText, ppd->lptzText);
 	}
 	else {
-		replaceStrW(m_lptzTitle, NULL);
-		replaceStrW(m_lptzText, NULL);
+		replaceStrW(m_lptzTitle, nullptr);
+		replaceStrW(m_lptzText, nullptr);
 	}
 
 	setIcon(ppd->lchIcon);
@@ -739,7 +739,7 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 		if (ppd->dwTimestamp)
 			TimeZone_ToStringT(ppd->dwTimestamp, L"t", m_time, _countof(m_time));
 		else
-			GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", m_time, _countof(m_time));
+			GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", m_time, _countof(m_time));
 	}
 	else m_time[0] = 0;
 
@@ -756,7 +756,7 @@ void PopupWnd2::buildMText()
 
 	if (m_mtText) MText.Destroy(m_mtText);
 	if (m_mtTitle)MText.Destroy(m_mtTitle);
-	m_mtText = m_mtTitle = NULL;
+	m_mtText = m_mtTitle = nullptr;
 
 	if (m_lptzText && m_lptzTitle) {
 		m_textType = TT_MTEXT;
@@ -788,7 +788,7 @@ void PopupWnd2::updateTimer()
 {
 	KillTimer(m_hwnd, POPUP_TIMER);
 	if (m_iTimeout > 0)
-		SetTimer(m_hwnd, POPUP_TIMER, 1000, 0);
+		SetTimer(m_hwnd, POPUP_TIMER, 1000, nullptr);
 }
 
 LRESULT CALLBACK NullWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -815,7 +815,7 @@ void AddMessageToDB(MCONTACT hContact, char *msg)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = GetContactProto(hContact);
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.cbBlob = (int)mir_strlen(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;
 	db_event_add(hContact, &dbei);
@@ -824,7 +824,7 @@ void AddMessageToDB(MCONTACT hContact, char *msg)
 LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	ReplyEditData *dat = (ReplyEditData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	WNDPROC oldWndProc = dat ? dat->oldWndProc : NULL;
+	WNDPROC oldWndProc = dat ? dat->oldWndProc : nullptr;
 
 	switch (message) {
 	case WM_KEYDOWN:
@@ -880,14 +880,14 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		if (!m_customPopup)
 			PopupThreadAddWindow(this);
 		if (m_iTimeout > 0)
-			SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout * 1000, 0);
+			SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout * 1000, nullptr);
 		
 		if (m_avatar->activeFrameDelay() > 0)
-			SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
+			SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), nullptr);
 
 		// prevent unwanted clicks, but allow wanted :)
 		GetCursorPos(&m_ptPrevCursor);
-		SetTimer(m_hwnd, CURSOR_TIMER, 500, NULL);
+		SetTimer(m_hwnd, CURSOR_TIMER, 500, nullptr);
 		break;
 
 	case UM_POPUPSHOW:
@@ -900,7 +900,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		m_avatar->invalidate();
 		update();
 		if (m_avatar->activeFrameDelay() > 0)
-			SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
+			SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), nullptr);
 		break;
 
 	case UM_POPUPACTION:
@@ -919,9 +919,9 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			{
 				HWND hwndEditBox = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
 					g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
-					NULL,
+					nullptr,
 					WS_BORDER | WS_POPUP | WS_VISIBLE | ES_AUTOVSCROLL | ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | ES_WANTRETURN,
-					rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInst, NULL);
+					rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInst, nullptr);
 
 				ReplyEditData *dat = (ReplyEditData *)mir_alloc(sizeof(ReplyEditData));
 				dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwndEditBox, (LONG_PTR)GWLP_WNDPROC);
@@ -950,7 +950,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				ADDCONTACTSTRUCT acs = { 0 };
 				acs.hContact = m_hContact;
 				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = 0;
+				acs.szProto = nullptr;
 				CallServiceSync(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);
 				if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
 					PUDeletePopup(m_hwnd);
@@ -959,7 +959,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case ACT_DEF_PIN:
 			if (m_bIsPinned)
-				SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout * 1000, NULL);
+				SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout * 1000, nullptr);
 			else
 				KillTimer(m_hwnd, POPUP_TIMER);
 
@@ -1106,7 +1106,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				animate();
 				if ((newDelay <= 0) || (newDelay != m_avatarFrameDelay)) KillTimer(m_hwnd, AVATAR_TIMER);
 				if (newDelay > 0) {
-					SetTimer(m_hwnd, AVATAR_TIMER, newDelay, 0);
+					SetTimer(m_hwnd, AVATAR_TIMER, newDelay, nullptr);
 					m_avatarFrameDelay = newDelay;
 				}
 			}
@@ -1147,7 +1147,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_PAINT:
-		if (GetUpdateRect(m_hwnd, 0, FALSE)) {
+		if (GetUpdateRect(m_hwnd, nullptr, FALSE)) {
 			PAINTSTRUCT ps;
 			HDC mydc = BeginPaint(m_hwnd, &ps);
 			BitBlt(mydc, 0, 0, m_sz.cx, m_sz.cy, m_bmp->getDC(), 0, 0, SRCCOPY);
@@ -1212,7 +1212,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		}
 		SendMessage(m_hwnd, UM_FREEPLUGINDATA, 0, 0);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-		m_hwnd = 0;
+		m_hwnd = nullptr;
 
 		DestroyWindow(m_hwndToolTip);
 
@@ -1243,7 +1243,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 LRESULT CALLBACK PopupWnd2::WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PopupWnd2 *wnd = 0;
+	PopupWnd2 *wnd = nullptr;
 	if (message == WM_CREATE) {
 		LPCREATESTRUCT cs = (LPCREATESTRUCT)lParam;
 		wnd = (PopupWnd2 *)cs->lpCreateParams;
@@ -1259,7 +1259,7 @@ void	WindowThread(void *arg)
 {
 	Thread_SetName("POPUP: WindowThread");
 
-	CoInitialize(NULL); // we may need OLE in this thread for smiley substitution
+	CoInitialize(nullptr); // we may need OLE in this thread for smiley substitution
 
 	PopupWnd2 *wnd = (PopupWnd2 *)arg;
 	wnd->buildMText();
@@ -1267,7 +1267,7 @@ void	WindowThread(void *arg)
 	PostMessage(wnd->getHwnd(), UM_INITPOPUP, 0, 0);
 
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0)) {
+	while (GetMessage(&msg, nullptr, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -1287,7 +1287,7 @@ LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 			HMENU hMenu = Menu_BuildContactMenu(hContact);
 			HWND hwndSave = GetForegroundWindow();
 			SetForegroundWindow(hwnd);
-			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hwnd, NULL);
+			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hwnd, nullptr);
 			SetForegroundWindow(hwndSave);
 			DestroyMenu(hMenu);
 			PostMessage((HWND)wParam, UM_MENUDONE, 0, 0);

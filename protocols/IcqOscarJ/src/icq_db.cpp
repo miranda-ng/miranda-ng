@@ -82,7 +82,7 @@ int CIcqProto::getContactUid(MCONTACT hContact, DWORD *pdwUin, uid_str *ppszUid)
 		case DBVT_UTF8:
 			if (ppszUid) {
 				mir_strcpy(*ppszUid, dbv.pszVal);
-				mir_utf8decode(*ppszUid, NULL);
+				mir_utf8decode(*ppszUid, nullptr);
 				iRes = 0;
 			}
 			else debugLogA("AOL screennames not accepted");
@@ -151,7 +151,7 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 			wchar_t *szStatusNoteW = make_unicode_string(szStatusNote);
 			int len = (int)mir_wstrlen(szStatusNoteW) * 3 + 1;
 			char *szStatusNoteAnsi = (char*)alloca(len);
-			WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, szStatusNoteW, -1, szStatusNoteAnsi, len, NULL, NULL);
+			WideCharToMultiByte(CP_ACP, WC_NO_BEST_FIT_CHARS, szStatusNoteW, -1, szStatusNoteAnsi, len, nullptr, nullptr);
 			bool notmatch = false;
 			for (int i = 0;; ++i) {
 				if (szStatusNoteAnsi[i] != szStatusMsg[i] && szStatusNoteAnsi[i] != '?' && szStatusMsg[i] != '?') {
@@ -167,7 +167,7 @@ void CIcqProto::setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAns
 				SAFE_FREE(&szStatusNote);
 		}
 
-		char *oldStatusMsg = NULL;
+		char *oldStatusMsg = nullptr;
 		DBVARIANT dbv;
 		if (!db_get_ws(hContact, "CList", "StatusMsg", &dbv)) {
 			oldStatusMsg = make_utf8_string(dbv.ptszVal);
@@ -203,5 +203,5 @@ MEVENT CIcqProto::AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD fl
 
 char* CIcqProto::getContactCListGroup(MCONTACT hContact)
 {
-	return getSettingStringUtf(hContact, "CList", "Group", NULL);
+	return getSettingStringUtf(hContact, "CList", "Group", nullptr);
 }

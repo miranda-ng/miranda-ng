@@ -45,7 +45,7 @@ static int GetUpdateMode()
 		// Missing or unknown mode, determine correct from version of running core
 		char coreVersion[512];
 		Miranda_GetVersionText(coreVersion, _countof(coreVersion));
-		UpdateMode = (strstr(coreVersion, "alpha") == NULL) ? UPDATE_MODE_STABLE : UPDATE_MODE_TRUNK;
+		UpdateMode = (strstr(coreVersion, "alpha") == nullptr) ? UPDATE_MODE_STABLE : UPDATE_MODE_TRUNK;
 	}
 
 	return UpdateMode;
@@ -479,7 +479,7 @@ static INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 				//Colors
 				db_set_b(NULL, MODNAME, "DefColors", PopupOptions.DefColors);
 				//Timeout
-				PopupOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, 0, TRUE);
+				PopupOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, nullptr, TRUE);
 				db_set_dw(NULL, MODNAME, "Timeout", PopupOptions.Timeout);
 				//Left mouse click
 				db_set_b(NULL, MODNAME, "LeftClickAction", PopupOptions.LeftClickAction);

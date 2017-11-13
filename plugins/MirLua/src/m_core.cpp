@@ -65,13 +65,13 @@ static int core_HookEvent(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = NULL;
+	HANDLE res = nullptr;
 	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
 	if (env)
 		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
 	else
 		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
-	if (res == NULL)
+	if (res == nullptr)
 	{
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
@@ -94,14 +94,14 @@ static int core_HookTemporaryEvent(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = NULL;
+	HANDLE res = nullptr;
 	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
 	if (env)
 		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
 	else
 		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
 	// event does not exists, call hook immideatelly
-	if (res == NULL)
+	if (res == nullptr)
 	{
 		lua_pushnil(L);
 		lua_pushnil(L);
@@ -125,7 +125,7 @@ static int core_UnhookEvent(lua_State *L)
 	if (!res)
 	{
 		HandleRefParam *param = (HandleRefParam*)CMLua::HookRefs.find(&hEvent);
-		if (param != NULL)
+		if (param != nullptr)
 		{
 			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
 			CMLua::HookRefs.remove(param);
@@ -194,7 +194,7 @@ static int core_CreateServiceFunction(lua_State *L)
 	lua_pushvalue(L, 2);
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	HANDLE res = NULL;
+	HANDLE res = nullptr;
 	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
 	if (env)
 		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionEnvParam, env, ref);
@@ -242,7 +242,7 @@ static int core_DestroyServiceFunction(lua_State *L)
 	HANDLE hService = lua_touserdata(L, 1);
 
 	HandleRefParam *param = (HandleRefParam*)CMLua::ServiceRefs.find(&hService);
-	if (param != NULL)
+	if (param != nullptr)
 	{
 		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
 		CMLua::ServiceRefs.remove(param);
@@ -303,7 +303,7 @@ static int core_Parse(lua_State *L)
 static int core_GetFullPath(lua_State *L)
 {
 	wchar_t path[MAX_PATH];
-	GetModuleFileName(NULL, path, MAX_PATH);
+	GetModuleFileName(nullptr, path, MAX_PATH);
 	
 	lua_pushstring(L, ptrA(mir_utf8encodeW(path)));
 
@@ -405,13 +405,13 @@ luaL_Reg coreApi[] =
 	{ "ForkThread", core_ForkThread },
 	{ "TerminateThread", core_TerminateThread },
 
-	{ "Version", NULL },
+	{ "Version", nullptr },
 
-	{ "NULL", NULL },
-	{ "INVALID_HANDLE_VALUE", NULL },
-	{ "CALLSERVICE_NOTFOUND", NULL },
+	{ "NULL", nullptr },
+	{ "INVALID_HANDLE_VALUE", nullptr },
+	{ "CALLSERVICE_NOTFOUND", nullptr },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/
@@ -419,7 +419,7 @@ luaL_Reg coreApi[] =
 LUAMOD_API int luaopen_m_core(lua_State *L)
 {
 	luaL_newlib(L, coreApi);
-	lua_pushlightuserdata(L, NULL);
+	lua_pushlightuserdata(L, nullptr);
 	lua_setfield(L, -2, "NULL");
 	lua_pushlightuserdata(L, INVALID_HANDLE_VALUE);
 	lua_setfield(L, -2, "INVALID_HANDLE_VALUE");

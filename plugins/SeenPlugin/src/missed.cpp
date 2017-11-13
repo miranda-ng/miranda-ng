@@ -70,7 +70,7 @@ INT_PTR CALLBACK MissedDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam
 
 		htemp = GetDlgItem(hdlg, IDC_CONTACTS);
 		GetWindowRect(htemp, &rcinit);
-		SetWindowPos(htemp, NULL, 0, 0, rcinit.right - rcinit.left, mcs.count*(rcinit.bottom - rcinit.top) / 2, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+		SetWindowPos(htemp, nullptr, 0, 0, rcinit.right - rcinit.left, mcs.count*(rcinit.bottom - rcinit.top) / 2, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 		GetWindowRect(htemp, &rcresized);
 
 		htemp = GetDlgItem(hdlg, IDOK);
@@ -81,7 +81,7 @@ INT_PTR CALLBACK MissedDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam
 		ScreenToClient(hdlg, &pt);
 		MoveWindow(htemp, pt.x, pt.y + (rcresized.bottom - rcinit.bottom), (rcb.right - rcb.left), (rcb.bottom - rcb.top), FALSE);
 		GetWindowRect(hdlg, &rcd);
-		SetWindowPos(hdlg, NULL, 0, 0, rcd.right - rcd.left, rcd.bottom - rcd.top + (rcresized.bottom - rcinit.bottom), SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+		SetWindowPos(hdlg, nullptr, 0, 0, rcd.right - rcd.left, rcd.bottom - rcd.top + (rcresized.bottom - rcinit.bottom), SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 
 		SetDlgItemText(hdlg, IDC_CONTACTS, (LPCTSTR)lparam);
 		ShowWindow(hdlg, SW_SHOWNOACTIVATE);
@@ -114,7 +114,7 @@ int ShowMissed(void)
 		buf.AppendChar('\n');
 	}
 
-	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_MISSED), NULL, MissedDlgProc, (LPARAM)buf.c_str());
+	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_MISSED), nullptr, MissedDlgProc, (LPARAM)buf.c_str());
 	return 0;
 }
 
@@ -168,7 +168,7 @@ int ModeChange_mo(WPARAM, LPARAM lparam)
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND:
 	case ID_STATUS_NA:
-		if (ehmissed == NULL) {
+		if (ehmissed == nullptr) {
 			memset(&mcs, 0, sizeof(mcs));
 			CheckIfOnline();
 			ehmissed = HookEvent(ME_CLIST_CONTACTICONCHANGED, Test);
@@ -176,9 +176,9 @@ int ModeChange_mo(WPARAM, LPARAM lparam)
 		break;
 
 	default:
-		if (ehmissed != NULL) {
+		if (ehmissed != nullptr) {
 			UnhookEvent(ehmissed);
-			ehmissed = NULL;
+			ehmissed = nullptr;
 			ShowMissed();
 			ResetMissed();
 		}

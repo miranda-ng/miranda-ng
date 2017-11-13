@@ -76,7 +76,7 @@ public:
 LRESULT CALLBACK DlgProcSmileyToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SmileyToolWindowType *pOD = (SmileyToolWindowType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (pOD == NULL) {
+	if (pOD == nullptr) {
 		pOD = new SmileyToolWindowType(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)pOD);
 	}
@@ -96,7 +96,7 @@ SmileyToolWindowType::SmileyToolWindowType(HWND hWnd)
 {
 	m_hwndDialog = hWnd;
 	rowSel = -1;
-	m_AniPack = NULL;
+	m_AniPack = nullptr;
 
 	m_NumberOfVerticalButtons = 0;
 	m_NumberOfHorizontalButtons = 0;
@@ -130,7 +130,7 @@ LRESULT SmileyToolWindowType::DialogProcedure(UINT msg, WPARAM wParam, LPARAM lP
 	case WM_DESTROY:
 		KillTimer(m_hwndDialog, 1);
 		if (m_AniPack) delete m_AniPack;
-		m_AniPack = NULL;
+		m_AniPack = nullptr;
 		DestroyWindow(m_hToolTip);
 		PostQuitMessage(0);
 		if (m_Choosing)
@@ -194,7 +194,7 @@ void CALLBACK smileyServiceCallback(void *arg)
 
 void SmileyToolWindowType::InsertSmiley(void)
 {
-	if (m_CurrentHotTrack >= 0 && m_hWndTarget != NULL) {
+	if (m_CurrentHotTrack >= 0 && m_hWndTarget != nullptr) {
 		SmileyType *sml = m_pSmileyPack->GetSmiley(m_CurrentHotTrack);
 
 		if (sml->IsService()) {
@@ -213,7 +213,7 @@ void SmileyToolWindowType::InsertSmiley(void)
 		m_Choosing = true;
 		DestroyWindow(m_hwndDialog);
 	}
-	else if (m_hWndTarget == NULL)
+	else if (m_hWndTarget == nullptr)
 		DestroyWindow(m_hwndDialog);
 }
 
@@ -315,7 +315,7 @@ void SmileyToolWindowType::ScrollV(int action, int dist)
 			m_AniPack->SetOffset(si.nPos*GetRowSize());
 
 		ScrollWindowEx(m_hwndDialog, 0, (yPos - si.nPos) * GetRowSize(),
-			NULL, NULL, NULL, NULL, SW_INVALIDATE);
+			nullptr, nullptr, nullptr, nullptr, SW_INVALIDATE);
 
 		UpdateWindow(m_hwndDialog);
 	}
@@ -536,7 +536,7 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	if (m_XPosition < xoScreen) m_XPosition = xoScreen;
 
 	// Move window to desired location
-	SetWindowPos(m_hwndDialog, NULL, m_XPosition, m_YPosition,
+	SetWindowPos(m_hwndDialog, nullptr, m_XPosition, m_YPosition,
 		width, height, SWP_NOZORDER);
 
 	m_AniPack = new AnimatedPack(m_hwndDialog, height, m_ButtonSize, opt.SelWndBkgClr);
@@ -548,11 +548,11 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 
 	m_AniPack->SetOffset(0);
 
-	if (opt.AnimateSel) SetTimer(m_hwndDialog, 1, 100, NULL);
+	if (opt.AnimateSel) SetTimer(m_hwndDialog, 1, 100, nullptr);
 
 	//add tooltips
 	m_hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"",
-		TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, NULL, g_hInst, NULL);
+		TTS_NOPREFIX | WS_POPUP, 0, 0, 0, 0, m_hwndDialog, nullptr, g_hInst, nullptr);
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(ti);
 	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
@@ -750,23 +750,23 @@ void __cdecl SmileyToolThread(void *arg)
 		wndclass.cbClsExtra = 0;
 		wndclass.cbWndExtra = 4;
 		wndclass.hInstance = g_hInst;
-		wndclass.hIcon = NULL;
-		wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wndclass.hIcon = nullptr;
+		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wndclass.hbrBackground = CreateSolidBrush(opt.SelWndBkgClr);
-		wndclass.lpszMenuName = NULL;
+		wndclass.lpszMenuName = nullptr;
 		wndclass.lpszClassName = L"SmileyTool";
-		wndclass.hIconSm = NULL;
+		wndclass.hIconSm = nullptr;
 		RegisterClassEx(&wndclass);
 
-		CreateWindowEx(WS_EX_TOPMOST | WS_EX_NOPARENTNOTIFY, L"SmileyTool", NULL,
+		CreateWindowEx(WS_EX_TOPMOST | WS_EX_NOPARENTNOTIFY, L"SmileyTool", nullptr,
 			WS_BORDER | WS_POPUP | WS_VISIBLE,
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			((SmileyToolWindowParam*)arg)->hWndParent, NULL, g_hInst, arg);
+			((SmileyToolWindowParam*)arg)->hWndParent, nullptr, g_hInst, arg);
 
 		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
 
 		MSG msg;
-		while (GetMessage(&msg, NULL, 0, 0)) {
+		while (GetMessage(&msg, nullptr, 0, 0)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}

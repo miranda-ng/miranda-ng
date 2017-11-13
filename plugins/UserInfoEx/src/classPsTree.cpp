@@ -34,15 +34,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 CPsTree::CPsTree(LPPS pPs)
 {
-	_hWndTree = NULL;
-	_hImages = NULL;
+	_hWndTree = nullptr;
+	_hImages = nullptr;
 
-	_pItems = NULL;
+	_pItems = nullptr;
 	_numItems = 0;
 	_curItem = -1;
 	_dwFlags = 0;
-	_hLabelEdit = NULL;
-	_hDragItem = NULL;
+	_hLabelEdit = nullptr;
+	_hDragItem = nullptr;
 	_isDragging = FALSE;
 	_pPs = pPs;
 }
@@ -58,7 +58,7 @@ CPsTree::~CPsTree()
 	if (_hLabelEdit)
 	{
 		DestroyWindow(_hLabelEdit);
-		_hLabelEdit = NULL;
+		_hLabelEdit = nullptr;
 	}
 	if (_pItems) 
 	{
@@ -67,15 +67,15 @@ CPsTree::~CPsTree()
 			if (_pItems[i])
 			{
 				delete _pItems[i];
-				_pItems[i] = NULL;
+				_pItems[i] = nullptr;
 			}
 		}
 		MIR_FREE(_pItems);
-		_pItems = NULL;
+		_pItems = nullptr;
 		_numItems = NULL;
 	}
 	ImageList_Destroy(_hImages);
-	_hImages = NULL;
+	_hImages = nullptr;
 }
 
 /**
@@ -177,7 +177,7 @@ BYTE CPsTree::InitTreeItems(LPWORD needWidth)
 		// init the iParent member for all the items
 		for (i = 0; i < _numItems; i++) 
 		{
-			if (_pItems[i] && (pszGroup = _pItems[i]->ParentItemName()) != NULL) 
+			if (_pItems[i] && (pszGroup = _pItems[i]->ParentItemName()) != nullptr) 
 			{
 				int iParent = FindItemIndexByName(pszGroup);
 				
@@ -266,7 +266,7 @@ CPsTreeItem* CPsTree::FindItemByHandle(HTREEITEM hItem)
 	{
 		return _pItems[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -284,7 +284,7 @@ CPsTreeItem* CPsTree::FindItemByName(LPCSTR pszName)
 	{
 		return _pItems[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -304,7 +304,7 @@ CPsTreeItem* CPsTree::FindItemByResource(HINSTANCE hInst, int idDlg)
 			return _pItems[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -323,7 +323,7 @@ HTREEITEM CPsTree::FindItemHandleByName(LPCSTR pszName)
 	{
 		return _pItems[i]->Hti();
 	}
-	return NULL;
+	return nullptr;
 }
 
 /***********************************************************************************************************
@@ -343,7 +343,7 @@ void CPsTree::HideItem(const int iPageIndex)
 	if (IsIndexValid(iPageIndex)) 
 	{
 		TreeView_DeleteItem(_hWndTree, _pItems[iPageIndex]->Hti());
-		_pItems[iPageIndex]->Hti(0);
+		_pItems[iPageIndex]->Hti(nullptr);
 		_dwFlags |= PSTVF_STATE_CHANGED;
 	}
 }
@@ -369,16 +369,16 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 		!pti->Label())
 	{
 		MsgErr(GetParent(_hWndTree), LPGENW("Due to a parameter error, one of the treeitems can't be added!"));
-		return NULL;
+		return nullptr;
 	}	
 	// item is visible at the moment
-	if ((tvii.itemex.hItem = pti->Hti()) == NULL)
+	if ((tvii.itemex.hItem = pti->Hti()) == nullptr)
 	{
 		RECT rc;
 		const int iParent = pti->Parent();
 		
 		// init the rest of the treeitem
-		tvii.hParent = IsIndexValid(iParent) ? ShowItem(iParent, needWidth) : NULL;
+		tvii.hParent = IsIndexValid(iParent) ? ShowItem(iParent, needWidth) : nullptr;
 		tvii.hInsertAfter		= (_dwFlags & PSTVF_SORTTREE) ? TVI_SORT : TVI_LAST;
 		tvii.itemex.mask		= TVIF_TEXT|TVIF_PARAM|TVIF_STATE;
 		tvii.itemex.pszText		= pti->Label();
@@ -391,10 +391,10 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 			tvii.itemex.mask |= TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 		}
 		// insert item into tree if set visible
-		if ((tvii.itemex.hItem = TreeView_InsertItem(_hWndTree, &tvii)) == NULL) 
+		if ((tvii.itemex.hItem = TreeView_InsertItem(_hWndTree, &tvii)) == nullptr) 
 		{
 			MsgErr(GetParent(_hWndTree), LPGENW("A fatal error occurred on adding a property sheet page!\nDialog creation aborted!"));
-			return NULL;
+			return nullptr;
 		}
 		pti->Hti(tvii.itemex.hItem);
 		// calculate width of treeview
@@ -423,7 +423,7 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChi
 	int iItemIndex;
 
 	if (!hItem || !hInsertAfter)
-		return NULL;
+		return nullptr;
 	if (hItem == hInsertAfter)
 		return hItem;
 	
@@ -658,9 +658,9 @@ int CPsTree::BeginLabelEdit(HTREEITEM hItem)
 						rc.left, rc.top,
 						rcTree.right - rc.left, rc.bottom - rc.top,
 						_hWndTree,
-						NULL,
+						nullptr,
 						ghInst,
-						NULL );
+						nullptr );
 		if (_hLabelEdit)
 		{
 			_hDragItem = hItem;
@@ -705,8 +705,8 @@ int CPsTree::EndLabelEdit(const BYTE bSave)
 		}
 	}
 	DestroyWindow(_hLabelEdit);
-	_hLabelEdit = NULL;
-	_hDragItem = NULL;
+	_hLabelEdit = nullptr;
+	_hDragItem = nullptr;
 	return 0;
 }
 
@@ -785,7 +785,7 @@ void CPsTree::PopupMenu()
 		InsertMenuItem(hPopup, ++i, TRUE, &mii);
 	}
 	// show the popup menu
-	iItem = TrackPopupMenu(hPopup, TPM_RETURNCMD, pt.x, pt.y, 0, _hWndTree, NULL);
+	iItem = TrackPopupMenu(hPopup, TPM_RETURNCMD, pt.x, pt.y, 0, _hWndTree, nullptr);
 	DestroyMenu(hPopup);
 
 	switch (iItem) {
@@ -799,7 +799,7 @@ void CPsTree::PopupMenu()
 		DBResetState();
 		break;
 	default: // show a hidden item
-		if ((iItem -= 100) >= 0 && ShowItem(iItem, NULL))
+		if ((iItem -= 100) >= 0 && ShowItem(iItem, nullptr))
 			AddFlags(PSTVF_STATE_CHANGED | PSTVF_POS_CHANGED);
 		break;
 	}
@@ -839,7 +839,7 @@ BYTE CPsTree::OnInfoChanged()
 	pshn.hdr.code = PSN_INFOCHANGED;
 	for (int i = 0; i < _numItems; i++) {
 		pshn.hdr.hwndFrom = _pItems[i]->Wnd();
-		if (pshn.hdr.hwndFrom != NULL) {
+		if (pshn.hdr.hwndFrom != nullptr) {
 			pshn.lParam = (LPARAM)_pItems[i]->hContact();
 			SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
 			if (PSP_CHANGED == GetWindowLongPtr(pshn.hdr.hwndFrom, DWLP_MSGRESULT))
@@ -862,9 +862,9 @@ BYTE CPsTree::OnSelChanging()
 {
 	CPsTreeItem *pti = CurrentItem();
 
-	if (pti != NULL) {
+	if (pti != nullptr) {
 		TreeView_SetItemState(_hWndTree, pti->Hti(), 0, TVIS_SELECTED);
-		if (pti->Wnd() != NULL) {
+		if (pti->Wnd() != nullptr) {
 			PSHNOTIFY pshn;
 
 			pshn.hdr.code = PSN_KILLACTIVE;
@@ -894,12 +894,12 @@ void CPsTree::OnSelChanged(LPNMTREEVIEW lpnmtv)
 
 	_curItem = (int)lpnmtv->itemNew.lParam;
 	if (pti = CurrentItem()) {
-		if (pti->Wnd() == NULL) {
+		if (pti->Wnd() == nullptr) {
 			pti->CreateWnd(_pPs);
 		}
 	}
 	// hide old page even if new item has no valid one
-	if (oldPage && oldPage->Wnd() != NULL)
+	if (oldPage && oldPage->Wnd() != nullptr)
 		ShowWindow(oldPage->Wnd(), SW_HIDE);
 	if (pti)
 		ShowWindow(pti->Wnd(), SW_SHOW);
@@ -938,7 +938,7 @@ void CPsTree::OnCancel()
 int CPsTree::OnApply()
 {
 	CPsTreeItem *pti = CurrentItem();
-	if (pti == NULL)
+	if (pti == nullptr)
 		return 1;
 
 	PSHNOTIFY pshn;

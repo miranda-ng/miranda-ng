@@ -73,7 +73,7 @@ HANDLE GetIconHandle(const char *name)
 		if (!mir_strcmp(iconList[i].szName, name))
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 void ReleaseIconEx(const char *name, bool big)
@@ -113,7 +113,7 @@ static void set_AT_icon(CAimProto* ppro, MCONTACT hContact)
 	if (ppro->isChatRoom(hContact)) return;
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_AC, 0) - 1;
-	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 5) ? GetIconHandle(extra_AT_icon_name[i]) : NULL);
+	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 5) ? GetIconHandle(extra_AT_icon_name[i]) : nullptr);
 }
 
 static void set_ES_icon(CAimProto* ppro, MCONTACT hContact)
@@ -121,7 +121,7 @@ static void set_ES_icon(CAimProto* ppro, MCONTACT hContact)
 	if (ppro->isChatRoom(hContact)) return;
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_ET, 0) - 1;
-	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 2) ? GetIconHandle(extra_ES_icon_name[i]) : NULL);
+	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 2) ? GetIconHandle(extra_ES_icon_name[i]) : nullptr);
 }
 
 void set_contact_icon(CAimProto* ppro, MCONTACT hContact)

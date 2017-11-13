@@ -101,7 +101,7 @@ HANDLE GetIconHandle(int iconId)
 	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
-	return NULL;
+	return nullptr;
 }
 
 HICON LoadIconEx(const char* name, bool big)
@@ -152,7 +152,7 @@ void __cdecl sttFakeAckMessageFailedThread(void *param)
 	proto->debugLogW(L"sttFakeAckMessageFailedThread() start");
 
 	Sleep(100);
-	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, tParam->lParam); ///TODO tParam->lParam: add error message
+	proto->ProtoBroadcastAck(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, tParam->lParam); ///TODO tParam->lParam: add error message
 
 	proto->debugLogW(L"sttFakeAckMessageFailedThread() end");
 	mir_free(tParam);
@@ -175,7 +175,7 @@ int CSametimeProto::OnWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 
-	if ((mwed == NULL) || db_get_b(mwed->hContact, m_szModuleName, "ChatRoom", 0))
+	if ((mwed == nullptr) || db_get_b(mwed->hContact, m_szModuleName, "ChatRoom", 0))
 		return 0;
 
 	if ((mwed->uType == MSG_WINDOW_EVT_CLOSING) || (mwed->uType == MSG_WINDOW_EVT_CLOSE))

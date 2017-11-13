@@ -21,12 +21,12 @@
 
 // this is for get and put(s)
 static mir_cs csVarRegister;
-static VARIABLEREGISTER *vr = NULL;
+static VARIABLEREGISTER *vr = nullptr;
 static int vrCount = 0;
 
 static int addToVariablesRegister(wchar_t *szName, wchar_t *szText)
 {
-	if ((szName == NULL) || (szText == NULL) || (mir_wstrlen(szName) <= 0))
+	if ((szName == nullptr) || (szText == nullptr) || (mir_wstrlen(szName) <= 0))
 		return -1;
 
 	mir_cslock lck(csVarRegister);
@@ -38,7 +38,7 @@ static int addToVariablesRegister(wchar_t *szName, wchar_t *szText)
 		}
 	}
 	VARIABLEREGISTER *pvr = (VARIABLEREGISTER*)mir_realloc(vr, (vrCount + 1)*sizeof(VARIABLEREGISTER));
-	if (pvr == NULL)
+	if (pvr == nullptr)
 		return -1;
 
 	vr = pvr;
@@ -50,25 +50,25 @@ static int addToVariablesRegister(wchar_t *szName, wchar_t *szText)
 
 static wchar_t *searchVariableRegister(wchar_t *szName)
 {
-	if ((szName == NULL) || (mir_wstrlen(szName) <= 0))
-		return NULL;
+	if ((szName == nullptr) || (mir_wstrlen(szName) <= 0))
+		return nullptr;
 
 	mir_cslock lck(csVarRegister);
 	for (int i = 0; i < vrCount; i++)
 		if ((!mir_wstrcmp(vr[i].szName, szName)))
 			return mir_wstrdup(vr[i].szText);
 
-	return NULL;
+	return nullptr;
 }
 
 static wchar_t *parsePut(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	//	ai->flags |= AIF_DONTPARSE;
 	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -80,10 +80,10 @@ static wchar_t *parsePut(ARGUMENTSINFO *ai)
 static wchar_t *parsePuts(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
-		return NULL;
+		return nullptr;
 
 	return mir_wstrdup(L"");
 }
@@ -91,7 +91,7 @@ static wchar_t *parsePuts(ARGUMENTSINFO *ai)
 static wchar_t *parseGet(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	return searchVariableRegister(ai->targv[1]);
 }
@@ -111,6 +111,6 @@ void unregisterVariablesTokens()
 		mir_free(vr[i].szText);
 	}
 	mir_free(vr);
-	vr = NULL;
+	vr = nullptr;
 	vrCount = 0;
 }

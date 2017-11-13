@@ -12,15 +12,15 @@ static BOOL	bMouseMoved		 = FALSE;
 static int	nLeft = 0;
 static int  nTop  = 0;
 static int  nOffs = 5;
-static ThumbInfo *pThumbMouseIn	 = NULL;
+static ThumbInfo *pThumbMouseIn	 = nullptr;
 
 static void SnapToScreen(RECT rcThumb, int nX, int nY, int *pX, int *pY)
 {
 	int nWidth;
 	int nHeight;
 
-	assert(NULL != pX);
-	assert(NULL != pY);
+	assert(nullptr != pX);
+	assert(nullptr != pY);
 
 	nWidth = rcThumb.right - rcThumb.left;
 	nHeight = rcThumb.bottom - rcThumb.top;
@@ -41,7 +41,7 @@ ThumbInfo::ThumbInfo()
 ThumbInfo::~ThumbInfo()
 {
 	if (pThumbMouseIn == this) {
-		pThumbMouseIn = NULL;
+		pThumbMouseIn = nullptr;
 		KillTimer(hwnd, TIMERID_LEAVE_T);
 	}
 	dropTarget->Release();
@@ -64,13 +64,13 @@ void ThumbInfo::PositionThumb(int nX, int nY)
 	ThumbInfo *pThumb = this;
 	while (pThumb) {
 		pThumb->PositionThumbWorker(pos.x, pos.y, &pos);
-		if (NULL != pThumb->hwnd) /* Wine fix. */
+		if (nullptr != pThumb->hwnd) /* Wine fix. */
 			hdwp = DeferWindowPos(hdwp, pThumb->hwnd, HWND_TOPMOST, pos.x, pos.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
 		pThumb->ptPos = pos;
 		pos.x += pThumb->szSize.cx;
 
-		pThumb = fcOpt.bMoveTogether ? thumbList.FindThumb(pThumb->dockOpt.hwndRight) : NULL;
+		pThumb = fcOpt.bMoveTogether ? thumbList.FindThumb(pThumb->dockOpt.hwndRight) : nullptr;
 	}
 
 	EndDeferWindowPos(hdwp);
@@ -102,7 +102,7 @@ void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 	// Docking and screen boundaries check
 	SnapToScreen(rcThumb, nX, nY, &nNewX, &nNewY);
 
-	bLeading = dockOpt.hwndRight != NULL;
+	bLeading = dockOpt.hwndRight != nullptr;
 
 	if (fcOpt.bMoveTogether)
 		UndockThumbs(this, thumbList.FindThumb(dockOpt.hwndLeft));
@@ -238,7 +238,7 @@ void ThumbInfo::ResizeThumb()
 	int index = FLT_FONTID_NOTONLIST;
 
 	himlMiranda = Clist_GetImageList();
-	if (himlMiranda == NULL)
+	if (himlMiranda == nullptr)
 		return;
 
 	SIZEL sizeIcon;
@@ -247,7 +247,7 @@ void ThumbInfo::ResizeThumb()
 	HDC hdc = GetWindowDC(hwnd);
 	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
 		char *szProto = GetContactProto(hContact);
-		if (NULL != szProto) {
+		if (nullptr != szProto) {
 			int nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
@@ -352,7 +352,7 @@ void ThumbInfo::OnLButtonUp()
 
 	if (bMouseDown) {
 		bMouseDown = FALSE;
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
 		// Check whether we shoud remove the window
 		GetWindowRect(hwndMiranda, &rcMiranda);
@@ -390,11 +390,11 @@ void ThumbInfo::OnMouseMove(int nX, int nY)
 
 		ptOld = ptNew;
 	}
-	else SetCursor(LoadCursor(NULL, IDC_ARROW));
+	else SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
 	// Update selection status
 	if (!pThumbMouseIn) {
-		SetTimer(hwnd, TIMERID_LEAVE_T, 10, NULL);
+		SetTimer(hwnd, TIMERID_LEAVE_T, 10, nullptr);
 		pThumbMouseIn = this;
 
 		ThumbSelect(TRUE);
@@ -423,7 +423,7 @@ void ThumbInfo::OnMouseMove(int nX, int nY)
 			return;
 
 		tmpTimeIn = (fcOpt.TimeIn > 0) ? fcOpt.TimeIn : CallService(MS_CLC_GETINFOTIPHOVERTIME, 0, 0);
-		SetTimer(hwnd, TIMERID_HOVER_T, tmpTimeIn, 0);
+		SetTimer(hwnd, TIMERID_HOVER_T, tmpTimeIn, nullptr);
 		fTipTimerActive = TRUE;
 	}
 }
@@ -483,10 +483,10 @@ void ThumbInfo::UpdateContent()
 	HDC		hdcDraw = bmpContent.getDC();
 	SetRect(&rc, 0, 0, szSize.cx, szSize.cy);
 
-	if (NULL != hBmpBackground) {
+	if (nullptr != hBmpBackground) {
 		RECT rcBkgnd;
 		SetRect(&rcBkgnd, 0, 0, szSize.cx, szSize.cy);
-		if (NULL != hLTEdgesPen)
+		if (nullptr != hLTEdgesPen)
 			InflateRect(&rcBkgnd, -1, -1);
 		int width = rcBkgnd.right - rcBkgnd.left;
 		int height = rcBkgnd.bottom - rcBkgnd.top;
@@ -549,19 +549,19 @@ void ThumbInfo::UpdateContent()
 	}
 	else FillRect(hdcDraw, &rc, hBkBrush);
 
-	if (NULL != hLTEdgesPen) {
+	if (nullptr != hLTEdgesPen) {
 		HPEN  hOldPen = (HPEN)SelectObject(hdcDraw, hLTEdgesPen);
 
-		MoveToEx(hdcDraw, 0, 0, NULL);
+		MoveToEx(hdcDraw, 0, 0, nullptr);
 		LineTo(hdcDraw, szSize.cx, 0);
-		MoveToEx(hdcDraw, 0, 0, NULL);
+		MoveToEx(hdcDraw, 0, 0, nullptr);
 		LineTo(hdcDraw, 0, szSize.cy);
 
 		SelectObject(hdcDraw, hRBEdgesPen);
 
-		MoveToEx(hdcDraw, 0, szSize.cy - 1, NULL);
+		MoveToEx(hdcDraw, 0, szSize.cy - 1, nullptr);
 		LineTo(hdcDraw, szSize.cx - 1, szSize.cy - 1);
-		MoveToEx(hdcDraw, szSize.cx - 1, szSize.cy - 1, NULL);
+		MoveToEx(hdcDraw, szSize.cx - 1, szSize.cy - 1, nullptr);
 		LineTo(hdcDraw, szSize.cx - 1, 0);
 
 		SelectObject(hdcDraw, hOldPen);
@@ -575,7 +575,7 @@ void ThumbInfo::UpdateContent()
 
 	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
 		char *szProto = GetContactProto(hContact);
-		if (NULL != szProto) {
+		if (nullptr != szProto) {
 			int nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
@@ -656,7 +656,7 @@ void ThumbInfo::UpdateContent()
 	blend.SourceConstantAlpha = 255;
 	blend.AlphaFormat = AC_SRC_ALPHA;
 
-	UpdateLayeredWindow(hwnd, NULL, &ptDst, &szSize, bmpContent.getDC(), &ptSrc, 0xffffffff, &blend, ULW_ALPHA);
+	UpdateLayeredWindow(hwnd, nullptr, &ptDst, &szSize, bmpContent.getDC(), &ptSrc, 0xffffffff, &blend, ULW_ALPHA);
 }
 
 void ThumbInfo::PopupMessageDialog()
@@ -678,7 +678,7 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 		GetThumbRect(&rc);
 		if (!PtInRect(&rc, pt)) {
 			KillTimer(hwnd, TIMERID_LEAVE_T);
-			pThumbMouseIn = NULL;
+			pThumbMouseIn = nullptr;
 			ThumbDeselect(TRUE);
 		}
 	}
@@ -704,7 +704,7 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 
 void DockThumbs(ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight)
 {
-	if (pThumbRight->dockOpt.hwndLeft == NULL && pThumbLeft->dockOpt.hwndRight == NULL) {
+	if (pThumbRight->dockOpt.hwndLeft == nullptr && pThumbLeft->dockOpt.hwndRight == nullptr) {
 		pThumbRight->dockOpt.hwndLeft = pThumbLeft->hwnd;
 		pThumbLeft->dockOpt.hwndRight = pThumbRight->hwnd;
 	}
@@ -713,20 +713,20 @@ void DockThumbs(ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight)
 
 void UndockThumbs(ThumbInfo *pThumb1, ThumbInfo *pThumb2)
 {
-	if (pThumb1 == NULL || pThumb2 == NULL)
+	if (pThumb1 == nullptr || pThumb2 == nullptr)
 		return;
 
 	if (pThumb1->dockOpt.hwndRight == pThumb2->hwnd)
-		pThumb1->dockOpt.hwndRight = NULL;
+		pThumb1->dockOpt.hwndRight = nullptr;
 
 	if (pThumb1->dockOpt.hwndLeft == pThumb2->hwnd)
-		pThumb1->dockOpt.hwndLeft = NULL;
+		pThumb1->dockOpt.hwndLeft = nullptr;
 
 	if (pThumb2->dockOpt.hwndRight == pThumb1->hwnd)
-		pThumb2->dockOpt.hwndRight = NULL;
+		pThumb2->dockOpt.hwndRight = nullptr;
 
 	if (pThumb2->dockOpt.hwndLeft == pThumb1->hwnd)
-		pThumb2->dockOpt.hwndLeft = NULL;
+		pThumb2->dockOpt.hwndLeft = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -740,16 +740,16 @@ ThumbList::~ThumbList()
 
 ThumbInfo *ThumbList::AddThumb(HWND hwnd, wchar_t *ptszName, MCONTACT hContact)
 {
-	if (ptszName == NULL || hContact == NULL || hwnd == NULL)
-		return NULL;
+	if (ptszName == nullptr || hContact == NULL || hwnd == nullptr)
+		return nullptr;
 
 	ThumbInfo *pThumb = new ThumbInfo;
 	wcsncpy_s(pThumb->ptszName, ptszName, _TRUNCATE);
 	pThumb->hContact = hContact;
 	pThumb->hwnd = hwnd;
 
-	pThumb->dockOpt.hwndLeft = NULL;
-	pThumb->dockOpt.hwndRight = NULL;
+	pThumb->dockOpt.hwndLeft = nullptr;
+	pThumb->dockOpt.hwndRight = nullptr;
 
 	pThumb->fTipActive = FALSE;
 	RegHotkey(hContact, hwnd);
@@ -774,22 +774,22 @@ void ThumbList::RemoveThumb(ThumbInfo *pThumb)
 
 ThumbInfo* ThumbList::FindThumb(HWND hwnd)
 {
-	if (!hwnd) return NULL;
+	if (!hwnd) return nullptr;
 
 	for (int i = 0; i < getCount(); ++i)
 		if (items[i]->hwnd == hwnd)
 			return items[i];
 
-	return NULL;
+	return nullptr;
 }
 
 ThumbInfo *ThumbList::FindThumbByContact(MCONTACT hContact)
 {
-	if (!hContact) return NULL;
+	if (!hContact) return nullptr;
 
 	for (int i = 0; i < getCount(); ++i)
 		if (items[i]->hContact == hContact)
 			return items[i];
 
-	return NULL;
+	return nullptr;
 }

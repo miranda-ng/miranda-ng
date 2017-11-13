@@ -13,7 +13,7 @@ HANDLE hMainMenu, hOptions, hAccManager, hFindAdd, hStatusMenu, hShowHideOffline
 int OnSettingChanging(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-	if (hContact != 0 || dbcws == NULL)
+	if (hContact != 0 || dbcws == nullptr)
 		return 0;
 
 	if (!strcmp(dbcws->szModule, "CList")) {
@@ -38,7 +38,7 @@ INT_PTR TTBInternalMainMenuButt(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(Menu_GetMainMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+	TrackPopupMenu(Menu_GetMainMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
 	return 0;
 }
 
@@ -46,7 +46,7 @@ INT_PTR TTBInternalStatusMenuButt(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
-	TrackPopupMenu(Menu_GetStatusMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+	TrackPopupMenu(Menu_GetStatusMenu(), TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
 	return 0;
 }
 
@@ -67,7 +67,7 @@ void InitInternalButtons()
 	CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt);
 	CreateServiceFunction(TTBI_STATUSMENUBUTT, TTBInternalStatusMenuButt);
 
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.name = LPGEN("Show main menu");
 	ttb.pszService = TTBI_MAINMENUBUTT;
 	ttb.dwFlags = TTBBF_INTERNAL | TTBBF_VISIBLE;
@@ -110,7 +110,7 @@ void InitInternalButtons()
 	ttb.dwFlags = TTBBF_INTERNAL | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
 	ttb.pszTooltipDn = LPGEN("Show offline contacts");
 	ttb.pszTooltipUp = LPGEN("Hide offline contacts");
-	ttb.hIconHandleDn = ttb.hIconHandleUp = NULL;
+	ttb.hIconHandleDn = ttb.hIconHandleUp = nullptr;
 	ttb.hIconUp = IcoLib_GetIconByHandle(iconList[1].hIcolib);
 	ttb.hIconDn = IcoLib_GetIconByHandle(iconList[2].hIcolib);
 	hShowHideOffline = TopToolbar_AddButton(&ttb);
@@ -147,8 +147,8 @@ void InitInternalButtons()
 	ttb.dwFlags = TTBBF_INTERNAL | TTBBF_VISIBLE;
 	ttb.pszTooltipUp = LPGEN("Minimize contact list");
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
-	ttb.pszTooltipDn = NULL;
-	ttb.hIconUp = ttb.hIconDn = NULL;
+	ttb.pszTooltipDn = nullptr;
+	ttb.hIconUp = ttb.hIconDn = nullptr;
 	hMinimize = TopToolbar_AddButton(&ttb);
 
 	ttb.name = LPGEN("Exit");

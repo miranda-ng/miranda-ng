@@ -28,8 +28,8 @@ CFolderItem::CFolderItem(const char *sectionName, const char *name, const wchar_
 		m_tszUserName = mir_wstrdup(userName);
 	else
 		m_tszUserName = mir_a2u(name);
-	m_tszFormat = NULL;
-	m_tszOldFormat = NULL;
+	m_tszFormat = nullptr;
+	m_tszOldFormat = nullptr;
 	GetDataFromDatabase(format);
 	FolderCreateDirectory();
 }
@@ -84,13 +84,13 @@ void CFolderItem::Save()
 
 int CFolderItem::FolderCreateDirectory(int showFolder)
 {
-	if (m_tszFormat == NULL)
+	if (m_tszFormat == nullptr)
 		return FOLDER_SUCCESS;
 
 	CMStringW buffer(ExpandPath(m_tszFormat));
 	CreateDirectoryTreeW(buffer);
 	if (showFolder)
-		ShellExecute(NULL, L"explore", buffer, NULL, NULL, SW_SHOW);
+		ShellExecute(nullptr, L"explore", buffer, nullptr, nullptr, SW_SHOW);
 
 	return (DirectoryExists(buffer)) ? FOLDER_SUCCESS : FOLDER_FAILURE;
 }
@@ -107,7 +107,7 @@ int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 	RemoveDirectories(buffer);
 	int res = (DirectoryExists(buffer)) ? FOLDER_FAILURE : FOLDER_SUCCESS;
 	if ((res == FOLDER_FAILURE) && (showFolder))
-		ShellExecute(NULL, L"explore", buffer, NULL, NULL, SW_SHOW);
+		ShellExecute(nullptr, L"explore", buffer, nullptr, nullptr, SW_SHOW);
 	return res;
 }
 

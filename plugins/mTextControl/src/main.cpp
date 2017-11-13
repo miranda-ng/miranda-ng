@@ -21,13 +21,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst = 0;
+HINSTANCE hInst = nullptr;
 int hLangpack;
 
-HMODULE hMsfteditDll = 0;
+HMODULE hMsfteditDll = nullptr;
 
 typedef HRESULT(WINAPI *pfnMyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
-pfnMyCreateTextServices MyCreateTextServices = NULL;
+pfnMyCreateTextServices MyCreateTextServices = nullptr;
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -59,7 +59,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	MyCreateTextServices = 0;
+	MyCreateTextServices = nullptr;
 	hMsfteditDll = LoadLibrary(L"msftedit.dll");
 	if (hMsfteditDll)
 		MyCreateTextServices = (pfnMyCreateTextServices)GetProcAddress(hMsfteditDll, "CreateTextServices");

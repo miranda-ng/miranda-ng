@@ -86,7 +86,7 @@ void Contact::addChat(bool bOutgoing, DWORD, DWORD duration)
 
 void Contact::addEvent(WORD eventType, bool bOutgoing)
 {
-	InOut* pIO = NULL;
+	InOut* pIO = nullptr;
 
 	switch (eventType) {
 	case EVENTTYPE_URL:

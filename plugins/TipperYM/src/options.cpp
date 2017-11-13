@@ -25,7 +25,7 @@ ICONSTATE exIcons[EXICONS_COUNT];
 
 extern int IsTrayProto(const wchar_t *swzProto, BOOL bExtendedTip)
 {
-	if (swzProto == NULL)
+	if (swzProto == nullptr)
 		return 0;
 
 	char szSetting[64];
@@ -60,11 +60,11 @@ void CreateDefaultItems()
 		}
 		else {
 			PRESETITEM *item = GetPresetItemByName(defaultItemList[i].szName);
-			if (item == NULL) continue;
+			if (item == nullptr) continue;
 
 			for (int j = 0; j < MAX_PRESET_SUBST_COUNT; j++) {
 				PRESETSUBST *subst = GetPresetSubstByName(item->szNeededSubst[j]);
-				if (subst == NULL) continue;
+				if (subst == nullptr) continue;
 
 				DSListNode *ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
 				wcsncpy(ds_node->ds.swzName, subst->swzName, LABEL_LEN);
@@ -344,7 +344,7 @@ void LoadOptions()
 	opt.bShowNoFocus = (db_get_b(0, MODULE, "ShowNoFocus", 1) == 1);
 
 	int i, real_count = 0;
-	opt.dsList = 0;
+	opt.dsList = nullptr;
 	DSListNode *ds_node;
 
 	opt.iDsCount = db_get_w(0, MODULE_ITEMS, "DSNumValues", 0);
@@ -361,7 +361,7 @@ void LoadOptions()
 	opt.iDsCount = real_count;
 
 	real_count = 0;
-	opt.diList = 0;
+	opt.diList = nullptr;
 	DIListNode *di_node;
 
 	opt.bWaitForStatusMsg = false;
@@ -414,7 +414,7 @@ void LoadOptions()
 		wcsncpy(di_node->di.swzLabel, L"Last message: (%sys:last_msg_reltime% ago)", LABEL_LEN);
 		wcsncpy(di_node->di.swzValue, L"%sys:last_msg%", VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
-		di_node->next = 0;
+		di_node->next = nullptr;
 		opt.iDiCount++;
 	}
 
@@ -439,7 +439,7 @@ void LoadOptions()
 		wcsncpy(di_node->di.swzLabel, L"Status message:", LABEL_LEN);
 		wcsncpy(di_node->di.swzValue, L"%sys:status_msg%", VALUE_LEN);
 		di_node->di.bLineAbove = di_node->di.bValueNewline = true;
-		di_node->next = 0;
+		di_node->next = nullptr;
 		opt.iDiCount++;
 	}
 
@@ -609,9 +609,9 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				case IDC_BTN_VARIABLE:
 					{
 						if (GetFocus() == GetDlgItem(hwndDlg, IDC_ED_LABEL))
-							variables_showhelp(hwndDlg, IDC_ED_LABEL, VHF_FULLDLG, NULL, NULL);
+							variables_showhelp(hwndDlg, IDC_ED_LABEL, VHF_FULLDLG, nullptr, nullptr);
 						else
-							variables_showhelp(hwndDlg, IDC_ED_VALUE, VHF_FULLDLG, NULL, NULL);
+							variables_showhelp(hwndDlg, IDC_ED_VALUE, VHF_FULLDLG, nullptr, nullptr);
 						return TRUE;
 					}
 				}
@@ -794,7 +794,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_CHECKBOXES);
 		{
 
-			TVINSERTSTRUCT tvi = { 0 };
+			TVINSERTSTRUCT tvi = {};
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 			tvi.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -888,7 +888,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ITEM), hwndDlg, DlgProcAddItem, (LPARAM)&di_value->di);
 					if (result == IDOK || (result >= IDPRESETITEM && result < (IDPRESETITEM + 100))) {
-						TVINSERTSTRUCT tvi = { 0 };
+						TVINSERTSTRUCT tvi = {};
 						tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 						tvi.item.stateMask = TVIS_STATEIMAGEMASK;
 						tvi.item.lParam = (LPARAM)di_value;
@@ -912,12 +912,12 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							for (int i = 0; i < MAX_PRESET_SUBST_COUNT; i++) {
 
 								PRESETSUBST *subst = GetPresetSubstByName(presetItems[result - IDPRESETITEM].szNeededSubst[i]);
-								if (subst == NULL)
+								if (subst == nullptr)
 									break;
 								if (SendDlgItemMessage(hwndDlg, IDC_LST_SUBST, LB_FINDSTRING, -1, (LPARAM)subst->swzName) == LB_ERR) {
 									DSListNode *ds_value = (DSListNode *)mir_alloc(sizeof(DSListNode));
 									memset(ds_value, 0, sizeof(DSListNode));
-									ds_value->next = NULL;
+									ds_value->next = nullptr;
 									ds_value->ds.type = subst->type;
 									wcsncpy(ds_value->ds.swzName, subst->swzName, LABEL_LEN - 1);
 
@@ -951,7 +951,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					di_value->di.bIsVisible = true;
 					di_value->di.bLineAbove = true;
 
-					TVINSERTSTRUCT tvi = { 0 };
+					TVINSERTSTRUCT tvi = {};
 					tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 					tvi.item.stateMask = TVIS_STATEIMAGEMASK;
 					tvi.item.lParam = (LPARAM)di_value;
@@ -1124,7 +1124,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				TVITEM item = { 0 };
 				item.mask = TVIF_PARAM;
 				item.hItem = TreeView_GetLastVisible(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));
-				while (item.hItem != NULL) {
+				while (item.hItem != nullptr) {
 					if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item)) {
 						di_node = (DIListNode *)item.lParam;
 						di_value = (DIListNode *)mir_alloc(sizeof(DIListNode));
@@ -1208,7 +1208,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		TVITEM tvi = { 0 };
 		tvi.mask = TVIF_PARAM;
 
-		for (HTREEITEM hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS)); hItem != NULL;
+		for (HTREEITEM hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS)); hItem != nullptr;
 			  hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), hItem)) {
 			tvi.hItem = hItem;
 			if (TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &tvi)) {
@@ -1468,8 +1468,8 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
-			TVINSERTSTRUCT tvi = { 0 };
-			tvi.hParent = 0;
+			TVINSERTSTRUCT tvi = {};
+			tvi.hParent = nullptr;
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 			tvi.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -1521,7 +1521,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS));
 
 						int i = 0;
-						while (item.hItem != NULL) {
+						while (item.hItem != nullptr) {
 							item.mask = TVIF_HANDLE | TVIF_PARAM;
 							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
 							opt.exIconsOrder[i] = ((ICONSTATE *)item.lParam)->order;
@@ -1543,7 +1543,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						opt.bDisableIfInvisible = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEINVISIBLE) ? true : false;
 						opt.bRetrieveXstatus = IsDlgButtonChecked(hwndDlg, IDC_CHK_RETRIEVEXSTATUS) ? true : false;
 						opt.bLimitMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG) ? true : false;
-						opt.iLimitCharCount = GetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, 0, FALSE);
+						opt.iLimitCharCount = GetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, nullptr, FALSE);
 
 						db_set_dw(0, MODULE, "SmileyAddFlags", opt.iSmileyAddFlags);
 						db_set_b(0, MODULE, "WaitForContent", opt.bWaitForContent ? 1 : 0);
@@ -1664,7 +1664,7 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				tvis.item.state = INDEXTOSTATEIMAGEMASK(((ICONSTATE *)item.lParam)->vis ? 2 : 1);
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis.item);
 				TreeView_DeleteItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), dat->hDragItem);
-				tvis.hParent = NULL;
+				tvis.hParent = nullptr;
 				tvis.hInsertAfter = hti.hItem;
 				TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis));
 				SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
@@ -1737,7 +1737,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			CheckDlgButton(hwndDlg, IDC_CHK_LOADFONTS, opt.bLoadFonts ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CHK_LOADPROPORTIONS, opt.bLoadProportions ? BST_CHECKED : BST_UNCHECKED);
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AEROGLASS), MyDwmEnableBlurBehindWindow != 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AEROGLASS), MyDwmEnableBlurBehindWindow != nullptr);
 
 			SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Animation"));
@@ -1808,7 +1808,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 								EnableControls(hwndDlg, true);
 							}
 
-							InvalidateRect(GetDlgItem(hwndDlg, IDC_PIC_PREVIEW), 0, FALSE);
+							InvalidateRect(GetDlgItem(hwndDlg, IDC_PIC_PREVIEW), nullptr, FALSE);
 							iLastSel = iSel;
 						}
 					}
@@ -1862,13 +1862,13 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		{
 			if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
-				opt.iOpacity = GetDlgItemInt(hwndDlg, IDC_ED_TRANS, 0, 0);
+				opt.iOpacity = GetDlgItemInt(hwndDlg, IDC_ED_TRANS, nullptr, 0);
 				opt.bDropShadow = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHADOW) ? true : false;
 				opt.bBorder = IsDlgButtonChecked(hwndDlg, IDC_CHK_BORDER) ? true : false;
 				opt.bRound = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) ? true : false;
 				opt.bAeroGlass = IsDlgButtonChecked(hwndDlg, IDC_CHK_AEROGLASS) ? true : false;
 				opt.showEffect = (PopupShowEffect)SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_GETCURSEL, 0, 0);
-				opt.iAnimateSpeed = GetDlgItemInt(hwndDlg, IDC_ED_SPEED, 0, 0);
+				opt.iAnimateSpeed = GetDlgItemInt(hwndDlg, IDC_ED_SPEED, nullptr, 0);
 				opt.bLoadFonts = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADFONTS) ? true : false;
 				opt.bLoadProportions = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADPROPORTIONS) ? true : false;
 
@@ -1963,8 +1963,8 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
-			TVINSERTSTRUCT tvi = { 0 };
-			tvi.hParent = 0;
+			TVINSERTSTRUCT tvi = {};
+			tvi.hParent = nullptr;
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 
@@ -2021,7 +2021,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			break;
 
 		case IDC_BTN_FAVCONTACTS:
-			CreateDialog(hInst, MAKEINTRESOURCE(IDD_FAVCONTACTS), 0, DlgProcFavouriteContacts);
+			CreateDialog(hInst, MAKEINTRESOURCE(IDD_FAVCONTACTS), nullptr, DlgProcFavouriteContacts);
 			break;
 		}
 
@@ -2043,7 +2043,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				item.cchTextMax = _countof(buff);
 				item.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
 				item.stateMask = TVIS_STATEIMAGEMASK;
-				while (item.hItem != NULL) {
+				while (item.hItem != nullptr) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
 						mir_wstrcat(swzProtos, buff);
@@ -2058,7 +2058,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				swzProtos[0] = 0;
 				item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS));
 				item.pszText = buff;
-				while (item.hItem != NULL) {
+				while (item.hItem != nullptr) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2) {
 						mir_wstrcat(swzProtos, buff);
@@ -2075,7 +2075,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS));
 				item.mask = TVIF_HANDLE | TVIF_STATE;
 				item.stateMask = TVIS_STATEIMAGEMASK;
-				while (item.hItem != NULL) {
+				while (item.hItem != nullptr) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2)
 						opt.iFirstItems |= (1 << count);
@@ -2087,7 +2087,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				count = 0;
 				opt.iSecondItems = 0;
 				item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS));
-				while (item.hItem != NULL) {
+				while (item.hItem != nullptr) {
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), &item);
 					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 2)
 						opt.iSecondItems |= (1 << count);
@@ -2100,7 +2100,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				opt.bHandleByTipper = IsDlgButtonChecked(hwndDlg, IDC_CHK_HANDLEBYTIPPER) ? true : false;
 				opt.bExpandTraytip = IsDlgButtonChecked(hwndDlg, IDC_CHK_EXPAND) ? true : false;
 				opt.bHideOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? true : false;
-				opt.iExpandTime = max(min(GetDlgItemInt(hwndDlg, IDC_ED_EXPANDTIME, 0, FALSE), 5000), 10);
+				opt.iExpandTime = max(min(GetDlgItemInt(hwndDlg, IDC_ED_EXPANDTIME, nullptr, FALSE), 5000), 10);
 
 				db_set_b(0, MODULE, "TrayTip", (opt.bTraytip ? 1 : 0));
 				db_set_b(0, MODULE, "ExtendedTrayTip", (opt.bHandleByTipper ? 1 : 0));

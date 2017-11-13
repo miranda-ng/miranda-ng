@@ -225,7 +225,7 @@ void SetInSessionOrder(MCONTACT hContact, int mode, int count, unsigned int orde
 BOOL ResaveSettings(char *szName, int iFirst, int iLimit, wchar_t *szBuffer)
 {
 	for (int i = iFirst; i < iLimit; i++) {
-		if (szBuffer == NULL)
+		if (szBuffer == nullptr)
 			break;
 
 		char szNameBuf[256];
@@ -238,7 +238,7 @@ BOOL ResaveSettings(char *szName, int iFirst, int iLimit, wchar_t *szBuffer)
 		BYTE marked = IsMarkedUserDefSession(i);
 		MarkUserDefSession(i, (BYTE)((i == iFirst) ? IsMarkedUserDefSession(iFirst - 1) : marked));
 
-		if (ptszTemp == NULL) // read failed
+		if (ptszTemp == nullptr) // read failed
 			return 0;
 
 		szBuffer = ptszTemp;
@@ -350,7 +350,7 @@ void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy)
 	rc.top = pt.y;
 
 	OffsetRect(&rc, dx, dy);
-	SetWindowPos(hwnd, NULL, rc.left, rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+	SetWindowPos(hwnd, nullptr, rc.left, rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 }
 
 int CheckContactVisibility(MCONTACT hContact)
@@ -398,5 +398,5 @@ void LoadPosition(HWND hWnd, char *wndName)
 	int x = db_get_dw(0, MODNAME, buffer, ((GetSystemMetrics(SM_CXSCREEN)) / 2) - 130);
 	mir_snprintf(buffer, "%sPosY", wndName);
 	int y = db_get_dw(0, MODNAME, buffer, ((GetSystemMetrics(SM_CYSCREEN)) / 2) - 80);
-	SetWindowPos(hWnd, NULL, x, y, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE);
+	SetWindowPos(hWnd, nullptr, x, y, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE);
 }

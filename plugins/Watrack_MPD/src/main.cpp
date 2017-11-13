@@ -20,7 +20,7 @@ HNETLIBCONN ghConnection;
 HANDLE ghPacketReciever;
 BOOL Connected;
 int gbState;
-SONGINFO SongInfo = {0};
+SONGINFO SongInfo = {};
 
 void Start(void*)
 {
@@ -43,7 +43,7 @@ void ReStart(void*)
 	if(ghConnection)
 		Netlib_CloseHandle(ghConnection);
 	Sleep(500);
-	mir_forkthread(&Start, 0);
+	mir_forkthread(&Start, nullptr);
 }
 
 int Parser()
@@ -56,7 +56,7 @@ int Parser()
 	nlpr.dwTimeout = 5;
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, 0);
+		mir_forkthread(&Start, nullptr);
 	}
 	if(ghConnection)
 	{	
@@ -68,7 +68,7 @@ int Parser()
 			recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 			if(recvResult == SOCKET_ERROR)
 			{
-				mir_forkthread(&ReStart, 0);
+				mir_forkthread(&ReStart, nullptr);
 //				ReStart();
 				return 1;
 			}
@@ -81,7 +81,7 @@ int Parser()
 				recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 				if(recvResult == SOCKET_ERROR)
 				{
-					mir_forkthread(&ReStart, 0);
+					mir_forkthread(&ReStart, nullptr);
 					return 1;
 				}
 			}
@@ -91,14 +91,14 @@ int Parser()
 		recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
-			mir_forkthread(&ReStart, 0);
+			mir_forkthread(&ReStart, nullptr);
 			return 1;
 		}
 		Netlib_Send(ghConnection, "currentsong\n", (int)mir_strlen("currentsong\n"), 0);
 		recvResult = Netlib_GetMorePackets(ghPacketReciever, &nlpr);
 		if(recvResult == SOCKET_ERROR)
 		{
-			mir_forkthread(&ReStart, 0);
+			mir_forkthread(&ReStart, nullptr);
 			return 1;
 		}
 		nlpr.bytesUsed = nlpr.bytesAvailable;
@@ -266,7 +266,7 @@ void Stop()
 
 int Init()
 {
-	mir_forkthread(&Start, 0);
+	mir_forkthread(&Start, nullptr);
 	return 0;
 }
 
@@ -280,21 +280,21 @@ HWND CheckPlayer(HWND, int)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, 0);
-		return 0;
+		mir_forkthread(&Start, nullptr);
+		return nullptr;
 	}
 	if(Parser())
 		return (HWND)WAT_PLS_STOPPED;
 	if(Connected)		
 		return (HWND)WAT_PLS_PLAYING;
-	return 0;
+	return nullptr;
 }
 
 int GetStatus(HWND)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, 0);
+		mir_forkthread(&Start, nullptr);
 		return 0;
 	}
 	return Parser() ? -1 : gbState;
@@ -304,17 +304,17 @@ WCHAR* GetFileName(HWND, int)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, 0);
-		return 0;
+		mir_forkthread(&Start, nullptr);
+		return nullptr;
 	}
-	return 0;
+	return nullptr;
 }
 
 int GetPlayerInfo(LPSONGINFO info, int)
 {
 	if(!ghConnection)
 	{
-		mir_forkthread(&Start, 0);
+		mir_forkthread(&Start, nullptr);
 		return 0;
 	}
 	if(Parser())
@@ -398,7 +398,7 @@ void RegisterPlayer()
 {
 	if(bWatrackService)
 	{
-		PLAYERCELL player = {0};
+		PLAYERCELL player = {};
 		player.Desc = "Music Player Daemon";
 		player.Notes = L"mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.";
 		player.URL = "http://www.musicpd.org";

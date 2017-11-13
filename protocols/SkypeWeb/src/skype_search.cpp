@@ -35,7 +35,7 @@ void CSkypeProto::SearchBasicThread(void* id)
 void CSkypeProto::OnSearch(const NETLIBHTTPREQUEST *response)
 {
 	debugLogA(__FUNCTION__);
-	if (response == NULL) {
+	if (response == nullptr) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}

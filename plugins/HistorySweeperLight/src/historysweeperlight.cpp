@@ -30,7 +30,7 @@ typedef struct
 // build criteria
 time_t BuildCriteria(int dwti)
 {
-	time_t tim = time(NULL);
+	time_t tim = time(nullptr);
 
 	switch (dwti) {
 	case 0:
@@ -93,7 +93,7 @@ static int CompareBookmarks(const void* p1, const void* p2)
 
 static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt)
 {
-	*books = NULL;
+	*books = nullptr;
 	*bookcnt = 0;
 
 	DBVARIANT dbv;
@@ -143,7 +143,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 	BEventData *books, *item, ev = { 0 };
 	size_t bookcnt, btshift;
 
-	SetCursor(LoadCursor(0, IDC_WAIT));
+	SetCursor(LoadCursor(nullptr, IDC_WAIT));
 
 	// switch off SAFETYMODE if necessary
 	if (unsafe)
@@ -167,7 +167,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 		if (bookcnt != 0) { // keep bookmarks
 			ev.hDBEvent = hDBEvent;
 			item = (BEventData*)bsearch(&ev, books, bookcnt, sizeof(BEventData), CompareBookmarks);
-			if (item != NULL && item->Timestamp == dbei.timestamp) {
+			if (item != nullptr && item->Timestamp == dbei.timestamp) {
 				doDelete = FALSE;
 				btshift = (--bookcnt - (item - books))*sizeof(BEventData);
 				if (btshift)
@@ -189,7 +189,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 	if (unsafe)
 		db_set_safety_mode(TRUE);
 
-	SetCursor(LoadCursor(0, IDC_ARROW));
+	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 }
 
 // shutdown action
@@ -237,7 +237,7 @@ void SetSrmmIcon(MCONTACT hContact)
 {
 	int sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);
 
-	StatusIconData sid = { 0 };
+	StatusIconData sid = {};
 	sid.szModule = ModuleName;
 
 	for (int i = 0; i < 4; i++) {

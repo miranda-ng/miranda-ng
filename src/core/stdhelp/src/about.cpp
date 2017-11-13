@@ -38,7 +38,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			UINT blockSize;
 			PVOID pVerInfo;
 
-			GetModuleFileName(NULL, filename, _countof(filename));
+			GetModuleFileName(nullptr, filename, _countof(filename));
 			verInfoSize = GetFileVersionInfoSize(filename, &unused);
 			pVerInfo = mir_alloc(verInfoSize);
 			GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);

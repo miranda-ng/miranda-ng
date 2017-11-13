@@ -4,16 +4,16 @@
 #include "stdafx.h"
 
 int hLangpack;
-HINSTANCE g_hInstance = NULL;
+HINSTANCE g_hInstance = nullptr;
 HANDLE g_hEventWorkThreadStop;
 //int g_nStatus = ID_STATUS_OFFLINE;
 bool g_bAutoUpdate = true;
-HGENMENU g_hMenuEditSettings = NULL;
-HGENMENU g_hMenuOpenLogFile = NULL;
+HGENMENU g_hMenuEditSettings = nullptr;
+HGENMENU g_hMenuOpenLogFile = nullptr;
 #ifdef CHART_IMPLEMENT
-HGENMENU g_hMenuChart = NULL;
+HGENMENU g_hMenuChart = nullptr;
 #endif
-HGENMENU g_hMenuRefresh = NULL, g_hMenuRoot = NULL;
+HGENMENU g_hMenuRefresh = nullptr, g_hMenuRoot = nullptr;
 
 #define DB_STR_AUTO_UPDATE "AutoUpdate"
 
@@ -137,7 +137,7 @@ void InitMenu()
 
 	SET_UID(mi, 0x19a16fa2, 0xf370, 0x4201, 0x92, 0x9, 0x25, 0xde, 0x4e, 0x55, 0xf9, 0x1a);
 	mi.name.w = LPGENW("Open Log File...");
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	mi.pszService = "Quotes/OpenLogFile";
 	g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	Menu_ConfigureItem(g_hMenuOpenLogFile, MCI_OPT_EXECPARAM, 1);
@@ -146,7 +146,7 @@ void InitMenu()
 #ifdef CHART_IMPLEMENT
 	SET_UID(mi, 0x65da7256, 0x43a2, 0x4857, 0xac, 0x52, 0x1c, 0xb7, 0xff, 0xd7, 0x96, 0xfa);
 	mi.name.w = LPGENW("Chart...");
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	mi.pszService = "Quotes/Chart";
 	g_hMenuChart = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 	CreateServiceFunction(mi.pszService, QuotesMenu_Chart);
@@ -154,7 +154,7 @@ void InitMenu()
 
 	SET_UID(mi, 0xac5fc17, 0x5640, 0x4f81, 0xa3, 0x44, 0x8c, 0xb6, 0x9a, 0x5c, 0x98, 0xf);
 	mi.name.w = LPGENW("Edit Settings...");
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	mi.pszService = "Quotes/EditSettings";
 	g_hMenuEditSettings = Menu_AddContactMenuItem(&mi, QUOTES_PROTOCOL_NAME);
 #ifdef CHART_IMPLEMENT
@@ -167,7 +167,7 @@ void InitMenu()
 
 int Quotes_OnToolbarLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.name = LPGEN("Enable/Disable Quotes Auto Update");
 	ttb.pszService = g_pszAutoUpdateCmd;
 	ttb.pszTooltipUp = LPGEN("Quotes Auto Update Enabled");
@@ -202,7 +202,7 @@ int QuotesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 {
 	CHTTPSession::Init();
 
-	g_hEventWorkThreadStop = ::CreateEvent(NULL, TRUE, FALSE, NULL);
+	g_hEventWorkThreadStop = ::CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	HookEvent(ME_USERINFO_INITIALISE, QuotesEventFunc_OnUserInfoInit);
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, Quotes_OnContactDoubleClick);

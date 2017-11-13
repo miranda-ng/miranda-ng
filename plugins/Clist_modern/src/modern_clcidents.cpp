@@ -87,7 +87,7 @@ ClcContact* cliFindItem(DWORD dwItem, ClcContact *cc)
 			if (cc->subcontacts[i].hContact == dwItem)
 				return &cc->subcontacts[i];
 
-	return 0;
+	return nullptr;
 }
 
 int cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup)

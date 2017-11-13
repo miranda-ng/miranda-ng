@@ -24,7 +24,7 @@ LRESULT CALLBACK EditProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg) {
 	case WM_SETCURSOR:
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
 		return 1;
 	}
 	return mir_callNextSubclass(hdlg, EditProc, msg, wparam, lparam);

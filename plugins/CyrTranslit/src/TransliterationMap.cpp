@@ -23,7 +23,7 @@ namespace CyrTranslit
 {
 
 TransliterationMap::Guard TransliterationMap::guard;
-const TransliterationMap *TransliterationMap::pInstance = 0;
+const TransliterationMap *TransliterationMap::pInstance = nullptr;
 
 //------------------------------------------------------------------------------
 

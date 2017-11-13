@@ -31,7 +31,7 @@ bool CScreen::Initialize()
         m_aButtons[i].SetSize(17, 3);
         m_aButtons[i].Show(0);
 		m_abShowButtons[i] = false;
-		m_ahBitmaps[i] = NULL;
+		m_ahBitmaps[i] = nullptr;
 		if(GetWidth() == 160) {
 			m_aButtons[i].SetOrigin(10+i*29+(i/2)*36, GetHeight()-3);
 		} else {
@@ -65,7 +65,7 @@ bool CScreen::Shutdown()
 		return false;
 	
 	for(int i=0; i < 4; i++)
-		if(m_ahBitmaps[i] != NULL)
+		if(m_ahBitmaps[i] != nullptr)
 			DeleteObject(m_ahBitmaps[i]);
 
 	return true;
@@ -114,7 +114,7 @@ void CScreen::SetButtonBitmap(int iButton, int iBitmap)
 	}
 	else
 	{
-		if(m_ahBitmaps[iButton] != NULL)
+		if(m_ahBitmaps[iButton] != nullptr)
 			DeleteObject(m_ahBitmaps[iButton]);
 
 		m_ahBitmaps[iButton] = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(iBitmap),

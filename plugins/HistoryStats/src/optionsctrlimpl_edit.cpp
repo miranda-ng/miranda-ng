@@ -39,7 +39,7 @@ ext::string OptionsCtrlImpl::Edit::getCombinedText()
 }
 
 OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szEdit, DWORD dwFlags, INT_PTR dwData)
-	: Item(pCtrl, itEdit, szLabel, dwFlags, dwData), m_hEditWnd(NULL)
+	: Item(pCtrl, itEdit, szLabel, dwFlags, dwData), m_hEditWnd(nullptr)
 {
 	m_strEdit = szEdit;
 	m_bNumber = bool_(dwFlags & OCF_NUMBER);
@@ -85,7 +85,7 @@ void OptionsCtrlImpl::Edit::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE, WC_EDIT, m_strEdit.c_str(), dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccEdit), g_hInst, NULL))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccEdit), g_hInst, nullptr))
 		{
 			SendMessage(hTempWnd, WM_SETFONT, reinterpret_cast<WPARAM>(hTreeFront), MAKELPARAM(TRUE, 0));
 
@@ -114,9 +114,9 @@ void OptionsCtrlImpl::Edit::onDeselect()
 		m_pCtrl->setNodeText(m_hItem, getCombinedText().c_str());
 
 		DestroyWindow(m_hEditWnd);
-		m_hEditWnd = NULL;
+		m_hEditWnd = nullptr;
 
-		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : NULL, TRUE);
+		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : nullptr, TRUE);
 	}
 }
 

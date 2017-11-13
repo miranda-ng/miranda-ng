@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-pRSA_EXPORT mir_exp = NULL;
+pRSA_EXPORT mir_exp = nullptr;
 RSA_IMPORT imp =
 {
 	rsa_inject,
@@ -36,7 +36,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	LPSTR uin = (LPSTR)mir_alloc(KEYSIZE); getContactUinA(ptr->hContact, uin);
 	LPSTR msg = (LPSTR)mir_alloc(MSGSIZE);
 	LPSTR sha = mir_strdup(to_hex(sig, sigLen));
-	LPSTR sha_old = NULL;
+	LPSTR sha_old = nullptr;
 
 	Sent_NetLog("rsa_check_pub: %s %s %s", cnm, uin, sha);
 
@@ -62,7 +62,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	else {
 		if (k) mir_snprintf(msg, MSGSIZE, Translate(sim522), cnm, sha, sha_old);
 		else	mir_snprintf(msg, MSGSIZE, Translate(sim520), cnm, sha);
-		v = (msgbox(0, msg, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES);
+		v = (msgbox(nullptr, msg, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("rsa_check_pub: manual accepted %d", v);
 #endif
@@ -82,7 +82,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 void __cdecl rsa_notify(HANDLE context, int state)
 {
 	pUinKey ptr = getUinCtx(context); if (!ptr) return;
-	LPCSTR msg = NULL;
+	LPCSTR msg = nullptr;
 
 	Sent_NetLog("rsa_notify: 0x%x", state);
 
@@ -194,6 +194,6 @@ void resetRSAcntx(pUinKey ptr)
 void deleteRSAcntx(pUinKey ptr)
 {
 	cpp_delete_context(ptr->cntx);
-	ptr->cntx = 0;
+	ptr->cntx = nullptr;
 	ptr->keyLoaded = 0;
 }

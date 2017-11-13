@@ -44,15 +44,15 @@ BOOL TlenWsInit(TlenProtocol *proto)
 	nlus.useProxy = 0;
 	Netlib_SetUserSettings(proto->hFileNetlibUser, &nlus);
 
-	return (proto->m_hNetlibUser != NULL)?TRUE:FALSE;
+	return (proto->m_hNetlibUser != nullptr)?TRUE:FALSE;
 }
 
 void TlenWsUninit(TlenProtocol *proto)
 {
-	if (proto->m_hNetlibUser != NULL) Netlib_CloseHandle(proto->m_hNetlibUser);
-	if (proto->hFileNetlibUser != NULL) Netlib_CloseHandle(proto->hFileNetlibUser);
-	proto->m_hNetlibUser = NULL;
-	proto->hFileNetlibUser = NULL;
+	if (proto->m_hNetlibUser != nullptr) Netlib_CloseHandle(proto->m_hNetlibUser);
+	if (proto->hFileNetlibUser != nullptr) Netlib_CloseHandle(proto->hFileNetlibUser);
+	proto->m_hNetlibUser = nullptr;
+	proto->hFileNetlibUser = nullptr;
 }
 
 HNETLIBCONN TlenWsConnect(TlenProtocol *proto, char *host, WORD port)
@@ -97,7 +97,7 @@ int TlenWsSendAES(TlenProtocol *proto, char *data, int datalen, aes_context *aes
 	int len, sendlen;
 	unsigned char aes_input[16];
 	unsigned char aes_output[256];
-	if (proto->threadData == NULL) {
+	if (proto->threadData == nullptr) {
 		return FALSE;
 	}
 	while (datalen > 0) {
@@ -127,7 +127,7 @@ int TlenWsRecvAES(TlenProtocol *proto, char *data, long datalen, aes_context *ae
 	int ret, len = 0, maxlen = datalen;
 	unsigned char aes_input[16];
 	unsigned char *aes_output = (unsigned char *)data;
-	if (proto->threadData == NULL) {
+	if (proto->threadData == nullptr) {
 		return 0;
 	}
 	for (maxlen = maxlen & ~0xF; maxlen != 0; maxlen = maxlen & 0xF) {

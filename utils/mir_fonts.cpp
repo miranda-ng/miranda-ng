@@ -19,7 +19,7 @@ int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, con
 	fid.flags = FIDF_ALLOWREREGISTER;
 	if (bAllowEffects) fid.flags |= FIDF_ALLOWEFFECTS;
 	fid.order = position;
-	if (plfDefault != NULL) {
+	if (plfDefault != nullptr) {
 		fid.flags |= FIDF_DEFAULTVALID;
 		fid.deffontsettings.colour = clrDefault;
 		fid.deffontsettings.size = (char)plfDefault->lfHeight;

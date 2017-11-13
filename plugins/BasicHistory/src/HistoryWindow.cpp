@@ -44,22 +44,22 @@ HistoryWindow::HistoryWindow(MCONTACT hContact) :
 	splitterOrgY(0),
 	splitterX(0),
 	splitterOrgX(0),
-	plusIco(NULL),
-	minusIco(NULL),
-	findNextIco(NULL),
-	findPrevIco(NULL),
-	configIco(NULL),
-	deleteIco(NULL),
+	plusIco(nullptr),
+	minusIco(nullptr),
+	findNextIco(nullptr),
+	findPrevIco(nullptr),
+	configIco(nullptr),
+	deleteIco(nullptr),
 	isContactList(false),
 	isLoading(false),
 	isGroupImages(false),
 	allIconNumber(0),
-	eventIcons(NULL),
-	bkBrush(NULL),
-	bkFindBrush(NULL),
+	eventIcons(nullptr),
+	bkBrush(nullptr),
+	bkFindBrush(nullptr),
 	hSystem(NULL),
-	splitterXhWnd(NULL),
-	splitterYhWnd(NULL),
+	splitterXhWnd(nullptr),
+	splitterYhWnd(nullptr),
 	isStartSelect(true)
 {
 	searcher.SetContect(this);
@@ -78,36 +78,36 @@ HistoryWindow::HistoryWindow(MCONTACT hContact) :
 
 HistoryWindow::~HistoryWindow()
 {
-	if (eventIcons != NULL) {
+	if (eventIcons != nullptr) {
 		for (int i = 0; i < iconsNum; ++i)
-			if (eventIcons[i] != NULL)
+			if (eventIcons[i] != nullptr)
 				IcoLib_ReleaseIcon(eventIcons[i]);
 
 		delete[] eventIcons;
 	}
 
-	if (plusIco != NULL)
+	if (plusIco != nullptr)
 		IcoLib_ReleaseIcon(plusIco);
 
-	if (minusIco != NULL)
+	if (minusIco != nullptr)
 		IcoLib_ReleaseIcon(minusIco);
 
-	if (findNextIco != NULL)
+	if (findNextIco != nullptr)
 		IcoLib_ReleaseIcon(findNextIco);
 
-	if (findPrevIco != NULL)
+	if (findPrevIco != nullptr)
 		IcoLib_ReleaseIcon(findPrevIco);
 
-	if (himlSmall != NULL)
+	if (himlSmall != nullptr)
 		ImageList_Destroy(himlSmall);
 
-	if (himlNone != NULL)
+	if (himlNone != nullptr)
 		ImageList_Destroy(himlNone);
 
-	if (bkBrush != NULL)
+	if (bkBrush != nullptr)
 		DeleteObject(bkBrush);
 
-	if (bkFindBrush != NULL)
+	if (bkFindBrush != nullptr)
 		DeleteObject(bkFindBrush);
 }
 
@@ -235,7 +235,7 @@ void HistoryWindow::ChangeToFreeWindow(HistoryWindow* historyWindow)
 
 void HistoryWindow::Show()
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, HistoryWindow::DlgProcHistory, (LPARAM)this);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryWindow::DlgProcHistory, (LPARAM)this);
 }
 
 void HistoryWindow::Focus()
@@ -264,10 +264,10 @@ int HistoryWindow::FontsChanged(WPARAM, LPARAM)
 
 void HistoryWindow::FontsChanged()
 {
-	if (bkBrush != NULL)
+	if (bkBrush != nullptr)
 		DeleteObject(bkBrush);
 
-	if (bkFindBrush != NULL)
+	if (bkFindBrush != nullptr)
 		DeleteObject(bkFindBrush);
 
 	bkBrush = CreateSolidBrush(Options::instance->GetColor(Options::WindowBackground));
@@ -281,8 +281,8 @@ void HistoryWindow::FontsChanged()
 
 	LOGFONT font;
 	ListView_SetTextColor(listWindow, Options::instance->GetFont(Options::GroupList, &font));
-	InvalidateRect(listWindow, NULL, TRUE);
-	InvalidateRect(m_hWnd, NULL, TRUE);
+	InvalidateRect(listWindow, nullptr, TRUE);
+	InvalidateRect(m_hWnd, nullptr, TRUE);
 	SelectEventGroup(selected);
 }
 
@@ -359,7 +359,7 @@ void HistoryWindow::OptionsSearchingChanged()
 
 INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 {
-	HWND hWnd = NULL;
+	HWND hWnd = nullptr;
 	int count = HistoryEventList::GetContactMessageNumber(hContact);
 	if (!count)
 		return FALSE;
@@ -367,7 +367,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 	for (auto it = windows.begin(); it != windows.end(); ++it) {
 		if (!it->second->isDestroyed) {
 			if (it->second->m_hContact == hContact) {
-				if (hWnd == NULL) {
+				if (hWnd == nullptr) {
 					hWnd = it->second->m_hWnd;
 				}
 				else if (GetForegroundWindow() == it->second->m_hWnd) {
@@ -380,7 +380,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 	for (auto it = freeWindows.begin(); it != freeWindows.end(); ++it) {
 		if (!(*it)->isDestroyed) {
 			if ((*it)->m_hContact == hContact) {
-				if (hWnd == NULL)
+				if (hWnd == nullptr)
 					hWnd = (*it)->m_hWnd;
 				else if (GetForegroundWindow() == (*it)->m_hWnd)
 					hWnd = (*it)->m_hWnd;
@@ -535,7 +535,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			DlgReturn(TRUE);
 
 		case IDM_CONFIG:
-			Options_Open(NULL, LPGENW("History"));
+			Options_Open(nullptr, LPGENW("History"));
 			DlgReturn(TRUE);
 
 		case IDM_DELETE:
@@ -576,7 +576,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 		switch (pNmhdr->idFrom) {
 		case IDC_LIST_CONTACTS:
 			if (pNmhdr->code == CLN_LISTREBUILT) {
-				if (historyWindow != NULL)
+				if (historyWindow != nullptr)
 					historyWindow->ReloadContacts();
 
 				DlgReturn(TRUE);
@@ -646,7 +646,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						SendMessage(window, EM_EXSETSEL, 0, (LPARAM)&chrg);
 
 					HMENU hPopupMenu = CreatePopupMenu();
-					if (hPopupMenu != NULL) {
+					if (hPopupMenu != nullptr) {
 						if (chf.dwEffects & CFE_LINK) {
 							AppendMenu(hPopupMenu, MF_STRING, IDM_OPENNEW, TranslateT("Open in &new window"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_OPENEXISTING, TranslateT("&Open in existing window"));
@@ -655,14 +655,14 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						else {
 							AppendMenu(hPopupMenu, MF_STRING, IDM_COPY, TranslateT("Copy"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETE, TranslateT("Delete"));
-							AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, NULL);
+							AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 							AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send Message"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_QUOTE, TranslateT("Reply &Quoted"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete All User History"));
 						}
 
-						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, 0);
+						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, nullptr);
 						switch (selected) {
 						case IDM_COPY:
 							if (chrg.cpMax == chrg.cpMin && historyWindow->currentGroup.size() > 0) {
@@ -831,14 +831,14 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 
 				if (newSel >= 0) {
 					HMENU hPopupMenu = CreatePopupMenu();
-					if (hPopupMenu != NULL) {
+					if (hPopupMenu != nullptr) {
 						AppendMenu(hPopupMenu, MF_STRING, IDM_COPY, TranslateT("Copy"));
 						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
-						AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, NULL);
+						AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 						AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send Message"));
 						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete All User History"));
 
-						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, 0);
+						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, nullptr);
 						switch (selected) {
 						case IDM_COPY:
 							{
@@ -1073,8 +1073,8 @@ void HistoryWindow::Initialise()
 
 	SetDefFilter(Options::instance->defFilter);
 
-	InvalidateRect(listWindow, NULL, TRUE);
-	InvalidateRect(m_hWnd, NULL, TRUE);
+	InvalidateRect(listWindow, nullptr, TRUE);
+	InvalidateRect(m_hWnd, nullptr, TRUE);
 	SendMessage(m_hWnd, DM_SETDEFID, IDM_FIND, 0);
 	SendMessage(m_hWnd, WM_SIZE, 0, 0);
 	SendMessage(m_hWnd, DM_HREBUILD, 0, 0);
@@ -1306,7 +1306,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 	SendMessage(editWindow, EM_SETREADONLY, FALSE, 0);
 	TextDocument->Freeze(&cnt);
 	TextDocument->GetSelection(&TextSelection);
-	HDC hDC = GetDC(NULL);
+	HDC hDC = GetDC(nullptr);
 	int caps = GetDeviceCaps(hDC, LOGPIXELSY);
 	std::deque<EventIndex> revDeq;
 	std::deque<EventIndex> &deq = m_eventList[sel];
@@ -1338,7 +1338,7 @@ void HistoryWindow::SelectEventGroup(int sel)
 					ico = eventIcons[imId];
 				else {
 					ico = GetEventCoreIcon(hDbEvent);
-					if (ico == NULL)
+					if (ico == nullptr)
 						ico = eventIcons[imId];
 				}
 
@@ -1429,7 +1429,7 @@ LRESULT CALLBACK HistoryWindow::SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM
 {
 	HWND hwndParent = GetParent(hwnd);
 	HistoryWindow *dat = (HistoryWindow*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
-	if (dat == NULL)
+	if (dat == nullptr)
 		return FALSE;
 
 	switch (msg) {
@@ -1462,7 +1462,7 @@ LRESULT CALLBACK HistoryWindow::SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM
 	case WM_LBUTTONUP:
 		ReleaseCapture();
 		SendMessage(hwndParent, WM_SIZE, 0, 0);
-		RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
+		RedrawWindow(hwndParent, nullptr, nullptr, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		return 0;
 	}
 
@@ -1497,21 +1497,21 @@ void HistoryWindow::ReloadContacts()
 	}
 
 	for (MCONTACT _hContact = db_find_first(); _hContact; _hContact = db_find_next(_hContact)) {
-		if (HistoryEventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || !db_mc_isSub(_hContact))) {
+		if (HistoryEventList::GetContactMessageNumber(_hContact) && (metaContactProto == nullptr || !db_mc_isSub(_hContact))) {
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
-			if (hItem == NULL)
+			if (hItem == nullptr)
 				SendMessage(contactList, CLM_ADDCONTACT, (WPARAM)_hContact, 0);
 		}
 		else {
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
-			if (hItem != NULL)
+			if (hItem != nullptr)
 				SendMessage(contactList, CLM_DELETEITEM, (WPARAM)_hContact, 0);
 		}
 	}
 
 	if (m_hContact != NULL) {
 		HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, m_hContact, 0);
-		if (hItem != NULL) {
+		if (hItem != nullptr) {
 			SendMessage(contactList, CLM_ENSUREVISIBLE, (WPARAM)hItem, 0);
 			SendMessage(contactList, CLM_SELECTITEM, (WPARAM)hItem, 0);
 		}
@@ -1656,17 +1656,17 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 	SendMessage(lpnmTB->hdr.hwndFrom, TB_GETRECT, (WPARAM)lpnmTB->iItem, (LPARAM)&rc);
 	MapWindowPoints(lpnmTB->hdr.hwndFrom, HWND_DESKTOP, (LPPOINT)&rc, 2);
 	HMENU hPopupMenu = CreatePopupMenu();
-	if (hPopupMenu != NULL) {
+	if (hPopupMenu != nullptr) {
 		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDNEXT, TranslateT("Find Next"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDPREV, TranslateT("Find Previous"));
-		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, NULL);
+		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 		AppendMenu(hPopupMenu, searcher.IsMatchCase() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_MATCHCASE, TranslateT("Match Case"));
 		AppendMenu(hPopupMenu, searcher.IsMatchWholeWords() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_MATCHWHOLE, TranslateT("Match Whole Word"));
 		AppendMenu(hPopupMenu, searcher.IsOnlyIn() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYIN, TranslateT("Only Incoming Messages"));
 		AppendMenu(hPopupMenu, searcher.IsOnlyOut() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYOUT, TranslateT("Only Outgoing Messages"));
 		AppendMenu(hPopupMenu, searcher.IsOnlyGroup() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYGROUP, TranslateT("Only Selected Group"));
 		AppendMenu(hPopupMenu, searcher.IsAllUsers() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ALLUSERS, TranslateT("All Contacts"));
-		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, NULL);
+		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 		HMENU hFilterMenu = CreatePopupMenu();
 		int filter = GetFilterNr();
 		AppendMenu(hFilterMenu, filter == 0 ? MF_STRING | MF_CHECKED : MF_STRING, IDM_FILTERDEF, TranslateT("Default history events"));
@@ -1684,7 +1684,7 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 		else
 			SetMenuDefaultItem(hPopupMenu, IDM_FINDNEXT, FALSE);
 
-		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, 0);
+		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, nullptr);
 		switch (iResult) {
 		case IDM_FINDNEXT:
 			searcher.ChangeFindDirection(false);
@@ -1737,12 +1737,12 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 	SendMessage(lpnmTB->hdr.hwndFrom, TB_GETRECT, (WPARAM)lpnmTB->iItem, (LPARAM)&rc);
 	MapWindowPoints(lpnmTB->hdr.hwndFrom, HWND_DESKTOP, (LPPOINT)&rc, 2);
 	HMENU hPopupMenu = CreatePopupMenu();
-	if (hPopupMenu != NULL) {
+	if (hPopupMenu != nullptr) {
 		AppendMenu(hPopupMenu, MF_STRING, IDM_OPTIONS, TranslateT("Options"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_FONTS, TranslateT("Fonts and colors"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_ICONS, TranslateT("Icons"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_HOTKEYS, TranslateT("Hotkeys"));
-		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, NULL);
+		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 
 		HMENU hExportMenu = CreatePopupMenu();
 		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTRHTML, TranslateT("Rich Html"));
@@ -1758,12 +1758,12 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 		AppendMenu(hPopupMenu, MF_STRING | MF_POPUP, (UINT_PTR)hExportMenu, TranslateT("Export"));
 		AppendMenu(hPopupMenu, MF_STRING | MF_POPUP, (UINT_PTR)hImportMenu, TranslateT("Import"));
 
-		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, NULL);
+		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 		AppendMenu(hPopupMenu, MF_STRING, IDM_SAVEPOS, TranslateT("Save window position as default"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_SAVEPOSALL, TranslateT("Save window position for all contacts"));
 		SetMenuDefaultItem(hPopupMenu, IDM_OPTIONS, FALSE);
 
-		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, 0);
+		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, nullptr);
 		switch (iResult) {
 		case IDM_OPTIONS:
 			SendMessage(m_hWnd, WM_COMMAND, IDM_CONFIG, 0);
@@ -1871,13 +1871,13 @@ void HistoryWindow::DeleteToolbarClicked(LPNMTOOLBAR lpnmTB)
 	SendMessage(lpnmTB->hdr.hwndFrom, TB_GETRECT, (WPARAM)lpnmTB->iItem, (LPARAM)&rc);
 	MapWindowPoints(lpnmTB->hdr.hwndFrom, HWND_DESKTOP, (LPPOINT)&rc, 2);
 	HMENU hPopupMenu = CreatePopupMenu();
-	if (hPopupMenu != NULL) {
+	if (hPopupMenu != nullptr) {
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETE, TranslateT("Delete"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete All User History"));
 		SetMenuDefaultItem(hPopupMenu, IDM_DELETE, FALSE);
 
-		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, 0);
+		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, nullptr);
 		switch (iResult) {
 		case IDM_DELETE:
 			Delete(0);
@@ -2016,7 +2016,7 @@ void HistoryWindow::FormatQuote(std::wstring &quote, const MessageData &md, cons
 	else
 		quote += m_contactName;
 	wchar_t str[32];
-	TimeZone_PrintTimeStamp(NULL, md.timestamp, L"d t", str, 32, 0);
+	TimeZone_PrintTimeStamp(nullptr, md.timestamp, L"d t", str, 32, 0);
 	quote += L", ";
 	quote += str;
 	quote += L"\n";
@@ -2090,7 +2090,7 @@ void HistoryWindow::SelectContact(MCONTACT hContact)
 		HWND contactList = GetDlgItem(m_hWnd, IDC_LIST_CONTACTS);
 		if (hContact != NULL) {
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, hContact, 0);
-			if (hItem != NULL) {
+			if (hItem != nullptr) {
 				SendMessage(contactList, CLM_ENSUREVISIBLE, (WPARAM)hItem, 0);
 				SendMessage(contactList, CLM_SELECTITEM, (WPARAM)hItem, 0);
 			}

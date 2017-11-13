@@ -205,7 +205,7 @@ void DlgOption::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 
 		if (dwData == opCreateWarn) {
 			AppendMenu(hPopup, MF_STRING, 1, TranslateT("Show warnings..."));
-			AppendMenu(hPopup, MF_SEPARATOR, 0, NULL);
+			AppendMenu(hPopup, MF_SEPARATOR, 0, nullptr);
 		}
 
 		UINT iMenuFlags = g_pSettings->canShowStatistics() ? 0 : (MF_DISABLED | MF_GRAYED);
@@ -219,7 +219,7 @@ void DlgOption::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 			ptMenu.y,
 			0,
 			getHWnd(),
-			NULL);
+			nullptr);
 
 		DestroyMenu(hPopup);
 
@@ -321,7 +321,7 @@ int DlgOption::saveSettings()
 
 void DlgOption::updateProblemInfo()
 {
-	bool bShowProblemInfo = reinterpret_cast<SubColumns*>(m_pPage[opColumns])->configHasConflicts(NULL);
+	bool bShowProblemInfo = reinterpret_cast<SubColumns*>(m_pPage[opColumns])->configHasConflicts(nullptr);
 
 	m_Band.showButton(m_hCreateButton, !bShowProblemInfo);
 	m_Band.showButton(m_hCreateWarnButton, bShowProblemInfo);
@@ -329,7 +329,7 @@ void DlgOption::updateProblemInfo()
 
 DlgOption::DlgOption(HWND hWnd) :
 	m_hWnd(hWnd), m_bSettingsModified(false), m_nCurPage(-1), m_LocalS(*g_pSettings),
-	m_hCreateButton(NULL), m_hCreateWarnButton(NULL), m_bAcquiredLock(false)
+	m_hCreateButton(nullptr), m_hCreateWarnButton(nullptr), m_bAcquiredLock(false)
 {}
 
 DlgOption::~DlgOption()
@@ -350,7 +350,7 @@ DlgOption::~DlgOption()
 			m_pPage[i]->destroyWindow();
 
 			// MEMO: don't delete them, they will delete themselves in their WM_DESTROY messages
-			m_pPage[i] = NULL;
+			m_pPage[i] = nullptr;
 		}
 	}
 }

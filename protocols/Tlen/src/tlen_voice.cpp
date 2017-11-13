@@ -71,7 +71,7 @@ static void __cdecl TlenVoiceRecordingThreadProc(void *param)
 	control->isRunning = 1;
 	control->stopThread = 0;
 	while (TRUE) {
-		GetMessage(&msg, NULL, 0, 0);
+		GetMessage(&msg, nullptr, 0, 0);
 		if (msg.message == MM_WIM_DATA) {
 			//			TlenLog("recording thread running...%d", msg.message);
 			hWaveIn = (HWAVEIN)msg.wParam;
@@ -245,7 +245,7 @@ static void TlenVoiceFreeVc(TLEN_VOICE_CONTROL *vc)
 	while (vc->isRunning) {
 		Sleep(50);
 	}
-	if (vc->hThread != NULL) CloseHandle(vc->hThread);
+	if (vc->hThread != nullptr) CloseHandle(vc->hThread);
 	if (vc->hWaveIn) {
 		for (int i = 0; i < vc->waveHeadersNum; i++) {
 			while (waveInUnprepareHeader(vc->hWaveIn, &vc->waveHeaders[i], sizeof(WAVEHDR)) == WAVERR_STILLPLAYING) {
@@ -298,12 +298,12 @@ static void __cdecl TlenVoiceReceiveThread(void  *arg)
 	nloc.szHost = ft->hostName;
 	nloc.wPort = ft->wPort;
 	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
-	if (s != NULL) {
+	if (s != nullptr) {
 		ft->s = s;
 		ft->proto->debugLogA("Entering file receive loop");
 		TlenP2PEstablishOutgoingConnection(ft, FALSE);
 		if (ft->state != FT_ERROR) {
-			ft->proto->playbackControl = NULL;
+			ft->proto->playbackControl = nullptr;
 			ft->proto->recordingControl = TlenVoiceCreateVC(ft->proto, 3);
 			ft->proto->recordingControl->ft = ft;
 			TlenVoiceRecordingStart(ft->proto->recordingControl);
@@ -311,22 +311,22 @@ static void __cdecl TlenVoiceReceiveThread(void  *arg)
 				TlenVoiceReceiveParse(ft);
 			}
 			TlenVoiceFreeVc(ft->proto->recordingControl);
-			ft->proto->playbackControl = NULL;
-			ft->proto->recordingControl = NULL;
+			ft->proto->playbackControl = nullptr;
+			ft->proto->recordingControl = nullptr;
 		}
 		if (ft->s) {
 			Netlib_CloseHandle(s);
 		}
-		ft->s = NULL;
+		ft->s = nullptr;
 	}
 	else {
 		ft->proto->debugLogA("Connection failed - receiving as server");
 		ft->pfnNewConnectionV2 = TlenVoiceReceivingConnection;
 		s = (HNETLIBCONN)TlenP2PListen(ft);
-		if (s != NULL) {
+		if (s != nullptr) {
 			SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Waiting for connection..."));
 			ft->s = s;
-			HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+			HANDLE hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 			ft->hFileEvent = hEvent;
 			ft->currentFile = 0;
 			ft->state = FT_CONNECTING;
@@ -335,7 +335,7 @@ static void __cdecl TlenVoiceReceiveThread(void  *arg)
 			mir_free(nick);
 			ft->proto->debugLogA("Waiting for the file to be received...");
 			WaitForSingleObject(hEvent, INFINITE);
-			ft->hFileEvent = NULL;
+			ft->hFileEvent = nullptr;
 			CloseHandle(hEvent);
 			ft->proto->debugLogA("Finish all files");
 			Netlib_CloseHandle(s);
@@ -368,12 +368,12 @@ static void TlenVoiceReceivingConnection(HNETLIBCONN hConnection, DWORD, void * 
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 
 	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_VOICE, FALSE);
-	if (ft != NULL) {
+	if (ft != nullptr) {
 		slisten = ft->s;
 		ft->s = hConnection;
 		ft->proto->debugLogA("Set ft->s to %d (saving %d)", hConnection, slisten);
 		ft->proto->debugLogA("Entering send loop for this file connection... (ft->s is hConnection)");
-		proto->playbackControl = NULL;
+		proto->playbackControl = nullptr;
 		proto->recordingControl = TlenVoiceCreateVC(proto, 3);
 		proto->recordingControl->ft = ft;
 		TlenVoiceRecordingStart(proto->recordingControl);
@@ -381,8 +381,8 @@ static void TlenVoiceReceivingConnection(HNETLIBCONN hConnection, DWORD, void * 
 			TlenVoiceReceiveParse(ft);
 		}
 		TlenVoiceFreeVc(proto->recordingControl);
-		proto->playbackControl = NULL;
-		proto->recordingControl = NULL;
+		proto->playbackControl = nullptr;
+		proto->recordingControl = nullptr;
 		if (ft->state == FT_DONE) {
 			SetDlgItemText(proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Finished..."));
 			//			ProtoBroadcastAck(proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
@@ -396,7 +396,7 @@ static void TlenVoiceReceivingConnection(HNETLIBCONN hConnection, DWORD, void * 
 		ft->proto->debugLogA("ft->s is restored to %d", ft->s);
 	}
 	Netlib_CloseHandle(hConnection);
-	if (ft != NULL && ft->hFileEvent != NULL)
+	if (ft != nullptr && ft->hFileEvent != nullptr)
 		SetEvent(ft->hFileEvent);
 }
 
@@ -407,7 +407,7 @@ static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft)
 	char *p;
 	float val;
 	TLEN_FILE_PACKET *packet = TlenP2PPacketReceive(ft->s);
-	if (packet != NULL) {
+	if (packet != nullptr) {
 		statusTxt = " Unknown packet ";
 		p = packet->packet;
 		if (packet->type == TLEN_VOICE_PACKET) {
@@ -420,7 +420,7 @@ static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft)
 				statusTxt = " Unknown codec ";
 			}
 			else {
-				if (ft->proto->playbackControl == NULL) {
+				if (ft->proto->playbackControl == nullptr) {
 					ft->proto->playbackControl = TlenVoiceCreateVC(ft->proto, codec);
 					TlenVoicePlaybackStart(ft->proto->playbackControl);
 					ft->proto->framesAvailableForPlayback = 0;
@@ -501,9 +501,9 @@ static void TlenVoiceReceiveParse(TLEN_FILE_TRANSFER *ft)
 		TlenP2PPacketFree(packet);
 	}
 	else {
-		if (ft->proto->playbackControl != NULL) {
+		if (ft->proto->playbackControl != nullptr) {
 			TlenVoiceFreeVc(ft->proto->playbackControl);
-			ft->proto->playbackControl = NULL;
+			ft->proto->playbackControl = nullptr;
 		}
 		ft->state = FT_ERROR;
 	}
@@ -518,14 +518,14 @@ static void __cdecl TlenVoiceSendingThread(void *arg)
 	ft->proto->debugLogA("Thread started: type=voice_send");
 	ft->pfnNewConnectionV2 = TlenVoiceReceivingConnection;
 	HNETLIBCONN s = (HNETLIBCONN)TlenP2PListen(ft);
-	if (s != NULL) {
+	if (s != nullptr) {
 		SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Waiting for connection..."));
 		//ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 		ft->s = s;
 		//TlenLog("ft->s = %d", s);
 		//TlenLog("fileCount = %d", ft->fileCount);
 
-		HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+		HANDLE hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 		ft->hFileEvent = hEvent;
 		ft->currentFile = 0;
 		ft->state = FT_CONNECTING;
@@ -535,11 +535,11 @@ static void __cdecl TlenVoiceSendingThread(void *arg)
 		mir_free(nick);
 		ft->proto->debugLogA("Waiting for the voice data to be sent...");
 		WaitForSingleObject(hEvent, INFINITE);
-		ft->hFileEvent = NULL;
+		ft->hFileEvent = nullptr;
 		CloseHandle(hEvent);
 		ft->proto->debugLogA("Finish voice");
 		Netlib_CloseHandle(s);
-		ft->s = NULL;
+		ft->s = nullptr;
 		ft->proto->debugLogA("ft->s is NULL");
 
 		if (ft->state == FT_SWITCH) {
@@ -550,14 +550,14 @@ static void __cdecl TlenVoiceSendingThread(void *arg)
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
 			HNETLIBCONN sock = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
-			if (sock != NULL) {
+			if (sock != nullptr) {
 				SetDlgItemText(ft->proto->voiceDlgHWND, IDC_STATUS, TranslateT("...Connecting..."));
 				//ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 				ft->s = sock;
 				TlenP2PEstablishOutgoingConnection(ft, FALSE);
 				if (ft->state != FT_ERROR) {
 					ft->proto->debugLogA("Entering send loop for this file connection...");
-					ft->proto->playbackControl = NULL;
+					ft->proto->playbackControl = nullptr;
 					ft->proto->recordingControl = TlenVoiceCreateVC(ft->proto, 3);
 					ft->proto->recordingControl->ft = ft;
 					TlenVoiceRecordingStart(ft->proto->recordingControl);
@@ -605,7 +605,7 @@ static void TlenVoiceSendParse(TLEN_FILE_TRANSFER *ft)
 
 	int codec = ft->proto->recordingControl->codec;
 	TLEN_FILE_PACKET *packet = TlenP2PPacketCreate(sizeof(DWORD) + MODE_FRAME_SIZE[codec] * 33);
-	if (packet != NULL) {
+	if (packet != nullptr) {
 		short *in;
 		float val;
 		in = ft->proto->recordingControl->recordingData;
@@ -647,19 +647,19 @@ int TlenVoiceCancelAll(TlenProtocol *proto)
 
 	while ((i = TlenListFindNext(proto, LIST_VOICE, 0)) >= 0) {
 		TLEN_LIST_ITEM *item = TlenListGetItemPtrFromIndex(proto, i);
-		if (item != NULL) {
+		if (item != nullptr) {
 			TLEN_FILE_TRANSFER *ft = item->ft;
 			TlenListRemoveByIndex(proto, i);
-			if (ft != NULL) {
+			if (ft != nullptr) {
 				if (ft->s) {
 					//ProtoBroadcastAck(proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 					proto->debugLogA("Closing ft->s = %d", ft->s);
 					ft->state = FT_ERROR;
 					Netlib_CloseHandle(ft->s);
-					ft->s = NULL;
-					if (ft->hFileEvent != NULL) {
+					ft->s = nullptr;
+					if (ft->hFileEvent != nullptr) {
 						hEvent = ft->hFileEvent;
-						ft->hFileEvent = NULL;
+						ft->hFileEvent = nullptr;
 						SetEvent(hEvent);
 					}
 				}
@@ -670,7 +670,7 @@ int TlenVoiceCancelAll(TlenProtocol *proto)
 			}
 		}
 	}
-	if (proto->voiceDlgHWND != NULL) {
+	if (proto->voiceDlgHWND != nullptr) {
 		EndDialog(proto->voiceDlgHWND, 0);
 	}
 	return 0;
@@ -688,7 +688,7 @@ INT_PTR TlenProtocol::VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM)
 			char serialId[32];
 			mir_snprintf(serialId, "%d", TlenSerialNext(this));
 			TLEN_LIST_ITEM *item = TlenListAdd(this, LIST_VOICE, serialId);
-			if (item != NULL) {
+			if (item != nullptr) {
 				TLEN_FILE_TRANSFER *ft = TlenFileCreateFT(this, dbv.pszVal);
 				ft->iqId = mir_strdup(serialId);
 				item->ft = ft;
@@ -702,7 +702,7 @@ INT_PTR TlenProtocol::VoiceContactMenuHandleVoice(WPARAM wParam, LPARAM)
 }
 
 int TlenVoiceIsInUse(TlenProtocol *proto) {
-	if (TlenListFindNext(proto, LIST_VOICE, 0) >= 0 || proto->voiceDlgHWND != NULL) {
+	if (TlenListFindNext(proto, LIST_VOICE, 0) >= 0 || proto->voiceDlgHWND != nullptr) {
 		proto->debugLogA("voice in use ? %d", proto->voiceDlgHWND);
 		return 1;
 	}
@@ -723,9 +723,9 @@ static HBITMAP TlenVoiceMakeBitmap(int w, int h, int bpp, void *ptr)
 	bmih.bmiHeader.biYPelsPerMeter = 0;
 	bmih.bmiHeader.biClrUsed = 0;
 	bmih.bmiHeader.biClrImportant = 0;
-	HDC hdc = CreateDC(L"DISPLAY", NULL, NULL, NULL);
+	HDC hdc = CreateDC(L"DISPLAY", nullptr, nullptr, nullptr);
 	HBITMAP hbm = CreateDIBitmap(hdc, (PBITMAPINFOHEADER)&bmih, CBM_INIT, ptr, &bmih, DIB_RGB_COLORS);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	return hbm;
 }
 
@@ -802,10 +802,10 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		TlenVoiceInitVUMeters();
 		SetDlgItemText(hwndDlg, IDC_STATUS, TranslateT("...???..."));
 		counter = 0;
-		SetTimer(hwndDlg, 1, 100, NULL);
+		SetTimer(hwndDlg, 1, 100, nullptr);
 		return FALSE;
 	case WM_TIMER:
-		if (proto->recordingControl != NULL && !proto->recordingControl->bDisable) {
+		if (proto->recordingControl != nullptr && !proto->recordingControl->bDisable) {
 			v = proto->recordingControl->vuMeter % VU_METER_LEVELS;
 			if (proto->recordingControl->vuMeter > 0) {
 				proto->recordingControl->vuMeter--;
@@ -815,13 +815,13 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			v = 0;
 		}
 		hDC = GetDC(GetDlgItem(hwndDlg, IDC_VUMETERIN));
-		if (NULL != (hMemDC = CreateCompatibleDC(hDC))) {
+		if (nullptr != (hMemDC = CreateCompatibleDC(hDC))) {
 			SelectObject(hMemDC, vuMeterBitmaps[v]);
 			BitBlt(hDC, 0, 0, VU_METER_WIDTH, VU_METER_HEIGHT, hMemDC, 0, 0, SRCCOPY);
 			DeleteDC(hMemDC);
 		}
 		ReleaseDC(GetDlgItem(hwndDlg, IDC_PLAN), hDC);
-		if (proto->playbackControl != NULL  && !proto->playbackControl->bDisable) {
+		if (proto->playbackControl != nullptr  && !proto->playbackControl->bDisable) {
 			v = proto->playbackControl->vuMeter % VU_METER_LEVELS;
 			if (proto->playbackControl->vuMeter > 0) {
 				proto->playbackControl->vuMeter--;
@@ -831,7 +831,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			v = 0;
 		}
 		hDC = GetDC(GetDlgItem(hwndDlg, IDC_VUMETEROUT));
-		if (NULL != (hMemDC = CreateCompatibleDC(hDC))) {
+		if (nullptr != (hMemDC = CreateCompatibleDC(hDC))) {
 			SelectObject(hMemDC, vuMeterBitmaps[v]);
 			BitBlt(hDC, 0, 0, VU_METER_WIDTH, VU_METER_HEIGHT, hMemDC, 0, 0, SRCCOPY);
 			DeleteDC(hMemDC);
@@ -841,7 +841,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		if (counter % 10 == 0) {
 			char str[50];
 			float fv;
-			if (proto->recordingControl != NULL) {
+			if (proto->recordingControl != nullptr) {
 				fv = (float)proto->recordingControl->bytesSum;
 				proto->recordingControl->bytesSum = 0;
 			}
@@ -850,7 +850,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			mir_snprintf(str, "%.1f kB/s", fv / 1024);
 			SetDlgItemTextA(hwndDlg, IDC_BYTESOUT, str);
-			if (proto->playbackControl != NULL) {
+			if (proto->playbackControl != nullptr) {
 				fv = (float)proto->playbackControl->bytesSum;
 				proto->playbackControl->bytesSum = 0;
 			}
@@ -868,7 +868,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			return TRUE;
 		case IDC_VCQUALITY:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				if (proto->recordingControl != NULL) {
+				if (proto->recordingControl != nullptr) {
 					int codec = SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_GETCURSEL, 0, 0) + 2;
 					if (codec != proto->recordingControl->codec && codec > 1 && codec < 6) {
 						TLEN_FILE_TRANSFER *ft = proto->recordingControl->ft;
@@ -881,12 +881,12 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			break;
 		case IDC_MICROPHONE:
-			if (proto->recordingControl != NULL) {
+			if (proto->recordingControl != nullptr) {
 				proto->recordingControl->bDisable = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MICROPHONE);
 			}
 			break;
 		case IDC_SPEAKER:
-			if (proto->playbackControl != NULL) {
+			if (proto->playbackControl != nullptr) {
 				proto->playbackControl->bDisable = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SPEAKER);
 			}
 			break;
@@ -896,7 +896,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		EndDialog(hwndDlg, 0);
 		break;
 	case WM_DESTROY:
-		proto->voiceDlgHWND = NULL;
+		proto->voiceDlgHWND = nullptr;
 		break;
 
 	}
@@ -908,7 +908,7 @@ static void __cdecl TlenVoiceDlgThread(void *ptr)
 
 	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *)ptr;
 	TlenProtocol *proto = ft->proto;
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_VOICE), NULL, TlenVoiceDlgProc, (LPARAM)proto);
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_VOICE), nullptr, TlenVoiceDlgProc, (LPARAM)proto);
 	TlenVoiceCancelAll(proto);
 }
 
@@ -981,7 +981,7 @@ static void __cdecl TlenVoiceAcceptDlgThread(void *ptr)
 {
 
 	ACCEPTDIALOGDATA *data = (ACCEPTDIALOGDATA *)ptr;
-	int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCEPT_VOICE), NULL, TlenVoiceAcceptDlgProc, (LPARAM)data);
+	int result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCEPT_VOICE), nullptr, TlenVoiceAcceptDlgProc, (LPARAM)data);
 	if (result && data->proto->isOnline) {
 		data->item->ft = TlenFileCreateFT(data->proto, data->item->nick);
 		data->item->ft->iqId = mir_strdup(data->item->jid);
@@ -1001,7 +1001,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 {
 	if (!TlenVoiceIsInUse(proto)) {
 		TLEN_LIST_ITEM *item = TlenListAdd(proto, LIST_VOICE, id);
-		if (item != NULL) {
+		if (item != nullptr) {
 			bool ask = true, ignore = false;
 			int voiceChatPolicy = db_get_w(NULL, proto->m_szModuleName, "VoiceChatPolicy", 0);
 			if (voiceChatPolicy == TLEN_MUC_ASK) {

@@ -39,12 +39,12 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 {
 	DBVARIANT dbv = {0};
 	wchar_t str[256];
-	wchar_t *ptstr = NULL;
-	wchar_t* valT = NULL;
+	wchar_t *ptstr = nullptr;
+	wchar_t* valT = nullptr;
 	int unspecified = 0;
 
 	dbv.type = DBVT_DELETED;
-	if (szModule == NULL) unspecified = 1;
+	if (szModule == nullptr) unspecified = 1;
 	else unspecified = db_get(hContact, szModule, szSetting, &dbv);
 	if (!unspecified) {
 		switch (dbv.type) {
@@ -75,7 +75,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		case DBVT_WORD:
 			if (special == SVS_COUNTRY) {
 				char* pstr = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, dbv.wVal, 0);
-				if (pstr == NULL){
+				if (pstr == nullptr){
 					unspecified = 1;
 				} else {
 					ptstr = str;
@@ -93,7 +93,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 				struct in_addr ia;
 				ia.S_un.S_addr = htonl(dbv.dVal);
 				char* pstr = inet_ntoa(ia);
-				if (pstr == NULL){
+				if (pstr == nullptr){
 					unspecified = 1;
 				} else {
 					ptstr = str;
@@ -309,9 +309,9 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				uin = atoi(email);
 				GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, _countof(email));
 				if (!mir_strlen(email))
-					MessageBox(NULL, TranslateT("You need to specify your registration e-mail first."),
+					MessageBox(nullptr, TranslateT("You need to specify your registration e-mail first."),
 					gg->m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
-				else if (MessageBox(NULL,
+				else if (MessageBox(nullptr,
 					TranslateT("Your password will be sent to your registration e-mail.\nDo you want to continue?"),
 					gg->m_tszUserName,
 					MB_OKCANCEL | MB_ICONQUESTION) == IDOK)
@@ -323,7 +323,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (gg->isonline())
 			{
 				if (MessageBox(
-					NULL,
+					nullptr,
 					TranslateT("You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?"),
 					gg->m_tszUserName,
 					MB_OKCANCEL | MB_ICONEXCLAMATION) == IDCANCEL)
@@ -705,14 +705,14 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					// Show updated message
 					if (dat->updating)
 					{
-						MessageBox(NULL, TranslateT("Your details has been uploaded to the public directory."),
+						MessageBox(nullptr, TranslateT("Your details has been uploaded to the public directory."),
 							gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 						dat->updating = FALSE;
 						break;
 					}
 
 					char *szProto = (hContact == NULL) ? gg->m_szModuleName : GetContactProto(hContact);
-					if (szProto == NULL)
+					if (szProto == nullptr)
 						break;
 
 					// Disable when updating
@@ -790,7 +790,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				if (!gg->isonline())
 				{
-					MessageBox(NULL,
+					MessageBox(nullptr,
 						TranslateT("You have to be logged in before you can change your details."),
 						gg->m_tszUserName, MB_OK | MB_ICONSTOP);
 					break;
@@ -799,7 +799,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SAVE), FALSE);
 
 				gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_WRITE);
-				if (req == NULL)
+				if (req == nullptr)
 					break;
 
 				GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, _countof(text));
@@ -910,7 +910,7 @@ int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 	} else {
 		// Other user details
 		char* szProto = GetContactProto(hContact);
-		if (szProto == NULL)
+		if (szProto == nullptr)
 			return 0;
 		if (mir_strcmp(szProto, m_szModuleName) || isChatRoom(hContact))
 			return 0;

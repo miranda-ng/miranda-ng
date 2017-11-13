@@ -38,17 +38,17 @@ char** CAimProto::get_status_msg_loc(int status)
 		if (modes[i] == status)
 			return &m_modeMsgs[i];
 
-	return NULL;
+	return nullptr;
 }
 
 int CAimProto::aim_set_away(HNETLIBCONN hServerConn, unsigned short &seqno, const char *amsg, bool set)//user info
 {
 	unsigned short offset = 0;
-	char *html_msg = NULL;
+	char *html_msg = nullptr;
 	size_t msg_size = 0;
 	if (set) {
 		if (!amsg) return -1;
-		setDword(AIM_KEY_LA, (DWORD)time(NULL));
+		setDword(AIM_KEY_LA, (DWORD)time(nullptr));
 		html_msg = html_encode(amsg && amsg[0] ? amsg : DEFAULT_AWAY_MSG);
 		msg_size = mir_strlen(html_msg);
 	}
@@ -96,7 +96,7 @@ int CAimProto::aim_set_statusmsg(HNETLIBCONN hServerConn, unsigned short &seqno,
 
 		aim_writebartid(2, 4, (unsigned short)(msg_size + 4), msgb, msgoffset, msgbuf);
 	}
-	else aim_writebartid(2, 0, 0, NULL, msgoffset, msgbuf);
+	else aim_writebartid(2, 0, 0, nullptr, msgoffset, msgbuf);
 
 	unsigned short offset = 0;
 	char* buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE + msgoffset + 8);

@@ -74,7 +74,7 @@ time_t getLastSeen(MCONTACT hContact)
 
 void setLastSeen(MCONTACT hContact)
 {
-	db_set_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)time(NULL));
+	db_set_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)time(nullptr));
 	if (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0))
 		db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
 }
@@ -214,7 +214,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 {
 	time_t lastSeen = getLastSeen(hContact);
 	time_t lastInputMsg = getLastInputMsg(hContact);
-	time_t currentTime = time(NULL);
+	time_t currentTime = time(nullptr);
 
 	int daysSinceOnline = -1;
 	if (lastSeen != -1) daysSinceOnline = (int)((currentTime - lastSeen) / (60 * 60 * 24));
@@ -271,7 +271,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 			ppd.colorText = options.iPopupColorFore;
 		}
 		ppd.PluginWindowProc = PopupDlgProc;
-		ppd.PluginData = NULL;
+		ppd.PluginData = nullptr;
 		ppd.iSeconds = options.iPopupDelay;
 		PUAddPopupT(&ppd);
 	}
@@ -308,7 +308,7 @@ void GoneNotify(MCONTACT hContact, wchar_t *message)
 			ppd.colorText = options.iPopupColorFore;
 		}
 		ppd.PluginWindowProc = PopupDlgProcNoSet;
-		ppd.PluginData = NULL;
+		ppd.PluginData = nullptr;
 		ppd.iSeconds = options.iPopupDelay;
 
 		PUAddPopupT(&ppd);
@@ -463,7 +463,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	char *proto = GetContactProto(hContact);
-	if (proto == 0 || (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
+	if (proto == nullptr || (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		|| !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
@@ -491,7 +491,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 				ppd.colorText = options.iPopupColorFore;
 			}
 			ppd.PluginWindowProc = MissYouPopupDlgProc;
-			ppd.PluginData = NULL;
+			ppd.PluginData = nullptr;
 			ppd.iSeconds = -1;
 
 			missyouactions[0].flags = PAF_ENABLED;
@@ -579,7 +579,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 int ModulesLoaded2(WPARAM, LPARAM)
 {
 	// check for 'still absent' contacts  on startup
-	TimerProc(0, 0, 0, 0);
+	TimerProc(nullptr, 0, 0, 0);
 	return 0;
 }
 
@@ -597,7 +597,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	Skin_AddSound("buddyExpectatorMissYou", LPGENW("BuddyExpectator"), LPGENW("Miss you event"));
 	Skin_AddSound("buddyExpectatorHide", LPGENW("BuddyExpectator"), LPGENW("Hide contact event"));
 
-	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
+	timer_id = SetTimer(nullptr, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded2);
 
@@ -641,7 +641,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	db_set_dw(hContact, MODULE_NAME, "CreationTime", (DWORD)time(0));
+	db_set_dw(hContact, MODULE_NAME, "CreationTime", (DWORD)time(nullptr));
 	return 0;
 }
 
@@ -671,7 +671,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// ensure all contacts are timestamped
 	DBVARIANT dbv;
-	DWORD current_time = (DWORD)time(0);
+	DWORD current_time = (DWORD)time(nullptr);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (!db_get(hContact, MODULE_NAME, "CreationTime", &dbv))
@@ -693,7 +693,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	KillTimer(0, timer_id);
+	KillTimer(nullptr, timer_id);
 
 	return 0;
 }

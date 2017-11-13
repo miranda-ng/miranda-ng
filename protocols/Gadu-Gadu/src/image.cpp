@@ -159,7 +159,7 @@ int gg_img_paint(HWND hwnd, GGIMAGEENTRY *dat)
 
 	if (dat->hBitmap)
 	{
-		HDC hdcBmp = NULL;
+		HDC hdcBmp = nullptr;
 		int nWidth, nHeight;
 		BITMAP bmp;
 
@@ -224,10 +224,10 @@ wchar_t *gg_img_getfilter(wchar_t *szFilter, int nSize)
 	// Make up filter
 	wcsncpy(pFilter, szFilterName, nSize);
 	pFilter += mir_wstrlen(pFilter) + 1;
-	if (pFilter >= szFilter + nSize) return NULL;
+	if (pFilter >= szFilter + nSize) return nullptr;
 	wcsncpy(pFilter, szFilterMask, nSize - (pFilter - szFilter));
 	pFilter += mir_wstrlen(pFilter) + 1;
-	if (pFilter >= szFilter + nSize) return NULL;
+	if (pFilter >= szFilter + nSize) return nullptr;
 	*pFilter = 0;
 
 	return szFilter;
@@ -287,7 +287,7 @@ BOOL gg_img_fit(HWND hwndDlg)
 	int rWidth = 0, rHeight = 0;
 	int oWidth = 0, oHeight = 0;
 	BITMAP bmp;
-	GGIMAGEENTRY *img = NULL;
+	GGIMAGEENTRY *img = nullptr;
 	HDC hdc;
 
 	// Check if image is loaded
@@ -340,7 +340,7 @@ BOOL gg_img_fit(HWND hwndDlg)
 			oHeight = dlgRect.bottom - dlgRect.top;
 		oWidth = wrkRect.right - wrkRect.left;
 	}
-	SetWindowPos(hwndDlg, NULL,
+	SetWindowPos(hwndDlg, nullptr,
 		(wrkRect.left + wrkRect.right - oWidth) / 2,
 		(wrkRect.top + wrkRect.bottom - oHeight) / 2,
 		oWidth, oHeight,
@@ -434,7 +434,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_SIZE:
 		Utils_ResizeDialog(hwndDlg, hInstance, dat->bReceiving ? MAKEINTRESOURCEA(IDD_IMAGE_RECV) : MAKEINTRESOURCEA(IDD_IMAGE_SEND), sttImageDlgResizer);
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED)
-			InvalidateRect(hwndDlg, NULL, FALSE);
+			InvalidateRect(hwndDlg, nullptr, FALSE);
 		return 0;
 
 	case WM_SIZING:
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (dat->nImg > 1)
 			{
 				dat->nImg--;
-				InvalidateRect(hwndDlg, NULL, FALSE);
+				InvalidateRect(hwndDlg, nullptr, FALSE);
 			}
 			return TRUE;
 
@@ -544,7 +544,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (dat->nImg < dat->nImgTotal)
 			{
 				dat->nImg++;
-				InvalidateRect(hwndDlg, NULL, FALSE);
+				InvalidateRect(hwndDlg, nullptr, FALSE);
 			}
 			return TRUE;
 
@@ -573,7 +573,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if ((-- dat->nImgTotal) == 0)
 					EndDialog(hwndDlg, 0);
 				else
-					InvalidateRect(hwndDlg, NULL, FALSE);
+					InvalidateRect(hwndDlg, nullptr, FALSE);
 
 				gg_img_releasepicture(del);
 			}
@@ -603,8 +603,8 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (dat->lpImages && gg->isonline())
 				{
 					uin_t uin = (uin_t)gg->getDword(dat->hContact, GG_KEY_UIN, 0);
-					struct gg_msg_richtext_format *r = NULL;
-					struct gg_msg_richtext_image *p = NULL;
+					struct gg_msg_richtext_format *r = nullptr;
+					struct gg_msg_richtext_image *p = nullptr;
 					int len;
 
 					((struct gg_msg_richtext*)format)->flag = 2;
@@ -654,7 +654,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		// Fit window to image
 		if (!gg_img_fit(hwndDlg))
-			InvalidateRect(hwndDlg, NULL, FALSE);
+			InvalidateRect(hwndDlg, nullptr, FALSE);
 		return TRUE;
 
 	case WM_CHOOSEIMG:
@@ -677,13 +677,13 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			{
 				if (dat->lpImages)
 					gg_img_releasepicture(dat->lpImages);
-				if (!(dat->lpImages = (GGIMAGEENTRY *)dat->gg->img_loadpicture(0, szFileName)))
+				if (!(dat->lpImages = (GGIMAGEENTRY *)dat->gg->img_loadpicture(nullptr, szFileName)))
 				{
 					EndDialog(hwndDlg, 0);
 					return FALSE;
 				}
 				if (!gg_img_fit(hwndDlg))
-					InvalidateRect(hwndDlg, NULL, FALSE);
+					InvalidateRect(hwndDlg, nullptr, FALSE);
 			}
 			else
 			{
@@ -702,7 +702,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 //
 void __cdecl GGPROTO::img_dlgcallthread(void *param)
 {
-	HWND hMIWnd = 0;
+	HWND hMIWnd = nullptr;
 
 	debugLogA("img_dlgcallthread(): started.");
 	GGIMAGEDLGDATA *dat = (GGIMAGEDLGDATA *)param;
@@ -722,7 +722,7 @@ GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, MCONTACT hContact)
 	// Create dialog data
 	GGIMAGEDLGDATA *dat = (GGIMAGEDLGDATA *)calloc(1, sizeof(GGIMAGEDLGDATA));
 	dat->hContact = hContact;
-	dat->hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	dat->hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	dat->bReceiving = TRUE;
 	dat->gg = gg;
 	ResetEvent(dat->hEvent);
@@ -771,10 +771,10 @@ int gg_img_isexists(wchar_t *szPath, GGIMAGEENTRY *dat)
 //
 wchar_t *gg_img_hasextension(wchar_t *filename)
 {
-	if (filename != NULL && *filename != '\0')
+	if (filename != nullptr && *filename != '\0')
 	{
 		wchar_t *imgtype = wcsrchr(filename, '.');
-		if (imgtype != NULL)
+		if (imgtype != nullptr)
 		{
 			size_t len = mir_wstrlen(imgtype);
 			imgtype++;
@@ -787,7 +787,7 @@ wchar_t *gg_img_hasextension(wchar_t *filename)
 				return --imgtype;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -800,7 +800,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	size_t tPathLen;
 	int i, res;
 
-	if (hImagesFolder == NULL || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, L"")) {
+	if (hImagesFolder == nullptr || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, L"")) {
 		wchar_t *tmpPath = Utils_ReplaceVarsW( L"%miranda_userdata%");
 		tPathLen = mir_snwprintf(szPath, L"%s\\%s\\ImageCache", tmpPath, m_tszUserName);
 		mir_free(tmpPath);
@@ -823,7 +823,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	}
 
 	mir_snwprintf(szPath + tPathLen, MAX_PATH - tPathLen, L"\\%s", dat->lpszFileName);
-	if ((pImgext = gg_img_hasextension(szPath)) == NULL)
+	if ((pImgext = gg_img_hasextension(szPath)) == nullptr)
 		pImgext = szPath + mir_wstrlen(szPath);
 	wcsncpy_s(imgext, pImgext, _TRUNCATE);
 	for (i = 1; ; ++i)
@@ -853,7 +853,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 
 		T2Utf szMessage(image_msg);
 		PROTORECVEVENT pre = {0};
-		pre.timestamp = time(NULL);
+		pre.timestamp = time(nullptr);
 		pre.szMessage = szMessage;
 		ProtoChainRecvMsg(hContact, &pre);
 		debugLogW(L"img_displayasmsg(): Image saved to %s.", szPath);
@@ -885,7 +885,7 @@ BOOL GGPROTO::img_opened(uin_t uin)
 int GGPROTO::img_display(MCONTACT hContact, void *img)
 {
 	list_t l = imagedlgs;
-	GGIMAGEDLGDATA *dat = NULL;
+	GGIMAGEDLGDATA *dat = nullptr;
 
 	if (!img) return FALSE;
 
@@ -899,7 +899,7 @@ int GGPROTO::img_display(MCONTACT hContact, void *img)
 		l = l->next;
 	}
 
-	if (!l) dat = NULL;
+	if (!l) dat = nullptr;
 
 	if (!dat)
 	{
@@ -908,7 +908,7 @@ int GGPROTO::img_display(MCONTACT hContact, void *img)
 
 		while (WaitForSingleObjectEx(dat->hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 		CloseHandle(dat->hEvent);
-		dat->hEvent = NULL;
+		dat->hEvent = nullptr;
 
 		list_add(&imagedlgs, dat, 0);
 	}
@@ -917,7 +917,7 @@ int GGPROTO::img_display(MCONTACT hContact, void *img)
 	SendMessage(dat->hWnd, WM_ADDIMAGE, 0, (LPARAM)img);
 	if (/*db_get_b(NULL, "Chat", "bFlashWindowHighlight", 0) != 0 && */
 		GetActiveWindow() != dat->hWnd && GetForegroundWindow() != dat->hWnd)
-		SetTimer(dat->hWnd, TIMERID_FLASHWND, 900, NULL);
+		SetTimer(dat->hWnd, TIMERID_FLASHWND, 900, nullptr);
 
 	return TRUE;
 }
@@ -927,7 +927,7 @@ int GGPROTO::img_display(MCONTACT hContact, void *img)
 //
 const wchar_t *gg_img_guessfileextension(const char *lpData)
 {
-	if (lpData != NULL)
+	if (lpData != nullptr)
 	{
 		if (memcmp(lpData, "BM", 2) == 0)
 			return L".bmp";
@@ -948,11 +948,11 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 {
 	if (!szFileName &&
 		(!e || !e->event.image_reply.size || !e->event.image_reply.image || !e->event.image_reply.filename))
-		return NULL;
+		return nullptr;
 
 	GGIMAGEENTRY *dat = (GGIMAGEENTRY *)calloc(1, sizeof(GGIMAGEENTRY));
-	if (dat == NULL)
-		return NULL;
+	if (dat == nullptr)
+		return nullptr;
 
 	// Copy the file name
 	if (szFileName)
@@ -964,7 +964,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 			wchar_t error[512];
 			mir_snwprintf(error, TranslateT("Cannot open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
-			return NULL;
+			return nullptr;
 		}
 		fseek(fp, 0, SEEK_END);
 		dat->nSize = ftell(fp);
@@ -973,7 +973,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 			fclose(fp);
 			free(dat);
 			debugLogW(L"img_loadpicture(): Zero file size \"%s\" failed.", szFileName);
-			return NULL;
+			return nullptr;
 		}
 		// Maximum acceptable image size
 		if (dat->nSize > 255 * 1024)
@@ -981,8 +981,8 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 			fclose(fp);
 			free(dat);
 			debugLogW(L"img_loadpicture(): Image size of \"%s\" exceeds 255 KB.", szFileName);
-			MessageBox(NULL, TranslateT("Image exceeds maximum allowed size of 255 KB."), m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
-			return NULL;
+			MessageBox(nullptr, TranslateT("Image exceeds maximum allowed size of 255 KB."), m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
+			return nullptr;
 		}
 		fseek(fp, 0, SEEK_SET);
 		dat->lpData = (char*)malloc(dat->nSize);
@@ -992,7 +992,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 			fclose(fp);
 			free(dat);
 			debugLogW(L"img_loadpicture(): Reading file \"%s\" failed.", szFileName);
-			return NULL;
+			return nullptr;
 		}
 		fclose(fp);
 		dat->lpszFileName = wcsdup(szFileName);
@@ -1010,14 +1010,14 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 			const wchar_t *szImgType = gg_img_guessfileextension(dat->lpData);
 			if (*szImgType) {
 				dat->lpszFileName = (wchar_t*)calloc(sizeof(wchar_t), mir_wstrlen(tmpFileName) + mir_wstrlen(szImgType) + 1);
-				if (dat->lpszFileName != NULL) {
+				if (dat->lpszFileName != nullptr) {
 					mir_wstrcpy(dat->lpszFileName, tmpFileName);
 					mir_wstrcat(dat->lpszFileName, szImgType);
 				}
 			}
 		}
 
-		if (dat->lpszFileName == NULL)
+		if (dat->lpszFileName == nullptr)
 			dat->lpszFileName = wcsdup( _A2T( e->event.image_reply.filename));
 	}
 
@@ -1048,7 +1048,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 		free(dat->lpszFileName);
 		free(dat);
 	}
-	return NULL;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -1076,7 +1076,7 @@ INT_PTR GGPROTO::img_recvimage(WPARAM wParam, LPARAM lParam)
 //
 int gg_img_remove(GGIMAGEDLGDATA *dat)
 {
-	GGIMAGEENTRY *temp = NULL, *img = NULL;
+	GGIMAGEENTRY *temp = nullptr, *img = nullptr;
 	GGPROTO *gg;
 
 	if (!dat) return FALSE;
@@ -1129,7 +1129,7 @@ GGIMAGEDLGDATA* gg_img_find(GGPROTO *gg, uin_t uin, uint32_t crc32)
 	gg->gg_LeaveCriticalSection(&gg->img_mutex, "gg_img_find", 62, 2, "img_mutex", 1);
 
 	gg->debugLogA("gg_img_find(): Image not found on the list. It might be released before calling this function.");
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1158,14 +1158,14 @@ BOOL GGPROTO::img_sendonrequest(gg_event* e)
 //
 INT_PTR GGPROTO::img_sendimg(WPARAM hContact, LPARAM)
 {
-	GGIMAGEDLGDATA *dat = NULL;
+	GGIMAGEDLGDATA *dat = nullptr;
 
 	gg_EnterCriticalSection(&img_mutex, "img_sendimg", 64, "img_mutex", 1);
 	if (!dat)
 	{
 		dat = (GGIMAGEDLGDATA *)calloc(1, sizeof(GGIMAGEDLGDATA));
 		dat->hContact = hContact;
-		dat->hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		dat->hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 		dat->gg = this;
 		ResetEvent(dat->hEvent);
 
@@ -1177,7 +1177,7 @@ INT_PTR GGPROTO::img_sendimg(WPARAM hContact, LPARAM)
 
 		while (WaitForSingleObjectEx(dat->hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 		CloseHandle(dat->hEvent);
-		dat->hEvent = NULL;
+		dat->hEvent = nullptr;
 
 		list_add(&imagedlgs, dat, 0);
 	}

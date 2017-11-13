@@ -45,12 +45,12 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 	if (g_Instances.getCount() == 0)
 		return 0;
 
-	if (arg == NULL)
+	if (arg == nullptr)
 		return 1;
 
 	arg = strchr(arg, ':');
 
-	if (arg == NULL)
+	if (arg == nullptr)
 		return 1;
 
 	for (++arg; *arg == '/'; ++arg);
@@ -59,13 +59,13 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 	if (!uin)
 		return 1;
 
-	GGPROTO *gg = NULL;
+	GGPROTO *gg = nullptr;
 	for (int i=0; i < g_Instances.getCount(); i++) {
 		gg = g_Instances[i];
 
 		if (gg->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;
-			Menu_ModifyItem(gg->hInstanceMenuItem, NULL, Skin_LoadProtoIcon(gg->m_szModuleName, gg->m_iStatus));
+			Menu_ModifyItem(gg->hInstanceMenuItem, nullptr, Skin_LoadProtoIcon(gg->m_szModuleName, gg->m_iStatus));
 		}
 		else Menu_ShowItem(gg->hInstanceMenuItem, false);
 	}
@@ -76,17 +76,17 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 
 		HMENU hMenu = CreatePopupMenu();
 		Menu_Build(hMenu, hInstanceMenu);
-		int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, NULL);
+		int cmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, pcli->hwndContactList, nullptr);
 		DestroyMenu(hMenu);
 
 		if (cmd)
 			Menu_ProcessCommandById(cmd, (LPARAM)&gg);
 	}
 
-	if (gg == NULL)
+	if (gg == nullptr)
 		return 0;
 
-	MCONTACT hContact = gg->getcontact(uin, 1, 0, NULL);
+	MCONTACT hContact = gg->getcontact(uin, 1, 0, nullptr);
 	if (hContact != NULL)
 		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 	return 0;
@@ -95,13 +95,13 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 void gg_links_instancemenu_init()
 {
 	CreateServiceFunction(GGS_MENUCHOOSE, gg_menuchoose);
-	hInstanceMenu = Menu_AddObject("GGAccountChooser", LPGEN("Gadu-Gadu account chooser"), 0, GGS_MENUCHOOSE);
+	hInstanceMenu = Menu_AddObject("GGAccountChooser", LPGEN("Gadu-Gadu account chooser"), nullptr, GGS_MENUCHOOSE);
 
 	CMenuItem mi;
 	mi.name.a = "Cancel";
 	mi.position = 9999999;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	Menu_AddItem(hInstanceMenu, &mi, NULL);
+	Menu_AddItem(hInstanceMenu, &mi, nullptr);
 }
 
 void gg_links_init()

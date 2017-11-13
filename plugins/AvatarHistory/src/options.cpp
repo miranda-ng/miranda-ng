@@ -25,18 +25,18 @@ Options opts;
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
 static OptPageControl optionsControls[] = {
-	{ NULL, CONTROL_PROTOCOL_LIST, IDC_PROTOCOLS, "%sEnabled", TRUE }
+	{ nullptr, CONTROL_PROTOCOL_LIST, IDC_PROTOCOLS, "%sEnabled", TRUE }
 };
 
 static OptPageControl popupsControls[] = {
-	{ NULL,                           CONTROL_CHECKBOX, IDC_POPUPS,         "AvatarPopups",      AVH_DEF_AVPOPUPS },
+	{ nullptr,                        CONTROL_CHECKBOX, IDC_POPUPS,         "AvatarPopups",      AVH_DEF_AVPOPUPS },
 	{ &opts.popup_bkg_color,          CONTROL_COLOR,    IDC_BGCOLOR,        "PopupsBgColor",     AVH_DEF_POPUPBG },
 	{ &opts.popup_text_color,         CONTROL_COLOR,    IDC_TEXTCOLOR,      "PopupsTextColor",   AVH_DEF_POPUPFG },
 	{ &opts.popup_use_win_colors,     CONTROL_CHECKBOX, IDC_WINCOLORS,      "PopupsWinColors",   FALSE },
 	{ &opts.popup_use_default_colors, CONTROL_CHECKBOX, IDC_DEFAULTCOLORS,  "PopupsDefaultColors", AVH_DEF_DEFPOPUPS },
 	{ &opts.popup_delay_type,         CONTROL_RADIO,    IDC_DELAYFROMPU,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_DEFAULT },
-	{ NULL,                           CONTROL_RADIO,    IDC_DELAYCUSTOM,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_CUSTOM },
-	{ NULL,                           CONTROL_RADIO,    IDC_DELAYPERMANENT, "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_PERMANENT },
+	{ nullptr,                        CONTROL_RADIO,    IDC_DELAYCUSTOM,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_CUSTOM },
+	{ nullptr,                        CONTROL_RADIO,    IDC_DELAYPERMANENT, "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_PERMANENT },
 	{ &opts.popup_timeout,            CONTROL_SPIN,     IDC_DELAY,          "PopupsTimeout", 10, IDC_DELAY_SPIN, (WORD)1, (WORD)255 },
 	{ &opts.popup_right_click_action, CONTROL_COMBO,    IDC_RIGHT_ACTION,   "PopupsRightClick",  POPUP_ACTION_CLOSEPOPUP },
 	{ &opts.popup_left_click_action,  CONTROL_COMBO,    IDC_LEFT_ACTION,    "PopupsLeftClick",   POPUP_ACTION_OPENAVATARHISTORY },
@@ -127,7 +127,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT))
 				op.popup_delay_type = POPUP_DELAY_PERMANENT;
 
-			op.popup_timeout = GetDlgItemInt(hwndDlg, IDC_DELAY, NULL, FALSE);
+			op.popup_timeout = GetDlgItemInt(hwndDlg, IDC_DELAY, nullptr, FALSE);
 			op.popup_bkg_color = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
 			op.popup_text_color = SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0);
 			op.popup_use_win_colors = IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) != 0;

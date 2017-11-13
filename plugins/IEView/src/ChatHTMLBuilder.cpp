@@ -41,7 +41,7 @@ static const char *classNames[] = {
 ChatHTMLBuilder::ChatHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(NULL));
+	setLastEventTime(time(nullptr));
 }
 
 void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
@@ -98,7 +98,7 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	COLORREF color;
 
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE)
@@ -110,9 +110,9 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 		str.Append("<html><head>");
 		str.Append("<style type=\"text/css\">\n");
 		COLORREF bkgColor = db_get_dw(NULL, CHATMOD, "BackgroundLog", 0xFFFFFF);
@@ -161,7 +161,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	DWORD iconFlags = db_get_dw(NULL, CHATMOD, CHAT_ICON_FLAGS, 0);
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		const char *iconFile = "";
 		DWORD dwData = eventData->dwData;
 		bool isSent = eventData->bIsMe != 0;
@@ -256,7 +256,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 void ChatHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
 	ProtocolSettings *protoSettings = getChatProtocolSettings(event->pszProto);
-	if (protoSettings != NULL)
+	if (protoSettings != nullptr)
 		appendEventNonTemplate(view, event);
 }
 

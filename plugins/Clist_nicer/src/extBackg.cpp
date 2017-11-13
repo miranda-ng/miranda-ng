@@ -31,10 +31,10 @@ extern HWND g_hwndViewModeFrame;
 extern struct CluiTopButton BTNS[];
 
 LIST<StatusItems_t> arStatusItems(10);
-ImageItem *g_ImageItems = NULL, *g_glyphItem = NULL;
-ButtonItem *g_ButtonItems = NULL;
-ImageItem *g_CLUIImageItem = NULL;
-HBRUSH g_CLUISkinnedBkColor = 0;
+ImageItem *g_ImageItems = nullptr, *g_glyphItem = nullptr;
+ButtonItem *g_ButtonItems = nullptr;
+ImageItem *g_CLUIImageItem = nullptr;
+HBRUSH g_CLUISkinnedBkColor = nullptr;
 COLORREF g_CLUISkinnedBkColorRGB = 0;
 
 int ID_EXTBK_LAST = ID_EXTBK_LAST_D;
@@ -257,15 +257,15 @@ BOOL __forceinline GetItemByStatus(int status, StatusItems_t *retitem)
 
 StatusItems_t *GetProtocolStatusItem(const char *szProto)
 {
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return nullptr;
 
 	for (int i = _countof(_StatusItems); i < arStatusItems.getCount(); i++) {
 		StatusItems_t *p = arStatusItems[i];
 		if (!mir_strcmp(p->szName[0] == '{' ? p->szName+3 : p->szName, szProto))
 			return p;
 	}
-	return NULL;
+	return nullptr;
 }
 
 // fills the struct with the settings in the database
@@ -301,7 +301,7 @@ void LoadExtBkSettingsFromDB()
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;
 
-		p->imageItem = 0;
+		p->imageItem = nullptr;
 		char buffer[255], *pszEnd = buffer + mir_snprintf(buffer, "%s_", p->szDBname);
 		mir_strcpy(pszEnd, "IGNORE"); p->IGNORED = (BYTE)db_get_b(NULL, "CLCExt", buffer, p->IGNORED);
 		mir_strcpy(pszEnd, "GRADIENT"); p->GRADIENT = (BYTE)db_get_dw(NULL, "CLCExt", buffer, p->GRADIENT);
@@ -374,9 +374,9 @@ void SetButtonToSkinned()
 	bool bFlat = bSkinned || (db_get_b(NULL, "TopToolBar", "UseFlatButton", 0) != 0);
 
 	for (int i = 0;; i++) {
-		if (BTNS[i].pszButtonID == NULL)
+		if (BTNS[i].pszButtonID == nullptr)
 			break;
-		if (BTNS[i].hwndButton != 0 && BTNS[i].ctrlid != IDC_TBGLOBALSTATUS && BTNS[i].ctrlid != IDC_TBMENU)
+		if (BTNS[i].hwndButton != nullptr && BTNS[i].ctrlid != IDC_TBGLOBALSTATUS && BTNS[i].ctrlid != IDC_TBMENU)
 			CustomizeButton(BTNS[i].hwndButton, bSkinned, !bSkinned, bFlat, true);
 	}
 
@@ -450,7 +450,7 @@ struct { char *szModule; char *szSetting; unsigned int size; int defaultval; } _
 
 	"WorldTime", "BgColour", 4, 0,
 	"WorldTime", "FontCol", 4, 0,
-	NULL, NULL, 0, 0
+	nullptr, nullptr, 0, 0
 };
 
 void extbk_export(char *file)
@@ -520,7 +520,7 @@ void extbk_export(char *file)
 	}
 
 	i = 0;
-	while (_tagSettings[i].szModule != NULL) {
+	while (_tagSettings[i].szModule != nullptr) {
 		data = 0;
 		switch (_tagSettings[i].size) {
 		case 1:
@@ -569,7 +569,7 @@ static void PreMultiply(HBITMAP hBitmap, int mode)
 	int height = bmp.bmHeight;
 	DWORD dwLen = width * height * 4;
 	BYTE *p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	GetBitmapBits(hBitmap, dwLen, p);
@@ -600,7 +600,7 @@ static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	BYTE *p = (BYTE*)calloc(1, dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	GetBitmapBits(hBitmap, dwLen, p);
@@ -627,7 +627,7 @@ static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 static HBITMAP LoadPNG(const char *szFilename)
 {
 	HBITMAP hBitmap = Bitmap_Load(_A2T(szFilename));
-	if (hBitmap != 0)
+	if (hBitmap != nullptr)
 		CorrectBitmap32Alpha(hBitmap);
 
 	return hBitmap;
@@ -657,7 +657,7 @@ static void IMG_CreateItem(ImageItem *item, const char *fileName, HDC hdc)
 			item->dwFlags |= IMAGE_FLAG_DIVIDED;
 			if (item->inner_height <= 0 || item->inner_width <= 0) {
 				DeleteObject(hbm);
-				item->hbm = 0;
+				item->hbm = nullptr;
 				return;
 			}
 		}
@@ -749,7 +749,7 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 
 void IMG_ReadItem(const char *itemname, const char *szFileName)
 {
-	ImageItem tmpItem, *newItem = NULL;
+	ImageItem tmpItem, *newItem = nullptr;
 	char buffer[512], szItemNr[30];
 	char szFinalName[MAX_PATH];
 	HDC hdc = GetDC(pcli->hwndContactList);
@@ -776,7 +776,7 @@ done_with_glyph:
 
 		strncpy(tmpItem.szName, &itemname[1], sizeof(tmpItem.szName));
 		tmpItem.szName[sizeof(tmpItem.szName) - 1] = 0;
-		_splitpath(szFileName, szDrive, szPath, NULL, NULL);
+		_splitpath(szFileName, szDrive, szPath, nullptr, nullptr);
 		mir_snprintf(szFinalName, "%s\\%s\\%s", szDrive, szPath, buffer);
 		tmpItem.alpha = GetPrivateProfileIntA(itemname, "Alpha", 100, szFileName);
 		tmpItem.alpha = min(tmpItem.alpha, 100);
@@ -811,7 +811,7 @@ done_with_glyph:
 			tmpItem.dwFlags |= IMAGE_FILLSOLID;
 		}
 		else
-			tmpItem.fillBrush = 0;
+			tmpItem.fillBrush = nullptr;
 
 		GetPrivateProfileStringA(itemname, "Stretch", "None", buffer, 500, szFileName);
 		if (buffer[0] == 'B' || buffer[0] == 'b')
@@ -820,7 +820,7 @@ done_with_glyph:
 			tmpItem.bStretch = IMAGE_STRETCH_V;
 		else if (buffer[0] == 'w' || buffer[0] == 'W')
 			tmpItem.bStretch = IMAGE_STRETCH_H;
-		tmpItem.hbm = 0;
+		tmpItem.hbm = nullptr;
 
 		if (!_stricmp(itemname, "$glyphs")) {
 			IMG_CreateItem(&tmpItem, szFinalName, hdc);
@@ -840,12 +840,12 @@ done_with_glyph:
 				memset(newItem, 0, sizeof(ImageItem));
 				*newItem = tmpItem;
 
-				if (g_ImageItems == NULL)
+				if (g_ImageItems == nullptr)
 					g_ImageItems = newItem;
 				else {
 					ImageItem *pItem = g_ImageItems;
 
-					while (pItem->nextItem != 0)
+					while (pItem->nextItem != nullptr)
 						pItem = pItem->nextItem;
 					pItem->nextItem = newItem;
 				}
@@ -893,19 +893,19 @@ done_with_glyph:
 							memset(newItem, 0, sizeof(ImageItem));
 							*newItem = tmpItem;
 							p->imageItem = newItem;
-							if (g_ImageItems == NULL)
+							if (g_ImageItems == nullptr)
 								g_ImageItems = newItem;
 							else {
 								ImageItem *pItem = g_ImageItems;
 
-								while (pItem->nextItem != 0)
+								while (pItem->nextItem != nullptr)
 									pItem = pItem->nextItem;
 								pItem->nextItem = newItem;
 							}
 							alloced = TRUE;
 						}
 					}
-					else if (newItem != NULL)
+					else if (newItem != nullptr)
 						p->imageItem = newItem;
 				}
 			}
@@ -928,29 +928,29 @@ void IMG_DeleteItems()
 		free(pItem);
 		pItem = pNextItem;
 	}
-	g_ImageItems = NULL;
+	g_ImageItems = nullptr;
 	while (pbItem) {
 		DestroyWindow(pbItem->hWnd);
 		pbNextItem = pbItem->nextItem;
 		free(pbItem);
 		pbItem = pbNextItem;
 	}
-	g_ButtonItems = NULL;
+	g_ButtonItems = nullptr;
 
 	if (g_CLUIImageItem) {
 		IMG_DeleteItem(g_CLUIImageItem);
 		free(g_CLUIImageItem);
 	}
-	g_CLUIImageItem = NULL;
+	g_CLUIImageItem = nullptr;
 
 	if (g_glyphItem) {
 		IMG_DeleteItem(g_glyphItem);
 		free(g_glyphItem);
 	}
-	g_glyphItem = NULL;
+	g_glyphItem = nullptr;
 
 	for (i = 0; i < arStatusItems.getCount(); i++)
-		arStatusItems[i]->imageItem = NULL;
+		arStatusItems[i]->imageItem = nullptr;
 }
 
 static UINT nextButtonID = IDC_TBFIRSTUID;
@@ -1139,20 +1139,20 @@ static void BTN_ReadItem(char *itemName, char *file)
 
 	newItem = (ButtonItem *)malloc(sizeof(ButtonItem));
 	memset(newItem, 0, sizeof(ButtonItem));
-	if (g_ButtonItems == NULL) {
+	if (g_ButtonItems == nullptr) {
 		g_ButtonItems = newItem;
 		*newItem = tmpItem;
-		newItem->nextItem = 0;
+		newItem->nextItem = nullptr;
 	}
 	else {
 		ButtonItem *curItem = g_ButtonItems;
 		while (curItem->nextItem)
 			curItem = curItem->nextItem;
 		*newItem = tmpItem;
-		newItem->nextItem = 0;
+		newItem->nextItem = nullptr;
 		curItem->nextItem = newItem;
 	}
-	newItem->hWnd = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
+	newItem->hWnd = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, nullptr);
 	CustomizeButton(newItem->hWnd, false, false, true);
 	SendMessage(newItem->hWnd, BUTTONSETBTNITEM, 0, (LPARAM)newItem);
 	if (newItem->dwFlags & BUTTON_ISTOGGLE)
@@ -1174,7 +1174,7 @@ void IMG_LoadItems()
 
 	// TODO: rewrite the skin loading in wchar_t manner
 	char szFileName[MAX_PATH];
-	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, szFileName, MAX_PATH, 0, 0);
+	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, szFileName, MAX_PATH, nullptr, nullptr);
 
 	db_free(&dbv);
 
@@ -1227,11 +1227,11 @@ void LoadPerContactSkins(wchar_t *tszFileName)
 	ptrA szSections(LPSTR(calloc(3002, 1)));
 	char *p = szSections;
 
-	StatusItems_t *items = NULL, *this_item;
+	StatusItems_t *items = nullptr, *this_item;
 	int i = 1;
 
 	char file[MAX_PATH];
-	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, file, MAX_PATH, 0, 0);
+	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, file, MAX_PATH, nullptr, nullptr);
 	file[MAX_PATH - 1] = 0;
 
 	ReadItem(&default_item, "%Default", file);
@@ -1262,11 +1262,11 @@ void LoadPerContactSkins(wchar_t *tszFileName)
 	if (items) {
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			char *szProto = GetContactProto(hContact);
-			if (szProto == NULL)
+			if (szProto == nullptr)
 				continue;
 
 			char *uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid != NULL) {
+			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid != nullptr) {
 				DBVARIANT dbv = { 0 };
 				if (db_get(hContact, szProto, uid, &dbv))
 					break;
@@ -1405,7 +1405,7 @@ void extbk_import(char *file, HWND hwndDlg)
 		char szString[MAX_PATH];
 		szString[0] = 0;
 
-		while (_tagSettings[i].szModule != NULL) {
+		while (_tagSettings[i].szModule != nullptr) {
 			data = 0;
 			GetPrivateProfileStructA("Global", _tagSettings[i].szSetting, &data, _tagSettings[i].size, file);
 			switch (_tagSettings[i].size) {
@@ -1435,7 +1435,7 @@ void extbk_import(char *file, HWND hwndDlg)
 	pcli->pfnClcOptionsChanged();
 	ConfigureCLUIGeometry(1);
 	SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-	RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
+	RedrawWindow(pcli->hwndContactList, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
 }
 
 static void ApplyCLUISkin()
@@ -1446,18 +1446,18 @@ static void ApplyCLUISkin()
 	if (!db_get_ws(NULL, "CLC", "AdvancedSkin", &dbv)) {
 		MY_pathToAbsolute(dbv.ptszVal, tszFinalName);
 
-		WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, 0, 0);
+		WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, nullptr, nullptr);
 
 		if (db_get_b(NULL, "CLUI", "skin_changed", 0)) {
-			extbk_import(szFinalName, 0);
+			extbk_import(szFinalName, nullptr);
 			SaveCompleteStructToDB();
 			db_set_b(NULL, "CLUI", "skin_changed", 0);
 		}
 		IMG_LoadItems();
 		ShowWindow(pcli->hwndContactList, SW_SHOWNORMAL);
-		SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+		SetWindowPos(pcli->hwndContactList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 		SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-		RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN | RDW_ERASE);
+		RedrawWindow(pcli->hwndContactList, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN | RDW_ERASE);
 		db_free(&dbv);
 	}
 }
@@ -1528,7 +1528,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwndDlg;
-				ofn.hInstance = NULL;
+				ofn.hInstance = nullptr;
 				ofn.lpstrFilter = L"*.clist\0";
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_DONTADDTORECENT;
@@ -1600,7 +1600,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int iInit = TRUE;
-	static HWND hwndSkinEdit = 0;
+	static HWND hwndSkinEdit = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -1662,7 +1662,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				OPENFILENAMEA ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwnd;
-				ofn.hInstance = NULL;
+				ofn.hInstance = nullptr;
 				ofn.lpstrFilter = "*.clist";
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_HIDEREADONLY;
@@ -1680,7 +1680,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				OPENFILENAMEA ofn = { 0 };
 				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 				ofn.hwndOwner = hwnd;
-				ofn.hInstance = NULL;
+				ofn.hInstance = nullptr;
 				ofn.lpstrFilter = "*.clist";
 				ofn.lpstrFile = str;
 				ofn.Flags = OFN_FILEMUSTEXIST;
@@ -1733,7 +1733,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		break;
 	case WM_DESTROY:
-		hwndSkinEdit = 0;
+		hwndSkinEdit = nullptr;
 		break;
 	}
 	return FALSE;

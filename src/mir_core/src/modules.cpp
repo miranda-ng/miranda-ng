@@ -84,8 +84,8 @@ static int    sttHookId = 1;
 __forceinline HANDLE getThreadEvent()
 {
 	HANDLE pData = (HANDLE)TlsGetValue(mir_tls);
-	if (pData == NULL) {
-		pData = CreateEvent(NULL, FALSE, FALSE, NULL);
+	if (pData == nullptr) {
+		pData = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 		TlsSetValue(mir_tls, pData);
 	}
 	return pData;
@@ -105,8 +105,8 @@ static int QueueMainThread(PAPCFUNC pFunc, void* pParam, HANDLE hDoneEvent)
 
 MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 {
-	if (name == NULL)
-		return NULL;
+	if (name == nullptr)
+		return nullptr;
 
 	mir_cslock lck(csHooks);
 
@@ -118,8 +118,8 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 	strncpy(newItem->name, name, sizeof(newItem->name)); newItem->name[MAXMODULELABELLENGTH - 1] = 0;
 	newItem->id = sttHookId++;
 	newItem->subscriberCount = 0;
-	newItem->subscriber = NULL;
-	newItem->pfnHook = NULL;
+	newItem->subscriber = nullptr;
+	newItem->pfnHook = nullptr;
 	newItem->secretSignature = HOOK_SECRET_SIGNATURE;
 	InitializeCriticalSection(&newItem->csHook);
 	hooks.insert(newItem);
@@ -128,7 +128,7 @@ MIR_CORE_DLL(HANDLE) CreateHookableEvent(const char *name)
 
 MIR_CORE_DLL(int) DestroyHookableEvent(HANDLE hEvent)
 {
-	if (hEvent == NULL)
+	if (hEvent == nullptr)
 		return 1;
 
 	mir_cslock lck(csHooks);
@@ -141,7 +141,7 @@ MIR_CORE_DLL(int) DestroyHookableEvent(HANDLE hEvent)
 	p->secretSignature = 0;
 	if (p->subscriberCount) {
 		mir_free(p->subscriber);
-		p->subscriber = NULL;
+		p->subscriber = nullptr;
 		p->subscriberCount = 0;
 	}
 	hooks.remove(idx);
@@ -163,7 +163,7 @@ MIR_CORE_DLL(int) SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnH
 MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
 	THook *p = (THook*)hEvent;
-	if (p == NULL || hInst == NULL)
+	if (p == nullptr || hInst == nullptr)
 		return -1;
 
 	mir_cslock lck(p->csHook);
@@ -185,7 +185,7 @@ MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wPa
 			return returnVal;
 	}
 
-	if (p->subscriberCount == 0 && p->pfnHook != 0)
+	if (p->subscriberCount == 0 && p->pfnHook != nullptr)
 		return p->pfnHook(wParam, lParam);
 
 	return 0;
@@ -193,7 +193,7 @@ MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wPa
 
 static int CallHookSubscribers(THook *p, WPARAM wParam, LPARAM lParam)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return -1;
 
 	mir_cslock lck(p->csHook);
@@ -216,7 +216,7 @@ static int CallHookSubscribers(THook *p, WPARAM wParam, LPARAM lParam)
 	}
 
 	// call the default hook if any
-	if (p->pfnHook != 0)
+	if (p->pfnHook != nullptr)
 		return p->pfnHook(wParam, lParam);
 
 	return 0;
@@ -226,14 +226,14 @@ enum { hookOk, hookEmpty, hookInvalid };
 
 int checkHook(THook *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return hookInvalid;
 
 	int ret;
 	__try {
 		if (p->secretSignature != HOOK_SECRET_SIGNATURE)
 			ret = hookInvalid;
-		else if (p->subscriberCount == 0 && p->pfnHook == NULL)
+		else if (p->subscriberCount == 0 && p->pfnHook == nullptr)
 			ret = hookEmpty;
 		else
 			ret = hookOk;
@@ -297,7 +297,7 @@ static HANDLE HookEventInt(int type, const char *name, MIRANDAHOOK hookProc, voi
 
 	int idx;
 	if ((idx = hooks.getIndex((THook*)name)) == -1)
-		return NULL;
+		return nullptr;
 
 	THook *p = hooks[idx];
 	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount + 1));
@@ -315,12 +315,12 @@ static HANDLE HookEventInt(int type, const char *name, MIRANDAHOOK hookProc, voi
 
 MIR_CORE_DLL(HANDLE) HookEvent(const char *name, MIRANDAHOOK hookProc)
 {
-	return HookEventInt(1, name, hookProc, 0, 0);
+	return HookEventInt(1, name, hookProc, nullptr, 0);
 }
 
 MIR_CORE_DLL(HANDLE) HookEventParam(const char *name, MIRANDAHOOKPARAM hookProc, LPARAM lParam)
 {
-	return HookEventInt(2, name, (MIRANDAHOOK)hookProc, 0, lParam);
+	return HookEventInt(2, name, (MIRANDAHOOK)hookProc, nullptr, lParam);
 }
 
 MIR_CORE_DLL(HANDLE) HookEventObj(const char *name, MIRANDAHOOKOBJ hookProc, void* object)
@@ -341,7 +341,7 @@ MIR_CORE_DLL(HANDLE) HookTemporaryEvent(const char *name, MIRANDAHOOK hookProc)
 	if ((idx = hooks.getIndex((THook*)name)) == -1) {
 		lck.unlock();
 		hookProc(0, 0);
-		return NULL;
+		return nullptr;
 	}
 
 	THook *p = hooks[idx];
@@ -363,7 +363,7 @@ MIR_CORE_DLL(HANDLE) HookEventMessage(const char *name, HWND hwnd, UINT message)
 
 	int idx;
 	if ((idx = hooks.getIndex((THook*)name)) == -1)
-		return NULL;
+		return nullptr;
 
 	THook *p = hooks[idx];
 	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount + 1));
@@ -376,7 +376,7 @@ MIR_CORE_DLL(HANDLE) HookEventMessage(const char *name, HWND hwnd, UINT message)
 
 MIR_CORE_DLL(int) UnhookEvent(HANDLE hHook)
 {
-	if (hHook == NULL)
+	if (hHook == nullptr)
 		return 0;
 
 	int hookId = (INT_PTR)hHook >> 16;
@@ -384,27 +384,27 @@ MIR_CORE_DLL(int) UnhookEvent(HANDLE hHook)
 
 	mir_cslock lck(csHooks);
 
-	THook *p = NULL;
+	THook *p = nullptr;
 	for (int i = 0; i < hooks.getCount(); i++)
 		if (hooks[i]->id == hookId) {
 			p = hooks[i];
 			break;
 		}
 
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 
 	if (subscriberId >= p->subscriberCount || subscriberId < 0)
 		return 1;
 
 	p->subscriber[subscriberId].type = 0;
-	p->subscriber[subscriberId].pfnHook = NULL;
-	p->subscriber[subscriberId].hOwner = NULL;
+	p->subscriber[subscriberId].pfnHook = nullptr;
+	p->subscriber[subscriberId].hOwner = nullptr;
 	while (p->subscriberCount && p->subscriber[p->subscriberCount - 1].type == 0)
 		p->subscriberCount--;
 	if (p->subscriberCount == 0) {
 		mir_free(p->subscriber);
-		p->subscriber = NULL;
+		p->subscriber = nullptr;
 	}
 	return 0;
 }
@@ -471,8 +471,8 @@ static __inline TService* FindServiceByName(const char *name)
 
 static HANDLE CreateServiceInt(int type, const char *name, MIRANDASERVICE serviceProc, void* object, LPARAM lParam)
 {
-	if (name == NULL)
-		return NULL;
+	if (name == nullptr)
+		return nullptr;
 
 	TService tmp;
 	tmp.nameHash = mir_hashstr(name);
@@ -480,7 +480,7 @@ static HANDLE CreateServiceInt(int type, const char *name, MIRANDASERVICE servic
 	mir_cslock lck(csServices);
 
 	if (services.getIndex(&tmp) != -1)
-		return NULL;
+		return nullptr;
 
 	TService* p = (TService*)mir_alloc(sizeof(*p) + strlen(name));
 	strcpy(p->name, name);
@@ -497,12 +497,12 @@ static HANDLE CreateServiceInt(int type, const char *name, MIRANDASERVICE servic
 
 MIR_CORE_DLL(HANDLE) CreateServiceFunction(const char *name, MIRANDASERVICE serviceProc)
 {
-	return CreateServiceInt(0, name, serviceProc, 0, 0);
+	return CreateServiceInt(0, name, serviceProc, nullptr, 0);
 }
 
 MIR_CORE_DLL(HANDLE) CreateServiceFunctionParam(const char *name, MIRANDASERVICEPARAM serviceProc, LPARAM lParam)
 {
-	return CreateServiceInt(1, name, (MIRANDASERVICE)serviceProc, 0, lParam);
+	return CreateServiceInt(1, name, (MIRANDASERVICE)serviceProc, nullptr, lParam);
 }
 
 MIR_CORE_DLL(HANDLE) CreateServiceFunctionObj(const char *name, MIRANDASERVICEOBJ serviceProc, void* object)
@@ -538,22 +538,22 @@ MIR_CORE_DLL(int) DestroyServiceFunction(HANDLE hService)
 
 MIR_CORE_DLL(bool) ServiceExists(const char *name)
 {
-	if (name == NULL)
+	if (name == nullptr)
 		return FALSE;
 
 	mir_cslock lck(csServices);
-	return FindServiceByName(name) != NULL;
+	return FindServiceByName(name) != nullptr;
 }
 
 MIR_CORE_DLL(INT_PTR) CallService(const char *name, WPARAM wParam, LPARAM lParam)
 {
-	if (name == NULL)
+	if (name == nullptr)
 		return CALLSERVICE_NOTFOUND;
 
 	TService *pService;
 	{
 		mir_cslock lck(csServices);
-		if ((pService = FindServiceByName(name)) == NULL)
+		if ((pService = FindServiceByName(name)) == nullptr)
 			return CALLSERVICE_NOTFOUND;
 	}
 
@@ -578,7 +578,7 @@ static void CALLBACK CallServiceToMainAPCFunc(ULONG_PTR dwParam)
 
 MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam, LPARAM lParam)
 {
-	if (name == NULL)
+	if (name == nullptr)
 		return CALLSERVICE_NOTFOUND;
 
 	// the service is looked up within the main thread, since the time it takes
@@ -603,7 +603,7 @@ MIR_CORE_DLL(int) CallFunctionAsync(void(__stdcall *func)(void *), void *arg)
 	if (GetCurrentThreadId() == mainThreadId)
 		func(arg);
 	else
-		QueueMainThread((PAPCFUNC)func, arg, 0);
+		QueueMainThread((PAPCFUNC)func, arg, nullptr);
 	return 0;
 }
 
@@ -691,7 +691,7 @@ MIR_CORE_DLL(void) UnregisterModule(HINSTANCE hInst)
 MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
 {
 	if (pluginListAddr.getCount() == 0)
-		return NULL;
+		return nullptr;
 
 	int idx;
 	List_GetIndex((SortedList*)&pluginListAddr, codePtr, &idx);
@@ -702,7 +702,7 @@ MIR_CORE_DLL(HINSTANCE) GetInstByAddress(void* codePtr)
 	if (result < g_hInst && codePtr > g_hInst)
 		result = g_hInst;
 	else if (idx == 0 && codePtr < (void*)result)
-		result = NULL;
+		result = nullptr;
 
 	return result;
 }

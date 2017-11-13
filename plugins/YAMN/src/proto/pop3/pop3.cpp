@@ -34,11 +34,11 @@
 //sets AckFlag
 char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BOOL NoTLS)
 {
-	char *temp = 0;
+	char *temp = nullptr;
 	if (Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
-	if (NetClient != NULL)
+	if (NetClient != nullptr)
 		delete NetClient;
 	SSL=UseSSL;
 	NetClient=new CNLClient;
@@ -56,7 +56,7 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 		catch (...) 
 		{
 			NetClient->Disconnect();
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -73,7 +73,7 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 				NetClient->SSLify();
 			} catch (...) {
 				NetClient->Disconnect();
-				return NULL;
+				return nullptr;
 			}
 //			temp = RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 		}
@@ -105,7 +105,7 @@ char* CPop3Client::RecvRest(char* prev,int mode,int size)
 	{		//if not found
 		if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		{
-			if (PrevString != NULL)
+			if (PrevString != nullptr)
 				free(PrevString);
 			throw POP3Error=(DWORD)EPOP3_STOPPED;
 		}
@@ -113,9 +113,9 @@ char* CPop3Client::RecvRest(char* prev,int mode,int size)
 		{
 			SizeRead+=size;
 			SizeLeft=size;
-			LastString=NetClient->Recv(NULL,SizeLeft);
+			LastString=NetClient->Recv(nullptr,SizeLeft);
 			PrevString=(char *)realloc(PrevString,sizeof(char)*(SizeRead+size));
-			if (PrevString==NULL)
+			if (PrevString==nullptr)
 				throw POP3Error=(DWORD)EPOP3_RESTALLOC;
 			memcpy(PrevString+SizeRead,LastString,size);
 			free(LastString);
@@ -239,7 +239,7 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 	char *Result;
 	unsigned char digest[16];
 
-	if (timestamp==NULL)
+	if (timestamp==nullptr)
 		throw POP3Error=(DWORD)EPOP3_APOP;
 	mir_md5_state_s ctx;
 	mir_md5_init(&ctx);

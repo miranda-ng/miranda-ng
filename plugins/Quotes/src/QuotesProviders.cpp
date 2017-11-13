@@ -66,7 +66,7 @@ void CQuotesProviders::InitProviders()
 CQuotesProviders::TQuotesProviderPtr CQuotesProviders::GetContactProviderPtr(MCONTACT hContact)const
 {
 	char* szProto = GetContactProto(hContact);
-	if (NULL == szProto || 0 != ::_stricmp(szProto, QUOTES_PROTOCOL_NAME))
+	if (nullptr == szProto || 0 != ::_stricmp(szProto, QUOTES_PROTOCOL_NAME))
 		return TQuotesProviderPtr();
 
 	tstring sProvider = Quotes_DBGetStringT(hContact, QUOTES_MODULE_NAME, DB_STR_QUOTE_PROVIDER);

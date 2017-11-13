@@ -226,7 +226,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		ccs.wParam = (WPARAM)mir_u2a(szDescription);
 		ccs.lParam = (LPARAM)Proto_FilesMatrixA(ppszFiles);
 		HANDLE res = (HANDLE)ProtoCallService(m_szModuleName, PSS_FILE, 0, (LPARAM)&ccs);
-		if (res == 0) FreeFilesMatrix((wchar_t***)&ccs.lParam);
+		if (res == nullptr) FreeFilesMatrix((wchar_t***)&ccs.lParam);
 		mir_free((char*)ccs.wParam);
 		return res;
 	}

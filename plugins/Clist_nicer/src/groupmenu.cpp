@@ -51,7 +51,7 @@ static HMENU hMenuOldContext;
 static INT_PTR GroupMenu_OnAddService(WPARAM wParam, LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (mii == NULL)
+	if (mii == nullptr)
 		return 0;
 
 	if (hGroupMainMenuItemProxy == (HANDLE)lParam) {
@@ -133,7 +133,7 @@ void InitGroupMenus(void)
 	mi.root = Menu_AddGroupMenuItem(&mi);
 
 	UNSET_UID(mi);
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	mi.pszService = "CLISTMENUSGroup/CommandHelper";
 	CreateServiceFunction(mi.pszService, CommandHelper);
 	for (int i = 0; i < _countof(hAppearanceItems); i++) {
@@ -145,7 +145,7 @@ void InitGroupMenus(void)
 	}
 
 	SET_UID(mi, 0xc2895531, 0x98e9, 0x40bc, 0x9b, 0x8e, 0xfb, 0x33, 0xe8, 0xab, 0xcc, 0xef);
-	mi.root = NULL;
+	mi.root = nullptr;
 	mi.position = 400000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.pszService = "Options/OptionsCommand";

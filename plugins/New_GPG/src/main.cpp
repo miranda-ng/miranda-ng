@@ -23,11 +23,11 @@ extern bool bAutoExchange;
 
 void ShowFirstRunDialog();
 
-HWND hwndFirstRun = NULL, hwndSetDirs = NULL, hwndNewKey = NULL, hwndKeyGen = NULL, hwndSelectExistingKey = NULL;
+HWND hwndFirstRun = nullptr, hwndSetDirs = nullptr, hwndNewKey = nullptr, hwndKeyGen = nullptr, hwndSelectExistingKey = nullptr;
 
 int itemnum = 0;
 
-HWND hwndList_g = NULL;
+HWND hwndList_g = nullptr;
 BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting);
 
 wchar_t key_id_global[17] = { 0 };
@@ -41,7 +41,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
-			SetWindowPos(hwndDlg, 0, firstrun_rect.left, firstrun_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(hwndDlg, nullptr, firstrun_rect.left, firstrun_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
 			SetWindowText(hwndDlg, TranslateT("Set own key"));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COPY_PUBKEY), 0);
@@ -124,7 +124,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 							break;
 						stop = p;
 						p2 = out.find("/", p) - 1;
-						wchar_t *key_len = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str()), *creation_date = NULL, *expire_date = NULL;
+						wchar_t *key_len = mir_wstrdup(toUTF16(out.substr(p, p2 - p)).c_str()), *creation_date = nullptr, *expire_date = nullptr;
 						p2 += 2;
 						p = out.find(" ", p2);
 						std::wstring key_id = toUTF16(out.substr(p2, p - p2));
@@ -445,7 +445,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				string::size_type s = out.find("Key fingerprint = ");
 				s += mir_strlen("Key fingerprint = ");
 				string::size_type s2 = out.find("\n", s);
-				wchar_t *str = NULL;
+				wchar_t *str = nullptr;
 				{
 					string tmp = out.substr(s, s2 - s - 1).c_str();
 					string::size_type p = 0;
@@ -511,7 +511,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					path.append(L"\\new_key");
 					wfstream f(path.c_str(), std::ios::out);
 					if (!f.is_open()) {
-						MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+						MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
 						break;
 					}
 					f << "Key-Type: RSA";
@@ -655,14 +655,14 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				boost::algorithm::erase_all(out, "\r");
 				HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, out.size() + 1);
 				if (!hMem) {
-					MessageBox(0, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
+					MessageBox(nullptr, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
 					break;
 				}
 				char *szKey = (char*)GlobalLock(hMem);
 				if (!szKey) {
 					wchar_t msg[64];
 					mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
-					MessageBox(0, msg, TranslateT("Error"), MB_OK);
+					MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
 					GlobalFree(hMem);
 				}
 				memcpy(szKey, out.c_str(), out.size());
@@ -673,7 +673,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					GlobalFree(hMem);
 					wchar_t msg[64];
 					mir_snwprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
-					MessageBox(0, msg, TranslateT("Error"), MB_OK);
+					MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
 				}
 				CloseClipboard();
 			}
@@ -774,7 +774,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 		GetWindowRect(hwndDlg, &firstrun_rect);
 		db_set_dw(NULL, szGPGModuleName, "FirstrunWindowX", firstrun_rect.left);
 		db_set_dw(NULL, szGPGModuleName, "FirstrunWindowY", firstrun_rect.top);
-		hwndFirstRun = NULL;
+		hwndFirstRun = nullptr;
 		break;
 	}
 
@@ -806,7 +806,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (boost::filesystem::exists(gpg_lang_path.c_str()))
 					lang_exists = true;
 				if (gpg_exists && !lang_exists)
-					MessageBox(0, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned."), TranslateT("Warning"), MB_OK);
+					MessageBox(nullptr, TranslateT("GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned."), TranslateT("Warning"), MB_OK);
 			}
 			DWORD len = MAX_PATH;
 			bool bad_version = false;
@@ -816,7 +816,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValueW(HKEY_CURRENT_USER, L"Software\\GNU\\GnuPG", L"gpgProgram", 0, (void*)path.c_str(), &len) == ERROR_SUCCESS) ? path.c_str() : L"");
 					if (tmp[0])
 						if (!boost::filesystem::exists((wchar_t*)tmp))
-							MessageBox(0, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("Wrong GPG binary location found in system.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 				}
 				else tmp = mir_wstrdup(path.c_str());
 
@@ -844,10 +844,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					else {
 						bad_version = false;
-						MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Error"), MB_OK);
+						MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Error"), MB_OK);
 					}
 					if (bad_version)
-						MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+						MessageBox(nullptr, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 				}
 			}
 			{
@@ -858,7 +858,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					mir_wstrcat(mir_path, L"\\gpg");
 					if (_waccess(mir_path, 0) != -1) {
 						tmp = mir_wstrdup(mir_path);
-						MessageBox(0, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
+						MessageBox(nullptr, TranslateT("\"GPG\" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set."), TranslateT("Info"), MB_OK);
 					}
 					else {
 						wstring path_ = _wgetenv(L"APPDATA");
@@ -870,7 +870,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			//TODO: additional check for write access
 			if (gpg_exists && lang_exists && !bad_version)
-				MessageBox(0, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
+				MessageBox(nullptr, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), TRUE);
 			return TRUE;
 		}
@@ -915,12 +915,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						PathToAbsoluteW(L"\\", mir_path);
 						SetCurrentDirectoryW(mir_path);
 						if (!boost::filesystem::exists(tmp)) {
-							MessageBox(0, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 							break;
 						}
 					}
 					else {
-						MessageBox(0, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
+						MessageBox(nullptr, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
 						break;
 					}
 					{
@@ -947,17 +947,17 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						}
 						else {
 							bad_version = false;
-							MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 						}
 						if (bad_version)
-							MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 					}
 					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
 					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
 						tmp[mir_wstrlen(tmp) - 1] = '\0';
 					if (!tmp[0]) {
-						MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
+						MessageBox(nullptr, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 						break;
 					}
 					db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
@@ -985,12 +985,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						PathToAbsoluteW(L"\\", mir_path);
 						SetCurrentDirectoryW(mir_path);
 						if (!boost::filesystem::exists(tmp)) {
-							MessageBox(0, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
 							break;
 						}
 					}
 					else {
-						MessageBox(0, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
+						MessageBox(nullptr, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
 						break;
 					}
 					{
@@ -1017,17 +1017,17 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						}
 						else {
 							bad_version = false;
-							MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 						}
 						if (bad_version)
-							MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 					}
 					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
 					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
 						tmp[mir_wstrlen(tmp) - 1] = '\0';
 					if (!tmp[0]) {
-						MessageBox(0, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
+						MessageBox(nullptr, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
 						break;
 					}
 					db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
@@ -1049,7 +1049,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						path.append(L"\\new_key");
 						wfstream f(path.c_str(), std::ios::out);
 						if (!f.is_open()) {
-							MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+							MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
 							break;
 						}
 						f << "Key-Type: RSA";
@@ -1154,7 +1154,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		DestroyWindow(hwndDlg);
 		break;
 	case WM_DESTROY:
-		hwndSetDirs = NULL;
+		hwndSetDirs = nullptr;
 		void InitCheck();
 		InitCheck();
 		break;
@@ -1173,7 +1173,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 		{
 			hContact = new_key_hcnt;
 			//new_key_hcnt_mutex.unlock();
-			SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(hwndDlg, nullptr, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
 			wchar_t *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
 			SetDlgItemText(hwndDlg, IDC_MESSAGE, tmp[0] ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
@@ -1218,7 +1218,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			db_set_dw(NULL, szGPGModuleName, "NewKeyWindowX", new_key_rect.left);
 			db_set_dw(NULL, szGPGModuleName, "NewKeyWindowY", new_key_rect.top);
 		}
-		hwndNewKey = NULL;
+		hwndNewKey = nullptr;
 		break;
 
 	}
@@ -1230,7 +1230,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			SetWindowPos(hwndDlg, 0, key_gen_rect.left, key_gen_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(hwndDlg, nullptr, key_gen_rect.left, key_gen_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
 			SetWindowText(hwndDlg, TranslateT("Key Generation dialog"));
 			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEY_TYPE), L"RSA", 0);
@@ -1255,8 +1255,8 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						wchar_t *tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 5);
 						GetDlgItemText(hwndDlg, IDC_KEY_TYPE, tmp, 5);
 						if (mir_wstrlen(tmp) < 3) {
-							mir_free(tmp); tmp = NULL;
-							MessageBox(0, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
+							mir_free(tmp); tmp = nullptr;
+							MessageBox(nullptr, TranslateT("You must set encryption algorithm first"), TranslateT("Error"), MB_OK);
 							break;
 						}
 						if (tmp)
@@ -1266,13 +1266,13 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						int length = _wtoi(tmp);
 						mir_free(tmp);
 						if (length < 1024 || length > 4096) {
-							MessageBox(0, TranslateT("Key length must be of length from 1024 to 4096 bits"), TranslateT("Error"), MB_OK);
+							MessageBox(nullptr, TranslateT("Key length must be of length from 1024 to 4096 bits"), TranslateT("Error"), MB_OK);
 							break;
 						}
 						tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 12);
 						GetDlgItemText(hwndDlg, IDC_KEY_EXPIRE_DATE, tmp, 11);
 						if (mir_wstrlen(tmp) != 10 && tmp[0] != '0') {
-							MessageBox(0, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
+							MessageBox(nullptr, TranslateT("Invalid date"), TranslateT("Error"), MB_OK);
 							mir_free(tmp);
 							break;
 						}
@@ -1280,12 +1280,12 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 128);
 						GetDlgItemText(hwndDlg, IDC_KEY_REAL_NAME, tmp, 127);
 						if (mir_wstrlen(tmp) < 5) {
-							MessageBox(0, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
+							MessageBox(nullptr, TranslateT("Name must contain at least 5 characters"), TranslateT("Error"), MB_OK);
 							mir_free(tmp);
 							break;
 						}
 						else if (wcschr(tmp, '(') || wcschr(tmp, ')')) {
-							MessageBox(0, TranslateT("Name cannot contain '(' or ')'"), TranslateT("Error"), MB_OK);
+							MessageBox(nullptr, TranslateT("Name cannot contain '(' or ')'"), TranslateT("Error"), MB_OK);
 							mir_free(tmp);
 							break;
 						}
@@ -1293,7 +1293,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * 128);
 						GetDlgItemText(hwndDlg, IDC_KEY_EMAIL, tmp, 128);
 						if ((mir_wstrlen(tmp)) < 5 || (!wcschr(tmp, '@')) || (!wcschr(tmp, '.'))) {
-							MessageBox(0, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
+							MessageBox(nullptr, TranslateT("Invalid Email"), TranslateT("Error"), MB_OK);
 							mir_free(tmp);
 							break;
 						}
@@ -1308,7 +1308,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						path.append(L"\\new_key");
 						wfstream f(path.c_str(), std::ios::out);
 						if (!f.is_open()) {
-							MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+							MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
 							break;
 						}
 						f << "Key-Type: ";
@@ -1509,7 +1509,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 			db_set_dw(NULL, szGPGModuleName, "KeyGenWindowX", key_gen_rect.left);
 			db_set_dw(NULL, szGPGModuleName, "KeyGenWindowY", key_gen_rect.top);
 		}
-		hwndKeyGen = NULL;
+		hwndKeyGen = nullptr;
 		break;
 
 	}
@@ -1529,7 +1529,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg, UINT msg, WPARAM wP
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
-			SetWindowPos(hwndDlg, 0, load_existing_key_rect.left, load_existing_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(hwndDlg, nullptr, load_existing_key_rect.left, load_existing_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
 			col.pszText = L"Key ID";
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
@@ -1704,10 +1704,10 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg, UINT msg, WPARAM wP
 						mir_free(tmp);
 					}
 					else
-						MessageBox(NULL, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
+						MessageBox(nullptr, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
 				}
 				else
-					MessageBox(NULL, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
+					MessageBox(nullptr, TranslateT("Failed to export public key."), TranslateT("Error"), MB_OK);
 				//			  SetDlgItemText(hPubKeyEdit, IDC_PUBLIC_KEY_EDIT, tmp);
 			}
 			DestroyWindow(hwndDlg);
@@ -1740,7 +1740,7 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg, UINT msg, WPARAM wP
 		GetWindowRect(hwndDlg, &load_existing_key_rect);
 		db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowX", load_existing_key_rect.left);
 		db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowY", load_existing_key_rect.top);
-		hwndSelectExistingKey = NULL;
+		hwndSelectExistingKey = nullptr;
 		break;
 	}
 
@@ -1756,7 +1756,7 @@ static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wP
 		{
 			hContact = new_key_hcnt;
 			new_key_hcnt_mutex.unlock();
-			SetWindowPos(hwndDlg, 0, import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(hwndDlg, nullptr, import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			TranslateDialogDefault(hwndDlg);
 			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), L"subkeys.pgp.net", 0);
 			ComboBoxAddStringUtf(GetDlgItem(hwndDlg, IDC_KEYSERVER), L"keys.gnupg.net", 0);
@@ -1783,7 +1783,7 @@ static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wP
 				params.code = &code;
 				params.result = &result;
 				gpg_launcher(params);
-				MessageBoxA(0, out.c_str(), "GPG output", MB_OK);
+				MessageBoxA(nullptr, out.c_str(), "GPG output", MB_OK);
 			}
 			break;
 		}
@@ -1807,8 +1807,8 @@ extern HINSTANCE hInst;
 
 void ShowFirstRunDialog()
 {
-	if (hwndFirstRun == NULL) {
-		hwndFirstRun = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FIRST_RUN), NULL, DlgProcFirstRun);
+	if (hwndFirstRun == nullptr) {
+		hwndFirstRun = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FIRST_RUN), nullptr, DlgProcFirstRun);
 	}
 	SetForegroundWindow(hwndFirstRun);
 }
@@ -1816,37 +1816,37 @@ void ShowFirstRunDialog()
 
 void ShowSetDirsDialog()
 {
-	if (hwndSetDirs == NULL) {
-		hwndSetDirs = CreateDialog(hInst, MAKEINTRESOURCE(IDD_BIN_PATH), NULL, DlgProcGpgBinOpts);
+	if (hwndSetDirs == nullptr) {
+		hwndSetDirs = CreateDialog(hInst, MAKEINTRESOURCE(IDD_BIN_PATH), nullptr, DlgProcGpgBinOpts);
 	}
 	SetForegroundWindow(hwndSetDirs);
 }
 
 void ShowNewKeyDialog()
 {
-	hwndNewKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_NEW_KEY), NULL, DlgProcNewKeyDialog);
+	hwndNewKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_NEW_KEY), nullptr, DlgProcNewKeyDialog);
 	SetForegroundWindow(hwndNewKey);
 }
 
 void ShowKeyGenDialog()
 {
-	if (hwndKeyGen == NULL) {
-		hwndKeyGen = CreateDialog(hInst, MAKEINTRESOURCE(IDD_KEY_GEN), NULL, DlgProcKeyGenDialog);
+	if (hwndKeyGen == nullptr) {
+		hwndKeyGen = CreateDialog(hInst, MAKEINTRESOURCE(IDD_KEY_GEN), nullptr, DlgProcKeyGenDialog);
 	}
 	SetForegroundWindow(hwndKeyGen);
 }
 
 void ShowSelectExistingKeyDialog()
 {
-	if (hwndSelectExistingKey == NULL) {
-		hwndSelectExistingKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LOAD_EXISTING_KEY), NULL, DlgProcLoadExistingKey);
+	if (hwndSelectExistingKey == nullptr) {
+		hwndSelectExistingKey = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LOAD_EXISTING_KEY), nullptr, DlgProcLoadExistingKey);
 	}
 	SetForegroundWindow(hwndSelectExistingKey);
 }
 
 void ShowImportKeyDialog()
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_IMPORT_KEY), NULL, DlgProcImportKeyDialog);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_IMPORT_KEY), nullptr, DlgProcImportKeyDialog);
 }
 
 void FirstRun()
@@ -1899,7 +1899,7 @@ void InitCheck()
 			mir_wstrncat(buf, temp_access ? TranslateT("Temp dir write access granted (this is good).\n") : TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), _countof(buf) - mir_wstrlen(buf));
 			if (!gpg_valid)
 				mir_wstrncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), _countof(buf) - mir_wstrlen(buf));
-			MessageBox(0, buf, TranslateT("GPG plugin problems"), MB_OK);
+			MessageBox(nullptr, buf, TranslateT("GPG plugin problems"), MB_OK);
 		}
 		if (!gpg_valid)
 			return;
@@ -1951,7 +1951,7 @@ void InitCheck()
 					question += Translate(" for account ");
 					question += toUTF8(accounts[i]->tszAccountName);
 					question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
-					if (MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
+					if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 						ShowFirstRunDialog();
 				}
 				p2 = p;
@@ -1989,7 +1989,7 @@ void InitCheck()
 						question += Translate(" for account ");
 						question += toUTF8(accounts[i]->tszAccountName);
 						question += Translate(" expired and will not work.\nDo you want to set another key?");
-						if (MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
+						if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 							ShowFirstRunDialog();
 					}
 					mir_free(expire_date);
@@ -2005,13 +2005,13 @@ void InitCheck()
 		char *key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 		if (!db_get_b(NULL, szGPGModuleName, "FirstRun", 1) && (!keyid[0] || !key[0])) {
 			question = Translate("You didn't set a private key.\nWould you like to set it now?");
-			if (MessageBoxA(0, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES)
+			if (MessageBoxA(nullptr, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES)
 				ShowFirstRunDialog();
 		}
 		if ((p = out.find(keyid)) == string::npos) {
 			question += keyid;
 			question += Translate(" deleted from GPG secret keyring.\nDo you want to set another key?");
-			if (MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
+			if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 				ShowFirstRunDialog();
 		}
 		p2 = p;
@@ -2047,7 +2047,7 @@ void InitCheck()
 			if (expired) {
 				question += keyid;
 				question += Translate(" expired and will not work.\nDo you want to set another key?");
-				if (MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
+				if (MessageBoxA(nullptr, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 					ShowFirstRunDialog();
 			}
 			mir_free(expire_date);
@@ -2071,7 +2071,7 @@ void InitCheck()
 		Proto_EnumAccounts(&count, &accounts);
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
-		cap.hIcon = 0;
+		cap.hIcon = nullptr;
 		strncpy(cap.name, "GPG Key AutoExchange", MAX_CAPNAME);
 		strncpy(cap.caps, "GPGAutoExchange", sizeof(cap.caps));
 
@@ -2085,7 +2085,7 @@ void InitCheck()
 		Proto_EnumAccounts(&count, &accounts);
 		ICQ_CUSTOMCAP cap;
 		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
-		cap.hIcon = 0;
+		cap.hIcon = nullptr;
 		strncpy(cap.name, "GPG Encrypted FileTransfers", MAX_CAPNAME);
 		strncpy(cap.caps, "GPGFileTransfer", sizeof(cap.caps));
 
@@ -2101,7 +2101,7 @@ void ImportKey()
 	new_key_hcnt_mutex.unlock();
 	bool for_all_sub = false;
 	if (db_mc_isMeta(hContact)) {
-		if (MessageBox(0, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
+		if (MessageBox(nullptr, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 			for_all_sub = true;
 
 		if (for_all_sub) {
@@ -2159,7 +2159,7 @@ void ImportKey()
 			for (int i = 0; i < count; i++) {
 				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if (hcnt) {
-					char *tmp = NULL;
+					char *tmp = nullptr;
 					string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
 					db_set_s(hcnt, szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
@@ -2182,7 +2182,7 @@ void ImportKey()
 					if (s != string::npos && s2 != string::npos) {
 						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 						mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
-						mir_utf8decode(tmp, 0);
+						mir_utf8decode(tmp, nullptr);
 						db_set_s(hcnt, szGPGModuleName, "KeyMainName", tmp);
 						mir_free(tmp);
 					}
@@ -2196,7 +2196,7 @@ void ImportKey()
 						if (output[s] == ')') {
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 							mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
-							mir_utf8decode(tmp, 0);
+							mir_utf8decode(tmp, nullptr);
 							db_set_s(hcnt, szGPGModuleName, "KeyComment", tmp);
 							mir_free(tmp);
 							s += 3;
@@ -2204,7 +2204,7 @@ void ImportKey()
 							if (s != string::npos && s2 != string::npos) {
 								tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 								mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
-								mir_utf8decode(tmp, 0);
+								mir_utf8decode(tmp, nullptr);
 								db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", tmp);
 								mir_free(tmp);
 							}
@@ -2212,7 +2212,7 @@ void ImportKey()
 						else {
 							tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 							mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
-							mir_utf8decode(tmp, 0);
+							mir_utf8decode(tmp, nullptr);
 							db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 							mir_free(tmp);
 						}
@@ -2222,7 +2222,7 @@ void ImportKey()
 			}
 		}
 		else {
-			char *tmp = NULL;
+			char *tmp = nullptr;
 			string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 			string::size_type s2 = output.find(":", s);
 			db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
@@ -2245,7 +2245,7 @@ void ImportKey()
 			if (s != string::npos && s2 != string::npos) {
 				tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 				mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
-				mir_utf8decode(tmp, 0);
+				mir_utf8decode(tmp, nullptr);
 				db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", tmp);
 				mir_free(tmp);
 			}
@@ -2258,7 +2258,7 @@ void ImportKey()
 				if (output[s] == ')') {
 					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 					mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
-					mir_utf8decode(tmp, 0);
+					mir_utf8decode(tmp, nullptr);
 					db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", tmp);
 					mir_free(tmp);
 					s += 3;
@@ -2266,7 +2266,7 @@ void ImportKey()
 					if (s != string::npos && s2 != string::npos) {
 						tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 						mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
-						mir_utf8decode(tmp, 0);
+						mir_utf8decode(tmp, nullptr);
 						db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", tmp);
 						mir_free(tmp);
 					}
@@ -2274,7 +2274,7 @@ void ImportKey()
 				else {
 					tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 					mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
-					mir_utf8decode(tmp, 0);
+					mir_utf8decode(tmp, nullptr);
 					db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 					mir_free(tmp);
 				}
@@ -2283,7 +2283,7 @@ void ImportKey()
 		}
 	}
 	else {
-		char *tmp = NULL;
+		char *tmp = nullptr;
 		string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 		string::size_type s2 = output.find(":", s);
 		db_set_s(hContact, szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
@@ -2306,7 +2306,7 @@ void ImportKey()
 		if (s != string::npos && s2 != string::npos) {
 			tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 			mir_strcpy(tmp, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
-			mir_utf8decode(tmp, 0);
+			mir_utf8decode(tmp, nullptr);
 			db_set_s(hContact, szGPGModuleName, "KeyMainName", tmp);
 			mir_free(tmp);
 		}
@@ -2319,7 +2319,7 @@ void ImportKey()
 			if (output[s] == ')') {
 				tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 				mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
-				mir_utf8decode(tmp, 0);
+				mir_utf8decode(tmp, nullptr);
 				db_set_s(hContact, szGPGModuleName, "KeyComment", tmp);
 				mir_free(tmp);
 				s += 3;
@@ -2327,7 +2327,7 @@ void ImportKey()
 				if (s != string::npos && s2 != string::npos) {
 					tmp = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s).length() + 1));
 					mir_strcpy(tmp, output.substr(s, s2 - s).c_str());
-					mir_utf8decode(tmp, 0);
+					mir_utf8decode(tmp, nullptr);
 					db_set_s(hContact, szGPGModuleName, "KeyMainEmail", tmp);
 					mir_free(tmp);
 				}
@@ -2335,7 +2335,7 @@ void ImportKey()
 			else {
 				tmp = (char*)mir_alloc(sizeof(char)* (output.substr(s2, s - s2).length() + 1));
 				mir_strcpy(tmp, output.substr(s2, s - s2).c_str());
-				mir_utf8decode(tmp, 0);
+				mir_utf8decode(tmp, nullptr);
 				db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 				mir_free(tmp);
 			}
@@ -2343,6 +2343,6 @@ void ImportKey()
 		db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
 	}
 
-	MessageBox(0, toUTF16(output).c_str(), L"", MB_OK);
+	MessageBox(nullptr, toUTF16(output).c_str(), L"", MB_OK);
 	boost::filesystem::remove(tmp2);
 }

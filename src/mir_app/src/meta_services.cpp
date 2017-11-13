@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern "C" MIR_CORE_DLL(void) db_mc_notifyDefChange(WPARAM wParam, LPARAM lParam);
 
-char *pendingACK = 0;    // Name of the protocol in which an ACK is about to come.
+char *pendingACK = nullptr;    // Name of the protocol in which an ACK is about to come.
 
 int previousMode,        // Previous status of the MetaContacts Protocol
 mcStatus;             // Current status of the MetaContacts Protocol
@@ -144,7 +144,7 @@ void CALLBACK SetStatusThread(HWND, UINT, UINT_PTR, DWORD)
 	mcStatus = ID_STATUS_ONLINE;
 	ProtoBroadcastAck(META_PROTO, 0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
 
-	KillTimer(0, setStatusTimerId);
+	KillTimer(nullptr, setStatusTimerId);
 }
 
 /** Changes the status and notifies everybody
@@ -157,7 +157,7 @@ INT_PTR Meta_SetStatus(WPARAM wParam, LPARAM)
 	// firstSetOnline starts out true - used to delay metacontact's 'onlineness' to prevent double status notifications on startup
 	if (mcStatus == ID_STATUS_OFFLINE && firstSetOnline) {
 		// causes crash on exit if miranda is closed in under options.set_status_from_offline milliseconds!
-		setStatusTimerId = SetTimer(0, 0, g_metaOptions.set_status_from_offline_delay, SetStatusThread);
+		setStatusTimerId = SetTimer(nullptr, 0, g_metaOptions.set_status_from_offline_delay, SetStatusThread);
 		firstSetOnline = FALSE;
 	}
 	else {
@@ -306,7 +306,7 @@ int Meta_HandleACK(WPARAM, LPARAM lParam)
 				return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, (HANDLE)&ai, ack->lParam);
 			}
 
-			return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, 0, ack->lParam);
+			return ProtoBroadcastAck(META_PROTO, cc->contactID, ack->type, ack->result, nullptr, ack->lParam);
 		}
 	}
 
@@ -823,7 +823,7 @@ int Meta_PreShutdown(WPARAM, LPARAM)
 	Meta_SetStatus(ID_STATUS_OFFLINE, 0);
 	Meta_SuppressStatus(FALSE);
 	if (setStatusTimerId)
-		KillTimer(0, setStatusTimerId);
+		KillTimer(nullptr, setStatusTimerId);
 	return 0;
 }
 

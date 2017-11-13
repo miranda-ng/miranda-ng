@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	on current active mode for user.
 	*************************************************************************************/
 
-static MWindowList hDialogsList = NULL;
+static MWindowList hDialogsList = nullptr;
 
 static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 {
@@ -88,7 +88,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 
 		CheckMenuItem(hMenu, 1 + mode, MF_BYCOMMAND | MF_CHECKED);
 
-		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
+		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), nullptr);
 		if (mode) {
 			db_set_b(hContact, MODULNAME, "ShowMode", mode - 1);
 			SrmmMenu_UpdateIcon(hContact);

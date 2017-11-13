@@ -154,7 +154,7 @@ int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	wchar_t text[1024];
 	BuildDTBText(dtb, name, text, _countof(text));
 	if (!hUpcomingDlg) {
-		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
+		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), nullptr, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 
@@ -176,7 +176,7 @@ int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	wchar_t text[1024];
 	BuildDABText(dab, name, text, _countof(text));
 	if (!hUpcomingDlg) {
-		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
+		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), nullptr, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 

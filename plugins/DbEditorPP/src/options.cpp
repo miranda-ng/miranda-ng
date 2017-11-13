@@ -47,7 +47,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				db_set_b(NULL, modname, "WarnOnDelete", (BYTE)IsDlgButtonChecked(hwnd, IDC_WARNONDEL));
 				g_bUsePopups = IsDlgButtonChecked(hwnd, IDC_POPUPS) != 0;
 				db_set_b(NULL, modname, "UsePopUps", (BYTE)g_bUsePopups);
-				db_set_w(NULL, modname, "PopupDelay", (WORD)GetDlgItemInt(hwnd, IDC_POPUPTIMEOUT, NULL, 0));
+				db_set_w(NULL, modname, "PopupDelay", (WORD)GetDlgItemInt(hwnd, IDC_POPUPTIMEOUT, nullptr, 0));
 				db_set_dw(NULL, modname, "PopupColour", (DWORD)SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_GETCOLOUR, 0, 0));
 			}
 			return TRUE;

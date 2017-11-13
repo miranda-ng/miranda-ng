@@ -76,7 +76,7 @@ ACKDATA* GetAck(HANDLE hProcess)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int OnProtoAck(WPARAM, LPARAM lParam)

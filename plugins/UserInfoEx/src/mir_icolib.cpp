@@ -30,7 +30,7 @@ typedef struct _ICODESC
 	BYTE	size;
 } ICODESC;
 
-HICON ghDefIcon = NULL;
+HICON ghDefIcon = nullptr;
 
 static ICODESC icoDesc[] = {
 	// common
@@ -139,7 +139,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 		if (PathFileExists(absolute))
 			return path[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -165,12 +165,12 @@ static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 
 				if (!LoadStringA(hIconDll, IDS_ICOPACKVERSION, szFileVersion, sizeof(szFileVersion))
 					|| mir_strcmp(szFileVersion, "__UserInfoEx_IconPack_1.2__"))
-					MsgErr(NULL, LPGENW("Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly"));
+					MsgErr(nullptr, LPGENW("Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly"));
 				FreeLibrary(hIconDll);
 			}
 		}
 		else
-			MsgErr(NULL, LPGENW("Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!"));
+			MsgErr(nullptr, LPGENW("Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!"));
 	}
 }
 
@@ -223,10 +223,10 @@ void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL *pCtrl, BYTE numCtrls)
  **/
 static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, LPTSTR szDefaultFile, int idIcon, int Size, HICON hDefIcon)
 {
-	HANDLE hIconHandle = NULL;
+	HANDLE hIconHandle = nullptr;
 
 	if (szIconID && szDescription && szSection) {
-		SKINICONDESC sid = { 0 };
+		SKINICONDESC sid = {};
 		sid.flags = SIDF_ALL_UNICODE;
 		sid.pszName = szIconID;
 		sid.description.w = mir_a2u(szDescription);

@@ -362,18 +362,18 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSettingStatic(MCONTACT contactID, LPCSTR
 
 STDMETHODIMP_(BOOL) CDb3Mmap::FreeVariant(DBVARIANT *dbv)
 {
-	if (dbv == 0) return 1;
+	if (dbv == nullptr) return 1;
 
 	switch (dbv->type) {
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
 	case DBVT_WCHAR:
 		if (dbv->pszVal) mir_free(dbv->pszVal);
-		dbv->pszVal = 0;
+		dbv->pszVal = nullptr;
 		break;
 	case DBVT_BLOB:
 		if (dbv->pbVal) mir_free(dbv->pbVal);
-		dbv->pbVal = 0;
+		dbv->pbVal = nullptr;
 		break;
 	}
 	dbv->type = 0;
@@ -801,7 +801,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 	}
 
 	// notify
-	DBCONTACTWRITESETTING dbcws = { 0 };
+	DBCONTACTWRITESETTING dbcws = {};
 	dbcws.szModule = szModule;
 	dbcws.szSetting = szSetting;
 	dbcws.value.type = DBVT_DELETED;

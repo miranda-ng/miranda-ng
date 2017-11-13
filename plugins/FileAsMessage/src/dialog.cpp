@@ -147,7 +147,7 @@ FILEECHO::FILEECHO(MCONTACT Contact)
 
 	chunkMaxLen = db_get_dw(NULL, SERVICE_NAME, "ChunkSize", 5000);
 	chunkCount = 0;
-	filename = NULL;
+	filename = nullptr;
 
 	rgbRecv = db_get_dw(NULL, SERVICE_NAME, "colorRecv", RGB(64, 255, 64));
 	rgbSent = db_get_dw(NULL, SERVICE_NAME, "colorSent", RGB(255, 255, 64));
@@ -260,38 +260,38 @@ int FILEECHO::createTransfer()
 {
 	uint LastError;
 	hFile = INVALID_HANDLE_VALUE;
-	hMapping = NULL;
-	lpData = NULL;
+	hMapping = nullptr;
+	lpData = nullptr;
 #ifdef DEBUG
 	overhead = 0;
 #endif
 	BYTE bAuto = db_get_b(NULL, "SRFile", "AutoAccept", 0);
 
-	hFile = CreateFile(filename, inSend ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE), inSend ? FILE_SHARE_READ : 0, NULL, inSend ? OPEN_EXISTING : (bAuto ? CREATE_ALWAYS : CREATE_NEW), FILE_ATTRIBUTE_NORMAL, NULL);
+	hFile = CreateFile(filename, inSend ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE), inSend ? FILE_SHARE_READ : 0, nullptr, inSend ? OPEN_EXISTING : (bAuto ? CREATE_ALWAYS : CREATE_NEW), FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE && !inSend && GetLastError() == ERROR_FILE_EXISTS)
 	{
 		if (MessageBox(hDlg, Translate("File already exists. Overwrite?"),
 			Translate(SERVICE_TITLE),
 			MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2) != IDYES) return 0;
 		hFile = CreateFile(filename, GENERIC_READ | GENERIC_WRITE, 0,
-			NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	}
 	if (hFile == INVALID_HANDLE_VALUE) goto createTransfer_FAILED;
 	if (!inSend)
 	{
-		SetFilePointer(hFile, fileSize, NULL, FILE_BEGIN);
+		SetFilePointer(hFile, fileSize, nullptr, FILE_BEGIN);
 		SetEndOfFile(hFile);
 	}
 	else
-		fileSize = GetFileSize(hFile, NULL);
-	hMapping = CreateFileMapping(hFile, NULL, inSend ? PAGE_READONLY : PAGE_READWRITE,
-		0, fileSize, NULL);
+		fileSize = GetFileSize(hFile, nullptr);
+	hMapping = CreateFileMapping(hFile, nullptr, inSend ? PAGE_READONLY : PAGE_READWRITE,
+		0, fileSize, nullptr);
 	LastError = GetLastError();
-	if (hMapping == NULL) goto createTransfer_FAILED;
+	if (hMapping == nullptr) goto createTransfer_FAILED;
 	lpData = (uchar*)MapViewOfFile(hMapping, inSend ? FILE_MAP_READ : FILE_MAP_WRITE, 0, 0, 0);
 	LastError = GetLastError();
-	if (lpData == NULL) goto createTransfer_FAILED;
+	if (lpData == nullptr) goto createTransfer_FAILED;
 
 	if (inSend)
 		//
@@ -374,8 +374,8 @@ int FILEECHO::createTransfer()
 
 	return 1;
 createTransfer_FAILED:
-	if (lpData != NULL) UnmapViewOfFile(lpData);
-	if (hMapping != NULL) CloseHandle(hMapping);
+	if (lpData != nullptr) UnmapViewOfFile(lpData);
+	if (hMapping != nullptr) CloseHandle(hMapping);
 	if (hFile != INVALID_HANDLE_VALUE) CloseHandle(hFile);
 	return 0;
 }
@@ -388,8 +388,8 @@ void FILEECHO::destroyTransfer()
 		if (inSend)
 			free(chunkPos);
 		free(chunkAck);
-		if (lpData != NULL) UnmapViewOfFile(lpData);
-		if (hMapping != NULL) CloseHandle(hMapping);
+		if (lpData != nullptr) UnmapViewOfFile(lpData);
+		if (hMapping != nullptr) CloseHandle(hMapping);
 		if (hFile != INVALID_HANDLE_VALUE) CloseHandle(hFile);
 	}
 	//setState(STATE_IDLE);
@@ -427,7 +427,7 @@ void FILEECHO::incomeRequest(char *param)
 	char buf[MAX_PATH];
 	// param == &filename
 	char *p = strchr(param, '?');
-	if (p == NULL) return; *p++ = 0;
+	if (p == nullptr) return; *p++ = 0;
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)buf);
 	mir_strncat(buf, param, _countof(buf) - mir_strlen(buf));
 	free(filename);
@@ -438,7 +438,7 @@ void FILEECHO::incomeRequest(char *param)
 	// p == &COUNT
 	if (*p == 0) return; param = strchr(p, ':');
 	// param == &SIZE
-	if (param == NULL) return; *param++ = 0;
+	if (param == nullptr) return; *param++ = 0;
 	if (*param == 0) return;
 	chunkCountx = atoi(p);
 	fileSize = atoi(param);
@@ -483,12 +483,12 @@ void FILEECHO::cmdACCEPT()
 	lastTimestamp = GetTickCount();
 	//PostMessage(hDlg, WM_TIMER, 0,0);
 	//onSendTimer();
-	SetTimer(hDlg, TIMER_SEND, dwSendInterval, 0);
+	SetTimer(hDlg, TIMER_SEND, dwSendInterval, nullptr);
 }
 
 void FILEECHO::updateProgress()
 {
-	InvalidateRect(GetDlgItem(hDlg, IDC_PROGRESS), NULL, TRUE);
+	InvalidateRect(GetDlgItem(hDlg, IDC_PROGRESS), nullptr, TRUE);
 	updateTitle();
 }
 //
@@ -576,7 +576,7 @@ void FILEECHO::onSendTimer()
 	{
 		SetDlgItemText(hDlg, IDC_STATUS, Translate("Requesting of missing chunks"));
 		setState(STATE_OPERATE);
-		sendCmd(0, CMD_END, "", NULL);
+		sendCmd(0, CMD_END, "", nullptr);
 		chunkIndx = chunkCount + 1;
 		return;
 	}
@@ -634,7 +634,7 @@ void FILEECHO::onSendTimer()
 		SetDlgItemText(hDlg, IDC_STATUS, Translate("Sending..."));
 		updateProgress();
 	}
-	SetTimer(hDlg, TIMER_SEND, dwSendInterval, 0);
+	SetTimer(hDlg, TIMER_SEND, dwSendInterval, nullptr);
 }
 void FILEECHO::cmdDATA(char *param)
 {
@@ -703,7 +703,7 @@ cmdDATA_corrupted:
 }
 void FILEECHO::cmdEND()
 {
-	SetTimer(hDlg, TIMER_SEND, dwSendInterval, 0);
+	SetTimer(hDlg, TIMER_SEND, dwSendInterval, nullptr);
 }
 void FILEECHO::cmdDACK(char *param)
 {
@@ -761,7 +761,7 @@ void FILEECHO::cmdDACK(char *param)
 	// retransfer some parts
 	//
 	chunkIndx = 0;
-	SetTimer(hDlg, TIMER_SEND, dwSendInterval, 0);
+	SetTimer(hDlg, TIMER_SEND, dwSendInterval, nullptr);
 }
 
 void FILEECHO::perform(char *str)
@@ -845,11 +845,11 @@ void FILEECHO::perform(char *str)
 int FILEECHO::sendCmd(int, int cmd, char *szParam, char *szPrefix)
 {
 	int buflen = (int)mir_strlen(szServicePrefix) + (int)mir_strlen(szParam) + 2;
-	if (szPrefix != NULL)
+	if (szPrefix != nullptr)
 		buflen += (int)mir_strlen(szPrefix);
 
 	char *buf = (char*)malloc(buflen);
-	if (szPrefix == NULL)
+	if (szPrefix == nullptr)
 		mir_snprintf(buf, buflen, "%s%c%s", szServicePrefix, cCmdList[cmd], szParam);
 	else
 		mir_snprintf(buf, buflen, "%s%c%s%s", szServicePrefix, cCmdList[cmd], szPrefix, szParam);
@@ -870,13 +870,13 @@ void CreateDirectoryTree(char *szDir)
 	if ((dwAttributes = GetFileAttributes(szTestDir)) != 0xffffffff && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return;
 	pszLastBackslash = strrchr(szTestDir, '\\');
-	if (pszLastBackslash == NULL) {
+	if (pszLastBackslash == nullptr) {
 		GetCurrentDirectory(MAX_PATH, szDir);
 		return;
 	}
 	*pszLastBackslash = 0;
 	CreateDirectoryTree(szTestDir);
-	CreateDirectory(szTestDir, NULL);
+	CreateDirectory(szTestDir, nullptr);
 }
 
 LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -898,12 +898,12 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		//if(dat == NULL)
 		//	return CallSubclassed(hwnd, uMsg, wParam, lParam);
 		GetClientRect(hwnd, &rc);
-		if (dat == NULL || dat->chunkCount == 0)
+		if (dat == nullptr || dat->chunkCount == 0)
 		{
 			COLORREF colour;
 			HBRUSH hbr;
 
-			if (dat == NULL || dat->iState != STATE_FINISHED)
+			if (dat == nullptr || dat->iState != STATE_FINISHED)
 			{
 				hbr = (HBRUSH)(COLOR_3DFACE + 1);
 			}
@@ -980,7 +980,7 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	struct FILEECHO *dat = (struct FILEECHO*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-	HWND hwndStatus = NULL;
+	HWND hwndStatus = nullptr;
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
@@ -1171,7 +1171,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (dat->iState == STATE_PRERECV)
 			{
 				SetDlgItemText(hDlg, IDC_STATUS, Translate("Canceled by user"));
-				dat->sendCmd(0, CMD_CANCEL, "", NULL);
+				dat->sendCmd(0, CMD_CANCEL, "", nullptr);
 				dat->setState(STATE_CANCELLED);
 			}
 			if (dat->chunkCount)
@@ -1181,7 +1181,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				{
 					SetDlgItemText(hDlg, IDC_STATUS, Translate("Canceled by user"));
 					dat->setState(STATE_CANCELLED);
-					dat->sendCmd(0, CMD_CANCEL, "", NULL);
+					dat->sendCmd(0, CMD_CANCEL, "", nullptr);
 					dat->destroyTransfer();
 					if (wParam == IDCANCEL)
 						DestroyWindow(hDlg);

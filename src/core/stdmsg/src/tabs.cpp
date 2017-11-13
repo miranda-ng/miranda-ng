@@ -282,9 +282,9 @@ void CTabbedWindow::SetWindowPosition()
 	if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_pEmbed->m_hContact : 0, CHAT_MODULE, "room")) {
 		if (g_dat.bSavePerContact) {
 			if (Utils_RestoreWindowPosition(m_hwnd, 0, CHAT_MODULE, "room", RWPF_NOMOVE))
-				SetWindowPos(m_hwnd, 0, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
+				SetWindowPos(m_hwnd, nullptr, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 		}
-		else SetWindowPos(m_hwnd, 0, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
+		else SetWindowPos(m_hwnd, nullptr, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 	}
 
 	if (!g_dat.bSavePerContact && g_dat.bCascade)
@@ -622,7 +622,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case ID_LOCKPOSITION:
-					if (si != 0) {
+					if (si != nullptr) {
 						if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
 							if (si->hContact)
 								db_set_w(si->hContact, si->pszModule, "TabPosition", (WORD)(i + 1));

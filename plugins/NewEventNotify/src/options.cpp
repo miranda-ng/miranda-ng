@@ -231,10 +231,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 				options->bMenuitem = IsDlgButtonChecked(hWnd, IDC_CHKMENUITEM);
 				options->bDisable = IsDlgButtonChecked(hWnd, IDC_CHKDISABLE);
 				options->bPreview = IsDlgButtonChecked(hWnd, IDC_CHKPREVIEW);
-				options->iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, NULL, FALSE);
-				options->iDelayUrl = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_URL) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_URL, NULL, FALSE);
-				options->iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_FILE, NULL, FALSE);
-				options->iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, NULL, FALSE);
+				options->iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
+				options->iDelayUrl = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_URL) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_URL, nullptr, FALSE);
+				options->iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_FILE, nullptr, FALSE);
+				options->iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, nullptr, FALSE);
 				options->bMergePopup = IsDlgButtonChecked(hWnd, IDC_CHKMERGEPOPUP);
 				options->bMsgWindowCheck = IsDlgButtonChecked(hWnd, IDC_CHKWINDOWCHECK);
 				options->bMsgReplyWindow = IsDlgButtonChecked(hWnd, IDC_CHKREPLYWINDOW);
@@ -244,7 +244,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 				options->bShowON = IsDlgButtonChecked(hWnd, IDC_RDOLD);
 				options->bShowON = BST_UNCHECKED == IsDlgButtonChecked(hWnd, IDC_RDNEW);
 				options->bHideSend = IsDlgButtonChecked(hWnd, IDC_CHKHIDESEND);
-				options->iNumberMsg = GetDlgItemInt(hWnd, IDC_NUMBERMSG, NULL, FALSE);
+				options->iNumberMsg = GetDlgItemInt(hWnd, IDC_NUMBERMSG, nullptr, FALSE);
 				options->bNoRSS = IsDlgButtonChecked(hWnd, IDC_SUPRESSRSS);
 				options->bReadCheck = IsDlgButtonChecked(hWnd, IDC_READCHECK);
 				//update items' states

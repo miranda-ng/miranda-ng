@@ -39,7 +39,7 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	if (!HasAccessToken()) {
-		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send files when you are not authorized.");
+		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, nullptr, (LPARAM)"You cannot send files when you are not authorized.");
 		return 0;
 	}
 
@@ -59,7 +59,7 @@ INT_PTR CDropbox::ProtoSendFile(WPARAM, LPARAM lParam)
 
 	transfers.insert(ftp);
 
-	mir_forkthreadowner(CDropbox::UploadAndReportProgress, this, ftp, 0);
+	mir_forkthreadowner(CDropbox::UploadAndReportProgress, this, ftp, nullptr);
 
 	return ftp->GetId();
 }
@@ -89,7 +89,7 @@ INT_PTR CDropbox::ProtoCancelFile(WPARAM, LPARAM lParam)
 
 	HANDLE hTransfer = (HANDLE)pccsd->wParam;
 	FileTransferParam *ftp = transfers.find((FileTransferParam*)&hTransfer);
-	if (ftp == NULL)
+	if (ftp == nullptr)
 		return 0;
 
 	ftp->Terminate();
@@ -102,7 +102,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	if (!HasAccessToken()) {
-		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send messages when you are not authorized.");
+		ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)"You cannot send messages when you are not authorized.");
 		return 0;
 	}
 
@@ -144,7 +144,7 @@ INT_PTR CDropbox::ProtoSendMessage(WPARAM, LPARAM lParam)
 		}
 	}
 
-	ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, 0, 0);
+	ProtoBroadcastAck(MODULE, pccsd->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, nullptr, 0);
 	char help[1024];
 	mir_snprintf(help, Translate("\"%s\" is not valid.\nUse \"/help\" for more info."), szMessage);
 	ProtoChainSend(GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)help);
@@ -160,7 +160,7 @@ INT_PTR CDropbox::ProtoReceiveMessage(WPARAM, LPARAM lParam)
 	DBEVENTINFO dbei = {};
 	dbei.flags = DBEF_UTF;
 	dbei.szModule = MODULE;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)mir_strlen(message);
 	dbei.pBlob = (PBYTE)mir_strdup(message);
@@ -221,7 +221,7 @@ INT_PTR CDropbox::UploadToDropboxAsync(WPARAM, LPARAM lParam)
 	else
 		ftp->AddFile(uploadInfo->localPath);
 
-	mir_forkthreadowner(CDropbox::UploadAndRaiseEvent, this, ftp, 0);
+	mir_forkthreadowner(CDropbox::UploadAndRaiseEvent, this, ftp, nullptr);
 
 	return ftp->GetId();
 }

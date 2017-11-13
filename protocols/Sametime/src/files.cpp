@@ -41,7 +41,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	PROTORECVFILET pre = {0};
 	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
-	pre.timestamp = time(NULL);
+	pre.timestamp = time(nullptr);
 	pre.descr.w = descriptionT;
 	pre.files.w = &filenameT;
 	pre.lParam = (LPARAM)ft;
@@ -58,7 +58,7 @@ int SendFileChunk(CSametimeProto* proto, mwFileTransfer* ft, FileTransferClientD
 	if (!ftcd || !ftcd->buffer)
 		return 0;
 
-	if (!ReadFile(ftcd->hFile, ftcd->buffer, FILE_BUFF_SIZE, &bytes_read, 0)) {
+	if (!ReadFile(ftcd->hFile, ftcd->buffer, FILE_BUFF_SIZE, &bytes_read, nullptr)) {
 		proto->debugLogW(L"Sametime closing file transfer (SendFileChunk)");
 		mwFileTransfer_close(ft, mwFileTransfer_SUCCESS);
 		return 0;
@@ -89,7 +89,7 @@ void __cdecl SendThread(LPVOID param) {
 	if (ftcd->sending == 1)
 		pfts.flags |= PFTS_SENDING;
 
-	pfts.pszFiles = NULL;
+	pfts.pszFiles = nullptr;
 	pfts.totalFiles = ftcd->first->ft_count;
 	pfts.totalBytes = ftcd->first->totalSize;
 
@@ -220,7 +220,7 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 	proto->debugLogW(L"mwFileTransfer_recv() start");
 
 	DWORD bytes_written;
-	if (!WriteFile(ftcd->hFile, data->data, data->len, &bytes_written, 0)) {
+	if (!WriteFile(ftcd->hFile, data->data, data->len, &bytes_written, nullptr)) {
 		proto->debugLogW(L"mwFileTransfer_recv() !WriteFile");
 		mwFileTransfer_cancel(ft);
 		proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftcd->hFt, 0);
@@ -236,7 +236,7 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 		if (ftcd->sending == 1) {
 			pfts.flags |= PFTS_SENDING;
 		}
-		pfts.pszFiles = NULL;
+		pfts.pszFiles = nullptr;
 		pfts.totalFiles = 1;
 		pfts.currentFileNumber = 0;
 		pfts.totalBytes = mwFileTransfer_getFileSize(ft);
@@ -292,13 +292,13 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const
 		idb.user = id_block.user;
 		idb.community = id_block.community;
 
-		FileTransferClientData *ftcd, *prev_ftcd = 0, *first_ftcd = 0;
-		mwFileTransfer *ft, *first_ft = 0;
+		FileTransferClientData *ftcd, *prev_ftcd = nullptr, *first_ftcd = nullptr;
+		mwFileTransfer *ft, *first_ft = nullptr;
 
 		for (int i = 0; files[i]; i++) {
-			HANDLE hFile = CreateFile(files[i], GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+			HANDLE hFile = CreateFile(files[i], GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 			if (hFile != INVALID_HANDLE_VALUE) {
-				DWORD filesize = GetFileSize(hFile, 0);
+				DWORD filesize = GetFileSize(hFile, nullptr);
 
 				wchar_t *fn = wcsrchr(files[i], '\\');
 				if (fn)
@@ -314,7 +314,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const
 				ftcd->ft = ft;
 				ftcd->hContact = hContact;
 
-				ftcd->next = 0;
+				ftcd->next = nullptr;
 				if (prev_ftcd) {
 					prev_ftcd->next = ftcd; // link into list
 
@@ -329,7 +329,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const
 				ftcd->hFile = hFile;
 				ftcd->hFt = (HANDLE)first_ft;
 
-				ftcd->save_path = 0;
+				ftcd->save_path = nullptr;
 				ftcd->buffer = new char[FILE_BUFF_SIZE];
 
 				ftcd->ft_number = ftcd->first->ft_count;
@@ -337,7 +337,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const
 				ftcd->sizeToHere = ftcd->first->totalSize;
 				ftcd->first->totalSize += filesize;
 
-				mwFileTransfer_setClientData(ft, (gpointer)ftcd, 0);
+				mwFileTransfer_setClientData(ft, (gpointer)ftcd, nullptr);
 
 				prev_ftcd = ftcd;
 			}
@@ -351,7 +351,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* save_path)
@@ -370,9 +370,9 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 	if (save_path) // save path
 		ftcd->save_path = _strdup(save_path);
 	else
-		ftcd->save_path = 0;
+		ftcd->save_path = nullptr;
 
-	mwFileTransfer_setClientData(ft, (gpointer)ftcd, 0);
+	mwFileTransfer_setClientData(ft, (gpointer)ftcd, nullptr);
 
 	char fp[MAX_PATH];
 	char* fn = strrchr((char*)mwFileTransfer_getFileName(ft), '\\');
@@ -386,16 +386,16 @@ HANDLE CSametimeProto::AcceptFileTransfer(MCONTACT hContact, HANDLE hFt, char* s
 	if (fn) mir_strcat(fp, fn);
 	else mir_strcat(fp, mwFileTransfer_getFileName(ft));
 
-	ftcd->hFile = CreateFileA(fp, GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, 0, 0);
+	ftcd->hFile = CreateFileA(fp, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, 0, nullptr);
 	if (ftcd->hFile == INVALID_HANDLE_VALUE) {
 		debugLogW(L"CSametimeProto::AcceptFileTransfer() INVALID_HANDLE_VALUE");
 		mwFileTransfer_close(ft, mwFileTransfer_ERROR);
-		return 0;
+		return nullptr;
 	}
 
 	ftcd->hContact = hContact;
 
-	mwFileTransfer_setClientData(ft, (gpointer)ftcd, 0);
+	mwFileTransfer_setClientData(ft, (gpointer)ftcd, nullptr);
 
 	mwFileTransfer_accept(ft);
 	return hFt;
@@ -438,6 +438,6 @@ void CSametimeProto::DeinitFiles()
 	debugLogW(L"CSametimeProto::DeinitFiles()");
 	mwSession_removeService(session, mwService_FILE_TRANSFER);
 	mwService_free((mwService*)service_files);
-	service_files = 0;
+	service_files = nullptr;
 }
 

@@ -31,11 +31,11 @@ ITunes::ITunes()
 
 	filename[0] = L'\0';
 
-	hwnd = NULL;
-	iTunesApp = NULL;
-	track = NULL;
-	file = NULL;
-	ret = NULL;
+	hwnd = nullptr;
+	iTunesApp = nullptr;
+	track = nullptr;
+	file = nullptr;
+	ret = nullptr;
 }
 
 void ITunes::FindWindow()
@@ -51,9 +51,9 @@ void ITunes::FreeTempData()
 	RELEASE(track);
 	RELEASE(iTunesApp);
 
-	if (ret != NULL) {
+	if (ret != nullptr) {
 		SysFreeString(ret);
-		ret = NULL;
+		ret = nullptr;
 	}
 }
 
@@ -66,10 +66,10 @@ BOOL ITunes::InitAndGetFilename()
 
 	// Find window
 	FindWindow();
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return FALSE;
 
-	CALL(CoCreateInstance(CLSID_iTunesApp, NULL, CLSCTX_LOCAL_SERVER, __uuidof(iTunesApp), (void **)&iTunesApp));
+	CALL(CoCreateInstance(CLSID_iTunesApp, nullptr, CLSCTX_LOCAL_SERVER, __uuidof(iTunesApp), (void **)&iTunesApp));
 
 	ITPlayerState state;
 	CALL(iTunesApp->get_PlayerState(&state));
@@ -77,7 +77,7 @@ BOOL ITunes::InitAndGetFilename()
 		return FALSE;
 
 	CALL(iTunesApp->get_CurrentTrack(&track));
-	if (track == NULL)
+	if (track == nullptr)
 		return FALSE;
 
 	CALL(track->QueryInterface(__uuidof(file), (void **)&file));
@@ -132,10 +132,10 @@ BOOL ITunes::FillCache()
 
 	listening_info.ptszType = mir_wstrdup(L"Music");
 
-	if (listening_info.ptszTitle == NULL) {
+	if (listening_info.ptszTitle == nullptr) {
 		// Get from filename
 		WCHAR *p = wcsrchr(filename, '\\');
-		if (p != NULL)
+		if (p != nullptr)
 			p++;
 		else
 			p = filename;
@@ -143,7 +143,7 @@ BOOL ITunes::FillCache()
 		listening_info.ptszTitle = mir_wstrdup(p);
 
 		wchar_t *pt = wcsrchr(listening_info.ptszTitle, '.');
-		if (pt != NULL)
+		if (pt != nullptr)
 			*p = '\0';
 	}
 

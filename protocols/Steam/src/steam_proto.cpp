@@ -9,9 +9,9 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	m_idleTS = 0;
 	m_lastMessageTS = 0;
 	isLoginAgain = false;
-	m_hQueueThread = NULL;
-	m_pollingConnection = NULL;
-	m_hPollingThread = NULL;
+	m_hQueueThread = nullptr;
+	m_pollingConnection = nullptr;
+	m_hPollingThread = nullptr;
 
 	// icons
 	wchar_t filePath[MAX_PATH];
@@ -23,7 +23,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	char settingName[100];
 	mir_snprintf(settingName, "%s_%s", MODULE, "main");
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.flags = SIDF_ALL_UNICODE;
 	sid.defaultFile.w = filePath;
 	sid.pszName = settingName;
@@ -225,7 +225,7 @@ DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
 HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 {
 	if (!this->IsOnline())
-		return 0;
+		return nullptr;
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA steamId(mir_u2a(id));
@@ -241,7 +241,7 @@ HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 HANDLE CSteamProto::SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName)
 {
 	if (!this->IsOnline())
-		return 0;
+		return nullptr;
 
 	// Combine all fields to single text
 	wchar_t keywordsT[200];
@@ -262,7 +262,7 @@ int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 {
 	if (!IsOnline())
 	{
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send messages when you are offline."));
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)Translate("You cannot send messages when you are offline."));
 		return 0;
 	}
 

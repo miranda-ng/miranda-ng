@@ -138,8 +138,8 @@ CQuotesProviderBase::CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSuc
 }
 
 CQuotesProviderBase::CQuotesProviderBase()
-	: m_hEventSettingsChanged(::CreateEvent(NULL, FALSE, FALSE, NULL)),
-	m_hEventRefreshContact(::CreateEvent(NULL, FALSE, FALSE, NULL)),
+	: m_hEventSettingsChanged(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
+	m_hEventRefreshContact(::CreateEvent(nullptr, FALSE, FALSE, nullptr)),
 	m_bRefreshInProgress(false)
 {
 }
@@ -152,7 +152,7 @@ CQuotesProviderBase::~CQuotesProviderBase()
 
 bool CQuotesProviderBase::Init()
 {
-	bool bSucceded = m_pXMLInfo != NULL;
+	bool bSucceded = m_pXMLInfo != nullptr;
 	if (!m_pXMLInfo) {
 		CQuotesProviderVisitorDbSettings visitor;
 		Accept(visitor);
@@ -510,7 +510,7 @@ bool show_popup(const IQuotesProvider* pProvider,
 	const tstring& sTitle = visitor.GetResult();
 	mir_wstrncpy(ppd.lptzContactName, sTitle.c_str(), MAX_CONTACTNAME);
 	{
-		ptrW ss(variables_parsedup((wchar_t*)rsFormat.c_str(), 0, hContact));
+		ptrW ss(variables_parsedup((wchar_t*)rsFormat.c_str(), nullptr, hContact));
 		tstring sText = format_rate(pProvider, hContact, tstring(ss));
 		mir_wstrncpy(ppd.lptzText, sText.c_str(), MAX_SECONDLINE);
 	}
@@ -547,7 +547,7 @@ bool show_popup(const IQuotesProvider* pProvider,
 
 void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol/* = ""*/)
 {
-	time_t nTime = ::time(NULL);
+	time_t nTime = ::time(nullptr);
 
 	if (false == rsSymbol.empty())
 		db_set_ws(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsSymbol.c_str());

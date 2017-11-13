@@ -49,15 +49,15 @@ void TlenGetAvatarFileName(TlenProtocol *proto, TLEN_LIST_ITEM *item, wchar_t* p
 	int format = PA_FORMAT_PNG;
 
 	ptszDest[tPathLen++] = '\\';
-	if (item != NULL)
+	if (item != nullptr)
 		format = item->avatarFormat;
-	else if (proto->threadData != NULL)
+	else if (proto->threadData != nullptr)
 		format = proto->threadData->avatarFormat;
 	else
 		format = db_get_dw(NULL, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
 
 	const wchar_t *tszFileType = ProtoGetAvatarExtension(format);
-	if (item != NULL)
+	if (item != nullptr)
 		mir_snwprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S%s"), ptrA(TlenSha1(item->jid)), tszFileType);
 	else
 		mir_snwprintf(ptszDest + tPathLen, MAX_PATH - tPathLen, TEXT("%S_avatar%s"), proto->m_szModuleName, tszFileType);
@@ -69,12 +69,12 @@ static void RemoveAvatar(TlenProtocol *proto, MCONTACT hContact)
 	if (hContact == NULL)
 		proto->threadData->avatarHash[0] = '\0';
 
-	TlenGetAvatarFileName(proto, NULL, tFileName, _countof(tFileName) - 1);
+	TlenGetAvatarFileName(proto, nullptr, tFileName, _countof(tFileName) - 1);
 	DeleteFile(tFileName);
 	db_unset(hContact, "ContactPhoto", "File");
 	db_unset(hContact, proto->m_szModuleName, "AvatarHash");
 	db_unset(hContact, proto->m_szModuleName, "AvatarFormat");
-	ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 }
 
 static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *item, char *data, int len, DWORD format)
@@ -92,7 +92,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 	mir_md5_finish(&ctx, (BYTE*)digest);
 
 	sprintf(md5, "%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3])); //!!!!!!!!!!!!!!
-	if (item != NULL) {
+	if (item != nullptr) {
 		char *hash = item->avatarHash;
 		item->avatarFormat = format;
 		item->avatarHash = mir_strdup(md5);
@@ -105,7 +105,7 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 	TlenGetAvatarFileName(proto, item, filename, _countof(filename) - 1);
 	DeleteFile(filename);
 	FILE *out = _wfopen(filename, TEXT("wb"));
-	if (out != NULL) {
+	if (out != nullptr) {
 		fwrite(data, len, 1, out);
 		fclose(out);
 		db_set_ws(hContact, "ContactPhoto", "File", filename);
@@ -119,36 +119,36 @@ static void SetAvatar(TlenProtocol *proto, MCONTACT hContact, TLEN_LIST_ITEM *it
 		proto->debugLogW(buffer);
 		return;
 	}
-	ProtoBroadcastAck(proto->m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck(proto->m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 }
 
 int TlenProcessAvatarNode(TlenProtocol *proto, XmlNode *avatarNode, TLEN_LIST_ITEM *item)
 {
 	XmlNode *aNode;
-	char *oldHash = NULL;
-	char *md5 = NULL, *type = NULL;
+	char *oldHash = nullptr;
+	char *md5 = nullptr, *type = nullptr;
 	MCONTACT hContact = NULL;
-	if (item != NULL)
+	if (item != nullptr)
 		if ((hContact = TlenHContactFromJID(proto, item->jid)) == NULL)
 			return 0;
 
-	if (item == NULL)
+	if (item == nullptr)
 		oldHash = proto->threadData->avatarHash;
 	else
 		oldHash = item->avatarHash;
 
-	if (avatarNode != NULL) {
+	if (avatarNode != nullptr) {
 		aNode = TlenXmlGetChild(avatarNode, "a");
-		if (aNode != NULL) {
+		if (aNode != nullptr) {
 			type = TlenXmlGetAttrValue(aNode, "type");
 			md5 = TlenXmlGetAttrValue(aNode, "md5");
 		}
 	}
 
-	if (md5 != NULL) {
+	if (md5 != nullptr) {
 		/* check contact's avatar hash - md5 */
-		if (oldHash == NULL || mir_strcmp(oldHash, md5)) {
-			if (item != NULL) {
+		if (oldHash == nullptr || mir_strcmp(oldHash, md5)) {
+			if (item != nullptr) {
 				item->newAvatarDownloading = TRUE;
 			}
 			TlenGetAvatar(proto, hContact);
@@ -157,9 +157,9 @@ int TlenProcessAvatarNode(TlenProtocol *proto, XmlNode *avatarNode, TLEN_LIST_IT
 	}
 	else {
 		/* remove avatar */
-		if (oldHash != NULL) {
-			if (item != NULL) {
-				item->avatarHash = NULL;
+		if (oldHash != nullptr) {
+			if (item != nullptr) {
+				item->avatarHash = nullptr;
 				mir_free(oldHash);
 				item->newAvatarDownloading = FALSE;
 			}
@@ -237,10 +237,10 @@ struct TLENGETAVATARTHREADDATA
 
 static void TlenGetAvatarThread(void *ptr)
 {
-	TLEN_LIST_ITEM *item = NULL;
+	TLEN_LIST_ITEM *item = nullptr;
 	TLENGETAVATARTHREADDATA *data = (TLENGETAVATARTHREADDATA *)ptr;
 	MCONTACT hContact = data->hContact;
-	char *login = NULL;
+	char *login = nullptr;
 	if (hContact != NULL) {
 		char *jid = TlenJIDFromHContact(data->proto, hContact);
 		login = TlenNickFromJID(jid);
@@ -248,13 +248,13 @@ static void TlenGetAvatarThread(void *ptr)
 		mir_free(jid);
 	}
 	else {
-		if (data->proto->threadData != NULL)
+		if (data->proto->threadData != nullptr)
 			login = mir_strdup(data->proto->threadData->username);
 	}
 	
-	if ((data->proto->threadData != NULL && hContact == NULL) || item != NULL) {
+	if ((data->proto->threadData != nullptr && hContact == NULL) || item != nullptr) {
 		DWORD format = PA_FORMAT_UNKNOWN;
-		if (item != NULL)
+		if (item != nullptr)
 			item->newAvatarDownloading = TRUE;
 
 		char *request = replaceTokens(data->proto->threadData->tlenConfig.mailBase, data->proto->threadData->tlenConfig.avatarGet, login, data->proto->threadData->avatarToken, 0, 0);
@@ -264,14 +264,14 @@ static void TlenGetAvatarThread(void *ptr)
 		req.requestType = data->proto->threadData->tlenConfig.avatarGetMthd;
 		req.flags = 0;
 		req.headersCount = 0;
-		req.headers = NULL;
+		req.headers = nullptr;
 		req.dataLength = 0;
 		req.szUrl = request;
 		NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(data->proto->m_hNetlibUser, &req);
-		if (item != NULL)
+		if (item != nullptr)
 			item->newAvatarDownloading = FALSE;
 
-		if (resp != NULL) {
+		if (resp != nullptr) {
 			if (resp->resultCode/100 == 2) {
 				if (resp->dataLength > 0) {
 					for (int i=0; i<resp->headersCount; i++ ) {
@@ -326,7 +326,7 @@ static void TlenRemoveAvatarRequestThread(void *ptr) {
 	mir_free(req->headers);
 	mir_free(req->pData);
 	mir_free(req);
-	if (resp != NULL) {
+	if (resp != nullptr) {
 		Netlib_FreeHttpRequest(resp);
 		RemoveAvatar(data->proto, NULL);
 	}
@@ -344,7 +344,7 @@ struct TLENUPLOADAVATARTHREADDATA
 
 boolean checkUploadAvatarResponse(TlenProtocol *proto, NETLIBHTTPREQUEST *resp)
 {
-	if (resp == NULL) {
+	if (resp == nullptr) {
 		proto->debugLogA("Error while setting avatar on Tlen account (no response)");
 		PUShowMessageT(TranslateT("Error while setting avatar on Tlen account (no response)"), SM_WARNING);
 		return false;
@@ -369,7 +369,7 @@ static void TlenUploadAvatarRequestThread(void *ptr)
 	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(data->proto->m_hNetlibUser, req);
 	if (checkUploadAvatarResponse(data->proto, resp)) {
 		Netlib_FreeHttpRequest(resp);
-		SetAvatar(data->proto, NULL, NULL, data->data, data->length, PA_FORMAT_PNG);
+		SetAvatar(data->proto, NULL, nullptr, data->data, data->length, PA_FORMAT_PNG);
 	}
 	mir_free(req->szUrl);
 	mir_free(req->headers);
@@ -381,7 +381,7 @@ static void TlenUploadAvatarRequestThread(void *ptr)
 
 void TlenRemoveAvatar(TlenProtocol *proto)
 {
-	if (proto->threadData != NULL) {
+	if (proto->threadData != nullptr) {
 		TLENREMOVEAVATARTHREADDATA *data = (TLENREMOVEAVATARTHREADDATA *)mir_alloc(sizeof(TLENREMOVEAVATARTHREADDATA));
 		NETLIBHTTPREQUEST *req = (NETLIBHTTPREQUEST *)mir_alloc(sizeof(NETLIBHTTPREQUEST));
 		data->proto = proto;
@@ -399,7 +399,7 @@ void TlenUploadAvatar(TlenProtocol *proto, unsigned char *data, int dataLen, int
 {
 	NETLIBHTTPHEADER *headers;
 	unsigned char *buffer;
-	if (proto->threadData != NULL && dataLen > 0 && data != NULL) {
+	if (proto->threadData != nullptr && dataLen > 0 && data != nullptr) {
 		char *mpartHead = "--AaB03x\r\nContent-Disposition: form-data; name=\"filename\"; filename=\"plik.png\"\r\nContent-Type: image/png\r\n\r\n";
 		char *mpartTail = "\r\n--AaB03x--\r\n";
 		int size, sizeHead = (int)mir_strlen(mpartHead), sizeTail = (int)mir_strlen(mpartTail);

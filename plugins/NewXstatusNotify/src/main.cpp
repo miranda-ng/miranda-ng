@@ -94,7 +94,7 @@ HANDLE GetIconHandle(char *szIcon)
 
 static int __inline CheckStr(char *str, int not_empty, int empty)
 {
-	if (str == NULL || str[0] == '\0')
+	if (str == nullptr || str[0] == '\0')
 		return empty;
 	else
 		return not_empty;
@@ -102,7 +102,7 @@ static int __inline CheckStr(char *str, int not_empty, int empty)
 
 static int __inline CheckStrW(WCHAR *str, int not_empty, int empty)
 {
-	if (str == NULL || str[0] == L'\0')
+	if (str == nullptr || str[0] == L'\0')
 		return empty;
 	else
 		return not_empty;
@@ -114,33 +114,33 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 
 	switch (cws_new->value.type) {
 	case DBVT_ASCIIZ:
-		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_a2u_cp(cws_new->value.pszVal, CP_ACP));
+		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? nullptr : mir_a2u_cp(cws_new->value.pszVal, CP_ACP));
 		break;
 	case DBVT_UTF8:
-		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_a2u_cp(cws_new->value.pszVal, CP_UTF8));
+		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? nullptr : mir_a2u_cp(cws_new->value.pszVal, CP_UTF8));
 		break;
 	case DBVT_WCHAR:
-		smi->newstatusmsg = (CheckStrW(cws_new->value.pwszVal, 0, 1) ? NULL : mir_wstrdup(cws_new->value.pwszVal));
+		smi->newstatusmsg = (CheckStrW(cws_new->value.pwszVal, 0, 1) ? nullptr : mir_wstrdup(cws_new->value.pwszVal));
 		break;
 	case DBVT_DELETED:
 	default:
-		smi->newstatusmsg = NULL;
+		smi->newstatusmsg = nullptr;
 		break;
 	}
 
 	if (!db_get_s(smi->hContact, "UserOnline", szSetting, &dbv_old, 0)) {
 		switch (dbv_old.type) {
 		case DBVT_ASCIIZ:
-			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_a2u_cp(dbv_old.pszVal, CP_ACP));
+			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? nullptr : mir_a2u_cp(dbv_old.pszVal, CP_ACP));
 			break;
 		case DBVT_UTF8:
-			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_a2u_cp(dbv_old.pszVal, CP_UTF8));
+			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? nullptr : mir_a2u_cp(dbv_old.pszVal, CP_UTF8));
 			break;
 		case DBVT_WCHAR:
-			smi->oldstatusmsg = (CheckStrW(dbv_old.pwszVal, 0, 1) ? NULL : mir_wstrdup(dbv_old.pwszVal));
+			smi->oldstatusmsg = (CheckStrW(dbv_old.pwszVal, 0, 1) ? nullptr : mir_wstrdup(dbv_old.pwszVal));
 			break;
 		default:
-			smi->oldstatusmsg = NULL;
+			smi->oldstatusmsg = nullptr;
 			break;
 		}
 
@@ -176,7 +176,7 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 		else
 			ret = COMPARE_DIFF;
 
-		smi->oldstatusmsg = NULL;
+		smi->oldstatusmsg = nullptr;
 	}
 
 	return ret;
@@ -184,8 +184,8 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 
 wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt)
 {
-	if (n == NULL || tmplt == NULL || tmplt[0] == '\0')
-		return NULL;
+	if (n == nullptr || tmplt == nullptr || tmplt[0] == '\0')
+		return nullptr;
 
 	CMStringW res;
 	size_t len = mir_wstrlen(tmplt);
@@ -202,7 +202,7 @@ wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt)
 				break;
 
 			case 'o':
-				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == '\0' || mir_wstrcmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
+				if (n->oldstatusmsg == nullptr || n->oldstatusmsg[0] == '\0' || mir_wstrcmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
 					res.Append(TranslateT("<no status message>"));
 				else
 					AddCR(res, n->oldstatusmsg);
@@ -271,7 +271,7 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.flags = DBEF_READ | DBEF_UTF;
 
-	dbei.timestamp = (DWORD)time(NULL);
+	dbei.timestamp = (DWORD)time(nullptr);
 	dbei.szModule = MODULE;
 	MEVENT hDBEvent = db_event_add(smi->hContact, &dbei);
 
@@ -356,7 +356,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
 
-		dbei.timestamp = (DWORD)time(NULL);
+		dbei.timestamp = (DWORD)time(nullptr);
 		dbei.szModule = MODULE;
 		MEVENT hDBEvent = db_event_add(hContact, &dbei);
 
@@ -375,7 +375,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	if (!mir_strcmp(szProto, META_PROTO)) { //this contact is Meta
 		MCONTACT hSubContact = db_mc_getMostOnline(hContact);
 		char *szSubProto = GetContactProto(hSubContact);
-		if (szSubProto == NULL)
+		if (szSubProto == nullptr)
 			return 0;
 
 		if (newStatus == ID_STATUS_OFFLINE) {
@@ -431,8 +431,8 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		PLUGINDATA *pdp = (PLUGINDATA *)mir_calloc(sizeof(PLUGINDATA));
 		pdp->oldStatus = oldStatus;
 		pdp->newStatus = newStatus;
-		pdp->hAwayMsgHook = NULL;
-		pdp->hAwayMsgProcess = NULL;
+		pdp->hAwayMsgHook = nullptr;
+		pdp->hAwayMsgProcess = nullptr;
 		ShowChangePopup(hContact, Skin_LoadProtoIcon(szProto, newStatus), newStatus, str, pdp);
 	}
 
@@ -453,8 +453,8 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	if (opt.LogToFile) {
 		wchar_t stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[MAX_TEXT_LEN];
 
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", stzTime, _countof(stzTime));
-		GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, L"dd/MM/yyyy", stzDate, _countof(stzDate));
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", stzTime, _countof(stzTime));
+		GetDateFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"dd/MM/yyyy", stzDate, _countof(stzDate));
 		mir_snwprintf(stzText, TranslateT("%s, %s. %s changed status to %s (was %s)\r\n"),
 			stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText,
 			StatusList[Index(oldStatus)].lpzStandardText);
@@ -535,8 +535,8 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		if (strstr(cws->szSetting, "title")) {
 			smi.compare = CompareStatusMsg(&smi, cws, szSetting);
 			if (smi.compare == COMPARE_SAME) {
-				replaceStrW(smi.newstatusmsg, 0);
-				replaceStrW(smi.oldstatusmsg, 0);
+				replaceStrW(smi.newstatusmsg, nullptr);
+				replaceStrW(smi.oldstatusmsg, nullptr);
 			}
 
 			if (cws->value.type == DBVT_DELETED)
@@ -544,7 +544,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			else
 				db_set(hContact, "UserOnline", szSetting, &cws->value);
 
-			xsc = NewXSC(hContact, szProto, type, smi.compare, smi.newstatusmsg, NULL);
+			xsc = NewXSC(hContact, szProto, type, smi.compare, smi.newstatusmsg, nullptr);
 			ExtraStatusChanged(xsc);
 		}
 		else if (strstr(cws->szSetting, "text")) {
@@ -552,8 +552,8 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			mir_snprintf(dbSetting, "%s%s", szSetting, "Msg");
 			smi.compare = CompareStatusMsg(&smi, cws, dbSetting);
 			if (smi.compare == COMPARE_SAME) {
-				replaceStrW(smi.newstatusmsg, 0);
-				replaceStrW(smi.oldstatusmsg, 0);
+				replaceStrW(smi.newstatusmsg, nullptr);
+				replaceStrW(smi.oldstatusmsg, nullptr);
 			}
 
 			if (cws->value.type == DBVT_DELETED)
@@ -561,7 +561,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			else
 				db_set(hContact, "UserOnline", dbSetting, &cws->value);
 
-			xsc = NewXSC(hContact, szProto, type, smi.compare * 4, NULL, smi.newstatusmsg);
+			xsc = NewXSC(hContact, szProto, type, smi.compare * 4, nullptr, smi.newstatusmsg);
 			ExtraStatusChanged(xsc);
 		}
 		return 1;
@@ -574,8 +574,8 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		if (mir_strcmp(cws->szSetting, "XStatusName") == 0) {
 			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusName");
 			if (smi.compare == COMPARE_SAME) {
-				replaceStrW(smi.newstatusmsg, 0);
-				replaceStrW(smi.oldstatusmsg, 0);
+				replaceStrW(smi.newstatusmsg, nullptr);
+				replaceStrW(smi.oldstatusmsg, nullptr);
 			}
 
 			if (cws->value.type == DBVT_DELETED)
@@ -583,14 +583,14 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			else
 				db_set(hContact, "UserOnline", "LastXStatusName", &cws->value);
 
-			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare, smi.newstatusmsg, NULL);
+			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare, smi.newstatusmsg, nullptr);
 			ExtraStatusChanged(xsc);
 		}
 		else if (!mir_strcmp(cws->szSetting, "XStatusMsg")) {
 			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusMsg");
 			if (smi.compare == COMPARE_SAME) {
-				replaceStrW(smi.newstatusmsg, 0);
-				replaceStrW(smi.oldstatusmsg, 0);
+				replaceStrW(smi.newstatusmsg, nullptr);
+				replaceStrW(smi.oldstatusmsg, nullptr);
 			}
 
 			if (cws->value.type == DBVT_DELETED)
@@ -598,7 +598,7 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 			else
 				db_set(hContact, "UserOnline", "LastXStatusMsg", &cws->value);
 
-			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare * 4, NULL, smi.newstatusmsg);
+			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare * 4, nullptr, smi.newstatusmsg);
 			ExtraStatusChanged(xsc);
 		}
 		return 1;
@@ -678,7 +678,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 
 	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && !opt.TempDisabled) {
 		// cut message if needed
-		wchar_t *copyText = NULL;
+		wchar_t *copyText = nullptr;
 		if (opt.PSMsgTruncate && (opt.PSMsgLen > 0) && smi.newstatusmsg && (mir_wstrlen(smi.newstatusmsg) > opt.PSMsgLen)) {
 			wchar_t buff[MAX_TEXT_LEN + 3];
 			copyText = mir_wstrdup(smi.newstatusmsg);
@@ -747,8 +747,8 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (opt.SMsgLogToFile && db_get_b(hContact, MODULE, "EnableSMsgLogging", 1)) {
 		wchar_t stzDate[MAX_STATUSTEXT], stzTime[MAX_STATUSTEXT], stzText[MAX_TEXT_LEN];
 
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", stzTime, _countof(stzTime));
-		GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, L"dd/MM/yyyy", stzDate, _countof(stzDate));
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", stzTime, _countof(stzTime));
+		GetDateFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"dd/MM/yyyy", stzDate, _countof(stzDate));
 
 		wchar_t *str;
 		if (smi.compare == COMPARE_DEL)
@@ -763,8 +763,8 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	}
 
 skip_notify:
-	replaceStrW(smi.newstatusmsg, 0);
-	replaceStrW(smi.oldstatusmsg, 0);
+	replaceStrW(smi.newstatusmsg, nullptr);
+	replaceStrW(smi.oldstatusmsg, nullptr);
 	return 1;
 }
 
@@ -774,7 +774,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
@@ -796,7 +796,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 {
 	char *szProto = (char *)lParam;
-	if (opt.AutoDisable && (!opt.OnlyGlobalChanges || szProto == NULL)) {
+	if (opt.AutoDisable && (!opt.OnlyGlobalChanges || szProto == nullptr)) {
 		if (opt.DisablePopupGlobally && ServiceExists(MS_POPUP_QUERY)) {
 			char szSetting[12];
 			mir_snprintf(szSetting, "p%d", wParam);
@@ -1112,7 +1112,7 @@ void InitSound()
 
 int InitTopToolbar(WPARAM, LPARAM)
 {
-	TTBButton tbb = { 0 };
+	TTBButton tbb = {};
 	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
 	tbb.dwFlags = (opt.TempDisabled ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON;
 	tbb.name = LPGEN("Toggle status notification");
@@ -1135,10 +1135,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	SecretWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", L"ConnectionTimerWindow", 0,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
-		NULL, hInst, NULL);
+		nullptr, hInst, nullptr);
 
 	int count = 0;
-	PROTOACCOUNT **accounts = NULL;
+	PROTOACCOUNT **accounts = nullptr;
 	Proto_EnumAccounts(&count, &accounts);
 	for (int i = 0; i < count; i++)
 		if (Proto_IsAccountEnabled(accounts[i]))

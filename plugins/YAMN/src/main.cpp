@@ -52,9 +52,9 @@ HANDLE hTTButton;
 
 UINT SecTimer;
 
-HGENMENU hMenuItemMain = 0;
-HGENMENU hMenuItemCont = 0;
-HGENMENU hMenuItemContApp = 0;
+HGENMENU hMenuItemMain = nullptr;
+HGENMENU hMenuItemCont = nullptr;
+HGENMENU hMenuItemContApp = nullptr;
 
 #define FIXED_TAB_SIZE 100                  // default value for fixed width tabs
 
@@ -68,13 +68,13 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 	VARSW ptszNewPath( L"%miranda_userdata%");
 
 	SHFILEOPSTRUCT file_op = {
-		NULL,
+		nullptr,
 		FO_MOVE,
 		tszOldPath,
 		ptszNewPath,
 		FOF_NOERRORUI | FOF_NOCONFIRMATION | FOF_SILENT,
 		false,
-		0,
+		nullptr,
 		L"" };
 	SHFileOperation(&file_op);
 
@@ -188,14 +188,14 @@ void LoadIcons()
 HANDLE WINAPI g_GetIconHandle( int idx )
 {
 	if ( idx >= _countof(iconList))
-		return NULL;
+		return nullptr;
 	return iconList[idx].hIcolib;
 }
 
 HICON WINAPI g_LoadIconEx( int idx, bool big )
 {
 	if ( idx >= _countof(iconList))
-		return NULL;
+		return nullptr;
 	return IcoLib_GetIcon(iconList[idx].szName, big);
 }
 
@@ -209,7 +209,7 @@ static void LoadPlugins()
 	wchar_t szSearchPath[MAX_PATH];
 	mir_snwprintf(szSearchPath, L"%s\\Plugins\\YAMN\\*.dll", szMirandaDir);
 
-	hDllPlugins = NULL;
+	hDllPlugins = nullptr;
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szSearchPath, &fd);
@@ -217,7 +217,7 @@ static void LoadPlugins()
 		do {
 			//rewritten from Miranda sources... Needed because Win32 API has a bug in FindFirstFile, search is done for *.dlllllll... too
 			wchar_t *dot = wcsrchr(fd.cFileName, '.');
-			if (dot == NULL )
+			if (dot == nullptr )
 				continue;
 
 			// we have a dot
@@ -231,22 +231,22 @@ static void LoadPlugins()
 			wchar_t szPluginPath[MAX_PATH];
 			mir_snwprintf(szPluginPath, L"%s\\Plugins\\YAMN\\%s", szMirandaDir, fd.cFileName);
 			HINSTANCE hDll = LoadLibrary(szPluginPath);
-			if (hDll == NULL)
+			if (hDll == nullptr)
 				continue;
 
 			LOADFILTERFCN LoadFilter = (LOADFILTERFCN) GetProcAddress(hDll, "LoadFilter");
-			if (NULL == LoadFilter) {
+			if (nullptr == LoadFilter) {
 				FreeLibrary(hDll);
-				hDll = NULL;
+				hDll = nullptr;
 				continue;
 			}
 
 			if (!LoadFilter(GetFcnPtrSvc)) {
 				FreeLibrary(hDll);
-				hDll = NULL;
+				hDll = nullptr;
 			}
 
-			if (hDll != NULL) {
+			if (hDll != nullptr) {
 				hDllPlugins = (HINSTANCE *)realloc(hDllPlugins, (iDllPlugins+1)*sizeof(HINSTANCE));
 				hDllPlugins[iDllPlugins++] = hDll;
 			}
@@ -270,7 +270,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// retrieve the current profile name
 	Profile_GetNameW(_countof(ProfileName), ProfileName);
 	wchar_t *fc = wcsrchr(ProfileName, '.');
-	if ( fc != NULL ) *fc = 0;
+	if ( fc != nullptr ) *fc = 0;
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file
 	GetProfileDirectory(UserDirectory, _countof(UserDirectory));
@@ -290,11 +290,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_VIRTUAL;
 	Proto_RegisterModule(&pd);
 
-	if (NULL == (NoWriterEV = CreateEvent(NULL, TRUE, TRUE, NULL)))
+	if (nullptr == (NoWriterEV = CreateEvent(nullptr, TRUE, TRUE, nullptr)))
 		return 1;
-	if (NULL == (WriteToFileEV = CreateEvent(NULL, FALSE, FALSE, NULL)))
+	if (nullptr == (WriteToFileEV = CreateEvent(nullptr, FALSE, FALSE, nullptr)))
 		return 1;
-	if (NULL == (ExitEV = CreateEvent(NULL, TRUE, FALSE, NULL)))
+	if (nullptr == (ExitEV = CreateEvent(nullptr, TRUE, FALSE, nullptr)))
 		return 1;
 
 	PosX = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBPOSX, 0);
@@ -315,8 +315,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	YAMNVar.NewMailAccountWnd = WindowList_Create();
 	YAMNVar.Shutdown = FALSE;
 
-	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
-	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
+	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
+	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
 
 #ifdef _DEBUG
 	InitDebug();
@@ -341,7 +341,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Hotkey_Register(&hkd);
 
 	//Create thread that will be executed every second
-	if (!(SecTimer = SetTimer(NULL, 0, 1000, TimerProc)))
+	if (!(SecTimer = SetTimer(nullptr, 0, 1000, TimerProc)))
 		return 1;
 
 	return 0;
@@ -351,16 +351,16 @@ extern "C" int __declspec(dllexport) Load(void)
 
 static void UnloadPlugins()
 {
-	if (hDllPlugins == NULL)
+	if (hDllPlugins == nullptr)
 		return;
 	for (int i = iDllPlugins - 1; i >= 0; i --) {
 		if (FreeLibrary(hDllPlugins[i])) {
-			hDllPlugins[i] = NULL;				//for safety
+			hDllPlugins[i] = nullptr;				//for safety
 			iDllPlugins --;
 		}
 	}
 	free((void *)hDllPlugins);
-	hDllPlugins = NULL;
+	hDllPlugins = nullptr;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)

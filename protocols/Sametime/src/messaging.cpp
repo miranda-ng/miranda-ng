@@ -82,7 +82,7 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 		return;
 
 	PROTORECVEVENT pre = { 0 };
-	time_t t = time(NULL);
+	time_t t = time(nullptr);
 	pre.timestamp = t;
 	pre.szMessage = (char*)msg;
 	ProtoChainRecvMsg(hContact, &pre);
@@ -109,7 +109,7 @@ mwImHandler mwIm_handler = {
 	mwIm_conversation_closed,
 	mwIm_conversation_recv,
 	mwIm_place_invite,
-	NULL
+	nullptr
 };
 
 HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, const char *szMsg)
@@ -142,7 +142,7 @@ HANDLE CSametimeProto::SendMessageToUser(MCONTACT hContact, const char *szMsg)
 		free(id_block.user);
 	}
 
-	return 0;
+	return nullptr;
 }
 
 void CSametimeProto::SendTyping(MCONTACT hContact, bool typing)
@@ -200,5 +200,5 @@ void CSametimeProto::DeinitMessaging()
 	debugLogW(L"CSametimeProto::DeinitMessaging()");
 	mwSession_removeService(session, mwService_IM);
 	mwService_free((mwService*)service_im);
-	service_im = 0;
+	service_im = nullptr;
 }

@@ -68,7 +68,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_privacyMenuServiceAllocated(-1),
 	m_priorityMenuVal(0),
 	m_priorityMenuValSet(false),
-	m_hPrivacyMenuRoot(0),
+	m_hPrivacyMenuRoot(nullptr),
 	m_hPrivacyMenuItems(10),
 	m_lstJabberFeatCapPairsDynamic(2),
 	m_uEnabledFeatCapsDynamic(0)
@@ -425,7 +425,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const wchar_t *szPath)
 {
 	if (!m_bJabberOnline)
-		return 0;
+		return nullptr;
 
 	filetransfer *ft = (filetransfer*)hTransfer;
 	ft->std.tszWorkingDir = mir_wstrdup(szPath);
@@ -650,7 +650,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const wchar_t *szJid)
 
 	JABBER_SEARCH_BASIC *jsb;
 	if (!m_bJabberOnline || (jsb = (JABBER_SEARCH_BASIC*)mir_alloc(sizeof(JABBER_SEARCH_BASIC))) == nullptr)
-		return 0;
+		return nullptr;
 
 	if (wcschr(szJid, '@') == nullptr) {
 		wchar_t *szServer = mir_a2u(m_ThreadInfo->conn.server);
@@ -687,7 +687,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const wchar_t *szJid)
 HANDLE __cdecl CJabberProto::SearchByEmail(const wchar_t *email)
 {
 	if (!m_bJabberOnline || email == nullptr)
-		return 0;
+		return nullptr;
 
 	ptrA szServerName(getStringA("Jud"));
 
@@ -791,23 +791,23 @@ int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MC
 
 HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t** ppszFiles)
 {
-	if (!m_bJabberOnline) return 0;
+	if (!m_bJabberOnline) return nullptr;
 
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
-		return 0;
+		return nullptr;
 
 	ptrW jid(getWStringA(hContact, "jid"));
 	if (jid == nullptr)
-		return 0;
+		return nullptr;
 
 	struct _stati64 statbuf;
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item == nullptr)
-		return 0;
+		return nullptr;
 
 	// Check if another file transfer session request is pending (waiting for disco result)
 	if (item->ft != nullptr)
-		return 0;
+		return nullptr;
 
 	JabberCapsBits jcb = GetResourceCapabilities(item->jid);
 	if (jcb == JABBER_RESOURCE_CAPS_IN_PROGRESS) {
@@ -833,7 +833,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 		// XEP-0096 and OOB not supported?
 		|| !(jcb & (JABBER_CAPS_SI_FT | JABBER_CAPS_OOB))) {
 		MsgPopup(hContact, TranslateT("No compatible file transfer mechanism exists"), item->jid);
-		return 0;
+		return nullptr;
 	}
 
 	filetransfer *ft = new filetransfer(this);
@@ -915,7 +915,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const c
 		{
 			OmemoPutMessageToOutgoingQueue(hContact, unused_unknown, pszSrc);
 			int id = SerialNext();
-			TFakeAckParams *param = new TFakeAckParams(hContact, 0, id);
+			TFakeAckParams *param = new TFakeAckParams(hContact, nullptr, id);
 			ForkThread(&CJabberProto::SendMessageAckThread, param);
 			return id;
 		}
@@ -998,7 +998,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const c
 		}
 		m_ThreadInfo->send(m);
 
-		ForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, 0, id));
+		ForkThread(&CJabberProto::SendMessageAckThread, new TFakeAckParams(hContact, nullptr, id));
 	}
 	else {
 		XmlAddAttr(m, L"to", szClientJid); XmlAddAttrID(m, id);

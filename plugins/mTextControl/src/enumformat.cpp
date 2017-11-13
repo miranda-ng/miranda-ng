@@ -55,7 +55,7 @@ private:
 //
 HRESULT CreateEnumFormatEtc(UINT nNumFormats, FORMATETC *pFormatEtc, IEnumFORMATETC **ppEnumFormatEtc)
 {
-	if (nNumFormats == 0 || pFormatEtc == 0 || ppEnumFormatEtc == 0)
+	if (nNumFormats == 0 || pFormatEtc == nullptr || ppEnumFormatEtc == nullptr)
 		return E_INVALIDARG;
 
 	*ppEnumFormatEtc = new CEnumFormatEtc(pFormatEtc, nNumFormats);
@@ -149,7 +149,7 @@ HRESULT __stdcall CEnumFormatEtc::QueryInterface(REFIID iid, void **ppvObject)
 		return S_OK;
 	}
 	else {
-		*ppvObject = 0;
+		*ppvObject = nullptr;
 		return E_NOINTERFACE;
 	}
 }
@@ -165,7 +165,7 @@ HRESULT __stdcall CEnumFormatEtc::Next(ULONG celt, FORMATETC *pFormatEtc, ULONG 
 	ULONG copied = 0;
 
 	// validate arguments
-	if (celt == 0 || pFormatEtc == 0)
+	if (celt == 0 || pFormatEtc == nullptr)
 		return E_INVALIDARG;
 
 	// copy FORMATETC structures into caller's buffer
@@ -176,7 +176,7 @@ HRESULT __stdcall CEnumFormatEtc::Next(ULONG celt, FORMATETC *pFormatEtc, ULONG 
 	}
 
 	// store result
-	if (pceltFetched != 0)
+	if (pceltFetched != nullptr)
 		*pceltFetched = copied;
 
 	// did we copy all that was requested?

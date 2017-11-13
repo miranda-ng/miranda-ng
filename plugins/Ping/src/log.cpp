@@ -10,8 +10,8 @@ INT_PTR Log(WPARAM wParam, LPARAM) {
 
 	GetLocalTime(&systime);
 
-	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &systime, 0, tbuf, 512);
-	GetDateFormat(LOCALE_USER_DEFAULT, 0, &systime, 0, dbuf, 512);
+	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &systime, nullptr, tbuf, 512);
+	GetDateFormat(LOCALE_USER_DEFAULT, 0, &systime, nullptr, dbuf, 512);
 
 	wchar_t *line = (wchar_t *)wParam;
 

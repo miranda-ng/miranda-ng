@@ -32,7 +32,7 @@ bool SpeechApi40aLexicon::display()
 		return false;
 	}
 
-	ITTSDialogs *tts_dialogs = 0;
+	ITTSDialogs *tts_dialogs = nullptr;
 
 	m_tts_central->QueryInterface(IID_ITTSDialogs, (void**)&tts_dialogs);
 
@@ -41,7 +41,7 @@ bool SpeechApi40aLexicon::display()
 		return false;
 	}
 
-	if (NOERROR != tts_dialogs->LexiconDlg(m_window, NULL))
+	if (NOERROR != tts_dialogs->LexiconDlg(m_window, nullptr))
 	{
 		return false;
 	}

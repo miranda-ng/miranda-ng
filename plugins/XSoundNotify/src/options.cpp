@@ -11,7 +11,7 @@ There is no warranty.
 
 bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	if (pa == NULL)
+	if (pa == nullptr)
 		return false;
 
 	if (pa->bDynDisabled || !pa->bIsEnabled)
@@ -52,12 +52,12 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)TranslateT("All contacts")), cursel);
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					char *szUniqueId = NULL;
+					char *szUniqueId = nullptr;
 					if (db_get_b(hContact, pa->szModuleName, "ChatRoom", 0))
 						szUniqueId = "ChatRoomID";
 					else
 						szUniqueId = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-					if ((INT_PTR)szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != NULL) {
+					if ((INT_PTR)szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != nullptr) {
 						DBVARIANT dbvuid = { 0 };
 						if (!db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
 							wchar_t uid[MAX_PATH];
@@ -148,7 +148,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else
 				mir_snwprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
 			ofn.lpstrFilter = tmp;
-			ofn.hwndOwner = 0;
+			ofn.hwndOwner = nullptr;
 			ofn.lpstrFile = FileName;
 			ofn.nMaxFile = MAX_PATH;
 			ofn.nMaxFileTitle = MAX_PATH;
@@ -163,7 +163,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (!cursel) {
 					PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
 					XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
-					if (p == NULL)
+					if (p == nullptr)
 						XSN_Users.insert(new XSN_Data((LPARAM)pa->szModuleName, FileName, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 0));
 					else
 					{
@@ -177,7 +177,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				else {
 					MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 					XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-					if (p == NULL)
+					if (p == nullptr)
 						XSN_Users.insert(new XSN_Data(hContact, FileName, IsDlgButtonChecked(hwndDlg, IDC_OPT_IGNORE_SOUND) ? 1 : 0, 1));
 					else
 					{
@@ -200,7 +200,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
 				isIgnoreSound = 0;
-				if (p == NULL) {
+				if (p == nullptr) {
 					DBVARIANT dbv;
 					if (!db_get_ws(NULL, SETTINGSNAME, pa->szModuleName, &dbv)) {
 						wchar_t longpath[MAX_PATH];
@@ -219,7 +219,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
 				isIgnoreSound = 0;
-				if (p == NULL) {
+				if (p == nullptr) {
 					DBVARIANT dbv;
 					if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 						wchar_t longpath[MAX_PATH];
@@ -247,7 +247,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (!cursel) {
 				PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
-				if (p != NULL) {
+				if (p != nullptr) {
 					XSN_Users.remove(p);
 					delete p;
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -262,7 +262,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else {
 				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-				if (p != NULL) {
+				if (p != nullptr) {
 					XSN_Users.remove(p);
 					delete p;
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -279,7 +279,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (!cursel) {
 				PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
-				if (p == NULL) {
+				if (p == nullptr) {
 					DBVARIANT dbv;
 					if (!db_get_ws(NULL, SETTINGSNAME, pa->szModuleName, &dbv)) {
 						wchar_t longpath[MAX_PATH];
@@ -295,7 +295,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else {
 				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-				if (p == NULL) {
+				if (p == nullptr) {
 					DBVARIANT dbv;
 					if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 						wchar_t longpath[MAX_PATH];

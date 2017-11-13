@@ -59,7 +59,7 @@ void FreePcreCompileData()
 TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 {
 	TCString Result(L"");
-	sPcreCompileData s = {0};
+	sPcreCompileData s = {};
 	int NewID = PcreCompileData.AddElem(s);
 	PcreCompileData[NewID].ID = ID;
 	if (!bAddAsUsualSubstring)
@@ -119,10 +119,10 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 			Regexp.ReleaseBuffer();
 		}
 
-		PcreCompileData[NewID].pPcre = pcre16_compile(Regexp, PCRE_UTF8 | PCRE_NO_UTF8_CHECK | Flags, &Err, &ErrOffs, NULL);
+		PcreCompileData[NewID].pPcre = pcre16_compile(Regexp, PCRE_UTF8 | PCRE_NO_UTF8_CHECK | Flags, &Err, &ErrOffs, nullptr);
 
 		if (PcreCompileData[NewID].pPcre) {
-			PcreCompileData[NewID].pExtra = NULL;
+			PcreCompileData[NewID].pExtra = nullptr;
 			PcreCompileData[NewID].pExtra = pcre16_study(PcreCompileData[NewID].pPcre, 0, &Err);
 		} 
 		else {
@@ -157,7 +157,7 @@ int PcreCheck(TCString Str, int StartingID)
 		if (PcreCompileData[I].pPcre)
 		{
 
-			int Res = pcre16_exec(PcreCompileData[I].pPcre, PcreCompileData[I].pExtra, Str, Str.GetLen() - 1, 0, PCRE_NOTEMPTY | PCRE_NO_UTF8_CHECK, NULL, 0);
+			int Res = pcre16_exec(PcreCompileData[I].pPcre, PcreCompileData[I].pExtra, Str, Str.GetLen() - 1, 0, PCRE_NOTEMPTY | PCRE_NO_UTF8_CHECK, nullptr, 0);
 			
 			if (Res >= 0)
 			{

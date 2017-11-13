@@ -1198,9 +1198,9 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
 				int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
 				if (i != -1 && group->groupId != destgroup->groupId) {
-					wchar_t *groupName = mir_wstrdup(Clist_GroupGetName(contact->groupId, 0));
+					wchar_t *groupName = mir_wstrdup(Clist_GroupGetName(contact->groupId, nullptr));
 					wchar_t *shortGroup = nullptr;
-					wchar_t *sourceGrName = mir_wstrdup(Clist_GroupGetName(destgroup->groupId, 0));
+					wchar_t *sourceGrName = mir_wstrdup(Clist_GroupGetName(destgroup->groupId, nullptr));
 					if (groupName) {
 						int len = (int)mir_wstrlen(groupName);
 						do { len--; } while (len >= 0 && groupName[len] != '\\');
@@ -1553,7 +1553,7 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	wchar_t szMyPath[MAX_PATH];
 	GetModuleFileName(g_hInst, szMyPath, _countof(szMyPath));
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.defaultFile.w = szMyPath;
 	sid.flags = SIDF_PATH_UNICODE;
 

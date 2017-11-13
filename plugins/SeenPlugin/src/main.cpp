@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hInstance;
-HANDLE ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL;
+HANDLE ehmissed = nullptr, ehuserinfo = nullptr, ehmissed_proto = nullptr;
 HANDLE g_hShutdownEvent;
 MWindowList g_pUserInfo;
 
@@ -89,7 +89,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	pcli = Clist_GetInterface();
 
 	g_pUserInfo = WindowList_Create();
-	g_hShutdownEvent = CreateEvent(0, TRUE, FALSE, 0);
+	g_hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);

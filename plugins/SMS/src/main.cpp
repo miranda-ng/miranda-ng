@@ -67,7 +67,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 		break;
 	case DLL_PROCESS_DETACH:
 		HeapDestroy(ssSMSSettings.hHeap);
-		ssSMSSettings.hHeap = NULL;
+		ssSMSSettings.hHeap = nullptr;
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
 		break;
@@ -119,17 +119,17 @@ void VersionConversions()
 {
 	WCHAR wsztm[MAX_PATH];
 
-	if (DB_SMS_GetStaticStringW(NULL,"UseSignature",wsztm,_countof(wsztm),NULL))
+	if (DB_SMS_GetStaticStringW(NULL,"UseSignature",wsztm,_countof(wsztm),nullptr))
 		DB_SMS_SetByte(NULL,"UseSignature",(wsztm[0]=='0'));
 	else
 		DB_SMS_SetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
 
-	if (DB_SMS_GetStaticStringW(NULL,"SignaturePos",wsztm,_countof(wsztm),NULL))
+	if (DB_SMS_GetStaticStringW(NULL,"SignaturePos",wsztm,_countof(wsztm),nullptr))
 		DB_SMS_SetByte(NULL,"SignaturePos",(wsztm[0]=='0'));
 	else
 		DB_SMS_SetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
 
-	if (DB_SMS_GetStaticStringW(NULL,"ShowACK",wsztm,_countof(wsztm),NULL))
+	if (DB_SMS_GetStaticStringW(NULL,"ShowACK",wsztm,_countof(wsztm),nullptr))
 		DB_SMS_SetByte(NULL,"ShowACK",(wsztm[0]=='0'));
 	else
 		DB_SMS_SetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK);

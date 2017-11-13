@@ -57,9 +57,9 @@ REMINDEROPTIONS, *LPREMINDEROPTIONS;
 static HANDLE ExtraIcon = INVALID_HANDLE_VALUE;
 
 
-static HANDLE	ghCListIA = NULL;
-static HANDLE	ghCListIR = NULL;
-static HANDLE	ghSettingsChanged = NULL;
+static HANDLE	ghCListIA = nullptr;
+static HANDLE	ghCListIR = nullptr;
+static HANDLE	ghSettingsChanged = nullptr;
 
 static UINT_PTR	ghRemindTimer = 0;
 static UINT_PTR	ghRemindDateChangeTimer = 0;
@@ -139,7 +139,7 @@ BYTE CEvent::operator << (const CEvent& evt)
 
 static HICON GetAnnivIcon(const CEvent &evt)
 {
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 
 	CHAR szIcon[MAXSETTING];
 
@@ -461,7 +461,7 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 
 			// make backup of each protocol based birthday
 			if (db_get_b(NULL, MODNAME, SET_REMIND_SECUREBIRTHDAY, TRUE))
-				mtb.BackupBirthday(hContact, NULL, 0, LastAnwer);
+				mtb.BackupBirthday(hContact, nullptr, 0, LastAnwer);
 
 			if (mtb.RemindOption() != BST_UNCHECKED) {
 				WORD wDaysEarlier = (mtb.RemindOption() == BST_CHECKED) ? mtb.RemindOffset() : -1;
@@ -530,7 +530,7 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 * @return	nothing
 **/
 
-static void CheckContact(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = 0)
+static void CheckContact(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = nullptr)
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
 	if (hContact && (!gRemindOpts.bCheckVisibleOnly || !db_get_b(hContact, MOD_CLIST, "Hidden", FALSE)) && !db_mc_isSub(hContact)) {
@@ -576,7 +576,7 @@ void SvcReminderCheckAll(const ENotify notify)
 			DlgAnniversaryListShow(0, 0);
 
 		if (evt._wDaysLeft > gRemindOpts.wDaysEarlier && notify == NOTIFY_NOANNIV)
-			NotifyWithPopup(NULL, CEvent::NONE, 0, NULL, TranslateT("No anniversaries to remind of"));
+			NotifyWithPopup(NULL, CEvent::NONE, 0, nullptr, TranslateT("No anniversaries to remind of"));
 	}
 	UpdateTimer(FALSE);
 }
@@ -659,7 +659,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 			WORD LastAnswer = IDNONE;
 			CheckContact(hContact, now, evt, FALSE, &LastAnswer);
 		}
-		else CheckContact(hContact, now, evt, FALSE, 0);
+		else CheckContact(hContact, now, evt, FALSE, nullptr);
 	}
 	return 0;
 }
@@ -678,7 +678,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 
 void SvcReminderOnTopToolBarLoaded()
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Check anniversaries");
@@ -721,7 +721,7 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 
 	if (hContact) {
 		if (!mdb.DBGetBirthDate(hContact))
-			mdb.BackupBirthday(hContact, NULL, TRUE);
+			mdb.BackupBirthday(hContact, nullptr, TRUE);
 	}
 	else {
 		WORD a1 = 0;
@@ -729,13 +729,13 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 		//walk through all the contacts stored in the DB
 		for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 			if (!db_mc_isSub(hContact) && !mdb.DBGetBirthDate(hContact))
-				mdb.BackupBirthday(hContact, NULL, TRUE, &a1);
+				mdb.BackupBirthday(hContact, nullptr, TRUE, &a1);
 	}
 
 	if (lParam != TRUE) {
 		MSGBOX mBox;
 		mBox.cbSize = sizeof(MSGBOX);
-		mBox.hParent = NULL;
+		mBox.hParent = nullptr;
 		mBox.hiLogo = IcoLib_GetIcon(ICO_COMMON_BIRTHDAY);
 		mBox.uType = MB_ICON_INFO;
 		mBox.ptszTitle = TranslateT("Update custom birthday");
@@ -823,13 +823,13 @@ static void UpdateTimer(BYTE bStartup)
 		else
 			wNotifyInterval -= now.Compare(last);
 
-		ghRemindDateChangeTimer = SetTimer(0, 0, 1000 * 60 * 5, (TIMERPROC)TimerProc_DateChanged);
+		ghRemindDateChangeTimer = SetTimer(nullptr, 0, 1000 * 60 * 5, (TIMERPROC)TimerProc_DateChanged);
 	}
 	else now.DBWriteStamp(NULL, MODNAME, SET_REMIND_LASTCHECK);
 
 	// wait at least 5 seconds before checking at startup, to give miranda a better chance to load faster
-	KillTimer(0, ghRemindTimer);
-	ghRemindTimer = SetTimer(0, 0, 1000 * wNotifyInterval, TimerProc_Check);
+	KillTimer(nullptr, ghRemindTimer);
+	ghRemindTimer = SetTimer(nullptr, 0, 1000 * wNotifyInterval, TimerProc_Check);
 }
 
 /***********************************************************************************************************
@@ -924,16 +924,16 @@ void SvcReminderLoadModule(void)
 void SvcReminderUnloadModule(void)
 {
 	// kill timers
-	KillTimer(0, ghRemindTimer);
+	KillTimer(nullptr, ghRemindTimer);
 	ghRemindTimer = 0;
-	KillTimer(0, ghRemindDateChangeTimer);
+	KillTimer(nullptr, ghRemindDateChangeTimer);
 	ghRemindDateChangeTimer = 0;
 
 	// unhook event handlers
 	UnhookEvent(ghCListIR);
-	ghCListIR = 0;
+	ghCListIR = nullptr;
 	UnhookEvent(ghCListIA);
-	ghCListIA = 0;
+	ghCListIA = nullptr;
 	UnhookEvent(ghSettingsChanged);
-	ghSettingsChanged = 0;
+	ghSettingsChanged = nullptr;
 }

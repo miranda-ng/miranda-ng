@@ -89,7 +89,7 @@ static luaL_Reg clistApi[] =
 
 	{ "AddTrayMenuItem", clist_AddTrayMenuItem },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_clist(lua_State *L)

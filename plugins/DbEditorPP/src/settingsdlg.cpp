@@ -235,7 +235,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				case DBVT_BYTE:
 				case DBVT_WORD:
 				case DBVT_DWORD:
-					res = setNumericValue(dbsetting->hContact, dbsetting->module, setting, wcstoul(value, NULL, IsDlgButtonChecked(hwnd, CHK_HEX)? 16 : 10), type);
+					res = setNumericValue(dbsetting->hContact, dbsetting->module, setting, wcstoul(value, nullptr, IsDlgButtonChecked(hwnd, CHK_HEX)? 16 : 10), type);
 					break;
 				case DBVT_ASCIIZ:
 				case DBVT_UTF8:
@@ -328,6 +328,6 @@ void newSetting(MCONTACT hContact, const char *module, int type)
 	dbsetting->dbv.type = type;
 	dbsetting->hContact = hContact;
 	dbsetting->module = mir_strdup(module);
-	dbsetting->setting = NULL;
+	dbsetting->setting = nullptr;
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
 }

@@ -41,7 +41,7 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd, UINT message, WPARAM wPar
 
 	case CPM_SETCOLOUR:
 		SetWindowLongPtr(hwnd, 0, lParam);
-		InvalidateRect(hwnd, NULL, FALSE);
+		InvalidateRect(hwnd, nullptr, FALSE);
 		break;
 
 	case CPM_GETCOLOUR:
@@ -62,13 +62,13 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd, UINT message, WPARAM wPar
 			if (ChooseColor(&cc)) {
 				SetWindowLongPtr(hwnd, 0, cc.rgbResult);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), CPN_COLOURCHANGED), (LPARAM)hwnd);
-				InvalidateRect(hwnd, NULL, FALSE);
+				InvalidateRect(hwnd, nullptr, FALSE);
 			}
 		}
 		break;
 
 	case WM_ENABLE:
-		InvalidateRect(hwnd, NULL, FALSE);
+		InvalidateRect(hwnd, nullptr, FALSE);
 		break;
 
 	case WM_NCPAINT:

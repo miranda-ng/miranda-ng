@@ -310,7 +310,7 @@ static void SetContainerWindowStyle(ParentWindowData *dat)
 
 	RECT rc;
 	GetWindowRect(dat->hwnd, &rc);
-	SetWindowPos(dat->hwnd, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
+	SetWindowPos(dat->hwnd, nullptr, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 		SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
 }
 
@@ -668,7 +668,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			MCONTACT hSContact = savePerContact ? dat->hContact : 0;
 			dat->bTopmost = db_get_b(hSContact, SRMM_MODULE, SRMSGSET_TOPMOST, SRMSGDEFSET_TOPMOST);
 			if (ScriverRestoreWindowPosition(hwndDlg, hSContact, SRMM_MODULE, (newData->isChat && !savePerContact) ? "chat" : "", 0, SW_HIDE))
-				SetWindowPos(hwndDlg, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
+				SetWindowPos(hwndDlg, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
 			if (!savePerContact && db_get_b(0, SRMM_MODULE, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
 				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
@@ -826,7 +826,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 						HMENU hUserMenu = (HMENU)SendMessage(pDlg->GetHwnd(), DM_GETCONTEXTMENU, 0, 0);
 						if (hUserMenu != nullptr) {
 							InsertMenu(hSubMenu, 0, MF_POPUP | MF_BYPOSITION, (UINT_PTR)hUserMenu, TranslateT("User menu"));
-							InsertMenu(hSubMenu, 1, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
+							InsertMenu(hSubMenu, 1, MF_SEPARATOR | MF_BYPOSITION, 0, nullptr);
 						}
 						BOOL menuResult = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, x, y, 0, hwndDlg, nullptr);
 						switch (menuResult) {
@@ -1256,7 +1256,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		SetWindowLongPtr(hwndDlg, GWL_STYLE, ws);
 		RECT rc;
 		GetWindowRect(hwndDlg, &rc);
-		SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
+		SetWindowPos(hwndDlg, nullptr, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 			SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
 		RedrawWindow(hwndDlg, nullptr, nullptr, RDW_ERASE | RDW_FRAME | RDW_INVALIDATE | RDW_ALLCHILDREN);
 		break;
@@ -1268,7 +1268,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			GetWindowRect((HWND)wParam, &rcNew);
 			if (abs(rcThis.left - rcNew.left) < 3 && abs(rcThis.top - rcNew.top) < 3) {
 				int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
-				SetWindowPos((HWND)wParam, 0, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				SetWindowPos((HWND)wParam, nullptr, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 				*(int *)lParam = 1;
 			}
 		}

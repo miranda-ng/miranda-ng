@@ -26,15 +26,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CLIST_INTERFACE *pcli;
 
-HINSTANCE g_hInst = 0;
-HICON g_hIcon = 0;
+HINSTANCE g_hInst = nullptr;
+HICON g_hIcon = nullptr;
 bool g_shutDown = false;
 
 int hLangpack;
 
 wchar_t  g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
 BOOL   g_AvatarHistoryAvail = FALSE;
-HWND   hwndSetMyAvatar = 0;
+HWND   hwndSetMyAvatar = nullptr;
 
 HANDLE hMyAvatarsFolder;
 HANDLE hGlobalAvatarFolder;
@@ -56,14 +56,14 @@ OBJLIST<protoPicCacheEntry>
 g_ProtoPictures(10, ComparePicture),
 g_MyAvatars(10, ComparePicture);
 
-char *g_szMetaName = NULL;
+char *g_szMetaName = nullptr;
 
 // Stores the id of the dialog
 
 int OnDetailsInit(WPARAM wParam, LPARAM lParam);
 int OptInit(WPARAM wParam, LPARAM lParam);
 
-FI_INTERFACE *fei = 0;
+FI_INTERFACE *fei = nullptr;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -82,10 +82,10 @@ PLUGININFOEX pluginInfoEx = {
 static int ProtocolAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack != NULL && ack->type == ACKTYPE_AVATAR && !db_mc_isMeta(ack->hContact)) {
+	if (ack != nullptr && ack->type == ACKTYPE_AVATAR && !db_mc_isMeta(ack->hContact)) {
 		if (ack->result == ACKRESULT_SUCCESS) {
-			if (ack->hProcess == NULL)
-				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, NULL, ack->szModule);
+			if (ack->hProcess == nullptr)
+				ProcessAvatarInfo(ack->hContact, GAIR_NOAVATAR, nullptr, ack->szModule);
 			else
 				ProcessAvatarInfo(ack->hContact, GAIR_SUCCESS, (PROTO_AVATAR_INFORMATION*)ack->hProcess, ack->szModule);
 		}
@@ -94,7 +94,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 		}
 		else if (ack->result == ACKRESULT_STATUS) {
 			char *szProto = GetContactProto(ack->hContact);
-			if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto)) {
+			if (szProto == nullptr || Proto_NeedDelaysForAvatars(szProto)) {
 				// Queue
 				db_set_b(ack->hContact, "ContactPhoto", "NeedUpdate", 1);
 				QueueAdd(ack->hContact);
@@ -115,7 +115,7 @@ static int MetaChanged(WPARAM hMeta, LPARAM hSubContact)
 
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hSubContact, true);
-	if (node == NULL || !node->loaded) {
+	if (node == nullptr || !node->loaded) {
 		ace = (AVATARCACHEENTRY*)GetProtoDefaultAvatar(hSubContact);
 		QueueAdd(hSubContact);
 	}
@@ -198,7 +198,7 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 static int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	if (cws == NULL || g_shutDown)
+	if (cws == nullptr || g_shutDown)
 		return 0;
 
 	if (hContact == 0)
@@ -219,7 +219,7 @@ static int ShutdownProc(WPARAM, LPARAM)
 	g_shutDown = true;
 	SetEvent(hLoaderEvent);
 	SetEvent(hShutdownEvent);
-	CloseHandle(hShutdownEvent); hShutdownEvent = NULL;
+	CloseHandle(hShutdownEvent); hShutdownEvent = nullptr;
 	return 0;
 }
 
@@ -257,7 +257,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 
 	if (GetClipRgn(r->hTargetDC, oldRgn) != 1) {
 		DeleteObject(oldRgn);
-		oldRgn = NULL;
+		oldRgn = nullptr;
 	}
 
 	HRGN rgn;
@@ -324,9 +324,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 {
 	wchar_t szEventName[100];
 	mir_snwprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
-	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
+	hLoaderEvent = CreateEvent(nullptr, TRUE, FALSE, szEventName);
 
-	SetThreadPriority(mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
+	SetThreadPriority(mir_forkthread(PicLoader, nullptr), THREAD_PRIORITY_IDLE);
 
 	// Folders plugin support
 	hMyAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAT L"\\Avatars");
@@ -335,10 +335,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	g_AvatarHistoryAvail = ServiceExists(MS_AVATARHISTORY_ENABLED);
 
 	int accCount;
-	PROTOACCOUNT **accs = NULL;
+	PROTOACCOUNT **accs = nullptr;
 	Proto_EnumAccounts(&accCount, &accs);
 
-	if (fei != NULL) {
+	if (fei != nullptr) {
 		LoadDefaultInfo();
 
 		int protoCount;
@@ -364,7 +364,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 static int LoadAvatarModule()
 {
-	hShutdownEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
@@ -406,8 +406,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (ServiceExists(MS_IMG_GETINTERFACE))
 		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 
-	if (fei == NULL || result != S_OK) {
-		MessageBox(0, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar service"), MB_OK);
+	if (fei == nullptr || result != S_OK) {
+		MessageBox(nullptr, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar service"), MB_OK);
 		return 1;
 	}
 	LoadACC();

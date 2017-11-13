@@ -74,7 +74,7 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
-	if (ActualAccount != NULL) {
+	if (ActualAccount != nullptr) {
 		STARTUPINFOW si = { 0 };
 		si.cb = sizeof(si);
 				
@@ -85,22 +85,22 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 			#ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile, "ContactApplication:ualAccountSO-read enter\n");
 			#endif
-			if (ActualAccount->NewMailN.App != NULL) {
+			if (ActualAccount->NewMailN.App != nullptr) {
 				WCHAR *Command;
-				if (ActualAccount->NewMailN.AppParam != NULL)
+				if (ActualAccount->NewMailN.AppParam != nullptr)
 					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App)+mir_wstrlen(ActualAccount->NewMailN.AppParam)+6];
 				else
 					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App)+6];
 					
-				if (Command != NULL) {
+				if (Command != nullptr) {
 					mir_wstrcpy(Command, L"\"");
 					mir_wstrcat(Command, ActualAccount->NewMailN.App);
 					mir_wstrcat(Command, L"\" ");
-					if (ActualAccount->NewMailN.AppParam != NULL)
+					if (ActualAccount->NewMailN.AppParam != nullptr)
 						mir_wstrcat(Command, ActualAccount->NewMailN.AppParam);
 
 					PROCESS_INFORMATION pi;
-					CreateProcessW(NULL, Command, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);
+					CreateProcessW(nullptr, Command, nullptr, nullptr, FALSE, NORMAL_PRIORITY_CLASS, nullptr, nullptr, &si, &pi);
 					delete[] Command;
 				}
 			}
@@ -125,10 +125,10 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 	//This service will check/sincronize the account pointed by wParam
 	HACCOUNT ActualAccount = (HACCOUNT)wParam;
 	// copy/paste make mistakes
-	if (ActualAccount != NULL) {
+	if (ActualAccount != nullptr) {
 		//we use event to signal, that running thread has all needed stack parameters copied
-		HANDLE ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL);
-		if (ThreadRunningEV == NULL)
+		HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+		if (ThreadRunningEV == nullptr)
 			return 0;
 		//if we want to close miranda, we get event and do not run pop3 checking anymore
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
@@ -148,11 +148,11 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
 			#endif
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr) {
-				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam?YAMN_FORCECHECK:YAMN_NORMALCHECK, 0, NULL};
+				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam?YAMN_FORCECHECK:YAMN_NORMALCHECK, nullptr, nullptr};
 
 				ActualAccount->TimeLeft = ActualAccount->Interval;
 				DWORD tid;
-				HANDLE NewThread = CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->SynchroFcnPtr, &ParamToPlugin, 0, &tid);
+				HANDLE NewThread = CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->SynchroFcnPtr, &ParamToPlugin, 0, &tid);
 				if (NewThread) {
 					WaitForSingleObject(ThreadRunningEV, INFINITE);
 					CloseHandle(NewThread);
@@ -176,10 +176,10 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
-	if (ActualAccount != NULL) {
+	if (ActualAccount != nullptr) {
 		//we use event to signal, that running thread has all needed stack parameters copied
 		HANDLE ThreadRunningEV;
-		if (NULL == (ThreadRunningEV = CreateEvent(NULL, FALSE, FALSE, NULL)))
+		if (nullptr == (ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr)))
 			return 0;
 		//if we want to close miranda, we get event and do not run pop3 checking anymore
 		if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
@@ -201,12 +201,12 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 			#endif
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
 			{
-				if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == NULL)
+				if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == nullptr)
 					ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 				DWORD tid;
-				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)0, NULL};
-				if (NULL == CreateThread(NULL, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
+				struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_FORCECHECK, (void *)nullptr, nullptr};
+				if (nullptr == CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr, &ParamToPlugin, 0, &tid))
 					ReadDoneFcn(ActualAccount->AccountAccessSO);
 				else
 					WaitForSingleObject(ThreadRunningEV, INFINITE);
@@ -230,7 +230,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 		return;
 
 	HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
-	if (ActualAccount != NULL) {
+	if (ActualAccount != nullptr) {
 		#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read wait\n");
 		#endif
@@ -238,7 +238,7 @@ static INT_PTR ContactMailCheck(WPARAM hContact, LPARAM)
 			#ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile, "Service_ContactDoubleclicked:ActualAccountSO-read enter\n");
 			#endif
-			YAMN_MAILBROWSERPARAM Param = { 0, ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, 0 };
+			YAMN_MAILBROWSERPARAM Param = { nullptr, ActualAccount, ActualAccount->NewMailN.Flags, ActualAccount->NoNewMailN.Flags, nullptr };
 
 			Param.nnflags = Param.nnflags | YAMN_ACC_MSG;			//show mails in account even no new mail in account
 			Param.nnflags = Param.nnflags & ~YAMN_ACC_POP;
@@ -284,12 +284,12 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
 
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 	FillRect(hdcMem, &rc, hBkgBrush);
-	DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
+	DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, nullptr, DI_NORMAL);
 	SelectObject(hdcMem, hoBmp);
 	return hBmp;
 }
@@ -297,8 +297,8 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 int AddTopToolbarIcon(WPARAM,LPARAM)
 {
 	if ( db_get_b(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
-		if ( ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == NULL) {
-			TTBButton btn = { 0 };
+		if ( ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == nullptr) {
+			TTBButton btn = {};
 			btn.pszService = MS_YAMN_FORCECHECK;
 			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 			btn.hIconHandleUp = btn.hIconHandleDn = g_GetIconHandle(0);
@@ -307,9 +307,9 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 		}
 	}
 	else {
-		if (hTTButton != NULL) {
+		if (hTTButton != nullptr) {
 			CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
-			hTTButton = NULL;
+			hTTButton = nullptr;
 		}
 	}
 
@@ -328,7 +328,7 @@ int Shutdown(WPARAM, LPARAM)
 	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEY, HeadSizeY);
 	db_set_w(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, HeadSplitPos);
 	YAMNVar.Shutdown = TRUE;
-	KillTimer(NULL, SecTimer);
+	KillTimer(nullptr, SecTimer);
 
 	UnregisterProtoPlugins();
 	UnregisterFilterPlugins();
@@ -435,7 +435,7 @@ void CreateServiceFunctions(void)
 void RefreshContact(void)
 {
 	HACCOUNT Finder;
-	for (Finder = POP3Plugin->FirstAccount;Finder != NULL;Finder = Finder->Next) {
+	for (Finder = POP3Plugin->FirstAccount;Finder != nullptr;Finder = Finder->Next) {
 		if (Finder->hContact != NULL) {
 			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
 				db_unset(Finder->hContact, "CList", "Hidden");

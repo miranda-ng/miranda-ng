@@ -108,7 +108,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
 
 	// set name
 	node = json_get(data, "realname");
-	if (node != NULL)
+	if (node != nullptr)
 	{
 		std::wstring realname = (wchar_t*)ptrW(json_as_string(node));
 		if (!realname.empty())
@@ -140,7 +140,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
 
 	// set country
 	node = json_get(data, "loccountrycode");
-	if (node != NULL)
+	if (node != nullptr)
 	{
 		const char *iso = ptrA(mir_u2a(ptrW(json_as_string(node))));
 		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)iso, 0);
@@ -261,7 +261,7 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 	// If this contact was authorized and now is not (and isn't filled time of deletion), notify it 
 	if (!getDword(hContact, "DeletedTS", 0) && getByte(hContact, "Auth", 0) == 0)
 	{
-		setDword(hContact, "DeletedTS", ::time(NULL));
+		setDword(hContact, "DeletedTS", ::time(nullptr));
 
 		ptrW nick(getWStringA(hContact, "Nick"));
 		wchar_t message[MAX_PATH];
@@ -335,7 +335,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 	DB_AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
 
 	PROTORECVEVENT recv = { 0 };
-	recv.timestamp = time(NULL);
+	recv.timestamp = time(nullptr);
 	recv.szMessage = blob;
 	recv.lParam = blob.size();
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&recv);
@@ -395,7 +395,7 @@ void CSteamProto::UpdateContactRelationship(MCONTACT hContact, JSONNode *data)
 		db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
 
 	node = json_get(data, "relationship");
-	if (node == NULL)
+	if (node == nullptr)
 		return;
 
 	ptrA relationship(mir_u2a(ptrW(json_as_string(node))));
@@ -419,7 +419,7 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 		return;
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 
 	std::string steamIds = (char*)ptrA(getStringA("SteamID"));
@@ -429,16 +429,16 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 	// Remember contacts on server
 	JSONNode *node = json_get(root, "friends");
 	JSONNode *nroot = json_as_array(node);
-	if (nroot != NULL)
+	if (nroot != nullptr)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
 			JSONNode *child = json_at(nroot, i);
-			if (child == NULL)
+			if (child == nullptr)
 				break;
 
 			node = json_get(child, "steamid");
-			if (node == NULL)
+			if (node == nullptr)
 				continue;
 
 			std::string steamId = (char*)_T2A(ptrW(json_as_string(node)));
@@ -515,19 +515,19 @@ void CSteamProto::OnGotBlockList(const HttpResponse *response)
 		return;
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 
 	//std::string steamIds;
 
 	JSONNode *node = json_get(root, "friends");
 	JSONNode *nroot = json_as_array(node);
-	if (nroot != NULL)
+	if (nroot != nullptr)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
 			JSONNode *child = json_at(nroot, i);
-			if (child == NULL)
+			if (child == nullptr)
 				break;
 
 			node = json_get(child, "steamid");
@@ -559,17 +559,17 @@ void CSteamProto::OnGotUserSummaries(const HttpResponse *response)
 		return;
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 		
 	JSONNode *node = json_get(root, "players");
 	JSONNode *nroot = json_as_array(node);
-	if (nroot != NULL)
+	if (nroot != nullptr)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
 			JSONNode *item = json_at(nroot, i);
-			if (item == NULL)
+			if (item == nullptr)
 				break;
 
 			node = json_get(item, "steamid");
@@ -659,7 +659,7 @@ void CSteamProto::OnFriendRemoved(const HttpResponse *response, void *arg)
 	}
 
 	setByte(hContact, "Auth", 1);
-	setDword(hContact, "DeletedTS", ::time(NULL));
+	setDword(hContact, "DeletedTS", ::time(nullptr));
 }
 
 void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
@@ -671,14 +671,14 @@ void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
 	}
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 
 	JSONNode *node = json_get(root, "players");
 	JSONNode *nodes = json_as_array(node);
 	JSONNode *nroot = json_at(nodes, 0);
 
-	if (nroot != NULL)
+	if (nroot != nullptr)
 	{
 		node = json_get(nroot, "steamid");
 		ptrA steamId(mir_u2a(ptrW(json_as_string(node))));
@@ -702,7 +702,7 @@ void CSteamProto::OnPendingApproved(const HttpResponse *response, void *arg)
 	}
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 
 	JSONNode *node = json_get(root, "success");
@@ -722,7 +722,7 @@ void CSteamProto::OnPendingIgnoreded(const HttpResponse *response, void *arg)
 	}
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 
 	JSONNode *node = json_get(root, "success");
@@ -745,7 +745,7 @@ void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
 	}
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
 		return;
@@ -753,12 +753,12 @@ void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
 
 	JSONNode *node = json_get(root, "players");
 	JSONNode *nroot = json_as_array(node);
-	if (nroot != NULL)
+	if (nroot != nullptr)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
 			JSONNode *child = json_at(nroot, i);
-			if (child == NULL)
+			if (child == nullptr)
 				break;
 
 			STEAM_SEARCH_RESULT ssr = { 0 };
@@ -772,7 +772,7 @@ void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
 			ssr.hdr.nick.w = mir_wstrdup(ptrW(json_as_string(node)));
 
 			node = json_get(child, "realname");
-			if (node != NULL)
+			if (node != nullptr)
 			{
 				std::wstring realname = (wchar_t*)ptrW(json_as_string(node));
 				if (!realname.empty())
@@ -810,7 +810,7 @@ void CSteamProto::OnSearchByNameStarted(const HttpResponse *response, void *arg)
 	}
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
 		return;
@@ -824,16 +824,16 @@ void CSteamProto::OnSearchByNameStarted(const HttpResponse *response, void *arg)
 
 	JSONNode *node = json_get(root, "results");
 	JSONNode *nroot = json_as_array(node);
-	if (nroot != NULL)
+	if (nroot != nullptr)
 	{
 		for (size_t i = 0; i < json_size(nroot); i++)
 		{
 			JSONNode *child = json_at(nroot, i);
-			if (child == NULL)
+			if (child == nullptr)
 				break;
 
 			node = json_get(child, "steamid");
-			if (node == NULL)
+			if (node == nullptr)
 				continue;
 
 			std::string steamId = (char*)_T2A(ptrW(json_as_string(node)));

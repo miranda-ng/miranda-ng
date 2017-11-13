@@ -26,24 +26,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 MIR_CORE_DLL(char*) replaceStr(char* &dest, const char *src)
 {
-	if (dest != NULL)
+	if (dest != nullptr)
 		mir_free(dest);
 
-	return dest = (src != NULL) ? mir_strdup(src) : NULL;
+	return dest = (src != nullptr) ? mir_strdup(src) : nullptr;
 }
 
 MIR_CORE_DLL(WCHAR*) replaceStrW(WCHAR* &dest, const WCHAR *src)
 {
-	if (dest != NULL)
+	if (dest != nullptr)
 		mir_free(dest);
 
-	return dest = (src != NULL) ? mir_wstrdup(src) : NULL;
+	return dest = (src != nullptr) ? mir_wstrdup(src) : nullptr;
 }
 
 MIR_CORE_DLL(char*) rtrim(char *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	char* p = strchr(str, 0);
 	while (--p >= str) {
@@ -59,8 +59,8 @@ MIR_CORE_DLL(char*) rtrim(char *str)
 
 MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	WCHAR *p = wcschr(str, 0);
 	while (--p >= str) {
@@ -76,8 +76,8 @@ MIR_CORE_DLL(WCHAR*) rtrimw(WCHAR *str)
 
 MIR_CORE_DLL(char*) ltrim(char *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	char* p = str;
 	for (;;) {
@@ -93,8 +93,8 @@ MIR_CORE_DLL(char*) ltrim(char *str)
 
 MIR_CORE_DLL(WCHAR*) ltrimw(WCHAR *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	WCHAR *p = str;
 	for (;;) {
@@ -110,8 +110,8 @@ MIR_CORE_DLL(WCHAR*) ltrimw(WCHAR *str)
 
 MIR_CORE_DLL(char*) ltrimp(char *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	char *p = str;
 	for (;;) {
@@ -126,8 +126,8 @@ MIR_CORE_DLL(char*) ltrimp(char *str)
 
 MIR_CORE_DLL(WCHAR*) ltrimpw(WCHAR *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	WCHAR *p = str;
 	for (;;) {
@@ -166,10 +166,10 @@ MIR_CORE_DLL(wchar_t*) strdelw(wchar_t *str, size_t len)
 
 MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
 {
-	if (name == NULL || mask == NULL)
+	if (name == nullptr || mask == nullptr)
 		return false;
 
-	const char *last = '\0';
+	const char *last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && *mask != *name) break;
 		if (*name == '\0') return ((BOOL)!*mask);
@@ -187,10 +187,10 @@ MIR_CORE_DLL(int) wildcmp(const char *name, const char *mask)
 
 MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask)
 {
-	if (name == NULL || mask == NULL)
+	if (name == nullptr || mask == nullptr)
 		return false;
 
-	const WCHAR* last = '\0';
+	const WCHAR* last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && *mask != *name) break;
 		if (*name == '\0') return ((BOOL)!*mask);
@@ -210,10 +210,10 @@ MIR_CORE_DLL(int) wildcmpw(const WCHAR *name, const WCHAR *mask)
 
 MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask)
 {
-	if (name == NULL || mask == NULL)
+	if (name == nullptr || mask == nullptr)
 		return false;
 
-	const char *last = NULL;
+	const char *last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
 		if (*name == '\0') return ((BOOL)!*mask);
@@ -231,10 +231,10 @@ MIR_CORE_DLL(int) wildcmpi(const char *name, const char *mask)
 
 MIR_CORE_DLL(int) wildcmpiw(const WCHAR *name, const WCHAR *mask)
 {
-	if (name == NULL || mask == NULL)
+	if (name == nullptr || mask == nullptr)
 		return false;
 
-	const WCHAR* last = NULL;
+	const WCHAR* last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
 		if (*name == '\0') return ((BOOL)!*mask);
@@ -295,7 +295,7 @@ static int hex2dec(int iHex)
 
 MIR_CORE_DLL(bool) hex2bin(const char *pSrc, void *pData, size_t len)
 {
-	if (pSrc == NULL || pData == NULL || len == 0)
+	if (pSrc == nullptr || pData == nullptr || len == 0)
 		return false;
 
 	size_t bufLen = strlen(pSrc)/2;
@@ -314,7 +314,7 @@ MIR_CORE_DLL(bool) hex2bin(const char *pSrc, void *pData, size_t len)
 
 MIR_CORE_DLL(bool) hex2binW(const wchar_t *pSrc, void *pData, size_t len)
 {
-	if (pSrc == NULL || pData == NULL || len == 0)
+	if (pSrc == nullptr || pData == nullptr || len == 0)
 		return false;
 
 	size_t bufLen = wcslen(pSrc)/2;
@@ -348,10 +348,10 @@ MIR_CORE_DLL(size_t) mir_wstrlen(const wchar_t *p)
 
 MIR_CORE_DLL(char*) mir_strcpy(char *dest, const char *src)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL) {
+	if (src == nullptr) {
 		*dest = 0;
 		return dest;
 	}
@@ -361,10 +361,10 @@ MIR_CORE_DLL(char*) mir_strcpy(char *dest, const char *src)
 
 MIR_CORE_DLL(wchar_t*) mir_wstrcpy(wchar_t *dest, const wchar_t *src)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL) {
+	if (src == nullptr) {
 		*dest = 0;
 		return dest;
 	}
@@ -374,10 +374,10 @@ MIR_CORE_DLL(wchar_t*) mir_wstrcpy(wchar_t *dest, const wchar_t *src)
 
 MIR_CORE_DLL(char*) mir_strncpy(char *dest, const char *src, size_t len)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL)
+	if (src == nullptr)
 		*dest = 0;
 	else
 		strncpy_s(dest, len, src, _TRUNCATE);
@@ -386,10 +386,10 @@ MIR_CORE_DLL(char*) mir_strncpy(char *dest, const char *src, size_t len)
 
 MIR_CORE_DLL(wchar_t*) mir_wstrncpy(wchar_t *dest, const wchar_t *src, size_t len)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL)
+	if (src == nullptr)
 		*dest = 0;
 	else
 		wcsncpy_s(dest, len, src, _TRUNCATE);
@@ -398,10 +398,10 @@ MIR_CORE_DLL(wchar_t*) mir_wstrncpy(wchar_t *dest, const wchar_t *src, size_t le
 
 MIR_CORE_DLL(char*) mir_strcat(char *dest, const char *src)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL) {
+	if (src == nullptr) {
 		*dest = 0;
 		return dest;
 	}
@@ -411,10 +411,10 @@ MIR_CORE_DLL(char*) mir_strcat(char *dest, const char *src)
 
 MIR_CORE_DLL(wchar_t*) mir_wstrcat(wchar_t *dest, const wchar_t *src)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL) {
+	if (src == nullptr) {
 		*dest = 0;
 		return dest;
 	}
@@ -424,10 +424,10 @@ MIR_CORE_DLL(wchar_t*) mir_wstrcat(wchar_t *dest, const wchar_t *src)
 
 MIR_CORE_DLL(char*) mir_strncat(char *dest, const char *src, size_t len)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL)
+	if (src == nullptr)
 		*dest = 0;
 	else
 		strncat_s(dest, len, src, _TRUNCATE);
@@ -436,10 +436,10 @@ MIR_CORE_DLL(char*) mir_strncat(char *dest, const char *src, size_t len)
 
 MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t len)
 {
-	if (dest == NULL)
-		return NULL;
+	if (dest == nullptr)
+		return nullptr;
 
-	if (src == NULL)
+	if (src == nullptr)
 		*dest = 0;
 	else
 		wcsncat_s(dest, len, src, _TRUNCATE);
@@ -448,72 +448,72 @@ MIR_CORE_DLL(wchar_t*) mir_wstrncat(wchar_t *dest, const wchar_t *src, size_t le
 
 MIR_CORE_DLL(int) mir_strcmp(const char *p1, const char *p2)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return strcmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_wstrcmp(const wchar_t *p1, const wchar_t *p2)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return wcscmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_strcmpi(const char *p1, const char *p2)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return stricmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return wcsicmp(p1, p2);
 }
 
 MIR_CORE_DLL(int) mir_strncmp(const char *p1, const char *p2, size_t n)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return strncmp(p1, p2, n);
 }
 
 MIR_CORE_DLL(int) mir_wstrncmp(const wchar_t *p1, const wchar_t *p2, size_t n)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return wcsncmp(p1, p2, n);
 }
 
 MIR_CORE_DLL(int) mir_strncmpi(const char *p1, const char *p2, size_t n)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return strnicmp(p1, p2, n);
 }
 
 MIR_CORE_DLL(int) mir_wstrncmpi(const wchar_t *p1, const wchar_t *p2, size_t n)
 {
-	if (p1 == NULL)
-		return (p2 == NULL) ? 0 : -1;
-	if (p2 == NULL)
+	if (p1 == nullptr)
+		return (p2 == nullptr) ? 0 : -1;
+	if (p2 == nullptr)
 		return 1;
 	return wcsnicmp(p1, p2, n);
 }
@@ -527,10 +527,10 @@ MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen)
 	if (pszDest == nullptr || cbLen == 0)
 		return;
 
-	if (pfnRtlGenRandom != NULL)
+	if (pfnRtlGenRandom != nullptr)
 		pfnRtlGenRandom(pszDest, (ULONG)cbLen);
 	else {
-		srand(time(NULL));
+		srand(time(nullptr));
 		BYTE *p = (BYTE*)pszDest;
 		for (size_t i = 0; i < cbLen; i++)
 			p[i] = rand() & 0xFF;

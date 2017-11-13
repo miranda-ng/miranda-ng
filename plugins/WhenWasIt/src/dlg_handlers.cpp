@@ -47,15 +47,15 @@ const int cNotifyFor = sizeof(szNotifyFor) / sizeof(szNotifyFor[0]);
 #include "commctrl.h"
 void CreateToolTip(HWND target, wchar_t* tooltip, LPARAM width)
 {
-	HWND hwndToolTip = CreateWindow(TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, target, NULL, NULL, NULL);
+	HWND hwndToolTip = CreateWindow(TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, CW_USEDEFAULT, target, nullptr, nullptr, nullptr);
 	if (hwndToolTip) {
 		TOOLINFO ti = { 0 };
 		ti.cbSize = sizeof(ti);
 		ti.uFlags = TTF_TRANSPARENT | TTF_SUBCLASS;
 		ti.hwnd = target;
 		ti.uId = 0;
-		ti.hinst = NULL;
+		ti.hinst = nullptr;
 		ti.lpszText = tooltip;
 		GetClientRect(target, &ti.rect);
 		SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
@@ -251,9 +251,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			EnablePopupsGroup(hWnd, IsDlgButtonChecked(hWnd, IDC_USE_POPUPS));
 			EnableClistGroup(hWnd, IsDlgButtonChecked(hWnd, IDC_USE_CLISTICON));
 			EnableDialogGroup(hWnd, IsDlgButtonChecked(hWnd, IDC_USE_DIALOG));
-			RedrawWindow(GetDlgItem(hWnd, IDC_USE_POPUPS), NULL, NULL, RDW_ERASE | RDW_INVALIDATE);
-			RedrawWindow(GetDlgItem(hWnd, IDC_USE_CLISTICON), NULL, NULL, RDW_ERASE | RDW_INVALIDATE);
-			RedrawWindow(GetDlgItem(hWnd, IDC_USE_DIALOG), NULL, NULL, RDW_ERASE | RDW_INVALIDATE);
+			RedrawWindow(GetDlgItem(hWnd, IDC_USE_POPUPS), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
+			RedrawWindow(GetDlgItem(hWnd, IDC_USE_CLISTICON), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
+			RedrawWindow(GetDlgItem(hWnd, IDC_USE_DIALOG), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
 			//fallthrough
 
 		case IDC_FOREGROUND:
@@ -307,7 +307,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 					wchar_t buffer[maxSize];
 
 					GetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer, _countof(buffer));
-					wchar_t *stop = NULL;
+					wchar_t *stop = nullptr;
 					commonData.daysInAdvance = wcstol(buffer, &stop, 10);
 
 					if (*stop) { commonData.daysInAdvance = DAYS_TO_NOTIFY; }
@@ -413,7 +413,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_SHOWWINDOW:
 		{
 			wchar_t *szTooltipText = TranslateT("Please select the module where you want the date of birth to be saved.\r\n\"UserInfo\" is the default location.\r\nUse \"Protocol module\" to make the data visible in User Details.\n\"mBirthday module\" uses the same module as mBirthday plugin.");
-			wchar_t *szCurrentModuleTooltip = NULL;
+			wchar_t *szCurrentModuleTooltip = nullptr;
 			char *szProto = GetContactProto(hContact);
 
 			wchar_t buffer[2048];
@@ -461,7 +461,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 				break;
 
 			default:
-				szCurrentModuleTooltip = NULL;
+				szCurrentModuleTooltip = nullptr;
 				break;
 			}
 
@@ -494,7 +494,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			}
 			else SaveBirthday(hContact, 0, 0, 0, SAVE_MODE_DELETEALL);
 
-			if (hBirthdaysDlg != NULL)
+			if (hBirthdaysDlg != nullptr)
 				SendMessage(hBirthdaysDlg, WWIM_UPDATE_BIRTHDAY, hContact, NULL);
 
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
@@ -507,7 +507,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOWPOS *wndPos, int anchors)
 {
-	if (NULL == window) /* Wine fix. */
+	if (nullptr == window) /* Wine fix. */
 		return;
 	RECT rChild = AnchorCalcPos(window, rParent, wndPos, anchors);
 	hdWnds = DeferWindowPos(hdWnds, window, HWND_NOTOPMOST, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, SWP_NOZORDER);
@@ -592,7 +592,7 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 
 		char *szProto = GetContactProto(hContact);
 		PROTOACCOUNT *pAcc = Proto_GetAccount(szProto);
-		wchar_t *ptszAccName = (pAcc == NULL) ? TranslateT("Unknown") : pAcc->tszAccountName;
+		wchar_t *ptszAccName = (pAcc == nullptr) ? TranslateT("Unknown") : pAcc->tszAccountName;
 
 		LVITEM item = { 0 };
 		item.mask = LVIF_TEXT | LVIF_PARAM;
@@ -678,8 +678,8 @@ static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wP
 				ListView_GetItem(hWnd, &item);
 				hContact = (MCONTACT)item.lParam;
 				HMENU hMenu = Menu_BuildContactMenu(hContact);
-				if (hMenu != NULL) {
-					Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL), MPCF_CONTACTMENU, hContact);
+				if (hMenu != nullptr) {
+					Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, nullptr), MPCF_CONTACTMENU, hContact);
 					DestroyMenu(hMenu);
 				}
 				break;
@@ -748,7 +748,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			LoadBirthdays(hWnd, 0);
 			int column = db_get_b(NULL, ModuleName, "SortColumn", 0);
 
-			BirthdaysSortParams params = { 0 };
+			BirthdaysSortParams params = {};
 			params.hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 			params.column = column;
 			ListView_SortItemsEx(params.hList, BirthdaysCompare, (LPARAM)&params);
@@ -819,7 +819,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
 				int column = lv->iSubItem;
 				db_set_b(NULL, ModuleName, "SortColumn", column);
-				BirthdaysSortParams params = { 0 };
+				BirthdaysSortParams params = {};
 				params.hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 				params.column = column;
 				ListView_SortItemsEx(params.hList, BirthdaysCompare, (LPARAM)&params);
@@ -830,7 +830,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 
 	case WM_DESTROY:
-		hBirthdaysDlg = NULL;
+		hBirthdaysDlg = nullptr;
 		Utils_SaveWindowPosition(hWnd, NULL, ModuleName, "BirthdayList");
 		Window_FreeIcon_IcoLib(hWnd);
 		lastColumn = -1;
@@ -871,7 +871,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE);
 
 			if (timeout > 0)
-				SetTimer(hWnd, UPCOMING_TIMER_ID, 1000, NULL);
+				SetTimer(hWnd, UPCOMING_TIMER_ID, 1000, nullptr);
 			Utils_RestoreWindowPosition(hWnd, NULL, ModuleName, "BirthdayListUpcoming");
 		}
 		return TRUE;
@@ -919,7 +919,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			mir_snwprintf(buffer, L"%d", data->dtb);
 			ListView_SetItemText(hList, index, 2, buffer);
 
-			BirthdaysSortParams params = { 0 };
+			BirthdaysSortParams params = {};
 			params.hList = hList;
 			params.column = 2;
 			ListView_SortItemsEx(hList, BirthdaysCompare, (LPARAM)&params);
@@ -950,15 +950,15 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			int cx = rcWin.right - rcWin.left;
 			int cy = rcWin.bottom - rcWin.top;
-			SetWindowPos(hList, NULL, 0, 0, (cx - 30), (cy - 80), (SWP_NOZORDER | SWP_NOMOVE));
+			SetWindowPos(hList, nullptr, 0, 0, (cx - 30), (cy - 80), (SWP_NOZORDER | SWP_NOMOVE));
 			ListView_SetColumnWidth(hList, 0, (cx - 150));
-			SetWindowPos(GetDlgItem(hWnd, IDC_CLOSE), NULL, ((cx / 2) - 95), (cy - 67), 0, 0, SWP_NOSIZE);
-			RedrawWindow(hWnd, NULL, NULL, (RDW_FRAME | RDW_INVALIDATE));
+			SetWindowPos(GetDlgItem(hWnd, IDC_CLOSE), nullptr, ((cx / 2) - 95), (cy - 67), 0, 0, SWP_NOSIZE);
+			RedrawWindow(hWnd, nullptr, nullptr, (RDW_FRAME | RDW_INVALIDATE));
 		}
 		break;
 
 	case WM_DESTROY:
-		hUpcomingDlg = NULL;
+		hUpcomingDlg = nullptr;
 		Utils_SaveWindowPosition(hWnd, NULL, ModuleName, "BirthdayListUpcoming");
 		Window_FreeIcon_IcoLib(hWnd);
 		KillTimer(hWnd, UPCOMING_TIMER_ID);

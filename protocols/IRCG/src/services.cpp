@@ -67,14 +67,14 @@ static HGENMENU hUMenuChanSettings, hUMenuWhois, hUMenuDisconnect, hUMenuIgnore;
 static CIrcProto* IrcGetInstanceByHContact(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return nullptr;
 
 	for (int i = 0; i < g_Instances.getCount(); i++)
 		if (!mir_strcmp(szProto, g_Instances[i]->m_szModuleName))
 			return g_Instances[i];
 
-	return NULL;
+	return nullptr;
 }
 
 static INT_PTR IrcMenuChanSettings(WPARAM wParam, LPARAM lParam)
@@ -293,7 +293,7 @@ INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 	DBVARIANT dbv;
 	if (!getWString(hContact, "Nick", &dbv)) {
 		if (!isChatRoom(hContact)) {
-			char* host = NULL;
+			char* host = nullptr;
 			DBVARIANT dbv1;
 			if (!getString(hContact, "Host", &dbv1))
 				host = dbv1.pszVal;
@@ -529,7 +529,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 						TranslateT("Please enter your authentication code"), TranslateT("Authenticate nick"));
 					break;
 				case 7:		// nickserv drop nick
-					if (MessageBox(0, TranslateT("Are you sure you want to unregister your current nick?"), TranslateT("Delete nick"),
+					if (MessageBox(nullptr, TranslateT("Are you sure you want to unregister your current nick?"), TranslateT("Delete nick"),
 						MB_ICONERROR + MB_YESNO + MB_DEFBUTTON2) == IDYES)
 						PostIrcMessage(L"/nickserv DROP");
 					break;
@@ -818,7 +818,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 			}
 
 			if (gcmi->Type == MENU_ON_NICKLIST) {
-				CONTACT user = { (wchar_t*)gcmi->pszUID, NULL, NULL, false, false, false };
+				CONTACT user = { (wchar_t*)gcmi->pszUID, nullptr, nullptr, false, false, false };
 				MCONTACT hContact = CList_FindContact(&user);
 
 				BOOL bIsInList = (hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0);
@@ -832,12 +832,12 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				nickItems[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;	// DCC submenu
 
 				CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, gcmi->pszID);
-				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == NULL ? FALSE : TRUE;
-				BOOL bServAdmin = strchr(sUserModes.c_str(), 'a') == NULL ? FALSE : TRUE;
+				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == nullptr ? FALSE : TRUE;
+				BOOL bServAdmin = strchr(sUserModes.c_str(), 'a') == nullptr ? FALSE : TRUE;
 				BOOL bOwner = bServOwner ? ((wi->OwnMode >> 4) & 01) : FALSE;
 				BOOL bAdmin = bServAdmin ? ((wi->OwnMode >> 3) & 01) : FALSE;
-				BOOL bOp = strchr(sUserModes.c_str(), 'o') == NULL ? FALSE : ((wi->OwnMode >> 2) & 01);
-				BOOL bHalfop = strchr(sUserModes.c_str(), 'h') == NULL ? FALSE : ((wi->OwnMode >> 1) & 01);
+				BOOL bOp = strchr(sUserModes.c_str(), 'o') == nullptr ? FALSE : ((wi->OwnMode >> 2) & 01);
+				BOOL bHalfop = strchr(sUserModes.c_str(), 'h') == nullptr ? FALSE : ((wi->OwnMode >> 1) & 01);
 
 				BOOL bForceEnable = GetAsyncKeyState(VK_CONTROL);
 
@@ -975,7 +975,7 @@ void __cdecl CIrcProto::ConnectServerThread(void*)
 		else {
 			Temp = m_iDesiredStatus;
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)Temp, ID_STATUS_OFFLINE);
 			Sleep(100);
 		}
@@ -1019,14 +1019,14 @@ void CIrcProto::ConnectToServer(void)
 	sChannelModes = "btnimklps";
 
 	if (!m_bConnectThreadRunning)
-		ForkThread(&CIrcProto::ConnectServerThread, 0);
+		ForkThread(&CIrcProto::ConnectServerThread, nullptr);
 	else if (m_bConnectRequested < 1)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	wchar_t szTemp[300];
 	mir_snwprintf(szTemp, L"\033%s \002%s\002 (%S: %u)",
 		TranslateT("Connecting to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
-	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
+	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 }
 
 void CIrcProto::DisconnectFromServer(void)
@@ -1035,7 +1035,7 @@ void CIrcProto::DisconnectFromServer(void)
 		DoPerform("Event: Disconnect");
 
 	Chat_Terminate(m_szModuleName, nullptr);
-	ForkThread(&CIrcProto::DisconnectServerThread, 0);
+	ForkThread(&CIrcProto::DisconnectServerThread, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

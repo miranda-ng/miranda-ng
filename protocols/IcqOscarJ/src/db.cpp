@@ -52,7 +52,7 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 		if (!ppro->getSetting(NULL, si.szDbSetting, &dbv)) {
 			switch (dbv.type) {
 			case DBVT_ASCIIZ:
-				sid.value = (LPARAM)ppro->getSettingStringUtf(NULL, si.szDbSetting, NULL);
+				sid.value = (LPARAM)ppro->getSettingStringUtf(NULL, si.szDbSetting, nullptr);
 				break;
 
 			case DBVT_UTF8:
@@ -75,7 +75,7 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 
 #ifdef _DEBUG
 			default:
-				MessageBoxA(NULL, "That's not supposed to happen either", "Huh?", MB_OK);
+				MessageBoxA(nullptr, "That's not supposed to happen either", "Huh?", MB_OK);
 				break;
 #endif
 			}

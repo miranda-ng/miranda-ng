@@ -111,8 +111,8 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 
 		pwszFormatedText.Format(L"[img]%s[/img]", pszText);
 
-		bbd.pwszTooltip = 0;
-		bbd.hIcon = 0;
+		bbd.pwszTooltip = nullptr;
+		bbd.hIcon = nullptr;
 		bbd.bbbFlags = BBSF_RELEASED;
 		Srmm_SetButtonState(wParam, &bbd);
 	}

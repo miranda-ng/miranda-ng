@@ -25,7 +25,7 @@ std::vector <ICQEvent *> icqEvents;
 
 static void WINAPI eventTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
 {
-	KillTimer(NULL, hTimer);
+	KillTimer(nullptr, hTimer);
 
 	for (size_t i = 0; i < icqEvents.size(); i++)
 		if (hTimer == icqEvents[i]->hTimer)
@@ -40,7 +40,7 @@ ICQEvent* getEvent(SOCKET hSocket, unsigned int sequence)
 		if (icqEvents[i]->isEvent(hSocket, sequence))
 			return icqEvents[i];
 
-	return NULL;
+	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ bool ICQEvent::start()
 		return false;
 
 	if (cmd != ICQ_CMDxTCP_START)
-		hTimer = SetTimer(NULL, 0, MAX_WAIT_ACK, eventTimerProc);
+		hTimer = SetTimer(nullptr, 0, MAX_WAIT_ACK, eventTimerProc);
 	return true;
 }
 
@@ -86,7 +86,7 @@ bool ICQEvent::start()
 void ICQEvent::stop()
 {
 	if (hTimer) {
-		KillTimer(NULL, hTimer);
+		KillTimer(nullptr, hTimer);
 		hTimer = NULL;
 	}
 }

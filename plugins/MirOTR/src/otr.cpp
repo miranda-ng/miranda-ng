@@ -17,17 +17,17 @@ OtrlMessageAppOps ops = {
 	max_message_size,//max_message_size
 	account_name,//account_name
 	account_name_free,//account_name_free
-	NULL,//received_symkey (optional)
-	NULL,//otr_error_message (optional, send to remote party so we could send them errors in a language they know)
-	NULL,//otr_error_message_free (optional)
+	nullptr,//received_symkey (optional)
+	nullptr,//otr_error_message (optional, send to remote party so we could send them errors in a language they know)
+	nullptr,//otr_error_message_free (optional)
 	resent_msg_prefix,//resent_msg_prefix (optional)
 	resent_msg_prefix_free,//resent_msg_prefix_free (optional)
 	handle_smp_event,//handle_smp_event (optional)
 	handle_msg_event,//handle_msg_event (optional)
 	otr_create_instag,//create_instag (optional)
-	NULL,//convert_msg (optional)
-	NULL,//convert_free (optional)
-	NULL,//timer_control (optional) // @todo : implement security timers
+	nullptr,//convert_msg (optional)
+	nullptr,//convert_free (optional)
+	nullptr,//timer_control (optional) // @todo : implement security timers
 };
 
 struct GenKeyData{
@@ -37,7 +37,7 @@ struct GenKeyData{
 
 static unsigned int CALLBACK generate_key_thread(void* param)
 {
-	Thread_Push(0);
+	Thread_Push(nullptr);
 	GenKeyData *data = (GenKeyData *)param;
 	otrl_privkey_generate(otr_user_state, _T2A(g_private_key_filename), data->proto, data->proto);
 	PostMessage(data->dialog, WMU_ENDDIALOG, 0, 0);
@@ -64,7 +64,7 @@ INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM, LPARAM lParam)
 		GenKeyData *data = (GenKeyData *)mir_calloc(sizeof(GenKeyData));
 		data->dialog = hWndDlg;
 		data->proto = (char*)lParam;
-		CloseHandle((HANDLE)_beginthreadex(0, 0, generate_key_thread, data, 0, 0));
+		CloseHandle((HANDLE)_beginthreadex(nullptr, 0, generate_key_thread, data, 0, nullptr));
 	}break;
 	case WMU_ENDDIALOG:
 		EndDialog(hWndDlg, 0);
@@ -108,7 +108,7 @@ extern "C" {
 			protocol = GetContactProto((UINT_PTR)opdata);
 		}
 		if (!protocol) return;
-		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GENKEYNOTIFY), 0, GenKeyDlgBoxProc, (LPARAM)protocol);
+		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GENKEYNOTIFY), nullptr, GenKeyDlgBoxProc, (LPARAM)protocol);
 
 	}
 
@@ -152,12 +152,12 @@ extern "C" {
 	/* A new fingerprint for the given user has been received. */
 	void otr_gui_new_fingerprint(void *opdata, OtrlUserState us, const char *accountname, const char *protocol, const char *username, unsigned char fingerprint[20]) {
 		DEBUGOUTA("OTR_GUI_NEW_FINGERPRINT\n");
-		ConnContext *context = otrl_context_find(us, username, accountname, protocol, OTRL_INSTAG_BEST, TRUE, 0, add_appdata, opdata);
-		Fingerprint *fp = otrl_context_find_fingerprint(context, fingerprint, TRUE, 0);
+		ConnContext *context = otrl_context_find(us, username, accountname, protocol, OTRL_INSTAG_BEST, TRUE, nullptr, add_appdata, opdata);
+		Fingerprint *fp = otrl_context_find_fingerprint(context, fingerprint, TRUE, nullptr);
 
 		//CloseHandle((HANDLE)_beginthreadex(0, 0, trust_fp_thread, (void *)fp, 0, 0));
 
-		otrl_context_set_trust(fp, NULL);
+		otrl_context_set_trust(fp, nullptr);
 		otrl_privkey_write_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename));
 	}
 

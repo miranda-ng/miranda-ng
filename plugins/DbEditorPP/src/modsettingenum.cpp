@@ -3,7 +3,7 @@
 
 void FreeModuleSettingLL(ModuleSettingLL *msll)
 {
-	if (msll == NULL)
+	if (msll == nullptr)
 		return;
 
 	ModSetLinkLinkItem *item = msll->first;
@@ -16,8 +16,8 @@ void FreeModuleSettingLL(ModuleSettingLL *msll)
 		mir_free(temp);
 	}
 
-	msll->first = 0;
-	msll->last = 0;
+	msll->first = nullptr;
+	msll->last = nullptr;
 }
 
 
@@ -30,7 +30,7 @@ int enumModulesSettingsProc(const char *setting, DWORD, LPARAM lParam)
 			return 1;
 
 		msll->first->name = mir_strdup(setting);
-		msll->first->next = 0;
+		msll->first->next = nullptr;
 		msll->last = msll->first;
 	}
 	else {
@@ -41,7 +41,7 @@ int enumModulesSettingsProc(const char *setting, DWORD, LPARAM lParam)
 		msll->last->next = item;
 		msll->last = item;
 		item->name = mir_strdup(setting);
-		item->next = 0;
+		item->next = nullptr;
 	}
 	return 0;
 }
@@ -49,8 +49,8 @@ int enumModulesSettingsProc(const char *setting, DWORD, LPARAM lParam)
 
 int EnumModules(ModuleSettingLL *msll) // 1 = success, 0 = fail
 {
-	msll->first = 0;
-	msll->last = 0;
+	msll->first = nullptr;
+	msll->last = nullptr;
 	if (db_enum_modules(enumModulesSettingsProc, msll)) {
 		msg(TranslateT("Error loading module list"));
 		return 0;
@@ -68,8 +68,8 @@ int enumSettingsProc(const char *setting, LPARAM lParam)
 int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll)
 {
 	// enum all setting the contact has for the module
-	msll->first = 0;
-	msll->last = 0;
+	msll->first = nullptr;
+	msll->last = nullptr;
 	if (db_enum_settings(hContact, enumSettingsProc, module, msll)) {
 		msg(TranslateT("Error loading setting list"));
 		return 0;
@@ -118,7 +118,7 @@ int enumResidentProc(const char *setting, DWORD, LPARAM)
 int LoadResidentSettings()
 {	
 	if (g_db) 
-		return !g_db->EnumResidentSettings(enumResidentProc, 0);
+		return !g_db->EnumResidentSettings(enumResidentProc, nullptr);
 	return 0;
 }
 
@@ -154,8 +154,8 @@ int IsResidentSetting(const char *module, const char *setting)
 
 int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 {
-	msll->first = 0;
-	msll->last = 0;
+	msll->first = nullptr;
+	msll->last = nullptr;
 
 	if (!module) return 0;
 	if (!m_lResidentSettings.getCount()) return 0;
@@ -179,8 +179,8 @@ int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 
 int EnumResidentModules(ModuleSettingLL *msll)
 {
-	msll->first = 0;
-	msll->last = 0;
+	msll->first = nullptr;
+	msll->last = nullptr;
 
 	if (!m_lResidentModules.getCount()) return 0;
 

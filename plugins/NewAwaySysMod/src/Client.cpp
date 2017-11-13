@@ -25,8 +25,8 @@
 
 #define PARSE_INTERVAL 10000
 
-HANDLE g_hTerminateUpdateMsgsThread = NULL;
-HANDLE g_hUpdateMsgsThread = NULL;
+HANDLE g_hTerminateUpdateMsgsThread = nullptr;
+HANDLE g_hUpdateMsgsThread = nullptr;
 
 void __cdecl UpdateMsgsThreadProc(void *)
 {
@@ -71,11 +71,11 @@ void InitUpdateMsgs()
 		SetEvent(g_hTerminateUpdateMsgsThread);
 		QueueUserAPC(DummyAPCFunc, g_hUpdateMsgsThread, 0); // wake up the thread, as it's most probably in SleepEx() now
 		WaitForSingleObject(g_hUpdateMsgsThread, INFINITE);
-		g_hUpdateMsgsThread = NULL;
+		g_hUpdateMsgsThread = nullptr;
 		CloseHandle(g_hTerminateUpdateMsgsThread);
 	}
 	else if (!g_hUpdateMsgsThread && UpdateMsgs) {
-		g_hTerminateUpdateMsgsThread = CreateEvent(NULL, TRUE, FALSE, NULL);
+		g_hTerminateUpdateMsgsThread = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 		g_hUpdateMsgsThread = (HANDLE)mir_forkthread(UpdateMsgsThreadProc, NULL);
 	}
 }

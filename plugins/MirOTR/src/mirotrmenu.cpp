@@ -41,11 +41,11 @@ INT_PTR MirOTRMenuExecService(WPARAM wParam, LPARAM lParam)
 INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 {
 	TCheckProcParam *pcpp = (TCheckProcParam*)wParam;
-	if (pcpp == NULL)
+	if (pcpp == nullptr)
 		return FALSE;
 
 	lpMirOTRMenuExecParam cmep = (lpMirOTRMenuExecParam)pcpp->MenuItemOwnerData;
-	if (cmep == NULL) //this is rootsection...build it
+	if (cmep == nullptr) //this is rootsection...build it
 		return TRUE;
 
 	MCONTACT hContact = (MCONTACT)pcpp->wParam, hSub;
@@ -94,7 +94,7 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam, LPARAM)
 INT_PTR FreeOwnerDataMirOTRMenu(WPARAM, LPARAM lParam)
 {
 	lpMirOTRMenuExecParam cmep = (lpMirOTRMenuExecParam)lParam;
-	if (cmep != NULL) {
+	if (cmep != nullptr) {
 		if (cmep->szServiceName) mir_free(cmep->szServiceName);
 		mir_free(cmep);
 	}
@@ -141,7 +141,7 @@ void ShowOTRMenu(MCONTACT hContact, POINT pt)
 
 	SetWindowLongPtr(hDummyPaintWin, GWLP_USERDATA, (LONG_PTR)hContact);
 
-	TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hDummyPaintWin, 0);
+	TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hDummyPaintWin, nullptr);
 	DestroyMenu(hMenu);
 }
 
@@ -152,7 +152,7 @@ void InitMirOTRMenu(void)
 	wc.lpfnWndProc = PopupMenuWndProc;
 	wc.lpszClassName = L"MirOTRPopupMenuProcessor";
 	RegisterClass(&wc);
-	hDummyPaintWin = CreateWindowEx(0, L"MirOTRPopupMenuProcessor", NULL, 0, 0, 0, 1, 1, 0, 0, hInst, 0);
+	hDummyPaintWin = CreateWindowEx(0, L"MirOTRPopupMenuProcessor", nullptr, 0, 0, 0, 1, 1, nullptr, nullptr, hInst, nullptr);
 
 	CreateServiceFunction("MirOTRMenuExecService", MirOTRMenuExecService);
 	CreateServiceFunction("MirOTRMenuCheckService", MirOTRMenuCheckService);
@@ -170,7 +170,7 @@ void InitMirOTRMenu(void)
 	mi.flags = CMIF_DISABLED | CMIF_UNICODE;
 	mi.name.w = LPGENW("OTR Status");
 	mi.position = 0;
-	hStatusInfoItem = AddMirOTRMenuItem(&mi, NULL);
+	hStatusInfoItem = AddMirOTRMenuItem(&mi, nullptr);
 
 	mi.flags = CMIF_UNICODE | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
 	mi.name.w = LANG_MENU_START;
@@ -199,14 +199,14 @@ void InitMirOTRMenu(void)
 	mi.flags = CMIF_UNICODE | CMIF_CHECKED;
 	mi.name.w = LANG_MENU_TOGGLEHTML;
 	mi.position = 300001;
-	mi.hIcolibItem = 0;
+	mi.hIcolibItem = nullptr;
 	hHTMLConvMenuItem = AddMirOTRMenuItem(&mi, MS_OTR_MENUTOGGLEHTML);
 }
 
 void UninitMirOTRMenu(void)
 {
 	DestroyWindow(hDummyPaintWin);
-	hDummyPaintWin = 0;
+	hDummyPaintWin = nullptr;
 
 	UnregisterClass(L"MirOTRPopupMenuProcessor", hInst);
 

@@ -63,7 +63,7 @@ static void ApplyDownloads(void *param)
 
 	VARSW tszMirandaPath(L"%miranda_path%");
 
-	HNETLIBCONN nlc = NULL;
+	HNETLIBCONN nlc = nullptr;
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
 		if (todo[i].bEnabled) {
@@ -88,14 +88,14 @@ static void ApplyDownloads(void *param)
 
 	int rc = MessageBox(hDlg, TranslateT("Download complete. Do you want to go to plugins option page?"), TranslateT("Plugin Updater"), MB_YESNO | MB_ICONQUESTION);
 	if (rc == IDYES)
-		CallFunctionAsync(OpenPluginOptions, 0);
+		CallFunctionAsync(OpenPluginOptions, nullptr);
 
 	PostMessage(hDlg, WM_CLOSE, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static WNDPROC oldWndProc = NULL;
+static WNDPROC oldWndProc = nullptr;
 
 static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -164,12 +164,12 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			OSVERSIONINFO osver = { sizeof(osver) };
 			if (GetVersionEx(&osver) && osver.dwMajorVersion >= 6) {
 				wchar_t szPath[MAX_PATH];
-				GetModuleFileName(NULL, szPath, _countof(szPath));
+				GetModuleFileName(nullptr, szPath, _countof(szPath));
 				wchar_t *ext = wcsrchr(szPath, '.');
-				if (ext != NULL)
+				if (ext != nullptr)
 					*ext = '\0';
 				wcscat(szPath, L".test");
-				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 				if (hFile == INVALID_HANDLE_VALUE)
 					// Running Windows Vista or later (major version >= 6).
 					Button_SetElevationRequiredState(GetDlgItem(hDlg, IDOK), !IsProcessElevated());
@@ -229,8 +229,8 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				lvi.mask = LVIF_PARAM | LVIF_GROUPID | LVIF_TEXT | LVIF_IMAGE;
 				
 				int groupId = 4;
-				if (wcschr(todo[i].tszOldName, L'\\') != NULL)
-					groupId = (wcsstr(todo[i].tszOldName, L"Plugins") != NULL) ? 1 : ((wcsstr(todo[i].tszOldName, L"Languages") != NULL) ? 3 : 2);
+				if (wcschr(todo[i].tszOldName, L'\\') != nullptr)
+					groupId = (wcsstr(todo[i].tszOldName, L"Plugins") != nullptr) ? 1 : ((wcsstr(todo[i].tszOldName, L"Languages") != nullptr) ? 3 : 2);
 
 				lvi.iItem = i;
 				lvi.lParam = (LPARAM)&todo[i];
@@ -330,7 +330,7 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hDlg, NULL, MODNAME, "ListWindow");
 		Window_FreeIcon_IcoLib(hDlg);
-		hwndDialog = NULL;
+		hwndDialog = nullptr;
 		delete (OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 		break;
@@ -364,7 +364,7 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t*
 
 	mir_snwprintf(FileInfo->File.tszDiskPath, L"%s\\Temp\\%s.zip", g_tszRoot, tszFileName);
 	mir_snwprintf(FileInfo->File.tszDownloadURL, L"%s/%s.zip", tszBaseUrl, tszRelFileName);
-	for (tp = wcschr(FileInfo->File.tszDownloadURL, '\\'); tp != 0; tp = wcschr(tp, '\\'))
+	for (tp = wcschr(FileInfo->File.tszDownloadURL, '\\'); tp != nullptr; tp = wcschr(tp, '\\'))
 		*tp++ = '/';
 	FileInfo->File.CRCsum = hash.m_crc;
 	// Load list of checked Plugins from database
@@ -388,7 +388,7 @@ static void GetList(void *)
 	ptrW updateUrl( GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
 	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
-		hListThread = NULL;
+		hListThread = nullptr;
 		return;
 	}
 
@@ -414,7 +414,7 @@ static void GetList(void *)
 	}
 	else CallFunctionAsync(LaunchListDialog, UpdateFiles);
 
-	hListThread = NULL;
+	hListThread = nullptr;
 }
 
 static void DoGetList()
@@ -427,12 +427,12 @@ static void DoGetList()
 		SetFocus(hwndDialog);
 	}
 	else
-		hListThread = mir_forkthread(GetList, 0);
+		hListThread = mir_forkthread(GetList, nullptr);
 }
 
 void UninitListNew()
 {
-	if (hwndDialog != NULL)
+	if (hwndDialog != nullptr)
 		DestroyWindow(hwndDialog);
 }
 
@@ -445,20 +445,20 @@ static INT_PTR ShowListCommand(WPARAM,LPARAM)
 void UnloadListNew()
 {
 	if (hListThread)
-		hListThread = NULL;
+		hListThread = nullptr;
 }
 
 static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 {
 	wchar_t *arg = (wchar_t *)lParam;
-	if (arg == NULL)
+	if (arg == nullptr)
 		return 1;
 
 	wchar_t uri[1024];
 	wcsncpy_s(uri, arg, _TRUNCATE);
 
 	wchar_t *p = wcschr(uri, ':');
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 
 	wchar_t pluginPath[MAX_PATH];
@@ -472,12 +472,12 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 	ptrW updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
 	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
-		hListThread = NULL;
+		hListThread = nullptr;
 		return 1;
 	}
 
 	ServListEntry *hash = hashes.find((ServListEntry*)&pluginPath);
-	if (hash == NULL)
+	if (hash == nullptr)
 		return 0;
 
 	VARSW dirName(L"%miranda_path%");

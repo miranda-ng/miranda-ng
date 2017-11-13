@@ -45,12 +45,12 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			db_set_dw(NULL, protoName, "UIN", (DWORD)GetDlgItemInt(hWnd, IDC_OPT_UIN, NULL, FALSE));
+			db_set_dw(NULL, protoName, "UIN", (DWORD)GetDlgItemInt(hWnd, IDC_OPT_UIN, nullptr, FALSE));
 			GetDlgItemText(hWnd, IDC_OPT_PASSWORD, str, sizeof(str));
 			db_set_s(NULL, protoName, "Password", str);
 			GetDlgItemText(hWnd, IDC_OPT_SERVER, str, sizeof(str));
 			db_set_s(NULL, protoName, "Server", str);
-			db_set_w(NULL, protoName, "Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, NULL, FALSE));
+			db_set_w(NULL, protoName, "Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, nullptr, FALSE));
 			return TRUE;
 		}
 		break;

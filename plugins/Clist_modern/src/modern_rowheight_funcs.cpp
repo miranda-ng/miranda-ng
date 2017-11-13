@@ -27,7 +27,7 @@ Created by Pescuma, modified by Artem Shpynov
 #include "stdafx.h"
 #include "modern_clcpaint.h"
 
-ROWCELL *gl_RowTabAccess[TC_ELEMENTSCOUNT + 1] = { 0 };	// Массив, через который осуществляется доступ к элементам контакта.
+ROWCELL *gl_RowTabAccess[TC_ELEMENTSCOUNT + 1] = {};	// Массив, через который осуществляется доступ к элементам контакта.
 ROWCELL *gl_RowRoot;
 
 void FreeRowCell()

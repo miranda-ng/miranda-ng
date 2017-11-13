@@ -29,13 +29,13 @@ HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 // hooked here so it's in the main thread
 HANDLE hAvChangeEvent, hShowTipEvent, hHideTipEvent, hAckEvent, hFramesSBShow, hFramesSBHide;
 HANDLE hSettingChangedEvent, hEventDeleted;
-HANDLE hReloadFonts = NULL;
+HANDLE hReloadFonts = nullptr;
 
 HANDLE hFolderChanged, hSkinFolder;
 wchar_t SKIN_FOLDER[256];
 
-CLIST_INTERFACE *pcli = NULL;
-FI_INTERFACE *fii = NULL;
+CLIST_INTERFACE *pcli = nullptr;
+FI_INTERFACE *fii = nullptr;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx =
@@ -268,7 +268,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	CallService(MS_CLC_SETINFOTIPHOVERTIME, opt.iTimeIn, 0);
 
 	// set Miranda start timestamp
-	db_set_dw(0, MODULE, "MirandaStartTS", (DWORD)time(0));
+	db_set_dw(0, MODULE, "MirandaStartTS", (DWORD)time(nullptr));
 	return 0;
 }
 

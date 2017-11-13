@@ -61,7 +61,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 		return 0;
 
 	MESSAGE_PROC* p = arMessageProcs.find((MESSAGE_PROC*)&pAck->hProcess);
-	if (p == NULL)
+	if (p == nullptr)
 		return 0;
 
 	if (iSendAndHistory > 0){

@@ -42,5 +42,5 @@ HANDLE GetIconHandle(const char* name)
 		if (mir_strcmp(icons[i].szName, name) == 0)
 			return icons[i].hIcolib;
 
-	return 0;
+	return nullptr;
 }

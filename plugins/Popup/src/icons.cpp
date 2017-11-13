@@ -73,7 +73,7 @@ HICON LoadIconEx(int iconId, bool big)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 	
-	return NULL;
+	return nullptr;
 }
 
 HANDLE GetIconHandle(int iconId)
@@ -82,5 +82,5 @@ HANDLE GetIconHandle(int iconId)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }

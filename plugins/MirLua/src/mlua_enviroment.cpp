@@ -23,7 +23,7 @@ CMLuaEnviroment::~CMLuaEnviroment()
 CMLuaEnviroment* CMLuaEnviroment::GetEnviroment(lua_State *L)
 {
 	if (!luaM_getenv(L))
-		return NULL;
+		return nullptr;
 
 	lua_rawgeti(L, -1, NULL);
 	CMLuaEnviroment *env = (CMLuaEnviroment*)lua_touserdata(L, -1);

@@ -41,7 +41,7 @@ static void GetLowestExistingDirName(const wchar_t *szTestDir, wchar_t *szExisti
 	mir_wstrncpy(szExistingDir, szTestDir, cchExistingDir);
 	while ((dwAttributes = GetFileAttributes(szExistingDir)) != INVALID_FILE_ATTRIBUTES && !(dwAttributes&FILE_ATTRIBUTE_DIRECTORY)) {
 		pszLastBackslash = wcsrchr(szExistingDir, '\\');
-		if (pszLastBackslash == NULL) { *szExistingDir = '\0'; break; }
+		if (pszLastBackslash == nullptr) { *szExistingDir = '\0'; break; }
 		*pszLastBackslash = '\0';
 	}
 	if (szExistingDir[0] == '\0')
@@ -83,7 +83,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 
 int BrowseForFolder(HWND hwnd, wchar_t *szPath)
 {
-	BROWSEINFO bi = { 0 };
+	BROWSEINFO bi = {};
 	bi.hwndOwner = hwnd;
 	bi.pszDisplayName = szPath;
 	bi.lpszTitle = TranslateT("Select folder");
@@ -97,7 +97,7 @@ int BrowseForFolder(HWND hwnd, wchar_t *szPath)
 		mir_wstrcat(szPath, L"\\");
 		CoTaskMemFree(pidlResult);
 	}
-	return pidlResult != NULL;
+	return pidlResult != nullptr;
 }
 
 static REPLACEVARSARRAY sttVarsToReplace[] =
@@ -105,7 +105,7 @@ static REPLACEVARSARRAY sttVarsToReplace[] =
 	{ "///", "//" },
 	{ "//", "/" },
 	{ "()", "" },
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 static void patchDir(wchar_t *str, size_t strSize)
@@ -141,8 +141,8 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 		rvaVarsToReplace[1].value.w = GetContactID(hContact);
 		rvaVarsToReplace[2].key.w = L"proto";
 		rvaVarsToReplace[2].value.w = mir_a2u(GetContactProto(hContact));
-		rvaVarsToReplace[3].key.w = NULL;
-		rvaVarsToReplace[3].value.w = NULL;
+		rvaVarsToReplace[3].key.w = nullptr;
+		rvaVarsToReplace[3].value.w = nullptr;
 		for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
 			RemoveInvalidFilenameChars(rvaVarsToReplace[i].value.w);
 
@@ -277,7 +277,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (szProto) {
 					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
-						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, nullptr, DI_NORMAL);
 						DestroyIcon(hIcon);
 					}
 				}
@@ -341,7 +341,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDCANCEL:
 			if (dat->fs) ProtoChainSend(dat->hContact, PSS_FILEDENY, (WPARAM)dat->fs, (LPARAM)TranslateT("Canceled"));
-			dat->fs = NULL; /* the protocol will free the handle */
+			dat->fs = nullptr; /* the protocol will free the handle */
 			DestroyWindow(hwndDlg);
 			break;
 
@@ -380,7 +380,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case HM_RECVEVENT:
 		{
 			ACKDATA *ack = (ACKDATA*)lParam;
-			if ((ack == NULL) || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
+			if ((ack == nullptr) || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
 				break;
 
 			if (ack->result == ACKRESULT_DENIED || ack->result == ACKRESULT_FAILED) {

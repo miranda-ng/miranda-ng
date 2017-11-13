@@ -203,7 +203,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		switch (nmhdr->code) {
 		case PSN_APPLY:
 			//iAbsencePeriod
-			int num = GetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, 0, FALSE);
+			int num = GetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, nullptr, FALSE);
 			switch (SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_GETCURSEL, 0, 0)) {
 			case 1: options.iAbsencePeriod = 7 * num; break;
 			case 2: options.iAbsencePeriod = 30 * num; break;
@@ -212,7 +212,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			}
 
 			//iAbsencePeriod2
-			num = GetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, 0, FALSE);
+			num = GetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, nullptr, FALSE);
 			switch (SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_GETCURSEL, 0, 0)) {
 			case 1: options.iAbsencePeriod2 = 7 * num; break;
 			case 2: options.iAbsencePeriod2 = 30 * num; break;
@@ -221,7 +221,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			}
 
 			//iSilencePeriod
-			num = GetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, 0, FALSE);
+			num = GetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, nullptr, FALSE);
 			switch (SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_GETCURSEL, 0, 0)) {
 			case 1: options.iSilencePeriod = 7 * num; break;
 			case 2: options.iSilencePeriod = 30 * num; break;
@@ -251,9 +251,9 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
 
 			// restart timer & run check
-			KillTimer(0, timer_id);
-			timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
-			TimerProc(0, 0, 0, 0);
+			KillTimer(nullptr, timer_id);
+			timer_id = SetTimer(nullptr, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
+			TimerProc(nullptr, 0, 0, 0);
 			return TRUE;
 		}
 		break;
@@ -317,7 +317,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			memset(&ppd, 0, sizeof(ppd));
 
 			//iPopupDelay
-			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
+			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, nullptr, FALSE);
 			if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_PERM) == BST_CHECKED)
 				options.iPopupDelay = -1;
 			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_DEF) == BST_CHECKED)
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 				ppd.colorBack = SendDlgItemMessage(hwndDlg, IDC_COLOR_BGR, CPM_GETCOLOUR, 0, 0);
 				ppd.colorText = SendDlgItemMessage(hwndDlg, IDC_COLOR_FRG, CPM_GETCOLOUR, 0, 0);
 			}
-			ppd.PluginData = NULL;
+			ppd.PluginData = nullptr;
 			ppd.iSeconds = options.iPopupDelay;
 
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NO_HISTORY);
@@ -409,7 +409,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			}
 
 			//iPopupDelay
-			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
+			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, nullptr, FALSE);
 			if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_PERM) == BST_CHECKED)
 				options.iPopupDelay = -1;
 			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_DEF) == BST_CHECKED)
@@ -502,7 +502,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lparam)->lParam;
 				if (hContact)
 				{
-					db_set_dw(hContact, MODULE_NAME, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, 0, FALSE));
+					db_set_dw(hContact, MODULE_NAME, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, nullptr, FALSE));
 					db_set_b(hContact, MODULE_NAME, "MissYou", (IsDlgButtonChecked(hdlg, IDC_CHECK_MISSYOU) == BST_CHECKED) ? 1 : 0);
 					db_set_b(hContact, MODULE_NAME, "MissYouNotifyAlways", (IsDlgButtonChecked(hdlg, IDC_CHECK_NOTIFYALWAYS) == BST_CHECKED) ? 1 : 0);
 					db_set_b(hContact, MODULE_NAME, "NeverHide", (IsDlgButtonChecked(hdlg, IDC_CHECK_NEVERHIDE) == BST_CHECKED) ? 1 : 0);

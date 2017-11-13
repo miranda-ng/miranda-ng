@@ -34,7 +34,7 @@ void OmegleProto::SignOn(void*)
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-	setDword("LogonTS", (DWORD)time(NULL));
+	setDword("LogonTS", (DWORD)time(nullptr));
 	ClearChat();
 	OnJoinChat(0, false);
 
@@ -64,13 +64,13 @@ void OmegleProto::SignOff(void*)
 
 	if (facy.hEventsConnection)
 		Netlib_CloseHandle(facy.hEventsConnection);
-	facy.hEventsConnection = NULL;
+	facy.hEventsConnection = nullptr;
 }
 
 void OmegleProto::StopChat(bool disconnect)
 {
 	if (facy.state_ == STATE_WAITING) {
-		UpdateChat(NULL, TranslateT("Connecting canceled."), false);
+		UpdateChat(nullptr, TranslateT("Connecting canceled."), false);
 	}
 	else if (facy.state_ == STATE_ACTIVE || facy.state_ == STATE_SPY) {
 		bool spy = facy.state_ == STATE_SPY;
@@ -78,7 +78,7 @@ void OmegleProto::StopChat(bool disconnect)
 		if (disconnect)
 		{
 			facy.state_ = STATE_DISCONNECTING;
-			UpdateChat(NULL, TranslateT("Disconnecting..."), true);
+			UpdateChat(nullptr, TranslateT("Disconnecting..."), true);
 
 			if (facy.stop())
 				debugLogA("***** Disconnected from stranger %s", facy.chat_id_.c_str());
@@ -111,12 +111,12 @@ void OmegleProto::NewChat()
 {
 	if (facy.state_ == STATE_WAITING)
 	{
-		UpdateChat(NULL, TranslateT("We are already waiting for new stranger..."), false);
+		UpdateChat(nullptr, TranslateT("We are already waiting for new stranger..."), false);
 		return;
 	}
 	else if (facy.state_ == STATE_ACTIVE || facy.state_ == STATE_SPY)
 	{
-		UpdateChat(NULL, TranslateT("Disconnecting..."), true);
+		UpdateChat(nullptr, TranslateT("Disconnecting..."), true);
 
 		if (facy.stop())
 			debugLogA("***** Disconnected from stranger %s", facy.chat_id_.c_str());
@@ -135,13 +135,13 @@ void OmegleProto::NewChat()
 
 		ClearChat();
 
-		UpdateChat(NULL, TranslateT("Connecting..."), true);
+		UpdateChat(nullptr, TranslateT("Connecting..."), true);
 
 		facy.state_ = STATE_WAITING;
 
 		if (facy.start())
 		{
-			UpdateChat(NULL, TranslateT("Waiting for Stranger..."), true);
+			UpdateChat(nullptr, TranslateT("Waiting for Stranger..."), true);
 			debugLogA("***** Waiting for stranger %s", facy.chat_id_.c_str());
 		}
 	}
@@ -153,13 +153,13 @@ void OmegleProto::NewChat()
 	else
 	{
 		ClearChat();
-		UpdateChat(NULL, TranslateT("Connecting..."), true);
+		UpdateChat(nullptr, TranslateT("Connecting..."), true);
 
 		facy.state_ = STATE_WAITING;
 
 		if (facy.start())
 		{
-			UpdateChat(NULL, TranslateT("Waiting for Stranger..."), true);
+			UpdateChat(nullptr, TranslateT("Waiting for Stranger..."), true);
 			debugLogA("***** Waiting for stranger %s", facy.chat_id_.c_str());
 
 			ForkThread(&OmegleProto::EventsLoop, this);
@@ -172,7 +172,7 @@ void OmegleProto::EventsLoop(void *)
 {
 	ScopedLock s(events_loop_lock_);
 
-	time_t tim = ::time(NULL);
+	time_t tim = ::time(nullptr);
 	debugLogA(">>>>> Entering Omegle::EventsLoop[%d]", tim);
 
 	while (facy.events())

@@ -5,8 +5,8 @@ HINSTANCE g_hInst;
 int hLangpack;
 DWORD g_mirandaVersion;
 
-SpeakConfig   *g_speak_config = 0;
-SpeakAnnounce *g_speak_announce = 0;
+SpeakConfig   *g_speak_config = nullptr;
+SpeakAnnounce *g_speak_announce = nullptr;
 HANDLE         g_dialog_options_initialise;
 HANDLE         g_event_status_change;
 HANDLE         g_event_message_added;
@@ -145,7 +145,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (g_speak_config)
 	{
 		delete g_speak_config;
-		g_speak_config = 0;
+		g_speak_config = nullptr;
 	}
 
 	if (g_speak_announce)
@@ -155,7 +155,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 		UnhookEvent(g_protocol_ack);
 
 		delete g_speak_announce;
-		g_speak_announce = 0;
+		g_speak_announce = nullptr;
 	}
 
 	return 0;

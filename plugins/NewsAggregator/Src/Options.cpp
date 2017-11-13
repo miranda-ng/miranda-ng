@@ -62,7 +62,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
 				db_set_ws(hContact, MODULE, "URL", str);
 				db_set_b(hContact, MODULE, "CheckState", 1);
-				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
+				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, nullptr, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
 				db_set_ws(hContact, MODULE, "MsgFormat", str);
 				db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
@@ -115,7 +115,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
 			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
 			wchar_t tszURL[MAX_PATH] = { 0 };
-			wchar_t *tszTitle = NULL;
+			wchar_t *tszTitle = nullptr;
 			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_wstrcmp(tszURL, L"http://") != 0)
 				tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
 			else
@@ -132,7 +132,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_DESTROY:
-		hAddFeedDlg = 0;
+		hAddFeedDlg = nullptr;
 		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "AddDlg");
 		break;
 	}
@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ws(SelItem->hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
 				db_set_ws(SelItem->hContact, MODULE, "Nick", str);
-				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
+				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, nullptr, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
 				db_set_ws(SelItem->hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
@@ -374,7 +374,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ws(hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
 				db_set_ws(hContact, MODULE, "Nick", str);
-				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
+				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, nullptr, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
 				db_set_ws(hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
@@ -474,14 +474,14 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_ADD:
-			if (hAddFeedDlg == 0)
+			if (hAddFeedDlg == nullptr)
 				hAddFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcAddFeedOpts, (LPARAM)hwndList);
 			return FALSE;
 
 		case IDC_CHANGE:
 			sel = ListView_GetSelectionMark(hwndList);
 			{
-				ItemInfo SelItem = { 0 };
+				ItemInfo SelItem = {};
 				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, _countof(SelItem.nick));
 				ListView_GetItemText(hwndList, sel, 1, SelItem.url, _countof(SelItem.url));
 				SelItem.hwndList = hwndList;
@@ -552,7 +552,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case NM_DBLCLK:
 			sel = ListView_GetHotItem(hwndList);
 			if (sel != -1) {
-				ItemInfo SelItem = { 0 };
+				ItemInfo SelItem = {};
 				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, _countof(SelItem.nick));
 				ListView_GetItemText(hwndList, sel, 1, SelItem.url, _countof(SelItem.url));
 				SelItem.hwndList = hwndList;

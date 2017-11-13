@@ -31,7 +31,7 @@ char *MirandaContact::MENU_ITEM_TEXT = LPGEN("&Transliterate");
 char *MirandaContact::MENU_COMMAND_CALLBACK_SERVICE
 	= "CyrTranslit/ContactMenuCmd";
 
-HGENMENU MirandaContact::hTransliterateCmdMenuItem = 0;
+HGENMENU MirandaContact::hTransliterateCmdMenuItem = nullptr;
 
 //------------------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ int MirandaContact::onPreBuildContactMenu(WPARAM wParam, LPARAM)
 	MCONTACT hContact = MCONTACT(wParam);
 	if (!db_is_contact(wParam)) return 0;
 
-	Menu_ModifyItem(hTransliterateCmdMenuItem, NULL, INVALID_HANDLE_VALUE, bIsActive(hContact) ? CMIF_CHECKED : 0);
+	Menu_ModifyItem(hTransliterateCmdMenuItem, nullptr, INVALID_HANDLE_VALUE, bIsActive(hContact) ? CMIF_CHECKED : 0);
 	return 0;
 }
 

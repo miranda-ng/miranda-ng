@@ -42,7 +42,7 @@ void CIcqProto::handleLookupFam(BYTE *pBuffer, size_t wBufferLength, snac_header
 				wError = 0;
 
 			cookie_search *pCookie;
-			if (FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookie)) {
+			if (FindCookie(pSnacHeader->dwRef, nullptr, (void**)&pCookie)) {
 				if (wError == 0x14)
 					debugLogA("Lookup: No results");
 
@@ -84,7 +84,7 @@ void CIcqProto::handleLookupEmailReply(BYTE* buf, size_t wLen, DWORD dwCookie)
 	oscar_tlv_chain *pChain;
 	cookie_search *pCookie;
 
-	if (!FindCookie(dwCookie, NULL, (void**)&pCookie)) {
+	if (!FindCookie(dwCookie, nullptr, (void**)&pCookie)) {
 		debugLogA("Error: Received unexpected lookup reply");
 		return;
 	}

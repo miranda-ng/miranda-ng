@@ -16,7 +16,7 @@ Copyright (C) 2010, 2011 tico-tico
 	#pragma comment(lib, "src\\bass.lib")
 #endif
 
-static HINSTANCE hBass = NULL;
+static HINSTANCE hBass = nullptr;
 
 FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
 {
@@ -25,7 +25,7 @@ FARPROC WINAPI delayHook(unsigned dliNotify, PDelayLoadInfo dli)
 	case dliNotePreGetProcAddress:
 		return GetProcAddress(hBass, dli->dlp.szProcName);
 	}
-	return NULL;
+	return nullptr;
 }
 
 extern "C" PfnDliHook __pfnDliNotifyHook2 = delayHook;
@@ -70,11 +70,11 @@ static int Volume;
 static int device = -1;
 static int newBass = 0;
 
-HWND hwndSlider = NULL, hwndMute = NULL, hwndOptSlider = NULL, hwnd_plugin = NULL;
+HWND hwndSlider = nullptr, hwndMute = nullptr, hwndOptSlider = nullptr, hwnd_plugin = nullptr;
 COLORREF clBack = 0;
-HBRUSH hBkgBrush = 0;
-HANDLE frame_id = NULL;
-HANDLE hBASSFolder = NULL, hPlaySound = NULL;
+HBRUSH hBkgBrush = nullptr;
+HANDLE frame_id = nullptr;
+HANDLE hBASSFolder = nullptr, hPlaySound = nullptr;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
@@ -178,7 +178,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hwndDlg, IDC_QUIETTIME, BST_CHECKED);
 		}
 
-		if (hBass == NULL) {
+		if (hBass == nullptr) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_VOLUME), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAXCHANNEL), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_OUTDEVICE), FALSE);
@@ -208,7 +208,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		return TRUE;
 
 	case WM_HSCROLL:
-		if (hBass != NULL)
+		if (hBass != nullptr)
 			if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK) {
 				Volume = SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
 				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
@@ -223,7 +223,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			if (hBass != NULL) {
+			if (hBass != nullptr) {
 				SYSTEMTIME systime = { 0 };
 
 				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, _countof(tmp));
@@ -269,7 +269,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			return 1;
 
 		case PSN_RESET:
-			if (hBass != NULL)
+			if (hBass != nullptr)
 				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 			return 1;
 
@@ -361,14 +361,14 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	switch (msg) {
 	case WM_CREATE:
 		hwndMute = CreateWindow(MIRANDABUTTONCLASS, L"", WS_CHILD | WS_VISIBLE, 1, 1, 16, 16, hwnd,
-			0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+			nullptr, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), nullptr);
 		SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 		SendMessage(hwndMute, BUTTONSETCUSTOMPAINT, 0, (LPARAM)&fnPainter);
 
 		EnableFrameIcon(db_get_b(NULL, "Skin", "UseSound", 0) != 0);
 
 		hwndSlider = CreateWindow(TRACKBAR_CLASS, L"", WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
-			hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+			hwnd, (HMENU)nullptr, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), nullptr);
 		SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 		SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
 		mir_subclassWindow(hwndSlider, SliderWndProc);
@@ -383,7 +383,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_HSCROLL:
-		if (hBass != NULL)
+		if (hBass != nullptr)
 			if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK) {
 				Volume = (DWORD)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
 				db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
@@ -399,7 +399,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		GetClientRect(hwnd, &rc);
 		if (hwndMute)
 			MoveWindow(hwndMute, rc.right - 20, 2, 16, 16, FALSE);
-		SetWindowPos(hwndSlider, 0, 1, rc.top + 1 + (20 - 18) / 2, rc.right - rc.left - 1 - 20, 18, SWP_NOZORDER);
+		SetWindowPos(hwndSlider, nullptr, 1, rc.top + 1 + (20 - 18) / 2, rc.right - rc.left - 1 - 20, 18, SWP_NOZORDER);
 		InvalidateRect(hwnd, &rc, FALSE);
 		return 0;
 
@@ -430,9 +430,9 @@ int ReloadColors(WPARAM, LPARAM)
 		DeleteObject(hBkgBrush);
 	hBkgBrush = CreateSolidBrush(clBack);
 	HWND hwnd = GetFocus();
-	InvalidateRect(hwndSlider, NULL, TRUE);
+	InvalidateRect(hwndSlider, nullptr, TRUE);
 	SetFocus(hwndSlider);
-	RedrawWindow(hwnd_plugin, NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASE);
+	RedrawWindow(hwnd_plugin, nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASE);
 	SetFocus(hwnd);
 	return 0;
 }
@@ -445,12 +445,12 @@ void CreateFrame()
 	WNDCLASS wndclass = { 0 };
 	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.hInstance = hInst;
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.lpszClassName = L"BassInterfaceFrame";
 	RegisterClass(&wndclass);
 
 	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("Bass Interface"),
-		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, NULL);
+		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, nullptr);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
 	Frame.tname = TranslateT("Bass Interface");
@@ -488,7 +488,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 {
 	hBass = LoadLibrary(ptszPath);
 
-	if (hBass != NULL) 
+	if (hBass != nullptr) 
 	{
 		newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
 
@@ -512,7 +512,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 		EnPreview = db_get_b(NULL, ModuleName, OPT_PREVIEW, 0);
 		StatMask = db_get_w(NULL, ModuleName, OPT_STATUS, 0x3ff);
 
-		BASS_Init(device, 44100, 0, pcli->hwndContactList, NULL);
+		BASS_Init(device, 44100, 0, pcli->hwndContactList, nullptr);
 
 		Volume = db_get_b(NULL, ModuleName, OPT_VOLUME, 33);
 		BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
@@ -526,10 +526,10 @@ int OnFoldersChanged(WPARAM, LPARAM)
 	FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
 	mir_wstrcat(CurrBassPath, L"\\bass.dll");
 
-	if (hBass != NULL) {
+	if (hBass != nullptr) {
 		BASS_Free();
 		FreeLibrary(hBass);
-		hBass = NULL;
+		hBass = nullptr;
 		UnhookEvent(hPlaySound);
 		DeleteFrame();
 	}
@@ -580,7 +580,7 @@ int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 
 int OnShutdown(WPARAM, LPARAM)
 {
-	if (hBass != NULL) {
+	if (hBass != nullptr) {
 		BASS_Free();
 		FreeLibrary(hBass);
 	}

@@ -119,7 +119,7 @@ void CIconPool::RegisterIcon(const char *name, wchar_t *filename, int iconid, wc
 	item->m_name = mir_strdup(name);
 	item->m_szIcolibName = mir_strdup(szSettingName);
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.defaultFile.w = filename;
 	sid.pszName = szSettingName;
 	sid.section.w = szSection;
@@ -201,7 +201,7 @@ static inline wchar_t qtoupper(wchar_t c)
 
 static BOOL WildComparei(const wchar_t *name, const wchar_t *mask)
 {
-	const wchar_t *last = '\0';
+	const wchar_t *last = nullptr;
 	for (;; mask++, name++) {
 		if (*mask != '?' && qtoupper(*mask) != qtoupper(*name))
 			break;
@@ -285,8 +285,8 @@ static HICON LoadTransportIcon(char *filename, int i, char *IconName, wchar_t *S
 	if (hi) has_proto_icon = TRUE;
 	if (hi && nf) DestroyIcon(hi);
 	if (IconName != nullptr && SectName != nullptr) {
-		SKINICONDESC sid = { 0 };
-		sid.hDefaultIcon = (has_proto_icon) ? nullptr : Skin_LoadProtoIcon(0, -internalidx);
+		SKINICONDESC sid = {};
+		sid.hDefaultIcon = (has_proto_icon) ? nullptr : Skin_LoadProtoIcon(nullptr, -internalidx);
 		sid.section.w = SectName;
 		sid.pszName = IconName;
 		sid.description.w = Description;

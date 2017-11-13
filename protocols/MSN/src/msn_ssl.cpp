@@ -27,7 +27,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 {
 	mHttpsTS = clock();
 
-	char* result = NULL;
+	char* result = nullptr;
 	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
@@ -59,7 +59,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 		char* hdrprs = NEWSTR_ALLOCA(hdrs);
 		for (;;) {
 			char* fnd = strchr(hdrprs, ':');
-			if (fnd == NULL) break;
+			if (fnd == nullptr) break;
 			*fnd = 0;
 			fnd += 2;
 
@@ -67,7 +67,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 			nlhr.headers[nlhr.headersCount].szValue = fnd;
 
 			fnd = strchr(fnd, '\r');
-			if (fnd == NULL) break;
+			if (fnd == nullptr) break;
 			*fnd = 0;
 			hdrprs = fnd + 2;
 			++nlhr.headersCount;
@@ -85,18 +85,18 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 		if (nlhrReply->szUrl) {
 			mir_free(*parUrl);
 			*parUrl = nlhrReply->szUrl;
-			nlhrReply->szUrl = NULL;
+			nlhrReply->szUrl = nullptr;
 		}
 
 		result = nlhrReply->pData;
 
 		nlhrReply->dataLength = 0;
-		nlhrReply->pData = NULL;
+		nlhrReply->pData = nullptr;
 
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
 	else
-		hHttpsConnection = NULL;
+		hHttpsConnection = nullptr;
 
 	mHttpsTS = clock();
 

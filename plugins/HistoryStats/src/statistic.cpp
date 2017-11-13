@@ -31,7 +31,7 @@ void Statistic::prepareColumns()
 	{
 		Column *pCol = m_Settings.getCol(i);
 		if (pCol->isEnabled()) {
-			int restrictions = pCol->configGetRestrictions(NULL);
+			int restrictions = pCol->configGetRestrictions(nullptr);
 
 			// MEMO: checks for columns having no HTML-only support
 			if (!bOutputPNG && !(restrictions & Column::crHTMLMask))
@@ -541,7 +541,7 @@ bool Statistic::stepSortContacts()
 
 	ContactCompareBase** ppCmps = new ContactCompareBase*[cmpDepth];
 
-	ContactCompareBase* pCmp = NULL;
+	ContactCompareBase* pCmp = nullptr;
 	ContactCompareBase* pPrev = &cmpName;
 
 	for (int i = cmpDepth - 1; i >= 0; --i) {
@@ -658,7 +658,7 @@ bool Statistic::stepSortContacts()
 		pCmp->setDir(m_Settings.m_Sort[i].asc);
 
 		ppCmps[i] = pPrev = pCmp;
-		pCmp = NULL;
+		pCmp = nullptr;
 	}
 
 	std::sort(m_Contacts.begin(), m_Contacts.end(), ContactCompareOp(ppCmps[0]));
@@ -707,25 +707,25 @@ bool Statistic::stepOmitContacts()
 			double (Contact::*double_fn)() const;
 			DWORD(Contact::*DWORD_fn)() const;
 		} valueMap[] = {
-			{ 0, 1.0, &Contact::getInBytes, 0, 0 },
-			{ 0, 1.0, &Contact::getOutBytes, 0, 0 },
-			{ 0, 1.0, &Contact::getTotalBytes, 0, 0 },
-			{ 1, 604800.0, 0, &Contact::getInBytesAvg, 0 },
-			{ 1, 604800.0, 0, &Contact::getOutBytesAvg, 0 },
-			{ 1, 604800.0, 0, &Contact::getTotalBytesAvg, 0 },
-			{ 0, 1.0, &Contact::getInMessages, 0, 0 },
-			{ 0, 1.0, &Contact::getOutMessages, 0, 0 },
-			{ 0, 1.0, &Contact::getTotalMessages, 0, 0 },
-			{ 1, 604800.0, 0, &Contact::getInMessagesAvg, 0 },
-			{ 1, 604800.0, 0, &Contact::getOutMessagesAvg, 0 },
-			{ 1, 604800.0, 0, &Contact::getTotalMessagesAvg, 0 },
-			{ 0, 1.0, &Contact::getInChats, 0, 0 },
-			{ 0, 1.0, &Contact::getOutChats, 0, 0 },
-			{ 0, 1.0, &Contact::getTotalChats, 0, 0 },
-			{ 1, 604800.0, 0, &Contact::getInChatsAvg, 0 },
-			{ 1, 604800.0, 0, &Contact::getOutChatsAvg, 0 },
-			{ 1, 604800.0, 0, &Contact::getTotalChatsAvg, 0 },
-			{ 2, 1 / 3600.0, 0, 0, &Contact::getChatDurSum },
+			{ 0, 1.0, &Contact::getInBytes, nullptr, nullptr },
+			{ 0, 1.0, &Contact::getOutBytes, nullptr, nullptr },
+			{ 0, 1.0, &Contact::getTotalBytes, nullptr, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getInBytesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getOutBytesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getTotalBytesAvg, nullptr },
+			{ 0, 1.0, &Contact::getInMessages, nullptr, nullptr },
+			{ 0, 1.0, &Contact::getOutMessages, nullptr, nullptr },
+			{ 0, 1.0, &Contact::getTotalMessages, nullptr, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getInMessagesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getOutMessagesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getTotalMessagesAvg, nullptr },
+			{ 0, 1.0, &Contact::getInChats, nullptr, nullptr },
+			{ 0, 1.0, &Contact::getOutChats, nullptr, nullptr },
+			{ 0, 1.0, &Contact::getTotalChats, nullptr, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getInChatsAvg, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getOutChatsAvg, nullptr },
+			{ 1, 604800.0, nullptr, &Contact::getTotalChatsAvg, nullptr },
+			{ 2, 1 / 3600.0, nullptr, nullptr, &Contact::getChatDurSum },
 		};
 
 		int valueKey = m_Settings.m_OmitByValueData;
@@ -1173,12 +1173,12 @@ Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HIN
 	m_Settings(settings),
 	m_CharMapper(m_Settings),
 	m_hInst(hInst),
-	m_hWndProgress(NULL),
-	m_hThreadPushEvent(NULL),
-	m_hCancelEvent(NULL),
+	m_hWndProgress(nullptr),
+	m_hThreadPushEvent(nullptr),
+	m_hCancelEvent(nullptr),
 	m_InvokedFrom(invokedFrom),
-	m_pTotals(NULL),
-	m_pOmitted(NULL),
+	m_pTotals(nullptr),
+	m_pOmitted(nullptr),
 	m_bActuallyOmitted(false),
 	m_nNextSlot(0),
 	m_nLastFileNr(0),
@@ -1188,7 +1188,7 @@ Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HIN
 	m_nFirstTime(0),
 	m_nLastTime(0)
 {
-	m_TimeStarted = TimeZone_ToLocal(time(NULL));
+	m_TimeStarted = TimeZone_ToLocal(time(nullptr));
 	m_MSecStarted = GetTickCount();
 	m_AverageMinTime = settings.m_AverageMinTime * 24 * 60 * 60; // calculate seconds from days
 }
@@ -1196,15 +1196,15 @@ Statistic::Statistic(const Settings& settings, InvocationSource invokedFrom, HIN
 bool Statistic::createStatistics()
 {
 	// Prepare event for cancel.
-	m_hCancelEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	if (m_hCancelEvent == NULL)
+	m_hCancelEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	if (m_hCancelEvent == nullptr)
 		return false;
 
-	m_hWndProgress = CreateDialog(m_hInst, MAKEINTRESOURCE(IDD_PROGRESS), 0, staticProgressProc);
+	m_hWndProgress = CreateDialog(m_hInst, MAKEINTRESOURCE(IDD_PROGRESS), nullptr, staticProgressProc);
 
-	if (m_hWndProgress == NULL) {
+	if (m_hWndProgress == nullptr) {
 		CloseHandle(m_hCancelEvent);
-		m_hCancelEvent = NULL;
+		m_hCancelEvent = nullptr;
 		return false;
 	}
 
@@ -1220,13 +1220,13 @@ bool Statistic::createStatistics()
 	MSG msg;
 
 	while (!bDone) {
-		while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 			if (msg.message == WM_QUIT) {
 				bDone = true;
 				break;
 			}
 
-			if (msg.hwnd == NULL || !IsDialogMessage(msg.hwnd, &msg)) { /* Wine fix. */
+			if (msg.hwnd == nullptr || !IsDialogMessage(msg.hwnd, &msg)) { /* Wine fix. */
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
@@ -1246,8 +1246,8 @@ bool Statistic::createStatistics()
 
 	// Cleanup.
 	CloseHandle(m_hCancelEvent);
-	m_hCancelEvent = NULL;
-	m_hWndProgress = NULL;
+	m_hCancelEvent = nullptr;
+	m_hWndProgress = nullptr;
 
 	if (m_bResult) {
 		// Save last successfully created statistics
@@ -1316,7 +1316,7 @@ void __cdecl Statistic::threadProc(void *lpParameter)
 
 	// check for errors
 	if (!pStats->m_ErrorText.empty() && !Miranda_IsTerminated())
-		MessageBox(0, pStats->m_ErrorText.c_str(), TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
+		MessageBox(nullptr, pStats->m_ErrorText.c_str(), TranslateT("HistoryStats - Error"), MB_ICONERROR | MB_OK);
 
 	// free statistics
 	delete pStats;
@@ -1402,7 +1402,7 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 {
 	// check if running and make running
 	if (m_bRunning) {
-		MessageBox(0,
+		MessageBox(nullptr,
 			TranslateT("HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again."),
 			TranslateT("HistoryStats"), MB_ICONINFORMATION | MB_OK);
 		return;
@@ -1410,9 +1410,9 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 
 	m_bRunning = true;
 
-	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	HANDLE hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	// create event for thread stack unwinding
-	if (hEvent == NULL) {
+	if (hEvent == nullptr) {
 		m_bRunning = false;
 		return;
 	}
@@ -1424,11 +1424,11 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 	HANDLE hThread = mir_forkthread(threadProc, (void*)pStats);
 
 	// wait for thread to place itself on thread unwind stack
-	if (hThread != NULL)
+	if (hThread != nullptr)
 		WaitForSingleObject(pStats->m_hThreadPushEvent, INFINITE);
 	else
 		m_bRunning = false;
 
 	CloseHandle(pStats->m_hThreadPushEvent);
-	pStats->m_hThreadPushEvent = NULL;
+	pStats->m_hThreadPushEvent = nullptr;
 }

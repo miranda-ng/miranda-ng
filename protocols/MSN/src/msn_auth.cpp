@@ -36,7 +36,7 @@ extern "C"
 
 /* WinINET delayloading */
 typedef BOOL (*pfnInternetGetCookieExA)(LPCSTR, LPCSTR, LPSTR, LPDWORD, DWORD, LPVOID);
-pfnInternetGetCookieExA fpInternetGetCookieExA = NULL;
+pfnInternetGetCookieExA fpInternetGetCookieExA = nullptr;
 
 #define LOAD_FN(name) (##name = (pfn##name)GetProcAddress(hLibSkylogin, #name))
 
@@ -148,9 +148,9 @@ static const char authPacket[] =
 // Tokens, tokens, tokens.....
 GenericToken::GenericToken(const char *pszTokenName) :
 	m_pszTokenName(pszTokenName),
-	m_pszToken(NULL),
+	m_pszToken(nullptr),
 	m_tExpires(0),
-	m_proto(NULL)
+	m_proto(nullptr)
 {
 }
 
@@ -210,7 +210,7 @@ void GenericToken::Clear()
 	char szTokenName[64];
 
 	mir_free(m_pszToken);
-	m_pszToken = NULL;
+	m_pszToken = nullptr;
 	m_tExpires = 0;
 	mir_snprintf(szTokenName, sizeof(szTokenName), "%sToken", m_pszTokenName);
 	m_proto->delSetting(szTokenName);
@@ -301,14 +301,14 @@ bool SkypeToken::Refresh(bool bForce)
 					time_t tExpires = (*root)["expiresIn"].as_int();
 					if (tExpires == 0)
 						tExpires = 86400;
-					SetToken("skype_token " + szToken, time(NULL) + tExpires);
+					SetToken("skype_token " + szToken, time(nullptr) + tExpires);
 					bRet = true;
 				}
 			}
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
-	else m_proto->hHttpsConnection = NULL;
+	else m_proto->hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -319,7 +319,7 @@ const char* SkypeToken::XSkypetoken()
 		char *pszRet = strchr(m_pszToken, ' ');
 		if (pszRet) return pszRet + 1;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -351,7 +351,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 	szPassword[99] = 0;
 
-	time_t ts = time(NULL);
+	time_t ts = time(nullptr);
 
 	wchar_t szTs1[64], szTs2[64];
 	TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, ts, L"I", szTs1, _countof(szTs1), 0);
@@ -364,13 +364,13 @@ int CMsnProto::MSN_GetPassportAuth(void)
 		mir_strcpy(szPassportHost, defaultPassportUrl);
 
 	bool defaultUrlAllow = mir_strcmp(szPassportHost, defaultPassportUrl) != 0;
-	char *tResult = NULL;
+	char *tResult = nullptr;
 
 	while (retVal == -1) {
 		unsigned status;
 
-		tResult = getSslResult(&szPassportHost, szAuthInfo, NULL, status);
-		if (tResult == NULL) {
+		tResult = getSslResult(&szPassportHost, szAuthInfo, nullptr, status);
+		if (tResult == nullptr) {
 			if (defaultUrlAllow) {
 				mir_strcpy(szPassportHost, defaultPassportUrl);
 				defaultUrlAllow = false;
@@ -386,14 +386,14 @@ int CMsnProto::MSN_GetPassportAuth(void)
 		case 200:
 			const char *errurl;
 			{
-				errurl = NULL;
+				errurl = nullptr;
 				ezxml_t xml = ezxml_parse_str(tResult, mir_strlen(tResult));
 
 				ezxml_t tokr = ezxml_get(xml, "S:Body", 0,
 					"wst:RequestSecurityTokenResponseCollection", 0,
 					"wst:RequestSecurityTokenResponse", -1);
 
-				while (tokr != NULL) {
+				while (tokr != nullptr) {
 					ezxml_t toks = ezxml_get(tokr, "wst:RequestedSecurityToken", 0,
 						"wsse:BinarySecurityToken", -1);
 
@@ -402,7 +402,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 					ezxml_t xml_expires = ezxml_get(tokr, "wst:Lifetime", 0, "wsu:Expires", -1);
 					time_t expires;
-					expires = xml_expires ? IsoToUnixTime(ezxml_txt(xml_expires)) : time(NULL) + 86400;
+					expires = xml_expires ? IsoToUnixTime(ezxml_txt(xml_expires)) : time(nullptr) + 86400;
 
 
 					if (mir_strcmp(addr, "http://Passport.NET/tb") == 0) {
@@ -454,7 +454,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 					ezxml_t tokf = ezxml_get(xml, "S:Body", 0, "S:Fault", 0, "S:Detail", -1);
 					ezxml_t tokrdr = ezxml_child(tokf, "psf:redirectUrl");
-					if (tokrdr != NULL) {
+					if (tokrdr != nullptr) {
 						mir_strcpy(szPassportHost, ezxml_txt(tokrdr));
 						debugLogA("Redirected to '%s'", szPassportHost);
 					}
@@ -494,7 +494,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 			switch (retVal) {
 			case 3:
 				MSN_ShowError("Your username or password is incorrect");
-				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
 				break;
 
 			case 5:
@@ -502,7 +502,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 
 			default:
 				MSN_ShowError("Unable to contact MS Passport servers check proxy/firewall settings");
-				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NOSERVER);
 				break;
 			}
 		}
@@ -804,13 +804,13 @@ bool CMsnProto::RefreshOAuth(const char *pszRefreshToken, const char *pszService
 					if (*ptExpires == 0)
 						bRet = false;
 					else
-						*ptExpires += time(0);
+						*ptExpires += time(nullptr);
 				}
 			}
 		}
 		Netlib_FreeHttpRequest(nlhrReply);
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 	return bRet;
 }
 
@@ -926,9 +926,9 @@ LRESULT CALLBACK AuthWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 					if (hMod) fpInternetGetCookieExA = (pfnInternetGetCookieExA)GetProcAddress(hMod, "InternetGetCookieExA");
 				}
 				if (fpInternetGetCookieExA &&
-					fpInternetGetCookieExA("https://login.live.com", NULL, NULL, &cbCookie, INTERNET_COOKIE_HTTPONLY, NULL) &&
+					fpInternetGetCookieExA("https://login.live.com", nullptr, nullptr, &cbCookie, INTERNET_COOKIE_HTTPONLY, nullptr) &&
 					(pAuth->pszCookies = (char*)mir_alloc(cbCookie))) {
-					fpInternetGetCookieExA("https://login.live.com", NULL, pAuth->pszCookies, &cbCookie, INTERNET_COOKIE_HTTPONLY, NULL);
+					fpInternetGetCookieExA("https://login.live.com", nullptr, pAuth->pszCookies, &cbCookie, INTERNET_COOKIE_HTTPONLY, nullptr);
 				}
 				else pAuth->pszCookies = mir_u2a(pAuth->pEmbed->getCookies());
 				PostMessage(hwnd, WM_CLOSE, 0, 0);
@@ -964,7 +964,7 @@ void __cdecl CMsnProto::msn_IEAuthThread(void *pParam)
 	WNDCLASSEX wc = { 0 };
 	static const wchar_t  *ClassName = L"SkypeLoginWindow";
 
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.cbWndExtra = sizeof(void*);
@@ -975,11 +975,11 @@ void __cdecl CMsnProto::msn_IEAuthThread(void *pParam)
 
 	if ((hWnd = CreateWindowEx(0, ClassName, L"MSN Login", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, 640, 480,
-		HWND_DESKTOP, NULL, g_hInst, pParam))) {
+		HWND_DESKTOP, nullptr, g_hInst, pParam))) {
 		ShowWindow(hWnd, SW_SHOW);
 		UpdateWindow(hWnd);
 
-		while (GetMessage(&msg, NULL, 0, 0)) {
+		while (GetMessage(&msg, nullptr, 0, 0)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -1122,7 +1122,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 			/* Get POST-Data and URL */
 			if (parseLoginPage(nlhrReply->pData, &nlhr, &post)) {
 				/* Get Cookies */
-				nlhr.headers[1].szValue = (char*)alloca(CopyCookies(nlhrReply, NULL));
+				nlhr.headers[1].szValue = (char*)alloca(CopyCookies(nlhrReply, nullptr));
 				CopyCookies(nlhrReply, &nlhr.headers[1]);
 				if (*nlhr.headers[1].szValue) nlhr.headersCount++;
 
@@ -1138,7 +1138,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 				NETLIBHTTPREQUEST *nlhrReply2 = Netlib_HttpTransaction(hNetlibUserHttps, &nlhr);
 				mHttpsTS = clock();
 				if (nlhrReply2) {
-					char *pszURL = NULL, *pAccessToken, *pEnd;
+					char *pszURL = nullptr, *pAccessToken, *pEnd;
 					hHttpsConnection = nlhrReply2->nlc;
 
 					bPassportAuth = true;
@@ -1157,7 +1157,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 						 * window in order to let user login there. May also be used for 2-factor auth */
 						if (nlhrReply2->resultCode == 200 && nlhrReply2->pData) {
 							UINT uThreadId;
-							IEAUTH_PARAM param = { NULL, this, &nlhr, nlhrReply2, NULL, NULL };
+							IEAUTH_PARAM param = { nullptr, this, &nlhr, nlhrReply2, nullptr, nullptr };
 
 							bAskingForAuth = true;
 							WaitForSingleObject(ForkThreadEx(&CMsnProto::msn_IEAuthThread, &param, &uThreadId), INFINITE);
@@ -1165,7 +1165,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 							mir_free(authCookies);
 							authCookies = nlhr.headers[1].szValue = param.pszCookies;
 							Netlib_FreeHttpRequest(nlhrReply2);
-							nlhrReply2 = NULL;
+							nlhrReply2 = nullptr;
 							bAskingForAuth = false;
 							bPassportAuth = false;
 						}
@@ -1208,7 +1208,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 						/* Copy auth Cookies to class for other web requests like contact list fetching to avoid ActiveSync */
 						if (nlhrReply) {
 							mir_free(authCookies);
-							authCookies = nlhr.headers[1].szValue = (char*)mir_alloc(CopyCookies(nlhrReply, NULL));
+							authCookies = nlhr.headers[1].szValue = (char*)mir_alloc(CopyCookies(nlhrReply, nullptr));
 							CopyCookies(nlhrReply, &nlhr.headers[1]);
 						}
 
@@ -1262,17 +1262,17 @@ int CMsnProto::MSN_AuthOAuth(void)
 								}
 								else retVal = 0;
 							}
-							else hHttpsConnection = NULL;
+							else hHttpsConnection = nullptr;
 						}
 					}
 				}
-				else hHttpsConnection = NULL;
+				else hHttpsConnection = nullptr;
 			}
 		}
 		if (nlhrReply)
 			Netlib_FreeHttpRequest(nlhrReply);
 	}
-	else hHttpsConnection = NULL;
+	else hHttpsConnection = nullptr;
 
 	if (retVal <= 0) authSkypeComToken.Clear(); else {
 		if (bPassportAuth) {

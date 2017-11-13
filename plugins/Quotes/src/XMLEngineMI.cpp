@@ -72,12 +72,12 @@ public:
 	virtual tstring GetAttributeValue(const tstring& rsAttrName)
 	{
 		LPCTSTR pszValue = xmlGetAttrValue(m_hXML, rsAttrName.c_str());
-		return ((NULL != pszValue) ? tstring(pszValue) : tstring());
+		return ((nullptr != pszValue) ? tstring(pszValue) : tstring());
 	}
 
 	virtual void Write(tostream& o)const
 	{
-		ptrW ss(xmlToString(m_hXML, NULL));
+		ptrW ss(xmlToString(m_hXML, nullptr));
 		if (ss != NULL)
 			o << (char*)T2Utf(ss);
 	}
@@ -111,7 +111,7 @@ IXMLNode::TXMLNodePtr CXMLEngineMI::LoadFile(const tstring& rsFileName)const
 				int nLen = (int)cBytes;
 				ptrW ss(mir_utf8decodeW(pBuffer));
 				if (ss) {
-					HXML h = xmlParseString(ss, &nLen, NULL);
+					HXML h = xmlParseString(ss, &nLen, nullptr);
 					if (h)
 						pResult = IXMLNode::TXMLNodePtr(new CXMLNodeMI(h, true));
 				}

@@ -14,7 +14,7 @@ int OpenBrowser(WPARAM hContact, LPARAM)
 			db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
 			curAcc->oldResults_num = 0;
 			DeleteResults(curAcc->results.next);
-			curAcc->results.next = NULL;
+			curAcc->results.next = nullptr;
 		}
 		mir_forkthread(Login_ThreadFunc, curAcc);
 	}
@@ -44,7 +44,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
-		curAcc->popUpHwnd = NULL;
+		curAcc->popUpHwnd = nullptr;
 		pcli->pfnRemoveEvent(hContact, 1);
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
@@ -76,7 +76,7 @@ void NotifyUser(Account *curAcc)
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.flags = DBEF_READ;
 			dbei.szModule = MODULE_NAME;
-			dbei.timestamp = time(NULL);
+			dbei.timestamp = time(nullptr);
 
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {
@@ -114,7 +114,7 @@ void NotifyUser(Account *curAcc)
 			ppd.colorBack = opt.popupBgColor;
 			ppd.colorText = opt.popupTxtColor;
 			ppd.PluginWindowProc = PopupDlgProc;
-			ppd.PluginData = NULL;
+			ppd.PluginData = nullptr;
 			ppd.iSeconds = opt.popupDuration;
 			PUDeletePopup(curAcc->popUpHwnd);
 			PUAddPopup(&ppd);
@@ -124,13 +124,13 @@ void NotifyUser(Account *curAcc)
 	}
 	curAcc->oldResults_num = curAcc->results_num;
 	DeleteResults(curAcc->results.next);
-	curAcc->results.next = NULL;
+	curAcc->results.next = nullptr;
 }
 
 void DeleteResults(resultLink *prst)
 {
-	if (prst != NULL) {
-		if (prst->next != NULL)
+	if (prst != nullptr) {
+		if (prst->next != nullptr)
 			DeleteResults(prst->next);
 		free(prst);
 	}
@@ -138,7 +138,7 @@ void DeleteResults(resultLink *prst)
 
 void __cdecl Login_ThreadFunc(void *lpParam)
 {
-	if (lpParam == NULL)
+	if (lpParam == nullptr)
 		return;
 
 	HANDLE hTempFile;
@@ -165,7 +165,7 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 				GetTempPathA(dwBufSize, buffer);
 				GetTempFileNameA(buffer, "gmail", 0, szTempName);
 
-				hTempFile = CreateFileA(szTempName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				hTempFile = CreateFileA(szTempName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 				mir_strcpy(buffer, FORMDATA1);
 				mir_strcat(buffer, curAcc->hosted);
 				mir_strcat(buffer, FORMDATA2);
@@ -173,12 +173,12 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 				mir_strcat(buffer, FORMDATA3);
 				mir_strcat(buffer, "<input type=hidden name=userName value=");
 				mir_strcat(buffer, curAcc->name);
-				if ((str_temp = strstr(buffer, "@")) != NULL)
+				if ((str_temp = strstr(buffer, "@")) != nullptr)
 					*str_temp = '\0';
 				mir_strcat(buffer, "><input type=hidden name=password value=");
 				mir_strcat(buffer, curAcc->pass);
 				mir_strcat(buffer, "></form></body>");
-				WriteFile(hTempFile, buffer, (DWORD)mir_strlen(buffer), &dwBytesWritten, NULL);
+				WriteFile(hTempFile, buffer, (DWORD)mir_strlen(buffer), &dwBytesWritten, nullptr);
 				CloseHandle(hTempFile);
 				mir_strcat(lpPathBuffer, szTempName);
 			}
@@ -199,7 +199,7 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 	PROCESS_INFORMATION procInfo;
 	suInfo.cb = sizeof(suInfo);
 	suInfo.wShowWindow = SW_MAXIMIZE;
-	if (CreateProcessA(NULL, lpPathBuffer, NULL, NULL, FALSE, 0, NULL, NULL, &suInfo, &procInfo))
+	if (CreateProcessA(nullptr, lpPathBuffer, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &suInfo, &procInfo))
 		CloseHandle(procInfo.hProcess);
 
 	if (curAcc->hosted[0]) {

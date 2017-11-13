@@ -65,7 +65,7 @@ void SendSMSWindowDestroy()
 	SEND_SMS_WINDOW_DATA *psswdWindowData;
 
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
-	while (ListMTItemGetFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, NULL, (LPVOID*)&psswdWindowData) == NO_ERROR)
+	while (ListMTItemGetFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, nullptr, (LPVOID*)&psswdWindowData) == NO_ERROR)
 		SendSMSWindowRemove(psswdWindowData->hWnd);
 
 	ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
@@ -103,7 +103,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			LOGFONT lf;
 			HFONT hFont = (HFONT)SendDlgItemMessage(hWndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
 			if (hFont && hFont != (HFONT)SendDlgItemMessage(hWndDlg, IDOK, WM_GETFONT, 0, 0)) DeleteObject(hFont);
-			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL);
+			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, nullptr);
 			hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hWndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
 
@@ -111,7 +111,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			psswdWindowData->hBkgBrush = CreateSolidBrush(colour);
 		}
 		{
-			HWND hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, TEXT(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
+			HWND hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, TEXT(""), WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
 			TOOLINFO ti;
 			memset(&ti, 0, sizeof(ti));
 			ti.cbSize = sizeof(ti);
@@ -136,7 +136,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			RECT rcWin, rcList;
 			GetWindowRect(hWndDlg, &rcWin);
 			GetWindowRect(GetDlgItem(hWndDlg, IDC_NUMBERSLIST), &rcList);
-			SetWindowPos(hWndDlg, 0, rcWin.left, rcWin.top, rcWin.right - rcWin.left - (rcList.right - rcList.left) - 10, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(hWndDlg, nullptr, rcWin.left, rcWin.top, rcWin.right - rcWin.left - (rcList.right - rcList.left) - 10, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
 		}
 
 		SendSMSWindowUpdateAccountList(hWndDlg);
@@ -159,9 +159,9 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 		}
 
 		if (Utils_RestoreWindowPosition(hWndDlg, (DB_SMS_GetByte(NULL, "SavePerContact", 0) ? psswdWindowData->hMyContact : NULL), PROTOCOL_NAMEA, "send")) {// def pos
-			SetWindowPos(hWndDlg, 0, 200, 200, 400, 350, SWP_NOZORDER);
+			SetWindowPos(hWndDlg, nullptr, 200, 200, 400, 350, SWP_NOZORDER);
 		}
-		InvalidateRect(GetDlgItem(hWndDlg, IDC_MESSAGE), NULL, FALSE);
+		InvalidateRect(GetDlgItem(hWndDlg, IDC_MESSAGE), nullptr, FALSE);
 		return TRUE;
 	case WM_GETMINMAXINFO:
 		if (psswdWindowData->bMultiple) {
@@ -188,22 +188,22 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			}
 			cx -= 10; /* XXX: fix window sizes for aero. */
 			cy -= 10;
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_MESSAGE), 0, 0, 0, cx - 14, cy - 132, SWP_NOZORDER | SWP_NOMOVE);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_NAME), 0, 0, 0, (cx * 35) / 100, 20, SWP_NOZORDER | SWP_NOMOVE);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_ACCOUNTS), 0, 0, 0, (cx * 35) / 100, 20, SWP_NOZORDER | SWP_NOMOVE);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_ADDRESS), 0, cx - (cx * 35) / 100 - 11, 5, (cx * 35) / 100, 20, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_ST_ADDRESS), 0, cx - (cx * 35) / 100 - 68, 5, 50, 20, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_MULTIPLE), 0, cx - ((cx * 35) / 100 + 35) / 2 - 11, 30, ((cx * 35) / 100 + 35) / 2, 20, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_SAVENUMBER), 0, cx - (cx * 35) / 100 - 58, 30, ((cx * 35) / 100 + 35) / 2, 20, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_HISTORY), 0, 0, 0, 20, 20, SWP_NOZORDER | SWP_NOMOVE);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_COUNT), 0, cx - 61, 52, 50, 15, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_ST_CHARS), 0, cx - 106, 52, 40, 15, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_ADDNUMBER), 0, cx, 5, 170, 20, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDC_NUMBERSLIST), 0, cx, 25, 170, cy - 90, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_MESSAGE), nullptr, 0, 0, cx - 14, cy - 132, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_NAME), nullptr, 0, 0, (cx * 35) / 100, 20, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_ACCOUNTS), nullptr, 0, 0, (cx * 35) / 100, 20, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_ADDRESS), nullptr, cx - (cx * 35) / 100 - 11, 5, (cx * 35) / 100, 20, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_ST_ADDRESS), nullptr, cx - (cx * 35) / 100 - 68, 5, 50, 20, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_MULTIPLE), nullptr, cx - ((cx * 35) / 100 + 35) / 2 - 11, 30, ((cx * 35) / 100 + 35) / 2, 20, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_SAVENUMBER), nullptr, cx - (cx * 35) / 100 - 58, 30, ((cx * 35) / 100 + 35) / 2, 20, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_HISTORY), nullptr, 0, 0, 20, 20, SWP_NOZORDER | SWP_NOMOVE);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_COUNT), nullptr, cx - 61, 52, 50, 15, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_ST_CHARS), nullptr, cx - 106, 52, 40, 15, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_ADDNUMBER), nullptr, cx, 5, 170, 20, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDC_NUMBERSLIST), nullptr, cx, 25, 170, cy - 90, SWP_NOZORDER);
 			//SetWindowPos(GetDlgItem(hWndDlg,IDC_REMOVENUMBER),0,cx,cy - 110 + 25,170,20,SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDOK), 0, cx / 2 - 87, cy - 60, 80, 25, SWP_NOZORDER);
-			SetWindowPos(GetDlgItem(hWndDlg, IDCANCEL), 0, cx / 2 + 7, cy - 60, 80, 25, SWP_NOZORDER);
-			RedrawWindow(hWndDlg, NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
+			SetWindowPos(GetDlgItem(hWndDlg, IDOK), nullptr, cx / 2 - 87, cy - 60, 80, 25, SWP_NOZORDER);
+			SetWindowPos(GetDlgItem(hWndDlg, IDCANCEL), nullptr, cx / 2 + 7, cy - 60, 80, 25, SWP_NOZORDER);
+			RedrawWindow(hWndDlg, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE);
 		}
 		break;
 	case WM_TIMER:
@@ -234,7 +234,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 		if ((HWND)lParam == GetDlgItem(hWndDlg, IDC_MESSAGE)) {
 			COLORREF colour;
 
-			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, NULL, &colour);
+			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &colour);
 			SetTextColor((HDC)wParam, colour);
 			SetBkColor((HDC)wParam, db_get_dw(NULL, SRMMMOD, SRMSGSET_INPBKGCOLOUR, SRMSGDEFSET_BKGCOLOUR));
 			return((INT_PTR)psswdWindowData->hBkgBrush);
@@ -263,7 +263,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 				EnableWindow(GetDlgItem(hWndDlg, IDC_NUMBERSLIST), TRUE);
 				if (psswdWindowData->hMyContact == NULL) EnableWindow(GetDlgItem(hWndDlg, IDC_NAME), TRUE);
 				SetFocus(GetDlgItem(hWndDlg, IDC_MESSAGE));
-				psswdWindowData->hItemSend = NULL;
+				psswdWindowData->hItemSend = nullptr;
 			}
 			break;
 		case TIMEDOUT_RETRY:
@@ -291,7 +291,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 					MEMFREE(lpwszMessage);
 				}
 			}
-			SetTimer(hWndDlg, TIMERID_MSGSEND, TIMEOUT_MSGSEND, NULL);
+			SetTimer(hWndDlg, TIMERID_MSGSEND, TIMEOUT_MSGSEND, nullptr);
 			break;
 		}
 		break;
@@ -305,7 +305,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 			{
 				wchar_t tszPhone[MAX_PHONE_LEN];
 				if (IsPhoneW(tszPhone, GetDlgItemText(hWndDlg, IDC_ADDRESS, tszPhone, _countof(tszPhone)))) {
-					TVINSERTSTRUCT tvis = { 0 };
+					TVINSERTSTRUCT tvis = {};
 					tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 					tvis.hInsertAfter = TVI_SORT;
 					tvis.item.pszText = tszPhone;
@@ -362,7 +362,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARA
 							EnableWindow(GetDlgItem(hWndDlg, IDC_ADDRESS), FALSE);
 							SendDlgItemMessage(hWndDlg, IDC_MESSAGE, EM_SETREADONLY, TRUE, 0);
 							StartSmsSend(hWndDlg, SendDlgItemMessage(hWndDlg, IDC_ACCOUNTS, CB_GETCURSEL, 0, 0), tszPhone, dwPhoneSize, lpwszMessage, dwMessageSize);
-							SetTimer(hWndDlg, TIMERID_MSGSEND, TIMEOUT_MSGSEND, NULL);
+							SetTimer(hWndDlg, TIMERID_MSGSEND, TIMEOUT_MSGSEND, nullptr);
 
 							MEMFREE(lpwszMessage);
 						}
@@ -495,7 +495,7 @@ INT_PTR CALLBACK SMSTimedOutDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hWndDlg);
 			GetWindowRect(hWndDlg, &rc);
 			GetWindowRect(GetParent(hWndDlg), &rcParent);
-			SetWindowPos(hWndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, (rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			SetWindowPos(hWndDlg, nullptr, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, (rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 			KillTimer(GetParent(hWndDlg), TIMERID_MSGSEND);
 		}
 		return TRUE;
@@ -524,7 +524,7 @@ INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 			RECT rc, rcParent;
 			GetWindowRect(hWndDlg, &rc);
 			GetWindowRect(GetParent(hWndDlg), &rcParent);
-			SetWindowPos(hWndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, (rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			SetWindowPos(hWndDlg, nullptr, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, (rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 		return TRUE;
 
@@ -546,12 +546,12 @@ INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARA
 //The function gets void and return the window HWND
 HWND SendSMSWindowAdd(MCONTACT hContact)
 {
-	HWND hRet = NULL;
+	HWND hRet = nullptr;
 	SEND_SMS_WINDOW_DATA *psswdWindowData = (SEND_SMS_WINDOW_DATA*)MEMALLOC(sizeof(SEND_SMS_WINDOW_DATA));
 	if (!psswdWindowData)
-		return NULL;
+		return nullptr;
 	psswdWindowData->hMyContact = hContact;
-	psswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMS), NULL, SendSmsDlgProc, (LPARAM)psswdWindowData);
+	psswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMS), nullptr, SendSmsDlgProc, (LPARAM)psswdWindowData);
 	if (psswdWindowData->hWnd) {
 		ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 		ListMTItemAdd(&ssSMSSettings.lmtSendSMSWindowsListMT, &psswdWindowData->lmtListMTItem, psswdWindowData);
@@ -616,14 +616,14 @@ void SendSMSWindowHContactSet(HWND hWndDlg, MCONTACT hContact)
 //the same process
 HWND SendSMSWindowHwndByHProcessGet(HANDLE hProcess)
 {
-	HWND hRet = NULL;
+	HWND hRet = nullptr;
 	SEND_SMS_WINDOW_DATA *psswdWindowData;
 	LIST_MT_ITERATOR lmtiIterator;
 
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 	ListMTIteratorMoveFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, &lmtiIterator);
 	do {// цикл
-		if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&psswdWindowData) == NO_ERROR)
+		if (ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&psswdWindowData) == NO_ERROR)
 			if (psswdWindowData->hProcess == hProcess) {
 				hRet = psswdWindowData->hWnd;
 				break;
@@ -675,16 +675,16 @@ void SendSMSWindowMultipleSet(HWND hWndDlg, BOOL bMultiple)
 
 		EnableWindow(GetDlgItem(hWndDlg, IDC_SAVENUMBER), FALSE);
 		SetDlgItemText(hWndDlg, IDC_MULTIPLE, TranslateT("<< Single"));
-		if (wp.showCmd == SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left - (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
-		SetWindowPos(hWndDlg, 0, rcWin.left, rcWin.top, rcWin.right - rcWin.left + (rcList.right - rcList.left) + 11, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
+		if (wp.showCmd == SW_MAXIMIZE) SetWindowPos(hWndDlg, nullptr, 0, 0, rcWin.right - rcWin.left - (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(hWndDlg, nullptr, rcWin.left, rcWin.top, rcWin.right - rcWin.left + (rcList.right - rcList.left) + 11, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
 	}
 	else {
 		if (psswdWindowData->hMyContact) AddContactPhonesToCombo(hWndDlg, psswdWindowData->hMyContact);
 
 		EnableWindow(GetDlgItem(hWndDlg, IDC_SAVENUMBER), TRUE);
 		SetDlgItemText(hWndDlg, IDC_MULTIPLE, TranslateT("Multiple >>"));
-		SetWindowPos(hWndDlg, 0, rcWin.left, rcWin.top, rcWin.right - rcWin.left - (rcList.right - rcList.left) - 11, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
-		if (wp.showCmd == SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left + (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(hWndDlg, nullptr, rcWin.left, rcWin.top, rcWin.right - rcWin.left - (rcList.right - rcList.left) - 11, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
+		if (wp.showCmd == SW_MAXIMIZE) SetWindowPos(hWndDlg, nullptr, 0, 0, rcWin.right - rcWin.left + (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
 	}
 }
 
@@ -750,7 +750,7 @@ void SendSMSWindowHItemSendSet(HWND hWndDlg, HTREEITEM hItemSend)
 //
 HTREEITEM SendSMSWindowHItemSendGet(HWND hWndDlg)
 {
-	HTREEITEM hRet = NULL;
+	HTREEITEM hRet = nullptr;
 	SEND_SMS_WINDOW_DATA *psswdWindowData = GET_WINDOW_DATA(hWndDlg);
 
 	if (psswdWindowData) hRet = psswdWindowData->hItemSend;
@@ -811,7 +811,7 @@ HTREEITEM SendSMSWindowNextHItemGet(HWND hWndDlg, HTREEITEM hItem)
 				}
 			}
 	}
-	return(NULL);
+	return(nullptr);
 }
 
 //This function get the HANDLE of an user. if there is already a SMS send window for this contact
@@ -819,14 +819,14 @@ HTREEITEM SendSMSWindowNextHItemGet(HWND hWndDlg, HTREEITEM hItem)
 //The function gets the HANDLE of a contact and return HWND
 HWND SendSMSWindowIsOtherInstanceHContact(MCONTACT hContact)
 {
-	HWND hRet = NULL;
+	HWND hRet = nullptr;
 	SEND_SMS_WINDOW_DATA *psswdWindowData;
 	LIST_MT_ITERATOR lmtiIterator;
 
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 	ListMTIteratorMoveFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, &lmtiIterator);
 	do {// цикл
-		if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&psswdWindowData) == NO_ERROR)
+		if (ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&psswdWindowData) == NO_ERROR)
 			if (psswdWindowData->hMyContact == hContact) {
 				hRet = psswdWindowData->hWnd;
 				break;
@@ -861,7 +861,7 @@ void SendSMSWindowNext(HWND hWndDlg)
 	dwPhoneSize = mir_wstrlen(tszPhone);
 	SendSMSWindowNumberSet(hWndDlg, tszPhone, dwPhoneSize);
 	StartSmsSend(hWndDlg, SendDlgItemMessage(hWndDlg, IDC_ACCOUNTS, CB_GETCURSEL, 0, 0), tszPhone, dwPhoneSize, lptszMessage, dwMessageSize);
-	SetTimer(hWndDlg, TIMERID_MSGSEND, TIMEOUT_MSGSEND, NULL);
+	SetTimer(hWndDlg, TIMERID_MSGSEND, TIMEOUT_MSGSEND, nullptr);
 	MEMFREE(lptszMessage);
 }
 
@@ -934,7 +934,7 @@ void SendSMSWindowsUpdateAllAccountLists()
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 	ListMTIteratorMoveFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, &lmtiIterator);
 	do {// цикл
-		if (ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&psswdWindowData) == NO_ERROR) {
+		if (ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&psswdWindowData) == NO_ERROR) {
 			SendSMSWindowUpdateAccountList(psswdWindowData->hWnd);
 		}
 	} while (ListMTIteratorMoveNext(&lmtiIterator));
@@ -1004,7 +1004,7 @@ void AddContactPhonesToTreeViewParam(MCONTACT hContact, LPSTR lpszModule, LPSTR 
 	char szBuff[MAX_PATH];
 	wchar_t tszPhone[MAX_PHONE_LEN], tszPhoneRaw[MAX_PHONE_LEN];
 	size_t i, dwPhoneSize;
-	TVINSERTSTRUCT tvis = { 0 };
+	TVINSERTSTRUCT tvis = {};
 
 	if (phParent) tvis.hParent = (*phParent);
 	tvis.item.mask = (TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE);
@@ -1015,7 +1015,7 @@ void AddContactPhonesToTreeViewParam(MCONTACT hContact, LPSTR lpszModule, LPSTR 
 		tszPhone[0] = '+';
 		dwPhoneSize = CopyNumberW(tszPhone + 1, tszPhoneRaw, dwPhoneSize);
 		if (IsPhoneW(tszPhone, dwPhoneSize)) {
-			if (tvis.hParent == NULL) {
+			if (tvis.hParent == nullptr) {
 				tvis.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 				tvis.hParent = TreeView_InsertItem(hWndList, &tvis);
 			}
@@ -1030,7 +1030,7 @@ void AddContactPhonesToTreeViewParam(MCONTACT hContact, LPSTR lpszModule, LPSTR 
 			tszPhone[0] = '+';
 			dwPhoneSize = CopyNumberW(tszPhone + 1, tszPhoneRaw, dwPhoneSize);
 			if (IsPhoneW(tszPhone, dwPhoneSize)) {
-				if (tvis.hParent == NULL) {
+				if (tvis.hParent == nullptr) {
 					tvis.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 					tvis.hParent = TreeView_InsertItem(hWndList, &tvis);
 				}
@@ -1052,7 +1052,7 @@ void SendSMSWindowFillTreeView(HWND hWnd)
 	TreeView_DeleteAllItems(hWndTreeView);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HTREEITEM hParent = NULL;
+		HTREEITEM hParent = nullptr;
 		LPSTR lpszProto = GetContactProto(hContact);
 		if (lpszProto) {
 			AddContactPhonesToTreeViewParam(hContact, lpszProto, "Phone", hWndTreeView, &hParent);
@@ -1075,7 +1075,7 @@ size_t GetSMSMessageLenMax(HWND hWndDlg)
 	LPTSTR lptszMessage = (LPTSTR)MEMALLOC(((dwMessageSize + 4)*sizeof(wchar_t)));
 	if (lptszMessage) {
 		dwMessageSize = GetDlgItemText(hWndDlg, IDC_MESSAGE, lptszMessage, (int)dwMessageSize + 2);
-		if (dwMessageSize != WideCharToMultiByte(CP_UTF8, 0, lptszMessage, (int)dwMessageSize, NULL, 0, NULL, NULL))
+		if (dwMessageSize != WideCharToMultiByte(CP_UTF8, 0, lptszMessage, (int)dwMessageSize, nullptr, 0, nullptr, nullptr))
 			dwLenght = 70;
 		MEMFREE(lptszMessage);
 	}

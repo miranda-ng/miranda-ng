@@ -42,13 +42,13 @@ void *list_add_sorted(list_t *list, void *data, int alloc_size, int (*comparisio
 {
 	if (!list) {
 		errno = EFAULT;
-		return NULL;
+		return nullptr;
 	}
 
 	list_t newlist = (list_t)malloc(sizeof(struct list));
 
 	newlist->data = data;
-	newlist->next = NULL;
+	newlist->next = nullptr;
 
 	if (alloc_size) {
 		newlist->data = malloc(alloc_size);
@@ -64,7 +64,7 @@ void *list_add_sorted(list_t *list, void *data, int alloc_size, int (*comparisio
 				tmp = tmp->next;
 			tmp->next = newlist;
 		} else {
-			list_t prev = NULL;
+			list_t prev = nullptr;
 
 			while (comparision(newlist->data, tmp->data) > 0) {
 				prev = tmp;
@@ -94,7 +94,7 @@ void *list_add_sorted(list_t *list, void *data, int alloc_size, int (*comparisio
  */
 void *list_add(list_t *list, void *data, int alloc_size)
 {
-	return list_add_sorted(list, data, alloc_size, NULL);
+	return list_add_sorted(list, data, alloc_size, nullptr);
 }
 
 /*
@@ -108,7 +108,7 @@ void *list_add(list_t *list, void *data, int alloc_size)
  */
 int list_remove(list_t *list, void *data, int free_data)
 {
-	list_t tmp, last = NULL;
+	list_t tmp, last = nullptr;
 
 	if (!list || !*list) {
 		errno = EFAULT;
@@ -350,10 +350,10 @@ void string_clear(string_t s)
  */
 char *string_free(string_t s, int free_string)
 {
-	char *tmp = NULL;
+	char *tmp = nullptr;
 
 	if (!s)
-		return NULL;
+		return nullptr;
 
 	if (free_string)
 		free(s->str);
@@ -411,7 +411,7 @@ const char *ditoa(long int i)
 char **array_make(const char *string, const char *sep, int max, int trim, int quotes)
 {
 	const char *p, *q;
-	char **result = NULL;
+	char **result = nullptr;
 	int items = 0, last = 0;
 
 	if (!string || !sep)
@@ -419,7 +419,7 @@ char **array_make(const char *string, const char *sep, int max, int trim, int qu
 
 	for (p = string; ; ) {
 		int len = 0;
-		char *token = NULL;
+		char *token = nullptr;
 
 		if (max && items >= max - 1)
 			last = 1;
@@ -487,7 +487,7 @@ char **array_make(const char *string, const char *sep, int max, int trim, int qu
 
 		result = (char**)realloc(result, (items + 2) * sizeof(char*));
 		result[items] = token;
-		result[++items] = NULL;
+		result[++items] = nullptr;
 
 		if (!*p)
 			break;
@@ -532,7 +532,7 @@ void array_add(char ***array, char *string)
 	int count = array_count(*array);
 
 	*array = (char**)realloc(*array, (count + 2) * sizeof(char*));
-	(*array)[count + 1] = NULL;
+	(*array)[count + 1] = nullptr;
 	(*array)[count] = string;
 }
 
@@ -552,7 +552,7 @@ char *array_join(char **array, const char *sep)
 	if (!array)
 		return _strdup("");
 
-	string_t s = string_init(NULL);
+	string_t s = string_init(nullptr);
 	for (int i = 0; array[i]; i++) {
 		if (i)
 			string_append(s, sep);

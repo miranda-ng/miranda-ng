@@ -30,7 +30,7 @@
 
 INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HWND hwndMsgDlg = 0;
+	HWND hwndMsgDlg = nullptr;
 
 	hwndMsgDlg = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
@@ -58,7 +58,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		GetWindowRect(hwndDlg, &rc);
 		GetWindowRect(GetParent(hwndDlg), &rcParent);
-		SetWindowPos(hwndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, (rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(hwndDlg, nullptr, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, (rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		return TRUE;
 	}
 
@@ -113,7 +113,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					wchar_t szOldName[CONTAINER_NAMELEN + 1];
 					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szOldName);
 					if (mir_wstrlen(szOldName) == mir_wstrlen(szNewName)) {
-						MessageBox(0, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
+						MessageBox(nullptr, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						SetFocus(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME));
 						break;
 					}
@@ -149,7 +149,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				if (iItem != LB_ERR || !wcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
 					if (mir_wstrlen(szName) == mir_wstrlen(szNewName) || !wcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
-						MessageBox(0, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
+						MessageBox(nullptr, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						SetFocus(GetDlgItem(hwndDlg, IDC_NEWCONTAINER));
 						break;
 					}

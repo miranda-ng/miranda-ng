@@ -23,7 +23,7 @@ static INT_PTR srvParseHashes(WPARAM wParam, LPARAM lParam)
 {
 	LPCTSTR ptszUrl = (LPCTSTR)wParam;
 	LPTSTR  ptszBaseUrl = (LPTSTR)lParam;
-	if (ptszUrl == NULL || ptszBaseUrl == NULL)
+	if (ptszUrl == nullptr || ptszBaseUrl == nullptr)
 		return NULL;
 
 	SERVLIST *pList = new SERVLIST(50, CompareHashes);
@@ -48,13 +48,13 @@ static INT_PTR srvFreeHashes(WPARAM, LPARAM lParam)
 static INT_PTR srvGetHashCount(WPARAM, LPARAM lParam)
 {
 	SERVLIST *pList = (SERVLIST*)lParam;
-	return (pList == NULL) ? 0 : pList->getCount();
+	return (pList == nullptr) ? 0 : pList->getCount();
 }
 
 static INT_PTR srvGetNthHash(WPARAM wParam, LPARAM lParam)
 {
 	SERVLIST *pList = (SERVLIST*)lParam;
-	return (pList == NULL) ? 0 : INT_PTR(&(*pList)[wParam]);
+	return (pList == nullptr) ? 0 : INT_PTR(&(*pList)[wParam]);
 }
 
 void InitServices()

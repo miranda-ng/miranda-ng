@@ -21,8 +21,8 @@ RequestQueue::RequestQueue(HNETLIBUSER hConnection) :
 	hConnection(hConnection), requests(1)
 {
 	isTerminated = true;
-	hRequestQueueThread = NULL;
-	hRequestQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hRequestQueueThread = nullptr;
+	hRequestQueueEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
 
 RequestQueue::~RequestQueue()
@@ -37,7 +37,7 @@ void RequestQueue::Start()
 		return;
 
 	isTerminated = false;
-	if (hRequestQueueThread == NULL)
+	if (hRequestQueueThread == nullptr)
 		hRequestQueueThread = mir_forkthread((pThreadFunc)&RequestQueue::WorkerThread, this);
 }
 
@@ -67,15 +67,15 @@ void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, voi
 void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, void *arg, HttpFinallyCallback last)
 {
 	RequestQueueItem *item = new RequestQueueItem(request, response, arg, last);
-	mir_forkthreadowner((pThreadFuncOwner)&RequestQueue::AsyncSendThread, this, item, 0);
+	mir_forkthreadowner((pThreadFuncOwner)&RequestQueue::AsyncSendThread, this, item, nullptr);
 }
 
 void RequestQueue::Execute(RequestQueueItem *item)
 {
 	HttpResponse *response = item->request->Send(hConnection);
-	if (item->responseCallback != NULL)
+	if (item->responseCallback != nullptr)
 		item->responseCallback(response, item->arg);
-	if (item->finallyCallback != NULL)
+	if (item->finallyCallback != nullptr)
 		item->finallyCallback(item->arg);
 	delete item;
 	delete response;
@@ -100,7 +100,7 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 		WaitForSingleObject(queue->hRequestQueueEvent, INFINITE);
 		while (true)
 		{
-			RequestQueueItem *item = NULL;
+			RequestQueueItem *item = nullptr;
 			{
 				mir_cslock lock(queue->requestQueueLock);
 
@@ -110,11 +110,11 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 				item = queue->requests[0];
 				queue->requests.remove(0);
 			}
-			if (item != NULL)
+			if (item != nullptr)
 				queue->Execute(item);
 		}
 	}
 
-	queue->hRequestQueueThread = NULL;
+	queue->hRequestQueueThread = nullptr;
 	return 0;
 }

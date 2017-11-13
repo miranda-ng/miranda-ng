@@ -35,7 +35,7 @@ void CSkypeProto::Login()
 	}
 
 	m_bHistorySynced = m_bThreadsTerminated = false;
-	if ((tokenExpires - 1800) > time(NULL))
+	if ((tokenExpires - 1800) > time(nullptr))
 		OnLoginSuccess();
 
 	PushRequest(new OAuthRequest(), &CSkypeProto::OnOAuthStart);
@@ -45,7 +45,7 @@ void CSkypeProto::OnLoginOAuth(const NETLIBHTTPREQUEST *response)
 {
 	if (!IsStatusConnecting(m_iStatus)) return;
 
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -124,7 +124,7 @@ void CSkypeProto::OnEndpointCreated(const NETLIBHTTPREQUEST *response)
 
 	m_iStatus++;
 
-	if (response == NULL) {
+	if (response == nullptr) {
 		debugLogA(__FUNCTION__ ": failed to get create endpoint");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -189,7 +189,7 @@ void CSkypeProto::OnSubscriptionsCreated(const NETLIBHTTPREQUEST *response)
 	if (!IsStatusConnecting(m_iStatus))
 		return;
 
-	if (response == NULL) {
+	if (response == nullptr) {
 		debugLogA(__FUNCTION__ ": failed to create subscription");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -223,7 +223,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	if (!IsStatusConnecting(m_iStatus))
 		return;
 
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -244,7 +244,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 
 	SendRequest(new LoadChatsRequest(li), &CSkypeProto::OnLoadChats);
 	SendRequest(new CreateTrouterRequest(), &CSkypeProto::OnCreateTrouter);
-	PushRequest(new GetContactListRequest(li, NULL), &CSkypeProto::LoadContactList);
+	PushRequest(new GetContactListRequest(li, nullptr), &CSkypeProto::LoadContactList);
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl"))), &CSkypeProto::OnReceiveAvatar, NULL);
 
 	if (m_opts.bAutoHistorySync)
@@ -254,12 +254,12 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	if (root)
 		setString("SelfEndpointName", UrlToSkypename(root["selfLink"].as_string().c_str()));
 
-	PushRequest(new GetProfileRequest(li), &CSkypeProto::LoadProfile, NULL);
+	PushRequest(new GetProfileRequest(li), &CSkypeProto::LoadProfile, nullptr);
 }
 
 void CSkypeProto::OnStatusChanged(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		debugLogA(__FUNCTION__ ": failed to change status");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);

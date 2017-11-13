@@ -172,7 +172,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
 {
 	MainMenuExecParam *mmep = (MainMenuExecParam*)mir_alloc(sizeof(MainMenuExecParam));
 	if (mmep == nullptr)
-		return 0;
+		return nullptr;
 
 	//we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
@@ -718,7 +718,7 @@ static int MenuIconsChanged(WPARAM, LPARAM)
 {
 	// just rebuild menu
 	RebuildMenuOrder();
-	cli.pfnCluiProtocolStatusChanged(0, 0);
+	cli.pfnCluiProtocolStatusChanged(0, nullptr);
 	return 0;
 }
 
@@ -1122,7 +1122,7 @@ void InitCustomMenus(void)
 	InitGenMenu();
 
 	// main menu
-	hMainMenuObject = Menu_AddObject("MainMenu", LPGEN("Main menu"), 0, "MainMenuExecService");
+	hMainMenuObject = Menu_AddObject("MainMenu", LPGEN("Main menu"), nullptr, "MainMenuExecService");
 	Menu_ConfigureObject(hMainMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hMainMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataMainMenu");
 

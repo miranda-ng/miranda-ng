@@ -91,9 +91,9 @@ static int __fastcall CountryNumberToBitmapIndex(int countryNumber)
 // only operates on color icons, which isn't a problem here
 static HICON __fastcall ResizeIconCentered(HICON hIcon,int cx,int cy)
 {
-	HICON hResIcon = NULL;
-	HDC hdc = CreateCompatibleDC(NULL);
-	if (hdc != NULL) {
+	HICON hResIcon = nullptr;
+	HDC hdc = CreateCompatibleDC(nullptr);
+	if (hdc != nullptr) {
 		ICONINFO icoi;
 		if ( GetIconInfo(hIcon,&icoi)) {
 			BITMAP bm;
@@ -102,22 +102,22 @@ static HICON __fastcall ResizeIconCentered(HICON hIcon,int cx,int cy)
 				pt.x = (cx-bm.bmWidth)/2;
 				pt.y = (cy-bm.bmHeight)/2;
 				HBITMAP hbmPrev = (HBITMAP)SelectObject(hdc, icoi.hbmColor);
-				if (hbmPrev != NULL) { /* error on select? */
+				if (hbmPrev != nullptr) { /* error on select? */
 					HBITMAP hbm = icoi.hbmColor;
 					icoi.hbmColor = CreateCompatibleBitmap(hdc,cx,cy);
-					if (icoi.hbmColor != NULL)
-						if (SelectObject(hdc,icoi.hbmColor) != NULL) { /* error on select? */
+					if (icoi.hbmColor != nullptr)
+						if (SelectObject(hdc,icoi.hbmColor) != nullptr) { /* error on select? */
 							DeleteObject(hbm); /* delete prev color (XOR) */
-							if (BitBlt(hdc,0,0,cx,cy,NULL,0,0,BLACKNESS)) /* transparency: AND=0, XOR=1 */
-								if (DrawIconEx(hdc,pt.x,pt.y,hIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_IMAGE|DI_NOMIRROR)) {
-									if (SelectObject(hdc,icoi.hbmMask) != NULL) { /* error on select? */
+							if (BitBlt(hdc,0,0,cx,cy,nullptr,0,0,BLACKNESS)) /* transparency: AND=0, XOR=1 */
+								if (DrawIconEx(hdc,pt.x,pt.y,hIcon,bm.bmWidth,bm.bmHeight,0,nullptr,DI_IMAGE|DI_NOMIRROR)) {
+									if (SelectObject(hdc,icoi.hbmMask) != nullptr) { /* error on select? */
 										hbm = icoi.hbmMask;
-										icoi.hbmMask = CreateBitmap(cx,cy,1,1,NULL); /* mono */
-										if (icoi.hbmMask != NULL)
-											if (SelectObject(hdc,icoi.hbmMask) != NULL) { /* error on select? */
+										icoi.hbmMask = CreateBitmap(cx,cy,1,1,nullptr); /* mono */
+										if (icoi.hbmMask != nullptr)
+											if (SelectObject(hdc,icoi.hbmMask) != nullptr) { /* error on select? */
 												DeleteObject(hbm); /* delete prev mask (AND) */
-												if (BitBlt(hdc,0,0,cx,cy,NULL,0,0,WHITENESS)) /* transparency: AND=0, XOR=1 */
-													if (DrawIconEx(hdc,pt.x,pt.y,hIcon,0,0,0,NULL,DI_MASK|DI_NOMIRROR)) {
+												if (BitBlt(hdc,0,0,cx,cy,nullptr,0,0,WHITENESS)) /* transparency: AND=0, XOR=1 */
+													if (DrawIconEx(hdc,pt.x,pt.y,hIcon,0,0,0,nullptr,DI_MASK|DI_NOMIRROR)) {
 														SelectObject(hdc,hbmPrev);
 														hResIcon = CreateIconIndirect(&icoi); /* bitmaps must not be selected */
 													}
@@ -142,7 +142,7 @@ HICON __fastcall LoadFlagIcon(int countryNumber)
 {
 	/* create identifier */
 	char *szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber, 0);
-	if (szCountry == NULL)
+	if (szCountry == nullptr)
 		szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber = 0xFFFF, 0);
 
 	char szId[20];
@@ -168,7 +168,7 @@ static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	/* return handle */
 	if ((BOOL)lParam) {
-		if (phIconHandles == NULL)
+		if (phIconHandles == nullptr)
 			return 0;
 
 		return (INT_PTR)phIconHandles[CountryNumberToIndex((int)wParam)];
@@ -179,10 +179,10 @@ static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 {
-	HICON hIcon=NULL;
+	HICON hIcon = nullptr;
 	/* load both icons */
 	HICON hLowerIcon = (HICON)ServiceLoadFlagIcon((WPARAM)lParam,0);
-	if (hLowerIcon == NULL)
+	if (hLowerIcon == nullptr)
 		return 0;
 
 	HICON hUpperIcon = (HICON)ServiceLoadFlagIcon(wParam,0);
@@ -191,21 +191,21 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 	ICONINFO icoi;
 	if (GetIconInfo(hLowerIcon, &icoi)) {
 		BITMAP bm;
-		if (hUpperIcon != NULL && GetObject(icoi.hbmColor, sizeof(bm), &bm)) {
-			HDC hdc = CreateCompatibleDC(NULL);
-			if (hdc != NULL) {
+		if (hUpperIcon != nullptr && GetObject(icoi.hbmColor, sizeof(bm), &bm)) {
+			HDC hdc = CreateCompatibleDC(nullptr);
+			if (hdc != nullptr) {
 				POINT aptTriangle[3] = { 0 };
 				aptTriangle[1].y = bm.bmHeight-1;
 				aptTriangle[2].x = bm.bmWidth-1;
 				HRGN hrgn = CreatePolygonRgn(aptTriangle,_countof(aptTriangle),WINDING);
-				if (hrgn != NULL) {
+				if (hrgn != nullptr) {
 					SelectClipRgn(hdc,hrgn);
 					DeleteObject(hrgn);
 					HBITMAP hbmPrev = (HBITMAP)SelectObject(hdc, icoi.hbmColor);
-					if (hbmPrev != NULL) {  /* error on select? */
-						if ( DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_IMAGE))
-							if ( SelectObject(hdc,icoi.hbmMask) != NULL) /* error on select? */
-								DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_MASK);
+					if (hbmPrev != nullptr) {  /* error on select? */
+						if ( DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,nullptr,DI_NOMIRROR|DI_IMAGE))
+							if ( SelectObject(hdc,icoi.hbmMask) != nullptr) /* error on select? */
+								DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,nullptr,DI_NOMIRROR|DI_MASK);
 						SelectObject(hdc,hbmPrev);
 					}
 				}
@@ -227,7 +227,7 @@ void InitIcons(void)
 	char szId[20];
 
 	/* register icons */
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.pszName = szId;
 	sid.cx = GetSystemMetrics(SM_CXSMICON);
 	sid.cy = GetSystemMetrics(SM_CYSMICON);
@@ -237,9 +237,9 @@ void InitIcons(void)
 	/* all those flag icons do not need any transparency mask (flags are always opaque),
 	 * storing them in a large bitmap to reduce file size */
 	HIMAGELIST himl = ImageList_LoadImage(hInst,MAKEINTRESOURCE(IDB_FLAGS),sid.cx,0,CLR_NONE,IMAGE_BITMAP,LR_CREATEDIBSECTION);
-	if (himl != NULL) {
+	if (himl != nullptr) {
 		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
-		if (phIconHandles != NULL) {
+		if (phIconHandles != nullptr) {
 			for (int i=0; i < nCountriesCount; ++i) {
 				sid.description.a = (char*)countries[i].szName;
 
@@ -252,10 +252,10 @@ void InitIcons(void)
 					sid.hDefaultIcon = ResizeIconCentered(hIcon,sid.cx,sid.cy);
 					DestroyIcon(hIcon);
 				}
-				else sid.hDefaultIcon = NULL;
+				else sid.hDefaultIcon = nullptr;
 				index = CountryNumberToIndex(countries[i].id);
 				phIconHandles[index] = IcoLib_AddIcon(&sid);
-				if (sid.hDefaultIcon != NULL)
+				if (sid.hDefaultIcon != nullptr)
 					DestroyIcon(sid.hDefaultIcon);
 			}
 		}

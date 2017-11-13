@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void TwitterProto::AddToListWorker(void *pArg)
 {
 	// TODO: what happens if there is an error?
-	if (pArg == 0)
+	if (pArg == nullptr)
 		return;
 
 	char *name = static_cast<char*>(pArg);
@@ -70,7 +70,7 @@ void TwitterProto::UpdateInfoWorker(void *arg)
 	}
 
 	UpdateAvatar(hContact, user.profile_image_url, true);
-	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }
 
 int TwitterProto::GetInfo(MCONTACT hContact, int info_type)
@@ -102,7 +102,7 @@ struct search_query
 
 void TwitterProto::DoSearch(void *pArg)
 {
-	if (pArg == 0)
+	if (pArg == nullptr)
 		return;
 
 	search_query *query = static_cast<search_query*>(pArg);

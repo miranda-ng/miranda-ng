@@ -24,9 +24,9 @@ CAimProto::CAimProto(const char* aProtoName, const wchar_t* aUserName) :
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
 	//create some events
-	m_hAvatarEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	m_hChatNavEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	m_hAdminEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	m_hAvatarEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+	m_hChatNavEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+	m_hAdminEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CAimProto::SvcCreateAccMgrUI);
 
@@ -170,7 +170,7 @@ HANDLE __cdecl CAimProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *s
 		ForkThread(&CAimProto::accept_file_thread, ft);
 		return ft;
 	}
-	return 0;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -239,7 +239,7 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const wchar_t**
 
 	case FILERESUME_SKIP:
 		mir_free(ft->pfts.tszCurrentFile);
-		ft->pfts.tszCurrentFile = NULL;
+		ft->pfts.tszCurrentFile = nullptr;
 		break;
 
 	default:
@@ -317,7 +317,7 @@ void __cdecl CAimProto::basic_search_ack_success(void *p)
 HANDLE __cdecl CAimProto::SearchBasic(const wchar_t *szId)
 {
 	if (m_state != 1)
-		return 0;
+		return nullptr;
 
 	//duplicating the parameter so that it isn't deleted before it's needed- e.g. this function ends before it's used
 	ForkThread(&CAimProto::basic_search_ack_success, mir_u2a(szId));
@@ -330,8 +330,8 @@ HANDLE __cdecl CAimProto::SearchBasic(const wchar_t *szId)
 HANDLE __cdecl CAimProto::SearchByEmail(const wchar_t *email)
 {
 	// Maximum email size should really be 320, but the char string is limited to 255.
-	if (m_state != 1 || email == NULL || mir_wstrlen(email) >= 254)
-		return NULL;
+	if (m_state != 1 || email == nullptr || mir_wstrlen(email) >= 254)
+		return nullptr;
 
 	char *szEmail = mir_u2a(email);
 	aim_search_by_email(m_hServerConn, m_seqno, szEmail);
@@ -345,7 +345,7 @@ HANDLE __cdecl CAimProto::SearchByEmail(const wchar_t *email)
 int __cdecl CAimProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	char *omsg = pre->szMessage;
-	char *bbuf = NULL;
+	char *bbuf = nullptr;
 	if (getByte(AIM_KEY_FI, 1)) {
 		debugLogA("Converting from html to bbcodes then stripping leftover html.");
 		pre->szMessage = bbuf = html_to_bbcodes(pre->szMessage);
@@ -365,16 +365,16 @@ int __cdecl CAimProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles)
 {
 	if (m_state != 1)
-		return 0;
+		return nullptr;
 
 	if (hContact && szDescription && ppszFiles) {
 		DBVARIANT dbv;
 		if (!getString(hContact, AIM_KEY_SN, &dbv)) {
-			file_transfer *ft = new file_transfer(hContact, dbv.pszVal, NULL);
+			file_transfer *ft = new file_transfer(hContact, dbv.pszVal, nullptr);
 
 			bool isDir = false;
 			int count = 0;
-			while (ppszFiles[count] != NULL) {
+			while (ppszFiles[count] != nullptr) {
 				struct _stati64 statbuf;
 				if (_wstat64(ppszFiles[count++], &statbuf) == 0) {
 					if (statbuf.st_mode & _S_IFDIR) {
@@ -389,7 +389,7 @@ HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 
 			if (ft->pfts.totalFiles == 0) {
 				delete ft;
-				return NULL;
+				return nullptr;
 			}
 
 			ft->pfts.flags |= PFTS_SENDING;
@@ -397,7 +397,7 @@ HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 
 			ft->file = ft->pfts.totalFiles == 1 || isDir ? mir_utf8encodeW(ppszFiles[0]) : (char*)mir_calloc(1);
 			ft->sending = true;
-			ft->message = szDescription[0] ? mir_utf8encodeW(szDescription) : NULL;
+			ft->message = szDescription[0] ? mir_utf8encodeW(szDescription) : nullptr;
 			ft->me_force_proxy = getByte(AIM_KEY_FP, 0) != 0;
 			ft->requester = true;
 
@@ -417,7 +417,7 @@ HANDLE __cdecl CAimProto::SendFile(MCONTACT hContact, const wchar_t* szDescripti
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -438,7 +438,7 @@ void __cdecl CAimProto::msg_ack_success(void* param)
 
 int __cdecl CAimProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
-	if (pszSrc == NULL)
+	if (pszSrc == nullptr)
 		return 0;
 
 	if (m_state != 1) {
@@ -449,7 +449,7 @@ int __cdecl CAimProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	}
 
 	char *sn = getStringA(hContact, AIM_KEY_SN);
-	if (sn == NULL) {
+	if (sn == nullptr) {
 		msg_ack_param *msg_ack = (msg_ack_param*)mir_calloc(sizeof(msg_ack_param));
 		msg_ack->hContact = hContact;
 		msg_ack->msg = "Screen Name for the contact not available";
@@ -472,7 +472,7 @@ int __cdecl CAimProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 	if (!res || blast || 0 == getByte(AIM_KEY_DC, 1)) {
 		msg_ack_param *msg_ack = (msg_ack_param*)mir_alloc(sizeof(msg_ack_param));
 		msg_ack->hContact = hContact;
-		msg_ack->msg = NULL;
+		msg_ack->msg = nullptr;
 		msg_ack->id = res;
 		msg_ack->success = res != 0;
 		ForkThread(&CAimProto::msg_ack_success, msg_ack);
@@ -564,7 +564,7 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 HANDLE __cdecl CAimProto::GetAwayMsg(MCONTACT hContact)
 {
 	if (m_state != 1)
-		return 0;
+		return nullptr;
 
 	int status = getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE);
 	switch (status) {
@@ -574,7 +574,7 @@ HANDLE __cdecl CAimProto::GetAwayMsg(MCONTACT hContact)
 		break;
 
 	default:
-		return 0;
+		return nullptr;
 	}
 
 	return (HANDLE)1;
@@ -595,7 +595,7 @@ int __cdecl CAimProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* pre)
 int __cdecl CAimProto::SetAwayMsg(int status, const wchar_t* msg)
 {
 	char **msgptr = get_status_msg_loc(status);
-	if (msgptr == NULL) return 1;
+	if (msgptr == nullptr) return 1;
 
 	char *nmsg = mir_utf8encodeW(msg);
 	mir_free(*msgptr); *msgptr = nmsg;

@@ -27,7 +27,7 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		return false;
 
 	FILE *profile = _wfopen(profilePath, L"rb");
-	if (profile == NULL) {
+	if (profile == nullptr) {
 		ShowNotification(TranslateT("Unable to open Tox profile"), MB_ICONERROR);
 		debugLogA(__FUNCTION__": failed to open tox profile");
 		return false;
@@ -111,7 +111,7 @@ void CToxProto::SaveToxProfile(Tox *tox)
 
 	ptrW profilePath(GetToxProfilePath());
 	FILE *profile = _wfopen(profilePath, L"wb");
-	if (profile == NULL) {
+	if (profile == nullptr) {
 		debugLogA(__FUNCTION__": failed to open tox profile");
 		mir_free(data);
 		return;
@@ -129,7 +129,7 @@ INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 {
 	ptrA address(getStringA(TOX_SETTINGS_ID));
 	size_t length = mir_strlen(address) + 1;
-	if (OpenClipboard(NULL)) {
+	if (OpenClipboard(nullptr)) {
 		EmptyClipboard();
 		HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, length);
 		memcpy(GlobalLock(hMemory), address, length);

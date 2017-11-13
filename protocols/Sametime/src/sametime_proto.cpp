@@ -6,12 +6,12 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 	is_idle(false), idle_status(false),
 	first_online(true),
 	idle_timerid(0),
-	session(NULL),
-	my_login_info(NULL),
-	my_conference(NULL),
-	service_places(NULL),
-	service_conference(NULL),
-	server_connection(0)
+	session(nullptr),
+	my_login_info(nullptr),
+	my_conference(nullptr),
+	service_places(nullptr),
+	service_conference(nullptr),
+	server_connection(nullptr)
 {
 	// Register m_hNetlibUser user
 	wchar_t name[128];
@@ -159,7 +159,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 
 HANDLE CSametimeProto::SearchBasic(const wchar_t* id)
 {
-	debugLogW(L"CSametimeProto::SearchBasic()  id:len=[%d]", id == NULL ? -1 : mir_wstrlen(id));
+	debugLogW(L"CSametimeProto::SearchBasic()  id:len=[%d]", id == nullptr ? -1 : mir_wstrlen(id));
 	return (HANDLE)SearchForUser(T2Utf(id), FALSE);
 	///TODO - add timeout (like at GGPROTO::searchthread)
 }
@@ -171,7 +171,7 @@ HWND CSametimeProto::SearchAdvanced(HWND owner)
 		debugLogW(L"CSametimeProto::SearchAdvanced()  buf:len=[%d]", mir_wstrlen(buf));
 		return (HWND)SearchForUser(T2Utf(buf), TRUE);
 	}
-	return NULL;
+	return nullptr;
 }
 
 HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)
@@ -211,7 +211,7 @@ HANDLE CSametimeProto::SendFile(MCONTACT hContact, const wchar_t* szDescription,
 			}
 		}
 	}
-	return 0; // failure
+	return nullptr; // failure
 }
 
 int CSametimeProto::SendMsg(MCONTACT hContact, int, const char* msg)
@@ -270,7 +270,7 @@ HANDLE CSametimeProto::GetAwayMsg(MCONTACT hContact)
 		mir_forkthread(sttRecvAwayThread, tfap);
 		return (HANDLE)1;
 	}
-	return NULL;
+	return nullptr;
 }
 
 int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
@@ -284,7 +284,7 @@ int CSametimeProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt
 
 int CSametimeProto::SetAwayMsg(int iStatus, const wchar_t* msg)
 {
-	debugLogW(L"CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]", iStatus, msg == NULL ? -1 : mir_wstrlen(msg));
+	debugLogW(L"CSametimeProto::SetAwayMsg()  iStatus=[%d], msg:len=[%d]", iStatus, msg == nullptr ? -1 : mir_wstrlen(msg));
 	SetSessionAwayMessage(iStatus, msg);
 	return 0;
 }

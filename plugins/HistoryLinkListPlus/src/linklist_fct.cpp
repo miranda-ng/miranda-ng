@@ -51,7 +51,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 	wchar_t templink[LINK_MAX + 1];
 	wchar_t dbdate[DATE_SIZE + TIME_SIZE];
 
-	if (listStart == NULL)
+	if (listStart == nullptr)
 		return -1;
 
 	link[0] = 0;
@@ -59,7 +59,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 	time[0] = 0;
 
 	msg = DbEvent_GetTextW(dbei, CP_ACP);
-	if (msg == NULL)
+	if (msg == nullptr)
 		return 0;
 
 	for (i = 0; msg[i]; ) {
@@ -104,7 +104,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 		wordlen = (i - wordStart + 1);
 		word = (LPTSTR)mir_alloc(wordlen * sizeof(wchar_t));
 		wordsearch = (LPTSTR)mir_alloc(wordlen * sizeof(wchar_t));
-		if (word == NULL || wordsearch == NULL) {
+		if (word == nullptr || wordsearch == nullptr) {
 			mir_free(word);
 			mir_free(wordsearch);
 			linkFound = -1;
@@ -138,7 +138,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 		}
 
 		if (isLink && wordlen <= LINK_MAX) {
-			if (wcsstr(wordsearch, L"www.") != NULL && wcsstr(wordsearch, L"http://") == NULL && wcsstr(wordsearch, L"https://") == NULL) {
+			if (wcsstr(wordsearch, L"www.") != nullptr && wcsstr(wordsearch, L"http://") == nullptr && wcsstr(wordsearch, L"https://") == nullptr) {
 				wcsncpy_s(link, L"http://", LINK_MAX);
 				wcsncat_s(link, word, LINK_MAX);
 			} else {
@@ -147,7 +147,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 
 			TimeZone_ToStringT(dbei->timestamp, L"d-t", dbdate, _countof(dbdate));
 			date_ptr = wcstok_s(dbdate, L"-", &tok_ctx);
-			time_ptr = wcstok_s(NULL, L"-", &tok_ctx);
+			time_ptr = wcstok_s(nullptr, L"-", &tok_ctx);
 			wcsncpy_s(date, date_ptr, _TRUNCATE);
 			wcsncpy_s(time, time_ptr, _TRUNCATE);
 
@@ -156,7 +156,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 			else
 				direction = DIRECTION_IN;
 
-			if (type == LINK_MAIL && wcsstr(link, L"mailto:") == NULL) {
+			if (type == LINK_MAIL && wcsstr(link, L"mailto:") == nullptr) {
 				wcsncpy_s(templink, link, _TRUNCATE);
 				wcsncpy_s(link, L"mailto:", _TRUNCATE);
 				wcsncpy_s((link + _mstrlen(L"mailto:")), (_countof(link) - _mstrlen(L"mailto:")), templink, _TRUNCATE);
@@ -164,7 +164,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 
 			// Add new Element to list:
 			newElement = (LISTELEMENT*)mir_alloc(sizeof(LISTELEMENT));
-			if (newElement == NULL) {
+			if (newElement == nullptr) {
 				linkFound = -1;
 				break;
 			}
@@ -177,7 +177,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 			newElement->hEvent = hEvent;
 				
 			actualElement = listStart;
-			while (actualElement->nextElement != NULL) {
+			while (actualElement->nextElement != nullptr) {
 				actualElement = actualElement->nextElement; 
 			}
 				
@@ -200,11 +200,11 @@ int RemoveList(LISTELEMENT *listStart)
 {
 	LISTELEMENT *actualElement, *tempElement;
 
-	if ( listStart == NULL )
+	if ( listStart == nullptr )
 		return -1;
 
 	actualElement = listStart->nextElement;
-	while ( actualElement != NULL )
+	while ( actualElement != nullptr )
 	{
 		tempElement = actualElement->nextElement;
 		mir_free(actualElement);
@@ -223,11 +223,11 @@ int ListCount(LISTELEMENT *listStart)
 	LISTELEMENT *actualElement;
 	int count = 0;
 
-	if ( listStart == NULL )
+	if ( listStart == nullptr )
 		return -1;
 	
 	actualElement = listStart->nextElement;
-	while ( actualElement != NULL )
+	while ( actualElement != nullptr )
 	{
 		count++;
 		actualElement = actualElement->nextElement;
@@ -245,7 +245,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 {
 	CHARFORMAT2 cf;
 	PARAFORMAT2 pf;
-	HWND hwndProgress = NULL;
+	HWND hwndProgress = nullptr;
 	RECT DesktopRect;
 	MYCOLOURSET colourSet;
 	wchar_t textLine[LINK_MAX + DIR_SIZE + TIME_SIZE + TYPE_SIZE + 6];
@@ -295,7 +295,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			pf.wAlignment = PFA_LEFT;
 			SendDlgItemMessage( hDlg, IDC_MAIN,  EM_SETPARAFORMAT, FALSE, (LPARAM) &pf);
 		
-			if ( searchString != NULL )
+			if ( searchString != nullptr )
 			{
 				memset(&cf, 0, sizeof(cf));
 				cf.cbSize = sizeof(cf);
@@ -342,17 +342,17 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		{
 			// Create Progressbar
 			GetWindowRect(GetDesktopWindow(), &DesktopRect);
-			hwndProgress = CreateWindow(L"Progressbar", TranslateT("Processing list..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
+			hwndProgress = CreateWindow(L"Progressbar", TranslateT("Processing list..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, nullptr, nullptr, hInst, nullptr);
 			SetWindowPos(hwndProgress,HWND_TOP,(int)(DesktopRect.right*0.5)-175,(int)(DesktopRect.bottom*0.5)-22,0,0,SWP_NOSIZE);
 		
-			if ( hwndProgress != NULL )
+			if ( hwndProgress != nullptr )
 			{
 				ShowWindow(hwndProgress, SW_SHOW);
 				SetForegroundWindow(hwndProgress);
 			}
 		}
 
-		while ( actualElement != NULL )
+		while ( actualElement != nullptr )
 		{
 			filter1 = 0;
 			filter2 = 0;
@@ -371,7 +371,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				filter2 = 1;
 
 
-			if ( searchString != NULL )
+			if ( searchString != nullptr )
 			{
 				if ( params & SLL_DEEP )
 				{	
@@ -478,7 +478,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			if ((actCount < listCount) && (append == 0) && (options.showLine != 0))
 				DrawLine(hDlg, lineLen);
 		}
-		else if ( searchString == NULL )
+		else if ( searchString == nullptr )
 		{	
 			memset(&cf, 0, sizeof(cf));
 			cf.cbSize = sizeof(cf);
@@ -519,7 +519,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK);
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_AUTOURLDETECT, TRUE, 0);
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETBKGNDCOLOR, FALSE, BGColourSel);
-	SetDlgItemText(hDlg, IDC_OPTIONS_RE, NULL);
+	SetDlgItemText(hDlg, IDC_OPTIONS_RE, nullptr);
 
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
@@ -608,7 +608,7 @@ Write Message to window
 void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 {
 	LISTELEMENT *actualElement = listStart->nextElement;
-	while (actualElement != NULL) {
+	while (actualElement != nullptr) {
 		if (actualElement->linePos == actLinePos) {
 			MEVENT hEvent = actualElement->hEvent;
 			if (hEvent != NULL ) {
@@ -618,7 +618,7 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 				db_event_get(hEvent, &dbe);
 				dbe.pBlob[dbe.cbBlob] = 0;
 				LPCTSTR msg = DbEvent_GetTextW(&dbe, CP_ACP);
-				SetDlgItemText(hDlg, IDC_MESSAGE, NULL);
+				SetDlgItemText(hDlg, IDC_MESSAGE, nullptr);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 				mir_free((void*)msg);
 				mir_free(dbe.pBlob);
@@ -744,7 +744,7 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 	*realElementCount = 0;
 	actualElement = listStart->nextElement;
 	
-	while ( actualElement != NULL )
+	while ( actualElement != nullptr )
 	{
 		(*realElementCount)++;
 
@@ -762,7 +762,7 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 		else if ( (params & WLL_URL) && (actualElement->type == LINK_URL))
 			filter2 = 1;
 		
-		if ( searchString != NULL )
+		if ( searchString != nullptr )
 		{
 			if ( params & SLL_DEEP )
 			{	
@@ -906,11 +906,11 @@ void ClearLinePos(LISTELEMENT *listStart)
 {
 	LISTELEMENT *actualElement;
 
-	if ( listStart == NULL )
+	if ( listStart == nullptr )
 		return;
 
 	actualElement = listStart->nextElement;
-	while ( actualElement != NULL )
+	while ( actualElement != nullptr )
 	{
 		actualElement->linePos = -1;
 		actualElement = actualElement->nextElement;
@@ -922,11 +922,11 @@ int GetLastLinePos(LISTELEMENT *listStart)
 	LISTELEMENT *actualElement;
 	int maxPos = -1;
 
-	if ( listStart == NULL )
+	if ( listStart == nullptr )
 		return -1;
 
 	actualElement = listStart->nextElement;
-	while ( actualElement != NULL )
+	while ( actualElement != nullptr )
 	{
 		if ( actualElement->linePos > maxPos )
 			maxPos = actualElement->linePos;
@@ -1187,7 +1187,7 @@ int DBUpdate(WPARAM wParam, LPARAM hEvent)
 			// Call function to find URIs
 			linkNum = ExtractURI(&dbe, hEvent, DlgParam->listStart);
 			if ( linkNum > 0 )
-				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, linkNum); 
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, nullptr, linkNum); 
 		}
 		mir_free(dbe.pBlob);
 	}
@@ -1256,8 +1256,8 @@ BOOL SaveEditAsStream( HWND hDlg )
 	if ( ! GetSaveFileName( &ofn ))                   
 		return FALSE;
 	//  Create the specified file
-	hFile = CreateFile( szFilename, GENERIC_WRITE, 0, NULL,
-		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+	hFile = CreateFile( szFilename, GENERIC_WRITE, 0, nullptr,
+		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr );
 	//  Quit if file creation fails
 	if ( hFile == INVALID_HANDLE_VALUE )
 		return FALSE;
@@ -1281,7 +1281,7 @@ DWORD CALLBACK RTFSaveStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuffer, LONG l
 	// Initialize "amount read" variable for WriteFile()
 	*plRead = 0;           
 	// dwCookie is the file handle
-	WriteFile( (HANDLE)dwCookie, lpBuffer, lSize, (LPDWORD)plRead, NULL );
+	WriteFile( (HANDLE)dwCookie, lpBuffer, lSize, (LPDWORD)plRead, nullptr );
 	// Continue, if needed
 	return 0;
 }

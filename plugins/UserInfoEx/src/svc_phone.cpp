@@ -28,12 +28,12 @@ enum EPhoneType
 	PHONE_SMS
 };
 
-static HANDLE ghMenuItem = NULL;
+static HANDLE ghMenuItem = nullptr;
 static HANDLE ghExtraIconDef[2] = { INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE };
 static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook = NULL;
-static HANDLE hApplyIconHook = NULL;
+static HANDLE hChangedHook = nullptr;
+static HANDLE hApplyIconHook = nullptr;
 
 bool g_eiPhone = false;
 
@@ -54,7 +54,7 @@ static INT_PTR Get(MCONTACT hContact)
 	// ignore owner
 	if (hContact != NULL) {
 		LPCSTR pszProto = Proto_GetBaseAccountName(hContact);
-		if (pszProto != NULL) {
+		if (pszProto != nullptr) {
 			LPCSTR e[2][4] = {
 				{ SET_CONTACT_CELLULAR,         SET_CONTACT_PHONE,         "MyPhone0"        },
 				{ SET_CONTACT_COMPANY_CELLULAR, SET_CONTACT_COMPANY_PHONE, "MyCompanyPhone0" }
@@ -92,7 +92,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 	switch (Get(hContact)) {
 		case PHONE_NORMAL:  icoName = ICO_BTN_PHONE;     break;
 		case PHONE_SMS:     icoName = ICO_BTN_CELLULAR;  break;
-		default:            icoName = NULL;
+		default:            icoName = nullptr;
 	}
 	ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, icoName);
 	return 0;
@@ -139,10 +139,10 @@ bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 	// force module enabled, if extraicon plugin was found
 	if (g_eiPhone) {
 		// hook events
-		if (hChangedHook == NULL) 
+		if (hChangedHook == nullptr) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
-		if (hApplyIconHook == NULL) 
+		if (hApplyIconHook == nullptr) 
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
@@ -151,11 +151,11 @@ bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 	else {
 		if (hChangedHook) {
 			UnhookEvent(hChangedHook); 
-			hChangedHook = NULL;
+			hChangedHook = nullptr;
 		}			
 		if (hApplyIconHook) {
 			UnhookEvent(hApplyIconHook); 
-			hApplyIconHook = NULL;
+			hApplyIconHook = nullptr;
 		}			
 	}
 	return bChanged;
@@ -172,6 +172,6 @@ bool SvcPhoneEnableExtraIcons(bool bEnable, bool bUpdateDB)
 void SvcPhoneUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook); hChangedHook = NULL;
-	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
+	UnhookEvent(hChangedHook); hChangedHook = nullptr;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = nullptr;
 }

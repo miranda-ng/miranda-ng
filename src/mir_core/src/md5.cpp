@@ -146,7 +146,7 @@ static void md5_process(mir_md5_state_t *pms, const BYTE *data /*[64]*/)
 			* On little-endian machines, we can process properly aligned
 			* data without copying it.
 			*/
-			if ( !((data - (const BYTE *)0) & 3)) {
+			if ( !((data - (const BYTE *)nullptr) & 3)) {
 				/* data are properly aligned */
 				X = (const UINT32 *)data;
 			} else {

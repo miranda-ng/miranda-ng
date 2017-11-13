@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_SETGROUPVISIBILITIES  (WM_USER+11)
 
 static HWND hwndFindAdd = nullptr;
-static HANDLE hHookModulesLoaded = 0;
+static HANDLE hHookModulesLoaded = nullptr;
 static HGENMENU hMainMenuItem = nullptr;
 static int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam);
 
@@ -121,7 +121,7 @@ static void RenderThrobber(HDC hdc, RECT *rcItem, int *throbbing, int *pivot)
 
 	if (*throbbing) {
 		/* create memdc */
-		HDC hMemDC = CreateCompatibleDC(0);
+		HDC hMemDC = CreateCompatibleDC(nullptr);
 		HBITMAP hBitmap = (HBITMAP)SelectObject(hMemDC, CreateCompatibleBitmap(hdc, width, height));
 		/* flush it */
 		RECT rc;
@@ -224,7 +224,7 @@ static void ShowAdvancedSearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 		if (dat->hwndAdvSearch != nullptr)
 			mir_subclassWindow(dat->hwndAdvSearch, AdvancedSearchDlgSubclassProc);
 		GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULTS), &rc);
-		SetWindowPos(dat->hwndAdvSearch, 0, rc.left, rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		SetWindowPos(dat->hwndAdvSearch, nullptr, rc.left, rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 	}
 
 	AnimateWindow(dat->hwndAdvSearch, 150, AW_ACTIVATE | AW_SLIDE | AW_HOR_POSITIVE);
@@ -246,7 +246,7 @@ static void ReposTinySearchDlg(HWND hwndDlg, FindAddDlgData *dat)
 	pt.x = rc.left;
 	pt.y = rc.top;
 	ScreenToClient(hwndDlg, &pt);
-	SetWindowPos(dat->hwndTinySearch, 0, pt.x + 5, pt.y + 15, rc.right - rc.left - 10, rc.bottom - rc.top - 30, SWP_NOZORDER);
+	SetWindowPos(dat->hwndTinySearch, nullptr, pt.x + 5, pt.y + 15, rc.right - rc.left - 10, rc.bottom - rc.top - 30, SWP_NOZORDER);
 }
 
 static void ShowTinySearchDlg(HWND hwndDlg, FindAddDlgData *dat)
@@ -445,7 +445,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_MOVE:
 		if (dat && dat->hwndAdvSearch) {
 			GetWindowRect(hwndList, &rc);
-			SetWindowPos(dat->hwndAdvSearch, 0, rc.left, rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			SetWindowPos(dat->hwndAdvSearch, nullptr, rc.left, rc.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 		break;
 
@@ -543,7 +543,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			GetWindowRect(hwndDlg, &rc);
 			if (rc.bottom - rc.top < mmi.ptMinTrackSize.y)
-				SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, mmi.ptMinTrackSize.y, SWP_NOZORDER | SWP_NOMOVE);
+				SetWindowPos(hwndDlg, nullptr, 0, 0, rc.right - rc.left, mmi.ptMinTrackSize.y, SWP_NOZORDER | SWP_NOMOVE);
 		}
 		break;
 

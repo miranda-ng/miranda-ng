@@ -1230,7 +1230,7 @@ time_t
 SharedMemoryUtils::mfGetCurrentTimestamp()
 {
 
-	time_t currentTimestamp = time(NULL);
+	time_t currentTimestamp = time(nullptr);
 	//logger->log_dp(L"mfGetCurrentTimestamp() [" SCNuPTR L"]", currentTimestamp);
 	return currentTimestamp;
 
@@ -1369,7 +1369,7 @@ SharedMemoryUtils::isTokenOnList(std::wstring& token, std::wstring& tokensList)
 void
 SharedMemoryUtils::unloadFromCSM(uint16_t processCsmId)
 {
-	if (csm == NULL){
+	if (csm == nullptr){
 		logger->log(L"SharedMemoryUtils::unloadFromCSM: csm == NULL , return");
 		return;
 	}

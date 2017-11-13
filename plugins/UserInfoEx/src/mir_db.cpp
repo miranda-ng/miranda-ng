@@ -162,7 +162,7 @@ LPSTR	GetAString(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 
 		db_free(&dbv);
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -183,7 +183,7 @@ LPWSTR GetWString(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 
 		db_free(&dbv);
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -268,7 +268,7 @@ WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR ps
 			if (def > -1 && def < INT_MAX) {
 				hSubContact = db_mc_getSub(hContact, def);
 				if (hSubContact != NULL) {
-					wFlags = GetCtrl(hSubContact, pszSubModule, NULL, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType);
+					wFlags = GetCtrl(hSubContact, pszSubModule, nullptr, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType);
 					if (wFlags != 0) {
 						wFlags &= ~CTRLF_HASCUSTOM;
 						wFlags |= CTRLF_HASMETA;
@@ -283,7 +283,7 @@ WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR ps
 					if (i != def) {
 						hSubContact = db_mc_getSub(hContact, i);
 						if (hSubContact != NULL) {
-							wFlags = GetCtrl(hSubContact, pszSubModule, NULL, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType);
+							wFlags = GetCtrl(hSubContact, pszSubModule, nullptr, Proto_GetBaseAccountName(hSubContact), pszSetting, dbv, destType);
 							if (wFlags != 0) {
 								wFlags &= ~CTRLF_HASCUSTOM;
 								wFlags |= CTRLF_HASMETA;
@@ -350,7 +350,7 @@ namespace Variant {
 
 BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
 {
-	if (dbv == NULL)
+	if (dbv == nullptr)
 		return 1;
 
 	switch (dbv->type) {
@@ -381,13 +381,13 @@ BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
 		switch (destType) {
 		// destination type is "ascii"
 		case DBVT_ASCIIZ:
-			mir_utf8decode(dbv->pszVal, NULL);
+			mir_utf8decode(dbv->pszVal, nullptr);
 			dbv->type = (dbv->pszVal) ? destType : DBVT_DELETED;
 			break;
 		// destination type is "wchar"
 		case DBVT_WCHAR:
 			LPSTR savePtr = dbv->pszVal;
-			dbv->pszVal = NULL;
+			dbv->pszVal = nullptr;
 			mir_utf8decode(savePtr, &dbv->pwszVal);
 			mir_free(savePtr);
 			dbv->type = (dbv->pwszVal) ? destType : DBVT_DELETED;
@@ -430,7 +430,7 @@ BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
 
 BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType)
 {
-	if (dbv == NULL)
+	if (dbv == nullptr)
 		return 1;
 
 	WCHAR wbuf[32];
@@ -514,7 +514,7 @@ namespace Event {
 bool GetInfo(MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	dbei->cbBlob = 0;
-	dbei->pBlob  = NULL;
+	dbei->pBlob  = nullptr;
 	return db_event_get(hEvent, dbei) != 0;
 }
 
@@ -536,15 +536,15 @@ bool GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei)
 	}
 	if (dbei->cbBlob) {
 		dbei->pBlob = (PBYTE) mir_alloc(dbei->cbBlob);
-		if (dbei->pBlob == NULL)
+		if (dbei->pBlob == nullptr)
 			dbei->cbBlob = 0;
 	}
-	else dbei->pBlob = NULL;
+	else dbei->pBlob = nullptr;
 
 	bool result = db_event_get(hEvent, dbei) != 0;
 	if (result && dbei->pBlob) {
 		mir_free(dbei->pBlob);
-		dbei->pBlob = NULL;
+		dbei->pBlob = nullptr;
 	}
 	return result;
 }
@@ -713,7 +713,7 @@ LPSTR CEnumList::Insert(LPCSTR str)
 	LPSTR p = mir_strdup(str);
 	if (p && !insert(p)) {
 		mir_free(p);
-		p = NULL;
+		p = nullptr;
 	}
 	return p;
 }

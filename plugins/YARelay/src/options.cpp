@@ -161,8 +161,8 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK8) == BST_CHECKED) iForwardOnStatus |= STATUS_INVISIBLE;
 				GetDlgItemText(hwndDlg, IDC_EDIT_TEMPLATE, tszForwardTemplate, _countof(tszForwardTemplate));
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_SPLIT) == BST_CHECKED) iSplit = 1; else iSplit = 0;
-				iSplitMaxSize = GetDlgItemInt(hwndDlg, IDC_EDIT_MAXSIZE, NULL, FALSE);
-				iSendParts = GetDlgItemInt(hwndDlg, IDC_EDIT_SENDPARTS, NULL, FALSE);
+				iSplitMaxSize = GetDlgItemInt(hwndDlg, IDC_EDIT_MAXSIZE, nullptr, FALSE);
+				iSendParts = GetDlgItemInt(hwndDlg, IDC_EDIT_SENDPARTS, nullptr, FALSE);
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_MARKREAD) == BST_CHECKED) iMarkRead = 1; else iMarkRead = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_SAVEHISTORY) == BST_CHECKED) iSendAndHistory = 1; else iSendAndHistory = 0;
 				if (iSplitMaxSize <= 0)

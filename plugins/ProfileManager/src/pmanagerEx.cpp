@@ -49,8 +49,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 static INT_PTR ChangePM(WPARAM, LPARAM)
 {
 	wchar_t fn[MAX_PATH];
-	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
-	ShellExecute(0, L"open", fn, L"/ForceShowPM", L"", 1);
+	GetModuleFileName(GetModuleHandle(nullptr), fn, _countof(fn));
+	ShellExecute(nullptr, L"open", fn, L"/ForceShowPM", L"", 1);
 	CallService("CloseAction", 0, 0);
 	return 0;
 }
@@ -58,22 +58,22 @@ static INT_PTR ChangePM(WPARAM, LPARAM)
 static INT_PTR LoadPM(WPARAM, LPARAM)
 {
 	wchar_t fn[MAX_PATH];
-	GetModuleFileName(GetModuleHandle(NULL), fn, _countof(fn));
-	ShellExecute(0, L"open", fn, L"/ForceShowPM", L"", 1);
+	GetModuleFileName(GetModuleHandle(nullptr), fn, _countof(fn));
+	ShellExecute(nullptr, L"open", fn, L"/ForceShowPM", L"", 1);
 	return 0;
 }
 
 static INT_PTR CheckDb(WPARAM, LPARAM)
 {
-	if (MessageBox(0, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+	if (MessageBox(nullptr, TranslateT("Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?"), TranslateT("Check database"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 		wchar_t mirandaPath[MAX_PATH], cmdLine[100];
 		PROCESS_INFORMATION pi;
 		STARTUPINFO si = { 0 };
 		si.cb = sizeof(si);
-		GetModuleFileName(NULL, mirandaPath, _countof(mirandaPath));
+		GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
 		mir_snwprintf(cmdLine, L"\"%s\" /restart:%d /svc:dbchecker", mirandaPath, GetCurrentProcessId());
 		CallService("CloseAction", 0, 0);
-		CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+		CreateProcess(mirandaPath, cmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi);
 	}
 	return 0;
 }
@@ -120,7 +120,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		mi.hIcolibItem = iconList[i].hIcolib;
 		mi.uid = uids[i];
 		if (i == 3)
-			mi.root = NULL;
+			mi.root = nullptr;
 
 		Menu_AddMainMenuItem(&mi);
 	}

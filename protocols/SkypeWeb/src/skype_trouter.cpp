@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnCreateTrouter(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 LBL_Error:
 		debugLogA("Failed to establish a TRouter connection.");
 		return;
@@ -49,7 +49,7 @@ LBL_Error:
 
 void CSkypeProto::OnTrouterPoliciesCreated(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 LBL_Error:
 		debugLogA("Failed to establish a TRouter connection.");
 		return;
@@ -82,7 +82,7 @@ LBL_Error:
 
 void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		debugLogA("Failed to establish a TRouter connection.");
 		return;
 	}
@@ -95,9 +95,9 @@ void CSkypeProto::OnGetTrouter(const NETLIBHTTPREQUEST *response)
 	m_hTrouterEvent.Set();
 	m_hTrouterHealthEvent.Set();
 
-	if ((time(NULL) - TRouter.lastRegistrationTime) >= 3600) {
+	if ((time(nullptr) - TRouter.lastRegistrationTime) >= 3600) {
 		SendRequest(new RegisterTrouterRequest(li, TRouter.url.c_str(), TRouter.sessId.c_str()));
-		TRouter.lastRegistrationTime = time(NULL);
+		TRouter.lastRegistrationTime = time(nullptr);
 	}
 }
 
@@ -166,8 +166,8 @@ void CSkypeProto::TRouterThread(void*)
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
-	m_hTrouterThread = NULL;
-	m_TrouterConnection = NULL;
+	m_hTrouterThread = nullptr;
+	m_TrouterConnection = nullptr;
 	debugLogA(__FUNCTION__": leaving");
 }
 
@@ -186,7 +186,7 @@ void CSkypeProto::OnTrouterEvent(const JSONNode &body, const JSONNode &)
 			if (!uid.empty()) {
 				MCONTACT hContact = AddContact(uid.c_str(), true);
 
-				MEVENT hEvent = AddDbEvent(SKYPE_DB_EVENT_TYPE_INCOMING_CALL, hContact, time(NULL), DBEF_READ, gp.c_str(), callId.c_str());
+				MEVENT hEvent = AddDbEvent(SKYPE_DB_EVENT_TYPE_INCOMING_CALL, hContact, time(nullptr), DBEF_READ, gp.c_str(), callId.c_str());
 				Skin_PlaySound("skype_inc_call");
 
 				CLISTEVENT cle = {};

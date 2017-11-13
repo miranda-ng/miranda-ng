@@ -99,7 +99,7 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 		title = mir_a2u(ppd->lpzTitle);
 	}
 
-	ToastData *td = NULL;
+	ToastData *td = nullptr;
 
 	if (ppd->hbmAvatar)
 		td = new ToastData(ppd->lchContact, title, text, ppd->hbmAvatar);
@@ -132,7 +132,7 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 	auto it = mp_Classes.find(ppc->pszClassName);
 	if (it != mp_Classes.end())
 	{
-		ToastData *td = NULL;
+		ToastData *td = nullptr;
 
 		if (it->second->iFlags & PCF_TCHAR)
 		{
@@ -187,7 +187,7 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 	{
 		bool enabled = db_get_b(0, "Popup", "ModuleIsEnabled", 1) != 0;
 		if (enabled) db_set_b(0, "Popup", "ModuleIsEnabled", 0);
-		CallFunctionAsync(HideAllToasts, NULL);
+		CallFunctionAsync(HideAllToasts, nullptr);
 		return enabled;
 	}
 	case PUQS_GETSTATUS:
@@ -199,7 +199,7 @@ static INT_PTR PopupQuery(WPARAM wParam, LPARAM)
 
 static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 {
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 	switch (lParam)
 	{
 	case SM_WARNING:
@@ -213,7 +213,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	ToastData *td = new ToastData(NULL, NULL, (wchar_t*)wParam, hIcon);
+	ToastData *td = new ToastData(NULL, nullptr, (wchar_t*)wParam, hIcon);
 	CallFunctionAsync(ShowToastNotification, td);
 
 	return 0;

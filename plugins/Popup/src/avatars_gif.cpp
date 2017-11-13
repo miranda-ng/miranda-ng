@@ -30,8 +30,8 @@ GifAvatar::GifAvatar(MCONTACT hContact) : PopupAvatar()
 	bIsValid = true;
 	GDIPlus_GetGIFSize(av->szFilename, &this->width, &this->height);
 
-	hBitmap = NULL;
-	frameDelays = NULL;
+	hBitmap = nullptr;
+	frameDelays = nullptr;
 	frameCount = 0;
 	frameSize.cx = frameSize.cy = 0;
 
@@ -44,7 +44,7 @@ GifAvatar::~GifAvatar()
 {
 	if (frameDelays) {
 		mir_free(frameDelays);
-		frameDelays = NULL;
+		frameDelays = nullptr;
 	}
 	if (hBitmap) DeleteObject(hBitmap);
 }
@@ -65,7 +65,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 		cachedHeight = h;
 		if (frameDelays) {
 			mir_free(frameDelays);
-			frameDelays = NULL;
+			frameDelays = nullptr;
 		}
 		if (hBitmap) DeleteObject(hBitmap);
 		GDIPlus_ExtractAnimatedGIF(av->szFilename, w, h, hBitmap, frameDelays, frameCount, frameSize);
@@ -113,7 +113,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 		bmp->restoreAlpha(x, y, w, h);
 	}
 	DeleteObject(rgn);
-	SelectClipRgn(bmp->getDC(), NULL);
+	SelectClipRgn(bmp->getDC(), nullptr);
 	DeleteDC(hdcTmp);
 
 	activeFrame = (activeFrame + 1) % frameCount;

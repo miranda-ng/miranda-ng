@@ -220,7 +220,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	int wx = 0;
 	BYTE *ptr = nullptr;
 	HRGN rgn = nullptr;
-	HBITMAP WindowImage = g_CluiData.fLayered ? ske_GetCurrentWindowImage() : 0;
+	HBITMAP WindowImage = g_CluiData.fLayered ? ske_GetCurrentWindowImage() : nullptr;
 	if (WindowImage && g_CluiData.fLayered) {
 		BITMAP bmp;
 		GetObject(WindowImage, sizeof(BITMAP), &bmp);
@@ -275,7 +275,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 				po = (a > 16);
 			}
 
-			if (po || (!rgn && ptr == 0)) {
+			if (po || (!rgn && ptr == nullptr)) {
 				BOOL hWndFound = FALSE;
 				HWND hAuxOld = nullptr;
 				HWND hAux = WindowFromPoint(pt);

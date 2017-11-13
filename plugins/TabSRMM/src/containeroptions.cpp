@@ -145,7 +145,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			TVINSERTSTRUCT tvis = { 0 };
+			TVINSERTSTRUCT tvis = {};
 			int nr_layouts = 0;
 			const TSideBarLayout *sblayouts = CSideBar::getLayouts(nr_layouts);
 
@@ -369,8 +369,8 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			{
 				RECT	rc;
 				GetWindowRect(pContainer->m_hwnd, &rc);
-				SetWindowPos(pContainer->m_hwnd, 0, rc.left, rc.top, (rc.right - rc.left) - 1, (rc.bottom - rc.top) - 1, SWP_NOZORDER | SWP_DRAWFRAME | SWP_FRAMECHANGED);
-				SetWindowPos(pContainer->m_hwnd, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_NOZORDER | SWP_DRAWFRAME | SWP_SHOWWINDOW);
+				SetWindowPos(pContainer->m_hwnd, nullptr, rc.left, rc.top, (rc.right - rc.left) - 1, (rc.bottom - rc.top) - 1, SWP_NOZORDER | SWP_DRAWFRAME | SWP_FRAMECHANGED);
+				SetWindowPos(pContainer->m_hwnd, nullptr, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_NOZORDER | SWP_DRAWFRAME | SWP_SHOWWINDOW);
 			}
 
 			if (LOWORD(wParam) == IDOK)
@@ -553,7 +553,7 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hwndDlg);
-		pContainer->hWndOptions = 0;
+		pContainer->hWndOptions = nullptr;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 
 		HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_TITLEBOX, WM_GETFONT, 0, 0);

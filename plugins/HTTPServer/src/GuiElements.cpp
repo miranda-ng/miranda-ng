@@ -22,15 +22,15 @@
 
 #define WM_RELOAD_STATISTICS (WM_USER+10)
 
-static HANDLE hShareNewFileService = 0;
-static HANDLE hShowStatisticsViewService = 0;
+static HANDLE hShareNewFileService = nullptr;
+static HANDLE hShowStatisticsViewService = nullptr;
 
-static HANDLE hShareNewFileMenuItem = 0;
-static HANDLE hShowStatisticsViewMenuItem = 0;
+static HANDLE hShareNewFileMenuItem = nullptr;
+static HANDLE hShowStatisticsViewMenuItem = nullptr;
 
-static HANDLE hEventOptionsInitialize = 0;
+static HANDLE hEventOptionsInitialize = nullptr;
 
-HWND hwndStatsticView = 0;
+HWND hwndStatsticView = nullptr;
 bool bLastAutoRefress = false;
 HANDLE hMainThread;
 
@@ -99,7 +99,7 @@ string DBGetString(MCONTACT hContact, const char *szModule, const char *szSettin
 	DBVARIANT dbv = { 0 };
 	if (!db_get(hContact, szModule, szSetting, &dbv)) {
 		if (dbv.type != DBVT_ASCIIZ) {
-			MessageBox(NULL, "DB: Attempt to get wrong type of value, string", MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, "DB: Attempt to get wrong type of value, string", MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
 		else ret = dbv.pszVal;
@@ -146,7 +146,7 @@ void UpdateStatisticsView()
 
 unsigned long GetExternIP(const char *szURL, const char *szPattern)
 {
-	HCURSOR hPrevCursor = ::SetCursor(::LoadCursor(0, IDC_WAIT));
+	HCURSOR hPrevCursor = ::SetCursor(::LoadCursor(nullptr, IDC_WAIT));
 
 	NETLIBHTTPREQUEST nlhr;
 	memset(&nlhr, 0, sizeof(nlhr));
@@ -163,7 +163,7 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern)
 		if (nlreply->resultCode >= 200 && nlreply->resultCode < 300) {
 			nlreply->pData[nlreply->dataLength] = 0;// make sure its null terminated
 			char * pszIp = strstr(nlreply->pData, szPattern);
-			if (pszIp == NULL)
+			if (pszIp == nullptr)
 				pszIp = nlreply->pData;
 			else
 				pszIp += mir_strlen(szPattern);
@@ -319,7 +319,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 						}
 
 						pszTmp = strchr(szSelection, ':');
-						if (pszTmp != NULL)
+						if (pszTmp != nullptr)
 							*pszTmp = '\0';
 
 						memmove(&szSelection[1], pszFolder, mir_strlen(pszFolder) + 1);
@@ -472,7 +472,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 		if (dwError) {
 			char szTemp[200];
 			mir_snprintf(szTemp, "Failed to create File Open dialog the error returned was %d", dwError);
-			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_OK);
 		}
 		return false;
 	}
@@ -505,7 +505,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 					pstNewShare->pszRealPath[pstNewShare->dwMaxRealPath] = '\0';
 
 					if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)pstNewShare)) {
-						MessageBox(NULL, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+						MessageBox(nullptr, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
 						return false;
 					}
 					pszFileNamePos++;
@@ -516,7 +516,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare)
 	}
 	else {
 		if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)pstNewShare)) {
-			MessageBox(NULL, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
 			return false;
 		}
 	}
@@ -636,7 +636,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false)
 
 	if (bLastAutoRefress != bAutoRefress) {
 		if (bAutoRefress)
-			SetTimer(hwndDlg, 0, 1000, NULL);
+			SetTimer(hwndDlg, 0, 1000, nullptr);
 		else
 			KillTimer(hwndDlg, 0);
 		bLastAutoRefress = bAutoRefress;
@@ -664,14 +664,14 @@ void SetWindowsCtrls(HWND hwndDlg)
 	const int nSpacing = 8;
 	int nCtrlHight = (rNewSize.bottom - (nSpacing * 3)) / 3 - 20;
 
-	SetWindowPos(GetDlgItem(hwndDlg, IDC_CURRENT_SHARES), 0,
+	SetWindowPos(GetDlgItem(hwndDlg, IDC_CURRENT_SHARES), nullptr,
 		nSpacing,
 		35,
 		rNewSize.right - (nSpacing * 2),
 		nCtrlHight * 2,
 		SWP_NOZORDER);
 
-	SetWindowPos(GetDlgItem(hwndDlg, IDC_CURRENT_USERS), 0,
+	SetWindowPos(GetDlgItem(hwndDlg, IDC_CURRENT_USERS), nullptr,
 		nSpacing,
 		(nSpacing * 2) + nCtrlHight * 2 + 25,
 		rNewSize.right - (nSpacing * 2),
@@ -778,7 +778,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 		return TRUE;
 
 	case WM_DESTROY:
-		hwndStatsticView = NULL;
+		hwndStatsticView = nullptr;
 		return 0;
 
 	case WM_DROPFILES:
@@ -787,7 +787,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 			char szDropedFile[MAX_PATH];
 			char szServPath[MAX_PATH] = { 0 };
 
-			int nLen = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
+			int nLen = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
 			for (int i = 0; i < nLen; i++) {
 				DragQueryFile(hDrop, i, szDropedFile, sizeof(szDropedFile));
 
@@ -805,7 +805,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 					strncpy(&szServPath[1], fileName + 1, MAX_PATH - 2);
 
 				if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&stNewShare)) {
-					MessageBox(NULL, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+					MessageBox(nullptr, Translate("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
 					return false;
 				}
 			}
@@ -852,7 +852,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 				TranslateMenu(hMenu);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
-					pt.x, pt.y, 0, hwndDlg, NULL);
+					pt.x, pt.y, 0, hwndDlg, nullptr);
 
 				DestroyMenu(hMainMenu);
 			}
@@ -1077,7 +1077,7 @@ static INT_PTR nShowStatisticsView(WPARAM /*wParam*/, LPARAM /*lParam*/)
 		BringWindowToTop(hwndStatsticView);
 		return 0;
 	}
-	hwndStatsticView = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_STATISTICS_VIEW), NULL, DlgProcStatsticView, (LPARAM)NULL);
+	hwndStatsticView = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_STATISTICS_VIEW), nullptr, DlgProcStatsticView, (LPARAM)NULL);
 	ShowWindow(hwndStatsticView, SW_SHOWNORMAL);
 	return 0;
 }
@@ -1492,7 +1492,7 @@ void InitGuiElements()
 
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	if (!hEventOptionsInitialize)
-		MessageBox(NULL, "Failed to HookEvent ME_OPT_INITIALISE", MSG_BOX_TITEL, MB_OK);
+		MessageBox(nullptr, "Failed to HookEvent ME_OPT_INITIALISE", MSG_BOX_TITEL, MB_OK);
 
 	bShowPopups = db_get_b(NULL, MODULE, "ShowPopups", bShowPopups) != 0;
 }

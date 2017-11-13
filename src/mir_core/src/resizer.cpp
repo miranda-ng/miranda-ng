@@ -143,8 +143,8 @@ MIR_CORE_DLL(int) Utils_ResizeDialog(HWND hwndDlg, HINSTANCE hInstance, LPCSTR l
 		}
 
 		HWND hCtrl = GetDlgItem(hwndDlg, urc.wId);
-		if (hCtrl != NULL)
-			hDwp = DeferWindowPos(hDwp, hCtrl, 0, urc.rcItem.left, urc.rcItem.top, urc.rcItem.right - urc.rcItem.left, urc.rcItem.bottom - urc.rcItem.top, SWP_NOZORDER);
+		if (hCtrl != nullptr)
+			hDwp = DeferWindowPos(hDwp, hCtrl, nullptr, urc.rcItem.left, urc.rcItem.top, urc.rcItem.right - urc.rcItem.left, urc.rcItem.bottom - urc.rcItem.top, SWP_NOZORDER);
 	}
 	EndDeferWindowPos(hDwp);
 	return 0;

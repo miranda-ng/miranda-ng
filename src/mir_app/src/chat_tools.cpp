@@ -532,7 +532,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 
 			long trimlimit = g_Settings->LoggingLimit * 1024;
 			if (dwSize > trimlimit) {
-				time_t now = time(0);
+				time_t now = time(nullptr);
 
 				wchar_t tszTimestamp[20];
 				wcsftime(tszTimestamp, 20, L"%Y%m%d-%H%M%S", _localtime32((__time32_t *)&now));
@@ -551,7 +551,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 				wchar_t tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
 				mir_snwprintf(tszNewName, L"%s%s-%s%s", tszNewPath, tszName, tszTimestamp, tszExt);
 				fclose(hFile);
-				hFile = 0;
+				hFile = nullptr;
 				if (!PathFileExists(tszNewName))
 					CopyFile(si->pszLogFileName, tszNewName, TRUE);
 				DeleteFile(si->pszLogFileName);
@@ -711,7 +711,7 @@ MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in)
 MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item, int _hLang)
 {
 	if (nItems > 0)
-		AppendMenu(hMenu, MF_SEPARATOR, 0, 0);
+		AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 
 	HMENU hSubMenu = nullptr;
 	for (int i = 0; i < nItems; i++) {
@@ -723,13 +723,13 @@ MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item
 			AppendMenu(hMenu, dwState | MF_POPUP, (UINT_PTR)hSubMenu, ptszText);
 		}
 		else if (Item[i].uType == MENU_POPUPHMENU)
-			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, dwState | MF_POPUP, Item[i].dwID, ptszText);
+			AppendMenu(hSubMenu == nullptr ? hMenu : hSubMenu, dwState | MF_POPUP, Item[i].dwID, ptszText);
 		else if (Item[i].uType == MENU_POPUPITEM)
-			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, dwState | MF_STRING, Item[i].dwID, ptszText);
+			AppendMenu(hSubMenu == nullptr ? hMenu : hSubMenu, dwState | MF_STRING, Item[i].dwID, ptszText);
 		else if (Item[i].uType == MENU_POPUPCHECK)
-			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, dwState | MF_CHECKED | MF_STRING, Item[i].dwID, ptszText);
+			AppendMenu(hSubMenu == nullptr ? hMenu : hSubMenu, dwState | MF_CHECKED | MF_STRING, Item[i].dwID, ptszText);
 		else if (Item[i].uType == MENU_POPUPSEPARATOR)
-			AppendMenu(hSubMenu == 0 ? hMenu : hSubMenu, MF_SEPARATOR, 0, ptszText);
+			AppendMenu(hSubMenu == nullptr ? hMenu : hSubMenu, MF_SEPARATOR, 0, ptszText);
 		else if (Item[i].uType == MENU_SEPARATOR)
 			AppendMenu(hMenu, MF_SEPARATOR, 0, ptszText);
 		else if (Item[i].uType == MENU_HMENU)

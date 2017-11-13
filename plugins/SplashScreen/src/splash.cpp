@@ -31,7 +31,7 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 #endif
 
 		if (!options.showtime)
-			SetTimer(hwnd, 7, 2000, 0);
+			SetTimer(hwnd, 7, 2000, nullptr);
 		break;
 
 	case WM_LBUTTONDOWN:
@@ -90,7 +90,7 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 				int i;
 				for (i = 255; i >= 0; i -= options.fosteps) {
 					blend.SourceConstantAlpha = i;
-					UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+					UpdateLayeredWindow(hwndSplash, nullptr, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 					Sleep(1);
 				}
 			}
@@ -121,21 +121,21 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 void __cdecl SplashThread(void *arg)
 {
-	IGraphBuilder *pGraph = NULL;
-	IMediaControl *pControl = NULL;
+	IGraphBuilder *pGraph = nullptr;
+	IMediaControl *pControl = nullptr;
 
 	if (options.playsnd) {
 		// Initialize the COM library.
-		CoInitialize(NULL);
+		CoInitialize(nullptr);
 
 		// Create the filter graph manager and query for interfaces.
-		CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&pGraph);
+		CoCreateInstance(CLSID_FilterGraph, nullptr, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&pGraph);
 
 		// Get MediaControl Interface
 		pGraph->QueryInterface(IID_IMediaControl, (void **)&pControl);
 
 		// Build the graph. IMPORTANT: Change this string to a file on your system.
-		pGraph->RenderFile(szSoundFile, NULL);
+		pGraph->RenderFile(szSoundFile, nullptr);
 
 		// Run the graph.
 		pControl->Run();
@@ -148,12 +148,12 @@ void __cdecl SplashThread(void *arg)
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
-	wcl.hIcon = NULL;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
+	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = SPLASH_CLASS;
-	wcl.hIconSm = NULL;
+	wcl.hIconSm = nullptr;
 	RegisterClassEx(&wcl);
 
 	RECT DesktopRect;
@@ -173,16 +173,16 @@ void __cdecl SplashThread(void *arg)
 	hwndSplash = CreateWindowEx(
 		WS_EX_TOOLWINDOW | WS_EX_TOPMOST,//dwStyleEx
 		SPLASH_CLASS, //Class name
-		NULL, //Title
+		nullptr, //Title
 		DS_SETFONT | DS_FIXEDSYS | WS_POPUP, //dwStyle
 		WindowRect.left, // x
 		WindowRect.top, // y
 		SplashBmp->getWidth(), // Width
 		SplashBmp->getHeight(), // Height
 		HWND_DESKTOP, //Parent
-		NULL, //menu handle
+		nullptr, //menu handle
 		hInst, //Instance
-		NULL);
+		nullptr);
 
 	RECT rc; GetWindowRect(hwndSplash, &rc);
 	POINT ptDst = { rc.left, rc.top };
@@ -248,7 +248,7 @@ void __cdecl SplashThread(void *arg)
 	}
 
 	SetWindowLongPtr(hwndSplash, GWL_EXSTYLE, GetWindowLongPtr(hwndSplash, GWL_EXSTYLE) | WS_EX_LAYERED);
-	UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+	UpdateLayeredWindow(hwndSplash, nullptr, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 
 	ShowWindow(hwndSplash, SW_SHOWNORMAL);
 
@@ -256,15 +256,15 @@ void __cdecl SplashThread(void *arg)
 		// Fade in
 		for (int i = 0; i < 255; i += options.fisteps) {
 			blend.SourceConstantAlpha = i;
-			UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+			UpdateLayeredWindow(hwndSplash, nullptr, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 			Sleep(1);
 		}
 	}
 	blend.SourceConstantAlpha = 255;
-	UpdateLayeredWindow(hwndSplash, NULL, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
+	UpdateLayeredWindow(hwndSplash, nullptr, &ptDst, &sz, SplashBmp->getDC(), &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
 
 	if (DWORD_PTR(arg) > 0) {
-		if (SetTimer(hwndSplash, 6, DWORD_PTR(arg), 0)) {
+		if (SetTimer(hwndSplash, 6, DWORD_PTR(arg), nullptr)) {
 #ifdef _DEBUG
 			logMessage(L"Timer TimeToShow", L"set");
 #endif
@@ -272,7 +272,7 @@ void __cdecl SplashThread(void *arg)
 	}
 	else
 		if (bmodulesloaded) {
-			if (SetTimer(hwndSplash, 8, 2000, 0)) {
+			if (SetTimer(hwndSplash, 8, 2000, nullptr)) {
 #ifdef _DEBUG
 				logMessage(L"Timer Modules loaded", L"set");
 #endif
@@ -281,7 +281,7 @@ void __cdecl SplashThread(void *arg)
 
 	// The Message Pump
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0) == TRUE) //NULL means every window in the thread; == TRUE means a safe pump.
+	while (GetMessage(&msg, nullptr, 0, 0) == TRUE) //NULL means every window in the thread; == TRUE means a safe pump.
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);

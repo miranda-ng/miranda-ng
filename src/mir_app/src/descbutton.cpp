@@ -74,7 +74,7 @@ int LoadDescButtonModule()
 	wc.lpfnWndProc = MDescButtonWndProc;
 	wc.hCursor = LoadCursor(nullptr, IDC_HAND);
 	wc.cbWndExtra = sizeof(MDescButtonCtrl *);
-	wc.hbrBackground = 0; //GetStockObject(WHITE_BRUSH);
+	wc.hbrBackground = nullptr; //GetStockObject(WHITE_BRUSH);
 	wc.style = CS_GLOBALCLASS | CS_SAVEBITS;
 	RegisterClassEx(&wc);
 	return 0;
@@ -115,7 +115,7 @@ static void MDescButton_FillRect(HDC hdc, int x, int y, int width, int height, C
 	COLORREF oldColor = SetBkColor(hdc, cl);
 
 	RECT rc; SetRect(&rc, x, y, x + width, y + height);
-	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
+	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, nullptr);
 
 	SetBkMode(hdc, oldMode);
 	SetBkColor(hdc, oldColor);
@@ -135,7 +135,7 @@ static void MDescButton_DrawGradient(HDC hdc, int x, int y, int width, int heigh
 		rc.top = rc.bottom = i;
 		++rc.bottom;
 		SetBkColor(hdc, color);
-		ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
+		ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, nullptr);
 	}
 
 	SetBkMode(hdc, oldMode);

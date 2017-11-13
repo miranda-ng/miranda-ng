@@ -263,7 +263,7 @@ struct OptionsPageData : public MZeroedObject
 
 	void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWndParent)
 	{
-		HWND hWnd = 0;
+		HWND hWnd = nullptr;
 		if (enableKeywordFiltering) {
 			if (current)
 				hWnd = getHwnd();

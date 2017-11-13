@@ -48,8 +48,8 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM 
       case PSN_APPLY:
         {
 			wchar_t szText[256];
-			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
-			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE);
+			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, nullptr, FALSE));
+			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, nullptr, FALSE);
 			GetDlgItemText(hwndDlg, IDC_SERVER, szText, _countof(szText));
 			db_set_ws(NULL, szModuleName, "Server", szText);
 			mir_wstrcpy(gbHost, szText);

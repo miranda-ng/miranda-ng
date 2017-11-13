@@ -86,7 +86,7 @@ static bool SSL_library_load(void)
 const char* SSL_GetCipherName(SslHandle *ssl)
 {
 	if (!ssl || !ssl->session)
-		return NULL;
+		return nullptr;
 
 	return SSL_CIPHER_get_name(SSL_get_current_cipher(ssl->session));
 }
@@ -111,11 +111,11 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 
 	default:
 		wchar_t szMsgBuf[256];
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), nullptr);
 		tszMsg += szMsgBuf;
 	}
 
-	Netlib_LogfW(0, tszMsg);
+	Netlib_LogfW(nullptr, tszMsg);
 
 	SetLastError(scRet);
 	PUShowMessageT(tszMsg.GetBuffer(), SM_WARNING);
@@ -139,23 +139,23 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 	// contrary to what it's named, SSLv23 announces all supported ciphers/versions,
 	// generally TLS1.2 in a TLS1.0 Client Hello
 	if (!meth) {
-		Netlib_Logf(0, "SSL setup failure: client method");
+		Netlib_Logf(nullptr, "SSL setup failure: client method");
 		return false;
 	}
 	ssl->ctx = SSL_CTX_new(meth);
 	if (!ssl->ctx) {
-		Netlib_Logf(0, "SSL setup failure: context");
+		Netlib_Logf(nullptr, "SSL setup failure: context");
 		return false;
 	}
 	// disable dangerous cipher suites
-	SSL_CTX_ctrl(ssl->ctx, SSL_CTRL_OPTIONS, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3, NULL);
+	SSL_CTX_ctrl(ssl->ctx, SSL_CTRL_OPTIONS, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3, nullptr);
 	// SSL_read/write should transparently handle renegotiations
-	SSL_CTX_ctrl(ssl->ctx, SSL_CTRL_MODE, SSL_MODE_AUTO_RETRY, NULL);
+	SSL_CTX_ctrl(ssl->ctx, SSL_CTRL_MODE, SSL_MODE_AUTO_RETRY, nullptr);
 
 	RAND_screen();
 	ssl->session = SSL_new(ssl->ctx);
 	if (!ssl->session) {
-		Netlib_Logf(0, "SSL setup failure: session");
+		Netlib_Logf(nullptr, "SSL setup failure: session");
 		return false;
 	}
 	SSL_set_fd(ssl->session, ssl->s);
@@ -164,20 +164,20 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 
 	if (err != 1) {
 		err = SSL_get_error(ssl->session, err);
-		Netlib_Logf(0, "SSL negotiation failure (%d)", err);
+		Netlib_Logf(nullptr, "SSL negotiation failure (%d)", err);
 		return false;
 	}
 
 	const char *suite = SSL_GetCipherName(ssl);
-	if (suite != NULL)
-		Netlib_Logf(0, "SSL established with %s", suite);
+	if (suite != nullptr)
+		Netlib_Logf(nullptr, "SSL established with %s", suite);
 	return true;
 }
 
 static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509)
 {
-	unsigned char *buf = NULL;
-	PCCERT_CONTEXT pCertContext = NULL;
+	unsigned char *buf = nullptr;
+	PCCERT_CONTEXT pCertContext = nullptr;
 
 	int len = i2d_X509(x509, &buf);
 	if ((len >= 0) && buf) {
@@ -193,9 +193,9 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 	/* convert the active certificate chain provided in the handshake of 'session' into
 		the format used by CryptAPI.
 		*/
-	PCCERT_CONTEXT anchor = NULL;
+	PCCERT_CONTEXT anchor = nullptr;
 	// create cert store
-	HCERTSTORE store = CertOpenStore(CERT_STORE_PROV_MEMORY, 0, NULL, CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG, NULL);
+	HCERTSTORE store = CertOpenStore(CERT_STORE_PROV_MEMORY, 0, NULL, CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG, nullptr);
 
 	if (store) {
 		X509 *server_cert = SSL_get_peer_certificate(session);
@@ -209,7 +209,7 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 				if (server_chain) {
 					for (int i = 0; i < server_chain->stack.num; i++) {
 						X509 *next_cert = (X509 *)server_chain->stack.data[i];
-						CertAddCertificateContextToStore(store, SSL_X509ToCryptCert(next_cert), CERT_STORE_ADD_USE_EXISTING, NULL);
+						CertAddCertificateContextToStore(store, SSL_X509ToCryptCert(next_cert), CERT_STORE_ADD_USE_EXISTING, nullptr);
 					}
 				}
 
@@ -243,15 +243,15 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	HTTPSPolicyCallbackData  polHttps = { 0 };
 	CERT_CHAIN_POLICY_PARA   PolicyPara = { 0 };
 	CERT_CHAIN_POLICY_STATUS PolicyStatus = { 0 };
-	PCCERT_CHAIN_CONTEXT     pChainContext = NULL;
-	PCCERT_CONTEXT           pServerCert = NULL;
+	PCCERT_CHAIN_CONTEXT     pChainContext = nullptr;
+	PCCERT_CONTEXT           pServerCert = nullptr;
 	DWORD scRet;
 
 	PWSTR pwszServerName = mir_a2u(pszServerName);
 
 	pServerCert = SSL_CertChainToCryptAnchor(ssl->session);
 
-	if (pServerCert == NULL) {
+	if (pServerCert == nullptr) {
 		scRet = SEC_E_WRONG_PRINCIPAL;
 		goto cleanup;
 	}
@@ -260,8 +260,8 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	ChainPara.RequestedUsage.dwType = USAGE_MATCH_TYPE_OR;
 	ChainPara.RequestedUsage.Usage.cUsageIdentifier = _countof(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
-	if (!CertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore,
-		&ChainPara, 0, NULL, &pChainContext)) {
+	if (!CertGetCertificateChain(nullptr, pServerCert, nullptr, pServerCert->hCertStore,
+		&ChainPara, 0, nullptr, &pChainContext)) {
 		scRet = GetLastError();
 		goto cleanup;
 	}
@@ -319,13 +319,13 @@ SslHandle* NetlibSslConnect(SOCKET s, const char* host, int verify)
 		return ssl;
 
 	delete ssl;
-	return NULL;
+	return nullptr;
 }
 
 void NetlibSslShutdown(SslHandle *ssl)
 {
 	/* Close SSL session, but keep socket open */
-	if (ssl == NULL || ssl->session == NULL)
+	if (ssl == nullptr || ssl->session == nullptr)
 		return;
 
 	SSL_shutdown(ssl->session);
@@ -346,12 +346,12 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 	if (err <= 0) {
 		int err2 = SSL_get_error(ssl->session, err);
 		if (err2 == SSL_ERROR_ZERO_RETURN) {
-			Netlib_Logf(0, "SSL connection gracefully closed");
+			Netlib_Logf(nullptr, "SSL connection gracefully closed");
 			ssl->state = sockClosed;
 			return 0;
 		}
 
-		Netlib_Logf(0, "SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
+		Netlib_Logf(nullptr, "SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
 		ssl->state = sockError;
 		return SOCKET_ERROR;
 	}
@@ -372,11 +372,11 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 	int err2 = SSL_get_error(ssl->session, err);
 	switch (err2) {
 	case SSL_ERROR_ZERO_RETURN:
-		Netlib_Logf(0, "SSL connection gracefully closed");
+		Netlib_Logf(nullptr, "SSL connection gracefully closed");
 		ssl->state = sockClosed;
 		break;
 	default:
-		Netlib_Logf(0, "SSL failure sending data (%d, %d, %d)", err, err2, WSAGetLastError());
+		Netlib_Logf(nullptr, "SSL failure sending data (%d, %d, %d)", err, err2, WSAGetLastError());
 		ssl->state = sockError;
 		return SOCKET_ERROR;
 	}
@@ -386,7 +386,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 {
 	SSL_API *pSsl = (SSL_API*)lParam;
-	if (pSsl == NULL)
+	if (pSsl == nullptr)
 		return FALSE;
 
 	if (pSsl->cbSize != sizeof(SSL_API))
@@ -404,11 +404,11 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 int LoadSslModule(void)
 {
 	if (!SSL_library_load()) {
-		MessageBoxW(NULL, TranslateT("OpenSSL library loading failed"), TranslateT("OpenSSL error"), MB_ICONERROR | MB_OK);
+		MessageBoxW(nullptr, TranslateT("OpenSSL library loading failed"), TranslateT("OpenSSL error"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 	CreateServiceFunction(MS_SYSTEM_GET_SI, GetSslApi);
-	g_hSslMutex = CreateMutex(NULL, FALSE, NULL);
+	g_hSslMutex = CreateMutex(nullptr, FALSE, nullptr);
 	return 0;
 }
 

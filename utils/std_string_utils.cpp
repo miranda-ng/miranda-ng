@@ -32,7 +32,7 @@ std::string utils::url::decode(std::string data)
 		if (data.at(i) == '%' && (i + 2) < data.length())
 		{
 			std::string num = data.substr(i + 1, 2);
-			unsigned long udn = strtoul(num.c_str(), NULL, 16);
+			unsigned long udn = strtoul(num.c_str(), nullptr, 16);
 			utils::text::append_ordinal(udn, &new_string);
 			i += 2;
 			continue;
@@ -46,7 +46,7 @@ std::string utils::url::decode(std::string data)
 
 std::string utils::time::unix_timestamp()
 {
-	time_t in = ::time(NULL);
+	time_t in = ::time(nullptr);
 	return utils::conversion::to_string((void*)&in, UTILS_CONV_TIME_T);
 }
 
@@ -61,7 +61,7 @@ std::string utils::time::mili_timestamp()
 
 time_t utils::time::from_string(const std::string &data)
 {
-	long long timestamp = _strtoi64(data.c_str(), NULL, 10);
+	long long timestamp = _strtoi64(data.c_str(), nullptr, 10);
 
 	// If it is milli timestamp
 	if (timestamp > 100000000000)
@@ -215,7 +215,7 @@ std::string utils::text::html_entities_decode(std::string data)
 
 				std::string num = data.substr(i, comma - i);
 				if (!num.empty()) {
-					unsigned long udn = strtoul(num.c_str(), NULL, hexa ? 16 : 10);
+					unsigned long udn = strtoul(num.c_str(), nullptr, hexa ? 16 : 10);
 					utils::text::append_ordinal(udn, &new_string);
 				}
 
@@ -259,7 +259,7 @@ std::string utils::text::slashu_to_utf8(const std::string &data)
 	{
 		if (data.at(i) == '\\' && (i + 1) < data.length() && data.at(i + 1) == 'u')
 		{
-			unsigned long udn = strtoul(data.substr(i + 2, 4).c_str(), NULL, 16);
+			unsigned long udn = strtoul(data.substr(i + 2, 4).c_str(), nullptr, 16);
 			append_ordinal(udn, &new_string);
 			i += 5;
 			continue;
@@ -431,7 +431,7 @@ std::string utils::text::truncate_utf8(const std::string &text, size_t maxLength
 
 int utils::number::random(int min, int max, unsigned int *number)
 {
-	if (number != NULL) {
+	if (number != nullptr) {
 		errno_t err = rand_s(number);
 		if (!err)
 			return (*number % (max - min)) + min;

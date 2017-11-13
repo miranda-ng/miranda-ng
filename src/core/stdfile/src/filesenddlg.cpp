@@ -97,7 +97,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 		}
 
 		// Allocate memory for a pointer array
-		if ((dat->files = (wchar_t**)mir_alloc((nNumberOfFiles + 1) * sizeof(wchar_t*))) == NULL)
+		if ((dat->files = (wchar_t**)mir_alloc((nNumberOfFiles + 1) * sizeof(wchar_t*))) == nullptr)
 			return;
 
 		// Fill the array
@@ -118,15 +118,15 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 			nTemp++;
 		}
 		// Terminate array
-		dat->files[nNumberOfFiles] = NULL;
+		dat->files[nNumberOfFiles] = nullptr;
 	}
 	// ...the selection is a single file
 	else {
-		if ((dat->files = (wchar_t **)mir_alloc(2 * sizeof(wchar_t*))) == NULL) // Leaks when aborted
+		if ((dat->files = (wchar_t **)mir_alloc(2 * sizeof(wchar_t*))) == nullptr) // Leaks when aborted
 			return;
 
 		dat->files[0] = mir_wstrdup(buf);
-		dat->files[1] = NULL;
+		dat->files[1] = nullptr;
 	}
 
 	// Update dialog text with new file selection
@@ -140,7 +140,7 @@ void __cdecl ChooseFilesThread(void* param)
 	FileDlgData *dat = (FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	wchar_t *buf = (wchar_t*)mir_alloc(sizeof(wchar_t) * 32767);
-	if (buf == NULL) {
+	if (buf == nullptr) {
 		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, NULL);
 		return;
 	}
@@ -212,7 +212,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			dat->hContact = fsd->hContact;
 			dat->send = 1;
 			dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN);
-			dat->fs = NULL;
+			dat->fs = nullptr;
 			dat->dwTicks = GetTickCount();
 
 			EnumChildWindows(hwndDlg, ClipSiblingsChildEnumProc, 0);
@@ -225,13 +225,13 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
-			if (fsd->ppFiles != NULL && fsd->ppFiles[0] != NULL) {
+			if (fsd->ppFiles != nullptr && fsd->ppFiles[0] != nullptr) {
 				int totalCount, i;
 				for (totalCount = 0; fsd->ppFiles[totalCount]; totalCount++);
 				dat->files = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(totalCount + 1)); // Leaks
 				for (i = 0; i < totalCount; i++)
 					dat->files[i] = mir_wstrdup(fsd->ppFiles[i]);
-				dat->files[totalCount] = NULL;
+				dat->files[totalCount] = nullptr;
 				SetFileListAndSizeControls(hwndDlg, dat);
 			}
 
@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
 			SetDlgItemText(hwndDlg, IDC_NAME, (id) ? id : contactName);
 
-			if (fsd->ppFiles == NULL) {
+			if (fsd->ppFiles == nullptr) {
 				EnableWindow(hwndDlg, FALSE);
 				dat->closeIfFileChooseCancelled = 1;
 				PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CHOOSE, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDC_CHOOSE));
@@ -260,7 +260,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (szProto) {
 					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 					if (hIcon) {
-						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, nullptr, DI_NORMAL);
 						DestroyIcon(hIcon);
 					}
 				}

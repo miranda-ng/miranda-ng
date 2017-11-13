@@ -31,7 +31,7 @@ static int currentDay = 0;
 
 static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	ttb.hIconHandleUp = hCheckMenu;
@@ -144,19 +144,19 @@ int UpdateTimers()
 {
 	UINT interval = db_get_dw(NULL, ModuleName, "Interval", CHECK_INTERVAL);
 	interval *= (1000 * 60 * 60); //go from miliseconds to hours
-	hCheckTimer = SetTimer(NULL, 0, interval, OnCheckTimer);
+	hCheckTimer = SetTimer(nullptr, 0, interval, OnCheckTimer);
 	if (!hDateChangeTimer)
-		hDateChangeTimer = SetTimer(NULL, 0, (1000 * DATE_CHANGE_CHECK_INTERVAL), OnDateChangeTimer);
+		hDateChangeTimer = SetTimer(nullptr, 0, (1000 * DATE_CHANGE_CHECK_INTERVAL), OnDateChangeTimer);
 
 	return 0;
 }
 
 int KillTimers()
 {
-	KillTimer(NULL, hCheckTimer);
+	KillTimer(nullptr, hCheckTimer);
 	hCheckTimer = NULL;
 
-	KillTimer(NULL, hDateChangeTimer);
+	KillTimer(nullptr, hDateChangeTimer);
 	hDateChangeTimer = NULL;
 
 	return 0;

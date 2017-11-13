@@ -85,20 +85,20 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
 	TVITEMA tvi;
 	CHAR szBuf[128];
 
-	if (!pszText || !*pszText) return NULL;
+	if (!pszText || !*pszText) return nullptr;
 
 	tvi.mask = TVIF_TEXT;
 	tvi.pszText = szBuf;
 	tvi.cchTextMax = _countof(szBuf);
 
 	for (tvi.hItem = TreeView_GetChild(hTree, hParent);
-		tvi.hItem != NULL;
+		tvi.hItem != nullptr;
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem))
 	{
 		if (SendMessageA(hTree, TVM_GETITEMA, NULL, (LPARAM)&tvi) && !mir_strcmpi(tvi.pszText, pszText))
 			return tvi.hItem;
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -114,7 +114,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
 HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BYTE bUseImages, BYTE bState)
 {
 	TVINSERTSTRUCTA	tvii;
-	HTREEITEM hItem = NULL;
+	HTREEITEM hItem = nullptr;
 
 	tvii.hParent = hParent;
 	tvii.hInsertAfter = TVI_SORT;
@@ -176,13 +176,13 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 				if (GetVersionEx(&osvi)) {
 					HIMAGELIST hImages = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),
 							((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT && osvi.dwMajorVersion >= 5 && osvi.dwMinorVersion >= 1) ? ILC_COLOR32 : ILC_COLOR16)|ILC_MASK,0, 1);
-					if (hImages != NULL)
+					if (hImages != nullptr)
 					{
 						SendMessage(hTree, TVM_SETIMAGELIST, TVSIL_NORMAL, (LPARAM)hImages);
 
 						HICON hIcon;
-						bImagesLoaded = ((((hIcon = IcoLib_GetIcon(ICO_LST_MODULES)) != NULL) && 0 == ImageList_AddIcon(hImages, hIcon))
-							&& (((hIcon = IcoLib_GetIcon(ICO_LST_FOLDER)) != NULL) && 1 == ImageList_AddIcon(hImages, hIcon)));
+						bImagesLoaded = ((((hIcon = IcoLib_GetIcon(ICO_LST_MODULES)) != nullptr) && 0 == ImageList_AddIcon(hImages, hIcon))
+							&& (((hIcon = IcoLib_GetIcon(ICO_LST_FOLDER)) != nullptr) && 1 == ImageList_AddIcon(hImages, hIcon)));
 					}
 				}
 			}
@@ -195,7 +195,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 			}
 			// Set the Window Title and description
 			{
-				LPCTSTR name = NULL; 
+				LPCTSTR name = nullptr; 
 				wchar_t	oldTitle[MAXDATASIZE], 
 						newTitle[MAXDATASIZE];
 				switch (pDat->ExImContact->Typ) {
@@ -236,7 +236,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 				pszProto = (pDat->ExImContact->Typ == EXIM_CONTACT && pDat->ExImContact->hContact != NULL)
 					? (LPSTR)Proto_GetBaseAccountName(pDat->ExImContact->hContact)
-					: NULL;
+					: nullptr;
 
 				// add items that are always exported
 				tviiT.hParent = TVI_ROOT;
@@ -369,7 +369,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					// search the tree item of optional items
 					for (hParent = TreeView_GetRoot(hTree);
-						hParent != NULL;
+						hParent != nullptr;
 						hParent = TreeView_GetNextSibling(hTree, hParent))
 					{
 						ExportTree_AppendModuleList(hTree, hParent, pDat->pModules);
@@ -393,7 +393,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					// search the tree item of optional items
 					for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_ROOT, NULL);
-						tvi.hItem != NULL && SendMessageA(hTree, TVM_GETITEMA, 0, (LPARAM)&tvi);
+						tvi.hItem != nullptr && SendMessageA(hTree, TVM_GETITEMA, 0, (LPARAM)&tvi);
 						tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_NEXT, (LPARAM)tvi.hItem))
 					{
 						if (!mir_strcmpi(tvi.pszText, pszRoot)) {
@@ -402,7 +402,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 							tvi.stateMask = TVIS_STATEIMAGEMASK;
 
 							for (tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_CHILD, (LPARAM)tvi.hItem);
-								tvi.hItem != NULL;
+								tvi.hItem != nullptr;
 								tvi.hItem = (HTREEITEM)SendMessageA(hTree, TVM_GETNEXTITEM, TVGN_NEXT, (LPARAM)tvi.hItem))
 							{
 								SendMessageA(hTree, TVM_SETITEMA, NULL, (LPARAM)&tvi);

@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenIqInit(TlenProtocol *proto)
 {
-	proto->iqList = NULL;
+	proto->iqList = nullptr;
 	proto->iqCount = 0;
 	proto->iqAlloced = 0;
 }
@@ -34,7 +34,7 @@ void TlenIqInit(TlenProtocol *proto)
 void TlenIqUninit(TlenProtocol *proto)
 {
 	if (proto->iqList) mir_free(proto->iqList);
-	proto->iqList = NULL;
+	proto->iqList = nullptr;
 	proto->iqCount = 0;
 	proto->iqAlloced = 0;
 }
@@ -54,7 +54,7 @@ static void TlenIqExpire(TlenProtocol *proto)
 	time_t expire;
 
 	mir_cslock lck(proto->csIqList);
-	expire = time(NULL) - 120;	// 2 minute
+	expire = time(nullptr) - 120;	// 2 minute
 	i = 0;
 	while (i < proto->iqCount) {
 		if (proto->iqList[i].requestTime < expire)
@@ -77,7 +77,7 @@ TLEN_IQ_PFUNC TlenIqFetchFunc(TlenProtocol *proto, int iqId)
 		TlenIqRemove(proto, i);
 	}
 	else {
-		res = (TLEN_IQ_PFUNC) NULL;
+		res = (TLEN_IQ_PFUNC) nullptr;
 	}
 	return res;
 }
@@ -97,11 +97,11 @@ void TlenIqAdd(TlenProtocol *proto, unsigned int iqId, TLEN_IQ_PROCID procId, TL
 		proto->iqList = (TLEN_IQ_FUNC*)mir_realloc(proto->iqList, sizeof(TLEN_IQ_FUNC)*proto->iqAlloced);
 	}
 
-	if (proto->iqList != NULL) {
+	if (proto->iqList != nullptr) {
 		proto->iqList[i].iqId = iqId;
 		proto->iqList[i].procId = procId;
 		proto->iqList[i].func = func;
-		proto->iqList[i].requestTime = time(NULL);
+		proto->iqList[i].requestTime = time(nullptr);
 		if (i == proto->iqCount) proto->iqCount++;
 	}
 }

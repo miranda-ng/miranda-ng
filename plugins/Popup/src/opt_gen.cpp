@@ -129,7 +129,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 {
 	static bool bDlgInit = false;	// some controls send WM_COMMAND before or during WM_INITDIALOG
 
-	static OPTTREE_OPTION *statusOptions = NULL;
+	static OPTTREE_OPTION *statusOptions = nullptr;
 	static int statusOptionsCount = 0;
 	if (statusOptions) {
 		int index;
@@ -310,7 +310,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_CUSTOMPOS:
 			{
 				RECT rcButton, rcBox;
-				HWND hwndBox = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POSITION), NULL, PositionBoxDlgProc);
+				HWND hwndBox = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POSITION), nullptr, PositionBoxDlgProc);
 				GetWindowRect((HWND)lParam, &rcButton);
 				GetWindowRect(hwndBox, &rcBox);
 				MoveWindow(hwndBox,
@@ -384,7 +384,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				// lParam = Handle to the control
 			case IDC_SECONDS:
 			{
-				int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), nullptr, FALSE);
 				if (seconds >= SETTING_LIFETIME_MIN &&
 					seconds <= SETTING_LIFETIME_MAX &&
 					seconds != PopupOptions.Seconds) {
@@ -395,7 +395,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_MINIMUMWIDTH:
 			{
-				int temp = GetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, NULL, FALSE);
+				int temp = GetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, nullptr, FALSE);
 				if (temp >= SETTING_MINIMUMWIDTH_MIN &&
 					temp <= SETTING_MAXIMUMWIDTH_MAX &&
 					temp != PopupOptions.MinimumWidth) {
@@ -406,7 +406,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_MAXIMUMWIDTH:
 			{
-				int temp = GetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, NULL, FALSE);
+				int temp = GetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, nullptr, FALSE);
 				if (temp >= SETTING_MINIMUMWIDTH_MIN &&
 					temp <= SETTING_MAXIMUMWIDTH_MAX &&
 					temp != PopupOptions.MaximumWidth) {
@@ -423,7 +423,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				// lParam = Handle to the control
 			case IDC_SECONDS:
 			{
-				int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				int seconds = GetDlgItemInt(hwnd, LOWORD(wParam), nullptr, FALSE);
 				if (seconds > SETTING_LIFETIME_MAX)
 					PopupOptions.Seconds = SETTING_LIFETIME_MAX;
 				else if (seconds < SETTING_LIFETIME_MIN)
@@ -437,7 +437,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_MINIMUMWIDTH:
 			{
-				int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				int temp = GetDlgItemInt(hwnd, LOWORD(wParam), nullptr, FALSE);
 				if (temp < SETTING_MINIMUMWIDTH_MIN)
 					PopupOptions.MinimumWidth = SETTING_MINIMUMWIDTH_MIN;
 				else if (temp > SETTING_MAXIMUMWIDTH_MAX)
@@ -456,7 +456,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_MAXIMUMWIDTH:
 			{
-				int temp = GetDlgItemInt(hwnd, LOWORD(wParam), NULL, FALSE);
+				int temp = GetDlgItemInt(hwnd, LOWORD(wParam), nullptr, FALSE);
 				if (temp >= SETTING_MAXIMUMWIDTH_MAX)
 					PopupOptions.MaximumWidth = SETTING_MAXIMUMWIDTH_MAX;
 				else if (temp < SETTING_MINIMUMWIDTH_MIN)
@@ -570,7 +570,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				mir_free(statusOptions[i].pszSettingName);
 			}
 			delete[] statusOptions;
-			statusOptions = NULL;
+			statusOptions = nullptr;
 			statusOptionsCount = 0;
 			bDlgInit = false;
 		}
@@ -614,7 +614,7 @@ void Check_ReorderPopups(HWND hwnd) {
 INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	LOGFONT lf;
-	static HFONT hFontTitle = 0;
+	static HFONT hFontTitle = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -645,11 +645,11 @@ INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_COMMAND:
 		if ((LOWORD(wParam)) == IDOK) {
-			PopupOptions.gapTop = GetDlgItemInt(hwndDlg, IDC_TXT_TOP, NULL, FALSE);
-			PopupOptions.gapBottom = GetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, NULL, FALSE);
-			PopupOptions.gapLeft = GetDlgItemInt(hwndDlg, IDC_TXT_LEFT, NULL, FALSE);
-			PopupOptions.gapRight = GetDlgItemInt(hwndDlg, IDC_TXT_RIGHT, NULL, FALSE);
-			PopupOptions.spacing = GetDlgItemInt(hwndDlg, IDC_TXT_SPACING, NULL, FALSE);
+			PopupOptions.gapTop = GetDlgItemInt(hwndDlg, IDC_TXT_TOP, nullptr, FALSE);
+			PopupOptions.gapBottom = GetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, nullptr, FALSE);
+			PopupOptions.gapLeft = GetDlgItemInt(hwndDlg, IDC_TXT_LEFT, nullptr, FALSE);
+			PopupOptions.gapRight = GetDlgItemInt(hwndDlg, IDC_TXT_RIGHT, nullptr, FALSE);
+			PopupOptions.spacing = GetDlgItemInt(hwndDlg, IDC_TXT_SPACING, nullptr, FALSE);
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
 		}
 		else if ((LOWORD(wParam)) == IDCANCEL)

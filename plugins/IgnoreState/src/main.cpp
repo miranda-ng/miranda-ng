@@ -22,10 +22,10 @@
 
 HINSTANCE g_hInst;
 
-HANDLE hIcoLibIconsChanged = NULL;
-HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactSettingChanged = NULL;
-HANDLE hPrebuildContactMenu = NULL;
-HANDLE hExtraIcon = NULL;
+HANDLE hIcoLibIconsChanged = nullptr;
+HANDLE hHookExtraIconsRebuild = nullptr, hHookExtraIconsApply = nullptr, hContactSettingChanged = nullptr;
+HANDLE hPrebuildContactMenu = nullptr;
+HANDLE hExtraIcon = nullptr;
 int hLangpack;
 
 INT currentFilter = 0;

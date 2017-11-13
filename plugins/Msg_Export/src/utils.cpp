@@ -120,7 +120,7 @@ void ShowDebugInfo()
 	sDebug += L"\r\nGetFilePathFromUser(NULL) :";
 	sDebug += GetFilePathFromUser(NULL);
 
-	MessageBox(NULL, sDebug.c_str(), MSG_BOX_TITEL, MB_OK);
+	MessageBox(nullptr, sDebug.c_str(), MSG_BOX_TITEL, MB_OK);
 }
 
 
@@ -168,12 +168,12 @@ tstring sGetErrorString(DWORD dwError)
 	LPVOID lpMsgBuf;
 	FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		dwError,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR)&lpMsgBuf,
 		0,
-		NULL);
+		nullptr);
 	// Process any inserts in lpMsgBuf.
 	// ...
 	// Display the string.
@@ -201,7 +201,7 @@ void DisplayLastError(const wchar_t *pszError)
 	mir_snwprintf(szTemp, L"\r\nErrorCode: %d\r\n", error);
 	sError += szTemp;
 	sError += sGetErrorString(error);
-	MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_OK);
+	MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_OK);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -227,7 +227,7 @@ tstring _DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSet
 	//db_get
 	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
 		if (dbv.type != DBVT_WCHAR) {
-			MessageBox(NULL, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
 		else ret = (wchar_t*)dbv.pszVal;
@@ -244,7 +244,7 @@ string _DBGetStringA(MCONTACT hContact, const char *szModule, const char *szSett
 	DBVARIANT dbv = { 0 };
 	if (!db_get(hContact, szModule, szSetting, &dbv)) {
 		if (dbv.type != DBVT_ASCIIZ) {
-			MessageBox(NULL, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, TranslateT("Database: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
 		else ret = dbv.pszVal;
@@ -309,7 +309,7 @@ bool bCreatePathToFile(tstring sFilePath)
 		return false;
 
 	// create directory
-	if (!CreateDirectory(sFilePath.c_str(), NULL)) {
+	if (!CreateDirectory(sFilePath.c_str(), nullptr)) {
 		DWORD dwE = GetLastError();
 		if (dwE == 183) // Cannot create a file when that file already exists. 
 			return true;
@@ -318,7 +318,7 @@ bool bCreatePathToFile(tstring sFilePath)
 			return false;
 
 		// try again 
-		if (!CreateDirectory(sFilePath.c_str(), NULL))
+		if (!CreateDirectory(sFilePath.c_str(), nullptr))
 			return false;
 	}
 	return true;
@@ -345,7 +345,7 @@ bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
 		nLen = (int)mir_strlen(pszSrc);
 
 	DWORD dwBytesWritten;
-	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, NULL) && (dwBytesWritten == (DWORD)nLen);
+	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, nullptr) && (dwBytesWritten == (DWORD)nLen);
 }
 
 
@@ -537,7 +537,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 
 			// Here we will try to avoide the (Unknown Contact) in cases where the protocol for 
 			// this user has been removed.
-			if (bNickUsed && (wcsstr(pcli->pfnGetContactDisplayName(hContact, 0), LPGENW("(Unknown Contact)")) != 0))
+			if (bNickUsed && (wcsstr(pcli->pfnGetContactDisplayName(hContact, 0), LPGENW("(Unknown Contact)")) != nullptr))
 				return sPrevFileName; // Then the filename must have changed from a correct path to one including the (Unknown Contact)
 
 			// file name has changed
@@ -548,10 +548,10 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 				HANDLE hPrevFile = CreateFile(sPrevFileName.c_str(),
 					GENERIC_READ,
 					FILE_SHARE_READ | FILE_SHARE_WRITE,
-					NULL,
+					nullptr,
 					OPEN_EXISTING,
 					FILE_ATTRIBUTE_NORMAL,
-					NULL);
+					nullptr);
 
 				if (hPrevFile != INVALID_HANDLE_VALUE) {
 					CloseHandle(hPrevFile);
@@ -567,7 +567,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 							sRemoteUser.c_str(),
 							sPrevFileName.c_str(),
 							sFilePath.c_str());
-						bTryRename = MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES;
+						bTryRename = MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES;
 					}
 					else
 						bTryRename = true;
@@ -586,7 +586,7 @@ tstring GetFilePathFromUser(MCONTACT hContact)
 									sFilePath.c_str(),
 									sGetErrorString().c_str());
 
-								if (MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_RETRYCANCEL) != IDRETRY)
+								if (MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_RETRYCANCEL) != IDRETRY)
 									break;
 							}
 						}
@@ -818,7 +818,7 @@ void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO
 	sError += sGetErrorString();
 	sError += TranslateT("\nMessage has not been saved!\n");
 	sError += TranslateT("Do you wish to save debug information?");
-	if (MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES) {
+	if (MessageBox(nullptr, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 		OPENFILENAME ofn;       // common dialog box structure
 		wchar_t szFile[260];       // buffer for file name
 		mir_wstrcpy(szFile, L"DebugInfo.txt");
@@ -831,18 +831,18 @@ void DisplayErrorDialog(const wchar_t *pszError, tstring& sFilePath, DBEVENTINFO
 		ofn.nMaxFile = _countof(szFile);
 		ofn.lpstrFilter = TranslateT("All\0*.*\0Text\0*.TXT\0\0");
 		ofn.nFilterIndex = 1;
-		ofn.lpstrFileTitle = NULL;
+		ofn.lpstrFileTitle = nullptr;
 		ofn.nMaxFileTitle = 0;
-		ofn.lpstrInitialDir = NULL;
+		ofn.lpstrInitialDir = nullptr;
 		ofn.Flags = 0 /*OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST*/;
 		ofn.lpstrDefExt = L"TXT";
 
 		// Display the Open dialog box. 
 		if (GetSaveFileName(&ofn)) {
 			HANDLE hf = CreateFile(ofn.lpstrFile, GENERIC_WRITE,
-				0, (LPSECURITY_ATTRIBUTES)NULL,
+				0, (LPSECURITY_ATTRIBUTES)nullptr,
 				CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
-				(HANDLE)NULL); // file handle
+				(HANDLE)nullptr); // file handle
 
 			bWriteTextToFile(hf, sError.c_str(), false);
 			if (dbei) {
@@ -911,14 +911,14 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 		if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
 			DWORD dwDataRead = 0;
 			BYTE ucByteOrder[3];
-			if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, NULL))
+			if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
 				bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
 
-			DWORD dwPtr = SetFilePointer(hFile, 0, 0, FILE_END);
+			DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
 			if (dwPtr == INVALID_SET_FILE_POINTER) {
 				// we need to aborte mission here because if we continue we risk 
 				// overwriting old log.
-				DisplayErrorDialog(LPGENW("Failed to move to the end of the file :\n"), sFilePath, NULL);
+				DisplayErrorDialog(LPGENW("Failed to move to the end of the file :\n"), sFilePath, nullptr);
 				return false;
 			}
 		}
@@ -926,7 +926,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 			bWriteUTF8Format = bUseUtf8InNewFiles;
 			if (bWriteUTF8Format) {
 				if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1)) {
-					DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, NULL);
+					DisplayErrorDialog(LPGENW("Failed to UTF8 byte order code to file :\n"), sFilePath, nullptr);
 					return false;
 				}
 			}
@@ -970,7 +970,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 			ReplaceAll(output, L"%Gender%", szTemp);
 
 			if (!bWriteTextToFile(hFile, output.data(), bWriteUTF8Format, (int)output.size())) {
-				DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, NULL);
+				DisplayErrorDialog(LPGENW("Failed to write user details to file :\n"), sFilePath, nullptr);
 				return false;
 			}
 		}
@@ -990,7 +990,7 @@ bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, tstring sFilePath, DBEVE
 		return false;
 	}
 
-	if (dbei.pBlob != NULL && dbei.cbBlob >= 2) {
+	if (dbei.pBlob != nullptr && dbei.cbBlob >= 2) {
 		dbei.pBlob[dbei.cbBlob] = 0;
 
 		switch (dbei.eventType) {
@@ -1195,12 +1195,12 @@ HANDLE openCreateFile(tstring sFilePath)
 {
 	GetLastError();// Clear last error !!
 
-	HANDLE hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		// this might be because the path isent created 
 		// so we will try to create it 
 		if (bCreatePathToFile(sFilePath)) {
-			hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			hFile = CreateFile(sFilePath.c_str(), GENERIC_WRITE | GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		}
 	}
 
@@ -1230,7 +1230,7 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 	tstring sFilePath = GetFilePathFromUser(hContact);
 	HANDLE hFile = openCreateFile(sFilePath);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
+		DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, nullptr);
 		return 0;
 	}
 
@@ -1299,7 +1299,7 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const char *pszSrc, bool bU
 
 bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File)
 {
-	if (pszSrc == NULL)
+	if (pszSrc == nullptr)
 		return true;
 
 	bool bOk = true;
@@ -1358,7 +1358,7 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool
 
 		if (pszPrev == pszSrc) {
 			// this is an programming error we have not moved forward in string 
-			MessageBox(NULL, L"Programming error on line __LINE__ please report this", MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, L"Programming error on line __LINE__ please report this", MSG_BOX_TITEL, MB_OK);
 			break;
 		}
 	}
@@ -1403,10 +1403,10 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 	HANDLE hPrevFile = CreateFile(sFilePath.c_str(),
 		GENERIC_READ,
 		FILE_SHARE_READ | FILE_SHARE_WRITE,
-		NULL,
+		nullptr,
 		OPEN_EXISTING,
 		FILE_ATTRIBUTE_NORMAL,
-		NULL);
+		nullptr);
 
 	if (hPrevFile != INVALID_HANDLE_VALUE) {
 		CloseHandle(hPrevFile);
@@ -1416,7 +1416,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 			TranslateT("User has been deleted. Do you want to delete the file?"), sFilePath.c_str());
 
 		if (enDeleteAction == eDAAutomatic ||
-			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
+			MessageBox(nullptr, szTemp, MSG_BOX_TITEL, MB_YESNO) == IDYES) {
 			if (!DeleteFile(sFilePath.c_str())) {
 				mir_snwprintf(szTemp,
 					L"%s\r\n%s",
@@ -1466,5 +1466,5 @@ void SaveSettings()
 wchar_t* GetMyOwnNick(MCONTACT hContact)
 {
 	wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, GetContactProto(hContact));
-	return (p != NULL) ? p : mir_wstrdup(TranslateT("No_Nick"));
+	return (p != nullptr) ? p : mir_wstrdup(TranslateT("No_Nick"));
 }

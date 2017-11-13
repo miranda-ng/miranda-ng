@@ -35,43 +35,43 @@ void SetTextDefault(const char* in)
 {
 	wchar_t str[MAX_TEXT_SIZE];
 
-	if (strchr(in, 'C') != NULL) {
+	if (strchr(in, 'C') != nullptr) {
 		wcsncpy(str, C_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.cText, str);
 	}
-	if (strchr(in, 'b') != NULL) {
+	if (strchr(in, 'b') != nullptr) {
 		wcsncpy(str, b_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.bTitle, str);
 	}
-	if (strchr(in, 'B') != NULL) {
+	if (strchr(in, 'B') != nullptr) {
 		wcsncpy(str, B_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.bText, str);
 	}
-	if (strchr(in, 'N') != NULL) {
+	if (strchr(in, 'N') != nullptr) {
 		wcsncpy(str, N_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.nText, str);
 	}
-	if (strchr(in, 'E') != NULL) {
+	if (strchr(in, 'E') != nullptr) {
 		wcsncpy(str, E_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.eText, str);
 	}
-	if (strchr(in, 'H') != NULL) {
+	if (strchr(in, 'H') != nullptr) {
 		wcsncpy(str, H_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.hText, str);
 	}
-	if (strchr(in, 'X') != NULL) {
+	if (strchr(in, 'X') != nullptr) {
 		wcsncpy(str, X_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.xText, str);
 	}
-	if (strchr(in, 'P') != NULL) {
+	if (strchr(in, 'P') != nullptr) {
 		wcsncpy(str, P_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.pTitle, str);
 	}
-	if (strchr(in, 'p') != NULL) {
+	if (strchr(in, 'p') != nullptr) {
 		wcsncpy(str, p_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.pText, str);
 	}
-	if (strchr(in, 'S') != NULL) {
+	if (strchr(in, 'S') != nullptr) {
 		wcsncpy(str, s_DEFAULT, MAX_TEXT_SIZE - 1);
 		wSetData(&opt.sText, str);
 	}
@@ -337,8 +337,8 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			GetDlgItemText(hdlg, IDC_UPDATETIME, str, _countof(str));
 			opt.UpdateTime = (WORD)_wtoi(str);
 			if (opt.UpdateTime < 1)	opt.UpdateTime = 1;
-			KillTimer(NULL, timerId);
-			timerId = SetTimer(NULL, 0, opt.UpdateTime * 60000, timerProc);
+			KillTimer(nullptr, timerId);
+			timerId = SetTimer(nullptr, 0, opt.UpdateTime * 60000, timerProc);
 
 			// other general options
 			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, _countof(opt.DegreeSign));
@@ -349,7 +349,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			opt.UpdateOnlyConditionChanged = (BYTE)IsDlgButtonChecked(hdlg, IDC_UPDCONDCHG);
 			opt.RemoveOldData = IsDlgButtonChecked(hdlg, IDC_REMOVEOLD);
 			opt.MakeItalic = IsDlgButtonChecked(hdlg, IDC_MAKEI);
-			opt.AvatarSize = GetDlgItemInt(hdlg, IDC_AVATARSIZE, NULL, FALSE);
+			opt.AvatarSize = GetDlgItemInt(hdlg, IDC_AVATARSIZE, nullptr, FALSE);
 			opt.DoNotAppendUnit = IsDlgButtonChecked(hdlg, IDC_DONOTAPPUNITS);
 			opt.NoFrac = IsDlgButtonChecked(hdlg, IDC_NOFRAC);
 			UpdateMenu(opt.AutoUpdate);
@@ -486,13 +486,13 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_TMMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
-			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) {
+			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr)) {
 			case ID_MPREVIEW:
 				{
 					// show the preview in a message box, using the weather data from the default station
 					WEATHERINFO winfo = LoadWeatherInfo(opt.DefStn);
 					GetDisplay(&winfo, *var[LOWORD(wParam) - IDC_TM1], str);
-					MessageBox(NULL, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
+					MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
 					break;
 				}
 			case ID_MRESET:
@@ -514,7 +514,7 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 			hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_TMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
-			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) {
+			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr)) {
 			case ID_T1:
 				// reset to the strings in memory, discard all changes
 				LoadTextSettings(hdlg);
@@ -594,7 +594,7 @@ int OptInit(WPARAM wParam, LPARAM)
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.szGroup.a = LPGEN("Popups");
-		odp.szTab.a = NULL;
+		odp.szTab.a = nullptr;
 		odp.pfnDlgProc = DlgPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}

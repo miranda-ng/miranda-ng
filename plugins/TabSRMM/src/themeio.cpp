@@ -225,15 +225,15 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 	WritePrivateProfileStringA("Message Log", "ExtraMicroLF", _itoa(M.GetByte("extramicrolf", 0), szBuf, 10), szIniFilename);
 
 	for (i = 0; i <= TMPL_ERRMSG; i++) {
-		T2Utf szLTR((dat == 0) ? LTR_Active.szTemplates[i] : dat->m_pContainer->ltr_templates->szTemplates[i]);
+		T2Utf szLTR((dat == nullptr) ? LTR_Active.szTemplates[i] : dat->m_pContainer->ltr_templates->szTemplates[i]);
 		WritePrivateProfileStringA("Templates", TemplateNames[i], szLTR, szIniFilename);
 
-		T2Utf szRTL((dat == 0) ? RTL_Active.szTemplates[i] : dat->m_pContainer->rtl_templates->szTemplates[i]);
+		T2Utf szRTL((dat == nullptr) ? RTL_Active.szTemplates[i] : dat->m_pContainer->rtl_templates->szTemplates[i]);
 		WritePrivateProfileStringA("RTLTemplates", TemplateNames[i], szRTL, szIniFilename);
 	}
 	for (i = 0; i < CUSTOM_COLORS; i++) {
 		mir_snprintf(szTemp, "cc%d", i + 1);
-		if (dat == 0)
+		if (dat == nullptr)
 			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(M.GetDword(szTemp, 0), szBuf, 10), szIniFilename);
 		else
 			WritePrivateProfileStringA("Custom Colors", szTemp, _itoa(dat->m_pContainer->theme.custom_colors[i], szBuf, 10), szIniFilename);
@@ -259,7 +259,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 		version = 1;
 
 	HDC hdc = GetDC(nullptr);
-	if (dat == 0) {
+	if (dat == nullptr) {
 		while (fontBlocks[n].szModule && (dwFlags & THEME_READ_FONTS)) {
 			char *szModule = fontBlocks[n].szModule;
 			int firstIndex = fontBlocks[n].iFirst;
@@ -376,15 +376,15 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 	if (version >= 3) {
 		if (!noAdvanced && dwFlags & THEME_READ_TEMPLATES) {
 			for (i = 0; i <= TMPL_ERRMSG; i++) {
-				wchar_t *decoded = 0;
+				wchar_t *decoded = nullptr;
 
 				GetPrivateProfileStringA("Templates", TemplateNames[i], "[undef]", szTemplateBuffer, TEMPLATE_LENGTH * 3, szIniFilename);
 
 				if (mir_strcmp(szTemplateBuffer, "[undef]")) {
-					if (dat == 0)
+					if (dat == nullptr)
 						db_set_utf(0, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
-					if (dat == 0)
+					if (dat == nullptr)
 						wcsncpy_s(LTR_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
 						wcsncpy_s(dat->ltr_templates->szTemplates[i], decoded, _TRUNCATE);
@@ -394,10 +394,10 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 				GetPrivateProfileStringA("RTLTemplates", TemplateNames[i], "[undef]", szTemplateBuffer, TEMPLATE_LENGTH * 3, szIniFilename);
 
 				if (mir_strcmp(szTemplateBuffer, "[undef]")) {
-					if (dat == 0)
+					if (dat == nullptr)
 						db_set_utf(0, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
-					if (dat == 0)
+					if (dat == nullptr)
 						wcsncpy_s(RTL_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
 						wcsncpy_s(dat->rtl_templates->szTemplates[i], decoded, _TRUNCATE);
@@ -428,7 +428,7 @@ const wchar_t* TSAPI GetThemeFileName(int iMode)
 	mir_snwprintf(filter, L"%s%c*.tabsrmm%c%c", TranslateT("TabSRMM themes"), 0, 0, 0);
 	ofn.lpstrFilter = filter;
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	ofn.hwndOwner = 0;
+	ofn.hwndOwner = nullptr;
 	ofn.lpstrFile = szFilename;
 	ofn.lpstrInitialDir = szInitialDir;
 	ofn.nMaxFile = MAX_PATH;

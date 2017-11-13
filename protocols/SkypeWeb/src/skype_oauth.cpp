@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -58,7 +58,7 @@ void CSkypeProto::OnOAuthStart(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -80,7 +80,7 @@ void CSkypeProto::OnOAuthAuthorize(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnOAuthEnd(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;

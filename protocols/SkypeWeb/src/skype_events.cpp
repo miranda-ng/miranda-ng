@@ -52,18 +52,18 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"partlist");
-			if (xml != NULL) {
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), nullptr, L"partlist");
+			if (xml != nullptr) {
 				ptrA type(mir_u2a(xmlGetAttrValue(xml, L"type")));
 				bool bType = (!mir_strcmpi(type, "started")) ? 1 : 0;
 				time_t callDuration = 0;
 
 				for (int i = 0; i < xmlGetChildCount(xml); i++) {
 					HXML xmlPart = xmlGetNthChild(xml, L"part", i);
-					if (xmlPart != NULL) {
+					if (xmlPart != nullptr) {
 						HXML xmlDuration = xmlGetChildByPath(xmlPart, L"duration", 0);
 
-						if (xmlDuration != NULL) {
+						if (xmlDuration != nullptr) {
 							callDuration = _wtol(xmlGetText(xmlDuration));
 							break;
 						}
@@ -92,15 +92,15 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 		}
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"files");
-			if (xml != NULL) {
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), nullptr, L"files");
+			if (xml != nullptr) {
 				for (int i = 0; i < xmlGetChildCount(xml); i++) {
 					LONGLONG fileSize = 0;
 					HXML xmlNode = xmlGetNthChild(xml, L"file", i);
-					if (xmlNode != NULL) {
+					if (xmlNode != nullptr) {
 						fileSize = _wtol(xmlGetAttrValue(xmlNode, L"size"));
 						char *fileName = _T2A(xmlGetText(xmlNode));
-						if (fileName != NULL) {
+						if (fileName != nullptr) {
 							szText.AppendFormat(Translate("File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n"), fileName, fileSize);
 						}
 
@@ -118,11 +118,11 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	case SKYPE_DB_EVENT_TYPE_MOJI:
 	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
-			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), 0, L"URIObject");
-			if (xml != NULL) {
+			HXML xml = xmlParseString(ptrW(mir_utf8decodeW((char*)dbei->pBlob)), nullptr, L"URIObject");
+			if (xml != nullptr) {
 				//szText.Append(_T2A(xmlGetText(xml)));
 				HXML xmlA = xmlGetChildByPath(xml, L"a", 0);
-				if (xmlA != NULL) {
+				if (xmlA != nullptr) {
 					szText += T2Utf(xmlGetAttrValue(xmlA, L"href"));
 				}
 				xmlDestroyNode(xml);
@@ -151,7 +151,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 INT_PTR CSkypeProto::EventGetIcon(WPARAM flags, LPARAM pEvent)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)pEvent;
-	HICON icon = NULL;
+	HICON icon = nullptr;
 
 	switch (dbei->eventType) {
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:

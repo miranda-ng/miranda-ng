@@ -10,14 +10,14 @@ void CSteamProto::OnGotConversations(const HttpResponse *response)
 		return;
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 
 	JSONNode *node = json_get(root, "response");
 	JSONNode *sessions = json_get(node, "message_sessions");
 	JSONNode *nsessions = json_as_array(sessions);
 
-	if (nsessions != NULL)
+	if (nsessions != nullptr)
 	{
 		ptrA token(getStringA("TokenSecret"));
 		ptrA steamId(getStringA("SteamID"));
@@ -63,7 +63,7 @@ void CSteamProto::OnGotHistoryMessages(const HttpResponse *response, void *arg)
 		return;
 
 	JSONROOT root(response->pData);
-	if (root == NULL)
+	if (root == nullptr)
 		return;
 
 	JSONNode *node = json_get(root, "response");

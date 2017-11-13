@@ -35,22 +35,22 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_bDeleteAfterSend(false),
 	m_bAsync(bAsync),
 	m_bSilent(bSilent),
-	m_pszFile(NULL),
-	m_pszFileDesc(NULL),
-	m_URL(NULL),
-	m_URLthumb(NULL),
-	m_pszSendTyp(NULL),
-	m_pszProto(NULL),
+	m_pszFile(nullptr),
+	m_pszFileDesc(nullptr),
+	m_URL(nullptr),
+	m_URLthumb(nullptr),
+	m_pszSendTyp(nullptr),
+	m_pszProto(nullptr),
 	//	m_hContact(hContact), // initialized below
 	m_EnableItem(0),
 	m_ChatRoom(0),
 	//	m_PFflag(0),
 	m_cbEventMsg(0),
-	m_szEventMsg(NULL),
-	m_hSend(0),
-	m_hOnSend(0),
-	m_ErrorMsg(NULL),
-	m_ErrorTitle(NULL)
+	m_szEventMsg(nullptr),
+	m_hSend(nullptr),
+	m_hOnSend(nullptr),
+	m_ErrorMsg(nullptr),
+	m_ErrorTitle(nullptr)
 {
 	SetContact(hContact);
 }
@@ -297,10 +297,10 @@ void CSend::svcSendFileExit()
 	}
 
 	// Start miranda PSS_FILE based on mir ver (T)
-	wchar_t* ppFile[2] = { 0, 0 };
+	wchar_t* ppFile[2] = { nullptr, nullptr };
 	wchar_t* pDesc = mir_wstrdup(m_pszFileDesc);
 	ppFile[0] = mir_wstrdup(m_pszFile);
-	ppFile[1] = NULL;
+	ppFile[1] = nullptr;
 	m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
 	mir_free(pDesc);
 	mir_free(ppFile[0]);
@@ -378,7 +378,7 @@ void CSend::DB_EventAdd(WORD EventType)
 	dbei.szModule = m_pszProto;
 	dbei.eventType = EventType;
 	dbei.flags = DBEF_SENT;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob = m_cbEventMsg;
 	dbei.pBlob = (PBYTE)m_szEventMsg;
@@ -402,9 +402,9 @@ void CSend::Error(LPCTSTR pszFormat, ...)
 
 	memset(&m_box, 0, sizeof(MSGBOX));
 	m_box.cbSize = sizeof(MSGBOX);
-	m_box.hParent = NULL;
+	m_box.hParent = nullptr;
 	m_box.hiLogo = GetIcon(ICO_MAIN);
-	m_box.hiMsg = NULL;
+	m_box.hiMsg = nullptr;
 	m_box.ptszTitle = m_ErrorTitle;
 	m_box.ptszMsg = m_ErrorMsg;
 	m_box.uType = MB_OK | MB_ICON_ERROR;
@@ -419,7 +419,7 @@ void CSend::Exit(unsigned int Result)
 		switch (Result) {
 		case CSEND_DIALOG:
 			Skin_PlaySound("FileDone");
-			DialogBoxParam(g_hSendSS, MAKEINTRESOURCE(IDD_UResultForm), 0, ResultDialogProc, (LPARAM)this);
+			DialogBoxParam(g_hSendSS, MAKEINTRESOURCE(IDD_UResultForm), nullptr, ResultDialogProc, (LPARAM)this);
 			err = false;
 			break;
 		case ACKRESULT_SUCCESS:
@@ -449,11 +449,11 @@ void CSend::Exit(unsigned int Result)
 		if (err) {
 			Skin_PlaySound("FileFailed");
 			if (m_ErrorMsg) MsgBoxService(NULL, (LPARAM)&m_box);
-			else MsgErr(NULL, LPGENW("An unknown error has occurred."));
+			else MsgErr(nullptr, LPGENW("An unknown error has occurred."));
 		}
 	}
 	if (m_pszFile && *m_pszFile && m_bDeleteAfterSend && m_EnableItem&SS_DLG_DELETEAFTERSSEND) {
-		DeleteFile(m_pszFile), m_pszFile = NULL;
+		DeleteFile(m_pszFile), m_pszFile = nullptr;
 	}
 	if (m_bAsync)
 		delete this;/// deletes derived class since destructor is virtual (which also auto-calls base dtor)
@@ -467,7 +467,7 @@ void CSend::Exit(unsigned int Result)
 const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* endTag)
 {
 	char* begin = strstr(str, startTag);
-	if (!begin) return NULL;
+	if (!begin) return nullptr;
 	begin += mir_strlen(startTag) - 1;
 	for (; *begin != '>' && *begin; ++begin);
 	if (*begin) {
@@ -482,7 +482,7 @@ int JSON_ParseData_(const char** jsondata, size_t jsonlen, const char** rawdata)
 	const char* c = *jsondata;
 	const char* jsonend = *jsondata + jsonlen;
 	int len = 0;
-	*rawdata = NULL;
+	*rawdata = nullptr;
 	if (c == jsonend)
 		return 0;
 	if (*c == '{') { // scope (object)
@@ -560,7 +560,7 @@ int JSON_Get_(const char* json, size_t jsonlen, const char* variable, const char
 			JSON_ParseData_(&c, jsonend - c, value);
 		}
 	}
-	*value = NULL;
+	*value = nullptr;
 	return 0;
 }
 
@@ -645,9 +645,9 @@ static void HTTPFormAppendData(NETLIBHTTPREQUEST* nlhr, size_t* dataMax, char** 
 
 void CSend::HTTPFormDestroy(NETLIBHTTPREQUEST* nlhr)
 {
-	mir_free(nlhr->headers[0].szValue), nlhr->headers[0].szValue = NULL;
-	mir_free(nlhr->headers), nlhr->headers = NULL;
-	mir_free(nlhr->pData), nlhr->pData = NULL;
+	mir_free(nlhr->headers[0].szValue), nlhr->headers[0].szValue = nullptr;
+	mir_free(nlhr->headers), nlhr->headers = nullptr;
+	mir_free(nlhr->pData), nlhr->pData = nullptr;
 }
 
 int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* url, HTTPFormData* frm, size_t frmNum)
@@ -700,7 +700,7 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 	size_t dataMax = 0;
 	for (HTTPFormData* iter = frm, *end = frm + frmNum; iter != end; ++iter) {
 		if (iter->flags&HTTPFF_HEADER) continue;
-		HTTPFormAppendData(nlhr, &dataMax, &dataPos, NULL, 2 + sizeof(boundary) + 40);
+		HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, 2 + sizeof(boundary) + 40);
 		memset(dataPos, '-', 2); dataPos += 2;
 		memcpy(dataPos, boundary, sizeof(boundary)); dataPos += sizeof(boundary);
 		memcpy(dataPos, "\r\nContent-Disposition: form-data; name=\"", 40); dataPos += 40;
@@ -713,7 +713,7 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 			if (!filename) filename = iter->value_str;
 			else ++filename;
 			valuelen = mir_strlen(filename);
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, NULL, namelen + 13 + valuelen + 17);
+			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 13 + valuelen + 17);
 			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
 			memcpy(dataPos, "\"; filename=\"", 13); dataPos += 13;
 			memcpy(dataPos, filename, valuelen); dataPos += valuelen;
@@ -741,9 +741,9 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 			if (fp) {
 				fseek(fp, 0, SEEK_END);
 				filesize = ftell(fp); fseek(fp, 0, SEEK_SET);
-				HTTPFormAppendData(nlhr, &dataMax, &dataPos, NULL, filesize + 2);
+				HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, filesize + 2);
 				if (fread(dataPos, 1, filesize, fp) != filesize) {
-					fclose(fp), fp = NULL;
+					fclose(fp), fp = nullptr;
 				}
 			}
 			if (!fp) {
@@ -758,14 +758,14 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 			memcpy(dataPos, "\r\n", 2); dataPos += 2;
 		}
 		else if (iter->flags&HTTPFF_8BIT) {
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, NULL, namelen + 38 + valuelen + 2);
+			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 38 + valuelen + 2);
 			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
 			memcpy(dataPos, "\"\r\nContent-Transfer-Encoding: 8bit\r\n\r\n", 38); dataPos += 38;
 			memcpy(dataPos, iter->value_str, valuelen); dataPos += valuelen;
 			memcpy(dataPos, "\r\n", 2); dataPos += 2;
 		}
 		else if (iter->flags&HTTPFF_INT) {
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, NULL, namelen + 5 + 17/*max numbers*/ + 2);
+			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 5 + 17/*max numbers*/ + 2);
 			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
 			memcpy(dataPos, "\"\r\n\r\n", 5); dataPos += 5;
 			int ret = snprintf(dataPos, 17, "%Id", iter->value_int);
@@ -773,14 +773,14 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 			memcpy(dataPos, "\r\n", 2); dataPos += 2;
 		}
 		else {
-			HTTPFormAppendData(nlhr, &dataMax, &dataPos, NULL, namelen + 5 + valuelen + 2);
+			HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, namelen + 5 + valuelen + 2);
 			memcpy(dataPos, iter->name, namelen); dataPos += namelen;
 			memcpy(dataPos, "\"\r\n\r\n", 5); dataPos += 5;
 			memcpy(dataPos, iter->value_str, valuelen); dataPos += valuelen;
 			memcpy(dataPos, "\r\n", 2); dataPos += 2;
 		}
 	}
-	HTTPFormAppendData(nlhr, &dataMax, &dataPos, NULL, 2 + sizeof(boundary) + 4);
+	HTTPFormAppendData(nlhr, &dataMax, &dataPos, nullptr, 2 + sizeof(boundary) + 4);
 	memset(dataPos, '-', 2); dataPos += 2;
 	memcpy(dataPos, boundary, sizeof(boundary)); dataPos += sizeof(boundary);
 	memcpy(dataPos, "--\r\n", 4); dataPos += 4;

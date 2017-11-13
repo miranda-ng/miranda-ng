@@ -27,7 +27,7 @@ bool CSteamProto::Relogin()
 	if (CheckResponse(response))
 	{
 		JSONROOT root(response->pData);
-		if (root != NULL) {
+		if (root != nullptr) {
 			JSONNode *node = json_get(root, "error");
 
 			ptrW error(json_as_string(node));
@@ -75,7 +75,7 @@ void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 
 	DWORD error = 0;
 	DWORD encryptedSize = 0;
-	if ((error = RsaEncrypt(modulus.c_str(), szPassword, NULL, encryptedSize)) != 0)
+	if ((error = RsaEncrypt(modulus.c_str(), szPassword, nullptr, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::OnGotRsaKey: encryption error (%lu)", error);
 		return;
@@ -400,5 +400,5 @@ void CSteamProto::OnLoggedOn(const HttpResponse *response)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 
 	// start polling thread
-	m_hPollingThread = ForkThreadEx(&CSteamProto::PollingThread, 0, NULL);
+	m_hPollingThread = ForkThreadEx(&CSteamProto::PollingThread, nullptr, nullptr);
 }

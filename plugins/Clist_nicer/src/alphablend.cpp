@@ -48,7 +48,7 @@ DWORD __forceinline argb_from_cola(COLORREF col, UINT32 alpha)
 
 void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 {
-	HPEN hPenOld = 0;
+	HPEN hPenOld = nullptr;
 	POINT pt;
 
 	switch (BORDERSTYLE) {
@@ -81,7 +81,7 @@ void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 }
 void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, ImageItem *imageItem)
 {
-	if (rc == NULL)
+	if (rc == nullptr)
 		return;
 
 	int ulBitmapWidth, ulBitmapHeight;
@@ -215,8 +215,8 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 	bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
 
 	void *pvBits;
-	HBITMAP hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
-	if (hbitmap == NULL || pvBits == NULL) {
+	HBITMAP hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, nullptr, 0x0);
+	if (hbitmap == nullptr || pvBits == nullptr) {
 		DeleteDC(hdc);
 		return;
 	}
@@ -290,9 +290,9 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 		}
 
 		// TL+BL CORNER
-		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, nullptr, 0x0);
 
-		if (hbitmap == 0 || pvBits == NULL) {
+		if (hbitmap == nullptr || pvBits == nullptr) {
 			DeleteObject(BrMask);
 			DeleteDC(hdc);
 			return;
@@ -330,7 +330,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 		DeleteObject(hbitmap);
 
 		// TR+BR CORNER
-		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
+		hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, nullptr, 0x0);
 
 		//SelectObject(hdc, BrMask); // already BrMask?
 		holdbitmap = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbitmap));

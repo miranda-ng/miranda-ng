@@ -59,7 +59,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 
 	/* skip leading prefix */
 	arg = wcschr(arg, ':');
-	if (arg == NULL) return 1; /* parse failed */
+	if (arg == nullptr) return 1; /* parse failed */
 
 	for (++arg; *arg == '/'; ++arg);
 
@@ -74,7 +74,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 			break;
 		}
 	}
-	if (proto == NULL) return 1;
+	if (proto == nullptr) return 1;
 
 	/*
 		add user:      aim:addbuddy?screenname=NICK&groupname=GROUP
@@ -84,9 +84,9 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 	/* add a contact to the list */
 	if (!wcsnicmp(arg, L"addbuddy?", 9)) {
 		wchar_t *tok, *tok2;
-		char *sn = NULL, *group = NULL;
+		char *sn = nullptr, *group = nullptr;
 
-		for (tok = arg + 8; tok != NULL; tok = tok2) {
+		for (tok = arg + 8; tok != nullptr; tok = tok2) {
 			tok2 = wcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
 			if (!wcsnicmp(tok, L"screenname=", 11) && *(tok + 11) != 0)
@@ -94,7 +94,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 			if (!wcsnicmp(tok, L"groupname=", 10) && *(tok + 10) != 0)
 				group = mir_utf8encodeW(url_decode(tok + 10));  /* group is currently ignored */
 		}
-		if (sn == NULL) {
+		if (sn == nullptr) {
 			mir_free(group);
 			return 1;
 		}
@@ -110,10 +110,10 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 	}
 	/* send a message to a contact */
 	else if (!wcsnicmp(arg, L"goim?", 5)) {
-		wchar_t *tok, *tok2, *msg = NULL;
-		char *sn = NULL;
+		wchar_t *tok, *tok2, *msg = nullptr;
+		char *sn = nullptr;
 
-		for (tok = arg + 4; tok != NULL; tok = tok2) {
+		for (tok = arg + 4; tok != nullptr; tok = tok2) {
 			tok2 = wcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
 			if (!wcsnicmp(tok, L"screenname=", 11) && *(tok + 11) != 0)
@@ -121,7 +121,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 			if (!wcsnicmp(tok, L"message=", 8) && *(tok + 8) != 0)
 				msg = url_decode(tok + 8);
 		}
-		if (sn == NULL) return 1; /* parse failed */
+		if (sn == nullptr) return 1; /* parse failed */
 
 		MCONTACT hContact = proto->contact_from_sn(sn, true, true);
 		if (hContact)
@@ -134,10 +134,10 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 	/* open a chatroom */
 	else if (!wcsnicmp(arg, L"gochat?", 7)) {
 		wchar_t *tok, *tok2;
-		char *rm = NULL;
+		char *rm = nullptr;
 		int exchange = 0;
 
-		for (tok = arg + 6; tok != NULL; tok = tok2) {
+		for (tok = arg + 6; tok != nullptr; tok = tok2) {
 			tok2 = wcschr(++tok, '&'); /* first token */
 			if (tok2) *tok2 = 0;
 			if (!wcsnicmp(tok, L"roomname=", 9) && *(tok + 9) != 0) {
@@ -148,7 +148,7 @@ static INT_PTR ServiceParseAimLink(WPARAM, LPARAM lParam)
 			if (!wcsnicmp(tok, L"exchange=", 9))
 				exchange = _wtoi(tok + 9);
 		}
-		if (rm == NULL || exchange <= 0) {
+		if (rm == nullptr || exchange <= 0) {
 			mir_free(rm);
 			return 1;
 		}

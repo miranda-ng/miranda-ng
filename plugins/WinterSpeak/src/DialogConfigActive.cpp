@@ -2,7 +2,7 @@
 #include "DialogConfigActive.h"
 
 //------------------------------------------------------------------------------
-DialogConfigActive *DialogConfigActive::m_instance = 0;
+DialogConfigActive *DialogConfigActive::m_instance = nullptr;
 
 //------------------------------------------------------------------------------
 // public:
@@ -15,7 +15,7 @@ DialogConfigActive::DialogConfigActive(ConfigDatabase &db) : m_db(db)
 //------------------------------------------------------------------------------
 DialogConfigActive::~DialogConfigActive()
 {
-	m_instance = 0;
+	m_instance = nullptr;
 }
 
 //------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam)
 		SetAllContactIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
 		//fall through
 	case CLN_CONTACTMOVED:
-		SetListGroupIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+		SetListGroupIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 		break;
 	case CLN_OPTIONSCHANGED:
 		ResetListOptions(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS));
@@ -114,7 +114,7 @@ void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam)
 
 			DWORD hitFlags;
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-			if (hItem == NULL || !(hitFlags & CLCHT_ONITEMEXTRA))
+			if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 				break;
 
 			if (nm->iColumn == 2) { // ignore all
@@ -133,7 +133,7 @@ void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam)
 					iImage = 0;
 				SetIconsForColumn(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), hItem, hItemAll, nm->iColumn, iImage);
 			}
-			SetListGroupIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+			SetListGroupIcons(GetDlgItem(hwndDlg, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 			m_instance->changed(hwndDlg);
 		}
 		break;
@@ -187,7 +187,7 @@ void DialogConfigActive::load(HWND window)
 		this->InitialiseItem(listview, hItemUnknown, active_users[0].message, active_users[0].status);
 	}
 	this->SetAllContactIcons(listview);
-	this->SetListGroupIcons(GetDlgItem(window, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+	this->SetListGroupIcons(GetDlgItem(window, IDC_ACTIVE_USERS), (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 
 }
 

@@ -34,13 +34,13 @@ int Utils::getDeleteTimeMin()
 
 int Utils::msgBox(wchar_t *stzMsg, UINT uType)
 {
-	HWND hwnd = (uDlg != NULL) ? uDlg->m_hwnd : 0;
+	HWND hwnd = (uDlg != nullptr) ? uDlg->m_hwnd : nullptr;
 	return MessageBox(hwnd, stzMsg, TranslateT("FTP File"), uType);
 }
 
 int Utils::msgBoxA(char *szMsg, UINT uType)
 {
-	HWND hwnd = (uDlg != NULL) ? uDlg->m_hwnd : 0;
+	HWND hwnd = (uDlg != nullptr) ? uDlg->m_hwnd : nullptr;
 	return MessageBoxA(hwnd, szMsg, Translate("FTP File"), uType);
 }
 
@@ -80,7 +80,7 @@ wchar_t* Utils::getTextFragment(wchar_t *stzText, size_t length, wchar_t *buff)
 void Utils::copyToClipboard(char *szText)
 {
 	if (szText) {
-		if (OpenClipboard(NULL)) {
+		if (OpenClipboard(nullptr)) {
 			EmptyClipboard();
 			HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, 1024);
 			char *pchData = (char *)GlobalLock(hClipboardData);
@@ -191,7 +191,7 @@ INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam
 
 bool Utils::setFileNameDlg(wchar_t *nameBuff)
 {
-	if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_NAME), 0, DlgProcSetFileName, (LPARAM)nameBuff) == IDOK)
+	if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_NAME), nullptr, DlgProcSetFileName, (LPARAM)nameBuff) == IDOK)
 		return true;
 	else
 		return false;

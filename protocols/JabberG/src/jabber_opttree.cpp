@@ -129,7 +129,7 @@ void CCtrlTreeOpts::OnInit()
 			hItem = FindNamedItem(hSection, pItemName);
 			if (!sectionName || !hItem) {
 				if (!hItem) {
-					TVINSERTSTRUCT tvis = { 0 };
+					TVINSERTSTRUCT tvis = {};
 					tvis.hParent = hSection;
 					tvis.hInsertAfter = TVI_LAST;//TVI_SORT;
 					tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
@@ -163,7 +163,7 @@ void CCtrlTreeOpts::OnInit()
 
 	TranslateTree();
 	ShowWindow(m_hwnd, SW_SHOW);
-	SelectItem(FindNamedItem(0, nullptr));
+	SelectItem(FindNamedItem(nullptr, nullptr));
 }
 
 void CCtrlTreeOpts::OnDestroy()

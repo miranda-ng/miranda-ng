@@ -431,7 +431,7 @@ public:
 				// append known chatroom jids from bookmarks
 				LISTFOREACH(i, m_proto, LIST_BOOKMARK)
 				{
-					JABBER_LIST_ITEM *item = 0;
+					JABBER_LIST_ITEM *item = nullptr;
 					if (item = m_proto->ListGetItemPtrFromIndex(i))
 						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)item->jid);
 				}
@@ -648,7 +648,7 @@ protected:
 
 		CPrivacyList *pList;
 
-		TCLCInfo(): newJids(1, TJidData::cmp), bChanged(false), pList(0) {}
+		TCLCInfo(): newJids(1, TJidData::cmp), bChanged(false), pList(nullptr) {}
 		~TCLCInfo()
 		{
 			for (int i=0; i < newJids.getCount(); i++) {
@@ -667,10 +667,10 @@ protected:
 
 		HANDLE findJid(wchar_t *jid)
 		{
-			TJidData data = {0};
+			TJidData data = {};
 			data.jid = jid;
 			TJidData *found = newJids.find(&data);
-			return found ? found->hItem : 0;
+			return found ? found->hItem : nullptr;
 		}
 	};
 
@@ -1374,7 +1374,7 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 		goto lbl_return;
 
 	for (CPrivacyListRule *pRule = pList->GetFirstRule(); pRule; pRule = pRule->GetNext()) {
-		HANDLE hItem = 0;
+		HANDLE hItem = nullptr;
 		switch (pRule->GetType()) {
 		case Jid:
 			hItem = CListAddContact(hwndList, pRule->GetValue());

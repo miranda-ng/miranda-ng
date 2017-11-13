@@ -4,7 +4,7 @@ int hLangpack;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 HINSTANCE g_hInstance;
-HMODULE g_hToxLibrary = NULL;
+HMODULE g_hToxLibrary = nullptr;
 
 PLUGININFOEX pluginInfo =
 {
@@ -38,7 +38,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 extern "C" int __declspec(dllexport) Load(void)
 {
 	g_hToxLibrary = LoadLibrary(TOX_LIBRARY);
-	if (g_hToxLibrary == NULL)
+	if (g_hToxLibrary == nullptr)
 		return 1;
 
 	if (!TOX_VERSION_IS_ABI_COMPATIBLE())

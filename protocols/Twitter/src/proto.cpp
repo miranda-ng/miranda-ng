@@ -119,7 +119,7 @@ struct send_direct
 
 void TwitterProto::SendSuccess(void *p)
 {
-	if (p == 0)
+	if (p == nullptr)
 		return;
 	send_direct *data = static_cast<send_direct*>(p);
 
@@ -213,7 +213,7 @@ INT_PTR TwitterProto::ReplyToTweet(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT) wParam;
 	// TODO: support replying to tweets instead of just users
-	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWEET), 0, tweet_proc, reinterpret_cast<LPARAM>(this));
+	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWEET), nullptr, tweet_proc, reinterpret_cast<LPARAM>(this));
 
 	DBVARIANT dbv;
 	if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
@@ -292,7 +292,7 @@ INT_PTR TwitterProto::OnTweet(WPARAM, LPARAM)
 	if (m_iStatus != ID_STATUS_ONLINE)
 		return 1;
 
-	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWEET), 0, tweet_proc, reinterpret_cast<LPARAM>(this));
+	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_TWEET), nullptr, tweet_proc, reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg, SW_SHOW);
 	return 0;
 }
@@ -308,10 +308,10 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	if (m_hNetlibUser == NULL) {
+	if (m_hNetlibUser == nullptr) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	// Create avatar network connection (TODO: probably remove this)
@@ -321,10 +321,10 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	mir_snwprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr;
 	hAvatarNetlib_ = Netlib_RegisterUser(&nlu);
-	if (hAvatarNetlib_ == NULL) {
+	if (hAvatarNetlib_ == nullptr) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), TranslateT("Twitter (avatars)"));
-		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	twit_.set_handle(this, m_hNetlibUser);
@@ -357,7 +357,7 @@ int TwitterProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 int TwitterProto::ShowPinDialog()
 {
-	HWND hDlg = (HWND)DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_TWITTERPIN), 0, pin_proc, reinterpret_cast<LPARAM>(this));
+	HWND hDlg = (HWND)DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_TWITTERPIN), nullptr, pin_proc, reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg, SW_SHOW);
 	return 0;
 }
@@ -377,7 +377,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		PUAddPopupT(&popup);
 	else
-		MessageBox(0, popup.lptzText, popup.lptzContactName, 0);
+		MessageBox(nullptr, popup.lptzText, popup.lptzContactName, 0);
 }
 
 void TwitterProto::ShowPopup(const char *text, int Error)
@@ -394,14 +394,14 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		PUAddPopupT(&popup);
 	else
-		MessageBox(0, popup.lptzText, popup.lptzContactName, 0);
+		MessageBox(nullptr, popup.lptzText, popup.lptzContactName, 0);
 }
 
 // TODO: the more I think about it, the more I think all twit.* methods should
 // be in MessageLoop
 void TwitterProto::SendTweetWorker(void *p)
 {
-	if (p == 0)
+	if (p == nullptr)
 		return;
 
 	char *text = static_cast<char*>(p);

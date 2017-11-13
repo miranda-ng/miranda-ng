@@ -1,24 +1,24 @@
 #include "stdafx.h"
 #include "frame.h"
 
-HWND hwnd_plugin = 0;
-HWND hwnd_frame = 0;
-HWND hwnd_list = 0;
+HWND hwnd_plugin = nullptr;
+HWND hwnd_frame = nullptr;
+HWND hwnd_list = nullptr;
 
 int frame_id = -1;
 
 FontID font_id;
 ColourID framebk_colour_id;
-HFONT hFont = 0;
+HFONT hFont = nullptr;
 COLORREF fontColour, framebk;
-HBRUSH bk_brush = 0;
+HBRUSH bk_brush = nullptr;
 
 #define CLUIFrameTitleBarClassName				"CLUIFrameTitleBar"
 
 AlarmList alarm_list;
 mir_cs list_cs;
 
-HGENMENU hMenuShowReminders = 0;
+HGENMENU hMenuShowReminders = nullptr;
 
 #define ID_FRAME_UPDATE_TIMER   1011
 #define ID_FRAME_SHOWHIDE_TIMER 1012
@@ -62,9 +62,9 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			RECT r;
 			GetClientRect(hwnd, &r);
 
-			SetWindowPos(child, 0, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
-			InvalidateRect(child, 0, TRUE);
-			InvalidateRect(hwnd, 0, TRUE);
+			SetWindowPos(child, nullptr, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_NOZORDER | SWP_NOACTIVATE);
+			InvalidateRect(child, nullptr, TRUE);
+			InvalidateRect(hwnd, nullptr, TRUE);
 		}
 		break;
 
@@ -100,13 +100,13 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_CREATE:
 		hwnd_list = CreateWindow(L"LISTBOX", L"",
 			(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_STANDARD | LBS_NOTIFY | LBS_OWNERDRAWFIXED) & ~LBS_SORT
-			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst, 0);
+			& ~WS_BORDER, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
 		return FALSE;
 
 	case WMU_INITIALIZE:
 		PostMessage(hwnd, WMU_FILL_LIST, 0, 0);
-		SetTimer(hwnd, ID_FRAME_UPDATE_TIMER, 5000, 0);
-		SetTimer(hwnd, ID_FRAME_SHOWHIDE_TIMER, 200, 0);
+		SetTimer(hwnd, ID_FRAME_UPDATE_TIMER, 5000, nullptr);
+		SetTimer(hwnd, ID_FRAME_SHOWHIDE_TIMER, 200, nullptr);
 		return TRUE;
 
 	case WM_MEASUREITEM:
@@ -135,7 +135,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SetTextColor(dis->hDC, fontColour);
 
 			HICON hIcon = (min <= 5 ? hIconList2 : hIconList1);
-			DrawIconEx(dis->hDC, dis->rcItem.left, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 0, 0, 0, NULL, DI_NORMAL);
+			DrawIconEx(dis->hDC, dis->rcItem.left, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 0, 0, 0, nullptr, DI_NORMAL);
 
 			GetTextExtentPoint32(dis->hDC, alarm.szTitle, (int)mir_wstrlen(alarm.szTitle), &textSize);
 
@@ -213,7 +213,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (frame_id != -1)
 				CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)frame_id, FU_TBREDRAW);
 
-			InvalidateRect(hwnd, 0, TRUE);
+			InvalidateRect(hwnd, nullptr, TRUE);
 		}
 		break;
 
@@ -228,7 +228,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (options.auto_size_vert && IsWindowVisible(hwnd)) {
 				if (FrameIsFloating()) {
 					int height = height_client_to_frame(itemheight * count, GetWindowLongPtr(GetParent(hwnd), GWL_STYLE), GetWindowLongPtr(GetParent(hwnd), GWL_EXSTYLE));
-					HWND titleBarHwnd = FindWindowEx(GetParent(hwnd), 0, _A2W(CLUIFrameTitleBarClassName), 0);
+					HWND titleBarHwnd = FindWindowEx(GetParent(hwnd), nullptr, _A2W(CLUIFrameTitleBarClassName), nullptr);
 					if (titleBarHwnd) {
 						RECT tbr;
 						GetWindowRect(titleBarHwnd, &tbr);
@@ -236,7 +236,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					}
 					RECT rp_window;
 					GetWindowRect(GetParent(hwnd), &rp_window);
-					SetWindowPos(GetParent(hwnd), 0, 0, 0, rp_window.right - rp_window.left, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+					SetWindowPos(GetParent(hwnd), nullptr, 0, 0, rp_window.right - rp_window.left, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 				}
 				else if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME) && frame_id != -1) {
 					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, frame_id), count * itemheight);
@@ -254,8 +254,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			height = min(count * itemheight, winheight - (winheight % itemheight));
 			if (r2.right - r2.left != width || (r.bottom - r.top > 0 && r2.bottom - r2.top != height)) {
-				SetWindowPos(hwnd_list, 0, 0, 0, width, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
-				InvalidateRect(hwnd_list, 0, FALSE);
+				SetWindowPos(hwnd_list, nullptr, 0, 0, width, height, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
+				InvalidateRect(hwnd_list, nullptr, FALSE);
 			}
 
 			if (options.auto_showhide) {
@@ -374,7 +374,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			//ClientToScreen(hwnd_list, &pt);
 			GetCursorPos(&pt);
 
-			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 			DestroyMenu(menu);
 			if (ret)
 				PostMessage(hwnd, WM_COMMAND, ret, 0);
@@ -461,7 +461,7 @@ bool ReminderFrameVisible()
 
 void SetReminderFrameVisible(bool visible)
 {
-	if (frame_id == -1 && hwnd_frame != 0)
+	if (frame_id == -1 && hwnd_frame != nullptr)
 		ShowWindow(hwnd_frame, visible ? SW_SHOW : SW_HIDE);
 }
 
@@ -481,7 +481,7 @@ INT_PTR ShowHideMenuFunc(WPARAM, LPARAM)
 int CreateFrame()
 {
 	WNDCLASS wndclass = {};
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hInstance = hInst;
 	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.lpszClassName = L"AlarmsFrame";
@@ -490,7 +490,7 @@ int CreateFrame()
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"),
 			WS_CHILD | WS_CLIPCHILDREN,
-			0, 0, 10, 10, pcli->hwndContactList, NULL, hInst, NULL);
+			0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, nullptr);
 
 		CLISTFrame Frame = { sizeof(CLISTFrame) };
 		Frame.tname = TranslateT("Alarms");
@@ -502,7 +502,7 @@ int CreateFrame()
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 	}
 	else {
-		wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		wndclass.hInstance = hInst;
 		wndclass.lpfnWndProc = FrameContainerWindowProc;
 		wndclass.lpszClassName = L"AlarmsFrameContainer";
@@ -510,11 +510,11 @@ int CreateFrame()
 
 		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, L"AlarmsFrameContainer", TranslateT("Alarms"),
 			(WS_POPUPWINDOW | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~WS_VISIBLE,
-			0, 0, 200, 100, pcli->hwndContactList, NULL, hInst, NULL);
+			0, 0, 200, 100, pcli->hwndContactList, nullptr, hInst, nullptr);
 
 		hwnd_plugin = CreateWindow(L"AlarmsFrame", TranslateT("Alarms"),
 			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
-			0, 0, 10, 10, hwnd_frame, NULL, hInst, NULL);
+			0, 0, 10, 10, hwnd_frame, nullptr, hInst, nullptr);
 
 		SetWindowLongPtr(hwnd_frame, GWLP_USERDATA, (LONG_PTR)hwnd_plugin);
 
@@ -594,9 +594,9 @@ void RefreshReminderFrame()
 	SendMessage(hwnd_plugin, WMU_FILL_LIST, 0, 0);
 
 	if (frame_id == -1)
-		InvalidateRect(hwnd_frame, 0, TRUE);
+		InvalidateRect(hwnd_frame, nullptr, TRUE);
 	else
-		InvalidateRect(hwnd_plugin, 0, TRUE);
+		InvalidateRect(hwnd_plugin, nullptr, TRUE);
 }
 
 void InitFrames()

@@ -65,7 +65,7 @@ wchar_t *SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
 	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 	ListView_GetItemText(hList, ListView_GetNextItem(hList, -1, LVNI_SELECTED), 1, buff, (DWORD)bufflen);
 	if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND)))
-		buff = NULL;
+		buff = nullptr;
 
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = GetParent(hwndDlg);
@@ -84,15 +84,15 @@ wchar_t *SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
 	if (GetOpenFileName(&ofn))
 		return buff;
 
-	return NULL;
+	return nullptr;
 }
 
 HIMAGELIST GetStatusIconsImgList(char *szProto)
 {
-	HIMAGELIST hList = NULL;
+	HIMAGELIST hList = nullptr;
 	if (szProto) {
 		hList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, STATUS_COUNT - 1, 0);
-		if (hList != NULL) {
+		if (hList != nullptr) {
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 				ImageList_AddIcon(hList, Skin_LoadProtoIcon(szProto, i));
 			ImageList_AddIcon(hList, Skin_LoadIcon(SKINICON_OTHER_USERONLINE));
@@ -201,7 +201,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				int iSel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_INDSNDLIST), -1, LVNI_SELECTED);
 				if (iSel != -1) {
 					wchar_t stzFilePath[MAX_PATH];
-					if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != NULL) {
+					if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != nullptr) {
 						iSel = -1;
 						while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
 							ListView_SetItemText(hList, iSel, 1, stzFilePath);
@@ -260,7 +260,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_INDSNDLIST:
 			if (((LPNMHDR)lParam)->code == NM_DBLCLK) {
 				wchar_t stzFilePath[MAX_PATH];
-				if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != NULL) {
+				if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != nullptr) {
 					int iSel = -1;
 					while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
 						ListView_SetItemText(hList, iSel, 1, stzFilePath);
@@ -470,7 +470,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 				SetAllContactsIcons(hList);
 				//fall through
 			case CLN_CONTACTMOVED:
-				SetGroupsIcons(hList, (HANDLE)SendMessage(hList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				SetGroupsIcons(hList, (HANDLE)SendMessage(hList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 				break;
 			case CLN_OPTIONSCHANGED:
 				ResetListOptions(hList);
@@ -486,7 +486,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 
 				// Find clicked item
 				HANDLE hItem = (HANDLE)SendMessage(hList, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-				if (hItem == NULL)
+				if (hItem == nullptr)
 					break;
 				if (!(hitFlags & CLCHT_ONITEMEXTRA))
 					break;
@@ -532,7 +532,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 				}
 
 				// Update the all/none icons
-				SetGroupsIcons(hList, (HANDLE)SendMessage(hList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				SetGroupsIcons(hList, (HANDLE)SendMessage(hList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 				// Activate Apply button
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;

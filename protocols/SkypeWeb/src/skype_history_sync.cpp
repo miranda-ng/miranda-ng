@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnGetServerHistory(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -111,7 +111,7 @@ INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnSyncHistory(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL)
+	if (response == nullptr || response->pData == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);

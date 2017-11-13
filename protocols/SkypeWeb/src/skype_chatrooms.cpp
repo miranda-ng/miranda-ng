@@ -70,7 +70,7 @@ void CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
 
 void CSkypeProto::OnLoadChats(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -214,7 +214,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 					gce.ptszUID = gch->ptszUID;
 					gce.ptszText = tnick_new;
 					gce.dwFlags = GCEF_ADDTOLOG;
-					gce.time = time(NULL);
+					gce.time = time(nullptr);
 					Chat_Event(&gce);
 
 					if (!reset)
@@ -243,7 +243,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 	if (!IsOnline())
 		return 1;
 
-	if (hContact && IDYES == MessageBox(NULL, TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION)) {
+	if (hContact && IDYES == MessageBox(nullptr, TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION)) {
 		ptrW idT(getWStringA(hContact, "ChatRoomID"));
 		Chat_Control(m_szModuleName, idT, SESSION_OFFLINE);
 		Chat_Terminate(m_szModuleName, idT);
@@ -283,13 +283,13 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		ptrA xinitiator, xtarget, initiator;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"addmember");
-		if (xml == NULL)
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"addmember");
+		if (xml == nullptr)
 			return;
 
 		for (int i = 0; i < xmlGetChildCount(xml); i++) {
 			HXML xmlNode = xmlGetNthChild(xml, L"target", i);
-			if (xmlNode == NULL)
+			if (xmlNode == nullptr)
 				break;
 
 			xtarget = mir_u2a(xmlGetText(xmlNode));
@@ -303,13 +303,13 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		ptrA xinitiator, xtarget;
 		//content = <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"deletemember");
-		if (xml != NULL) {
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"deletemember");
+		if (xml != nullptr) {
 			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = node != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
+			xinitiator = node != NULL ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
 
 			xmlNode = xmlGetChildByPath(xml, L"target", 0);
-			xtarget = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
+			xtarget = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
 
 			xmlDestroyNode(xml);
 		}
@@ -324,13 +324,13 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	else if (messageType == "ThreadActivity/TopicUpdate") {
 		//content=<topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		ptrA xinitiator, value;
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"topicupdate");
-		if (xml != NULL) {
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"topicupdate");
+		if (xml != nullptr) {
 			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
+			xinitiator = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
 
 			xmlNode = xmlGetChildByPath(xml, L"value", 0);
-			value = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
+			value = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
 
 			xmlDestroyNode(xml);
 		}
@@ -342,17 +342,17 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	else if (messageType == "ThreadActivity/RoleUpdate") {
 		//content=<roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
 		ptrA xinitiator, xId, xRole;
-		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), 0, L"roleupdate");
-		if (xml != NULL) {
+		HXML xml = xmlParseString(ptrW(mir_utf8decodeW(strContent.c_str())), nullptr, L"roleupdate");
+		if (xml != nullptr) {
 			HXML xmlNode = xmlGetChildByPath(xml, L"initiator", 0);
-			xinitiator = xmlNode != NULL ? mir_u2a(xmlGetText(xmlNode)) : NULL;
+			xinitiator = xmlNode != nullptr ? mir_u2a(xmlGetText(xmlNode)) : nullptr;
 
 			xmlNode = xmlGetChildByPath(xml, L"target", 0);
-			if (xmlNode != NULL) {
+			if (xmlNode != nullptr) {
 				HXML xmlId = xmlGetChildByPath(xmlNode, L"id", 0);
 				HXML xmlRole = xmlGetChildByPath(xmlNode, L"role", 0);
-				xId = xmlId != NULL ? mir_u2a(xmlGetText(xmlId)) : NULL;
-				xRole = xmlRole != NULL ? mir_u2a(xmlGetText(xmlRole)) : NULL;
+				xId = xmlId != nullptr ? mir_u2a(xmlGetText(xmlId)) : nullptr;
+				xRole = xmlRole != nullptr ? mir_u2a(xmlGetText(xmlRole)) : nullptr;
 			}
 			xmlDestroyNode(xml);
 
@@ -367,7 +367,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 			gce.ptszNick = tszId;
 			gce.ptszUID = tszId;
 			gce.ptszText = tszInitiator;
-			gce.time = time(NULL);
+			gce.time = time(nullptr);
 			gce.bIsMe = IsMe(id);
 			gce.ptszStatus = TranslateT("Admin");
 			Chat_Event(&gce);
@@ -388,9 +388,9 @@ void CSkypeProto::OnSendChatMessage(const wchar_t *chat_id, const wchar_t * tszM
 	ptrA szMessage(mir_utf8encodeW(buf));
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		SendRequest(new SendChatActionRequest(szChatId, time(NULL), szMessage, li));
+		SendRequest(new SendChatActionRequest(szChatId, time(nullptr), szMessage, li));
 	else
-		SendRequest(new SendChatMessageRequest(szChatId, time(NULL), szMessage, li));
+		SendRequest(new SendChatMessageRequest(szChatId, time(nullptr), szMessage, li));
 }
 
 void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, const char *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
@@ -421,7 +421,7 @@ void CSkypeProto::AddMessageToChat(const wchar_t *chat_id, const wchar_t *from, 
 void CSkypeProto::OnGetChatInfo(const NETLIBHTTPREQUEST *response, void *p)
 {
 	ptrW topic((wchar_t*)p); // memory must be freed in any case
-	if (response == NULL || response->pData == NULL)
+	if (response == nullptr || response->pData == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -469,7 +469,7 @@ void CSkypeProto::ChangeChatTopic(const char *chat_id, const char *topic, const 
 bool CSkypeProto::IsChatContact(const wchar_t *chat_id, const char *id)
 {
 	ptrA users(GetChatUsers(chat_id));
-	return (users != NULL && strstr(users, id) != NULL);
+	return (users != NULL && strstr(users, id) != nullptr);
 }
 
 char *CSkypeProto::GetChatUsers(const wchar_t *chat_id)
@@ -485,7 +485,7 @@ char *CSkypeProto::GetChatUsers(const wchar_t *chat_id)
 wchar_t* CSkypeProto::GetChatContactNick(const char *chat_id, const char *id, const char *name)
 {
 	// Check if there is custom nick for this chat contact
-	if (chat_id != NULL) {
+	if (chat_id != nullptr) {
 		if (wchar_t *tname = db_get_wsa(FindChatRoom(chat_id), "UsersNicks", id))
 			return tname;
 	}
@@ -510,7 +510,7 @@ wchar_t* CSkypeProto::GetChatContactNick(const char *chat_id, const char *id, co
 	}
 
 	// Return default value as nick - given name or user id
-	if (name != NULL)
+	if (name != nullptr)
 		return mir_a2u_cp(name, CP_UTF8);
 	else
 		return mir_a2u(id);
@@ -528,7 +528,7 @@ void CSkypeProto::AddChatContact(const wchar_t *tchat_id, const char *id, const 
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tnick;
 	gce.ptszUID = tid;
-	gce.time = !isChange ? time(NULL) : NULL;
+	gce.time = !isChange ? time(nullptr) : NULL;
 	gce.bIsMe = IsMe(id);
 	gce.ptszStatus = TranslateW(role);
 
@@ -549,13 +549,13 @@ void CSkypeProto::RemoveChatContact(const wchar_t *tchat_id, const char *id, con
 		gce.ptszUID = tid;
 		gce.ptszNick = tnick;
 		gce.ptszStatus = tinitiator;
-		gce.time = time(NULL);
+		gce.time = time(nullptr);
 	}
 	else {
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.ptszNick = tnick;
 		gce.ptszUID = tid;
-		gce.time = time(NULL);
+		gce.time = time(nullptr);
 		gce.bIsMe = IsMe(id);
 	}
 
@@ -599,7 +599,7 @@ int CSkypeProto::OnGroupChatMenuHook(WPARAM, LPARAM lParam)
 		static const struct gc_item Items[] =
 		{
 			{ LPGENW("Kick &user"),     10, MENU_ITEM      },
-			{ NULL,                     0,  MENU_SEPARATOR },
+			{ nullptr,                     0,  MENU_SEPARATOR },
 			{ LPGENW("Set &role"),      20, MENU_NEWPOPUP  },
 			{ LPGENW("&Admin"),         30, MENU_POPUPITEM },
 			{ LPGENW("&User"),          40, MENU_POPUPITEM },
@@ -617,7 +617,7 @@ CMStringW CSkypeProto::ChangeTopicForm()
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_MULTILINE;
 	pForm.caption = caption;
-	pForm.ptszInitVal = NULL;
+	pForm.ptszInitVal = nullptr;
 	pForm.szModuleName = m_szModuleName;
 	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
 }

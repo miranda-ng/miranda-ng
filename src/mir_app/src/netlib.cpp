@@ -139,7 +139,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 {
 	if (nlu == nullptr || nlu->szSettingsModule == nullptr || (!(nlu->flags & NUF_NOOPTIONS) && nlu->szDescriptiveName.w == nullptr)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return 0;
+		return nullptr;
 	}
 
 	HNETLIBUSER thisUser = (HNETLIBUSER)mir_calloc(sizeof(NetlibUser));
@@ -154,7 +154,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 	if (idx != -1) {
 		mir_free(thisUser);
 		SetLastError(ERROR_DUP_NAME);
-		return 0;
+		return nullptr;
 	}
 
 	if (nlu->szDescriptiveName.w)
@@ -166,7 +166,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 	{
 		mir_free(thisUser);
 		SetLastError(ERROR_OUTOFMEMORY);
-		return 0;
+		return nullptr;
 	}
 	if (nlu->szHttpGatewayHello)
 		thisUser->user.szHttpGatewayHello = mir_strdup(nlu->szHttpGatewayHello);
@@ -320,7 +320,7 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection)
 {
 	SOCKET s;
-	if (hConnection == 0) {
+	if (hConnection == nullptr) {
 		s = INVALID_SOCKET;
 		SetLastError(ERROR_INVALID_PARAMETER);
 	}

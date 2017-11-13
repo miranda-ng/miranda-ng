@@ -436,7 +436,7 @@ void CSkypeProto::LoadProfile(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	MCONTACT hContact = (DWORD_PTR)arg;
 
-	if (response == NULL) {
+	if (response == nullptr) {
 		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, 0);
 		return;
 	}

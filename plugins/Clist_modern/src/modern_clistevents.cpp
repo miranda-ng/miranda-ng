@@ -103,7 +103,7 @@ CListEvent* cli_AddEvent(CLISTEVENT *cle)
 			for (int j = 0; j < GetMenuItemCount(g_CluiData.hMenuNotify); j++) {
 				if (GetMenuItemInfo(g_CluiData.hMenuNotify, j, TRUE, &mii) != 0) {
 					NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-					if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->hContact && nmi->iIcon == p->imlIconIndex)
+					if (nmi != nullptr && (HANDLE)nmi->hContact == (HANDLE)p->hContact && nmi->iIcon == p->imlIconIndex)
 						return p;
 				}
 			}
@@ -322,7 +322,7 @@ static int EventArea_DrawWorker(HWND hWnd, HDC hDC)
 		HICON hIcon = (HICON)LoadImage(g_hMirApp, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0);
 		wchar_t *ptszEvents = TranslateT("No events");
 		ske_DrawText(hDC, ptszEvents, (int)mir_wstrlen(ptszEvents), &rc, DT_VCENTER | DT_SINGLELINE);
-		ske_DrawIconEx(hDC, 4, (rc.bottom + rc.top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
+		ske_DrawIconEx(hDC, 4, (rc.bottom + rc.top - 16) / 2, hIcon, 16, 16, 0, nullptr, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);
 	}
 

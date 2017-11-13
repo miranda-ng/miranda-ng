@@ -55,13 +55,13 @@ static OptPageControl formatControls[] = {
 };
 
 static OptPageControl playersControls[] = {
-	{ NULL, CONTROL_CHECKBOX, IDC_WATRACK, "GetInfoFromWATrack", FALSE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_WATRACK, "GetInfoFromWATrack", FALSE },
 	{ &opts.time_to_pool, CONTROL_SPIN, IDC_POLL_TIMER, "TimeToPool", (WORD)5, IDC_POLL_TIMER_SPIN, (WORD)1, (WORD)255 },
-	{ NULL, CONTROL_CHECKBOX, IDC_WINAMP, "EnableWinamp", TRUE },
-	{ NULL, CONTROL_CHECKBOX, IDC_ITUNES, "EnableITunes", TRUE },
-	{ NULL, CONTROL_CHECKBOX, IDC_WMP, "EnableWMP", TRUE },
-	{ NULL, CONTROL_CHECKBOX, IDC_FOOBAR, "EnableFoobar", TRUE },
-	{ NULL, CONTROL_CHECKBOX, IDC_MRADIO, "EnableMRadio", TRUE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_WINAMP, "EnableWinamp", TRUE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_ITUNES, "EnableITunes", TRUE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_WMP, "EnableWMP", TRUE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_FOOBAR, "EnableFoobar", TRUE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_MRADIO, "EnableMRadio", TRUE },
 	{ &opts.enable_other_players, CONTROL_CHECKBOX, IDC_OTHER, "EnableOtherPlayers", TRUE },
 	{ &opts.enable_code_injection, CONTROL_CHECKBOX, IDC_CODE_INJECTION, "EnableCodeInjection", TRUE }
 };
@@ -118,7 +118,7 @@ void LoadOptions()
 
 BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 {
-	if (lti == NULL)
+	if (lti == nullptr)
 		return TRUE;
 
 	if (lti->dwFlags & LTI_UNICODE) {
@@ -171,7 +171,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		if (hExtraIcon != NULL) {
+		if (hExtraIcon != nullptr) {
 			ShowWindow(GetDlgItem(hwndDlg, IDC_SHOW_ADV_ICON), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADV_ICON), SW_HIDE);
 		}

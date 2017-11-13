@@ -30,14 +30,14 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 {
 	bool keepFlag = true;
 
-	hKeepAliveThreadEvt = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hKeepAliveThreadEvt = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	msnPingTimeout = 45;
 
 	while (keepFlag) {
 		switch (WaitForSingleObject(hKeepAliveThreadEvt, msnPingTimeout * 1000)) {
 		case WAIT_TIMEOUT:
-			keepFlag = msnNsThread != NULL;
+			keepFlag = msnNsThread != nullptr;
 			if (usingGateway)
 				msnPingTimeout = 45;
 			else {
@@ -55,13 +55,13 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 
 			if (hHttpsConnection && (clock() - mHttpsTS) > 60 * CLOCKS_PER_SEC) {
 				HNETLIBCONN hConn = hHttpsConnection;
-				hHttpsConnection = NULL;
+				hHttpsConnection = nullptr;
 				Netlib_Shutdown(hConn);
 			}
 
 			if (mStatusMsgTS && (clock() - mStatusMsgTS) > 60 * CLOCKS_PER_SEC) {
 				mStatusMsgTS = 0;
-				ForkThread(&CMsnProto::msn_storeProfileThread, NULL);
+				ForkThread(&CMsnProto::msn_storeProfileThread, nullptr);
 			}
 			if (keepFlag && MyOptions.netId != NETID_SKYPE && MSN_RefreshOAuthTokens(true))
 				ForkThread(&CMsnProto::msn_refreshOAuthThread, msnNsThread);
@@ -77,7 +77,7 @@ void __cdecl CMsnProto::msn_keepAliveThread(void*)
 		}
 	}
 
-	CloseHandle(hKeepAliveThreadEvt); hKeepAliveThreadEvt = NULL;
+	CloseHandle(hKeepAliveThreadEvt); hKeepAliveThreadEvt = nullptr;
 	debugLogA("Closing keep-alive thread");
 }
 
@@ -100,7 +100,7 @@ void __cdecl CMsnProto::msn_refreshOAuthThread(void *param)
 static bool ReallocInfoBuffer(ThreadData *info, size_t mDataSize)
 {
 	char *mData = (char*)mir_realloc(info->mData, mDataSize + 1);
-	if (mData == NULL)
+	if (mData == nullptr)
 		return false;
 
 	info->mData = mData;
@@ -118,7 +118,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 	int tPortNumber = -1;
 	{
 		char* tPortDelim = strrchr(info->mServer, ':');
-		if (tPortDelim != NULL) {
+		if (tPortDelim != nullptr) {
 			*tPortDelim = '\0';
 			if ((tPortNumber = atoi(tPortDelim + 1)) == 0)
 				tPortNumber = -1;
@@ -166,7 +166,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 	debugLogA("Thread started: server='%s:%d', type=%d", tConn.szHost, tConn.wPort, info->mType);
 
 	info->s = Netlib_OpenConnection(m_hNetlibUser, &tConn);
-	if (info->s == NULL) {
+	if (info->s == nullptr) {
 		debugLogA("Connection Failed (%d) server='%s:%d'", WSAGetLastError(), tConn.szHost, tConn.wPort);
 
 		switch (info->mType) {
@@ -207,7 +207,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 
 		for (;;) {
 			char* peol = strchr(info->mData, '\r');
-			if (peol == NULL)
+			if (peol == nullptr)
 				break;
 
 			int msgLen = (int)(peol - info->mData);
@@ -270,18 +270,18 @@ LBL_Exit:
 				SetEvent(hKeepAliveThreadEvt);
 			}
 
-			if (info->s == NULL)
-				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+			if (info->s == nullptr)
+				ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 			else
 				MSN_CloseConnections();
 
 			if (hHttpsConnection) {
 				Netlib_CloseHandle(hHttpsConnection);
-				hHttpsConnection = NULL;
+				hHttpsConnection = nullptr;
 			}
 
 			MSN_GoOffline();
-			msnNsThread = NULL;
+			msnNsThread = nullptr;
 		}
 	}
 
@@ -299,7 +299,7 @@ void CMsnProto::MSN_CloseConnections(void)
 
 		switch (T.mType) {
 		case SERVER_NOTIFICATION:
-			if (T.s != NULL && !T.sessionClosed && !T.termPending) {
+			if (T.s != nullptr && !T.sessionClosed && !T.termPending) {
 				nls.hReadConns[0] = T.s;
 				int res = Netlib_SelectEx(&nls);
 				if (res >= 0 || nls.hReadStatus[0] == 0)
@@ -324,7 +324,7 @@ void CMsnProto::Threads_Uninit(void)
 GCThreadData* CMsnProto::MSN_GetThreadByChatId(const wchar_t* chatId)
 {
 	if (mir_wstrlen(chatId) == 0)
-		return NULL;
+		return nullptr;
 
 	mir_cslock lck(m_csThreads);
 	for (int i = 0; i < m_arGCThreads.getCount(); i++) {
@@ -333,7 +333,7 @@ GCThreadData* CMsnProto::MSN_GetThreadByChatId(const wchar_t* chatId)
 			return T;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
@@ -346,7 +346,7 @@ ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 			return &T;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -357,36 +357,36 @@ ThreadData::ThreadData()
 	memset(&mInitialContactWLID, 0, sizeof(ThreadData) - 2 * sizeof(STRLIST));
 	mGatewayTimeout = 2;
 	resetTimeout();
-	hWaitEvent = CreateSemaphore(NULL, 0, MSN_PACKETS_COMBINE, NULL);
+	hWaitEvent = CreateSemaphore(nullptr, 0, MSN_PACKETS_COMBINE, nullptr);
 	mData = (char*)mir_calloc((mDataSize = 8192) + 1);
 }
 
 ThreadData::~ThreadData()
 {
-	if (s != NULL) {
+	if (s != nullptr) {
 		proto->debugLogA("Closing connection handle %08X", s);
 		Netlib_CloseHandle(s);
 	}
 
-	if (mIncomingBoundPort != NULL) {
+	if (mIncomingBoundPort != nullptr) {
 		Netlib_CloseHandle(mIncomingBoundPort);
 	}
 
-	if (mMsnFtp != NULL) {
+	if (mMsnFtp != nullptr) {
 		delete mMsnFtp;
-		mMsnFtp = NULL;
+		mMsnFtp = nullptr;
 	}
 
 	if (hWaitEvent != INVALID_HANDLE_VALUE)
 		CloseHandle(hWaitEvent);
 
 	if (mTimerId != 0)
-		KillTimer(NULL, mTimerId);
+		KillTimer(nullptr, mTimerId);
 
 	mJoinedContactsWLID.destroy();
 	mJoinedIdentContactsWLID.destroy();
 
-	mir_free(mInitialContactWLID); mInitialContactWLID = NULL;
+	mir_free(mInitialContactWLID); mInitialContactWLID = nullptr;
 	mir_free(mData);
 }
 
@@ -399,7 +399,7 @@ void ThreadData::applyGatewayData(HNETLIBCONN hConn, bool isPoll)
 
 	NETLIBHTTPPROXYINFO nlhpi = {};
 	nlhpi.flags = NLHPIF_HTTP11;
-	nlhpi.szHttpGetUrl = NULL;
+	nlhpi.szHttpGetUrl = nullptr;
 	nlhpi.szHttpPostUrl = szHttpPostUrl;
 	nlhpi.combinePackets = 5;
 	Netlib_SetHttpProxyInfo(hConn, &nlhpi);
@@ -423,7 +423,7 @@ void ThreadData::processSessionData(const char* xMsgr, const char* xHost)
 	char tSessionID[40], tGateIP[80];
 
 	char* tDelim = (char*)strchr(xMsgr, ';');
-	if (tDelim == NULL)
+	if (tDelim == nullptr)
 		return;
 
 	*tDelim = 0; tDelim += 2;
@@ -432,7 +432,7 @@ void ThreadData::processSessionData(const char* xMsgr, const char* xHost)
 		return;
 
 	char* tDelim2 = strchr(tDelim, ';');
-	if (tDelim2 != NULL)
+	if (tDelim2 != nullptr)
 		*tDelim2 = '\0';
 	if (xHost)
 		mir_strcpy(tGateIP, xHost);
@@ -512,7 +512,7 @@ BYTE* HReadBuffer::surelyRead(size_t parBytes)
 			while (parBytes > mDataSize) mDataSize *= 2;
 			if (!ReallocInfoBuffer(owner, mDataSize)) {
 				owner->proto->debugLogA("HReadBuffer::surelyRead: not enough memory, %d %d %d", parBytes, owner->mDataSize, startOffset);
-				return NULL;
+				return nullptr;
 			}
 			buffer = (BYTE*)owner->mData;
 		}
@@ -522,7 +522,7 @@ BYTE* HReadBuffer::surelyRead(size_t parBytes)
 		int recvResult = owner->recv((char*)buffer + totalDataSize, owner->mDataSize - totalDataSize);
 
 		if (recvResult <= 0)
-			return NULL;
+			return nullptr;
 
 		totalDataSize += recvResult;
 	}

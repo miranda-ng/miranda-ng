@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 HINSTANCE hInstance;
 int hLangpack;
-HWND hDialogWnd = 0; // хэндл окна настроек, он глобально используется для вывода туда в реалтайме сканкодов клавы из хука
+HWND hDialogWnd = nullptr; // хэндл окна настроек, он глобально используется для вывода туда в реалтайме сканкодов клавы из хука
 HHOOK hHook;
 CLIST_INTERFACE *pcli;
 

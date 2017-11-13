@@ -1,11 +1,11 @@
 #include "stdafx.h"
 
 char data[] = "AAAABBBBCCCCDDDDEEEEFFFFGGGGHHH";
-ICMP *ICMP::instance = 0;
+ICMP *ICMP::instance = nullptr;
 
 #define BUFFER_SIZE			(16 * (sizeof(ICMP_ECHO_REPLY) + sizeof(data)))
 
-ICMP::ICMP() : timeout(2000), functions_loaded(false), hIP(0)
+ICMP::ICMP() : timeout(2000), functions_loaded(false), hIP(nullptr)
 {
 	WSAData wsaData;
 	if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {
@@ -40,7 +40,7 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
 	if (address == INADDR_NONE)
 	{
 		rec = gethostbyname(host);
-		if (rec != NULL)
+		if (rec != nullptr)
 			address = *(unsigned long *)(*rec->h_addr_list);
 		else
 			return false;
@@ -50,7 +50,7 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
 	ipoi.Tos = 0;
 	ipoi.Flags = 0;
 	ipoi.OptionsSize = 0;
-	ipoi.OptionsData = 0;
+	ipoi.OptionsData = nullptr;
 
 	reply.Status = 0;
 
@@ -58,14 +58,14 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
 	if (hIP == INVALID_HANDLE_VALUE)
 		return false;
 
-	DWORD rep_cnt = IcmpSendEcho2(hIP, 0, 0, 0, address, data, sizeof(data), 0, buff, BUFFER_SIZE, timeout);
+	DWORD rep_cnt = IcmpSendEcho2(hIP, nullptr, nullptr, nullptr, address, data, sizeof(data), nullptr, buff, BUFFER_SIZE, timeout);
 	if (rep_cnt == 0)
 	{
 		DWORD code = GetLastError();
 		if (code != 11010)
 		{
 			char winmsg[512], msg[1024];
-			FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, 0, code, 0, winmsg, 512, 0);
+			FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, code, 0, winmsg, 512, nullptr);
 			mir_snprintf(msg, "Ping error (%d): %s", code, winmsg);
 			PUShowMessage(msg, SM_NOTIFY);
 			return false;

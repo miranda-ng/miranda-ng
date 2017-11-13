@@ -85,14 +85,14 @@ static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *t
 
 static BBCodeInfo bbCodes[] =
 {
-	{ L"[b]", 0, bbCodeSimpleFunc, BBS_BOLD_S },
-	{ L"[/b]", 0, bbCodeSimpleFunc, BBS_BOLD_E },
-	{ L"[i]", 0, bbCodeSimpleFunc, BBS_ITALIC_S },
-	{ L"[/i]", 0, bbCodeSimpleFunc, BBS_ITALIC_E },
-	{ L"[u]", 0, bbCodeSimpleFunc, BBS_UNDERLINE_S },
-	{ L"[/u]", 0, bbCodeSimpleFunc, BBS_UNDERLINE_E },
-	{ L"[s]", 0, bbCodeSimpleFunc, BBS_STRIKEOUT_S },
-	{ L"[/s]", 0, bbCodeSimpleFunc, BBS_STRIKEOUT_E },
+	{ L"[b]", nullptr, bbCodeSimpleFunc, BBS_BOLD_S },
+	{ L"[/b]", nullptr, bbCodeSimpleFunc, BBS_BOLD_E },
+	{ L"[i]", nullptr, bbCodeSimpleFunc, BBS_ITALIC_S },
+	{ L"[/i]", nullptr, bbCodeSimpleFunc, BBS_ITALIC_E },
+	{ L"[u]", nullptr, bbCodeSimpleFunc, BBS_UNDERLINE_S },
+	{ L"[/u]", nullptr, bbCodeSimpleFunc, BBS_UNDERLINE_E },
+	{ L"[s]", nullptr, bbCodeSimpleFunc, BBS_STRIKEOUT_S },
+	{ L"[/s]", nullptr, bbCodeSimpleFunc, BBS_STRIKEOUT_E },
 
 	//	{ L"[color=",  L"]",     bbCodeSimpleFunc, BBS_COLOR_S },
 	//	{ L"[/color]", 0,           bbCodeSimpleFunc, BBS_COLOR_E }
@@ -115,8 +115,8 @@ void bbCodeParse(IFormattedTextDraw *ftd)
 	for (bool found = true; found;) {
 		found = false;
 		CHARRANGE fRange; fRange.cpMin = -1;
-		wchar_t *fText = 0;
-		BBCodeInfo *fBBCode = NULL;
+		wchar_t *fText = nullptr;
+		BBCodeInfo *fBBCode = nullptr;
 
 		for (int i = 0; i < bbCodeCount; i++) {
 			CHARRANGE range;

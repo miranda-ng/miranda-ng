@@ -224,7 +224,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 				SetDlgItemText(hWnd, IDC_EDIT_EXAMPLE, ptszMemLay);
 
 				UnhookWindowsHookEx(kbHook_All);
-				kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, NULL, GetCurrentThreadId());
+				kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, nullptr, GetCurrentThreadId());
 			}
 		}
 		break;
@@ -337,7 +337,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 
 		case IDC_EDIT_TIMEOUT:
 			if (HIWORD(wParam) == EN_CHANGE) {
-				dwTimeOut = GetDlgItemInt(hWnd, IDC_EDIT_TIMEOUT, NULL, FALSE);
+				dwTimeOut = GetDlgItemInt(hWnd, IDC_EDIT_TIMEOUT, nullptr, FALSE);
 				if (dwTimeOut>255)
 					poOptionsTemp.bTimeout = 255;
 				else 

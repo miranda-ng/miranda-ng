@@ -6,7 +6,7 @@
  */
 
 ColTimeline::ColTimeline() : m_nSource(0), m_nSourceType(2), m_nIgnoreOld(0), m_bDetail(true), 
-	m_nDays(7), m_hSource(NULL), m_hIgnoreOld(NULL), m_hDetail(NULL), m_hDays(NULL),
+	m_nDays(7), m_hSource(nullptr), m_hIgnoreOld(nullptr), m_hDetail(nullptr), m_hDays(nullptr),
 	m_nTimelineWidth(0), m_nFirstDay(0), m_nLastDay(0)
 {
 }
@@ -113,7 +113,7 @@ void ColTimeline::impl_contactDataFree(Contact& contact) const
 	if (pData)
 	{
 		delete pData;
-		contact.setSlot(contactDataSlotGet(), NULL);
+		contact.setSlot(contactDataSlotGet(), nullptr);
 	}
 }
 
@@ -298,11 +298,11 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 			int from_left = 3 * ((curDay - m_nFirstDay) / m_nDays);
 
 			if (bar_len != 0)
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 24 - bar_len, from_left + 3, 25 + bar_len), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 24 - bar_len, from_left + 3, 25 + bar_len), nullptr, 0, nullptr);
 		}
 
 		SetBkColor(hDC, con::ColorBarLine);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 24, m_nTimelineWidth, 25), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 24, m_nTimelineWidth, 25), nullptr, 0, nullptr);
 
 		canvas.endDraw();
 
@@ -399,7 +399,7 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 		HDC hDC = canvas.beginDraw();
 
 		SetBkColor(hDC, con::ColorIOLine);
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 24, m_nTimelineWidth, 25), NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 24, m_nTimelineWidth, 25), nullptr, 0, nullptr);
 
 		for (curDay = m_nFirstDay; curDay <= m_nLastDay; curDay += m_nDays)
 		{
@@ -430,12 +430,12 @@ void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact
 			if (bar_len < 0)
 			{
 				SetBkColor(hDC, con::ColorIn);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 24, from_left + 3, 24 - bar_len), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 24, from_left + 3, 24 - bar_len), nullptr, 0, nullptr);
 			}
 			else if (bar_len > 0)
 			{
 				SetBkColor(hDC, con::ColorOut);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 25 - bar_len, from_left + 3, 25), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(from_left, 25 - bar_len, from_left + 3, 25), nullptr, 0, nullptr);
 			}
 		}
 

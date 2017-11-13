@@ -53,7 +53,7 @@ unsigned CDropboxService::RequestAccessTokenThread(void *owner, void *param)
 	DropboxAPI::GetAccessTokenRequest request(requestToken);
 	NLHR_PTR response(request.Send(service->hConnection));
 
-	if (response == NULL || response->resultCode != HTTP_CODE_OK) {
+	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
 		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError());
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
@@ -171,7 +171,7 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 	DropboxAPI::CreateSharedLinkRequest shareRequest(token, path);
 	NLHR_PTR response(shareRequest.Send(hConnection));
 
-	if (response == NULL)
+	if (response == nullptr)
 		throw Exception(HttpStatusToError());
 
 	if (!HTTP_CODE_SUCCESS(response->resultCode) &&

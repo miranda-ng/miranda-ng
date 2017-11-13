@@ -38,8 +38,8 @@ ToxHexAddress ResolveToxAddressFromDns(const char *dnsQuery)
 {
 	ToxHexAddress address = ToxHexAddress::Empty();
 
-	DNS_RECORDA *record = NULL;
-	DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD*)&record, NULL);
+	DNS_RECORDA *record = nullptr;
+	DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, DNS_QUERY_STANDARD, nullptr, (PDNS_RECORD*)&record, nullptr);
 	while (status == ERROR_SUCCESS && record) {
 		DNS_TXT_DATAA *txt = &record->Data.Txt;
 		if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount) {
@@ -210,7 +210,7 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 {
 	if (!IsOnline()) {
 		// we cannot add someone to friend list while tox is offline
-		return NULL;
+		return nullptr;
 	}
 
 	std::smatch match;
@@ -233,14 +233,14 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 
 		CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
 
-		ForkThread(&CToxProto::SearchFailedAsync, NULL);
+		ForkThread(&CToxProto::SearchFailedAsync, nullptr);
 	}
 	else {
 		regex = "^\\s*(([^ @/:;()\"']+)(@[A-Za-z]+.[A-Za-z]{2,6})?)\\s*$";
 		if (std::regex_search(query, match, regex))
 			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(query.c_str()));
 		else
-			ForkThread(&CToxProto::SearchFailedAsync, NULL);
+			ForkThread(&CToxProto::SearchFailedAsync, nullptr);
 	}
 	return (HWND)1;
 }

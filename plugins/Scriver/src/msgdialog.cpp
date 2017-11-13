@@ -439,7 +439,7 @@ void CSrmmWindow::onClick_Ok(CCtrlButton *pButton)
 	pf2.dwMask = PFM_RTLPARA;
 	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
-	MessageSendQueueItem msi = { 0 };
+	MessageSendQueueItem msi = {};
 	if (pf2.wEffects & PFE_RTLPARA)
 		msi.flags |= PREF_RTL;
 
@@ -877,11 +877,11 @@ void CSrmmWindow::MessageDialogResize(int w, int h)
 	int logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight;
 
 	HDWP hdwp = BeginDeferWindowPos(5);
-	hdwp = DeferWindowPos(hdwp, m_hwndInfo, 0, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), 0, 1, logY, w - 2, logH, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), 0, 1, h - hSplitterPos + SPLITTER_HEIGHT, messageEditWidth, hSplitterPos - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), 0, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_splitter.GetHwnd(), 0, 0, h - hSplitterPos - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_hwndInfo, nullptr, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), nullptr, 1, logY, w - 2, logH, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - hSplitterPos + SPLITTER_HEIGHT, messageEditWidth, hSplitterPos - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_splitter.GetHwnd(), nullptr, 0, h - hSplitterPos - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
 	SetButtonsPos(m_hwnd, m_hContact, bToolbar);

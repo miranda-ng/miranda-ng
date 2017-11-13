@@ -45,7 +45,7 @@ static FontEntry s_fontTable[] =
 	0, FONTSERV_OTHER, "OtherFont", "OtherBgColor",
 };
 
-CTooltipNotify *CTooltipNotify::s_pInstance = 0;
+CTooltipNotify *CTooltipNotify::s_pInstance = nullptr;
 const char *CTooltipNotify::s_szModuleNameOld = "ttntfmod";
 
 //////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ const char *CTooltipNotify::s_szModuleNameOld = "ttntfmod";
 CTooltipNotify::CTooltipNotify() :
 m_bNt50(IsNt50())
 {
-	if (s_pInstance != 0)
+	if (s_pInstance != nullptr)
 		throw EAlreadyExists();
 
 	s_pInstance = this;
@@ -67,7 +67,7 @@ CTooltipNotify::~CTooltipNotify()
 {
 	EndNotifyAll();
 	CTooltip::Deinitialize();
-	s_pInstance = 0;
+	s_pInstance = nullptr;
 }
 
 void CTooltipNotify::RegisterFonts()
@@ -105,13 +105,13 @@ void CTooltipNotify::RegisterFonts()
 
 void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF* bg)
 {
-	wchar_t* fontName = 0;
+	wchar_t* fontName = nullptr;
 	for (int i = 0; i < _countof(s_fontTable); i++) {
 		if (s_fontTable[i].status == iStatus) {
 			fontName = s_fontTable[i].name;
 		}
 	}
-	if (fontName == 0)
+	if (fontName == nullptr)
 		fontName = s_fontTable[_countof(s_fontTable) - 1].name;
 
 	// name and group only
@@ -167,7 +167,7 @@ int CTooltipNotify::ProtoContactIsTyping(WPARAM hContact, LPARAM lParam)
 int CTooltipNotify::ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if ((ack == NULL) || (ack->type != ACKTYPE_STATUS)) return 0;
+	if ((ack == nullptr) || (ack->type != ACKTYPE_STATUS)) return 0;
 
 	WORD wNewStatus = (WORD)ack->lParam;
 	WORD wOldStatus = (UINT_PTR)ack->hProcess;
@@ -182,7 +182,7 @@ int CTooltipNotify::ProtoAck(WPARAM, LPARAM lParam)
 	}
 	else {
 		if (wOldStatus < ID_STATUS_ONLINE && wNewStatus > ID_STATUS_OFFLINE) {
-			UINT_PTR idTimer = SetTimer(0, 0, m_sOptions.wStartupDelay * 1000, ConnectionTimerProcWrapper);
+			UINT_PTR idTimer = SetTimer(nullptr, 0, m_sOptions.wStartupDelay * 1000, ConnectionTimerProcWrapper);
 			ProtoData protoData = { _strdup(szProtocol), idTimer };
 			m_mapTimerIdProto.push_back(protoData);
 		}
@@ -294,7 +294,7 @@ CTooltip *CTooltipNotify::BeginNotify(STooltipData *pTooltipData)
 	if (m_sOptions.bAutoPos || Utils_RestoreWindowPosition(pTooltip->GetHandle(), 0, MODULENAME, "toolwindow", RWPF_NOSIZE | RWPF_NOACTIVATE))
 		pTooltip->set_Position(WorkAreaRect.right - 10 - (TooltipRect.right - TooltipRect.left), WorkAreaRect.bottom - 2 - (TooltipRect.bottom - TooltipRect.top));
 
-	UINT_PTR idTimer = SetTimer(0, 0, pTooltipData->uiTimeout, TooltipTimerProcWrapper);
+	UINT_PTR idTimer = SetTimer(nullptr, 0, pTooltipData->uiTimeout, TooltipTimerProcWrapper);
 	pTooltipData->idTimer = idTimer;
 	pTooltipData->pTooltip = pTooltip;
 
@@ -356,7 +356,7 @@ CTooltipNotify::MapTimerIdProtoIter CTooltipNotify::FindProtoByTimer(UINT idTime
 
 void CTooltipNotify::OnConnectionTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
-	BOOL bSuccess = KillTimer(0, idEvent);
+	BOOL bSuccess = KillTimer(nullptr, idEvent);
 	assert(bSuccess);
 
 	MapTimerIdProtoIter iter = FindProtoByTimer(idEvent);
@@ -634,7 +634,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 			// enum protocols currently running						
 			int iProtoCount = 0;
-			PROTOACCOUNT **ppProtos = 0;
+			PROTOACCOUNT **ppProtos = nullptr;
 			Proto_EnumAccounts(&iProtoCount, &ppProtos);
 
 			// and fill in the list
@@ -673,7 +673,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 				char szMultiByteProto[128];
 				long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, (int)mir_wstrlen(szProto),
-					szMultiByteProto, sizeof(szMultiByteProto), NULL, NULL);
+					szMultiByteProto, sizeof(szMultiByteProto), nullptr, nullptr);
 				szMultiByteProto[lLen] = '\0';
 
 				BYTE bProtoState = db_get_b(NULL, MODULENAME, szMultiByteProto, ProtoUserBit | ProtoIntBit);
@@ -891,7 +891,7 @@ void CTooltipNotify::SuspendTimer(CTooltip *pTooltip)
 
 	STooltipData* pTooltipData = *iter;
 
-	BOOL bSuccess = KillTimer(0, pTooltipData->idTimer);
+	BOOL bSuccess = KillTimer(nullptr, pTooltipData->idTimer);
 	assert(bSuccess);
 	pTooltipData->idTimer = 0;	// denote that the timer is inactive
 }
@@ -904,7 +904,7 @@ void CTooltipNotify::ResumeTimer(CTooltip *pTooltip)
 
 	STooltipData* pTooltipData = *iter;
 
-	UINT_PTR idTimer = SetTimer(0, 0, pTooltipData->uiTimeout, TooltipTimerProcWrapper);
+	UINT_PTR idTimer = SetTimer(nullptr, 0, pTooltipData->uiTimeout, TooltipTimerProcWrapper);
 	pTooltipData->idTimer = idTimer;
 }
 

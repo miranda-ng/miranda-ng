@@ -36,7 +36,7 @@ struct MsgWndData : public MZeroedObject
 		doSmileyButton = opt.ButtonStatus != 0;
 
 		SmileyPackType *SmileyPack = GetSmileyPack(ProtocolName, hContact);
-		doSmileyButton &= SmileyPack != NULL && SmileyPack->VisibleSmileyCount() != 0;
+		doSmileyButton &= SmileyPack != nullptr && SmileyPack->VisibleSmileyCount() != 0;
 
 		doSmileyReplace = true;
 
@@ -83,7 +83,7 @@ static MsgWndData* IsMsgWnd(HWND hwnd)
 static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MsgWndData *dat = IsMsgWnd(hwnd);
-	if (dat == NULL)
+	if (dat == nullptr)
 		return 0;
 
 	switch (uMsg) {
@@ -122,7 +122,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		if (dat->doSmileyReplace) {
 			SmileyPackCType *smcp;
 			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != NULL) {
+			if (SmileyPack != nullptr) {
 				const CHARRANGE sel = { dat->idxLastChar, LONG_MAX };
 				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
 			}
@@ -133,7 +133,7 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		if (dat->doSmileyReplace) {
 			SmileyPackCType *smcp;
 			SmileyPackType *SmileyPack = GetSmileyPack(dat->ProtocolName, dat->hContact, &smcp);
-			if (SmileyPack != NULL) {
+			if (SmileyPack != nullptr) {
 				static const CHARRANGE sel = { 0, LONG_MAX };
 				ReplaceSmileys(dat->hwndLog, SmileyPack, smcp, sel, false, false, false);
 			}
@@ -176,7 +176,7 @@ int SmileyButtonPressed(WPARAM, LPARAM lParam)
 		return 0;
 
 	MsgWndData *dat = IsMsgWnd(pcbc->hwndFrom);
-	if (dat == NULL)
+	if (dat == nullptr)
 		return 0;
 
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;

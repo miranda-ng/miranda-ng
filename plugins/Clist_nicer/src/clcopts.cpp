@@ -83,7 +83,7 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	TVINSERTSTRUCT tvis;
 	int i;
 
-	tvis.hParent = NULL;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 	for (i = 0; i < nValues; i++) {
@@ -457,7 +457,7 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			KillTimer(pcli->hwndContactTree, TIMERID_REFRESH);
 			if (cfg::dat.bShowLocalTime)
-				SetTimer(pcli->hwndContactTree, TIMERID_REFRESH, 65000, NULL);
+				SetTimer(pcli->hwndContactTree, TIMERID_REFRESH, 65000, nullptr);
 
 			cfg::dat.dualRowMode = (BYTE)SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
 			if (cfg::dat.dualRowMode == CB_ERR)
@@ -750,7 +750,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			OPENFILENAME ofn = { 0 };
 			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner = hwndDlg;
-			ofn.hInstance = NULL;
+			ofn.hInstance = nullptr;
 			ofn.lpstrFilter = filter;
 			ofn.lpstrFile = str;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;

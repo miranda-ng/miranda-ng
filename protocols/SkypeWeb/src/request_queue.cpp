@@ -21,7 +21,7 @@ RequestQueue::RequestQueue(HNETLIBUSER _nlu) :
 	nlu(_nlu), requests(1)
 {
 	isTerminated = true;
-	hRequestQueueThread = NULL;
+	hRequestQueueThread = nullptr;
 }
 
 RequestQueue::~RequestQueue()
@@ -40,7 +40,7 @@ void RequestQueue::Start()
 		return;
 
 	isTerminated = false;
-	if (hRequestQueueThread == NULL)
+	if (hRequestQueueThread == nullptr)
 		hRequestQueueThread = mir_forkthread((pThreadFunc)&RequestQueue::WorkerThread, this);
 }
 
@@ -70,13 +70,13 @@ void RequestQueue::Push(HttpRequest *request, HttpResponseCallback response, voi
 void RequestQueue::Send(HttpRequest *request, HttpResponseCallback response, void *arg)
 {
 	RequestQueueItem *item = new RequestQueueItem(request, response, arg);
-	mir_forkthreadowner((pThreadFuncOwner)&RequestQueue::AsyncSendThread, this, item, 0);
+	mir_forkthreadowner((pThreadFuncOwner)&RequestQueue::AsyncSendThread, this, item, nullptr);
 }
 
 void RequestQueue::Execute(RequestQueueItem *item)
 {
 	NETLIBHTTPREQUEST *response = item->request->Send(nlu);
-	if (item->responseCallback != NULL)
+	if (item->responseCallback != nullptr)
 		item->responseCallback(response, item->arg);
 	Netlib_FreeHttpRequest(response);
 	requests.remove(item);
@@ -103,7 +103,7 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 			break;
 
 		while (true) {
-			RequestQueueItem *item = NULL;
+			RequestQueueItem *item = nullptr;
 			{
 				mir_cslock lock(queue->requestQueueLock);
 
@@ -113,11 +113,11 @@ unsigned int RequestQueue::WorkerThread(void *arg)
 				item = queue->requests[0];
 				queue->requests.remove(0);
 			}
-			if (item != NULL)
+			if (item != nullptr)
 				queue->Execute(item);
 		}
 	}
 
-	queue->hRequestQueueThread = NULL;
+	queue->hRequestQueueThread = nullptr;
 	return 0;
 }

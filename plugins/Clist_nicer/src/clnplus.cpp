@@ -11,7 +11,7 @@
 void RemoveFromTaskBar(HWND hWnd)
 {
 	CComPtr<ITaskbarList> pTaskbarList;
-	if (SUCCEEDED(pTaskbarList.CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER)))
+	if (SUCCEEDED(pTaskbarList.CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_INPROC_SERVER)))
 		if (SUCCEEDED(pTaskbarList->HrInit()))
 			pTaskbarList->DeleteTab(hWnd);
 }
@@ -19,7 +19,7 @@ void RemoveFromTaskBar(HWND hWnd)
 void AddToTaskBar(HWND hWnd)
 {
 	CComPtr<ITaskbarList> pTaskbarList;
-	if (SUCCEEDED(pTaskbarList.CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_INPROC_SERVER)))
+	if (SUCCEEDED(pTaskbarList.CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_INPROC_SERVER)))
 		if (SUCCEEDED(pTaskbarList->HrInit()))
 			pTaskbarList->AddTab(hWnd);
 }

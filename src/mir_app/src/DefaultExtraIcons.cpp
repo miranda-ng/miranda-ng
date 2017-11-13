@@ -304,7 +304,7 @@ void DefaultExtraIcons_Load()
 {
 	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
 	hExtraVisibility = ExtraIcon_RegisterIcolib("visibility", "Visibility", Skin_GetIconName(SKINICON_OTHER_VISIBLE_ALL));
-	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male", 0, 0, EIF_DISABLED_BY_DEFAULT);
+	hExtraGender = ExtraIcon_RegisterIcolib("gender", "Gender", "gender_male", nullptr, 0, EIF_DISABLED_BY_DEFAULT);
 	hExtraProto = ExtraIcon_RegisterCallback("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick, 0, EIF_DISABLED_BY_DEFAULT);
 
@@ -314,7 +314,7 @@ void DefaultExtraIcons_Load()
 		if (p.OnClick)
 			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p, p.flags);
 		else
-			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), 0, 0, p.flags);
+			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), nullptr, 0, p.flags);
 	}
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {

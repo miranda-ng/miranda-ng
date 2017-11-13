@@ -24,7 +24,7 @@
  * does not get full pointer but just 2 byte lower bytes.
  */
 #define MAX_TIMERS 8
-GGPROTO *g_timers[MAX_TIMERS] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+GGPROTO *g_timers[MAX_TIMERS] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 
 static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
@@ -55,13 +55,13 @@ void GGPROTO::keepalive_init()
 	if (getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE))
 	{
 		int i;
-		for(i = 0; i < MAX_TIMERS && g_timers[i] != NULL; i++);
+		for(i = 0; i < MAX_TIMERS && g_timers[i] != nullptr; i++);
 		if (i < MAX_TIMERS)
 		{
 	#ifdef DEBUGMODE
 			debugLogA("keepalive_init(): Initializing Timer %d", i);
 	#endif
-			timer = SetTimer(NULL, 0, 1000 * 30, gg_keepalive);
+			timer = SetTimer(nullptr, 0, 1000 * 30, gg_keepalive);
 			g_timers[i] = this;
 		}
 	}
@@ -75,10 +75,10 @@ void GGPROTO::keepalive_destroy()
 	if (timer)
 	{
 		int i;
-		KillTimer(NULL, timer);
+		KillTimer(nullptr, timer);
 		for(i = 0; i < MAX_TIMERS; i++)
 			if (g_timers[i] == this) {
-				g_timers[i] = NULL;
+				g_timers[i] = nullptr;
 				break;
 			}
 		timer = 0;

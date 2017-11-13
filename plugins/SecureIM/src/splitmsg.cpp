@@ -38,7 +38,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 	int msg_id, part_num, part_all;
 	sscanf(szMsg, "%4X%2X%2X", &msg_id, &part_num, &part_all);
 	//
-	pPM ppm = NULL, pm = ptr->msgPart;
+	pPM ppm = nullptr, pm = ptr->msgPart;
 	if (!ptr->msgPart) {
 		pm = ptr->msgPart = new partitionMessage;
 		memset(pm, 0, sizeof(partitionMessage));
@@ -65,7 +65,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 
 	int len = 0, i;
 	for (i = 0; i < part_all; i++) {
-		if (pm->message[i] == NULL) break;
+		if (pm->message[i] == nullptr) break;
 		len += (int)mir_strlen(pm->message[i]);
 	}
 	if (i == part_all) { // combine message
@@ -87,7 +87,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 
 	Sent_NetLog("combine: not all parts");
 	// not combined yet
-	return NULL;
+	return nullptr;
 }
 
 // отправляет сообщение, если надо то разбивает на части

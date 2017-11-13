@@ -45,7 +45,7 @@ void OptTree_Translate(HWND hwndTree)
 	while (hItem) {
 		OptTree_TranslateItem(hwndTree, hItem);
 
-		HTREEITEM hItemTmp = 0;
+		HTREEITEM hItemTmp = nullptr;
 		if (hItemTmp = TreeView_GetChild(hwndTree, hItem)) {
 			hItem = hItemTmp;
 		}
@@ -90,7 +90,7 @@ HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wcha
 
 		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 	}
-	return NULL;
+	return nullptr;
 }
 
 HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconIndex)
@@ -100,7 +100,7 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 	wchar_t *sectionName;
 	int sectionLevel = 0;
 
-	HTREEITEM hSection = NULL, result = NULL;
+	HTREEITEM hSection = nullptr, result = nullptr;
 	mir_wstrcpy(itemName, name);
 	sectionName = itemName;
 
@@ -118,7 +118,7 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 		hItem = OptTree_FindNamedTreeItemAt(hwndTree, hSection, pItemName);
 		if (!sectionName || !hItem) {
 			if (!hItem) {
-				TVINSERTSTRUCT tvis = { 0 };
+				TVINSERTSTRUCT tvis = {};
 
 				tvis.hParent = hSection;
 				tvis.hInsertAfter = TVI_LAST;// TVI_SORT;
@@ -175,7 +175,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 			wchar_t *sectionName;
 			int sectionLevel = 0;
 
-			HTREEITEM hSection = NULL;
+			HTREEITEM hSection = nullptr;
 			mir_wstrcpy(itemName, options[indx].pszOptionName);
 			sectionName = itemName;
 
@@ -193,7 +193,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 				hItem = OptTree_FindNamedTreeItemAt(hwndTree, hSection, pItemName);
 				if (!sectionName || !hItem) {
 					if (!hItem) {
-						TVINSERTSTRUCT tvis = { 0 };
+						TVINSERTSTRUCT tvis = {};
 
 						tvis.hParent = hSection;
 						tvis.hInsertAfter = TVI_LAST;// TVI_SORT;
@@ -225,7 +225,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 
 		OptTree_Translate(hwndTree);
 		ShowWindow(hwndTree, SW_SHOW);
-		TreeView_SelectItem(hwndTree, OptTree_FindNamedTreeItemAt(hwndTree, 0, NULL));
+		TreeView_SelectItem(hwndTree, OptTree_FindNamedTreeItemAt(hwndTree, nullptr, nullptr));
 		break;
 	}
 

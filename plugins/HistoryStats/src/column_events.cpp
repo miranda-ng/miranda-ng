@@ -6,7 +6,7 @@
  */
 
 ColEvents::ColEvents()
-	: m_nSource(5), m_hSource(NULL)
+	: m_nSource(5), m_hSource(nullptr)
 {
 }
 

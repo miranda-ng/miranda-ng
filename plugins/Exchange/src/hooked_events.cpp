@@ -69,7 +69,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mi.name.w = LPGENW("Check exchange mailbox");
 	Menu_AddMainMenuItem(&mi);
 	
-	hEmailsDlg = NULL; //CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window
+	hEmailsDlg = nullptr; //CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window
 	FirstTimeCheck();	
 //	CheckEmail();
 	return 0;
@@ -104,7 +104,7 @@ int OnSystemPreShutdown(WPARAM, LPARAM)
 
 void FirstTimeCheck()
 {
-	hFirstCheckTimer = SetTimer(NULL, 0, 5 * 1000, OnFirstCheckTimer);
+	hFirstCheckTimer = SetTimer(nullptr, 0, 5 * 1000, OnFirstCheckTimer);
 }
 
 int UpdateTimers()
@@ -113,14 +113,14 @@ int UpdateTimers()
 	int interval;
 	interval = db_get_dw(NULL, ModuleName, "Interval", DEFAULT_INTERVAL);
 	interval *= 1000; //go from miliseconds to seconds
-	hCheckTimer = SetTimer(NULL, 0, interval, (TIMERPROC) OnCheckTimer);
+	hCheckTimer = SetTimer(nullptr, 0, interval, (TIMERPROC) OnCheckTimer);
 	
 	int bReconnect = db_get_b(NULL, ModuleName, "Reconnect", 0);
 	if (bReconnect) //user wants to forcefully reconnect every x minutes
 		{
 			interval = db_get_dw(NULL, ModuleName, "ReconnectInterval", DEFAULT_RECONNECT_INTERVAL);
 			interval *= 1000 * 60; //go from miliseconds to seconds to minutes
-			hReconnectTimer = SetTimer(NULL, 0, interval, (TIMERPROC) OnReconnectTimer);
+			hReconnectTimer = SetTimer(nullptr, 0, interval, (TIMERPROC) OnReconnectTimer);
 		}
 	
 	return 0;
@@ -130,12 +130,12 @@ int KillTimers()
 {
 	if (hCheckTimer)
 		{
-			KillTimer(NULL, hCheckTimer);
+			KillTimer(nullptr, hCheckTimer);
 			hCheckTimer = NULL;
 		}
 	if (hReconnectTimer)
 		{
-			KillTimer(NULL, hReconnectTimer);
+			KillTimer(nullptr, hReconnectTimer);
 			hReconnectTimer = NULL;
 		}
 	return 0;
@@ -168,7 +168,7 @@ VOID CALLBACK OnReconnectTimer(HWND, UINT, UINT_PTR, DWORD)
 
 VOID CALLBACK OnFirstCheckTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
 {
-	KillTimer(NULL, hFirstCheckTimer);
+	KillTimer(nullptr, hFirstCheckTimer);
 	OnCheckTimer(hWnd, msg, idEvent, dwTime);
 	
 	hFirstCheckTimer = NULL;

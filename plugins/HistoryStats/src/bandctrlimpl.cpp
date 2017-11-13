@@ -37,12 +37,12 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 	case WM_KILLFOCUS:
 		if (pCtrl->m_nCurFocused != -1) {
 			pCtrl->m_nCurFocused = -1;
-			InvalidateRect(pCtrl->m_hWnd, NULL, TRUE);
+			InvalidateRect(pCtrl->m_hWnd, nullptr, TRUE);
 		}
 		return 0;
 
 	case WM_ENABLE:
-		InvalidateRect(pCtrl->m_hWnd, NULL, TRUE);
+		InvalidateRect(pCtrl->m_hWnd, nullptr, TRUE);
 		return 0;
 
 	case WM_GETFONT:
@@ -54,7 +54,7 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 
 	case WM_WINDOWPOSCHANGED:
 		pCtrl->recalcButtonRects();
-		InvalidateRect(pCtrl->m_hWnd, NULL, TRUE);
+		InvalidateRect(pCtrl->m_hWnd, nullptr, TRUE);
 		return 0;
 
 	case WM_KEYDOWN:
@@ -139,7 +139,7 @@ LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam,
 		assert(static_cast<int>(wParam) >= 0);
 		pCtrl->m_nLayout = wParam;
 		pCtrl->recalcButtonRects();
-		InvalidateRect(pCtrl->m_hWnd, NULL, TRUE);
+		InvalidateRect(pCtrl->m_hWnd, nullptr, TRUE);
 		return 0;
 
 	case BCM_GETBUTTONRECT:
@@ -167,12 +167,12 @@ bool BandCtrlImpl::registerClass()
 		0,						// cbClsExtra
 		sizeof(BandCtrlImpl*),	// cbWndExtra
 		g_hInst,				// hInstance
-		NULL,					// hIcon
-		NULL,					// hCursor
-		NULL,					// hbrBackground
-		NULL,					// lpszMenuName
+		nullptr,					// hIcon
+		nullptr,					// hCursor
+		nullptr,					// hbrBackground
+		nullptr,					// lpszMenuName
 		m_ClassName,			// lpszClassName
-		NULL					// hIconSm
+		nullptr					// hIconSm
 	};
 
 	if (!RegisterClassEx(&wcx))
@@ -187,10 +187,10 @@ void BandCtrlImpl::unregisterClass()
 }
 
 BandCtrlImpl::BandCtrlImpl(HWND hWnd, UINT_PTR nOwnId) :
-	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hFont(NULL),
-	m_hTheme(NULL), m_hImageList(NULL), m_hImageListD(NULL), m_hTooltip(NULL),
+	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hFont(nullptr),
+	m_hTheme(nullptr), m_hImageList(nullptr), m_hImageListD(nullptr), m_hTooltip(nullptr),
 	m_nCurHot(-1), m_nCurFocused(-1), m_nCurPressed(-1), m_bCurPressedDD(false),
-	m_nLayout(0), m_nDDWidth(12), m_hDDIcon(NULL)
+	m_nLayout(0), m_nDDWidth(12), m_hDDIcon(nullptr)
 {
 	m_IconSize.cx = m_IconSize.cy;
 	m_hDDIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DROPDOWN), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
@@ -202,22 +202,22 @@ BandCtrlImpl::~BandCtrlImpl()
 {
 	if (m_hTooltip) {
 		DestroyWindow(m_hTooltip);
-		m_hTooltip = NULL;
+		m_hTooltip = nullptr;
 	}
 
 	if (m_hImageList) {
 		ImageList_Destroy(m_hImageList);
-		m_hImageList = NULL;
+		m_hImageList = nullptr;
 	}
 
 	if (m_hImageListD) {
 		ImageList_Destroy(m_hImageListD);
-		m_hImageListD = NULL;
+		m_hImageListD = nullptr;
 	}
 
 	if (m_hTheme) {
 		CloseThemeData(m_hTheme);
-		m_hTheme = NULL;
+		m_hTheme = nullptr;
 	}
 
 	if (m_hDDIcon) {
@@ -231,7 +231,7 @@ void BandCtrlImpl::onWMPaint()
 	// start painting
 	PAINTSTRUCT ps;
 	HDC hRealDC = BeginPaint(m_hWnd, &ps);
-	if (hRealDC == NULL)
+	if (hRealDC == nullptr)
 		return;
 
 	// get rect for painting
@@ -242,23 +242,23 @@ void BandCtrlImpl::onWMPaint()
 	HDC hDC = CreateCompatibleDC(hRealDC);
 	HBITMAP hMemBitmap = CreateCompatibleBitmap(hRealDC, ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top);
 	HBITMAP hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(hDC, hMemBitmap));
-	SetWindowOrgEx(hDC, ps.rcPaint.left, ps.rcPaint.top, NULL);
+	SetWindowOrgEx(hDC, ps.rcPaint.left, ps.rcPaint.top, nullptr);
 
 	// fill background
 	bool bBandEnabled = bool_(IsWindowEnabled(m_hWnd));
 
 	SetBkColor(hDC, GetSysColor(bBandEnabled ? COLOR_WINDOW : COLOR_BTNFACE));
-	ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rOut, NULL, 0, NULL);
+	ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rOut, nullptr, 0, nullptr);
 
 	// draw top and bottom line
 	if (bBandEnabled) {
 		RECT rLine = { rOut.left, rOut.top, rOut.right, rOut.top + 1 };
 
 		SetBkColor(hDC, GetSysColor(COLOR_3DSHADOW));
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rLine, NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rLine, nullptr, 0, nullptr);
 
 		rLine.top = (rLine.bottom = rOut.bottom) - 1;
-		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rLine, NULL, 0, NULL);
+		ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rLine, nullptr, 0, nullptr);
 	}
 
 	// draw items
@@ -315,7 +315,7 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 			if (bEnabled)
 				state = bPressed ? (m_bCurPressedDD ? TS_PRESSED : TS_HOT) : (item.bChecked ? (bHot ? TS_HOTCHECKED : TS_CHECKED) : (bHot ? TS_HOT : TS_NORMAL));
 
-			DrawThemeBackground(m_hTheme, hDC, TP_SPLITBUTTONDROPDOWN, state, &rDropDown, NULL);
+			DrawThemeBackground(m_hTheme, hDC, TP_SPLITBUTTONDROPDOWN, state, &rDropDown, nullptr);
 		}
 		else {
 			--rDropDown.left;
@@ -331,7 +331,7 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 			int x = rDropDown.left + (rDropDown.right - rDropDown.left - OS::smIconCX()) / 2;
 			int y = rDropDown.top + (rDropDown.bottom - rDropDown.top - OS::smIconCY()) / 2;
 
-			DrawState(hDC, NULL, NULL, reinterpret_cast<LPARAM>(m_hDDIcon), 0, x, y, m_IconSize.cx, m_IconSize.cy, DST_ICON | (bEnabled ? 0 : DSS_DISABLED));
+			DrawState(hDC, nullptr, nullptr, reinterpret_cast<LPARAM>(m_hDDIcon), 0, x, y, m_IconSize.cx, m_IconSize.cy, DST_ICON | (bEnabled ? 0 : DSS_DISABLED));
 		}
 	}
 
@@ -342,7 +342,7 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 		if (bEnabled)
 			state = bPressed ? (!m_bCurPressedDD ? TS_PRESSED : TS_HOT) : (item.bChecked ? (bHot ? TS_HOTCHECKED : TS_CHECKED) : (bHot ? TS_HOT : TS_NORMAL));
 
-		DrawThemeBackground(m_hTheme, hDC, part, state, &rItem, NULL);
+		DrawThemeBackground(m_hTheme, hDC, part, state, &rItem, nullptr);
 	}
 	else {
 		UINT state = 0;
@@ -379,7 +379,7 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 			ImageList_Draw(m_hImageListD, item.nIconD, hDC, x, y, ILD_NORMAL);
 		else {
 			HICON hIcon = ImageList_GetIcon(m_hImageList, item.nIcon, 0);
-			DrawState(hDC, NULL, NULL, reinterpret_cast<LPARAM>(hIcon), 0, x, y, m_IconSize.cx, m_IconSize.cy, DST_ICON | DSS_DISABLED);
+			DrawState(hDC, nullptr, nullptr, reinterpret_cast<LPARAM>(hIcon), 0, x, y, m_IconSize.cx, m_IconSize.cy, DST_ICON | DSS_DISABLED);
 			DestroyIcon(hIcon);
 		}
 	}
@@ -396,12 +396,12 @@ void BandCtrlImpl::reloadTheme()
 {
 	if (m_hTheme) {
 		CloseThemeData(m_hTheme);
-		m_hTheme = NULL;
+		m_hTheme = nullptr;
 	}
 
 	m_nDDWidth = 12;
 
-	m_hTheme = OpenThemeData(0, L"TOOLBAR");
+	m_hTheme = OpenThemeData(nullptr, L"TOOLBAR");
 	recalcButtonRects();
 }
 
@@ -411,11 +411,11 @@ HICON BandCtrlImpl::convertToGray(HICON hIcon)
 	// preserves transparency
 	// works only for 32bit icons
 
-	HICON hIconDisabled = NULL;
+	HICON hIconDisabled = nullptr;
 	ICONINFO ii;
 
 	if (!GetIconInfo(hIcon, &ii))
-		return NULL;
+		return nullptr;
 
 	BITMAP bmp;
 	if (GetObject(ii.hbmColor, sizeof(bmp), &bmp) && bmp.bmBitsPixel == 32) {
@@ -536,7 +536,7 @@ void BandCtrlImpl::onBCMShowButton(int nItem, bool bShow)
 	if (bShow != id.bVisible) {
 		id.bVisible = bShow;
 		recalcButtonRects();
-		InvalidateRect(m_hWnd, NULL, TRUE);
+		InvalidateRect(m_hWnd, nullptr, TRUE);
 	}
 }
 
@@ -556,7 +556,7 @@ void BandCtrlImpl::onBCMEnableButton(int nItem, bool bEnable)
 
 	if (bEnable != id.bEnabled) {
 		id.bEnabled = bEnable;
-		InvalidateRect(m_hWnd, NULL, TRUE);
+		InvalidateRect(m_hWnd, nullptr, TRUE);
 	}
 }
 
@@ -603,7 +603,7 @@ void BandCtrlImpl::recalcButtonRects()
 				m_hWnd,												// hwnd
 				m_Items[i].uTTId,									// uId
 				m_Items[i].rItem,									// rect
-				NULL,												// hInstance
+				nullptr,												// hInstance
 				const_cast<wchar_t*>(m_Items[i].tooltip.c_str()),	// lpszText
 			};
 
@@ -622,9 +622,9 @@ void BandCtrlImpl::recalcButtonRects()
 		else if (m_Items[i].uTTId == -1 && m_Items[i].bVisible && !m_Items[i].tooltip.empty()) {
 			// add a tooltip, if we don't have a tooltip but are now visible
 			if (!m_hTooltip)
-				m_hTooltip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, g_hInst, NULL);
+				m_hTooltip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_hInst, nullptr);
 
-			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, UINT_PTR(i+1), m_Items[i].rItem, NULL,
+			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, UINT_PTR(i+1), m_Items[i].rItem, nullptr,
 				const_cast<wchar_t*>(m_Items[i].tooltip.c_str()),	// lpszText
 			};
 
@@ -740,7 +740,7 @@ void BandCtrlImpl::onWMKeyDown(int nVirtKey)
 
 		if (nNext != -1 && nNext != m_nCurFocused) {
 			m_nCurFocused = nNext;
-			InvalidateRect(m_hWnd, NULL, TRUE);
+			InvalidateRect(m_hWnd, nullptr, TRUE);
 		}
 	}
 	else if (nVirtKey == VK_LEFT) {
@@ -748,7 +748,7 @@ void BandCtrlImpl::onWMKeyDown(int nVirtKey)
 
 		if (nPrev != -1 && nPrev != m_nCurFocused) {
 			m_nCurFocused = nPrev;
-			InvalidateRect(m_hWnd, NULL, TRUE);
+			InvalidateRect(m_hWnd, nullptr, TRUE);
 		}
 	}
 	else if (nVirtKey == VK_SPACE) {
@@ -821,7 +821,7 @@ void BandCtrlImpl::onWMMouseMove(POINTS pts)
 	}
 
 	if (m_nCurHot != -1) {
-		SetTimer(m_hWnd, m_PollId, m_PollDelay, NULL);
+		SetTimer(m_hWnd, m_PollId, m_PollDelay, nullptr);
 	}
 }
 

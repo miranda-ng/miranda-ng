@@ -38,7 +38,7 @@ void __cdecl CAimProto::aim_dc_helper(void* param) //only called when we are ini
 
 	Netlib_CloseHandle(hServerPacketRecver);
 	Netlib_CloseHandle(ft->hConn);
-	ft->hConn = NULL;
+	ft->hConn = nullptr;
 
 	if (result == 0)
 		ProtoBroadcastAck(ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);

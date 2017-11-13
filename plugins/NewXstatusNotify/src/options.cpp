@@ -403,12 +403,12 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						mir_wstrcat(str, TranslateT("This is status message"));
 					}
 
-					ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, i), i, str);
+					ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, i), i, str);
 				}
 				wcsncpy(str, TranslateT("This is extra status"), _countof(str));
-				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
+				ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
 				wcsncpy(str, TranslateT("This is status message"), _countof(str));
-				ShowChangePopup(NULL, Skin_LoadProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
+				ShowChangePopup(NULL, Skin_LoadProtoIcon(nullptr, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
 
 				return FALSE;
 			}
@@ -449,8 +449,8 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			opt.ReadAwayMsg = IsDlgButtonChecked(hwndDlg, IDC_READAWAYMSG);
 			opt.ShowPreviousStatus = IsDlgButtonChecked(hwndDlg, IDC_SHOWPREVIOUSSTATUS);
 			opt.ShowGroup = IsDlgButtonChecked(hwndDlg, IDC_SHOWGROUP);
-			opt.PopupTimeout = GetDlgItemInt(hwndDlg, IDC_TIMEOUT_VALUE, 0, TRUE);
-			opt.PopupConnectionTimeout = GetDlgItemInt(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE, 0, TRUE);
+			opt.PopupTimeout = GetDlgItemInt(hwndDlg, IDC_TIMEOUT_VALUE, nullptr, TRUE);
+			opt.PopupConnectionTimeout = GetDlgItemInt(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE, nullptr, TRUE);
 			opt.LeftClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_GETCURSEL, 0, 0);
 			opt.RightClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_GETCURSEL, 0, 0);
 
@@ -617,7 +617,7 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			opt.PXOnConnect = IsDlgButtonChecked(hwndDlg, IDC_XONCONNECT);
 			opt.PXDisableForMusic = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEMUSIC);
 			opt.PXMsgTruncate = IsDlgButtonChecked(hwndDlg, IDC_CHK_CUTMSG);
-			opt.PXMsgLen = GetDlgItemInt(hwndDlg, IDC_ED_MSGLEN, 0, FALSE);
+			opt.PXMsgLen = GetDlgItemInt(hwndDlg, IDC_ED_MSGLEN, nullptr, FALSE);
 
 			templates.PopupXFlags = 0;
 			templates.PopupXFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_XSTATUSCHANGE) ? NOTIFY_NEW_XSTATUS : 0) |
@@ -662,7 +662,7 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	return (pa != NULL && !pa->bDynDisabled && pa->bIsEnabled && CallProtoService(pa->szProtoName, PS_GETCAPS, PFLAGNUM_2, 0) != 0 && CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV);
+	return (pa != nullptr && !pa->bDynDisabled && pa->bIsEnabled && CallProtoService(pa->szProtoName, PS_GETCAPS, PFLAGNUM_2, 0) != 0 && CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV);
 }
 
 INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -829,7 +829,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			opt.PSMsgOnConnect = IsDlgButtonChecked(hwndDlg, IDC_ONCONNECT);
 			opt.PSMsgTruncate = IsDlgButtonChecked(hwndDlg, IDC_CHK_CUTSMSG);
-			opt.PSMsgLen = GetDlgItemInt(hwndDlg, IDC_ED_SMSGLEN, 0, FALSE);
+			opt.PSMsgLen = GetDlgItemInt(hwndDlg, IDC_ED_SMSGLEN, nullptr, FALSE);
 
 			templates.PopupSMsgFlags = 0;
 			templates.PopupSMsgFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_NEWSMSG) ? NOTIFY_NEW_MESSAGE : 0) |

@@ -43,7 +43,7 @@ private:
 	void PopulateSmPackList(void);
 	void UpdateVisibleSmPackList(void);
 	void UserAction(HTREEITEM hItem);
-	long GetSelProto(HTREEITEM hItem = NULL);
+	long GetSelProto(HTREEITEM hItem = nullptr);
 
 public:
 	OptionsDialogType(HWND hWnd) { m_hwndDialog = hWnd; }
@@ -245,7 +245,7 @@ void OptionsDialogType::SetChanged(void)
 void OptionsDialogType::UpdateControls(bool force)
 {
 	const SmileyCategoryType *smc = tmpsmcat.GetSmileyCategory(GetSelProto());
-	if (smc == NULL)
+	if (smc == nullptr)
 		return;
 
 	const CMStringW &smf = smc->GetFilename();
@@ -268,7 +268,7 @@ long OptionsDialogType::GetSelProto(HTREEITEM hItem)
 	TVITEM tvi = { 0 };
 
 	tvi.mask = TVIF_PARAM;
-	tvi.hItem = hItem == NULL ? TreeView_GetSelection(hLstView) : hItem;
+	tvi.hItem = hItem == nullptr ? TreeView_GetSelection(hLstView) : hItem;
 
 	TreeView_GetItem(hLstView, &tvi);
 
@@ -300,7 +300,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 			if (!ProtoName.IsEmpty()) {
 				PhysProtoName += ProtoName;
 				SmileyCategoryType *scm = tmpsmcat.GetSmileyCategory(PhysProtoName);
-				if (scm == NULL)
+				if (scm == nullptr)
 					visible = false;
 				else if (scm->GetFilename().IsEmpty())
 					visible = true;
@@ -318,7 +318,7 @@ void OptionsDialogType::PopulateSmPackList(void)
 	TreeView_SelectItem(hLstView, NULL);
 	TreeView_DeleteAllItems(hLstView);
 
-	TVINSERTSTRUCT tvi = { 0 };
+	TVINSERTSTRUCT tvi = {};
 	tvi.hParent = TVI_ROOT;
 	tvi.hInsertAfter = TVI_LAST;
 	tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
@@ -389,13 +389,13 @@ void OptionsDialogType::InitDialog(void)
 
 	SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
 	for (int i = 0; i < smc.getCount(); i++) {
-		HICON hIcon = NULL;
+		HICON hIcon = nullptr;
 		if (smc[i].IsProto()) {
 			hIcon = (HICON)CallProtoService(_T2A(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-			if (hIcon == NULL || (INT_PTR)hIcon == CALLSERVICE_NOTFOUND)
+			if (hIcon == nullptr || (INT_PTR)hIcon == CALLSERVICE_NOTFOUND)
 				hIcon = (HICON)CallProtoService(_T2A(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL, 0);
 		}
-		if (hIcon == NULL || hIcon == (HICON)CALLSERVICE_NOTFOUND)
+		if (hIcon == nullptr || hIcon == (HICON)CALLSERVICE_NOTFOUND)
 			hIcon = GetDefaultIcon();
 
 		ImageList_AddIcon(hImList, hIcon);
@@ -437,8 +437,8 @@ void OptionsDialogType::ApplyChanges(void)
 	opt.HorizontalSorting = IsDlgButtonChecked(m_hwndDialog, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
 
 	opt.ButtonStatus = (unsigned)SendDlgItemMessage(m_hwndDialog, IDC_SMLBUT, CB_GETCURSEL, 0, 0);
-	opt.MaxCustomSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MAXCUSTSMSZ, NULL, FALSE);
-	opt.MinSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MINSMSZ, NULL, FALSE);
+	opt.MaxCustomSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MAXCUSTSMSZ, nullptr, FALSE);
+	opt.MinSmileySize = GetDlgItemInt(m_hwndDialog, IDC_MINSMSZ, nullptr, FALSE);
 
 	opt.Save();
 
@@ -446,7 +446,7 @@ void OptionsDialogType::ApplyChanges(void)
 	CMStringW empty;
 	SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
 	for (int i = 0; i < smc.getCount(); i++)
-		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == NULL)
+		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == nullptr)
 			opt.WritePackFileName(empty, smc[i].GetName());
 
 	g_SmileyCategories = tmpsmcat;
@@ -530,7 +530,7 @@ void OptionsDialogType::ShowSmileyPreview(void)
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
 	stwp->pSmileyPack = &smPack;
 	stwp->hWndParent = m_hwndDialog;
-	stwp->hWndTarget = NULL;
+	stwp->hWndTarget = nullptr;
 	stwp->targetMessage = 0;
 	stwp->targetWParam = 0;
 	stwp->xPosition = rect.left;
@@ -637,7 +637,7 @@ void OptionsType::WriteContactCategory(MCONTACT hContact, const CMStringW &cats)
 static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	OptionsDialogType *pOD = (OptionsDialogType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (pOD == NULL) {
+	if (pOD == nullptr) {
 		pOD = new OptionsDialogType(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)pOD);
 	}

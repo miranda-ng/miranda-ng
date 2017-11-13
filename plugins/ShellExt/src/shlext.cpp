@@ -14,9 +14,9 @@ TShellExt::TShellExt()
 {
 	hDllHeap = HeapCreate(0, 0, 0);
 	// create an inmemory DC
-	HDC DC = GetDC(0);
+	HDC DC = GetDC(nullptr);
 	hMemDC = CreateCompatibleDC(DC);
-	ReleaseDC(0, DC);
+	ReleaseDC(nullptr, DC);
 	// keep count on the number of objects
 	DllObjectCount++;
 }
@@ -26,36 +26,36 @@ TShellExt::~TShellExt()
 	// time to go byebye.
 	// Note MRU menu is associated with a window (indirectly) so windows will free it.
 	// free icons!
-	if (ProtoIcons != NULL) {
+	if (ProtoIcons != nullptr) {
 		ULONG c = ProtoIconsCount;
 		while (c > 0) {
 			c--;
 			TSlotProtoIcons *p = &ProtoIcons[c];
 			for (int j = 0; j < 10; j++) {
-				if (p->hIcons[j] != 0)
+				if (p->hIcons[j] != nullptr)
 					DestroyIcon(p->hIcons[j]);
-				if (p->hBitmaps[j] != 0)
+				if (p->hBitmaps[j] != nullptr)
 					DeleteObject(p->hBitmaps[j]);
 			}
 		}
 		free(ProtoIcons);
-		ProtoIcons = NULL;
+		ProtoIcons = nullptr;
 	}
 	// free IDataObject reference if pointer exists
-	if (pDataObject != NULL) {
+	if (pDataObject != nullptr) {
 		pDataObject->Release();
-		pDataObject = NULL;
+		pDataObject = nullptr;
 	}
 	// free the heap and any memory allocated on it
 	HeapDestroy(hDllHeap);
 	// destroy the DC
-	if (hMemDC != 0)
+	if (hMemDC != nullptr)
 		DeleteDC(hMemDC);
 }
 
 HRESULT TShellExt::QueryInterface(REFIID riid, void **ppvObject)
 {
-	if (ppvObject == NULL)
+	if (ppvObject == nullptr)
 		return E_POINTER;
 
 	if (riid == IID_IContextMenu) {
@@ -75,7 +75,7 @@ HRESULT TShellExt::QueryInterface(REFIID riid, void **ppvObject)
 		logA("TShellExt[%p] retrieved as IID_IUnknown: %d\n", this, RefCount);
 	}
 	else {
-		*ppvObject = NULL;
+		*ppvObject = nullptr;
 		#ifdef LOG_ENABLED
 			RPC_CSTR szGuid;
 			UuidToStringA(&riid, &szGuid);
@@ -116,11 +116,11 @@ HRESULT TShellExt::Initialize(PCIDLIST_ABSOLUTE, IDataObject *pdtobj, HKEY)
 	// it contains a pointer to a function table containing the function pointer
 	// address of GetData() - the instance data has to be passed explicitly since
 	// all compiler magic has gone.
-	if (pdtobj == NULL)
+	if (pdtobj == nullptr)
 		return E_INVALIDARG;
 
 	// if an instance already exists, free it.
-	if (pDataObject != NULL)
+	if (pDataObject != nullptr)
 		pDataObject->Release();
 
 	// store the new one and AddRef() it
@@ -138,20 +138,20 @@ HRESULT TShellExt::GetCommandString(UINT_PTR, UINT, UINT*, LPSTR, UINT)
 
 void FreeGroupTreeAndEmptyGroups(HMENU hParentMenu, TGroupNode *pp, TGroupNode *p)
 {
-	while (p != NULL) {
+	while (p != nullptr) {
 		TGroupNode *q = p->Right;
-		if (p->Left != NULL)
+		if (p->Left != nullptr)
 			FreeGroupTreeAndEmptyGroups(p->Left->hMenu, p, p->Left);
 
 		if (p->dwItems == 0) {
-			if (pp != NULL)
+			if (pp != nullptr)
 				DeleteMenu(pp->hMenu, p->hMenuGroupID, MF_BYCOMMAND);
 			else
 				DeleteMenu(hParentMenu, p->hMenuGroupID, MF_BYCOMMAND);
 		}
 		else
 			// make sure this node's parent know's it exists
-			if (pp != NULL)
+			if (pp != nullptr)
 				pp->dwItems++;
 
 		free(p);
@@ -166,7 +166,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 	// get the heap object
 	HANDLE hDllHeap = lParam->Self->hDllHeap;
 	TMenuDrawInfo *psd = (TMenuDrawInfo*)HeapAlloc(hDllHeap, 0, sizeof(TMenuDrawInfo));
-	if (pct != NULL) {
+	if (pct != nullptr) {
 		psd->cch = pct->cbStrSection - 1; // no null;
 		psd->szText = (char*)HeapAlloc(hDllHeap, 0, pct->cbStrSection);
 		lstrcpyA(psd->szText, (char*)pct + sizeof(TSlotIPC));
@@ -175,7 +175,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 		// find the protocol icon array to use && which status
 		UINT c = lParam->Self->ProtoIconsCount;
 		TSlotProtoIcons *pp = lParam->Self->ProtoIcons;
-		psd->hStatusIcon = 0;
+		psd->hStatusIcon = nullptr;
 		while (c > 0) {
 			c--;
 			if (pp[c].hProto == pct->hProto && pp[c].pid == lParam->pid) {
@@ -186,7 +186,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 		} // while
 		psd->pid = lParam->pid;
 	}
-	else if (pg != NULL) {
+	else if (pg != nullptr) {
 		// store the given ID
 		pg->hMenuGroupID = mii.wID;
 		// steal the pointer from the group node it should be on the heap
@@ -195,7 +195,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 		psd->fTypes = dtGroup;
 	} // if
 	psd->wID = mii.wID;
-	psd->szProfile = NULL;
+	psd->szProfile = nullptr;
 	// store
 	mii.dwItemData = UINT_PTR(psd);
 
@@ -206,13 +206,13 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 	else {
 		// normal menu
 		mii.fType = MFT_STRING;
-		if (pct != NULL)
+		if (pct != nullptr)
 			mii.dwTypeData = LPSTR(pct) + sizeof(TSlotIPC);
 		else
 			mii.dwTypeData = pg->szGroup;
 
 		// For Vista + let the system draw the theme && icons, pct = contact associated data
-		if (bIsVistaPlus && pct != NULL && psd != NULL) {
+		if (bIsVistaPlus && pct != nullptr && psd != nullptr) {
 			mii.fMask = MIIM_BITMAP | MIIM_FTYPE | MIIM_ID | MIIM_DATA | MIIM_STRING;
 			// BuildSkinIcons() built an array of bitmaps which we can use here
 			mii.hbmpItem = psd->hStatusBitmap;
@@ -263,7 +263,7 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 
 	// go thru all the contacts
 	TSlotIPC *pct = lParam->ipch->ContactsBegin;
-	while (pct != NULL && pct->cbSize == sizeof(TSlotIPC) && pct->fType == REQUEST_CONTACTS) {
+	while (pct != nullptr && pct->cbSize == sizeof(TSlotIPC) && pct->fType == REQUEST_CONTACTS) {
 		if (pct->hGroup != 0) {
 			// at the } of the slot header is the contact's display name
 			// && after a double NULL char there is the group string, which has the full path of the group
@@ -276,10 +276,10 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 			// restore the root
 			TGroupNode *pg = group;
 			int Depth = 0;
-			while (sz != NULL) {
+			while (sz != nullptr) {
 				UINT Hash = murmur_hash(sz);
 				// find this node within
-				while (pg != NULL) {
+				while (pg != nullptr) {
 					// does this node have the right hash and the right depth?
 					if (Hash == pg->Hash && Depth == pg->Depth) 
 						break;
@@ -287,9 +287,9 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 					// the path syntax doesn't know if a group is a group at the same level
 					// or a nested one, which means the search node can be anywhere
 					TGroupNode *px = pg->Left;
-					if (px != NULL) {
+					if (px != nullptr) {
 						// keep searching this level
-						while (px != NULL) {
+						while (px != nullptr) {
 							if (Hash == px->Hash && Depth == px->Depth) {
 								// found the node we're looking for at the next level to pg, px is now pq for next time
 								pg = px;
@@ -303,11 +303,11 @@ void BuildContactTree(TGroupNode *group, TEnumData *lParam)
 grouploop:
 				Depth++;
 				// process next token
-				sz = strtok(NULL, "\\");
+				sz = strtok(nullptr, "\\");
 			}
 			// tokenisation finished, if pg != NULL  the group is found
-			if (pg != NULL) {
-				DecideMenuItemInfo(pct, NULL, mii, lParam);
+			if (pg != nullptr) {
+				DecideMenuItemInfo(pct, nullptr, mii, lParam);
 				BuildMRU(pct, mii, lParam);
 				InsertMenuItemA(pg->hMenu, 0xFFFFFFFF, true, &mii);
 				pg->dwItems++;
@@ -324,12 +324,12 @@ static void BuildMenuGroupTree(TGroupNode *p, TEnumData *lParam, HMENU hLastMenu
 	mii.fMask = MIIM_ID | MIIM_DATA | MIIM_TYPE | MIIM_SUBMENU;
 
 	// go thru each group and create a menu for it adding submenus too.
-	while (p != NULL) {
+	while (p != nullptr) {
 		mii.hSubMenu = CreatePopupMenu();
-		if (p->Left != NULL)
+		if (p->Left != nullptr)
 			BuildMenuGroupTree(p->Left, lParam, mii.hSubMenu);
 		p->hMenu = mii.hSubMenu;
-		DecideMenuItemInfo(NULL, p, mii, lParam);
+		DecideMenuItemInfo(nullptr, p, mii, lParam);
 		InsertMenuItemA(hLastMenu, 0xFFFFFFFF, true, &mii);
 		p = p->Right;
 	}
@@ -344,9 +344,9 @@ static void BuildMenus(TEnumData *lParam)
 	HMENU hBaseMenu = lParam->Self->hRootMenu;
 
 	// build an in memory tree of the groups
-	TGroupNodeList j = { 0, 0 };
+	TGroupNodeList j = { nullptr, nullptr };
 	TSlotIPC *pg = lParam->ipch->GroupsBegin;
-	while (pg != NULL) {
+	while (pg != nullptr) {
 		if (pg->cbSize != sizeof(TSlotIPC) || pg->fType != REQUEST_GROUPS) 
 			break;
 
@@ -354,11 +354,11 @@ static void BuildMenus(TEnumData *lParam)
 		TGroupNode *p = j.First; // start at root again
 		// get the group
 		Token = strtok(LPSTR(pg) + sizeof(TSlotIPC), "\\");
-		while (Token != NULL) {
+		while (Token != nullptr) {
 			UINT Hash = murmur_hash(Token);
 			// if the (sub)group doesn't exist, create it.
 			TGroupNode *q = FindGroupNode(p, Hash, Depth);
-			if (q == NULL) {
+			if (q == nullptr) {
 				q = AllocGroupNode(&j, p, Depth);
 				q->Depth = Depth;
 				// this is the hash of this group node, but it can be anywhere
@@ -376,7 +376,7 @@ static void BuildMenus(TEnumData *lParam)
 			}
 			p = q;
 			Depth++;
-			Token = strtok(NULL, "\\");
+			Token = strtok(nullptr, "\\");
 		}
 		pg = pg->Next;
 	}
@@ -391,7 +391,7 @@ static void BuildMenus(TEnumData *lParam)
 	lParam->Self->hRecentMenu = CreatePopupMenu();
 	lParam->Self->RecentCount = 0;
 	// create group menus only if they exist!
-	if (lParam->ipch->GroupsBegin != NULL) {
+	if (lParam->ipch->GroupsBegin != nullptr) {
 		BuildMenuGroupTree(j.First, lParam, hGroupMenu);
 		// add contacts that have a group somewhere
 		BuildContactTree(j.First, lParam);
@@ -402,11 +402,11 @@ static void BuildMenus(TEnumData *lParam)
 	mii.fMask = MIIM_ID | MIIM_TYPE | MIIM_DATA;
 	// add all the contacts that have no group (which maybe all of them)
 	pg = lParam->ipch->ContactsBegin;
-	while (pg != NULL) {
+	while (pg != nullptr) {
 		if (pg->cbSize != sizeof(TSlotIPC) || pg->fType != REQUEST_CONTACTS) 
 			break;
 		if (pg->hGroup == 0) {
-			DecideMenuItemInfo(pg, NULL, mii, lParam);
+			DecideMenuItemInfo(pg, nullptr, mii, lParam);
 			BuildMRU(pg, mii, lParam);
 			InsertMenuItemA(hGroupMenu, 0xFFFFFFFF, true, &mii);
 		} 
@@ -462,7 +462,7 @@ static void BuildMenus(TEnumData *lParam)
 	else {
 		// no items were attached to the MRU, delete the MRU menu
 		DestroyMenu(lParam->Self->hRecentMenu);
-		lParam->Self->hRecentMenu = 0;
+		lParam->Self->hRecentMenu = nullptr;
 	}
 
 	// allocate display info/memory for "Miranda" string
@@ -484,8 +484,8 @@ static void BuildMenus(TEnumData *lParam)
 	lstrcpynA(psd->szText, lParam->ipch->MirandaName, sizeof(lParam->ipch->MirandaName) - 1);
 	// there may not be a profile name
 	pg = lParam->ipch->DataPtr;
-	psd->szProfile = NULL;
-	if (pg != NULL && pg->Status == STATUS_PROFILENAME) {
+	psd->szProfile = nullptr;
+	if (pg != nullptr && pg->Status == STATUS_PROFILENAME) {
 		psd->szProfile = (LPSTR)HeapAlloc(hDllHeap, 0, pg->cbStrSection);
 		lstrcpyA(psd->szProfile, LPSTR(UINT_PTR(pg) + sizeof(TSlotIPC)));
 	}
@@ -522,16 +522,16 @@ static void BuildMenus(TEnumData *lParam)
 	// add it all
 	InsertMenuItemA(hBaseMenu, 0, true, &mii);
 	// free the group tree
-	FreeGroupTreeAndEmptyGroups(hGroupMenu, NULL, j.First);
+	FreeGroupTreeAndEmptyGroups(hGroupMenu, nullptr, j.First);
 }
 
 static void BuildSkinIcons(TEnumData *lParam)
 {
-	IWICImagingFactory *factory = (bIsVistaPlus) ? ARGB_GetWorker() : NULL;
+	IWICImagingFactory *factory = (bIsVistaPlus) ? ARGB_GetWorker() : nullptr;
 
 	TSlotIPC *pct = lParam->ipch->NewIconsBegin;
 	TShellExt *Self = lParam->Self;
-	while (pct != NULL) {
+	while (pct != nullptr) {
 		if (pct->cbSize != sizeof(TSlotIPC) || pct->fType != REQUEST_NEWICONS) 
 			break;
 
@@ -547,10 +547,10 @@ static void BuildSkinIcons(TEnumData *lParam)
 		for (int j = 0; j < 10; j++) {
 			if (bIsVistaPlus) {
 				d->hBitmaps[j] = ARGB_BitmapFromIcon(factory, Self->hMemDC, p->hIcons[j]);
-				d->hIcons[j] = NULL;				
+				d->hIcons[j] = nullptr;				
 			}
 			else {
-				d->hBitmaps[j] = NULL;
+				d->hBitmaps[j] = nullptr;
 				d->hIcons[j] = CopyIcon(p->hIcons[j]);
 			}
 		}
@@ -576,7 +576,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 		// this was fine for most Oses (not the best way) but now actually compares
 		// the class string (a bit slower) but should get rid of those bugs finally.
 		HANDLE hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
-		if (hMirandaWorkEvent != 0) {
+		if (hMirandaWorkEvent != nullptr) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
 			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
 				// opened but not valid.
@@ -586,7 +586,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 			}
 		}
 		// if the event object exists,  a shlext.dll running in the instance must of created it.
-		if (hMirandaWorkEvent != 0) {
+		if (hMirandaWorkEvent != nullptr) {
 			logA("ProcessRequest(%d, %p): window found\n", pid, hwnd);
 			// prep the request
 			ipcPrepareRequests(IPC_PACKET_SIZE, lParam->ipch, REQUEST_ICONS | REQUEST_GROUPS | REQUEST_CONTACTS | REQUEST_NEWICONS);
@@ -598,7 +598,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 			// replyBits will be REPLY_FAIL if the wait timed out, or it'll be the request
 			// bits as sent or a series of *_NOTIMPL bits where the request bit were, if there are no
 			// contacts to speak of,  don't bother showing this instance of Miranda }
-			if (replyBits != REPLY_FAIL && lParam->ipch->ContactsBegin != NULL) {
+			if (replyBits != REPLY_FAIL && lParam->ipch->ContactsBegin != nullptr) {
 				logA("ProcessRequest(%d, %p): IPC succeeded\n", pid, hwnd);
 				// load the address again, the server side will always overwrite it
 				lParam->ipch->pClientBaseAddress = lParam->ipch;
@@ -639,7 +639,7 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFirs
 		bool bMF_OWNERDRAW = false;
 		// get the shell version
 		pfnDllGetVersion DllGetVersionProc = (pfnDllGetVersion)GetProcAddress( GetModuleHandleA("shell32.dll"), "DllGetVersion");
-		if (DllGetVersionProc != NULL) {
+		if (DllGetVersionProc != nullptr) {
 			DllVersionInfo dvi;
 			dvi.cbSize = sizeof(dvi);
 			if (DllGetVersionProc(&dvi) >= 0) // it's at least 4.00
@@ -650,12 +650,12 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFirs
 		if (bIsVistaPlus)
 			bMF_OWNERDRAW = false;
 
-		HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
-		if (hMap != 0 && GetLastError() != ERROR_ALREADY_EXISTS) {
-			TEnumData ed = { 0 };
+		HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
+		if (hMap != nullptr && GetLastError() != ERROR_ALREADY_EXISTS) {
+			TEnumData ed = {};
 			// map the memory to this address space
 			THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
-			if (pipch != NULL) {
+			if (pipch != nullptr) {
 				// let the callback have instance vars
 				ed.Self = this;
 				// not used 'ere
@@ -671,8 +671,8 @@ HRESULT TShellExt::QueryContextMenu(HMENU hmenu, UINT indexMenu, UINT _idCmdFirs
 				// since it has to used by OpenEvent()
 				CreateUID(pipch->SignalEventName, sizeof(pipch->SignalEventName));
 				// create the wait wait-for-wait object
-				ed.hWaitFor = CreateEventA(NULL, false, false, pipch->SignalEventName);
-				if (ed.hWaitFor != 0) {
+				ed.hWaitFor = CreateEventA(nullptr, false, false, pipch->SignalEventName);
+				if (ed.hWaitFor != nullptr) {
 					// enumerate all the top level windows to find all loaded MIRANDACLASS classes
 					EnumWindows(&ProcessRequest, LPARAM(&ed));
 					// close the wait-for-reply object
@@ -699,7 +699,7 @@ HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, MCONTACT hConta
 {
 	FORMATETC fet;
 	fet.cfFormat = CF_HDROP;
-	fet.ptd = NULL;
+	fet.ptd = nullptr;
 	fet.dwAspect = DVASPECT_CONTENT;
 	fet.lindex = -1;
 	fet.tymed = TYMED_HGLOBAL;
@@ -709,16 +709,16 @@ HRESULT ipcGetFiles(THeaderIPC *pipch, IDataObject* pDataObject, MCONTACT hConta
 	if (hr == S_OK) {
 		// FIX, actually lock the global object and get a pointer
 		HANDLE hDrop = GlobalLock(stgm.hGlobal);
-		if (hDrop != 0) {
+		if (hDrop != nullptr) {
 			// get the maximum number of files
-			UINT iFile, iFileMax = DragQueryFileA((HDROP)stgm.hGlobal, -1, NULL, 0);
+			UINT iFile, iFileMax = DragQueryFileA((HDROP)stgm.hGlobal, -1, nullptr, 0);
 			for (iFile = 0; iFile < iFileMax; iFile++) {
 				// get the size of the file path
-				int cbSize = DragQueryFileA((HDROP)stgm.hGlobal, iFile, NULL, 0);
+				int cbSize = DragQueryFileA((HDROP)stgm.hGlobal, iFile, nullptr, 0);
 				// get the buffer
 				TSlotIPC *pct = ipcAlloc(pipch, cbSize + 1); // including null term
 				// allocated?
-				if (pct == NULL)
+				if (pct == nullptr)
 					break;
 				// store the hContact
 				pct->hContact = hContact;
@@ -747,27 +747,27 @@ HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
 	// get the pointer
 	TMenuDrawInfo *psd = (TMenuDrawInfo*)mii.dwItemData;
 	// the ID stored in the item pointer and the ID for the menu must match
-	if (psd == NULL || psd->wID != mii.wID)
+	if (psd == nullptr || psd->wID != mii.wID)
 		return E_INVALIDARG;
 
 	// is there an IDataObject instance?
 	HRESULT hr = E_INVALIDARG;
-	if (Self->pDataObject != NULL) {
+	if (Self->pDataObject != nullptr) {
 		// OpenEvent() the work object to see if the instance is still around
 		char szBuf[100];
 		HANDLE hTransfer = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(psd->pid, szBuf, sizeof(szBuf)));
-		if (hTransfer != 0) {
+		if (hTransfer != nullptr) {
 			// map the ipc file again
-			HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
-			if (hMap != 0 && GetLastError() != ERROR_ALREADY_EXISTS) {
+			HANDLE hMap = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, IPC_PACKET_SIZE, IPC_PACKET_NAME);
+			if (hMap != nullptr && GetLastError() != ERROR_ALREADY_EXISTS) {
 				// map it to process
 				THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
-				if (pipch != NULL) {
+				if (pipch != nullptr) {
 					// create the name of the object to be signalled by the ST
 					lstrcpyA(pipch->SignalEventName, CreateUID(szBuf, sizeof(szBuf)));
 					// create it
-					HANDLE hReply = CreateEventA(NULL, false, false, pipch->SignalEventName);
-					if (hReply != 0) {
+					HANDLE hReply = CreateEventA(nullptr, false, false, pipch->SignalEventName);
+					if (hReply != nullptr) {
 						if (psd->fTypes & dtCommand) {
 							if (psd->MenuCommandCallback) 
 								hr = psd->MenuCommandCallback(pipch, hTransfer, hReply);
@@ -811,7 +811,7 @@ HRESULT TShellExt::InvokeCommand(CMINVOKECOMMANDINFO *pici)
 HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT *plResult)
 {
 	LRESULT Dummy;
-	if (plResult == NULL)
+	if (plResult == nullptr)
 		plResult = &Dummy;
 
 	SIZE tS;
@@ -857,7 +857,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 			dwi->rcItem.left += dwi->rcItem.bottom - dwi->rcItem.top - 2;
 			DrawTextA(dwi->hDC, psd->szText, psd->cch, &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 			// draw the name of the database text if it's there
-			if (psd->szProfile != NULL) {
+			if (psd->szProfile != nullptr) {
 				GetTextExtentPoint32A(dwi->hDC, psd->szText, psd->cch, &tS);
 				dwi->rcItem.left += tS.cx + 8;
 				SetTextColor(dwi->hDC, GetSysColor(COLOR_GRAYTEXT));
@@ -906,7 +906,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 		GetTextExtentPoint32A(hMemDC, psd->szText, psd->cch, &tS);
 		dx += tS.cx;
 		// main menu item?
-		if (psd->szProfile != NULL) {
+		if (psd->szProfile != nullptr) {
 			GetTextExtentPoint32A(hMemDC, psd->szProfile, lstrlenA(psd->szProfile), &tS);
 			dx += tS.cx;
 		}
@@ -924,5 +924,5 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 
 HRESULT TShellExt::HandleMenuMsg(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	return HandleMenuMsg2(uMsg, wParam, lParam, NULL);
+	return HandleMenuMsg2(uMsg, wParam, lParam, nullptr);
 }

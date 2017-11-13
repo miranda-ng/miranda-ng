@@ -91,7 +91,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		if (HIWORD(wParam) == BN_CLICKED) {
 			switch (LOWORD(wParam)) {
 			case IDC_VARIABLES:
-				variables_showhelp(hwndDlg, IDC_REPLIES, VHF_SIMPLEDLG, NULL, NULL);
+				variables_showhelp(hwndDlg, IDC_REPLIES, VHF_SIMPLEDLG, nullptr, nullptr);
 				break;
 
 			case IDC_IMMEDIATELY:

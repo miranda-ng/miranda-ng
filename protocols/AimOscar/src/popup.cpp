@@ -40,8 +40,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		if (HIWORD(wParam) == STN_CLICKED)
 		{
 			CAimPopupData* p = (CAimPopupData*)PUGetPluginData(hWnd);
-			if (p->url != NULL)
-				ShellExecuteA(NULL, "open", p->url, NULL, NULL, SW_SHOW);
+			if (p->url != nullptr)
+				ShellExecuteA(nullptr, "open", p->url, nullptr, nullptr, SW_SHOW);
 
 			PUDeletePopup(hWnd);
 			return 0;
@@ -89,12 +89,12 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 		{
 			size_t len = mir_wstrlen(ppd.lptzText);
 			mir_snwprintf(&ppd.lptzText[len], _countof(ppd.lptzText) - len, L" %s", TranslateT("Open mail account?"));
-			if (MessageBox(NULL, ppd.lptzText, ppd.lptzContactName, MB_YESNO | MB_ICONINFORMATION) == IDYES)
-				ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOW);
+			if (MessageBox(nullptr, ppd.lptzText, ppd.lptzContactName, MB_YESNO | MB_ICONINFORMATION) == IDYES)
+				ShellExecuteA(nullptr, "open", url, nullptr, nullptr, SW_SHOW);
 		}
 		else
 		{
-			MessageBox(NULL, ppd.lptzText, ppd.lptzContactName, MB_OK | MB_ICONINFORMATION);
+			MessageBox(nullptr, ppd.lptzText, ppd.lptzContactName, MB_OK | MB_ICONINFORMATION);
 		}
 	}
 	else
@@ -107,7 +107,7 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 			ppd.iSeconds = -1;
 		} 
 		else 
-			ppd.PluginData = new CAimPopupData(this, NULL);
+			ppd.PluginData = new CAimPopupData(this, nullptr);
 
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);	
 	}

@@ -99,7 +99,7 @@ int onExtraImageApplying(WPARAM hContact, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 	int iIcon = getIconToUse((MCONTACT)hContact, lParam);
-	ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)hContact, iIcon == -1 ? NULL : iconList[iIcon].hIcolib);
+	ExtraIcon_SetIcon(hExtraIcon, (MCONTACT)hContact, iIcon == -1 ? nullptr : iconList[iIcon].hIcolib);
 	return 0;
 }
 

@@ -29,7 +29,7 @@ void ResetContactSettingsOnStatusChange(MCONTACT hContact)
 	db_unset(hContact, MOD_NAME, DB_MESSAGECOUNT);
 }
 
-void ResetSettingsOnStatusChange(const char *szProto = NULL, int bResetPersonalMsgs = false, int Status = 0)
+void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPersonalMsgs = false, int Status = 0)
 {
 	if (bResetPersonalMsgs)
 		bResetPersonalMsgs = !g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_SAVEPERSONALMSGS);
@@ -87,7 +87,7 @@ CProtoState::CStatus& CProtoState::CStatus::operator = (int Status)
 			}
 		}
 		if (bStatusModified)
-			ResetSettingsOnStatusChange(NULL, true, Status);
+			ResetSettingsOnStatusChange(nullptr, true, Status);
 	}
 	if (bModified && g_SetAwayMsgPage.GetWnd())
 		SendMessage(g_SetAwayMsgPage.GetWnd(), UM_SAM_PROTOSTATUSCHANGED, (WPARAM)(char*)m_szProto, 0);

@@ -73,8 +73,8 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 	if (hFind == INVALID_HANDLE_VALUE)
 		return FALSE;
 
-	HANDLE hFile = CreateFile(pszIndexPath, GENERIC_WRITE, FILE_SHARE_READ, NULL,
-		OPEN_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
+	HANDLE hFile = CreateFile(pszIndexPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr,
+		OPEN_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, nullptr);
 
 	if (hFile == INVALID_HANDLE_VALUE) {
 		FindClose(hFind);
@@ -99,14 +99,14 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 		strncpy(szFileName, pszTemp + 1, MAX_PATH);
 
 	// Write Header
-	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlHeader1, sizeof(szXmlHeader1) - 1, &dwBytesWritten, nullptr);
 
 	// check if a index.xsl exists in the same directory otherwise use the global
 	mir_snprintf(szMask, "%s%s", pszRealPath, "index.xsl");
 
 	HANDLE hFileExists = CreateFile(szMask, GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING,
-		FILE_ATTRIBUTE_NORMAL, NULL);
+		FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL, nullptr);
 
 	if (hFileExists == INVALID_HANDLE_VALUE) {
 		strncpy(szBuffer, "/index.xsl", BUFFER_SIZE);
@@ -116,15 +116,15 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 		strncpy(szBuffer, "index.xsl", BUFFER_SIZE);
 	}
 
-	WriteFile(hFile, szBuffer, (DWORD)mir_strlen(szBuffer), &dwBytesWritten, NULL);
+	WriteFile(hFile, szBuffer, (DWORD)mir_strlen(szBuffer), &dwBytesWritten, nullptr);
 
-	WriteFile(hFile, szXmlHeader2, sizeof(szXmlHeader2) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlHeader2, sizeof(szXmlHeader2) - 1, &dwBytesWritten, nullptr);
 
 	// Write dirname
 	ReplaceSign(szFileName, MAX_PATH, '&', "&amp;");
 	pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer),
 		"  <dirname>%s</dirname>\r\n", szFileName);
-	WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL);
+	WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, nullptr);
 
 	// Find files and directories
 	do {
@@ -143,14 +143,14 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 			else {
 				pszExt = strrchr(szFileName, '.');
 
-				if (pszExt != NULL) {
+				if (pszExt != nullptr) {
 					*pszExt = '\0';
 					pszExt++;
 				}
 
 				pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer),
 					"  <item name=\"%s\" ext=\"%s\" size=\"%i\" ",
-					szFileName, (pszExt == NULL) ? "" : pszExt, fdFindFileData.nFileSizeLow);
+					szFileName, (pszExt == nullptr) ? "" : pszExt, fdFindFileData.nFileSizeLow);
 
 				SYSTEMTIME systemTime;
 				FileTimeToSystemTime(&fdFindFileData.ftCreationTime, &systemTime);
@@ -169,13 +169,13 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 					"/>\r\n");
 			}
 
-			if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
+			if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, nullptr))
 				break;
 		}
 
 	} while (FindNextFile(hFind, &fdFindFileData));
 
-	if (hFind != 0)
+	if (hFind != nullptr)
 		FindClose(hFind);
 
 	// Add other shared files & directories
@@ -195,7 +195,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer),
 						"  <item name=\"%s\" isdir=\"true\"/>\r\n", szFileName);
 
-					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
+					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, nullptr))
 						break;
 				}
 			}
@@ -204,7 +204,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 					strncmp(pszRealPath, pclCur->st.pszRealPath, mir_strlen(pszRealPath))) { // no duplicates
 					pszExt = strrchr(szFileName, '.');
 
-					if (pszExt != NULL) {
+					if (pszExt != nullptr) {
 						*pszExt = '\0';
 						pszExt++;
 					}
@@ -214,16 +214,16 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 					FILETIME ftFileAccessTime;
 					FILETIME ftFileModifyTime;
 					HANDLE hFileS = CreateFile(pclCur->st.pszRealPath, GENERIC_READ,
-						FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+						FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 					if (hFileS != INVALID_HANDLE_VALUE) {
-						dwFileSize = GetFileSize(hFileS, NULL);
+						dwFileSize = GetFileSize(hFileS, nullptr);
 						GetFileTime(hFileS, &ftFileCreateTime, &ftFileAccessTime, &ftFileModifyTime);
 						CloseHandle(hFileS);
 					}
 
 					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer),
 						"  <item name=\"%s\" ext=\"%s\" size=\"%i\" ",
-						szFileName, (pszExt == NULL) ? "" : pszExt, dwFileSize);
+						szFileName, (pszExt == nullptr) ? "" : pszExt, dwFileSize);
 
 					SYSTEMTIME systemTime;
 					FileTimeToSystemTime(&ftFileCreateTime, &systemTime);
@@ -241,14 +241,14 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 					pszBuffer += mir_snprintf(pszBuffer, BUFFER_SIZE - (pszBuffer - szBuffer),
 						"/>\r\n");
 
-					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, NULL))
+					if (!WriteFile(hFile, szBuffer, pszBuffer - szBuffer, &dwBytesWritten, nullptr))
 						break;
 				}
 			}
 		}
 	}
 
-	WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWritten, NULL);
+	WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWritten, nullptr);
 
 	SetEndOfFile(hFile);
 	CloseHandle(hFile);

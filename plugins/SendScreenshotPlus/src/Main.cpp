@@ -34,8 +34,8 @@ CHAT_MANAGER    *pci;
 CLIST_INTERFACE *pcli;
 HINSTANCE g_hSendSS;
 MGLOBAL g_myGlobals;
-HNETLIBUSER g_hNetlibUser=0;//!< Netlib Register User
-FI_INTERFACE *FIP=NULL;
+HNETLIBUSER g_hNetlibUser=nullptr;//!< Netlib Register User
+FI_INTERFACE *FIP=nullptr;
 int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
 
 IconItem ICONS[ICO_END_] =
@@ -68,7 +68,7 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 	{ LPGEN("Down arrow"), "downarrow", IDI_DOWNARROW },
 };
 
-static HANDLE m_hFolderScreenshot = 0;
+static HANDLE m_hFolderScreenshot = nullptr;
 wchar_t* GetCustomPath()
 {
 	wchar_t* pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\Screenshots");
@@ -79,24 +79,24 @@ wchar_t* GetCustomPath()
 		pszPath = mir_wstrdup(szPath);
 	}
 	if (!pszPath) {
-		MessageBox(NULL, L"Can not retrieve screenshot path.", L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
-		return 0;
+		MessageBox(nullptr, L"Can not retrieve screenshot path.", L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		return nullptr;
 	}
 	int result = CreateDirectoryTreeW(pszPath);
 	if (result) {
 		wchar_t szError[MAX_PATH];
 		mir_snwprintf(szError, MAX_PATH, TranslateT("Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?"), result, pszPath);
-		MessageBox(NULL, szError, L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(nullptr, szError, L"SendSS", MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		mir_free(pszPath);
-		return 0;
+		return nullptr;
 	}
 	return pszPath;
 }
 /// services
-static HANDLE m_hOpenCaptureDialog = 0;
-static HANDLE m_hSendDesktop = 0;
-static HANDLE m_hEditBitmap = 0;
-static HANDLE m_hSend2ImageShack = 0;
+static HANDLE m_hOpenCaptureDialog = nullptr;
+static HANDLE m_hSendDesktop = nullptr;
+static HANDLE m_hEditBitmap = nullptr;
+static HANDLE m_hSend2ImageShack = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Callback function of service for contact menu and main menu
@@ -107,7 +107,7 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 {
 	TfrmMain* frmMain = new TfrmMain();
 	if (!frmMain) {
-		MessageBox(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(nullptr, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
 	wchar_t* pszPath = GetCustomPath();
@@ -118,7 +118,7 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam)
 	frmMain->Init(pszPath, wParam);
 	mir_free(pszPath);
 	if (lParam == 0xFFFF) {
-		frmMain->SetTargetWindow(NULL);
+		frmMain->SetTargetWindow(nullptr);
 	}
 	frmMain->Show();
 	return 0;
@@ -137,7 +137,7 @@ INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 {
 	TfrmMain* frmMain = new TfrmMain();
 	if (!frmMain) {
-		MessageBox(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(nullptr, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
 	wchar_t* pszPath = GetCustomPath();
@@ -190,8 +190,8 @@ INT_PTR service_EditBitmap(WPARAM, LPARAM)
 
 INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam)
 {
-	char* result = NULL;
-	CSendHost_ImageShack* cSend = new CSendHost_ImageShack(NULL, lParam, false);
+	char* result = nullptr;
+	CSendHost_ImageShack* cSend = new CSendHost_ImageShack(nullptr, lParam, false);
 	cSend->m_bDeleteAfterSend = false;
 	cSend->SetFile((char*)wParam);
 	if (lParam != NULL) {
@@ -271,8 +271,8 @@ DLL_EXPORT int Load(void)
 	pcli = Clist_GetInterface();
 
 	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-	if (FIP == NULL || result != S_OK) {
-		MessageBox(NULL, TranslateT("Image services (AdvaImg plugin) not found.\nSendSS disabled."), TranslateT("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+	if (FIP == nullptr || result != S_OK) {
+		MessageBox(nullptr, TranslateT("Image services (AdvaImg plugin) not found.\nSendSS disabled."), TranslateT("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 1;
 	}
 	/// hook events
@@ -328,7 +328,7 @@ DLL_EXPORT int Load(void)
 
 	/// register highlighter window class
 	HBRUSH brush = CreateSolidBrush(0x0000FF00);//owned by class
-	WNDCLASS wndclass = { CS_HREDRAW | CS_VREDRAW, DefWindowProc, 0, 0, g_hSendSS, NULL, NULL, brush, NULL, L"SendSSHighlighter" };
+	WNDCLASS wndclass = { CS_HREDRAW | CS_VREDRAW, DefWindowProc, 0, 0, g_hSendSS, nullptr, nullptr, brush, nullptr, L"SendSSHighlighter" };
 	g_clsTargetHighlighter = RegisterClass(&wndclass);
 	return 0;
 }

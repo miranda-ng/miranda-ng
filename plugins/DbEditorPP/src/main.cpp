@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-HINSTANCE hInst = NULL;
+HINSTANCE hInst = nullptr;
 
 MIDatabase *g_db;
 
-HANDLE hTTBButt = NULL;
+HANDLE hTTBButt = nullptr;
 bool g_bServiceMode = false;
 bool g_bUsePopups;
 
@@ -97,7 +97,7 @@ INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM)
 
 static int OnTTBLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = "DBEditorpp/MenuCommand";
 	ttb.name = LPGEN("Database Editor++");
@@ -123,7 +123,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x2fed8613, 0xac43, 0x4148, 0xbd, 0x5c, 0x44, 0x88, 0xaf, 0x68, 0x69, 0x10);
-	mi.root = NULL;
+	mi.root = nullptr;
 	mi.hIcolibItem = GetIcoLibHandle(ICO_REGUSER);
 	mi.name.a = LPGEN("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";
@@ -184,7 +184,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 
-	hwnd2mainWindow = NULL;
+	hwnd2mainWindow = nullptr;
 
 	hRestore = NULL;
 	g_db = db_get_current();
@@ -313,7 +313,7 @@ int setNumericValue(MCONTACT hContact, const char *module, const char *setting, 
 int IsRealUnicode(wchar_t *value)
 {
 	BOOL nonascii = 0;
-	WideCharToMultiByte(Langpack_GetDefaultCodePage(), WC_NO_BEST_FIT_CHARS, value, -1, NULL, 0, NULL, &nonascii);
+	WideCharToMultiByte(Langpack_GetDefaultCodePage(), WC_NO_BEST_FIT_CHARS, value, -1, nullptr, 0, nullptr, &nonascii);
 	return nonascii;
 }
 

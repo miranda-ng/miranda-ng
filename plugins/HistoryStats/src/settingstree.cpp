@@ -10,12 +10,12 @@ void SettingsTree::makeKeyValid()
 }
 
 SettingsTree::SettingsTree() :
-	m_pCurValues(NULL)
+	m_pCurValues(nullptr)
 {
 }
 
 SettingsTree::SettingsTree(const ext::string& config) :
-	m_pCurValues(NULL)
+	m_pCurValues(nullptr)
 {
 	fromString(config);
 }
@@ -122,7 +122,7 @@ void SettingsTree::setKey(const wchar_t* key)
 	if (i != m_Keys.end())
 		m_pCurValues = &i->second;
 	else
-		m_pCurValues = NULL;
+		m_pCurValues = nullptr;
 }
 
 bool SettingsTree::readBool(const wchar_t* setting, bool errorValue) const
@@ -213,7 +213,7 @@ bool SettingsTree::delSetting(const wchar_t* setting)
 
 			if (m_pCurValues->size() == 0) {
 				m_Keys.erase(m_CurKey);
-				m_pCurValues = NULL;
+				m_pCurValues = nullptr;
 			}
 
 			return true;

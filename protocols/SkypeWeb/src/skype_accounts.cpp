@@ -46,7 +46,7 @@ CSkypeProto* CSkypeProto::GetContactAccount(MCONTACT hContact)
 	for (int i = 0; i < Accounts.getCount(); i++)
 		if (mir_strcmpi(GetContactProto(hContact), Accounts[i]->m_szModuleName) == 0)
 			return Accounts[i];
-	return NULL;
+	return nullptr;
 }
 
 int CSkypeProto::OnAccountLoaded(WPARAM, LPARAM)

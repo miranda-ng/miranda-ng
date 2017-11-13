@@ -113,7 +113,7 @@ bool CMsnProto::MSN_StoreCreateProfile(bool allowRecurse)
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl, *tResult = NULL;
+	char *storeUrl, *tResult = nullptr;
 
 	storeUrl = mir_strdup("https://storage.msn.com/storageservice/SchematizedStore.asmx");
 	tResult = getSslResult(&storeUrl, szData, reqHdr, status);
@@ -121,7 +121,7 @@ bool CMsnProto::MSN_StoreCreateProfile(bool allowRecurse)
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		if (status == 200) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			UpdateStoreCacheKey(xmlm);
@@ -172,7 +172,7 @@ bool CMsnProto::MSN_StoreShareItem(const char* id, bool allowRecurse)
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL && status == 500) {
+	if (tResult != nullptr && status == 500) {
 		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		const char* szErr = ezxml_txt(getSoapFault(xmlm, true));
 		if (mir_strcmp(szErr, "PassportAuthFail") == 0 && allowRecurse) {
@@ -236,14 +236,14 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl = NULL, *tResult = NULL;
+	char *storeUrl = nullptr, *tResult = nullptr;
 
 	for (int k = 4; --k;) {
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("GetProfile");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL)
-			UpdateStoreHost("GetProfile", NULL);
+		if (tResult == nullptr)
+			UpdateStoreHost("GetProfile", nullptr);
 		else
 			break;
 	}
@@ -251,17 +251,17 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		if (status == 200) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			ezxml_t body = getSoapResponse(xmlm, "GetProfile");
 
-			UpdateStoreHost("GetProfile", body ? storeUrl : NULL);
+			UpdateStoreHost("GetProfile", body ? storeUrl : nullptr);
 
 			strncpy_s(proresid, ezxml_txt(ezxml_child(body, "ResourceID")), _TRUNCATE);
 
 			ezxml_t expr = ezxml_child(body, "ExpressionProfile");
-			if (expr == NULL) {
+			if (expr == nullptr) {
 				MSN_StoreShareItem(proresid);
 				MSN_SharingMyProfile();
 				if (allowRecurse) MSN_StoreGetProfile(false);
@@ -304,7 +304,7 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 			ezxml_free(xmlm);
 		}
 		else
-			UpdateStoreHost("GetProfile", NULL);
+			UpdateStoreHost("GetProfile", nullptr);
 
 	}
 	mir_free(tResult);
@@ -342,20 +342,20 @@ bool CMsnProto::MSN_StoreUpdateProfile(const char* szNick, const char* szStatus,
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl = NULL, *tResult = NULL;
+	char *storeUrl = nullptr, *tResult = nullptr;
 
 	for (int k = 4; --k;) {
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("UpdateProfile");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateStoreHost("UpdateProfile", NULL);
+		if (tResult == nullptr) UpdateStoreHost("UpdateProfile", nullptr);
 		else break;
 	}
 
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		UpdateStoreHost("UpdateProfile", storeUrl);
 		if (status == 200) {
 			replaceStr(msnLastStatusMsg, szStatus);
@@ -403,20 +403,20 @@ bool CMsnProto::MSN_StoreCreateRelationships(bool allowRecurse)
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl = NULL, *tResult = NULL;
+	char *storeUrl = nullptr, *tResult = nullptr;
 
 	for (int k = 4; --k;) {
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("CreateRelationships");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateStoreHost("CreateRelationships", NULL);
+		if (tResult == nullptr) UpdateStoreHost("CreateRelationships", nullptr);
 		else break;
 	}
 
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		UpdateStoreHost("CreateRelationships", storeUrl);
 
 		if (status == 500) {
@@ -471,20 +471,20 @@ bool CMsnProto::MSN_StoreDeleteRelationships(bool tile, bool allowRecurse)
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl = NULL, *tResult = NULL;
+	char *storeUrl = nullptr, *tResult = nullptr;
 
 	for (int k = 4; --k;) {
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("DeleteRelationships");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateStoreHost("DeleteRelationships", NULL);
+		if (tResult == nullptr) UpdateStoreHost("DeleteRelationships", nullptr);
 		else break;
 	}
 
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		UpdateStoreHost("DeleteRelationships", storeUrl);
 		if (status == 500) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
@@ -547,20 +547,20 @@ bool CMsnProto::MSN_StoreCreateDocument(const wchar_t *sztName, const char *szMi
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl = NULL, *tResult = NULL;
+	char *storeUrl = nullptr, *tResult = nullptr;
 
 	for (int k = 4; --k;) {
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("CreateDocument");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateStoreHost("CreateDocument", NULL);
+		if (tResult == nullptr) UpdateStoreHost("CreateDocument", nullptr);
 		else break;
 	}
 
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		UpdateStoreHost("CreateDocument", storeUrl);
 		if (status == 200) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
@@ -618,20 +618,20 @@ bool CMsnProto::MSN_StoreUpdateDocument(const wchar_t *sztName, const char *szMi
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl = NULL, *tResult = NULL;
+	char *storeUrl = nullptr, *tResult = nullptr;
 
 	for (int k = 4; --k;) {
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("UpdateDocument");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateStoreHost("UpdateDocument", NULL);
+		if (tResult == nullptr) UpdateStoreHost("UpdateDocument", nullptr);
 		else break;
 	}
 
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		UpdateStoreHost("UpdateDocument", storeUrl);
 		if (status == 500 && allowRecurse) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
@@ -698,20 +698,20 @@ bool CMsnProto::MSN_StoreFindDocuments(bool allowRecurse)
 	ezxml_free(xmlp);
 
 	unsigned status = 0;
-	char *storeUrl = NULL, *tResult = NULL;
+	char *storeUrl = nullptr, *tResult = nullptr;
 
 	for (int k = 4; --k;) {
 		mir_free(storeUrl);
 		storeUrl = GetStoreHost("FindDocuments");
 		tResult = getSslResult(&storeUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateStoreHost("FindDocuments", NULL);
+		if (tResult == nullptr) UpdateStoreHost("FindDocuments", nullptr);
 		else break;
 	}
 
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) {
+	if (tResult != nullptr) {
 		UpdateStoreHost("FindDocuments", storeUrl);
 		if (status == 500) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));

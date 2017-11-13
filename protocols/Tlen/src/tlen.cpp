@@ -86,16 +86,16 @@ HANDLE GetIconHandle(int iconId)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 HICON GetIcolibIcon(int iconId)
 {
 	HANDLE handle = GetIconHandle(iconId);
-	if (handle != NULL)
+	if (handle != nullptr)
 		return IcoLib_GetIconByHandle(handle);
 
-	return NULL;
+	return nullptr;
 }
 
 void ReleaseIcolibIcon(HICON hIcon)
@@ -115,7 +115,7 @@ int TlenProtocol::PrebuildContactMenu(WPARAM hContact, LPARAM)
 		if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 			TLEN_LIST_ITEM *item = TlenListGetItemPtr(this, LIST_ROSTER, dbv.pszVal);
 			db_free(&dbv);
-			if (item != NULL) {
+			if (item != nullptr) {
 				Menu_ShowItem(hMenuContactRequestAuth, item->subscription == SUB_NONE || item->subscription == SUB_FROM);
 				Menu_ShowItem(hMenuContactGrantAuth, item->subscription == SUB_NONE || item->subscription == SUB_TO);
 				Menu_ShowItem(hMenuContactMUC, item->status != ID_STATUS_OFFLINE);
@@ -171,7 +171,7 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 	NETLIBHTTPREQUEST req;
 	NETLIBHTTPHEADER headers[2];
 	NETLIBHTTPREQUEST *resp;
-	char *login = NULL, *password = NULL;
+	char *login = nullptr, *password = nullptr;
 	char form[1024];
 	char cookie[1024];
 	if (!db_get(NULL, m_szModuleName, "LoginName", &dbv)) {
@@ -181,11 +181,11 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 
 	if (db_get_b(NULL, m_szModuleName, "SavePassword", TRUE) == TRUE)
 		password = db_get_sa(NULL, m_szModuleName, "Password");
-	else if (threadData != NULL && mir_strlen(threadData->password) > 0)
+	else if (threadData != nullptr && mir_strlen(threadData->password) > 0)
 		password = mir_strdup(threadData->password);
 
 	memset(&cookie, 0, sizeof(cookie));
-	if (login != NULL && password != NULL) {
+	if (login != nullptr && password != nullptr) {
 		mir_snprintf(form, "username=%s&password=%s", login, password);
 		headers[0].szName = "Content-Type";
 		headers[0].szValue = "application/x-www-form-urlencoded";
@@ -199,16 +199,16 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM, LPARAM)
 		req.dataLength = (int)mir_strlen(form);
 		req.szUrl = "http://poczta.o2.pl/login.html";
 		resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
-		if (resp != NULL) {
+		if (resp != nullptr) {
 			if (resp->resultCode / 100 == 2 || resp->resultCode == 302) {
 				int i;
 				for (i = 0; i < resp->headersCount; i++) {
 					if (strcmpi(resp->headers[i].szName, "Set-Cookie") == 0) {
 						char *start = strstr(resp->headers[i].szValue, "ssid=");
-						if (start != NULL) {
+						if (start != nullptr) {
 							char *end = strstr(resp->headers[i].szValue, ";");
 							start = start + 5;
-							if (end == NULL) {
+							if (end == nullptr) {
 								end = resp->headers[i].szValue + mir_strlen(resp->headers[i].szValue);
 							}
 							strncpy(cookie, start, (end - start));
@@ -260,7 +260,7 @@ void TlenProtocol::initMenuItems()
 	mi.root = hMenuRoot = Menu_CreateRoot(MO_MAIN, m_tszUserName, -1999901009, GetIconHandle(IDI_TLEN));
 	mi.pszService = text;
 
-	hMenuChats = NULL;
+	hMenuChats = nullptr;
 
 	// "Multi-User Conference"
 	SET_UID(mi,0x4984828, 0x2066, 0x43da, 0x87, 0x9e, 0x71, 0x23, 0xc6, 0xe2, 0x46, 0xd5);
@@ -282,7 +282,7 @@ void TlenProtocol::initMenuItems()
 	hMenuInbox = Menu_AddMainMenuItem(&mi);
 
 	// contact menu items
-	mi.root = NULL;
+	mi.root = nullptr;
 
 	// "Send picture"
 	SET_UID(mi, 0x12c66fb1, 0x6e57, 0x4acd, 0x90, 0x16, 0xc, 0x83, 0xae, 0x16, 0xe3, 0x12);
@@ -349,7 +349,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
-	srand((unsigned)time(NULL));
+	srand((unsigned)time(nullptr));
 
 	TlenRegisterIcons();
 

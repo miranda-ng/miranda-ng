@@ -614,7 +614,7 @@ int LoadButtonModule(void)
 	wc.lpfnWndProc = MButtonWndProc;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(MButtonCtrl*);
-	wc.hbrBackground = 0;
+	wc.hbrBackground = nullptr;
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 

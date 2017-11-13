@@ -67,13 +67,13 @@ HIMAGELIST LoadIcons()
 	HICON hIcon;
 	HIMAGELIST hil = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, _countof(dbeIcons), 5);
 	if (!hil)
-		return NULL;
+		return nullptr;
 
 	for(int i = 0; i < _countof(dbeIcons); i++)
 		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(dbeIcons[i]));
 
 	int protoCount = 0;
-	PROTOACCOUNT **protocols = NULL;
+	PROTOACCOUNT **protocols = nullptr;
 	Proto_EnumAccounts(&protoCount, &protocols);
 
 	for (int i = 0; i < protoCount; i++) {
@@ -92,7 +92,7 @@ int GetProtoIconIndex(const char *szProto)
 {
 	if (szProto && szProto[0]) {
 		int protoCount = 0;
-		PROTOACCOUNT **protocols = NULL;
+		PROTOACCOUNT **protocols = nullptr;
 		Proto_EnumAccounts(&protoCount, &protocols);
 
 		for (int i = 0; i < protoCount; i++)

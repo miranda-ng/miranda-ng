@@ -2,7 +2,7 @@
 
 HWND hwnd2mainWindow;
 
-static HIMAGELIST hImg = 0;
+static HIMAGELIST hImg = nullptr;
 
 int g_Hex;
 int g_Mode;
@@ -63,7 +63,7 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		{
 			RECT rc;
 			GetClientRect(hwnd, &rc);
-			SetCursor(rc.right > rc.bottom ? LoadCursor(NULL, IDC_SIZENS) : LoadCursor(NULL, IDC_SIZEWE));
+			SetCursor(rc.right > rc.bottom ? LoadCursor(nullptr, IDC_SIZENS) : LoadCursor(nullptr, IDC_SIZEWE));
 		}
 		return TRUE;
 
@@ -369,13 +369,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		freeTree(0);
 
-		hwnd2mainWindow = NULL;
-		hwnd2Tree = NULL;
-		hwnd2List = NULL;
+		hwnd2mainWindow = nullptr;
+		hwnd2Tree = nullptr;
+		hwnd2List = nullptr;
 
 		if (hImg) {
 			ImageList_Destroy(hImg);
-			hImg = NULL;
+			hImg = nullptr;
 		}
 
 		FreeResidentSettings();
@@ -416,16 +416,16 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			freeAllWatches();
 			break;
 		case MENU_EXPORTDB: // all db
-			exportDB(INVALID_CONTACT_ID, 0);
+			exportDB(INVALID_CONTACT_ID, nullptr);
 			break;
 		case MENU_EXPORTCONTACT: // all contacts
 			exportDB(INVALID_CONTACT_ID, "");
 			break;
 		case MENU_EXPORTMODULE: // all settings
-			exportDB(NULL, 0);
+			exportDB(NULL, nullptr);
 			break;
 		case MENU_IMPORTFROMFILE:
-			ImportSettingsFromFileMenuItem(NULL, NULL);
+			ImportSettingsFromFileMenuItem(NULL, nullptr);
 			break;
 		case MENU_IMPORTFROMTEXT:
 			ImportSettingsMenuItem(NULL);
@@ -539,5 +539,5 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void openMainWindow()
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), 0, MainDlgProc);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_MAIN), nullptr, MainDlgProc);
 }

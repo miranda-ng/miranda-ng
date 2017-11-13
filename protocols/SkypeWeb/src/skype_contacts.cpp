@@ -104,7 +104,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 
 void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -130,10 +130,10 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 				db_set_dw(hContact, m_szModuleName, "LastAuthRequestTime", eventTime);
 				delSetting(hContact, "Auth");
 
-				DB_AUTH_BLOB blob(hContact, NULL, NULL, NULL, skypename.c_str(), reason.c_str());
+				DB_AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, skypename.c_str(), reason.c_str());
 
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = time(NULL);
+				pre.timestamp = time(nullptr);
 				pre.lParam = blob.size();
 				pre.szMessage = blob;
 
@@ -146,7 +146,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 //[{"username":"echo123", "firstname" : "Echo \/ Sound Test Service", "lastname" : null, "avatarUrl" : null, "mood" : null, "richMood" : null, "displayname" : null, "country" : null, "city" : null},...]
 void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -174,7 +174,7 @@ void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 
 	JSONNode root = JSONNode::parse(response->pData);
@@ -314,7 +314,7 @@ INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 void CSkypeProto::OnBlockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
 	MCONTACT hContact = (DWORD_PTR)p;
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 	db_set_dw(hContact, "Ignore", "Mask1", 127);
 	db_set_b(hContact, "CList", "Hidden", 1);
@@ -329,7 +329,7 @@ INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
 void CSkypeProto::OnUnblockContact(const NETLIBHTTPREQUEST *response, void *p)
 {
 	MCONTACT hContact = (DWORD_PTR)p;
-	if (response == NULL)
+	if (response == nullptr)
 		return;
 	db_set_dw(hContact, "Ignore", "Mask1", 0);
 	db_set_b(hContact, "CList", "Hidden", 0);

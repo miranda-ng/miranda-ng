@@ -27,8 +27,8 @@ void __cdecl initializeDrawingThread(void *pParam)
 }
 
 void CLCDConnectionLogitech::runDrawingThread() {
-	m_hStopEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	m_hDrawEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hStopEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	m_hDrawEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	DWORD dwRes = 0;
 
@@ -70,7 +70,7 @@ void CLCDConnectionLogitech::runDrawingThread() {
 }
 
 // the connection instance
-CLCDConnectionLogitech *CLCDConnectionLogitech::m_pInstance = NULL;
+CLCDConnectionLogitech *CLCDConnectionLogitech::m_pInstance = nullptr;
 
 //************************************************************************
 // returns the connection type
@@ -88,9 +88,9 @@ CLCDConnectionLogitech::CLCDConnectionLogitech()
 	m_iNumQVGADevices = 0;
 	m_iNumBWDevices = 0;
 
-	m_pDrawingBuffer = NULL;
-	m_pConnectedDevice = NULL;
-	m_hKeyboardHook = NULL;
+	m_pDrawingBuffer = nullptr;
+	m_pConnectedDevice = nullptr;
+	m_hKeyboardHook = nullptr;
 	m_bVolumeWheelHook = false;
 
 	m_dwButtonState = 0;
@@ -98,14 +98,14 @@ CLCDConnectionLogitech::CLCDConnectionLogitech()
 	m_bSetAsForeground = false;
 	m_dwForegroundCheck = 0;
 
-	m_hHIDDeviceHandle = NULL;
+	m_hHIDDeviceHandle = nullptr;
 	m_hConnection = LGLCD_INVALID_CONNECTION;
 	m_hDevice = LGLCD_INVALID_DEVICE;
 
 	m_bIsForeground = false;
 
-	m_hDrawEvent = NULL;
-	m_hStopEvent = NULL;
+	m_hDrawEvent = nullptr;
+	m_hStopEvent = nullptr;
 
 	CLCDConnectionLogitech::m_pInstance = this;
 
@@ -121,7 +121,7 @@ CLCDConnectionLogitech::~CLCDConnectionLogitech()
 		SetEvent(m_hStopEvent);
 	} while (WaitForSingleObject(m_hDrawingThread, 500) == WAIT_TIMEOUT);
 
-	if (m_pDrawingBuffer != NULL) {
+	if (m_pDrawingBuffer != nullptr) {
 		free(m_pDrawingBuffer);
 	}
 	SetVolumeWheelHook(false);
@@ -152,9 +152,9 @@ bool CLCDConnectionLogitech::Initialize(tstring strAppletName, bool bAutostart, 
 		m_connectContext.onConfigure.configCallback = CLCDOutputManager::configDialogCallback;
 	}
 	else {
-		m_connectContext.onConfigure.configCallback = NULL;
+		m_connectContext.onConfigure.configCallback = nullptr;
 	}
-	m_connectContext.onConfigure.configContext = NULL;
+	m_connectContext.onConfigure.configContext = nullptr;
 
 	lgLcdSetDeviceFamiliesToUse(m_connectContext.connection, LGLCD_DEVICE_FAMILY_ALL, NULL);
 
@@ -184,7 +184,7 @@ CLgLCDDevice* CLCDConnectionLogitech::GetAttachedDevice(int iIndex) {
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //************************************************************************
@@ -194,9 +194,9 @@ bool CLCDConnectionLogitech::Disconnect() {
 	if (!m_bConnected)
 		return false;
 
-	if (m_pConnectedDevice != NULL) {
+	if (m_pConnectedDevice != nullptr) {
 		delete m_pConnectedDevice;
-		m_pConnectedDevice = NULL;
+		m_pConnectedDevice = nullptr;
 	}
 
 	m_bReconnect = false;
@@ -246,10 +246,10 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 
 	// check if the specified device exists
 	m_pConnectedDevice = GetAttachedDevice(iIndex);
-	if (m_pConnectedDevice == NULL) {
+	if (m_pConnectedDevice == nullptr) {
 		iIndex = (!iIndex || iIndex == LGLCD_DEVICE_BW) ? LGLCD_DEVICE_BW : LGLCD_DEVICE_QVGA;
 		m_pConnectedDevice = GetAttachedDevice(iIndex);
-		if (m_pConnectedDevice == NULL) {
+		if (m_pConnectedDevice == nullptr) {
 			return false;
 		}
 	}
@@ -279,7 +279,7 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 
 	// Create the pixel buffer
 	m_lcdBitmap.hdr.Format = OpenContext.deviceType == LGLCD_DEVICE_QVGA ? LGLCD_BMP_FORMAT_QVGAx32 : LGLCD_BMP_FORMAT_160x43x1;
-	if (m_pDrawingBuffer != NULL) {
+	if (m_pDrawingBuffer != nullptr) {
 		free(m_pDrawingBuffer);
 	}
 
@@ -323,7 +323,7 @@ bool CLCDConnectionLogitech::Shutdown()
 //************************************************************************
 bool CLCDConnectionLogitech::HIDReadData(BYTE* data) {
 	static OVERLAPPED olRead;
-	static HANDLE hReadEvent = CreateEvent(NULL, false, true, L"ReadEvent");
+	static HANDLE hReadEvent = CreateEvent(nullptr, false, true, L"ReadEvent");
 	static BYTE privateBuffer[9];
 
 	DWORD TransBytes;
@@ -613,7 +613,7 @@ int CLCDConnectionLogitech::GetColorCount()
 PBYTE CLCDConnectionLogitech::GetPixelBuffer()
 {
 	if (!GetConnectionState() == CONNECTED)
-		return NULL;
+		return nullptr;
 
 	return (PBYTE)m_pDrawingBuffer;
 }
@@ -676,8 +676,8 @@ bool CLCDConnectionLogitech::HIDInit()
 	LONG								Result;
 
 	DWORD Length = 0;
-	PSP_DEVICE_INTERFACE_DETAIL_DATA detailData = NULL;
-	HANDLE hDevInfo = NULL;
+	PSP_DEVICE_INTERFACE_DETAIL_DATA detailData = nullptr;
+	HANDLE hDevInfo = nullptr;
 	GUID HidGuid;
 	ULONG Required = 0;
 
@@ -699,8 +699,8 @@ bool CLCDConnectionLogitech::HIDInit()
 
 	hDevInfo = SetupDiGetClassDevs
 		(&HidGuid,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		DIGCF_PRESENT | DIGCF_INTERFACEDEVICE);
 
 	devInfoData.cbSize = sizeof(devInfoData);
@@ -725,7 +725,7 @@ bool CLCDConnectionLogitech::HIDInit()
 
 		Result = SetupDiEnumDeviceInterfaces
 			(hDevInfo,
-			0,
+			nullptr,
 			&HidGuid,
 			MemberIndex,
 			&devInfoData);
@@ -758,10 +758,10 @@ bool CLCDConnectionLogitech::HIDInit()
 			Result = SetupDiGetDeviceInterfaceDetail
 				(hDevInfo,
 				&devInfoData,
-				NULL,
+				nullptr,
 				0,
 				&Length,
-				NULL);
+				nullptr);
 
 			//Allocate memory for the hDevInfo structure, using the returned Length.
 
@@ -779,7 +779,7 @@ bool CLCDConnectionLogitech::HIDInit()
 				detailData,
 				Length,
 				&Required,
-				NULL);
+				nullptr);
 
 			// Open a handle to the device.
 			// To enable retrieving information about a system mouse or keyboard,
@@ -797,10 +797,10 @@ bool CLCDConnectionLogitech::HIDInit()
 				(detailData->DevicePath,
 				FILE_GENERIC_READ | FILE_GENERIC_WRITE,
 				FILE_SHARE_READ | FILE_SHARE_WRITE,
-				(LPSECURITY_ATTRIBUTES)NULL,
+				nullptr,
 				OPEN_EXISTING,
 				FILE_FLAG_OVERLAPPED,
-				NULL);
+				nullptr);
 
 			/*
 			API function: HidD_GetAttributes
@@ -875,7 +875,7 @@ bool CLCDConnectionLogitech::HIDDeInit()
 		return false;
 
 	CloseHandle(m_hHIDDeviceHandle);
-	m_hHIDDeviceHandle = NULL;
+	m_hHIDDeviceHandle = nullptr;
 	return true;
 }
 
@@ -1001,7 +1001,7 @@ void CLCDConnectionLogitech::SetVolumeWheelHook(bool bEnable)
 	m_bVolumeWheelHook = bEnable;
 
 	if (bEnable)
-		m_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, CLCDConnectionLogitech::KeyboardHook, GetModuleHandle(NULL), 0);
+		m_hKeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, CLCDConnectionLogitech::KeyboardHook, GetModuleHandle(nullptr), 0);
 	else if (m_hKeyboardHook)
 		UnhookWindowsHookEx(m_hKeyboardHook);
 }

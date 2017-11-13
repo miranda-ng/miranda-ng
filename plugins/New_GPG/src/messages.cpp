@@ -37,7 +37,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 			{
 				if (bDebugLog)
 					debuglog << std::string(time_str() + ": info: received encrypted message from: " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)) + " with turned off encryption");
-				if (MessageBox(0, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES)
+				if (MessageBox(nullptr, TranslateT("We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 				{
 					if (!isContactHaveKey(hContact))
 					{
@@ -59,7 +59,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						setClistIcon(hContact);
 					}
 				}
-				else if (MessageBox(0, TranslateT("Do you want to try to decrypt encrypted message?"), TranslateT("Warning"), MB_YESNO) == IDNO)
+				else if (MessageBox(nullptr, TranslateT("Do you want to try to decrypt encrypted message?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 				{
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					return;
@@ -112,7 +112,7 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 				cmd.push_back(L"--batch");
 				{
 					char *inkeyid = UniGetContactSettingUtf(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "InKeyID", "");
-					wchar_t *pass = NULL;
+					wchar_t *pass = nullptr;
 					if (inkeyid[0]) {
 						string dbsetting = "szKey_";
 						dbsetting += inkeyid;
@@ -486,7 +486,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					return 1;
 				} */
 				{
-					char *tmp = NULL;
+					char *tmp = nullptr;
 					s1 = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					s2 = output.find(":", s1);
 					db_set_s(ccs->hContact, szGPGModuleName, "KeyID", output.substr(s1, s2 - s1).c_str());
@@ -505,7 +505,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 						s2 = output.find("<", s1);
 					tmp = (char*)mir_alloc(output.substr(s1, s2 - s1 - 1).length() + 1);
 					mir_strcpy(tmp, output.substr(s1, s2 - s1 - 1).c_str());
-					mir_utf8decode(tmp, 0);
+					mir_utf8decode(tmp, nullptr);
 					db_set_s(ccs->hContact, szGPGModuleName, "KeyMainName", tmp);
 					mir_free(tmp);
 					if ((s1 = output.find(")", s2)) == string::npos)
@@ -517,14 +517,14 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					{
 						tmp = (char*)mir_alloc(output.substr(s2, s1 - s2).length() + 1);
 						mir_strcpy(tmp, output.substr(s2, s1 - s2).c_str());
-						mir_utf8decode(tmp, 0);
+						mir_utf8decode(tmp, nullptr);
 						db_set_s(ccs->hContact, szGPGModuleName, "KeyComment", tmp);
 						mir_free(tmp);
 						s1 += 3;
 						s2 = output.find(">", s1);
 						tmp = (char*)mir_alloc(output.substr(s1, s2 - s1).length() + 1);
 						mir_strcpy(tmp, output.substr(s1, s2 - s1).c_str());
-						mir_utf8decode(tmp, 0);
+						mir_utf8decode(tmp, nullptr);
 						db_set_s(ccs->hContact, szGPGModuleName, "KeyMainEmail", tmp);
 						mir_free(tmp);
 					}
@@ -532,7 +532,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					{
 						tmp = (char*)mir_alloc(output.substr(s2, s1 - s2).length() + 1);
 						mir_strcpy(tmp, output.substr(s2, s1 - s2).c_str());
-						mir_utf8decode(tmp, 0);
+						mir_utf8decode(tmp, nullptr);
 						db_set_s(ccs->hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2, s1 - s2).c_str());
 						mir_free(tmp);
 					}
@@ -746,7 +746,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 
 	if (out.find("There is no assurance this key belongs to the named user") != string::npos) {
 		out.clear();
-		if (MessageBox(0, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
+		if (MessageBox(nullptr, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
 			db_set_b(hContact, szGPGModuleName, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;
 			tmp.push_back(L"--trust-model");
@@ -779,7 +779,7 @@ void SendMsgSvc_func(MCONTACT hContact, char *msg, DWORD flags)
 //		return;
 //	}
 	if (out.find("usage: ") != string::npos) {
-		MessageBox(0, TranslateT("Something is wrong, GPG does not understand us, aborting encryption."), TranslateT("Warning"), MB_OK);
+		MessageBox(nullptr, TranslateT("Something is wrong, GPG does not understand us, aborting encryption."), TranslateT("Warning"), MB_OK);
 		//mir_free(msg);
 		ProtoChainSend(hContact, PSS_MESSAGE, flags, (LPARAM)msg);
 		if(!bDebugLog)
@@ -1003,13 +1003,13 @@ int HookSendMsg(WPARAM w, LPARAM l)
 
 static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	char *inkeyid = NULL;
+	char *inkeyid = nullptr;
 	switch (msg) {
 	case WM_INITDIALOG:
 		inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
 		new_key_hcnt_mutex.unlock();
 
-		SetWindowPos(hwndDlg, 0, key_password_rect.left, key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(hwndDlg, nullptr, key_password_rect.left, key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		TranslateDialogDefault(hwndDlg);
 		{
 			string questionstr = "Please enter password for key with ID: ";
@@ -1073,5 +1073,5 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 void ShowLoadKeyPasswordWindow()
 {
 	extern HINSTANCE hInst;
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_KEY_PASSWD), NULL, DlgProcKeyPassword);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_KEY_PASSWD), nullptr, DlgProcKeyPassword);
 }

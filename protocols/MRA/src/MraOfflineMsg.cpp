@@ -14,7 +14,7 @@ static DWORD MraOfflineMessageConvertTime(INTERNET_TIME *pitTime)
 	tziTimeZoneMailRu.Bias = pitTime->lTimeZone/100*60;
 	tziTimeZoneMailRu.DaylightBias = pitTime->lTimeZone%100;
 	SystemTimeToTzSpecificLocalTime(&tziTimeZoneMailRu, &pitTime->stTime, &stUniversalTime);
-	SystemTimeToTzSpecificLocalTime(NULL, &stUniversalTime, &stTime);
+	SystemTimeToTzSpecificLocalTime(nullptr, &stUniversalTime, &stTime);
 
 	return (DWORD)MakeTime32FromLocalSystemTime(&stTime);
 }
@@ -25,8 +25,8 @@ static DWORD MraOfflineMessageGetHeaderValueLow(LPSTR lpszHeaderLow, size_t dwHe
 	if (lpszValue) {
 		lpszValue += dwValueNameSize;
 		LPSTR lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, CRLF, (sizeof(CRLF)-1));
-		if (lpszValueEnd == NULL) lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, LF, (sizeof(LF)-1));
-		if (lpszValueEnd == NULL) lpszValueEnd = (LPSTR)(lpszHeaderLow+dwHeaderSize);
+		if (lpszValueEnd == nullptr) lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, LF, (sizeof(LF)-1));
+		if (lpszValueEnd == nullptr) lpszValueEnd = (LPSTR)(lpszHeaderLow+dwHeaderSize);
 
 		lpszValue = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, (lpszValueEnd-lpszHeaderLow), ":", 1);
 		if (lpszValue) {
@@ -70,9 +70,9 @@ static DWORD MraOfflineMessageGetHeaderValue(LPSTR lpszHeader, LPSTR lpszHeaderL
 	if (lpszValue) {
 		lpszValue += dwValueNameSize;
 		LPSTR lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, CRLF, (sizeof(CRLF)-1));
-		if (lpszValueEnd == NULL)
+		if (lpszValueEnd == nullptr)
 			lpszValueEnd = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, dwHeaderSize, LF, (sizeof(LF)-1));
-		if (lpszValueEnd == NULL)
+		if (lpszValueEnd == nullptr)
 			lpszValueEnd = (LPSTR)(lpszHeaderLow+dwHeaderSize);
 
 		lpszValue = (LPSTR)MemoryFind((lpszValue-lpszHeaderLow), lpszHeaderLow, (lpszValueEnd-lpszHeaderLow), ":", 1);
@@ -105,11 +105,11 @@ static DWORD MraOfflineMessageGetNextMIMEPart(LPSTR lpszBody, size_t dwBodySize,
 		else if ((*((BYTE*)lpszMIMEPart)) == (*((BYTE*)LF)))
 			lpszMIMEPart += (sizeof(LF)-1);
 		else if ((*((WORD*)lpszMIMEPart)) == '--')
-			lpszMIMEPart = NULL;
+			lpszMIMEPart = nullptr;
 		else
 			_CrtDbgBreak();
 
-		if (lpszMIMEPart == NULL)
+		if (lpszMIMEPart == nullptr)
 			return ERROR_NO_MORE_ITEMS;
 		LPSTR lpszTemp = (LPSTR)MemoryFind((lpszMIMEPart-lpszBody), lpszBody, dwBodySize, lpszBoundary, dwBoundarySize);
 		if (lpszTemp) {// нашли конец миме части с текстом

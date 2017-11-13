@@ -64,7 +64,7 @@ static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	bLaunchMiranda = bShortMode = bAutoExit = false;
 	bServiceMode = true;
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
 	return (bLaunchMiranda) ? SERVICE_CONTINUE : SERVICE_FAILED;
 }
 
@@ -75,7 +75,7 @@ static INT_PTR CheckProfile(WPARAM wParam, LPARAM lParam)
 	bAutoExit = lParam == 2;
 	bServiceMode = false;
 	wcsncpy(opts.filename, (wchar_t*)wParam, _countof(opts.filename));
-	return DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
+	return DialogBox(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
 }
 
 extern "C" __declspec(dllexport) int Load(void)

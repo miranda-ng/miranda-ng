@@ -234,7 +234,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 		gce.ptszUID = user->m_tszResourceName;
 		gce.ptszText = buf;
 		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.time = time(0);
+		gce.time = time(nullptr);
 		Chat_Event(&gce);
 	}
 }
@@ -263,7 +263,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 	gce.ptszText = szReason;
 	if (item->bChatActive == 2) {
 		gce.dwFlags |= GCEF_ADDTOLOG;
-		gce.time = time(0);
+		gce.time = time(nullptr);
 	}
 
 	switch (gce.iType = action) {
@@ -1137,7 +1137,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL) {
 			wchar_t *resourceName_copy = NEWWSTR_ALLOCA(him->m_tszResourceName); // copy resource name to prevent possible crash if user list rebuilds
 
-			wchar_t *szInviteTo = 0;
+			wchar_t *szInviteTo = nullptr;
 			int idx = gch->dwData - IDM_LINK0;
 			LISTFOREACH(i, ppro, LIST_CHATROOM)
 			{
@@ -1382,7 +1382,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 
 			if (m_bJabberOnline) {
 				wchar_t tszID[100];
-				int64_t id = (_time64(0) << 16) + (GetTickCount() & 0xFFFF);
+				int64_t id = (_time64(nullptr) << 16) + (GetTickCount() & 0xFFFF);
 
 				wchar_t *buf = NEWWSTR_ALLOCA(gch->ptszText);
 				Chat_UnescapeTags(buf);

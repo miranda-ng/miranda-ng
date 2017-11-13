@@ -34,7 +34,7 @@ int IsCOMRegistered()
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved", 0, KEY_READ, &hRegKey)) {
 		DWORD lpType = REG_SZ;
-		if (!RegQueryValueEx(hRegKey, L"{72013A26-A94C-11d6-8540-A5E62932711D}", NULL, &lpType, 0, 0))
+		if (!RegQueryValueEx(hRegKey, L"{72013A26-A94C-11d6-8540-A5E62932711D}", nullptr, &lpType, nullptr, nullptr))
 			res += COMREG_APPROVED;
 		RegCloseKey(hRegKey);
 	}
@@ -138,10 +138,10 @@ void __cdecl IssueTransferThread(void *param)
 
 	TAddArgList args;
 	args.count = 0;
-	args.files = NULL;
+	args.files = nullptr;
 	TSlotIPC *pct = pipch->DataPtr;
 	BOOL bQuit = false;
-	while (pct != NULL) {
+	while (pct != nullptr) {
 		if (pct->cbSize != sizeof(TSlotIPC))
 			break;
 		args.szFile = LPSTR(UINT_PTR(pct) + sizeof(TSlotIPC));
@@ -153,11 +153,11 @@ void __cdecl IssueTransferThread(void *param)
 		pct = pct->Next;
 	} // while
 
-	if (args.files != NULL) {
+	if (args.files != nullptr) {
 		args.files = (LPSTR*)mir_realloc(args.files, (args.count + 1) * sizeof(LPSTR));
-		args.files[args.count++] = NULL;
+		args.files[args.count++] = nullptr;
 		if (!bQuit) {
-			args.hEvent = CreateEvent(NULL, true, false, NULL);
+			args.hEvent = CreateEvent(nullptr, true, false, nullptr);
 			QueueUserAPC(MainThreadIssueTransfer, hMainThread, UINT_PTR(&args));
 			while (true) {
 				if (WaitForSingleObjectEx(args.hEvent, INFINITE, true) != WAIT_IO_COMPLETION)
@@ -203,7 +203,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 			DWORD dwCaps = CallService(szTmp, PFLAGNUM_1, 0);
 			if (dwCaps & PF1_FILESEND) {
 				TSlotIPC *pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
-				if (pct != NULL) {
+				if (pct != nullptr) {
 					// capture all the icons!
 					spi.hProto = murmur_hash(pa->szModuleName);
 					for (int j = 0; j <= 10; j++)
@@ -211,7 +211,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 
 					pct->fType = REQUEST_NEWICONS;
 					memcpy(LPSTR(pct) + sizeof(TSlotIPC), &spi, sizeof(TSlotProtoIcons));
-					if (ipch->NewIconsBegin == NULL)
+					if (ipch->NewIconsBegin == nullptr)
 						ipch->NewIconsBegin = pct;
 				}
 			}
@@ -222,13 +222,13 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 
 	// add Miranda icon
 	TSlotIPC *pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
-	if (pct != NULL) {
+	if (pct != nullptr) {
 		memset(&spi.hIcons, 0, sizeof(spi.hIcons));
 		spi.hProto = 0; // no protocol
 		spi.hIcons[0] = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		pct->fType = REQUEST_NEWICONS;
 		memcpy(LPSTR(pct) + sizeof(TSlotIPC), &spi, sizeof(TSlotProtoIcons));
-		if (ipch->NewIconsBegin == NULL)
+		if (ipch->NewIconsBegin == nullptr)
 			ipch->NewIconsBegin = pct;
 	}
 }
@@ -258,7 +258,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 
 		// do they have a running protocol? 
 		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL) {
+		if (szProto != nullptr) {
 			// does it support file sends?
 			DWORD dwCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((dwCaps & PF1_FILESEND) == 0)
@@ -309,7 +309,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 
 			int cch = lstrlenA(szContact) + 1;
 			TSlotIPC *pct = ipcAlloc(ipch, cch + 1 + lstrlenA(szGroup) + 1);
-			if (pct == NULL)
+			if (pct == nullptr)
 				break;
 
 			// lie about the actual size of the TSlotIPC
@@ -321,7 +321,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 			pct->Status = pContacts[i].dwStatus;
 			pct->hProto = pContacts[i].hProto;
 			pct->MRU = db_get_b(pct->hContact, SHLExt_Name, SHLExt_MRU, 0);
-			if (ipch->ContactsBegin == NULL)
+			if (ipch->ContactsBegin == nullptr)
 				ipch->ContactsBegin = pct;
 			szSlot += cch + 1;
 			if (szGroup != 0) {
@@ -359,13 +359,13 @@ void __stdcall ipcService(ULONG_PTR)
 	// try to open the file mapping object the caller must make sure no other
 	// running instance is using this file
 	HANDLE hMap = OpenFileMappingA(FILE_MAP_ALL_ACCESS, false, IPC_PACKET_NAME);
-	if (hMap == 0)
+	if (hMap == nullptr)
 		return;
 
 	// map the file to this process
 	THeaderIPC *pMMT = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 	// if it fails the caller should of had some timeout in wait
-	if (pMMT != NULL && pMMT->cbSize == sizeof(THeaderIPC) && pMMT->dwVersion == PLUGIN_MAKE_VERSION(2, 0, 1, 2)) {
+	if (pMMT != nullptr && pMMT->cbSize == sizeof(THeaderIPC) && pMMT->dwVersion == PLUGIN_MAKE_VERSION(2, 0, 1, 2)) {
 		// toggle the right bits
 		int *bits = &pMMT->fRequests;
 		// jump right to a worker thread for file processing?
@@ -382,7 +382,7 @@ void __stdcall ipcService(ULONG_PTR)
 		}
 		// the request was to clear the MRU entries, we have no return data
 		if (*bits & REQUEST_CLEARMRU) {
-			mir_forkthread(&ClearMRUThread, NULL);
+			mir_forkthread(&ClearMRUThread, nullptr);
 			goto Reply;
 		}
 		// the IPC header may have pointers that need to be translated
@@ -417,12 +417,12 @@ void __stdcall ipcService(ULONG_PTR)
 		if (bGroupMode && BST_CHECKED == db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED))
 			bGroupMode = db_get_b(0, "CList", "UseGroups", true) != 0;
 
-		TSlotIPC *pct = NULL;
+		TSlotIPC *pct = nullptr;
 		int iSlot = 0;
 		// return profile if set
 		if (BST_UNCHECKED == db_get_b(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED)) {
 			pct = ipcAlloc(pMMT, 50);
-			if (pct != NULL) {
+			if (pct != nullptr) {
 				// will actually return with .dat if there's space for it, not what the docs say
 				pct->Status = STATUS_PROFILENAME;
 				Profile_GetNameA(49, (char*)pct + sizeof(TSlotIPC));
@@ -439,8 +439,8 @@ void __stdcall ipcService(ULONG_PTR)
 					break;
 				pct = ipcAlloc(pMMT, lstrlenA(dbv.pszVal + 1) + 1);
 				// first byte has flags, need null term
-				if (pct != NULL) {
-					if (pMMT->GroupsBegin == NULL)
+				if (pct != nullptr) {
+					if (pMMT->GroupsBegin == nullptr)
 						pMMT->GroupsBegin = pct;
 					pct->fType = REQUEST_GROUPS;
 					pct->hContact = 0;
@@ -457,7 +457,7 @@ void __stdcall ipcService(ULONG_PTR)
 				iSlot++;
 			}
 			// if there was no space left, it'll } on null
-			if (pct == NULL)
+			if (pct == nullptr)
 				*bits = (*bits | GROUPS_NOTIMPL) & ~REQUEST_GROUPS;
 		}
 		// SHOULD check slot space.
@@ -471,7 +471,7 @@ void __stdcall ipcService(ULONG_PTR)
 Reply:
 		// get the handle the caller wants to be signalled on 
 		hSignal = OpenEventA(EVENT_ALL_ACCESS, false, pMMT->SignalEventName);
-		if (hSignal != 0) {
+		if (hSignal != nullptr) {
 			SetEvent(hSignal);
 			CloseHandle(hSignal);
 		}
@@ -484,7 +484,7 @@ Reply:
 void __cdecl ThreadServer(HANDLE hMainThread)
 {
 	char szBuf[100];
-	HANDLE hEvent = CreateEventA(NULL, false, false, CreateProcessUID(GetCurrentProcessId(), szBuf, sizeof(szBuf)));
+	HANDLE hEvent = CreateEventA(nullptr, false, false, CreateProcessUID(GetCurrentProcessId(), szBuf, sizeof(szBuf)));
 	while (true) {
 		int retVal = WaitForSingleObjectEx(hEvent, INFINITE, true);
 		if (retVal == WAIT_OBJECT_0)
@@ -499,9 +499,9 @@ void __cdecl ThreadServer(HANDLE hMainThread)
 
 void InvokeThreadServer()
 {
-	HANDLE hMainThread = 0;
+	HANDLE hMainThread = nullptr;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, false, 0);
-	if (hMainThread != 0)
+	if (hMainThread != nullptr)
 		mir_forkthread(&ThreadServer, hMainThread);
 }
 
@@ -516,27 +516,27 @@ HRESULT RemoveCOMRegistryEntries()
 		RegCloseKey(hRootKey);
 		// delete it
 		if (RegDeleteKey(HKEY_CLASSES_ROOT, L"miranda.shlext") != ERROR_SUCCESS)
-			MessageBox(0,
+			MessageBox(nullptr,
 				TranslateT("Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights."),
 				TranslateT("Problem"), MB_ICONERROR);
 	}
 	if (!RegOpenKeyEx(HKEY_CLASSES_ROOT, L"\\*\\shellex\\ContextMenuHandlers", 0, KEY_ALL_ACCESS, &hRootKey)) {
 		if (RegDeleteKey(hRootKey, L"miranda.shlext") != ERROR_SUCCESS)
-			MessageBox(0,
+			MessageBox(nullptr,
 				TranslateT("Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights."),
 				TranslateT("Problem"), MB_ICONERROR);
 		RegCloseKey(hRootKey);
 	}
 	if (!RegOpenKeyEx(HKEY_CLASSES_ROOT, L"Directory\\shellex\\ContextMenuHandlers", 0, KEY_ALL_ACCESS, &hRootKey)) {
 		if (RegDeleteKey(hRootKey, L"miranda.shlext") != ERROR_SUCCESS)
-			MessageBox(0,
+			MessageBox(nullptr,
 				TranslateT("Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights."),
 				TranslateT("Problem"), MB_ICONERROR);
 		RegCloseKey(hRootKey);
 	}
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved", 0, KEY_ALL_ACCESS, &hRootKey)) {
 		if (RegDeleteValue(hRootKey, L"{72013A26-A94C-11d6-8540-A5E62932711D}") != ERROR_SUCCESS) {
-			MessageBox(0,
+			MessageBox(nullptr,
 				TranslateT("Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights."),
 				TranslateT("Problem"), MB_ICONERROR);
 		}
@@ -576,7 +576,7 @@ void CheckRegisterServer()
 	if (!RegOpenKeyEx(HKEY_CLASSES_ROOT, L"miranda.shlext", 0, KEY_READ, &hRegKey))
 		RegCloseKey(hRegKey);
 	else if (bIsVistaPlus) {
-		MessageBox(0,
+		MessageBox(nullptr,
 			TranslateT("Shell context menus requires your permission to register with Windows Explorer (one time only)."),
 			TranslateT("Miranda NG - Shell context menus (shellext.dll)"), MB_OK | MB_ICONINFORMATION);
 		// /s = silent

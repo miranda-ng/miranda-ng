@@ -62,7 +62,7 @@ HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, 
 		return hItem;
 
 	wchar_t name[128];
-	TVINSERTSTRUCT tvis = { 0 };
+	TVINSERTSTRUCT tvis = {};
 	tvis.itemex.mask = (UINT)-1;
 	tvis.itemex.pszText = name;
 	tvis.itemex.cchTextMax = _countof(name);
@@ -319,7 +319,7 @@ void CCtrlTreeView::TranslateTree()
 	while (hItem) {
 		TranslateItem(hItem);
 
-		HTREEITEM hItemTmp = 0;
+		HTREEITEM hItemTmp = nullptr;
 		if (hItemTmp = GetChild(hItem))
 			hItem = hItemTmp;
 		else if (hItemTmp = GetNextSibling(hItem))

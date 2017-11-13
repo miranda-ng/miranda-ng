@@ -250,7 +250,7 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_DESTROY:
-		delete optionsProtoSettings; optionsProtoSettings = 0;
+		delete optionsProtoSettings; optionsProtoSettings = nullptr;
 		break;
 	}
 

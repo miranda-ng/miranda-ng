@@ -108,7 +108,7 @@ CMStringW CIrcProto::DoAlias(const wchar_t *text, wchar_t *window)
 				if (p3)
 					p3 += 2;
 			}
-			if (p3 != NULL) {
+			if (p3 != nullptr) {
 				hasAlias = true;
 				const wchar_t* p4 = wcsstr(p3, L"\r\n");
 				if (!p4)
@@ -195,7 +195,7 @@ CMStringW CIrcProto::DoIdentifiers(CMStringW text, const wchar_t*)
 static void __stdcall sttSetTimerOn(void* _pro)
 {
 	CIrcProto *ppro = (CIrcProto*)_pro;
-	ppro->DoEvent(GC_EVENT_INFORMATION, NULL, ppro->m_info.sNick.c_str(), TranslateT("The buddy check function is enabled"), NULL, NULL, NULL, true, false);
+	ppro->DoEvent(GC_EVENT_INFORMATION, nullptr, ppro->m_info.sNick.c_str(), TranslateT("The buddy check function is enabled"), nullptr, nullptr, NULL, true, false);
 	ppro->SetChatTimer(ppro->OnlineNotifTimer, 500, OnlineNotifTimerProc);
 	if (ppro->m_channelAwayNotification)
 		ppro->SetChatTimer(ppro->OnlineNotifTimer3, 1500, OnlineNotifTimerProc3);
@@ -204,7 +204,7 @@ static void __stdcall sttSetTimerOn(void* _pro)
 static void __stdcall sttSetTimerOff(void* _pro)
 {
 	CIrcProto *ppro = (CIrcProto*)_pro;
-	ppro->DoEvent(GC_EVENT_INFORMATION, NULL, ppro->m_info.sNick.c_str(), TranslateT("The buddy check function is disabled"), NULL, NULL, NULL, true, false);
+	ppro->DoEvent(GC_EVENT_INFORMATION, nullptr, ppro->m_info.sNick.c_str(), TranslateT("The buddy check function is disabled"), nullptr, nullptr, NULL, true, false);
 	ppro->KillChatTimer(ppro->OnlineNotifTimer);
 	ppro->KillChatTimer(ppro->OnlineNotifTimer3);
 }
@@ -230,7 +230,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			if (swscanf(one.c_str(), L"%d", &ms) == 1 && ms > 0 && ms <= 4000)
 				Sleep(ms);
 			else
-				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000."), NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000."), nullptr, nullptr, NULL, true, false);
 		}
 		return true;
 	}
@@ -258,19 +258,19 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			wchar_t temp[500];
 			if (one.IsEmpty()) {
 				if (m_ignore)
-					DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Ignore system is enabled"), NULL, NULL, NULL, true, false);
+					DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("Ignore system is enabled"), nullptr, nullptr, NULL, true, false);
 				else
-					DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Ignore system is disabled"), NULL, NULL, NULL, true, false);
+					DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("Ignore system is disabled"), nullptr, nullptr, NULL, true, false);
 				return true;
 			}
 			if (!mir_wstrcmpi(one.c_str(), L"on")) {
 				m_ignore = 1;
-				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Ignore system is enabled"), NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("Ignore system is enabled"), nullptr, nullptr, NULL, true, false);
 				return true;
 			}
 			if (!mir_wstrcmpi(one.c_str(), L"off")) {
 				m_ignore = 0;
-				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Ignore system is disabled"), NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("Ignore system is disabled"), nullptr, nullptr, NULL, true, false);
 				return true;
 			}
 			if (!wcschr(one.c_str(), '!') && !wcschr(one.c_str(), '@'))
@@ -301,7 +301,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			AddIgnore(one.c_str(), IgnoreFlags.c_str(), szNetwork.c_str());
 
 			mir_snwprintf(temp, TranslateT("%s on %s is now ignored (+%s)"), one.c_str(), szNetwork.c_str(), IgnoreFlags.c_str());
-			DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
+			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), temp, nullptr, nullptr, NULL, true, false);
 		}
 		return true;
 	}
@@ -315,7 +315,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			mir_snwprintf(temp, TranslateT("%s is not ignored now"), one.c_str());
 		else
 			mir_snwprintf(temp, TranslateT("%s was not ignored"), one.c_str());
-		DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
+		DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), temp, nullptr, nullptr, NULL, true, false);
 		return true;
 	}
 
@@ -367,7 +367,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		if (!Chat_GetInfo(&gci))
 			mir_snwprintf(szTemp, L"users: %u", gci.iCount);
 
-		DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+		DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 		return true;
 	}
 
@@ -377,11 +377,11 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		if (!mir_wstrcmpi(one.c_str(), L"on")) {
 			bEcho = TRUE;
-			DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Outgoing commands are shown"), NULL, NULL, NULL, true, false);
+			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("Outgoing commands are shown"), nullptr, nullptr, NULL, true, false);
 		}
 
 		if (!mir_wstrcmpi(one.c_str(), L"off")) {
-			DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Outgoing commands are not shown"), NULL, NULL, NULL, true, false);
+			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("Outgoing commands are not shown"), nullptr, nullptr, NULL, true, false);
 			bEcho = FALSE;
 		}
 
@@ -391,9 +391,9 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 	if (command == L"/buddycheck") {
 		if (one.IsEmpty()) {
 			if ((m_autoOnlineNotification && !bTempDisableCheck) || bTempForceCheck)
-				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("The buddy check function is enabled"), NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("The buddy check function is enabled"), nullptr, nullptr, NULL, true, false);
 			else
-				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("The buddy check function is disabled"), NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("The buddy check function is disabled"), nullptr, nullptr, NULL, true, false);
 			return true;
 		}
 		if (!mir_wstrcmpi(one.c_str(), L"on")) {
@@ -412,11 +412,11 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 				m_iTempCheckTime = 10;
 
 			if (m_iTempCheckTime == 0)
-				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("The time interval for the buddy check function is now at default setting"), NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("The time interval for the buddy check function is now at default setting"), nullptr, nullptr, NULL, true, false);
 			else {
 				wchar_t temp[200];
 				mir_snwprintf(temp, TranslateT("The time interval for the buddy check function is now %u seconds"), m_iTempCheckTime);
-				DoEvent(GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), temp, nullptr, nullptr, NULL, true, false);
 			}
 		}
 		return true;
@@ -432,7 +432,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 	if (command == L"/channelmanager") {
 		if (window && !hContact && IsChannel(window)) {
 			if (IsConnected()) {
-				if (m_managerDlg != NULL) {
+				if (m_managerDlg != nullptr) {
 					SetActiveWindow(m_managerDlg->GetHwnd());
 					m_managerDlg->Close();
 				}
@@ -477,7 +477,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 	}
 
 	if (command == L"/list") {
-		if (m_listDlg == NULL) {
+		if (m_listDlg == nullptr) {
 			m_listDlg = new CListDlg(this);
 			m_listDlg->Show();
 		}
@@ -486,7 +486,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		int minutes2 = (int)m_noOfChannels / 9000;
 
 		CMStringW szMsg(FORMAT, TranslateT("This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?"), minutes2, minutes);
-		if (m_noOfChannels < 4000 || (m_noOfChannels >= 4000 && MessageBox(NULL, szMsg, TranslateT("IRC warning"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDYES)) {
+		if (m_noOfChannels < 4000 || (m_noOfChannels >= 4000 && MessageBox(nullptr, szMsg, TranslateT("IRC warning"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDYES)) {
 			ListView_DeleteAllItems(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW));
 			PostIrcMessage(L"/lusers");
 			return false;
@@ -511,7 +511,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		CMStringW S = L"/ME " + DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
 		S.Replace(L"%", L"%%");
-		Chat_SendUserMessage(m_szModuleName, NULL, S);
+		Chat_SendUserMessage(m_szModuleName, nullptr, S);
 		return true;
 	}
 
@@ -521,7 +521,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		CMStringW S = DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
 		S.Replace(L"%", L"%%");
-		Chat_SendUserMessage(m_szModuleName, NULL, S);
+		Chat_SendUserMessage(m_szModuleName, nullptr, S);
 		return true;
 	}
 
@@ -540,7 +540,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		if (one.IsEmpty() || IsChannel(one.c_str()))
 			return true;
 
-		CONTACT user = { one, NULL, NULL, false, false, false };
+		CONTACT user = { one, nullptr, nullptr, false, false, false };
 		MCONTACT hContact2 = CList_AddContact(&user, false, false);
 		if (hContact2) {
 			if (getByte(hContact, "AdvancedMode", 0) == 0)
@@ -585,7 +585,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		// if it is not dcc or if it is dcc and a local ip exist
 		if (mir_wstrcmpi(two.c_str(), L"dcc") != 0 || ulAdr) {
 			if (mir_wstrcmpi(two.c_str(), L"ping") == 0)
-				mir_snwprintf(szTemp, L"/PRIVMSG %s \001%s %u\001", one.c_str(), two.c_str(), time(0));
+				mir_snwprintf(szTemp, L"/PRIVMSG %s \001%s %u\001", one.c_str(), two.c_str(), time(nullptr));
 			else
 				mir_snwprintf(szTemp, L"/PRIVMSG %s \001%s\001", one.c_str(), GetWordAddress(text.c_str(), 2));
 			PostIrcMessageWnd(window, hContact, szTemp);
@@ -593,7 +593,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		if (mir_wstrcmpi(two.c_str(), L"dcc") != 0) {
 			mir_snwprintf(szTemp, TranslateT("CTCP %s request sent to %s"), two.c_str(), one.c_str());
-			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 		}
 
 		return true;
@@ -613,7 +613,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 				ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 			if (ulAdr) {
-				CONTACT user = { two, NULL, NULL, false, false, true };
+				CONTACT user = { two, nullptr, nullptr, false, false, true };
 				MCONTACT ccNew = CList_AddContact(&user, false, false);
 				if (ccNew) {
 					CMStringW s;
@@ -641,14 +641,14 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 						wchar_t* pp[2];
 						wchar_t* p = (wchar_t*)temp.c_str();
 						pp[0] = p;
-						pp[1] = NULL;
+						pp[1] = nullptr;
 						CallService(MS_FILE_SENDSPECIFICFILEST, ccNew, (LPARAM)pp);
 					}
 				}
 			}
 			else {
 				mir_snwprintf(szTemp, TranslateT("DCC ERROR: Unable to automatically resolve external IP"));
-				DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 			}
 			return true;
 		}
@@ -664,7 +664,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 			if (ulAdr) {
 				CMStringW contact = two;  contact += DCCSTRING;
-				CONTACT user = { contact, NULL, NULL, false, false, true };
+				CONTACT user = { contact, nullptr, nullptr, false, false, true };
 				MCONTACT ccNew = CList_AddContact(&user, false, false);
 				setByte(ccNew, "DCC", 1);
 
@@ -687,16 +687,16 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 				if (iPort != 0) {
 					PostIrcMessage(L"/CTCP %s DCC CHAT chat %u %u", two.c_str(), ulAdr, iPort);
 					mir_snwprintf(szTemp, TranslateT("DCC CHAT request sent to %s"), two.c_str(), one.c_str());
-					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+					DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 				}
 				else {
 					mir_snwprintf(szTemp, TranslateT("DCC ERROR: Unable to bind port"));
-					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+					DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 				}
 			}
 			else {
 				mir_snwprintf(szTemp, TranslateT("DCC ERROR: Unable to automatically resolve external IP"));
-				DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 			}
 		}
 		return true;
@@ -723,9 +723,9 @@ static void __stdcall DoInputRequestAliasApcStub(void* _par)
 	CIrcProto *ppro = param->ppro;
 	wchar_t* str = param->str;
 
-	wchar_t* infotext = NULL;
-	wchar_t* title = NULL;
-	wchar_t* defaulttext = NULL;
+	wchar_t* infotext = nullptr;
+	wchar_t* title = nullptr;
+	wchar_t* defaulttext = nullptr;
 	CMStringW command = (wchar_t*)str;
 	wchar_t* p = wcsstr((wchar_t*)str, L"%question");
 	if (p[9] == '=' && p[10] == '\"') {
@@ -788,7 +788,7 @@ bool CIrcProto::PostIrcMessage(const wchar_t* fmt, ...)
 	mir_vsnwprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
-	return PostIrcMessageWnd(NULL, NULL, szBuf);
+	return PostIrcMessageWnd(nullptr, NULL, szBuf);
 }
 
 bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wchar_t *szBuf)

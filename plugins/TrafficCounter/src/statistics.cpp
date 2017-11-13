@@ -37,9 +37,9 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		// Создаём ListBox c перечнем аккаунтов.
 		hListAccs = CreateWindowEx(WS_EX_CLIENTEDGE,
 			L"ListBox",
-			NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | LBS_NOTIFY,
+			nullptr, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_TABSTOP | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | LBS_NOTIFY,
 			2, 20, 246, 112,
-			hwndDlg, NULL, NULL, NULL);
+			hwndDlg, nullptr, nullptr, nullptr);
 		SendMessage(hListAccs, WM_SETFONT, (WPARAM)(HFONT)GetStockObject(DEFAULT_GUI_FONT), 0);
 		for (i = 0; i < NumberOfAccounts; i++) {
 			// Готовим список аккаунтов
@@ -135,7 +135,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				GetLocalTime(&stNow);
 				for (i = NumberOfAccounts; i--;)
 					if (0x01 & (Stat_SelAcc >> i)) {
-						SetFilePointer(ProtoList[i].hFile, sizeof(HOURLYSTATS), NULL, FILE_BEGIN);
+						SetFilePointer(ProtoList[i].hFile, sizeof(HOURLYSTATS), nullptr, FILE_BEGIN);
 						SetEndOfFile(ProtoList[i].hFile); // Усекаем файл до одной записи.
 						ProtoList[i].NumberOfRecords = 1;
 						ProtoList[i].AllStatistics = (HOURLYSTATS*)mir_realloc(ProtoList[i].AllStatistics, sizeof(HOURLYSTATS));
@@ -186,30 +186,30 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							Index = Stat_GetStartIndex(EldestAcc, unOptions.Stat_Tab, pdi->item.iItem, &st);
 							switch (unOptions.Stat_Tab) {
 							case 0: // Hourly
-								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szBufW, 32);
+								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, nullptr, szBufW, 32);
 								mir_snwprintf(pdi->item.pszText, 32, L"%s %02d:00 - %02d:59",
 									szBufW,
 									ProtoList[EldestAcc].AllStatistics[Index].Hour,
 									ProtoList[EldestAcc].AllStatistics[Index].Hour);
 								break;
 							case 1: // Dayly
-								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, pdi->item.pszText, 32);
+								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, nullptr, pdi->item.pszText, 32);
 								break;
 							case 2: // Weekly
 								// Уходим к первому понедельнику слева.
 								SystemTimeToVariantTime(&st, &vartime);
 								vartime -= DayOfWeek(st.wDay, st.wMonth, st.wYear) - 1;
 								VariantTimeToSystemTime(vartime, &st);
-								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, pdi->item.pszText, 32);
+								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, nullptr, pdi->item.pszText, 32);
 								// Теперь к воскресенью.
 								SystemTimeToVariantTime(&st, &vartime);
 								vartime += 6;
 								VariantTimeToSystemTime(vartime, &st);
-								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szBufW, 32);
+								GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, nullptr, szBufW, 32);
 								mir_snwprintf(pdi->item.pszText, 32, L"%s - %s", pdi->item.pszText, szBufW);
 								break;
 							case 3: // Monthly
-								GetDateFormat(LOCALE_USER_DEFAULT, DATE_YEARMONTH, &st, NULL, pdi->item.pszText, 32);
+								GetDateFormat(LOCALE_USER_DEFAULT, DATE_YEARMONTH, &st, nullptr, pdi->item.pszText, 32);
 								break;
 							case 4:	// Yearly
 								mir_snwprintf(pdi->item.pszText, 32, L"%d", st.wYear);
@@ -306,14 +306,14 @@ void Stat_ReadFile(BYTE n)
 	mir_free(pszPath);
 	GetLocalTime(&stNow);
 	ProtoList[n].hFile = CreateFile(FileName, GENERIC_READ | GENERIC_WRITE,
-		FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	GetFileSizeEx(ProtoList[n].hFile, &Size);
 	if (Size.QuadPart != 0) // Если файл со статистикой существует и имеет ненулевой размер...
 	{
 		// ...то читаем статистику из файла
 		ProtoList[n].NumberOfRecords = DWORD(Size.QuadPart / sizeof(HOURLYSTATS));
 		ProtoList[n].AllStatistics = (HOURLYSTATS*)mir_alloc(sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords);
-		ReadFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[0], sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords, &BytesRead, NULL);
+		ReadFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[0], sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords, &BytesRead, nullptr);
 		if (!BytesRead) {
 			MessageBox(TrafficHwnd, TranslateT("Couldn't read statistics file"), TranslateT("Traffic Counter"), MB_OK);
 			return;
@@ -384,8 +384,8 @@ void Stat_CheckStatistics(BYTE n)
 	// Если текущее время совпадает со временем последней записи...
 	if (!d) {
 		// ...сохраняем запись в файл и уходим.
-		SetFilePointer(ProtoList[n].hFile, -LONG(sizeof(HOURLYSTATS)), NULL, FILE_END);
-		WriteFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, NULL);
+		SetFilePointer(ProtoList[n].hFile, -LONG(sizeof(HOURLYSTATS)), nullptr, FILE_END);
+		WriteFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, nullptr);
 		return;
 	}
 
@@ -412,8 +412,8 @@ void Stat_CheckStatistics(BYTE n)
 
 	if (d > 0) {
 		// Сохраняем.
-		SetFilePointer(ProtoList[n].hFile, -LONG(sizeof(HOURLYSTATS)), NULL, FILE_END);
-		WriteFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, NULL);
+		SetFilePointer(ProtoList[n].hFile, -LONG(sizeof(HOURLYSTATS)), nullptr, FILE_END);
+		WriteFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], sizeof(HOURLYSTATS), &q, nullptr);
 
 		// Последняя запись из статистики понадобится для вычисления новых записей, поэтому копируем её (кроме трафика и времени).
 		memcpy(&htTmp, &ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1],
@@ -442,7 +442,7 @@ void Stat_CheckStatistics(BYTE n)
 			stLast.wYear = htTmp.Year;
 
 			// Добавляем записи одновременно в ОЗУ и в файл.
-			WriteFile(ProtoList[n].hFile, &htTmp, sizeof(HOURLYSTATS), &q, NULL);
+			WriteFile(ProtoList[n].hFile, &htTmp, sizeof(HOURLYSTATS), &q, nullptr);
 			memcpy(&ProtoList[n].AllStatistics[ProtoList[n].NumberOfRecords - 1], &htTmp, sizeof(HOURLYSTATS));
 
 		} while (TimeCompare(stNow, stLast));

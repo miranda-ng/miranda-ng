@@ -165,19 +165,19 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 {
 	DB::CEnumList Modules;
 
-	if (!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, NULL))
+	if (!DlgExImModules_SelectModulesToExport(ExImContact, &Modules, nullptr))
 	{
 		FILE *file;
 		errno_t err = fopen_s(&file, pszFileName, "wt");
 		if (err != NULL)
 		{
-			MsgErr(NULL, 
+			MsgErr(nullptr, 
 				LPGENW("The ini-file \"%s\"\nfor saving contact information could not be opened."),
 				pszFileName);
 			return 1;
 		}
 		
-		SetCursor(LoadCursor(NULL, IDC_WAIT));
+		SetCursor(LoadCursor(nullptr, IDC_WAIT));
 
 		// write header
 		SYSTEMTIME now;
@@ -208,7 +208,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 			ExportContact(ExImContact->hContact, &Modules, file);
 
 		fclose(file);
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	}
 	return 0;
 }
@@ -226,7 +226,7 @@ LPSTR strnrchr(LPSTR string, int ch, DWORD len)
 	while (--string != start && *string != (CHAR)ch);
 		if (*string == (CHAR)ch)		/* char found ? */
 			return ((LPSTR)string);
-	return(NULL);
+	return(nullptr);
 }
 
 /**
@@ -327,7 +327,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 	// check Module and filter "Protocol"
 	if (!pszModule || !*pszModule || mir_strncmp(pszModule, "Protocol", 8) == 0)
 		return 1;
-	if ((end = value = mir_strchr(pszLine, '=')) == NULL)
+	if ((end = value = mir_strchr(pszLine, '=')) == nullptr)
 		return 1;
 
 	// truncate setting string if it has spaces at the end
@@ -407,8 +407,8 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 			dbv.pbVal = (PBYTE)value;
 			for ( dest = dbv.pbVal, value = strtok(value, " ");
 					value && *value;
-					value = strtok(NULL, " "))
-				*(dest++) = (BYTE)strtol(value, NULL, 16);
+					value = strtok(nullptr, " "))
+				*(dest++) = (BYTE)strtol(value, nullptr, 16);
 			*dest = 0;
 			break;
 		}
@@ -439,7 +439,7 @@ int SvcExImINI_Import(MCONTACT hContact, LPCSTR pszFileName)
 				numContactsAdded		= 0;		// number of contacts, that were added to the database
 		CHAR	*strBuf					= (CHAR *) mir_alloc(1);
 				*strBuf					= 0;
-		SetCursor(LoadCursor(NULL, IDC_WAIT));
+		SetCursor(LoadCursor(nullptr, IDC_WAIT));
 
 		while (ImportreadLine(file, strBuf)) {
 			numLines++;
@@ -495,23 +495,23 @@ int SvcExImINI_Import(MCONTACT hContact, LPCSTR pszFileName)
 		} //end while
 		fclose(file);
 		mir_free(strBuf);
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
 		// the contact was not found in the file
 		if (numContactsInFile > 0 && !numContactsAdded) {
-			MsgErr(NULL,
+			MsgErr(nullptr,
 				LPGENW("None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported"),
 				numContactsInFile);
 		}
 		// Import complete
 		else{
-			MsgBox(NULL, MB_ICON_INFO, LPGENW("Import complete"), LPGENW("Some basic statistics"),
+			MsgBox(nullptr, MB_ICON_INFO, LPGENW("Import complete"), LPGENW("Some basic statistics"),
 				LPGENW("Added %d of %d contacts stored in the ini-file."),
 				numContactsAdded, numContactsInFile);
 		}
 		return 0;
 	}
-	MsgErr(NULL, 
+	MsgErr(nullptr, 
 		LPGENW("The ini-file \"%s\"\nfor reading contact information could not be opened."),
 		pszFileName);
 	return 1;

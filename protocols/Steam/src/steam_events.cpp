@@ -69,7 +69,7 @@ int CSteamProto::OnIdleChanged(WPARAM, LPARAM lParam)
 		CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
 
 		// Compute time when user really became idle
-		m_idleTS = time(0) - mii.idleTime * 60;
+		m_idleTS = time(nullptr) - mii.idleTime * 60;
 		setDword("IdleTS", m_idleTS);
 	}
 	else

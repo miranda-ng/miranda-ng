@@ -241,7 +241,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 						ListView_EnsureVisible(hwnd, idx, FALSE);
 						if (timerID != 0)
 							KillTimer(hwnd, timerID);
-						timerID = SetTimer(hwnd, 1, 1500, 0);
+						timerID = SetTimer(hwnd, 1, 1500, nullptr);
 						return TRUE;
 					}
 				}

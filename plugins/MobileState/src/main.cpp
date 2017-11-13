@@ -21,7 +21,7 @@
 
 HINSTANCE g_hInst;
 int hLangpack;
-HANDLE hExtraIcon = NULL;
+HANDLE hExtraIcon = nullptr;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),

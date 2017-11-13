@@ -78,10 +78,10 @@ void CGlobals::reloadSystemStartup()
 	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
 
-	HDC hScrnDC = GetDC(0);
+	HDC hScrnDC = GetDC(nullptr);
 	m_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
 	m_DPIscaleY = GetDeviceCaps(hScrnDC, LOGPIXELSY) / 96.0;
-	ReleaseDC(0, hScrnDC);
+	ReleaseDC(nullptr, hScrnDC);
 
 	reloadSettings(false);
 	reloadAdv();
@@ -173,7 +173,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_visualMessageSizeIndicator = M.GetByte("msgsizebar", 0);
 	m_autoSplit = M.GetByte("autosplit", 0);
 	m_FlashOnMTN = M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
-	if (m_MenuBar == 0) {
+	if (m_MenuBar == nullptr) {
 		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
@@ -191,7 +191,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_fillColor = M.GetDword(FONTMODULE, "fillColor", 0);
 	if (CSkin::m_BrushFill) {
 		::DeleteObject(CSkin::m_BrushFill);
-		CSkin::m_BrushFill = 0;
+		CSkin::m_BrushFill = nullptr;
 	}
 	m_genericTxtColor = M.GetDword(FONTMODULE, "genericTxtClr", GetSysColor(COLOR_BTNTEXT));
 	m_cRichBorders = M.GetDword(FONTMODULE, "cRichBorders", 0);
@@ -220,7 +220,7 @@ void CGlobals::reloadAdv()
 
 const HMENU CGlobals::getMenuBar()
 {
-	if (m_MenuBar == 0) {
+	if (m_MenuBar == nullptr) {
 		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
 		TranslateMenu(m_MenuBar);
 	}
@@ -248,7 +248,7 @@ void CGlobals::hookSystemEvents()
 
 int CGlobals::TopToolbarLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	ttb.pszService = MS_TABMSG_TRAYSUPPORT;
 	ttb.name = "TabSRMM session list";
@@ -276,7 +276,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	CSkin::initAeroEffect();
 
 	for (int i = 0; i < NR_BUTTONBARICONS; i++)
-		PluginConfig.g_buttonBarIcons[i] = 0;
+		PluginConfig.g_buttonBarIcons[i] = nullptr;
 	::LoadIconTheme();
 	::CreateImageList(TRUE);
 	::CB_InitCustomButtons();
@@ -299,7 +299,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (M.GetByte("avatarmode", -1) == -1)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 
-	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP, 0, 0, 40, 40, 0, 0, g_hInst, nullptr);
+	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, L"TSHK", L"", WS_POPUP, 0, 0, 40, 40, nullptr, nullptr, g_hInst, nullptr);
 
 	::CreateTrayMenus(TRUE);
 	if (nen_options.bTraySupport)
@@ -316,7 +316,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	if (sendLater->isAvail()) {
 		SET_UID(mi, 0x8f32b04e, 0x314e, 0x42eb, 0x89, 0xc6, 0x56, 0x21, 0xf5, 0x1a, 0x2f, 0x22);
 		mi.position = -500050006;
-		mi.hIcolibItem = 0;
+		mi.hIcolibItem = nullptr;
 		mi.name.a = LPGEN("&Send later job list...");
 		mi.pszService = MS_TABMSG_SLQMGR;
 		PluginConfig.m_UserMenuItem = Menu_AddMainMenuItem(&mi);
@@ -449,7 +449,7 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM)
 		if (pDlg) {
 			pDlg->UpdateTitle();
 			::PostMessage(pDlg->GetHwnd(), DM_UPDATEPICLAYOUT, 0, 0);
-			InvalidateRect(pDlg->GetHwnd(), 0, TRUE); // force redraw
+			InvalidateRect(pDlg->GetHwnd(), nullptr, TRUE); // force redraw
 		}
 	}
 	return 0;
@@ -544,7 +544,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 {
-	if (c == 0)
+	if (c == nullptr)
 		return;
 
 	CSrmmWindow *dat = c->getDat();
@@ -566,7 +566,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 
 	wchar_t *szOldStatus = pcli->pfnGetStatusModeDescription(wOldStatus, 0);
 	wchar_t *szNewStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
-	if (szOldStatus == 0 || szNewStatus == 0)
+	if (szOldStatus == nullptr || szNewStatus == nullptr)
 		return;
 
 	CMStringW text;

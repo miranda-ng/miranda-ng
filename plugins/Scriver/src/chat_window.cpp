@@ -164,11 +164,11 @@ void CChatRoomDlg::MessageDialogResize(int w, int h)
 	int logBottom = (m_hwndIeview != nullptr) ? toolbarTopY / 2 : toolbarTopY;
 
 	HDWP hdwp = BeginDeferWindowPos(5);
-	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), 0, 1, 0, bNick ? w - m_pParent->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), 0, w - m_pParent->iSplitterX + 2, 0, m_pParent->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), 0, w - m_pParent->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), 0, 0, h - m_pParent->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), 0, 1, h - m_pParent->iSplitterY + SPLITTER_HEIGHT, w - 2, m_pParent->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_log.GetHwnd(), nullptr, 1, 0, bNick ? w - m_pParent->iSplitterX - 1 : w - 2, logBottom, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), nullptr, w - m_pParent->iSplitterX + 2, 0, m_pParent->iSplitterX - 3, toolbarTopY, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), nullptr, w - m_pParent->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - m_pParent->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
+	hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - m_pParent->iSplitterY + SPLITTER_HEIGHT, w - 2, m_pParent->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	EndDeferWindowPos(hdwp);
 
 	SetButtonsPos(m_hwnd, m_hContact, bToolbar);

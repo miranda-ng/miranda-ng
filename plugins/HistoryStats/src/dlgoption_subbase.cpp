@@ -31,7 +31,7 @@ INT_PTR CALLBACK DlgOption::SubBase::staticDlgProc(HWND hDlg, UINT msg, WPARAM w
 }
 
 DlgOption::SubBase::SubBase() :
-	m_pParent(NULL), m_hWnd(NULL)
+	m_pParent(nullptr), m_hWnd(nullptr)
 {
 }
 

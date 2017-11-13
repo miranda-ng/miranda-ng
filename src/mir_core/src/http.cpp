@@ -23,8 +23,8 @@ static const char szHexDigits[] = "0123456789ABCDEF";
 
 MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 {
-	if (szUrl == NULL)
-		return NULL;
+	if (szUrl == nullptr)
+		return nullptr;
 
 	const BYTE *s;
 	int outputLen;
@@ -37,8 +37,8 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 	}
 
 	char *szOutput = (char*)mir_alloc(outputLen+1);
-	if (szOutput == NULL)
-		return NULL;
+	if (szOutput == nullptr)
+		return nullptr;
 
 	char *d = szOutput;
 	for (s = (const BYTE*)szUrl; *s; s++) {
@@ -63,24 +63,24 @@ static char cb64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
 
 MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen)
 {
-	if (input == NULL)
-		return NULL;
+	if (input == nullptr)
+		return nullptr;
 
 	unsigned outputLen = mir_base64_encode_bufsize(inputLen);
 	char *output = (char*)mir_alloc(outputLen);
-	if (output == NULL)
-		return NULL;
+	if (output == nullptr)
+		return nullptr;
 
 	return mir_base64_encodebuf(input, inputLen, output, outputLen);
 }
 
 MIR_CORE_DLL(char*) mir_base64_encodebuf(const BYTE *input, unsigned inputLen, char *output, unsigned outputLen)
 {
-	if (input == NULL)
-		return NULL;
+	if (input == nullptr)
+		return nullptr;
 
 	if (outputLen < mir_base64_encode_bufsize(inputLen))
-		return NULL;
+		return nullptr;
 
 	char *p = output;
 	for (unsigned i=0; i < inputLen; ) {
@@ -128,8 +128,8 @@ static BYTE Base64DecodeTable[] =
 
 MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen)
 {
-	if (input == NULL)
-		return NULL;
+	if (input == nullptr)
+		return nullptr;
 
 	size_t length = strlen(input);
 	size_t nLength = (length / 4) * 3;
@@ -161,7 +161,7 @@ MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen)
 
 	*p = 0;
 
-	if (outputLen != NULL)
+	if (outputLen != nullptr)
 		*outputLen = p - output;
 
 	return output;

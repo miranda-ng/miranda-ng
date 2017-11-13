@@ -18,12 +18,12 @@ static CQuotesProviderGoogle* get_google_provider()
 	}
 
 	assert(!"We should never get here!");
-	return NULL;
+	return nullptr;
 }
 
-CQuotesProviderGoogle::CQuoteSection get_quotes(const CQuotesProviderGoogle* pProvider = NULL)
+CQuotesProviderGoogle::CQuoteSection get_quotes(const CQuotesProviderGoogle* pProvider = nullptr)
 {
-	if (NULL == pProvider)
+	if (nullptr == pProvider)
 		pProvider = get_google_provider();
 
 	if (pProvider) {
@@ -242,7 +242,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 		case NM_CLICK:
 			if (IDC_SYSLINK_PROVIDER == wp) {
 				PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
-				::ShellExecute(hDlg, L"open", pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
+				::ShellExecute(hDlg, L"open", pNMLink->item.szUrl, nullptr, nullptr, SW_SHOWNORMAL);
 			}
 			break;
 		}
@@ -255,11 +255,11 @@ INT_PTR QuotesMenu_CurrencyConverter(WPARAM, LPARAM)
 {
 	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX, true);
 	HWND hWnd = WindowList_Find(hWL, NULL);
-	if (NULL != hWnd) {
+	if (nullptr != hWnd) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 	}
-	else CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CURRENCY_CONVERTER), NULL, CurrencyConverterDlgProc, 0);
+	else CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CURRENCY_CONVERTER), nullptr, CurrencyConverterDlgProc, 0);
 
 	return 0;
 }

@@ -116,7 +116,7 @@ static tabcolors[] =
 	{ COLOR_3DFACE, "tab_bg_active", "tab_bg_active" },
 	{ COLOR_3DFACE, "tab_bg_hottrack", "tab_bg_hottrack" },
 	{ COLOR_3DFACE, "tab_bg_unread", "tab_bg_unread" },
-	{ 0, 0, nullptr }
+	{ 0, nullptr, nullptr }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -418,7 +418,7 @@ static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int
 		if (iStateId != PBS_NORMAL)
 			tabdat->helperGlowItem->Render(hDC, prcBox, true);
 	}
-	else if (tabdat->hTheme != 0) {
+	else if (tabdat->hTheme != nullptr) {
 		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, nullptr);
 	}
 
@@ -432,7 +432,7 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
 {
 	HRESULT hResult = 0;
 
-	if (tabdat->hTheme != 0)
+	if (tabdat->hTheme != nullptr)
 		hResult = DrawThemeBackground(tabdat->hTheme, hDC, iPartId, iStateId, prcBox, nullptr);
 
 	return hResult;
@@ -548,7 +548,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 			SetDIBits(hdcTemp, hbmTemp, nStart, 50 - nLenSub, pcImg, &biOut, DIB_RGB_COLORS);
 			mir_free(pcImg);
 		}
-		CImageItem tempItem(10, 10, 10, 10, hdcTemp, 0, IMAGE_FLAG_DIVIDED | IMAGE_FILLSOLID,
+		CImageItem tempItem(10, 10, 10, 10, hdcTemp, nullptr, IMAGE_FLAG_DIVIDED | IMAGE_FILLSOLID,
 			GetSysColorBrush(COLOR_3DFACE), 255, 30, 80, 50, 100);
 
 		if (PluginConfig.m_bIsVista) // hide right tab sheet shadow (only draw the actual border line)
@@ -616,7 +616,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 
 	tabdat->fAeroTabs = (CSkin::m_fAeroSkinsValid && (isAero || PluginConfig.m_fillColor)) ? TRUE : FALSE;
 	tabdat->fCloseButton = (tabdat->pContainer->dwFlagsEx & TCF_CLOSEBUTTON ? TRUE : FALSE);
-	tabdat->helperDat = 0;
+	tabdat->helperDat = nullptr;
 
 	if (tabdat->fAeroTabs) {
 		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(tabdat->pContainer->m_hwndActive, GWLP_USERDATA);
@@ -656,7 +656,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	HBITMAP bmpMem, bmpOld;
 	if (CMimAPI::m_haveBufferedPaint) {
 		hpb = tabdat->hbp = CSkin::InitiateBufferedPaint(hdcreal, rctPage, hdc);
-		bmpMem = bmpOld = 0;
+		bmpMem = bmpOld = nullptr;
 	}
 	else {
 		hpb = nullptr;
@@ -724,7 +724,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		if (PluginConfig.m_fillColor)
 			DrawCustomTabPage(hdc, rcClient);
 		else
-			DrawThemesXpTabItem(hdc, &rcClient, uiFlags, tabdat, 0);	// TABP_PANE=9,0,'TAB'
+			DrawThemesXpTabItem(hdc, &rcClient, uiFlags, tabdat, nullptr);	// TABP_PANE=9,0,'TAB'
 		if (tabdat->bRefreshWithoutClip)
 			goto skip_tabs;
 	}
@@ -847,7 +847,7 @@ page_done:
 			continue;
 
 		TabCtrl_GetItem(hwnd, i, &tci);
-		CSrmmWindow *dat = 0;
+		CSrmmWindow *dat = nullptr;
 		if (tci.lParam)
 			dat = (CSrmmWindow*)GetWindowLongPtr((HWND)tci.lParam, GWLP_USERDATA);
 		TabCtrl_GetItemRect(hwnd, i, &rcItem);
@@ -877,7 +877,7 @@ page_done:
 		rctActive.bottom -= PluginConfig.tabConfig.m_bottomAdjust;
 	}
 	if (rctActive.left >= 0) {
-		CSrmmWindow *dat = 0;
+		CSrmmWindow *dat = nullptr;
 		int nHint = 0;
 
 		rcItem = rctActive;
@@ -964,11 +964,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		tabdat->m_VisualStyles = FALSE;
 		if (IsThemeActive()) {
 			tabdat->m_VisualStyles = TRUE;
-			if (tabdat->hTheme != 0) {
+			if (tabdat->hTheme != nullptr) {
 				CloseThemeData(tabdat->hTheme);
 				CloseThemeData(tabdat->hThemeButton);
 			}
-			if ((tabdat->hTheme = OpenThemeData(hwnd, L"TAB")) == 0 || (tabdat->hThemeButton = OpenThemeData(hwnd, L"BUTTON")) == 0)
+			if ((tabdat->hTheme = OpenThemeData(hwnd, L"TAB")) == nullptr || (tabdat->hThemeButton = OpenThemeData(hwnd, L"BUTTON")) == nullptr)
 				tabdat->m_VisualStyles = FALSE;
 		}
 		return 0;
@@ -980,7 +980,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		// it is sufficient to search it once. So this message is called, whenever
 		// a new tab is inserted
 		HWND hwndChild;
-		if ((hwndChild = FindWindowEx(hwnd, 0, L"msctls_updown32", nullptr)) != 0)
+		if ((hwndChild = FindWindowEx(hwnd, nullptr, L"msctls_updown32", nullptr)) != nullptr)
 			DestroyWindow(hwndChild);
 
 		return 0;
@@ -1018,7 +1018,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_DESTROY:
 		if (tabdat) {
-			if (tabdat->hTheme != 0) {
+			if (tabdat->hTheme != nullptr) {
 				CloseThemeData(tabdat->hTheme);
 				CloseThemeData(tabdat->hThemeButton);
 			}
@@ -1051,7 +1051,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 		KillTimer(hwnd, TIMERID_HOVER_T);
 		if (tabdat->pContainer && (!tabdat->pContainer->SideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->dwFlags & CNT_HIDETABS))))
-			SetTimer(hwnd, TIMERID_HOVER_T, 750, 0);
+			SetTimer(hwnd, TIMERID_HOVER_T, 750, nullptr);
 		break;
 
 	case WM_SIZE:
@@ -1173,7 +1173,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		if (tabdat->himlDrag) {
 			ImageList_RemoveAll(tabdat->himlDrag);
 			ImageList_Destroy(tabdat->himlDrag);
-			tabdat->himlDrag = 0;
+			tabdat->himlDrag = nullptr;
 		}
 		break;
 
@@ -1226,7 +1226,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			if (tabdat->himlDrag) {
 				ImageList_RemoveAll(tabdat->himlDrag);
 				ImageList_Destroy(tabdat->himlDrag);
-				tabdat->himlDrag = 0;
+				tabdat->himlDrag = nullptr;
 			}
 		}
 		if (tabdat->fCloseButton) {
@@ -1266,7 +1266,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					/*
 					 * get the message window data for the session to which this tab item belongs
 					 */
-					CSrmmWindow *dat = 0;
+					CSrmmWindow *dat = nullptr;
 					if (IsWindow((HWND)item.lParam) && item.lParam != 0)
 						dat = (CSrmmWindow*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
 					if (dat) {

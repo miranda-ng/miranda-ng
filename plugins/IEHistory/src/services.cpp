@@ -31,15 +31,15 @@ INT_PTR ShowContactHistoryService(WPARAM wParam, LPARAM)
 {
 	Log("%s", "Entering function " __FUNCTION__);
 	HWND historyDlg;
-	HWND parent = NULL;
+	HWND parent = nullptr;
 	historyDlg = WindowList_Find(hOpenWindowsList, (MCONTACT)wParam);
-	if (historyDlg == NULL){
+	if (historyDlg == nullptr){
 		int count = db_get_dw(NULL, ModuleName, "EventsToLoad", 0);
 		int loadInBackground = db_get_b(NULL, ModuleName, "UseWorkerThread", 0);
 		HistoryWindowData *data;
 		data = (HistoryWindowData *)malloc(sizeof(HistoryWindowData));
 		data->contact = (MCONTACT)wParam;
-		data->hIEView = NULL;
+		data->hIEView = nullptr;
 		data->itemsPerPage = count;
 		data->index = 0;
 		data->count = 0;

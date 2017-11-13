@@ -30,7 +30,7 @@ INT_PTR ShowSplashService(WPARAM wparam, LPARAM lparam)
 	options.showtime = timetoshow;
 
 	wchar_t *pos = wcsrchr(filename, ':');
-	if (pos == NULL)
+	if (pos == nullptr)
 		mir_snwprintf(szSplashFile, L"%s\\%s", szMirDir, filename);
 	else
 		mir_wstrcpy(szSplashFile, filename);

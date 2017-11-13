@@ -3,7 +3,7 @@
 
 CLCDBitmap::CLCDBitmap()
 {
-	m_hBitmap = NULL;
+	m_hBitmap = nullptr;
 }
 
 CLCDBitmap::~CLCDBitmap()
@@ -43,6 +43,6 @@ bool CLCDBitmap::Draw(CLCDGfx *pGfx)
 
 void CLCDBitmap::SetBitmap(HBITMAP hBitmap)
 {
-    ASSERT(NULL != hBitmap);
+    ASSERT(nullptr != hBitmap);
     m_hBitmap = hBitmap;
 }

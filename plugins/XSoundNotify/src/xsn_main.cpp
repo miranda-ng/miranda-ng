@@ -12,8 +12,8 @@ There is no warranty.
 HINSTANCE hInst;
 int hLangpack;
 LIST<XSN_Data> XSN_Users(10, NumericKeySortT);
-HGENMENU hChangeSound = NULL;
-MWindowList hChangeSoundDlgList = NULL;
+HGENMENU hChangeSound = nullptr;
+MWindowList hChangeSoundDlgList = nullptr;
 BYTE isIgnoreSound = 0, isOwnSound = 0, isIgnoreAccSound = 0, isAccSound = 0;
 
 CLIST_INTERFACE *pcli;
@@ -68,7 +68,7 @@ void InitSelfSounds()
 {
 	// initializing self sounds for protocols
 	int protoCount = 0;
-	PROTOACCOUNT** protos = 0;
+	PROTOACCOUNT** protos = nullptr;
 
 	Proto_EnumAccounts(&protoCount, &protos);
 	for (int i = 0; i < protoCount; i++) {
@@ -86,7 +86,7 @@ void InitSelfSounds()
 static int ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if (ack != 0 && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
+	if (ack != nullptr && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
 		for (int i = 0; i < _countof(selfSounds); i++) {
 			if (selfSounds[i].iStatus == ack->lParam) {
 				char buf[128];
@@ -157,7 +157,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 	MCONTACT hContact = pci->FindRoom(gce->pszModule, gce->ptszID);
 	if (hContact != 0) {
 		ptrW nick(db_get_wsa(hContact, gce->pszModule, "MyNick"));
-		if (nick == NULL || gce->ptszText == NULL)
+		if (nick == NULL || gce->ptszText == nullptr)
 			return 0;
 		if (wcsstr(gce->ptszText, nick)) {
 			isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);

@@ -22,7 +22,7 @@
 
 int hLangpack;
 
-TalkBot* bot = NULL;
+TalkBot* bot = nullptr;
 
 #define MAX_WARN_TEXT    1024
 #define MAX_MIND_FILE    1024
@@ -80,7 +80,7 @@ wchar_t* GetFullName(const wchar_t *filename)
 static bool LoadMind(const wchar_t* filename, int &line)
 {
 	wchar_t* fullname = GetFullName(filename);
-	HCURSOR newCur = LoadCursor(NULL, MAKEINTRESOURCE(IDC_WAIT));
+	HCURSOR newCur = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_WAIT));
 	HCURSOR oldCur = SetCursor(newCur);
 	#ifdef DEBUG_LOAD_TIME
 	unsigned __int64 t = __rdtsc();
@@ -207,7 +207,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 
 	dbei.pBlob = (PBYTE)malloc(dbei.cbBlob);
-	if (dbei.pBlob == NULL)
+	if (dbei.pBlob == nullptr)
 		return 0;
 
 	db_event_get(hDbEvent, &dbei);
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				if (!bTranslated) {
 					wchar_t message[5000];
 					mir_snwprintf(message, TranslateW(FAILED_TO_LOAD_BASE), line, c);
-					MessageBox(NULL, message, TranslateW(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
+					MessageBox(nullptr, message, TranslateW(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 				}
 			}
 			break;
@@ -508,14 +508,14 @@ static int MessagePrebuild(WPARAM hContact, LPARAM)
 	}
 	else {
 		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE))
-			Menu_ModifyItem(hMenuItemAutoChat, NULL, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
+			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
 		else
-			Menu_ModifyItem(hMenuItemAutoChat, NULL, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
+			Menu_ModifyItem(hMenuItemAutoChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
 
 		if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE))
-			Menu_ModifyItem(hMenuItemNotToChat, NULL, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
+			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_TICK), CMIF_CHECKED);
 		else
-			Menu_ModifyItem(hMenuItemNotToChat, NULL, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
+			Menu_ModifyItem(hMenuItemNotToChat, nullptr, Skin_LoadIcon(SKINICON_OTHER_NOTICK), 0);
 	}
 	return 0;
 }
@@ -559,7 +559,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		SET_UID(mi, 0x9e0117f3, 0xb7df, 0x4f1b, 0xae, 0xec, 0xc4, 0x72, 0x59, 0x72, 0xc8, 0x58);
 		mi.flags = CMIF_NOTOFFLINE;
 		mi.position = -50010000; //TODO: check the warning
-		mi.hIcolibItem = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
+		mi.hIcolibItem = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_RECVMSG));
 		mi.name.a = BOLTUN_START_CHATTING;
 		mi.pszService = SERV_CONTACT_START_CHATTING;
 		hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);
@@ -570,7 +570,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!blInit) {
 		wchar_t path[2000];
 		mir_snwprintf(path, TranslateW(FAILED_TO_LOAD_BASE), line, (const wchar_t*)Config.MindFileName);
-		MessageBox(NULL, path, TranslateW(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
+		MessageBox(nullptr, path, TranslateW(BOLTUN_ERROR), MB_ICONERROR | MB_TASKMODAL | MB_OK);
 	}
 	return 0;
 }
@@ -578,7 +578,7 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	if (pTimer)
-		KillTimer(NULL, pTimer);
+		KillTimer(nullptr, pTimer);
 	if (blInit) {
 		#if 0 //No need to save, we don't have studying algorithm
 		if (Config.MindFileName && !SaveMind(Config.MindFileName)) {

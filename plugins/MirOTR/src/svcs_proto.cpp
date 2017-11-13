@@ -38,9 +38,9 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 			oldmessage = tmpencode;
 	}
 	
-	char *newmessage = NULL;
+	char *newmessage = nullptr;
 	char *username = contact_get_id(ccs->hContact);
-	gcry_error_t err = otrl_message_sending(otr_user_state, &ops, (void*)ccs->hContact, proto, proto, username, OTRL_INSTAG_BEST, oldmessage, NULL, &newmessage, OTRL_FRAGMENT_SEND_ALL_BUT_LAST, NULL, add_appdata, (void*)ccs->hContact);
+	gcry_error_t err = otrl_message_sending(otr_user_state, &ops, (void*)ccs->hContact, proto, proto, username, OTRL_INSTAG_BEST, oldmessage, nullptr, &newmessage, OTRL_FRAGMENT_SEND_ALL_BUT_LAST, nullptr, add_appdata, (void*)ccs->hContact);
 	mir_free(username);
 	
 	if (err) { /* Be *sure* not to send out plaintext */
@@ -50,7 +50,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 		return 1;
 	}
 	
-	if (newmessage == NULL)
+	if (newmessage == nullptr)
 		return Proto_ChainSend(wParam, ccs);
 	
 	if(!newmessage[0]){
@@ -96,10 +96,10 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	if (!oldmessage)
 		return 1;
 
-	ConnContext* context=NULL;
+	ConnContext* context=nullptr;
 	char *uname = contact_get_id(ccs->hContact);
-	char *newmessage = NULL;
-	OtrlTLV *tlvs = NULL;
+	char *newmessage = nullptr;
+	OtrlTLV *tlvs = nullptr;
 	
 	lib_cs_lock();
 	int ignore_msg = otrl_message_receiving(otr_user_state, &ops, (void*)ccs->hContact,
@@ -122,7 +122,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 			otrl_message_free(newmessage);
 		return 1; // discard internal protocol messages
 	}
-	if (newmessage == NULL)
+	if (newmessage == nullptr)
 		return Proto_ChainRecv(wParam, ccs);
 	
 	DWORD oldflags = pre->flags;

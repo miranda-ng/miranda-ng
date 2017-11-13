@@ -179,7 +179,7 @@ static void _AniAva_AnimationTreadProc(void*)
 	Netlib_Logf(nullptr, "AnimationTreadProc thread start");
 
 	// wait forever till hExitEvent signalled
-	HANDLE hThread = 0;
+	HANDLE hThread = nullptr;
 	s_AnimationThreadID = GetCurrentThreadId();
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 	s_AnimationThreadHandle = hThread;
@@ -235,7 +235,7 @@ static INT_PTR _AniAva_CreateAvatarWindowSync_Worker(WPARAM tszName, LPARAM)
 
 static HWND _AniAva_CreateAvatarWindowSync(wchar_t *szFileName)
 {
-	if (s_AnimationThreadHandle == 0 || s_AnimationThreadID == 0)
+	if (s_AnimationThreadHandle == nullptr || s_AnimationThreadID == 0)
 		return nullptr;
 
 	ANIAVA_SYNCCALLITEM item = { 0 };

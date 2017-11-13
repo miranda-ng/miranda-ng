@@ -27,10 +27,10 @@ PROTO<OmegleProto>(proto_name, username)
 {
 	this->facy.parent = this;
 
-	this->signon_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->log_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->facy.connection_lock_ = CreateMutex(NULL, FALSE, NULL);
-	this->events_loop_lock_ = CreateMutex(NULL, FALSE, NULL);
+	this->signon_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	this->log_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	this->facy.connection_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	this->events_loop_lock_ = CreateMutex(nullptr, FALSE, nullptr);
 
 	// Group chats
 	CreateProtoService(PS_JOINCHAT, &OmegleProto::OnJoinChat);
@@ -49,10 +49,10 @@ PROTO<OmegleProto>(proto_name, username)
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	if (m_hNetlibUser == NULL) {
+	if (m_hNetlibUser == nullptr) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	facy.set_handle(m_hNetlibUser);
@@ -171,7 +171,7 @@ int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
 	gcr.nColors = 0;
-	gcr.pColors = NULL;
+	gcr.pColors = nullptr;
 	Chat_Register(&gcr);
 
 	return 0;

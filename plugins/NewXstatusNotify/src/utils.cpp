@@ -28,7 +28,7 @@ bool CheckMsgWnd(MCONTACT hContact)
 	if (Srmm_GetWindowData(hContact, mwd) != NULL)
 		return false;
 
-	if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
+	if (mwd.hwndWindow != nullptr && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
 		return true;
 
 	return false;
@@ -49,14 +49,14 @@ int DBGetStringDefault(MCONTACT hContact, const char *szModule, const char *szSe
 
 void ShowLog(wchar_t *file)
 {
-	INT_PTR res = (INT_PTR)ShellExecute(NULL, L"open", file, NULL, NULL, SW_SHOW);
+	INT_PTR res = (INT_PTR)ShellExecute(nullptr, L"open", file, nullptr, nullptr, SW_SHOW);
 	if (res <= 32) // error
-		MessageBox(0, TranslateT("Can't open the log file!"), TranslateT("NewXstatusNotify"), MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, TranslateT("Can't open the log file!"), TranslateT("NewXstatusNotify"), MB_OK | MB_ICONERROR);
 }
 
 BOOL StatusHasAwayMessage(char *szProto, int status)
 {
-	if (szProto != NULL) {
+	if (szProto != nullptr) {
 		unsigned long iSupportsSM = (unsigned long)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0);
 		return (iSupportsSM & Proto_Status2Flag(status)) ? TRUE : FALSE;
 	}
@@ -87,7 +87,7 @@ void LogToFile(wchar_t *stzText)
 
 void AddCR(CMStringW &str, const wchar_t *stzText)
 {
-	if (stzText == NULL)
+	if (stzText == nullptr)
 		return;
 	
 	CMStringW res(stzText);

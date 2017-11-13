@@ -172,14 +172,14 @@ void CChatScreen::UpdateLabels()
 
 	tstring strProto = L"";
 	tstring strStatus = L"";
-	if(szProto != NULL)
+	if(szProto != nullptr)
 	{
 		strProto = L"(" + toTstring(szProto) + L")";
 		m_iStatus = db_get_w(m_hContact,szProto,"Status",ID_STATUS_OFFLINE);
 	}
 	
 	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(m_iStatus, 0);
-	if(szStatus != NULL)
+	if(szStatus != nullptr)
 		strStatus = toTstring(szStatus);
 
 	m_UserName.SetText(strNickname.c_str());
@@ -459,7 +459,7 @@ void CChatScreen::ActivateMessageMode()
 {
 	m_InfoText.Show(0);
 	m_TextLog.Show(0);
-	m_TextLog.SetScrollbar(NULL);
+	m_TextLog.SetScrollbar(nullptr);
 	m_Input.SetScrollbar(&m_Scrollbar);
 
 	if(m_eReplyState != REPLY_STATE_FAILED)
@@ -532,7 +532,7 @@ void CChatScreen::DeactivateMessageMode()
 {
 	m_Input.Reset();
 
-	m_Input.SetScrollbar(NULL);
+	m_Input.SetScrollbar(nullptr);
 	m_TextLog.SetScrollbar(&m_Scrollbar);
 
 	m_TextLog.Show(1);

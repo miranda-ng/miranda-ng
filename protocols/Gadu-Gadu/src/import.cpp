@@ -22,7 +22,7 @@
 
 char *gg_makecontacts(GGPROTO *gg, int cr)
 {
-	string_t s = string_init(NULL);
+	string_t s = string_init(nullptr);
 	char *contacts;
 
 	// Readup contacts
@@ -125,7 +125,7 @@ char *strndup(char *str, int c)
 
 void GGPROTO::parsecontacts(char *contacts)
 {
-	char *p = strchr(contacts, ':'), *n = NULL;
+	char *p = strchr(contacts, ':'), *n = nullptr;
 	char *strFirstName, *strLastName, *strNickname, *strNick, *strPhone, *strGroup, *strUin, *strMail;
 	uin_t uin;
 
@@ -136,7 +136,7 @@ void GGPROTO::parsecontacts(char *contacts)
 	while(p)
 	{
 		// Processing line
-		strFirstName = strLastName = strNickname = strNick = strPhone = strGroup = strUin = strMail = NULL;
+		strFirstName = strLastName = strNickname = strNick = strPhone = strGroup = strUin = strMail = nullptr;
 		uin = 0;
 
 		// FirstName
@@ -205,7 +205,7 @@ void GGPROTO::parsecontacts(char *contacts)
 			n = strchr(p, '\n');
 			p = (n + 1);
 		}
-		if (!n) p = NULL;
+		if (!n) p = nullptr;
 
 		// Loadup contact
 		if (uin && strNick)
@@ -256,7 +256,7 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 	// Check if connected
 	if (!isonline())
 	{
-		MessageBox(NULL,
+		MessageBox(nullptr,
 			TranslateT("You have to be connected before you can import/export contacts from/to server."),
 			m_tszUserName, MB_OK | MB_ICONSTOP
 		);
@@ -274,12 +274,12 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 
 	// Making contacts list
 	gg_EnterCriticalSection(&sess_mutex, "import_server", 65, "sess_mutex", 1);
-	if (gg_userlist_request(sess, GG_USERLIST_GET, NULL) == -1)
+	if (gg_userlist_request(sess, GG_USERLIST_GET, nullptr) == -1)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
-		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
+		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLogW(L"import_server(): Cannot import list. errno:%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 2, "sess_mutex", 1);
@@ -294,7 +294,7 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline()) {
-		MessageBox(NULL,
+		MessageBox(nullptr,
 			TranslateT("You have to be connected before you can import/export contacts from/to server."),
 			m_tszUserName, MB_OK | MB_ICONSTOP
 		);
@@ -312,12 +312,12 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 
 	// Making contacts list
 	gg_EnterCriticalSection(&sess_mutex, "remove_server", 66, "sess_mutex", 1);
-	if (gg_userlist_request(sess, GG_USERLIST_PUT, NULL) == -1)
+	if (gg_userlist_request(sess, GG_USERLIST_PUT, nullptr) == -1)
 	{
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), ws_strerror(errno), errno);
-		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
+		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLogW(L"remove_server(): Cannot remove list. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 2, "sess_mutex", 1);
@@ -384,14 +384,14 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 		parsecontacts(contacts);
 		mir_free(contacts);
 
-		MessageBox(NULL, TranslateT("List import successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, TranslateT("List import successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 		return 0;
 	}
 	else
 	{
 		wchar_t error[256];
 		mir_snwprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
-		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
+		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLogW(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 		if (f)
 			fclose(f);
@@ -447,13 +447,13 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 		fclose(f);
 		free(contacts);
 
-		MessageBox(NULL, TranslateT("List export successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, TranslateT("List export successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 	else
 	{
 		wchar_t error[128];
 		mir_snwprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _tcserror(errno), errno);
-		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
+		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLogW(L"export_text(): Cannot export list to file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 	}
 
@@ -468,7 +468,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 	// Check if connected
 	if (!isonline())
 	{
-		MessageBox(NULL,
+		MessageBox(nullptr,
 			TranslateT("You have to be connected before you can import/export contacts from/to server."),
 			m_tszUserName, MB_OK | MB_ICONSTOP
 		);
@@ -497,7 +497,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
-		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
+		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
 		debugLogW(L"export_server(): Cannot export list. errno=%d: %s", errno, ws_strerror(errno));
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 2, "sess_mutex", 1);

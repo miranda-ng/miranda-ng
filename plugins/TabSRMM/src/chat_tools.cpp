@@ -158,7 +158,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 				return 0;
 		}
 	}
-	if (dat && pContainer != 0) {                // message window is open, need to check the container config if we want to see a popup nonetheless
+	if (dat && pContainer != nullptr) {                // message window is open, need to check the container config if we want to see a popup nonetheless
 		if (nen_options.bWindowCheck) {                  // no popups at all for open windows... no exceptions
 			if (!PluginConfig.m_bHideOnClose)
 				return 0;
@@ -207,7 +207,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 	if (si == nullptr)
 		return;
 
-	CTabBaseDlg *dat = 0;
+	CTabBaseDlg *dat = nullptr;
 	if (si->pDlg) {
 		dat = si->pDlg;
 		if (dat) {
@@ -288,7 +288,7 @@ void DoFlashAndSoundWorker(FLASH_PARAMS *p)
 
 BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix)
 {
-	if (gce == 0 || si == 0 || gce->bIsMe || si->iType == GCW_SERVER)
+	if (gce == nullptr || si == nullptr || gce->bIsMe || si->iType == GCW_SERVER)
 		return FALSE;
 
 	CTabBaseDlg *dat = nullptr;
@@ -565,7 +565,7 @@ bool IsHighlighted(SESSION_INFO *si, GCEVENT *gce)
 		if (si && g_Settings.bLogClassicIndicators) {
 			size_t len = mir_wstrlen(gce->ptszNick) + 1;
 			wchar_t *tmp = (wchar_t*)_alloca(sizeof(wchar_t)*(len + 1));
-			*tmp = GetIndicator(si, gce->ptszNick, 0);
+			*tmp = GetIndicator(si, gce->ptszNick, nullptr);
 			mir_wstrcpy(tmp + 1, gce->ptszNick);
 			evTmp.ptszNick = tmp;
 		}

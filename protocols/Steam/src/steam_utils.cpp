@@ -52,14 +52,14 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 {
 	DWORD cchModulus = (DWORD)mir_strlen(pszModulus);
 	int result = 0;
-	BYTE *pbBuffer = 0;
-	BYTE *pKeyBlob = 0;
+	BYTE *pbBuffer = nullptr;
+	BYTE *pKeyBlob = nullptr;
 	HCRYPTKEY phKey = 0;
 	HCRYPTPROV hCSP = 0;
 
 	// convert hex string to byte array
 	DWORD cbLen = 0, dwSkip = 0, dwFlags = 0;
-	if (!CryptStringToBinaryA(pszModulus, cchModulus, CRYPT_STRING_HEX, NULL, &cbLen, &dwSkip, &dwFlags))
+	if (!CryptStringToBinaryA(pszModulus, cchModulus, CRYPT_STRING_HEX, nullptr, &cbLen, &dwSkip, &dwFlags))
 	{
 		result = GetLastError();
 		goto exit;
@@ -81,8 +81,8 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 		pbBuffer[i] = temp;
 	}
 	
-	if (!CryptAcquireContext(&hCSP, NULL, NULL, PROV_RSA_AES, CRYPT_SILENT) &&
-		!CryptAcquireContext(&hCSP, NULL, NULL, PROV_RSA_AES, CRYPT_SILENT | CRYPT_NEWKEYSET))
+	if (!CryptAcquireContext(&hCSP, nullptr, nullptr, PROV_RSA_AES, CRYPT_SILENT) &&
+		!CryptAcquireContext(&hCSP, nullptr, nullptr, PROV_RSA_AES, CRYPT_SILENT | CRYPT_NEWKEYSET))
 	{
 		result = GetLastError();
 		goto exit;
@@ -121,10 +121,10 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 	DWORD dataSize = (DWORD)mir_strlen(data);
 
 	// if data is not allocated just renurn size
-	if (encryptedData == NULL)
+	if (encryptedData == nullptr)
 	{
 		// get length of encrypted data
-		if (!CryptEncrypt(phKey, 0, TRUE, 0, NULL, &encryptedSize, dataSize))
+		if (!CryptEncrypt(phKey, 0, TRUE, 0, nullptr, &encryptedSize, dataSize))
 			result = GetLastError();
 		goto exit;
 	}
@@ -176,7 +176,7 @@ void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 			return;
 	}
 
-	MessageBox(NULL, message, caption, MB_OK | flags);
+	MessageBox(nullptr, message, caption, MB_OK | flags);
 }
 
 void CSteamProto::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)

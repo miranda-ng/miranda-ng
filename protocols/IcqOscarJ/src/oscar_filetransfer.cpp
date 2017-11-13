@@ -60,8 +60,8 @@ char* FindFilePathContainer(const char **files, int iFile, char *szContainer)
 			if (!_strnicmp(files[i], szThisFile, len) && (szThisFile[len] == '\\' || szThisFile[len] == '/')) {
 				const char *pszLastBackslash;
 
-				if (((pszLastBackslash = strrchr(files[i], '\\')) == NULL) &&
-					 ((pszLastBackslash = strrchr(files[i], '/')) == NULL)) {
+				if (((pszLastBackslash = strrchr(files[i], '\\')) == nullptr) &&
+					 ((pszLastBackslash = strrchr(files[i], '/')) == nullptr)) {
 					mir_strcpy(szContainer, files[i]);
 				}
 				else {
@@ -130,7 +130,7 @@ oscar_filetransfer* CIcqProto::FindOscarTransfer(MCONTACT hContact, DWORD dwID1,
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // Release file transfer structure
@@ -155,7 +155,7 @@ void CIcqProto::SafeReleaseFileTransfer(basic_filetransfer **bft)
 				for (int i = 0; i < (int)ift->dwFileCount; i++) {
 					// szThisFile can be a duplicate of pszFiles[i]
 					if (ift->szThisFile == ift->pszFiles[i])
-						ift->szThisFile = NULL;
+						ift->szThisFile = nullptr;
 					SAFE_FREE(&ift->pszFiles[i]);
 				}
 				SAFE_FREE((void**)&ift->pszFiles);
@@ -269,13 +269,13 @@ oscar_listener* CIcqProto::CreateOscarListener(oscar_filetransfer *ft, NETLIBNEW
 	if (listener) {
 		listener->ppro = this;
 		listener->ft = ft;
-		if (listener->hBoundPort = NetLib_BindPort(handler, listener, &listener->wPort, NULL))
+		if (listener->hBoundPort = NetLib_BindPort(handler, listener, &listener->wPort, nullptr))
 			return listener; // Success
 
 		SAFE_FREE((void**)&listener);
 	}
 
-	return NULL; // Failure
+	return nullptr; // Failure
 }
 
 
@@ -285,7 +285,7 @@ void CIcqProto::ReleaseOscarListener(oscar_listener **pListener)
 	if (listener) { // Close listening port
 		if (listener->hBoundPort) {
 			Netlib_CloseHandle(listener->hBoundPort);
-			listener->hBoundPort = NULL;
+			listener->hBoundPort = nullptr;
 		}
 
 		NetLog_Direct("Oscar listener on port %d released.", listener->wPort);
@@ -300,7 +300,7 @@ void CIcqProto::ReleaseOscarListener(oscar_listener **pListener)
 
 void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *szUID, DWORD dwID1, DWORD dwID2, WORD wCommand)
 {
-	MCONTACT hContact = HContactFromUID(dwUin, szUID, NULL);
+	MCONTACT hContact = HContactFromUID(dwUin, szUID, nullptr);
 
 	if (wCommand == 0) { // this is OFT request
 		oscar_tlv_chain* chain = readIntoTLVChain(&buf, wLen, 0);
@@ -310,8 +310,8 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 
 			if (wAckType == 1) { // This is first request in this OFT
 				oscar_filetransfer *ft = CreateOscarTransfer();
-				char *pszFileName = NULL;
-				char *pszDescription = NULL;
+				char *pszFileName = nullptr;
+				char *pszDescription = nullptr;
 
 				debugLogA("This is a file request");
 
@@ -479,7 +479,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, size_t wLen, DWORD dwUin, char *
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
-				pre.timestamp = time(NULL);
+				pre.timestamp = time(nullptr);
 				pre.descr.w = mir_utf8decodeW(pszDescription);
 				pre.files.w = &ptszFileName;
 				pre.lParam = (LPARAM)ft;
@@ -737,7 +737,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 
 		// Release transfer
 		SafeReleaseFileTransfer((basic_filetransfer**)&ft);
-		return 0; // Failure
+		return nullptr; // Failure
 	}
 #ifdef __GNUC__
 #define OSCAR_MAX_SIZE 0x100000000ULL
@@ -751,7 +751,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 
 		// Release transfer
 		SafeReleaseFileTransfer((basic_filetransfer**)&ft);
-		return 0; // Failure
+		return nullptr; // Failure
 	}
 
 	debugLogA("OFT: Found %d files.", ft->wFilesCount);
@@ -799,7 +799,7 @@ HANDLE CIcqProto::oftInitTransfer(MCONTACT hContact, DWORD dwUin, char* szUid, c
 			if (nFirstDirLen) { // got root dir from first container, check if others are only sub-dirs
 				for (i = 0; i < ft->containerCount; i++) {
 					if (_strnicmp((char*)ft->file_containers[i], (char*)szFirstDir, nFirstDirLen)) {
-						szFirstDir = NULL;
+						szFirstDir = nullptr;
 						break;
 					}
 				}
@@ -838,10 +838,10 @@ HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_
 	DWORD dwUin;
 	uid_str szUid;
 	if (getContactUid(hContact, &dwUin, &szUid))
-		return 0; // Invalid contact
+		return nullptr; // Invalid contact
 
 	if (!IsValidOscarTransfer(ft))
-		return 0; // Invalid transfer
+		return nullptr; // Invalid transfer
 
 	ft->szSavePath = make_utf8_string(szPath);
 
@@ -916,7 +916,7 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const wchar_t 
 {
 	int openFlags;
 
-	if (ft->connection == NULL)
+	if (ft->connection == nullptr)
 		return;
 
 	oscar_connection *oc = ft->connection;
@@ -1012,7 +1012,7 @@ static void oft_buildProtoFileTransferStatus(oscar_filetransfer* ft, PROTOFILETR
 	if (ft->flags & OFTF_SENDING)
 		pfts->pszFiles = ft->files_list;
 	else
-		pfts->pszFiles = NULL;  /* FIXME */
+		pfts->pszFiles = nullptr;  /* FIXME */
 	pfts->totalFiles = ft->wFilesCount;
 	pfts->currentFileNumber = ft->iCurrentFile;
 	pfts->totalBytes = ft->qwTotalSize;
@@ -1154,10 +1154,10 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 				nloc.szHost = inet_ntoa(addr);
 				nloc.wPort = oc.ft->wRemotePort;
 				nloc.timeout = 8; // 8 secs to connect
-				oc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, oc.type == OCT_REVERSE ? "Reverse " : NULL, &nloc);
+				oc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, oc.type == OCT_REVERSE ? "Reverse " : nullptr, &nloc);
 				if (!oc.hConnection && addr2.S_un.S_addr) { // first address failed, try second one if available
 					nloc.szHost = inet_ntoa(addr2);
-					oc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, oc.type == OCT_REVERSE ? "Reverse " : NULL, &nloc);
+					oc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, oc.type == OCT_REVERSE ? "Reverse " : nullptr, &nloc);
 				}
 				if (!oc.hConnection) {
 					if (oc.type == OCT_NORMAL) { // connection failed, try reverse
@@ -1321,7 +1321,7 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 	{
 		mir_cslock l(oftMutex);
 		if (m_arFileTransfers.indexOf(oc.ft) != -1)
-			oc.ft->connection = NULL; // release link
+			oc.ft->connection = nullptr; // release link
 	}
 	// Give server some time for abort/cancel to arrive
 	SleepEx(1000, TRUE);

@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 INT_PTR CAimProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	char** msgptr = get_status_msg_loc(wParam ? wParam : m_iStatus);
-	if (msgptr == NULL)	return 0;
+	if (msgptr == nullptr)	return 0;
 
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_utf8decodeW(*msgptr) : (INT_PTR)mir_utf8decodeA(*msgptr);
 }
@@ -128,22 +128,22 @@ int CAimProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 			char *name;
 			switch (cws->value.type) {
 			case DBVT_DELETED:
-				set_local_nick(hContact, NULL, NULL);
+				set_local_nick(hContact, nullptr, nullptr);
 				break;
 
 			case DBVT_ASCIIZ:
 				name = mir_utf8encode(cws->value.pszVal);
-				set_local_nick(hContact, name, NULL);
+				set_local_nick(hContact, name, nullptr);
 				mir_free(name);
 				break;
 
 			case DBVT_UTF8:
-				set_local_nick(hContact, cws->value.pszVal, NULL);
+				set_local_nick(hContact, cws->value.pszVal, nullptr);
 				break;
 
 			case DBVT_WCHAR:
 				name = mir_utf8encodeW(cws->value.pwszVal);
-				set_local_nick(hContact, name, NULL);
+				set_local_nick(hContact, name, nullptr);
 				mir_free(name);
 				break;
 			}
@@ -191,7 +191,7 @@ int CAimProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 	CLISTGROUPCHANGE *grpchg = (CLISTGROUPCHANGE*)lParam;
 
 	if (hContact == NULL) {
-		if (grpchg->pszNewName == NULL && grpchg->pszOldName != NULL) {
+		if (grpchg->pszNewName == nullptr && grpchg->pszOldName != nullptr) {
 			T2Utf szOldName(grpchg->pszOldName);
 			unsigned short group_id = m_group_list.find_id(szOldName);
 			if (group_id) {
@@ -200,7 +200,7 @@ int CAimProto::OnGroupChange(WPARAM hContact, LPARAM lParam)
 				update_server_group("", 0);
 			}
 		}
-		else if (grpchg->pszNewName != NULL && grpchg->pszOldName != NULL) {
+		else if (grpchg->pszNewName != nullptr && grpchg->pszOldName != nullptr) {
 			unsigned short group_id = m_group_list.find_id(T2Utf(grpchg->pszOldName));
 			if (group_id)
 				update_server_group(T2Utf(grpchg->pszNewName), group_id);
@@ -254,7 +254,7 @@ INT_PTR CAimProto::BlockBuddy(WPARAM hContact, LPARAM)
 		}
 		else {
 			item_id = m_block_list.add(dbv.pszVal);
-			aim_add_contact(m_hServerConn, m_seqno, dbv.pszVal, item_id, 0, 3, false);
+			aim_add_contact(m_hServerConn, m_seqno, dbv.pszVal, item_id, 0, 3, nullptr);
 		}
 		break;
 
@@ -281,7 +281,7 @@ INT_PTR CAimProto::BlockBuddy(WPARAM hContact, LPARAM)
 
 INT_PTR CAimProto::JoinChatUI(WPARAM, LPARAM)
 {
-	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHAT), NULL, join_chat_dialog, LPARAM(this));
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHAT), nullptr, join_chat_dialog, LPARAM(this));
 	return 0;
 }
 
@@ -316,13 +316,13 @@ INT_PTR CAimProto::OnLeaveChat(WPARAM wParam, LPARAM)
 
 INT_PTR CAimProto::InstantIdle(WPARAM, LPARAM)
 {
-	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_IDLE), NULL, instant_idle_dialog, LPARAM(this));
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_IDLE), nullptr, instant_idle_dialog, LPARAM(this));
 	return 0;
 }
 
 INT_PTR CAimProto::ManageAccount(WPARAM, LPARAM)
 {
-	ShellExecuteA(NULL, "open", "https://my.screenname.aol.com", NULL, NULL, SW_SHOW);
+	ShellExecuteA(nullptr, "open", "https://my.screenname.aol.com", nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 
@@ -336,7 +336,7 @@ INT_PTR CAimProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (getByte(AIM_KEY_DA, 0))
 		return GAIR_NOAVATAR;
 
-	switch (get_avatar_filename(pai->hContact, pai->filename, _countof(pai->filename), NULL)) {
+	switch (get_avatar_filename(pai->hContact, pai->filename, _countof(pai->filename), nullptr)) {
 	case GAIR_SUCCESS:
 		if (!(wParam & GAIF_FORCE) || m_state != 1)
 			return GAIR_SUCCESS;
@@ -394,7 +394,7 @@ INT_PTR CAimProto::GetAvatar(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t* buf = (wchar_t*)wParam;
 	size_t size = (size_t)lParam;
-	if (buf == NULL || size <= 0)
+	if (buf == nullptr || size <= 0)
 		return -1;
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
@@ -413,16 +413,16 @@ INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 	if (m_state != 1)
 		return 1;
 
-	if (szFileName == NULL) {
+	if (szFileName == nullptr) {
 		aim_ssi_update(m_hServerConn, m_seqno, true);
 		aim_delete_avatar_hash(m_hServerConn, m_seqno, 1, 1, m_avatar_id_sm);
 		aim_delete_avatar_hash(m_hServerConn, m_seqno, 1, 12, m_avatar_id_lg);
 		aim_ssi_update(m_hServerConn, m_seqno, false);
 
-		avatar_request_handler(NULL, NULL, 0);
+		avatar_request_handler(NULL, nullptr, 0);
 	}
 	else {
-		char hash[16], hash1[16], *data, *data1 = NULL;
+		char hash[16], hash1[16], *data, *data1 = nullptr;
 		unsigned short size, size1 = 0;
 
 		if (!get_avatar_hash(szFileName, hash, &data, size)) {
@@ -447,7 +447,7 @@ INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 			aim_ssi_update(m_hServerConn, m_seqno, false);
 		}
 		else {
-			mir_free(m_hash_lg); m_hash_lg = NULL;
+			mir_free(m_hash_lg); m_hash_lg = nullptr;
 			mir_free(m_hash_sm); m_hash_sm = bytes_to_string(hash, sizeof(hash1));
 
 			aim_ssi_update(m_hServerConn, m_seqno, true);
@@ -456,7 +456,7 @@ INT_PTR CAimProto::SetAvatar(WPARAM, LPARAM lParam)
 			aim_ssi_update(m_hServerConn, m_seqno, false);
 		}
 
-		avatar_request_handler(NULL, NULL, 0);
+		avatar_request_handler(NULL, nullptr, 0);
 
 		avatar_up_req *req = new avatar_up_req(data, size, data1, size1);
 		ForkThread(&CAimProto::avatar_upload_thread, req);

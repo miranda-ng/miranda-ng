@@ -48,7 +48,7 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 	char *szNet, *szEmail;
 
 	wcsncpy(info->mChatID, _A2T(pszID), _countof(info->mChatID));
-	parseWLID(NEWSTR_ALLOCA(pszID), &szNet, &szEmail, NULL);
+	parseWLID(NEWSTR_ALLOCA(pszID), &szNet, &szEmail, nullptr);
 	info->netId = atoi(szNet);
 	strncpy(info->szEmail, szEmail, sizeof(info->szEmail));
 
@@ -77,7 +77,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 	// If Chat ID already exists, don'T create a new one
 	const char *pszID = ezxml_txt(ezxml_child(xmli, "id"));
 	GCThreadData* info = MSN_GetThreadByChatId(_A2T(pszID));
-	if (info == NULL) {
+	if (info == nullptr) {
 		info = new GCThreadData;
 		{
 			mir_cslock lck(m_csThreads);
@@ -91,10 +91,10 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 
 	const char *pszCreator = ezxml_txt(ezxml_get(xmli, "properties", 0, "creator", -1));
 
-	for (ezxml_t memb = ezxml_get(xmli, "members", 0, "member", -1); memb != NULL; memb = ezxml_next(memb)) {
+	for (ezxml_t memb = ezxml_get(xmli, "members", 0, "member", -1); memb != nullptr; memb = ezxml_next(memb)) {
 		const char *mri = ezxml_txt(ezxml_child(memb, "mri"));
 		const char *role = ezxml_txt(ezxml_child(memb, "role"));
-		GCUserItem *gcu = NULL;
+		GCUserItem *gcu = nullptr;
 
 		for (int j = 0; j < info->mJoinedContacts.getCount(); j++) {
 			if (!mir_strcmp(info->mJoinedContacts[j]->WLID, mri)) {
@@ -111,7 +111,7 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 
 		if (pszCreator && !mir_strcmp(mri, pszCreator)) info->mCreator = gcu;
 		char* szEmail, *szNet;
-		parseWLID(NEWSTR_ALLOCA(mri), &szNet, &szEmail, NULL);
+		parseWLID(NEWSTR_ALLOCA(mri), &szNet, &szEmail, nullptr);
 		if (!mir_strcmpi(szEmail, GetMyUsername(atoi(szNet))))
 			info->mMe = gcu;
 		gcu->btag = 1;
@@ -156,7 +156,7 @@ const wchar_t *CMsnProto::MSN_GCGetRole(GCThreadData* thread, const char *pszWLI
 			if (!mir_strcmp(thread->mJoinedContacts[j]->WLID, pszWLID))
 				return thread->mJoinedContacts[j]->role;
 
-	return NULL;
+	return nullptr;
 }
 
 void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID)
@@ -166,8 +166,8 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 		GCEVENT gce = { m_szModuleName, mChatID, GC_EVENT_TOPIC };
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.time = MsnTSToUnixtime(ezxml_txt(ezxml_child(xmli, "eventtime")));
-		gce.ptszUID = initiator ? mir_a2u(initiator->txt) : NULL;
-		MCONTACT hContInitiator = MSN_HContactFromEmail(initiator ? initiator->txt : NULL);
+		gce.ptszUID = initiator ? mir_a2u(initiator->txt) : nullptr;
+		MCONTACT hContInitiator = MSN_HContactFromEmail(initiator ? initiator->txt : nullptr);
 		gce.ptszNick = GetContactNameT(hContInitiator);
 		gce.ptszText = mir_a2u(ezxml_txt(ezxml_child(xmli, "value")));
 		Chat_Event(&gce);
@@ -203,7 +203,7 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 
 		if (gce.iType) {
 			gce.time = MsnTSToUnixtime(ezxml_txt(ezxml_child(xmli, "eventtime")));
-			const char *pszTarget = NULL;
+			const char *pszTarget = nullptr;
 
 			while (target) {
 				switch (gce.iType) {
@@ -221,7 +221,7 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 					break;
 				}
 				char *szEmail, *szNet;
-				parseWLID(NEWSTR_ALLOCA(pszTarget), &szNet, &szEmail, NULL);
+				parseWLID(NEWSTR_ALLOCA(pszTarget), &szNet, &szEmail, nullptr);
 				gce.bIsMe = !mir_strcmpi(szEmail, GetMyUsername(atoi(szNet)));
 				gce.ptszUID = mir_a2u(pszTarget);
 				MCONTACT hContTarget = MSN_HContactFromEmail(pszTarget);
@@ -294,7 +294,7 @@ static void ChatInviteUser(ThreadData *thread, GCThreadData* info, const char* w
 
 static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto *ppro)
 {
-	if (hItem == NULL)
+	if (hItem == nullptr)
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
@@ -415,13 +415,13 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDOK:
 			char tEmail[MSN_MAX_EMAIL_LEN]; tEmail[0] = 0;
-			GCThreadData *info = NULL;
+			GCThreadData *info = nullptr;
 			if (param->id)
 				info = param->ppro->MSN_GetThreadByChatId(param->id);
 
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
 			STRLIST *cont = new STRLIST;
-			ChatInviteSend(NULL, hwndList, *cont, param->ppro);
+			ChatInviteSend(nullptr, hwndList, *cont, param->ppro);
 
 			if (info) {
 				for (int i = 0; i < cont->getCount(); ++i)
@@ -460,7 +460,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 	case GC_SESSION_TERMINATE:
 		{
 			GCThreadData* thread = MSN_GetThreadByChatId(gch->ptszID);
-			if (thread != NULL) {
+			if (thread != nullptr) {
 				m_arGCThreads.remove(thread);
 				for (int i = 0; i < thread->mJoinedContacts.getCount(); i++)
 					delete thread->mJoinedContacts[i];
@@ -484,7 +484,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 				gce.dwFlags = GCEF_ADDTOLOG;
 				gce.ptszNick = bError ? L"" : dbv.ptszVal;
 				gce.ptszUID = mir_a2u(MyOptions.szEmail);
-				gce.time = time(NULL);
+				gce.time = time(nullptr);
 				gce.ptszText = gch->ptszText;
 				gce.bIsMe = TRUE;
 				Chat_Event(&gce);
@@ -497,7 +497,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_CHANMGR:
-		DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
+		DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
 			LPARAM(new InviteChatParam(gch->ptszID, NULL, this)));
 		break;
 
@@ -508,7 +508,7 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_LOGMENU:
 		switch (gch->dwData) {
 		case 10:
-			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
+			DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, DlgInviteToChat,
 				LPARAM(new InviteChatParam(gch->ptszID, NULL, this)));
 			break;
 
@@ -551,7 +551,7 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
 
-	if (gcmi == NULL || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
+	if (gcmi == nullptr || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
 
 	if (gcmi->Type == MENU_ON_LOG) {
 		static const struct gc_item Items[] =

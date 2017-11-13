@@ -47,7 +47,7 @@ ext::string OptionsCtrlImpl::Combo::getCombinedText()
 }
 
 OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData)
-	: Item(pCtrl, itCombo, szLabel, dwFlags, dwData), m_hComboWnd(NULL), m_nSelected(-1)
+	: Item(pCtrl, itCombo, szLabel, dwFlags, dwData), m_hComboWnd(nullptr), m_nSelected(-1)
 {
 	m_bDisableChildsOnIndex0 = bool_(dwFlags & OCF_DISABLECHILDSONINDEX0);
 
@@ -88,7 +88,7 @@ void OptionsCtrlImpl::Combo::onSelect()
 		if (hTempWnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE, WC_COMBOBOX, L"", dwStyle,
 			r.left, r.top, r.right - r.left, (r.bottom - r.top) * 20,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccCombo), g_hInst, NULL))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccCombo), g_hInst, nullptr))
 		{
 			vector_each_(i, m_Items)
 			{
@@ -127,9 +127,9 @@ void OptionsCtrlImpl::Combo::onDeselect()
 		m_pCtrl->setNodeText(m_hItem, getCombinedText().c_str());
 
 		DestroyWindow(m_hComboWnd);
-		m_hComboWnd = NULL;
+		m_hComboWnd = nullptr;
 
-		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : NULL, TRUE);
+		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : nullptr, TRUE);
 
 		// enable childs?
 		enableChildsCombo();

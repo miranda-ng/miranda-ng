@@ -24,7 +24,7 @@ struct HWNDStackNode {
 	struct HWNDStackNode *next;
 };
 
-HWNDStackNode *hwnd_stack_top = 0;
+HWNDStackNode *hwnd_stack_top = nullptr;
 int stack_size = 0;
 
 void RepositionWindows() {
@@ -127,7 +127,7 @@ void AddWindowToStack(HWND hwnd) {
 		break;
 	}
 
-	SetWindowPos(hwnd, 0, pop_start_x, pop_start_y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+	SetWindowPos(hwnd, nullptr, pop_start_x, pop_start_y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
 	stack_size++;
 
@@ -136,7 +136,7 @@ void AddWindowToStack(HWND hwnd) {
 
 void RemoveWindowFromStack(HWND hwnd)
 {
-	HWNDStackNode *current = hwnd_stack_top, *prev = 0;
+	HWNDStackNode *current = hwnd_stack_top, *prev = nullptr;
 	while(current) {
 		if (current->hwnd == hwnd) {
 			if (prev)
@@ -171,7 +171,7 @@ void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 void DeinitWindowStack()
 {
 	HWNDStackNode *current = hwnd_stack_top;
-	hwnd_stack_top = NULL;
+	hwnd_stack_top = nullptr;
 	while(current) {
 		HWNDStackNode *pNext = current->next;
 		DestroyWindow(current->hwnd);
@@ -197,7 +197,7 @@ struct PopupWindowData
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	PopupWindowData *pwd = (PopupWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	PopupData *pd = 0;
+	PopupData *pd = nullptr;
 	if (pwd) pd = pwd->pd;
 
 	switch(uMsg) {
@@ -207,7 +207,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pwd = (PopupWindowData *)mir_alloc(sizeof(PopupWindowData));
 			pd = (PopupData *)cs->lpCreateParams;
 			pwd->pd = pd;
-			pwd->hNotify = 0;
+			pwd->hNotify = nullptr;
 
 			trimW(pwd->pd->pwzTitle);
 			trimW(pwd->pd->pwzText);
@@ -237,17 +237,17 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			SYSTEMTIME st;
 			GetLocalTime(&st);
-			GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, 0, pwd->tbuff, 128);
+			GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, nullptr, pwd->tbuff, 128);
 
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pwd);
 
 			// make a really long timeout - say 7 days? ;)
 			if (pd->timeout == -1 || (pd->timeout == 0 && options.default_timeout == -1))
-				SetTimer(hwnd, ID_CLOSETIMER, 7 * 24 * 60 * 60 * 1000, 0);
+				SetTimer(hwnd, ID_CLOSETIMER, 7 * 24 * 60 * 60 * 1000, nullptr);
 			else if (pd->timeout == 0)
-				SetTimer(hwnd, ID_CLOSETIMER, options.default_timeout * 1000, 0);
+				SetTimer(hwnd, ID_CLOSETIMER, options.default_timeout * 1000, nullptr);
 			else
-				SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
+				SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, nullptr);
 
 			AddWindowToStack(hwnd); // this updates our size
 		}
@@ -301,7 +301,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		if (wParam == ID_CLOSETIMER) {
 			KillTimer(hwnd, ID_CLOSETIMER);
 			if (pwd->mouse_in || (options.global_hover && global_mouse_in))
-				SetTimer(hwnd, ID_CLOSETIMER, 800, 0); // reset timer if mouse in window - allow another 800 ms
+				SetTimer(hwnd, ID_CLOSETIMER, 800, nullptr); // reset timer if mouse in window - allow another 800 ms
 			else {
 				PostMessage(hwnd, UM_DESTROYPOPUP, 0, 0);
 			}
@@ -321,7 +321,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (adj_y == 0) adj_y = (pwd->new_y - r.top);
 
 			int x = r.left + adj_x, y = r.top + adj_y;
-			SetWindowPos(hwnd, 0, x, y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
+			SetWindowPos(hwnd, nullptr, x, y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 
 			if (!IsWindowVisible(hwnd)) {
 				ShowWindow(hwnd, SW_SHOWNOACTIVATE);
@@ -436,7 +436,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					iconx = r.left + options.padding;
 					textxmin += 16 + options.padding;
 				}
-				DrawIconEx(ps.hdc, iconx, options.padding + (pwd->tb_height - 16) / 2, pd->hIcon, 16, 16, 0, NULL, DI_NORMAL);
+				DrawIconEx(ps.hdc, iconx, options.padding + (pwd->tb_height - 16) / 2, pd->hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 			}
 
 			// title time
@@ -518,12 +518,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		SendMessage(hwnd, UM_FREEPLUGINDATA, 0, 0);
 
 		if (pd) {
-			pd->SetIcon(NULL);
+			pd->SetIcon(nullptr);
 			mir_free(pd->pwzTitle);
 			mir_free(pd->pwzText);
 			mir_free(pd);
 		}
-		mir_free(pwd); pwd = 0; pd = 0;
+		mir_free(pwd); pwd = nullptr; pd = nullptr;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		break;
 
@@ -548,10 +548,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			KillTimer(hwnd, ID_MOVETIMER);
 			pwd->new_x = (int)wParam;
 			pwd->new_y = (int)lParam;
-			SetTimer(hwnd, ID_MOVETIMER, 10, 0);
+			SetTimer(hwnd, ID_MOVETIMER, 10, nullptr);
 		}
 		else {
-			SetWindowPos(hwnd, 0, (int)wParam, (int)lParam, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
+			SetWindowPos(hwnd, nullptr, (int)wParam, (int)lParam, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
 			if (!IsWindowVisible(hwnd)) { 
 				ShowWindow(hwnd, SW_SHOWNOACTIVATE);
 				UpdateWindow(hwnd);
@@ -561,7 +561,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_SETTEXT:
 		replaceStrW(pd->ptzText, (wchar_t*)lParam);
-		InvalidateRect(hwnd, 0, TRUE);
+		InvalidateRect(hwnd, nullptr, TRUE);
 		RepositionWindows();
 		return TRUE;
 
@@ -649,9 +649,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			RECT r;
 			GetWindowRect(hwnd, &r);
 			if (r.right - r.left != options.win_width || r.bottom - r.top != *pHeight) {
-				SetWindowPos(hwnd, 0, 0, 0, options.win_width, *pHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+				SetWindowPos(hwnd, nullptr, 0, 0, options.win_width, *pHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 				SendMessage(hwnd, PUM_UPDATERGN, 0, 0);
-				InvalidateRect(hwnd, 0, TRUE);
+				InvalidateRect(hwnd, nullptr, TRUE);
 			}
 		}
 		return TRUE;
@@ -676,13 +676,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// make a really long timeout - say 7 days? ;)
 			if (pd->timeout == -1)
-				SetTimer(hwnd, ID_CLOSETIMER, 7 * 24 * 60 * 60 * 1000, 0);
+				SetTimer(hwnd, ID_CLOSETIMER, 7 * 24 * 60 * 60 * 1000, nullptr);
 			else if (pd->timeout == 0)
-				SetTimer(hwnd, ID_CLOSETIMER, 7 * 1000, 0);
+				SetTimer(hwnd, ID_CLOSETIMER, 7 * 1000, nullptr);
 			else
-				SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, 0);
+				SetTimer(hwnd, ID_CLOSETIMER, pd->timeout * 1000, nullptr);
 
-			InvalidateRect(hwnd, 0, TRUE);
+			InvalidateRect(hwnd, nullptr, TRUE);
 			RepositionWindows();
 		}
 		return TRUE;
@@ -699,15 +699,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pd->hContact = (MCONTACT)MNotifyGetDWord(pwd->hNotify, NFOPT_CONTACT, 0);
 			pd->hIcon = (HICON)MNotifyGetDWord(pwd->hNotify, NFOPT_ICON, 0);
 
-			const wchar_t *swzName = MNotifyGetWString(pwd->hNotify, NFOPT_TITLEW, 0);
+			const wchar_t *swzName = MNotifyGetWString(pwd->hNotify, NFOPT_TITLEW, nullptr);
 			mir_free(pd->pwzTitle);
 			pd->pwzTitle = mir_wstrdup(swzName);
 
-			const wchar_t *swzText = MNotifyGetWString(pwd->hNotify, NFOPT_TEXTW, 0);
+			const wchar_t *swzText = MNotifyGetWString(pwd->hNotify, NFOPT_TEXTW, nullptr);
 			mir_free(pd->pwzText);
 			pd->pwzText = mir_wstrdup(swzText);
 
-			InvalidateRect(hwnd, 0, TRUE);
+			InvalidateRect(hwnd, nullptr, TRUE);
 			RepositionWindows();
 		}
 		return TRUE;

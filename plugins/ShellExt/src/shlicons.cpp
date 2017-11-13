@@ -22,14 +22,14 @@ Why didn't they just do this themselves? ...
 
 IWICImagingFactory* ARGB_GetWorker()
 {
-	IWICImagingFactory *res = NULL;
-	CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (void**)&res);
+	IWICImagingFactory *res = nullptr;
+	CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_IWICImagingFactory, (void**)&res);
 	return res;
 }
 
 HBITMAP ARGB_BitmapFromIcon(IWICImagingFactory *Factory, HDC hDC, HICON hIcon)
 {
-	HBITMAP hBmp = NULL;
+	HBITMAP hBmp = nullptr;
 
 	// This code gives an icon to WIC and gets a bitmap object in return, it then creates a DIB section
 	// which is 32bits and the same H*W as the icon. It then asks the bitmap object to copy itself into the DIB }
@@ -40,7 +40,7 @@ HBITMAP ARGB_BitmapFromIcon(IWICImagingFactory *Factory, HDC hDC, HICON hIcon)
 	bmi.bmiHeader.biCompression = BI_RGB;
 	bmi.bmiHeader.biBitCount = 32;
 
-	IWICBitmap *bitmap = NULL;
+	IWICBitmap *bitmap = nullptr;
 	HRESULT hr = Factory->CreateBitmapFromHICON(hIcon, &bitmap);
 	if (hr == S_OK) {
 		int cx, cy;
@@ -50,16 +50,16 @@ HBITMAP ARGB_BitmapFromIcon(IWICImagingFactory *Factory, HDC hDC, HICON hIcon)
 			bmi.bmiHeader.biHeight = -cy;
 
 			void *pbBuffer;
-			hBmp = CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, &pbBuffer, 0, 0);
-			if (hBmp != 0) {
+			hBmp = CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, &pbBuffer, nullptr, 0);
+			if (hBmp != nullptr) {
 				UINT cbStride = cx * sizeof(DWORD); // ARGB = DWORD
 				UINT cbBuffer = cy * cbStride;
 				// note: the pbBuffer memory is owned by the DIB and will be freed when the bitmap is released
-				hr = bitmap->CopyPixels(NULL, cbStride, cbBuffer, (PBYTE)pbBuffer);
+				hr = bitmap->CopyPixels(nullptr, cbStride, cbBuffer, (PBYTE)pbBuffer);
 				if (hr != S_OK) {
 					// the copy failed, delete the DIB
 					DeleteObject(hBmp);
-					hBmp = NULL;
+					hBmp = nullptr;
 				}
 			}
 		}

@@ -24,8 +24,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
 int hLangpack;
-static HANDLE hToolBarItem = 0;
-static HGENMENU hMainMenuItem = 0;
+static HANDLE hToolBarItem = nullptr;
+static HGENMENU hMainMenuItem = nullptr;
 HWND hAddDlg;
 
 static IconItem icon = { LPGEN("Add contact"), ICON_ADD, IDI_ADDCONTACT };
@@ -68,7 +68,7 @@ static INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 		SetForegroundWindow(hAddDlg);
 		SetFocus(hAddDlg);
 	}
-	else hAddDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), NULL, AddContactDlgProc, 0);
+	else hAddDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), nullptr, AddContactDlgProc, 0);
 
 	return 0;
 }
@@ -107,7 +107,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 		Menu_RemoveItem(hMainMenuItem);
 		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hToolBarItem, 0);
-		hMainMenuItem = 0;
+		hMainMenuItem = nullptr;
 	}
 
 	return 0;
@@ -115,7 +115,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 static int CreateButton(WPARAM, LPARAM)
 {
-	TTBButton tbb = { 0 };
+	TTBButton tbb = {};
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Add contact");

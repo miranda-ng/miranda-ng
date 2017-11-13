@@ -38,7 +38,7 @@ static int message_Send(lua_State *L)
 	{
 		DBEVENTINFO dbei = {};
 		dbei.szModule = MODULE;
-		dbei.timestamp = time(NULL);
+		dbei.timestamp = time(nullptr);
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.cbBlob = (DWORD)mir_strlen(message);
 		dbei.pBlob = (PBYTE)mir_strdup(message);
@@ -59,7 +59,7 @@ static luaL_Reg messageApi[] =
 	{ "Paste", message_Paste },
 	{ "Send", message_Send },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_message(lua_State *L)

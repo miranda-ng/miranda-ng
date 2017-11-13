@@ -46,9 +46,9 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
 	HRESULT hr = NOERROR;
 	HRESULT hrT = NOERROR;
 	SCODE sc = 0;
-	LPMAPITABLE lpTable = NULL;
-	LPSRowSet lpRows = NULL;
-	LPENTRYID lpeid = NULL;
+	LPMAPITABLE lpTable = nullptr;
+	LPSRowSet lpRows = nullptr;
+	LPENTRYID lpeid = nullptr;
 	ULONG cbeid = 0;
 	ULONG cRows = 0;
 	ULONG i = 0;
@@ -68,12 +68,12 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
 	if (FAILED(hrT))
 		goto err_out;
 	// Go to the beginning of the recipient table for the envelope
-	hrT = MAPICALL(lpTable)->SeekRow( BOOKMARK_BEGINNING, 0, NULL);
+	hrT = MAPICALL(lpTable)->SeekRow( BOOKMARK_BEGINNING, 0, nullptr);
 	if (FAILED(hrT))
 		goto err_out;
 	// Read all the rows of the table
 	hrT = MAPICALL(lpTable)->QueryRows( cRows, 0, &lpRows);
-	if (SUCCEEDED(hrT) && lpRows != NULL && lpRows->cRows == 0) {
+	if (SUCCEEDED(hrT) && lpRows != nullptr && lpRows->cRows == 0) {
 		hrT = MAPI_E_NOT_FOUND;
 		goto err_out;
 	}
@@ -87,7 +87,7 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
 		sc = MAPIAllocateBuffer(cbeid, (void **)&lpeid);
 		if (FAILED(sc)) {
 			cbeid = 0;
-			lpeid = NULL;
+			lpeid = nullptr;
 		} else {
 			// Copy entry ID of message store
 			memcpy(lpeid, lpRows->aRow[i].lpProps[1].Value.bin.lpb, cbeid);
@@ -96,7 +96,7 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
 	}
 
 err_out:
-	if (lpRows != NULL)
+	if (lpRows != nullptr)
 		FreeProws(lpRows);
 	UlRelease(lpTable);
 	*lpcbeid = cbeid;
@@ -108,28 +108,28 @@ err_out:
 
 CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
 {
-	m_szSender        = NULL ;
-	m_szSubject       = NULL ;
-	m_szEntryID       = NULL ;
+	m_szSender        = nullptr ;
+	m_szSubject       = nullptr ;
+	m_szEntryID       = nullptr ;
 	m_nSizeSender     = 0    ;
 	m_nSizeSubject    = 0    ;
 	m_nSizeEntryID    = 0    ;
  
-	if (NULL != szSender) {
+	if (nullptr != szSender) {
 		m_nSizeSender = (UINT)mir_wstrlen(szSender)+1;
 		m_szSender = new wchar_t[ m_nSizeSender ];
 		memset(m_szSender, 0, m_nSizeSender * sizeof(wchar_t));
 		mir_wstrcpy(m_szSender, szSender);
 	}
 	
-	if (NULL != szSubject) {
+	if (nullptr != szSubject) {
 		m_nSizeSubject = (UINT)mir_wstrlen(szSubject) +1;
 		m_szSubject = new wchar_t[m_nSizeSubject];
 		memset(m_szSubject, 0, m_nSizeSubject * sizeof(wchar_t));
 		mir_wstrcpy(m_szSubject, szSubject);
 	}
 	
-	if (NULL != szEntryID) {
+	if (nullptr != szEntryID) {
 		m_nSizeEntryID = (UINT)mir_strlen( szEntryID ) +1;
 		m_szEntryID = new char[m_nSizeEntryID];
 		memset(m_szEntryID, 0, m_nSizeEntryID * sizeof(char));
@@ -139,36 +139,36 @@ CKeeper::CKeeper( LPTSTR szSender, LPTSTR szSubject, LPSTR szEntryID)
 
 CKeeper::~CKeeper()
 {
-	if ( m_nSizeSender>0 && NULL != m_szSender )
+	if ( m_nSizeSender>0 && nullptr != m_szSender )
 	{
 		m_nSizeSender =0;
 		delete[] m_szSender;
-		m_szSender    = NULL;
+		m_szSender    = nullptr;
 	}
 
-	if ( m_nSizeSubject>0 && NULL != m_szSubject )
+	if ( m_nSizeSubject>0 && nullptr != m_szSubject )
 	{
 		m_nSizeSubject =0;
 		delete[] m_szSubject;
-		m_szSubject   = NULL;
+		m_szSubject   = nullptr;
 	}
 
-	if ( m_nSizeEntryID>0 && NULL != m_szEntryID )
+	if ( m_nSizeEntryID>0 && nullptr != m_szEntryID )
 	{
 		m_nSizeEntryID = 0;
 		delete[] m_szEntryID;
-		m_szEntryID = NULL;
+		m_szEntryID = nullptr;
 	}
 }
 
 CMirandaExchange::CMirandaExchange()
 {
-	m_szUsername       = NULL  ;
-	m_szPassword       = NULL  ;
-	m_szExchangeServer = NULL  ;
-	m_lpMAPISession    = NULL  ;
-	m_lpInbox          = NULL  ;
-	m_lpMDB            = NULL;
+	m_szUsername       = nullptr  ;
+	m_szPassword       = nullptr  ;
+	m_szExchangeServer = nullptr  ;
+	m_lpMAPISession    = nullptr  ;
+	m_lpInbox          = nullptr  ;
+	m_lpMDB            = nullptr;
 	m_bLoginOK         = false ;
 	m_bFolderInboxOK   = false ;
 	m_nNumberOfHeaders = 0     ;
@@ -176,51 +176,51 @@ CMirandaExchange::CMirandaExchange()
 
 CMirandaExchange::~CMirandaExchange()
 {
-	if ( NULL != m_szUsername )
+	if ( nullptr != m_szUsername )
 	{
 		delete[] m_szUsername;
-		m_szUsername = NULL;
+		m_szUsername = nullptr;
 	}
 
-	if ( NULL != m_szPassword )
+	if ( nullptr != m_szPassword )
 	{
 		delete[] m_szPassword;
-		m_szPassword = NULL;
+		m_szPassword = nullptr;
 	}	
 	
-	if ( NULL != m_szExchangeServer )
+	if ( nullptr != m_szExchangeServer )
 	{
 		delete[] m_szExchangeServer;
-		m_szExchangeServer = NULL;
+		m_szExchangeServer = nullptr;
 	}
 
-    if ( NULL != m_lpInbox )
+    if ( nullptr != m_lpInbox )
     {
 		UlRelease(m_lpInbox);
-		m_lpInbox = NULL;
+		m_lpInbox = nullptr;
     }
 
-	if ( NULL != m_lpMDB )
+	if ( nullptr != m_lpMDB )
 	{
 		UlRelease(m_lpMDB );
-		m_lpMDB = NULL;
+		m_lpMDB = nullptr;
 	}
 	
-	if ( NULL!= m_lpMAPISession )
+	if ( nullptr!= m_lpMAPISession )
 	{
 		m_lpMAPISession->Logoff(NULL,NULL,NULL);
 		UlRelease(m_lpMAPISession );
-		m_lpMAPISession = NULL;
+		m_lpMAPISession = nullptr;
 	}
 
 	if ( m_nNumberOfHeaders>0)
 	{
 		for( UINT i=0; i<m_nNumberOfHeaders; i++ )
 		{
-			if ( NULL != m_HeadersKeeper[i])
+			if ( nullptr != m_HeadersKeeper[i])
 			{
 				delete m_HeadersKeeper[i];
-				m_HeadersKeeper[i] = NULL;
+				m_HeadersKeeper[i] = nullptr;
 			}
 		}
 
@@ -237,10 +237,10 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 	if (!lppUnk) return MAPI_E_INVALID_PARAMETER;
 	HRESULT			hRes = S_OK;
 	ULONG			ulObjType = NULL;
-	LPUNKNOWN		lpUnk = NULL;
+	LPUNKNOWN		lpUnk = nullptr;
 	ULONG			ulNoCacheFlags = NULL;
 	
-	*lppUnk = NULL;
+	*lppUnk = nullptr;
 
 	//ulFlags |= MAPI_NO_CACHE;
 	//in case we need to retry without MAPI_NO_CACHE - do not add MAPI_NO_CACHE to ulFlags after this point
@@ -253,7 +253,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		lpMDB->OpenEntry(
 			cbEntryID,
 			lpEntryID,
-			NULL,//no interface
+			nullptr,//no interface
 			ulFlags,
 			&ulObjType,
 			&lpUnk);
@@ -261,11 +261,11 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		{
 			hRes = S_OK;
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 			(lpMDB->OpenEntry(
 				cbEntryID,
 				lpEntryID,
-				NULL,//no interface
+				nullptr,//no interface
 				ulNoCacheFlags,
 				&ulObjType,
 				&lpUnk));
@@ -273,7 +273,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		if (FAILED(hRes))
 		{
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 		}
 	}
 	if (lpAB && !lpUnk)
@@ -283,7 +283,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		(lpAB->OpenEntry(
 			cbEntryID,
 			lpEntryID,
-			NULL,//no interface
+			nullptr,//no interface
 			ulFlags,
 			&ulObjType,
 			&lpUnk));
@@ -291,11 +291,11 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		{
 			hRes = S_OK;
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 			(lpAB->OpenEntry(
 				cbEntryID,
 				lpEntryID,
-				NULL,//no interface
+				nullptr,//no interface
 				ulNoCacheFlags,
 				&ulObjType,
 				&lpUnk));
@@ -303,7 +303,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		if (FAILED(hRes))
 		{
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 		}
 	}
 
@@ -314,7 +314,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		(lpContainer->OpenEntry(
 			cbEntryID,
 			lpEntryID,
-			NULL,//no interface
+			nullptr,//no interface
 			ulFlags,
 			&ulObjType,
 			&lpUnk));
@@ -322,11 +322,11 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		{
 			hRes = S_OK;
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 			(lpContainer->OpenEntry(
 				cbEntryID,
 				lpEntryID,
-				NULL,//no interface
+				nullptr,//no interface
 				ulNoCacheFlags,
 				&ulObjType,
 				&lpUnk));
@@ -334,7 +334,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		if (FAILED(hRes))
 		{
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 		}
 	}
 
@@ -345,7 +345,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		(lpMAPISession->OpenEntry(
 			cbEntryID,
 			lpEntryID,
-			NULL,//no interface
+			nullptr,//no interface
 			ulFlags,
 			&ulObjType,
 			&lpUnk));
@@ -353,11 +353,11 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		{
 			hRes = S_OK;
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 			(lpMAPISession->OpenEntry(
 				cbEntryID,
 				lpEntryID,
-				NULL,//no interface
+				nullptr,//no interface
 				ulNoCacheFlags,
 				&ulObjType,
 				&lpUnk));
@@ -365,7 +365,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
 		if (FAILED(hRes))
 		{
 			if (lpUnk) (lpUnk)->Release();
-			lpUnk = NULL;
+			lpUnk = nullptr;
 		}
 	}
 
@@ -382,7 +382,7 @@ HRESULT CallOpenEntry( LPMDB lpMDB, LPADRBOOK lpAB, LPMAPICONTAINER lpContainer,
                        LPSBinary lpSBinary, ULONG ulFlags, ULONG* ulObjTypeRet, LPUNKNOWN* lppUnk)
 {
 	return CallOpenEntry( lpMDB, lpAB, lpContainer, lpMAPISession, lpSBinary?lpSBinary->cb:0, 
-					(LPENTRYID)(lpSBinary?lpSBinary->lpb:0), ulFlags, ulObjTypeRet, lppUnk);
+					(LPENTRYID)(lpSBinary?lpSBinary->lpb:nullptr), ulFlags, ulObjTypeRet, lppUnk);
 }
 
 HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPassword, LPCTSTR szExchangeServer )
@@ -391,7 +391,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 	UINT  nSize = 0;
 	short nSizeOfTCHAR = sizeof( wchar_t );
 
-	if (m_szUsername == NULL && NULL != szUsername) {
+	if (m_szUsername == nullptr && nullptr != szUsername) {
 		nSize = (UINT)mir_wstrlen(szUsername);
 		if (nSize > 0) {	
 			nSize++;
@@ -401,7 +401,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		}
 	}	
 	
-	if (m_szPassword == NULL && NULL != szPassword) {
+	if (m_szPassword == nullptr && nullptr != szPassword) {
 		nSize = (UINT)mir_wstrlen(szPassword);
 		if (nSize > 0) {	
 			nSize++;
@@ -411,7 +411,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		}
 	}
 
-	if (m_szExchangeServer == NULL && NULL != szExchangeServer) {
+	if (m_szExchangeServer == nullptr && nullptr != szExchangeServer) {
 		nSize = (UINT)mir_wstrlen(szExchangeServer);
 		if (nSize > 0) {	
 			nSize++;
@@ -421,7 +421,7 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 		}
 	}
 	
-	if (!m_bLoginOK || m_lpInbox || NULL == m_lpMAPISession) {
+	if (!m_bLoginOK || m_lpInbox || nullptr == m_lpMAPISession) {
 		HRESULT hr          = S_OK;
 		MAPIINIT_0 mapiInit = { MAPI_INIT_VERSION , MAPI_MULTITHREAD_NOTIFICATIONS };
 		
@@ -453,10 +453,10 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 				return hr;
 			}
 			
-			LPPROFADMIN pProfAdmin = NULL;
+			LPPROFADMIN pProfAdmin = nullptr;
 			hr = MAPIAdminProfiles( 0, &pProfAdmin );
 			
-			if ((FAILED(hr)) || (NULL == pProfAdmin)) 
+			if ((FAILED(hr)) || (nullptr == pProfAdmin)) 
 			{
 				//Log("Admin profile interface creation failed: 0x%08X", hr);
 			}
@@ -479,21 +479,21 @@ HRESULT CMirandaExchange::InitializeAndLogin( LPCTSTR szUsername, LPCTSTR szPass
 				return hr;
 			
 			// Open default message store
-			LPMDB pDefMsgStore = NULL;
-			hr = m_lpMAPISession->OpenMsgStore(0, cbDefStoreEid, pDefStoreEid, NULL,
+			LPMDB pDefMsgStore = nullptr;
+			hr = m_lpMAPISession->OpenMsgStore(0, cbDefStoreEid, pDefStoreEid, nullptr,
 				MAPI_BEST_ACCESS, &pDefMsgStore);
 			
 			HRESULT                  hRes       = S_OK;
 			ULONG                    cbInboxEID = NULL;
 			CMAPIBuffer< LPENTRYID>  lpInboxEID = NULL;
 			
-			if (NULL == pDefMsgStore )
+			if (nullptr == pDefMsgStore )
 				return hr;
 
-			hRes = pDefMsgStore->GetReceiveFolder( L"IPM", NULL, &cbInboxEID,  &lpInboxEID, NULL);
+			hRes = pDefMsgStore->GetReceiveFolder( L"IPM", NULL, &cbInboxEID,  &lpInboxEID, nullptr);
 			m_lpMDB = pDefMsgStore;
 			if (cbInboxEID && lpInboxEID) {
-				hRes = CallOpenEntry( pDefMsgStore, NULL, NULL, NULL, cbInboxEID, lpInboxEID, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&m_lpInbox);
+				hRes = CallOpenEntry( pDefMsgStore, nullptr, nullptr, nullptr, cbInboxEID, lpInboxEID, MAPI_BEST_ACCESS, nullptr, (LPUNKNOWN*)&m_lpInbox);
 			
 				if ( m_lpInbox && hRes == S_OK)
 					m_bFolderInboxOK = true;
@@ -510,7 +510,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	CMAPIInterface<LPPROFADMIN> pProfAdmin = NULL;
 	CMAPIInterface<LPSERVICEADMIN> pMsgSvcAdmin = NULL;
 	CMAPIInterface<LPMAPITABLE> pMsgSvcTable = NULL;
-	LPSRowSet pRows = NULL;
+	LPSRowSet pRows = nullptr;
 	ULONG ulFlags = 0;
 	SRestriction sres;
 	SIZE_T nSize;
@@ -525,24 +525,24 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	};
 	ulFlags &= ~MAPI_UNICODE;
 	hr = MAPIAdminProfiles(ulFlags, &pProfAdmin);
-	if (FAILED(hr) || pProfAdmin == NULL)
+	if (FAILED(hr) || pProfAdmin == nullptr)
 		return hr;
-	hr = pProfAdmin->CreateProfile((LPTSTR)mir_u2a(szProfileName), NULL, NULL, ulFlags);
+	hr = pProfAdmin->CreateProfile((LPTSTR)mir_u2a(szProfileName), nullptr, NULL, ulFlags);
 	
 	if (FAILED(hr)) {
 		pProfAdmin->DeleteProfile((LPTSTR)mir_u2a(szProfileName), ulFlags);
 		return hr;
 	}
-	hr = pProfAdmin->AdminServices( (LPTSTR)mir_u2a(szProfileName), NULL, NULL, ulFlags, &pMsgSvcAdmin);
+	hr = pProfAdmin->AdminServices( (LPTSTR)mir_u2a(szProfileName), nullptr, NULL, ulFlags, &pMsgSvcAdmin);
 	
-	if (FAILED(hr) || pMsgSvcAdmin == NULL)
+	if (FAILED(hr) || pMsgSvcAdmin == nullptr)
 		return hr;
 	hr = pMsgSvcAdmin->CreateMsgService((LPTSTR)("MSEMS"), (LPTSTR)("")/*"Microsoft Exchange Server"*/, NULL, 0);
 	
 	if (FAILED(hr))
 		return hr;
 	hr = pMsgSvcAdmin->GetMsgServiceTable(0, &pMsgSvcTable);
-	if (FAILED(hr) || pMsgSvcTable == NULL)
+	if (FAILED(hr) || pMsgSvcTable == nullptr)
 		return hr;
 
 	sres.rt = RES_CONTENT;
@@ -556,7 +556,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 	hr = HrQueryAllRows(pMsgSvcTable, 
 		(LPSPropTagArray) &sptCols,
 		&sres,
-		NULL,
+		nullptr,
 		0,
 		&pRows);
 	
@@ -564,7 +564,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 		return hr;
 	nSize = mir_wstrlen(m_szUsername);
 	szUniqName = (wchar_t*)mir_alloc(sizeof(wchar_t) * (nSize + 4));
-	if (szUniqName != NULL) {
+	if (szUniqName != nullptr) {
 		memcpy(szUniqName, L"=", sizeof(wchar_t));
 		memcpy((szUniqName + 1), m_szUsername, (sizeof(wchar_t) * (nSize + 1)));
 		// Set values for PR_PROFILE_UNRESOLVED_NAME and PR_PROFILE_UNRESOLVED_SERVER
@@ -593,14 +593,14 @@ HRESULT CMirandaExchange::isMapiSessionOK( LPMAPISESSION )
 
 HRESULT CMirandaExchange::CheckForNewMails( int &nNewMails)
 {
-	if ( m_nNumberOfHeaders>0 && NULL != m_HeadersKeeper )
+	if ( m_nNumberOfHeaders>0 && nullptr != m_HeadersKeeper )
 	{
 		for( UINT i=0; i<m_nNumberOfHeaders; i++ )
 		{
-			if ( NULL != m_HeadersKeeper[i])
+			if ( nullptr != m_HeadersKeeper[i])
 			{
 				delete m_HeadersKeeper[i];
-				m_HeadersKeeper[i] = NULL;
+				m_HeadersKeeper[i] = nullptr;
 			}
 		}
 
@@ -612,14 +612,14 @@ HRESULT CMirandaExchange::CheckForNewMails( int &nNewMails)
 	HRESULT hRes;
 	try
 	{
-		if ( m_lpMAPISession != NULL && (isMapiSessionOK(m_lpMAPISession)== S_OK) && m_lpInbox != NULL && m_bFolderInboxOK )
+		if ( m_lpMAPISession != nullptr && (isMapiSessionOK(m_lpMAPISession)== S_OK) && m_lpInbox != nullptr && m_bFolderInboxOK )
 		{
 			hRes= CheckInFolder( m_lpInbox );
 		}
 		else
 		{	
 			m_bLoginOK = 0;
-			hRes = InitializeAndLogin(NULL,NULL,NULL);
+			hRes = InitializeAndLogin(nullptr,nullptr,nullptr);
 
 			if (hRes == S_OK)
 			{
@@ -644,33 +644,33 @@ HRESULT CMirandaExchange::LogOFF()
 {
 	try
 	{
-		if (NULL != m_lpInbox)
+		if (nullptr != m_lpInbox)
 		{
 			UlRelease(m_lpInbox);
-			m_lpInbox = NULL;
+			m_lpInbox = nullptr;
 		}
 
-		if (NULL != m_lpMDB)
+		if (nullptr != m_lpMDB)
 		{
 			UlRelease(m_lpMDB);
-			m_lpMDB = NULL;
+			m_lpMDB = nullptr;
 		}
 
-		if ( NULL!= m_lpMAPISession )
+		if ( nullptr!= m_lpMAPISession )
 		{
 			m_lpMAPISession->Logoff( NULL, NULL, NULL );
 			m_lpMAPISession->Release();
-			m_lpMAPISession = NULL;
+			m_lpMAPISession = nullptr;
 		}
 
-		if ( m_nNumberOfHeaders>0 && NULL != m_HeadersKeeper )
+		if ( m_nNumberOfHeaders>0 && nullptr != m_HeadersKeeper )
 		{
 			for( UINT i=0; i<m_nNumberOfHeaders; i++ )
 			{
-				if ( NULL != m_HeadersKeeper[i])
+				if ( nullptr != m_HeadersKeeper[i])
 				{
 					delete m_HeadersKeeper[i];
-					m_HeadersKeeper[i] = NULL;
+					m_HeadersKeeper[i] = nullptr;
 				}
 			}
 
@@ -687,22 +687,22 @@ HRESULT CMirandaExchange::LogOFF()
 
 HRESULT CMirandaExchange::MarkAsRead( LPTSTR szEntryID )
 {
-    LPMESSAGE lpMessage = NULL ;
-	LPBYTE lpData = NULL ;
+    LPMESSAGE lpMessage = nullptr ;
+	LPBYTE lpData = nullptr ;
 	ULONG  ulC    = 0    ;
 
 	HexToBin(szEntryID, ulC, lpData);
 
-	CallOpenEntry( m_lpMDB, NULL, NULL, m_lpMAPISession, ulC, (LPENTRYID) lpData, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&lpMessage);
+	CallOpenEntry( m_lpMDB, nullptr, nullptr, m_lpMAPISession, ulC, (LPENTRYID) lpData, MAPI_BEST_ACCESS, nullptr, (LPUNKNOWN*)&lpMessage);
 	delete lpData;
 
-	if ( NULL != lpMessage)
+	if ( nullptr != lpMessage)
 	{
 		lpMessage->SetReadFlag( 0 );
 		lpMessage->SaveChanges(FORCE_SAVE);	
 		
 		lpMessage->Release();
-		lpMessage = NULL;
+		lpMessage = nullptr;
 	}
 
 	return 0;
@@ -713,14 +713,14 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 {
 	HRESULT hr = NOERROR;
 	CMAPIInterface<LPMAPITABLE> lpTable = NULL;
-	LPSRowSet lpRow = NULL;
-	LPSPropValue lpRowProp = NULL;
+	LPSRowSet lpRow = nullptr;
+	LPSPropValue lpRowProp = nullptr;
 	ULONG i = 0L;
-	wchar_t* szSenderName = NULL;
-	wchar_t* szSubject = NULL;
-	LPSTR szEntryID = NULL;
+	wchar_t* szSenderName = nullptr;
+	wchar_t* szSubject = nullptr;
+	LPSTR szEntryID = nullptr;
 	
-	if ( lpFolder == NULL || !m_bFolderInboxOK )
+	if ( lpFolder == nullptr || !m_bFolderInboxOK )
 		return hr;
 
 	SizedSPropTagArray(5,sptaDETAILS) =
@@ -743,7 +743,7 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 		return -1;
 	}
 
-	LPSRowSet lpRowsR = NULL;
+	LPSRowSet lpRowsR = nullptr;
 	
 	//////////////////////////////////////////////////////////////////////////
 	SRestriction srRoot;
@@ -771,7 +771,7 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 				szSenderName = lpRowsR->aRow[i].lpProps[2].Value.lpszW;
 			}
 			
-			if ( NULL == szSenderName)
+			if ( nullptr == szSenderName)
 			{
 				if ( !FAILED(lpRowsR->aRow[i].lpProps[3].Value.err))
 				{
@@ -791,9 +791,9 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 
 			delete[] szEntryID;
 
-			szEntryID    = NULL;
-			szSubject    = NULL;
-			szSenderName = NULL;
+			szEntryID    = nullptr;
+			szSubject    = nullptr;
+			szSenderName = nullptr;
 		}
 	}
 	FreeProws(lpRowsR);
@@ -815,12 +815,12 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 
 		hr = MAPICALL( lpFolder)->GetHierarchyTable( MAPI_DEFERRED_ERRORS, &lpTable);
 		if (!FAILED(hr)) {
-			hr = HrQueryAllRows( lpTable, (LPSPropTagArray)&rgColProps, NULL, NULL, 0L, &lpRow);
+			hr = HrQueryAllRows( lpTable, (LPSPropTagArray)&rgColProps, nullptr, nullptr, 0L, &lpRow);
 			if (!FAILED(hr)) {
 				for(i = 0; i < lpRow->cRows; i ++) {
 					lpRowProp = lpRow->aRow[i].lpProps;
 					CMAPIInterface<LPMAPIFOLDER> lpSubFolder = NULL;
-					hr = CallOpenEntry( m_lpMDB, NULL, NULL, NULL, lpRowProp[IENTRYID].Value.bin.cb, (LPENTRYID)lpRowProp[IENTRYID].Value.bin.lpb, MAPI_BEST_ACCESS, NULL, (LPUNKNOWN*)&lpSubFolder );
+					hr = CallOpenEntry( m_lpMDB, nullptr, nullptr, nullptr, lpRowProp[IENTRYID].Value.bin.cb, (LPENTRYID)lpRowProp[IENTRYID].Value.bin.lpb, MAPI_BEST_ACCESS, nullptr, (LPUNKNOWN*)&lpSubFolder );
 					if ( !FAILED(hr) )
 					{
 						hr = CheckInFolder( lpSubFolder );
@@ -828,7 +828,7 @@ HRESULT CMirandaExchange::CheckInFolder( LPMAPIFOLDER lpFolder )
 					}
 				}
 				FreeProws(lpRow);
-				lpRow = NULL;
+				lpRow = nullptr;
 			}
 		}
 	}
@@ -853,7 +853,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
         &hTheKey) == ERROR_SUCCESS
 		)
 	{	
-		LONG lResult = RegQueryValueEx( hTheKey, NULL, NULL,  (LPDWORD)&dwType, (LPBYTE)szRegValue, &dwLength);
+		LONG lResult = RegQueryValueEx( hTheKey, nullptr, nullptr,  (LPDWORD)&dwType, (LPBYTE)szRegValue, &dwLength);
 		RegCloseKey( hTheKey );
 
 		if ( lResult != ERROR_SUCCESS )
@@ -865,7 +865,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 					
 			wchar_t* szTheEnd = wcsstr( szRegValue,L".EXE" );
 
-			if ( NULL != szTheEnd )
+			if ( nullptr != szTheEnd )
 			{
 				szRegValue[ mir_wstrlen(szRegValue) - mir_wstrlen(szTheEnd) +5 ]  = '\0';
 				mir_wstrcat( szRegValue, L" /recycle" );
@@ -878,14 +878,14 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR )
 				si.dwFlags      =   STARTF_USESHOWWINDOW;
 				si.wShowWindow  =   SW_SHOWNORMAL;
 				
-				if ( CreateProcess   (   NULL,
+				if ( CreateProcess   (   nullptr,
 					szRegValue,
-					NULL,
-					NULL,
+					nullptr,
+					nullptr,
 					0,
 					NORMAL_PRIORITY_CLASS,
-					NULL,
-					NULL,
+					nullptr,
+					nullptr,
 					&si,
 					&pi
 					))

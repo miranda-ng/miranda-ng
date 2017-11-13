@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static wchar_t* a2tf(const wchar_t* str, bool unicode)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	return unicode ? mir_wstrdup(str) : mir_a2u((char*)str);
 }
@@ -33,11 +33,11 @@ static wchar_t* a2tf(const wchar_t* str, bool unicode)
 void overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def)
 {
 	mir_free(dest);
-	dest = NULL;
+	dest = nullptr;
 
-	if (src != NULL)
+	if (src != nullptr)
 		dest = a2tf(src, unicode);
-	else if (def != NULL)
+	else if (def != nullptr)
 		dest = mir_wstrdup(def);
 }
 
@@ -53,22 +53,22 @@ bool txtParseParam(const char* szData, const char* presearch, const char* start,
 	const char *cp, *cp1;
 	int len;
 
-	if (szData == NULL) return false;
+	if (szData == nullptr) return false;
 
-	if (presearch != NULL) {
+	if (presearch != nullptr) {
 		cp1 = strstr(szData, presearch);
-		if (cp1 == NULL) return false;
+		if (cp1 == nullptr) return false;
 	}
 	else cp1 = szData;
 
 	cp = strstr(cp1, start);
-	if (cp == NULL) return false;
+	if (cp == nullptr) return false;
 	cp += mir_strlen(start);
 	while (*cp == ' ') ++cp;
 
 	if (finish) {
 		cp1 = strstr(cp, finish);
-		if (cp1 == NULL) return FALSE;
+		if (cp1 == nullptr) return FALSE;
 		while (*(cp1 - 1) == ' ' && cp1 > cp) --cp1;
 	}
 	else cp1 = strchr(cp, '\0');
@@ -91,7 +91,7 @@ void parseWLID(char* wlid, char** net, char** email, char** inst)
 		wlid=col;
 	}
 	else {
-		if (net) *net = NULL;
+		if (net) *net = nullptr;
 		if (email) *email = wlid;
 	}
 
@@ -104,7 +104,7 @@ void parseWLID(char* wlid, char** net, char** email, char** inst)
 		}
 	}
 	else if (inst)
-		*inst = NULL;
+		*inst = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -145,7 +145,7 @@ template <class chartype> void UrlDecode(chartype* str)
 
 void HtmlDecode(char *str)
 {
-	if (str == NULL)
+	if (str == nullptr)
 		return;
 
 	char* p, *q;
@@ -168,8 +168,8 @@ char* HtmlEncode(const char *str)
 	char* s, *p, *q;
 	int c;
 
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	for (c = 0, p = (char*)str; *p != '\0'; p++) {
 		switch (*p) {
@@ -182,7 +182,7 @@ char* HtmlEncode(const char *str)
 		}
 	}
 
-	if ((s = (char*)mir_alloc(c + 1)) != NULL) {
+	if ((s = (char*)mir_alloc(c + 1)) != nullptr) {
 		for (p = (char*)str, q = s; *p != '\0'; p++) {
 			switch (*p) {
 				case '&': mir_strcpy(q, "&amp;"); q += 5; break;
@@ -301,14 +301,14 @@ void  stripHTML(char* str)
 wchar_t* EscapeChatTags(const wchar_t* pszText)
 {
 	int nChars = 0;
-	for (const wchar_t* p = pszText; (p = wcschr(p, '%')) != NULL; p++)
+	for (const wchar_t* p = pszText; (p = wcschr(p, '%')) != nullptr; p++)
 		nChars++;
 
 	if (nChars == 0)
 		return mir_wstrdup(pszText);
 
 	wchar_t *pszNewText = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(pszText) + 1 + nChars));
-	if (pszNewText == NULL)
+	if (pszNewText == nullptr)
 		return mir_wstrdup(pszText);
 
 	const wchar_t *s = pszText;
@@ -344,7 +344,7 @@ time_t IsoToUnixTime(const char *stamp)
 	char date[9];
 	int i, y;
 
-	if (stamp == NULL)
+	if (stamp == nullptr)
 		return 0;
 
 	char *p = NEWSTR_ALLOCA(stamp);
@@ -403,7 +403,7 @@ time_t MsnTSToUnixtime(const char *pszTS)
 {
 	char szTS[16];
 
-	if (!*pszTS) return time(NULL);
+	if (!*pszTS) return time(nullptr);
 	strncpy(szTS, pszTS, 10);
 	return (time_t)atoi(szTS);
 }

@@ -5,23 +5,23 @@ int upCount, total = 0;
 size_t list_size = 0;
 
 HANDLE mainThread;
-HANDLE hWakeEvent = 0;
+HANDLE hWakeEvent = nullptr;
 
 // thread protected variables
 mir_cs thread_finished_cs, list_changed_cs, data_list_cs;
 bool thread_finished = false, list_changed = false;
 PINGLIST data_list;
 
-HANDLE status_update_thread = 0;
+HANDLE status_update_thread = nullptr;
 
-HWND hpwnd = 0, list_hwnd, hwnd_clist = 0;
+HWND hpwnd = nullptr, list_hwnd, hwnd_clist = nullptr;
 int frame_id = -1;
 
-HBRUSH tbrush = 0;
+HBRUSH tbrush = nullptr;
 
 FontIDW font_id;
 ColourIDW bk_col_id;
-HFONT hFont = 0;
+HFONT hFont = nullptr;
 COLORREF bk_col = RGB(255, 255, 255);
 
 ////////////////
@@ -138,7 +138,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 						if (i->item_id == pa.item_id)
 							i->status = PS_TESTING;
 
-					InvalidateRect(list_hwnd, 0, FALSE);
+					InvalidateRect(list_hwnd, nullptr, FALSE);
 				}
 
 				CallService(PLUG "/Ping", 0, (LPARAM)&pa);
@@ -153,7 +153,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 							i->responding = pa.responding;
 							i->round_trip_time = pa.round_trip_time;
 							history_entry.first = i->round_trip_time;
-							history_entry.second = time(0);
+							history_entry.second = time(nullptr);
 							history_map[i->item_id].push_back(history_entry);
 							// maintain history (-1 represents no response)
 							while (history_map[i->item_id].size() >= MAX_HISTORY)
@@ -214,7 +214,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 					}
 				}
 
-				InvalidateRect(list_hwnd, 0, FALSE);
+				InvalidateRect(list_hwnd, nullptr, FALSE);
 			}
 		}
 
@@ -233,7 +233,7 @@ void start_ping_thread()
 {
 	if (status_update_thread)
 		CloseHandle(status_update_thread);
-	status_update_thread = mir_forkthread(sttCheckStatusThreadProc, 0);
+	status_update_thread = mir_forkthread(sttCheckStatusThreadProc, nullptr);
 }
 
 void stop_ping_thread()
@@ -244,7 +244,7 @@ void stop_ping_thread()
 	WaitForSingleObject(status_update_thread, 2000);
 	TerminateThread(status_update_thread, 0);
 	CloseHandle(status_update_thread);
-	status_update_thread = 0;
+	status_update_thread = nullptr;
 }
 
 bool FrameIsFloating()
@@ -280,7 +280,7 @@ int FillList(WPARAM, LPARAM)
 	}
 	SendMessage(list_hwnd, WM_SETREDRAW, TRUE, 0);
 
-	InvalidateRect(list_hwnd, 0, FALSE);
+	InvalidateRect(list_hwnd, nullptr, FALSE);
 
 	SetEvent(hWakeEvent);
 
@@ -341,7 +341,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DRAWITEM:
 		dis = (LPDRAWITEMSTRUCT)lParam;
 		if (dis->hwndItem == list_hwnd) {
-			HBRUSH ttbrush = 0;
+			HBRUSH ttbrush = nullptr;
 			COLORREF tcol;
 			if (dis->itemID != -1) {
 				PINGADDRESS itemData;
@@ -382,7 +382,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				SetBkMode(dis->hDC, TRANSPARENT);
 				HICON hIcon = (itemData.status != PS_DISABLED ? (itemData.status == PS_TESTING ? hIconTesting : (itemData.status == PS_RESPONDING ? hIconResponding : hIconNotResponding)) : hIconDisabled);
 				dis->rcItem.left += options.indent;
-				DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top + ((options.row_height - 16) >> 1), hIcon, 0, 0, 0, NULL, DI_NORMAL);
+				DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top + ((options.row_height - 16) >> 1), hIcon, 0, 0, 0, nullptr, DI_NORMAL);
 
 				GetTextExtentPoint32(dis->hDC, itemData.pszLabel, (int)mir_wstrlen(itemData.pszLabel), &textSize);
 				TextOut(dis->hDC, dis->rcItem.left + 16 + 4, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, itemData.pszLabel, (int)mir_wstrlen(itemData.pszLabel));
@@ -423,7 +423,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			context_point = lParam;
 			context_point_valid = true;
-			InvalidateRect(list_hwnd, 0, FALSE);
+			InvalidateRect(list_hwnd, nullptr, FALSE);
 			HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1)),
 				submenu = GetSubMenu(menu, 0);
 
@@ -461,13 +461,13 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			TranslateMenu(submenu);
 
 			GetCursorPos(&pt);
-			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 			DestroyMenu(menu);
 			if (ret)
 				SendMessage(hwnd, WM_COMMAND, ret, 0);
 
 			context_point_valid = false;
-			InvalidateRect(list_hwnd, 0, FALSE);
+			InvalidateRect(list_hwnd, nullptr, FALSE);
 		}
 
 		return TRUE;
@@ -480,7 +480,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		list_hwnd = CreateWindow(L"LISTBOX", L"",
 			//(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT| LBS_STANDARD | WS_CLIPCHILDREN | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY) 
 			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY)
-			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst, 0);
+			& ~WS_BORDER, 0, 0, 0, 0, hwnd, nullptr, hInst, nullptr);
 
 		if (db_get_b(NULL, "CList", "Transparent", 0)) {
 			if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
@@ -508,7 +508,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if ((HWND)wParam != hwnd)
 				if (db_get_b(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT))
 					if (transparentFocus)
-						SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
+						SetTimer(hwnd, TM_AUTOALPHA, 250, nullptr);
 		}
 		else {
 			if (db_get_b(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT)) {
@@ -528,7 +528,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 				#endif
 				transparentFocus = 1;
-				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
+				SetTimer(hwnd, TM_AUTOALPHA, 250, nullptr);
 			}
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -648,7 +648,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				WORD x = LOWORD(context_point), y = HIWORD(context_point);
 				GetWindowRect(list_hwnd, &r);
 				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
-				PINGADDRESS *temp = 0;
+				PINGADDRESS *temp = nullptr;
 				if (HIWORD(item) == 0) {
 					int count = LOWORD(item);
 					{
@@ -698,7 +698,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						DWORD item_id = pItemData->item_id;
 
 						int wake = CallService(PLUG "/DblClick", (WPARAM)item_id, 0);
-						InvalidateRect(list_hwnd, 0, FALSE);
+						InvalidateRect(list_hwnd, nullptr, FALSE);
 						if (wake) SetEvent(hWakeEvent);
 
 						if (options.logging) {
@@ -728,10 +728,10 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			#else
 				height = std::min(winheight - winheight % itemheight, itemheight * count);
 			#endif
-			SetWindowPos(list_hwnd, 0, rect.left, rect.top, rect.right - rect.left, height, SWP_NOZORDER);
-			InvalidateRect(list_hwnd, 0, FALSE);
+			SetWindowPos(list_hwnd, nullptr, rect.left, rect.top, rect.right - rect.left, height, SWP_NOZORDER);
+			InvalidateRect(list_hwnd, nullptr, FALSE);
 		}
-		InvalidateRect(hwnd, 0, TRUE);
+		InvalidateRect(hwnd, nullptr, TRUE);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_DESTROY:
@@ -779,8 +779,8 @@ int ReloadFont(WPARAM, LPARAM)
 
 int RefreshWindow(WPARAM, LPARAM)
 {
-	InvalidateRect(list_hwnd, 0, TRUE);
-	InvalidateRect(hpwnd, 0, TRUE);
+	InvalidateRect(list_hwnd, nullptr, TRUE);
+	InvalidateRect(hpwnd, nullptr, TRUE);
 	return 0;
 }
 
@@ -802,7 +802,7 @@ void UpdateFrame()
 		height += (r_frame.bottom - r_frame.top) - (r_frame_client.bottom - r_frame_client.top);
 	}
 
-	SetWindowPos(hpwnd, 0, r_clist.left, r_clist.top - height, (r_clist.right - r_clist.left), height, SWP_NOZORDER | SWP_NOACTIVATE);
+	SetWindowPos(hpwnd, nullptr, r_clist.left, r_clist.top - height, (r_clist.right - r_clist.left), height, SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
 // Subclass procedure 
@@ -816,7 +816,7 @@ LRESULT APIENTRY ClistSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			|| GetWindowLongPtr(hwnd_clist, GWL_STYLE) != GetWindowLongPtr(hpwnd, GWL_STYLE)) {
 			SetWindowLongPtr(hpwnd, GWL_STYLE, GetWindowLongPtr(hwnd_clist, GWL_STYLE));
 			SetWindowLongPtr(hpwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd_clist, GWL_EXSTYLE));
-			SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+			SetWindowPos(hpwnd, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 		}
 	}
 
@@ -833,7 +833,7 @@ void AttachToClist(bool attach)
 	if (attach) {
 		SetWindowLongPtr(hpwnd, GWL_STYLE, GetWindowLongPtr(hwnd_clist, GWL_STYLE));
 		SetWindowLongPtr(hpwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd_clist, GWL_EXSTYLE));
-		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+		SetWindowPos(hpwnd, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 
 		// subclass clist to trap move/size
 		mir_subclassWindow(hwnd_clist, ClistSubclassProc);
@@ -842,7 +842,7 @@ void AttachToClist(bool attach)
 	else {
 		SetWindowLongPtr(hpwnd, GWL_STYLE, (WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_VISIBLE | WS_CLIPCHILDREN));
 		SetWindowLongPtr(hpwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW);
-		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+		SetWindowPos(hpwnd, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 	}
 }
 
@@ -858,14 +858,14 @@ void InitList()
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = hInst;
 	wndclass.hIcon = hIconResponding;
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	wndclass.lpszMenuName = NULL;
+	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = _A2W(PLUG) L"WindowClass";
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hpwnd = CreateWindow(_A2W(PLUG) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, NULL, hInst, NULL);
+		hpwnd = CreateWindow(_A2W(PLUG) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, nullptr, hInst, nullptr);
 
 		CLISTFrame frame = { 0 };
 		frame.name = PLUG;
@@ -881,7 +881,7 @@ void InitList()
 	else {
 		hpwnd = CreateWindowEx(WS_EX_TOOLWINDOW, _A2W(PLUG) L"WindowClass", L"Ping",
 			(WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_CLIPCHILDREN),
-			0, 0, 400, 300, hwnd_clist, NULL, hInst, NULL);
+			0, 0, 400, 300, hwnd_clist, nullptr, hInst, nullptr);
 
 		Utils_RestoreWindowPosition(hpwnd, 0, PLUG, "main_window");
 

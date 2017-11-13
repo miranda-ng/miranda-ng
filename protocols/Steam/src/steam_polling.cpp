@@ -4,7 +4,7 @@
 
 void CSteamProto::ParsePollData(JSONNode *data)
 {
-	JSONNode *node, *item = NULL;
+	JSONNode *node, *item = nullptr;
 	
 	// FIXME: Temporary solution for receivng too many duplicated typing events; should be reworked better
 	std::string typingUser;
@@ -13,7 +13,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 	for (size_t i = 0; i < json_size(data); i++)
 	{
 		item = json_at(data, i);
-		if (item == NULL)
+		if (item == nullptr)
 			break;
 
 		node = json_get(item, "steamid_from");
@@ -38,7 +38,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 			PROTORECVEVENT recv = { 0 };
 			recv.timestamp = timestamp;
 			recv.szMessage = szMessage;
-			if (wcsstr(type, L"my_") == NULL)
+			if (wcsstr(type, L"my_") == nullptr)
 			{
 				ProtoChainRecvMsg(hContact, &recv);
 			}
@@ -169,7 +169,7 @@ void CSteamProto::ParsePollData(JSONNode *data)
 				dbei.cbBlob = 1;
 				dbei.eventType = EVENTTYPE_STEAM_CHATSTATES;
 				dbei.flags = DBEF_READ;
-				dbei.timestamp = time(NULL);
+				dbei.timestamp = time(nullptr);
 				dbei.szModule = m_szModuleName;
 				db_event_add(hContact, &dbei);
 			}
@@ -217,7 +217,7 @@ void CSteamProto::PollingThread(void*)
 			ptrA body((char*)mir_calloc(response->dataLength + 2));
 			mir_strncpy(body, response->pData, response->dataLength + 1);
 			JSONROOT root(body);
-			if (root == NULL)
+			if (root == nullptr)
 			{
 				errors++;
 			}
@@ -241,7 +241,7 @@ void CSteamProto::PollingThread(void*)
 						node = json_get(root, "messages");
 						JSONNode *nroot = json_as_array(node);
 
-						if (nroot != NULL)
+						if (nroot != nullptr)
 						{
 							ParsePollData(nroot);
 							json_delete(nroot);
@@ -307,6 +307,6 @@ void CSteamProto::PollingThread(void*)
 		SetStatus(ID_STATUS_OFFLINE);
 	}
 
-	m_hPollingThread = NULL;
+	m_hPollingThread = nullptr;
 	debugLogW(L"CSteamProto::PollingThread: leaving");
 }

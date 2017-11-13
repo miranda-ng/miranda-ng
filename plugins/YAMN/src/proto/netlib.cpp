@@ -10,7 +10,7 @@
  //--------------------------------------------------------------------------------------------------
 
 BOOL SSLLoaded = FALSE;
-HNETLIBUSER hNetlibUser = NULL;
+HNETLIBUSER hNetlibUser = nullptr;
 
 void __stdcall	SSL_DebugLog(const char *fmt, ...)
 {
@@ -67,7 +67,7 @@ void CNLClient::SSLify() throw(DWORD)
 		#ifdef DEBUG_COMM
 		SSL_DebugLog("Staring netlib core SSL");
 		#endif
-		if (Netlib_StartSsl(hConnection, NULL)) {
+		if (Netlib_StartSsl(hConnection, nullptr)) {
 			#ifdef DEBUG_COMM
 			SSL_DebugLog("Netlib core SSL started");
 			#endif
@@ -97,7 +97,7 @@ void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
 		nloc.szHost = servername;
 		nloc.wPort = port;
 		nloc.flags = 0;
-		if (NULL == (hConnection = Netlib_OpenConnection(hNetlibUser, &nloc))) {
+		if (nullptr == (hConnection = Netlib_OpenConnection(hNetlibUser, &nloc))) {
 			SystemError = WSAGetLastError();
 			throw NetworkError = (DWORD)ENL_CONNECT;
 		}
@@ -125,9 +125,9 @@ void CNLClient::Send(const char *query) throw(DWORD)
 {
 	unsigned int Sent;
 
-	if (NULL == query)
+	if (nullptr == query)
 		return;
-	if (hConnection == NULL)
+	if (hConnection == nullptr)
 		return;
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "<send>%s", query);
@@ -174,9 +174,9 @@ char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 	DebugLog(CommFile, "<reading>");
 	#endif
 	try {
-		if (buf == NULL)
+		if (buf == nullptr)
 			buf = (char *)malloc(sizeof(char)*(buflen + 1));
-		if (buf == NULL)
+		if (buf == nullptr)
 			throw NetworkError = (DWORD)ENL_RECVALLOC;
 
 		if (!isTLSed) {
@@ -224,7 +224,7 @@ char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 void CNLClient::Disconnect()
 {
 	Netlib_CloseHandle(hConnection);
-	hConnection = NULL;
+	hConnection = nullptr;
 }
 
 //Uninitializes netlib library
@@ -235,7 +235,7 @@ void UnregisterNLClient()
 	#endif
 
 	Netlib_CloseHandle(hNetlibUser);
-	hNetlibUser = NULL;
+	hNetlibUser = nullptr;
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "</Unregister PROXY support>\n");
 	#endif

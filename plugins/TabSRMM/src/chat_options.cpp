@@ -172,7 +172,7 @@ static branch_t branch2[] = {
 	{ LPGENW("Scale down icons to 10x10 pixels in the chat log"), "ScaleIcons", 0, 1, nullptr }
 };
 
-static HWND hPathTip = 0;
+static HWND hPathTip = nullptr;
 
 void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szMod)
 {
@@ -246,10 +246,10 @@ static HTREEITEM InsertBranch(HWND hwndTree, wchar_t* pszDescr, BOOL bExpanded)
 
 static void FillBranch(HWND hwndTree, HTREEITEM hParent, branch_t *branch, int nValues, DWORD defaultval)
 {
-	if (hParent == 0)
+	if (hParent == nullptr)
 		return;
 
-	TVINSERTSTRUCT tvis = { 0 };
+	TVINSERTSTRUCT tvis = {};
 
 	for (int i = 0; i < nValues; i++) {
 		tvis.hParent = hParent;
@@ -390,8 +390,8 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 
 INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static HTREEITEM hListHeading1 = 0;
-	static HTREEITEM hListHeading2 = 0;
+	static HTREEITEM hListHeading1 = nullptr;
+	static HTREEITEM hListHeading2 = nullptr;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -776,7 +776,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				LPMALLOC psMalloc;
 
 				if (SUCCEEDED(CoGetMalloc(1, &psMalloc))) {
-					BROWSEINFO bi = { 0 };
+					BROWSEINFO bi = {};
 					bi.hwndOwner = hwndDlg;
 					bi.pszDisplayName = tszDirectory;
 					bi.lpszTitle = TranslateT("Select folder");
@@ -899,7 +899,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		if (hPathTip) {
 			KillTimer(hwndDlg, 0);
 			DestroyWindow(hPathTip);
-			hPathTip = 0;
+			hPathTip = nullptr;
 		}
 		break;
 	}

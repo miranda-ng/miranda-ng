@@ -79,7 +79,7 @@ void logtofile::init()
 }
 logtofile::logtofile()
 {
-	path = NULL;
+	path = nullptr;
 }
 logtofile::~logtofile()
 {

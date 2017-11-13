@@ -339,7 +339,7 @@ void previewFlashing(BOOL buttonState)
 		return;
 
 	bPreviewSemaphore = TRUE;
-	mir_forkthread(PreviewThread, 0);
+	mir_forkthread(PreviewThread, nullptr);
 }
 
 

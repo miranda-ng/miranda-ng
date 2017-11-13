@@ -39,7 +39,7 @@ int InitTipperSmileys()
 SMILEYPARSEINFO Smileys_PreParse(LPCTSTR lpString, int nCount, const char *protocol)
 {
 	if (!(opt.iSmileyAddFlags & SMILEYADD_ENABLE))
-		return NULL;
+		return nullptr;
 
 	if (nCount == -1)
 		nCount = (int)mir_wstrlen(lpString);
@@ -49,7 +49,7 @@ SMILEYPARSEINFO Smileys_PreParse(LPCTSTR lpString, int nCount, const char *proto
 
 	if (!info->pieces) {
 		mir_free(info);
-		return NULL;
+		return nullptr;
 	}
 
 	return info;
@@ -57,8 +57,8 @@ SMILEYPARSEINFO Smileys_PreParse(LPCTSTR lpString, int nCount, const char *proto
 
 void Smileys_FreeParse(SMILEYPARSEINFO parseInfo)
 {
-	if (parseInfo != NULL) {
-		if (parseInfo->pieces != NULL)
+	if (parseInfo != nullptr) {
+		if (parseInfo->pieces != nullptr)
 			DestroySmileyList(parseInfo->pieces);
 
 		mir_free(parseInfo);
@@ -89,7 +89,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 
 
 	// Draw
-	if (parseInfo->pieces == NULL)
+	if (parseInfo->pieces == nullptr)
 		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
 
 	RECT rc = *lpRect;
@@ -112,14 +112,14 @@ SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SMILEYPARSEINFO info, UINT u
 	int text_height;
 	int row_count = 0, pos_x = 0;
 
-	if (szText == NULL || wcslen(szText) == 0) {
+	if (szText == nullptr || wcslen(szText) == 0) {
 		text_size.cy = 0;
 		text_size.cx = 0;
 	}
 	else {
 		RECT text_rc = { 0, 0, 2048, 2048 };
 
-		if (info->pieces == NULL) {
+		if (info->pieces == nullptr) {
 			DrawText(hdcMem, szText, -1, &text_rc, DT_CALCRECT | uTextFormat);
 			text_size.cx = text_rc.right - text_rc.left;
 			text_size.cy = text_rc.bottom - text_rc.top;
@@ -181,7 +181,7 @@ SIZE GetTextSize(HDC hdcMem, const wchar_t *szText, SMILEYPARSEINFO info, UINT u
 
 void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SMILEYPARSEINFO info, UINT uTextFormat)
 {
-	if (szText == NULL)
+	if (szText == nullptr)
 		return;
 
 	uTextFormat &= ~DT_RIGHT;
@@ -276,7 +276,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SM
 					}
 
 					shift = (info->row_height[row_count] - (LONG)(piece->smiley_height * factor)) >> 1;
-					DrawIconExAlpha(hdcMem, text_rc.left, text_rc.top + shift, piece->smiley, piece->smiley_width * factor, piece->smiley_height * factor, 0, NULL, DI_NORMAL, true);
+					DrawIconExAlpha(hdcMem, text_rc.left, text_rc.top + shift, piece->smiley, piece->smiley_width * factor, piece->smiley_height * factor, 0, nullptr, DI_NORMAL, true);
 				}
 			}
 		}
@@ -287,13 +287,13 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SM
 
 void DestroySmileyList(SortedList* p_list)
 {
-	if (p_list == NULL)
+	if (p_list == nullptr)
 		return;
 
-	if (p_list->items != NULL) {
+	if (p_list->items != nullptr) {
 		for (int i = 0; i < p_list->realCount; i++) {
 			TEXTPIECE *piece = (TEXTPIECE *)p_list->items[i];
-			if (piece != NULL) {
+			if (piece != nullptr) {
 				if (piece->type == TEXT_PIECE_TYPE_SMILEY)
 					DestroyIcon(piece->smiley);
 
@@ -311,10 +311,10 @@ SortedList *ReplaceSmileys(const wchar_t *text, int text_size, const char *proto
 	*max_smiley_height = 0;
 
 	if (!text || !text[0] || !ServiceExists(MS_SMILEYADD_BATCHPARSE))
-		return NULL;
+		return nullptr;
 
 	char smileyProto[64];
-	if (protocol == NULL)
+	if (protocol == nullptr)
 		strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
 	else if (mir_strcmp(protocol, META_PROTO) == 0)
 		strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
@@ -330,7 +330,7 @@ SortedList *ReplaceSmileys(const wchar_t *text, int text_size, const char *proto
 	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 
 	if (!spres) // Did not find a smiley
-		return NULL;
+		return nullptr;
 
 	// Lets add smileys
 	SortedList *plText = List_Create(0, 10);
@@ -426,7 +426,7 @@ SortedList *ReplaceSmileys(const wchar_t *text, int text_size, const char *proto
 
 int DrawTextExt(HDC hdc, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, SMILEYPARSEINFO spi)
 {
-	if ((opt.iSmileyAddFlags & SMILEYADD_ENABLE) && spi != NULL) {
+	if ((opt.iSmileyAddFlags & SMILEYADD_ENABLE) && spi != nullptr) {
 		if (opt.iSmileyAddFlags & SMILEYADD_RESIZE)
 			uFormat |= DT_RESIZE_SMILEYS;
 

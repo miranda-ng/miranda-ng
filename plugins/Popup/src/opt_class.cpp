@@ -259,7 +259,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 				// element typ1 (Notification)
 				if (ptd->typ == 1) {
-					LPTSTR psztAction = NULL;
+					LPTSTR psztAction = nullptr;
 					// Timeout
 					SetDlgItemInt(hwnd, IDC_TIMEOUT, (UINT)ptd->timeoutValue, TRUE);
 					SendDlgItemMessage(hwnd, IDC_TIMEOUT_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(250, -1));
@@ -268,15 +268,15 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					for (i = 0; i < ptd->notification.actionCount; ++i) {
 						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
 						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateW(psztAction)), ptd->notification.lpActions[i].lpzTitle);
-						mir_free(psztAction); psztAction = NULL;
+						mir_free(psztAction); psztAction = nullptr;
 					}
 					// combo right action (EXTRA)
 					hCtrl = GetDlgItem(hwnd, IDC_RACTION);
-					psztAction = NULL;
+					psztAction = nullptr;
 					for (i = 0; i < ptd->notification.actionCount; ++i) {
 						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
 						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateW(psztAction)), ptd->notification.lpActions[i].lpzTitle);
-						mir_free(psztAction); psztAction = NULL;
+						mir_free(psztAction); psztAction = nullptr;
 					}
 					// enable all controls
 					for (i = 0; i < _countof(ctrlsAll); ++i){
@@ -348,7 +348,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						ppd.iSeconds = ptd->timeoutValue;
 						ppd.colorBack = ptd->colorBack;
 						ppd.colorText = ptd->colorText;
-						POPUPTREEDATA *ptdPrev = NULL;
+						POPUPTREEDATA *ptdPrev = nullptr;
 						if (ptd->typ == 1) {
 							// we work with a copy for preview
 							ptdPrev = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
@@ -365,7 +365,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							ppd.lchIcon = ptd->pupClass.hIcon;
 
 						CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
-						mir_free(ptdPrev); ptdPrev = NULL;
+						mir_free(ptdPrev); ptdPrev = nullptr;
 					}
 					break;
 
@@ -407,7 +407,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			case EN_CHANGE:			// Edit controls
 				switch (idCtrl) {
 				case IDC_TIMEOUT:
-					int seconds = GetDlgItemInt(hwnd, idCtrl, NULL, TRUE);
+					int seconds = GetDlgItemInt(hwnd, idCtrl, nullptr, TRUE);
 					if (seconds >= SETTING_LIFETIME_INFINITE && seconds <= SETTING_LIFETIME_MAX && seconds != ptd->timeoutValue) {
 						ptd->timeoutValue = seconds;
 						SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -418,7 +418,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			case EN_KILLFOCUS:		// Edit controls lost fokus
 				switch (idCtrl) {
 				case IDC_TIMEOUT:
-					int seconds = GetDlgItemInt(hwnd, idCtrl, NULL, TRUE);
+					int seconds = GetDlgItemInt(hwnd, idCtrl, nullptr, TRUE);
 					if (seconds > SETTING_LIFETIME_MAX)
 						ptd->timeoutValue = SETTING_LIFETIME_MAX;
 					else if (seconds < SETTING_LIFETIME_INFINITE)

@@ -91,7 +91,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	// всех в offline // тк unsaved values сохраняются их нужно инициализировать
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact != NULL; hContact = db_find_next(hContact, m_szModuleName))
-		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
+		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
 
 	// unsaved values
 	db_set_resident(m_szModuleName, "LogonTS");
@@ -208,7 +208,7 @@ int CMraProto::AuthDeny(MEVENT hDBEvent, const wchar_t* szReason)
 	if (mir_strcmp(dbei.szModule, m_szModuleName)) return 1;
 
 	DB_AUTH_BLOB blob(dbei.pBlob);
-	MraMessage(FALSE, NULL, 0, 0, blob.get_email(), szReason, NULL, 0);
+	MraMessage(FALSE, NULL, 0, 0, blob.get_email(), szReason, nullptr, 0);
 	return 0;
 }
 
@@ -221,11 +221,11 @@ int CMraProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 
 HANDLE CMraProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *szPath)
 {
-	if (szPath != NULL)
+	if (szPath != nullptr)
 		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD_PTR)hTransfer, szPath, mir_wstrlen(szPath)) == NO_ERROR)
 			return hTransfer; // Success
 
-	return NULL;
+	return nullptr;
 }
 
 int CMraProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
@@ -301,7 +301,7 @@ HANDLE CMraProto::SearchByEmail(const wchar_t *email)
 		return MraWPRequestByEMail(NULL, ACKTYPE_SEARCH, szEmail);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 HANDLE CMraProto::SearchByName(const wchar_t *pszNick, const wchar_t *pszFirstName, const wchar_t *pszLastName)
@@ -314,7 +314,7 @@ HANDLE CMraProto::SearchByName(const wchar_t *pszNick, const wchar_t *pszFirstNa
 		return MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, "", "", pszNick, pszFirstName, pszLastName, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -350,12 +350,12 @@ int CMraProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hCo
 			}
 
 			bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
-			iRet = MraMessage(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEmail, wszData, NULL, 0);
+			iRet = MraMessage(bSlowSend, hContact, ACKTYPE_CONTACTS, MESSAGE_FLAG_CONTACT, szEmail, wszData, nullptr, 0);
 			if (bSlowSend == FALSE)
 				ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 		}
 	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
+	else ProtoBroadcastAck(hContact, ACKTYPE_CONTACTS, ACKRESULT_FAILED, nullptr, (LPARAM)"You cannot send when you are offline.");
 
 	return iRet;
 }
@@ -363,7 +363,7 @@ int CMraProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hCo
 HANDLE CMraProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFiles)
 {
 	if (!m_bLoggedIn || !hContact || !ppszFiles)
-		return NULL;
+		return nullptr;
 
 	size_t dwFilesCount;
 	for (dwFilesCount = 0; ppszFiles[dwFilesCount]; dwFilesCount++);
@@ -376,14 +376,14 @@ HANDLE CMraProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t **ppszFile
 int CMraProto::SendMsg(MCONTACT hContact, int, const char *lpszMessage)
 {
 	if (!m_bLoggedIn) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"You cannot send when you are offline.");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)"You cannot send when you are offline.");
 		return 0;
 	}
 
 	DWORD dwFlags = 0;
 	CMStringW wszMessage(ptrW(mir_utf8decodeW(lpszMessage)));
 	if (wszMessage.IsEmpty()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)"Cant allocate buffer for convert to unicode.");
 		return 0;
 	}
 
@@ -425,8 +425,8 @@ int CMraProto::SetApparentMode(MCONTACT hContact, int mode)
 				break;
 			}
 
-			if (MraModifyContact(hContact, 0, &dwContactFlag)) {
-				SetContactBasicInfoW(hContact, 0, SCBIF_FLAG, 0, 0, dwContactFlag, 0, 0, 0, 0, 0);
+			if (MraModifyContact(hContact, nullptr, &dwContactFlag)) {
+				SetContactBasicInfoW(hContact, 0, SCBIF_FLAG, 0, 0, dwContactFlag, 0, 0, nullptr, nullptr, nullptr);
 				return 0; // Success
 			}
 		}
@@ -463,9 +463,9 @@ int CMraProto::SetStatus(int iNewStatus)
 		// всех в offline, только если мы бывали подключены
 		if (dwOldStatusMode > ID_STATUS_OFFLINE)
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
 
-		if (m_hConnection != NULL)
+		if (m_hConnection != nullptr)
 			Netlib_Shutdown(m_hConnection);
 	}
 	else {
@@ -504,7 +504,7 @@ int CMraProto::SetStatus(int iNewStatus)
 HANDLE CMraProto::GetAwayMsg(MCONTACT hContact)
 {
 	if (!m_bLoggedIn || !hContact)
-		return 0;
+		return nullptr;
 
 	wchar_t szStatusDesc[MICBLOG_STATUS_MAX + MICBLOG_STATUS_MAX + MAX_PATH], szTime[64];
 	DWORD dwTime;
@@ -551,7 +551,7 @@ int CMraProto::UserIsTyping(MCONTACT hContact, int type)
 	CMStringA szEmail;
 	if (MraGetContactStatus(hContact) != ID_STATUS_OFFLINE)
 		if (mraGetStringA(hContact, "e-mail", szEmail))
-			if (MraMessage(FALSE, hContact, 0, MESSAGE_FLAG_NOTIFY, szEmail, L" ", NULL, 0))
+			if (MraMessage(FALSE, hContact, 0, MESSAGE_FLAG_NOTIFY, szEmail, L" ", nullptr, 0))
 				return 0;
 
 	return 1;

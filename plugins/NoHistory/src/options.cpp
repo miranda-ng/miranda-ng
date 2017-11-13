@@ -118,7 +118,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 
 		SetAllContactIcons(hwndList);
-		SetListGroupIcons(hwndList,(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_ROOT,0),hItemAll,NULL);
+		SetListGroupIcons(hwndList,(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_ROOT,0),hItemAll,nullptr);
 
 		SendDlgItemMessage(hwndDlg, IDC_SPN_TIMEOUT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(60 * 60, 1));
 		return FALSE;
@@ -141,7 +141,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SetAllContactIcons(hwndList);
 				//fall through
 			case CLN_CONTACTMOVED:
-				SetListGroupIcons(hwndList,(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_ROOT,0),hItemAll,NULL);
+				SetListGroupIcons(hwndList,(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_ROOT,0),hItemAll,nullptr);
 				break;
 
 			case CLN_OPTIONSCHANGED:
@@ -157,7 +157,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				// Find clicked item
 				DWORD hitFlags;
 				HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x,nm->pt.y));
-				if (hItem == NULL || !(hitFlags & CLCHT_ONITEMEXTRA))
+				if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 					break;
 
 				// Get image in clicked column (0=none, 1=visible, 2=invisible)
@@ -181,7 +181,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						SetAllChildIcons(hwndList, hItem, nm->iColumn, iImage);
 				}
 				// Update the all/none icons
-				SetListGroupIcons(hwndList, (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				SetListGroupIcons(hwndList, (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 
 				// Activate Apply button
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

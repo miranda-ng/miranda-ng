@@ -32,7 +32,7 @@ LPSTR GetModuleName(MCONTACT hContact)
 
 	if (hContact) {
 		lpszRet = GetContactProto(hContact);
-		if (lpszRet == NULL)
+		if (lpszRet == nullptr)
 			lpszRet = PROTOCOL_NAMEA;
 	}
 	else lpszRet = PROTOCOL_NAMEA;
@@ -243,7 +243,7 @@ BOOL GetXMLFieldEx(LPSTR lpszXML, size_t dwXMLSize, LPSTR *plpszData, size_t *pd
 {
 	BOOL bRet = FALSE;
 	int thisLevel = 0;
-	LPSTR lpszFindTag = (LPSTR)tag1, lpszTagEnd = lpszXML, lpszDataStart = NULL;
+	LPSTR lpszFindTag = (LPSTR)tag1, lpszTagEnd = lpszXML, lpszDataStart = nullptr;
 
 	va_list va;
 	va_start(va, tag1);
@@ -272,7 +272,7 @@ BOOL GetXMLFieldEx(LPSTR lpszXML, size_t dwXMLSize, LPSTR *plpszData, size_t *pd
 			if (++thisLevel == 1)
 				if (CompareStringA(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, lpszFindTag, -1, lpszTagStart, ((lpszTagEnd + 1) - lpszTagStart)) == CSTR_EQUAL) {
 					lpszFindTag = va_arg(va, LPSTR);
-					if (lpszFindTag == NULL) lpszDataStart = (lpszTagEnd + 2);
+					if (lpszFindTag == nullptr) lpszDataStart = (lpszTagEnd + 2);
 					thisLevel = 0;
 				}
 		}
@@ -286,7 +286,7 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML, size_t dwXMLSize, LPSTR lpszBuff, size_t d
 {
 	BOOL bRet = FALSE;
 	int thisLevel = 0;
-	LPSTR lpszFindTag = (LPSTR)tag1, lpszTagStart, lpszTagEnd = lpszXML, lpszDataStart = NULL;
+	LPSTR lpszFindTag = (LPSTR)tag1, lpszTagStart, lpszTagEnd = lpszXML, lpszDataStart = nullptr;
 	va_list va;
 
 
@@ -313,7 +313,7 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML, size_t dwXMLSize, LPSTR lpszBuff, size_t d
 					if (++thisLevel == 1)
 						if (CompareStringA(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, lpszFindTag, -1, lpszTagStart, ((lpszTagEnd + 1) - lpszTagStart)) == CSTR_EQUAL) {
 							lpszFindTag = va_arg(va, LPSTR);
-							if (lpszFindTag == NULL) lpszDataStart = (lpszTagEnd + 2);
+							if (lpszFindTag == nullptr) lpszDataStart = (lpszTagEnd + 2);
 							thisLevel = 0;
 						}
 				}
@@ -359,7 +359,7 @@ DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplaceItemsC
 	while (dwFoundedCount) {
 		// looking for first to replace
 		for (i = 0; i < dwReplaceItemsCount; i++)
-			if (plpszFound[i] && (plpszFound[i] < plpszFound[dwFirstFoundedIndex] || plpszFound[dwFirstFoundedIndex] == NULL))
+			if (plpszFound[i] && (plpszFound[i] < plpszFound[dwFirstFoundedIndex] || plpszFound[dwFirstFoundedIndex] == nullptr))
 				dwFirstFoundedIndex = i;
 
 		// in founded

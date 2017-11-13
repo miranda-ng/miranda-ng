@@ -139,7 +139,7 @@ void ChangeInfoData::PaintItemSetting(HDC hdc, RECT *rc, int i, UINT itemState)
 		rc->right = rcBtn.left;
 		DrawFrameControl(hdc, &rcBtn, DFC_SCROLL, iEditItem == i ? DFCS_SCROLLDOWN | DFCS_PUSHED : DFCS_SCROLLDOWN);
 	}
-	DrawTextUtf(hdc, text, rc, DT_END_ELLIPSIS | DT_LEFT | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER, NULL);
+	DrawTextUtf(hdc, text, rc, DT_END_ELLIPSIS | DT_LEFT | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER, nullptr);
 }
 
 static int ChangeInfoDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
@@ -317,7 +317,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 								rcItemDescr.right = rcItemValue.left;
 								rcItemDescr.left += 2;
-								DrawTextUtf(cd->nmcd.hdc, ICQTranslateUtfStatic(setting[cd->nmcd.lItemlParam].szDescription, str, MAX_PATH), &rcItemDescr, DT_END_ELLIPSIS | DT_LEFT | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER, NULL);
+								DrawTextUtf(cd->nmcd.hdc, ICQTranslateUtfStatic(setting[cd->nmcd.lItemlParam].szDescription, str, MAX_PATH), &rcItemDescr, DT_END_ELLIPSIS | DT_LEFT | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER, nullptr);
 
 								dat->PaintItemSetting(cd->nmcd.hdc, &rcItemValue, cd->nmcd.lItemlParam, cd->nmcd.uItemState);
 							}
@@ -431,7 +431,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				EnableDlgItem(hwndDlg, IDC_LIST, TRUE);
 				ShowDlgItem(hwndDlg, IDC_UPLOADING, SW_HIDE);
 				UnhookEvent(dat->hAckHook);
-				dat->hAckHook = NULL;
+				dat->hAckHook = nullptr;
 			}
 		}
 		break;
@@ -461,9 +461,9 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					if (dat->hUpload[i] && ack->hProcess == dat->hUpload[i]) break;
 
 				if (i == _countof(dat->hUpload)) break;
-				dat->hUpload[i] = NULL;
+				dat->hUpload[i] = nullptr;
 				for (done = 0, i = 0; i < _countof(dat->hUpload); i++)
-					done += dat->hUpload[i] == NULL;
+					done += dat->hUpload[i] == nullptr;
 				wchar_t buf[MAX_PATH];
 				mir_snwprintf(buf, TranslateT("Upload in progress...%d%%"), 100 * done / (_countof(dat->hUpload)));
 				SetDlgItemText(hwndDlg, IDC_UPLOADING, buf);
@@ -471,7 +471,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				dat->ClearChangeFlags();
 				UnhookEvent(dat->hAckHook);
-				dat->hAckHook = NULL;
+				dat->hAckHook = nullptr;
 				EnableDlgItem(hwndDlg, IDC_LIST, TRUE);
 				EnableDlgItem(hwndDlg, IDC_UPLOADING, FALSE);
 				SetDlgItemText(hwndDlg, IDC_UPLOADING, TranslateT("Upload complete"));
@@ -479,7 +479,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 			else if (ack->result == ACKRESULT_FAILED) {
 				UnhookEvent(dat->hAckHook);
-				dat->hAckHook = NULL;
+				dat->hAckHook = nullptr;
 				EnableDlgItem(hwndDlg, IDC_LIST, TRUE);
 				EnableDlgItem(hwndDlg, IDC_UPLOADING, FALSE);
 				SetDlgItemText(hwndDlg, IDC_UPLOADING, TranslateT("Upload FAILED"));
@@ -492,7 +492,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_DESTROY:
 		if (dat->hAckHook) {
 			UnhookEvent(dat->hAckHook);
-			dat->hAckHook = NULL;
+			dat->hAckHook = nullptr;
 		}
 
 		DeleteObject((HFONT)SendMessage(dat->hwndList, WM_GETFONT, 0, 0));

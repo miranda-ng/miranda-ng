@@ -104,7 +104,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wPa
 	if (RichEditOle) RichEditOle->Release();
 
 	if (bIsCustomLink) {
-		ENLINK enlink = { 0 };
+		ENLINK enlink = {};
 		enlink.nmhdr.hwndFrom = hwndDlg;
 		enlink.nmhdr.idFrom = IDC_SRMM_LOG;
 		enlink.nmhdr.code = EN_LINK;
@@ -156,7 +156,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		GetWindowRect(m_hwndFilter, &rcFilter);
 		if (!PtInRect(&rcFilter, pt)) {
 			SendMessage(m_hwndFilter, WM_CLOSE, 1, 1);
-			m_hwndFilter = 0;
+			m_hwndFilter = nullptr;
 		}
 	}
 
@@ -169,7 +169,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 	m_dwUnread = 0;
 	if (m_pWnd) {
 		m_pWnd->activateTab();
-		m_pWnd->setOverlayIcon(0, true);
+		m_pWnd->setOverlayIcon(nullptr, true);
 	}
 
 	if (m_pContainer->hwndSaved == m_hwnd)
@@ -193,7 +193,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 		if (KillTimer(m_hwnd, TIMERID_FLASHWND) || m_iFlashIcon) {
 			FlashTab(false);
 			m_bCanFlashTab = FALSE;
-			m_iFlashIcon = 0;
+			m_iFlashIcon = nullptr;
 		}
 		if (m_pContainer->dwFlashingStarted != 0) {
 			FlashContainer(m_pContainer, 0, 0);
@@ -205,7 +205,7 @@ void CChatRoomDlg::UpdateWindowState(UINT msg)
 			PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 
 		if (PluginConfig.m_bAutoLocaleSupport) {
-			if (hkl == 0)
+			if (hkl == nullptr)
 				DM_LoadLocale();
 			else
 				SendMessage(m_hwnd, DM_SETLOCALE, 0, 0);
@@ -537,8 +537,8 @@ void CChatRoomDlg::OnInitDialog()
 
 	m_pPanel.loadHeight();
 
-	if (PluginConfig.g_hMenuTrayUnread != 0 && m_hContact != 0 && m_szProto != nullptr)
-		UpdateTrayMenu(0, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
+	if (PluginConfig.g_hMenuTrayUnread != nullptr && m_hContact != 0 && m_szProto != nullptr)
+		UpdateTrayMenu(nullptr, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
 
 	m_log.SendMsg(EM_HIDESELECTION, TRUE, 0);
 
@@ -660,7 +660,7 @@ void CChatRoomDlg::onClick_OK(CCtrlButton*)
 	if (ptszText[0] == '/' || m_si->iType == GCW_SERVER)
 		fSound = false;
 	Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
-	mi->idleTimeStamp = time(0);
+	mi->idleTimeStamp = time(nullptr);
 	mi->lastIdleCheck = 0;
 	UpdateStatusBar();
 	if (m_pContainer)
@@ -676,7 +676,7 @@ void CChatRoomDlg::onClick_Filter(CCtrlButton *pButton)
 		return;
 
 	if (m_iLogFilterFlags == 0 && !m_bFilterEnabled) {
-		MessageBox(0, TranslateT("The filter cannot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
+		MessageBox(nullptr, TranslateT("The filter cannot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
 		m_bFilterEnabled = false;
 	}
 	else m_bFilterEnabled = !m_bFilterEnabled;
@@ -874,7 +874,7 @@ void CChatRoomDlg::UpdateOptions()
 
 void CChatRoomDlg::UpdateStatusBar()
 {
-	if (m_pContainer->m_hwndActive != m_hwnd || m_pContainer->hwndStatus == 0 || CMimAPI::m_shutDown || m_wszStatusBar[0])
+	if (m_pContainer->m_hwndActive != m_hwnd || m_pContainer->hwndStatus == nullptr || CMimAPI::m_shutDown || m_wszStatusBar[0])
 		return;
 
 	if (m_si->pszModule == nullptr)
@@ -894,7 +894,7 @@ void CChatRoomDlg::UpdateStatusBar()
 
 	wchar_t szFinalStatusBarText[512];
 	if (m_pPanel.isActive()) {
-		time_t now = time(0);
+		time_t now = time(nullptr);
 		DWORD diff = (now - mi->idleTimeStamp) / 60;
 
 		if ((diff >= 1 && diff != mi->lastIdleCheck)) {
@@ -936,7 +936,7 @@ void CChatRoomDlg::UpdateTitle()
 	}
 
 	wchar_t szTemp[100];
-	HICON hIcon = 0;
+	HICON hIcon = nullptr;
 
 	switch (m_si->iType) {
 	case GCW_CHATROOM:
@@ -1932,7 +1932,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_ACTIVE) {
-			m_pContainer->hwndSaved = 0;
+			m_pContainer->hwndSaved = nullptr;
 			break;
 		}
 		// fall through
@@ -2215,7 +2215,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (CMimAPI::m_haveBufferedPaint) {
 				hbp = CSkin::InitiateBufferedPaint(hdc, rcClient, hdcMem);
-				hbm = hbmOld = 0;
+				hbm = hbmOld = nullptr;
 			}
 			else {
 				hdcMem = CreateCompatibleDC(hdc);
@@ -2343,7 +2343,7 @@ INT_PTR CChatRoomDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			pt.x = pt.y = 0;
 			m_log.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&pt);
 			if (PluginConfig.m_bAutoLocaleSupport) {
-				if (hkl == 0)
+				if (hkl == nullptr)
 					DM_LoadLocale();
 				else
 					PostMessage(m_hwnd, DM_SETLOCALE, 0, 0);
@@ -2427,7 +2427,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 		return; // smth went wrong, nothing to do here
 
 	MCONTACT hContact = si->hContact;
-	if (Srmm_FindWindow(hContact) != 0)
+	if (Srmm_FindWindow(hContact) != nullptr)
 		return;
 
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))

@@ -22,10 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 HICON hIcon;
 HICON hMarked, hNotMarked;
 
-HWND hComboBox = NULL;
-HWND hComboBoxEdit = NULL;
+HWND hComboBox = nullptr;
+HWND hComboBoxEdit = nullptr;
 
-HWND hOpClistControl = NULL;
+HWND hOpClistControl = nullptr;
 
 static BOOL bOptionsInit;
 int opses_count;
@@ -36,7 +36,7 @@ MCONTACT session_list_t[255] = { 0 };
 HWND g_opHdlg;
 
 int width;
-HDC hdc = NULL;
+HDC hdc = nullptr;
 RECT lprect;
 RECT rc;
 POINT pt;
@@ -78,7 +78,7 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_SETCURSOR:
 		if (!hOpClistControl) {
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			return TRUE;
 		}
 		break;
@@ -100,13 +100,13 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			MarkUserDefSession(opses_count, 1);
 			hIcon = hMarked;
 			bChecked = TRUE;
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
+			RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 		}
 		else {
 			MarkUserDefSession(opses_count, 0);
 			hIcon = hNotMarked;
 			bChecked = FALSE;
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
+			RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 		}
 		break;
 
@@ -123,7 +123,7 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		rc.left = rc.right;
 		rc.right = rc.left + 16;
 		FillRect(hdc, &rc, (HBRUSH)GetSysColor(COLOR_WINDOW));
-		DrawIconEx(hdc, rc.left, 0, hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		DrawIconEx(hdc, rc.left, 0, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 		ReleaseDC(hwnd, hdc);
 		break;
 
@@ -162,7 +162,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 			SetDlgItemInt(hdlg, IDC_TRACK, g_ses_limit = db_get_b(NULL, MODNAME, "TrackCount", 10), FALSE);
 			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
-			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hdlg, IDC_TRACK, NULL, FALSE));
+			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hdlg, IDC_TRACK, nullptr, FALSE));
 
 			SendDlgItemMessage(hdlg, IDC_OPCLIST, LB_RESETCONTENT, 0, 0);
 			SetDlgItemInt(hdlg, IDC_STARTDELAY, db_get_w(NULL, MODNAME, "StartupModeDelay", 1500), FALSE);
@@ -223,7 +223,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			hComboBoxEdit = cbi.hwndItem;
 			hComboBox = cbi.hwndCombo;
 
-			SetWindowPos(hComboBoxEdit, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+			SetWindowPos(hComboBoxEdit, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
 			bOptionsInit = FALSE;
 		}
@@ -241,9 +241,9 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 		switch (((LPNMHDR)lparam)->code) {
 		case PSN_APPLY:
 			{
-				int iDelay = GetDlgItemInt(hdlg, IDC_STARTDELAY, NULL, FALSE);
+				int iDelay = GetDlgItemInt(hdlg, IDC_STARTDELAY, nullptr, FALSE);
 				db_set_w(0, MODNAME, "StartupModeDelay", (WORD)iDelay);
-				db_set_b(0, MODNAME, "TrackCount", (BYTE)(g_ses_limit = GetDlgItemInt(hdlg, IDC_TRACK, NULL, FALSE)));
+				db_set_b(0, MODNAME, "TrackCount", (BYTE)(g_ses_limit = GetDlgItemInt(hdlg, IDC_TRACK, nullptr, FALSE)));
 				if (IsDlgButtonChecked(hdlg, IDC_REXSAVE))
 					db_set_b(NULL, MODNAME, "ShutdownMode", 2);
 				else if (IsDlgButtonChecked(hdlg, IDC_REXDSAVE))
@@ -303,12 +303,12 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 						if (IsMarkedUserDefSession(opses_count)) {
 							hIcon = hMarked;
 							bChecked = TRUE;
-							RedrawWindow(hComboBoxEdit, NULL, NULL, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
+							RedrawWindow(hComboBoxEdit, nullptr, nullptr, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
 						}
 						else {
 							hIcon = hNotMarked;
 							bChecked = FALSE;
-							RedrawWindow(hComboBoxEdit, NULL, NULL, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
+							RedrawWindow(hComboBoxEdit, nullptr, nullptr, RDW_INVALIDATE | RDW_NOCHILDREN | RDW_UPDATENOW | RDW_FRAME);
 						}
 						OpLoadSessionContacts(0, opses_count);
 						if (!hOpClistControl)
@@ -336,7 +336,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				SetDlgItemText(hdlg, IDC_EDIT, TranslateT("View"));
 				hOpClistControl = CreateWindowEx(WS_EX_STATICEDGE, CLISTCONTROL_CLASSW, L"",
 					WS_TABSTOP | WS_VISIBLE | WS_CHILD,
-					14, 198, 161, 163, hdlg, (HMENU)IDC_EMCLIST, g_hInst, 0);
+					14, 198, 161, 163, hdlg, (HMENU)IDC_EMCLIST, g_hInst, nullptr);
 
 				SetWindowLongPtr(hOpClistControl, GWL_STYLE,
 					GetWindowLongPtr(hOpClistControl, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -354,7 +354,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				EnableWindow(GetDlgItem(hdlg, IDC_SAVE), FALSE);
 				SetDlgItemText(hdlg, IDC_EDIT, TranslateT("Edit"));
 				DestroyWindow(hOpClistControl);
-				hOpClistControl = NULL;
+				hOpClistControl = nullptr;
 			}
 			break;
 

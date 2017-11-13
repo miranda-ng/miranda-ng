@@ -77,7 +77,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	}
 	else {
 		DWORD mtype = MB_OK | MB_SETFOREGROUND | MB_ICONSTOP;
-		MessageBox(NULL, message, caption, mtype);
+		MessageBox(nullptr, message, caption, mtype);
 	}
 }
 

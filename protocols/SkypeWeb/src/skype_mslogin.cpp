@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnMSLoginFirst(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -56,7 +56,7 @@ void CSkypeProto::OnMSLoginFirst(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -106,7 +106,7 @@ void CSkypeProto::OnMSLoginSecond(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnMSLoginThird(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -130,7 +130,7 @@ void CSkypeProto::OnMSLoginThird(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnMSLoginEnd(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL || response->pData == NULL) {
+	if (response == nullptr || response->pData == nullptr) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
@@ -165,7 +165,7 @@ CMStringW CSkypeProto::RunConfirmationCode()
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_PASSWORD;
 	pForm.caption = caption;
-	pForm.ptszInitVal = NULL;
+	pForm.ptszInitVal = nullptr;
 	pForm.szModuleName = m_szModuleName;
 	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
 }

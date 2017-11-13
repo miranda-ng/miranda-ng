@@ -93,7 +93,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 				Sent_NetLog("cpp_decrypt: error bad_len");
 #endif
 				ptr->error = ERROR_BAD_LEN;
-				return NULL;
+				return nullptr;
 			}
 
 			BYTE crc32[CRC32::DIGESTSIZE];
@@ -106,7 +106,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 				Sent_NetLog("cpp_decrypt: error bad_crc");
 #endif
 				ptr->error = ERROR_BAD_CRC;
-				return NULL;
+				return nullptr;
 			}
 			bciphered += CRC32::DIGESTSIZE; // cut CRC32 digest
 			clen = len;
@@ -138,8 +138,8 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("cpp_decrypt: error seh");
 #endif
-		mir_free(ptr->tmp); ptr->tmp = 0;
-		return NULL;
+		mir_free(ptr->tmp); ptr->tmp = nullptr;
+		return nullptr;
 	}
 }
 
@@ -148,11 +148,11 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 LPSTR __cdecl cpp_encodeA(HANDLE context, LPCSTR msg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if (!ptr) return NULL;
+	if (!ptr) return nullptr;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA)ptr->pdata;
-	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return nullptr; }
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = (LPSTR)msg;
 
 	if (ptr->features & FEATURES_UTF8) {
@@ -176,11 +176,11 @@ LPSTR __cdecl cpp_encodeA(HANDLE context, LPCSTR msg)
 LPSTR __cdecl cpp_encodeU(HANDLE context, LPCSTR msg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if (!ptr) return NULL;
+	if (!ptr) return nullptr;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA)ptr->pdata;
-	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return nullptr; }
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = (LPSTR)msg;
 
 	if (ptr->features & FEATURES_UTF8) {
@@ -192,7 +192,7 @@ LPSTR __cdecl cpp_encodeU(HANDLE context, LPCSTR msg)
 		LPWSTR wstring = utf8decode(szOldMsg);
 		int wlen = (int)wcslen(wstring) + 1;
 		LPSTR astring = (LPSTR)alloca(wlen);
-		WideCharToMultiByte(CP_ACP, 0, (LPWSTR)szOldMsg, -1, astring, wlen, 0, 0);
+		WideCharToMultiByte(CP_ACP, 0, (LPWSTR)szOldMsg, -1, astring, wlen, nullptr, nullptr);
 		szNewMsg = cpp_encrypt(ptr, astring);
 	}
 
@@ -203,11 +203,11 @@ LPSTR __cdecl cpp_encodeU(HANDLE context, LPCSTR msg)
 LPSTR __cdecl cpp_encodeW(HANDLE context, LPWSTR msg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if (!ptr) return NULL;
+	if (!ptr) return nullptr;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA)ptr->pdata;
-	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return nullptr; }
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = (LPSTR)msg;
 
 	if (ptr->features & FEATURES_UTF8) {
@@ -218,7 +218,7 @@ LPSTR __cdecl cpp_encodeW(HANDLE context, LPWSTR msg)
 		// unicode message: convert to ansi and encrypt.
 		int wlen = (int)wcslen((LPWSTR)szOldMsg) + 1;
 		LPSTR astring = (LPSTR)alloca(wlen);
-		WideCharToMultiByte(CP_ACP, 0, (LPWSTR)szOldMsg, -1, astring, wlen, 0, 0);
+		WideCharToMultiByte(CP_ACP, 0, (LPWSTR)szOldMsg, -1, astring, wlen, nullptr, nullptr);
 		szNewMsg = cpp_encrypt(ptr, astring);
 	}
 
@@ -230,11 +230,11 @@ LPSTR __cdecl cpp_encodeW(HANDLE context, LPWSTR msg)
 LPSTR __cdecl cpp_decode(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if (!ptr) return NULL;
+	if (!ptr) return nullptr;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA)ptr->pdata;
-	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return nullptr; }
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = cpp_decrypt(ptr, szEncMsg);
 
 	if (szOldMsg) {
@@ -243,7 +243,7 @@ LPSTR __cdecl cpp_decode(HANDLE context, LPCSTR szEncMsg)
 			LPWSTR wstring = utf8decode(szOldMsg);
 			int wlen = (int)wcslen(wstring) + 1;
 			szNewMsg = (LPSTR)mir_alloc(wlen*(sizeof(WCHAR)+2));			// work.zy@gmail.com
-			WideCharToMultiByte(CP_ACP, 0, wstring, -1, szNewMsg, wlen, 0, 0);
+			WideCharToMultiByte(CP_ACP, 0, wstring, -1, szNewMsg, wlen, nullptr, nullptr);
 			memcpy(szNewMsg + strlen(szNewMsg) + 1, wstring, wlen*sizeof(WCHAR));	// work.zy@gmail.com
 		}
 		else {
@@ -265,12 +265,12 @@ LPSTR __cdecl cpp_decodeU(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
 	if (!ptr)
-		return NULL;
+		return nullptr;
 	mir_free(ptr->tmp);
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA)ptr->pdata;
-	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return nullptr; }
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = cpp_decrypt(ptr, szEncMsg);
 
 	if (szOldMsg) {

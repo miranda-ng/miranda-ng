@@ -71,7 +71,7 @@ void DeleteCListGroupsByName(wchar_t* szGroupName)
 		db_set_b(NULL, "CList", "ConfirmDelete", 0);
 
 	wchar_t *szGroup;
-	for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++)
+	for (int i = 1; (szGroup = Clist_GroupGetName(i, nullptr)) != nullptr; i++)
 		if (!mir_wstrcmp(szGroupName, szGroup))
 			Clist_GroupDelete(i);
 
@@ -133,7 +133,7 @@ const int Stricmp(const wchar_t *str, const wchar_t *substr)
 wchar_t* ReqGetText(DBEVENTINFO* dbei)
 {
 	if (!dbei->pBlob)
-		return 0;
+		return nullptr;
 
 	char * ptr = (char *)&dbei->pBlob[sizeof(DWORD) * 2];
 	int len = dbei->cbBlob - sizeof(DWORD) * 2;
@@ -149,12 +149,12 @@ wchar_t* ReqGetText(DBEVENTINFO* dbei)
 		char * tstr = (char *)mir_alloc(len + 1);
 		memcpy(tstr, ptr, len);
 		tstr[len] = 0;
-		WCHAR* msg = NULL;
+		WCHAR* msg = nullptr;
 		msg = (dbei->flags&DBEF_UTF) ? mir_utf8decodeW(tstr) : mir_a2u(tstr);
 		mir_free(tstr);
 		return (wchar_t *)msg;
 	};
-	return 0;
+	return nullptr;
 }
 
 BOOL IsUrlContains(wchar_t * Str)
@@ -316,7 +316,7 @@ void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 	Event.szModule = pluginName;
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
-	Event.timestamp = (DWORD)time(NULL);
+	Event.timestamp = (DWORD)time(nullptr);
 	Event.cbBlob = (DWORD)mir_strlen(data) + 1;
 	Event.pBlob = (PBYTE)_strdup(data);
 	db_event_add(hContact, &Event);

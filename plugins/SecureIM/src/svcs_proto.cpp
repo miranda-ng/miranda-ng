@@ -1,7 +1,7 @@
 #include "commonheaders.h"
 
 // return SignID
-int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg = NULL)
+int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg = nullptr)
 {
 	if (szPlainMsg) *szPlainMsg = (LPSTR)szMsg;
 	for (int i = 0; signs[i].len; i++) {
@@ -23,7 +23,7 @@ static void sttFakeAck(LPVOID param)
 	TFakeAckParams *tParam = (TFakeAckParams*)param;
 
 	Sleep(100);
-	if (tParam->msg == NULL)
+	if (tParam->msg == nullptr)
 		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->id, 0);
 	else
 		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, LPARAM(tParam->msg));
@@ -33,7 +33,7 @@ static void sttFakeAck(LPVOID param)
 
 int returnNoError(MCONTACT hContact)
 {
-	mir_forkthread(sttFakeAck, new TFakeAckParams(hContact, 777, 0));
+	mir_forkthread(sttFakeAck, new TFakeAckParams(hContact, 777, nullptr));
 	return 777;
 }
 
@@ -43,7 +43,7 @@ int returnError(MCONTACT hContact, LPCSTR err)
 	return 666;
 }
 
-LPSTR szUnrtfMsg = NULL;
+LPSTR szUnrtfMsg = nullptr;
 
 // RecvMsg handler
 INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
@@ -51,7 +51,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = (PROTORECVEVENT *)ccs->lParam;
 	pUinKey ptr = getUinKey(ccs->hContact);
-	LPSTR szEncMsg = ppre->szMessage, szPlainMsg = NULL;
+	LPSTR szEncMsg = ppre->szMessage, szPlainMsg = nullptr;
 
 	Sent_NetLog("onRecvMsg: %s", szEncMsg);
 
@@ -140,8 +140,8 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		if (!strstr(szEncMsg, "-----END PGP MESSAGE-----"))
 			return 1; // no end tag, don't display it ...
 
-		LPSTR szNewMsg = NULL;
-		LPSTR szOldMsg = NULL;
+		LPSTR szNewMsg = nullptr;
+		LPSTR szOldMsg = nullptr;
 
 		if (!ptr->keyLoaded && bPGPloaded) ptr->keyLoaded = LoadKeyPGP(ptr);
 		if (!ptr->keyLoaded && bGPGloaded) ptr->keyLoaded = LoadKeyGPG(ptr);
@@ -284,7 +284,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 	case SiG_DEIN: // deinit message
 		// other user has disabled SecureIM with you
-		cpp_delete_context(ptr->cntx); ptr->cntx = 0;
+		cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
 
 		showPopupDC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
@@ -298,7 +298,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		if (ptr->mode == MODE_RSAAES) {
 			ptr->mode = MODE_NATIVE;
 			cpp_delete_context(ptr->cntx);
-			ptr->cntx = 0;
+			ptr->cntx = nullptr;
 			ptr->keyLoaded = 0;
 			db_set_b(ptr->hContact, MODULENAME, "mode", ptr->mode);
 		}
@@ -481,7 +481,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			if (!ptr->keyLoaded && bGPGloaded) ptr->keyLoaded = LoadKeyGPG(ptr);
 			if (!ptr->keyLoaded) return returnError(ccs->hContact, Translate(sim108));
 
-			LPSTR szNewMsg = NULL;
+			LPSTR szNewMsg = nullptr;
 			ptrA szUtfMsg(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam));
 			if (ptr->keyLoaded == 1) // PGP
 				szNewMsg = pgp_encode(ptr->cntx, szUtfMsg);
@@ -606,7 +606,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			return returnError(ccs->hContact, Translate(sim105));
 
 		if (ptr->cntx) { // if secure context exists
-			cpp_delete_context(ptr->cntx); ptr->cntx = 0;
+			cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
 
 			CCSDATA ccsd;
 			memcpy(&ccsd, (HLOCAL)lParam, sizeof(CCSDATA));
@@ -651,7 +651,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			else {
 				db_unset(ptr->hContact, MODULENAME, "offlineKey");
 				db_unset(ptr->hContact, MODULENAME, "offlineKeyTimeout");
-				if (msgbox1(0, sim106, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDNO)
+				if (msgbox1(nullptr, sim106, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDNO)
 					return returnNoError(ccs->hContact);
 
 				// exit and send unencrypted message
@@ -689,7 +689,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 		// disable SecureIM only if it was enabled
 		if (ptr->cntx) {
-			cpp_delete_context(ptr->cntx); ptr->cntx = 0;
+			cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
 
 			ccs->wParam |= PREF_METANODB;
 			Proto_ChainSend(wParam, ccs);

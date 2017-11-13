@@ -110,7 +110,7 @@ void InitTrayMenus(void)
 	hEventPreBuildTrayMenu = CreateHookableEvent(ME_CLIST_PREBUILDTRAYMENU);
 
 	// Tray menu
-	hTrayMenuObject = Menu_AddObject("TrayMenu", LPGEN("Tray menu"), 0, "CLISTMENUSTRAY/ExecService");
+	hTrayMenuObject = Menu_AddObject("TrayMenu", LPGEN("Tray menu"), nullptr, "CLISTMENUSTRAY/ExecService");
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSTRAY/FreeOwnerDataTrayMenu");
 	Menu_ConfigureObject(hTrayMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSTRAY/TrayMenuOnAddService");

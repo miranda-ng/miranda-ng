@@ -24,7 +24,7 @@ void CToxProto::TryConnect(Tox *tox)
 	int maxConnectRetries = getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES);
 	if (m_iStatus++ > maxConnectRetries) {
 		SetStatus(ID_STATUS_OFFLINE);
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 		debugLogA(__FUNCTION__": failed to connect to DHT");
 		return;
 	}
@@ -82,7 +82,7 @@ void CToxProto::PollingThread(void*)
 	Tox_Options *options = GetToxOptions();
 	if (!options) {
 		SetStatus(ID_STATUS_OFFLINE);
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr);
 		debugLogA(__FUNCTION__": leaving");
 		return;
 	}
@@ -113,8 +113,8 @@ void CToxProto::PollingThread(void*)
 	}
 
 	UninitToxCore(toxThread.Tox());
-	this->toxThread = NULL;
-	hPollingThread = NULL;
+	this->toxThread = nullptr;
+	hPollingThread = nullptr;
 
 	debugLogA(__FUNCTION__": leaving");
 }

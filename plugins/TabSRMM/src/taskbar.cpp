@@ -59,7 +59,7 @@
  * used by getMUCBigICon()
  */
 
-CTaskbarInteract* Win7Taskbar = 0;
+CTaskbarInteract* Win7Taskbar = nullptr;
 
 /**
  * set the overlay icon for a task bar button. Used for typing notifications and incoming
@@ -98,13 +98,13 @@ bool CTaskbarInteract::haveLargeIcons()
 		 * also, figure out the button grouping mode.
 		 */
 		if (::RegOpenKey(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced", &hKey) == ERROR_SUCCESS) {
-			::RegQueryValueEx(hKey, L"TaskbarSmallIcons", 0, &dwType, (LPBYTE)&val, &size);
+			::RegQueryValueEx(hKey, L"TaskbarSmallIcons", nullptr, &dwType, (LPBYTE)&val, &size);
 			size = 4;
 			dwType = REG_DWORD;
 			/*
 			 * this is the "grouping mode" setting for the task bar. 0 = always combine, no labels
 			 */
-			::RegQueryValueEx(hKey, L"TaskbarGlomLevel", 0, &dwType, (LPBYTE)&valGrouping, &size);
+			::RegQueryValueEx(hKey, L"TaskbarGlomLevel", nullptr, &dwType, (LPBYTE)&valGrouping, &size);
 			::RegCloseKey(hKey);
 		}
 		m_fHaveLargeicons = (val ? false : true);			// small icons in use, revert to default icon feedback
@@ -140,7 +140,7 @@ void CTaskbarInteract::registerTab(const HWND hwndTab, const HWND hwndContainer)
 {
 	if (m_isEnabled) {
 		m_pTaskbarInterface->RegisterTab(hwndTab, hwndContainer);
-		m_pTaskbarInterface->SetTabOrder(hwndTab, 0);
+		m_pTaskbarInterface->SetTabOrder(hwndTab, nullptr);
 	}
 }
 
@@ -210,8 +210,8 @@ void CTabBaseDlg::VerifyProxy()
 CProxyWindow::CProxyWindow(CTabBaseDlg *dat)
 {
 	m_dat = dat;
-	m_hBigIcon = 0;
-	m_thumb = 0;
+	m_hBigIcon = nullptr;
+	m_thumb = nullptr;
 
 	m_hwndProxy = ::CreateWindowEx(/*WS_EX_TOOLWINDOW | */WS_EX_NOACTIVATE, PROXYCLASSNAME, L"",
 		WS_POPUP | WS_BORDER | WS_SYSMENU | WS_CAPTION, -32000, -32000, 10, 10, nullptr, nullptr, g_hInst, (LPVOID)this);
@@ -239,7 +239,7 @@ CProxyWindow::~CProxyWindow()
 #endif
 	if (m_thumb) {
 		delete m_thumb;
-		m_thumb = 0;
+		m_thumb = nullptr;
 	}
 }
 
@@ -252,7 +252,7 @@ void CProxyWindow::verifyDwmState()
 	if (!M.isDwmActive()) {
 		if (m_thumb) {
 			delete m_thumb;
-			m_thumb = 0;
+			m_thumb = nullptr;
 		}
 	}
 	else {
@@ -273,7 +273,7 @@ void CProxyWindow::verifyDwmState()
  */
 void CProxyWindow::sendThumb(LONG width, LONG height)
 {
-	if (0 == m_thumb) {
+	if (nullptr == m_thumb) {
 		m_width = width;
 		m_height = height;
 		m_thumb = m_dat->tabCreateThumb(this);
@@ -304,7 +304,7 @@ void CProxyWindow::sendPreview()
 	if (!m_thumb || !dat_active)
 		return;
 
-	FORMATRANGE fr = { 0 };
+	FORMATRANGE fr = {};
 	POINT pt = { 0 };
 	RECT rcContainer, rcTemp, rcRich, rcLog;
 	HDC hdc, dc;
@@ -580,7 +580,7 @@ CThumbBase::CThumbBase(const CProxyWindow* _p) :
 	m_isValid(false)
 {
 	m_pWnd = _p;
-	m_hbmThumb = 0;
+	m_hbmThumb = nullptr;
 	renderBase();
 }
 
@@ -591,7 +591,7 @@ CThumbBase::CThumbBase(const CProxyWindow* _p) :
  */
 void CThumbBase::renderBase()
 {
-	HICON	hIcon = 0;
+	HICON	hIcon = nullptr;
 	HBRUSH	brBack;
 	LONG	lIconSize = 32;
 
@@ -599,7 +599,7 @@ void CThumbBase::renderBase()
 	m_height = m_pWnd->getHeight();
 	m_dat = m_pWnd->getDat();
 	m_dtFlags = 0;
-	m_hOldFont = 0;
+	m_hOldFont = nullptr;
 
 #if defined(__LOGDEBUG_)
 	_DebugTraceW(L"refresh base (background) with %d, %d", m_width, m_height);
@@ -611,7 +611,7 @@ void CThumbBase::renderBase()
 
 	if (m_hbmThumb) {
 		::DeleteObject(m_hbmThumb);
-		m_hbmThumb = 0;
+		m_hbmThumb = nullptr;
 	}
 
 	HDC dc = ::GetDC(m_pWnd->getHwnd());
@@ -639,7 +639,7 @@ void CThumbBase::renderBase()
 	setupRect();
 	hIcon = m_pWnd->getBigIcon();
 
-	if (0 == hIcon) {
+	if (nullptr == hIcon) {
 		if (m_dat->m_dwUnread) {
 			if (PluginConfig.g_IconMsgEventBig)
 				hIcon = PluginConfig.g_IconMsgEventBig;
@@ -650,16 +650,16 @@ void CThumbBase::renderBase()
 		}
 		else {
 			hIcon = reinterpret_cast<HICON>(Skin_LoadProtoIcon(m_dat->m_cache->getActiveProto(), m_dat->m_cache->getActiveStatus(), true));
-			if (0 == hIcon || reinterpret_cast<HICON>(CALLSERVICE_NOTFOUND) == hIcon) {
+			if (nullptr == hIcon || reinterpret_cast<HICON>(CALLSERVICE_NOTFOUND) == hIcon) {
 				hIcon = reinterpret_cast<HICON>(Skin_LoadProtoIcon(m_dat->m_cache->getActiveProto(), m_dat->m_cache->getActiveStatus()));
 				lIconSize = 16;
 			}
 		}
 	}
-	::DrawIconEx(m_hdc, m_rcIcon.right / 2 - lIconSize / 2, m_rcIcon.top, hIcon, lIconSize, lIconSize, 0, 0, DI_NORMAL);
+	::DrawIconEx(m_hdc, m_rcIcon.right / 2 - lIconSize / 2, m_rcIcon.top, hIcon, lIconSize, lIconSize, 0, nullptr, DI_NORMAL);
 	hIcon = m_pWnd->getOverlayIcon();
 	if (hIcon)
-		::DrawIconEx(m_hdc, m_rcIcon.right - 16, m_rcIcon.top + 16, hIcon, 16, 16, 0, 0, DI_NORMAL);
+		::DrawIconEx(m_hdc, m_rcIcon.right - 16, m_rcIcon.top + 16, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 
 	m_rcIcon.top += (lIconSize + 3);
 	CSkin::RenderText(m_hdc, m_dat->m_hTheme, m_dat->m_wszStatus, &m_rcIcon, m_dtFlags | DT_CENTER | DT_WORD_ELLIPSIS, 10, 0, true);
@@ -710,7 +710,7 @@ CThumbBase::~CThumbBase()
 {
 	if (m_hbmThumb) {
 		::DeleteObject(m_hbmThumb);
-		m_hbmThumb = 0;
+		m_hbmThumb = nullptr;
 		m_isValid = false;
 	}
 #if defined(__LOGDEBUG_)
@@ -786,7 +786,7 @@ void CThumbIM::renderContent()
 	m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height
 
 	const wchar_t *tszStatusMsg = m_dat->m_cache->getStatusMsg();
-	if (tszStatusMsg == 0)
+	if (tszStatusMsg == nullptr)
 		tszStatusMsg = TranslateT("No status message");
 
 	CSkin::RenderText(m_hdc, m_dat->m_hTheme, tszStatusMsg, &m_rcBottom, DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | m_dtFlags, 10, 0, true);
@@ -882,9 +882,9 @@ void CThumbMUC::renderContent()
 
 	m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height
 
-	const wchar_t *szStatusMsg = 0;
+	const wchar_t *szStatusMsg = nullptr;
 	if (si->iType != GCW_SERVER) {
-		if (0 == (szStatusMsg = si->ptszTopic))
+		if (nullptr == (szStatusMsg = si->ptszTopic))
 			szStatusMsg = TranslateT("no topic set.");
 	}
 	else if (mi) {

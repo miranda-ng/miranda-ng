@@ -24,7 +24,7 @@ void FileWrite(MCONTACT);
 void HistoryWrite(MCONTACT hcontact);
 
 extern HANDLE g_hShutdownEvent;
-char *courProtoName = 0;
+char *courProtoName = nullptr;
 
 void LoadWatchedProtos()
 {
@@ -41,7 +41,7 @@ void LoadWatchedProtos()
 	if (szProtos == NULL)
 		return;
 
-	for (char *p = strtok(szProtos, "\n"); p != NULL; p = strtok(NULL, "\n"))
+	for (char *p = strtok(szProtos, "\n"); p != nullptr; p = strtok(nullptr, "\n"))
 		arWatchedProtos.insert(mir_strdup(p));
 }
 
@@ -57,14 +57,14 @@ void UnloadWatchedProtos()
 
 int IsWatchedProtocol(const char* szProto)
 {
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 0;
 
 	PROTOACCOUNT *pd = Proto_GetAccount(szProto);
-	if (pd == NULL || CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+	if (pd == nullptr || CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 		return 0;
 
-	return arWatchedProtos.find((char*)szProto) != NULL;
+	return arWatchedProtos.find((char*)szProto) != nullptr;
 }
 
 BOOL isYahoo(char *protoname)
@@ -504,12 +504,12 @@ void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
 {
 	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hcontact, IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
-	char *soundname = NULL;
+	char *soundname = nullptr;
 	if ((newStatus == ID_STATUS_ONLINE) || (newStatus == ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
 	else if (newStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
 	else if (oldStatus == ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
 	else soundname = "LastSeenTrackedStatusChange";
-	if (soundname != NULL)
+	if (soundname != nullptr)
 		Skin_PlaySound(soundname);
 }
 
@@ -556,7 +556,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 		DBWriteTimeTS(cws->value.dVal, hContact);
 		
 		HWND hwnd = WindowList_Find(g_pUserInfo, hContact);
-		if (hwnd != NULL)
+		if (hwnd != nullptr)
 			SendMessage(hwnd, WM_REFRESH_UI, hContact, 0);
 		return 0;
 	}
@@ -586,7 +586,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 				mir_snprintf(str, "OffTime-%s", szProto);
 				DWORD t = db_get_dw(NULL, S_MOD, str, 0);
 				if (!t)
-					t = time(NULL);
+					t = time(nullptr);
 				DBWriteTimeTS(t, hContact);
 			}
 
@@ -613,7 +613,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			if (cws->value.wVal == prevStatus && !db_get_b(hContact, S_MOD, "Offline", 0))
 				return 0;
 
-			DBWriteTimeTS(time(NULL), hContact);
+			DBWriteTimeTS(time(nullptr), hContact);
 
 			if (g_bFileActive) FileWrite(hContact);
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
@@ -631,7 +631,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 		if (CallProtoService(cws->szModule, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
 			mir_cslock lck(csContacts);
 			logthread_info *p = arContacts.find((logthread_info*)&hContact);
-			if (p == NULL) {
+			if (p == nullptr) {
 				p = (logthread_info*)mir_calloc(sizeof(logthread_info));
 				p->hContact = hContact;
 				mir_strncpy(p->sProtoName, cws->szModule, _countof(p->sProtoName));
@@ -681,7 +681,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 	if (!IsWatchedProtocol(courProtoName) && strncmp(courProtoName, "MetaContacts", 12))
 		return 0;
 
-	DBWriteTimeTS(time(NULL), NULL);
+	DBWriteTimeTS(time(nullptr), NULL);
 
 	//	isetting=CallProtoService(ack->szModule,PS_GETSTATUS,0,0);
 	WORD isetting = (WORD)ack->lParam;
@@ -718,7 +718,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 	if (g_bFileActive)
 		FileWrite(NULL);
 
-	courProtoName = NULL;
+	courProtoName = nullptr;
 	return 0;
 }
 

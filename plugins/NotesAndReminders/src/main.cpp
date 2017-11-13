@@ -1,16 +1,16 @@
 #include "globals.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hinstance = NULL;
-HINSTANCE hmiranda = NULL;
+HINSTANCE hinstance = nullptr;
+HINSTANCE hmiranda = nullptr;
 int hLangpack;
 
-HANDLE hkOptInit = NULL;
-HANDLE hkTopToolbarInit = NULL; 
-HANDLE hkModulesLoaded = NULL;
-HANDLE hkFontChange = NULL;
-HANDLE hkColorChange = NULL;
-HMODULE hRichedDll = NULL;
+HANDLE hkOptInit = nullptr;
+HANDLE hkTopToolbarInit = nullptr; 
+HANDLE hkModulesLoaded = nullptr;
+HANDLE hkFontChange = nullptr;
+HANDLE hkColorChange = nullptr;
+HMODULE hRichedDll = nullptr;
 
 extern TREEELEMENT *g_Stickies;
 extern TREEELEMENT *RemindersList;
@@ -39,7 +39,7 @@ void CloseReminderList();
 
 INT_PTR PluginMenuCommandAddNew(WPARAM, LPARAM)
 {
-	STICKYNOTE *PSN = NewNote(0,0,0,0,NULL,NULL,TRUE,TRUE,0);
+	STICKYNOTE *PSN = NewNote(0,0,0,0,nullptr,nullptr,TRUE,TRUE,0);
 	if(PSN)
 		SetFocus(PSN->REHwnd);
 	return 0;
@@ -47,7 +47,7 @@ INT_PTR PluginMenuCommandAddNew(WPARAM, LPARAM)
 
 INT_PTR PluginMenuCommandDeleteAll(WPARAM, LPARAM)
 {
-	if (g_Stickies && MessageBox(NULL, Translate("Are you sure you want to delete all notes?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
+	if (g_Stickies && MessageBox(nullptr, Translate("Are you sure you want to delete all notes?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteNotes();
 	return 0;
 }
@@ -66,7 +66,7 @@ static INT_PTR PluginMenuCommandViewNotes(WPARAM, LPARAM)
 
 static INT_PTR PluginMenuCommandAllBringFront(WPARAM, LPARAM)
 {
-	BringAllNotesToFront(NULL);
+	BringAllNotesToFront(nullptr);
 	return 0;
 }
 
@@ -84,7 +84,7 @@ static INT_PTR PluginMenuCommandViewReminders(WPARAM, LPARAM)
 
 static INT_PTR PluginMenuCommandDeleteReminders(WPARAM, LPARAM)
 {
-	if (RemindersList && MessageBox(NULL, Translate("Are you sure you want to delete all reminders?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
+	if (RemindersList && MessageBox(nullptr, Translate("Are you sure you want to delete all reminders?"), Translate(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteReminders();
 	return 0;
 }
@@ -129,7 +129,7 @@ static int OnOptInitialise(WPARAM w, LPARAM)
 
 int OnTopToolBarInit(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 
 	ttb.hIconHandleUp = iconList[14].hIcolib;
@@ -178,7 +178,7 @@ static void InitServices()
 static void addMenuItem(CMenuItem &mi)
 {
 	if (g_AddContListMI) {
-		HGENMENU save = mi.root; mi.root = NULL;
+		HGENMENU save = mi.root; mi.root = nullptr;
 		Menu_AddContactMenuItem(&mi);
 		mi.root = save;
 	}
@@ -300,7 +300,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
-	hmiranda = GetModuleHandle(NULL);
+	hmiranda = GetModuleHandle(nullptr);
 
 	INITCOMMONCONTROLSEX ctrls = { 0 };
 	ctrls.dwSize = sizeof(INITCOMMONCONTROLSEX);
@@ -309,7 +309,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hRichedDll = LoadLibrary("Msftedit.dll");
 	if (!hRichedDll) {
-		if (MessageBox(0, Translate("Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."), SECTIONNAME, MB_YESNO | MB_ICONINFORMATION) != IDYES)
+		if (MessageBox(nullptr, Translate("Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."), SECTIONNAME, MB_YESNO | MB_ICONINFORMATION) != IDYES)
 			return 1;
 		return 0;
 	}

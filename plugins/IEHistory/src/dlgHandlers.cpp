@@ -162,18 +162,18 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 	int cLoad = LOAD_COUNT;
 	int i;
 	IEVIEWEVENTDATA ieData[LOAD_COUNT] = { 0 };
-	PBYTE messages[LOAD_COUNT] = { 0 };
+	PBYTE messages[LOAD_COUNT] = {};
 	MEVENT dbEvent = data->ieEvent.hDbEventFirst;
 	for (i = 0; i < LOAD_COUNT; i++) {
 		ieData[i].cbSize = sizeof(IEVIEWEVENTDATA); //set the cbsize here, no need to do it every time
 		ieData[i].next = &ieData[i + 1]; //it's a vector, so v[i]'s next element is v[i + 1]
 	}
-	ieData[LOAD_COUNT - 1].next = NULL;
+	ieData[LOAD_COUNT - 1].next = nullptr;
 	IEVIEWEVENT ieEvent = data->ieEvent;
 	ieEvent.iType = IEE_LOG_MEM_EVENTS;
 	ieEvent.eventData = ieData;
 	DBEVENTINFO dbInfo = {};
-	PBYTE buffer = NULL;
+	PBYTE buffer = nullptr;
 	int newSize, oldSize = 0;
 	while (count < target) {
 		cLoad = (count + LOAD_COUNT > target) ? target - count : LOAD_COUNT;
@@ -195,7 +195,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 			//FillIEViewEventData(&ieData[i], dbEvent);
 			dbEvent = db_event_next(0, dbEvent);
 		}
-		ieData[cLoad - 1].next = NULL; //cLoad < LOAD_COUNT will only happen once, at the end
+		ieData[cLoad - 1].next = nullptr; //cLoad < LOAD_COUNT will only happen once, at the end
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
 		count += cLoad;
 	}
@@ -336,7 +336,7 @@ int ScrollToBottom(HWND hWnd)
 
 void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOWPOS *wndPos, int anchors)
 {
-	if (NULL == window) /* Wine fix. */
+	if (nullptr == window) /* Wine fix. */
 		return;
 	RECT rChild = AnchorCalcPos(window, rParent, wndPos, anchors);
 	hdWnds = DeferWindowPos(hdWnds, window, HWND_NOTOPMOST, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, SWP_NOZORDER);
@@ -375,7 +375,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				hWnd, //parent
 				(HMENU)IDC_STATUSBAR, //menu
 				hInstance, //instance
-				NULL); //lpParam
+				nullptr); //lpParam
 			int x;
 			int widths[] = { x = 50, x += 50, x += 150, -1 };
 			int count = sizeof(widths) / sizeof(widths[0]);
@@ -465,10 +465,10 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 		case IDC_SEARCH:
 			HWND hSearch = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_SEARCH), hWnd, SearchDlgProc);
-			if (hSearch == NULL) {
+			if (hSearch == nullptr) {
 				char buffer[1024];
 				sprintf(buffer, "Error #%d", GetLastError());
-				MessageBoxA(0, buffer, "Error", MB_OK);
+				MessageBoxA(nullptr, buffer, "Error", MB_OK);
 			}
 			SearchWindowData *searchData = (SearchWindowData *)malloc(sizeof(SearchWindowData));
 			searchData->contact = data->contact;
@@ -663,7 +663,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				data->index += (direction == DIRECTION_BACK) ? -searchResult.index : searchResult.index;
 				LoadPage(data->hHistoryWindow, searchResult.hEvent, data->index, histData->itemsPerPage / 2, histData->itemsPerPage, DIRECTION_BACK);
 			}
-			else MessageBox(0, TranslateT("Search finished. No more entries..."), TranslateT("Information"), MB_OK | MB_ICONINFORMATION);
+			else MessageBox(nullptr, TranslateT("Search finished. No more entries..."), TranslateT("Information"), MB_OK | MB_ICONINFORMATION);
 
 			data->hLastFoundEvent = searchResult.hEvent;
 			break;

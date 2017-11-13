@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "jabber_opttree.h"
 
-static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
+static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberRegisterDlgProc - the dialog proc for registering new account
@@ -539,7 +539,7 @@ private:
 
 	void btnRegister_OnClick(CCtrlButton *)
 	{
-		PSHNOTIFY pshn = { 0 };
+		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
 		pshn.hdr.hwndFrom = m_hwnd;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -1823,7 +1823,7 @@ private:
 
 	void btnRegister_OnClick(CCtrlButton *)
 	{
-		PSHNOTIFY pshn = { 0 };
+		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
 		pshn.hdr.hwndFrom = m_hwnd;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);

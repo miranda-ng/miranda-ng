@@ -43,7 +43,7 @@ static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 LIST<THotkeyItem> hotkeys(10, sttCompareHotkeys);
 DWORD g_pid = 0, g_hkid = 1;
 HWND g_hwndHotkeyHost = nullptr, g_hwndHkOptions = nullptr;
-HANDLE hEvChanged = 0;
+HANDLE hEvChanged = nullptr;
 
 static BOOL bModuleInitialized = FALSE;
 static HHOOK hhkKeyboard = nullptr;
@@ -157,7 +157,7 @@ MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *desc, int _hLangpack)
 		p->Enabled = !db_get_b(0, DBMODULENAME "Off", p->pszName, 0);
 	}
 
-	p->pszService = desc->pszService ? mir_strdup(desc->pszService) : 0;
+	p->pszService = desc->pszService ? mir_strdup(desc->pszService) : nullptr;
 	p->DefHotkey = desc->DefHotKey & ~HKF_MIRANDA_LOCAL;
 	p->Hotkey = db_get_w(0, DBMODULENAME, p->pszName, p->DefHotkey);
 	p->type = p->pszService ?
@@ -343,7 +343,7 @@ int LoadSkinHotkeys(void)
 	g_pid = GetCurrentProcessId();
 
 	g_hwndHotkeyHost = CreateWindow(L"MirandaHotkeyHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInst, nullptr);
-	SetWindowPos(g_hwndHotkeyHost, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
+	SetWindowPos(g_hwndHotkeyHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	hhkKeyboard = SetWindowsHookEx(WH_KEYBOARD, sttKeyboardProc, nullptr, hMainThreadId);
 

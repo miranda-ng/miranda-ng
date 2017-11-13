@@ -155,7 +155,7 @@ void CTemplateEditDlg::OnInitDialog()
 
 	m_hContact = db_find_first();
 	m_szProto = GetContactProto(m_hContact);
-	while (m_szProto == 0 && m_hContact != 0) {
+	while (m_szProto == nullptr && m_hContact != 0) {
 		m_hContact = db_find_next(m_hContact);
 		m_szProto = GetContactProto(m_hContact);
 	}

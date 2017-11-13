@@ -24,7 +24,7 @@ struct EventListNode {
 	EventListNode *next;
 };
 
-EventListNode *event_list = 0;
+EventListNode *event_list = nullptr;
 
 // plugin stuff
 PLUGININFOEX pluginInfo =
@@ -59,7 +59,7 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 	bool remove;
 
 	mir_cslock lck(list_cs);
-	EventListNode *node = event_list, *prev = 0;
+	EventListNode *node = event_list, *prev = nullptr;
 	while(node) {
 		remove = false;
 		if (hContact == 0 || hContact == node->hContact) {
@@ -133,7 +133,7 @@ int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
 
 INT_PTR ServiceClear(WPARAM hContact, LPARAM)
 {
-	if (MessageBox(0, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES)
+	if (MessageBox(nullptr, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES)
 		RemoveAllEvents(hContact);
 	
 	return 0;

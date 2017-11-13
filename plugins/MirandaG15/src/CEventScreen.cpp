@@ -107,7 +107,7 @@ void CEventScreen::OnConfigChanged()
 
 	// Update all timestamps
 	list<CListEntry<CEventLogEntry*>*>::iterator iter =  m_EventLog.begin();
-	CListItem<CEventLogEntry*> *pItem = NULL;
+	CListItem<CEventLogEntry*> *pItem = nullptr;
 	while(iter != m_EventLog.end())
 	{
 		pItem = static_cast<CListItem<CEventLogEntry*>*>(*iter);

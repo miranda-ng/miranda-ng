@@ -38,7 +38,7 @@ MessageQueueUtils::MessageQueueUtils()
 {
 	unloadedMQProcessId = -1;
 	//one mutex per all messagequeues schould be enough
-	smMutex = CreateMutex(NULL, FALSE, L"Local\\mirfoxMqMirSm");
+	smMutex = CreateMutex(nullptr, FALSE, L"Local\\mirfoxMqMirSm");
 }
 
 
@@ -114,7 +114,7 @@ MessageQueueUtils::unloadMessageQueue(uint16_t unloadedMQProcessId)
 	this->unloadedMQProcessId = unloadedMQProcessId;
 	if (mqMirSm){
 		delete mqMirSm;
-		mqMirSm = NULL;
+		mqMirSm = nullptr;
 	} else {
 		logger->log(L"MessageQueueUtils::unloadMessageQueue - mqMirSm was NULL");
 	}
@@ -231,7 +231,7 @@ MessageQueueUtils::sendMessage(int clientRecordId, char menuItemType, char userA
 				getMqName(clientRecordId).c_str(),
 				boost::interprocess::read_write);
 
-		if (sm == NULL){
+		if (sm == nullptr){
 			logger->log(L"MessageQueueUtils::sendMessage (sm mode) sm == NULL");
 			return; //error
 		}

@@ -173,7 +173,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 void CJabberProto::OnLoggedIn()
 {
 	m_bJabberOnline = true;
-	m_tmJabberLoggedInTime = time(0);
+	m_tmJabberLoggedInTime = time(nullptr);
 
 	m_ThreadInfo->dwLoginRqs = 0;
 
@@ -1415,7 +1415,7 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, HXML n, const wchar_t 
 	if (mimeType != nullptr)
 		pictureType = ProtoGetAvatarFormatByMimeType(mimeType);
 	else
-		pictureType = ProtoGetBufferFormat(body, 0);
+		pictureType = ProtoGetBufferFormat(body, nullptr);
 	if (pictureType == PA_FORMAT_UNKNOWN) {
 		debugLogW(L"Invalid mime type specified for picture: %s", mimeType);
 		return;
@@ -1582,7 +1582,7 @@ void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo *pInfo)
 		if (szSeconds) {
 			int nSeconds = _wtoi(szSeconds);
 			if (nSeconds > 0)
-				lastActivity = time(0) - nSeconds;
+				lastActivity = time(nullptr) - nSeconds;
 		}
 
 		LPCTSTR szLastStatusMessage = XPathT(iqNode, "query[@xmlns='jabber:iq:last']");

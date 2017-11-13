@@ -96,7 +96,7 @@ static INT_PTR CALLBACK TlenPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 static VOID NTAPI TlenPasswordCreateDialogApcProc(ULONG_PTR param)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_PASSWORD), NULL, TlenPasswordDlgProc, (LPARAM) param);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_PASSWORD), nullptr, TlenPasswordDlgProc, (LPARAM) param);
 }
 
 void __cdecl TlenServerThread(ThreadData *info)
@@ -115,7 +115,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 	// Normal server connection, we will fetch all connection parameters
 	// e.g. username, password, etc. from the database.
 
-	if (info->proto->threadData != NULL) {
+	if (info->proto->threadData != nullptr) {
 		// Will not start another connection thread if a thread is already running.
 		// Make APC call to the main thread. This will immediately wake the thread up
 		// in case it is asleep in the reconnect loop so that it will immediately
@@ -162,7 +162,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 			// exit code which may not be NULL.
 			// Should be better with modeless.
 			onlinePassword[0] = (char) -1;
-			hEventPasswdDlg = CreateEvent(NULL, FALSE, FALSE, NULL);
+			hEventPasswdDlg = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 			QueueUserAPC(TlenPasswordCreateDialogApcProc, hMainThread, (UINT_PTR)jidStr);
 			WaitForSingleObject(hEventPasswdDlg, INFINITE);
 			CloseHandle(hEventPasswdDlg);
@@ -191,17 +191,17 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 	tlenNetworkBufferSize = 2048;
 	char *buffer = (char *) mir_alloc(tlenNetworkBufferSize+1);	// +1 is for '\0' when debug logging this buffer
-	if (buffer == NULL) {
+	if (buffer == nullptr) {
 		info->proto->debugLogA("Thread ended, network buffer cannot be allocated");
 		loginErr = LOGINERR_NONETWORK;
 	}
 
 	if (loginErr != 0) {
-		info->proto->threadData = NULL;
+		info->proto->threadData = nullptr;
 		oldStatus = info->proto->m_iStatus;
 		info->proto->m_iStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
-		ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, loginErr);
+		ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, loginErr);
 		mir_free(info);
 		mir_free(buffer);
 		return;
@@ -239,12 +239,12 @@ void __cdecl TlenServerThread(ThreadData *info)
 	for (;;) {	// Reconnect loop
 
 		info->s = TlenWsConnect(info->proto, connectHost, info->port);
-		if (info->s == NULL) {
+		if (info->s == nullptr) {
 			info->proto->debugLogA("Connection failed (%d)", WSAGetLastError());
 			if (info->proto->threadData == info) {
 				oldStatus = info->proto->m_iStatus;
 				info->proto->m_iStatus = ID_STATUS_OFFLINE;
-				ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+				ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 				ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
 				if (info->proto->tlenOptions.reconnect == TRUE) {
 					reconnectTime = rand() % reconnectMaxTime;
@@ -268,7 +268,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 						return;
 					}
 				}
-				info->proto->threadData = NULL;
+				info->proto->threadData = nullptr;
 			}
 			info->proto->debugLogA("Thread ended, connection failed");
 			mir_free(buffer);
@@ -325,7 +325,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 				else if (datalen == tlenNetworkBufferSize) {
 					tlenNetworkBufferSize += 2048;
 					info->proto->debugLogA("Increasing network buffer size to %d", tlenNetworkBufferSize);
-					if ((buffer=(char *) mir_realloc(buffer, tlenNetworkBufferSize+1)) == NULL) {
+					if ((buffer=(char *) mir_realloc(buffer, tlenNetworkBufferSize+1)) == nullptr) {
 						info->proto->debugLogA("Cannot reallocate more network buffer, go offline now");
 						break;
 					}
@@ -341,7 +341,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 			info->proto->isConnected = FALSE;
 
 			Menu_EnableItem(info->proto->hMenuMUC, false);
-			if (info->proto->hMenuChats != NULL)
+			if (info->proto->hMenuChats != nullptr)
 				Menu_EnableItem(info->proto->hMenuChats, false);
 
 			// Set status to offline
@@ -387,7 +387,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 	info->proto->debugLogA("Thread ended: server='%s'", info->server);
 
 	if (info->proto->threadData == info) {
-		info->proto->threadData = NULL;
+		info->proto->threadData = nullptr;
 	}
 
 	mir_free(buffer);
@@ -404,7 +404,7 @@ static void TlenSendAuth(TlenProtocol *proto) {
 	mir_free(str);
 	str = TlenSha1(text);
 	char *p=TlenTextEncode(proto->threadData->username);
-	if (p != NULL) {
+	if (p != nullptr) {
 		iqId = TlenSerialNext(proto->threadData->proto);
 		TlenIqAdd(proto, iqId, IQ_PROC_NONE, TlenIqResultAuth);
 		TlenSend(proto, "<iq type='set' id='" TLEN_IQID "%d'><query xmlns='jabber:iq:auth'><username>%s</username><digest>%s</digest><resource>t</resource><host>tlen.pl</host></query></iq>", iqId, p /*info->username*/, str);
@@ -416,16 +416,16 @@ static void TlenSendAuth(TlenProtocol *proto) {
 /* processing <s ... > tag sent from server on session opening */
 static void TlenProcessStreamOpening(XmlNode *node, ThreadData *info)
 {
-	if (node->name == NULL || mir_strcmp(node->name, "s"))
+	if (node->name == nullptr || mir_strcmp(node->name, "s"))
 		return;
 
 	char *sid=TlenXmlGetAttrValue(node, "i");
-	if (sid != NULL) {
+	if (sid != nullptr) {
 		if (info->streamId) mir_free(info->streamId);
 		info->streamId = mir_strdup(sid);
 	}
 	char *s=TlenXmlGetAttrValue(node, "s");
-	if (s != NULL && !mir_strcmp(s, "1")) {
+	if (s != nullptr && !mir_strcmp(s, "1")) {
 		int i;
 		unsigned char aes_key[32];
 		char aes_key_str[140], aes_iv_str[40];
@@ -459,7 +459,7 @@ static void TlenProcessStreamOpening(XmlNode *node, ThreadData *info)
 		mpi_read_string( &k2_mpi, 16, k2 );
 		memset(&aes_mpi, 0, sizeof (mpi));
 		mpi_read_binary(&aes_mpi, (unsigned char *)aes_key, 16);
-		mpi_exp_mod( &aes_mpi, &aes_mpi, &k1_mpi, &k2_mpi, NULL );
+		mpi_exp_mod( &aes_mpi, &aes_mpi, &k1_mpi, &k2_mpi, nullptr );
 		slen = 140;
 		mpi_write_string(&aes_mpi, 16, aes_key_str, &slen);
 		TlenSend(info->proto, "<cipher k1='%s' k2='%s'/>", aes_key_str, aes_iv_str);
@@ -523,16 +523,16 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode *node)
 	OSVERSIONINFO osvi = { 0 };
 	char mversion[256];
 	char *mver;
-	char* os = NULL;
+	char* os = nullptr;
 
 	if (proto->m_iStatus == ID_STATUS_INVISIBLE) return;
 	if (!proto->tlenOptions.enableVersion) return;
 	char *from = TlenXmlGetAttrValue(node, "from");
-	if (from == NULL)
+	if (from == nullptr)
 		return;
 	
 	TLEN_LIST_ITEM *item = TlenListGetItemPtr(proto, LIST_ROSTER, from);
-	if (item == NULL)
+	if (item == nullptr)
 		return;
 
 	char *version = TlenTextEncode(TLEN_VERSION_STRING);
@@ -558,7 +558,7 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode *node)
 			break;
 	}	}
 
-	if ( os == NULL ) os = TlenTextEncode("Windows");
+	if ( os == nullptr ) os = TlenTextEncode("Windows");
 
 	mir_strcpy(mversion, "Miranda NG ");
 	Miranda_GetVersionText(mversion + 11, sizeof(mversion) - 11);
@@ -582,12 +582,12 @@ static void TlenProcessAvatar(XmlNode* node, ThreadData *info)
 {
 	XmlNode *tokenNode = TlenXmlGetChild(node, "token");
 	XmlNode *aNode = TlenXmlGetChild(node, "a");
-	if (tokenNode != NULL) {
+	if (tokenNode != nullptr) {
 		char *token = tokenNode->text;
 		strncpy(info->avatarToken, token, sizeof(info->avatarToken)-1);
 	}
-	if (aNode != NULL) {
-		if (TlenProcessAvatarNode(info->proto, node, NULL)) {
+	if (aNode != nullptr) {
+		if (TlenProcessAvatarNode(info->proto, node, nullptr)) {
 		}
 	}
 }
@@ -604,11 +604,11 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 	if (!node->name || mir_strcmp(node->name, "message")) return;
 
 	char *type=TlenXmlGetAttrValue(node, "type");
-	if (type != NULL && !mir_strcmp(type, "error")) {
+	if (type != nullptr && !mir_strcmp(type, "error")) {
 	}
 	else {
 		char *from=TlenXmlGetAttrValue(node, "from");
-		if (from != NULL) {
+		if (from != nullptr) {
 			if (info->proto->tlenOptions.ignoreAdvertisements && strstr(from, "b73@tlen.pl") == from) {
 				return;
 			}
@@ -617,21 +617,21 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 			TLEN_LIST_ITEM *item = TlenListGetItemPtr(info->proto, LIST_ROSTER, fromJid);
 			BOOL isChatRoomJid = TlenListExist(info->proto, LIST_CHATROOM, from);
 
-			if (isChatRoomJid && type != NULL && !mir_strcmp(type, "groupchat")) {
+			if (isChatRoomJid && type != nullptr && !mir_strcmp(type, "groupchat")) {
 				//TlenGroupchatProcessMessage(node, userdata);
-			} else if (type != NULL && !mir_strcmp(type, "pic")) {
+			} else if (type != nullptr && !mir_strcmp(type, "pic")) {
 				TlenProcessPic(node, info->proto);
-			} else if (type != NULL && !mir_strcmp(type, "iq")) {
+			} else if (type != nullptr && !mir_strcmp(type, "iq")) {
 				XmlNode *iqNode;
 				// Tlen-compatible iq
-				if ((iqNode=TlenXmlGetChild(node, "iq")) != NULL) {
+				if ((iqNode=TlenXmlGetChild(node, "iq")) != nullptr) {
 					TlenXmlAddAttr(iqNode, "from", from);
 					TlenProcessIq(iqNode, info);
 				}
 			} else {
-				if ((bodyNode=TlenXmlGetChild(node, "body")) != NULL) {
-					if (bodyNode->text != NULL) {
-						if ((subjectNode=TlenXmlGetChild(node, "subject")) != NULL && subjectNode->text != NULL && subjectNode->text[0] != '\0') {
+				if ((bodyNode=TlenXmlGetChild(node, "body")) != nullptr) {
+					if (bodyNode->text != nullptr) {
+						if ((subjectNode=TlenXmlGetChild(node, "subject")) != nullptr && subjectNode->text != nullptr && subjectNode->text[0] != '\0') {
 							size_t size = mir_strlen(subjectNode->text)+mir_strlen(bodyNode->text)+5;
 							p = (char *)mir_alloc(size);
 							mir_snprintf(p, size, "%s\r\n%s", subjectNode->text, bodyNode->text);
@@ -644,33 +644,33 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 						msgTime = 0;
 						delivered = composing = FALSE;
 						i = 1;
-						while ((xNode=TlenXmlGetNthChild(node, "x", i)) != NULL) {
-							if ((p=TlenXmlGetAttrValue(xNode, "xmlns")) != NULL) {
+						while ((xNode=TlenXmlGetNthChild(node, "x", i)) != nullptr) {
+							if ((p=TlenXmlGetAttrValue(xNode, "xmlns")) != nullptr) {
 								if (!mir_strcmp(p, "jabber:x:delay") && msgTime==0) {
-									if ((p=TlenXmlGetAttrValue(xNode, "stamp")) != NULL) {
+									if ((p=TlenXmlGetAttrValue(xNode, "stamp")) != nullptr) {
 										msgTime = TlenIsoToUnixTime(p);
 									}
 								}
 								else if (!mir_strcmp(p, "jabber:x:event")) {
 									// Check whether any event is requested
-									if (!delivered && (n=TlenXmlGetChild(xNode, "delivered")) != NULL) {
+									if (!delivered && (n=TlenXmlGetChild(xNode, "delivered")) != nullptr) {
 										delivered = TRUE;
 										idStr = TlenXmlGetAttrValue(node, "id");
-										TlenSend(info->proto, "<message to='%s'><x xmlns='jabber:x:event'><delivered/><id>%s</id></x></message>", from, (idStr != NULL)?idStr:"");
+										TlenSend(info->proto, "<message to='%s'><x xmlns='jabber:x:event'><delivered/><id>%s</id></x></message>", from, (idStr != nullptr)?idStr:"");
 									}
-									if (item != NULL && TlenXmlGetChild(xNode, "composing") != NULL) {
+									if (item != nullptr && TlenXmlGetChild(xNode, "composing") != nullptr) {
 										composing = TRUE;
 										if (item->messageEventIdStr)
 											mir_free(item->messageEventIdStr);
 										idStr = TlenXmlGetAttrValue(node, "id");
-										item->messageEventIdStr = (idStr == NULL)?NULL:mir_strdup(idStr);
+										item->messageEventIdStr = (idStr == nullptr)?nullptr:mir_strdup(idStr);
 									}
 								}
 							}
 							i++;
 						}
 
-						if (item != NULL) {
+						if (item != nullptr) {
 							item->wantComposingEvent = composing;
 							if (item->isTyping) {
 								item->isTyping = FALSE;
@@ -682,7 +682,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 						if ((hContact=TlenHContactFromJID(info->proto, fromJid)) == NULL) {
 							// Create a temporary contact
 							if (isChatRoomJid) {
-								if ((p=strchr(from, '/')) != NULL && p[1]!='\0')
+								if ((p=strchr(from, '/')) != nullptr && p[1]!='\0')
 									p++;
 								else
 									p = from;
@@ -697,7 +697,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 						}
 
 						if (msgTime == 0) {
-							msgTime = time(NULL);
+							msgTime = time(nullptr);
 						} else {
 							MEVENT hDbEvent = db_event_last(hContact);
 							if (hDbEvent != NULL) {
@@ -707,8 +707,8 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 									msgTime = dbei.timestamp + 1;
 								}
 							}
-							if (msgTime > (DWORD)time(NULL)) {
-								msgTime = time(NULL);
+							if (msgTime > (DWORD)time(nullptr)) {
+								msgTime = time(nullptr);
 							}
 						}
 						char* localMessage_Utf8 = mir_utf8encode(localMessage);
@@ -732,9 +732,9 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 static void TlenProcessIq(XmlNode *node, ThreadData *info)
 {
 	MCONTACT hContact;
-	XmlNode *queryNode = NULL;
+	XmlNode *queryNode = nullptr;
 	char *jid, *nick;
-	char *xmlns = NULL;
+	char *xmlns = nullptr;
 	char *idStr, *str;
 	int id;
 	int i;
@@ -744,13 +744,13 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 //	if ((type=TlenXmlGetAttrValue(node, "type")) == NULL) return;
 
 	id = -1;
-	if ((idStr=TlenXmlGetAttrValue(node, "id")) != NULL) {
+	if ((idStr=TlenXmlGetAttrValue(node, "id")) != nullptr) {
 		if (!strncmp(idStr, TLEN_IQID, mir_strlen(TLEN_IQID)))
 			id = atoi(idStr+mir_strlen(TLEN_IQID));
 	}
 
 	queryNode = TlenXmlGetChild(node, "query");
-	if (queryNode != NULL) {
+	if (queryNode != nullptr) {
 		xmlns = TlenXmlGetAttrValue(queryNode, "xmlns");
 	}
 
@@ -759,20 +759,20 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 	// MATCH BY ID
 	/////////////////////////////////////////////////////////////////////////
 	TLEN_IQ_PFUNC pfunc=TlenIqFetchFunc(info->proto, id);
-	if (pfunc != NULL) {
+	if (pfunc != nullptr) {
 		info->proto->debugLogA("Handling iq request for id=%d", id);
 		pfunc(info->proto, node);
 	/////////////////////////////////////////////////////////////////////////
 	// MORE GENERAL ROUTINES, WHEN ID DOES NOT MATCH
 	/////////////////////////////////////////////////////////////////////////
 	// new p2p connections
-	} else if (xmlns != NULL && !mir_strcmp(xmlns, "p2p")) {
+	} else if (xmlns != nullptr && !mir_strcmp(xmlns, "p2p")) {
 		if (info->proto->tlenOptions.useNewP2P) {
 			TlenProcessP2P(node, info);
 		}
 	}
 	// RECVED: <iq type='set'><query ...
-	else if (!mir_strcmp(type, "set") && queryNode != NULL && xmlns != NULL) {
+	else if (!mir_strcmp(type, "set") && queryNode != nullptr && xmlns != nullptr) {
 
 		// RECVED: roster push
 		// ACTION: similar to iqIdGetRoster above
@@ -785,17 +785,17 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 			for (i=0; i<queryNode->numChild; i++) {
 				itemNode = queryNode->child[i];
 				if (!mir_strcmp(itemNode->name, "item")) {
-					if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
-						if ((str=TlenXmlGetAttrValue(itemNode, "subscription")) != NULL) {
+					if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != nullptr) {
+						if ((str=TlenXmlGetAttrValue(itemNode, "subscription")) != nullptr) {
 							// we will not add new account when subscription=remove
 							if (!mir_strcmp(str, "to") || !mir_strcmp(str, "both") || !mir_strcmp(str, "from") || !mir_strcmp(str, "none")) {
-								if ((name=TlenXmlGetAttrValue(itemNode, "name")) != NULL) {
+								if ((name=TlenXmlGetAttrValue(itemNode, "name")) != nullptr) {
 									nick = TlenTextDecode(name);
 								} else {
 									nick = TlenLocalNickFromJID(jid);
 								}
-								if (nick != NULL) {
-									if ((item=TlenListAdd(info->proto, LIST_ROSTER, jid)) != NULL) {
+								if (nick != nullptr) {
+									if ((item=TlenListAdd(info->proto, LIST_ROSTER, jid)) != nullptr) {
 										if (item->nick) mir_free(item->nick);
 										item->nick = nick;
 										if ((hContact=TlenHContactFromJID(info->proto, jid)) == NULL) {
@@ -805,16 +805,16 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 										}
 										db_set_s(hContact, "CList", "MyHandle", nick);
 										if (item->group) mir_free(item->group);
-										if ((groupNode=TlenXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
+										if ((groupNode=TlenXmlGetChild(itemNode, "group")) != nullptr && groupNode->text != nullptr) {
 											item->group = TlenGroupDecode(groupNode->text);
 											Clist_GroupCreate(0, _A2T(item->group));
 											db_set_s(hContact, "CList", "Group", item->group);
 										}
 										else {
-											item->group = NULL;
+											item->group = nullptr;
 											db_unset(hContact, "CList", "Group");
 										}
-										if (!mir_strcmp(str, "none") || (!mir_strcmp(str, "from") && strchr(jid, '@') != NULL)) {
+										if (!mir_strcmp(str, "none") || (!mir_strcmp(str, "from") && strchr(jid, '@') != nullptr)) {
 											if (db_get_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 												db_set_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 										}
@@ -824,7 +824,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 									}
 								}
 							}
-							if ((item=TlenListGetItemPtr(info->proto, LIST_ROSTER, jid)) != NULL) {
+							if ((item=TlenListGetItemPtr(info->proto, LIST_ROSTER, jid)) != nullptr) {
 								if (!mir_strcmp(str, "both"))
 									item->subscription = SUB_BOTH;
 								else if (!mir_strcmp(str, "to"))
@@ -853,14 +853,14 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 
 	}
 	// RECVED: <iq type='get'><query ...
-	else if ( !mir_strcmp( type, "get" ) && queryNode != NULL && xmlns != NULL ) {
+	else if ( !mir_strcmp( type, "get" ) && queryNode != nullptr && xmlns != nullptr ) {
 		// RECVED: software version query
 		// ACTION: return my software version
 		if ( !mir_strcmp( xmlns, "jabber:iq:version" )) TlenProcessIqGetVersion(info->proto, node);
 	}
 	// RECVED: <iq type='result'><query ...
-	else if ( !mir_strcmp( type, "result") && queryNode != NULL) {
-		if (xmlns != NULL ) {
+	else if ( !mir_strcmp( type, "result") && queryNode != nullptr) {
+		if (xmlns != nullptr ) {
 			if ( !mir_strcmp(xmlns, "jabber:iq:roster" )) {
 				TlenIqResultRoster(info->proto, node);
 			} else if ( !mir_strcmp( xmlns, "jabber:iq:version" )) {
@@ -870,7 +870,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 			}
 		} else {
 			char *from;
-			if (( from=TlenXmlGetAttrValue( node, "from" )) != NULL ) {
+			if (( from=TlenXmlGetAttrValue( node, "from" )) != nullptr ) {
 				if ( !mir_strcmp(from, "tcfg" )) {
 					TlenIqResultTcfg(info->proto, node);
 				}
@@ -886,7 +886,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 			item = TlenListGetItemPtrFromIndex(info->proto,i);
 			if (item->ft->state==FT_CONNECTING && !mir_strcmp(idStr, item->ft->iqId)) {
 				item->ft->state = FT_DENIED;
-				if (item->ft->hFileEvent != NULL)
+				if (item->ft->hFileEvent != nullptr)
 					SetEvent(item->ft->hFileEvent);	// Simulate the termination of file server connection
 			}
 			i++;
@@ -907,11 +907,11 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 		return;
 
 	char *body=node->text;
-	if (body == NULL)
+	if (body == nullptr)
 		return;
 
 	char *f = TlenXmlGetAttrValue(node, "f");
-	if (f != NULL) {
+	if (f != nullptr) {
 		char webContactName[128];
 		mir_snprintf(webContactName, Translate("%s Web Messages"), info->proto->m_szModuleName);
 		MCONTACT hContact = TlenHContactFromJID(info->proto, webContactName);
@@ -922,14 +922,14 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 		s = TlenXmlGetAttrValue(node, "s");
 		e = TlenXmlGetAttrValue(node, "e");
 
-		str = NULL;
+		str = nullptr;
 		strSize = 0;
 		TlenStringAppend(&str, &strSize, "%s\r\n%s: ", Translate("Web message"), Translate("From"));
 
-		if (f != NULL)
+		if (f != nullptr)
 			TlenStringAppend(&str, &strSize, "%s", f);
 		TlenStringAppend(&str, &strSize, "\r\n%s: ", Translate("E-mail"));
-		if (e != NULL)
+		if (e != nullptr)
 			TlenStringAppend(&str, &strSize, "%s", e);
 		TlenStringAppend(&str, &strSize, "\r\n\r\n%s", body);
 
@@ -937,7 +937,7 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 		char* localMessage_Utf8 = mir_utf8encode(localMessage);
 
 		PROTORECVEVENT recv = { 0 };
-		recv.timestamp = (DWORD) time(NULL);
+		recv.timestamp = (DWORD) time(nullptr);
 		recv.szMessage = localMessage_Utf8;
 		ProtoChainRecvMsg(hContact, &recv);	
 
@@ -959,21 +959,21 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 	if (!node->name || mir_strcmp(node->name, "m")) return;
 
 	char *f = TlenXmlGetAttrValue(node, "f"); //, *from;//username
-	if (f != NULL) {
+	if (f != nullptr) {
 		char *fLogin = TlenLoginFromJID(f);
 		MCONTACT hContact=TlenHContactFromJID(info->proto, fLogin);
 		if (hContact != NULL) {
 			char *tp=TlenXmlGetAttrValue(node, "tp");//typing start/stop
-			if (tp != NULL) {
+			if (tp != nullptr) {
 				TLEN_LIST_ITEM *item = TlenListGetItemPtr(info->proto, LIST_ROSTER, fLogin);
 				if (!mir_strcmp(tp, "t")) { //contact is writing
-					if (item != NULL ) {
+					if (item != nullptr ) {
 						item->isTyping = TRUE;
 						CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_INFINITE);
 					}
 				}
 				else if (!mir_strcmp(tp, "u")) {//contact stopped writing
-					if (item != NULL) {
+					if (item != nullptr) {
 						item->isTyping = FALSE;
 						CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 					}
@@ -998,23 +998,23 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 			}
 		}
 		mir_free(fLogin);
-		if ((p=strchr(f, '@')) != NULL) {
-			if ((p=strchr(p, '/')) != NULL && p[1]!='\0') { // message from user
+		if ((p=strchr(f, '@')) != nullptr) {
+			if ((p=strchr(p, '/')) != nullptr && p[1]!='\0') { // message from user
 				time_t timestamp;
 				s = TlenXmlGetAttrValue(node, "s");
-				if (s != NULL) {
+				if (s != nullptr) {
 					timestamp = TlenTimeToUTC(atol(s));
-					if (timestamp > time(NULL)) {
-						timestamp = time(NULL);
+					if (timestamp > time(nullptr)) {
+						timestamp = time(nullptr);
 					}
 				} else {
-					timestamp = time(NULL);
+					timestamp = time(nullptr);
 				}
 				char *tp=TlenXmlGetAttrValue(node, "tp");//typing start/stop
 				bNode = TlenXmlGetChild(node, "b");
 				f = TlenTextDecode(f);
-				if (bNode != NULL && bNode->text != NULL) {
-					if (tp != NULL && !mir_strcmp(tp, "p")) {
+				if (bNode != nullptr && bNode->text != nullptr) {
+					if (tp != nullptr && !mir_strcmp(tp, "p")) {
 						/* MUC private message */
 						str = TlenResourceFromJID(f);
 						hContact = TlenDBCreateContact(info->proto, f, str, TRUE);
@@ -1036,14 +1036,14 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 			}
 		}
 		i=1;
-		while ((xNode=TlenXmlGetNthChild(node, "x", i)) != NULL) {
+		while ((xNode=TlenXmlGetNthChild(node, "x", i)) != nullptr) {
 			invNode=TlenXmlGetChild(xNode, "inv");
-			if (invNode != NULL) {
+			if (invNode != nullptr) {
 				r = TlenTextDecode(f);
 				f = TlenXmlGetAttrValue(invNode, "f");
 				f = TlenTextDecode(f);
 				n = TlenXmlGetAttrValue(invNode, "n");
-				if (n != NULL && strstr(r, n) != r) {
+				if (n != nullptr && strstr(r, n) != r) {
 					n = TlenTextDecode(n);
 				} else {
 					n = mir_strdup(Translate("Private conference"));
@@ -1092,15 +1092,15 @@ static void TlenProcessN(XmlNode *node, ThreadData *info)
 
 	char *s = TlenXmlGetAttrValue(node, "s");
 	char *f = TlenXmlGetAttrValue(node, "f");
-	if (s != NULL && f != NULL) {
-		str = NULL;
+	if (s != nullptr && f != nullptr) {
+		str = nullptr;
 		strSize = 0;
 
 		TlenStringAppend(&str, &strSize, Translate("%s mail"), info->proto->m_szModuleName);
 		popupTitle = TlenTextDecode(str);
 		mir_free(str);
 
-		str = NULL;
+		str = nullptr;
 		strSize = 0;
 
 		TlenStringAppend(&str, &strSize, "%s: %s\n", Translate("From"), f);
@@ -1131,10 +1131,10 @@ static void TlenProcessP(XmlNode *node, ThreadData*)
 	status = ID_STATUS_ONLINE;
 	f = TlenXmlGetAttrValue(node, "f");
 	xNode = TlenXmlGetChild(node, "x");
-	if (xNode != NULL) { // x subtag present (message from chat room) - change user rights only
+	if (xNode != nullptr) { // x subtag present (message from chat room) - change user rights only
 		char *temp, *iStr;
 		iNode = TlenXmlGetChild(xNode, "i");
-		if (iNode != NULL) {
+		if (iNode != nullptr) {
 			iStr = TlenXmlGetAttrValue(iNode, "i");
 			temp = (char*)mir_alloc(mir_strlen(f)+mir_strlen(iStr)+2);
 			mir_strcpy(temp, f);
@@ -1151,13 +1151,13 @@ static void TlenProcessP(XmlNode *node, ThreadData*)
 		f = TlenTextDecode(f);
 	}
 	a = TlenXmlGetAttrValue(node, "z");
-	if (a != NULL) {
+	if (a != nullptr) {
 		if (atoi(a) &1 ) {
 			flags |= USER_FLAGS_REGISTERED;
 		}
 	}
 	a = TlenXmlGetAttrValue(node, "a");
-	if (a != NULL) {
+	if (a != nullptr) {
 		if (atoi(a) == 2) {
 			flags |= USER_FLAGS_ADMIN;
 		}
@@ -1172,21 +1172,21 @@ static void TlenProcessP(XmlNode *node, ThreadData*)
 		}
 	}
 	sNode = TlenXmlGetChild(node, "s");
-	if (sNode != NULL) {
+	if (sNode != nullptr) {
 		if (!mir_strcmp(sNode->text, "unavailable")) {
 			status = ID_STATUS_OFFLINE;
 		}
 	}
 	kNode = TlenXmlGetChild(node, "kick");
-	k = NULL;
-	if (kNode != NULL) {
+	k = nullptr;
+	if (kNode != nullptr) {
 		k = TlenXmlGetAttrValue(kNode, "r");
-		if (k == NULL) {
+		if (k == nullptr) {
 			k = "";
 		}
 		k = TlenTextDecode(k);
 	}
-	if (k != NULL) {
+	if (k != nullptr) {
 		mir_free(k);
 	}
 	mir_free(f);
@@ -1202,30 +1202,30 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 //	if (!node->name || mir_strcmp(node->name, "v")) return;
 
 	char *from=TlenXmlGetAttrValue(node, "f");
-	if (from != NULL) {
-		if (strchr(from, '@') == NULL) {
+	if (from != nullptr) {
+		if (strchr(from, '@') == nullptr) {
 			mir_snprintf(jid, "%s@%s", from, info->server);
 		} else {
 			strncpy_s(jid, from, _TRUNCATE);
 		}
-		if ((e=TlenXmlGetAttrValue(node, "e")) != NULL) {
+		if ((e=TlenXmlGetAttrValue(node, "e")) != nullptr) {
 			if (!mir_strcmp(e, "1")) {
-				if ((id=TlenXmlGetAttrValue(node, "i")) != NULL) {
+				if ((id=TlenXmlGetAttrValue(node, "i")) != nullptr) {
 					Skin_PlaySound("TlenVoiceNotify");
 					TlenVoiceAccept(info->proto, id, from);
 				}
 			} else if (!mir_strcmp(e, "3")) {
 				// FILE_RECV : e='3' : invalid transfer error
-				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != NULL) {
-						if (item->ft != NULL) {
+				if ((p=TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != nullptr) {
+						if (item->ft != nullptr) {
 							HANDLE  hEvent = item->ft->hFileEvent;
-							item->ft->hFileEvent = NULL;
+							item->ft->hFileEvent = nullptr;
 							item->ft->state = FT_ERROR;
-							if (item->ft->s != NULL) {
+							if (item->ft->s != nullptr) {
 								Netlib_CloseHandle(item->ft->s);
-								item->ft->s = NULL;
-								if (hEvent != NULL) {
+								item->ft->s = nullptr;
+								if (hEvent != nullptr) {
 									SetEvent(hEvent);
 								}
 							} else {
@@ -1238,8 +1238,8 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 				}
 			} else if (!mir_strcmp(e, "4")) {
 				// FILE_SEND : e='4' : File sending request was denied by the remote client
-				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != NULL) {
+				if ((p=TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != nullptr) {
 						if (!mir_strcmp(item->ft->jid, jid)) {
 							TlenVoiceCancelAll(info->proto);
 							//TlenListRemove(info->proto, LIST_VOICE, p);
@@ -1248,8 +1248,8 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 				}
 			} else if (!mir_strcmp(e, "5")) {
 			// FILE_SEND : e='5' : Voice request was accepted
-				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != NULL) {
+				if ((p=TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != nullptr) {
 						info->proto->debugLogA("should start voice 1 ? %s ?? %s", jid, item->ft->jid);
 						if (!mir_strcmp(item->ft->jid, jid)) {
 							info->proto->debugLogA("starting voice 1");
@@ -1259,11 +1259,11 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 				}
 			} else if (!mir_strcmp(e, "6")) {
 				// FILE_RECV : e='6' : IP and port information to connect to get file
-				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != NULL) {
-						if ((p=TlenXmlGetAttrValue(node, "a")) != NULL) {
+				if ((p=TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != nullptr) {
+						if ((p=TlenXmlGetAttrValue(node, "a")) != nullptr) {
 							item->ft->hostName = mir_strdup(p);
-							if ((p=TlenXmlGetAttrValue(node, "p")) != NULL) {
+							if ((p=TlenXmlGetAttrValue(node, "p")) != nullptr) {
 								item->ft->wPort = atoi(p);
 								TlenVoiceStart(item->ft, 0);
 								//forkthread((pThreadFunc)TlenVoiceReceiveThread, 0, item->ft);
@@ -1275,12 +1275,12 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 			else if (!mir_strcmp(e, "7")) {
 				// FILE_RECV : e='7' : IP and port information to connect to send file
 				// in case the conection to the given server was not successful
-				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != NULL) {
-						if ((p=TlenXmlGetAttrValue(node, "a")) != NULL) {
-							if (item->ft->hostName != NULL) mir_free(item->ft->hostName);
+				if ((p=TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != nullptr) {
+						if ((p=TlenXmlGetAttrValue(node, "a")) != nullptr) {
+							if (item->ft->hostName != nullptr) mir_free(item->ft->hostName);
 							item->ft->hostName = mir_strdup(p);
-							if ((p=TlenXmlGetAttrValue(node, "p")) != NULL) {
+							if ((p=TlenXmlGetAttrValue(node, "p")) != nullptr) {
 								item->ft->wPort = atoi(p);
 								item->ft->state = FT_SWITCH;
 								SetEvent(item->ft->hFileEvent);
@@ -1291,8 +1291,8 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 			}
 			else if (!mir_strcmp(e, "8")) {
 				// FILE_RECV : e='8' : transfer error
-				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != NULL) {
+				if ((p=TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item=TlenListGetItemPtr(info->proto, LIST_VOICE, p)) != nullptr) {
 						item->ft->state = FT_ERROR;
 						SetEvent(item->ft->hFileEvent);
 					}

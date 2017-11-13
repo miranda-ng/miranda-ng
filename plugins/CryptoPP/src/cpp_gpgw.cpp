@@ -30,7 +30,7 @@ int __cdecl gpg_done()
 	int r = 0;
 	if (hgpg) {
 		r = _gpg_done();
-		hgpg = 0;
+		hgpg = nullptr;
 	}
 	return r;
 }
@@ -68,7 +68,7 @@ LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	LPSTR szEncMsg = _gpg_encrypt(szPlainMsg, (LPCSTR)p->gpgKeyID);
 	mir_free(ptr->tmp);
 	if (!szEncMsg) {
-		return ptr->tmp = 0;
+		return ptr->tmp = nullptr;
 	}
 	else {
 		ptr->tmp =  mir_strdup(szEncMsg);
@@ -93,11 +93,11 @@ LPSTR __cdecl gpg_encode(HANDLE context, LPCSTR szPlainMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
 	if (!ptr)
-		return NULL;
+		return nullptr;
 	pGPGDATA p = (pGPGDATA)cpp_alloc_pdata(ptr);
 	if (!p->gpgKeyID) {
 		ptr->error = ERROR_NO_GPG_KEY;
-		return NULL;
+		return nullptr;
 	}
 
 	// utf8 message: encrypt.
@@ -106,7 +106,7 @@ LPSTR __cdecl gpg_encode(HANDLE context, LPCSTR szPlainMsg)
 		LPWSTR wszMsg = utf8decode(szPlainMsg);
 		int wlen = (int)wcslen(wszMsg) + 1;
 		szUtfMsg = (LPSTR)alloca(wlen);
-		WideCharToMultiByte(CP_ACP, 0, wszMsg, -1, szUtfMsg, wlen, 0, 0);
+		WideCharToMultiByte(CP_ACP, 0, wszMsg, -1, szUtfMsg, wlen, nullptr, nullptr);
 	}
 	else {
 		szUtfMsg = (LPSTR)szPlainMsg;
@@ -119,9 +119,9 @@ LPSTR __cdecl gpg_decode(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
 	if (!ptr)
-		return NULL;
+		return nullptr;
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = gpg_decrypt(ptr, szEncMsg);
 
 	if (szOldMsg) {

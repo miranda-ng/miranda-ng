@@ -32,7 +32,7 @@ static void InitComboBox(HWND hwndCombo, TLEN_FIELD_MAP *fieldMap)
 	SendMessage(hwndCombo, CB_SETITEMDATA, n, 0);
 	SendMessage(hwndCombo, CB_SETCURSEL, n, 0);
 	for (i=0;;i++) {
-		if (fieldMap[i].name == NULL)
+		if (fieldMap[i].name == nullptr)
 			break;
 		n = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM) TranslateW(fieldMap[i].name));
 		SendMessage(hwndCombo, CB_SETITEMDATA, n, fieldMap[i].id);
@@ -59,12 +59,12 @@ static void FetchField(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 	char text[512];
 	char *localFieldName, *localText;
 
-	if (hwndDlg == NULL || fieldName == NULL || str == NULL || strSize == NULL)
+	if (hwndDlg == nullptr || fieldName == nullptr || str == nullptr || strSize == nullptr)
 		return;
 	GetDlgItemTextA(hwndDlg, idCtrl, text, _countof(text));
 	if (text[0]) {
-		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
-			if ((localText=TlenTextEncode(text)) != NULL) {
+		if ((localFieldName=TlenTextEncode(fieldName)) != nullptr) {
+			if ((localText=TlenTextEncode(text)) != nullptr) {
 				TlenStringAppend(str, strSize, "<%s>%s</%s>", localFieldName, localText, localFieldName);
 				mir_free(localText);
 			}
@@ -78,11 +78,11 @@ static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 	int value;
 	char *localFieldName;
 
-	if (hwndDlg == NULL || fieldName == NULL || str == NULL || strSize == NULL)
+	if (hwndDlg == nullptr || fieldName == nullptr || str == nullptr || strSize == nullptr)
 		return;
 	value = (int) SendDlgItemMessage(hwndDlg, idCtrl, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, idCtrl, CB_GETCURSEL, 0, 0), 0);
 	if (value > 0) {
-		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
+		if ((localFieldName=TlenTextEncode(fieldName)) != nullptr) {
 			TlenStringAppend(str, strSize, "<%s>%d</%s>", localFieldName, value, localFieldName);
 			mir_free(localFieldName);
 		}
@@ -94,8 +94,8 @@ char *TlenAdvSearchCreateQuery(HWND hwndDlg, int)
 	char *str;
 	int strSize;
 
-	if (hwndDlg == NULL) return NULL;
-	str = NULL;
+	if (hwndDlg == nullptr) return nullptr;
+	str = nullptr;
 	FetchField(hwndDlg, IDC_FIRSTNAME, "first", &str, &strSize);
 	FetchField(hwndDlg, IDC_LASTNAME, "last", &str, &strSize);
 	FetchField(hwndDlg, IDC_NICK, "nick", &str, &strSize);

@@ -74,7 +74,7 @@ static int findProfiles(wchar_t *szProfileDir, ENUMPROFILECALLBACK callback, LPA
 static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR) {
-		if (wcschr(L".?/\\#' ", (wchar_t)wParam) != 0)
+		if (wcschr(L".?/\\#' ", (wchar_t)wParam) != nullptr)
 			return 0;
 		PostMessage(GetParent(edit), WM_INPUTCHANGED, 0, 0);
 	}
@@ -102,7 +102,7 @@ class CCreateProfileDlg : public CDlgBase
 				return 0;
 
 			// move the file
-			SHFILEOPSTRUCT sf = { 0 };
+			SHFILEOPSTRUCT sf = {};
 			sf.wFunc = FO_DELETE;
 			sf.pFrom = buf;
 			sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
@@ -348,7 +348,7 @@ class CChooseProfileDlg : public CDlgBase
 
 		mir_snwprintf(profilef, L"%s\\%s%c", m_pd->ptszProfileDir, profile, 0);
 
-		SHFILEOPSTRUCT sf = { 0 };
+		SHFILEOPSTRUCT sf = {};
 		sf.wFunc = FO_DELETE;
 		sf.pFrom = profilef;
 		sf.fFlags = FOF_NOCONFIRMATION | FOF_SILENT | FOF_ALLOWUNDO;

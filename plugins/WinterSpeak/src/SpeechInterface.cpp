@@ -16,7 +16,7 @@ SpeechInterface::~SpeechInterface()
 //------------------------------------------------------------------------------
 TextToSpeech * SpeechInterface::createTts(const std::wstring &engine) const
 {
-	TextToSpeech *tts = 0;
+	TextToSpeech *tts = nullptr;
 
 	if (SpeechApi40a::getDescription() == engine)
 	{

@@ -762,13 +762,13 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 				// Notify it, if user wants to be notified
 				if (proto->getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-					proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), NULL, EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
+					proto->NotifyEvent(proto->m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), NULL, EVENT_FRIENDSHIP, &url, alert_id.empty() ? nullptr : &alert_id);
 				}
 			}
 		}
 		else if (t == "jewel_requests_add") {
 			// New friendship request, load them all with real names (because there is only user_id in "from" field)
-			proto->ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
+			proto->ForkThread(&FacebookProto::ProcessFriendRequests, nullptr);
 		}
 		/*else if (t == "jewel_requests_handled") { // revised 5.3.2017
 			// When some request is approved (or perhaps even ignored/removed)
@@ -870,7 +870,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			if (!buddyList)
 				continue;
 
-			time_t offlineThreshold = time(NULL) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
+			time_t offlineThreshold = time(nullptr) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
 
 			for (auto itNodes = buddyList.begin(); itNodes != buddyList.end(); ++itNodes) {
 				std::string id = (*itNodes).name();
@@ -944,7 +944,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 			if (!overlay_)
 				continue;
 
-			time_t offlineThreshold = time(NULL) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
+			time_t offlineThreshold = time(nullptr) - 15 * 60; // contacts last active more than 15 minutes will be marked offline
 
 			for (auto itNodes = overlay_.begin(); itNodes != overlay_.end(); ++itNodes) {
 				std::string id = (*itNodes).name();
@@ -1070,7 +1070,7 @@ int facebook_json_parser::parse_messages(std::string *pData, std::vector<faceboo
 
 				auto itAlert = notifications->find(id);
 				if (itAlert != notifications->end()) {
-					if (itAlert->second->hWndPopup != NULL)
+					if (itAlert->second->hWndPopup != nullptr)
 						PUDeletePopup(itAlert->second->hWndPopup); // close popup
 
 					delete itAlert->second;

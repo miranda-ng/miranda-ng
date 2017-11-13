@@ -19,7 +19,7 @@ void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags,
 			return;
 	}
 
-	MessageBox(NULL, message, caption, MB_OK | flags);
+	MessageBox(nullptr, message, caption, MB_OK | flags);
 }
 
 void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
@@ -31,7 +31,7 @@ MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBY
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULE;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.eventType = type;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;
@@ -84,7 +84,7 @@ void PasteToInputArea(MCONTACT hContact, const wchar_t *data)
 
 void PasteToClipboard(const wchar_t *data)
 {
-	if (OpenClipboard(NULL)) {
+	if (OpenClipboard(nullptr)) {
 		EmptyClipboard();
 
 		size_t size = sizeof(wchar_t) * (mir_wstrlen(data) + 1);

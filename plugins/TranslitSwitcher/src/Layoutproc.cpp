@@ -20,13 +20,13 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 SMADD_BATCHPARSE2 smgp;
-SMADD_BATCHPARSERES *smileyPrs = NULL;
+SMADD_BATCHPARSERES *smileyPrs = nullptr;
 
 bool isItSmiley(unsigned int position)
 {
 	unsigned int j;
 
-	if (smileyPrs == NULL)
+	if (smileyPrs == nullptr)
 		return false;
 
 	for (j = 0; j < smgp.numSmileys; j++) {
@@ -47,10 +47,10 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 
 wchar_t* Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 {
-	if (hwndRtf == 0)
-		return NULL;
+	if (hwndRtf == nullptr)
+		return nullptr;
 
-	wchar_t *pszText = NULL;
+	wchar_t *pszText = nullptr;
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = StreamOutCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText;
@@ -365,13 +365,13 @@ void Invert(wchar_t *str)
 void SwitchLayout(bool lastword)
 {
 	HWND hwnd = GetForegroundWindow();
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return;
 
 	DWORD dwProcessID;
 	DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
 	HWND hwnd2 = GetFocus();
-	if (hwnd2 == NULL)
+	if (hwnd2 == nullptr)
 		return;
 
 	wchar_t szClassName[MAX_PATH];
@@ -424,7 +424,7 @@ void SwitchLayout(bool lastword)
 				}
 			}
 
-			if (smileyPrs != NULL)
+			if (smileyPrs != nullptr)
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
 
 			POPUPDATAT pd = { 0 };
@@ -489,7 +489,7 @@ void SwitchLayout(bool lastword)
 				}
 			}
 
-			if (smileyPrs != NULL)
+			if (smileyPrs != nullptr)
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
 
 			if (somethingIsSelected)
@@ -506,11 +506,11 @@ void SwitchLayout(bool lastword)
 void TranslitLayout(bool lastword)
 {
 	HWND hwnd = GetForegroundWindow();
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return;
 
 	HWND hwnd2 = GetFocus();
-	if (hwnd2 == NULL)
+	if (hwnd2 == nullptr)
 		return;
 
 	wchar_t szClassName[16];
@@ -573,11 +573,11 @@ void TranslitLayout(bool lastword)
 void InvertCase(bool lastword)
 {
 	HWND hwnd = GetForegroundWindow();
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return;
 
 	HWND hwnd2 = GetFocus();
-	if (hwnd2 == NULL)
+	if (hwnd2 == nullptr)
 		return;
 
 	wchar_t szClassName[16];
@@ -697,7 +697,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 						sel[i] = tchr;
 				}
 			}
-			if (smileyPrs != NULL)
+			if (smileyPrs != nullptr)
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
 			break;
 		}

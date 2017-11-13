@@ -147,10 +147,10 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 			HDWP hdwp = BeginDeferWindowPos(4);
-			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_INFOBAR_NAME), 0, 16, 0, dlgWidth - avatarWidth - 2 - 32, dlgHeight / 2, SWP_NOZORDER);
-			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_INFOBAR_STATUS), 0, 16, dlgHeight / 2, dlgWidth - avatarWidth - 2 - 32, dlgHeight / 2, SWP_NOZORDER);
-			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_AVATAR), 0, dlgWidth - avatarWidth - 2, (dlgHeight - avatarHeight) / 2, avatarWidth, (dlgHeight + avatarHeight - 2) / 2, SWP_NOZORDER);
-			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_XSTATUSICON), 0, dlgWidth - avatarWidth - 2 - 16, dlgHeight / 4 - 8, 16, 16, SWP_NOZORDER);
+			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_INFOBAR_NAME), nullptr, 16, 0, dlgWidth - avatarWidth - 2 - 32, dlgHeight / 2, SWP_NOZORDER);
+			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_INFOBAR_STATUS), nullptr, 16, dlgHeight / 2, dlgWidth - avatarWidth - 2 - 32, dlgHeight / 2, SWP_NOZORDER);
+			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_AVATAR), nullptr, dlgWidth - avatarWidth - 2, (dlgHeight - avatarHeight) / 2, avatarWidth, (dlgHeight + avatarHeight - 2) / 2, SWP_NOZORDER);
+			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_XSTATUSICON), nullptr, dlgWidth - avatarWidth - 2 - 16, dlgHeight / 4 - 8, 16, 16, SWP_NOZORDER);
 			rc.left = dlgWidth - avatarWidth - 2 - 16;
 			rc.top = dlgHeight / 4 - 8;
 			rc.bottom = rc.top + 20;

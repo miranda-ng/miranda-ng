@@ -273,7 +273,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 			getBufferedPaintBits = (pfnGetBufferedPaintBits)GetProcAddress(hThemeAPI, "GetBufferedPaintBits");
 		}
 	}
-	else hDwmApi = hThemeAPI = 0;
+	else hDwmApi = hThemeAPI = nullptr;
 
 	if (bufferedPaintInit)
 		bufferedPaintInit();

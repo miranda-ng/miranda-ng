@@ -12,7 +12,7 @@ pCNTX get_context_on_id(HANDLE context)
 		Sent_NetLog("get_context_on_id: corrupted context %08X", cntx);
 #endif
 	}
-	return NULL;
+	return nullptr;
 }
 
 // create context, return context id
@@ -71,7 +71,7 @@ PBYTE cpp_alloc_pdata(pCNTX ptr)
 void cpp_free_keys(pCNTX ptr)
 {
 	mir_free(ptr->tmp);
-	ptr->tmp = 0;
+	ptr->tmp = nullptr;
 	cpp_alloc_pdata(ptr);
 	if (ptr->mode & MODE_PGP) {
 		pPGPDATA p = (pPGPDATA)ptr->pdata;

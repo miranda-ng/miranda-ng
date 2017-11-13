@@ -367,7 +367,7 @@ public:
 		PD->name = mir_wstrdup(STR_SEPARATOR);
 		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
 
-		TVINSERTSTRUCT tvis = { 0 };
+		TVINSERTSTRUCT tvis = {};
 		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
 		tvis.item.iImage = tvis.item.iSelectedImage = 1;
@@ -405,7 +405,7 @@ public:
 		PD->pos = pimi->mi.position;
 		PD->pimi = pimi;
 
-		TVINSERTSTRUCT tvis = { 0 };
+		TVINSERTSTRUCT tvis = {};
 		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
 		tvis.item.iImage = tvis.item.iSelectedImage = 1;

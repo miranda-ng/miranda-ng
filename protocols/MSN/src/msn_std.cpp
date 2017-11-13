@@ -49,7 +49,7 @@ wchar_t* CMsnProto::GetContactNameT(MCONTACT hContact)
 		return (wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0);
 
 	wchar_t *str = Contact_GetInfo(CNF_DISPLAY, NULL, m_szModuleName);
-	if (str != NULL) {
+	if (str != nullptr) {
 		mir_free(m_DisplayNameCache);
 		return m_DisplayNameCache = str;
 	}

@@ -328,58 +328,58 @@ WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 
 	// internal detection
 	if (
-		wcsstr(cond, L"mainy sunny") != NULL ||
-		wcsstr(cond, L"mainy clear") != NULL ||
-		wcsstr(cond, L"partly cloudy") != NULL ||
-		wcsstr(cond, L"mostly") != NULL ||
-		wcsstr(cond, L"clouds") != NULL) {
+		wcsstr(cond, L"mainy sunny") != nullptr ||
+		wcsstr(cond, L"mainy clear") != nullptr ||
+		wcsstr(cond, L"partly cloudy") != nullptr ||
+		wcsstr(cond, L"mostly") != nullptr ||
+		wcsstr(cond, L"clouds") != nullptr) {
 		return PCLOUDY;
 	}
 	else if (
-		wcsstr(cond, L"sunny") != NULL ||
-		wcsstr(cond, L"clear") != NULL ||
-		wcsstr(cond, L"fair") != NULL) {
+		wcsstr(cond, L"sunny") != nullptr ||
+		wcsstr(cond, L"clear") != nullptr ||
+		wcsstr(cond, L"fair") != nullptr) {
 		return SUNNY;
 	}
 	else if (
-		wcsstr(cond, L"thunder") != NULL ||
-		wcsstr(cond, L"t-storm") != NULL) {
+		wcsstr(cond, L"thunder") != nullptr ||
+		wcsstr(cond, L"t-storm") != nullptr) {
 		return LIGHT;
 	}
 	else if (
-		wcsstr(cond, L"cloud") != NULL ||
-		wcsstr(cond, L"overcast") != NULL) {
+		wcsstr(cond, L"cloud") != nullptr ||
+		wcsstr(cond, L"overcast") != nullptr) {
 		return CLOUDY;
 	}
 	else if (
-		wcsstr(cond, L"fog") != NULL ||
-		wcsstr(cond, L"mist") != NULL ||
-		wcsstr(cond, L"smoke") != NULL ||
-		wcsstr(cond, L"sand") != NULL ||
-		wcsstr(cond, L"dust") != NULL ||
-		wcsstr(cond, L"haze") != NULL) {
+		wcsstr(cond, L"fog") != nullptr ||
+		wcsstr(cond, L"mist") != nullptr ||
+		wcsstr(cond, L"smoke") != nullptr ||
+		wcsstr(cond, L"sand") != nullptr ||
+		wcsstr(cond, L"dust") != nullptr ||
+		wcsstr(cond, L"haze") != nullptr) {
 		return FOG;
 	}
 	else if (
-		(wcsstr(cond, L"shower") != NULL && wcsstr(cond, L"snow") != NULL) ||
-		wcsstr(cond, L"flurries") != NULL) {
+		(wcsstr(cond, L"shower") != nullptr && wcsstr(cond, L"snow") != nullptr) ||
+		wcsstr(cond, L"flurries") != nullptr) {
 		return SSHOWER;
 	}
 	else if (
-		wcsstr(cond, L"rain shower") != NULL ||
-		wcsstr(cond, L"shower") != NULL) {
+		wcsstr(cond, L"rain shower") != nullptr ||
+		wcsstr(cond, L"shower") != nullptr) {
 		return RSHOWER;
 	}
 	else if (
-		wcsstr(cond, L"snow") != NULL ||
-		wcsstr(cond, L"ice") != NULL ||
-		wcsstr(cond, L"freezing") != NULL ||
-		wcsstr(cond, L"wintry") != NULL) {
+		wcsstr(cond, L"snow") != nullptr ||
+		wcsstr(cond, L"ice") != nullptr ||
+		wcsstr(cond, L"freezing") != nullptr ||
+		wcsstr(cond, L"wintry") != nullptr) {
 		return SNOW;
 	}
 	else if (
-		wcsstr(cond, L"drizzle") != NULL ||
-		wcsstr(cond, L"rain") != NULL) {
+		wcsstr(cond, L"drizzle") != nullptr ||
+		wcsstr(cond, L"rain") != nullptr) {
 		return RAIN;
 	}
 
@@ -393,7 +393,7 @@ WORD GetIcon(const wchar_t* cond, WIDATA *Data)
 			mir_snwprintf(LangPackStr, L"# Weather %s %i #", statusStr[i], j);
 			wcsncpy_s(LangPackStr1, TranslateW(LangPackStr), _TRUNCATE);
 			CharLowerBuff(LangPackStr1, (DWORD)mir_wstrlen(LangPackStr1));
-			if (wcsstr(cond, LangPackStr1) != NULL)
+			if (wcsstr(cond, LangPackStr1) != nullptr)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
 		} while (mir_wstrcmp(TranslateW(LangPackStr), LangPackStr));
@@ -518,7 +518,7 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str)
 			switch (chr) {
 			case 'c': mir_wstrcat(str, w->cond); break;
 			case 'd':	// get the current date
-				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, lpzDate, _countof(lpzDate));
+				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, lpzDate, _countof(lpzDate));
 				mir_wstrcat(str, lpzDate); break;
 			case 'e': mir_wstrcat(str, w->dewpoint); break;
 			case 'f': mir_wstrcat(str, w->feel); break;
@@ -581,7 +581,7 @@ INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
 void GetSvc(wchar_t *pszID)
 {
 	wchar_t *chop = wcsstr(pszID, L"/");
-	if (chop != NULL)	*chop = '\0';
+	if (chop != nullptr)	*chop = '\0';
 	else				pszID[0] = 0;
 }
 
@@ -591,7 +591,7 @@ void GetSvc(wchar_t *pszID)
 void GetID(wchar_t *pszID)
 {
 	wchar_t *chop = wcsstr(pszID, L"/");
-	if (chop != NULL)	mir_wstrcpy(pszID, chop + 1);
+	if (chop != nullptr)	mir_wstrcpy(pszID, chop + 1);
 	else				pszID[0] = 0;
 }
 

@@ -63,7 +63,7 @@ int TlenSend(TlenProtocol *proto, const char *fmt, ...)
 
 	proto->debugLogA("SEND:%s", str);
 	size = (int)mir_strlen(str);
-	if (proto->threadData != NULL) {
+	if (proto->threadData != nullptr) {
 		if (proto->threadData->useAES) {
 			result = TlenWsSendAES(proto, str, size, &proto->threadData->aes_out_context, proto->threadData->aes_out_iv);
 		}
@@ -83,9 +83,9 @@ char *TlenResourceFromJID(const char *jid2)
 	char* jid = mir_strdup(jid2);
 
 	p = strchr(jid, '/');
-	if (p != NULL && p[1] != '\0') {
+	if (p != nullptr && p[1] != '\0') {
 		p++;
-		if ((nick = (char *)mir_alloc(1 + mir_strlen(jid) - (p - jid))) != NULL) {
+		if ((nick = (char *)mir_alloc(1 + mir_strlen(jid) - (p - jid))) != nullptr) {
 			strncpy(nick, p, mir_strlen(jid) - (p - jid));
 			nick[mir_strlen(jid) - (p - jid)] = '\0';
 		}
@@ -104,10 +104,10 @@ char *TlenNickFromJID(const char *jid2)
 	char *nick;
 	char* jid = mir_strdup(jid2);
 
-	if ((p = strchr(jid, '@')) == NULL)
+	if ((p = strchr(jid, '@')) == nullptr)
 		p = strchr(jid, '/');
-	if (p != NULL) {
-		if ((nick = (char *)mir_alloc((p - jid) + 1)) != NULL) {
+	if (p != nullptr) {
+		if ((nick = (char *)mir_alloc((p - jid) + 1)) != nullptr) {
 			strncpy(nick, jid, p - jid);
 			nick[p - jid] = '\0';
 		}
@@ -127,8 +127,8 @@ char *TlenLoginFromJID(const char *jid2)
 	char* jid = mir_strdup(jid2);
 
 	p = strchr(jid, '/');
-	if (p != NULL) {
-		if ((nick = (char *)mir_alloc((p - jid) + 1)) != NULL) {
+	if (p != nullptr) {
+		if ((nick = (char *)mir_alloc((p - jid) + 1)) != nullptr) {
 			strncpy(nick, jid, p - jid);
 			nick[p - jid] = '\0';
 		}
@@ -158,14 +158,14 @@ char *TlenSha1(char *str)
 	DWORD digest[5];
 	char* result;
 
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (BYTE*)str, (int)mir_strlen(str));
 	mir_sha1_finish(&sha, (BYTE*)digest);
-	if ((result = (char *)mir_alloc(41)) == NULL)
-		return NULL;
+	if ((result = (char *)mir_alloc(41)) == nullptr)
+		return nullptr;
 	sprintf(result, "%08x%08x%08x%08x%08x", (int)htonl(digest[0]), (int)htonl(digest[1]), (int)htonl(digest[2]), (int)htonl(digest[3]), (int)htonl(digest[4])); //!!!!!!!!!!!
 	return result;
 }
@@ -177,14 +177,14 @@ char *TlenSha1(char *str, int len)
 	char* result;
 	int i;
 
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	mir_sha1_init(&sha);
 	mir_sha1_append(&sha, (BYTE*)str, len);
 	mir_sha1_finish(&sha, digest);
-	if ((result = (char*)mir_alloc(20)) == NULL)
-		return NULL;
+	if ((result = (char*)mir_alloc(20)) == nullptr)
+		return nullptr;
 	for (i = 0; i < 20; i++)
 		result[i] = digest[4 * (i >> 2) + (3 - (i & 0x3))];
 	return result;
@@ -195,7 +195,7 @@ char *TlenPasswordHash(const char *str)
 	int magic1 = 0x50305735, magic2 = 0x12345671, sum = 7;
 	char *p, *res;
 
-	if (str == NULL) return NULL;
+	if (str == nullptr) return nullptr;
 	for (p = (char *)str; *p != '\0'; p++) {
 		if (*p != ' ' && *p != '\t') {
 			magic1 ^= (((magic1 & 0x3f) + sum) * ((char)*p)) + (magic1 << 8);
@@ -215,13 +215,13 @@ char *TlenUrlEncode(const char *str)
 	char *p, *q, *res;
 	unsigned char c;
 
-	if (str == NULL) return NULL;
+	if (str == nullptr) return nullptr;
 	res = (char *)mir_alloc(3 * mir_strlen(str) + 1);
 	for (p = (char *)str, q = res; *p != '\0'; p++, q++) {
 		if (*p == ' ') {
 			*q = '+';
 		}
-		else if (*p < 0x20 || *p >= 0x7f || strchr("%&+:'<>\"", *p) != NULL) {
+		else if (*p < 0x20 || *p >= 0x7f || strchr("%&+:'<>\"", *p) != nullptr) {
 			// Convert first from CP1252 to ISO8859-2
 			switch ((unsigned char)*p) {
 			case 0xa5: c = (unsigned char)0xa1; break;
@@ -248,7 +248,7 @@ void TlenUrlDecode(char *str)
 	char *p, *q;
 	unsigned int code;
 
-	if (str == NULL) return;
+	if (str == nullptr) return;
 	for (p = q = str; *p != '\0'; p++, q++) {
 		if (*p == '+') {
 			*q = ' ';
@@ -277,7 +277,7 @@ void TlenUrlDecode(char *str)
 char * TlenGroupDecode(const char *str)
 {
 	char *p, *q;
-	if (str == NULL) return NULL;
+	if (str == nullptr) return nullptr;
 	p = q = TlenTextDecode(str);
 	for (; *p != '\0'; p++) {
 		if (*p == '/') {
@@ -290,7 +290,7 @@ char * TlenGroupDecode(const char *str)
 char * TlenGroupEncode(const char *str)
 {
 	char *p, *q;
-	if (str == NULL) return NULL;
+	if (str == nullptr) return nullptr;
 	p = q = mir_strdup(str);
 	for (; *p != '\0'; p++) {
 		if (*p == '\\') {
@@ -306,9 +306,9 @@ char *TlenTextEncode(const char *str)
 {
 	char *s1;
 
-	if (str == NULL) return NULL;
-	if ((s1 = TlenUrlEncode(str)) == NULL)
-		return NULL;
+	if (str == nullptr) return nullptr;
+	if ((s1 = TlenUrlEncode(str)) == nullptr)
+		return nullptr;
 	return s1;
 }
 
@@ -316,7 +316,7 @@ char *TlenTextDecode(const char *str)
 {
 	char *s1;
 
-	if (str == NULL) return NULL;
+	if (str == nullptr) return nullptr;
 	s1 = mir_strdup(str);
 	TlenUrlDecode(s1);
 	return s1;
@@ -348,7 +348,7 @@ time_t TlenIsoToUnixTime(char *stamp)
 	int i, y;
 	time_t t;
 
-	if (stamp == NULL) return (time_t)0;
+	if (stamp == nullptr) return (time_t)0;
 
 	p = stamp;
 
@@ -400,9 +400,9 @@ void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 	char *p;
 	int size, len;
 
-	if (str == NULL) return;
+	if (str == nullptr) return;
 
-	if (*str == NULL || *sizeAlloced <= 0) {
+	if (*str == nullptr || *sizeAlloced <= 0) {
 		*sizeAlloced = size = 2048;
 		*str = (char *)mir_alloc(size);
 		len = 0;
@@ -426,7 +426,7 @@ void TlenStringAppend(char **str, int *sizeAlloced, const char *fmt, ...)
 BOOL IsAuthorized(TlenProtocol *proto, const char *jid)
 {
 	TLEN_LIST_ITEM *item = TlenListGetItemPtr(proto, LIST_ROSTER, jid);
-	if (item != NULL) {
+	if (item != nullptr) {
 		return item->subscription == SUB_BOTH || item->subscription == SUB_FROM;
 	}
 	return FALSE;

@@ -345,7 +345,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const wchar_t *groupNam
 		hItem = sttFindNamedTreeItemAt(hwndTree, hSection, pItemName);
 		if (!sectionName || !hItem) {
 			if (!hItem) {
-				TVINSERTSTRUCT tvis = { 0 };
+				TVINSERTSTRUCT tvis = {};
 				TreeItem *treeItem = (TreeItem *)mir_alloc(sizeof(TreeItem));
 				treeItem->groupName = sectionName ? nullptr : mir_wstrdup(groupName);
 				treeItem->paramName = mir_u2a(itemName);
@@ -507,7 +507,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 
 	if (db_set_ws(0, F.dbSettingsGroup, str, F.value.szFace)) {
 		char buff[1024];
-		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, buff, 1024, 0, 0);
+		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, buff, 1024, nullptr, nullptr);
 		db_set_s(0, F.dbSettingsGroup, str, buff);
 	}
 
@@ -551,7 +551,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 	int selCount;
 	LOGFONT lf;
 
-	static HBRUSH hBkgColourBrush = 0;
+	static HBRUSH hBkgColourBrush = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -624,7 +624,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				if (hBkgColourBrush) {
 					DeleteObject(hBkgColourBrush);
-					hBkgColourBrush = 0;
+					hBkgColourBrush = nullptr;
 				}
 
 				for (int colourId = 0; colourId < colour_id_list_w2.getCount(); colourId++) {
@@ -1208,7 +1208,7 @@ static FontInternal* sttFindFont(OBJLIST<FontInternal> &fonts, char *module, cha
 			return &F;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 static FontInternal fntHeader, fntGeneral, fntSmall;

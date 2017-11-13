@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ApplyCLUIBorderStyle();
 
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
-				SetMenu(pcli->hwndContactList, NULL);
+				SetMenu(pcli->hwndContactList, nullptr);
 			else
 				SetMenu(pcli->hwndContactList, pcli->hMenuMain);
 
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 			}
 
-			db_set_b(NULL, "CLUI", "MaxSizeHeight", (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXSIZEHEIGHT, NULL, FALSE));
+			db_set_b(NULL, "CLUI", "MaxSizeHeight", (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
 			db_set_b(NULL, "CLUI", "AutoSizeUpward", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZEUPWARD));
 			db_set_b(NULL, "CList", "AutoHide", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			db_set_w(NULL, "CList", "HideTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
@@ -292,8 +292,8 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ConfigureCLUIGeometry(1);
 			ShowWindow(pcli->hwndContactList, SW_SHOW);
 			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-			SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-			RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+			SetWindowPos(pcli->hwndContactList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+			RedrawWindow(pcli->hwndContactList, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 			cfg::dat.fadeinout = oldFading;
 			opt_clui_changed = 0;
 
@@ -387,7 +387,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				flags |= db_get_b(NULL, "CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
 				flags |= db_get_b(NULL, "CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
 
-				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, NULL, flags, 0, 0, 0, 0, parent, NULL, g_hInst, NULL);
+				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, parent, nullptr, g_hInst, nullptr);
 				mir_subclassWindow(pcli->hwndStatus, NewStatusBarWndProc);
 			}
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
@@ -402,7 +402,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			db_set_dw(NULL, "CLUI", "Frameflags", cfg::dat.dwFlags);
 			ConfigureCLUIGeometry(1);
 			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
-			CluiProtocolStatusChanged(0, 0);
+			CluiProtocolStatusChanged(0, nullptr);
 			PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			opt_sbar_changed = 0;
 			return TRUE;

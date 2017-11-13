@@ -32,7 +32,7 @@ HNETLIBCONN CAimProto::aim_connect(const char* server, unsigned short port, bool
 	if (con && use_ssl) {
 		if (!Netlib_StartSsl(con, host)) {
 			Netlib_CloseHandle(con);
-			con = NULL;
+			con = nullptr;
 		}
 	}
 	return con;
@@ -61,10 +61,10 @@ void CAimProto::aim_connection_authorization(void)
 {
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE) {
 		char *password = getStringA(AIM_KEY_PW);
-		if (password != NULL) {
+		if (password != nullptr) {
 			mir_free(m_username);
 			m_username = getStringA(AIM_KEY_SN);
-			if (m_username != NULL) {
+			if (m_username != nullptr) {
 				HANDLE hServerPacketRecver = Netlib_CreatePacketReceiver(m_hServerConn, 2048 * 4);
 
 				NETLIBPACKETRECVER packetRecv = {};
@@ -107,11 +107,11 @@ void CAimProto::aim_connection_authorization(void)
 										return;
 
 									case 2:
-										ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+										ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
 										goto exit;
 
 									case 3:
-										ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+										ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NOSERVER);
 										goto exit;
 									}
 								}
@@ -133,7 +133,7 @@ void CAimProto::aim_connection_authorization(void)
 	if (m_iStatus != ID_STATUS_OFFLINE)
 		broadcast_status(ID_STATUS_OFFLINE);
 	Netlib_CloseHandle(m_hServerConn);
-	m_hServerConn = NULL;
+	m_hServerConn = nullptr;
 	debugLogA("Connection Authorization Thread Ending: End of Thread");
 }
 
@@ -180,7 +180,7 @@ bool parse_clientlogin_response(NETLIBHTTPREQUEST *nlhr, NETLIBHTTPHEADER *my_he
 
 	secret = _T2A(secret_w);
 	token = _T2A(token_w);
-	hosttime = strtol(_T2A(hosttime_w), NULL, 10);
+	hosttime = strtol(_T2A(hosttime_w), nullptr, 10);
 	return true;
 }
 
@@ -298,7 +298,7 @@ void CAimProto::aim_connection_clientlogin(void)
 
 	// reuse NETLIBHTTPREQUEST
 	req.requestType = REQUEST_GET;
-	req.pData = NULL;
+	req.pData = nullptr;
 	req.flags |= NLHRF_MANUALHOST;
 	req.dataLength = 0;
 	req.headersCount = 1;
@@ -339,7 +339,7 @@ void CAimProto::aim_connection_clientlogin(void)
 
 
 
-	ForkThread(&CAimProto::aim_protocol_negotiation, 0);
+	ForkThread(&CAimProto::aim_protocol_negotiation, nullptr);
 }
 
 void __cdecl CAimProto::aim_protocol_negotiation(void*)
@@ -378,7 +378,7 @@ void __cdecl CAimProto::aim_protocol_negotiation(void*)
 					{
 						aim_send_cookie(m_hServerConn, m_seqno, COOKIE_LENGTH, COOKIE);//cookie challenge
 						mir_free(COOKIE);
-						COOKIE = NULL;
+						COOKIE = nullptr;
 						COOKIE_LENGTH = 0;
 					}
 					else
@@ -404,7 +404,7 @@ void __cdecl CAimProto::aim_protocol_negotiation(void*)
 
 						aim_sendflap(m_hServerConn, 0x01, offset, buf_, m_seqno);
 						mir_free(COOKIE);
-						COOKIE = NULL;
+						COOKIE = nullptr;
 						COOKIE_LENGTH = 0;
 
 					}
@@ -453,7 +453,7 @@ void __cdecl CAimProto::aim_protocol_negotiation(void*)
 					}
 				}
 				else if (flap.cmp(0x04)) {
-					ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
+					ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_OTHERLOCATION);
 					debugLogA("Connection Negotiation Thread Ending: Flap 0x04");
 					goto exit;
 				}
@@ -463,8 +463,8 @@ void __cdecl CAimProto::aim_protocol_negotiation(void*)
 
 exit:
 	if (m_iStatus != ID_STATUS_OFFLINE) broadcast_status(ID_STATUS_OFFLINE);
-	Netlib_CloseHandle(hServerPacketRecver); hServerPacketRecver = NULL;
-	Netlib_CloseHandle(m_hServerConn); m_hServerConn = NULL;
+	Netlib_CloseHandle(hServerPacketRecver); hServerPacketRecver = nullptr;
+	Netlib_CloseHandle(m_hServerConn); m_hServerConn = nullptr;
 	debugLogA("Connection Negotiation Thread Ending: End of Thread");
 	offline_contacts();
 }
@@ -503,7 +503,7 @@ void __cdecl CAimProto::aim_mail_negotiation(void*)
 				if (flap.cmp(0x01)) {
 					aim_send_cookie(m_hMailConn, m_mail_seqno, MAIL_COOKIE_LENGTH, MAIL_COOKIE);//cookie challenge
 					mir_free(MAIL_COOKIE);
-					MAIL_COOKIE = NULL;
+					MAIL_COOKIE = nullptr;
 					MAIL_COOKIE_LENGTH = 0;
 				}
 				else if (flap.cmp(0x02)) {
@@ -528,7 +528,7 @@ exit:
 	debugLogA("Mail Server Connection has ended");
 	Netlib_CloseHandle(hServerPacketRecver);
 	Netlib_CloseHandle(m_hMailConn);
-	m_hMailConn = NULL;
+	m_hMailConn = nullptr;
 }
 
 void __cdecl CAimProto::aim_avatar_negotiation(void*)
@@ -560,7 +560,7 @@ void __cdecl CAimProto::aim_avatar_negotiation(void*)
 				if (flap.cmp(0x01)) {
 					aim_send_cookie(m_hAvatarConn, m_avatar_seqno, AVATAR_COOKIE_LENGTH, AVATAR_COOKIE); // cookie challenge
 					mir_free(AVATAR_COOKIE);
-					AVATAR_COOKIE = NULL;
+					AVATAR_COOKIE = nullptr;
 					AVATAR_COOKIE_LENGTH = 0;
 				}
 				else if (flap.cmp(0x02)) {
@@ -585,7 +585,7 @@ void __cdecl CAimProto::aim_avatar_negotiation(void*)
 exit:
 	Netlib_CloseHandle(hServerPacketRecver);
 	Netlib_CloseHandle(m_hAvatarConn);
-	m_hAvatarConn = NULL;
+	m_hAvatarConn = nullptr;
 	ResetEvent(m_hAvatarEvent);
 	debugLogA("Avatar Server Connection has ended");
 }
@@ -629,7 +629,7 @@ void __cdecl CAimProto::aim_chatnav_negotiation(void*)
 				if (flap.cmp(0x01)) {
 					aim_send_cookie(m_hChatNavConn, m_chatnav_seqno, CHATNAV_COOKIE_LENGTH, CHATNAV_COOKIE);//cookie challenge
 					mir_free(CHATNAV_COOKIE);
-					CHATNAV_COOKIE = NULL;
+					CHATNAV_COOKIE = nullptr;
 					CHATNAV_COOKIE_LENGTH = 0;
 				}
 				else if (flap.cmp(0x02)) {
@@ -654,7 +654,7 @@ void __cdecl CAimProto::aim_chatnav_negotiation(void*)
 exit:
 	Netlib_CloseHandle(hServerPacketRecver);
 	Netlib_CloseHandle(m_hChatNavConn);
-	m_hChatNavConn = NULL;
+	m_hChatNavConn = nullptr;
 	ResetEvent(m_hChatNavEvent);
 	debugLogA("Chat Navigation Server Connection has ended");
 }
@@ -693,7 +693,7 @@ void __cdecl CAimProto::aim_chat_negotiation(void* param)
 				if (flap.cmp(0x01)) {
 					aim_send_cookie(item->hconn, item->seqno, item->CHAT_COOKIE_LENGTH, item->CHAT_COOKIE);//cookie challenge
 					mir_free(item->CHAT_COOKIE);
-					item->CHAT_COOKIE = NULL;
+					item->CHAT_COOKIE = nullptr;
 					item->CHAT_COOKIE_LENGTH = 0;
 				}
 				else if (flap.cmp(0x02)) {
@@ -752,7 +752,7 @@ void __cdecl CAimProto::aim_admin_negotiation(void*)
 				if (flap.cmp(0x01)) {
 					aim_send_cookie(m_hAdminConn, m_admin_seqno, ADMIN_COOKIE_LENGTH, ADMIN_COOKIE);//cookie challenge
 					mir_free(ADMIN_COOKIE);
-					ADMIN_COOKIE = NULL;
+					ADMIN_COOKIE = nullptr;
 					ADMIN_COOKIE_LENGTH = 0;
 				}
 				else if (flap.cmp(0x02)) {
@@ -778,7 +778,7 @@ void __cdecl CAimProto::aim_admin_negotiation(void*)
 exit:
 	Netlib_CloseHandle(hServerPacketRecver);
 	Netlib_CloseHandle(m_hAdminConn);
-	m_hAdminConn = NULL;
+	m_hAdminConn = nullptr;
 	ResetEvent(m_hAdminEvent);
 	debugLogA("Admin Server Connection has ended");
 }

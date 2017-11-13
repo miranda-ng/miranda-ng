@@ -36,62 +36,62 @@ struct StandardIconDescription
 
 static struct StandardIconDescription mainIcons[] =
 {
-	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda NG"),            -IDI_MIRANDA,        0, 0 }, // 0
-	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),               -IDI_RECVMSG,        0, 0 }, // 1
-	{ SKINICON_EVENT_URL,             LPGEN("URL"),                   -IDI_URL,            0, 0 }, // 2
-	{ SKINICON_EVENT_FILE,            LPGEN("File"),                  -IDI_FILE,           0, 0 }, // 3
-	{ SKINICON_OTHER_USERONLINE,      LPGEN("User online"),           -IDI_USERONLINE,     0, 0 }, // 4
-	{ SKINICON_OTHER_GROUPOPEN,       LPGEN("Group (open)"),          -IDI_GROUPOPEN,      0, 0 }, // 5
-	{ SKINICON_OTHER_GROUPSHUT,       LPGEN("Group (closed)"),        -IDI_GROUPSHUT,      0, 0 }, // 6
-	{ SKINICON_OTHER_CONNECTING,      LPGEN("Connecting"),            -IDI_LOAD,           0, 0 }, // 7
-	{ SKINICON_OTHER_ADDCONTACT,      LPGEN("Add contact"),           -IDI_ADDCONTACT,     0, 0 }, // 8
-	{ SKINICON_OTHER_USERDETAILS,     LPGEN("User details"),          -IDI_USERDETAILS,    0, 0 }, // 9
-	{ SKINICON_OTHER_HISTORY,         LPGEN("History"),               -IDI_HISTORY,        0, 0 }, // 10
-	{ SKINICON_OTHER_DOWNARROW,       LPGEN("Down arrow"),            -IDI_DOWNARROW,      0, 0 }, // 11
-	{ SKINICON_OTHER_FINDUSER,        LPGEN("Find user"),             -IDI_FINDUSER,       0, 0 }, // 12
-	{ SKINICON_OTHER_OPTIONS,         LPGEN("Options"),               -IDI_OPTIONS,        0, 0 }, // 13
-	{ SKINICON_OTHER_SENDEMAIL,       LPGEN("Send e-mail"),           -IDI_SENDEMAIL,      0, 0 }, // 14
-	{ SKINICON_OTHER_DELETE,          LPGEN("Delete"),                -IDI_DELETE,         0, 0 }, // 15
-	{ SKINICON_OTHER_RENAME,          LPGEN("Rename"),                -IDI_RENAME,         0, 0 }, // 16
-	{ SKINICON_OTHER_SMS,             LPGEN("SMS"),                   -IDI_SMS,            0, 0 }, // 17
-	{ SKINICON_OTHER_SEARCHALL,       LPGEN("Search all"),            -IDI_SEARCHALL,      0, 0 }, // 18
-	{ SKINICON_OTHER_TICK,            LPGEN("Tick"),                  -IDI_TICK,           0, 0 }, // 19
-	{ SKINICON_OTHER_NOTICK,          LPGEN("No tick"),               -IDI_NOTICK,         0, 0 }, // 20
-	{ SKINICON_OTHER_HELP,            LPGEN("Help"),                  -IDI_HELP,           0, 0 }, // 21
-	{ SKINICON_OTHER_MIRANDAWEB,      LPGEN("Miranda website"),       -IDI_MIRANDAWEBSITE, 0, 0 }, // 22
-	{ SKINICON_OTHER_TYPING,          LPGEN("Typing"),                -IDI_TYPING,         0, 0 }, // 23
-	{ SKINICON_OTHER_SMALLDOT,        LPGEN("Small dot"),             -IDI_SMALLDOT,       0, 0 }, // 24
-	{ SKINICON_OTHER_FILLEDBLOB,      LPGEN("Filled blob"),           -IDI_FILLEDBLOB,     0, 0 }, // 25
-	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty blob"),            -IDI_EMPTYBLOB,      0, 0 }, // 26
-	{ SKINICON_OTHER_UNICODE,         LPGEN("Unicode plugin"),        -IDI_UNICODE,        0, 0 }, // 27
-	{ SKINICON_OTHER_ANSI,            LPGEN("ANSI plugin"),           -IDI_ANSI,           0, 0 }, // 28
-	{ SKINICON_OTHER_LOADED,          LPGEN("Running plugin"),        -IDI_LOADED,         0, 0 }, // 29
-	{ SKINICON_OTHER_NOTLOADED,       LPGEN("Unloaded plugin"),       -IDI_NOTLOADED,      0, 0 }, // 30
-	{ SKINICON_OTHER_UNDO, 	          LPGEN("Undo"),                  -IDI_UNDO,           0, 0 }, // 31
-	{ SKINICON_OTHER_WINDOW,          LPGEN("Window"),                -IDI_WINDOW,         0, 0 }, // 32
-	{ SKINICON_OTHER_WINDOWS,         LPGEN("System"),                -IDI_WINDOWS,        0, 0 }, // 33
-	{ SKINICON_OTHER_ACCMGR,          LPGEN("Accounts"),              -IDI_ACCMGR,         0, 0 }, // 34
-	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("Show/Hide"),             -IDI_SHOWHIDE,       0, 0 }, // 35
-	{ SKINICON_OTHER_EXIT,            LPGEN("Exit"),                  -IDI_EXIT,           0, 0 }, // 36
-	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main menu"),             -IDI_MAINMENU,       0, 0 }, // 37
-	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),                -IDI_ONLINE,         0, 0 }, // 38
-	{ SKINICON_CHAT_JOIN,             LPGEN("Join chat"),             -IDI_JOINCHAT,       0, 0 }, // 39
-	{ SKINICON_CHAT_LEAVE,            LPGEN("Leave chat"),            -IDI_LEAVECHAT,      0, 0 }, // 40
-	{ SKINICON_OTHER_GROUP,           LPGEN("Move to group"),         -IDI_MOVETOGROUP,    0, 0 }, // 41
-	{ SKINICON_OTHER_ON,              LPGEN("On"),                    -IDI_ON,             0, 0 }, // 42
-	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                   -IDI_OFF,            0, 0 }, // 43
-	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"),   -IDI_LOADED_GRAY,    0, 0 }, // 44
-	{ SKINICON_OTHER_NOTLOADEDGRAY,   LPGEN("Non-loadable plugin"),   -IDI_NOTLOADED_GRAY, 0, 0 }, // 45
-	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),                -IDI_FRAME,          0, 0 }, // 46
-	{ SKINICON_OTHER_GROUPADD,        LPGEN("Add group"),             -IDI_ADDGROUP,       0, 0 }, // 47
-	{ SKINICON_AUTH_ADD,              LPGEN("Add to list"),           -IDI_AUTH_ADD,       0, 0 }, // 48
-	{ SKINICON_AUTH_REQUEST,          LPGEN("Request authorization"), -IDI_AUTH_REQUEST,   0, 0 }, // 49
-	{ SKINICON_AUTH_GRANT,            LPGEN("Grant authorization"),   -IDI_AUTH_GRANT,     0, 0 }, // 50
-	{ SKINICON_AUTH_REVOKE,           LPGEN("Revoke authorization"),  -IDI_AUTH_REVOKE,    0, 0 }, // 51
-	{ SKINICON_FATAL,                 LPGEN("Fatal error"),           -IDI_MFATAL,         0, 0 }, // 52
-	{ SKINICON_ERROR,                 LPGEN("Error"),                 -IDI_MERROR,         0, 0 }, // 53
-	{ SKINICON_WARNING,               LPGEN("Warning"),               -IDI_MWARNING,       0, 0 }, // 54
-	{ SKINICON_INFORMATION,           LPGEN("Information"),           -IDI_MINFO,          0, 0 }, // 55
+	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda NG"),            -IDI_MIRANDA,        0, nullptr }, // 0
+	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),               -IDI_RECVMSG,        0, nullptr }, // 1
+	{ SKINICON_EVENT_URL,             LPGEN("URL"),                   -IDI_URL,            0, nullptr }, // 2
+	{ SKINICON_EVENT_FILE,            LPGEN("File"),                  -IDI_FILE,           0, nullptr }, // 3
+	{ SKINICON_OTHER_USERONLINE,      LPGEN("User online"),           -IDI_USERONLINE,     0, nullptr }, // 4
+	{ SKINICON_OTHER_GROUPOPEN,       LPGEN("Group (open)"),          -IDI_GROUPOPEN,      0, nullptr }, // 5
+	{ SKINICON_OTHER_GROUPSHUT,       LPGEN("Group (closed)"),        -IDI_GROUPSHUT,      0, nullptr }, // 6
+	{ SKINICON_OTHER_CONNECTING,      LPGEN("Connecting"),            -IDI_LOAD,           0, nullptr }, // 7
+	{ SKINICON_OTHER_ADDCONTACT,      LPGEN("Add contact"),           -IDI_ADDCONTACT,     0, nullptr }, // 8
+	{ SKINICON_OTHER_USERDETAILS,     LPGEN("User details"),          -IDI_USERDETAILS,    0, nullptr }, // 9
+	{ SKINICON_OTHER_HISTORY,         LPGEN("History"),               -IDI_HISTORY,        0, nullptr }, // 10
+	{ SKINICON_OTHER_DOWNARROW,       LPGEN("Down arrow"),            -IDI_DOWNARROW,      0, nullptr }, // 11
+	{ SKINICON_OTHER_FINDUSER,        LPGEN("Find user"),             -IDI_FINDUSER,       0, nullptr }, // 12
+	{ SKINICON_OTHER_OPTIONS,         LPGEN("Options"),               -IDI_OPTIONS,        0, nullptr }, // 13
+	{ SKINICON_OTHER_SENDEMAIL,       LPGEN("Send e-mail"),           -IDI_SENDEMAIL,      0, nullptr }, // 14
+	{ SKINICON_OTHER_DELETE,          LPGEN("Delete"),                -IDI_DELETE,         0, nullptr }, // 15
+	{ SKINICON_OTHER_RENAME,          LPGEN("Rename"),                -IDI_RENAME,         0, nullptr }, // 16
+	{ SKINICON_OTHER_SMS,             LPGEN("SMS"),                   -IDI_SMS,            0, nullptr }, // 17
+	{ SKINICON_OTHER_SEARCHALL,       LPGEN("Search all"),            -IDI_SEARCHALL,      0, nullptr }, // 18
+	{ SKINICON_OTHER_TICK,            LPGEN("Tick"),                  -IDI_TICK,           0, nullptr }, // 19
+	{ SKINICON_OTHER_NOTICK,          LPGEN("No tick"),               -IDI_NOTICK,         0, nullptr }, // 20
+	{ SKINICON_OTHER_HELP,            LPGEN("Help"),                  -IDI_HELP,           0, nullptr }, // 21
+	{ SKINICON_OTHER_MIRANDAWEB,      LPGEN("Miranda website"),       -IDI_MIRANDAWEBSITE, 0, nullptr }, // 22
+	{ SKINICON_OTHER_TYPING,          LPGEN("Typing"),                -IDI_TYPING,         0, nullptr }, // 23
+	{ SKINICON_OTHER_SMALLDOT,        LPGEN("Small dot"),             -IDI_SMALLDOT,       0, nullptr }, // 24
+	{ SKINICON_OTHER_FILLEDBLOB,      LPGEN("Filled blob"),           -IDI_FILLEDBLOB,     0, nullptr }, // 25
+	{ SKINICON_OTHER_EMPTYBLOB,       LPGEN("Empty blob"),            -IDI_EMPTYBLOB,      0, nullptr }, // 26
+	{ SKINICON_OTHER_UNICODE,         LPGEN("Unicode plugin"),        -IDI_UNICODE,        0, nullptr }, // 27
+	{ SKINICON_OTHER_ANSI,            LPGEN("ANSI plugin"),           -IDI_ANSI,           0, nullptr }, // 28
+	{ SKINICON_OTHER_LOADED,          LPGEN("Running plugin"),        -IDI_LOADED,         0, nullptr }, // 29
+	{ SKINICON_OTHER_NOTLOADED,       LPGEN("Unloaded plugin"),       -IDI_NOTLOADED,      0, nullptr }, // 30
+	{ SKINICON_OTHER_UNDO, 	          LPGEN("Undo"),                  -IDI_UNDO,           0, nullptr }, // 31
+	{ SKINICON_OTHER_WINDOW,          LPGEN("Window"),                -IDI_WINDOW,         0, nullptr }, // 32
+	{ SKINICON_OTHER_WINDOWS,         LPGEN("System"),                -IDI_WINDOWS,        0, nullptr }, // 33
+	{ SKINICON_OTHER_ACCMGR,          LPGEN("Accounts"),              -IDI_ACCMGR,         0, nullptr }, // 34
+	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("Show/Hide"),             -IDI_SHOWHIDE,       0, nullptr }, // 35
+	{ SKINICON_OTHER_EXIT,            LPGEN("Exit"),                  -IDI_EXIT,           0, nullptr }, // 36
+	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main menu"),             -IDI_MAINMENU,       0, nullptr }, // 37
+	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),                -IDI_ONLINE,         0, nullptr }, // 38
+	{ SKINICON_CHAT_JOIN,             LPGEN("Join chat"),             -IDI_JOINCHAT,       0, nullptr }, // 39
+	{ SKINICON_CHAT_LEAVE,            LPGEN("Leave chat"),            -IDI_LEAVECHAT,      0, nullptr }, // 40
+	{ SKINICON_OTHER_GROUP,           LPGEN("Move to group"),         -IDI_MOVETOGROUP,    0, nullptr }, // 41
+	{ SKINICON_OTHER_ON,              LPGEN("On"),                    -IDI_ON,             0, nullptr }, // 42
+	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                   -IDI_OFF,            0, nullptr }, // 43
+	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"),   -IDI_LOADED_GRAY,    0, nullptr }, // 44
+	{ SKINICON_OTHER_NOTLOADEDGRAY,   LPGEN("Non-loadable plugin"),   -IDI_NOTLOADED_GRAY, 0, nullptr }, // 45
+	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),                -IDI_FRAME,          0, nullptr }, // 46
+	{ SKINICON_OTHER_GROUPADD,        LPGEN("Add group"),             -IDI_ADDGROUP,       0, nullptr }, // 47
+	{ SKINICON_AUTH_ADD,              LPGEN("Add to list"),           -IDI_AUTH_ADD,       0, nullptr }, // 48
+	{ SKINICON_AUTH_REQUEST,          LPGEN("Request authorization"), -IDI_AUTH_REQUEST,   0, nullptr }, // 49
+	{ SKINICON_AUTH_GRANT,            LPGEN("Grant authorization"),   -IDI_AUTH_GRANT,     0, nullptr }, // 50
+	{ SKINICON_AUTH_REVOKE,           LPGEN("Revoke authorization"),  -IDI_AUTH_REVOKE,    0, nullptr }, // 51
+	{ SKINICON_FATAL,                 LPGEN("Fatal error"),           -IDI_MFATAL,         0, nullptr }, // 52
+	{ SKINICON_ERROR,                 LPGEN("Error"),                 -IDI_MERROR,         0, nullptr }, // 53
+	{ SKINICON_WARNING,               LPGEN("Warning"),               -IDI_MWARNING,       0, nullptr }, // 54
+	{ SKINICON_INFORMATION,           LPGEN("Information"),           -IDI_MINFO,          0, nullptr }, // 55
 	
 	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),        -IDI_ALWAYSVIS,     0, LPGEN("Contact list") },
 	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),      -IDI_NEVERVIS,      0, LPGEN("Contact list") },
@@ -280,7 +280,7 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 			wchar_t tszSection[MAX_PATH];
 			mir_snwprintf(tszSection, _T(PROTOCOLS_PREFIX)L"/%s", pa->tszAccountName);
 
-			SKINICONDESC sid = { 0 };
+			SKINICONDESC sid = {};
 			sid.section.w = tszSection;
 			sid.flags = SIDF_ALL_UNICODE;
 
@@ -383,7 +383,7 @@ int LoadSkinIcons(void)
 	GetModuleFileName(g_hInst, modulePath, _countof(modulePath));
 
 	char iconName[MAX_PATH];
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.defaultFile.w = modulePath;
 	sid.flags = SIDF_PATH_UNICODE;
 	sid.pszName = iconName;

@@ -45,7 +45,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 {
 	DBVARIANT dbv = { 0 };
 	char str[MAX_PATH];
-	char* pstr = NULL;
+	char* pstr = nullptr;
 	int unspecified = 0;
 	int bUtf = 0, bDbv = 0, bAlloc = 0;
 
@@ -73,7 +73,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 		}
 	}
 	else {
-		if (szModule == NULL)
+		if (szModule == nullptr)
 			unspecified = 1;
 		else {
 			unspecified = db_get(hContact, szModule, szSetting, &dbv);
@@ -110,8 +110,8 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 				BYTE bXStatus = ppro->getContactXStatus(hContact);
 
 				if (bXStatus) {
-					char *pXName = ppro->getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
-					if (pXName == NULL) // give default name
+					char *pXName = ppro->getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, nullptr);
+					if (pXName == nullptr) // give default name
 						pXName = ICQTranslateUtf(nameXStatus[bXStatus - 1]);
 
 					mir_snprintf(str, "%s (%s)", pszStatus, pXName);
@@ -153,7 +153,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 		case DBVT_WCHAR:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			if (!unspecified && pstr != szSetting) {
-				pstr = ppro->getSettingStringUtf(hContact, szModule, szSetting, NULL);
+				pstr = ppro->getSettingStringUtf(hContact, szModule, szSetting, nullptr);
 				bUtf = 1;
 				bAlloc = 1;
 			}

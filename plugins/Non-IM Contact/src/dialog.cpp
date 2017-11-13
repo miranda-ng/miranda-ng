@@ -123,7 +123,7 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_HELPMSG:
-			CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_HELP), 0, HelpWindowDlgProc);
+			CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_HELP), nullptr, HelpWindowDlgProc);
 			break;
 
 		case IDCANCEL:
@@ -205,13 +205,13 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 
 INT_PTR testStringReplacer(WPARAM, LPARAM)
 {
-	CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_TEST_LINE), 0, TestWindowDlgProc);
+	CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_TEST_LINE), nullptr, TestWindowDlgProc);
 	return 0;
 }
 
 INT_PTR LoadFilesDlg(WPARAM, LPARAM)
 {
-	CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_ADD_FILE), 0, DlgProcFiles);
+	CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_ADD_FILE), nullptr, DlgProcFiles);
 	return 0;
 }
 
@@ -243,44 +243,44 @@ void DoPropertySheet(MCONTACT hContact)
 	psp[0].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[0].hInstance = g_hInst;
 	psp[0].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_INFO);
-	psp[0].pszIcon = NULL;
+	psp[0].pszIcon = nullptr;
 	psp[0].pfnDlgProc = DlgProcContactInfo;
 	psp[0].pszTitle = Translate("Contacts Display Info");
 	psp[0].lParam = hContact;
-	psp[0].pfnCallback = NULL;
+	psp[0].pfnCallback = nullptr;
 
 	/* other settings */
 	psp[1].dwSize = sizeof(PROPSHEETPAGE);
 	psp[1].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[1].hInstance = g_hInst;
 	psp[1].pszTemplate = MAKEINTRESOURCEA(IDD_OTHER_STUFF);
-	psp[1].pszIcon = NULL;
+	psp[1].pszIcon = nullptr;
 	psp[1].pfnDlgProc = DlgProcOtherStuff;
 	psp[1].pszTitle = Translate("Link and Contact list Settings");
 	psp[1].lParam = hContact;
-	psp[1].pfnCallback = NULL;
+	psp[1].pfnCallback = nullptr;
 
 	/* copy contact */
 	psp[2].dwSize = sizeof(PROPSHEETPAGE);
 	psp[2].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[2].hInstance = g_hInst;
 	psp[2].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COPYEXPORT);
-	psp[2].pszIcon = NULL;
+	psp[2].pszIcon = nullptr;
 	psp[2].pfnDlgProc = DlgProcCopy;
 	psp[2].pszTitle = Translate("Copy Contact");
 	psp[2].lParam = hContact;
-	psp[2].pfnCallback = NULL;
+	psp[2].pfnCallback = nullptr;
 
 	/* files */
 	psp[3].dwSize = sizeof(PROPSHEETPAGE);
 	psp[3].dwFlags = PSP_USEICONID | PSP_USETITLE;
 	psp[3].hInstance = g_hInst;
 	psp[3].pszTemplate = MAKEINTRESOURCEA(IDD_ADD_FILE);
-	psp[3].pszIcon = NULL;
+	psp[3].pszIcon = nullptr;
 	psp[3].pfnDlgProc = DlgProcFiles;
 	psp[3].pszTitle = Translate("Files");
 	psp[3].lParam = 0;
-	psp[3].pfnCallback = NULL;
+	psp[3].pfnCallback = nullptr;
 
 	/* propery sheet header.. dont touch !!!! */
 	PROPSHEETHEADERA psh = { sizeof(psh) };

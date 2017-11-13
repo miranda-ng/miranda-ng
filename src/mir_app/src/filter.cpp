@@ -151,7 +151,7 @@ void GetDialogStrings(int enableKeywordFiltering, const PageHash key, wchar_t *p
 	if (tab)   AddFilterString(key, tab);
 	if (name)  AddFilterString(key, name);
 
-	if ((enableKeywordFiltering) && (hWnd != 0)) {
+	if ((enableKeywordFiltering) && (hWnd != nullptr)) {
 		AddDialogString(hWnd, key);
 
 		EnumChildWindows(hWnd, GetDialogStringsCallback, (LPARAM)key);

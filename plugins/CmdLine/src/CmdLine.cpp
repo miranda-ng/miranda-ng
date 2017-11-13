@@ -50,7 +50,7 @@ extern "C" int __declspec(dllexport) Load(void)
  	pcli = Clist_GetInterface();
 
 	if (InitServer())
-		MessageBox(0, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(nullptr, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
 
 	HookEvents();
 	return 0;

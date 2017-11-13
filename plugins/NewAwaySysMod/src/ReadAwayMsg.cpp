@@ -86,7 +86,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			// done with the event
 			if (awayData->hAwayMsgEvent) {
 				UnhookEvent(awayData->hAwayMsgEvent);
-				awayData->hAwayMsgEvent = NULL;
+				awayData->hAwayMsgEvent = nullptr;
 			}
 			const wchar_t *ptszStatusMsg = (const wchar_t*)ack->lParam;
 			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_MSG, ptszStatusMsg);
@@ -121,7 +121,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		READAWAYMSGDATA *awayData = (READAWAYMSGDATA*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		if (awayData->hAwayMsgEvent) {
 			UnhookEvent(awayData->hAwayMsgEvent);
-			awayData->hAwayMsgEvent = NULL;
+			awayData->hAwayMsgEvent = nullptr;
 		}
 		delete awayData;
 		Utils_SaveWindowPosition(hwndDlg, NULL, MOD_NAME, RAMDLGSIZESETTING);
@@ -135,6 +135,6 @@ INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM)
 	if (HWND hWnd = WindowList_Find(g_hReadWndList, wParam)) // already have it
 		SetForegroundWindow(hWnd);
 	else
-		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
+		CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_READAWAYMSG), nullptr, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }

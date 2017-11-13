@@ -32,14 +32,14 @@ MIR_CORE_DLL(HBITMAP) Bitmap_Load(const wchar_t *ptszFileName)
 		wcsncpy_s(szFilename, ptszFileName, _TRUNCATE);
 
 	if (!ServiceExists(MS_IMG_LOAD))
-		return NULL;
+		return nullptr;
 
 	return (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_WCHAR);
 }
 
 MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen)
 {
-	if (dest == NULL)
+	if (dest == nullptr)
 		return;
 
 	mir_snwprintf(dest, destLen,

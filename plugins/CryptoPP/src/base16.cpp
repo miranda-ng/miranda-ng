@@ -40,7 +40,7 @@ char *base16decode(const char *inBuffer, unsigned int *count)
 		if ((c0 | c1) == BERR) {
 			free(outBuffer);
 			*count = 0;
-			return(NULL);
+			return(nullptr);
 		}
 		*outBufferPtr++ = (c0 << 4) | c1;
 		*count -= 2;

@@ -64,7 +64,7 @@ void CMirfoxMiranda::onAccListChanged(WPARAM wParam, LPARAM lParam)
 
 	switch (wParam) {
 	case PRAC_ADDED:
-		if (acc != NULL) {
+		if (acc != nullptr) {
 			//checking account
 			if(acc->bIsEnabled == 0 || acc->bDynDisabled != 0){
 				return;
@@ -75,7 +75,7 @@ void CMirfoxMiranda::onAccListChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_UPGRADED:
 	case PRAC_CHANGED:
-		if (acc != NULL) {
+		if (acc != nullptr) {
 			//checking account
 			if(acc->bIsEnabled == 0 || acc->bDynDisabled != 0){
 				return;
@@ -89,7 +89,7 @@ void CMirfoxMiranda::onAccListChanged(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case PRAC_CHECKED:
-		if (acc != NULL) {
+		if (acc != nullptr) {
 			if (acc->bIsEnabled) {
 				//checking account
 				if(acc->bDynDisabled != 0){
@@ -109,7 +109,7 @@ void CMirfoxMiranda::onAccListChanged(WPARAM wParam, LPARAM lParam)
 
 void CMirfoxMiranda::onContactAdded_async(void* threadArg)
 {
-	Thread_Push(0);
+	Thread_Push(nullptr);
 	OnContactAsyncThreadArgStruct* onContactAsyncThreadArgStruct = (OnContactAsyncThreadArgStruct*)threadArg;
 	CMirfoxMiranda* mirfoxMiranda = onContactAsyncThreadArgStruct->mirfoxMiranda;
 	MFLogger* logger = MFLogger::getInstance();
@@ -169,7 +169,7 @@ void CMirfoxMiranda::onContactSettingChanged(MCONTACT hContact, LPARAM lParam)
 
 void CMirfoxMiranda::onContactSettingChanged_async(void* threadArg){
 
-	Thread_Push(0);
+	Thread_Push(nullptr);
 	OnContactAsyncThreadArgStruct* onContactAsyncThreadArgStruct = (OnContactAsyncThreadArgStruct*)threadArg;
 	CMirfoxMiranda* mirfoxMiranda = onContactAsyncThreadArgStruct->mirfoxMiranda;
 	MFLogger* logger = MFLogger::getInstance();
@@ -260,10 +260,10 @@ void CMirfoxMiranda::initializeSharedMemoryData(MirfoxData& mirfoxData, SharedMe
 	if(result.errorCode != 0){
 		//error
 		if (result.errorCode == -3){  //existing csm version is too high -> i'm too old
-			MessageBox(NULL, TranslateT("This MirFox (Miranda) plugin is too old. Please update it."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
+			MessageBox(nullptr, TranslateT("This MirFox (Miranda) plugin is too old. Please update it."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
 		}
 		if (result.errorCode == -4){  //existing csm version is too low -> sb is too old
-			MessageBox(NULL, TranslateT("This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
+			MessageBox(nullptr, TranslateT("This MirFox (Miranda) plugin cannot start because some other MirFox component is too old. Please, check and update your MirFox components."), TranslateT("MirFox (Miranda) - Error"), MB_OK | MB_ICONWARNING );
 		}
 		mirfoxData.setPluginState(MFENUM_PLUGIN_STATE_ERROR);
 		return;
@@ -319,7 +319,7 @@ void CMirfoxMiranda::unloadSharedMemory()
 
 void CMirfoxMiranda::csmThread(void* threadArg)
 {
-	Thread_Push(0);
+	Thread_Push(nullptr);
 
 	CMirfoxMiranda* mirfoxMirandaPtr = (CMirfoxMiranda*)threadArg;
 	MirfoxData* mirfoxDataPtr = &(mirfoxMirandaPtr->getMirfoxData());
@@ -436,7 +436,7 @@ void CMirfoxMiranda::unloadMessageQueue(uint16_t unloadedMQProcessId)
 
 void CMirfoxMiranda::msgQueueThread(void* threadArg)
 {
-	Thread_Push(0);
+	Thread_Push(nullptr);
 
 	CMirfoxMiranda* mirfoxMirandaPtr = (CMirfoxMiranda*)threadArg;
 	MirfoxData* mirfoxDataPtr = &(mirfoxMirandaPtr->getMirfoxData());

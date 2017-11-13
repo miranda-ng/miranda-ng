@@ -6,7 +6,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 	mir_snprintf(dbSetting, "fn%d", fileNumber);
 
 	char *szVar = db_get_sa(NULL, MODNAME, dbSetting);
-	if (szVar == NULL)
+	if (szVar == nullptr)
 		return 0;
 
 	char tszFileName[MAX_PATH];
@@ -17,7 +17,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 	mir_free(szVar);
 
 	FILE* file = fopen(tszFileName, "r");
-	if (file == NULL)
+	if (file == nullptr)
 		return 0;
 
 	// read the file into the FileContents array
@@ -29,7 +29,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 		else temp[mir_strlen(temp)] = '\0';
 
 		FileContents[i] = (char*)malloc(mir_strlen(temp) + 1);
-		if (FileContents[i] == NULL) break;
+		if (FileContents[i] == nullptr) break;
 		mir_strcpy(FileContents[i], temp);
 	}
 	fclose(file);
@@ -214,9 +214,9 @@ void checkStringForcompare(CMStringA &str)
 		if (!strncmp(str.c_str()+i, "compare(\"", mir_strlen("compare(\""))) {
 			i += (int)mir_strlen("compare(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
-			B = strtok(NULL, "\",\"");
-			X = strtok(NULL, "\",\"");
-			Y = strtok(NULL, ",\")");
+			B = strtok(nullptr, "\",\"");
+			X = strtok(nullptr, "\",\"");
+			Y = strtok(nullptr, ",\")");
 			j = Y - &copyOfStr[i] + (int)mir_strlen(Y) + 1;
 			if (A && B && X && Y) {
 				if (!mir_strcmp(A, B))
@@ -243,7 +243,7 @@ void checkStringForSave(MCONTACT hContact, CMStringA &str)
 		if (!strncmp(str.c_str()+i, "save(\"", mir_strlen("save(\""))) {
 			i += (int)mir_strlen("save(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
-			B = strtok(NULL, ",\")");
+			B = strtok(nullptr, ",\")");
 			j = B - &copyOfStr[i] + (int)mir_strlen(B) + 1;
 			if (A && B)
 				db_set_s(hContact, MODNAME, A, B);
@@ -294,9 +294,9 @@ void checkStringForSaveN(CMStringA &str)
 		if (!strncmp(str.c_str()+i, "saveN(\"", mir_strlen("saveN(\""))) {
 			i += (int)mir_strlen("saveN(\"");
 			A = strtok(&copyOfStr[i], "\",\"");
-			B = strtok(NULL, ",\"");
-			C = strtok(NULL, ",\"");
-			D = strtok(NULL, ",\")");
+			B = strtok(nullptr, ",\"");
+			C = strtok(nullptr, ",\"");
+			D = strtok(nullptr, ",\")");
 			j = D - &copyOfStr[i] + (int)mir_strlen(D) + 1;
 			if (A && B && C && D) {
 				switch (D[0]) {
@@ -337,7 +337,7 @@ void checkStringForLoadN(CMStringA &str)
 		if (!strncmp(str.c_str()+i, "loadN(\"", mir_strlen("loadN(\""))) {
 			i += (int)mir_strlen("loadN(\"");
 			char *A = strtok(&copyOfStr[i], "\",\"");
-			char *B = strtok(NULL, ",\")");
+			char *B = strtok(nullptr, ",\")");
 			if (A && B) {
 				j = B - &copyOfStr[i] + (int)mir_strlen(B) + 1;
 				DBVARIANT dbv;
@@ -378,7 +378,7 @@ BOOL GetLastWriteTime(HANDLE hFile, LPSTR lpszString)
 
 	// Convert the last-write time to local time.
 	FileTimeToSystemTime(&ftWrite, &stUTC);
-	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+	SystemTimeToTzSpecificLocalTime(nullptr, &stUTC, &stLocal);
 
 	// Build a string showing the date and time.
 	wsprintfA(lpszString, "%02d/%02d/%d  %02d:%02d",
@@ -401,7 +401,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 		mir_snprintf(szSetting, "fn%d", file);
 
 		char *szVar = db_get_sa(NULL, MODNAME, szSetting);
-		if (szVar == NULL)
+		if (szVar == nullptr)
 			return 0;
 
 		if (!strncmp("http://", szVar, 7) || !strncmp("https://", szVar, 8))
@@ -410,7 +410,7 @@ int lastChecked(CMStringA &szNewStr, const char *str)
 			mir_strncpy(tszFileName, szVar, _countof(tszFileName));
 		mir_free(szVar);
 
-		HANDLE hFile = CreateFileA(tszFileName, 0, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE hFile = CreateFileA(tszFileName, 0, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hFile == INVALID_HANDLE_VALUE)
 			return 0;
 
@@ -443,7 +443,7 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 	int tempInt;
 	int startLine = 0, endLine = 0, startChar = 0, endChar = 0, wholeLine = -1, linesInFile;
 	int positionInOldString = 0;
-	char *fileContents[MAXLINES] = { NULL }, tempString[MAX_STRING_LENGTH];
+	char *fileContents[MAXLINES] = {}, tempString[MAX_STRING_LENGTH];
 
 	//	setup the variable names
 	szNewString.Empty();
@@ -556,7 +556,7 @@ int stringReplacer(const char *oldString, CMStringA &szNewString, MCONTACT hCont
 		}
 	}
 	// free the file strings
-	for (tempInt = 0; (tempInt < MAXLINES) && (fileContents[tempInt] != NULL); tempInt++)
+	for (tempInt = 0; (tempInt < MAXLINES) && (fileContents[tempInt] != nullptr); tempInt++)
 		free(fileContents[tempInt]);
 
 	// check for load("A","B")

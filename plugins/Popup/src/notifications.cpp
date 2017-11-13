@@ -42,7 +42,7 @@ void LoadNotifications()
 	POPUPNOTIFICATION notification = { 0 };
 	notification.cbSize = sizeof(notification);
 	notification.actionCount = 0;
-	notification.lpActions = 0;
+	notification.lpActions = nullptr;
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Warning", sizeof(notification.lpzName));
@@ -158,12 +158,12 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 		mir_snprintf(setting, "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		char *szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzLAction);
 		mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
-		mir_free(szTmp); szTmp = NULL;
+		mir_free(szTmp); szTmp = nullptr;
 
 		mir_snprintf(setting, "{%s/%s}rightAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		szTmp = db_get_s(NULL, szModul, setting, ptd->notification.lpzRAction);
 		mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
-		mir_free(szTmp); szTmp = NULL;
+		mir_free(szTmp); szTmp = nullptr;
 	}
 }
 
@@ -218,7 +218,7 @@ HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 		if (p->typ == typ && (!group || (mir_wstrcmp(p->pszTreeRoot, group) == 0)) && (!name || (mir_wstrcmp(p->pszDescription, name) == 0)))
 			return p;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
@@ -264,7 +264,7 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 		return false;
 
 	POPUPTREEDATA *ptd = (POPUPTREEDATA *)hNotification;
-	char *lpzAction = NULL;
+	char *lpzAction = nullptr;
 	switch (message) {
 	case WM_LBUTTONUP:
 	case WM_COMMAND:

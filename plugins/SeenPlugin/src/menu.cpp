@@ -20,8 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HANDLE   hLSUserDet = NULL;
-HGENMENU hmenuitem = NULL;
+HANDLE   hLSUserDet = nullptr;
+HGENMENU hmenuitem = nullptr;
 
 void InitHistoryDialog(void);
 
@@ -50,7 +50,7 @@ int BuildContactMenu(WPARAM hContact, LPARAM)
 		ptszName = ParseString(DEFAULT_MENUSTAMP, hContact);
 
 	int flags = 0;
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 	if (!mir_wstrcmp(ptszName, TranslateT("<unknown>"))) {
 		if (IsWatchedProtocol(szProto))
 			flags |= CMIF_GRAYED;

@@ -38,7 +38,7 @@ static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c)
 	DWORD flags = 0;
 	if (cfg::dat.bShowLocalTimeSelective)
 		flags |= TZF_DIFONLY;
-	c->hTimeZone = TimeZone_CreateByContact(hContact, 0, flags);
+	c->hTimeZone = TimeZone_CreateByContact(hContact, nullptr, flags);
 }
 
 //routines for managing adding/removal of items in the list, including sorting
@@ -46,7 +46,7 @@ static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c)
 ClcContact* CreateClcContact(void)
 {
 	ClcContact* p = (ClcContact*)mir_calloc(sizeof(ClcContact));
-	if (p != NULL)
+	if (p != nullptr)
 		p->avatarLeft = p->extraIconRightBegin = p->xStatusIcon = -1;
 
 	return p;
@@ -82,15 +82,15 @@ void LoadAvatarForContact(ClcContact *p)
 	else
 		p->cFlags = (dwFlags & ECF_FORCEAVATAR ? p->cFlags | ECF_AVATAR : p->cFlags & ~ECF_AVATAR);
 
-	p->ace = NULL;
+	p->ace = nullptr;
 	if (cfg::dat.bAvatarServiceAvail && (p->cFlags & ECF_AVATAR) && (!cfg::dat.bNoOfflineAvatars || p->wStatus != ID_STATUS_OFFLINE)) {
 		p->ace = (struct AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)p->hContact, 0);
-		if (p->ace != NULL && p->ace->cbSize != sizeof(struct AVATARCACHEENTRY))
-			p->ace = NULL;
-		if (p->ace != NULL)
+		if (p->ace != nullptr && p->ace->cbSize != sizeof(struct AVATARCACHEENTRY))
+			p->ace = nullptr;
+		if (p->ace != nullptr)
 			p->ace->t_lastAccess = cfg::dat.t_now;
 	}
-	if (p->ace == NULL)
+	if (p->ace == nullptr)
 		p->cFlags &= ~ECF_AVATAR;
 }
 
@@ -112,14 +112,14 @@ ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hCo
 	}
 	else {
 		p->iImage = pcli->pfnGetContactIcon(hContact);
-		p->metaProto = NULL;
+		p->metaProto = nullptr;
 	}
 
 	p->codePage = db_get_dw(hContact, "Tab_SRMsg", "ANSIcodepage", db_get_dw(hContact, "UserInfo", "ANSIcodepage", CP_ACP));
 	p->bSecondLine = db_get_b(hContact, "CList", "CLN_2ndline", cfg::dat.dualRowMode);
 
 	if (dat->bisEmbedded)
-		p->pExtra = 0;
+		p->pExtra = nullptr;
 	else {
 		p->pExtra = cfg::getCache(p->hContact, p->proto);
 		GetExtendedInfo(p, dat);
@@ -156,7 +156,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return 0;
 
 	p->bStatusMsgValid = STATUSMSG_NOTFOUND;
@@ -241,7 +241,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		}
 	}
 
-	if (p->hTimeZone == NULL)
+	if (p->hTimeZone == nullptr)
 		TZ_LoadTimeZone(hContact, p);
 	return p->bStatusMsgValid;
 }
@@ -249,10 +249,10 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 void ReloadExtraInfo(MCONTACT hContact)
 {
 	if (hContact && pcli->hwndContactTree) {
-		TExtraCache *p = cfg::getCache(hContact, NULL);
+		TExtraCache *p = cfg::getCache(hContact, nullptr);
 		if (p) {
 			TZ_LoadTimeZone(hContact, p);
-			InvalidateRect(pcli->hwndContactTree, NULL, FALSE);
+			InvalidateRect(pcli->hwndContactTree, nullptr, FALSE);
 		}
 	}
 }
@@ -270,9 +270,9 @@ void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 
 	memset(infoTypeC2, 0, sizeof(infoTypeC2));
 
-	if (contact == NULL) {
+	if (contact == nullptr) {
 		szText = pcli->pfnGetContactDisplayName(hContact, 0);
-		p = cfg::getCache(hContact, NULL);
+		p = cfg::getCache(hContact, nullptr);
 	}
 	else {
 		szText = contact->szText;
@@ -316,14 +316,14 @@ void RTL_DetectGroupName(ClcContact *group)
 
 void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 {
-	if (dat->bisEmbedded || contact == NULL)
+	if (dat->bisEmbedded || contact == nullptr)
 		return;
 
-	if (contact->proto == NULL || contact->hContact == 0)
+	if (contact->proto == nullptr || contact->hContact == 0)
 		return;
 
 	TExtraCache *p = contact->pExtra;
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	p->msgFrequency = db_get_dw(contact->hContact, "CList", "mf_freq", 0x7fffffff);
@@ -339,7 +339,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 	MCONTACT hContact = cEntry->hContact;
 
 	if (db_get_b(hContact, "EXTBK", "VALID", 0)) {
-		if (cEntry->status_item == NULL)
+		if (cEntry->status_item == nullptr)
 			cEntry->status_item = reinterpret_cast<StatusItems_t *>(malloc(sizeof(StatusItems_t)));
 		memset(cEntry->status_item, 0, sizeof(StatusItems_t));
 		mir_strcpy(cEntry->status_item->szName, "{--CONTACT--}"); // mark as "per contact" item
@@ -363,7 +363,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 	}
 	else if (cEntry->status_item) {
 		free(cEntry->status_item);
-		cEntry->status_item = NULL;
+		cEntry->status_item = nullptr;
 	}
 }
 
@@ -378,13 +378,13 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 	int dbHidden = db_get_b(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 
 	// always hide subcontacts (but show them on embedded contact lists)
-	if (dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))
+	if (dat != nullptr && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))
 		return 1;
 
 	if (!cfg::dat.bFilterEffective)
 		return dbHidden;
 
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		szProto = GetContactProto(hContact);
 	// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 	if (cfg::dat.bFilterEffective & CLVM_STICKY_CONTACTS) {

@@ -27,7 +27,7 @@ static mir_cs csPopupHistory;
 static LIST<POPUPDATA2> arPopupHistory(SETTING_HISTORYSIZE_DEFAULT);
 static int popupHistoryBuffer = 0;
 
-static HWND hwndHistory = NULL;
+static HWND hwndHistory = nullptr;
 
 #define UM_RESIZELIST	(WM_USER+100)
 #define UM_SELECTLAST	(WM_USER+101)
@@ -82,7 +82,7 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 		ppd->lpzText = mir_strdup(ppd->lpzText);
 	}
 	ppd->lpzSkin = mir_strdup(ppd->lpzSkin);
-	ppd->dwTimestamp = time(NULL);
+	ppd->dwTimestamp = time(nullptr);
 	{
 		mir_cslock lck(csPopupHistory);
 		if (arPopupHistory.getCount() >= popupHistoryBuffer) {
@@ -98,7 +98,7 @@ void PopupHistoryAdd(POPUPDATA2 *ppdNew)
 void PopupHistoryShow()
 {
 	if (!PopupOptions.EnableHistory) {
-		MessageBox(NULL, TranslateT("Popup History is disabled"), TranslateT("Popup History message"), MB_OK);
+		MessageBox(nullptr, TranslateT("Popup History is disabled"), TranslateT("Popup History message"), MB_OK);
 		return;
 	}
 
@@ -109,7 +109,7 @@ void PopupHistoryShow()
 		SetActiveWindow(hwndHistory);
 	}
 	else {
-		hwndHistory = CreateDialog(hInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, HistoryDlgProc);
+		hwndHistory = CreateDialog(hInst, MAKEINTRESOURCE(IDD_HISTORY), nullptr, HistoryDlgProc);
 		SetWindowText(hwndHistory, TranslateT("Popup History"));
 	}
 }
@@ -120,7 +120,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 	static int loadItem = -1;
 
 	static enum { LOG_NONE, LOG_DEFAULT, LOG_HPP } logType = LOG_NONE;
-	static HWND hwndLog = NULL;
+	static HWND hwndLog = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -176,7 +176,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				ieEvent.eventData = &ieData;
 				ieEvent.count = 1;
 				ieEvent.codepage = 0;
-				ieEvent.pszProto = NULL;
+				ieEvent.pszProto = nullptr;
 
 				for (int i = 0; i < arPopupHistory.getCount(); ++i) {
 					POPUPDATA2* ppd = arPopupHistory[i];
@@ -188,18 +188,18 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 						ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 						ieData.pszNickW = ppd->lptzTitle;
 						ieData.pszTextW = ppd->lptzText;
-						ieData.pszText2W = NULL;
+						ieData.pszText2W = nullptr;
 					}
 					else {
 						ieData.dwFlags |= 0;
 						ieData.pszNick = ppd->lpzTitle;
 						ieData.pszText = ppd->lpzText;
-						ieData.pszText2 = NULL;
+						ieData.pszText2 = nullptr;
 					}
 					ieData.bIsMe = FALSE;
 					ieData.time = ppd->dwTimestamp;
 					ieData.dwData = 0;
-					ieData.next = NULL;
+					ieData.next = nullptr;
 					CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
 				}
 			}
@@ -301,7 +301,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			rcLst.right -= 10;
 			rcLst.bottom -= 10;
 			if (logType == LOG_HPP) {
-				SetWindowPos(hwndLog, NULL,
+				SetWindowPos(hwndLog, nullptr,
 					rcLst.left, rcLst.top, rcLst.right - rcLst.left, rcLst.bottom - rcLst.top,
 					SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
 
@@ -317,7 +317,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 			}
 			else if (logType == LOG_DEFAULT) {
-				SetWindowPos(hwndLog, NULL,
+				SetWindowPos(hwndLog, nullptr,
 					rcLst.left, rcLst.top, rcLst.right - rcLst.left, rcLst.bottom - rcLst.top,
 					SWP_NOZORDER | SWP_DEFERERASE | SWP_SHOWWINDOW);
 				if (rcLst.right - rcLst.left != oldWidth) {
@@ -343,8 +343,8 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				ListBox_SetItemData(hwndLog, i, 0);
 				ListBox_SetItemHeight(hwndLog, i, 50);
 			}
-			ScrollWindow(hwndLog, 0, 100000, NULL, NULL);
-			InvalidateRect(hwndLog, NULL, TRUE);
+			ScrollWindow(hwndLog, 0, 100000, nullptr, nullptr);
+			InvalidateRect(hwndLog, nullptr, TRUE);
 		}
 		return TRUE;
 
@@ -362,7 +362,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 			ieEvent.eventData = &ieData;
 			ieEvent.count = 1;
 			ieEvent.codepage = 0;
-			ieEvent.pszProto = NULL;
+			ieEvent.pszProto = nullptr;
 
 			ieData.cbSize = sizeof(ieData);
 			ieData.dwFlags = 0;
@@ -372,18 +372,18 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				ieData.dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 				ieData.pszNickW = ppd->lptzTitle;
 				ieData.pszTextW = ppd->lptzText;
-				ieData.pszText2W = NULL;
+				ieData.pszText2W = nullptr;
 			}
 			else {
 				ieData.dwFlags |= 0;
 				ieData.pszNick = ppd->lpzTitle;
 				ieData.pszText = ppd->lpzText;
-				ieData.pszText2 = NULL;
+				ieData.pszText2 = nullptr;
 			}
 			ieData.bIsMe = FALSE;
 			ieData.time = ppd->dwTimestamp;
 			ieData.dwData = 0;
-			ieData.next = NULL;
+			ieData.next = nullptr;
 			CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
 		}
 		else if (logType == LOG_DEFAULT) {
@@ -399,7 +399,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 	case WM_CLOSE:
 		Utils_SaveWindowPosition(hwnd, NULL, MODULNAME, "popupHistory_");
 		DestroyWindow(hwnd);
-		hwndHistory = NULL;
+		hwndHistory = nullptr;
 		return TRUE;
 
 	case WM_DESTROY:

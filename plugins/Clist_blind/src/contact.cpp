@@ -63,7 +63,7 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 		}
 		/* both are online, now check protocols */
-		if (c1->proto != NULL && c2->proto != NULL) {
+		if (c1->proto != nullptr && c2->proto != nullptr) {
 			int rc = mir_strcmp(c1->proto, c2->proto);
 			if (rc != 0)
 				return rc;

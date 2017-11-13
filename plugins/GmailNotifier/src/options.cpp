@@ -163,7 +163,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			acc_num--;
 			SendMessage(hwndCombo, CB_DELETESTRING, curIndex, 0);
 			DeleteResults(acc[curIndex].results.next);
-			acc[curIndex].results.next = NULL;
+			acc[curIndex].results.next = nullptr;
 			db_delete_contact(acc[curIndex].hContact);
 			for (int i = curIndex; i < acc_num; i++)
 				acc[i] = acc[i + 1];
@@ -198,10 +198,10 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			SaveButton(hwndDlg,hwndCombo, curIndex);
-			opt.circleTime = GetDlgItemInt(hwndDlg, IDC_CIRCLE, NULL, FALSE);
+			opt.circleTime = GetDlgItemInt(hwndDlg, IDC_CIRCLE, nullptr, FALSE);
 			if (opt.circleTime > 0) {
-				KillTimer(NULL, hTimer);
-				hTimer = SetTimer(NULL, 0, opt.circleTime * 60000, TimerProc);
+				KillTimer(nullptr, hTimer);
+				hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
 				db_set_dw(NULL, MODULE_NAME, "circleTime", opt.circleTime);
 			}
 			opt.notifierOnTray = IsDlgButtonChecked(hwndDlg, IDC_OPTTRAY);
@@ -209,7 +209,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			db_set_dw(NULL, MODULE_NAME, "notifierOnTray", opt.notifierOnTray);
 			db_set_dw(NULL, MODULE_NAME, "notifierOnPop", opt.notifierOnPop);
 
-			opt.popupDuration = GetDlgItemInt(hwndDlg, IDC_DURATION, NULL, TRUE);
+			opt.popupDuration = GetDlgItemInt(hwndDlg, IDC_DURATION, nullptr, TRUE);
 			db_set_dw(NULL, MODULE_NAME, "popupDuration", opt.popupDuration);
 
 			opt.popupBgColor = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, opt.popupBgColor);

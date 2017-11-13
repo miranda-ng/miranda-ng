@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ListData* ButtonsList[100];
 
-SortedList* QuickList = NULL;
+SortedList* QuickList = nullptr;
 
 typedef void(*ItemDestuctor)(void*);
 
@@ -29,7 +29,7 @@ int  sstSortButtons(const void * vmtbi1, const void * vmtbi2)
 {
 	ButtonData * mtbi1 = (ButtonData *)*((ButtonData **)vmtbi1);
 	ButtonData * mtbi2 = (ButtonData *)*((ButtonData **)vmtbi2);
-	if (mtbi1 == NULL || mtbi2 == NULL) return (mtbi1 - mtbi2);
+	if (mtbi1 == nullptr || mtbi2 == nullptr) return (mtbi1 - mtbi2);
 	return mtbi1->dwPos - mtbi2->dwPos;
 }
 
@@ -37,7 +37,7 @@ int  sstQuickSortButtons(const void * vmtbi1, const void * vmtbi2)
 {
 	QuickData * mtbi1 = (QuickData *)*((QuickData **)vmtbi1);
 	QuickData * mtbi2 = (QuickData *)*((QuickData **)vmtbi2);
-	if (mtbi1 == NULL || mtbi2 == NULL) return (mtbi1 - mtbi2);
+	if (mtbi1 == nullptr || mtbi2 == nullptr) return (mtbi1 - mtbi2);
 	return mtbi1->dwPos - mtbi2->dwPos;
 }
 
@@ -46,7 +46,7 @@ int  sstOpSortButtons(const void * vmtbi1, const void * vmtbi2)
 {
 	ButtonData * mtbi1 = (ButtonData *)*((ButtonData **)vmtbi1);
 	ButtonData * mtbi2 = (ButtonData *)*((ButtonData **)vmtbi2);
-	if (mtbi1 == NULL || mtbi2 == NULL) return (mtbi1 - mtbi2);
+	if (mtbi1 == nullptr || mtbi2 == nullptr) return (mtbi1 - mtbi2);
 	return mtbi1->dwOPPos - mtbi2->dwOPPos;
 }
 
@@ -81,7 +81,7 @@ void li_SortList(SortedList *pList, FSortFunc pSortFunct)
 	FSortFunc pOldSort = pList->sortFunc;
 	int i;
 	if (!pSortFunct) pSortFunct = pOldSort;
-	pList->sortFunc = NULL;
+	pList->sortFunc = nullptr;
 	for (i = 0; i < pList->realCount - 1; i++)
 		if (pOldSort(pList->items[i], pList->items[i + 1]) < 0) {
 			void * temp = pList->items[i];
@@ -100,8 +100,8 @@ void li_ZeroQuickList(SortedList *pList)
 		QuickData * qd = (QuickData *)pList->items[i];
 		qd->dwPos = 0;
 		qd->bIsService = 0;
-		qd->ptszValue = NULL;
-		qd->ptszValueName = NULL;
+		qd->ptszValue = nullptr;
+		qd->ptszValueName = nullptr;
 		List_Remove(pList, i);
 		i--;
 	}
@@ -140,10 +140,10 @@ void DestroyButton(int listnum)
 	li_ListDestruct((SortedList*)ld->sl, listdestructor);
 
 	mir_free(ld);
-	ButtonsList[i] = NULL;
+	ButtonsList[i] = nullptr;
 	while (ButtonsList[i + 1]) {
 		ButtonsList[i] = ButtonsList[i + 1];
-		ButtonsList[i + 1] = NULL;
+		ButtonsList[i + 1] = nullptr;
 		i++;
 	}
 }
@@ -227,7 +227,7 @@ static HANDLE AddIcon(char* szIcoName)
 	wchar_t tszPath[MAX_PATH];
 	GetModuleFileName(hinstance, tszPath, _countof(tszPath));
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.flags = SIDF_PATH_UNICODE;
 	sid.section.a = "Quick Messages";
 	sid.description.a = szIcoName;
@@ -266,8 +266,8 @@ void InitButtonsList()
 	int i, j, k = 0;
 	QuickList = List_Create(0, 1);
 	for (i = 0; i < g_iButtonsCount; i++) {
-		wchar_t* pszBName = NULL;
-		ListData* ld = NULL;
+		wchar_t* pszBName = nullptr;
+		ListData* ld = nullptr;
 		if (!(pszBName = getMenuEntry(i, 0, 3))) {
 			g_iButtonsCount = i;
 			db_set_b(NULL, PLGNAME, "ButtonsCount", (BYTE)g_iButtonsCount);
@@ -283,8 +283,8 @@ void InitButtonsList()
 		ld->dwOPFlags = 0;
 		ld->bIsServName = ld->bIsOpServName = getEntryByte(i, 0, 3);
 		for (j = 0;; j++) {
-			wchar_t* pszEntry = NULL;
-			ButtonData *bd = NULL;
+			wchar_t* pszEntry = nullptr;
+			ButtonData *bd = nullptr;
 
 			if (!(pszEntry = getMenuEntry(i, j, 0)))
 				break;
@@ -330,7 +330,7 @@ void DestructButtonsList()
 
 wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
 {
-	wchar_t* buffer = NULL;
+	wchar_t* buffer = nullptr;
 	char szMEntry[256];
 	DBVARIANT dbv;
 
@@ -384,13 +384,13 @@ int RegisterCustomButton(WPARAM, LPARAM)
 wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, wchar_t* ptszClip, int QVSize, int TextSize, int ClipSize)
 {
 	int i = 0, iOffset = 0;
-	wchar_t* tempPointer = NULL;
+	wchar_t* tempPointer = nullptr;
 	wchar_t* ptszQValue = wcsdup(ptszQValIn);
 	wchar_t* tempQValue = ptszQValue;
 	wchar_t varstr = '%';
-	wchar_t* p = NULL;
+	wchar_t* p = nullptr;
 	int NameLenght = 0;
-	wchar_t* ptszName = NULL;
+	wchar_t* ptszName = nullptr;
 
 	if (!wcschr(ptszQValue, varstr))
 		return ptszQValue;
@@ -404,7 +404,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 		if (ptszQValue[i] != '%')
 			goto move_next;
 		NameLenght = 0;
-		ptszName = NULL;
+		ptszName = nullptr;
 
 		switch (ptszQValue[i + 1]) {
 		case 't':
@@ -493,7 +493,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			break;
 		case 'F':
 			ptszName = Contact_GetInfo(CNF_FIRSTNAME, hContact);
-			if (ptszName == NULL)
+			if (ptszName == nullptr)
 				break;
 			NameLenght = (int)mir_wstrlen(ptszName);
 			p = (wchar_t *)realloc(tempQValue, (QVSize + NameLenght + 1) * sizeof(wchar_t));
@@ -519,7 +519,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			break;
 		case 'L':
 			ptszName = Contact_GetInfo(CNF_LASTNAME, hContact);
-			if (ptszName == NULL)
+			if (ptszName == nullptr)
 				break;
 
 			NameLenght = (int)mir_wstrlen(ptszName);

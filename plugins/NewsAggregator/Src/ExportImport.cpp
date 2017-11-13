@@ -43,8 +43,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				wchar_t FileName[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_IMPORTFILEPATH, FileName, _countof(FileName));
 				int bytesParsed = 0;
-				HXML hXml = xmlParseFile(FileName, &bytesParsed, NULL);
-				if(hXml != NULL) {
+				HXML hXml = xmlParseFile(FileName, &bytesParsed, nullptr);
+				if(hXml != nullptr) {
 					HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					bool isTextUTF = false, isURLUTF = false, isSiteURLUTF = false, isGroupUTF = false;
 					HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
@@ -74,7 +74,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							else if (!xmlUrl && outlineChildsCount)
 								node = xmlGetFirstChild(node);
 							else if (xmlUrl) {
-								wchar_t *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
+								wchar_t *text = nullptr, *url = nullptr, *siteurl = nullptr, *group = nullptr;
 								BYTE NeedToImport = FALSE;
 								for (int i = 0; i < outlineAttr; i++) {
 									if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"text")) {
@@ -139,7 +139,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										parent = xmlGetParent(parent);
 									}
 
-									wchar_t *ptszGroup = NULL;
+									wchar_t *ptszGroup = nullptr;
 									if (group) {
 										ptszGroup = mir_utf8decodeW(_T2A(group));
 										if ( !ptszGroup) {
@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				wchar_t tmp[MAX_PATH];
 				mir_snwprintf(tmp, L"%s (*.opml, *.xml)%c*.opml;*.xml%c%c", TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
-				ofn.hwndOwner = 0;
+				ofn.hwndOwner = nullptr;
 				ofn.lpstrFile = FileName;
 				ofn.nMaxFile = MAX_PATH;
 				ofn.nMaxFileTitle = MAX_PATH;
@@ -227,8 +227,8 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				if (GetOpenFileName(&ofn)) {
 					int bytesParsed = 0;
-					HXML hXml = xmlParseFile(FileName, &bytesParsed, NULL);
-					if(hXml != NULL) {
+					HXML hXml = xmlParseFile(FileName, &bytesParsed, nullptr);
+					if(hXml != nullptr) {
 						HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
 						if ( !node)
 							node = xmlGetChildByPath(hXml, L"body/outline", 0);
@@ -453,7 +453,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ExportDlg");
 		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			wchar_t *message = db_get_wsa(hContact, MODULE, "Nick");
-			if (message != NULL) {
+			if (message != nullptr) {
 				SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)message);
 				mir_free(message);
 			}
@@ -479,7 +479,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				wchar_t tmp[MAX_PATH];
 				mir_snwprintf(tmp, L"%s (*.opml)%c*.opml%c%c", TranslateT("OPML files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
-				ofn.hwndOwner = 0;
+				ofn.hwndOwner = nullptr;
 				ofn.lpstrFile = FileName;
 				ofn.nMaxFile = MAX_PATH;
 				ofn.nMaxFileTitle = MAX_PATH;
@@ -489,11 +489,11 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				ofn.lpstrDefExt = L"";
 
 				if (GetSaveFileName(&ofn)) {
-					HXML hXml = xmlCreateNode(L"opml", NULL, FALSE);
+					HXML hXml = xmlCreateNode(L"opml", nullptr, FALSE);
 					xmlAddAttr(hXml, L"version", L"1.0");
-					HXML header = xmlAddChild(hXml, L"head", NULL);
+					HXML header = xmlAddChild(hXml, L"head", nullptr);
 					xmlAddChild(header, L"title", L"Miranda NG NewsAggregator plugin export");
-					header = xmlAddChild(hXml, L"body", NULL);
+					header = xmlAddChild(hXml, L"body", nullptr);
 
 					int count = (int)SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0);
 					for (int i = 0; i < count; i++) {
@@ -510,23 +510,23 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						if (group)
 						{
 							wchar_t *section = wcstok(group, L"\\");
-							while (section != NULL)
+							while (section != nullptr)
 							{
 								HXML existgroup = xmlGetChildByAttrValue(header, L"outline", L"title", section);
 								if ( !existgroup)
 								{
-									elem = xmlAddChild(elem, L"outline", NULL);
+									elem = xmlAddChild(elem, L"outline", nullptr);
 									xmlAddAttr(elem, L"title", section);
 									xmlAddAttr(elem, L"text", section);
 								} else {
 									elem = existgroup;
 								}
-								section = wcstok(NULL, L"\\");
+								section = wcstok(nullptr, L"\\");
 							}
-							elem = xmlAddChild(elem, L"outline", NULL);
+							elem = xmlAddChild(elem, L"outline", nullptr);
 						}
 						else
-							elem = xmlAddChild(elem, L"outline", NULL);
+							elem = xmlAddChild(elem, L"outline", nullptr);
 						xmlAddAttr(elem, L"text", title);
 						xmlAddAttr(elem, L"title", title);
 						xmlAddAttr(elem, L"type", L"rss");

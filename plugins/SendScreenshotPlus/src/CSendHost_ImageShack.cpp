@@ -80,7 +80,7 @@ void CSendHost_ImageShack::SendThread()
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->dataLength) {
 			reply->pData[reply->dataLength - 1] = '\0';/// make sure its null terminated
-			const char* url = NULL;
+			const char* url = nullptr;
 			url = GetHTMLContent(reply->pData, "<image_link>", "</image_link>");
 			if (url && *url) {
 				mir_free(m_URL), m_URL = mir_strdup(url);
@@ -101,7 +101,7 @@ void CSendHost_ImageShack::SendThread()
 			}
 			else {/// check error mess from server
 				url = GetHTMLContent(reply->pData, "<error ", "</error>");
-				wchar_t* err = NULL;
+				wchar_t* err = nullptr;
 				if (url) err = mir_a2u(url);
 				if (!err || !*err) {/// fallback to server response mess
 					mir_free(err);

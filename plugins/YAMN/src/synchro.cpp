@@ -88,51 +88,51 @@ void WINAPI SWMRGDelete(PSWMRG pSWMRG)
 {
 // Destroys any synchronization objects that were 
 // successfully created.
-	if (NULL != pSWMRG->hEventNoWriter)
+	if (nullptr != pSWMRG->hEventNoWriter)
 		CloseHandle(pSWMRG->hEventNoWriter);
-	if (NULL != pSWMRG->hEventNoReaders)
+	if (nullptr != pSWMRG->hEventNoReaders)
 		CloseHandle(pSWMRG->hEventNoReaders);
-	if (NULL != pSWMRG->hSemNumReaders)
+	if (nullptr != pSWMRG->hSemNumReaders)
 		CloseHandle(pSWMRG->hSemNumReaders);
-	if (NULL != pSWMRG->hFinishEV)
+	if (nullptr != pSWMRG->hFinishEV)
 		CloseHandle(pSWMRG->hFinishEV);
 }
 
 BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,wchar_t *Name)
 {
-	pSWMRG->hEventNoWriter=NULL;
-	pSWMRG->hEventNoReaders=NULL;
-	pSWMRG->hSemNumReaders=NULL;
-	pSWMRG->hFinishEV=NULL;
+	pSWMRG->hEventNoWriter=nullptr;
+	pSWMRG->hEventNoReaders=nullptr;
+	pSWMRG->hSemNumReaders=nullptr;
+	pSWMRG->hFinishEV=nullptr;
 
 // Creates the automatic-reset event that is signalled when 
 // no writer threads are writing.
 // Initially no reader threads are reading.
-	if (Name != NULL)
+	if (Name != nullptr)
 		Name[0]=(wchar_t)'W';
-	pSWMRG->hEventNoWriter=CreateEvent(NULL,FALSE,TRUE,Name);
+	pSWMRG->hEventNoWriter=CreateEvent(nullptr,FALSE,TRUE,Name);
 
 // Creates the manual-reset event that is signalled when 
 // no reader threads are reading.
 // Initially no reader threads are reading.
-	if (Name != NULL)
+	if (Name != nullptr)
 		Name[0]=(wchar_t)'R';
-	pSWMRG->hEventNoReaders=CreateEvent(NULL,TRUE,TRUE,Name);
+	pSWMRG->hEventNoReaders=CreateEvent(nullptr,TRUE,TRUE,Name);
 
 // Initializes the variable that indicates the number of 
 // reader threads that are reading.
 // Initially no reader threads are reading.
-	if (Name != NULL)
+	if (Name != nullptr)
 		Name[0]=(wchar_t)'C';
-	pSWMRG->hSemNumReaders=CreateSemaphore(NULL,0,0x7FFFFFFF,Name);
+	pSWMRG->hSemNumReaders=CreateSemaphore(nullptr,0,0x7FFFFFFF,Name);
 
-	if (Name != NULL)
+	if (Name != nullptr)
 		Name[0]=(wchar_t)'F';
-	pSWMRG->hFinishEV=CreateEvent(NULL,TRUE,FALSE,Name);
+	pSWMRG->hFinishEV=CreateEvent(nullptr,TRUE,FALSE,Name);
 
 // If a synchronization object could not be created,
 // destroys any created objects and return failure.
-	if ((NULL==pSWMRG->hEventNoWriter) || (NULL==pSWMRG->hEventNoReaders) || (NULL==pSWMRG->hSemNumReaders) || (NULL==pSWMRG->hFinishEV))
+	if ((nullptr==pSWMRG->hEventNoWriter) || (nullptr==pSWMRG->hEventNoReaders) || (nullptr==pSWMRG->hSemNumReaders) || (nullptr==pSWMRG->hFinishEV))
 	{
 		SWMRGDelete(pSWMRG);
 		return FALSE;
@@ -261,7 +261,7 @@ DWORD WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER SCounter)
 	DebugLog(SynchroFile,"\tSO WaitToWrite: %x\n",SObject);
 #endif
 	if (WAIT_OBJECT_0==(EnterCode=SWMRGWaitToWrite(SObject,INFINITE)))
-		if (SCounter != NULL)
+		if (SCounter != nullptr)
 			SCIncFcn(SCounter);
 	return EnterCode;
 }
@@ -272,7 +272,7 @@ void WINAPI WriteDoneFcn(PSWMRG SObject,PSCOUNTER SCounter)
 	DebugLog(SynchroFile,"\tSO WriteDone: %x\n",SObject);
 #endif
 	SWMRGDoneWriting(SObject);
-	if (SCounter != NULL)
+	if (SCounter != nullptr)
 		SCDecFcn(SCounter);
 }
 

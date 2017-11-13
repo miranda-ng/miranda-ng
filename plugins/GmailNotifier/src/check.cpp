@@ -7,7 +7,7 @@ void CheckMailInbox(Account *curAcc)
 {
 	// internet connection handle
 	// internet request handle
-	HINTERNET hHTTPConnection = 0, hHTTPRequest = 0;		    
+	HINTERNET hHTTPConnection = nullptr, hHTTPRequest = nullptr;		    
 
 	DBVARIANT dbv;
 	static char *contentType = "Content-Type: application/x-www-form-urlencoded";
@@ -49,8 +49,8 @@ void CheckMailInbox(Account *curAcc)
 		hHTTPConnection = InternetConnectA(hHTTPOpen,
 			"www.google.com",
 			INTERNET_DEFAULT_HTTPS_PORT,
-			NULL,
-			NULL,
+			nullptr,
+			nullptr,
 			INTERNET_SERVICE_HTTP,
 			0,
 			0);
@@ -62,7 +62,7 @@ void CheckMailInbox(Account *curAcc)
 		mir_strcpy(str, "/a/");
 		mir_strcat(str, curAcc->hosted);
 		mir_strcat(str, "/LoginAction");
-		hHTTPRequest = HttpOpenRequestA(hHTTPConnection, "POST", str, HTTP_VERSIONA, NULL, NULL, INTERNET_FLAG_SECURE, 0);
+		hHTTPRequest = HttpOpenRequestA(hHTTPConnection, "POST", str, HTTP_VERSIONA, nullptr, nullptr, INTERNET_FLAG_SECURE, 0);
 		mir_strcat(requestBuffer, curAcc->hosted);
 		mir_strcat(requestBuffer, "%2Ffeed%2Fatom&service=mail&userName=");
 		mir_strcat(requestBuffer, curAcc->name);
@@ -77,10 +77,10 @@ void CheckMailInbox(Account *curAcc)
 
 		InternetCloseHandle(hHTTPConnection);
 		InternetCloseHandle(hHTTPRequest);
-		hHTTPRequest = 0;
+		hHTTPRequest = nullptr;
 	}
 
-	hHTTPConnection = InternetConnectA(hHTTPOpen, "mail.google.com", INTERNET_DEFAULT_HTTPS_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
+	hHTTPConnection = InternetConnectA(hHTTPOpen, "mail.google.com", INTERNET_DEFAULT_HTTPS_PORT, nullptr, nullptr, INTERNET_SERVICE_HTTP, 0, 0);
 	if (!hHTTPConnection) {
 		mir_strcat(curAcc->results.content, Translate("Can't reach server!"));
 		goto error_handle;
@@ -92,10 +92,10 @@ void CheckMailInbox(Account *curAcc)
 	}
 	else mir_strcpy(str, "/mail/feed/atom");
 
-	hHTTPRequest = HttpOpenRequest(hHTTPConnection, L"GET", _A2T(str), NULL, NULL, NULL, INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD, 0);
+	hHTTPRequest = HttpOpenRequest(hHTTPConnection, L"GET", _A2T(str), nullptr, nullptr, nullptr, INTERNET_FLAG_SECURE | INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_RELOAD, 0);
 	InternetSetOption(hHTTPRequest, INTERNET_OPTION_USERNAME, _A2T(curAcc->name), (int)mir_strlen(curAcc->name) + 1);
 	InternetSetOption(hHTTPRequest, INTERNET_OPTION_PASSWORD, _A2T(curAcc->pass), (int)mir_strlen(curAcc->pass) + 1);
-	if (!HttpSendRequest(hHTTPRequest, NULL, 0, NULL, 0)) {
+	if (!HttpSendRequest(hHTTPRequest, nullptr, 0, nullptr, 0)) {
 		mir_strcat(curAcc->results.content, Translate("Can't get RSS feed!"));
 		goto error_handle;
 	}
@@ -154,7 +154,7 @@ int ParsePage(char *page, resultLink *prst)
 	int num = 0;
 	wchar_t str[64];
 
-	prst->next = NULL;
+	prst->next = nullptr;
 	if (strstr(page, "Unauthorized"))
 		return -1;
 	if (!(str_head = strstr(page, "<entry>")))
@@ -180,9 +180,9 @@ int ParsePage(char *page, resultLink *prst)
 		mir_strcpy(prst->content, name);
 		mir_strcat(prst->content, title);
 		MultiByteToWideChar(CP_UTF8, 0, prst->content, -1, str, 64);
-		WideCharToMultiByte(CP_ACP, 0, str, -1, prst->content, 64, NULL, NULL);
+		WideCharToMultiByte(CP_ACP, 0, str, -1, prst->content, 64, nullptr, nullptr);
 		num++;
 	}
-	prst->next = NULL;
+	prst->next = nullptr;
 	return num;
 }

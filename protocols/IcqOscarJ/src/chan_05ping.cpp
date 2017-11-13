@@ -33,7 +33,7 @@ void CIcqProto::handlePingChannel(BYTE*, size_t)
 void CIcqProto::StartKeepAlive(serverthread_info *info)
 {
 	if (getByte("KeepAlive", DEFAULT_KEEPALIVE_ENABLED))
-		info->tmPing = time(0) + KEEPALIVE_INTERVAL;
+		info->tmPing = time(nullptr) + KEEPALIVE_INTERVAL;
 	else
 		info->tmPing = -1;
 }
@@ -48,7 +48,7 @@ void CIcqProto::CheckKeepAlive(serverthread_info *info)
 	if (info->tmPing == -1)
 		return;
 
-	if (time(0) >= info->tmPing) {
+	if (time(nullptr) >= info->tmPing) {
 		// Send a keep alive packet to server
 		icq_packet packet = { 0 };
 		write_flap(&packet, ICQ_PING_CHAN);

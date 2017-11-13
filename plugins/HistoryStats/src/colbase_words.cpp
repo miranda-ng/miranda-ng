@@ -164,7 +164,7 @@ void ColBaseWords::parseMsg(WordMap* pWords, const ext::string& msg, bool bOutgo
 }
 
 ColBaseWords::ColBaseWords() : m_nSource(2), m_nMinLength(1), m_nMaxLength(0), m_bFilterLinks(true),
-	m_hSource(NULL), m_hMinLength(NULL), m_hMaxLength(NULL), m_hFilterLinks(NULL),
+	m_hSource(nullptr), m_hMinLength(nullptr), m_hMaxLength(nullptr), m_hFilterLinks(nullptr),
 	m_bFilterMessages(false), m_bFilterWords(false)
 {
 }
@@ -221,7 +221,7 @@ void ColBaseWords::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	OptionsCtrl::Group hTemp;
 
 	hTemp = Opt.insertGroup (hGroup, TranslateT("Extract words from"));
-	m_hSource = Opt.insertRadio (hTemp, NULL, TranslateT("Incoming messages"));
+	m_hSource = Opt.insertRadio (hTemp, nullptr, TranslateT("Incoming messages"));
 	             Opt.insertRadio (hTemp, m_hSource, TranslateT("Outgoing messages"));
 	              Opt.insertRadio (hTemp, m_hSource, TranslateT("All messages"));
 	m_hMinLength = Opt.insertEdit(hGroup, TranslateT("Ignore words shorter than (chars)"), L"", OptionsCtrl::OCF_NUMBER);
@@ -308,7 +308,7 @@ void ColBaseWords::impl_contactDataFree(Contact& contact) const
 	WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
 	if (pData) {
 		delete pData;
-		contact.setSlot(contactDataSlotGet(), NULL);
+		contact.setSlot(contactDataSlotGet(), nullptr);
 	}
 }
 

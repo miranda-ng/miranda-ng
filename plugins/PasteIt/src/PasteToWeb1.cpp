@@ -300,7 +300,7 @@ void PasteToWeb1::SendToServer(std::wstring str, std::wstring fileName, std::wst
 	}
 
 	wchar_t* resCont = SendToWeb("http://pastebin.com/api/api_post.php", headers, content);
-	if (resCont != NULL)
+	if (resCont != nullptr)
 	{
 		if (memcmp(L"Bad API request, ", resCont, 17 * sizeof(wchar_t)) == 0)
 		{
@@ -332,12 +332,12 @@ std::wstring PasteToWeb1::GetUserKey(std::wstring& user, std::wstring& password)
 	content += L"&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd";
 	wchar_t* resCont = SendToWeb("http://pastebin.com/api/api_login.php", headers, content);
 	std::wstring toRet;
-	if (resCont != NULL)
+	if (resCont != nullptr)
 	{
 		if (memcmp(L"Bad API request, ", resCont, 17 * sizeof(wchar_t)) == 0)
 		{
 			mir_snwprintf(bufErr, TranslateT("Error during getting user key from web page: %s"), resCont + 17);
-			MessageBox(NULL, bufErr, TranslateT("Error"), MB_OK | MB_ICONERROR);
+			MessageBox(nullptr, bufErr, TranslateT("Error"), MB_OK | MB_ICONERROR);
 		}
 		else
 			toRet = resCont;

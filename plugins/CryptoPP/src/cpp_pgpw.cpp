@@ -107,7 +107,7 @@ int __cdecl pgp_done()
 	pgpVer = 0;
 	if (hpgpsdk) {
 		r = p_pgp_done();
-		hpgpsdk = 0;
+		hpgpsdk = nullptr;
 	}
 	return r;
 }
@@ -140,7 +140,7 @@ LPSTR __cdecl pgp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 
 	LPSTR szEncMsg = (p->pgpKey ? p_pgp_encrypt_key(szPlainMsg, (LPCSTR)p->pgpKey) : p_pgp_encrypt_keydb(szPlainMsg, p->pgpKeyID));
 	if (!szEncMsg) {
-		return ptr->tmp = 0;
+		return ptr->tmp = nullptr;
 	}
 	else {
 		ptr->tmp = mir_strdup(szEncMsg);
@@ -154,7 +154,7 @@ LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 {
 	ptr->error = ERROR_NONE;
 	mir_free(ptr->tmp);
-	ptr->tmp = NULL;
+	ptr->tmp = nullptr;
 
 	LPSTR szPlainMsg = p_pgp_decrypt_keydb(szEncMsg);
 	if (!szPlainMsg) {
@@ -165,7 +165,7 @@ LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 				szPlainMsg = p_pgp_decrypt_key(szEncMsg, (LPCSTR)p->pgpKey);
 		}
 		if (!szPlainMsg) {
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -176,11 +176,11 @@ LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 
 LPSTR __cdecl pgp_encode(HANDLE context, LPCSTR szPlainMsg)
 {
-	pCNTX ptr = get_context_on_id(context); if (!ptr) return NULL;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return nullptr;
 	pPGPDATA p = (pPGPDATA)cpp_alloc_pdata(ptr);
 	if (!p->pgpKeyID && !p->pgpKey) {
 		ptr->error = ERROR_NO_PGP_KEY;
-		return NULL;
+		return nullptr;
 	}
 
 	// utf8 message: encrypt.
@@ -191,10 +191,10 @@ LPSTR __cdecl pgp_decode(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
 	if (!ptr)
-		return NULL;
+		return nullptr;
 	mir_free(ptr->tmp);
 
-	LPSTR szNewMsg = NULL;
+	LPSTR szNewMsg = nullptr;
 	LPSTR szOldMsg = pgp_decrypt(ptr, szEncMsg);
 
 	if (szOldMsg) {

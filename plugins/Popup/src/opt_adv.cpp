@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HWND hwndBox = NULL;
+HWND hwndBox = nullptr;
 
 LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -89,16 +89,16 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		hwndBox = CreateWindowEx(
 			WS_EX_TOOLWINDOW | WS_EX_TOPMOST,		//  dwStyleEx
 			BOXPREVIEW_WNDCLASS,			//  Class name
-			NULL,								//  Title
+			nullptr,								//  Title
 			DS_SETFONT | DS_FIXEDSYS | WS_POPUP,	//  dwStyle
 			CW_USEDEFAULT,						//  x
 			CW_USEDEFAULT,						//  y
 			CW_USEDEFAULT,						//  Width
 			CW_USEDEFAULT,						//  Height
 			HWND_DESKTOP,						//  Parent
-			NULL,								//  menu handle
+			nullptr,								//  menu handle
 			hInst,								//  Instance
-			(LPVOID)0);
+			(LPVOID)nullptr);
 		ShowWindow(hwndBox, SW_HIDE);
 	}
 	// Group: History
@@ -364,7 +364,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			switch (idCtrl) {
 			case IDC_MAXPOPUPS:
 			{
-				int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int maxPop = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (maxPop > 0) {
 					PopupOptions.MaxPopups = maxPop;
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -373,7 +373,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_HISTORYSIZE:
 			{
-				int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int histSize = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (histSize > 0 && histSize <= SETTING_HISTORYSIZE_MAX) {
 					PopupOptions.HistorySize = histSize;
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -382,7 +382,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_AVT_RADIUS:
 			{
-				int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int avtRadius = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (avtRadius <= SETTING_AVTSIZE_MAX / 2) {
 					PopupOptions.avatarRadius = avtRadius;
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -391,7 +391,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_FADEIN:
 			{
-				int fadeIn = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int fadeIn = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (fadeIn >= SETTING_FADEINTIME_MIN && fadeIn <= SETTING_FADEINTIME_MAX) {
 					PopupOptions.FadeIn = fadeIn;
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -400,7 +400,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_FADEOUT:
 			{
-				int fadeOut = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int fadeOut = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (fadeOut >= SETTING_FADEOUTTIME_MIN && fadeOut <= SETTING_FADEOUTTIME_MAX) {
 					PopupOptions.FadeOut = fadeOut;
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -415,7 +415,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			switch (idCtrl) {
 			case IDC_MAXPOPUPS:
 			{
-				int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int maxPop = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (maxPop <= 0)
 					PopupOptions.MaxPopups = 20;
 				if (maxPop != PopupOptions.MaxPopups) {
@@ -427,7 +427,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_HISTORYSIZE:
 			{
-				int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int histSize = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (histSize <= 0)
 					PopupOptions.HistorySize = SETTING_HISTORYSIZE_DEFAULT;
 				else if (histSize > SETTING_HISTORYSIZE_MAX)
@@ -441,7 +441,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_AVT_RADIUS:
 			{
-				int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int avtRadius = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (avtRadius > SETTING_AVTSIZE_MAX / 2)
 					PopupOptions.avatarRadius = SETTING_AVTSIZE_MAX / 2;
 				if (avtRadius != PopupOptions.avatarRadius) {
@@ -453,7 +453,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_FADEIN:
 			{
-				int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int fade = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (fade < SETTING_FADEINTIME_MIN)
 					PopupOptions.FadeIn = SETTING_FADEINTIME_MIN;
 				else if (fade > SETTING_FADEINTIME_MAX)
@@ -467,7 +467,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 			case IDC_FADEOUT:
 			{
-				int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
+				int fade = GetDlgItemInt(hwnd, idCtrl, nullptr, FALSE);
 				if (fade < SETTING_FADEOUTTIME_MIN)
 					PopupOptions.FadeOut = SETTING_FADEOUTTIME_MIN;
 				else if (fade > SETTING_FADEOUTTIME_MAX)
@@ -557,20 +557,20 @@ LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				SetWindowLongPtr(hwndBox, GWLP_USERDATA, 0);
 
 			RECT rc; GetWindowRect(hwnd, &rc);
-			SetWindowPos(hwndBox, NULL,
+			SetWindowPos(hwndBox, nullptr,
 				(rc.left + rc.right - newVal) / 2, rc.bottom + 2, newVal, newVal,
 				SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
 
 			HRGN rgn = CreateRoundRectRgn(0, 0, newVal, newVal, 2 * PopupOptions.avatarRadius, 2 * PopupOptions.avatarRadius);
 			SetWindowRgn(hwndBox, rgn, TRUE);
-			InvalidateRect(hwndBox, NULL, FALSE);
+			InvalidateRect(hwndBox, nullptr, FALSE);
 			oldVal = newVal;
 		}
 	}
 	break;
 
 	case WM_MOUSELEAVE:
-		SetWindowRgn(hwndBox, NULL, TRUE);
+		SetWindowRgn(hwndBox, nullptr, TRUE);
 		ShowWindow(hwndBox, SW_HIDE);
 		oldVal = -1;
 		break;
@@ -608,10 +608,10 @@ LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			{
 				SetWindowLongPtr(hwndBox, GWLP_USERDATA, 1);
 				RECT rc; GetWindowRect(hwnd, &rc);
-				SetWindowPos(hwndBox, NULL,
+				SetWindowPos(hwndBox, nullptr,
 					(rc.left + rc.right - 170) / 2, rc.bottom + 2, 170, 50,
 					SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_SHOWWINDOW);
-				SetWindowRgn(hwndBox, NULL, TRUE);
+				SetWindowRgn(hwndBox, nullptr, TRUE);
 			}
 			SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
 			SetLayeredWindowAttributes(hwndBox, NULL, newVal, LWA_ALPHA);

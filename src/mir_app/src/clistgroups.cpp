@@ -81,7 +81,7 @@ static mir_cs csGroups;
 
 static int GroupNameExists(const wchar_t *ptszGroupName, int skipGroup)
 {
-	if (ptszGroupName == 0)
+	if (ptszGroupName == nullptr)
 		return 0;
 
 	wchar_t str[256];
@@ -144,7 +144,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, LPCTSTR ptszGroupName)
 {
 	// no name specified. just create a new group with a default name
-	if (ptszGroupName == 0)
+	if (ptszGroupName == nullptr)
 		return CreateGroupInternal(hParent, nullptr);
 
 	if (ptszGroupName == nullptr || ptszGroupName[0] == '\0' || ptszGroupName[0] == '\\')

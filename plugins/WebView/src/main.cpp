@@ -29,7 +29,7 @@ HANDLE hHookDisplayDataAlert, hHookAlertPopup, hHookAlertWPopup, hHookErrorPopup
 
 int    hLangpack = 0;
 CLIST_INTERFACE *pcli;
-static HMODULE hRichEd = NULL;
+static HMODULE hRichEd = nullptr;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -95,8 +95,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
    ChangeContactStatus(0);
 
-   KillTimer(NULL, timerId);
-   KillTimer(NULL, Countdown);
+   KillTimer(nullptr, timerId);
+   KillTimer(nullptr, Countdown);
 
    db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 0);
    SavewinSettings();
@@ -105,7 +105,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	if (hNetlibUser) {
 		Netlib_CloseHandle(hNetlibUser);
-		hNetlibUser = NULL;
+		hNetlibUser = nullptr;
 	}
 	
 	if (hHookDisplayDataAlert)
@@ -115,7 +115,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (hHookAlertWPopup)
 		DestroyHookableEvent(hHookAlertWPopup);
 	
-	if (h_font != NULL)
+	if (h_font != nullptr)
 		DeleteObject(h_font);
 	if (hMenu)
 		DestroyMenu(hMenu);    
@@ -136,9 +136,9 @@ extern "C" int __declspec(dllexport) Load()
 
 	/*TIMERS*/
 	if ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME) != 0)) {  
-		timerId = SetTimer(NULL, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME)) * MINUTE), timerfunc);
+		timerId = SetTimer(nullptr, 0, ((db_get_dw(NULL, MODULENAME, REFRESH_KEY, TIME)) * MINUTE), timerfunc);
 		db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0); 
-		Countdown = SetTimer(NULL, 0, MINUTE, Countdownfunc);
+		Countdown = SetTimer(nullptr, 0, MINUTE, Countdownfunc);
 	}
 
 	InitialiseGlobals();

@@ -8,10 +8,10 @@ const std::locale GetSystemLocale()
 tstring get_int_registry_value(LPCTSTR pszValueName)
 {
 	tstring sResult;
-	HKEY hKey = NULL;
+	HKEY hKey = nullptr;
 	LONG lResult = ::RegOpenKeyEx(HKEY_CURRENT_USER,
 		L"Control Panel\\International", 0, KEY_QUERY_VALUE, &hKey);
-	if ((ERROR_SUCCESS == lResult) && (NULL != hKey)) {
+	if ((ERROR_SUCCESS == lResult) && (nullptr != hKey)) {
 		DWORD dwType = 0;
 		DWORD dwSize = 0;
 		lResult = ::RegQueryValueEx(hKey, pszValueName, nullptr, &dwType, nullptr, &dwSize);
@@ -23,7 +23,7 @@ tstring get_int_registry_value(LPCTSTR pszValueName)
 		}
 	}
 
-	if (NULL != hKey) {
+	if (nullptr != hKey) {
 		lResult = ::RegCloseKey(hKey);
 		assert(ERROR_SUCCESS == lResult);
 	}

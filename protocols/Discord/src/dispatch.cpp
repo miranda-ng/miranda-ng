@@ -144,7 +144,7 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 
 		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_TOPIC };
 		gce.ptszText = wszTopic;
-		gce.time = time(0);
+		gce.time = time(nullptr);
 		Chat_Event(&gce);
 	}
 }
@@ -228,7 +228,7 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 			continue;
 
 		GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_PART };
-		gce.time = time(0);
+		gce.time = time(nullptr);
 		gce.ptszUID = wszUserId;
 		Chat_Event(&gce);
 	}
@@ -263,7 +263,7 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 		}
 
 		GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_NICK };
-		gce.time = time(0);
+		gce.time = time(nullptr);
 		gce.ptszUID = wszUserId;
 		gce.ptszNick = wszOldNick;
 		gce.ptszText = gm->wszNick;

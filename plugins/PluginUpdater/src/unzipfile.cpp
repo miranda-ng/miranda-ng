@@ -44,7 +44,7 @@ bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath
 	unz_file_info64 file_info;
 	char filename[MAX_PATH], buf[8192];
 
-	int err = unzGetCurrentFileInfo64(uf, &file_info, filename, sizeof(filename), buf, sizeof(buf), NULL, 0);
+	int err = unzGetCurrentFileInfo64(uf, &file_info, filename, sizeof(filename), buf, sizeof(buf), nullptr, 0);
 	if (err != UNZ_OK)
 		return false;
 
@@ -58,7 +58,7 @@ bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath
 
 	wchar_t tszDestFile[MAX_PATH], tszBackFile[MAX_PATH];
 	wchar_t *ptszNewName = mir_utf8decodeW(filename);
-	if (ptszNewName == NULL)
+	if (ptszNewName == nullptr)
 		ptszNewName = mir_a2u(filename);
 
 	if (!(file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)) {
@@ -68,7 +68,7 @@ bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath
 			return false;
 		}
 
-		if (ptszBackPath != NULL) {
+		if (ptszBackPath != nullptr) {
 			PrepareFileName(tszDestFile, _countof(tszDestFile), ptszDestPath, ptszNewName);
 			PrepareFileName(tszBackFile, _countof(tszBackFile), ptszBackPath, ptszNewName);
 			BackupFile(tszDestFile, tszBackFile);
@@ -78,7 +78,7 @@ bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath
 		SafeCreateFilePath(tszDestFile);
 
 		wchar_t *ptszFile2unzip;
-		if (hPipe == NULL) // direct mode
+		if (hPipe == nullptr) // direct mode
 			ptszFile2unzip = tszDestFile;
 		else {
 			wchar_t tszTempPath[MAX_PATH];
@@ -87,7 +87,7 @@ bool extractCurrentFile(unzFile uf, wchar_t *ptszDestPath, wchar_t *ptszBackPath
 			ptszFile2unzip = tszBackFile;
 		}
 
-		HANDLE hFile = CreateFile(ptszFile2unzip, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, file_info.external_fa, 0);
+		HANDLE hFile = CreateFile(ptszFile2unzip, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, file_info.external_fa, nullptr);
 		if (hFile == INVALID_HANDLE_VALUE) {
 			mir_free(ptszNewName);
 			return false;

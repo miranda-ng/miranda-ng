@@ -57,7 +57,7 @@ ezxml_t CMsnProto::oimRecvHdr(const char* service, ezxml_t& tbdy, char*& httphdr
 void CMsnProto::getOIMs(ezxml_t xmli)
 {
 	ezxml_t toki = ezxml_child(xmli, "M");
-	if (toki == NULL) return;
+	if (toki == nullptr) return;
 
 	char* getReqHdr;
 	ezxml_t reqmsg;
@@ -72,7 +72,7 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 	ezxml_t xmldel = oimRecvHdr("DeleteMessages", delmsg, delReqHdr);
 	ezxml_t delmids = ezxml_add_child(delmsg, "messageIds", 0);
 
-	while (toki != NULL) {
+	while (toki != nullptr) {
 		const char* szId = ezxml_txt(ezxml_child(toki, "I"));
 		const char* szEmail = ezxml_txt(ezxml_child(toki, "E"));
 
@@ -87,16 +87,16 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 		free(szData);
 		mir_free(url);
 
-		if (tResult != NULL && status == 200) {
+		if (tResult != nullptr && status == 200) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 			ezxml_t body = getSoapResponse(xmlm, "GetMessage");
 
 			MimeHeaders mailInfo;
 			const char* mailbody = mailInfo.readFromBuffer((char*)ezxml_txt(body));
 
-			time_t evtm = time(NULL);
+			time_t evtm = time(nullptr);
 			const char* arrTime = mailInfo["X-OriginalArrivalTime"];
-			if (arrTime != NULL) {
+			if (arrTime != nullptr) {
 				char szTime[32], *p;
 				txtParseParam(arrTime, "FILETIME", "[", "]", szTime, sizeof(szTime));
 
@@ -132,7 +132,7 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 	ezxml_free(xmlreq);
 	mir_free(getReqHdr);
 
-	if (ezxml_child(delmids, "messageId") != NULL) {
+	if (ezxml_child(delmids, "messageId") != nullptr) {
 		char* szData = ezxml_toxml(xmldel, true);
 
 		unsigned status;
@@ -167,7 +167,7 @@ void CMsnProto::getMetaData(void)
 	free(szData);
 	mir_free(getReqHdr);
 
-	if (tResult != NULL && status == 200) {
+	if (tResult != nullptr && status == 200) {
 		ezxml_t xmlm = ezxml_parse_str(tResult, mir_strlen(tResult));
 		ezxml_t xmli = ezxml_get(xmlm, "s:Body", 0, "GetMetadataResponse", 0, "MD", -1);
 		if (!xmli)
@@ -225,12 +225,12 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	const char* InboxUnread = tFileInfo["Inbox-Unread"];
 	const char* FoldersUnread = tFileInfo["Folders-Unread"];
 
-	if (InboxUnread != NULL)
+	if (InboxUnread != nullptr)
 		mUnreadMessages = atol(InboxUnread);
-	if (FoldersUnread != NULL)
+	if (FoldersUnread != nullptr)
 		mUnreadJunkEmails = atol(FoldersUnread);
 
-	if (MsgDelta != NULL) {
+	if (MsgDelta != nullptr) {
 		int iDelta = atol(MsgDelta);
 		if (SrcFolder && mir_strcmp(SrcFolder, "ACTIVE") == 0)
 			mUnreadMessages -= iDelta;
@@ -245,8 +245,8 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		if (mUnreadMessages < 0) mUnreadMessages = 0;
 	}
 
-	if (From != NULL && Subject != NULL && Fromaddr != NULL) {
-		if (DestFolder != NULL && SrcFolder == NULL) {
+	if (From != nullptr && Subject != nullptr && Fromaddr != nullptr) {
+		if (DestFolder != nullptr && SrcFolder == nullptr) {
 			mUnreadMessages += mir_strcmp(DestFolder, "ACTIVE") == 0;
 			mUnreadJunkEmails += mir_strcmp(DestFolder, "HM_BuLkMail_") == 0;
 		}
@@ -269,7 +269,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	}
 	else {
 		const char* MailData = tFileInfo["Mail-Data"];
-		if (MailData != NULL) processMailData((char*)MailData);
+		if (MailData != nullptr) processMailData((char*)MailData);
 
 		mir_snwprintf(tBuffer, m_tszUserName);
 		mir_snwprintf(tBuffer2, TranslateT("Unread mail is available: %d in Inbox and %d in other folders."), mUnreadMessages, mUnreadJunkEmails);
@@ -300,7 +300,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		}
 	}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck(NULL, ACKTYPE_EMAIL, ACKRESULT_STATUS, nullptr, 0);
 
 	// Disable to notify receiving hotmail
 	if (ShowPopup && !getByte("DisableHotmail", 0)) {
@@ -328,19 +328,19 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 	char mailerpath[MAX_PATH];
 	if (!db_get_static(NULL, m_szModuleName, "MailerPath", mailerpath, sizeof(mailerpath))) {
 		if (mailerpath[0]) {
-			char* tParams = NULL;
+			char* tParams = nullptr;
 			char* tCmd = mailerpath;
 
 			if (*tCmd == '\"') {
 				++tCmd;
 				char* tEndPtr = strchr(tCmd, '\"');
-				if (tEndPtr != NULL) {
+				if (tEndPtr != nullptr) {
 					*tEndPtr = 0;
 					tParams = tEndPtr + 1;
 				}
 			}
 
-			if (tParams == NULL) {
+			if (tParams == nullptr) {
 				tParams = strchr(tCmd, ' ');
 				tParams = tParams ? tParams + 1 : strchr(tCmd, '\0');
 			}
@@ -348,7 +348,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			while (*tParams == ' ') ++tParams;
 
 			debugLogA("Running mailer \"%s\" with params \"%s\"", tCmd, tParams);
-			ShellExecuteA(NULL, "open", tCmd, tParams, NULL, TRUE);
+			ShellExecuteA(nullptr, "open", tCmd, tParams, nullptr, TRUE);
 		}
 	}
 }
@@ -378,7 +378,7 @@ void CMsnProto::displayEmailCount(MCONTACT hContact)
 	if (!emailEnabled || getByte("DisableHotmailCL", 0)) return;
 
 	wchar_t* name = GetContactNameT(hContact);
-	if (name == NULL) return;
+	if (name == nullptr) return;
 
 	wchar_t* ch = name - 1;
 	do {

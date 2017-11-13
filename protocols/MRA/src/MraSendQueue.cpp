@@ -42,7 +42,7 @@ void MraSendQueueDestroy(HANDLE hSendQueueHandle)
 	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
 	{
 		mir_cslock l(pmrasqSendQueue->cs);
-		while ( !ListMTItemGetFirst(pmrasqSendQueue, NULL, (LPVOID*)&pmrasqiSendQueueItem)) {
+		while ( !ListMTItemGetFirst(pmrasqSendQueue, nullptr, (LPVOID*)&pmrasqiSendQueueItem)) {
 			ListMTItemDelete(pmrasqSendQueue, pmrasqiSendQueueItem);
 			mir_free(pmrasqiSendQueueItem);
 		}
@@ -89,7 +89,7 @@ DWORD MraSendQueueFree(HANDLE hSendQueueHandle, DWORD dwCMDNum)
 	mir_cslock l(pmrasqSendQueue->cs);
 	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
 	do {
-		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
+		if ( !ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&pmrasqiSendQueueItem))
 		if (pmrasqiSendQueueItem->dwCMDNum == dwCMDNum) {
 			ListMTItemDelete(pmrasqSendQueue, pmrasqiSendQueueItem);
 			mir_free(pmrasqiSendQueueItem);
@@ -113,7 +113,7 @@ DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags,
 	mir_cslock l(pmrasqSendQueue->cs);
 	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
 	do {
-		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
+		if ( !ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&pmrasqiSendQueueItem))
 		if (pmrasqiSendQueueItem->dwCMDNum == dwCMDNum) {
 			if (pdwFlags)    (*pdwFlags) = pmrasqiSendQueueItem->dwFlags;
 			if (phContact)   (*phContact) = pmrasqiSendQueueItem->hContact;
@@ -144,7 +144,7 @@ DWORD MraSendQueueFindOlderThan(HANDLE hSendQueueHandle, DWORD dwTime, DWORD *pd
 	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
 	do {
 		MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
-		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
+		if ( !ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&pmrasqiSendQueueItem))
 		if ((*((DWORDLONG*)&ftExpireTime))>(*((DWORDLONG*)&pmrasqiSendQueueItem->ftSendTime))) {
 			if (pdwCMDNum)   *pdwCMDNum = pmrasqiSendQueueItem->dwCMDNum;
 			if (pdwFlags)    *pdwFlags = pmrasqiSendQueueItem->dwFlags;

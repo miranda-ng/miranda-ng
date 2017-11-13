@@ -35,7 +35,7 @@ void CDropbox::CommandList(void *arg)
 	ListFolderRequest request(token, path);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
+	if (response == nullptr || response->resultCode != HTTP_STATUS_OK) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}
@@ -81,7 +81,7 @@ void CDropbox::CommandShare(void *arg)
 	GetTemporaryLinkRequest request(token, path);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
+	if (response == nullptr || response->resultCode != HTTP_STATUS_OK) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}
@@ -102,7 +102,7 @@ void CDropbox::CommandSearch(void *arg)
 	CommandParam *param = (CommandParam*)arg;
 
 	char *query = (char*)param->data;
-	if (query == NULL) {
+	if (query == nullptr) {
 		CMStringA error(FORMAT, T2Utf(TranslateT("\"%s\" command has invalid parameter.\nUse \"/help\" for more info.")), "/search");
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hProcess, 0);
 		ProtoChainSend(param->instance->GetDefaultContact(), PSR_MESSAGE, 0, (LPARAM)error.GetBuffer());
@@ -114,7 +114,7 @@ void CDropbox::CommandSearch(void *arg)
 	SearchRequest request(token, query);
 	NLHR_PTR response(request.Send(param->instance->hNetlibConnection));
 
-	if (response == NULL || response->resultCode != HTTP_STATUS_OK) {
+	if (response == nullptr || response->resultCode != HTTP_STATUS_OK) {
 		ProtoBroadcastAck(MODULE, param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hProcess, 0);
 		return;
 	}

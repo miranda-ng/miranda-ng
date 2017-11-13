@@ -105,12 +105,12 @@ INT_PTR CALLBACK StatusModesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			if (!mir_wstrcmp(type, L"Any")) {
 				if (LOWORD(wParam) == IDOK)
 					db_set_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", flag);
-				wi->SendIfMy = 0;
+				wi->SendIfMy = nullptr;
 			}
 			else {
 				if (LOWORD(wParam) == IDOK)
 					db_set_w(wi->hContact, modname, "SendIfTheirStatusIsFLAG", flag);
-				wi->SendWhenThey = 0;
+				wi->SendWhenThey = nullptr;
 			}				
 			DestroyWindow(hwnd);
 		}
@@ -129,7 +129,7 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			return;
 		}
 		else {
-			hwnd = wi->SendIfMy = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_STATUSMODES), 0, StatusModesDlgProc, (LPARAM)wi);
+			hwnd = wi->SendIfMy = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_STATUSMODES), nullptr, StatusModesDlgProc, (LPARAM)wi);
 			statusFlag = db_get_w(wi->hContact, modname, "SendIfMyStatusIsFLAG", 0);
 			SetWindowText(hwnd, TranslateT("Send If My Status Is"));
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("Any"));
@@ -150,7 +150,7 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			return;
 		}
 		else {
-			hwnd = wi->SendWhenThey = CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_STATUSMODES),0,StatusModesDlgProc, (LPARAM)wi);
+			hwnd = wi->SendWhenThey = CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_STATUSMODES),nullptr,StatusModesDlgProc, (LPARAM)wi);
 			statusFlag = db_get_w(wi->hContact, modname, "SendIfTheirStatusIsFLAG", 0);
 			SetWindowText(hwnd, TranslateT("Send If Their Status changes"));
 			SetDlgItemText(hwnd, IDC_CHECK1, TranslateT("From Offline"));
@@ -231,7 +231,7 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 			// fall through
 		case IDCANCEL:
 			if (LOWORD(wParam) == IDC_ADVANCED)
-				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_POUNCE), 0, BuddyPounceDlgProc, GetWindowLongPtr(hwnd, GWLP_USERDATA));
+				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_POUNCE), nullptr, BuddyPounceDlgProc, GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			DestroyWindow(hwnd);
 		}
 		break;
@@ -253,8 +253,8 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 			DestroyWindow(hwnd);
 		}
 		wi->hContact = lParam;
-		wi->SendIfMy = 0;
-		wi->SendWhenThey = 0;
+		wi->SendIfMy = nullptr;
+		wi->SendWhenThey = nullptr;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wi);
 		getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
 
@@ -296,7 +296,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
 				saveLastSetting(hContact, hwnd);
 			} // fall through
 			if (LOWORD(wParam) == IDC_SIMPLE)
-				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), 0, BuddyPounceSimpleDlgProc, (LPARAM)((windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->hContact);
+				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), nullptr, BuddyPounceSimpleDlgProc, (LPARAM)((windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->hContact);
 			// fall through
 
 		case IDCANCEL:
@@ -385,8 +385,8 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		{
 			windowInfo *wi = (windowInfo *)mir_alloc(sizeof(windowInfo));
 			wi->hContact = 0;
-			wi->SendIfMy = 0;
-			wi->SendWhenThey = 0;
+			wi->SendIfMy = nullptr;
+			wi->SendWhenThey = nullptr;
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wi);
 
 			getDefaultMessage(hwnd, IDC_MESSAGE, wi->hContact);
@@ -517,7 +517,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				db_free(&dbv);
 			}
 		}
-		SetTimer(hwnd,1,1000,NULL);
+		SetTimer(hwnd,1,1000,nullptr);
 		SendMessage(hwnd,WM_TIMER,0,0);
 		break;
 
@@ -598,7 +598,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 void CreateMessageAcknowlegedWindow(MCONTACT hContact, int SentSuccess)
 {
-	HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, PounceSentDlgProc, hContact);
+	HWND hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), nullptr, PounceSentDlgProc, hContact);
 	wchar_t msg[256];
 	if (SentSuccess) {
 		mir_snwprintf(msg, TranslateT("Message successfully sent to %s"), pcli->pfnGetContactDisplayName(hContact, 0));

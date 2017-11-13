@@ -37,7 +37,7 @@ int lpprintf(const char *format, ...)
 char* GetProgramName(char *programName, int size)
 {
 	char name[512];
-	GetModuleFileNameA(GetModuleHandle(NULL), name, sizeof(name));
+	GetModuleFileNameA(GetModuleHandle(nullptr), name, sizeof(name));
 	char *p = strrchr(name, '\\');
 	if (p)
 		strncpy_s(programName, size, p + 1, _TRUNCATE);

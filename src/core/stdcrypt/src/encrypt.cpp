@@ -119,10 +119,10 @@ void CStdCrypt::setPassword(const char *pszPassword)
 // result must be freed using mir_free or assigned to mir_ptr<BYTE>
 BYTE* CStdCrypt::encodeString(const char *src, size_t *cbResultLen)
 {
-	if (!m_valid || src == NULL) {
+	if (!m_valid || src == nullptr) {
 		if (cbResultLen)
 			*cbResultLen = 0;
-		return NULL;
+		return nullptr;
 	}
 
 	return encodeBuffer(src, mir_strlen(src)+1, cbResultLen);
@@ -133,8 +133,8 @@ BYTE* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen
 	if (cbResultLen)
 		*cbResultLen = 0;
 
-	if (!m_valid || src == NULL || cbLen >= 0xFFFE)
-		return NULL;
+	if (!m_valid || src == nullptr || cbLen >= 0xFFFE)
+		return nullptr;
 
 	BYTE *tmpBuf = (BYTE*)_alloca(cbLen + 2);
 	*(PWORD)tmpBuf = (WORD)cbLen;
@@ -148,7 +148,7 @@ BYTE* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen
 	m_aes.ResetChain();
 	if (m_aes.Encrypt(tmpBuf, LPSTR(result), cbLen)) {
 		mir_free(result);
-		return NULL;
+		return nullptr;
 	}
 
 	if (cbResultLen)
@@ -163,7 +163,7 @@ char* CStdCrypt::decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultL
 	if (result) {
 		if (result[resLen-1] != 0) { // smth went wrong
 			mir_free(result);
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -177,21 +177,21 @@ void* CStdCrypt::decodeBuffer(const BYTE *pBuf, size_t bufLen, size_t *cbResultL
 	if (cbResultLen)
 		*cbResultLen = 0;
 
-	if (!m_valid || pBuf == NULL || (bufLen % BLOCK_SIZE) != 0)
-		return NULL;
+	if (!m_valid || pBuf == nullptr || (bufLen % BLOCK_SIZE) != 0)
+		return nullptr;
 
 	char *result = (char*)mir_alloc(bufLen + 1);
 	m_aes.ResetChain();
 	if (m_aes.Decrypt(LPCSTR(pBuf), result, bufLen)) {
 		mir_free(result);
-		return NULL;
+		return nullptr;
 	}
 
 	result[bufLen] = 0;
 	WORD cbLen = *(PWORD)result;
 	if (cbLen > bufLen) {
 		mir_free(result);
-		return NULL;
+		return nullptr;
 	}
 
 	memmove(result, result + 2, cbLen);

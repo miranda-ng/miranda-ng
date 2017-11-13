@@ -5,9 +5,9 @@
 //************************************************************************
 // CLCDInput::CLCDInput
 //************************************************************************
-CLCDInput::CLCDInput() : m_hKBHook(0), m_bShowSymbols(true), m_bShowMarker(false),
+CLCDInput::CLCDInput() : m_hKBHook(nullptr), m_bShowSymbols(true), m_bShowMarker(false),
 	m_lInputTime(0), m_iLinePosition(0), m_iLineCount(0), m_iBreakKeys(KEYS_RETURN),
-	m_lBlinkTimer(0), m_pScrollbar(NULL)
+	m_lBlinkTimer(0), m_pScrollbar(nullptr)
 {
 	memset(&m_Marker, 0, sizeof(m_Marker));
 
@@ -101,7 +101,7 @@ bool CLCDInput::Draw(CLCDGfx *pGfx)
 	int iLine = m_iLinePosition;
 	int iEndLine = m_iLinePosition + m_iLineCount;
 	int iLen = 0;
-	wchar_t *pcOffset = NULL;
+	wchar_t *pcOffset = nullptr;
 	while(iLine <  iEndLine && iLine < m_vLineOffsets.size())
 	{
 		// Calculate the text length
@@ -174,7 +174,7 @@ void CLCDInput::SetBreakKeys(int iKeys)
 //************************************************************************
 bool CLCDInput::IsInputActive()
 {
-	return m_pInput != NULL;
+	return m_pInput != nullptr;
 }
 
 
@@ -241,7 +241,7 @@ void CLCDInput::ActivateInput()
 	CLCDConnection *pLCDCon =  CLCDOutputManager::GetInstance()->GetLCDConnection();
 	pLCDCon->SetAsForeground(1);
 
-	m_hKBHook = SetWindowsHookEx(WH_KEYBOARD_LL, CLCDInput::KeyboardHook, GetModuleHandle(NULL), 0);
+	m_hKBHook = SetWindowsHookEx(WH_KEYBOARD_LL, CLCDInput::KeyboardHook, GetModuleHandle(nullptr), 0);
 	if(!m_hKBHook)
 		return;
 	m_pInput = this;
@@ -256,9 +256,9 @@ void CLCDInput::DeactivateInput()
 	if(!m_pInput)
 		return;
 	UnhookWindowsHookEx(m_hKBHook);
-	m_hKBHook = NULL;
+	m_hKBHook = nullptr;
 
-	m_pInput = NULL;
+	m_pInput = nullptr;
 	
 	CLCDConnection *pLCDCon =  CLCDOutputManager::GetInstance()->GetLCDConnection();
 	pLCDCon->SetAsForeground(0);
@@ -267,7 +267,7 @@ void CLCDInput::DeactivateInput()
 //************************************************************************
 // CLCDInput::KeyboardHook
 //************************************************************************
-CLCDInput* CLCDInput::m_pInput = NULL;
+CLCDInput* CLCDInput::m_pInput = nullptr;
 
 LRESULT CALLBACK CLCDInput::KeyboardHook(int Code, WPARAM wParam, LPARAM lParam)
 {
@@ -484,8 +484,8 @@ void CLCDInput::MoveMarker(int iDir,int iMove,bool bShift)
 			else
 				iLen = (int)m_strText.length() - m_vLineOffsets[m_Marker[0].iLine].iOffset;
 			
-			HDC hDC = CreateCompatibleDC(NULL);
-			if(NULL == hDC)
+			HDC hDC = CreateCompatibleDC(nullptr);
+			if(nullptr == hDC)
 				return;
 			SelectObject(hDC, m_hFont);   
 			m_Marker[0].iXWidth = 1;
@@ -590,8 +590,8 @@ void CLCDInput::UpdateOffsets(int iModified)
 	if(m_vLineOffsets.size() == 0 && m_strText.empty())
 		return;
 
-	HDC hDC = CreateCompatibleDC(NULL);
-	if(NULL == hDC)
+	HDC hDC = CreateCompatibleDC(nullptr);
+	if(nullptr == hDC)
 		return;
 	
 	// Reset the marker

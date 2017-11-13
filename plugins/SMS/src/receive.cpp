@@ -58,14 +58,14 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 				dwMessageXMLEncodedSize = MultiByteToWideChar(CP_UTF8, 0, lpszData, (int)dwDataSize, lpwszMessageXMLEncoded, (int)dwBuffLen);
 				DecodeXML(lpwszMessageXMLEncoded, dwMessageXMLEncodedSize, lpwszMessageXMLDecoded, dwBuffLen, &dwMessageXMLDecodedSize);
 				lpszMessageUTF = (LPSTR)lpwszMessageXMLEncoded;
-				WideCharToMultiByte(CP_UTF8, 0, lpwszMessageXMLDecoded, (int)dwMessageXMLDecodedSize, lpszMessageUTF, (int)dwBuffLen, NULL, NULL);
+				WideCharToMultiByte(CP_UTF8, 0, lpwszMessageXMLDecoded, (int)dwMessageXMLDecodedSize, lpszMessageUTF, (int)dwBuffLen, nullptr, nullptr);
 
 				dwPhoneSize = CopyNumberA(szPhone, lpszPhone, dwPhoneSize);
 				dwPhoneSize = MultiByteToWideChar(CP_UTF8, 0, szPhone, (int)dwPhoneSize, tszPhone, MAX_PHONE_LEN);
 				MCONTACT hContact = HContactFromPhone(tszPhone, dwPhoneSize);
 
 				dbei.szModule = GetModuleName(hContact);
-				dbei.timestamp = time(NULL);
+				dbei.timestamp = time(nullptr);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = ICQEVENTTYPE_SMS;
 				dbei.cbBlob = (mir_snprintf((LPSTR)dbei.pBlob, ((dwBuffLen + dwPhoneSize)), "SMS From: +%s\r\n%s", szPhone, lpszMessageUTF) + sizeof(DWORD));
@@ -93,7 +93,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 
 				DBEVENTINFO dbei = {};
 				dbei.szModule = GetModuleName(hContact);
-				dbei.timestamp = time(NULL);
+				dbei.timestamp = time(nullptr);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = ICQEVENTTYPE_SMSCONFIRMATION;
 				if (CompareStringA(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, lpszData, (int)dwDataSize, "yes", 3) == CSTR_EQUAL) {
@@ -133,7 +133,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 					char szNetwork[MAX_PATH];
 
 					KillTimer(hWndDlg, wParam);
-					GetXMLFieldExBuff(lpszXML, dwXMLSize, szNetwork, sizeof(szNetwork), NULL, "sms_response", "network", NULL);
+					GetXMLFieldExBuff(lpszXML, dwXMLSize, szNetwork, sizeof(szNetwork), nullptr, "sms_response", "network", NULL);
 
 					if (ack->result == ACKRESULT_FAILED || CompareStringA(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, lpszData, (int)dwDataSize, "no", 2) == CSTR_EQUAL) {
 						char szBuff[1024];
@@ -154,7 +154,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 							lpszErrorDescription = lpszXML;
 						else {
 							lpszErrorDescription = szBuff;
-							GetXMLFieldExBuff(lpszXML, dwXMLSize, szBuff, sizeof(szBuff), NULL, "sms_response", "error", "params", "param", NULL);
+							GetXMLFieldExBuff(lpszXML, dwXMLSize, szBuff, sizeof(szBuff), nullptr, "sms_response", "error", "params", "param", NULL);
 						}
 
 						mir_snwprintf(tszErrorMessage, TranslateT("SMS message didn't send by %S to %s because: %S"), szNetwork, tszPhone, lpszErrorDescription);
@@ -181,14 +181,14 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 								if (DB_SMS_GetByte(NULL, "ShowACK", SMS_DEFAULT_SHOWACK)) {
 									HWND hwndAccepted = CreateDialog(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMSACCEPT), hWndDlg, SMSAcceptedDlgProc);
 									if (CompareStringA(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, lpszData, (int)dwDataSize, "yes", 3) == CSTR_EQUAL) {
-										GetXMLFieldExBuff(lpszXML, dwXMLSize, szSource, sizeof(szSource), NULL, "sms_response", "source", NULL);
-										GetXMLFieldExBuff(lpszXML, dwXMLSize, szMessageID, sizeof(szMessageID), NULL, "sms_response", "message_id", NULL);
+										GetXMLFieldExBuff(lpszXML, dwXMLSize, szSource, sizeof(szSource), nullptr, "sms_response", "source", NULL);
+										GetXMLFieldExBuff(lpszXML, dwXMLSize, szMessageID, sizeof(szMessageID), nullptr, "sms_response", "message_id", NULL);
 									}
 									else {
 										SetDlgItemText(hwndAccepted, IDC_ST_SOURCE, TranslateT("From:"));
 										SetDlgItemText(hwndAccepted, IDC_ST_MESSAGEID, TranslateT("To:"));
-										GetXMLFieldExBuff(lpszXML, dwXMLSize, szSource, sizeof(szSource), NULL, "sms_response", "from", NULL);
-										GetXMLFieldExBuff(lpszXML, dwXMLSize, szMessageID, sizeof(szMessageID), NULL, "sms_response", "to", NULL);
+										GetXMLFieldExBuff(lpszXML, dwXMLSize, szSource, sizeof(szSource), nullptr, "sms_response", "from", NULL);
+										GetXMLFieldExBuff(lpszXML, dwXMLSize, szMessageID, sizeof(szMessageID), nullptr, "sms_response", "to", NULL);
 									}
 									SetDlgItemTextA(hwndAccepted, IDC_NETWORK, szNetwork);
 									SetDlgItemTextA(hwndAccepted, IDC_SOURCE, szSource);
@@ -226,7 +226,7 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
 			Skin_PlaySound("RecvSMSMsg");
 			if (DB_SMS_GetByte(NULL, "AutoPopup", 0)) {
-				if (RecvSMSWindowAdd(hContact, ICQEVENTTYPE_SMS, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob))
+				if (RecvSMSWindowAdd(hContact, ICQEVENTTYPE_SMS, nullptr, 0, (LPSTR)dbei.pBlob, dbei.cbBlob))
 					db_event_markRead(hContact, hDbEvent);
 			}
 			else {
@@ -247,12 +247,12 @@ int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 	else if (dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION) {
 		Skin_PlaySound("RecvSMSConfirmation");
 		if (DB_SMS_GetByte(NULL, "AutoPopup", 0)) {
-			if (RecvSMSWindowAdd(hContact, ICQEVENTTYPE_SMSCONFIRMATION, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob))
+			if (RecvSMSWindowAdd(hContact, ICQEVENTTYPE_SMSCONFIRMATION, nullptr, 0, (LPSTR)dbei.pBlob, dbei.cbBlob))
 				db_event_delete(hContact, hDbEvent);
 		}
 		else {
 			UINT iIcon;
-			if (GetDataFromMessage((LPSTR)dbei.pBlob, dbei.cbBlob, NULL, NULL, 0, NULL, &iIcon)) {
+			if (GetDataFromMessage((LPSTR)dbei.pBlob, dbei.cbBlob, nullptr, nullptr, 0, nullptr, &iIcon)) {
 				memcpy(pszServiceFunctionName, SMS_READ_ACK, sizeof(SMS_READ_ACK));
 				mir_snwprintf(szToolTip, TranslateT("SMS Confirmation from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 

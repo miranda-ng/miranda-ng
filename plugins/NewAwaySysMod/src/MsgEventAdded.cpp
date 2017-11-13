@@ -133,7 +133,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		// remove outdated events first
-		DWORD CurTime = time(NULL);
+		DWORD CurTime = time(nullptr);
 		int i;
 		for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
 			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
@@ -155,7 +155,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	// ugly workaround for metacontacts, part i; store all metacontacts' events to a temporary array, so we'll be able to get the 'source' protocol when subcontact event happens later. we need the protocol to get its status and per-status settings properly
 	if (!mir_strcmp(szProto, META_PROTO)) {
 		// remove outdated events first
-		DWORD CurTime = time(NULL);
+		DWORD CurTime = time(nullptr);
 		for (int i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
 			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
 				MetacontactEvents.RemoveElem(i);
@@ -224,7 +224,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	TCString Reply(*(TCString*)AutoreplyOptData.GetValue(IDC_REPLYDLG_PREFIX));
 	if (Reply != NULL && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
 		wchar_t *szResult = variables_parse(Reply, VarParseData.Message, hContact);
-		if (szResult != NULL) {
+		if (szResult != nullptr) {
 			Reply = szResult;
 			mir_free(szResult);
 		}

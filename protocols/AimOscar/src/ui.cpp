@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE hThemeButton = NULL;
+HANDLE hThemeButton = nullptr;
 COLORREF foreground=0;
 COLORREF background=0xffffff;
 COLORREF custColours[16]={0};
@@ -45,7 +45,7 @@ void DrawMyControl(HDC hDC, HWND /*hwndButton*/, HANDLE hTheme, UINT iState, REC
 		}
 		rect.top -= 1;
 		rect.left -= 1;
-		DrawThemeBackground(hTheme, hDC, BP_PUSHBUTTON, state, &rect, NULL);
+		DrawThemeBackground(hTheme, hDC, BP_PUSHBUTTON, state, &rect, nullptr);
 	}
 	else {
 		if (bIsFocused) {
@@ -169,12 +169,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				_itoa(cfOld.yHeight / 20, size, sizeof(size));
 				//SetDlgItemText(hwndDlg, IDC_FONTSIZE, size);
 				SendDlgItemMessage(hwndDlg, IDC_FONTSIZE, CB_SELECTSTRING, 1, (LPARAM)size);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUPERSCRIPT), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_NORMALSCRIPT), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUBSCRIPT), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_BOLD), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_ITALIC), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_UNDERLINE), NULL, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUPERSCRIPT), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_NORMALSCRIPT), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUBSCRIPT), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_BOLD), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_ITALIC), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_UNDERLINE), nullptr, FALSE);
 			}
 			else if (((LPNMHDR)lParam)->code == EN_REQUESTRESIZE) {
 				//	REQRESIZE* rr= (REQRESIZE*)lParam;
@@ -212,12 +212,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				BOOL isSuper = (cfOld.dwEffects & CFE_SUPERSCRIPT) && (cfOld.dwMask & CFM_SUPERSCRIPT);
 				if (isSuper) {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState | ODS_SELECTED, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sup_scrpt"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sup_scrpt"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("sup_scrpt");
 				}
 				else {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nsup_scrpt"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nsup_scrpt"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("nsup_scrpt");
 				}
 			}
@@ -230,12 +230,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				BOOL isSuper = (cfOld.dwEffects & CFE_SUPERSCRIPT) && (cfOld.dwMask & CFM_SUPERSCRIPT);
 				if (!isSub&&!isSuper) {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState | ODS_SELECTED, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("norm_scrpt"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("norm_scrpt"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("norm_scrpt");
 				}
 				else {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nnorm_scrpt"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nnorm_scrpt"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("nnorm_scrpt");
 				}
 			}
@@ -247,12 +247,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				BOOL isSub = (cfOld.dwEffects & CFE_SUBSCRIPT) && (cfOld.dwMask & CFM_SUBSCRIPT);
 				if (isSub) {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState | ODS_SELECTED, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sub_scrpt"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sub_scrpt"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("sub_scrpt");
 				}
 				else {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nsub_scrpt"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nsub_scrpt"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("nsub_scrpt");
 				}
 			}
@@ -264,12 +264,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				BOOL isBold = (cfOld.dwEffects & CFE_BOLD) && (cfOld.dwMask & CFM_BOLD);
 				if (!isBold) {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nbold"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nbold"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("nbold");
 				}
 				else {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BOLD), hThemeButton, lpDIS->itemState | ODS_SELECTED, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("bold"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("bold"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("bold");
 				}
 			}
@@ -281,12 +281,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				BOOL isItalic = (cfOld.dwEffects & CFE_ITALIC) && (cfOld.dwMask & CFM_ITALIC);
 				if (!isItalic) {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_ITALIC), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nitalic"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nitalic"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("nitalic");
 				}
 				else {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_ITALIC), hThemeButton, lpDIS->itemState | ODS_SELECTED, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("italic"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("italic"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("italic");
 				}
 			}
@@ -298,18 +298,18 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				BOOL isUnderline = (cfOld.dwEffects & CFE_UNDERLINE) && (cfOld.dwMask & CFM_UNDERLINE);
 				if (!isUnderline) {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_UNDERLINE), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nundrln"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nundrln"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("nundrln");
 				}
 				else {
 					DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_UNDERLINE), hThemeButton, lpDIS->itemState | ODS_SELECTED, lpDIS->rcItem);
-					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("undrln"), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("undrln"), 16, 16, 0, nullptr, DI_NORMAL);
 					ReleaseIconEx("undrln");
 				}
 			}
 			else if (lpDIS->CtlID == IDC_FOREGROUNDCOLOR) {
 				DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_FOREGROUNDCOLOR), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-				DrawIconEx(lpDIS->hDC, 4, 2, LoadIconEx("foreclr"), 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(lpDIS->hDC, 4, 2, LoadIconEx("foreclr"), 16, 16, 0, nullptr, DI_NORMAL);
 				ReleaseIconEx("foreclr");
 				HBRUSH	hbr = CreateSolidBrush(foreground);
 				HPEN hp = CreatePen(PS_SOLID, 1, ~foreground & 0x00ffffff);
@@ -343,7 +343,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			else if (lpDIS->CtlID == IDC_BACKGROUNDCOLOR) {
 				DrawMyControl(lpDIS->hDC, GetDlgItem(hwndDlg, IDC_BACKGROUNDCOLOR), hThemeButton, lpDIS->itemState, lpDIS->rcItem);
-				DrawIconEx(lpDIS->hDC, 4, 2, LoadIconEx("backclr"), 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(lpDIS->hDC, 4, 2, LoadIconEx("backclr"), 16, 16, 0, nullptr, DI_NORMAL);
 				ReleaseIconEx("backclr");
 				HBRUSH	hbr = CreateSolidBrush(background);
 				HPEN hp = CreatePen(PS_SOLID, 1, ~background & 0x00ffffff);
@@ -405,8 +405,8 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.dwEffects = CFE_SUPERSCRIPT;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_NORMALSCRIPT), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUBSCRIPT), NULL, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_NORMALSCRIPT), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUBSCRIPT), nullptr, FALSE);
 			}
 			break;
 
@@ -418,8 +418,8 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.dwEffects &= ~CFE_SUPERSCRIPT;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUPERSCRIPT), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUBSCRIPT), NULL, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUPERSCRIPT), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUBSCRIPT), nullptr, FALSE);
 			}
 			break;
 
@@ -431,8 +431,8 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.dwEffects = CFE_SUBSCRIPT;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUPERSCRIPT), NULL, FALSE);
-				InvalidateRect(GetDlgItem(hwndDlg, IDC_NORMALSCRIPT), NULL, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_SUPERSCRIPT), nullptr, FALSE);
+				InvalidateRect(GetDlgItem(hwndDlg, IDC_NORMALSCRIPT), nullptr, FALSE);
 			}
 			break;
 
@@ -512,7 +512,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 				if (ChooseColor(&cc)) {
 					foreground = cc.rgbResult;
-					InvalidateRect(GetDlgItem(hwndDlg, IDC_FOREGROUNDCOLOR), NULL, FALSE);
+					InvalidateRect(GetDlgItem(hwndDlg, IDC_FOREGROUNDCOLOR), nullptr, FALSE);
 				}
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
 			}
@@ -537,12 +537,12 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				custColours[1] = background;
 				cc.lStructSize = sizeof(CHOOSECOLOR);
 				cc.hwndOwner = hwndDlg;
-				cc.hInstance = (HWND)GetModuleHandle(NULL);
+				cc.hInstance = (HWND)GetModuleHandle(nullptr);
 				cc.lpCustColors = custColours;
 				cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 				if (ChooseColor(&cc)) {
 					background = cc.rgbResult;
-					InvalidateRect(GetDlgItem(hwndDlg, IDC_BACKGROUNDCOLOR), NULL, FALSE);
+					InvalidateRect(GetDlgItem(hwndDlg, IDC_BACKGROUNDCOLOR), nullptr, FALSE);
 				}
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
 			}
@@ -703,7 +703,7 @@ int CAimProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CAimProto::EditProfile(WPARAM, LPARAM)
 {
-	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_AIM), NULL, userinfo_dialog, LPARAM(this));
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_AIM), nullptr, userinfo_dialog, LPARAM(this));
 	return 0;
 }
 
@@ -866,7 +866,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				//End Force Proxy Transfer
 
 				//PN
-				int port = GetDlgItemInt(hwndDlg, IDC_PN, NULL, FALSE);
+				int port = GetDlgItemInt(hwndDlg, IDC_PN, nullptr, FALSE);
 				if (port > 0 && port != AIM_DEFAULT_PORT)
 					ppro->setWord(AIM_KEY_PN, (WORD)port);
 				else
@@ -1175,8 +1175,8 @@ INT_PTR CALLBACK instant_idle_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		{
-			unsigned long hours = GetDlgItemInt(hwndDlg, IDC_IIH, 0, 0);
-			unsigned short minutes = (unsigned short)GetDlgItemInt(hwndDlg, IDC_IIM, 0, 0);
+			unsigned long hours = GetDlgItemInt(hwndDlg, IDC_IIH, nullptr, 0);
+			unsigned short minutes = (unsigned short)GetDlgItemInt(hwndDlg, IDC_IIM, nullptr, 0);
 			if (minutes > 59)
 				minutes = 59;
 
@@ -1453,5 +1453,5 @@ INT_PTR CALLBACK chat_request_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 void CALLBACK chat_request_cb(PVOID dwParam)
 {
 	CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE_REQ),
-		NULL, chat_request_dialog, (LPARAM)dwParam);
+		nullptr, chat_request_dialog, (LPARAM)dwParam);
 }

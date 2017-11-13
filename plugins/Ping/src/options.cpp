@@ -91,9 +91,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ofn.lpstrTitle = TranslateT("Open log file");
 				ofn.lpstrFilter = filter;
 				ofn.nFilterIndex = 1;
-				ofn.lpstrFileTitle = NULL;
+				ofn.lpstrFileTitle = nullptr;
 				ofn.nMaxFileTitle = 0;
-				ofn.lpstrInitialDir = NULL;
+				ofn.lpstrInitialDir = nullptr;
 				ofn.Flags = OFN_PATHMUSTEXIST;
 
 				if (GetOpenFileName(&ofn) == TRUE) {

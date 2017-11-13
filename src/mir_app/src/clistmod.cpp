@@ -276,7 +276,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	POINT pt;
 	register int i, j, width, height, iCountedDots = 0, iNotCoveredDots = 0;
 	BOOL bPartiallyCovered = FALSE;
-	HWND hAux = 0;
+	HWND hAux = nullptr;
 
 	if (hWnd == nullptr) {
 		SetLastError(0x00000006);       //Wrong handle

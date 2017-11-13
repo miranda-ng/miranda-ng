@@ -19,14 +19,14 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HNETLIBUSER hNetlibUser = NULL;
+HNETLIBUSER hNetlibUser = nullptr;
 HNETLIBCONN hNetlibHttp;
 bool UpdateListFlag = FALSE;
 
 bool IsMyContact(MCONTACT hContact)
 {
 	const char *szProto = GetContactProto(hContact);
-	return szProto != NULL && mir_strcmp(MODULE, szProto) == 0;
+	return szProto != nullptr && mir_strcmp(MODULE, szProto) == 0;
 }
 
 void NetlibInit()
@@ -41,7 +41,7 @@ void NetlibInit()
 void NetlibUnInit()
 {
 	Netlib_CloseHandle(hNetlibUser);
-	hNetlibUser = NULL;
+	hNetlibUser = nullptr;
 }
 
 void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
@@ -53,7 +53,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if (wcsstr(tszUrl, L"https://") != NULL)
+	if (wcsstr(tszUrl, L"https://") != nullptr)
 		nlhr.flags |= NLHRF_SSL;
 	char *szUrl = mir_u2a(tszUrl);
 	nlhr.szUrl = szUrl;
@@ -93,7 +93,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg
 		}
 		else if (nlhrReply->resultCode == 401) {
 			Netlib_LogfW(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
-			ItemInfo SelItem = { 0 };
+			ItemInfo SelItem = {};
 			SelItem.hwndList = hwndDlg;
 			SelItem.hContact = hContact;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
@@ -175,7 +175,7 @@ time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 	int i, y;
 	time_t t;
 
-	if (stamp == NULL)
+	if (stamp == nullptr)
 		return 0;
 
 	wchar_t *p = NEWWSTR_ALLOCA(stamp);
@@ -195,7 +195,7 @@ time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 		int day, month = 0, year, hour, min, sec, timezoneh, timezonem;
 		if (wcsstr(p, L",")) {
 			weekday = wcstok(p, L",");
-			p = wcstok(NULL, L",");
+			p = wcstok(nullptr, L",");
 			swscanf(p + 1, L"%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!mir_wstrcmpi(monthstr, L"Jan"))
 				month = 1;
@@ -308,7 +308,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
 	if (pReply) {
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
-			char *date = NULL, *size = NULL;
+			char *date = nullptr, *size = nullptr;
 			for (int i = 0; i < pReply->headersCount; i++) {
 				if (!mir_strcmpi(pReply->headers[i].szName, "Last-Modified")) {
 					date = pReply->headers[i].szValue;
@@ -319,7 +319,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 					continue;
 				}
 			}
-			if (date != NULL && size != NULL) {
+			if (date != nullptr && size != nullptr) {
 				wchar_t *tdate = mir_a2u(date);
 				wchar_t *tsize = mir_a2u(size);
 				struct _stat buf;
@@ -331,8 +331,8 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 					time_t filemodtime = mktime(localtime(&buf.st_atime));
 					if (modtime > filemodtime && buf.st_size != _wtoi(tsize)) {
 						DWORD dwBytes;
-						HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
+						HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
 						ret = true;
 						if (hFile)
 							CloseHandle(hFile);
@@ -341,8 +341,8 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 				}
 				else {
 					DWORD dwBytes;
-					HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
+					HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
 					ret = true;
 					if (hFile)
 						CloseHandle(hFile);
@@ -352,8 +352,8 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 			}
 			else {
 				DWORD dwBytes;
-				HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
+				HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
 				ret = true;
 				if (hFile)
 					CloseHandle(hFile);
@@ -371,23 +371,23 @@ typedef HRESULT(MarkupCallback)(IHTMLDocument3 *, BSTR &message);
 
 HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message)
 {
-	IHTMLDocument3 *pHtmlDocRoot = NULL;
+	IHTMLDocument3 *pHtmlDocRoot = nullptr;
 
 	// Create the root document -- a "workspace" for parsing.
-	HRESULT hr = CoCreateInstance(CLSID_HTMLDocument, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pHtmlDocRoot));
+	HRESULT hr = CoCreateInstance(CLSID_HTMLDocument, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pHtmlDocRoot));
 	if (SUCCEEDED(hr) && pHtmlDocRoot) {
-		IPersistStreamInit *pPersistStreamInit = NULL;
+		IPersistStreamInit *pPersistStreamInit = nullptr;
 
 		hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pPersistStreamInit));
 		if (SUCCEEDED(hr)) {
 			// Initialize the root document to a default state -- ready for parsing.
 			pPersistStreamInit->InitNew();
 
-			IMarkupServices *pMarkupServices = NULL;
+			IMarkupServices *pMarkupServices = nullptr;
 			hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pMarkupServices));
 			if (SUCCEEDED(hr)) {
-				IMarkupPointer *pMarkupBegin = NULL;
-				IMarkupPointer *pMarkupEnd = NULL;
+				IMarkupPointer *pMarkupBegin = nullptr;
+				IMarkupPointer *pMarkupEnd = nullptr;
 
 				// These markup pointers indicate the insertion point.
 				hr = pMarkupServices->CreateMarkupPointer(&pMarkupBegin);
@@ -395,13 +395,13 @@ HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &messa
 					hr = pMarkupServices->CreateMarkupPointer(&pMarkupEnd);
 
 				if (SUCCEEDED(hr) && pMarkupBegin && pMarkupEnd) {
-					IMarkupContainer *pMarkupContainer = NULL;
+					IMarkupContainer *pMarkupContainer = nullptr;
 
 					// Parse the string -- the markup container contains the parsed HTML.
 					// Markup pointers are updated to point to begining and end of new container.
 					hr = pMarkupServices->ParseString(bstrHtml, 0, &pMarkupContainer, pMarkupBegin, pMarkupEnd);
 					if (SUCCEEDED(hr) && pMarkupContainer) {
-						IHTMLDocument3 *pHtmlDoc = NULL;
+						IHTMLDocument3 *pHtmlDoc = nullptr;
 
 						// Retrieve the document interface to the markup container.
 						hr = pMarkupContainer->QueryInterface(IID_PPV_ARGS(&pHtmlDoc));
@@ -429,15 +429,15 @@ HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &messa
 
 HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 {
-	IHTMLDocument2 *pDoc = NULL;
-	IHTMLElement *pElem = NULL;
+	IHTMLDocument2 *pDoc = nullptr;
+	IHTMLElement *pElem = nullptr;
 	BSTR bstrId = SysAllocString(L"test");
 
 	HRESULT hr = pHtmlDoc->QueryInterface(IID_PPV_ARGS(&pDoc));
 	if (SUCCEEDED(hr) && pDoc) {
 		hr = pDoc->get_body(&pElem);
 		if (SUCCEEDED(hr) && pElem) {
-			BSTR bstrText = NULL;
+			BSTR bstrText = nullptr;
 			pElem->get_innerText(&bstrText);
 			message = SysAllocString(bstrText);
 			SysFreeString(bstrText);

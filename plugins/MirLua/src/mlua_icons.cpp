@@ -20,7 +20,7 @@ HICON GetIcon(int iconId)
 		if (Icons[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(Icons[i].hIcolib);
 
-	return NULL;
+	return nullptr;
 }
 
 HANDLE GetIconHandle(int iconId)
@@ -29,5 +29,5 @@ HANDLE GetIconHandle(int iconId)
 		if (Icons[i].defIconID == iconId)
 			return Icons[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }

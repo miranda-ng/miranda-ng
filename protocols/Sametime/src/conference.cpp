@@ -4,7 +4,7 @@
 void CloseMyConference(CSametimeProto* proto)
 {
 	mwConference_destroy(proto->my_conference, 0, Translate("I'm outa here."));
-	proto->my_conference = 0;
+	proto->my_conference = nullptr;
 }
 
 CSametimeProto* getProtoFromMwConference(mwConference* conf)
@@ -45,7 +45,7 @@ void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const ch
 	wchar_t ws_invite[512];
 	MultiByteToWideChar(CP_UTF8, 0, (const char*)invite, -1, ws_invite, 128);
 
-	if (MessageBoxW(0, ws_invite, ws_username, MB_OKCANCEL) == IDOK) {
+	if (MessageBoxW(nullptr, ws_invite, ws_username, MB_OKCANCEL) == IDOK) {
 		proto->debugLogW(L"mwServiceConf_on_invited() mwConference_accept");
 		mwConference_accept(conf);
 	}
@@ -64,7 +64,7 @@ void CSametimeProto::ClearInviteQueue()
 		return;
 
 	mwIdBlock idb;
-	idb.community = 0;
+	idb.community = nullptr;
 
 	while(invite_queue.size()) {
 		idb.user = (char *)invite_queue.front().c_str();
@@ -163,7 +163,7 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 	if (!hContact) {
 		mwIdBlock idb;
 		idb.user = ((mwLoginInfo *)user)->user_id;
-		idb.community = 0;
+		idb.community = nullptr;
 
 		mwSametimeList* user_list = mwSametimeList_new();
 		mwSametimeGroup* stgroup = mwSametimeGroup_new(user_list, mwSametimeGroup_NORMAL, T2Utf(TranslateT("None")));
@@ -184,7 +184,7 @@ void mwServiceConf_on_peer_joined(mwConference* conf, mwLoginInfo *user)
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
 	gce.ptszStatus = L"Normal";
-	gce.time = (DWORD)time(0);
+	gce.time = (DWORD)time(nullptr);
 
 	Chat_Event( &gce);
 
@@ -209,7 +209,7 @@ void mwServiceConf_on_peer_parted(mwConference* conf, mwLoginInfo* user)
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
 	gce.ptszStatus = L"Normal";
-	gce.time = (DWORD)time(0);
+	gce.time = (DWORD)time(nullptr);
 	Chat_Event(&gce);
 }
 
@@ -229,7 +229,7 @@ void mwServiceConf_on_text(mwConference* conf, mwLoginInfo* user, const char* wh
 	gce.ptszText = textT;
 	gce.ptszNick = tszUserName;
 	gce.ptszUID = tszUserId;
-	gce.time = (DWORD)time(0);
+	gce.time = (DWORD)time(nullptr);
 	Chat_Event(&gce);
 }
 
@@ -427,12 +427,12 @@ void CSametimeProto::DeinitConference()
 		g_list_free(conferences);
 	}
 
-	my_login_info = 0;
+	my_login_info = nullptr;
 
 	mwSession_removeService(session, mwService_CONFERENCE);
 	if (service_conference){
 		mwService_free((mwService*)service_conference);
-		service_conference = 0;
+		service_conference = nullptr;
 	}
 }
 

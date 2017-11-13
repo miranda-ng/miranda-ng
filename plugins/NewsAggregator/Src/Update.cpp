@@ -21,8 +21,8 @@ Boston, MA 02111-1307, USA.
 
 // check if Feed is currently updating
 bool ThreadRunning;
-UPDATELIST *UpdateListHead = NULL;
-UPDATELIST *UpdateListTail = NULL;
+UPDATELIST *UpdateListHead = nullptr;
+UPDATELIST *UpdateListTail = nullptr;
 
 // main auto-update timer
 void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
@@ -32,7 +32,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 		bool HaveUpdates = FALSE;
 		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
-				double diff = difftime(time(NULL), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
+				double diff = difftime(time(nullptr), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
 					UpdateListAdd(hContact);
 					HaveUpdates = TRUE;
@@ -40,7 +40,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 			}
 		}
 		if (!ThreadRunning && HaveUpdates)
-			mir_forkthread(UpdateThreadProc, 0);
+			mir_forkthread(UpdateThreadProc, nullptr);
 	}
 }
 
@@ -48,13 +48,13 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 // when this is run, it kill the old startup timer and create the permenant one above
 void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(NULL, timerId);
+	KillTimer(nullptr, timerId);
 	ThreadRunning = FALSE;
 
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_IsTerminated()) {
 		if (db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 			CheckAllFeeds(0, 1);
-		timerId = SetTimer(NULL, 0, 30000, (TIMERPROC)timerProc);
+		timerId = SetTimer(nullptr, 0, 30000, (TIMERPROC)timerProc);
 	}
 }
 
@@ -62,11 +62,11 @@ void UpdateListAdd(MCONTACT hContact)
 {
 	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
-	newItem->next = NULL;
+	newItem->next = nullptr;
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListTail == NULL)
+	if (UpdateListTail == nullptr)
 		UpdateListHead = newItem;
 	else UpdateListTail->next = newItem;
 	UpdateListTail = newItem;
@@ -80,14 +80,14 @@ MCONTACT UpdateGetFirst()
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListHead != NULL) {
+	if (UpdateListHead != nullptr) {
 		UPDATELIST* Item = UpdateListHead;
 		hContact = Item->hContact;
 		UpdateListHead = Item->next;
 		mir_free(Item);
 
-		if (UpdateListHead == NULL)
-			UpdateListTail = NULL;
+		if (UpdateListHead == nullptr)
+			UpdateListTail = nullptr;
 	}
 
 	ReleaseMutex(hUpdateMutex);
@@ -101,13 +101,13 @@ void DestroyUpdateList(void)
 
 	// free the list one by one
 	UPDATELIST *temp = UpdateListHead;
-	while (temp != NULL) {
+	while (temp != nullptr) {
 		UpdateListHead = temp->next;
 		mir_free(temp);
 		temp = UpdateListHead;
 	}
 	// make sure the entire list is clear
-	UpdateListTail = NULL;
+	UpdateListTail = nullptr;
 
 	ReleaseMutex(hUpdateMutex);
 }
@@ -122,11 +122,11 @@ void UpdateThreadProc(void *AvatarCheck)
 	ThreadRunning = TRUE;	// prevent 2 instance of this thread running
 	ReleaseMutex(hUpdateMutex);
 
-	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+	CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
 
 	// update news by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != NULL && !Miranda_IsTerminated()) {
-		if (AvatarCheck != NULL)
+	while (UpdateListHead != nullptr && !Miranda_IsTerminated()) {
+		if (AvatarCheck != nullptr)
 			CheckCurrentFeedAvatar(UpdateGetFirst());
 		else
 			CheckCurrentFeed(UpdateGetFirst());

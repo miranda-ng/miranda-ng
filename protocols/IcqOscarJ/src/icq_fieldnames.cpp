@@ -27,7 +27,7 @@
 
 FieldNamesItem timezonesField[] =
 {
-	{ -100, NULL }
+	{ -100, nullptr }
 };
 
 const FieldNamesItem countryField[] = {
@@ -281,7 +281,7 @@ const FieldNamesItem countryField[] = {
 	{ 382, LPGEN("Montenegro") },	/* rename need (from Yugoslavia - Montenegro) */
 	{ 260, LPGEN("Zambia") },
 	{ 263, LPGEN("Zimbabwe") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem interestsField[] =
@@ -336,7 +336,7 @@ const FieldNamesItem interestsField[] =
 	{ 127, LPGEN("Travel") },
 	{ 121, LPGEN("Web Design") },
 	{ 132, LPGEN("Women") },
-	{ -1, NULL }
+	{ -1, nullptr }
 };
 
 const FieldNamesItem languageField[] =
@@ -413,7 +413,7 @@ const FieldNamesItem languageField[] =
 	{ 67, LPGEN("Welsh") },
 	{ 53, LPGEN("Yiddish") },
 	{ 54, LPGEN("Yoruba") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem pastField[] =
@@ -426,14 +426,14 @@ const FieldNamesItem pastField[] =
 	{ 305, LPGEN("Past Work Place") },
 	{ 306, LPGEN("Past Organization") },
 	{ 399, LPGEN("Other") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem genderField[] =
 {
 	{ 'F', LPGEN("Female") },
 	{ 'M', LPGEN("Male") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem studyLevelField[] =
@@ -446,7 +446,7 @@ const FieldNamesItem studyLevelField[] =
 	{ 7, LPGEN("PhD") },
 	{ 8, LPGEN("Postdoctoral") },
 	{ 3, LPGEN("University / College") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem industryField[] =
@@ -469,7 +469,7 @@ const FieldNamesItem industryField[] =
 	{ 16, LPGEN("Recreation, Travel & Entertainment") },
 	{ 17, LPGEN("Service Industry") },
 	{ 18, LPGEN("Transportation") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem occupationField[] =
@@ -502,7 +502,7 @@ const FieldNamesItem occupationField[] =
 	{ 26, LPGEN("University Student") },
 	{ 27, LPGEN("Web Building") },
 	{ 99, LPGEN("Other Services") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem affiliationField[] =
@@ -527,7 +527,7 @@ const FieldNamesItem affiliationField[] =
 	{ 217, LPGEN("Union") },
 	{ 218, LPGEN("Volunteer Org.") },
 	{ 299, LPGEN("Other") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const FieldNamesItem agesField[] =
@@ -539,7 +539,7 @@ const FieldNamesItem agesField[] =
 	{ 0x00310028, LPGEN("40-49") },
 	{ 0x003B0032, LPGEN("50-59") },
 	{ 0x2710003C, LPGEN("60-above") },
-	{ -1, NULL }
+	{ -1, nullptr }
 };
 
 const FieldNamesItem maritalField[] =
@@ -553,7 +553,7 @@ const FieldNamesItem maritalField[] =
 	{ 40, LPGEN("Widowed") },
 	{ 50, LPGEN("Open relationship") },
 	{ 255, LPGEN("Other") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 char* LookupFieldName(const FieldNamesItem *table, int code)
@@ -563,7 +563,7 @@ char* LookupFieldName(const FieldNamesItem *table, int code)
 			if (table[i].code == code)
 				return table[i].text;
 
-	return NULL;
+	return nullptr;
 }
 
 char* LookupFieldNameUtf(const FieldNamesItem *table, int code, char *str, size_t strsize)
@@ -572,5 +572,5 @@ char* LookupFieldNameUtf(const FieldNamesItem *table, int code, char *str, size_
 	if (szText)
 		return ICQTranslateUtfStatic(szText, str, strsize);
 
-	return NULL;
+	return nullptr;
 }

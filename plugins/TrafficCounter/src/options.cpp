@@ -102,15 +102,15 @@ static INT_PTR CALLBACK DlgProcPopupsTraffic(HWND hwndDlg, UINT msg, WPARAM wPar
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
 				unOptions.NotifyBySize = IsDlgButtonChecked(hwndDlg,IDC_NOTIFYSIZE);
-				Traffic_Notify_size_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYSIZE,NULL,0);
+				Traffic_Notify_size_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYSIZE,nullptr,0);
 				unOptions.NotifyByTime = IsDlgButtonChecked(hwndDlg,IDC_NOTIFYTIME);
-				Traffic_Notify_time_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYTIME,NULL,0);
+				Traffic_Notify_time_value = GetDlgItemInt(hwndDlg,IDC_ENOTIFYTIME,nullptr,0);
 				//
 				Traffic_PopupBkColor = SendDlgItemMessage(hwndDlg,IDC_COLOR1,CPM_GETCOLOUR,0,0);
 				Traffic_PopupFontColor = SendDlgItemMessage(hwndDlg,IDC_COLOR2,CPM_GETCOLOUR,0,0);
 				//
 				Traffic_PopupTimeoutDefault = IsDlgButtonChecked(hwndDlg,IDC_RADIO_FROMPOPUP);
-				if (Traffic_PopupTimeoutDefault == 0) Traffic_PopupTimeoutValue = GetDlgItemInt(hwndDlg,IDC_POPUP_TIMEOUT,NULL,0);
+				if (Traffic_PopupTimeoutDefault == 0) Traffic_PopupTimeoutValue = GetDlgItemInt(hwndDlg,IDC_POPUP_TIMEOUT,nullptr,0);
 				//
 				UpdateNotifyTimer();
 				return TRUE;
@@ -126,51 +126,51 @@ static INT_PTR CALLBACK DlgProcPopupsTraffic(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static OPTTREE_OPTION options[] =
 {
-	{0,	LPGENW("Display") L"/" LPGENW("Icon"), OPTTREE_CHECK,	OPTTREE_INVISIBLE, NULL, "DrawProtoIcon"},
-	{0,	LPGENW("Display") L"/" LPGENW("Account name"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawProtoName"},
-	{0,	LPGENW("Display") L"/" LPGENW("Current traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawCurrentTraffic"},
-	{0,	LPGENW("Display") L"/" LPGENW("Total traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawTotalTraffic"},
-	{0,	LPGENW("Display") L"/" LPGENW("Current online"), OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawCurrentTime"},
-	{0,	LPGENW("Display") L"/" LPGENW("Total online"),OPTTREE_CHECK, OPTTREE_INVISIBLE, NULL, "DrawTotalTime"},
-	{0,	LPGENW("General") L"/" LPGENW("Draw frame as skin element"), OPTTREE_CHECK, 1, NULL, "DrawFrmAsSkin"},
-	{0,	LPGENW("General") L"/" LPGENW("Show tooltip in traffic window"), OPTTREE_CHECK, 1, NULL, "ShowTooltip"},
-	{0,	LPGENW("General") L"/" LPGENW("\"Toggle traffic counter\" in main menu"), OPTTREE_CHECK, 1, NULL, "ShowMainMenuItem"},
+	{0,	LPGENW("Display") L"/" LPGENW("Icon"), OPTTREE_CHECK,	OPTTREE_INVISIBLE, nullptr, "DrawProtoIcon"},
+	{0,	LPGENW("Display") L"/" LPGENW("Account name"), OPTTREE_CHECK, OPTTREE_INVISIBLE, nullptr, "DrawProtoName"},
+	{0,	LPGENW("Display") L"/" LPGENW("Current traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, nullptr, "DrawCurrentTraffic"},
+	{0,	LPGENW("Display") L"/" LPGENW("Total traffic"), OPTTREE_CHECK, OPTTREE_INVISIBLE, nullptr, "DrawTotalTraffic"},
+	{0,	LPGENW("Display") L"/" LPGENW("Current online"), OPTTREE_CHECK, OPTTREE_INVISIBLE, nullptr, "DrawCurrentTime"},
+	{0,	LPGENW("Display") L"/" LPGENW("Total online"),OPTTREE_CHECK, OPTTREE_INVISIBLE, nullptr, "DrawTotalTime"},
+	{0,	LPGENW("General") L"/" LPGENW("Draw frame as skin element"), OPTTREE_CHECK, 1, nullptr, "DrawFrmAsSkin"},
+	{0,	LPGENW("General") L"/" LPGENW("Show tooltip in traffic window"), OPTTREE_CHECK, 1, nullptr, "ShowTooltip"},
+	{0,	LPGENW("General") L"/" LPGENW("\"Toggle traffic counter\" in main menu"), OPTTREE_CHECK, 1, nullptr, "ShowMainMenuItem"},
 	// Резервируем место под активные и видимые протоколы
 	// Максимум 16 позиций видимых и 16 активных
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	NULL, OPTTREE_CHECK, OPTTREE_INVISIBLE,	NULL, NULL},
-	{0,	LPGENW("Visible accounts")L"/" LPGENW("Summary traffic for visible accounts"), OPTTREE_CHECK, 1, NULL, "ShowSummary"},
-	{0,	LPGENW("Visible accounts")L"/" LPGENW("Overall traffic"), OPTTREE_CHECK, 1, NULL, "ShowOverall"},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
+	{0,	LPGENW("Visible accounts")L"/" LPGENW("Summary traffic for visible accounts"), OPTTREE_CHECK, 1, nullptr, "ShowSummary"},
+	{0,	LPGENW("Visible accounts")L"/" LPGENW("Overall traffic"), OPTTREE_CHECK, 1, nullptr, "ShowOverall"},
 };
 
 static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -210,7 +210,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		TranslateDialogDefault(hwndDlg);
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(15, 0));
-		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, NULL, FALSE));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, nullptr, FALSE));
 
 		//show/hide button
 		SetDlgItemText(hwndDlg,IDC_BSHOWHIDE,(IsWindowVisible(TrafficHwnd) != 0)? TranslateT("Hide now") : TranslateT("Show now"));
@@ -286,7 +286,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			unOptions.PeriodForShow = (char)SendDlgItemMessage(hwndDlg,IDC_COMBO_AUTO_CLEAR,CB_GETCURSEL,0,0);
 
 			// Интервал между строками
-			Traffic_AdditionSpace = GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, NULL, 0);
+			Traffic_AdditionSpace = GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, nullptr, 0);
 			// Настройки Appearance
 			unOptions.DrawProtoIcon = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoIcon");
 			unOptions.DrawProtoName = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoName");
@@ -325,7 +325,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (!unOptions.ShowMainMenuItem && hTrafficMainMenuItem)
 			{
 				Menu_RemoveItem(hTrafficMainMenuItem);
-				hTrafficMainMenuItem = NULL;
+				hTrafficMainMenuItem = nullptr;
 			}
 			// Если включается, то создаём.
 			if (unOptions.ShowMainMenuItem && !hTrafficMainMenuItem)

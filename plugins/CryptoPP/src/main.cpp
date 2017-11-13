@@ -5,8 +5,8 @@ LPCSTR szModuleName = MODULENAME;
 LPCSTR szVersionStr = MODULENAME" DLL (" __VERSION_STRING_DOTS ")";
 HINSTANCE g_hInst;
 
-HANDLE hPGPPRIV = NULL;
-HANDLE hRSA4096 = NULL;
+HANDLE hPGPPRIV = nullptr;
+HANDLE hRSA4096 = nullptr;
 
 mir_cs localQueueMutex;
 mir_cs localContextMutex;
@@ -72,15 +72,15 @@ extern "C" __declspec(dllexport) int Unload()
 BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
 {
 	HRSRC RH = FindResource(g_hInst, MAKEINTRESOURCE(ResId), MAKEINTRESOURCE(ResType));
-	if (RH == NULL)
+	if (RH == nullptr)
 		return FALSE;
 
 	PBYTE	RP = (PBYTE)LoadResource(g_hInst, RH);
-	if (RP == NULL)
+	if (RP == nullptr)
 		return FALSE;
 
 	DWORD	x, s = SizeofResource(g_hInst, RH);
-	if (!WriteFile(FH, RP, s, &x, NULL)) return FALSE;
+	if (!WriteFile(FH, RP, s, &x, nullptr)) return FALSE;
 	if (x != s) return FALSE;
 	if (Size) *Size = s;
 	return TRUE;
@@ -88,12 +88,12 @@ BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
 
 void ExtractFile(char *FileName, int ResType, int ResId)
 {
-	HANDLE FH = CreateFile(FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+	HANDLE FH = CreateFile(FileName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0, nullptr);
 	if (FH == INVALID_HANDLE_VALUE)
 		return;
 
-	if (!ExtractFileFromResource(FH, ResType, ResId, NULL))
-		MessageBoxA(0, "Can't extract", "!!!", MB_OK);
+	if (!ExtractFileFromResource(FH, ResType, ResId, nullptr))
+		MessageBoxA(nullptr, "Can't extract", "!!!", MB_OK);
 	CloseHandle(FH);
 }
 

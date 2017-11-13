@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 TLEN_FIELD_MAP tlenFieldGender[] = {
 	{ 1, L"Male" },
 	{ 2, L"Female" },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 TLEN_FIELD_MAP tlenFieldLookfor[] = {
 	{ 1, L"Somebody to talk" },
@@ -42,13 +42,13 @@ TLEN_FIELD_MAP tlenFieldLookfor[] = {
 	{ 3, L"Flirt/romance" },
 	{ 4, L"Love" },
 	{ 5, L"Nothing" },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 TLEN_FIELD_MAP tlenFieldStatus[] = {
 	{ 1, L"All" },
 	{ 2, L"Available" },
 	{ 3, L"Free for chat" },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 TLEN_FIELD_MAP tlenFieldOccupation[] = {
 	{ 1, L"Student" },
@@ -63,7 +63,7 @@ TLEN_FIELD_MAP tlenFieldOccupation[] = {
 	{ 10, L"Teacher" },
 	{ 11, L"Doctor" },
 	{ 12, L"Other" },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 TLEN_FIELD_MAP tlenFieldPlan[] = {
 	{ 1, L"I'd like to go downtown" },
@@ -72,7 +72,7 @@ TLEN_FIELD_MAP tlenFieldPlan[] = {
 	{ 4, L"I'd like to go to the disco" },
 	{ 5, L"I'd like to go on a blind date" },
 	{ 6, L"Waiting for suggestion" },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -85,7 +85,7 @@ static void InitComboBox(HWND hwndCombo, TLEN_FIELD_MAP *fieldMap)
 	SendMessage(hwndCombo, CB_SETITEMDATA, n, 0);
 	SendMessage(hwndCombo, CB_SETCURSEL, n, 0);
 	for (i=0;;i++) {
-		if (fieldMap[i].name == NULL)
+		if (fieldMap[i].name == nullptr)
 			break;
 		n = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM) TranslateW(fieldMap[i].name));
 		SendMessage(hwndCombo, CB_SETITEMDATA, n, fieldMap[i].id);
@@ -97,12 +97,12 @@ static void FetchField(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 	char text[512];
 	char *localFieldName, *localText;
 
-	if (hwndDlg == NULL || fieldName == NULL || str == NULL || strSize == NULL)
+	if (hwndDlg == nullptr || fieldName == nullptr || str == nullptr || strSize == nullptr)
 		return;
 	GetDlgItemTextA(hwndDlg, idCtrl, text, _countof(text));
 	if (text[0]) {
-		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
-			if ((localText=TlenTextEncode(text)) != NULL) {
+		if ((localFieldName=TlenTextEncode(fieldName)) != nullptr) {
+			if ((localText=TlenTextEncode(text)) != nullptr) {
 				TlenStringAppend(str, strSize, "<%s>%s</%s>", localFieldName, localText, localFieldName);
 				mir_free(localText);
 			}
@@ -113,7 +113,7 @@ static void FetchField(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 
 static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, int *strSize)
 {
-	if (hwndDlg == NULL || fieldName == NULL || str == NULL || strSize == NULL)
+	if (hwndDlg == nullptr || fieldName == nullptr || str == nullptr || strSize == nullptr)
 		return;
 
 	int value = (int) SendDlgItemMessage(hwndDlg, idCtrl, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, idCtrl, CB_GETCURSEL, 0, 0), 0);
@@ -132,13 +132,13 @@ int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hContact = (MCONTACT) lParam;
 	char *szProto = GetContactProto(hContact);
-	if ((szProto != NULL && !mir_strcmp(szProto, m_szModuleName)) || !lParam) {
+	if ((szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) || !lParam) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.hInstance = hInst;
 		odp.flags = ODPF_UNICODE;
 		odp.pfnDlgProc = TlenUserInfoDlgProc;
 		odp.position = -2000000000;
-		odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCEA(IDD_USER_INFO):MAKEINTRESOURCEA(IDD_USER_VCARD);
+		odp.pszTemplate = ((HANDLE)lParam != nullptr) ? MAKEINTRESOURCEA(IDD_USER_INFO):MAKEINTRESOURCEA(IDD_USER_VCARD);
 		odp.szTitle.w = (hContact != NULL) ? LPGENW("Account") : m_tszUserName;
 		odp.dwInitParam = (LPARAM)this;
 		UserInfo_AddPage(wParam, &odp);
@@ -252,7 +252,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				mir_free(jid);
 				jid = dbv.pszVal;
 				if (data->proto->isOnline) {
-					if ((item=TlenListGetItemPtr(data->proto, LIST_ROSTER, jid)) != NULL) {
+					if ((item=TlenListGetItemPtr(data->proto, LIST_ROSTER, jid)) != nullptr) {
 						switch (item->subscription) {
 						case SUB_BOTH:
 							SetDlgItemText(hwndDlg, IDC_SUBSCRIPTION, TranslateT("both"));
@@ -299,7 +299,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		break;
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_SAVE && HIWORD(wParam) == BN_CLICKED) {
-			char *str = NULL;
+			char *str = nullptr;
 			int strSize;
 			TlenStringAppend(&str, &strSize, "<iq type='set' id='" TLEN_IQID "%d' to='tuba'><query xmlns='jabber:iq:register'>", TlenSerialNext(data->proto));
 			FetchField(hwndDlg, IDC_FIRSTNAME, "first", &str, &strSize);

@@ -101,7 +101,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DestroyXStatusIcons();
 	if (g_hDLLXStatusIcons) {
 		FreeLibrary(g_hDLLXStatusIcons);
-		g_hDLLXStatusIcons = NULL;
+		g_hDLLXStatusIcons = nullptr;
 	}
 
 	return 0;

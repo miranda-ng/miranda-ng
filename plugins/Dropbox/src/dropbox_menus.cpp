@@ -35,7 +35,7 @@ int CDropbox::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	bool bShow = false;
 
 	char *proto = GetContactProto(hContact);
-	if (proto != NULL) {
+	if (proto != nullptr) {
 		bool bHasIM = (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) != 0;
 		if (bHasIM && HasAccessToken() && hContact != GetDefaultContact() && !IsAccountIntercepted(proto)) {
 			bool isProtoOnline = CallProtoService(proto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE;

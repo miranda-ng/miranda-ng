@@ -23,7 +23,7 @@ mir_cs CSkypeProto::accountsLock;
 void CSkypeProto::ProcessTimer()
 {
 	if (IsOnline()) {
-		PushRequest(new GetContactListRequest(li, NULL), &CSkypeProto::LoadContactList);
+		PushRequest(new GetContactListRequest(li, nullptr), &CSkypeProto::LoadContactList);
 		SendPresence(false);
 	}
 }
@@ -39,13 +39,13 @@ void CSkypeProto::SkypeSetTimer()
 {
 	mir_cslock lck(timerLock);
 	if (!m_timer)
-		m_timer = SetTimer(NULL, 0, 600000, TimerProc);
+		m_timer = SetTimer(nullptr, 0, 600000, TimerProc);
 }
 
 void CSkypeProto::SkypeUnsetTimer()
 {
 	mir_cslock lck(timerLock);
 	if (m_timer && Accounts.getCount() == 0)
-		KillTimer(NULL, m_timer);
+		KillTimer(nullptr, m_timer);
 	m_timer = 0;
 }

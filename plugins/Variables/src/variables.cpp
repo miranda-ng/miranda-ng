@@ -21,8 +21,8 @@
 
 /* some handles */
 static HANDLE
-	hOptionsHook = NULL,
-	hIconsChangedHook = NULL;
+	hOptionsHook = nullptr,
+	hIconsChangedHook = nullptr;
 
 HCURSOR hCurSplitNS;
 
@@ -35,7 +35,7 @@ wchar_t* getArguments(wchar_t *string, TArgList &argv)
 		cur++;
 
 	if (*cur != '(')
-		return NULL;
+		return nullptr;
 
 	wchar_t *scur = cur;
 	cur++;
@@ -66,10 +66,10 @@ wchar_t* getArguments(wchar_t *string, TArgList &argv)
 		}
 		
 		if (bNewArg) {
-			wchar_t *tszArg = NULL;
+			wchar_t *tszArg = nullptr;
 			if (cur > scur)
 				tszArg = mir_wstrndup(scur + 1, cur - (scur + 1));
-			if (tszArg == NULL)
+			if (tszArg == nullptr)
 				tszArg = mir_wstrdup(L"");
 			argv.insert(tszArg);
 
@@ -82,7 +82,7 @@ wchar_t* getArguments(wchar_t *string, TArgList &argv)
 	// set args
 	if (cur[-1] != ')') {
 		argv.destroy();
-		return NULL;
+		return nullptr;
 	}
 
 	return cur;
@@ -105,14 +105,14 @@ int isValidTokenChar(wchar_t tc)
 /* pretty much the main loop */
 static wchar_t* replaceDynVars(FORMATINFO *fi)
 {
-	if (fi->tszFormat == NULL)
-		return NULL;
+	if (fi->tszFormat == nullptr)
+		return nullptr;
 
 	int i, scurPos, curPos, tmpVarPos;
 
 	wchar_t *string = mir_wstrdup(fi->tszFormat);
-	if (string == NULL)
-		return NULL;
+	if (string == nullptr)
+		return nullptr;
 
 	TArgList argv;
 
@@ -179,7 +179,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 			continue;
 		}
 		
-		TOKENREGISTEREX *tr = NULL;
+		TOKENREGISTEREX *tr = nullptr;
 		{
 			ptrW token(mir_wstrndup(cur + 1, tcur - scur));
 
@@ -198,7 +198,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 				tr = searchRegister(token, (*cur == FIELD_CHAR) ? TRF_FIELD : TRF_FUNCTION);
 		}
 
-		if (tmpVarPos < 0 && tr == NULL) {
+		if (tmpVarPos < 0 && tr == nullptr) {
 			fi->eCount++;
 			// token not found, continue
 			continue;
@@ -206,7 +206,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 
 		scur = cur; // store this pointer for later use
 		if (*cur == FIELD_CHAR) {
-			size_t len = mir_wstrlen(tr != NULL ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
+			size_t len = mir_wstrlen(tr != nullptr ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
 			cur++;
 			if (cur[len] != FIELD_CHAR) { // the next char after the token should be %
 				fi->eCount++;
@@ -217,7 +217,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		else if ((*cur == FUNC_CHAR) || (*cur == FUNC_ONCE_CHAR)) {
 			cur += mir_wstrlen(tr->tszTokenString) + 1;
 			wchar_t *argcur = getArguments(cur, argv);
-			if (argcur == cur || argcur == NULL) {
+			if (argcur == cur || argcur == nullptr) {
 				fi->eCount++;
 				// error getting arguments
 				continue;
@@ -240,7 +240,7 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		// cur should now point at the character after FIELD_CHAR or after the last ')'
 		ARGUMENTSINFO ai = { 0 };
 		ptrW parsedToken;
-		if (tr != NULL) {
+		if (tr != nullptr) {
 			argv.insert(mir_wstrdup(tr->tszTokenString), 0);
 
 			ai.cbSize = sizeof(ai);
@@ -275,9 +275,9 @@ static wchar_t* replaceDynVars(FORMATINFO *fi)
 		if (tokenLen < parsedTokenLen) {
 			// string needs more memory
 			string = (wchar_t*)mir_realloc(string, (initStrLen - tokenLen + parsedTokenLen + 1)*sizeof(wchar_t));
-			if (string == NULL) {
+			if (string == nullptr) {
 				fi->eCount++;
-				return NULL;
+				return nullptr;
 			}
 		}
 		scur = string + scurPos;
@@ -334,10 +334,10 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 	if (!(fi->flags & FIF_TCHAR)) {
 		copied = TRUE;
 		log_debugA("mir_a2u (%s)", fi->szExtraText);
-		tszFormat = fi->szFormat != NULL ? mir_a2u(fi->szFormat) : NULL;
-		tszSource = fi->szExtraText != NULL ? mir_a2u(fi->szExtraText) : NULL;
+		tszFormat = fi->szFormat != nullptr ? mir_a2u(fi->szFormat) : nullptr;
+		tszSource = fi->szExtraText != nullptr ? mir_a2u(fi->szExtraText) : nullptr;
 		for (i = 0; i < fi->cbTemporaryVarsSize; i++) {
-			fi->tszaTemporaryVars[i] = fi->szaTemporaryVars[i] != NULL ? mir_a2u(fi->szaTemporaryVars[i]) : NULL;
+			fi->tszaTemporaryVars[i] = fi->szaTemporaryVars[i] != nullptr ? mir_a2u(fi->szaTemporaryVars[i]) : nullptr;
 		}
 	}
 	else {
@@ -378,14 +378,14 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM)
 
 wchar_t* formatString(FORMATINFO *fi)
 {
-	if (fi == NULL)
-		return NULL;
+	if (fi == nullptr)
+		return nullptr;
 	/* the service to format a given string */
 	if ((fi->eCount + fi->pCount) > 5000) {
 		fi->eCount++;
 		fi->pCount++;
 		log_debugA("Variables: Overflow protection; %d parses", (fi->eCount + fi->pCount));
-		return NULL;
+		return nullptr;
 	}
 
 	return replaceDynVars(fi);
@@ -393,7 +393,7 @@ wchar_t* formatString(FORMATINFO *fi)
 
 int setParseOptions(struct ParseOptions *po)
 {
-	if (po == NULL)
+	if (po == nullptr)
 		po = &gParseOpts;
 
 	memset(po, 0, sizeof(struct ParseOptions));
@@ -413,11 +413,11 @@ int LoadVarModule()
 	if (initTokenRegister() != 0 || initContactModule() != 0)
 		return -1;
 
-	setParseOptions(NULL);
+	setParseOptions(nullptr);
 	CreateServiceFunction(MS_VARS_FORMATSTRING, formatStringService);
 	CreateServiceFunction(MS_VARS_REGISTERTOKEN, registerToken);
 	// help dialog
-	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
+	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
 
 	CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
 	CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
@@ -448,7 +448,7 @@ int LoadVarModule()
 		FORMATINFO fi = { 0 };
 		fi.cbSize = sizeof(fi);
 		fi.tszFormat = db_get_wsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
-		if (fi.tszFormat != NULL) {
+		if (fi.tszFormat != nullptr) {
 			mir_free(formatString(&fi));
 			mir_free(fi.tszFormat);
 		}
@@ -461,7 +461,7 @@ int LoadVarModule()
 int UnloadVarModule()
 {
 	UnhookEvent(hOptionsHook);
-	if (hIconsChangedHook != NULL)
+	if (hIconsChangedHook != nullptr)
 		UnhookEvent(hIconsChangedHook);
 
 	DestroyCursor(hCurSplitNS);

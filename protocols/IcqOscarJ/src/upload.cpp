@@ -40,7 +40,7 @@ int CIcqProto::StringToListItemId(const char *szSetting,int def)
 
 	FieldNamesItem *list = (FieldNamesItem*)setting[i].pList;
 
-	char *szValue = getSettingStringUtf(NULL, szSetting, NULL);
+	char *szValue = getSettingStringUtf(NULL, szSetting, nullptr);
 	if (!szValue)
 		return def;
 

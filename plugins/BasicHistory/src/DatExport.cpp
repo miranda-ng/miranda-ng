@@ -58,11 +58,11 @@ DatExport::~DatExport()
 
 int DatExport::WriteString(const std::wstring &str)
 {
-	int conv = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length() + 1, NULL, 0, NULL, NULL);
+	int conv = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length() + 1, nullptr, 0, nullptr, nullptr);
 	if (conv > (int)memBuf.size())
 		memBuf.resize(conv);
 
-	conv = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length() + 1, (char*)memBuf.c_str(), conv, NULL, NULL);
+	conv = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length() + 1, (char*)memBuf.c_str(), conv, nullptr, nullptr);
 	return conv;
 }
 

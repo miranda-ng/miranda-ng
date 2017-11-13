@@ -72,7 +72,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 
 	// Assign the contact to the MetaContact just created (and make default).
 	if (!Meta_Assign(wParam, hMetaContact, TRUE)) {
-		MessageBox(0, TranslateT("There was a problem in assigning the contact to the metacontact"), TranslateT("Error"), MB_ICONEXCLAMATION);
+		MessageBox(nullptr, TranslateT("There was a problem in assigning the contact to the metacontact"), TranslateT("Error"), MB_ICONEXCLAMATION);
 		db_delete_contact(hMetaContact);
 		return 0;
 	}
@@ -207,7 +207,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 			return 2;
 
 		if (cc->nSubs == 1) {
-			if (IDYES == MessageBox(0, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
+			if (IDYES == MessageBox(nullptr, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
 				Meta_Delete(cc->contactID, 1);
 
 			return 0;
@@ -405,7 +405,7 @@ void InitMenus()
 	SET_UID(mi, 0xd31e772d, 0xf85a, 0x45e9, 0xb3, 0xa8, 0xf7, 0xa5, 0xf4, 0xfc, 0xf9, 0x6e);
 	mi.position = -99000;
 	mi.flags = CMIF_HIDDEN;
-	mi.hIcolibItem = 0;
+	mi.hIcolibItem = nullptr;
 	mi.name.a = LPGEN("Subcontacts");
 	hMenuRoot = Menu_AddContactMenuItem(&mi);
 

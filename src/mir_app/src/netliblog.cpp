@@ -44,7 +44,7 @@ struct {
 	int textDumps, autoDetectText;
 	CMStringW tszFile, tszUserFile;
 }
-static logOptions = { 0 };
+static logOptions = {};
 
 struct LOGMSG
 {
@@ -122,7 +122,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			HWND hwndFilter = GetDlgItem(hwndDlg, IDC_FILTER);
 			SetWindowLongPtr(hwndFilter, GWL_STYLE, GetWindowLongPtr(hwndFilter, GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 
-			TVINSERTSTRUCT tvis = { 0 };
+			TVINSERTSTRUCT tvis = {};
 			tvis.hInsertAfter = TVI_SORT;
 			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;

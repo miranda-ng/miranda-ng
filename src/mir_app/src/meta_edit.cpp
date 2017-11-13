@@ -336,7 +336,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 			case IDC_BTN_SETDEFAULT:
 				sel = ListView_GetNextItem(hwndList, -1, LVNI_FOCUSED | LVNI_SELECTED);
-				InvalidateRect(hwndList, 0, TRUE);
+				InvalidateRect(hwndList, nullptr, TRUE);
 				g_data.hDefaultContact = g_data.hContact[sel];
 				SendMessage(hwndDlg, WMU_SETTITLE, 0, (LPARAM)g_data.hContact[sel]);
 
@@ -348,7 +348,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 			case IDC_BTN_SETOFFLINE:
 				sel = ListView_GetNextItem(hwndList, -1, LVNI_FOCUSED | LVNI_SELECTED);
-				InvalidateRect(hwndList, 0, TRUE);
+				InvalidateRect(hwndList, nullptr, TRUE);
 				if (g_data.hContact[sel] != g_data.hOfflineContact)
 					g_data.hOfflineContact = g_data.hContact[sel];
 				else

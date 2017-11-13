@@ -2,7 +2,7 @@
 
 Options options;
 
-HICON hPopupIcon = 0;
+HICON hPopupIcon = nullptr;
 
 void LoadModuleDependentOptions() {
 	if (ServiceExists(MS_AV_DRAWAVATAR))
@@ -427,7 +427,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 				case IDC_BTN_PREVIEW:
 					if (arNewClasses[i]->flags & PCF_UNICODE) {
 						POPUPCLASS pc = *arNewClasses[i];
-						pc.PluginWindowProc = 0;
+						pc.PluginWindowProc = nullptr;
 						POPUPDATACLASS d = {sizeof(d), pc.pszName};
 						d.pwszTitle = L"Preview";
 						d.pwszText = L"The quick brown fox jumps over the lazy dog.";
@@ -435,7 +435,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 					else {
 						POPUPCLASS pc = *arNewClasses[i];
-						pc.PluginWindowProc = 0;
+						pc.PluginWindowProc = nullptr;
 						POPUPDATACLASS d = {sizeof(d), pc.pszName};
 						d.pszTitle = "Preview";
 						d.pszText = "The quick brown fox jumps over the lazy dog.";

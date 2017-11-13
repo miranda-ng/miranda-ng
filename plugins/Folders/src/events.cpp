@@ -31,7 +31,7 @@ int InitEvents()
 int DestroyEvents()
 {
 	DestroyHookableEvent(hPathChanged);
-	hPathChanged = 0;
+	hPathChanged = nullptr;
 	return 0;
 }
 

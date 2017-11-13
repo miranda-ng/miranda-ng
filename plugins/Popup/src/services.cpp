@@ -122,7 +122,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	// Check if contact handle is valid.
-	char *proto = NULL;
+	char *proto = nullptr;
 	if (ppd->lchContact)
 		proto = GetContactProto(ppd->lchContact);
 
@@ -157,7 +157,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	if (lParam & APF_CUSTOM_POPUP)
 		ppd->flags |= PU2_CUSTOM_POPUP;
 
-	PopupWnd2 *wnd = new PopupWnd2(ppd, NULL, false);
+	PopupWnd2 *wnd = new PopupWnd2(ppd, nullptr, false);
 	if (lParam & APF_RETURN_HWND) {
 		while (!wnd->m_bWindowCreated) Sleep(1);
 		return (INT_PTR)wnd->getHwnd();
@@ -414,7 +414,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 {
 	POPUPTREEDATA *ptd = (POPUPTREEDATA*)lParam;
-	if (ptd == NULL)
+	if (ptd == nullptr)
 		return 1;
 
 	for (int i = 0; i < gTreeData.getCount(); i++)
@@ -439,14 +439,14 @@ INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 		pc = (POPUPCLASS*)wParam;
 	else {
 		LPTSTR group = mir_a2u(pdc->pszClassName);
-		POPUPTREEDATA *ptd = (POPUPTREEDATA *)FindTreeData(group, NULL, 2);
+		POPUPTREEDATA *ptd = (POPUPTREEDATA *)FindTreeData(group, nullptr, 2);
 		if (ptd)
 			pc = &ptd->pupClass;
 		else
-			pc = NULL;
+			pc = nullptr;
 		mir_free(group);
 	}
-	if (pc == NULL)
+	if (pc == nullptr)
 		return 1;
 
 	POPUPDATA2 ppd2 = { sizeof(ppd2) };
@@ -484,7 +484,7 @@ INT_PTR Popup_LoadSkin(WPARAM, LPARAM lParam)
 		PopupOptions.SkinPack = mir_a2u((char*)lParam);
 	}
 
-	const PopupSkin *skin = 0;
+	const PopupSkin *skin = nullptr;
 	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 		mir_free(PopupOptions.SkinPack);
 		PopupOptions.SkinPack = mir_wstrdup(skin->getName());

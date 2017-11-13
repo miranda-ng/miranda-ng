@@ -174,7 +174,7 @@ void ResizeHorizontal(HWND hwnd, bool wide) {
 	RECT r = { 0, 0, wide ? 422 : 271, 116 };
 	MapDialogRect(hwnd, &r);
 	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
-	SetWindowPos(hwnd, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
+	SetWindowPos(hwnd, nullptr, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
 	SetDlgItemText(hwnd, IDC_EXPAND, (wide ? TranslateT("<< Contacts") : TranslateT("Contacts >>")));
 	ShowWindow(GetDlgItem(hwnd, IDC_CCLIST), wide);
 	ShowWindow(GetDlgItem(hwnd, IDC_CCLIST_LABEL), wide);
@@ -413,7 +413,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			}
 			else {
 				proto->delSetting(FACEBOOK_KEY_DEF_GROUP);
-				proto->m_tszDefaultGroup = NULL;
+				proto->m_tszDefaultGroup = nullptr;
 			}				
 
 			StoreDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY);
@@ -477,7 +477,7 @@ INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM, LPARAM l
 			{
 				proto->setByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, setStatus);
 				if (setStatus && proto->isOnline())
-					proto->ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
+					proto->ForkThread(&FacebookProto::SetAwayMsgWorker, nullptr);
 			}
 
 			return TRUE;
@@ -616,7 +616,7 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 			StoreDBCheckState(proto, hwnd, IDC_HIDE_CHATS, FACEBOOK_KEY_HIDE_CHATS);
 			StoreDBCheckState(proto, hwnd, IDC_JOIN_EXISTING_CHATS, FACEBOOK_KEY_JOIN_EXISTING_CHATS);
 
-			int count = GetDlgItemInt(hwnd, IDC_MESSAGES_COUNT, NULL, TRUE);
+			int count = GetDlgItemInt(hwnd, IDC_MESSAGES_COUNT, nullptr, TRUE);
 			count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
 			proto->setByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, count);
 		}

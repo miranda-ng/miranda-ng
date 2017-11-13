@@ -81,11 +81,11 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 }
 
 CSrmmBaseDialog::CSrmmBaseDialog(const CSrmmBaseDialog&) :
-	CDlgBase(0, 0),
-	m_btnColor(0, 0), m_btnBkColor(0, 0),
-	m_btnBold(0, 0), m_btnItalic(0, 0), m_btnUnderline(0, 0),
-	m_btnFilter(0, 0), m_btnChannelMgr(0, 0), m_btnHistory(0, 0), m_btnNickList(0, 0),
-	m_nickList(0, 0), m_log(0, 0), m_message(0, 0)
+	CDlgBase(nullptr, 0),
+	m_btnColor(nullptr, 0), m_btnBkColor(nullptr, 0),
+	m_btnBold(nullptr, 0), m_btnItalic(nullptr, 0), m_btnUnderline(nullptr, 0),
+	m_btnFilter(nullptr, 0), m_btnChannelMgr(nullptr, 0), m_btnHistory(nullptr, 0), m_btnNickList(nullptr, 0),
+	m_nickList(nullptr, 0), m_log(nullptr, 0), m_message(nullptr, 0)
 {
 }
 

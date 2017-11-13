@@ -90,7 +90,7 @@ static int Ucs2toUtf8Len(const wchar_t *src, unsigned int srclen)
 
 MIR_CORE_DLL(int) Ucs2toUtf8Len(const wchar_t *src)
 {
-	if (src == 0)
+	if (src == nullptr)
 		return 0;
 
 	return Ucs2toUtf8Len(src, (int)wcslen(src));
@@ -241,16 +241,16 @@ MIR_CORE_DLL(int) Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_
 MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 {
 	bool needs_free = false;
-	wchar_t* tempBuf = NULL;
+	wchar_t* tempBuf = nullptr;
 	if (ucs2)
-		*ucs2 = NULL;
+		*ucs2 = nullptr;
 
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	size_t len = strlen(str);
 	if (len < 2) {
-		if (ucs2 != NULL) {
+		if (ucs2 != nullptr) {
 			*ucs2 = tempBuf = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
 			MultiByteToWideChar(codepage, 0, str, (int)len, tempBuf, (int)len);
 			tempBuf[len] = 0;
@@ -260,28 +260,28 @@ MIR_CORE_DLL(char*) Utf8DecodeCP(char *str, int codepage, wchar_t **ucs2)
 
 	int destlen = Utf8toUcs2Len(str, len);
 	if (destlen < 0)
-		return NULL;
+		return nullptr;
 
-	if (ucs2 == NULL) {
+	if (ucs2 == nullptr) {
 		__try {
 			tempBuf = (wchar_t*)alloca((destlen + 1) * sizeof(wchar_t));
 		}
 		__except (EXCEPTION_EXECUTE_HANDLER)
 		{
-			tempBuf = NULL;
+			tempBuf = nullptr;
 			needs_free = true;
 		}
 	}
 
-	if (tempBuf == NULL) {
+	if (tempBuf == nullptr) {
 		tempBuf = (wchar_t*)mir_alloc((destlen + 1) * sizeof(wchar_t));
-		if (tempBuf == NULL)
-			return NULL;
+		if (tempBuf == nullptr)
+			return nullptr;
 	}
 
 	Utf8toUcs2(str, len, tempBuf, destlen);
 	tempBuf[destlen] = 0;
-	WideCharToMultiByte(codepage, 0, tempBuf, -1, str, (int)len + 1, "?", NULL);
+	WideCharToMultiByte(codepage, 0, tempBuf, -1, str, (int)len + 1, "?", nullptr);
 
 	if (ucs2)
 		*ucs2 = tempBuf;
@@ -298,18 +298,18 @@ MIR_CORE_DLL(char*) Utf8Decode(char *str, wchar_t **ucs2)
 
 MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	size_t len = strlen(str);
 
 	int destlen = Utf8toUcs2Len(str, len);
 	if (destlen < 0)
-		return NULL;
+		return nullptr;
 
 	wchar_t* ucs2 = (wchar_t*)mir_alloc((destlen + 1) * sizeof(wchar_t));
-	if (ucs2 == NULL)
-		return NULL;
+	if (ucs2 == nullptr)
+		return nullptr;
 
 	if (Utf8toUcs2(str, len, ucs2, destlen) >= 0) {
 		ucs2[destlen] = 0;
@@ -318,7 +318,7 @@ MIR_CORE_DLL(wchar_t*) Utf8DecodeW(const char *str)
 
 	mir_free(ucs2);
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -328,11 +328,11 @@ MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 {
 	int len;
 	bool needs_free = false;
-	char* result = NULL;
+	char* result = nullptr;
 	wchar_t* tempBuf;
 
-	if (src == NULL)
-		return NULL;
+	if (src == nullptr)
+		return nullptr;
 
 	len = (int)strlen(src);
 
@@ -342,7 +342,7 @@ MIR_CORE_DLL(char*) Utf8EncodeCP(const char* src, int codepage)
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		tempBuf = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
-		if (tempBuf == NULL) return NULL;
+		if (tempBuf == nullptr) return nullptr;
 		needs_free = true;
 	}
 
@@ -373,17 +373,17 @@ MIR_CORE_DLL(char*) Utf8Encode(const char* src)
 
 MIR_CORE_DLL(char*) Utf8EncodeW(const wchar_t* src)
 {
-	if (src == NULL)
-		return NULL;
+	if (src == nullptr)
+		return nullptr;
 
 	int len = (int)wcslen(src);
 
 	int destlen = Ucs2toUtf8Len(src, len);
-	if (destlen < 0) return NULL;
+	if (destlen < 0) return nullptr;
 
 	char* result = (char*)mir_alloc(destlen + 1);
-	if (result == NULL)
-		return NULL;
+	if (result == nullptr)
+		return nullptr;
 
 	Ucs2toUtf8(src, len, result, destlen);
 	result[destlen] = 0;

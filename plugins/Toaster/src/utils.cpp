@@ -15,7 +15,7 @@ wchar_t* GetShortcutPath()
 HRESULT InstallShortcut(_In_z_ wchar_t *shortcutPath)
 {
 	wchar_t exePath[MAX_PATH];
-	GetModuleFileName(NULL, exePath, MAX_PATH);
+	GetModuleFileName(nullptr, exePath, MAX_PATH);
 
 	ComPtr<IShellLink> shellLink;
 	CHECKHR(CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&shellLink)));

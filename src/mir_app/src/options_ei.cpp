@@ -29,7 +29,7 @@ int SortFunc(const ExtraIcon *p1, const ExtraIcon *p2);
 
 struct intlist
 {
-	intlist() : count(0), data(0) {}
+	intlist() : count(0), data(nullptr) {}
 	~intlist() { mir_free(data); }
 
 	void add(int val)
@@ -97,7 +97,7 @@ class CExtraIconOptsDlg : public CDlgBase
 		intlist *ids = new intlist();
 		ids->add(extra->getID());
 
-		TVINSERTSTRUCT tvis = { 0 };
+		TVINSERTSTRUCT tvis = {};
 		tvis.hInsertAfter = hAfter;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -125,7 +125,7 @@ class CExtraIconOptsDlg : public CDlgBase
 			desc += extra->getDescription();
 		}
 
-		TVINSERTSTRUCT tvis = { 0 };
+		TVINSERTSTRUCT tvis = {};
 		tvis.hInsertAfter = hAfter;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -291,7 +291,7 @@ public:
 			else Tree_AddExtraIcon((BaseExtraIcon *)extra, extra->isEnabled());
 		}
 
-		TVSORTCB sort = { 0 };
+		TVSORTCB sort = {};
 		sort.hParent = nullptr;
 		sort.lParam = 0;
 		sort.lpfnCompare = CompareFunc;

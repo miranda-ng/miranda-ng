@@ -70,8 +70,8 @@ int GpgOptInit(WPARAM wParam, LPARAM)
 map<int, MCONTACT> user_data;
 
 int item_num = 0;
-HWND hwndList_p = NULL;
-HWND hwndCurKey_p = NULL;
+HWND hwndList_p = nullptr;
+HWND hwndCurKey_p = nullptr;
 
 void ShowLoadPublicKeyDialog();
 static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -222,7 +222,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					}
 				}
 				if (!keep)
-					if (MessageBox(0, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES) {
+					if (MessageBox(nullptr, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES) {
 						std::vector<wstring> cmd;
 						string output;
 						DWORD exitcode;
@@ -246,13 +246,13 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 							break;
 						}
 						if (output.find("--delete-secret-keys") != string::npos)
-							MessageBox(0, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
+							MessageBox(nullptr, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
 						else
-							MessageBox(0, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
+							MessageBox(nullptr, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
 					}
 				mir_free(tmp);
 				if (ismetacontact) {
-					if (MessageBox(0, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
+					if (MessageBox(nullptr, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
 						MCONTACT hcnt = NULL;
 						int count = db_mc_getSubCount(meta);
 						for (int i = 0; i < count; i++) {
@@ -326,14 +326,14 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				boost::algorithm::replace_all(str, "\n", "\r\n");
 				HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, str.size() + 1);
 				if (!hMem) {
-					MessageBox(0, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
+					MessageBox(nullptr, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
 					break;
 				}
 				szKey = (char*)GlobalLock(hMem);
 				if (!szKey) {
 					wchar_t msg[64];
 					mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
-					MessageBox(0, msg, TranslateT("Error"), MB_OK);
+					MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
 					GlobalFree(hMem);
 				}
 				else {
@@ -346,7 +346,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						GlobalFree(hMem);
 						wchar_t msg[64];
 						mir_snwprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
-						MessageBox(0, msg, TranslateT("Error"), MB_OK);
+						MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
 					}
 					CloseClipboard();
 				}
@@ -354,7 +354,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			else {
 				wchar_t msg[64];
 				mir_snwprintf(msg, TranslateT("Failed to open clipboard with error %d"), GetLastError());
-				MessageBox(0, msg, TranslateT("Error"), MB_OK);
+				MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
 			}
 			break;
 
@@ -456,7 +456,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						}
 						else {
 							bad_version = false;
-							MessageBox(0, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+							MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
 						}
 						/*					  if(bad_version) //looks like working fine with gpg2
 													MessageBox(0, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), L"Warning", MB_OK); */
@@ -627,7 +627,7 @@ static INT_PTR CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-HWND hPubKeyEdit = NULL;
+HWND hPubKeyEdit = nullptr;
 
 static LRESULT CALLBACK editctrl_ctrl_a(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -649,7 +649,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 	case WM_INITDIALOG:
 		{
 			hContact = user_data[1];
-			SetWindowPos(hwndDlg, 0, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(hwndDlg, nullptr, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
 			MCONTACT hcnt = db_mc_tryMeta(hContact);
 			TranslateDialogDefault(hwndDlg);
@@ -671,7 +671,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			if (hcnt) {
 				wchar_t *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
 				wstring str = tmp;
-				mir_free(tmp); tmp = NULL;
+				mir_free(tmp); tmp = nullptr;
 				if (!str.empty()) {
 					wstring::size_type p = 0, stop = 0;
 					for (;;) {
@@ -760,14 +760,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						mir_wstrcpy(end, L"-----END PGP PRIVATE KEY BLOCK-----");
 					}
 					else {
-						MessageBox(0, TranslateT("This is not public or private key"), L"INFO", MB_OK);
+						MessageBox(nullptr, TranslateT("This is not public or private key"), L"INFO", MB_OK);
 						break;
 					}
 					ws2 += mir_wstrlen(end);
 					bool allsubcontacts = false;
 					{
 						if (db_mc_isMeta(hContact)) {
-							if (MessageBox(0, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
+							if (MessageBox(nullptr, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
 								allsubcontacts = true;
 								int count = db_mc_getSubCount(hContact);
 								for (int i = 0; i < count; i++) {
@@ -837,7 +837,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						}
 						{
 							if (output.find("already in secret keyring") != string::npos) {
-								MessageBox(0, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
+								MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
 								boost::filesystem::remove(tmp2);
 								break;
 							}
@@ -846,7 +846,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 							{
 								char *tmp3 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1)*sizeof(char));
 								mir_strcpy(tmp3, output.substr(s, s2 - s).c_str());
-								mir_utf8decode(tmp3, 0);
+								mir_utf8decode(tmp3, nullptr);
 								{
 									if (db_mc_isMeta(hContact)) {
 										if (allsubcontacts) {
@@ -889,7 +889,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 								{
 									char *tmp3 = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
 									mir_strcpy(tmp3, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
-									mir_utf8decode(tmp3, 0);
+									mir_utf8decode(tmp3, nullptr);
 									if (hContact) {
 										if (db_mc_isMeta(hContact)) {
 											if (allsubcontacts) {
@@ -919,7 +919,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 									if (output[s] == ')') {
 										char *tmp3 = (char*)mir_alloc((output.substr(s2, s - s2).length() + 1)*sizeof(char));
 										mir_strcpy(tmp3, output.substr(s2, s - s2).c_str());
-										mir_utf8decode(tmp3, 0);
+										mir_utf8decode(tmp3, nullptr);
 										if (hContact) {
 											if (db_mc_isMeta(hContact)) {
 												if (allsubcontacts) {
@@ -939,7 +939,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 										s2 = output.find(">", s);
 										tmp3 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
 										mir_strcpy(tmp3, output.substr(s, s2 - s).c_str());
-										mir_utf8decode(tmp3, 0);
+										mir_utf8decode(tmp3, nullptr);
 										if (hContact) {
 											if (db_mc_isMeta(hContact)) {
 												if (allsubcontacts) {
@@ -963,7 +963,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 									else {
 										char *tmp3 = (char*)mir_alloc(output.substr(s2, s - s2).length() + 1);
 										mir_strcpy(tmp3, output.substr(s2, s - s2).c_str());
-										mir_utf8decode(tmp3, 0);
+										mir_utf8decode(tmp3, nullptr);
 										if (hContact) {
 											if (db_mc_isMeta(hContact)) {
 												if (allsubcontacts) {
@@ -1021,7 +1021,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 							}
 						}
 						tmp = mir_wstrdup(toUTF16(output).c_str());
-						MessageBox(0, tmp, L"", MB_OK);
+						MessageBox(nullptr, tmp, L"", MB_OK);
 						mir_free(tmp);
 						boost::filesystem::remove(tmp2);
 					}
@@ -1066,7 +1066,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					wfstream f(tmp, std::ios::in | std::ios::ate | std::ios::binary);
 					delete[] tmp;
 					if (!f.is_open()) {
-						MessageBox(0, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+						MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
 						break;
 					}
 					if (f.is_open()) {
@@ -1092,7 +1092,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 						ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
 					}
 					if (ws2 == wstring::npos || ws1 == wstring::npos) {
-						MessageBox(0, TranslateT("There is no public or private key."), TranslateT("Info"), MB_OK);
+						MessageBox(nullptr, TranslateT("There is no public or private key."), TranslateT("Info"), MB_OK);
 						break;
 					}
 					ws2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
@@ -1139,5 +1139,5 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 void ShowLoadPublicKeyDialog()
 {
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_LOAD_PUBLIC_KEY), NULL, DlgProcLoadPublicKey);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_LOAD_PUBLIC_KEY), nullptr, DlgProcLoadPublicKey);
 }

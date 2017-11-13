@@ -101,7 +101,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	srand(time(NULL));
+	srand(time(nullptr));
 	_tzset();
 
 	// Register the module

@@ -37,7 +37,7 @@ void CServer::Stop()
 DWORD CServer::ConnectionAcceptThread()
 {
 	while (1) {
-		SOCKET s = accept(m_socket, NULL, NULL);
+		SOCKET s = accept(m_socket, nullptr, nullptr);
 		if (s == INVALID_SOCKET) break;
 
 		mir_forkthread(GlobalConnectionProcessThread, new GlobalConnectionProcessThreadArgs(this, s));

@@ -12,7 +12,7 @@ HRESULT STDMETHODCALLTYPE CDropTarget::QueryInterface(REFIID riid, LPVOID *ppvOb
 		return S_OK;
 	}
 
-	*ppvObj = NULL;
+	*ppvObj = nullptr;
 
 	return (E_NOINTERFACE);
 }
@@ -33,7 +33,7 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragOver(DWORD, POINTL, DWORD *pdwEffect)
 {
 	*pdwEffect = 0;
 
-	if (hwndCurDrag == NULL) {
+	if (hwndCurDrag == nullptr) {
 		*pdwEffect = DROPEFFECT_NONE;
 	}
 	else {
@@ -44,8 +44,8 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragOver(DWORD, POINTL, DWORD *pdwEffect)
 
 HRESULT STDMETHODCALLTYPE CDropTarget::DragEnter(IDataObject *pData, DWORD fKeyState, POINTL pt, DWORD *pdwEffect)
 {
-	FORMATETC	feFile = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-	FORMATETC	feText = { CF_TEXT, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+	FORMATETC	feFile = { CF_HDROP, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+	FORMATETC	feText = { CF_TEXT, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
 	if (S_OK == pData->QueryGetData(&feFile) ||
 		S_OK == pData->QueryGetData(&feText)) {
@@ -70,11 +70,11 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragLeave()
 {
 	ThumbInfo *pThumb = thumbList.FindThumb(hwndCurDrag);
 
-	if (NULL != pThumb) {
+	if (nullptr != pThumb) {
 		pThumb->ThumbDeselect(TRUE);
 	}
 
-	hwndCurDrag = NULL;
+	hwndCurDrag = nullptr;
 
 	return S_OK;
 }
@@ -82,15 +82,15 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragLeave()
 
 HRESULT STDMETHODCALLTYPE CDropTarget::Drop(IDataObject *pData, DWORD, POINTL, DWORD *pdwEffect)
 {
-	FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+	FORMATETC fe = { CF_HDROP, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
 	*pdwEffect = DROPEFFECT_NONE;
 
-	if (hwndCurDrag == NULL)
+	if (hwndCurDrag == nullptr)
 		return S_OK;
 
 	ThumbInfo *pThumb = (ThumbInfo*)GetWindowLongPtr(hwndCurDrag, GWLP_USERDATA);
-	if (pThumb == NULL)
+	if (pThumb == nullptr)
 		return S_OK;
 
 	STGMEDIUM stg;
@@ -108,19 +108,19 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop(IDataObject *pData, DWORD, POINTL, D
 
 	if (!bFormatText) {
 		HDROP hDrop = (HDROP)stg.hGlobal;
-		if (hDrop != NULL) {
+		if (hDrop != nullptr) {
 			OnDropFiles(hDrop, pThumb);
 		}
 	}
 	else {
 		wchar_t *pText = (wchar_t*)GlobalLock(stg.hGlobal);
-		if (pText != NULL) {
+		if (pText != nullptr) {
 			SendMsgDialog(hwndCurDrag, pText);
 			GlobalUnlock(stg.hGlobal);
 		}
 	}
 
-	if (stg.pUnkForRelease != NULL) {
+	if (stg.pUnkForRelease != nullptr) {
 		stg.pUnkForRelease->Release();
 	}
 	else {
@@ -137,15 +137,15 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop(IDataObject *pData, DWORD, POINTL, D
 
 BOOL OnDropFiles(HDROP hDrop, ThumbInfo *pThumb)
 {
-	UINT nDroppedItemsCount = DragQueryFile(hDrop, 0xFFFFFFFF, NULL, 0);
+	UINT nDroppedItemsCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
 
 	char **ppDroppedItems = (char**)malloc(sizeof(char*)*(nDroppedItemsCount + 1));
 
-	if (ppDroppedItems == NULL) {
+	if (ppDroppedItems == nullptr) {
 		return FALSE;
 	}
 
-	ppDroppedItems[nDroppedItemsCount] = NULL;
+	ppDroppedItems[nDroppedItemsCount] = nullptr;
 
 	char  szFilename[MAX_PATH];
 	for (UINT iItem = 0; iItem < nDroppedItemsCount; ++iItem) {
@@ -158,8 +158,8 @@ BOOL OnDropFiles(HDROP hDrop, ThumbInfo *pThumb)
 	char **ppFiles = (char**)malloc(sizeof(char *)* (nFilesCount + 1));
 
 	BOOL bSuccess = FALSE;
-	if (ppFiles != NULL) {
-		ppFiles[nFilesCount] = NULL;
+	if (ppFiles != nullptr) {
+		ppFiles[nFilesCount] = nullptr;
 
 		ProcessDroppedItems(ppDroppedItems, nDroppedItemsCount, ppFiles);
 
@@ -198,7 +198,7 @@ static int CountFiles(char *szItem)
 					char szDirName[MAX_PATH];
 					strncpy(szDirName, szItem, MAX_PATH - 1);
 
-					if (NULL != strstr(szItem, "*.*")) {
+					if (nullptr != strstr(szItem, "*.*")) {
 						size_t offset = mir_strlen(szDirName) - 3;
 						mir_snprintf(szDirName + offset, _countof(szDirName) - offset, "%s\0", fd.cFileName);
 					}
@@ -233,7 +233,7 @@ static void SaveFiles(char *szItem, char **ppFiles, int *pnCount)
 					char szDirName[MAX_PATH];
 					strncpy(szDirName, szItem, MAX_PATH - 1);
 
-					if (NULL != strstr(szItem, "*.*")) {
+					if (nullptr != strstr(szItem, "*.*")) {
 						size_t offset = mir_strlen(szDirName) - 3;
 						mir_snprintf(szDirName + offset, _countof(szDirName) - offset, "%s\0", fd.cFileName);
 					}
@@ -252,7 +252,7 @@ static void SaveFiles(char *szItem, char **ppFiles, int *pnCount)
 
 				strncpy(szFile, szItem, nSize - 1);
 
-				if (NULL != strstr(szFile, "*.*")) {
+				if (nullptr != strstr(szFile, "*.*")) {
 					szFile[mir_strlen(szFile) - 3] = '\0';
 					mir_strncat(szFile, fd.cFileName, nSize - mir_strlen(szFile));
 				}

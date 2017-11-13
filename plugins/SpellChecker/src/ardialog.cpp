@@ -48,10 +48,10 @@ BOOL ShowAutoReplaceDialog(HWND parent, BOOL modal,
 	data->callback = callback;
 	data->param = param;
 
-	if (find != NULL)
+	if (find != nullptr)
 		data->find = find;
 
-	if (replace != NULL)
+	if (replace != nullptr)
 		data->replace = replace;
 
 	if (modal)
@@ -110,7 +110,7 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 static BOOL CenterParent(HWND hwnd)
 {
 	HWND hwndParent = GetParent(hwnd);
-	if (hwndParent == NULL)
+	if (hwndParent == nullptr)
 		return FALSE;
 
 	RECT rect, rectP;
@@ -194,7 +194,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_NEW), &rc_new);
 				rc_new.right = rc_old.right;
 
-				SetWindowPos(GetDlgItem(hwndDlg, IDC_NEW), NULL, 0, 0,
+				SetWindowPos(GetDlgItem(hwndDlg, IDC_NEW), nullptr, 0, 0,
 					rc_new.right - rc_new.left, rc_new.bottom - rc_new.top,
 					SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOREDRAW | SWP_NOZORDER);
 			}
@@ -252,7 +252,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			break;
 
 		case IDC_VAR_HELP:
-			variables_showhelp(hwndDlg, IDC_NEW, VHF_FULLDLG, NULL, "The wrong word typed by the user");
+			variables_showhelp(hwndDlg, IDC_NEW, VHF_FULLDLG, nullptr, "The wrong word typed by the user");
 			break;
 		}
 		break;

@@ -221,7 +221,7 @@ uint32 hashlittle( void *key, size_t length, uint32 initval)
   /* Set up the internal state */
   a = b = c = 0xdeadbeef + ((uint32)length) + initval;
 
-  if (HASH_LITTLE_ENDIAN && !((((uint8 *)key)-(uint8 *)0) & 0x3)) {
+  if (HASH_LITTLE_ENDIAN && !((((uint8 *)key)-(uint8 *)nullptr) & 0x3)) {
     uint32 *k = ( uint32 *)key;                                 /* read 32-bit chunks */
 
     /*------ all but last block: aligned reads and affect 32 bits of (a,b,c) */
@@ -253,7 +253,7 @@ uint32 hashlittle( void *key, size_t length, uint32 initval)
     case 0 : return c;              /* zero length strings require no mixing */
     }
 
-  } else if (HASH_LITTLE_ENDIAN && !((((uint8 *)key)-(uint8 *)0) & 0x1)) {
+  } else if (HASH_LITTLE_ENDIAN && !((((uint8 *)key)-(uint8 *)nullptr) & 0x1)) {
     uint16 *k = (uint16 *)key;                                   /* read 16-bit chunks */
 
     /*--------------- all but last block: aligned reads and different mixing */
@@ -360,7 +360,7 @@ uint32 hashbig( void *key, size_t length, uint32 initval)
   /* Set up the internal state */
   a = b = c = 0xdeadbeef + ((uint32)length) + initval;
 
-  if (HASH_BIG_ENDIAN && !((((uint8 *)key)-(uint8 *)0) & 0x3)) {
+  if (HASH_BIG_ENDIAN && !((((uint8 *)key)-(uint8 *)nullptr) & 0x3)) {
     uint32 *k = (uint32 *)key;                                 /* read 32-bit chunks */
 
     /*------ all but last block: aligned reads and affect 32 bits of (a,b,c) */

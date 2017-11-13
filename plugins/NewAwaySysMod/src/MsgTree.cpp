@@ -73,7 +73,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 			case TVN_BEGINDRAG:
 				{
 					LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-					NMMSGTREE nm = { 0 };
+					NMMSGTREE nm = {};
 					COptItem_TreeCtrl *TreeCtrl = dat->GetTreeCtrl();
 					int Order = TreeCtrl->hItemToOrder(pnmtv->itemNew.hItem);
 					_ASSERT(Order != -1);
@@ -97,7 +97,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					return 0;
 				else {
 					LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-					NMMSGTREE nm = { 0 };
+					NMMSGTREE nm = {};
 					COptItem_TreeCtrl *TreeCtrl = dat->GetTreeCtrl();
 					if (pnmtv->itemOld.hItem) {
 						int Order = TreeCtrl->IDToOrder(pnmtv->itemOld.lParam);
@@ -134,7 +134,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 						if (Order >= 0) {
 							TreeCtrl->m_value[Order].Title = ptvdi->item.pszText;
 							TreeCtrl->SetModified(true);
-							NMMSGTREE nm = { 0 };
+							NMMSGTREE nm = {};
 							nm.ItemNew = &TreeCtrl->m_value[Order];
 							nm.hdr.code = MTN_ITEMRENAMED;
 							nm.hdr.hwndFrom = dat->hTreeView;
@@ -195,7 +195,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 			TreeView_HitTest(dat->hTreeView, &hti);
 			if (hti.hItem) {
 				TreeView_SelectDropTarget(dat->hTreeView, hti.hItem);
-				SetTimer(hWnd, MSGTREE_TIMER_ID, MSGTREE_DRAGANDDROP_GROUPEXPANDTIME, NULL);
+				SetTimer(hWnd, MSGTREE_TIMER_ID, MSGTREE_DRAGANDDROP_GROUPEXPANDTIME, nullptr);
 			}
 			else {
 				if (hti.flags & TVHT_ABOVE)
@@ -221,7 +221,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 			ScreenToClient(dat->hTreeView, &hti.pt);
 			TreeView_HitTest(dat->hTreeView, &hti);
 			if (hti.hItem && dat->hDragItem != hti.hItem) {
-				NMMSGTREE nm = { 0 };
+				NMMSGTREE nm = {};
 				COptItem_TreeCtrl *TreeCtrl = dat->GetTreeCtrl();
 				int OrderOld = TreeCtrl->hItemToOrder(dat->hDragItem);
 				int OrderNew = TreeCtrl->hItemToOrder(hti.hItem);
@@ -237,7 +237,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					dat->UpdateLock--;
 				}
 			}
-			dat->hDragItem = NULL;
+			dat->hDragItem = nullptr;
 		}
 		break;
 
@@ -285,7 +285,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 				dat->UpdateLock++;
 				dat->MsgTreePage.DBToMemToPage();
 				dat->UpdateLock--;
-				NMMSGTREE nm = { 0 };
+				NMMSGTREE nm = {};
 				int Order = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hWnd)));
 				if (Order != -1) {
 					nm.ItemNew = (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
@@ -400,7 +400,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 						if (TreeCtrl->m_value[Order].ID == (int)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting))
 							SetMenuItemInfo(hPopupMenu, SettingsList[i].MenuItemID, false, &mii);
 
-					int MenuResult = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, ht.pt.x, ht.pt.y, 0, hWnd, NULL);
+					int MenuResult = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, ht.pt.x, ht.pt.y, 0, hWnd, nullptr);
 					switch (MenuResult) {
 					case IDM_MSGTREEMENU_NEWMESSAGE:
 						dat->AddMessage();
@@ -461,7 +461,7 @@ LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM 
 	return CallWindowProc(dat->OrigTreeViewProc, hWnd, Msg, wParam, lParam);
 }
 
-CMsgTree::CMsgTree(HWND hTreeView) : MsgTreePage(g_MsgTreePage), hTreeView(hTreeView), hDragItem(NULL), hPrevDropTarget(NULL), UpdateLock(0)
+CMsgTree::CMsgTree(HWND hTreeView) : MsgTreePage(g_MsgTreePage), hTreeView(hTreeView), hDragItem(nullptr), hPrevDropTarget(nullptr), UpdateLock(0)
 {
 	CWndUserData(GetParent(hTreeView)).SetMsgTree(this);
 	OrigParentProc = (WNDPROC)SetWindowLongPtr(GetParent(hTreeView), GWLP_WNDPROC, (LONG_PTR)ParentSubclassProc);
@@ -485,7 +485,7 @@ CMsgTree::~CMsgTree()
 	_ASSERT(GetWindowLongPtr(GetParent(hTreeView), GWLP_WNDPROC) == (LONG_PTR)ParentSubclassProc); // we won't allow anyone to change our WNDPROC. otherwise we're not sure that we're setting the right WNDPROC back
 	SetWindowLongPtr(hTreeView, GWLP_WNDPROC, (GetWindowLongPtr(GetParent(hTreeView), GWLP_WNDPROC) == (LONG_PTR)ParentSubclassProc) ? (LONG_PTR)OrigTreeViewProc : (LONG_PTR)DefDlgProc); // yeah, if that crazy Help plugin substituted MY WndProc again, he won't get his WndProc back.. he-he >:)
 	SetWindowLongPtr(GetParent(hTreeView), GWLP_WNDPROC, (LONG_PTR)OrigParentProc);
-	CWndUserData(GetParent(hTreeView)).SetMsgTree(NULL);
+	CWndUserData(GetParent(hTreeView)).SetMsgTree(nullptr);
 	WindowList_Remove(hMTWindowList, hTreeView);
 	ImageList_Destroy(hImageList);
 }
@@ -495,7 +495,7 @@ CBaseTreeItem* CMsgTree::GetSelection() // returns NULL if there's nothing selec
 	COptItem_TreeCtrl *TreeCtrl = GetTreeCtrl();
 	int Order = TreeCtrl->IDToOrder(TreeCtrl->GetSelectedItemID(GetParent(hTreeView)));
 	if (Order == -1)
-		return NULL;
+		return nullptr;
 	return (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 }
 
@@ -573,7 +573,7 @@ void CMsgTree::UpdateItem(int ID) // updates item title, and expanded/collapsed 
 		TreeView_GetItem(hTreeView, &tvi);
 		if (TreeItem->Title != (const wchar_t*)tvi.pszText) {
 			TreeCtrl->SetModified(true);
-			NMMSGTREE nm = { 0 };
+			NMMSGTREE nm = {};
 			nm.ItemNew = TreeItem;
 			nm.hdr.code = MTN_ITEMRENAMED;
 			nm.hdr.hwndFrom = hTreeView;
@@ -600,7 +600,7 @@ bool CMsgTree::DeleteSelectedItem() // returns true if the item was deleted
 			TranslateT("Do you really want to delete this category with its messages?") :
 			TranslateT("Do you really want to delete this message?")),
 		TranslateT("New Away System"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
-		NMMSGTREE nm = { 0 };
+		NMMSGTREE nm = {};
 		nm.ItemOld = SelectedItem;
 		nm.hdr.code = MTN_DELETEITEM;
 		nm.hdr.hwndFrom = hTreeView;
@@ -623,7 +623,7 @@ CTreeItem* CMsgTree::AddCategory()
 	TreeItem->Title = tvi.pszText = TranslateT("New category");
 	TreeView_SetItem(hTreeView, &tvi);
 	TreeView_EditLabel(hTreeView, TreeItem->hItem);
-	NMMSGTREE nm = { 0 };
+	NMMSGTREE nm = {};
 	nm.ItemNew = TreeItem;
 	nm.hdr.code = MTN_NEWCATEGORY;
 	nm.hdr.hwndFrom = hTreeView;
@@ -642,7 +642,7 @@ CTreeItem* CMsgTree::AddMessage()
 	TreeItem->Title = tvi.pszText = TranslateT("New message");
 	TreeView_SetItem(hTreeView, &tvi);
 	TreeView_EditLabel(hTreeView, TreeItem->hItem);
-	NMMSGTREE nm = { 0 };
+	NMMSGTREE nm = {};
 	nm.ItemNew = TreeItem;
 	nm.hdr.code = MTN_NEWMESSAGE;
 	nm.hdr.hwndFrom = hTreeView;
@@ -671,9 +671,9 @@ CBaseTreeItem* CMsgTree::GetNextItem(int Flags, CBaseTreeItem *Item) // Item is 
 		default: _ASSERT(0);
 	}
 	
-	int Order = TreeCtrl->hItemToOrder(TreeView_GetNextItem(hTreeView, TreeItem ? TreeItem->hItem : NULL, TVFlag));
+	int Order = TreeCtrl->hItemToOrder(TreeView_GetNextItem(hTreeView, TreeItem ? TreeItem->hItem : nullptr, TVFlag));
 	if (Order == -1)
-		return NULL;
+		return nullptr;
 
 	return (Order <= TREECTRL_ROOTORDEROFFS) ? (CBaseTreeItem*)&TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)] : (CBaseTreeItem*)&TreeCtrl->m_value[Order];
 }

@@ -32,15 +32,15 @@ static mir_cs csAliasRegister;
 
 static ALIASREGISTER* searchAliasRegister(wchar_t *szAlias)
 {
-	if (szAlias == NULL || *szAlias == 0)
-		return NULL;
+	if (szAlias == nullptr || *szAlias == 0)
+		return nullptr;
 
 	mir_cslock lck(csAliasRegister);
 	for (int i = 0; i < arAliases.getCount(); i++)
 	if (!mir_wstrcmp(arAliases[i]->szAlias, szAlias))
 		return arAliases[i];
 
-	return NULL;
+	return nullptr;
 }
 
 static wchar_t *replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
@@ -58,8 +58,8 @@ static wchar_t *replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
 			if (((signed int)mir_wstrlen(tArg) == (ecur - cur)) && (!wcsncmp(tArg, res + cur, mir_wstrlen(tArg)))) {
 				if (mir_wstrlen(rArg) > mir_wstrlen(tArg)) {
 					res = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + (mir_wstrlen(rArg) - mir_wstrlen(tArg)) + 1)*sizeof(wchar_t));
-					if (res == NULL)
-						return NULL;
+					if (res == nullptr)
+						return nullptr;
 				}
 				memmove(res + ecur + (mir_wstrlen(rArg) - mir_wstrlen(tArg)), res + ecur, (mir_wstrlen(res + ecur) + 1)*sizeof(wchar_t));
 				wcsncpy(res + cur, rArg, mir_wstrlen(rArg));
@@ -74,14 +74,14 @@ static wchar_t *replaceArguments(wchar_t *res, wchar_t *tArg, wchar_t *rArg)
 static wchar_t *parseTranslateAlias(ARGUMENTSINFO *ai)
 {
 	ALIASREGISTER *areg = searchAliasRegister(ai->targv[0]);
-	if (areg == NULL || areg->argc != ai->argc - 1)
-		return NULL;
+	if (areg == nullptr || areg->argc != ai->argc - 1)
+		return nullptr;
 
 	wchar_t *res = mir_wstrdup(areg->szTranslation);
 	for (unsigned i = 0; i < areg->argc; i++) {
 		res = replaceArguments(res, areg->argv[i], ai->targv[i + 1]);
-		if (res == NULL)
-			return NULL;
+		if (res == nullptr)
+			return nullptr;
 	}
 
 	return res;
@@ -89,7 +89,7 @@ static wchar_t *parseTranslateAlias(ARGUMENTSINFO *ai)
 
 static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t** argv, wchar_t *szTranslation)
 {
-	if (szAlias == NULL || szTranslation == NULL || mir_wstrlen(szAlias) == 0)
+	if (szAlias == nullptr || szTranslation == nullptr || mir_wstrlen(szAlias) == 0)
 		return -1;
 
 	mir_cslock lck(csAliasRegister);
@@ -105,19 +105,19 @@ static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t** arg
 
 		p->argc = argc;
 		p->argv = (wchar_t**)mir_realloc(p->argv, argc * sizeof(wchar_t*));
-		if (p->argv == NULL)
+		if (p->argv == nullptr)
 			return -1;
 
 		for (unsigned j = 0; j < argc; j++) {
-			if (argv[j] != NULL)
+			if (argv[j] != nullptr)
 				p->argv[j] = mir_wstrdup(argv[j]);
 			else
-				p->argv[j] = NULL;
+				p->argv[j] = nullptr;
 		}
 		return 0;
 	}
 	wchar_t **pargv = (wchar_t**)mir_alloc(argc * sizeof(wchar_t*));
-	if (pargv == NULL)
+	if (pargv == nullptr)
 		return -1;
 
 	ALIASREGISTER *p = new ALIASREGISTER;
@@ -127,10 +127,10 @@ static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t** arg
 	p->argv = pargv;
 
 	for (unsigned j = 0; j < p->argc; j++) {
-		if (argv[j] != NULL)
+		if (argv[j] != nullptr)
 			p->argv[j] = mir_wstrdup(argv[j]);
 		else
-			p->argv[j] = NULL;
+			p->argv[j] = nullptr;
 	}
 	arAliases.insert(p);
 	return 0;
@@ -139,7 +139,7 @@ static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t** arg
 static wchar_t *parseAddAlias(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	char *szHelp, *szArgsA;
 	wchar_t *cur = ai->targv[1];
@@ -153,7 +153,7 @@ static wchar_t *parseAddAlias(ARGUMENTSINFO *ai)
 
 	deRegisterToken(alias);
 	addToAliasRegister(alias, argv.getCount(), argv.getArray(), ai->targv[2]);
-	wchar_t *szArgs = NULL;
+	wchar_t *szArgs = nullptr;
 	for (int i = 0; i < argv.getCount(); i++) {
 		if (i == 0)
 			szArgs = (wchar_t*)mir_calloc((mir_wstrlen(argv[i]) + 2)*sizeof(wchar_t));
@@ -165,7 +165,7 @@ static wchar_t *parseAddAlias(ARGUMENTSINFO *ai)
 			mir_wstrcat(szArgs, L",");
 	}
 	int res;
-	if (szArgs != NULL && argv.getCount() > 0) {
+	if (szArgs != nullptr && argv.getCount() > 0) {
 		szArgsA = mir_u2a(szArgs);
 
 		size_t size = 32 + mir_strlen(szArgsA);
@@ -184,7 +184,7 @@ static wchar_t *parseAddAlias(ARGUMENTSINFO *ai)
 	mir_free(szArgs);
 	mir_free(szHelp);
 	argv.destroy();
-	return (res == 0) ? mir_wstrdup(L"") : NULL;
+	return (res == 0) ? mir_wstrdup(L"") : nullptr;
 }
 
 void registerAliasTokens()

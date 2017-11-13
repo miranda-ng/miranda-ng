@@ -22,10 +22,10 @@ Boston, MA 02111-1307, USA.
 wchar_t* VariablesParseInfo(ARGUMENTSINFO *ai)
 {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO))
-		return NULL;
+		return nullptr;
 
 	LISTENINGTOINFO *lti = GetListeningInfo();
-	if (lti == NULL) {
+	if (lti == nullptr) {
 		ai->flags = AIF_FALSE;
 		return mir_wstrdup(L"");
 	}

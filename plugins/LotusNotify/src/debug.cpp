@@ -14,7 +14,7 @@ void logRegister(){
 
 void logUnregister(){
 	Netlib_CloseHandle(netlibHandle);
-	netlibHandle = NULL;
+	netlibHandle = nullptr;
 }
 
 void log(const wchar_t* szText){

@@ -137,7 +137,7 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch
 {
 	int iState;
 
-	if (hParent == 0)
+	if (hParent == nullptr)
 		return;
 
 	TVINSERTSTRUCT tvis;
@@ -181,7 +181,7 @@ static void CheckHeading(HWND hwndTree, HTREEITEM hHeading)
 {
 	BOOL bChecked = TRUE;
 
-	if (hHeading == 0)
+	if (hHeading == nullptr)
 		return;
 
 	TVITEM tvi;
@@ -205,7 +205,7 @@ static void CheckBranches(HWND hwndTree, HTREEITEM hHeading)
 {
 	BOOL bChecked = TRUE;
 
-	if (hHeading == 0)
+	if (hHeading == nullptr)
 		return;
 
 	TVITEM tvi;

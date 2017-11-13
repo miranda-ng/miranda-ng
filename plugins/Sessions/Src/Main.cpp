@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE g_hInst = NULL;
+HINSTANCE g_hInst = nullptr;
 
 HGENMENU hmSaveCurrentSession;
 
@@ -130,7 +130,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 	case WM_CLOSE:
 		DestroyWindow(hdlg);
-		g_hSDlg = 0;
+		g_hSDlg = nullptr;
 		break;
 
 	case WM_NOTIFY:
@@ -163,7 +163,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 					dd = 5;
 					hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, CLISTCONTROL_CLASSW, L"",
 						WS_TABSTOP | WS_VISIBLE | WS_CHILD,
-						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, g_hInst, 0);
+						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, g_hInst, nullptr);
 
 					SetWindowLongPtr(hClistControl, GWL_STYLE,
 						GetWindowLongPtr(hClistControl, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
@@ -177,9 +177,9 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 					DestroyWindow(hClistControl);
 				}
 
-				SetWindowPos(hdlg, NULL, rWnd.left, rWnd.top, x + dx, y + (dx / 3), SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE);
+				SetWindowPos(hdlg, nullptr, rWnd.left, rWnd.top, x + dx, y + (dx / 3), SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE);
 
-				SetWindowPos(hClistControl, 0, x - dd, dd, dx - dd, y + (dx / 12), SWP_NOZORDER/*|SWP_NOSIZE|SWP_SHOWWINDOW*/);
+				SetWindowPos(hClistControl, nullptr, x - dd, dd, dx - dd, y + (dx / 12), SWP_NOZORDER/*|SWP_NOSIZE|SWP_SHOWWINDOW*/);
 				SendMessage(hClistControl, CLM_AUTOREBUILD, 0, 0);
 
 				for (i = 0; session_list[i] > 0; i++) {
@@ -218,7 +218,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 						SaveUserSessionName(szUserSessionName);
 						memcpy(session_list, session_list_temp, sizeof(session_list));
 						DestroyWindow(hdlg);
-						g_hSDlg = 0;
+						g_hSDlg = nullptr;
 					}
 					else if (!SaveUserSessionName(szUserSessionName)) {
 						SaveSessionHandles(0, 1);
@@ -226,18 +226,18 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 						if (IsDlgButtonChecked(hdlg, IDC_SANDCCHECK))
 							CloseCurrentSession(0, 0);
 						DestroyWindow(hdlg);
-						g_hSDlg = 0;
+						g_hSDlg = nullptr;
 					}
-					else MessageBox(NULL, TranslateT("Current session is empty!"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
+					else MessageBox(nullptr, TranslateT("Current session is empty!"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 				}
-				else MessageBox(NULL, TranslateT("Session name is empty, enter the name and try again"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
+				else MessageBox(nullptr, TranslateT("Session name is empty, enter the name and try again"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			}
 			break;
 
 		case IDCANCEL:
 			SavePosition(hdlg, "SaveDlg");
 			DestroyWindow(hdlg);
-			g_hSDlg = 0;
+			g_hSDlg = nullptr;
 		}
 		break;
 
@@ -258,7 +258,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		{
 			int iDelay = db_get_w(NULL, MODNAME, "StartupModeDelay", 1500);
 			if (g_hghostw == TRUE)
-				SetTimer(hdlg, TIMERID_LOAD, iDelay, NULL);
+				SetTimer(hdlg, TIMERID_LOAD, iDelay, nullptr);
 			else {
 				if ((ses_count = LoadSessionToCombobox(hdlg, 0, g_ses_limit, "SessionDate", 0)) == g_ses_limit)
 					EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), TRUE);
@@ -272,7 +272,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 				LoadPosition(hdlg, "LoadDlg");
 				if (StartUp)
-					SetTimer(hdlg, TIMERID_SHOW, iDelay, NULL);
+					SetTimer(hdlg, TIMERID_SHOW, iDelay, nullptr);
 				else
 					ShowWindow(g_hDlg, SW_SHOW);
 			}
@@ -290,14 +290,14 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			LoadSession(0, g_bIncompletedSave ? 256 : 0);
 			g_hghostw = StartUp = FALSE;
 			DestroyWindow(hdlg);
-			g_hDlg = 0;
+			g_hDlg = nullptr;
 		}
 		break;
 
 	case WM_CLOSE:
 		SavePosition(hdlg, "LoadDlg");
 		DestroyWindow(hdlg);
-		g_hDlg = 0;
+		g_hDlg = nullptr;
 		break;
 
 	case WM_COMMAND:
@@ -374,14 +374,14 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			if (!LoadSession(0, ses_count)) {
 				SavePosition(hdlg, "LoadDlg");
 				DestroyWindow(hdlg);
-				g_hDlg = 0;
+				g_hDlg = nullptr;
 			}
 			break;
 
 		case IDCANCEL:
 			SavePosition(hdlg, "LoadDlg");
 			DestroyWindow(hdlg);
-			g_hDlg = 0;
+			g_hDlg = nullptr;
 			break;
 		}
 		break;
@@ -433,7 +433,7 @@ INT_PTR SaveUserSessionHandles(WPARAM, LPARAM)
 		return 1;
 	}
 
-	g_hSDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_SAVEDIALOG), 0, SaveSessionDlgProc);
+	g_hSDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_SAVEDIALOG), nullptr, SaveSessionDlgProc);
 	return 0;
 }
 
@@ -448,26 +448,26 @@ INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 		tszSession(db_get_wsa(NULL, MODNAME, "SessionDate_0")),
 		tszUserSession(db_get_wsa(NULL, MODNAME, "UserSessionDsc_0"));
 	if (g_bIncompletedSave || tszSession || tszUserSession) {
-		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 		return 0;
 	}
 	if (g_bOtherWarnings)
-		MessageBox(NULL, TranslateT("No sessions to open"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
+		MessageBox(nullptr, TranslateT("No sessions to open"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 	return 1;
 }
 
 int SaveSessionDate()
 {
 	if (session_list[0] != 0) {
-		int TimeSize = GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, NULL, NULL, NULL, 0);
+		int TimeSize = GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, nullptr, nullptr, nullptr, 0);
 		wchar_t *szTimeBuf = (wchar_t*)mir_alloc((TimeSize + 1)*sizeof(wchar_t));
 
-		GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, NULL, NULL, szTimeBuf, TimeSize);
+		GetTimeFormat(LOCALE_USER_DEFAULT, 0/*TIME_NOSECONDS*/, nullptr, nullptr, szTimeBuf, TimeSize);
 
-		int DateSize = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, NULL, 0);
+		int DateSize = GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, nullptr, 0);
 		wchar_t *szDateBuf = (wchar_t*)mir_alloc((DateSize + 1)*sizeof(wchar_t));
 
-		GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, szDateBuf, DateSize);
+		GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, szDateBuf, DateSize);
 		int lenn = (DateSize + TimeSize + 5);
 		wchar_t *szSessionTime = (wchar_t*)mir_alloc(lenn*sizeof(wchar_t));
 		mir_snwprintf(szSessionTime, lenn, L"%s - %s", szTimeBuf, szDateBuf);
@@ -512,7 +512,7 @@ INT_PTR LoadLastSession(WPARAM wparam, LPARAM lparam)
 	if (isLastTRUE)
 		return LoadSession(wparam, lparam);
 	if (g_bOtherWarnings)
-		MessageBox(NULL, TranslateT("Last Sessions is empty"), TranslateT("Sessions Manager"), MB_OK);
+		MessageBox(nullptr, TranslateT("Last Sessions is empty"), TranslateT("Sessions Manager"), MB_OK);
 	return 0;
 }
 
@@ -552,22 +552,22 @@ int LoadSession(WPARAM, LPARAM lparam)
 
 	if (i == 0) {
 		if (g_bOtherWarnings)
-			MessageBox(NULL, TranslateT("No contacts to open"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
+			MessageBox(nullptr, TranslateT("No contacts to open"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 		return 1;
 	}
 
 	if (dup == i) {
 		if (!hidden[i]) {
 			if (g_bOtherWarnings)
-				MessageBox(NULL, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
+				MessageBox(nullptr, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return 1;
 		}
 		if (!g_bWarnOnHidden && g_bOtherWarnings) {
-			MessageBox(NULL, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
+			MessageBox(nullptr, TranslateT("This Session already opened"), TranslateT("Sessions Manager"), MB_OK | MB_ICONWARNING);
 			return 1;
 		}
 		if (g_bWarnOnHidden) {
-			if (IDYES == MessageBox(NULL, TranslateT("This Session already opened (but probably hidden).\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO | MB_ICONQUESTION))
+			if (IDYES == MessageBox(nullptr, TranslateT("This Session already opened (but probably hidden).\nDo you want to show hidden contacts?"), TranslateT("Sessions Manager"), MB_YESNO | MB_ICONQUESTION))
 				for (j = 0; hidden[j] != 0; j++)
 					Clist_ContactDoubleClicked(session_list_t[hidden[j] - 1]);
 		}
@@ -660,7 +660,7 @@ int OkToExit(WPARAM, LPARAM)
 		db_set_b(NULL, MODNAME, "lastempty", 0);
 	}
 	else if (exitmode == 1 && session_list[0] != 0) {
-		DialogBox(g_hInst, MAKEINTRESOURCE(IDD_EXDIALOG), 0, ExitDlgProc);
+		DialogBox(g_hInst, MAKEINTRESOURCE(IDD_EXDIALOG), nullptr, ExitDlgProc);
 	}
 	else db_set_b(NULL, MODNAME, "lastempty", 1);
 	return 0;
@@ -691,7 +691,7 @@ INT_PTR BuildFavMenu(WPARAM, LPARAM)
 
 	HMENU hMenu = CreatePopupMenu();
 	FillFavoritesMenu(hMenu, g_ses_count);
-	int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_NONOTIFY, pt.x, pt.y, 0, GetActiveWindow(), NULL);
+	int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_NONOTIFY, pt.x, pt.y, 0, GetActiveWindow(), nullptr);
 	if (res == 0) return 1;
 	LoadSession(0, (res - 1) + g_ses_limit);
 	return 0;
@@ -699,7 +699,7 @@ INT_PTR BuildFavMenu(WPARAM, LPARAM)
 
 static int CreateButtons(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	ttb.pszService = MS_SESSIONS_OPENMANAGER;
@@ -729,11 +729,11 @@ static void CALLBACK LaunchSessions()
 	int startup = db_get_b(NULL, MODNAME, "StartupMode", 3);
 	if (startup == 1 || (startup == 3 && isLastTRUE == TRUE)) {
 		StartUp = TRUE;
-		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 	}
 	else if (startup == 2 && isLastTRUE == TRUE) {
 		g_hghostw = TRUE;
-		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), 0, LoadSessionDlgProc);
+		g_hDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_WLCMDIALOG), nullptr, LoadSessionDlgProc);
 	}
 }
 
@@ -787,7 +787,7 @@ static int PluginInit(WPARAM, LPARAM)
 	SET_UID(mi, 0x73ea91d6, 0xb7e5, 0x4f67, 0x96, 0x96, 0xa, 0x24, 0x21, 0x48, 0x6f, 0x15);
 	mi.name.a = LPGEN("Close session");
 	mi.pszService = MS_SESSIONS_CLOSESESSION;
-	mi.hIcolibItem = 0;
+	mi.hIcolibItem = nullptr;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xe2c4e4ba, 0x5d08, 0x441b, 0xb5, 0x93, 0xc4, 0xe7, 0x9a, 0xfb, 0xa4, 0x6c);

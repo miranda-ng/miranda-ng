@@ -307,7 +307,7 @@ void XPath::ProcessPath(LookupInfo &info, bool bCreate)
 XPath::PathType XPath::LookupImpl(bool bCreate)
 {
 	LookupState state = S_START;
-	LookupInfo info = {0};
+	LookupInfo info = {};
 
 	for (LPCTSTR p = m_szPath; state < S_FINAL; ++p) {
 		switch (state) {

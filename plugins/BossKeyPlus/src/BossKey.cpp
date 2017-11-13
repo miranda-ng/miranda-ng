@@ -75,7 +75,7 @@ static BOOL IsAeroMode()
 INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static DWORD dwOldIcon = 0;
-	HICON hIcon = 0;
+	HICON hIcon = nullptr;
 	UINT uid;
 
 	switch (uMsg){
@@ -91,13 +91,13 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 			SetWindowLongPtr(hDlg, GWL_EXSTYLE, GetWindowLongPtr(hDlg, GWL_EXSTYLE) | WS_EX_TOOLWINDOW);
 			RECT rect;
 			GetClientRect(hDlg, &rect);
-			SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom + GetSystemMetrics(SM_CYCAPTION), SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
+			SetWindowPos(hDlg, nullptr, 0, 0, rect.right, rect.bottom + GetSystemMetrics(SM_CYCAPTION), SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
 		}
 		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)hIcon);
 
 		TranslateDialogDefault(hDlg);
-		oldLangID = 0;
-		SetTimer(hDlg, 1, 200, NULL);
+		oldLangID = nullptr;
+		SetTimer(hDlg, 1, 200, nullptr);
 
 		oldLayout = GetKeyboardLayout(0);
 		if (MAKELCID(LOWORD(oldLayout) & 0xffffffff, SORT_DEFAULT) != (LCID)0x00000409)
@@ -240,7 +240,7 @@ static int BackAllProtoStatuses(void)
 			if (oldStatusMsg[i])
 			{
 				mir_free(oldStatusMsg[i]);
-				oldStatusMsg[i] = 0;
+				oldStatusMsg[i] = nullptr;
 			}
 			oldStatus[i] = 0;
 		}
@@ -320,7 +320,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			DBVARIANT dbVar;
 			if (g_wMask & OPT_USEDEFMSG || db_get_ws(NULL, MOD_NAME, "statmsg", &dbVar))
 			{
-				wchar_t *ptszDefMsg = GetDefStatusMsg(uMode, 0);
+				wchar_t *ptszDefMsg = GetDefStatusMsg(uMode, nullptr);
 				ChangeAllProtoStatuses(uMode, ptszDefMsg);
 				mir_free(ptszDefMsg);
 			}
@@ -328,7 +328,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			{
 				if (ServiceExists(MS_VARS_FORMATSTRING))
 				{
-					wchar_t *ptszParsed = variables_parse(dbVar.ptszVal, 0, 0);
+					wchar_t *ptszParsed = variables_parse(dbVar.ptszVal, nullptr, 0);
 					ChangeAllProtoStatuses(uMode, ptszParsed);
 					mir_free(ptszParsed);
 				}
@@ -391,7 +391,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			BackAllProtoStatuses();
 
 		HWND_ITEM *pCurWnd = g_pMirWnds;
-		while (pCurWnd != NULL)
+		while (pCurWnd != nullptr)
 		{
 			HWND_ITEM *pNextWnd = pCurWnd->next;
 			wchar_t szTemp[32];
@@ -403,12 +403,12 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			delete pCurWnd; // bye-bye
 			pCurWnd = pNextWnd; // traverse to next item
 		}
-		g_pMirWnds = NULL;
+		g_pMirWnds = nullptr;
 
 		if (hOldForegroundWindow)
 		{
 			SetForegroundWindow(hOldForegroundWindow);
-			hOldForegroundWindow = NULL;
+			hOldForegroundWindow = nullptr;
 		}
 
 		RestoreOldSettings();
@@ -420,7 +420,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 		// force a redraw
 		// should prevent drawing problems
-		InvalidateRect(pcli->hwndContactList, NULL, true);
+		InvalidateRect(pcli->hwndContactList, nullptr, true);
 		UpdateWindow(pcli->hwndContactList);
 
 		PostMessage(hWnd, WM_MOUSEMOVE, 0, (LPARAM)MAKELONG(2, 2)); // reset core's IDLE
@@ -544,12 +544,12 @@ void BossKeyMenuItemInit(void) // Add menu item
 void BossKeyMenuItemUnInit(void) // Remove menu item
 {
 	Menu_RemoveItem(g_hMenuItem);
-	g_hMenuItem = 0;
+	g_hMenuItem = nullptr;
 }
 
 void RegisterCoreHotKeys(void)
 {
-	HOTKEYDESC hotkey = { 0 };
+	HOTKEYDESC hotkey = {};
 	hotkey.pszName = "Hide/Show Miranda";
 	hotkey.szDescription.a = LPGEN("Hide/Show Miranda");
 	hotkey.szSection.a = "BossKey";
@@ -561,7 +561,7 @@ void RegisterCoreHotKeys(void)
 
 static int TopToolbarInit(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.pszService = MS_BOSSKEY_HIDE;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Hide Miranda NG");
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -596,9 +596,9 @@ static int TabsrmmButtonsInit(WPARAM, LPARAM)
 static wchar_t* VariablesBossKey(ARGUMENTSINFO *ai)
 {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO))
-		return NULL;
+		return nullptr;
 	if (ai->argc != 1)
-		return NULL;
+		return nullptr;
 
 	ai->flags |= AIF_DONTPARSE;
 	return GetBossKeyText();
@@ -616,7 +616,7 @@ static int EnumProtos(WPARAM, LPARAM)
 	for (int i = 0; i < protoCount; i++)
 	{
 		oldStatus[i] = 0;
-		oldStatusMsg[i] = 0;
+		oldStatusMsg[i] = nullptr;
 	}
 	return 0;
 }
@@ -627,7 +627,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 	RegisterCoreHotKeys();
 
-	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
+	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, nullptr, WinEventProc, GetCurrentProcessId(), 0, 0);
 
 	HookEvent(ME_TTB_MODULELOADED, TopToolbarInit);
 	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
@@ -647,7 +647,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 
 	if (RegisterClass(&winclass))
 	{
-		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO, BOSSKEY_LISTEN_INFO, WS_POPUP, 0, 0, 5, 5, pcli->hwndContactList, NULL, g_hInstance, NULL);
+		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO, BOSSKEY_LISTEN_INFO, WS_POPUP, 0, 0, 5, 5, pcli->hwndContactList, nullptr, g_hInstance, nullptr);
 		WTSRegisterSessionNotification(g_hListenWindow, 0);
 	}
 
@@ -717,7 +717,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	UninitIdleTimer();
 
-	if (g_hWinHook != 0)
+	if (g_hWinHook != nullptr)
 		UnhookWinEvent(g_hWinHook);
 
 	if (g_hListenWindow)
@@ -731,7 +731,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	// free all sessions
 	HWND_ITEM *pTemp = g_pMirWnds;
-	while (pTemp != NULL)
+	while (pTemp != nullptr)
 	{
 		HWND_ITEM *pNext = pTemp->next;
 		delete pTemp;

@@ -40,7 +40,7 @@ HICON CSkypeProto::GetIcon(int iconId)
 	for (size_t i = 0; i < _countof(Icons); i++)
 		if (Icons[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(Icons[i].hIcolib);
-	return 0;
+	return nullptr;
 }
 
 HANDLE CSkypeProto::GetIconHandle(int iconId)
@@ -48,5 +48,5 @@ HANDLE CSkypeProto::GetIconHandle(int iconId)
 	for (size_t i = 0; i < _countof(Icons); i++)
 		if (Icons[i].defIconID == iconId)
 			return Icons[i].hIcolib;
-	return 0;
+	return nullptr;
 }

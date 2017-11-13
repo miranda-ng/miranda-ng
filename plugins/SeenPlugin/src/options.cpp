@@ -88,7 +88,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, temp);
 			SendDlgItemMessage(hdlg, idBack, CPM_SETCOLOUR, 0, ppd.colorBack);
 			SendDlgItemMessage(hdlg, idText, CPM_SETCOLOUR, 0, ppd.colorText);
-			ppd.lchIcon = Skin_LoadProtoIcon(NULL, idBack);
+			ppd.lchIcon = Skin_LoadProtoIcon(nullptr, idBack);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, _countof(szstamp));
 			wcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL), MAX_CONTACTNAME);
@@ -225,7 +225,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 		SetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST), GWL_STYLE) | TVS_CHECKBOXES);
 		{
 			TVINSERTSTRUCT tvis;
-			tvis.hParent = NULL;
+			tvis.hParent = nullptr;
 			tvis.hInsertAfter = TVI_LAST;
 			tvis.item.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -301,12 +301,12 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 				GetDlgItemText(hdlg, IDC_HISTORYSTAMP, szstamp, _countof(szstamp));
 				db_set_ws(NULL, S_MOD, "HistoryStamp", szstamp);
 
-				db_set_w(NULL, S_MOD, "HistoryMax", (WORD)(GetDlgItemInt(hdlg, IDC_HISTORYSIZE, NULL, FALSE) + 1));
+				db_set_w(NULL, S_MOD, "HistoryMax", (WORD)(GetDlgItemInt(hdlg, IDC_HISTORYSIZE, nullptr, FALSE) + 1));
 
 				BOOL bchecked = IsDlgButtonChecked(hdlg, IDC_MENUITEM);
 				if (db_get_b(NULL, S_MOD, "MenuItem", 1) != bchecked) {
 					db_set_b(NULL, S_MOD, "MenuItem", bchecked);
-					if (hmenuitem == NULL && bchecked)
+					if (hmenuitem == nullptr && bchecked)
 						InitMenuitem();
 				}
 
@@ -370,7 +370,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 				tvItem.mask = TVIF_HANDLE | TVIF_STATE | TVIF_PARAM;
 				tvItem.stateMask = TVIS_STATEIMAGEMASK;
 
-				while (hItem != NULL) {
+				while (hItem != nullptr) {
 					tvItem.hItem = hItem;
 					TreeView_GetItem(hwndTreeView, &tvItem);
 					protocol = (char*)tvItem.lParam;
@@ -415,7 +415,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 		TVITEM tvItem;
 		tvItem.mask = TVIF_HANDLE | TVIF_PARAM;
 
-		while (hItem != NULL) {
+		while (hItem != nullptr) {
 			tvItem.hItem = hItem;
 			TreeView_GetItem(hwndTreeView, &tvItem);
 			mir_free((void *)tvItem.lParam);

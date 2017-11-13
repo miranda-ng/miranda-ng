@@ -10,16 +10,16 @@ static int ContactSettingChanged(WPARAM wParam,LPARAM lParam);
 static int ProtoAck(WPARAM,LPARAM);
 static int ProtoContactIsTyping(WPARAM wParam,LPARAM lParam);
 
-static HANDLE g_hContactSettingChanged = 0;
-static HANDLE g_hOptionsInitialize = 0;
-static HANDLE g_hModulesLoaded = 0;
-static HANDLE g_hProtoAck = 0;
-static HANDLE g_hProtoContactIsTyping = 0;
+static HANDLE g_hContactSettingChanged = nullptr;
+static HANDLE g_hOptionsInitialize = nullptr;
+static HANDLE g_hModulesLoaded = nullptr;
+static HANDLE g_hProtoAck = nullptr;
+static HANDLE g_hProtoContactIsTyping = nullptr;
 
-HINSTANCE g_hInstDLL = 0;
+HINSTANCE g_hInstDLL = nullptr;
 
 // Main global object
-static CTooltipNotify *g_pTooltipNotify = 0;
+static CTooltipNotify *g_pTooltipNotify = nullptr;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
@@ -59,7 +59,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pcli = Clist_GetInterface();
 
 	g_pTooltipNotify = new CTooltipNotify();
-	assert(g_pTooltipNotify!=0);
+	assert(g_pTooltipNotify!=nullptr);
 	
 	g_hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;

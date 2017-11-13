@@ -108,7 +108,7 @@ static luaL_Reg srmmApi[] =
 	{ "ModifyButton", lua_ModifyButton },
 	{ "RemoveButton", lua_RemoveButton },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/

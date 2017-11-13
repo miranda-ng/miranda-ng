@@ -58,7 +58,7 @@ void GGPROTO::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 
 bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 {
-	*avatarurl = *avatarts = NULL;
+	*avatarurl = *avatarts = nullptr;
 
 	char szUrl[128];
 	mir_snprintf(szUrl, "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
@@ -69,7 +69,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_REDIRECT;
 
 	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
-	if (resp == NULL) {
+	if (resp == nullptr) {
 		debugLogA("getAvatarFileInfo(): No response from HTTP request");
 		return false;
 	}
@@ -84,18 +84,18 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 
 		//if this url returned xml data (before and after 11.2013 gg convention)
 		wchar_t *xmlAction = mir_a2u(resp->pData);
-		HXML hXml = xmlParseString(xmlAction, 0, L"result");
-		if (hXml != NULL) {
+		HXML hXml = xmlParseString(xmlAction, nullptr, L"result");
+		if (hXml != nullptr) {
 			HXML node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar", 0);
-			const wchar_t *blank = (node != NULL) ? xmlGetAttrValue(node, L"blank") : NULL;
-			if (blank != NULL && mir_wstrcmp(blank, L"1")) {
+			const wchar_t *blank = (node != nullptr) ? xmlGetAttrValue(node, L"blank") : nullptr;
+			if (blank != nullptr && mir_wstrcmp(blank, L"1")) {
 				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/timestamp", 0);
-				*avatarts = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
+				*avatarts = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
 				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/bigavatar", 0); //new gg convention
-				if (node == NULL){
+				if (node == nullptr){
 					node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/originBigAvatar", 0); //old gg convention
 				}
-				*avatarurl = node != NULL ? mir_u2a(xmlGetText(node)) : NULL;
+				*avatarurl = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
 			}
 			xmlDestroyNode(hXml);
 		}
@@ -133,8 +133,8 @@ char *gg_avatarhash(char *param)
 {
 	char *result;
 
-	if (param == NULL || (result = (char *)mir_alloc(MIR_SHA1_HASH_SIZE * 2 + 1)) == NULL)
-		return NULL;
+	if (param == nullptr || (result = (char *)mir_alloc(MIR_SHA1_HASH_SIZE * 2 + 1)) == nullptr)
+		return nullptr;
 
 	BYTE digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_hash((BYTE*)param, (int)mir_strlen(param), digest);
@@ -168,7 +168,7 @@ void GGPROTO::requestAvatarInfo(MCONTACT hContact, int iWaitFor)
 	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
 		return;
 
-	GGREQUESTAVATARDATA *data = NULL;
+	GGREQUESTAVATARDATA *data = nullptr;
 	gg_EnterCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, "avatar_mutex", 1);
 	if (avatar_requests.getIndex((GGREQUESTAVATARDATA*)&hContact) == -1) {
 		data = (GGREQUESTAVATARDATA*)mir_alloc(sizeof(GGREQUESTAVATARDATA));
@@ -178,7 +178,7 @@ void GGPROTO::requestAvatarInfo(MCONTACT hContact, int iWaitFor)
 	}
 	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, 1, "avatar_mutex", 1);
 
-	if (data != NULL)
+	if (data != nullptr)
 		setByte(hContact, GG_KEY_AVATARREQUESTED, 1);
 }
 
@@ -202,14 +202,14 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			char *AvatarURL, *AvatarTs;
 			if (!getAvatarFileInfo(uin, &AvatarURL, &AvatarTs)) {
 				if (iWaitFor)
-					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, NULL, 0);
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, nullptr, 0);
 			}
 			else {
-				if (AvatarURL == NULL && AvatarTs == NULL){
+				if (AvatarURL == nullptr && AvatarTs == nullptr){
 					delSetting(hContact, GG_KEY_AVATARURL);
 					delSetting(hContact, GG_KEY_AVATARTS);
 					if (iWaitFor)
-						ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+						ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
 				}
 				else {
 					setString(hContact, GG_KEY_AVATARURL, AvatarURL);
@@ -221,11 +221,11 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						ai.hContact = hContact;
 						INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&ai);
 						if (res == GAIR_NOAVATAR)
-							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
 						else if (res == GAIR_SUCCESS)
 							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
 					}
-					else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
+					else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 					delSetting(hContact, GG_KEY_AVATARREQUESTED);
 				}
 			}
@@ -314,7 +314,7 @@ void GGPROTO::initavatarrequestthread()
 #ifdef DEBUGMODE
 		debugLogA("initavatarrequestthread(): ForkThreadEx 1 GGPROTO::avatarrequestthread");
 #endif
-		pth_avatar.hThread = ForkThreadEx(&GGPROTO::avatarrequestthread, NULL, &pth_avatar.dwThreadId);
+		pth_avatar.hThread = ForkThreadEx(&GGPROTO::avatarrequestthread, nullptr, &pth_avatar.dwThreadId);
 	}
 }
 
@@ -324,7 +324,7 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 
 	char *AvatarURL, *AvatarTs;
 	if (getAvatarFileInfo(getDword(GG_KEY_UIN, 0), &AvatarURL, &AvatarTs)) {
-		if (AvatarURL != NULL && AvatarTs != NULL) {
+		if (AvatarURL != nullptr && AvatarTs != nullptr) {
 			setString(GG_KEY_AVATARURL, AvatarURL);
 			setString(GG_KEY_AVATARTS, AvatarTs);
 			mir_free(AvatarURL); mir_free(AvatarTs);
@@ -348,7 +348,7 @@ void GGPROTO::getOwnAvatar()
 #ifdef DEBUGMODE
 		debugLogA("getOwnAvatar(): ForkThread 2 GGPROTO::getOwnAvatarThread");
 #endif
-		ForkThread(&GGPROTO::getOwnAvatarThread, NULL);
+		ForkThread(&GGPROTO::getOwnAvatarThread, nullptr);
 	}
 }
 

@@ -2100,7 +2100,7 @@ int XMLNode::CreateXMLStringR(XMLNodeData *pEntry, XMLSTR lpszMarker, int nForma
 		case eNodeChild:
 			{
 				// Recursively add child nodes
-				nResult += CreateXMLStringR(pEntry->pChild[j>>2].d, lpszMarker ? lpszMarker + nResult : 0, nChildFormat);
+				nResult += CreateXMLStringR(pEntry->pChild[j>>2].d, lpszMarker ? lpszMarker + nResult : nullptr, nChildFormat);
 				break;
 			}
 		default: break;
@@ -2178,7 +2178,7 @@ XMLSTR XMLNode::createXMLString(int nFormat, int *pnSize) const
 	// Recursively Calculate the size of the XML string
 	if (!dropWhiteSpace) nFormat = 0;
 	nFormat = nFormat ? 0 : -1;
-	cbStr = CreateXMLStringR(d, 0, nFormat);
+	cbStr = CreateXMLStringR(d, nullptr, nFormat);
 	// Alllocate memory for the XML string + the nullptr terminator and
 	// create the recursively XML string.
 	lpszResult = (XMLSTR)malloc((cbStr+1)*sizeof(XMLCHAR));

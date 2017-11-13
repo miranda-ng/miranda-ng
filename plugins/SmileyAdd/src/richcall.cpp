@@ -107,7 +107,7 @@ static void SetTooltip(long x, long y, HWND hwnd, RichEditData *rdt)
 	if (needtip != -1) {
 		if (rdt->tipActive == -1) {
 			rdt->hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", TTS_NOPREFIX | WS_POPUP,
-				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, NULL, g_hInst, NULL);
+				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, nullptr, g_hInst, nullptr);
 
 			SendMessage(rdt->hToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 		}
@@ -119,7 +119,7 @@ static void SetTooltip(long x, long y, HWND hwnd, RichEditData *rdt)
 	else if (rdt->tipActive != -1) {
 		SendMessage(rdt->hToolTip, TTM_ACTIVATE, FALSE, 0);
 		DestroyWindow(rdt->hToolTip);
-		rdt->hToolTip = NULL;
+		rdt->hToolTip = nullptr;
 	}
 
 	rdt->tipActive = needtip;
@@ -130,8 +130,8 @@ static const CHARRANGE allsel = { 0, LONG_MAX };
 static void ReplaceContactSmileys(RichEditData *rdt, const CHARRANGE &sel, bool ignoreLast, bool unFreeze)
 {
 	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace) return;
-	SmileyPackCType *smcp = NULL;
-	SmileyPackType *SmileyPack = GetSmileyPack(NULL, rdt->hContact, rdt->inputarea ? NULL : &smcp);
+	SmileyPackCType *smcp = nullptr;
+	SmileyPackType *SmileyPack = GetSmileyPack(nullptr, rdt->hContact, rdt->inputarea ? nullptr : &smcp);
 	ReplaceSmileys(rdt->hwnd, SmileyPack, smcp, sel, false, ignoreLast, unFreeze);
 }
 
@@ -161,13 +161,13 @@ static void SmileyToTextCutRest(RichEditData *rdt)
 	SendMessage(rdt->hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 	ReplaceContactSmileys(rdt, sel, false, true);
 	SendMessage(rdt->hwnd, WM_SETREDRAW, TRUE, 0);
-	RedrawWindow(rdt->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+	RedrawWindow(rdt->hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 }
 
 static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	RichEditData *rdt = g_RichEditList.find((RichEditData*)&hwnd);
-	if (rdt == NULL)
+	if (rdt == nullptr)
 		return 0;
 
 	CHARRANGE sel;
@@ -294,7 +294,7 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 bool SetRichCallback(HWND hwnd, MCONTACT hContact, bool subany, bool subnew)
 {
 	RichEditData *rdt = g_RichEditList.find((RichEditData*)&hwnd);
-	if (rdt == NULL) {
+	if (rdt == nullptr) {
 		CComPtr<IRichEditOle> RichEditOle;
 		if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 			return false;
@@ -338,7 +338,7 @@ void CloseRichCallback(HWND hwnd)
 static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	RichEditOwnerData *rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
-	if (rdto == NULL)
+	if (rdto == nullptr)
 		return 0;
 
 	switch (uMsg) {
@@ -383,7 +383,7 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog)
 {
 	RichEditOwnerData *rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
-	if (rdto == NULL) {
+	if (rdto == nullptr) {
 		rdto = new RichEditOwnerData;
 		rdto->hwnd = hwnd;
 		rdto->hwndInput = hwndInput;
@@ -396,9 +396,9 @@ void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog)
 		mir_subclassWindow(hwnd, RichEditOwnerSubclass);
 	}
 	else {
-		if (rdto->hwndInput == NULL)
+		if (rdto->hwndInput == nullptr)
 			rdto->hwndInput = hwndInput;
-		if (rdto->hwndLog == NULL)
+		if (rdto->hwndLog == nullptr)
 			rdto->hwndLog = hwndLog;
 	}
 }

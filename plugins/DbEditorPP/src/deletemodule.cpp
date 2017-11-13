@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 volatile BOOL working;
-static HWND hwnd2Delete = NULL;
+static HWND hwnd2Delete = nullptr;
 
 int deleteModule(MCONTACT hContact, const char *module, int confirm)
 {
@@ -93,13 +93,13 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 		{
 			char module[FLD_SIZE];
 			GetDlgItemTextA(hwnd, IDC_CONTACTS, module, _countof(module));
-			SetCursor(LoadCursor(NULL, IDC_WAIT));
+			SetCursor(LoadCursor(nullptr, IDC_WAIT));
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 				deleteModule(hContact, module, 0);
 
 			// do the null
 			deleteModule(NULL, module, 0);
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			refreshTree(1);
 		}
 		// fall through
@@ -113,7 +113,7 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 		break;
 
 	case WM_DESTROY:
-		hwnd2Delete = NULL;
+		hwnd2Delete = nullptr;
 		break;
 	}
 	return 0;

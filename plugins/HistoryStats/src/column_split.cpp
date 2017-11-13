@@ -9,9 +9,9 @@ ColSplit::ColSplit()
 	: m_nSource(0), m_nSourceType(2), m_nVisMode(0),
 	m_nBlockUnit(0), m_nUnitsPerBlock(6), m_nBlocks(28), m_nGraphAlign(1),
 	m_bDetail(true),
-	m_hSource(NULL), m_hVisMode(NULL),
-	m_hBlockUnit(NULL), m_hUnitsPerBlock(NULL), m_hBlocks(NULL), m_hGraphAlign(NULL),
-	m_hDetail(NULL),
+	m_hSource(nullptr), m_hVisMode(nullptr),
+	m_hBlockUnit(nullptr), m_hUnitsPerBlock(nullptr), m_hBlocks(nullptr), m_hGraphAlign(nullptr),
+	m_hDetail(nullptr),
 	m_nTimeDiv(3600), m_nTimeMod(24), m_nTimeOffset(0)
 {
 }
@@ -61,7 +61,7 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 	
 	m_hSource                 = Opt.insertCombo(hGroup, TranslateT("Data source"));
 	hTemp                     = Opt.insertGroup(hGroup, TranslateT("\"Split\" type"));
-		m_hVisMode             = Opt.insertRadio(hTemp, NULL, TranslateT("Hours of day"));
+		m_hVisMode             = Opt.insertRadio(hTemp, nullptr, TranslateT("Hours of day"));
 		                         Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Days of week"));
 		hTempRadio             = Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Custom (for experts only)"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Column setup"));
@@ -69,7 +69,7 @@ void ColSplit::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 				m_hUnitsPerBlock = Opt.insertEdit (hTemp, TranslateT("Units per bar"), L"", OptionsCtrl::OCF_NUMBER);
 				m_hBlocks        = Opt.insertEdit (hTemp, TranslateT("Bars per graph"), L"", OptionsCtrl::OCF_NUMBER);
 			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Graph alignment"));
-				m_hGraphAlign    = Opt.insertRadio(hTemp, NULL, TranslateT("Align on day boundary"));
+				m_hGraphAlign    = Opt.insertRadio(hTemp, nullptr, TranslateT("Align on day boundary"));
 				                   Opt.insertRadio(hTemp, m_hGraphAlign, TranslateT("Align on week boundary"));
 	m_hDetail                 = Opt.insertCheck(hGroup, TranslateT("Details for every bar (tooltip)"));
 
@@ -188,7 +188,7 @@ void ColSplit::impl_contactDataFree(Contact& contact) const
 	if (pData)
 	{
 		delete[] pData;
-		contact.setSlot(contactDataSlotGet(), NULL);
+		contact.setSlot(contactDataSlotGet(), nullptr);
 	}
 }
 
@@ -389,7 +389,7 @@ void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 			{
 				int bar_len = (50 * part_top + top - 1) / top;
 
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(j * 5, 50 - bar_len, j * 5 + 4, 50), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(j * 5, 50 - bar_len, j * 5 + 4, 50), nullptr, 0, nullptr);
 			}			
 		}
 

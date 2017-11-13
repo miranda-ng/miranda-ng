@@ -26,7 +26,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 extern HANDLE  g_hMainThread;
 bool bPopupsEnabled;
 bool DoTask(TaskOptions& to);
-bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = NULL, std::wstring* err = NULL, std::wstring* errDescr = NULL);
+bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top = nullptr, std::wstring* err = nullptr, std::wstring* errDescr = nullptr);
 std::wstring GetFileName(const std::wstring &baseName, std::wstring contactName, std::map<std::wstring, bool>& existingContacts, bool replaceContact);
 std::wstring GetDirectoryName(const std::wstring &path);
 std::wstring GetName(const std::wstring &path);
@@ -37,7 +37,7 @@ time_t GetNextExportTime(TaskOptions& to);
 void SchedulerThreadFunc(void*);
 volatile bool finishThread = false;
 bool initTask = false;
-HANDLE hThread = NULL;
+HANDLE hThread = nullptr;
 HANDLE hThreadEvent;
 time_t nextExportTime;
 void StartThread(bool init);
@@ -99,15 +99,15 @@ int DoLastTask(WPARAM, LPARAM)
 bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err, std::wstring* errDescr)
 {
 	if (to.taskName.empty()) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Name");
 		return false;
 	}
 
-	if (top != NULL) {
+	if (top != nullptr) {
 		for (std::list<TaskOptions>::iterator it = top->begin(); it != top->end(); ++it) {
 			if (it->taskName == to.taskName) {
-				if (err != NULL)
+				if (err != nullptr)
 					*err = TranslateT("Name");
 				return false;
 			}
@@ -115,9 +115,9 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 	}
 
 	if (!to.isSystem && to.contacts.size() == 0) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Contacts");
-		if (errDescr != NULL)
+		if (errDescr != nullptr)
 			*errDescr = TranslateT("At least one contact should be selected.");
 		return false;
 	}
@@ -135,7 +135,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 			}
 
 			if (filter < 2) {
-				if (err != NULL)
+				if (err != nullptr)
 					*err = TranslateT("Filter");
 				return false;
 			}
@@ -143,7 +143,7 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 			to.filterId = filter;
 		}
 		else if (to.filterId < 0) {
-			if (err != NULL)
+			if (err != nullptr)
 				*err = TranslateT("Filter");
 			return false;
 		}
@@ -153,63 +153,63 @@ bool IsValidTask(TaskOptions& to, std::list<TaskOptions>* top, std::wstring* err
 		return true;
 
 	if (!Options::FTPAvail() && to.useFtp) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Upload to FTP");
 		return false;
 	}
 	if (to.filePath.empty()) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Path to output file");
 		return false;
 	}
 	if (to.useFtp && to.ftpName.empty()) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Session name");
-		if (errDescr != NULL)
+		if (errDescr != nullptr)
 			*errDescr = TranslateT("To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.");
 		return false;
 	}
 	if (to.useFtp && (to.filePath.find('\\') < to.filePath.length() || to.filePath.find(':') < to.filePath.length() || to.filePath[0] != L'/')) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Path to file");
-		if (errDescr != NULL)
+		if (errDescr != nullptr)
 			*errDescr = TranslateT("FTP path must contain '/' instead '\\' and start with '/'.");
 		return false;
 	}
 	if (isImportTask && to.filePath.find(L"<date>") < to.filePath.length()) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Path to file");
-		if (errDescr != NULL)
+		if (errDescr != nullptr)
 			*errDescr = TranslateT("FTP path cannot contain <date> in import task.");
 		return false;
 	}
 	if (!isImportTask && (to.exportType < IExport::RichHtml || to.exportType > IExport::Dat)) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Export to");
 		return false;
 	}
 	if (isImportTask && (to.importType < IImport::Binary || to.importType > IImport::Dat)) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Import from");
 		return false;
 	}
 	if ((to.trigerType == TaskOptions::Daily || to.trigerType == TaskOptions::Weekly || to.trigerType == TaskOptions::Monthly) && (to.dayTime < 0 || to.dayTime >= 24 * 60)) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Time");
 		return false;
 	}
 	if (to.trigerType == TaskOptions::Weekly && (to.dayOfWeek < 0 || to.dayOfWeek >= 7)) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Day of week");
 		return false;
 	}
 	if (to.trigerType == TaskOptions::Monthly && (to.dayOfMonth <= 0 || to.dayOfMonth >= 32)) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Day");
 		return false;
 	}
 	if ((to.trigerType == TaskOptions::DeltaMin || to.trigerType == TaskOptions::DeltaHour) && (to.deltaTime < 0 || to.deltaTime >= 10000)) {
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("Delta time");
 		return false;
 	}
@@ -231,7 +231,7 @@ bool DoTask(TaskOptions& to)
 {
 	std::wstring err;
 	std::wstring errDescr;
-	if (!IsValidTask(to, NULL, &err, &errDescr)) {
+	if (!IsValidTask(to, nullptr, &err, &errDescr)) {
 		wchar_t msg[256];
 		if (err.empty())
 			wcscpy_s(msg, TranslateT("Some value is invalid"));
@@ -244,7 +244,7 @@ bool DoTask(TaskOptions& to)
 		return true;
 	}
 
-	DWORD now = time(NULL);
+	DWORD now = time(nullptr);
 	long long int t = to.eventDeltaTime * 60;
 	if (to.eventUnit > TaskOptions::Minute)
 		t *= 60LL;
@@ -260,20 +260,20 @@ bool DoTask(TaskOptions& to)
 	std::list<ExportManager*> managers;
 	if (to.type == TaskOptions::Delete) {
 		if (to.isSystem) {
-			ExportManager *exp = new ExportManager(NULL, NULL, to.filterId);
+			ExportManager *exp = new ExportManager(nullptr, NULL, to.filterId);
 			exp->SetDeleteWithoutExportEvents(t, now);
 			managers.push_back(exp);
 		}
 
 		for (size_t i = 0; i < to.contacts.size(); ++i) {
-			ExportManager *exp = new ExportManager(NULL, to.contacts[i], to.filterId);
+			ExportManager *exp = new ExportManager(nullptr, to.contacts[i], to.filterId);
 			exp->SetDeleteWithoutExportEvents(t, now);
 			managers.push_back(exp);
 		}
 	}
 	else if (to.type == TaskOptions::Import || to.type == TaskOptions::ImportAndMarge) {
 		std::map<std::wstring, bool> existingContacts1;
-		ExportManager mExp = ExportManager(NULL, NULL, 1);
+		ExportManager mExp = ExportManager(nullptr, NULL, 1);
 		std::wstring filePath = to.filePath;
 		std::wstring dir;
 		std::list<std::wstring> files;
@@ -292,7 +292,7 @@ bool DoTask(TaskOptions& to)
 				dir = dir.substr(0, pos);
 
 			DeleteDirectory(dir.c_str());
-			CreateDirectory(dir.c_str(), NULL);
+			CreateDirectory(dir.c_str(), nullptr);
 		}
 
 		const wchar_t* ext = ExportManager::GetExt(to.importType);
@@ -384,7 +384,7 @@ bool DoTask(TaskOptions& to)
 					}
 					else {
 						std::vector<IImport::ExternalMessage> messages;
-						if (mExp.Import(to.importType, messages, NULL)) {
+						if (mExp.Import(to.importType, messages, nullptr)) {
 							mExp.MargeMessages(messages);
 							contactList.push_back(mExp.m_hContact);
 						}
@@ -430,7 +430,7 @@ bool DoTask(TaskOptions& to)
 		if (!to.useFtp && !to.compress) {
 			dir = GetDirectoryName(filePath);
 			if (!dir.empty())
-				CreateDirectory(dir.c_str(), NULL);
+				CreateDirectory(dir.c_str(), nullptr);
 		}
 		else {
 			filePath = GetName(filePath);
@@ -446,11 +446,11 @@ bool DoTask(TaskOptions& to)
 				dir = dir.substr(0, pos);
 
 			DeleteDirectory(dir.c_str());
-			CreateDirectory(dir.c_str(), NULL);
+			CreateDirectory(dir.c_str(), nullptr);
 			filePath = dir + L"\\" + filePath;
 		}
 		if (to.isSystem) {
-			ExportManager *exp = new ExportManager(NULL, NULL, to.filterId);
+			ExportManager *exp = new ExportManager(nullptr, NULL, to.filterId);
 			exp->SetAutoExport(GetFileName(filePath, exp->GetContactName(), existingContacts, true), t, now);
 			exp->m_useImportedMessages = to.exportImported;
 			if (!exp->Export(to.exportType)) {
@@ -472,7 +472,7 @@ bool DoTask(TaskOptions& to)
 
 		if (!error) {
 			for (size_t i = 0; i < to.contacts.size(); ++i) {
-				ExportManager *exp = new ExportManager(NULL, to.contacts[i], to.filterId);
+				ExportManager *exp = new ExportManager(nullptr, to.contacts[i], to.filterId);
 				exp->SetAutoExport(GetFileName(filePath, exp->GetContactName(), existingContacts, true), t, now);
 				exp->m_useImportedMessages = to.exportImported;
 				if (!exp->Export(to.exportType)) {
@@ -503,7 +503,7 @@ bool DoTask(TaskOptions& to)
 			if (!to.useFtp) {
 				zipDir = GetDirectoryName(zipFilePath);
 				if (!zipDir.empty())
-					CreateDirectory(zipDir.c_str(), NULL);
+					CreateDirectory(zipDir.c_str(), nullptr);
 			}
 			else {
 				zipFilePath = GetName(zipFilePath);
@@ -514,7 +514,7 @@ bool DoTask(TaskOptions& to)
 				zipDir += L"zip<date>";
 				zipDir = GetFileName(zipDir, L"", existingContacts, true);
 				DeleteDirectory(zipDir.c_str());
-				CreateDirectory(zipDir.c_str(), NULL);
+				CreateDirectory(zipDir.c_str(), nullptr);
 				zipFilePath = zipDir + L"\\" + zipFilePath;
 			}
 			error = ZipFiles(dir + L"\\", zipFilePath, to.zipPassword);
@@ -715,7 +715,7 @@ void SchedulerThreadFunc(void*)
 
 	while (!finishThread) {
 		DWORD timeWait;
-		time_t now = time(NULL);
+		time_t now = time(nullptr);
 		while (nextExportTime <= now)
 			if (!ExecuteCurrentTask(now))
 				return;
@@ -732,25 +732,25 @@ void StartThread(bool init)
 	StopThread();
 
 	initTask = false;
-	bool isExport = GetNextExportTime(init, time(NULL));
+	bool isExport = GetNextExportTime(init, time(nullptr));
 	if (isExport) {
 		finishThread = false;
-		hThreadEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-		hThread = mir_forkthread(SchedulerThreadFunc, NULL);
+		hThreadEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+		hThread = mir_forkthread(SchedulerThreadFunc, nullptr);
 	}
 }
 
 void StopThread()
 {
-	if (hThread == NULL)
+	if (hThread == nullptr)
 		return;
 
 	finishThread = true;
 	SetEvent(hThreadEvent);
 	WaitForSingleObject(hThread, INFINITE);
 	CloseHandle(hThreadEvent);
-	hThread = NULL;
-	hThreadEvent = NULL;
+	hThread = nullptr;
+	hThreadEvent = nullptr;
 }
 
 bool GetNextExportTime(bool init, time_t now)
@@ -791,7 +791,7 @@ bool GetNextExportTime(bool init, time_t now)
 static void CALLBACK DoTaskFinishInMainAPCFunc(ULONG_PTR dwParam)
 {
 	wchar_t *item = (wchar_t*)dwParam;
-	MessageBox(NULL, item, TranslateT("Task finished"), MB_OK | MB_ICONINFORMATION);
+	MessageBox(nullptr, item, TranslateT("Task finished"), MB_OK | MB_ICONINFORMATION);
 	delete[] item;
 }
 
@@ -803,7 +803,7 @@ bool ExecuteCurrentTask(time_t now)
 		mir_cslock lck(Options::instance->criticalSection);
 		for (auto it = Options::instance->taskOptions.begin(); it != Options::instance->taskOptions.end(); ++it) {
 			if (it->forceExecute) {
-				it->lastExport = time(NULL);
+				it->lastExport = time(nullptr);
 				Options::instance->SaveTaskTime(*it);
 				to = *it;
 				isExport = true;
@@ -812,7 +812,7 @@ bool ExecuteCurrentTask(time_t now)
 			else if (it->active && it->trigerType != TaskOptions::AtStart && it->trigerType != TaskOptions::AtEnd) {
 				time_t t = GetNextExportTime(*it);
 				if (t <= now) {
-					it->lastExport = time(NULL);
+					it->lastExport = time(nullptr);
 					Options::instance->SaveTaskTime(*it);
 					to = *it;
 					isExport = true;
@@ -869,11 +869,11 @@ bool GetFileCrc(const wchar_t *filenameinzip, unsigned char *buf, unsigned long,
 {
 	unsigned long calculate_crc = 0;
 	bool error = true;
-	HANDLE hFile = CreateFile(filenameinzip, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE hFile = CreateFile(filenameinzip, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		DWORD readed;
 		do {
-			if (!ReadFile(hFile, buf, 1024, &readed, NULL)) {
+			if (!ReadFile(hFile, buf, 1024, &readed, nullptr)) {
 				error = false;
 				break;
 			}
@@ -900,8 +900,8 @@ bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::stri
 		fill_win32_filefunc(&pzlib_filefunc_def);
 		zipFilePath = GetFileName(zipFilePath, L"", existingContacts, true);
 		zipFilePath = ReplaceExt(zipFilePath, L"zip");
-		zipFile zf = zipOpen2((LPCSTR)(LPTSTR)zipFilePath.c_str(), APPEND_STATUS_CREATE, NULL, &pzlib_filefunc_def);
-		if (zf != NULL) {
+		zipFile zf = zipOpen2((LPCSTR)(LPTSTR)zipFilePath.c_str(), APPEND_STATUS_CREATE, nullptr, &pzlib_filefunc_def);
+		if (zf != nullptr) {
 			unsigned char buf[1024];
 			char bufF[MAX_PATH + 20];
 			while (files.size() > 0) {
@@ -915,15 +915,15 @@ bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::stri
 				}
 
 				BOOL badChar;
-				WideCharToMultiByte(CP_OEMCP, WC_NO_BEST_FIT_CHARS, zipDir.c_str(), -1, bufF, MAX_PATH + 20, NULL, &badChar);
+				WideCharToMultiByte(CP_OEMCP, WC_NO_BEST_FIT_CHARS, zipDir.c_str(), -1, bufF, MAX_PATH + 20, nullptr, &badChar);
 				int flag = 0;
 				if (badChar) {
 					flag = 0x800; // UTF
-					WideCharToMultiByte(CP_UTF8, 0, zipDir.c_str(), -1, bufF, MAX_PATH + 20, NULL, NULL);
+					WideCharToMultiByte(CP_UTF8, 0, zipDir.c_str(), -1, bufF, MAX_PATH + 20, nullptr, nullptr);
 				}
 
 				unsigned long calculate_crc = 0;
-				const char* passwordCh = NULL;
+				const char* passwordCh = nullptr;
 				if (password.size() > 0) {
 					if (!GetFileCrc(localDir.c_str(), buf, 1024, &calculate_crc)) {
 						error = true;
@@ -933,15 +933,15 @@ bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::stri
 					passwordCh = password.c_str();
 				}
 
-				int err = zipOpenNewFileInZip4_64(zf, bufF, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0,
+				int err = zipOpenNewFileInZip4_64(zf, bufF, &zi, nullptr, 0, nullptr, 0, nullptr, Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0,
 					-MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, passwordCh, calculate_crc, 0, flag, 0);
 				if (err == ZIP_OK) {
-					HANDLE hFile = CreateFile(localDir.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+					HANDLE hFile = CreateFile(localDir.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 					if (hFile != INVALID_HANDLE_VALUE) {
 						DWORD readed;
 						do {
 							err = ZIP_OK;
-							if (!ReadFile(hFile, buf, 1024, &readed, NULL)) {
+							if (!ReadFile(hFile, buf, 1024, &readed, nullptr)) {
 								error = true;
 								break;
 							}
@@ -965,7 +965,7 @@ bool ZipFiles(const std::wstring &dir, std::wstring zipFilePath, const std::stri
 				files.pop_front();
 			}
 
-			zipClose(zf, NULL);
+			zipClose(zf, nullptr);
 		}
 		else error = true;
 	}
@@ -984,14 +984,14 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 	zipFilePath = GetFileName(zipFilePath, L"", existingContacts, true);
 	zipFilePath = ReplaceExt(zipFilePath, L"zip");
 	unzFile zf = unzOpen2((LPCSTR)(LPTSTR)zipFilePath.c_str(), &pzlib_filefunc_def);
-	if (zf == NULL)
+	if (zf == nullptr)
 		return true;
 
 	char buf[8192];
 	char bufF[MAX_PATH + 20];
 	unz_file_info file_info;
 	do {
-		int err = unzGetCurrentFileInfo(zf, &file_info, bufF, MAX_PATH + 20, buf, 8192, NULL, 0);
+		int err = unzGetCurrentFileInfo(zf, &file_info, bufF, MAX_PATH + 20, buf, 8192, nullptr, 0);
 		if (err == UNZ_OK) {
 			UINT cp = CP_OEMCP;
 			if (file_info.flag & 0x800)// UTF
@@ -1019,7 +1019,7 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 			}
 
 			int sizeC = (int)mir_strlen(bufF);
-			int sizeW = MultiByteToWideChar(cp, 0, bufF, sizeC, NULL, 0);
+			int sizeW = MultiByteToWideChar(cp, 0, bufF, sizeC, nullptr, 0);
 			fileNameInZip.resize(sizeW);
 			MultiByteToWideChar(cp, 0, bufF, sizeC, (wchar_t*)fileNameInZip.c_str(), sizeW);
 			fileNameInZip = dir + L"\\" + fileNameInZip;
@@ -1030,14 +1030,14 @@ bool UnzipFiles(const std::wstring &dir, std::wstring &zipFilePath, const std::s
 			if (file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)
 				CreatePath(fileNameInZip.c_str());
 			else {
-				const char* passwordCh = NULL;
+				const char* passwordCh = nullptr;
 				if (password.size() > 0)
 					passwordCh = password.c_str();
 
 				err = unzOpenCurrentFilePassword(zf, passwordCh);
 				if (err == UNZ_OK) {
 					CreatePath(GetDirectoryName(fileNameInZip).c_str());
-					HANDLE hFile = CreateFile(fileNameInZip.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, 0, NULL);
+					HANDLE hFile = CreateFile(fileNameInZip.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, 0, nullptr);
 					if (hFile != INVALID_HANDLE_VALUE) {
 						DWORD writed;
 						for (;;) {
@@ -1116,7 +1116,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 
 			stream.close();
 			std::wstring &log = Options::instance->ftpLogPath;
-			CreateDirectory(GetDirectoryName(log).c_str(), NULL);
+			CreateDirectory(GetDirectoryName(log).c_str(), nullptr);
 			DeleteFile(log.c_str());
 
 			wchar_t cmdLine[MAX_PATH];
@@ -1126,7 +1126,7 @@ bool FtpFiles(const std::wstring& dir, const std::wstring& filePath, const std::
 			startupInfo.cb = sizeof(STARTUPINFO);
 
 			PROCESS_INFORMATION processInfo;
-			if (CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, dir.c_str(), &startupInfo, &processInfo)) {
+			if (CreateProcess(nullptr, cmdLine, nullptr, nullptr, FALSE, 0, nullptr, dir.c_str(), &startupInfo, &processInfo)) {
 				WaitForSingleObject(processInfo.hProcess, INFINITE);
 				CloseHandle(processInfo.hThread);
 				CloseHandle(processInfo.hProcess);
@@ -1208,14 +1208,14 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 
 		stream.close();
 		std::wstring &log = Options::instance->ftpLogPath;
-		CreateDirectory(GetDirectoryName(log).c_str(), NULL);
+		CreateDirectory(GetDirectoryName(log).c_str(), nullptr);
 		DeleteFile(log.c_str());
 		wchar_t cmdLine[MAX_PATH];
 		mir_snwprintf(cmdLine, L"\"%s\" /nointeractiveinput /log=\"%s\" /script=script.sc", Options::instance->ftpExePath.c_str(), log.c_str());
 		STARTUPINFO				startupInfo = { 0 };
 		PROCESS_INFORMATION		processInfo;
 		startupInfo.cb = sizeof(STARTUPINFO);
-		if (CreateProcess(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, dir.c_str(), &startupInfo, &processInfo)) {
+		if (CreateProcess(nullptr, cmdLine, nullptr, nullptr, FALSE, 0, nullptr, dir.c_str(), &startupInfo, &processInfo)) {
 			WaitForSingleObject(processInfo.hProcess, INFINITE);
 			CloseHandle(processInfo.hThread);
 			CloseHandle(processInfo.hProcess);
@@ -1246,14 +1246,14 @@ void CreatePath(const wchar_t *szDir)
 		return;
 
 	pszLastBackslash = wcsrchr(szTestDir, '\\');
-	if (pszLastBackslash == NULL)
+	if (pszLastBackslash == nullptr)
 		return;
 
 	*pszLastBackslash = '\0';
 	CreatePath(szTestDir);
 	*pszLastBackslash = '\\';
 
-	CreateDirectory(szTestDir, NULL);
+	CreateDirectory(szTestDir, nullptr);
 }
 
 INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM)
@@ -1283,13 +1283,13 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		DBEVENTINFO dbei = {};
 		dbei.szModule = MODULE;
 		dbei.flags = DBEF_UTF | DBEF_READ;
-		dbei.timestamp = time(NULL);
+		dbei.timestamp = time(nullptr);
 		// For now I do not convert event data from string to blob, and event type must be message to handle it properly
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		int len = (int)error.length() + 1;
-		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, error.c_str(), len, NULL, 0, NULL, NULL);
+		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, error.c_str(), len, nullptr, 0, nullptr, nullptr);
 		char* buf = new char[dbei.cbBlob];
-		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, error.c_str(), len, buf, dbei.cbBlob, NULL, NULL);
+		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, error.c_str(), len, buf, dbei.cbBlob, nullptr, nullptr);
 		dbei.pBlob = (PBYTE)buf;
 		db_event_add(NULL, &dbei);
 	}

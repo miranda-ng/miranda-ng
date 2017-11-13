@@ -45,7 +45,7 @@ BOOL OpenKeyboardDevice()
 		DefineDosDevice(DDD_RAW_TARGET_PATH, aux1, aux2);
 
 		mir_snwprintf(aux1, L"\\\\.\\Kbd%d", i);
-		hKbdDev[i] = CreateFile(aux1, GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+		hKbdDev[i] = CreateFile(aux1, GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);
 	
@@ -66,7 +66,7 @@ BOOL ToggleKeyboardLights(BYTE byte)
 	InputBuffer.LedFlags = byte;
 
 	for (i=0; i < MAX_KBDHANDLES && hKbdDev[i] != INVALID_HANDLE_VALUE; i++)
-		result |= DeviceIoControl(hKbdDev[i], IOCTL_KEYBOARD_SET_INDICATORS, &InputBuffer, DataLength, NULL, 0, &ReturnedLength, NULL);
+		result |= DeviceIoControl(hKbdDev[i], IOCTL_KEYBOARD_SET_INDICATORS, &InputBuffer, DataLength, nullptr, 0, &ReturnedLength, nullptr);
 
 	return result;
 }
@@ -81,7 +81,7 @@ void CloseKeyboardDevice()
 			CloseHandle(hKbdDev[i]);
 
 		mir_snwprintf(aux, L"Kbd%d", i);
-		DefineDosDevice(DDD_REMOVE_DEFINITION, aux, NULL);
+		DefineDosDevice(DDD_REMOVE_DEFINITION, aux, nullptr);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);
 }

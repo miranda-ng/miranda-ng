@@ -7,7 +7,7 @@
 
 ColInOut::ColInOut()
 	: m_nSource(2), m_bAbsolute(false), m_nAbsTime(1),
-	m_hSource(NULL), m_hAbsolute(NULL), m_hAbsTime(NULL)
+	m_hSource(nullptr), m_hAbsolute(nullptr), m_hAbsTime(nullptr)
 {
 }
 
@@ -40,9 +40,9 @@ void ColInOut::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup)
 
 	m_hSource   = Opt.insertCombo(hGroup, TranslateT("Data source"));
 	hTemp       = Opt.insertGroup(hGroup, TranslateT("Display as"));
-	m_hAbsolute = Opt.insertRadio(hTemp, NULL, TranslateT("Absolute"));
+	m_hAbsolute = Opt.insertRadio(hTemp, nullptr, TranslateT("Absolute"));
 	m_hAbsolute = Opt.insertRadio(hTemp, m_hAbsolute, TranslateT("Average"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	m_hAbsTime  = Opt.insertRadio(m_hAbsolute, NULL, TranslateT("Units per day"));
+	m_hAbsTime  = Opt.insertRadio(m_hAbsolute, nullptr, TranslateT("Units per day"));
 	              Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per week"));
 	              Opt.insertRadio(m_hAbsolute, m_hAbsTime, TranslateT("Units per month (30 days)"));
 

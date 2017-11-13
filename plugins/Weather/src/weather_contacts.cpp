@@ -47,7 +47,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 		db_free(&dbv);
 	}
 	else	// display warning dialog if no path is specified
-		MessageBox(NULL, TranslateT("Weather condition was not logged."),
+		MessageBox(nullptr, TranslateT("Weather condition was not logged."),
 			TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 	return 0;
 }
@@ -61,7 +61,7 @@ INT_PTR LoadForecast(WPARAM wParam, LPARAM)
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
 		if (db_get_wstatic(wParam, WEATHERPROTONAME, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
-			MessageBox(NULL, NO_FORECAST_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
+			MessageBox(nullptr, NO_FORECAST_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
 		// set the url and open the webpage
@@ -79,7 +79,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM)
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
 		if (db_get_wstatic(wParam, WEATHERPROTONAME, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
-			MessageBox(NULL, NO_MAP_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
+			MessageBox(nullptr, NO_MAP_URL, TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
 
@@ -111,7 +111,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	OPENFILENAME ofn;       // common dialog box structure
 	MCONTACT hContact;
 	WIDATA *sData;
-	CntSetWndDataType *wndData = NULL;
+	CntSetWndDataType *wndData = nullptr;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -206,7 +206,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// if not, don't let user change the setting
 			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			chop = wcsstr(str, L"/");
-			if (chop == NULL)
+			if (chop == nullptr)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 			else
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
@@ -236,13 +236,13 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				// load the page
 				mir_snprintf(loc, sData->IDSearch.SearchURL, str);
 				str[0] = 0;
-				wchar_t *pData = NULL;
-				if (InternetDownloadFile(loc, NULL, sData->UserAgent, &pData) == 0) {
+				wchar_t *pData = nullptr;
+				if (InternetDownloadFile(loc, nullptr, sData->UserAgent, &pData) == 0) {
 					wchar_t *szInfo = pData;
 					wchar_t* search = wcsstr(szInfo, sData->IDSearch.NotFoundStr);
 
 					// if the page is found (ie. valid ID), get the name of the city
-					if (search == NULL)
+					if (search == nullptr)
 						GetDataValue(&sData->IDSearch.Name, str, &szInfo);
 				}
 				// free memory
@@ -284,9 +284,9 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			*pfilter = '\0';
 			ofn.lpstrFilter = filter;
 			ofn.nFilterIndex = 1;
-			ofn.lpstrFileTitle = NULL;
+			ofn.lpstrFileTitle = nullptr;
 			ofn.nMaxFileTitle = 0;
-			ofn.lpstrInitialDir = NULL;
+			ofn.lpstrInitialDir = nullptr;
 			ofn.Flags = OFN_PATHMUSTEXIST;
 
 			// Display a Open dialog box and put the file name on the dialog
@@ -410,7 +410,7 @@ INT_PTR EditSettings(WPARAM wParam, LPARAM)
 	HWND hEditDlg = WindowList_Find(hWindowList, wParam);
 
 	// search the dialog list to prevent multiple instance of dialog for the same contact
-	if (hEditDlg != NULL) {
+	if (hEditDlg != nullptr) {
 		// if the dialog box already opened, bring it to the front
 		SetForegroundWindow(hEditDlg);
 		SetFocus(hEditDlg);
@@ -418,7 +418,7 @@ INT_PTR EditSettings(WPARAM wParam, LPARAM)
 	else {
 		// if the dialog box is not opened, open a new one
 		if (IsMyContact(wParam))
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT), NULL, DlgProcChange, (LPARAM)wParam);
+			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT), nullptr, DlgProcChange, (LPARAM)wParam);
 	}
 
 	return 0;
@@ -458,7 +458,7 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 			if (tszNick != NULL) {
 				wchar_t str[255];
 				mir_snwprintf(str, TranslateT("%s is now the default weather station"), (wchar_t*)tszNick);
-				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
+				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
 			db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
 			return 0;		// exit this function quickly
@@ -475,5 +475,5 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 BOOL IsMyContact(MCONTACT hContact)
 {
 	const char *szProto = GetContactProto(hContact);
-	return szProto != NULL && mir_strcmp(WEATHERPROTONAME, szProto) == 0;
+	return szProto != nullptr && mir_strcmp(WEATHERPROTONAME, szProto) == 0;
 }

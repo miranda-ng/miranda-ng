@@ -33,7 +33,7 @@ void FreeProtocolData(void)
 	int nParts = SendMessage(pcli->hwndStatus, SB_GETPARTS, 0, 0);
 	for (int nPanel = 0; nPanel < nParts; nPanel++) {
 		ProtocolData *PD = (ProtocolData *)SendMessage(pcli->hwndStatus, SB_GETTEXT, nPanel, 0);
-		if (PD != NULL && !IsBadCodePtr((FARPROC)PD)) {
+		if (PD != nullptr && !IsBadCodePtr((FARPROC)PD)) {
 			SendMessage(pcli->hwndStatus, SB_SETTEXT, (WPARAM)nPanel | SBT_OWNERDRAW, 0);
 			if (PD->RealName) mir_free(PD->RealName);
 			if (PD) mir_free(PD);
@@ -50,11 +50,11 @@ void CluiProtocolStatusChanged(int, const char*)
 	WORD maxStatus = ID_STATUS_OFFLINE;
 	DBVARIANT dbv = { 0 };
 	int iIcon = 0;
-	HICON hIcon = 0;
+	HICON hIcon = nullptr;
 	int rdelta = cfg::dat.bCLeft + cfg::dat.bCRight;
 	BYTE windowStyle;
 
-	if (pcli->hwndStatus == 0 || cfg::shutDown)
+	if (pcli->hwndStatus == nullptr || cfg::shutDown)
 		return;
 
 	int protoCount;
@@ -101,7 +101,7 @@ void CluiProtocolStatusChanged(int, const char*)
 		BYTE showOpts = db_get_b(NULL, "CLUI", "SBarShow", 1);
 		wchar_t szName[32];
 
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		HFONT hofont = reinterpret_cast<HFONT>(SelectObject(hdc, (HFONT)SendMessage(pcli->hwndStatus, WM_GETFONT, 0, 0)));
 
 		// count down since built in ones tend to go at the end
@@ -135,7 +135,7 @@ void CluiProtocolStatusChanged(int, const char*)
 			partCount++;
 		}
 		SelectObject(hdc, hofont);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 	if (partCount == 0) {
 		SendMessage(pcli->hwndStatus, SB_SIMPLE, TRUE, 0);
@@ -149,7 +149,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	SendMessage(pcli->hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
 
 	// count down since built in ones tend to go at the end
-	char *szMaxProto = NULL;
+	char *szMaxProto = nullptr;
 	partCount = 0;
 	for (int i = 0; i < protoCount; i++) {
 		int idx = pcli->pfnGetAccountIndexByPos(i);
@@ -195,7 +195,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	}
 	else {
 		wStatus = maxStatus;
-		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : NULL, (int)wStatus, 0, &hIcon);
+		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : nullptr, (int)wStatus, 0, &hIcon);
 		g_maxStatus = (int)wStatus;
 		if (szMaxProto)
 			strncpy_s(g_maxProto, _countof(g_maxProto), szMaxProto, _TRUNCATE);
@@ -221,18 +221,18 @@ void CluiProtocolStatusChanged(int, const char*)
 				SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
 			else
 				SendMessage(hwndClistBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-			InvalidateRect(hwndClistBtn, NULL, TRUE);
+			InvalidateRect(hwndClistBtn, nullptr, TRUE);
 		}
 
 		HWND hwndTtbStatus = ClcGetButtonWindow(IDC_TBTOPSTATUS);
 		if (IsWindow(hwndTtbStatus)) {
-			if (g_ButtonItems == NULL) {
+			if (g_ButtonItems == nullptr) {
 				if (!hIcon)
 					SendMessage(hwndTtbStatus, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
 				else
 					SendMessage(hwndTtbStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			}
-			InvalidateRect(hwndTtbStatus, NULL, TRUE);
+			InvalidateRect(hwndTtbStatus, nullptr, TRUE);
 		}
 	}
 }

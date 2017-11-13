@@ -10,7 +10,7 @@ Distributed under GNU's GPL 2 or later
 #include "stdafx.h"
 
 wchar_t szClassName[] = L"wbOSD";
-const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), 0, 0 };
+const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), nullptr, 0 };
 
 int DrawMe(HWND hwnd, wchar_t *string, COLORREF color)
 {
@@ -165,7 +165,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		if (lParam == 0)
 			lParam = db_get_dw(NULL, THIS_MODULE, "timeout", DEFAULT_TIMEOUT);
 		ms->timeout = lParam;
-		ms->callback = 0;
+		ms->callback = nullptr;
 		ms->color = db_get_dw(NULL, THIS_MODULE, "clr_msg", DEFAULT_CLRMSG);
 		ms->param = 0;
 		SendMessage(hwnd, WM_USER + 4, (WPARAM)ms, 0);
@@ -196,7 +196,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		logmsg("WindowProcedure::USER+4");
 
 		ms = (osdmsg*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		if (ms != 0) {
+		if (ms != nullptr) {
 			logmsg("WindowProcedure::USER+4/old");
 			KillTimer(hwnd, (UINT_PTR)ms);
 			mir_free(ms->text);
@@ -209,8 +209,8 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		ms->text = mir_wstrdup(ms->text);
 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ms);
-		SetTimer(hwnd, (UINT_PTR)ms, (UINT)ms->timeout, 0);
-		InvalidateRect(hwnd, 0, TRUE);
+		SetTimer(hwnd, (UINT_PTR)ms, (UINT)ms->timeout, nullptr);
+		InvalidateRect(hwnd, nullptr, TRUE);
 		SendMessage(hwnd, WM_USER + 2, 0, 0);
 		return 0;
 
@@ -248,7 +248,7 @@ int pluginShutDown(WPARAM, LPARAM)
 		logmsg("pluginShutDown/hwnd");
 		SendMessage(g_hWnd, WM_USER + 3, 0, 0);
 		DestroyWindow(g_hWnd);
-		g_hWnd = NULL;
+		g_hWnd = nullptr;
 	}
 	return 0;
 }
@@ -265,13 +265,13 @@ int MainInit(WPARAM, LPARAM)
 	wincl.style = CS_DBLCLKS;
 	wincl.cbSize = sizeof(WNDCLASSEX);
 
-	wincl.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wincl.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-	wincl.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wincl.lpszMenuName = NULL;
+	wincl.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+	wincl.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
+	wincl.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wincl.lpszMenuName = nullptr;
 	wincl.cbClsExtra = 0;
 	wincl.cbWndExtra = 0;
-	wincl.hbrBackground = 0;
+	wincl.hbrBackground = nullptr;
 
 	if (!RegisterClassEx(&wincl))
 		return 0;
@@ -282,7 +282,7 @@ int MainInit(WPARAM, LPARAM)
 		db_get_dw(NULL, THIS_MODULE, "winypos", DEFAULT_WINYPOS),
 		db_get_dw(NULL, THIS_MODULE, "winx", DEFAULT_WINX),
 		db_get_dw(NULL, THIS_MODULE, "winy", DEFAULT_WINY),
-		HWND_DESKTOP, NULL, hI, NULL);
+		HWND_DESKTOP, nullptr, hI, nullptr);
 
 	SetWindowLongPtr(g_hWnd, GWLP_USERDATA, 0);
 

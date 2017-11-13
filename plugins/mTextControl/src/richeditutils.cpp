@@ -10,7 +10,7 @@ public:
 	CREOleCallback()
 	{
 		refCount = 1;
-		pictStg = 0;
+		pictStg = nullptr;
 		nextStgId = 0;
 	}
 
@@ -21,15 +21,15 @@ public:
 			this->AddRef();
 			return S_OK;
 		}
-		*ppvObj = NULL;
+		*ppvObj = nullptr;
 		return E_NOINTERFACE;
 	}
 
 	ULONG STDMETHODCALLTYPE AddRef()
 	{
 		if (this->refCount == 0) {
-			if (S_OK != StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &this->pictStg))
-				this->pictStg = NULL;
+			if (S_OK != StgCreateDocfile(nullptr, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &this->pictStg))
+				this->pictStg = nullptr;
 			this->nextStgId = 0;
 		}
 		return ++this->refCount;
@@ -78,7 +78,7 @@ public:
 	{
 		wchar_t sztName[64];
 		mir_snwprintf(sztName, L"s%u", this->nextStgId);
-		if (this->pictStg == NULL)
+		if (this->pictStg == nullptr)
 			return STG_E_MEDIUMFULL;
 
 		return this->pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
@@ -101,7 +101,7 @@ public:
 	}
 };
 
-IRichEditOleCallback *reOleCallback = 0;
+IRichEditOleCallback *reOleCallback = nullptr;
 
 void InitRichEdit(ITextServices *ts)
 {
@@ -131,12 +131,12 @@ void LoadRichEdit()
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
-	wcl.hIcon = NULL;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
+	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"NBRichEditProxyWndClass";
-	wcl.hIconSm = 0;
+	wcl.hIconSm = nullptr;
 	RegisterClassEx(&wcl);
 }
 
@@ -147,7 +147,7 @@ void UnloadRichEdit()
 
 HWND CreateProxyWindow(ITextServices *ts)
 {
-	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, 0, 0, hInst, 0);
+	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ts);
 	return hwnd;
 }

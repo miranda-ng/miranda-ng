@@ -323,7 +323,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				docked = 0;
 				GetCursorPos(&pt);
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
-				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2,
+				SetWindowPos(msg->hwnd, nullptr, pt.x - rc.right / 2,
 					pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2,
 					db_get_dw(0, "CList", "Width", 0),
 					db_get_dw(0, "CList", "Height", 0),

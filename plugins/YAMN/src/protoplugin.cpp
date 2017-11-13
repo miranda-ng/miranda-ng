@@ -9,7 +9,7 @@
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-PYAMN_PROTOPLUGINQUEUE FirstProtoPlugin=NULL;
+PYAMN_PROTOPLUGINQUEUE FirstProtoPlugin=nullptr;
 
 INT_PTR RegisterProtocolPluginSvc(WPARAM,LPARAM);
 
@@ -53,20 +53,20 @@ INT_PTR RegisterProtocolPluginSvc(WPARAM wParam,LPARAM lParam)
 
 	if (lParam != YAMN_PROTOREGISTRATIONVERSION)
 		return 0;
-	if ((Registration->Name==NULL) || (Registration->Ver==NULL))
+	if ((Registration->Name==nullptr) || (Registration->Ver==nullptr))
 		return (INT_PTR)NULL;
-	if (NULL==(Plugin=new YAMN_PROTOPLUGIN))
+	if (nullptr==(Plugin=new YAMN_PROTOPLUGIN))
 		return (INT_PTR)NULL;
 
 	Plugin->PluginInfo=Registration;
 
-	Plugin->FirstAccount=NULL;
+	Plugin->FirstAccount=nullptr;
 
 	Plugin->AccountBrowserSO=new SWMRG;
-	SWMRGInitialize(Plugin->AccountBrowserSO,NULL);
+	SWMRGInitialize(Plugin->AccountBrowserSO,nullptr);
 
-	Plugin->Fcn=NULL;
-	Plugin->MailFcn=NULL;
+	Plugin->Fcn=nullptr;
+	Plugin->MailFcn=nullptr;
 
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"::: YAMN- new protocol registered: %0x (%s) :::\n",Plugin,Registration->Name);
@@ -82,9 +82,9 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 		return 0;
 	if (YAMNMailFcnVer != YAMN_MAILIMPORTFCNVERSION)
 		return 0;
-	if (YAMNFcn==NULL)
+	if (YAMNFcn==nullptr)
 		return 0;
-	if (YAMNMailFcn==NULL)
+	if (YAMNMailFcn==nullptr)
 		return 0;
 
 #ifdef DEBUG_SYNCHRO
@@ -95,8 +95,8 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 
 	mir_cslock lck(PluginRegCS);
 	// We add protocol to the protocol list
-	for (Parser=FirstProtoPlugin;Parser != NULL && Parser->Next != NULL;Parser=Parser->Next);
-	if (Parser==NULL)
+	for (Parser=FirstProtoPlugin;Parser != nullptr && Parser->Next != nullptr;Parser=Parser->Next);
+	if (Parser==nullptr)
 	{
 		FirstProtoPlugin=new YAMN_PROTOPLUGINQUEUE;
 		Parser=FirstProtoPlugin;
@@ -108,7 +108,7 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 	}
 
 	Parser->Plugin=Plugin;
-	Parser->Next=NULL;
+	Parser->Next=nullptr;
 	return 1;
 }
 
@@ -126,21 +126,21 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 	}
 	else
 	{
-		for (Parser=FirstProtoPlugin;(Parser->Next != NULL) && (Plugin != Parser->Next->Plugin);Parser=Parser->Next);
-		if (Parser->Next != NULL)
+		for (Parser=FirstProtoPlugin;(Parser->Next != nullptr) && (Plugin != Parser->Next->Plugin);Parser=Parser->Next);
+		if (Parser->Next != nullptr)
 		{
 			Found=Parser->Next;
 			Parser->Next=Parser->Next->Next;
 		}
 		else
-			Found=NULL;
+			Found=nullptr;
 	}
-	if (Found != NULL)
+	if (Found != nullptr)
 	{
 		StopAccounts(Plugin);
 		DeleteAccounts(Plugin);
-		if (Plugin->Fcn->UnLoadFcn != NULL)
-			Plugin->Fcn->UnLoadFcn((void *)0);
+		if (Plugin->Fcn->UnLoadFcn != nullptr)
+			Plugin->Fcn->UnLoadFcn((void *)nullptr);
 		
 		delete Found->Plugin->AccountBrowserSO;
 		delete Found->Plugin;
@@ -168,7 +168,7 @@ INT_PTR UnregisterProtoPlugins()
 {
 	mir_cslock lck(PluginRegCS);
 	// We remove protocols from the protocol list
-	while(FirstProtoPlugin != NULL)
+	while(FirstProtoPlugin != nullptr)
 		UnregisterProtocolPlugin(FirstProtoPlugin->Plugin);
 	return 1;
 }
@@ -176,7 +176,7 @@ INT_PTR UnregisterProtoPlugins()
 INT_PTR GetFileNameSvc(WPARAM wParam,LPARAM)
 {
 	wchar_t *FileName = new wchar_t[MAX_PATH];
-	if (FileName == NULL)
+	if (FileName == nullptr)
 		return NULL;
 
 	mir_snwprintf(FileName, MAX_PATH, L"%s\\yamn-accounts.%s.%s.book", UserDirectory, wParam, ProfileName);
@@ -185,7 +185,7 @@ INT_PTR GetFileNameSvc(WPARAM wParam,LPARAM)
 
 INT_PTR DeleteFileNameSvc(WPARAM wParam,LPARAM)
 {
-	if (( wchar_t* )wParam != NULL)
+	if (( wchar_t* )wParam != nullptr)
 		delete[] ( wchar_t* ) wParam;
 
 	return 0;

@@ -32,8 +32,8 @@ static MWindowList hWindowList, hWindowList2;
 
 static wchar_t *StrNormNewline(wchar_t *tszStr)
 {
-	if (tszStr == NULL)
-		return NULL;
+	if (tszStr == nullptr)
+		return nullptr;
 
 	int nCR = 0;
 	for (int i = 0; tszStr[i]; i++)
@@ -76,7 +76,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 		dat->hContact = lParam;
 		dat->hSeq = (HANDLE)ProtoChainSend(dat->hContact, PSS_GETAWAYMSG, 0, 0);
-		dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : NULL;
+		dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : nullptr;
 		WindowList_Add(hWindowList, hwndDlg, dat->hContact);
 		{
 			wchar_t str[256], format[128];
@@ -112,7 +112,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				break;
 			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) {
 				UnhookEvent(dat->hAwayMsgEvent);
-				dat->hAwayMsgEvent = NULL;
+				dat->hAwayMsgEvent = nullptr;
 			}
 
 			wchar_t *tszMsg = StrNormNewline((wchar_t *)ack->lParam);
@@ -143,7 +143,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
-					if (hglbCopy == NULL) {
+					if (hglbCopy == nullptr) {
 						CloseClipboard();
 						break;
 					}
@@ -183,7 +183,7 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
+	else CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_READAWAYMSG), nullptr, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }
 
@@ -200,7 +200,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 			dat->hContact = lParam;
 			dat->hSeq = (HANDLE)ProtoChainSend(dat->hContact, PSS_GETAWAYMSG, 0, 0);
-			dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : NULL;
+			dat->hAwayMsgEvent = dat->hSeq ? HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_AWAYMSG) : nullptr;
 			WindowList_Add(hWindowList2, hwndDlg, dat->hContact);
 			wchar_t *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 			wchar_t str[256], format[128];
@@ -225,7 +225,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			}
 			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) {
 				UnhookEvent(dat->hAwayMsgEvent);
-				dat->hAwayMsgEvent = NULL;
+				dat->hAwayMsgEvent = nullptr;
 			}
 
 			if (!OpenClipboard(hwndDlg)) {
@@ -241,7 +241,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
-					if (hglbCopy == NULL) {
+					if (hglbCopy == nullptr) {
 						CloseClipboard();
 						DestroyWindow(hwndDlg);
 						break;
@@ -288,21 +288,21 @@ static INT_PTR CopyAwayMsgCommand(WPARAM wParam, LPARAM)
 		SetFocus(hwnd);
 	}
 	else
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COPY), NULL, CopyAwayMsgDlgProc, wParam);
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COPY), nullptr, CopyAwayMsgDlgProc, wParam);
 	return 0;
 }
 
 static char *StrFindURL(char *pszStr)
 {
-	char *pszURL = NULL;
+	char *pszURL = nullptr;
 
-	if (pszStr != NULL && *pszStr != '\0') {
+	if (pszStr != nullptr && *pszStr != '\0') {
 		pszURL = strstr(pszStr, "www.");
-		if (pszURL == NULL)
+		if (pszURL == nullptr)
 			pszURL = strstr(pszStr, "http://");
-		if (pszURL == NULL)
+		if (pszURL == nullptr)
 			pszURL = strstr(pszStr, "https://");
-		if (pszURL == NULL)
+		if (pszURL == nullptr)
 			pszURL = strstr(pszStr, "ftp://");
 	}
 
@@ -314,7 +314,7 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM)
 	ptrA szMsg(db_get_sa(wParam, "CList", "StatusMsg"));
 
 	char *szURL = StrFindURL(szMsg);
-	if (szURL != NULL) {
+	if (szURL != nullptr) {
 		int i;
 		for (i = 0; szURL[i] != ' ' && szURL[i] != '\n' && szURL[i] != '\r' && szURL[i] != '\t' && szURL[i] != '\0'; i++);
 
@@ -336,7 +336,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hAwayMsgMenuItem, false);
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0))
+	if (szProto == nullptr || db_get_b(hContact, szProto, "ChatRoom", 0))
 		return 0;
 
 	wchar_t str[128];
@@ -353,7 +353,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 				mir_snwprintf(str, TranslateT("Copy %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 				Menu_ModifyItem(hCopyMsgMenuItem, str);
 
-				if (StrFindURL(szMsg) != NULL) {
+				if (StrFindURL(szMsg) != nullptr) {
 					mir_snwprintf(str, TranslateT("&Go to URL in %s message"), pcli->pfnGetStatusModeDescription(iStatus, 0));
 					Menu_ModifyItem(hGoToURLMenuItem, str);
 				}

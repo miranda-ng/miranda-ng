@@ -103,7 +103,7 @@ static LRESULT CALLBACK TlenValidateUsernameWndProc(HWND hwndEdit, UINT msg, WPA
 {
 	switch (msg) {
 	case WM_CHAR:
-		if (strchr("\"&'/:<>@", wParam&0xff) != NULL)
+		if (strchr("\"&'/:<>@", wParam&0xff) != nullptr)
 			return 0;
 		break;
 	}
@@ -549,7 +549,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			db_set_s(NULL, proto->m_szModuleName, "ManualHost", text);
 
-			port = (WORD) GetDlgItemInt(hwndDlg, IDC_HOSTPORT, NULL, FALSE);
+			port = (WORD) GetDlgItemInt(hwndDlg, IDC_HOSTPORT, nullptr, FALSE);
 			if (db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT) != port)
 				reconnectRequired = true;
 			db_set_w(NULL, proto->m_szModuleName, "ManualPort", port);
@@ -571,7 +571,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_HOST, text, _countof(text));
 			db_set_s(NULL, proto->m_szModuleName, "FileProxyHost", text);
 
-			db_set_w(NULL, proto->m_szModuleName, "FileProxyPort", (WORD) GetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, NULL, FALSE));
+			db_set_w(NULL, proto->m_szModuleName, "FileProxyPort", (WORD) GetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, nullptr, FALSE));
 			db_set_b(NULL, proto->m_szModuleName, "FileProxyAuth", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_PROXY_USE_AUTH));
 
 			GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_USER, text, _countof(text));
@@ -654,7 +654,7 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					} else if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_PERMANENT)) {
 						delay=-1;
 					} else {
-						delay=GetDlgItemInt(hwndDlg, IDC_DELAY, NULL, FALSE);
+						delay=GetDlgItemInt(hwndDlg, IDC_DELAY, nullptr, FALSE);
 					}
 					mir_snwprintf(title, TranslateT("%S mail"), proto->m_szModuleName);
 					MailPopupPreview((DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORBKG,CPM_GETCOLOUR,0,0),
@@ -676,7 +676,7 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					db_set_b(NULL, proto->m_szModuleName, "MailPopupEnabled", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLEPOPUP));
 					db_set_dw(NULL, proto->m_szModuleName, "MailPopupBack", (DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORBKG,CPM_GETCOLOUR,0,0));
 					db_set_dw(NULL, proto->m_szModuleName, "MailPopupText", (DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORTXT,CPM_GETCOLOUR,0,0));
-					db_set_dw(NULL, proto->m_szModuleName, "MailPopupDelay", (DWORD) GetDlgItemInt(hwndDlg,IDC_DELAY, NULL, FALSE));
+					db_set_dw(NULL, proto->m_szModuleName, "MailPopupDelay", (DWORD) GetDlgItemInt(hwndDlg,IDC_DELAY, nullptr, FALSE));
 					delayMode=0;
 					if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_CUSTOM)) {
 						delayMode=1;

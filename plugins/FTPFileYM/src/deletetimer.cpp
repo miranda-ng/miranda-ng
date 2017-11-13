@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-DeleteTimer *DeleteTimer::instance = NULL;
+DeleteTimer *DeleteTimer::instance = nullptr;
 DeleteTimer &deleteTimer = DeleteTimer::getInstance();
 
 extern Options &opt;
@@ -39,13 +39,13 @@ void DeleteTimer::deinit()
 void DeleteTimer::start()
 {
 	if (!timerId)
-		timerId = SetTimer(NULL, 0, 1000 * 60 * 5, (TIMERPROC)AutoDeleteTimerProc);
+		timerId = SetTimer(nullptr, 0, 1000 * 60 * 5, (TIMERPROC)AutoDeleteTimerProc);
 }
 
 void DeleteTimer::stop()
 {
 	if (timerId) {
-		KillTimer(NULL, timerId);
+		KillTimer(nullptr, timerId);
 		timerId = 0;
 	}
 }
@@ -55,9 +55,9 @@ void CALLBACK DeleteTimer::AutoDeleteTimerProc(HWND, UINT, UINT_PTR, DWORD)
 	mir_cslock lock(DBEntry::mutexDB);
 
 	DBEntry *entry = DBEntry::getFirst();
-	while (entry != NULL) {
-		if (entry->m_deleteTS > 0 && entry->m_deleteTS < time(NULL)) {
-			DeleteJob *job = new DeleteJob(new DBEntry(entry), NULL);
+	while (entry != nullptr) {
+		if (entry->m_deleteTS > 0 && entry->m_deleteTS < time(nullptr)) {
+			DeleteJob *job = new DeleteJob(new DBEntry(entry), nullptr);
 			job->start();
 		}
 

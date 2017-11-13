@@ -132,7 +132,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 	unsigned  i;
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, _countof(szSearchPath));
+	GetModuleFileName(GetModuleHandle(nullptr), szSearchPath, _countof(szSearchPath));
 	chop = wcsrchr(szSearchPath, '\\');
 
 	if (chop) *chop = '\0';
@@ -169,7 +169,7 @@ void AvatarDownloaded(MCONTACT hContact)
 	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&ai) == GAIR_SUCCESS)
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 	else
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 }
 
 static void __cdecl WeatherGetAwayMsgThread(void *arg)
@@ -188,7 +188,7 @@ static void __cdecl WeatherGetAwayMsgThread(void *arg)
 static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)
 {
 	CCSDATA* ccs = (CCSDATA*)lParam;
-	if (ccs == NULL)
+	if (ccs == nullptr)
 		return 0;
 
 	mir_forkthread(WeatherGetAwayMsgThread, (void*)ccs->hContact);
@@ -372,8 +372,8 @@ void AddMenuItems(void)
 		mi.pszService = "Weather/mwin_menu";
 		CreateServiceFunction(mi.pszService, Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
-		mi.hIcolibItem = NULL;
-		mi.root = NULL;
+		mi.hIcolibItem = nullptr;
+		mi.root = nullptr;
 		mi.name.a = LPGEN("Display in a frame");
 		hMwinMenu = Menu_AddContactMenuItem(&mi, WEATHERPROTONAME);
 	}

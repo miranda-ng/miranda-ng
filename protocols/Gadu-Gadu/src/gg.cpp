@@ -47,8 +47,8 @@ int hLangpack;
 LIST<GGPROTO> g_Instances(1, PtrKeySortT);
 
 // Event hooks
-static HANDLE hHookModulesLoaded = NULL;
-static HANDLE hHookPreShutdown = NULL;
+static HANDLE hHookModulesLoaded = nullptr;
+static HANDLE hHookPreShutdown = nullptr;
 
 static unsigned long crc_table[256];
 
@@ -63,7 +63,7 @@ wchar_t* ws_strerror(int code)
    if (code == 0)
    {
       wchar_t buff[128];
-      int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(), 0, buff, _countof(buff), NULL);
+      int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, WSAGetLastError(), 0, buff, _countof(buff), nullptr);
       if (len == 0)
          mir_snwprintf(err_desc, L"WinSock %u: Unknown error.", WSAGetLastError());
       else
@@ -83,7 +83,7 @@ char* as_strerror(int code)
    if (code == 0)
    {
       char buff[128];
-      int len = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, WSAGetLastError(), 0, buff, _countof(buff), NULL);
+      int len = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, WSAGetLastError(), 0, buff, _countof(buff), nullptr);
       if (len == 0)
          mir_snprintf(err_desc, "WinSock %u: Unknown error.", WSAGetLastError());
       else
@@ -216,14 +216,14 @@ static int gg_modulesloaded(WPARAM, LPARAM)
 static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 {
    char* szProto = GetContactProto(hContact);
-   if (szProto == NULL)
-      return NULL;
+   if (szProto == nullptr)
+      return nullptr;
 
    for (int i=0; i < g_Instances.getCount(); i++)
       if (mir_strcmp(szProto, g_Instances[i]->m_szModuleName) == 0)
          return g_Instances[i];
 
-   return NULL;
+   return nullptr;
 }
 
 //////////////////////////////////////////////////////////
@@ -232,7 +232,7 @@ static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 {
    GGPROTO* gg = gg_getprotoinstance(hContact);
-   if (gg == NULL)
+   if (gg == nullptr)
       return 0;
 
    if (gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) || gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
@@ -442,7 +442,7 @@ void gg_debughandler(int level, const char *format, va_list ap)
    memcpy(szText, prefix, PREFIXLEN);
 
    mir_vsnprintf(szText + mir_strlen(szText), sizeof(szText) - mir_strlen(szText), szFormat, ap);
-   Netlib_Log(NULL, szText);
+   Netlib_Log(nullptr, szText);
    free(szFormat);
 }
 #endif

@@ -28,7 +28,7 @@ enum ETreeCheckBoxState
 
 HTREEITEM tree_insert_item(HWND hwndTree, wchar_t *pName, HTREEITEM htiParent, ETreeCheckBoxState nState, CTreeItemData *pData)
 {
-	TVINSERTSTRUCT tvi = { 0 };
+	TVINSERTSTRUCT tvi = {};
 	tvi.hParent = htiParent;
 	tvi.hInsertAfter = TVI_LAST;
 	tvi.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_STATE;
@@ -129,7 +129,7 @@ const CTreeItemData* get_item_data(HWND hwndTreeCtrl,HTREEITEM hti)
 		CTreeItemData* pData = reinterpret_cast<CTreeItemData*>(tvi.lParam);
 		return pData;
 	}
-	return NULL;
+	return nullptr;
 }
 
 

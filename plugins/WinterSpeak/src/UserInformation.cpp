@@ -47,7 +47,7 @@ std::wstring UserInformation::statusString(MCONTACT user)
 std::wstring UserInformation::statusModeString(MCONTACT user)
 {
 	WCHAR *status = pcli->pfnGetStatusModeDescription(m_status_info[user], 0);
-	if (NULL == status)
+	if (nullptr == status)
 		return L"";
 
 	return status;
@@ -64,7 +64,7 @@ void UserInformation::insertName(std::wstring &str, MCONTACT user) const
 std::wstring UserInformation::nameString(MCONTACT user) const
 {
 	WCHAR *ret = pcli->pfnGetContactDisplayName(user, 0);
-	if (0 == ret)
+	if (nullptr == ret)
 		return L"";
 
 	return TranslateW(ret);

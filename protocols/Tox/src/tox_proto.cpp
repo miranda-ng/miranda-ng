@@ -2,8 +2,8 @@
 
 CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CToxProto>(protoName, userName),
-	toxThread(NULL), isTerminated(false),
-	hCheckingThread(NULL), hPollingThread(NULL),
+	toxThread(nullptr), isTerminated(false),
+	hCheckingThread(nullptr), hPollingThread(nullptr),
 	hMessageProcess(1)
 {
 	InitNetlib();
@@ -33,7 +33,7 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 
 	// hAudioDialogs = WindowList_Create();
 
-	hTerminateEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hTerminateEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
 
 CToxProto::~CToxProto()
@@ -173,7 +173,7 @@ int CToxProto::SetStatus(int iNewStatus)
 		// login
 		isTerminated = false;
 		m_iStatus = ID_STATUS_CONNECTING;
-		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, NULL, NULL);
+		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, nullptr, nullptr);
 	}
 	else {
 		// set tox status
@@ -192,7 +192,7 @@ HANDLE CToxProto::GetAwayMsg(MCONTACT hContact)
 		return (HANDLE)hContact;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 int CToxProto::SetAwayMsg(int, const wchar_t *msg)

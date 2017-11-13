@@ -65,11 +65,11 @@ static void CALLBACK BufferedProcTimer(HWND hwnd, UINT, UINT_PTR idTimer, DWORD 
 			--i; /* reiterate current */
 			if (nCallListCount) {
 				buf = (struct BufferedCallData*)mir_realloc(callList, nCallListCount*sizeof(struct BufferedCallData));
-				if (buf != NULL) callList = buf;
+				if (buf != nullptr) callList = buf;
 			}
 			else {
 				mir_free(callList);
-				callList = NULL;
+				callList = nullptr;
 			}
 			#ifdef _DEBUG
 			mir_snprintf(szDbgLine, "buffered call: %s(0x%X)\n", pszProcName, lParam); /* all ascii */
@@ -106,7 +106,7 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, const char *pszProcName, LP
 void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumulateSameParam, UINT uElapse)
 #endif
 {
-	struct BufferedCallData *data = NULL;
+	struct BufferedCallData *data = nullptr;
 	int i;
 
 	/* find existing */
@@ -117,10 +117,10 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumu
 				break;
 			}
 	/* append new */
-	if (data == NULL) {
+	if (data == nullptr) {
 		/* resize storage array */
 		data = (struct BufferedCallData*)mir_realloc(callList, (nCallListCount + 1)*sizeof(struct BufferedCallData));
-		if (data == NULL) return;
+		if (data == nullptr) return;
 		callList = data;
 		data = &callList[nCallListCount];
 		++nCallListCount;
@@ -144,7 +144,7 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc, LPARAM lParam, BOOL fAccumu
 	#endif
 	/* set next timer */
 	if (idBufferedTimer) uElapse = USER_TIMER_MINIMUM; /* will get recalculated */
-	idBufferedTimer = SetTimer(NULL, idBufferedTimer, uElapse, BufferedProcTimer);
+	idBufferedTimer = SetTimer(nullptr, idBufferedTimer, uElapse, BufferedProcTimer);
 }
 
 // assumes to be called in context of main thread
@@ -152,13 +152,13 @@ void PrepareBufferedFunctions(void)
 {
 	idBufferedTimer = 0;
 	nCallListCount = 0;
-	callList = NULL;
+	callList = nullptr;
 }
 
 // assumes to be called in context of main thread
 void KillBufferedFunctions(void)
 {
-	if (idBufferedTimer) KillTimer(NULL, idBufferedTimer);
+	if (idBufferedTimer) KillTimer(nullptr, idBufferedTimer);
 	nCallListCount = 0;
 	mir_free(callList); /* does NULL check */
 }

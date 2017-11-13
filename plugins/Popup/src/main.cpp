@@ -40,11 +40,11 @@ int hLangpack = 0;
 CLIST_INTERFACE *pcli;
 
 //===== Global variables ================================================================
-HMODULE  hUserDll = 0;
-HMODULE  hMsimgDll = 0;
-HMODULE  hKernelDll = 0;
-HMODULE  hGdiDll = 0;
-HMODULE  hDwmapiDll = 0;
+HMODULE  hUserDll = nullptr;
+HMODULE  hMsimgDll = nullptr;
+HMODULE  hKernelDll = nullptr;
+HMODULE  hGdiDll = nullptr;
+HMODULE  hDwmapiDll = nullptr;
 
 GLOBAL_WND_CLASSES g_wndClass = { 0 };
 
@@ -114,16 +114,16 @@ static int IconsChanged(WPARAM, LPARAM)
 		? GetIconHandle(IDI_POPUP)
 		: GetIconHandle(IDI_NOPOPUP);
 
-	Menu_ModifyItem(hMenuItem, NULL, hIcon);
-	Menu_ModifyItem(hMenuRoot, NULL, hIcon);
+	Menu_ModifyItem(hMenuItem, nullptr, hIcon);
+	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
 
-	Menu_ModifyItem(hMenuItemHistory, NULL, GetIconHandle(IDI_HISTORY));
+	Menu_ModifyItem(hMenuItemHistory, nullptr, GetIconHandle(IDI_HISTORY));
 	return 0;
 }
 
 static int TTBLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.pszService = MENUCOMMAND_SVC;
 	ttb.lParamUp = 1;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
@@ -157,7 +157,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		Menu_ModifyItem(hMenuItem, LPGENW("Disable Popups"), hIcon = GetIconHandle(IDI_POPUP));
 	}
 
-	Menu_ModifyItem(hMenuRoot, NULL, hIcon);
+	Menu_ModifyItem(hMenuRoot, nullptr, hIcon);
 
 	if (hTTButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopupOptions.ModuleIsEnabled) ? TTBST_PUSHED : 0);
@@ -238,7 +238,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		htuText = MText.Register("Popup Plus/Text", MTEXT_FANCY_DEFAULT);
 		htuTitle = MText.Register("Popup Plus/Title", MTEXT_FANCY_DEFAULT);
 	}
-	else htuTitle = htuText = NULL;
+	else htuTitle = htuText = nullptr;
 
 	// check if OptionLoaded
 	if (!OptionLoaded)
@@ -331,14 +331,14 @@ MIRAPI int Load(void)
 
 	// Transparent and animation routines
 	hDwmapiDll = LoadLibrary(L"dwmapi.dll");
-	MyDwmEnableBlurBehindWindow = 0;
+	MyDwmEnableBlurBehindWindow = nullptr;
 	if (hDwmapiDll)
 		MyDwmEnableBlurBehindWindow = (HRESULT(WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 
 	PopupHistoryLoad();
 	LoadPopupThread();
 	if (!LoadPopupWnd2()) {
-		MessageBox(0, TranslateT("Error: I could not register the Popup Window class.\r\nThe plugin will not operate."), MODULNAME_LONG, MB_ICONSTOP | MB_OK);
+		MessageBox(nullptr, TranslateT("Error: I could not register the Popup Window class.\r\nThe plugin will not operate."), MODULNAME_LONG, MB_ICONSTOP | MB_OK);
 		return 0; // We couldn't register our Window Class, don't hook any event: the plugin will act as if it was disabled.
 	}
 	RegisterOptPrevBox();

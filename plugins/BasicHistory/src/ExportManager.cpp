@@ -90,7 +90,7 @@ std::wstring ReplaceExt(const std::wstring& file, const wchar_t* ext)
 
 bool ExportManager::Export(IExport::ExportType type)
 {
-	m_exp = NULL;
+	m_exp = nullptr;
 	UINT cp;
 	std::wstring encoding;
 	bool isBin = false;
@@ -180,7 +180,7 @@ bool ExportManager::Export(IExport::ExportType type)
 
 const wchar_t* ExportManager::GetExt(IImport::ImportType type)
 {
-	IImport *imp = NULL;
+	IImport *imp = nullptr;
 	switch (type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
@@ -199,7 +199,7 @@ const wchar_t* ExportManager::GetExt(IImport::ImportType type)
 
 int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>& contacts)
 {
-	IImport *imp = NULL;
+	IImport *imp = nullptr;
 	switch (type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
@@ -238,7 +238,7 @@ int ExportManager::Import(IImport::ImportType type, const std::vector<MCONTACT>&
 
 bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::ExternalMessage>& eventList, std::wstring* err, bool* differentContact, std::vector<MCONTACT>* contacts)
 {
-	IImport *imp = NULL;
+	IImport *imp = nullptr;
 	switch (type) {
 	case IImport::Binary:
 		imp = new BinaryExport();
@@ -269,10 +269,10 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	int contInFile = imp->IsContactInFile(v);
 	if (contInFile == -1) {
 		ret = false;
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("File does not contain selected contact");
 
-		if (contacts != NULL && differentContact != NULL) {
+		if (contacts != nullptr && differentContact != nullptr) {
 			contInFile = imp->IsContactInFile(*contacts);
 			if (contInFile >= 0) {
 				*differentContact = true;
@@ -282,12 +282,12 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 	}
 	else if (contInFile == 0 || contInFile == -3) {
 		ret = imp->GetEventList(eventList);
-		if (!ret && err != NULL)
+		if (!ret && err != nullptr)
 			*err = TranslateT("File is corrupted");
 	}
 	else {
 		ret = false;
-		if (err != NULL)
+		if (err != nullptr)
 			*err = TranslateT("File is corrupted");
 	}
 	stream->close();
@@ -298,7 +298,7 @@ bool ExportManager::Import(IImport::ImportType type, std::vector<IImport::Extern
 
 void ExportManager::AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int)
 {
-	if (m_exp == NULL)
+	if (m_exp == nullptr)
 		return;
 
 	m_exp->WriteGroup(isMe, time, user, eventText);
@@ -371,7 +371,7 @@ void ExportManager::DeleteExportedEvents()
 
 void ExportManager::SetDeleteWithoutExportEvents(int deltaTime, DWORD now)
 {
-	m_exp = NULL;
+	m_exp = nullptr;
 	m_deltaTime = deltaTime;
 	m_now = now;
 	RefreshEventList();

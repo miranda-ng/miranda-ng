@@ -23,26 +23,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 TextToken::TextToken(int _type, const char *_text, int _len)
 {
-	next = NULL;
+	next = nullptr;
 	tag = 0;
 	end = false;
 	type = _type;
 	text = mir_strndup(_text, _len);
 	wtext = mir_a2u(text);
-	link = NULL;
-	wlink = NULL;
+	link = nullptr;
+	wlink = nullptr;
 }
 
 TextToken::TextToken(int _type, const wchar_t *_wtext, int _len)
 {
-	next = NULL;
+	next = nullptr;
 	tag = 0;
 	end = false;
 	type = _type;
 	wtext = mir_wstrndup(_wtext, _len);
 	text = mir_u2a(wtext);
-	link = NULL;
-	wlink = NULL;
+	link = nullptr;
+	wlink = nullptr;
 }
 
 TextToken::~TextToken()
@@ -92,7 +92,7 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 	static int      bbTagEnd[BB_TAG_NUM];
 	static int      bbTagCount[BB_TAG_NUM];
 	int i, j;
-	TextToken *firstToken = NULL, *lastToken = NULL, *bbToken = NULL;
+	TextToken *firstToken = nullptr, *lastToken = nullptr, *bbToken = nullptr;
 	int textLen = 0;
 	for (j = 0; j < BB_TAG_NUM; j++) {
 		bbTagCount[j] = 0;
@@ -213,14 +213,14 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 			if (textLen > 0) {
 				TextToken *newToken = new TextToken(TEXT, text + i - textLen, textLen);
 				textLen = 0;
-				if (lastToken == NULL)
+				if (lastToken == nullptr)
 					firstToken = newToken;
 				else
 					lastToken->setNext(newToken);
 				lastToken = newToken;
 			}
 			if (newTokenType == BBCODE) {
-				if (lastToken == NULL)
+				if (lastToken == nullptr)
 					firstToken = bbToken;
 				else
 					lastToken->setNext(bbToken);
@@ -237,7 +237,7 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l)
 
 TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 {
-	TextToken *firstToken = NULL, *lastToken = NULL;
+	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int textLen = 0;
 	int l = (int)mir_wstrlen(text);
 	for (int i = 0; i <= l;) {
@@ -267,7 +267,7 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 			if (textLen > 0) {
 				TextToken *newToken = new TextToken(TEXT, text + i - textLen, textLen);
 				textLen = 0;
-				if (lastToken == NULL)
+				if (lastToken == nullptr)
 					firstToken = newToken;
 				else
 					lastToken->setNext(newToken);
@@ -277,7 +277,7 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 			if (newTokenType == WWWLINK || newTokenType == LINK) {
 				TextToken *newToken = new TextToken(newTokenType, text + i, newTokenSize);
 				newToken->setLink(newToken->getText());
-				if (lastToken == NULL)
+				if (lastToken == nullptr)
 					firstToken = newToken;
 				else
 					lastToken->setNext(newToken);
@@ -294,7 +294,7 @@ TextToken* TextToken::tokenizeLinks(const wchar_t *text)
 
 TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, const wchar_t *text, bool isSent)
 {
-	TextToken *firstToken = NULL, *lastToken = NULL;
+	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int l = (int)mir_wstrlen(text);
 	if (!Options::isSmileyAdd())
 		return new TextToken(TEXT, text, l);
@@ -307,12 +307,12 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 	sp.hContact = hContact;
 	SMADD_BATCHPARSERES *spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	int last_pos = 0;
-	if (spRes != NULL) {
+	if (spRes != nullptr) {
 		for (int i = 0; i < (int)sp.numSmileys; i++) {
-			if (spRes[i].filepath != NULL && mir_strlen((char *)spRes[i].filepath) > 0) {
+			if (spRes[i].filepath != nullptr && mir_strlen((char *)spRes[i].filepath) > 0) {
 				if ((int)spRes[i].startChar - last_pos > 0) {
 					TextToken *newToken = new TextToken(TEXT, text + last_pos, spRes[i].startChar - last_pos);
-					if (lastToken == NULL)
+					if (lastToken == nullptr)
 						firstToken = newToken;
 					else
 						lastToken->setNext(newToken);
@@ -325,7 +325,7 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 				else
 					newToken->setLink((char *)spRes[i].filepath);
 
-				if (lastToken == NULL)
+				if (lastToken == nullptr)
 					firstToken = newToken;
 				else
 					lastToken->setNext(newToken);
@@ -338,7 +338,7 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 	}
 	if (last_pos < l) {
 		TextToken *newToken = new TextToken(TEXT, text + last_pos, l - last_pos);
-		if (lastToken == NULL)
+		if (lastToken == nullptr)
 			firstToken = newToken;
 		else
 			lastToken->setNext(newToken);
@@ -350,7 +350,7 @@ TextToken* TextToken::tokenizeSmileys(MCONTACT hContact, const char *proto, cons
 
 TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
 {
-	TextToken *firstToken = NULL, *lastToken = NULL;
+	TextToken *firstToken = nullptr, *lastToken = nullptr;
 	int textLen = 0;
 	int l = (int)mir_wstrlen(text);
 	wchar_t* tokenBuffer = new wchar_t[l + 1];
@@ -359,7 +359,7 @@ TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
 		int newTokenSize = 1;
 		int newTokenTag = 0;
 		int newTokenTextLen = 0;
-		const wchar_t * newTokenText = NULL;
+		const wchar_t * newTokenText = nullptr;
 		bool endToken = false;
 
 
@@ -420,7 +420,7 @@ TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
 			if (textLen > 0) {
 				TextToken *newToken = new TextToken(TEXT, tokenBuffer, textLen);
 				textLen = 0;
-				if (lastToken == NULL)
+				if (lastToken == nullptr)
 					firstToken = newToken;
 				else
 					lastToken->setNext(newToken);
@@ -431,7 +431,7 @@ TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
 				TextToken *newToken = new TextToken(newTokenType, newTokenText, newTokenTextLen);
 				newToken->setEnd(endToken);
 				newToken->setTag(newTokenTag);
-				if (lastToken == NULL)
+				if (lastToken == nullptr)
 					firstToken = newToken;
 				else
 					lastToken->setNext(newToken);
@@ -453,8 +453,8 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 {
 	wchar_t *out;
 	const wchar_t *ptr;
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 	int c = 0;
 	bool wasSpace = false;
 	for (ptr = str; *ptr != '\0'; ptr++) {
@@ -502,7 +502,7 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str)
 
 void TextToken::toString(CMStringW &str)
 {
-	wchar_t *eText = NULL, *eLink = NULL;
+	wchar_t *eText = nullptr, *eLink = nullptr;
 	switch (type) {
 	case TEXT:
 		eText = htmlEncode(wtext);
@@ -516,12 +516,12 @@ void TextToken::toString(CMStringW &str)
 			const wchar_t *linkPrefix = type == WWWLINK ? L"http://" : L"";
 			if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_EMBED)) {
 				wchar_t *match = wcsstr(wlink, L"youtube.com");
-				if (match != NULL) {
+				if (match != nullptr) {
 					match = wcsstr(match + 11, L"v=");
-					if (match != NULL) {
+					if (match != nullptr) {
 						match += 2;
 						wchar_t *match2 = wcsstr(match, L"&");
-						int len = match2 != NULL ? match2 - match : (int)mir_wstrlen(match);
+						int len = match2 != nullptr ? match2 - match : (int)mir_wstrlen(match);
 						match = mir_wstrdup(match);
 						match[len] = 0;
 						int width = 0;
@@ -563,7 +563,7 @@ void TextToken::toString(CMStringW &str)
 		break;
 	case SMILEY:
 		eText = htmlEncode(wtext);
-		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(wlink, L".swf") != NULL)) {
+		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(wlink, L".swf") != nullptr)) {
 			str.AppendFormat(L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 				 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
 					<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
@@ -595,14 +595,14 @@ void TextToken::toString(CMStringW &str)
 				break;
 			case BB_IMG:
 				eText = htmlEncode(wtext);
-				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && eText != NULL && (wcsstr(eText, L".swf") != NULL)) {
+				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && eText != nullptr && (wcsstr(eText, L".swf") != nullptr)) {
 					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 							codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
 							eText);
 				}
 				else {
-					if (eText != NULL && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8))
+					if (eText != nullptr && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8))
 						str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
 					else
 						str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"%s\" /></div>", eText);
@@ -611,7 +611,7 @@ void TextToken::toString(CMStringW &str)
 			case BB_BIMG:
 				eText = htmlEncode(mir_ptr<wchar_t>(Utils::toAbsolute(wtext)));
 
-				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf") != NULL)) {
+				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf") != nullptr)) {
 					str.AppendFormat(L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 						 	codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 							<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
@@ -668,6 +668,6 @@ void TextToken::toString(CMStringW &str)
 		}
 		break;
 	}
-	if (eText != NULL) delete[] eText;
-	if (eLink != NULL) delete[] eLink;
+	if (eText != nullptr) delete[] eText;
+	if (eLink != nullptr) delete[] eLink;
 }

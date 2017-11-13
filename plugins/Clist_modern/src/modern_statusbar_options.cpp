@@ -38,7 +38,7 @@ typedef struct _StatusBarProtocolOptions
 	int PaddingRight;
 } StatusBarProtocolOptions;
 
-static StatusBarProtocolOptions _GlobalOptions = { 0 };
+static StatusBarProtocolOptions _GlobalOptions = {};
 
 static void UpdateXStatusIconOptions(HWND hwndDlg, StatusBarProtocolOptions &dat)
 {
@@ -442,7 +442,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			db_set_b(0, "CLUI", "ShowSBar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
 
 			LoadStatusBarData();
-			cliCluiProtocolStatusChanged(0, 0);
+			cliCluiProtocolStatusChanged(0, nullptr);
 			return TRUE;
 		}
 		break;

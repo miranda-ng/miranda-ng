@@ -30,8 +30,8 @@ int CAimProto::aim_authkey_request(HNETLIBCONN hServerConn, unsigned short &seqn
 	char *buf = (char*)alloca(SNAC_SIZE + TLV_HEADER_SIZE * 3 + mir_strlen(m_username));
 	aim_writesnac(0x17, 0x06, offset, buf);
 	aim_writetlv(0x01, (unsigned short)mir_strlen(m_username), m_username, offset, buf);
-	aim_writetlv(0x4B, 0, 0, offset, buf);
-	aim_writetlv(0x5A, 0, 0, offset, buf);
+	aim_writetlv(0x4B, 0, nullptr, offset, buf);
+	aim_writetlv(0x5A, 0, nullptr, offset, buf);
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
@@ -61,7 +61,7 @@ int CAimProto::aim_auth_request(HNETLIBCONN hServerConn, unsigned short &seqno, 
 	aim_writesnac(0x17, 0x02, offset, buf);
 	aim_writetlv(0x01, (unsigned short)mir_strlen(username), username, offset, buf);
 	aim_writetlv(0x25, MD5_HASH_LENGTH, (char*)auth_hash, offset, buf);
-	aim_writetlv(0x4C, 0, 0, offset, buf);//signifies new password hash instead of old method
+	aim_writetlv(0x4C, 0, nullptr, offset, buf);//signifies new password hash instead of old method
 	aim_writetlv(0x03, (unsigned short)client_id_len, client_id, offset, buf);
 
 	aim_writetlvshort(0x16, AIM_CLIENT_ID_NUMBER, offset, buf); //in pidgin it's first
@@ -371,10 +371,10 @@ int CAimProto::aim_send_message(HNETLIBCONN hServerConn, unsigned short &seqno, 
 
 	if (!blast) {
 		if (auto_response)
-			aim_writetlv(0x04, 0, 0, offset, buf);                       // auto-response message
+			aim_writetlv(0x04, 0, nullptr, offset, buf);                       // auto-response message
 		else {
-			aim_writetlv(0x03, 0, 0, offset, buf);                       // message ack request
-			aim_writetlv(0x06, 0, 0, offset, buf);                       // offline message storage
+			aim_writetlv(0x03, 0, nullptr, offset, buf);                       // message ack request
+			aim_writetlv(0x06, 0, nullptr, offset, buf);                       // offline message storage
 		}
 	}
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno) ? 0 : *(int*)icbm_cookie & 0x7fffffff;
@@ -405,7 +405,7 @@ int CAimProto::aim_delete_contact(HNETLIBCONN hServerConn, unsigned short &seqno
 	aim_writeshort(item_id, offset, buf);                             // buddy id
 	aim_writeshort(list, offset, buf);                                // buddy type
 	aim_writeshort(nil ? 4 : 0, offset, buf);                             // length of extra data
-	if (nil) aim_writetlv(0x6a, 0, NULL, offset, buf);
+	if (nil) aim_writetlv(0x6a, 0, nullptr, offset, buf);
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 
@@ -559,7 +559,7 @@ int CAimProto::aim_send_file(HNETLIBCONN hServerConn, unsigned short &seqno,
 	aim_writetlvshort(0x17, ~port, frag_offset, msg_frag);           // port ip check
 
 	if (force_proxy)
-		aim_writetlv(0x10, 0, 0, frag_offset, msg_frag);              // request proxy transfer
+		aim_writetlv(0x10, 0, nullptr, frag_offset, msg_frag);              // request proxy transfer
 	else
 		aim_writetlvlong(0x03, m_internal_ip, frag_offset, msg_frag); // ip
 
@@ -578,7 +578,7 @@ int CAimProto::aim_send_file(HNETLIBCONN hServerConn, unsigned short &seqno,
 			aim_writetlv(0x0c, desc_len, desc_msg, frag_offset, msg_frag);  // invitaion text
 		}
 
-		aim_writetlv(0x0f, 0, 0, frag_offset, msg_frag);                    // request host check
+		aim_writetlv(0x0f, 0, nullptr, frag_offset, msg_frag);                    // request host check
 
 		const char* fname = get_fname(ft->file);
 		const unsigned short fnlen = (unsigned short)mir_strlen(fname);
@@ -609,7 +609,7 @@ int CAimProto::aim_send_file(HNETLIBCONN hServerConn, unsigned short &seqno,
 	aim_writechar((unsigned char)sn_length, offset, buf);                 // screen name length
 	aim_writegeneric(sn_length, ft->sn, offset, buf);                      // screen name
 	aim_writetlv(0x05, frag_offset, msg_frag, offset, buf);                 // icbm tags
-	aim_writetlv(0x03, 0, 0, offset, buf);                                  // request ack
+	aim_writetlv(0x03, 0, nullptr, offset, buf);                                  // request ack
 
 	char cip[20];
 	long_ip_to_char_ip(ip, cip);
@@ -865,8 +865,8 @@ int CAimProto::aim_chat_send_message(HNETLIBCONN hServerConn, unsigned short &se
 	aim_writesnac(0x0e, 0x05, offset, buf);
 	aim_writegeneric(8, "\0\0\0\0\0\0\0\0", offset, buf);			// Message Cookie (can be random)
 	aim_writeshort(0x03, offset, buf);							// Message Channel (Always 3 for chat)
-	aim_writetlv(0x01, 0, NULL, offset, buf);						// Public/Whisper flag
-	aim_writetlv(0x06, 0, NULL, offset, buf);						// Enable Reflection flag
+	aim_writetlv(0x01, 0, nullptr, offset, buf);						// Public/Whisper flag
+	aim_writetlv(0x06, 0, nullptr, offset, buf);						// Enable Reflection flag
 	aim_writetlv(0x05, tlv_offset, tlv_buf, offset, buf);			// Message Information TLV
 
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
@@ -893,7 +893,7 @@ int CAimProto::aim_chat_invite(HNETLIBCONN hServerConn, unsigned short &seqno, c
 	aim_writegeneric(16, AIM_CAP_CHAT, offset, buf);			    // Capability
 
 	aim_writetlvshort(0x0a, 1, offset, buf);				        // Sequence Number TLV
-	aim_writetlv(0x0f, 0, NULL, offset, buf);					    // Request Host Caps Check TLV
+	aim_writetlv(0x0f, 0, nullptr, offset, buf);					    // Request Host Caps Check TLV
 	aim_writetlv(0x0c, msg_len, msg, offset, buf);				    // Invitation Message TLV
 
 	aim_writeshort(0x2711, offset, buf);							// Capability TLV
@@ -972,7 +972,7 @@ int CAimProto::aim_admin_request_info(HNETLIBCONN hServerConn, unsigned short &s
 	unsigned short offset = 0;
 	char buf[SNAC_SIZE + TLV_HEADER_SIZE];
 	aim_writesnac(0x07, 0x02, offset, buf);
-	aim_writetlv(type, 0, NULL, offset, buf);
+	aim_writetlv(type, 0, nullptr, offset, buf);
 	return aim_sendflap(hServerConn, 0x02, offset, buf, seqno);
 }
 

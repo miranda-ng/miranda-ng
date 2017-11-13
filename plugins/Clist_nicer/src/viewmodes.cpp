@@ -31,14 +31,14 @@ extern HPEN g_hPenCLUIFrames;
 extern FRAMEWND *wndFrameViewMode;
 
 typedef int(__cdecl *pfnEnumCallback)(char *szName);
-static HWND sttClvmHwnd = 0;
+static HWND sttClvmHwnd = nullptr;
 static int sttClvm_curItem = 0;
-HMENU hViewModeMenu = 0;
+HMENU hViewModeMenu = nullptr;
 
 static int nullImage;
-static HWND hwndSelector = 0;
-static HANDLE hInfoItem = 0;
-static HIMAGELIST himlViewModes = 0;
+static HWND hwndSelector = nullptr;
+static HANDLE hInfoItem = nullptr;
+static HIMAGELIST himlViewModes = nullptr;
 static DWORD sttStickyStatusMask = 0;
 static char sttModeName[2048];
 
@@ -60,7 +60,7 @@ static UINT _page2Controls[] = { IDC_CLIST, IDC_STATIC9, IDC_STATIC8, IDC_CLEARA
 int CLVM_EnumProc(const char *szSetting, LPARAM lParam)
 {
 	pfnEnumCallback EnumCallback = (pfnEnumCallback)lParam;
-	if (szSetting != NULL)
+	if (szSetting != nullptr)
 		EnumCallback((char *)szSetting);
 	return 0;
 }
@@ -109,7 +109,7 @@ static void ShowPage(HWND hwnd, int page)
 	}
 	if (pageChange) {
 		SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
-		RedrawWindow(hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE);
+		RedrawWindow(hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
 	}
 }
 
@@ -161,7 +161,7 @@ static int FillDialog(HWND hwnd)
 	HWND hwndList = GetDlgItem(hwnd, IDC_PROTOCOLS);
 	LVITEM item = { 0 };
 	int protoCount = 0, i;
-	PROTOACCOUNT **accs = 0;
+	PROTOACCOUNT **accs = nullptr;
 
 	CLVM_EnumModes(FillModes);
 	ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES);
@@ -195,7 +195,7 @@ static int FillDialog(HWND hwnd)
 	SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 
 	wchar_t *grpName;
-	for (i = 1; (grpName = Clist_GroupGetName(i, NULL)) != NULL; i++) {
+	for (i = 1; (grpName = Clist_GroupGetName(i, nullptr)) != nullptr; i++) {
 		item.pszText = grpName;
 		SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
 	}
@@ -551,7 +551,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		himlViewModes = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 12, 0);
 		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-			ImageList_AddIcon(himlViewModes, Skin_LoadProtoIcon(NULL, i));
+			ImageList_AddIcon(himlViewModes, Skin_LoadProtoIcon(nullptr, i));
 		{
 			HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_MINIMIZE), IMAGE_ICON, 16, 16, 0);
 			nullImage = ImageList_AddIcon(himlViewModes, hIcon);
@@ -581,7 +581,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			CLCINFOITEM cii = { 0 };
 			cii.cbSize = sizeof(cii);
-			cii.hParentGroup = 0;
+			cii.hParentGroup = nullptr;
 			cii.pszText = LPGENW("*** All contacts ***");
 			hInfoItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		}
@@ -629,7 +629,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				Utils::enableDlgControl(hwndDlg, IDC_APPLY, TRUE);
 			break;
 		case IDC_DELETEVIEWMODE:
-			if (MessageBox(0, TranslateT("Really delete this view mode? This cannot be undone"), TranslateT("Delete a view mode"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+			if (MessageBox(nullptr, TranslateT("Really delete this view mode? This cannot be undone"), TranslateT("Delete a view mode"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 				char szSetting[256];
 				int iLen = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETTEXTLEN, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
 				if (iLen) {
@@ -677,7 +677,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			if (mir_strlen(szBuf) > 2) {
 				if (db_get_dw(NULL, CLVM_MODULE, szBuf, -1) != -1)
-					MessageBox(0, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
+					MessageBox(nullptr, TranslateT("A view mode with this name does already exist"), TranslateT("Duplicate name"), MB_OK);
 				else {
 					int iNewItem = SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szBuf);
 					if (iNewItem != LB_ERR) {
@@ -742,7 +742,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					DWORD hitFlags;
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-					if (hItem == NULL || !(hitFlags & CLCHT_ONITEMEXTRA))
+					if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 						break;
 
 					int iImage = SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
@@ -798,7 +798,7 @@ void BuildViewModeMenu()
 	CLVM_EnumModes(FillMenuCallback);
 
 	if (GetMenuItemCount(hViewModeMenu) > 0)
-		AppendMenu(hViewModeMenu, MF_SEPARATOR, 0, NULL);
+		AppendMenu(hViewModeMenu, MF_SEPARATOR, 0, nullptr);
 
 	AppendMenu(hViewModeMenu, MF_STRING, 10001, TranslateT("Setup view modes..."));
 	AppendMenu(hViewModeMenu, MF_STRING, 10002, TranslateT("Clear current view mode"));
@@ -821,18 +821,18 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch (msg) {
 	case WM_CREATE:
 		hwndSelector = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
-			hwnd, (HMENU)IDC_SELECTMODE, g_hInst, NULL);
+			hwnd, (HMENU)IDC_SELECTMODE, g_hInst, nullptr);
 		CustomizeButton(hwndSelector, false, false, false);
 		SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_UNICODE);
 		SendMessage(hwndSelector, BUTTONSETSENDONDOWN, TRUE, 0);
 		{
 			HWND hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
-				hwnd, (HMENU)IDC_CONFIGUREMODES, g_hInst, NULL);
+				hwnd, (HMENU)IDC_CONFIGUREMODES, g_hInst, nullptr);
 			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_UNICODE);
 
 			hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, L"", BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
-				hwnd, (HMENU)IDC_RESETMODES, g_hInst, NULL);
+				hwnd, (HMENU)IDC_RESETMODES, g_hInst, nullptr);
 			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_UNICODE);
 		}
@@ -856,11 +856,11 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		{
 			HDWP PosBatch = BeginDeferWindowPos(3);
 			GetClientRect(hwnd, &rcCLVMFrame);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), 0,
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), nullptr,
 				rcCLVMFrame.right - 24, 1, 22, 20, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), 0,
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), nullptr,
 				rcCLVMFrame.right - 47, 1, 22, 20, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0,
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), nullptr,
 				2, 1, rcCLVMFrame.right - 50, 20, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 			EndDeferWindowPos(PosBatch);
 		}
@@ -942,7 +942,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				POINT pt;
 				pt.x = rc.left;
 				pt.y = rc.bottom;
-				int selection = TrackPopupMenu(hViewModeMenu, TPM_RETURNCMD | TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
+				int selection = TrackPopupMenu(hViewModeMenu, TPM_RETURNCMD | TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
 				if (selection) {
 					if (selection == 10001)
 						goto clvm_config_command;
@@ -977,7 +977,7 @@ clvm_reset_command:
 		case IDC_CONFIGUREMODES:
 clvm_config_command:
 			if (!g_ViewModeOptDlg)
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
+				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), nullptr, DlgProcViewModesSetup, 0);
 			break;
 		}
 		break;
@@ -1001,10 +1001,10 @@ void CreateViewModeFrame()
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = g_hInst;
-	wndclass.hIcon = 0;
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hIcon = nullptr;
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE);
-	wndclass.lpszMenuName = 0;
+	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = L"CLVMFrameWindow";
 	RegisterClass(&wndclass);
 
@@ -1016,7 +1016,7 @@ void CreateViewModeFrame()
 	frame.height = 22;
 	frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_UNICODE;
 	frame.align = alBottom;
-	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)0, g_hInst, NULL);
+	frame.hWnd = CreateWindowEx(0, L"CLVMFrameWindow", L"CLVM", WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU)nullptr, g_hInst, nullptr);
 	g_hwndViewModeFrame = frame.hWnd;
 	hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);
@@ -1063,7 +1063,7 @@ void ApplyViewMode(const char *name)
 		timerexpire = LOWORD(db_get_dw(NULL, CLVM_MODULE, szSetting, 0));
 		strncpy(cfg::dat.old_viewmode, cfg::dat.current_viewmode, 256);
 		cfg::dat.old_viewmode[255] = 0;
-		SetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, NULL);
+		SetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
 	}
 	strncpy_s(cfg::dat.current_viewmode, name, _TRUNCATE);
 

@@ -523,7 +523,7 @@ char* SM_GetUsers(SESSION_INFO *si)
 		if (pLen + nameLen + 2 > alloced)
 			p = (char*)mir_realloc(p, alloced += 4096);
 
-		WideCharToMultiByte(CP_ACP, 0, utemp->pszUID, -1, p + pLen, (int)nameLen + 1, 0, 0);
+		WideCharToMultiByte(CP_ACP, 0, utemp->pszUID, -1, p + pLen, (int)nameLen + 1, nullptr, nullptr);
 		mir_strcpy(p + pLen + nameLen, " ");
 		utemp = utemp->next;
 	}
@@ -644,7 +644,7 @@ static STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStat
 		if (mir_wstrcmpi(pTemp->pszGroup, pszStatus) == 0)
 			return pTemp;
 
-	return 0;
+	return nullptr;
 }
 
 static WORD TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus)
@@ -674,7 +674,7 @@ static wchar_t* TM_WordToString(STATUSINFO *pStatusList, WORD Status)
 				return pTemp->pszGroup;
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)

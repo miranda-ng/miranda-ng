@@ -77,7 +77,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		}
 
 	case CLM_AUTOREBUILD:
-		SetTimer(hwnd, TIMERID_REBUILDAFTER, 50, 0);
+		SetTimer(hwnd, TIMERID_REBUILDAFTER, 50, nullptr);
 		break;
 
 	case CLM_DELETEITEM:

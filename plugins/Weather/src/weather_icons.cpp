@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE hIcoLibIconsChanged = NULL;
+HANDLE hIcoLibIconsChanged = nullptr;
 
 static IconItem iconList[] =
 {
@@ -55,7 +55,7 @@ HANDLE  GetIconHandle(const char* name)
 		if (mir_strcmp(iconList[i].szName, name) == 0)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 void  ReleaseIconEx(HICON hIcon)

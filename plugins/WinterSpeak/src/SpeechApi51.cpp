@@ -29,7 +29,7 @@ namespace
 }
 
 //------------------------------------------------------------------------------
-SpeechApi51::SpeechApi51() : m_sapi(0), m_state(TextToSpeech::State_Unloaded), 	m_voice(L""), m_volume(50), m_pitch(50), m_rate(50)
+SpeechApi51::SpeechApi51() : m_sapi(nullptr), m_state(TextToSpeech::State_Unloaded), 	m_voice(L""), m_volume(50), m_pitch(50), m_rate(50)
 {
 }
 
@@ -44,12 +44,12 @@ SpeechApi51::~SpeechApi51()
 //------------------------------------------------------------------------------
 bool SpeechApi51::isAvailable()
 {
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	ISpVoice *sapi;
 	bool      ret = true;
 
-	if (FAILED(CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&sapi))))
+	if (FAILED(CoCreateInstance(CLSID_SpVoice, nullptr, CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&sapi))))
 	{
 		ret = false;
 	}
@@ -69,9 +69,9 @@ bool SpeechApi51::load()
 		return true;
 	}
 
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
-	if (FAILED(CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&m_sapi))))
+	if (FAILED(CoCreateInstance(CLSID_SpVoice, nullptr, CLSCTX_ALL, IID_ISpVoice, reinterpret_cast<void **>(&m_sapi))))
 	{
 		return false;
 	}
@@ -92,7 +92,7 @@ bool SpeechApi51::unload()
 	if (isLoaded())
 	{
 		m_sapi->Release();
-		m_sapi = 0;
+		m_sapi = nullptr;
 	}
 
 	m_state = TextToSpeech::State_Unloaded;
@@ -123,7 +123,7 @@ bool SpeechApi51::say(const std::wstring &sentence)
 	//mbstowcs(sapi_sentence.get(), output.str().c_str(), output.str().size() + 1);
 	
 	// speak the sentence
-	if (FAILED(m_sapi->Speak(p, SPF_IS_XML | SPF_ASYNC, NULL)))
+	if (FAILED(m_sapi->Speak(p, SPF_IS_XML | SPF_ASYNC, nullptr)))
 	{
 		return false;
 	}
@@ -178,14 +178,14 @@ bool SpeechApi51::setVoice(const std::wstring &voice)
 
 	// get a voice enumerator
 	CComPtr<IEnumSpObjectTokens> cpEnum;
-	if (FAILED(SpEnumTokens(SPCAT_VOICES, NULL, NULL, &cpEnum)))
+	if (FAILED(SpEnumTokens(SPCAT_VOICES, nullptr, nullptr, &cpEnum)))
 	{
 		return false;
 	}
 
 	// iterate through the list till we find a matching voice
 	ISpObjectToken *voice_token;
-	while (S_OK == cpEnum->Next(1, &voice_token, NULL))
+	while (S_OK == cpEnum->Next(1, &voice_token, nullptr))
 	{
 		CSpDynamicString voice_str;
 
@@ -205,18 +205,18 @@ std::vector<std::wstring> SpeechApi51::getVoices() const
 {
 	std::vector<std::wstring> ret;
 	
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	// get a voice enumerator
 	CComPtr<IEnumSpObjectTokens> cpEnum;
-	if (S_OK != SpEnumTokens(SPCAT_VOICES, NULL, NULL, &cpEnum))
+	if (S_OK != SpEnumTokens(SPCAT_VOICES, nullptr, nullptr, &cpEnum))
 	{
 		return ret;
 	}
 
 	// iterate through the voices and add them to the string vector
 	ISpObjectToken *voice_token;
-	while (S_OK == cpEnum->Next(1, &voice_token, NULL))
+	while (S_OK == cpEnum->Next(1, &voice_token, nullptr))
 	{
 		CSpDynamicString voice_str;
 

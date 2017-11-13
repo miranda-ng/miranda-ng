@@ -37,7 +37,7 @@ void FreeMusic()
 {
 	for (int i = 0; i < NUM_PLAYERS; i++) {
 		delete players[i];
-		players[i] = NULL;
+		players[i] = nullptr;
 	}
 }
 
@@ -146,7 +146,7 @@ int ChangedListeningInfo()
 LISTENINGTOINFO * GetListeningInfo()
 {
 	if (current.cbSize == 0)
-		return NULL;
+		return nullptr;
 
 	return &current;
 }

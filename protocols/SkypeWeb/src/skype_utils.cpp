@@ -24,7 +24,7 @@ time_t CSkypeProto::IsoToUnixTime(const char *stamp)
 	char date[9];
 	int i, y;
 
-	if (stamp == NULL)
+	if (stamp == nullptr)
 		return 0;
 
 	char *p = NEWSTR_ALLOCA(stamp);
@@ -379,7 +379,7 @@ char *CSkypeProto::RemoveHtml(const char *text)
 					if (!entity.empty()) {
 						found = true;
 						errno = 0;
-						unsigned long value = strtoul(entity.c_str(), NULL, hex ? 16 : 10);
+						unsigned long value = strtoul(entity.c_str(), nullptr, hex ? 16 : 10);
 						if (errno != 0) { // error with conversion in strtoul, ignore the result
 							found = false;
 						}
@@ -471,12 +471,12 @@ bool CSkypeProto::IsFileExists(std::wstring path)
 CMStringA CSkypeProto::ParseUrl(const char *url, const char *token)
 {
 	const char *start = strstr(url, token);
-	if (start == NULL)
+	if (start == nullptr)
 		return CMStringA();
 
 	start = start + mir_strlen(token);
 	const char *end = strchr(start, '/');
-	if (end == NULL)
+	if (end == nullptr)
 		return CMStringA(start);
 	return CMStringA(start, end - start);
 }
@@ -484,12 +484,12 @@ CMStringA CSkypeProto::ParseUrl(const char *url, const char *token)
 CMStringA CSkypeProto::GetStringChunk(const char *haystack, const char *start, const char *end)
 {
 	const char *sstart = strstr(haystack, start);
-	if (sstart == NULL)
+	if (sstart == nullptr)
 		return CMStringA();
 
 	sstart = sstart + mir_strlen(start);
 	const char *send = strstr(sstart, end);
-	if (send == NULL)
+	if (send == nullptr)
 		return CMStringA(sstart);
 	return CMStringA(sstart, send - sstart);
 }
@@ -516,14 +516,14 @@ CMStringA CSkypeProto::GetServerFromUrl(const char *url)
 INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 {
 	wchar_t *arg = (wchar_t *)lParam;
-	if (arg == NULL)
+	if (arg == nullptr)
 		return 1;
 
 	// skip leading prefix
 	wchar_t szUri[1024];
 	wcsncpy_s(szUri, arg, _TRUNCATE);
 	wchar_t *szJid = wcschr(szUri, ':');
-	if (szJid == NULL)
+	if (szJid == nullptr)
 		return 1;
 
 	// empty jid?
@@ -537,7 +537,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 		*(szCommand++) = 0;
 
 	// parameters
-	wchar_t *szSecondParam = szCommand ? wcschr(szCommand, '&') : NULL;
+	wchar_t *szSecondParam = szCommand ? wcschr(szCommand, '&') : nullptr;
 	if (szSecondParam)
 		*(szSecondParam++) = 0;
 

@@ -48,7 +48,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 {
 	char *protoName = GetContactProto(hContact);
-	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
+	int diff = time(nullptr) - db_get_dw(hContact, "Nudge", "LastSent", time(nullptr) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
 		wchar_t msg[500];
 		mir_snwprintf(msg, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
@@ -64,7 +64,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	db_set_dw(hContact, "Nudge", "LastSent", time(NULL));
+	db_set_dw(hContact, "Nudge", "LastSent", time(nullptr));
 
 	if (GlobalNudge.useByProtocol) {
 		for (int i = 0; i < arNudges.getCount(); i++) {
@@ -92,7 +92,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 {
 	char *protoName = GetContactProto(hContact);
 
-	DWORD currentTimestamp = time(NULL);
+	DWORD currentTimestamp = time(nullptr);
 	DWORD nudgeSentTimestamp = lParam ? (DWORD)lParam : currentTimestamp;
 
 	int diff = currentTimestamp - db_get_dw(hContact, "Nudge", "LastReceived", currentTimestamp - 30);
@@ -248,7 +248,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 
 static int TabsrmmButtonInit(WPARAM, LPARAM)
 {
-	HOTKEYDESC hkd = { "srmm_nudge", LPGEN("Send nudge"), BB_HK_SECTION, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), LPARAM(hInst) };
+	HOTKEYDESC hkd = { "srmm_nudge", LPGEN("Send nudge"), BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), LPARAM(hInst) };
 	Hotkey_Register(&hkd);
 
 	BBButton bbd = {};
@@ -287,7 +287,7 @@ static int ContactWindowOpen(WPARAM, LPARAM lParam)
 static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL) {
+	if (szProto != nullptr) {
 		bool isChat = db_get_b(hContact, szProto, "ChatRoom", false) != 0;
 		NudgeShowMenu((WPARAM)szProto, !isChat);
 	}
@@ -311,7 +311,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *proto = (PROTOACCOUNT*)wParam;
-	if (proto == NULL)
+	if (proto == nullptr)
 		return 0;
 
 	if (lParam == PRAC_ADDED)
@@ -421,7 +421,7 @@ int Preview()
 				if (p.openMessageWindow)
 					CallService(MS_MSG_SENDMESSAGEW, hContact, NULL);
 				if (p.shakeChat)
-					ShakeChat(hContact, (LPARAM)time(NULL));
+					ShakeChat(hContact, (LPARAM)time(nullptr));
 			}
 		}
 	}
@@ -437,7 +437,7 @@ int Preview()
 			if (DefaultNudge.openMessageWindow)
 				CallService(MS_MSG_SENDMESSAGEW, hContact, NULL);
 			if (DefaultNudge.shakeChat)
-				ShakeChat(hContact, (LPARAM)time(NULL));
+				ShakeChat(hContact, (LPARAM)time(nullptr));
 		}
 	}
 	return 0;
@@ -472,7 +472,7 @@ void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, wchar_t * Message)
 
 		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&NudgePopup, 0);
 	}
-	else MessageBox(NULL, Message, lpzContactName, 0);
+	else MessageBox(nullptr, Message, lpzContactName, 0);
 }
 
 void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
@@ -482,7 +482,7 @@ void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
-	dbei.timestamp = (DWORD)time(NULL);
+	dbei.timestamp = (DWORD)time(nullptr);
 	dbei.eventType = 1;
 	dbei.cbBlob = (DWORD)mir_strlen(buff) + 1;
 	dbei.pBlob = (PBYTE)buff;
@@ -508,7 +508,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	char str[MAXMODULELABELLENGTH + 10];
 	mir_snprintf(str, "%s/Nudge", proto->szModuleName);
 	HANDLE hevent = HookEvent(str, NudgeReceived);
-	if (hevent == NULL)
+	if (hevent == nullptr)
 		return;
 
 	nProtocol++;

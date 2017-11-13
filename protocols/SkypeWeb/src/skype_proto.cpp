@@ -67,12 +67,12 @@ CSkypeProto::~CSkypeProto()
 
 	if (m_hPollingThread) {
 		WaitForSingleObject(m_hPollingThread, INFINITE);
-		m_hPollingThread = NULL;
+		m_hPollingThread = nullptr;
 	}
 
 	if (m_hTrouterThread) {
 		WaitForSingleObject(m_hTrouterThread, INFINITE);
-		m_hTrouterThread = NULL;
+		m_hTrouterThread = nullptr;
 	}
 
 	SkypeUnsetTimer();
@@ -140,7 +140,7 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
 	debugLogA(__FUNCTION__);
 
-	if (psr->id.a == NULL)
+	if (psr->id.a == nullptr)
 		return NULL;
 	MCONTACT hContact;
 
@@ -158,7 +158,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 	DBEVENTINFO dbei = {};
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
 		return NULL;
 	if (db_event_get(hDbEvent, &dbei))
 		return NULL;

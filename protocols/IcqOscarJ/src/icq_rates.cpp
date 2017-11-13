@@ -146,7 +146,7 @@ rates_group* rates::getGroup(WORD wGroup)
 	if (this && wGroup && wGroup <= nGroups)
 		return &groups[wGroup - 1];
 
-	return NULL;
+	return nullptr;
 }
 
 int rates::getNextRateLevel(WORD wGroup)
@@ -236,7 +236,7 @@ void rates::initAckPacket(icq_packet *pPacket)
 // Rate Level 2 Management
 /////////////////////////////
 
-rates_queue_item::rates_queue_item(CIcqProto *ppro, WORD wGroup) : bCreated(FALSE), dwUin(0), szUid(NULL)
+rates_queue_item::rates_queue_item(CIcqProto *ppro, WORD wGroup) : bCreated(FALSE), dwUin(0), szUid(nullptr)
 {
 	this->ppro = ppro;
 	this->wGroup = wGroup;
@@ -263,7 +263,7 @@ rates_queue_item* rates_queue_item::copyItem(rates_queue_item *pDest)
 
 	pDest->hContact = hContact;
 	pDest->dwUin = dwUin;
-	pDest->szUid = dwUin ? null_strdup(szUid) : NULL;
+	pDest->szUid = dwUin ? null_strdup(szUid) : nullptr;
 	pDest->bCreated = TRUE;
 
 	return pDest;
@@ -419,7 +419,7 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 
 int CIcqProto::handleRateItem(rates_queue_item *item, int nQueueType, int nMinDelay, BOOL bAllowDelay)
 {
-	rates_queue *pQueue = NULL;
+	rates_queue *pQueue = nullptr;
 	{
 		mir_cslock rlck(m_ratesMutex);
 		switch (nQueueType) {

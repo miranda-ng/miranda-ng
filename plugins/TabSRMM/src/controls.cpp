@@ -28,13 +28,13 @@
 
 #include "stdafx.h"
 
-static    WNDPROC OldStatusBarproc = 0;
+static    WNDPROC OldStatusBarproc = nullptr;
 
 bool      CMenuBar::m_buttonsInit = false;
-HHOOK     CMenuBar::m_hHook = 0;
+HHOOK     CMenuBar::m_hHook = nullptr;
 TBBUTTON  CMenuBar::m_TbButtons[8] = { 0 };
-CMenuBar *CMenuBar::m_Owner = 0;
-HBITMAP   CMenuBar::m_MimIcon = 0;
+CMenuBar *CMenuBar::m_Owner = nullptr;
+HBITMAP   CMenuBar::m_MimIcon = nullptr;
 int       CMenuBar::m_MimIconRefCount = 0;
 
 static int resetLP(WPARAM, LPARAM, LPARAM obj)
@@ -52,7 +52,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 {
 	m_pContainer = const_cast<TContainerData *>(pContainer);
 
-	if (m_MimIcon == 0) {
+	if (m_MimIcon == nullptr) {
 		HDC		hdc = ::GetDC(m_pContainer->m_hwnd);
 		HANDLE 	hIcon = Skin_GetIconHandle(SKINICON_OTHER_MIRANDA);
 
@@ -61,7 +61,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 		RECT rc = { 0, 0, 16, 16 };
 		m_MimIcon = CSkin::CreateAeroCompatibleBitmap(rc, hdcTemp);
 		HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcTemp, m_MimIcon));
-		::DrawIconEx(hdcTemp, 0, 0, (HICON)hIcon, 16, 16, 0, 0, DI_NORMAL);
+		::DrawIconEx(hdcTemp, 0, 0, (HICON)hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 		::SelectObject(hdcTemp, hbmOld);
 
 		::DeleteDC(hdcTemp);
@@ -77,11 +77,11 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 
 	checkButtons();
 
-	m_activeMenu = 0;
+	m_activeMenu = nullptr;
 	m_activeID = 0;
 	m_isAero = M.isAero();
 	m_mustAutoHide = false;
-	m_activeSubMenu = 0;
+	m_activeSubMenu = nullptr;
 	m_fTracking = false;
 	m_isContactMenu = m_isMainMenu = false;
 	HookEventParam(ME_LANGPACK_CHANGED, &::resetLP, (LPARAM)this);
@@ -98,7 +98,7 @@ CMenuBar::~CMenuBar()
 	m_MimIconRefCount--;
 	if (m_MimIconRefCount == 0) {
 		::DeleteObject(m_MimIcon);
-		m_MimIcon = 0;
+		m_MimIcon = nullptr;
 	}
 }
 
@@ -117,8 +117,8 @@ const RECT& CMenuBar::getClientRect()
 void CMenuBar::obtainHook()
 {
 	releaseHook();
-	if (m_hHook == 0)
-		m_hHook = ::SetWindowsHookEx(WH_MSGFILTER, CMenuBar::MessageHook, 0, GetCurrentThreadId());
+	if (m_hHook == nullptr)
+		m_hHook = ::SetWindowsHookEx(WH_MSGFILTER, CMenuBar::MessageHook, nullptr, GetCurrentThreadId());
 	m_Owner = this;
 }
 
@@ -126,7 +126,7 @@ void CMenuBar::releaseHook()
 {
 	if (m_hHook) {
 		::UnhookWindowsHookEx(m_hHook);
-		m_hHook = 0;
+		m_hHook = nullptr;
 	}
 }
 
@@ -240,7 +240,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 			m_rcItem.bottom -= 4;
 			m_hbmDraw = CSkin::CreateAeroCompatibleBitmap(m_rcItem, nmtb->nmcd.hdc);
 			m_hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(m_hdcDraw, m_hbmDraw));
-			m_hTheme = M.isAero() || M.isVSThemed() ? OpenThemeData(m_hwndToolbar, L"REBAR") : 0;
+			m_hTheme = M.isAero() || M.isVSThemed() ? OpenThemeData(m_hwndToolbar, L"REBAR") : nullptr;
 			m_hOldFont = reinterpret_cast<HFONT>(::SelectObject(m_hdcDraw, reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT))));
 			if (m_isAero) {
 				nm->rc.bottom--;
@@ -250,7 +250,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 			else if ((PluginConfig.m_fillColor || M.isVSThemed()) && !CSkin::m_skinEnabled) {
 				if (PluginConfig.m_fillColor && PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow) {
 					::DrawAlpha(m_hdcDraw, &m_rcItem, PluginConfig.m_tbBackgroundHigh, 100, PluginConfig.m_tbBackgroundLow, 0,
-						GRADIENT_TB, 0, 0, 0);
+						GRADIENT_TB, 0, 0, nullptr);
 				}
 				else {
 					m_rcItem.bottom--;
@@ -283,7 +283,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 
 			nmtb->nmcd.rc.bottom--;
 			if (CSkin::m_skinEnabled) {
-				CSkinItem *item = 0;
+				CSkinItem *item = nullptr;
 
 				::FillRect(m_hdcDraw, &nmtb->nmcd.rc, CSkin::m_MenuBGBrush);
 
@@ -300,13 +300,13 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 				COLORREF clr = ::GetSysColor(COLOR_HOTLIGHT);
 				COLORREF clrRev = clr;
 				if (uState & CDIS_MARKED || uState & CDIS_CHECKED)
-					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, nullptr);
 
 				if (uState & CDIS_SELECTED)
-					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, nullptr);
 
 				if (uState & CDIS_HOT)
-					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, nullptr);
 			}
 
 			if (szText) {
@@ -320,7 +320,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 			if (iIndex == 0)
 				::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
 				(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, Skin_LoadIcon(SKINICON_OTHER_MIRANDA),
-				16, 16, 0, 0, DI_NORMAL);
+				16, 16, 0, nullptr, DI_NORMAL);
 
 			return CDRF_SKIPDEFAULT;
 		}
@@ -342,7 +342,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 			::DeleteObject(m_hbmDraw);
 			::SelectObject(m_hdcDraw, m_hOldFont);
 			::DeleteDC(m_hdcDraw);
-			m_hdcDraw = 0;
+			m_hdcDraw = nullptr;
 			if (m_hTheme)
 				CloseThemeData(m_hTheme);
 			return CDRF_SKIPDEFAULT;
@@ -409,13 +409,13 @@ void CMenuBar::invoke(const int id)
 		cancel();
 
 	m_activeMenu = hMenu;
-	m_activeSubMenu = 0;
+	m_activeSubMenu = nullptr;
 	m_activeID = id;
 	updateState(hMenu);
 	obtainHook();
 	m_fTracking = true;
 	::SendMessage(m_hwndToolbar, TB_SETSTATE, (WPARAM)id, TBSTATE_CHECKED | TBSTATE_ENABLED);
-	::TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_pContainer->m_hwnd, 0);
+	::TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_pContainer->m_hwnd, nullptr);
 }
 
 void CMenuBar::cancel()
@@ -424,7 +424,7 @@ void CMenuBar::cancel()
 	if (m_activeID)
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, (WPARAM)m_activeID, TBSTATE_ENABLED);
 	m_activeID = 0;
-	m_activeMenu = 0;
+	m_activeMenu = nullptr;
 	m_isContactMenu = m_isMainMenu = false;
 	::EndMenu();
 }
@@ -582,7 +582,7 @@ void CMenuBar::checkButtons()
 
 	TBADDBITMAP tb;
 	tb.nID = (UINT_PTR)m_MimIcon;
-	tb.hInst = 0;
+	tb.hInst = nullptr;
 
 	::SendMessage(m_hwndToolbar, TB_ADDBITMAP, 1, (LPARAM)&tb);
 }
@@ -624,9 +624,9 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 
 		case WM_LBUTTONDOWN:
 			::GetCursorPos(&pt);
-			if (::MenuItemFromPoint(0, m_Owner->m_activeMenu, pt) >= 0) 			// inside menu
+			if (::MenuItemFromPoint(nullptr, m_Owner->m_activeMenu, pt) >= 0) 			// inside menu
 				break;
-			if (m_Owner->m_activeSubMenu && ::MenuItemFromPoint(0, m_Owner->m_activeSubMenu, pt) >= 0)
+			if (m_Owner->m_activeSubMenu && ::MenuItemFromPoint(nullptr, m_Owner->m_activeSubMenu, pt) >= 0)
 				break;
 			else {																// anywhere else, cancel the menu
 				::CallNextHookEx(m_hHook, nCode, wParam, lParam);
@@ -669,7 +669,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 	CTabBaseDlg *dat = nullptr;
 	POINT pt;
 
-	if (OldStatusBarproc == 0) {
+	if (OldStatusBarproc == nullptr) {
 		WNDCLASSEX wc = { 0 };
 		wc.cbSize = sizeof(wc);
 		GetClassInfoEx(g_hInst, STATUSCLASSNAME, &wc);
@@ -722,7 +722,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 			CSkinItem *item = &SkinItems[ID_EXTBKSTATUSBARPANEL];
 
 			BOOL bAero = M.isAero();
-			HANDLE hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : 0;
+			HANDLE hTheme = bAero ? OpenThemeData(hWnd, L"ButtonStyle") : nullptr;
 
 			if (pContainer)
 				dat = (CTabBaseDlg*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
@@ -731,11 +731,11 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 			GetClientRect(hWnd, &rcClient);
 
 			HBITMAP hbm, hbmOld;
-			HANDLE hbp = 0;
+			HANDLE hbp = nullptr;
 			HDC hdcMem;
 			if (CMimAPI::m_haveBufferedPaint) {
 				hbp = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, nullptr, &hdcMem);
-				hbm = hbmOld = 0;
+				hbm = hbmOld = nullptr;
 			}
 			else {
 				hdcMem = CreateCompatibleDC(hdc);
@@ -837,16 +837,16 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 				else {
 					if (hIcon) {
 						if (LOWORD(result) > 1) {				// we have a text
-							DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, 0, DI_NORMAL);
+							DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 							if (dat) {
 								if (dat->m_bShowTyping == 2)
-									DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, PluginConfig.g_iconOverlayEnabled, 16, 16, 0, 0, DI_NORMAL);
+									DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, PluginConfig.g_iconOverlayEnabled, 16, 16, 0, nullptr, DI_NORMAL);
 							}
 							itemRect.left += 20;
 							CSkin::RenderText(hdcMem, hTheme, szText, &itemRect, DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX,
 								CSkin::m_glowSize, clr);
 						}
-						else DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, 0, DI_NORMAL);
+						else DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 					}
 					else {
 						itemRect.left += 2;
@@ -909,7 +909,7 @@ LONG_PTR CALLBACK CTabBaseDlg::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM
 			tooltip_active = FALSE;
 		}
 		KillTimer(hWnd, TIMERID_HOVER);
-		SetTimer(hWnd, TIMERID_HOVER, 450, 0);
+		SetTimer(hWnd, TIMERID_HOVER, 450, nullptr);
 		break;
 
 	case WM_LBUTTONDOWN:

@@ -28,7 +28,7 @@ struct TimerInfo
 	HANDLE hEvent;
 };
 
-HANDLE hMainThread = 0;
+HANDLE hMainThread = nullptr;
 unsigned long mainThreadId = 0;
 
 HANDLE hConnectionEvent = nullptr;
@@ -108,7 +108,7 @@ int KSLoadOptions()
 	UnhookEvent(hStatusChangeHook);
 	UnhookEvent(hCSStatusChangeHook);
 	UnhookEvent(hCSStatusChangeExHook);
-	hProtoAckHook = hStatusChangeHook = hCSStatusChangeHook = hCSStatusChangeExHook = 0;
+	hProtoAckHook = hStatusChangeHook = hCSStatusChangeHook = hCSStatusChangeExHook = nullptr;
 
 	if (IsWindow(hMessageWindow))
 		DestroyWindow(hMessageWindow);
@@ -803,7 +803,7 @@ static void CheckContinueslyFunction(void *)
 					hostent = gethostbyname(host);
 					if (hostent != nullptr) {
 						addr = (DWORD *)(*hostent->h_addr_list);
-						bLastPingResult = (IcmpSendEcho(hICMPFile, *addr, 0, 0, nullptr, reply, sizeof(ICMP_ECHO_REPLY) + 8, 5000) != 0);
+						bLastPingResult = (IcmpSendEcho(hICMPFile, *addr, nullptr, 0, nullptr, reply, sizeof(ICMP_ECHO_REPLY) + 8, 5000) != 0);
 
 						if (bLastPingResult)
 							pingFailures = 0;

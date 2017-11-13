@@ -11,7 +11,7 @@ static LPCWSTR lpcwszPopupsTypes[] =
 	LPGENW("Warning"),
 	LPGENW("Error"),
 	LPGENW("NewMail"),
-	NULL
+	nullptr
 };
 
 INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -114,7 +114,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 				ppro->setDword(szBuff, SendDlgItemMessage(hWndDlg, IDC_POPUP_TEXTCOLOR, CPM_GETCOLOUR, 0, 0));
 
 				mir_snprintf(szBuff, "PopupType%STimeout", lpcwszPopupsTypes[dwType]);
-				ppro->setDword(szBuff, GetDlgItemInt(hWndDlg, IDC_POPUP_TIMEOUT, NULL, FALSE));
+				ppro->setDword(szBuff, GetDlgItemInt(hWndDlg, IDC_POPUP_TIMEOUT, nullptr, FALSE));
 			}
 			return TRUE;
 		}
@@ -174,7 +174,7 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
 			if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS) {
 				CallProtoService(dat->ppro->m_szModuleName, MRA_GOTO_INBOX, 0, 0);
-				dat->ppro->hWndEMailPopupStatus = NULL;
+				dat->ppro->hWndEMailPopupStatus = nullptr;
 			}
 		}
 		PUDeletePopup(hWndDlg);
@@ -182,13 +182,13 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_CONTEXTMENU:
 		if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS)
-			dat->ppro->hWndEMailPopupStatus = NULL;
+			dat->ppro->hWndEMailPopupStatus = nullptr;
 		PUDeletePopup(hWndDlg);
 		break;
 
 	case UM_FREEPLUGINDATA:
 		if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS)
-			dat->ppro->hWndEMailPopupStatus = NULL;
+			dat->ppro->hWndEMailPopupStatus = nullptr;
 		mir_free(dat);
 		break;
 	}
@@ -217,7 +217,7 @@ void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, LPWSTR lpszTitle,
 		// delete old email popup
 		if (dwType == MRA_POPUP_TYPE_EMAIL_STATUS && hWndEMailPopupStatus) {
 			PUDeletePopup(hWndEMailPopupStatus);
-			hWndEMailPopupStatus = NULL;
+			hWndEMailPopupStatus = nullptr;
 		}
 
 		POPUPDATAT ppd = { 0 };
@@ -227,19 +227,19 @@ void CMraProto::MraPopupShowW(MCONTACT hContact, DWORD dwType, LPWSTR lpszTitle,
 			ppd.lchIcon = g_hMainIcon;
 			break;
 		case MRA_POPUP_TYPE_DEBUG:// IDI_APPLICATION
-			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(nullptr, IDI_APPLICATION, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_INFORMATION:// IDI_INFORMATION
-			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_INFORMATION, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(nullptr, IDI_INFORMATION, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_QUESTION:// IDI_QUESTION
-			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_QUESTION, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(nullptr, IDI_QUESTION, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_WARNING:// IDI_WARNING
-			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(nullptr, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_ERROR:// IDI_ERROR
-			ppd.lchIcon = (HICON)LoadImage(NULL, IDI_ERROR, IMAGE_ICON, 0, 0, LR_SHARED);
+			ppd.lchIcon = (HICON)LoadImage(nullptr, IDI_ERROR, IMAGE_ICON, 0, 0, LR_SHARED);
 			break;
 		case MRA_POPUP_TYPE_EMAIL_STATUS:
 			ppd.lchIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_MAIL_NOTIFY), IMAGE_ICON, 0, 0, LR_SHARED);

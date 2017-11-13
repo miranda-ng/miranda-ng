@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define UM_CHECKSTATECHANGE (WM_USER+100)
 
-static HWND hPathTip = 0;
+static HWND hPathTip = nullptr;
 
 struct branch_t
 {
@@ -164,7 +164,7 @@ static void CheckHeading(HWND hwndTree, HTREEITEM hHeading)
 {
 	BOOL bChecked = TRUE;
 
-	if (hHeading == 0)
+	if (hHeading == nullptr)
 		return;
 
 	TVITEM tvi;
@@ -189,7 +189,7 @@ static void CheckBranches(HWND hwndTree, HTREEITEM hHeading)
 	BOOL bChecked = TRUE;
 	TVITEM tvi;
 
-	if (hHeading == 0)
+	if (hHeading == nullptr)
 		return;
 
 	tvi.mask = TVIF_HANDLE | TVIF_STATE;
@@ -236,8 +236,8 @@ static void InitSetting(wchar_t **ppPointer, char *pszSetting, wchar_t *pszDefau
 
 INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static HTREEITEM hListHeading1 = 0;
-	static HTREEITEM hListHeading4 = 0;
+	static HTREEITEM hListHeading1 = nullptr;
+	static HTREEITEM hListHeading4 = nullptr;
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -345,8 +345,8 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static HTREEITEM hListHeading2 = 0;
-	static HTREEITEM hListHeading3 = 0;
+	static HTREEITEM hListHeading2 = nullptr;
+	static HTREEITEM hListHeading3 = nullptr;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -453,7 +453,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			LPMALLOC psMalloc;
 			if (SUCCEEDED(CoGetMalloc(1, &psMalloc))) {
 				wchar_t tszDirectory[MAX_PATH], tszTemp[MAX_PATH];
-				BROWSEINFO bi = { 0 };
+				BROWSEINFO bi = {};
 				bi.hwndOwner = hwndDlg;
 				bi.pszDisplayName = tszDirectory;
 				bi.lpszTitle = TranslateT("Select folder");
@@ -620,7 +620,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		if (hPathTip) {
 			KillTimer(hwndDlg, 0);
 			DestroyWindow(hPathTip);
-			hPathTip = 0;
+			hPathTip = nullptr;
 		}
 
 		BYTE b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), hListHeading2, TVIS_EXPANDED)&TVIS_EXPANDED ? 1 : 0;

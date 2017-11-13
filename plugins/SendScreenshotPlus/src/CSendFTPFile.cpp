@@ -35,7 +35,7 @@ CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 {
 	m_EnableItem = 0; //SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = LPGENW("FTPFile transfer");
-	m_pszFileName = NULL;
+	m_pszFileName = nullptr;
 }
 
 CSendFTPFile::~CSendFTPFile()

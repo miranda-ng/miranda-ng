@@ -103,7 +103,7 @@ static const luaL_Reg headersApi[] =
 	{ "__index", headers__index },
 	{ "__len", headers__len },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/
@@ -155,7 +155,7 @@ static const luaL_Reg contentApi[] =
 	{ "__len", content__len },
 	{ "__tostring", content__tostring },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/
@@ -213,7 +213,7 @@ static const luaL_Reg responseApi[] =
 	{ "__index", response__index },
 	{ "__gc", response__gc },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/
@@ -301,7 +301,7 @@ static void request_SetContentType(lua_State *L, int idx, NETLIBHTTPREQUEST *req
 	SetHeader(request, "Content-Type", type);
 }
 
-static const char *httpMethods[] = { "GET", "POST", "PUT", "DELETE", NULL };
+static const char *httpMethods[] = { "GET", "POST", "PUT", "DELETE", nullptr };
 
 static int request_Send(lua_State *L)
 {
@@ -310,7 +310,7 @@ static int request_Send(lua_State *L)
 	NETLIBHTTPREQUEST *request = CreateRequest(L);
 
 	lua_getfield(L, 1, "Method");
-	request->requestType = (1 << (luaL_checkoption(L, -1, NULL, httpMethods)));
+	request->requestType = (1 << (luaL_checkoption(L, -1, nullptr, httpMethods)));
 	lua_pop(L, 1);
 
 	lua_getfield(L, 1, "Url");
@@ -403,7 +403,7 @@ static const luaL_Reg requestApi[] =
 {
 	{ "__gc", request__gc },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/
@@ -416,7 +416,7 @@ static const luaL_Reg httpApi[] =
 	{ "Put", request_Put },
 	{ "Delete", request_Delete },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_http(lua_State *L)

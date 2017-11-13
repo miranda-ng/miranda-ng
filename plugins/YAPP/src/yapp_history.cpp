@@ -38,8 +38,8 @@ void PopupHistoryList::DeleteData(int index)
 	mir_free(item->titleT);
 	mir_free(item->messageT);
 	item->timestamp = 0; //invalidate item
-	item->title = NULL;
-	item->message = NULL;
+	item->title = nullptr;
+	item->message = nullptr;
 	item->flags = 0;
 }
 
@@ -77,7 +77,7 @@ PopupHistoryData *PopupHistoryList::Get(int index)
 {
 	if ((index < 0) || (index >= count)) //a bit of sanity check
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	return &historyData[index];

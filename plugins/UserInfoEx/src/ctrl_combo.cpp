@@ -144,7 +144,7 @@ void CCombo::Release()
  **/
 BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 {
-	if (!_Flags.B.hasChanged && _pList != NULL) {
+	if (!_Flags.B.hasChanged && _pList != nullptr) {
 		DBVARIANT dbv;
 		int iVal = CB_ERR;
 
@@ -194,7 +194,7 @@ void CCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 			LPIDSTRLIST pd;
 
 			pd = (LPIDSTRLIST)SendMessage(_hwnd, CB_GETITEMDATA, _curSel, 0);
-			if (pd != NULL) {
+			if (pd != nullptr) {
 				switch (_bDataType) {
 				case DBVT_BYTE:
 					db_set_b(hContact, pszModule, _pszSetting, pd->nID);
@@ -221,7 +221,7 @@ void CCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 			_Flags.B.hasChanged = false;
 			OnInfoChanged(hContact, pszProto);
 		}
-		InvalidateRect(_hwnd, NULL, TRUE);
+		InvalidateRect(_hwnd, nullptr, TRUE);
 	}
 }
 

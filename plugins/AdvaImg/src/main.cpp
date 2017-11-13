@@ -71,7 +71,7 @@ static void FI_CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 
 	dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
 
@@ -119,7 +119,7 @@ static BOOL FreeImage_PreMultiply(HBITMAP hBitmap)
 		int height = bmp.bmHeight;
 		int dwLen = width * height * 4;
 		BYTE *p = (BYTE *)malloc(dwLen);
-		if (p != NULL) {
+		if (p != nullptr) {
 			GetBitmapBits(hBitmap, dwLen, p);
 
 			for (int y = 0; y < height; ++y) {
@@ -149,7 +149,7 @@ static BOOL FreeImage_PreMultiply(HBITMAP hBitmap)
 
 static HBITMAP FreeImage_CreateHBITMAPFromDIB(FIBITMAP *in)
 {
-    FIBITMAP *dib = NULL;
+    FIBITMAP *dib = nullptr;
 	int bpp = FreeImage_GetBPP(in);
 
 	if (bpp == 48)
@@ -161,8 +161,8 @@ static HBITMAP FreeImage_CreateHBITMAPFromDIB(FIBITMAP *in)
 
 	BYTE *ptPixels;
 	BITMAPINFO *info = FreeImage_GetInfo(dib);
-	HBITMAP hBmp = CreateDIBSection(NULL, info, DIB_RGB_COLORS, (void **)&ptPixels, NULL, 0);
-	if (ptPixels != NULL)
+	HBITMAP hBmp = CreateDIBSection(nullptr, info, DIB_RGB_COLORS, (void **)&ptPixels, nullptr, 0);
+	if (ptPixels != nullptr)
 		memmove(ptPixels, FreeImage_GetBits(dib), FreeImage_GetPitch(dib) * FreeImage_GetHeight(dib));
 
 	if (dib != in)
@@ -181,16 +181,16 @@ static FIBITMAP *FreeImage_CreateDIBFromHBITMAP(HBITMAP hBmp)
 		// The GetDIBits function clears the biClrUsed and biClrImportant BITMAPINFO members (dont't know why)
 		// So we save these infos below. This is needed for palettized images only.
 		int nColors = FreeImage_GetColorsUsed(dib);
-		HDC dc = GetDC(NULL);
+		HDC dc = GetDC(nullptr);
 		int Success = GetDIBits(dc, hBmp, 0, FreeImage_GetHeight(dib),
 			FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
-		ReleaseDC(NULL, dc);
+		ReleaseDC(nullptr, dc);
 		// restore BITMAPINFO members
 		FreeImage_GetInfoHeader(dib)->biClrUsed = nColors;
 		FreeImage_GetInfoHeader(dib)->biClrImportant = nColors;
 		return dib;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -210,8 +210,8 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 	int xOrig, yOrig, widthOrig, heightOrig;
 	ResizeBitmap *info = (ResizeBitmap *) wParam;
 
-	if (info == NULL || info->size != sizeof(ResizeBitmap)
-		|| info->hBmp == NULL
+	if (info == nullptr || info->size != sizeof(ResizeBitmap)
+		|| info->hBmp == nullptr
 		|| info->max_width < 0 || info->max_height < 0
 		|| (info->fit & ~RESIZEBITMAP_FLAG_DONT_GROW) < RESIZEBITMAP_STRETCH
 		|| (info->fit & ~RESIZEBITMAP_FLAG_DONT_GROW) > RESIZEBITMAP_MAKE_SQUARE)
@@ -296,7 +296,7 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 	else
 	{
 		FIBITMAP *dib = FreeImage_CreateDIBFromHBITMAP(info->hBmp);
-		if (dib == NULL)
+		if (dib == nullptr)
 			return NULL;
 
 		FIBITMAP *dib_tmp;
@@ -305,7 +305,7 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 		else
 			dib_tmp = dib;
 
-		if (dib_tmp == NULL)
+		if (dib_tmp == nullptr)
 		{
 			FreeImage_Unload(dib);
 			return NULL;
@@ -334,13 +334,13 @@ FIBITMAP* FreeImage_LoadFromMem(FREE_IMAGE_FORMAT fif, fiio_mem_handle *handle, 
 		FreeImage_CloseMemory(hmem);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 FIMEMORY* FreeImage_SaveToMem(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_handle *handle, int flags)
 {
 	if (handle) {
-		FIMEMORY *hmem = FreeImage_OpenMemory(NULL, 0);
+		FIMEMORY *hmem = FreeImage_OpenMemory(nullptr, 0);
 		if(fif == FIF_UNKNOWN)
 			fif = FIF_BMP;
 		handle->curpos = 0;
@@ -348,7 +348,7 @@ FIMEMORY* FreeImage_SaveToMem(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, fiio_mem_han
 		FreeImage_AcquireMemory(hmem, (BYTE **)&handle->data, (DWORD *)&handle->datalen);
 		return hmem;
 	}
-	return NULL;
+	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -379,7 +379,7 @@ static INT_PTR serviceGetInterface(WPARAM wParam, LPARAM lParam)
 static INT_PTR serviceLoad(WPARAM wParam, LPARAM lParam)
 {
 	char *lpszFilename = (char *)wParam;
-	if(lpszFilename==NULL) return 0;
+	if(lpszFilename==nullptr) return 0;
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
 
 	if(lParam & IMGL_WCHAR)
@@ -404,7 +404,7 @@ static INT_PTR serviceLoad(WPARAM wParam, LPARAM lParam)
 		else
 			dib = FreeImage_Load(fif, lpszFilename, 0);
 
-		if(dib == NULL || (lParam & IMGL_RETURNDIB))
+		if(dib == nullptr || (lParam & IMGL_RETURNDIB))
 			return (INT_PTR)dib;
 
 		HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(dib);
@@ -418,7 +418,7 @@ static INT_PTR serviceLoad(WPARAM wParam, LPARAM lParam)
 static INT_PTR serviceLoadFromMem(WPARAM wParam, LPARAM lParam)
 {
 	IMGSRVC_MEMIO *mio = (IMGSRVC_MEMIO *)wParam;
-	if(mio->iLen == 0 || mio->pBuf == NULL)
+	if(mio->iLen == 0 || mio->pBuf == nullptr)
 		return 0;
 
 	FIMEMORY *hmem = FreeImage_OpenMemory((BYTE *)mio->pBuf, mio->iLen);
@@ -426,7 +426,7 @@ static INT_PTR serviceLoadFromMem(WPARAM wParam, LPARAM lParam)
 	FIBITMAP *dib = FreeImage_LoadFromMemory(fif, hmem, mio->flags);
 	FreeImage_CloseMemory(hmem);
 
-	if(dib == NULL || (lParam & IMGL_RETURNDIB))
+	if(dib == nullptr || (lParam & IMGL_RETURNDIB))
 		return (INT_PTR)dib;
 
 	HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(dib);
@@ -450,7 +450,7 @@ static INT_PTR serviceSave(WPARAM wParam, LPARAM lParam)
 	IMGSRVC_INFO *isi = (IMGSRVC_INFO *)wParam;
 	FREE_IMAGE_FORMAT fif;
 	BOOL fUnload = FALSE;
-	FIBITMAP *dib = NULL;
+	FIBITMAP *dib = nullptr;
 
 	if(isi) {
 		if(isi->cbSize != sizeof(IMGSRVC_INFO))
@@ -469,13 +469,13 @@ static INT_PTR serviceSave(WPARAM wParam, LPARAM lParam)
 			if(fif == FIF_UNKNOWN)
 				fif = FIF_BMP;                  // default, save as bmp
 
-			if(isi->hbm != 0 && (isi->dwMask & IMGI_HBITMAP) && !(isi->dwMask & IMGI_FBITMAP)) {
+			if(isi->hbm != nullptr && (isi->dwMask & IMGI_HBITMAP) && !(isi->dwMask & IMGI_FBITMAP)) {
 				// create temporary dib, because we got a HBTIMAP passed
 				fUnload = TRUE;
 				FI_CorrectBitmap32Alpha(isi->hbm, FALSE);
 				dib = FreeImage_CreateDIBFromHBITMAP(isi->hbm);
 			}
-			else if(isi->dib != NULL && (isi->dwMask & IMGI_FBITMAP) && !(isi->dwMask & IMGI_HBITMAP))
+			else if(isi->dib != nullptr && (isi->dwMask & IMGI_FBITMAP) && !(isi->dwMask & IMGI_HBITMAP))
 				dib = isi->dib;
 
 			int ret = 0;
@@ -517,7 +517,7 @@ static INT_PTR serviceGetVersion(WPARAM wParam, LPARAM lParam)
 
 DLL_API FIBITMAP *DLL_CALLCONV FreeImage_RotateClassic(FIBITMAP *dib, double angle)
 {
-	return FreeImage_Rotate(dib, angle, NULL);
+	return FreeImage_Rotate(dib, angle, nullptr);
 }
 
 void FI_Populate(void)

@@ -96,7 +96,7 @@ static mir_cs csContactCache;
 // converts a string into a CNF_ type
 BYTE getContactInfoType(wchar_t* type)
 {
-	if (type == NULL || mir_wstrlen(type) == 0)
+	if (type == nullptr || mir_wstrlen(type) == 0)
 		return 0;
 
 	for (int i = 0; i < _countof(builtinCnfs); i++)
@@ -111,13 +111,13 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 {
 	/* returns dynamic allocated buffer with info, or NULL if failed */
 	if (hContact == NULL)
-		return NULL;
+		return nullptr;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return nullptr;
 
-	wchar_t *res = NULL;
+	wchar_t *res = nullptr;
 	switch (type) {
 	case CCNF_PROTOID:
 		return mir_a2u(szProto);
@@ -125,13 +125,13 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 	case CCNF_ACCOUNT:
 		{
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-			return pa ? mir_wstrdup(pa->tszAccountName) : NULL;
+			return pa ? mir_wstrdup(pa->tszAccountName) : nullptr;
 		}
 
 	case CCNF_PROTOCOL:
 		char protoname[128];
 		if (CallProtoService(szProto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))
-			return NULL;
+			return nullptr;
 		return mir_a2u(protoname);
 
 	case CCNF_STATUS:
@@ -147,17 +147,17 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 				return mir_a2u(inet_ntoa(in));
 			}
 		}
-		return NULL;
+		return nullptr;
 
 	case CCNF_GROUP:
-		if ((res = db_get_wsa(hContact, "CList", "Group")) != NULL)
+		if ((res = db_get_wsa(hContact, "CList", "Group")) != nullptr)
 			return res;
 		break;
 
 	case CNF_UNIQUEID:
 		//UID for ChatRoom
 		if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
-			if ((res = db_get_wsa(hContact, szProto, "ChatRoomID")) != NULL)
+			if ((res = db_get_wsa(hContact, szProto, "ChatRoomID")) != nullptr)
 				return res;
 
 		//UID for other contact
@@ -171,7 +171,7 @@ wchar_t* getContactInfoT(BYTE type, MCONTACT hContact)
 MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMatch)
 {
 	/* service to retrieve a contact's HANDLE from a given string */
-	if (tszContact == NULL || *tszContact == 0)
+	if (tszContact == nullptr || *tszContact == 0)
 		return INVALID_CONTACT_ID;
 
 	bool bReturnCount;
@@ -187,7 +187,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 
 		mir_cslock lck(csContactCache);
 		CONTACTCE *p = arContactCache.find(&tmp);
-		if (p != NULL)
+		if (p != nullptr)
 			return (bReturnCount) ? 1 : p->hContact; // found in cache
 	}
 
@@ -203,7 +203,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 		bool bMatch = (tmp == tszContact);
 
 		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL)
+		if (szProto == nullptr)
 			continue;
 
 		// <proto:id> (exact)
@@ -304,7 +304,7 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 	DBCONTACTWRITESETTING *dbw = (DBCONTACTWRITESETTING*)lParam;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return 0;
 
 	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -314,7 +314,7 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 	bool isLastName = !strcmp(dbw->szSetting, "LastName");
 	bool isEmail = !strcmp(dbw->szSetting, "e-mail");
 	bool isMyHandle = !strcmp(dbw->szSetting, "MyHandle");
-	bool isUid = (((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != NULL)) && (!strcmp(dbw->szSetting, uid));
+	bool isUid = (((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != nullptr)) && (!strcmp(dbw->szSetting, uid));
 
 	mir_cslock lck(csContactCache);
 	for (int i = 0; i < arContactCache.getCount(); i++) {
@@ -358,12 +358,12 @@ int deinitContactModule()
 wchar_t* encodeContactToString(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return nullptr;
 
 	wchar_t *tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
-	if (tszUniqueId == NULL)
-		return NULL;
+	if (tszUniqueId == nullptr)
+		return nullptr;
 
 	size_t size = mir_wstrlen(tszUniqueId) + mir_strlen(szProto) + 4;
 	wchar_t *tszResult = (wchar_t *)mir_calloc(size * sizeof(wchar_t));

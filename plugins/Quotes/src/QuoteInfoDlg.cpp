@@ -15,7 +15,7 @@ MCONTACT g_hContact;
 inline bool IsMyContact(MCONTACT hContact)
 {
 	CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
-	return (NULL != pProvider);
+	return (nullptr != pProvider);
 }
 
 inline MCONTACT get_contact(HWND hWnd)
@@ -82,7 +82,7 @@ INT_PTR CALLBACK QuoteInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WP
 		case NM_CLICK:
 			if (IDC_SYSLINK_PROVIDER == wParam) {
 				PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
-				::ShellExecute(hdlg, L"open", pNMLink->item.szUrl, NULL, NULL, SW_SHOWNORMAL);
+				::ShellExecute(hdlg, L"open", pNMLink->item.szUrl, nullptr, nullptr, SW_SHOWNORMAL);
 			}
 			break;
 		}
@@ -143,7 +143,7 @@ INT_PTR QuotesMenu_OpenLogFile(WPARAM wp, LPARAM)
 
 	tstring sLogFileName;
 	if ((true == get_log_file(hContact, sLogFileName)) && (false == sLogFileName.empty()))
-		::ShellExecute(NULL, L"open", sLogFileName.c_str(), NULL, NULL, SW_SHOWNORMAL);
+		::ShellExecute(nullptr, L"open", sLogFileName.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
 
 	return 0;
 }
@@ -216,12 +216,12 @@ int Quotes_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
 		MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_INFO, true);
 		assert(hWL);
 		HWND hWnd = WindowList_Find(hWL, hContact);
-		if (NULL != hWnd) {
+		if (nullptr != hWnd) {
 			SetForegroundWindow(hWnd);
 			SetFocus(hWnd);
 		}
 		else if (true == IsMyContact(hContact))
-			CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_DIALOG_QUOTE_INFO_1), NULL, QuoteInfoDlgProc1, LPARAM(hContact));
+			CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_DIALOG_QUOTE_INFO_1), nullptr, QuoteInfoDlgProc1, LPARAM(hContact));
 
 		return 1;
 	}

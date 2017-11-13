@@ -45,7 +45,7 @@ INT_PTR CloseAction(WPARAM, LPARAM)
 	return 0;
 }
 
-static MWindowList hWindowListIGN = 0;
+static MWindowList hWindowListIGN = nullptr;
 
 // dialog procedure for handling the contact ignore dialog (available from the contact menu
 static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -56,7 +56,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 		{
 			DWORD dwMask;
-			ClcContact *contact = NULL;
+			ClcContact *contact = nullptr;
 			int pCaps;
 			HWND hwndAdd;
 
@@ -91,7 +91,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed by status message"));
 
 			if (cfg::clcdat) {
-				Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL);
+				Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
 				if (contact && contact->type != CLCIT_CONTACT) {
 					DestroyWindow(hWnd);
 					return FALSE;
@@ -192,7 +192,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		case IDOK:
 			{
 				DWORD newMask = 0;
-				ClcContact *contact = NULL;
+				ClcContact *contact = nullptr;
 
 				SendMessage(hWnd, WM_USER + 110, 0, (LPARAM)&newMask);
 				db_set_dw(hContact, "Ignore", "Mask1", newMask);
@@ -203,7 +203,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					DWORD dwFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0), dwXMask = 0;
 					LRESULT  checked = 0;
 
-					Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL);
+					Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr);
 					if (iSel != CB_ERR) {
 						dwFlags &= ~(ECF_FORCEAVATAR | ECF_HIDEAVATAR);
 
@@ -249,7 +249,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 							contact->pExtra->dwDFlags = dwFlags;
 					}
 					else {
-						TExtraCache *p = cfg::getCache(hContact, NULL);
+						TExtraCache *p = cfg::getCache(hContact, nullptr);
 						if (p)
 							p->dwDFlags = dwFlags;
 					}
@@ -289,8 +289,8 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 	case WM_USER + 120:	// set visibility status
 		{
-			ClcContact *contact = NULL;
-			if (Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
+			ClcContact *contact = nullptr;
+			if (Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
 				if (contact) {
 					WORD wApparentMode = db_get_w(contact->hContact, contact->proto, "ApparentMode", 0);
 
@@ -303,9 +303,9 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 	case WM_USER + 130:	// update apparent mode
 		{
-			ClcContact *contact = NULL;
+			ClcContact *contact = nullptr;
 
-			if (Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
+			if (Clist_FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, nullptr, nullptr)) {
 				if (contact) {
 					WORD wApparentMode = 0;
 
@@ -343,15 +343,15 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM)
 {
-	HWND hWnd = 0;
+	HWND hWnd = nullptr;
 
-	if (hWindowListIGN == 0)
+	if (hWindowListIGN == nullptr)
 		hWindowListIGN = WindowList_Create();
 
 	hWnd = WindowList_Find(hWindowListIGN, wParam);
 	if (wParam) {
-		if (hWnd == 0)
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_QUICKIGNORE), 0, IgnoreDialogProc, (LPARAM)wParam);
+		if (hWnd == nullptr)
+			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_QUICKIGNORE), nullptr, IgnoreDialogProc, (LPARAM)wParam);
 		else if (IsWindow(hWnd))
 			SetFocus(hWnd);
 	}

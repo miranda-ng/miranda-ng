@@ -42,7 +42,7 @@ static wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char* module, ch
 		db_free(&dbv);
 	}
 	else {
-		if (def != NULL)
+		if (def != nullptr)
 			mir_wstrncpy(out, def, (int)len);
 	}
 
@@ -97,7 +97,7 @@ static void PathToAbsolute(wchar_t *pOut, size_t outSize, const wchar_t *pSrc)
 
 static void LoadOpt(OptPageControl *ctrl, char *module)
 {
-	if (ctrl->var == NULL)
+	if (ctrl->var == nullptr)
 		return;
 
 	wchar_t tmp[1024];
@@ -126,7 +126,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_TEXT:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
 		break;
 
 	case CONTROL_INT:
@@ -134,13 +134,13 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_FILE:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : ctrl->tszDefValue);
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : ctrl->tszDefValue);
 		PathToAbsolute(((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), tmp);
 		break;
 
 	case CONTROL_COMBO_TEXT:
 	case CONTROL_COMBO_ITEMDATA:
-		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
+		MyDBGetContactSettingTString(NULL, module, ctrl->setting, ((wchar_t *)ctrl->var), min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
 		break;
 	}
 }
@@ -162,7 +162,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 		for (int i = 0; i < controlsSize; i++) {
 			OptPageControl *ctrl = &controls[i];
 
-			if (GetDlgItem(hwndDlg, ctrl->nID) == NULL)
+			if (GetDlgItem(hwndDlg, ctrl->nID) == nullptr)
 				continue;
 
 			switch (ctrl->type) {
@@ -213,10 +213,10 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 					for (int k = 0; k < count; k++) {
 						PROTOACCOUNT *p = protos[k];
-						if (p->szModuleName == NULL || p->szModuleName[0] == '\0')
+						if (p->szModuleName == nullptr || p->szModuleName[0] == '\0')
 							continue;
 
-						if (ctrl->allowProtocol != NULL && !ctrl->allowProtocol(p->szModuleName))
+						if (ctrl->allowProtocol != nullptr && !ctrl->allowProtocol(p->szModuleName))
 							continue;
 
 						char *setting = (char *)mir_alloc(128 * sizeof(char));
@@ -236,7 +236,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_TEXT:
-				SetDlgItemText(hwndDlg, ctrl->nID, MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue)));
+				SetDlgItemText(hwndDlg, ctrl->nID, MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue)));
 				SendDlgItemMessage(hwndDlg, ctrl->nID, EM_LIMITTEXT, min(ctrl->max <= 0 ? 1024 : ctrl->max, 1024), 0);
 				break;
 
@@ -246,7 +246,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_FILE:
-				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : ctrl->tszDefValue);
+				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : ctrl->tszDefValue);
 				{
 					wchar_t abs[1024];
 					PathToAbsolute(abs, 1024, tmp);
@@ -256,12 +256,12 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_COMBO_TEXT:
-				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
+				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
 				SendDlgItemMessage(hwndDlg, ctrl->nID, CB_SELECTSTRING, 0, (WPARAM)tmp);
 				break;
 
 			case CONTROL_COMBO_ITEMDATA:
-				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateW(ctrl->tszDefValue));
+				MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == nullptr ? nullptr : TranslateW(ctrl->tszDefValue));
 				{
 					int count = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCOUNT, 0, 0);
 					int k;
@@ -313,7 +313,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				for (int i = 0; i < controlsSize; i++) {
 					OptPageControl *ctrl = &controls[i];
 
-					if (GetDlgItem(hwndDlg, ctrl->nID) == NULL)
+					if (GetDlgItem(hwndDlg, ctrl->nID) == nullptr)
 						continue;
 
 					switch (ctrl->type) {
@@ -421,7 +421,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 		for (int i = 0; i < controlsSize; i++) {
 			OptPageControl *ctrl = &controls[i];
 
-			if (GetDlgItem(hwndDlg, ctrl->nID) == NULL)
+			if (GetDlgItem(hwndDlg, ctrl->nID) == nullptr)
 				continue;
 
 			switch (ctrl->type) {

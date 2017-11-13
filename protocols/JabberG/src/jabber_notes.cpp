@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static wchar_t* StrTrimCopy(wchar_t *str)
 {
-	if (!str) return 0;
+	if (!str) return nullptr;
 	while (*str && iswspace(*str)) ++str;
 	if (!*str) return mir_wstrdup(str);
 
@@ -468,7 +468,7 @@ private:
 
 	void InsertTag(HTREEITEM htiRoot, const wchar_t *tag, bool bSelect)
 	{
-		TVINSERTSTRUCT tvi = { 0 };
+		TVINSERTSTRUCT tvi = {};
 		tvi.hParent = htiRoot;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.itemex.mask = TVIF_TEXT | TVIF_PARAM;
@@ -509,7 +509,7 @@ private:
 
 		m_tvFilter.DeleteAllItems();
 
-		TVINSERTSTRUCT tvis = { 0 };
+		TVINSERTSTRUCT tvis = {};
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.itemex.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 		tvis.itemex.stateMask = tvis.itemex.state = TVIS_BOLD | TVIS_EXPANDED;

@@ -115,7 +115,7 @@ void GetData(void *param)
 	headers[0].szValue = NETLIB_USER_AGENT;
 
 	headers[1].szName = "Content-Length";
-	headers[1].szValue = NULL;
+	headers[1].szValue = nullptr;
 
 	nlhr.headers = headers;
 
@@ -181,7 +181,7 @@ void GetData(void *param)
 				mir_strncpy(truncated, truncated2, MAXSIZE1);
 			else { // use start and end string
 				// putting data into string    
-				if (((strstr(truncated2, tempstring)) != 0) && ((strstr(truncated2, tempstring2)) != 0)) {
+				if (((strstr(truncated2, tempstring)) != nullptr) && ((strstr(truncated2, tempstring2)) != nullptr)) {
 					// start string
 					pos = strstr(truncated2, tempstring);
 					statpos = pos - truncated2;
@@ -270,7 +270,7 @@ void GetData(void *param)
 			if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 				memset(&temptime, 0, sizeof(temptime));
 				memset(&tstr, 0, sizeof(tstr));
-				ftime = time(NULL);
+				ftime = time(nullptr);
 				nTime = localtime(&ftime);
 				// 12 hour
 				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 0)
@@ -289,7 +289,7 @@ void GetData(void *param)
 				db_get_ws(hContact, "CList", "MyHandle", &dbv);
 				memset(&temptime, 0, sizeof(temptime));
 				memset(&tstr, 0, sizeof(tstr));
-				ftime = time(NULL);
+				ftime = time(nullptr);
 				nTime = localtime(&ftime);
 				// 12 hour
 				if (db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) == 0)
@@ -306,7 +306,7 @@ void GetData(void *param)
 				db_free(&dbv);
 			}
 
-			ftime = time(NULL);
+			ftime = time(nullptr);
 			nTime = localtime(&ftime);
 
 			strncpy_s(timeprefix, _countof(timeprefix), Translate("Last updated on"), _TRUNCATE);
@@ -340,14 +340,14 @@ void GetData(void *param)
 					}
 
 					// putting data into string    
-					if (((strstr(buff, Alerttempstring)) != 0) && ((strstr(buff, Alerttempstring2)) != 0)) {
+					if (((strstr(buff, Alerttempstring)) != nullptr) && ((strstr(buff, Alerttempstring2)) != nullptr)) {
 						location = (strstr(buff, Alerttempstring)) - buff;
 						location2 = (strstr(buff, Alerttempstring2)) - buff;
 					}
 				}
 			}
 
-			if ((((strstr(truncated2, tempstring)) != 0) && ((strstr(truncated2, tempstring2)) != 0) && (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0)) || (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 1)) {
+			if ((((strstr(truncated2, tempstring)) != nullptr) && ((strstr(truncated2, tempstring2)) != nullptr) && (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 0)) || (db_get_b(hContact, MODULENAME, U_ALLSITE_KEY, 0) == 1)) {
 				RemoveTabs(truncated);
 
 				if ( db_get_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 0)) {

@@ -74,9 +74,9 @@ void ConvertToFilename(wchar_t *str, size_t size)
 
 wchar_t* GetExtension(wchar_t *file)
 {
-	if (file == NULL) return L"";
+	if (file == nullptr) return L"";
 	wchar_t *ext = wcsrchr(file, '.');
-	if (ext != NULL)
+	if (ext != nullptr)
 		ext++;
 	else
 		ext = L"";
@@ -86,7 +86,7 @@ wchar_t* GetExtension(wchar_t *file)
 
 wchar_t* GetHistoryFolder(wchar_t *fn)
 {
-	if (fn == NULL) return NULL;
+	if (fn == nullptr) return nullptr;
 	FoldersGetCustomPathT(hFolder, fn, MAX_PATH, basedir);
 	CreateDirectoryTreeW(fn);
 	return fn;
@@ -96,7 +96,7 @@ wchar_t* GetProtocolFolder(wchar_t *fn, char *proto)
 {
 	GetHistoryFolder(fn);
 
-	if (proto == NULL)
+	if (proto == nullptr)
 		proto = Translate("Unknown protocol");
 
 	mir_snwprintf(fn, MAX_PATH, L"%s\\%S", fn, proto);
@@ -163,7 +163,7 @@ BOOL CopyImageFile(wchar_t *old_file, wchar_t *new_file)
 
 wchar_t* GetCachedAvatar(char *proto, wchar_t *hash)
 {
-	wchar_t *ret = NULL;
+	wchar_t *ret = nullptr;
 	wchar_t file[1024] = L"";
 	wchar_t search[1024] = L"";
 	if (opts.log_keep_same_folder)
@@ -176,7 +176,7 @@ wchar_t* GetCachedAvatar(char *proto, wchar_t *hash)
 	WIN32_FIND_DATA finddata;
 	HANDLE hFind = FindFirstFile(search, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
-		return NULL;
+		return nullptr;
 
 	do {
 		size_t len = mir_wstrlen(finddata.cFileName);
@@ -198,12 +198,12 @@ wchar_t* GetCachedAvatar(char *proto, wchar_t *hash)
 
 BOOL CreateShortcut(wchar_t *file, wchar_t *shortcut)
 {
-	IShellLink *psl = NULL;
-	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl);
+	IShellLink *psl = nullptr;
+	HRESULT hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl);
 	if (SUCCEEDED(hr)) {
 		psl->SetPath(file);
 
-		IPersistFile *ppf = NULL;
+		IPersistFile *ppf = nullptr;
 		hr = psl->QueryInterface(IID_IPersistFile, (void **)&ppf);
 		if (SUCCEEDED(hr)) {
 			hr = ppf->Save(shortcut, TRUE);
@@ -218,18 +218,18 @@ BOOL CreateShortcut(wchar_t *file, wchar_t *shortcut)
 
 BOOL ResolveShortcut(wchar_t *shortcut, wchar_t *file)
 {
-	IShellLink* psl = NULL;
+	IShellLink* psl = nullptr;
 
-	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl);
+	HRESULT hr = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl);
 
 	if (SUCCEEDED(hr)) {
-		IPersistFile* ppf = NULL;
+		IPersistFile* ppf = nullptr;
 		hr = psl->QueryInterface(IID_IPersistFile, (void **)&ppf);
 
 		if (SUCCEEDED(hr)) {
 			hr = ppf->Load(shortcut, STGM_READ);
 			if (SUCCEEDED(hr)) {
-				hr = psl->Resolve(NULL, SLR_UPDATE);
+				hr = psl->Resolve(nullptr, SLR_UPDATE);
 				if (SUCCEEDED(hr)) {
 					WIN32_FIND_DATA wfd;
 					hr = psl->GetPath(file, MAX_PATH, &wfd, SLGP_RAWPATH);

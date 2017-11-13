@@ -96,7 +96,7 @@ bool send_init_oft2(file_transfer *ft, char* file)
 void CAimProto::report_file_error(wchar_t *fname)
 {
 	wchar_t errmsg[512];
-	wchar_t* error = mir_a2u(_strerror(NULL));
+	wchar_t* error = mir_a2u(_strerror(nullptr));
 	mir_snwprintf(errmsg, TranslateT("Failed to open file: %s : %s"), fname, error);
 	mir_free(error);
 	ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
@@ -108,7 +108,7 @@ bool setup_next_file_send(file_transfer *ft)
 	struct _stati64 statbuf;
 	for (;;) {
 		file = ft->pfts.ptszFiles[ft->cf];
-		if (file == NULL) return false;
+		if (file == nullptr) return false;
 
 		if (_wstat64(file, &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
 			break;
@@ -264,7 +264,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 	bool accepted_file = false;
 	int fid = -1;
 
-	oft2 *oft = NULL;
+	oft2 *oft = nullptr;
 
 	ft->pfts.tszWorkingDir = mir_utf8decodeW(ft->file);
 
@@ -453,7 +453,7 @@ file_transfer* ft_list_type::find_by_cookie(char* cookie, MCONTACT hContact)
 		if (ft->hContact == hContact && memcmp(ft->icbm_cookie, cookie, 8) == 0)
 			return ft;
 	}
-	return NULL;
+	return nullptr;
 }
 
 file_transfer* ft_list_type::find_by_port(unsigned short port)
@@ -463,7 +463,7 @@ file_transfer* ft_list_type::find_by_port(unsigned short port)
 		if (ft->requester && ft->local_port == port)
 			return ft;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -502,7 +502,7 @@ file_transfer::file_transfer(MCONTACT hCont, char* nick, char* cookie)
 	else
 		Utils_GetRandom(icbm_cookie, 8);
 
-	hResumeEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hResumeEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
 
 file_transfer::~file_transfer()
@@ -540,7 +540,7 @@ void file_transfer::stop_listen(void)
 {
 	if (hDirectBoundPort) {
 		Netlib_CloseHandle(hDirectBoundPort);
-		hDirectBoundPort = NULL;
+		hDirectBoundPort = nullptr;
 		local_port = 0;
 	}
 }

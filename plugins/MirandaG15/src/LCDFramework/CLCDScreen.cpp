@@ -72,7 +72,7 @@ bool CLCDScreen::Update()
 {
 	// Loop through all objects and call their update function
 	vector<CLCDObject*>::iterator iter = m_Objects.begin();
-	CLCDObject *pObject = NULL;
+	CLCDObject *pObject = nullptr;
 	while(iter != m_Objects.end())
 	{
 		pObject = *(iter);
@@ -91,7 +91,7 @@ bool CLCDScreen::Draw(CLCDGfx *pGfx)
 	POINT ptPrevViewportOrg = { 0, 0 };
 	// Loop through all objects and call their draw function
 	vector<CLCDObject*>::iterator iter = m_Objects.begin();
-	CLCDObject *pObject = NULL;
+	CLCDObject *pObject = nullptr;
 	while(iter != m_Objects.end())
 	{
 		pObject = *(iter);
@@ -126,13 +126,13 @@ bool CLCDScreen::Draw(CLCDGfx *pGfx)
 		iter++;
 	}
 	// set the clipping region to nothing
-	SelectClipRgn(pGfx->GetHDC(), NULL);
+	SelectClipRgn(pGfx->GetHDC(), nullptr);
 
 	// restore the viewport origin
 	SetViewportOrgEx(pGfx->GetHDC(),
 		0,
 		0,
-		NULL);
+		nullptr);
 
 	return true;
 }

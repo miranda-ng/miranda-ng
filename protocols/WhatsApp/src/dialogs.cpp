@@ -164,7 +164,7 @@ class CInviteDialog : public CProtoDlgBase<WhatsAppProto>
 
 	void ResetListOptions(CCtrlClc *)
 	{
-		m_clc.SetBkBitmap(0, NULL);
+		m_clc.SetBkBitmap(0, nullptr);
 		m_clc.SetBkColor(GetSysColor(COLOR_WINDOW));
 		m_clc.SetGreyoutFlags(0);
 		m_clc.SetLeftMargin(4);

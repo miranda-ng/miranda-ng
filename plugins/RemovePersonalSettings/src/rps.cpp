@@ -104,11 +104,11 @@ extern "C" int __declspec(dllexport) Load()
 
 	// Get ini file name
 	gMirandaDir[0] = '\0';
-	GetModuleFileNameA(GetModuleHandle(NULL),gMirandaDir,sizeof(gMirandaDir));
+	GetModuleFileNameA(GetModuleHandle(nullptr),gMirandaDir,sizeof(gMirandaDir));
 
 	// Remove last name
 	strTmp = strrchr(gMirandaDir,'\\');
-	if(strTmp != NULL)
+	if(strTmp != nullptr)
 		*strTmp = '\0';
 
 	// Set vars
@@ -144,11 +144,11 @@ extern "C" int __declspec(dllexport) Unload(void)
 INT_PTR RemoveAllService(WPARAM, LPARAM)
 {
 	if (gIniFile[0] == '\0') {
-		MessageBox(NULL, TranslateT("Configuration file could not be found!"), TranslateW(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, TranslateT("Configuration file could not be found!"), TranslateW(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
 		return -1;
 	}
 
-	if (MessageBox(NULL, TranslateW(NOTICE_TEXT), TranslateW(MSGBOX_TITLE), MB_YESNO) == IDYES) {
+	if (MessageBox(nullptr, TranslateW(NOTICE_TEXT), TranslateW(MSGBOX_TITLE), MB_YESNO) == IDYES) {
 		SetProtocolsOffline();
 		RemoveUsers();
 		RemoveSettings();
@@ -156,7 +156,7 @@ INT_PTR RemoveAllService(WPARAM, LPARAM)
 		RemoveDirectories();
 		DisablePlugins();
 
-		MessageBox(NULL, TranslateT("Settings are deleted now."), TranslateW(MSGBOX_TITLE), MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, TranslateT("Settings are deleted now."), TranslateW(MSGBOX_TITLE), MB_OK | MB_ICONINFORMATION);
 	}
 
 	return 0;
@@ -175,7 +175,7 @@ void SetProtocolsOffline()
 			if (!accounts[i]->bIsEnabled)
 				continue;
 
-			if (accounts[i]->szModuleName == NULL || accounts[i]->szModuleName[0] == '\0')
+			if (accounts[i]->szModuleName == nullptr || accounts[i]->szModuleName[0] == '\0')
 				continue;
 
 			CallProtoService(accounts[i]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
@@ -216,7 +216,7 @@ void RemoveUsers()
 		}
 
 		// Now delete groups
-		DeleteSettingEx("CListGroups", NULL);
+		DeleteSettingEx("CListGroups", nullptr);
 	}
 }
 
@@ -226,7 +226,7 @@ void RemoveProtocolSettings(const char * protocolName)
 
 	// Remove protocol module settings
 	if ( GetSettingBool("GlobalSettings", "RemoveWholeProtocolModule", FALSE) ) {
-		DeleteSettingEx(protocolName, NULL);
+		DeleteSettingEx(protocolName, nullptr);
 	}
 	else if ( GetSettings("ProtocolSettings", buffer, sizeof(buffer)) ) {
 		char *name;
@@ -235,7 +235,7 @@ void RemoveProtocolSettings(const char * protocolName)
 		name = buffer;
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
-			if (value == NULL)
+			if (value == nullptr)
 				value = &name[mir_strlen(name)];
 
 			// Has " ?
@@ -262,7 +262,7 @@ void RemoveProtocolSettings(const char * protocolName)
 		name = buffer;
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
-			if (value == NULL)
+			if (value == nullptr)
 				value = &name[mir_strlen(name)];
 
 			// Has " ?
@@ -274,7 +274,7 @@ void RemoveProtocolSettings(const char * protocolName)
 			// Delete it
 			if (name[0] != '\0') {
 				mir_snprintf(moduleName, "%s%s", protocolName, name);
-				DeleteSettingEx(moduleName, NULL);
+				DeleteSettingEx(moduleName, nullptr);
 			}
 
 			// Get next one
@@ -299,7 +299,7 @@ void RemoveSettings()
 			if (!accounts[i]->bIsEnabled)
 				continue;
 
-			if (accounts[i]->szModuleName == NULL || accounts[i]->szModuleName[0] == '\0')
+			if (accounts[i]->szModuleName == nullptr || accounts[i]->szModuleName[0] == '\0')
 				continue;
 
 			RemoveProtocolSettings(accounts[i]->szModuleName);
@@ -313,7 +313,7 @@ void RemoveSettings()
 			name = buffer;
 			while(name[0] != '\0') {
 				value = strchr(name, '=');
-				if (value == NULL)
+				if (value == nullptr)
 					value = &name[mir_strlen(name)];
 
 				// Has " ?
@@ -341,7 +341,7 @@ void RemoveSettings()
 		name = buffer;
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
-			if (value == NULL)
+			if (value == nullptr)
 				value = &name[mir_strlen(name)];
 
 			// Has " ?
@@ -371,7 +371,7 @@ void ExecuteServices()
 		name = buffer;
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
-			if (value == NULL)
+			if (value == nullptr)
 				value = &name[mir_strlen(name)];
 
 			// Has " ?
@@ -408,7 +408,7 @@ void RemoveDirectories()
 			if (!accounts[i]->bIsEnabled)
 				continue;
 
-			if (accounts[i]->szModuleName == NULL || accounts[i]->szModuleName[0] == '\0')
+			if (accounts[i]->szModuleName == nullptr || accounts[i]->szModuleName[0] == '\0')
 				continue;
 
 			mir_snprintf(dir, "%s%s", gMirandaDir, accounts[i]->szModuleName);
@@ -424,7 +424,7 @@ void RemoveDirectories()
 		name = buffer;
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
-			if (value == NULL)
+			if (value == nullptr)
 				value = &name[mir_strlen(name)];
 
 			// Has " ?
@@ -456,7 +456,7 @@ void DisablePlugins()
 		name = buffer;
 		while(name[0] != '\0') {
 			value = strchr(name, '=');
-			if (value == NULL)
+			if (value == nullptr)
 				value = &name[mir_strlen(name)];
 
 			// Has " ?
@@ -520,7 +520,7 @@ void DeleteFileOrFolder(const char *name)
 			strncpy(tmp, name, sizeof(tmp)-1);
 			strTmp = strrchr(tmp,'\\');
 
-			if(strTmp != NULL) {
+			if(strTmp != nullptr) {
 				strTmp++;
 				*strTmp = '\0';
 			}
@@ -590,7 +590,7 @@ int EnumProc(const char *szName, LPARAM lParam)
 	DeleteModuleStruct *dms = (DeleteModuleStruct *) lParam;
 	size_t len = mir_strlen(szName);
 
-	if (dms->filter != NULL && dms->lenFilterMinusOne > 0) {
+	if (dms->filter != nullptr && dms->lenFilterMinusOne > 0) {
 		if (len >= dms->lenFilterMinusOne) {
 			if (dms->filter[0] == '*') {
 				if (mir_strcmp(&dms->filter[1], &szName[len - dms->lenFilterMinusOne]) != 0)
@@ -621,7 +621,7 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 {
 	size_t lenModule;
 
-	if (szModule == NULL)
+	if (szModule == nullptr)
 		return;
 
 	lenModule = mir_strlen(szModule);
@@ -644,8 +644,8 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 		}
 	}
 	else {
-		size_t lenSetting = szSetting == NULL ? 0 : mir_strlen(szSetting);
-		if (szSetting == NULL || szSetting[0] == '*' || szSetting[lenSetting-1] == '*') {
+		size_t lenSetting = szSetting == nullptr ? 0 : mir_strlen(szSetting);
+		if (szSetting == nullptr || szSetting[0] == '*' || szSetting[lenSetting-1] == '*') {
 			DeleteModuleStruct dms;
 			memset(&dms, 0, sizeof(dms));
 			dms.filter = szSetting;
@@ -672,14 +672,14 @@ void DeleteSetting(const char *setting)
 	char *szModule;
 	char *szSetting;
 
-	if (setting == NULL || setting[0] == '\0') {
+	if (setting == nullptr || setting[0] == '\0') {
 		return;
 	}
 
 	// Split setting
 	szModule = strdup(setting);
 	szSetting = strrchr(szModule, '/');
-	if (szSetting != NULL) {
+	if (szSetting != nullptr) {
 		*szSetting = '\0';
 		szSetting ++;
 	}

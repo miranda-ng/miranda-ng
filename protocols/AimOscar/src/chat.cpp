@@ -62,7 +62,7 @@ void CAimProto::chat_event(const char* id, const char* sn, int evt, const wchar_
 	gce.bIsMe = _stricmp(sn, m_username) == 0;
 	gce.ptszStatus = gce.bIsMe ? TranslateT("Me") : TranslateT("Others");
 	gce.ptszText = msg;
-	gce.time = time(NULL);
+	gce.time = time(nullptr);
 	Chat_Event(&gce);
 }
 
@@ -83,12 +83,12 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 
 	char *id = mir_u2a(gch->ptszID);
 	chat_list_item* item = find_chat_by_id(id);
-	if (item == NULL)
+	if (item == nullptr)
 		return 0;
 
 	switch (gch->iType) {
 	case GC_SESSION_TERMINATE:
-		aim_sendflap(item->hconn, 0x04, 0, NULL, item->seqno);
+		aim_sendflap(item->hconn, 0x04, 0, nullptr, item->seqno);
 		Netlib_Shutdown(item->hconn);
 		break;
 
@@ -98,7 +98,7 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_CHANMGR:
-		DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
+		DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, invite_to_chat_dialog,
 			LPARAM(new invite_chat_param(item->id, this)));
 		break;
 
@@ -114,7 +114,7 @@ int CAimProto::OnGCEvent(WPARAM, LPARAM lParam)
 	case GC_USER_LOGMENU:
 		switch (gch->dwData) {
 		case 10:
-			DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
+			DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), nullptr, invite_to_chat_dialog,
 				LPARAM(new invite_chat_param(item->id, this)));
 			break;
 
@@ -211,7 +211,7 @@ chat_list_item* CAimProto::find_chat_by_cid(unsigned short cid)
 		if (m_chat_rooms[i].cid == cid)
 			return &m_chat_rooms[i];
 
-	return NULL;
+	return nullptr;
 }
 
 chat_list_item* CAimProto::find_chat_by_id(char* id)
@@ -220,7 +220,7 @@ chat_list_item* CAimProto::find_chat_by_id(char* id)
 		if (mir_strcmp(m_chat_rooms[i].id, id) == 0)
 			return &m_chat_rooms[i];
 
-	return NULL;
+	return nullptr;
 }
 
 chat_list_item* CAimProto::find_chat_by_conn(HANDLE conn)
@@ -229,7 +229,7 @@ chat_list_item* CAimProto::find_chat_by_conn(HANDLE conn)
 		if (m_chat_rooms[i].hconn == conn)
 			return &m_chat_rooms[i];
 
-	return NULL;
+	return nullptr;
 }
 
 void CAimProto::remove_chat_by_ptr(chat_list_item *item)
@@ -247,7 +247,7 @@ void CAimProto::shutdown_chat_conn(void)
 	for (int i = 0; i < m_chat_rooms.getCount(); ++i) {
 		chat_list_item &item = m_chat_rooms[i];
 		if (item.hconn) {
-			aim_sendflap(item.hconn, 0x04, 0, NULL, item.seqno);
+			aim_sendflap(item.hconn, 0x04, 0, nullptr, item.seqno);
 			Netlib_Shutdown(item.hconn);
 		}
 	}
@@ -259,7 +259,7 @@ void CAimProto::close_chat_conn(void)
 		chat_list_item &item = m_chat_rooms[i];
 		if (item.hconn) {
 			Netlib_CloseHandle(item.hconn);
-			item.hconn = NULL;
+			item.hconn = nullptr;
 		}
 	}
 }

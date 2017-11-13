@@ -60,7 +60,7 @@ SimpleAvatar::SimpleAvatar(HANDLE h, bool bUseBitmap)
 	}
 
 	width = height = 0;
-	av = NULL;
+	av = nullptr;
 	avNeedFree = false;
 }
 
@@ -119,6 +119,6 @@ void SimpleAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS 
 		bmp->restoreAlpha(x, y, w, h);
 	}
 	DeleteObject(rgn);
-	SelectClipRgn(bmp->getDC(), NULL);
+	SelectClipRgn(bmp->getDC(), nullptr);
 	DeleteDC(hdcTmp);
 }

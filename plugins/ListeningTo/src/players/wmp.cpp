@@ -25,7 +25,7 @@ static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 static UINT hTimer = NULL;
 
-WindowsMediaPlayer *singleton = NULL;
+WindowsMediaPlayer *singleton = nullptr;
 
 WindowsMediaPlayer::WindowsMediaPlayer()
 {
@@ -39,21 +39,21 @@ WindowsMediaPlayer::WindowsMediaPlayer()
 	wc.lpszClassName = WMP_WINDOWCLASS;
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(WMP_WINDOWCLASS, LPGENW("Miranda ListeningTo WMP receiver"), 0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	hWnd = CreateWindow(WMP_WINDOWCLASS, LPGENW("Miranda ListeningTo WMP receiver"), 0, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
 }
 
 WindowsMediaPlayer::~WindowsMediaPlayer()
 {
 	if (hTimer != NULL) {
-		KillTimer(NULL, hTimer);
+		KillTimer(nullptr, hTimer);
 		hTimer = NULL;
 	}
 
 	DestroyWindow(hWnd);
-	hWnd = NULL;
+	hWnd = nullptr;
 
 	UnregisterClass(WMP_WINDOWCLASS, hInst);
-	singleton = NULL;
+	singleton = nullptr;
 }
 
 void WindowsMediaPlayer::ProcessReceived()
@@ -68,13 +68,13 @@ void WindowsMediaPlayer::ProcessReceived()
 
 		WCHAR *p1 = wcsstr(received, L"\\0");
 
-		if (received[0] == L'\0' || p1 == NULL) {
+		if (received[0] == L'\0' || p1 == nullptr) {
 			NotifyInfoChanged();
 			return;
 		}
 
 		// Process string
-		WCHAR *parts[8] = { 0 };
+		WCHAR *parts[8] = {};
 		int pCount = 0;
 		WCHAR *p = received;
 		do {
@@ -83,8 +83,8 @@ void WindowsMediaPlayer::ProcessReceived()
 			pCount++;
 			p = p1 + 2;
 			p1 = wcsstr(p, L"\\0");
-		} while (p1 != NULL && pCount < 7);
-		if (p1 != NULL)
+		} while (p1 != nullptr && pCount < 7);
+		if (p1 != nullptr)
 			*p1 = L'\0';
 		parts[pCount] = p;
 
@@ -104,7 +104,7 @@ void WindowsMediaPlayer::ProcessReceived()
 		// Put back the '\\'s
 		for (int i = 1; i <= pCount; i++)
 			*(parts[i] - 2) = L'\\';
-		if (p1 != NULL)
+		if (p1 != nullptr)
 			*p1 = L'\\';
 	}
 
@@ -113,13 +113,13 @@ void WindowsMediaPlayer::ProcessReceived()
 
 static VOID CALLBACK SendTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(NULL, hTimer);
+	KillTimer(nullptr, hTimer);
 	hTimer = NULL;
 
 	if (!loaded)
 		return;
 
-	if (singleton != NULL)
+	if (singleton != nullptr)
 		singleton->ProcessReceived();
 }
 
@@ -133,8 +133,8 @@ void WindowsMediaPlayer::NewData(const WCHAR *data, size_t len)
 		received[len] = '\0';
 
 		if (hTimer)
-			KillTimer(NULL, hTimer);
-		hTimer = SetTimer(NULL, NULL, 300, SendTimerProc); // Do the processing after we return true
+			KillTimer(nullptr, hTimer);
+		hTimer = SetTimer(nullptr, NULL, 300, SendTimerProc); // Do the processing after we return true
 	}
 }
 
@@ -144,14 +144,14 @@ static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		if (!loaded)
 			return FALSE;
 
-		if (singleton == NULL || !singleton->enabled)
+		if (singleton == nullptr || !singleton->enabled)
 			return FALSE;
 
 		COPYDATASTRUCT* pData = (PCOPYDATASTRUCT)lParam;
-		if (pData->dwData != 0x547 || pData->cbData == 0 || pData->lpData == NULL)
+		if (pData->dwData != 0x547 || pData->cbData == 0 || pData->lpData == nullptr)
 			return FALSE;
 
-		if (singleton != NULL)
+		if (singleton != nullptr)
 			singleton->NewData((WCHAR *)pData->lpData, pData->cbData / 2);
 
 		return TRUE;

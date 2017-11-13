@@ -38,7 +38,7 @@ wchar_t *xStatusDescr[] =
 	L"<undef>", L"<undef>"
 };
 
-TInfoPanelConfig CInfoPanel::m_ipConfig = { 0 };
+TInfoPanelConfig CInfoPanel::m_ipConfig = {};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -50,9 +50,9 @@ CInfoPanel::CInfoPanel(CTabBaseDlg *dat)
 	}
 	m_defaultHeight = PluginConfig.m_panelHeight;
 	m_defaultMUCHeight = PluginConfig.m_MUCpanelHeight;
-	m_hwndConfig = 0;
+	m_hwndConfig = nullptr;
 	m_hoverFlags = 0;
-	m_tip = 0;
+	m_tip = nullptr;
 }
 
 CInfoPanel::~CInfoPanel()
@@ -288,7 +288,7 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, 
 		rcBlack.top = rc.bottom;// + 1;
 		rcBlack.bottom = rcBlack.top + 2;
 		if (CSkin::m_pCurrentAeroEffect && CSkin::m_pCurrentAeroEffect->m_clrBack != 0)
-			::DrawAlpha(hdc, &rcBlack, CSkin::m_pCurrentAeroEffect->m_clrBack, 90, CSkin::m_pCurrentAeroEffect->m_clrBack, 0, 0, 0, 1, 0);
+			::DrawAlpha(hdc, &rcBlack, CSkin::m_pCurrentAeroEffect->m_clrBack, 90, CSkin::m_pCurrentAeroEffect->m_clrBack, 0, 0, 0, 1, nullptr);
 		return;
 	}
 
@@ -305,7 +305,7 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, 
 	}
 
 	rc.bottom -= 2;
-	::DrawAlpha(hdc, &rc, PluginConfig.m_ipBackgroundGradient, 100, PluginConfig.m_ipBackgroundGradientHigh, 0, 17, 0, 0, 0);
+	::DrawAlpha(hdc, &rc, PluginConfig.m_ipBackgroundGradient, 100, PluginConfig.m_ipBackgroundGradientHigh, 0, 17, 0, 0, nullptr);
 	if (fAutoCalc) {
 		rc.top = rc.bottom - 1;
 		rc.left--; rc.right++;
@@ -377,7 +377,7 @@ void CInfoPanel::renderContent(const HDC hdc)
 void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 {
 	const wchar_t *szStatusMsg = nullptr;
-	const wchar_t *szTextToShow = 0;
+	const wchar_t *szTextToShow = nullptr;
 	bool fShowUin = false;
 	COLORREF clr = 0;
 
@@ -395,7 +395,7 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 	if (szTextToShow[0]) {
 		HICON xIcon = m_dat->GetXStatusIcon();
 		if (xIcon) {
-			::DrawIconEx(hdc, rcItem.left, (rcItem.bottom + rcItem.top - PluginConfig.m_smcyicon) / 2, xIcon, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, 0, DI_NORMAL | DI_COMPAT);
+			::DrawIconEx(hdc, rcItem.left, (rcItem.bottom + rcItem.top - PluginConfig.m_smcyicon) / 2, xIcon, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL | DI_COMPAT);
 			::DestroyIcon(xIcon);
 			rcItem.left += 21;
 		}
@@ -553,7 +553,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	rc.right -= 3;
 
 	if (szResult[0]) {
-		::DrawIconEx(hdc, rcItem.left, (rcItem.bottom - rcItem.top) / 2 - 8 + rcItem.top, PluginConfig.g_iconClock, 16, 16, 0, 0, DI_NORMAL);
+		::DrawIconEx(hdc, rcItem.left, (rcItem.bottom - rcItem.top) / 2 - 8 + rcItem.top, PluginConfig.g_iconClock, 16, 16, 0, nullptr, DI_NORMAL);
 
 		HFONT oldFont = (HFONT)SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_TIME]);
 
@@ -581,7 +581,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	}
 
 	if (m_dat->m_hClientIcon)
-		DrawIconEx(hdc, rc.right - 19, (rc.bottom + rc.top - 16) / 2, m_dat->m_hClientIcon, 16, 16, 0, 0, DI_NORMAL);
+		DrawIconEx(hdc, rc.right - 19, (rc.bottom + rc.top - 16) / 2, m_dat->m_hClientIcon, 16, 16, 0, nullptr, DI_NORMAL);
 
 	if (hOldFont)
 		SelectObject(hdc, hOldFont);
@@ -655,7 +655,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 {
 	SESSION_INFO *si = reinterpret_cast<SESSION_INFO*>(m_dat->m_si);
-	if (si == 0)
+	if (si == nullptr)
 		return;
 
 	HFONT hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
@@ -707,7 +707,7 @@ HMENU CInfoPanel::constructContextualMenu() const
 	mii.hbmpItem = HBMMENU_CALLBACK;
 
 	if (!(m_hoverFlags & HOVER_NICK))
-		return 0;
+		return nullptr;
 
 	HMENU m = ::CreatePopupMenu();
 
@@ -721,10 +721,10 @@ HMENU CInfoPanel::constructContextualMenu() const
 			if (GCW_SERVER & m_dat->m_si->iType)
 				::EnableMenuItem(m, IDC_SRMM_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
 		}
-		::AppendMenu(m, MF_SEPARATOR, 1000, 0);
+		::AppendMenu(m, MF_SEPARATOR, 1000, nullptr);
 		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close session"), IDC_CLOSE, 4);
 	}
-	::AppendMenu(m, MF_SEPARATOR, 1000, 0);
+	::AppendMenu(m, MF_SEPARATOR, 1000, nullptr);
 	::AppendMenu(m, MF_STRING, CMD_IP_COPY, TranslateT("Copy to clipboard"));
 
 	return m;
@@ -830,23 +830,23 @@ void CInfoPanel::trackMouse(POINT &pt)
 	switch (result) {
 	case HTSTATUS:
 		m_hoverFlags |= HOVER_STATUS;
-		::SetCursor(LoadCursor(0, IDC_HAND));
+		::SetCursor(LoadCursor(nullptr, IDC_HAND));
 		break;
 
 	case HTNICK:
 		m_hoverFlags |= HOVER_NICK;
-		::SetCursor(LoadCursor(0, IDC_HAND));
+		::SetCursor(LoadCursor(nullptr, IDC_HAND));
 		break;
 
 	case HTUIN:
-		::SetCursor(LoadCursor(0, IDC_HAND));
+		::SetCursor(LoadCursor(nullptr, IDC_HAND));
 		m_hoverFlags |= HOVER_UIN;
 		break;
 	}
 
 	if (m_hoverFlags) {
 		if (!(m_dat->m_dwFlagsEx & MWF_SHOW_AWAYMSGTIMER)) {
-			::SetTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG, 1000, 0);
+			::SetTimer(m_dat->GetHwnd(), TIMERID_AWAYMSG, 1000, nullptr);
 			m_dat->m_dwFlagsEx |= MWF_SHOW_AWAYMSGTIMER;
 		}
 	}
@@ -885,7 +885,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 
 		DBVARIANT dbv = { 0 };
 		if (BYTE xStatus = m_dat->m_cache->getXStatusId()) {
-			wchar_t	*tszXStatusName = 0;
+			wchar_t	*tszXStatusName = nullptr;
 			if (0 == db_get_ws(m_dat->m_cache->getContact(), m_dat->m_cache->getProto(), "XStatusName", &dbv))
 				tszXStatusName = dbv.ptszVal;
 			else if (xStatus > 0 && xStatus <= 31)
@@ -942,7 +942,7 @@ void CInfoPanel::hideTip(const HWND hwndNew)
 			return;
 		if (::IsWindow(m_tip->getHwnd()))
 			::DestroyWindow(m_tip->getHwnd());
-		m_tip = 0;
+		m_tip = nullptr;
 	}
 }
 
@@ -963,7 +963,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		// parent window of the infopanel ACC control
 		RECT rc, rcItem;
 		CSrmmWindow *dat = (CSrmmWindow*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
-		if (dat == 0)
+		if (dat == nullptr)
 			break;
 
 		GetClientRect(hwnd, &rcItem);
@@ -984,7 +984,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 			HBITMAP hbm = CSkin::CreateAeroCompatibleBitmap(rc, dcWin);
 			HBITMAP hbmOld = (HBITMAP)SelectObject(hdc, hbm);
 
-			if (CSkin::m_pCurrentAeroEffect == 0)
+			if (CSkin::m_pCurrentAeroEffect == nullptr)
 				FillRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 			else {
 				if (CSkin::m_pCurrentAeroEffect->m_finalAlpha == 0)
@@ -1097,7 +1097,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			HWND hwndChild = (HWND)lParam;
 			UINT id = ::GetDlgCtrlID(hwndChild);
 
-			if (m_configDlgFont == 0) {
+			if (m_configDlgFont == nullptr) {
 				HFONT hFont = (HFONT)::SendDlgItemMessage(hwnd, IDC_IPCONFIG_TITLE, WM_GETFONT, 0, 0);
 				LOGFONT lf = { 0 };
 
@@ -1225,7 +1225,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		::DeleteObject(m_configDlgBoldFont);
 		::DeleteObject(m_configDlgFont);
 
-		m_configDlgBoldFont = m_configDlgFont = 0;
+		m_configDlgBoldFont = m_configDlgFont = nullptr;
 		::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		break;
 	}
@@ -1251,9 +1251,9 @@ int CInfoPanel::invokeConfigDialog(const POINT &pt)
 	if (!::PtInRect(&rc, ptTest))
 		return 0;
 
-	if (m_hwndConfig == 0) {
-		m_configDlgBoldFont = m_configDlgFont = 0;
-		m_hwndConfig = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOPANEL), 0 /*m_dat->m_pContainer->m_hwnd */,
+	if (m_hwndConfig == nullptr) {
+		m_configDlgBoldFont = m_configDlgFont = nullptr;
+		m_hwndConfig = ::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOPANEL), nullptr /*m_dat->m_pContainer->m_hwnd */,
 			ConfigDlgProcStub, (LPARAM)this);
 		if (m_hwndConfig) {
 			TranslateDialogDefault(m_hwndConfig);
@@ -1278,7 +1278,7 @@ int CInfoPanel::invokeConfigDialog(const POINT &pt)
 
 void CInfoPanel::dismissConfig(bool fForced)
 {
-	if (m_hwndConfig == 0)
+	if (m_hwndConfig == nullptr)
 		return;
 
 	if (!m_fDialogCreated) {
@@ -1289,7 +1289,7 @@ void CInfoPanel::dismissConfig(bool fForced)
 		::GetWindowRect(m_hwndConfig, &rc);
 		if (fForced || !PtInRect(&rc, pt)) {
 			SendMessage(m_hwndConfig, WM_CLOSE, 1, 1);
-			m_hwndConfig = 0;
+			m_hwndConfig = nullptr;
 		}
 	}
 	m_fDialogCreated = false;
@@ -1306,7 +1306,7 @@ void CInfoPanel::dismissConfig(bool fForced)
 CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszText, const CInfoPanel* panel)
 {
 	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, L"RichEditTipClass", L"", (M.isAero() ? WS_THICKFRAME : WS_BORDER) | WS_POPUPWINDOW | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-		0, 0, 40, 40, 0, 0, g_hInst, this);
+		0, 0, 40, 40, nullptr, nullptr, g_hInst, this);
 
 	m_hRich = ::CreateWindowEx(0, L"RICHEDIT50W", L"", WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
 		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_hInst, nullptr);
@@ -1379,7 +1379,7 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const wchar_t *szT
 	m_rcRich.right = m_rcRich.left + (twips * (m_rcRich.right - m_rcRich.left)) - 10 * twips;
 	m_rcRich.bottom = m_rcRich.top + (twips * (m_rcRich.bottom - m_rcRich.top));
 
-	FORMATRANGE fr = { 0 };
+	FORMATRANGE fr = {};
 	fr.hdc = hdc;
 	fr.hdcTarget = hdc;
 	fr.rc = m_rcRich;
@@ -1397,7 +1397,7 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const wchar_t *szT
 	::SetWindowPos(m_hwnd, HWND_TOP, pt.x - 5, pt.y - 5, m_szRich.cx + m_leftWidth + LEFT_BORDER + RIGHT_BORDER + 2 * xBorder,
 		m_szRich.cy + TOP_BORDER + BOTTOM_BORDER + 2 * yBorder, SWP_NOACTIVATE | SWP_SHOWWINDOW);
 
-	::SetWindowPos(m_hRich, 0, LEFT_BORDER + m_leftWidth, TOP_BORDER, m_szRich.cx, m_szRich.cy, SWP_SHOWWINDOW);
+	::SetWindowPos(m_hRich, nullptr, LEFT_BORDER + m_leftWidth, TOP_BORDER, m_szRich.cx, m_szRich.cy, SWP_SHOWWINDOW);
 
 	::ReleaseDC(m_hwnd, hdc);
 }
@@ -1473,7 +1473,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_ACTIVATE:
 	case WM_SETCURSOR:
 		::KillTimer(hwnd, 1000);
-		::SetTimer(hwnd, 1000, 200, 0);
+		::SetTimer(hwnd, 1000, 200, nullptr);
 
 		if (msg == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE)
 			::DestroyWindow(hwnd);
@@ -1494,7 +1494,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			RECT rcText = { 0, 0, rc.right, TOP_BORDER };
 			LONG cx = rc.right;
 			LONG cy = rc.bottom;
-			HANDLE hTheme = 0;
+			HANDLE hTheme = nullptr;
 
 			mir_snwprintf(szTitle, m_szTitle ? L"%s (%s)" : L"%s%s", c->getNick(), m_szTitle ? m_szTitle : L"");
 
@@ -1524,7 +1524,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				else {
 					::FillRect(hdcMem, &rc, br);
 					::DrawAlpha(hdcMem, &rcText, PluginConfig.m_ipBackgroundGradientHigh, 100, PluginConfig.m_ipBackgroundGradient,
-						0, GRADIENT_TB + 1, 0, 2, 0);
+						0, GRADIENT_TB + 1, 0, 2, nullptr);
 				}
 				::DeleteObject(br);
 				rcText.left = 20;
@@ -1532,15 +1532,15 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				LONG dy = 4;
 
 				if (m_hIcon) {
-					::DrawIconEx(hdcMem, 2, dy, m_hIcon, 16, 16, 0, 0, DI_NORMAL);
+					::DrawIconEx(hdcMem, 2, dy, m_hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 					dy = TOP_BORDER + 4;
 				}
 				if (m_panel->getDat()->m_hXStatusIcon) {
-					::DrawIconEx(hdcMem, 2, dy, m_panel->getDat()->m_hXStatusIcon, 16, 16, 0, 0, DI_NORMAL);
+					::DrawIconEx(hdcMem, 2, dy, m_panel->getDat()->m_hXStatusIcon, 16, 16, 0, nullptr, DI_NORMAL);
 					dy += 18;
 				}
 				if (m_panel->getDat()->m_hClientIcon)
-					::DrawIconEx(hdcMem, 2, dy, m_panel->getDat()->m_hClientIcon, 16, 16, 0, 0, DI_NORMAL);
+					::DrawIconEx(hdcMem, 2, dy, m_panel->getDat()->m_hClientIcon, 16, 16, 0, nullptr, DI_NORMAL);
 
 				CSkin::RenderText(hdcMem, hTheme, szTitle, &rcText, DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER, CSkin::m_glowSize, clr);
 				if (hTheme)

@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-ServerList *ServerList::instance = NULL;
+ServerList *ServerList::instance = nullptr;
 ServerList &ftpList = ServerList::getInstance();
 
 extern Options &opt;
@@ -97,5 +97,5 @@ char* ServerList::FTP::getProtoString() const
 	case FT_SSH:			return "sftp://";
 	}
 
-	return NULL;
+	return nullptr;
 }

@@ -56,7 +56,7 @@ namespace mu
 
 		void addIcon(const wchar_t* szSection, const wchar_t* szDescription, const char* szIconName, const char* szDefaultFile, int iDefaultIndex)
 		{
-			SKINICONDESC sid = { 0 };
+			SKINICONDESC sid = {};
 			sid.section.w = const_cast<wchar_t*>(szSection);
 			sid.description.w = const_cast<wchar_t*>(szDescription);
 			sid.pszName = const_cast<char*>(szIconName);
@@ -148,14 +148,14 @@ namespace mu
 	char* wideToAnsiDup(const WCHAR* pszWide, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszWide)
-			return NULL;
+			return nullptr;
 
-		int len = WideCharToMultiByte(uCP, 0, pszWide, -1, NULL, 0, NULL, NULL);
+		int len = WideCharToMultiByte(uCP, 0, pszWide, -1, nullptr, 0, nullptr, nullptr);
 		char* result = reinterpret_cast<char*>(malloc(sizeof(char)* len));
 		if (!result)
-			return NULL;
+			return nullptr;
 
-		WideCharToMultiByte(uCP, 0, pszWide, -1, result, len, NULL, NULL);
+		WideCharToMultiByte(uCP, 0, pszWide, -1, result, len, nullptr, nullptr);
 		result[len - 1] = 0;
 		return result;
 	}
@@ -163,12 +163,12 @@ namespace mu
 	WCHAR* ansiToWideDup(const char* pszAnsi, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszAnsi)
-			return NULL;
+			return nullptr;
 
-		int len = MultiByteToWideChar(uCP, 0, pszAnsi, -1, NULL, 0);
+		int len = MultiByteToWideChar(uCP, 0, pszAnsi, -1, nullptr, 0);
 		WCHAR* result = reinterpret_cast<WCHAR*>(malloc(sizeof(WCHAR)* len));
 		if (!result)
-			return NULL;
+			return nullptr;
 
 		MultiByteToWideChar(uCP, 0, pszAnsi, -1, result, len);
 		result[len - 1] = 0;
@@ -178,16 +178,16 @@ namespace mu
 	char* wideToAnsi(const WCHAR* pszWide, char* pszRes, int maxLen, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszWide)
-			return NULL;
+			return nullptr;
 
-		WideCharToMultiByte(uCP, 0, pszWide, -1, pszRes, maxLen, NULL, NULL);
+		WideCharToMultiByte(uCP, 0, pszWide, -1, pszRes, maxLen, nullptr, nullptr);
 		return pszRes;
 	}
 
 	WCHAR* ansiToWide(const char* pszAnsi, WCHAR* pszRes, int maxLen, UINT uCP /* = CP_ACP */)
 	{
 		if (!pszAnsi)
-			return NULL;
+			return nullptr;
 
 		MultiByteToWideChar(uCP, 0, pszAnsi, -1, pszRes, maxLen);
 		return pszRes;

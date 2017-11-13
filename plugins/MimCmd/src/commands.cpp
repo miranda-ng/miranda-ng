@@ -20,12 +20,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-LISTCOMMANDS ListCommands = NULL;
+LISTCOMMANDS ListCommands = nullptr;
 
-PCommand knownCommands = NULL;
+PCommand knownCommands = nullptr;
 int cKnownCommands = 0;
 
-HMODULE hCmdLineDLL = NULL;
+HMODULE hCmdLineDLL = nullptr;
 
 char *GetMirandaFolder(char *mimFolder, int size)
 {
@@ -36,14 +36,14 @@ char *GetMirandaFolder(char *mimFolder, int size)
 int ConnectToMiranda()
 {
 	wchar_t tszPath[MAX_PATH];
-	GetModuleFileName(NULL, tszPath, _countof(tszPath));
+	GetModuleFileName(nullptr, tszPath, _countof(tszPath));
 	wchar_t *p = wcsrchr(tszPath, '\\');
 	if (p) p[1] = 0;
 
 	wcsncat_s(tszPath, L"libs", _TRUNCATE);
 	DWORD cbPath = (DWORD)wcslen(tszPath);
 
-	DWORD cbSize = GetEnvironmentVariable(L"PATH", NULL, 0);
+	DWORD cbSize = GetEnvironmentVariable(L"PATH", nullptr, 0);
 	wchar_t *ptszVal = new wchar_t[cbSize + MAX_PATH + 2];
 	wcscpy(ptszVal, tszPath);
 	wcscat(ptszVal, L";");
@@ -55,7 +55,7 @@ int ConnectToMiranda()
 	GetMirandaFolder(pluginPath, sizeof(pluginPath));
 	mir_strcat(pluginPath, "\\plugins\\cmdline.dll");
 
-	ListCommands = NULL;
+	ListCommands = nullptr;
 
 	hCmdLineDLL = LoadLibraryA(pluginPath);
 
@@ -77,7 +77,7 @@ int DisconnectFromMiranda()
 int GetKnownCommands()
 {
 	ListCommands(&knownCommands, &cKnownCommands);
-	return (knownCommands == NULL);
+	return (knownCommands == nullptr);
 }
 
 int DestroyKnownCommands()
@@ -102,7 +102,7 @@ PCommand GetCommand(char *command)
 			if (knownCommands[i].ID == MIMCMD_HELP)
 				return &knownCommands[i];
 
-	return NULL;
+	return nullptr;
 }
 
 void HandleHelpCommand(PCommand, char *argv[], int argc, PReply reply)
@@ -139,7 +139,7 @@ PReply ParseCommand(char *argv[], int argc)
 {
 	PCommand command = GetCommand(argv[1]);
 	if (!command)
-		return NULL;
+		return nullptr;
 
 	PReply reply = &sdCmdLine->reply;
 	if (command->ID == MIMCMD_HELP)

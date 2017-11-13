@@ -389,9 +389,9 @@ static int HookWindowsHooks(int hookMiranda, int hookAll)
 	}
 	if (hookAll) {
 		if (monitorKeyboard && hKeyBoardHook == nullptr)
-			hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, 0, GetCurrentThreadId());
+			hKeyBoardHook = SetWindowsHookEx(WH_KEYBOARD, KeyBoardHookFunction, nullptr, GetCurrentThreadId());
 		if (monitorMouse && hMouseHook == nullptr)
-			hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, 0, GetCurrentThreadId());
+			hMouseHook = SetWindowsHookEx(WH_MOUSE, MouseHookFunction, nullptr, GetCurrentThreadId());
 	}
 
 	return 0;

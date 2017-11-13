@@ -155,9 +155,9 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 
 			wchar_t substituteStr[128];
 			if (!wcsnicmp(tszMsg + j, L"%time%", 6))
-				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, _countof(substituteStr));
+				GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, nullptr, nullptr, substituteStr, _countof(substituteStr));
 			else if (!wcsnicmp(tszMsg + j, L"%date%", 6))
-				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, _countof(substituteStr));
+				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, substituteStr, _countof(substituteStr));
 			else
 				continue;
 

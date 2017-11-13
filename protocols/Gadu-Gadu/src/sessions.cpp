@@ -148,7 +148,7 @@ static BOOL IsOverAction(HWND hwndDlg)
 	return (hti.pt.x > textPosX && hti.pt.x < textPosX + textSize.cx);
 }
 
-static HCURSOR hHandCursor = NULL;
+static HCURSOR hHandCursor = nullptr;
 #define WM_MULTILOGONINFO (WM_USER + 10)
 #define HM_PROTOACK (WM_USER + 11)
 
@@ -172,8 +172,8 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			SetWindowText(hwndDlg, newTitle);
 			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SESSIONS));
 
-			if (hHandCursor == NULL)
-				hHandCursor = LoadCursor(NULL, IDC_HAND);
+			if (hHandCursor == nullptr)
+				hHandCursor = LoadCursor(nullptr, IDC_HAND);
 			hProtoAckEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_PROTOACK);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hProtoAckEvent);
 
@@ -242,7 +242,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 							RECT rc;
 							HWND hwndHeader = ListView_GetHeader(nm->nmcd.hdr.hwndFrom);
 							GetClientRect(nm->nmcd.hdr.hwndFrom, &rc);
-							if (hwndHeader != NULL) {
+							if (hwndHeader != nullptr) {
 								RECT rcHeader;
 								GetClientRect(hwndHeader, &rcHeader);
 								rc.top += rcHeader.bottom;
@@ -251,7 +251,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 							SIZE textSize;
 							GetTextExtentPoint32(nm->nmcd.hdc, szText, cbLen, &textSize);
 							int textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
-							ExtTextOut(nm->nmcd.hdc, textPosX, rc.top + textSize.cy, ETO_OPAQUE, &rc, szText, cbLen, NULL);
+							ExtTextOut(nm->nmcd.hdc, textPosX, rc.top + textSize.cy, ETO_OPAQUE, &rc, szText, cbLen, nullptr);
 						}
 						// FALL THROUGH
 
@@ -316,7 +316,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 				hMenu = CreatePopupMenu();
 				AppendMenu(hMenu, MFT_STRING, 10001, TranslateT("Copy Text"));
 				AppendMenu(hMenu, MFT_STRING, 10002, TranslateT("Whois"));
-				iSelection = TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+				iSelection = TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 				switch (iSelection) {
 				case 10001:
 					{
@@ -331,7 +331,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 						ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
 						ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, _countof(szLoginTime));
 						mir_snwprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
-						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(szText) + 1)) != NULL)
+						if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(szText) + 1)) != nullptr)
 						{
 							mir_wstrcpy((wchar_t*)GlobalLock(hData), szText);
 							GlobalUnlock(hData);
@@ -382,7 +382,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 		{
 			HANDLE hProtoAckEvent = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hProtoAckEvent) UnhookEvent(hProtoAckEvent);
-			gg->hwndSessionsDlg = NULL;
+			gg->hwndSessionsDlg = nullptr;
 			Window_FreeIcon_IcoLib(hwndDlg);
 			break;
 		}
@@ -397,7 +397,7 @@ INT_PTR GGPROTO::sessions_view(WPARAM, LPARAM)
 		SetForegroundWindow(hwndSessionsDlg);
 		SetFocus(hwndSessionsDlg);
 	}
-	else CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_SESSIONS), NULL, gg_sessions_viewdlg, (LPARAM)this);
+	else CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_SESSIONS), nullptr, gg_sessions_viewdlg, (LPARAM)this);
 	return 0;
 }
 

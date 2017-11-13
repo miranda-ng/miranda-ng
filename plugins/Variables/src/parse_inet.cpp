@@ -22,11 +22,11 @@
 static wchar_t *parseUrlEnc(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	char *res = mir_u2a(ai->targv[1]);
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	size_t cur = 0;
 	while (cur < mir_strlen(res)) {
@@ -35,8 +35,8 @@ static wchar_t *parseUrlEnc(ARGUMENTSINFO *ai)
 			continue;
 		}
 		res = (char*)mir_realloc(res, mir_strlen(res) + 4);
-		if (res == NULL)
-			return NULL;
+		if (res == nullptr)
+			return nullptr;
 
 		char hex[8];
 		memmove(res + cur + 3, res + cur + 1, mir_strlen(res + cur + 1) + 1);
@@ -53,11 +53,11 @@ static wchar_t *parseUrlEnc(ARGUMENTSINFO *ai)
 static wchar_t *parseUrlDec(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	char *res = mir_u2a(ai->targv[1]);
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	unsigned int cur = 0;
 	while (cur < mir_strlen(res)) {
@@ -65,7 +65,7 @@ static wchar_t *parseUrlDec(ARGUMENTSINFO *ai)
 			char hex[8];
 			memset(hex, '\0', sizeof(hex));
 			strncpy(hex, res + cur + 1, 2);
-			*(res + cur) = (char)strtol(hex, NULL, 16);
+			*(res + cur) = (char)strtol(hex, nullptr, 16);
 			memmove(res + cur + 1, res + cur + 3, mir_strlen(res + cur + 3) + 1);
 		}
 		cur++;
@@ -80,7 +80,7 @@ static wchar_t *parseUrlDec(ARGUMENTSINFO *ai)
 static wchar_t *parseNToA(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	struct in_addr in;
 	in.s_addr = ttoi(ai->targv[1]);
@@ -90,7 +90,7 @@ static wchar_t *parseNToA(ARGUMENTSINFO *ai)
 static wchar_t *parseHToA(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	struct in_addr in;
 	in.s_addr = htonl(ttoi(ai->targv[1]));

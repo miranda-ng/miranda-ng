@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 class CAnnivList;
 
-static CAnnivList *gpDlg = NULL;
+static CAnnivList *gpDlg = nullptr;
 
 /***********************************************************************************************************
  * class CAnnivList
@@ -84,8 +84,8 @@ class CAnnivList
 		{
 			wDaysBefore		= (WORD)-1;
 			bFilterIndex	= 0;
-			pszProto		= NULL;
-			pszAnniv		= NULL;
+			pszProto		= nullptr;
+			pszAnniv		= nullptr;
 		}
 	} _filter;
 
@@ -114,7 +114,7 @@ class CAnnivList
 					_pDate->DBWriteReminderOpts(_hContact);
 				}
 				delete _pDate;
-				_pDate = NULL;
+				_pDate = nullptr;
 			}
 		}
 	};
@@ -203,7 +203,7 @@ class CAnnivList
 		{
 			if (!(_wndPos->flags & SWP_NOSIZE)) {
 				HWND hCtrl = GetDlgItem(_wndPos->hwnd, idCtrl);
-				if (NULL != hCtrl) { /* Wine fix. */
+				if (nullptr != hCtrl) { /* Wine fix. */
 					RECT rcc = _CalcPos(hCtrl, anchors);
 					_hdWnds = DeferWindowPos(
 							_hdWnds,					//HDWP hWinPosInfo
@@ -414,7 +414,7 @@ class CAnnivList
 							if (hPopup) {
 								POINT pt;
 								GetCursorPos(&pt);
-								TrackPopupMenu(hPopup, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hDlg, NULL);
+								TrackPopupMenu(hPopup, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hDlg, nullptr);
 								DestroyMenu(hPopup);
 							}
 						}
@@ -456,7 +456,7 @@ class CAnnivList
 				// number of days to remind in advance is edited
 				case EDIT_REMIND:
 					if (pid && pDlg->_bRemindEnable && HIWORD(wParam) == EN_CHANGE) {
-						WORD wDaysBefore = GetDlgItemInt(hDlg, LOWORD(wParam), NULL, FALSE);
+						WORD wDaysBefore = GetDlgItemInt(hDlg, LOWORD(wParam), nullptr, FALSE);
 						if (pid->_wReminderState == BST_CHECKED && pid->_wDaysBefore != wDaysBefore) {
 							pid->_wDaysBefore = wDaysBefore;
 						}
@@ -470,7 +470,7 @@ class CAnnivList
 						BYTE isChecked = Button_GetCheck((HWND)lParam);
 						EnableWindow(GetDlgItem(hDlg, EDIT_DAYS), isChecked);
 						EnableWindow(GetDlgItem(hDlg, TXT_DAYS), isChecked);
-						pDlg->_filter.wDaysBefore = isChecked ? GetDlgItemInt(hDlg, EDIT_DAYS, NULL, FALSE) : (WORD)-1;
+						pDlg->_filter.wDaysBefore = isChecked ? GetDlgItemInt(hDlg, EDIT_DAYS, nullptr, FALSE) : (WORD)-1;
 						pDlg->RebuildList();
 					}
 					break;
@@ -478,7 +478,7 @@ class CAnnivList
 				// the number of days a contact must have an anniversary in advance to be displayed is edited
 				case EDIT_DAYS:
 					if (HIWORD(wParam) == EN_CHANGE) {
-						WORD wNewDays = GetDlgItemInt(hDlg, LOWORD(wParam), NULL, FALSE);
+						WORD wNewDays = GetDlgItemInt(hDlg, LOWORD(wParam), nullptr, FALSE);
 						if (wNewDays != pDlg->_filter.wDaysBefore) {
 							pDlg->_filter.wDaysBefore = wNewDays;
 							pDlg->RebuildList();
@@ -816,7 +816,7 @@ class CAnnivList
 			if (ListView_GetItem(_hList, &lvi) && PtrIsValid(lvi.lParam))
 				return (CItemData *)lvi.lParam;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	// This method loads all filter settings from db
@@ -830,7 +830,7 @@ class CAnnivList
 	void SaveFilter()
 	{
 		if (_hDlg) {
-			db_set_w(NULL, MODNAME, SET_ANNIVLIST_FILTER_DAYS, (WORD)GetDlgItemInt(_hDlg, EDIT_DAYS, NULL, FALSE));
+			db_set_w(NULL, MODNAME, SET_ANNIVLIST_FILTER_DAYS, (WORD)GetDlgItemInt(_hDlg, EDIT_DAYS, nullptr, FALSE));
 			db_set_b(NULL, MODNAME, SET_ANNIVLIST_FILTER_DAYSENABLED, (BYTE)Button_GetCheck(GetDlgItem(_hDlg, CHECK_DAYS)));
 			db_set_b(NULL, MODNAME, SET_ANNIVLIST_FILTER_INDEX, (BYTE)ComboBox_GetCurSel(GetDlgItem(_hDlg, EDIT_DAYS)));
 		}
@@ -841,7 +841,7 @@ public:
 	// This is the default constructor.
 	CAnnivList()
 	{
-		_hList			= NULL;
+		_hList			= nullptr;
 		_sortHeader		= 0;
 		_sortOrder		= 1;
 		_curSel			= -1;
@@ -850,11 +850,11 @@ public:
 		_rcWin.left		= _rcWin.right = _rcWin.top = _rcWin.bottom = 0;
 		LoadFilter();
 
-		_hDlg = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_LIST), NULL, DlgProc, (LPARAM)this);
+		_hDlg = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_ANNIVERSARY_LIST), nullptr, DlgProc, (LPARAM)this);
 		if (_hDlg)
 			_mHookExit = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, _hDlg, WM_CLOSE);
 		else {
-			_mHookExit = NULL;
+			_mHookExit = nullptr;
 			delete this;
 		}
 	}
@@ -865,7 +865,7 @@ public:
 		// delete the shutdown hook
 		if (_mHookExit) {
 			UnhookEvent(_mHookExit);
-			_mHookExit = NULL;
+			_mHookExit = nullptr;
 		}
 
 		// close window if required
@@ -893,7 +893,7 @@ public:
 				DestroyWindow(_hDlg);
 			}
 		}	
-		gpDlg = NULL;
+		gpDlg = nullptr;
 	}
 
 	/**
@@ -933,7 +933,7 @@ INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
 		}
 		catch(...) {
 			delete gpDlg;
-			gpDlg = NULL;
+			gpDlg = nullptr;
 		}
 	} 
 	else
@@ -958,7 +958,7 @@ INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
  **/
 void DlgAnniversaryListOnTopToolBarLoaded()
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_LIST;
 	ttb.hIconHandleUp = IcoLib_GetIconHandle(ICO_COMMON_ANNIVERSARY);

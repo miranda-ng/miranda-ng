@@ -78,7 +78,7 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 			LPTSTR pszText;
 
 			if (len == 0
-				|| (pszText = (LPTSTR)_alloca((len + 1) * sizeof(wchar_t))) == NULL
+				|| (pszText = (LPTSTR)_alloca((len + 1) * sizeof(wchar_t))) == nullptr
 				|| !Edit_GetText(hEdit, pszText, len + 1))
 			{
 				MsgErr(hDlg, LPGENW("Please enter a valid description first!"));
@@ -126,7 +126,7 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				TranslateDialogDefault(hDlg);
 
 				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_AGE, SET_CONTACT_AGE, DBVT_BYTE));
-				pCtrlList->insert(CAnnivEditCtrl::CreateObj(hDlg, EDIT_ANNIVERSARY_DATE, NULL));
+				pCtrlList->insert(CAnnivEditCtrl::CreateObj(hDlg, EDIT_ANNIVERSARY_DATE, nullptr));
 
 				// hContact == NULL or reminder disabled
 				CAnnivEditCtrl::GetObj(hDlg, EDIT_ANNIVERSARY_DATE)->EnableReminderCtrl(lParam != NULL);
@@ -164,7 +164,7 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				case DTN_DROPDOWN:
 					HWND hMonthCal = DateTime_GetMonthCal(lpNmhdr->hwndFrom);
 					SetWindowLongPtr(hMonthCal, GWL_STYLE, GetWindowLongPtr(hMonthCal, GWL_STYLE) | MCS_WEEKNUMBERS);
-					InvalidateRect(hMonthCal, NULL, TRUE);
+					InvalidateRect(hMonthCal, nullptr, TRUE);
 				}
 			}
 			return FALSE;
@@ -232,7 +232,7 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (HIWORD(wParam) == BN_CLICKED && PtrIsValid(pDateCtrl)) {
 				MAnnivDate *pCurrent = pDateCtrl->Current();
 				if (pCurrent) {
-					int rc = MsgBox(hDlg, MB_YESNO | MB_ICON_QUESTION | MB_NOPOPUP, LPGENW("Delete"), NULL,
+					int rc = MsgBox(hDlg, MB_YESNO | MB_ICON_QUESTION | MB_NOPOPUP, LPGENW("Delete"), nullptr,
 						LPGENW("Do you really want to delete the %s?"), pCurrent->Description());
 
 					if (rc == IDYES)

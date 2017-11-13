@@ -56,7 +56,7 @@ void MySetPos(HWND hwndParent)
 			pt.x = CWOldPos.left;
 			pt.y = CWOldPos.top;
 			ScreenToClient(hwndParent, &pt);
-			SetWindowPos(hCurWnd, NULL, pt.x + dx, pt.y + dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+			SetWindowPos(hCurWnd, nullptr, pt.x + dx, pt.y + dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 			hCurWnd = GetNextWindow(hCurWnd, GW_HWNDNEXT);
 		}
 	}
@@ -124,7 +124,7 @@ static Dlg1Buttons[] = {
 static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
-	static CMsgTree* MsgTree = NULL;
+	static CMsgTree* MsgTree = nullptr;
 	
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -317,7 +317,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_DESTROY:
 		delete MsgTree;
-		MsgTree = NULL;
+		MsgTree = nullptr;
 		g_MessagesOptPage.SetWnd(NULL);
 		break;
 	}

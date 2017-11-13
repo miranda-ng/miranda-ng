@@ -52,7 +52,7 @@ HANDLE GetIconHandle(int iconId)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 void ReleaseIconEx(const char *name)
@@ -104,7 +104,7 @@ const wchar_t *GetDefaultMessage(int status)
 	case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
 	case ID_STATUS_IDLE: return TranslateT("idleeeeeeee");
 	}
-	return NULL;
+	return nullptr;
 }
 
 const char *StatusModeToDbSetting(int status, const char *suffix)
@@ -124,7 +124,7 @@ const char *StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
 	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
 	case ID_STATUS_IDLE: prefix = "Idl"; break;
-	default: return NULL;
+	default: return nullptr;
 	}
 	mir_snprintf(str, "%s%s", prefix, suffix);
 	return str;

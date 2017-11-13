@@ -57,7 +57,7 @@ BOOL CJabberProto::OnIqRequestLastActivity(HXML, CJabberIqInfo *pInfo)
 {
 	m_ThreadInfo->send(
 		XmlNodeIq(L"result", pInfo) << XQUERY(JABBER_FEAT_LAST_ACTIVITY)
-		<< XATTRI(L"seconds", m_tmJabberIdleStartTime ? time(0) - m_tmJabberIdleStartTime : 0));
+		<< XATTRI(L"seconds", m_tmJabberIdleStartTime ? time(nullptr) - m_tmJabberIdleStartTime : 0));
 	return TRUE;
 }
 

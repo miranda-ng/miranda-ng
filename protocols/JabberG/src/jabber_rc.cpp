@@ -684,7 +684,7 @@ int CJabberProto::AdhocQuitMirandaHandler(HXML, CJabberIqInfo *pInfo, CJabberAdh
 		fieldNode = XmlGetChildByTag(xNode,"field", "var", L"allow-shutdown");
 		if (fieldNode && (valueNode = XmlGetChild(fieldNode , "value")))
 			if (XmlGetText(valueNode) && _wtoi(XmlGetText(valueNode)))
-				CallFunctionAsync(JabberQuitMirandaIMThread, 0);
+				CallFunctionAsync(JabberQuitMirandaIMThread, nullptr);
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;
 	}

@@ -81,7 +81,7 @@ time_t StringToDate(const CMStringW &str)
 	struct tm T = { 0 };
 	int boo;
 	if (swscanf(str, L"%04d-%02d-%02dT%02d:%02d:%02d.%d", &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec, &boo) != 7)
-		return time(0);
+		return time(nullptr);
 
 	T.tm_year -= 1900;
 	T.tm_mon--;

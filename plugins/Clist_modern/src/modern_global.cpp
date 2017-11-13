@@ -31,4 +31,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //ClcProtoStatus *clcProto = nullptr;
 HIMAGELIST	g_himlCListClc = nullptr;
 HICON		g_hListeningToIcon = nullptr;
-char*		g_szMetaModuleName = 0;
+char*		g_szMetaModuleName = nullptr;

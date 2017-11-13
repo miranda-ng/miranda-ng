@@ -99,7 +99,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		break; //case WM_NOTIFY
 
 	case WM_DESTROY:
-		hDialogWnd = 0; // используется для вывода туда в реалтайме сканкодов клавы (пока открыты настройки), 0 (при закрытии диалога) блокирует это
+		hDialogWnd = nullptr; // используется для вывода туда в реалтайме сканкодов клавы (пока открыты настройки), 0 (при закрытии диалога) блокирует это
 		break;
 	}
 

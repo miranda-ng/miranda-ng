@@ -161,7 +161,7 @@ capstr* MatchCapability(BYTE *buf, size_t bufsize, const capstr *cap, size_t cap
 		buf += BINARY_CAP_SIZE;
 		bufsize -= BINARY_CAP_SIZE;
 	}
-	return 0;
+	return nullptr;
 }
 
 

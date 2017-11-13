@@ -115,7 +115,7 @@ void CToxProto::ShowNotification(const wchar_t *caption, const wchar_t *message,
 			return;
 	}
 
-	MessageBox(NULL, message, caption, MB_OK | flags);
+	MessageBox(nullptr, message, caption, MB_OK | flags);
 }
 
 void CToxProto::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
@@ -149,17 +149,17 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 	if (Accounts.getCount() == 0)
 		return 1;
 
-	CToxProto *proto = NULL;
+	CToxProto *proto = nullptr;
 	for (int i = 0; i < Accounts.getCount(); i++) {
 		if (Accounts[i]->IsOnline()) {
 			proto = Accounts[i];
 			break;
 		}
 	}
-	if (proto == NULL)
+	if (proto == nullptr)
 		return 1;
 
-	if (wcschr(uri, '@') != NULL)
+	if (wcschr(uri, '@') != nullptr)
 		return 1;
 
 	PROTOSEARCHRESULT psr = { sizeof(psr) };

@@ -13,7 +13,7 @@ wchar_t* CSteamProto::GetAvatarFilePath(MCONTACT hContact)
 	if (steamId != NULL)
 		mir_snwprintf(path, MAX_PATH, L"%s\\%s.jpg", path, _A2T(steamId));
 	else
-		return NULL;
+		return nullptr;
 
 	return mir_wstrdup(path);
 }
@@ -51,7 +51,7 @@ void CSteamProto::CheckAvatarChange(MCONTACT hContact, std::string avatarUrl)
 	else if (update_required)
 	{
 		db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 	}
 }
 

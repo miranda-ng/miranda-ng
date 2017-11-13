@@ -84,7 +84,7 @@ mir_time FileTimeToUnixTime(LPFILETIME pft)
 
 void FormatTime(const SYSTEMTIME *st, const wchar_t *szFormat, wchar_t *szDest, size_t cbDest)
 {
-	if (szDest == NULL || cbDest == 0) return;
+	if (szDest == nullptr || cbDest == 0) return;
 
 	CMStringW tszTemp;
 
@@ -130,11 +130,11 @@ void FormatTime(const SYSTEMTIME *st, const wchar_t *szFormat, wchar_t *szDest, 
 		if (iso)
 			tszTemp.AppendFormat(L"%d-%02d-%02dT%02d:%02d:%02dZ", st->wYear, st->wMonth, st->wDay, st->wHour, st->wMinute, st->wSecond);
 		else if (date) {
-			GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, _countof(dateTimeStr));
+			GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, nullptr, dateTimeStr, _countof(dateTimeStr));
 			tszTemp.Append(dateTimeStr);
 		}
 		else {
-			GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, dateTimeStr, _countof(dateTimeStr));
+			GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, nullptr, dateTimeStr, _countof(dateTimeStr));
 			tszTemp.Append(dateTimeStr);
 		}
 	}
@@ -144,7 +144,7 @@ void FormatTime(const SYSTEMTIME *st, const wchar_t *szFormat, wchar_t *szDest, 
 
 MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st)
 {
-	if (st == NULL) return 1;
+	if (st == nullptr) return 1;
 
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 	if (tz == UTC_TIME_HANDLE)
@@ -163,7 +163,7 @@ MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st)
 MIR_CORE_DLL(LPCTSTR) TimeZone_GetName(HANDLE hTZ)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
-	if (tz == NULL)
+	if (tz == nullptr)
 		return myInfo.myTZ.tszName;
 	else if (tz == UTC_TIME_HANDLE)
 		return L"UTC";
@@ -208,38 +208,38 @@ static bool IsSameTime(MIM_TIMEZONE *tz)
 		return true;
 
 	TimeZone_GetTimeZoneTime(tz, &stl);
-	TimeZone_GetTimeZoneTime(NULL, &st);
+	TimeZone_GetTimeZoneTime(nullptr, &st);
 
 	return st.wHour == stl.wHour && st.wMinute == stl.wMinute;
 }
 
 MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, DWORD dwFlags)
 {
-	if (tszName == NULL)
-		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
+	if (tszName == nullptr)
+		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? nullptr : &myInfo.myTZ;
 
 	if (mir_wstrcmp(myInfo.myTZ.tszName, tszName) == 0)
-		return (dwFlags & TZF_DIFONLY) ? NULL : &myInfo.myTZ;
+		return (dwFlags & TZF_DIFONLY) ? nullptr : &myInfo.myTZ;
 
 	MIM_TIMEZONE tzsearch;
 	tzsearch.hash = mir_hashstrT(tszName);
 
 	MIM_TIMEZONE *tz = g_timezones.find(&tzsearch);
-	if (tz == NULL)
-		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
+	if (tz == nullptr)
+		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? nullptr : &myInfo.myTZ;
 
 	if (dwFlags & TZF_DIFONLY)
-		return IsSameTime(tz) ? NULL : tz;
+		return IsSameTime(tz) ? nullptr : tz;
 
 	return tz;
 }
 
 MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule, DWORD dwFlags)
 {
-	if (hContact == NULL && szModule == NULL)
-		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
+	if (hContact == NULL && szModule == nullptr)
+		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? nullptr : &myInfo.myTZ;
 
-	if (szModule == NULL) szModule = "UserInfo";
+	if (szModule == nullptr) szModule = "UserInfo";
 
 	DBVARIANT dbv;
 	if (!db_get_ws(hContact, szModule, "TzName", &dbv)) {
@@ -263,7 +263,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule
 		MIM_TIMEZONE tzsearch;
 		tzsearch.tzi.Bias = timezone * 30;
 		if (myInfo.myTZ.tzi.Bias == tzsearch.tzi.Bias) {
-			if (dwFlags & TZF_DIFONLY) return NULL;
+			if (dwFlags & TZF_DIFONLY) return nullptr;
 			return &myInfo.myTZ;
 		}
 
@@ -281,15 +281,15 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule
 
 		if (i >= 0) {
 			MIM_TIMEZONE *tz = g_timezonesBias[i];
-			return ((dwFlags & TZF_DIFONLY) && IsSameTime(tz)) ? NULL : tz;
+			return ((dwFlags & TZF_DIFONLY) && IsSameTime(tz)) ? nullptr : tz;
 		}
 	}
-	return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
+	return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? nullptr : &myInfo.myTZ;
 }
 
 MIR_CORE_DLL(void) TimeZone_StoreByContact(MCONTACT hContact, LPCSTR szModule, HANDLE hTZ)
 {
-	if (szModule == NULL) szModule = "UserInfo";
+	if (szModule == nullptr) szModule = "UserInfo";
 
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 	if (tz) {
@@ -305,7 +305,7 @@ MIR_CORE_DLL(void) TimeZone_StoreByContact(MCONTACT hContact, LPCSTR szModule, H
 MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
-	if (tz == NULL && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
+	if (tz == nullptr && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
 		return 1;
 
 	SYSTEMTIME st;
@@ -319,10 +319,10 @@ MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR sz
 MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
-	if (tz == NULL && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
+	if (tz == nullptr && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
 		return 1;
 
-	if (tz == NULL)
+	if (tz == nullptr)
 		tz = &myInfo.myTZ;
 	
 	FILETIME ft;
@@ -351,7 +351,7 @@ MIR_CORE_DLL(LPTIME_ZONE_INFORMATION) TimeZone_GetInfo(HANDLE hTZ)
 MIR_CORE_DLL(mir_time) TimeZone_UtcToLocal(HANDLE hTZ, mir_time ts)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
-	if (tz == NULL)
+	if (tz == nullptr)
 		tz = &myInfo.myTZ;
 
 	if (tz == UTC_TIME_HANDLE)
@@ -375,8 +375,8 @@ static const ListMessages cbMessages = { CB_ADDSTRING, CB_GETCURSEL, CB_SETCURSE
 
 static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 {
-	if (hWnd == NULL)
-		return NULL;
+	if (hWnd == nullptr)
+		return nullptr;
 
 	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB))) {
 		wchar_t	tszClassName[128];
@@ -391,7 +391,7 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 	else if (dwFlags & TZF_PLF_LB)
 		return &lbMessages;
 	else
-		return NULL;
+		return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -399,10 +399,10 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
 {
 	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
-	if (lstMsg == NULL)
+	if (lstMsg == nullptr)
 		return -1;
 
-	if (szModule == NULL) szModule = "UserInfo";
+	if (szModule == nullptr) szModule = "UserInfo";
 
 	int iSelection = 0;
 	ptrW tszName(db_get_wsa(hContact, szModule, "TzName"));
@@ -435,7 +435,7 @@ MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HW
 MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
 {
 	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
-	if (lstMsg == NULL)
+	if (lstMsg == nullptr)
 		return 0;
 
 	SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)TranslateT("<unspecified>"));
@@ -452,17 +452,17 @@ MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND 
 
 MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
 {
-	if (szModule == NULL) szModule = "UserInfo";
+	if (szModule == nullptr) szModule = "UserInfo";
 
 	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
 	if (lstMsg) {
 		LRESULT offset = SendMessage(hWnd, lstMsg->getSel, 0, 0);
 		if (offset > 0) {
 			MIM_TIMEZONE *tz = (MIM_TIMEZONE*)SendMessage(hWnd, lstMsg->getData, offset, 0);
-			if ((INT_PTR)tz != CB_ERR && tz != NULL)
+			if ((INT_PTR)tz != CB_ERR && tz != nullptr)
 				TimeZone_StoreByContact(hContact, szModule, tz);
 		}
-		else TimeZone_StoreByContact(hContact, szModule, NULL);
+		else TimeZone_StoreByContact(hContact, szModule, nullptr);
 	}
 }
 
@@ -470,20 +470,20 @@ MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, 
 
 MIR_CORE_DLL(DWORD) TimeZone_ToLocal(DWORD timeVal)
 {
-	return TimeZone_UtcToLocal(NULL, (mir_time)timeVal);
+	return TimeZone_UtcToLocal(nullptr, (mir_time)timeVal);
 }
 
 MIR_CORE_DLL(char*) TimeZone_ToString(mir_time timeVal, const char *szFormat, char *szDest, size_t cchDest)
 {
 	wchar_t *szTemp = (wchar_t*)alloca(cchDest*sizeof(wchar_t));
-	TimeZone_PrintTimeStamp(NULL, timeVal, _A2T(szFormat), szTemp, cchDest, 0);
-	WideCharToMultiByte(CP_ACP, 0, szTemp, -1, szDest, (int)cchDest, NULL, NULL);
+	TimeZone_PrintTimeStamp(nullptr, timeVal, _A2T(szFormat), szTemp, cchDest, 0);
+	WideCharToMultiByte(CP_ACP, 0, szTemp, -1, szDest, (int)cchDest, nullptr, nullptr);
 	return szDest;
 }
 
 MIR_CORE_DLL(wchar_t*) TimeZone_ToStringW(mir_time timeVal, const wchar_t *wszFormat, wchar_t *wszDest, size_t cchDest)
 {
-	TimeZone_PrintTimeStamp(NULL, timeVal, wszFormat, wszDest, cchDest, 0);
+	TimeZone_PrintTimeStamp(nullptr, timeVal, wszFormat, wszDest, cchDest, 0);
 	return wszDest;
 }
 
@@ -492,14 +492,14 @@ MIR_CORE_DLL(wchar_t*) TimeZone_ToStringW(mir_time timeVal, const wchar_t *wszFo
 void GetLocalizedString(HKEY hSubKey, const wchar_t *szName, wchar_t *szBuf, DWORD cbLen)
 {
 	DWORD dwLength = cbLen * sizeof(wchar_t);
-	RegQueryValueEx(hSubKey, szName, NULL, NULL, (unsigned char *)szBuf, &dwLength);
+	RegQueryValueEx(hSubKey, szName, nullptr, nullptr, (unsigned char *)szBuf, &dwLength);
 	szBuf[min(dwLength / sizeof(wchar_t), cbLen - 1)] = 0;
 }
 
 void RecalculateTime(void)
 {
 	GetTimeZoneInformation(&myInfo.myTZ.tzi);
-	myInfo.timestamp = time(NULL);
+	myInfo.timestamp = time(nullptr);
 	myInfo.myTZ.offset = INT_MIN;
 
 	bool found = false;
@@ -545,12 +545,12 @@ void InitTimeZones(void)
 		wchar_t	tszName[MIM_TZ_NAMELEN];
 
 		DWORD dwSize = _countof(tszName);
-		while (ERROR_NO_MORE_ITEMS != RegEnumKeyEx(hKey, dwIndex++, tszName, &dwSize, NULL, NULL, 0, NULL)) {
+		while (ERROR_NO_MORE_ITEMS != RegEnumKeyEx(hKey, dwIndex++, tszName, &dwSize, nullptr, nullptr, nullptr, nullptr)) {
 			if (ERROR_SUCCESS == RegOpenKeyEx(hKey, tszName, 0, KEY_QUERY_VALUE, &hSubKey)) {
 				dwSize = sizeof(tszName);
 
 				DWORD dwLength = sizeof(tzi);
-				if (ERROR_SUCCESS != RegQueryValueEx(hSubKey, L"TZI", NULL, NULL, (unsigned char *)&tzi, &dwLength))
+				if (ERROR_SUCCESS != RegQueryValueEx(hSubKey, L"TZI", nullptr, nullptr, (unsigned char *)&tzi, &dwLength))
 					continue;
 
 				MIM_TIMEZONE *tz = new MIM_TIMEZONE;

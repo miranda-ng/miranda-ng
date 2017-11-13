@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-INT_PTR(*g_MirCallService)(const char *, WPARAM, LPARAM) = NULL;
+INT_PTR(*g_MirCallService)(const char *, WPARAM, LPARAM) = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,9 +37,9 @@ CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = LPGENW("HTTPServer transfer");
-	m_pszFileName = NULL;
-	m_fsi_pszSrvPath = NULL;
-	m_fsi_pszRealPath = NULL;
+	m_pszFileName = nullptr;
+	m_fsi_pszSrvPath = nullptr;
+	m_fsi_pszRealPath = nullptr;
 }
 
 CSendHTTPServer::~CSendHTTPServer()

@@ -50,7 +50,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (nmhdr->code) {
 		case PSN_APPLY:
 			{
-				db_set_dw(NULL, pluginName, "maxQuestCount", gbMaxQuestCount = GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE));
+				db_set_dw(NULL, pluginName, "maxQuestCount", gbMaxQuestCount = GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, nullptr, FALSE));
 				db_set_b(NULL, pluginName, "infTalkProtection", gbInfTalkProtection = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_INFTALKPROT));
 				db_set_b(NULL, pluginName, "addPermanent", gbAddPermanent = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_ADDPERMANENT));
 				db_set_b(NULL, pluginName, "handleAuthReq", gbHandleAuthReq = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HANDLEAUTHREQ));
@@ -98,7 +98,7 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return TRUE;
 
 		case IDC_VARS:
-			variables_showhelp(hwnd, msg, VHF_FULLDLG | VHF_SETLASTSUBJECT, NULL, NULL);
+			variables_showhelp(hwnd, msg, VHF_FULLDLG | VHF_SETLASTSUBJECT, nullptr, nullptr);
 			return TRUE;
 		}
 		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

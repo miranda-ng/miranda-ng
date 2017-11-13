@@ -64,7 +64,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 		if (oauthAccessTokenSecret_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a oauthAccessTokenSecret"); }
 		if (pin_.size() > 0) { ppro_->debugLogA("**SLURP::GET - we have a pin"); }
 
-		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", NULL, consumerKey_, consumerSecret_,
+		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", nullptr, consumerKey_, consumerSecret_,
 			oauthAccessToken_, oauthAccessTokenSecret_, pin_);
 	}
 	else if (meth == http::post) {
@@ -122,7 +122,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, OAu
 		Netlib_FreeHttpRequest(resp);
 	}
 	else {
-		httpPOST_ = NULL;
+		httpPOST_ = nullptr;
 		ppro_->debugLogA("SLURP - there was no response!");
 	}
 

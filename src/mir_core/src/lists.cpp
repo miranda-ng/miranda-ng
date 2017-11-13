@@ -29,8 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 MIR_CORE_DLL(SortedList*) List_Create(int p_limit, int p_increment)
 {
 	SortedList* result = (SortedList*)mir_calloc(sizeof(SortedList));
-	if (result == NULL)
-		return(NULL);
+	if (result == nullptr)
+		return(nullptr);
 
 	result->increment = p_increment;
 	result->limit = p_limit;
@@ -39,12 +39,12 @@ MIR_CORE_DLL(SortedList*) List_Create(int p_limit, int p_increment)
 
 MIR_CORE_DLL(void) List_Destroy(SortedList* p_list)
 {
-	if (p_list == NULL)
+	if (p_list == nullptr)
 		return;
 
-	if (p_list->items != NULL) {
+	if (p_list->items != nullptr) {
 		mir_free(p_list->items);
-		p_list->items = NULL;
+		p_list->items = nullptr;
 	}
 
 	p_list->realCount = p_list->limit = 0;
@@ -54,7 +54,7 @@ MIR_CORE_DLL(void*) List_Find(SortedList* p_list, void* p_value)
 {
 	int idx;
 	if (!List_GetIndex(p_list, p_value, &idx))
-		return NULL;
+		return nullptr;
 
 	return p_list->items[idx];
 }
@@ -65,7 +65,7 @@ MIR_CORE_DLL(void*) List_Find(SortedList* p_list, void* p_value)
 
 MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 {
-	if (p_value == NULL || p_list->sortFunc == NULL) {
+	if (p_value == nullptr || p_list->sortFunc == nullptr) {
 		*p_index = -1;
 		return 0;
 	}
@@ -155,7 +155,7 @@ MIR_CORE_DLL(int) List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 
 MIR_CORE_DLL(int) List_IndexOf(SortedList* p_list, void* p_value)
 {
-	if (p_value == NULL)
+	if (p_value == nullptr)
 		return -1;
 
 	for (int i = 0; i < p_list->realCount; i++)
@@ -171,7 +171,7 @@ MIR_CORE_DLL(int) List_IndexOf(SortedList* p_list, void* p_value)
 
 MIR_CORE_DLL(int) List_Insert(SortedList* p_list, void* p_value, int p_index)
 {
-	if (p_value == NULL || p_index > p_list->realCount)
+	if (p_value == nullptr || p_index > p_list->realCount)
 		return 0;
 
 	if (p_list->realCount == p_list->limit) {
@@ -190,11 +190,11 @@ MIR_CORE_DLL(int) List_Insert(SortedList* p_list, void* p_value, int p_index)
 
 MIR_CORE_DLL(int) List_InsertPtr(SortedList* list, void* p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return -1;
 
 	int idx;
-	if (list->sortFunc == 0)
+	if (list->sortFunc == nullptr)
 		idx = list->realCount;
 	else
 		List_GetIndex(list, p, &idx);
@@ -209,7 +209,7 @@ MIR_CORE_DLL(int) List_Remove(SortedList* p_list, int index)
 	p_list->realCount--;
 	if (p_list->realCount > index) {
 		memmove(p_list->items + index, p_list->items + index + 1, sizeof(void*)*(p_list->realCount - index));
-		p_list->items[p_list->realCount] = NULL;
+		p_list->items[p_list->realCount] = nullptr;
 	}
 
 	return 1;

@@ -2,7 +2,7 @@
 
 HINSTANCE hInst;
 WUMF_OPTIONS WumfOptions = { 0 };
-HGENMENU hMenuItem = 0;
+HGENMENU hMenuItem = nullptr;
 int hLangpack;
 HWND hDlg;
 
@@ -69,15 +69,15 @@ void ExecuteMenu(HWND hWnd)
         return;
     }
     AppendMenu(hMenu, MF_STRING, IDM_ABOUT, L"About\0");
-    AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);//------------------
+    AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);//------------------
     AppendMenu(hMenu, MF_STRING, IDM_SHOW, L"Show connections\0");
-    AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);//------------------
+    AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);//------------------
     AppendMenu(hMenu, MF_STRING, IDM_EXIT, L"Dismiss popup\0");
 
     POINT point;
     GetCursorPos(&point);
     SetForegroundWindow(hWnd);
-    TrackPopupMenu(hMenu, TPM_LEFTBUTTON | TPM_RIGHTBUTTON | TPM_RIGHTALIGN | TPM_TOPALIGN, point.x, point.y, 0, hWnd, NULL);
+    TrackPopupMenu(hMenu, TPM_LEFTBUTTON | TPM_RIGHTBUTTON | TPM_RIGHTALIGN | TPM_TOPALIGN, point.x, point.y, 0, hWnd, nullptr);
     PostMessage(hWnd, WM_USER, 0, 0);
     DestroyMenu(hMenu);
 }
@@ -156,33 +156,33 @@ void ShowThePopup(PWumf w, LPTSTR title, LPTSTR text)
 void ShowThePreview()
 {
 	if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		MessageBox(NULL, TranslateT("Popup plugin not found!"), TranslateT("Error"), MB_OK|MB_ICONSTOP);
+		MessageBox(nullptr, TranslateT("Popup plugin not found!"), TranslateT("Error"), MB_OK|MB_ICONSTOP);
 		return;
 	}
 
 	if (WumfOptions.AlertFolders) {
-		ShowThePopup(NULL, L"Guest", L"C:\\My Share");
+		ShowThePopup(nullptr, L"Guest", L"C:\\My Share");
 		Sleep(300);
-		ShowThePopup(NULL, L"Guest", L"C:\\My Share\\Photos");
+		ShowThePopup(nullptr, L"Guest", L"C:\\My Share\\Photos");
 		Sleep(300);
 	}
-	ShowThePopup(NULL, L"Guest", L"C:\\Share\\My Photos\\photo.jpg");
+	ShowThePopup(nullptr, L"Guest", L"C:\\Share\\My Photos\\photo.jpg");
 	Sleep(300);
 	if (WumfOptions.AlertFolders) {
-		ShowThePopup(NULL, L"User", L"C:\\My Share");
+		ShowThePopup(nullptr, L"User", L"C:\\My Share");
 		Sleep(300);
-		ShowThePopup(NULL, L"User", L"C:\\My Share\\Movies");
+		ShowThePopup(nullptr, L"User", L"C:\\My Share\\Movies");
 		Sleep(300);
 	}
-	ShowThePopup(NULL, L"User", L"C:\\My Share\\Movies\\The Two Towers.avi");
+	ShowThePopup(nullptr, L"User", L"C:\\My Share\\Movies\\The Two Towers.avi");
 	Sleep(300);
 	if (WumfOptions.AlertFolders) {
-		ShowThePopup(NULL, L"Administrator", L"C:\\Distributives");
+		ShowThePopup(nullptr, L"Administrator", L"C:\\Distributives");
 		Sleep(300);
-		ShowThePopup(NULL, L"Administrator", L"C:\\Distributives\\Win2k");
+		ShowThePopup(nullptr, L"Administrator", L"C:\\Distributives\\Win2k");
 		Sleep(300);
 	}
-	ShowThePopup(NULL, L"Administrator", L"C:\\Distributives\\Win2k\\setup.exe");
+	ShowThePopup(nullptr, L"Administrator", L"C:\\Distributives\\Win2k\\setup.exe");
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
@@ -199,21 +199,21 @@ void ThreadProc(LPVOID)
 		return;
 	}
 
-	hDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONNLIST), NULL, ConnDlgProc);
+	hDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONNLIST), nullptr, ConnDlgProc);
 	SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE)));
 	ShowWindow(hDlg, SW_SHOW); 
 
 	MSG msg;
-	while(GetMessage(&msg, NULL, 0, 0) == TRUE) { 
+	while(GetMessage(&msg, nullptr, 0, 0) == TRUE) { 
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-	hDlg = NULL;
+	hDlg = nullptr;
 }
 
 static INT_PTR WumfShowConnections(WPARAM,LPARAM)
 {
-	mir_forkthread(ThreadProc, NULL);
+	mir_forkthread(ThreadProc, nullptr);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hWumfBut, 0);
 	return 0;
 }
@@ -265,7 +265,7 @@ void ChooseFile(HWND hwndDlg)
 	ofn.Flags = OFN_CREATEPROMPT;
 	// Display the Open dialog box. 
 	if (GetSaveFileName(&ofn)) {
-		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE hf = CreateFile(szFile,GENERIC_WRITE,0,nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hf != INVALID_HANDLE_VALUE) {
 			SetDlgItemText(hwndDlg,IDC_FILE,szFile);
 			mir_wstrncpy(WumfOptions.LogFile, szFile, MAX_PATH);
@@ -358,7 +358,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			case IDC_ALERT_COMP:
 			case IDC_LOG_UNC:
 			case IDC_ALERT_UNC:
-				MessageBox(NULL, TranslateT("Not implemented yet..."), L"WUMF", MB_OK | MB_ICONINFORMATION);
+				MessageBox(nullptr, TranslateT("Not implemented yet..."), L"WUMF", MB_OK | MB_ICONINFORMATION);
 				break;
 				/* end */
 			case IDC_LOG_INTO_FILE:
@@ -396,7 +396,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 		case EN_CHANGE:
 			switch(wControlId) {
 			case IDC_DELAY_SEC:
-				seconds = GetDlgItemInt(hwndDlg, IDC_DELAY_SEC, NULL, FALSE);
+				seconds = GetDlgItemInt(hwndDlg, IDC_DELAY_SEC, nullptr, FALSE);
 				if (seconds > LIFETIME_MAX)
 					WumfOptions.DelaySec = LIFETIME_MAX;
 				else if (seconds < LIFETIME_MIN)
@@ -457,7 +457,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 
 int InitTopToolbar(WPARAM,LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DRIVE));
 	ttb.pszService = MS_WUMF_CONNECTIONSSHOW;
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
@@ -514,15 +514,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
 
 	if (IsUserAnAdmin())
-		SetTimer(NULL, 777, TIME, TimerProc);
+		SetTimer(nullptr, 777, TIME, TimerProc);
 	else
-		MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
+		MessageBox(nullptr, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), L"Miranda NG", MB_OK);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	KillTimer(NULL, 777);
+	KillTimer(nullptr, 777);
 	if (hLogger)
 		mir_closeLog(hLogger);
 	FreeAll();

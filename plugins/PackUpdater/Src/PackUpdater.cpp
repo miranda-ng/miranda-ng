@@ -19,9 +19,9 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst = NULL;
+HINSTANCE hInst = nullptr;
 
-HANDLE hPackUpdaterFolder = NULL;
+HANDLE hPackUpdaterFolder = nullptr;
 wchar_t tszRoot[MAX_PATH] = { 0 };
 int hLangpack;
 
@@ -100,7 +100,7 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	if (hCheckThread)
-		hCheckThread = NULL;
+		hCheckThread = nullptr;
 	NetlibUnInit();
 	return 0;
 }

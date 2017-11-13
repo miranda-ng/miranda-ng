@@ -20,14 +20,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-HANDLE hsmCmdLine = NULL;
-HANDLE hmClient = NULL;
-HANDLE heServerExec = NULL;
-HANDLE heServerDone = NULL;
-HANDLE heServerClose = NULL;
-HANDLE heServerBufferFull = NULL;
+HANDLE hsmCmdLine = nullptr;
+HANDLE hmClient = nullptr;
+HANDLE heServerExec = nullptr;
+HANDLE heServerDone = nullptr;
+HANDLE heServerClose = nullptr;
+HANDLE heServerBufferFull = nullptr;
 
-PSharedData sdCmdLine = NULL;
+PSharedData sdCmdLine = nullptr;
 
 
 int InitClient()
@@ -60,26 +60,26 @@ int DestroyServer()
 
 int CreateSystemEvents()
 {
-	heServerExec = CreateEventA(NULL, FALSE, FALSE, EVENT_SERVER_EXEC);
-	heServerDone = CreateEventA(NULL, FALSE, FALSE, EVENT_SERVER_DONE);
-	heServerClose = CreateEventA(NULL, FALSE, FALSE, EVENT_SERVER_CLOSE);
-	heServerBufferFull = CreateEventA(NULL, FALSE, FALSE, EVENT_SERVER_BUFFERFULL);
+	heServerExec = CreateEventA(nullptr, FALSE, FALSE, EVENT_SERVER_EXEC);
+	heServerDone = CreateEventA(nullptr, FALSE, FALSE, EVENT_SERVER_DONE);
+	heServerClose = CreateEventA(nullptr, FALSE, FALSE, EVENT_SERVER_CLOSE);
+	heServerBufferFull = CreateEventA(nullptr, FALSE, FALSE, EVENT_SERVER_BUFFERFULL);
 
-	return (heServerExec == NULL) || (heServerDone == NULL) || (heServerClose == NULL) || (heServerBufferFull == NULL);
+	return (heServerExec == nullptr) || (heServerDone == nullptr) || (heServerClose == nullptr) || (heServerBufferFull == nullptr);
 }
 
 int CreateMutexes()
 {
-	hmClient = CreateMutexA(NULL, FALSE, MUTEX_CLIENT_NAME);
-	return (hmClient == NULL);
+	hmClient = CreateMutexA(nullptr, FALSE, MUTEX_CLIENT_NAME);
+	return (hmClient == nullptr);
 }
 
 int CreateSharedMem()
 {
-	hsmCmdLine = CreateFileMappingA(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, sizeof(TSharedData), SHAREDMEM_NAME);
+	hsmCmdLine = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, sizeof(TSharedData), SHAREDMEM_NAME);
 	sdCmdLine = (PSharedData) MapViewOfFile(hsmCmdLine, FILE_MAP_WRITE, 0, 0, sizeof(TSharedData));
 
-	return (hsmCmdLine == NULL) || (sdCmdLine == NULL);
+	return (hsmCmdLine == nullptr) || (sdCmdLine == nullptr);
 }
 
 int DestroySystemEvents()

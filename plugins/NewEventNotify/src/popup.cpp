@@ -59,17 +59,17 @@ static void FreePopupEventData(PLUGIN_DATA* pdata)
 		if (eventData->next) {
 			eventData = eventData->next;
 			mir_free(eventData->prev);
-			eventData->prev = NULL;
+			eventData->prev = nullptr;
 		}
 		else {
 			mir_free(eventData);
-			eventData = NULL;
+			eventData = nullptr;
 		}
 	}		
-	pdata->lastEventData = pdata->firstEventData = pdata->firstShowEventData = NULL;
+	pdata->lastEventData = pdata->firstEventData = pdata->firstShowEventData = nullptr;
 	// remove from popup list if present
 	if (FindPopupData(pdata) != -1)
-		PopupList[FindPopupData(pdata)] = NULL;
+		PopupList[FindPopupData(pdata)] = nullptr;
 }
 
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
@@ -81,12 +81,12 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pdata->hContact, 0); // JK, use core (since 0.3.3+)
 			else {
 				EVENT_DATA_EX *eventData = pdata->firstEventData;
-				if (eventData == NULL)
+				if (eventData == nullptr)
 					return 0;
 
 				for (int idx = 0;; idx++) {
 					CLISTEVENT *cle = pcli->pfnGetEvent(pdata->hContact, idx);
-					if (cle == NULL)
+					if (cle == nullptr)
 						break;
 
 					if (cle->hDbEvent == eventData->hEvent) {
@@ -124,7 +124,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)PUGetPluginData(hWnd);
-	if (pdata == NULL)
+	if (pdata == nullptr)
 		return FALSE;
 
 	switch (message) {
@@ -140,7 +140,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		return TRUE;
 	case UM_INITPOPUP:
 		pdata->hWnd = hWnd;
-		SetTimer(hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, NULL);
+		SetTimer(hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, nullptr);
 		break;
 	case WM_MOUSEWHEEL:
 		if ((short)HIWORD(wParam) > 0 && pdata->firstShowEventData->prev &&
@@ -170,9 +170,9 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 {
-	wchar_t *comment1 = NULL;
-	wchar_t *comment2 = NULL;
-	char  *commentFix = NULL;
+	wchar_t *comment1 = nullptr;
+	wchar_t *comment2 = nullptr;
+	char  *commentFix = nullptr;
 
 	//now get text
 	switch (dbei->eventType) {
@@ -248,7 +248,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		if (dbei->pBlob) {
 			char szUin[16];
 			wchar_t szBuf[2048];
-			wchar_t* szNick = NULL;
+			wchar_t* szNick = nullptr;
 			char *pszNick = (char *)dbei->pBlob + 8;
 			char *pszFirst = pszNick + mir_strlen(pszNick) + 1;
 			char *pszLast = pszFirst + mir_strlen(pszFirst) + 1;
@@ -284,7 +284,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		if (dbei->pBlob) {
 			DB_AUTH_BLOB blob(dbei->pBlob);
 
-			wchar_t *szNick = NULL;
+			wchar_t *szNick = nullptr;
 			if (blob.get_nick())
 				szNick = dbei->getString(blob.get_nick());
 			else if (blob.get_email())
@@ -441,8 +441,8 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, U
 	EVENT_DATA_EX *eventData = (EVENT_DATA_EX*)mir_alloc(sizeof(EVENT_DATA_EX));
 	eventData->hEvent = hEvent;
 	eventData->number = 1;
-	eventData->next = NULL;
-	eventData->prev = NULL;
+	eventData->next = nullptr;
+	eventData->prev = nullptr;
 
 	// retrieve correct hContact for AUTH events
 	if (dbe.pBlob && (eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST))
@@ -505,12 +505,12 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		pdata->lastEventData = pdata->lastEventData->next;
 		pdata->lastEventData->hEvent = hEvent;
 		pdata->lastEventData->number = pdata->lastEventData->prev->number + 1;
-		pdata->lastEventData->next = NULL;
+		pdata->lastEventData->next = nullptr;
 		if (!pdata->pluginOptions->bShowON && pdata->countEvent > pdata->pluginOptions->iNumberMsg && pdata->pluginOptions->iNumberMsg)
 			pdata->firstShowEventData = pdata->firstShowEventData->next;
 		//re-init timer delay
 		KillTimer(pdata->hWnd, TIMER_TO_ACTION);
-		SetTimer(pdata->hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, NULL);
+		SetTimer(pdata->hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, nullptr);
 	}
 
 	wchar_t lpzText[MAX_SECONDLINE*2] = L"\0\0";
@@ -533,7 +533,7 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 
 		//get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
 		DBEVENTINFO dbe = {};
-		dbe.pBlob = NULL;
+		dbe.pBlob = nullptr;
 		dbe.cbBlob = 0;
 		if (pdata->pluginOptions->bPreview && eventData->hEvent) {
 			dbe.cbBlob = db_event_getBlobSize(eventData->hEvent);

@@ -114,7 +114,7 @@ void PackerJob::pack()
 	}
 
 	setStatus(STATUS_PACKING);
-	m_startTS = time(NULL);
+	m_startTS = time(nullptr);
 
 	int res = createZipFile();
 	if (res == ZIP_OK) {
@@ -136,9 +136,9 @@ int PackerJob::createZipFile()
 {
 	int result = ZIP_ERRNO;
 
-	zipFile zf = zipOpen2_64(m_tszFilePath, 0, NULL, NULL);
+	zipFile zf = zipOpen2_64(m_tszFilePath, 0, nullptr, nullptr);
 
-	if (zf != NULL) {
+	if (zf != nullptr) {
 		result = ZIP_OK;
 
 		int size_buf = 65536;
@@ -157,7 +157,7 @@ int PackerJob::createZipFile()
 			getFileTime(m_files[i], &zi.tmz_date, &zi.dosDate);
 
 			char *file = mir_u2a(Utils::getFileNameFromPath(m_files[i]));
-			int err = zipOpenNewFileInZip(zf, file, &zi, NULL, 0, NULL, 0, NULL, Z_DEFLATED, opt.iCompressionLevel);
+			int err = zipOpenNewFileInZip(zf, file, &zi, nullptr, 0, nullptr, 0, nullptr, Z_DEFLATED, opt.iCompressionLevel);
 			FREE(file);
 
 			if (err == ZIP_OK) {
@@ -202,7 +202,7 @@ int PackerJob::createZipFile()
 		}
 
 Cleanup:
-		zipClose(zf, NULL);
+		zipClose(zf, nullptr);
 		FREE(buff);
 	}
 
@@ -229,10 +229,10 @@ uLong PackerJob::getFileTime(wchar_t *file, tm_zip*, uLong *dt)
 void PackerJob::updateStats()
 {
 	DWORD dwNewTick = GetTickCount();
-	if (m_uiReaded && (time(NULL) > m_startTS) && (dwNewTick > m_lastUpdateTick + 100)) {
+	if (m_uiReaded && (time(nullptr) > m_startTS) && (dwNewTick > m_lastUpdateTick + 100)) {
 		m_lastUpdateTick = dwNewTick;
 
-		double speed = ((double)m_uiReaded / 1024) / (time(NULL) - m_startTS);
+		double speed = ((double)m_uiReaded / 1024) / (time(nullptr) - m_startTS);
 		mir_snwprintf(m_tab->m_stzSpeed, TranslateT("%0.1f kB/s"), speed);
 
 		double perc = m_uiFileSize ? ((double)m_uiReaded / m_uiFileSize) * 100 : 0;

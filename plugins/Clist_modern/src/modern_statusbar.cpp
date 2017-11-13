@@ -689,7 +689,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					rc = ProtosData[i].protoRect;
 					if (PtInRect(&rc, pt)) {
 						NotifyEventHooks(g_CluiData.hEventStatusBarShowToolTip, (WPARAM)ProtosData[i].szAccountName, 0);
-						CLUI_SafeSetTimer(hwnd, TM_STATUSBARHIDE, db_get_w(0, "CLUIFrames", "HideToolTipTime", SETTING_HIDETOOLTIPTIME_DEFAULT), 0);
+						CLUI_SafeSetTimer(hwnd, TM_STATUSBARHIDE, db_get_w(0, "CLUIFrames", "HideToolTipTime", SETTING_HIDETOOLTIPTIME_DEFAULT), nullptr);
 						tooltipshoing = TRUE;
 						ClientToScreen(hwnd, &pt);
 						ptToolTipShow = pt;
@@ -733,7 +733,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					ReleaseCapture();
 				}
 			KillTimer(hwnd, TM_STATUSBAR);
-			CLUI_SafeSetTimer(hwnd, TM_STATUSBAR, db_get_w(0, "CLC", "InfoTipHoverTime", CLCDEFAULT_INFOTIPTIME), 0);
+			CLUI_SafeSetTimer(hwnd, TM_STATUSBAR, db_get_w(0, "CLC", "InfoTipHoverTime", CLCDEFAULT_INFOTIPTIME), nullptr);
 		}
 		return CLUI_TestCursorOnBorders();
 
@@ -893,7 +893,7 @@ HWND StatusBar_Create(HWND parent)
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame
 
 	LoadStatusBarData();
-	cliCluiProtocolStatusChanged(0, 0);
+	cliCluiProtocolStatusChanged(0, nullptr);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, -1, 0);
 	return hModernStatusBar;
 }

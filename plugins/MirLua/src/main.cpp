@@ -9,7 +9,7 @@ CMLua *g_mLua;
 HANDLE g_hCLibsFolder;
 HANDLE g_hScriptsFolder;
 
-HNETLIBUSER hNetlib = NULL;
+HNETLIBUSER hNetlib = nullptr;
 
 PLUGININFOEX pluginInfo =
 {
@@ -104,7 +104,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (hNetlib)
 	{
 		Netlib_CloseHandle(hNetlib);
-		hNetlib = NULL;
+		hNetlib = nullptr;
 	}
 
 	return 0;

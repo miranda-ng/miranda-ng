@@ -27,7 +27,7 @@
 
 void CIcqProto::handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, WORD wStatus)
 {
-	char* pszFileName = NULL;
+	char* pszFileName = nullptr;
 	DWORD dwFileSize;
 	MCONTACT hCookieContact;
 	WORD wPort;
@@ -41,7 +41,7 @@ void CIcqProto::handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCooki
 
 	FreeCookie(dwCookie);
 
-	if (hCookieContact != HContactFromUIN(dwUin, NULL)) {
+	if (hCookieContact != HContactFromUIN(dwUin, nullptr)) {
 		NetLog_Direct("Error: UINs do not match in file transfer request response");
 		return;
 	}
@@ -143,7 +143,7 @@ void CIcqProto::handleFileRequest(PBYTE buf, DWORD dwUin, DWORD dwCookie, DWORD 
 	filetransfer *ft = CreateFileTransfer(hContact, dwUin, nVersion);
 	ft->dwCookie = dwCookie;
 	ft->szFilename = mir_strdup(pszFileName);
-	ft->szDescription = 0;
+	ft->szDescription = nullptr;
 	ft->fileId = -1;
 	ft->dwTotalSize = dwFileSize;
 	ft->pMessage.dwMsgID1 = dwID1;
@@ -157,7 +157,7 @@ void CIcqProto::handleFileRequest(PBYTE buf, DWORD dwUin, DWORD dwCookie, DWORD 
 	PROTORECVFILET pre = { 0 };
 	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
-	pre.timestamp = time(NULL);
+	pre.timestamp = time(nullptr);
 	pre.descr.w = mir_utf8decodeW(pszDescription);
 	pre.files.w = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
@@ -177,7 +177,7 @@ void CIcqProto::handleDirectCancel()
 void CIcqProto::icq_CancelFileTransfer(filetransfer* ft)
 {
 	DWORD dwCookie;
-	if (FindCookieByData(ft, &dwCookie, NULL))
+	if (FindCookieByData(ft, &dwCookie, nullptr))
 		FreeCookie(dwCookie);      /* this bit stops a send that's waiting for acceptance */
 
 	if (IsValidFileTransfer(ft)) { // Transfer still out there, end it

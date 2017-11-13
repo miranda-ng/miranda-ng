@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 char* mir_strncat_c(char *pszDest, const char cSrc)
 {
 	size_t size = 2;
-	if (pszDest != NULL)
+	if (pszDest != nullptr)
 		size += mir_strlen(pszDest); //cSrc = 1 + 1 forNULL temination 
 
 	char *pszRet = (char *)mir_realloc(pszDest, (sizeof(char) * size));
-	if (pszRet == NULL)
-		return NULL;
+	if (pszRet == nullptr)
+		return nullptr;
 	
 	pszRet[size - 2] = cSrc;
 	pszRet[size - 1] = 0;
@@ -39,12 +39,12 @@ char* mir_strncat_c(char *pszDest, const char cSrc)
 wchar_t* mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc)
 {
 	size_t size = 2;
-	if (pwszDest != NULL)
+	if (pwszDest != nullptr)
 		size += mir_wstrlen(pwszDest); //cSrc = 1 + 1 forNULL temination 
 
 	wchar_t *pwszRet = (wchar_t *)mir_realloc(pwszDest, (sizeof(wchar_t) * size));
-	if (pwszRet == NULL)
-		return NULL;
+	if (pwszRet == nullptr)
+		return nullptr;
 	
 	pwszRet[size - 2] = wcSrc;
 	pwszRet[size - 1] = 0;
@@ -53,7 +53,7 @@ wchar_t* mir_wcsncat_c(wchar_t *pwszDest, const wchar_t wcSrc)
 
 char* mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo)
 {
-	char *pszReturn = NULL;
+	char *pszReturn = nullptr;
 	size_t sizeNew = 0, sizeLen = mir_strlen(pszDest);
 	if (sizeFrom < sizeLen && sizeTo <= sizeLen && sizeFrom < sizeTo) {
 		sizeNew = sizeLen - (sizeTo - sizeFrom);
@@ -72,7 +72,7 @@ char* mir_strnerase(char *pszDest, size_t sizeFrom, size_t sizeTo)
 
 int mir_IsEmptyA(char *str)
 {
-	if (str == NULL || str[0] == 0)
+	if (str == nullptr || str[0] == 0)
 		return 1;
 	
 	int i = 0;
@@ -88,7 +88,7 @@ int mir_IsEmptyA(char *str)
 
 int mir_IsEmptyW(wchar_t *str)
 {
-	if (str == NULL || str[0] == 0)
+	if (str == nullptr || str[0] == 0)
 		return 1;
 	
 	int i = 0;

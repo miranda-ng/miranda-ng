@@ -11,7 +11,7 @@ PWumf new_wumf( DWORD dwID,
 {
 	PWumf w = (PWumf)mir_calloc(sizeof(Wumf));
 	if (!w)
-		return NULL;
+		return nullptr;
 
 	w->szUser = mir_wstrdup(szUser);
 	w->szPath = mir_wstrdup(szPath);
@@ -31,7 +31,7 @@ PWumf new_wumf( DWORD dwID,
 	w->dwAttr = dwAttr;
 	w->dwPerm = dwPerm;
 	w->mark = FALSE;
-	w->next = NULL;
+	w->next = nullptr;
 	return w;	
 }
 
@@ -56,7 +56,7 @@ BOOL add_cell(PWumf* l, PWumf w)
 		while(p->next) p = p->next;
 		p->next = w;
 	}
-	w->next = NULL;
+	w->next = nullptr;
 	return TRUE;
 }
 
@@ -85,12 +85,12 @@ BOOL cpy_cell(PWumf *l, PWumf w)
 
 PWumf cpy_list(PWumf *l)
 {
-	PWumf w, p = NULL;
+	PWumf w, p = nullptr;
 
-	if (!l || !*l) return NULL;
+	if (!l || !*l) return nullptr;
 	w = *l;
 	while(w) {
-		if (!cpy_cell(&p, w))return NULL;
+		if (!cpy_cell(&p, w))return nullptr;
 		w = w->next;
 	}
 	return p;
@@ -98,7 +98,7 @@ PWumf cpy_list(PWumf *l)
 
 PWumf fnd_cell(PWumf *l, DWORD dwID)
 {
-	if (!l || !*l)return NULL;
+	if (!l || !*l)return nullptr;
 	PWumf w = *l;
 	while(w && w->dwID != dwID) w = w->next;
 	return w;
@@ -115,7 +115,7 @@ BOOL del_all(PWumf *l)
 
 		w = p;
 	}
-	*l = NULL;
+	*l = nullptr;
 	return TRUE;
 }
 

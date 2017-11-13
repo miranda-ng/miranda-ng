@@ -16,7 +16,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	: PROTO<WhatsAppProto>(proto_name, username),
 	m_tszDefaultGroup(getWStringA(WHATSAPP_KEY_DEF_GROUP))
 {
-	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
+	update_loop_lock_ = CreateEvent(nullptr, false, false, nullptr);
 
 	db_set_resident(m_szModuleName, "StatusMsg");
 
@@ -40,10 +40,10 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username)
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	if (m_hNetlibUser == NULL) {
+	if (m_hNetlibUser == nullptr) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	WASocketConnection::initNetwork(m_hNetlibUser);
@@ -136,7 +136,7 @@ int WhatsAppProto::SetStatus(int new_status)
 	}
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
-		if (m_pSocket != NULL) {
+		if (m_pSocket != nullptr) {
 			SetEvent(update_loop_lock_);
 			m_pSocket->forceShutdown();
 			debugLogA("Forced shutdown");
@@ -145,15 +145,15 @@ int WhatsAppProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (m_pSocket == NULL && !IsStatusConnecting(m_iStatus)) {
+	else if (m_pSocket == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 		ResetEvent(update_loop_lock_);
-		ForkThread(&WhatsAppProto::sentinelLoop, 0);
-		ForkThread(&WhatsAppProto::stayConnectedLoop, 0);
+		ForkThread(&WhatsAppProto::sentinelLoop, nullptr);
+		ForkThread(&WhatsAppProto::stayConnectedLoop, nullptr);
 	}
-	else if (m_pConnection != NULL) {
+	else if (m_pConnection != nullptr) {
 		if (m_iDesiredStatus == ID_STATUS_ONLINE) {
 			m_pConnection->sendAvailableForChat();
 			m_iStatus = ID_STATUS_ONLINE;
@@ -173,7 +173,7 @@ int WhatsAppProto::SetStatus(int new_status)
 
 MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	if (psr->id.w == NULL)
+	if (psr->id.w == nullptr)
 		return NULL;
 
 	std::string phone(T2Utf(psr->id.w));
@@ -209,7 +209,7 @@ void WhatsAppProto::SearchAckThread(void *targ)
 HANDLE WhatsAppProto::SearchBasic(const wchar_t* id)
 {
 	if (isOffline())
-		return 0;
+		return nullptr;
 
 	// fake - we always accept search
 	SearchParam *param = new SearchParam(id, GetSerial());
@@ -231,7 +231,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	string idx;
 	DBVARIANT dbv;
 
-	if (g_hNetlibUser == NULL) {
+	if (g_hNetlibUser == nullptr) {
 		NotifyEvent(m_tszUserName, TranslateT("Network connection error."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
 	}
@@ -243,7 +243,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 
 	if (idx.empty()) {
 		std::stringstream tm;
-		tm << time(NULL);
+		tm << time(nullptr);
 		BYTE idxBuf[16];
 		utils::md5string(tm.str(), idxBuf);
 		idx = std::string((const char*)idxBuf, 16);
@@ -264,7 +264,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	NETLIBHTTPREQUEST* pnlhr = Netlib_HttpTransaction(g_hNetlibUser, &nlhr);
 
 	const wchar_t *ptszTitle = TranslateT("Registration");
-	if (pnlhr == NULL) {
+	if (pnlhr == nullptr) {
 		NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
 	}
@@ -430,9 +430,9 @@ void WhatsAppProto::NotifyEvent(const wchar_t *title, const wchar_t *info, MCONT
 	}
 
 	if (FLAG_CONTAINS(flags, WHATSAPP_EVENT_CLIENT))
-		MessageBox(NULL, info, title, MB_OK | MB_ICONINFORMATION);
+		MessageBox(nullptr, info, title, MB_OK | MB_ICONINFORMATION);
 
 exit:
-	if (szUrl != NULL)
+	if (szUrl != nullptr)
 		mir_free(szUrl);
 }

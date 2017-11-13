@@ -368,7 +368,7 @@ int cliTrayIconInit(HWND hwnd)
 	case TRAY_ICON_MODE_CYCLE:
 		pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
 		pcli->cycleStep = 0;
-		cliTrayCycleTimerProc(0, 0, 0, 0); // force icon update
+		cliTrayCycleTimerProc(nullptr, 0, 0, 0); // force icon update
 		// Не сохраняем ID таймера в pcli, чтобы fnTrayIconUpdateBase не убивала его.
 		TimerID = CLUI_SafeSetTimer(nullptr, 0, db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
 		break;

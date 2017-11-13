@@ -617,7 +617,7 @@ int OnLoadModule(void)
 {
 	hMsftEdit = LoadLibrary(L"Msftedit.dll");
 	if (hMsftEdit == nullptr) {
-		if (IDYES != MessageBox(0,
+		if (IDYES != MessageBox(nullptr,
 			TranslateT("Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),
 			TranslateT("Information"), MB_YESNO | MB_ICONINFORMATION))
 			return 1;

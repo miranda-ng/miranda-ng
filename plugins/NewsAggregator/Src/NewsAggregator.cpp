@@ -19,12 +19,12 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst = NULL;
+HINSTANCE hInst = nullptr;
 
 int hLangpack;
-HANDLE hPrebuildMenuHook = NULL;
+HANDLE hPrebuildMenuHook = nullptr;
 HWND hAddFeedDlg;
-MWindowList hChangeFeedDlgList = NULL;
+MWindowList hChangeFeedDlgList = nullptr;
 wchar_t tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
 
@@ -62,7 +62,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, NewsAggrInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, NewsAggrPreShutdown);
 
-	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
+	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
 	hChangeFeedDlgList = WindowList_Create();
 
 	// register weather protocol

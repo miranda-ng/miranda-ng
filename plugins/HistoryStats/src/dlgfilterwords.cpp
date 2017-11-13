@@ -20,7 +20,7 @@ INT_PTR CALLBACK DlgFilterWords::staticDlgProc(HWND hDlg, UINT msg, WPARAM wPara
 
 	case WM_DESTROY:
 		pDlg->onWMDestroy();
-		pDlg->m_hWnd = NULL;
+		pDlg->m_hWnd = nullptr;
 		SetWindowLongPtr(hDlg, DWLP_USER, 0);
 		return TRUE;
 
@@ -102,7 +102,7 @@ void DlgFilterWords::onWMInitDialog()
 	{
 		const Filter* pFilter = *i;
 
-		HANDLE hCheck = m_Sets.insertCheck(NULL, pFilter->getName().c_str(), 0, reinterpret_cast<INT_PTR>(pFilter));
+		HANDLE hCheck = m_Sets.insertCheck(nullptr, pFilter->getName().c_str(), 0, reinterpret_cast<INT_PTR>(pFilter));
 
 		if (m_bColProvided && m_ColFilters.find(pFilter->getID()) != m_ColFilters.end())
 			m_Sets.checkItem(hCheck, true);
@@ -127,7 +127,7 @@ void DlgFilterWords::onWMInitDialog()
 
 	SendDlgItemMessage(m_hWnd, IDC_MODE, CB_SETCURSEL, 0, 0);
 
-	onSetSelChanged(NULL, 0);
+	onSetSelChanged(nullptr, 0);
 }
 
 void DlgFilterWords::onWMDestroy()
@@ -155,7 +155,7 @@ void DlgFilterWords::onSetAdd()
 
 	m_Filters.push_back(pFilter);
 
-	HANDLE hAdded = m_Sets.insertCheck(NULL, pFilter->getName().c_str(), 0, reinterpret_cast<UINT_PTR>(pFilter));
+	HANDLE hAdded = m_Sets.insertCheck(nullptr, pFilter->getName().c_str(), 0, reinterpret_cast<UINT_PTR>(pFilter));
 
 	m_Sets.selectItem(hAdded);
 }
@@ -297,7 +297,7 @@ void DlgFilterWords::clearFilters()
 	m_Filters.clear();
 }
 
-DlgFilterWords::DlgFilterWords() : m_hWnd(NULL), m_bColProvided(false)
+DlgFilterWords::DlgFilterWords() : m_hWnd(nullptr), m_bColProvided(false)
 {
 }
 

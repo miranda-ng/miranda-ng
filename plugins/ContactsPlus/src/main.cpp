@@ -130,7 +130,7 @@ static int HookPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 static int HookModulesLoaded(WPARAM, LPARAM)
 {
-	char* modules[2] = { 0 };
+	char* modules[2] = {};
 
 	modules[0] = MODULENAME;
 	CallService("DBEditorpp/RegisterModule", (WPARAM)modules, 1);
@@ -179,7 +179,7 @@ static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM)
 	//find window for hContact
 	HWND hWnd = WindowList_Find(g_hSendWindowList, wParam);
 	if (!hWnd)
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEND), NULL, SendDlgProc, wParam);
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEND), nullptr, SendDlgProc, wParam);
 	else {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
@@ -189,7 +189,7 @@ static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM)
 
 static INT_PTR ServiceReceiveCommand(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_RECEIVE), NULL, RecvDlgProc, lParam);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_RECEIVE), nullptr, RecvDlgProc, lParam);
 	return 0;
 }
 

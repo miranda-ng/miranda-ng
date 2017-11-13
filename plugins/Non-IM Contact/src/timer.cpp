@@ -63,7 +63,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 //
 int startTimer(int interval)
 {
-	timerId = SetTimer(NULL, 0, interval, timerProc);
+	timerId = SetTimer(nullptr, 0, interval, timerProc);
 	return 0;
 }
 
@@ -78,7 +78,7 @@ int killTimer()
 {
 	if (timerId != 0) {
 		db_set_w(NULL, MODNAME, "timerCount", 0);
-		KillTimer(NULL, timerId);
+		KillTimer(nullptr, timerId);
 		timerId = 0;
 	}
 	return 0;

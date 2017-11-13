@@ -272,7 +272,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 				if (dwValue) setDword("MemberTS", dwValue);
 
 				dwValue = chain->getDWord(0x03, 1);
-				setDword("LogonTS", dwValue ? dwValue : time(NULL));
+				setDword("LogonTS", dwValue ? dwValue : time(nullptr));
 
 				disposeChain(&chain);
 
@@ -318,7 +318,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 
 	case ICQ_SERVER_REDIRECT_SERVICE: // reply to family request, got new connection point
 	{
-		oscar_tlv_chain *pChain = NULL;
+		oscar_tlv_chain *pChain = nullptr;
 		cookie_family_request *pCookieData;
 
 		if (!(pChain = readIntoTLVChain(&pBuffer, wBufferLength, 0))) {
@@ -328,7 +328,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 
 		// pick request data
 		WORD wFamily = pChain->getWord(0x0D, 1);
-		if ((!FindCookie(pSnacHeader->dwRef, NULL, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily)) {
+		if ((!FindCookie(pSnacHeader->dwRef, nullptr, (void**)&pCookieData)) || (pCookieData->wFamily != wFamily)) {
 			disposeChain(&pChain);
 			debugLogA("Received unexpected SNAC(1,5), skipping.");
 			break;
@@ -363,15 +363,15 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 		nloc.szHost = pServer;
 		nloc.wPort = wPort;
 
-		HNETLIBCONN hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : NULL, &nloc);
+		HNETLIBCONN hConnection = NetLib_OpenConnection(m_hNetlibUser, wFamily == ICQ_AVATAR_FAMILY ? "Avatar " : nullptr, &nloc);
 
-		if (hConnection == NULL)
+		if (hConnection == nullptr)
 			debugLogA("Unable to connect to ICQ new family server.");
 		// we want the handler to be called even if the connecting failed
 		else if (bServerSSL) { /* Start SSL session if requested */
 			debugLogA("(%p) Starting SSL negotiation", Netlib_GetSocket(hConnection));
 
-			if (!Netlib_StartSsl(hConnection, NULL)) {
+			if (!Netlib_StartSsl(hConnection, nullptr)) {
 				debugLogA("Unable to connect to ICQ new family server, SSL could not be negotiated");
 				NetLib_CloseConnection(&hConnection, FALSE);
 			}

@@ -25,12 +25,12 @@ struct MFileMapping
 
 	MFileMapping(const wchar_t* ptszFileName)
 	{
-		ptr = NULL;
-		hMap = NULL;
+		ptr = nullptr;
+		hMap = nullptr;
 
-		hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+		hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 		if (hFile != INVALID_HANDLE_VALUE)
-			hMap = CreateFileMapping(hFile, NULL, PAGE_WRITECOPY, 0, 0, NULL);
+			hMap = CreateFileMapping(hFile, nullptr, PAGE_WRITECOPY, 0, 0, nullptr);
 		if (hMap)
 			ptr = (PBYTE)MapViewOfFile(hMap, FILE_MAP_COPY, 0, 0, 0);
 	}
@@ -79,7 +79,7 @@ int CalculateModuleHash(const wchar_t *filename, char *szDest)
 	if (map.hFile == INVALID_HANDLE_VALUE)
 		return RESULT_NOTFOUND;
 
-	if (map.ptr == NULL)
+	if (map.ptr == nullptr)
 		return RESULT_READERROR;
 
 	// check minimum and maximum size

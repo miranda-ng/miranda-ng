@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-HWND hwnd2Tree = 0;
+HWND hwnd2Tree = nullptr;
 
 volatile BOOL populating = 0;
 volatile int Select = 0;
@@ -38,7 +38,7 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 	ModuleTreeInfoStruct *lParam;
 	int itemscount = 0;
 	int icon = 0;
-	HTREEITEM hItem = 0;
+	HTREEITEM hItem = nullptr;
 
 	SetWindowText(hwnd2mainWindow, TranslateT("Loading contacts..."));
 
@@ -155,7 +155,7 @@ HTREEITEM findItemInTree(MCONTACT hContact, const char* module)
 	wchar_t text[FLD_SIZE];
 
 	if (!TreeView_GetCount(hwnd2Tree))
-		return 0;
+		return nullptr;
 
 	_A2T szModule(module);
 
@@ -182,7 +182,7 @@ HTREEITEM findItemInTree(MCONTACT hContact, const char* module)
 
 	} while (item.hItem);
 
-	return 0;
+	return nullptr;
 }
 
 // the following code to go through the whole tree is nicked from codeguru..
@@ -296,7 +296,7 @@ void replaceTreeItem(MCONTACT hContact, const char* module, const char* newModul
 		return;
 
 	if (hParent) {
-		replaceTreeItem(hContact, newModule, NULL);
+		replaceTreeItem(hContact, newModule, nullptr);
 		insertItem(hContact, newModule, hParent);
 	}
 }
@@ -374,7 +374,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 		/// contact root item
 		contacts_mtis.type = CONTACT_ROOT_ITEM;
 		tvi.item.lParam = (LPARAM)&contacts_mtis;
-		tvi.hParent = NULL;
+		tvi.hParent = nullptr;
 		tvi.item.mask = TVIF_TEXT | TVIF_CHILDREN | TVIF_STATE | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvi.item.state = TVIS_BOLD;
 		tvi.item.stateMask = TVIS_BOLD;
@@ -391,7 +391,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 		tvi.item.lParam = (LPARAM)&settings_mtis;
 		tvi.item.mask = TVIF_TEXT | TVIF_CHILDREN | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvi.item.cChildren = 1;
-		tvi.hParent = NULL;
+		tvi.hParent = nullptr;
 		tvi.hInsertAfter = TVI_FIRST;
 		tvi.item.pszText = TranslateT("Settings");
 		tvi.item.iImage = IMAGE_SETTINGS;
@@ -665,11 +665,11 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	case 5: // contact module
 	{
 		// check if the setting is being watched and if it is then check the menu item
-		int watchIdx = WatchedArrayIndex(hContact, module, NULL, 1);
+		int watchIdx = WatchedArrayIndex(hContact, module, nullptr, 1);
 		if (watchIdx >= 0) 
 			CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
 
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, nullptr)) {
 		case MENU_RENAME_MOD:
 			TreeView_EditLabel(hwnd2Tree, tvi.hItem);
 			break;
@@ -688,7 +688,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 			////////////////////////////////////////////////////////////////////// divider
 		case MENU_WATCH_ITEM:
 			if (watchIdx < 0)
-				addSettingToWatchList(hContact, module, 0);
+				addSettingToWatchList(hContact, module, nullptr);
 			else
 				freeWatchListItem(watchIdx);
 			PopulateWatchedWindow();
@@ -710,7 +710,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 	break;
 
 	case 2: // contact
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, nullptr)) {
 		case MENU_CLONE_CONTACT:
 			if (CloneContact(hContact))
 				refreshTree(1);
@@ -730,13 +730,13 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 
 			////////////////////////////////////////////////////////////////////// divider
 		case MENU_EXPORTCONTACT:
-			exportDB(hContact, 0);
+			exportDB(hContact, nullptr);
 			break;
 		case MENU_IMPORTFROMTEXT:
 			ImportSettingsMenuItem(hContact);
 			break;
 		case MENU_IMPORTFROMFILE:
-			ImportSettingsFromFileMenuItem(hContact, NULL);
+			ImportSettingsFromFileMenuItem(hContact, nullptr);
 			break;
 
 			////////////////////////////////////////////////////////////////////// divider
@@ -752,18 +752,18 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 		break;
 
 	case 3: // NULL contact
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, nullptr)) {
 		case MENU_ADD_MODULE:
 			addModuleDlg(hContact);
 			break;
 		case MENU_EXPORTCONTACT:
-			exportDB(NULL, 0);
+			exportDB(NULL, nullptr);
 			break;
 		case MENU_IMPORTFROMTEXT:
 			ImportSettingsMenuItem(NULL);
 			break;
 		case MENU_IMPORTFROMFILE:
-			ImportSettingsFromFileMenuItem(NULL, NULL);
+			ImportSettingsFromFileMenuItem(NULL, nullptr);
 			break;
 		case MENU_REFRESH:
 			refreshTree(1);			
@@ -772,7 +772,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 		break;
 
 	case 4: // Contacts root
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, nullptr)) {
 		case MENU_EXPORTCONTACT:
 			exportDB(INVALID_CONTACT_ID, "");
 			break;
@@ -780,7 +780,7 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 			ImportSettingsMenuItem(NULL);
 			break;
 		case MENU_IMPORTFROMFILE:
-			ImportSettingsFromFileMenuItem(NULL, NULL);
+			ImportSettingsFromFileMenuItem(NULL, nullptr);
 			break;
 		case MENU_REFRESH:
 			refreshTree(1);			

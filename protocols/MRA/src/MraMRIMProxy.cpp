@@ -89,18 +89,18 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phCo
 		}
 		// мы инициаторы
 		else {
-			pmmpd->hWaitHandle = CreateEvent(NULL, TRUE, FALSE, NULL);
+			pmmpd->hWaitHandle = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 			if (pmmpd->szEmail)
 			if (MraProxy(pmmpd->szEmail, pmmpd->dwIDRequest, pmmpd->dwDataType, pmmpd->lpszUserData, "", pmmpd->mguidSessionID))
 				WaitForSingleObjectEx(pmmpd->hWaitHandle, INFINITE, FALSE);
 
 			CloseHandle(pmmpd->hWaitHandle);
-			pmmpd->hWaitHandle = NULL;
+			pmmpd->hWaitHandle = nullptr;
 		}
 
 		dwRetErrorCode = ERROR_NO_NETWORK;
 		if (pmmpd->malAddrList.dwAddrCount) {
-			pmmpd->hConnection = NULL;
+			pmmpd->hConnection = nullptr;
 			bIsHTTPSProxyUsed = IsHTTPSProxyUsed(m_hNetlibUser);
 			dwConnectReTryCount = getDword("ConnectReTryCountMRIMProxy", MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY);
 			nloc.cbSize = sizeof(nloc);
@@ -114,7 +114,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phCo
 				// через https прокси только 443 порт
 				if ((pmmpd->malAddrList.pMailAddress[i].dwPort == MRA_SERVER_PORT_HTTPS && bIsHTTPSProxyUsed) || bIsHTTPSProxyUsed == FALSE) {
 					if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
-						ProtoBroadcastAck(MraHContactFromEmail(pmmpd->szEmail, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)pmmpd->dwIDRequest, 0);
+						ProtoBroadcastAck(MraHContactFromEmail(pmmpd->szEmail, FALSE, TRUE, nullptr), ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)pmmpd->dwIDRequest, 0);
 
 					nloc.szHost = inet_ntoa((*((in_addr*)&pmmpd->malAddrList.pMailAddress[i].dwAddr)));
 					nloc.wPort = (WORD)pmmpd->malAddrList.pMailAddress[i].dwPort;
@@ -123,7 +123,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phCo
 					do {
 						pmmpd->hConnection = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 					}
-						while (--dwCurConnectReTryCount && pmmpd->hConnection == NULL);
+						while (--dwCurConnectReTryCount && pmmpd->hConnection == nullptr);
 
 					if (pmmpd->hConnection) {
 						nls.dwTimeout = (MRA_TIMEOUT_DIRECT_CONN*1000*2);
@@ -132,7 +132,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phCo
 						dwRcvBuffSizeUsed = 0;
 
 						if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
-							ProtoBroadcastAck(MraHContactFromEmail(pmmpd->szEmail, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
+							ProtoBroadcastAck(MraHContactFromEmail(pmmpd->szEmail, FALSE, TRUE, nullptr), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
 						MraSendPacket(nls.hReadConns[0], 0, MRIM_CS_PROXY_HELLO, &pmmpd->mguidSessionID, sizeof(MRA_GUID));
 
 						while (bContinue) {

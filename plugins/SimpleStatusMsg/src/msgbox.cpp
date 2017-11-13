@@ -102,11 +102,11 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	wchar_t *status_desc;
 
 	if (!(data->m_iDlgFlags & DLG_SHOW_STATUS))
-		return NULL;
+		return nullptr;
 
-	HWND handle = CreateWindowEx(0, WC_COMBOBOXEX, NULL,
+	HWND handle = CreateWindowEx(0, WC_COMBOBOXEX, nullptr,
 					WS_TABSTOP | CBS_NOINTEGRALHEIGHT | WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST,
-					0, 0, 0, 240, hwndDlg, NULL, g_hInst, NULL);
+					0, 0, 0, 240, hwndDlg, nullptr, g_hInst, nullptr);
 
 	COMBOBOXEXITEM cbei = {0};
 	if (!(data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS))
@@ -177,7 +177,7 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 			cbei.iItem = j;
 			cbei.pszText = (LPTSTR)tszProfileName;
 			if (data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS) {
-				int k = GetCurrentStatus(NULL) - ID_STATUS_OFFLINE;
+				int k = GetCurrentStatus(nullptr) - ID_STATUS_OFFLINE;
 				if (k < 0 || k > 9)
 					k = 0; // valid status modes only
 				cbei.iImage = statusicon_nr[k];
@@ -199,7 +199,7 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		SendMessage(handle, CB_SETITEMHEIGHT, 0, (LPARAM)18);
 		SendMessage(handle, CBEM_SETIMAGELIST, 0, (LPARAM)data->status_icons);
 	}
-	SetWindowPos(handle, NULL, 11, 11, 112, 20, SWP_NOACTIVATE);
+	SetWindowPos(handle, nullptr, 11, 11, 112, 20, SWP_NOACTIVATE);
 	SendMessage(handle, CB_SETCURSEL, (WPARAM)cur_sel, 0);
 	SendMessage(handle, CB_SETITEMHEIGHT, (WPARAM)-1, (LPARAM)16);
 
@@ -219,9 +219,9 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	BOOL found = FALSE;
 	wchar_t text[128];
 
-	HWND handle = CreateWindowEx(0, WC_COMBOBOXEX, NULL,
+	HWND handle = CreateWindowEx(0, WC_COMBOBOXEX, nullptr,
 					WS_TABSTOP | CBS_NOINTEGRALHEIGHT | WS_VISIBLE | WS_CHILD | CBS_DROPDOWNLIST,
-					0, 0, 0, 300, hwndDlg, NULL, g_hInst, NULL);
+					0, 0, 0, 300, hwndDlg, nullptr, g_hInst, nullptr);
 
 	COMBOBOXEXITEM cbei = {0};
 	if (!(data->m_iDlgFlags & DLG_SHOW_LIST_ICONS))
@@ -239,7 +239,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		j--;
 
 		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", buff);
-		if (tszStatusMsg != NULL) {
+		if (tszStatusMsg != nullptr) {
 			if (*tszStatusMsg != '\0') {
 				found = TRUE;
 				cbei.iItem = -1;
@@ -333,7 +333,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		// predefined messages
 		mir_snprintf(buff, "DefMsg%d", i);
 		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", buff);
-		if (tszStatusMsg != NULL) {
+		if (tszStatusMsg != nullptr) {
 			if (*tszStatusMsg != '\0') {
 				cbei.iItem = -1;
 				cbei.pszText = tszStatusMsg;
@@ -370,11 +370,11 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	if (data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
 		SendMessage(handle, CBEM_SETIMAGELIST, 0, (LPARAM)data->other_icons);
 	if (!(data->m_iDlgFlags & DLG_SHOW_STATUS)) {
-		SetWindowPos(handle, NULL, 11, 11, 290, 20, SWP_NOACTIVATE);
+		SetWindowPos(handle, nullptr, 11, 11, 290, 20, SWP_NOACTIVATE);
 		SendMessage(handle, CB_SETDROPPEDWIDTH, (WPARAM)290, 0);
 	}
 	else {
-		SetWindowPos(handle, NULL, 127, 11, 174, 20, SWP_NOACTIVATE);
+		SetWindowPos(handle, nullptr, 127, 11, 174, 20, SWP_NOACTIVATE);
 		SendMessage(handle, CB_SETDROPPEDWIDTH, (WPARAM)250, 0);
 	}
 	SendMessage(handle, CB_SETITEMHEIGHT, (WPARAM)-1, (LPARAM)16);
@@ -392,7 +392,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 {
 	HMENU hmenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_EDITMENU));
-	if (hmenu == NULL)
+	if (hmenu == nullptr)
 		return;
 
 	HMENU hmenuTrackPopup = GetSubMenu(hmenu, 0);
@@ -401,7 +401,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 
 	ClientToScreen(hwnd, (LPPOINT)&pt);
 
-	LPDWORD sel_s = NULL, sel_e = NULL;
+	LPDWORD sel_s = nullptr, sel_e = nullptr;
 	SendMessage(edit_control, EM_GETSEL, (WPARAM)&sel_s, (LPARAM)&sel_e);
 	if (sel_s == sel_e) {
 		EnableMenuItem(hmenuTrackPopup, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
@@ -417,7 +417,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 
 	DeleteMenu(hmenuTrackPopup, 7, MF_BYPOSITION);
 
-	int m_selection = TrackPopupMenu(hmenuTrackPopup, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+	int m_selection = TrackPopupMenu(hmenuTrackPopup, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr);
 	switch (m_selection) {
 		case IDM_COPY:
 			SendMessage(edit_control, WM_COPY, 0, 0);
@@ -454,8 +454,8 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 				vhi.cbSize = sizeof(vhi);
 				vhi.flags = VHF_FULLDLG | VHF_SETLASTSUBJECT;
 				vhi.hwndCtrl = edit_control;
-				vhi.szSubjectDesc = NULL;
-				vhi.szExtraTextDesc = NULL;
+				vhi.szSubjectDesc = nullptr;
+				vhi.szExtraTextDesc = nullptr;
 				CallService(MS_VARS_SHOWHELPEX, (WPARAM)hwnd, (LPARAM)&vhi);
 			}
 			break;
@@ -472,7 +472,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 				if (len) {
 					LPTSTR lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
-					if (hglbCopy == NULL) {
+					if (hglbCopy == nullptr) {
 						CloseClipboard();
 						break;
 					}
@@ -551,7 +551,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	case WM_LBUTTONDBLCLK:
 		{
 			MsgEditCtrl *mec = (MsgEditCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (mec != NULL) {
+			if (mec != nullptr) {
 				mec->ctLastDblClk = clock();
 				mec->uClocksPerDblClk = GetDoubleClickTime() * CLOCKS_PER_SEC / 1000;
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)mec);
@@ -562,7 +562,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	case WM_LBUTTONDOWN:
 		{
 			MsgEditCtrl *mec = (MsgEditCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (mec != NULL && UINT(clock() - mec->ctLastDblClk) < mec->uClocksPerDblClk) {
+			if (mec != nullptr && UINT(clock() - mec->ctLastDblClk) < mec->uClocksPerDblClk) {
 				SendMessage(hwndDlg, EM_SETSEL, 0, -1);
 				return 0;
 			}
@@ -580,7 +580,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		{
 			MsgEditCtrl *mec = (MsgEditCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			mir_free(mec);
-			mec = NULL;
+			mec = nullptr;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)mec);
 			break;
 		}
@@ -714,10 +714,10 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 			mir_snprintf(setting, "LastMsg");
 
 		char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-		if (szSetting != NULL) {
+		if (szSetting != nullptr) {
 			if (*szSetting != '\0') {
 				wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
-				if (tszStatusMsg != NULL) {
+				if (tszStatusMsg != nullptr) {
 					if (*tszStatusMsg != '\0') {
 						SetDlgItemText(hwndDlg, IDC_EDIT1, tszStatusMsg);
 						fcursel = SendMessage(data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)tszStatusMsg);
@@ -746,7 +746,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 			mir_snprintf(setting, "Default");
 
 		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(iStatus, setting));
-		if (tszStatusMsg != NULL) {
+		if (tszStatusMsg != nullptr) {
 			SetDlgItemText(hwndDlg, IDC_EDIT1, tszStatusMsg);
 			fcursel = SendMessage(data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)tszStatusMsg);
 			if (fcursel != CB_ERR)
@@ -761,7 +761,7 @@ void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
 			mir_snprintf(setting, "Msg");
 
 		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(iStatus, setting));
-		if (tszStatusMsg != NULL) {
+		if (tszStatusMsg != nullptr) {
 			SetDlgItemText(hwndDlg, IDC_EDIT1, tszStatusMsg);
 			fcursel = SendMessage(data->recent_cbex, CB_FINDSTRINGEXACT, num_start, (LPARAM)tszStatusMsg);
 			if (fcursel != CB_ERR)
@@ -802,7 +802,7 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	if (iStatus == ID_STATUS_CURRENT)
 		iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(msgbox_data->m_szProto) : GetCurrentStatus(msgbox_data->m_szProto);
 	else if (iStatus > ID_STATUS_CURRENT)
-		iStatus = GetCurrentStatus(NULL);
+		iStatus = GetCurrentStatus(nullptr);
 
 	Window_FreeIcon_IcoLib(hwndDlg);
 	Window_SetProtoIcon_IcoLib(hwndDlg, msgbox_data->m_szProto, iStatus);
@@ -974,8 +974,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				}
 			}
 			else {
-				SetWindowPos(GetDlgItem(hwndDlg, IDC_OK), NULL, 52, 115, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-				SetWindowPos(GetDlgItem(hwndDlg, IDC_CANCEL), NULL, 160, 115, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+				SetWindowPos(GetDlgItem(hwndDlg, IDC_OK), nullptr, 52, 115, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+				SetWindowPos(GetDlgItem(hwndDlg, IDC_CANCEL), nullptr, 160, 115, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BADD), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BDEL), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), FALSE);
@@ -987,7 +987,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					copy_init_data->m_iStatus = GetStartupStatus(copy_init_data->m_szProto);
 				else
 					copy_init_data->m_iStatus = GetCurrentStatus(copy_init_data->m_szProto);
-				if (copy_init_data->m_szProto == NULL)
+				if (copy_init_data->m_szProto == nullptr)
 					bCurrentStatus = TRUE;
 			}
 
@@ -1049,7 +1049,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (db_get_b(NULL, "SimpleStatusMsg", "AutoClose", 1) && init_data->m_bOnEvent) {
 				copy_init_data->m_iCountdown = db_get_b(NULL, "SimpleStatusMsg", "DlgTime", 5);
 				SendMessage(hwndDlg, WM_TIMER, 0, 0);
-				SetTimer(hwndDlg, 1, 1000, 0);
+				SetTimer(hwndDlg, 1, 1000, nullptr);
 			}
 			else {
 				copy_init_data->m_iCountdown = -2;
@@ -1113,12 +1113,12 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 					if (msgbox_data->m_iStatus == ID_STATUS_CURRENT) {
 						msgbox_data->m_iStatus = msgbox_data->m_bOnStartup ? GetStartupStatus(msgbox_data->m_szProto) : GetCurrentStatus(msgbox_data->m_szProto);
-						if (msgbox_data->m_szProto == NULL)
+						if (msgbox_data->m_szProto == nullptr)
 							bCurrentStatus = TRUE;
 					}
 					else if (msgbox_data->m_iStatus >= ID_STATUS_CURRENT) {
 						iProfileStatus = msgbox_data->m_iStatus;
-						msgbox_data->m_iStatus = GetCurrentStatus(NULL);
+						msgbox_data->m_iStatus = GetCurrentStatus(nullptr);
 					}
 
 					if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
@@ -1160,11 +1160,11 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						}
 
 						if (bCurrentStatus)
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, 0, msgbox_data->m_bOnStartup);
+							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, nullptr, msgbox_data->m_bOnStartup);
 						else if (iProfileStatus != 0)
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, iProfileStatus, 0, FALSE);
+							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, iProfileStatus, nullptr, FALSE);
 						else
-							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, msgbox_data->m_iStatus, 0, msgbox_data->m_bOnStartup);
+							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, msgbox_data->m_iStatus, nullptr, msgbox_data->m_bOnStartup);
 					}
 					else {
 						char buff[64], buff2[80];
@@ -1173,7 +1173,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						for (int i = 1; i <= msgbox_data->max_hist_msgs; i++) {
 							mir_snprintf(buff, "SMsg%d", i);
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", buff);
-							if (tszStatusMsg != NULL) {
+							if (tszStatusMsg != nullptr) {
 								if (!mir_wstrcmp(tszStatusMsg, tszMsg)) {
 									found = true;
 									if (msgbox_data->m_szProto) {
@@ -1363,7 +1363,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							}
 						}
 						else if (LOWORD(cbitem.lParam) == CLEAR_HISTORY) {
-							if (MessageBox(NULL, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
+							if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
 								ClearHistory(msgbox_data, cur_sel);
 							else if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
 								wchar_t msg[1024];
@@ -1469,7 +1469,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_BCLEAR)) {
 				switch (HIWORD(wParam)) {
 					case BN_CLICKED:
-						if (MessageBox(NULL, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
+						if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
 						{
 							ClearHistory(msgbox_data, 0);
 
@@ -1571,7 +1571,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			break;
 
 		case WM_DESTROY:
-			if (msgbox_data == NULL)
+			if (msgbox_data == nullptr)
 				break;
 		{
 			WINDOWPLACEMENT wp;
@@ -1616,7 +1616,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			ReleaseIconEx("clear");
 			Window_FreeIcon_IcoLib(hwndDlg);
 
-			hwndSAMsgDialog = NULL;
+			hwndSAMsgDialog = nullptr;
 			mir_free(msgbox_data);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			break;

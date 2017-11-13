@@ -18,15 +18,15 @@
 
 //global variables
 bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
-wchar_t *inopentag = NULL, *inclosetag = NULL, *outopentag = NULL, *outclosetag = NULL, *password = NULL;
+wchar_t *inopentag = nullptr, *inclosetag = nullptr, *outopentag = nullptr, *outclosetag = nullptr, *password = nullptr;
 
 list <JabberAccount*> Accounts;
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hInst;
-HFONT bold_font = NULL;
-HANDLE hLoadPubKey = NULL, g_hCLIcon = NULL, hExportGpgKeys = NULL, hImportGpgKeys = NULL;
-HGENMENU hSendKey = NULL, hToggleEncryption = NULL;
+HFONT bold_font = nullptr;
+HANDLE hLoadPubKey = nullptr, g_hCLIcon = nullptr, hExportGpgKeys = nullptr, hImportGpgKeys = nullptr;
+HGENMENU hSendKey = nullptr, hToggleEncryption = nullptr;
 RECT key_from_keyserver_rect = {0}, firstrun_rect = {0}, new_key_rect = {0}, key_gen_rect = {0}, load_key_rect = {0}, import_key_rect = {0}, key_password_rect = {0}, load_existing_key_rect = {0};
 
 int hLangpack = 0;

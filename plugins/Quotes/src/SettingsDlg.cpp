@@ -122,7 +122,7 @@ void select_log_file(HWND hDlg)
 
 struct CSettingWindowParam
 {
-	CSettingWindowParam(MCONTACT hContact) : m_hContact(hContact), m_pPopupSettings(NULL) {}
+	CSettingWindowParam(MCONTACT hContact) : m_hContact(hContact), m_pPopupSettings(nullptr) {}
 	~CSettingWindowParam() { delete m_pPopupSettings; }
 
 	MCONTACT m_hContact;
@@ -466,11 +466,11 @@ void ShowSettingsDlg(MCONTACT hContact)
 	MWindowList hWL = CModuleInfo::GetInstance().GetWindowList(WINDOW_PREFIX_SETTINGS, true);
 	assert(hWL);
 	HWND hWnd = WindowList_Find(hWL, hContact);
-	if (NULL != hWnd) {
+	if (nullptr != hWnd) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
 	}
-	else CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONTACT_SETTINGS), NULL, EditSettingsPerContactDlgProc, LPARAM(hContact));
+	else CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_CONTACT_SETTINGS), nullptr, EditSettingsPerContactDlgProc, LPARAM(hContact));
 }
 
 //////////////////////////////////////////////////////////////////////////

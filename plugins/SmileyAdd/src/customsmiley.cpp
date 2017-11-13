@@ -23,7 +23,7 @@ SmileyPackCListType g_SmileyPackCStore;
 bool SmileyPackCListType::AddSmileyPack(MCONTACT hContact, wchar_t *dir)
 {
 	bool res = true;
-	if (GetSmileyPack(hContact) == NULL) {
+	if (GetSmileyPack(hContact) == nullptr) {
 		SmileyPackCType *smileyPack = new SmileyPackCType;
 
 		res = smileyPack->LoadSmileyDir(dir);
@@ -39,7 +39,7 @@ bool SmileyPackCListType::AddSmileyPack(MCONTACT hContact, wchar_t *dir)
 bool SmileyPackCListType::AddSmiley(MCONTACT hContact, wchar_t *path)
 {
 	SmileyPackCType *smpack = GetSmileyPack(hContact);
-	if (smpack == NULL) {
+	if (smpack == nullptr) {
 		smpack = new SmileyPackCType;
 
 		smpack->SetId(hContact);
@@ -55,7 +55,7 @@ SmileyPackCType* SmileyPackCListType::GetSmileyPack(MCONTACT id)
 		if (m_SmileyPacks[i].GetId() == id)
 			return &m_SmileyPacks[i];
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -81,7 +81,7 @@ bool SmileyCType::CreateTriggerText(char *text)
 	wchar_t *txt = mir_utf8decodeW(res);
 	res[reslen] = save;
 
-	if (txt == NULL)
+	if (txt == nullptr)
 		return false;
 
 	m_TriggerText = txt;

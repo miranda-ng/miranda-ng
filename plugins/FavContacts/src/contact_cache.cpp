@@ -30,13 +30,13 @@ int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
 	if (dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
 
-	float weight = GetEventWeight(time(NULL) - dbei.timestamp);
-	float q = GetTimeWeight(time(NULL) - m_lastUpdate);
-	m_lastUpdate = time(NULL);
+	float weight = GetEventWeight(time(nullptr) - dbei.timestamp);
+	float q = GetTimeWeight(time(nullptr) - m_lastUpdate);
+	m_lastUpdate = time(nullptr);
 	if (!weight)
 		return 0;
 
-	TContactInfo *pFound = NULL;
+	TContactInfo *pFound = nullptr;
 	mir_cslock lck(m_cs);
 	for (int i = m_cache.getCount()-1; i >= 0; i--) {
 		TContactInfo *p = m_cache[i];
@@ -77,8 +77,8 @@ float CContactCache::GetTimeWeight(unsigned long age)
 
 void CContactCache::Rebuild()
 {
-	unsigned long timestamp = time(NULL);
-	m_lastUpdate = time(NULL);
+	unsigned long timestamp = time(nullptr);
+	m_lastUpdate = time(nullptr);
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		TContactInfo *info = new TContactInfo;
@@ -150,7 +150,7 @@ void CContactCache::TContactInfo::LoadInfo()
 wchar_t *nb_stristr(wchar_t *str, wchar_t *substr)
 {
 	if (!substr || !*substr) return str;
-	if (!str || !*str) return NULL;
+	if (!str || !*str) return nullptr;
 
 	wchar_t *str_up = NEWWSTR_ALLOCA(str);
 	wchar_t *substr_up = NEWWSTR_ALLOCA(substr);
@@ -159,7 +159,7 @@ wchar_t *nb_stristr(wchar_t *str, wchar_t *substr)
 	CharUpperBuff(substr_up, (DWORD)mir_wstrlen(substr_up));
 
 	wchar_t *p = wcsstr(str_up, substr_up);
-	return p ? (str + (p - str_up)) : NULL;
+	return p ? (str + (p - str_up)) : nullptr;
 }
 
 bool CContactCache::filter(int rate, wchar_t *str)

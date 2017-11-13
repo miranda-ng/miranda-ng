@@ -46,7 +46,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 
 				TranslateDialogDefault(hDlg);
-				SetTimer(hDlg, 1, 5000, NULL);
+				SetTimer(hDlg, 1, 5000, nullptr);
 
 				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET, SET_CONTACT_ORIGIN_STREET, DBVT_WCHAR));
 				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ZIP, SET_CONTACT_ORIGIN_ZIP, DBVT_WCHAR));
@@ -56,7 +56,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 				GetCountryList(&nList, &pList);
 				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_COUNTRY, SET_CONTACT_ORIGIN_COUNTRY, DBVT_WORD, pList, nList));
 
-				pCtrlList->insert(CTzCombo::CreateObj(hDlg, EDIT_TIMEZONE, NULL));
+				pCtrlList->insert(CTzCombo::CreateObj(hDlg, EDIT_TIMEZONE, nullptr));
 			}
 		}
 		break;

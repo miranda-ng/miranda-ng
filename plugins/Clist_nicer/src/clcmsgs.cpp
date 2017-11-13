@@ -33,7 +33,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		{
 			ClcContact *contact;
 			ClcGroup *group;
-			if (wParam == 0 || !Clist_FindItem(hwnd, dat, wParam, &contact, &group, NULL))
+			if (wParam == 0 || !Clist_FindItem(hwnd, dat, wParam, &contact, &group, nullptr))
 				return 0;
 
 			if (lParam)
@@ -45,8 +45,8 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 
 	case CLM_GETSTATUSMSG:
 		if (wParam) {
-			ClcContact *contact = NULL;
-			if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			ClcContact *contact = nullptr;
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr))
 				return 0;
 
 			if (contact->type != CLCIT_CONTACT)
@@ -64,8 +64,8 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 
 	case CLM_TOGGLEPRIORITYCONTACT:
 		if (wParam) {
-			ClcContact *contact = NULL;
-			if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			ClcContact *contact = nullptr;
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr))
 				return 0;
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
@@ -77,8 +77,8 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 
 	case CLM_QUERYPRIORITYCONTACT:
 		if (wParam) {
-			ClcContact *contact = NULL;
-			if (!Clist_FindItem(hwnd, dat, wParam, &contact, NULL, NULL))
+			ClcContact *contact = nullptr;
+			if (!Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr))
 				return 0;
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
@@ -96,7 +96,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		RowHeight::getMaxRowHeight(dat, hwnd);
 
 		if (LOWORD(lParam))
-			InvalidateRect(hwnd, NULL, FALSE);
+			InvalidateRect(hwnd, nullptr, FALSE);
 		return 0;
 
 	case CLM_ISMULTISELECT:

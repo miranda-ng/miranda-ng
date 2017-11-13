@@ -69,7 +69,7 @@ static void CALLBACK SetExtraImage(LPARAM lParam)
 {
 	/* get contact's country */
 	int countryNumber = ServiceDetectContactOriginCountry(lParam, 0);
-	ExtraIcon_SetIcon(hExtraIconSvc, lParam, (countryNumber != 0xFFFF || g_bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : NULL);
+	ExtraIcon_SetIcon(hExtraIconSvc, lParam, (countryNumber != 0xFFFF || g_bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : nullptr);
 }
 
 static int OnCListApplyIcons(WPARAM wParam, LPARAM)
@@ -135,7 +135,7 @@ static int OnMsgWndEvent(WPARAM, LPARAM lParam)
 	switch (msgwe->uType) {
 	case MSG_WINDOW_EVT_OPENING:
 		msgwnd = gMsgWndList.find((MsgWndData*)&msgwe->hContact);
-		if (msgwnd == NULL) {
+		if (msgwnd == nullptr) {
 			msgwnd = new MsgWndData(msgwe->hwndWindow, msgwe->hContact);
 			gMsgWndList.insert(msgwnd);
 		}

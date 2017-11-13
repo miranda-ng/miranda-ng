@@ -18,8 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-UploadDialog *UploadDialog::instance = NULL;
-UploadDialog *uDlg = NULL;
+UploadDialog *UploadDialog::instance = nullptr;
+UploadDialog *uDlg = nullptr;
 
 mir_cs UploadDialog::mutexTabs;
 
@@ -27,7 +27,7 @@ extern Options &opt;
 
 UploadDialog::UploadDialog()
 {
-	m_hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DLG_UPLOAD), 0, UploadDlgProc);
+	m_hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DLG_UPLOAD), nullptr, UploadDlgProc);
 	m_hwndTabs = GetDlgItem(m_hwnd, IDC_TAB);
 	EnableThemeDialogTexture(m_hwnd, ETDT_ENABLETAB);
 
@@ -40,7 +40,7 @@ UploadDialog::UploadDialog()
 	GetWindowRect(m_hwnd, &rc);
 	rc.left = mi.rcWork.left + ((mi.rcWork.right - mi.rcWork.left) - (rc.right - rc.left)) / 2;
 	rc.top = mi.rcWork.top + ((mi.rcWork.bottom - mi.rcWork.top) - (rc.bottom - rc.top)) / 2;
-	SetWindowPos(m_hwnd, 0, rc.left, rc.top, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+	SetWindowPos(m_hwnd, nullptr, rc.left, rc.top, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
 }
 
 UploadDialog::~UploadDialog()
@@ -50,8 +50,8 @@ UploadDialog::~UploadDialog()
 		SendMessage(m_hwnd, WMU_DESTROY, 0, 0);
 	}
 
-	instance = NULL;
-	uDlg = NULL;
+	instance = nullptr;
+	uDlg = nullptr;
 }
 
 void UploadDialog::selectTab(int index)
@@ -125,7 +125,7 @@ void UploadDialog::Tab::select()
 		uDlg->m_activeTab = index();
 	}
 	m_job->refreshTab(true);
-	InvalidateRect(uDlg->m_hwnd, NULL, TRUE);
+	InvalidateRect(uDlg->m_hwnd, nullptr, TRUE);
 }
 
 void UploadDialog::Tab::labelCompleted()
@@ -239,7 +239,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 						RECT rc;
 						GetWindowRect((HWND)lParam, &rc);
 						HMENU hMenu = Menu_BuildContactMenu(hContact);
-						TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
+						TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, nullptr);
 						DestroyMenu(hMenu);
 					}
 					break;
@@ -255,7 +255,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				case IDC_BTN_DOWNLOAD:
 					job = (UploadJob*)uDlg->m_tabs[uDlg->m_activeTab]->m_job;
-					ShellExecuteA(NULL, "open", job->m_szFileLink, NULL, NULL, SW_SHOWNORMAL);
+					ShellExecuteA(nullptr, "open", job->m_szFileLink, nullptr, nullptr, SW_SHOWNORMAL);
 					return TRUE;
 
 				case IDC_BTN_FILEMANAGER:
@@ -290,7 +290,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 						for (int i = 0; i < _countof(times); i++) {
 							if (i == 3 || i == 7)
-								AppendMenu(hTimeMenu, MF_SEPARATOR, 0, 0);
+								AppendMenu(hTimeMenu, MF_SEPARATOR, 0, nullptr);
 
 							if (i < 3)
 								mir_snwprintf(buff, TranslateT("%d minutes"), times[i]);
@@ -315,11 +315,11 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 							case Options::TR_DAYS: mir_snwprintf(buff, TranslateT("%d days"), opt.iDeleteTime); break;
 							}
 
-							AppendMenu(hTimeMenu, MF_SEPARATOR, 0, 0);
+							AppendMenu(hTimeMenu, MF_SEPARATOR, 0, nullptr);
 							AppendMenu(hTimeMenu, MF_STRING | bChecked ? MF_UNCHECKED : MF_CHECKED, IDM_CUSTOM, buff);
 						}
 
-						int command = TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, uDlg->m_hwndTabs, NULL);
+						int command = TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, uDlg->m_hwndTabs, nullptr);
 						switch (command) {
 						case IDM_CLOSEDLG:
 							tab->m_bOptCloseDlg = !tab->m_bOptCloseDlg; break;

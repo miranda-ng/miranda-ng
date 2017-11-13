@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma comment(lib, "shlwapi.lib")
 
-HINSTANCE g_hInst = 0;
+HINSTANCE g_hInst = nullptr;
 CLIST_INTERFACE *pcli, coreCli;
 
 int hLangpack;
@@ -115,7 +115,7 @@ static int systemModulesLoaded(WPARAM, LPARAM)
 
 static int fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact)
 {
-	return IconFromStatusMode(szProto, status, hContact, NULL);
+	return IconFromStatusMode(szProto, status, hContact, nullptr);
 }
 
 extern "C" int __declspec(dllexport) CListInitialise()

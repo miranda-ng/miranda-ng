@@ -118,7 +118,7 @@ namespace omemo {
 			goto complete;
 		}
 
-		result = EVP_DigestInit_ex(ctx, EVP_sha512(), 0);
+		result = EVP_DigestInit_ex(ctx, EVP_sha512(), nullptr);
 		if (result == 1) {
 			result = SG_SUCCESS;
 		}
@@ -163,7 +163,7 @@ namespace omemo {
 			goto complete;
 		}
 
-		result = EVP_DigestInit_ex(ctx, EVP_sha512(), 0);
+		result = EVP_DigestInit_ex(ctx, EVP_sha512(), nullptr);
 		if (result == 1) {
 			result = SG_SUCCESS;
 		}
@@ -214,7 +214,7 @@ namespace omemo {
 				return EVP_aes_256_ctr();
 			}
 		}
-		return 0;
+		return nullptr;
 	}
 
 	int encrypt_func(signal_buffer **output,
@@ -226,7 +226,7 @@ namespace omemo {
 	{
 		//TODO: use netlib for log
 		int result = 0;
-		uint8_t *out_buf = 0;
+		uint8_t *out_buf = nullptr;
 
 		const EVP_CIPHER *evp_cipher = aes_cipher(cipher, key_len);
 		if (!evp_cipher) {
@@ -247,7 +247,7 @@ namespace omemo {
 		EVP_CIPHER_CTX ctx;
 		EVP_CIPHER_CTX_init(&ctx);
 
-		result = EVP_EncryptInit_ex(&ctx, evp_cipher, 0, key, iv);
+		result = EVP_EncryptInit_ex(&ctx, evp_cipher, nullptr, key, iv);
 		if (!result) {
 			//fprintf(stderr, "cannot initialize cipher\n");
 			result = SG_ERR_UNKNOWN;
@@ -306,7 +306,7 @@ namespace omemo {
 	{
 		//TODO: use netlib for log
 		int result = 0;
-		uint8_t *out_buf = 0;
+		uint8_t *out_buf = nullptr;
 
 		const EVP_CIPHER *evp_cipher = aes_cipher(cipher, key_len);
 		if (!evp_cipher) {
@@ -327,7 +327,7 @@ namespace omemo {
 		EVP_CIPHER_CTX ctx;
 		EVP_CIPHER_CTX_init(&ctx);
 
-		result = EVP_DecryptInit_ex(&ctx, evp_cipher, 0, key, iv);
+		result = EVP_DecryptInit_ex(&ctx, evp_cipher, nullptr, key, iv);
 		if (!result) {
 			///fprintf(stderr, "cannot initialize cipher\n");
 			result = SG_ERR_UNKNOWN;
@@ -592,7 +592,7 @@ namespace omemo {
 		session_signed_pre_key* signed_pre_key;
 		{
 			const unsigned int signed_pre_key_id = 1;
-			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, signed_pre_key_id, time(0), global_context);
+			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, signed_pre_key_id, time(nullptr), global_context);
 			SIGNAL_UNREF(new_dev->device_key);
 			signal_buffer *serialized_signed_pre_key;
 			session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
@@ -1247,7 +1247,7 @@ namespace omemo {
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
 		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalIdentity_", id_str);
 		mir_free(id_str);
-		if (key_data != 0)
+		if (key_data != nullptr)
 			db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, key_data, (unsigned int)key_len); //TODO: check return value
 		else
 			db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
@@ -1711,7 +1711,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		}
 		if (deserialized && pm)
 		{
-			int ret = session_cipher_decrypt_pre_key_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, pm, 0, &decrypted_key);
+			int ret = session_cipher_decrypt_pre_key_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, pm, nullptr, &decrypted_key);
 			switch (ret)
 			{
 			case SG_SUCCESS:
@@ -1766,7 +1766,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		}
 		if (deserialized && sm)
 		{
-			ret = session_cipher_decrypt_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, sm, 0, &decrypted_key);
+			ret = session_cipher_decrypt_signal_message((*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].cipher, sm, nullptr, &decrypted_key);
 			switch (ret)
 			{
 			case SG_SUCCESS:
@@ -2098,7 +2098,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 			wchar_t szBareJid[JABBER_MAX_JID_LEN];
 			unsigned int *dev_id = (unsigned int*)mir_alloc(sizeof(unsigned int));
 			*dev_id = id;
-			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, 0, 0UL, -1, dev_id));
+			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, 0UL, -1, dev_id));
 			iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
 			wchar_t *jid = ContactToJID(hContact);
 			iq << XATTR(L"to", jid);

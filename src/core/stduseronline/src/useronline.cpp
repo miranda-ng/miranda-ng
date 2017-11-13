@@ -75,7 +75,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 static int UserOnlineAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA * ack = (ACKDATA*) lParam;
-	if (ack != 0 && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
+	if (ack != nullptr && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
 		// if going from offline to any other mode, remember when it happened.
 		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
 	}

@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static bool CheckBroken(const wchar_t *ptszFullPath)
 {
 	DATABASELINK *dblink = FindDatabasePlugin(ptszFullPath);
-	if (dblink == NULL || dblink->CheckDB == NULL)
+	if (dblink == nullptr || dblink->CheckDB == nullptr)
 		return true;
 
 	return dblink->grokHeader(ptszFullPath) != EGROKPRF_NOERROR;
@@ -33,9 +33,9 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 	wchar_t tszMsg[1024];
 	int error = 0;
 
-	if (opts.dbChecker == NULL) {
+	if (opts.dbChecker == nullptr) {
 		DATABASELINK* dblink = FindDatabasePlugin(opts.filename);
-		if (dblink == NULL) {
+		if (dblink == nullptr) {
 			mir_snwprintf(tszMsg,
 				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
 				opts.filename);
@@ -44,7 +44,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 			return false;
 		}
 
-		if (dblink->CheckDB == NULL) {
+		if (dblink->CheckDB == nullptr) {
 			mir_snwprintf(tszMsg,
 				TranslateT("Database driver '%s' doesn't support checking."),
 				TranslateW(dblink->szFullName));
@@ -52,7 +52,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 		}
 
 		opts.dbChecker = dblink->CheckDB(opts.filename, &error);
-		if (opts.dbChecker == NULL) {
+		if (opts.dbChecker == nullptr) {
 			if ((opts.error = GetLastError()) == 0)
 				opts.error = error;
 			PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_OPENERROR, (LPARAM)OpenErrorDlgProc);
@@ -108,7 +108,7 @@ static int AddDatabaseToList(HWND hwndList, const wchar_t* filename, wchar_t* di
 	bool isBroken = CheckBroken(filename);
 
 	const wchar_t *pName = wcsrchr(filename, '\\');
-	if (pName == NULL)
+	if (pName == nullptr)
 		pName = (LPTSTR)filename;
 	else
 		pName++;
@@ -117,7 +117,7 @@ static int AddDatabaseToList(HWND hwndList, const wchar_t* filename, wchar_t* di
 	mir_snwprintf(szName, L"%s%s", dir, pName);
 
 	wchar_t *pDot = wcsrchr(szName, '.');
-	if (pDot != NULL && !mir_wstrcmpi(pDot, L".dat"))
+	if (pDot != nullptr && !mir_wstrcmpi(pDot, L".dat"))
 		*pDot = 0;
 
 	lvi.iItem = 0;
@@ -192,9 +192,9 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			ListView_InsertColumn(GetDlgItem(hdlg, IDC_DBLIST), 1, &lvc);
 
 			wchar_t szMirandaPath[MAX_PATH];
-			GetModuleFileName(NULL, szMirandaPath, _countof(szMirandaPath));
+			GetModuleFileName(nullptr, szMirandaPath, _countof(szMirandaPath));
 			wchar_t *str2 = wcsrchr(szMirandaPath, '\\');
-			if (str2 != NULL)
+			if (str2 != nullptr)
 				*str2 = 0;
 
 			int i = 0;
@@ -217,7 +217,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 			// search in profile dir (using registry path + ini file)
 			if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
-				if (RegQueryValueEx(hKey, L"Path", NULL, NULL, (PBYTE)szMirandaPath, &cbData) == ERROR_SUCCESS) {
+				if (RegQueryValueEx(hKey, L"Path", nullptr, nullptr, (PBYTE)szMirandaPath, &cbData) == ERROR_SUCCESS) {
 					if (mir_wstrcmp(szProfileDir, szMirandaPath)) {
 						GetProfileDirectory(szMirandaPath, szProfileDir, _countof(szProfileDir));
 						FindAdd(hdlg, szProfileDir, L"[reg]\\");
@@ -233,9 +233,9 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			ListView_SetItemState(GetDlgItem(hdlg, IDC_DBLIST), i, LVIS_SELECTED, LVIS_SELECTED);
 		}
 
-		if (opts.dbChecker != NULL) {
+		if (opts.dbChecker != nullptr) {
 			opts.dbChecker->Destroy();
-			opts.dbChecker = NULL;
+			opts.dbChecker = nullptr;
 		}
 
 		if (bShortMode)
@@ -275,7 +275,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			GetDlgItemText(hdlg, IDC_FILE, str, _countof(str));
 			ofn.lStructSize = sizeof(ofn);
 			ofn.hwndOwner = hdlg;
-			ofn.hInstance = NULL;
+			ofn.hInstance = nullptr;
 			ofn.lpstrFilter = filter;
 			ofn.lpstrDefExt = L"dat";
 			ofn.lpstrFile = str;

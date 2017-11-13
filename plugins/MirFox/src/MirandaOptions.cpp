@@ -364,7 +364,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		//set contacts and groups icons
 		setListContactIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST));
-		setListGroupIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+		setListGroupIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 
 
 		mirfoxMiranda.getMirfoxData().tab2OptionsState = MFENUM_OPTIONS_WORK;
@@ -392,7 +392,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				setListContactIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST));
 				//fall through
 			case CLN_CONTACTMOVED:
-				setListGroupIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				setListGroupIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 				break;
 			case CLN_OPTIONSCHANGED:
 				resetListOptions(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST));
@@ -412,7 +412,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 
 				// Nothing was clicked
-				if (hItem == NULL){
+				if (hItem == nullptr){
 					break;
 				}
 				// It was not a visbility icon
@@ -446,7 +446,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				}
 
 				// Update the all/none icons
-				setListGroupIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+				setListGroupIcons(GetDlgItem(hwndDlg, IDC2_CONTACTS_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 
 				// Activate Apply button
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -517,9 +517,9 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		//   use DestroyIcon only witchout icolib
 		DestroyIcon(icoHandle_ICON_OFF);
-		icoHandle_ICON_OFF = NULL;
+		icoHandle_ICON_OFF = nullptr;
 		DestroyIcon(icoHandle_ICON_FF);
-		icoHandle_ICON_FF = NULL;
+		icoHandle_ICON_FF = nullptr;
 
 		break;
 

@@ -171,7 +171,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (Exists(szSplashFile)) {
 						mir_wstrcpy(initDir, szSplashFile);
 						wchar_t *pos = wcsrchr(initDir, '\\');
-						if (pos != NULL)
+						if (pos != nullptr)
 							*pos = 0;
 					}
 					else {
@@ -205,7 +205,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (result && mir_wstrlen(szPath2Spash) > 0) {
 							if (options.random) {
 								wchar_t *pos = wcsrchr(szPath2Spash, '\\');
-								if (pos != NULL) {
+								if (pos != nullptr) {
 									*pos = 0;
 									mir_wstrcat(szPath2Spash, L"\\");
 								}
@@ -228,7 +228,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (Exists(szSoundFile)) {
 						mir_wstrcpy(initDir, szSoundFile);
 						pos = wcsrchr(initDir, '\\');
-						if (pos != NULL) *pos = 0;
+						if (pos != nullptr) *pos = 0;
 					}
 					else {
 						szMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					wchar_t tmp[MAX_PATH];
 					mir_snwprintf(tmp, L"%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c", TranslateT("Sound Files"), 0, 0, 0);
 					ofn.lpstrFilter = tmp;
-					ofn.hwndOwner = 0;
+					ofn.hwndOwner = nullptr;
 					ofn.lpstrFile = szTempPath;
 					ofn.nMaxFile = MAX_PATH;
 					ofn.nMaxFileTitle = MAX_PATH;

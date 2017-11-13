@@ -1,15 +1,15 @@
 #include "commonheaders.h"
 
-LPSTR szOut = NULL;
-LPWSTR wszOut = NULL;
+LPSTR szOut = nullptr;
+LPWSTR wszOut = nullptr;
 
 LPSTR __cdecl utf8encode(LPCWSTR str)
 {
 	LPWSTR wszTemp, w;
 	int len, i;
 
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	wszTemp = (LPWSTR)str;
 
@@ -21,8 +21,8 @@ LPSTR __cdecl utf8encode(LPCWSTR str)
 	}
 
 	SAFE_FREE(szOut);
-	if ((szOut = (LPSTR)malloc(len + 1)) == NULL)
-		return NULL;
+	if ((szOut = (LPSTR)malloc(len + 1)) == nullptr)
+		return nullptr;
 
 	i = 0;
 	for (w = wszTemp; *w; w++) {
@@ -49,13 +49,13 @@ LPWSTR __cdecl utf8decode(LPCSTR str)
 	LPSTR p;
 	//	LPWSTR wszOut;
 
-	if (str == NULL) return NULL;
+	if (str == nullptr) return nullptr;
 
 	size_t len = strlen(str) + 1;
 
 	SAFE_FREE(wszOut);
-	if ((wszOut = (LPWSTR)malloc(len*sizeof(WCHAR))) == NULL)
-		return NULL;
+	if ((wszOut = (LPWSTR)malloc(len*sizeof(WCHAR))) == nullptr)
+		return nullptr;
 	p = (LPSTR)str;
 	i = 0;
 	while (*p) {

@@ -72,9 +72,9 @@ int __cdecl rsa_done(void)
 		pCNTX tmp = (pCNTX)hRSA4096;
 		pRSAPRIV p = (pRSAPRIV)tmp->pdata;
 		delete p;
-		tmp->pdata = 0;
+		tmp->pdata = nullptr;
 		cpp_delete_context(hRSA4096);
-		hRSA4096 = NULL;
+		hRSA4096 = nullptr;
 	}
 
 	return 1;
@@ -86,18 +86,18 @@ int __cdecl rsa_done(void)
 
 pRSAPRIV rsa_gen_keys(HANDLE context)
 {
-	if (context != hRSA4096) return 0;
+	if (context != hRSA4096) return nullptr;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_gen_keys: %d", context);
 #endif
-	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return nullptr;
 	pRSAPRIV r = (pRSAPRIV)ptr->pdata;
 
 	string priv, pub;
 	GenerateRSAKey(4096, priv, pub);
 
-	StringSource privsrc(priv, true, NULL);
+	StringSource privsrc(priv, true, nullptr);
 	RSAES_PKCS1v15_Decryptor Decryptor(privsrc);
 
 	priv = tlv(1, IntegerToBinary(Decryptor.GetTrapdoorFunction().GetModulus())) +
@@ -116,7 +116,7 @@ pRSAPRIV rsa_gen_keys(HANDLE context)
 
 pRSAPRIV rsa_get_priv(pCNTX ptr)
 {
-	pCNTX p = get_context_on_id(hRSA4096); if (!p) return 0;
+	pCNTX p = get_context_on_id(hRSA4096); if (!p) return nullptr;
 	pRSAPRIV r = (pRSAPRIV)p->pdata;
 	return r;
 }
@@ -316,18 +316,18 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv: %s", msg);
 #endif
-	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return nullptr;
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr);
 	pRSAPRIV r = rsa_get_priv(ptr);
 
 	rtrim(msg);
 
 	string buf = base64decode(msg);
-	if (!buf.length()) return 0;
+	if (!buf.length()) return nullptr;
 
 	string data; int type;
 	un_tlv(buf, type, data);
-	if (type == -1) return 0;
+	if (type == -1) return nullptr;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv: %02x %d", type, p->state);
@@ -338,7 +338,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 			p->state = 0; p->time = 0;
 			rsa_free(ptr); // удалим трэд и очередь сообщений
 			null_msg(context, 0x00, -1); // сессия разорвана по ошибке, неверный тип сообщения
-			return 0;
+			return nullptr;
 		}
 
 	switch (type) {
@@ -346,7 +346,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 	case 0x00: // прерывание сессии по ошибке другой стороной
 	{
 		// если соединение установлено - ничего не делаем
-		if (p->state == 0 || p->state == 7) return 0;
+		if (p->state == 0 || p->state == 7) return nullptr;
 		// иначе сбрасываем текущее состояние
 		p->state = 0; p->time = 0;
 		imp->rsa_notify(context, -2); // сессия разорвана по ошибке другой стороной
@@ -365,9 +365,9 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 	case 0x0D: // запрос паблика
 	case 0xD0: // ответ пабликом
 		if (!p->event) {
-			p->event = CreateEvent(NULL, FALSE, FALSE, NULL);
+			p->event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 			unsigned int tID;
-			p->thread = (HANDLE)_beginthreadex(NULL, 0, sttConnectThread, (PVOID)context, 0, &tID);
+			p->thread = (HANDLE)_beginthreadex(nullptr, 0, sttConnectThread, (PVOID)context, 0, &tID);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 			Sent_NetLog("rsa_recv: _beginthreadex(sttConnectThread)");
 #endif
@@ -383,7 +383,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 		if (!decode_msg(p, data).length()) {
 			p->state = 0; p->time = 0;
 			null_msg(context, 0x00, -type); // сессия разорвана по ошибке
-			return 0;
+			return nullptr;
 		}
 		{
 			PBYTE buffer = (PBYTE)alloca(RAND_SIZE);
@@ -399,7 +399,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 		if (!decode_msg(p, data).length()) {
 			p->state = 0; p->time = 0;
 			null_msg(context, 0x00, -type); // сессия разорвана по ошибке
-			return 0;
+			return nullptr;
 		}
 		p->state = 7; p->time = 0;
 		rsa_free_thread(p); // удалим трэд и очередь сообщений
@@ -414,7 +414,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 			return ptr->tmp = mir_strdup(msg.c_str());
 		else {
 			imp->rsa_notify(context, -5); // ошибка декодирования AES сообщения
-			return ptr->tmp = NULL;
+			return ptr->tmp = nullptr;
 		}
 	}
 
@@ -426,15 +426,15 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 			return ptr->tmp = mir_strdup(msg.c_str());
 		else {
 			imp->rsa_notify(context, -6); // ошибка декодирования RSA сообщения
-			return ptr->tmp = NULL;
+			return ptr->tmp = nullptr;
 		}
 	}
 
 	case 0xF0: // разрыв соединения вручную
 	{
-		if (p->state != 7) return 0;
+		if (p->state != 7) return nullptr;
 		string msg = decode_msg(p, data);
-		if (!msg.length()) return 0;
+		if (!msg.length()) return nullptr;
 		p->state = 0;
 		rsa_free(ptr); // удалим трэд и очередь сообщений
 		imp->rsa_notify(context, -4); // соединение разорвано вручную другой стороной
@@ -451,7 +451,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 	if (p->state != 0 && p->state != 7)
 		p->time = gettime() + timeout;
 
-	return 0;
+	return nullptr;
 }
 
 int __cdecl rsa_send(HANDLE context, LPCSTR msg)
@@ -846,7 +846,7 @@ void rsa_alloc(pCNTX ptr)
 	pRSADATA p = new RSADATA;
 	p->state = 0;
 	p->time = 0;
-	p->thread = p->event = NULL;
+	p->thread = p->event = nullptr;
 	p->thread_exit = 0;
 	p->queue = new STRINGQUEUE;
 	ptr->pdata = (PBYTE)p;
@@ -855,7 +855,7 @@ void rsa_alloc(pCNTX ptr)
 int rsa_free(pCNTX ptr)
 {
 	pRSADATA p = (pRSADATA)ptr->pdata;
-	if (p == NULL)
+	if (p == nullptr)
 		return true;
 
 	if (p->event) {
@@ -866,7 +866,7 @@ int rsa_free(pCNTX ptr)
 
 	delete p->queue;
 	delete p;
-	ptr->pdata = NULL;
+	ptr->pdata = nullptr;
 	return true;
 }
 
@@ -879,7 +879,7 @@ void rsa_free_thread(pRSADATA p)
 		WaitForSingleObject(p->thread, INFINITE);
 		CloseHandle(p->thread);
 		CloseHandle(p->event);
-		p->thread = p->event = NULL;
+		p->thread = p->event = nullptr;
 		p->thread_exit = 0;
 	}
 	p->time = 0;

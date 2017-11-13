@@ -37,7 +37,7 @@ struct virusscannerinfo {
 } virusScanners[] = {
 	{L"Network Associates/McAfee VirusScan", L"SOFTWARE\\McAfee\\VirusScan", L"Scan32EXE", L"\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot"},
 	{L"Dr Solomon's VirusScan (Network Associates)", L"SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General", L"szScannerExe", L"\"%s\" %%f /uinone /noboot /comp /prompt /autoexit"},
-	{L"Norton AntiVirus", L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe", NULL, L"\"%s\" %%f /b- /m- /s+ /noresults"},
+	{L"Norton AntiVirus", L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe", nullptr, L"\"%s\" %%f /b- /m- /s+ /noresults"},
 	{L"Computer Associates/Inoculate IT", L"Software\\Antivirus", L"ImageFilename", L"\"%s\" %%f /display = progress /exit"},
 	{L"Computer Associates eTrust", L"SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident", L"VetPath", L"\"%s\" %%f /display = progress /exit"},
 	{L"Kaspersky Anti-Virus", L"SOFTWARE\\KasperskyLab\\Components\\101", L"EXEName", L"\"%s\" /S /Q %%f"},
@@ -188,7 +188,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			ofn.nMaxFileTitle = MAX_PATH;
 			if (!GetOpenFileName(&ofn)) break;
-			if (wcschr(str, ' ') != NULL) {
+			if (wcschr(str, ' ') != nullptr) {
 				memmove(str + 1, str, ((_countof(str) - 2) * sizeof(wchar_t)));
 				str[0] = '"';
 				mir_wstrcat(str, L"\"");

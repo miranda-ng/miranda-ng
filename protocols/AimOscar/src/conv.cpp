@@ -51,7 +51,7 @@ char* process_status_msg(const char *str, const char* sn)
 			res = (char*)mir_realloc(res, size + 20);
 			dest = res + off;
 			size += 20;
-			dest += GetDateFormatA(LOCALE_USER_DEFAULT, 0, NULL, NULL, dest, 20) - 1;
+			dest += GetDateFormatA(LOCALE_USER_DEFAULT, 0, nullptr, nullptr, dest, 20) - 1;
 			++src;
 		}
 		else if (src[0] == '%' && src[1] == 't') {
@@ -59,7 +59,7 @@ char* process_status_msg(const char *str, const char* sn)
 			res = (char*)mir_realloc(res, size + 20);
 			dest = res + off;
 			size += 20;
-			dest += GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL, NULL, dest, 20) - 1;
+			dest += GetTimeFormatA(LOCALE_USER_DEFAULT, 0, nullptr, nullptr, dest, 20) - 1;
 			++src;
 		}
 		else *(dest++) = *src;
@@ -73,7 +73,7 @@ void  html_decode(char* str)
 {
 	char *p, *q;
 
-	if (str == NULL) return;
+	if (str == nullptr) return;
 
 	for (p = q = str; *p != '\0'; p++, q++) {
 		if (*p == '&') {
@@ -124,7 +124,7 @@ char* html_encode(const char* str)
 	const char *p;
 	int c;
 
-	if (str == NULL) return NULL;
+	if (str == nullptr) return nullptr;
 
 	for (c = 0, p = str; *p != '\0'; p++) {
 		switch (*p) {
@@ -162,11 +162,11 @@ char* html_to_bbcodes(char *src)
 	char *ptrl;
 	char *rptr;
 	char* dest = mir_strdup(src);
-	while ((ptr = strstr(dest, "<B>")) != NULL || (ptr = strstr(dest, "<b>")) != NULL) {
+	while ((ptr = strstr(dest, "<B>")) != nullptr || (ptr = strstr(dest, "<b>")) != nullptr) {
 		*ptr = '[';
 		*(ptr + 1) = 'b';
 		*(ptr + 2) = ']';
-		if ((ptr = strstr(dest, "</B>")) != NULL || (ptr = strstr(dest, "</b>")) != NULL) {
+		if ((ptr = strstr(dest, "</B>")) != nullptr || (ptr = strstr(dest, "</b>")) != nullptr) {
 			*ptr = '[';
 			*(ptr + 2) = 'b';
 			*(ptr + 3) = ']';
@@ -176,11 +176,11 @@ char* html_to_bbcodes(char *src)
 			memcpy(&dest[mir_strlen(dest)], "[/b]", 5);
 		}
 	}
-	while ((ptr = strstr(dest, "<I>")) != NULL || (ptr = strstr(dest, "<i>")) != NULL) {
+	while ((ptr = strstr(dest, "<I>")) != nullptr || (ptr = strstr(dest, "<i>")) != nullptr) {
 		*ptr = '[';
 		*(ptr + 1) = 'i';
 		*(ptr + 2) = ']';
-		if ((ptr = strstr(dest, "</I>")) != NULL || (ptr = strstr(dest, "</i>")) != NULL) {
+		if ((ptr = strstr(dest, "</I>")) != nullptr || (ptr = strstr(dest, "</i>")) != nullptr) {
 			*ptr = '[';
 			*(ptr + 2) = 'i';
 			*(ptr + 3) = ']';
@@ -190,11 +190,11 @@ char* html_to_bbcodes(char *src)
 			memcpy(&dest[mir_strlen(dest)], "[/i]", 5);
 		}
 	}
-	while ((ptr = strstr(dest, "<U>")) != NULL || (ptr = strstr(dest, "<u>")) != NULL) {
+	while ((ptr = strstr(dest, "<U>")) != nullptr || (ptr = strstr(dest, "<u>")) != nullptr) {
 		*ptr = '[';
 		*(ptr + 1) = 'u';
 		*(ptr + 2) = ']';
-		if ((ptr = strstr(dest, "</U>")) != NULL || (ptr = strstr(dest, "</u>")) != NULL) {
+		if ((ptr = strstr(dest, "</U>")) != nullptr || (ptr = strstr(dest, "</u>")) != nullptr) {
 			*ptr = '[';
 			*(ptr + 2) = 'u';
 			*(ptr + 3) = ']';
@@ -204,11 +204,11 @@ char* html_to_bbcodes(char *src)
 			memcpy(&dest[mir_strlen(dest)], "[/u]", 5);
 		}
 	}
-	while ((ptr = strstr(dest, "<S>")) != NULL || (ptr = strstr(dest, "<s>")) != NULL) {
+	while ((ptr = strstr(dest, "<S>")) != nullptr || (ptr = strstr(dest, "<s>")) != nullptr) {
 		*ptr = '[';
 		*(ptr + 1) = 's';
 		*(ptr + 2) = ']';
-		if ((ptr = strstr(dest, "</S>")) != NULL || (ptr = strstr(dest, "</s>")) != NULL) {
+		if ((ptr = strstr(dest, "</S>")) != nullptr || (ptr = strstr(dest, "</s>")) != nullptr) {
 			*ptr = '[';
 			*(ptr + 2) = 's';
 			*(ptr + 3) = ']';
@@ -390,42 +390,42 @@ char* bbcodes_to_html(const char *src)
 	char *ptr;
 	char *rptr;
 	char* dest = mir_strdup(src);
-	while ((ptr = strstr(dest, "[b]")) != NULL) {
+	while ((ptr = strstr(dest, "[b]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 1) = 'b';
 		*(ptr + 2) = '>';
 	}
-	while ((ptr = strstr(dest, "[/b]")) != NULL) {
+	while ((ptr = strstr(dest, "[/b]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 2) = 'b';
 		*(ptr + 3) = '>';
 	}
-	while ((ptr = strstr(dest, "[i]")) != NULL) {
+	while ((ptr = strstr(dest, "[i]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 1) = 'i';
 		*(ptr + 2) = '>';
 	}
-	while ((ptr = strstr(dest, "[/i]")) != NULL) {
+	while ((ptr = strstr(dest, "[/i]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 2) = 'i';
 		*(ptr + 3) = '>';
 	}
-	while ((ptr = strstr(dest, "[u]")) != NULL) {
+	while ((ptr = strstr(dest, "[u]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 1) = 'u';
 		*(ptr + 2) = '>';
 	}
-	while ((ptr = strstr(dest, "[/u]")) != NULL) {
+	while ((ptr = strstr(dest, "[/u]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 2) = 'u';
 		*(ptr + 3) = '>';
 	}
-	while ((ptr = strstr(dest, "[s]")) != NULL) {
+	while ((ptr = strstr(dest, "[s]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 1) = 's';
 		*(ptr + 2) = '>';
 	}
-	while ((ptr = strstr(dest, "[/s]")) != NULL) {
+	while ((ptr = strstr(dest, "[/s]")) != nullptr) {
 		*ptr = '<';
 		*(ptr + 2) = 's';
 		*(ptr + 3) = '>';
@@ -668,14 +668,14 @@ char* rtf_to_html(HWND hwndDlg, int DlgItem)
 
 void wcs_htons(wchar_t *ch)
 {
-	if (ch == NULL) return;
+	if (ch == nullptr) return;
 	for (size_t i = 0; i < mir_wstrlen(ch); i++)
 		ch[i] = _htons(ch[i]);
 }
 
 char* bytes_to_string(char *bytes, int num_bytes)
 {
-	if (num_bytes == 0) return NULL;
+	if (num_bytes == 0) return nullptr;
 
 	char *string = (char*)mir_alloc(num_bytes * 2 + 1);
 	for (int i = 0; i < num_bytes; i++) {
@@ -699,7 +699,7 @@ void string_to_bytes(char *string, char *bytes)
 	for (size_t i = 0; i < length; i += 2) {
 		sbyte[0] = string[i];
 		sbyte[1] = string[i + 1];
-		bytes[i / 2] = (char)strtol(sbyte, NULL, 16);
+		bytes[i / 2] = (char)strtol(sbyte, nullptr, 16);
 	}
 }
 
@@ -736,8 +736,8 @@ wchar_t* get_dir(wchar_t *path)
 
 aimString::aimString(char *str)
 {
-	if (str == NULL) {
-		szString = NULL;
+	if (str == nullptr) {
+		szString = nullptr;
 		size = 0;
 		unicode = false;
 	}

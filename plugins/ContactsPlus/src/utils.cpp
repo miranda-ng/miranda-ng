@@ -52,19 +52,19 @@ char* __fastcall null_strdup(const char *string)
 	if (string)
 		return strdup(string);
 
-	return NULL;
+	return nullptr;
 }
 
 wchar_t* GetContactUID(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
 	char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (INT_PTR(uid) == CALLSERVICE_NOTFOUND || uid == 0)
-		return NULL;
+	if (INT_PTR(uid) == CALLSERVICE_NOTFOUND || uid == nullptr)
+		return nullptr;
 
 	DBVARIANT vrUid;
 	if (db_get_s(hContact, szProto, uid, &vrUid, 0))
-		return NULL;
+		return nullptr;
 
 	if (vrUid.type == DBVT_DWORD) {
 		wchar_t tmp[100];
@@ -84,7 +84,7 @@ wchar_t* GetContactUID(MCONTACT hContact)
 		return res;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void DialogAddContactExecute(HWND hwndDlg, MCONTACT hNewContact)
@@ -105,7 +105,7 @@ void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact)
 		HICON hIcon = LoadContactProtoIcon(hContact);
 		if (hIcon)
 		{
-			DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+			DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, nullptr, DI_NORMAL);
 			DestroyIcon(hIcon);
 		}
 	}
@@ -162,7 +162,7 @@ HICON LoadContactProtoIcon(MCONTACT hContact)
 	char *szProto = GetContactProto(hContact);
 	if (szProto)
 		return (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-	return NULL;
+	return nullptr;
 }
 
 
@@ -187,5 +187,5 @@ wchar_t* __fastcall strdupT(const wchar_t *string)
 {
 	if (string)
 		return (wchar_t*)wcsdup((wchar_t*)string);
-	return NULL;
+	return nullptr;
 }

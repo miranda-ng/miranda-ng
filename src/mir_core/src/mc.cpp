@@ -36,10 +36,10 @@ void InitMetaContacts()
 DBCachedContact* CheckMeta(MCONTACT hMeta)
 {
 	if (!g_bEnabled)
-		return NULL;
+		return nullptr;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hMeta);
-	return (cc == NULL || cc->nSubs == -1) ? NULL : cc;
+	return (cc == nullptr || cc->nSubs == -1) ? nullptr : cc;
 }
 
 int Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact)
@@ -77,25 +77,25 @@ MIR_CORE_DLL(void) db_mc_enable(BOOL bEnabled)
 
 MIR_CORE_DLL(BOOL) db_mc_isMeta(MCONTACT hContact)
 {
-	if (currDb == NULL || !g_bEnabled) return FALSE;
+	if (currDb == nullptr || !g_bEnabled) return FALSE;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	return (cc == NULL) ? FALSE : cc->nSubs != -1;
+	return (cc == nullptr) ? FALSE : cc->nSubs != -1;
 }
 
 MIR_CORE_DLL(BOOL) db_mc_isSub(MCONTACT hContact)
 {
-	if (currDb == NULL || !g_bEnabled) return FALSE;
+	if (currDb == nullptr || !g_bEnabled) return FALSE;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	return (cc == NULL) ? FALSE : cc->parentID != 0;
+	return (cc == nullptr) ? FALSE : cc->parentID != 0;
 }
 
 //returns a handle to the default contact, or null on failure
 MIR_CORE_DLL(MCONTACT) db_mc_getDefault(MCONTACT hMetaContact)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 0;
 
 	return (cc->nDefault != -1) ? Meta_GetContactHandle(cc, cc->nDefault) : 0;
@@ -105,32 +105,32 @@ MIR_CORE_DLL(MCONTACT) db_mc_getDefault(MCONTACT hMetaContact)
 MIR_CORE_DLL(int) db_mc_getDefaultNum(MCONTACT hMetaContact)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	return (cc == NULL) ? -1 : cc->nDefault;
+	return (cc == nullptr) ? -1 : cc->nDefault;
 }
 
 //returns the number of subcontacts, or -1 on failure
 MIR_CORE_DLL(int) db_mc_getSubCount(MCONTACT hMetaContact)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	return (cc == NULL) ? -1 : cc->nSubs;
+	return (cc == nullptr) ? -1 : cc->nSubs;
 }
 
 // returns parent hContact for a subcontact or NULL if it's not a sub
 MIR_CORE_DLL(MCONTACT) db_mc_getMeta(MCONTACT hSubContact)
 {
-	if (currDb == NULL) return NULL;
+	if (currDb == nullptr) return NULL;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hSubContact);
-	return (cc == NULL) ? NULL : cc->parentID;
+	return (cc == nullptr) ? NULL : cc->parentID;
 }
 
 // returns parent hContact for a subcontact or hContact itself if it's not a sub
 MIR_CORE_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact)
 {
-	if (currDb == NULL) return hContact;
+	if (currDb == nullptr) return hContact;
 
 	DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
-	if (cc == NULL) return hContact;
+	if (cc == nullptr) return hContact;
 
 	return (cc->IsSub()) ? cc->parentID : hContact;
 }
@@ -139,14 +139,14 @@ MIR_CORE_DLL(MCONTACT) db_mc_tryMeta(MCONTACT hContact)
 MIR_CORE_DLL(MCONTACT) db_mc_getSub(MCONTACT hMetaContact, int iNum)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	return (cc == NULL) ? 0 : Meta_GetContactHandle(cc, iNum);
+	return (cc == nullptr) ? 0 : Meta_GetContactHandle(cc, iNum);
 }
 
 //sets the default contact, using the subcontact's handle
 MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bWriteDb)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 1;
 
 	int contact_number = Meta_GetContactNumber(cc, hSub);
@@ -167,7 +167,7 @@ MIR_CORE_DLL(int) db_mc_setDefault(MCONTACT hMetaContact, MCONTACT hSub, BOOL bW
 MIR_CORE_DLL(int) db_mc_setDefaultNum(MCONTACT hMetaContact, int iNum, BOOL bWriteDb)
 {
 	DBCachedContact *cc = CheckMeta(hMetaContact);
-	if (cc == NULL)
+	if (cc == nullptr)
 		return 1;
 	if (iNum >= cc->nSubs || iNum < 0)
 		return 1;

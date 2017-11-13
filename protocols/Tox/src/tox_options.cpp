@@ -71,15 +71,15 @@ void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 {
-	Tox_Options *options = NULL;
+	Tox_Options *options = nullptr;
 	tox_options_default(options);
-	Tox *tox = tox_new(options, NULL);
+	Tox *tox = tox_new(options, nullptr);
 	tox_options_free(options);
 
 	ptrW profilePath(m_proto->GetToxProfilePath());
 	if (!m_proto->IsFileExists(profilePath)) {
-		HANDLE hProfile = CreateFile(profilePath, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hProfile == NULL) {
+		HANDLE hProfile = CreateFile(profilePath, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (hProfile == nullptr) {
 			m_proto->debugLogA(__FUNCTION__": failed to create tox profile");
 			return;
 		}
@@ -128,7 +128,7 @@ void CToxOptionsMain::ProfileImport_OnClick(CCtrlButton*)
 	if (mir_wstrcmpi(profilePath, defaultProfilePath) != 0)
 		CopyFile(profilePath, defaultProfilePath, FALSE);
 
-	Tox_Options *options = tox_options_new(NULL);
+	Tox_Options *options = tox_options_new(nullptr);
 	if (m_proto->LoadToxProfile(options)) {
 		CToxThread toxThread(options);
 
@@ -214,7 +214,7 @@ CToxOptionsMultimedia::CToxOptionsMultimedia(CToxProto *proto)
 
 void CToxOptionsMultimedia::EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *pEnumerator, EDataFlow dataFlow, const char* setting)
 {
-	LPWSTR pwszDefID = NULL;
+	LPWSTR pwszDefID = nullptr;
 	ptrW wszDefID(m_proto->getWStringA(setting));
 	if (wszDefID != NULL) {
 		size_t len = mir_wstrlen(wszDefID) + 1;
@@ -222,29 +222,29 @@ void CToxOptionsMultimedia::EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *
 		mir_wstrncpy(pwszDefID, wszDefID, len);
 	}
 	else {
-		CComPtr<IMMDevice> pDevice = NULL;
+		CComPtr<IMMDevice> pDevice = nullptr;
 		if (FAILED(pEnumerator->GetDefaultAudioEndpoint(dataFlow, eConsole, &pDevice))) return;
 		if (FAILED(pDevice->GetId(&pwszDefID))) return;
 	}
 
-	CComPtr<IMMDeviceCollection> pDevices = NULL;
+	CComPtr<IMMDeviceCollection> pDevices = nullptr;
 	EXIT_ON_ERROR(pEnumerator->EnumAudioEndpoints(dataFlow, DEVICE_STATE_ACTIVE, &pDevices));
 
 	UINT count;
 	EXIT_ON_ERROR(pDevices->GetCount(&count));
 
 	for (UINT i = 0; i < count; i++) {
-		CComPtr<IMMDevice> pDevice = NULL;
+		CComPtr<IMMDevice> pDevice = nullptr;
 		EXIT_ON_ERROR(pDevices->Item(i, &pDevice));
 
-		CComPtr<IPropertyStore> pProperties = NULL;
+		CComPtr<IPropertyStore> pProperties = nullptr;
 		EXIT_ON_ERROR(pDevice->OpenPropertyStore(STGM_READ, &pProperties));
 
 		PROPVARIANT varName;
 		PropVariantInit(&varName);
 		EXIT_ON_ERROR(pProperties->GetValue(PKEY_Device_FriendlyName, &varName));
 
-		LPWSTR pwszID = NULL;
+		LPWSTR pwszID = nullptr;
 		EXIT_ON_ERROR(pDevice->GetId(&pwszID));
 		combo.InsertString(varName.pwszVal, i, (LPARAM)mir_wstrdup(pwszID));
 		if (mir_wstrcmpi(pwszID, pwszDefID) == 0)
@@ -262,8 +262,8 @@ void CToxOptionsMultimedia::OnInitDialog()
 {
 	CToxDlgBase::OnInitDialog();
 
-	CComPtr<IMMDeviceEnumerator> pEnumerator = NULL;
-	if (FAILED(CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator)))
+	CComPtr<IMMDeviceEnumerator> pEnumerator = nullptr;
+	if (FAILED(CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator)))
 		return;
 
 	EnumDevices(m_audioInput, pEnumerator, eCapture, "AudioInputDeviceID");
@@ -521,7 +521,7 @@ void CToxOptionsNodeList::ReloadNodeList()
 		ptrA json;
 
 		FILE *hFile = _wfopen(path, L"r");
-		if (hFile != NULL) {
+		if (hFile != nullptr) {
 			_fseeki64(hFile, 0, SEEK_END);
 			size_t size = _ftelli64(hFile);
 			json = (char*)mir_calloc(size);

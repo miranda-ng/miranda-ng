@@ -190,7 +190,7 @@ static void BeginSearchFailed(void *arg)
 		mir_free((char*)arg);
 	}
 	else mir_wstrncpy(buf, TranslateT("Could not search on any of the protocols, are you online?"), _countof(buf));
-	MessageBox(0, buf, TranslateT("Problem with search"), MB_OK | MB_ICONERROR);
+	MessageBox(nullptr, buf, TranslateT("Problem with search"), MB_OK | MB_ICONERROR);
 }
 
 int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, DWORD requiredCapability, void *pvSearchParams)

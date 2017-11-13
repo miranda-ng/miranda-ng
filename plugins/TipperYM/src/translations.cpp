@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 int iTransFuncsCount = 0;
-DBVTranslation *translations = 0;
+DBVTranslation *translations = nullptr;
 
 DWORD dwNextFuncId;
 HANDLE hServiceAdd;
@@ -29,7 +29,7 @@ HANDLE hServiceAdd;
 void AddTranslation(DBVTranslation *newTrans) 
 {
 	DBVTranslation *ptranslations = (DBVTranslation *)mir_realloc(translations, sizeof(DBVTranslation) * (iTransFuncsCount+1));
-	if (ptranslations == NULL)
+	if (ptranslations == nullptr)
 		return;
 	translations = ptranslations;
 	iTransFuncsCount++;
@@ -67,14 +67,14 @@ wchar_t *NullTranslation(MCONTACT hContact, const char *szModuleName, const char
 {
 	if (DBGetContactSettingAsString(hContact, szModuleName, szSettingName, buff, bufflen))
 		return buff;
-	return NULL;
+	return nullptr;
 }
 
 wchar_t* TimestampToShortDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
-		return 0;
+		return nullptr;
 	
 	return TimeZone_ToStringT(ts, L"d", buff, bufflen);
 }
@@ -83,7 +83,7 @@ wchar_t* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
-		return 0;
+		return nullptr;
 	
 	return TimeZone_ToStringT(ts, L"D", buff, bufflen);
 }
@@ -92,7 +92,7 @@ wchar_t* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
-		return 0;
+		return nullptr;
 	
 	return TimeZone_ToStringT(ts, L"s", buff, bufflen);
 }
@@ -101,7 +101,7 @@ wchar_t* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, cons
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
-		return 0;
+		return nullptr;
 	
 	return TimeZone_ToStringT(ts, L"t", buff, bufflen);
 }
@@ -109,8 +109,8 @@ wchar_t* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, cons
 wchar_t* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
 {
 	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
-	DWORD t = (DWORD)time(0);
-	if (ts == 0) return 0;
+	DWORD t = (DWORD)time(nullptr);
+	if (ts == 0) return nullptr;
 	
 	DWORD diff = (ts > t) ? 0 : (t - ts);
 	int d = (diff / 60 / 60 / 24);
@@ -167,7 +167,7 @@ wchar_t *ByteToYesNo(MCONTACT hContact, const char *szModuleName, const char *sz
 		}
 		db_free(&dbv);
 	}
-	return 0;
+	return nullptr;
 }
 
 wchar_t *ByteToGender(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
@@ -178,7 +178,7 @@ wchar_t *ByteToGender(MCONTACT hContact, const char *szModuleName, const char *s
 	else if (val == 'M')
 		wcsncpy(buff, TranslateT("Male"), bufflen);
 	else
-		return 0;
+		return nullptr;
 
 	buff[bufflen - 1] = 0;
 	return buff;
@@ -186,17 +186,17 @@ wchar_t *ByteToGender(MCONTACT hContact, const char *szModuleName, const char *s
 
 wchar_t *WordToCountry(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
 {
-	char *szCountryName = 0;
+	char *szCountryName = nullptr;
 	WORD cid = (WORD)db_get_w(hContact, szModuleName, szSettingName, (WORD)-1);
-	if (cid != (WORD)-1 && ServiceExists(MS_UTILS_GETCOUNTRYBYNUMBER) && (szCountryName = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, cid, 0)) != 0)
+	if (cid != (WORD)-1 && ServiceExists(MS_UTILS_GETCOUNTRYBYNUMBER) && (szCountryName = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, cid, 0)) != nullptr)
 	{
 		if (mir_strcmp(szCountryName, "Unknown") == 0)
-			return 0;
+			return nullptr;
 		a2t(szCountryName, buff, bufflen);
 		buff[bufflen - 1] = 0;
 		return buff;
 	}
-	return 0;
+	return nullptr;
 }
 
 wchar_t *DwordToIp(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
@@ -207,7 +207,7 @@ wchar_t *DwordToIp(MCONTACT hContact, const char *szModuleName, const char *szSe
 		mir_snwprintf(buff, bufflen, L"%u.%u.%u.%u", ipc[3], ipc[2], ipc[1], ipc[0]);
 		return buff;
 	}
-	return 0;
+	return nullptr;
 }
 
 bool GetInt(const DBVARIANT &dbv, int *iVal) 
@@ -271,7 +271,7 @@ wchar_t *DayMonthYearToDate(MCONTACT hContact, const char *szModuleName, const c
 		else 
 			db_free(&dbv);
 	}
-	return 0;
+	return nullptr;
 }
 
 wchar_t *DayMonthYearToAge(MCONTACT hContact, const char *szModuleName, const char *szPrefix, wchar_t *buff, int bufflen) 
@@ -320,7 +320,7 @@ wchar_t *DayMonthYearToAge(MCONTACT hContact, const char *szModuleName, const ch
 		else
 			db_free(&dbv);
 	}
-	return 0;
+	return nullptr;
 }
 
 wchar_t *HoursMinutesSecondsToTime(MCONTACT hContact, const char *szModuleName, const char *szPrefix, wchar_t *buff, int bufflen) 
@@ -354,7 +354,7 @@ wchar_t *HoursMinutesSecondsToTime(MCONTACT hContact, const char *szModuleName, 
 					st.wMinute = minutes;
 					st.wSecond = seconds;
 
-					GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, 0, buff, bufflen); 
+					GetTimeFormat(LOCALE_USER_DEFAULT, 0, &st, nullptr, buff, bufflen); 
 					return buff;
 				} 
 				else
@@ -364,7 +364,7 @@ wchar_t *HoursMinutesSecondsToTime(MCONTACT hContact, const char *szModuleName, 
 		else
 			db_free(&dbv);
 	}
-	return 0;
+	return nullptr;
 }
 
 wchar_t *HoursMinutesToTime(MCONTACT hContact, const char *szModuleName, const char *szPrefix, wchar_t *buff, int bufflen) 
@@ -390,7 +390,7 @@ wchar_t *HoursMinutesToTime(MCONTACT hContact, const char *szModuleName, const c
 					st.wHour = hours;
 					st.wMinute = minutes;
 
-					GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, 0, buff, bufflen); 
+					GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, nullptr, buff, bufflen); 
 					return buff;
 				} 
 				else
@@ -400,7 +400,7 @@ wchar_t *HoursMinutesToTime(MCONTACT hContact, const char *szModuleName, const c
 		else
 			db_free(&dbv);
 	}
-	return 0;
+	return nullptr;
 }
 
 wchar_t *DmyToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szPrefix, wchar_t *buff, int bufflen) 
@@ -502,7 +502,7 @@ wchar_t *DmyToTimeDifference(MCONTACT hContact, const char *szModuleName, const 
 		else
 			db_free(&dbv);
 	}
-	return 0;
+	return nullptr;
 }
 
 wchar_t *DayMonthToDaysToNextBirthday(MCONTACT hContact, const char *szModuleName, const char *szPrefix, wchar_t *buff, int bufflen) 
@@ -523,7 +523,7 @@ wchar_t *DayMonthToDaysToNextBirthday(MCONTACT hContact, const char *szModuleNam
 				if (GetInt(dbv, &month)) 
 				{
 					db_free(&dbv);
-					time_t now = time(NULL);
+					time_t now = time(nullptr);
 					struct tm *ti = localtime(&now);
 					int yday_now = ti->tm_yday;
 
@@ -554,7 +554,7 @@ wchar_t *DayMonthToDaysToNextBirthday(MCONTACT hContact, const char *szModuleNam
 			db_free(&dbv);
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 
@@ -579,7 +579,7 @@ wchar_t *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, 
 	   return buff;
 	
 	int status = db_get_b(hContact, szModuleName, "XStatusId", 0);
-	if (!status) return 0;
+	if (!status) return nullptr;
 	
 	if (ProtoServiceExists(szModuleName, PS_GETCUSTOMSTATUSEX))
 	{ 
@@ -588,21 +588,21 @@ wchar_t *EmptyXStatusToDefaultName(MCONTACT hContact, const char *szModuleName, 
 		xstatus.ptszName = szDefaultName;
 		xstatus.wParam = (WPARAM *)&status;
 		if (CallProtoService(szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus))
-		   return 0;
+		   return nullptr;
 		
 		wcsncpy(buff, TranslateW(szDefaultName), bufflen);
 		buff[bufflen - 1] = 0;
 		return buff;
 	} 
 
-	return 0;
+	return nullptr;
 }
 
 wchar_t *TimezoneToTime(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
 {
 	int timezone = db_get_b(hContact,szModuleName,szSettingName,256);
 	if (timezone==256 || (char)timezone==-100) 
-		return 0;
+		return nullptr;
 
 	TIME_ZONE_INFORMATION tzi;
 	FILETIME ft;
@@ -618,7 +618,7 @@ wchar_t *TimezoneToTime(MCONTACT hContact, const char *szModuleName, const char 
 	lift.QuadPart -= (__int64)timezone * BIGI(30) * BIGI(60) * BIGI(10000000);
 	*(__int64*)&ft = lift.QuadPart;
 	FileTimeToSystemTime(&ft, &st);
-	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, NULL, buff, bufflen);
+	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &st, nullptr, buff, bufflen);
 
 	return buff;
 }
@@ -633,7 +633,7 @@ wchar_t *ByteToDay(MCONTACT hContact, const char *szModuleName, const char *szSe
 		return buff;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 wchar_t *ByteToMonth(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
@@ -646,7 +646,7 @@ wchar_t *ByteToMonth(MCONTACT hContact, const char *szModuleName, const char *sz
 		return buff;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 wchar_t *ByteToLanguage(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen) 
@@ -665,7 +665,7 @@ wchar_t *ByteToLanguage(MCONTACT hContact, const char *szModuleName, const char 
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 INT_PTR ServiceAddTranslation(WPARAM, LPARAM lParam) 

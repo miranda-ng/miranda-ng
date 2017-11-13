@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static HGENMENU hMoveToGroupItem = 0, hPriorityItem = 0, hFloatingItem = 0;
+static HGENMENU hMoveToGroupItem = nullptr, hPriorityItem = nullptr, hFloatingItem = nullptr;
 static LIST<HANDLE> lphGroupsItems(5);
 
 #define MTG_MOVE "MoveToGroup/Move"

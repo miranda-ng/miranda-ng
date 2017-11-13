@@ -23,8 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "options.h"
 #include "utils.h"
 
-Manager *manDlg = NULL;
-Manager *Manager::instance = NULL;
+Manager *manDlg = nullptr;
+Manager *Manager::instance = nullptr;
 
 extern Options &opt;
 extern ServerList &ftpList;
@@ -44,15 +44,15 @@ Manager::~Manager()
 	ImageList_Destroy(m_himlStates);
 	DBEntry::cleanupDB();
 
-	instance = NULL;
-	manDlg = NULL;
+	instance = nullptr;
+	manDlg = nullptr;
 }
 
 void Manager::init()
 {
 	ServerList::FTP *ftp = ftpList.getSelected();
 	if (ftp->m_bEnabled) {
-		m_hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DLG_MANAGER), NULL, Manager::ManagerDlgProc);
+		m_hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DLG_MANAGER), nullptr, Manager::ManagerDlgProc);
 		m_hwndFileTree = GetDlgItem(m_hwnd, IDC_FILELIST);
 		initImageList();
 		fillTree();
@@ -91,7 +91,7 @@ void Manager::initImageList()
 
 void Manager::initRootItems()
 {
-	TVINSERTSTRUCT tvi = { 0 };
+	TVINSERTSTRUCT tvi = {};
 	tvi.hInsertAfter = TVI_LAST;
 	tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
@@ -110,7 +110,7 @@ void Manager::fillTree()
 {
 	initRootItems();
 
-	TVINSERTSTRUCT tvi = { 0 };
+	TVINSERTSTRUCT tvi = {};
 	tvi.hInsertAfter = TVI_LAST;
 	tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -119,7 +119,7 @@ void Manager::fillTree()
 	mir_cslock lock(DBEntry::mutexDB);
 
 	DBEntry *entry = DBEntry::getFirst();
-	while (entry != NULL) {
+	while (entry != nullptr) {
 		if ((UINT)entry->m_iFtpNum < m_rootItems.size()) {
 			tvi.item.pszText = mir_a2u(entry->m_szFileName);
 			tvi.hParent = m_rootItems[entry->m_iFtpNum]->m_handle;
@@ -154,7 +154,7 @@ Manager::TreeItem *Manager::getItem(HTREEITEM handle)
 			return m_items[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 Manager::TreeItem::TreeItem(HTREEITEM _handle, HTREEITEM _parent, int _id) :
@@ -214,7 +214,7 @@ void Manager::TreeItem::remove()
 
 bool Manager::TreeItem::isRoot()
 {
-	return (m_parent != NULL) ? false : true;
+	return (m_parent != nullptr) ? false : true;
 }
 
 
@@ -338,7 +338,7 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							if (hMenu) {
 								HMENU hPopupMenu = GetSubMenu(hMenu, 0);
 								TranslateMenu(hPopupMenu);
-								int command = TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+								int command = TrackPopupMenu(hPopupMenu, TPM_LEFTALIGN | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 								switch (command) {
 								case IDM_DELETEFROMLIST:
 									item->remove();
@@ -361,7 +361,7 @@ INT_PTR CALLBACK Manager::ManagerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 										if (command == IDM_COPYLINK)
 											Utils::copyToClipboard(buff);
 										else
-											ShellExecuteA(NULL, "open", buff, NULL, NULL, SW_SHOWNORMAL);
+											ShellExecuteA(nullptr, "open", buff, nullptr, nullptr, SW_SHOWNORMAL);
 									}
 									break;
 								}

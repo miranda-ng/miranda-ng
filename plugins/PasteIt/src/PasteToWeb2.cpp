@@ -103,27 +103,27 @@ void PasteToWeb2::SendToServer(std::wstring str, std::wstring fileName, std::wst
 
 	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
 	error = TranslateT("Error during sending text to web page");
-	if (resCont != NULL)
+	if (resCont != nullptr)
 	{
-		HXML hXml = xmlParseString(resCont, NULL, L"methodResponse");
-		if (hXml != NULL)
+		HXML hXml = xmlParseString(resCont, nullptr, L"methodResponse");
+		if (hXml != nullptr)
 		{
 			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
-			if (node != NULL && !mir_wstrcmp(xmlGetText(node), L"1"))
+			if (node != nullptr && !mir_wstrcmp(xmlGetText(node), L"1"))
 			{
 				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
-				if (node != NULL)
+				if (node != nullptr)
 				{
 					node = xmlGetNthChild(node, L"value", 1);
-					if (node != NULL)
+					if (node != nullptr)
 					{
 						node = xmlGetChildByPath(node, L"string", 0);
-						if (node != NULL)
+						if (node != nullptr)
 						{
 							char* s = mir_u2a_cp(xmlGetText(node), CP_ACP);
 							mir_strncpy(szFileLink, s, _countof(szFileLink));
 							mir_free(s);
-							error = NULL;
+							error = nullptr;
 						}
 					}
 				}
@@ -143,22 +143,22 @@ std::list<PasteFormat> PasteToWeb2::GetFormats()
 	std::wstring content = L"<?xml version=\"1.0\"?>\r\n<methodCall><methodName>types</methodName></methodCall>";
 
 	wchar_t* resCont = SendToWeb("http://wklej.to/api/", headers, content);
-	if (resCont != NULL)
+	if (resCont != nullptr)
 	{
-		HXML hXml = xmlParseString(resCont, NULL, L"methodResponse");
-		if (hXml != NULL)
+		HXML hXml = xmlParseString(resCont, nullptr, L"methodResponse");
+		if (hXml != nullptr)
 		{
 			HXML node = xmlGetChildByPath(hXml, L"params/param/value/array/data/value/int", 0);
-			if (node != NULL && !mir_wstrcmp(xmlGetText(node), L"1"))
+			if (node != nullptr && !mir_wstrcmp(xmlGetText(node), L"1"))
 			{
 				node = xmlGetChildByPath(hXml, L"params/param/value/array/data", 0);
-				if (node != NULL)
+				if (node != nullptr)
 				{
 					node = xmlGetNthChild(node, L"value", 1);
-					if (node != NULL)
+					if (node != nullptr)
 					{
 						node = xmlGetChildByPath(node, L"string", 0);
-						if (node != NULL)
+						if (node != nullptr)
 						{
 							std::wstring str = xmlGetText(node);
 							std::wstring::size_type pos = str.find(L'\n');

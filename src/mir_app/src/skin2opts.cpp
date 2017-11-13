@@ -406,7 +406,7 @@ class CIcoLibOptsDlg : public CDlgBase
 				hItem = FindNamedTreeItemAt(hSection, pItemName);
 				if (!sectionName || !hItem) {
 					if (!hItem) {
-						TVINSERTSTRUCT tvis = { 0 };
+						TVINSERTSTRUCT tvis = {};
 						TreeItem *treeItem = (TreeItem *)mir_alloc(sizeof(TreeItem));
 						treeItem->value = SECTIONPARAM_MAKE(indx, sectionLevel, sectionName ? 0 : SECTIONPARAM_HAVEPAGE);
 						treeItem->paramName = mir_u2a(itemName);
@@ -441,7 +441,7 @@ class CIcoLibOptsDlg : public CDlgBase
 
 		ShowWindow(m_categoryList.GetHwnd(), SW_SHOW);
 
-		m_categoryList.SelectItem(FindNamedTreeItemAt(0, nullptr));
+		m_categoryList.SelectItem(FindNamedTreeItemAt(nullptr, nullptr));
 	}
 
 	int OpenPopupMenu()

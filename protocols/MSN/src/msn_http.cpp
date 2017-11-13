@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static ThreadData* FindThreadConn(HNETLIBCONN hConn)
 {
-	ThreadData *res = NULL;
-	for (int i = 0; i < g_Instances.getCount() && res == NULL; ++i)
+	ThreadData *res = nullptr;
+	for (int i = 0; i < g_Instances.getCount() && res == nullptr; ++i)
 		res = g_Instances[i].MSN_GetThreadByConnection(hConn);
 
 	return res;
@@ -39,7 +39,7 @@ static ThreadData* FindThreadConn(HNETLIBCONN hConn)
 int msn_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST*)
 {
 	NETLIBHTTPPROXYINFO nlhpi = {};
-	nlhpi.szHttpGetUrl = NULL;
+	nlhpi.szHttpGetUrl = nullptr;
 	nlhpi.szHttpPostUrl = "messenger.hotmail.com";
 	nlhpi.flags = NLHPIF_HTTP11;
 	nlhpi.combinePackets = MSN_PACKETS_COMBINE;
@@ -54,7 +54,7 @@ int msn_httpGatewayInit(HNETLIBCONN hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQU
 int msn_httpGatewayWrapSend(HNETLIBCONN hConn, PBYTE buf, int len, int flags)
 {
 	ThreadData *T = FindThreadConn(hConn);
-	if (T != NULL) {
+	if (T != nullptr) {
 		if (T->sessionClosed)
 			return SOCKET_ERROR;
 
@@ -74,14 +74,14 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 	*outBufLen = len;
 
 	ThreadData *T = FindThreadConn(nlhr->nlc);
-	if (T == NULL)
+	if (T == nullptr)
 		return buf;
 
 	bool isSessionClosed = true;
 	bool isMsnPacket = false;
 
 	if (nlhr->resultCode == 200) {
-		char *xMsgr = NULL, *xHost = NULL;
+		char *xMsgr = nullptr, *xHost = nullptr;
 
 		for (int i = 0; i < nlhr->headersCount; i++) {
 			NETLIBHTTPHEADER& tHeader = nlhr->headers[i];
@@ -95,7 +95,7 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 		if (xMsgr) {
 			isMsnPacket = true;
 
-			if (strstr(xMsgr, "Session=close") == 0)
+			if (strstr(xMsgr, "Session=close") == nullptr)
 				isSessionClosed = false;
 
 			T->processSessionData(xMsgr, xHost);
@@ -104,12 +104,12 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 	}
 
 	T->sessionClosed |= isSessionClosed;
-	if (isSessionClosed && buf == NULL) {
+	if (isSessionClosed && buf == nullptr) {
 		*outBufLen = 0;
 		buf = (PBYTE)mir_alloc(1);
 		*buf = 0;
 	}
-	else if (buf == NULL && len == 0) {
+	else if (buf == nullptr && len == 0) {
 		*outBufLen = 1;
 		buf = (PBYTE)mir_alloc(1);
 		*buf = 0;

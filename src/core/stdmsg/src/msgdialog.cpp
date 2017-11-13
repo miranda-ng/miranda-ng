@@ -103,7 +103,7 @@ void CSrmmWindow::OnInitDialog()
 	CSuper::OnInitDialog();
 
 	m_bIsMeta = db_mc_isMeta(m_hContact) != 0;
-	m_hTimeZone = TimeZone_CreateByContact(m_hContact, 0, TZF_KNOWNONLY);
+	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 	m_wMinute = 61;
 
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
@@ -239,9 +239,9 @@ void CSrmmWindow::OnInitDialog()
 	if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_hContact : 0, SRMMMOD, "", flag)) {
 		if (g_dat.bSavePerContact) {
 			if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMMMOD, "", flag | RWPF_NOMOVE))
-				SetWindowPos(m_hwnd, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
+				SetWindowPos(m_hwnd, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 		}
-		else SetWindowPos(m_hwnd, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
+		else SetWindowPos(m_hwnd, nullptr, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 	}
 
 	if (m_bNoActivate) {
@@ -1051,7 +1051,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case DM_NEWTIMEZONE:
-		m_hTimeZone = TimeZone_CreateByContact(m_hContact, 0, TZF_KNOWNONLY);
+		m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 		m_wMinute = 61;
 		Resize();
 		break;
@@ -1063,7 +1063,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			GetWindowRect((HWND)wParam, &rcNew);
 			if (abs(rcThis.left - rcNew.left) < 3 && abs(rcThis.top - rcNew.top) < 3) {
 				int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
-				SetWindowPos((HWND)wParam, 0, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+				SetWindowPos((HWND)wParam, nullptr, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 				*(int *)lParam = 1;
 			}
 		}
@@ -1295,7 +1295,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				ADDCONTACTSTRUCT acs = {};
 				acs.hContact = m_hContact;
 				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = 0;
+				acs.szProto = nullptr;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
 			}
 			if (!db_get_b(m_hContact, "CList", "NotOnList", 0))

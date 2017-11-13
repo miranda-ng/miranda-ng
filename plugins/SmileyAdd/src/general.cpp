@@ -49,7 +49,7 @@ int CalculateTextHeight(HDC hdc, CHARFORMAT2 *chf)
 HICON GetDefaultIcon(bool copy)
 {
 	HICON resIco = IcoLib_GetIcon("SmileyAdd_ButtonSmiley");
-	if (resIco == NULL)
+	if (resIco == nullptr)
 		resIco = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_SMILINGICON), IMAGE_ICON, 0, 0, copy ? 0 : LR_SHARED);
 	else if (copy) {
 		resIco = (HICON)CopyImage(resIco, IMAGE_ICON, 0, 0, 0);
@@ -93,20 +93,20 @@ HICON ImageList_GetIconFixed(HIMAGELIST himl, INT i, UINT fStyle)
 	int cx, cy;
 	ImageList_GetIconSize(himl, &cx, &cy);
 
-	hdcDst = CreateCompatibleDC(NULL);
+	hdcDst = CreateCompatibleDC(nullptr);
 
 	ii.fIcon = TRUE;
 	ii.xHotspot = 0;
 	ii.yHotspot = 0;
 
 	// draw mask
-	ii.hbmMask = CreateBitmap(cx, cy, 1, 1, NULL);
+	ii.hbmMask = CreateBitmap(cx, cy, 1, 1, nullptr);
 	hOldDstBitmap = (HBITMAP)SelectObject(hdcDst, ii.hbmMask);
 	PatBlt(hdcDst, 0, 0, cx, cy, WHITENESS);
 	ImageList_Draw(himl, i, hdcDst, 0, 0, fStyle | ILD_MASK);
 
 	// draw image
-	ii.hbmColor = CreateBitmap(cx, cy, 1, 32, NULL);
+	ii.hbmColor = CreateBitmap(cx, cy, 1, 32, nullptr);
 	SelectObject(hdcDst, ii.hbmColor);
 	PatBlt(hdcDst, 0, 0, cx, cy, BLACKNESS);
 	ImageList_Draw(himl, i, hdcDst, 0, 0, fStyle | ILD_TRANSPARENT);
@@ -136,7 +136,7 @@ void pathToAbsolute(const CMStringW &pSrc, CMStringW &pOut)
 	wchar_t szOutPath[MAX_PATH];
 
 	wchar_t *szVarPath = Utils_ReplaceVarsW(pSrc.c_str());
-	if (szVarPath == (wchar_t*)CALLSERVICE_NOTFOUND || szVarPath == NULL) {
+	if (szVarPath == (wchar_t*)CALLSERVICE_NOTFOUND || szVarPath == nullptr) {
 		wchar_t szExpPath[MAX_PATH];
 		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, _countof(szExpPath));
 		PathToAbsoluteW(szExpPath, szOutPath);
@@ -191,7 +191,7 @@ bool InitGdiPlus(void)
 
 	__try {
 		if (g_gdiplusToken == 0 && !gdiPlusFail)
-			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, NULL);
+			Gdiplus::GdiplusStartup(&g_gdiplusToken, &gdiplusStartupInput, nullptr);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -236,5 +236,5 @@ void ReportError(const wchar_t *errmsg)
 	mir_wstrcpy(pd.lpwzText, errmsg);
 	pd.iSeconds = -1;
 	if (PUAddPopupT(&pd) == CALLSERVICE_NOTFOUND)
-		MessageBox(NULL, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);
+		MessageBox(nullptr, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);
 }

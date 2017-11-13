@@ -21,12 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static HGENMENU ghMenuItem = NULL;
+static HGENMENU ghMenuItem = nullptr;
 static HANDLE ghExtraIconDef = INVALID_HANDLE_VALUE;
 static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook = NULL;
-static HANDLE hApplyIconHook = NULL;
+static HANDLE hChangedHook = nullptr;
+static HANDLE hApplyIconHook = nullptr;
 
 bool g_eiHome = false;
 
@@ -44,7 +44,7 @@ static LPSTR Get(MCONTACT hContact)
 	// ignore owner
 	if (hContact != NULL) {
 		LPCSTR pszProto = Proto_GetBaseAccountName(hContact);
-		if (pszProto != NULL) {
+		if (pszProto != nullptr) {
 			LPCSTR e[2] = { SET_CONTACT_HOMEPAGE, SET_CONTACT_COMPANY_HOMEPAGE };
 			for (int i = 0; i < 2; i++) {
 				LPSTR pszHomepage = DB::Setting::GetAStringEx(hContact, USERINFO, pszProto, e[i]);
@@ -53,7 +53,7 @@ static LPSTR Get(MCONTACT hContact)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -93,7 +93,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 {
 	LPSTR val = Get(hContact);
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE)
-		ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, (val) ? ICO_BTN_GOTO : NULL);
+		ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, (val) ? ICO_BTN_GOTO : nullptr);
 	MIR_FREE(val);
 	return 0;
 }
@@ -128,7 +128,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 static int OnPreBuildMenu(WPARAM wParam, LPARAM)
 {
 	LPSTR val = Get(wParam);
-	Menu_ShowItem(ghMenuItem, val != 0);
+	Menu_ShowItem(ghMenuItem, val != nullptr);
 	mir_free(val);
 	return 0;
 }
@@ -146,7 +146,7 @@ static int OnPreBuildMenu(WPARAM wParam, LPARAM)
 
 void SvcHomepageRebuildMenu()
 {
-	static HANDLE hPrebuildMenuHook = NULL;
+	static HANDLE hPrebuildMenuHook = nullptr;
 
 	if (!hPrebuildMenuHook)
 		hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildMenu);
@@ -182,10 +182,10 @@ bool SvcHomepageEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (g_eiHome) {
 		// hook events
-		if (hChangedHook == NULL) 
+		if (hChangedHook == nullptr) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
-		if (hApplyIconHook == NULL) 
+		if (hApplyIconHook == nullptr) 
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
@@ -194,11 +194,11 @@ bool SvcHomepageEnableExtraIcons(bool bEnable, bool bUpdateDB)
 	else {
 		if (hChangedHook) {
 			UnhookEvent(hChangedHook); 
-			hChangedHook = NULL;
+			hChangedHook = nullptr;
 		}			
 		if (hApplyIconHook) {
 			UnhookEvent(hApplyIconHook); 
-			hApplyIconHook = NULL;
+			hApplyIconHook = nullptr;
 		}			
 	}
 	return bChanged;
@@ -227,6 +227,6 @@ void SvcHomepageLoadModule()
 void SvcHomepageUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook); hChangedHook = NULL;
-	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
+	UnhookEvent(hChangedHook); hChangedHook = nullptr;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = nullptr;
 }

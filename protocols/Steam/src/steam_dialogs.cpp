@@ -20,7 +20,7 @@ void CSteamPasswordEditor::OnInitDialog()
 
 void CSteamPasswordEditor::OnOk(CCtrlButton*)
 {
-	if (m_proto->password != NULL)
+	if (m_proto->password != nullptr)
 		mir_free(m_proto->password);
 	m_proto->password = m_password.GetText();
 	if (m_savePermanently.Enabled())
@@ -117,7 +117,7 @@ const char* CSteamTwoFactorDialog::GetTwoFactorCode()
 CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage, int captchaImageSize)
 	: CSteamDlgBase(proto, IDD_CAPTCHA, false),
 	m_ok(this, IDOK), m_text(this, IDC_TEXT),
-	m_captchaImage(NULL)
+	m_captchaImage(nullptr)
 {
 	memset(m_captchaText, 0, sizeof(m_captchaText));
 	m_captchaImageSize = captchaImageSize;
@@ -158,14 +158,14 @@ INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_PAINT)
 	{
-		FI_INTERFACE *fei = 0;
+		FI_INTERFACE *fei = nullptr;
 
 		INT_PTR result = CALLSERVICE_NOTFOUND;
 		if (ServiceExists(MS_IMG_GETINTERFACE))
 			result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 
-		if (fei == NULL || result != S_OK) {
-			MessageBox(0, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar Service"), MB_OK);
+		if (fei == nullptr || result != S_OK) {
+			MessageBox(nullptr, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar Service"), MB_OK);
 			return 0;
 		}
 

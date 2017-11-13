@@ -168,7 +168,7 @@ int CheckMsgWnd(MCONTACT hContact)
 {
 	MessageWindowData mwd;
 	if (!Srmm_GetWindowData(hContact, mwd))
-		if (mwd.hwndWindow != NULL && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
+		if (mwd.hwndWindow != nullptr && (mwd.uState & MSG_WINDOW_STATE_EXISTS))
 			return 1;
 
 	return 0;

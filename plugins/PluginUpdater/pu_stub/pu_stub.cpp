@@ -38,19 +38,19 @@ int CreateDirectoryTreeW(const WCHAR* szDir)
 		return 0;
 
 	WCHAR *pszLastBackslash = wcsrchr(szTestDir, '\\');
-	if (pszLastBackslash == NULL)
+	if (pszLastBackslash == nullptr)
 		return 0;
 
 	*pszLastBackslash = '\0';
 	CreateDirectoryTreeW(szTestDir);
 	*pszLastBackslash = '\\';
-	return (CreateDirectoryW(szTestDir, NULL) == 0) ? GetLastError() : 0;
+	return (CreateDirectoryW(szTestDir, nullptr) == 0) ? GetLastError() : 0;
 }
 
 void CreatePathToFileW(WCHAR* wszFilePath)
 {
 	WCHAR* pszLastBackslash = wcsrchr(wszFilePath, '\\');
-	if (pszLastBackslash == NULL)
+	if (pszLastBackslash == nullptr)
 		return;
 
 	*pszLastBackslash = '\0';
@@ -70,7 +70,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
 	swprintf_s(tszPipeName, L"\\\\.\\pipe\\Miranda_Pu_%s", lpCmdLine);
 	#endif
 	log(L"Opening pipe %s...", tszPipeName);
-	HANDLE hPipe = CreateFile(tszPipeName, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+	HANDLE hPipe = CreateFile(tszPipeName, GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (hPipe == INVALID_HANDLE_VALUE) {
 		dwError = GetLastError();
 		log(L"Failed to open a pipe: error %d", dwError);
@@ -81,7 +81,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
 
 	BYTE szReadBuffer[1024] = { 0 };
 	DWORD dwBytes;
-	while (ReadFile(hPipe, szReadBuffer, sizeof(szReadBuffer), &dwBytes, NULL)) {
+	while (ReadFile(hPipe, szReadBuffer, sizeof(szReadBuffer), &dwBytes, nullptr)) {
 		DWORD dwAction = *(DWORD*)szReadBuffer;
 		wchar_t *ptszFile1 = (wchar_t*)(szReadBuffer + sizeof(DWORD));
 		wchar_t *ptszFile2 = ptszFile1 + wcslen(ptszFile1) + 1;
@@ -117,7 +117,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
 			dwError = ERROR_UNKNOWN_FEATURE;
 		}
 
-		WriteFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, NULL);
+		WriteFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr);
 	}
 
 	dwError = GetLastError();

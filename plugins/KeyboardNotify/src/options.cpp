@@ -93,7 +93,7 @@ void importThemes(const wchar_t *filename, BOOL overrideExisting)
 	size_t i;
 	wchar_t buffer[MAX_PATH + 1], theme[MAX_PATH + 1], *str;
 
-	while (fgetws(buffer, MAX_PATH, fImport) != NULL) {
+	while (fgetws(buffer, MAX_PATH, fImport) != nullptr) {
 		for (str = buffer; *str && isspace(*str); str++); //ltrim
 		if (!*str || *str == ';') //empty line or comment
 			continue;
@@ -125,7 +125,7 @@ static void createProcessListAux(void)
 	else
 		for (int i = 0; i < ProcessListAux.count; i++)
 			if (!ProcessList.szFileName[i])
-				ProcessListAux.szFileName[i] = NULL;
+				ProcessListAux.szFileName[i] = nullptr;
 			else {
 				ProcessListAux.szFileName[i] = mir_wstrdup(ProcessList.szFileName[i]);
 			}
@@ -134,7 +134,7 @@ static void createProcessListAux(void)
 
 static void destroyProcessListAux(void)
 {
-	if (ProcessListAux.szFileName == NULL)
+	if (ProcessListAux.szFileName == nullptr)
 		return;
 	for (int i = 0; i < ProcessListAux.count; i++) {
 		if (ProcessListAux.szFileName[i]) {
@@ -143,7 +143,7 @@ static void destroyProcessListAux(void)
 	}
 	mir_free(ProcessListAux.szFileName);
 	ProcessListAux.count = 0;
-	ProcessListAux.szFileName = NULL;
+	ProcessListAux.szFileName = nullptr;
 }
 
 static void createXstatusListAux(void)
@@ -153,7 +153,7 @@ static void createXstatusListAux(void)
 		for (int i = 0; i < ProtoList.protoCount; i++) {
 			XstatusListAux[i].count = ProtoList.protoInfo[i].xstatus.count;
 			if (!XstatusListAux[i].count)
-				XstatusListAux[i].enabled = NULL;
+				XstatusListAux[i].enabled = nullptr;
 			else {
 				XstatusListAux[i].enabled = (BOOL *)mir_alloc(XstatusListAux[i].count * sizeof(BOOL));
 				if (!XstatusListAux[i].enabled)
@@ -173,7 +173,7 @@ static void destroyXstatusListAux(void)
 			if (XstatusListAux[i].enabled)
 				mir_free(XstatusListAux[i].enabled);
 		mir_free(XstatusListAux);
-		XstatusListAux = NULL;
+		XstatusListAux = nullptr;
 	}
 
 }
@@ -286,7 +286,7 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 		TranslateDialogDefault(hwndDlg);
 		{
 			WPARAM j;
-			TVINSERTSTRUCT tvis = { 0 };
+			TVINSERTSTRUCT tvis = {};
 			TVITEM tvi = { 0 };
 			HTREEITEM hSectionItem, hItem;
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_TREE_XSTATUS);
@@ -304,7 +304,7 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 			HIMAGELIST hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, imageCount, imageCount);
 			TreeView_SetImageList(hwndTree, hImageList, TVSIL_NORMAL);
 
-			HICON hIconAux = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0);
+			HICON hIconAux = (HICON)LoadImage(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0);
 			if (hIconAux) {
 				ImageList_AddIcon(hImageList, hIconAux);
 				DestroyIcon(hIconAux);
@@ -320,7 +320,7 @@ static INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam
 					PROTOACCOUNT **protos;
 					Proto_EnumAccounts(&count, &protos);
 
-					tvis.hParent = NULL;
+					tvis.hParent = nullptr;
 					tvis.hInsertAfter = TVI_LAST;
 					tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 					tvis.item.pszText = protos[i]->tszAccountName;
@@ -1161,7 +1161,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				path[0] = '\0';
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
-				ofn.hInstance = NULL;
+				ofn.hInstance = nullptr;
 				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
 				mir_wstrcat(filter, L" (*.knt)");
 				pfilter = filter + mir_wstrlen(filter) + 1;
@@ -1189,7 +1189,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 				path[0] = '\0';
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
-				ofn.hInstance = NULL;
+				ofn.hInstance = nullptr;
 				mir_wstrcpy(filter, TranslateT("Keyboard Notify Theme"));
 				mir_wstrcat(filter, L" (*.knt)");
 				pfilter = filter + mir_wstrlen(filter) + 1;

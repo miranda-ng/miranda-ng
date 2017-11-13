@@ -59,7 +59,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	InitServices();
 	InitMusic();

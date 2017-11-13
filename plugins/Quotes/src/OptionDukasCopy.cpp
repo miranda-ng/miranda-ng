@@ -42,7 +42,7 @@ bool add_quote_to_tree(const CQuotesProviderDukasCopy::CQuote& q, HWND hwndTree,
 		::PostMessage(hDlg, TREE_VIEW_CHECK_STATE_CHANGE, MAKEWPARAM(0, TCBS_CHECKED), reinterpret_cast<LPARAM>(hti));
 	}
 
-	return (NULL != hti && bChecked);
+	return (nullptr != hti && bChecked);
 }
 
 void add_section_to_tree(const CQuotesProviderDukasCopy::CQuoteSection& qs,
@@ -220,7 +220,7 @@ CQuotesProviderDukasCopy* get_dukas_copy_provider()
 	}
 
 	assert(!"We should never get here!");
-	return NULL;
+	return nullptr;
 }
 
 INT_PTR CALLBACK EconomicRatesDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)

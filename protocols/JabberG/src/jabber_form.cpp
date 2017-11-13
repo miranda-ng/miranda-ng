@@ -156,7 +156,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 	}
 	deltaHeight += rcText.bottom - rcText.top;
 
-	SetWindowPos(GetDlgItem(hwndForm, IDC_INSTRUCTION), 0, 0, 0,
+	SetWindowPos(GetDlgItem(hwndForm, IDC_INSTRUCTION), nullptr, 0, 0,
 		oldWidth,
 		rcText.bottom - rcText.top,
 		SWP_NOMOVE | SWP_NOZORDER);
@@ -164,7 +164,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 	GetWindowRect(GetDlgItem(hwndForm, IDC_WHITERECT), &rcText);
 	MapWindowPoints(nullptr, hwndForm, (LPPOINT)&rcText, 2);
 	rcText.bottom += deltaHeight;
-	SetWindowPos(GetDlgItem(hwndForm, IDC_WHITERECT), 0, 0, 0,
+	SetWindowPos(GetDlgItem(hwndForm, IDC_WHITERECT), nullptr, 0, 0,
 		rcText.right - rcText.left,
 		rcText.bottom - rcText.top,
 		SWP_NOMOVE | SWP_NOZORDER);
@@ -172,7 +172,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 	GetWindowRect(GetDlgItem(hwndForm, IDC_FRAME1), &rcText);
 	MapWindowPoints(nullptr, hwndForm, (LPPOINT)&rcText, 2);
 	rcText.top += deltaHeight;
-	SetWindowPos(GetDlgItem(hwndForm, IDC_FRAME1), 0,
+	SetWindowPos(GetDlgItem(hwndForm, IDC_FRAME1), nullptr,
 		rcText.left,
 		rcText.top,
 		0, 0,
@@ -181,7 +181,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 	GetWindowRect(GetDlgItem(hwndForm, IDC_FRAME), &rcText);
 	MapWindowPoints(nullptr, hwndForm, (LPPOINT)&rcText, 2);
 	rcText.top += deltaHeight;
-	SetWindowPos(GetDlgItem(hwndForm, IDC_FRAME), 0,
+	SetWindowPos(GetDlgItem(hwndForm, IDC_FRAME), nullptr,
 		rcText.left,
 		rcText.top,
 		rcText.right - rcText.left,
@@ -191,7 +191,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 	GetWindowRect(GetDlgItem(hwndForm, IDC_VSCROLL), &rcText);
 	MapWindowPoints(nullptr, hwndForm, (LPPOINT)&rcText, 2);
 	rcText.top += deltaHeight;
-	SetWindowPos(GetDlgItem(hwndForm, IDC_VSCROLL), 0,
+	SetWindowPos(GetDlgItem(hwndForm, IDC_VSCROLL), nullptr,
 		rcText.left,
 		rcText.top,
 		rcText.right - rcText.left,
@@ -268,9 +268,9 @@ void JabberFormLayoutSingleControl(TJabberFormControlInfo *item, TJabberFormLayo
 	}
 
 	if (item->hLabel)
-		SetWindowPos(item->hLabel, 0, 0, 0, rcLabel.right - rcLabel.left, rcLabel.bottom - rcLabel.top, SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(item->hLabel, nullptr, 0, 0, rcLabel.right - rcLabel.left, rcLabel.bottom - rcLabel.top, SWP_NOZORDER | SWP_NOMOVE);
 	if (item->hCtrl)
-		SetWindowPos(item->hCtrl, 0, 0, 0, rcCtrl.right - rcCtrl.left, rcCtrl.bottom - rcCtrl.top, SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(item->hCtrl, nullptr, 0, 0, rcCtrl.right - rcCtrl.left, rcCtrl.bottom - rcCtrl.top, SWP_NOZORDER | SWP_NOMOVE);
 
 	item->ptLabel.x = rcLabel.left;
 	item->ptLabel.y = rcLabel.top;
@@ -396,11 +396,11 @@ void JabberFormLayoutControls(HWND hwndStatic, TJabberFormLayoutInfo *layout_inf
 
 	for (int i = 0; i < controls->getCount(); i++) {
 		if ((*controls)[i]->hLabel)
-			SetWindowPos((*controls)[i]->hLabel, 0,
+			SetWindowPos((*controls)[i]->hLabel, nullptr,
 			layout_info->offset + (*controls)[i]->ptLabel.x, layout_info->y_pos + (*controls)[i]->ptLabel.y, 0, 0,
 			SWP_NOZORDER | SWP_NOSIZE);
 		if ((*controls)[i]->hCtrl)
-			SetWindowPos((*controls)[i]->hCtrl, 0,
+			SetWindowPos((*controls)[i]->hCtrl, nullptr,
 			layout_info->offset + (*controls)[i]->ptCtrl.x, layout_info->y_pos + (*controls)[i]->ptCtrl.y, 0, 0,
 			SWP_NOZORDER | SWP_NOSIZE);
 

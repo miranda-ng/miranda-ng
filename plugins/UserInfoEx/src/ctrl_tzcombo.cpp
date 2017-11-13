@@ -40,7 +40,7 @@ CBaseCtrl* CTzCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 		//set the adress of our timezone handle as itemdata
 		//caller can obtain the handle htz to extract all relevant information
 		ctrl->_curSel = 0;
-		TimeZone_PrepareList(NULL, NULL, hCtrl, TZF_PLF_CB);
+		TimeZone_PrepareList(NULL, nullptr, hCtrl, TZF_PLF_CB);
 	}
 	return (ctrl);
 }
@@ -133,7 +133,7 @@ void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 		const char* pszModule = hContact ? USERINFO : pszProto;
 		if (_Flags.B.hasCustom || !hContact) {
 			//use new core tz interface
-			TimeZone_StoreListResult(hContact, NULL, _hwnd, TZF_PLF_CB);
+			TimeZone_StoreListResult(hContact, nullptr, _hwnd, TZF_PLF_CB);
 			if (!hContact) {
 				_Flags.B.hasCustom = false;
 				_Flags.B.hasProto = true;
@@ -150,7 +150,7 @@ void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
 			_Flags.B.hasChanged = false;
 			OnInfoChanged(hContact, pszProto);
 		}
-		InvalidateRect(_hwnd, NULL, TRUE);
+		InvalidateRect(_hwnd, nullptr, TRUE);
 	}
 }
 

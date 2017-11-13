@@ -62,11 +62,11 @@ int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 			while (HWND hwndParent = GetParent(hwndRoot))
 				hwndRoot = hwndParent;
 
-			AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(), NULL), GetCurrentThreadId(), TRUE);
+			AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(), nullptr), GetCurrentThreadId(), TRUE);
 			SetForegroundWindow(hwndRoot);
 			SetActiveWindow(hwndRoot);
 			SetFocus(hwndRoot);
-			AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(), NULL), GetCurrentThreadId(), FALSE);
+			AttachThreadInput(GetWindowThreadProcessId(GetForegroundWindow(), nullptr), GetCurrentThreadId(), FALSE);
 		}
 
 		hContactToActivate = NULL;
@@ -112,7 +112,7 @@ static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 
 int ProcessTBLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.pszTooltipUp = ttb.name = LPGEN("Favorite Contacts");
 	ttb.pszService = MS_FAVCONTACTS_SHOWMENU;
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;

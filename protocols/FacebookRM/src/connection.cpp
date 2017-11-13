@@ -40,13 +40,13 @@ void FacebookProto::ChangeStatus(void*)
 		Netlib_Shutdown(facy.hChannelCon);
 		if (facy.hChannelCon)
 			Netlib_CloseHandle(facy.hChannelCon);
-		facy.hChannelCon = NULL;
+		facy.hChannelCon = nullptr;
 
 		// Shutdown and close messages handle
 		Netlib_Shutdown(facy.hMessagesCon);
 		if (facy.hMessagesCon)
 			Netlib_CloseHandle(facy.hMessagesCon);
-		facy.hMessagesCon = NULL;
+		facy.hMessagesCon = nullptr;
 
 		// Turn off chat on Facebook
 		if (getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))
@@ -84,7 +84,7 @@ void FacebookProto::ChangeStatus(void*)
 		// Close connection handle
 		if (facy.hFcbCon)
 			Netlib_CloseHandle(facy.hFcbCon);
-		facy.hFcbCon = NULL;
+		facy.hFcbCon = nullptr;
 
 		m_iStatus = facy.self_.status_id = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -115,38 +115,38 @@ void FacebookProto::ChangeStatus(void*)
 		if (NegotiateConnection() && facy.home() && facy.reconnect())
 		{
 			// Load all friends
-			ProcessFriendList(NULL);
+			ProcessFriendList(nullptr);
 
 			// Process friendship requests
-			ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
+			ForkThread(&FacebookProto::ProcessFriendRequests, nullptr);
 
 			// Get unread messages
-			ForkThread(&FacebookProto::ProcessUnreadMessages, NULL);
+			ForkThread(&FacebookProto::ProcessUnreadMessages, nullptr);
 
 			// Get notifications
 			if (getByte(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-				ForkThread(&FacebookProto::ProcessNotifications, NULL);
+				ForkThread(&FacebookProto::ProcessNotifications, nullptr);
 
 			// Load pages for post status dialog
-			ForkThread(&FacebookProto::ProcessPages, NULL);
+			ForkThread(&FacebookProto::ProcessPages, nullptr);
 
 			// Load on this day posts
 			if (getByte(FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE))
-				ForkThread(&FacebookProto::ProcessMemories, NULL);
+				ForkThread(&FacebookProto::ProcessMemories, nullptr);
 
-			setDword(FACEBOOK_KEY_LOGON_TS, (DWORD)time(NULL));
-			ForkThread(&FacebookProto::UpdateLoop, NULL);
-			ForkThread(&FacebookProto::MessageLoop, NULL);
+			setDword(FACEBOOK_KEY_LOGON_TS, (DWORD)time(nullptr));
+			ForkThread(&FacebookProto::UpdateLoop, nullptr);
+			ForkThread(&FacebookProto::MessageLoop, nullptr);
 
 			if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
-				ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
+				ForkThread(&FacebookProto::SetAwayMsgWorker, nullptr);
 		}
 		else {
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
 
 			if (facy.hFcbCon)
 				Netlib_CloseHandle(facy.hFcbCon);
-			facy.hFcbCon = NULL;
+			facy.hFcbCon = nullptr;
 
 			facy.clear_cookies();
 
@@ -181,7 +181,7 @@ void FacebookProto::ChangeStatus(void*)
 	bool isAwayOrInvisible = (new_status == ID_STATUS_AWAY || new_status == ID_STATUS_INVISIBLE);
 	if (!wasAwayOrInvisible && isAwayOrInvisible) {
 		// Switching from "not-away" to "away" state, remember timestamp of this change (and if we are idle already, use the idle time)
-		m_awayTS = (m_idleTS > 0 ? m_idleTS : ::time(NULL));
+		m_awayTS = (m_idleTS > 0 ? m_idleTS : ::time(nullptr));
 	}
 	else if (wasAwayOrInvisible && !isAwayOrInvisible) {
 		// Switching from "away" to "not-away" state, reset the timestamp
@@ -217,7 +217,7 @@ bool FacebookProto::NegotiateConnection()
 	password = mir_utf8encode(password);
 
 	// Refresh last time of feeds update
-	facy.last_feeds_update_ = ::time(NULL);
+	facy.last_feeds_update_ = ::time(nullptr);
 
 	// Generate random clientid for this connection
 	facy.chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef", &facy.random_);
@@ -231,14 +231,14 @@ bool FacebookProto::NegotiateConnection()
 
 void FacebookProto::UpdateLoop(void *)
 {
-	time_t tim = ::time(NULL);
+	time_t tim = ::time(nullptr);
 	debugLogA(">>> Entering Facebook::UpdateLoop[%d]", tim);
 
 	for (int i = -1; !isOffline(); i = (i + 1) % 50)
 	{
 		if (i != -1) {
 			if (getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
-				ProcessFeeds(NULL);
+				ProcessFeeds(nullptr);
 		}
 
 		debugLogA("*** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
@@ -253,7 +253,7 @@ void FacebookProto::UpdateLoop(void *)
 
 void FacebookProto::MessageLoop(void *)
 {
-	time_t tim = ::time(NULL);
+	time_t tim = ::time(nullptr);
 	debugLogA(">>> Entering Facebook::MessageLoop[%d]", tim);
 
 	while (facy.channel())
@@ -262,7 +262,7 @@ void FacebookProto::MessageLoop(void *)
 			break;
 
 		// If we're not idle, send activity_ping every few minutes...
-		if (!m_idleTS && (::time(NULL) - m_pingTS) > FACEBOOK_PING_TIME) {
+		if (!m_idleTS && (::time(nullptr) - m_pingTS) > FACEBOOK_PING_TIME) {
 			debugLogA("*** FacebookProto::MessageLoop[%d] pinging...", tim);
 			facy.activity_ping();
 		}

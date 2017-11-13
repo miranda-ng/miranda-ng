@@ -62,7 +62,7 @@ MUUID* GetPluginInterfaces(const wchar_t* ptszFileName, bool& bIsPlugin)
 			if (ptr == nullptr)
 				__leave;
 
-			PIMAGE_NT_HEADERS pINTH = { 0 };
+			PIMAGE_NT_HEADERS pINTH = {};
 			PIMAGE_DOS_HEADER pIDH = (PIMAGE_DOS_HEADER)ptr;
 			if ( pIDH->e_magic == IMAGE_DOS_SIGNATURE )
 				pINTH = (PIMAGE_NT_HEADERS)(ptr + pIDH->e_lfanew);

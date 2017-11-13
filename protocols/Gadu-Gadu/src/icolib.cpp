@@ -58,7 +58,8 @@ HANDLE GetIconHandle(int iconId)
 	for(int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
-	return NULL;
+
+	return nullptr;
 }
 
 void ReleaseIconEx(const char* name, bool big)

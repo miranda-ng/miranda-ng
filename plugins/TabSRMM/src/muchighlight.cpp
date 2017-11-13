@@ -32,12 +32,12 @@ void CMUCHighlight::cleanup()
 {
 	mir_free(m_NickPatternString);
 	mir_free(m_TextPatternString);
-	m_TextPatternString = m_NickPatternString = 0;
+	m_TextPatternString = m_NickPatternString = nullptr;
 
 	mir_free(m_NickPatterns);
 	mir_free(m_TextPatterns);
 	m_iNickPatterns = m_iTextPatterns = 0;
-	m_NickPatterns = m_TextPatterns = 0;
+	m_NickPatterns = m_TextPatterns = nullptr;
 }
 
 void CMUCHighlight::init()
@@ -67,7 +67,7 @@ void CMUCHighlight::init()
 
 void CMUCHighlight::tokenize(wchar_t *tszString, wchar_t**& patterns, UINT& nr)
 {
-	if (tszString == 0)
+	if (tszString == nullptr)
 		return;
 
 	wchar_t	*p = tszString;
@@ -114,17 +114,17 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 {
 	int result = 0, nResult = 0;
 
-	if (pgce == 0 || m_Valid == false)
+	if (pgce == nullptr || m_Valid == false)
 		return false;
 
-	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
+	if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != nullptr) {
 		wchar_t	*p = pci->RemoveFormatting(pgce->ptszText);
 		p = NEWWSTR_ALLOCA(p);
 		if (p == nullptr)
 			return false;
 		CharLower(p);
 
-		wchar_t	*tszMe = ((psi && psi->pMe) ? NEWWSTR_ALLOCA(psi->pMe->pszNick) : 0);
+		wchar_t	*tszMe = ((psi && psi->pMe) ? NEWWSTR_ALLOCA(psi->pMe->pszNick) : nullptr);
 		if (tszMe)
 			CharLower(tszMe);
 
@@ -148,7 +148,7 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 			if (*p1)
 				*p1 = 0;
 			else
-				p1 = 0;
+				p1 = nullptr;
 
 			for (UINT i = 0; i < m_iTextPatterns && !result; i++)
 				result = wildcmpw(p, m_TextPatterns[i]) ? MATCH_TEXT : 0;
@@ -157,7 +157,7 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dw
 				*p1 = ' ';
 				p = p1 + 1;
 			}
-			else p = 0;
+			else p = nullptr;
 		}
 	}
 
@@ -240,7 +240,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 			{
-				wchar_t*	szBuf = 0;
+				wchar_t*	szBuf = nullptr;
 				int iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTNICKPATTERN));
 				if (iLen) {
 					szBuf = reinterpret_cast<wchar_t *>(mir_alloc((iLen + 2) * sizeof(wchar_t)));

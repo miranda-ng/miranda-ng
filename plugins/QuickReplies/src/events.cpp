@@ -78,15 +78,15 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		if (value == nullptr)
 			replyList.insert(mir_wstrdup(L""));
 		else
-			replyList.insert(variables_parsedup(value, 0, wParam));
+			replyList.insert(variables_parsedup(value, nullptr, wParam));
 
 		if (!mir_wstrcmp(value, L"---"))
-			AppendMenu((HMENU)hMenu, MF_SEPARATOR, i + 1, NULL);
+			AppendMenu((HMENU)hMenu, MF_SEPARATOR, i + 1, nullptr);
 		else
 			AppendMenu((HMENU)hMenu, MF_STRING, i + 1, replyList[i]);
 	}
 
-	int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
+	int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, nullptr);
 	if (index > 0) {
 		if (mir_wstrcmp(replyList[index - 1], L"")) {
 			CallService(MS_MSG_SENDMESSAGEW, cbcd->hContact, (LPARAM)replyList[index - 1]);

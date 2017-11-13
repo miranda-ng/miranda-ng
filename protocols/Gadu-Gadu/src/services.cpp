@@ -38,7 +38,7 @@ char *gg_status2db(int status, const char *suffix)
 		case ID_STATUS_INVISIBLE:  prefix = "Inv"; break;
 		case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
 		case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
-		default: return NULL;
+		default: return nullptr;
 	}
 
 	static char str[64];
@@ -95,11 +95,11 @@ int GGPROTO::refreshstatus(int status)
 		debugLogA("refreshstatus(): Waiting pth_sess thread - OK");
 		debugLogA("refreshstatus(): ForkThreadEx 21 GGPROTO::mainthread");
 #endif
-		pth_sess.hThread = ForkThreadEx(&GGPROTO::mainthread, NULL, &pth_sess.dwThreadId);
+		pth_sess.hThread = ForkThreadEx(&GGPROTO::mainthread, nullptr, &pth_sess.dwThreadId);
 	}
 	else
 	{
-		wchar_t *szMsg = NULL;
+		wchar_t *szMsg = nullptr;
 		// Select proper msg
 		gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 69, "modemsg_mutex", 1);
 		szMsg = getstatusmsg(status);
@@ -118,7 +118,7 @@ int GGPROTO::refreshstatus(int status)
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 71, 1, "sess_mutex", 1);
 		}
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
-		changecontactstatus( getDword(GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
+		changecontactstatus( getDword(GG_KEY_UIN, 0), status_m2gg(status, szMsg != nullptr), szMsg, 0, 0, 0, 0);
 		broadcastnewstatus(status);
 	}
 
@@ -212,7 +212,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 
 	pai->format = getByte(pai->hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
-	ptrA AvatarHash(NULL);
+	ptrA AvatarHash(nullptr);
 	ptrA AvatarURL( getStringA(pai->hContact, GG_KEY_AVATARURL));
 	ptrA AvatarTs( getStringA(pai->hContact, GG_KEY_AVATARTS));
 	if (AvatarURL != NULL && AvatarTs != NULL) {
@@ -287,7 +287,7 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 	wchar_t *szFilename = (wchar_t*)wParam;
 	int len = (int)lParam;
 
-	if (szFilename == NULL || len <= 0) {
+	if (szFilename == nullptr || len <= 0) {
 		debugLogA("getmyavatar(): Incoming request for self avatar information. szFilename == NULL. return -1 (error)");
 		return -1;
 	}
@@ -319,8 +319,8 @@ INT_PTR GGPROTO::setmyavatar(WPARAM, LPARAM lParam)
 	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
 		return -2;
 
-	if (szFilename == NULL) {
-		MessageBox(NULL, 
+	if (szFilename == nullptr) {
+		MessageBox(nullptr, 
 			TranslateT("To remove your Gadu-Gadu avatar, you must use the gg.pl website."),
 			m_tszUserName, MB_OK | MB_ICONINFORMATION);
 		return -1;

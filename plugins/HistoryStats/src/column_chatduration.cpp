@@ -5,7 +5,7 @@
  * ColChatDuration
  */
 ColChatDuration::ColChatDuration() : m_nVisMode(3), m_bGraph(true), m_bDetail(true), 
-	m_hVisMode(NULL), m_hGraph(NULL), m_hDetail(NULL), m_nMaxForGraph(0)
+	m_hVisMode(nullptr), m_hGraph(nullptr), m_hDetail(nullptr), m_nMaxForGraph(0)
 {
 }
 
@@ -37,7 +37,7 @@ void ColChatDuration::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup
 	OptionsCtrl::Item hTemp;
 
 	hTemp         = Opt.insertGroup(hGroup, TranslateT("Chat duration type"));
-		m_hVisMode = Opt.insertRadio(hTemp, NULL, TranslateT("Minimum"));
+		m_hVisMode = Opt.insertRadio(hTemp, nullptr, TranslateT("Minimum"));
 		             Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Average"));
 		             Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Maximum"));
 		             Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Total (sum of all chats)"));
@@ -217,7 +217,7 @@ void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const Contact& con
 				HDC hDC = canvas.beginDraw();
 
 				SetBkColor(hDC, con::ColorBar);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 0, barW, 15), NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, utils::rect(0, 0, barW, 15), nullptr, 0, nullptr);
 
 				canvas.endDraw();
 

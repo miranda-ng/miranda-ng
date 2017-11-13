@@ -20,11 +20,11 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 HANDLE hExtraIcon;
-static HGENMENU hMainMenuGroup = NULL;
+static HGENMENU hMainMenuGroup = nullptr;
 static HANDLE hListeningInfoChangedEvent;
 static HANDLE hEnableStateChangedEvent;
 
-static HANDLE hTTB = NULL;
+static HANDLE hTTB = nullptr;
 BOOL loaded = FALSE;
 static UINT hTimer = 0;
 static DWORD lastInfoSetTime = 0;
@@ -45,7 +45,7 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam);
 bool    ListeningToEnabled(char *proto, bool ignoreGlobal = false);
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(WPARAM wParam, LPARAM lParam);
-INT_PTR EnableListeningTo(char *proto = NULL, bool enabled = false);
+INT_PTR EnableListeningTo(char *proto = nullptr, bool enabled = false);
 INT_PTR GetTextFormat(WPARAM wParam, LPARAM lParam);
 wchar_t*  GetParsedFormat(LISTENINGTOINFO *lti);
 INT_PTR GetParsedFormat(WPARAM wParam, LPARAM lParam);
@@ -53,7 +53,7 @@ INT_PTR GetOverrideContactOption(WPARAM wParam, LPARAM lParam);
 INT_PTR GetUnknownText(WPARAM wParam, LPARAM lParam);
 INT_PTR SetNewSong(WPARAM wParam, LPARAM lParam);
 void    SetExtraIcon(MCONTACT hContact, BOOL set);
-void    SetListeningInfos(LISTENINGTOINFO *lti = NULL);
+void    SetListeningInfos(LISTENINGTOINFO *lti = nullptr);
 INT_PTR HotkeysEnable(WPARAM wParam, LPARAM lParam);
 INT_PTR HotkeysDisable(WPARAM wParam, LPARAM lParam);
 INT_PTR HotkeysToggle(WPARAM wParam, LPARAM lParam);
@@ -62,12 +62,12 @@ INT_PTR HotkeysToggle(WPARAM wParam, LPARAM lParam);
 
 void UpdateGlobalStatusMenus()
 {
-	bool enabled = ListeningToEnabled(NULL, true);
+	bool enabled = ListeningToEnabled(nullptr, true);
 
 	Menu_SetChecked(proto_items[0].hMenu, enabled);
 	Menu_EnableItem(proto_items[0].hMenu, opts.enable_sending);
 
-	if (hTTB != NULL)
+	if (hTTB != nullptr)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTB, (LPARAM)(enabled ? TTBST_PUSHED : 0));
 }
 
@@ -88,7 +88,7 @@ void RebuildMenu()
 	for (unsigned int i = 1; i < proto_items.size(); i++) {
 		ProtocolInfo *info = &proto_items[i];
 
-		if (info->hMenu != NULL)
+		if (info->hMenu != nullptr)
 			Menu_RemoveItem(info->hMenu);
 
 		wchar_t text[512];
@@ -124,7 +124,7 @@ void RegisterProtocol(char *proto, wchar_t *account)
 
 	mir_wstrncpy(proto_items[id].account, account, _countof(proto_items[id].account));
 
-	proto_items[id].hMenu = NULL;
+	proto_items[id].hMenu = nullptr;
 	proto_items[id].old_xstatus = 0;
 	proto_items[id].old_xstatus_name[0] = '\0';
 	proto_items[id].old_xstatus_message[0] = '\0';
@@ -134,11 +134,11 @@ void RegisterProtocol(char *proto, wchar_t *account)
 int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *proto = (PROTOACCOUNT *)lParam;
-	if (proto == NULL)
+	if (proto == nullptr)
 		return 0;
 
 	ProtocolInfo *info = GetProtoInfo(proto->szModuleName);
-	if (info != NULL) {
+	if (info != nullptr) {
 		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED) {
 			mir_wstrncpy(info->account, proto->tszAccountName, _countof(info->account));
 
@@ -180,10 +180,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char *proto = GetContactProto(hContact);
-		if (proto != NULL) {
+		if (proto != nullptr) {
 			DBVARIANT dbv;
 			if (!db_get_ws(hContact, proto, "ListeningTo", &dbv)) {
-				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
+				if (dbv.ptszVal != nullptr && dbv.ptszVal[0] != 0)
 					SetExtraIcon(hContact, TRUE);
 
 				db_free(&dbv);
@@ -203,13 +203,13 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.root = hMainMenuGroup;
 	mi.position = 0;
 	mi.pszService = MS_LISTENINGTO_MAINMENU;
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 
 	// Add all protos
 	SET_UID(mi, 0xc396a9dd, 0x9a00, 0x46af, 0x96, 0x2e, 0x5, 0x5a, 0xbc, 0x52, 0xfc, 0x9b);
 	mi.name.w = LPGENW("Send to all protocols");
 	mi.flags = CMIF_UNICODE
-		| (ListeningToEnabled(NULL, true) ? CMIF_CHECKED : 0)
+		| (ListeningToEnabled(nullptr, true) ? CMIF_CHECKED : 0)
 		| (opts.enable_sending ? 0 : CMIF_GRAYED);
 	proto_items.resize(1);
 	proto_items[0].hMenu = Menu_AddMainMenuItem(&mi);
@@ -325,7 +325,7 @@ int PreShutdown(WPARAM, LPARAM)
 	loaded = FALSE;
 
 	if (hTimer != NULL) {
-		KillTimer(NULL, hTimer);
+		KillTimer(nullptr, hTimer);
 		hTimer = NULL;
 	}
 
@@ -338,18 +338,18 @@ int PreShutdown(WPARAM, LPARAM)
 
 static INT_PTR TopToolBarClick(WPARAM, LPARAM)
 {
-	EnableListeningTo(NULL, !ListeningToEnabled(NULL, true));
+	EnableListeningTo(nullptr, !ListeningToEnabled(nullptr, true));
 	return 0;
 }
 
 // Toptoolbar hook to put an icon in the toolbar
 int TopToolBarLoaded(WPARAM, LPARAM)
 {
-	BOOL enabled = ListeningToEnabled(NULL, true);
+	BOOL enabled = ListeningToEnabled(nullptr, true);
 
 	CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick);
 
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconHandleDn = iconList[0].hIcolib;
 	ttb.hIconHandleUp = iconList[1].hIcolib;
 	ttb.pszService = MS_LISTENINGTO_TTB;
@@ -378,7 +378,7 @@ bool ListeningToEnabled(char *proto, bool ignoreGlobal)
 	if (!ignoreGlobal && !opts.enable_sending)
 		return FALSE;
 
-	if (proto == NULL || proto[0] == 0) {
+	if (proto == nullptr || proto[0] == 0) {
 		// Check all protocols
 		for (unsigned int i = 1; i < proto_items.size(); ++i)
 			if (!ListeningToEnabled(proto_items[i].proto, TRUE))
@@ -406,7 +406,7 @@ ProtocolInfo* GetProtoInfo(char *proto)
 		if (mir_strcmp(proto, proto_items[i].proto) == 0)
 			return &proto_items[i];
 
-	return NULL;
+	return nullptr;
 }
 
 static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **variables, int numVariables)
@@ -433,7 +433,7 @@ static void ReplaceVars(Buffer<wchar_t> *buffer, MCONTACT hContact, wchar_t **va
 				}
 				else if (foundLen == 6 && wcsncmp(&buffer->str[j], L"%date%", 6) == 0) {
 					wchar_t tmp[128];
-					TimeZone_ToStringT(time(NULL), L"d s", tmp, _countof(tmp));
+					TimeZone_ToStringT(time(nullptr), L"d s", tmp, _countof(tmp));
 					buffer->replace(j, i + 1, tmp);
 				}
 				else {
@@ -462,8 +462,8 @@ void ReplaceTemplate(Buffer<wchar_t> *out, MCONTACT hContact, wchar_t *templ, wc
 {
 
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
-		wchar_t *tmp = variables_parse_ex(templ, NULL, hContact, vars, numVars);
-		if (tmp != NULL) {
+		wchar_t *tmp = variables_parse_ex(templ, nullptr, hContact, vars, numVars);
+		if (tmp != nullptr) {
 			out->append(tmp);
 			mir_free(tmp);
 			out->pack();
@@ -476,9 +476,9 @@ void ReplaceTemplate(Buffer<wchar_t> *out, MCONTACT hContact, wchar_t *templ, wc
 	out->pack();
 }
 
-void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
+void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = nullptr)
 {
-	if (proto == NULL || !ListeningToEnabled(proto))
+	if (proto == nullptr || !ListeningToEnabled(proto))
 		return;
 
 	if (ProtoServiceExists(proto, PS_SET_LISTENINGTO))
@@ -494,13 +494,13 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 		ics.status = &status;
 
 		// Set or reset?
-		if (lti == NULL) {
+		if (lti == nullptr) {
 			// Reset -> only if is still in music xstatus
 			ics.flags = CSSF_MASK_STATUS;
 			if (CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics) || status != XSTATUS_MUSIC) {
 				if (opts.xstatus_set == SET_XSTATUS) {
 					ProtocolInfo *pi = GetProtoInfo(proto);
-					if (pi != NULL) {
+					if (pi != nullptr) {
 						pi->old_xstatus = 0;
 						pi->old_xstatus_name[0] = '\0';
 						pi->old_xstatus_message[0] = '\0';
@@ -535,7 +535,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			else {
 				// Set to old text
 				ProtocolInfo *pi = GetProtoInfo(proto);
-				if (pi != NULL) {
+				if (pi != nullptr) {
 					ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 					ics.status = &pi->old_xstatus;
 					ics.ptszName = pi->old_xstatus_name;
@@ -548,7 +548,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 
 				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 
-				if (pi != NULL) {
+				if (pi != nullptr) {
 					pi->old_xstatus = 0;
 					pi->old_xstatus_name[0] = '\0';
 					pi->old_xstatus_message[0] = '\0';
@@ -572,7 +572,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				ics.flags = CSSF_MASK_STATUS;
 				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics) && status != XSTATUS_MUSIC) {
 					ProtocolInfo *pi = GetProtoInfo(proto);
-					if (pi != NULL) {
+					if (pi != nullptr) {
 						ics.flags = CSSF_UNICODE | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 						ics.status = &pi->old_xstatus;
 						ics.ptszName = pi->old_xstatus_name;
@@ -614,7 +614,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 	}
 	else if (db_get_b(0, MODULE_NAME, "UseStatusMessage", 1) && ProtoServiceExists(proto, PS_SETAWAYMSG)) {
 		int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
-		if (lti == NULL)
+		if (lti == nullptr)
 			CallProtoService(proto, PS_SETAWAYMSG, status, 0);
 		else {
 			ptrW fr(GetParsedFormat(lti));
@@ -628,7 +628,7 @@ INT_PTR EnableListeningTo(char *proto, bool enabled)
 	if (!loaded)
 		return -1;
 
-	if (proto == NULL || proto[0] == 0) {
+	if (proto == nullptr || proto[0] == 0) {
 		// For all protocols
 		for (unsigned int i = 1; i < proto_items.size(); ++i)
 			EnableListeningTo(proto_items[i].proto, enabled);
@@ -643,11 +643,11 @@ INT_PTR EnableListeningTo(char *proto, bool enabled)
 
 		// Modify menu info
 		ProtocolInfo *info = GetProtoInfo(proto);
-		if (info != NULL) {
+		if (info != nullptr) {
 			Menu_EnableItem(info->hMenu, opts.enable_sending);
 			Menu_SetChecked(info->hMenu, enabled);
 
-			SetListeningInfo(proto, (opts.enable_sending && enabled) ? GetListeningInfo() : NULL);
+			SetListeningInfo(proto, (opts.enable_sending && enabled) ? GetListeningInfo() : nullptr);
 		}
 
 		// Set all protos info
@@ -691,8 +691,8 @@ INT_PTR GetTextFormat(WPARAM, LPARAM)
 
 wchar_t *GetParsedFormat(LISTENINGTOINFO *lti)
 {
-	if (lti == NULL)
-		return NULL;
+	if (lti == nullptr)
+		return nullptr;
 
 	wchar_t *fr[] = {
 		L"artist", UNKNOWN(lti->ptszArtist),
@@ -732,8 +732,8 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 	for (unsigned int i = 1; i < proto_items.size(); ++i)
 		SetListeningInfo(proto_items[i].proto, lti);
 
-	wchar_t *fr = NULL;
-	char *info = NULL;
+	wchar_t *fr = nullptr;
+	char *info = nullptr;
 
 	if (lti) {
 		fr = GetParsedFormat(lti);
@@ -751,14 +751,14 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 static void CALLBACK GetInfoTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	if (hTimer != NULL) {
-		KillTimer(NULL, hTimer);
+		KillTimer(nullptr, hTimer);
 		hTimer = NULL;
 	}
 
 	// Check if we can set it now...
 	DWORD now = GetTickCount();
 	if (now < lastInfoSetTime + MIN_TIME_BEETWEEN_SETS) {
-		hTimer = SetTimer(NULL, NULL, lastInfoSetTime + MIN_TIME_BEETWEEN_SETS - now, GetInfoTimer);
+		hTimer = SetTimer(nullptr, NULL, lastInfoSetTime + MIN_TIME_BEETWEEN_SETS - now, GetInfoTimer);
 		return;
 	}
 	lastInfoSetTime = GetTickCount(); // TODO Move this to inside the if that really sets
@@ -808,11 +808,11 @@ void StartTimer()
 
 	if (want) {
 		if (hTimer == NULL)
-			hTimer = SetTimer(NULL, NULL, opts.time_to_pool * 1000, GetInfoTimer);
+			hTimer = SetTimer(nullptr, NULL, opts.time_to_pool * 1000, GetInfoTimer);
 	}
 	else {
 		if (hTimer != NULL) {
-			KillTimer(NULL, hTimer);
+			KillTimer(nullptr, hTimer);
 			hTimer = NULL;
 
 			// To be sure that no one was left behind
@@ -824,17 +824,17 @@ void StartTimer()
 void HasNewListeningInfo()
 {
 	if (hTimer != NULL) {
-		KillTimer(NULL, hTimer);
+		KillTimer(nullptr, hTimer);
 		hTimer = NULL;
 	}
 
-	hTimer = SetTimer(NULL, NULL, 100, GetInfoTimer);
+	hTimer = SetTimer(nullptr, NULL, 100, GetInfoTimer);
 }
 
 
 void SetExtraIcon(MCONTACT hContact, BOOL set)
 {
-	ExtraIcon_SetIconByName(hExtraIcon, hContact, set ? "listening_to_icon" : NULL);
+	ExtraIcon_SetIconByName(hExtraIcon, hContact, set ? "listening_to_icon" : nullptr);
 }
 
 int SettingChanged(WPARAM hContact, LPARAM lParam)
@@ -847,10 +847,10 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	char *proto = GetContactProto(hContact);
-	if (proto == NULL || strcmp(cws->szModule, proto) != 0)
+	if (proto == nullptr || strcmp(cws->szModule, proto) != 0)
 		return 0;
 
-	if (cws->value.type == DBVT_DELETED || cws->value.ptszVal == NULL || cws->value.ptszVal[0] == 0)
+	if (cws->value.type == DBVT_DELETED || cws->value.ptszVal == nullptr || cws->value.ptszVal[0] == 0)
 		SetExtraIcon(hContact, FALSE);
 	else
 		SetExtraIcon(hContact, TRUE);

@@ -33,13 +33,13 @@ int OnFoldersChanged(WPARAM, LPARAM)
 void EmptyFolder()
 {
 	SHFILEOPSTRUCT file_op = {
-		NULL,
+		nullptr,
 		FO_DELETE,
 		g_tszRoot,
 		L"",
 		FOF_NOERRORUI | FOF_SILENT | FOF_NOCONFIRMATION,
 		false,
-		0,
+		nullptr,
 		L"" };
 	SHFileOperation(&file_op);
 }

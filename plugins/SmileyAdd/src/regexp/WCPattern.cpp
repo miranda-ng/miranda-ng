@@ -64,13 +64,13 @@ static inline int str_icmp(const wchar_t *a, const wchar_t *b)
 
 WCPattern::WCPattern(const CMStringW &rhs)
 {
-	matcher = NULL;
+	matcher = nullptr;
 	pattern = rhs;
 	curInd = 0;
 	groupCount = 0;
 	nonCapGroupCount = 0;
 	error = 0;
-	head = NULL;
+	head = nullptr;
 }
 
 // convenient function in case we want to add any extra debugging output
@@ -165,7 +165,7 @@ bool WCPattern::quantifyCurly(int &sNum, int &eNum)
 
 NFAUNode* WCPattern::quantifyGroup(NFAUNode *start, NFAUNode *stop, const int gn)
 {
-	NFAUNode *newNode = NULL;
+	NFAUNode *newNode = nullptr;
 	int type = 0;
 
 	if (curInd < pattern.GetLength()) {
@@ -218,7 +218,7 @@ NFAUNode* WCPattern::quantifyGroup(NFAUNode *start, NFAUNode *stop, const int gn
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 NFAUNode* WCPattern::quantify(NFAUNode *newNode)
@@ -531,15 +531,15 @@ NFAUNode* WCPattern::parseRegisteredWCPattern(NFAUNode **end)
 {
 	int i, j;
 	CMStringW s;
-	NFAUNode *ret = NULL;
+	NFAUNode *ret = nullptr;
 	for (i = curInd; i < pattern.GetLength() && pattern[i] != '}'; ++i) {}
-	if (pattern[i] != '}') { raiseError(); return NULL; }
-	if (i == curInd + 1) { raiseError(); return NULL; } // {}
+	if (pattern[i] != '}') { raiseError(); return nullptr; }
+	if (i == curInd + 1) { raiseError(); return nullptr; } // {}
 	if (!((pattern[curInd] >= 'a' && pattern[curInd] <= 'z') ||
 		(pattern[curInd] >= 'A' && pattern[curInd] <= 'Z') ||
 		(pattern[curInd] == '_'))) {
 		raiseError();
-		return NULL;
+		return nullptr;
 	}
 
 	for (j = curInd; !error && j < i; ++j) {
@@ -548,7 +548,7 @@ NFAUNode* WCPattern::parseRegisteredWCPattern(NFAUNode **end)
 			(pattern[j] >= '0' && pattern[j] <= '9') ||
 			(pattern[j] == '_'))) {
 			raiseError();
-			return NULL;
+			return nullptr;
 		}
 	}
 	s = pattern.Mid(curInd, i - curInd);
@@ -569,7 +569,7 @@ NFAUNode* WCPattern::parseRegisteredWCPattern(NFAUNode **end)
 		curInd = ci;
 		flags = oflags;
 	}
-	if (error) { *end = ret = NULL; }
+	if (error) { *end = ret = nullptr; }
 	return ret;
 }
 
@@ -620,7 +620,7 @@ NFAUNode* WCPattern::parseQuote()
 }
 NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 {
-	NFAUNode *start, *cur, *next = NULL;
+	NFAUNode *start, *cur, *next = nullptr;
 	CMStringW t;
 	int grc = groupCount++;
 	bool inv, quo;
@@ -642,7 +642,7 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 				while (!done) {
 					if (curInd >= pattern.GetLength()) {
 						raiseError();
-						return NULL;
+						return nullptr;
 					}
 					else if (negate) {
 						switch (pattern[curInd]) {
@@ -658,7 +658,7 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 						case '-':
 						default:
 							raiseError();
-							return NULL;
+							return nullptr;
 						}
 					}
 					else {
@@ -675,7 +675,7 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 							return *end;
 						default:
 							raiseError();
-							return NULL;
+							return nullptr;
 						}
 					}
 					++curInd;
@@ -694,8 +694,8 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 	while (curInd < pattern.GetLength()) {
 		wchar_t ch = pattern[curInd++];
 
-		next = NULL;
-		if (error) return NULL;
+		next = nullptr;
+		if (error) return nullptr;
 		switch (ch) {
 		case '^':
 			if ((flags & WCPattern::MULTILINE_MATCHING) != 0) next = registerNode(new NFAStartOfLineUNode);
@@ -774,7 +774,7 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 				NFAUNode *pEnd, *t1, *t2;
 				t1 = parse(1, 0, &pEnd);
 				if (!t1) raiseError();
-				else if (t1->isGroupHeadNode() && (t2 = quantifyGroup(t1, pEnd, grc)) != NULL) {
+				else if (t1->isGroupHeadNode() && (t2 = quantifyGroup(t1, pEnd, grc)) != nullptr) {
 					cur->next = t2;
 					cur = t2->next;
 				}
@@ -840,7 +840,7 @@ NFAUNode* WCPattern::parse(const bool inParen, const bool inOr, NFAUNode **end)
 	}
 
 	flags = oldFlags;
-	if (error) return NULL;
+	if (error) return nullptr;
 
 	return start;
 }
@@ -861,7 +861,7 @@ WCPattern* WCPattern::compile(const CMStringW &pattern, const unsigned long mode
 		p->head = p->parse(0, 0, &end);
 		if (!p->head) {
 			delete p;
-			p = NULL;
+			p = nullptr;
 		}
 		else {
 			if (!(p->head && p->head->isStartOfInputNode())) {
@@ -873,7 +873,7 @@ WCPattern* WCPattern::compile(const CMStringW &pattern, const unsigned long mode
 		}
 	}
 
-	if (p != NULL)
+	if (p != nullptr)
 		p->matcher = new WCMatcher(p, L"");
 
 	return p;
@@ -881,7 +881,7 @@ WCPattern* WCPattern::compile(const CMStringW &pattern, const unsigned long mode
 
 WCPattern* WCPattern::compileAndKeep(const CMStringW &pattern, const unsigned long mode)
 {
-	WCPattern *ret = NULL;
+	WCPattern *ret = nullptr;
 	std::map<CMStringW, WCPattern*>::iterator it = compiledWCPatterns.find(pattern);
 	if (it != compiledWCPatterns.end())
 		ret = it->second;
@@ -1060,7 +1060,7 @@ WCMatcher *WCPattern::createWCMatcher(const CMStringW &str)
 
 // NFAUNode
 
-NFAUNode::NFAUNode() { next = NULL; }
+NFAUNode::NFAUNode() { next = nullptr; }
 NFAUNode::~NFAUNode() {}
 void NFAUNode::findAllNodes(std::map<NFAUNode*, bool> &soFar)
 {

@@ -167,7 +167,7 @@ BOOL CALLBACK DlgProcItemNewRowOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 		res3->pData = i++;
 		TRACE("*********** Nodes DUMP 1 ***********\n");
 		TraceTreeLevel(RootNode);
-		if (RemoveNode(res1)) res1 = 0;
+		if (RemoveNode(res1)) res1 = nullptr;
 		TRACE("*********** Nodes DUMP 2 ***********\n");
 		TraceTreeLevel(RootNode);
 		//CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, db_get_b(0,"CList","IconHideOnAvatar",SETTING_HIDEICONONAVATAR_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );

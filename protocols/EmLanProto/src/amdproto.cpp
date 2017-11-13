@@ -19,8 +19,8 @@ PLUGININFOEX pluginInfo = {
 	{ 0xe08ce7c4, 0x9eeb, 0x4272, { 0xb5, 0x44, 0xd, 0x32, 0xe1, 0x8d, 0x90, 0xde } }
 };
 
-HINSTANCE g_hInstance = NULL;
-CMLan* g_lan = NULL;
+HINSTANCE g_hInstance = nullptr;
+CMLan* g_lan = nullptr;
 
 int hLangpack;
 bool g_InitOptions = false;
@@ -294,7 +294,7 @@ INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		if ((hwndOwner = GetParent(hwndDlg)) == NULL)
+		if ((hwndOwner = GetParent(hwndDlg)) == nullptr)
 			hwndOwner = GetDesktopWindow();
 
 		GetWindowRect(hwndOwner, &rcOwner);

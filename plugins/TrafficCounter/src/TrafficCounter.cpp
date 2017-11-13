@@ -67,13 +67,13 @@ unsigned short int Traffic_LineHeight;
 wchar_t Traffic_CounterFormat[512];
 wchar_t Traffic_TooltipFormat[512];
 //
-HANDLE Traffic_FrameID = NULL;
+HANDLE Traffic_FrameID = nullptr;
 
 char Traffic_AdditionSpace;
 
-HFONT Traffic_h_font = NULL;
-HMENU TrafficPopupMenu = NULL;
-HGENMENU hTrafficMainMenuItem = NULL;
+HFONT Traffic_h_font = nullptr;
+HMENU TrafficPopupMenu = nullptr;
+HGENMENU hTrafficMainMenuItem = nullptr;
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 //TIME COUNTER
@@ -149,7 +149,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	// Удаляем шрифт.
 	if (Traffic_h_font) {
 		DeleteObject(Traffic_h_font);
-		Traffic_h_font = NULL;
+		Traffic_h_font = nullptr;
 	}
 
 	// Убиваем все рабочие данные.
@@ -167,12 +167,12 @@ int TrafficCounterShutdown(WPARAM, LPARAM)
 	// Удаляем пункт главного меню.
 	if (hTrafficMainMenuItem) {
 		Menu_RemoveItem(hTrafficMainMenuItem);
-		hTrafficMainMenuItem = NULL;
+		hTrafficMainMenuItem = nullptr;
 	}
 	// Удаляем контекстное меню.
 	if (TrafficPopupMenu) {
 		DestroyMenu(TrafficPopupMenu);
-		TrafficPopupMenu = NULL;
+		TrafficPopupMenu = nullptr;
 	}
 	// Разрегистрируем процедуру отрисовки фрейма.
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)TrafficHwnd, (LPARAM)NULL);
@@ -180,7 +180,7 @@ int TrafficCounterShutdown(WPARAM, LPARAM)
 	// Удаляем фрейм.
 	if ((ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME)) && Traffic_FrameID) {
 		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)Traffic_FrameID, 0);
-		Traffic_FrameID = NULL;
+		Traffic_FrameID = nullptr;
 	}
 	return 0;
 }
@@ -378,7 +378,7 @@ int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 	if (GetParent(hwnd) == pcli->hwndContactList)
 		return PaintTrafficCounterWindow(hwnd, hDC);
 	else
-		InvalidateRect(hwnd, NULL, FALSE);
+		InvalidateRect(hwnd, nullptr, FALSE);
 	return 0;
 }
 
@@ -425,7 +425,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 	RGB32BitsBITMAPINFO.bmiHeader.biCompression = BI_RGB;
 	
-	HBITMAP hbmp = CreateDIBSection(NULL, &RGB32BitsBITMAPINFO, DIB_RGB_COLORS, NULL, NULL, 0);
+	HBITMAP hbmp = CreateDIBSection(nullptr, &RGB32BitsBITMAPINFO, DIB_RGB_COLORS, nullptr, nullptr, 0);
 	HBITMAP oldbmp = (HBITMAP)SelectObject(hdc, hbmp);
 
 	HBRUSH b = CreateSolidBrush(Traffic_BkColor);
@@ -791,7 +791,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 		p.x = GET_X_LPARAM(lParam);
 		p.y = GET_Y_LPARAM(lParam);
 		ClientToScreen(hwnd, &p);
-		TrackPopupMenu(TrafficPopupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, p.x, p.y, 0, hwnd, NULL);
+		TrackPopupMenu(TrafficPopupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, p.x, p.y, 0, hwnd, nullptr);
 		break;
 
 	case WM_COMMAND:
@@ -827,7 +827,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 				TooltipShowing = FALSE;
 			}
 			KillTimer(TrafficHwnd, TIMER_TOOLTIP);
-			SetTimer(TrafficHwnd, TIMER_TOOLTIP, CallService(MS_CLC_GETINFOTIPHOVERTIME, 0, 0), 0);
+			SetTimer(TrafficHwnd, TIMER_TOOLTIP, CallService(MS_CLC_GETINFOTIPHOVERTIME, 0, 0), nullptr);
 			break;
 		}
 
@@ -958,7 +958,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 						ti.rcItem.top = TooltipPosition.y - 10;
 						ti.rcItem.bottom = TooltipPosition.y + 10;
 						ti.cbSize = sizeof(ti);
-						TooltipText = variables_parsedup(Traffic_TooltipFormat, NULL, NULL);
+						TooltipText = variables_parsedup(Traffic_TooltipFormat, nullptr, NULL);
 
 						CallService(MS_TIPPER_SHOWTIPW, (WPARAM)TooltipText, (LPARAM)&ti);
 
@@ -989,17 +989,17 @@ void CreateTrafficWindow(HWND hCluiWnd)
 	wcx.cbClsExtra = 0;
 	wcx.cbWndExtra = 0;
 	wcx.hInstance = hInst;
-	wcx.hIcon = NULL;
+	wcx.hIcon = nullptr;
 	wcx.hCursor = LoadCursor(hInst, IDC_ARROW);
-	wcx.hbrBackground = 0;
-	wcx.lpszMenuName = NULL;
+	wcx.hbrBackground = nullptr;
+	wcx.lpszMenuName = nullptr;
 	wcx.lpszClassName = TRAFFIC_COUNTER_WINDOW_CLASS;
-	wcx.hIconSm = NULL;
+	wcx.hIconSm = nullptr;
 	RegisterClassEx(&wcx);
 	TrafficHwnd = CreateWindowEx(WS_EX_TOOLWINDOW, TRAFFIC_COUNTER_WINDOW_CLASS,
 		TRAFFIC_COUNTER_WINDOW_CLASS,
 		WS_CHILDWINDOW | WS_CLIPCHILDREN,
-		0, 0, 0, 0, hCluiWnd, NULL, hInst, NULL);
+		0, 0, 0, 0, hCluiWnd, nullptr, hInst, nullptr);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		// Готовимся создавать фрейм
@@ -1017,14 +1017,14 @@ void CreateTrafficWindow(HWND hCluiWnd)
 	}
 
 	// Создаём таймеры.
-	SetTimer(TrafficHwnd, TIMER_REDRAW, 500, NULL);
+	SetTimer(TrafficHwnd, TIMER_REDRAW, 500, nullptr);
 	UpdateNotifyTimer();
 }
 
 INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM)
 {
 	unOptions.FrameIsVisible = !unOptions.FrameIsVisible;
-	if (Traffic_FrameID == NULL)
+	if (Traffic_FrameID == nullptr)
 		ShowWindow(TrafficHwnd, unOptions.FrameIsVisible ? SW_SHOW : SW_HIDE);
 	else
 		CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)Traffic_FrameID, 0);
@@ -1038,7 +1038,7 @@ void Traffic_AddMainMenuItem(void)
 	CMenuItem mi;
 	SET_UID(mi, 0x7fe75b30, 0x3cf6, 0x4280, 0xb9, 0xd2, 0x88, 0x6b, 0xbb, 0x69, 0xa3, 0x7e);
 	mi.position = -0x7FFFFFFF;
-	mi.hIcolibItem = NULL;
+	mi.hIcolibItem = nullptr;
 	mi.name.a = LPGEN("Toggle traffic counter");
 	mi.pszService = "TrafficCounter/ShowHide";
 
@@ -1051,7 +1051,7 @@ void UpdateNotifyTimer(void)
 	if (!bPopupExists) return;
 
 	if (Traffic_Notify_time_value && unOptions.NotifyByTime)
-		SetTimer(TrafficHwnd, TIMER_NOTIFY_TICK, Traffic_Notify_time_value * 1000 * 60, NULL);
+		SetTimer(TrafficHwnd, TIMER_NOTIFY_TICK, Traffic_Notify_time_value * 1000 * 60, nullptr);
 	else
 		KillTimer(TrafficHwnd, TIMER_NOTIFY_TICK);
 }
@@ -1067,7 +1067,7 @@ void NotifyOnSend(void)
 	mir_snwprintf(ppd.lptzText, TranslateT("%d kilobytes sent"), notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
-	ppd.PluginWindowProc = NULL;
+	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
 	PUAddPopupT(&ppd);
 }
@@ -1083,7 +1083,7 @@ void NotifyOnRecv(void)
 	mir_snwprintf(ppd.lptzText, TranslateT("%d kilobytes received"), notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
-	ppd.PluginWindowProc = NULL;
+	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
 	PUAddPopupT(&ppd);
 }
@@ -1179,7 +1179,7 @@ int UpdateFonts(WPARAM, LPARAM)
 
 void UpdateTrafficWindowSize(void)
 {
-	if (Traffic_FrameID != NULL)
+	if (Traffic_FrameID != nullptr)
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, Traffic_FrameID), TrafficWindowHeight());
 }
 

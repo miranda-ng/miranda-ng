@@ -105,8 +105,8 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 
 	int Order = (FieldDat->bHidden) ? -1 : FieldDat->Order;
 
-	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (LPCTSTR)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, nullptr, hInst, 0);
-	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (LPCTSTR)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, nullptr, hInst, 0);
+	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (LPCTSTR)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, nullptr, hInst, nullptr);
+	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (LPCTSTR)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, nullptr, hInst, nullptr);
 	SendMessage(hwndLabel, WM_SETFONT, (WPARAM)hFont, 0);
 	SendMessage(hwndVar, WM_SETFONT, (WPARAM)hFont, 0);
 	if (!FieldDat->bHidden) {
@@ -719,7 +719,7 @@ HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 			return CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, JabberSearchAdvancedDlgProc, (LPARAM)this);
 	}
 
-	return 0; // Failure
+	return nullptr; // Failure
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -728,15 +728,15 @@ HWND __cdecl CJabberProto::CreateExtendedSearchUI(HWND parent)
 HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 {
 	if (!m_bJabberOnline || !hwndDlg)
-		return 0;	//error
+		return nullptr;	//error
 
 	JabberSearchData * dat = (JabberSearchData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (!dat)
-		return 0; //error
+		return nullptr; //error
 
 	// check if server connected (at least one field exists)
 	if (dat->nJSInfCount == 0)
-		return 0;
+		return nullptr;
 
 	// formating request
 	BOOL fRequestNotEmpty = FALSE;
@@ -776,5 +776,5 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 		m_ThreadInfo->send(iq);
 		return (HWND)pInfo->GetIqId();
 	}
-	return 0;
+	return nullptr;
 }

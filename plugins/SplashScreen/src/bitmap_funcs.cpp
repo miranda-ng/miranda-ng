@@ -21,30 +21,30 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 MyBitmap::MyBitmap()
 {
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
-	bitsSave = 0;
+	bitsSave = nullptr;
 }
 
 MyBitmap::MyBitmap(int w, int h)
 {
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
-	bitsSave = 0;
+	bitsSave = nullptr;
 	allocate(w, h);
 }
 
 MyBitmap::MyBitmap(wchar_t *fn)
 {
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
-	bitsSave = 0;
+	bitsSave = nullptr;
 	loadFromFile(fn);
 }
 
@@ -115,7 +115,7 @@ void MyBitmap::restoreAlpha(int x, int y, int w, int h)
 	}
 
 	delete[] bitsSave;
-	bitsSave = 0;
+	bitsSave = nullptr;
 }
 
 void MyBitmap::DrawText(wchar_t *str, int x, int y)
@@ -140,10 +140,10 @@ bool MyBitmap::loadFromFile(wchar_t *fn)
 	}
 
 	BITMAP bm; GetObject(hBmpLoaded, sizeof(bm), &bm);
-	SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, NULL);
+	SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, nullptr);
 
 	SIZE sz;
-	HDC dcTmp = CreateCompatibleDC(0);
+	HDC dcTmp = CreateCompatibleDC(nullptr);
 	GetBitmapDimensionEx(hBmpLoaded, &sz);
 	HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp, hBmpLoaded);
 
@@ -180,8 +180,8 @@ void MyBitmap::allocate(int w, int h)
 		DeleteDC(dcBmp);
 	}
 
-	hBmp = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void**)&bits, 0, 0);
-	dcBmp = CreateCompatibleDC(0);
+	hBmp = (HBITMAP)CreateDIBSection(nullptr, &bi, DIB_RGB_COLORS, (void**)&bits, nullptr, 0);
+	dcBmp = CreateCompatibleDC(nullptr);
 	hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmp);
 }
 
@@ -190,9 +190,9 @@ void MyBitmap::free()
 	DeleteObject(SelectObject(dcBmp, hBmpSave));
 	DeleteDC(dcBmp);
 
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
 }
 

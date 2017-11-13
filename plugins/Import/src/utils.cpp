@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CreateGroup(const wchar_t *group, MCONTACT hContact)
 {
-	if (group == NULL)
+	if (group == nullptr)
 		return 0;
 
 	if (Clist_GroupExists(group)) {
@@ -201,7 +201,7 @@ HICON GetIcon(int iIconId, bool size)
 		if (iconList[i].defIconID == iIconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, size);
 
-	return NULL;
+	return nullptr;
 }
 
 HANDLE GetIconHandle(int iIconId)
@@ -210,7 +210,7 @@ HANDLE GetIconHandle(int iIconId)
 		if (iconList[i].defIconID == iIconId)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 void RegisterIcons()

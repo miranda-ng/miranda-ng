@@ -68,7 +68,7 @@ static void PU_CleanUp()
 static void CheckForRemoveMask()
 {
 	if (!M.GetByte(MODULE, "firsttime", 0) && (nen_options.maskActL & MASK_REMOVE || nen_options.maskActR & MASK_REMOVE || nen_options.maskActTE & MASK_REMOVE)) {
-		MessageBox(0, TranslateT("One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behavior, please review the 'Event notifications' settings page."), TranslateT("TabSRMM warning message"), MB_OK | MB_ICONSTOP);
+		MessageBox(nullptr, TranslateT("One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behavior, please review the 'Event notifications' settings page."), TranslateT("TabSRMM warning message"), MB_OK | MB_ICONSTOP);
 		db_set_b(0, MODULE, "firsttime", 1);
 	}
 }
@@ -153,10 +153,10 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			TreeViewInit(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, 0, TRUE);
 
 			if (!PluginConfig.g_bPopupAvail) {
-				HWND	hwndChild = FindWindowEx(hWnd, 0, 0, 0);
+				HWND	hwndChild = FindWindowEx(hWnd, nullptr, nullptr, nullptr);
 				while (hwndChild) {
 					ShowWindow(hwndChild, SW_HIDE);
-					hwndChild = FindWindowEx(hWnd, hwndChild, 0, 0);
+					hwndChild = FindWindowEx(hWnd, hwndChild, nullptr, nullptr);
 				}
 				Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_SHOW);
 			}
@@ -373,7 +373,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		break;
 	case UM_FREEPLUGINDATA:
 		pdata->hContact = 0;								// mark as removeable
-		pdata->hWnd = 0;
+		pdata->hWnd = nullptr;
 		return TRUE;
 	case UM_INITPOPUP:
 		pdata->hWnd = hWnd;
@@ -456,7 +456,7 @@ static wchar_t* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 
 			if (dbe->cbBlob > 5) { // min valid size = (sizeof(DWORD) + 1 character file name + terminating 0)
 				char* szFileName = (char *)dbe->pBlob + sizeof(DWORD);
-				char* szDescr = 0;
+				char* szDescr = nullptr;
 				size_t namelength = Utils::safe_strlen(szFileName, dbe->cbBlob - sizeof(DWORD));
 
 				if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
@@ -655,7 +655,7 @@ static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions)
 // bForced is used to only update the status, nickname etc. and does NOT update the unread count
 void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 {
-	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->m_hContact == 0)
+	if (PluginConfig.g_hMenuTrayUnread == nullptr || dat->m_hContact == 0)
 		return;
 
 	MENUITEMINFO mii = { 0 };
@@ -663,7 +663,7 @@ void TSAPI UpdateTrayMenuState(CTabBaseDlg *dat, BOOL bForced)
 	mii.fMask = MIIM_DATA | MIIM_BITMAP;
 
 	const wchar_t *tszProto = dat->m_cache->getRealAccount();
-	assert(tszProto != 0);
+	assert(tszProto != nullptr);
 
 	GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->m_hContact, FALSE, &mii);
 	if (!bForced)
@@ -690,8 +690,8 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 		return 0;
 
 	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
-	wchar_t *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
-	if (tszFinalProto == 0)
+	wchar_t *tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : nullptr);
+	if (tszFinalProto == nullptr)
 		return 0;
 
 	WORD wMyStatus = (wStatus == 0) ? db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) : wStatus;
@@ -705,7 +705,7 @@ int TSAPI UpdateTrayMenu(const CTabBaseDlg *dat, WORD wStatus, const char *szPro
 
 	wchar_t	szMenuEntry[80];
 	const wchar_t *szNick = nullptr;
-	if (dat != 0) {
+	if (dat != nullptr) {
 		szNick = dat->m_cache->getNick();
 		GetMenuItemInfo(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, FALSE, &mii);
 		mii.dwItemData++;
@@ -773,7 +773,7 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 	if (nen_options.bNoRSS && szProto != nullptr && !strncmp(szProto, "RSS", 3))
 		return 0;                                        // filter out RSS popups
 
-	if (windowOpen && pContainer != 0) {               // message window is open, need to check the container config if we want to see a popup nonetheless
+	if (windowOpen && pContainer != nullptr) {               // message window is open, need to check the container config if we want to see a popup nonetheless
 		if (nen_options.bWindowCheck && windowOpen)                  // no popups at all for open windows... no exceptions
 			return 0;
 		if (pContainer->dwFlags & CNT_DONTREPORT && (IsIconic(pContainer->m_hwnd)))        // in tray counts as "minimised"
@@ -798,9 +798,9 @@ passed:
 
 	if (PU_GetByContact(hContact) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
 		if (PopupUpdateT(hContact, hDbEvent) != 0)
-			PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->m_hwnd : 0);
+			PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->m_hwnd : nullptr);
 	}
-	else PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->m_hwnd : 0);
+	else PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->m_hwnd : nullptr);
 
 	return 0;
 }
@@ -811,10 +811,10 @@ void TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask)
 	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_bPopupAvail)
 		return;
 
-	PLUGIN_DATAT *_T = 0;
-	while ((_T = PU_GetByContact(hContact)) != 0) {
+	PLUGIN_DATAT *_T = nullptr;
+	while ((_T = PU_GetByContact(hContact)) != nullptr) {
 		_T->hContact = 0;									// make sure, it never "comes back"
-		if (_T->hWnd != 0)
+		if (_T->hWnd != nullptr)
 			PUDeletePopup(_T->hWnd);
 	}
 }

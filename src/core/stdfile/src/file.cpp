@@ -46,7 +46,7 @@ static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
 {
 	struct FileSendData fsd;
 	fsd.hContact = hContact;
-	fsd.ppFiles = NULL;
+	fsd.ppFiles = nullptr;
 	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 }
 
@@ -57,13 +57,13 @@ static INT_PTR SendSpecificFiles(WPARAM hContact, LPARAM lParam)
 
 	char** ppFiles = (char**)lParam;
 	int count = 0;
-	while (ppFiles[count] != NULL)
+	while (ppFiles[count] != nullptr)
 		count++;
 
 	fsd.ppFiles = (const wchar_t**)alloca((count + 1) * sizeof(void*));
 	for (int i = 0; i < count; i++)
 		fsd.ppFiles[i] = mir_a2u(ppFiles[i]);
-	fsd.ppFiles[count] = NULL;
+	fsd.ppFiles[count] = nullptr;
 
 	HWND hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	for (int j = 0; j < count; j++)
@@ -141,7 +141,7 @@ int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *sz
 	if (RegOpenKeyEx(hKeyBase, szSubKey, 0, KEY_QUERY_VALUE, &hKey) != ERROR_SUCCESS)
 		return 0;
 
-	if (RegQueryValueEx(hKey, szValue, NULL, NULL, (PBYTE)szOutput, &cbOut) != ERROR_SUCCESS) {
+	if (RegQueryValueEx(hKey, szValue, nullptr, nullptr, (PBYTE)szOutput, &cbOut) != ERROR_SUCCESS) {
 		RegCloseKey(hKey);
 		return 0;
 	}
@@ -175,20 +175,20 @@ void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unit
 // Tripple redirection sucks but is needed to nullify the array pointer
 void FreeFilesMatrix(wchar_t ***files)
 {
-	if (*files == NULL)
+	if (*files == nullptr)
 		return;
 
 	// Free each filename in the pointer array
 	wchar_t **pFile = *files;
-	while (*pFile != NULL) {
+	while (*pFile != nullptr) {
 		mir_free(*pFile);
-		*pFile = NULL;
+		*pFile = nullptr;
 		pFile++;
 	}
 
 	// Free the array itself
 	mir_free(*files);
-	*files = NULL;
+	*files = nullptr;
 }
 
 void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts)
@@ -222,7 +222,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	if (dest->totalFiles != src->totalFiles) {
 		for (int i = 0; i < dest->totalFiles; i++) mir_free(dest->ptszFiles[i]);
 		mir_free(dest->ptszFiles);
-		dest->ptszFiles = NULL;
+		dest->ptszFiles = nullptr;
 		dest->totalFiles = src->totalFiles;
 	}
 	if (src->ptszFiles) {
@@ -234,14 +234,14 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 				if (src->ptszFiles[i])
 					dest->ptszFiles[i] = PFTS_StringToTchar(src->flags, src->ptszFiles[i]);
 				else
-					dest->ptszFiles[i] = NULL;
+					dest->ptszFiles[i] = nullptr;
 			}
 	}
 	else if (dest->ptszFiles) {
 		for (int i = 0; i < dest->totalFiles; i++)
 			mir_free(dest->ptszFiles[i]);
 		mir_free(dest->ptszFiles);
-		dest->ptszFiles = NULL;
+		dest->ptszFiles = nullptr;
 	}
 
 	dest->currentFileNumber = src->currentFileNumber;
@@ -252,7 +252,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 		if (src->tszWorkingDir)
 			dest->tszWorkingDir = PFTS_StringToTchar(src->flags, src->tszWorkingDir);
 		else
-			dest->tszWorkingDir = NULL;
+			dest->tszWorkingDir = nullptr;
 	}
 
 	if (!dest->tszCurrentFile || !src->tszCurrentFile || PFTS_CompareWithTchar(src, src->tszCurrentFile, dest->tszCurrentFile)) {
@@ -260,7 +260,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 		if (src->tszCurrentFile)
 			dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
 		else
-			dest->tszCurrentFile = NULL;
+			dest->tszCurrentFile = nullptr;
 	}
 	dest->currentFileSize = src->currentFileSize;
 	dest->currentFileProgress = src->currentFileProgress;
@@ -287,7 +287,7 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 {
 	bool bEnabled = false;
 	char *szProto = GetContactProto(wParam);
-	if (szProto != NULL) {
+	if (szProto != nullptr) {
 		bool isChat = db_get_b(wParam, szProto, "ChatRoom", false) != 0;
 		if (CallProtoService(szProto, PS_GETCAPS, isChat ? PFLAGNUM_4 : PFLAGNUM_1, 0) & (isChat ? PF4_GROUPCHATFILES : PF1_FILESEND)) {
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
@@ -338,7 +338,7 @@ INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 {
 	wchar_t szContRecDir[MAX_PATH];
 	GetContactReceivedFilesDir(hContact, szContRecDir, _countof(szContRecDir), TRUE);
-	ShellExecute(0, L"open", szContRecDir, 0, 0, SW_SHOW);
+	ShellExecute(nullptr, L"open", szContRecDir, nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 
@@ -346,7 +346,7 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 {
 	wchar_t szContRecDir[MAX_PATH];
 	GetReceivedFilesDir(szContRecDir, _countof(szContRecDir));
-	ShellExecute(0, L"open", szContRecDir, 0, 0, SW_SHOW);
+	ShellExecute(nullptr, L"open", szContRecDir, nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 
@@ -389,7 +389,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 
 	dbei.cbBlob += (int)mir_strlen(szDescr) + 1;
 
-	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == 0)
+	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == nullptr)
 		return 0;
 
 	*(DWORD*)dbei.pBlob = 0;
@@ -401,7 +401,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 			mir_free(pszFiles[i]);
 	}
 
-	mir_strcpy((char*)p, (szDescr == NULL) ? "" : szDescr);
+	mir_strcpy((char*)p, (szDescr == nullptr) ? "" : szDescr);
 	if (bUnicode)
 		mir_free(szDescr);
 

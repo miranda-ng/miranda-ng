@@ -28,15 +28,15 @@ HBITMAP CacheIconToBMP(HICON hIcon, COLORREF backgroundColor, int sizeX, int siz
 	rc.top = rc.left = 0;
 	rc.right = sizeY;
 	rc.bottom = sizeX;
-	HDC hdc = GetDC(0);
+	HDC hdc = GetDC(nullptr);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, sizeY, sizeX);
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 	FillRect(hdcMem, &rc, hBkgBrush);
-	DrawIconEx(hdcMem, 0, 0, hIcon, sizeY, sizeX, 0, NULL, DI_NORMAL);
+	DrawIconEx(hdcMem, 0, 0, hIcon, sizeY, sizeX, 0, nullptr, DI_NORMAL);
 	SelectObject(hdcMem, hoBmp);
 	DeleteDC(hdcMem);
-	ReleaseDC(NULL, hdc);
+	ReleaseDC(nullptr, hdc);
 	DeleteObject(hBkgBrush);
 	return hBmp;
 }
@@ -72,8 +72,8 @@ bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	// Initialize a Storage Object
 	//
 
-	LPLOCKBYTES lpLockBytes = NULL;
-	SCODE sc = ::CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes);
+	LPLOCKBYTES lpLockBytes = nullptr;
+	SCODE sc = ::CreateILockBytesOnHGlobal(nullptr, TRUE, &lpLockBytes);
 	if (sc != S_OK) {
 		pOleClientSite->Release();
 		return false;
@@ -82,7 +82,7 @@ bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	IStorage *pStorage;
 	sc = ::StgCreateDocfileOnILockBytes(lpLockBytes, STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &pStorage);
 	if (sc != S_OK) {
-		lpLockBytes = NULL;
+		lpLockBytes = nullptr;
 		pOleClientSite->Release();
 		return false;
 	}
@@ -90,7 +90,7 @@ bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	//
 	IOleObject *pOleObject;
 	pOleObject = pods->GetOleObject(pOleClientSite, pStorage);
-	if (pOleObject == NULL) {
+	if (pOleObject == nullptr) {
 		pStorage->Release();
 		pOleClientSite->Release();
 		return false;
@@ -142,11 +142,11 @@ void ImageDataObject::SetBitmap(HBITMAP hBitmap)
 	STGMEDIUM stgm;
 	stgm.tymed = TYMED_GDI;                 // Storage medium = HBITMAP handle
 	stgm.hBitmap = hBitmap;
-	stgm.pUnkForRelease = NULL;       // Use ReleaseStgMedium
+	stgm.pUnkForRelease = nullptr;       // Use ReleaseStgMedium
 
 	FORMATETC fm;
 	fm.cfFormat = CF_BITMAP;                // Clipboard format = CF_BITMAP
-	fm.ptd = NULL;                              // Target Device = Screen
+	fm.ptd = nullptr;                              // Target Device = Screen
 	fm.dwAspect = DVASPECT_CONTENT; // Level of detail = Full content
 	fm.lindex = -1;                             // Index = Not applicaple
 	fm.tymed = TYMED_GDI;                     // Storage medium = HBITMAP handle
@@ -160,6 +160,6 @@ IOleObject *ImageDataObject::GetOleObject(IOleClientSite *pOleClientSite, IStora
 	IOleObject *pOleObject;
 	SCODE sc = ::OleCreateStaticFromData(this, IID_IOleObject, OLERENDER_FORMAT, &m_format, pOleClientSite, pStorage, (void **)& pOleObject);
 	if (sc != S_OK)
-		pOleObject = NULL;
+		pOleObject = nullptr;
 	return pOleObject;
 }

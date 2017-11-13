@@ -63,7 +63,7 @@ HANDLE GetIconHandle(int iconId)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 void  ReleaseIconEx(const char* name, bool big)
@@ -155,7 +155,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						TranslateT("Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?"),
 						TranslateT("MSN Protocol"), MB_YESNOCANCEL)) {
 						CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-						proto->MSN_UploadServerGroups(NULL);
+						proto->MSN_UploadServerGroups(nullptr);
 					}
 				}
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -181,7 +181,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					if (szFile[0] == '\"') {
 						char* p = strchr(szFile + 1, '\"');
-						if (p != NULL) {
+						if (p != nullptr) {
 							*p = '\0';
 							memmove(szFile, szFile + 1, mir_strlen(szFile));
 							tSelectLen += 2;
@@ -190,7 +190,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					char* p = strchr(szFile, ' ');
-					if (p != NULL) *p = '\0';
+					if (p != nullptr) *p = '\0';
 LBL_Continue:
 					tSelectLen += mir_strlen(szFile);
 
@@ -203,7 +203,7 @@ LBL_Continue:
 					if (GetOpenFileNameA(&ofn) != TRUE)
 						break;
 
-					if (strchr(szFile, ' ') != NULL) {
+					if (strchr(szFile, ' ') != nullptr) {
 						char tmpBuf[MAX_PATH + 2];
 						mir_snprintf(tmpBuf, "\"%s\"", szFile);
 						mir_strcpy(szFile, tmpBuf);
@@ -375,7 +375,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (proto->getByte("SlowSend", FALSE)) {
 				if (db_get_dw(NULL, "SRMsg", "MessageTimeout", 60000) < 60000 ||
 					db_get_dw(NULL, "SRMM", "MessageTimeout", 60000) < 60000) {
-					MessageBox(NULL, TranslateT("MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value."),
+					MessageBox(nullptr, TranslateT("MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value."),
 						TranslateT("MSN Protocol"), MB_OK | MB_ICONINFORMATION);
 				}
 			}

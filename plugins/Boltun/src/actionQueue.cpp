@@ -37,7 +37,7 @@ typedef struct _QueueElement {
 	ActionHandler Handler;
 	bool Sticky;
 	int TimeOffset;
-	_QueueElement(MCONTACT contact, ActionHandler handler, int timeOffset, const TalkBot::MessageInfo *info = NULL, bool sticky = false)
+	_QueueElement(MCONTACT contact, ActionHandler handler, int timeOffset, const TalkBot::MessageInfo *info = nullptr, bool sticky = false)
 		:hContact(contact), Handler(handler), TimeOffset(timeOffset), inf(info), Sticky(sticky)
 	{
 	}
@@ -66,9 +66,9 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 void UpdateTimer()
 {
 	if (timerID)
-		KillTimer(NULL, timerID);
+		KillTimer(nullptr, timerID);
 	if (actionQueue.size())
-		timerID = SetTimer(NULL, 0, actionQueue.front().TimeOffset, TimerProc);
+		timerID = SetTimer(nullptr, 0, actionQueue.front().TimeOffset, TimerProc);
 	else
 		timerID = 0;
 }
@@ -94,7 +94,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = BOLTUN_NAME;
-	dbei.timestamp = (DWORD)time(NULL);
+	dbei.timestamp = (DWORD)time(nullptr);
 
 	db_event_add(hContact, &dbei);
 	bot->AnswerGiven(hContact, *info);
@@ -148,7 +148,7 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 	if (!actionQueue.empty() && actionQueue.front().hContact == hContact)
 	{
 		needTimerRearrange = true;
-		KillTimer(NULL, timerID);
+		KillTimer(nullptr, timerID);
 	}
 	if (!actionQueue.empty())
 	{
@@ -184,7 +184,7 @@ void DoAnswer(MCONTACT hContact, const TalkBot::MessageInfo *info, bool sticky =
 	if (actionQueue.empty())
 		needTimerRearrange = true;
 	if (thinkTime)
-		actionQueue.push_back(QueueElement(hContact, StartTyping, thinkTime, NULL, sticky));
+		actionQueue.push_back(QueueElement(hContact, StartTyping, thinkTime, nullptr, sticky));
 	actionQueue.push_back(QueueElement(hContact, TimerAnswer, waitTime, info, sticky));
 	if (needTimerRearrange)
 		UpdateTimer();

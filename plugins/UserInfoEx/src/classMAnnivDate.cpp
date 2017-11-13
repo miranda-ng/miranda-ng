@@ -231,7 +231,7 @@ static zodiac[] = {
 	{   1,  19, LPGENW("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
 	{  20,  49, LPGENW("Aquarius"),    ICO_ZOD_AQUARIUS    }, // Wassermann
 	{  50,  79, LPGENW("Pisces"),      ICO_ZOD_PISCES      }, // Fische
-	{   0,	0,	NULL,                  ""                  }  // end of array
+	{   0,	0,	nullptr,                  ""                  }  // end of array
 };
 
 MZodiac MAnnivDate::Zodiac()
@@ -442,7 +442,7 @@ int MAnnivDate::DBGetDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSe
  **/
 int MAnnivDate::DBWriteDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	if (hContact == INVALID_CONTACT_ID || pszModule == 0 || *pszModule	== 0 || pszSetting == 0 || *pszSetting == 0)
+	if (hContact == INVALID_CONTACT_ID || pszModule == nullptr || *pszModule	== 0 || pszSetting == nullptr || *pszSetting == 0)
 		return 1;
 
 	DWORD dwStamp = DateStamp();
@@ -474,7 +474,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 		SetFlags(MADF_HASCUSTOM);
 	}
 	// if pszProto is set to NULL, this will be scaned only incase the birthday date has not been found yet
-	else if (pszProto || (pszProto = Proto_GetBaseAccountName(hContact)) != NULL)
+	else if (pszProto || (pszProto = Proto_GetBaseAccountName(hContact)) != nullptr)
 	{
 		// try to get birthday from basic protocol
 		if (!DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
@@ -487,7 +487,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 			const int def = db_mc_getDefaultNum(hContact);
 			if (def > -1 && def < INT_MAX) {
 				MCONTACT hSubContact = db_mc_getSub(hContact, def);
-				if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) {
+				if (hSubContact != NULL && !DBGetBirthDate(hSubContact, nullptr)) {
 					RemoveFlags(MADF_HASCUSTOM);
 					SetFlags(MADF_HASMETA);
 				}
@@ -501,7 +501,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 					for (int i = 0; i < cnt; i++) {
 						if (i != def) {
 							MCONTACT hSubContact = db_mc_getSub(hContact, i);
-							if (hSubContact != NULL && !DBGetBirthDate(hSubContact, NULL)) {
+							if (hSubContact != NULL && !DBGetBirthDate(hSubContact, nullptr)) {
 								RemoveFlags(MADF_HASCUSTOM);
 								SetFlags(MADF_HASMETA);
 								break;
@@ -692,9 +692,9 @@ static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *p
 		DB::Contact::DisplayName(hContact), szDate, szoldDate);
 
 	MB.cbSize = sizeof(MSGBOX);
-	MB.hParent = NULL;
+	MB.hParent = nullptr;
 	MB.hiLogo = IcoLib_GetIcon(ICO_DLG_ANNIVERSARY);
-	MB.hiMsg = NULL;
+	MB.hiMsg = nullptr;
 	MB.uType = MB_YESALLNO|MB_ICON_QUESTION|MB_INFOBAR|MB_NOPOPUP;
 	MB.ptszTitle = LPGENW("Update custom birthday");
 	MB.ptszInfoText = LPGENW("Keeps your custom birthday up to date.");
@@ -719,7 +719,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 	// This birthday is a protocol based or metasubcontact's anniversary and no custom information exist,
 	// so directly back it up under all circumstances!
 	if ( _wFlags & (MADF_HASPROTO | MADF_HASMETA)) {
-		if (lastAnswer == NULL) {
+		if (lastAnswer == nullptr) {
 			DBWriteDateStamp(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
 			DBWriteBirthDate(hContact);
 		}

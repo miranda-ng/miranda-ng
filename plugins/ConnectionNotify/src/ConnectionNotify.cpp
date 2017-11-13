@@ -4,18 +4,18 @@ HINSTANCE hInst;
 CLIST_INTERFACE *pcli;
 
 //PLUGINLINK *pluginLink=NULL;
-HANDLE hOptInit = NULL;
-static HWND hTimerWnd = (HWND)NULL;
+HANDLE hOptInit = nullptr;
+static HWND hTimerWnd = (HWND)nullptr;
 static UINT TID = (UINT)12021;
 //HANDLE hHookModulesLoaded=NULL;
-HANDLE hCheckEvent = NULL;
-HANDLE hCheckHook = NULL;
-HANDLE hHookModulesLoaded = NULL;
-HANDLE hHookPreShutdown = NULL;
-HANDLE hConnectionCheckThread = NULL;
-HANDLE hFilterOptionsThread = NULL;
-HANDLE killCheckThreadEvent = NULL;
-HANDLE hExceptionsMutex = NULL;
+HANDLE hCheckEvent = nullptr;
+HANDLE hCheckHook = nullptr;
+HANDLE hHookModulesLoaded = nullptr;
+HANDLE hHookPreShutdown = nullptr;
+HANDLE hConnectionCheckThread = nullptr;
+HANDLE hFilterOptionsThread = nullptr;
+HANDLE killCheckThreadEvent = nullptr;
+HANDLE hExceptionsMutex = nullptr;
 //HANDLE hCurrentEditMutex=NULL;
 int hLangpack = 0;
 
@@ -32,11 +32,11 @@ int settingFiltersCount = 0;
 BOOL settingDefaultAction = TRUE;
 WORD settingStatusMask = 0;
 
-struct CONNECTION *first = NULL;
-struct CONNECTION *connExceptions = NULL;
+struct CONNECTION *first = nullptr;
+struct CONNECTION *connExceptions = nullptr;
 struct CONNECTION *connCurrentEdit;
-struct CONNECTION *connExceptionsTmp = NULL;
-struct CONNECTION *connCurrentEditModal = NULL;
+struct CONNECTION *connExceptionsTmp = nullptr;
+struct CONNECTION *connCurrentEditModal = nullptr;
 int currentStatus = ID_STATUS_OFFLINE, diffstat = 0;
 BOOL bOptionsOpen = FALSE;
 wchar_t *tcpStates[] = { L"CLOSED", L"LISTEN", L"SYN_SENT", L"SYN_RCVD", L"ESTAB", L"FIN_WAIT1", L"FIN_WAIT2", L"CLOSE_WAIT", L"CLOSING", L"LAST_ACK", L"TIME_WAIT", L"DELETE_TCB" };
@@ -94,7 +94,7 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 	char buff[128];
 	int i = 0;
 	struct CONNECTION *tmp = connHead;
-	while (tmp != NULL) {
+	while (tmp != nullptr) {
 
 		mir_snprintf(buff, "%dFilterIntIp", i);
 		db_set_ws(NULL, PLUGINNAME, buff, tmp->strIntIp);
@@ -119,7 +119,7 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 //load filters from db
 struct CONNECTION* LoadSettingsConnections()
 {
-	struct CONNECTION *connHead = NULL;
+	struct CONNECTION *connHead = nullptr;
 	DBVARIANT dbv;
 	char buff[128];
 	int i = 0;
@@ -251,12 +251,12 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 				if (tmpPort[0] == '*')
 					connCurrentEditModal->intIntPort = -1;
 				else
-					connCurrentEditModal->intIntPort = GetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT, NULL, FALSE);
+					connCurrentEditModal->intIntPort = GetDlgItemInt(hWnd, ID_TXT_LOCAL_PORT, nullptr, FALSE);
 				GetDlgItemText(hWnd, ID_TXT_REMOTE_PORT, tmpPort, _countof(tmpPort));
 				if (tmpPort[0] == '*')
 					connCurrentEditModal->intExtPort = -1;
 				else
-					connCurrentEditModal->intExtPort = GetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT, NULL, FALSE);
+					connCurrentEditModal->intExtPort = GetDlgItemInt(hWnd, ID_TXT_REMOTE_PORT, nullptr, FALSE);
 
 				GetDlgItemText(hWnd, ID_TXT_LOCAL_IP, connCurrentEditModal->strIntIp, _countof(connCurrentEditModal->strIntIp));
 				GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEditModal->strExtIp, _countof(connCurrentEditModal->strExtIp));
@@ -264,12 +264,12 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 				connCurrentEditModal->Pid = !(BOOL)SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_GETCURSEL, 0, 0);
 
-				connCurrentEditModal = NULL;
+				connCurrentEditModal = nullptr;
 				EndDialog(hWnd, IDOK);
 				return TRUE;
 			}
 		case ID_CANCEL:
-			connCurrentEditModal = NULL;
+			connCurrentEditModal = nullptr;
 			EndDialog(hWnd, IDCANCEL);
 			return TRUE;
 		}
@@ -277,7 +277,7 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 		break;
 	case WM_CLOSE:
 		{
-			connCurrentEditModal = NULL;
+			connCurrentEditModal = nullptr;
 			EndDialog(hWnd, IDCANCEL);
 			break;
 		}
@@ -374,8 +374,8 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_COMMAND://user changed something, so get changes to variables
 		PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		switch (LOWORD(wParam)) {
-		case IDC_INTERVAL: settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE); break;
-		case IDC_INTERVAL1: settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE); break;
+		case IDC_INTERVAL: settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, nullptr, FALSE); break;
+		case IDC_INTERVAL1: settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, nullptr, TRUE); break;
 		case IDC_RESOLVEIP: settingResolveIp = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_RESOLVEIP); break;
 		case ID_CHK_DEFAULTACTION: settingDefaultAction = (BYTE)IsDlgButtonChecked(hwndDlg, ID_CHK_DEFAULTACTION); break;
 		case ID_ADD:
@@ -391,7 +391,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_FILTER_DIALOG), hwndDlg, FilterEditProc, (LPARAM)cur) == IDCANCEL) {
 					mir_free(cur);
-					cur = NULL;
+					cur = nullptr;
 				}
 				else {
 					cur->next = connExceptionsTmp;
@@ -407,7 +407,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case ID_DELETE:
 			{
 				int pos, pos1;
-				struct CONNECTION *cur = connExceptionsTmp, *pre = NULL;
+				struct CONNECTION *cur = connExceptionsTmp, *pre = nullptr;
 
 				pos = (int)ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_LIST_EXCEPTIONS), -1, LVNI_FOCUSED);
 				if (pos == -1)break;
@@ -416,7 +416,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					pre = cur;
 					cur = cur->next;
 				}
-				if (pre == NULL)
+				if (pre == nullptr)
 					connExceptionsTmp = connExceptionsTmp->next;
 				else
 					(pre)->next = cur->next;
@@ -429,7 +429,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case ID_UP:
 			{
 				int pos, pos1;
-				struct CONNECTION *cur = NULL, *pre = NULL, *prepre = NULL;
+				struct CONNECTION *cur = nullptr, *pre = nullptr, *prepre = nullptr;
 
 				cur = connExceptionsTmp;
 
@@ -441,12 +441,12 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					pre = cur;
 					cur = cur->next;
 				}
-				if (prepre != NULL) {
+				if (prepre != nullptr) {
 					pre->next = cur->next;
 					cur->next = pre;
 					prepre->next = cur;
 				}
-				else if (pre != NULL) {
+				else if (pre != nullptr) {
 					pre->next = cur->next;
 					cur->next = pre;
 					connExceptionsTmp = cur;
@@ -459,7 +459,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case ID_DOWN:
 			{
 				int pos, pos1;
-				struct CONNECTION *cur = NULL, *pre = NULL;
+				struct CONNECTION *cur = nullptr, *pre = nullptr;
 
 				cur = connExceptionsTmp;
 
@@ -470,12 +470,12 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					pre = cur;
 					cur = cur->next;
 				}
-				if (cur == connExceptionsTmp&&cur->next != NULL) {
+				if (cur == connExceptionsTmp&&cur->next != nullptr) {
 					connExceptionsTmp = cur->next;
 					cur->next = cur->next->next;
 					connExceptionsTmp->next = cur;
 				}
-				else if (cur->next != NULL) {
+				else if (cur->next != nullptr) {
 					struct CONNECTION *tmp = cur->next->next;
 					pre->next = cur->next;
 					cur->next->next = cur;
@@ -543,7 +543,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			case NM_DBLCLK:
 				{
 					int pos, pos1;
-					struct CONNECTION *cur = NULL;
+					struct CONNECTION *cur = nullptr;
 
 					cur = connExceptionsTmp;
 
@@ -576,7 +576,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_DESTROY:
 		bOptionsOpen = FALSE;
 		deleteConnectionsTable(connExceptionsTmp);
-		connExceptionsTmp = NULL;
+		connExceptionsTmp = nullptr;
 		return TRUE;
 	}
 	return 0;
@@ -585,7 +585,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 //options page on miranda called
 int ConnectionNotifyOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DIALOG);
 	odp.szTitle.w = _A2W(PLUGINNAME);
@@ -644,7 +644,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM lParam)
 		diffstat = 0;
 		ResetEvent(killCheckThreadEvent);
 		if (!hConnectionCheckThread)
-			hConnectionCheckThread = (HANDLE)mir_forkthreadex(checkthread, 0, (unsigned int*)&ConnectionCheckThreadId);
+			hConnectionCheckThread = (HANDLE)mir_forkthreadex(checkthread, nullptr, (unsigned int*)&ConnectionCheckThreadId);
 	}
 	else {
 		int retv = 0;
@@ -684,19 +684,19 @@ static unsigned __stdcall checkthread(void *)
 	_OutputDebugString(L"check thread started");
 	#endif
 	while (1) {
-		struct CONNECTION* conn = NULL, *connOld = first, *cur = NULL;
+		struct CONNECTION* conn = nullptr, *connOld = first, *cur = nullptr;
 		#ifdef _DEBUG
 		_OutputDebugString(L"checking connections table...");
 		#endif
 		if (WAIT_OBJECT_0 == WaitForSingleObject(killCheckThreadEvent, 100)) {
-			hConnectionCheckThread = NULL;
+			hConnectionCheckThread = nullptr;
 			return 0;
 		}
 
 		conn = GetConnectionsTable();
 		cur = conn;
-		while (cur != NULL) {
-			if (searchConnection(first, cur->strIntIp, cur->strExtIp, cur->intIntPort, cur->intExtPort, cur->state) == NULL && (settingStatusMask & (1 << (cur->state - 1)))) {
+		while (cur != nullptr) {
+			if (searchConnection(first, cur->strIntIp, cur->strExtIp, cur->intIntPort, cur->intExtPort, cur->state) == nullptr && (settingStatusMask & (1 << (cur->state - 1)))) {
 
 				#ifdef _DEBUG
 				wchar_t msg[1024];
@@ -719,7 +719,7 @@ static unsigned __stdcall checkthread(void *)
 		deleteConnectionsTable(connOld);
 		Sleep(settingInterval);
 	}
-	hConnectionCheckThread = NULL;
+	hConnectionCheckThread = nullptr;
 	return 1;
 }
 
@@ -821,7 +821,7 @@ static int modulesloaded(WPARAM, LPARAM)
 	//#ifdef _DEBUG
 	//	_OutputDebugString("started check thread %d",hConnectionCheckThread);
 	//#endif
-	killCheckThreadEvent = CreateEvent(NULL, FALSE, FALSE, L"killCheckThreadEvent");
+	killCheckThreadEvent = CreateEvent(nullptr, FALSE, FALSE, L"killCheckThreadEvent");
 	hFilterOptionsThread = startFilterThread();
 	//updaterRegister();
 
@@ -855,7 +855,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	hExceptionsMutex = CreateMutex(NULL, FALSE, L"ExceptionsMutex");
+	hExceptionsMutex = CreateMutex(nullptr, FALSE, L"ExceptionsMutex");
 
 	LoadSettings();
 	connExceptions = LoadSettingsConnections();

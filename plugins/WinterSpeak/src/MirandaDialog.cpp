@@ -20,7 +20,7 @@ WCHAR *MirandaDialog::Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 
 	int len = SendDlgItemMessage(hwndDlg, nIDDlgItem, WM_GETTEXTLENGTH, 0, 0);
 	if (len < 0)
-		return NULL;
+		return nullptr;
 
 	WCHAR *res = (WCHAR*)mir_alloc((len+1)*sizeof(WCHAR));
 	memset(res, 0, ((len + 1) * sizeof(WCHAR)));

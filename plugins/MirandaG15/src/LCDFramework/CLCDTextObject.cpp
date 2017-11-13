@@ -6,7 +6,7 @@
 //************************************************************************
 // constructor
 //************************************************************************
-CLCDTextObject::CLCDTextObject() : m_bWordWrap(false), m_hFont(NULL), m_iFontHeight(0)
+CLCDTextObject::CLCDTextObject() : m_bWordWrap(false), m_hFont(nullptr), m_iFontHeight(0)
 {
 	// Initialize DRAWTEXTPARAMS
 	memset(&m_dtp, 0, sizeof(DRAWTEXTPARAMS));
@@ -32,7 +32,7 @@ CLCDTextObject::~CLCDTextObject()
 bool CLCDTextObject::Initialize()
 {
 	m_hFont = (HFONT) GetStockObject(DEFAULT_GUI_FONT);
-    if(NULL != m_hFont)
+    if(nullptr != m_hFont)
 	{   
 		SetFontFaceName(L"Small Fonts");
 		SetFontPointSize(6);
@@ -72,7 +72,7 @@ bool CLCDTextObject::SetFont(LOGFONT& lf)
 	if (m_hFont)
     {
         DeleteObject(m_hFont);
-        m_hFont = NULL;
+        m_hFont = nullptr;
     }
 
     m_hFont = CreateFontIndirect(&lf);
@@ -81,7 +81,7 @@ bool CLCDTextObject::SetFont(LOGFONT& lf)
 		return false;
 
 	// Calculate the font's height 
-	HDC hDC = CreateCompatibleDC(NULL);
+	HDC hDC = CreateCompatibleDC(nullptr);
 	SelectObject(hDC, m_hFont);   
 	TEXTMETRIC tmFontInfo;
 

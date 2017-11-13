@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HINSTANCE hInst = NULL;
+HINSTANCE hInst = nullptr;
 
 int hLangpack;
 

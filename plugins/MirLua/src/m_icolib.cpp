@@ -25,7 +25,7 @@ static void MakeSKINICONDESC(lua_State *L, SKINICONDESC &sid)
 	sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, -1));
 	lua_pop(L, 1);
 
-	if (sid.defaultFile.w == NULL)
+	if (sid.defaultFile.w == nullptr)
 	{
 		sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
 		GetModuleFileName(g_hInstance, sid.defaultFile.w, MAX_PATH);
@@ -61,7 +61,7 @@ static int lua_AddIcon(lua_State *L)
 		sid.defaultFile.w = mir_utf8decodeW(lua_tostring(L, 4));
 		sid.hDefaultIcon = GetIcon(IDI_SCRIPT);
 
-		if (sid.defaultFile.w == NULL)
+		if (sid.defaultFile.w == nullptr)
 		{
 			sid.defaultFile.w = (wchar_t*)mir_calloc(MAX_PATH + 1);
 			GetModuleFileName(g_hInstance, sid.defaultFile.w, MAX_PATH);
@@ -88,7 +88,7 @@ static int lua_GetIcon(lua_State *L)
 {
 	bool big = luaM_toboolean(L, 2);
 
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 	switch (lua_type(L, 1))
 	{
 	case LUA_TLIGHTUSERDATA:
@@ -144,7 +144,7 @@ static luaL_Reg icolibApi[] =
 	{ "GetIconHandle", lua_GetIconHandle },
 	{ "RemoveIcon", lua_RemoveIcon },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_icolib(lua_State *L)

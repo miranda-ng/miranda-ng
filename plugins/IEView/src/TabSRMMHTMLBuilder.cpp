@@ -77,9 +77,9 @@ static const char *classNames[] = {
 TabSRMMHTMLBuilder::TabSRMMHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(NULL));
-	lastEventTime = time(NULL);
-	startedTime = time(NULL);
+	setLastEventTime(time(nullptr));
+	lastEventTime = time(nullptr);
+	startedTime = time(nullptr);
 }
 
 bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO *dbei)
@@ -121,10 +121,10 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 		*colour = db_get_dw(NULL, TABSRMM_FONTMODULE, str, 0x000000);
 	}
 	if (lf) {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		mir_snprintf(str, "Font%dSize", i);
 		lf->lfHeight = (char)db_get_b(NULL, TABSRMM_FONTMODULE, str, 10);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
@@ -158,7 +158,7 @@ char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 	const char *szFormat;
 
 	struct tm tm_now, tm_today;
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	time_t today;
 
 	if (!isGroupBreak || !(dwFlags & MWF_LOG_SHOWDATES)) {
@@ -201,7 +201,7 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	COLORREF color;
 
 	ProtocolSettings *protoSettings = getSRMMProtocolSettings(event->hContact);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
@@ -218,9 +218,9 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 		DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
 		str.Append("<html><head><style type=\"text/css\">\n");
 		COLORREF inColor, outColor;
@@ -291,7 +291,7 @@ time_t TabSRMMHTMLBuilder::getStartedTime()
 
 void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
-	DWORD today = (DWORD)time(NULL);
+	DWORD today = (DWORD)time(nullptr);
 	today = today - today % 86400;
 	DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
 	DWORD dwFlags2 = db_get_b(NULL, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;
@@ -303,7 +303,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 
 	char *szRealProto = getRealProto(event->hContact);
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_FILE || eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_STATUSCHANGE) {
 			bool isGroupBreak = true;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
@@ -420,7 +420,7 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 void TabSRMMHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
 	ProtocolSettings *protoSettings = getSRMMProtocolSettings(event->hContact);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE)

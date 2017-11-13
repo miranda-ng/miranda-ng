@@ -30,7 +30,7 @@ wchar_t szUserDataPath[MAX_FOLDERS_PATH];
 INT_PTR RegisterPathService(WPARAM, LPARAM lParam)
 {
 	FOLDERSDATA *data = (FOLDERSDATA*)lParam;
-	if (data == NULL)
+	if (data == nullptr)
 		return NULL;
 
 	if (data->cbSize != sizeof(FOLDERSDATA))

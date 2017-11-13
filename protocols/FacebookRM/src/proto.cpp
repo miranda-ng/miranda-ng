@@ -28,18 +28,18 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 {
 	facy.parent = this;
 
-	signon_lock_ = CreateMutex(NULL, FALSE, NULL);
-	avatar_lock_ = CreateMutex(NULL, FALSE, NULL);
-	log_lock_ = CreateMutex(NULL, FALSE, NULL);
-	update_loop_lock_ = CreateEvent(NULL, FALSE, FALSE, NULL);
-	facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
-	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
-	facy.notifications_lock_ = CreateMutex(NULL, FALSE, NULL);
-	facy.cookies_lock_ = CreateMutex(NULL, FALSE, NULL);
-	facy.loading_history_lock_ = CreateMutex(NULL, FALSE, NULL);
+	signon_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	avatar_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	log_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	update_loop_lock_ = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	facy.send_message_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	facy.fcb_conn_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	facy.notifications_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	facy.cookies_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	facy.loading_history_lock_ = CreateMutex(nullptr, FALSE, nullptr);
 
 	// Initialize random seed for this client
-	facy.random_ = ::time(NULL) + PtrToUint(&facy);
+	facy.random_ = ::time(nullptr) + PtrToUint(&facy);
 
 	m_enableChat = DEFAULT_ENABLE_CHATS;
 
@@ -90,10 +90,10 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	mir_snwprintf(descr, TranslateT("%s server connection"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
-	if (m_hNetlibUser == NULL) {
+	if (m_hNetlibUser == nullptr) {
 		wchar_t error[200];
 		mir_snwprintf(error, TranslateT("Unable to initialize Netlib for %s."), m_tszUserName);
-		MessageBox(NULL, error, L"Miranda NG", MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, error, L"Miranda NG", MB_OK | MB_ICONERROR);
 	}
 
 	facy.set_handle(m_hNetlibUser);
@@ -231,14 +231,14 @@ int FacebookProto::SetAwayMsg(int, const wchar_t *msg)
 		last_status_msg_ = narrow;
 
 	if (isOnline() && getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
-		ForkThread(&FacebookProto::SetAwayMsgWorker, NULL);
+		ForkThread(&FacebookProto::SetAwayMsgWorker, nullptr);
 
 	return 0;
 }
 
 void FacebookProto::SetAwayMsgWorker(void *p)
 {
-	if (p != NULL) {
+	if (p != nullptr) {
 		status_data *data = static_cast<status_data*>(p);
 		facy.post_status(data);
 		delete data;
@@ -254,7 +254,7 @@ void FacebookProto::SetAwayMsgWorker(void *p)
 HANDLE FacebookProto::SearchBasic(const wchar_t* id)
 {
 	if (isOffline())
-		return 0;
+		return nullptr;
 
 	wchar_t *tid = mir_wstrdup(id);
 	ForkThread(&FacebookProto::SearchIdAckThread, tid);
@@ -264,7 +264,7 @@ HANDLE FacebookProto::SearchBasic(const wchar_t* id)
 HANDLE FacebookProto::SearchByEmail(const wchar_t* email)
 {
 	if (isOffline())
-		return 0;
+		return nullptr;
 
 	wchar_t *temail = mir_wstrdup(email);
 	ForkThread(&FacebookProto::SearchAckThread, temail);
@@ -297,7 +297,7 @@ MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	}
 
 	if (fbu.user_id.find_first_not_of("0123456789") != std::string::npos) {
-		MessageBox(0, TranslateT("Facebook ID must be numeric value."), m_tszUserName, MB_ICONERROR | MB_OK);
+		MessageBox(nullptr, TranslateT("Facebook ID must be numeric value."), m_tszUserName, MB_ICONERROR | MB_OK);
 		return NULL;
 	}
 
@@ -387,7 +387,7 @@ int FacebookProto::OnIdleChanged(WPARAM, LPARAM lParam)
 		CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
 
 		// Compute time when user really became idle
-		m_idleTS = time(0) - mii.idleTime * 60;
+		m_idleTS = time(nullptr) - mii.idleTime * 60;
 		setDword("IdleTS", m_idleTS);
 	} else {
 		// User stopped being idle
@@ -501,7 +501,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	char service[100];
@@ -543,7 +543,7 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM)
 		}
 	}
 
-	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)0, FBMindProc, reinterpret_cast<LPARAM>(data));
+	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)nullptr, FBMindProc, reinterpret_cast<LPARAM>(data));
 	ShowWindow(hDlg, SW_SHOW);
 
 	return 0;
@@ -747,7 +747,7 @@ INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 	// Allow loading history only from one contact at a time
 	if (facy.loading_history) {
 		const wchar_t *message = TranslateT("Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.");
-		MessageBox(0, message, m_tszUserName, MB_ICONWARNING | MB_OK);
+		MessageBox(nullptr, message, m_tszUserName, MB_ICONWARNING | MB_OK);
 		return 0;
 	}
 
@@ -761,7 +761,7 @@ INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 	title.AppendFormat(L"%s - %s", m_tszUserName, name);
 	const wchar_t *message = TranslateT("This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?");
 
-	if (MessageBox(0, message, title, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+	if (MessageBox(nullptr, message, title, MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 		ForkThread(&FacebookProto::LoadHistory, new MCONTACT(hContact));
 	}
 
@@ -790,7 +790,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 
 	wchar_t tstr[256];
 	mir_snwprintf(tstr, TranslateT("Do you want to cancel your friendship with '%s'?"), tname);
-	if (MessageBox(0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
+	if (MessageBox(nullptr, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 
 		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 		if (id == NULL)
@@ -880,12 +880,12 @@ MCONTACT FacebookProto::HContactFromAuthEvent(MEVENT hEvent)
 }
 
 void FacebookProto::OpenUrlThread(void *p) {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	open_url *data = static_cast<open_url*>(p);
 
-	ShellExecute(NULL, L"open", data->browser, data->url, NULL, SW_SHOWDEFAULT);
+	ShellExecute(nullptr, L"open", data->browser, data->url, nullptr, SW_SHOWDEFAULT);
 
 	delete data;
 }
@@ -936,7 +936,7 @@ void FacebookProto::OpenUrl(std::string url)
 
 void FacebookProto::ReadNotificationWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	std::string *id = (std::string*)p;
@@ -964,7 +964,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	{
 		// Get the plugin data (we need the Popup service to do it)
 		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
-		if (data != NULL) {
+		if (data != nullptr) {
 			if (!data->notification_id.empty())
 				data->proto->ForkThread(&FacebookProto::ReadNotificationWorker, new std::string(data->notification_id));
 

@@ -6,7 +6,7 @@ LIST<UinKey> arClist(100, NumericKeySortT);
 void loadSupportedProtocols()
 {
 	LPSTR szNames = db_get_sa(0, MODULENAME, "protos");
-	if (szNames && strchr(szNames, ':') == NULL) {
+	if (szNames && strchr(szNames, ':') == nullptr) {
 		LPSTR tmp = (LPSTR)mir_alloc(2048); int j = 0;
 		for (int i = 0; szNames[i]; i++) {
 			if (szNames[i] == ';')
@@ -70,16 +70,16 @@ pSupPro getSupPro(MCONTACT hContact)
 		if (Proto_IsProtoOnContact(hContact, arProto[j]->name))
 			return arProto[j];
 
-	return NULL;
+	return nullptr;
 }
 
 // add contact in the list of secureIM users
 pUinKey addContact(MCONTACT hContact)
 {
-	if (hContact == NULL) return NULL;
+	if (hContact == NULL) return nullptr;
 
 	pSupPro proto = getSupPro(hContact);
-	if (proto == NULL) return NULL;
+	if (proto == nullptr) return nullptr;
 
 	pUinKey p = (pUinKey)mir_calloc(sizeof(UinKey));
 	p->header = HEADER;
@@ -107,7 +107,7 @@ void delContact(MCONTACT hContact)
 	if (p) {
 		arClist.remove(p);
 
-		cpp_delete_context(p->cntx); p->cntx = 0;
+		cpp_delete_context(p->cntx); p->cntx = nullptr;
 		mir_free(p->tmp);
 		mir_free(p->msgSplitted);
 		mir_free(p);
@@ -129,7 +129,7 @@ void freeContactList()
 {
 	for (int j = 0; j < arClist.getCount(); j++) {
 		pUinKey p = arClist[j];
-		cpp_delete_context(p->cntx); p->cntx = 0;
+		cpp_delete_context(p->cntx); p->cntx = nullptr;
 		mir_free(p->tmp);
 		mir_free(p->msgSplitted);
 		mir_free(p);
@@ -157,7 +157,7 @@ pUinKey getUinCtx(HANDLE cntx)
 		if (arClist[j]->cntx == cntx)
 			return arClist[j];
 
-	return NULL;
+	return nullptr;
 }
 
 // add message to user queue for send later
@@ -169,7 +169,7 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 
 	mir_cslock lck(localQueueMutex);
 
-	if (ptr->msgQueue == NULL) {
+	if (ptr->msgQueue == nullptr) {
 		// create new
 		ptr->msgQueue = (pWM)mir_alloc(sizeof(struct waitingMessage));
 		ptrMessage = ptr->msgQueue;
@@ -185,7 +185,7 @@ void addMsg2Queue(pUinKey ptr, WPARAM wParam, LPSTR szMsg)
 	}
 
 	ptrMessage->wParam = wParam;
-	ptrMessage->nextMessage = NULL;
+	ptrMessage->nextMessage = nullptr;
 	ptrMessage->Message = mir_strdup(szMsg);
 }
 
@@ -210,7 +210,7 @@ void getContactUinA(MCONTACT hContact, LPSTR szUIN)
 
 	DBVARIANT dbv_uniqueid;
 	LPSTR uID = (LPSTR)CallProtoService(ptr->name, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (uID == (LPSTR)CALLSERVICE_NOTFOUND) uID = 0; // Billy_Bons
+	if (uID == (LPSTR)CALLSERVICE_NOTFOUND) uID = nullptr; // Billy_Bons
 	if (uID && db_get(hContact, ptr->name, uID, &dbv_uniqueid) == 0) {
 		if (dbv_uniqueid.type == DBVT_WORD)
 			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name); //!!!!!!!!!!!

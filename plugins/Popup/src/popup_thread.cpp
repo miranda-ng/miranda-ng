@@ -27,10 +27,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // globals
 static int    gIdleRequests = 0;
 static bool   gTerminating = false;
-static HWND   gHwndManager = 0;
+static HWND   gHwndManager = nullptr;
 static int    gLockCount = 0;
 static volatile int nPopups = 0;
-static HANDLE hThread = 0;
+static HANDLE hThread = nullptr;
 
 static LIST<PopupWnd2> popupList(3);
 
@@ -133,7 +133,7 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 
 void RepositionPopups()
 {
-	PopupWnd2 *prev = 0;
+	PopupWnd2 *prev = nullptr;
 	if (PopupOptions.ReorderPopups) {
 		for (int i = 0; i < popupList.getCount(); ++i) {
 			UpdatePopupPosition(prev, popupList[i]);
@@ -144,7 +144,7 @@ void RepositionPopups()
 
 static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PopupWnd2 *wnd = NULL;
+	PopupWnd2 *wnd = nullptr;
 	if (message == UTM_ADD_WINDOW || message == UTM_UPDATE_WINDOW || message == UTM_REMOVE_WINDOW || message == UTM_REQUEST_REMOVE)
 		if (!(wnd = (PopupWnd2 *)lParam))
 			return 0;
@@ -161,7 +161,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 	case UTM_ADD_WINDOW:
 		if (gTerminating)
 			break;
-		UpdatePopupPosition(popupList.getCount() ? popupList[popupList.getCount() - 1] : 0, wnd);
+		UpdatePopupPosition(popupList.getCount() ? popupList[popupList.getCount() - 1] : nullptr, wnd);
 		popupList.insert(wnd);
 		++nPopups;
 		wnd->callMethodAsync(&PopupWnd2::m_show, 0);
@@ -222,10 +222,10 @@ static unsigned __stdcall PopupThread(void *)
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
-	wcl.hIcon = NULL;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
+	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupThreadManagerWnd";
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupThreadManagerWnd = RegisterClassEx(&wcl);
@@ -236,16 +236,16 @@ static unsigned __stdcall PopupThread(void *)
 		MSGERROR(msg);
 	}
 
-	gHwndManager = CreateWindow(L"PopupThreadManagerWnd", NULL, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, hInst, NULL);
-	SetWindowPos(gHwndManager, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
+	gHwndManager = CreateWindow(L"PopupThreadManagerWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, hInst, nullptr);
+	SetWindowPos(gHwndManager, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
 
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0)) {
+	while (GetMessage(&msg, nullptr, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
-	DestroyWindow(gHwndManager); gHwndManager = NULL;
+	DestroyWindow(gHwndManager); gHwndManager = nullptr;
 	return 0;
 }
 
@@ -261,7 +261,7 @@ static int sttAvatarChanged(WPARAM wParam, LPARAM)
 void LoadPopupThread()
 {
 	unsigned threadId;
-	hThread = mir_forkthreadex(PopupThread, NULL, &threadId);
+	hThread = mir_forkthreadex(PopupThread, nullptr, &threadId);
 
 	HookEvent(ME_AV_AVATARCHANGED, sttAvatarChanged);
 }

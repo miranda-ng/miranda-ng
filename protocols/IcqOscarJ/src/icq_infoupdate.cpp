@@ -33,7 +33,7 @@
 void CIcqProto::icq_InitInfoUpdate(void)
 {
 	// Create wait objects
-	hInfoQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hInfoQueueEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if (hInfoQueueEvent) {
 		// Init list
 		for (int i = 0; i < LISTSIZE; i++) {
@@ -42,7 +42,7 @@ void CIcqProto::icq_InitInfoUpdate(void)
 			m_infoUpdateList[i].queued = 0;
 		}
 
-		ForkThread(&CIcqProto::InfoUpdateThread, 0);
+		ForkThread(&CIcqProto::InfoUpdateThread, nullptr);
 	}
 
 	bInfoPendingUsers = 0;
@@ -81,7 +81,7 @@ BOOL CIcqProto::icq_QueueUser(MCONTACT hContact)
 	if (dwUin) {
 		m_infoUpdateList[nFirstFree].dwUin = dwUin;
 		m_infoUpdateList[nFirstFree].hContact = hContact;
-		m_infoUpdateList[nFirstFree].queued = time(NULL);
+		m_infoUpdateList[nFirstFree].queued = time(nullptr);
 		nInfoUserCount++;
 
 		debugLogA("Queued user %u, place %u, count %u", dwUin, nFirstFree, nInfoUserCount);
@@ -179,7 +179,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 				continue; // we can't send requests now      
 
 			if (nInfoUserCount && icqOnline()) {
-				time_t now = time(NULL);
+				time_t now = time(nullptr);
 				BOOL bNotReady = FALSE, bTimeOuted = FALSE;
 
 				// Check the list, take only users that were there for at least 5sec
@@ -208,7 +208,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 				}
 
 				// only send another request, when the previous is completed
-				if (FindCookie(dwInfoActiveRequest, NULL, NULL)) {
+				if (FindCookie(dwInfoActiveRequest, nullptr, nullptr)) {
 					debugLogA("Info-Update: Request 0x%x still in progress.", dwInfoActiveRequest);
 
 					SleepEx(1000, TRUE);
@@ -250,7 +250,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 
 				userinfo *hContactList[LISTSIZE];
 				int nListIndex = 0;
-				BYTE *pRequestData = NULL;
+				BYTE *pRequestData = nullptr;
 				size_t nRequestSize = 0;
 
 				mir_cslock l(infoUpdateMutex);
@@ -259,7 +259,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 						// check TS again, maybe it has been updated while we slept
 						if (IsMetaInfoChanged(m_infoUpdateList[i].hContact)) {
 							if (m_infoUpdateList[i].queued + 5 < now) {
-								BYTE *pItem = NULL;
+								BYTE *pItem = nullptr;
 								size_t nItemSize = 0;
 								DBVARIANT dbv = { DBVT_DELETED };
 
@@ -270,7 +270,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 								// last updated time
 								ppackTLVDouble(&pItem, &nItemSize, 0x64, getSettingDouble(m_infoUpdateList[i].hContact, DBSETTING_METAINFO_TIME, 0));
 
-								ppackTLVUID(&pItem, &nItemSize, 0x32, m_infoUpdateList[i].dwUin, NULL);
+								ppackTLVUID(&pItem, &nItemSize, 0x32, m_infoUpdateList[i].dwUin, nullptr);
 								ppackWord(&pRequestData, &nRequestSize, (WORD)nItemSize);
 								ppackBuffer(&pRequestData, &nRequestSize, nItemSize, pItem);
 								// take a reference

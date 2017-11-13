@@ -22,9 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CMsnProto::AvatarQueue_Init()
 {
-	hevAvatarQueue = ::CreateSemaphore(NULL, 0, 255, NULL);
+	hevAvatarQueue = ::CreateSemaphore(nullptr, 0, 255, nullptr);
 
-	ForkThread(&CMsnProto::MSN_AvatarsThread, 0);
+	ForkThread(&CMsnProto::MSN_AvatarsThread, nullptr);
 }
 
 void CMsnProto::AvatarQueue_Uninit()
@@ -34,9 +34,9 @@ void CMsnProto::AvatarQueue_Uninit()
 
 void CMsnProto::pushAvatarRequest(MCONTACT hContact, LPCSTR pszUrl)
 {
-	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 
-	if (pszUrl != NULL && *pszUrl != 0) {
+	if (pszUrl != nullptr && *pszUrl != 0) {
 		mir_cslock lck(csAvatarQueue);
 
 		for (int i = 0; i < lsAvatarQueue.getCount(); i++)
@@ -44,7 +44,7 @@ void CMsnProto::pushAvatarRequest(MCONTACT hContact, LPCSTR pszUrl)
 				return;
 
 		lsAvatarQueue.insert(new AvatarQueueEntry(hContact, pszUrl));
-		ReleaseSemaphore(hevAvatarQueue, 1, NULL);
+		ReleaseSemaphore(hevAvatarQueue, 1, nullptr);
 	}
 }
 
@@ -62,7 +62,7 @@ bool CMsnProto::loadHttpAvatar(AvatarQueueEntry *p)
 	nlhr.headersCount = 1;
 
 	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
-	if (nlhrReply == NULL)
+	if (nlhrReply == nullptr)
 		return false;
 
 	if (nlhrReply->resultCode != 200 || nlhrReply->dataLength == 0) {
@@ -103,7 +103,7 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 		if (g_bTerminated)
 			break;
 
-		AvatarQueueEntry *p = NULL;
+		AvatarQueueEntry *p = nullptr;
 		{
 			mir_cslock lck(csAvatarQueue);
 			if (lsAvatarQueue.getCount() > 0) {
@@ -112,11 +112,11 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 			}
 		}
 
-		if (p == NULL)
+		if (p == nullptr)
 			continue;
 
 		if (!loadHttpAvatar(p))
-			ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, 0, 0);
+			ProtoBroadcastAck(p->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, nullptr, 0);
 		delete p;
 	}
 

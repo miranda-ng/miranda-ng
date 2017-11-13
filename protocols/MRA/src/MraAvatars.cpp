@@ -37,7 +37,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 {
 	mir_snprintf(szAvtSectName, "%s Avatars", m_szModuleName);
 
-	if (phAvatarsQueueHandle == NULL)
+	if (phAvatarsQueueHandle == nullptr)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = new MRA_AVATARS_QUEUE();
@@ -77,7 +77,7 @@ void CMraProto::MraAvatarsQueueClear(HANDLE hQueue)
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.format = PA_FORMAT_UNKNOWN;
 
-	while (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR) {
+	while (FifoMTItemPop(pmraaqAvatarsQueue, nullptr, (LPVOID*)&pmraaqiAvatarsQueueItem) == NO_ERROR) {
 		ai.hContact = pmraaqiAvatarsQueueItem->hContact;
 		ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 		mir_free(pmraaqiAvatarsQueueItem);
@@ -105,7 +105,7 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hQueue)
 DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hQueue, DWORD dwFlags, MCONTACT hContact, DWORD *pdwAvatarsQueueID)
 {
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hQueue;
-	if (pmraaqAvatarsQueue == NULL || g_bShutdown)
+	if (pmraaqAvatarsQueue == nullptr || g_bShutdown)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem = (MRA_AVATARS_QUEUE_ITEM*)mir_calloc(sizeof(MRA_AVATARS_QUEUE_ITEM));
@@ -139,21 +139,21 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	size_t dwAvatarSizeServer;
 	FILETIME ftLastModifiedTimeServer, ftLastModifiedTimeLocal;
 	SYSTEMTIME stAvatarLastModifiedTimeLocal;
-	HNETLIBCONN hConnection = NULL;
+	HNETLIBCONN hConnection = nullptr;
 	NETLIBSELECT nls = { 0 };
 	INTERNET_TIME itAvatarLastModifiedTimeServer;
 	WCHAR szErrorText[2048];
 
 	Thread_SetName("MRA: AvatarsThreadProc");
 
-	HANDLE hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	HANDLE hThreadEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	{
 		mir_cslock lck(pmraaqAvatarsQueue->cs);
 		pmraaqAvatarsQueue->hThreadEvents[pmraaqAvatarsQueue->iThreadsRunning++] = hThreadEvent;
 	}
 
 	while (!g_bShutdown) {
-		if (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) != NO_ERROR) { // waiting until service stop or new task
+		if (FifoMTItemPop(pmraaqAvatarsQueue, nullptr, (LPVOID*)&pmraaqiAvatarsQueueItem) != NO_ERROR) { // waiting until service stop or new task
 			NETLIB_CLOSEHANDLE(hConnection);
 			WaitForSingleObjectEx(hThreadEvent, INFINITE, FALSE);
 			continue;
@@ -175,12 +175,12 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			CMStringA szUser = szEmail.Tokenize("@", iStart);
 			CMStringA szDomain = szEmail.Tokenize("@", iStart);
 			if (!szUser.IsEmpty() && !szDomain.IsEmpty()) {
-				ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTING, NULL, 0);
-				if (hConnection == NULL)
+				ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTING, nullptr, 0);
+				if (hConnection == nullptr)
 					hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
 				if (hConnection) {
-					ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTED, NULL, 0);
-					ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SENTREQUEST, NULL, 0);
+					ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_CONNECTED, nullptr, 0);
+					ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_SENTREQUEST, nullptr, 0);
 					if (!MraAvatarsHttpTransaction(hConnection, REQUEST_HEAD, szUser, szDomain, szServer, MAHTRO_AVTMRIM, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer)) {
 						switch (dwResultCode) {
 						case 200:
@@ -226,14 +226,14 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 				}
 
 				if (bDownloadNew) {
-					if (hConnection == NULL)
+					if (hConnection == nullptr)
 						hConnection = MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser, szServer, dwServerPort);
 
 					if (hConnection) {
-						ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_DATA, NULL, 0);
+						ProtoBroadcastAck(pmraaqiAvatarsQueueItem->hContact, ACKTYPE_AVATAR, ACKRESULT_DATA, nullptr, 0);
 						if (MraAvatarsHttpTransaction(hConnection, REQUEST_GET, szUser, szDomain, szServer, MAHTRO_AVT, bUseKeepAliveConn, &dwResultCode, &bKeepAlive, &dwAvatarFormat, &dwAvatarSizeServer, &itAvatarLastModifiedTimeServer) == NO_ERROR && dwResultCode == 200) {
 							if (!MraAvatarsGetFileName(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat, wszFileName)) {
-								HANDLE hFile = CreateFile(wszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+								HANDLE hFile = CreateFile(wszFileName, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 								if (hFile != INVALID_HANDLE_VALUE) {
 									DWORD dwWritten = 0;
 									bContinue = TRUE;
@@ -256,7 +256,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 												bContinue = FALSE;
 											}
 											else {
-												if (WriteFile(hFile, (LPVOID)&btBuff, dwReceived, &dwReceived, NULL)) {
+												if (WriteFile(hFile, (LPVOID)&btBuff, dwReceived, &dwReceived, nullptr)) {
 													dwWritten += dwReceived;
 													if (dwWritten >= dwAvatarSizeServer)
 														bContinue = FALSE;
@@ -335,7 +335,7 @@ HNETLIBCONN MraAvatarsHttpConnect(HNETLIBUSER hNetlibUser, LPCSTR lpszHost, DWOR
 	do {
 		hConnection = Netlib_OpenConnection(hNetlibUser, &nloc);
 	}
-		while (--dwCurConnectReTryCount && hConnection == NULL);
+		while (--dwCurConnectReTryCount && hConnection == nullptr);
 
 	return hConnection;
 }
@@ -365,7 +365,7 @@ DWORD MraAvatarsHttpTransaction(HNETLIBCONN hConnection, DWORD dwRequestType, LP
 	mir_snprintf(szBuff, "http://%s/%s/%s/%s", lpszHost, lpszDomain, lpszUser, lpszReqObj);
 	CMStringA szSelfVersionString = MraGetSelfVersionString();
 
-	NETLIBHTTPHEADER nlbhHeaders[8] = { 0 };
+	NETLIBHTTPHEADER nlbhHeaders[8] = {};
 	nlbhHeaders[0].szName = "User-Agent";		nlbhHeaders[0].szValue = (LPSTR)szSelfVersionString.c_str();
 	nlbhHeaders[1].szName = "Accept-Encoding";	nlbhHeaders[1].szValue = "deflate";
 	nlbhHeaders[2].szName = "Pragma";		nlbhHeaders[2].szValue = "no-cache";
@@ -416,8 +416,8 @@ bool CMraProto::MraAvatarsGetContactTime(MCONTACT hContact, LPSTR lpszValueName,
 	INTERNET_TIME itAvatarLastModifiedTimeLocal;
 	CMStringA szBuff;
 
-	if (NULL == lpszValueName ||
-	    NULL == pstTime)
+	if (nullptr == lpszValueName ||
+	    nullptr == pstTime)
 		return false;
 	if (false == mraGetStringA(hContact, lpszValueName, szBuff))
 		return false;
@@ -448,7 +448,7 @@ void CMraProto::MraAvatarsSetContactTime(MCONTACT hContact, LPSTR lpszValueName,
 DWORD CMraProto::MraAvatarsGetFileName(HANDLE hQueue, MCONTACT hContact, DWORD dwFormat, CMStringW &res)
 {
 	res.Empty();
-	if (hQueue == NULL)
+	if (hQueue == nullptr)
 		return ERROR_INVALID_HANDLE;
 
 	if (IsContactChatAgent(hContact))
@@ -522,7 +522,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hQueue, DWORD dwFlags, MCONTACT
 
 	if (bQueueAdd || (dwFlags & GAIF_FORCE))
 	if (!MraAvatarsQueueAdd(hQueue, dwFlags, hContact, pdwAvatarsQueueID)) {
-		MraAvatarsSetContactTime(hContact, "AvatarLastCheckTime", NULL);
+		MraAvatarsSetContactTime(hContact, "AvatarLastCheckTime", nullptr);
 		dwRetCode = GAIR_WAITFOR;
 	}
 	return dwRetCode;
@@ -535,7 +535,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hQueue, DWORD dwFlags, MC
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.hContact = hContact;
-	DWORD dwRetCode = MraAvatarsQueueGetAvatar(hQueue, dwFlags, hContact, NULL, (DWORD*)&ai.format, ai.filename);
+	DWORD dwRetCode = MraAvatarsQueueGetAvatar(hQueue, dwFlags, hContact, nullptr, (DWORD*)&ai.format, ai.filename);
 	if (dwRetCode != GAIR_SUCCESS)
 		return dwRetCode;
 	
@@ -606,9 +606,9 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 			db_set_b(NULL, MRA_AVT_SECT_NAME, "Enable", IsDlgButtonChecked(hWndDlg, IDC_ENABLE));
 			db_set_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", IsDlgButtonChecked(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE));
 			db_set_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", IsDlgButtonChecked(hWndDlg, IDC_RETURN_ABC_PATH));
-			db_set_dw(NULL, MRA_AVT_SECT_NAME, "CheckInterval", GetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, NULL, FALSE));
+			db_set_dw(NULL, MRA_AVT_SECT_NAME, "CheckInterval", GetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, nullptr, FALSE));
 			db_set_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", IsDlgButtonChecked(hWndDlg, IDC_USE_KEEPALIVE_CONN));
-			db_set_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
+			db_set_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, nullptr, FALSE));
 
 			wchar_t szServer[MAX_PATH];
 			GetDlgItemText(hWndDlg, IDC_SERVER, szServer, _countof(szServer));
@@ -623,7 +623,7 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 
 DWORD CMraProto::MraAvatarsDeleteContactAvatarFile(HANDLE hQueue, MCONTACT hContact)
 {
-	if (hQueue == NULL)
+	if (hQueue == nullptr)
 		return ERROR_INVALID_HANDLE;
 
 	DWORD dwAvatarFormat = GetContactAvatarFormat(hContact, PA_FORMAT_UNKNOWN);

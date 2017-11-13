@@ -270,9 +270,9 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		ChangeWindowMessageFilterEx_t pChangeWindowMessageFilterEx;
 		pChangeWindowMessageFilterEx = (ChangeWindowMessageFilterEx_t)GetProcAddress(GetModuleHandleA("user32"), "ChangeWindowMessageFilterEx");
 		if (pChangeWindowMessageFilterEx) { /// Win7+, UAC fix
-			pChangeWindowMessageFilterEx(m_hWnd, WM_DROPFILES, MSGFLT_ALLOW, NULL);
-			pChangeWindowMessageFilterEx(m_hWnd, WM_COPYDATA, MSGFLT_ALLOW, NULL);
-			pChangeWindowMessageFilterEx(m_hWnd, 0x0049/*WM_COPYGLOBALDATA*/, MSGFLT_ALLOW, NULL);
+			pChangeWindowMessageFilterEx(m_hWnd, WM_DROPFILES, MSGFLT_ALLOW, nullptr);
+			pChangeWindowMessageFilterEx(m_hWnd, WM_COPYDATA, MSGFLT_ALLOW, nullptr);
+			pChangeWindowMessageFilterEx(m_hWnd, 0x0049/*WM_COPYGLOBALDATA*/, MSGFLT_ALLOW, nullptr);
 		}
 		DragAcceptFiles(m_hWnd, 1);
 	}
@@ -403,8 +403,8 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_imgTarget:
 			if (m_opt_tabCapture != 0) break;
-			m_hLastWin = NULL;
-			SetTimer(m_hWnd, ID_imgTarget, BUTTON_POLLDELAY, NULL);
+			m_hLastWin = nullptr;
+			SetTimer(m_hWnd, ID_imgTarget, BUTTON_POLLDELAY, nullptr);
 			break;
 		case ID_btnAbout:
 			TfrmMain::btnAboutClick();
@@ -450,7 +450,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_edtCaption:			//cboxDesktopChange
 			m_opt_cboxDesktop = (BYTE)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-			m_hTargetWindow = NULL;
+			m_hTargetWindow = nullptr;
 			if (m_opt_cboxDesktop > 0) {
 				edtSizeUpdate(m_Monitors[m_opt_cboxDesktop - 1].rcMonitor, GetParent((HWND)lParam), ID_edtSize);
 			}
@@ -466,10 +466,10 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 		switch (IDControl) {
 			//lParam = Handle to the control
 		case ID_edtQuality:
-			m_opt_edtQuality = (BYTE)GetDlgItemInt(m_hWnd, ID_edtQuality, NULL, FALSE);
+			m_opt_edtQuality = (BYTE)GetDlgItemInt(m_hWnd, ID_edtQuality, nullptr, FALSE);
 			break;
 		case ID_edtTimed:
-			m_opt_edtTimed = (BYTE)GetDlgItemInt(m_hWnd, ID_edtTimed, NULL, FALSE);
+			m_opt_edtTimed = (BYTE)GetDlgItemInt(m_hWnd, ID_edtTimed, nullptr, FALSE);
 			break;
 		default:
 			break;
@@ -519,7 +519,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 		static int primarymouse;
 		if (!m_hTargetHighlighter) {
 			primarymouse = GetSystemMetrics(SM_SWAPBUTTON) ? VK_RBUTTON : VK_LBUTTON;
-			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (wchar_t*)g_clsTargetHighlighter, NULL, WS_POPUP, 0, 0, 0, 0, NULL, NULL, g_hSendSS, NULL);
+			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (wchar_t*)g_clsTargetHighlighter, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_hSendSS, nullptr);
 			if (!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter, 0, 123, LWA_ALPHA);
 			SetSystemCursor(CopyCursor(GetIcon(ICO_TARGET)), OCR_IBEAM);//text cursor
@@ -529,8 +529,8 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 		}
 		if (!(GetAsyncKeyState(primarymouse) & 0x8000)) {
 			KillTimer(m_hWnd, ID_imgTarget);
-			SystemParametersInfo(SPI_SETCURSORS, 0, NULL, 0);
-			DestroyWindow(m_hTargetHighlighter), m_hTargetHighlighter = NULL;
+			SystemParametersInfo(SPI_SETCURSORS, 0, nullptr, 0);
+			DestroyWindow(m_hTargetHighlighter), m_hTargetHighlighter = nullptr;
 			SetTargetWindow(m_hLastWin);
 			Show();
 			return;
@@ -558,7 +558,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 			int width = rect.right - rect.left;
 			int height = rect.bottom - rect.top;
 			if (g_iTargetBorder) {
-				SetWindowPos(m_hTargetHighlighter, NULL, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOMOVE | SWP_NOSIZE);
+				SetWindowPos(m_hTargetHighlighter, nullptr, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOMOVE | SWP_NOSIZE);
 				if (width > g_iTargetBorder * 2 && height > g_iTargetBorder * 2) {
 					HRGN hRegnNew = CreateRectRgn(0, 0, width, height);
 					HRGN hRgnHole = CreateRectRgn(g_iTargetBorder, g_iTargetBorder, width - g_iTargetBorder, height - g_iTargetBorder);
@@ -566,7 +566,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 					DeleteObject(hRgnHole);
 					SetWindowRgn(m_hTargetHighlighter, hRegnNew, FALSE);//cleans up hRegnNew
 				}
-				else SetWindowRgn(m_hTargetHighlighter, NULL, FALSE);
+				else SetWindowRgn(m_hTargetHighlighter, nullptr, FALSE);
 			}
 			SetWindowPos(m_hTargetHighlighter, HWND_TOPMOST, rect.left, rect.top, width, height, SWP_SHOWWINDOW | SWP_NOACTIVATE);
 		}
@@ -579,7 +579,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 		if (!m_bCapture) {		//only start once
 			if (m_Screenshot) {
 				FIP->FI_Unload(m_Screenshot);
-				m_Screenshot = NULL;
+				m_Screenshot = nullptr;
 			}
 			m_bCapture = true;
 			switch (m_opt_tabCapture) {
@@ -587,7 +587,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 				m_Screenshot = CaptureWindow(m_hTargetWindow, m_opt_chkClientArea, m_opt_chkIndirectCapture);
 				break;
 			case 1:
-				m_Screenshot = CaptureMonitor((m_opt_cboxDesktop > 0) ? m_Monitors[m_opt_cboxDesktop - 1].szDevice : NULL);
+				m_Screenshot = CaptureMonitor((m_opt_cboxDesktop > 0) ? m_Monitors[m_opt_cboxDesktop - 1].szDevice : nullptr);
 				break;
 			case 2: /// edge case, existing local file
 				break;
@@ -620,7 +620,7 @@ void TfrmMain::wmNotify(WPARAM, LPARAM lParam)
 		case TCN_SELCHANGING:{
 				if (!m_hwndTabPage) break;
 				ShowWindow(m_hwndTabPage, SW_HIDE);
-				m_hwndTabPage = NULL;
+				m_hwndTabPage = nullptr;
 				break; }
 		case TCN_SELCHANGE:{
 				TAB_INFO itab = { TCIF_PARAM };
@@ -662,7 +662,7 @@ void TfrmMain::UMevent(WPARAM, LPARAM lParam)
 	case EVT_CaptureDone:
 		if (!m_Screenshot && m_opt_tabCapture != 2) {
 			wchar_t *err = TranslateT("Couldn't take a screenshot");
-			MessageBox(NULL, err, ERROR_TITLE, MB_OK | MB_ICONWARNING);
+			MessageBox(nullptr, err, ERROR_TITLE, MB_OK | MB_ICONWARNING);
 			Show();
 			return;
 		}
@@ -674,7 +674,7 @@ void TfrmMain::UMevent(WPARAM, LPARAM lParam)
 		if (m_opt_chkOpenAgain) {
 			if (m_Screenshot) {
 				FIP->FI_Unload(m_Screenshot);
-				m_Screenshot = NULL;
+				m_Screenshot = nullptr;
 			}
 			Show();
 		}
@@ -696,22 +696,22 @@ TfrmMain::TfrmMain()
 	/* m_opt_XXX */
 	m_bOnExitSave = TRUE;
 
-	m_hWnd = NULL;
+	m_hWnd = nullptr;
 	m_hContact = NULL;
 	m_bFormAbout = false;
-	m_hTargetWindow = m_hLastWin = NULL;
-	m_hTargetHighlighter = NULL;
-	m_FDestFolder = m_pszFile = NULL;
-	m_Screenshot = NULL;
+	m_hTargetWindow = m_hLastWin = nullptr;
+	m_hTargetHighlighter = nullptr;
+	m_FDestFolder = m_pszFile = nullptr;
+	m_Screenshot = nullptr;
 	/* m_AlphaColor */
-	m_cSend = NULL;
+	m_cSend = nullptr;
 
-	m_Monitors = NULL;
+	m_Monitors = nullptr;
 	m_MonitorCount = MonitorInfoEnum(m_Monitors, m_VirtualScreen);
 	/* m_opt_XXX */ LoadOptions();
 	m_bCapture = false;
 	/* m_hwndTab,m_hwndTabPage */
-	m_himlTab = NULL;
+	m_himlTab = nullptr;
 }
 
 TfrmMain::~TfrmMain()
@@ -723,8 +723,8 @@ TfrmMain::~TfrmMain()
 	if (m_Screenshot) FIP->FI_Unload(m_Screenshot);
 	if (m_cSend) delete m_cSend;
 	if (m_hTargetHighlighter) {
-		DestroyWindow(m_hTargetHighlighter), m_hTargetHighlighter = NULL;
-		SystemParametersInfo(SPI_SETCURSORS, 0, NULL, 0);
+		DestroyWindow(m_hTargetHighlighter), m_hTargetHighlighter = nullptr;
+		SystemParametersInfo(SPI_SETCURSORS, 0, nullptr, 0);
 	}
 }
 
@@ -792,7 +792,7 @@ void TfrmMain::Init(wchar_t* DestFolder, MCONTACT Contact)
 	m_hContact = Contact;
 
 	// create window
-	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UMainForm), 0, DlgTfrmMain, (LPARAM)this);
+	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UMainForm), nullptr, DlgTfrmMain, (LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 
@@ -826,11 +826,11 @@ void TfrmMain::btnCaptureClick()
 	TfrmMain::Hide();
 
 	if (m_opt_chkTimed) {
-		SetTimer(m_hWnd, ID_chkTimed, m_opt_edtTimed ? m_opt_edtTimed * 1000 : 500, NULL); /// calls EVT_CaptureDone
+		SetTimer(m_hWnd, ID_chkTimed, m_opt_edtTimed ? m_opt_edtTimed * 1000 : 500, nullptr); /// calls EVT_CaptureDone
 		return;
 	}
 	if (m_opt_tabCapture == 1) { /// desktop needs always time to update from TfrmMain::Hide()
-		SetTimer(m_hWnd, ID_chkTimed, 500, NULL); /// calls EVT_CaptureDone
+		SetTimer(m_hWnd, ID_chkTimed, 500, nullptr); /// calls EVT_CaptureDone
 		return;
 	}
 	if (m_opt_tabCapture != 2) {
@@ -889,7 +889,7 @@ void TfrmMain::cboxSendByChange()
 		m_cSend = new CSendHost_Imgur(m_hWnd, m_hContact, true);
 		break;
 	default:				//SS_JUSTSAVE - "Just save it "
-		m_cSend = NULL;
+		m_cSend = nullptr;
 		break;
 	}
 	if (m_cSend) {
@@ -898,12 +898,12 @@ void TfrmMain::cboxSendByChange()
 	}
 	bState = (itemFlag & SS_DLG_DELETEAFTERSSEND);
 	hIcon = GetIconBtn(m_opt_btnDeleteAfterSend ? ICO_BTN_DELON : ICO_BTN_DEL);
-	SendDlgItemMessage(m_hWnd, ID_chkDeleteAfterSend, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
+	SendDlgItemMessage(m_hWnd, ID_chkDeleteAfterSend, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : nullptr));
 	Button_Enable(GetDlgItem(m_hWnd, ID_chkDeleteAfterSend), bState);
 
 	bState = (itemFlag & SS_DLG_DESCRIPTION);
 	hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESCON : ICO_BTN_DESC);
-	SendDlgItemMessage(m_hWnd, ID_chkDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
+	SendDlgItemMessage(m_hWnd, ID_chkDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : nullptr));
 	Button_Enable(GetDlgItem(m_hWnd, ID_chkDesc), bState);
 }
 
@@ -931,7 +931,7 @@ void TfrmMain::btnAboutOnCloseWindow(HWND)
 void TfrmMain::btnExploreClick()
 {
 	if (m_FDestFolder)
-		ShellExecute(NULL, L"explore", m_FDestFolder, NULL, NULL, SW_SHOW);
+		ShellExecute(nullptr, L"explore", m_FDestFolder, nullptr, nullptr, SW_SHOW);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1020,7 +1020,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	case 1: // JPG
 		wszFileName.Append(L".jpg");
 		{
-			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
+			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
 			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
 			FIP->FI_Unload(dib32);
 			ret = FIP->FI_SaveU(FIF_JPEG, dib24, wszFileName, 0);
@@ -1031,7 +1031,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	case 2: // BMP
 		wszFileName.Append(L".bmp");
 		{
-			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
+			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
 			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
 			FIP->FI_Unload(dib32);
 			ret = FIP->FI_SaveU(FIF_BMP, dib24, wszFileName, 0);
@@ -1042,7 +1042,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	case 3: //TIFF (miranda freeimage interface do not support save tiff, we udse GDI+)
 		wszFileName.Append(L".tif");
 		{
-			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, NULL);
+			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
 			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
 			FIP->FI_Unload(dib32);
 		
@@ -1119,17 +1119,17 @@ void TfrmMain::FormClose()
 			do {
 				// wait for editor exit or messages/input
 				res = MsgWaitForMultipleObjects(1, &shex.hProcess, 0, INFINITE, QS_ALLINPUT);
-				while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+				while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
 					if (msg.message == WM_QUIT) {
 						res = WAIT_OBJECT_0;
-						PostMessage(NULL, WM_QUIT, 0, 0); // forward for outer message loops
+						PostMessage(nullptr, WM_QUIT, 0, 0); // forward for outer message loops
 						break;
 					}
 					// process dialog messages (of unknown dialogs)
 					HWND hwndDlgModeless = GetActiveWindow();
 					//					HWND hwndDlgModeless = msg.hwnd;
 					//					for(HWND hTMP; (hTMP=GetAncestor(hwndDlgModeless,GA_PARENT)) && IsChild(hTMP,hwndDlgModeless); hwndDlgModeless=hTMP);
-					if (hwndDlgModeless != NULL && IsDialogMessage(hwndDlgModeless, &msg)) /* Wine fix. */
+					if (hwndDlgModeless != nullptr && IsDialogMessage(hwndDlgModeless, &msg)) /* Wine fix. */
 						continue;
 					// process messages
 					TranslateMessage(&msg);
@@ -1144,7 +1144,7 @@ void TfrmMain::FormClose()
 
 	if (send && m_cSend && m_pszFile) {
 		if (!m_cSend->Send()) // not sent now, class deletes itself later
-			m_cSend = NULL; 
+			m_cSend = nullptr; 
 		cboxSendByChange();
 	}
 	else if (!send && bCanDelete)

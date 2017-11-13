@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 TCluiData cfg::dat = { 0 };
-ClcData* cfg::clcdat = 0;
+ClcData* cfg::clcdat = nullptr;
 
 static mir_cs cachecs;
 LIST<TExtraCache> cfg::arCache(100, NumericKeySortT);
@@ -35,8 +35,8 @@ bool cfg::shutDown = false;
 TSysConfig API::sysConfig = { 0 };
 TSysState  API::sysState = { 0 };
 
-pfnDwmExtendFrameIntoClientArea_t API::pfnDwmExtendFrameIntoClientArea = 0;
-pfnDwmIsCompositionEnabled_t API::pfnDwmIsCompositionEnabled = 0;
+pfnDwmExtendFrameIntoClientArea_t API::pfnDwmExtendFrameIntoClientArea = nullptr;
+pfnDwmIsCompositionEnabled_t API::pfnDwmIsCompositionEnabled = nullptr;
 
 EXCEPTION_RECORD API::exRecord = { 0 };
 CONTEXT API::exCtx = { 0 };
@@ -45,7 +45,7 @@ char    API::exSzFile[MAX_PATH] = "";
 wchar_t   API::exReason[256] = L"";
 int     API::exLine = 0;
 bool    API::exAllowContinue = false;
-HMODULE API::hDwm = 0;
+HMODULE API::hDwm = nullptr;
 
 TExtraCache* cfg::getCache(const MCONTACT hContact, const char *szProto)
 {
@@ -82,10 +82,10 @@ void CSH_Destroy()
 			StatusItems_t *item = p->status_item;
 
 			free(p->status_item);
-			p->status_item = 0;
+			p->status_item = nullptr;
 			for (int j = i; j < cfg::arCache.getCount(); j++) // avoid duplicate free()'ing status item pointers (there are references from sub to master contacts, so compare the pointers...
 				if (cfg::arCache[j]->status_item == item)
-					cfg::arCache[j]->status_item = 0;
+					cfg::arCache[j]->status_item = nullptr;
 		}
 		free(p);
 	}
@@ -204,7 +204,7 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, wch
 	mir_snprintf(exSzFile, "%s%s", szName, szExt);
 	mir_snwprintf(exReason, L"An application error has occured: %s", szReason);
 	exLine = line;
-	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, Ex_DlgProc, 0);
+	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), nullptr, Ex_DlgProc, 0);
 	exAllowContinue = fAllowContinue;
 	if (IDCANCEL == exLastResult)
 		ExitProcess(1);
@@ -233,7 +233,7 @@ void TSAPI Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename, bool useGetHandle)
 {
 	wchar_t sysPathName[MAX_PATH + 2];
-	HMODULE _h = 0;
+	HMODULE _h = nullptr;
 
 	try {
 		if (0 == ::GetSystemDirectory(sysPathName, MAX_PATH))
@@ -248,12 +248,12 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename, bool useGetHandle)
 			_h = ::GetModuleHandle(sysPathName);
 		else
 			_h = LoadLibrary(sysPathName);
-		if (0 == _h)
+		if (nullptr == _h)
 			throw(CRTException("Error while loading system library", szFilename));
 	}
 	catch (CRTException& ex) {
 		ex.display();
-		return 0;
+		return nullptr;
 	}
 	return (_h);
 }
@@ -269,6 +269,6 @@ void CRTException::display() const
 
 	wchar_t tszBoxMsg[500];
 	mir_snwprintf(tszBoxMsg, L"%s\n\n(%s)", tszMsg, m_szParam);
-	::MessageBox(0, tszBoxMsg, L"Clist_nicer runtime error", MB_OK | MB_ICONERROR);
+	::MessageBox(nullptr, tszBoxMsg, L"Clist_nicer runtime error", MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);
 }

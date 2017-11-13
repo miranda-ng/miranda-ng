@@ -73,7 +73,7 @@ HICON GetIcon(int iconId, bool size)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, size);
 
-	return NULL;
+	return nullptr;
 }
 
 PLUGININFOEX pluginInfo = {
@@ -265,7 +265,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 		memset(dat, 0, sizeof(SetAwayMsgData));
 		dat->szProtocol = (char*)lParam;
 		dat->IsModeless = false;
-		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)dat);
+		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
 	}
 	return 0;
 }
@@ -312,7 +312,7 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 	int iContactMode = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	wchar_t szSetStr[256], szReadStr[256];
 	szSetStr[0] = szReadStr[0] = 0;
-	HICON hReadMsgIcon = NULL;
+	HICON hReadMsgIcon = nullptr;
 
 	if (szProto) {
 		int i;
@@ -383,7 +383,7 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 	dat->hInitContact = hContact;
 	dat->szProtocol = GetContactProto(hContact);
 	dat->IsModeless = false;
-	DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)dat);
+	DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), nullptr, SetAwayMsgDlgProc, (LPARAM)dat);
 	return 0;
 }
 

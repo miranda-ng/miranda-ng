@@ -13,7 +13,7 @@
 #define ANCHOR_BOTTOM   0x000008
 #define ANCHOR_ALL      ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM
 
-HWND hHistoryWindow = 0; //the history window
+HWND hHistoryWindow = nullptr; //the history window
 PopupHistoryList lstPopupHistory; //defined in main.cpp
 
 const wchar_t *szHistoryColumns[] = {L"Title", L"Message", L"Timestamp"}; //need to make sure that the string and size vectors have the same number of elements
@@ -103,7 +103,7 @@ void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors)
 
 void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOWPOS *wndPos, int anchors)
 {
-	if (NULL == window) /* Wine fix. */
+	if (nullptr == window) /* Wine fix. */
 		return;
 	RECT rChild = AnchorCalcPos(window, rParent, wndPos, anchors);
 	hdWnds = DeferWindowPos(hdWnds, window, HWND_NOTOPMOST, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, SWP_NOZORDER);
@@ -339,7 +339,7 @@ IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 		eventData->pszTextW = popupItem->messageT;
 
 		eventData->time = (DWORD) popupItem->timestamp;
-		eventData->next = NULL;
+		eventData->next = nullptr;
 	}
 	
 	return eventData;
@@ -357,9 +357,9 @@ void AddEventsCustomControl(HWND hWnd, int renderer, wchar_t *filter, SIG_MATCHE
 		ieEvent.iType = IEE_LOG_MEM_EVENTS;
 		ieEvent.hContact = NULL;
 		
-		IEVIEWEVENTDATA *eventData = NULL;
-		IEVIEWEVENTDATA *cED = NULL;
-		IEVIEWEVENTDATA *prevED = NULL;
+		IEVIEWEVENTDATA *eventData = nullptr;
+		IEVIEWEVENTDATA *cED = nullptr;
+		IEVIEWEVENTDATA *prevED = nullptr;
 		
 		int i;
 		int count = 0;
@@ -447,7 +447,7 @@ void RefreshPopupHistory(HWND hWnd, int renderer)
 	if (renderer == RENDER_DEFAULT)
 	{
 		HWND hHistoryList = GetDlgItem(hWnd, IDC_LST_HISTORY);
-		SortParams params = {0};
+		SortParams params = {};
 		params.hList = hHistoryList;
 		params.column = lastColumn;
 		
@@ -525,7 +525,7 @@ static LRESULT CALLBACK PopupsListSubclassProc(HWND hWnd, UINT msg, WPARAM wPara
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_TITLE, TranslateT("Copy title to clipboard"));
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_MESSAGE, TranslateT("Copy message to clipboard"));
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_TIMESTAMP, TranslateT("Copy timestamp to clipboard"));
-			selection = TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL);
+			selection = TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, nullptr);
 			DestroyMenu(hMenu);
 			if (selection)
 			{
@@ -601,7 +601,7 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_DESTROY:
 		UnloadRenderer(hWnd, lstPopupHistory.GetRenderer());
-		hHistoryWindow = NULL;
+		hHistoryWindow = nullptr;
 		break;
 
 	case WM_CLOSE:
@@ -657,7 +657,7 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				{
 					LPNMLISTVIEW lv = (LPNMLISTVIEW) lParam;
 					int column = lv->iSubItem;
-					SortParams params = {0};
+					SortParams params = {};
 					params.hList = GetDlgItem(hWnd, IDC_LST_HISTORY);
 					params.column = column;
 

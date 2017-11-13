@@ -22,9 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 char ModuleName[] = "WhenWasIt";
 HINSTANCE hInstance;
-HWND hBirthdaysDlg = NULL;
-HWND hUpcomingDlg = NULL;
-MWindowList hAddBirthdayWndsList = NULL;
+HWND hBirthdaysDlg = nullptr;
+HWND hUpcomingDlg = nullptr;
+MWindowList hAddBirthdayWndsList = nullptr;
 int hLangpack;
 
 CommonData commonData = { 0 };
@@ -110,7 +110,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x6f844569, 0xad06, 0x4b27, 0x8f, 0xd8, 0x1, 0x24, 0xe7, 0x1e, 0xcc, 0x43);
-	mi.root = 0;
+	mi.root = nullptr;
 	mi.pszService = MS_WWI_ADD_BIRTHDAY;
 	mi.position = 10000000;
 	mi.hIcolibItem = hAddBirthdayContact;

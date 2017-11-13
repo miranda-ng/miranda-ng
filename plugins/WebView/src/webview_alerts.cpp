@@ -113,7 +113,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATAT ppd = { 0 };
 
-	if( ((HANDLE)wParam) != NULL) {
+	if( ((HANDLE)wParam) != nullptr) {
 		DBVARIANT dbv;
 		db_get_ws(wParam, MODULENAME, PRESERVE_NAME_KEY, &dbv);
 		mir_wstrncpy(ppd.lptzContactName, dbv.ptszVal, _countof(ppd.lptzContactName));
@@ -143,7 +143,7 @@ int PopupAlert(WPARAM wParam, LPARAM lParam)
 		ppd.colorText = TextClr;
 	}
 
-	ppd.PluginWindowProc = NULL;
+	ppd.PluginWindowProc = nullptr;
 	ppd.iSeconds = db_get_dw(NULL, MODULENAME, POP_DELAY_KEY, 0);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
@@ -196,7 +196,7 @@ int ErrorMsgs(WPARAM wParam, LPARAM lParam)
 		CallService("OSD/Announce", (WPARAM)newdisplaytext, 0);
 	}
 
-	Clist_TrayNotifyW(NULL, ptszContactName, TranslateW(displaytext), NIIF_ERROR, 15000);
+	Clist_TrayNotifyW(nullptr, ptszContactName, TranslateW(displaytext), NIIF_ERROR, 15000);
 	return 0;
 }
 
@@ -220,13 +220,13 @@ void SaveToFile(MCONTACT hContact, char *truncated)
 		return;
 
 	FILE *pfile = fopen(dbv.pszVal, mode);
-	if (pfile == NULL)
+	if (pfile == nullptr)
 		WErrorPopup(hContact, TranslateT("Cannot write to file"));
 	else {
 		char timestring[128], timeprefix[32];
 		char temptime1[32], temptime2[32];
 
-		time_t ftime = time(NULL);
+		time_t ftime = time(nullptr);
 		struct tm *nTime = localtime(&ftime);
 
 		mir_snprintf(timeprefix, " %s ", Translate("Last updated on"));
@@ -332,7 +332,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 				SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Start/end strings not found or strings not set."));
 			}
-			else MessageBox(NULL, TranslateT("Start/end strings not found or strings not set."), _A2W(MODULENAME), MB_OK);
+			else MessageBox(nullptr, TranslateT("Start/end strings not found or strings not set."), _A2W(MODULENAME), MB_OK);
 		}
 
 		if (eventIndex == 0) { // string present
@@ -340,7 +340,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				strncpy_s(alertstring, _countof(alertstring), tdbv.pszVal, _TRUNCATE);
 				db_free(&tdbv);
 
-				if ((strstr(tempraw, alertstring)) != 0) { // // ENDALERT EVENT:CHECK FOR STRING
+				if ((strstr(tempraw, alertstring)) != nullptr) { // // ENDALERT EVENT:CHECK FOR STRING
 					// there was an alert
 					wasAlert = 1;
 
@@ -405,7 +405,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 							SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Download successful; about to process data..."));
 						}
-						else MessageBox(NULL, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
+						else MessageBox(nullptr, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
 					}
 				}
 			}
@@ -419,11 +419,11 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			*cacheend = '\0';
 
 			mir_snwprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
-			CreateDirectory(cachedirectorypath, NULL);
+			CreateDirectory(cachedirectorypath, nullptr);
 			mir_snwprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 			// file exists?
 			if ( _waccess(newcachepath, 0) != -1) {
-				if ((pcachefile = _wfopen(newcachepath, L"r")) == NULL)
+				if ((pcachefile = _wfopen(newcachepath, L"r")) == nullptr)
 					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot read from file"));
 				else {
 					memset(&cachecompare, 0, sizeof(cachecompare));
@@ -432,7 +432,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				}
 			}
 			// write to cache
-			if ((pcachefile = _wfopen(newcachepath, L"w")) == NULL)
+			if ((pcachefile = _wfopen(newcachepath, L"w")) == nullptr)
 				WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 1"));
 			else {
 				fwrite(tempraw, mir_strlen(tempraw), 1, pcachefile); //smaller cache
@@ -500,7 +500,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 						if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 							db_set_s(hContact, "CList", "MyHandle", tstr);
 					}
-					else MessageBox(NULL, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
+					else MessageBox(nullptr, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
 				}
 			}
 		}
@@ -517,7 +517,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 			}
 
 			// putting data into string
-			if (((strstr(tempraw, Alerttempstring)) != 0) && ((strstr(tempraw, Alerttempstring2)) != 0)) {
+			if (((strstr(tempraw, Alerttempstring)) != nullptr) && ((strstr(tempraw, Alerttempstring2)) != nullptr)) {
 				//start string
 				alertpos = strstr(tempraw, Alerttempstring);
 				statalertpos = alertpos - tempraw;
@@ -616,13 +616,13 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 					SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Alert start/end strings not found or strings not set."));
 				}
-				else MessageBox(NULL, TranslateT("Alert start/end strings not found or strings not set."), _A2W(MODULENAME), MB_OK);
+				else MessageBox(nullptr, TranslateT("Alert start/end strings not found or strings not set."), _A2W(MODULENAME), MB_OK);
 
 				db_set_w(hContact, MODULENAME, "Status", ID_STATUS_AWAY);
 			}
 
 			///////////////
-			if (((strstr(tempraw, Alerttempstring)) != 0) && ((strstr(tempraw, Alerttempstring2)) != 0)) {
+			if (((strstr(tempraw, Alerttempstring)) != nullptr) && ((strstr(tempraw, Alerttempstring2)) != nullptr)) {
 				// TEST GET NAME FOR CACHE
 				wchar_t cachepath[MAX_PATH], cachedirectorypath[MAX_PATH], newcachepath[MAX_PATH + 50];
 				GetModuleFileName(hInst, cachepath, _countof(cachepath));
@@ -631,11 +631,11 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				*cacheend = '\0';
 
 				mir_snwprintf(cachedirectorypath, L"%s%S%S", cachepath, MODULENAME, "cache\\");
-				CreateDirectory(cachedirectorypath, NULL);
+				CreateDirectory(cachedirectorypath, nullptr);
 				mir_snwprintf(newcachepath, L"%s%S%S%S%S", cachepath, MODULENAME, "cache\\", contactname, ".txt");
 				// file exists?
 				if ( _waccess(newcachepath, 0) != -1) {
-					if ((pcachefile = _wfopen(newcachepath, L"r")) == NULL)
+					if ((pcachefile = _wfopen(newcachepath, L"r")) == nullptr)
 						WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot read from file"));
 					else {
 						memset(&cachecompare, 0, sizeof(cachecompare));
@@ -644,7 +644,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					}
 				}
 				// write to cache
-				if ((pcachefile = _wfopen(newcachepath, L"w")) == NULL)
+				if ((pcachefile = _wfopen(newcachepath, L"w")) == nullptr)
 					WErrorPopup((UINT_PTR)contactname, TranslateT("Cannot write to file 2"));
 				else {
 					fwrite(raw, mir_strlen(raw), 1, pcachefile); //smaller cache
@@ -710,7 +710,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 							if ( db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0))
 								db_set_s(hContact, "CList", "MyHandle", tstr);
 						}
-						else MessageBox(NULL, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
+						else MessageBox(nullptr, TranslateT("Unknown alert type."), _A2W(MODULENAME), MB_OK);
 					}
 				}
 			}
@@ -763,7 +763,7 @@ int DataWndAlertCommand(WPARAM wParam, LPARAM)
 	if ( WindowList_Find(hWindowList, hContact))
 		return 0;
 
-	HWND hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, hContact);
+	HWND hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, hContact);
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) ((HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 	if ( db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
@@ -802,7 +802,7 @@ void ReadFromFile(void *param)
 		return;
 
 	FILE *pfile;
-	if ((pfile = fopen(dbv.pszVal, "r")) == NULL) {
+	if ((pfile = fopen(dbv.pszVal, "r")) == nullptr) {
 		SendToRichEdit(hwndDlg, Translate("Cannot read from cache file"), TextClr, BackgoundClr);
 		fileexists = 0;
 	} 

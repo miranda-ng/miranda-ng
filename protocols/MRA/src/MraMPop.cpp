@@ -38,11 +38,11 @@ void MraMPopSessionQueueClear(HANDLE hQueue)
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
 	pmpsqMPopSessionQueue->bKeyValid = false;
 	mir_free(pmpsqMPopSessionQueue->lpszMPOPKey);
-	pmpsqMPopSessionQueue->lpszMPOPKey = NULL;
+	pmpsqMPopSessionQueue->lpszMPOPKey = nullptr;
 	pmpsqMPopSessionQueue->dwMPOPKeySize = 0;
 
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
-	while ( !FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi))
+	while ( !FifoMTItemPop(pmpsqMPopSessionQueue, nullptr, (LPVOID*)&pmpsqi))
 		mir_free(pmpsqi);
 }
 
@@ -115,12 +115,12 @@ void CMraProto::MraMPopSessionQueueStart(HANDLE hQueue)
 
 	while ( FifoMTGetCount(pmpsqMPopSessionQueue)) {
 		if (!pmpsqMPopSessionQueue->bKeyValid) { /* We have no key, try to get one. */
-			if (0 == MraSendCMD(MRIM_CS_GET_MPOP_SESSION, NULL, 0))	/* Fail to send. */
+			if (0 == MraSendCMD(MRIM_CS_GET_MPOP_SESSION, nullptr, 0))	/* Fail to send. */
 				MraMPopSessionQueueFlush(hQueue);
 			return;
 		}
 
-		if ( FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
+		if ( FifoMTItemPop(pmpsqMPopSessionQueue, nullptr, (LPVOID*)&pmpsqi) == NO_ERROR) {
 			CMStringA szUrl, szEmail;
 			if (mraGetStringA(NULL, "e-mail", szEmail)) {
 				pmpsqMPopSessionQueue->bKeyValid = false;
@@ -142,7 +142,7 @@ void CMraProto::MraMPopSessionQueueFlush(HANDLE hQueue)
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hQueue;
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
-	while (FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
+	while (FifoMTItemPop(pmpsqMPopSessionQueue, nullptr, (LPVOID*)&pmpsqi) == NO_ERROR) {
 		Utils_OpenUrl(pmpsqi->lpszUrl);
 		mir_free(pmpsqi);
 	}
@@ -168,7 +168,7 @@ DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hQueue, const CMStringA &szKey)
 	}
 
 	pmpsqMPopSessionQueue->bKeyValid = false;
-	pmpsqMPopSessionQueue->lpszMPOPKey = NULL;
+	pmpsqMPopSessionQueue->lpszMPOPKey = nullptr;
 	pmpsqMPopSessionQueue->dwMPOPKeySize = 0;
 	return GetLastError();
 }

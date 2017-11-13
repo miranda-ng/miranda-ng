@@ -22,14 +22,14 @@ PLUGININFOEX g_pluginInfo =
 	{ 0x2925520b, 0x6677, 0x4658, { 0x8b, 0xad, 0x56, 0x61, 0xd1, 0x3e, 0x46, 0x92 } }
 };
 
-HINSTANCE g_hModule = NULL;
+HINSTANCE g_hModule = nullptr;
 
 UINT   g_MsgIDSkypeControlAPIAttach = 0;
 UINT   g_MsgIDSkypeControlAPIDiscover = 0;
-HWND   g_wndMainWindow = NULL;
+HWND   g_wndMainWindow = nullptr;
 
-HANDLE g_hThread = NULL;
-HANDLE g_hEventShutdown = NULL;
+HANDLE g_hThread = nullptr;
+HANDLE g_hEventShutdown = nullptr;
 
 bool   g_bMirandaIsShutdown = false;
 
@@ -116,7 +116,7 @@ int SSC_OnProtocolAck(WPARAM, LPARAM lParam)
 							if (0 == ::PostMessage(HWND_BROADCAST, g_MsgIDSkypeControlAPIDiscover, (WPARAM)g_wndMainWindow, 0)) {
 								mir_cslock guard(g_csStatusInfo);
 								g_CurrStatusInfo.StatusIndex(INVALID_INDEX);
-								g_CurrStatusInfo.Module(NULL);
+								g_CurrStatusInfo.Module(nullptr);
 							}
 							else g_Options.SetPreviousStatus(pAckData->szModule, nStatus);
 				}
@@ -154,7 +154,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 	switch (msg) {
 	case WM_DESTROY:
-		g_wndMainWindow = NULL;
+		g_wndMainWindow = nullptr;
 		break;
 
 	case WM_COPYDATA:
@@ -187,11 +187,11 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						oCopyData.cbData = cLength + 1;
 						SendMessage(wndSkypeAPIWindow, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)&oCopyData);
 						if (g_Options.GetSyncStatusMsgFlag()) {
-							wchar_t* pszStatusMsg = NULL;
+							wchar_t* pszStatusMsg = nullptr;
 							if (ProtoServiceExists(si.Module(), PS_GETMYAWAYMSG))
 								pszStatusMsg = reinterpret_cast<wchar_t*>(CallProtoService(si.Module(), PS_GETMYAWAYMSG, (WPARAM)ms.m_nMirandaStatus, SGMA_UNICODE));
 
-							if ((NULL == pszStatusMsg) || (CALLSERVICE_NOTFOUND == INT_PTR(pszStatusMsg)))
+							if ((nullptr == pszStatusMsg) || (CALLSERVICE_NOTFOUND == INT_PTR(pszStatusMsg)))
 								pszStatusMsg = reinterpret_cast<wchar_t*>(CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM)ms.m_nMirandaStatus, 0));
 
 							if (pszStatusMsg && reinterpret_cast<LPARAM>(pszStatusMsg) != CALLSERVICE_NOTFOUND) {
@@ -251,7 +251,7 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 	if (g_wndMainWindow) {
 		b = DestroyWindow(g_wndMainWindow);
 		assert(b && "DestoryWindow");
-		g_wndMainWindow = NULL;
+		g_wndMainWindow = nullptr;
 	}
 
 	UnregisterClass(g_pszSkypeWndClassName, g_hModule);
@@ -292,14 +292,14 @@ extern "C" int __declspec(dllexport) Load()
 
 	g_wndMainWindow = CreateWindowEx(WS_EX_APPWINDOW | WS_EX_WINDOWEDGE,
 		g_pszSkypeWndClassName, L"", WS_BORDER | WS_SYSMENU | WS_MINIMIZEBOX,
-		CW_USEDEFAULT, CW_USEDEFAULT, 128, 128, NULL, 0, g_hModule, 0);
-	if (g_wndMainWindow == NULL)
+		CW_USEDEFAULT, CW_USEDEFAULT, 128, 128, nullptr, nullptr, g_hModule, nullptr);
+	if (g_wndMainWindow == nullptr)
 		return 1;
 
 	g_bMirandaIsShutdown = false;
-	g_hEventShutdown = ::CreateEvent(NULL, TRUE, FALSE, NULL);
+	g_hEventShutdown = ::CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
-	g_hThread = mir_forkthread(ThreadFunc, NULL);
+	g_hThread = mir_forkthread(ThreadFunc, nullptr);
 
 	HookEvent(ME_PROTO_ACK, SSC_OnProtocolAck);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SSC_OnPreShutdown);

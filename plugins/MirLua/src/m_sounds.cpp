@@ -40,7 +40,7 @@ static luaL_Reg soundApi[] =
 	{ "PlaySound", lua_PlaySound },
 	{ "PlayFile", lua_PlayFile },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_sounds(lua_State *L)

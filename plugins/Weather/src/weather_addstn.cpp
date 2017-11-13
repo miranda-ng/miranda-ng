@@ -111,7 +111,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 			// notification message box
 			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
-			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
 		db_set_ws(NULL, WEATHERPROTONAME, "Default", opt.Default);
 	}
@@ -125,8 +125,8 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 // show a message box and cancel search if update is in process
 BOOL CheckSearch()
 {
-	if (UpdateListHead != NULL) {
-		MessageBox(NULL, TranslateT("Please try again after weather update is completed."), TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
+	if (UpdateListHead != nullptr) {
+		MessageBox(nullptr, TranslateT("Please try again after weather update is completed."), TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
 	return TRUE;
@@ -160,7 +160,7 @@ INT_PTR WeatherBasicSearch(WPARAM, LPARAM lParam)
 	sttSID[_countof(sttSID) - 1] = 0;
 	sttSearchId = 1;
 	// create a thread for the ID search
-	mir_forkthread(BasicSearchTimerProc, NULL);
+	mir_forkthread(BasicSearchTimerProc, nullptr);
 	return sttSearchId;
 }
 
@@ -214,7 +214,7 @@ INT_PTR WeatherAdvancedSearch(WPARAM, LPARAM lParam)
 	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, _countof(name1));
 
 	// search for the weather station using a thread
-	mir_forkthread(NameSearchTimerProc, NULL);
+	mir_forkthread(NameSearchTimerProc, nullptr);
 	return sttSearchId;
 }
 
@@ -231,16 +231,16 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 
 	if (sData->Available) {
 		char loc[255];
-		wchar_t *szData = NULL;
+		wchar_t *szData = nullptr;
 
 		// load the page
 		mir_snprintf(loc, sData->SearchURL, sID);
-		BOOL bFound = (InternetDownloadFile(loc, NULL, NULL, &szData) == 0);
+		BOOL bFound = (InternetDownloadFile(loc, nullptr, nullptr, &szData) == 0);
 		if (bFound) {
 			wchar_t* szInfo = szData;
 
 			// not found
-			if (wcsstr(szInfo, sData->NotFoundStr) == NULL)
+			if (wcsstr(szInfo, sData->NotFoundStr) == nullptr)
 				GetDataValue(&sData->Name, str, &szInfo);
 		}
 
@@ -276,7 +276,7 @@ int IDSearch(wchar_t *sID, const int searchId)
 		WIDATALIST *Item = WIHead;
 
 		// search every weather service using the search station ID
-		while (Item != NULL) {
+		while (Item != nullptr) {
 			IDSearchProc(sID, searchId, &Item->Data.IDSearch, Item->Data.InternalName, Item->Data.DisplayName);
 			Item = Item->next;
 		}
@@ -306,21 +306,21 @@ int IDSearch(wchar_t *sID, const int searchId)
 // svcname = the name of the weather service that is currently searching (ie. Yahoo Weather)
 int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar_t *svc, wchar_t *svcname)
 {
-	wchar_t Name[MAX_DATA_LEN], str[MAX_DATA_LEN], sID[MAX_DATA_LEN], *szData = NULL, *search;
+	wchar_t Name[MAX_DATA_LEN], str[MAX_DATA_LEN], sID[MAX_DATA_LEN], *szData = nullptr, *search;
 
 	// replace spaces with %20
 	char loc[256];
 	T2Utf szSearchName(name);
 	mir_snprintf(loc, sData->SearchURL, ptrA(mir_urlEncode(szSearchName)));
-	if (InternetDownloadFile(loc, NULL, NULL, &szData) == 0) {
+	if (InternetDownloadFile(loc, nullptr, nullptr, &szData) == 0) {
 		wchar_t* szInfo = szData;
 		search = wcsstr(szInfo, sData->NotFoundStr);	// determine if data is available
-		if (search == NULL) { // if data is found
+		if (search == nullptr) { // if data is found
 			// test if it is single result
 			if (sData->Single.Available && sData->Multiple.Available)
 				search = wcsstr(szInfo, sData->SingleStr);
 			// for single result
-			if (sData->Single.Available && (search != NULL || !sData->Multiple.Available)) { // single result
+			if (sData->Single.Available && (search != nullptr || !sData->Multiple.Available)) { // single result
 				// if station ID appears first in the downloaded data
 				if (!mir_wstrcmpi(sData->Single.First, L"ID")) {
 					GetDataValue(&sData->Single.ID, str, &szInfo);
@@ -414,7 +414,7 @@ int NameSearch(wchar_t *name, const int searchId)
 	WIDATALIST *Item = WIHead;
 
 	// search every weather service using the search station name
-	while (Item != NULL) {
+	while (Item != nullptr) {
 		if (Item->Data.NameSearch.Single.Available || Item->Data.NameSearch.Multiple.Available)
 			NameSearchProc(name, searchId, &Item->Data.NameSearch, Item->Data.InternalName, Item->Data.DisplayName);
 		Item = Item->next;

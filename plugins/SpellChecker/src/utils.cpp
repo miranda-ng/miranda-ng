@@ -108,7 +108,7 @@ inline BOOL IsURL(wchar_t c)
 		|| c == '@' || c == '#';
 }
 
-int FindURLEnd(Dialog *dlg, wchar_t *text, int start_pos, int *checked_until = NULL)
+int FindURLEnd(Dialog *dlg, wchar_t *text, int start_pos, int *checked_until = nullptr)
 {
 	int num_slashes = 0;
 	int num_ats = 0;
@@ -126,7 +126,7 @@ int FindURLEnd(Dialog *dlg, wchar_t *text, int start_pos, int *checked_until = N
 			num_ats++;
 	}
 
-	if (checked_until != NULL)
+	if (checked_until != nullptr)
 		*checked_until = i;
 
 	if (num_slashes <= 0 && num_ats <= 0 && num_dots <= 0)
@@ -218,7 +218,7 @@ public:
 		// Has to auto-correct?
 		if (opts.auto_replace_dict) {
 			*replacement = dict->autoSuggestOne(text);
-			if (*replacement != NULL) {
+			if (*replacement != nullptr) {
 				*replace = true;
 				return;
 			}
@@ -264,7 +264,7 @@ public:
 	virtual void deal(const wchar_t *text, bool*, bool *replace, wchar_t **replacement)
 	{
 		*replacement = ar->autoReplace(text);
-		if (*replacement != NULL)
+		if (*replacement != nullptr)
 			*replace = true;
 	}
 };
@@ -356,7 +356,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 
 		bool mark = false;
 		bool replace = false;
-		wchar_t *replacement = NULL;
+		wchar_t *replacement = nullptr;
 		parser->deal(&text[last_pos], &mark, &replace, &replacement);
 
 		if (replace) {
@@ -378,7 +378,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 		else if (mark) {
 			SetUnderline(dlg, sel.cpMin, sel.cpMax);
 
-			if (callback != NULL)
+			if (callback != nullptr)
 				callback(&text[last_pos], sel, param);
 
 			errors++;
@@ -389,7 +389,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 }
 
 // Checks for errors in all text
-int CheckText(Dialog *dlg, BOOL check_all, FoundWrongWordCallback callback = NULL, void *param = NULL)
+int CheckText(Dialog *dlg, BOOL check_all, FoundWrongWordCallback callback = nullptr, void *param = nullptr)
 {
 	int errors = 0;
 
@@ -433,7 +433,7 @@ int CheckText(Dialog *dlg, BOOL check_all, FoundWrongWordCallback callback = NUL
 
 void ToLocaleID(wchar_t *szKLName, size_t size)
 {
-	wchar_t *stopped = NULL;
+	wchar_t *stopped = nullptr;
 	USHORT langID = (USHORT)wcstol(szKLName, &stopped, 16);
 
 	wchar_t ini[32], end[32];
@@ -466,11 +466,11 @@ int TimerCheck(Dialog *dlg, BOOL forceCheck = FALSE)
 {
 	KillTimer(dlg->hwnd, TIMER_ID);
 
-	if (!dlg->enabled || dlg->lang == NULL)
+	if (!dlg->enabled || dlg->lang == nullptr)
 		return -1;
 
 	if (!dlg->lang->isLoaded()) {
-		SetTimer(dlg->hwnd, TIMER_ID, 500, NULL);
+		SetTimer(dlg->hwnd, TIMER_ID, 500, nullptr);
 		return -1;
 	}
 
@@ -517,7 +517,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		// Schedule to re-parse
 		KillTimer(dlg->hwnd, TIMER_ID);
-		SetTimer(dlg->hwnd, TIMER_ID, 100, NULL);
+		SetTimer(dlg->hwnd, TIMER_ID, 100, nullptr);
 
 		dlg->changed = TRUE;
 	}
@@ -534,7 +534,7 @@ void ToggleEnabled(Dialog *dlg)
 		SetNoUnderline(dlg);
 	else {
 		dlg->changed = TRUE;
-		SetTimer(dlg->hwnd, TIMER_ID, 100, NULL);
+		SetTimer(dlg->hwnd, TIMER_ID, 100, nullptr);
 	}
 
 	if (dlg->srmm)
@@ -548,7 +548,7 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	Dialog *dlg = dlgit->second;
-	if (dlg == NULL)
+	if (dlg == nullptr)
 		return -1;
 
 	// Hotkey support
@@ -584,14 +584,14 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Need to do that to avoid changing the word while typing
 			KillTimer(hwnd, TIMER_ID);
-			SetTimer(hwnd, TIMER_ID, 1000, NULL);
+			SetTimer(hwnd, TIMER_ID, 1000, nullptr);
 
 			dlg->changed = TRUE;
 
 			if (!deleting && (lParam & 0xFF) > 1)	// Repeat rate
 				break;
 
-			if (!dlg->enabled || dlg->lang == NULL || !dlg->lang->isLoaded())
+			if (!dlg->enabled || dlg->lang == nullptr || !dlg->lang->isLoaded())
 				break;
 
 			// Don't check if field is read-only
@@ -632,7 +632,7 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		KillTimer(hwnd, TIMER_ID);
-		SetTimer(hwnd, TIMER_ID, 100, NULL);
+		SetTimer(hwnd, TIMER_ID, 100, nullptr);
 
 		dlg->changed = TRUE;
 		break;
@@ -644,7 +644,7 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WMU_DICT_CHANGED:
 		KillTimer(hwnd, TIMER_ID);
-		SetTimer(hwnd, TIMER_ID, 100, NULL);
+		SetTimer(hwnd, TIMER_ID, 100, nullptr);
 
 		dlg->changed = TRUE;
 		break;
@@ -652,7 +652,7 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WMU_KBDL_CHANGED:
 		if (opts.auto_locale) {
 			KillTimer(hwnd, TIMER_ID);
-			SetTimer(hwnd, TIMER_ID, 100, NULL);
+			SetTimer(hwnd, TIMER_ID, 100, nullptr);
 
 			dlg->changed = TRUE;
 
@@ -683,7 +683,7 @@ int GetClosestLanguage(wchar_t *lang_name)
 	mir_wstrncpy(lang, lang_name, _countof(lang));
 	{
 		wchar_t *p = wcschr(lang, '_');
-		if (p != NULL) *p = '\0';
+		if (p != nullptr) *p = '\0';
 	}
 
 	// First check if there is a language that is only the prefix
@@ -695,7 +695,7 @@ int GetClosestLanguage(wchar_t *lang_name)
 	size_t len = mir_wstrlen(lang);
 	for (i = 0; i < languages.getCount(); i++) {
 		wchar_t *p = wcschr(languages[i]->language, '_');
-		if (p == NULL)
+		if (p == nullptr)
 			continue;
 
 		size_t prefix_len = p - languages[i]->language;
@@ -716,7 +716,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 
 	int caps = (isProtocol ? CallProtoService(group, PS_GETCAPS, PFLAGNUM_4, 0) : 0);
 	if (caps & PF4_INFOSETTINGSVC) {
-		DBCONTACTGETSETTING cgs = { 0 };
+		DBCONTACTGETSETTING cgs = {};
 		cgs.szModule = group;
 		cgs.szSetting = setting;
 		cgs.pValue = &dbv;
@@ -728,7 +728,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 			return;
 	}
 
-	if (dbv.type == DBVT_WCHAR && dbv.ptszVal != NULL) {
+	if (dbv.type == DBVT_WCHAR && dbv.ptszVal != nullptr) {
 		wchar_t *lang = dbv.ptszVal;
 
 		for (int i = 0; i < languages.getCount(); i++) {
@@ -747,7 +747,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 void GetUserLanguageSetting(Dialog *dlg, char *setting)
 {
 	char *proto = GetContactProto(dlg->hContact);
-	if (proto == NULL)
+	if (proto == nullptr)
 		return;
 
 	GetUserProtoLanguageSetting(dlg, dlg->hContact, proto, setting);
@@ -834,7 +834,7 @@ void GetContactLanguage(Dialog *dlg)
 		dlg->lang = languages[i];
 		dlg->lang->load();
 	}
-	else dlg->lang = NULL;
+	else dlg->lang = nullptr;
 }
 
 void ModifyIcon(Dialog *dlg)
@@ -857,10 +857,10 @@ void ModifyIcon(Dialog *dlg)
 INT_PTR AddContactTextBoxService(WPARAM wParam, LPARAM)
 {
 	SPELLCHECKER_ITEM *sci = (SPELLCHECKER_ITEM *)wParam;
-	if (sci == NULL || sci->cbSize != sizeof(SPELLCHECKER_ITEM))
+	if (sci == nullptr || sci->cbSize != sizeof(SPELLCHECKER_ITEM))
 		return -1;
 
-	return AddContactTextBox(sci->hContact, sci->hwnd, sci->window_name, FALSE, NULL);
+	return AddContactTextBox(sci->hContact, sci->hwnd, sci->window_name, FALSE, nullptr);
 }
 
 int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner)
@@ -894,7 +894,7 @@ int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND 
 		mir_subclassWindow(dlg->hwnd, EditProc);
 		dialogs[hwnd] = dlg;
 
-		if (dlg->srmm && hwndOwner != NULL) {
+		if (dlg->srmm && hwndOwner != nullptr) {
 			dlg->hwnd_owner = hwndOwner;
 			mir_subclassWindow(dlg->hwnd_owner, OwnerProc);
 			dialogs[dlg->hwnd_owner] = dlg;
@@ -902,10 +902,10 @@ int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND 
 			ModifyIcon(dlg);
 		}
 
-		if (dlg->lang != NULL)
+		if (dlg->lang != nullptr)
 			dlg->lang->load();
 
-		SetTimer(hwnd, TIMER_ID, 1000, NULL);
+		SetTimer(hwnd, TIMER_ID, 1000, nullptr);
 	}
 
 	return 0;
@@ -918,7 +918,7 @@ void FreePopupData(Dialog *dlg)
 	DESTROY_MENY(dlg->hLanguageSubMenu);
 	DESTROY_MENY(dlg->hWrongWordsSubMenu);
 
-	if (dlg->wrong_words != NULL) {
+	if (dlg->wrong_words != nullptr) {
 		for (unsigned i = 0; i < dlg->wrong_words->size(); i++) {
 			FREE((*dlg->wrong_words)[i].word);
 
@@ -930,14 +930,14 @@ void FreePopupData(Dialog *dlg)
 		}
 
 		delete dlg->wrong_words;
-		dlg->wrong_words = NULL;
+		dlg->wrong_words = nullptr;
 	}
 }
 
 INT_PTR RemoveContactTextBoxService(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = (HWND)wParam;
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return -1;
 
 	return RemoveContactTextBox(hwnd);
@@ -956,7 +956,7 @@ int RemoveContactTextBox(HWND hwnd)
 			mir_unsubclassWindow(dlg->hwnd_owner, OwnerProc);
 
 		dialogs.erase(hwnd);
-		if (dlg->hwnd_owner != NULL)
+		if (dlg->hwnd_owner != nullptr)
 			dialogs.erase(dlg->hwnd_owner);
 
 		delete dlg->re;
@@ -1004,7 +1004,7 @@ wchar_t *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
 {
 	// Get text
 	if (dlg->re->GetTextLength() <= 0)
-		return NULL;
+		return nullptr;
 
 	// Get pos
 	sel.cpMin = sel.cpMax = dlg->re->GetCharFromPos(pt);
@@ -1014,7 +1014,7 @@ wchar_t *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
 	int first_char;
 
 	if (!GetWordCharRange(dlg, sel, text, _countof(text), first_char))
-		return NULL;
+		return nullptr;
 
 	// copy the word
 	text[sel.cpMax - first_char] = '\0';
@@ -1058,7 +1058,7 @@ void AppendMenuItem(HMENU hMenu, int id, wchar_t *name, HICON hIcon, BOOL checke
 
 void AddMenuForWord(Dialog *dlg, wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOOL in_submenu, UINT base)
 {
-	if (dlg->wrong_words == NULL)
+	if (dlg->wrong_words == nullptr)
 		dlg->wrong_words = new vector<WrongWordPopupMenuData>(1);
 	else
 		dlg->wrong_words->resize(dlg->wrong_words->size() + 1);
@@ -1083,7 +1083,7 @@ void AddMenuForWord(Dialog *dlg, wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOO
 
 	InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + suggestions.count, TranslateT("Other..."));
 	if (suggestions.count > 0) {
-		InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
+		InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 		for (int i = (int)suggestions.count - 1; i >= 0; i--)
 			InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + i, suggestions.words[i]);
 	}
@@ -1100,7 +1100,7 @@ void AddMenuForWord(Dialog *dlg, wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOO
 			AppendSubmenu(hMenu, hSubMenu, TranslateT("Corrections"));
 		}
 		else {
-			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
+			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 			hSubMenu = hMenu;
 		}
 
@@ -1109,7 +1109,7 @@ void AddMenuForWord(Dialog *dlg, wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOO
 	}
 
 	if (!in_submenu && opts.show_wrong_word) {
-		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
+		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 
 		wchar_t text[128];
 		mir_snwprintf(text, TranslateT("Wrong word: %s"), word);
@@ -1142,12 +1142,12 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 
 	// Make menu
 	if (GetMenuItemCount(hMenu) > 0)
-		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
+		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 
 	if (languages.getCount() > 0 && dlg->enabled) {
 		dlg->hLanguageSubMenu = CreatePopupMenu();
 
-		if (dlg->hwnd_menu_owner != NULL)
+		if (dlg->hwnd_menu_owner != nullptr)
 			mir_subclassWindow(dlg->hwnd_menu_owner, MenuWndProc);
 
 		// First add languages
@@ -1162,7 +1162,7 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 	CheckMenuItem(hMenu, 1, MF_BYCOMMAND | (dlg->enabled ? MF_CHECKED : MF_UNCHECKED));
 
 	// Get text
-	if (dlg->lang != NULL && dlg->enabled) {
+	if (dlg->lang != nullptr && dlg->enabled) {
 		if (opts.show_all_corrections) {
 			dlg->hWrongWordsSubMenu = CreatePopupMenu();
 
@@ -1175,8 +1175,8 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 		else {
 			CHARRANGE sel;
 			wchar_t *word = GetWordUnderPoint(dlg, pt, sel);
-			if (word != NULL && !dlg->lang->spell(word)) {
-				InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
+			if (word != nullptr && !dlg->lang->spell(word)) {
+				InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 				AddMenuForWord(dlg, word, sel, hMenu, FALSE, WORD_MENU_ID_BASE);
 			}
 		}
@@ -1194,7 +1194,7 @@ static void AddWordToDictCallback(BOOL canceled, Dictionary *dict,
 	dict->autoReplace->add(find, replace, useVariables);
 
 	HWND hwndParent = (HWND)param;
-	if (hwndParent != NULL)
+	if (hwndParent != nullptr)
 		PostMessage(hwndParent, WMU_DICT_CHANGED, 0, 0);
 }
 
@@ -1224,7 +1224,7 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 
 		ret = TRUE;
 	}
-	else if (selection > 0 && dlg->wrong_words != NULL
+	else if (selection > 0 && dlg->wrong_words != nullptr
 				&& selection >= WORD_MENU_ID_BASE
 				&& selection < (dlg->wrong_words->size() + 1) * WORD_MENU_ID_BASE) {
 		int pos = selection / WORD_MENU_ID_BASE;
@@ -1248,8 +1248,8 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 		else if (selection >= AUTOREPLACE_MENU_ID_BASE && selection < AUTOREPLACE_MENU_ID_BASE + data.suggestions.count + 1) {
 			selection -= AUTOREPLACE_MENU_ID_BASE;
 			if (selection == data.suggestions.count) {
-				ShowAutoReplaceDialog(dlg->hwnd_owner != NULL ? dlg->hwnd_owner : dlg->hwnd, FALSE,
-											 dlg->lang, data.word, NULL, FALSE,
+				ShowAutoReplaceDialog(dlg->hwnd_owner != nullptr ? dlg->hwnd_owner : dlg->hwnd, FALSE,
+											 dlg->lang, data.word, nullptr, FALSE,
 											 TRUE, &AddWordToDictCallback, dlg->hwnd);
 			}
 			else {
@@ -1263,7 +1263,7 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 
 	if (ret) {
 		KillTimer(dlg->hwnd, TIMER_ID);
-		SetTimer(dlg->hwnd, TIMER_ID, 100, NULL);
+		SetTimer(dlg->hwnd, TIMER_ID, 100, nullptr);
 
 		dlg->changed = TRUE;
 	}
@@ -1275,7 +1275,7 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 int MsgWindowPopup(WPARAM, LPARAM lParam)
 {
 	MessageWindowPopupData *mwpd = (MessageWindowPopupData *)lParam;
-	if (mwpd == NULL || mwpd->uFlags != MSG_WINDOWPOPUP_INPUT)
+	if (mwpd == nullptr || mwpd->uFlags != MSG_WINDOWPOPUP_INPUT)
 		return 0;
 
 	DialogMapType::iterator dlgit = dialogs.find(mwpd->hwnd);
@@ -1298,10 +1298,10 @@ int MsgWindowPopup(WPARAM, LPARAM lParam)
 INT_PTR ShowPopupMenuService(WPARAM wParam, LPARAM)
 {
 	SPELLCHECKER_POPUPMENU *scp = (SPELLCHECKER_POPUPMENU *)wParam;
-	if (scp == NULL || scp->cbSize != sizeof(SPELLCHECKER_POPUPMENU))
+	if (scp == nullptr || scp->cbSize != sizeof(SPELLCHECKER_POPUPMENU))
 		return -1;
 
-	return ShowPopupMenu(scp->hwnd, scp->hMenu, scp->pt, scp->hwndOwner == NULL ? scp->hwnd : scp->hwndOwner);
+	return ShowPopupMenu(scp->hwnd, scp->hMenu, scp->pt, scp->hwndOwner == nullptr ? scp->hwnd : scp->hwndOwner);
 }
 
 int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
@@ -1321,7 +1321,7 @@ int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
 	}
 	else ScreenToClient(hwnd, &pt);
 
-	BOOL create_menu = (hMenu == NULL);
+	BOOL create_menu = (hMenu == nullptr);
 	if (create_menu)
 		hMenu = CreatePopupMenu();
 
@@ -1330,7 +1330,7 @@ int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
 
 	// Show menu
 	ClientToScreen(hwnd, &pt);
-	int selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndOwner, NULL);
+	int selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndOwner, nullptr);
 
 	// Do action
 	if (HandleMenuSelection(dlg, selection))
@@ -1345,7 +1345,7 @@ int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
 int MsgWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
-	if (event == NULL)
+	if (event == nullptr)
 		return 0;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN)
@@ -1360,14 +1360,14 @@ int MsgWindowEvent(WPARAM, LPARAM lParam)
 int IconPressed(WPARAM hContact, LPARAM lParam)
 {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if (sicd == NULL || mir_strcmp(sicd->szModule, MODULE_NAME) != 0)
+	if (sicd == nullptr || mir_strcmp(sicd->szModule, MODULE_NAME) != 0)
 		return 0;
 
 	if (hContact == NULL)
 		return 0;
 
 	// Find the dialog
-	Dialog *dlg = NULL;
+	Dialog *dlg = nullptr;
 	for (DialogMapType::iterator it = dialogs.begin(); it != dialogs.end(); it++) {
 		Dialog *p = it->second;
 		if (p->srmm && p->hContact == hContact) {
@@ -1376,7 +1376,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 		}
 	}
 
-	if (dlg == NULL)
+	if (dlg == nullptr)
 		return 0;
 
 	if ((sicd->flags & MBCF_RIGHTBUTTON) == 0) {
@@ -1396,14 +1396,14 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 			for (int i = 0; i < languages.getCount(); i++)
 				AppendMenu(hMenu, MF_STRING | (languages[i] == dlg->lang ? MF_CHECKED : 0), LANGUAGE_MENU_ID_BASE + i, languages[i]->full_name);
 
-			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
+			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 		}
 
 		InsertMenu(hMenu, 0, MF_BYPOSITION, 1, TranslateT("Enable spell checking"));
 		CheckMenuItem(hMenu, 1, MF_BYCOMMAND | (dlg->enabled ? MF_CHECKED : MF_UNCHECKED));
 
 		// Show menu
-		int selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, dlg->hwnd, NULL);
+		int selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, dlg->hwnd, nullptr);
 		HandleMenuSelection(dlg, selection);
 		DestroyMenu(hMenu);
 	}
@@ -1436,7 +1436,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				GetMenuItemInfo(hMenu, id, FALSE, &mii);
 
 				// Make ownerdraw
-				ModifyMenu(hMenu, id, mii.fState | MF_BYCOMMAND | MF_OWNERDRAW, id, NULL);
+				ModifyMenu(hMenu, id, mii.fState | MF_BYCOMMAND | MF_OWNERDRAW, id, nullptr);
 			}
 		}
 		break;
@@ -1484,7 +1484,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				HICON hFlag = IcoLib_GetIconByHandle(dict->hIcolib);
 
 				rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
-				DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);
+				DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, nullptr, DI_NORMAL);
 
 				IcoLib_ReleaseIcon(hFlag);
 

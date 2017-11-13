@@ -8,7 +8,7 @@
 //************************************************************************
 CNotificationScreen::CNotificationScreen()
 {
-	m_pEntry = NULL;
+	m_pEntry = nullptr;
 	//m_bMessageMode = false;
 }
 
@@ -65,7 +65,7 @@ bool CNotificationScreen::Initialize()
 //************************************************************************
 bool CNotificationScreen::Shutdown()
 {
-	CNotificationEntry *pEntry = NULL;
+	CNotificationEntry *pEntry = nullptr;
 	while(!m_LNotifications.empty())
 	{
 		pEntry = *(m_LNotifications.begin());
@@ -117,7 +117,7 @@ bool CNotificationScreen::Draw(CLCDGfx *pGfx)
 //************************************************************************
 void CNotificationScreen::DisplayNotification(CNotificationEntry *pEntry)
 {
-	if(m_pEntry != NULL)
+	if(m_pEntry != nullptr)
 		delete m_pEntry;
 
 	
@@ -359,7 +359,7 @@ void CNotificationScreen::OnDeactivation()
 void CNotificationScreen::OnExpiration()
 {
 	// clear the cached events 
-	CNotificationEntry *pEntry = NULL;
+	CNotificationEntry *pEntry = nullptr;
 	while(!m_LNotifications.empty())
 	{
 		pEntry = *(m_LNotifications.begin());
@@ -370,5 +370,5 @@ void CNotificationScreen::OnExpiration()
 	m_EventText.SetText(L"");
 	m_MessageText.SetText(L"");
 
-	m_pEntry = NULL;
+	m_pEntry = nullptr;
 }

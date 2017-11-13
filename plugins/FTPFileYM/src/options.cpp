@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-Options *Options::instance = NULL;
+Options *Options::instance = nullptr;
 Options &opt = Options::getInstance();
 
 extern DeleteTimer &deleteTimer;
@@ -162,7 +162,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 			GetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->m_szChmod, _countof(ftp->m_szChmod));
 
 			ftp->m_ftpProto = (ServerList::FTP::EProtoType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
-			ftp->m_iPort = GetDlgItemInt(hwndDlg, IDC_PORT, 0, 0);
+			ftp->m_iPort = GetDlgItemInt(hwndDlg, IDC_PORT, nullptr, 0);
 			ftp->m_bPassive = IsDlgButtonChecked(hwndDlg, IDC_PASSIVE) ? true : false;
 			ftp->m_bEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLED) ? true : false;
 
@@ -227,9 +227,9 @@ INT_PTR CALLBACK Options::DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wPa
 			opt.bHideInactive = IsDlgButtonChecked(hwndDlg, IDC_HIDEINACTIVE) ? true : false;
 			opt.bCloseDlg = IsDlgButtonChecked(hwndDlg, IDC_CLOSEDLG) ? true : false;
 			opt.bAutoDelete = IsDlgButtonChecked(hwndDlg, IDC_AUTODELETE) ? true : false;
-			opt.iCompressionLevel = GetDlgItemInt(hwndDlg, IDC_LEVEL, 0, FALSE);
+			opt.iCompressionLevel = GetDlgItemInt(hwndDlg, IDC_LEVEL, nullptr, FALSE);
 			opt.bSetZipName = IsDlgButtonChecked(hwndDlg, IDC_SETZIPNAME) ? true : false;
-			opt.iDeleteTime = GetDlgItemInt(hwndDlg, IDC_DELETETIME, 0, FALSE);
+			opt.iDeleteTime = GetDlgItemInt(hwndDlg, IDC_DELETETIME, nullptr, FALSE);
 			opt.timeRange = (Options::ETimeRange)SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_GETCURSEL, 0, 0);
 			opt.saveOptions();
 

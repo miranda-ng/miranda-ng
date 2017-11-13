@@ -20,15 +20,15 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-TOOLTIPSKIN skin = {0};
+TOOLTIPSKIN skin = {};
 
 HBITMAP CreateBitmapPart(FIBITMAP *fibSrc, int iSrcWidth, int iSrcHeight, int iDesWidth, int iDesHeight, TransformationMode transfMode) 
 {
-	FIBITMAP *fibMem = NULL;
-	HBITMAP hbmpDes = NULL;
+	FIBITMAP *fibMem = nullptr;
+	HBITMAP hbmpDes = nullptr;
 
 	if (!fibSrc) 
-		return NULL;
+		return nullptr;
 		
 	switch (transfMode) {
 	case TM_NONE:
@@ -152,7 +152,7 @@ void CreateFromBitmaps(bool bServiceTip)
 
 		wchar_t* tszFileName = opt.szImgFile[i];
 		if (tszFileName && *tszFileName != 0) {
-			FIBITMAP *fib = NULL;
+			FIBITMAP *fib = nullptr;
 			if (!skin.bCached) {
 				FIBITMAP *fibLoad = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFileName, IMGL_WCHAR | IMGL_RETURNDIB);
 				if (!fibLoad) continue;
@@ -194,7 +194,7 @@ void CreateFromBitmaps(bool bServiceTip)
 			iCentWidth = max(rcWidth - left - right, 0);
 			iCentHeight = max(rcHeight - top - bottom, 0);
 
-			FIBITMAP *fibCentre = NULL, *fibMem = NULL;
+			FIBITMAP *fibCentre = nullptr, *fibMem = nullptr;
 			if (opt.margins[i].left || opt.margins[i].top || opt.margins[i].right || opt.margins[i].bottom) {
 				// create corners bitmaps
 				if (!skin.bCached) {
@@ -263,7 +263,7 @@ void CreateFromBitmaps(bool bServiceTip)
 				}
 			}
 
-			HDC hdcMem = CreateCompatibleDC(0);	
+			HDC hdcMem = CreateCompatibleDC(nullptr);	
 			RECT rc = {0};
 
 			if (skin.hbmpSkinParts[i][SP_CENTRE_AREA]) {
@@ -312,7 +312,7 @@ void CreateFromBitmaps(bool bServiceTip)
 			for (int j = 0; j < SP_CORNER_TL; j++) 
 				if (skin.hbmpSkinParts[i][j]) {
 					DeleteObject(skin.hbmpSkinParts[i][j]);
-					skin.hbmpSkinParts[i][j] = NULL;
+					skin.hbmpSkinParts[i][j] = nullptr;
 				}
 
 			skin.bNeedLayerUpdate = true;
@@ -348,10 +348,10 @@ void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip)
 		if (skin.hBitmap) {
 			SelectObject(skin.hdc, skin.hOldBitmap);
 			DeleteObject(skin.hBitmap);
-			skin.hBitmap = NULL;
+			skin.hBitmap = nullptr;
 		}
 		DeleteDC(skin.hdc);
-		skin.hdc = NULL;
+		skin.hdc = nullptr;
 	}
 
 	skin.iWidth = iWidth;
@@ -365,11 +365,11 @@ void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip)
 	bi.bmiHeader.biPlanes = 1;
 	bi.bmiHeader.biBitCount = 32;
 	bi.bmiHeader.biCompression = BI_RGB;
-	skin.hBitmap = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void **)&skin.colBits, 0, 0);
+	skin.hBitmap = (HBITMAP)CreateDIBSection(nullptr, &bi, DIB_RGB_COLORS, (void **)&skin.colBits, nullptr, 0);
 	if (!skin.hBitmap) 
 		return;
 
-	skin.hdc = CreateCompatibleDC(0);
+	skin.hdc = CreateCompatibleDC(nullptr);
 	skin.hOldBitmap = (HBITMAP)SelectObject(skin.hdc, skin.hBitmap);
 
 	if (opt.skinMode == SM_COLORFILL)
@@ -386,13 +386,13 @@ void DestroySkinBitmap()
 	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) { 
 		if (skin.fib[i]) {
 			fii->FI_Unload(skin.fib[i]);
-			skin.fib[i] = NULL;
+			skin.fib[i] = nullptr;
 		}
 
 		for (int j = SP_CORNER_TL; j < SKIN_PARTS_COUNT; j++) {
 			if (skin.hbmpSkinParts[i][j]) {
 				DeleteObject(skin.hbmpSkinParts[i][j]);
-				skin.hbmpSkinParts[i][j] = NULL;
+				skin.hbmpSkinParts[i][j] = nullptr;
 			}
 		}
 	}
@@ -473,7 +473,7 @@ BOOL IsAlphaTransparent(HBITMAP hBitmap)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	BYTE *p = (BYTE *)mir_calloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return FALSE;
 
 	GetBitmapBits(hBitmap, dwLen, p);
@@ -615,7 +615,7 @@ void ColorizeBitmap()
 HRGN CreateOpaqueRgn(BYTE level, bool bOpaque)
 {
 	if (!skin.colBits)
-		return NULL;
+		return nullptr;
 
 	GdiFlush();
 
@@ -666,7 +666,7 @@ HRGN CreateOpaqueRgn(BYTE level, bool bOpaque)
 		}
 	}
 
-	HRGN hRgn = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
+	HRGN hRgn = ExtCreateRegion(nullptr, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
 	free(pRgnData);
 	return hRgn;
 }

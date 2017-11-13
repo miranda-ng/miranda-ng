@@ -374,8 +374,8 @@ void CodetoSymbol(char *truncated)
 		while (true) { // loop forever
 			Sleep(1); // avoid 100% CPU
 
-			if ( strstr(truncated, CharacterCodes[n]) != 0) { // does character code exist?
-				if (strstr(truncated, CharacterCodes[n]) != 0)
+			if ( strstr(truncated, CharacterCodes[n]) != nullptr) { // does character code exist?
+				if (strstr(truncated, CharacterCodes[n]) != nullptr)
 					stringfrompos = strstr(truncated, CharacterCodes[n]);
 
 				position = stringfrompos - truncated;
@@ -415,25 +415,25 @@ void EraseBlock(char *truncated)
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
 
-		if (strstr(tempraw, "<!--") != 0) // does tag exist?
+		if (strstr(tempraw, "<!--") != nullptr) // does tag exist?
 		{
 			stringfrompos = strstr(tempraw, "<!--");
 			positionStart = stringfrompos - tempraw;
 		}
 
-		if (strstr(tempraw, "-->") != 0) // does tag exist?
+		if (strstr(tempraw, "-->") != nullptr) // does tag exist?
 		{
 			stringfrompos = strstr(tempraw, "-->");
 			positionEnd = stringfrompos - tempraw;
 		}
 		BlockLength = (positionEnd - positionStart) + 3;
 
-		if ((strstr(tempraw, "<!--") == 0) || (strstr(tempraw, "-->") == 0))
+		if ((strstr(tempraw, "<!--") == nullptr) || (strstr(tempraw, "-->") == nullptr))
 			break;
 
 		/////////////////////////////////////////
 
-		if (strstr(tempraw, "<!--") != 0)
+		if (strstr(tempraw, "<!--") != nullptr)
 			for (counter = 0; counter < BlockLength; counter++)
 				tempraw[positionStart + counter] = ' ';
 
@@ -455,9 +455,9 @@ void EraseBlock(char *truncated)
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
 
-		if (((strstr(tempraw, "<script")) != 0) || (strstr(tempraw, "<SCRIPT") != 0)) // does 
+		if (((strstr(tempraw, "<script")) != nullptr) || (strstr(tempraw, "<SCRIPT") != nullptr)) // does 
 		{
-			if (strstr(tempraw, "<script") != 0)
+			if (strstr(tempraw, "<script") != nullptr)
 				stringfrompos = strstr(tempraw, "<script");
 			else
 				stringfrompos = strstr(tempraw, "<SCRIPT");
@@ -465,9 +465,9 @@ void EraseBlock(char *truncated)
 			positionStart = stringfrompos - tempraw;
 		}
 
-		if (((strstr(tempraw, "</script")) != 0) || (strstr(tempraw, "</SCRIPT") != 0)) // does 
+		if (((strstr(tempraw, "</script")) != nullptr) || (strstr(tempraw, "</SCRIPT") != nullptr)) // does 
 		{
-			if (strstr(tempraw, "<script") != 0)
+			if (strstr(tempraw, "<script") != nullptr)
 				stringfrompos = strstr(tempraw, "</script");
 			else
 				stringfrompos = strstr(tempraw, "</SCRIPT");
@@ -476,15 +476,15 @@ void EraseBlock(char *truncated)
 		}
 		BlockLength = (positionEnd - positionStart) + 9;
 
-		if ((strstr(tempraw, "<script") != 0) && (strstr(tempraw, "</script") == 0))
+		if ((strstr(tempraw, "<script") != nullptr) && (strstr(tempraw, "</script") == nullptr))
 			break;
 
-		if ((strstr(tempraw, "<SCRIPT") != 0) && (strstr(tempraw, "</SCRIPT") == 0))
+		if ((strstr(tempraw, "<SCRIPT") != nullptr) && (strstr(tempraw, "</SCRIPT") == nullptr))
 			break;
 
 		///////////////////////////////////////
 
-		if (((strstr(tempraw, "<script")) != 0) || ((strstr(tempraw, "<SCRIPT")) != 0))
+		if (((strstr(tempraw, "<script")) != nullptr) || ((strstr(tempraw, "<SCRIPT")) != nullptr))
 			for (counter = 0; counter < BlockLength; counter++)
 				tempraw[positionStart + counter] = ' ';
 
@@ -504,9 +504,9 @@ void EraseBlock(char *truncated)
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
 
-		if (((strstr(tempraw, "<style")) != 0) || (strstr(tempraw, "<STYLE") != 0)) // does 
+		if (((strstr(tempraw, "<style")) != nullptr) || (strstr(tempraw, "<STYLE") != nullptr)) // does 
 		{
-			if (strstr(tempraw, "<style") != 0)
+			if (strstr(tempraw, "<style") != nullptr)
 				stringfrompos = strstr(tempraw, "<style");
 			else
 				stringfrompos = strstr(tempraw, "<STYLE");
@@ -514,9 +514,9 @@ void EraseBlock(char *truncated)
 			positionStart = stringfrompos - tempraw;
 		}
 
-		if (((strstr(tempraw, "</style")) != 0) || (strstr(tempraw, "</STYLE") != 0)) // does 
+		if (((strstr(tempraw, "</style")) != nullptr) || (strstr(tempraw, "</STYLE") != nullptr)) // does 
 		{
-			if (strstr(tempraw, "<style") != 0)
+			if (strstr(tempraw, "<style") != nullptr)
 				stringfrompos = strstr(tempraw, "</style");
 			else
 				stringfrompos = strstr(tempraw, "</STYLE");
@@ -525,14 +525,14 @@ void EraseBlock(char *truncated)
 		}
 		BlockLength = (positionEnd - positionStart) + 8;
 
-		if ((strstr(tempraw, "<style") != 0) && (strstr(tempraw, "</style") == 0))
+		if ((strstr(tempraw, "<style") != nullptr) && (strstr(tempraw, "</style") == nullptr))
 			break;
 
-		if ((strstr(tempraw, "<STYLE") != 0) && (strstr(tempraw, "</STYLE") == 0))
+		if ((strstr(tempraw, "<STYLE") != nullptr) && (strstr(tempraw, "</STYLE") == nullptr))
 			break;
 
 		///////////////////////////////////////
-		if (((strstr(tempraw, "<style")) != 0) || ((strstr(tempraw, "<STYLE")) != 0))
+		if (((strstr(tempraw, "<style")) != nullptr) || ((strstr(tempraw, "<STYLE")) != nullptr))
 			for (counter = 0; counter < BlockLength; counter++)
 				tempraw[positionStart + counter] = ' ';
 
@@ -550,24 +550,24 @@ void EraseBlock(char *truncated)
 	while (true) {
 		Sleep(1); // avoid 100% CPU
 		// /get start and end of block
-		if (strstr(tempraw, "{") != 0) // does tag exist?
+		if (strstr(tempraw, "{") != nullptr) // does tag exist?
 		{
 			stringfrompos = strstr(tempraw, "{");
 			positionStart = stringfrompos - tempraw;
 		}
 
-		if (strstr(tempraw, "}") != 0) // does tag exist?
+		if (strstr(tempraw, "}") != nullptr) // does tag exist?
 		{
 			stringfrompos = strstr(tempraw, "}");
 			positionEnd = stringfrompos - tempraw;
 		}
 		BlockLength = (positionEnd - positionStart) + 1;
 
-		if ((strstr(tempraw, "}") == 0) || (strstr(tempraw, "{") == 0))
+		if ((strstr(tempraw, "}") == nullptr) || (strstr(tempraw, "{") == nullptr))
 			break;
 
 		/////////////////////////////////////////
-		if (strstr(tempraw, "{") != 0)
+		if (strstr(tempraw, "{") != nullptr)
 			for (counter = 0; counter < BlockLength; counter++)
 				tempraw[positionStart + counter] = ' ';
 
@@ -605,7 +605,7 @@ void EraseSymbols(char *truncated)
 
 		/**/
 		counter = 0;
-		if ((strstr(tempraw, "&#")) != 0) {
+		if ((strstr(tempraw, "&#")) != nullptr) {
 			stringfrompos = strstr(tempraw, "&#");
 			position = stringfrompos - tempraw;
 
@@ -647,7 +647,7 @@ void NumSymbols(char *truncated)
 
 		counter = 0;
 
-		if ((strstr(tempraw, "&#")) != 0) {
+		if ((strstr(tempraw, "&#")) != nullptr) {
 			stringfrompos = strstr(tempraw, "&#");
 			position = stringfrompos - tempraw;
 

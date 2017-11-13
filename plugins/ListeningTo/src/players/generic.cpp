@@ -20,15 +20,15 @@ Boston, MA 02111-1307, USA.
 #include "../stdafx.h"
 
 static UINT hTimer = NULL;
-static HANDLE hLog = NULL;
+static HANDLE hLog = nullptr;
 
-GenericPlayer *singleton = NULL;
+GenericPlayer *singleton = nullptr;
 
 void m_log(const wchar_t *function, const wchar_t *fmt, ...)
 {
-	if (hLog == NULL) {
+	if (hLog == nullptr) {
 		hLog = mir_createLog(MODULE_NAME, L"ListeningTo log", L"c:\\temp\\listeningto.txt", 0);
-		if (hLog == NULL)
+		if (hLog == nullptr)
 			return;
 	}
 
@@ -45,10 +45,10 @@ static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	case WM_COPYDATA:
 		if (loaded) {
 			COPYDATASTRUCT *pData = (PCOPYDATASTRUCT)lParam;
-			if (pData == NULL || pData->dwData != MIRANDA_DW_PROTECTION || pData->cbData == 0 || pData->lpData == NULL)
+			if (pData == nullptr || pData->dwData != MIRANDA_DW_PROTECTION || pData->cbData == 0 || pData->lpData == nullptr)
 				return FALSE;
 
-			if (singleton != NULL)
+			if (singleton != nullptr)
 				singleton->NewData((WCHAR *)pData->lpData, pData->cbData / 2);
 
 			return TRUE;
@@ -75,21 +75,21 @@ GenericPlayer::GenericPlayer()
 	wc.lpszClassName = MIRANDA_WINDOWCLASS;
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENW("Miranda ListeningTo receiver"), 0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
+	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENW("Miranda ListeningTo receiver"), 0, 0, 0, 0, 0, nullptr, nullptr, hInst, nullptr);
 }
 
 GenericPlayer::~GenericPlayer()
 {
 	if (hTimer != NULL) {
-		KillTimer(NULL, hTimer);
+		KillTimer(nullptr, hTimer);
 		hTimer = NULL;
 	}
 
 	DestroyWindow(hWnd);
-	hWnd = NULL;
+	hWnd = nullptr;
 
 	UnregisterClass(MIRANDA_WINDOWCLASS, hInst);
-	singleton = NULL;
+	singleton = nullptr;
 }
 
 void GenericPlayer::ProcessReceived()
@@ -100,11 +100,11 @@ void GenericPlayer::ProcessReceived()
 	// L"<Status 0-stoped 1-playing>\\0<Player>\\0<Type>\\0<Title>\\0<Artist>\\0<Album>\\0<Track>\\0<Year>\\0<Genre>\\0<Length (secs)>\\0\\0"
 
 	WCHAR *p1 = wcsstr(received, L"\\0");
-	if (IsEmpty(received) || p1 == NULL)
+	if (IsEmpty(received) || p1 == nullptr)
 		return;
 
 	// Process string
-	WCHAR *parts[11] = { 0 };
+	WCHAR *parts[11] = {};
 	int pCount = 0;
 	WCHAR *p = received;
 	do {
@@ -113,8 +113,8 @@ void GenericPlayer::ProcessReceived()
 		pCount++;
 		p = p1 + 2;
 		p1 = wcsstr(p, L"\\0");
-	} while (p1 != NULL && pCount < 10);
-	if (p1 != NULL)
+	} while (p1 != nullptr && pCount < 10);
+	if (p1 != nullptr)
 		*p1 = '\0';
 	parts[pCount] = p;
 
@@ -157,7 +157,7 @@ void GenericPlayer::ProcessReceived()
 		else
 			li->ptszPlayer = mir_wstrdup(player->name);
 
-		if (parts[9] != NULL) {
+		if (parts[9] != nullptr) {
 			long length = _wtoi(parts[9]);
 			if (length > 0) {
 				li->ptszLength = (wchar_t*)mir_alloc(10 * sizeof(wchar_t));
@@ -177,7 +177,7 @@ void GenericPlayer::ProcessReceived()
 	// Put back the '\\'s
 	for (int i = 1; i <= pCount; i++)
 		*(parts[i] - 2) = L'\\';
-	if (p1 != NULL)
+	if (p1 != nullptr)
 		*p1 = L'\\';
 
 	wcscpy(last_received, received);
@@ -189,13 +189,13 @@ void GenericPlayer::ProcessReceived()
 
 static VOID CALLBACK SendTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(NULL, hTimer);
+	KillTimer(nullptr, hTimer);
 	hTimer = NULL;
 
 	if (!loaded)
 		return;
 
-	if (singleton != NULL)
+	if (singleton != nullptr)
 		singleton->ProcessReceived();
 }
 
@@ -213,7 +213,7 @@ void GenericPlayer::NewData(const WCHAR *data, size_t len)
 		received[len] = L'\0';
 
 		if (hTimer)
-			KillTimer(NULL, hTimer);
-		hTimer = SetTimer(NULL, NULL, 300, SendTimerProc); // Do the processing after we return true
+			KillTimer(nullptr, hTimer);
+		hTimer = SetTimer(nullptr, NULL, 300, SendTimerProc); // Do the processing after we return true
 	}
 }

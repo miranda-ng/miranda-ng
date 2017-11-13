@@ -43,8 +43,8 @@ static int MirandaWaitForMutex(HANDLE hEvent)
 		DWORD rc = MsgWaitForMultipleObjectsEx(1, &hEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
 		if (rc == WAIT_OBJECT_0 + 1) {
 			MSG msg;
-			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-				if (msg.hwnd != NULL && IsDialogMessage(msg.hwnd, &msg)) /* Wine fix. */
+			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+				if (msg.hwnd != nullptr && IsDialogMessage(msg.hwnd, &msg)) /* Wine fix. */
 					continue;
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
@@ -76,7 +76,7 @@ MIR_CORE_DLL(pfnExceptionFilter) GetExceptionFilter()
 MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter _mirandaExceptFilter)
 {
 	pfnExceptionFilter oldOne = pMirandaExceptFilter;
-	if (_mirandaExceptFilter != 0)
+	if (_mirandaExceptFilter != nullptr)
 		pMirandaExceptFilter = _mirandaExceptFilter;
 	return oldOne;
 }
@@ -128,13 +128,13 @@ DWORD WINAPI forkthread_r(void *arg)
 MIR_CORE_DLL(HANDLE) mir_forkthread(void(__cdecl *threadcode)(void*), void *arg)
 {
 	FORK_ARG fa;
-	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	fa.hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	fa.threadcode = threadcode;
 	fa.arg = arg;
 
 	DWORD threadID;
-	fa.hThread = CreateThread(NULL, 0, forkthread_r, &fa, 0, &threadID);
-	if (fa.hThread != NULL)
+	fa.hThread = CreateThread(nullptr, 0, forkthread_r, &fa, 0, &threadID);
+	if (fa.hThread != nullptr)
 		WaitForSingleObject(fa.hEvent, INFINITE);
 
 	CloseHandle(fa.hEvent);
@@ -167,17 +167,17 @@ DWORD WINAPI forkthreadex_r(void * arg)
 
 MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void* arg, unsigned *pThreadID)
 {
-	struct FORK_ARG fa = { 0 };
+	struct FORK_ARG fa = {};
 	fa.threadcodeex = aFunc;
 	fa.arg = arg;
-	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	fa.hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	DWORD threadID = 0;
-	HANDLE hThread = CreateThread(NULL, 0, forkthreadex_r, &fa, 0, &threadID);
-	if (hThread != NULL)
+	HANDLE hThread = CreateThread(nullptr, 0, forkthreadex_r, &fa, 0, &threadID);
+	if (hThread != nullptr)
 		WaitForSingleObject(fa.hEvent, INFINITE);
 
-	if (pThreadID != NULL)
+	if (pThreadID != nullptr)
 		*pThreadID = threadID;
 
 	CloseHandle(fa.hEvent);
@@ -186,18 +186,18 @@ MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void* arg, unsigned *
 
 MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, void *arg, unsigned *pThreadID)
 {
-	struct FORK_ARG fa = { 0 };
+	struct FORK_ARG fa = {};
 	fa.threadcodeex = (pThreadFuncEx)aFunc;
 	fa.arg = arg;
 	fa.owner = owner;
-	fa.hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	fa.hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	DWORD threadID = 0;
-	HANDLE hThread = CreateThread(NULL, 0, forkthreadex_r, &fa, 0, &threadID);
-	if (hThread != NULL)
+	HANDLE hThread = CreateThread(nullptr, 0, forkthreadex_r, &fa, 0, &threadID);
+	if (hThread != nullptr)
 		WaitForSingleObject(fa.hEvent, INFINITE);
 
-	if (pThreadID != NULL)
+	if (pThreadID != nullptr)
 		*pThreadID = threadID;
 
 	CloseHandle(fa.hEvent);
@@ -208,7 +208,7 @@ MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, vo
 
 MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 {
-	if (owner == NULL)
+	if (owner == nullptr)
 		return;
 
 	WaitForSingleObject(hStackMutex, INFINITE);
@@ -233,7 +233,7 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 				if (p->pObject == owner) {
 					char szModuleName[MAX_PATH];
 					GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
-					Netlib_Logf(0, "Killing object thread %s:%p", szModuleName, p->dwThreadId);
+					Netlib_Logf(nullptr, "Killing object thread %s:%p", szModuleName, p->dwThreadId);
 					TerminateThread(p->hThread, 9999);
 					CloseHandle(p->hThread);
 					threads.remove(j);
@@ -254,7 +254,7 @@ static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 			THREAD_WAIT_ENTRY *p = threads[j];
 			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
-			Netlib_Logf(0, "Killing thread %s:%p (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
+			Netlib_Logf(nullptr, "Killing thread %s:%p (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
 			TerminateThread(p->hThread, 9999);
 			CloseHandle(p->hThread);
 			mir_free(p);
@@ -277,7 +277,7 @@ MIR_CORE_DLL(void) Thread_Wait(void)
 	}
 
 	// give all unclosed threads 5 seconds to close
-	SetTimer(NULL, 0, 5000, KillAllThreads);
+	SetTimer(nullptr, 0, 5000, KillAllThreads);
 
 	// wait til the thread list is empty
 	MirandaWaitForMutex(hThreadQueueEmpty);
@@ -291,20 +291,20 @@ typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 static void* GetCurrentThreadEntryPoint()
 {
 	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtQueryInformationThread");
-	if (NtQueryInformationThread == NULL)
-		return 0;
+	if (NtQueryInformationThread == nullptr)
+		return nullptr;
 
 	HANDLE hDupHandle, hCurrentProcess = GetCurrentProcess();
 	if (!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
 		SetLastError(ERROR_ACCESS_DENIED);
-		return NULL;
+		return nullptr;
 	}
 	
 	DWORD_PTR dwStartAddress;
-	LONG ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), NULL);
+	LONG ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), nullptr);
 	CloseHandle(hDupHandle);
 
-	return (ntStatus != ERROR_SUCCESS) ? NULL : (void*)dwStartAddress;
+	return (ntStatus != ERROR_SUCCESS) ? nullptr : (void*)dwStartAddress;
 }
 
 MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
@@ -319,7 +319,7 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 		if (pluginListAddr.getIndex(hInst) != -1)
 			p->hOwner = hInst;
 		else
-			p->hOwner = GetInstByAddress((hInst != NULL) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
+			p->hOwner = GetInstByAddress((hInst != nullptr) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
 		p->pEntryPoint = hInst;
 
 		threads.insert(p);

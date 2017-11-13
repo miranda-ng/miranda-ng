@@ -58,7 +58,7 @@ static int hotkeys_Unregister(lua_State *L)
 	return 0;
 }
 
-static const char *mods[] = { "shift", "ctrl", "alt", "ext", NULL };
+static const char *mods[] = { "shift", "ctrl", "alt", "ext", nullptr };
 
 static int hotkeys_MakeHotkey(lua_State *L)
 {
@@ -69,11 +69,11 @@ static int hotkeys_MakeHotkey(lua_State *L)
 		mod = luaL_checkinteger(L, 1);
 		break;
 	case LUA_TSTRING:
-		mod = (1 << (luaL_checkoption(L, 1, NULL, mods) - 1));
+		mod = (1 << (luaL_checkoption(L, 1, nullptr, mods) - 1));
 		break;
 	case LUA_TTABLE:
 		for (lua_pushnil(L); lua_next(L, 1); lua_pop(L, 1))
-			mod |= (1 << (luaL_checkoption(L, -1, NULL, mods) - 1));
+			mod |= (1 << (luaL_checkoption(L, -1, nullptr, mods) - 1));
 		break;
 	default:
 		luaL_argerror(L, 1, luaL_typename(L, 1));
@@ -92,7 +92,7 @@ static luaL_Reg hotkeysApi[] =
 	{ "Register", hotkeys_Register },
 	{ "Unregister", hotkeys_Unregister },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_hotkeys(lua_State *L)

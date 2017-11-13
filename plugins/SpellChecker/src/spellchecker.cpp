@@ -39,13 +39,13 @@ HINSTANCE hInst;
 
 int hLangpack = 0;
 
-HANDLE hDictionariesFolder = NULL;
+HANDLE hDictionariesFolder = nullptr;
 wchar_t *dictionariesFolder;
 
-HANDLE hCustomDictionariesFolder = NULL;
+HANDLE hCustomDictionariesFolder = nullptr;
 wchar_t *customDictionariesFolder;
 
-HANDLE hFlagsDllFolder = NULL;
+HANDLE hFlagsDllFolder = nullptr;
 wchar_t *flagsDllFolder;
 
 HBITMAP hCheckedBmp;
@@ -135,12 +135,12 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		// Load flags dll
 		wchar_t flag_file[MAX_PATH];
 		mir_snwprintf(flag_file, L"%s\\flags_icons.dll", flagsDllFolder);
-		HMODULE hFlagsDll = LoadLibraryEx(flag_file, NULL, LOAD_LIBRARY_AS_DATAFILE);
+		HMODULE hFlagsDll = LoadLibraryEx(flag_file, nullptr, LOAD_LIBRARY_AS_DATAFILE);
 
 		wchar_t path[MAX_PATH];
 		GetModuleFileName(hInst, path, MAX_PATH);
 
-		SKINICONDESC sid = { 0 };
+		SKINICONDESC sid = {};
 		sid.flags = SIDF_ALL_UNICODE | SIDF_SORTED;
 		sid.section.w = LPGENW("Spell Checker") L"/" LPGENW("Flags");
 
@@ -153,26 +153,26 @@ static int ModulesLoaded(WPARAM, LPARAM)
 			mir_snprintf(lang, "spell_lang_%d", i);
 			sid.pszName = lang;
 
-			HICON hFlag = NULL, hFlagIcoLib = NULL;
-			if (hFlagsDll != NULL)
+			HICON hFlag = nullptr, hFlagIcoLib = nullptr;
+			if (hFlagsDll != nullptr)
 				hFlag = (HICON)LoadImage(hFlagsDll, p->language, IMAGE_ICON, 16, 16, 0);
 
-			if (hFlag != NULL) {
+			if (hFlag != nullptr) {
 				sid.hDefaultIcon = hFlag;
-				sid.defaultFile.w = NULL;
+				sid.defaultFile.w = nullptr;
 				sid.iDefaultIndex = 0;
 			}
 			else {
 				hFlagIcoLib = IcoLib_GetIcon("spellchecker_unknown");
 				sid.hDefaultIcon = hFlagIcoLib;
-				sid.defaultFile.w = NULL;
+				sid.defaultFile.w = nullptr;
 				sid.iDefaultIndex = 0;
 			}
 
 			// Oki, lets add to IcoLib, then
 			p->hIcolib = IcoLib_AddIcon(&sid);
 
-			if (hFlag != NULL)
+			if (hFlag != nullptr)
 				DestroyIcon(hFlag);
 			else
 				IcoLib_ReleaseIcon(hFlagIcoLib);
@@ -248,7 +248,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
 	CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
 
-	hCheckedBmp = LoadBitmap(NULL, MAKEINTRESOURCE(OBM_CHECK));
+	hCheckedBmp = LoadBitmap(nullptr, MAKEINTRESOURCE(OBM_CHECK));
 	if (GetObject(hCheckedBmp, sizeof(bmpChecked), &bmpChecked) == 0)
 		bmpChecked.bmHeight = bmpChecked.bmWidth = 10;
 

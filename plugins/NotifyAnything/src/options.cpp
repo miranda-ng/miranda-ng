@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				buf[0] = '\0';
 			int port = _wtoi(buf);
 			if (port <= 0 || port > 65535)
-				MessageBox(0, TranslateT("Invalid port number"), TranslateT("NotifyAnything"), MB_ICONWARNING | MB_OK);
+				MessageBox(nullptr, TranslateT("Invalid port number"), TranslateT("NotifyAnything"), MB_ICONWARNING | MB_OK);
 			else
 				s.port = port;
 

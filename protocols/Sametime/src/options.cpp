@@ -235,9 +235,9 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					ofn.nMaxFile = MAX_PATH;
 					ofn.lpstrFilter = L"All\0*.*\0";
 					ofn.nFilterIndex = 1;
-					ofn.lpstrFileTitle = NULL;
+					ofn.lpstrFileTitle = nullptr;
 					ofn.nMaxFileTitle = 0;
-					ofn.lpstrInitialDir = NULL;
+					ofn.lpstrInitialDir = nullptr;
 					ofn.Flags = OFN_PATHMUSTEXIST;
 
 					if (GetOpenFileName(&ofn) == TRUE) {
@@ -402,7 +402,7 @@ void CSametimeProto::LoadOptions()
 	if (options.err_method == ED_POP && !ServiceExists(MS_POPUP_SHOWMESSAGE))
 		options.err_method = ED_BAL;
 
-	debugLogW(L"LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]", options.server_name == NULL ? -1 : mir_strlen(options.server_name), options.id == NULL ? -1 : mir_strlen(options.id), options.pword == NULL ? -1 : mir_strlen(options.pword));
+	debugLogW(L"LoadOptions() loaded: ServerName:len=[%d], id:len=[%d], pword:len=[%d]", options.server_name == nullptr ? -1 : mir_strlen(options.server_name), options.id == nullptr ? -1 : mir_strlen(options.id), options.pword == nullptr ? -1 : mir_strlen(options.pword));
 	debugLogW(L"LoadOptions() loaded: port=[%d], encrypt_session=[%d], ClientID=[%d], ClientVersionMajor=[%d], ClientVersionMinor=[%d]", options.port, options.encrypt_session, options.client_id, options.client_versionMajor, options.client_versionMinor);
 	debugLogW(L"LoadOptions() loaded: get_server_contacts=[%d], add_contacts=[%d], idle_as_away=[%d], err_method=[%d]", options.get_server_contacts, options.add_contacts, options.idle_as_away, options.err_method);
 

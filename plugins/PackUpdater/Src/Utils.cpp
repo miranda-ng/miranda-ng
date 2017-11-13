@@ -26,13 +26,13 @@ BYTE Reminder, AutoUpdate;
 BYTE UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 INT Period;
 wchar_t tszDialogMsg[2048] = { 0 };
-FILEINFO* pFileInfo = NULL;
-FILEURL* pFileUrl = NULL;
-HANDLE hCheckThread = NULL;
-HNETLIBUSER hNetlibUser = NULL;
+FILEINFO* pFileInfo = nullptr;
+FILEURL* pFileUrl = nullptr;
+HANDLE hCheckThread = nullptr;
+HNETLIBUSER hNetlibUser = nullptr;
 MYOPTIONS MyOptions = { 0 };
 aPopups PopupsList[POPUPS];
-LPCTSTR Title = { 0 }, Text = { 0 };
+LPCTSTR Title = {}, Text = {};
 
 IconItem iconList[] =
 {
@@ -55,13 +55,13 @@ BOOL NetlibInit()
 	nlu.szSettingsModule = MODNAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	return hNetlibUser != NULL;
+	return hNetlibUser != nullptr;
 }
 
 void NetlibUnInit()
 {
 	Netlib_CloseHandle(hNetlibUser);
-	hNetlibUser = NULL;
+	hNetlibUser = nullptr;
 }
 
 void InitPopupList()
@@ -130,9 +130,9 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 
 	if (pReply) {
 		if (200 == pReply->resultCode && pReply->dataLength > 0) {
-			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			DWORD dwBytes;
-			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
+			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
 			ret = true;
 			if (hFile)
 				CloseHandle(hFile);
@@ -184,7 +184,7 @@ static void CheckUpdates(void *)
 	vector<FILEINFO> UpdateFiles;
 
 	if (!Exists(tszRoot))
-		CreateDirectory(tszRoot, NULL);
+		CreateDirectory(tszRoot, nullptr);
 	Files.clear();
 	Reminder = db_get_b(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
 	FileCount = db_get_dw(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
@@ -196,11 +196,11 @@ static void CheckUpdates(void *)
 		Text = TranslateT("URL for checking updates not found.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
-			show_popup(0, Title, Text, Number, 0);
+			show_popup(nullptr, Title, Text, Number, 0);
 		}
 		else if (db_get_b(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONSTOP);
-		hCheckThread = NULL;
+			MessageBox(nullptr, Text, Title, MB_ICONSTOP);
+		hCheckThread = nullptr;
 		return;
 	}
 	// Download version info
@@ -214,7 +214,7 @@ static void CheckUpdates(void *)
 	DlgDownloadProc();
 	mir_free(pFileUrl);
 	if (!DlgDld) {
-		hCheckThread = NULL;
+		hCheckThread = nullptr;
 		return;
 	}
 
@@ -251,10 +251,10 @@ static void CheckUpdates(void *)
 			Text = TranslateT("Name of Update's file is not supported.");
 			if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 				Number = 1;
-				show_popup(0, Title, Text, Number, 0);
+				show_popup(nullptr, Title, Text, Number, 0);
 			}
 			else if (db_get_b(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
-				MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
+				MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 			continue;
 		} // end check update name
 		mir_wstrncpy(Files[CurrentFile].File.tszDiskPath, tszBuff, _countof(Files[CurrentFile].File.tszDiskPath));
@@ -279,9 +279,9 @@ static void CheckUpdates(void *)
 			VARSW tszProgFiles(L"%ProgramFiles%");
 
 			if (Files[CurrentFile].FileType != 1 && !IsUserAnAdmin() && (wcsstr(tszRoot, tszSysRoot) || wcsstr(tszRoot, tszProgFiles))) {
-				MessageBox(NULL, TranslateT("Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights."), Title, MB_ICONINFORMATION);
+				MessageBox(nullptr, TranslateT("Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights."), Title, MB_ICONINFORMATION);
 				DeleteFile(tszTmpIni);
-				hCheckThread = NULL;
+				hCheckThread = nullptr;
 				return;
 			} // user have not admin's rights
 
@@ -333,7 +333,7 @@ static void CheckUpdates(void *)
 		upd_ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)&UpdateFiles);
 	DeleteFile(tszTmpIni);
 	if (upd_ret == IDCANCEL) {
-		hCheckThread = NULL;
+		hCheckThread = nullptr;
 		return;
 	}
 
@@ -342,10 +342,10 @@ static void CheckUpdates(void *)
 		Text = TranslateT("No updates found.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
-			show_popup(0, Title, Text, Number, 0);
+			show_popup(nullptr, Title, Text, Number, 0);
 		}
 		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
+			MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 	}
 
 	if (!FileCount) {
@@ -353,36 +353,36 @@ static void CheckUpdates(void *)
 		Text = TranslateT("No files for update.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
-			show_popup(0, Title, Text, Number, 0);
+			show_popup(nullptr, Title, Text, Number, 0);
 		}
 		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
+			MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 	}
-	hCheckThread = NULL;
+	hCheckThread = nullptr;
 }
 
 void DoCheck(int iFlag)
 {
-	if (hCheckThread != NULL) {
+	if (hCheckThread != nullptr) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
 		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
-			show_popup(0, Title, Text, Number, 0);
+			show_popup(nullptr, Title, Text, Number, 0);
 		}
 		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
-			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
+			MessageBox(nullptr, Text, Title, MB_ICONINFORMATION);
 	}
 	else if (iFlag) {
-		hCheckThread = mir_forkthread(CheckUpdates, 0);
-		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
+		hCheckThread = mir_forkthread(CheckUpdates, nullptr);
+		db_set_dw(NULL, MODNAME, "LastUpdate", time(nullptr));
 	}
 }
 
 BOOL AllowUpdateOnStartup()
 {
 	if (OnlyOnceADay) {
-		time_t now = time(NULL);
+		time_t now = time(nullptr);
 		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
 
 		if ((now - was) < 86400)
@@ -427,6 +427,6 @@ void InitTimer()
 		li.LowPart = (DWORD)(qwDueTime & 0xFFFFFFFF);
 		li.HighPart = (LONG)(qwDueTime >> 32);
 
-		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, NULL, 0);
+		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, nullptr, 0);
 	}
 }

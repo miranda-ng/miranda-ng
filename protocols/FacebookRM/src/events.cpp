@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url, std::string *notification_id, const char *icon)
 {
-	if (title == NULL || text == NULL)
-		return NULL;
+	if (title == nullptr || text == nullptr)
+		return nullptr;
 
 	char name[256];
 
@@ -80,15 +80,15 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact,
 			pd.pwszText = text;
 			pd.pszClassName = name;
 			pd.hContact = contact;
-			if (icon != NULL) {
+			if (icon != nullptr) {
 				// pd.hIcon = IcoLib_GetIconByHandle(GetIconHandle(icon)); // FIXME: Uncomment when implemented in Popup+ and YAPP correctly
 			}
 
-			if (url != NULL || notification_id != NULL) {
+			if (url != nullptr || notification_id != nullptr) {
 				popup_data *data = new popup_data(this);
-				if (url != NULL)
+				if (url != nullptr)
 					data->url = *url;
-				if (notification_id != NULL)
+				if (notification_id != nullptr)
 					data->notification_id = *notification_id;
 				pd.PluginData = data;
 			}
@@ -98,11 +98,11 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact,
 	}
 	else {
 		if (!Clist_TrayNotifyW(m_szModuleName, title, text, type == EVENT_CLIENT ? NIIF_WARNING : NIIF_INFO, 10000))
-			return NULL;
+			return nullptr;
 	}
 
 	if (type == EVENT_CLIENT)
-		MessageBox(NULL, text, title, MB_OK | MB_ICONERROR);
+		MessageBox(nullptr, text, title, MB_OK | MB_ICONERROR);
 
-	return NULL;
+	return nullptr;
 }

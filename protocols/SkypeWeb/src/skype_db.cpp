@@ -32,7 +32,7 @@ struct SkypeDBType { int type; char *name; DWORD flags; } g_SkypeDBTypes[] =
 
 MEVENT CSkypeProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, LONGLONG timestamp)
 {
-	if (messageId == NULL)
+	if (messageId == nullptr)
 		return NULL;
 
 	timestamp -= 600; // we check events written 10 minutes ago

@@ -38,7 +38,7 @@ static LIST<MSubclassData> arSubclass(10, HandleKeySortT);
 static LRESULT CALLBACK MSubclassWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hwnd);
-	if (p != NULL) {
+	if (p != nullptr) {
 		if (p->m_iHooks)
 			return p->m_hooks[p->m_iHooks-1](hwnd, uMsg, wParam, lParam);
 
@@ -62,7 +62,7 @@ MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc)
 		return;
 
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
-	if (p == NULL) {
+	if (p == nullptr) {
 		p = new MSubclassData;
 		p->m_hWnd = hWnd;
 		p->m_origWndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)MSubclassWndProc);
@@ -89,7 +89,7 @@ MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc)
 MIR_CORE_DLL(void) mir_subclassWindowFull(HWND hWnd, WNDPROC wndProc, WNDPROC oldWndProc)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
-	if (p == NULL) {
+	if (p == nullptr) {
 		p = new MSubclassData;
 		p->m_hWnd = hWnd;
 		p->m_origWndProc = oldWndProc;
@@ -133,7 +133,7 @@ static WNDPROC finalizeSubclassing(HWND hWnd, MSubclassData *p)
 MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd, WNDPROC wndProc)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	for (int i = 0; i < p->m_iHooks; i++) {
@@ -152,7 +152,7 @@ MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd, WNDPROC wndProc)
 MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
-	if (p == NULL)
+	if (p == nullptr)
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 
 	for (int i = p->m_iHooks - 1; i >= 0; i--) {

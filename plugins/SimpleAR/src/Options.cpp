@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-wchar_t* ptszMessage[6]={0};
+wchar_t* ptszMessage[6]= {};
 INT lastIndex=-1;
 
 INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -123,9 +123,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				continue;
 			else {
 				if (c<ID_STATUS_FREECHAT)
-					ptszMessage[c - ID_STATUS_ONLINE - 1] = NULL;
+					ptszMessage[c - ID_STATUS_ONLINE - 1] = nullptr;
 				else if (c>ID_STATUS_INVISIBLE)
-					ptszMessage[c - ID_STATUS_ONLINE - 3] = NULL;
+					ptszMessage[c - ID_STATUS_ONLINE - 3] = nullptr;
 			}
 		}
 		break;

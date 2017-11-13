@@ -71,7 +71,7 @@ int Info(char *title, char *format, ...)
 		str[tBytes] = 0;
 	}
 	va_end(vararg);
-	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);
+	return MessageBoxA(nullptr, str, title, MB_OK | MB_ICONINFORMATION);
 }
 
 /*
@@ -81,7 +81,7 @@ returns the name of a contact
 wchar_t* GetContactName(MCONTACT contact)
 {
 	ptrW name(Contact_GetInfo(CNF_DISPLAY, contact));
-	return (name) ? wcsdup(name) : NULL;
+	return (name) ? wcsdup(name) : nullptr;
 }
 
 /*
@@ -182,7 +182,7 @@ void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst)
 	SYSTEMTIME st;
 	UnixTimeToFileTime(t, &ft);
 	FileTimeToSystemTime(&ft, &st);
-	SystemTimeToTzSpecificLocalTime(NULL, &st, pst);
+	SystemTimeToTzSpecificLocalTime(nullptr, &st, pst);
 }
 
 MEVENT GetNeededEvent(MEVENT hEvent, int num, int direction)
@@ -210,7 +210,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 	}
 	int index = 0;
 	MEVENT hEvent = hFirstEvent;
-	void *buffer = NULL;
+	void *buffer = nullptr;
 	wchar_t *search;
 	bool found = false;
 	int oldSize, newSize;

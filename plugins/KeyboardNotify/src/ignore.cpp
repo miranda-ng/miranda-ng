@@ -175,7 +175,7 @@ static void SetAllContactIcons(HWND hwndList)
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if(hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
 			char *szProto = GetContactProto(hContact);
-			if(szProto == NULL)
+			if(szProto == nullptr)
 				protoCaps = 0;
 			else
 				protoCaps = CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_1, 0);
@@ -231,7 +231,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 			}
 
 			SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
-			SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST),(HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+			SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST),(HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 			return TRUE;
 		case WM_SETFOCUS:
 			SetFocus(GetDlgItem(hwndDlg, IDC_LIST));
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 							SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
 							//fall through
 						case CLN_CONTACTMOVED:
-							SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+							SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 							break;
 						case CLN_OPTIONSCHANGED:
 							ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
@@ -263,7 +263,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 							if(nm->iColumn == -1)
 								break;
 							HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-							if(hItem == NULL)
+							if(hItem == nullptr)
 								break;
 							if (!(hitFlags & CLCHT_ONITEMEXTRA))
 								break;
@@ -283,7 +283,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 									iImage = 0;
 								SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, nm->iColumn, iImage);
 							}
-							SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST),(HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, NULL);
+							SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST),(HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll, nullptr);
 							SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 							break;
 						}

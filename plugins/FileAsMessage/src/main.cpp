@@ -102,11 +102,11 @@ INT_PTR OnSendFile(WPARAM wParam, LPARAM)
 	}
 	else
 	{
-		if (hwnd != 0) WindowList_Remove(hFileList, hwnd);
+		if (hwnd != nullptr) WindowList_Remove(hFileList, hwnd);
 		FILEECHO *fe = new FILEECHO(wParam);
 		fe->inSend = TRUE;
-		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, DialogProc, (LPARAM)fe);
-		if (hwnd == NULL)
+		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), nullptr, DialogProc, (LPARAM)fe);
+		if (hwnd == nullptr)
 		{
 			delete fe;
 			return 0;
@@ -128,11 +128,11 @@ INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 	HWND hwnd = WindowList_Find(hFileList, ccs->hContact);
 	if (!IsWindow(hwnd))
 	{
-		if (hwnd != 0) WindowList_Remove(hFileList, hwnd);
+		if (hwnd != nullptr) WindowList_Remove(hFileList, hwnd);
 		FILEECHO *fe = new FILEECHO(ccs->hContact);
 		fe->inSend = FALSE;
-		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), NULL, DialogProc, (LPARAM)fe);
-		if (hwnd == NULL)
+		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN), nullptr, DialogProc, (LPARAM)fe);
+		if (hwnd == nullptr)
 		{
 			delete fe;
 			return 0;
@@ -212,7 +212,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hHookDbSettingChange = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
-	hHookSkinIconsChanged = NULL;
+	hHookSkinIconsChanged = nullptr;
 
 	return 0;
 }
@@ -224,7 +224,7 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	WindowList_Destroy(hFileList);
-	if (hHookSkinIconsChanged != NULL)
+	if (hHookSkinIconsChanged != nullptr)
 		UnhookEvent(hHookSkinIconsChanged);
 	UnhookEvent(hHookDbSettingChange);
 	UnhookEvent(hHookContactAdded);

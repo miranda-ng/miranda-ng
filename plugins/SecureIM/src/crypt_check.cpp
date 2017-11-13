@@ -56,7 +56,7 @@ BYTE isContactSecured(MCONTACT hContact)
 		break;
 
 	case MODE_RSA:
-		if (p->cntx != 0) res |= SECURED;
+		if (p->cntx != nullptr) res |= SECURED;
 		break;
 	}
 	return res;
@@ -70,7 +70,7 @@ bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda)
 	bool isMiranda = true;
 	LPSTR mirver = db_get_sa(ptr->hContact, ptr->proto->name, "MirVer");
 	if (mirver) {
-		isMiranda = (emptyMirverAsMiranda && !*mirver) || (strstr(mirver, "Miranda") != NULL);
+		isMiranda = (emptyMirverAsMiranda && !*mirver) || (strstr(mirver, "Miranda") != nullptr);
 		mir_free(mirver);
 	}
 	return isMiranda;
@@ -91,7 +91,7 @@ bool isProtoSmallPackets(MCONTACT hContact)
 	if (!p || !p->proto || !p->proto->inspecting)
 		return false;
 
-	return strstr(p->proto->name, "IRC") != NULL || strstr(p->proto->name, "WinPopup") != NULL || strstr(p->proto->name, "VyChat") != NULL;
+	return strstr(p->proto->name, "IRC") != nullptr || strstr(p->proto->name, "WinPopup") != nullptr || strstr(p->proto->name, "VyChat") != nullptr;
 }
 
 bool isContactInvisible(MCONTACT hContact)
@@ -199,7 +199,7 @@ bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
 	bool isSecureIM = false;
 	LPSTR mirver = db_get_sa(ptr->hContact, ptr->proto->name, "MirVer");
 	if (mirver) {
-		isSecureIM = (emptyMirverAsSecureIM && !*mirver) || (strstr(mirver, "SecureIM") != NULL) || (strstr(mirver, "secureim") != NULL);
+		isSecureIM = (emptyMirverAsSecureIM && !*mirver) || (strstr(mirver, "SecureIM") != nullptr) || (strstr(mirver, "secureim") != nullptr);
 		mir_free(mirver);
 	}
 	return isSecureIM;

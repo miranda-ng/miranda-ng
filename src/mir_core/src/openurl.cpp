@@ -58,9 +58,9 @@ static void OpenURLThread(void *arg)
 	// check user defined browser for opening urls
 	ptrW tszBrowser(db_get_wsa(NULL, "Miranda", "OpenUrlBrowser"));
 	if (tszBrowser)
-		ShellExecute(NULL, L"open", tszBrowser, tszUrl, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+		ShellExecute(nullptr, L"open", tszBrowser, tszUrl, nullptr, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 	else
-		ShellExecute(NULL, L"open", tszUrl, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+		ShellExecute(nullptr, L"open", tszUrl, nullptr, nullptr, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 
 	delete hUrlInfo;
 }

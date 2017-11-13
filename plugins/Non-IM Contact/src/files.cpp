@@ -7,7 +7,7 @@ INT_PTR exportContacts(WPARAM, LPARAM)
 		return 0;
 
 	FILE* file;
-	if (MessageBox(0, TranslateT("Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file."), _A2W(modFullname), MB_YESNO) == IDYES)
+	if (MessageBox(nullptr, TranslateT("Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file."), _A2W(modFullname), MB_YESNO) == IDYES)
 		file = fopen(fn, "w");
 	else
 		file = fopen(fn, "a");
@@ -116,7 +116,7 @@ void readFile(HWND hwnd)
 
 	FILE *filen = fopen(szFileName, "r");
 	if (!filen) {
-		MessageBox(0, TranslateT("File couldn't be opened,2"), _A2W(modFullname), MB_OK);
+		MessageBox(nullptr, TranslateT("File couldn't be opened,2"), _A2W(modFullname), MB_OK);
 		return;
 	}
 	lineNumber = 0;
@@ -315,7 +315,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 char* getMimDir(char* file)
 {
-	GetModuleFileNameA(NULL, file, MAX_PATH);
+	GetModuleFileNameA(nullptr, file, MAX_PATH);
 
 	char *p1 = strrchr(file, '\\');
 	if (p1)

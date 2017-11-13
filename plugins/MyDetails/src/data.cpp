@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 static char *StatusModeToDbSetting(int status, const char *suffix);
 
-ProtocolArray *protocols = NULL;
+ProtocolArray *protocols = nullptr;
 
 void InitProtocolData()
 {
@@ -33,7 +33,7 @@ void InitProtocolData()
 
 	for (int i = 0; i < count; i++) {
 		PROTOACCOUNT *acc = protos[i];
-		if (acc->szModuleName == NULL || acc->szModuleName[0] == '\0' || acc->bIsVirtual)
+		if (acc->szModuleName == nullptr || acc->szModuleName[0] == '\0' || acc->bIsVirtual)
 			continue;
 
 		// Found a protocol
@@ -244,7 +244,7 @@ bool Protocol::HasAvatar()
 {
 	GetAvatar();
 
-	return avatar_bmp != NULL;
+	return avatar_bmp != nullptr;
 }
 
 bool Protocol::CanGetAvatar()
@@ -259,12 +259,12 @@ void Protocol::GetAvatar()
 		return;
 
 	avatar_file[0] = '\0';
-	avatar_bmp = NULL;
-	ace = NULL;
+	avatar_bmp = nullptr;
+	ace = nullptr;
 
 	// Get HBITMAP from cache
 	ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)name);
-	if (ace != NULL)
+	if (ace != nullptr)
 		avatar_bmp = ace->hbmPic;
 
 	data_changed = true;
@@ -300,7 +300,7 @@ void Protocol::SetNick(const wchar_t *nick)
 	if (!CanSetNick())
 		return;
 
-	if (nick == NULL)
+	if (nick == nullptr)
 		return;
 
 	// Get it
@@ -365,7 +365,7 @@ ProtocolArray::ProtocolArray(int max_size)
 
 ProtocolArray::~ProtocolArray()
 {
-	if (buffer != NULL) {
+	if (buffer != nullptr) {
 		for (int i = 0; i < buffer_len; i++)
 			delete buffer[i];
 		free(buffer);
@@ -388,20 +388,20 @@ void ProtocolArray::Add(Protocol *p)
 
 Protocol *ProtocolArray::Get(int i)
 {
-	return (i >= buffer_len) ? NULL : buffer[i];
+	return (i >= buffer_len) ? nullptr : buffer[i];
 }
 
 
 Protocol *ProtocolArray::Get(const char *name)
 {
-	if (name == NULL)
-		return NULL;
+	if (name == nullptr)
+		return nullptr;
 
 	for (int i = 0; i < buffer_len; i++)
 		if (mir_strcmp(name, buffer[i]->name) == 0)
 			return buffer[i];
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -453,7 +453,7 @@ void ProtocolArray::SetAvatars(const wchar_t *file_name)
 
 void ProtocolArray::SetNicks(const wchar_t *nick)
 {
-	if (nick == NULL || nick[0] == '\0')
+	if (nick == nullptr || nick[0] == '\0')
 		return;
 
 	mir_wstrncpy(default_nick, nick, _countof(default_nick));
@@ -520,7 +520,7 @@ wchar_t *ProtocolArray::GetDefaultStatusMsg(int status)
 		status = ID_STATUS_OFFLINE;
 
 	wchar_t *tmp = (wchar_t *)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM)status, 0);
-	if (tmp != NULL) {
+	if (tmp != nullptr) {
 		mir_wstrncpy(default_status_message, tmp, _countof(default_status_message));
 		mir_free(tmp);
 	}
@@ -559,7 +559,7 @@ static char *StatusModeToDbSetting(int status, const char *suffix)
 	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
 	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
 	case ID_STATUS_IDLE: prefix = "Idl"; break;
-	default: return NULL;
+	default: return nullptr;
 	}
 	mir_strcpy(str, prefix);
 	mir_strcat(str, suffix);

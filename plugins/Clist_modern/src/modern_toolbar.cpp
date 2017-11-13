@@ -58,7 +58,7 @@ static void SetButtonPressed(int i, int state)
 void Modern_InitButtons()
 {
 	for (int i = 0; i < _countof(BTNS); i++) {
-		TTBButton tbb = { 0 };
+		TTBButton tbb = {};
 
 		if (BTNS[i].pszButtonID) {
 			tbb.name = LPGEN(BTNS[i].pszButtonName);

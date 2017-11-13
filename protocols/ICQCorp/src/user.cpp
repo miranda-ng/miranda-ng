@@ -92,7 +92,7 @@ static char* iptoa(unsigned int ip)
 
 static void setTextValue(HWND hWnd, int id, char *value)
 {
-	bool unspecified = value == NULL;
+	bool unspecified = value == nullptr;
 
 	EnableWindow(GetDlgItem(hWnd, id), !unspecified);
 	SetDlgItemText(hWnd, id, unspecified ? Translate("<not specified>") : value);
@@ -120,18 +120,18 @@ static INT_PTR CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, L
 			setTextValue(hWnd, IDC_INFO_UIN, buffer);
 
 			ip = db_get_dw(hContact, protoName, "IP", 0);
-			setTextValue(hWnd, IDC_INFO_IP, ip ? iptoa(ip) : NULL);
+			setTextValue(hWnd, IDC_INFO_IP, ip ? iptoa(ip) : nullptr);
 
 			ip = db_get_dw(hContact, protoName, "RealIP", 0);
-			setTextValue(hWnd, IDC_INFO_REALIP, ip ? iptoa(ip) : NULL);
+			setTextValue(hWnd, IDC_INFO_REALIP, ip ? iptoa(ip) : nullptr);
 
 			port = db_get_w(hContact, protoName, "Port", 0);
 			_itoa(port, buffer, 10);
-			setTextValue(hWnd, IDC_INFO_PORT, port ? buffer : NULL);
+			setTextValue(hWnd, IDC_INFO_PORT, port ? buffer : nullptr);
 
-			setTextValue(hWnd, IDC_INFO_VERSION, NULL);
-			setTextValue(hWnd, IDC_INFO_MIRVER, NULL);
-			setTextValue(hWnd, IDC_INFO_PING, NULL);
+			setTextValue(hWnd, IDC_INFO_VERSION, nullptr);
+			setTextValue(hWnd, IDC_INFO_MIRVER, nullptr);
+			setTextValue(hWnd, IDC_INFO_PING, nullptr);
 		}
 		break;
 
@@ -147,7 +147,7 @@ static INT_PTR CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, L
 int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 {
 	char *proto = GetContactProto(lParam);
-	if ((proto == NULL || mir_strcmp(proto, protoName)) && lParam)
+	if ((proto == nullptr || mir_strcmp(proto, protoName)) && lParam)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp = { 0 };

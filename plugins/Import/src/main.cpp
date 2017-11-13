@@ -58,7 +58,7 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 		SetForegroundWindow(hwndWizard);
 		SetFocus(hwndWizard);
 	}
-	else hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
+	else hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
 
 	return 0;
 }
@@ -86,7 +86,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	// Only autorun import wizard if at least one protocol is installed
 	int nProtocols = 0;
-	PROTOACCOUNT **ppProtos = NULL;
+	PROTOACCOUNT **ppProtos = nullptr;
 	Proto_EnumAccounts(&nProtocols, &ppProtos);
 	if (nProtocols > 0) {
 		CallService(IMPORT_SERVICE, 0, 0);
@@ -107,7 +107,7 @@ static int OnExit(WPARAM, LPARAM)
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	g_bServiceMode = true;
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), NULL, WizardDlgProc);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
 	return SERVICE_ONLYDB;
 }
 

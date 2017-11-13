@@ -85,7 +85,7 @@ Column* Column::fromUID(const ext::string& guid)
 			return getColInfo(i).m_pFactory->makeInstance();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void Column::registerUID(FactoryBase* pFactory)
@@ -147,7 +147,7 @@ Column* Column::clone() const
 
 void Column::outputBegin()
 {
-	int restrictions = configGetRestrictions(NULL);
+	int restrictions = configGetRestrictions(nullptr);
 
 	m_bUsePNG =
 		m_pSettings->isPNGOutputActiveAndAvailable() && // do we want PNG output?

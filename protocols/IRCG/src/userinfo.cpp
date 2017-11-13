@@ -45,7 +45,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 	UserDetailsDlgProcParam *p = (UserDetailsDlgProcParam*)GetWindowLongPtr(m_hwnd, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
-		p = new UserDetailsDlgProcParam(NULL, lParam);
+		p = new UserDetailsDlgProcParam(nullptr, lParam);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LPARAM)p);
 		break;
 
@@ -107,7 +107,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (GetWindowTextLength(GetDlgItem(m_hwnd, IDC_WILDCARD)) == 0 ||
 					GetWindowTextLength(GetDlgItem(m_hwnd, IDC_USER)) == 0 ||
 					GetWindowTextLength(GetDlgItem(m_hwnd, IDC_HOST)) == 0) {
-					MessageBox(NULL, TranslateW(STR_ERROR2), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
+					MessageBox(nullptr, TranslateW(STR_ERROR2), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 					return FALSE;
 				}
 
@@ -118,7 +118,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 					S += dbv.ptszVal;
 					S += L")";
 					if ((mir_wstrlen(temp) < 4 && mir_wstrlen(temp)) || !WCCmp(CharLower(temp), CharLower(dbv.ptszVal))) {
-						MessageBox(NULL, TranslateW(S.c_str()), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
+						MessageBox(nullptr, TranslateW(S.c_str()), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 						db_free(&dbv);
 						return FALSE;
 					}

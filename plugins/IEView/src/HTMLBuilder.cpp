@@ -28,23 +28,23 @@ HTMLBuilder::HTMLBuilder()
 	lastIEViewEvent.cbSize = sizeof(IEVIEWEVENT);
 	lastIEViewEvent.iType = IEE_LOG_MEM_EVENTS;
 	lastIEViewEvent.codepage = CP_ACP;
-	lastIEViewEvent.pszProto = NULL;
+	lastIEViewEvent.pszProto = nullptr;
 	lastIEViewEvent.count = 0;
 	lastIEViewEvent.dwFlags = 0;
 	lastIEViewEvent.hContact = NULL;
-	lastIEViewEvent.hwnd = NULL;
-	lastIEViewEvent.eventData = NULL;
+	lastIEViewEvent.hwnd = nullptr;
+	lastIEViewEvent.eventData = nullptr;
 }
 
 HTMLBuilder::~HTMLBuilder()
 {
-	if (lastIEViewEvent.pszProto != NULL)
+	if (lastIEViewEvent.pszProto != nullptr)
 		mir_free((void*)lastIEViewEvent.pszProto);
 }
 
 bool HTMLBuilder::encode(MCONTACT hContact, const char *proto, const wchar_t *text, CMStringW &str, int level, int flags, bool isSent)
 {
-	TextToken *token = NULL, *token2;
+	TextToken *token = nullptr, *token2;
 	switch (level) {
 	case 0:
 		if (flags & ENF_CHAT_FORMATTING) {
@@ -66,8 +66,8 @@ bool HTMLBuilder::encode(MCONTACT hContact, const char *proto, const wchar_t *te
 			token = TextToken::tokenizeSmileys(hContact, proto, text, isSent);
 		break;
 	}
-	if (token != NULL) {
-		for (token2 = token; token != NULL; token = token2) {
+	if (token != nullptr) {
+		for (token2 = token; token != nullptr; token = token2) {
 			bool skip = false;
 			token2 = token->getNext();
 			if (token->getType() == TextToken::TEXT)
@@ -83,8 +83,8 @@ bool HTMLBuilder::encode(MCONTACT hContact, const char *proto, const wchar_t *te
 
 char* HTMLBuilder::encodeUTF8(MCONTACT hContact, const char *proto, const wchar_t *wtext, int flags, bool isSent)
 {
-	if (wtext == NULL)
-		return NULL;
+	if (wtext == nullptr)
+		return nullptr;
 
 	CMStringW str;
 	encode(hContact, proto, wtext, str, 0, flags, isSent);
@@ -93,16 +93,16 @@ char* HTMLBuilder::encodeUTF8(MCONTACT hContact, const char *proto, const wchar_
 
 char* HTMLBuilder::encodeUTF8(MCONTACT hContact, const char *proto, const char *text, int flags, bool isSent)
 {
-	if (text == NULL)
-		return NULL;
+	if (text == nullptr)
+		return nullptr;
 
 	return encodeUTF8(hContact, proto, _A2T(text), flags, isSent);
 }
 
 char* HTMLBuilder::encodeUTF8(MCONTACT hContact, const char *proto, const char *text, int cp, int flags, bool isSent)
 {
-	if (text == NULL)
-		return NULL;
+	if (text == nullptr)
+		return nullptr;
 
 	ptrW wtext(mir_a2u_cp(text, cp));
 	return encodeUTF8(hContact, proto, wtext, flags, isSent);
@@ -115,7 +115,7 @@ char* HTMLBuilder::getProto(MCONTACT hContact)
 
 char* HTMLBuilder::getProto(const char *proto, MCONTACT hContact)
 {
-	if (proto != NULL)
+	if (proto != nullptr)
 		return mir_strdup(proto);
 
 	return mir_strdup(GetContactProto(hContact));
@@ -124,10 +124,10 @@ char* HTMLBuilder::getProto(const char *proto, MCONTACT hContact)
 char* HTMLBuilder::getRealProto(MCONTACT hContact)
 {
 	if (hContact == NULL)
-		return NULL;
+		return nullptr;
 
 	char *szProto = mir_strdup(GetContactProto(hContact));
-	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO)) {
+	if (szProto != nullptr && !mir_strcmp(szProto, META_PROTO)) {
 		hContact = db_mc_getMostOnline(hContact);
 		if (hContact != NULL)
 			replaceStr(szProto, GetContactProto(hContact));
@@ -137,7 +137,7 @@ char* HTMLBuilder::getRealProto(MCONTACT hContact)
 
 char* HTMLBuilder::getRealProto(MCONTACT hContact, const char *szProto)
 {
-	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO)) {
+	if (szProto != nullptr && !mir_strcmp(szProto, META_PROTO)) {
 		hContact = db_mc_getMostOnline(hContact);
 		if (hContact != NULL)
 			return mir_strdup(GetContactProto(hContact));
@@ -148,7 +148,7 @@ char* HTMLBuilder::getRealProto(MCONTACT hContact, const char *szProto)
 MCONTACT HTMLBuilder::getRealContact(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !mir_strcmp(szProto, META_PROTO))
+	if (szProto != nullptr && !mir_strcmp(szProto, META_PROTO))
 		hContact = db_mc_getMostOnline(hContact);
 	return hContact;
 }
@@ -194,15 +194,15 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
 {
 	wchar_t *str = Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
-	if (str != NULL)
+	if (str != nullptr)
 		return str;
 
 	str = Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
-	if (str != NULL)
+	if (str != nullptr)
 		return str;
 
 	str = pcli->pfnGetContactDisplayName(hContact, 0);
-	if (str != NULL)
+	if (str != nullptr)
 		return mir_wstrdup(str);
 
 	return mir_wstrdup(TranslateT("(Unknown Contact)"));
@@ -223,12 +223,12 @@ void HTMLBuilder::appendEventNew(IEView *view, IEVIEWEVENT *event)
 
 void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 {
-	IEVIEWEVENTDATA *prevEventData = NULL;
+	IEVIEWEVENTDATA *prevEventData = nullptr;
 	MEVENT hDbEvent = event->hDbEventFirst;
 	event->hDbEventFirst = NULL;
 
 	ptrA szProto;
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != NULL)
+	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != nullptr)
 		szProto = mir_strdup(event->pszProto);
 	else
 		szProto = getProto(event->hContact);
@@ -243,7 +243,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	newEvent.dwFlags = event->dwFlags;
 	newEvent.hContact = event->hContact;
 	newEvent.hwnd = event->hwnd;
-	newEvent.eventData = NULL;
+	newEvent.eventData = nullptr;
 	for (int eventIdx = 0; hDbEvent != NULL && (eventIdx < event->count || event->count == -1); eventIdx++) {
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -271,9 +271,9 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->dwFlags |= IEEDF_RTL;
 
 		eventData->time = dbei.timestamp;
-		eventData->pszNickW = NULL;
-		eventData->pszTextW = NULL;
-		eventData->pszText2W = NULL;
+		eventData->pszNickW = nullptr;
+		eventData->pszTextW = nullptr;
+		eventData->pszText2W = nullptr;
 		if (dbei.flags & DBEF_SENT) {
 			eventData->pszNickW = getContactName(NULL, szProto);
 			eventData->bIsMe = TRUE;
@@ -317,8 +317,8 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->iType = IEED_EVENT_MESSAGE;
 		}
 		free(dbei.pBlob);
-		eventData->next = NULL;
-		if (prevEventData != NULL)
+		eventData->next = nullptr;
+		if (prevEventData != nullptr)
 			prevEventData->next = eventData;
 		else
 			newEvent.eventData = eventData;
@@ -329,7 +329,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		hDbEvent = db_event_next(event->hContact, hDbEvent);
 	}
 	appendEventNew(view, &newEvent);
-	for (IEVIEWEVENTDATA* eventData2 = newEvent.eventData; eventData2 != NULL;) {
+	for (IEVIEWEVENTDATA* eventData2 = newEvent.eventData; eventData2 != nullptr;) {
 		IEVIEWEVENTDATA *eventData = eventData2->next;
 		mir_free((void*)eventData2->pszTextW);
 		mir_free((void*)eventData2->pszText2W);
@@ -342,7 +342,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(const char *protocolName)
 {
 	ProtocolSettings *protoSettings = Options::getProtocolSettings(protocolName);
-	if (protoSettings == NULL || !protoSettings->isSRMMEnable())
+	if (protoSettings == nullptr || !protoSettings->isSRMMEnable())
 		protoSettings = Options::getProtocolSettings();
 
 	return protoSettings;
@@ -356,7 +356,7 @@ ProtocolSettings* HTMLBuilder::getSRMMProtocolSettings(MCONTACT hContact)
 ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(const char *protocolName)
 {
 	ProtocolSettings *protoSettings = Options::getProtocolSettings(protocolName);
-	if (protoSettings == NULL || !protoSettings->isHistoryEnable())
+	if (protoSettings == nullptr || !protoSettings->isHistoryEnable())
 		protoSettings = Options::getProtocolSettings();
 
 	return protoSettings;
@@ -373,7 +373,7 @@ ProtocolSettings* HTMLBuilder::getHistoryProtocolSettings(MCONTACT hContact)
 ProtocolSettings* HTMLBuilder::getChatProtocolSettings(const char *protocolName)
 {
 	ProtocolSettings *protoSettings = Options::getProtocolSettings(protocolName);
-	if (protoSettings == NULL || !protoSettings->isChatEnable())
+	if (protoSettings == nullptr || !protoSettings->isChatEnable())
 		protoSettings = Options::getProtocolSettings();
 
 	return protoSettings;
@@ -396,11 +396,11 @@ void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)
 	lastIEViewEvent.dwFlags = event->dwFlags;
 	lastIEViewEvent.hContact = event->hContact;
 	lastIEViewEvent.hwnd = event->hwnd;
-	lastIEViewEvent.eventData = NULL;
-	if (lastIEViewEvent.pszProto != NULL)
+	lastIEViewEvent.eventData = nullptr;
+	if (lastIEViewEvent.pszProto != nullptr)
 		mir_free((void*)lastIEViewEvent.pszProto);
 
-	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != NULL)
+	if (event->cbSize >= IEVIEWEVENT_SIZE_V3 && event->pszProto != nullptr)
 		lastIEViewEvent.pszProto = mir_strdup(event->pszProto);
 	else
 		lastIEViewEvent.pszProto = getProto(event->hContact);
@@ -408,10 +408,10 @@ void HTMLBuilder::setLastIEViewEvent(IEVIEWEVENT *event)
 
 void HTMLBuilder::clear(IEView *view, IEVIEWEVENT *event)
 {
-	if (event != NULL) {
+	if (event != nullptr) {
 		setLastIEViewEvent(event);
 
-		if (lastIEViewEvent.pszProto != NULL || event->hContact == NULL)
+		if (lastIEViewEvent.pszProto != nullptr || event->hContact == NULL)
 			buildHead(view, &lastIEViewEvent);
 	}
 }

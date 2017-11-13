@@ -47,7 +47,7 @@ void CDropboxOptionsMain::RequestCode_OnChange(CCtrlBase*)
 
 void CDropboxOptionsMain::Authorize_OnClick(CCtrlBase*)
 {
-	mir_forkthreadowner(CDropbox::RequestAccessTokenAsync, m_instance, m_hwnd, 0);
+	mir_forkthreadowner(CDropbox::RequestAccessTokenAsync, m_instance, m_hwnd, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ void CDropboxOptionsInterception::OnInitDialog()
 	PROTOACCOUNT** accounts;
 	Proto_EnumAccounts(&count, &accounts);
 	const char *interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedAccounts");
-	if (interceptedAccounts == NULL)
+	if (interceptedAccounts == nullptr)
 		interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedProtos");
 	for (int i = 0; i < count; i++) {
 		PROTOACCOUNT *acc = accounts[i];

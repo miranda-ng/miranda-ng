@@ -121,11 +121,11 @@ void RecodeDlg(HWND hwndDlg)
 	}
 	else
 	{
-		cbLen = MultiByteToWideChar(cp, 0, fromFileData->content, fromFileData->contentLen, NULL, 0);
+		cbLen = MultiByteToWideChar(cp, 0, fromFileData->content, fromFileData->contentLen, nullptr, 0);
 	}
 
 	fromFileData->contentW = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen + 1));
-	if (fromFileData->contentW != NULL)
+	if (fromFileData->contentW != nullptr)
 	{
 		if (cp == 1200)
 		{
@@ -263,13 +263,13 @@ INT_PTR CALLBACK DlgProcFromFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 void PasteToWeb::FromClipboard()
 {
 	szFileLink[0] = 0;
-	error = NULL;
+	error = nullptr;
 	std::wstring str;
 	BOOL isFile = 0;
-	if (OpenClipboard(NULL))
+	if (OpenClipboard(nullptr))
 	{
 		HANDLE obj = GetClipboardData(CF_UNICODETEXT);
-		if (obj != NULL)
+		if (obj != nullptr)
 		{
 			LPCWSTR wStr = (LPCWSTR)GlobalLock(obj);
 			str.append(wStr, wStr + mir_wstrlen(wStr));
@@ -278,7 +278,7 @@ void PasteToWeb::FromClipboard()
 			// to fix this I check if CF_TEXT contains more characters,
 			// if this is true, this mean that CF_UNICODETEXT is invalid.
 			obj = GetClipboardData(CF_TEXT);
-			if (obj != NULL)
+			if (obj != nullptr)
 			{
 				LPCSTR cStr = (LPCSTR)GlobalLock(obj);
 				if (mir_strlen(cStr) > str.length())
@@ -294,7 +294,7 @@ void PasteToWeb::FromClipboard()
 		else
 		{
 			obj = GetClipboardData(CF_TEXT);
-			if (obj != NULL)
+			if (obj != nullptr)
 			{
 				LPCSTR cStr = (LPCSTR)GlobalLock(obj);
 				LPWSTR wStr = mir_a2u_cp(cStr, CP_ACP);
@@ -305,7 +305,7 @@ void PasteToWeb::FromClipboard()
 			else
 			{
 				obj = GetClipboardData(CF_HDROP);
-				if (obj != NULL)
+				if (obj != nullptr)
 				{
 					LPDROPFILES df = (LPDROPFILES)GlobalLock(obj);
 					isFile = 1;
@@ -356,13 +356,13 @@ void PasteToWeb::FromClipboard()
 			FromClipboardData data;
 			data.content = str;
 			data.page = pageIndex;
-			if (Options::instance->confDlg && DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FROM_CLIPBOARD), 0, DlgProcFromClipboard, (LPARAM)&data) != IDC_BTN_OK)
+			if (Options::instance->confDlg && DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FROM_CLIPBOARD), nullptr, DlgProcFromClipboard, (LPARAM)&data) != IDC_BTN_OK)
 				return;
 
 			SendToServer(str, L"", data.format);
 		}
 	}
-	else if (error == NULL)
+	else if (error == nullptr)
 	{
 		error = TranslateT("Cannot get data from clipboard");
 	}
@@ -370,10 +370,10 @@ void PasteToWeb::FromClipboard()
 
 void PasteToWeb::FromFile(std::wstring file)
 {
-	error = NULL;
+	error = nullptr;
 	szFileLink[0] = 0;
-	HANDLE hFile = CreateFile(file.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-	FromFileData fromFileData = { 0 };
+	HANDLE hFile = CreateFile(file.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+	FromFileData fromFileData = {};
 	fromFileData.fileName = &file;
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
@@ -385,7 +385,7 @@ void PasteToWeb::FromFile(std::wstring file)
 				if (fileSize.QuadPart > 512000LL)
 				{
 					mir_snwprintf(bufErr, TranslateT("File size is %d KB, do you really want to paste such a large file?"), fileSize.LowPart / 1024);
-					if (MessageBox(NULL, bufErr, TranslateT("Are You sure?"), MB_YESNO | MB_ICONQUESTION) != IDYES)
+					if (MessageBox(nullptr, bufErr, TranslateT("Are You sure?"), MB_YESNO | MB_ICONQUESTION) != IDYES)
 					{
 						CloseHandle(hFile);
 						return;
@@ -394,10 +394,10 @@ void PasteToWeb::FromFile(std::wstring file)
 				DWORD readed;
 				fromFileData.contentLen = fileSize.LowPart;
 				fromFileData.content = (char*)mir_alloc(fromFileData.contentLen);
-				if (!ReadFile(hFile, fromFileData.content, fromFileData.contentLen, &readed, NULL))
+				if (!ReadFile(hFile, fromFileData.content, fromFileData.contentLen, &readed, nullptr))
 				{
 					mir_free(fromFileData.content);
-					fromFileData.content = NULL;
+					fromFileData.content = nullptr;
 					fromFileData.contentLen = 0;
 					mir_snwprintf(bufErr, TranslateT("Cannot read file '%s'"), file.c_str());
 					error = bufErr;
@@ -417,7 +417,7 @@ void PasteToWeb::FromFile(std::wstring file)
 		error = bufErr;
 	}
 
-	if (fromFileData.content != NULL)
+	if (fromFileData.content != nullptr)
 	{
 		int cbLen = 0;
 		bool isDefTranslation = true;
@@ -425,7 +425,7 @@ void PasteToWeb::FromFile(std::wstring file)
 		{
 			isDefTranslation = false;
 			fromFileData.codepage = CP_UTF8;
-			cbLen = MultiByteToWideChar(fromFileData.codepage, MB_ERR_INVALID_CHARS, fromFileData.content, fromFileData.contentLen, NULL, 0);
+			cbLen = MultiByteToWideChar(fromFileData.codepage, MB_ERR_INVALID_CHARS, fromFileData.content, fromFileData.contentLen, nullptr, 0);
 			if (cbLen == 0)
 			{
 				int errorN = GetLastError();
@@ -446,14 +446,14 @@ void PasteToWeb::FromFile(std::wstring file)
 			}
 			else
 			{
-				cbLen = MultiByteToWideChar(fromFileData.codepage, 0, fromFileData.content, fromFileData.contentLen, NULL, 0);
+				cbLen = MultiByteToWideChar(fromFileData.codepage, 0, fromFileData.content, fromFileData.contentLen, nullptr, 0);
 			}
 		}
 
 		if (cbLen > 0)
 		{
 			fromFileData.contentW = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen + 1));
-			if (fromFileData.contentW != NULL)
+			if (fromFileData.contentW != nullptr)
 			{
 				if (fromFileData.codepage == 1200)
 				{
@@ -473,7 +473,7 @@ void PasteToWeb::FromFile(std::wstring file)
 
 				fromFileData.contentW[cbLen] = 0;
 				fromFileData.page = pageIndex;
-				if (!Options::instance->confDlg || DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FROM_FILE), 0, DlgProcFromFile, (LPARAM)&fromFileData) == IDC_BTN_OK)
+				if (!Options::instance->confDlg || DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FROM_FILE), nullptr, DlgProcFromFile, (LPARAM)&fromFileData) == IDC_BTN_OK)
 				{
 					std::wstring fileName;
 					std::wstring::size_type pos1 = file.find_last_of(L'\\');
@@ -502,13 +502,13 @@ extern HNETLIBUSER g_hNetlibUser;
 
 wchar_t* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& headers, std::wstring content)
 {
-	wchar_t* resCont = NULL;
-	int cbLen = WideCharToMultiByte(CP_UTF8, 0, content.c_str(), -1, NULL, 0, NULL, NULL);
+	wchar_t* resCont = nullptr;
+	int cbLen = WideCharToMultiByte(CP_UTF8, 0, content.c_str(), -1, nullptr, 0, nullptr, nullptr);
 	char* contentBytes = (char*)mir_alloc(cbLen);
-	if (contentBytes == NULL)
+	if (contentBytes == nullptr)
 		return resCont;
 
-	WideCharToMultiByte(CP_UTF8, 0, content.c_str(), -1, contentBytes, cbLen, NULL, NULL);
+	WideCharToMultiByte(CP_UTF8, 0, content.c_str(), -1, contentBytes, cbLen, nullptr, nullptr);
 	--cbLen;
 
 	int nHeaders = 0;
@@ -543,14 +543,14 @@ wchar_t* PasteToWeb::SendToWeb(char* url, std::map<std::string, std::string>& he
 
 	nlhr.headersCount = nHeaders;
 	NETLIBHTTPREQUEST* nlhrReply = Netlib_HttpTransaction(g_hNetlibUser, &nlhr);
-	if (nlhrReply != NULL)
+	if (nlhrReply != nullptr)
 	{
 		if (nlhrReply->resultCode == 200)
 		{
-			int resLen = MultiByteToWideChar(CP_UTF8, 0, nlhrReply->pData, nlhrReply->dataLength, NULL, 0);
+			int resLen = MultiByteToWideChar(CP_UTF8, 0, nlhrReply->pData, nlhrReply->dataLength, nullptr, 0);
 			++resLen;
 			resCont = (wchar_t*)mir_alloc(resLen * sizeof(wchar_t));
-			if (resCont != NULL)
+			if (resCont != nullptr)
 			{
 				resLen = MultiByteToWideChar(CP_UTF8, 0, nlhrReply->pData, nlhrReply->dataLength, resCont, resLen);
 				resCont[resLen] = 0;

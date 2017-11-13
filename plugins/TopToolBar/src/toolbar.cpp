@@ -1,13 +1,13 @@
 
 #include "stdafx.h"
 
-pfnCustomProc g_CustomProc = NULL;
+pfnCustomProc g_CustomProc = nullptr;
 LPARAM g_CustomProcParam = 0;
-TTBCtrl *g_ctrl = NULL;
+TTBCtrl *g_ctrl = nullptr;
 
 void CALLBACK OnEventFire();
 
-HWND hwndContactList = 0;
+HWND hwndContactList = nullptr;
 
 int nextButtonId = 200;
 
@@ -34,13 +34,13 @@ TopButtonInt *idtopos(int id, int *pPos)
 
 	if (pPos)
 		*pPos = -1;
-	return NULL;
+	return nullptr;
 }
 
 //----- Service buttons -----
 void InsertSBut(int i)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSBUTTON | TTBBF_INTERNAL;
@@ -65,7 +65,7 @@ INT_PTR LaunchService(WPARAM, LPARAM lParam)
 	STARTUPINFO si = {0};
 	si.cb = sizeof(si);
 
-	if (CreateProcess(NULL, Buttons[lParam]->ptszProgram, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+	if (CreateProcess(nullptr, Buttons[lParam]->ptszProgram, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 	}
@@ -75,7 +75,7 @@ INT_PTR LaunchService(WPARAM, LPARAM lParam)
 
 void InsertLBut(int i)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL;
 	ttb.name = LPGEN("Default");
@@ -95,7 +95,7 @@ void LoadAllLButs()
 //----- Separators -----
 void InsertSeparator(int i)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL;
 	ttb.wParamDown = i;
 	TTBAddButton((WPARAM)&ttb, 0);
@@ -125,7 +125,7 @@ int SaveAllButtonsOptions()
 
 static bool nameexists(const char *name)
 {
-	if (name == NULL)
+	if (name == nullptr)
 		return false;
 
 	for (int i = 0; i < Buttons.getCount(); i++)
@@ -138,8 +138,8 @@ static bool nameexists(const char *name)
 static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsUp)
 {
 	HANDLE hSrc = bIsUp ? but->hIconHandleUp : but->hIconHandleDn;
-	if (hSrc == NULL) {
-		hIcoLib = NULL, hIcon = NULL;
+	if (hSrc == nullptr) {
+		hIcoLib = nullptr, hIcon = nullptr;
 		return;
 	}
 
@@ -148,10 +148,10 @@ static void Icon2button(TTBButton *but, HANDLE &hIcoLib, HICON &hIcon, bool bIsU
 		char buf[256];
 		mir_snprintf(buf, "toptoolbar_%s%s", but->name, bIsUp ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
 
-		SKINICONDESC sid = { 0 };
+		SKINICONDESC sid = {};
 		sid.section.a = "Toolbar";
 		sid.pszName = buf;
-		sid.defaultFile.a = NULL;
+		sid.defaultFile.a = nullptr;
 		mir_snprintf(buf, "%s%s", but->name, bIsUp ? "" : " (pressed)");
 		sid.description.a = buf;
 		sid.hDefaultIcon = bIsUp ? but->hIconUp : but->hIconDn;
@@ -181,7 +181,7 @@ TopButtonInt *CreateButton(TTBButton *but)
 			b->pszService = mir_strdup(TTB_LAUNCHSERVICE);
 		}
 		else {
-			b->ptszProgram = NULL;
+			b->ptszProgram = nullptr;
 			b->pszService = mir_strdup(but->pszService);
 		}
 
@@ -229,7 +229,7 @@ int ArrangeButtons()
 
 		for (i = iFirstButtonId; i < Buttons.getCount(); i++) {
 			TopButtonInt *b = Buttons[i];
-			if (b->hwnd == NULL)
+			if (b->hwnd == nullptr)
 				continue;
 
 			int width = 0;
@@ -245,7 +245,7 @@ int ArrangeButtons()
 
 		for (i = iFirstButtonId; i < iLastButtonId; i++) {
 			TopButtonInt *b = Buttons[i];
-			if (b->hwnd == NULL)
+			if (b->hwnd == nullptr)
 				continue;
 
 			bool bOldVisible = IsWindowVisible(b->hwnd) != 0;
@@ -253,15 +253,15 @@ int ArrangeButtons()
 				g_ctrl->bOrderChanged = TRUE;
 
 			if (b->isVisible()) {
-				if (NULL != b->hwnd) /* Wine fix. */
-					hdwp = DeferWindowPos(hdwp, b->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
+				if (nullptr != b->hwnd) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, b->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
 				if (b->isSep())
 					nextX += SEPWIDTH + 2;
 				else
 					nextX += g_ctrl->nButtonWidth + g_ctrl->nButtonSpace;
 			} else {
-				if (NULL != Buttons[i]->hwnd) /* Wine fix. */
-					hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+				if (nullptr != Buttons[i]->hwnd) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 			}
 		}
 
@@ -276,8 +276,8 @@ int ArrangeButtons()
 	} while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
 
 	for (i = iLastButtonId; i < Buttons.getCount(); i++) {
-		if (NULL != Buttons[i]->hwnd) /* Wine fix. */
-			hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+		if (nullptr != Buttons[i]->hwnd) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 	}
 
 	if (hdwp)
@@ -304,7 +304,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	b->hLangpack = (int)lParam;
 	b->LoadSettings();
 	b->CreateWnd();
-	if (b->hwnd == NULL) {
+	if (b->hwnd == nullptr) {
 		delete b;
 		return -1;
 	}
@@ -325,7 +325,7 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM)
 
 	int idx;
 	TopButtonInt *b = idtopos(wParam, &idx);
-	if (b == NULL)
+	if (b == nullptr)
 		return -1;
 
 	RemoveFromOptions(b->id);
@@ -345,7 +345,7 @@ INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 	mir_cslock lck(csButtonsHook);
 
 	TopButtonInt *b = idtopos(wParam);
-	if (b == NULL)
+	if (b == nullptr)
 		return -1;
 
 	b->bPushed = (lParam & TTBST_PUSHED) != 0;
@@ -360,7 +360,7 @@ INT_PTR TTBGetState(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(csButtonsHook);
 	TopButtonInt *b = idtopos(wParam);
-	if (b == NULL)
+	if (b == nullptr)
 		return -1;
 
 	return ((b->bPushed == TRUE) ? TTBST_PUSHED : 0);
@@ -370,7 +370,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(csButtonsHook);
 	TopButtonInt *b = idtopos(wParam);
-	if (b == NULL)
+	if (b == nullptr)
 		return -1;
 
 	switch (LOWORD(wParam)) {
@@ -417,7 +417,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(csButtonsHook);
 	TopButtonInt *b = idtopos(HIWORD(wParam));
-	if (b == NULL)
+	if (b == nullptr)
 		return -1;
 
 	switch (LOWORD(wParam)) {
@@ -431,7 +431,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			b->SetBitmap();
 		if (retval & TTBBF_VISIBLE) {
 			ArrangeButtons();
-			b->SaveSettings(0, 0);
+			b->SaveSettings(nullptr, nullptr);
 		}
 
 		return 1;
@@ -463,7 +463,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 
 			if (retval & TTBBF_VISIBLE) {
 				ArrangeButtons();
-				b->SaveSettings(0, 0);
+				b->SaveSettings(nullptr, nullptr);
 			}
 
 			if (b->dwFlags & TTBBF_ISLBUTTON)
@@ -590,11 +590,11 @@ static int OnShutdown(WPARAM, LPARAM)
 	if (g_ctrl) {
 		if (g_ctrl->hFrame) {
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)g_ctrl->hFrame, 0);
-			g_ctrl->hFrame = 0;
+			g_ctrl->hFrame = nullptr;
 		}
 		if (g_ctrl->hWnd) {
 			DestroyWindow(g_ctrl->hWnd);
-			g_ctrl->hWnd = NULL;
+			g_ctrl->hWnd = nullptr;
 		}
 	}
 
@@ -620,7 +620,7 @@ int LoadToolbarModule()
 {
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		if (!db_get_b(NULL, TTB_OPTDIR, "WarningDone", 0))
-			MessageBox(0, TranslateT("Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download"), TranslateT("TopToolBar"), 0);
+			MessageBox(nullptr, TranslateT("Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Clist nicer\nYou can get them at https://wiki.miranda-ng.org/Download"), TranslateT("TopToolBar"), 0);
 		db_set_b(NULL, TTB_OPTDIR, "WarningDone", 1);
 		return 1;
 	}
@@ -664,9 +664,9 @@ int LoadToolbarModule()
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = TTB_BUTTON_CLASS;
 	wc.lpfnWndProc = TTBButtonWndProc;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(void *);
-	wc.hbrBackground = 0;
+	wc.hbrBackground = nullptr;
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	return 0;

@@ -27,14 +27,14 @@ extern ServerList &ftpList;
 
 UploadJob::UploadJob(MCONTACT _hContact, int _iFtpNum, EMode _mode) :
 	GenericJob(_hContact, _iFtpNum, _mode),
-	m_fp(NULL)
+	m_fp(nullptr)
 {
 	m_szFileLink[0] = 0;
 }
 
 UploadJob::UploadJob(UploadJob *job) :
 	GenericJob(job),
-	m_fp(NULL), m_uiSent(0), m_uiTotalSent(0), m_uiFileSize(0)
+	m_fp(nullptr), m_uiSent(0), m_uiTotalSent(0), m_uiFileSize(0)
 {
 	mir_strcpy(m_szFileLink, job->m_szFileLink);
 	for (int i = 0; i < _countof(m_lastSpeed); i++)
@@ -42,7 +42,7 @@ UploadJob::UploadJob(UploadJob *job) :
 }
 
 UploadJob::UploadJob(PackerJob *job) :
-	GenericJob(job), m_fp(NULL), m_uiSent(0), m_uiTotalSent(0), m_uiFileSize(0)
+	GenericJob(job), m_fp(nullptr), m_uiSent(0), m_uiTotalSent(0), m_uiFileSize(0)
 {
 	for (int i = 0; i < _countof(m_lastSpeed); i++)
 		m_lastSpeed[i] = 0;
@@ -82,14 +82,14 @@ void UploadJob::autoSend()
 		return;
 
 	char *szProto = GetContactProto(m_hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return;
 
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = szProto;
-	dbei.timestamp = (DWORD)time(NULL);
+	dbei.timestamp = (DWORD)time(nullptr);
 	dbei.cbBlob = (DWORD)mir_strlen(m_szFileLink) + 1;
 	dbei.pBlob = (PBYTE)m_szFileLink;
 	db_event_add(m_hContact, &dbei);
@@ -131,7 +131,7 @@ void UploadJob::pauseHandler()
 void UploadJob::resume()
 {
 	m_uiSent = 0;
-	m_startTS = time(NULL);
+	m_startTS = time(nullptr);
 	if (!isCompleted()) {
 		curl_easy_pause(m_hCurl, CURLPAUSE_CONT);
 		setStatus(STATUS_UPLOADING);
@@ -223,7 +223,7 @@ CURL *UploadJob::curlInit(char *szUrl, struct curl_slist *headerList)
 {
 	m_hCurl = curl_easy_init();
 	if (!m_hCurl)
-		return NULL;
+		return nullptr;
 
 	Utils::curlSetOpt(m_hCurl, m_ftp, szUrl, headerList, m_szError);
 
@@ -267,12 +267,12 @@ void UploadJob::upload()
 	refreshTab(true);
 
 	m_fp = _wfopen(m_tszFilePath, L"rb");
-	if (m_fp == NULL) {
+	if (m_fp == nullptr) {
 		Utils::msgBox(TranslateT("Error occurred when opening local file.\nAborting file upload..."), MB_OK | MB_ICONERROR);
 		return;
 	}
 
-	curl_slist *headerList = NULL;
+	curl_slist *headerList = nullptr;
 	if (m_ftp->m_szChmod[0])
 		headerList = curl_slist_append(headerList, getChmodString());
 
@@ -288,7 +288,7 @@ void UploadJob::upload()
 
 	bool uploadFile = true;
 	if (fileExistsOnServer()) {
-		int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), 0, DlgProcFileExists, (LPARAM)m_szSafeFileName);
+		int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), nullptr, DlgProcFileExists, (LPARAM)m_szSafeFileName);
 		if (res == IDC_RENAME) {
 			if (Utils::setFileNameDlgA(m_szSafeFileName) == true)
 				curl_easy_setopt(hCurl, CURLOPT_URL, getUrlString());
@@ -306,7 +306,7 @@ void UploadJob::upload()
 	if (uploadFile) {
 		curl_easy_setopt(m_hCurl, CURLOPT_UPLOAD, 1L);
 		setStatus(STATUS_CONNECTING);
-		m_startTS = time(NULL);
+		m_startTS = time(nullptr);
 
 		int result = curl_easy_perform(hCurl);
 		curl_slist_free_all(headerList);
@@ -379,8 +379,8 @@ size_t UploadJob::ReadCallback(void *ptr, size_t size, size_t nmemb, void *arg)
 
 void UploadJob::updateStats()
 {
-	if (m_uiSent && (time(NULL) > m_startTS)) {
-		double speed = ((double)m_uiSent / 1024) / (time(NULL) - m_startTS);
+	if (m_uiSent && (time(nullptr) > m_startTS)) {
+		double speed = ((double)m_uiSent / 1024) / (time(nullptr) - m_startTS);
 		m_avgSpeed = speed;
 		for (int i = 0; i < _countof(m_lastSpeed); i++) {
 			m_avgSpeed += (m_lastSpeed[i] == 0 ? speed : m_lastSpeed[i]);

@@ -14,9 +14,9 @@ unsigned __stdcall MessagePumpThread(void* param)
 	if (param)
 		SetEvent((HANDLE)param);
 
-	MSG hwndMsg = { 0 };
-	while (GetMessage(&hwndMsg, 0, 0, 0) > 0 && !bShutdown) {
-		if (hwndMsg.hwnd != NULL && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
+	MSG hwndMsg = {};
+	while (GetMessage(&hwndMsg, nullptr, 0, 0) > 0 && !bShutdown) {
+		if (hwndMsg.hwnd != nullptr && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
 			continue;
 		switch(hwndMsg.message) {
 		case MUM_CREATEPOPUP:
@@ -30,7 +30,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 
 				PopupData *pd = (PopupData*)hwndMsg.lParam;
 				if (enabled && num_popups < MAX_POPUPS) {
-					HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, L"Popup", WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)hwndMsg.lParam);
+					HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, L"Popup", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, hInst, (LPVOID)hwndMsg.lParam);
 					num_popups++;
 					if (hwndMsg.wParam) // set notifyer handle
 						SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
@@ -93,12 +93,12 @@ void InitMessagePump()
 	popup_win_class.lpfnWndProc = PopupWindowProc;
 	popup_win_class.hInstance = hInst;
 	popup_win_class.lpszClassName = POP_WIN_CLASS;
-	popup_win_class.hCursor = LoadCursor(NULL, IDC_ARROW); 
+	popup_win_class.hCursor = LoadCursor(nullptr, IDC_ARROW); 
 	RegisterClass(&popup_win_class);
 
 	InitServices();
 
-	hMPEvent = CreateEvent(0, TRUE, 0, 0);
+	hMPEvent = CreateEvent(nullptr, TRUE, 0, nullptr);
 	CloseHandle(mir_forkthreadex(MessagePumpThread, hMPEvent, &message_pump_thread_id));
 	WaitForSingleObject(hMPEvent, INFINITE);
 	CloseHandle(hMPEvent);

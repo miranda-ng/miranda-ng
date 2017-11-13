@@ -12,7 +12,7 @@ CLCDTextLog::CLCDTextLog()
 	m_iLogSize = 10;
 	m_iPosition = 0;
 	m_iTextLines = 0;
-	m_pScrollbar = NULL;
+	m_pScrollbar = nullptr;
 	m_eExpandMode = EXPAND_SCROLL;
 	m_eAutoScroll = SCROLL_MESSAGE;
 	m_iLastScrollDirection = 0;
@@ -78,7 +78,7 @@ bool CLCDTextLog::Draw(CLCDGfx *pGfx)
     int iSpacing = (GetHeight() - iLineCount*m_iFontHeight)/2;
 
 	list<CLogEntry*>::iterator iter = m_Entrys.begin();
-	CLogEntry *pEntry = NULL;
+	CLogEntry *pEntry = nullptr;
 	RECT rBoundary = { 0, iSpacing,GetWidth() , GetHeight()-iSpacing}; 
 	int iPosition = 0;
 	int iLinesDrawn = 0;
@@ -291,10 +291,10 @@ void CLCDTextLog::WrapMessage(CLogEntry *pEntry)
 	pEntry->vLines.clear();
 
 	tstring strString = pEntry->strString;
-	HDC hDC = CreateCompatibleDC(NULL);
+	HDC hDC = CreateCompatibleDC(nullptr);
 	SelectObject(hDC, m_hFont);   
     
-	if(NULL == hDC)
+	if(nullptr == hDC)
 		return;
 
 	int iLen = (int)strString.size();
@@ -422,7 +422,7 @@ void CLCDTextLog::RefreshLines()
 
 	m_iTextLines = 0;
 
-	CLogEntry *pEntry = NULL;
+	CLogEntry *pEntry = nullptr;
 	list<CLogEntry*>::iterator iter = m_Entrys.begin();
 	while(iter != m_Entrys.end())
 	{

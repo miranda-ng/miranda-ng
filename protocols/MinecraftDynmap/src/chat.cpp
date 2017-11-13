@@ -90,7 +90,7 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 	ptrW tname(mir_a2u_cp(name, CP_UTF8));
 
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	gce.time = DWORD(time(0));
+	gce.time = DWORD(time(nullptr));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tname;
 	gce.ptszUID = gce.ptszNick;
@@ -112,7 +112,7 @@ void MinecraftDynmapProto::DeleteChatContact(const char *name)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = tname;
 	gce.ptszUID = gce.ptszNick;
-	gce.time = DWORD(time(0));
+	gce.time = DWORD(time(nullptr));
 	gce.bIsMe = (m_nick == name);
 
 	Chat_Event(&gce);
@@ -144,7 +144,7 @@ void MinecraftDynmapProto::SetTopic(const char *topic)
 	ptrW ttopic(mir_a2u_cp(topic, CP_UTF8));
 
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
-	gce.time = ::time(NULL);
+	gce.time = ::time(nullptr);
 	gce.ptszText = ttopic;
 
 	Chat_Event( &gce);

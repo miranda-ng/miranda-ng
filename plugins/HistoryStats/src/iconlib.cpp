@@ -5,15 +5,15 @@
 #include "resource.h"
 
 bool IconLib::m_bIcoLibAvailable = false;
-HANDLE IconLib::m_hHookSkin2IconsChanged = NULL;
+HANDLE IconLib::m_hHookSkin2IconsChanged = nullptr;
 
 IconLib::IconInfo IconLib::m_IconInfo[] = {
-	{ IDI_HISTORYSTATS  , "main_menu"     , NULL,                   LPGENW("Create statistics (main menu)")     },
-	{ IDI_HISTORYSTATS  , "menu_show"     , NULL,                   LPGENW("Show statistics (main menu)")       },
-	{ IDI_HISTORYSTATS  , "menu_config"   , NULL,                   LPGENW("Configure... (main menu)")          },
-	{ IDI_HISTORYSTATS  , "contact_menu"  , NULL,                   LPGENW("Contact menu")                      },
-	{ IDI_EXCLUDE_NO    , "exclude_no"    , NULL,                   LPGENW("Unexcluded contacts")               },
-	{ IDI_EXCLUDE_YES   , "exclude_yes"   , NULL,                   LPGENW("Excluded contacts")                 },
+	{ IDI_HISTORYSTATS  , "main_menu"     , nullptr,                   LPGENW("Create statistics (main menu)")     },
+	{ IDI_HISTORYSTATS  , "menu_show"     , nullptr,                   LPGENW("Show statistics (main menu)")       },
+	{ IDI_HISTORYSTATS  , "menu_config"   , nullptr,                   LPGENW("Configure... (main menu)")          },
+	{ IDI_HISTORYSTATS  , "contact_menu"  , nullptr,                   LPGENW("Contact menu")                      },
+	{ IDI_EXCLUDE_NO    , "exclude_no"    , nullptr,                   LPGENW("Unexcluded contacts")               },
+	{ IDI_EXCLUDE_YES   , "exclude_yes"   , nullptr,                   LPGENW("Excluded contacts")                 },
 	{ IDI_TREE_CHECK1   , "tree_check1"   , LPGENW("Options tree"), LPGENW("Checkbox")                          },
 	{ IDI_TREE_CHECK2   , "tree_check2"   , LPGENW("Options tree"), LPGENW("Checkbox (checked)")                },
 	{ IDI_TREE_CHECK3   , "tree_check3"   , LPGENW("Options tree"), LPGENW("Checkbox (disabled)")               },
@@ -52,7 +52,7 @@ void IconLib::init()
 {
 	array_each_(i, m_IconInfo)
 	{
-		m_IconInfo[i].hIcon = NULL;
+		m_IconInfo[i].hIcon = nullptr;
 	}
 
 	if (m_bIcoLibAvailable = mu::icolib::_available()) {
@@ -124,7 +124,7 @@ void IconLib::uninit()
 	{
 		if (m_IconInfo[i].hIcon) {
 			DestroyIcon(m_IconInfo[i].hIcon);
-			m_IconInfo[i].hIcon = NULL;
+			m_IconInfo[i].hIcon = nullptr;
 		}
 	}
 }

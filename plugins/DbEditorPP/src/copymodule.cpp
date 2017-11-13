@@ -36,13 +36,13 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				if (ApplyProtoFilter(hContact))
 					continue;
 
-				GetContactName(hContact, NULL, name, _countof(name));
+				GetContactName(hContact, nullptr, name, _countof(name));
 
 				int index = SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)name);
 				SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, hContact);
 			}
 
-			GetContactName(NULL, NULL, name, _countof(name));
+			GetContactName(NULL, nullptr, name, _countof(name));
 			int index = (int)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_INSERTSTRING, 0, (LPARAM)name);
 			SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, 0);
 			SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETCURSEL, index, 0);
@@ -61,11 +61,11 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				copyModule(mac->module, mac->hContact, hContact);
 			}
 			else {
-				SetCursor(LoadCursor(NULL, IDC_WAIT));
+				SetCursor(LoadCursor(nullptr, IDC_WAIT));
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					copyModule(mac->module, mac->hContact, hContact);
 
-				SetCursor(LoadCursor(NULL, IDC_ARROW));
+				SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			}
 			refreshTree(1);
 			// fall through

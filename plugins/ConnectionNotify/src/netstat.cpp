@@ -4,9 +4,9 @@ struct CONNECTION *GetConnectionsTable()
 {
 	// Declare and initialize variables
 	MIB_TCPTABLE_OWNER_PID *pTcpTable = (MIB_TCPTABLE_OWNER_PID *)MALLOC(sizeof(MIB_TCPTABLE_OWNER_PID));
-	if (pTcpTable == NULL) {
+	if (pTcpTable == nullptr) {
 		//printf("Error allocating memory!\n");
-		return NULL;
+		return nullptr;
 	}
 
 	DWORD dwSize = sizeof(MIB_TCPTABLE_OWNER_PID);
@@ -16,9 +16,9 @@ struct CONNECTION *GetConnectionsTable()
 	if (dwRetVal == ERROR_INSUFFICIENT_BUFFER) {
 		FREE(pTcpTable);
 		pTcpTable = (MIB_TCPTABLE_OWNER_PID *)MALLOC(dwSize);
-		if (pTcpTable == NULL) {
+		if (pTcpTable == nullptr) {
 			//printf("Error allocating memory\n");
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -27,12 +27,12 @@ struct CONNECTION *GetConnectionsTable()
 	if ((dwRetVal = GetExtendedTcpTable(pTcpTable, &dwSize, TRUE, AF_INET, TCP_TABLE_OWNER_PID_ALL, 0)) != NO_ERROR) {
 		//printf("\tGetTcpTable() failed with return value %d\n", dwRetVal);
 		FREE(pTcpTable);
-		return NULL;
+		return nullptr;
 	}
 	//printf("\tLocal Addr\tLocal Port\tRemote Addr\tRemote Port\n");
 	//printf("Number of entries: %d\n", (int) pTcpTable->dwNumEntries);
 	struct in_addr IpAddr;
-	struct CONNECTION *connHead = NULL;
+	struct CONNECTION *connHead = nullptr;
 	for (DWORD i = 0; i < pTcpTable->dwNumEntries; i++) {
 		struct CONNECTION *newConn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 		memset(newConn, 0, sizeof(struct CONNECTION));
@@ -114,18 +114,18 @@ void deleteConnectionsTable(struct CONNECTION *head)
 {
 	struct CONNECTION *cur = head, *del;
 
-	while (cur != NULL) {
+	while (cur != nullptr) {
 		del = cur;
 		cur = cur->next;
 		mir_free(del);
 		head = cur;
 	}
-	head = NULL;
+	head = nullptr;
 }
 
 struct CONNECTION *searchConnection(struct CONNECTION *head, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
-	for (struct CONNECTION *cur = head; cur != NULL; cur = cur->next) {
+	for (struct CONNECTION *cur = head; cur != nullptr; cur = cur->next) {
 		if (mir_wstrcmp(cur->strIntIp, intIp) == 0 &&
 			mir_wstrcmp(cur->strExtIp, extIp) == 0 &&
 			cur->intExtPort == extPort &&
@@ -133,7 +133,7 @@ struct CONNECTION *searchConnection(struct CONNECTION *head, wchar_t *intIp, wch
 			cur->state == state)
 			return cur;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void getDnsName(wchar_t *strIp, wchar_t *strHostName, size_t len)
@@ -144,5 +144,5 @@ void getDnsName(wchar_t *strIp, wchar_t *strHostName, size_t len)
 	iaHost.s_addr = inet_addr(szStrIP);
 	mir_free(szStrIP);
 	hostent *h = gethostbyaddr((char *)&iaHost, sizeof(struct in_addr), AF_INET);
-	wcsncpy_s(strHostName, len, (h == NULL) ? strIp : _A2T(h->h_name), _TRUNCATE);
+	wcsncpy_s(strHostName, len, (h == nullptr) ? strIp : _A2T(h->h_name), _TRUNCATE);
 }

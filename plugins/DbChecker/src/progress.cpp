@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void __cdecl WorkerThread(void *unused);
 static HWND hwndStatus, hdlgProgress, hwndBar;
 static bool bShortModeDone;
-HANDLE hEventRun = NULL, hEventAbort = NULL;
+HANDLE hEventRun = nullptr, hEventAbort = nullptr;
 int errorCount;
 LRESULT wizardResult;
 
@@ -39,7 +39,7 @@ void AddToStatus(int flags, const wchar_t* fmt, ...)
 
 	int i = SendMessage(hwndStatus, LB_ADDSTRING, 0, (LPARAM)str);
 	SendMessage(hwndStatus, LB_SETITEMDATA, i, flags);
-	InvalidateRect(hwndStatus, NULL, FALSE);
+	InvalidateRect(hwndStatus, nullptr, FALSE);
 	SendMessage(hwndStatus, LB_SETTOPINDEX, i, 0);
 
 #ifdef _DEBUG
@@ -68,7 +68,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 {
 	static int fontHeight, listWidth;
 	static int manualAbort;
-	static HFONT hBoldFont = NULL;
+	static HFONT hBoldFont = nullptr;
 
 	INT_PTR bReturn;
 	if (DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
@@ -87,12 +87,12 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			HDC hdc;
 			HFONT hFont, hoFont;
 			SIZE s;
-			hdc = GetDC(NULL);
+			hdc = GetDC(nullptr);
 			hFont = (HFONT)SendMessage(hdlg, WM_GETFONT, 0, 0);
 			hoFont = (HFONT)SelectObject(hdc, hFont);
 			GetTextExtentPoint32(hdc, L"x", 1, &s);
 			SelectObject(hdc, hoFont);
-			ReleaseDC(NULL, hdc);
+			ReleaseDC(nullptr, hdc);
 			fontHeight = s.cy;
 
 			RECT rc;
@@ -105,10 +105,10 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			hBoldFont = CreateFontIndirect(&lf);
 		}
 		manualAbort = 0;
-		hEventRun = CreateEvent(NULL, TRUE, TRUE, NULL);
-		hEventAbort = CreateEvent(NULL, TRUE, FALSE, NULL);
+		hEventRun = CreateEvent(nullptr, TRUE, TRUE, nullptr);
+		hEventAbort = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 		TranslateDialogDefault(hdlg);
-		_beginthread(WorkerThread, 0, NULL);
+		_beginthread(WorkerThread, 0, nullptr);
 		return TRUE;
 
 	case WM_MEASUREITEM:
@@ -124,7 +124,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			int bold = 0;
-			HFONT hoFont = NULL;
+			HFONT hoFont = nullptr;
 			if ((int)dis->itemID == -1) break;
 			SendMessage(dis->hwndItem, LB_GETTEXT, dis->itemID, (LPARAM)str);
 			switch (dis->itemData & STATUS_CLASSMASK) {
@@ -147,7 +147,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 				break;
 			}
 			if (bold) hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
-			ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)mir_wstrlen(str), NULL);
+			ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)mir_wstrlen(str), nullptr);
 			if (bold) SelectObject(dis->hDC, hoFont);
 		}
 		return TRUE;
@@ -175,7 +175,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			else {
 				PostMessage(GetParent(hdlg), WZM_GOTOPAGE, IDD_CLEANING, (LPARAM)CleaningDlgProc);
 				CloseHandle(opts.hOutFile);
-				opts.hOutFile = NULL;
+				opts.hOutFile = nullptr;
 			}
 			break;
 		}
@@ -231,15 +231,15 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 	case WM_DESTROY:
 		if (hEventAbort) {
 			CloseHandle(hEventAbort);
-			hEventAbort = NULL;
+			hEventAbort = nullptr;
 		}
 		if (hEventRun) {
 			CloseHandle(hEventRun);
-			hEventRun = NULL;
+			hEventRun = nullptr;
 		}
 		if (hBoldFont) {
 			DeleteObject(hBoldFont);
-			hBoldFont = NULL;
+			hBoldFont = nullptr;
 		}
 		break;
 	}

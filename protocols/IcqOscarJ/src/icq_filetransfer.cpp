@@ -34,7 +34,7 @@ static void file_buildProtoFileTransferStatus(filetransfer* ft, PROTOFILETRANSFE
 	if (ft->sending)
 		pfts->pszFiles = ft->pszFiles;
 	else
-		pfts->pszFiles = NULL;  /* FIXME */
+		pfts->pszFiles = nullptr;  /* FIXME */
 	pfts->totalFiles = ft->dwFileCount;
 	pfts->currentFileNumber = ft->iCurrentFile;
 	pfts->totalBytes = ft->dwTotalSize;
@@ -81,7 +81,7 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 	if (dc->ft->iCurrentFile >= (int)dc->ft->dwFileCount) {
 		ppro->ProtoBroadcastAck(dc->ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, dc->ft, 0);
 		ppro->CloseDirectConnection(dc);
-		dc->ft->hConnection = NULL;
+		dc->ft->hConnection = nullptr;
 		return;
 	}
 
@@ -89,7 +89,7 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 	if (FileStatUtf(dc->ft->szThisFile, &statbuf)) {
 		ppro->icq_LogMessage(LOG_ERROR, LPGEN("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it."));
 		ppro->CloseDirectConnection(dc);
-		dc->ft->hConnection = NULL;
+		dc->ft->hConnection = nullptr;
 		return;
 	}
 
@@ -103,7 +103,7 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 		if (dc->ft->fileId == -1) {
 			ppro->icq_LogMessage(LOG_ERROR, LPGEN("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it."));
 			ppro->CloseDirectConnection(dc);
-			dc->ft->hConnection = NULL;
+			dc->ft->hConnection = nullptr;
 			return;
 		}
 	}
@@ -112,7 +112,7 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 	dc->ft->dwThisFileDate = statbuf.st_mtime;
 	dc->ft->dwFileBytesDone = 0;
 
-	char *szThisFileNameAnsi = NULL, *szThisSubDirAnsi = NULL;
+	char *szThisFileNameAnsi = nullptr, *szThisSubDirAnsi = nullptr;
 	if (!utf8_decode(pszThisFileName, &szThisFileNameAnsi))
 		szThisFileNameAnsi = _strdup(pszThisFileName);	// Legacy fix
 	if (!utf8_decode(szThisSubDir, &szThisSubDirAnsi))
@@ -203,7 +203,7 @@ void CIcqProto::handleFileTransferIdle(directconnect* dc)
 
 void CIcqProto::icq_sendFileResume(filetransfer *ft, int action, const char *szFilename)
 {
-	if (ft->hConnection == NULL)
+	if (ft->hConnection == nullptr)
 		return;
 
 	directconnect *dc = FindFileTransferDC(ft);
@@ -304,7 +304,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 			unpackLEWord(&buf, &wNickLength);
 
 			dc->ft = FindExpectedFileRecv(dc->dwRemoteUin, dwTotalSize);
-			if (dc->ft == NULL) {
+			if (dc->ft == nullptr) {
 				NetLog_Direct("Unexpected file receive");
 				CloseDirectConnection(dc);
 				return;
@@ -404,7 +404,7 @@ void CIcqProto::handleFileTransferPacket(directconnect* dc, PBYTE buf, size_t wL
 				if (dc->ft->fileId == -1) {
 					icq_LogMessage(LOG_ERROR, LPGEN("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."));
 					CloseDirectConnection(dc);
-					dc->ft->hConnection = NULL;
+					dc->ft->hConnection = nullptr;
 					break;
 				}
 			}

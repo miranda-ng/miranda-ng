@@ -44,11 +44,11 @@ INT_PTR CALLBACK WelcomeDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM l
 		TitleLogFont.lfWeight = FW_BOLD;
 		mir_wstrcpy(TitleLogFont.lfFaceName, TEXT("Verdana Bold"));
 
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		INT FontSize = 12;
 		TitleLogFont.lfHeight = 0 - GetDeviceCaps(hdc, LOGPIXELSY) * FontSize / 72;
 		hTitleFont = CreateFontIndirect(&TitleLogFont);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 	SendDlgItemMessage(hdlg, IDC_TITLE, WM_SETFONT, (WPARAM)hTitleFont, 0);
 	EnableWindow(GetDlgItem(GetParent(hdlg), IDC_BACK), FALSE);

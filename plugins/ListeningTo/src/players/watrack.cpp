@@ -19,13 +19,13 @@ Boston, MA 02111-1307, USA.
 
 #include "../stdafx.h"
 
-static WATrack *instance = NULL;
+static WATrack *instance = nullptr;
 
 int NewStatusCallback(WPARAM wParam, LPARAM lParam)
 {
 	if (!loaded)
 		return 0;
-	if (instance != NULL)
+	if (instance != nullptr)
 		instance->NewStatus(wParam, lParam);
 	return 0;
 }
@@ -34,16 +34,16 @@ WATrack::WATrack()
 {
 	name = L"WATrack";
 	instance = this;
-	hNewStatusHook = NULL;
+	hNewStatusHook = nullptr;
 }
 
 WATrack::~WATrack()
 {
-	if (hNewStatusHook != NULL) {
+	if (hNewStatusHook != nullptr) {
 		UnhookEvent(hNewStatusHook);
-		hNewStatusHook = NULL;
+		hNewStatusHook = nullptr;
 	}
-	instance = NULL;
+	instance = nullptr;
 }
 
 void WATrack::EnableDisable()
@@ -53,7 +53,7 @@ void WATrack::EnableDisable()
 		return;
 	}
 
-	if (hNewStatusHook == NULL)
+	if (hNewStatusHook == nullptr)
 		hNewStatusHook = HookEvent(ME_WAT_NEWSTATUS, NewStatusCallback);
 }
 
@@ -72,13 +72,13 @@ void WATrack::NewStatus(int event, int value)
 
 void WATrack::GetData()
 {
-	SONGINFO *si = NULL;
+	SONGINFO *si = nullptr;
 	int playing = CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM)&si);
 
 	FreeData();
 
 	// See if something is playing
-	if (playing == WAT_RES_NOTFOUND || si == NULL || si->status != 1 || (IsEmpty(si->artist) && IsEmpty(si->title)))
+	if (playing == WAT_RES_NOTFOUND || si == nullptr || si->status != 1 || (IsEmpty(si->artist) && IsEmpty(si->title)))
 		return;
 
 	// Copy new data

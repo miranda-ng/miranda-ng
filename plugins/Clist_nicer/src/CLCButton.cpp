@@ -26,19 +26,19 @@ HANDLE hToolbarFrame = (HANDLE)-1;
 
 struct CluiTopButton BTNS[] = 
 {
-	{ IDC_TBTOPMENU,           "CLN_topmenu",      NULL, LPGEN("Show menu"),                  1, 1, 1 },
-	{ IDC_TBHIDEOFFLINE,       "CLN_online",       NULL, LPGEN("Show/Hide offline contacts"), 0, 1, 0 },
-	{ IDC_TBHIDEGROUPS,        "CLN_groups",       NULL, LPGEN("Use/Disable groups"),         0, 1, 0 },
-	{ IDC_TBFINDANDADD,        "CLN_findadd",      NULL, LPGEN("Find and add contacts"),      1, 1, 0 },
-	{ IDC_TBACCOUNTS,          "CLN_accounts",     NULL, LPGEN("Accounts"),                   1, 1, 0 },
-	{ IDC_TBOPTIONS,           "CLN_options",      NULL, LPGEN("Open preferences"),           1, 1, 0 },
+	{ IDC_TBTOPMENU,           "CLN_topmenu",      nullptr, LPGEN("Show menu"),                  1, 1, 1 },
+	{ IDC_TBHIDEOFFLINE,       "CLN_online",       nullptr, LPGEN("Show/Hide offline contacts"), 0, 1, 0 },
+	{ IDC_TBHIDEGROUPS,        "CLN_groups",       nullptr, LPGEN("Use/Disable groups"),         0, 1, 0 },
+	{ IDC_TBFINDANDADD,        "CLN_findadd",      nullptr, LPGEN("Find and add contacts"),      1, 1, 0 },
+	{ IDC_TBACCOUNTS,          "CLN_accounts",     nullptr, LPGEN("Accounts"),                   1, 1, 0 },
+	{ IDC_TBOPTIONS,           "CLN_options",      nullptr, LPGEN("Open preferences"),           1, 1, 0 },
 	{ IDC_TBSOUND,         "CLN_sound", "CLN_soundsoff", LPGEN("Enable/Disable sounds"),      0, 1, 0 },
-	{ IDC_TBMINIMIZE,          "CLN_minimize",     NULL, LPGEN("Minimize contact list"),      1, 0, 0 },
-	{ IDC_TBTOPSTATUS,         "CLN_topstatus",    NULL, LPGEN("Status menu"),                1, 0, 1 },
+	{ IDC_TBMINIMIZE,          "CLN_minimize",     nullptr, LPGEN("Minimize contact list"),      1, 0, 0 },
+	{ IDC_TBTOPSTATUS,         "CLN_topstatus",    nullptr, LPGEN("Status menu"),                1, 0, 1 },
 
-	{ IDC_TBSELECTVIEWMODE,    "CLN_CLVM_select",  NULL, LPGEN("Select view mode"),           1, 0, 1 },
-	{ IDC_TBCONFIGUREVIEWMODE, "CLN_CLVM_options", NULL, LPGEN("Setup view modes"),           1, 0, 0 },
-	{ IDC_TBCLEARVIEWMODE,     "CLN_CLVM_reset",   NULL, LPGEN("Clear view mode"),            1, 0, 0 }
+	{ IDC_TBSELECTVIEWMODE,    "CLN_CLVM_select",  nullptr, LPGEN("Select view mode"),           1, 0, 1 },
+	{ IDC_TBCONFIGUREVIEWMODE, "CLN_CLVM_options", nullptr, LPGEN("Setup view modes"),           1, 0, 0 },
+	{ IDC_TBCLEARVIEWMODE,     "CLN_CLVM_reset",   nullptr, LPGEN("Clear view mode"),            1, 0, 0 }
 };
 
 static int g_index = -1;
@@ -46,7 +46,7 @@ static int g_index = -1;
 static void InitDefaultButtons()
 {
 	for (int i = 0; i < _countof(BTNS); i++) {
-		TTBButton tbb = { 0 };
+		TTBButton tbb = {};
 
 		g_index = i;
 		if (BTNS[i].pszButtonID) {
@@ -85,7 +85,7 @@ HWND ClcGetButtonWindow(int ctrlid)
 		if (BTNS[i].ctrlid == ctrlid)
 			return BTNS[i].hwndButton;
 
-	return NULL;
+	return nullptr;
 }
 
 int ClcGetButtonId(HWND hwnd)
@@ -137,9 +137,9 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 	if (hdcPaint) {
 		HDC hdcMem;
 		HBITMAP hbmMem;
-		HBITMAP hbmOld = 0;
+		HBITMAP hbmOld = nullptr;
 		RECT rcClient;
-		HFONT hOldFont = 0;
+		HFONT hOldFont = nullptr;
 		int xOffset = 0;
 
 		GetClientRect(ctl->hwnd, &rcClient);
@@ -259,7 +259,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 						DeleteObject(hbr);
 					}
 				}
-				if (!ctl->bIsSkinned && ctl->buttonItem == 0) {
+				if (!ctl->bIsSkinned && ctl->buttonItem == nullptr) {
 					if (ctl->stateId == PBS_HOT || ctl->focus) {
 						if (ctl->bIsPushed)
 							DrawEdge(hdcMem, &rc, EDGE_ETCHED, BF_RECT | BF_SOFT);
@@ -317,12 +317,12 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 		if (ctl->hIcon || ctl->hIconPrivate || ctl->iIcon) {
 			int ix = (rcClient.right - rcClient.left) / 2 - (g_cxsmIcon / 2);
 			int iy = (rcClient.bottom - rcClient.top) / 2 - (g_cxsmIcon / 2);
-			HICON hIconNew = ctl->hIconPrivate != 0 ? ctl->hIconPrivate : ctl->hIcon;
+			HICON hIconNew = ctl->hIconPrivate != nullptr ? ctl->hIconPrivate : ctl->hIcon;
 			if (ctl->szText[0] == 0) {
 				if (ctl->iIcon)
 					ImageList_DrawEx(ctl->hIml, ctl->iIcon, hdcMem, ix, iy, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 				else
-					DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
+					DrawState(hdcMem, nullptr, nullptr, (LPARAM)hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 				ctl->sLabel.cx = ctl->sLabel.cy = 0;
 			}
 			else {
@@ -337,7 +337,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				if (ctl->iIcon)
 					ImageList_DrawEx(ctl->hIml, ctl->iIcon, hdcMem, ix, iy, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 				else
-					DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
+					DrawState(hdcMem, nullptr, nullptr, (LPARAM)hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 				xOffset = ix + g_cxsmIcon + 4;
 			}
 		}
@@ -352,7 +352,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				ix++;
 				iy++;
 			}
-			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd) ? DST_BITMAP : DST_BITMAP | DSS_DISABLED);
+			DrawState(hdcMem, nullptr, nullptr, (LPARAM)ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd) ? DST_BITMAP : DST_BITMAP | DSS_DISABLED);
 		}
 		if (GetWindowTextLength(ctl->hwnd)) {
 			// Draw the text and optinally the arrow
@@ -364,8 +364,8 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			if (!ctl->bIsSkinned)
 				SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton ? GetSysColor(COLOR_BTNTEXT) : GetSysColor(COLOR_GRAYTEXT));
 			if (ctl->arrow)
-				DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
-			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->szText, 0, xOffset + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->hThemeButton ? (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + 1 : (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + (ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->sLabel.cx, ctl->sLabel.cy, IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton ? DST_PREFIXTEXT | DSS_NORMAL : DST_PREFIXTEXT | DSS_DISABLED);
+				DrawState(hdcMem, nullptr, nullptr, (LPARAM)ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
+			DrawState(hdcMem, nullptr, nullptr, (LPARAM)ctl->szText, 0, xOffset + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->hThemeButton ? (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + 1 : (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + (ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->sLabel.cx, ctl->sLabel.cy, IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton ? DST_PREFIXTEXT | DSS_NORMAL : DST_PREFIXTEXT | DSS_DISABLED);
 		}
 		if (hOldFont)
 			SelectObject(hdcMem, hOldFont);
@@ -400,7 +400,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		if (!lParam)
 			break;
 
-		bct->hIml = 0;
+		bct->hIml = nullptr;
 		bct->iIcon = 0;
 		if (wParam == IMAGE_ICON) {
 			ICONINFO ii = { 0 };
@@ -408,7 +408,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 			if (bct->hIconPrivate) {
 				DestroyIcon(bct->hIconPrivate);
-				bct->hIconPrivate = 0;
+				bct->hIconPrivate = nullptr;
 			}
 
 			GetIconInfo((HICON)lParam, &ii);
@@ -420,24 +420,24 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				bct->hIconPrivate = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
 				ImageList_RemoveAll(hImageList);
 				ImageList_Destroy(hImageList);
-				bct->hIcon = 0;
+				bct->hIcon = nullptr;
 			}
 			else {
 				bct->hIcon = (HICON)lParam;
-				bct->hIconPrivate = 0;
+				bct->hIconPrivate = nullptr;
 			}
 
 			DeleteObject(ii.hbmMask);
 			DeleteObject(ii.hbmColor);
-			bct->hBitmap = NULL;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
+			bct->hBitmap = nullptr;
+			InvalidateRect(bct->hwnd, nullptr, TRUE);
 		}
 		else if (wParam == IMAGE_BITMAP) {
 			bct->hBitmap = (HBITMAP)lParam;
 			if (bct->hIconPrivate)
 				DestroyIcon(bct->hIconPrivate);
-			bct->hIcon = bct->hIconPrivate = NULL;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
+			bct->hIcon = bct->hIconPrivate = nullptr;
+			InvalidateRect(bct->hwnd, nullptr, TRUE);
 		}
 		return 1;
 
@@ -446,14 +446,14 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			DestroyIcon(bct->hIconPrivate);
 		bct->hIml = (HIMAGELIST)wParam;
 		bct->iIcon = (int)lParam;
-		bct->hIcon = bct->hIconPrivate = 0;
-		InvalidateRect(bct->hwnd, NULL, TRUE);
+		bct->hIcon = bct->hIconPrivate = nullptr;
+		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		break;
 
 	case BUTTONSETSKINNED:
 		bct->bIsSkinned = wParam != 0;
 		bct->bIsThemed = bct->bIsSkinned ? FALSE : bct->bIsThemed;
-		InvalidateRect(bct->hwnd, NULL, TRUE);
+		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		break;
 
 	case BUTTONSETBTNITEM:
@@ -462,7 +462,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case BUTTONSETTTBUTTON:
 		bct->bIsTTButton = wParam != 0;
-		InvalidateRect(bct->hwnd, NULL, TRUE);
+		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		break;
 
 	case WM_NCHITTEST:
@@ -501,7 +501,7 @@ static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbarOld);
 				DeleteObject(cfg::dat.hbmToolbar);
 				DeleteDC(cfg::dat.hdcToolbar);
-				cfg::dat.hdcToolbar = NULL;
+				cfg::dat.hdcToolbar = nullptr;
 			}
 			cfg::dat.hdcToolbar = CreateCompatibleDC(hdc);
 			cfg::dat.hbmToolbar = CreateCompatibleBitmap(hdc, rcClient.right, rcClient.bottom);
@@ -546,7 +546,7 @@ static LRESULT CALLBACK ToolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			SelectObject(cfg::dat.hdcToolbar, cfg::dat.hbmToolbarOld);
 			DeleteObject(cfg::dat.hbmToolbar);
 			DeleteDC(cfg::dat.hdcToolbar);
-			cfg::dat.hdcToolbar = NULL;
+			cfg::dat.hdcToolbar = nullptr;
 		}
 		break;
 	}

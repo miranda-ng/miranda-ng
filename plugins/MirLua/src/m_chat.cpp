@@ -2,7 +2,7 @@
 
 static luaL_Reg chatApi[] =
 {
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_chat(lua_State *L)

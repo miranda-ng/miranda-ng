@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst = NULL;
+HINSTANCE hInst = nullptr;
 
 int hLangpack;
 

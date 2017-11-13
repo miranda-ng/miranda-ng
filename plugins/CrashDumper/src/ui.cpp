@@ -23,7 +23,7 @@ extern HINSTANCE hInst;
 
 HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, int nWidthOffset, int nHeightOffset)
 {
-	if (NULL == hwndDlg) /* Wine fix. */
+	if (nullptr == hwndDlg) /* Wine fix. */
 		return hDwp;
 	// get current bounding rectangle
 	RECT rcinit;
@@ -35,7 +35,7 @@ HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndCtrl, int nHorizontalOffse
 	pt.y = rcinit.top;
 	ScreenToClient(hwndDlg, &pt);
 
-	return DeferWindowPos(hDwp, hwndCtrl, NULL,
+	return DeferWindowPos(hDwp, hwndCtrl, nullptr,
 		pt.x + nHorizontalOffset,
 		pt.y + nVerticalOffset,
 		rcinit.right - rcinit.left + nWidthOffset,
@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if (sel.cpMin == sel.cpMax)
 					EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
 
-				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
+				switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr)) {
 				case IDM_COPY:
 					SendMessage(hView, WM_COPY, 0, 0);
 					break;
@@ -162,7 +162,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_DESTROY:
-		hViewWnd = NULL;
+		hViewWnd = nullptr;
 		Window_FreeIcon_IcoLib(hwndDlg);
 		Utils_SaveWindowPosition(hwndDlg, NULL, PluginName, "ViewInfo_");
 		if (servicemode)
@@ -175,9 +175,9 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 void DestroyAllWindows(void)
 {
-	if (hViewWnd != NULL) {
+	if (hViewWnd != nullptr) {
 		DestroyWindow(hViewWnd);
-		hViewWnd = NULL;
+		hViewWnd = nullptr;
 	}
 }
 
@@ -280,7 +280,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 3:
 			wchar_t path[MAX_PATH];
 			mir_snwprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
-			ShellExecute(NULL, TEXT("open"), path, NULL, NULL, SW_SHOW);
+			ShellExecute(nullptr, TEXT("open"), path, nullptr, nullptr, SW_SHOW);
 			break;
 
 		}
@@ -313,5 +313,5 @@ void ShowMessage(int type, const wchar_t* format, ...)
 
 		PUAddPopupT(&pi);
 	}
-	else MessageBox(NULL, pi.lptzText, TEXT(PluginName), MB_OK | MB_ICONINFORMATION);
+	else MessageBox(nullptr, pi.lptzText, TEXT(PluginName), MB_OK | MB_ICONINFORMATION);
 }

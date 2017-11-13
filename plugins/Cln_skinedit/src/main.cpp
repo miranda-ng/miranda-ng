@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo = {
 	{0x21948c89, 0xb549, 0x4c9d, {0x8b, 0x4f, 0x3f, 0x37, 0x26, 0xec, 0x6b, 0x4b}}
 };
 
-HINSTANCE g_hInst = 0;
+HINSTANCE g_hInst = nullptr;
 int hLangpack;
 
 StatusItems_t **StatusItems;
@@ -542,7 +542,7 @@ static UINT _controls_to_refresh[] = {
 static void RefreshControls(HWND hwnd)
 {
 	for(int i = 0; _controls_to_refresh[i]; i++)
-		InvalidateRect(GetDlgItem(hwnd, _controls_to_refresh[i]), NULL, FALSE);
+		InvalidateRect(GetDlgItem(hwnd, _controls_to_refresh[i]), nullptr, FALSE);
 }
 
 // wenn die listbox geändert wurde
@@ -604,7 +604,7 @@ static void OnListItemsChange(HWND hwndDlg)
 		} else
 			ChangeControlItems(hwndDlg, 1, 0);
 		FillOptionDialogByStatusItem(hwndDlg, &DialogSettingForMultiSel);
-		InvalidateRect(GetDlgItem(hwndDlg, IDC_ITEMS), NULL, FALSE);
+		InvalidateRect(GetDlgItem(hwndDlg, IDC_ITEMS), nullptr, FALSE);
 	}
 	SendMessage(hwndDlg, WM_SETREDRAW, TRUE, 0);
 	RefreshControls(hwndDlg);
@@ -640,7 +640,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		psd = (SKINDESCRIPTION *)malloc(sizeof(SKINDESCRIPTION));
-		if (psd == NULL)
+		if (psd == nullptr)
 			return FALSE;
 		memset(psd, 0, sizeof(SKINDESCRIPTION));
 		memcpy(psd, (void *)lParam, sizeof(SKINDESCRIPTION));
@@ -656,13 +656,13 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		psd->hMenuItems = CreatePopupMenu();
 		AppendMenu(psd->hMenuItems, MF_STRING | MF_DISABLED, (UINT_PTR)0, LPGENW("Copy from"));
-		AppendMenuA(psd->hMenuItems, MF_SEPARATOR, (UINT_PTR)0, NULL);
+		AppendMenuA(psd->hMenuItems, MF_SEPARATOR, (UINT_PTR)0, nullptr);
 
 		{
 			for (int i = ID_EXTBK_FIRST; i < ID_EXTBK_LAST; i++) {
 				int iOff = StatusItems[i - ID_EXTBK_FIRST]->szName[0] == '{' ? 3 : 0;
 				if (iOff)
-					AppendMenuA(psd->hMenuItems, MF_SEPARATOR, (UINT_PTR)0, NULL);
+					AppendMenuA(psd->hMenuItems, MF_SEPARATOR, (UINT_PTR)0, nullptr);
 				AppendMenuA(psd->hMenuItems, MF_STRING, (UINT_PTR)i, &StatusItems[i - ID_EXTBK_FIRST]->szName[iOff]);
 			}
 		}
@@ -689,7 +689,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *) lParam;
 			int iItem = dis->itemData;
-			StatusItems_t *item = 0;
+			StatusItems_t *item = nullptr;
 
 			SetBkMode(dis->hDC, TRANSPARENT);
 			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_WINDOW));
@@ -738,7 +738,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			GetWindowRect(hwndList, &rc);
 
 			if (PtInRect(&rc, pt)) {
-				int iSelection = (int)TrackPopupMenu(psd->hMenuItems, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+				int iSelection = (int)TrackPopupMenu(psd->hMenuItems, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 
 				if (iSelection >= ID_EXTBK_FIRST && iSelection < ID_EXTBK_LAST) {
 					iSelection -= ID_EXTBK_FIRST;

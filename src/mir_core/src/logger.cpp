@@ -34,7 +34,7 @@ struct Logger
 		m_fileName(mir_wstrdup(ptszFilename)),
 		m_options(options),
 		m_signature(SECRET_SIGNATURE),
-		m_out(NULL),
+		m_out(nullptr),
 		m_lastwrite(0)
 	{
 	}
@@ -85,7 +85,7 @@ void CheckLogs()
 		mir_cslock lck(p.m_cs);
 		if (p.m_out && li.QuadPart - p.m_lastwrite > llIdlePeriod) {
 			fclose(p.m_out);
-			p.m_out = NULL;
+			p.m_out = nullptr;
 		}
 		else fflush(p.m_out);
 	}
@@ -95,12 +95,12 @@ void CheckLogs()
 
 MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr, const wchar_t *ptszFile, unsigned options)
 {
-	if (ptszFile == NULL)
-		return NULL;
+	if (ptszFile == nullptr)
+		return nullptr;
 
 	Logger *result = new Logger(pszName, ptszDescr, ptszFile, options);
-	if (result == NULL)
-		return NULL;
+	if (result == nullptr)
+		return nullptr;
 
 	int idx = arLoggers.getIndex(result);
 	if (idx != -1) {
@@ -109,7 +109,7 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr
 	}
 
 	FILE *fp = _wfopen(ptszFile, L"ab");
-	if (fp == NULL) {
+	if (fp == nullptr) {
 		wchar_t tszPath[MAX_PATH];
 		wcsncpy_s(tszPath, ptszFile, _TRUNCATE);
 		CreatePathToFileW(tszPath);
@@ -125,17 +125,17 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr
 
 static Logger* prepareLogger(HANDLE hLogger)
 {
-	if (hLogger == NULL)
-		return NULL;
+	if (hLogger == nullptr)
+		return nullptr;
 
 	Logger *p = (Logger*)hLogger;
-	return (p->m_signature == SECRET_SIGNATURE) ? p : NULL;
+	return (p->m_signature == SECRET_SIGNATURE) ? p : nullptr;
 }
 
 MIR_CORE_DLL(void) mir_closeLog(HANDLE hLogger)
 {
 	Logger *p = prepareLogger(hLogger);
-	if (p != NULL)
+	if (p != nullptr)
 		arLoggers.remove(p);
 }
 
@@ -144,12 +144,12 @@ MIR_CORE_DLL(void) mir_closeLog(HANDLE hLogger)
 MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
 {
 	Logger *p = prepareLogger(hLogger);
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 
 	mir_cslock lck(p->m_cs);
-	if (p->m_out == NULL)
-		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
+	if (p->m_out == nullptr)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == nullptr)
 			return 2;
 
 	va_list args;
@@ -166,12 +166,12 @@ MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
 MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...)
 {
 	Logger *p = prepareLogger(hLogger);
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 
 	mir_cslock lck(p->m_cs);
-	if (p->m_out == NULL)
-		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
+	if (p->m_out == nullptr)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == nullptr)
 			return 2;
 
 	va_list args;
@@ -190,12 +190,12 @@ MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const WCHAR *format, ...)
 MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list args)
 {
 	Logger *p = prepareLogger(hLogger);
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 
 	mir_cslock lck(p->m_cs);
-	if (p->m_out == NULL)
-		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
+	if (p->m_out == nullptr)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == nullptr)
 			return 2;
 
 	vfprintf(p->m_out, format, args);
@@ -209,12 +209,12 @@ MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list arg
 MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const WCHAR *format, va_list args)
 {
 	Logger *p = prepareLogger(hLogger);
-	if (p == NULL)
+	if (p == nullptr)
 		return 1;
 
 	mir_cslock lck(p->m_cs);
-	if (p->m_out == NULL)
-		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == NULL)
+	if (p->m_out == nullptr)
+		if ((p->m_out = _wfopen(p->m_fileName, L"ab")) == nullptr)
 			return 2;
 
 	vfwprintf(p->m_out, format, args);

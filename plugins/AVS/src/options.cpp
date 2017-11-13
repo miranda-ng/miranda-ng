@@ -47,7 +47,7 @@ struct WindowData
 
 static void RemoveProtoPic(const char *szProto)
 {
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return;
 
 	db_unset(NULL, PPICT_MODULE, szProto);
@@ -55,7 +55,7 @@ static void RemoveProtoPic(const char *szProto)
 	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry &p = g_ProtoPictures[i];
-			if (p.szProtoname == NULL)
+			if (p.szProtoname == nullptr)
 				continue;
 
 			p.clear();
@@ -72,10 +72,10 @@ static void RemoveProtoPic(const char *szProto)
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry &p = g_ProtoPictures[i];
 
-			if (p.szProtoname == NULL)
+			if (p.szProtoname == nullptr)
 				continue;
 			PROTOACCOUNT *pdescr = Proto_GetAccount(p.szProtoname);
-			if (pdescr == NULL && mir_strcmp(p.szProtoname, szProto))
+			if (pdescr == nullptr && mir_strcmp(p.szProtoname, szProto))
 				continue;
 
 			if (!mir_strcmp(p.szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
@@ -104,7 +104,7 @@ static void SetProtoPic(char *szProto)
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.lpstrFilter = filter;
-	ofn.hwndOwner = 0;
+	ofn.hwndOwner = nullptr;
 	ofn.lpstrFile = FileName;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
@@ -128,7 +128,7 @@ static void SetProtoPic(char *szProto)
 			if (mir_strlen(p.szProtoname) == 0)
 				continue;
 
-			if (p.hbmPic == 0 || !mir_strcmp(p.szProtoname, AVS_DEFAULT)) {
+			if (p.hbmPic == nullptr || !mir_strcmp(p.szProtoname, AVS_DEFAULT)) {
 				CreateAvatarInCache(0, &p, szProto);
 				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
 			}
@@ -140,13 +140,13 @@ static void SetProtoPic(char *szProto)
 		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			PROTOACCOUNT* pdescr = Proto_GetAccount(g_ProtoPictures[i].szProtoname);
-			if (pdescr == NULL && mir_strcmp(g_ProtoPictures[i].szProtoname, szProto))
+			if (pdescr == nullptr && mir_strcmp(g_ProtoPictures[i].szProtoname, szProto))
 				continue;
 
 			if (!mir_strcmp(g_ProtoPictures[i].szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
 				protoPicCacheEntry& p = g_ProtoPictures[i];
 				if (mir_strlen(p.szProtoname) != 0) {
-					if (p.hbmPic == 0) {
+					if (p.hbmPic == nullptr) {
 						CreateAvatarInCache(0, &p, szProto);
 						NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
 					}
@@ -161,7 +161,7 @@ static void SetProtoPic(char *szProto)
 				break;
 
 			if (!mir_strcmp(p.szProtoname, szProto) && mir_strlen(p.szProtoname) == mir_strlen(szProto)) {
-				if (p.hbmPic != 0)
+				if (p.hbmPic != nullptr)
 					DeleteObject(p.hbmPic);
 				memset(&p, 0, sizeof(AVATARCACHEENTRY));
 				CreateAvatarInCache(0, &p, szProto);
@@ -277,10 +277,10 @@ static char* GetProtoFromList(HWND hwndDlg, int iItem)
 	item.mask = LVIF_PARAM;
 	item.iItem = iItem;
 	if (!ListView_GetItem(GetDlgItem(hwndDlg, IDC_PROTOCOLS), &item))
-		return NULL;
+		return nullptr;
 
 	protoPicCacheEntry *pce = (protoPicCacheEntry *)item.lParam;
-	return (pce == NULL) ? NULL : pce->szProtoname;
+	return (pce == nullptr) ? nullptr : pce->szProtoname;
 }
 
 static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -392,12 +392,12 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 						}
 						else SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, dbv.ptszVal);
 
-						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
+						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, TRUE);
 						db_free(&dbv);
 					}
 					else {
 						SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, L"");
-						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
+						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, TRUE);
 					}
 				}
 			}
@@ -493,7 +493,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 		SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);
-		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, FALSE);
+		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, FALSE);
 		CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -573,7 +573,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case IDC_RESET:
 			ProtectAvatar(hContact, 0);
-			if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
+			if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 				DBVARIANT dbv = { 0 };
 				if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
 					DeleteFile(dbv.ptszVal);
@@ -597,7 +597,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			break;
 
 		case IDC_DELETE:
-			if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
+			if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 				DBVARIANT dbv = { 0 };
 				ProtectAvatar(hContact, 0);
 				if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
@@ -612,7 +612,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			db_unset(hContact, "ContactPhoto", "Format");
 			DeleteAvatarFromCache(hContact, FALSE);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
+			InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, TRUE);
 			break;
 		}
 		break;
@@ -685,11 +685,11 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case DM_REALODAVATAR:
 		SaveTransparentData(hwndDlg, hContact, IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR));
 		ChangeAvatar(hContact, true);
-		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
+		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, TRUE);
 		break;
 
 	case DM_AVATARCHANGED:
-		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
+		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, TRUE);
 		break;
 
 	case WM_NCDESTROY:
@@ -819,7 +819,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			break;
 		case IDC_RESET:
 			ProtectAvatar(hContact, 0);
-			if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
+			if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 				DBVARIANT dbv = { 0 };
 				if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
 					DeleteFile(dbv.ptszVal);
@@ -843,7 +843,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		case IDC_DELETE:
 			ProtectAvatar(hContact, 0);
-			if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
+			if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 				DBVARIANT dbv = { 0 };
 				if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
 					DeleteFile(dbv.ptszVal);
@@ -883,7 +883,7 @@ static char* GetSelectedProtocol(HWND hwndDlg)
 	// Get selection
 	int iItem = ListView_GetSelectionMark(hwndList);
 	if (iItem < 0)
-		return NULL;
+		return nullptr;
 
 	// Get protocol name
 	LVITEM item = { 0 };
@@ -896,7 +896,7 @@ static char* GetSelectedProtocol(HWND hwndDlg)
 static void EnableDisableControls(HWND hwndDlg, char *proto)
 {
 	if (IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
-		if (proto == NULL) {
+		if (proto == nullptr) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 		}
@@ -954,7 +954,7 @@ static void EnableDisableProtocols(HWND hwndDlg, BOOL init)
 		}
 
 		char * proto = GetSelectedProtocol(hwndDlg);
-		if (proto == NULL) {
+		if (proto == nullptr) {
 			ListView_SetItemState(hwndList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x0F);
 		}
 		else {
@@ -1064,7 +1064,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 				SetMyAvatar(NULL, NULL);
 			else {
 				char *proto = GetSelectedProtocol(hwndDlg);
-				if (proto != NULL)
+				if (proto != nullptr)
 					SetMyAvatar((WPARAM)proto, NULL);
 			}
 			break;
@@ -1076,7 +1076,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			}
 			else {
 				char *proto = GetSelectedProtocol(hwndDlg);
-				if (proto == NULL)
+				if (proto == nullptr)
 					break;
 
 				char description[256];
@@ -1113,7 +1113,7 @@ int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL || db_get_b(NULL, AVS_MODULE, szProto, 1)) {
+		if (szProto == nullptr || db_get_b(NULL, AVS_MODULE, szProto, 1)) {
 			// Contact dialog
 			odp.pfnDlgProc = DlgProcAvatarUserInfo;
 			odp.position = -2000000000;

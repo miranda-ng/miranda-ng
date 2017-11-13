@@ -76,19 +76,19 @@ void DeleteJob::run()
 
 	CURL *hCurl = curl_easy_init();
 	if (hCurl) {
-		struct curl_slist *headerList = NULL;
+		struct curl_slist *headerList = nullptr;
 		headerList = curl_slist_append(headerList, getDelFileString());
 
 		Utils::curlSetOpt(hCurl, m_ftp, getDelUrlString(), headerList, szError);
 
 		int result = curl_easy_perform(hCurl);
 		if (result == CURLE_OK) {
-			if (manDlg != NULL && m_treeItem)
+			if (manDlg != nullptr && m_treeItem)
 				m_treeItem->remove();
 			else
 				DBEntry::remove(m_entry->m_fileID);
 		}
-		else if (manDlg != NULL && m_treeItem) {
+		else if (manDlg != nullptr && m_treeItem) {
 			wchar_t *error = mir_a2u(szError);
 			mir_wstrcpy(m_treeItem->m_tszToolTip, error);
 			m_treeItem->setState(Manager::TreeItem::_ERROR());

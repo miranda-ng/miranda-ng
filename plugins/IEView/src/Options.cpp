@@ -28,11 +28,11 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 #define OPTIONS_PAGES 4
-static ProtocolSettings *srmmCurrentProtoItem = NULL;
-static ProtocolSettings *chatCurrentProtoItem = NULL;
-static ProtocolSettings *historyCurrentProtoItem = NULL;
-static HIMAGELIST hProtocolImageList = NULL;
-static HIMAGELIST hImageList = NULL;
+static ProtocolSettings *srmmCurrentProtoItem = nullptr;
+static ProtocolSettings *chatCurrentProtoItem = nullptr;
+static ProtocolSettings *historyCurrentProtoItem = nullptr;
+static HIMAGELIST hProtocolImageList = nullptr;
+static HIMAGELIST hImageList = nullptr;
 
 struct
 {
@@ -52,14 +52,14 @@ static LPARAM GetItemParam(HWND hwndTreeView, HTREEITEM hItem)
 {
 	TVITEM tvi = { 0 };
 	tvi.mask = TVIF_PARAM;
-	tvi.hItem = hItem == NULL ? TreeView_GetSelection(hwndTreeView) : hItem;
+	tvi.hItem = hItem == nullptr ? TreeView_GetSelection(hwndTreeView) : hItem;
 	TreeView_GetItem(hwndTreeView, &tvi);
 	return tvi.lParam;
 }
 
 static void SaveSRMMProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != NULL) {
+	if (proto != nullptr) {
 		char path[MAX_PATH];
 		int i = Options::MODE_COMPATIBLE;
 		if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
@@ -89,7 +89,7 @@ static void SaveSRMMProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 
 static void SaveChatProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != NULL) {
+	if (proto != nullptr) {
 		char path[MAX_PATH];
 		int i = Options::MODE_COMPATIBLE;
 		if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
@@ -119,7 +119,7 @@ static void SaveChatProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 
 static void SaveHistoryProtoSettings(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != NULL) {
+	if (proto != nullptr) {
 		char path[MAX_PATH];
 		int i = Options::MODE_COMPATIBLE;
 		if (IsDlgButtonChecked(hwndDlg, IDC_MODE_TEMPLATE))
@@ -181,14 +181,14 @@ static void SetIcon(HWND hwnd, DWORD id, int index, bool condition)
 		hIcon = ImageList_GetIcon(hImageList, index + 0, ILD_NORMAL);
 
 	hIcon = (HICON)SendDlgItemMessage(hwnd, id, STM_SETICON, (WPARAM)hIcon, 0);
-	if (hIcon != NULL)
+	if (hIcon != nullptr)
 		DestroyIcon(hIcon);
 }
 
 static void UpdateTemplateIcons(HWND hwnd, const char *path)
 {
 	TemplateMap *tmap = TemplateMap::loadTemplates(path, path, true);
-	if (tmap != NULL) {
+	if (tmap != nullptr) {
 		SetIcon(hwnd, IDC_GROUPSUPPORT, 0, tmap->isGrouping());
 		SetIcon(hwnd, IDC_RTLSUPPORT, 2, tmap->isRTL());
 		delete tmap;
@@ -201,7 +201,7 @@ static void UpdateTemplateIcons(HWND hwnd, const char *path)
 
 static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != NULL) {
+	if (proto != nullptr) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isSRMMEnableTemp());
 		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getSRMMModeTemp() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
@@ -216,19 +216,19 @@ static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getSRMMFlagsTemp() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getSRMMFlagsTemp() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getSRMMFlagsTemp() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
-		if (proto->getSRMMBackgroundFilenameTemp() != NULL) {
+		if (proto->getSRMMBackgroundFilenameTemp() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getSRMMBackgroundFilenameTemp());
 		}
 		else {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, "");
 		}
-		if (proto->getSRMMCssFilename() != NULL) {
+		if (proto->getSRMMCssFilename() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getSRMMCssFilenameTemp());
 		}
 		else {
 			SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, "");
 		}
-		if (proto->getSRMMTemplateFilenameTemp() != NULL) {
+		if (proto->getSRMMTemplateFilenameTemp() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getSRMMTemplateFilenameTemp());
 		}
 		else {
@@ -242,7 +242,7 @@ static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 
 static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != NULL) {
+	if (proto != nullptr) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isChatEnableTemp());
 		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getChatModeTemp() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
@@ -257,19 +257,19 @@ static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getChatFlagsTemp() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getChatFlagsTemp() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getChatFlagsTemp() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
-		if (proto->getChatBackgroundFilenameTemp() != NULL) {
+		if (proto->getChatBackgroundFilenameTemp() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getChatBackgroundFilenameTemp());
 		}
 		else {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, "");
 		}
-		if (proto->getChatCssFilename() != NULL) {
+		if (proto->getChatCssFilename() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getChatCssFilenameTemp());
 		}
 		else {
 			SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, "");
 		}
-		if (proto->getChatTemplateFilenameTemp() != NULL) {
+		if (proto->getChatTemplateFilenameTemp() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getChatTemplateFilenameTemp());
 		}
 		else {
@@ -283,7 +283,7 @@ static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 
 static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 {
-	if (proto != NULL) {
+	if (proto != nullptr) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isHistoryEnableTemp());
 		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getHistoryModeTemp() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
@@ -298,19 +298,19 @@ static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getHistoryFlagsTemp() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getHistoryFlagsTemp() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getHistoryFlagsTemp() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
-		if (proto->getHistoryBackgroundFilenameTemp() != NULL) {
+		if (proto->getHistoryBackgroundFilenameTemp() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getHistoryBackgroundFilenameTemp());
 		}
 		else {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, "");
 		}
-		if (proto->getHistoryCssFilename() != NULL) {
+		if (proto->getHistoryCssFilename() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, proto->getHistoryCssFilenameTemp());
 		}
 		else {
 			SetDlgItemTextA(hwndDlg, IDC_EXTERNALCSS_FILENAME, "");
 		}
-		if (proto->getHistoryTemplateFilenameTemp() != NULL) {
+		if (proto->getHistoryTemplateFilenameTemp() != nullptr) {
 			SetDlgItemTextA(hwndDlg, IDC_TEMPLATES_FILENAME, proto->getHistoryTemplateFilenameTemp());
 		}
 		else {
@@ -326,25 +326,25 @@ static void RefreshProtoIcons()
 {
 	int i;
 	ProtocolSettings *proto;
-	if (hProtocolImageList != NULL) {
+	if (hProtocolImageList != nullptr) {
 		ImageList_RemoveAll(hProtocolImageList);
 	}
 	else {
-		for (i = 0, proto = Options::getProtocolSettings(); proto != NULL; proto = proto->getNext(), i++);
+		for (i = 0, proto = Options::getProtocolSettings(); proto != nullptr; proto = proto->getNext(), i++);
 		hProtocolImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
 			ILC_MASK | ILC_COLOR32, i, 0);
 	}
-	for (i = 0, proto = Options::getProtocolSettings(); proto != NULL; proto = proto->getNext(), i++) {
-		HICON hIcon = NULL;
+	for (i = 0, proto = Options::getProtocolSettings(); proto != nullptr; proto = proto->getNext(), i++) {
+		HICON hIcon = nullptr;
 		if (i > 0) {
 			hIcon = (HICON)CallProtoService(proto->getProtocolName(), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
-			if (hIcon == NULL)  {
+			if (hIcon == nullptr)  {
 				hIcon = (HICON)CallProtoService(proto->getProtocolName(), PS_LOADICON, PLI_PROTOCOL, 0);
 			}
 			ImageList_AddIcon(hProtocolImageList, hIcon);
 			DestroyIcon(hIcon);
 		}
-		if (hIcon == NULL) {
+		if (hIcon == nullptr) {
 			hIcon = (HICON)Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 			ImageList_AddIcon(hProtocolImageList, hIcon);
 			IcoLib_ReleaseIcon(hIcon);
@@ -354,7 +354,7 @@ static void RefreshProtoIcons()
 
 static void RefreshIcons()
 {
-	if (hImageList != NULL) {
+	if (hImageList != nullptr) {
 		ImageList_RemoveAll(hImageList);
 	}
 	else {
@@ -369,14 +369,14 @@ static void RefreshIcons()
 static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)
 {
 	int i;
-	HTREEITEM hItem = NULL;
+	HTREEITEM hItem = nullptr;
 	HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 	TreeView_DeleteAllItems(hProtoList);
 	TreeView_SetImageList(hProtoList, hProtocolImageList, TVSIL_NORMAL);
 	ProtocolSettings *proto;
-	for (i = 0, proto = Options::getProtocolSettings(); proto != NULL; proto = proto->getNext(), i++) {
+	for (i = 0, proto = Options::getProtocolSettings(); proto != nullptr; proto = proto->getNext(), i++) {
 		char protoName[128];
-		TVINSERTSTRUCT tvi = { 0 };
+		TVINSERTSTRUCT tvi = {};
 		tvi.hParent = TVI_ROOT;
 		tvi.hInsertAfter = TVI_LAST;
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE;
@@ -419,7 +419,7 @@ static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt, char *path, int
 	GetWindowTextA(hwndDlg, path, maxLen);
 	ofn.lStructSize = sizeof(OPENFILENAME);//_SIZE_VERSION_400;
 	ofn.hwndOwner = hwndDlg;
-	ofn.hInstance = NULL;
+	ofn.hInstance = nullptr;
 	ofn.lpstrFilter = filter;//"Templates (*.ivt)\0*.ivt\0All Files\0*.*\0\0";
 	ofn.lpstrFile = path;
 	ofn.Flags = OFN_FILEMUSTEXIST;
@@ -573,7 +573,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			MarkInitialized(2);
 			TranslateDialogDefault(hwndDlg);
-			srmmCurrentProtoItem = NULL;
+			srmmCurrentProtoItem = nullptr;
 			RefreshProtoList(hwndDlg, 0, true);
 			return TRUE;
 		}
@@ -645,7 +645,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	case UM_CHECKSTATECHANGE:
 		{
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
-			if (proto != NULL)
+			if (proto != nullptr)
 				if (strcmpi(proto->getProtocolName(), "_default_"))
 					proto->setSRMMEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
 
@@ -680,7 +680,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				break;
 
 			case TVN_SELCHANGED:
-				ProtocolSettings *proto = (ProtocolSettings *)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)NULL);
+				ProtocolSettings *proto = (ProtocolSettings *)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)nullptr);
 				SaveSRMMProtoSettings(hwndDlg, srmmCurrentProtoItem);
 				UpdateSRMMProtoInfo(hwndDlg, proto);
 				break;
@@ -706,7 +706,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	case WM_INITDIALOG:
 		MarkInitialized(4);
 		TranslateDialogDefault(hwndDlg);
-		historyCurrentProtoItem = NULL;
+		historyCurrentProtoItem = nullptr;
 		RefreshProtoList(hwndDlg, 2, true);
 		return TRUE;
 
@@ -777,7 +777,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	case UM_CHECKSTATECHANGE:
 	{
 		ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
-		if (proto != NULL)
+		if (proto != nullptr)
 			if (strcmpi(proto->getProtocolName(), "_default_"))
 				proto->setHistoryEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
 
@@ -813,7 +813,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				break;
 
 			case TVN_SELCHANGED:
-				ProtocolSettings *proto = (ProtocolSettings *)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)NULL);
+				ProtocolSettings *proto = (ProtocolSettings *)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)nullptr);
 				SaveHistoryProtoSettings(hwndDlg, historyCurrentProtoItem);
 				UpdateHistoryProtoInfo(hwndDlg, proto);
 				break;
@@ -839,7 +839,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 	case WM_INITDIALOG:
 		MarkInitialized(8);
 		TranslateDialogDefault(hwndDlg);
-		chatCurrentProtoItem = NULL;
+		chatCurrentProtoItem = nullptr;
 		RefreshProtoList(hwndDlg, 1, true);
 		return TRUE;
 
@@ -910,7 +910,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 	case UM_CHECKSTATECHANGE:
 		{
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM)lParam);
-			if (proto != NULL)
+			if (proto != nullptr)
 				if (strcmpi(proto->getProtocolName(), "_default_"))
 					proto->setChatEnableTemp(0 != TreeView_GetCheckState((HWND)wParam, (HTREEITEM)lParam));
 
@@ -947,7 +947,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 				break;
 
 			case TVN_SELCHANGED:
-				ProtocolSettings *proto = (ProtocolSettings *)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)NULL);
+				ProtocolSettings *proto = (ProtocolSettings *)GetItemParam(GetDlgItem(hwndDlg, IDC_PROTOLIST), (HTREEITEM)nullptr);
 				SaveChatProtoSettings(hwndDlg, chatCurrentProtoItem);
 				UpdateChatProtoInfo(hwndDlg, proto);
 				break;
@@ -970,12 +970,12 @@ bool Options::bSmileyAdd = false;
 int  Options::avatarServiceFlags = 0;
 int  Options::generalFlags;
 
-ProtocolSettings *Options::protocolList = NULL;
+ProtocolSettings *Options::protocolList = nullptr;
 
 ProtocolSettings::ProtocolSettings(const char *protocolName)
 {
 	this->protocolName = mir_strdup(protocolName);
-	next = NULL;
+	next = nullptr;
 	srmmEnable = false;
 	srmmMode = Options::MODE_COMPATIBLE;
 	srmmFlags = 0;
@@ -1476,7 +1476,7 @@ void Options::init()
 	/* TODO: move to buildProtocolList method */
 	int protoCount;
 	PROTOACCOUNT **pProtos;
-	ProtocolSettings *lastProto = NULL;
+	ProtocolSettings *lastProto = nullptr;
 	Proto_EnumAccounts(&protoCount, &pProtos);
 	for (int i = 0; i < protoCount + 1; i++) {
 		ProtocolSettings *proto;
@@ -1593,7 +1593,7 @@ void Options::init()
 			db_free(&dbv);
 		}
 		proto->copyToTemp();
-		if (lastProto != NULL) {
+		if (lastProto != nullptr) {
 			lastProto->setNext(proto);
 		}
 		else {
@@ -1611,14 +1611,14 @@ void Options::init()
 void Options::uninit()
 {
 	ProtocolSettings *p, *p1;
-	for (p = protocolList; p != NULL; p = p1) {
+	for (p = protocolList; p != nullptr; p = p1) {
 		p1 = p->getNext();
 		delete p;
 	}
 	TemplateMap::dropTemplates();
-	if (hImageList != NULL)
+	if (hImageList != nullptr)
 		ImageList_Destroy(hImageList);
-	if (hProtocolImageList != NULL)
+	if (hProtocolImageList != nullptr)
 		ImageList_Destroy(hProtocolImageList);
 }
 
@@ -1660,23 +1660,23 @@ ProtocolSettings * Options::getProtocolSettings()
 
 ProtocolSettings * Options::getProtocolSettings(const char *protocolName)
 {
-	for (ProtocolSettings *proto = protocolList; proto != NULL; proto = proto->getNext())
+	for (ProtocolSettings *proto = protocolList; proto != nullptr; proto = proto->getNext())
 		if (!strcmpi(proto->getProtocolName(), protocolName))
 			return proto;
 
-	return NULL;
+	return nullptr;
 }
 
 void Options::resetProtocolSettings()
 {
-	for (ProtocolSettings *proto = Options::getProtocolSettings(); proto != NULL; proto = proto->getNext())
+	for (ProtocolSettings *proto = Options::getProtocolSettings(); proto != nullptr; proto = proto->getNext())
 		proto->copyToTemp();
 }
 
 void Options::saveProtocolSettings()
 {
 	ProtocolSettings *proto = Options::getProtocolSettings();
-	for (int i = 0; proto != NULL; proto = proto->getNext(), i++) {
+	for (int i = 0; proto != nullptr; proto = proto->getNext(), i++) {
 		char dbsName[256];
 		char tmpPath[MAX_PATH];
 		proto->copyFromTemp();
@@ -1751,7 +1751,7 @@ void Options::saveProtocolSettings()
 void Options::Reload()
 {
 	ProtocolSettings *p, *p1;
-	for (p = Options::protocolList; p != NULL; p = p1) {
+	for (p = Options::protocolList; p != nullptr; p = p1) {
 		p1 = p->getNext();
 		delete p;
 	}

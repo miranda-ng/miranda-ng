@@ -29,7 +29,7 @@
 TSendProcessList::TSendProcessList()
 {
 	Count = 0;
-	Items = NULL;
+	Items = nullptr;
 }
 
 TSendProcessList::~TSendProcessList()
@@ -61,9 +61,9 @@ void TSendProcessList::Remove(HANDLE hProcc)
 TSendContactsData::TSendContactsData(MCONTACT contact) : uacklist()
 {
 	hContact = contact;
-	hHook = NULL;
-	hError = NULL;
-	aContacts = NULL;
+	hHook = nullptr;
+	hError = nullptr;
+	aContacts = nullptr;
 	nContacts = 0;
 }
 
@@ -84,7 +84,7 @@ void TSendContactsData::UnhookProtoAck()
 {
 	if (hHook) {
 		UnhookEvent(hHook);
-		hHook = NULL;
+		hHook = nullptr;
 	}
 }
 
@@ -197,7 +197,7 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 
 	binListEvent = TRUE;
 	char *szProto = GetContactProto(hReceiver);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return;
 
 	if (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
@@ -266,7 +266,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case DM_ERRORDECIDED:
 		EnableWindow(hwndDlg, TRUE);
-		wndData->hError = NULL;
+		wndData->hError = nullptr;
 		switch (wParam) {
 		case MSGERROR_CANCEL:
 			wndData->UnhookProtoAck();
@@ -275,7 +275,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					delete g_aAckData.Remove(wndData->uacklist.Items[i]); // remove our ackdata & release structure
 
 				mir_free(wndData->uacklist.Items);
-				wndData->uacklist.Items = NULL;
+				wndData->uacklist.Items = nullptr;
 				wndData->uacklist.Count = 0;
 			}
 			EnableDlgItem(hwndDlg, IDOK, TRUE);
@@ -333,7 +333,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if (!wndData->SendContacts(hwndDlg))
 					break;
 
-				SetTimer(hwndDlg, TIMERID_MSGSEND, db_get_dw(NULL, "SRMsg", "MessageTimeout", TIMEOUT_MSGSEND), NULL);
+				SetTimer(hwndDlg, TIMERID_MSGSEND, db_get_dw(NULL, "SRMsg", "MessageTimeout", TIMEOUT_MSGSEND), nullptr);
 			}
 			break;
 
@@ -358,7 +358,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				RECT rc;
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rc);
 				HMENU hMenu = Menu_BuildContactMenu(wndData->hContact);
-				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
+				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, nullptr);
 				DestroyMenu(hMenu);
 			}
 			break;
@@ -384,7 +384,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 
 			TAckData *ackData = g_aAckData.Get(ack->hProcess);
-			if (ackData == NULL)
+			if (ackData == nullptr)
 				break;    // on unknown hprocc go away
 
 			if (ackData->hContact != ack->hContact)
@@ -402,7 +402,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			dbei.szModule = GetContactProto(ackData->hContact);
 			dbei.eventType = EVENTTYPE_CONTACTS;
 			dbei.flags = DBEF_SENT | DBEF_UTF;
-			dbei.timestamp = time(NULL);
+			dbei.timestamp = time(nullptr);
 			//make blob
 			TCTSend* maSend = (TCTSend*)_alloca(ackData->nContacts*sizeof(TCTSend));
 			memset(maSend, 0, (ackData->nContacts * sizeof(TCTSend)));
@@ -484,7 +484,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			RECT rc, rcParent;
 			GetWindowRect(hwndDlg, &rc);
 			GetWindowRect(GetParent(hwndDlg), &rcParent);
-			SetWindowPos(hwndDlg, 0,
+			SetWindowPos(hwndDlg, nullptr,
 				(rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
 				(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2,
 				0, 0, SWP_NOZORDER | SWP_NOSIZE);

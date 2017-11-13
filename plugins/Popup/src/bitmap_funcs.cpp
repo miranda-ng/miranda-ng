@@ -38,30 +38,30 @@ typedef long pu_koef;
 
 MyBitmap::MyBitmap()
 {
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
-	bitsSave = 0;
+	bitsSave = nullptr;
 }
 
 MyBitmap::MyBitmap(int w, int h)
 {
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
-	bitsSave = 0;
+	bitsSave = nullptr;
 	allocate(w, h);
 }
 
 MyBitmap::MyBitmap(const wchar_t *fn)
 {
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
-	bitsSave = 0;
+	bitsSave = nullptr;
 	loadFromFile(fn);
 }
 
@@ -153,7 +153,7 @@ void MyBitmap::restoreAlpha(int x, int y, int w, int h)
 	}
 
 	delete[] bitsSave;
-	bitsSave = 0;
+	bitsSave = nullptr;
 }
 
 void MyBitmap::DrawBits(COLOR32 *inbits, int inw, int inh, int x, int y, int w, int h)
@@ -586,7 +586,7 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 	}
 	else {
 		this->saveAlpha(x, y, w, h);
-		DrawIconEx(this->getDC(), x, y, hic, w, h, 0, NULL, DI_NORMAL);
+		DrawIconEx(this->getDC(), x, y, hic, w, h, 0, nullptr, DI_NORMAL);
 		this->restoreAlpha(x, y, w, h);
 	}
 
@@ -660,7 +660,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 		}
 	}
 
-	HRGN hRgn = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
+	HRGN hRgn = ExtCreateRegion(nullptr, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
 	delete[] pRgnData;
 	return hRgn;
 }
@@ -736,9 +736,9 @@ bool MyBitmap::loadFromFile(const wchar_t *fn)
 		return false;
 
 	BITMAP bm; GetObject(hBmpLoaded, sizeof(bm), &bm);
-	SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, NULL);
+	SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, nullptr);
 
-	HDC dcTmp = CreateCompatibleDC(0);
+	HDC dcTmp = CreateCompatibleDC(nullptr);
 	GetBitmapDimensionEx(hBmpLoaded, &sz);
 	HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp, hBmpLoaded);
 
@@ -775,8 +775,8 @@ void MyBitmap::allocate(int w, int h)
 	bi.bmiHeader.biBitCount = 32;
 	bi.bmiHeader.biCompression = BI_RGB;
 
-	hBmp = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void **)&bits, 0, 0);
-	dcBmp = CreateCompatibleDC(0);
+	hBmp = (HBITMAP)CreateDIBSection(nullptr, &bi, DIB_RGB_COLORS, (void **)&bits, nullptr, 0);
+	dcBmp = CreateCompatibleDC(nullptr);
 	hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmp);
 
 	GdiFlush();
@@ -789,9 +789,9 @@ void MyBitmap::freemem()
 	DeleteObject(SelectObject(dcBmp, hBmpSave));
 	DeleteDC(dcBmp);
 
-	dcBmp = 0;
-	hBmp = 0;
-	bits = 0;
+	dcBmp = nullptr;
+	hBmp = nullptr;
+	bits = nullptr;
 	width = height = 0;
 }
 

@@ -197,7 +197,7 @@ MIR_CORE_DLL(void) mir_sha256_write(SHA256_CONTEXT *hd, const void *inbuf_arg, s
 	if (hd->count) {
 		for (; inlen && hd->count < 64; inlen--)
 			hd->buf[hd->count++] = *inbuf++;
-		mir_sha256_write(hd, NULL, 0);
+		mir_sha256_write(hd, nullptr, 0);
 		if (!inlen)
 			return;
 	}
@@ -223,7 +223,7 @@ MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, BYTE hashout[MIR_SHA256_
 {
 	UINT32 t, msb, lsb;
 
-	mir_sha256_write(hd, NULL, 0); /* flush */;
+	mir_sha256_write(hd, nullptr, 0); /* flush */;
 
 	t = hd->nblocks;
 	/* multiply by 64 to make a BYTE count */
@@ -248,7 +248,7 @@ MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, BYTE hashout[MIR_SHA256_
 		hd->buf[hd->count++] = 0x80; /* pad character */
 		while (hd->count < 64)
 			hd->buf[hd->count++] = 0;
-		mir_sha256_write(hd, NULL, 0);  /* flush */;
+		mir_sha256_write(hd, nullptr, 0);  /* flush */;
 		memset(hd->buf, 0, 56); /* fill next block with zeroes */
 	}
 	/* append the 64 bit count */

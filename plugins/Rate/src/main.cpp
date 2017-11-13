@@ -37,7 +37,7 @@
 
 HINSTANCE g_hInst;
 
-static HANDLE hExtraIcon = NULL;
+static HANDLE hExtraIcon = nullptr;
 int hLangpack;
 
 PLUGININFOEX pluginInfo =
@@ -77,14 +77,14 @@ static void setExtraIcon(MCONTACT hContact, int bRate = -1, BOOL clear = TRUE)
 	if (bRate < 0)
 		bRate = db_get_b(hContact, "CList", "Rate", 0);
 
-	const char *icon = NULL;
+	const char *icon = nullptr;
 	switch (bRate) {
 	case 1: icon = "rate_low";  break;
 	case 2: icon = "rate_medium";  break;
 	case 3: icon = "rate_high";  break;
 	}
 
-	if (icon != NULL || clear)
+	if (icon != nullptr || clear)
 		ExtraIcon_SetIconByName(hExtraIcon, hContact, icon);
 }
 

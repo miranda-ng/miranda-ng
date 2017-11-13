@@ -77,7 +77,7 @@ static char* AimApplyEncoding(char* pszStr, const char* pszEncoding)
 		if (szEnc) { // decode custom encoding to Utf-8
 			char *szStr = ApplyEncoding(pszStr, szEnc + 9);
 			// decode utf-8 to ansi
-			char *szRes = NULL;
+			char *szRes = nullptr;
 
 			SAFE_FREE((void**)&pszStr);
 			if (!utf8_decode(szStr, &szRes))
@@ -115,7 +115,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCook
 	wLen -= 2;
 
 	// Determine contact
-	MCONTACT hContact = HContactFromUID(dwUIN, szUID, NULL);
+	MCONTACT hContact = HContactFromUID(dwUIN, szUID, nullptr);
 
 	// Ignore away status if the user is not already on our list
 	if (hContact == INVALID_CONTACT_ID) {
@@ -144,7 +144,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCook
 			if (wLen < 4)
 				return;
 
-			char *szMsg = NULL;
+			char *szMsg = nullptr;
 			BYTE *tmp = buf;
 
 			// Get general chain
@@ -158,7 +158,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCook
 
 			// Get extra chain
 			if (pChain = readIntoTLVChain(&buf, wLen, 2)) {
-				char *szEncoding = NULL;
+				char *szEncoding = nullptr;
 
 				// Get Profile encoding TLV
 				oscar_tlv *pTLV = pChain->getTLV(0x05, 1);
@@ -221,9 +221,9 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCook
 		wLen -= (buf - tmp);
 
 		// Get extra chain
-		char *szMsg = NULL;
+		char *szMsg = nullptr;
 		if (pChain = readIntoTLVChain(&buf, wLen, 2)) {
-			char *szEncoding = NULL;
+			char *szEncoding = nullptr;
 
 			// Get Away encoding TLV
 			oscar_tlv *pTLV = pChain->getTLV(0x03, 1);
@@ -248,7 +248,7 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, size_t wLen, DWORD dwCook
 
 		PROTORECVEVENT pre = { 0 };
 		pre.szMessage = szMsg ? szMsg : (char *)"";
-		pre.timestamp = time(NULL);
+		pre.timestamp = time(nullptr);
 		pre.lParam = dwCookie;
 		ProtoChainRecv(hContact, PSR_AWAYMSG, status, (LPARAM)&pre);
 

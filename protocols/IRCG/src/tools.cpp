@@ -53,7 +53,7 @@ CMStringW __stdcall GetWord(const wchar_t* text, int index)
 {
 	if (text && *text) {
 		wchar_t* p1 = (wchar_t*)text;
-		wchar_t* p2 = NULL;
+		wchar_t* p2 = nullptr;
 
 		while (*p1 == ' ')
 			p1++;
@@ -122,10 +122,10 @@ void __stdcall RemoveLinebreaks(CMStringW &Message)
 
 char* __stdcall IrcLoadFile(wchar_t* szPath)
 {
-	char * szContainer = NULL;
+	char * szContainer = nullptr;
 	DWORD dwSiz = 0;
 	FILE *hFile = _wfopen(szPath, L"rb");
-	if (hFile != NULL) {
+	if (hFile != nullptr) {
 		fseek(hFile, 0, SEEK_END); // seek to end
 		dwSiz = ftell(hFile); // size
 		fseek(hFile, 0, SEEK_SET); // seek back to original pos
@@ -136,15 +136,15 @@ char* __stdcall IrcLoadFile(wchar_t* szPath)
 		return szContainer;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 int __stdcall WCCmp(const wchar_t* wild, const wchar_t* string)
 {
-	if (wild == NULL || !mir_wstrlen(wild) || string == NULL || !mir_wstrlen(string))
+	if (wild == nullptr || !mir_wstrlen(wild) || string == nullptr || !mir_wstrlen(string))
 		return 1;
 
-	const wchar_t *cp = NULL, *mp = NULL;
+	const wchar_t *cp = nullptr, *mp = nullptr;
 	while ((*string) && (*wild != '*')) {
 		if ((*wild != *string) && (*wild != '?'))
 			return 0;
@@ -186,7 +186,7 @@ CMStringA __stdcall GetWord(const char* text, int index)
 {
 	if (text && text[0]) {
 		char* p1 = (char*)text;
-		char* p2 = NULL;
+		char* p2 = nullptr;
 
 		while (*p1 == ' ')
 			p1++;
@@ -228,7 +228,7 @@ wchar_t* __stdcall my_strstri(const wchar_t* s1, const wchar_t* s2)
 	if (!s2[k + 1])
 		return (wchar_t*)(s1 + i);
 
-	return NULL;
+	return nullptr;
 }
 
 wchar_t* __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplacePercent)
@@ -389,7 +389,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	if (pszText)
 		sText = DoColorCodes(pszText, FALSE, TRUE);
 
-	GCEVENT gce = { m_szModuleName, NULL, iEvent };
+	GCEVENT gce = { m_szModuleName, nullptr, iEvent };
 	if (pszWindow) {
 		if (mir_wstrcmpi(pszWindow, SERVERWINDOW))
 			sID = pszWindow + (CMStringW)L" - " + m_info.sNetwork;
@@ -397,7 +397,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 			sID = pszWindow;
 		gce.ptszID = (wchar_t*)sID.c_str();
 	}
-	else gce.ptszID = NULL;
+	else gce.ptszID = nullptr;
 
 	gce.ptszStatus = pszStatus;
 	gce.dwFlags = (bAddToLog) ? GCEF_ADDTOLOG : 0;
@@ -406,14 +406,14 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t* pszWindow, const wchar_t* 
 	if (iEvent == GC_EVENT_TOPIC)
 		gce.ptszUserInfo = pszUserInfo;
 	else
-		gce.ptszUserInfo = m_showAddresses ? pszUserInfo : NULL;
+		gce.ptszUserInfo = m_showAddresses ? pszUserInfo : nullptr;
 
 	if (!sText.IsEmpty())
 		gce.ptszText = sText.c_str();
 
 	gce.dwItemData = dwItemData;
 	if (timestamp == 1)
-		gce.time = time(NULL);
+		gce.time = time(nullptr);
 	else
 		gce.time = timestamp;
 	gce.bIsMe = bIsMe;
@@ -487,9 +487,9 @@ CIrcProto* GetTimerOwner(UINT_PTR nIDEvent)
 {
 	mir_cslock lck(timers_cs);
 
-	TimerPair temp(NULL, nIDEvent);
+	TimerPair temp(nullptr, nIDEvent);
 	int idx = timers.getIndex(&temp);
-	return (idx == -1) ? NULL : timers[idx].ppro;
+	return (idx == -1) ? nullptr : timers[idx].ppro;
 }
 
 void CIrcProto::SetChatTimer(UINT_PTR &nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc)
@@ -497,7 +497,7 @@ void CIrcProto::SetChatTimer(UINT_PTR &nIDEvent, UINT uElapse, TIMERPROC lpTimer
 	if (nIDEvent)
 		KillChatTimer(nIDEvent);
 
-	nIDEvent = SetTimer(NULL, NULL, uElapse, lpTimerFunc);
+	nIDEvent = SetTimer(nullptr, NULL, uElapse, lpTimerFunc);
 
 	mir_cslock lck(timers_cs);
 	timers.insert(new TimerPair(this, nIDEvent));
@@ -515,7 +515,7 @@ void CIrcProto::KillChatTimer(UINT_PTR &nIDEvent)
 			timers.remove(idx);
 	}
 
-	KillTimer(NULL, nIDEvent);
+	KillTimer(nullptr, nIDEvent);
 	nIDEvent = NULL;
 }
 

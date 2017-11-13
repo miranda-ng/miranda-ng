@@ -539,7 +539,7 @@ void CIcqProto::ppackTLVStringFromDB(PBYTE *buf, size_t *buflen, const char *szS
 
 void CIcqProto::ppackTLVStringUtfFromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wType)
 {
-	char *str = getSettingStringUtf(NULL, szSetting, NULL);
+	char *str = getSettingStringUtf(NULL, szSetting, nullptr);
 
 	ppackTLV(buf, buflen, wType, mir_strlen(str), (PBYTE)str);
 
@@ -567,7 +567,7 @@ void CIcqProto::ppackTLVDateFromDB(PBYTE *buf, size_t *buflen, const char *szSet
 int CIcqProto::ppackTLVWordStringItemFromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wTypeID, WORD wTypeData, WORD wID)
 {
 	char szTmp[1024];
-	char *str = NULL;
+	char *str = nullptr;
 
 	if (!getSettingStringStatic(NULL, szSetting, szTmp, sizeof(szTmp)))
 		str = szTmp;
@@ -588,7 +588,7 @@ int CIcqProto::ppackTLVWordStringItemFromDB(PBYTE *buf, size_t *buflen, const ch
 
 int CIcqProto::ppackTLVWordStringUtfItemFromDB(PBYTE *buf, size_t *buflen, const char *szSetting, WORD wTypeID, WORD wTypeData, WORD wID)
 {
-	char *str = getSettingStringUtf(NULL, szSetting, NULL);
+	char *str = getSettingStringUtf(NULL, szSetting, nullptr);
 
 	if (str) {
 		size_t wLen = mir_strlen(str);
@@ -836,7 +836,7 @@ NextTLV:
 			*(*ttlv + wLen) = '\0';
 		}
 		else
-			*ttlv = NULL;
+			*ttlv = nullptr;
 	}
 
 	// Save type and length

@@ -24,27 +24,27 @@ void ProcessingDone(void);
 static void Finalize(time_t& ts)
 {
 	opts.dbChecker->Destroy();
-	opts.dbChecker = NULL;
+	opts.dbChecker = nullptr;
 
 	if (opts.hOutFile) {
 		CloseHandle(opts.hOutFile);
-		opts.hOutFile = NULL;
+		opts.hOutFile = nullptr;
 	}
 
 	if (errorCount && !opts.bBackup && !opts.bCheckOnly) {
-		time_t dlg_ts = time(NULL);
-		if (IDYES == MessageBox(NULL,
+		time_t dlg_ts = time(nullptr);
+		if (IDYES == MessageBox(nullptr,
 			TranslateT("Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?"),
 			TranslateT("Miranda Database Tool"), MB_YESNO))
 			opts.bBackup = 1;
-		ts += time(NULL) - dlg_ts;
+		ts += time(nullptr) - dlg_ts;
 	}
 
 	if (opts.bBackup) {
 		wchar_t dbPath[MAX_PATH], dbFile[MAX_PATH];
 		mir_wstrcpy(dbPath, opts.filename);
 		wchar_t* str2 = wcsrchr(dbPath, '\\');
-		if (str2 != NULL) {
+		if (str2 != nullptr) {
 			mir_wstrcpy(dbFile, str2 + 1);
 			*str2 = 0;
 		}
@@ -75,7 +75,7 @@ static void Finalize(time_t& ts)
 void __cdecl WorkerThread(void *)
 {
 	int task, firstTime;
-	time_t ts = time(NULL);
+	time_t ts = time(nullptr);
 
 	AddToStatus(STATUS_MESSAGE, TranslateT("Database worker thread activated"));
 
@@ -89,7 +89,7 @@ void __cdecl WorkerThread(void *)
 		mir_wstrcpy(opts.outputFilename, opts.filename);
 		*wcsrchr(opts.outputFilename, '.') = 0;
 		mir_wstrcat(opts.outputFilename, TranslateT(" (Output).dat"));
-		opts.hOutFile = CreateFile(opts.outputFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+		opts.hOutFile = CreateFile(opts.outputFilename, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_ALWAYS, FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
 		if (opts.hOutFile == INVALID_HANDLE_VALUE) {
 			AddToStatus(STATUS_FATAL, TranslateT("Can't create output file (%u)"), GetLastError());
 			ProcessingDone();
@@ -129,7 +129,7 @@ void __cdecl WorkerThread(void *)
 		firstTime = 0;
 		if (ret == ERROR_OUT_OF_PAPER) {
 			Finalize(ts);
-			AddToStatus(STATUS_MESSAGE, TranslateT("Elapsed time: %d sec"), time(NULL) - ts);
+			AddToStatus(STATUS_MESSAGE, TranslateT("Elapsed time: %d sec"), time(nullptr) - ts);
 			if (errorCount)
 				AddToStatus(STATUS_SUCCESS, TranslateT("All tasks completed but with errors (%d)"), errorCount);
 			else

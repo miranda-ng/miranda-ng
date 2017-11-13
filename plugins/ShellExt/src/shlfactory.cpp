@@ -22,7 +22,7 @@ HRESULT TClassFactoryRec::QueryInterface(REFIID riid, void **ppvObject)
 			logA("TClassFactoryRec::QueryInterface {%s} failed\n", szGuid);
 			RpcStringFreeA(&szGuid);
 		#endif
-		*ppvObject = NULL;
+		*ppvObject = nullptr;
 		return E_NOINTERFACE;
 	}
 
@@ -49,15 +49,15 @@ ULONG TClassFactoryRec::Release()
 
 HRESULT TClassFactoryRec::CreateInstance(IUnknown *pUnkOuter, REFIID riid, void **ppvObject)
 {
-	if (ppvObject == 0)
+	if (ppvObject == nullptr)
 		return E_POINTER;
 
-	*ppvObject = NULL;
+	*ppvObject = nullptr;
 	if (pUnkOuter)
 		return CLASS_E_NOAGGREGATION;
 
 	TShellExt *p = new TShellExt();
-	if (p == NULL)
+	if (p == nullptr)
 		return E_OUTOFMEMORY;
 
 	HRESULT hr = p->QueryInterface(riid, ppvObject);

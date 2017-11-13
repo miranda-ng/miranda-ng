@@ -2,7 +2,7 @@
 #include "AnnounceDialog.h"
 
 
-AnnounceDialog *AnnounceDialog::m_instance = 0;
+AnnounceDialog *AnnounceDialog::m_instance = nullptr;
 
 //------------------------------------------------------------------------------
 // public:
@@ -15,7 +15,7 @@ AnnounceDialog::AnnounceDialog(AnnounceDatabase &db) : m_db(db)
 //------------------------------------------------------------------------------
 AnnounceDialog::~AnnounceDialog()
 {
-	m_instance = 0;
+	m_instance = nullptr;
 }
 
 //------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ AnnounceDialog::save(HWND window)
 	m_db.setEventFlag(AnnounceDatabase::EventFlag_DialogOpen,		(IsDlgButtonChecked(window, IDC_DIALOG_OPEN) != 0));
 	m_db.setEventFlag(AnnounceDatabase::EventFlag_DialogFocused,		(IsDlgButtonChecked(window, IDC_DIALOG_FOCUSED) != 0));
 
-	m_db.setMaxMsgSize(GetDlgItemInt(window, IDC_MAX_MSG, NULL, 0));
+	m_db.setMaxMsgSize(GetDlgItemInt(window, IDC_MAX_MSG, nullptr, 0));
 
 	m_instance->m_db.save();
 }

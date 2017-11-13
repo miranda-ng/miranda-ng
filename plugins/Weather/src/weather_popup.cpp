@@ -54,18 +54,18 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 		wcsncpy(str1, tszMsg, _countof(str1) - 1);
 		wcsncpy(str2, tszMsg, _countof(str2) - 1);
 		wchar_t *chop = wcschr(str1, 255);
-		if (chop != NULL)
+		if (chop != nullptr)
 			*chop = '\0';
 		else
 			str1[0] = 0;
 		chop = wcschr(str2, 255);
-		if (chop != NULL)
+		if (chop != nullptr)
 			wcsncpy(str2, chop + 1, _countof(str2) - 1);
 		else
 			str2[0] = 0;
 
 		// setup the popup
-		ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON,
+		ppd.lchIcon = (HICON)LoadImage(nullptr, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON,
 			GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
 		mir_wstrcpy(ppd.lptzContactName, str1);
 		mir_wstrcpy(ppd.lptzText, str2);
@@ -176,7 +176,7 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		hMenu = Menu_BuildContactMenu(wParam);
 		GetCursorPos(&pt);
 		hPopupContact = wParam;
-		TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hWnd, NULL);
+		TrackPopupMenu(hMenu, TPM_LEFTALIGN, pt.x, pt.y, 0, hWnd, nullptr);
 		DestroyMenu(hMenu);
 		break;
 
@@ -334,7 +334,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.RightClickAction);
-			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
+			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr);
 			if (ID)
 				opt.RightClickAction = ID;
 			DestroyMenu(hMenu);
@@ -355,7 +355,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.LeftClickAction);
-			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
+			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr);
 			if (ID)   opt.LeftClickAction = ID;
 			DestroyMenu(hMenu);
 
@@ -398,7 +398,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			mir_wstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_wstrlen(str));
 			mir_wstrncat(str, L"\n", _countof(str) - mir_wstrlen(str));
 			mir_wstrncat(str, CUSTOM_VARS, _countof(str) - mir_wstrlen(str));
-			MessageBox(NULL, str, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
+			MessageBox(nullptr, str, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
 			break;
 
 		case IDC_PREVIEW:

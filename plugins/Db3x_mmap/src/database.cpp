@@ -87,9 +87,9 @@ void __cdecl dbpanic(void *)
 		wchar_t err[256];
 		mir_snwprintf(err, msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
-		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
+		MessageBox(nullptr, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	}
-	else MessageBox(0, TranslateW(tszPanic), TranslateT("Database Panic"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
+	else MessageBox(nullptr, TranslateW(tszPanic), TranslateT("Database Panic"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	TerminateProcess(GetCurrentProcess(), 255);
 }
 

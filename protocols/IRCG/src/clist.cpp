@@ -29,14 +29,14 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 	char szService[256];
 	bool bFlag = false;
 
-	CONTACT usertemp = { name, NULL, NULL, false, false, true };
+	CONTACT usertemp = { name, nullptr, nullptr, false, false, true };
 	MCONTACT hc = CList_FindContact(&usertemp);
 	if (hc && db_get_b(hc, "CList", "NotOnList", 0) == 0 && db_get_b(hc, "CList", "Hidden", 0) == 0)
 		bFlag = true;
 
 	CMStringW contactname = name; contactname += DCCSTRING;
 
-	CONTACT user = { contactname, NULL, NULL, false, false, true };
+	CONTACT user = { contactname, nullptr, nullptr, false, false, true };
 	hContact = CList_AddContact(&user, false, false);
 	setByte(hContact, "DCC", 1);
 
@@ -82,7 +82,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 
 MCONTACT CIrcProto::CList_AddContact(CONTACT *user, bool InList, bool SetOnline)
 {
-	if (user->name == NULL)
+	if (user->name == nullptr)
 		return 0;
 
 	MCONTACT hContact = CList_FindContact(user);
@@ -198,7 +198,7 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 				hContact_temp = hContact;
 			}
 		}
-		else if (wcschr(user->name, ' ') == 0) {
+		else if (wcschr(user->name, ' ') == nullptr) {
 			if ((DBDefault && !mir_wstrcmpi(DBDefault, user->name) || DBNick && !mir_wstrcmpi(DBNick, user->name) ||
 				DBWildcard && WCCmp(DBWildcard, lowercasename))
 				&& (WCCmp(DBUser, user->user) && WCCmp(DBHost, user->host))) {

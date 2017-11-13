@@ -11,7 +11,7 @@ int __cdecl onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	if (stat == ID_STATUS_OFFLINE) { // go offline
 		if (ptr->mode == MODE_NATIVE && cpp_keyx(ptr->cntx)) { // have active context
-			cpp_delete_context(ptr->cntx); ptr->cntx = 0; // reset context
+			cpp_delete_context(ptr->cntx); ptr->cntx = nullptr; // reset context
 			showPopupDC(hContact);	// show popup "Disabled"
 			ShowStatusIconNotify(hContact); // change icon in CL
 		}
@@ -96,16 +96,16 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM)
 		// Native/RSAAES
 
 		if (!isSecured) // create secureim connection
-			Menu_ModifyItem(g_hMenu[0], NULL, mode2icon(ptr->mode | SECURED, 2), 0);
+			Menu_ModifyItem(g_hMenu[0], nullptr, mode2icon(ptr->mode | SECURED, 2), 0);
 		else // disable secureim connection
-			Menu_ModifyItem(g_hMenu[1], NULL, mode2icon(ptr->mode, 2), 0);
+			Menu_ModifyItem(g_hMenu[1], nullptr, mode2icon(ptr->mode, 2), 0);
 
 		// set status menu
 		if (bSCM && !bMC && (!isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
 			Menu_ModifyItem(g_hMenu[2], sim312[ptr->status], g_hICO[ICO_ST_DIS + ptr->status], 0);
 
 			for (int i = 0; i <= (ptr->mode == MODE_RSAAES ? 1 : 2); i++)
-				Menu_ModifyItem(g_hMenu[3 + i], NULL, (i == ptr->status) ? g_hICO[ICO_ST_DIS + ptr->status] : NULL, 0);
+				Menu_ModifyItem(g_hMenu[3 + i], nullptr, (i == ptr->status) ? g_hICO[ICO_ST_DIS + ptr->status] : nullptr, 0);
 		}
 	}
 	else if (isSecureProto && !isChat && (ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
@@ -126,7 +126,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM)
 			for (int i = 0; i < MODE_CNT; i++) {
 				if (i == MODE_PGP && ptr->mode != MODE_PGP && !bPGP) continue;
 				if (i == MODE_GPG && ptr->mode != MODE_GPG && !bGPG) continue;
-				Menu_ModifyItem(g_hMenu[11 + i], NULL, (i == ptr->mode) ? g_hICO[ICO_ST_ENA] : NULL, 0);
+				Menu_ModifyItem(g_hMenu[11 + i], nullptr, (i == ptr->mode) ? g_hICO[ICO_ST_ENA] : nullptr, 0);
 			}
 		}
 	}

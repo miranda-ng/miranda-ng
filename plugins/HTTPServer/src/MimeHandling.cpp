@@ -1,7 +1,7 @@
 #include "Glob.h"
 
 /* MIME type/ext map */
-ContentTypeDB MIME = NULL;
+ContentTypeDB MIME = nullptr;
 /* Default Mime type when recognition fails */
 char DefaultMime[] = "application/octet-stream";
 
@@ -9,18 +9,18 @@ int bInitMimeHandling()
 {
 	FILE *mimeDB;
 	char line[LINE_MAX_SIZE];
-	char *tok = NULL;
-	ContentType *pDBCell = NULL;
-	ContentTypeDB pDB = NULL;
-	ExtensionList extListCur = NULL;
-	ExtensionListCell *pExtCell = NULL;
+	char *tok = nullptr;
+	ContentType *pDBCell = nullptr;
+	ContentTypeDB pDB = nullptr;
+	ExtensionList extListCur = nullptr;
+	ExtensionListCell *pExtCell = nullptr;
 	char szBuf[10000];
 
 	mir_strcpy(szBuf, szPluginPath);
 	mir_strcat(szBuf, szMimeTypeConfigFile);
 	mimeDB = fopen(szBuf, "r");
 
-	if (mimeDB != NULL) {
+	if (mimeDB != nullptr) {
 		while (fgets(line, LINE_MAX_SIZE, mimeDB)) {
 			/*filter junk lines assuming Mime type start with letter
 			(convention ?) */
@@ -28,7 +28,7 @@ int bInitMimeHandling()
 				|| (line[0] <= 'Z' && line[0] >= 'A')) {
 				/*remove comments trailing comments*/
 				tok = strrchr(line, '#');
-				if (tok != NULL) {
+				if (tok != nullptr) {
 					*tok = '\0';
 				}
 				/* remove trailing \n */
@@ -42,29 +42,29 @@ int bInitMimeHandling()
 				pDBCell = (ContentType*)malloc(sizeof(ContentType));
 				pDBCell->mimeType = (char*)malloc(mir_strlen(tok) + 1);
 				mir_strcpy(pDBCell->mimeType, tok);
-				pDBCell->extList = NULL;
-				pDBCell->next = NULL;
+				pDBCell->extList = nullptr;
+				pDBCell->next = nullptr;
 				/* looking for extensions */
-				tok = (char*)strtok(NULL, " \t");
-				while (tok != NULL) {
+				tok = (char*)strtok(nullptr, " \t");
+				while (tok != nullptr) {
 					/*create and fill a cell*/
 					pExtCell = (ExtensionListCell*)malloc(sizeof(ExtensionListCell));
 					pExtCell->ext = (char*)malloc(mir_strlen(tok) + 1);
 					mir_strcpy(pExtCell->ext, tok);
-					pExtCell->next = NULL;
+					pExtCell->next = nullptr;
 					/*link*/
-					if (pDBCell->extList == NULL) {
+					if (pDBCell->extList == nullptr) {
 						pDBCell->extList = pExtCell;
 					}
 					else {
 						extListCur->next = pExtCell;
 					}
 					extListCur = pExtCell;
-					tok = (char*)strtok(NULL, " \t");
+					tok = (char*)strtok(nullptr, " \t");
 				}
 				/* link */
-				if (pDBCell->extList != NULL) {	/*extension(s) found*/
-					if (MIME == NULL) {
+				if (pDBCell->extList != nullptr) {	/*extension(s) found*/
+					if (MIME == nullptr) {
 						MIME = pDBCell;
 					}
 					else {
@@ -81,7 +81,7 @@ int bInitMimeHandling()
 
 		fclose(mimeDB);
 	}
-	if (MIME == NULL) {
+	if (MIME == nullptr) {
 		return 0;
 	}
 	return 1;
@@ -95,7 +95,7 @@ const char* pszGetMimeType(const char * pszFileName)
 
 	ext = strrchr(pszFileName, '.');
 
-	if (ext != NULL) {
+	if (ext != nullptr) {
 		if (ext[1] == '\0') {
 			/*empty extension */
 			return DefaultMime;
@@ -106,9 +106,9 @@ const char* pszGetMimeType(const char * pszFileName)
 		}
 
 		courMIME = MIME;
-		while (courMIME != NULL) {
+		while (courMIME != nullptr) {
 			courEXT = courMIME->extList;
-			while (courEXT != NULL) {
+			while (courEXT != nullptr) {
 				if (!_stricmp(courEXT->ext, ext)) {
 					return courMIME->mimeType;
 				}

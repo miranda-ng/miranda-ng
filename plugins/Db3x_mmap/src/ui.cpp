@@ -140,7 +140,7 @@ bool CDb3Mmap::EnterPassword(const BYTE *pKey, const size_t keyLen)
 			CredFree(pCred);
 		}
 		else {
-			if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), 0, sttEnterPassword, (LPARAM)&param))
+			if (IDOK != DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), nullptr, sttEnterPassword, (LPARAM)&param))
 				return false;
 			m_crypto->setPassword(T2Utf(param.newPass));
 		}
@@ -258,7 +258,7 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
 	CDb3Mmap *db = (CDb3Mmap*)obj;
 	DlgChangePassParam param = { db };
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param);
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
 	return 0;
 }
 

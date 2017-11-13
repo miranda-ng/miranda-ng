@@ -34,16 +34,16 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	Mutex writerMutex;
 	bool error = false;
 
-	m_pSocket = NULL;
+	m_pSocket = nullptr;
 
 	while (true) {
-		if (m_pConnection != NULL) {
+		if (m_pConnection != nullptr) {
 			delete m_pConnection;
-			m_pConnection = NULL;
+			m_pConnection = nullptr;
 		}
-		if (m_pSocket != NULL) {
+		if (m_pSocket != nullptr) {
 			delete m_pSocket;
-			m_pSocket = NULL;
+			m_pSocket = nullptr;
 		}
 
 		if (m_iDesiredStatus == ID_STATUS_OFFLINE || error) {
@@ -85,11 +85,11 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 			ToggleStatusMenuItems(true);
 
-			ForkThread(&WhatsAppProto::ProcessBuddyList, NULL);
+			ForkThread(&WhatsAppProto::ProcessBuddyList, nullptr);
 
 			// #TODO Move out of try block. Exception is expected on disconnect
 			while (true) {
-				m_tLastWriteTime = time(NULL);
+				m_tLastWriteTime = time(nullptr);
 				if (!m_pConnection->read())
 					break;
 			}
@@ -114,13 +114,13 @@ void WhatsAppProto::stayConnectedLoop(void*)
 void WhatsAppProto::sentinelLoop(void*)
 {
 	while (WaitForSingleObjectEx(update_loop_lock_, 1000, true) == WAIT_TIMEOUT) {
-		if (m_iStatus != ID_STATUS_OFFLINE && m_pConnection != NULL && m_iDesiredStatus == m_iStatus) {
+		if (m_iStatus != ID_STATUS_OFFLINE && m_pConnection != nullptr && m_iDesiredStatus == m_iStatus) {
 			// #TODO Quiet after pong or tree read?
-			int quietInterval = difftime(time(NULL), m_tLastWriteTime);
+			int quietInterval = difftime(time(nullptr), m_tLastWriteTime);
 			if (quietInterval >= MAX_SILENT_INTERVAL) {
 				try {
 					debugLogA("send ping");
-					m_tLastWriteTime = time(NULL);
+					m_tLastWriteTime = time(nullptr);
 					m_pConnection->sendPing();
 				}
 				catch (exception &e) {

@@ -7,7 +7,7 @@
 #define FONTF_BOLD 1
 #define FONTF_ITALIC 2
 
-HANDLE CConfig::m_hOptionsInitHook = NULL;
+HANDLE CConfig::m_hOptionsInitHook = nullptr;
 bool CConfig::m_bInitializingDialog = false;
 bool CConfig::m_abBoolSettings[BOOL_SETTINGS];
 int CConfig::m_aiIntSettings[INT_SETTINGS];
@@ -16,7 +16,7 @@ LOGFONT CConfig::m_templogfont[FONT_SETTINGS];
 HANDLE CConfig::m_hSampleFont[FONT_SETTINGS];
 TEXTMETRIC CConfig::m_tmFontInfo[FONT_SETTINGS];
 vector<CProtoFilter*> CConfig::m_ProtoList;
-HWND CConfig::hDeviceBox = NULL;
+HWND CConfig::hDeviceBox = nullptr;
 
 void CConfig::Initialize()
 {
@@ -234,7 +234,7 @@ void CConfig::UpdateFontSettings(int iFont)
 	if (m_hSampleFont[iFont])
 		DeleteObject(m_hSampleFont[iFont]);
 	m_hSampleFont[iFont] = CreateFontIndirect(&m_logfont[iFont]);
-	HDC hDC = CreateCompatibleDC(NULL);
+	HDC hDC = CreateCompatibleDC(nullptr);
 	SelectObject(hDC, m_hSampleFont[iFont]);
 	GetTextMetrics(hDC, &m_tmFontInfo[iFont]);
 	DeleteObject(hDC);
@@ -893,7 +893,7 @@ void CConfig::FillDeviceBox(HWND hBox)
 	int count = 0;
 	for (int i = 0; i < 10; i++) {
 		CLCDDevice *device = connection->GetAttachedDevice(i);
-		if (device != NULL) {
+		if (device != nullptr) {
 			SendMessage(hBox, CB_ADDSTRING, 0, (LPARAM)device->GetDisplayName().c_str());
 			count++;
 		}
@@ -915,7 +915,7 @@ void CConfig::FillTree(HWND hTree, bool bCList)
 	TreeView_DeleteAllItems(hTree);
 
 	TVINSERTSTRUCT tvis;
-	tvis.hParent = NULL;
+	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 

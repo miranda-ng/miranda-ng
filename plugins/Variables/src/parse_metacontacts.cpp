@@ -22,19 +22,19 @@
 static wchar_t *parseGetParent(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
-		return NULL;
+		return nullptr;
 
 	hContact = db_mc_getMeta(hContact);
 	if (hContact == NULL)
-		return NULL;
+		return nullptr;
 
 	ptrW szUniqueID;
 	char* szProto = GetContactProto(hContact);
-	if (szProto != NULL)
+	if (szProto != nullptr)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL) {
@@ -50,19 +50,19 @@ static wchar_t *parseGetParent(ARGUMENTSINFO *ai)
 static wchar_t *parseGetDefault(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
-		return NULL;
+		return nullptr;
 
 	hContact = db_mc_getDefault(hContact);
 	if (hContact == NULL)
-		return NULL;
+		return nullptr;
 
 	ptrW szUniqueID;
 	char* szProto = GetContactProto(hContact);
-	if (szProto != NULL)
+	if (szProto != nullptr)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL) {
@@ -78,19 +78,19 @@ static wchar_t *parseGetDefault(ARGUMENTSINFO *ai)
 static wchar_t *parseGetMostOnline(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	MCONTACT hContact = getContactFromString(ai->targv[1], CI_ALLFLAGS);
 	if (hContact == INVALID_CONTACT_ID)
-		return NULL;
+		return nullptr;
 
 	hContact = db_mc_getMostOnline(hContact);
 	if (hContact == NULL)
-		return NULL;
+		return nullptr;
 
 	ptrW szUniqueID;
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL)
+	if (szProto != nullptr)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
 	if (szUniqueID == NULL) {

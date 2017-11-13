@@ -67,7 +67,7 @@ int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check)
 	FD_ZERO(&readfd);
 	FD_SET(s, &readfd);
 
-	int result = select(0, &readfd, 0, 0, &tv);
+	int result = select(0, &readfd, nullptr, nullptr, &tv);
 	if (result == 0 && !check) SetLastError(ERROR_TIMEOUT);
 	return result;
 }
@@ -83,7 +83,7 @@ int WaitUntilWritable(SOCKET s, DWORD dwTimeout)
 	FD_ZERO(&writefd);
 	FD_SET(s, &writefd);
 
-	switch(select(0, 0, &writefd, 0, &tv)) {
+	switch(select(0, nullptr, &writefd, nullptr, &tv)) {
 	case 0:
 		SetLastError(ERROR_TIMEOUT);
 	case SOCKET_ERROR:
@@ -774,7 +774,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 	Netlib_Logf(nlu, "(%d) Connected to %s:%d", nlc->s, nloc->szHost, nloc->wPort);
 
 	if (NLOCF_SSL & nloc->flags)
-		return Netlib_StartSsl(nlc, 0) != 0;
+		return Netlib_StartSsl(nlc, nullptr) != 0;
 
 	return true;
 }
@@ -840,7 +840,7 @@ MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPEN
 
 	if (!NetlibDoConnect(nlc)) {
 		FreePartiallyInitedConnection(nlc);
-		return 0;
+		return nullptr;
 	}
 
 	if (iUPnPCleanup == 0) {

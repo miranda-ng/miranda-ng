@@ -39,8 +39,8 @@ static void WIListAdd(WIDATA Data)
 	WIDATALIST *newItem = (WIDATALIST*)mir_alloc(sizeof(WIDATALIST));
 	newItem->Data = Data;
 	// add to the linked list
-	newItem->next = NULL;
-	if (WITail == NULL) WIHead = newItem;
+	newItem->next = nullptr;
+	if (WITail == nullptr) WIHead = newItem;
 	else WITail->next = newItem;
 	WITail = newItem;
 }
@@ -51,13 +51,13 @@ static void WIListAdd(WIDATA Data)
 WIDATA* GetWIData(wchar_t *pszServ)
 {
 	// loop through the list to find matching internal name
-	for (WIDATALIST *Item = WIHead; Item != NULL; Item = Item->next)
+	for (WIDATALIST *Item = WIHead; Item != nullptr; Item = Item->next)
 		// if internal name found, return the data
 		if (mir_wstrcmp(Item->Data.InternalName, pszServ) == 0)
 			return &Item->Data;
 
 	// return NULL when no match found
-	return NULL;
+	return nullptr;
 }
 
 //============  DATA ITEM LIST (LINKED LIST)  ============
@@ -67,8 +67,8 @@ void WIItemListAdd(WIDATAITEM *DataItem, WIDATA *Data)
 {
 	WIDATAITEMLIST *newItem = (WIDATAITEMLIST*)mir_alloc(sizeof(WIDATAITEMLIST));
 	newItem->Item = *DataItem;
-	newItem->Next = NULL;
-	if (Data->UpdateData == NULL) Data->UpdateData = newItem;
+	newItem->Next = nullptr;
+	if (Data->UpdateData == nullptr) Data->UpdateData = newItem;
 	else Data->UpdateDataTail->Next = newItem;
 	Data->UpdateDataTail = newItem;
 }
@@ -104,8 +104,8 @@ void FreeDataItem(WIDATAITEM *Item)
 // initiate icon assignmet list
 void WICondListInit(WICONDLIST *List)
 {
-	List->Tail = NULL;
-	List->Head = NULL;
+	List->Tail = nullptr;
+	List->Head = nullptr;
 }
 
 // add a new update item into the current list
@@ -114,8 +114,8 @@ void WICondListAdd(char *str, WICONDLIST *List)
 	WICONDITEM *newItem = (WICONDITEM*)mir_alloc(sizeof(WICONDITEM));
 	wSetData(&newItem->Item, str);
 	CharLowerBuff(newItem->Item, (DWORD)mir_wstrlen(newItem->Item));
-	newItem->Next = NULL;
-	if (List->Tail == NULL)	List->Head = newItem;
+	newItem->Next = nullptr;
+	if (List->Tail == nullptr)	List->Head = newItem;
 	else List->Tail->Next = newItem;
 	List->Tail = newItem;
 }
@@ -124,7 +124,7 @@ void WICondListAdd(char *str, WICONDLIST *List)
 bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List)
 {
 	// loop through the list to find matching internal name
-	for (WICONDITEM *Item = List->Head; Item != NULL; Item = Item->Next) {
+	for (WICONDITEM *Item = List->Head; Item != nullptr; Item = Item->Next) {
 		// if internal name found, return true indicating that the data is found
 		if (wcsstr(pszStr, Item->Item))
 			return true;
@@ -138,13 +138,13 @@ bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List)
 void DestroyCondList(WICONDLIST *List)
 {
 	// free the list one by one
-	for (WICONDITEM *temp = List->Head; temp != NULL; temp = List->Head) {
+	for (WICONDITEM *temp = List->Head; temp != nullptr; temp = List->Head) {
 		List->Head = temp->Next;
 		wfree(&temp->Item);	// free the data struct
 		mir_free(temp);
 	}
 	// make sure the entire list is clear
-	List->Tail = NULL;
+	List->Tail = nullptr;
 }
 
 
@@ -179,7 +179,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case IDC_STEP2:
 		{
 			wchar_t szPath[1024];
-			GetModuleFileName(GetModuleHandle(NULL), szPath, _countof(szPath));
+			GetModuleFileName(GetModuleHandle(nullptr), szPath, _countof(szPath));
 			wchar_t *chop = wcsrchr(szPath, '\\');
 			if (chop) {
 				*chop = '\0';
@@ -192,7 +192,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_STEP3:
 			if (LoadWIData(false))
-				MessageBox(NULL,
+				MessageBox(nullptr,
 					TranslateT("All update data has been reloaded."),
 					TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			break;
@@ -248,7 +248,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 
 	// open the ini file
 	FILE *pfile = _wfsopen(pszFile, L"rt", _SH_DENYWR);
-	if (pfile != NULL) {
+	if (pfile != nullptr) {
 		char Line[4096];
 		fgets(Line, _countof(Line), pfile);
 		TrimString(Line);
@@ -271,7 +271,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 		else {
 			wchar_t str[4096];
 			mir_snwprintf(str, TranslateT("Invalid ini format for: %s"), pszFile);
-			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
+			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
 			fclose(pfile);
 			return;
 		}
@@ -324,8 +324,8 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 		// initialize the linked list for update items
 		Data->UpdateDataCount = 0;
 		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (mir_wstrlen(pszShortFile) + mir_wstrlen(pszFile) + 20)*sizeof(wchar_t);
-		Data->UpdateData = NULL;
-		Data->UpdateDataTail = NULL;
+		Data->UpdateData = nullptr;
+		Data->UpdateDataTail = nullptr;
 
 		// initialize the icon assignment list
 		for (int i = 0; i < 10; i++)
@@ -334,14 +334,14 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 		while (!feof(pfile)) {
 			// determine current tag
 
-			if (fgets(Line, _countof(Line), pfile) == NULL)
+			if (fgets(Line, _countof(Line), pfile) == nullptr)
 				break;
 			TrimString(Line);
 
 			// if the line is a group header/footer
 			if (Line[0] == '[') {
 				char *chop = strchr(Line + 1, ']');
-				if (chop == NULL)
+				if (chop == nullptr)
 					continue;
 
 				if (Line[1] != '/') {	// if it is not a footer (for old ini)
@@ -371,7 +371,7 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 			}
 			// ignore comments and all lines without an '='
 			Value = strstr(Line, "=");
-			if (Value == NULL)	continue;
+			if (Value == nullptr)	continue;
 
 			// get the string before '=' (ValName) and after '=' (Value)
 			ValName = (char *)mir_alloc(mir_strlen(Line) + 1);
@@ -481,14 +481,14 @@ static void LoadStationData(wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Dat
 bool LoadWIData(bool dial)
 {
 	// make sure that the current service data list is empty
-	WITail = NULL;
+	WITail = nullptr;
 	WIHead = WITail;
 
 	// find all *.ini file in the plugin\weather directory
 	wchar_t szSearchPath[MAX_PATH], FileName[MAX_PATH];
-	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, _countof(szSearchPath));
+	GetModuleFileName(GetModuleHandle(nullptr), szSearchPath, _countof(szSearchPath));
 	wchar_t *chop = wcsrchr(szSearchPath, '\\');
-	if (chop == NULL)
+	if (chop == nullptr)
 		return false;
 	*chop = '\0';
 	mir_wstrncat(szSearchPath, L"\\Plugins\\Weather\\*.ini", _countof(szSearchPath) - mir_wstrlen(szSearchPath));
@@ -515,12 +515,12 @@ bool LoadWIData(bool dial)
 		FindClose(hFind);
 	}
 
-	if (WIHead == NULL) {
+	if (WIHead == nullptr) {
 		// no ini found, display an error message box.
 		if (dial)
-			hWndSetup = CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETUP), NULL, DlgProcSetup);
+			hWndSetup = CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETUP), nullptr, DlgProcSetup);
 		else
-			MessageBox(NULL,
+			MessageBox(nullptr,
 				TranslateT("No update data file is found. Please check your Plugins\\Weather directory."),
 				TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
 		return false;
@@ -536,7 +536,7 @@ static void FreeWIData(WIDATA *Data)
 {
 	// free update items linked list first
 	WIDATAITEMLIST *WItem = Data->UpdateData;
-	while (WItem != NULL) {
+	while (WItem != nullptr) {
 		Data->UpdateData = WItem->Next;
 		FreeDataItem(&WItem->Item);
 		mir_free(WItem);
@@ -579,7 +579,7 @@ static void FreeWIData(WIDATA *Data)
 void DestroyWIList(void)
 {
 	// free the list one by one
-	while (WIHead != NULL) {
+	while (WIHead != nullptr) {
 		WIDATALIST *wi = WIHead;
 		WIHead = wi->next;
 		FreeWIData(&wi->Data);	// free the data struct
@@ -587,5 +587,5 @@ void DestroyWIList(void)
 	}
 
 	// make sure the entire list is clear
-	WITail = NULL;
+	WITail = nullptr;
 }

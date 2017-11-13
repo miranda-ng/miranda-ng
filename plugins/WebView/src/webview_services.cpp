@@ -41,7 +41,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		int invalidpresent = 0;
 
 		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL || strcmp(szProto, MODULENAME))
+		if (szProto == nullptr || strcmp(szProto, MODULENAME))
 			return 0;
 
 		// A contact is renamed
@@ -59,7 +59,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 
 			for (int i=0; i < _countof(szInvalidChars); i++ ) {
 				wchar_t *p = wcschr(nick, szInvalidChars[i]);
-				if (p != NULL) {
+				if (p != nullptr) {
 					WErrorPopup((UINT_PTR)"ERROR", TranslateT("Invalid symbol present in contact name."));
 					*p = '_';
 					invalidpresent =1;
@@ -67,13 +67,13 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 
 			if (invalidpresent) {
-				srand((unsigned)time(NULL));
+				srand((unsigned)time(nullptr));
 				wchar_t ranStr[7];
 				_itow((int)10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
 				mir_wstrcat(nick, ranStr); 
 			}  
 
-			if ( wcschr(nick, '(') == 0) {
+			if ( wcschr(nick, '(') == nullptr) {
 				db_set_ws(hContact, MODULENAME, PRESERVE_NAME_KEY, nick);
 				db_set_ws(hContact, MODULENAME, "Nick", nick);
 				db_set_ws(hContact, "CList", "MyHandle", nick);
@@ -86,7 +86,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			cacheend++;
 			*cacheend = '\0';
 			mir_snwprintf(cachedirectorypath, L"%s" _A2W(MODULENAME) L"cache\\", cachepath);
-			CreateDirectory(cachedirectorypath, NULL);
+			CreateDirectory(cachedirectorypath, nullptr);
 
 			wchar_t newcachepath[MAX_PATH + 50], renamedcachepath[MAX_PATH + 50];
 			mir_snwprintf(newcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath, oldName);
@@ -95,7 +95,7 @@ int DBSettingChanged(WPARAM wParam, LPARAM lParam)
 			// file exists?
 			if ( _waccess(newcachepath, 0) != -1) {
 				FILE *pcachefile = _wfopen(newcachepath, L"r");
-				if (pcachefile != NULL) {
+				if (pcachefile != nullptr) {
 					fclose(pcachefile);
 					if (mir_wstrcmp(newcachepath, renamedcachepath)) {
 						MoveFile(newcachepath, renamedcachepath);
@@ -125,12 +125,12 @@ int SiteDeleted(WPARAM wParam, LPARAM)
 	*cacheend = '\0';
 
 	mir_snwprintf(cachedirectorypath, L"%s" _A2W(MODULENAME) L"cache\\", cachepath);
-	CreateDirectory(cachedirectorypath, NULL);
+	CreateDirectory(cachedirectorypath, nullptr);
 	mir_snwprintf(newcachepath, L"%s" _A2W(MODULENAME) L"cache\\%s.txt", cachepath,  contactName);
 	// file exists?
 	if ( _waccess(newcachepath, 0) != -1) {
 		FILE *pcachefile = _wfopen(newcachepath, L"r");
-		if (pcachefile != NULL) {
+		if (pcachefile != nullptr) {
 			fclose(pcachefile);
 			DeleteFile(newcachepath);
 			db_set_s(hContact, MODULENAME, CACHE_FILE_KEY, "");
@@ -154,7 +154,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 	if( _waccess(cachedirectorypath, 0) != 0)
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Cache folder does not exist."));
 	else
-		ShellExecute(NULL, L"open", cachedirectorypath, NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(nullptr, L"open", cachedirectorypath, nullptr, nullptr, SW_SHOWNORMAL);
 	return 0;
 }
 
@@ -162,7 +162,7 @@ INT_PTR OpenCacheDir(WPARAM, LPARAM)
 INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 {
 	FILE *pfile = fopen("psite.bat", "r");
-	if (pfile == NULL) {
+	if (pfile == nullptr) {
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Missing \"psite.bat\" file."));
 		return 0;
 	}
@@ -173,7 +173,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 
 	wchar_t Cnick[200], *Oldnick;
 	wcsncpy(Cnick, url, _countof(Cnick));
-	if ((Oldnick = wcsstr(Cnick, L"://")) != 0)
+	if ((Oldnick = wcsstr(Cnick, L"://")) != nullptr)
 		Oldnick += 3;
 	else 
 		Oldnick = Cnick;
@@ -181,7 +181,7 @@ INT_PTR PingWebsiteMenuCommand(WPARAM wParam, LPARAM)
 	wchar_t *Nend = wcschr(Oldnick, '/');
 	if (Nend) *Nend = '\0';
 
-	ShellExecute(NULL, L"open", L"psite.bat", Oldnick, NULL, SW_HIDE);
+	ShellExecute(nullptr, L"open", L"psite.bat", Oldnick, nullptr, SW_HIDE);
 	return 0;
 }
 
@@ -341,9 +341,9 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	int sameurl = 0;
 	int samename = 0;
 
-	if (psr == NULL)
+	if (psr == nullptr)
 		return 0;
-	if (psr->nick.w == NULL) {
+	if (psr->nick.w == nullptr) {
 		WErrorPopup((UINT_PTR)"ERROR", TranslateT("Please select site in Find/Add contacts..."));
 		return 0;
 	}   
@@ -379,23 +379,23 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 
 	//Convert url into a name for contact
 	wchar_t Cnick[255];
-	if (psr->nick.w != NULL)
+	if (psr->nick.w != nullptr)
 		wcsncpy(Cnick, psr->nick.w, _countof(Cnick));
 	else
 		Cnick[0] = 0;
 
 	wchar_t *Oldnick = wcsstr(Cnick, L"://");
-	if (Oldnick != 0)
+	if (Oldnick != nullptr)
 		Oldnick += 3;
 	else
 		Oldnick = Cnick;
 
 	wchar_t *Newnick = wcsstr(Oldnick, L"www.");
-	if (Newnick != 0)
+	if (Newnick != nullptr)
 		Newnick += 4;
 	else {
 		Newnick = wcsstr(Oldnick, L"WWW.");
-		if (Newnick != 0)
+		if (Newnick != nullptr)
 			Newnick += 4;
 		else
 			Newnick = Oldnick;
@@ -423,7 +423,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 
 	if ((sameurl > 0) || (samename > 0)) // contact has the same url or name as another contact, add rand num to name
 	{
-		srand((unsigned) time(NULL));
+		srand((unsigned) time(nullptr));
 		
 		wchar_t ranStr[10];
 		_itow((int) 10000 *rand() / (RAND_MAX + 1.0), ranStr, 10);
@@ -455,7 +455,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 /*****************************************************************************/
 INT_PTR GetInfo(WPARAM, LPARAM)
 {
-	mir_forkthread(AckFunc, NULL);
+	mir_forkthread(AckFunc, nullptr);
 	return 1;
 }
 

@@ -133,8 +133,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					options.bCenterHotkey = IsDlgButtonChecked(hwnd, IDC_CHK_CENTERHOTKEY);
 					options.bRightAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_RIGHTAVATARS);
 					options.bDimIdle = IsDlgButtonChecked(hwnd, IDC_CHK_DIMIDLE);
-					options.wAvatarRadius = GetDlgItemInt(hwnd, IDC_TXT_RADIUS, NULL, FALSE);
-					options.wMaxRecent = GetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, NULL, FALSE);
+					options.wAvatarRadius = GetDlgItemInt(hwnd, IDC_TXT_RADIUS, nullptr, FALSE);
+					options.wMaxRecent = GetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, nullptr, FALSE);
 
 					mis.CtlID = 0;
 					mis.CtlType = ODT_MENU;
@@ -168,7 +168,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		case IDC_CHK_GROUPCOLUMS:
 		case IDC_CHK_RIGHTAVATARS:
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), NULL, NULL, RDW_INVALIDATE);
+			RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), nullptr, nullptr, RDW_INVALIDATE);
 			PostMessage(hwnd, WM_APP, 0, 0);
 			break;
 
@@ -178,7 +178,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 		case IDC_TXT_RADIUS:
 			if ((HIWORD(wParam) == EN_CHANGE) && bInitialized) {
-				RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), NULL, NULL, RDW_INVALIDATE);
+				RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), nullptr, nullptr, RDW_INVALIDATE);
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			}
 			break;
@@ -202,8 +202,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			g_Options.bUseColumns = IsDlgButtonChecked(hwnd, IDC_CHK_GROUPCOLUMS);
 			g_Options.bRightAvatars = IsDlgButtonChecked(hwnd, IDC_CHK_RIGHTAVATARS);
 			g_Options.bDimIdle = IsDlgButtonChecked(hwnd, IDC_CHK_DIMIDLE);
-			g_Options.wAvatarRadius = GetDlgItemInt(hwnd, IDC_TXT_RADIUS, NULL, FALSE);
-			g_Options.wMaxRecent = GetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, NULL, FALSE);
+			g_Options.wAvatarRadius = GetDlgItemInt(hwnd, IDC_TXT_RADIUS, nullptr, FALSE);
+			g_Options.wMaxRecent = GetDlgItemInt(hwnd, IDC_TXT_MAXRECENT, nullptr, FALSE);
 
 			sttSaveOptions();
 
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
 						hSelectedContact = hContact;
-						RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), NULL, NULL, RDW_INVALIDATE);
+						RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), nullptr, nullptr, RDW_INVALIDATE);
 					}
 				}
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

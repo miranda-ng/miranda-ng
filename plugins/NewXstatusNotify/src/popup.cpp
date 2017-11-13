@@ -62,7 +62,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar
 static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 {
 	PLUGINDATA *pdp = (PLUGINDATA *)pObj;
-	if (pdp == NULL)
+	if (pdp == nullptr)
 		return 0;
 
 	ACKDATA *ack = (ACKDATA *)lParam;
@@ -71,7 +71,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 
 	//The first thing we do is removing the hook from the chain to avoid useless calls.
 	UnhookEvent(pdp->hAwayMsgHook);
-	pdp->hAwayMsgHook = NULL;
+	pdp->hAwayMsgHook = nullptr;
 
 	if (ack->result != ACKRESULT_SUCCESS)
 		return 0;
@@ -80,7 +80,7 @@ static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 	ptrW pstzLast(db_get_wsa(hContact, MODULE, "LastPopupText"));
 
 	wchar_t *tszStatus = (wchar_t *)ack->lParam;
-	if (tszStatus == NULL || *tszStatus == 0)
+	if (tszStatus == nullptr || *tszStatus == 0)
 		return 0;
 
 	wchar_t stzText[1024];
@@ -125,7 +125,7 @@ void PopupAction(HWND hWnd, BYTE action)
 			POINT pt = { 0 };
 			GetCursorPos(&pt);
 			HMENU hMenu = Menu_BuildContactMenu(hContact);
-			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hWnd, NULL);
+			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hWnd, nullptr);
 			DestroyMenu(hMenu);
 		}
 		return;
@@ -151,7 +151,7 @@ void PopupAction(HWND hWnd, BYTE action)
 
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PLUGINDATA *pdp = NULL;
+	PLUGINDATA *pdp = nullptr;
 
 	switch (message) {
 	case WM_MEASUREITEM: // Needed by the contact's context menu
@@ -174,10 +174,10 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 	case UM_FREEPLUGINDATA:
 		pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
-		if (pdp != NULL) {
-			if (pdp->hAwayMsgHook != NULL) {
+		if (pdp != nullptr) {
+			if (pdp->hAwayMsgHook != nullptr) {
 				UnhookEvent(pdp->hAwayMsgHook);
-				pdp->hAwayMsgHook = NULL;
+				pdp->hAwayMsgHook = nullptr;
 			}
 
 			mir_free(pdp);
@@ -186,7 +186,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 	case UM_INITPOPUP:
 		pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
-		if (pdp != NULL) {
+		if (pdp != nullptr) {
 			char *szProto = GetContactProto(PUGetContact(hwnd));
 			if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus)) {
 				WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);

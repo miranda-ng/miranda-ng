@@ -144,7 +144,7 @@ void EraseAllInfo()
 			if (!db_get_ws(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 				mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 				db_free(&dbv);
-				MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
+				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
 		}
 		// get the handle of the default station
@@ -171,7 +171,7 @@ void EraseAllInfo()
 		if (!db_get_ws(LastContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
-			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
+			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
 	}
 	// save option in case of default station changed
@@ -259,7 +259,7 @@ void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szData)
 	// the start string must be found
 	if (UpdateData->Start[0] != 0) {
 		start = wcsstr(szInfo, UpdateData->Start);
-		if (start != NULL) {
+		if (start != nullptr) {
 			// set the starting location for getting data
 			start += mir_wstrlen(UpdateData->Start);
 			szInfo = start;
@@ -272,7 +272,7 @@ void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szData)
 	else
 		end = wcsstr(szInfo, L" ");
 
-	if (end != NULL) {
+	if (end != nullptr) {
 		// set the ending location
 		startloc = 0;
 		endloc = end - szInfo;
@@ -281,7 +281,7 @@ void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szData)
 	}
 
 	// ignore if not both of the string found - this prevent crashes
-	if (start != NULL && end != NULL) {
+	if (start != nullptr && end != nullptr) {
 		// begin reading the data from start location to end location
 		// remove all HTML tag in between, as well as leading space, ending space,
 		// multiple spaces, tabs, and return key
@@ -377,14 +377,14 @@ void wfree(char **Data)
 {
 	if (*Data && mir_strlen(*Data) > 0)
 		mir_free(*Data);
-	*Data = NULL;
+	*Data = nullptr;
 }
 
 void wfree(WCHAR **Data)
 {
 	if (*Data && mir_wstrlen(*Data) > 0)
 		mir_free(*Data);
-	*Data = NULL;
+	*Data = nullptr;
 }
 
 //============ MANAGE THE ITEMS STORED IN DB ============

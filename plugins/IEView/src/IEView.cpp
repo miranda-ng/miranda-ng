@@ -27,13 +27,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DISPID_NAVIGATECOMPLETE2    252   // UIActivate new document
 #define DISPID_DOCUMENTCOMPLETE     259   // new document goes ReadyState_Complete
 
-IEView* IEView::list = NULL;
+IEView* IEView::list = nullptr;
 mir_cs  IEView::mutex;
 
 static LRESULT CALLBACK IEViewServerWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	IEView *view = IEView::get(GetParent(GetParent(hwnd)));
-	if (view != NULL) {
+	if (view != nullptr) {
 		switch (message) {
 		case WM_KEYUP:
 			if (LOWORD(wParam) == VK_ESCAPE && !(GetKeyState(VK_SHIFT) & 0x8000) && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_MENU) & 0x8000))
@@ -73,7 +73,7 @@ static LRESULT CALLBACK IEViewServerWindowProcedure(HWND hwnd, UINT message, WPA
 static LRESULT CALLBACK IEViewDocWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	IEView *view = IEView::get(GetParent(hwnd));
-	if (view != NULL) {
+	if (view != nullptr) {
 		WNDPROC oldWndProc = view->getDocWndProc();
 		if (message == WM_PARENTNOTIFY && wParam == WM_CREATE) {
 			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)oldWndProc);
@@ -87,7 +87,7 @@ static LRESULT CALLBACK IEViewDocWindowProcedure(HWND hwnd, UINT message, WPARAM
 static LRESULT CALLBACK IEViewWindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	IEView *view = IEView::get(hwnd);
-	if (view != NULL) {
+	if (view != nullptr) {
 		WNDPROC oldWndProc = view->getMainWndProc();
 		if (message == WM_PARENTNOTIFY && wParam == WM_CREATE) {
 			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)oldWndProc);
@@ -107,7 +107,7 @@ IEViewSink::~IEViewSink() {}
 
 STDMETHODIMP IEViewSink::QueryInterface(REFIID riid, PVOID *ppv)
 {
-	*ppv = NULL;
+	*ppv = nullptr;
 	if (IID_IUnknown == riid)
 		*ppv = (IUnknown *)this;
 
@@ -117,7 +117,7 @@ STDMETHODIMP IEViewSink::QueryInterface(REFIID riid, PVOID *ppv)
 	if (DIID_DWebBrowserEvents2 == riid)
 		*ppv = (DWebBrowserEvents2*)this;
 
-	if (NULL != *ppv) {
+	if (nullptr != *ppv) {
 		((LPUNKNOWN)*ppv)->AddRef();
 		return NOERROR;
 	}
@@ -231,7 +231,7 @@ void IEView::setBorder()
 
 	if (oldStyle != style) {
 		SetWindowLongPtr(hwnd, GWL_EXSTYLE, style);
-		SetWindowPos(getHWND(), NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
+		SetWindowPos(getHWND(), nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
 	}
 }
 
@@ -244,19 +244,19 @@ IEView::IEView(HWND _parent, HTMLBuilder *_builder, int x, int y, int cx, int cy
 	rcClient.top = y;
 	rcClient.right = x + cx;
 	rcClient.bottom = y + cy;
-	if (SUCCEEDED(pWebBrowser.CoCreateInstance(CLSID_WebBrowser, NULL, CLSCTX_INPROC))) {
+	if (SUCCEEDED(pWebBrowser.CoCreateInstance(CLSID_WebBrowser, nullptr, CLSCTX_INPROC))) {
 		CComPtr<IOleObject> pOleObject;
 		if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleObject))) {
 			pOleObject->SetClientSite(this);
 			pOleObject->DoVerb(OLEIVERB_INPLACEACTIVATE, &msg, this, 0, this->parent, &rcClient);
 		}
-		else MessageBox(NULL, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
+		else MessageBox(nullptr, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 
 		CComPtr<IOleInPlaceObject> pOleInPlace;
 		if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleInPlace)))
 			pOleInPlace->GetWindow(&hwnd);
 		else
-			MessageBox(NULL, TranslateT("IID_IOleInPlaceObject failed."), TranslateT("RESULT"), MB_OK);
+			MessageBox(nullptr, TranslateT("IID_IOleInPlaceObject failed."), TranslateT("RESULT"), MB_OK);
 
 		setBorder();
 		CComPtr<IConnectionPointContainer> pCPContainer;
@@ -269,7 +269,7 @@ IEView::IEView(HWND _parent, HTMLBuilder *_builder, int x, int y, int cx, int cy
 				// want to sink its events.
 				sink = new IEViewSink(this);
 				if (FAILED(m_pConnectionPoint->Advise(sink, &m_dwCookie)))
-					MessageBox(NULL, TranslateT("Failed to Advise"), TranslateT("C++ Event Sink"), MB_OK);
+					MessageBox(nullptr, TranslateT("Failed to Advise"), TranslateT("C++ Event Sink"), MB_OK);
 			}
 		}
 		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)IEViewWindowProcedure));
@@ -277,7 +277,7 @@ IEView::IEView(HWND _parent, HTMLBuilder *_builder, int x, int y, int cx, int cy
 	{
 		mir_cslock lck(mutex);
 		next = list;
-		if (next != NULL)
+		if (next != nullptr)
 			next->prev = this;
 		list = this;
 	}
@@ -291,33 +291,33 @@ IEView::~IEView()
 		mir_cslock lck(mutex);
 		if (list == this)
 			list = next;
-		else if (prev != NULL)
+		else if (prev != nullptr)
 			prev->next = next;
 
-		if (next != NULL)
+		if (next != nullptr)
 			next->prev = prev;
 
-		prev = NULL;
-		next = NULL;
+		prev = nullptr;
+		next = nullptr;
 	}
 
 	CComPtr<IOleObject> pOleObject;
 	if (SUCCEEDED(pWebBrowser.QueryInterface(&pOleObject)))
-		pOleObject->SetClientSite(NULL);
+		pOleObject->SetClientSite(nullptr);
 	else
-		MessageBox(NULL, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
+		MessageBox(nullptr, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 
-	if (builder != NULL) {
+	if (builder != nullptr) {
 		delete builder;
-		builder = NULL;
+		builder = nullptr;
 	}
 
-	if (m_pConnectionPoint != NULL)
+	if (m_pConnectionPoint != nullptr)
 		m_pConnectionPoint->Unadvise(m_dwCookie);
 
 	mir_free(selectedText);
 
-	if (sink != NULL)
+	if (sink != nullptr)
 		delete sink;
 	DestroyWindow(hwnd);
 }
@@ -325,21 +325,21 @@ IEView::~IEView()
 void IEView::release()
 {
 	mir_cslock lck(mutex);
-	while (list != NULL)
+	while (list != nullptr)
 		delete list;
-	list = NULL;
+	list = nullptr;
 }
 
 IEView* IEView::get(HWND hwnd)
 {
-	if (list == NULL) return NULL;
+	if (list == nullptr) return nullptr;
 
 	mir_cslock lock(mutex);
-	for (IEView *ptr = list; ptr != NULL; ptr = ptr->next)
+	for (IEView *ptr = list; ptr != nullptr; ptr = ptr->next)
 		if (ptr->hwnd == hwnd)
 			return ptr;
 
-	return NULL;
+	return nullptr;
 }
 
 void IEView::setMainWndProc(WNDPROC wndProc)
@@ -375,7 +375,7 @@ WNDPROC IEView::getServerWndProc()
 // IUnknown
 STDMETHODIMP IEView::QueryInterface(REFIID riid, PVOID *ppv)
 {
-	*ppv = NULL;
+	*ppv = nullptr;
 	if (IID_IUnknown == riid)
 		*ppv = this;
 	if (IID_IOleClientSite == riid)
@@ -391,7 +391,7 @@ STDMETHODIMP IEView::QueryInterface(REFIID riid, PVOID *ppv)
 	if (IID_IDispatch == riid)
 		*ppv = (IDispatch*)this;
 
-	if (NULL != *ppv) {
+	if (nullptr != *ppv) {
 		((LPUNKNOWN)*ppv)->AddRef();
 		return NOERROR;
 	}
@@ -413,7 +413,7 @@ STDMETHODIMP_(ULONG) IEView::Release(void)
 // IDispatch
 STDMETHODIMP IEView::GetTypeInfoCount(UINT *pctinfo)
 {
-	if (pctinfo == NULL) return E_INVALIDARG;
+	if (pctinfo == nullptr) return E_INVALIDARG;
 	*pctinfo = 4;
 	return S_OK;
 }
@@ -643,10 +643,10 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 				ppt->y,
 				0,
 				hwnd,
-				(RECT*)NULL);
+				(RECT*)nullptr);
 			DestroyMenu(hMenu);
 			if (iSelection == ID_MENU_CLEARLOG)
-				clear(NULL);
+				clear(nullptr);
 			else
 				SendMessage(hSPWnd, WM_COMMAND, iSelection, (LPARAM)NULL);
 		}
@@ -657,7 +657,7 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 STDMETHODIMP IEView::GetHostInfo(DOCHOSTUIINFO *pInfo)
 {
 	pInfo->dwFlags = DOCHOSTUIFLAG_NO3DBORDER;// | DOCHOSTUIFLAG_DISABLE_SCRIPT_INACTIVE;
-	if (builder == NULL) {
+	if (builder == nullptr) {
 		pInfo->dwFlags |= DOCHOSTUIFLAG_DIALOG;
 	}
 	return S_OK;
@@ -678,7 +678,7 @@ STDMETHODIMP IEView::TranslateAccelerator(LPMSG, const GUID *, DWORD) { return S
 STDMETHODIMP IEView::GetOptionKeyPath(LPOLESTR *, DWORD) { return E_NOTIMPL; }
 STDMETHODIMP IEView::GetDropTarget(IDropTarget *, IDropTarget **ppDropTarget)
 {
-	*ppDropTarget = NULL;
+	*ppDropTarget = nullptr;
 	return S_OK;
 	//	return E_NOTIMPL;
 }
@@ -699,7 +699,7 @@ STDMETHODIMP IEView::QueryService(REFGUID guidService, REFIID riid, void** ppvOb
 		return (HRESULT)this->QueryInterface(riid, ppvObject);
 	}
 	else {
-		*ppvObject = NULL;
+		*ppvObject = nullptr;
 	}
 	return E_NOINTERFACE;
 }
@@ -718,7 +718,7 @@ STDMETHODIMP IEView::GetSecuritySite(IInternetSecurityMgrSite **)
 
 STDMETHODIMP IEView::MapUrlToZone(LPCWSTR pwszUrl, DWORD *pdwZone, DWORD)
 {
-	if (pdwZone != NULL && pwszUrl != NULL && !mir_wstrcmp(pwszUrl, L"about:blank")) {
+	if (pdwZone != nullptr && pwszUrl != nullptr && !mir_wstrcmp(pwszUrl, L"about:blank")) {
 		*pdwZone = URLZONE_LOCAL_MACHINE;
 		return S_OK;
 	}
@@ -733,7 +733,7 @@ STDMETHODIMP IEView::GetSecurityId(LPCWSTR, BYTE *, DWORD *, DWORD_PTR)
 STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPolicy, DWORD cbPolicy, BYTE *, DWORD, DWORD, DWORD)
 {
 	DWORD dwPolicy = URLPOLICY_ALLOW;
-	if (pwszUrl != NULL && !mir_wstrcmp(pwszUrl, L"about:blank")) {
+	if (pwszUrl != nullptr && !mir_wstrcmp(pwszUrl, L"about:blank")) {
 		if (dwAction <= URLACTION_ACTIVEX_MAX && dwAction >= URLACTION_ACTIVEX_MIN) {
 			//dwPolicy = URLPOLICY_DISALLOW;
 			//dwPolicy = URLPOLICY_ALLOW;
@@ -780,13 +780,13 @@ STDMETHODIMP IEView::GetZoneMappings(DWORD, IEnumString **, DWORD)
 IHTMLDocument2* IEView::getDocument()
 {
 	CComPtr<IDispatch> dispatch;
-	if (SUCCEEDED(pWebBrowser->get_Document(&dispatch)) && dispatch != NULL) {
+	if (SUCCEEDED(pWebBrowser->get_Document(&dispatch)) && dispatch != nullptr) {
 		CComPtr<IHTMLDocument2> document;
 		dispatch.QueryInterface(&document);
 		return document.Detach();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void IEView::setWindowPos(int x, int y, int cx, int cy)
@@ -809,7 +809,7 @@ void IEView::scrollToTop()
 	CComPtr<IHTMLDocument2> document = getDocument();
 	if (document) {
 		CComPtr<IHTMLWindow2> pWindow;
-		if (SUCCEEDED(document->get_parentWindow(&pWindow)) && pWindow != NULL)
+		if (SUCCEEDED(document->get_parentWindow(&pWindow)) && pWindow != nullptr)
 			pWindow->scrollBy(-0x01FFFFFF, -0x01FFFFFF);
 	}
 }
@@ -819,7 +819,7 @@ void IEView::scrollToBottomSoft()
 	CComPtr<IHTMLDocument2> document = getDocument();
 	if (document) {
 		CComPtr<IHTMLWindow2> pWindow;
-		if (SUCCEEDED(document->get_parentWindow(&pWindow)) && pWindow != NULL)
+		if (SUCCEEDED(document->get_parentWindow(&pWindow)) && pWindow != nullptr)
 			pWindow->scrollBy(-0x01FFFFFF, 0x01FFFFFF);
 	}
 }
@@ -827,11 +827,11 @@ void IEView::scrollToBottomSoft()
 void IEView::scrollToBottom()
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
-	if (document == NULL)
+	if (document == nullptr)
 		return;
 
 	CComPtr<IHTMLElementCollection> collection;
-	if (SUCCEEDED(document->get_all(&collection)) && collection != NULL) {
+	if (SUCCEEDED(document->get_all(&collection)) && collection != nullptr) {
 		long len;
 		if (SUCCEEDED(collection->get_length(&len))) {
 			VARIANT variant;
@@ -839,9 +839,9 @@ void IEView::scrollToBottom()
 			variant.lVal = len - 1;
 
 			CComPtr<IDispatch> dispatch;
-			if (SUCCEEDED(collection->item(variant, variant, &dispatch)) && dispatch != NULL) {
+			if (SUCCEEDED(collection->item(variant, variant, &dispatch)) && dispatch != nullptr) {
 				CComPtr<IHTMLElement> element;
-				if (SUCCEEDED(dispatch.QueryInterface(&element)) && element != NULL) {
+				if (SUCCEEDED(dispatch.QueryInterface(&element)) && element != nullptr) {
 					variant.vt = VT_BOOL;
 					variant.boolVal = VARIANT_FALSE;
 					element->scrollIntoView(variant);
@@ -851,18 +851,18 @@ void IEView::scrollToBottom()
 	}
 	
 	CComPtr<IHTMLWindow2> pWindow;
-	if (SUCCEEDED(document->get_parentWindow(&pWindow)) && pWindow != NULL)
+	if (SUCCEEDED(document->get_parentWindow(&pWindow)) && pWindow != nullptr)
 		pWindow->scrollBy(-0x0000FFFF, 0x0000FFFF);
 }
 
 void IEView::write(const wchar_t *text)
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
-	if (document == NULL)
+	if (document == nullptr)
 		return;
 
 	SAFEARRAY *safe_array = ::SafeArrayCreateVector(VT_VARIANT, 0, 1);
-	if (safe_array != NULL) {
+	if (safe_array != nullptr) {
 		VARIANT *variant;
 		::SafeArrayAccessData(safe_array, (LPVOID *)&variant);
 		variant->vt = VT_BSTR;
@@ -894,12 +894,12 @@ void IEView::writef(const char *fmt, ...)
 
 void IEView::navigate(const char *url)
 {
-	pWebBrowser->Navigate(BSTR_PTR(_A2T(url)), NULL, NULL, NULL, NULL);
+	pWebBrowser->Navigate(BSTR_PTR(_A2T(url)), nullptr, nullptr, nullptr, nullptr);
 }
 
 void IEView::navigate(const wchar_t *url)
 {
-	pWebBrowser->Navigate(BSTR_PTR(url), NULL, NULL, NULL, NULL);
+	pWebBrowser->Navigate(BSTR_PTR(url), nullptr, nullptr, nullptr, nullptr);
 }
 
 void IEView::documentClose()
@@ -922,7 +922,7 @@ void IEView::appendEventOld(IEVIEWEVENT *event)
 	if (clearRequired)
 		clear(event);
 
-	if (builder != NULL)
+	if (builder != nullptr)
 		builder->appendEventOld(this, event);
 
 	getFocus = false;
@@ -933,10 +933,10 @@ void IEView::appendEvent(IEVIEWEVENT *event)
 	if (clearRequired)
 		clear(event);
 
-	if (event->eventData == NULL)
+	if (event->eventData == nullptr)
 		return; 
 
-	if (builder != NULL)
+	if (builder != nullptr)
 		builder->appendEventNew(this, event);
 
 	getFocus = false;
@@ -945,14 +945,14 @@ void IEView::appendEvent(IEVIEWEVENT *event)
 void IEView::clear(IEVIEWEVENT *event)
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
-	if (document == NULL) {
-		pWebBrowser->Navigate(BSTR_PTR(L"about:blank"), NULL, NULL, NULL, NULL);
+	if (document == nullptr) {
+		pWebBrowser->Navigate(BSTR_PTR(L"about:blank"), nullptr, nullptr, nullptr, nullptr);
 		HRESULT hr = S_OK;
 		CComPtr<IHTMLDocument2> doc2;
-		while ((doc2 == NULL) && (hr == S_OK)) {
+		while ((doc2 == nullptr) && (hr == S_OK)) {
 			Sleep(0);
 			CComPtr<IDispatch> dispatch;
-			if (SUCCEEDED(pWebBrowser->get_Document(&dispatch)) && dispatch != NULL)
+			if (SUCCEEDED(pWebBrowser->get_Document(&dispatch)) && dispatch != nullptr)
 				dispatch.QueryInterface(&doc2);
 		}
 	}
@@ -969,7 +969,7 @@ void IEView::clear(IEVIEWEVENT *event)
 		CComPtr<IDispatch> open_window;
 		document->open(BSTR_PTR(L"text/html"), open_name, open_features, open_replace, &open_window);
 	}
-	if (builder != NULL)
+	if (builder != nullptr)
 		builder->clear(this, event);
 
 	clearRequired = false;
@@ -982,7 +982,7 @@ void* IEView::getSelection(IEVIEWEVENT *event)
 	mir_free(selectedText);
 	selectedText = getSelection();
 	if (mir_wstrlen(selectedText) == 0)
-		return NULL;
+		return nullptr;
 
 	if (event->dwFlags & IEEF_NO_UNICODE) {
 		int cp = CP_ACP;
@@ -1025,24 +1025,24 @@ void IEView::translateAccelerator(UINT uMsg, WPARAM wParam, LPARAM lParam)
 WCHAR* IEView::getSelection()
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
-	if (document == NULL)
-		return NULL;
+	if (document == nullptr)
+		return nullptr;
 
 	CComPtr<IHTMLSelectionObject> pSelection;
-	if (FAILED(document->get_selection(&pSelection)) || pSelection == NULL)
-		return NULL;
+	if (FAILED(document->get_selection(&pSelection)) || pSelection == nullptr)
+		return nullptr;
 
 	CComPtr<IDispatch> pDisp;
-	if (FAILED(pSelection->createRange(&pDisp)) || pDisp == NULL)
-		return NULL;
+	if (FAILED(pSelection->createRange(&pDisp)) || pDisp == nullptr)
+		return nullptr;
 
 	CComPtr<IHTMLTxtRange> pRange;
 	if (FAILED(pDisp.QueryInterface(&pRange)))
-		return NULL;
+		return nullptr;
 
-	BSTR text = NULL;
+	BSTR text = nullptr;
 	if (FAILED(pRange->get_text(&text)))
-		return NULL;
+		return nullptr;
 		
 	WCHAR *res = mir_wstrdup(text);
 	::SysFreeString(text);
@@ -1055,13 +1055,13 @@ WCHAR* IEView::getSelection()
  **/
 WCHAR* IEView::getHrefFromAnchor(CComPtr<IHTMLElement> element)
 {
-	if (element == NULL)
-		return NULL;
+	if (element == nullptr)
+		return nullptr;
 
 	CComPtr<IHTMLAnchorElement> pAnchor;
 	if (FAILED(element.QueryInterface(&pAnchor))) {
 		VARIANT variant;
-		WCHAR *url = NULL;
+		WCHAR *url = nullptr;
 		if (SUCCEEDED(element->getAttribute(BSTR_PTR(L"href"), 2, &variant)) && variant.vt == VT_BSTR) {
 			url = mir_wstrdup(variant.bstrVal);
 			::SysFreeString(variant.bstrVal);
@@ -1071,10 +1071,10 @@ WCHAR* IEView::getHrefFromAnchor(CComPtr<IHTMLElement> element)
 	}
 
 	CComPtr<IHTMLElement> pParent;
-	if (SUCCEEDED(element->get_parentElement(&pParent)) && pParent != NULL)
+	if (SUCCEEDED(element->get_parentElement(&pParent)) && pParent != nullptr)
 		return getHrefFromAnchor(pParent);
 
-	return NULL;
+	return nullptr;
 }
 
 bool IEView::mouseActivate()
@@ -1091,11 +1091,11 @@ bool IEView::mouseClick(POINT pt)
 		getFocus = true;
 
 	CComPtr<IHTMLDocument2> document = getDocument();
-	if (document == NULL)
+	if (document == nullptr)
 		return false;
 
 	CComPtr<IHTMLElement> element;
-	if (SUCCEEDED(document->elementFromPoint(pt.x, pt.y, &element)) && element != NULL) {
+	if (SUCCEEDED(document->elementFromPoint(pt.x, pt.y, &element)) && element != nullptr) {
 		ptrW url(getHrefFromAnchor(element));
 		if (url != NULL) {
 			if ((GetKeyState(VK_SHIFT) & 0x8000) && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_MENU) & 0x8000))
@@ -1123,7 +1123,7 @@ bool IEView::setFocus(HWND)
 void IEView::saveDocument()
 {
 	CComPtr<IHTMLDocument2> document = getDocument();
-	if (document == NULL)
+	if (document == nullptr)
 		return;
 
 	VARIANT vValue;

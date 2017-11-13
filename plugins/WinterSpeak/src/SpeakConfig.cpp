@@ -2,7 +2,7 @@
 #include "SpeakConfig.h"
 
 
-SpeakConfig::SpeakConfig(HINSTANCE instance) : m_instance(instance), m_db(), m_tts(0), m_dialog_engine(m_db),  m_dialog_active(m_db)
+SpeakConfig::SpeakConfig(HINSTANCE instance) : m_instance(instance), m_db(), m_tts(nullptr), m_dialog_engine(m_db),  m_dialog_active(m_db)
 {
 	// create and configure the tts
 	SpeechInterface si;

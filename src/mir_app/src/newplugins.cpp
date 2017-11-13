@@ -921,5 +921,5 @@ void UnloadNewPluginsModule(void)
 
 	if (hPluginListHeap)
 		HeapDestroy(hPluginListHeap);
-	hPluginListHeap = 0;
+	hPluginListHeap = nullptr;
 }

@@ -2,8 +2,8 @@
 
 wchar_t* utils::removeA(wchar_t *str)
 {
-	if (str == NULL)
-		return NULL;
+	if (str == nullptr)
+		return nullptr;
 
 	wchar_t *p = wcschr(str, '@');
 	if (p) *p = 0;
@@ -34,11 +34,11 @@ std::string getLastErrorMsg()
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM |
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		dw,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
 		(LPSTR)&lpMsgBuf,
-		0, NULL);
+		0, nullptr);
 
 	std::string ret((LPSTR)lpMsgBuf);
 	LocalFree(lpMsgBuf);

@@ -53,7 +53,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				RECT rc, rcParent;
 				if (GetWindowRect(hwndDlg, &rc))
 					if (GetWindowRect(hwndParent, &rcParent))
-						SetWindowPos(hwndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
+						SetWindowPos(hwndDlg, nullptr, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
 							(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2,
 							0, 0, SWP_NOZORDER | SWP_NOSIZE);
 			}

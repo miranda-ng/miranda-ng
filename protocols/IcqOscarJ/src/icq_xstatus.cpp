@@ -81,7 +81,7 @@ DWORD CIcqProto::requestXStatusDetails(MCONTACT hContact, BOOL bAllowDelay)
 	struct rates_xstatus_request : public rates_queue_item
 	{
 	protected:
-		virtual rates_queue_item* copyItem(rates_queue_item *aDest = NULL)
+		virtual rates_queue_item* copyItem(rates_queue_item *aDest = nullptr)
 		{
 			rates_xstatus_request *pDest = (rates_xstatus_request*)aDest;
 			if (!pDest)
@@ -143,7 +143,7 @@ static wchar_t* InitXStatusIconLibrary(wchar_t *buf, size_t buf_size)
 	HMODULE hXStatusIconsDLL;
 
 	// get miranda's exe path
-	GetModuleFileName(NULL, path, MAX_PATH);
+	GetModuleFileName(nullptr, path, MAX_PATH);
 
 	hXStatusIconsDLL = (HMODULE)LoadXStatusIconLibrary(path, L"\\Icons");
 	if (!hXStatusIconsDLL) // TODO: add "Custom Folders" support
@@ -165,7 +165,7 @@ static wchar_t* InitXStatusIconLibrary(wchar_t *buf, size_t buf_size)
 
 HICON CIcqProto::getXStatusIcon(int bStatus, UINT flags)
 {
-	HICON icon = NULL;
+	HICON icon = nullptr;
 
 	if (bStatus > 0 && bStatus <= XSTATUS_COUNT)
 		icon = IcoLib_GetIconByHandle(hXStatusIcons[bStatus - 1], (flags & LR_BIGICON) != 0);
@@ -175,7 +175,7 @@ HICON CIcqProto::getXStatusIcon(int bStatus, UINT flags)
 
 void setContactExtraIcon(MCONTACT hContact, int xstatus)
 {
-	ExtraIcon_SetIcon(hExtraXStatus, hContact, (xstatus > 0) ? hXStatusIcons[xstatus - 1] : NULL);
+	ExtraIcon_SetIcon(hExtraXStatus, hContact, (xstatus > 0) ? hXStatusIcons[xstatus - 1] : nullptr);
 }
 
 #define NULLCAP {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
@@ -520,7 +520,7 @@ void CIcqProto::updateServerCustomStatus(int fullUpdate)
 		SetStatusMood(szMoodData, 1500);
 	}
 
-	char *szStatusNote = NULL;
+	char *szStatusNote = nullptr;
 
 	// use custom status message as status note
 	if (bXStatus && (m_bXStatusEnabled || m_bMoodsEnabled))
@@ -619,7 +619,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			ShowDlgItem(hwndDlg, IDC_XMSG, SW_SHOW);
 			ShowDlgItem(hwndDlg, IDC_XTITLE, SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("Close"));
-			UnhookEvent(dat->hEvent); dat->hEvent = NULL;
+			UnhookEvent(dat->hEvent); dat->hEvent = nullptr;
 			char *szText = dat->ppro->getSettingStringUtf(dat->hContact, DBSETTING_XSTATUS_NAME, "");
 			SetDlgItemTextUtf(hwndDlg, IDC_XTITLE, szText);
 			SAFE_FREE(&szText);
@@ -660,12 +660,12 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				dat->okButtonFormat = GetDlgItemTextUtf(hwndDlg, IDOK);
 				dat->countdown = 5;
 				SendMessage(hwndDlg, WM_TIMER, 0, 0);
-				SetTimer(hwndDlg, 1, 1000, 0);
+				SetTimer(hwndDlg, 1, 1000, nullptr);
 			}
 			else { // retrieve contact's xStatus
 				dat->hContact = init->hContact;
 				dat->bXStatus = dat->ppro->getContactXStatus(dat->hContact);
-				dat->okButtonFormat = NULL;
+				dat->okButtonFormat = nullptr;
 				SendDlgItemMessage(hwndDlg, IDC_XTITLE, EM_SETREADONLY, 1, 0);
 				SendDlgItemMessage(hwndDlg, IDC_XMSG, EM_SETREADONLY, 1, 0);
 
@@ -679,7 +679,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				}
 				else {
 					SetDlgItemText(hwndDlg, IDOK, TranslateT("Close"));
-					dat->hEvent = NULL;
+					dat->hEvent = nullptr;
 					char *szText = dat->ppro->getSettingStringUtf(dat->hContact, DBSETTING_XSTATUS_NAME, "");
 					SetDlgItemTextUtf(hwndDlg, IDC_XTITLE, szText);
 					SAFE_FREE(&szText);
@@ -782,15 +782,15 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 
 	if (!m_bHideXStatusUI) {
 		if (bOldXStatus <= XSTATUS_COUNT)
-			Menu_ModifyItem(hXStatusItems[bOldXStatus], NULL, INVALID_HANDLE_VALUE, 0);
+			Menu_ModifyItem(hXStatusItems[bOldXStatus], nullptr, INVALID_HANDLE_VALUE, 0);
 
-		Menu_ModifyItem(hXStatusItems[bXStatus], NULL, INVALID_HANDLE_VALUE, CMIF_CHECKED);
+		Menu_ModifyItem(hXStatusItems[bXStatus], nullptr, INVALID_HANDLE_VALUE, CMIF_CHECKED);
 	}
 
 	if (bXStatus) {
 		char szSetting[64];
 		char str[MAX_PATH];
-		char *szName = NULL, *szMsg = NULL;
+		char *szName = nullptr, *szMsg = nullptr;
 
 		if (m_bXStatusEnabled) {
 			mir_snprintf(szSetting, "XStatus%dName", bXStatus);
@@ -807,7 +807,7 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 			init.bXStatus = bXStatus;
 			init.szXStatusName = szName;
 			init.szXStatusMsg = szMsg;
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)&init);
+			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)&init);
 		}
 		else {
 			setByte(DBSETTING_XSTATUS_ID, bXStatus);
@@ -878,7 +878,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 			CreateProtoServiceParam(srvFce, &CIcqProto::menuXStatus, i);
 
 		mi.flags = (bXStatus == i ? CMIF_CHECKED : 0);
-		mi.hIcolibItem = i ? hXStatusIcons[i - 1] : NULL;
+		mi.hIcolibItem = i ? hXStatusIcons[i - 1] : nullptr;
 		mi.name.a = i ? (char*)nameXStatus[i - 1] : (char *)LPGEN("None");
 		mi.pszService = srvFce;
 
@@ -891,7 +891,7 @@ void InitXStatusIcons()
 {
 	wchar_t lib[2 * MAX_PATH] = { 0 };
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.section.a = "Protocols/" ICQ_PROTOCOL_NAME "/" LPGEN("Custom Status");
 	sid.flags = SIDF_PATH_UNICODE;
 	sid.defaultFile.w = InitXStatusIconLibrary(lib, _countof(lib));
@@ -916,7 +916,7 @@ INT_PTR CIcqProto::ShowXStatusDetails(WPARAM hContact, LPARAM)
 	init.ppro = this;
 	init.bAction = 1; // retrieve
 	init.hContact = hContact;
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)&init);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)&init);
 
 	return 0;
 }
@@ -987,7 +987,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM hContact, LPARAM lParam)
 	// fill status name member
 	if (pData->flags & CSSF_MASK_NAME) {
 		if (pData->flags & CSSF_DEFAULT_NAME) {
-			int status = (pData->wParam == NULL) ? getContactXStatus(hContact) : *pData->wParam;
+			int status = (pData->wParam == nullptr) ? getContactXStatus(hContact) : *pData->wParam;
 			if (status < 1 || status > XSTATUS_COUNT)
 				return 1; // Failure
 

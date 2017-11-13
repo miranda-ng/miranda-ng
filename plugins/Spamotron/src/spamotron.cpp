@@ -42,7 +42,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	char protoOption[256] = {0};
 	int buflen = MAX_BUFFER_LENGTH;
 	wchar_t buf[MAX_BUFFER_LENGTH];
-	wchar_t *challengeW = NULL, *tmpW = NULL;
+	wchar_t *challengeW = nullptr, *tmpW = nullptr;
 	wchar_t mexpr[64];
 	int maxmsglen = 0, a, b, i;
 	BOOL bayesEnabled = _getOptB("BayesEnabled", defaultBayesEnabled);
@@ -59,9 +59,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	/*** Dequeue and learn messages ***/
 	
 	if (bayesEnabled && _getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved))
-		if (time(NULL) - last_queue_check > 4*3600) { // dequeue every 4 hours
+		if (time(nullptr) - last_queue_check > 4*3600) { // dequeue every 4 hours
 			dequeue_messages();
-			last_queue_check = time(NULL);
+			last_queue_check = time(nullptr);
 		}
 
 	/*** Check for conditional and unconditional approval ***/
@@ -121,9 +121,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		for(a = 4; a > 0; a--)
 			msgblob += mir_strlen(msgblob)+1;
 	}
-	else msgblob = NULL;
+	else msgblob = nullptr;
 
-	wchar_t *message = NULL;
+	wchar_t *message = nullptr;
 	if (dbei->flags & DBEF_UTF)
 		message = mir_utf8decodeW(msgblob);
 	else
@@ -132,7 +132,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	/*** Check for words in white-list ***/
 	if (_getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn)) {
 		wchar_t *whitelist = (wchar_t*)malloc(2048 * sizeof(wchar_t));
-		if (whitelist != NULL) {
+		if (whitelist != nullptr) {
 			_getOptS(whitelist, 2048, "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist);
 			if (_isregex(whitelist)) {
 				if (_regmatch(message, whitelist))
@@ -140,12 +140,12 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			}
 			else {
 				wchar_t *ptok = wcstok(whitelist, L" ");
-				while (ptok != NULL) {
+				while (ptok != nullptr) {
 					if (wcsstr(message, ptok)) {
 						bCorrectResponse = TRUE;
 						break;
 					}
-					ptok = wcstok(NULL, L" ");
+					ptok = wcstok(nullptr, L" ");
 				}
 			}
 			free(whitelist);
@@ -205,7 +205,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case SPAMOTRON_MODE_MATH:
-			if (message == NULL)
+			if (message == nullptr)
 				break;
 			_itow(_getCOptD(hContact, "ResponseMath", -1), buf, 10);
 			if (wcsstr(message, buf) && (mir_wstrlen(buf) == mir_wstrlen(message))) {
@@ -227,7 +227,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			T2Utf response(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
 			ProtoChainSend(hContact, PSS_MESSAGE, 0,	response);
 		}
-		_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), NULL);
+		_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), nullptr);
 
 		// Resubmit pending authorization request
 		if (_getCOptB(hContact, "AuthEventPending", FALSE)) {
@@ -236,7 +236,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			char* szAuthEventModule;
 			if (db_get(hContact, PLUGIN_NAME, "AuthEvent", &_dbv) == 0) {
 				DBEVENTINFO *_dbei = (DBEVENTINFO *)malloc(sizeof(DBEVENTINFO));
-				if (_dbei != NULL) {
+				if (_dbei != nullptr) {
 					memcpy(&_dbei->cbBlob, _dbv.pbVal, sizeof(DWORD));
 					_dbei->eventType = EVENTTYPE_AUTHREQUEST;
 					_getCOptS(AuthEventModule, 100, hContact, "AuthEventModule", L"ICQ");
@@ -377,7 +377,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		else
 			_getOptS(challengeW, maxmsglen, "Challenge", defaultChallenge);
 		_getOptS(buf, buflen, "Response", defaultResponse);
-		srand(time(NULL));
+		srand(time(nullptr));
 		_setCOptD(hContact, "ResponseNum", rand() % get_response_num(buf));
 		ReplaceVarsNum(challengeW, maxmsglen, _getCOptD(hContact, "ResponseNum", 0));
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(challengeW));
@@ -407,7 +407,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	db_set_b(hContact, "CList", "Delete", 1);
 
 	// Queue user message in Bayes db
-	if (bayesEnabled && message != NULL)
+	if (bayesEnabled && message != nullptr)
 		queue_message(hContact, dbei->timestamp, message);
 
 
@@ -421,7 +421,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	_setCOptD(hContact, "MsgSentTime", dbei->timestamp);
 
 	// Save Last Msg and update SameMsgCount
-	if (message != NULL) {
+	if (message != nullptr) {
 		if (mir_wstrcmp(_getCOptS(buf, buflen, hContact, "LastInMsg", L""), message) == 0)
 			_setCOptD(hContact, "SameMsgCount", 1 + _getCOptD(hContact, "SameMsgCount", 0));
 		else
@@ -429,7 +429,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		_setCOptTS(hContact, "LastInMsg", message);
 	}
 
-	if (message != NULL)
+	if (message != nullptr)
 		mir_free(message);
 
 	// Finally silently save the message to contact history if corresponding option is set
@@ -437,7 +437,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			// Save the request to database so that it can be automatically submitted on user approval
 			PBYTE eventdata = (PBYTE)malloc(sizeof(DWORD) + dbei->cbBlob);
-			if (eventdata != NULL && dbei->cbBlob > 0) {
+			if (eventdata != nullptr && dbei->cbBlob > 0) {
 				memcpy(eventdata, &dbei->cbBlob, sizeof(DWORD));
 				memcpy(eventdata + sizeof(DWORD), dbei->pBlob, dbei->cbBlob);
 				db_set_blob(hContact, PLUGIN_NAME, "AuthEvent", eventdata, sizeof(DWORD) + dbei->cbBlob);
@@ -452,7 +452,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 				DWORD dbei_size = 3 * sizeof(DWORD) + sizeof(WORD) + dbei->cbBlob + (DWORD)mir_strlen(dbei->szModule) + 1;
 				PBYTE eventdata = (PBYTE)malloc(dbei_size);
 				PBYTE pos = eventdata;
-				if (eventdata != NULL && dbei->cbBlob > 0) {
+				if (eventdata != nullptr && dbei->cbBlob > 0) {
 					if (db_get(hContact, PLUGIN_NAME, "LastMsgEvents", &_dbv) == 0) {
 						eventdata = (PBYTE)realloc(eventdata, dbei_size + _dbv.cpbVal);
 						pos = eventdata;
@@ -512,14 +512,14 @@ extern "C" __declspec(dllexport) int Load()
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	srand((unsigned)time(0));
-	bayesdb = NULL;
+	srand((unsigned)time(nullptr));
+	bayesdb = nullptr;
 	if (_getOptB("BayesEnabled", defaultBayesEnabled)) {
 		if (CheckBayes()) {
 			OpenBayes();
 			if (_getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved)) {
 				dequeue_messages();
-				last_queue_check = time(NULL);
+				last_queue_check = time(nullptr);
 			}
 		}
 	}

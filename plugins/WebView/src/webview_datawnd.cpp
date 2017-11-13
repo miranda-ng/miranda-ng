@@ -69,7 +69,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				OLDstartposition = startposition;
 
-				if ((strstr(Searchstr, NewSearchstr)) != 0)
+				if ((strstr(Searchstr, NewSearchstr)) != nullptr)
 					startposition = loc + (int)mir_strlen(Searchstr);
 				else {
 					oldloc = 0;
@@ -135,7 +135,7 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 		if (!mir_wstrcmp(urltext, db1) && !mir_wstrcmp(titlebartxt, db2)) {
 			contactcount++;
 			if (contactcount > 1) {
-				MessageBox(NULL, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _A2W(MODULENAME), MB_OK);
+				MessageBox(nullptr, TranslateT("ERROR: You have two or more Webview contacts with the same URL and contact name."), _A2W(MODULENAME), MB_OK);
 				return NULL;
 			}
 			res = hContact;
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SetDlgItemText(hwndDlg, IDC_DATA, L"");
 
-			InvalidateRect(hwndDlg, NULL, 1);
+			InvalidateRect(hwndDlg, nullptr, 1);
 
 			SendDlgItemMessage(hwndDlg, IDC_DATA, EM_AUTOURLDETECT, 1, 0);
 			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_DATA, EM_GETEVENTMASK, 0, 0);
@@ -270,7 +270,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 					pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 					ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
-					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
+					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr)) {
 					case IDM_COPY:
 						SendMessage(((NMHDR *) lParam)->hwndFrom, WM_COPY, 0, 0);
 						break;
@@ -320,7 +320,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				tr.lpstrText = (char*)malloc(tr.chrg.cpMax - tr.chrg.cpMin + 8);
 
 				SendDlgItemMessage(hwndDlg, IDC_DATA, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
-				if (strchr(tr.lpstrText, '@') != NULL && strchr(tr.lpstrText, ':') == NULL && strchr(tr.lpstrText, '/') == NULL) {
+				if (strchr(tr.lpstrText, '@') != nullptr && strchr(tr.lpstrText, ':') == nullptr && strchr(tr.lpstrText, '/') == nullptr) {
 					memmove(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 					memcpy(tr.lpstrText, "mailto:", 7);
 				}
@@ -404,7 +404,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case IDOK:
 		case IDCANCEL:
-			if (hwndDlg != NULL)
+			if (hwndDlg != nullptr)
 				DestroyWindow(hwndDlg);
 			return TRUE;
 		}
@@ -422,7 +422,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if (hContact = FindContactByUrl(hwndDlg))
 			Utils_SaveWindowPosition(hwndDlg, hContact, MODULENAME, "WV");
 
-		if (hwndDlg != NULL)
+		if (hwndDlg != nullptr)
 			DestroyWindow(hwndDlg);
 		return 0;
 
@@ -432,7 +432,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	case WM_SIZE:
 		Utils_ResizeDialog(hwndDlg, hInst, MAKEINTRESOURCEA(IDD_DISPLAY_DATA), DataDialogResize);
-		InvalidateRect(hwndDlg, NULL, TRUE);
+		InvalidateRect(hwndDlg, nullptr, TRUE);
 
 		// global
 		GetWindowRect(hwndDlg, &rc);

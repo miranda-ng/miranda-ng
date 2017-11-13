@@ -37,14 +37,14 @@ INT_PTR ShakeClist(WPARAM, LPARAM)
 
 INT_PTR ShakeChat(WPARAM wParam, LPARAM)
 {
-	if (((HANDLE)wParam) == NULL) return -1;
+	if (((HANDLE)wParam) == nullptr) return -1;
 
 	MessageWindowData mwd;
 	Srmm_GetWindowData(db_mc_tryMeta(wParam), mwd);
 
 	HWND parent;
 	HWND hWnd = mwd.hwndWindow;
-	while ((parent = GetParent(hWnd)) != 0) hWnd = parent; // ensure we have the top level window (need parent window for scriver & tabsrmm)
+	while ((parent = GetParent(hWnd)) != nullptr) hWnd = parent; // ensure we have the top level window (need parent window for scriver & tabsrmm)
 
 	mir_forkthread(ShakeChatWindow, (void*)hWnd);
 	return 0;
@@ -57,16 +57,16 @@ int CShake::ShakeChat(HWND hWnd)
 		RECT rect;
 		GetWindowRect(hWnd, &rect);
 		for (int i = 0; i < nMoveChat; i++) {
-			SetWindowPos(hWnd, 0, rect.left - nScaleChat, rect.top, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left - nScaleChat, rect.top, 0, 0, SWP_NOSIZE);
 			Sleep(10);
-			SetWindowPos(hWnd, 0, rect.left, rect.top - nScaleChat, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left, rect.top - nScaleChat, 0, 0, SWP_NOSIZE);
 			Sleep(10);
-			SetWindowPos(hWnd, 0, rect.left + nScaleChat, rect.top, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left + nScaleChat, rect.top, 0, 0, SWP_NOSIZE);
 			Sleep(10);
-			SetWindowPos(hWnd, 0, rect.left, rect.top + nScaleChat, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left, rect.top + nScaleChat, 0, 0, SWP_NOSIZE);
 			Sleep(10);
 		}
-		SetWindowPos(hWnd, 0, rect.left, rect.top, 0, 0, SWP_NOSIZE); //SWP_DRAWFRAME
+		SetWindowPos(hWnd, nullptr, rect.left, rect.top, 0, 0, SWP_NOSIZE); //SWP_DRAWFRAME
 		ShakingChat = false;
 	}
 	return 0;
@@ -79,16 +79,16 @@ int CShake::ShakeClist(HWND hWnd)
 		RECT rect;
 		GetWindowRect(hWnd, &rect);
 		for (int i = 0; i < nMoveClist; i++) {
-			SetWindowPos(hWnd, 0, rect.left - nScaleClist, rect.top, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left - nScaleClist, rect.top, 0, 0, SWP_NOSIZE);
 			Sleep(10);
-			SetWindowPos(hWnd, 0, rect.left, rect.top - nScaleClist, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left, rect.top - nScaleClist, 0, 0, SWP_NOSIZE);
 			Sleep(10);
-			SetWindowPos(hWnd, 0, rect.left + nScaleClist, rect.top, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left + nScaleClist, rect.top, 0, 0, SWP_NOSIZE);
 			Sleep(10);
-			SetWindowPos(hWnd, 0, rect.left, rect.top + nScaleClist, 0, 0, SWP_NOSIZE);
+			SetWindowPos(hWnd, nullptr, rect.left, rect.top + nScaleClist, 0, 0, SWP_NOSIZE);
 			Sleep(10);
 		}
-		SetWindowPos(hWnd, 0, rect.left, rect.top, 0, 0, SWP_NOSIZE);
+		SetWindowPos(hWnd, nullptr, rect.left, rect.top, 0, 0, SWP_NOSIZE);
 		Shaking = false;
 	}
 	return 0;

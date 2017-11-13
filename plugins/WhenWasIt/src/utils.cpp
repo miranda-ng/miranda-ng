@@ -39,7 +39,7 @@ int Log(char *format, ...)
 	if (!fout)
 		return -1;
 
-	time_t tNow = time(NULL);
+	time_t tNow = time(nullptr);
 	struct tm *now = localtime(&tNow);
 	strftime(str, sizeof(str), "%d %b %Y @ %H:%M:%S: ", now);
 	fputs(str, fout);
@@ -68,14 +68,14 @@ int Info(char *title, char *format, ...)
 	if (tBytes > 0)
 		str[tBytes] = 0;
 	va_end(vararg);
-	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);
+	return MessageBoxA(nullptr, str, title, MB_OK | MB_ICONINFORMATION);
 }
 
 #define HEX_SIZE 8
 
 char* BinToHex(int size, PBYTE data)
 {
-	char *szresult = NULL;
+	char *szresult = nullptr;
 	char buffer[32] = { 0 }; //should be more than enough
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[maxSize];
@@ -140,13 +140,13 @@ int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, si
 
 wchar_t* GetContactID(MCONTACT hContact)
 {
-	return GetContactID(hContact, NULL);
+	return GetContactID(hContact, nullptr);
 }
 
 wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 {
 	ptrW res(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
-	return (res) ? wcsdup(res) : NULL;
+	return (res) ? wcsdup(res) : nullptr;
 }
 
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
@@ -167,7 +167,7 @@ MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 MCONTACT GetContactFromID(wchar_t *szID, wchar_t *szProto)
 {
 	char protocol[1024];
-	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), NULL, NULL);
+	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), nullptr, nullptr);
 	return GetContactFromID(szID, protocol);
 }
 

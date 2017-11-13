@@ -106,7 +106,7 @@ static luaL_Reg optionsApi[] =
 {
 	{ "AddPage", opt_AddPage },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 LUAMOD_API int luaopen_m_options(lua_State *L)

@@ -121,17 +121,17 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				db_set_ws(NULL, ModuleName, "Server", buffer);
 
 				GetDlgItemText(hWnd, IDC_PORT_EDIT, buffer, _countof(buffer));
-				db_set_dw(NULL, ModuleName, "Port", GetDlgItemInt(hWnd, IDC_PORT_EDIT, NULL, FALSE));
+				db_set_dw(NULL, ModuleName, "Port", GetDlgItemInt(hWnd, IDC_PORT_EDIT, nullptr, FALSE));
 
-				db_set_dw(NULL, ModuleName, "Interval", GetDlgItemInt(hWnd, IDC_INTERVAL_EDIT, NULL, FALSE));
-				db_set_dw(NULL, ModuleName, "ReconnectInterval", GetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, NULL, FALSE));
+				db_set_dw(NULL, ModuleName, "Interval", GetDlgItemInt(hWnd, IDC_INTERVAL_EDIT, nullptr, FALSE));
+				db_set_dw(NULL, ModuleName, "ReconnectInterval", GetDlgItemInt(hWnd, IDC_RECONNECT_INTERVAL, nullptr, FALSE));
 
 				db_set_b(NULL, ModuleName, "Reconnect", IsDlgButtonChecked(hWnd, IDC_RECONNECT));
 
 				db_set_b(NULL, ModuleName, "UsePopups", IsDlgButtonChecked(hWnd, IDC_USE_POPUPS));
 				db_set_b(NULL, ModuleName, "UsePortCheck", IsDlgButtonChecked(hWnd, IDC_USE_PORTCHECK));
 
-				db_set_b(NULL, ModuleName, "MaxRetries", GetDlgItemInt(hWnd, IDC_MAX_RETRIES, NULL, FALSE));
+				db_set_b(NULL, ModuleName, "MaxRetries", GetDlgItemInt(hWnd, IDC_MAX_RETRIES, nullptr, FALSE));
 
 				exchangeServer.Reconnect(); //login info may be changed
 				UpdateTimers(); //interval might get changed
@@ -148,7 +148,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOWPOS *wndPos, int anchors)
 {
-	if (NULL == window) /* Wine fix. */
+	if (nullptr == window) /* Wine fix. */
 		return;
 	RECT rChild = AnchorCalcPos(window, rParent, wndPos, anchors);
 	hdWnds = DeferWindowPos(hdWnds, window, HWND_NOTOPMOST, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, SWP_NOZORDER);
@@ -211,7 +211,7 @@ INT_PTR CALLBACK DlgProcEmails(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		return TRUE;
 
 	case WM_DESTROY:
-		hEmailsDlg = NULL;
+		hEmailsDlg = nullptr;
 		break;
 
 	case WM_CLOSE:

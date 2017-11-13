@@ -89,7 +89,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 CProgress::CProgress()
 {
 	_dwStartTime = GetTickCount();
-	_hDlg = CreateDialog(ghInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, DlgProcProgress);
+	_hDlg = CreateDialog(ghInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), nullptr, DlgProcProgress);
 }
 
 /**
@@ -167,7 +167,7 @@ BYTE CProgress::Update()
 	UpdateWindow(_hDlg);
 
 	while (PeekMessage(&msg, _hDlg, 0, 0, PM_REMOVE) != 0) {
-		 if (_hDlg == NULL || !IsDialogMessage(_hDlg, &msg)) { /* Wine fix. */
+		 if (_hDlg == nullptr || !IsDialogMessage(_hDlg, &msg)) { /* Wine fix. */
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		 }
@@ -184,7 +184,7 @@ BYTE CProgress::Update()
  **/
 BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 {
-	if (_hDlg != NULL) {
+	if (_hDlg != nullptr) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS2);
 		if (pszFormat) {
 			wchar_t buf[MAX_PATH];
@@ -210,7 +210,7 @@ BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
  **/
 BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 {
-	if (_hDlg != NULL) {
+	if (_hDlg != nullptr) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS);
 		if (pszFormat) {
 			wchar_t buf[MAX_PATH];

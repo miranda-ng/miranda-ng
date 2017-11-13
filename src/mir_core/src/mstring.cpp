@@ -45,7 +45,7 @@ CNilMStringData::CNilMStringData()
 	achNil[1] = 0;
 }
 
-static CNilMStringData *m_nil = NULL;
+static CNilMStringData *m_nil = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CMBaseString
@@ -57,8 +57,8 @@ MIR_CORE_DLL(CMStringData*) mirstr_allocate(int nChars, int nCharSize)
 	size_t nTotalSize = nDataBytes + sizeof(CMStringData);
 
 	CMStringData *pData = static_cast<CMStringData*>(malloc(nTotalSize));
-	if (pData == NULL)
-		return NULL;
+	if (pData == nullptr)
+		return nullptr;
 
 	pData->nRefs = 1;
 	pData->nAllocLength = nChars - 1;
@@ -78,8 +78,8 @@ MIR_CORE_DLL(CMStringData*) mirstr_realloc(CMStringData* pData, int nChars, int 
 	ULONG nTotalSize = nDataBytes + sizeof(CMStringData);
 
 	CMStringData *pNewData = static_cast<CMStringData*>(realloc(pData, nTotalSize));
-	if (pNewData == NULL)
-		return NULL;
+	if (pNewData == nullptr)
+		return nullptr;
 
 	pNewData->nAllocLength = nChars - 1;
 	return pNewData;
@@ -87,7 +87,7 @@ MIR_CORE_DLL(CMStringData*) mirstr_realloc(CMStringData* pData, int nChars, int 
 
 MIR_CORE_DLL(CMStringData*) mirstr_getNil()
 {
-	if (m_nil == NULL)
+	if (m_nil == nullptr)
 		m_nil = new CNilMStringData();
 	m_nil->AddRef();
 	return m_nil;

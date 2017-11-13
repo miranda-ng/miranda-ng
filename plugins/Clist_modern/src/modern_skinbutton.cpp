@@ -75,7 +75,7 @@ int ModernSkinButtonLoadModule()
 	wc.lpfnWndProc = ModernSkinButtonWndProc;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(ModernSkinButtonCtrl*);
-	wc.hbrBackground = 0;
+	wc.hbrBackground = nullptr;
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
 	ModernSkinButtonModuleIsLoaded = TRUE;
@@ -107,7 +107,7 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 	if (!g_CluiData.fLayered)
 		ske_BltBackImage(bct->hwnd, hdc, nullptr);
 	{
-		MODERNMASK Request = { 0 };
+		MODERNMASK Request = {};
 		//   int res;
 		//HBRUSH br = CreateSolidBrush(RGB(255,255,255));
 		char * Value = nullptr;
@@ -322,12 +322,12 @@ static int _CallServiceStrParams(IN char * toParce, OUT int *Return)
 
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	ModernSkinButtonCtrl* bct = (msg != WM_NCCREATE) ? (ModernSkinButtonCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA) : 0;
+	ModernSkinButtonCtrl* bct = (msg != WM_NCCREATE) ? (ModernSkinButtonCtrl *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA) : nullptr;
 	if (bct) {
 		if (bct->HandleService && IsBadStringPtrA(bct->HandleService, 255))
 			bct->HandleService = nullptr;
 		else if (bct->HandleService && ServiceExists(bct->HandleService)) {
-			HandleServiceParams MSG = { 0 };
+			HandleServiceParams MSG = {};
 			MSG.hwnd = hwndDlg;
 			MSG.msg = msg;
 			MSG.wParam = wParam;
@@ -389,7 +389,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 
 	case WM_PAINT:
 		if (IsWindowVisible(hwndDlg) && !g_CluiData.fLayered) {
-			PAINTSTRUCT ps = { 0 };
+			PAINTSTRUCT ps = {};
 			BeginPaint(hwndDlg, &ps);
 			ModernSkinButtonPaintWorker(hwndDlg, (HDC)ps.hdc);
 			EndPaint(hwndDlg, &ps);
@@ -400,7 +400,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		if (bct) {
 			bct->hover = 0;
 			bct->down = 0;
-			ModernSkinButtonPaintWorker(bct->hwnd, 0);
+			ModernSkinButtonPaintWorker(bct->hwnd, nullptr);
 		}
 		break;
 
@@ -409,7 +409,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 			if (!bct->hover) {
 				SetCapture(bct->hwnd);
 				bct->hover = 1;
-				ModernSkinButtonPaintWorker(bct->hwnd, 0);
+				ModernSkinButtonPaintWorker(bct->hwnd, nullptr);
 			}
 			else {
 				POINT t = UNPACK_POINT(lParam);
@@ -424,7 +424,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 		if (bct) {
 			bct->down = 1;
 			SetForegroundWindow(GetParent(bct->hwnd));
-			ModernSkinButtonPaintWorker(bct->hwnd, 0);
+			ModernSkinButtonPaintWorker(bct->hwnd, nullptr);
 			if (bct->CommandService && IsBadStringPtrA(bct->CommandService, 255))
 				bct->CommandService = nullptr;
 			if (bct->fCallOnPress) {
@@ -434,7 +434,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 				}
 				bct->down = 0;
 
-				ModernSkinButtonPaintWorker(bct->hwnd, 0);
+				ModernSkinButtonPaintWorker(bct->hwnd, nullptr);
 			}
 		}
 		return 0;
@@ -444,7 +444,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 			ReleaseCapture();
 			bct->hover = 0;
 			bct->down = 0;
-			ModernSkinButtonPaintWorker(bct->hwnd, 0);
+			ModernSkinButtonPaintWorker(bct->hwnd, nullptr);
 			if (bct->CommandService && IsBadStringPtrA(bct->CommandService, 255))
 				bct->CommandService = nullptr;
 			if (bct->CommandService)
@@ -460,7 +460,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg, WPARAM w
 HWND SetToolTip(HWND hwnd, wchar_t * tip)
 {
 	TOOLINFO ti;
-	if (!tip) return 0;
+	if (!tip) return nullptr;
 	mir_cslock lck(csTips);
 	if (!hwndToolTips) {
 		hwndToolTips = CreateWindowEx(0, TOOLTIPS_CLASS, nullptr,
@@ -625,7 +625,7 @@ int ModernSkinButtonRedrawAll()
 	for (DWORD i = 0; i < ButtonsCount; i++) {
 		if (pcli->hwndContactList && Buttons[i].hwnd == nullptr)
 			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct, pcli->hwndContactList);
-		ModernSkinButtonPaintWorker(Buttons[i].hwnd, 0);
+		ModernSkinButtonPaintWorker(Buttons[i].hwnd, nullptr);
 	}
 	g_mutex_bLockUpdating--;
 	return 0;

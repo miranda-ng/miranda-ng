@@ -78,7 +78,7 @@ void CIcqProto::handleExtensionError(BYTE *buf, size_t wPackLen)
 						// more sofisticated detection, send ack
 						if (wSubType == META_REQUEST_FULL_INFO) {
 							MCONTACT hContact;
-							cookie_fam15_data *pCookieData = NULL;
+							cookie_fam15_data *pCookieData = nullptr;
 
 							int foundCookie = FindCookie(wCookie, &hContact, (void**)&pCookieData);
 							if (foundCookie && pCookieData) {
@@ -116,13 +116,13 @@ void CIcqProto::handleExtensionServerInfo(BYTE *buf, size_t wPackLen, WORD wFlag
 {
 	// The entire packet is encapsulated in a TLV type 1
 	oscar_tlv_chain *chain = readIntoTLVChain(&buf, wPackLen, 0);
-	if (chain == NULL) {
+	if (chain == nullptr) {
 		debugLogA("Error: Broken snac 15/3 %d", 1);
 		return;
 	}
 
 	oscar_tlv *dataTlv = chain->getTLV(0x0001, 1);
-	if (dataTlv == NULL) {
+	if (dataTlv == nullptr) {
 		disposeChain(&chain);
 		debugLogA("Error: Broken snac 15/3 %d", 2);
 		return;
@@ -300,9 +300,9 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 	BOOL bLastUser = FALSE;
 
 	cookie_search *pCookie;
-	if (!FindCookie(wCookie, NULL, (void**)&pCookie)) {
+	if (!FindCookie(wCookie, nullptr, (void**)&pCookie)) {
 		debugLogA("Warning: Received unexpected search reply");
-		pCookie = NULL;
+		pCookie = nullptr;
 	}
 
 	switch (wReplySubtype) {
@@ -354,7 +354,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 				databuf += wLen;
 			}
 			else {
-				sr.hdr.nick.w = NULL;
+				sr.hdr.nick.w = nullptr;
 			}
 
 			// First name
@@ -368,7 +368,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 				sr.hdr.firstName.w = (wchar_t*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.firstName.w = NULL;
+			else sr.hdr.firstName.w = nullptr;
 
 			// Last name
 			if (wPacketLen < 2)
@@ -381,7 +381,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 				sr.hdr.lastName.w = (wchar_t*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.lastName.w = NULL;
+			else sr.hdr.lastName.w = nullptr;
 
 			// E-mail name
 			if (wPacketLen < 2)
@@ -394,7 +394,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 				sr.hdr.email.w = (wchar_t*)databuf;
 				databuf += wLen;
 			}
-			else sr.hdr.email.w = NULL;
+			else sr.hdr.email.w = nullptr;
 
 			// Authentication needed flag
 			if (wPacketLen < 1)
@@ -704,7 +704,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, size_t wPacketLen, W
 				if (IsStringUIN(szUid))
 					dwUin = atoi(szUid);
 
-				if (hContact != HContactFromUID(dwUin, szUid, NULL)) {
+				if (hContact != HContactFromUID(dwUin, szUid, nullptr)) {
 					debugLogA("Error: Received data does not match cookie contact, ignoring.");
 					SAFE_FREE(&szUid);
 					break;
@@ -763,7 +763,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 		if (IsStringUIN(szUid))
 			dwUin = atoi(szUid);
 
-		hContact = HContactFromUID(dwUin, szUid, NULL);
+		hContact = HContactFromUID(dwUin, szUid, nullptr);
 		if (hContact == INVALID_CONTACT_ID) {
 			debugLogA("Error: Received details for unknown contact \"%s\"", szUid);
 			SAFE_FREE(&szUid);
@@ -863,7 +863,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 	if (!hContact) { // Owner contact needs special processing, in the database is current status note for the client
 		// We just received the last status note set on directory, if it differs call SetStatusNote() to 
 		// ensure the directory will be updated (it should be in process anyway)
-		char *szClientStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, NULL);
+		char *szClientStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, nullptr);
 		char *szDirectoryStatusNote = cDetails->getString(0x226, 1);
 
 		if (mir_strcmp(szClientStatusNote, szDirectoryStatusNote))
@@ -910,7 +910,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 		else if (bHasMetaToken || !hContact)
 			writeDbInfoSettingTLVDouble(hContact, DBSETTING_METAINFO_SAVED, cDetails, 0x1CC);
 		else
-			setDword(hContact, DBSETTING_METAINFO_SAVED, time(NULL));
+			setDword(hContact, DBSETTING_METAINFO_SAVED, time(nullptr));
 	}
 
 	if (wReplySubType == META_DIRECTORY_RESPONSE)
@@ -941,25 +941,25 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 		isr.uin = 0;
 
 	oscar_tlv *pTLV = cDetails->getTLV(0x50, 1);
-	char *szData = NULL;
+	char *szData = nullptr;
 
 	if (pTLV && pTLV->wLen > 0)
 		szData = cDetails->getString(0x50, 1); // Verified e-mail
 	else
 		szData = cDetails->getString(0x55, 1); // Pending e-mail
-	if (szData != NULL)
+	if (szData != nullptr)
 		isr.hdr.email.a = szData;
 
 	szData = cDetails->getString(0x64, 1); // First Name
-	if (szData != NULL)
+	if (szData != nullptr)
 		isr.hdr.firstName.a = szData;
 
 	szData = cDetails->getString(0x6E, 1); // Last Name
-	if (szData != NULL)
+	if (szData != nullptr)
 		isr.hdr.lastName.a = szData;
 
 	szData = cDetails->getString(0x78, 1); // Nick
-	if (szData != NULL)
+	if (szData != nullptr)
 		isr.hdr.nick.a = szData;
 
 	switch (cDetails->getNumber(0x82, 1)) { // Gender

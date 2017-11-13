@@ -157,7 +157,7 @@ string hash256(PBYTE b, size_t l)
 
 Integer BinaryToInteger(const string& data)
 {
-	StringSource ss(data, true, NULL);
+	StringSource ss(data, true, nullptr);
 	SecByteBlock result(ss.MaxRetrievable());
 	ss.Get(result, result.size());
 	return Integer(result, result.size());

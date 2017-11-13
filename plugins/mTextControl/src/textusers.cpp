@@ -19,10 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "stdafx.h"
 
-HANDLE htuDefault = 0;
+HANDLE htuDefault = nullptr;
 
-TextUser *textUserFirst = 0;
-TextUser *textUserLast = 0;
+TextUser *textUserFirst = nullptr;
+TextUser *textUserLast = nullptr;
 
 void LoadTextUsers()
 {
@@ -48,7 +48,7 @@ HANDLE DLL_CALLCONV MTI_TextUserAdd(const char *userTitle, DWORD options)
 		(db_get_dw(0, MODULNAME, userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
 	db_set_dw(0, MODULNAME, userTitle, textUserNew->options);
 	textUserNew->prev = textUserLast;
-	textUserNew->next = 0;
+	textUserNew->next = nullptr;
 	if (textUserLast) {
 		textUserLast->next = textUserNew;
 		textUserLast = textUserNew;

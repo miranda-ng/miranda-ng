@@ -85,7 +85,7 @@ static RECT MouseOverRect;
 static UINT uScrollTimerMsg = 0;
 static UINT uScrollTimerPortion = HTSCROLL_NONE;
 static UINT_PTR uScrollTimerId = 0;
-static HWND hwndCurCoolSB = 0;
+static HWND hwndCurCoolSB = nullptr;
 
 extern int  CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd);
 
@@ -105,7 +105,7 @@ BOOL WINAPI CoolSB_IsThumbTracking(HWND hwnd)
 { 
 	SCROLLWND *sw;
 
-	if ((sw = GetScrollWndFromHwnd(hwnd)) == NULL)
+	if ((sw = GetScrollWndFromHwnd(hwnd)) == nullptr)
 		return FALSE;
 	else
 		return sw->fThumbTracking; 
@@ -194,7 +194,7 @@ static int DrawScrollArrow(SCROLLBAR *sbar, HDC hdc, RECT *rect, UINT arrow, BOO
 
 		//MONOCHROME bitmap to convert the arrow to black/white mask
 		hdcmem1 = CreateCompatibleDC(hdc);
-		hbm1    = CreateBitmap(width, height, 1, 1, NULL);
+		hbm1    = CreateBitmap(width, height, 1, 1, nullptr);
 		UnrealizeObject(hbm1);
 		oldbm1  = reinterpret_cast<HBITMAP>(SelectObject(hdcmem1, hbm1));
 		
@@ -347,7 +347,7 @@ static void DrawCheckedRect(HDC hdc, RECT *rect, COLORREF fg, COLORREF bg)
 	hbr  = CreatePatternBrush(hbmp);
 
 	UnrealizeObject(hbr);
-	SetBrushOrgEx(hdc, rect->left, rect->top, 0);
+	SetBrushOrgEx(hdc, rect->left, rect->top, nullptr);
 
 	hbrold = (HBRUSH)SelectObject(hdc, hbr);
 
@@ -373,7 +373,7 @@ static void DrawCheckedRect(HDC hdc, RECT *rect, COLORREF fg, COLORREF bg)
 static void PaintRect(HDC hdc, RECT *rect, COLORREF color)
 {
 	COLORREF oldcol = SetBkColor(hdc, color);
-	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, rect, "", 0, NULL);
+	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, rect, "", 0, nullptr);
 	SetBkColor(hdc, oldcol);
 }
 
@@ -1373,7 +1373,7 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	SCROLLBAR *sb;
 	HDC hdc;
 	RECT winrect, rect;
-	HRGN clip = 0;
+	HRGN clip = nullptr;
 	BOOL fCustomDraw = FALSE;
 	LRESULT ret;
 	DWORD dwStyle;
@@ -1481,7 +1481,7 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 			HWND hwndParent = GetParent(hwnd);
 
 			GetClientRect(hwndParent, &parent);
-			MapWindowPoints(hwndParent, 0, (POINT *)&parent, 2);
+			MapWindowPoints(hwndParent, nullptr, (POINT *)&parent, 2);
 
 			CopyRect(&rect2, &rect);
 			OffsetRect(&rect2, winrect.left, winrect.top);
@@ -1969,7 +1969,7 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 		//set a timer going on the first click.
 		//if this one expires, then we can start off a more regular timer
 		//to generate the auto-scroll behaviour
-		uScrollTimerId = SetTimer(hwnd, COOLSB_TIMERID1, COOLSB_TIMERINTERVAL1, 0);
+		uScrollTimerId = SetTimer(hwnd, COOLSB_TIMERID1, COOLSB_TIMERINTERVAL1, nullptr);
 		break;
 	default:
 		return mir_callNextSubclass(hwnd, CoolSBWndProc, WM_NCLBUTTONDOWN, wParam, lParam);
@@ -2634,7 +2634,7 @@ static LRESULT NCMouseMove(SCROLLWND *sw, HWND hwnd, WPARAM wHitTest, LPARAM lPa
 		uHitTestPortion     = HTSCROLL_NONE;
 		GetScrollRect(sw, SB_HORZ, hwnd, &MouseOverRect);
 		uMouseOverScrollbar = SB_HORZ;
-		uMouseOverId = SetTimer(hwnd, COOLSB_TIMERID3, COOLSB_TIMERINTERVAL3, 0);
+		uMouseOverId = SetTimer(hwnd, COOLSB_TIMERID3, COOLSB_TIMERINTERVAL3, nullptr);
 
 		NCPaint(sw, hwnd, 1, 0);
 	}
@@ -2647,7 +2647,7 @@ static LRESULT NCMouseMove(SCROLLWND *sw, HWND hwnd, WPARAM wHitTest, LPARAM lPa
 		uHitTestPortion     = HTSCROLL_NONE;
 		GetScrollRect(sw, SB_VERT, hwnd, &MouseOverRect);
 		uMouseOverScrollbar = SB_VERT;
-		uMouseOverId = SetTimer(hwnd, COOLSB_TIMERID3, COOLSB_TIMERINTERVAL3, 0);
+		uMouseOverId = SetTimer(hwnd, COOLSB_TIMERID3, COOLSB_TIMERINTERVAL3, nullptr);
 
 		NCPaint(sw, hwnd, 1, 0);
 	}
@@ -2731,7 +2731,7 @@ static LRESULT CoolSB_Timer(SCROLLWND *swnd, HWND hwnd, WPARAM wTimerId, LPARAM 
 	if (wTimerId == COOLSB_TIMERID1)
 	{
 		KillTimer(hwnd, uScrollTimerId);
-		uScrollTimerId = SetTimer(hwnd, COOLSB_TIMERID2, COOLSB_TIMERINTERVAL2, 0);
+		uScrollTimerId = SetTimer(hwnd, COOLSB_TIMERID2, COOLSB_TIMERINTERVAL2, nullptr);
 		return 0;
 	}
 	//send the scrollbar message repeatedly

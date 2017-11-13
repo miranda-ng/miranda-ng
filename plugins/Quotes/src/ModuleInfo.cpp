@@ -20,7 +20,7 @@ CModuleInfo& CModuleInfo::GetInstance()
 
 MWindowList CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateIfNonExist /*= true*/)
 {
-	MWindowList hResult = NULL;
+	MWindowList hResult = nullptr;
 	THandles::const_iterator i = m_ahWindowLists.find(rsKey);
 	if (i != m_ahWindowLists.end()) {
 		hResult = i->second;
@@ -84,12 +84,12 @@ bool CModuleInfo::Verify()
 		return false;
 
 	if (!GetXMLEnginePtr()) {
-		Quotes_MessageBox(NULL, TranslateT("Miranda could not load Quotes plugin. XML parser is missing."), MB_OK | MB_ICONERROR);
+		Quotes_MessageBox(nullptr, TranslateT("Miranda could not load Quotes plugin. XML parser is missing."), MB_OK | MB_ICONERROR);
 		return false;
 	}
 
 	if (!g_pHTMLEngine && (false == CHTMLParserMS::IsInstalled())) {
-		Quotes_MessageBox(NULL,
+		Quotes_MessageBox(nullptr,
 			TranslateT("Miranda could not load Quotes plugin. Microsoft HTML parser is missing."),
 			MB_YESNO | MB_ICONQUESTION);
 		return false;

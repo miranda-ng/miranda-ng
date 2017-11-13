@@ -50,7 +50,7 @@ HANDLE GetIconHandle(const char *name)
 		if (mir_strcmp(icons[i].szName, name) == 0)
 			return icons[i].hIcolib;
 
-	return 0;
+	return nullptr;
 }
 
 // Contact List menu stuff
@@ -61,13 +61,13 @@ static TwitterProto* GetInstanceByHContact(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
 	if (!proto)
-		return 0;
+		return nullptr;
 
 	for (int i = 0; i < g_Instances.getCount(); i++)
 		if (!mir_strcmp(proto, g_Instances[i].m_szModuleName))
 			return &g_Instances[i];
 
-	return 0;
+	return nullptr;
 }
 
 template<INT_PTR(__cdecl TwitterProto::*Fcn)(WPARAM, LPARAM)>

@@ -34,7 +34,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT  msg, WPARAM wParam, LPA
 
 // External theme methods and properties
 static BLENDFUNCTION bf_buttonglyph;
-static HDC hdc_buttonglyph = 0;
+static HDC hdc_buttonglyph = nullptr;
 static HBITMAP hbm_buttonglyph, hbm_buttonglyph_old;
 
 // Used for our own cheap TrackMouseEvent
@@ -84,7 +84,7 @@ int TSAPI RBStateConvert2Flat(int state)
  */
 static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 {
-	if (hdc_buttonglyph == 0) {
+	if (hdc_buttonglyph == nullptr) {
 		hdc_buttonglyph = CreateCompatibleDC(hdcPaint);
 		hbm_buttonglyph = CreateCompatibleBitmap(hdcPaint, 16, 16);
 		hbm_buttonglyph_old = (HBITMAP)SelectObject(hdc_buttonglyph, hbm_buttonglyph);
@@ -103,7 +103,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 
 	HDC      hdcMem;
 	HBITMAP  hbmMem, hOld;
-	HANDLE   hbp = 0;
+	HANDLE   hbp = nullptr;
 	bool     bAero = M.isAero();
 
 	RECT rcClient, rcContent;
@@ -112,7 +112,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 
 	if (CMimAPI::m_haveBufferedPaint) {
 		hbp = CMimAPI::m_pfnBeginBufferedPaint(hdcPaint, &rcContent, BPBF_TOPDOWNDIB, nullptr, &hdcMem);
-		hbmMem = hOld = 0;
+		hbmMem = hOld = nullptr;
 	}
 	else {
 		hdcMem = CreateCompatibleDC(hdcPaint);
@@ -127,7 +127,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 
 	if (ctl->bIsFlat) {
 		if (ctl->pContainer && CSkin::m_skinEnabled) {
-			CSkinItem *item, *realItem = 0;
+			CSkinItem *item, *realItem = nullptr;
 			if (ctl->bTitleButton)
 				item = &SkinItems[ctl->stateId == PBS_NORMAL ? ID_EXTBKTITLEBUTTON : (ctl->stateId == PBS_HOT ? ID_EXTBKTITLEBUTTONMOUSEOVER : ID_EXTBKTITLEBUTTONPRESSED)];
 			else {
@@ -236,13 +236,13 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 		rcContent.right = rcContent.left;
 
 		DrawIconEx(hdcMem, rcClient.right - 15, (rcClient.bottom - rcClient.top) / 2 - (PluginConfig.m_smcyicon / 2),
-			PluginConfig.g_buttonBarIcons[ICON_DEFAULT_PULLDOWN], 16, 16, 0, 0, DI_NORMAL);
+			PluginConfig.g_buttonBarIcons[ICON_DEFAULT_PULLDOWN], 16, 16, 0, nullptr, DI_NORMAL);
 	}
 
 	if (ctl->hIcon || ctl->hIconPrivate) {
 		int ix = (rcClient.right - rcClient.left) / 2 - 8;
 		int iy = (rcClient.bottom - rcClient.top) / 2 - 8;
-		HICON hIconNew = ctl->hIconPrivate != 0 ? ctl->hIconPrivate : ctl->hIcon;
+		HICON hIconNew = ctl->hIconPrivate != nullptr ? ctl->hIconPrivate : ctl->hIcon;
 
 		if (ctl->stateId == PBS_PRESSED) {
 			ix++;
@@ -256,15 +256,15 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 			CSkin::DrawDimmedIcon(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hIconNew, 180);
 		else {
 			if (ctl->stateId != PBS_DISABLED) {
-				DrawIconEx(hdcMem, ix, iy, hIconNew, 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(hdcMem, ix, iy, hIconNew, 16, 16, 0, nullptr, DI_NORMAL);
 				if (ctl->overlay)
-					DrawIconEx(hdcMem, ix, iy, ctl->overlay, 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(hdcMem, ix, iy, ctl->overlay, 16, 16, 0, nullptr, DI_NORMAL);
 			}
 			else {
 				BitBlt(hdc_buttonglyph, 0, 0, 16, 16, hdcMem, ix, iy, SRCCOPY);
-				DrawIconEx(hdc_buttonglyph, 0, 0, hIconNew, 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(hdc_buttonglyph, 0, 0, hIconNew, 16, 16, 0, nullptr, DI_NORMAL);
 				if (ctl->overlay)
-					DrawIconEx(hdc_buttonglyph, 0, 0, ctl->overlay, 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(hdc_buttonglyph, 0, 0, ctl->overlay, 16, 16, 0, nullptr, DI_NORMAL);
 				GdiAlphaBlend(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hdc_buttonglyph, 0, 0, 16, 16, bf_buttonglyph);
 			}
 		}
@@ -354,11 +354,11 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				bct->hIconPrivate = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
 				ImageList_RemoveAll(hImageList);
 				ImageList_Destroy(hImageList);
-				bct->hIcon = 0;
+				bct->hIcon = nullptr;
 			}
 			else {
 				bct->hIcon = (HICON)lParam;
-				bct->hIconPrivate = 0;
+				bct->hIconPrivate = nullptr;
 			}
 
 			DeleteObject(ii.hbmMask);
@@ -465,12 +465,12 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (bct->sitem->testCloseButton() != -1) {
 				if (bct->sitem->m_sideBar->getHoveredClose() != bct->sitem) {
 					bct->sitem->m_sideBar->setHoveredClose(bct->sitem);
-					InvalidateRect(hwndDlg, 0, FALSE);
+					InvalidateRect(hwndDlg, nullptr, FALSE);
 				}
 			}
 			else {
-				bct->sitem->m_sideBar->setHoveredClose(0);
-				InvalidateRect(hwndDlg, 0, FALSE);
+				bct->sitem->m_sideBar->setHoveredClose(nullptr);
+				InvalidateRect(hwndDlg, nullptr, FALSE);
 			}
 		}
 		break;
@@ -485,8 +485,8 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				PostMessage(hwndDlg, WM_MOUSELEAVE, 0, 0L);
 				KillTimer(hwndDlg, BUTTON_POLLID);
 				if (bct->sitem) {
-					bct->sitem->m_sideBar->setHoveredClose(0);
-					InvalidateRect(hwndDlg, 0, FALSE);
+					bct->sitem->m_sideBar->setHoveredClose(nullptr);
+					InvalidateRect(hwndDlg, nullptr, FALSE);
 				}
 			}
 		}

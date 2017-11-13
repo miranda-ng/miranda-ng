@@ -2,7 +2,7 @@
 
 char* CDropbox::PreparePath(const char *oldPath, char *newPath)
 {
-	if (oldPath == NULL)
+	if (oldPath == nullptr)
 		mir_strcpy(newPath, "");
 	else if (*oldPath != '/')
 	{
@@ -24,7 +24,7 @@ char* CDropbox::PreparePath(const wchar_t *oldPath, char *newPath)
 bool CDropbox::IsAccountIntercepted(const char *module)
 {
 	const char *interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedAccounts");
-	if (interceptedAccounts == NULL)
+	if (interceptedAccounts == nullptr)
 		interceptedAccounts = db_get_sa(NULL, MODULE, "InterceptedProtos");
 	return interceptedAccounts && strstr(interceptedAccounts, module);
 }
@@ -59,7 +59,7 @@ char* CDropbox::HttpStatusToText(HTTP_STATUS status)
 
 void CDropbox::HandleHttpResponse(NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == nullptr)
 		throw DropboxException(HttpStatusToText(HTTP_STATUS_ERROR));
 }
 
@@ -91,7 +91,7 @@ MEVENT CDropbox::AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD c
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULE;
-	dbei.timestamp = time(NULL);
+	dbei.timestamp = time(nullptr);
 	dbei.eventType = type;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;
@@ -126,7 +126,7 @@ void CDropbox::PasteToInputArea(MCONTACT hContact, const wchar_t *data)
 
 void CDropbox::PasteToClipboard(const wchar_t *data)
 {
-	if (OpenClipboard(NULL)) {
+	if (OpenClipboard(nullptr)) {
 		EmptyClipboard();
 
 		size_t size = sizeof(wchar_t) * (mir_wstrlen(data) + 1);

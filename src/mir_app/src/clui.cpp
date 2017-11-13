@@ -94,7 +94,7 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 	GetClassName(hwndClist, cls, _countof(cls));
 	hwndClist = (!mir_wstrcmp(CLISTCONTROL_CLASSW, cls)) ? hwndClist : cli.hwndContactList;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
-	Menu_ShowItem(hRenameMenuItem, hItem != 0);
+	Menu_ShowItem(hRenameMenuItem, hItem != nullptr);
 	return 0;
 }
 
@@ -378,7 +378,7 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 			DeleteObject(hBr);
 		} //if
 		/* draw the icon */
-		if (eventIcon != 0) {
+		if (eventIcon != nullptr) {
 			DrawState(dis->hDC, nullptr, nullptr, (LPARAM)eventIcon, 0, 2, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 			DrawState(dis->hDC, nullptr, nullptr, (LPARAM)hIcon, 0, 4 + g_IconWidth, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 		}
@@ -392,7 +392,7 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 		else if (dis->itemState & ODS_SELECTED)
 			DrawEdge(dis->hDC, &dis->rcItem, BDR_SUNKENOUTER, BF_RECT);
 
-		if (eventIcon != 0) {
+		if (eventIcon != nullptr) {
 			DrawState(dis->hDC, nullptr, nullptr, (LPARAM)eventIcon, 0, 2, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 			DrawState(dis->hDC, nullptr, nullptr, (LPARAM)hIcon, 0, 4 + g_IconWidth, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 		}
@@ -445,7 +445,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			flags |= cluiopt.showgrip ? SBARS_SIZEGRIP : 0;
 			cli.hwndStatus = CreateWindow(STATUSCLASSNAME, nullptr, flags, 0, 0, 0, 0, hwnd, nullptr, cli.hInst, nullptr);
 		}
-		cli.pfnCluiProtocolStatusChanged(0, 0);
+		cli.pfnCluiProtocolStatusChanged(0, nullptr);
 
 		//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)
 		PostMessage(hwnd, M_CREATECLC, 0, 0);
@@ -510,7 +510,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (cluiopt.showsbar) {
 				SetWindowPos(cli.hwndStatus, nullptr, 0, rect.bottom - 20, rect.right - rect.left, 20, SWP_NOZORDER);
 				GetWindowRect(cli.hwndStatus, &rcStatus);
-				cli.pfnCluiProtocolStatusChanged(0, 0);
+				cli.pfnCluiProtocolStatusChanged(0, nullptr);
 			}
 			else
 				rcStatus.top = rcStatus.bottom = 0;
@@ -646,7 +646,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (wParam)
 				SetForegroundWindow(hwnd);
 			AnimateWindow(hwnd, 200, AW_BLEND | (wParam ? 0 : AW_HIDE));
-			SetWindowPos(cli.hwndContactTree, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+			SetWindowPos(cli.hwndContactTree, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 		}
 		break;
 
@@ -699,7 +699,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		case POPUP_NEWGROUP:
 			SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
-			Clist_GroupCreate(0, 0);
+			Clist_GroupCreate(0, nullptr);
 			break;
 
 		case POPUP_HIDEOFFLINE:
@@ -825,7 +825,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						if (rcWindow.bottom > rcWorkArea.bottom)
 							rcWindow.bottom = rcWorkArea.bottom;
 					}
-					SetWindowPos(hwnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top,
+					SetWindowPos(hwnd, nullptr, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top,
 						SWP_NOZORDER | SWP_NOACTIVATE);
 					break;
 				}

@@ -24,7 +24,7 @@ bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
 		hIcolib = Quotes_GetIconHandle(IDI_ICON_NOTCHANGED);
 		break;
 	default:
-		hIcolib = NULL;
+		hIcolib = nullptr;
 	}
 	return ExtraIcon_SetIcon(hExtraIcon, hContact, hIcolib) == 0;
 }

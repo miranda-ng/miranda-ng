@@ -98,14 +98,14 @@ tstring CContactList::GetContactGroupPath(MCONTACT hContact)
 //************************************************************************
 void CContactList::AddContact(MCONTACT hContact)
 {
-	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = NULL;
+	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = nullptr;
 
 	tstring strName = CAppletManager::GetContactDisplayname(hContact);
 	char *szProto = GetContactProto(hContact);
 	
 	tstring strGroup = GetContactGroupPath(hContact);
 	// ignore contacts without a valid protocoll
-	if(szProto == NULL)
+	if(szProto == nullptr)
 		return;
 
 	int iStatus = db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
@@ -119,7 +119,7 @@ void CContactList::AddContact(MCONTACT hContact)
 	
 	psContact->iStatus = iStatus;
 	
-	if(szStatus != NULL)
+	if(szStatus != nullptr)
 		psContact->strStatus =toTstring(szStatus);
 	psContact->strProto = toTstring(szProto);
 
@@ -136,7 +136,7 @@ void CContactList::AddContact(MCONTACT hContact)
 			strGroup = L"";
 		strGroup += (strGroup.empty()?L"":L"\\")+psContact->strName;
 		pGroup = GetGroupByString(strGroup);
-		if(pGroup == NULL)
+		if(pGroup == nullptr)
 			pGroup = AddGroupByString(strGroup);
 		pGroup->GetGroupData()->hMetaContact = hContact;
 		pGroup->GetGroupData()->pContactListEntry = psContact;
@@ -164,7 +164,7 @@ void CContactList::AddContact(MCONTACT hContact)
 			AddContact(hMetaContact);
 	}
 
-	CListItem<CContactListEntry*,CContactListGroup*> *pItem = NULL;
+	CListItem<CContactListEntry*,CContactListGroup*> *pItem = nullptr;
 	if((!db_mc_isSub(hContact) && !CConfig::GetBoolSetting(CLIST_USEGROUPS)) || strGroup.empty())
 	{
 		pItem = AddItem(psContact);
@@ -173,7 +173,7 @@ void CContactList::AddContact(MCONTACT hContact)
 	else
 	{
 		pGroup = GetGroupByString(strGroup);
-		if(pGroup == NULL) {
+		if(pGroup == nullptr) {
 			pGroup = AddGroupByString(strGroup);
 		}
 		pItem = pGroup->AddItem(psContact);
@@ -239,7 +239,7 @@ bool CContactList::IsVisible(CContactListEntry *pEntry) {
 // removes a contact from the list
 //************************************************************************
 void CContactList::RemoveContact(MCONTACT hContact) {
-	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = NULL;
+	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = nullptr;
 	
 	///tstring strGroup = GetContactGroupPath(hContact);
 
@@ -255,7 +255,7 @@ void CContactList::RemoveContact(MCONTACT hContact) {
 			RemoveGroup(((CListContainer<CContactListEntry*,CContactListGroup*>*)pContactEntry)->GetGroupData());
 	} else {
 		pGroup = (CListContainer<CContactListEntry*,CContactListGroup*>*)pContactEntry->GetParent();
-		ASSERT(pGroup != NULL);
+		ASSERT(pGroup != nullptr);
 		
 		CContactListEntry *pEntry = GetContactData(pContactEntry);
 		if(!pEntry) {
@@ -285,7 +285,7 @@ void CContactList::RemoveContact(MCONTACT hContact) {
 		}
 
 		CListContainer<CContactListEntry*,CContactListGroup*> *pParent = (CListContainer<CContactListEntry*,CContactListGroup*>*)pGroup->GetParent();
-		while(pParent != NULL && pGroup->IsEmpty() && !pGroup->GetGroupData()->hMetaContact)
+		while(pParent != nullptr && pGroup->IsEmpty() && !pGroup->GetGroupData()->hMetaContact)
 		{
 			pParent->RemoveGroup(pGroup->GetGroupData());
 			pGroup = pParent;
@@ -308,8 +308,8 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::GetGroupByS
 		strParse = strParse.substr(pos+1);
 		
 		pGroup = FindGroupInGroup(strGroup,pGroup);
-		if(pGroup == NULL)
-			return NULL;
+		if(pGroup == nullptr)
+			return nullptr;
 	}
 	pGroup = FindGroupInGroup(strParse,pGroup);
 	return pGroup;
@@ -324,7 +324,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::AddGroupByS
 	tstring strPath = L"";
 
 	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup = (CListContainer<CContactListEntry*,CContactListGroup*>*)this;
-	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup2 = NULL;
+	CListContainer<CContactListEntry*,CContactListGroup*> *pGroup2 = nullptr;
 	tstring::size_type pos;
 	while((pos = strParse.find('\\')) !=  tstring::npos )
 	{
@@ -343,7 +343,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::AddGroupByS
 			pGroup->sort(CContactList::CompareEntries);
 			pGroup = pGroup2;
 		}
-		ASSERT(pGroup != NULL);
+		ASSERT(pGroup != nullptr);
 		strPath += L"\\";
 	}
 	strPath += strParse;
@@ -399,7 +399,7 @@ void CContactList::DeleteGroup(CContactListGroup*)
 //************************************************************************
 void CContactList::DrawEntry(CLCDGfx *pGfx,CContactListEntry *pEntry,bool bSelected)
 {
-	if(pEntry == NULL)
+	if(pEntry == nullptr)
 		return;
 
 	tstring strText = L"";
@@ -431,7 +431,7 @@ void CContactList::DrawEntry(CLCDGfx *pGfx,CContactListEntry *pEntry,bool bSelec
 //************************************************************************
 void CContactList::DrawGroup(CLCDGfx *pGfx,CContactListGroup *pGroup,bool bOpen,bool bSelected)
 {
-	if(pGroup == NULL || ( pGroup->hMetaContact && pGroup->pContactListEntry == NULL)) {
+	if(pGroup == nullptr || ( pGroup->hMetaContact && pGroup->pContactListEntry == nullptr)) {
 		return;
 	}
 
@@ -540,7 +540,7 @@ void CContactList::RefreshList()
 	m_bUseGroups = CConfig::GetBoolSetting(CLIST_USEGROUPS);
 	m_bUseMetaContacts = db_get_b(NULL,"MetaContacts","Enabled",1) != 0;
 
-	CListEntry<CContactListEntry*,CContactListGroup*> *pContactEntry = NULL;
+	CListEntry<CContactListEntry*,CContactListGroup*> *pContactEntry = nullptr;
 	MCONTACT hContact = db_find_first();
     while(hContact != NULL)
 	{
@@ -589,7 +589,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::FindGroup(t
 CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::FindGroupInGroup(tstring strGroup,CListContainer<CContactListEntry*,CContactListGroup*> *pGroup)
 {
 	CListContainer<CContactListEntry*,CContactListGroup*>::iterator iter = pGroup->begin();
-	CListContainer<CContactListEntry*,CContactListGroup*> *pItem = NULL;
+	CListContainer<CContactListEntry*,CContactListGroup*> *pItem = nullptr;
 	while(!pGroup->empty() && iter != pGroup->end())
 	{
 		if((*iter)->GetType() == CONTAINER)
@@ -604,7 +604,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::FindGroupIn
 		}
 		iter++;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //************************************************************************
@@ -613,7 +613,7 @@ CListContainer<CContactListEntry*,CContactListGroup*> *CContactList::FindGroupIn
 CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContact(MCONTACT hContact)
 {
 	if(hContact == NULL)
-		return NULL;
+		return nullptr;
 
 	return FindContactInGroup(hContact,(CListContainer<CContactListEntry*,CContactListGroup*>*)this);
 }
@@ -624,11 +624,11 @@ CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContact(MCO
 CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContactInGroup(MCONTACT hContact,CListContainer<CContactListEntry*,CContactListGroup*> *pGroup)
 {
 	if(hContact == NULL)
-		return NULL;
+		return nullptr;
 
-	CListItem<CContactListEntry*,CContactListGroup*> *pItemEntry = NULL;
-	CListEntry<CContactListEntry*,CContactListGroup*> *pEntry = NULL;
-	CListContainer<CContactListEntry*,CContactListGroup*> *pGroupEntry = NULL;
+	CListItem<CContactListEntry*,CContactListGroup*> *pItemEntry = nullptr;
+	CListEntry<CContactListEntry*,CContactListGroup*> *pEntry = nullptr;
+	CListContainer<CContactListEntry*,CContactListGroup*> *pGroupEntry = nullptr;
 	CListContainer<CContactListEntry*,CContactListGroup*>::iterator iter = pGroup->begin();
 	while(iter != pGroup->end())
 	{
@@ -650,7 +650,7 @@ CListEntry<CContactListEntry*,CContactListGroup*> *CContactList::FindContactInGr
 		}
 		iter++;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -722,7 +722,7 @@ void CContactList::OnStatusChange(MCONTACT hContact,int iStatus)
 		
 	// Update the list entry
 	wchar_t *szStatus = pcli->pfnGetStatusModeDescription(iStatus, 0);
-	if(szStatus != NULL)
+	if(szStatus != nullptr)
 		pItemData->strStatus =toTstring(szStatus);
 	
 	pItemData->iStatus = iStatus;
@@ -828,7 +828,7 @@ void CContactList::OnContactGroupChanged(MCONTACT hContact,tstring strGroup)
 
 	// Decrease the membercount of the old group
 	CListEntry<CContactListEntry *,CContactListGroup*> *pContactEntry = FindContact(hContact);
-	CContactListGroup *pOldGroup = NULL;
+	CContactListGroup *pOldGroup = nullptr;
 	// If the contactentry was not found, try adding the contact (metacontacts fix)
 	if(!pContactEntry) {
 		return;
@@ -1037,7 +1037,7 @@ CContactListGroup *CContactList::GetGroupObjectByPath(tstring strPath)
 {
 	ASSERT(!strPath.empty());
 
-	CContactListGroup *pGroup = NULL;
+	CContactListGroup *pGroup = nullptr;
 	vector<CContactListGroup*>::iterator iter = m_Groups.begin();
 	for(;iter != m_Groups.end();iter++)
 	{
@@ -1058,7 +1058,7 @@ CContactListGroup *CContactList::CreateGroupObjectByPath(tstring strPath)
 	ASSERT(!strPath.empty());
 
 	CContactListGroup *pNewGroup = new CContactListGroup();
-	CContactListGroup *pParentGroup = NULL;
+	CContactListGroup *pParentGroup = nullptr;
 
 	tstring strParsePath = L"";
 	tstring strName = strPath;
@@ -1085,7 +1085,7 @@ CContactListGroup *CContactList::CreateGroupObjectByPath(tstring strPath)
 	pNewGroup->iGroups = 0;
 	pNewGroup->iEvents = 0;
 	pNewGroup->hMetaContact = NULL;
-	pNewGroup->pContactListEntry = NULL;
+	pNewGroup->pContactListEntry = nullptr;
 
 	m_Groups.push_back(pNewGroup);
 

@@ -95,7 +95,7 @@ void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	}
 
 	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG) {
-		InsertMenuA(hSubMenu, 6, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
+		InsertMenuA(hSubMenu, 6, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED ? MF_CHECKED : MF_UNCHECKED));
 	}
 
@@ -152,7 +152,7 @@ void CTabBaseDlg::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 0);
 		Resize();
 		if (m_pContainer->hwndStatus)
-			RedrawWindow(m_pContainer->hwndStatus, 0, 0, RDW_INVALIDATE | RDW_UPDATENOW);
+			RedrawWindow(m_pContainer->hwndStatus, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
 	case ID_EDITOR_PASTEANDSENDIMMEDIATELY:
 		HandlePasteAndSend();
@@ -291,13 +291,13 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 		PostMessage(m_hwnd, DM_SAVESIZE, 0, 0);
 
 	if (PluginConfig.m_bAutoLocaleSupport) {
-		if (m_hkl == 0)
+		if (m_hkl == nullptr)
 			DM_LoadLocale();
 		else
 			SendMessage(m_hwnd, DM_SETLOCALE, 0, 0);
 	}
 
-	m_pContainer->hIconTaskbarOverlay = 0;
+	m_pContainer->hIconTaskbarOverlay = nullptr;
 	m_pContainer->UpdateTitle(m_hContact);
 
 	tabUpdateStatusBar();
@@ -312,7 +312,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 
 	m_pPanel.Invalidate();
 
-	if (m_dwFlags & MWF_DEFERREDSCROLL && m_hwndIEView == 0 && m_hwndHPP == 0) {
+	if (m_dwFlags & MWF_DEFERREDSCROLL && m_hwndIEView == nullptr && m_hwndHPP == nullptr) {
 		m_dwFlags &= ~MWF_DEFERREDSCROLL;
 		DM_ScrollToBottom(0, 1);
 	}
@@ -331,8 +331,8 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 		if (m_hwndIEView) {
 			if (M.GetByte("subclassIEView", 0)) {
 				mir_subclassWindow(m_hwndIEView, IEViewSubclassProc);
-				SetWindowPos(m_hwndIEView, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
-				RedrawWindow(m_hwndIEView, 0, 0, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+				SetWindowPos(m_hwndIEView, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
+				RedrawWindow(m_hwndIEView, nullptr, nullptr, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
 			}
 		}
 		m_hwndIWebBrowserControl = WindowFromPoint(pt);
@@ -627,7 +627,7 @@ void CSrmmWindow::OnInitDialog()
 		DBEVENTINFO dbei = {};
 		m_bWantPopup = false;
 		db_event_get(m_hDbEventFirst, &dbei);
-		tabSRMM_ShowPopup(m_hContact, m_hDbEventFirst, dbei.eventType, 0, 0, m_hwnd, m_cache->getActiveProto());
+		tabSRMM_ShowPopup(m_hContact, m_hDbEventFirst, dbei.eventType, 0, nullptr, m_hwnd, m_cache->getActiveProto());
 	}
 	m_hDbEventFirst = 0;
 
@@ -758,8 +758,8 @@ void CSrmmWindow::OnInitDialog()
 	m_log.SendMsg(EM_SETLANGOPTIONS, 0, m_log.SendMsg(EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOFONTSIZEADJUST);
 
 	// add us to the tray list (if it exists)
-	if (PluginConfig.g_hMenuTrayUnread != 0 && m_hContact != 0 && m_szProto != nullptr)
-		UpdateTrayMenu(0, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
+	if (PluginConfig.g_hMenuTrayUnread != nullptr && m_hContact != 0 && m_szProto != nullptr)
+		UpdateTrayMenu(nullptr, m_wStatus, m_szProto, m_wszStatus, m_hContact, FALSE);
 
 	m_log.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 	m_log.SendMsg(EM_EXLIMITTEXT, 0, 0x80000000);
@@ -812,7 +812,7 @@ void CSrmmWindow::OnInitDialog()
 
 	SendMessage(m_pContainer->m_hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 
-	SetWindowPos(m_hwnd, 0, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_bActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
+	SetWindowPos(m_hwnd, nullptr, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_bActivate ? 0 : SWP_NOZORDER | SWP_NOACTIVATE);
 	LoadSplitter();
 	ShowPicture(true);
 
@@ -821,7 +821,7 @@ void CSrmmWindow::OnInitDialog()
 		SetTimer(m_hwnd, TIMERID_FLASHWND, TIMEOUT_FLASHWND, nullptr);
 		m_bCanFlashTab = true;
 
-		DBEVENTINFO dbei = { 0 };
+		DBEVENTINFO dbei = {};
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		FlashOnClist(m_hDbEventFirst, &dbei);
 
@@ -916,7 +916,7 @@ void CSrmmWindow::OnDestroy()
 				// the hwndOwner is set to 0 because the window handle is now no longer valid.
 				// Response for such a job is still silently handled by AckMessage() (sendqueue.c)
 				if (jobs[i].iStatus == (unsigned)SendQueue::SQ_INPROGRESS)
-					jobs[i].hOwnerWnd = 0;
+					jobs[i].hOwnerWnd = nullptr;
 			}
 		}
 	}
@@ -942,7 +942,7 @@ void CSrmmWindow::OnDestroy()
 	NotifyEvent(MSG_WINDOW_EVT_CLOSE);
 
 	// clean up IEView and H++ log windows
-	if (m_hwndIEView != 0) {
+	if (m_hwndIEView != nullptr) {
 		IEVIEWWINDOW ieWindow;
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_DESTROY;
@@ -974,7 +974,7 @@ void CSrmmWindow::ReplayQueue()
 void CSrmmWindow::UpdateTitle()
 {
 	DWORD dwOldIdle = m_idle;
-	const char *szActProto = 0;
+	const char *szActProto = nullptr;
 
 	m_wszStatus[0] = 0;
 
@@ -1172,7 +1172,7 @@ void CSrmmWindow::onClick_Add(CCtrlButton*)
 	ADDCONTACTSTRUCT acs = {};
 	acs.hContact = m_hContact;
 	acs.handleType = HANDLE_CONTACT;
-	acs.szProto = 0;
+	acs.szProto = nullptr;
 	CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
 	if (!db_get_b(m_hContact, "CList", "NotOnList", 0)) {
 		m_bNotOnList = FALSE;
@@ -1193,7 +1193,7 @@ void CSrmmWindow::onClick_Color(CCtrlButton *pButton)
 
 	RECT rc;
 	GetWindowRect(pButton->GetHwnd(), &rc);
-	int iSelection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 7), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL);
+	int iSelection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 7), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
 	if (iSelection == ID_FONT_CLEARALLFORMATTING) {
 		cf.dwMask = CFM_BOLD | CFM_COLOR | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
 		cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
@@ -1572,9 +1572,9 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 		case TABSRMM_HK_TOGGLESENDLATER:
 			if (sendLater->isAvail()) {
 				m_sendMode ^= SMODE_SENDLATER;
-				SetWindowPos(m_message.GetHwnd(), 0, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
+				SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
 					SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
-				RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+				RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
 			else
 				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options -> Message sessions -> Advanced tweaks\\b0. Changing this option requires a restart."));
@@ -1615,7 +1615,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 				DestroyWindow(GetDlgItem(m_hwnd, IDC_CLIST));
 
 			HWND hwndEdit = m_message.GetHwnd();
-			SetWindowPos(hwndEdit, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
+			SetWindowPos(hwndEdit, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
 			Resize();
 			RedrawWindow(hwndEdit, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
 			DM_ScrollToBottom(0, 0);
@@ -1625,7 +1625,7 @@ int CSrmmWindow::OnFilter(MSGFILTER *pFilter)
 				SetFocus(GetDlgItem(m_hwnd, IDC_CLIST));
 			else
 				SetFocus(m_message.GetHwnd());
-			RedrawWindow(m_hwnd, 0, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			return _dlgReturn(m_hwnd, 1);
 		}
 		if (DM_GenericHotkeysCheck(&message)) {
@@ -2119,7 +2119,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				else if (wParam == VK_DOWN)
 					wp = MAKEWPARAM(SB_LINEDOWN, 0);
 
-				if (m_hwndIEView == 0 && m_hwndHPP == 0)
+				if (m_hwndIEView == nullptr && m_hwndHPP == nullptr)
 					m_log.SendMsg(WM_VSCROLL, wp, 0);
 				else
 					SendMessage(m_hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
@@ -2212,17 +2212,17 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		RECT rcClient, rcWindow;
 		{
 			HDC hdc = (HDC)wParam;
-			HDC hdcMem = 0;
+			HDC hdcMem = nullptr;
 			HBITMAP hbm, hbmOld;
-			HANDLE hpb = 0;
+			HANDLE hpb = nullptr;
 
 			GetClientRect(m_hwnd, &rcClient);
 			DWORD cx = rcClient.right - rcClient.left;
 			DWORD cy = rcClient.bottom - rcClient.top;
 
 			if (CMimAPI::m_haveBufferedPaint) {
-				hpb = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, 0, &hdcMem);
-				hbm = hbmOld = 0;
+				hpb = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, nullptr, &hdcMem);
+				hbm = hbmOld = nullptr;
 			}
 			else {
 				hdcMem = CreateCompatibleDC(hdc);
@@ -2323,7 +2323,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 
 			HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
-			if (hbm != 0) {
+			if (hbm != nullptr) {
 				BITMAP bminfo;
 				GetObject(hbm, sizeof(bminfo), &bminfo);
 				CalcDynamicAvatarSize(&bminfo);
@@ -2382,7 +2382,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				m_pPanel.Invalidate();
 			}
 
-			if (GetDlgItem(m_hwnd, IDC_CLIST) != 0) {
+			if (GetDlgItem(m_hwnd, IDC_CLIST) != nullptr) {
 				RECT rcLog;
 				GetClientRect(m_hwnd, &rcClient);
 				GetClientRect(m_log.GetHwnd(), &rcLog);
@@ -2407,7 +2407,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_NOTIFY:
-		if (this != 0 && ((NMHDR*)lParam)->hwndFrom == m_hwndTip) {
+		if (this != nullptr && ((NMHDR*)lParam)->hwndFrom == m_hwndTip) {
 			if (((NMHDR*)lParam)->code == NM_CLICK)
 				SendMessage(m_hwndTip, TTM_TRACKACTIVATE, FALSE, 0);
 			break;
@@ -2444,7 +2444,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case DM_UPDATEWINICON:
 		if (m_hXStatusIcon) {
 			DestroyIcon(m_hXStatusIcon);
-			m_hXStatusIcon = 0;
+			m_hXStatusIcon = nullptr;
 		}
 
 		if (LPCSTR szProto = m_cache->getProto()) {
@@ -2728,12 +2728,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			Resize();
 			PostMessage(m_hwnd, DM_UPDATEPICLAYOUT, 0, 0);
 			if (PluginConfig.m_bAutoLocaleSupport) {
-				if (m_hkl == 0)
+				if (m_hkl == nullptr)
 					DM_LoadLocale();
 				else
 					PostMessage(m_hwnd, DM_SETLOCALE, 0, 0);
 			}
-			if (m_hwndIEView != 0)
+			if (m_hwndIEView != nullptr)
 				SetFocus(m_message.GetHwnd());
 			if (m_pContainer->dwFlags & CNT_SIDEBAR)
 				m_pContainer->SideBar->Layout();

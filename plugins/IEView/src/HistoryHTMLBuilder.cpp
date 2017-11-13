@@ -65,8 +65,8 @@ static const char *dbSpanSettingNames[] = {
 HistoryHTMLBuilder::HistoryHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(NULL));
-	startedTime = time(NULL);
+	setLastEventTime(time(nullptr));
+	startedTime = time(nullptr);
 }
 
 bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
@@ -149,7 +149,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	COLORREF color, bkgColor;
 
 	ProtocolSettings *protoSettings = getHistoryProtocolSettings(event->hContact);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getHistoryMode() == Options::MODE_TEMPLATE) {
@@ -199,7 +199,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 					lf.lfItalic ? "font-style: italic;" : "");
 		}
 		for (i = 0; i < SPAN_FONT_NUM; i++) {
-			loadMsgDlgFont(dbSpanSettingNames[i], &lf, &color, NULL);
+			loadMsgDlgFont(dbSpanSettingNames[i], &lf, &color, nullptr);
 			str.AppendFormat("%s {float: %s; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
 				spanClassNames[i],
 				i < 2 ? "left" : "right; clear: right;",
@@ -223,7 +223,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	DWORD dwFlags = db_get_b(NULL, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
 	ptrA szRealProto(getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		CMStringA str;
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
@@ -241,7 +241,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszText, event->codepage, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
 
 			/* History++-specific formatting */
-			const char *iconFile = NULL;
+			const char *iconFile = nullptr;
 			switch (eventData->iType) {
 			case IEED_EVENT_SYSTEM:
 				str.AppendFormat("<div class=\"%s\">", "divSystem");
@@ -258,7 +258,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				iconFile = "message.gif";
 				str.AppendFormat("<div class=\"%s\">", isSent ? "divMessageOut" : "divMessageIn");
 			}
-			if (dwFlags & SMF_LOG_SHOWICONS && iconFile != NULL)
+			if (dwFlags & SMF_LOG_SHOWICONS && iconFile != nullptr)
 				Utils::appendIcon(str, iconFile);
 			else
 				str.Append(" ");
@@ -286,7 +286,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 void HistoryHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
 	ProtocolSettings *protoSettings = getHistoryProtocolSettings(event->hContact);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getHistoryMode() & Options::MODE_TEMPLATE)

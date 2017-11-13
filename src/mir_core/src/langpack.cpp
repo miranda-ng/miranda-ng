@@ -34,8 +34,8 @@ static int CompareMuuids(const MUUID *p1, const MUUID *p2)
 }
 
 static LIST<MUUID> lMuuids(10, CompareMuuids);
-static MUUID *pCurrentMuuid = NULL;
-static HANDLE hevChanged = 0;
+static MUUID *pCurrentMuuid = nullptr;
+static HANDLE hevChanged = nullptr;
 
 static BOOL bModuleInitialized = FALSE;
 
@@ -134,7 +134,7 @@ MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len)
 
 static unsigned int __fastcall hashstrW(const char *key)
 {
-	if (key == NULL) return 0;
+	if (key == nullptr) return 0;
 	const unsigned int len = (unsigned int)wcslen((const wchar_t*)key);
 	char *buf = (char*)alloca(len + 1);
 	for (unsigned i = 0; i <= len; ++i)
@@ -203,7 +203,7 @@ static bool EnterMuuid(const char *p, MUUID &result)
 static void LoadLangPackFile(FILE *fp, char *line)
 {
 	while (!feof(fp)) {
-		if (fgets(line, LANGPACK_BUF_SIZE, fp) == NULL)
+		if (fgets(line, LANGPACK_BUF_SIZE, fp) == nullptr)
 			break;
 
 		if (IsEmpty(line) || line[0] == ';' || line[0] == 0)
@@ -257,7 +257,7 @@ static void LoadLangPackFile(FILE *fp, char *line)
 
 		size_t cbLen = strlen(line) - 1;
 		if (cFirst == '[' && line[cbLen] == ']') {
-			if (g_entryCount && g_pEntries[g_entryCount-1].wszLocal == NULL)
+			if (g_entryCount && g_pEntries[g_entryCount-1].wszLocal == nullptr)
 				g_entryCount--;
 
 			char *pszLine = line + 1;
@@ -269,10 +269,10 @@ static void LoadLangPackFile(FILE *fp, char *line)
 
 			LangPackEntry *E = &g_pEntries[g_entryCount - 1];
 			E->englishHash = mir_hashstr(pszLine);
-			E->szLocal = NULL;
-			E->wszLocal = NULL;
+			E->szLocal = nullptr;
+			E->wszLocal = nullptr;
 			E->pMuuid = pCurrentMuuid;
-			E->pNext = NULL;
+			E->pNext = nullptr;
 			continue;
 		}
 
@@ -280,8 +280,8 @@ static void LoadLangPackFile(FILE *fp, char *line)
 			continue;
 
 		LangPackEntry *E = &g_pEntries[g_entryCount - 1];
-		int iNeeded = MultiByteToWideChar(CP_UTF8, 0, line, -1, 0, 0), iOldLen;
-		if (E->wszLocal == NULL) {
+		int iNeeded = MultiByteToWideChar(CP_UTF8, 0, line, -1, nullptr, 0), iOldLen;
+		if (E->wszLocal == nullptr) {
 			iOldLen = 0;
 			E->wszLocal = (wchar_t *)mir_alloc((iNeeded + 1) * sizeof(wchar_t));
 			MultiByteToWideChar(CP_UTF8, 0, line, -1, E->wszLocal, iNeeded);
@@ -315,7 +315,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 	// headers
 	while (!feof(fp)) {
 		startOfLine = ftell(fp);
-		if (fgets(line, LANGPACK_BUF_SIZE, fp) == NULL)
+		if (fgets(line, LANGPACK_BUF_SIZE, fp) == nullptr)
 			break;
 
 		lrtrim(line);
@@ -326,7 +326,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 			break;
 
 		char *pszColon = strchr(line, ':');
-		if (pszColon == NULL)
+		if (pszColon == nullptr)
 			return 3;
 
 		*pszColon++ = 0;
@@ -365,16 +365,16 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 	if (!lpinfo.tszLanguage[0] && (lpinfo.Locale == 0) || !GetLocaleInfo(lpinfo.Locale, LOCALE_SENGLANGUAGE, lpinfo.tszLanguage, _countof(lpinfo.tszLanguage))) {
 		wchar_t *p = wcschr(lpinfo.tszFileName, '_');
-		wcsncpy_s(lpinfo.tszLanguage, ((p != NULL) ? (p + 1) : lpinfo.tszFileName), _TRUNCATE);
+		wcsncpy_s(lpinfo.tszLanguage, ((p != nullptr) ? (p + 1) : lpinfo.tszFileName), _TRUNCATE);
 		p = wcsrchr(lpinfo.tszLanguage, '.');
-		if (p != NULL) *p = '\0';
+		if (p != nullptr) *p = '\0';
 	}
 	return 0;
 }
 
 MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 {
-	if (ptszLangPack == NULL || !mir_wstrcmpi(ptszLangPack, L""))
+	if (ptszLangPack == nullptr || !mir_wstrcmpi(ptszLangPack, L""))
 		return 1;
 
 	// ensure that a lang's name is a full file name
@@ -400,11 +400,11 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 	// copy the full file name and extract a file name from it
 	wcsncpy_s(langPack.tszFullPath, tszFullPath, _TRUNCATE);
 	wchar_t *p = wcsrchr(langPack.tszFullPath, '\\');
-	wcsncpy_s(langPack.tszFileName, (p == NULL) ? tszFullPath : p + 1, _TRUNCATE);
+	wcsncpy_s(langPack.tszFileName, (p == nullptr) ? tszFullPath : p + 1, _TRUNCATE);
 	CharLower(langPack.tszFileName);
 
 	FILE *fp = _wfopen(tszFullPath, L"rt");
-	if (fp == NULL)
+	if (fp == nullptr)
 		return 1;
 
 	char line[LANGPACK_BUF_SIZE] = "";
@@ -419,7 +419,7 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 
 	LoadLangPackFile(fp, line);
 	fclose(fp);
-	pCurrentMuuid = NULL;
+	pCurrentMuuid = nullptr;
 
 	qsort(g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
 	return 0;
@@ -427,16 +427,16 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 
 MIR_CORE_DLL(int) LoadLangPackDescr(const wchar_t *ptszLangPack, LANGPACK_INFO *lpInfo)
 {
-	if (lpInfo == NULL)
+	if (lpInfo == nullptr)
 		return 1;
 
 	wcsncpy_s(lpInfo->tszFullPath, ptszLangPack, _TRUNCATE);
 	wchar_t *p = wcsrchr(lpInfo->tszFullPath, '\\');
-	wcsncpy_s(lpInfo->tszFileName, (p == NULL) ? ptszLangPack : p+1, _TRUNCATE);
+	wcsncpy_s(lpInfo->tszFileName, (p == nullptr) ? ptszLangPack : p+1, _TRUNCATE);
 	CharLower(lpInfo->tszFileName);
 
 	FILE *fp = _wfopen(ptszLangPack, L"rt");
-	if (fp == NULL)
+	if (fp == nullptr)
 		return 1;
 
 	char line[LANGPACK_BUF_SIZE] = "";
@@ -457,18 +457,18 @@ static int SortLangPackHashesProc2(LangPackEntry *arg1, LangPackEntry *arg2)
 
 char* LangPackTranslateString(MUUID *pUuid, const char *szEnglish, const int W)
 {
-	if (g_entryCount == 0 || szEnglish == NULL)
+	if (g_entryCount == 0 || szEnglish == nullptr)
 		return (char*)szEnglish;
 
 	LangPackEntry key, *entry;
 	key.englishHash = W ? hashstrW(szEnglish) : mir_hashstr(szEnglish);
 	entry = (LangPackEntry*)bsearch(&key, g_pEntries, g_entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc2);
-	if (entry == NULL)
+	if (entry == nullptr)
 		return (char*)szEnglish;
 
 	// try to find the exact match, otherwise the first entry will be returned
 	if (pUuid) {
-		for (LangPackEntry *p = entry->pNext; p != NULL; p = p->pNext) {
+		for (LangPackEntry *p = entry->pNext; p != nullptr; p = p->pNext) {
 			if (p->pMuuid == pUuid) {
 				entry = p;
 				break;
@@ -479,7 +479,7 @@ char* LangPackTranslateString(MUUID *pUuid, const char *szEnglish, const int W)
 	if (W)
 		return (char*)entry->wszLocal;
 
-	if (entry->szLocal == NULL && entry->wszLocal != NULL)
+	if (entry->szLocal == nullptr && entry->wszLocal != nullptr)
 		entry->szLocal = mir_u2a_cp(entry->wszLocal, langPack.codepage);
 	return entry->szLocal;
 }
@@ -496,8 +496,8 @@ MIR_CORE_DLL(int) Langpack_GetDefaultLocale()
 
 MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr)
 {
-	if (pszStr == NULL)
-		return NULL;
+	if (pszStr == nullptr)
+		return nullptr;
 
 	int len = (int)strlen(pszStr);
 	wchar_t *result = (wchar_t*)alloca((len + 1)*sizeof(wchar_t));
@@ -541,7 +541,7 @@ MIR_CORE_DLL(void) TranslateMenu_LP(HMENU hMenu, int _hLangpack)
 			}
 		}
 
-		if (mii.hSubMenu != NULL)
+		if (mii.hSubMenu != nullptr)
 			TranslateMenu_LP(mii.hSubMenu, _hLangpack);
 	}
 }
@@ -583,7 +583,7 @@ MIR_CORE_DLL(void) TranslateDialog_LP(HWND hDlg, int _hLangpack)
 MIR_CORE_DLL(MUUID*) Langpack_LookupUuid(WPARAM wParam)
 {
 	int idx = (wParam >> 16) & 0xFFFF;
-	return (idx > 0 && idx <= lMuuids.getCount()) ? lMuuids[idx - 1] : NULL;
+	return (idx > 0 && idx <= lMuuids.getCount()) ? lMuuids[idx - 1] : nullptr;
 }
 
 MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX *pInfo)
@@ -693,7 +693,7 @@ MIR_CORE_DLL(void) mir_getLP(const PLUGININFOEX *pInfo, int *_hLang)
 
 MIR_CORE_DLL(void) ReloadLangpack(wchar_t *pszStr)
 {
-	if (pszStr == NULL)
+	if (pszStr == nullptr)
 		pszStr = NEWWSTR_ALLOCA(langPack.tszFileName);
 
 	UnloadLangPackModule();
@@ -731,8 +731,8 @@ void UnloadLangPackModule()
 
 	LangPackEntry *p = g_pEntries;
 	for (i = 0; i < g_entryCount; i++, p++) {
-		if (p->pNext != NULL) {
-			for (LangPackEntry *p1 = p->pNext; p1 != NULL;) {
+		if (p->pNext != nullptr) {
+			for (LangPackEntry *p1 = p->pNext; p1 != nullptr;) {
 				LangPackEntry *p2 = p1; p1 = p1->pNext;
 				mir_free(p2->szLocal);
 				mir_free(p2->wszLocal);
@@ -746,7 +746,7 @@ void UnloadLangPackModule()
 
 	if (g_entryCount) {
 		mir_free(g_pEntries);
-		g_pEntries = 0;
+		g_pEntries = nullptr;
 		g_entryCount = g_entriesAlloced = 0;
 	}
 

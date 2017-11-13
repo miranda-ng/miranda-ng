@@ -30,13 +30,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 CExImContactBase::CExImContactBase()
 {
-	_pszNick = NULL;
-	_pszDisp = NULL;
-	_pszGroup = NULL;
-	_pszProto = NULL;
-	_pszProtoOld = NULL;
-	_pszAMPro = NULL;
-	_pszUIDKey = NULL;
+	_pszNick = nullptr;
+	_pszDisp = nullptr;
+	_pszGroup = nullptr;
+	_pszProto = nullptr;
+	_pszProtoOld = nullptr;
+	_pszAMPro = nullptr;
+	_pszUIDKey = nullptr;
 	_dbvUIDHash = NULL;
 	memset(&_dbvUID, 0, sizeof(DBVARIANT));
 	_hContact = INVALID_CONTACT_ID;
@@ -115,7 +115,7 @@ BYTE CExImContactBase::fromDB(MCONTACT hContact)
 	else {
 		uidSetting = (LPCSTR)CallProtoService(pszProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 		// valid
-		if (uidSetting != NULL && (INT_PTR)uidSetting != CALLSERVICE_NOTFOUND) {
+		if (uidSetting != nullptr && (INT_PTR)uidSetting != CALLSERVICE_NOTFOUND) {
 			_pszUIDKey = mir_strdup(uidSetting);
 			if (!DB::Setting::GetAsIs(_hContact, pszProto, uidSetting, &_dbvUID)) {
 				ret = TRUE;
@@ -158,8 +158,8 @@ BYTE CExImContactBase::fromDB(MCONTACT hContact)
  **/
 BYTE CExImContactBase::fromIni(LPSTR& row)
 {
-	LPSTR p1, p2 = NULL;
-	LPSTR pszUIDValue, pszUIDSetting, pszProto = NULL;
+	LPSTR p1, p2 = nullptr;
+	LPSTR pszUIDValue, pszUIDSetting, pszProto = nullptr;
 	LPSTR pszBuf = &row[0];
 	size_t cchBuf = mir_strlen(row);
 
@@ -230,7 +230,7 @@ MCONTACT CExImContactBase::toDB()
 	// create new contact if none exists
 	if (_hContact == INVALID_CONTACT_ID && _pszProto && _pszUIDKey && _dbvUID.type != DBVT_DELETED) {
 		PROTOACCOUNT *pszAccount = Proto_GetAccount(_pszProto);
-		if (pszAccount == NULL) {
+		if (pszAccount == nullptr) {
 			//account does not exist
 			return _hContact = INVALID_CONTACT_ID;
 		}
@@ -279,7 +279,7 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 
 	if (_hContact){
 		int loaded = _pszUIDKey ? 1 : 0;
-		if (_pszProto == NULL || !loaded) {
+		if (_pszProto == nullptr || !loaded) {
 			if (_pszProto){
 				if (_pszNick)
 					mir_snprintf(name,"%s (%s)", _pszNick, _pszProto);
@@ -384,8 +384,8 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 			break;
 		case DBVT_WCHAR: //'u' pwszVal is valid
 			r = mir_utf8encodeW(_dbvUID.pwszVal);
-			if (r == NULL)
-				return NULL;
+			if (r == nullptr)
+				return nullptr;
 			if (bPrependType == FALSE)
 				return r;
 			*ptr++ = 'u';
@@ -399,8 +399,8 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 			break;
 		case DBVT_ASCIIZ:
 			r = mir_utf8encode(_dbvUID.pszVal);
-			if (r == NULL)
-				return NULL;
+			if (r == nullptr)
+				return nullptr;
 			if (bPrependType == FALSE)
 				return r;
 			*ptr++ = 's';
@@ -411,8 +411,8 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 			if (bPrependType) { //True = XML
 				baselen = mir_base64_encode_bufsize(_dbvUID.cpbVal);
 				r = (LPSTR)mir_alloc((baselen + 8));
-				if (r == NULL)
-					return NULL;
+				if (r == nullptr)
+					return nullptr;
 				memset((r + baselen), 0, 8);
 				ptr = r;
 				if (bPrependType) { // Allways true.
@@ -421,15 +421,15 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 				}
 				if (!mir_base64_encodebuf(_dbvUID.pbVal, _dbvUID.cpbVal, ptr, baselen)) {
 					mir_free(r);
-					return NULL;
+					return nullptr;
 				}
 				return r;
 			}
 			else { //FALSE = INI
 				baselen = ((_dbvUID.cpbVal * 3) + 8);
 				r = (LPSTR)mir_alloc(baselen);
-				if (r == NULL)
-					return NULL;
+				if (r == nullptr)
+					return nullptr;
 				memset(r, 0, baselen);
 				ptr = r;
 				for (SIZE_T j = 0; j < _dbvUID.cpbVal; j ++, ptr += 3) {
@@ -439,7 +439,7 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 			}
 			break;
 		default:
-			return NULL;
+			return nullptr;
 	}
 	return mir_strdup(szUID);
 }
@@ -460,7 +460,7 @@ BYTE CExImContactBase::isHandle(MCONTACT hContact)
 
 	// compare protocols
 	pszProto = Proto_GetBaseAccountName(hContact);
-	if (pszProto == NULL || (INT_PTR)pszProto == CALLSERVICE_NOTFOUND || mir_strcmp(pszProto, _pszProto))
+	if (pszProto == nullptr || (INT_PTR)pszProto == CALLSERVICE_NOTFOUND || mir_strcmp(pszProto, _pszProto))
 		return FALSE;
 
 	// compare uids
@@ -477,7 +477,7 @@ BYTE CExImContactBase::isHandle(MCONTACT hContact)
 		if (dbv.type == DBVT_UTF8 && dbv.pszVal && !mir_strcmpi(dbv.pszVal,_pszNick)) {
 			LPTSTR ptszNick = mir_utf8decodeW(_pszNick);
 			LPTSTR ptszProto = mir_a2u(_pszProto);
-			int ans = MsgBox(NULL, MB_ICONQUESTION|MB_YESNO, LPGENW("Question"), LPGENW("contact identification"),
+			int ans = MsgBox(nullptr, MB_ICONQUESTION|MB_YESNO, LPGENW("Question"), LPGENW("contact identification"),
 				LPGENW("The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?"),
 				ptszNick, ptszProto);
 			MIR_FREE(ptszNick);

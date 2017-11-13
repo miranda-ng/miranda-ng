@@ -35,11 +35,11 @@ CSendEmail::CSendEmail(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_DELETEAFTERSSEND; // SS_DLG_AUTOSEND | ;
 	m_pszSendTyp = LPGENW("Email transfer");
-	m_pszFileA = NULL;
-	m_pszFileName = NULL;
-	m_Email = NULL;
-	m_FriendlyName = NULL;
-	m_Subject = NULL;
+	m_pszFileA = nullptr;
+	m_pszFileName = nullptr;
+	m_Email = nullptr;
+	m_FriendlyName = nullptr;
+	m_Subject = nullptr;
 }
 
 CSendEmail::~CSendEmail()
@@ -86,14 +86,14 @@ void CSendEmail::SendThread()
 	MAPIFUNC lpMAPISendMail;
 
 	HINSTANCE hMAPILib = ::LoadLibrary(L"MAPI32.DLL");
-	if (hMAPILib == NULL) {
+	if (hMAPILib == nullptr) {
 		//return -1;
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
 	}
 
 	lpMAPISendMail = (MAPIFUNC)GetProcAddress(hMAPILib, "MAPISendMail");
-	if (lpMAPISendMail == NULL) {
+	if (lpMAPISendMail == nullptr) {
 		::FreeLibrary(hMAPILib);
 		//return -2;
 		Error(SS_ERR_INIT, m_pszSendTyp);
@@ -104,10 +104,10 @@ void CSendEmail::SendThread()
 
 	arrfileDesc[0].ulReserved = 0;
 	arrfileDesc[0].flFlags = 0;
-	arrfileDesc[0].lpFileType = NULL;
+	arrfileDesc[0].lpFileType = nullptr;
 	arrfileDesc[0].nPosition = -1;
 	arrfileDesc[0].lpszPathName = m_pszFileA;
-	arrfileDesc[0].lpszFileName = NULL;
+	arrfileDesc[0].lpszFileName = nullptr;
 
 	Msg.nFileCount = 1;
 	Msg.lpFiles = arrfileDesc;
@@ -128,7 +128,7 @@ void CSendEmail::SendThread()
 
 	recip.lpszAddress = m_Email;					//email
 	recip.ulEIDSize = 0;
-	recip.lpEntryID = NULL;
+	recip.lpEntryID = nullptr;
 	Msg.lpRecips = &recip;
 
 	try {

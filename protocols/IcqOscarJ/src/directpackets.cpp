@@ -135,7 +135,7 @@ void CIcqProto::icq_sendFileDenyDirect(MCONTACT hContact, filetransfer *ft, cons
 {
 	// v7 packet
 	icq_packet packet;
-	char *szReasonAnsi = NULL;
+	char *szReasonAnsi = nullptr;
 	if (!utf8_decode(szReason, &szReasonAnsi))
 		szReasonAnsi = _strdup(szReason);		// Legacy fix
 	size_t cbReasonAnsi = mir_strlen(szReasonAnsi);
@@ -162,7 +162,7 @@ void CIcqProto::icq_sendFileDenyDirect(MCONTACT hContact, filetransfer *ft, cons
 
 int CIcqProto::icq_sendFileSendDirectv7(filetransfer *ft, const char *pszFiles)
 {
-	char *szFilesAnsi = NULL;
+	char *szFilesAnsi = nullptr;
 	size_t wDescrLen = mir_strlen(ft->szDescription);
 
 	if (!utf8_decode(pszFiles, &szFilesAnsi))
@@ -189,7 +189,7 @@ int CIcqProto::icq_sendFileSendDirectv7(filetransfer *ft, const char *pszFiles)
 
 int CIcqProto::icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles)
 {
-	char *szFilesAnsi = NULL;
+	char *szFilesAnsi = nullptr;
 	size_t wDescrLen = mir_strlen(ft->szDescription);
 
 	if (!utf8_decode(pszFiles, &szFilesAnsi))

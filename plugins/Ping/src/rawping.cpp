@@ -87,7 +87,7 @@ extern int raw_ping(char *host, int timeout)
 	else {
 		// Not in dotted quad form, so try and look it up
 		hostent* hp = gethostbyname(host);
-		if (hp != 0) {
+		if (hp != nullptr) {
 			// Found an address for that host, so save it
 			memcpy(&(dest.sin_addr), hp->h_addr, hp->h_length);
 			//dest.sin_family = hp->h_addrtype;
@@ -198,7 +198,7 @@ extern int raw_ping(char *host, int timeout)
 		if (reply->type == PT_ICMP_SOURCE_QUENCH) {
 			char buff[1024];
 			mir_snprintf(buff, Translate("Host %s requests that you reduce the amount of traffic you are sending."), host);
-			MessageBoxA(0, buff, Translate(PLUG " Warning"), MB_OK | MB_ICONWARNING);
+			MessageBoxA(nullptr, buff, Translate(PLUG " Warning"), MB_OK | MB_ICONWARNING);
 		}
 
 		if (use_hi_res) {

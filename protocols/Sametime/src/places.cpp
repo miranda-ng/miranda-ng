@@ -63,5 +63,5 @@ void CSametimeProto::DeinitPlaces(mwSession* session)
 	debugLogW(L"CSametimeProto::DeinitPlaces()");
 	mwSession_removeService(session, mwService_PLACE);
 	mwService_free((mwService*)service_places);
-	service_places = 0;
+	service_places = nullptr;
 }

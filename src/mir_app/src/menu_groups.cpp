@@ -56,7 +56,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam *g
 {
 	GroupMenuExecParam *mmep = (GroupMenuExecParam*)mir_calloc(sizeof(GroupMenuExecParam));
 	if (mmep == nullptr)
-		return 0;
+		return nullptr;
 
 	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
@@ -135,7 +135,7 @@ static INT_PTR CreateGroupHelper(WPARAM, LPARAM)
 {
 	SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
 	SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, 1, 0);
-	Clist_GroupCreate(0, 0);
+	Clist_GroupCreate(0, nullptr);
 	return 0;
 }
 
@@ -184,7 +184,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddSubGroupMenuItem(TMO_MenuItem *pmi, GroupMenuParam
 {
 	SubGroupMenuExecParam *mmep = (SubGroupMenuExecParam*)mir_calloc(sizeof(SubGroupMenuExecParam));
 	if (mmep == nullptr)
-		return 0;
+		return nullptr;
 
 	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
@@ -252,7 +252,7 @@ static HGENMENU hHideOfflineUsersHereMenuItem;
 static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 {
 	ClcGroup *group = (ClcGroup*)wParam;
-	if (group != 0) // contact->group
+	if (group != nullptr) // contact->group
 		Menu_SetChecked(hHideOfflineUsersHereMenuItem, group->hideOffline != 0);
 	return 0;
 }
@@ -280,7 +280,7 @@ void InitGroupMenus(void)
 	hEventPreBuildGroupMenu = CreateHookableEvent(ME_CLIST_PREBUILDGROUPMENU);
 	HookEvent(ME_CLIST_PREBUILDGROUPMENU, OnBuildGroupMenu);
 
-	hGroupMenuObject = Menu_AddObject("GroupMenu", LPGEN("Group menu"), 0, "CLISTMENUSGroup/ExecService");
+	hGroupMenuObject = Menu_AddObject("GroupMenu", LPGEN("Group menu"), nullptr, "CLISTMENUSGroup/ExecService");
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSGroup/FreeOwnerDataGroupMenu");
 	Menu_ConfigureObject(hGroupMenuObject, MCO_OPT_ONADD_SERVICE, "CLISTMENUSGroup/GroupMenuOnAddService");
@@ -341,7 +341,7 @@ void InitGroupMenus(void)
 	hEventPreBuildSubGroupMenu = CreateHookableEvent(ME_CLIST_PREBUILDSUBGROUPMENU);
 	HookEvent(ME_CLIST_PREBUILDSUBGROUPMENU, OnBuildSubGroupMenu);
 
-	hSubGroupMenuObject = Menu_AddObject("SubGroupMenu", LPGEN("Subgroup menu"), 0, "CLISTMENUSSubGroup/ExecService");
+	hSubGroupMenuObject = Menu_AddObject("SubGroupMenu", LPGEN("Subgroup menu"), nullptr, "CLISTMENUSSubGroup/ExecService");
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu");
 	Menu_ConfigureObject(hSubGroupMenuObject, MCO_OPT_CHECK_SERVICE, "CLISTMENUSSubGroup/SubGroupMenuCheckService");
@@ -359,7 +359,7 @@ void InitGroupMenus(void)
 
 		SET_UID(mi, 0xd85f5ff0, 0x12ca, 0x464d, 0x86, 0x51, 0x53, 0x36, 0x9f, 0x1d, 0x80, 0x45);
 		mi.position = 1001;
-		mi.hIcolibItem = 0;
+		mi.hIcolibItem = nullptr;
 		mi.name.a = LPGEN("&Hide offline users in here");
 		gmp.wParam = POPUP_GROUPHIDEOFFLINE;
 		hHideOfflineUsersHereMenuItem = Menu_AddSubGroupMenuItem(&mi, &gmp);

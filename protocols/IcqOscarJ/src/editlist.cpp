@@ -27,8 +27,8 @@
 
 #include "stdafx.h"
 
-static ChangeInfoData *dataListEdit = NULL;
-static HWND hwndListEdit = NULL;
+static ChangeInfoData *dataListEdit = nullptr;
+static HWND hwndListEdit = nullptr;
 
 static LRESULT CALLBACK ListEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -80,7 +80,7 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 
 	dataListEdit = this;
 	hwndListEdit = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, L"LISTBOX", L"", WS_POPUP | WS_BORDER | WS_VSCROLL,
-											rc->left, rc->bottom, rc->right - rc->left, 150, NULL, NULL, hInst, NULL);
+											rc->left, rc->bottom, rc->right - rc->left, 150, nullptr, nullptr, hInst, nullptr);
 	SendMessage(hwndListEdit, WM_SETFONT, (WPARAM)hListFont, 0);
 	int itemHeight = SendMessage(hwndListEdit, LB_GETITEMHEIGHT, 0, 0);
 
@@ -117,7 +117,7 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 			SendMessage(hwndListEdit, LB_SETITEMDATA, n, j);
 			if ((si.dbType == DBVT_ASCIIZ && (!mir_strcmp((char*)sid.value, list[j].text))
 				|| (si.dbType == DBVT_ASCIIZ && (!mir_strcmp((char*)sid.value, ICQTranslateUtfStatic(list[j].text, str, MAX_PATH))))
-				|| ((char*)sid.value == NULL && list[j].code == 0))
+				|| ((char*)sid.value == nullptr && list[j].code == 0))
 				|| (si.dbType != DBVT_ASCIIZ && sid.value == list[j].code))
 				SendMessage(hwndListEdit, LB_SETCURSEL, n, 0);
 		}
@@ -126,7 +126,7 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 
 	int listCount = SendMessage(hwndListEdit, LB_GETCOUNT, 0, 0);
 	if (itemHeight * listCount < 150)
-		SetWindowPos(hwndListEdit, 0, 0, 0, rc->right - rc->left, itemHeight * listCount + GetSystemMetrics(SM_CYBORDER) * 2, SWP_NOZORDER | SWP_NOMOVE);
+		SetWindowPos(hwndListEdit, nullptr, 0, 0, rc->right - rc->left, itemHeight * listCount + GetSystemMetrics(SM_CYBORDER) * 2, SWP_NOZORDER | SWP_NOMOVE);
 	mir_subclassWindow(hwndListEdit, ListEditSubclassProc);
 	AnimateWindow(hwndListEdit, 200, AW_SLIDE | AW_ACTIVATE | AW_VER_POSITIVE);
 	ShowWindow(hwndListEdit, SW_SHOW);
@@ -137,7 +137,7 @@ void ChangeInfoData::BeginListEdit(int iItem, RECT *rc, int iSetting, WORD wVKey
 
 void ChangeInfoData::EndListEdit(int save)
 {
-	if (hwndListEdit == NULL || iEditItem == -1 || this != dataListEdit)
+	if (hwndListEdit == nullptr || iEditItem == -1 || this != dataListEdit)
 		return;
 
 	if (save) {
@@ -163,7 +163,7 @@ void ChangeInfoData::EndListEdit(int save)
 					sid.value = (LPARAM)null_strdup(szNewValue);
 				}
 				else {
-					sid.changed = (char*)sid.value != NULL;
+					sid.changed = (char*)sid.value != nullptr;
 					SAFE_FREE((void**)&sid.value);
 				}
 			}
@@ -184,9 +184,9 @@ void ChangeInfoData::EndListEdit(int save)
 	}
 	ListView_RedrawItems(hwndList, iEditItem, iEditItem);
 	iEditItem = -1;
-	dataListEdit = NULL;
+	dataListEdit = nullptr;
 	DestroyWindow(hwndListEdit);
-	hwndListEdit = NULL;
+	hwndListEdit = nullptr;
 }
 
 int IsListEditWindow(HWND hwnd)

@@ -28,10 +28,10 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 	utils::text::treplace_all(&smessage, L"%", L"%%");
 
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_MESSAGE };
-	gce.time = ::time(NULL);
+	gce.time = ::time(nullptr);
 	gce.ptszText = smessage.c_str();
 
-	if (name == NULL) {
+	if (name == nullptr) {
 		gce.iType = GC_EVENT_INFORMATION;
 		name = TranslateT("Server");
 		gce.bIsMe = false;
@@ -85,12 +85,12 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 				facy.spy_mode_ = false;
 				facy.question_.clear();
 
-				ForkThread(&OmegleProto::NewChatWorker, NULL);
+				ForkThread(&OmegleProto::NewChatWorker, nullptr);
 				break;
 			}
 			else if (!mir_strcmpi(command.c_str(), "quit"))
 			{
-				ForkThread(&OmegleProto::StopChatWorker, NULL);
+				ForkThread(&OmegleProto::StopChatWorker, nullptr);
 				break;
 			}
 			else if (!mir_strcmpi(command.c_str(), "spy"))
@@ -98,7 +98,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 				facy.spy_mode_ = true;
 				facy.question_.clear();
 
-				ForkThread(&OmegleProto::NewChatWorker, NULL);
+				ForkThread(&OmegleProto::NewChatWorker, nullptr);
 				break;
 			}
 			else if (!mir_strcmpi(command.c_str(), "ask"))
@@ -112,7 +112,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 					}
 
 					if (params.empty()) {
-						UpdateChat(NULL, TranslateT("Last question is empty."), false);
+						UpdateChat(nullptr, TranslateT("Last question is empty."), false);
 						break;
 					}
 				}
@@ -126,13 +126,13 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 				if (params.length() < OMEGLE_QUESTION_MIN_LENGTH)
 				{
-					UpdateChat(NULL, TranslateT("Your question is too short."), false);
+					UpdateChat(nullptr, TranslateT("Your question is too short."), false);
 					break;
 				}
 
 				facy.spy_mode_ = true;
 				facy.question_ = params;
-				ForkThread(&OmegleProto::NewChatWorker, NULL);
+				ForkThread(&OmegleProto::NewChatWorker, nullptr);
 				break;
 			}
 			else if (!mir_strcmpi(command.c_str(), "asl"))
@@ -145,13 +145,13 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 					SendChatMessage(text);
 				}
 				else {
-					UpdateChat(NULL, TranslateT("Your '/asl' setting is empty."), false);
+					UpdateChat(nullptr, TranslateT("Your '/asl' setting is empty."), false);
 					break;
 				}
 			}
 			else if (!mir_strcmpi(command.c_str(), "help"))
 			{
-				UpdateChat(NULL, TranslateT("There are three different modes of chatting:\
+				UpdateChat(nullptr, TranslateT("There are three different modes of chatting:\
 \n1) Standard mode\t - You chat with random stranger privately\
 \n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\
 \n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\
@@ -159,7 +159,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 			}
 			else if (!mir_strcmpi(command.c_str(), "commands"))
 			{
-				UpdateChat(NULL, TranslateT("You can use different commands:\
+				UpdateChat(nullptr, TranslateT("You can use different commands:\
 \n/help\t - show info about chat modes\
 \n/new\t - start standard mode\
 \n/ask <question> - start question mode with your question\
@@ -172,7 +172,7 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 			}
 			else
 			{
-				UpdateChat(NULL, TranslateT("Unknown command. Send '/commands' for list."), false);
+				UpdateChat(nullptr, TranslateT("Unknown command. Send '/commands' for list."), false);
 				break;
 			}
 
@@ -187,8 +187,8 @@ int OmegleProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
-		facy.nick_ = NULL;
-		ForkThread(&OmegleProto::StopChatWorker, NULL);
+		facy.nick_ = nullptr;
+		ForkThread(&OmegleProto::StopChatWorker, nullptr);
 		break;
 	}
 
@@ -204,11 +204,11 @@ void OmegleProto::SendChatMessage(std::string text)
 		break;
 
 	case STATE_INACTIVE:
-		UpdateChat(NULL, TranslateT("You aren't connected to any stranger. Send '/help' or '/commands' for help."), false);
+		UpdateChat(nullptr, TranslateT("You aren't connected to any stranger. Send '/help' or '/commands' for help."), false);
 		break;
 
 	case STATE_SPY:
-		UpdateChat(NULL, TranslateT("You can't send messages in question mode."), false);
+		UpdateChat(nullptr, TranslateT("You can't send messages in question mode."), false);
 		break;
 
 		//case STATE_WAITING:
@@ -227,12 +227,12 @@ Chat_Event(WINDOW_CLEARLOG,&gce);
 void OmegleProto::AddChatContact(const wchar_t *name)
 {
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_JOIN };
-	gce.time = DWORD(time(0));
+	gce.time = DWORD(time(nullptr));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
 
-	if (name == NULL)
+	if (name == nullptr)
 		gce.bIsMe = false;
 	else
 		gce.bIsMe = mir_wstrcmp(name, this->facy.nick_);
@@ -251,8 +251,8 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszNick = name;
 	gce.ptszUID = gce.ptszNick;
-	gce.time = DWORD(time(0));
-	if (name == NULL)
+	gce.time = DWORD(time(nullptr));
+	if (name == nullptr)
 		gce.bIsMe = false;
 	else
 		gce.bIsMe = mir_wstrcmp(name, this->facy.nick_);
@@ -284,9 +284,9 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 void OmegleProto::SetTopic(const wchar_t *topic)
 {
 	GCEVENT gce = { m_szModuleName, m_tszUserName, GC_EVENT_TOPIC };
-	gce.time = ::time(NULL);
+	gce.time = ::time(nullptr);
 
-	if (topic == NULL)
+	if (topic == nullptr)
 		gce.ptszText = TranslateT("Omegle is a great way of meeting new friends!");
 	else
 		gce.ptszText = topic;

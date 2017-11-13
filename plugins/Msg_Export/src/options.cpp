@@ -177,7 +177,7 @@ void exportContactsMessages(void *p)
 			}
 
 			SendMessage(hProg, PBM_SETPOS, nCur, 0);
-			RedrawWindow(hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW);
+			RedrawWindow(hDlg, nullptr, nullptr, RDW_ALLCHILDREN | RDW_UPDATENOW);
 
 			nCur++;
 		}
@@ -204,7 +204,7 @@ void exportContactsMessages(void *p)
 		wstring sFilePath = FileIterator->first;
 		HANDLE hFile = openCreateFile(sFilePath);
 		if (hFile == INVALID_HANDLE_VALUE) {
-			DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, NULL);
+			DisplayErrorDialog(LPGENW("Failed to open or create file :\n"), sFilePath, nullptr);
 			continue;
 		}
 
@@ -226,7 +226,7 @@ void exportContactsMessages(void *p)
 		CloseHandle(hFile);
 
 		SendMessage(hProg, PBM_SETPOS, ++nCur, 0);
-		RedrawWindow(hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW);
+		RedrawWindow(hDlg, nullptr, nullptr, RDW_ALLCHILDREN | RDW_UPDATENOW);
 	}
 
 	SendMessage(hDlg, WM_CLOSE, 0, 1);
@@ -287,7 +287,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected)
 	}
 
 	// Create progress dialog
-	HWND hDlg = data->hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), NULL, DialogProc);
+	HWND hDlg = data->hDialog = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), nullptr, DialogProc);
 	ShowWindow(hDlg, SW_SHOWNORMAL);
 	
 	// Process the export in other thread
@@ -628,7 +628,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				LVITEM sItem = { 0 };
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 					PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
-					if (pa == NULL)
+					if (pa == nullptr)
 						continue;
 
 					sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
@@ -842,11 +842,11 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 			BROWSEINFO sBrowseInfo;
 			sBrowseInfo.hwndOwner = hwndDlg;
-			sBrowseInfo.pidlRoot = NULL;
+			sBrowseInfo.pidlRoot = nullptr;
 			sBrowseInfo.pszDisplayName = lpDestDir;
 			sBrowseInfo.lpszTitle = TranslateT("Select Destination Directory");
 			sBrowseInfo.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX;
-			sBrowseInfo.lpfn = NULL;
+			sBrowseInfo.lpfn = nullptr;
 			sBrowseInfo.lParam = 0;
 			sBrowseInfo.iImage = 0;
 
@@ -899,7 +899,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 
 				TranslateMenu(hMenu);
-				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndDlg, NULL);
+				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwndDlg, nullptr);
 
 				DestroyMenu(hMainMenu);
 			}

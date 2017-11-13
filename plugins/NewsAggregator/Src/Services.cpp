@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 int g_nStatus = ID_STATUS_ONLINE;
 UINT_PTR timerId = 0;
-HANDLE hTBButton = NULL, hNewsAggregatorFolder = NULL;
+HANDLE hTBButton = nullptr, hNewsAggregatorFolder = nullptr;
 
 void SetContactStatus(MCONTACT hContact, int nNewStatus)
 {
@@ -44,7 +44,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 
 	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
-			db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
+			db_set_dw(hContact, MODULE, "LastCheck", time(nullptr));
 		SetContactStatus(hContact, ID_STATUS_ONLINE);
 	}
 
@@ -55,7 +55,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 	HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 
 	// timer for the first update
-	timerId = SetTimer(NULL, 0, 10000, timerProc2); // first update is 10 sec after load
+	timerId = SetTimer(nullptr, 0, 10000, timerProc2); // first update is 10 sec after load
 
 	return 0;
 }
@@ -67,7 +67,7 @@ int NewsAggrPreShutdown(WPARAM, LPARAM)
 
 	WindowList_Broadcast(hChangeFeedDlgList, WM_CLOSE, 0, 0);
 
-	KillTimer(NULL, timerId);
+	KillTimer(nullptr, timerId);
 	NetlibUnInit();
 	return 0;
 }
@@ -151,15 +151,15 @@ INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 			UpdateListAdd(hContact);
 	}
 	if (!ThreadRunning)
-		mir_forkthread(UpdateThreadProc, 0);
+		mir_forkthread(UpdateThreadProc, nullptr);
 
 	return 0;
 }
 
 INT_PTR AddFeed(WPARAM, LPARAM)
 {
-	if (hAddFeedDlg == 0)
-		hAddFeedDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcAddFeedOpts);
+	if (hAddFeedDlg == nullptr)
+		hAddFeedDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADDFEED), nullptr, DlgProcAddFeedOpts);
 	ShowWindow(hAddFeedDlg, SW_SHOW);
 	return 0;
 }
@@ -168,7 +168,7 @@ INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
 {
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
 	if (!hChangeFeedDlg) {
-		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, hContact);
+		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), nullptr, DlgProcChangeFeedMenu, hContact);
 		ShowWindow(hChangeFeedDlg, SW_SHOW);
 	} else {
 		SetForegroundWindow(hChangeFeedDlg);
@@ -179,13 +179,13 @@ INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
 
 INT_PTR ImportFeeds(WPARAM, LPARAM)
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), NULL, DlgProcImportOpts);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), nullptr, DlgProcImportOpts);
 	return 0;
 }
 
 INT_PTR ExportFeeds(WPARAM, LPARAM)
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), NULL, DlgProcExportOpts);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), nullptr, DlgProcExportOpts);
 	return 0;
 }
 
@@ -212,7 +212,7 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		mir_forkthread(UpdateThreadProc, (void *)TRUE);
 
 	wchar_t *ptszImageURL = db_get_wsa(pai->hContact, MODULE, "ImageURL");
-	if(ptszImageURL == NULL)
+	if(ptszImageURL == nullptr)
 		return GAIR_NOAVATAR;
 
 	mir_free(ptszImageURL);
@@ -246,7 +246,7 @@ INT_PTR EnableDisable(WPARAM, LPARAM)
 
 int OnToolbarLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.name = LPGEN("Enable/disable auto update");
 	ttb.pszService = MS_NEWSAGGREGATOR_ENABLED;
 	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");

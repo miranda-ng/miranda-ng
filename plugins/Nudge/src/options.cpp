@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-CNudgeElement* ActualNudge = NULL;
+CNudgeElement* ActualNudge = nullptr;
 
 static int GetSelProto(HWND hwnd, HTREEITEM hItem)
 {
@@ -8,7 +8,7 @@ static int GetSelProto(HWND hwnd, HTREEITEM hItem)
 	TVITEM tvi = { 0 };
 
 	tvi.mask = TVIF_IMAGE;
-	tvi.hItem = hItem == NULL ? TreeView_GetSelection(hLstView) : hItem;
+	tvi.hItem = hItem == nullptr ? TreeView_GetSelection(hLstView) : hItem;
 
 	TreeView_GetItem(hLstView, &tvi);
 
@@ -19,8 +19,8 @@ static void UpdateControls(HWND hwnd)
 {
 	int proto = nProtocol;
 	if (GlobalNudge.useByProtocol) {
-		proto = GetSelProto(hwnd, NULL);
-		ActualNudge = NULL;
+		proto = GetSelProto(hwnd, nullptr);
+		ActualNudge = nullptr;
 		for (int i = 0; i < arNudges.getCount(); i++) {
 			CNudgeElement &p = arNudges[i];
 			if (p.iProtoNumber == proto)
@@ -70,7 +70,7 @@ static void CheckChange(HWND hwnd, HTREEITEM hItem)
 	int proto = nProtocol;
 	if (GlobalNudge.useByProtocol) {
 		proto = GetSelProto(hwnd, hItem);
-		ActualNudge = NULL;
+		ActualNudge = nullptr;
 		for (int i = 0; i < arNudges.getCount(); i++) {
 			CNudgeElement &p = arNudges[i];
 			if (p.iProtoNumber == proto)
@@ -174,7 +174,7 @@ static void PopulateProtocolList(HWND hWnd)
 
 	TreeView_DeleteAllItems(hLstView);
 
-	TVINSERTSTRUCT tvi = { 0 };
+	TVINSERTSTRUCT tvi = {};
 	tvi.hParent = TVI_ROOT;
 	tvi.hInsertAfter = TVI_LAST;
 	tvi.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_STATE | TVIF_SELECTEDIMAGE;

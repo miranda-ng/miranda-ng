@@ -45,7 +45,7 @@ int GetTZOffset(void)
 void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
 {
 	SYSTEMTIME loctime;
-	if (stLocal == NULL) {
+	if (stLocal == nullptr) {
 		stLocal = &loctime;
 		GetLocalTime(stLocal);
 	}
@@ -94,8 +94,8 @@ typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_Info) (DWORD mirandaVersion);
 PLUGININFOEX* GetMirInfo(HMODULE hModule)
 {
 	Miranda_Plugin_Info bpi = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfoEx");
-	if (bpi == NULL)
-		return NULL;
+	if (bpi == nullptr)
+		return nullptr;
 
 	return bpi(mirandaVersion);
 }
@@ -111,15 +111,15 @@ void GetInternetExplorerVersion(CMStringW &buffer)
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey)) {
 		size = _countof(ieBuild);
-		if (RegQueryValueEx(hKey, TEXT("Build"), NULL, NULL, (LPBYTE)ieBuild, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("Build"), nullptr, nullptr, (LPBYTE)ieBuild, &size) != ERROR_SUCCESS)
 			ieBuild[0] = 0;
 
 		size = _countof(ieVersion);
-		if (RegQueryValueEx(hKey, TEXT("Version"), NULL, NULL, (LPBYTE)ieVersion, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("Version"), nullptr, nullptr, (LPBYTE)ieVersion, &size) != ERROR_SUCCESS)
 			ieVersion[0] = 0;
 
 		size = _countof(iVer);
-		if (RegQueryValueEx(hKey, TEXT("IVer"), NULL, NULL, (LPBYTE)iVer, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("IVer"), nullptr, nullptr, (LPBYTE)iVer, &size) != ERROR_SUCCESS)
 			iVer[0] = 0;
 
 		RegCloseKey(hKey);
@@ -174,12 +174,12 @@ void GetProcessorString(CMStringW &buffer)
 
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Hardware\\Description\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &hKey)) {
 		size = _countof(cpuName);
-		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), NULL, NULL, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), nullptr, nullptr, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
 			mir_wstrcpy(cpuName, TEXT("Unknown"));
 
 		size = _countof(cpuIdent);
-		if (RegQueryValueEx(hKey, TEXT("Identifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
-			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), NULL, NULL, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, TEXT("Identifier"), nullptr, nullptr, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
+			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), nullptr, nullptr, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
 				mir_wstrcpy(cpuIdent, TEXT("Unknown"));
 
 		RegCloseKey(hKey);
@@ -327,7 +327,7 @@ void GetAdminString(CMStringW &buffer)
 		b = AllocateAndInitializeSid(&NtAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
 			DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &AdministratorsGroup);
 		if (b) {
-			if (!CheckTokenMembership(NULL, AdministratorsGroup, &b))
+			if (!CheckTokenMembership(nullptr, AdministratorsGroup, &b))
 				b = FALSE;
 			FreeSid(AdministratorsGroup);
 		}
@@ -385,11 +385,11 @@ void GetWow64String(CMStringW &buffer)
 void GetVersionInfo(HMODULE hLib, CMStringW& buffer)
 {
 	HRSRC hVersion = FindResource(hLib, MAKEINTRESOURCE(VS_VERSION_INFO), RT_VERSION);
-	if (hVersion != NULL) {
+	if (hVersion != nullptr) {
 		HGLOBAL hGlobal = LoadResource(hLib, hVersion);
-		if (hGlobal != NULL) {
+		if (hGlobal != nullptr) {
 			LPVOID versionInfo = LockResource(hGlobal);
-			if (versionInfo != NULL) {
+			if (versionInfo != nullptr) {
 				int vl = *(unsigned short*)versionInfo;
 				unsigned *res = (unsigned*)versionInfo;
 				while (*res != 0xfeef04bd && ((char*)res - (char*)versionInfo) < vl) ++res;
@@ -416,7 +416,7 @@ void StoreStringToClip(CMStringW& buffer)
 
 	GlobalUnlock(hData);
 
-	if(OpenClipboard(NULL)) {
+	if(OpenClipboard(nullptr)) {
 		EmptyClipboard();
 
 

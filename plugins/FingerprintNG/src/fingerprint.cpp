@@ -22,10 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 static UINT g_LPCodePage;
 static wchar_t g_szSkinLib[MAX_PATH];
-static HANDLE hExtraIcon = NULL;
-static HANDLE hFolderChanged = NULL, hIconFolder = NULL;
+static HANDLE hExtraIcon = nullptr;
+static HANDLE hFolderChanged = nullptr, hIconFolder = nullptr;
 
-static FOUNDINFO* fiList = NULL;
+static FOUNDINFO* fiList = nullptr;
 static int nFICount = 0;
 
 static LIST<void> arMonitoredWindows(3, PtrKeySortT);
@@ -43,16 +43,16 @@ static wchar_t* getSectionName(int flag)
 	{
 #include "finger_groups.h"
 	}
-	return NULL;
+	return nullptr;
 }
 
 void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 {
-	mask->szMaskUpper = NULL;
+	mask->szMaskUpper = nullptr;
 
 	if (mask->hIcolibItem)
 		IcoLib_RemoveIcon(mask->szIconName);
-	mask->hIcolibItem = NULL;
+	mask->hIcolibItem = nullptr;
 
 	if (!mask->szMask || !bEnable)
 		return;
@@ -75,10 +75,10 @@ void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 	}
 
 	LPTSTR SectName = getSectionName(mask->iSectionFlag);
-	if (SectName == NULL)
+	if (SectName == nullptr)
 		return;
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.flags = SIDF_ALL_UNICODE;
 	sid.section.w = SectName;
 	sid.pszName = mask->szIconName;
@@ -204,7 +204,7 @@ int OnExtraIconClick(WPARAM wParam, LPARAM, LPARAM)
 */
 BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 {
-	if (wszMask == NULL)
+	if (wszMask == nullptr)
 		return NULL;
 
 	if (*wszMask != L'|')
@@ -243,7 +243,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 
 	for (i = 0; i < DEFAULT_KN_FP_MASK_COUNT; i++) {
 		KN_FP_MASK& p = def_kn_fp_mask[i];
-		if (p.hIcolibItem == NULL)
+		if (p.hIcolibItem == nullptr)
 			continue;
 
 		if (!WildCompareW(szMirVer, p.szMaskUpper))
@@ -265,7 +265,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 	else if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT) {
 		for (j = 0; j < DEFAULT_KN_FP_OVERLAYS_COUNT; j++) {
 			KN_FP_MASK& p = def_kn_fp_overlays_mask[j];
-			if (p.hIcolibItem == NULL)
+			if (p.hIcolibItem == nullptr)
 				continue;
 
 			if (!WildCompare(szMirVer, p.szMaskUpper))
@@ -278,7 +278,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 
 		for (k = 0; k < DEFAULT_KN_FP_OVERLAYS2_COUNT; k++) {
 			KN_FP_MASK& p = def_kn_fp_overlays2_mask[k];
-			if (p.hIcolibItem == NULL)
+			if (p.hIcolibItem == nullptr)
 				continue;
 
 			if (WildCompareW(szMirVer, p.szMaskUpper))
@@ -287,7 +287,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 
 		for (n = 0; n < DEFAULT_KN_FP_OVERLAYS3_COUNT; n++) {
 			KN_FP_MASK& p = def_kn_fp_overlays3_mask[n];
-			if (p.hIcolibItem == NULL)
+			if (p.hIcolibItem == nullptr)
 				continue;
 
 			if (WildCompareW(szMirVer, p.szMaskUpper))
@@ -296,7 +296,7 @@ static void MatchMasks(wchar_t* szMirVer, short *base, short *overlay, short *ov
 
 		for (m = 0; m < DEFAULT_KN_FP_OVERLAYS4_COUNT; m++) {
 			KN_FP_MASK& p = def_kn_fp_overlays4_mask[m];
-			if (p.hIcolibItem == NULL)
+			if (p.hIcolibItem == nullptr)
 				continue;
 
 			if (WildCompareW(szMirVer, p.szMaskUpper))
@@ -360,26 +360,26 @@ void __fastcall GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, 
 
 HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2, short overlay3, short overlay4)
 {
-	HICON hIcon = NULL;	// returned HICON
-	HICON hTmp = NULL;
-	HICON icMain = NULL;
-	HICON icOverlay = NULL;
-	HICON icOverlay2 = NULL;
-	HICON icOverlay3 = NULL;
-	HICON icOverlay4 = NULL;
+	HICON hIcon = nullptr;	// returned HICON
+	HICON hTmp = nullptr;
+	HICON icMain = nullptr;
+	HICON icOverlay = nullptr;
+	HICON icOverlay2 = nullptr;
+	HICON icOverlay3 = nullptr;
+	HICON icOverlay4 = nullptr;
 
 	KN_FP_MASK* mainMask = &(def_kn_fp_mask[base]);
 	icMain = IcoLib_GetIconByHandle(mainMask->hIcolibItem);
 
 	if (icMain) {
-		KN_FP_MASK* overlayMask = (overlay != -1) ? &(def_kn_fp_overlays_mask[overlay]) : NULL;
-		KN_FP_MASK* overlay2Mask = (overlay2 != -1) ? &(def_kn_fp_overlays2_mask[overlay2]) : NULL;
-		KN_FP_MASK* overlay3Mask = (overlay3 != -1) ? &(def_kn_fp_overlays3_mask[overlay3]) : NULL;
-		KN_FP_MASK* overlay4Mask = (overlay4 != -1) ? &(def_kn_fp_overlays4_mask[overlay4]) : NULL;
-		icOverlay = (overlayMask == NULL) ? NULL : IcoLib_GetIconByHandle(overlayMask->hIcolibItem);
-		icOverlay2 = (overlay2Mask == NULL) ? NULL : IcoLib_GetIconByHandle(overlay2Mask->hIcolibItem);
-		icOverlay3 = (overlay3Mask == NULL) ? NULL : IcoLib_GetIconByHandle(overlay3Mask->hIcolibItem);
-		icOverlay4 = (overlay4Mask == NULL) ? NULL : IcoLib_GetIconByHandle(overlay4Mask->hIcolibItem);
+		KN_FP_MASK* overlayMask = (overlay != -1) ? &(def_kn_fp_overlays_mask[overlay]) : nullptr;
+		KN_FP_MASK* overlay2Mask = (overlay2 != -1) ? &(def_kn_fp_overlays2_mask[overlay2]) : nullptr;
+		KN_FP_MASK* overlay3Mask = (overlay3 != -1) ? &(def_kn_fp_overlays3_mask[overlay3]) : nullptr;
+		KN_FP_MASK* overlay4Mask = (overlay4 != -1) ? &(def_kn_fp_overlays4_mask[overlay4]) : nullptr;
+		icOverlay = (overlayMask == nullptr) ? nullptr : IcoLib_GetIconByHandle(overlayMask->hIcolibItem);
+		icOverlay2 = (overlay2Mask == nullptr) ? nullptr : IcoLib_GetIconByHandle(overlay2Mask->hIcolibItem);
+		icOverlay3 = (overlay3Mask == nullptr) ? nullptr : IcoLib_GetIconByHandle(overlay3Mask->hIcolibItem);
+		icOverlay4 = (overlay4Mask == nullptr) ? nullptr : IcoLib_GetIconByHandle(overlay4Mask->hIcolibItem);
 
 		hIcon = icMain;
 
@@ -425,7 +425,7 @@ HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2
 
 HBITMAP __inline CreateBitmap32(int cx, int cy)
 {
-	return CreateBitmap32Point(cx, cy, NULL);
+	return CreateBitmap32Point(cx, cy, nullptr);
 }
 
 /*
@@ -434,9 +434,9 @@ HBITMAP __inline CreateBitmap32(int cx, int cy)
 */
 HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 {
-	LPVOID ptPixels = NULL;
+	LPVOID ptPixels = nullptr;
 
-	if (cx < 0 || cy < 0) return NULL;
+	if (cx < 0 || cy < 0) return nullptr;
 
 	BITMAPINFO bmpi = { 0 };
 	bmpi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -444,11 +444,11 @@ HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 	bmpi.bmiHeader.biHeight = cy;
 	bmpi.bmiHeader.biPlanes = 1;
 	bmpi.bmiHeader.biBitCount = 32;
-	HBITMAP DirectBitmap = CreateDIBSection(NULL, &bmpi, DIB_RGB_COLORS, &ptPixels, NULL, 0);
+	HBITMAP DirectBitmap = CreateDIBSection(nullptr, &bmpi, DIB_RGB_COLORS, &ptPixels, nullptr, 0);
 
 	GdiFlush();
 	if (ptPixels) memset(ptPixels, 0, cx * cy * 4);
-	if (bits != NULL) *bits = ptPixels;
+	if (bits != nullptr) *bits = ptPixels;
 
 	return DirectBitmap;
 }
@@ -530,14 +530,14 @@ HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop)
 {
 	BOOL drawn = FALSE;
 	HDC tempDC, tempDC2, tempDC3;
-	HICON res = NULL;
+	HICON res = nullptr;
 	HBITMAP oImage, nImage;
 	HBITMAP nMask, hbm, obmp, obmp2;
-	LPBYTE ptPixels = NULL;
+	LPBYTE ptPixels = nullptr;
 	ICONINFO iNew = { 0 };
 	BYTE p[32] = { 0 };
 
-	tempDC = CreateCompatibleDC(NULL);
+	tempDC = CreateCompatibleDC(nullptr);
 	nImage = CreateBitmap32Point(16, 16, (LPVOID*)&ptPixels);
 	oImage = (HBITMAP)SelectObject(tempDC, nImage);
 
@@ -658,18 +658,18 @@ HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop)
 	DeleteObject(iciTop.hbmMask);
 
 	if (!drawn) {
-		DrawIconEx(tempDC, 0, 0, hBottom, 16, 16, 0, NULL, DI_NORMAL);
-		DrawIconEx(tempDC, 0, 0, hTop, 16, 16, 0, NULL, DI_NORMAL);
+		DrawIconEx(tempDC, 0, 0, hBottom, 16, 16, 0, nullptr, DI_NORMAL);
+		DrawIconEx(tempDC, 0, 0, hTop, 16, 16, 0, nullptr, DI_NORMAL);
 	}
 
 	nMask = CreateBitmap(16, 16, 1, 1, p);
-	tempDC2 = CreateCompatibleDC(NULL);
-	tempDC3 = CreateCompatibleDC(NULL);
+	tempDC2 = CreateCompatibleDC(nullptr);
+	tempDC3 = CreateCompatibleDC(nullptr);
 	hbm = CreateCompatibleBitmap(tempDC3, 16, 16);
 	obmp = (HBITMAP)SelectObject(tempDC2, nMask);
 	obmp2 = (HBITMAP)SelectObject(tempDC3, hbm);
-	DrawIconEx(tempDC2, 0, 0, hBottom, 16, 16, 0, NULL, DI_MASK);
-	DrawIconEx(tempDC3, 0, 0, hTop, 16, 16, 0, NULL, DI_MASK);
+	DrawIconEx(tempDC2, 0, 0, hBottom, 16, 16, 0, nullptr, DI_MASK);
+	DrawIconEx(tempDC3, 0, 0, hTop, 16, 16, 0, nullptr, DI_MASK);
 	BitBlt(tempDC2, 0, 0, 16, 16, tempDC3, 0, 0, SRCAND);
 
 	GdiFlush();
@@ -721,7 +721,7 @@ HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer)
 		fiList = (FOUNDINFO*)mir_realloc(fiList, sizeof(FOUNDINFO) * (nFICount + 1));
 		fiList[nFICount].dwArray = val;
 
-		if (hIcon != NULL) {
+		if (hIcon != nullptr) {
 			hFoundImage = ExtraIcon_AddIcon(hIcon);
 			fiList[nFICount].hRegisteredImage = hFoundImage;
 			DestroyIcon(hIcon);
@@ -736,9 +736,9 @@ HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer)
 
 VOID ClearFI()
 {
-	if (fiList != NULL)
+	if (fiList != nullptr)
 		mir_free(fiList);
-	fiList = NULL;
+	fiList = nullptr;
 	nFICount = 0;
 }
 
@@ -753,13 +753,13 @@ VOID ClearFI()
 static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM)
 {
 	LPWSTR wszMirVer = (LPWSTR)wParam;			// MirVer value to get client for.
-	if (wszMirVer == NULL)
+	if (wszMirVer == nullptr)
 		return 0;
 
 	short base, overlay, overlay2, overlay3, overlay4;
 	GetIconsIndexesW(wszMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
 
-	HICON hIcon = NULL;			// returned HICON
+	HICON hIcon = nullptr;			// returned HICON
 	if (base != -1)
 		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
 
@@ -777,7 +777,7 @@ static INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM)
 static INT_PTR ServiceGetClientDescrW(WPARAM wParam, LPARAM)
 {
 	LPWSTR wszMirVer = (LPWSTR)wParam;  // MirVer value to get client for.
-	if (wszMirVer == NULL)
+	if (wszMirVer == nullptr)
 		return 0;
 
 	LPWSTR wszMirVerUp = NEWWSTR_ALLOCA(wszMirVer); _wcsupr(wszMirVerUp);
@@ -842,7 +842,7 @@ int OnExtraImageApply(WPARAM hContact, LPARAM)
 
 	ptrW tszMirver;
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL)
+	if (szProto != nullptr)
 		tszMirver = db_get_wsa(hContact, szProto, "MirVer");
 
 	ApplyFingerprintImage(hContact, tszMirver);
@@ -872,7 +872,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			ApplyFingerprintImage(hContact, cws->value.pwszVal);
 			break;
 		default:
-			ApplyFingerprintImage(hContact, NULL);
+			ApplyFingerprintImage(hContact, nullptr);
 		}
 	}
 	return 0;
@@ -889,13 +889,13 @@ static int OnSrmmWindowEvent(WPARAM, LPARAM lParam)
 		return 0;
 
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
-	if (event == NULL)
+	if (event == nullptr)
 		return 0;
 
 	if (event->uType == MSG_WINDOW_EVT_OPEN) {
 		ptrW ptszMirVer;
 		char *szProto = GetContactProto(event->hContact);
-		if (szProto != NULL)
+		if (szProto != nullptr)
 			ptszMirVer = db_get_wsa(event->hContact, szProto, "MirVer");
 		SetSrmmIcon(event->hContact, ptszMirVer);
 		arMonitoredWindows.insert((HANDLE)event->hContact);

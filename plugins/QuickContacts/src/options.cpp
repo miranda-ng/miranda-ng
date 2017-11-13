@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE hOptHook = NULL;
+HANDLE hOptHook = nullptr;
 
 
 Options opts;
@@ -76,16 +76,16 @@ void DeInitOptions()
 // Options page
 
 static OptPageControl controls[] = {
-	{ NULL, CONTROL_CHECKBOX, IDC_LASTSENTTO, "EnableLastSentTo", (BYTE)TRUE },
-	{ NULL, CONTROL_RADIO, IDC_GLOBAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_GLOBAL },
-	{ NULL, CONTROL_RADIO, IDC_LOCAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_LOCAL },
-	{ NULL, CONTROL_PROTOCOL_LIST, IDC_PROTOCOLS, "ShowOffline%s", (BYTE)FALSE },
-	{ NULL, CONTROL_CHECKBOX, IDC_HIDE_OFFLINE, "HideOfflineFromOfflineProto", (BYTE)TRUE },
-	{ NULL, CONTROL_CHECKBOX, IDC_APPEND_GROUP, "AppendGroupName", (BYTE)FALSE },
-	{ NULL, CONTROL_CHECKBOX, IDC_GROUP_COLUMN, "GroupColumn", (BYTE)FALSE },
-	{ NULL, CONTROL_CHECKBOX, IDC_GROUP_LEFT, "GroupColumnLeft", (BYTE)FALSE },
-	{ NULL, CONTROL_CHECKBOX, IDC_SUBCONTACTS, "HideSubcontacts", (BYTE)TRUE },
-	{ NULL, CONTROL_CHECKBOX, IDC_KEEP_OFFLINE, "KeepSubcontactsFromOffline", (BYTE)TRUE }
+	{ nullptr, CONTROL_CHECKBOX, IDC_LASTSENTTO, "EnableLastSentTo", (BYTE)TRUE },
+	{ nullptr, CONTROL_RADIO, IDC_GLOBAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_GLOBAL },
+	{ nullptr, CONTROL_RADIO, IDC_LOCAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_LOCAL },
+	{ nullptr, CONTROL_PROTOCOL_LIST, IDC_PROTOCOLS, "ShowOffline%s", (BYTE)FALSE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_HIDE_OFFLINE, "HideOfflineFromOfflineProto", (BYTE)TRUE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_APPEND_GROUP, "AppendGroupName", (BYTE)FALSE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_GROUP_COLUMN, "GroupColumn", (BYTE)FALSE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_GROUP_LEFT, "GroupColumnLeft", (BYTE)FALSE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_SUBCONTACTS, "HideSubcontacts", (BYTE)TRUE },
+	{ nullptr, CONTROL_CHECKBOX, IDC_KEEP_OFFLINE, "KeepSubcontactsFromOffline", (BYTE)TRUE }
 };
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

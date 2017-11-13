@@ -54,13 +54,13 @@ void GGPROTO::dccstart()
 #ifdef DEBUGMODE
 	debugLogA("dccstart(): ForkThreadEx 4 GGPROTO::dccmainthread");
 #endif
-	pth_dcc.hThread = ForkThreadEx(&GGPROTO::dccmainthread, NULL, &pth_dcc.dwThreadId);
+	pth_dcc.hThread = ForkThreadEx(&GGPROTO::dccmainthread, nullptr, &pth_dcc.dwThreadId);
 }
 
 void GGPROTO::dccconnect(uin_t uin)
 {
 	struct gg_dcc *local_dcc;
-	MCONTACT hContact = getcontact(uin, 0, 0, NULL);
+	MCONTACT hContact = getcontact(uin, 0, 0, nullptr);
 	DWORD ip, myuin; WORD port;
 
 	debugLogA("dccconnect(): Connecting to uin %d.", uin);
@@ -110,7 +110,7 @@ HANDLE ftfail(GGPROTO *gg, MCONTACT hContact)
 #ifdef DEBUGMODE
 	gg->debugLogA("ftfail(): Failing file transfer...");
 #endif
-	srand(time(NULL));
+	srand(time(nullptr));
 	ft->hProcess = (HANDLE)rand();
 	ft->hContact = hContact;
 #ifdef DEBUGMODE
@@ -139,7 +139,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	char szFilename[MAX_PATH];
 
 	// Zero up lists
-	watches = transfers = requests = l = NULL;
+	watches = transfers = requests = l = nullptr;
 
 	debugLogA("dccmainthread(): started. DCC Server Thread Starting");
 
@@ -206,7 +206,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 		}
 
 		// Wait for data on selects
-		ret = select(maxfd + 1, &rd, &wd, NULL, &tv);
+		ret = select(maxfd + 1, &rd, &wd, nullptr, &tv);
 
 		// Check for select error
 		if (ret == -1)
@@ -248,7 +248,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 						gg_dcc_socket_free(local_dcc);
 
 						// Check if it's main socket
-						if (local_dcc == dcc) dcc = NULL;
+						if (local_dcc == dcc) dcc = nullptr;
 						continue;
 					} else {
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
@@ -260,7 +260,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 						// Client connected
 						case GG_EVENT_DCC_NEW:
 							list_add(&watches, e->event.dcc_new, 0);
-							e->event.dcc_new = NULL;
+							e->event.dcc_new = nullptr;
 							break;
 
 						//
@@ -275,7 +275,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc->contact;
 								pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
-								pfts.pszFiles = NULL;
+								pfts.pszFiles = nullptr;
 								pfts.totalFiles = 1;
 								pfts.currentFileNumber = 0;
 								pfts.totalBytes = local_dcc->file_info.size;
@@ -305,7 +305,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc->contact;
 								pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
-								pfts.pszFiles = NULL;
+								pfts.pszFiles = nullptr;
 								pfts.totalFiles = 1;
 								pfts.currentFileNumber = 0;
 								pfts.totalBytes = local_dcc->file_info.size;
@@ -324,7 +324,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 							// Free dcc
-							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = NULL;
+							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
 							break;
 
 						// Client error
@@ -364,7 +364,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 							}
 							// Free dcc
-							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = NULL;
+							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
 							break;
 
 						// Need file acknowledgement
@@ -380,13 +380,13 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							// Add file recv request
 							{
 								// Make new ggtransfer struct
-								local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, NULL);
+								local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
 								wchar_t* filenameT = mir_utf8decodeW((char*)dcc->file_info.filename);
 
 								PROTORECVFILET pre = {0};
 								pre.dwFlags = PRFF_UNICODE;
 								pre.fileCount = 1;
-								pre.timestamp = time(NULL);
+								pre.timestamp = time(nullptr);
 								pre.descr.w = filenameT;
 								pre.files.w = &filenameT;
 								pre.lParam = (LPARAM)local_dcc;
@@ -403,13 +403,13 @@ void __cdecl GGPROTO::dccmainthread(void*)
 						case GG_EVENT_DCC_CLIENT_ACCEPT:
 							debugLogA("dccmainthread(): Client: %d, Client accept.", local_dcc->peer_uin);
 							// Check if user is on the list and if it is my uin
-							if (getcontact(local_dcc->peer_uin, 0, 0, NULL) &&
+							if (getcontact(local_dcc->peer_uin, 0, 0, nullptr) &&
 								getDword(GG_KEY_UIN, -1) == local_dcc->uin)
 								break;
 
 							// Kill unauthorized dcc
 							list_remove(&watches, dcc, 0);
-							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = NULL;
+							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
 							break;
 
 						// Client connected as we wished to (callback)
@@ -454,7 +454,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								debugLogA("dccmainthread(): Unknown request to client %d.", local_dcc->peer_uin);
 								// Kill unauthorized dcc
 								list_remove(&watches, local_dcc, 0);
-								gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = NULL;
+								gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
 							}
 							break;
 						}
@@ -503,7 +503,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc7->contact;
 								pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
-								pfts.pszFiles = NULL;
+								pfts.pszFiles = nullptr;
 								pfts.totalFiles = 1;
 								pfts.currentFileNumber = 0;
 								pfts.totalBytes = local_dcc7->size;
@@ -533,7 +533,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 								pfts.hContact = (UINT_PTR)local_dcc7->contact;
 								pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
-								pfts.pszFiles = NULL;
+								pfts.pszFiles = nullptr;
 								pfts.totalFiles = 1;
 								pfts.currentFileNumber = 0;
 								pfts.totalBytes = local_dcc7->size;
@@ -625,7 +625,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 			gg_dcc_socket_free(local_dcc);
 
 			// Check if it's main socket
-			if (local_dcc == dcc) dcc = NULL;
+			if (local_dcc == dcc) dcc = nullptr;
 		}
 	}
 	// Close all waiting for aknowledgle transfers
@@ -683,7 +683,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 		ProtoBroadcastAck((UINT_PTR)dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 		// Free transfer
 		gg_free_dcc(dcc);
-		return 0;
+		return nullptr;
 	}
 
 	// Put an offset to the file
@@ -719,7 +719,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 		ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
 		// Free transfer
 		gg_dcc7_free(dcc7);
-		return 0;
+		return nullptr;
 	}
 
 	// Open file for appending and check if ok
@@ -733,7 +733,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 		ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 		// Free transfer
 		gg_dcc7_free(dcc7);
-		return 0;
+		return nullptr;
 	}
 
 	// Put an offset to the file
@@ -855,7 +855,7 @@ HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 	// Check if its proper dcc
 	struct gg_common *c = (struct gg_common *) hTransfer;
 	if (!c)
-		return NULL;
+		return nullptr;
 
 	if (c->type == GG_SESSION_DCC7_GET)
 		return dcc7fileallow(hTransfer, szPath);
@@ -930,7 +930,7 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {
 
 		gg_EnterCriticalSection(&sess_mutex, "SendFile", 46, "sess_mutex", 1);
-		struct gg_dcc7 *dcc7 = gg_dcc7_send_file(sess, uin, filename, NULL, NULL);
+		struct gg_dcc7 *dcc7 = gg_dcc7_send_file(sess, uin, filename, nullptr, nullptr);
 		if (!dcc7) {
 			gg_LeaveCriticalSection(&sess_mutex, "SendFile", 46, 1, "sess_mutex", 1);
 			debugLogA("SendFile(): Failed to send file \"%s\".", filename);
@@ -967,7 +967,7 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 	}
 
 	// Try to connect if not ask user to connect me
-	struct gg_dcc *dcc = NULL;
+	struct gg_dcc *dcc = nullptr;
 	if ((ip && port >= 10 && !(dcc = gg_dcc_send_file(ip, port, myuin, uin))) || (port < 10 && port > 0))
 	{
 		// Make fake dcc structure

@@ -34,7 +34,7 @@ void WhatsAppProto::onMessageForMe(const FMessage &pMsg)
 		if (getByte(WHATSAPP_KEY_USE_REMOTE_TIME, 0))
 			recv.timestamp = pMsg.timestamp;
 		else
-			recv.timestamp = time(NULL);
+			recv.timestamp = time(nullptr);
 
 		ProtoChainRecvMsg(hContact, &recv);
 	}
@@ -49,21 +49,21 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	if (jid == NULL)
 		return 0;
 
-	if (m_pConnection == NULL) {
+	if (m_pConnection == nullptr) {
 		debugLogA("No connection");
 		return 0;
 	}
 
 	int msgId = GetSerial();
 	try {
-		time_t now = time(NULL);
+		time_t now = time(nullptr);
 		std::string id = Utilities::intToStr(now) + "-" + Utilities::intToStr(msgId);
 		FMessage fmsg(std::string(jid), true, id);
 		fmsg.timestamp = now;
 		fmsg.data = msg;
 
 		m_pConnection->sendMessage(&fmsg);
-		utils::setStatusMessage(hContact, NULL);
+		utils::setStatusMessage(hContact, nullptr);
 	}
 	catch (exception &e) {
 		debugLogA("exception: %s", e.what());

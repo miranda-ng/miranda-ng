@@ -27,7 +27,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	debugLogA("CVkProto::RunCaptchaForm: reading picture from %s", szUrl);
 	result.Empty();
 
-	CAPTCHA_FORM_PARAMS param = { 0 };
+	CAPTCHA_FORM_PARAMS param = {};
 	if (getBool("UseCaptchaAssistant", false)) {
 		CMStringA szCaptchaAssistant(FORMAT, "http://ca.tiflohelp.ru/?link=%s", ptrA(ExpUrlEncode(szUrl)));
 		Utils_OpenUrl(szCaptchaAssistant);

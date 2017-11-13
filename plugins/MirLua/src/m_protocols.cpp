@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-HANDLE hRecvMessage = NULL;
+HANDLE hRecvMessage = nullptr;
 
 static int lua_GetProtocol(lua_State *L)
 {
-	const char *szProto = NULL;
+	const char *szProto = nullptr;
 
 	switch (lua_type(L, 1))
 	{
@@ -109,7 +109,7 @@ static int lua_ChainRecv(lua_State *L)
 
 static int lua_GetAccount(lua_State *L)
 {
-	const char *name = NULL;
+	const char *name = nullptr;
 
 	switch (lua_type(L, 1))
 	{
@@ -157,7 +157,7 @@ static int lua_AccountIterator(lua_State *L)
 
 static int lua_Accounts(lua_State *L)
 {
-	const char *szProto = NULL;
+	const char *szProto = nullptr;
 
 	switch (lua_type(L, 1))
 	{
@@ -191,7 +191,7 @@ static int lua_Accounts(lua_State *L)
 
 static int lua_CallService(lua_State *L)
 {
-	const char *szModule = NULL;
+	const char *szModule = nullptr;
 
 	switch (lua_type(L, 1))
 	{
@@ -247,7 +247,7 @@ static luaL_Reg protocolsApi[] =
 
 	{ "CallService", lua_CallService },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 /***********************************************/

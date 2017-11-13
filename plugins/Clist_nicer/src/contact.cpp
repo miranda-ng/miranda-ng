@@ -47,7 +47,7 @@ static int GetContactStatus(MCONTACT hContact)
 	char *szProto;
 
 	szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return ID_STATUS_OFFLINE;
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
@@ -62,11 +62,11 @@ int __forceinline GetStatusModeOrdering(int statusMode)
 }
 
 int mf_updatethread_running = TRUE;
-HANDLE hThreadMFUpdate = 0;
+HANDLE hThreadMFUpdate = nullptr;
 
 static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 {
-	DWORD  curTime = time(NULL);
+	DWORD  curTime = time(nullptr);
 	DWORD  frequency, eventCount;
 	MEVENT hEvent = db_event_last(hContact);
 
@@ -153,7 +153,7 @@ int __forceinline GetProtoIndex(char * szName)
 		return -1;
 
 	PROTOACCOUNT *pa = Proto_GetAccount(szName);
-	return (pa == NULL) ? -1 : pa->iOrder;
+	return (pa == nullptr) ? -1 : pa->iOrder;
 }
 
 int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact* c2, UINT bywhat)
@@ -163,7 +163,7 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 	char *szProto1, *szProto2;
 	int rc;
 
-	if (c1 == 0 || c2 == 0)
+	if (c1 == nullptr || c2 == nullptr)
 		return 0;
 
 	szProto1 = c1->proto;
@@ -227,7 +227,7 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 
 		rc = GetProtoIndex(szProto1) - GetProtoIndex(szProto2);
 
-		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
+		if (rc != 0 && (szProto1 != nullptr && szProto2 != nullptr))
 			return rc;
 	}
 	return 0;

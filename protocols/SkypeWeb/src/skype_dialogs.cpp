@@ -82,7 +82,7 @@ void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 			if (HANDLE hItem = m_clc.FindContact(hContact)) {
 				if (m_clc.GetCheck(hItem)) {
 					char *szName = mir_strdup(m_proto->Contacts[hContact]);
-					if (szName != NULL)
+					if (szName != nullptr)
 						m_ContactsList.insert(szName);
 				}
 			}
@@ -104,7 +104,7 @@ void CSkypeGCCreateDlg::FilterList(CCtrlClc *)
 
 void CSkypeGCCreateDlg::ResetListOptions(CCtrlClc *)
 {
-	m_clc.SetBkBitmap(0, NULL);
+	m_clc.SetBkBitmap(0, nullptr);
 	m_clc.SetBkColor(GetSysColor(COLOR_WINDOW));
 	m_clc.SetGreyoutFlags(0);
 	m_clc.SetLeftMargin(4);

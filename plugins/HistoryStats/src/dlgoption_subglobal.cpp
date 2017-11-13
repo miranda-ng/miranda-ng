@@ -74,7 +74,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 				RECT rDetails;
 
 				GetWindowRect(GetDlgItem(hDlg, IDC_DESCRIPTION), &rDetails);
-				SetWindowPos(GetDlgItem(hDlg, IDC_DESCRIPTION), NULL, 0, 0, rDetails.right - rDetails.left, rDetails.bottom - rDetails.top + nHeightAdd, SWP_NOMOVE | SWP_NOZORDER);
+				SetWindowPos(GetDlgItem(hDlg, IDC_DESCRIPTION), nullptr, 0, 0, rDetails.right - rDetails.left, rDetails.bottom - rDetails.top + nHeightAdd, SWP_NOMOVE | SWP_NOZORDER);
 			}
 		}
 		return TRUE;
@@ -129,16 +129,16 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 }
 
 DlgOption::SubGlobal::SubGlobal() :
-	m_hOnStartup(NULL),
-	m_hShowMainMenu(NULL),
-	m_hShowMainMenuSub(NULL),
-	m_hShowContactMenu(NULL),
-	m_hShowContactMenuPseudo(NULL),
-	m_hGraphicsMode(NULL),
-	m_hGraphicsModePNG(NULL),
-	m_hPNGMode(NULL),
-	m_hThreadLowPriority(NULL),
-	m_hPathToBrowser(NULL),
+	m_hOnStartup(nullptr),
+	m_hShowMainMenu(nullptr),
+	m_hShowMainMenuSub(nullptr),
+	m_hShowContactMenu(nullptr),
+	m_hShowContactMenuPseudo(nullptr),
+	m_hGraphicsMode(nullptr),
+	m_hGraphicsModePNG(nullptr),
+	m_hPNGMode(nullptr),
+	m_hThreadLowPriority(nullptr),
+	m_hPathToBrowser(nullptr),
 	m_bShowInfo(false),
 	m_nInfoHeight(0)
 {
@@ -219,20 +219,20 @@ void DlgOption::SubGlobal::onWMInitDialog()
 	// settings
 	OptionsCtrl::Item hTemp;
 
-	hTemp = m_Options.insertGroup(NULL, TranslateT("Integration"), OptionsCtrl::OCF_ROOTGROUP);
+	hTemp = m_Options.insertGroup(nullptr, TranslateT("Integration"), OptionsCtrl::OCF_ROOTGROUP);
 	m_hOnStartup = m_Options.insertCheck(hTemp, TranslateT("Create statistics on Miranda NG startup"));
 	m_hShowMainMenu = m_Options.insertCheck(hTemp, TranslateT("Add menu items to main menu"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 	m_hShowMainMenuSub = m_Options.insertCheck(m_hShowMainMenu, TranslateT("Put menu items into submenu"));
 	m_hShowContactMenu = m_Options.insertCheck(hTemp, TranslateT("Add menu items to contact menu"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 	m_hShowContactMenuPseudo = m_Options.insertCheck(m_hShowContactMenu, TranslateT("Don't hide menu items for pseudo protocols"));
 	m_hProtocols = m_Options.insertGroup(m_hShowContactMenu, TranslateT("Hide menu items for protocol..."));
-	hTemp = m_Options.insertGroup(NULL, TranslateT("Graphics"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
-	m_hGraphicsMode = m_Options.insertRadio(hTemp, NULL, TranslateT("Only use HTML to simulate graphics"));
+	hTemp = m_Options.insertGroup(nullptr, TranslateT("Graphics"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
+	m_hGraphicsMode = m_Options.insertRadio(hTemp, nullptr, TranslateT("Only use HTML to simulate graphics"));
 	m_hGraphicsModePNG = m_Options.insertRadio(hTemp, m_hGraphicsMode, TranslateT("Generate PNG files to represent graphics"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
-	m_hPNGMode = m_Options.insertRadio(m_hGraphicsModePNG, NULL, TranslateT("Fall back to HTML output if column options require HTML output"));
+	m_hPNGMode = m_Options.insertRadio(m_hGraphicsModePNG, nullptr, TranslateT("Fall back to HTML output if column options require HTML output"));
 	m_Options.insertRadio(m_hGraphicsModePNG, m_hPNGMode, TranslateT("Enforce PNG output, possibly ignoring some column options"));
 	m_Options.insertRadio(m_hGraphicsModePNG, m_hPNGMode, TranslateT("Prefer HTML output over PNG output if available"));
-	hTemp = m_Options.insertGroup(NULL, TranslateT("Miscellaneous"), OptionsCtrl::OCF_ROOTGROUP);
+	hTemp = m_Options.insertGroup(nullptr, TranslateT("Miscellaneous"), OptionsCtrl::OCF_ROOTGROUP);
 	m_hThreadLowPriority = m_Options.insertCheck(hTemp, TranslateT("Generate statistics in background thread with low priority"));
 	m_hPathToBrowser = m_Options.insertEdit(hTemp, TranslateT("Path to browser (leave blank for system default)"));
 
@@ -251,7 +251,7 @@ void DlgOption::SubGlobal::onWMInitDialog()
 			reinterpret_cast<INT_PTR>(protoList[i]->szModuleName)));
 	}
 
-	m_Options.ensureVisible(NULL);
+	m_Options.ensureVisible(nullptr);
 
 	// init support info list
 	initSupportInfo();

@@ -202,8 +202,8 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			mir_snprintf(szPercent, "%d%%", btOpacity);
 			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_OPACITY), SetLayeredWindowAttributes != 0);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_OPACITY), SetLayeredWindowAttributes != 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_OPACITY), SetLayeredWindowAttributes != nullptr);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_OPACITY), SetLayeredWindowAttributes != nullptr);
 		}
 		return TRUE;
 

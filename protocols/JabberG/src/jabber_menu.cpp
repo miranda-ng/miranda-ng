@@ -187,7 +187,7 @@ void g_MenuInit(void)
 
 	CreateServiceFunction("Jabber/MenuChoose", JabberMenuChooseService);
 
-	hChooserMenu = Menu_AddObject("JabberAccountChooser", LPGEN("Jabber account chooser"), 0, "Jabber/MenuChoose");
+	hChooserMenu = Menu_AddObject("JabberAccountChooser", LPGEN("Jabber account chooser"), nullptr, "Jabber/MenuChoose");
 	{
 		CMenuItem mi;
 		mi.name.a = "Cancel";
@@ -847,7 +847,7 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 	if (g_Instances.getCount() == 0)
 		return 0;
 
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat);

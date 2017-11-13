@@ -133,7 +133,7 @@ int CLCDConnection::GetColorCount()
 //************************************************************************
 PBYTE CLCDConnection::GetPixelBuffer()
 {
-	return NULL;
+	return nullptr;
 }
 
 //************************************************************************
@@ -141,7 +141,7 @@ PBYTE CLCDConnection::GetPixelBuffer()
 //************************************************************************
 CLCDDevice* CLCDConnection::GetAttachedDevice(int)
 {
-	return NULL;
+	return nullptr;
 }
 
 //************************************************************************
@@ -173,5 +173,5 @@ void CLCDConnection::SetReconnect(bool bSet)
 //************************************************************************
 CLCDDevice* CLCDConnection::GetConnectedDevice()
 {
-	return NULL;
+	return nullptr;
 }

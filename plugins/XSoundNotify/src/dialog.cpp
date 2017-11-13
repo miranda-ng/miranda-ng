@@ -25,7 +25,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			char* szProto = GetContactProto(hContact);
 			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 			char* szUniqueId = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-			if ((INT_PTR)szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != NULL) {
+			if ((INT_PTR)szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != nullptr) {
 				DBVARIANT dbvuid = { 0 };
 				if (!db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
 					wchar_t uid[MAX_PATH];
@@ -66,7 +66,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CONT_IGNORE_SOUND), TRUE);
 			CheckDlgButton(hwndDlg, IDC_CONT_IGNORE_SOUND, db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 			p = XSN_Users.find((XSN_Data *)&hContact);
-			if (p == NULL) {
+			if (p == nullptr) {
 				ptrW name(db_get_wsa(hContact, SETTINGSNAME, SETTINGSKEY));
 				if (name != NULL)
 					XSN_Users.insert(new XSN_Data(hContact, name, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0, 1));
@@ -78,7 +78,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			p = XSN_Users.find((XSN_Data *)&hContact);
-			if (p != NULL) {
+			if (p != nullptr) {
 				if (mir_wstrcmpi(p->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
 					PathToRelativeW(p->path, shortpath);
@@ -104,7 +104,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				else
 					mir_snwprintf(tmp, L"%s (*.wav)%c*.wav%c%c", TranslateT("WAV files"), 0, 0, 0);
 				ofn.lpstrFilter = tmp;
-				ofn.hwndOwner = 0;
+				ofn.hwndOwner = nullptr;
 				ofn.lpstrFile = FileName;
 				ofn.nMaxFile = MAX_PATH;
 				ofn.nMaxFileTitle = MAX_PATH;
@@ -116,7 +116,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 				if (GetOpenFileName(&ofn)) {
 					SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, PathFindFileName(FileName));
 					p = XSN_Users.find((XSN_Data *)&hContact);
-					if (p == NULL)
+					if (p == nullptr)
 						XSN_Users.insert(new XSN_Data(hContact, FileName, IsDlgButtonChecked(hwndDlg, IDC_CONT_IGNORE_SOUND) ? 1 : 0, 1));
 					else {
 						wcsncpy(p->path, FileName, _countof(p->path));
@@ -132,7 +132,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 		case IDC_CONT_BUTTON_TEST_PLAY:
 			p = XSN_Users.find((XSN_Data *)&hContact);
 			isIgnoreSound = 0;
-			if (p == NULL) {
+			if (p == nullptr) {
 				DBVARIANT dbv;
 				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH] = { 0 };
@@ -155,7 +155,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 			SetDlgItemText(hwndDlg, IDC_CONT_LABEL_SOUND, TranslateT("Not set"));
 
 			p = XSN_Users.find((XSN_Data *)&hContact);
-			if (p != NULL) {
+			if (p != nullptr) {
 				XSN_Users.remove(p);
 				delete p;
 			}
@@ -165,7 +165,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 
 		case IDC_CONT_IGNORE_SOUND:
 			p = XSN_Users.find((XSN_Data *)&hContact);
-			if (p == NULL) {
+			if (p == nullptr) {
 				DBVARIANT dbv;
 				if (!db_get_ws(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 					wchar_t longpath[MAX_PATH];
@@ -194,7 +194,7 @@ INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 {
 	HWND hChangeSoundDlg = WindowList_Find(hChangeSoundDlgList, wParam);
 	if (!hChangeSoundDlg) {
-		hChangeSoundDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACTS), 0, DlgProcContactsOptions, (LPARAM)wParam);
+		hChangeSoundDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACTS), nullptr, DlgProcContactsOptions, (LPARAM)wParam);
 		ShowWindow(hChangeSoundDlg, SW_SHOW);
 	}
 	else {

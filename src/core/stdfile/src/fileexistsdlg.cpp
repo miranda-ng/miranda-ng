@@ -54,7 +54,7 @@ static void DoAnnoyingShellCommand(HWND hwnd, const wchar_t *szFilename, int cmd
 		ITEMIDLIST *pCurrentIdl;
 		WCHAR* wszFilename = (LPWSTR)szFilename;
 
-		if (pDesktopFolder->ParseDisplayName(NULL, NULL, wszFilename, NULL, &pCurrentIdl, NULL) == NOERROR) {
+		if (pDesktopFolder->ParseDisplayName(nullptr, nullptr, wszFilename, nullptr, &pCurrentIdl, nullptr) == NOERROR) {
 			if (pCurrentIdl->mkid.cb) {
 				ITEMIDLIST *pidl, *pidlNext, *pidlFilename;
 				IShellFolder *pFileFolder;
@@ -69,9 +69,9 @@ static void DoAnnoyingShellCommand(HWND hwnd, const wchar_t *szFilename, int cmd
 					}
 					pidl = pidlNext;
 				}
-				if (pDesktopFolder->BindToObject(pCurrentIdl, NULL, IID_IShellFolder, (void**)&pFileFolder) == NOERROR) {
+				if (pDesktopFolder->BindToObject(pCurrentIdl, nullptr, IID_IShellFolder, (void**)&pFileFolder) == NOERROR) {
 					IContextMenu *pContextMenu;
-					if (pFileFolder->GetUIObjectOf(NULL, 1, (LPCITEMIDLIST*)&pidlFilename, IID_IContextMenu, NULL, (void**)&pContextMenu) == NOERROR) {
+					if (pFileFolder->GetUIObjectOf(nullptr, 1, (LPCITEMIDLIST*)&pidlFilename, IID_IContextMenu, nullptr, (void**)&pContextMenu) == NOERROR) {
 						switch (cmd) {
 						case C_PROPERTIES:
 							{
@@ -87,7 +87,7 @@ static void DoAnnoyingShellCommand(HWND hwnd, const wchar_t *szFilename, int cmd
 						case C_CONTEXTMENU:
 							HMENU hMenu = CreatePopupMenu();
 							if (SUCCEEDED(pContextMenu->QueryContextMenu(hMenu, 0, 1000, 65535, (GetKeyState(VK_SHIFT) & 0x8000 ? CMF_EXTENDEDVERBS : 0) | CMF_NORMAL))) {
-								int ret = TrackPopupMenu(hMenu, TPM_RETURNCMD, ptCursor->x, ptCursor->y, 0, hwnd, NULL);
+								int ret = TrackPopupMenu(hMenu, TPM_RETURNCMD, ptCursor->x, ptCursor->y, 0, hwnd, nullptr);
 								if (ret) {
 									CMINVOKECOMMANDINFO ici = { 0 };
 									ici.cbSize = sizeof(ici);
@@ -118,7 +118,7 @@ static LRESULT CALLBACK IconCtrlSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	switch (msg) {
 	case WM_LBUTTONDBLCLK:
-		ShellExecute(hwnd, NULL, pft->tszCurrentFile, NULL, NULL, SW_SHOW);
+		ShellExecute(hwnd, nullptr, pft->tszCurrentFile, nullptr, nullptr, SW_SHOW);
 		break;
 	case WM_RBUTTONUP:
 		POINT pt;
@@ -144,7 +144,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		wchar_t szExtension[64], szIconFile[MAX_PATH];
 
 		wchar_t *pszFilename = wcsrchr(info->szFilename, '\\');
-		if (pszFilename == NULL)
+		if (pszFilename == nullptr)
 			pszFilename = info->szFilename;
 
 		wchar_t *pszExtension = wcsrchr(pszFilename, '.');

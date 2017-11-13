@@ -1245,7 +1245,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			case POPUP_NEWSUBGROUP:
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
 				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
-				Clist_GroupCreate(contact->groupId, 0);
+				Clist_GroupCreate(contact->groupId, nullptr);
 				break;
 			case POPUP_RENAMEGROUP:
 				cli.pfnBeginRenameSelection(hwnd, dat);

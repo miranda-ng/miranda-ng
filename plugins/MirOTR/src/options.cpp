@@ -122,7 +122,7 @@ void ReadPrivkeyFiles()
 	DEBUGOUTA("READ privkey");
 	lib_cs_lock();
 	otrl_privkey_read(otr_user_state, _T2A(g_private_key_filename));
-	otrl_privkey_read_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename), set_context_contact, 0);
+	otrl_privkey_read_fingerprints(otr_user_state, _T2A(g_fingerprint_store_filename), set_context_contact, nullptr);
 	otrl_instag_read(otr_user_state, _T2A(g_instag_filename));
 }
 
@@ -233,7 +233,7 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static unsigned int CALLBACK regen_key_thread(void* param)
 {
-	Thread_Push(0);
+	Thread_Push(nullptr);
 	PROTOREGENKEYOPTIONS *opts = (PROTOREGENKEYOPTIONS *)param;
 	wchar_t buff[512];
 
@@ -241,7 +241,7 @@ static unsigned int CALLBACK regen_key_thread(void* param)
 	EnableWindow(opts->refresh, FALSE);
 	if (IDYES == MessageBox(opts->refresh, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION|MB_YESNO)) {
 		char* proto = mir_u2a(opts->proto);
-		otr_gui_create_privkey(0, proto, proto);
+		otr_gui_create_privkey(nullptr, proto, proto);
 		mir_free(proto);
 		SendMessage(opts->refresh, WMU_REFRESHPROTOLIST, 0, 0);
 	}
@@ -256,7 +256,7 @@ static char* GetProtoName(HWND lv, int iItem)
 	LV_ITEM item;
 	item.iItem = iItem;
 	item.mask = LVIF_PARAM;
-	return (ListView_GetItem(lv, &item) == -1) ? NULL : (char*)item.lParam;
+	return (ListView_GetItem(lv, &item) == -1) ? nullptr : (char*)item.lParam;
 }
 
 static void ChangeContactSetting(HWND hwndDlg, int iItem, bool changeHtml)
@@ -401,7 +401,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 					PROTOREGENKEYOPTIONS *opts = new PROTOREGENKEYOPTIONS();
 					opts->refresh = hwndDlg;
 					ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, opts->proto, _countof(opts->proto));
-					CloseHandle((HANDLE)_beginthreadex(0, 0, regen_key_thread, opts, 0, 0));
+					CloseHandle((HANDLE)_beginthreadex(nullptr, 0, regen_key_thread, opts, 0, nullptr));
 				}
 				break;
 			
@@ -414,7 +414,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 					mir_snwprintf(buff, TranslateW(LANG_OTR_ASK_REMOVEKEY), buff_proto);
 					if (IDYES == MessageBox(hwndDlg, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION | MB_YESNO)) {
 						char *proto = GetProtoName(lv, sel);
-						if (proto == NULL)
+						if (proto == nullptr)
 							break;
 
 						OtrlPrivKey *key = otrl_privkey_find(otr_user_state, proto, proto);
@@ -473,7 +473,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			wchar_t policy[64];
 			for (int i = 0; i < cnt; ++i) {
 				char *proto = GetProtoName(lv, i);
-				if (proto == NULL)
+				if (proto == nullptr)
 					continue;
 
 				ListView_GetItemText(lv, i, 1, policy, _countof(policy));
@@ -800,7 +800,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 					break;
 
 				case FPM_NOTRUST:
-					otrl_context_set_trust(it->first, NULL);
+					otrl_context_set_trust(it->first, nullptr);
 					if (it->first == it->first->context->active_fingerprint)
 						VerifyFingerprint(it->first->context, false);
 					break;
@@ -808,7 +808,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 			}
 
 			if (!fpm->empty())
-				otr_gui_write_fingerprints(0);
+				otr_gui_write_fingerprints(nullptr);
 			fpm->clear();
 			SendMessage(hwndDlg, WMU_REFRESHLIST, 0, 0);
 			return TRUE;

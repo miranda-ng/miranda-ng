@@ -65,13 +65,13 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		case IDC_AUTOPARSE:
 			SendMessage(hwndDlg, VARM_PARSE, 0, 0);
 			if (IsDlgButtonChecked( hwndDlg, IDC_AUTOPARSE ))
-				SetTimer(hwndDlg, IDT_PARSE, 1000, NULL);
+				SetTimer(hwndDlg, IDT_PARSE, 1000, nullptr);
 			else
 				KillTimer(hwndDlg, IDT_PARSE);
 			break;
 
 		case IDC_SHOWHELP:
-			variables_showhelp(hwndDlg, IDC_FORMATTEXT, VHF_FULLDLG|VHF_SETLASTSUBJECT, NULL, NULL);
+			variables_showhelp(hwndDlg, IDC_FORMATTEXT, VHF_FULLDLG|VHF_SETLASTSUBJECT, nullptr, nullptr);
 			break;
 
 		case IDC_STRIPALL:
@@ -86,7 +86,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 			int len = SendDlgItemMessage(hwndDlg, IDC_FORMATTEXT, WM_GETTEXTLENGTH, 0, 0);
 			if (len >= 0) {
 				wchar_t *szFormatText = (wchar_t*)mir_calloc((len+1)* sizeof(wchar_t));
-				if (szFormatText == NULL)
+				if (szFormatText == nullptr)
 					break;
 
 				if (GetDlgItemText(hwndDlg, IDC_FORMATTEXT, szFormatText, len+1) != 0)
@@ -104,9 +104,9 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 	case VARM_PARSE:
 		{
 			wchar_t *string = Hlp_GetDlgItemText(hwndDlg, IDC_FORMATTEXT);
-			if (string != NULL) {
-				wchar_t *newString = variables_parsedup(string, NULL, NULL);
-				if (newString != NULL) {
+			if (string != nullptr) {
+				wchar_t *newString = variables_parsedup(string, nullptr, NULL);
+				if (newString != nullptr) {
 					SetDlgItemText(hwndDlg, IDC_RESULT, newString);
 					mir_free(newString);
 				}
@@ -120,7 +120,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		break;
 
 	case WM_DESTROY:
-		setParseOptions(NULL);
+		setParseOptions(nullptr);
 		break;
 	}
 

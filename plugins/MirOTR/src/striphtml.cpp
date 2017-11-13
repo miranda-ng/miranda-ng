@@ -102,8 +102,8 @@ char * striphtml(char *html) {
 
 	ekhtml_parser_t *parser = ekhtml_parser_new(&data);
 	ekhtml_parser_datacb_set(parser, &data_cb);
-	ekhtml_parser_startcb_add(parser, NULL, &starttag_cb);
-	ekhtml_parser_endcb_add(parser, NULL, &endtag_cb);
+	ekhtml_parser_startcb_add(parser, nullptr, &starttag_cb);
+	ekhtml_parser_endcb_add(parser, nullptr, &endtag_cb);
 
 	ekhtml_parser_feed(parser, &ekstring);
 	ekhtml_parser_flush(parser, 1);

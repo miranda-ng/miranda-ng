@@ -220,7 +220,7 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(int hMenuObject, int key)
 MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 {
 	if (pThis == nullptr)
-		return 0;
+		return nullptr;
 
 	if (db_get_b(0, "CList", "MoveProtoMenus", TRUE)) {
 		if (pThis->m_hMainMenuItem != nullptr) {
@@ -747,7 +747,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 		if (pmi->uid != miid_last && pRoot->mi.uid == miid_last) {
 			char szUid[100];
 			bin2hex(&pmi->uid, sizeof(pmi->uid), szUid);
-			Netlib_Logf(0, "[MENU]: fake UUID added to menu item %s", szUid);
+			Netlib_Logf(nullptr, "[MENU]: fake UUID added to menu item %s", szUid);
 
 			pRoot->mi.uid = pmi->uid;
 			pRoot->mi.uid.d[7]--; // and make it slightly different
@@ -1197,7 +1197,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 		mir_cslock lck(csMenuHook);
 		for (int mo = 0; mo < g_menus.getCount(); mo++)
 			if (hStatusMenuObject != g_menus[mo]->id) //skip status menu
-				MO_RecursiveWalkMenu(g_menus[mo]->m_items.first, MO_ReloadIcon, 0);
+				MO_RecursiveWalkMenu(g_menus[mo]->m_items.first, MO_ReloadIcon, nullptr);
 	}
 
 	cli.pfnReloadProtoMenus();
@@ -1235,7 +1235,7 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 		}
 	}
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.flags = SIDF_UNICODE;
 	sid.section.w = sectionName;
 	sid.pszName = iconame;
@@ -1259,7 +1259,7 @@ int RegisterAllIconsInIconLib()
 		if (hStatusMenuObject == g_menus[mo]->id) //skip status menu
 			continue;
 
-		MO_RecursiveWalkMenu(g_menus[mo]->m_items.first, MO_RegisterIcon, 0);
+		MO_RecursiveWalkMenu(g_menus[mo]->m_items.first, MO_RegisterIcon, nullptr);
 	}
 
 	return 0;
@@ -1272,7 +1272,7 @@ int posttimerid;
 
 static VOID CALLBACK PostRegisterIcons(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(0, posttimerid);
+	KillTimer(nullptr, posttimerid);
 	RegisterAllIconsInIconLib();
 }
 

@@ -64,8 +64,8 @@ void CSkypeProto::PollingThread(void*)
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
-	m_hPollingThread = NULL;
-	m_pollingConnection = NULL;
+	m_hPollingThread = nullptr;
+	m_pollingConnection = nullptr;
 	debugLogA(__FUNCTION__ ": leaving");
 }
 

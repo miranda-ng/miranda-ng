@@ -22,7 +22,7 @@ void SetContactExtraIcon(MCONTACT hContact, int status)
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
 
-	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? IcoLib_GetIconHandle(iconName) : NULL);
+	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? IcoLib_GetIconHandle(iconName) : nullptr);
 }
 
 INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
@@ -40,7 +40,7 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 	// fill status name member
 	if (pData->flags & CSSF_MASK_NAME)
 	{
-		int status = (pData->wParam == NULL) ? GetContactXStatus(hContact) : *pData->wParam;
+		int status = (pData->wParam == nullptr) ? GetContactXStatus(hContact) : *pData->wParam;
 		if (status < 1)
 			return 1;
 
@@ -93,7 +93,7 @@ INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 HICON CSteamProto::GetXStatusIcon(int status, UINT flags)
 {
 	if (status < 1)
-		return 0;
+		return nullptr;
 
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");

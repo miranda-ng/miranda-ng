@@ -123,13 +123,13 @@ static int CountryNumberToBitmapIndex(int countryNumber)
 
 /************************* Utils **********************************/
 
-static HANDLE *phIconHandles = NULL;
+static HANDLE *phIconHandles = nullptr;
 
 HICON LoadFlag(int countryNumber)
 {
 	/* create identifier */
 	char *szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0);
-	if (szCountry == NULL)
+	if (szCountry == nullptr)
 		szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber=0xFFFF,0);
 
 	char szId[20];
@@ -139,8 +139,8 @@ HICON LoadFlag(int countryNumber)
 
 HANDLE LoadFlagHandle(int countryNumber)
 {
-	if (phIconHandles == NULL)
-		return NULL;
+	if (phIconHandles == nullptr)
+		return nullptr;
 		
 	return phIconHandles[ CountryNumberToIndex(countryNumber) ];
 }
@@ -157,7 +157,7 @@ int CountryNumberToIndex(int countryNumber)
 
 FIBITMAP* ConvertTo(FIBITMAP* dib, UINT destBits, bool greyscale)
 {
-	FIBITMAP* dib_res = NULL;
+	FIBITMAP* dib_res = nullptr;
 	switch (destBits) {
 		case 8:
 			// convert to 8Bits
@@ -192,7 +192,7 @@ FIBITMAP* ConvertTo(FIBITMAP* dib, UINT destBits, bool greyscale)
 
 FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 {
-	FIBITMAP *dib      = NULL;
+	FIBITMAP *dib      = nullptr;
 	if (lpType) {
 		HRSRC	hResInfo	= FindResource(ghInst,MAKEINTRESOURCE(ID),lpType);
 		DWORD	ResSize		= SizeofResource(ghInst,hResInfo);
@@ -215,7 +215,7 @@ FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 	}
 	else {
 		HBITMAP hScrBM = (HBITMAP)LoadImage(ghInst,MAKEINTRESOURCE(ID), IMAGE_BITMAP, 0, 0,LR_SHARED);
-		if (hScrBM == NULL)
+		if (hScrBM == nullptr)
 			return dib;
 		dib = FIP->FI_CreateDIBFromHBITMAP(hScrBM);
 		DeleteObject(hScrBM);
@@ -229,7 +229,7 @@ static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	/* return handle */
 	if ((BOOL)lParam) {
-		if (phIconHandles==NULL) return NULL;
+		if (phIconHandles==nullptr) return NULL;
 		return (INT_PTR)phIconHandles[CountryNumberToIndex((int)wParam)];
 	}
 	/* return icon */
@@ -241,28 +241,28 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 	//TODO: use freeimage to create merget icon and add RGB(A) support
 	ICONINFO icoi;
 	BITMAP bm;
-	HICON hIcon=NULL;
+	HICON hIcon=nullptr;
 	/* load both icons */
 	HICON hLowerIcon=(HICON)ServiceLoadFlagIcon((WPARAM)lParam,0);
-	if (hLowerIcon == NULL) return NULL;
+	if (hLowerIcon == nullptr) return NULL;
 	HICON hUpperIcon=(HICON)ServiceLoadFlagIcon(wParam,0);
 	/* merge them */
 	if (GetIconInfo(hLowerIcon,&icoi)) {
-		if (hUpperIcon!=NULL && GetObject(icoi.hbmColor,sizeof(bm),&bm)) {
-			HDC hdc=CreateCompatibleDC(NULL);
-			if (hdc!=NULL) {
+		if (hUpperIcon!=nullptr && GetObject(icoi.hbmColor,sizeof(bm),&bm)) {
+			HDC hdc=CreateCompatibleDC(nullptr);
+			if (hdc!=nullptr) {
 				POINT aptTriangle[3];
 				memset(&aptTriangle, 0, sizeof(aptTriangle));
 				aptTriangle[1].y=bm.bmHeight-1;
 				aptTriangle[2].x=bm.bmWidth-1;
 				HRGN hrgn=CreatePolygonRgn(aptTriangle,_countof(aptTriangle),WINDING);
-				if (hrgn!=NULL) {
+				if (hrgn!=nullptr) {
 					SelectClipRgn(hdc,hrgn);
 					HBITMAP hbmPrev=(HBITMAP)SelectObject(hdc,icoi.hbmColor);
-					if (hbmPrev!=NULL) {  /* error on select? */
-						if (DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_IMAGE)) {
-							if (SelectObject(hdc,icoi.hbmMask)!=NULL) /* error on select? */
-								DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_MASK);
+					if (hbmPrev!=nullptr) {  /* error on select? */
+						if (DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,nullptr,DI_NOMIRROR|DI_IMAGE)) {
+							if (SelectObject(hdc,icoi.hbmMask)!=nullptr) /* error on select? */
+								DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,nullptr,DI_NOMIRROR|DI_MASK);
 						}
 						SelectObject(hdc,hbmPrev);
 					}
@@ -285,16 +285,16 @@ void InitIcons()
 {
 	// all those flag icons storing in a large 24bit opaque bitmap to reduce file size
 	FIBITMAP *dib = LoadResource(IDB_FLAGSPNG, L"PNG");
-	if (dib == NULL)
+	if (dib == nullptr)
 		return;
 
 	if (FIP->FI_GetBPP(dib) != ILC_COLOR32)
-		if (NULL == (dib = ConvertTo(dib, ILC_COLOR32, 0)))
+		if (nullptr == (dib = ConvertTo(dib, ILC_COLOR32, 0)))
 			return;
 
 	// create new dib
 	FIBITMAP *dib_ico = FIP->FI_Allocate(FIP->FI_GetWidth(dib), 16, ILC_COLOR32, 0, 0, 0);
-	if (dib_ico == NULL) {
+	if (dib_ico == nullptr) {
 		FIP->FI_Unload(dib);
 		return;
 	}
@@ -306,7 +306,7 @@ void InitIcons()
 
 	// copy dib to new dib_ico (centered)
 	if (FIP->FI_Paste(dib_ico, dib, 0, t - 1, 255 + 1)) {
-		FIP->FI_Unload(dib);	dib = NULL;
+		FIP->FI_Unload(dib);	dib = nullptr;
 
 		// Calculate the number of bytes per pixel (3 for 24-bit or 4 for 32-bit)
 		int bytespp = FIP->FI_GetLine(dib_ico) / w;
@@ -333,15 +333,15 @@ void InitIcons()
 
 	// create ImageList
 	HIMAGELIST himl = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, nCountriesCount);
-	ImageList_Add(himl, hScrBM, NULL);
+	ImageList_Add(himl, hScrBM, nullptr);
 	DeleteObject(hScrBM);
-	hScrBM = NULL;
+	hScrBM = nullptr;
 
-	if (himl != NULL) {
+	if (himl != nullptr) {
 		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
-		if (phIconHandles != NULL) {
+		if (phIconHandles != nullptr) {
 			char szId[20];
-			SKINICONDESC sid = { 0 };
+			SKINICONDESC sid = {};
 			sid.section.w = LPGENW("Country flags");
 			sid.pszName = szId; // name to refer to icon when playing and in db
 			sid.flags = SIDF_SORTED | SIDF_UNICODE;
@@ -356,9 +356,9 @@ void InitIcons()
 				index = CountryNumberToIndex(countries[i].id);
 
 				phIconHandles[index] = IcoLib_AddIcon(&sid);
-				if (sid.hDefaultIcon != NULL)
+				if (sid.hDefaultIcon != nullptr)
 					DestroyIcon(sid.hDefaultIcon);
-				mir_free(sid.description.w); sid.description.w = NULL;
+				mir_free(sid.description.w); sid.description.w = nullptr;
 			}
 		}
 		ImageList_Destroy(himl);

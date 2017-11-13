@@ -45,7 +45,7 @@ int WhatsAppProto::onGroupChatEvent(WPARAM, LPARAM lParam)
 
 	std::string chat_id(T2Utf(gch->ptszID));
 	WAChatInfo *pInfo = SafeGetChat(chat_id);
-	if (pInfo == NULL)
+	if (pInfo == nullptr)
 		return 0;
 
 	switch (gch->iType) {
@@ -63,7 +63,7 @@ int WhatsAppProto::onGroupChatEvent(WPARAM, LPARAM lParam)
 			
 			try {
 				int msgId = GetSerial();
-				time_t now = time(NULL);
+				time_t now = time(nullptr);
 				std::string id = Utilities::intToStr(now) + "-" + Utilities::intToStr(msgId);
 
 				FMessage fmsg(chat_id, true, id);
@@ -101,14 +101,14 @@ int WhatsAppProto::onGroupChatEvent(WPARAM, LPARAM lParam)
 static gc_item sttLogListItems[] =
 {
 	{ LPGENW("&Invite a user"),      IDM_INVITE,    MENU_ITEM },
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("&Room options"),       0,             MENU_NEWPOPUP },
 	{ LPGENW("View/change &topic"),  IDM_TOPIC,     MENU_POPUPITEM },
 	{ LPGENW("&Quit chat session"),  IDM_LEAVE,     MENU_POPUPITEM },
 #ifdef _DEBUG
 	{ LPGENW("Set &avatar"),         IDM_AVATAR,    MENU_POPUPITEM }, // doesn't work, therefore commented out
 #endif
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("Copy room &JID"),      IDM_CPY_RJID,  MENU_ITEM },
 	{ LPGENW("Copy room topic"),     IDM_CPY_TOPIC, MENU_ITEM },
 };
@@ -171,7 +171,7 @@ void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.lpstrFilter = filter;
-	ofn.hwndOwner = 0;
+	ofn.hwndOwner = nullptr;
 	ofn.lpstrFile = tszFileName;
 	ofn.nMaxFile = ofn.nMaxFileTitle = _countof(tszFileName);
 	ofn.Flags = OFN_HIDEREADONLY;
@@ -188,9 +188,9 @@ void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
 static gc_item sttNickListItems[] =
 {
 	{ LPGENW("&Add to roster"), IDM_ADD_RJID, MENU_POPUPITEM },
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("&Kick"), IDM_KICK, MENU_ITEM },
-	{ NULL, 0, MENU_SEPARATOR },
+	{ nullptr, 0, MENU_SEPARATOR },
 	{ LPGENW("Copy &nickname"), IDM_CPY_NICK, MENU_ITEM },
 	{ LPGENW("Copy real &JID"), IDM_CPY_RJID, MENU_ITEM },
 };
@@ -267,7 +267,7 @@ int WhatsAppProto::OnDeleteChat(WPARAM hContact, LPARAM)
 int WhatsAppProto::OnChatMenu(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
-	if (gcmi == NULL)
+	if (gcmi == nullptr)
 		return 0;
 
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
@@ -323,7 +323,7 @@ wchar_t* WhatsAppProto::GetChatUserNick(const std::string &jid)
 	}
 	else tszNick = str2t(m_szNick);
 
-	if (tszNick == NULL)
+	if (tszNick == nullptr)
 		tszNick = mir_wstrdup(TranslateT("Unknown user"));
 	return tszNick;
 }
@@ -340,7 +340,7 @@ WAChatInfo* WhatsAppProto::SafeGetChat(const std::string &jid)
 void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner, const std::string &subject, const std::string &subject_owner, int time_subject, int)
 {
 	WAChatInfo *pInfo = SafeGetChat(jid);
-	if (pInfo == NULL) {
+	if (pInfo == nullptr) {
 		pInfo = InitChat(jid, subject);
 		pInfo->bActive = true;
 		time_subject = 0;
@@ -363,7 +363,7 @@ void WhatsAppProto::onGroupMessage(const FMessage &pMsg)
 	}
 
 	WAChatInfo *pInfo = SafeGetChat(pMsg.key.remote_jid);
-	if (pInfo == NULL) {
+	if (pInfo == nullptr) {
 		pInfo = InitChat(pMsg.key.remote_jid, "");
 		pInfo->bActive = true;
 	}
@@ -395,7 +395,7 @@ void WhatsAppProto::onGroupMessage(const FMessage &pMsg)
 void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string &author, const std::string &newSubject, int ts)
 {
 	WAChatInfo *pInfo = SafeGetChat(gjid);
-	if (pInfo == NULL)
+	if (pInfo == nullptr)
 		return;
 
 	ptrW tszText(str2t(newSubject));
@@ -420,7 +420,7 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 void WhatsAppProto::onGroupAddUser(const std::string &gjid, const std::string &ujid, int ts)
 {
 	WAChatInfo *pInfo = SafeGetChat(gjid);
-	if (pInfo == NULL || !pInfo->bActive)
+	if (pInfo == nullptr || !pInfo->bActive)
 		return;
 
 	ptrW tszUID(str2t(ujid));
@@ -437,7 +437,7 @@ void WhatsAppProto::onGroupAddUser(const std::string &gjid, const std::string &u
 void WhatsAppProto::onGroupRemoveUser(const std::string &gjid, const std::string &ujid, int ts)
 {
 	WAChatInfo *pInfo = SafeGetChat(gjid);
-	if (pInfo == NULL)
+	if (pInfo == nullptr)
 		return;
 
 	ptrW tszUID(str2t(ujid));
@@ -454,7 +454,7 @@ void WhatsAppProto::onGroupRemoveUser(const std::string &gjid, const std::string
 void WhatsAppProto::onLeaveGroup(const std::string &gjid)
 {
 	WAChatInfo *pInfo = SafeGetChat(gjid);
-	if (pInfo == NULL)
+	if (pInfo == nullptr)
 		return;
 
 	Chat_Terminate(m_szModuleName, pInfo->tszJid);
@@ -468,7 +468,7 @@ void WhatsAppProto::onGetParticipants(const std::string &gjid, const std::vector
 	mir_cslock lck(m_csChats);
 
 	WAChatInfo *pInfo = m_chats[gjid];
-	if (pInfo == NULL)
+	if (pInfo == nullptr)
 		return;
 
 	pInfo->bActive = true;
@@ -499,7 +499,7 @@ void WhatsAppProto::onGroupCreated(const std::string &gjid, const std::string &s
 void WhatsAppProto::onGroupMessageReceived(const FMessage &msg)
 {
 	WAChatInfo *pInfo = SafeGetChat(msg.key.remote_jid);
-	if (pInfo == NULL)
+	if (pInfo == nullptr)
 		return;
 	
 	auto p = pInfo->m_unsentMsgs.find(msg.key.id);
@@ -513,7 +513,7 @@ void WhatsAppProto::onGroupMessageReceived(const FMessage &msg)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
-	gce.time = time(NULL);
+	gce.time = time(nullptr);
 	gce.ptszText = p->second.c_str();
 	gce.bIsMe = m_szJid == msg.remote_resource;
 	Chat_Event(&gce);

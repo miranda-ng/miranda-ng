@@ -148,7 +148,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	LONG_PTR style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	int status = GetGeneralisedStatus();
 	int grey = 0, groupCountsFontTopShift;
-	HBRUSH hBrushAlternateGrey = NULL;
+	HBRUSH hBrushAlternateGrey = nullptr;
 	// yes I know about GetSysColorBrush()
 	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
 
@@ -157,13 +157,13 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	else if (GetFocus() != hwnd && dat->greyoutFlags & GREYF_UNFOCUS)
 		grey = 1;
 	GetClientRect(hwnd, &clRect);
-	if (rcPaint == NULL)
+	if (rcPaint == nullptr)
 		rcPaint = &clRect;
 	if (IsRectEmpty(rcPaint))
 		return;
 
 	HDC hdcMem = CreateCompatibleDC(hdc);
-	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
+	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), nullptr);
 	HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
 	{
 		TEXTMETRIC tm;
@@ -256,7 +256,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		if (group->scanIndex == group->cl.getCount()) {
 			group = group->parent;
 			indent--;
-			if (group == NULL)
+			if (group == nullptr)
 				break;
 			group->scanIndex++;
 			continue;
@@ -269,7 +269,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			int hottrack = dat->exStyle & CLS_EX_TRACKSELECT && cc->type != CLCIT_DIVIDER && dat->iHotTrack == index;
 			SIZE textSize, countsSize = { 0 }, spaceSize = { 0 };
 			int width, checkboxWidth;
-			wchar_t *szCounts = NULL;
+			wchar_t *szCounts = nullptr;
 
 			// alternating grey
 			if (style & CLS_GREYALTERNATE && index & 1) {
@@ -398,7 +398,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 						SetHotTrackColour(hdcMem, dat);
 					rc.right--;
 					ExtTextOut(hdcMem, rc.left, rc.top, ETO_CLIPPED, &rc, cc->szText,
-						(int)mir_wstrlen(cc->szText), NULL);
+						(int)mir_wstrlen(cc->szText), nullptr);
 				}
 				else
 					TextOut(hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace,

@@ -55,7 +55,7 @@ static void verToStr(char *szStr, int v)
 static char* MirandaVersionToStringEx(char* szStr, int bUnicode, const char* szPlug, int v, int m)
 {
 	if (!v) // this is not Miranda
-		return NULL;
+		return nullptr;
 
 	mir_strcpy(szStr, "Miranda IM ");
 
@@ -195,7 +195,7 @@ const char* CIcqProto::detectUserClient(
 	BYTE *bClientId, /* Output: detected client-type */
 	char *szClientBuf)
 {
-	LPCSTR szClient = NULL;
+	LPCSTR szClient = nullptr;
 	int bMirandaIM = FALSE;
 
 	*bClientId = CLID_ALTERNATIVE; // Most clients does not tick as MsgIDs
@@ -666,7 +666,7 @@ const char* CIcqProto::detectUserClient(
 			// others - like jabber transport uses unmodified library, thus cannot be detected
 		}
 		// THE SIGNATURE DETECTION ENDS HERE, after this only feature default will be detected
-		else if (szClient == NULL) {
+		else if (szClient == nullptr) {
 			// ZA mangled the version, OMG!
 			if (wVersion == 8 && CheckContactCapabilities(hContact, CAPF_XTRAZ) && (MatchCapability(caps, wLen, &capIMSecKey1, 6) || MatchCapability(caps, wLen, &capIMSecKey2, 6)))
 				wVersion = ICQ_VERSION;
@@ -931,7 +931,7 @@ const char* CIcqProto::detectUserClient(
 					szClient = "MRA client";
 			}
 
-			if (szClient == NULL)
+			if (szClient == nullptr)
 				szClient = "AIM";
 		}
 	}
@@ -953,7 +953,7 @@ const char* CIcqProto::detectUserClient(
 		}
 	}
 
-	BOOL bClientDetected = (szClient != NULL);
+	BOOL bClientDetected = (szClient != nullptr);
 
 	// client detection failed, provide default clients
 	if (!szClient) {
@@ -977,7 +977,7 @@ const char* CIcqProto::detectUserClient(
 	}
 
 	if (szClient) {
-		char *szExtra = NULL;
+		char *szExtra = nullptr;
 
 		if (MatchCapability(caps, wLen, &capSimpLite))
 			szExtra = " + SimpLite";

@@ -64,7 +64,7 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 		//SetMenuItemBitmaps(hMenu, i, MF_BITMAP, hBitmap, hBitmap);
 	}
 
-	int pos = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbc->pt.x, cbc->pt.y, 0, cbc->hwndFrom, NULL);
+	int pos = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbc->pt.x, cbc->pt.y, 0, cbc->hwndFrom, nullptr);
 	if (pos > 0) {
 		CCloudService *service = Services[pos - 1];
 

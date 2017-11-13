@@ -22,7 +22,7 @@
 static wchar_t *parseCaps(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = mir_wstrdup(ai->targv[1]);
 	wchar_t *cur = res;
@@ -47,7 +47,7 @@ static wchar_t *parseCaps(ARGUMENTSINFO *ai)
 static wchar_t *parseCaps2(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = mir_wstrdup(ai->targv[1]);
 	wchar_t *cur = res;
@@ -73,13 +73,13 @@ static wchar_t *parseCrlf(ARGUMENTSINFO *ai)
 static wchar_t *parseEolToCrlf(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = mir_wstrdup(ai->targv[1]);
 	wchar_t *cur = res;
 	do {
 		cur = wcschr(cur, '\n');
-		if ((cur == NULL) || ((cur > res) && (*(cur - 1) == '\r')))
+		if ((cur == nullptr) || ((cur > res) && (*(cur - 1) == '\r')))
 			continue;
 
 		log_debug(cur);
@@ -90,7 +90,7 @@ static wchar_t *parseEolToCrlf(ARGUMENTSINFO *ai)
 		memcpy(cur, L"\r\n", 2 * sizeof(wchar_t));
 		cur += 2;
 	}
-	while (cur != NULL);
+	while (cur != nullptr);
 
 	return res;
 }
@@ -103,7 +103,7 @@ static wchar_t *parseFixeol(ARGUMENTSINFO *ai)
 	else if (ai->argc == 3)
 		szReplacement = ai->targv[2];
 	else
-		return NULL;
+		return nullptr;
 
 	wchar_t *cur = ai->targv[1];
 	while (mir_wstrcmp(cur, L"\r\n") && *cur != '\n' && *cur != 0)
@@ -114,7 +114,7 @@ static wchar_t *parseFixeol(ARGUMENTSINFO *ai)
 
 	cur--;
 	wchar_t *res = (wchar_t*)mir_alloc((cur - ai->targv[1] + mir_wstrlen(szReplacement) + 1)*sizeof(wchar_t));
-	if (res == NULL)
+	if (res == nullptr)
 		return res;
 
 	memset(res, 0, (((cur - ai->targv[1]) + 1) * sizeof(wchar_t)));
@@ -129,20 +129,20 @@ static wchar_t *parseFixeol2(ARGUMENTSINFO *ai)
 	switch (ai->argc) {
 	case 2:	szReplacement = L" ";	break;
 	case 3:  szReplacement = ai->targv[2];  break;
-	default: return NULL;
+	default: return nullptr;
 	}
 
 	wchar_t *res = mir_wstrdup(ai->targv[1]);
 	for (size_t pos = 0; pos < mir_wstrlen(res); pos++) {
 		wchar_t *cur = res + pos;
-		wchar_t *szEol = NULL;
+		wchar_t *szEol = nullptr;
 		if (!wcsncmp(cur, L"\r\n", mir_wstrlen(L"\r\n")))
 			szEol = L"\r\n";
 
 		if (*cur == '\n')
 			szEol = L"\n";
 
-		if (szEol != NULL) {
+		if (szEol != nullptr) {
 			if (mir_wstrlen(szReplacement) > mir_wstrlen(szEol)) {
 				res = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + mir_wstrlen(szReplacement) - mir_wstrlen(szEol) + 1)*sizeof(wchar_t));
 				cur = res + pos;
@@ -158,15 +158,15 @@ static wchar_t *parseFixeol2(ARGUMENTSINFO *ai)
 static wchar_t *parseInsert(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
-		return NULL;
+		return nullptr;
 
 	unsigned int pos = ttoi(ai->targv[3]);
 	if (pos > mir_wstrlen(ai->targv[1]))
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = (wchar_t*)mir_alloc((mir_wstrlen(ai->targv[1]) + mir_wstrlen(ai->targv[2]) + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((mir_wstrlen(ai->targv[1]) + mir_wstrlen(ai->targv[2]) + 1) * sizeof(wchar_t)));
 	wcsncpy(res, ai->targv[1], pos);
@@ -178,16 +178,16 @@ static wchar_t *parseInsert(ARGUMENTSINFO *ai)
 static wchar_t *parseLeft(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	int len = ttoi(ai->targv[2]);
 	if (len < 0)
-		return NULL;
+		return nullptr;
 
 	len = min(len, (signed int)mir_wstrlen(ai->targv[1]));
 	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
 	wcsncpy(res, ai->targv[1], len);
@@ -197,7 +197,7 @@ static wchar_t *parseLeft(ARGUMENTSINFO *ai)
 static wchar_t *parseLen(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	return itot((int)mir_wstrlen(ai->targv[1]));
 }
@@ -205,7 +205,7 @@ static wchar_t *parseLen(ARGUMENTSINFO *ai)
 static wchar_t *parseLineCount(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	int count = 1;
 	wchar_t *cur = ai->targv[1];
@@ -226,11 +226,11 @@ static wchar_t *parseLineCount(ARGUMENTSINFO *ai)
 static wchar_t *parseLower(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = mir_wstrdup(ai->targv[1]);
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	return CharLower(res);
 }
@@ -238,7 +238,7 @@ static wchar_t *parseLower(ARGUMENTSINFO *ai)
 static wchar_t *parseLongest(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
-		return NULL;
+		return nullptr;
 
 	unsigned int iLong = 1;
 	for (unsigned int i = 2; i < ai->argc; i++)
@@ -251,7 +251,7 @@ static wchar_t *parseLongest(ARGUMENTSINFO *ai)
 static wchar_t *parseNoOp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	return mir_wstrdup(ai->targv[1]);
 }
@@ -262,17 +262,17 @@ static wchar_t *parsePad(ARGUMENTSINFO *ai)
 	switch (ai->argc) {
 	case 3:  padchar = ' ';  break;
 	case 4:  padchar = *ai->targv[3];  break;
-	default: return NULL;
+	default: return nullptr;
 	}
 
 	int padding = ttoi(ai->targv[2]);
 	if (padding < 0)
-		return NULL;
+		return nullptr;
 
 	unsigned int addcount = max(padding - (signed int)mir_wstrlen(ai->targv[1]), 0);
 	wchar_t *res = (wchar_t*)mir_alloc((addcount + mir_wstrlen(ai->targv[1]) + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((addcount + mir_wstrlen(ai->targv[1]) + 1) * sizeof(wchar_t)));
 	wchar_t *cur = res;
@@ -289,17 +289,17 @@ static wchar_t *parsePadright(ARGUMENTSINFO *ai)
 	switch (ai->argc) {
 	case 3: padchar = ' ';  break;
 	case 4: padchar = *ai->targv[3]; break;
-	default: return NULL;
+	default: return nullptr;
 	}
 
 	int padding = ttoi(ai->targv[2]);
 	if (padding < 0)
-		return NULL;
+		return nullptr;
 
 	unsigned int addcount = max(padding - (signed int)mir_wstrlen(ai->targv[1]), 0);
 	wchar_t *res = (wchar_t*)mir_alloc((addcount + mir_wstrlen(ai->targv[1]) + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((addcount + mir_wstrlen(ai->targv[1]) + 1) * sizeof(wchar_t)));
 	mir_wstrcpy(res, ai->targv[1]);
@@ -316,17 +316,17 @@ static wchar_t *parsePadcut(ARGUMENTSINFO *ai)
 	switch (ai->argc) {
 	case 3: padchar = ' ';   break;
 	case 4: padchar = *ai->targv[3]; break;
-	default: return NULL;
+	default: return nullptr;
 	}
 
 	int padding = ttoi(ai->targv[2]);
 	if (padding < 0)
-		return NULL;
+		return nullptr;
 
 	int addcount = max(padding - (signed int)mir_wstrlen(ai->targv[1]), 0);
 	wchar_t *res = (wchar_t*)mir_alloc((padding + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((padding + 1) * sizeof(wchar_t)));
 	wchar_t *cur = res;
@@ -345,17 +345,17 @@ static wchar_t *parsePadcutright(ARGUMENTSINFO *ai)
 	switch (ai->argc) {
 	case 3:  padchar = ' ';  break;
 	case 4:  padchar = *ai->targv[3]; break;
-	default: return NULL;
+	default: return nullptr;
 	}
 
 	int padding = ttoi(ai->targv[2]);
 	if (padding < 0)
-		return NULL;
+		return nullptr;
 
 	int addcount = max(padding - (signed int)mir_wstrlen(ai->targv[1]), 0);
 	wchar_t *res = (wchar_t*)mir_alloc((padding + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((padding + 1) * sizeof(wchar_t)));
 	wchar_t *cur = res + padding - addcount;
@@ -371,15 +371,15 @@ static wchar_t *parsePadcutright(ARGUMENTSINFO *ai)
 static wchar_t *parseRepeat(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	int count = ttoi(ai->targv[2]);
 	if (count < 0)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = (wchar_t*)mir_alloc((count * mir_wstrlen(ai->targv[1]) + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((count * mir_wstrlen(ai->targv[1]) + 1) * sizeof(wchar_t)));
 	for (int i = 0; i < count; i++)
@@ -391,7 +391,7 @@ static wchar_t *parseRepeat(ARGUMENTSINFO *ai)
 static wchar_t *parseReplace(ARGUMENTSINFO *ai)
 {
 	if ((ai->argc < 4) || (ai->argc % 2 != 0))
-		return NULL;
+		return nullptr;
 
 	wchar_t *cur;
 
@@ -422,16 +422,16 @@ static wchar_t *parseReplace(ARGUMENTSINFO *ai)
 static wchar_t *parseRight(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	int len = ttoi(ai->targv[2]);
 	if (len < 0)
-		return NULL;
+		return nullptr;
 
 	len = min(len, (signed int)mir_wstrlen(ai->targv[1]));
 	wchar_t *res = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((len + 1)*sizeof(wchar_t)));
 	wcsncpy(res, ai->targv[1] + mir_wstrlen(ai->targv[1]) - len, len);
@@ -444,7 +444,7 @@ static wchar_t *parseRight(ARGUMENTSINFO *ai)
 static wchar_t *parseScroll(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
-		return NULL;
+		return nullptr;
 
 	if (mir_wstrlen(ai->targv[1]) == 0)
 		return mir_wstrdup(ai->targv[1]);
@@ -455,8 +455,8 @@ static wchar_t *parseScroll(ARGUMENTSINFO *ai)
 		display = (unsigned)mir_wstrlen(ai->targv[1]);
 
 	wchar_t *res = (wchar_t*)mir_alloc((2 * mir_wstrlen(ai->targv[1]) + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((2 * mir_wstrlen(ai->targv[1]) + 1) * sizeof(wchar_t)));
 	mir_wstrcpy(res, ai->targv[1]);
@@ -471,7 +471,7 @@ static wchar_t *parseScroll(ARGUMENTSINFO *ai)
 static wchar_t *parseShortest(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
-		return NULL;
+		return nullptr;
 
 	int iShort = 1;
 	for (unsigned i = 2; i < ai->argc; i++)
@@ -484,12 +484,12 @@ static wchar_t *parseShortest(ARGUMENTSINFO *ai)
 static wchar_t *parseStrchr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	char *szVal[34];
 	memset(szVal, 0, sizeof(szVal));
 	wchar_t *c = wcschr(ai->targv[1], *ai->targv[2]);
-	if (c == NULL || *c == 0)
+	if (c == nullptr || *c == 0)
 		return mir_wstrdup(L"0");
 
 	return itot(c - ai->targv[1] + 1);
@@ -498,7 +498,7 @@ static wchar_t *parseStrchr(ARGUMENTSINFO *ai)
 static wchar_t *parseStrcmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	if (mir_wstrcmp(ai->targv[1], ai->targv[2]))
 		ai->flags |= AIF_FALSE;
@@ -509,7 +509,7 @@ static wchar_t *parseStrcmp(ARGUMENTSINFO *ai)
 static wchar_t *parseStrmcmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
-		return NULL;
+		return nullptr;
 
 	ai->flags |= AIF_FALSE;
 	for (unsigned i = 2; i < ai->argc; i++) {
@@ -525,11 +525,11 @@ static wchar_t *parseStrmcmp(ARGUMENTSINFO *ai)
 static wchar_t *parseStrncmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
-		return NULL;
+		return nullptr;
 
 	int n = ttoi(ai->targv[3]);
 	if (n <= 0)
-		return NULL;
+		return nullptr;
 
 	if (wcsncmp(ai->targv[1], ai->targv[2], n))
 		ai->flags |= AIF_FALSE;
@@ -540,7 +540,7 @@ static wchar_t *parseStrncmp(ARGUMENTSINFO *ai)
 static wchar_t *parseStricmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	if (mir_wstrcmpi(ai->targv[1], ai->targv[2]))
 		ai->flags |= AIF_FALSE;
@@ -551,11 +551,11 @@ static wchar_t *parseStricmp(ARGUMENTSINFO *ai)
 static wchar_t *parseStrnicmp(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
-		return NULL;
+		return nullptr;
 
 	int n = ttoi(ai->targv[3]);
 	if (n <= 0)
-		return NULL;
+		return nullptr;
 
 	if (wcsnicmp(ai->targv[1], ai->targv[2], n))
 		ai->flags |= AIF_FALSE;
@@ -566,10 +566,10 @@ static wchar_t *parseStrnicmp(ARGUMENTSINFO *ai)
 static wchar_t *parseStrrchr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	wchar_t *c = wcsrchr(ai->targv[1], *ai->targv[2]);
-	if ((c == NULL) || (*c == 0))
+	if ((c == nullptr) || (*c == 0))
 		return mir_wstrdup(L"0");
 
 	return itot(c - ai->targv[1] + 1);
@@ -578,10 +578,10 @@ static wchar_t *parseStrrchr(ARGUMENTSINFO *ai)
 static wchar_t *parseStrstr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	wchar_t *c = wcsstr(ai->targv[1], ai->targv[2]);
-	if ((c == NULL) || (*c == 0))
+	if ((c == nullptr) || (*c == 0))
 		return mir_wstrdup(L"0");
 
 	return itot(c - ai->targv[1] + 1);
@@ -590,7 +590,7 @@ static wchar_t *parseStrstr(ARGUMENTSINFO *ai)
 static wchar_t *parseSubstr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
-		return NULL;
+		return nullptr;
 
 	int to, from = max(ttoi(ai->targv[2]) - 1, 0);
 	if (ai->argc > 3)
@@ -599,7 +599,7 @@ static wchar_t *parseSubstr(ARGUMENTSINFO *ai)
 		to = (int)mir_wstrlen(ai->targv[1]);
 
 	if (to < from)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = (wchar_t*)mir_alloc((to - from + 1)*sizeof(wchar_t));
 	memset(res, 0, ((to - from + 1) * sizeof(wchar_t)));
@@ -610,11 +610,11 @@ static wchar_t *parseSubstr(ARGUMENTSINFO *ai)
 static wchar_t *parseSelect(ARGUMENTSINFO *ai)
 {
 	if (ai->argc <= 1)
-		return NULL;
+		return nullptr;
 
 	int n = ttoi(ai->targv[1]);
 	if ((n > (signed int)ai->argc - 2) || n <= 0)
-		return NULL;
+		return nullptr;
 
 	return mir_wstrdup(ai->targv[n + 1]);
 }
@@ -622,19 +622,19 @@ static wchar_t *parseSelect(ARGUMENTSINFO *ai)
 static wchar_t *parseSwitch(ARGUMENTSINFO *ai)
 {
 	if (ai->argc % 2 != 0)
-		return NULL;
+		return nullptr;
 
 	for (unsigned i = 2; i < ai->argc; i += 2)
 	if (!mir_wstrcmp(ai->targv[1], ai->targv[i]))
 		return mir_wstrdup(ai->targv[i + 1]);
 
-	return NULL;
+	return nullptr;
 }
 
 static wchar_t *parseTrim(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	wchar_t *scur = ai->targv[1];
 	while (*scur == ' ')
@@ -648,8 +648,8 @@ static wchar_t *parseTrim(ARGUMENTSINFO *ai)
 		return mir_wstrdup(L"");
 
 	wchar_t *res = (wchar_t*)mir_alloc((ecur - scur + 2)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((ecur - scur + 2) * sizeof(wchar_t)));
 	wcsncpy(res, scur, ecur - scur + 1);
@@ -664,11 +664,11 @@ static wchar_t *parseTab(ARGUMENTSINFO *ai)
 		count = ttoi(ai->targv[1]);
 
 	if (count < 0)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = (wchar_t*)mir_alloc((count + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, (count + 1)*sizeof(wchar_t));
 	wchar_t *cur = res;
@@ -681,19 +681,19 @@ static wchar_t *parseTab(ARGUMENTSINFO *ai)
 static wchar_t *parseUpper(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = mir_wstrdup(ai->targv[1]);
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	return CharUpper(res);
 }
 
 static wchar_t *getNthWord(wchar_t *szString, int w)
 {
-	if (szString == NULL)
-		return NULL;
+	if (szString == nullptr)
+		return nullptr;
 
 	int count = 0;
 	wchar_t *scur = szString;
@@ -712,15 +712,15 @@ static wchar_t *getNthWord(wchar_t *szString, int w)
 			scur++;
 	}
 	if (count != w)
-		return NULL;
+		return nullptr;
 
 	wchar_t *ecur = scur;
 	while ((*ecur != ' ') && (*ecur != 0))
 		ecur++;
 
 	wchar_t *res = (wchar_t*)mir_alloc((ecur - scur + 1)*sizeof(wchar_t));
-	if (res == NULL)
-		return NULL;
+	if (res == nullptr)
+		return nullptr;
 
 	memset(res, 0, ((ecur - scur + 1) * sizeof(wchar_t)));
 	wcsncpy(res, scur, ecur - scur);
@@ -730,9 +730,9 @@ static wchar_t *getNthWord(wchar_t *szString, int w)
 static wchar_t *parseWord(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3 || ai->argc > 4)
-		return NULL;
+		return nullptr;
 
-	wchar_t *res = NULL;
+	wchar_t *res = nullptr;
 	int to, from = ttoi(ai->targv[2]);
 	if (ai->argc == 4) {
 		if (mir_wstrlen(ai->targv[3]) > 0)
@@ -743,16 +743,16 @@ static wchar_t *parseWord(ARGUMENTSINFO *ai)
 	else to = from;
 
 	if ((from == 0) || (to == 0) || (from > to))
-		return NULL;
+		return nullptr;
 
 	for (int i = from; i <= to; i++) {
 		wchar_t *szWord = getNthWord(ai->targv[1], i);
-		if (szWord == NULL)
+		if (szWord == nullptr)
 			return res;
 
-		if (res != NULL) {
+		if (res != nullptr) {
 			wchar_t *pres = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + mir_wstrlen(szWord) + 2)*sizeof(wchar_t));
-			if (pres != NULL) {
+			if (pres != nullptr) {
 				res = pres;
 				mir_wstrcat(res, L" ");
 				mir_wstrcat(res, szWord);
@@ -768,13 +768,13 @@ static wchar_t *parseWord(ARGUMENTSINFO *ai)
 static wchar_t *parseExtratext(ARGUMENTSINFO *ai)
 {
 	if (ai->argc > 1)
-		return NULL;
+		return nullptr;
 
 	ai->flags |= AIF_DONTPARSE;
-	if (ai->fi->szExtraText != NULL)
+	if (ai->fi->szExtraText != nullptr)
 		return mir_wstrdup(ai->fi->tszExtraText);
 
-	return NULL;
+	return nullptr;
 }
 
 void registerStrTokens()

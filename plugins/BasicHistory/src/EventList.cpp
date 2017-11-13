@@ -30,9 +30,9 @@ bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true);
 std::wstring GetName(const std::wstring &path);
 
 HistoryEventList::HistoryEventList() :
-	m_hWnd(NULL),
+	m_hWnd(nullptr),
 	m_isWnd(false),
-	m_hContact(NULL),
+	m_hContact(0),
 	m_deltaTime(0),
 	m_isFlat(false),
 	m_useImportedMessages(true)
@@ -42,7 +42,7 @@ HistoryEventList::HistoryEventList() :
 }
 
 HistoryEventList::HistoryEventList(MCONTACT _hContact, int filter) :
-	m_hWnd(NULL),
+	m_hWnd(nullptr),
 	m_isWnd(false),
 	m_hContact(_hContact),
 	m_deltaTime(0),
@@ -242,7 +242,7 @@ void HistoryEventList::RefreshEventList()
 			if (it != m_contactFileMap.end()) {
 				ExportManager imp(m_hWnd, m_hContact, 1);
 				imp.SetAutoImport(it->second.file);
-				if (!imp.Import(it->second.type, messages, NULL))
+				if (!imp.Import(it->second.type, messages, nullptr))
 					messages.clear();
 			}
 		}
@@ -310,7 +310,7 @@ bool HistoryEventList::SearchInContact(MCONTACT hContact, wchar_t *strFind, Comp
 			if (it != m_contactFileMap.end()) {
 				ExportManager imp(m_hWnd, hContact, 1);
 				imp.SetAutoImport(it->second.file);
-				if (!imp.Import(it->second.type, messages, NULL))
+				if (!imp.Import(it->second.type, messages, nullptr))
 					messages.clear();
 			}
 		}
@@ -364,7 +364,7 @@ void HistoryEventList::AddGroup(const EventIndex& ev)
 	wchar_t eventText[256];
 	int i;
 	eventText[0] = 0;
-	TimeZone_PrintTimeStamp(NULL, data.timestamp, L"d t", eventText, 64, 0);
+	TimeZone_PrintTimeStamp(nullptr, data.timestamp, L"d t", eventText, 64, 0);
 	std::wstring time = eventText;
 	std::wstring user;
 	if (data.isMe)
@@ -404,9 +404,9 @@ inline std::wstring GetProtocolName(MCONTACT hContact)
 {
 	char* ac = Proto_GetBaseAccountName(hContact);
 	std::wstring proto1;
-	if (ac != NULL) {
+	if (ac != nullptr) {
 		PROTOACCOUNT* acnt = Proto_GetAccount(ac);
-		if (acnt != NULL && acnt->szModuleName != NULL) {
+		if (acnt != nullptr && acnt->szModuleName != nullptr) {
 			wchar_t* proto = mir_a2u(acnt->szProtoName);
 			proto1 = proto;
 			mir_free(proto);
@@ -424,7 +424,7 @@ std::wstring HistoryEventList::GetProtocolName()
 std::string HistoryEventList::GetBaseProtocol()
 {
 	char* proto = GetContactProto(m_hContact);
-	return proto == NULL ? "" : proto;
+	return proto == nullptr ? "" : proto;
 }
 
 std::wstring HistoryEventList::GetMyId()
@@ -511,9 +511,9 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 			// For now I do not convert event data from string to blob, and event type must be message to handle it properly
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			UINT cp = dbei.flags & DBEF_UTF ? CP_UTF8 : CP_ACP;
-			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, NULL, 0, NULL, NULL);
+			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, nullptr, 0, nullptr, nullptr);
 			char* buf = new char[dbei.cbBlob];
-			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, buf, dbei.cbBlob, NULL, NULL);
+			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, buf, dbei.cbBlob, nullptr, nullptr);
 			dbei.pBlob = (PBYTE)buf;
 			db_event_add(m_hContact, &dbei);
 			delete[] buf;
@@ -564,12 +564,12 @@ void HistoryEventList::GetExtEventDBei(const EventIndex& ev)
 HICON HistoryEventList::GetEventCoreIcon(const EventIndex& ev)
 {
 	if (ev.isExternal)
-		return NULL;
+		return nullptr;
 
 	HICON ico = DbEvent_GetIcon(&m_dbei, LR_SHARED);
 	HICON icoMsg = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	if (icoMsg == ico)
-		return NULL;
+		return nullptr;
 
 	return ico;
 }
@@ -614,7 +614,7 @@ void HistoryEventList::Init()
 	m_contactFileDir = temp;
 	m_contactFileDir += L"BasicHistoryImportDir\\";
 	DeleteDirectory(m_contactFileDir.c_str());
-	CreateDirectory(m_contactFileDir.c_str(), NULL);
+	CreateDirectory(m_contactFileDir.c_str(), nullptr);
 }
 
 int HistoryEventList::GetContactMessageNumber(MCONTACT hContact)

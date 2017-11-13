@@ -20,10 +20,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInst = 0;
+HINSTANCE hInst = nullptr;
 int hLangpack;
 
-static HMODULE hAdvaimg = NULL;
+static HMODULE hAdvaimg = nullptr;
 
 BOOL bstartup = true; // startup?
 BOOL bserviceinvoked = false;
@@ -100,9 +100,9 @@ void SplashMain()
 		ExpandEnvironmentStrings(inBuf, szExpandedSplashFile, _countof(szExpandedSplashFile));
 		mir_wstrcpy(inBuf, szExpandedSplashFile);
 
-		wchar_t *pos3 = 0;
+		wchar_t *pos3 = nullptr;
 		pos3 = wcsrchr(inBuf, ':');
-		if (pos3 == NULL)
+		if (pos3 == nullptr)
 			mir_snwprintf(szSplashFile, L"%s\\%s", szMirDir, inBuf);
 		else
 			mir_wstrcpy(szSplashFile, inBuf);
@@ -119,7 +119,7 @@ void SplashMain()
 
 		wchar_t *pos2;
 		pos2 = wcschr(inBuf, ':');
-		if (pos2 == NULL)
+		if (pos2 == nullptr)
 			mir_snwprintf(szSoundFile, L"%s\\%s", szMirDir, inBuf);
 		else
 			mir_wstrcpy(szSoundFile, inBuf);
@@ -134,7 +134,7 @@ void SplashMain()
 		{
 			int filescount = 0;
 			wchar_t szSplashDir[MAX_PATH] = { 0 }, szSearch[MAX_PATH] = { 0 };
-			wchar_t *p = 0;
+			wchar_t *p = nullptr;
 			wchar_t files[255][50]; //TODO: make memory allocation dynamic
 
 			mir_wstrcpy(szSplashDir, szSplashFile);
@@ -173,7 +173,7 @@ void SplashMain()
 					} //if
 				} while (FindNextFile(hFind, &ffd));
 
-				srand((unsigned)time(NULL));
+				srand((unsigned)time(nullptr));
 				int r = 0;
 				if (filescount) r = (rand() % filescount) + 1;
 

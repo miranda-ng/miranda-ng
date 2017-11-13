@@ -18,8 +18,8 @@ void RemoveExceptionHandler(void)
 	if (exchndlrv)
 		RemoveVectoredExceptionHandler(exchndlrv);
 	SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)exchndlr);
-	exchndlr = NULL;
-	exchndlrv = NULL;
+	exchndlr = nullptr;
+	exchndlrv = nullptr;
 }
 
 int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
@@ -37,7 +37,7 @@ int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 		else
 			mir_snprintf(str + off, _countof(str) - off, "Ordinal: %x ", dlld->dlp.dwOrdinal);
 
-		MessageBoxA(NULL, str, "Miranda Crash Dumper", MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
+		MessageBoxA(nullptr, str, "Miranda Crash Dumper", MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 	}
 
 	return EXCEPTION_EXECUTE_HANDLER;
@@ -48,7 +48,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 {
 	wchar_t path[MAX_PATH];
 	SYSTEMTIME st;
-	HANDLE hDumpFile = NULL;
+	HANDLE hDumpFile = nullptr;
 
 	GetLocalTime(&st);
 	CreateDirectoryTreeW(CrashLogFolder);
@@ -56,7 +56,7 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	__try {
 		if (dtsubfldr) {
 			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
-			CreateDirectory(path, NULL);
+			CreateDirectory(path, nullptr);
 			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
@@ -64,11 +64,11 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 			mir_snwprintf(path, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
 			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
-		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hDumpFile != INVALID_HANDLE_VALUE)
 			CreateMiniDump(hDumpFile, exc_ptr);
 		else if (GetLastError() != ERROR_ALREADY_EXISTS)
-			MessageBox(NULL, TranslateT("Crash Report write location is not available"),
+			MessageBox(nullptr, TranslateT("Crash Report write location is not available"),
 			TEXT("Miranda Crash Dumper"), MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 
 	}
@@ -76,14 +76,14 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	{
 	}
 
-	bool empty = GetFileSize(hDumpFile, NULL) == 0;
+	bool empty = GetFileSize(hDumpFile, nullptr) == 0;
 	CloseHandle(hDumpFile);
 	if (empty) DeleteFile(path);
 
 	__try {
 		if (dtsubfldr) {
 			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
-			CreateDirectory(path, NULL);
+			CreateDirectory(path, nullptr);
 			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
@@ -91,16 +91,16 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 			mir_snwprintf(path, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
 			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
-		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 		mir_snwprintf(path, TranslateT("Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?"), CrashLogFolder);
 
 		if (hDumpFile != INVALID_HANDLE_VALUE)
-			CreateCrashReport(hDumpFile, exc_ptr, notify ? path : NULL);
+			CreateCrashReport(hDumpFile, exc_ptr, notify ? path : nullptr);
 	}
 	__except (myDebugFilter(GetExceptionCode(), GetExceptionInformation())) {}
 
-	bool empty1 = GetFileSize(hDumpFile, NULL) == 0;
+	bool empty1 = GetFileSize(hDumpFile, nullptr) == 0;
 	CloseHandle(hDumpFile);
 	if (empty1) DeleteFile(path);
 }

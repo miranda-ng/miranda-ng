@@ -6,46 +6,46 @@
  */
 
 DlgOption::SubOutput::SubOutput() :
-	m_hRemoveEmptyContacts(NULL),
-	m_hRemoveInChatsZero(NULL),
-	m_hRemoveInBytesZero(NULL),
-	m_hRemoveOutChatsZero(NULL),
-	m_hRemoveOutBytesZero(NULL),
-	m_hOmitContacts(NULL),
-	m_hOmitByValue(NULL),
-	m_hOmitByValueData(NULL),
-	m_hOmitByValueLimit(NULL),
-	m_hOmitByTime(NULL),
-	m_hOmitByTimeDays(NULL),
-	m_hOmitByRank(NULL),
-	m_hOmitNumOnTop(NULL),
-	m_hOmittedInTotals(NULL),
-	m_hOmittedInExtraRow(NULL),
-	m_hCalcTotals(NULL),
-	m_hTableHeader(NULL),
-	m_hTableHeaderRepeat(NULL),
-	m_hTableHeaderVerbose(NULL),
-	m_hHeaderTooltips(NULL),
-	m_hHeaderTooltipsIfCustom(NULL),
-	m_hSort(NULL),
-	m_hNick(NULL),
-	m_hOutputVariables(NULL),
-	m_hOutputFile(NULL),
-	m_hOutputExtraToFolder(NULL),
-	m_hOutputExtraFolder(NULL),
-	m_hOverwriteAlways(NULL),
-	m_hAutoOpenOptions(NULL),
-	m_hAutoOpenStartup(NULL),
-	m_hAutoOpenMenu(NULL)
+	m_hRemoveEmptyContacts(nullptr),
+	m_hRemoveInChatsZero(nullptr),
+	m_hRemoveInBytesZero(nullptr),
+	m_hRemoveOutChatsZero(nullptr),
+	m_hRemoveOutBytesZero(nullptr),
+	m_hOmitContacts(nullptr),
+	m_hOmitByValue(nullptr),
+	m_hOmitByValueData(nullptr),
+	m_hOmitByValueLimit(nullptr),
+	m_hOmitByTime(nullptr),
+	m_hOmitByTimeDays(nullptr),
+	m_hOmitByRank(nullptr),
+	m_hOmitNumOnTop(nullptr),
+	m_hOmittedInTotals(nullptr),
+	m_hOmittedInExtraRow(nullptr),
+	m_hCalcTotals(nullptr),
+	m_hTableHeader(nullptr),
+	m_hTableHeaderRepeat(nullptr),
+	m_hTableHeaderVerbose(nullptr),
+	m_hHeaderTooltips(nullptr),
+	m_hHeaderTooltipsIfCustom(nullptr),
+	m_hSort(nullptr),
+	m_hNick(nullptr),
+	m_hOutputVariables(nullptr),
+	m_hOutputFile(nullptr),
+	m_hOutputExtraToFolder(nullptr),
+	m_hOutputExtraFolder(nullptr),
+	m_hOverwriteAlways(nullptr),
+	m_hAutoOpenOptions(nullptr),
+	m_hAutoOpenStartup(nullptr),
+	m_hAutoOpenMenu(nullptr)
 {
 	array_each_(i, m_hSortBy)
 	{
-		m_hSortBy[i] = NULL;
+		m_hSortBy[i] = nullptr;
 	}
 
 	array_each_(i, m_hSortDir)
 	{
-		m_hSortDir[i] = NULL;
+		m_hSortDir[i] = nullptr;
 	}
 }
 
@@ -98,7 +98,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 	OptionsCtrl::Item hTemp;
 	OptionsCtrl::Item hTemp2;
 
-	hTemp                              = m_Options.insertGroup(NULL, TranslateT("Contact filtering and totals"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
+	hTemp                              = m_Options.insertGroup(nullptr, TranslateT("Contact filtering and totals"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 		m_hRemoveEmptyContacts          = m_Options.insertCheck(hTemp, TranslateT("Remove contacts with empty history"));
 		m_hRemoveOutChatsZero           = m_Options.insertCheck(hTemp, TranslateT("Remove contacts with only incoming chats"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 			m_hRemoveOutBytesZero        = m_Options.insertCheck(m_hRemoveOutChatsZero, TranslateT("Remove only if you never answered"));
@@ -116,14 +116,14 @@ void DlgOption::SubOutput::onWMInitDialog()
 			m_hOmittedInTotals           = m_Options.insertCheck(m_hOmitContacts, TranslateT("Include omitted contacts in totals"));
 			m_hOmittedInExtraRow         = m_Options.insertCheck(m_hOmitContacts, TranslateT("Include totals of omitted contacts in additional row"));
 		m_hCalcTotals                   = m_Options.insertCheck(hTemp, TranslateT("Include totals in statistics"));
-	hTemp                              = m_Options.insertGroup(NULL, TranslateT("Table header"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
+	hTemp                              = m_Options.insertGroup(nullptr, TranslateT("Table header"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 		m_hTableHeader                  = m_Options.insertCheck(hTemp, TranslateT("Output header"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK | OptionsCtrl::OCF_DISABLED | OptionsCtrl::OCF_NODISABLECHILDS);
 			m_hTableHeaderRepeat         = m_Options.insertEdit(m_hTableHeader, TranslateT("Repeat header every n contacts (0=don't repeat)"), L"0", OptionsCtrl::OCF_NUMBER);
 			m_hTableHeaderVerbose        = m_Options.insertCheck(m_hTableHeader, TranslateT("Make column titles more verbose"));
 			m_hHeaderTooltips            = m_Options.insertCheck(m_hTableHeader, TranslateT("Show tooltips with detailed information in column titles"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 				m_hHeaderTooltipsIfCustom = m_Options.insertCheck(m_hHeaderTooltips, TranslateT("Only show if a custom title was entered or if titles are not verbose"));
-	m_hSort                            = m_Options.insertGroup(NULL, TranslateT("Sorting"), OptionsCtrl::OCF_ROOTGROUP);
-	hTemp                              = m_Options.insertGroup(NULL, TranslateT("HTML file generation"), OptionsCtrl::OCF_ROOTGROUP);
+	m_hSort                            = m_Options.insertGroup(nullptr, TranslateT("Sorting"), OptionsCtrl::OCF_ROOTGROUP);
+	hTemp                              = m_Options.insertGroup(nullptr, TranslateT("HTML file generation"), OptionsCtrl::OCF_ROOTGROUP);
 		m_hNick                         = m_Options.insertEdit(hTemp, TranslateT("Own nick for statistics"));
 	    hTemp2                         = m_Options.insertGroup(hTemp, TranslateT("Output files and folders"));
 			m_hOutputVariables           = m_Options.insertCheck(hTemp2, TranslateT("Substitute variables in output file name and subfolder for additional files"));
@@ -200,7 +200,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 			m_Options.addComboItem(m_hSortBy[i], TranslateW(sortKeys[j].desc));
 		}
 
-		m_hSortDir[i] = m_Options.insertRadio(m_hSortBy[i], NULL, TranslateT("Ascending"));
+		m_hSortDir[i] = m_Options.insertRadio(m_hSortBy[i], nullptr, TranslateT("Ascending"));
 		                m_Options.insertRadio(m_hSortBy[i], m_hSortDir[i], TranslateT("Descending"));
 	}
 
@@ -232,7 +232,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 		m_Options.addComboItem(m_hOmitByValueData, TranslateW(omitData[i]));
 	}
 
-	m_Options.ensureVisible(NULL);
+	m_Options.ensureVisible(nullptr);
 }
 
 void DlgOption::SubOutput::loadSettings()

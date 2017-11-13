@@ -9,16 +9,16 @@
 #include "CLCDOutputManager.h"
 #include <time.h>
 
-CLCDOutputManager *CLCDOutputManager::m_pInstance = NULL;
+CLCDOutputManager *CLCDOutputManager::m_pInstance = nullptr;
 
 //************************************************************************
 // Constructor
 //************************************************************************
-CLCDOutputManager::CLCDOutputManager() : m_dwButtonRepeatDelay(300), m_pGfx(0),
-	m_pdwButtonRepeatTimers(0), m_pdwButtonRepeatStarts(0), m_pbButtonStates(0),
-	m_pLcdConnection(0), m_bInitialized(false), m_dwLastUpdate(0), m_pActiveScreen(NULL)
+CLCDOutputManager::CLCDOutputManager() : m_dwButtonRepeatDelay(300), m_pGfx(nullptr),
+	m_pdwButtonRepeatTimers(nullptr), m_pdwButtonRepeatStarts(nullptr), m_pbButtonStates(nullptr),
+	m_pLcdConnection(nullptr), m_bInitialized(false), m_dwLastUpdate(0), m_pActiveScreen(nullptr)
 {
-	ASSERT(m_pInstance == NULL);
+	ASSERT(m_pInstance == nullptr);
 
 	m_pInstance = this;
 	m_strAppletName = L"";
@@ -29,7 +29,7 @@ CLCDOutputManager::CLCDOutputManager() : m_dwButtonRepeatDelay(300), m_pGfx(0),
 //************************************************************************
 CLCDOutputManager::~CLCDOutputManager()
 {
-	m_pInstance = NULL;
+	m_pInstance = nullptr;
 }
 
 //************************************************************************
@@ -37,7 +37,7 @@ CLCDOutputManager::~CLCDOutputManager()
 //************************************************************************
 CLCDOutputManager* CLCDOutputManager::GetInstance()
 {
-	ASSERT(m_pInstance != NULL);
+	ASSERT(m_pInstance != nullptr);
 
 	return m_pInstance;
 }
@@ -47,7 +47,7 @@ CLCDOutputManager* CLCDOutputManager::GetInstance()
 //************************************************************************
 CLCDConnection *CLCDOutputManager::GetLCDConnection()
 {
-	ASSERT(m_pLcdConnection != NULL);
+	ASSERT(m_pLcdConnection != nullptr);
 	return m_pLcdConnection;
 }
 
@@ -64,7 +64,7 @@ CLCDScreen *CLCDOutputManager::GetActiveScreen()
 //************************************************************************
 bool CLCDOutputManager::Initialize(tstring strAppletName,bool bAutostart, bool bConfigDialog)
 {
-	srand ( time(NULL) );
+	srand ( time(nullptr) );
 
 	InitDebug();
 
@@ -96,8 +96,8 @@ bool CLCDOutputManager::IsInitialized()
 //************************************************************************
 bool CLCDOutputManager::Shutdown()
 {
-	ASSERT(NULL != m_pLcdConnection);
-	ASSERT(NULL != m_pGfx);
+	ASSERT(nullptr != m_pLcdConnection);
+	ASSERT(nullptr != m_pGfx);
 
 	// Shutdown all screens
 	vector<CLCDScreen*>::iterator iter = m_Screens.begin();
@@ -194,7 +194,7 @@ bool CLCDOutputManager::Update()
 	ASSERT(m_bInitialized);
 
 	// Update the active screen
-	if(m_pActiveScreen != NULL)
+	if(m_pActiveScreen != nullptr)
 	{
 		m_pActiveScreen->Update();
 		// Check if the active screen has expired
@@ -256,7 +256,7 @@ bool CLCDOutputManager::Update()
 	
 	// Draw
 	
-	if(m_pActiveScreen != NULL && m_pGfx->IsInitialized())
+	if(m_pActiveScreen != nullptr && m_pGfx->IsInitialized())
 	{
 		m_pGfx->BeginDraw();
 		m_pGfx->ClearScreen();
@@ -278,11 +278,11 @@ bool CLCDOutputManager::Update()
 //************************************************************************
 bool CLCDOutputManager::DeactivateScreen()
 {
-	if(m_pActiveScreen == NULL)
+	if(m_pActiveScreen == nullptr)
 		return false;
 
 	CLCDScreen *pActiveScreen = m_pActiveScreen;
-	m_pActiveScreen = NULL;
+	m_pActiveScreen = nullptr;
 
 	if(pActiveScreen->HasExpired())
 	{
@@ -306,7 +306,7 @@ bool CLCDOutputManager::ActivateScreen(CLCDScreen *pScreen)
 		return false;
 	
 	// If another screen is currently active, deactivate it
-	if(m_pActiveScreen != NULL)
+	if(m_pActiveScreen != nullptr)
 		DeactivateScreen();
 
 	m_pActiveScreen = pScreen;

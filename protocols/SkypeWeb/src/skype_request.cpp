@@ -43,7 +43,7 @@ void CSkypeProto::PushRequest(HttpRequest *request, SkypeResponseWithArgCallback
 
 void CSkypeProto::SendRequest(HttpRequest *request)
 {
-	requestQueue->Send(request, NULL, NULL);
+	requestQueue->Send(request, nullptr, nullptr);
 }
 
 void CSkypeProto::SendRequest(HttpRequest *request, SkypeResponseCallback response)

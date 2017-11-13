@@ -26,7 +26,7 @@ bool COneDriveService::IsLoggedIn()
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	time_t expiresIn = db_get_dw(NULL, GetModule(), "ExpiresIn");
 	return now < expiresIn;
 }
@@ -45,7 +45,7 @@ void COneDriveService::Login()
 		db_set_s(NULL, GetModule(), "TokenSecret", node.as_string().c_str());
 
 		node = root.at("expires_in");
-		time_t expiresIn = time(NULL) + node.as_int();
+		time_t expiresIn = time(nullptr) + node.as_int();
 		db_set_dw(NULL, GetModule(), "ExpiresIn", expiresIn);
 		
 		return;
@@ -76,7 +76,7 @@ unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
 	OneDriveAPI::GetAccessTokenRequest request(requestToken);
 	NLHR_PTR response(request.Send(service->hConnection));
 
-	if (response == NULL || response->resultCode != HTTP_CODE_OK) {
+	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
 		const char *error = response->dataLength
 			? response->pData
 			: service->HttpStatusToError(response->resultCode);
@@ -105,7 +105,7 @@ unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
 	db_set_s(NULL, service->GetModule(), "TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
-	time_t expiresIn = time(NULL) + node.as_int();
+	time_t expiresIn = time(nullptr) + node.as_int();
 	db_set_dw(NULL, service->GetModule(), "ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");

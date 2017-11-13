@@ -32,10 +32,10 @@ HEMREGISTRATION hLotusRegister = 0;
 boolean volatile Plugin_Terminated = false;
 mir_cs checkthreadCS;
 
-HGENMENU hMenuHandle = NULL;
-HANDLE hCheckEvent = NULL;
+HGENMENU hMenuHandle = nullptr;
+HANDLE hCheckEvent = nullptr;
 
-static HWND hTimerWnd = (HWND)NULL;
+static HWND hTimerWnd = (HWND)nullptr;
 static UINT TID = (UINT)2006;
 
 char settingServer[MAX_SETTING_STR] = "", settingServerSec[MAX_SETTING_STR] = "", settingDatabase[MAX_SETTING_STR] = "",
@@ -50,7 +50,7 @@ BYTE settingSetColours = 0, settingShowError = 1, settingIniAnswer = -1, setting
 BOOL settingStatus[STATUS_COUNT];
 BOOL bMirandaCall=FALSE;
 
-struct HISTORIA *first = NULL;
+struct HISTORIA *first = nullptr;
 BOOL running = FALSE;
 BOOL second = FALSE;
 BOOL isPopupWaiting = FALSE;
@@ -138,12 +138,12 @@ void ExtClear()
 //check if msg was clicked and exists on msgs list
 struct HISTORIA* getEl(DWORD id)
 {
-	for(struct HISTORIA *cur = first; cur != NULL; cur = cur->next)
+	for(struct HISTORIA *cur = first; cur != nullptr; cur = cur->next)
 	{
 		if(cur->noteID == id)
 			return cur;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -154,7 +154,7 @@ void addNewId(DWORD id)
 	assert(nowy);
 	nowy->noteID = id;
 	nowy->next = first;
-	nowy->pq = NULL;
+	nowy->pq = nullptr;
 	nowy->again = FALSE;
 	first = nowy;
 }
@@ -176,14 +176,14 @@ void addPopup(DWORD id,HWND hWnd)
 void deletePopupsHandles(struct POPUPSQUEUE **firstpq, BOOL closePopup)
 {
 	struct POPUPSQUEUE *curpq = *firstpq, *delpq;
-	while(curpq != NULL) {
+	while(curpq != nullptr) {
 		delpq = curpq;
 		curpq = curpq->next;
 		if(closePopup)
 			PUDeletePopup(delpq->hWnd);
 		mir_free(delpq);
 	}
-	*firstpq = NULL;
+	*firstpq = nullptr;
 }
 
 
@@ -191,7 +191,7 @@ void deletePopupsHandles(struct POPUPSQUEUE **firstpq, BOOL closePopup)
 void deleteElements()
 {
 	struct HISTORIA *cur = first, *del;
-	while(cur != NULL)
+	while(cur != nullptr)
 	{
 		del = cur;
 		cur = cur->next;
@@ -199,7 +199,7 @@ void deleteElements()
 		mir_free(del);
 		first = cur;
 	}
-	first = NULL;
+	first = nullptr;
 }
 
 
@@ -265,7 +265,7 @@ BOOL strrep(char *src, char *needle, char *newstring)
 BOOL checkFilters(wchar_t* str, int field)
 {
 	wchar_t buff[512] = L"";
-	wchar_t *strptr = NULL;
+	wchar_t *strptr = nullptr;
 	switch(field) {
 	case 0:
 		wcsncpy_s(buff, settingFilterSender, _TRUNCATE);
@@ -316,7 +316,7 @@ void Click(HWND hWnd,BOOL execute)
 		strrep(tmpcommand, "%OID%", pid->strNote);
 		strrep(tmpparameters, "%OID%", pid->strNote);
 		log_p(L"executing: %S %S", tmpcommand, tmpparameters);
-		ShellExecuteA(NULL, "Open", tmpcommand, tmpparameters, NULL, SW_NORMAL);
+		ShellExecuteA(nullptr, "Open", tmpcommand, tmpparameters, nullptr, SW_NORMAL);
 	}
 }
 
@@ -383,13 +383,13 @@ BOOL checkNotesIniFile(BOOL bInfo)
 	char* PLUGINNAME_lower = _strlwr(mir_strdup(PLUGINNAME));
 
 	//is there our plugin as safe?
-	if(strstr(tmp1,PLUGINNAME_lower) == NULL)
+	if(strstr(tmp1,PLUGINNAME_lower) == nullptr)
 	{
 		if(!settingIniCheck && !bInfo)
 			return FALSE;
 
 		if(!settingIniAnswer || bInfo){
-			switch(MessageBox(NULL, TranslateT("This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding \"EXTMGR_ADDINS=PLUGINNAME\")?"), TranslateT("LotusNotify plugin configuration"), MB_YESNO))
+			switch(MessageBox(nullptr, TranslateT("This utility check your notes.ini file if it's set to authenticate this plugin as safe. Plugin is not added as Lotus Extension, so plugin built-in authentication will not work properly. Do you want to add plugin as Lotus Extension (modify notes.ini by adding \"EXTMGR_ADDINS=PLUGINNAME\")?"), TranslateT("LotusNotify plugin configuration"), MB_YESNO))
 			{
 				case IDYES:
 				{
@@ -415,7 +415,7 @@ BOOL checkNotesIniFile(BOOL bInfo)
 
 			(OSSetEnvironmentVariable1) ("EXTMGR_ADDINS", tmp); //set notes.ini entry
 			if(bInfo) {
-				MessageBox(NULL, TranslateT("notes.ini modified correctly. Miranda restart required."), TranslateT("LotusNotify plugin configuration"), MB_OK);
+				MessageBox(nullptr, TranslateT("notes.ini modified correctly. Miranda restart required."), TranslateT("LotusNotify plugin configuration"), MB_OK);
 			} else{
 				ErMsgT(TranslateT("notes.ini modified correctly. Miranda restart required."));
 			}
@@ -426,7 +426,7 @@ BOOL checkNotesIniFile(BOOL bInfo)
 	} else {
 		//setting set already
 		if(bInfo)
-			MessageBox(NULL, TranslateT("notes.ini seem to be set correctly."), TranslateT("LotusNotify plugin configuration"), MB_OK);
+			MessageBox(nullptr, TranslateT("notes.ini seem to be set correctly."), TranslateT("LotusNotify plugin configuration"), MB_OK);
 		return TRUE;
 	}
 
@@ -538,7 +538,7 @@ int check() {
 	Menu_EnableItem(hMenuHandle, !running);
 
 	log(L"check: starting checkthread");
-	mir_forkthread(checkthread, NULL);
+	mir_forkthread(checkthread, nullptr);
 
 	return 0;
 }
@@ -575,7 +575,7 @@ void checkthread(void*)
 	log(L"checkthread: Started NotesInitThread");
 #endif
 
-	if (error = OSPathNetConstruct1(NULL, settingServer, settingDatabase, fullpath)) {
+	if (error = OSPathNetConstruct1(nullptr, settingServer, settingDatabase, fullpath)) {
 		goto errorblock;
 	}
 #ifdef _DEBUG
@@ -584,7 +584,7 @@ void checkthread(void*)
 
 	if (error = NSFDbOpen1(fullpath, &db_handle)) {
 		if (mir_strcmp(settingServerSec, "") != 0) {
-			if (error = OSPathNetConstruct1(NULL, settingServerSec, settingDatabase, fullpath)) {
+			if (error = OSPathNetConstruct1(nullptr, settingServerSec, settingDatabase, fullpath)) {
 				goto errorblock;
 			}
 			else {
@@ -720,7 +720,7 @@ void checkthread(void*)
 		field_from_UNICODE[field_len] = '\0';
 
 		NSFItemGetTime1(note_handle, MAIL_POSTEDDATE_ITEM, &sendDate);
-		error = ConvertTIMEDATEToText1(NULL, NULL, &sendDate, field_date, MAXALPHATIMEDATE, &field_len);
+		error = ConvertTIMEDATEToText1(nullptr, nullptr, &sendDate, field_date, MAXALPHATIMEDATE, &field_len);
 		field_date[field_len] = '\0';
 
 		field_len = NSFItemGetText1(note_handle, MAIL_SUBJECT_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
@@ -748,7 +748,7 @@ void checkthread(void*)
 		else
 			wcsncpy_s(msgFrom, field_from_UNICODE, _TRUNCATE);
 
-		for (Att = 0; MailGetMessageAttachmentInfo1(note_handle, Att, &bhAttachment, NULL, &cSize, NULL, NULL, NULL, NULL); Att++)
+		for (Att = 0; MailGetMessageAttachmentInfo1(note_handle, Att, &bhAttachment, nullptr, &cSize, nullptr, nullptr, nullptr, nullptr); Att++)
 			attSize += cSize;
 
 #ifdef _DEBUG
@@ -909,7 +909,7 @@ void fillServersList(HWND hwndDlg)
 		return;
 	}
 
-	error = NSGetServerList1(NULL, &hServerList);
+	error = NSGetServerList1(nullptr, &hServerList);
 	if (error == NOERROR) {
 
 		pServerList = (BYTE far *) OSLockObject1(hServerList);
@@ -1148,7 +1148,7 @@ static INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg,
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, settingPassword, _countof(settingPassword));
 			break;
 		case IDC_INTERVAL:
-			settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, NULL, FALSE);
+			settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, nullptr, FALSE);
 			break;
 		case IDC_KEEP_CONNEXION_ON_ERROR:
 			settingKeepConnection = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR);
@@ -1230,7 +1230,7 @@ static INT_PTR CALLBACK DlgProcLotusNotifyPopupOpts(HWND hwndDlg, UINT msg, WPAR
 			settingFgColor = (COLORREF)SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_GETCOLOUR, 0, 0);
 			break;
 		case IDC_INTERVAL1:
-			settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, NULL, TRUE);
+			settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, nullptr, TRUE);
 			break;
 		case IDC_ONCEONLY:
 			settingOnceOnly = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONCEONLY);
@@ -1576,7 +1576,7 @@ void checkEnvPath(wchar_t *path)
 	wcslwr(cur);
 	wchar_t *found = wcsstr(cur, path);
 	size_t len = mir_wstrlen(path);
-	if (found != NULL && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0))))
+	if (found != nullptr && (found[len] == ';' || found[len] == 0 || (found[len] == '\\' && (found[len + 1] == ';' || found[len + 1] == 0))))
 		return;
 
 	_wputenv(CMStringW(FORMAT, L"PATH=%s;%s;", cur, path));
@@ -1607,7 +1607,7 @@ static int modulesloaded(WPARAM, LPARAM)
 
 	hLotusDll = LoadLibrary(path);
 	assert(hLotusDll);
-	if (hLotusDll != NULL) {
+	if (hLotusDll != nullptr) {
 
 		log(L"Loading LN Functions");
 
@@ -1619,7 +1619,7 @@ static int modulesloaded(WPARAM, LPARAM)
 
 			log(L"Initializing Lotus");
 
-			if (NotesInitExtended1(0, NULL)) {
+			if (NotesInitExtended1(0, nullptr)) {
 
 				//initialize lotus    //TODO: Lotus can terminate miranda process here with msgbox "Shared Memory from a previous Notes/Domino run has been detected, this process will exit now"
 				startuperror += 4;

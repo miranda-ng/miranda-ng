@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 static volatile bool gPreviewOk = false;
-static PopupWnd2 *wndPreview = NULL;
+static PopupWnd2 *wndPreview = nullptr;
 
 INT_PTR CALLBACK BoxPreviewWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -38,10 +38,10 @@ void RegisterOptPrevBox()
 	wcl.cbClsExtra = 0;
 	wcl.cbWndExtra = 0;
 	wcl.hInstance = hInst;
-	wcl.hIcon = NULL;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcl.hbrBackground = NULL; // (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = NULL;
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcl.hbrBackground = nullptr; // (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = BOXPREVIEW_WNDCLASS;
 	wcl.hIconSm = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	g_wndClass.cPopupPreviewBoxWndclass = RegisterClassEx(&wcl);
@@ -89,7 +89,7 @@ static void updatePreviewImage(HWND hwndBox)
 	wndPreview->update();
 	gPreviewOk = true;
 
-	InvalidateRect(hwndBox, NULL, TRUE);
+	InvalidateRect(hwndBox, nullptr, TRUE);
 }
 
 static void DrawPreview(HWND hwnd, HDC hdc)
@@ -101,8 +101,8 @@ static void DrawPreview(HWND hwnd, HDC hdc)
 	bi.bmiHeader.biPlanes = 1;
 	bi.bmiHeader.biBitCount = 32;
 	bi.bmiHeader.biCompression = BI_RGB;
-	HBITMAP hBmpBrush = CreateDIBSection(0, &bi, DIB_RGB_COLORS, 0, 0, 0);
-	HDC dcBmp = CreateCompatibleDC(0);
+	HBITMAP hBmpBrush = CreateDIBSection(nullptr, &bi, DIB_RGB_COLORS, nullptr, nullptr, 0);
+	HDC dcBmp = CreateCompatibleDC(nullptr);
 	HBITMAP hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmpBrush);
 	HBRUSH hbr = CreateSolidBrush(RGB(0xcc, 0xcc, 0xcc));
 
@@ -121,7 +121,7 @@ static void DrawPreview(HWND hwnd, HDC hdc)
 
 	GetClientRect(hwnd, &rc);
 	hbr = CreatePatternBrush(hBmpBrush);
-	SetBrushOrgEx(hdc, 1, 1, 0);
+	SetBrushOrgEx(hdc, 1, 1, nullptr);
 	FillRect(hdc, &rc, hbr);
 	DeleteObject(hbr);
 	DeleteObject(hBmpBrush);
@@ -155,7 +155,7 @@ LRESULT CALLBACK WndProcPreviewBox(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	switch (msg) {
 	case WM_PAINT:
-		if (GetUpdateRect(hwnd, 0, FALSE))
+		if (GetUpdateRect(hwnd, nullptr, FALSE))
 		{
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
@@ -174,7 +174,7 @@ LRESULT CALLBACK WndProcPreviewBox(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 }
 
 int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions) {
-	const PopupSkin *skin = 0;
+	const PopupSkin *skin = nullptr;
 	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 		for (int i = 1; i <= 10; i++) {
 			if (!skin->getFlagName(i))
@@ -265,7 +265,7 @@ bool SkinOptionList_Update(OPTTREE_OPTION* &options, int *OptionsCount, HWND hwn
 			mir_free(options[i].pszSettingName);
 		}
 		mir_free(options);
-		options = NULL;
+		options = nullptr;
 		*OptionsCount = 0;
 	}
 	// add "Global options"
@@ -306,8 +306,8 @@ void LoadOption_Skins() {
 INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool bDlgInit = false;	// some controls send WM_COMMAND before or during WM_INITDIALOG
-	static HANDLE hhkFontsReload = 0;
-	static OPTTREE_OPTION *skinOptions = NULL;
+	static HANDLE hhkFontsReload = nullptr;
+	static OPTTREE_OPTION *skinOptions = nullptr;
 	static int skinOptionsCount = 0;
 
 	if (skinOptions) {
@@ -315,7 +315,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		OptTree_ProcessMessage(hwndDlg, msg, wParam, lParam, &index, IDC_SKIN_LIST_OPT, skinOptions, skinOptionsCount);
 		if (index != -1) {
 			if (mir_wstrcmp(skinOptions[index].pszSettingName, L"Skin options") == 0) {
-				const PopupSkin *skin = 0;
+				const PopupSkin *skin = nullptr;
 				if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 					skin->setFlag(skinOptions[index].Data, skinOptions[index].bState ? true : false);
 				}
@@ -385,7 +385,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		{
-			HWND hCtrl = NULL;
+			HWND hCtrl = nullptr;
 			UINT idCtrl = LOWORD(wParam);
 			switch (HIWORD(wParam)) {
 			case BN_KILLFOCUS:		// Button controls
@@ -421,7 +421,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						PopupOptions.SkinPack = mir_wstrdup(szNewSkin);
 					}
 
-					const PopupSkin *skin = 0;
+					const PopupSkin *skin = nullptr;
 					if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 						// update Skin Option List from reload SkinPack
 						bDlgInit = false;
@@ -446,7 +446,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							LB_GETITEMDATA,
 							(WPARAM)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL, 0, 0),
 							0));
-						const PopupSkin *skin = 0;
+						const PopupSkin *skin = nullptr;
 						if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 							mir_free(PopupOptions.SkinPack);
 							PopupOptions.SkinPack = mir_wstrdup(skin->getName());
@@ -479,7 +479,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					// skin pack
 					db_set_ws(NULL, MODULNAME, "SkinPack", PopupOptions.SkinPack);
 					// skin options
-					const PopupSkin *skin = 0;
+					const PopupSkin *skin = nullptr;
 					if (skin = skins.getSkin(PopupOptions.SkinPack))
 						skin->saveOpts();
 					skins.freeAllButActive();
@@ -499,7 +499,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_DESTROY:
 		if (wndPreview) {
 			delete wndPreview;
-			wndPreview = NULL;
+			wndPreview = nullptr;
 			gPreviewOk = false;
 		}
 		if (hhkFontsReload) UnhookEvent(hhkFontsReload);
@@ -509,7 +509,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				mir_free(skinOptions[i].pszSettingName);
 			}
 			mir_free(skinOptions);
-			skinOptions = NULL;
+			skinOptions = nullptr;
 			skinOptionsCount = 0;
 		}
 		return TRUE;
@@ -578,9 +578,9 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			DeleteObject(hbr);
 
 			HPEN hpen = (HPEN)SelectObject(mydc, CreatePen(PS_DOT, 1, RGB(0, 0, 0)));
-			MoveToEx(mydc, 0, 100, NULL);
+			MoveToEx(mydc, 0, 100, nullptr);
 			LineTo(mydc, 201, 100);
-			MoveToEx(mydc, 100, 0, NULL);
+			MoveToEx(mydc, 100, 0, nullptr);
 			LineTo(mydc, 100, 201);
 			DeleteObject(SelectObject(mydc, hpen));
 
@@ -597,7 +597,7 @@ INT_PTR CALLBACK BoxPreviewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 {
 	switch (msg) {
 	case WM_PAINT:
-		if (GetUpdateRect(hwnd, 0, FALSE)) {
+		if (GetUpdateRect(hwnd, nullptr, FALSE)) {
 			PAINTSTRUCT ps;
 			HDC mydc = BeginPaint(hwnd, &ps);
 			BoxPreview_OnPaint(hwnd, mydc, GetWindowLongPtr(hwnd, GWLP_USERDATA));

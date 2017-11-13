@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void OmegleProto::SendMsgWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	std::string data = *(std::string*)p;
@@ -42,7 +42,7 @@ void OmegleProto::SendMsgWorker(void *p)
 
 void OmegleProto::SendTypingWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	// Save typing info

@@ -127,7 +127,7 @@ extern "C" __declspec(dllexport) int Load()
 	wchar_t tszFile[MAX_PATH];
 	GetModuleFileName(g_hInst, tszFile, MAX_PATH);
 
-	SKINICONDESC sid = { 0 };
+	SKINICONDESC sid = {};
 	sid.defaultFile.w = tszFile;
 	sid.flags = SIDF_ALL_UNICODE;
 	sid.section.w = MODULENAME;
@@ -179,7 +179,7 @@ void SetStatus(WORD code, StatusItem* item, char *szAccName)
 		return;
 
 	PROTOACCOUNT* pdescr = Proto_GetAccount(szAccName);
-	if (pdescr == NULL)
+	if (pdescr == nullptr)
 		return;
 
 	if (!ProtoServiceExists(szAccName, PS_SETCUSTOMSTATUSEX))
@@ -195,10 +195,10 @@ void SetStatus(WORD code, StatusItem* item, char *szAccName)
 		ics.ptszName = L"";
 		ics.ptszMessage = L"";
 	}
-	else if (code == IDOK && item != NULL) {
+	else if (code == IDOK && item != nullptr) {
 		statusToSet = item->m_iIcon + 1;
-		ics.ptszName = variables_parsedup(item->m_tszTitle, NULL, NULL);
-		ics.ptszMessage = variables_parsedup(item->m_tszMessage, NULL, NULL);
+		ics.ptszName = variables_parsedup(item->m_tszTitle, nullptr, NULL);
+		ics.ptszMessage = variables_parsedup(item->m_tszMessage, nullptr, NULL);
 	}
 	else return;
 
@@ -218,18 +218,18 @@ INT_PTR showList(WPARAM, LPARAM, LPARAM param)
 		}
 	}
 
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CSLIST), NULL, CSWindowProc, (LPARAM)new CSWindow(szProto));
+	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CSLIST), nullptr, CSWindowProc, (LPARAM)new CSWindow(szProto));
 	return 0;
 }
 
 void addProtoStatusMenuItem(char *protoName)
 {
 	PROTOACCOUNT *pdescr = Proto_GetAccount(protoName);
-	if (pdescr == NULL || pdescr->ppro == NULL)
+	if (pdescr == nullptr || pdescr->ppro == nullptr)
 		return;
 
 	HGENMENU hRoot = Menu_GetProtocolRoot(pdescr->ppro);
-	if (hRoot == NULL)
+	if (hRoot == nullptr)
 		return;
 
 	char buf[200];
@@ -294,13 +294,13 @@ void importCustomStatuses(CSWindow* csw, int result)
 CSWindow::CSWindow(char *protoName)
 {
 	m_protoName = protoName;
-	m_handle = NULL;
+	m_handle = nullptr;
 	m_bExtraIcons = getByte("AllowExtraIcons", DEFAULT_ALLOW_EXTRA_ICONS);
 	m_itemslist = new CSItemsList(m_protoName);
-	m_listview = NULL;
-	m_addModifyDlg = NULL;
+	m_listview = nullptr;
+	m_addModifyDlg = nullptr;
 	m_bSomethingChanged = FALSE;
-	m_filterString = NULL;
+	m_filterString = nullptr;
 }
 
 void __fastcall SAFE_FREE(void** p)
@@ -308,7 +308,7 @@ void __fastcall SAFE_FREE(void** p)
 	if (*p)
 	{
 		free(*p);
-		*p = NULL;
+		*p = nullptr;
 	}
 }
 
@@ -321,11 +321,11 @@ CSWindow::~CSWindow()
 void CSWindow::initIcons()
 {
 	PROTOACCOUNT *pdescr = Proto_GetAccount(m_protoName);
-	if (pdescr == NULL)
+	if (pdescr == nullptr)
 		return;
 
 	char *szUniqueID = (char*)CallProtoService(m_protoName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (szUniqueID == NULL)
+	if (szUniqueID == nullptr)
 		return;
 
 	DBVARIANT dbv;
@@ -341,7 +341,7 @@ void CSWindow::initIcons()
 		return;
 
 	m_statusCount = (int)iNumStatuses;
-	if (NULL == (m_icons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, m_statusCount, 0)))
+	if (nullptr == (m_icons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, m_statusCount, 0)))
 		return;
 
 	for (int i = 1; i <= m_statusCount; i++) {
@@ -448,7 +448,7 @@ CSAMWindow::CSAMWindow(WORD action, CSWindow* parent)
 	m_action = action;
 	m_parent = parent;
 	m_bChanged = FALSE;
-	m_hCombo = m_hMessage = NULL;
+	m_hCombo = m_hMessage = nullptr;
 
 	if (m_action == IDC_ADD)
 		m_item = new StatusItem();
@@ -464,18 +464,18 @@ CSAMWindow::~CSAMWindow()
 
 void CSAMWindow::exec()
 {
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_ADDMODIFY), NULL, CSAMWindowProc, (LPARAM)this);
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_ADDMODIFY), nullptr, CSAMWindowProc, (LPARAM)this);
 }
 
 
 void CSAMWindow::setCombo()
 {
 	PROTOACCOUNT *pdescr = Proto_GetAccount(m_parent->m_protoName);
-	if (pdescr == NULL)
+	if (pdescr == nullptr)
 		return;
 
 	char *szUniqueID = (char*)CallProtoService(pdescr->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (szUniqueID == NULL)
+	if (szUniqueID == nullptr)
 		return;
 
 	DBVARIANT dbv;
@@ -567,7 +567,7 @@ void CSAMWindow::checkItemValidity()
 	GetDlgItemText(m_handle, IDC_MESSAGE, tszInputMessage, _countof(tszInputMessage));
 
 	PROTOACCOUNT *pdescr = Proto_GetAccount(m_parent->m_protoName);
-	if (pdescr == NULL)
+	if (pdescr == nullptr)
 		return;
 
 	WPARAM i = SendMessage(m_hCombo, CB_GETCURSEL, 0, 0) + 1;
@@ -648,7 +648,7 @@ void CSListView::addItem(StatusItem* item, int itemNumber)
 void CSListView::initItems(ListItem< StatusItem >* items)
 {
 	ListItem< StatusItem >* help = items;
-	for (int i = 0; help != NULL; help = help->m_next, i++)
+	for (int i = 0; help != nullptr; help = help->m_next, i++)
 		if (m_parent->itemPassedFilter(help))
 			addItem(help->m_item, i);
 }
@@ -922,7 +922,7 @@ INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
 			if (LOWORD(wparam) == IDOK && csw->toggleButtons())
 				SetStatus(IDOK, csw->m_itemslist->m_list->get(csw->m_listview->getPositionInList()), csw->m_protoName);
 			if (LOWORD(wparam) == IDC_CANCEL)
-				SetStatus(IDC_CANCEL, NULL, csw->m_protoName);
+				SetStatus(IDC_CANCEL, nullptr, csw->m_protoName);
 			if (csw->m_bSomethingChanged)
 				csw->m_itemslist->saveItems(csw->m_protoName);
 			csw->saveWindowPosition(csw->m_handle);

@@ -35,7 +35,7 @@ static int lua_AddPopup(lua_State *L)
 {
 	if (lua_type(L, 1) != LUA_TTABLE)
 	{
-		lua_pushlightuserdata(L, 0);
+		lua_pushlightuserdata(L, nullptr);
 		return 1;
 	}
 
@@ -98,7 +98,7 @@ static int lua_AddPopup2(lua_State *L)
 {
 	if (lua_type(L, 1) != LUA_TTABLE)
 	{
-		lua_pushlightuserdata(L, 0);
+		lua_pushlightuserdata(L, nullptr);
 		return 1;
 	}
 
@@ -118,7 +118,7 @@ static luaL_Reg popupApi[] =
 	{ "AddPopup", lua_AddPopup },
 	{ "AddPopup2", lua_AddPopup2 },
 
-	{ NULL, NULL }
+	{ nullptr, nullptr }
 };
 
 extern "C" LUAMOD_API int luaopen_m_popup(lua_State *L)

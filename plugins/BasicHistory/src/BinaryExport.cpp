@@ -52,9 +52,9 @@ BinaryExport::~BinaryExport()
 
 void BinaryExport::WriteString(const std::wstring &str)
 {
-	int conv = WideCharToMultiByte(codepage, 0, str.c_str(), (int)str.length() + 1, NULL, 0, NULL, NULL);
+	int conv = WideCharToMultiByte(codepage, 0, str.c_str(), (int)str.length() + 1, nullptr, 0, nullptr, nullptr);
 	char* buf = new char[conv];
-	conv = WideCharToMultiByte(codepage, 0, str.c_str(), (int)str.length() + 1, buf, conv, NULL, NULL);
+	conv = WideCharToMultiByte(codepage, 0, str.c_str(), (int)str.length() + 1, buf, conv, nullptr, nullptr);
 	EXP_FILE.write(buf, conv);
 	delete[] buf;
 }
@@ -95,7 +95,7 @@ bool BinaryExport::ReadString(std::wstring &str)
 	if (totalSize == 0)
 		return true;
 
-	int sizeW = MultiByteToWideChar(codepage, 0, (char*)buf.c_str(), totalSize, NULL, 0);
+	int sizeW = MultiByteToWideChar(codepage, 0, (char*)buf.c_str(), totalSize, nullptr, 0);
 	str.resize(sizeW);
 	MultiByteToWideChar(codepage, 0, (char*)buf.c_str(), totalSize, (wchar_t*)str.c_str(), sizeW);
 	return true;

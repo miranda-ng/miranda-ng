@@ -17,7 +17,7 @@ CAdvProviderSettings* get_adv_settings(const IQuotesProvider* pProvider, bool bC
 		return pAdvSet.get();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void remove_adv_settings(const IQuotesProvider *pProvider)

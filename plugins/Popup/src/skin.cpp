@@ -31,9 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 PopupSkin::PopupSkin(LPCTSTR aName)
 {
 	for (int i = 0; i < 32; i++)
-		m_flag_names[i] = NULL;
-	m_elements = 0;
-	m_name = aName ? mir_wstrdup(aName) : NULL;
+		m_flag_names[i] = nullptr;
+	m_elements = nullptr;
+	m_name = aName ? mir_wstrdup(aName) : nullptr;
 }
 
 PopupSkin::~PopupSkin()
@@ -173,7 +173,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	if (!m_elements)
 		return;
 
-	SKINELEMENT *head = NULL;
+	SKINELEMENT *head = nullptr;
 
 	int STYLE_SZ_CLOCK = 0;
 	if (!this->useInternalClock())
@@ -240,7 +240,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 						{
 							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
 							DrawTextEx(hdc, wnd->getText(), (int)mir_wstrlen(wnd->getText()), &rc,
-								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+								DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
 							szNew.cx = rc.right;
 							szNew.cy = rc.bottom;
 						}
@@ -283,7 +283,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 					{
 						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
 						DrawTextEx(hdc, wnd->getTitle(), (int)mir_wstrlen(wnd->getTitle()), &rc,
-							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+							DT_CALCRECT | DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
 						szNew.cx = rc.right;
 						szNew.cy = rc.bottom;
 					}
@@ -417,7 +417,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 	if (!m_elements) return;
 
 	HDC hdc = bmp->getDC();
-	SKINELEMENT *head = NULL;
+	SKINELEMENT *head = nullptr;
 
 	int STYLE_SZ_CLOCK = 0;
 	if (!this->useInternalClock())
@@ -502,7 +502,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 						{
 							RECT rc; SetRect(&rc, pt.x, pt.y, pt.x + sz.cx, pt.y + sz.cy);
 							DrawTextEx(hdc, wnd->getText(), (int)mir_wstrlen(wnd->getText()), &rc,
-								DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+								DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
 						}
 						break;
 					case PopupWnd2::TT_MTEXT:
@@ -550,7 +550,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 						HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
 						RECT rc; SetRect(&rc, pt.x, pt.y, pt.x + sz.cx, pt.y + sz.cy);
 						DrawTextEx(hdc, wnd->getTitle(), (int)mir_wstrlen(wnd->getTitle()), &rc,
-							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
+							DT_EXPANDTABS | DT_LEFT | DT_NOPREFIX | DT_TOP | DT_WORDBREAK/*|DT_RTLREADING*/, nullptr);
 						SelectObject(hdc, hFntSave);
 					}
 					break;
@@ -718,7 +718,7 @@ bool PopupSkin::onMouseMove(PopupWnd2 *wnd, int x, int y) const
 		}
 	}
 
-	SetCursor(LoadCursor(NULL, hovered ? IDC_HAND : IDC_ARROW));
+	SetCursor(LoadCursor(nullptr, hovered ? IDC_HAND : IDC_ARROW));
 
 	return res;
 }
@@ -734,7 +734,7 @@ bool PopupSkin::onMouseLeave(PopupWnd2 *wnd) const
 		}
 	}
 
-	SetCursor(LoadCursor(NULL, IDC_ARROW));
+	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
 	return res;
 }
@@ -778,7 +778,7 @@ bool PopupSkin::load(LPCTSTR dir)
 	for (int i = 0; i < 32; i++) {
 		if (m_flag_names[i]) {
 			mir_free(m_flag_names[i]);
-			m_flag_names[i] = NULL;
+			m_flag_names[i] = nullptr;
 		}
 	}
 	m_flags = 0;
@@ -826,7 +826,7 @@ void PopupSkin::loadSkin(std::wistream &f)
 	SKINELEMENT *head = new SKINELEMENT;
 	m_elements = head;
 	head->type = ST_NOTHING;
-	head->next = NULL;
+	head->next = nullptr;
 
 	while (!f.eof()) {
 		wchar_t buf[1024];
@@ -871,7 +871,7 @@ void PopupSkin::loadSkin(std::wistream &f)
 			if (head->next && ((head->next->type & ST_TYPEMASK) == ST_CLOCK))
 				m_internalClock = false;
 			head = head->next;
-			head->next = NULL;
+			head->next = nullptr;
 		}
 		else if (!mir_wstrcmp(buf, L"options")) {
 			loadOptions(f);
@@ -911,10 +911,10 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 	SKINELEMENT *element = new SKINELEMENT;
 	element->proportional = 0;
 	element->type = ST_NOTHING | ST_BADPOS;
-	element->next = NULL;
+	element->next = nullptr;
 	element->flag_mask = 0;
 	element->flags = 0;
-	element->myBmp = NULL;
+	element->myBmp = nullptr;
 
 	while (!f.eof()) {
 		wchar_t buf[1024];
@@ -937,12 +937,12 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 			else if (!mir_wstrcmp(buf, L"text")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_TEXT;
 				element->textColor = (COLORREF)0xffffffff;
-				element->hfn = 0;
+				element->hfn = nullptr;
 			}
 			else if (!mir_wstrcmp(buf, L"title")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_TITLE;
 				element->textColor = (COLORREF)0xffffffff;
-				element->hfn = 0;
+				element->hfn = nullptr;
 			}
 			else if (!mir_wstrcmp(buf, L"avatar")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_AVATAR;
@@ -950,7 +950,7 @@ PopupSkin::SKINELEMENT *PopupSkin::loadObject(std::wistream &f)
 			else if (!mir_wstrcmp(buf, L"clock")) {
 				element->type = (element->type & ~ST_TYPEMASK) | ST_CLOCK;
 				element->textColor = (COLORREF)0xffffffff;
-				element->hfn = 0;
+				element->hfn = nullptr;
 			}
 		}
 		else if (!mir_wstrcmp(buf, L"source")) {
@@ -1057,7 +1057,7 @@ Skins skins;
 
 Skins::Skins()
 {
-	m_skins = 0;
+	m_skins = nullptr;
 }
 
 Skins::~Skins()
@@ -1089,12 +1089,12 @@ bool Skins::load()
 	m_skins->name = mir_wstrdup(L"* Popup Classic");
 	m_skins->dir = new wchar_t[1024];
 	mir_wstrcpy(m_skins->dir, L"res:classic.popupskin");
-	m_skins->skin = 0;
+	m_skins->skin = nullptr;
 
 	wchar_t dir[1024] = { '\0' };
 
 	if (ServiceExists(MS_FOLDERS_GET_PATH)) {
-		if (FoldersGetCustomPathT(folderId, dir, _countof(dir), NULL) != 0)
+		if (FoldersGetCustomPathT(folderId, dir, _countof(dir), nullptr) != 0)
 			return false;
 	}
 	else {
@@ -1120,7 +1120,7 @@ bool Skins::load()
 			m_skins->name = mir_wstrdup(ffd.cFileName);
 			m_skins->dir = new wchar_t[1024];
 			GetCurrentDirectory(1024, m_skins->dir);
-			m_skins->skin = 0;
+			m_skins->skin = nullptr;
 
 			SetCurrentDirectory(L"..");
 		}
@@ -1137,7 +1137,7 @@ bool Skins::load()
 
 const PopupSkin *Skins::getSkin(LPCTSTR name)
 {
-	SKINLIST *any = 0;
+	SKINLIST *any = nullptr;
 	for (SKINLIST *p = m_skins; p; p = p->next) {
 		if (!mir_wstrcmp(p->name, L"* Popup Classic") || !any)
 			any = p;
@@ -1150,13 +1150,13 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 	if (any && any->skin)
 		return any->skin;
 	if (!any)
-		return 0;
+		return nullptr;
 
 	any->skin = new PopupSkin(any->name);
 	any->skin->load(any->dir);
 
 	if (!any->skin->isCompatible())
-		MessageBox(NULL,
+		MessageBox(nullptr,
 		TranslateT("The skin you are trying to load is designed\r\nfor newer version of Popup plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin."),
 		MODULNAME_LONG, MB_ICONSTOP | MB_OK);
 
@@ -1181,6 +1181,6 @@ void Skins::freeAllButActive()
 	for (SKINLIST *p = m_skins; p; p = p->next)
 		if (mir_wstrcmpi(p->name, PopupOptions.SkinPack)) {
 			delete p->skin;
-			p->skin = NULL;
+			p->skin = nullptr;
 		}
 }

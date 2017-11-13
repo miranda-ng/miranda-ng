@@ -83,7 +83,7 @@ BOOL _saveDlgItemScore(HWND hDialog, int controlID, char* option)
 	len = GetWindowTextLength(GetDlgItem(hDialog, controlID));
 	tmp = (wchar_t *)malloc((len + 1)*sizeof(wchar_t));
 	GetDlgItemText(hDialog, controlID, tmp, len + 1);
-	_setOptD(option, wcstod(tmp, NULL)/SCORE_C);
+	_setOptD(option, wcstod(tmp, nullptr)/SCORE_C);
 	return TRUE;
 }
 
@@ -374,7 +374,7 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 							break;
 					}
 					if (_saveDlgItemResponse(optDlg, IDC_OPT_RESPONSE, "Response") == -1) {
-						MessageBox(NULL, TranslateT("Invalid regular expression.\nKeeping previous value."), L"Error", MB_OK);
+						MessageBox(nullptr, TranslateT("Invalid regular expression.\nKeeping previous value."), L"Error", MB_OK);
 						return FALSE;
 					}
 					_saveDlgItemText(optDlg, IDC_OPT_SUCCESS_RESPONSE, "SuccessResponse");
@@ -521,7 +521,7 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 					GetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, dbuf, len);
 					mir_snprintf(cbuf, "%0.04f", get_msg_score(dbuf));
 					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, L"");
-					MessageBoxA(NULL, cbuf, Translate("Message score"), MB_OK);
+					MessageBoxA(nullptr, cbuf, Translate("Message score"), MB_OK);
 					free(dbuf);
 					return FALSE;
 
@@ -579,7 +579,7 @@ int OnOptInitialize(WPARAM wParam, LPARAM)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPAMOTRON_POPUPS);
 		odp.pfnDlgProc = DlgProcOptionsPopups;
 		odp.szGroup.a = LPGEN("Popups");
-		odp.szTab.a = NULL;
+		odp.szTab.a = nullptr;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;

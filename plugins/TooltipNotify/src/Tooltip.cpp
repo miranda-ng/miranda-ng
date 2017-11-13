@@ -14,13 +14,13 @@ CTooltip::CTooltip(CTooltipNotify *pTooltipNotify)
 {
 	m_pTooltipNotify = pTooltipNotify;
 	m_bLDblClick = DEF_SETTING_LDBLCLICK;
-	m_hFont = 0;
-	m_hWnd = 0;
-	m_szText = 0;
+	m_hFont = nullptr;
+	m_hWnd = nullptr;
+	m_szText = nullptr;
 
-	m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, s_szTooltipClass, 0, 
-							WS_POPUP|WS_BORDER, 100, 100, 50, 50, 0, 0, 
-							g_hInstDLL, NULL);
+	m_hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, s_szTooltipClass, nullptr, 
+							WS_POPUP|WS_BORDER, 100, 100, 50, 50, nullptr, nullptr, 
+							g_hInstDLL, nullptr);
 
 	SetWindowLongPtr(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 }
@@ -148,7 +148,7 @@ void CTooltip::Validate()
 	HDC hDC = GetDC(m_hWnd);
 	SelectObject(hDC, m_hFont);
 	GetTextExtentPoint32(hDC, m_szText, (int)mir_wstrlen(m_szText), &Size);
-	SetWindowPos(m_hWnd, 0, 0, 0, Size.cx+6, Size.cy+4, 
+	SetWindowPos(m_hWnd, nullptr, 0, 0, Size.cx+6, Size.cy+4, 
 		SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOREDRAW);
 	ReleaseDC(m_hWnd, hDC);
 }
@@ -189,7 +189,7 @@ void CTooltip::get_Rect(RECT *Rect) const
 
 void CTooltip::set_Position(INT x, INT y)
 {
-	SetWindowPos(m_hWnd, 0, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
+	SetWindowPos(m_hWnd, nullptr, x, y, 0, 0, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOSIZE);
 }
 
 void CTooltip::set_Text(const wchar_t* szText)

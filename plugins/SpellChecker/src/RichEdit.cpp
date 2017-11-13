@@ -7,9 +7,9 @@
 DEFINE_GUIDXXX(IID_ITextDocument,0x8CC497C0,0xA1DF,0x11CE,0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D);
 
 RichEdit::RichEdit(HWND hwnd) :
-	m_hwnd(NULL),
-	m_ole(NULL),
-	m_textDocument(NULL),
+	m_hwnd(nullptr),
+	m_ole(nullptr),
+	m_textDocument(nullptr),
 	m_stopped(0),
 	m_undoEnabled(TRUE)
 {
@@ -18,12 +18,12 @@ RichEdit::RichEdit(HWND hwnd) :
 
 RichEdit::~RichEdit()
 {
-	SetHWND(NULL);
+	SetHWND(nullptr);
 }
 
 bool RichEdit::IsValid() const
 {
-	return m_ole != NULL;
+	return m_ole != nullptr;
 }
 
 HWND RichEdit::GetHWND() const
@@ -33,26 +33,26 @@ HWND RichEdit::GetHWND() const
 
 void RichEdit::SetHWND(HWND hwnd)
 {
-	if (m_textDocument != NULL) {
+	if (m_textDocument != nullptr) {
 		m_textDocument->Release();
-		m_textDocument = NULL;
+		m_textDocument = nullptr;
 	}
-	if (m_ole != NULL) {
+	if (m_ole != nullptr) {
 		m_ole->Release();
-		m_ole = NULL;
+		m_ole = nullptr;
 	}
 
 	m_hwnd = hwnd;
 
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return;
 
 	SendMessage(EM_GETOLEINTERFACE, 0, (LPARAM)&m_ole);
-	if (m_ole == NULL)
+	if (m_ole == nullptr)
 		return;
 
 	if (m_ole->QueryInterface(IID_ITextDocument, (void**)&m_textDocument) != S_OK)
-		m_textDocument = NULL;
+		m_textDocument = nullptr;
 }
 
 LRESULT RichEdit::SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
@@ -67,16 +67,16 @@ bool RichEdit::IsReadOnly() const
 
 void RichEdit::SuspendUndo()
 {
-	if (m_textDocument != NULL) {
-		m_textDocument->Undo(tomSuspend, NULL);
+	if (m_textDocument != nullptr) {
+		m_textDocument->Undo(tomSuspend, nullptr);
 		m_undoEnabled = FALSE;
 	}
 }
 
 void RichEdit::ResumeUndo()
 {
-	if (m_textDocument != NULL) {
-		m_textDocument->Undo(tomResume, NULL);
+	if (m_textDocument != nullptr) {
+		m_textDocument->Undo(tomResume, nullptr);
 		m_undoEnabled = TRUE;
 	}
 }
@@ -123,7 +123,7 @@ void RichEdit::Start()
 	SendMessage(EM_SETSCROLLPOS, 0, (LPARAM)&m_old_scroll_pos);
 
 	SendMessage(WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(m_hwnd, NULL, FALSE);
+	InvalidateRect(m_hwnd, nullptr, FALSE);
 
 	ResumeUndo();
 }
@@ -198,12 +198,12 @@ wchar_t* RichEdit::GetText(int start, int end) const
 	if (end <= start)
 		end = GetTextLength();
 
-	if (m_textDocument != NULL) {
+	if (m_textDocument != nullptr) {
 		ITextRange *range;
 		if (m_textDocument->Range(start, end, &range) != S_OK)
 			return mir_wstrdup(L"");
 
-		BSTR text = NULL;
+		BSTR text = nullptr;
 		if (FAILED(range->GetText(&text))) {
 			if (text)
 				::SysFreeString(text);

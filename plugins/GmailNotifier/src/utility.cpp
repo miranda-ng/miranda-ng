@@ -32,7 +32,7 @@ void BuildList(void)
 
 BOOL GetBrowser(char *str)
 {
-	HKEY hKey = NULL;
+	HKEY hKey = nullptr;
 	char *strKey;
 	char strIE[] = "Applications\\iexplore.exe\\shell\\open\\command";
 	char strDefault[] = "https\\shell\\open\\command";
@@ -56,11 +56,11 @@ BOOL GetBrowser(char *str)
 		// Data size
 		DWORD cbData = 0;
 		// Get the default value
-		if (RegQueryValueExA(hKey, NULL, NULL, NULL, NULL, &cbData) == ERROR_SUCCESS && cbData > 0) {
-			if (RegQueryValueExA(hKey, NULL, NULL, NULL, (LPBYTE)str, &cbData) == ERROR_SUCCESS) {
-				if ((strKey = strstr(str, "%1")) != NULL)
+		if (RegQueryValueExA(hKey, nullptr, nullptr, nullptr, nullptr, &cbData) == ERROR_SUCCESS && cbData > 0) {
+			if (RegQueryValueExA(hKey, nullptr, nullptr, nullptr, (LPBYTE)str, &cbData) == ERROR_SUCCESS) {
+				if ((strKey = strstr(str, "%1")) != nullptr)
 					*(strKey--) = '\0';
-				if ((strKey = strstr(str, "-")) != NULL)
+				if ((strKey = strstr(str, "-")) != nullptr)
 					*(strKey--) = '\0';
 				RegCloseKey(hKey);
 				return TRUE;
@@ -76,5 +76,5 @@ Account* GetAccountByContact(MCONTACT hContact)
 		if (acc[i].hContact == hContact)
 			return &acc[i];
 
-	return NULL;
+	return nullptr;
 }

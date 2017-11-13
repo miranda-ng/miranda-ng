@@ -157,7 +157,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			if ((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || (ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) {
 				if (!(GetWindowLongPtr(msg->hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
 					SendMessage(msg->hwnd, CLUIINTM_REDRAW, 0, 0);
-					MessageBox(0, TranslateT("The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."),
+					MessageBox(nullptr, TranslateT("The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."),
 						TranslateT("Contact list docking"), MB_OK);
 					return 0;
 				}
@@ -261,7 +261,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				docked = 0;
 				GetCursorPos(&pt);
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
-				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2, pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, cluiPos.right, cluiPos.bottom, SWP_NOZORDER);
+				SetWindowPos(msg->hwnd, nullptr, pt.x - rc.right / 2, pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, cluiPos.right, cluiPos.bottom, SWP_NOZORDER);
 			}
 		}
 		return 1;

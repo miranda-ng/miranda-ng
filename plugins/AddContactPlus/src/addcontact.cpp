@@ -100,7 +100,7 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 	}
 
 	if (iAccCount == 0) {
-		if (GetParent(hdlg) == NULL)
+		if (GetParent(hdlg) == nullptr)
 			DestroyWindow(hdlg);
 		else
 			EndDialog(hdlg, 0);
@@ -172,7 +172,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		HookEventMessage(ME_PROTO_ACCLISTCHANGED, hdlg, DM_ADDCONTACT_CHANGEACCLIST);
 		{
 			wchar_t *szGroup;
-			for (int i = 1; (szGroup = Clist_GroupGetName(i, NULL)) != NULL; i++) {
+			for (int i = 1; (szGroup = Clist_GroupGetName(i, nullptr)) != nullptr; i++) {
 				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)szGroup);
 				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, (WPARAM)id, (LPARAM)i);
 			}
@@ -239,10 +239,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				GetDlgItemText(hdlg, IDC_USERID, szUserId, _countof(szUserId));
 
 				if (*rtrimw(szUserId) == 0 ||
-					(strstr(acs->proto, "GG") && wcstoul(szUserId, NULL, 10) > INT_MAX) || // Gadu-Gadu protocol
-					((CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_NUMERICUSERID) && !wcstoul(szUserId, NULL, 10)))
+					(strstr(acs->proto, "GG") && wcstoul(szUserId, nullptr, 10) > INT_MAX) || // Gadu-Gadu protocol
+					((CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_NUMERICUSERID) && !wcstoul(szUserId, nullptr, 10)))
 				{
-					MessageBox(NULL,
+					MessageBox(nullptr,
 						TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
 						TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 					break;
@@ -250,8 +250,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 				PROTOSEARCHRESULT *psr;
 				if (strstr(acs->proto, "TLEN")) { // Tlen protocol
-					if (wcschr(szUserId, '@') == NULL) {
-						MessageBox(NULL,
+					if (wcschr(szUserId, '@') == nullptr) {
+						MessageBox(nullptr,
 							TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
 							TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 						break;
@@ -271,7 +271,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 				MCONTACT hContact = (MCONTACT)CallProtoService(acs->proto, PS_ADDTOLIST, IsDlgButtonChecked(hdlg, IDC_ADDTEMP) ? PALF_TEMPORARY : 0, (LPARAM)acs->psr);
 				if (hContact == NULL) {
-					MessageBox(NULL,
+					MessageBox(nullptr,
 						TranslateT("The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly."),
 						TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 					break;
@@ -310,7 +310,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 			}
 			// fall through
 		case IDCANCEL:
-			if (GetParent(hdlg) == NULL)
+			if (GetParent(hdlg) == nullptr)
 				DestroyWindow(hdlg);
 			else
 				EndDialog(hdlg, 0);
@@ -319,7 +319,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 	case WM_CLOSE:
 		/* if there is no parent for the dialog, its a modeless dialog and can't be killed using EndDialog() */
-		if (GetParent(hdlg) == NULL)
+		if (GetParent(hdlg) == nullptr)
 			DestroyWindow(hdlg);
 		else
 			EndDialog(hdlg, 0);
@@ -335,7 +335,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 		break;
 
 	case WM_DESTROY:
-		hAddDlg = NULL;
+		hAddDlg = nullptr;
 		Window_FreeIcon_IcoLib(hdlg);
 		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_GETIMAGELIST, 0, 0));
 		if (acs) {

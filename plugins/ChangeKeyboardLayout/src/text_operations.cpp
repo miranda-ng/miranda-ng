@@ -2,7 +2,7 @@
 
 struct EditStreamData
 {
-	EditStreamData() { pbBuff = 0; cbBuff = iCurrent = 0; }
+	EditStreamData() { pbBuff = nullptr; cbBuff = iCurrent = 0; }
 	~EditStreamData() { free(pbBuff); }
 
 	PBYTE pbBuff;
@@ -48,7 +48,7 @@ LPTSTR GeTStringFromStreamData(EditStreamData *esd)
 
 BOOL CopyTextToClipboard(LPTSTR ptszText)
 {
-	if (!OpenClipboard(NULL))
+	if (!OpenClipboard(nullptr))
 		return FALSE;
 
 	EmptyClipboard(); 
@@ -85,7 +85,7 @@ HKL GetNextLayout(HKL hklCurLay)
 		if (hklLayouts[i] == hklCurLay)
 			return hklLayouts[(i+1)%(bLayNum)];
 	
-	return NULL;
+	return nullptr;
 }
 
 LPTSTR GenerateLayoutString(HKL hklLayout)
@@ -133,7 +133,7 @@ LPTSTR GetLayoutString(HKL hklLayout)
 	for (DWORD i = 0; i < bLayNum; i++)
 		if (hklLayouts[i] == hklLayout)
 			return ptszLayStrings[i];
-	return NULL;
+	return nullptr;
 }
 
 LPTSTR ChangeTextCase(LPCTSTR ptszInText)
@@ -154,12 +154,12 @@ LPTSTR ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL Tw
 	LPTSTR ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 	mir_wstrcpy(ptszOutText, ptszInText);
 
-	if (hklCurLay == NULL || hklToLay == NULL)
+	if (hklCurLay == nullptr || hklToLay == nullptr)
 		return ptszOutText;
 
 	LPTSTR ptszKeybCur = GetLayoutString(hklCurLay);
 	LPTSTR ptszKeybNext = GetLayoutString(hklToLay);
-	if (ptszKeybCur == 0 || ptszKeybNext == 0)
+	if (ptszKeybCur == nullptr || ptszKeybNext == nullptr)
 		return ptszOutText;
 
 	for (DWORD i = 0; i < mir_wstrlen(ptszInText); i++) {
@@ -189,7 +189,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 	DWORD dwMaxSymbols = 0, dwTemp = 0;
 
 	for (DWORD j = 0; j < mir_wstrlen(ptszInText); j++)
-		if (wcschr(ptszKeybBuff, ptszInText[j]) != NULL)
+		if (wcschr(ptszKeybBuff, ptszInText[j]) != nullptr)
 			++dwMaxSymbols;
 
 	for (DWORD i = 1; i < bLayNum; i++) {
@@ -197,7 +197,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 		DWORD dwCountSymbols = 0;
 			
 		for (DWORD j = 0; j<mir_wstrlen(ptszInText); j++)
-			if (wcschr(ptszKeybBuff, ptszInText[j]) != NULL)
+			if (wcschr(ptszKeybBuff, ptszInText[j]) != nullptr)
 				++dwCountSymbols;
 		
 		if (dwCountSymbols == dwMaxSymbols)
@@ -216,7 +216,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 
 int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 {
-	HKL hklCurLay = 0, hklToLay = 0;
+	HKL hklCurLay = nullptr, hklToLay = nullptr;
 
 	ptrW ptszInText;
 	CHARRANGE crSelection = { 0 }, crTemp = { 0 };
@@ -226,10 +226,10 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	BYTE WindowType = WTYPE_Unknown;
 	BOOL WindowIsReadOnly, TwoWay;
 
-	if (hTextWnd == NULL)
+	if (hTextWnd == nullptr)
 		hTextWnd = GetFocus();
 
-	if (hTextWnd == NULL)
+	if (hTextWnd == nullptr)
 		return 0;
 
 	//--------------Определяем тип окна-----------------
@@ -260,7 +260,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		i = GetClassName(hTextWnd, ptszTemp, 255);
 		ptszTemp[i] = 0;
 
-		if (wcsstr(CharUpper(ptszTemp), L"RICHEDIT") != NULL) {
+		if (wcsstr(CharUpper(ptszTemp), L"RICHEDIT") != nullptr) {
 			WindowType = WTYPE_RichEdit;
 			SendMessage(hTextWnd, EM_EXGETSEL, 0, (LPARAM)&crSelection);
 		}
@@ -292,7 +292,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				else {
 					SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 					SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-					InvalidateRect(hTextWnd, NULL, FALSE);
+					InvalidateRect(hTextWnd, nullptr, FALSE);
 					return 1;
 				}
 			}
@@ -307,7 +307,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				else {
 					SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 					SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-					InvalidateRect(hTextWnd, NULL, FALSE);
+					InvalidateRect(hTextWnd, nullptr, FALSE);
 					return 1;
 				}
 			}
@@ -329,7 +329,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				else {
 					SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 					SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-					InvalidateRect(hTextWnd, NULL, FALSE);
+					InvalidateRect(hTextWnd, nullptr, FALSE);
 					return 1;
 				}
 			}
@@ -344,14 +344,14 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				else {
 					SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 					SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-					InvalidateRect(hTextWnd, NULL, FALSE);
+					InvalidateRect(hTextWnd, nullptr, FALSE);
 					return 1;
 				}
 			}
 			// Получаем текущее слово
 			if (CurrentWord) {
-				for (dwStartWord = crSelection.cpMin; (dwStartWord > 0) && (wcschr(ptszSeparators, ptszInText[dwStartWord - 1]) == NULL); dwStartWord--);
-				for (dwEndWord = crSelection.cpMin; (dwEndWord < (mir_wstrlen(ptszInText))) && (wcschr(ptszSeparators, ptszInText[dwEndWord]) == NULL); dwEndWord++);
+				for (dwStartWord = crSelection.cpMin; (dwStartWord > 0) && (wcschr(ptszSeparators, ptszInText[dwStartWord - 1]) == nullptr); dwStartWord--);
+				for (dwEndWord = crSelection.cpMin; (dwEndWord < (mir_wstrlen(ptszInText))) && (wcschr(ptszSeparators, ptszInText[dwEndWord]) == nullptr); dwEndWord++);
 
 				crTemp.cpMin = dwStartWord;
 				crTemp.cpMax = dwEndWord;
@@ -368,7 +368,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					else {
 						SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 						SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-						InvalidateRect(hTextWnd, NULL, FALSE);
+						InvalidateRect(hTextWnd, nullptr, FALSE);
 						return 1;
 					}
 				}
@@ -382,7 +382,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					if (mir_wstrlen(ptszInText) == 0) {
 						SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 						SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-						InvalidateRect(hTextWnd, NULL, FALSE);
+						InvalidateRect(hTextWnd, nullptr, FALSE);
 						return 1;
 					}
 				}
@@ -432,7 +432,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		if ((WindowType == WTYPE_Edit) || (WindowType == WTYPE_RichEdit)) {
 			SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crSelection);
 			SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-			InvalidateRect(hTextWnd, NULL, FALSE);
+			InvalidateRect(hTextWnd, nullptr, FALSE);
 		}
 
 		if (TextOperation == TOT_Layout)
@@ -488,7 +488,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 
 			if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pdtData, APF_NEWDATA) < 0) {
 				mir_free(ptszPopupText);
-				MessageBox(NULL, ptszMBox, TranslateT(ModuleName), MB_ICONINFORMATION);
+				MessageBox(nullptr, ptszMBox, TranslateT(ModuleName), MB_ICONINFORMATION);
 			}
 		}
 	}
@@ -519,7 +519,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		}
 
 		// Переключим раскладку или изменим состояние Caps Lock
-		if (TextOperation == TOT_Layout && hklToLay != NULL && moOptions.ChangeSystemLayout)
+		if (TextOperation == TOT_Layout && hklToLay != nullptr && moOptions.ChangeSystemLayout)
 			ActivateKeyboardLayout(hklToLay, KLF_SETFORPROCESS);
 		else if (TextOperation == TOT_Case) {
 			// Если нужно инвертнуть
@@ -537,7 +537,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		}
 
 		SendMessage(hTextWnd, WM_SETREDRAW, TRUE, 0);
-		InvalidateRect(hTextWnd, NULL, FALSE);
+		InvalidateRect(hTextWnd, nullptr, FALSE);
 
 		if (TextOperation == TOT_Layout)
 			Skin_PlaySound(SND_ChangeLayout);

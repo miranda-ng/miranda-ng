@@ -92,7 +92,7 @@ wchar_t* GetStatusTypeAsString(int type, wchar_t *buff)
 
 CMStringW ReplaceVars(XSTATUSCHANGE *xsc, const wchar_t *tmplt)
 {
-	if (xsc == NULL || tmplt == NULL || tmplt[0] == '\0')
+	if (xsc == nullptr || tmplt == nullptr || tmplt[0] == '\0')
 		return CMStringW();
 
 	size_t len = mir_wstrlen(tmplt);
@@ -108,14 +108,14 @@ CMStringW ReplaceVars(XSTATUSCHANGE *xsc, const wchar_t *tmplt)
 				break;
 
 			case 't':
-				if (xsc->stzTitle == NULL || xsc->stzTitle[0] == '\0')
+				if (xsc->stzTitle == nullptr || xsc->stzTitle[0] == '\0')
 					res.Append(TranslateT("<no title>"));
 				else
 					res.Append(xsc->stzTitle);
 				break;
 
 			case 'm':
-				if (xsc->stzText == NULL || xsc->stzText[0] == '\0')
+				if (xsc->stzText == nullptr || xsc->stzText[0] == '\0')
 					res.Append(TranslateT("<no status message>"));
 				else
 					AddCR(res, xsc->stzText);
@@ -162,10 +162,10 @@ CMStringW ReplaceVars(XSTATUSCHANGE *xsc, const wchar_t *tmplt)
 
 void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 {
-	if (xsc == NULL)
+	if (xsc == nullptr)
 		return;
 
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 
 	switch (xsc->type) {
 	case TYPE_JABBER_MOOD:
@@ -184,11 +184,11 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
 	}
 
-	if (hIcon == NULL)
+	if (hIcon == nullptr)
 		hIcon = Skin_LoadProtoIcon(xsc->szProto, db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_ONLINE));
 
 	// cut message if needed
-	wchar_t *copyText = NULL;
+	wchar_t *copyText = nullptr;
 	if (opt.PXMsgTruncate && (opt.PXMsgLen > 0) && xsc->stzText && (mir_wstrlen(xsc->stzText) > opt.PXMsgLen)) {
 		wchar_t buff[MAX_TEXT_LEN + 3];
 		copyText = mir_wstrdup(xsc->stzText);
@@ -220,10 +220,10 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 
 void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 {
-	if (xsc == NULL)
+	if (xsc == nullptr)
 		return;
 
-	HICON hIcon = NULL;
+	HICON hIcon = nullptr;
 	wchar_t str[256] = { 0 };
 	wchar_t stzType[32];
 	mir_snwprintf(str, TranslateT("%s changed %s"), pcli->pfnGetContactDisplayName(xsc->hContact, 0), GetStatusTypeAsString(xsc->type, stzType));
@@ -247,7 +247,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 		}
 	}
 
-	if (hIcon == NULL)
+	if (hIcon == nullptr)
 		hIcon = Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 
 	BlinkIcon(xsc->hContact, hIcon, str);
@@ -270,7 +270,7 @@ void PlayXStatusSound(MCONTACT hContact, int action)
 
 void LogChangeToDB(XSTATUSCHANGE *xsc)
 {
-	if (xsc == NULL || (opt.XLogToDB_WinOpen && !CheckMsgWnd(xsc->hContact)))
+	if (xsc == nullptr || (opt.XLogToDB_WinOpen && !CheckMsgWnd(xsc->hContact)))
 		return;
 
 	wchar_t *Template = L"";
@@ -301,7 +301,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 		dbei.pBlob = (PBYTE)(char*)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
-		dbei.timestamp = (DWORD)time(NULL);
+		dbei.timestamp = (DWORD)time(nullptr);
 		dbei.szModule = MODULE;
 		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);
 
@@ -316,13 +316,13 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 void LogChangeToFile(XSTATUSCHANGE *xsc)
 {
-	if (xsc == NULL)
+	if (xsc == nullptr)
 		return;
 
 	wchar_t stzDate[32], stzTime[32], stzText[MAX_TEXT_LEN];
 
-	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, L"HH':'mm", stzTime, _countof(stzTime));
-	GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, L"dd/MM/yyyy", stzDate, _countof(stzDate));
+	GetTimeFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"HH':'mm", stzTime, _countof(stzTime));
+	GetDateFormat(LOCALE_USER_DEFAULT, 0, nullptr, L"dd/MM/yyyy", stzDate, _countof(stzDate));
 
 	wchar_t *Template = L"";
 	switch (xsc->action) {
@@ -344,7 +344,7 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 
 void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 {
-	if (xsc == NULL)
+	if (xsc == nullptr)
 		return;
 
 	BOOL bEnablePopup = true, bEnableSound = true, bEnableLog = opt.XLogToDB;
@@ -463,7 +463,7 @@ wchar_t* GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, 
 
 void LogXstatusChange(MCONTACT hContact, char *szProto, int xstatusType, wchar_t *stzTitle, wchar_t *stzText)
 {
-	XSTATUSCHANGE *xsc = NewXSC(hContact, szProto, xstatusType, NOTIFY_OPENING_ML, stzTitle[0] ? mir_wstrdup(stzTitle) : NULL, stzText[0] ? mir_wstrdup(stzText) : NULL);
+	XSTATUSCHANGE *xsc = NewXSC(hContact, szProto, xstatusType, NOTIFY_OPENING_ML, stzTitle[0] ? mir_wstrdup(stzTitle) : nullptr, stzText[0] ? mir_wstrdup(stzText) : nullptr);
 
 	LogChangeToDB(xsc);
 	FreeXSC(xsc);
@@ -474,7 +474,7 @@ void AddXStatusEventThread(void *arg)
 	MCONTACT hContact = (MCONTACT)(DWORD_PTR)arg;
 
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return;
 
 	wchar_t stzTitle[MAX_TITLE_LEN], stzText[MAX_TEXT_LEN];
@@ -507,7 +507,7 @@ void AddSMsgEventThread(void *arg)
 	STATUSMSGINFO smi;
 	smi.hContact = hContact;
 	smi.proto = GetContactProto(hContact);
-	if (smi.proto == NULL)
+	if (smi.proto == nullptr)
 		return;
 
 	smi.newstatusmsg = db_get_wsa(smi.hContact, "CList", "StatusMsg");

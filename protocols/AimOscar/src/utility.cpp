@@ -29,42 +29,42 @@ void CAimProto::broadcast_status(int status)
 		shutdown_chat_conn();
 
 		if (m_hServerConn) {
-			aim_sendflap(m_hServerConn, 0x04, 0, NULL, m_seqno);
+			aim_sendflap(m_hServerConn, 0x04, 0, nullptr, m_seqno);
 			Netlib_Shutdown(m_hServerConn);
 		}
 
 		if (m_hMailConn && m_hMailConn != (HANDLE)1) {
-			aim_sendflap(m_hMailConn, 0x04, 0, NULL, m_mail_seqno);
+			aim_sendflap(m_hMailConn, 0x04, 0, nullptr, m_mail_seqno);
 			Netlib_Shutdown(m_hMailConn);
 		}
 		else if (m_hMailConn == (HANDLE)1)
-			m_hMailConn = NULL;
+			m_hMailConn = nullptr;
 
 		if (m_hAvatarConn && m_hAvatarConn != (HANDLE)1) {
-			aim_sendflap(m_hAvatarConn, 0x04, 0, NULL, m_avatar_seqno);
+			aim_sendflap(m_hAvatarConn, 0x04, 0, nullptr, m_avatar_seqno);
 			Netlib_Shutdown(m_hAvatarConn);
 		}
 		else if (m_hAvatarConn == (HANDLE)1)
-			m_hAvatarConn = NULL;
+			m_hAvatarConn = nullptr;
 
 		if (m_hChatNavConn && m_hChatNavConn != (HANDLE)1) {
-			aim_sendflap(m_hChatNavConn, 0x04, 0, NULL, m_chatnav_seqno);
+			aim_sendflap(m_hChatNavConn, 0x04, 0, nullptr, m_chatnav_seqno);
 			Netlib_Shutdown(m_hChatNavConn);
 		}
 		else if (m_hChatNavConn == (HANDLE)1)
-			m_hChatNavConn = NULL;
+			m_hChatNavConn = nullptr;
 
 		m_idle = false;
 		m_instantidle = false;
 		m_list_received = false;
 		m_state = 0;
 		m_iDesiredStatus = ID_STATUS_OFFLINE;
-		replaceStr(m_last_status_msg, NULL);
+		replaceStr(m_last_status_msg, nullptr);
 
 		m_avatar_id_lg = 0;
 		m_avatar_id_sm = 0;
-		replaceStr(m_hash_lg, NULL);
-		replaceStr(m_hash_sm, NULL);
+		replaceStr(m_hash_lg, nullptr);
+		replaceStr(m_hash_sm, nullptr);
 
 		m_pd_flags = 0;
 		m_pd_info_id = 0;
@@ -107,7 +107,7 @@ void CAimProto::start_connection(void*)
 			//if (login_url == NULL) login_url = mir_strdup(use_ssl ? AIM_DEFAULT_SERVER : AIM_DEFAULT_SERVER_NS);
 
 
-			if (login_url == NULL) login_url = mir_strdup(AIM_DEFAULT_SERVER);
+			if (login_url == nullptr) login_url = mir_strdup(AIM_DEFAULT_SERVER);
 
 			m_hServerConn = aim_connect(login_url, get_default_port(), false, login_url); //ssl does not work anymore with old authorization algo
 
@@ -115,8 +115,8 @@ void CAimProto::start_connection(void*)
 
 			m_pref1_flags = 0x77ffff;
 			m_pref1_set_flags = 0x77ffff;
-			mir_free(m_pref2_flags); m_pref2_flags = NULL; m_pref2_len = 0;
-			mir_free(m_pref2_set_flags); m_pref2_set_flags = NULL; m_pref2_set_len = 0;
+			mir_free(m_pref2_flags); m_pref2_flags = nullptr; m_pref2_len = 0;
+			mir_free(m_pref2_set_flags); m_pref2_set_flags = nullptr; m_pref2_set_len = 0;
 
 			if (m_hServerConn)
 				aim_connection_authorization();
@@ -137,7 +137,7 @@ bool CAimProto::wait_conn(HNETLIBCONN &hConn, HANDLE &hEvent, unsigned short ser
 		return false;
 	{
 		mir_cslock lck(connMutex);
-		if (hConn == NULL && m_hServerConn) {
+		if (hConn == nullptr && m_hServerConn) {
 			debugLogA("Starting Connection.");
 			hConn = (HNETLIBCONN)1;    //set so no additional service request attempts are made while aim is still processing the request
 			aim_new_service_request(m_hServerConn, m_seqno, service);//general service connection!
@@ -163,7 +163,7 @@ unsigned short CAimProto::get_default_port(void)
 bool CAimProto::is_my_contact(MCONTACT hContact)
 {
 	const char* szProto = GetContactProto(hContact);
-	return szProto != NULL && mir_strcmp(m_szModuleName, szProto) == 0;
+	return szProto != nullptr && mir_strcmp(m_szModuleName, szProto) == 0;
 }
 
 MCONTACT CAimProto::find_chat_contact(const char* room)
@@ -235,7 +235,7 @@ void CAimProto::update_server_group(const char* group, unsigned short group_id)
 
 void CAimProto::add_contact_to_group(MCONTACT hContact, const char* new_group)
 {
-	if (new_group == NULL)
+	if (new_group == nullptr)
 		return;
 
 	unsigned short old_group_id = getGroupId(hContact, 1);
@@ -244,7 +244,7 @@ void CAimProto::add_contact_to_group(MCONTACT hContact, const char* new_group)
 		return;
 
 	DBVARIANT dbv;
-	char *nick = NULL;
+	char *nick = nullptr;
 	if (!db_get_utf(hContact, MOD_KEY_CL, "MyHandle", &dbv)) {
 		nick = NEWSTR_ALLOCA(dbv.pszVal);
 		db_free(&dbv);
@@ -319,7 +319,7 @@ void CAimProto::offline_contacts(void)
 
 char *normalize_name(const char *s)
 {
-	if (s == NULL) return NULL;
+	if (s == nullptr) return nullptr;
 
 	char* buf = mir_strdup(s);
 	_strlwr(buf);
@@ -341,7 +341,7 @@ char *normalize_name(const char *s)
 
 char* trim_str(char* s)
 {
-	if (s == NULL) return NULL;
+	if (s == nullptr) return nullptr;
 	size_t len = mir_strlen(s);
 
 	while (len) {
@@ -389,7 +389,7 @@ retry:
 //returns the size of the list array aquired with data
 unsigned short* CAimProto::get_members_of_group(unsigned short group_id, unsigned short &size)
 {
-	unsigned short* list = NULL;
+	unsigned short* list = nullptr;
 	size = 0;
 
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -415,7 +415,7 @@ void CAimProto::upload_nicks(void)
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		DBVARIANT dbv;
 		if (!db_get_utf(hContact, MOD_KEY_CL, "MyHandle", &dbv)) {
-			set_local_nick(hContact, dbv.pszVal, NULL);
+			set_local_nick(hContact, dbv.pszVal, nullptr);
 			db_free(&dbv);
 		}
 	}
@@ -468,7 +468,7 @@ char* BdList::find_name(unsigned short id)
 		if (items[i]->item_id == id)
 			return items[i]->name;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void BdList::remove_by_id(unsigned short id)
@@ -542,7 +542,7 @@ int CAimProto::open_contact_file(const char*, const wchar_t* file, const char*, 
 	int fid = _wopen(path, _O_CREAT | _O_RDWR | _O_BINARY, _S_IREAD);
 	if (fid < 0) {
 		wchar_t errmsg[512];
-		mir_snwprintf(errmsg, TranslateT("Failed to open file: %s %s"), path, __tcserror(NULL));
+		mir_snwprintf(errmsg, TranslateT("Failed to open file: %s %s"), path, __tcserror(nullptr));
 		ShowPopup((char*)errmsg, ERROR_POPUP | TCHAR_POPUP);
 	}
 	return fid;
@@ -560,7 +560,7 @@ void CAimProto::write_away_message(const char* sn, const char* msg, bool utf)
 		_write(fid, "'s Away Message:</h3>", 21);
 		_write(fid, s_msg, (unsigned)mir_strlen(s_msg));
 		_close(fid);
-		ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOW);
+		ShellExecute(nullptr, L"open", path, nullptr, nullptr, SW_SHOW);
 		mir_free(path);
 		mir_free(s_msg);
 	}
@@ -578,7 +578,7 @@ void CAimProto::write_profile(const char* sn, const char* msg, bool utf)
 		_write(fid, "'s Profile:</h3>", 16);
 		_write(fid, s_msg, (unsigned)mir_strlen(s_msg));
 		_close(fid);
-		ShellExecute(NULL, L"open", path, NULL, NULL, SW_SHOW);
+		ShellExecute(nullptr, L"open", path, nullptr, nullptr, SW_SHOW);
 		mir_free(path);
 		mir_free(s_msg);
 	}

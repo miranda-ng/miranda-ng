@@ -15,7 +15,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case UM_FREEPLUGINDATA:
 		PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
-		if (puData != NULL && puData != (PopupData*)CALLSERVICE_NOTFOUND) {
+		if (puData != nullptr && puData != (PopupData*)CALLSERVICE_NOTFOUND) {
 			mir_free(puData->title);
 			mir_free(puData->text);
 			mir_free(puData);
@@ -99,9 +99,9 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	}
 	else { //disp == ED_MB
 		if (puData->flag == SAMETIME_POPUP_ERROR)
-			MessageBox(NULL, puData->text, puData->title, MB_OK | MB_ICONWARNING);
+			MessageBox(nullptr, puData->text, puData->title, MB_OK | MB_ICONWARNING);
 		else
-			MessageBox(NULL, puData->text, puData->title, MB_OK | MB_ICONINFORMATION);
+			MessageBox(nullptr, puData->text, puData->title, MB_OK | MB_ICONINFORMATION);
 	}
 
 	if (disp != ED_POP) {

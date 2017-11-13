@@ -9,9 +9,9 @@ ColSplitTimeline::ColSplitTimeline()
 	: m_nSource(0), m_nSourceType(2), m_nIgnoreOld(0), m_nVisMode(0),
 	m_nHODGroup(1), m_nDOWGroup(1), m_nBlockUnit(0), m_nUnitsPerBlock(6),
 	m_nBlocks(28), m_nGraphAlign(1), m_nCustomGroup(1), m_bTopPerColumn(true),
-	m_hSource(NULL), m_hIgnoreOld(NULL), m_hVisMode(NULL),
-	m_hHODGroup(NULL), m_hDOWGroup(NULL), m_hBlockUnit(NULL), m_hUnitsPerBlock(NULL),
-	m_hBlocks(NULL), m_hGraphAlign(NULL), m_hCustomGroup(NULL),m_hTopPerColumn(NULL),
+	m_hSource(nullptr), m_hIgnoreOld(nullptr), m_hVisMode(nullptr),
+	m_hHODGroup(nullptr), m_hDOWGroup(nullptr), m_hBlockUnit(nullptr), m_hUnitsPerBlock(nullptr),
+	m_hBlocks(nullptr), m_hGraphAlign(nullptr), m_hCustomGroup(nullptr),m_hTopPerColumn(nullptr),
 	m_nTimeDiv(3600), m_nTimeOffset(0),
 	m_nTimelineWidth(0), m_nBlockOffset(0), m_nNumBlocks(0)
 {
@@ -75,7 +75,7 @@ void ColSplitTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGrou
 	m_hSource                 = Opt.insertCombo(hGroup, TranslateT("Data source"));
 	m_hIgnoreOld              = Opt.insertEdit(hGroup, TranslateT("Drop everything older than (days, 0=no limit)"), L"", OptionsCtrl::OCF_NUMBER);
 	hTemp                     = Opt.insertGroup(hGroup, TranslateT("\"Split\" type"));
-		m_hVisMode             = Opt.insertRadio(hTemp, NULL, TranslateT("Hours of day"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
+		m_hVisMode             = Opt.insertRadio(hTemp, nullptr, TranslateT("Hours of day"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 			m_hHODGroup         = Opt.insertEdit (m_hVisMode, TranslateT("Number of days to group"), L"", OptionsCtrl::OCF_NUMBER);
 		hTempRadio             = Opt.insertRadio(hTemp, m_hVisMode, TranslateT("Days of week"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 			m_hDOWGroup         = Opt.insertEdit (hTempRadio, TranslateT("Number of weeks to group"), L"", OptionsCtrl::OCF_NUMBER);
@@ -85,7 +85,7 @@ void ColSplitTimeline::impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGrou
 				m_hUnitsPerBlock = Opt.insertEdit (hTemp, TranslateT("Units per block"), L"", OptionsCtrl::OCF_NUMBER);
 				m_hBlocks        = Opt.insertEdit (hTemp, TranslateT("Blocks per column"), L"", OptionsCtrl::OCF_NUMBER);
 			hTemp               = Opt.insertGroup(hTempRadio, TranslateT("Graph alignment"));
-				m_hGraphAlign    = Opt.insertRadio(hTemp, NULL, TranslateT("Align on day boundary"));
+				m_hGraphAlign    = Opt.insertRadio(hTemp, nullptr, TranslateT("Align on day boundary"));
 				                   Opt.insertRadio(hTemp, m_hGraphAlign, TranslateT("Align on week boundary"));
 			m_hCustomGroup      = Opt.insertEdit (hTempRadio, TranslateT("Number of columns to group"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hTopPerColumn           = Opt.insertCheck(hGroup, TranslateT("Calculate maximum per column (not per graph)"));
@@ -201,7 +201,7 @@ void ColSplitTimeline::impl_contactDataFree(Contact& contact) const
 	if (pData)
 	{
 		delete pData;
-		contact.setSlot(contactDataSlotGet(), NULL);
+		contact.setSlot(contactDataSlotGet(), nullptr);
 	}
 }
 
@@ -536,7 +536,7 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 				int color = 255 * part_top / top;
 
 				SetBkColor(hDC, colorTab[color]);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, nullptr, 0, nullptr);
 			}
 		}
 	}
@@ -619,7 +619,7 @@ void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& co
 				}
 
 				SetBkColor(hDC, color);
-				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, NULL, 0, NULL);
+				ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &r, nullptr, 0, nullptr);
 			}
 		}
 	}

@@ -76,14 +76,14 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 		break;
 
 	default:
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), NULL);
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, scRet, LANG_USER_DEFAULT, szMsgBuf, _countof(szMsgBuf), nullptr);
 	}
 
 	wchar_t szMsgBuf2[512];
 	mir_snwprintf(szMsgBuf2, L"SSL connection failure (%x %u): %s", scRet, line, szMsgBuf);
 
 	char* szMsg = Utf8EncodeW(szMsgBuf2);
-	Netlib_Logf(NULL, szMsg);
+	Netlib_Logf(nullptr, szMsg);
 	mir_free(szMsg);
 
 	SetLastError(scRet);
@@ -104,13 +104,13 @@ static bool AcquireCredentials(void)
 
 	// Create an SSPI credential.
 	scRet = g_pSSPI->AcquireCredentialsHandle(
-		NULL,                   // Name of principal
+		nullptr,                   // Name of principal
 		UNISP_NAME,             // Name of package
 		SECPKG_CRED_OUTBOUND,   // Flags indicating use
-		NULL,                   // Pointer to logon ID
+		nullptr,                   // Pointer to logon ID
 		&SchannelCred,          // Package specific data
-		NULL,                   // Pointer to GetKey() func
-		NULL,                   // Value to pass to GetKey()
+		nullptr,                   // Pointer to GetKey() func
+		nullptr,                   // Value to pass to GetKey()
 		&hCreds, 				// (out) Cred Handle
 		&tsExpiry);             // (out) Lifetime (optional)
 
@@ -140,7 +140,7 @@ static bool SSL_library_init(void)
 
 void NetlibSslFree(SslHandle *ssl)
 {
-	if (ssl == NULL) return;
+	if (ssl == nullptr) return;
 
 	g_pSSPI->DeleteSecurityContext(&ssl->hContext);
 
@@ -152,7 +152,7 @@ void NetlibSslFree(SslHandle *ssl)
 
 BOOL NetlibSslPending(SslHandle *ssl)
 {
-	return ssl != NULL && (ssl->cbRecDataBuf != 0 || ssl->cbIoBuffer != 0);
+	return ssl != nullptr && (ssl->cbRecDataBuf != 0 || ssl->cbIoBuffer != 0);
 }
 
 static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertFlags)
@@ -168,8 +168,8 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	HTTPSPolicyCallbackData  polHttps = { 0 };
 	CERT_CHAIN_POLICY_PARA   PolicyPara = { 0 };
 	CERT_CHAIN_POLICY_STATUS PolicyStatus = { 0 };
-	PCCERT_CHAIN_CONTEXT     pChainContext = NULL;
-	PCCERT_CONTEXT           pServerCert = NULL;
+	PCCERT_CHAIN_CONTEXT     pChainContext = nullptr;
+	PCCERT_CONTEXT           pServerCert = nullptr;
 	DWORD scRet;
 
 	PWSTR pwszServerName = mir_a2u(pszServerName);
@@ -178,7 +178,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	if (scRet != SEC_E_OK)
 		goto cleanup;
 
-	if (pServerCert == NULL) {
+	if (pServerCert == nullptr) {
 		scRet = SEC_E_WRONG_PRINCIPAL;
 		goto cleanup;
 	}
@@ -188,7 +188,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	ChainPara.RequestedUsage.Usage.cUsageIdentifier = _countof(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
 
-	if (!CertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore, &ChainPara, 0, NULL, &pChainContext)) {
+	if (!CertGetCertificateChain(nullptr, pServerCert, nullptr, pServerCert->hCertStore, &ChainPara, 0, nullptr, &pChainContext)) {
 		scRet = GetLastError();
 		goto cleanup;
 	}
@@ -258,20 +258,20 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 
 				FD_ZERO(&fd);
 				FD_SET(ssl->s, &fd);
-				if (select(1, &fd, NULL, NULL, &tv) != 1) {
-					Netlib_Logf(NULL, "SSL Negotiation failure recieving data (timeout) (bytes %u)", ssl->cbIoBuffer);
+				if (select(1, &fd, nullptr, nullptr, &tv) != 1) {
+					Netlib_Logf(nullptr, "SSL Negotiation failure recieving data (timeout) (bytes %u)", ssl->cbIoBuffer);
 					scRet = ERROR_NOT_READY;
 					break;
 				}
 
 				DWORD cbData = recv(ssl->s, (char*)ssl->pbIoBuffer + ssl->cbIoBuffer, ssl->sbIoBuffer - ssl->cbIoBuffer, 0);
 				if (cbData == SOCKET_ERROR) {
-					Netlib_Logf(NULL, "SSL Negotiation failure recieving data (%d)", WSAGetLastError());
+					Netlib_Logf(nullptr, "SSL Negotiation failure recieving data (%d)", WSAGetLastError());
 					scRet = ERROR_NOT_READY;
 					break;
 				}
 				if (cbData == 0) {
-					Netlib_Logf(NULL, "SSL Negotiation connection gracefully closed");
+					Netlib_Logf(nullptr, "SSL Negotiation connection gracefully closed");
 					scRet = ERROR_NOT_READY;
 					break;
 				}
@@ -291,7 +291,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		InBuffers[0].cbBuffer = ssl->cbIoBuffer;
 		InBuffers[0].BufferType = SECBUFFER_TOKEN;
 
-		InBuffers[1].pvBuffer = NULL;
+		InBuffers[1].pvBuffer = nullptr;
 		InBuffers[1].cbBuffer = 0;
 		InBuffers[1].BufferType = SECBUFFER_EMPTY;
 
@@ -305,7 +305,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		// garbage later.
 
 		SecBuffer OutBuffers[1];
-		OutBuffers[0].pvBuffer = NULL;
+		OutBuffers[0].pvBuffer = nullptr;
 		OutBuffers[0].BufferType = SECBUFFER_TOKEN;
 		OutBuffers[0].cbBuffer = 0;
 
@@ -316,23 +316,23 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 
 		TimeStamp tsExpiry;
 		DWORD dwSSPIOutFlags;
-		scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, NULL, dwSSPIFlags, 0, 0,
-			&InBuffer, 0, NULL, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
+		scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, nullptr, dwSSPIFlags, 0, 0,
+			&InBuffer, 0, nullptr, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
 
 		// If success (or if the error was one of the special extended ones),
 		// send the contents of the output buffer to the server.
 		if (scRet == SEC_E_OK || scRet == SEC_I_CONTINUE_NEEDED || (FAILED(scRet) && (dwSSPIOutFlags & ISC_RET_EXTENDED_ERROR))) {
-			if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL) {
+			if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != nullptr) {
 				DWORD cbData = send(ssl->s, (char*)OutBuffers[0].pvBuffer, OutBuffers[0].cbBuffer, 0);
 				if (cbData == SOCKET_ERROR || cbData == 0) {
-					Netlib_Logf(NULL, "SSL Negotiation failure sending data (%d)", WSAGetLastError());
+					Netlib_Logf(nullptr, "SSL Negotiation failure sending data (%d)", WSAGetLastError());
 					g_pSSPI->FreeContextBuffer(OutBuffers[0].pvBuffer);
 					return SEC_E_INTERNAL_ERROR;
 				}
 
 				// Free output buffer.
 				g_pSSPI->FreeContextBuffer(OutBuffers[0].pvBuffer);
-				OutBuffers[0].pvBuffer = NULL;
+				OutBuffers[0].pvBuffer = nullptr;
 			}
 		}
 
@@ -378,7 +378,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 
 	if (ssl->cbIoBuffer == 0) {
 		mir_free(ssl->pbIoBuffer);
-		ssl->pbIoBuffer = NULL;
+		ssl->pbIoBuffer = nullptr;
 		ssl->sbIoBuffer = 0;
 	}
 
@@ -403,7 +403,7 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 
 	//  Initiate a ClientHello message and generate a token.
 	SecBuffer OutBuffers[1];
-	OutBuffers[0].pvBuffer = NULL;
+	OutBuffers[0].pvBuffer = nullptr;
 	OutBuffers[0].BufferType = SECBUFFER_TOKEN;
 	OutBuffers[0].cbBuffer = 0;
 
@@ -414,7 +414,7 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 
 	TimeStamp tsExpiry;
 	DWORD dwSSPIOutFlags;
-	SECURITY_STATUS scRet = g_pSSPI->InitializeSecurityContext(&hCreds, NULL, _A2T(host), dwSSPIFlags, 0, 0, NULL, 0,
+	SECURITY_STATUS scRet = g_pSSPI->InitializeSecurityContext(&hCreds, nullptr, _A2T(host), dwSSPIFlags, 0, 0, nullptr, 0,
 		&ssl->hContext, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
 	if (scRet != SEC_I_CONTINUE_NEEDED) {
 		ReportSslError(scRet, __LINE__);
@@ -422,17 +422,17 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	}
 
 	// Send response to server if there is one.
-	if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL) {
+	if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != nullptr) {
 		DWORD cbData = send(ssl->s, (char*)OutBuffers[0].pvBuffer, OutBuffers[0].cbBuffer, 0);
 		if (cbData == SOCKET_ERROR || cbData == 0) {
-			Netlib_Logf(NULL, "SSL failure sending connection data (%d %d)", ssl->s, WSAGetLastError());
+			Netlib_Logf(nullptr, "SSL failure sending connection data (%d %d)", ssl->s, WSAGetLastError());
 			g_pSSPI->FreeContextBuffer(OutBuffers[0].pvBuffer);
 			return 0;
 		}
 
 		// Free output buffer.
 		g_pSSPI->FreeContextBuffer(OutBuffers[0].pvBuffer);
-		OutBuffers[0].pvBuffer = NULL;
+		OutBuffers[0].pvBuffer = nullptr;
 	}
 
 	return ClientHandshakeLoop(ssl, TRUE) == SEC_E_OK;
@@ -457,14 +457,14 @@ SslHandle* NetlibSslConnect(SOCKET s, const char* host, int verify)
 
 	if (!res) {
 		NetlibSslFree(ssl);
-		ssl = NULL;
+		ssl = nullptr;
 	}
 	return ssl;
 }
 
 void NetlibSslShutdown(SslHandle *ssl)
 {
-	if (ssl == NULL || !SecIsValidHandle(&ssl->hContext))
+	if (ssl == nullptr || !SecIsValidHandle(&ssl->hContext))
 		return;
 
 	DWORD dwType = SCHANNEL_SHUTDOWN;
@@ -492,7 +492,7 @@ void NetlibSslShutdown(SslHandle *ssl)
 		ISC_REQ_ALLOCATE_MEMORY |
 		ISC_REQ_STREAM;
 
-	OutBuffers[0].pvBuffer = NULL;
+	OutBuffers[0].pvBuffer = nullptr;
 	OutBuffers[0].BufferType = SECBUFFER_TOKEN;
 	OutBuffers[0].cbBuffer = 0;
 
@@ -502,13 +502,13 @@ void NetlibSslShutdown(SslHandle *ssl)
 
 	TimeStamp tsExpiry;
 	DWORD dwSSPIOutFlags;
-	scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, NULL, dwSSPIFlags, 0, 0, NULL, 0,
+	scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, nullptr, dwSSPIFlags, 0, 0, nullptr, 0,
 		&ssl->hContext, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
 	if (FAILED(scRet))
 		return;
 
 	// Send the close notify message to the server.
-	if (OutBuffers[0].pvBuffer != NULL && OutBuffers[0].cbBuffer != 0) {
+	if (OutBuffers[0].pvBuffer != nullptr && OutBuffers[0].cbBuffer != 0) {
 		send(ssl->s, (char*)OutBuffers[0].pvBuffer, OutBuffers[0].cbBuffer, 0);
 		g_pSSPI->FreeContextBuffer(OutBuffers[0].pvBuffer);
 	}
@@ -533,7 +533,7 @@ static int NetlibSslReadSetResult(SslHandle *ssl, char *buf, int num, int peek)
 
 int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 {
-	if (ssl == NULL) return SOCKET_ERROR;
+	if (ssl == nullptr) return SOCKET_ERROR;
 
 	if (num <= 0) return 0;
 
@@ -555,7 +555,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 				FD_ZERO(&fd);
 				FD_SET(ssl->s, &fd);
 
-				DWORD cbData = select(1, &fd, NULL, NULL, &tv);
+				DWORD cbData = select(1, &fd, nullptr, nullptr, &tv);
 				if (cbData == SOCKET_ERROR) {
 					ssl->state = sockError;
 					return NetlibSslReadSetResult(ssl, buf, num, peek);
@@ -567,13 +567,13 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 			DWORD cbData = recv(ssl->s, (char*)ssl->pbIoBuffer + ssl->cbIoBuffer, ssl->sbIoBuffer - ssl->cbIoBuffer, 0);
 			if (cbData == SOCKET_ERROR) {
-				Netlib_Logf(NULL, "SSL failure recieving data (%d)", WSAGetLastError());
+				Netlib_Logf(nullptr, "SSL failure recieving data (%d)", WSAGetLastError());
 				ssl->state = sockError;
 				return NetlibSslReadSetResult(ssl, buf, num, peek);
 			}
 
 			if (cbData == 0) {
-				Netlib_Logf(NULL, "SSL connection gracefully closed");
+				Netlib_Logf(nullptr, "SSL connection gracefully closed");
 				if (peek && ssl->cbRecDataBuf) {
 					ssl->state = sockClosed;
 					return NetlibSslReadSetResult(ssl, buf, num, peek);
@@ -605,10 +605,10 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		Message.cBuffers = _countof(Buffers);
 		Message.pBuffers = Buffers;
 
-		if (g_pSSPI->DecryptMessage != NULL && g_pSSPI->DecryptMessage != PVOID(0x80000000))
-			scRet = g_pSSPI->DecryptMessage(&ssl->hContext, &Message, 0, NULL);
+		if (g_pSSPI->DecryptMessage != nullptr && g_pSSPI->DecryptMessage != PVOID(0x80000000))
+			scRet = g_pSSPI->DecryptMessage(&ssl->hContext, &Message, 0, nullptr);
 		else
-			scRet = ((DECRYPT_MESSAGE_FN)g_pSSPI->Reserved4)(&ssl->hContext, &Message, 0, NULL);
+			scRet = ((DECRYPT_MESSAGE_FN)g_pSSPI->Reserved4)(&ssl->hContext, &Message, 0, nullptr);
 
 		// The input buffer contains only a fragment of an
 		// encrypted record. Loop around and read some more
@@ -623,13 +623,13 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		}
 
 		// Locate data and (optional) extra buffers.
-		SecBuffer *pDataBuffer = NULL;
-		SecBuffer *pExtraBuffer = NULL;
+		SecBuffer *pDataBuffer = nullptr;
+		SecBuffer *pExtraBuffer = nullptr;
 		for (int i = 1; i < _countof(Buffers); i++) {
-			if (pDataBuffer == NULL && Buffers[i].BufferType == SECBUFFER_DATA)
+			if (pDataBuffer == nullptr && Buffers[i].BufferType == SECBUFFER_DATA)
 				pDataBuffer = &Buffers[i];
 
-			if (pExtraBuffer == NULL && Buffers[i].BufferType == SECBUFFER_EXTRA)
+			if (pExtraBuffer == nullptr && Buffers[i].BufferType == SECBUFFER_EXTRA)
 				pExtraBuffer = &Buffers[i];
 		}
 
@@ -670,7 +670,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 		// Server signaled end of session
 		if (scRet == SEC_I_CONTEXT_EXPIRED) {
-			Netlib_Logf(NULL, "SSL Server signaled SSL Shutdown");
+			Netlib_Logf(nullptr, "SSL Server signaled SSL Shutdown");
 			ssl->state = sockClosed;
 			return NetlibSslReadSetResult(ssl, buf, num, peek);
 		}
@@ -690,7 +690,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 {
-	if (ssl == NULL) return SOCKET_ERROR;
+	if (ssl == nullptr) return SOCKET_ERROR;
 
 	SecPkgContext_StreamSizes Sizes;
 	SECURITY_STATUS scRet = g_pSSPI->QueryContextAttributes(&ssl->hContext, SECPKG_ATTR_STREAM_SIZES, &Sizes);
@@ -726,7 +726,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 		Message.cBuffers = _countof(Buffers);
 		Message.pBuffers = Buffers;
 
-		if (g_pSSPI->EncryptMessage != NULL)
+		if (g_pSSPI->EncryptMessage != nullptr)
 			scRet = g_pSSPI->EncryptMessage(&ssl->hContext, 0, &Message, 0);
 		else
 			scRet = ((ENCRYPT_MESSAGE_FN)g_pSSPI->Reserved3)(&ssl->hContext, 0, &Message, 0);
@@ -739,7 +739,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 		// Send the encrypted data to the server.
 		cbData = send(ssl->s, (char*)pbDataBuffer, cbData, 0);
 		if (cbData == SOCKET_ERROR || cbData == 0) {
-			Netlib_Logf(NULL, "SSL failure sending data (%d)", WSAGetLastError());
+			Netlib_Logf(nullptr, "SSL failure sending data (%d)", WSAGetLastError());
 			scRet = SEC_E_INTERNAL_ERROR;
 			break;
 		}
@@ -754,7 +754,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 {
 	SSL_API *si = (SSL_API*)lParam;
-	if (si == NULL)
+	if (si == nullptr)
 		return FALSE;
 
 	if (si->cbSize != sizeof(SSL_API))
@@ -772,7 +772,7 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 int LoadSslModule(void)
 {
 	CreateServiceFunction(MS_SYSTEM_GET_SI, GetSslApi);
-	g_hSslMutex = CreateMutex(NULL, FALSE, NULL);
+	g_hSslMutex = CreateMutex(nullptr, FALSE, nullptr);
 	SecInvalidateHandle(&hCreds);
 	return 0;
 }

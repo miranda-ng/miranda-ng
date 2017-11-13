@@ -34,7 +34,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 	char *szNotify = strstrnull(szMsg, "<NOTIFY>");
 	char *szQuery = strstrnull(szMsg, "<QUERY>");
 
-	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
+	MCONTACT hContact = HContactFromUIN(dwUin, nullptr);
 	if (hContact) // user sent us xtraz, he supports it
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
@@ -103,7 +103,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 
 							struct rates_xstatus_response : public rates_queue_item {
 							protected:
-								virtual rates_queue_item* copyItem(rates_queue_item *aDest = NULL)
+								virtual rates_queue_item* copyItem(rates_queue_item *aDest = nullptr)
 								{
 									rates_xstatus_response *pDest = (rates_xstatus_response*)aDest;
 									if (!pDest)
@@ -118,7 +118,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 									return rates_queue_item::copyItem(pDest);
 								};
 							public:
-								rates_xstatus_response(CIcqProto *ppro, WORD wGroup) : rates_queue_item(ppro, wGroup), szResponse(NULL) {};
+								rates_xstatus_response(CIcqProto *ppro, WORD wGroup) : rates_queue_item(ppro, wGroup), szResponse(nullptr) {};
 								virtual ~rates_xstatus_response() { if (bCreated) SAFE_FREE(&szResponse); };
 
 								virtual void execute()
@@ -193,7 +193,7 @@ void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char*
 
 	NextVal:
 		szNode = strstrnull(szRes, "<val srv_id=");
-		if (szNode) szEnd = strstrnull(szNode, ">"); else szEnd = NULL;
+		if (szNode) szEnd = strstrnull(szNode, ">"); else szEnd = nullptr;
 
 		if (szNode && szEnd) {
 			*(szEnd - 1) = '\0';
@@ -222,7 +222,7 @@ void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char*
 					*szEnd = '\0';
 					szXName = DemangleXml(szNode, mir_strlen(szNode));
 					// check if the name changed
-					szOldXName = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
+					szOldXName = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, nullptr);
 					if (mir_strcmp(szOldXName, szXName))
 						bChanged = TRUE;
 					SAFE_FREE(&szOldXName);
@@ -238,7 +238,7 @@ void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char*
 					*szEnd = '\0';
 					szXMsg = DemangleXml(szNode, mir_strlen(szNode));
 					// check if the decription changed
-					szOldXMsg = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, NULL);
+					szOldXMsg = getSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, nullptr);
 					if (mir_strcmp(szOldXMsg, szXMsg))
 						bChanged = TRUE;
 					SAFE_FREE(&szOldXMsg);
@@ -274,13 +274,13 @@ static char* getXmlPidItem(const char* szData)
 		szPid += 5;
 		return DemangleXml(szPid, szEnd - szPid);
 	}
-	return NULL;
+	return nullptr;
 }
 
 
 void CIcqProto::handleXtrazInvitation(DWORD dwUin, char* szMsg, BOOL bThruDC)
 {
-	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
+	MCONTACT hContact = HContactFromUIN(dwUin, nullptr);
 	if (hContact) // user sent us xtraz, he supports it
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
@@ -296,7 +296,7 @@ void CIcqProto::handleXtrazInvitation(DWORD dwUin, char* szMsg, BOOL bThruDC)
 
 void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 {
-	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
+	MCONTACT hContact = HContactFromUIN(dwUin, nullptr);
 	if (hContact) // user sent us xtraz, he supports it
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
@@ -330,7 +330,7 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 
 				// Create message to notify user
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = time(NULL);
+				pre.timestamp = time(nullptr);
 				pre.szMessage = szWork;
 
 				int bAdded;
@@ -352,7 +352,7 @@ void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 DWORD CIcqProto::SendXtrazNotifyRequest(MCONTACT hContact, char* szQuery, char* szNotify, int bForced)
 {
 	DWORD dwUin;
-	if (getContactUid(hContact, &dwUin, NULL))
+	if (getContactUid(hContact, &dwUin, nullptr))
 		return 0; // Invalid contact
 
 	if (!CheckContactCapabilities(hContact, CAPF_XTRAZ) && !bForced)
@@ -385,7 +385,7 @@ void CIcqProto::SendXtrazNotifyResponse(DWORD dwUin, DWORD dwMID, DWORD dwMID2, 
 	char *szResBody = MangleXml(szResponse, nResponseLen);
 	size_t nBodyLen = mir_strlen(szResBody) + 21;
 	char *szBody = (char*)_alloca(nBodyLen);
-	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
+	MCONTACT hContact = HContactFromUIN(dwUin, nullptr);
 
 	if (hContact != INVALID_CONTACT_ID && !CheckContactCapabilities(hContact, CAPF_XTRAZ)) {
 		SAFE_FREE(&szResBody);

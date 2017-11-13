@@ -99,7 +99,7 @@ static void MHeaderbar_FillRect(HDC hdc, int x, int y, int width, int height, CO
 	COLORREF oldColor = SetBkColor(hdc, cl);
 
 	RECT rc; SetRect(&rc, x, y, x+width, y+height);
-	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
+	ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, nullptr);
 
 	SetBkMode(hdc, oldMode);
 	SetBkColor(hdc, oldColor);
@@ -119,7 +119,7 @@ static void MHeaderbar_DrawGradient(HDC hdc, int x, int y, int width, int height
 		rc.top = rc.bottom = i;
 		++rc.bottom;
 		SetBkColor(hdc, color);
-		ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, 0);
+		ExtTextOutA(hdc, 0, 0, ETO_OPAQUE, &rc, "", 0, nullptr);
 	}
 
 	SetBkMode(hdc, oldMode);
@@ -281,7 +281,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		{
 			HWND hParent = GetParent(hwndDlg);
 			RECT rcWnd; GetWindowRect(hwndDlg, &rcWnd);
-			itc->controlsToRedraw = 0;
+			itc->controlsToRedraw = nullptr;
 			itc->nControlsToRedraw = 0;
 			for (HWND hChild = FindWindowEx(hParent, nullptr, nullptr, nullptr); hChild; hChild = FindWindowEx(hParent, hChild, nullptr, nullptr)) {
 				if (hChild != hwndDlg) {

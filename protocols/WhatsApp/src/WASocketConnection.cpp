@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "WASocketConnection.h"
 
-HNETLIBUSER g_hNetlibUser = NULL;
+HNETLIBUSER g_hNetlibUser = nullptr;
 
 void WASocketConnection::initNetwork(HNETLIBUSER hNetlibUser) throw (WAException)
 {
@@ -19,7 +19,7 @@ WASocketConnection::WASocketConnection(const std::string &dir, int port) throw (
 	noc.wPort = port;
 	noc.flags = NLOCF_V2; // | NLOCF_SSL;
 	this->hConn = Netlib_OpenConnection(g_hNetlibUser, &noc);
-	if (this->hConn == NULL)
+	if (this->hConn == nullptr)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
 
 	this->connected = true;

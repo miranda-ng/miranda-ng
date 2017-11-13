@@ -442,7 +442,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 					* pszTmp = '\\';
 
 				hFile = CreateFile(pszRealPath, GENERIC_READ,
-					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+					FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 				if (hFile == INVALID_HANDLE_VALUE) {
 					if (pszSrvPath[mir_strlen(pszSrvPath) - 1] != '/') {
@@ -454,14 +454,14 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 					strmcat(szRealPath, "index.htm", MAX_PATH);
 
 					hFile = CreateFile(pszRealPath, GENERIC_READ,
-						FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
+						FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, nullptr);
 
 					if (hFile == INVALID_HANDLE_VALUE) {
 						// a directory with index.html
 						strmcat(szRealPath, "l", MAX_PATH);
 
 						hFile = CreateFile(pszRealPath, GENERIC_READ,
-							FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, NULL);
+							FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_HIDDEN, nullptr);
 
 						if (hFile == INVALID_HANDLE_VALUE) {
 							// generate directory index in temporary file
@@ -486,7 +486,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 								(indexCreationMode == INDEX_CREATION_DETECT && BrowserSupportsXML)) &&
 								bCreateIndexXML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
 								hFile = CreateFile(szTempfile, GENERIC_READ,
-									FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+									FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 								mir_strcpy(szRealPath, "a.xml"); // restore .xml for mime type
 							}
@@ -494,7 +494,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 								indexCreationMode == INDEX_CREATION_DETECT) &&
 								bCreateIndexHTML(pszRealPath, szTempfile, pszSrvPath, dwRemoteIP)) {
 								hFile = CreateFile(szTempfile, GENERIC_READ,
-									FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+									FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 								mir_strcpy(szRealPath, "a.html"); // restore .html for mime type
 							}
@@ -518,7 +518,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 			}
 			else {
 				hFile = CreateFile(pszRealPath, GENERIC_READ,
-					FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+					FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 				if (hFile == INVALID_HANDLE_VALUE) {
 					SendError(404, "Not Found", "HTTP server failed to open local file");
@@ -528,11 +528,11 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 
 			mir_strcpy(this->szCurrentDLSrvPath, pszSrvPath);
 
-			DWORD nDataSize = GetFileSize(hFile, NULL);
+			DWORD nDataSize = GetFileSize(hFile, nullptr);
 			dwTotalSize = nDataSize;
 
 			FILETIME stFileTime;
-			GetFileTime(hFile, NULL, NULL, &stFileTime);
+			GetFileTime(hFile, nullptr, nullptr, &stFileTime);
 
 			char szCurTime[100];
 			time_t ltime;
@@ -557,7 +557,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 			}
 
 			if (*(ULONG*)(&stAddr) != 0x0100007F && // do not show popup of 127.0.0.1
-				strstr(pszRealPath, "\\@") == NULL) { // and of shares which start with an @
+				strstr(pszRealPath, "\\@") == nullptr) { // and of shares which start with an @
 				ShowPopupWindow(inet_ntoa(stAddr), pszSrvPath);
 			}
 
@@ -623,7 +623,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 			char szBuf[1460 * 4];
 
 			if (dwFileStart > 0 || dwDataToSend != nDataSize) {
-				if (SetFilePointer(hFile, dwFileStart, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER) {
+				if (SetFilePointer(hFile, dwFileStart, nullptr, FILE_BEGIN) == INVALID_SET_FILE_POINTER) {
 					SendError(416, "Requested Range Not Satisfiable");
 					return true;
 				}
@@ -700,7 +700,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 					if (bSpeedLimit)
 						dwCurOpr = min(nMaxBytesToSend, sizeof(szBuf));
 
-					if (!ReadFile(hFile, szBuf, dwCurOpr, &dwBytesToWrite, NULL))
+					if (!ReadFile(hFile, szBuf, dwCurOpr, &dwBytesToWrite, nullptr))
 						break;
 
 					if (dwBytesToWrite <= 0)

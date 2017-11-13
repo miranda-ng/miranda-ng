@@ -62,7 +62,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		HINSTANCE hZlib = LoadLibraryW(L"Libs\\zlib.mir");
 		if (hZlib == nullptr) {
 			if (IDYES == MessageBoxW(nullptr, wszQuestion, L"Missing runtime library", MB_ICONERROR | MB_YESNOCANCEL)) {
-				ShellExecuteW(nullptr, L"open", wszRuntimeUrl, NULL, NULL, SW_NORMAL);
+				ShellExecuteW(nullptr, L"open", wszRuntimeUrl, nullptr, nullptr, SW_NORMAL);
 				retVal = 3;
 			}
 		}

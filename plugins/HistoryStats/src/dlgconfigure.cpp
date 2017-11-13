@@ -10,7 +10,7 @@
  * DlgConfigure
  */
 
-HWND DlgConfigure::m_hCfgWnd = NULL;
+HWND DlgConfigure::m_hCfgWnd = nullptr;
 bool DlgConfigure::m_bHookedEvent = false;
 
 INT_PTR CALLBACK DlgConfigure::staticConfigureProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -88,7 +88,7 @@ int DlgConfigure::staticEventPreShutdown(WPARAM, LPARAM)
 void DlgConfigure::showModal()
 {
 	if (g_bConfigureLock) {
-		MessageBox(0,
+		MessageBox(nullptr,
 			TranslateT("You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda NG is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same."),
 			TranslateT("HistoryStats - Warning"),
 			MB_ICONWARNING | MB_OK);
@@ -99,7 +99,7 @@ void DlgConfigure::showModal()
 	if (IsWindow(m_hCfgWnd))
 		SetForegroundWindow(m_hCfgWnd);
 	else
-		CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_CONFIGURE), NULL, staticConfigureProc);
+		CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_CONFIGURE), nullptr, staticConfigureProc);
 }
 
 void DlgConfigure::onWMInitDialog()
@@ -184,11 +184,11 @@ void DlgConfigure::rearrangeControls()
 
 	utils::moveWindow(m_hOptWnd, rPage);
 
-	InvalidateRect(m_hWnd, NULL, TRUE);
+	InvalidateRect(m_hWnd, nullptr, TRUE);
 }
 
 DlgConfigure::DlgConfigure(HWND hWnd) :
-	m_hWnd(hWnd), m_bChanged(false), m_hOptWnd(NULL),
+	m_hWnd(hWnd), m_bChanged(false), m_hOptWnd(nullptr),
 	m_nPadY(-1), m_nOKPadX(0), m_nCancelPadX(0), m_nApplyPadX(0)
 {
 	if (!m_hCfgWnd) {
@@ -206,5 +206,5 @@ DlgConfigure::~DlgConfigure()
 	DestroyWindow(m_hOptWnd);
 
 	if (m_hWnd == m_hCfgWnd)
-		m_hCfgWnd = NULL;
+		m_hCfgWnd = nullptr;
 }

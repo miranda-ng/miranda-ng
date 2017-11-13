@@ -27,7 +27,7 @@
 
 static void InitComboBox(HWND hwndCombo, const FieldNamesItem *names)
 {
-	SendMessage(hwndCombo, CB_SETCURSEL, ComboBoxAddStringUtf(hwndCombo, NULL, 0), 0);
+	SendMessage(hwndCombo, CB_SETCURSEL, ComboBoxAddStringUtf(hwndCombo, nullptr, 0), 0);
 
 	if (names) {
 		for (int i = 0; names[i].text; i++)
@@ -88,7 +88,7 @@ static void searchPackTLVWordLNTS(PBYTE *buf, size_t *buflen, HWND hwndDlg, UINT
 
 static PBYTE createAdvancedSearchStructureTLV(HWND hwndDlg, size_t *length)
 {
-	PBYTE buf = NULL;
+	PBYTE buf = nullptr;
 	size_t buflen = 0;
 
 	ppackLEWord(&buf, &buflen, META_SEARCH_GENERIC);       /* subtype: full search */
@@ -143,7 +143,7 @@ static PBYTE createAdvancedSearchStructureTLV(HWND hwndDlg, size_t *length)
 PBYTE createAdvancedSearchStructure(HWND hwndDlg, size_t *length)
 {
 	if (!hwndDlg)
-		return NULL;
+		return nullptr;
 
 	return createAdvancedSearchStructureTLV(hwndDlg, length);
 }

@@ -38,7 +38,7 @@ INT_PTR doubleClick(WPARAM wParam, LPARAM)
 			if (strstr(program, "http://") || strstr(program, "https://"))
 				Utils_OpenUrl(program);
 			else
-				shellEXEerror = (INT_PTR)ShellExecuteA(NULL, NULL, program, params, NULL, SW_SHOW);  //ignore the warning, its M$'s backwards compatabilty screwup :)
+				shellEXEerror = (INT_PTR)ShellExecuteA(nullptr, nullptr, program, params, nullptr, SW_SHOW);  //ignore the warning, its M$'s backwards compatabilty screwup :)
 			if (shellEXEerror == ERROR_FILE_NOT_FOUND || shellEXEerror == ERROR_PATH_NOT_FOUND)
 				Utils_OpenUrl(program);
 		}
@@ -181,7 +181,7 @@ extern "C" __declspec(dllexport) int Load()
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x1033e16d, 0x8a7c, 0x43db, 0xa9, 0x83, 0x56, 0x2f, 0x8a, 0x16, 0x7c, 0xe9);
-	mi.root = NULL;
+	mi.root = nullptr;
 	mi.position = -2000080000;
 	mi.name.a = LPGEN("E&dit Contact Settings");
 	mi.pszService = "EditLCcontact";

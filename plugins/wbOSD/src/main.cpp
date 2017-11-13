@@ -11,7 +11,7 @@ Distributed under GNU's GPL 2 or later
 
 HINSTANCE hI;
 
-HWND g_hWnd = 0;
+HWND g_hWnd = nullptr;
 int hLangpack = 0;
 CLIST_INTERFACE *pcli;
 HANDLE hHookedInit, hProtoAck, hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;

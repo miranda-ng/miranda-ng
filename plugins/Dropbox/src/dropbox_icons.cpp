@@ -17,7 +17,7 @@ HANDLE GetIconHandleByName(const char *name)
 		if (mir_strcmpi(iconList[i].szName, name) == 0)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }
 
 HICON LoadIconEx(int iconId, bool big)
@@ -26,5 +26,5 @@ HICON LoadIconEx(int iconId, bool big)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 
-	return NULL;
+	return nullptr;
 }

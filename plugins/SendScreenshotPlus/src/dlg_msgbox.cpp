@@ -88,14 +88,14 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 	case MB_ICON_WARNING:
 	case MB_ICON_INFO:
 		{
-			LPCTSTR ico[] = { 0, IDI_ERROR, IDI_QUESTION, IDI_WARNING, IDI_INFORMATION };
-			hIcon = LoadIcon(NULL, ico[MB_ICON_INDEX(pMsgBox->uType)]);
+			LPCTSTR ico[] = { nullptr, IDI_ERROR, IDI_QUESTION, IDI_WARNING, IDI_INFORMATION };
+			hIcon = LoadIcon(nullptr, ico[MB_ICON_INDEX(pMsgBox->uType)]);
 		}
 		break;
 
 		// no icon
 	default:
-		hIcon = NULL;
+		hIcon = nullptr;
 	}
 	return hIcon;
 }
@@ -684,7 +684,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
 	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
-	mb.hiMsg = NULL;
+	mb.hiMsg = nullptr;
 	mb.ptszTitle = TranslateW(pszTitle);
 	mb.ptszInfoText = TranslateW(pszInfo);
 	mb.ptszMsg = tszMsg;
@@ -711,7 +711,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
 	mb.hiLogo = IcoLib_GetIcon(ICO_COMMON_MAIN);
-	mb.hiMsg = NULL;
+	mb.hiMsg = nullptr;
 	mb.ptszTitle = tszTitle;
 	mb.ptszMsg = tszMsg;
 	mb.uType = MB_OK | MB_ICON_ERROR;

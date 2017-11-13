@@ -394,7 +394,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		delete confirmSettings; confirmSettings = 0;
+		delete confirmSettings; confirmSettings = nullptr;
 		break;
 	}
 

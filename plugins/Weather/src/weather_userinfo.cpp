@@ -133,7 +133,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		Window_FreeIcon_IcoLib(hwndDlg);
 		Window_SetProtoIcon_IcoLib(hwndDlg, WEATHERPROTONAME, db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0));
 
-		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
 
 	case WM_SIZE:
@@ -293,8 +293,8 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		switch (LOWORD(wParam)) {
 		case IDC_MOREDETAIL:
 			HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
-			if (hMoreDataDlg == NULL)
-				hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), NULL, DlgProcMoreData, hContact);
+			if (hMoreDataDlg == nullptr)
+				hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, hContact);
 			else {
 				SetForegroundWindow(hMoreDataDlg);
 				SetFocus(hMoreDataDlg);
@@ -344,11 +344,11 @@ int BriefInfo(WPARAM wParam, LPARAM)
 	// make sure that the contact is actually a weather one
 	if (IsMyContact(wParam)) {
 		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, wParam);
-		if (hMoreDataDlg != NULL) {
+		if (hMoreDataDlg != nullptr) {
 			SetForegroundWindow(hMoreDataDlg);
 			SetFocus(hMoreDataDlg);
 		}
-		else hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), NULL, DlgProcMoreData, (LPARAM)wParam);
+		else hMoreDataDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
 
 		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
 		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);

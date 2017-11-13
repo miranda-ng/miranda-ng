@@ -171,7 +171,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 			tvi.iImage = tvi.iSelectedImage = lParam;
 			TreeView_SetItem(hWnd, &tvi);
 			dat->SortContacts();
-			InvalidateRect(hWnd, NULL, false);
+			InvalidateRect(hWnd, nullptr, false);
 		}
 		break;
 
@@ -252,7 +252,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 				// if it was a click on the selected item and there's need to do something in this case, then send SELCHANGED notification by ourselves, as the tree control doesn't do anything
 				if (hItem == TreeView_GetSelection(hWnd) && (dat->SelectedItems.GetSize() != 1 || (dat->SelectedItems.GetSize() == 1 && dat->SelectedItems[0] != hItem))) {
 					TreeView_SetItemState(hWnd, hItem, TVIS_SELECTED, TVIS_SELECTED);
-					NMTREEVIEW nm = { 0 };
+					NMTREEVIEW nm = {};
 					nm.hdr.code = TVN_SELCHANGED;
 					nm.hdr.hwndFrom = hWnd;
 					nm.hdr.idFrom = GetDlgCtrlID(hWnd);
@@ -277,7 +277,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 
 	case WM_SIZE:
 	case WM_HSCROLL:
-		InvalidateRect(hWnd, NULL, false);
+		InvalidateRect(hWnd, nullptr, false);
 		break;
 
 	case WM_MEASUREITEM:
@@ -293,7 +293,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 	case WM_CONTEXTMENU:
 		{
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			HTREEITEM hItem = NULL;
+			HTREEITEM hItem = nullptr;
 			if (pt.x == -1 && pt.y == -1) {
 				if (dat->SelectedItems.GetSize() == 1) {
 					hItem = dat->SelectedItems[0];
@@ -309,7 +309,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 				ScreenToClient(hWnd, &pt);
 				hItem = dat->HitTest(&pt, &hitFlags);
 				if (!(hitFlags & MCLCHT_ONITEM))
-					hItem = NULL;
+					hItem = nullptr;
 			}
 			if (hItem) {
 				MCONTACT hContact = dat->GetItemData(hItem).hContact;
@@ -338,7 +338,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 
 CCList::CCList(HWND hTreeView) : 
 	hTreeView(hTreeView), 
-	ExtraImageList(NULL)
+	ExtraImageList(nullptr)
 {
 	CWndUserData(GetParent(hTreeView)).SetCList(this);
 	OrigTreeViewProc = (WNDPROC)SetWindowLongPtr(hTreeView, GWLP_WNDPROC, (LONG_PTR)ContactListSubclassProc);
@@ -354,7 +354,7 @@ CCList::~CCList()
 	_ASSERT(GetWindowLongPtr(GetParent(hTreeView), GWLP_WNDPROC) == (LONG_PTR)ParentSubclassProc); // we won't allow anyone to change our WNDPROC. otherwise we're not sure that we're setting the right WNDPROC back
 	SetWindowLongPtr(hTreeView, GWLP_WNDPROC, (LONG_PTR)OrigTreeViewProc);
 	SetWindowLongPtr(GetParent(hTreeView), GWLP_WNDPROC, (LONG_PTR)OrigParentProc);
-	CWndUserData(GetParent(hTreeView)).SetCList(NULL);
+	CWndUserData(GetParent(hTreeView)).SetCList(nullptr);
 }
 
 // adds a new contact if it doesn't exist yet; returns its hItem
@@ -384,14 +384,14 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 
 	MGROUP hGroupId = Clist_GroupExists(GroupName);
 	if (hGroupId == NULL)
-		return NULL;
+		return nullptr;
 
 	MCONTACT hContact = UINT_PTR(hGroupId) - 1 + HCONTACT_ISGROUP;
 	HTREEITEM hGroupItem = FindContact(hContact);
 	if (hGroupItem)
 		return hGroupItem; // exists already, just return its handle
 
-	TVINSERTSTRUCT tvIns = { 0 };
+	TVINSERTSTRUCT tvIns = {};
 	tvIns.hParent = TVI_ROOT;
 	tvIns.item.pszText = wcsrchr(GroupName, '\\');
 	if (tvIns.item.pszText) {
@@ -411,7 +411,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 
 HTREEITEM CCList::AddInfo(TCString Title, HTREEITEM hParent, HTREEITEM hInsertAfter, LPARAM lParam, HICON hIcon)
 {
-	TVINSERTSTRUCT tvi = { 0 };
+	TVINSERTSTRUCT tvi = {};
 	tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 	tvi.item.pszText = Title;
 	tvi.hParent = hParent;
@@ -463,7 +463,7 @@ int CALLBACK CompareItemsCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lParamS
 
 void CCList::SortContacts()
 {
-	TVSORTCB tvSort = { 0 };
+	TVSORTCB tvSort = {};
 	tvSort.lpfnCompare = CompareItemsCallback;
 	tvSort.hParent = TVI_ROOT;
 	tvSort.lParam = (LPARAM)this;
@@ -491,7 +491,7 @@ void CCList::SetExtraImage(HTREEITEM hItem, int iColumn, int iImage) // set iIma
 void CCList::SetExtraImageList(HIMAGELIST hImgList)
 {
 	ExtraImageList = hImgList;
-	InvalidateRect(hTreeView, NULL, false);
+	InvalidateRect(hTreeView, nullptr, false);
 }
 
 int CCList::GetItemType(HTREEITEM hItem) // returns a MCLCIT_ (see below)
@@ -519,7 +519,7 @@ HTREEITEM CCList::GetNextItem(DWORD Flags, HTREEITEM hItem)
 				hItem = hNextItem;
 				hNextItem = TreeView_GetLastChild(hTreeView, hNextItem);
 			} while (hNextItem);
-			return (hItem == TVI_ROOT) ? NULL : hItem;
+			return (hItem == TVI_ROOT) ? nullptr : hItem;
 		}
 
 	case MCLGN_CHILD:
@@ -534,7 +534,7 @@ HTREEITEM CCList::GetNextItem(DWORD Flags, HTREEITEM hItem)
 	case MCLGN_NEXT:
 		do {
 			if (Flags & MCLGN_MULTILEVEL) {
-				HTREEITEM hNextItem = NULL;
+				HTREEITEM hNextItem = nullptr;
 				if ((Flags & MCLGN_NOTCHILD) != MCLGN_NOTCHILD)
 					hNextItem = TreeView_GetChild(hTreeView, hItem);
 
@@ -582,7 +582,7 @@ HTREEITEM CCList::GetNextItem(DWORD Flags, HTREEITEM hItem)
 	default:
 		_ASSERT(0);
 	}
-	return NULL;
+	return nullptr;
 }
 
 MCONTACT CCList::GethContact(HTREEITEM hItem) // returns hContact, hGroup or hInfo
@@ -688,7 +688,7 @@ HTREEITEM CCList::FindContact(MCONTACT hContact)
 		}
 		tvi.hItem = GetNextItem(MCLGN_NEXT | MCLGN_ANY | MCLGN_MULTILEVEL, tvi.hItem);
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CCList::SelectGroups(HTREEITEM hCurItem, bool bSelected)

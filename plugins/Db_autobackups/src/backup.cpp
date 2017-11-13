@@ -10,8 +10,8 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 	{
 		wchar_t* ptszPath = (wchar_t*)PUGetPluginData(hWnd);
-		if (ptszPath != 0)
-			ShellExecute(0, L"open", ptszPath, NULL, NULL, SW_SHOW);
+		if (ptszPath != nullptr)
+			ShellExecute(nullptr, L"open", ptszPath, nullptr, nullptr, SW_SHOW);
 
 		PUDeletePopup(hWnd);
 		break;
@@ -31,7 +31,7 @@ void ShowPopup(wchar_t* ptszText, wchar_t* ptszHeader, wchar_t* ptszPath)
 
 	wcsncpy_s(ppd.lptzText, ptszText, _TRUNCATE);
 	wcsncpy_s(ppd.lptzContactName, ptszHeader, _TRUNCATE);
-	if (ptszPath != NULL)
+	if (ptszPath != nullptr)
 		ppd.PluginData = (void*)mir_wstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;
 	ppd.lchIcon = IcoLib_GetIcon(iconList[0].szName);
@@ -62,8 +62,8 @@ wchar_t* DoubleSlash(wchar_t *sorce)
 	wchar_t *ret, *r, *s;
 
 	ret = (wchar_t*)mir_alloc((MAX_PATH * sizeof(wchar_t)));
-	if (ret == NULL)
-		return NULL;
+	if (ret == nullptr)
+		return nullptr;
 	for (s = sorce, r = ret; *s && (r - ret) < (MAX_PATH - 1); s++, r++) {
 		if (*s != '\\')
 			*r = *s;
@@ -142,7 +142,7 @@ int Comp(const void *i, const void *j)
 
 int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 {
-	backupFile *bf = NULL, *bftmp;
+	backupFile *bf = nullptr, *bftmp;
 	HANDLE hFind;
 	wchar_t backupfolderTmp[MAX_PATH];
 	WIN32_FIND_DATA FindFileData;
@@ -159,7 +159,7 @@ int RotateBackups(wchar_t *backupfolder, wchar_t *dbname)
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
 		bftmp = (backupFile*)mir_realloc(bf, ((i + 1) * sizeof(backupFile)));
-		if (bftmp == NULL)
+		if (bftmp == nullptr)
 			goto err_out;
 		bf = bftmp;
 		wcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
@@ -183,12 +183,12 @@ int Backup(wchar_t *backup_filename)
 {
 	bool bZip = false;
 	wchar_t dbname[MAX_PATH], source_file[MAX_PATH] = { 0 }, dest_file[MAX_PATH];
-	HWND progress_dialog = NULL;
+	HWND progress_dialog = nullptr;
 	SYSTEMTIME st;
 
 	Profile_GetNameW(_countof(dbname), dbname);
 
-	if (backup_filename == NULL) {
+	if (backup_filename == nullptr) {
 		int err;
 		wchar_t *backupfolder, buffer[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(buffer);
@@ -214,10 +214,10 @@ int Backup(wchar_t *backup_filename)
 			bZip = true;
 	}
 	if (!options.disable_popups)
-		ShowPopup(dbname, TranslateT("Backup in progress"), NULL);
+		ShowPopup(dbname, TranslateT("Backup in progress"), nullptr);
 
 	if (!options.disable_progress)
-		progress_dialog = CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, DlgProcProgress);
+		progress_dialog = CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_COPYPROGRESS), nullptr, DlgProcProgress);
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
@@ -235,15 +235,15 @@ int Backup(wchar_t *backup_filename)
 	if (res) {
 		if (!bZip) { // Set the backup file to the current time for rotator's correct  work
 			FILETIME ft;
-			HANDLE hFile = CreateFile(dest_file, FILE_WRITE_ATTRIBUTES, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+			HANDLE hFile = CreateFile(dest_file, FILE_WRITE_ATTRIBUTES, NULL, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 			GetSystemTime(&st);
 			SystemTimeToFileTime(&st, &ft);
-			SetFileTime(hFile, NULL, NULL, &ft);
+			SetFileTime(hFile, nullptr, nullptr, &ft);
 			CloseHandle(hFile);
 		}
 		SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
-		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
+		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(nullptr));
 
 		if (options.use_dropbox)
 		{
@@ -294,15 +294,15 @@ void BackupThread(void *backup_filename)
 
 void BackupStart(wchar_t *backup_filename)
 {
-	wchar_t *tm = NULL;
+	wchar_t *tm = nullptr;
 	LONG cur_state;
 
 	cur_state = InterlockedCompareExchange(&m_state, 1, 0);
 	if (cur_state != 0) { /* Backup allready in process. */
-		ShowPopup(TranslateT("Database back up in process..."), TranslateT("Error"), NULL); /* Show error message :) */
+		ShowPopup(TranslateT("Database back up in process..."), TranslateT("Error"), nullptr); /* Show error message :) */
 		return;
 	}
-	if (backup_filename != NULL)
+	if (backup_filename != nullptr)
 		tm = mir_wstrdup(backup_filename);
 	if (mir_forkthread(BackupThread, (void*)tm) == INVALID_HANDLE_VALUE) {
 		InterlockedExchange(&m_state, 0); /* Backup done. */
@@ -312,19 +312,19 @@ void BackupStart(wchar_t *backup_filename)
 
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	time_t t = time(NULL);
+	time_t t = time(nullptr);
 	time_t diff = t - (time_t)db_get_dw(0, "AutoBackups", "LastBackupTimestamp", 0);
 	if (diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? (60 * 60) : (60 * 60 * 24)))))
-		BackupStart(NULL);
+		BackupStart(nullptr);
 }
 
 int SetBackupTimer(void)
 {
 	if (timer_id != 0) {
-		KillTimer(0, timer_id);
+		KillTimer(nullptr, timer_id);
 		timer_id = 0;
 	}
 	if (options.backup_types & BT_PERIODIC)
-		timer_id = SetTimer(0, 0, (1000 * 60), TimerProc);
+		timer_id = SetTimer(nullptr, 0, (1000 * 60), TimerProc);
 	return 0;
 }

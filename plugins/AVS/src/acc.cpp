@@ -78,11 +78,11 @@ typedef struct
 BOOL AnimatedGifGetData(ACCData *data)
 {
 	FIBITMAP *page = fei->FI_LockPage(data->ag.multi, 0);
-	if (page == NULL)
+	if (page == nullptr)
 		return FALSE;
 
 	// Get info
-	FITAG *tag = NULL;
+	FITAG *tag = nullptr;
 	if (!fei->FI_GetMetadata(FIMD_ANIMATION, page, "LogicalWidth", &tag))
 		goto ERR;
 	data->ag.logicalWidth = *(WORD *)fei->FI_GetTagValue(tag);
@@ -124,16 +124,16 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 {
 	data->ag.frame.num = page;
 
-	if (data->ag.hbms[page] != NULL) {
+	if (data->ag.hbms[page] != nullptr) {
 		data->ag.frame.disposal_method = GIF_DISPOSAL_LEAVE;
 		return;
 	}
 
 	FIBITMAP *dib = fei->FI_LockPage(data->ag.multi, data->ag.frame.num);
-	if (dib == NULL)
+	if (dib == nullptr)
 		return;
 
-	FITAG *tag = NULL;
+	FITAG *tag = nullptr;
 	if (fei->FI_GetMetadata(FIMD_ANIMATION, dib, "FrameLeft", &tag))
 		data->ag.frame.left = *(WORD *)fei->FI_GetTagValue(tag);
 	else
@@ -194,14 +194,14 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 
 void AnimatedGifDeleteTmpValues(ACCData* data)
 {
-	if (data->ag.multi != NULL) {
+	if (data->ag.multi != nullptr) {
 		fei->FI_CloseMultiBitmap(data->ag.multi, 0);
-		data->ag.multi = NULL;
+		data->ag.multi = nullptr;
 	}
 
-	if (data->ag.dib != NULL) {
+	if (data->ag.dib != nullptr) {
 		fei->FI_Unload(data->ag.dib);
-		data->ag.dib = NULL;
+		data->ag.dib = nullptr;
 	}
 }
 
@@ -212,18 +212,18 @@ void DestroyAnimatedGif(ACCData* data)
 
 	AnimatedGifDeleteTmpValues(data);
 
-	if (data->ag.hbms != NULL) {
+	if (data->ag.hbms != nullptr) {
 		for (int i = 0; i < data->ag.frameCount; i++)
-			if (data->ag.hbms[i] != NULL)
+			if (data->ag.hbms[i] != nullptr)
 				DeleteObject(data->ag.hbms[i]);
 
 		free(data->ag.hbms);
-		data->ag.hbms = NULL;
+		data->ag.hbms = nullptr;
 	}
 
-	if (data->ag.times != NULL) {
+	if (data->ag.times != nullptr) {
 		free(data->ag.times);
-		data->ag.times = NULL;
+		data->ag.times = nullptr;
 	}
 
 	data->showingAnimatedGif = FALSE;
@@ -232,16 +232,16 @@ void DestroyAnimatedGif(ACCData* data)
 
 void StartAnimatedGif(ACCData* data)
 {
-	if (fei == NULL)
+	if (fei == nullptr)
 		return;
 
-	AVATARCACHEENTRY *ace = NULL;
+	AVATARCACHEENTRY *ace = nullptr;
 	if (data->hContact != NULL)
 		ace = (AVATARCACHEENTRY*)GetAvatarBitmap(data->hContact, 0);
 	else
 		ace = (AVATARCACHEENTRY*)GetMyAvatar(0, (LPARAM)data->proto);
 
-	if (ace == NULL)
+	if (ace == nullptr)
 		return;
 
 	int format = ProtoGetAvatarFormat(ace->szFilename);
@@ -253,7 +253,7 @@ void StartAnimatedGif(ACCData* data)
 		fif = fei->FI_GetFIFFromFilenameU(ace->szFilename);
 
 	data->ag.multi = fei->FI_OpenMultiBitmapU(fif, ace->szFilename, FALSE, TRUE, FALSE, GIF_LOAD256);
-	if (data->ag.multi == NULL)
+	if (data->ag.multi == nullptr)
 		return;
 
 	data->ag.frameCount = fei->FI_GetPageCount(data->ag.multi);
@@ -265,7 +265,7 @@ void StartAnimatedGif(ACCData* data)
 
 	// allocate entire logical area
 	data->ag.dib = fei->FI_Allocate(data->ag.logicalWidth, data->ag.logicalHeight, 32, 0, 0, 0);
-	if (data->ag.dib == NULL)
+	if (data->ag.dib == nullptr)
 		goto ERR;
 
 	// fill with background color to start
@@ -288,7 +288,7 @@ void StartAnimatedGif(ACCData* data)
 	return;
 ERR:
 	fei->FI_CloseMultiBitmap(data->ag.multi, 0);
-	data->ag.multi = NULL;
+	data->ag.multi = nullptr;
 }
 
 void DestroyAnimation(ACCData* data)
@@ -334,12 +334,12 @@ static void Invalidate(HWND hwnd)
 		ScreenToClient(parent, &rc);
 		InvalidateRect(parent, &rc, TRUE);
 	}
-	InvalidateRect(hwnd, NULL, TRUE);
+	InvalidateRect(hwnd, nullptr, TRUE);
 }
 
 static void NotifyAvatarChange(HWND hwnd)
 {
-	PSHNOTIFY pshn = { 0 };
+	PSHNOTIFY pshn = {};
 	pshn.hdr.idFrom = GetDlgCtrlID(hwnd);
 	pshn.hdr.hwndFrom = hwnd;
 	pshn.hdr.code = NM_AVATAR_CHANGED;
@@ -382,7 +382,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
 
 		data = (ACCData*)mir_calloc(sizeof(ACCData));
-		if (data == NULL)
+		if (data == nullptr)
 			return FALSE;
 		
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
@@ -502,7 +502,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			else
 				ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)data->hContact, 0);
 
-			if (ace == NULL || ace->bmHeight == 0 || ace->bmWidth == 0 || (data->respectHidden && (ace->dwFlags & AVS_HIDEONCLIST))) {
+			if (ace == nullptr || ace->bmHeight == 0 || ace->bmWidth == 0 || (data->respectHidden && (ace->dwFlags & AVS_HIDEONCLIST))) {
 				*width = 0;
 				*height = 0;
 				return TRUE;
@@ -553,7 +553,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		PAINTSTRUCT ps;
 		{
 			HDC hdc = BeginPaint(hwnd, &ps);
-			if (hdc == NULL)
+			if (hdc == nullptr)
 				break;
 
 			int oldBkMode = SetBkMode(hdc, TRANSPARENT);
@@ -597,7 +597,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					ret = 1;
 
 					if (!data->ag.started) {
-						SetTimer(hwnd, 0, data->ag.times[data->ag.frame.num], NULL);
+						SetTimer(hwnd, 0, data->ag.times[data->ag.frame.num], nullptr);
 						data->ag.started = TRUE;
 					}
 				}
@@ -642,7 +642,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WM_SIZE:
-		InvalidateRect(hwnd, NULL, TRUE);
+		InvalidateRect(hwnd, nullptr, TRUE);
 		break;
 
 	case WM_TIMER:
@@ -664,7 +664,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		AnimatedGifMountFrame(data, frame);
 
 		data->ag.started = FALSE;
-		InvalidateRect(hwnd, NULL, FALSE);
+		InvalidateRect(hwnd, nullptr, FALSE);
 
 		break;
 	}
@@ -677,7 +677,7 @@ int LoadACC()
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = AVATAR_CONTROL_CLASS;
 	wc.lpfnWndProc = ACCWndProc;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.cbWndExtra = sizeof(ACCData*);
 	wc.style = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);

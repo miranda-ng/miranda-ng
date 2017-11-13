@@ -32,7 +32,7 @@ void ShowNotification(const char *caption, const char *message, int flags, MCONT
 			return;
 	}
 
-	MessageBoxA(NULL, message, caption, MB_OK | flags);
+	MessageBoxA(nullptr, message, caption, MB_OK | flags);
 }
 
 void ObsoleteMethod(lua_State *L, const char *message)

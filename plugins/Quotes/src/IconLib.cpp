@@ -27,7 +27,7 @@ HICON Quotes_LoadIconEx(int iconId, bool bBig /*= false*/)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, bBig);
 
-	return NULL;
+	return nullptr;
 }
 
 HANDLE Quotes_GetIconHandle(int iconId)
@@ -36,5 +36,5 @@ HANDLE Quotes_GetIconHandle(int iconId)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }

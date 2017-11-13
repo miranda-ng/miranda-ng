@@ -80,13 +80,13 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &imag
 	}
 	else if (update_required) {
 		db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 	}
 }
 
 void FacebookProto::UpdateAvatarWorker(void *)
 {
-	HNETLIBCONN nlc = NULL;
+	HNETLIBCONN nlc = nullptr;
 
 	debugLogA("*** UpdateAvatarWorker");
 
@@ -178,7 +178,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
-	if (GetDbAvatarInfo(*pai, NULL))
+	if (GetDbAvatarInfo(*pai, nullptr))
 	{
 		bool fileExist = _waccess(pai->filename, 0) == 0;
 
@@ -198,7 +198,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				bool is_empty = avatar_queue.empty();
 				avatar_queue.push_back(pai->hContact);
 				if (is_empty)
-					ForkThread(&FacebookProto::UpdateAvatarWorker, NULL);
+					ForkThread(&FacebookProto::UpdateAvatarWorker, nullptr);
 			}
 			return GAIR_WAITFOR;
 		}

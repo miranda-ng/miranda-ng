@@ -179,15 +179,15 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 					dbv.type = _dbType;
 					switch (_dbType) {
 					case DBVT_BYTE:
-						dbv.bVal = (BYTE)wcstol(val, NULL, 10);
+						dbv.bVal = (BYTE)wcstol(val, nullptr, 10);
 						break;
 
 					case DBVT_WORD:
-						dbv.wVal = (WORD)wcstol(val, NULL, 10);
+						dbv.wVal = (WORD)wcstol(val, nullptr, 10);
 						break;
 
 					case DBVT_DWORD:
-						dbv.dVal = (DWORD)wcstol(val, NULL, 10);
+						dbv.dVal = (DWORD)wcstol(val, nullptr, 10);
 						break;
 
 					case DBVT_WCHAR:
@@ -209,7 +209,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 							// save new value
 							MIR_FREE(_pszValue);
 							_pszValue = val;
-							val = NULL;
+							val = nullptr;
 						}
 					}
 				}
@@ -223,7 +223,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 
 			OnInfoChanged(hContact, pszProto);
 		}
-		InvalidateRect(_hwnd, NULL, TRUE);
+		InvalidateRect(_hwnd, nullptr, TRUE);
 	}
 }
 
@@ -253,7 +253,7 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 				need_free = 1;
 			}
 
-			if (szText != NULL) {
+			if (szText != nullptr) {
 				GetWindowText(_hwnd, szText, cch + 1);
 				_Flags.B.hasChanged = mir_wstrcmp(_pszValue, szText) != 0;
 				if (need_free)
@@ -261,7 +261,7 @@ void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 			}
 			else _Flags.B.hasChanged = false;
 		}
-		InvalidateRect(_hwnd, NULL, TRUE);
+		InvalidateRect(_hwnd, nullptr, TRUE);
 
 		if (_Flags.B.hasChanged)
 			SendMessage(GetParent(GetParent(_hwnd)), PSM_CHANGED, 0, 0);
@@ -295,12 +295,12 @@ void CEditCtrl::OpenUrl()
 
 LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 {
-	if (lnk == NULL)
+	if (lnk == nullptr)
 		return FALSE;
 
 	switch (lnk->msg) {
 	case WM_SETCURSOR:
-		SetCursor(LoadCursor(NULL, IDC_HAND));
+		SetCursor(LoadCursor(nullptr, IDC_HAND));
 		SetWindowLongPtr(GetParent(_hwnd), DWLP_MSGRESULT, TRUE);
 		return TRUE;
 
@@ -323,7 +323,7 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 				need_free = 1;
 			}
 			if (tr.lpstrText && (SendMessage(_hwnd, EM_GETTEXTRANGE, NULL, (LPARAM)&tr) > 0)) {
-				if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
+				if (wcschr(tr.lpstrText, '@') != nullptr && wcschr(tr.lpstrText, ':') == nullptr && wcschr(tr.lpstrText, '/') == nullptr) {
 					memmove(tr.lpstrText + 7, tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(wchar_t));
 					memcpy(tr.lpstrText, L"mailto:", (7 * sizeof(wchar_t)));
 				}

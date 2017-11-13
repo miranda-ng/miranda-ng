@@ -435,7 +435,7 @@ MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg)
 		CustomButtonData *cbd = arButtonsList[i];
 		HWND hwnd = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if (hwnd)
-			InvalidateRect(hwnd, 0, TRUE);
+			InvalidateRect(hwnd, nullptr, TRUE);
 	}
 }
 
@@ -852,10 +852,10 @@ void LoadSrmmToolbarModule()
 	hHookButtonPressedEvt = CreateHookableEvent(ME_MSG_BUTTONPRESSED);
 	hHookToolBarLoadedEvt = CreateHookableEvent(ME_MSG_TOOLBARLOADED);
 
-	HDC hScrnDC = GetDC(0);
+	HDC hScrnDC = GetDC(nullptr);
 	g_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
 	g_DPIscaleY = GetDeviceCaps(hScrnDC, LOGPIXELSY) / 96.0;
-	ReleaseDC(0, hScrnDC);
+	ReleaseDC(nullptr, hScrnDC);
 
 	// old data? convert them
 	if (db_get_dw(0, "Tab" MODULENAME, "SeparatorsCount", -1) != -1) {

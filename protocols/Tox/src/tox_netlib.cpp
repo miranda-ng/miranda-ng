@@ -17,5 +17,5 @@ void CToxProto::InitNetlib()
 void CToxProto::UninitNetlib()
 {
 	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = NULL;
+	m_hNetlibUser = nullptr;
 }

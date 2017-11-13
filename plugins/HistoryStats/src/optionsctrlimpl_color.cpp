@@ -14,7 +14,7 @@ COLORREF OptionsCtrlImpl::Color::getColorValue()
 
 OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, COLORREF crColor, DWORD dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itColor, szLabel, dwFlags, dwData)
-	, m_hColorWnd(NULL)
+	, m_hColorWnd(nullptr)
 	, m_crColor(crColor)
 {	
 	m_pCtrl->insertItem(pParent, this, m_strLabel.c_str(), dwFlags, m_bEnabled ? siColor : siColorG);
@@ -54,9 +54,9 @@ void OptionsCtrlImpl::Color::onSelect()
 		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP;
 
 		if (hTempWnd = CreateWindowEx(
-			0, _A2W(WNDCLASS_COLOURPICKER), NULL, dwStyle,
+			0, _A2W(WNDCLASS_COLOURPICKER), nullptr, dwStyle,
 			r.left, r.top, r.right - r.left, r.bottom - r.top,
-			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccColor), g_hInst, NULL))
+			m_pCtrl->m_hTree, reinterpret_cast<HMENU>(ccColor), g_hInst, nullptr))
 		{
 			SendMessage(hTempWnd, CPM_SETCOLOUR, 0, m_crColor);
 
@@ -83,9 +83,9 @@ void OptionsCtrlImpl::Color::onDeselect()
 		m_pCtrl->setNodeText(m_hItem, m_strLabel.c_str());
 
 		DestroyWindow(m_hColorWnd);
-		m_hColorWnd = NULL;
+		m_hColorWnd = nullptr;
 
-		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : NULL, TRUE);
+		InvalidateRect(m_pCtrl->m_hTree, bValidRect ? &rToInvalidate : nullptr, TRUE);
 	}
 }
 

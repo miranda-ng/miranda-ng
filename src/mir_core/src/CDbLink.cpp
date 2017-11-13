@@ -31,7 +31,7 @@ CDbLink::CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD i
 	m_szModule = mir_strdup(szModule);
 	m_szSetting = mir_strdup(szSetting);
 	m_iDefault = iValue;
-	m_szDefault = 0;
+	m_szDefault = nullptr;
 	dbv.type = DBVT_DELETED;
 }
 

@@ -43,7 +43,7 @@ BOOL gbAutoAddToServerList=0;
 BOOL gbAutoReqAuth=1;
 BOOL gbMathExpression = 0;
 
-HANDLE hStopSpamLogDirH=0;
+HANDLE hStopSpamLogDirH=nullptr;
 
 wstring gbSpammersGroup = L"Spammers";
 wstring gbAutoAuthGroup	= L"NotSpammers";
@@ -128,7 +128,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-HANDLE hEventFilter = 0, hOptInitialise = 0, hSettingChanged = 0;
+HANDLE hEventFilter = nullptr, hOptInitialise = nullptr, hSettingChanged = nullptr;
 
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)

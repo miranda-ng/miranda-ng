@@ -9,7 +9,7 @@
  */
 
 DlgOption::SubExclude::SubExclude() :
-	m_hItemAll(NULL), m_bChanged(false)	
+	m_hItemAll(nullptr), m_bChanged(false)	
 {
 }
 
@@ -281,6 +281,6 @@ void DlgOption::SubExclude::setAll(HWND hCList, HANDLE hFirstItem, int iImage, b
 		if (iOldIcon != 0xFF && iOldIcon != iImage)
 			SendMessage(hCList, CLM_SETEXTRAIMAGE, reinterpret_cast<WPARAM>(hItem), MAKELPARAM(0, iImage));
 
-		hItem = bIterate ? reinterpret_cast<HANDLE>(SendMessage(hCList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, reinterpret_cast<LPARAM>(hItem))) : NULL;
+		hItem = bIterate ? reinterpret_cast<HANDLE>(SendMessage(hCList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, reinterpret_cast<LPARAM>(hItem))) : nullptr;
 	}
 }

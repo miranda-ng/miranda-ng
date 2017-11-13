@@ -49,5 +49,5 @@ HANDLE GetIconHandle(const char *name)
 		if ( !mir_strcmp(iconList[i].szName, name))
 			return iconList[i].hIcolib;
 
-	return NULL;
+	return nullptr;
 }

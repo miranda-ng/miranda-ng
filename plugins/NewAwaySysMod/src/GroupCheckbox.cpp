@@ -51,7 +51,7 @@
 class CCheckboxData
 {
 public:
-	CCheckboxData(): OldWndProc(NULL), Style(0), State(0), hFont(NULL) {};
+	CCheckboxData(): OldWndProc(nullptr), Style(0), State(0), hFont(nullptr) {};
 
 	WNDPROC OldWndProc;
 	int Style; // BS_CHECKBOX, BS_AUTOCHECKBOX, BS_3STATE or BS_AUTO3STATE
@@ -90,7 +90,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			if (hTheme) {
 				WCHAR *szText = (WCHAR*)_alloca(Len * sizeof(WCHAR));
 				GetWindowTextW(hWnd, szText, Len);
-				GetThemeTextExtent(hTheme, hdc, BP_GROUPBOX, IsWindowEnabled(hWnd) ? GBS_NORMAL : GBS_DISABLED, szText, -1, DT_CALCRECT | DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0, &rcText);
+				GetThemeTextExtent(hTheme, hdc, BP_GROUPBOX, IsWindowEnabled(hWnd) ? GBS_NORMAL : GBS_DISABLED, szText, -1, DT_CALCRECT | DT_LEFT | DT_VCENTER | DT_SINGLELINE, nullptr, &rcText);
 			}
 			else {
 				SIZE size;
@@ -109,7 +109,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			OffsetRect(&rcText, CG_CHECKBOX_INDENT + CG_CHECKBOX_WIDTH + CG_TEXT_INDENT, 0);
 			RECT rc;
 			GetClientRect(hWnd, &rc);
-			SetWindowPos(hWnd, 0, 0, 0, rcText.right + CG_ADDITIONAL_WIDTH, rc.bottom, SWP_NOMOVE | SWP_NOZORDER);
+			SetWindowPos(hWnd, nullptr, 0, 0, rcText.right + CG_ADDITIONAL_WIDTH, rc.bottom, SWP_NOMOVE | SWP_NOZORDER);
 		}
 		break;
 
@@ -126,7 +126,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			wParam = BST_CHECKED;
 		dat->State &= ~CGSM_ISCHECKED;
 		dat->State |= wParam;
-		InvalidateRect(hWnd, NULL, false);
+		InvalidateRect(hWnd, nullptr, false);
 		SendMessage(GetParent(hWnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hWnd), BN_CLICKED), (LPARAM)hWnd);
 		return 0;
 
@@ -135,7 +135,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			dat->State |= CGS_PRESSED;
 		else
 			dat->State &= ~CGS_PRESSED;
-		InvalidateRect(hWnd, NULL, false);
+		InvalidateRect(hWnd, nullptr, false);
 		return 0;
 
 	case BM_GETSTATE:
@@ -146,7 +146,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 	case WM_THEMECHANGED:
 	case WM_ENABLE:
-		InvalidateRect(hWnd, NULL, false);
+		InvalidateRect(hWnd, nullptr, false);
 		return 0;
 
 	case WM_SETTEXT:
@@ -203,21 +203,21 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 		GetCursorPos(&pt);
 		if ((WindowFromPoint(pt) == hWnd) ^ ((dat->State & CGS_HOVERED) != 0)) {
 			dat->State ^= CGS_HOVERED;
-			InvalidateRect(hWnd, NULL, false);
+			InvalidateRect(hWnd, nullptr, false);
 		}
 		return 0;
 
 	case WM_MOUSELEAVE:
 		if (dat->State & CGS_HOVERED) {
 			dat->State &= ~CGS_HOVERED;
-			InvalidateRect(hWnd, NULL, false);
+			InvalidateRect(hWnd, nullptr, false);
 		}
 		return 0;
 
 	case WM_SETFOCUS:
 	case WM_KILLFOCUS:
 	case WM_SYSCOLORCHANGE:
-		InvalidateRect(hWnd, NULL, false);
+		InvalidateRect(hWnd, nullptr, false);
 		return 0;
 
 	case WM_PAINT:
@@ -232,7 +232,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			HBITMAP hbmOld = (HBITMAP)SelectObject(hdcMem, hbmMem);
 			HTHEME hTheme = OpenThemeData(hWnd, L"BUTTON");
 			if (hTheme)
-				DrawThemeParentBackground(hWnd, hdcMem, NULL);
+				DrawThemeParentBackground(hWnd, hdcMem, nullptr);
 			else
 				FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
 
@@ -287,7 +287,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			if (GetFocus() == hWnd) {
 				RECT rcText = { 0 };
 				if (hTheme)
-					GetThemeTextExtent(hTheme, hdcMem, BP_GROUPBOX, IsWindowEnabled(hWnd) ? GBS_NORMAL : GBS_DISABLED, szTextT, -1, DT_CALCRECT | DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0, &rcText);
+					GetThemeTextExtent(hTheme, hdcMem, BP_GROUPBOX, IsWindowEnabled(hWnd) ? GBS_NORMAL : GBS_DISABLED, szTextT, -1, DT_CALCRECT | DT_LEFT | DT_VCENTER | DT_SINGLELINE, nullptr, &rcText);
 				else {
 					SIZE size;
 					GetTextExtentPoint32(hdcMem, szTextT, (int)mir_wstrlen(szTextT), &size);

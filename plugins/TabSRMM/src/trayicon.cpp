@@ -29,9 +29,9 @@
 #include "stdafx.h"
 
 static BOOL    isAnimThreadRunning = TRUE;
-static HANDLE  hTrayAnimThread = 0;
-static HICON   hIconTrayCurrent = 0;
-HANDLE  g_hEvent = 0;
+static HANDLE  hTrayAnimThread = nullptr;
+static HICON   hIconTrayCurrent = nullptr;
+HANDLE  g_hEvent = nullptr;
 
 static wchar_t g_eventName[100];
 
@@ -75,7 +75,7 @@ static void TrayAnimThread(LPVOID)
 				if (dwElapsed >= 600) {
 					PluginConfig.m_TrayFlashState = !PluginConfig.m_TrayFlashState;
 					dwElapsed = 0;
-					FlashTrayIcon(PluginConfig.m_TrayFlashState ? 0 : hIconDefault);                        // restore default icon
+					FlashTrayIcon(PluginConfig.m_TrayFlashState ? nullptr : hIconDefault);                        // restore default icon
 				}
 			}
 			Sleep(200);
@@ -109,19 +109,19 @@ void TSAPI CreateTrayMenus(int mode)
 		SetEvent(g_hEvent);
 		WaitForSingleObject(hTrayAnimThread, 5000);
 		CloseHandle(g_hEvent);
-		g_hEvent = 0;
-		hTrayAnimThread = 0;
-		if (PluginConfig.g_hMenuTrayUnread != 0) {
+		g_hEvent = nullptr;
+		hTrayAnimThread = nullptr;
+		if (PluginConfig.g_hMenuTrayUnread != nullptr) {
 			DestroyMenu(PluginConfig.g_hMenuTrayUnread);
-			PluginConfig.g_hMenuTrayUnread = 0;
+			PluginConfig.g_hMenuTrayUnread = nullptr;
 		}
-		if (PluginConfig.g_hMenuFavorites != 0) {
+		if (PluginConfig.g_hMenuFavorites != nullptr) {
 			DestroyMenu(PluginConfig.g_hMenuFavorites);
-			PluginConfig.g_hMenuFavorites = 0;
+			PluginConfig.g_hMenuFavorites = nullptr;
 		}
-		if (PluginConfig.g_hMenuRecent != 0) {
+		if (PluginConfig.g_hMenuRecent != nullptr) {
 			DestroyMenu(PluginConfig.g_hMenuRecent);
-			PluginConfig.g_hMenuRecent = 0;
+			PluginConfig.g_hMenuRecent = nullptr;
 		}
 	}
 }
@@ -142,7 +142,7 @@ void TSAPI CreateSystrayIcon(int create)
 	if (create && !nen_options.bTrayExist) {
 		Shell_NotifyIcon(NIM_ADD, &nim);
 		nen_options.bTrayExist = TRUE;
-		hIconTrayCurrent = 0;
+		hIconTrayCurrent = nullptr;
 		SetEvent(g_hEvent);
 	}
 	else if (create == FALSE && nen_options.bTrayExist) {
@@ -206,7 +206,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const wchar_t *szNickname, c
 	if (szStatus == nullptr)
 		szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 
-	if (hIcon == 0)
+	if (hIcon == nullptr)
 		hIcon = Skin_LoadProtoIcon(szProto, wStatus);
 
 	PROTOACCOUNT *acc = Proto_GetAccount(szProto);
@@ -289,7 +289,7 @@ void TSAPI LoadFavoritesAndRecent()
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (M.GetByte(hContact, "isFavorite", 0))
-			AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, 0, 1, PluginConfig.g_hMenuFavorites);
+			AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, nullptr, 1, PluginConfig.g_hMenuFavorites);
 		if ((dwRecent = M.GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {
 			recentEntries[iIndex].dwTimestamp = dwRecent;
 			recentEntries[iIndex++].hContact = hContact;
@@ -311,7 +311,7 @@ void TSAPI LoadFavoritesAndRecent()
 		}
 	}
 	for (i = 0; i < iIndex; i++)
-		AddContactToFavorites(recentEntries[i].hContact, nullptr, nullptr, nullptr, 0, 0, 1, PluginConfig.g_hMenuRecent);
+		AddContactToFavorites(recentEntries[i].hContact, nullptr, nullptr, nullptr, 0, nullptr, 1, PluginConfig.g_hMenuRecent);
 
 	delete[] recentEntries;
 }

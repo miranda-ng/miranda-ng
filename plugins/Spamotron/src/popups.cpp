@@ -108,9 +108,9 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 						return FALSE;
 					break;
 				case IDC_OPT_POPUPS_PREVIEW:
-					ShowPopupPreview(optDlg, POPUP_BLOCKED, NULL, TranslateT("Message blocked due to preview action"));
-					ShowPopupPreview(optDlg, POPUP_APPROVED, NULL, TranslateT("Contact approved due to preview action"));
-					ShowPopupPreview(optDlg, POPUP_CHALLENGE, NULL, TranslateT("Challenge sent to preview contact"));
+					ShowPopupPreview(optDlg, POPUP_BLOCKED, nullptr, TranslateT("Message blocked due to preview action"));
+					ShowPopupPreview(optDlg, POPUP_APPROVED, nullptr, TranslateT("Contact approved due to preview action"));
+					ShowPopupPreview(optDlg, POPUP_CHALLENGE, nullptr, TranslateT("Challenge sent to preview contact"));
 					return FALSE;
 			}
 			SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);
@@ -155,19 +155,19 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2
 		case POPUP_BLOCKED:
 			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_FOREGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_BLOCKED_BACKGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, NULL, TRUE);
+			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, nullptr, TRUE);
 			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 			break;
 		case POPUP_APPROVED:
 			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_FOREGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_APPROVED_BACKGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, NULL, TRUE);
+			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, nullptr, TRUE);
 			ppdp.lchIcon = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 			break;
 		case POPUP_CHALLENGE:
 			ppdp.colorText = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_FOREGROUND,CPM_GETCOLOUR,0,0);
 			ppdp.colorBack = SendDlgItemMessage(optDlg,IDC_OPT_POPUPS_CHALLENGE_BACKGROUND,CPM_GETCOLOUR,0,0);
-			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, NULL, TRUE);
+			ppdp.iSeconds = GetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, nullptr, TRUE);
 			ppdp.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 			break;
 	}

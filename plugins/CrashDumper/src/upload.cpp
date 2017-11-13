@@ -90,7 +90,7 @@ void CreateAuthString(char* auth)
 bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 {
 	int result = 0xBADBAD;
-	char* szRedirUrl = NULL;
+	char* szRedirUrl = nullptr;
 	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
@@ -164,7 +164,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 							const char* szPref = strstr(szUrl, "://");
 							szPref = szPref ? szPref + 3 : szUrl;
 							szPath = strchr(szPref, '/');
-							rlen = szPath != NULL ? szPath - szUrl : mir_strlen(szUrl);
+							rlen = szPath != nullptr ? szPath - szUrl : mir_strlen(szUrl);
 						}
 
 						szRedirUrl = (char*)mir_realloc(szRedirUrl,

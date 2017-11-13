@@ -29,7 +29,7 @@ RichHtmlExport::~RichHtmlExport()
 extern HINSTANCE hInst;
 extern bool g_SmileyAddAvail;
 
-std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = NULL)
+std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = nullptr)
 {
 	std::wstring ret;
 	std::wstring search = L"&<>\t\r\n";
@@ -57,7 +57,7 @@ std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<si
 		}
 
 		start = find + 1;
-		if (positionMap != NULL) {
+		if (positionMap != nullptr) {
 			size_t len = ret.length() - start - currentAdd;
 			if (len != 0) {
 				positionMap->push(std::pair<size_t, size_t>(start + currentAdd, len));
@@ -123,12 +123,12 @@ std::wstring GetName(const std::wstring &path)
 void ExtractFile(short int iRes, const std::wstring &fileName)
 {
 	HRSRC rSrc = FindResource(hInst, MAKEINTRESOURCE(iRes), MAKEINTRESOURCE(CUSTOMRES));
-	if (rSrc != NULL) {
+	if (rSrc != nullptr) {
 		HGLOBAL res = LoadResource(hInst, rSrc);
 		int size = SizeofResource(hInst, rSrc);
-		if (res != NULL) {
+		if (res != nullptr) {
 			char* resData = (char*)LockResource(res);
-			if (resData != NULL) {
+			if (resData != nullptr) {
 				std::ofstream stream(fileName.c_str(), std::ios_base::binary);
 				if (stream.is_open()) {
 					stream.write(resData, size);
@@ -196,13 +196,13 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 		MYBITMAPINFO info1 = { 0 };
 		MYBITMAPINFO info2 = { 0 };
 
-		HDC hDC = CreateCompatibleDC(NULL);
+		HDC hDC = CreateCompatibleDC(nullptr);
 		info1.bmiHeader.biSize = sizeof(info1.bmiHeader);
 		info1.bmiHeader.biWidth = bmiColor.bmWidth;
 		info1.bmiHeader.biHeight = bmiColor.bmHeight;
 		info1.bmiHeader.biPlanes = 1;
 		info1.bmiHeader.biBitCount = bmiColor.bmBitsPixel;
-		unsigned int size = GetDIBits(hDC, hbmColor, 0, info1.bmiHeader.biHeight, NULL, (BITMAPINFO*)&info1, DIB_RGB_COLORS);
+		unsigned int size = GetDIBits(hDC, hbmColor, 0, info1.bmiHeader.biHeight, nullptr, (BITMAPINFO*)&info1, DIB_RGB_COLORS);
 		char* bits1 = new char[info1.bmiHeader.biSizeImage];
 		size = GetDIBits(hDC, hbmColor, 0, info1.bmiHeader.biHeight, bits1, (BITMAPINFO*)&info1, DIB_RGB_COLORS);
 		info2.bmiHeader.biSize = sizeof(info2.bmiHeader);
@@ -210,7 +210,7 @@ void IcoSave(const std::wstring &fileName, HICON hicon)
 		info2.bmiHeader.biHeight = bmiMask.bmHeight;
 		info2.bmiHeader.biPlanes = 1;
 		info2.bmiHeader.biBitCount = bmiMask.bmBitsPixel;
-		size = GetDIBits(hDC, hbmColor, 0, info1.bmiHeader.biHeight, NULL, (BITMAPINFO*)&info2, DIB_RGB_COLORS);
+		size = GetDIBits(hDC, hbmColor, 0, info1.bmiHeader.biHeight, nullptr, (BITMAPINFO*)&info2, DIB_RGB_COLORS);
 		char* bits2 = new char[info2.bmiHeader.biSizeImage];
 		size = GetDIBits(hDC, hbmMask, 0, info2.bmiHeader.biHeight, bits2, (BITMAPINFO*)&info2, DIB_RGB_COLORS);
 
@@ -263,18 +263,18 @@ bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true)
 	pszFrom[len + 1] = 0;
 
 	SHFILEOPSTRUCT fileop;
-	fileop.hwnd = NULL;    // no status display
+	fileop.hwnd = nullptr;    // no status display
 	fileop.wFunc = FO_DELETE;  // delete operation
 	fileop.pFrom = pszFrom;  // source file name as double null terminated string
-	fileop.pTo = NULL;    // no destination needed
+	fileop.pTo = nullptr;    // no destination needed
 	fileop.fFlags = FOF_NOCONFIRMATION | FOF_SILENT;  // do not prompt the user
 
 	if (!noRecycleBin)
 		fileop.fFlags |= FOF_ALLOWUNDO;
 
 	fileop.fAnyOperationsAborted = FALSE;
-	fileop.lpszProgressTitle = NULL;
-	fileop.hNameMappings = NULL;
+	fileop.lpszProgressTitle = nullptr;
+	fileop.hNameMappings = nullptr;
 
 	int ret = SHFileOperation(&fileop);
 	delete[] pszFrom;
@@ -287,7 +287,7 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	folder = RemoveExt(fileName) + L"_files";
 	folderName = GetName(folder);
 	DeleteDirectory(folder.c_str());
-	CreateDirectory(folder.c_str(), NULL);
+	CreateDirectory(folder.c_str(), nullptr);
 	std::wstring css = folder + L"\\history.css";
 	BOOL cssCopied = FALSE;
 	if (!Options::instance->extCssHtml2.empty())
@@ -410,14 +410,14 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 	SMADD_BATCHPARSE2 sp = { 0 };
 	SMADD_BATCHPARSERES *spr;
 	sp.cbSize = sizeof(sp);
-	sp.Protocolname = baseProto.length() == 0 ? NULL : baseProto.c_str();
+	sp.Protocolname = baseProto.length() == 0 ? nullptr : baseProto.c_str();
 	sp.str = msgbuf;
 	sp.flag = SAFL_TCHAR | SAFL_PATH | (isMe ? SAFL_OUTGOING : 0);
 	spr = (SMADD_BATCHPARSERES*)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	delete[] msgbuf;
 
 	// Did not find a simley
-	if (spr == NULL || (INT_PTR)spr == CALLSERVICE_NOTFOUND)
+	if (spr == nullptr || (INT_PTR)spr == CALLSERVICE_NOTFOUND)
 		return UrlHighlightHtml(MakeTextHtmled(msg), isUrl);
 
 	std::queue<std::pair<size_t, size_t> > positionMap;
@@ -457,7 +457,7 @@ std::wstring RichHtmlExport::ReplaceSmileys(bool isMe, const std::wstring &msg, 
 
 		size_t size = endChar - startChar;
 
-		if (spr[i].filepath != NULL) { // For deffective smileypacks
+		if (spr[i].filepath != nullptr) { // For deffective smileypacks
 			// Add text
 			if (startChar - last_pos > 0) {
 				smileyMsg += newMsg.substr(last_pos, startChar - last_pos);

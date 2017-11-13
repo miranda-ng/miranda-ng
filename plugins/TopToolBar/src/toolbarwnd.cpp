@@ -12,7 +12,7 @@ static wchar_t pluginname[] = L"TopToolBar";
 
 static void PaintToolbar(HWND hwnd)
 {
-	InvalidateRect(hwnd, 0, FALSE);
+	InvalidateRect(hwnd, nullptr, FALSE);
 
 	PAINTSTRUCT paintst;
 	HDC hdc = BeginPaint(hwnd, &paintst);
@@ -24,7 +24,7 @@ static void PaintToolbar(HWND hwnd)
 	int yScroll = 0;
 
 	HDC hdcMem = CreateCompatibleDC(hdc);
-	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
+	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), nullptr);
 	HBITMAP hOldBmp = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
 	SetBkMode(hdcMem, TRANSPARENT);
 
@@ -122,7 +122,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return FALSE;
 
 	case WM_DESTROY:
-		g_ctrl->hWnd = NULL;
+		g_ctrl->hWnd = nullptr;
 		break;
 
 	case WM_MOVE:
@@ -178,7 +178,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				if (id != 0) {
 					mir_cslock lck(csButtonsHook);
 					TopButtonInt* b = idtopos(id);
-					if (b == NULL || b->isSep())
+					if (b == nullptr || b->isSep())
 						return 0;
 
 					if (b->dwFlags & TTBBF_ASPUSHBUTTON)
@@ -186,11 +186,11 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 					if (b->bPushed) { //Dn -> Up
 						if (!(b->dwFlags & TTBBF_ISLBUTTON)) // must be always true
-							if (b->pszService != NULL)
+							if (b->pszService != nullptr)
 								CallService(b->pszService, b->wParamUp, b->lParamUp);
 					}
 					else { //Up -> Dn
-						if (b->pszService != NULL)
+						if (b->pszService != nullptr)
 							CallService(b->pszService, b->wParamDown, b->lParamDown);
 					}
 
@@ -241,14 +241,14 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 void CALLBACK OnEventFire()
 {
 	HWND parent = pcli->hwndContactList;
-	if (parent == NULL) // no clist, no buttons
+	if (parent == nullptr) // no clist, no buttons
 		return;
 
 	WNDCLASS wndclass = {0};
 	wndclass.lpfnWndProc = TopToolBarProc;
 	wndclass.cbWndExtra = sizeof(void *);
 	wndclass.hInstance = hInst;
-	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_BTNFACE + 1);
 	wndclass.lpszClassName = pluginname;
 	RegisterClass(&wndclass);
@@ -256,7 +256,7 @@ void CALLBACK OnEventFire()
 	g_ctrl->pButtonList = (SortedList *)&Buttons;
 	g_ctrl->hWnd = CreateWindow(pluginname, L"Toolbar",
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-		0, 0, 0, g_ctrl->nLastHeight, parent, NULL, hInst, NULL);
+		0, 0, 0, g_ctrl->nLastHeight, parent, nullptr, hInst, nullptr);
 	SetWindowLongPtr(g_ctrl->hWnd, 0, (LONG_PTR)g_ctrl);
 
 	LoadBackgroundOptions();
@@ -268,7 +268,7 @@ void CALLBACK OnEventFire()
 		InitInternalButtons();
 
 	// if there's no customized frames, create our own
-	if (g_ctrl->hFrame == NULL) {
+	if (g_ctrl->hFrame == nullptr) {
 		CLISTFrame Frame = { sizeof(Frame) };
 		Frame.tname = L"Toolbar";
 		Frame.hWnd = g_ctrl->hWnd;
@@ -290,7 +290,7 @@ int LoadBackgroundOptions()
 	bkColour = db_get_dw(NULL, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
 	if (hBmpBackground) {
 		DeleteObject(hBmpBackground);
-		hBmpBackground = NULL;
+		hBmpBackground = nullptr;
 	}
 
 	if (db_get_b(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {

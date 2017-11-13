@@ -74,7 +74,7 @@ void CAimProto::avatar_request_handler(MCONTACT hContact, char* hash, unsigned c
 			setByte(hContact, AIM_KEY_AHT, type);
 			setString(hContact, AIM_KEY_AH, hash);
 
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 		}
 	}
 	else {
@@ -82,7 +82,7 @@ void CAimProto::avatar_request_handler(MCONTACT hContact, char* hash, unsigned c
 			delSetting(hContact, AIM_KEY_AHT);
 			delSetting(hContact, AIM_KEY_AH);
 
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
 		}
 	}
 	mir_free(saved_hash);
@@ -131,7 +131,7 @@ int CAimProto::get_avatar_filename(MCONTACT hContact, wchar_t* pszDest, size_t c
 	db_free(&dbv);
 
 	bool found = false;
-	if (ext == NULL) {
+	if (ext == nullptr) {
 		mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L".*");
 
 		_tfinddata_t c_file;
@@ -193,9 +193,9 @@ bool get_avatar_hash(const wchar_t* file, char* hash, char** data, unsigned shor
 
 void rescale_image(char *data, unsigned short size, char *&data1, unsigned short &size1)
 {
-	FI_INTERFACE *fei = NULL;
+	FI_INTERFACE *fei = nullptr;
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
-	if (fei == NULL) return;
+	if (fei == nullptr) return;
 
 	FIMEMORY *hmem = fei->FI_OpenMemory((BYTE *)data, size);
 	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeFromMemory(hmem, 0);
@@ -205,7 +205,7 @@ void rescale_image(char *data, unsigned short size, char *&data1, unsigned short
 	if (fei->FI_GetWidth(dib) > 64) {
 		FIBITMAP *dib1 = fei->FI_Rescale(dib, 64, 64, FILTER_BSPLINE);
 
-		FIMEMORY *hmem2 = fei->FI_OpenMemory(NULL, 0);
+		FIMEMORY *hmem2 = fei->FI_OpenMemory(nullptr, 0);
 		fei->FI_SaveToMemory(fif, dib1, hmem2, 0);
 
 		BYTE *data2; DWORD size2;

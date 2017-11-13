@@ -241,7 +241,7 @@ void CIniImportDoneDlg::Delete_OnClick(CCtrlBase*)
 void CIniImportDoneDlg::Recycle_OnClick(CCtrlBase*)
 {
 	ptrW szIniPath(m_iniPath.GetText());
-	SHFILEOPSTRUCT shfo = { 0 };
+	SHFILEOPSTRUCT shfo = {};
 	shfo.wFunc = FO_DELETE;
 	shfo.pFrom = szIniPath;
 	szIniPath[mir_wstrlen(szIniPath) + 1] = '\0';
@@ -568,7 +568,7 @@ static void DoAutoExec(void)
 			if (!mir_wstrcmpi(szOnCompletion, L"delete"))
 				DeleteFile(szIniPath);
 			else if (!mir_wstrcmpi(szOnCompletion, L"recycle")) {
-				SHFILEOPSTRUCT shfo = { 0 };
+				SHFILEOPSTRUCT shfo = {};
 				shfo.wFunc = FO_DELETE;
 				shfo.pFrom = szIniPath;
 				szIniPath[mir_wstrlen(szIniPath) + 1] = 0;

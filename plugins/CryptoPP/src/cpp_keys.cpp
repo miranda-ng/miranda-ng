@@ -5,7 +5,7 @@ const unsigned char IV[] = "PSKhell@MIRANDA!";
 // generate KeyA pair, return public key as ASCII
 LPSTR __cdecl cpp_init_keya(HANDLE context, int features)
 {
-	pCNTX ptr = get_context_on_id(context); if (!ptr) return NULL;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return nullptr;
 	pSIMDATA p = (pSIMDATA)cpp_alloc_pdata(ptr);
 
 	int send_features = FEATURES;
@@ -156,7 +156,7 @@ int __cdecl cpp_calc_keyx(HANDLE context)
 		// not needed anymore
 		SAFE_FREE(p->PubA);
 		SAFE_FREE(p->KeyA);
-		mir_free(p->KeyB); p->KeyB = 0;
+		mir_free(p->KeyB); p->KeyB = nullptr;
 
 		BYTE buffer[Tiger::DIGESTSIZE]; // buffer for hash
 		memset(buffer, 0, sizeof(buffer));

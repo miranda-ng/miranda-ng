@@ -4,8 +4,8 @@
 
 wchar_t *_tcstolower(wchar_t *dst)
 {
-	if (dst == NULL)
-		return NULL;
+	if (dst == nullptr)
+		return nullptr;
 	
 	SIZE_T dst_len = mir_wstrlen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
@@ -15,8 +15,8 @@ wchar_t *_tcstolower(wchar_t *dst)
 
 wchar_t *_tcstoupper(wchar_t *dst)
 {
-	if (dst == NULL)
-		return NULL;
+	if (dst == nullptr)
+		return nullptr;
 	
 	SIZE_T dst_len = mir_wstrlen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
@@ -34,15 +34,15 @@ BOOL _isregex(wchar_t* strSearch)
 	wchar_t regex_parse[] = L"/(.*)/([igsm]*)";
 	int ovector[9];
 
-	if (strSearch == NULL)
+	if (strSearch == nullptr)
 		return FALSE;
-	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, NULL);
-	if (re == NULL)
+	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, nullptr);
+	if (re == nullptr)
 		return FALSE;
 	regex = mir_wstrdup(strSearch);
-	if (regex == NULL)
+	if (regex == nullptr)
 		goto err_out;
-	rc = pcre16_exec(re, NULL, regex, (int)mir_wstrlen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, nullptr, regex, (int)mir_wstrlen(regex), 0, 0, ovector, 9);
 	if (rc == 3)
 		ret = TRUE;
 	mir_free(regex);
@@ -63,17 +63,17 @@ BOOL _isvalidregex(wchar_t* strSearch)
 	wchar_t regex_parse[] = L"/(.*)/([igsm]*)";
 	int ovector[9];
 
-	if (strSearch == NULL)
+	if (strSearch == nullptr)
 		return FALSE;
-	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, NULL);
-	if (re == NULL)
+	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, nullptr);
+	if (re == nullptr)
 		return FALSE;
 	regex = mir_wstrdup(strSearch);
-	if (regex == NULL) {
+	if (regex == nullptr) {
 		pcre16_free(re);
 		return FALSE;
 	}
-	rc = pcre16_exec(re, NULL, regex, (int)mir_wstrlen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, nullptr, regex, (int)mir_wstrlen(regex), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc != 3)
 		goto err_out;
@@ -89,8 +89,8 @@ BOOL _isvalidregex(wchar_t* strSearch)
 	if (wcsstr(mod, L"s"))
 		opts |= PCRE_DOTALL;
 
-	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
-	if (re != NULL) {
+	re = pcre16_compile(regexp, opts, &error, &erroroffs, nullptr);
+	if (re != nullptr) {
 		pcre16_free(re);
 		ret = TRUE;
 	}
@@ -106,22 +106,22 @@ BOOL _regmatch(wchar_t* str, wchar_t* strSearch)
 	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	wchar_t *regex, *regexp, *data = NULL, *mod;
+	wchar_t *regex, *regexp, *data = nullptr, *mod;
 	int opts = 0;
 	wchar_t regex_parse[] = L"^/(.*)/([igsm]*)";
 	int ovector[9];
 
-	if (str == NULL || strSearch == NULL)
+	if (str == nullptr || strSearch == nullptr)
 		return FALSE;
-	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, NULL);
-	if (re == NULL)
+	re = pcre16_compile(regex_parse, 0, &error, &erroroffs, nullptr);
+	if (re == nullptr)
 		return FALSE; // [TODO] and log some error
 	regex = mir_wstrdup(strSearch);
-	if (regex == NULL) {
+	if (regex == nullptr) {
 		pcre16_free(re);
 		return FALSE;
 	}
-	rc = pcre16_exec(re, NULL, regex, (int)mir_wstrlen(regex), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, nullptr, regex, (int)mir_wstrlen(regex), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc != 3)
 		goto err_out; // [TODO] and log some error (better check for valid regex on options save)
@@ -131,7 +131,7 @@ BOOL _regmatch(wchar_t* str, wchar_t* strSearch)
 	mod[ovector[5] - ovector[4]] = 0;
 
 	data = mir_wstrdup(str);
-	if (data == NULL)
+	if (data == nullptr)
 		goto err_out;
 	if (wcsstr(mod, L"i"))
 		opts |= PCRE_CASELESS;
@@ -140,10 +140,10 @@ BOOL _regmatch(wchar_t* str, wchar_t* strSearch)
 	if (wcsstr(mod, L"s"))
 		opts |= PCRE_DOTALL;
 
-	re = pcre16_compile(regexp, opts, &error, &erroroffs, NULL);
-	if (re == NULL)
+	re = pcre16_compile(regexp, opts, &error, &erroroffs, nullptr);
+	if (re == nullptr)
 		goto err_out;
-	rc = pcre16_exec(re, NULL, data, (int)mir_wstrlen(data), 0, 0, NULL, 0);
+	rc = pcre16_exec(re, nullptr, data, (int)mir_wstrlen(data), 0, 0, nullptr, 0);
 	pcre16_free(re);
 	if (rc >= 0)
 		ret = TRUE;
@@ -164,17 +164,17 @@ int get_response_id(const wchar_t* strvar)
 	wchar_t regex[] = L"^%response([#-_]([0-9]+))?%$";
 	int ovector[9];
 
-	if (strvar == NULL)
+	if (strvar == nullptr)
 		return 0;
-	re = pcre16_compile(regex, 0, &error, &erroroffs, NULL);
-	if (re == NULL)
+	re = pcre16_compile(regex, 0, &error, &erroroffs, nullptr);
+	if (re == nullptr)
 		return 0; // [TODO] and log some error
 	_strvar = mir_wstrdup(strvar);
-	if (_strvar == NULL) {
+	if (_strvar == nullptr) {
 		pcre16_free(re);
 		return 0;
 	}
-	rc = pcre16_exec(re, NULL, _strvar, (int)mir_wstrlen(_strvar), 0, 0, ovector, 9);
+	rc = pcre16_exec(re, nullptr, _strvar, (int)mir_wstrlen(_strvar), 0, 0, ovector, 9);
 	pcre16_free(re);
 	if (rc < 0) {
 		ret = -1;
@@ -193,15 +193,15 @@ int get_response_num(const wchar_t *str)
 	int i = 0;
 	wchar_t *tmp, *strc;
 	
-	if (str == NULL)
+	if (str == nullptr)
 		return 0;
 	strc = mir_wstrdup(str);
-	if (strc == NULL)
+	if (strc == nullptr)
 		return 0;
 	tmp = wcstok(strc, L"\r\n");
 	while (tmp) {
 		i ++;
-		tmp = wcstok(NULL, L"\r\n"); /* Move next. */
+		tmp = wcstok(nullptr, L"\r\n"); /* Move next. */
 	}
 	mir_free(strc);
 
@@ -213,10 +213,10 @@ wchar_t* get_response(wchar_t* dst, unsigned int dstlen, int num)
 	int i = 0;
 	wchar_t *tmp, *src;
 
-	if (dst == NULL || dstlen == 0 || num < 0)
+	if (dst == nullptr || dstlen == 0 || num < 0)
 		return dst;
 	src = (wchar_t*)mir_alloc(MAX_BUFFER_LENGTH * sizeof(wchar_t));
-	if (src == NULL)
+	if (src == nullptr)
 		goto err_out;
 	_getOptS(src, MAX_BUFFER_LENGTH, "Response", defaultResponse);
 	tmp = wcstok(src, L"\r\n");
@@ -227,7 +227,7 @@ wchar_t* get_response(wchar_t* dst, unsigned int dstlen, int num)
 			return dst;
 		}
 		i ++;
-		tmp = wcstok(NULL, L"\r\n"); /* Move next. */
+		tmp = wcstok(nullptr, L"\r\n"); /* Move next. */
 	}
 	mir_free(src);
 err_out:
@@ -237,19 +237,19 @@ err_out:
 
 wchar_t* _tcsstr_cc(wchar_t* str, wchar_t* strSearch, BOOL cc)
 {
-	wchar_t *ret = NULL, *_str = NULL, *_strSearch = NULL;
+	wchar_t *ret = nullptr, *_str = nullptr, *_strSearch = nullptr;
 
 	if (cc)
 		return wcsstr(str, strSearch);
 
 	_str = mir_wstrdup(str);
-	if (_str == NULL)
+	if (_str == nullptr)
 		goto err_out;
 	_strSearch = mir_wstrdup(strSearch);
-	if (_strSearch == NULL)
+	if (_strSearch == nullptr)
 		goto err_out;
 	ret = wcsstr(_tcstolower(_str), _tcstolower(_strSearch));
-	if (ret != NULL)
+	if (ret != nullptr)
 		ret = ((ret - _str) + str);
 err_out:
 	mir_free(_str);
@@ -261,16 +261,16 @@ err_out:
 BOOL Contains(wchar_t* dst, wchar_t* src) // Checks for occurence of substring from src in dst
 {
 	BOOL ret = FALSE;
-	wchar_t *tsrc = NULL, *tdst = NULL, *token, *token_end;
+	wchar_t *tsrc = nullptr, *tdst = nullptr, *token, *token_end;
 	SIZE_T dst_len;
 
-	if (dst == NULL || src == NULL)
+	if (dst == nullptr || src == nullptr)
 		return FALSE;
 	tsrc = mir_wstrdup(src);
-	if (tsrc == NULL)
+	if (tsrc == nullptr)
 		goto err_out;
 	tdst = mir_wstrdup(dst);
-	if (tdst == NULL)
+	if (tdst == nullptr)
 		goto err_out;
 	tdst = _tcstoupper(tdst);
 	dst_len = mir_wstrlen(tdst);
@@ -291,7 +291,7 @@ BOOL Contains(wchar_t* dst, wchar_t* src) // Checks for occurence of substring f
 			ret = TRUE;
 			break;		
 		}
-		token = wcstok(NULL, L","); /* Move next. */
+		token = wcstok(nullptr, L","); /* Move next. */
 	}
 err_out:
 	mir_free(tsrc);
@@ -326,15 +326,15 @@ wchar_t* ReplaceVar(wchar_t *dst, unsigned int len, const wchar_t *var, const wc
 	wchar_t *var_start;
 	SIZE_T dst_len, var_len, rvar_len;
 
-	if (dst == NULL || var == NULL || rvar == NULL)
-		return NULL;
+	if (dst == nullptr || var == nullptr || rvar == nullptr)
+		return nullptr;
 	dst_len = mir_wstrlen(dst);
 	var_len = mir_wstrlen(var);
 	rvar_len = mir_wstrlen(rvar);
 	var_start = wcsstr(dst, var);
 	while (var_start) {
 		if (len < (dst_len + rvar_len - var_len + 1))
-			return NULL; /* Out of buf space. */
+			return nullptr; /* Out of buf space. */
 		memmove((var_start + rvar_len),
 		    (var_start + var_len),
 		    (((dst + dst_len + 1) - (var_start + var_len)) * sizeof(wchar_t)));
@@ -362,34 +362,34 @@ wchar_t* ReplaceVarsNum(wchar_t *dst, unsigned int len, int num)
 	pcre16 *re;
 	const char *error;
 	int erroroffs, rc;
-	wchar_t *_str, *tmp, **r = NULL, **tr, *ttmp, *dstcopy;
+	wchar_t *_str, *tmp, **r = nullptr, **tr, *ttmp, *dstcopy;
 	wchar_t regex[] = L"%response([#-_]([0-9]+))?%";
 	int ovector[9];
 
-	re = pcre16_compile(regex, 0, &error, &erroroffs, NULL);
-	if (re == NULL)
+	re = pcre16_compile(regex, 0, &error, &erroroffs, nullptr);
+	if (re == nullptr)
 		return FALSE; // [TODO] and log some error
 	_getOptS(response, _countof(response), "Response", defaultResponse);	
 
 	ttmp = wcstok(response, L"\r\n");
-	for (i = 0; ttmp != NULL; i ++) {
+	for (i = 0; ttmp != nullptr; i ++) {
 		tr = (wchar_t**)mir_realloc(r, ((i + 1) * sizeof(wchar_t*)));
-		if (tr == NULL)
+		if (tr == nullptr)
 			goto err_out;
 		r = tr;
 		r[i] = ttmp;
-		ttmp = wcstok(NULL, L"\r\n"); /* Move next. */
+		ttmp = wcstok(nullptr, L"\r\n"); /* Move next. */
 	}
 
 	do {
 		_str = mir_wstrdup(dst);
 		dstcopy = mir_wstrdup(dst);
-		if (_str == NULL || dstcopy == NULL) {
+		if (_str == nullptr || dstcopy == nullptr) {
 			mir_free(_str);
 			mir_free(dstcopy);
 			goto err_out;
 		}
-		rc = pcre16_exec(re, NULL, _str, (int)mir_wstrlen(_str), 0, 0, ovector, 9);
+		rc = pcre16_exec(re, nullptr, _str, (int)mir_wstrlen(_str), 0, 0, ovector, 9);
 		if (rc < 0) {
 			ret = -1;
 		} else if (rc == 3) {
@@ -432,7 +432,7 @@ int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage
 	if (_getOptB("LogActions", defaultLogActions)) {
 		tmp = mir_u2a(msg);
 		tmporig = mir_u2a(origmessage);
-		LogToSystemHistory(tmp, origmessage ? tmporig : NULL);
+		LogToSystemHistory(tmp, origmessage ? tmporig : nullptr);
 		mir_free(tmp);
 		mir_free(tmporig);
 	}
@@ -440,15 +440,15 @@ int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage
 	if (_NOTIFYP) {
 		if (type == POPUP_BLOCKED) {
 			if (_getOptB("NotifyPopupBlocked", defaultNotifyPopupBlocked))
-				ShowPopup(hContact, type, NULL, msg);
+				ShowPopup(hContact, type, nullptr, msg);
 		} else if (type == POPUP_APPROVED) {
 			if (_getOptB("NotifyPopupApproved", defaultNotifyPopupApproved))
-				ShowPopup(hContact, type, NULL, msg);
+				ShowPopup(hContact, type, nullptr, msg);
 		} else if (type == POPUP_CHALLENGE) {
 			if (_getOptB("NotifyPopupChallenge", defaultNotifyPopupChallenge))
-				ShowPopup(hContact, type, NULL, msg);
+				ShowPopup(hContact, type, nullptr, msg);
 		} else {
-			ShowPopup(hContact, type, NULL, msg);
+			ShowPopup(hContact, type, nullptr, msg);
 		}
 	}
 	return 0;
@@ -459,7 +459,7 @@ int LogToSystemHistory(char *message, char *origmessage)
 	char msg[MAX_BUFFER_LENGTH];
 	time_t tm;
 
-	if (message == NULL)
+	if (message == nullptr)
 		return 0;
 
 	DBEVENTINFO dbei = {};

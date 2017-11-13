@@ -45,7 +45,7 @@ int CreateTopToolbarButtons(WPARAM, LPARAM)
 
 	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
 
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_SS_LOADANDSETPROFILE;
 	for (int i = 0; i < profileCount; i++) {

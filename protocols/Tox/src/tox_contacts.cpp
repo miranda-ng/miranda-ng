@@ -246,10 +246,10 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 
 	proto->delSetting(hContact, "Auth");
 
-	DB_AUTH_BLOB blob(hContact, 0, 0, 0, (LPCSTR)address, (LPCSTR)message);
+	DB_AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, (LPCSTR)address, (LPCSTR)message);
 
 	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = time(NULL);
+	pre.timestamp = time(nullptr);
 	pre.lParam = blob.size();
 	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
@@ -339,14 +339,14 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 		proto->debugLogA(__FUNCTION__": send avatar to friend (%d)", friendNumber);
 
 		TOX_ERR_FILE_SEND error;
-		uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, NULL, 0, &error);
+		uint32_t fileNumber = tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, length, hash, nullptr, 0, &error);
 		if (error != TOX_ERR_FILE_SEND_OK) {
 			Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to set new avatar");
 			fclose(hFile);
 			return;
 		}
 
-		AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, NULL, length);
+		AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, nullptr, length);
 		transfer->pfts.flags |= PFTS_SENDING;
 		memcpy(transfer->hash, hash, TOX_HASH_LENGTH);
 		transfer->pfts.hContact = hContact;
@@ -355,7 +355,7 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 	}
 	else {
 		proto->debugLogA(__FUNCTION__": unset avatar for friend (%d)", friendNumber);
-		tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, NULL, NULL, 0, NULL);
+		tox_file_send(proto->toxThread->Tox(), friendNumber, TOX_FILE_KIND_AVATAR, 0, nullptr, nullptr, 0, nullptr);
 	}
 }
 
@@ -366,7 +366,7 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	MCONTACT hContact = lParam;
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL && !mir_strcmp(szProto, m_szModuleName)) {
+	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
 		odp.hInstance = g_hInstance;
@@ -413,7 +413,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			case PSN_APPLY:
 				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 				char *szProto = (hContact == NULL) ? proto->m_szModuleName : GetContactProto(hContact);
-				if (szProto == NULL)
+				if (szProto == nullptr)
 					break;
 
 				wchar_t dnsId[MAX_PATH];

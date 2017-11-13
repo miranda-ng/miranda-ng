@@ -165,7 +165,7 @@ end_of_prefix:
 
 int CIrcProto::getCodepage() const
 {
-	return (con != NULL) ? codepage : CP_ACP;
+	return (con != nullptr) ? codepage : CP_ACP;
 }
 
 void CIrcProto::SendIrcMessage(const wchar_t* msg, bool bNotify, int cp)
@@ -199,19 +199,19 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	ncon.szHost = info.sServer.c_str();
 	ncon.wPort = info.iPort;
 	con = Netlib_OpenConnection(m_hNetlibUser, &ncon);
-	if (con == NULL) {
+	if (con == nullptr) {
 		wchar_t szTemp[300];
 		mir_snwprintf(szTemp, L"\0035%s \002%s\002 (%S: %u).", TranslateT("Failed to connect to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
-		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
+		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 		return false;
 	}
 
 	FindLocalIP(con); // get the local ip used for filetransfers etc
 
 	if (info.m_iSSL > 0) {
-		if (!Netlib_StartSsl(con, 0) && info.m_iSSL == 2) {
+		if (!Netlib_StartSsl(con, nullptr) && info.m_iSSL == 2) {
 			Netlib_CloseHandle(con);
-			con = NULL;
+			con = nullptr;
 			m_info.Reset();
 			return false;
 		}
@@ -225,7 +225,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	m_info = info;
 
 	// start receiving messages from host
-	ForkThread(&CIrcProto::ThreadProc, NULL);
+	ForkThread(&CIrcProto::ThreadProc, nullptr);
 	Sleep(100);
 	if (info.sPassword.GetLength())
 		NLSend("PASS %s\r\n", info.sPassword.c_str());
@@ -242,14 +242,14 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 		HostName = L"host";
 	NLSend(L"USER %s %s %s :%s\r\n", userID.c_str(), HostName.c_str(), L"server", info.sFullName.c_str());
 
-	return con != NULL;
+	return con != nullptr;
 }
 
 void CIrcProto::Disconnect(void)
 {
 	static const DWORD dwServerTimeout = 5 * 1000;
 
-	if (con == NULL)
+	if (con == nullptr)
 		return;
 
 	KillIdent();
@@ -326,7 +326,7 @@ void CIrcProto::KillIdent()
 {
 	if (hBindPort) {
 		HANDLE hPort = hBindPort;
-		hBindPort = NULL;
+		hBindPort = nullptr;
 		Netlib_CloseHandle(hPort);
 	}
 }
@@ -342,7 +342,7 @@ void CIrcProto::createMessageFromPchar(const char* p)
 {
 	wchar_t* ptszMsg;
 	if (codepage != CP_UTF8 && m_utfAutodetect) {
-		if (mir_utf8decodecp(NEWSTR_ALLOCA(p), codepage, &ptszMsg) == NULL)
+		if (mir_utf8decodecp(NEWSTR_ALLOCA(p), codepage, &ptszMsg) == nullptr)
 			ptszMsg = mir_a2u_cp(p, codepage);
 	}
 	else ptszMsg = mir_a2u_cp(p, codepage);
@@ -428,11 +428,11 @@ void CIrcProto::DoReceive()
 
 	if (con) {
 		Netlib_CloseHandle(con);
-		con = NULL;
+		con = nullptr;
 	}
 
 	// notify monitor objects that the connection has been closed
-	Notify(NULL);
+	Notify(nullptr);
 }
 
 void __cdecl CIrcProto::ThreadProc(void*)
@@ -490,7 +490,7 @@ CDccSession* CIrcProto::FindDCCSession(MCONTACT hContact)
 		if (m_dcc_chats[i]->di->hContact == hContact)
 			return m_dcc_chats[i];
 
-	return 0;
+	return nullptr;
 }
 
 CDccSession* CIrcProto::FindDCCSession(DCCINFO *pdci)
@@ -501,7 +501,7 @@ CDccSession* CIrcProto::FindDCCSession(DCCINFO *pdci)
 		if (m_dcc_xfers[i]->di == pdci)
 			return m_dcc_xfers[i];
 
-	return 0;
+	return nullptr;
 }
 
 CDccSession* CIrcProto::FindDCCSendByPort(int iPort)
@@ -514,7 +514,7 @@ CDccSession* CIrcProto::FindDCCSendByPort(int iPort)
 			return p;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szName)
@@ -533,7 +533,7 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szNam
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 CDccSession* CIrcProto::FindPassiveDCCSend(int iToken)
@@ -544,7 +544,7 @@ CDccSession* CIrcProto::FindPassiveDCCSend(int iToken)
 		if (m_dcc_xfers[i]->iToken == iToken)
 			return m_dcc_xfers[i];
 
-	return 0;
+	return nullptr;
 }
 
 CDccSession* CIrcProto::FindPassiveDCCRecv(CMStringW sName, CMStringW sToken)
@@ -557,7 +557,7 @@ CDccSession* CIrcProto::FindPassiveDCCRecv(CMStringW sName, CMStringW sToken)
 			return p;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 void CIrcProto::DisconnectAllDCCSessions(bool Shutdown)
@@ -575,13 +575,13 @@ void CIrcProto::CheckDCCTimeout(void)
 
 	for (int i = 0; i < m_dcc_chats.getCount(); i++) {
 		CDccSession* p = m_dcc_chats[i];
-		if (time(0) > p->tLastActivity + DCCCHATTIMEOUT)
+		if (time(nullptr) > p->tLastActivity + DCCCHATTIMEOUT)
 			p->Disconnect();
 	}
 
 	for (int j = 0; j < m_dcc_xfers.getCount(); j++) {
 		CDccSession* p = m_dcc_xfers[j];
-		if (time(0) > p->tLastActivity + DCCSENDTIMEOUT)
+		if (time(nullptr) > p->tLastActivity + DCCSENDTIMEOUT)
 			p->Disconnect();
 	}
 }
@@ -652,7 +652,7 @@ void CIrcSessionInfo::Reset()
 
 void CIrcProto::OnIrcMessage(const CIrcMessage* pmsg)
 {
-	if (pmsg != NULL) {
+	if (pmsg != nullptr) {
 		PfnIrcMessageHandler pfn = FindMethod(pmsg->sCommand.c_str());
 		if (pfn) {
 			// call member function. if it returns 'false',
@@ -668,9 +668,9 @@ void CIrcProto::OnIrcMessage(const CIrcMessage* pmsg)
 
 PfnIrcMessageHandler CIrcProto::FindMethod(const wchar_t* lpszName)
 {
-	CIrcHandler temp(lpszName, NULL);
+	CIrcHandler temp(lpszName, nullptr);
 	CIrcHandler* p = m_handlers.find(&temp);
-	return (p == NULL) ? NULL : p->m_handler;
+	return (p == nullptr) ? nullptr : p->m_handler;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -696,7 +696,7 @@ unsigned long ConvertIPToInteger(char* IP)
 	IN_ADDR in;
 	IN_ADDR intemp;
 
-	if (IP == 0 || mir_strlen(IP) == 0)
+	if (IP == nullptr || mir_strlen(IP) == 0)
 		return 0;
 
 	intemp.S_un.S_addr = inet_addr(IP);
@@ -713,17 +713,17 @@ unsigned long ConvertIPToInteger(char* IP)
 // initialize basic stuff needed for the dcc objects, also start a timer for checking the status of connections (timeouts)
 CDccSession::CDccSession(CIrcProto* _pro, DCCINFO *pdci) :
 	m_proto(_pro),
-	NewFileName(0),
+	NewFileName(nullptr),
 	dwWhatNeedsDoing(0),
 	tLastPercentageUpdate(0),
 	dwTotal(0),
 	iGlobalToken(),
 	dwResumePos(0),
-	hEvent(0),
-	con(0),
-	hBindPort(0)
+	hEvent(nullptr),
+	con(nullptr),
+	hBindPort(nullptr)
 {
-	tLastActivity = time(0);
+	tLastActivity = time(nullptr);
 
 	di = pdci; // Setup values passed to the constructor
 
@@ -731,7 +731,7 @@ CDccSession::CDccSession(CIrcProto* _pro, DCCINFO *pdci) :
 	pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 
 	if (di->iType == DCC_SEND && di->bSender == false)
-		hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
 	if (nDcc == 0)
 		m_proto->SetChatTimer(m_proto->DCCTimer, 20 * 1000, DCCTimerProc);
@@ -770,10 +770,10 @@ CDccSession::~CDccSession() // destroy all that needs destroying
 	if (di->iType == DCC_SEND)
 		m_proto->RemoveDCCSession(di);
 
-	if (hEvent != NULL) {
+	if (hEvent != nullptr) {
 		SetEvent(hEvent);
 		CloseHandle(hEvent);
-		hEvent = NULL;
+		hEvent = nullptr;
 	}
 
 	delete di;
@@ -788,7 +788,7 @@ CDccSession::~CDccSession() // destroy all that needs destroying
 
 int CDccSession::NLSend(const unsigned char* buf, int cbBuf)
 {
-	tLastActivity = time(0);
+	tLastActivity = time(nullptr);
 
 	if (con)
 		return Netlib_Send(con, (const char*)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
@@ -803,7 +803,7 @@ int CDccSession::NLReceive(const unsigned char* buf, int cbBuf)
 	if (con)
 		n = Netlib_Recv(con, (char*)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
 
-	tLastActivity = time(0);
+	tLastActivity = time(nullptr);
 	return n;
 }
 
@@ -855,7 +855,7 @@ int CDccSession::SetupConnection()
 	// Set up stuff needed for the filetransfer dialog (if it is a filetransfer)
 	if (di->iType == DCC_SEND) {
 		file[0] = (wchar_t*)di->sFileAndPath.c_str();
-		file[1] = 0;
+		file[1] = nullptr;
 
 		pfts.tszCurrentFile = (wchar_t*)di->sFileAndPath.c_str();
 		pfts.tszWorkingDir = (wchar_t*)di->sPath.c_str();
@@ -868,7 +868,7 @@ int CDccSession::SetupConnection()
 		pfts.ptszFiles = file;
 		pfts.totalProgress = 0;
 		pfts.currentFileProgress = 0;
-		pfts.currentFileTime = (unsigned long)time(0);
+		pfts.currentFileTime = (unsigned long)time(nullptr);
 	}
 
 	// create a listening socket for outgoing chat/send requests. The remote computer connects to this computer. Used for both chat and filetransfer.
@@ -878,7 +878,7 @@ int CDccSession::SetupConnection()
 		nb.pExtra = this;
 		
 		hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);
-		if (hBindPort == NULL) {
+		if (hBindPort == nullptr) {
 			delete this; // dcc objects destroy themselves when the connection has been closed or failed for some reasson.
 			return 0;
 		}
@@ -929,7 +929,7 @@ int CDccSession::SetupConnection()
 					pfts.currentFileSize = pfts.totalBytes;
 
 					delete[] NewFileName;
-					NewFileName = NULL;
+					NewFileName = nullptr;
 				}
 				break;
 
@@ -955,8 +955,8 @@ int CDccSession::SetupConnection()
 			nb.pExtra = this;
 
 			hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);
-			if (hBindPort == NULL) {
-				m_proto->DoEvent(GC_EVENT_INFORMATION, 0, m_proto->m_info.sNick.c_str(), LPGENW("DCC ERROR: Unable to bind local port for passive file transfer"), NULL, NULL, NULL, true, false);
+			if (hBindPort == nullptr) {
+				m_proto->DoEvent(GC_EVENT_INFORMATION, nullptr, m_proto->m_info.sNick.c_str(), LPGENW("DCC ERROR: Unable to bind local port for passive file transfer"), nullptr, nullptr, NULL, true, false);
 				delete this; // dcc objects destroy themselves when the connection has been closed or failed for some reasson.
 				return 0;
 			}
@@ -994,7 +994,7 @@ int CDccSession::SetupConnection()
 	}
 
 	// if for some reason the plugin has failed to connect to the remote computer the object is destroyed.
-	if (con == NULL) {
+	if (con == nullptr) {
 		delete this;
 		return FALSE; // failed to connect
 	}
@@ -1006,14 +1006,14 @@ int CDccSession::SetupConnection()
 	// spawn a new thread to handle receiving/sending of data for the new chat/filetransfer connection to the remote computer
 	mir_forkthread(ThreadProc, this);
 
-	return con != NULL;
+	return con != nullptr;
 }
 
 // called by netlib for incoming connections on a listening socket (chat/filetransfer)
 int CDccSession::IncomingConnection(HNETLIBCONN hConnection, DWORD dwIP)
 {
 	con = hConnection;
-	if (con == NULL) {
+	if (con == nullptr) {
 		delete this;
 		return false; // failed to connect
 	}
@@ -1039,7 +1039,7 @@ void __cdecl CDccSession::ThreadProc(void *pparam)
 	// the connection to) can connect and not evil IRCopers with haxxored IRCDs
 	if (pThis->hBindPort) {
 		Netlib_CloseHandle(pThis->hBindPort);
-		pThis->hBindPort = NULL;
+		pThis->hBindPort = nullptr;
 	}
 
 	if (pThis->di->iType == DCC_CHAT)
@@ -1089,7 +1089,7 @@ void CDccSession::DoSendFile()
 			// initial ack to set the 'percentage-ready meter' to the correct value
 			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
 
-			tLastActivity = time(0);
+			tLastActivity = time(nullptr);
 
 			// create a packet receiver to handle receiving ack's from the remote computer.
 			HANDLE hPackrcver = Netlib_CreatePacketReceiver(con, sizeof(DWORD));
@@ -1160,8 +1160,8 @@ void CDccSession::DoSendFile()
 				}
 
 				// update the filetransfer dialog's 'percentage-ready meter' once per second only to save cpu
-				if (tLastPercentageUpdate < time(0)) {
-					tLastPercentageUpdate = time(0);
+				if (tLastPercentageUpdate < time(nullptr)) {
+					tLastPercentageUpdate = time(nullptr);
 					pfts.totalProgress = dwTotal;
 					pfts.currentFileProgress = dwTotal;
 					ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
@@ -1170,7 +1170,7 @@ void CDccSession::DoSendFile()
 				// close the connection once the whole file has been sent an completely ack'ed
 				if (dwLastAck >= di->dwSize) {
 					Netlib_CloseHandle(con);
-					con = NULL;
+					con = nullptr;
 				}
 			}
 
@@ -1178,11 +1178,11 @@ void CDccSession::DoSendFile()
 			// need to close the connection if it isn't allready
 			if (con) {
 				Netlib_CloseHandle(con);
-				con = NULL;
+				con = nullptr;
 			}
 
 			// ack the progress one final time
-			tLastActivity = time(0);
+			tLastActivity = time(nullptr);
 			pfts.totalProgress = dwTotal;
 			pfts.currentFileProgress = dwTotal;
 			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
@@ -1193,7 +1193,7 @@ void CDccSession::DoSendFile()
 			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (void *)di, 0);
 			if (con) {
 				Netlib_CloseHandle(con);
-				con = NULL;
+				con = nullptr;
 			}
 		}
 	}
@@ -1257,8 +1257,8 @@ void CDccSession::DoReceiveFile()
 
 			// sets the 'last update time' to check for timed out connections, and also make sure we only
 			// ack the 'percentage-ready meter' only once a second to save CPU.
-			if (tLastPercentageUpdate < time(0)) {
-				tLastPercentageUpdate = time(0);
+			if (tLastPercentageUpdate < time(nullptr)) {
+				tLastPercentageUpdate = time(nullptr);
 				pfts.totalProgress = dwTotal;
 				pfts.currentFileProgress = dwTotal;
 				ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
@@ -1267,7 +1267,7 @@ void CDccSession::DoReceiveFile()
 			// if file size is known and everything is received then disconnect 
 			if (di->dwSize && di->dwSize == dwTotal) {
 				Netlib_CloseHandle(con);
-				con = NULL;
+				con = nullptr;
 			}
 		}
 		// receiving loop broken locally or by remote computer, just some cleaning up left....
@@ -1281,7 +1281,7 @@ void CDccSession::DoReceiveFile()
 		ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (void *)di, 0);
 		if (con) { // file not possible to open for writing so we ack FAILURE and close the handle
 			Netlib_CloseHandle(con);
-			con = NULL;
+			con = nullptr;
 		}
 	}
 
@@ -1328,7 +1328,7 @@ void CDccSession::DoChatReceive()
 			if (*pStart) {
 				// send it off to some messaging module
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = (DWORD)time(NULL);
+				pre.timestamp = (DWORD)time(nullptr);
 				pre.szMessage = pStart;
 				ProtoChainRecvMsg(di->hContact, &pre);
 			}
@@ -1350,14 +1350,14 @@ int CDccSession::Disconnect()
 {
 	if (hBindPort) {
 		Netlib_CloseHandle(hBindPort);
-		hBindPort = NULL;
+		hBindPort = nullptr;
 	}
 
 	// if 'con' exists it is cuz a connection exists. 
 	// Terminating 'con' will cause any spawned threads to die and then the object will destroy itself.
 	if (con) {
 		Netlib_CloseHandle(con);
-		con = NULL;
+		con = nullptr;
 	}
 	else delete this; // if 'con' do not exist (no connection made so far from the object) the object is destroyed
 
@@ -1400,7 +1400,7 @@ void DoIdent(HNETLIBCONN hConnection, DWORD, void* extra)
 
 LBL_Parse:
 		char* EOLPos = strstr(szBuf, "\r\n");
-		if (EOLPos == NULL)
+		if (EOLPos == nullptr)
 			continue;
 
 		EOLPos[0] = EOLPos[1] = '\0';

@@ -34,20 +34,20 @@ CMLan::CMLan()
 	m_UseHostName = true;
 
 	m_mirStatus = ID_STATUS_OFFLINE;
-	m_pRootContact = 0;
+	m_pRootContact = nullptr;
 
-	m_pRootContact = NULL;
-	m_hCheckThread = NULL;
+	m_pRootContact = nullptr;
+	m_hCheckThread = nullptr;
 
 	m_handleId = 1;
 
-	m_amesAway = NULL;
-	m_amesNa = NULL;
-	m_amesOccupied = NULL;
-	m_amesDnd = NULL;
-	m_amesFfc = NULL;
+	m_amesAway = nullptr;
+	m_amesNa = nullptr;
+	m_amesOccupied = nullptr;
+	m_amesDnd = nullptr;
+	m_amesFfc = nullptr;
 
-	m_pFileConnectionList = NULL;
+	m_pFileConnectionList = nullptr;
 
 	LoadSettings();
 
@@ -74,7 +74,7 @@ CMLan::~CMLan()
 void CMLan::DeleteCache()
 {
 	TContact* pCont = m_pRootContact;
-	m_pRootContact = NULL;
+	m_pRootContact = nullptr;
 	while (pCont) {
 		delete[] pCont->m_nick;
 		TContact* pPrev = pCont->m_prev;
@@ -139,7 +139,7 @@ void CMLan::StopChecking()
 		mir_cslock lck(m_csAccessClass);
 		if (m_hCheckThread) {
 			TerminateThread(m_hCheckThread, 0);
-			m_hCheckThread = NULL;
+			m_hCheckThread = nullptr;
 		}
 	}
 
@@ -346,7 +346,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 
 				mir_cslock lck(m_csAccessAwayMes);
 
-				char* mesAway = NULL;
+				char* mesAway = nullptr;
 				switch (m_mirStatus) {
 				case ID_STATUS_AWAY: mesAway = m_amesAway; break;
 				case ID_STATUS_NA: mesAway = m_amesNa; break;
@@ -554,7 +554,7 @@ int CMLan::SetAwayMsg(u_int status, char* msg)
 	if (msg)
 		*ppMsg = _strdup(msg);
 	else
-		*ppMsg = NULL;
+		*ppMsg = nullptr;
 	return 0;
 }
 
@@ -841,7 +841,7 @@ int CMLan::TFileConnection::Recv(bool halt)
 			EMLOG("No data - halting Recv (only " << len << " bytes)");
 			m_recSize = -1;
 			delete[] m_buf;
-			m_buf = NULL;
+			m_buf = nullptr;
 			return FCS_OK;
 		}
 		Sleep(10);
@@ -862,7 +862,7 @@ int CMLan::TFileConnection::Recv(bool halt)
 	if (size == 0) {
 		EMLOG("Connection was gracefully closed - size is 0");
 		delete[] m_buf;
-		m_buf = NULL;
+		m_buf = nullptr;
 		m_recSize = 0;
 		return FCS_OK;
 	}
@@ -952,7 +952,7 @@ void CMLan::FileAddToList(TFileConnection* conn)
 	mir_cslock lck(m_csFileConnectionList);
 	mir_cslock connLck(conn->m_csAccess);
 	conn->m_pNext = m_pFileConnectionList;
-	conn->m_pPrev = NULL;
+	conn->m_pPrev = nullptr;
 	if (m_pFileConnectionList)
 		m_pFileConnectionList->m_pPrev = conn;
 	m_pFileConnectionList = conn;
@@ -969,9 +969,9 @@ void CMLan::FileRemoveFromList(TFileConnection* conn)
 		m_pFileConnectionList = conn->m_pNext;
 	if (conn->m_pNext)
 		conn->m_pNext->m_pPrev = conn->m_pPrev;
-	conn->m_pLan = NULL;
-	conn->m_pPrev = NULL;
-	conn->m_pNext = NULL;
+	conn->m_pLan = nullptr;
+	conn->m_pPrev = nullptr;
+	conn->m_pNext = nullptr;
 }
 
 void CMLan::RecvFile(CCSDATA* ccs)
@@ -1001,7 +1001,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		cont = cont->m_prev;
 
 	// There is no such user in cached list - can not identify him
-	if (cont == NULL)
+	if (cont == nullptr)
 		return;
 	EMLOG("Passed contact search (cont is not NULL)");
 
@@ -1030,7 +1030,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	char* pf_fr = (char*)conn->m_buf + 1 + 4 + 4;
 
 	conn->m_szFiles = new char*[rcTotalFiles + 1];
-	conn->m_szFiles[rcTotalFiles] = NULL;
+	conn->m_szFiles[rcTotalFiles] = nullptr;
 
 	for (int i = 0; i < rcTotalFiles; i++) {
 		conn->m_szFiles[i] = _strdup(pf_fr);
@@ -1059,7 +1059,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		Sleep(10);
 
 	if (conn->m_state != TFileConnection::FCS_ALLOW) {
-		conn->Send(NULL, 0);
+		conn->Send(nullptr, 0);
 		delete conn;
 		return;
 	}
@@ -1082,7 +1082,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 			conn->m_szRenamedFile = _strdup(pathpart);
 		*pathpart = 0;
 		if (!SetCurrentDirectory(path)) {
-			conn->Send(NULL, 0);
+			conn->Send(nullptr, 0);
 			ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Can't open output directory");
 			delete conn;
 			return;
@@ -1161,10 +1161,10 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		conn->m_state = TFileConnection::FCS_OK;
 
 		EMLOG("Creating file");
-		HANDLE hFile = CreateFile(filename, GENERIC_WRITE, FILE_SHARE_READ, NULL, mode_open, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE hFile = CreateFile(filename, GENERIC_WRITE, FILE_SHARE_READ, nullptr, mode_open, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hFile == INVALID_HANDLE_VALUE) {
 			EMLOG("Can't create file");
-			conn->Send(NULL, 0);
+			conn->Send(nullptr, 0);
 			ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Can't create file");
 			delete conn;
 			return;
@@ -1172,9 +1172,9 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		EMLOG("Ok");
 
 		snd_buf[0] = FCODE_SND_ACCEPT;
-		int fsize = GetFileSize(hFile, NULL);
+		int fsize = GetFileSize(hFile, nullptr);
 		*((int*)(snd_buf + 1)) = fsize;
-		SetFilePointer(hFile, 0, NULL, FILE_END);
+		SetFilePointer(hFile, 0, nullptr, FILE_END);
 
 		fts.currentFileProgress = fsize;
 		fts.totalProgress += fsize;
@@ -1206,7 +1206,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 			EMLOG("Received");
 			DWORD written;
 			EMLOG("Writing to file");
-			WriteFile(hFile, conn->m_buf + 1, conn->m_recSize - 1, &written, NULL);
+			WriteFile(hFile, conn->m_buf + 1, conn->m_recSize - 1, &written, nullptr);
 			EMLOG("Ok");
 			fts.currentFileProgress += conn->m_recSize - 1;
 			fts.totalProgress += conn->m_recSize - 1;
@@ -1227,7 +1227,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 			break;
 
 		delete[] conn->m_szRenamedFile;
-		conn->m_szRenamedFile = NULL;
+		conn->m_szRenamedFile = nullptr;
 	}
 
 	if (err)
@@ -1268,14 +1268,14 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 	while (*pf) {
 		// TODO: FIX IT !
 		EMLOG("Opening file");
-		HANDLE hFile = CreateFile(*pf, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+		HANDLE hFile = CreateFile(*pf, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 		if (hFile == INVALID_HANDLE_VALUE) {
 			EMLOG("Can't open file for reading");
 			ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Can't open one of the files");
 			delete conn;
 			return;
 		}
-		size += GetFileSize(hFile, NULL);
+		size += GetFileSize(hFile, nullptr);
 		filecount++;
 		CloseHandle(hFile);
 
@@ -1327,10 +1327,10 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 
 	for (int fileNo = 0; fileNo < filecount; fileNo++) {
 		EMLOG("Opening file for reading (once more)");
-		HANDLE hFile = CreateFile(conn->m_szFiles[fileNo], GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE hFile = CreateFile(conn->m_szFiles[fileNo], GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hFile == INVALID_HANDLE_VALUE) {
 			EMLOG("Failed");
-			conn->Send(NULL, 0);
+			conn->Send(nullptr, 0);
 			ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Can't open file");
 			delete conn;
 			return;
@@ -1342,7 +1342,7 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 
 		u_char snd_buf[5];
 		snd_buf[0] = FCODE_SND_NEXTFILE;
-		int fsize = GetFileSize(hFile, NULL);
+		int fsize = GetFileSize(hFile, nullptr);
 		*((int*)(snd_buf + 1)) = fsize;
 		EMLOG("Sending file size");
 		if (conn->Send(snd_buf, 5)) {
@@ -1363,7 +1363,7 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 		if (conn->m_buf[0] != FCODE_SND_FILESKIP) {
 			EMLOG("File is not skipped");
 			int filepos = *((int*)(conn->m_buf + 1));
-			SetFilePointer(hFile, filepos, NULL, FILE_BEGIN);
+			SetFilePointer(hFile, filepos, nullptr, FILE_BEGIN);
 
 			fts.szCurrentFile = fts.pszFiles[fileNo];
 			fts.currentFileTime = get_time();
@@ -1384,14 +1384,14 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 				if (tosend > fsize)
 					tosend = fsize;
 				EMLOG("Reading file data");
-				ReadFile(hFile, buf + 1, tosend, &readbytes, NULL);
+				ReadFile(hFile, buf + 1, tosend, &readbytes, nullptr);
 				EMLOG("Ok");
 				buf[0] = FCODE_SND_FILEDATA;
 
 				if (readbytes != tosend) {
 					EMLOG("Error during reading file. File was changed");
 					CloseHandle(hFile);
-					conn->Send(NULL, 0);
+					conn->Send(nullptr, 0);
 					ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Can't read file");
 					delete conn;
 					return;
@@ -1424,7 +1424,7 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 
 				if (conn->m_state) {
 					EMLOG("Interrupted by user");
-					conn->Send(NULL, 0);
+					conn->Send(nullptr, 0);
 					//CloseHandle(hFile);
 					err = true;
 					break;
@@ -1438,7 +1438,7 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 
 	if (err) {
 		EMLOG("There was error during file transfering");
-		conn->Send(NULL, 0);
+		conn->Send(nullptr, 0);
 		ProtoBroadcastAck(PROTONAME, conn->m_hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)conn->m_cid, (LPARAM)"Connection aborted");
 	}
 	else
@@ -1463,7 +1463,7 @@ int CMLan::SendFile(CCSDATA* ccs)
 	conn->m_szFiles = new char*[files + 1];
 	for (int i = 0; i < files; i++)
 		conn->m_szFiles[i] = _strdup(ppszFiles[i]);
-	conn->m_szFiles[files] = NULL;
+	conn->m_szFiles[files] = nullptr;
 
 	u_long addr = db_get_dw(ccs->hContact, PROTONAME, "ipaddr", 0);
 	CreateTCPConnection(addr, (LPVOID)conn);

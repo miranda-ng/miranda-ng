@@ -11,7 +11,7 @@ tstring ComException2Msg(_com_error& e, const tstring& rsAdditionalInfo)
 
 	IErrorInfo* p = e.ErrorInfo();
 	CComPtr<IErrorInfo> pErrorInfo(p);
-	if (NULL != p)
+	if (nullptr != p)
 		p->Release();
 
 	if (pErrorInfo)
@@ -24,5 +24,5 @@ void ShowComError(_com_error& e, const tstring& rsAdditionalInfo)
 {
 	tstring sErrorMsg = ComException2Msg(e, rsAdditionalInfo);
 	LogIt(sErrorMsg);
-	Quotes_MessageBox(NULL, sErrorMsg.c_str(), MB_OK | MB_ICONERROR);
+	Quotes_MessageBox(nullptr, sErrorMsg.c_str(), MB_OK | MB_ICONERROR);
 }

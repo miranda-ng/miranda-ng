@@ -27,7 +27,7 @@ extern HGENMENU hToggleEncryption, hSendKey;
 wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule, const char* szSetting, wchar_t* szDef)
 {
 	DBVARIANT dbv = { DBVT_DELETED };
-	wchar_t* szRes = NULL;
+	wchar_t* szRes = nullptr;
 	if (db_get_ws(hContact, szModule, szSetting, &dbv))
 		return mir_wstrdup(szDef);
 	else if (dbv.pszVal)
@@ -42,7 +42,7 @@ wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModu
 char* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule, const char* szSetting, char* szDef)
 {
 	DBVARIANT dbv = { DBVT_DELETED };
-	char* szRes = NULL;
+	char* szRes = nullptr;
 	if (db_get_s(hContact, szModule, szSetting, &dbv))
 		return mir_strdup(szDef);
 	else if (dbv.pszVal)
@@ -103,13 +103,13 @@ wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, 
 	if (!save_file) {
 		if (!GetOpenFileName(&ofn)) {
 			delete[] str;
-			return NULL;
+			return nullptr;
 		}
 	}
 	else {
 		if (!GetSaveFileName(&ofn)) {
 			delete[] str;
-			return NULL;
+			return nullptr;
 		}
 	}
 	return str;
@@ -117,16 +117,16 @@ wchar_t *GetFilePath(wchar_t *WindowTittle, wchar_t *szExt, wchar_t *szExtDesc, 
 
 void GetFolderPath(wchar_t *WindowTittle, char*)
 {
-	BROWSEINFO pbi = { 0 };
+	BROWSEINFO pbi = {};
 	pbi.lpszTitle = WindowTittle;
 	pbi.ulFlags = BIF_EDITBOX | BIF_NEWDIALOGSTYLE | BIF_SHAREABLE;
 	LPITEMIDLIST pidl = SHBrowseForFolder(&pbi);
-	if (pidl != 0) {
+	if (pidl != nullptr) {
 		wchar_t path[MAX_PATH];
 		if (SHGetPathFromIDList(pidl, path)) {
 			db_set_ws(NULL, szGPGModuleName, "szHomePath", path);
 		}
-		IMalloc * imalloc = 0;
+		IMalloc * imalloc = nullptr;
 		if (SUCCEEDED(SHGetMalloc(&imalloc))) {
 			imalloc->Free(pidl);
 			imalloc->Release();
@@ -194,7 +194,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 	BYTE enc;
 	if (db_mc_isMeta(hContact)) {
 		enc = db_get_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
-		if (MessageBox(0, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
+		if (MessageBox(nullptr, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
 			int count = db_mc_getSubCount(hContact);
 			for (int i = 0; i < count; i++) {
 				MCONTACT hcnt = db_mc_getSub(hContact, i);
@@ -273,11 +273,11 @@ int onProtoAck(WPARAM, LPARAM l)
 		case ACKRESULT_SUCCESS:
 			if (ack->hProcess) {
 				PROTOFILETRANSFERSTATUS *f = (PROTOFILETRANSFERSTATUS*)ack->hProcess;
-				if (f == NULL)
+				if (f == nullptr)
 					break;
 
 				if ((f->flags & PFTS_SENDING) != PFTS_SENDING) {
-					wchar_t *filename = NULL;
+					wchar_t *filename = nullptr;
 					if (f->flags & PFTS_UNICODE) {
 						if (f->tszCurrentFile && f->tszCurrentFile[0])
 							filename = mir_wstrdup(f->tszCurrentFile);
@@ -312,14 +312,14 @@ int onProtoAck(WPARAM, LPARAM l)
 						wstring::size_type p1 = file.rfind(L".gpg");
 						file.erase(p1, mir_wstrlen(L".gpg"));
 						if (boost::filesystem::exists(file)) {
-							if (MessageBox(0, TranslateT("Target file exists, do you want to replace it?"), TranslateT("Warning"), MB_YESNO) == IDNO)
+							if (MessageBox(nullptr, TranslateT("Target file exists, do you want to replace it?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 								return 0;
 						}
 						cmd.push_back(file);
 						boost::filesystem::remove(file);
 						extern wchar_t *password;
 						{ // password
-							wchar_t *pass = NULL;
+							wchar_t *pass = nullptr;
 							char *keyid = UniGetContactSettingUtf(ack->hContact, szGPGModuleName, "KeyID", "");
 							if (mir_strlen(keyid) > 0) {
 								string dbsetting = "szKey_";
@@ -463,20 +463,20 @@ std::wstring encrypt_file(MCONTACT hContact, wchar_t *filename)
 	params.result = &result;
 	delete[] file_out;
 	if (!gpg_launcher(params, boost::posix_time::minutes(3)))
-		return 0;
+		return nullptr;
 	if (out.find("There is no assurance this key belongs to the named user") != string::npos) {
 		out.clear();
-		if (MessageBox(0, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
+		if (MessageBox(nullptr, TranslateT("We're trying to encrypt with untrusted key. Do you want to trust this key permanently?"), TranslateT("Warning"), MB_YESNO) == IDYES) {
 			db_set_b(hcnt, szGPGModuleName, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;
 			tmp.push_back(L"--trust-model");
 			tmp.push_back(L"always");
 			cmd.insert(cmd.begin(), tmp.begin(), tmp.end());
 			if (!gpg_launcher(params, boost::posix_time::minutes(3)))
-				return 0;
+				return nullptr;
 		}
 		else
-			return 0;
+			return nullptr;
 	}
 	return path_out;
 }
@@ -526,11 +526,11 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 			mir_free(jid);
 		}
 		if (supported_proto && !cap_found) {
-			if (MessageBox(0, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
+			if (MessageBox(nullptr, TranslateT("Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
 				return Proto_ChainSend(w, ccs);
 		}
 		if (!supported_proto) {
-			if (MessageBox(0, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
+			if (MessageBox(nullptr, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
 				return Proto_ChainSend(w, ccs);
 		}
 		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));
@@ -576,7 +576,7 @@ void HistoryLog(MCONTACT hContact, db_event evt)
 	Event.eventType = evt.eventType;
 	Event.flags = evt.flags;
 	if (!evt.timestamp)
-		Event.timestamp = (DWORD)time(NULL);
+		Event.timestamp = (DWORD)time(nullptr);
 	else
 		Event.timestamp = evt.timestamp;
 	Event.cbBlob = (DWORD)mir_strlen((char*)evt.pBlob) + 1;
@@ -651,7 +651,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					break;
 		}
 		
-		if (str == NULL)
+		if (str == nullptr)
 			continue;
 
 		// TODO: make following block more readable
@@ -1002,7 +1002,7 @@ bool isGPGKeyExist()
 }
 bool isGPGValid()
 {
-	wchar_t *tmp = NULL;
+	wchar_t *tmp = nullptr;
 	bool gpg_exists = false, is_valid = true;
 	tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
 	boost::filesystem::path p(tmp);
@@ -1011,7 +1011,7 @@ bool isGPGValid()
 		gpg_exists = true;
 	else {
 		mir_free(tmp);
-		tmp = NULL;
+		tmp = nullptr;
 		wchar_t *path = (wchar_t*)mir_alloc(sizeof(wchar_t)*MAX_PATH);
 		wchar_t *mir_path = (wchar_t*)mir_alloc(MAX_PATH * sizeof(wchar_t));
 		PathToAbsoluteW(L"\\", mir_path);
@@ -1023,7 +1023,7 @@ bool isGPGValid()
 		mir_wstrcpy(gpg_path, tmp);
 		mir_wstrcat(gpg_path, L"\\GnuPG\\gpg.exe");
 		mir_free(tmp);
-		tmp = NULL;
+		tmp = nullptr;
 		p = boost::filesystem::path(gpg_path);
 		if (boost::filesystem::exists(p) && boost::filesystem::is_regular_file(p)) {
 			gpg_exists = true;
@@ -1037,7 +1037,7 @@ bool isGPGValid()
 	if (gpg_exists) {
 		db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		mir_free(tmp);
-		tmp = NULL;
+		tmp = nullptr;
 		string out;
 		DWORD code;
 		std::vector<wstring> cmd;
@@ -1056,7 +1056,7 @@ bool isGPGValid()
 	}
 	if (tmp) {
 		mir_free(tmp);
-		tmp = NULL;
+		tmp = nullptr;
 	}
 	/*	if(!gpg_exists)
 		{
@@ -1126,7 +1126,7 @@ unsigned __stdcall sttFakeAck(void *param)
 	WaitForSingleObject(tParam->hEvent, INFINITE);
 
 	Sleep(100);
-	if (tParam->msg == NULL)
+	if (tParam->msg == nullptr)
 		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tParam->id, 0);
 	else
 		SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tParam->id, LPARAM(tParam->msg));
@@ -1140,9 +1140,9 @@ unsigned __stdcall sttFakeAck(void *param)
 
 int returnNoError(MCONTACT hContact)
 {
-	HANDLE hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	HANDLE hEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	unsigned int tID;
-	CloseHandle((HANDLE)_beginthreadex(NULL, 0, sttFakeAck, new TFakeAckParams(hEvent, hContact, 777, 0), 0, &tID));
+	CloseHandle((HANDLE)_beginthreadex(nullptr, 0, sttFakeAck, new TFakeAckParams(hEvent, hContact, 777, nullptr), 0, &tID));
 	SetEvent(hEvent);
 	return 777;
 }
@@ -1416,7 +1416,7 @@ void ExportGpGKeysFunc(int type)
 		mir_snwprintf(msg, TranslateT("We have successfully exported all private keys."));
 	else if (!type)
 		mir_snwprintf(msg, TranslateT("We have successfully exported %d public keys."), exported_keys);
-	MessageBox(NULL, msg, TranslateT("Keys export result"), MB_OK);
+	MessageBox(nullptr, msg, TranslateT("Keys export result"), MB_OK);
 }
 
 INT_PTR ExportGpGKeys(WPARAM, LPARAM)
@@ -1640,7 +1640,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 							processed_keys++;
 						{
 							if (output.find("already in secret keyring") != string::npos) {
-								MessageBox(0, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
+								MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
 								boost::filesystem::remove(path);
 								break;
 							}
@@ -1649,7 +1649,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 							string::size_type s2 = output.find(":", s);
 							tmp2 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
 							mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
-							mir_utf8decode(tmp2, 0);
+							mir_utf8decode(tmp2, nullptr);
 							db_set_s(hContact, szGPGModuleName, "KeyID", tmp2);
 							mir_free(tmp2);
 							s = output.find("“", s2);
@@ -1666,7 +1666,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 							if (s2 != string::npos) {
 								tmp2 = (char*)mir_alloc((output.substr(s, s2 - s - 1).length() + 1) * sizeof(char));
 								mir_strcpy(tmp2, output.substr(s, s2 - s - 1).c_str());
-								mir_utf8decode(tmp2, 0);
+								mir_utf8decode(tmp2, nullptr);
 								if (hContact) {
 									db_set_s(hContact, szGPGModuleName, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 								}
@@ -1679,7 +1679,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 								if (output[s] == ')') {
 									tmp2 = (char*)mir_alloc((output.substr(s2, s - s2).length() + 1) * sizeof(char));
 									mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
-									mir_utf8decode(tmp2, 0);
+									mir_utf8decode(tmp2, nullptr);
 									if (hContact)
 										db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2, s - s2).c_str());
 									mir_free(tmp2);
@@ -1687,7 +1687,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 									s2 = output.find(">", s);
 									tmp2 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
 									mir_strcpy(tmp2, output.substr(s, s2 - s).c_str());
-									mir_utf8decode(tmp2, 0);
+									mir_utf8decode(tmp2, nullptr);
 									if (hContact)
 										db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s, s2 - s).c_str());
 									mir_free(tmp2);
@@ -1695,7 +1695,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 								else {
 									tmp2 = (char*)mir_alloc((output.substr(s2, s - s2).length() + 1) * sizeof(char));
 									mir_strcpy(tmp2, output.substr(s2, s - s2).c_str());
-									mir_utf8decode(tmp2, 0);
+									mir_utf8decode(tmp2, nullptr);
 									if (hContact)
 										db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 									mir_free(tmp2);
@@ -1752,7 +1752,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 		mir_snwprintf(msg, TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
 	else
 		mir_snwprintf(msg, TranslateT("We have successfully processed %d public keys."), processed_keys);
-	MessageBox(NULL, msg, TranslateT("Keys import result"), MB_OK);
+	MessageBox(nullptr, msg, TranslateT("Keys import result"), MB_OK);
 	return 0;
 }
 
@@ -1839,7 +1839,7 @@ static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARA
 void ShowEncryptedFileMsgBox()
 {
 	extern HINSTANCE hInst;
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_ENCRYPTED_FILE_MSG_BOX), NULL, DlgProcEncryptedFileMsgBox);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_ENCRYPTED_FILE_MSG_BOX), nullptr, DlgProcEncryptedFileMsgBox);
 }
 
 static INT_PTR CALLBACK DlgProcExportKeys(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
@@ -1877,7 +1877,7 @@ static INT_PTR CALLBACK DlgProcExportKeys(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 void ShowExportKeysDlg()
 {
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT_TYPE), NULL, DlgProcExportKeys);
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT_TYPE), nullptr, DlgProcExportKeys);
 }
 
 static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
@@ -1975,8 +1975,8 @@ static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wPara
 void ShowChangePasswdDlg()
 {
 	extern HINSTANCE hInst;
-	HWND hwndPaaswdDlg = NULL;
-	hwndPaaswdDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHANGE_PASSWD), NULL, DlgProcChangePasswd);
+	HWND hwndPaaswdDlg = nullptr;
+	hwndPaaswdDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHANGE_PASSWD), nullptr, DlgProcChangePasswd);
 	SetForegroundWindow(hwndPaaswdDlg);
 }
 

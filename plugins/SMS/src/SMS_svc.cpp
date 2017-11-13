@@ -102,7 +102,7 @@ int ReadMsgSMS(WPARAM, LPARAM lParam)
 	if (db_event_get(cle->hDbEvent, &dbei) == 0)
 		if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
 			if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
-				if (RecvSMSWindowAdd(cle->hContact, ICQEVENTTYPE_SMS, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
+				if (RecvSMSWindowAdd(cle->hContact, ICQEVENTTYPE_SMS, nullptr, 0, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
 					db_event_markRead(cle->hContact, cle->hDbEvent);
 					return 0;
 				}
@@ -123,7 +123,7 @@ int ReadAckSMS(WPARAM, LPARAM lParam)
 	if (db_event_get(cle->hDbEvent, &dbei) == 0)
 	if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
 	if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
-		if (RecvSMSWindowAdd(cle->hContact, ICQEVENTTYPE_SMSCONFIRMATION, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
+		if (RecvSMSWindowAdd(cle->hContact, ICQEVENTTYPE_SMSCONFIRMATION, nullptr, 0, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
 			db_event_delete(cle->hContact, cle->hDbEvent);
 			return 0;
 		}

@@ -22,8 +22,8 @@ static BYTE   newColorMode;
 static wchar_t  szStart[128];
 static wchar_t  szStop[128];
 
-static HANDLE hntfStarted = 0;
-static HANDLE hntfStopped = 0;
+static HANDLE hntfStarted = nullptr;
+static HANDLE hntfStopped = nullptr;
 
 struct
 {

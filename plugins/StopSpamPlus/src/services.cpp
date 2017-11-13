@@ -3,7 +3,7 @@
 INT_PTR IsContactPassed(WPARAM hContact, LPARAM /*lParam*/)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto == NULL)
+	if (szProto == nullptr)
 		return CS_PASSED;
 
 	if (!plSets->ProtoDisabled(szProto))
@@ -29,7 +29,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 
 		if (db_get_b(hContact, "CList", "NotOnList", 0) || (szGroup != NULL && (wcsstr(szGroup, L"Not In List") || wcsstr(szGroup, TranslateT("Not In List"))))) {
 			char *szProto = GetContactProto(hContact);
-			if (szProto != NULL) {
+			if (szProto != nullptr) {
 				// Check if protocol uses server side lists
 				DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_SERVERCLIST) {
@@ -49,8 +49,8 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 	int hGroup = 1;
 	wchar_t *group_name;
 	do {
-		group_name = Clist_GroupGetName(hGroup, 0);
-		if (group_name != NULL && wcsstr(group_name, TranslateT("Not In List"))) {
+		group_name = Clist_GroupGetName(hGroup, nullptr);
+		if (group_name != nullptr && wcsstr(group_name, TranslateT("Not In List"))) {
 			BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 			if (ConfirmDelete)
 				db_set_b(NULL, "CList", "ConfirmDelete", 0);
@@ -63,7 +63,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 		hGroup++;
 	} while (group_name);
 	if (!lParam)
-		MessageBox(NULL, TranslateT("Complete"), TranslateT(pluginName), MB_ICONINFORMATION);
+		MessageBox(nullptr, TranslateT("Complete"), TranslateT(pluginName), MB_ICONINFORMATION);
 
 	return 0;
 }

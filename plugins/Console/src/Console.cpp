@@ -81,16 +81,16 @@ typedef struct {
 
 
 
-static SortedList lModules = { 0 };
+static SortedList lModules = {};
 
-static LOGWIN *pActive = NULL;
+static LOGWIN *pActive = nullptr;
 static int tabCount = 0;
 static RECT rcTabs = { 0 };
-static HWND hTabs = NULL;
-static HWND hwndConsole = NULL;
+static HWND hTabs = nullptr;
+static HWND hwndConsole = nullptr;
 
-static HIMAGELIST gImg = NULL;
-static HFONT hfLogFont = NULL;
+static HIMAGELIST gImg = nullptr;
+static HFONT hfLogFont = nullptr;
 static COLORREF colLogFont;
 static COLORREF colBackground;
 
@@ -105,8 +105,8 @@ static DWORD gWrapLen = DEFAULT_WRAPLEN;
 static DWORD OutMsgs = 0;
 static DWORD InMsgs = 0;
 
-static HICON hIcons[15] = { 0 };
-static HGENMENU hMenu = NULL;
+static HICON hIcons[15] = {};
+static HGENMENU hMenu = nullptr;
 
 static void LoadSettings();
 static void ShowConsole(int show);
@@ -115,13 +115,13 @@ static int Openfile(wchar_t *outputFile, int selection);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static HANDLE hTTBButt = 0;
+static HANDLE hTTBButt = nullptr;
 
 static int OnTTBLoaded(WPARAM, LPARAM)
 {
 	int state = IsWindowVisible(hwndConsole);
 
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconHandleUp = LoadIcon(IDI_BTN_UP);
 	ttb.hIconHandleDn = LoadIcon(IDI_BTN_DN);
 	ttb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -144,7 +144,7 @@ void ScrollDown(LOGWIN *dat) {
 
 static void ShowConsole(int show)
 {
-	HWND hwnd = NULL;
+	HWND hwnd = nullptr;
 
 	if (!hwndConsole || !pActive) return;
 
@@ -162,7 +162,7 @@ static void ShowConsole(int show)
 		SetForegroundWindow(hwnd);
 
 	if (show)
-		RedrawWindow(pActive->hList, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
+		RedrawWindow(pActive->hList, nullptr, nullptr, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
 
 	if (hMenu)
 		Menu_ModifyItem(hMenu, show ? LPGENW("Hide Console") : LPGENW("Show Console"));
@@ -238,7 +238,7 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 		if (wParam == VK_LEFT && ctrl) {
-			NMHDR nmhdr = { 0 };
+			NMHDR nmhdr = {};
 			int tab = TabCtrl_GetCurSel(hTabs);
 
 			if (tab == 0)
@@ -253,7 +253,7 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 		if (wParam == VK_RIGHT && ctrl) {
-			NMHDR nmhdr = { 0 };
+			NMHDR nmhdr = {};
 			int tab = TabCtrl_GetCurSel(hTabs);
 			int count = TabCtrl_GetItemCount(hTabs);
 			tab = (tab + 1) % count;
@@ -381,7 +381,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 			str = wcstok(str, L"\n");
 
-			if (gIcons && str != NULL) {
+			if (gIcons && str != nullptr) {
 				lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 
 				if (wcsstr(str, L"Data received")) {
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 			}
 			else lvi.mask = LVIF_TEXT;
 
-			while (str != NULL) {
+			while (str != nullptr) {
 				lvi.pszText = &str[0];
 				tmplen = len = (DWORD)mir_wstrlen(lvi.pszText);
 
@@ -423,7 +423,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 				last = ListView_InsertItem(dat->hList, &lvi);
 
-				str = wcstok(NULL, L"\n");
+				str = wcstok(nullptr, L"\n");
 
 				if (str) dat->newline = 1;
 				lvi.iImage = IMG_EMPTY;
@@ -635,7 +635,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		// lParam = DUMPMSG
 		int idx;
 		LOGWIN *lw;
-		LOGWIN lw2 = { 0 };
+		LOGWIN lw2 = {};
 		DUMPMSG *dumpMsg = (DUMPMSG *)lParam;
 
 		if (!pActive) {
@@ -745,7 +745,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					SetFocus(pActive->hList);
 				}
 				else
-					pActive = NULL;
+					pActive = nullptr;
 			}
 		}
 
@@ -796,7 +796,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 	case HM_RESTART:
 	{
 		if (pActive) {
-			pActive = NULL;
+			pActive = nullptr;
 			PostMessage(hwndDlg, HM_RESTART, 0, 0);
 			return TRUE;
 		}
@@ -881,7 +881,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 			DestroyWindow(hwndDlg);
 		break;
 	case WM_DESTROY:
-		pActive = NULL;
+		pActive = nullptr;
 		if (hfLogFont) DeleteObject(hfLogFont);
 		PostQuitMessage(0);
 		break;
@@ -899,25 +899,25 @@ void __cdecl ConsoleThread(void*)
 	MSG msg;
 	HWND hwnd;
 
-	hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONSOLE), NULL, ConsoleDlgProc);
+	hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
 
 	if (!hwnd) return;
 
-	while (GetMessage(&msg, NULL, 0, 0) > 0) {
+	while (GetMessage(&msg, nullptr, 0, 0) > 0) {
 		switch (msg.message) {
 		case HM_DUMP:
 			OutMsgs++;
 			break;
 		}
 
-		if (hwnd != NULL && IsDialogMessage(hwnd, &msg)) /* Wine fix. */
+		if (hwnd != nullptr && IsDialogMessage(hwnd, &msg)) /* Wine fix. */
 			continue;
 
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
-	hwndConsole = NULL;
+	hwndConsole = nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -972,7 +972,7 @@ static void LoadSettings()
 
 static void SaveSettings(HWND hwndDlg)
 {
-	int len = GetDlgItemInt(hwndDlg, IDC_WRAP, NULL, FALSE);
+	int len = GetDlgItemInt(hwndDlg, IDC_WRAP, nullptr, FALSE);
 	if (len < MIN_WRAPLEN)
 		len = MIN_WRAPLEN;
 	else if (len > MAX_WRAPLEN)
@@ -982,7 +982,7 @@ static void SaveSettings(HWND hwndDlg)
 	SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
 	db_set_b(NULL, "Console", "Wrap", (BYTE)len);
 
-	len = GetDlgItemInt(hwndDlg, IDC_LIMIT, NULL, FALSE);
+	len = GetDlgItemInt(hwndDlg, IDC_LIMIT, nullptr, FALSE);
 	if (len < MIN_LIMIT)
 		len = MIN_LIMIT;
 	else if (len > MAX_LIMIT)
@@ -1082,7 +1082,7 @@ static int OnColourChange(WPARAM, LPARAM)
 static int OnFontChange(WPARAM, LPARAM)
 {
 	if (hwndConsole) {
-		HFONT hf = NULL;
+		HFONT hf = nullptr;
 		LOGFONT LogFont = { 0 };
 		colLogFont = Font_GetW(L"Console", L"Text", &LogFont);
 
@@ -1183,7 +1183,7 @@ static int stringCompare(LOGWIN *lw1, LOGWIN *lw2)
 
 static UINT logicons[] = { IDI_EMPTY, IDI_ARROW, IDI_IN, IDI_OUT, IDI_INFO };
 
-static HANDLE hConsoleThread = NULL;
+static HANDLE hConsoleThread = nullptr;
 
 void InitConsole()
 {
@@ -1215,7 +1215,7 @@ void InitConsole()
 
 	LoadSettings();
 
-	hConsoleThread = mir_forkthread(ConsoleThread, 0);
+	hConsoleThread = mir_forkthread(ConsoleThread, nullptr);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownConsole);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);

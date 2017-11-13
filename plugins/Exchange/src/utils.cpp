@@ -77,14 +77,14 @@ int Info(char *title, char *format, ...)
 		str[tBytes] = 0;
 
 	va_end(vararg);
-	return MessageBoxA(0, str, title, MB_OK | MB_ICONINFORMATION);
+	return MessageBoxA(nullptr, str, title, MB_OK | MB_ICONINFORMATION);
 }
 
 #define HEX_SIZE 8
 
 char *BinToHex(int size, PBYTE data)
 {
-	char *szresult = NULL;
+	char *szresult = nullptr;
 	int maxSize = size * 2 + HEX_SIZE + 1;
 	szresult = (char *) new char[maxSize];
 	mir_snprintf(szresult, maxSize, "%0*X", HEX_SIZE, size);

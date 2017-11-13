@@ -290,7 +290,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			for (i = 0; i < POPUPS; i++) {
 				if ((BST_UNCHECKED == IsDlgButtonChecked(hdlg, (i + 40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i + 40071)))))
 					continue;
-				show_popup(0, Title, Text, i, 0);
+				show_popup(nullptr, Title, Text, i, 0);
 			}
 			break;
 
@@ -358,7 +358,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			//Colors
 			db_set_b(NULL, MODNAME, "DefColors", MyOptions.DefColors);
 			//Timeout
-			MyOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, 0, TRUE);
+			MyOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, nullptr, TRUE);
 			db_set_dw(NULL, MODNAME, "Timeout", MyOptions.Timeout);
 			//Left mouse click
 			db_set_b(NULL, MODNAME, "LeftClickAction", MyOptions.LeftClickAction);

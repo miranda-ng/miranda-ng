@@ -34,7 +34,7 @@
 
 OBJLIST<TRTFColorTable> Utils::rtf_clrs(10);
 
-MWindowList CWarning::hWindowList = 0;
+MWindowList CWarning::hWindowList = nullptr;
 
 static wchar_t *w_bbcodes_begin[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[color=" };
 static wchar_t *w_bbcodes_end[] = { L"[/b]", L"[/i]", L"[/u]", L"[/s]", L"[/color]" };
@@ -355,7 +355,7 @@ void Utils::DoubleAmpersands(wchar_t *pszText, size_t len)
 wchar_t* Utils::GetPreviewWithEllipsis(wchar_t *szText, size_t iMaxLen)
 {
 	size_t uRequired;
-	wchar_t *p = 0, cSaved;
+	wchar_t *p = nullptr, cSaved;
 	bool	 fEllipsis = false;
 
 	if (mir_wstrlen(szText) <= iMaxLen) {
@@ -663,7 +663,7 @@ void Utils::scaleAvatarHeightLimited(const HBITMAP hBm, double& dNewWidth, doubl
 HICON CTabBaseDlg::IconFromAvatar() const
 {
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
-		return 0;
+		return nullptr;
 
 	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, m_hContact, 0);
 	if (ace == nullptr || ace->hbmPic == nullptr)
@@ -698,7 +698,7 @@ HICON CTabBaseDlg::IconFromAvatar() const
 
 	CSkin::m_default_bf.SourceConstantAlpha = 255;
 	::SelectObject(dc, hbmOld);
-	::ImageList_Add(hIml_c, hbmNew, 0);
+	::ImageList_Add(hIml_c, hbmNew, nullptr);
 	::DeleteObject(hbmNew);
 	::DeleteDC(dc);
 
@@ -715,7 +715,7 @@ HICON CTabBaseDlg::IconFromAvatar() const
 AVATARCACHEENTRY* Utils::loadAvatarFromAVS(const MCONTACT hContact)
 {
 	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
-		return 0;
+		return nullptr;
 
 	return (AVATARCACHEENTRY*)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 }
@@ -841,7 +841,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const wchar_t *tszN
 				if (PathFileExists(szFilename))
 					return true;
 
-			HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
+			HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			if (hFile == INVALID_HANDLE_VALUE)
 				return false;
 
@@ -863,7 +863,7 @@ wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 	CHARRANGE sel = { 0 };
 	::SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin != sel.cpMax)
-		return 0;
+		return nullptr;
 
 	TEXTRANGE tr;
 	tr.chrg = _e->chrg;
@@ -888,7 +888,7 @@ void Utils::sanitizeFilename(wchar_t* tszFilename)
 	static size_t forbiddenCharactersLen = mir_wstrlen(forbiddenCharacters);
 
 	for (size_t i = 0; i < forbiddenCharactersLen; i++) {
-		wchar_t*	szFound = 0;
+		wchar_t*	szFound = nullptr;
 
 		while ((szFound = wcschr(tszFilename, (int)forbiddenCharacters[i])) != nullptr)
 			*szFound = ' ';
@@ -915,16 +915,16 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 {
 	wchar_t sysPathName[MAX_PATH + 2];
 	if (0 == ::GetSystemDirectoryW(sysPathName, MAX_PATH))
-		return 0;
+		return nullptr;
 
 	sysPathName[MAX_PATH - 1] = 0;
 	if (mir_wstrlen(sysPathName) + mir_wstrlen(szFilename) >= MAX_PATH)
-		return 0;
+		return nullptr;
 
 	mir_wstrcat(sysPathName, szFilename);
 	HMODULE _h = LoadLibraryW(sysPathName);
-	if (0 == _h)
-		return 0;
+	if (nullptr == _h)
+		return nullptr;
 
 	return _h;
 }
@@ -943,7 +943,7 @@ void Utils::setAvatarContact(HWND hWnd, MCONTACT hContact)
 
 size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 {
-	if (!OpenClipboard(hwndOwner) || str == 0)
+	if (!OpenClipboard(hwndOwner) || str == nullptr)
 		return 0;
 
 	size_t i = sizeof(wchar_t) * (mir_wstrlen(str) + 1);
@@ -1025,7 +1025,7 @@ CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT u
 	m_szText(mir_wstrdup(tszText))
 {
 	m_uId = uId;
-	m_hFontCaption = 0;
+	m_hFontCaption = nullptr;
 	m_dwFlags = dwFlags;
 
 	m_fIsModal = ((m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL) ? true : false);
@@ -1040,11 +1040,11 @@ CWarning::~CWarning()
 LRESULT CWarning::ShowDialog() const
 {
 	if (!m_fIsModal) {
-		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, LPARAM(this));
+		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), nullptr, stubDlgProc, LPARAM(this));
 		return 0;
 	}
 
-	return ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, LPARAM(this));
+	return ::DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), nullptr, stubDlgProc, LPARAM(this));
 }
 
 __int64 CWarning::getMask()
@@ -1077,10 +1077,10 @@ void CWarning::destroyAll()
 
 LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 {
-	wchar_t*	separator_pos = 0;
+	wchar_t*	separator_pos = nullptr;
 	__int64 	mask = 0, val = 0;
 
-	if (0 == hWindowList)
+	if (nullptr == hWindowList)
 		hWindowList = WindowList_Create();
 
 	// don't open new warnings when shutdown was initiated (modal ones will otherwise
@@ -1102,12 +1102,12 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 			// is not well-formatted.
 			_s = TranslateW(warnings[uId]);
 
-			if (mir_wstrlen(_s) < 3 || 0 == wcschr(_s, '|'))
+			if (mir_wstrlen(_s) < 3 || nullptr == wcschr(_s, '|'))
 				_s = TranslateW(warnings[uId]);
 		}
 	}
 
-	if ((mir_wstrlen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
+	if ((mir_wstrlen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != nullptr)) {
 		if (uId >= 0) {
 			mask = getMask();
 			val = ((__int64)1L) << uId;
@@ -1162,7 +1162,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		{
 			UINT uResId = 0;
-			HICON hIcon = 0;
+			HICON hIcon = nullptr;
 
 			m_hwnd = hwnd;
 
@@ -1204,7 +1204,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				uResId = 32514;
 
 			if (uResId)
-				hIcon = reinterpret_cast<HICON>(::LoadImage(0, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
+				hIcon = reinterpret_cast<HICON>(::LoadImage(nullptr, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
 			else
 				hIcon = ::Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 
@@ -1220,7 +1220,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			HWND hwndChild = reinterpret_cast<HWND>(lParam);
 			UINT id = ::GetDlgCtrlID(hwndChild);
-			if (0 == m_hFontCaption) {
+			if (nullptr == m_hFontCaption) {
 				HFONT hFont = reinterpret_cast<HFONT>(::SendDlgItemMessage(hwnd, IDC_CAPTION, WM_GETFONT, 0, 0));
 				LOGFONT lf = { 0 };
 

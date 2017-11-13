@@ -28,8 +28,8 @@ MirfoxData::MirfoxData(void)
 	middleClickSendMode = MFENUM_SMM_ONLY_SEND;
 
 	processCsmId = 0;
-	hhook_EventOpenMW = NULL;
-	hhook_OpenMW = NULL;
+	hhook_EventOpenMW = nullptr;
+	hhook_OpenMW = nullptr;
 
 	mirfoxAccountIdPool = 1;
 	maxAccountIOrder = 0;
@@ -105,7 +105,7 @@ MirfoxData::getMirandaContactPtrByHandle(MCONTACT contactHandle){
 
 	if (contactHandle == NULL){
 		logger->log(L"getMirandaContactPtrByHandle: return NULL for HANDLE: [NULL]");
-		return NULL;
+		return nullptr;
 	}
 
 	boost::ptr_list<MirandaContact>* mirandaContactsPtr = getMirandaContacts();
@@ -118,7 +118,7 @@ MirfoxData::getMirandaContactPtrByHandle(MCONTACT contactHandle){
 	}
 
 	logger->log_p(L"getMirandaContactPtrByHandle: return NULL for HANDLE: [" SCNuPTR L"]", contactHandle);
-	return NULL; //mirandaContact not found
+	return nullptr; //mirandaContact not found
 
 }
 
@@ -126,7 +126,7 @@ MirfoxData::getMirandaContactPtrByHandle(MCONTACT contactHandle){
 void
 MirfoxData::setContactDisplayName(MirandaContact* mirandaContact){
 
-	if (mirandaContact->mirandaAccountPtr != NULL && strcmp(mirandaContact->mirandaAccountPtr->szProtoName, "Twitter") == 0){
+	if (mirandaContact->mirandaAccountPtr != nullptr && strcmp(mirandaContact->mirandaAccountPtr->szProtoName, "Twitter") == 0){
 		// hack for Twitter protocol
 		DBVARIANT dbv;
 		if (!db_get_s(mirandaContact->contactHandle, mirandaContact->mirandaAccountPtr->szModuleName, "Username", &dbv, DBVT_WCHAR)) {
@@ -144,7 +144,7 @@ MirfoxData::setContactDisplayName(MirandaContact* mirandaContact){
 	}
 
 	MFLogger::getInstance()->log_p(L"initializeMirandaContacts: got name for hContact = [" SCNuPTR L"]  is: [%s]", mirandaContact->contactHandle,
-			&(mirandaContact->contactNameW)==NULL ? L"<null>" : mirandaContact->contactNameW.c_str());
+			&(mirandaContact->contactNameW)==nullptr ? L"<null>" : mirandaContact->contactNameW.c_str());
 
 }
 
@@ -210,7 +210,7 @@ MirfoxData::getAccountSzModuleNameById(uint64_t id)
 	}
 
 	logger->log_p(L"getAccountSzModuleNameById: return NULL for id = [%I64u]", id);
-	return NULL; //mirandaAccount not found
+	return nullptr; //mirandaAccount not found
 }
 
 
@@ -221,9 +221,9 @@ MirfoxData::getMirandaAccountPtrBySzModuleName(char* szModuleName)
 
 	MFLogger* logger = MFLogger::getInstance();
 
-	if (szModuleName == NULL){
+	if (szModuleName == nullptr){
 		logger->log(L"getMirandaAccountPtrBySzModuleName: return NULL for szModuleName: [NULL]");
-		return NULL;
+		return nullptr;
 	}
 
 	boost::ptr_list<MirandaAccount>* mirandaAccountsPtr = getMirandaAccounts();
@@ -236,7 +236,7 @@ MirfoxData::getMirandaAccountPtrBySzModuleName(char* szModuleName)
 	}
 
 	logger->log_p(L"getMirandaAccountPtrBySzModuleName: return NULL for  szModuleName: [%S]", szModuleName);
-	return NULL; //mirandaAccount not found
+	return nullptr; //mirandaAccount not found
 
 }
 
@@ -356,7 +356,7 @@ void MirfoxData::refreshContact_Add(SharedMemoryUtils& sharedMemoryUtils, MCONTA
 	  );
 
 	char *szModuleName = Proto_GetBaseAccountName(mirandaContactItemPtr->contactHandle);
-	if (szModuleName != NULL)
+	if (szModuleName != nullptr)
 		mirandaContactItemPtr->mirandaAccountPtr = getMirandaAccountPtrBySzModuleName(szModuleName);
 
 	// Always getting '(Unknown Contact)' here if called from HookEvent ME_DB_CONTACT_ADDED, (updated to proper via ME_DB_CONTACT_SETTINGCHANGED)
@@ -492,7 +492,7 @@ MirfoxData::shouldProtoBeActiveByName(std::string protoName)
 int
 MirfoxData::getAccountDefaultState(MirandaAccount* account)
 {
-	if (account == NULL){
+	if (account == nullptr){
 		return 2;
 	}
 
@@ -509,13 +509,13 @@ MirfoxData::getContactDefaultState(MirandaContact* contact)
 {
 	MFLogger* logger = MFLogger::getInstance();
 
-	if (contact == NULL)
+	if (contact == nullptr)
 		return 2;
 
-	if (contact->mirandaAccountPtr == NULL)
+	if (contact->mirandaAccountPtr == nullptr)
 		return 2;
 
-	if (contact->mirandaAccountPtr->szProtoName == NULL)
+	if (contact->mirandaAccountPtr->szProtoName == nullptr)
 		return 2;
 
 	if (!shouldProtoBeActiveByName(contact->mirandaAccountPtr->szProtoName))
@@ -811,7 +811,7 @@ MirandaContact::MirandaContact(MCONTACT contactHandleL)
 {
 	contactState = MFENUM_MIRANDACONTACT_STATE_UNKNOWN;
 	contactHandle = contactHandleL;
-	mirandaAccountPtr = NULL;
+	mirandaAccountPtr = nullptr;
 }
 
 MirandaContact::~MirandaContact(void)

@@ -2,26 +2,26 @@
 
 HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const wchar_t* desc, wchar_t **ppszFiles) {
 	if (!isOnline())
-		return 0;
+		return nullptr;
 
 	ptrA jid(getStringA(hContact, "ID"));
 	if (jid == NULL)
-		return 0;
+		return nullptr;
 
 	// input validation
 	char *name = mir_utf8encodeW(ppszFiles[0]);
 	string mime = MediaUploader::getMimeFromExtension(split(name, '.')[1]);
 	if (mime.empty()) {
 		mir_free(name); 
-		return 0;
+		return nullptr;
 	}
 
 	// get file size
 	FILE *hFile = _wfopen(ppszFiles[0], L"rb");
-	if (hFile == NULL) {
+	if (hFile == nullptr) {
 		debugLogA(__FUNCTION__": cannot open file %s", ppszFiles[0]);
 		mir_free(name);
-		return 0;
+		return nullptr;
 	}
 	_fseeki64(hFile, 0, SEEK_END);
 	uint64_t fileSize = _ftelli64(hFile);
@@ -35,28 +35,28 @@ HANDLE WhatsAppProto::SendFile(MCONTACT hContact, const wchar_t* desc, wchar_t *
 	case FMessage::WA_TYPE_IMAGE:
 		if (fileSize >= 5 * 1024 * 1024) {
 			mir_free(name);
-			return 0;
+			return nullptr;
 		}
 		break;
 	case FMessage::WA_TYPE_AUDIO:
 		if (fileSize >= 10 * 1024 * 1024) {
 			mir_free(name);
-			return 0;
+			return nullptr;
 		}
 		break;
 	case FMessage::WA_TYPE_VIDEO:
 		if (fileSize >= 20 * 1024 * 1024) {
 			mir_free(name);
-			return 0;
+			return nullptr;
 		}
 		break;
 	default:
 		mir_free(name);
-		return 0;
+		return nullptr;
 	}
 	
 	int msgId = GetSerial();
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	std::string msgid = Utilities::intToStr(now) + "-" + Utilities::intToStr(msgId);
 	FMessage * fmsg = new FMessage(std::string(jid), true, msgid);
 	fmsg->media_url = name;

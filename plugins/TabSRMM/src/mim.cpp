@@ -29,23 +29,23 @@
 
 #include "stdafx.h"
 
-PDTTE  CMimAPI::m_pfnDrawThemeTextEx = 0;
-DEFICA CMimAPI::m_pfnDwmExtendFrameIntoClientArea = 0;
-DICE   CMimAPI::m_pfnDwmIsCompositionEnabled = 0;
-DRT    CMimAPI::m_pfnDwmRegisterThumbnail = 0;
-BPI    CMimAPI::m_pfnBufferedPaintInit = 0;
-BPU    CMimAPI::m_pfnBufferedPaintUninit = 0;
-BBP    CMimAPI::m_pfnBeginBufferedPaint = 0;
-EBP    CMimAPI::m_pfnEndBufferedPaint = 0;
-BBW    CMimAPI::m_pfnDwmBlurBehindWindow = 0;
-DGC    CMimAPI::m_pfnDwmGetColorizationColor = 0;
-BPSA   CMimAPI::m_pfnBufferedPaintSetAlpha = 0;
-DWMIIB CMimAPI::m_pfnDwmInvalidateIconicBitmaps = 0;
-DWMSWA CMimAPI::m_pfnDwmSetWindowAttribute = 0;
-DWMUT  CMimAPI::m_pfnDwmUpdateThumbnailProperties = 0;
-DURT   CMimAPI::m_pfnDwmUnregisterThumbnail = 0;
-DSIT   CMimAPI::m_pfnDwmSetIconicThumbnail = 0;
-DSILP  CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap = 0;
+PDTTE  CMimAPI::m_pfnDrawThemeTextEx = nullptr;
+DEFICA CMimAPI::m_pfnDwmExtendFrameIntoClientArea = nullptr;
+DICE   CMimAPI::m_pfnDwmIsCompositionEnabled = nullptr;
+DRT    CMimAPI::m_pfnDwmRegisterThumbnail = nullptr;
+BPI    CMimAPI::m_pfnBufferedPaintInit = nullptr;
+BPU    CMimAPI::m_pfnBufferedPaintUninit = nullptr;
+BBP    CMimAPI::m_pfnBeginBufferedPaint = nullptr;
+EBP    CMimAPI::m_pfnEndBufferedPaint = nullptr;
+BBW    CMimAPI::m_pfnDwmBlurBehindWindow = nullptr;
+DGC    CMimAPI::m_pfnDwmGetColorizationColor = nullptr;
+BPSA   CMimAPI::m_pfnBufferedPaintSetAlpha = nullptr;
+DWMIIB CMimAPI::m_pfnDwmInvalidateIconicBitmaps = nullptr;
+DWMSWA CMimAPI::m_pfnDwmSetWindowAttribute = nullptr;
+DWMUT  CMimAPI::m_pfnDwmUpdateThumbnailProperties = nullptr;
+DURT   CMimAPI::m_pfnDwmUnregisterThumbnail = nullptr;
+DSIT   CMimAPI::m_pfnDwmSetIconicThumbnail = nullptr;
+DSILP  CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap = nullptr;
 bool   CMimAPI::m_shutDown = 0;
 wchar_t  CMimAPI::m_userDir[] = L"\0";
 
@@ -161,10 +161,10 @@ void CMimAPI::InitAPI()
 	DWORD dwVer = LOWORD(GetVersion());
 	m_winVer = MAKEWORD(HIBYTE(dwVer), LOBYTE(dwVer));
 
-	m_hUxTheme = 0;
+	m_hUxTheme = nullptr;
 
 	// vista+ DWM API
-	m_hDwmApi = 0;
+	m_hDwmApi = nullptr;
 	if (IsWinVerVistaPlus()) {
 		m_hDwmApi = Utils::loadSystemLibrary(L"\\dwmapi.dll");
 		if (m_hDwmApi) {
@@ -190,7 +190,7 @@ void CMimAPI::InitAPI()
 			m_pfnBufferedPaintInit = (BPI)GetProcAddress(m_hUxTheme, "BufferedPaintInit");
 			m_pfnBufferedPaintUninit = (BPU)GetProcAddress(m_hUxTheme, "BufferedPaintUnInit");
 			m_pfnBufferedPaintSetAlpha = (BPSA)GetProcAddress(m_hUxTheme, "BufferedPaintSetAlpha");
-			m_haveBufferedPaint = (m_pfnBeginBufferedPaint != 0 && m_pfnEndBufferedPaint != 0) ? true : false;
+			m_haveBufferedPaint = (m_pfnBeginBufferedPaint != nullptr && m_pfnEndBufferedPaint != nullptr) ? true : false;
 			if (m_haveBufferedPaint)
 				m_pfnBufferedPaintInit();
 		}
@@ -253,11 +253,11 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 				fShow = true;
 			break;
 		case 2:
-			if (hwnd == 0)
+			if (hwnd == nullptr)
 				fShow = true;
 			else {
 				if (PluginConfig.m_bHideOnClose) {
-					TContainerData *pCont = 0;
+					TContainerData *pCont = nullptr;
 					SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pCont);
 					if (pCont && pCont->fHidden)
 						fShow = true;
@@ -302,7 +302,7 @@ int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA*)lParam;
 
-	if ((pAck != 0) && (pAck->type == ACKTYPE_MESSAGE)) {
+	if ((pAck != nullptr) && (pAck->type == ACKTYPE_MESSAGE)) {
 		int i = 0, iFound = SendQueue::NR_SENDJOBS;
 		SendJob *jobs = sendQueue->getJobByIndex(0);
 		MCONTACT hMeta = db_mc_getMeta(pAck->hContact);
@@ -399,7 +399,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	DWORD dwStatusMask = M.GetDword("autopopupmask", -1);
 
 	if (hwnd) {
-		TContainerData *pTargetContainer = 0;
+		TContainerData *pTargetContainer = nullptr;
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
 		if (pTargetContainer == nullptr || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->m_hwnd))
 			return 0;
@@ -439,7 +439,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			return 0;
 
 		case EVENTTYPE_FILE:
-			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule);
+			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
 			return 0;
 		}
 	}
@@ -505,7 +505,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	// the contact list for flashing
 nowindowcreate:
 	if (!(dbei.flags & DBEF_READ)) {
-		UpdateTrayMenu(0, 0, dbei.szModule, nullptr, hContact, 1);
+		UpdateTrayMenu(nullptr, 0, dbei.szModule, nullptr, hContact, 1);
 		if (!nen_options.bTraySupport) {
 			wchar_t toolTip[256], *contactName;
 
@@ -520,10 +520,10 @@ nowindowcreate:
 			cle.szTooltip.w = toolTip;
 			pcli->pfnAddEvent(&cle);
 		}
-		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule);
+		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
 	}
 	return 0;
 }
 
 CMimAPI M;
-FI_INTERFACE *FIF = 0;
+FI_INTERFACE *FIF = nullptr;

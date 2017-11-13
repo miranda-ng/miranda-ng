@@ -40,7 +40,7 @@ AutoReplaceMap::AutoReplaceMap(wchar_t *aFilename, Dictionary *dict)
 void AutoReplaceMap::loadAutoReplaceMap()
 {
 	FILE *file = _wfopen(m_filename, L"rb");
-	if (file == NULL)
+	if (file == nullptr)
 		return;
 
 	char tmp[1024];
@@ -53,17 +53,17 @@ void AutoReplaceMap::loadAutoReplaceMap()
 				// Get from
 				BOOL useVars = FALSE;
 				char *p;
-				if ((p = strstr(tmp, "->")) != NULL) {
+				if ((p = strstr(tmp, "->")) != nullptr) {
 					*p = '\0';
 					p += 2;
 				}
-				else if ((p = strstr(tmp, "-V>")) != NULL) {
+				else if ((p = strstr(tmp, "-V>")) != nullptr) {
 					*p = '\0';
 					p += 3;
 					useVars = TRUE;
 				}
 
-				if (p != NULL) {
+				if (p != nullptr) {
 					Utf8ToTchar find(tmp);
 					Utf8ToTchar replace(p);
 
@@ -89,7 +89,7 @@ void AutoReplaceMap::writeAutoReplaceMap()
 {
 	// Create path
 	wchar_t *p = wcsrchr(m_filename, '\\');
-	if (p != NULL) {
+	if (p != nullptr) {
 		*p = 0;
 		CreateDirectoryTreeW(m_filename);
 		*p = '\\';
@@ -97,7 +97,7 @@ void AutoReplaceMap::writeAutoReplaceMap()
 
 	// Write it
 	FILE *file = _wfopen(m_filename, L"wb");
-	if (file != NULL) {
+	if (file != nullptr) {
 		map<std::wstring, AutoReplacement>::iterator it = m_replacements.begin();
 		for (; it != m_replacements.end(); it++) {
 			AutoReplacement &ar = it->second;
@@ -120,7 +120,7 @@ BOOL AutoReplaceMap::isWordChar(wchar_t c)
 	if (IsNumber(c))
 		return TRUE;
 
-	if (wcschr(L"-_.!@#$%&*()[]{}<>:?/\\=+", c) != NULL)
+	if (wcschr(L"-_.!@#$%&*()[]{}<>:?/\\=+", c) != nullptr)
 		return TRUE;
 
 	return m_dict->isWordChar(c);
@@ -132,7 +132,7 @@ wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 	scoped_free<wchar_t> from = wcslwr(wcsdup(word));
 
 	if (m_replacements.find(from.get()) == m_replacements.end())
-		return NULL;
+		return nullptr;
 
 	AutoReplacement &ar = m_replacements[from.get()];
 

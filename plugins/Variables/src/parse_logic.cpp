@@ -22,7 +22,7 @@
 static wchar_t *parseAnd(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 3)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -42,7 +42,7 @@ static wchar_t *parseAnd(ARGUMENTSINFO *ai)
 static wchar_t *parseFalse(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 1)
-		return NULL;
+		return nullptr;
 
 	ai->flags |= AIF_FALSE;
 	return mir_wstrdup(L"");
@@ -51,7 +51,7 @@ static wchar_t *parseFalse(ARGUMENTSINFO *ai)
 static wchar_t *parseIf(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 4)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -65,7 +65,7 @@ static wchar_t *parseIf(ARGUMENTSINFO *ai)
 static wchar_t *parseIf2(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -93,13 +93,13 @@ static wchar_t *parseIf3(ARGUMENTSINFO *ai)
 		mir_free(szCondition);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static wchar_t *parseIfequal(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -108,7 +108,7 @@ static wchar_t *parseIfequal(ARGUMENTSINFO *ai)
 	fi.szFormat = ai->argv[2];
 	ptrW tszSecond(formatString(&fi));
 	if (tszFirst == NULL || tszSecond == NULL)
-		return NULL;
+		return nullptr;
 
 	if (ttoi(tszFirst) == ttoi(tszSecond))
 		return mir_wstrdup(ai->targv[3]);
@@ -119,7 +119,7 @@ static wchar_t *parseIfequal(ARGUMENTSINFO *ai)
 static wchar_t *parseIfgreater(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -128,7 +128,7 @@ static wchar_t *parseIfgreater(ARGUMENTSINFO *ai)
 	fi.szFormat = ai->argv[2];
 	ptrW tszSecond(formatString(&fi));
 	if (tszFirst == NULL || tszSecond == NULL)
-		return NULL;
+		return nullptr;
 
 	if (ttoi(tszFirst) > ttoi(tszSecond))
 		return mir_wstrdup(ai->targv[3]);
@@ -139,7 +139,7 @@ static wchar_t *parseIfgreater(ARGUMENTSINFO *ai)
 static wchar_t *parseIflonger(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -148,7 +148,7 @@ static wchar_t *parseIflonger(ARGUMENTSINFO *ai)
 	fi.szFormat = ai->argv[2];
 	ptrW tszSecond(formatString(&fi));
 	if (tszFirst == NULL || tszSecond == NULL)
-		return NULL;
+		return nullptr;
 
 	if (mir_wstrlen(tszFirst) > mir_wstrlen(tszSecond))
 		return mir_wstrdup(ai->targv[3]);
@@ -164,7 +164,7 @@ static wchar_t *parseIflonger(ARGUMENTSINFO *ai)
 static wchar_t *parseFor(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 5)
-		return NULL;
+		return nullptr;
 
 	wchar_t *res = mir_wstrdup(L"");
 
@@ -178,12 +178,12 @@ static wchar_t *parseFor(ARGUMENTSINFO *ai)
 	while (fi.eCount == 0) {
 		fi.tszFormat = ai->targv[4];
 		wchar_t *parsed = formatString(&fi);
-		if (parsed != NULL) {
-			if (res == NULL) {
+		if (parsed != nullptr) {
+			if (res == nullptr) {
 				res = (wchar_t*)mir_alloc(mir_wstrlen(parsed) + 1 * sizeof(wchar_t));
-				if (res == NULL) {
+				if (res == nullptr) {
 					mir_free(parsed);
-					return NULL;
+					return nullptr;
 				}
 			}
 			else res = (wchar_t*)mir_realloc(res, (mir_wstrlen(res) + mir_wstrlen(parsed) + 1)*sizeof(wchar_t));
@@ -204,7 +204,7 @@ static wchar_t *parseFor(ARGUMENTSINFO *ai)
 static wchar_t *parseEqual(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	if (ttoi(ai->targv[1]) != ttoi(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
@@ -215,7 +215,7 @@ static wchar_t *parseEqual(ARGUMENTSINFO *ai)
 static wchar_t *parseGreater(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	if (ttoi(ai->targv[1]) <= ttoi(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
@@ -226,7 +226,7 @@ static wchar_t *parseGreater(ARGUMENTSINFO *ai)
 static wchar_t *parseLonger(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	if (mir_wstrlen(ai->targv[1]) <= mir_wstrlen(ai->targv[2]))
 		ai->flags |= AIF_FALSE;
@@ -237,7 +237,7 @@ static wchar_t *parseLonger(ARGUMENTSINFO *ai)
 static wchar_t *parseNot(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 2) {
-		return NULL;
+		return nullptr;
 	}
 
 	FORMATINFO fi;
@@ -254,7 +254,7 @@ static wchar_t *parseNot(ARGUMENTSINFO *ai)
 static wchar_t *parseOr(ARGUMENTSINFO *ai)
 {
 	if (ai->argc < 2)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
@@ -273,13 +273,13 @@ static wchar_t *parseOr(ARGUMENTSINFO *ai)
 
 static wchar_t *parseTrue(ARGUMENTSINFO *ai)
 {
-	return (ai->argc != 1) ? NULL : mir_wstrdup(L"");
+	return (ai->argc != 1) ? nullptr : mir_wstrdup(L"");
 }
 
 static wchar_t *parseXor(ARGUMENTSINFO *ai)
 {
 	if (ai->argc != 3)
-		return NULL;
+		return nullptr;
 
 	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));

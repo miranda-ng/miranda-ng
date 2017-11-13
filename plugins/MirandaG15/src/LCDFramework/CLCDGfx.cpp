@@ -23,13 +23,13 @@ CLCDGfx::CLCDGfx(void)
 {
 	m_nWidth = 0;
 	m_nHeight = 0;
-	m_pBitmapInfo = NULL;
-	m_hDC = NULL;
-	m_hBitmap = NULL;
-	m_hPrevBitmap = NULL;
-	m_pBitmapBits = NULL;
-	m_pLcdBitmapBits = NULL;
-	m_pSavedBitmapBits = NULL;
+	m_pBitmapInfo = nullptr;
+	m_hDC = nullptr;
+	m_hBitmap = nullptr;
+	m_hPrevBitmap = nullptr;
+	m_pBitmapBits = nullptr;
+	m_pLcdBitmapBits = nullptr;
+	m_pSavedBitmapBits = nullptr;
 	m_bInitialized = false;
 	m_bTransition = false;
 
@@ -57,8 +57,8 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits
 	m_nHeight	= nHeight;
 	m_nBPP		= nBPP;
 
-	m_hDC = CreateCompatibleDC(NULL);
-	if(NULL == m_hDC)
+	m_hDC = CreateCompatibleDC(nullptr);
+	if(nullptr == m_hDC)
 	{
 		TRACE(L"CLCDGfx::Initialize(): failed to create compatible DC.\n");
 		Shutdown();
@@ -67,7 +67,7 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits
 
 	int nBMISize = sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD);
 	m_pBitmapInfo = (BITMAPINFO *) new BYTE [nBMISize];
-	if(NULL == m_pBitmapInfo)
+	if(nullptr == m_pBitmapInfo)
 	{
 		TRACE(L"CLCDGfx::Initialize(): failed to allocate bitmap info.\n");
 		Shutdown();
@@ -97,8 +97,8 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits
 		}
 	}
 
-	m_hBitmap = CreateDIBSection(m_hDC, m_pBitmapInfo, DIB_RGB_COLORS, (PVOID *) &m_pBitmapBits, NULL, 0);
-	if(NULL == m_hBitmap)
+	m_hBitmap = CreateDIBSection(m_hDC, m_pBitmapInfo, DIB_RGB_COLORS, (PVOID *) &m_pBitmapBits, nullptr, 0);
+	if(nullptr == m_hBitmap)
 	{
 		TRACE(L"CLCDGfx::Initialize(): failed to create bitmap.\n");
 		Shutdown();
@@ -125,26 +125,26 @@ bool CLCDGfx::Shutdown(void)
 {
 	EndTransition();
 
-	if(NULL != m_hBitmap)
+	if(nullptr != m_hBitmap)
 	{
 		DeleteObject(m_hBitmap);
-		m_hBitmap = NULL;
-		m_pBitmapBits = NULL;
+		m_hBitmap = nullptr;
+		m_pBitmapBits = nullptr;
 	}
 
-	ASSERT(NULL == m_hPrevBitmap);
-	m_hPrevBitmap = NULL;
+	ASSERT(nullptr == m_hPrevBitmap);
+	m_hPrevBitmap = nullptr;
 
-	if(NULL != m_pBitmapInfo)
+	if(nullptr != m_pBitmapInfo)
 	{
 		delete [] m_pBitmapInfo;
-		m_pBitmapInfo = NULL;
+		m_pBitmapInfo = nullptr;
 	}
 
-	if(NULL != m_hDC)
+	if(nullptr != m_hDC)
 	{
 		DeleteDC(m_hDC);
-		m_hDC = NULL;
+		m_hDC = nullptr;
 	}
 
 	m_nWidth = 0;
@@ -159,7 +159,7 @@ bool CLCDGfx::Shutdown(void)
 //************************************************************************
 void CLCDGfx::SetClipRegion(int iX,int iY,int iWidth,int iHeight)
 {
-	ASSERT(NULL != m_hPrevBitmap);
+	ASSERT(nullptr != m_hPrevBitmap);
 
 	m_rClipRegion.left = iX;
 	m_rClipRegion.right = iX+iWidth;
@@ -184,11 +184,11 @@ RECT CLCDGfx::GetClipRegion()
 //************************************************************************
 void CLCDGfx::BeginDraw(void)
 {
-	ASSERT(NULL != m_hBitmap);
-	if(m_hPrevBitmap != NULL)
+	ASSERT(nullptr != m_hBitmap);
+	if(m_hPrevBitmap != nullptr)
 		Sleep(1);
-	ASSERT(NULL == m_hPrevBitmap);
-	if(NULL == m_hPrevBitmap)
+	ASSERT(nullptr == m_hPrevBitmap);
+	if(nullptr == m_hPrevBitmap)
 	{
 		m_hPrevBitmap = (HBITMAP) SelectObject(m_hDC, m_hBitmap);
 		SetTextColor(m_hDC, RGB(255, 255, 255));
@@ -202,7 +202,7 @@ void CLCDGfx::BeginDraw(void)
 void CLCDGfx::ClearScreen(void)
 {
 	// this means, we're inside BeginDraw()/EndDraw()
-	ASSERT(NULL != m_hPrevBitmap);
+	ASSERT(nullptr != m_hPrevBitmap);
 	RECT rc = { 0, 0, m_nWidth, m_nHeight };
 	FillRect(m_hDC, &rc, (HBRUSH) GetStockObject(BLACK_BRUSH));
 }
@@ -219,7 +219,7 @@ COLORREF CLCDGfx::GetPixel(int nX, int nY) {
 //************************************************************************
 void CLCDGfx::SetPixel(int nX, int nY, COLORREF color) {
 	// this means, we're inside BeginDraw()/EndDraw()
-	ASSERT(NULL != m_hPrevBitmap);
+	ASSERT(nullptr != m_hPrevBitmap);
 	::SetPixel(m_hDC, nX, nY, color);
 }
 
@@ -241,10 +241,10 @@ void CLCDGfx::SetPixel(int nX, int nY, BYTE r, BYTE g, BYTE b)
 void CLCDGfx::DrawLine(int nX1, int nY1, int nX2, int nY2)
 {
 	// this means, we're inside BeginDraw()/EndDraw()
-	ASSERT(NULL != m_hPrevBitmap);
+	ASSERT(nullptr != m_hPrevBitmap);
 
 	HPEN hPrevPen = (HPEN) SelectObject(m_hDC, GetStockObject(WHITE_PEN));
-	::MoveToEx(m_hDC, nX1, nY1, NULL);
+	::MoveToEx(m_hDC, nX1, nY1, nullptr);
 	::LineTo(m_hDC, nX2, nY2);
 	SelectObject(m_hDC, hPrevPen);
 }
@@ -258,7 +258,7 @@ void CLCDGfx::DrawLine(int nX1, int nY1, int nX2, int nY2)
 void CLCDGfx::DrawFilledRect(int nX, int nY, int nWidth, int nHeight)
 {
 	// this means, we're inside BeginDraw()/EndDraw()
-	ASSERT(NULL != m_hPrevBitmap);
+	ASSERT(nullptr != m_hPrevBitmap);
 
 	HBRUSH hPrevBrush = (HBRUSH) SelectObject(m_hDC, GetStockObject(WHITE_BRUSH));
 	RECT r = { nX, nY, nX + nWidth, nY + nHeight };
@@ -272,7 +272,7 @@ void CLCDGfx::DrawFilledRect(int nX, int nY, int nWidth, int nHeight)
 void CLCDGfx::DrawRect(int iX, int iY, int iWidth, int iHeight)
 {
 	// this means, we're inside BeginDraw()/EndDraw()
-	ASSERT(NULL != m_hPrevBitmap);
+	ASSERT(nullptr != m_hPrevBitmap);
 
 	HBRUSH hPrevBrush = (HBRUSH) SelectObject(m_hDC, GetStockObject(WHITE_BRUSH));
 
@@ -355,13 +355,13 @@ void CLCDGfx::DrawBitmap(int nX, int nY,int nWidth, int nHeight, HBITMAP hBitmap
 //************************************************************************
 void CLCDGfx::EndDraw(void)
 {
-	ASSERT(NULL != m_hPrevBitmap);
-	if(NULL != m_hPrevBitmap)
+	ASSERT(nullptr != m_hPrevBitmap);
+	if(nullptr != m_hPrevBitmap)
 	{
 		GdiFlush();
 		m_hPrevBitmap = (HBITMAP) SelectObject(m_hDC, m_hPrevBitmap);
 		ASSERT(m_hPrevBitmap == m_hBitmap);
-		m_hPrevBitmap = NULL;
+		m_hPrevBitmap = nullptr;
 	}
 
 	if(m_nBPP != 1 || !m_bTransition)
@@ -486,7 +486,7 @@ void CLCDGfx::EndDraw(void)
 			double dPixelPercent = dPercent;
 
 			memset(m_pLcdBitmapBits,0x00,m_nHeight * m_nWidth);
-			SLCDPixel *pPixel = NULL;
+			SLCDPixel *pPixel = nullptr;
 			vector<SLCDPixel*>::iterator iter = m_LMovingPixels.begin();
 			int iIndex = 0,iMoved = 0;
 
@@ -542,7 +542,7 @@ void CLCDGfx::EndDraw(void)
 //************************************************************************
 HDC CLCDGfx::GetHDC(void)
 {
-	ASSERT(NULL != m_hDC);
+	ASSERT(nullptr != m_hDC);
 	return m_hDC;
 }
 
@@ -551,7 +551,7 @@ HDC CLCDGfx::GetHDC(void)
 //************************************************************************
 BITMAPINFO *CLCDGfx::GetBitmapInfo(void)
 {
-	ASSERT(NULL != m_pBitmapInfo);
+	ASSERT(nullptr != m_pBitmapInfo);
 	return m_pBitmapInfo;
 }
 
@@ -561,7 +561,7 @@ BITMAPINFO *CLCDGfx::GetBitmapInfo(void)
 
 HBITMAP CLCDGfx::GetHBITMAP(void)
 {
-	ASSERT(NULL != m_hBitmap);
+	ASSERT(nullptr != m_hBitmap);
 	return m_hBitmap;
 }
 
@@ -609,8 +609,8 @@ void CLCDGfx::Cache()
 	// Initialize pixels
 	if(m_eTransition == TRANSITION_MORPH)
 	{
-		SLCDPixel *pPixel = NULL;
-		SLCDPixel *pSource = NULL;
+		SLCDPixel *pPixel = nullptr;
+		SLCDPixel *pSource = nullptr;
 
 		int iIndex = 0;
 		bool bBreak = false;
@@ -732,7 +732,7 @@ void CLCDGfx::StartTransition(ETransitionType eType,LPRECT rect)
 	if(!m_bInitialized)
 		return;
 
-	if(rect != NULL) {
+	if(rect != nullptr) {
 		m_rTransitionRegion.left = rect->left;
 		m_rTransitionRegion.right = rect->right;
 		m_rTransitionRegion.top = rect->top;
@@ -751,7 +751,7 @@ void CLCDGfx::StartTransition(ETransitionType eType,LPRECT rect)
 		memcpy(m_pBitmapBits,m_pLcdBitmapBits,sizeof(BYTE)*m_nWidth*m_nHeight*m_nBPP);
 	}
 
-	if(m_pSavedBitmapBits == NULL)
+	if(m_pSavedBitmapBits == nullptr)
 		m_pSavedBitmapBits = (BYTE*)malloc(sizeof(BYTE)*m_nWidth*m_nHeight*m_nBPP);
 
 	memcpy(m_pSavedBitmapBits, m_pBitmapBits,sizeof(BYTE)* m_nWidth * m_nHeight * m_nBPP);
@@ -763,10 +763,10 @@ void CLCDGfx::StartTransition(ETransitionType eType,LPRECT rect)
 
 void CLCDGfx::EndTransition()
 {
-	if(m_pSavedBitmapBits != NULL)	
+	if(m_pSavedBitmapBits != nullptr)	
 		free(m_pSavedBitmapBits);
 
-	m_pSavedBitmapBits = NULL;
+	m_pSavedBitmapBits = nullptr;
 
 	if(!m_LMovingPixels.empty())
 	{

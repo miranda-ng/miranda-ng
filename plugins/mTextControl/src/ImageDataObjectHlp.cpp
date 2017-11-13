@@ -28,7 +28,7 @@ struct EMFCACHE
 	HICON hIcon;
 	EMFCACHE *prev;
 	EMFCACHE *next;
-} *emfCache = 0;
+} *emfCache = nullptr;
 int emfCacheSize = 0;
 mir_cs csEmfCache;
 
@@ -44,7 +44,7 @@ void UnloadEmfCache()
 
 HENHMETAFILE CacheIconToEmf(HICON hIcon)
 {
-	HENHMETAFILE result = 0;
+	HENHMETAFILE result = nullptr;
 	mir_cslock lck(csEmfCache);
 	for (EMFCACHE *p = emfCache; p; p = p->next)
 		if (p->hIcon == hIcon)
@@ -53,11 +53,11 @@ HENHMETAFILE CacheIconToEmf(HICON hIcon)
 			{
 				p->prev->next = p->next;
 				if (p->next) p->next->prev = p->prev;
-				p->prev = 0;
+				p->prev = nullptr;
 				emfCache->prev = p;
 				p->next = emfCache;
 				emfCache = p;
-				result = CopyEnhMetaFile(emfCache->hEmf, 0);
+				result = CopyEnhMetaFile(emfCache->hEmf, nullptr);
 				break;
 			}
 		}
@@ -66,17 +66,17 @@ HENHMETAFILE CacheIconToEmf(HICON hIcon)
 	if (!result)
 	{
 		EMFCACHE *newItem = new EMFCACHE;
-		newItem->prev = 0;
+		newItem->prev = nullptr;
 		newItem->next = emfCache;
 		if (emfCache) emfCache->prev = newItem;
 		emfCache = newItem;
 		emfCacheSize++;
 
-		HDC emfdc = CreateEnhMetaFile(NULL, NULL, NULL, L"icon");
-		DrawIconEx(emfdc, 0, 0, (HICON)hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		HDC emfdc = CreateEnhMetaFile(nullptr, nullptr, nullptr, L"icon");
+		DrawIconEx(emfdc, 0, 0, (HICON)hIcon, 16, 16, 0, nullptr, DI_NORMAL);
 		emfCache->hIcon = hIcon;
 		emfCache->hEmf = CloseEnhMetaFile(emfdc);
-		result = CopyEnhMetaFile(emfCache->hEmf, 0);
+		result = CopyEnhMetaFile(emfCache->hEmf, nullptr);
 	}
 
 	// tail cutoff
@@ -112,14 +112,14 @@ bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
 	//
 	static const FORMATETC lc_format[] =
 	{
-		{ CF_ENHMETAFILE, 0, DVASPECT_CONTENT, -1, TYMED_ENHMF }//,
+		{ CF_ENHMETAFILE, nullptr, DVASPECT_CONTENT, -1, TYMED_ENHMF }//,
 		//		{ CF_BITMAP, 0, DVASPECT_CONTENT, -1, TYMED_GDI },
 		//		{ CF_TEXT,   0, DVASPECT_CONTENT, -1, TYMED_HGLOBAL } 
 	};
 
 	STGMEDIUM lc_stgmed[] =
 	{
-		{ TYMED_ENHMF, { (HBITMAP)hEmf }, 0 }//,
+		{ TYMED_ENHMF, { (HBITMAP)hEmf }, nullptr }//,
 		//		{ TYMED_GDI, { hBitmap }, 0 },
 		//		{ TYMED_HGLOBAL, { (HBITMAP)hGlobal }, 0 }
 	};
@@ -134,8 +134,8 @@ bool InsertBitmap(IRichEditOle* pRichEditOle, HENHMETAFILE hEmf)
 
 	// Initialize a Storage Object
 	//
-	LPLOCKBYTES lpLockBytes = NULL;
-	sc = CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes);
+	LPLOCKBYTES lpLockBytes = nullptr;
+	sc = CreateILockBytesOnHGlobal(nullptr, TRUE, &lpLockBytes);
 	if (sc != S_OK)
 	{
 		pOleClientSite->Release();

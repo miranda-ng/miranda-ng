@@ -27,7 +27,7 @@ Searcher::Searcher()
 	matchWholeWords(false),
 	onlyIn(false),
 	onlyOut(false),
-	context(NULL)
+	context(nullptr)
 {
 }
 

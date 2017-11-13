@@ -59,7 +59,7 @@ DBEntry *DBEntry::getNext(DBEntry *entry)
 	}
 
 	delete entry;
-	return NULL;
+	return nullptr;
 }
 
 void DBEntry::cleanupDB()
@@ -67,7 +67,7 @@ void DBEntry::cleanupDB()
 	int count = 0;
 
 	DBEntry *entry = getFirst();
-	while (entry != NULL) {
+	while (entry != nullptr) {
 		DB::setByteF(0, MODULE_FILES, "Ftp%d", count, entry->m_iFtpNum);
 		DB::setAStringF(0, MODULE_FILES, "Filename%d", count, entry->m_szFileName);
 		if (entry->m_deleteTS != 0)
@@ -96,7 +96,7 @@ DBEntry* DBEntry::get(int fileID)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void DBEntry::remove(int fileID)
@@ -111,7 +111,7 @@ bool DBEntry::entryExists(GenericJob *job)
 	mir_cslock lock(mutexDB);
 
 	DBEntry *entry = getFirst();
-	while (entry != NULL) {
+	while (entry != nullptr) {
 		if (entry->m_iFtpNum == job->m_iFtpNum && !strcmp(entry->m_szFileName, job->m_szSafeFileName))
 			return true;
 
@@ -132,7 +132,7 @@ void DBEntry::add(GenericJob *job)
 	DB::setAStringF(0, MODULE_FILES, "Filename%d", id, job->m_szSafeFileName);
 
 	if (job->m_tab->m_iOptAutoDelete != -1) {
-		time_t deleteTS = time(NULL);
+		time_t deleteTS = time(nullptr);
 		deleteTS += (job->m_tab->m_iOptAutoDelete * 60);
 		DB::setDwordF(0, MODULE_FILES, "DeleteTS%d", id, deleteTS);
 	}
@@ -144,7 +144,7 @@ void DBEntry::add(GenericJob *job)
 void DBEntry::setDeleteTS(GenericJob *job)
 {
 	if (job->m_tab->m_iOptAutoDelete != -1) {
-		time_t deleteTS = time(NULL);
+		time_t deleteTS = time(nullptr);
 		deleteTS += (job->m_tab->m_iOptAutoDelete * 60);
 		DB::setDwordF(0, MODULE_FILES, "DeleteTS%d", job->m_fileID, deleteTS);
 	}

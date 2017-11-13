@@ -40,14 +40,14 @@ LIST<CIcqProto> g_Instances(1, sttCompareProtocols);
 static CIcqProto* IcqGetInstanceByHContact(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
-	if (szProto == NULL)
-		return NULL;
+	if (szProto == nullptr)
+		return nullptr;
 
 	for (int i = 0; i < g_Instances.getCount(); i++)
 		if (!mir_strcmp(szProto, g_Instances[i]->m_szModuleName))
 			return g_Instances[i];
 
-	return NULL;
+	return nullptr;
 }
 
 static INT_PTR IcqMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
@@ -151,7 +151,7 @@ void g_MenuInit(void)
 	SET_UID(mi, 0x4767918b, 0x898b, 0x4cb6, 0x9c, 0x54, 0x8c, 0x56, 0x6a, 0xc4, 0xed, 0x42);
 	mi.name.a = LPGEN("Show custom status details");
 	mi.position = -2000004999;
-	mi.hIcolibItem = 0;
+	mi.hIcolibItem = nullptr;
 	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = Menu_AddContactMenuItem(&mi);
 	
 	// "Open ICQ profile"
@@ -205,9 +205,9 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);
 	if (bXStatus && !m_bHideXStatusUI) {
 		if (bXStatus > 0 && bXStatus <= XSTATUS_COUNT)
-			Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], NULL, getXStatusIcon(bXStatus, LR_SHARED));
+			Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], nullptr, getXStatusIcon(bXStatus, LR_SHARED));
 		else
-			Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], NULL, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
+			Menu_ModifyItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], nullptr, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
 	}
 
 	return 0;

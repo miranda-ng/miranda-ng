@@ -61,7 +61,7 @@ void CToxIncomingCall::OnInitDialog()
 
 void CToxIncomingCall::OnClose()
 {
-	toxav_call_control(m_proto->toxThread->ToxAV(), m_proto->calls[hContact], TOXAV_CALL_CONTROL_CANCEL, NULL);
+	toxav_call_control(m_proto->toxThread->ToxAV(), m_proto->calls[hContact], TOXAV_CALL_CONTROL_CANCEL, nullptr);
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "IncomingCallWindow_");
 	CToxCallDlgBase::OnClose();
 }
@@ -141,13 +141,13 @@ void CToxOutgoingCall::OnCall(CCtrlBase*)
 	}
 	//mir_free(cSettings);
 
-	char *message = NULL;
+	char *message = nullptr;
 	wchar_t title[MAX_PATH];
 	if (GetWindowText(m_hwnd, title, _countof(title)))
 		message = mir_utf8encodeW(title);
 	else
 		message = mir_utf8encode("Outgoing call");
-	m_proto->AddEventToDb(hContact, DB_EVENT_CALL, time(NULL), DBEF_UTF, (PBYTE)message, mir_strlen(message));
+	m_proto->AddEventToDb(hContact, DB_EVENT_CALL, time(nullptr), DBEF_UTF, (PBYTE)message, mir_strlen(message));
 
 	call.Enable(FALSE);
 	SetIcon("audio_call");
@@ -163,7 +163,7 @@ void CToxOutgoingCall::OnCancel(CCtrlBase*)
 	}
 
 	if (!call.Enabled())
-		toxav_call_control(m_proto->toxThread->ToxAV(), friendNumber, TOXAV_CALL_CONTROL_CANCEL, NULL);
+		toxav_call_control(m_proto->toxThread->ToxAV(), friendNumber, TOXAV_CALL_CONTROL_CANCEL, nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,7 +188,7 @@ void CToxCallDialog::OnClose()
 		return;
 	}
 
-	toxav_call_control(m_proto->toxThread->ToxAV(), friendNumber, TOXAV_CALL_CONTROL_CANCEL, NULL);
+	toxav_call_control(m_proto->toxThread->ToxAV(), friendNumber, TOXAV_CALL_CONTROL_CANCEL, nullptr);
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "CallWindow_");
 	CToxCallDlgBase::OnClose();
 }

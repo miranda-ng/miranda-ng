@@ -54,7 +54,7 @@ void __cdecl cpp_set_keyx(HANDLE context, BYTE *key)
 		return;
 	SAFE_FREE(p->PubA);
 	SAFE_FREE(p->KeyA);
-	mir_free(p->KeyB); p->KeyB = 0;
+	mir_free(p->KeyB); p->KeyB = nullptr;
 	SAFE_FREE(p->KeyX);
 	p->KeyX = (PBYTE)malloc(Tiger::DIGESTSIZE + 2);
 	memcpy(p->KeyX, key, Tiger::DIGESTSIZE);
@@ -92,7 +92,7 @@ int __cdecl cpp_keya(HANDLE context)
 	pSIMDATA p;
 	if (!cpp_get_simdata(context, &ptr, &p))
 		return 0;
-	return p->KeyA != NULL;
+	return p->KeyA != nullptr;
 }
 
 int __cdecl cpp_keyb(HANDLE context)
@@ -101,7 +101,7 @@ int __cdecl cpp_keyb(HANDLE context)
 	pSIMDATA p;
 	if (!cpp_get_simdata(context, &ptr, &p))
 		return 0;
-	return p->KeyB != NULL;
+	return p->KeyB != nullptr;
 }
 
 int __cdecl cpp_keyx(HANDLE context)
@@ -110,7 +110,7 @@ int __cdecl cpp_keyx(HANDLE context)
 	pSIMDATA p;
 	if (!cpp_get_simdata(context, &ptr, &p))
 		return 0;
-	return p->KeyX != NULL;
+	return p->KeyX != nullptr;
 }
 
 int __cdecl cpp_keyp(HANDLE context)
@@ -119,5 +119,5 @@ int __cdecl cpp_keyp(HANDLE context)
 	pSIMDATA p;
 	if (!cpp_get_simdata(context, &ptr, &p))
 		return 0;
-	return p->KeyP != NULL;
+	return p->KeyP != nullptr;
 }

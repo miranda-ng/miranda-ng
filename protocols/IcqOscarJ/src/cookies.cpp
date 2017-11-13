@@ -31,7 +31,7 @@
 
 void CIcqProto::RemoveExpiredCookies()
 {
-	time_t tNow = time(NULL);
+	time_t tNow = time(nullptr);
 
 	for (int i = cookies.getCount() - 1; i >= 0; i--)
 		if ((cookies[i].dwTime + COOKIE_TIMEOUT) < tNow)
@@ -52,7 +52,7 @@ DWORD CIcqProto::AllocateCookie(BYTE bType, WORD wIdent, MCONTACT hContact, void
 	p->dwCookie = dwThisSeq;
 	p->hContact = hContact;
 	p->pvExtra = pvExtra;
-	p->dwTime = time(NULL);
+	p->dwTime = time(nullptr);
 	cookies.insert(p);
 
 	return dwThisSeq;
@@ -214,10 +214,10 @@ void CIcqProto::InitMessageCookie(cookie_message_data *pCookie)
 
 	do {
 		// ensure that message ids are unique
-		dwMsgID1 = time(NULL);
+		dwMsgID1 = time(nullptr);
 		dwMsgID2 = RandRange(0, 0x0FFFF);
 	}
-		while (FindMessageCookie(dwMsgID1, dwMsgID2, NULL, NULL, NULL));
+		while (FindMessageCookie(dwMsgID1, dwMsgID2, nullptr, nullptr, nullptr));
 
 	if (pCookie) {
 		pCookie->dwMsgID1 = dwMsgID1;

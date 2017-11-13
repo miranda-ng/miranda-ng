@@ -58,7 +58,7 @@ int RefreshSkinList(HWND hwndDlg)
 
 bool FileExists(wchar_t *filename)
 {
-	HANDLE hFile = CreateFile(filename, 0, 0, 0, OPEN_EXISTING, 0, 0);
+	HANDLE hFile = CreateFile(filename, 0, 0, nullptr, OPEN_EXISTING, 0, nullptr);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(hFile);
@@ -103,7 +103,7 @@ void ParseAboutPart(FILE *fp, wchar_t *buff, wchar_t *szSkinName)
 
 void ParseImagePart(FILE *fp, wchar_t *buff, int iPart)
 {
-	opt.szImgFile[iPart] = NULL;
+	opt.szImgFile[iPart] = nullptr;
 	opt.transfMode[iPart] = TM_NONE;
 	opt.margins[iPart].left = 0;
 	opt.margins[iPart].top = 0;
@@ -182,7 +182,7 @@ char *GetSettingName(wchar_t *szValue, char *szPostfix, char *buff, size_t buffs
 	else if (wcsstr(szValue, L"divider"))
 		mir_snprintf(buff, buffsize, "Divider%s", szPostfix);
 
-	return buff[0] ? buff : NULL;
+	return buff[0] ? buff : nullptr;
 }
 
 void ParseFontPart(FILE *fp, wchar_t *buff)
@@ -235,10 +235,10 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 					{
 						if (GetSettingName(buff, "Size", szSetting, sizeof(szSetting) - 1)) 
 						{
-							HDC hdc = GetDC(0);
+							HDC hdc = GetDC(nullptr);
 							int size = -MulDiv(_wtoi(pch), GetDeviceCaps(hdc, LOGPIXELSY), 72);
 							db_set_b(0, MODULE, szSetting, (BYTE)size);
-							ReleaseDC(0, hdc);
+							ReleaseDC(nullptr, hdc);
 						}
 					} 
 					else if (wcsstr(buff, L"effect"))

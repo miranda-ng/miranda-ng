@@ -49,7 +49,7 @@ static int SortProc(const LPDWORD item1, const LPDWORD item2)
 CExImContactXML::CExImContactXML(CFileXml *pXmlFile)
 	: CExImContactBase()
 {
-	_xmlNode = NULL;
+	_xmlNode = nullptr;
 	_pXmlFile = pXmlFile;
 	_hEvent = NULL;
 }
@@ -84,7 +84,7 @@ BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 		char buf[MAXSETTING];
 		// convert to hash and make bsearch as it is much faster then working with strings
 		const DWORD dwHash = hashSetting(_strlwr(mir_strncpy(buf, pszKey, _countof(buf))));
-		return bsearch(&dwHash, dwCiHash, _countof(dwCiHash), sizeof(dwCiHash[0]), (int (*)(const void*, const void*))SortProc) != NULL;
+		return bsearch(&dwHash, dwCiHash, _countof(dwCiHash), sizeof(dwCiHash[0]), (int (*)(const void*, const void*))SortProc) != nullptr;
 	}
 	return FALSE;
 }
@@ -131,7 +131,7 @@ TiXmlElement* CExImContactXML::CreateXmlElement()
 				}
 			}
 		}
-		else _xmlNode = NULL;
+		else _xmlNode = nullptr;
 	}
 	else _xmlNode = new TiXmlElement(XKEY_OWNER);
 
@@ -238,14 +238,14 @@ int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 	// add xContact to document
 	if (_xmlNode->NoChildren()) {
 		delete _xmlNode;
-		_xmlNode = NULL;
+		_xmlNode = nullptr;
 		return ERROR_NOT_ADDED;
 	}
 	_xmlNode->Print(xmlfile, 1);
 	fputc('\n', xmlfile);
 
 	delete _xmlNode;
-	_xmlNode = NULL;
+	_xmlNode = nullptr;
 
 	return ERROR_OK;
 }
@@ -294,10 +294,10 @@ int CExImContactXML::ExportModule(LPCSTR pszModule)
 
 int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	TiXmlElement *xmlEntry = NULL;
-	TiXmlText    *xmlValue = NULL;
+	TiXmlElement *xmlEntry = nullptr;
+	TiXmlText    *xmlValue = nullptr;
 	CHAR          buf[32];
-	LPSTR         str = NULL;
+	LPSTR         str = nullptr;
 
 	DBVARIANT dbv;
 	if (DB::Setting::GetAsIs(_hContact, pszModule, pszSetting, &dbv))
@@ -353,7 +353,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 			// new buffer for base64 encoded data
 			INT_PTR baselen = mir_base64_encode_bufsize(dbv.cpbVal);
 			str = (LPSTR)mir_alloc(baselen + 6);
-			assert(str != NULL);
+			assert(str != nullptr);
 			// encode data
 			if ( mir_base64_encodebuf(dbv.pbVal, dbv.cpbVal, str+1, baselen)) {
 				str[baselen+1] = 0;
@@ -420,7 +420,7 @@ BYTE CExImContactXML::ExportEvents()
 
 				// find module
 				TiXmlNode *xmlModule;
-				for (xmlModule = _xmlNode->FirstChild(); xmlModule != NULL; xmlModule = xmlModule->NextSibling())
+				for (xmlModule = _xmlNode->FirstChild(); xmlModule != nullptr; xmlModule = xmlModule->NextSibling())
 					if (!mir_strcmpi(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule))
 						break;
 
@@ -458,10 +458,10 @@ void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 	numSettings = numEvents = 0;
 
 	for (TiXmlNode *xmod = _xmlNode->FirstChild();
-		xmod != NULL; 
+		xmod != nullptr; 
 		xmod = xmod->NextSibling(XKEY_MOD)) {
 		for (TiXmlNode *xkey = xmod->FirstChild();
-			xkey != NULL;
+			xkey != nullptr;
 			xkey = xkey->NextSibling()) {
 			if (!mir_strcmpi(xkey->Value(), XKEY_SET))
 				numSettings++;
@@ -481,7 +481,7 @@ void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 
 int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 {
-	if (xContact == NULL)
+	if (xContact == nullptr)
 		return ERROR_INVALID_PARAMS;
 
 	// delete last contact
@@ -504,7 +504,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 
 		// meta contact must be uniquelly identified by its subcontacts
 		// the metaID may change during an export or import call
-		for(xSub  = xContact->FirstChildElement(XKEY_CONTACT); xSub != NULL; xSub  = xSub->NextSiblingElement(XKEY_CONTACT)) {
+		for(xSub  = xContact->FirstChildElement(XKEY_CONTACT); xSub != nullptr; xSub  = xSub->NextSiblingElement(XKEY_CONTACT)) {
 			CExImContactXML vSub(_pXmlFile);
 			if (vSub = xSub) {
 				// identify metacontact by the first valid subcontact in xmlfile
@@ -536,9 +536,9 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 		if (_pszUIDKey && mir_strcmp("#NV", _pszUIDKey) != 0) {
 			LPCSTR pUID = xContact->Attribute("uidv");
 
-			if (pUID != NULL) {
+			if (pUID != nullptr) {
 				unsigned valLen;
-				PBYTE	pbVal = NULL;
+				PBYTE	pbVal = nullptr;
 
 				switch (*(pUID++)) {
 				case 'b':
@@ -559,11 +559,11 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 					break;
 				case 'n':
 					pbVal = (PBYTE)mir_base64_decode(pUID, &valLen);
-					if (pbVal != NULL)
+					if (pbVal != nullptr)
 						uidn(pbVal, valLen);
 					break;
 				default:
-					uidu((LPCSTR)NULL);
+					uidu((LPCSTR)nullptr);
 					break;
 				}
 			}
@@ -597,12 +597,12 @@ int CExImContactXML::ImportContact()
 		_pXmlFile->_numEventsTodo += numEvents;
 
 		// import all modules
-		for (TiXmlNode *xmod = _xmlNode->FirstChild(); xmod != NULL; xmod = xmod->NextSibling(XKEY_MOD)) {
+		for (TiXmlNode *xmod = _xmlNode->FirstChild(); xmod != nullptr; xmod = xmod->NextSibling(XKEY_MOD)) {
 			// import module
 			if (ImportModule(xmod) == ERROR_ABORTED) {
 				// ask to delete new incomplete contact
 				if (_isNewContact && _hContact != NULL) {
-					int result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
+					int result = MsgBox(nullptr, MB_YESNO|MB_ICONWARNING, 
 						LPGENW("Question"), 
 						LPGENW("Importing a new contact was aborted!"), 
 						LPGENW("You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?"));
@@ -741,7 +741,7 @@ int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 			if (_isNewContact && _hContact != NULL) {
 				LPTSTR ptszNick = mir_utf8decodeW(_pszNick);
 				LPTSTR ptszMetaNick = mir_utf8decodeW(pMetaContact->_pszNick);
-				int result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
+				int result = MsgBox(nullptr, MB_YESNO|MB_ICONWARNING, 
 					LPGENW("Question"), 
 					LPGENW("Importing a new meta subcontact failed!"), 
 					LPGENW("The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?"),
@@ -789,7 +789,7 @@ int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 	if (!mir_strcmpi(pszModule, "Protocol"))
 		return ERROR_OK;
 	
-	for (TiXmlElement *xKey = xmlModule->FirstChildElement(); xKey != NULL; xKey = xKey->NextSiblingElement()) {
+	for (TiXmlElement *xKey = xmlModule->FirstChildElement(); xKey != nullptr; xKey = xKey->NextSiblingElement()) {
 		// import setting
 		if (!mir_strcmpi(xKey->Value(), XKEY_SET)) {
 			// check if the module to import is the contact's protocol module
@@ -892,7 +892,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 	case 'n':
 		dbv.type = DBVT_BLOB;
 		dbv.pbVal = (PBYTE)mir_base64_decode(value + 1, &baselen);
-		if (dbv.pbVal != NULL)
+		if (dbv.pbVal != nullptr)
 			dbv.cpbVal = baselen;
 		else {
 			mir_free(dbv.pbVal);

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 CBaseCtrl* CAnnivEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 {
-	CAnnivEditCtrl *ctrl = NULL;
+	CAnnivEditCtrl *ctrl = nullptr;
 
 	ctrl = new CAnnivEditCtrl(hDlg, idCtrl, pszSetting);
 	if (ctrl)
@@ -43,7 +43,7 @@ CAnnivEditCtrl::CAnnivEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 	_hwndDate = GetDlgItem(hDlg, EDIT_ANNIVERSARY_DATE);
 	_ReminderEnabled = db_get_b(NULL, MODNAME, SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
 
-	_pDates = NULL;
+	_pDates = nullptr;
 	_curDate = 0;
 	_numDates = 0;
 	
@@ -69,14 +69,14 @@ CAnnivEditCtrl::~CAnnivEditCtrl()
 {
 	WORD i;
 
-	if (_pDates != NULL) 
+	if (_pDates != nullptr) 
 	{
 		for (i = 0; i < _numDates; i++) 
 		{
 			delete _pDates[i];
 		}
 		mir_free(_pDates);
-		_pDates = NULL;
+		_pDates = nullptr;
 	}
 }
 
@@ -95,7 +95,7 @@ void CAnnivEditCtrl::Release()
  **/
 BYTE CAnnivEditCtrl::ItemValid(WORD wIndex) const
 {
-	return (_pDates != NULL && wIndex < _numDates && _pDates[wIndex] != NULL);
+	return (_pDates != nullptr && wIndex < _numDates && _pDates[wIndex] != nullptr);
 }
 
 /**
@@ -168,14 +168,14 @@ MAnnivDate* CAnnivEditCtrl::FindDateById(const WORD wId)
 {
 	WORD i;
 
-	if (_pDates != NULL) {
+	if (_pDates != nullptr) {
 		for (i = 0; i < _numDates; i++) {
 			if (_pDates[i]->Id() < ANID_NONE && _pDates[i]->Id() == wId) {
 				return _pDates[i];
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -190,7 +190,7 @@ INT_PTR CAnnivEditCtrl::AddDate(MAnnivDate &mda)
 	MAnnivDate *pmda, **pmd;
 
 	// if a date with wID exists, replace it
-	if ((pmda = FindDateById(mda.Id())) != NULL) {
+	if ((pmda = FindDateById(mda.Id())) != nullptr) {
 		BYTE bChanged = pmda->IsChanged(),
 			bRemindChanged = pmda->IsReminderChanged();
 
@@ -321,7 +321,7 @@ INT_PTR CAnnivEditCtrl::DBWriteBirthDay(MCONTACT hContact)
 {
 	MAnnivDate *pmdb;
 
-	if ((pmdb = FindDateById(ANID_BIRTHDAY)) == NULL)
+	if ((pmdb = FindDateById(ANID_BIRTHDAY)) == nullptr)
 		return 1;
 		
 	if (pmdb->IsChanged()) {
@@ -354,7 +354,7 @@ INT_PTR CAnnivEditCtrl::DBWriteAnniversaries(MCONTACT hContact)
 
 	for (i = 0; i < _numDates; i++) {
 		if (
-			_pDates[i] != NULL &&
+			_pDates[i] != nullptr &&
 			!_pDates[i]->DBWriteAnniversaryDate(hContact, wIndex) &&
 			!_pDates[i]->DBWriteReminderOpts(hContact)
 	)
@@ -454,7 +454,7 @@ void CAnnivEditCtrl::OnMenuPopup()
 		}
 		ClientToScreen(_hBtnMenu, &pt);
 		GetClientRect(_hBtnMenu, &rc);
-		i = TrackPopupMenuEx(hMenu, TPM_RIGHTALIGN|TPM_RETURNCMD, pt.x + rc.right, pt.y + rc.bottom, _hwndDlg, NULL);
+		i = TrackPopupMenuEx(hMenu, TPM_RIGHTALIGN|TPM_RETURNCMD, pt.x + rc.right, pt.y + rc.bottom, _hwndDlg, nullptr);
 		DestroyMenu(hMenu);
 		SendMessage(_hBtnMenu, BM_SETCHECK, NULL, NULL);
 		if (i >= WM_USER) SetCurSel(i - WM_USER);
@@ -506,7 +506,7 @@ void CAnnivEditCtrl::OnRemindEditChanged()
 
 	if (pCurrent) 
 	{
-		UINT iVal = GetDlgItemInt(_hwndDlg, EDIT_REMIND, NULL, FALSE);
+		UINT iVal = GetDlgItemInt(_hwndDlg, EDIT_REMIND, nullptr, FALSE);
 		if (iVal != pCurrent->RemindOffset() && IsDlgButtonChecked(_hwndDlg, RADIO_REMIND2) == BST_CHECKED) 
 		{
 			SendMessage(GetParent(_hwndDlg), PSM_CHANGED, NULL, NULL);
@@ -587,7 +587,7 @@ void CAnnivEditCtrl::SetZodiacAndAge(MAnnivDate *mt)
 		MZodiac zod;
 
 		zod = mt->Zodiac();
-		if (zod.pszName != NULL)
+		if (zod.pszName != nullptr)
 		{
 			ShowWindow(GetDlgItem(_hwndDlg, TEXT_ZODIAC), SW_SHOW);
 			SetDlgItemText(_hwndDlg, TEXT_ZODIAC, TranslateW(zod.pszName));

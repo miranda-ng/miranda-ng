@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CDummyProto::SendMsgAck(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	message_data *data = static_cast<message_data*>(p);
@@ -69,7 +69,7 @@ CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) 
 
 CDummyProto::~CDummyProto()
 {
-	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
+	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = nullptr;
 	dummy_Instances.remove(this);
 }
 
@@ -145,7 +145,7 @@ int CDummyProto::SetStatus(int)
 HANDLE CDummyProto::SearchBasic(const wchar_t* id)
 {
 	if (uniqueIdSetting[0] == '\0')
-		return 0;
+		return nullptr;
 
 	wchar_t *tid = mir_wstrdup(id);
 	ForkThread(&CDummyProto::SearchIdAckThread, tid);
@@ -154,7 +154,7 @@ HANDLE CDummyProto::SearchBasic(const wchar_t* id)
 
 MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	if (psr->id.w == NULL)
+	if (psr->id.w == nullptr)
 		return NULL;
 
 	MCONTACT hContact = db_add_contact();

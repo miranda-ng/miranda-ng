@@ -25,8 +25,8 @@ static HANDLE ghExtraIconF = INVALID_HANDLE_VALUE;
 static HANDLE ghExtraIconM = INVALID_HANDLE_VALUE;
 static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook = NULL;
-static HANDLE hApplyIconHook = NULL;
+static HANDLE hChangedHook = nullptr;
+static HANDLE hApplyIconHook = nullptr;
 
 bool g_eiGender = false;
 
@@ -76,7 +76,7 @@ static int OnCListApplyIcons(MCONTACT hContact, LPARAM)
 		switch (GenderOf(hContact)) {
 			case 'M':  icoName = ICO_COMMON_MALE;   break;
 			case 'F':  icoName = ICO_COMMON_FEMALE; break;
-			default:   icoName = NULL;
+			default:   icoName = nullptr;
 		}
 		ExtraIcon_SetIconByName(ghExtraIconSvc, hContact, icoName);
 	}
@@ -120,20 +120,20 @@ bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB)
 			ghExtraIconSvc = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender (UInfoEx)"), ICO_COMMON_MALE);
 
 		// hook events
-		if (hChangedHook == NULL) 
+		if (hChangedHook == nullptr) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
-		if (hApplyIconHook == NULL) 
+		if (hApplyIconHook == nullptr) 
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 	}
 	else {
 		if (hChangedHook) {
 			UnhookEvent(hChangedHook); 
-			hChangedHook = NULL;
+			hChangedHook = nullptr;
 		}
 		if (hApplyIconHook) {
 			UnhookEvent(hApplyIconHook); 
-			hApplyIconHook = NULL;
+			hApplyIconHook = nullptr;
 		}
 	}
 	return bChanged;
@@ -150,6 +150,6 @@ bool SvcGenderEnableExtraIcons(bool bEnable, bool bUpdateDB)
 void SvcGenderUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook);	hChangedHook = NULL;
-	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
+	UnhookEvent(hChangedHook);	hChangedHook = nullptr;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = nullptr;
 }

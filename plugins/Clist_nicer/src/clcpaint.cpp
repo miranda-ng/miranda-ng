@@ -225,7 +225,7 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 	else {
 		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0));
 		DrawText(hDC, TranslateT("No events..."), -1, rc, DT_VCENTER | DT_SINGLELINE);
-		DrawIconEx(hDC, 4, (rc->bottom + rc->top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
+		DrawIconEx(hDC, 4, (rc->bottom + rc->top - 16) / 2, hIcon, 16, 16, 0, nullptr, DI_NORMAL | DI_COMPAT);
 		DestroyIcon(hIcon);
 	}
 }
@@ -251,7 +251,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 	LONG bmWidth, bmHeight;
 	float dAspect;
 	HBITMAP hbm, hbmOldAV;
-	HRGN rgn = 0;
+	HRGN rgn = nullptr;
 	int avatar_size = cfg::dat.avatarSize;
 	DWORD av_saved_left;
 	StatusItems_t *item = contact->wStatus == ID_STATUS_OFFLINE ? arStatusItems[ID_EXTBKAVATARFRAMEOFFLINE - ID_STATUS_OFFLINE] : arStatusItems[ID_EXTBKAVATARFRAME - ID_STATUS_OFFLINE];
@@ -262,7 +262,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 	if (!cfg::dat.bAvatarServiceAvail || dat->bisEmbedded)
 		return 0;
 
-	if (contact->ace != NULL && contact->ace->cbSize == sizeof(struct AVATARCACHEENTRY)) {
+	if (contact->ace != nullptr && contact->ace->cbSize == sizeof(struct AVATARCACHEENTRY)) {
 		if (contact->ace->dwFlags & AVS_HIDEONCLIST)
 			return (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? avatar_size + 2 : 0;
 
@@ -277,7 +277,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 	}
 	else return (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? avatar_size + 2 : 0;
 
-	if (bmHeight == 0 || bmWidth == 0 || hbm == 0)
+	if (bmHeight == 0 || bmWidth == 0 || hbm == nullptr)
 		return 0;
 
 	g_maxAV_X = max(bmWidth, g_maxAV_X);
@@ -344,15 +344,15 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 		fOverlay = (dwFlags & ECF_FORCEOVERLAY) ? 1 : 0;
 
 	if (fOverlay && cstatus && (int)newHeight >= g_cysmIcon)
-		DrawIconEx(hdcMem, rc->left + (int)newWidth - 15, y + topoffset + (int)newHeight - 15, overlayicons[cstatus - ID_STATUS_OFFLINE], g_cxsmIcon, g_cysmIcon, 0, 0, DI_NORMAL | DI_COMPAT);
+		DrawIconEx(hdcMem, rc->left + (int)newWidth - 15, y + topoffset + (int)newHeight - 15, overlayicons[cstatus - ID_STATUS_OFFLINE], g_cxsmIcon, g_cysmIcon, 0, nullptr, DI_NORMAL | DI_COMPAT);
 
-	SelectClipRgn(hdcMem, NULL);
+	SelectClipRgn(hdcMem, nullptr);
 	DeleteObject(rgn);
 
 	if (!item->IGNORED) {
 		RECT rcFrame;
 		BOOL inClCPaint_save = g_inCLCpaint;
-		HDC  hdcTemp = 0;
+		HDC  hdcTemp = nullptr;
 		HBITMAP hbmOld, hbmTemp;
 
 		g_inCLCpaint = FALSE;
@@ -412,7 +412,7 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 	DWORD leftOffset = 0, rightOffset = 0;
 	int iconXSpace = dat->iconXSpace;
 	//BOOL xStatusValid = 0;
-	HFONT hPreviousFont = 0;
+	HFONT hPreviousFont = nullptr;
 	COLORREF oldGroupColor = -1;
 	DWORD qLeft = 0;
 	int leftX = dat->leftMargin + indent * dat->groupIndent;
@@ -426,7 +426,7 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 	rowHeight -= cfg::dat.bRowSpacing;
 	savedCORNER = -1;
 
-	if (group == NULL || contact == NULL)
+	if (group == nullptr || contact == nullptr)
 		return;
 
 	g_RTL = FALSE;
@@ -499,7 +499,7 @@ set_bg_l:
 	else
 		ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 
-	wchar_t *szCounts = NULL;
+	wchar_t *szCounts = nullptr;
 	if (type == CLCIT_GROUP) {
 		GetTextExtentPoint32(hdcMem, contact->szText, (int)mir_wstrlen(contact->szText), &textSize);
 		int width = textSize.cx;
@@ -589,7 +589,7 @@ set_bg_l:
 
 			// check for special cases (first item, single item, last item)
 			// this will only change the shape for this status. Color will be blended over with ALPHA value
-			if (!ssingleitem->IGNORED && scanIndex == 0 && group->cl.getCount() == 1 && group->parent != NULL) {
+			if (!ssingleitem->IGNORED && scanIndex == 0 && group->cl.getCount() == 1 && group->parent != nullptr) {
 				rc.left = ssingleitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + ssingleitem->MARGIN_TOP;
 				rc.right = clRect->right - ssingleitem->MARGIN_RIGHT - bg_indent_r;
@@ -613,7 +613,7 @@ set_bg_l:
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, ssingleitem->COLOR, ssingleitem->ALPHA, ssingleitem->COLOR2, ssingleitem->COLOR2_TRANSPARENT, ssingleitem->GRADIENT, ssingleitem->CORNER, ssingleitem->BORDERSTYLE, ssingleitem->imageItem);
 			}
-			else if (scanIndex == 0 && group->cl.getCount() > 1 && !sfirstitem->IGNORED && group->parent != NULL) {
+			else if (scanIndex == 0 && group->cl.getCount() > 1 && !sfirstitem->IGNORED && group->parent != nullptr) {
 				rc.left = sfirstitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + sfirstitem->MARGIN_TOP;
 				rc.right = clRect->right - sfirstitem->MARGIN_RIGHT - bg_indent_r;
@@ -637,7 +637,7 @@ set_bg_l:
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, sfirstitem->COLOR, sfirstitem->ALPHA, sfirstitem->COLOR2, sfirstitem->COLOR2_TRANSPARENT, sfirstitem->GRADIENT, sfirstitem->CORNER, sfirstitem->BORDERSTYLE, sfirstitem->imageItem);
 			}
-			else if (scanIndex == group->cl.getCount() - 1 && !slastitem->IGNORED && group->parent != NULL) {
+			else if (scanIndex == group->cl.getCount() - 1 && !slastitem->IGNORED && group->parent != nullptr) {
 				// last item of group
 				rc.left = slastitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + slastitem->MARGIN_TOP;
@@ -663,7 +663,7 @@ set_bg_l:
 					DrawAlpha(hdcMem, &rc, slastitem->COLOR, slastitem->ALPHA, slastitem->COLOR2, slastitem->COLOR2_TRANSPARENT, slastitem->GRADIENT, slastitem->CORNER, slastitem->BORDERSTYLE, slastitem->imageItem);
 			}
 			// --- Non-grouped items ---
-			else if (type != CLCIT_GROUP && group->parent == NULL && !sfirstitem_NG->IGNORED && scanIndex != group->cl.getCount() - 1 && !(*bFirstNGdrawn)) {
+			else if (type != CLCIT_GROUP && group->parent == nullptr && !sfirstitem_NG->IGNORED && scanIndex != group->cl.getCount() - 1 && !(*bFirstNGdrawn)) {
 				// first NON-grouped
 				*bFirstNGdrawn = TRUE;
 				rc.left = sfirstitem_NG->MARGIN_LEFT + bg_indent_l;
@@ -689,7 +689,7 @@ set_bg_l:
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, sfirstitem_NG->COLOR, sfirstitem_NG->ALPHA, sfirstitem_NG->COLOR2, sfirstitem_NG->COLOR2_TRANSPARENT, sfirstitem_NG->GRADIENT, sfirstitem_NG->CORNER, sfirstitem->BORDERSTYLE, sfirstitem->imageItem);
 			}
-			else if (type != CLCIT_GROUP && group->parent == NULL && !slastitem_NG->IGNORED && scanIndex == group->cl.getCount() - 1 && (*bFirstNGdrawn)) {
+			else if (type != CLCIT_GROUP && group->parent == nullptr && !slastitem_NG->IGNORED && scanIndex == group->cl.getCount() - 1 && (*bFirstNGdrawn)) {
 				// last item of list (NON-group)
 				// last NON-grouped
 				rc.left = slastitem_NG->MARGIN_LEFT + bg_indent_l;
@@ -715,7 +715,7 @@ set_bg_l:
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, slastitem_NG->COLOR, slastitem_NG->ALPHA, slastitem_NG->COLOR2, slastitem_NG->COLOR2_TRANSPARENT, slastitem_NG->GRADIENT, slastitem_NG->CORNER, slastitem->BORDERSTYLE, slastitem->imageItem);
 			}
-			else if (type != CLCIT_GROUP && group->parent == NULL && !slastitem_NG->IGNORED && !(*bFirstNGdrawn)) {
+			else if (type != CLCIT_GROUP && group->parent == nullptr && !slastitem_NG->IGNORED && !(*bFirstNGdrawn)) {
 				// single item of NON-group
 				// single NON-grouped
 				rc.left = ssingleitem_NG->MARGIN_LEFT + bg_indent_l;
@@ -848,11 +848,11 @@ bgskipped:
 	rcContent.right = clRect->right - dat->rightMargin;
 	twoRows = ((dat->fontInfo[FONTID_STATUS].fontHeight + fontHeight <= rowHeight + 1) && (contact->bSecondLine != MULTIROW_NEVER)) && !dat->bisEmbedded;
 
-	pi_avatar = !dat->bisEmbedded && type == CLCIT_CONTACT && (contact->cFlags & ECF_AVATAR) && contact->ace != 0 && !(contact->ace->dwFlags & AVS_HIDEONCLIST);
+	pi_avatar = !dat->bisEmbedded && type == CLCIT_CONTACT && (contact->cFlags & ECF_AVATAR) && contact->ace != nullptr && !(contact->ace->dwFlags & AVS_HIDEONCLIST);
 
 	//checkboxes
 	if (checkboxWidth) {
-		HANDLE hTheme = 0;
+		HANDLE hTheme = nullptr;
 		if (IS_THEMED)
 			hTheme = OpenThemeData(hwnd, L"BUTTON");
 
@@ -864,7 +864,7 @@ bgskipped:
 		if (hTheme) {
 			DrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, flags & CONTACTF_CHECKED ? (g_hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (g_hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc2, &rc2);
 			CloseThemeData(hTheme);
-			hTheme = 0;
+			hTheme = nullptr;
 		}
 		else DrawFrameControl(hdcMem, &rc2, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (flags & CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (g_hottrack ? DFCS_HOT : 0));
 
@@ -1136,7 +1136,7 @@ bgskipped:
 						rc2.left = rcContent.right - szTime.cx - 2;
 				}
 				DrawText(hdcMem, szResult, -1, &rc2, DT_NOPREFIX | DT_NOCLIP | DT_SINGLELINE);
-				ChangeToFont(hdcMem, dat, idOldFont, 0);
+				ChangeToFont(hdcMem, dat, idOldFont, nullptr);
 				SetTextColor(hdcMem, oldColor);
 
 				verticalfit = (rowHeight - fontHeight >= g_cysmIcon + 1);
@@ -1278,11 +1278,11 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	hbmTempAV = CreateCompatibleBitmap(g_HDC, g_maxAV_X, g_maxAV_Y);
 	hbmTempOldAV = reinterpret_cast<HBITMAP>(SelectObject(hdcTempAV, hbmTempAV));
 
-	cfg::dat.t_now = time(NULL);
+	cfg::dat.t_now = time(nullptr);
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);
 
-	cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients && (GdiGradientFill != 0);
+	cfg::dat.bUseFastGradients = cfg::dat.bWantFastGradients && (GdiGradientFill != nullptr);
 
 	av_left = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT);
 	av_right = (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHT);
@@ -1300,7 +1300,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 	else if (GetFocus() != hwnd && dat->greyoutFlags & GREYF_UNFOCUS)
 		grey = 1;
 	GetClientRect(hwnd, &clRect);
-	if (rcPaint == NULL)
+	if (rcPaint == nullptr)
 		rcPaint = &clRect;
 	if (IsRectEmpty(rcPaint)) {
 		SelectObject(hdcTempAV, hbmTempOldAV);
@@ -1313,7 +1313,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 
 	int y = -dat->yScroll;
 	HDC hdcMem = CreateCompatibleDC(hdc);
-	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
+	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), nullptr);
 
 	HBITMAP hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hBmpOsb));
 
@@ -1414,7 +1414,7 @@ bgdone:
 	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
 
-	if (dat->row_heights == NULL)
+	if (dat->row_heights == nullptr)
 		RowHeight::calcRowHeights(dat, hwnd);
 
 	group = &dat->list;
@@ -1423,7 +1423,7 @@ bgdone:
 	g_list_avatars = 0;
 	while (true) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			continue;
@@ -1448,7 +1448,7 @@ bgdone:
 	int indent = 0;
 	for (int index = 0; y < rcPaint->bottom;) {
 		if (group->scanIndex == group->cl.getCount()) {
-			if ((group = group->parent) == NULL)
+			if ((group = group->parent) == nullptr)
 				break;
 			group->scanIndex++;
 			indent--;

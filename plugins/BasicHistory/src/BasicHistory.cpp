@@ -25,16 +25,16 @@ HINSTANCE hInst;
 #define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
 
 HCURSOR     hCurSplitNS, hCurSplitWE;
-HANDLE  g_hMainThread = NULL;
+HANDLE  g_hMainThread = nullptr;
 
-HANDLE *hEventIcons = NULL;
+HANDLE *hEventIcons = nullptr;
 int iconsNum = 3;
 HANDLE hToolbarButton;
 HGENMENU hContactMenu, hDeleteContactMenu;
 HGENMENU hTaskMainMenu;
 std::vector<HGENMENU> taskMenus;
 bool g_SmileyAddAvail = false;
-char* metaContactProto = NULL;
+char* metaContactProto = nullptr;
 const IID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11ce, {0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D} };
 
 #define MODULE "BasicHistory"
@@ -85,7 +85,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 
 int ToolbarModuleLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Open History");
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP;
@@ -122,7 +122,7 @@ void InitMenuItems()
 void InitTaskMenuItems()
 {
 	if (Options::instance->taskOptions.size() > 0) {
-		if (hTaskMainMenu == NULL) {
+		if (hTaskMainMenu == nullptr) {
 			CMenuItem mi;
 			SET_UID(mi, 0xbf66499, 0x1b39, 0x47a2, 0x9b, 0x74, 0xa6, 0xae, 0x89, 0x95, 0x59, 0x59);
 			mi.position = 500060005;
@@ -151,7 +151,7 @@ void InitTaskMenuItems()
 			taskMenus.push_back(menu);
 		}
 	}
-	else if (hTaskMainMenu != NULL)
+	else if (hTaskMainMenu != nullptr)
 		Menu_ShowItem(hTaskMainMenu, false);
 }
 
@@ -178,7 +178,7 @@ HICON LoadIconEx(int iconId, bool big)
 		if (iconList[i].defIconID == iconId)
 			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
 
-	return 0;
+	return nullptr;
 }
 
 INT_PTR ShowContactHistory(WPARAM hContact, LPARAM)
@@ -205,12 +205,12 @@ int ModulesLoaded(WPARAM, LPARAM)
 	InitMenuItems();
 
 	wchar_t ftpExe[MAX_PATH];
-	if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
+	if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PROGRAM_FILES, nullptr, SHGFP_TYPE_CURRENT, ftpExe))) {
 		wcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
 		DWORD atr = GetFileAttributes(ftpExe);
 		if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
 			#ifdef _WIN64
-			if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILESX86, NULL, SHGFP_TYPE_CURRENT, ftpExe))) {
+			if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PROGRAM_FILESX86, nullptr, SHGFP_TYPE_CURRENT, ftpExe))) {
 				wcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
 				atr = GetFileAttributes(ftpExe);
 				if (!(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY))
@@ -246,11 +246,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	hTaskMainMenu = NULL;
+	hTaskMainMenu = nullptr;
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 
-	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
-	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
+	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
+	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
 
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistory);
 	CreateServiceFunction(MS_HISTORY_DELETEALLCONTACTHISTORY, HistoryWindow::DeleteAllUserHistory);
@@ -271,16 +271,16 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	if (g_hMainThread)
 		CloseHandle(g_hMainThread);
-	g_hMainThread = NULL;
+	g_hMainThread = nullptr;
 
 	HistoryWindow::Deinit();
 
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurSplitWE);
 
-	if (Options::instance != NULL) {
+	if (Options::instance != nullptr) {
 		delete Options::instance;
-		Options::instance = NULL;
+		Options::instance = nullptr;
 	}
 
 	delete[] hEventIcons;

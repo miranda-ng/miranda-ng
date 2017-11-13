@@ -97,7 +97,7 @@ void TxtclrLoop()
 	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 		SetDlgItemText(hwndDlg, IDC_DATA, L"");
-		InvalidateRect(hwndDlg, NULL, 1);
+		InvalidateRect(hwndDlg, nullptr, 1);
 	}
 }
 
@@ -108,7 +108,7 @@ void BGclrLoop()
 		HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 		SetDlgItemText(hwndDlg, IDC_DATA, L"");
 		SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETBKGNDCOLOR, 0, BackgoundClr);
-		InvalidateRect(hwndDlg, NULL, 1);
+		InvalidateRect(hwndDlg, nullptr, 1);
 	}
 }
 
@@ -185,7 +185,7 @@ int Doubleclick(WPARAM wParam, LPARAM)
 			SetFocus(hwndDlg);
 		}
 		else {
-			hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM)hContact);
+			hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
 			HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
 			SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0)));
 
@@ -269,7 +269,7 @@ void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 
 	if (!(db_get_b(NULL, MODULENAME, OFFLINE_STATUS, 1)))
 		if (!(db_get_b(NULL, MODULENAME, DISABLE_AUTOUPDATE_KEY, 0)))
-			mir_forkthread(ContactLoop, NULL);
+			mir_forkthread(ContactLoop, nullptr);
 
 	db_set_dw(NULL, MODULENAME, COUNTDOWN_KEY, 0);
 }
@@ -352,7 +352,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	// get data on startup
 	if (db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0))
-		mir_forkthread(StartUpdate, NULL);
+		mir_forkthread(StartUpdate, nullptr);
 
 	return 0;
 }
@@ -362,13 +362,13 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	HWND hwndDlg = WindowList_Find(hWindowList, hContact);
-	if (hwndDlg != NULL) {
+	if (hwndDlg != nullptr) {
 		DestroyWindow(hwndDlg);
 		return 0;
 	}
 
 	HWND hTopmost = db_get_b(hContact, MODULENAME, ON_TOP_KEY, 0) ? HWND_TOPMOST : HWND_NOTOPMOST;
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), NULL, DlgProcDisplayData, (LPARAM)hContact);
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DISPLAY_DATA), nullptr, DlgProcDisplayData, (LPARAM)hContact);
 	SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_STICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
 	if (db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0))
 		SetWindowPos(hwndDlg, hTopmost,
@@ -396,7 +396,7 @@ INT_PTR DataWndMenuCommand(WPARAM wParam, LPARAM)
 /*****************************************************************************/
 INT_PTR UpdateAllMenuCommand(WPARAM, LPARAM)
 {
-	mir_forkthread(ContactLoop, NULL);
+	mir_forkthread(ContactLoop, nullptr);
 	return 0;
 }
 
@@ -474,7 +474,7 @@ INT_PTR CntOptionsMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), NULL, DlgProcContactOpt, (LPARAM)wParam);
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONTACT_OPT), nullptr, DlgProcContactOpt, (LPARAM)wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;
@@ -489,7 +489,7 @@ INT_PTR CntAlertMenuCommand(WPARAM wParam, LPARAM)
 		return 0;
 	}
 
-	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), NULL, DlgProcAlertOpt, (LPARAM)wParam);
+	hwndDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ALRT_OPT), nullptr, DlgProcAlertOpt, (LPARAM)wParam);
 	ShowWindow(hwndDlg, SW_SHOW);
 	SetActiveWindow(hwndDlg);
 	return 0;

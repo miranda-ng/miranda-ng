@@ -30,17 +30,17 @@ public:
 
 	static bool Init()
 	{
-		assert(NULL == g_hNetLib);
+		assert(nullptr == g_hNetLib);
 
 		NETLIBUSER nlu = {};
 		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 		nlu.szSettingsModule = QUOTES_PROTOCOL_NAME;
 		nlu.szDescriptiveName.w = TranslateT("Quotes HTTP connections");
 		g_hNetLib = Netlib_RegisterUser(&nlu);
-		return (NULL != g_hNetLib);
+		return (nullptr != g_hNetLib);
 	}
 
-	static bool IsValid() { return NULL != g_hNetLib; }
+	static bool IsValid() { return nullptr != g_hNetLib; }
 
 	virtual bool OpenURL(const tstring& rsURL)
 	{
@@ -80,7 +80,7 @@ public:
 		// 			nlhr.headers[5].szValue = cookie;
 
 		bool bResult = false;
-		NETLIBHTTPREQUEST* pReply = NULL;
+		NETLIBHTTPREQUEST* pReply = nullptr;
 		{
 			mir_cslock lck(m_mx);
 			pReply = Netlib_HttpTransaction(g_hNetLib, &nlhr);
@@ -94,7 +94,7 @@ public:
 
 				char* pResult = &*(apBuffer.begin());
 				int nIndex = find_header(pReply, "Content-Type");
-				if ((-1 != nIndex) && (NULL != strstr(_strlwr(pReply->headers[nIndex].szValue), "utf-8"))) {
+				if ((-1 != nIndex) && (nullptr != strstr(_strlwr(pReply->headers[nIndex].szValue), "utf-8"))) {
 					wchar_t* p = mir_utf8decodeW(pResult);
 					rsResponce = p;
 					mir_free(p);
@@ -123,7 +123,7 @@ private:
 	mutable mir_cs m_mx;
 };
 
-HNETLIBUSER CImplMI::g_hNetLib = NULL;
+HNETLIBUSER CImplMI::g_hNetLib = nullptr;
 
 CHTTPSession::CHTTPSession()
 	: m_pImpl(new CImplMI)

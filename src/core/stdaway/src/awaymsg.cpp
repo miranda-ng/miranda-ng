@@ -71,7 +71,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			Window_SetProtoIcon_IcoLib(hwndDlg, szProto, dwStatus);
 		}
 
-		if (dat->hSeq == NULL) {
+		if (dat->hSeq == nullptr) {
 			ACKDATA ack = { 0 };
 			ack.cbSize = sizeof(ack);
 			ack.hContact = dat->hContact;
@@ -87,7 +87,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			ACKDATA *ack = (ACKDATA*)lParam;
 			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG) break;
 			if (ack->result != ACKRESULT_SUCCESS) break;
-			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = NULL; }
+			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = nullptr; }
 
 			SetDlgItemText(hwndDlg, IDC_MSG, (const wchar_t*)ack->lParam);
 
@@ -134,7 +134,7 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto != NULL) {
+	if (szProto != nullptr) {
 		int chatRoom = db_get_b(hContact, szProto, "ChatRoom", 0);
 		if (!chatRoom) {
 			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);

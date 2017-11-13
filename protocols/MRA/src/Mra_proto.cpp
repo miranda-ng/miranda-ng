@@ -23,7 +23,7 @@ DWORD CMraProto::StartConnect()
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_WARNING, TranslateT("Please, setup password in options"));
 	else {
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
-		if (INVALID_HANDLE_VALUE != ForkThreadEx(&CMraProto::MraThreadProc, NULL, 0))
+		if (INVALID_HANDLE_VALUE != ForkThreadEx(&CMraProto::MraThreadProc, nullptr, nullptr))
 			return 0; /* OK. */
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_ERROR, TranslateT("Thread creation failure"));
 	}
@@ -61,7 +61,7 @@ void CMraProto::MraThreadProc(LPVOID)
 			InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 			m_hConnection = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 		}
-		while (--dwCurConnectReTryCount && m_hConnection == NULL);
+		while (--dwCurConnectReTryCount && m_hConnection == nullptr);
 
 		if (m_hConnection)
 			bConnected = TRUE;
@@ -84,7 +84,7 @@ void CMraProto::MraThreadProc(LPVOID)
 				InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 				m_hConnection = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 			}
-				while (--dwCurConnectReTryCount && m_hConnection == NULL);
+				while (--dwCurConnectReTryCount && m_hConnection == nullptr);
 
 			if (m_hConnection) {
 				bConnected = TRUE;
@@ -98,7 +98,7 @@ void CMraProto::MraThreadProc(LPVOID)
 	else {
 		if (bConnected == FALSE) {
 			ShowFormattedErrorMessage(L"Can't connect to MRIM server, error", GetLastError());
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NONETWORK);
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 		}
 	}
 
@@ -145,7 +145,7 @@ DWORD CMraProto::MraGetNLBData(CMStringA &szHost, WORD *pwPort)
 		InterlockedExchange((volatile LONG*)&m_dwThreadWorkerLastPingTime, GetTickCount());
 		nls.hReadConns[0] = Netlib_OpenConnection(m_hNetlibUser, &nloc);
 	}
-		while (--dwCurConnectReTryCount && nls.hReadConns[0] == NULL);
+		while (--dwCurConnectReTryCount && nls.hReadConns[0] == nullptr);
 
 	if (nls.hReadConns[0]) {
 		nls.dwTimeout = 1000 * getDword("TimeOutReceiveNLB", MRA_DEFAULT_TIMEOUT_RECV_NLB);
@@ -215,7 +215,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 
 	m_dwNextPingSendTickTime = m_dwPingPeriod = MAXDWORD;
 	dwCMDNum = 0;
-	MraSendCMD(MRIM_CS_HELLO, NULL, 0);
+	MraSendCMD(MRIM_CS_HELLO, nullptr, 0);
 	while (m_iStatus != ID_STATUS_OFFLINE && bContinue) {
 		int iSelectRet = Netlib_Select(&nls);
 		if (SOCKET_ERROR == iSelectRet) {
@@ -231,7 +231,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 		if (m_dwNextPingSendTickTime <= m_dwThreadWorkerLastPingTime) {
 			nls.dwTimeout = (m_dwPingPeriod * 1000);
 			m_dwNextPingSendTickTime = (m_dwThreadWorkerLastPingTime + nls.dwTimeout);
-			MraSendCMD(MRIM_CS_PING, NULL, 0);
+			MraSendCMD(MRIM_CS_PING, nullptr, 0);
 		} else {
 			if (MAXDWORD != m_dwNextPingSendTickTime)
 				nls.dwTimeout = (m_dwNextPingSendTickTime - m_dwThreadWorkerLastPingTime);
@@ -383,7 +383,7 @@ bool CMraProto::CmdLoginAck()
 {
 	m_bLoggedIn = TRUE;
 	m_dwNextPingSendTickTime = 0; // force send ping
-	MraSendCMD(MRIM_CS_PING, NULL, 0);
+	MraSendCMD(MRIM_CS_PING, nullptr, 0);
 	SetStatus(m_iDesiredStatus);
 	MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, GAIF_FORCE, NULL);
 	return true;
@@ -392,7 +392,7 @@ bool CMraProto::CmdLoginAck()
 // Unsuccessful authorization //LPS ## reason ## причина отказа
 bool CMraProto::CmdLoginRejected(BinBuffer &buf)
 {
-	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
 
 	CMStringA reason; buf >> reason;
 	MraPopupShowW(NULL, MRA_POPUP_TYPE_ERROR, TranslateT("Logon error: invalid login/password"), _A2T(reason.c_str()));
@@ -412,7 +412,7 @@ bool CMraProto::CmdMessageAck(BinBuffer &buf)
 		buf >> szMultiChatData; // LPS multichat_data
 
 	// подтверждаем получение, только если удалось его обработать
-	if (MraRecvCommand_Message((DWORD)_time32(NULL), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
+	if (MraRecvCommand_Message((DWORD)_time32(nullptr), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
 	if ((dwFlags & MESSAGE_FLAG_NORECV) == 0)
 		MraMessageRecv(szEmail, dwMsgID);
 	return true;
@@ -422,7 +422,7 @@ bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
 {
 	DWORD dwAckType, dwTemp = buf.getDword();
 	MCONTACT hContact;
-	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
+	if (!MraSendQueueFind(hSendQueueHandle, seq, nullptr, &hContact, &dwAckType, nullptr, nullptr)) {
 		switch (dwTemp) {
 		case MESSAGE_DELIVERED:// Message delivered directly to user
 			ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
@@ -562,7 +562,7 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 		DBEVENTINFO dbei = {};
 		dbei.flags = DBEF_UTF;
 		dbei.szModule = m_szModuleName;
-		dbei.timestamp = (DWORD)_time32(NULL);
+		dbei.timestamp = (DWORD)_time32(nullptr);
 		dbei.eventType = EVENTTYPE_ADDED;
 		dbei.cbBlob = szBuff.GetLength();
 		dbei.pBlob = (PBYTE)szBuff.GetString();
@@ -570,9 +570,9 @@ bool CMraProto::CmdAuthAck(BinBuffer &buf)
 	}
 
 	DWORD dwTemp;
-	GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, NULL, NULL);
+	GetContactBasicInfoW(hContact, nullptr, nullptr, nullptr, &dwTemp, nullptr, nullptr, nullptr, nullptr);
 	dwTemp &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
-	SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, 0, 0, 0);
+	SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, nullptr, nullptr, nullptr);
 	setDword(hContact, "HooksLocked", TRUE);
 	db_unset(hContact, "CList", "NotOnList");
 	setDword(hContact, "HooksLocked", FALSE);
@@ -714,7 +714,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 {
 	DWORD dwAckType; MCONTACT hContact;
-	if (!MraSendQueueFind(hSendQueueHandle, seq, NULL, &hContact, &dwAckType, NULL, NULL)) {
+	if (!MraSendQueueFind(hSendQueueHandle, seq, nullptr, &hContact, &dwAckType, nullptr, nullptr)) {
 		DWORD dwTemp = buf.getDword();
 		switch (dwTemp) {
 		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
@@ -725,7 +725,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 					dwFlags |= SCBIF_GROUP_ID;
 					dwGroupID = MraMoveContactToGroup(hContact, -1, grpName);
 				}
-				SetContactBasicInfoW(hContact, 0, dwFlags, buf.getDword(), dwGroupID, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, 0, 0, 0);
+				SetContactBasicInfoW(hContact, 0, dwFlags, buf.getDword(), dwGroupID, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, nullptr, nullptr, nullptr);
 			}
 			break;
 		case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
@@ -735,7 +735,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 			ShowFormattedErrorMessage(L"Internal server error", NO_ERROR);
 			break;
 		case CONTACT_OPER_NO_SUCH_USER:// ## добавляемого пользователя не существует в системе
-			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
+			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, nullptr, nullptr, nullptr);
 			ShowFormattedErrorMessage(L"No such user to add", NO_ERROR);
 			break;
 		case CONTACT_OPER_INVALID_INFO:// ## некорректное имя пользователя
@@ -762,14 +762,14 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 {
 	DWORD dwAckType, dwFlags; MCONTACT hContact;
-	if (MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, NULL, NULL)) {
+	if (MraSendQueueFind(hSendQueueHandle, seq, &dwFlags, &hContact, &dwAckType, nullptr, nullptr)) {
 		MraPopupShowFromAgentW(MRA_POPUP_TYPE_DEBUG, TranslateT("MRIM_ANKETA_INFO: not found in queue"));
 		return true;
 	}
 
 	switch (buf.getDword()) {
 	case MRIM_ANKETA_INFO_STATUS_NOUSER:// не найдено ни одной подходящей записи
-		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, 0, 0, 0);
+		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, nullptr, nullptr, nullptr);
 	case MRIM_ANKETA_INFO_STATUS_DBERR:// ошибка базы данных
 	case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// слишком много запросов, поиск временно запрещен
 		switch (dwAckType) {
@@ -805,7 +805,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 		while (!buf.eof()) {
 			// write to DB and exit loop
 			if (dwAckType == ACKTYPE_GETINFO && hContact) {
-				setDword(hContact, "InfoTS", (DWORD)_time32(NULL));
+				setDword(hContact, "InfoTS", (DWORD)_time32(nullptr));
 				//MRA_LPS mralpsUsernameValue;
 				for (DWORD i = 0; i < dwFieldsNum; i++) {
 					CMStringA &fld = pmralpsFields[i];
@@ -927,7 +927,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					}
 				} /* for */
 				// для авторизованного нам и так присылают правильный статус
-				GetContactBasicInfoW(hContact, &dwID, NULL, NULL, &dwContactSeverFlags, NULL, NULL, NULL, NULL);
+				GetContactBasicInfoW(hContact, &dwID, nullptr, nullptr, &dwContactSeverFlags, nullptr, nullptr, nullptr, nullptr);
 				if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
 					/* Convert mail.ru statuses to miranda. */
 					dwStatus = GetMirandaStatusFromMraStatus(dwStatus, dwXStatus, &dwXStatus);
@@ -1019,7 +1019,7 @@ bool CMraProto::CmdGame(BinBuffer &buf)
 	case GAME_INC_VERSION:
 		break;
 	case GAME_NO_SUCH_GAME:// user invisible
-		if ((hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL)))
+		if ((hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, nullptr)))
 		if (MraGetContactStatus(hContact) == ID_STATUS_OFFLINE)
 			MraSetContactStatus(hContact, ID_STATUS_INVISIBLE);
 		break;
@@ -1244,7 +1244,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				MCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, FALSE, &bAdded);
 				if (hContact) {
 					// already in list, remove the duplicate
-					if (GetContactBasicInfoW(hContact, &dwTemp, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == NO_ERROR && dwTemp != -1) {
+					if (GetContactBasicInfoW(hContact, &dwTemp, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr) == NO_ERROR && dwTemp != -1) {
 						_CrtDbgBreak();
 					}
 					else {
@@ -1252,7 +1252,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 
 						if (bAdded) { // update user info
 							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_FLAG | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_NICK | SCBIF_PHONES),
-								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
+								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, nullptr, &wszNick, &szCustomPhones);
 							// request user info from server
 							MraUpdateContactInfo(hContact);
 						}
@@ -1264,7 +1264,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 							}
 
 							SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
-								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, NULL, &wszNick, &szCustomPhones);
+								dwID, dwGroupID, dwContactFlag, dwContactSeverFlags, dwTemp, nullptr, &wszNick, &szCustomPhones);
 							if (wszNick.IsEmpty()) { // set the server-side nick
 								wszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 								MraModifyContact(hContact, &dwID, &dwContactFlag, &dwGroupID, &szEmail, &wszNick, &szCustomPhones);
@@ -1309,7 +1309,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 				wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
 
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-				if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, &email, NULL, NULL) == NO_ERROR)
+				if (GetContactBasicInfoW(hContact, &dwID, nullptr, nullptr, nullptr, nullptr, &email, nullptr, nullptr) == NO_ERROR)
 				if (dwID == -1) {
 					if (IsEMailChatAgent(email)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
 						db_unset(hContact, "CList", "Hidden");
@@ -1324,7 +1324,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						if (db_get_b(hContact, "CList", "NotOnList", 0) == 0) { // set extra icons and upload contact
 							SetExtraIcons(hContact);
 							if (getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) { //add all contacts to server
-								GetContactBasicInfoW(hContact, NULL, &dwGroupID, NULL, NULL, NULL, NULL, &nick, &phones);
+								GetContactBasicInfoW(hContact, nullptr, &dwGroupID, nullptr, nullptr, nullptr, nullptr, &nick, &phones);
 								MraAddContact(hContact, (CONTACT_FLAG_VISIBLE | CONTACT_FLAG_UNICODE_NAME), dwGroupID, email, nick, &phones, &wszAuthMessage);
 							}
 						}
@@ -1339,7 +1339,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		// всех в offline и id в нестандарт
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
-				-1, -2, 0, 0, ID_STATUS_OFFLINE, 0, 0, 0);
+				-1, -2, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
 			// request user info from server
 			MraUpdateContactInfo(hContact);
 		}
@@ -1441,7 +1441,7 @@ bool CMraProto::CmdBlogStatus(BinBuffer &buf)
 
 	buf >> dwFlags >> szEmail >> dwBlogStatusID >> dwTime >> wszText >> szString;
 
-	if (MCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL)) {
+	if (MCONTACT hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, nullptr)) {
 		if (dwFlags & MRIM_BLOG_STATUS_MUSIC)
 			mraSetStringW(hContact, DBSETTING_BLOGSTATUSMUSIC, wszText);
 		else {
@@ -1492,7 +1492,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	case MRIM_CS_CONNECTION_PARAMS:// Изменение параметров соединения
 		buf >> m_dwPingPeriod;
 		m_dwNextPingSendTickTime = 0; // force send ping
-		MraSendCMD(MRIM_CS_PING, NULL, 0);
+		MraSendCMD(MRIM_CS_PING, nullptr, 0);
 		break;
 
 	case MRIM_CS_LOGOUT:// Пользователь отключен из-за параллельного входа с его логином.
@@ -1514,7 +1514,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 
 	case MRIM_CS_SMS_ACK:
 		buf >> dwTemp;
-		if (MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, NULL, &hContact, &dwAckType, &pByte, &dwSize) == NO_ERROR) {
+		if (MraSendQueueFind(hSendQueueHandle, pmaHeader->seq, nullptr, &hContact, &dwAckType, &pByte, &dwSize) == NO_ERROR) {
 			/* pByte point to phone number ansi string. */
 			/* dwAckType = ICQACKTYPE_SMS */
 			CMStringA szEmail;
@@ -1662,12 +1662,12 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 		if (dwFlags & MESSAGE_SMS_DELIVERY_REPORT) {
 			szText.Format("<sms_delivery_receipt><message_id>%s-1-1955988055-%s</message_id><destination>%s</destination><delivered>No</delivered><submition_time>%s</submition_time><error_code>0</error_code><error><id>15</id><params><param>%s</param></params></error></sms_delivery_receipt>",
 				szEmail.c_str(), szPhone.c_str(), szPhone.c_str(), szTime.c_str(), lpszMessageUTF);
-			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, 0, (LPARAM)szText.GetString());
+			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_FAILED, nullptr, (LPARAM)szText.GetString());
 		}
 		else { // new sms
 			szText.Format("<sms_message><source>Mail.ru</source><destination_UIN>%s</destination_UIN><sender>%s</sender><senders_network>Mail.ru</senders_network><text>%s</text><time>%s</time></sms_message>",
 				szEmail.c_str(), szPhone.c_str(), lpszMessageUTF, szTime.c_str());
-			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, 0, (LPARAM)szText.GetString());
+			ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SUCCESS, nullptr, (LPARAM)szText.GetString());
 		}
 	}
 	else {
@@ -1748,7 +1748,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 				if (bAutoGrantAuth) { // auto grant auth
 					DBEVENTINFO dbei = {};
 					dbei.szModule = m_szModuleName;
-					dbei.timestamp = _time32(NULL);
+					dbei.timestamp = _time32(nullptr);
 					dbei.flags = DBEF_READ | DBEF_UTF;
 					dbei.eventType = EVENTTYPE_AUTHREQUEST;
 					dbei.pBlob = (PBYTE)szBlob.c_str();

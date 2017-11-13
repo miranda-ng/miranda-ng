@@ -130,10 +130,10 @@ void CLCDLabel::UpdateCutOffIndex()
 	}
 	// variables
 	
-	HDC hDC = CreateCompatibleDC(NULL);
+	HDC hDC = CreateCompatibleDC(nullptr);
 	SelectObject(hDC, m_hFont);   
     
-	if(NULL == hDC)
+	if(nullptr == hDC)
 		return;
 
 	int iWidth = GetWidth();

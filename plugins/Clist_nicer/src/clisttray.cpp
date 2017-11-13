@@ -44,31 +44,31 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 					hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
 					return pcli->pfnTrayIconSetBaseInfo(hIcon, szChangedProto);
 				}
-				if (pcli->trayIcon == NULL || pcli->trayIcon[0].szProto == NULL) {
-					iIcon = IconFromStatusMode(NULL, averageMode, 0, &hIcon);
+				if (pcli->trayIcon == nullptr || pcli->trayIcon[0].szProto == nullptr) {
+					iIcon = IconFromStatusMode(nullptr, averageMode, 0, &hIcon);
 					hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
-					return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
+					return pcli->pfnTrayIconSetBaseInfo(hIcon, nullptr);
 				}
 				pcli->pfnTrayIconDestroy(hwnd);
 				pcli->pfnTrayIconInit(hwnd);
 			}
 			else {
-				iIcon = IconFromStatusMode(NULL, averageMode, 0, &hIcon);
+				iIcon = IconFromStatusMode(nullptr, averageMode, 0, &hIcon);
 				hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
-				return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
+				return pcli->pfnTrayIconSetBaseInfo(hIcon, nullptr);
 			}
 		}
 		else {
 			switch (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT)) {
 			case SETTING_TRAYICON_CYCLE:
 				iIcon = IconFromStatusMode(szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0), 0, &hIcon);
-				pcli->cycleTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, pcli->pfnTrayCycleTimerProc);
+				pcli->cycleTimerId = SetTimer(nullptr, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, pcli->pfnTrayCycleTimerProc);
 				hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
-				return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
+				return pcli->pfnTrayIconSetBaseInfo(hIcon, nullptr);
 
 			case SETTING_TRAYICON_MULTI:
 				if (!pcli->trayIcon)
-					pcli->pfnTrayIconRemove(NULL, NULL);
+					pcli->pfnTrayIconRemove(nullptr, nullptr);
 				else if (db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)) {
 					iIcon = IconFromStatusMode(szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0), 0, &hIcon);
 					hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
@@ -82,14 +82,14 @@ int TrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCou
 				ptrA szProto(db_get_sa(NULL, "CList", "PrimaryStatus"));
 				iIcon = IconFromStatusMode(szProto, szProto ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0), 0, &hIcon);
 				hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
-				return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
+				return pcli->pfnTrayIconSetBaseInfo(hIcon, nullptr);
 			}
 		}
 	}
 	else {
-		iIcon = IconFromStatusMode(NULL, averageMode, 0, &hIcon);
+		iIcon = IconFromStatusMode(nullptr, averageMode, 0, &hIcon);
 		hIcon = (hIcon) ? CopyIcon(hIcon) : ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL);
-		return pcli->pfnTrayIconSetBaseInfo(hIcon, NULL);
+		return pcli->pfnTrayIconSetBaseInfo(hIcon, nullptr);
 	}
 
 	return -1;

@@ -30,7 +30,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			MCONTACT hContact = (MCONTACT)wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *)lParam;
-			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL &&
+			if (hContact == NULL && ws != nullptr && ws->szModule != nullptr && ws->szSetting != nullptr &&
 				 strcmp(ws->szModule, "CList") == 0 && strcmp(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
 				CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0 ? BST_CHECKED : BST_UNCHECKED);
 		}
@@ -159,7 +159,7 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					int cur = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
 					PROTOACCOUNT* pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cur, 0);
-					if (pa == NULL)
+					if (pa == nullptr)
 						db_unset(NULL, "CList", "PrimaryStatus");
 					else
 						db_set_s(NULL, "CList", "PrimaryStatus", pa->szModuleName);

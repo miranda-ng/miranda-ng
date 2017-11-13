@@ -90,7 +90,7 @@ static void amThreadProc(void *)
 
 			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
 
-			HANDLE ACK = 0;
+			HANDLE ACK = nullptr;
 			if (pdnce->ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
 				ACK = (HANDLE)ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0);
 			if (!ACK) {
@@ -152,7 +152,7 @@ void amRequestAwayMsg(MCONTACT hContact)
 void InitAwayMsgModule()
 {
 	hamProcessEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-	g_hAwayMsgThread = mir_forkthread(amThreadProc, 0);
+	g_hAwayMsgThread = mir_forkthread(amThreadProc, nullptr);
 }
 
 void UninitAwayMsgModule()

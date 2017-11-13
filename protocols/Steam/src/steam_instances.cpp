@@ -33,12 +33,12 @@ void CSteamProto::UninitProtoInstances()
 CSteamProto* CSteamProto::GetContactProtoInstance(MCONTACT hContact)
 {
 	char *proto = GetContactProto(hContact);
-	if (proto == NULL)
-		return NULL;
+	if (proto == nullptr)
+		return nullptr;
 
 	for (int i = 0; i < InstanceList.getCount(); i++)
 		if (!mir_strcmp(proto, InstanceList[i]->m_szModuleName))
 			return InstanceList[i];
 
-	return NULL;
+	return nullptr;
 }

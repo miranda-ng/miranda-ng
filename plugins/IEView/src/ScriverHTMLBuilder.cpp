@@ -64,8 +64,8 @@ static const char *classNames[] = {
 ScriverHTMLBuilder::ScriverHTMLBuilder()
 {
 	setLastEventType(-1);
-	setLastEventTime(time(NULL));
-	startedTime = time(NULL);
+	setLastEventTime(time(nullptr));
+	startedTime = time(nullptr);
 }
 
 bool ScriverHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
@@ -128,7 +128,7 @@ char* ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 
 	if ((mode == 0 || mode == 1) && (dwFlags & SMF_LOG_SHOWDATE)) {
 		struct tm tm_now, tm_today;
-		time_t now = time(NULL);
+		time_t now = time(nullptr);
 		time_t today;
 		tm_now = *localtime(&now);
 		tm_today = tm_now;
@@ -174,7 +174,7 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	COLORREF color;
 
 	ProtocolSettings *protoSettings = getSRMMProtocolSettings(event->hContact);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
@@ -191,9 +191,9 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 			str.AppendFormat("<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 	}
 	else {
-		HDC hdc = GetDC(NULL);
+		HDC hdc = GetDC(nullptr);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 		str.Append("<html><head>");
 		str.Append("<style type=\"text/css\">\n");
 		COLORREF bkgColor = db_get_dw(NULL, SRMMMOD, "BkgColour", 0xFFFFFF);
@@ -277,7 +277,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 
 	ptrA szRealProto(getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		const char *className = "";
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 		bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
@@ -334,7 +334,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			if (dwFlags & SMF_LOG_SHOWTIME &&
 				(eventData->iType != IEED_EVENT_MESSAGE ||
 				(dwFlags & SMF_LOG_MARKFOLLOWUPS || isGroupBreak || !(dwFlags & SMF_LOG_GROUPMESSAGES)))) {
-				char* timestampString = NULL;
+				char* timestampString = nullptr;
 				if (dwFlags & SMF_LOG_GROUPMESSAGES) {
 					if (isGroupBreak) {
 						if (!(dwFlags & SMF_LOG_MARKFOLLOWUPS))
@@ -347,7 +347,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				}
 				else timestampString = timestampToString(dwFlags, eventData->time, 0);
 
-				if (timestampString != NULL)
+				if (timestampString != nullptr)
 					str.AppendFormat("<span class=\"%s\">%s</span>", isSent ? "timeOut" : "timeIn", timestampString);
 
 				if (eventData->iType != IEED_EVENT_MESSAGE)
@@ -409,7 +409,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 void ScriverHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 {
 	ProtocolSettings *protoSettings = getSRMMProtocolSettings(event->hContact);
-	if (protoSettings == NULL)
+	if (protoSettings == nullptr)
 		return;
 
 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE)

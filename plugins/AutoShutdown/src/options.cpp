@@ -76,7 +76,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		switch (LOWORD(wParam)) {
 		case IDC_EDIT_CONFIRMDLGCOUNTDOWN:
 			if (HIWORD(wParam) == EN_KILLFOCUS)
-				if ((int)GetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, NULL, TRUE) < 3) {
+				if ((int)GetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, nullptr, TRUE) < 3) {
 					SendDlgItemMessage(hwndDlg, IDC_SPIN_CONFIRMDLGCOUNTDOWN, UDM_SETPOS, 0, MAKELPARAM(3, 0));
 					SetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, 3, FALSE);
 				}
@@ -92,7 +92,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		switch (((NMHDR*)lParam)->code) {
 		case PSN_APPLY:
 			db_set_b(NULL, "AutoShutdown", "ShowConfirmDlg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_SHOWCONFIRMDLG) != 0));
-			db_set_w(NULL, "AutoShutdown", "ConfirmDlgCountdown", (WORD)GetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, NULL, FALSE));
+			db_set_w(NULL, "AutoShutdown", "ConfirmDlgCountdown", (WORD)GetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, nullptr, FALSE));
 			db_set_b(NULL, "AutoShutdown", "RememberOnRestart", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_REMEMBERONRESTART) != 0));
 			db_set_b(NULL, "AutoShutdown", "SmartOfflineCheck", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_SMARTOFFLINECHECK) != 0));
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHECK_WEATHER)))

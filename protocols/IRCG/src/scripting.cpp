@@ -82,23 +82,23 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertGuiOut(WPARAM, LPARAM lParam)
 		if (gch->ptszText)
 			gchook->ptszText = wcsdup(gch->ptszText);
 		else
-			gchook->ptszText = NULL;
+			gchook->ptszText = nullptr;
 
 		if (gch->ptszUID)
 			gchook->ptszUID = wcsdup(gch->ptszUID);
 		else
-			gchook->ptszUID = NULL;
+			gchook->ptszUID = nullptr;
 
 		if (gch->ptszID) {
 			CMStringW S = MakeWndID(gch->ptszID);
 			gchook->ptszID = wcsdup(S.c_str());
 		}
-		else gchook->ptszID = NULL;
+		else gchook->ptszID = nullptr;
 
 		if (gch->pszModule)
 			gchook->pszModule = _strdup(gch->pszModule);
 		else
-			gchook->pszModule = NULL;
+			gchook->pszModule = nullptr;
 
 		mir_forkthread(GuiOutThread, gchook);
 		return 0;

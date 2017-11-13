@@ -61,7 +61,7 @@ INT_PTR __cdecl Service_PGPdelKey(WPARAM wParam, LPARAM)
 	}
 	{
 		pUinKey ptr = getUinKey(wParam);
-		cpp_delete_context(ptr->cntx); ptr->cntx = 0;
+		cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
 	}
 	ShowStatusIconNotify(wParam);
 	return 1;
@@ -84,7 +84,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 		}
 		else if (bPGPprivkey) {
 			char KeyPath[MAX_PATH]; KeyPath[0] = '\0';
-			if (ShowSelectKeyDlg(0, KeyPath)) {
+			if (ShowSelectKeyDlg(nullptr, KeyPath)) {
 				char *publ = LoadKeys(KeyPath, false);
 				if (publ) {
 					db_unset(wParam, MODULENAME, "pgp");
@@ -102,7 +102,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam)
 		Service_PGPdelKey(wParam, lParam);
 	else {
 		pUinKey ptr = getUinKey(wParam);
-		cpp_delete_context(ptr->cntx); ptr->cntx = 0;
+		cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
 	}
 	ShowStatusIconNotify(wParam);
 	return 1;
@@ -114,7 +114,7 @@ INT_PTR __cdecl Service_GPGdelKey(WPARAM wParam, LPARAM)
 		db_unset(wParam, MODULENAME, "gpg");
 	{
 		pUinKey ptr = getUinKey(wParam);
-		cpp_delete_context(ptr->cntx); ptr->cntx = 0;
+		cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
 	}
 	ShowStatusIconNotify(wParam);
 	return 1;
@@ -136,7 +136,7 @@ INT_PTR __cdecl Service_GPGsetKey(WPARAM wParam, LPARAM lParam)
 		Service_GPGdelKey(wParam, lParam);
 	else {
 		pUinKey ptr = getUinKey(wParam);
-		cpp_delete_context(ptr->cntx); ptr->cntx = 0;
+		cpp_delete_context(ptr->cntx); ptr->cntx = nullptr;
 	}
 	ShowStatusIconNotify(wParam);
 	return 1;
@@ -150,7 +150,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 	case MODE_NATIVE:
 	case MODE_RSAAES:
 		if (isContactSecured(wParam)&SECURED) {
-			msgbox(NULL, sim111, MODULENAME, MB_OK);
+			msgbox(nullptr, sim111, MODULENAME, MB_OK);
 			return 0;
 		}
 		if (lParam != MODE_NATIVE && ptr->status > STATUS_ENABLED)
@@ -162,7 +162,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 		if (ptr) {
 			if (ptr->cntx) {
 				cpp_delete_context(ptr->cntx);
-				ptr->cntx = 0;
+				ptr->cntx = nullptr;
 				ptr->keyLoaded = 0;
 			}
 			ptr->mode = (BYTE)lParam;

@@ -40,7 +40,7 @@ static FieldNamesItem months[] = {
 	{ 10, LPGEN("October") },
 	{ 11, LPGEN("November") },
 	{ 12, LPGEN("December") },
-	{ 0, NULL }
+	{ 0, nullptr }
 };
 
 const int ageRange[] = { 13, 0x7FFF };  // 14, 130

@@ -63,14 +63,14 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	switch (errorCode) {
 	case ERR_INTERNAL_SERVER:
 		MSN_ShowError("MSN Services are temporarily unavailable, please try to connect later");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NOSERVER);
 		return 1;
 
 	case ERR_SERVER_BUSY:
 	case ERR_SERVER_UNAVAILABLE:
 	case ERR_TIMEDOUT:
 		MSN_ShowError("MSN Services are too busy, please try to connect later");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_NOSERVER);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NOSERVER);
 		return 1;
 
 	case ERR_NOT_ALLOWED_WHEN_OFFLINE:
@@ -108,7 +108,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 
 	case ERR_AUTHENTICATION_FAILED:
 		MSN_ShowError("Your username or password is incorrect");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
 		return 1;
 
 	case 999:

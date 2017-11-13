@@ -28,14 +28,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM)
 {
-	if (hContact == 0 || g_shutDown || fei == NULL)
+	if (hContact == 0 || g_shutDown || fei == nullptr)
 		return 0;
 
 	hContact = GetContactThatHaveTheAvatar(hContact);
 
 	// Get the node
 	CacheNode *node = FindAvatarInCache(hContact, true);
-	if (node == NULL || !node->loaded)
+	if (node == nullptr || !node->loaded)
 		return (INT_PTR)GetProtoDefaultAvatar(hContact);
 	return (INT_PTR)node;
 }
@@ -46,7 +46,7 @@ INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 {
 	BYTE was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
-	if (fei == NULL || was_locked == (BYTE)lParam)      // no need for redundant lockings...
+	if (fei == nullptr || was_locked == (BYTE)lParam)      // no need for redundant lockings...
 		return 0;
 
 	if (hContact) {
@@ -98,8 +98,8 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		if (data->setView) {
 			HWND hwndParent = GetParent(hwnd);
-			HWND hwndLv = FindWindowEx(hwndParent, NULL, L"SHELLDLL_DefView", NULL);
-			if (hwndLv != NULL) {
+			HWND hwndLv = FindWindowEx(hwndParent, nullptr, L"SHELLDLL_DefView", nullptr);
+			if (hwndLv != nullptr) {
 				SendMessage(hwndLv, WM_COMMAND, SHVIEW_THUMBNAIL, 0);
 				data->setView = FALSE;
 			}
@@ -121,19 +121,19 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 	wchar_t *szFinalName;
 	BYTE locking_request;
 
-	if (hContact == NULL || fei == NULL)
+	if (hContact == NULL || fei == nullptr)
 		return 0;
 
 	int is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 	wchar_t *tszPath = (wchar_t*)lParam;
-	if (tszPath == NULL) {
+	if (tszPath == nullptr) {
 		wchar_t filter[256];
 		Bitmap_GetFilter(filter, _countof(filter));
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
-		ofn.hwndOwner = 0;
+		ofn.hwndOwner = nullptr;
 		ofn.lpstrFile = FileName;
 		ofn.lpstrFilter = filter;
 		ofn.nMaxFile = MAX_PATH;
@@ -179,7 +179,7 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 static INT_PTR CanSetMyAvatar(WPARAM wParam, LPARAM)
 {
 	char *protocol = (char *)wParam;
-	if (protocol == NULL || fei == NULL)
+	if (protocol == nullptr || fei == nullptr)
 		return 0;
 
 	return ProtoServiceExists(protocol, PS_SETMYAVATAR);
@@ -196,9 +196,9 @@ static int InternalRemoveMyAvatar(char *protocol)
 
 	// Remove avatar
 	int ret = 0;
-	if (protocol != NULL) {
+	if (protocol != nullptr) {
 		if (ProtoServiceExists(protocol, PS_SETMYAVATAR))
-			ret = SaveAvatar(protocol, NULL);
+			ret = SaveAvatar(protocol, nullptr);
 		else
 			ret = -3;
 
@@ -225,7 +225,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 				continue;
 
 			// Found a protocol
-			int retTmp = SaveAvatar(accs[i]->szModuleName, NULL);
+			int retTmp = SaveAvatar(accs[i]->szModuleName, nullptr);
 			if (retTmp != 0)
 				ret = retTmp;
 		}
@@ -240,7 +240,7 @@ static int InternalRemoveMyAvatar(char *protocol)
 
 	SetIgnoreNotify(protocol, FALSE);
 
-	ReportMyAvatarChanged(WPARAM((protocol == NULL) ? "" : protocol), 0);
+	ReportMyAvatarChanged(WPARAM((protocol == nullptr) ? "" : protocol), 0);
 	return ret;
 }
 
@@ -293,7 +293,7 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM, LPARAM
 		CheckDlgButton(hwnd, IDC_MAKE_SQUARE, data->square ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_GROW, data->grow ? BST_CHECKED : BST_UNCHECKED);
 
-		if (data->protocol != NULL && (Proto_AvatarImageProportion(data->protocol) & PIP_SQUARE))
+		if (data->protocol != nullptr && (Proto_AvatarImageProportion(data->protocol) & PIP_SQUARE))
 			EnableWindow(GetDlgItem(hwnd, IDC_MAKE_SQUARE), FALSE);
 		break;
 
@@ -301,8 +301,8 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM, LPARAM
 		data = (SetMyAvatarHookData *)ofn->lCustData;
 		if (data->thumbnail) {
 			HWND hwndParent = GetParent(hwnd);
-			HWND hwndLv = FindWindowEx(hwndParent, NULL, L"SHELLDLL_DefView", NULL);
-			if (hwndLv != NULL) {
+			HWND hwndLv = FindWindowEx(hwndParent, nullptr, L"SHELLDLL_DefView", nullptr);
+			if (hwndLv != nullptr) {
 				SendMessage(hwndLv, WM_COMMAND, SHVIEW_THUMBNAIL, 0);
 				data->thumbnail = FALSE;
 			}
@@ -314,7 +314,7 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM, LPARAM
 		data->square = IsDlgButtonChecked(hwnd, IDC_MAKE_SQUARE);
 		data->grow = IsDlgButtonChecked(hwnd, IDC_GROW);
 
-		hwndSetMyAvatar = NULL;
+		hwndSetMyAvatar = nullptr;
 		break;
 	}
 
@@ -407,7 +407,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilen
 
 		d.hBmpProto = (HBITMAP)CallService(MS_IMG_RESIZE, WPARAM(&rb), 0);
 
-		if (d.hBmpProto == NULL) {
+		if (d.hBmpProto == nullptr) {
 			if (d.temp_file[0] != '\0')
 				DeleteFile(d.temp_file);
 			return -1;
@@ -489,7 +489,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 		return -3;
 
 	// file exists...
-	HBITMAP hBmp = NULL;
+	HBITMAP hBmp = nullptr;
 
 	if (format == PA_FORMAT_SWF) {
 		if (!allAcceptSWF)
@@ -502,14 +502,14 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 	else {
 		// Try to open if is not a flash or XML
 		hBmp = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFinalName, IMGL_WCHAR);
-		if (hBmp == NULL)
+		if (hBmp == nullptr)
 			return -4;
 	}
 
 	SetIgnoreNotify(protocol, TRUE);
 
 	int ret = 0;
-	if (protocol != NULL) {
+	if (protocol != nullptr) {
 		ret = SetProtoMyAvatar(protocol, hBmp, szFinalName, format, data.square, data.grow);
 		if (ret == 0) {
 			DeleteGlobalUserAvatar();
@@ -542,7 +542,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 			BOOL saved = TRUE;
 			if (FoldersGetCustomPathT(hGlobalAvatarFolder, globalFile, _countof(globalFile), L"")) {
 				mir_snwprintf(globalFile, L"%s%s", g_szDataPath, L"GlobalAvatar");
-				CreateDirectory(globalFile, NULL);
+				CreateDirectory(globalFile, nullptr);
 			}
 
 			wchar_t *ext = wcsrchr(szFinalName, '.'); // Can't be NULL here
@@ -563,7 +563,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 				HBITMAP hBmpTmp = (HBITMAP)CallService(MS_IMG_RESIZE, WPARAM(&rb), 0);
 
 				// Check if need to resize
-				if (hBmpTmp == hBmp || hBmpTmp == NULL) {
+				if (hBmpTmp == hBmp || hBmpTmp == nullptr) {
 					// Use original image
 					mir_snwprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);
 					CopyFile(szFinalName, globalFile, FALSE);
@@ -595,34 +595,34 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 
 	SetIgnoreNotify(protocol, FALSE);
 
-	ReportMyAvatarChanged(WPARAM((protocol == NULL) ? "" : protocol), 0);
+	ReportMyAvatarChanged(WPARAM((protocol == nullptr) ? "" : protocol), 0);
 	return ret;
 }
 
 INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t FileName[MAX_PATH];
-	wchar_t *szFinalName = NULL;
+	wchar_t *szFinalName = nullptr;
 	BOOL allAcceptXML;
 	BOOL allAcceptSWF;
 
 	// Protocol allow seting of avatar?
 	char* protocol = (char*)wParam;
-	if (protocol != NULL && !CanSetMyAvatar((WPARAM)protocol, 0))
+	if (protocol != nullptr && !CanSetMyAvatar((WPARAM)protocol, 0))
 		return -1;
 
 	wchar_t* tszPath = (wchar_t*)lParam;
-	if (tszPath == NULL && hwndSetMyAvatar != 0) {
+	if (tszPath == nullptr && hwndSetMyAvatar != nullptr) {
 		SetForegroundWindow(hwndSetMyAvatar);
 		SetFocus(hwndSetMyAvatar);
 		ShowWindow(hwndSetMyAvatar, SW_SHOW);
 		return -2;
 	}
 
-	SetMyAvatarHookData data = { 0 };
+	SetMyAvatarHookData data = {};
 
 	// Check for XML and SWF
-	if (protocol == NULL) {
+	if (protocol == nullptr) {
 		allAcceptXML = TRUE;
 		allAcceptSWF = TRUE;
 
@@ -651,7 +651,7 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 			|| db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0);
 	}
 
-	if (tszPath == NULL) {
+	if (tszPath == nullptr) {
 		data.protocol = protocol;
 
 		CMStringW filter;
@@ -677,7 +677,7 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		ofn.hInstance = g_hInst;
 
 		wchar_t title[256];
-		if (protocol == NULL)
+		if (protocol == nullptr)
 			mir_snwprintf(title, TranslateT("Set my avatar"));
 		else {
 			wchar_t* prototmp = mir_a2u(protocol);
@@ -707,7 +707,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 static INT_PTR ContactOptions(WPARAM wParam, LPARAM)
 {
 	if (wParam)
-		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_AVATAROPTIONS), 0, DlgProcAvatarOptions, (LPARAM)wParam);
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_AVATAROPTIONS), nullptr, DlgProcAvatarOptions, (LPARAM)wParam);
 	return 0;
 }
 
@@ -715,29 +715,29 @@ static INT_PTR ContactOptions(WPARAM wParam, LPARAM)
 
 INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 {
-	AVATARCACHEENTRY *ace = NULL;
+	AVATARCACHEENTRY *ace = nullptr;
 
 	AVATARDRAWREQUEST *r = (AVATARDRAWREQUEST*)lParam;
-	if (fei == NULL || r == NULL || IsBadReadPtr((void *)r, sizeof(AVATARDRAWREQUEST)))
+	if (fei == nullptr || r == nullptr || IsBadReadPtr((void *)r, sizeof(AVATARDRAWREQUEST)))
 		return 0;
 
 	if (r->cbSize != sizeof(AVATARDRAWREQUEST))
 		return 0;
 
 	if (r->dwFlags & AVDRQ_PROTOPICT) {
-		if (r->szProto == NULL)
+		if (r->szProto == nullptr)
 			return 0;
 
 		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (!mir_strcmp(p.szProtoname, r->szProto) && mir_strlen(r->szProto) == mir_strlen(p.szProtoname) && p.hbmPic != 0) {
+			if (!mir_strcmp(p.szProtoname, r->szProto) && mir_strlen(r->szProto) == mir_strlen(p.szProtoname) && p.hbmPic != nullptr) {
 				ace = (AVATARCACHEENTRY *)&g_ProtoPictures[i];
 				break;
 			}
 		}
 	}
 	else if (r->dwFlags & AVDRQ_OWNPIC) {
-		if (r->szProto == NULL)
+		if (r->szProto == nullptr)
 			return 0;
 
 		if (r->szProto[0] == '\0' && db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
@@ -748,9 +748,9 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 	else ace = (AVATARCACHEENTRY *)GetAvatarBitmap((WPARAM)r->hContact, 0);
 
 	if (ace && (!(r->dwFlags & AVDRQ_RESPECTHIDDEN) || !(ace->dwFlags & AVS_HIDEONCLIST))) {
-		ace->t_lastAccess = time(NULL);
+		ace->t_lastAccess = time(nullptr);
 
-		if (ace->bmHeight == 0 || ace->bmWidth == 0 || ace->hbmPic == 0)
+		if (ace->bmHeight == 0 || ace->bmWidth == 0 || ace->hbmPic == nullptr)
 			return 0;
 
 		InternalDrawAvatar(r, ace->hbmPic, ace->bmWidth, ace->bmHeight, ace->dwFlags);
@@ -764,7 +764,7 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 
 INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam || g_shutDown || fei == NULL)
+	if (wParam || g_shutDown || fei == nullptr)
 		return 0;
 
 	char *szProto = (char *)lParam;
@@ -772,7 +772,7 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	for (int i = 0; i < g_MyAvatars.getCount(); i++)
-		if (!mir_strcmp(szProto, g_MyAvatars[i].szProtoname) && g_MyAvatars[i].hbmPic != 0)
+		if (!mir_strcmp(szProto, g_MyAvatars[i].szProtoname) && g_MyAvatars[i].hbmPic != nullptr)
 			return (INT_PTR)&g_MyAvatars[i];
 
 	return 0;
@@ -818,7 +818,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
 {
 	const char *proto = (const char*)wParam;
-	if (proto == NULL)
+	if (proto == nullptr)
 		return -1;
 
 	for (int i = 0; i < g_MyAvatars.getCount(); i++) {

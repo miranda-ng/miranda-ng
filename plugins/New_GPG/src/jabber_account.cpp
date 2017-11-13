@@ -71,12 +71,12 @@ HJHANDLER JabberAccount::getMessageHandler()
 
 JabberAccount::JabberAccount()
 {
-	AccountName = NULL;
+	AccountName = nullptr;
 	hSendHandler = INVALID_HANDLE_VALUE;
 	hPrescenseHandler = INVALID_HANDLE_VALUE;
 	hMessageHandler = INVALID_HANDLE_VALUE;
 	AccountNumber = -1;
-	JabberInterface = NULL;
+	JabberInterface = nullptr;
 }
 JabberAccount::~JabberAccount()
 {

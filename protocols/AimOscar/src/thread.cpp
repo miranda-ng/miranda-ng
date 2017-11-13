@@ -23,7 +23,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 {
 	file_transfer *ft = (file_transfer*)param;
 
-	HNETLIBCONN hConn = NULL;
+	HNETLIBCONN hConn = nullptr;
 	if (ft->peer_force_proxy)  //peer is forcing proxy
 	{
 		hConn = aim_peer_connect(ft->proxy_ip, get_default_port());
@@ -74,7 +74,7 @@ void __cdecl CAimProto::accept_file_thread(void* param)//buddy sending file
 		}
 	}
 
-	if (hConn == NULL) {
+	if (hConn == nullptr) {
 		if (ft->req_num)
 			aim_file_ad(m_hServerConn, m_seqno, ft->sn, ft->icbm_cookie, true, 0);
 

@@ -59,14 +59,14 @@ CContactCache::CContactCache(MCONTACT hContact)
 
 void CContactCache::initPhaseTwo()
 {
-	m_szAccount = 0;
+	m_szAccount = nullptr;
 	if (cc->szProto) {
 		PROTOACCOUNT *acc = Proto_GetAccount(cc->szProto);
 		if (acc && acc->tszAccountName)
 			m_szAccount = acc->tszAccountName;
 	}
 
-	m_isValid = (cc->szProto != 0 && m_szAccount != 0) ? true : false;
+	m_isValid = (cc->szProto != nullptr && m_szAccount != nullptr) ? true : false;
 	if (m_isValid) {
 		m_isMeta = db_mc_isMeta(cc->contactID) != 0; // don't use cc->IsMeta() here
 		if (m_isMeta)
@@ -87,7 +87,7 @@ void CContactCache::initPhaseTwo()
 void CContactCache::resetMeta()
 {
 	m_isMeta = false;
-	m_szMetaProto = 0;
+	m_szMetaProto = nullptr;
 	m_iMetaStatus = ID_STATUS_OFFLINE;
 	initPhaseTwo();
 }
@@ -167,7 +167,7 @@ bool CContactCache::updateUIN()
 
 void CContactCache::updateStats(int iType, size_t value)
 {
-	if (m_stats == 0)
+	if (m_stats == nullptr)
 		allocStats();
 
 	switch (iType) {
@@ -180,7 +180,7 @@ void CContactCache::updateStats(int iType, size_t value)
 		m_stats->lastReceivedChars = 0;
 		break;
 	case TSessionStats::INIT_TIMER:
-		m_stats->started = time(0);
+		m_stats->started = time(nullptr);
 		break;
 	case TSessionStats::SET_LAST_RCV:
 		m_stats->lastReceivedChars = (unsigned int)value;
@@ -195,7 +195,7 @@ void CContactCache::updateStats(int iType, size_t value)
 
 void CContactCache::allocStats()
 {
-	if (m_stats == 0) {
+	if (m_stats == nullptr) {
 		m_stats = new TSessionStats;
 		memset(m_stats, 0, sizeof(TSessionStats));
 	}
@@ -359,7 +359,7 @@ void CContactCache::releaseAlloced()
 {
 	if (m_stats) {
 		delete m_stats;
-		m_stats = 0;
+		m_stats = nullptr;
 	}
 
 	if (m_history) {
@@ -367,7 +367,7 @@ void CContactCache::releaseAlloced()
 			mir_free(m_history[i].szText);
 
 		mir_free(m_history);
-		m_history = 0;
+		m_history = nullptr;
 	}
 
 	mir_free(m_szStatusMsg);
@@ -413,26 +413,26 @@ void CContactCache::updateStatusMsg(const char *szKey)
 
 	MCONTACT hContact = getActiveContact();
 
-	if (szKey == 0 || (szKey && !mir_strcmp("StatusMsg", szKey))) {
+	if (szKey == nullptr || (szKey && !mir_strcmp("StatusMsg", szKey))) {
 		if (m_szStatusMsg)
 			mir_free(m_szStatusMsg);
-		m_szStatusMsg = 0;
+		m_szStatusMsg = nullptr;
 		ptrW szStatus(db_get_wsa(hContact, "CList", "StatusMsg"));
 		if (szStatus != 0)
-			m_szStatusMsg = (mir_wstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : 0);
+			m_szStatusMsg = (mir_wstrlen(szStatus) > 0 ? getNormalizedStatusMsg(szStatus) : nullptr);
 	}
-	if (szKey == 0 || (szKey && !mir_strcmp("ListeningTo", szKey))) {
+	if (szKey == nullptr || (szKey && !mir_strcmp("ListeningTo", szKey))) {
 		if (m_ListeningInfo)
 			mir_free(m_ListeningInfo);
-		m_ListeningInfo = 0;
+		m_ListeningInfo = nullptr;
 		ptrW szListeningTo(db_get_wsa(hContact, cc->szProto, "ListeningTo"));
 		if (szListeningTo != 0 && *szListeningTo)
 			m_ListeningInfo = szListeningTo.detach();
 	}
-	if (szKey == 0 || (szKey && !mir_strcmp("XStatusMsg", szKey))) {
+	if (szKey == nullptr || (szKey && !mir_strcmp("XStatusMsg", szKey))) {
 		if (m_xStatusMsg)
 			mir_free(m_xStatusMsg);
-		m_xStatusMsg = 0;
+		m_xStatusMsg = nullptr;
 		ptrW szXStatusMsg(db_get_wsa(hContact, cc->szProto, "XStatusMsg"));
 		if (szXStatusMsg != 0 && *szXStatusMsg)
 			m_xStatusMsg = szXStatusMsg.detach();
@@ -493,8 +493,8 @@ int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
 
 wchar_t* CContactCache::getNormalizedStatusMsg(const wchar_t *src, bool fStripAll)
 {
-	if (src == 0 || mir_wstrlen(src) < 2)
-		return 0;
+	if (src == nullptr || mir_wstrlen(src) < 2)
+		return nullptr;
 
 	CMStringW dest;
 

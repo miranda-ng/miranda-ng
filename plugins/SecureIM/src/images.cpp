@@ -9,7 +9,7 @@ void HalfBitmap32Alpha(HBITMAP hBitmap)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	BYTE *p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
 
@@ -39,7 +39,7 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	BYTE *p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	memset(p, 0, dwLen);
@@ -64,7 +64,7 @@ void CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 
 	dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
 
@@ -106,8 +106,8 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 
 	dwLen = bmp.bmWidth * bmp.bmHeight * 4;
 	p = (BYTE *)malloc(dwLen);
-	if (p == NULL)
-		return NULL;
+	if (p == nullptr)
+		return nullptr;
 
 	// Create bitmap
 	BITMAPINFO RGB32BitsBITMAPINFO;
@@ -118,21 +118,21 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	RGB32BitsBITMAPINFO.bmiHeader.biPlanes = 1;
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
-	HBITMAP hDirectBitmap = CreateDIBSection(NULL,
+	HBITMAP hDirectBitmap = CreateDIBSection(nullptr,
 												(BITMAPINFO *)&RGB32BitsBITMAPINFO,
 												DIB_RGB_COLORS,
 												(void **)&ptPixels,
-												NULL, 0);
+												nullptr, 0);
 
 	// Copy data
 	if (bmp.bmBitsPixel != 32) {
 		HDC hdcOrig, hdcDest;
 		HBITMAP oldOrig, oldDest;
 
-		hdcOrig = CreateCompatibleDC(NULL);
+		hdcOrig = CreateCompatibleDC(nullptr);
 		oldOrig = (HBITMAP)SelectObject(hdcOrig, hBitmap);
 
-		hdcDest = CreateCompatibleDC(NULL);
+		hdcDest = CreateCompatibleDC(nullptr);
 		oldDest = (HBITMAP)SelectObject(hdcDest, hDirectBitmap);
 
 		BitBlt(hdcDest, 0, 0, bmp.bmWidth, bmp.bmHeight, hdcOrig, 0, 0, SRCCOPY);
@@ -168,11 +168,11 @@ HBITMAP CreateBitmap32(int cx, int cy)
 	RGB32BitsBITMAPINFO.bmiHeader.biPlanes = 1;
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
-	HBITMAP DirectBitmap = CreateDIBSection(NULL,
+	HBITMAP DirectBitmap = CreateDIBSection(nullptr,
 											  (BITMAPINFO *)&RGB32BitsBITMAPINFO,
 											  DIB_RGB_COLORS,
 											  (void **)&ptPixels,
-											  NULL, 0);
+											  nullptr, 0);
 	return DirectBitmap;
 }
 
@@ -197,7 +197,7 @@ BOOL MakeBitmap32(HBITMAP *hBitmap)
 
 BOOL MakeGrayscale(HBITMAP *hBitmap)
 {
-	BYTE *p = NULL;
+	BYTE *p = nullptr;
 	BYTE *p1;
 	DWORD dwLen;
 	int width, height, x, y;
@@ -209,7 +209,7 @@ BOOL MakeGrayscale(HBITMAP *hBitmap)
 
 	dwLen = width * height * 4;
 	p = (BYTE *)malloc(dwLen);
-	if (p == NULL) {
+	if (p == nullptr) {
 		return FALSE;
 	}
 
@@ -241,11 +241,11 @@ HICON MakeHalfAlphaIcon(HICON SourceIcon)
 
 	ICONINFO TargetIconInfo;
 	if (!GetIconInfo(TempIcon, &TargetIconInfo))
-		return NULL;
+		return nullptr;
 
 	BITMAP TargetBitmapInfo;
 	if (!GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo))
-		return NULL;
+		return nullptr;
 
 	MakeBitmap32(&TargetIconInfo.hbmColor);
 	HalfBitmap32Alpha(TargetIconInfo.hbmColor);
@@ -264,7 +264,7 @@ HICON MakeGrayscaleIcon(HICON SourceIcon)
 	ICONINFO TargetIconInfo;
 	BITMAP TargetBitmapInfo;
 	if (!GetIconInfo(TempIcon, &TargetIconInfo) || GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo) == 0)
-		return NULL;
+		return nullptr;
 
 	MakeGrayscale(&TargetIconInfo.hbmColor);
 
@@ -286,19 +286,19 @@ HICON BindOverlayIcon(HICON SourceIcon, HICON OverlayIcon)
 
 	TempIcon = CopyIcon(SourceIcon);
 	if (!GetIconInfo(TempIcon, &TargetIconInfo))
-		return NULL;
+		return nullptr;
 
 	MakeBitmap32(&TargetIconInfo.hbmColor);
 	CorrectBitmap32Alpha(TargetIconInfo.hbmColor, FALSE);
 	GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo);
 
 	if (!GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
-		return NULL;
+		return nullptr;
 
-	TargetDC = CreateCompatibleDC(NULL);
+	TargetDC = CreateCompatibleDC(nullptr);
 	OldTargetBitmap = (HBITMAP)SelectObject(TargetDC, TargetIconInfo.hbmColor);
 
-	OverlayDC = CreateCompatibleDC(NULL);
+	OverlayDC = CreateCompatibleDC(nullptr);
 	OldOverlayBitmap = (HBITMAP)SelectObject(OverlayDC, OverlayIconInfo.hbmColor);
 
 	AlphaBlend(TargetDC, 0, 0, TargetBitmapInfo.bmWidth, TargetBitmapInfo.bmHeight,

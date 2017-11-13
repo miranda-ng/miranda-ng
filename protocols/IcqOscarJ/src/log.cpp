@@ -55,7 +55,7 @@ void __cdecl CIcqProto::icq_LogMessageThread(void* arg)
 
 	bErrorBoxVisible = TRUE;
 	if (err->szMsg && err->szTitle)
-		MessageBoxUtf(NULL, err->szMsg, err->szTitle, MB_OK);
+		MessageBoxUtf(nullptr, err->szMsg, err->szTitle, MB_OK);
 	SAFE_FREE((void**)&err->szMsg);
 	SAFE_FREE((void**)&err);
 	bErrorBoxVisible = FALSE;
@@ -85,7 +85,7 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 	char str[1024];
 	char str2[64];
 	char szErrorMsg[512];
-	char *pszErrorMsg = NULL;
+	char *pszErrorMsg = nullptr;
 	int bNeedFree = FALSE;
 
 	switch (dwError) {
@@ -120,7 +120,7 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 
 	default:
 		wchar_t err[512];
-		if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, err, _countof(err), NULL)) {
+		if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, dwError, 0, err, _countof(err), nullptr)) {
 			pszErrorMsg = make_utf8_string(err);
 			bNeedFree = TRUE;
 		}

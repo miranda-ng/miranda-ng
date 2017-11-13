@@ -149,7 +149,7 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, wchar_t *Buffer, size_t Size)
 	}
 
 	mir_snwprintf(Str1, L"%d.%d", Value / Divider, Value % Divider);
-	size_t l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, NULL, 0);
+	size_t l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, nullptr, 0);
 	if (!l) return 0;
 	l += mir_wstrlen(szUnit) + 1;
 	Res = (wchar_t*)malloc(l * sizeof(wchar_t));

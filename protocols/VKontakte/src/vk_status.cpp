@@ -47,7 +47,7 @@ int CVkProto::SetStatus(int iNewStatus)
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 		debugLogA("CVkProto::SetStatus (2) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",
 			iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, nullptr);
+		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, nullptr, nullptr);
 	}
 	else if (IsOnline()) {
 		debugLogA("CVkProto::SetStatus (3) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d",

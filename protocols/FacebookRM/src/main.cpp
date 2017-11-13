@@ -117,7 +117,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_strUserAgent = agent.str();
 
 	// Initialize random generator (used only as fallback in utils)
-	srand(::time(NULL));
+	srand(::time(nullptr));
 
 	return 0;
 }

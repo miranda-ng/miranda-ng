@@ -49,7 +49,7 @@ ColumnsSettings csResultList[] = {
 	{ LPGENW("Module"),  2, "Search2width", 100 },
 	{ LPGENW("Setting"), 3, "Search3width", 100 },
 	{ LPGENW("Value"),   4, "Search4width", 150 },
-	{0}
+	{nullptr}
 };
 
 
@@ -237,7 +237,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 	else
 		mode = TranslateT("Found");
 			
-	GetContactName(hContact, NULL, name, _countof(name));
+	GetContactName(hContact, nullptr, name, _countof(name));
 
 	LVITEM lvi = {0};
 	lvi.mask = LVIF_PARAM;
@@ -376,13 +376,13 @@ void __cdecl FindSettings(LPVOID param)
 
     if (!(fi->options & F_UNICODE) && (fi->options & F_SETVAL)) {
 		char val[16];
-		numsearch = strtoul(search, NULL, 10);
+		numsearch = strtoul(search, nullptr, 10);
 		_ultoa(numsearch, val, 10);
 		if (!mir_strcmp(search, val)) {
 			fi->options |= F_NUMSRCH;
 			// replace numeric values only entirely
 			if (replace && (fi->options & F_ENTIRE)) {
-				numreplace = strtoul(replace, NULL, 10);
+				numreplace = strtoul(replace, nullptr, 10);
 				_ultoa(numreplace, val, 10);
 				if (!replace[0] || !mir_strcmp(replace, val))
 					fi->options |= F_NUMREPL;
@@ -429,7 +429,7 @@ void __cdecl FindSettings(LPVOID param)
 					// check in settings value				
 					if (fi->options & F_SETVAL) {
 
-						wchar_t *value = NULL;
+						wchar_t *value = nullptr;
 
 					    switch(dbv.type) {
 
@@ -527,7 +527,7 @@ void __cdecl FindSettings(LPVOID param)
 							}
 						}
 
-						ItemFound(fi->hwnd, hContact, module->name, newSetting, NULL, flag);
+						ItemFound(fi->hwnd, hContact, module->name, newSetting, nullptr, flag);
 					}
 
 					db_free(&dbv);
@@ -549,19 +549,19 @@ void __cdecl FindSettings(LPVOID param)
 								
 					if (!newModule[0]) {
 						deleteModule(hContact, module->name, 0);
-						replaceTreeItem(hContact, module->name, NULL);
+						replaceTreeItem(hContact, module->name, nullptr);
 						flag |= F_DELETED;
 						newModule = module->name;
 						deleteCount++;
 					} 
 					else if (renameModule(hContact, module->name, newModule)) {
-   						replaceTreeItem(hContact, module->name, NULL);
+   						replaceTreeItem(hContact, module->name, nullptr);
 						flag |= F_REPLACED;
 						replaceCount++;
 					}
 				}
 
-				ItemFound(fi->hwnd, hContact, newModule, 0, 0, flag);
+				ItemFound(fi->hwnd, hContact, newModule, nullptr, nullptr, flag);
 			}
 
 		} // for(module)

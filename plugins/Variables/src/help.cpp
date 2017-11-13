@@ -33,9 +33,9 @@ extern HINSTANCE hInst;
 
 extern HCURSOR hCurSplitNS;
 
-static HWND hwndHelpDialog = NULL;
+static HWND hwndHelpDialog = nullptr;
 
-static HICON hHelpIcon = NULL;
+static HICON hHelpIcon = nullptr;
 
 static int defaultHelpDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc) {
 
@@ -131,7 +131,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			if (hContact == INVALID_CONTACT_ID) {
 				wchar_t *tszContact = db_get_wsa(NULL, MODULENAME, SETTING_SUBJECT);
 				log_debugA("VARM_SETSUBJECT: %s", tszContact);
-				if (tszContact != NULL) {
+				if (tszContact != nullptr) {
 					hContact = getContactFromString(tszContact, CI_PROTOID);
 					log_debugA("VARM_SETSUBJECT decoded: %u", hContact);
 					mir_free(tszContact);
@@ -203,7 +203,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		MCONTACT hContact = (MCONTACT)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 		if (hContact != NULL) {
 			wchar_t *tszContact = encodeContactToString(hContact);
-			if (tszContact != NULL) {
+			if (tszContact != nullptr) {
 				db_set_ws(NULL, MODULENAME, SETTING_SUBJECT, tszContact);
 				mir_free(tszContact);
 		}	}
@@ -215,12 +215,12 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 // dialog box for the tokens
 static wchar_t *getTokenCategory(TOKENREGISTEREX *tr) {
-	if (tr == NULL) {
-		return NULL;
+	if (tr == nullptr) {
+		return nullptr;
 	}
 	char *helpText = mir_strdup(tr->szHelpText);
-	if (helpText == NULL) {
-		return NULL;
+	if (helpText == nullptr) {
+		return nullptr;
 	}
 	char *cur = helpText;
 	while (*cur != 0) {
@@ -243,8 +243,8 @@ static wchar_t *getTokenCategory(TOKENREGISTEREX *tr) {
 
 static wchar_t *getHelpDescription(TOKENREGISTEREX *tr)
 {
-	if (tr == NULL)
-		return NULL;
+	if (tr == nullptr)
+		return nullptr;
 
 	char *cur = tr->szHelpText + mir_strlen(tr->szHelpText);
 	while (cur > tr->szHelpText) {
@@ -265,49 +265,49 @@ static wchar_t *getHelpDescription(TOKENREGISTEREX *tr)
 
 static wchar_t *getTokenDescription(TOKENREGISTEREX *tr)
 {
-	if (tr == NULL)
-		return NULL;
+	if (tr == nullptr)
+		return nullptr;
 
-	if (tr->szHelpText == NULL)
+	if (tr->szHelpText == nullptr)
 		return mir_wstrdup(tr->tszTokenString);
 
 	char *helpText = mir_strdup(tr->szHelpText);
-	if (helpText == NULL)
-		return NULL;
+	if (helpText == nullptr)
+		return nullptr;
 
 	char *cur = helpText;
-	wchar_t *tArgs = NULL;
-	char *args = NULL, *first = NULL, *second = NULL;
+	wchar_t *tArgs = nullptr;
+	char *args = nullptr, *first = nullptr, *second = nullptr;
 	while (*cur != 0) {
 		if (*cur == '\t') {
-			if (first == NULL)
+			if (first == nullptr)
 				first = cur;
-			else if (second == NULL)
+			else if (second == nullptr)
 				second = cur;
 		}
 		cur++;
 	}
 
-	if ((first != NULL) && (second != NULL)) {
+	if ((first != nullptr) && (second != nullptr)) {
 		*second = 0;
 		args = first+1;
 	}
-	else args = NULL;
+	else args = nullptr;
 
-	size_t len = mir_wstrlen(tr->tszTokenString) + (args!=NULL?mir_strlen(args):0) + 3;
+	size_t len = mir_wstrlen(tr->tszTokenString) + (args!=nullptr?mir_strlen(args):0) + 3;
 	wchar_t *desc = (wchar_t*)mir_calloc(len * sizeof(wchar_t));
-	if (desc == NULL) {
+	if (desc == nullptr) {
 		mir_free(helpText);
-		return NULL;
+		return nullptr;
 	}
 
 	if (tr->flags&TRF_FIELD)
 		mir_snwprintf(desc,  len, L"%c%s%c", FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
 	else {
-		if (args != NULL)
+		if (args != nullptr)
 			tArgs = mir_a2u(args);
 
-		mir_snwprintf(desc,  len, L"%c%s%s", FUNC_CHAR, tr->tszTokenString, (tArgs!=NULL?tArgs:L""));
+		mir_snwprintf(desc,  len, L"%c%s%s", FUNC_CHAR, tr->tszTokenString, (tArgs!=nullptr?tArgs:L""));
 	}
 
 	mir_free(tArgs);
@@ -319,7 +319,7 @@ static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM)
 {
 	TOKENREGISTEREX *tr1 = (TOKENREGISTEREX *)lParam1;
 	TOKENREGISTEREX *tr2 = (TOKENREGISTEREX *)lParam2;
-	if (tr1 == NULL || tr2 == NULL)
+	if (tr1 == nullptr || tr2 == nullptr)
 		return 0;
 
 	ptrW cat1(getTokenCategory(tr1));
@@ -331,7 +331,7 @@ static int CALLBACK compareTokenHelp(LPARAM lParam1, LPARAM lParam2, LPARAM)
 	if (res != 0)
 		return res;
 
-	if (tr1->tszTokenString == NULL || tr2->tszTokenString == NULL)
+	if (tr1->tszTokenString == nullptr || tr2->tszTokenString == nullptr)
 		return 0;
 
 	return mir_wstrcmp(tr1->tszTokenString, tr2->tszTokenString);
@@ -361,24 +361,24 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 			int i = -1;
 			do {
 				i++;
-				tszHelpDesc = tszTokenDesc = NULL;
+				tszHelpDesc = tszTokenDesc = nullptr;
 				tr = getTokenRegister(i);
-				if ((tr == NULL) || (tr->tszTokenString == NULL))
+				if ((tr == nullptr) || (tr->tszTokenString == nullptr))
 					continue;
 
-				else if (hdd != NULL) {
+				else if (hdd != nullptr) {
 					if (!mir_wstrcmp(tr->tszTokenString, SUBJECT)) {
 						if (hdd->vhs->flags&VHF_HIDESUBJECTTOKEN)
 							continue;
 
-						if (hdd->vhs->szSubjectDesc != NULL)
+						if (hdd->vhs->szSubjectDesc != nullptr)
 							tszHelpDesc = mir_a2u(hdd->vhs->szSubjectDesc);
 					}
 					if (!mir_wstrcmp(tr->tszTokenString, MIR_EXTRATEXT)) {
 						if (hdd->vhs->flags & VHF_HIDEEXTRATEXTTOKEN)
 							continue;
 
-						if (hdd->vhs->szExtraTextDesc != NULL)
+						if (hdd->vhs->szExtraTextDesc != nullptr)
 							tszHelpDesc = mir_a2u(hdd->vhs->szExtraTextDesc);
 					}
 				}
@@ -388,7 +388,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 				lvItem.iItem = ListView_GetItemCount(hList);
 				lvItem.lParam = (LPARAM)tr;
 				tszTokenDesc = getTokenDescription(tr);
-				if (tszTokenDesc == NULL)
+				if (tszTokenDesc == nullptr)
 					continue;
 
 				lvItem.pszText = tszTokenDesc;
@@ -396,10 +396,10 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 				mir_free(tszTokenDesc);
 
 				lvItem.mask = LVIF_TEXT;
-				if (tszHelpDesc == NULL)
+				if (tszHelpDesc == nullptr)
 					tszHelpDesc = getHelpDescription(tr);
 
-				if (tszHelpDesc == NULL)
+				if (tszHelpDesc == nullptr)
 					tszHelpDesc = mir_wstrdup(L"unknown");
 
 				lvItem.iSubItem = 1;
@@ -407,12 +407,12 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 				ListView_SetItem(hList, &lvItem);
 				mir_free(tszHelpDesc);
 			}
-				while (tr != NULL);
+				while (tr != nullptr);
 	
 			ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE);
 			ListView_SetColumnWidth(hList, 1, LVSCW_AUTOSIZE);
 			ListView_SortItems(hList, compareTokenHelp, 0);
-			last = text = NULL;
+			last = text = nullptr;
 			for (i = 0; i < ListView_GetItemCount(hList); i++) {
 				LVITEM lvItem = { 0 };
 				lvItem.mask = LVIF_PARAM;
@@ -421,17 +421,17 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 					continue;
 
 				cat = getTokenCategory((TOKENREGISTEREX *)lvItem.lParam);
-				if (cat != NULL) {
+				if (cat != nullptr) {
 					text = mir_wstrdup(TranslateW(cat));
 					mir_free(cat);
 				}
-				else text = NULL;
+				else text = nullptr;
 
-				if (text != NULL && (last == NULL || mir_wstrcmpi(last, text))) {
+				if (text != nullptr && (last == nullptr || mir_wstrcmpi(last, text))) {
 					lvItem.mask = LVIF_TEXT;
 					lvItem.pszText = text;
 					ListView_InsertItem(hList, &lvItem);
-					if (last != NULL) {
+					if (last != nullptr) {
 						mir_free(last);
 						lvItem.iSubItem = 0;
 						lvItem.pszText = L"";
@@ -448,7 +448,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 	case WM_NOTIFY:
 		if ((((NMHDR*)lParam)->idFrom == IDC_TOKENLIST) && (((NMHDR*)lParam)->code == NM_DBLCLK)) {
 			HWND hwndInputDlg = (HWND)SendMessage(GetParent(hwndDlg), VARM_GETDIALOG, (WPARAM)VHF_INPUT, 0);
-			if (hwndInputDlg == NULL)
+			if (hwndInputDlg == nullptr)
 				break;
 
 			HWND hList = GetDlgItem(hwndDlg, IDC_TOKENLIST);
@@ -461,12 +461,12 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM, LPA
 				break;
 
 			TOKENREGISTER *tr = (TOKENREGISTER *)lvItem.lParam;
-			if (tr == NULL)
+			if (tr == nullptr)
 				break;
 
 			size_t len = mir_wstrlen(tr->tszTokenString) + 2;
 			wchar_t *tokenString = (wchar_t*)mir_alloc((len+1)*sizeof(wchar_t));
-			if (tokenString == NULL)
+			if (tokenString == nullptr)
 				break;
 
 			memset(tokenString, 0, ((len + 1) * sizeof(wchar_t)));
@@ -611,7 +611,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 		dat->hwndHelpDlg = GetParent(hwndDlg);
 		SendMessage(hwndDlg, VARM_PARSE, 0, 0);
-		SetTimer(hwndDlg, IDT_PARSE, 1000, NULL);
+		SetTimer(hwndDlg, IDT_PARSE, 1000, nullptr);
 
 		SetFocus(GetDlgItem(hwndDlg, IDC_TESTSTRING));
 		break;
@@ -679,17 +679,17 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				extraText = (wchar_t*)mir_calloc((len + 1)* sizeof(wchar_t));
 				SendMessage(GetParent(hwndDlg), VARM_GETEXTRATEXT, (WPARAM)len + 1, (LPARAM)extraText);
 			}
-			else extraText = NULL;
+			else extraText = nullptr;
 
-			if (string != NULL) {
+			if (string != nullptr) {
 				wchar_t *newString = variables_parsedup(string, extraText, (MCONTACT)SendMessage(GetParent(hwndDlg), VARM_GETSUBJECT, 0, 0));
-				if (newString != NULL) {
+				if (newString != nullptr) {
 					wchar_t *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
-					if (oldString == NULL || mir_wstrcmp(oldString, newString))
+					if (oldString == nullptr || mir_wstrcmp(oldString, newString))
 						SetDlgItemText(hwndDlg, IDC_RESULT, newString);
 
 					mir_free(newString);
-					if (oldString != NULL)
+					if (oldString != nullptr)
 						mir_free(oldString);
 				}
 				mir_free(string);
@@ -718,7 +718,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, IDT_PARSE);
-		if (dat == NULL)
+		if (dat == nullptr)
 			break;
 		db_set_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, dat->splitterPos);
 		mir_free(dat);
@@ -781,7 +781,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			GetWindowRect(hwndDlg, &rcParent);
 
 			TCITEM tci = { 0 };
-			HWND hPage, hShow = 0;
+			HWND hPage, hShow = nullptr;
 			if (dat->vhs->flags&VHF_TOKENS) {
 				// token tab
 				tci.mask = TCIF_TEXT | TCIF_PARAM;
@@ -793,7 +793,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
 				ShowWindow(hPage, SW_HIDE);
 				TabCtrl_InsertItem(hTab, tabCount++, &tci);
-				hShow = hShow == 0 ? hPage : hShow;
+				hShow = hShow == nullptr ? hPage : hShow;
 			}
 			if (dat->vhs->flags&VHF_INPUT) {
 				// input tab
@@ -806,8 +806,8 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
 				ShowWindow(hPage, SW_HIDE);
 				TabCtrl_InsertItem(hTab, tabCount++, &tci);
-				hShow = hShow == 0 ? hPage : hShow;
-				if ((dat->vhs->fi != NULL) && (dat->vhs->fi->szFormat != NULL)) {
+				hShow = hShow == nullptr ? hPage : hShow;
+				if ((dat->vhs->fi != nullptr) && (dat->vhs->fi->szFormat != nullptr)) {
 					if (dat->vhs->fi->flags & FIF_UNICODE)
 						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->tszFormat);
 					else {
@@ -818,20 +818,20 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 					}
 				}
-				else if (dat->vhs->hwndCtrl != NULL) {
+				else if (dat->vhs->hwndCtrl != nullptr) {
 					wchar_t *tszText = Hlp_GetWindowText(dat->vhs->hwndCtrl);
-					if (tszText != NULL) {
+					if (tszText != nullptr) {
 						SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)tszText);
 						mir_free(tszText);
 					}
 				}
-				if (dat->vhs->fi != NULL || dat->vhs->hwndCtrl != NULL) {
+				if (dat->vhs->fi != nullptr || dat->vhs->hwndCtrl != nullptr) {
 					SetDlgItemText(hwndDlg, IDC_CANCEL, TranslateT("Cancel"));
 					ShowWindow(GetDlgItem(hwndDlg, IDC_OK), SW_SHOW);
 				}
 			}
 			if ((dat->vhs->flags&VHF_SUBJECT) ||
-				((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
+				((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != nullptr) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
 				// subject window is created, but not necessarily shown
 				dat->hwndSubjectDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
 				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
@@ -839,7 +839,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
 				ShowWindow(hPage, SW_HIDE);
 
-				if ((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL))
+				if ((dat->vhs->fi != nullptr) && (dat->vhs->fi->hContact != NULL))
 					SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)dat->vhs->fi->hContact, 0);
 				else if (dat->vhs->flags&VHF_SETLASTSUBJECT)
 					SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)INVALID_HANDLE_VALUE, 0);
@@ -850,18 +850,18 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					tci.mask = TCIF_TEXT | TCIF_PARAM;
 					tci.pszText = TranslateT("%subject%");
 					TabCtrl_InsertItem(hTab, tabCount++, &tci);
-					hShow = hShow == 0 ? hPage : hShow;
+					hShow = hShow == nullptr ? hPage : hShow;
 				}
 			}
 			if ((dat->vhs->flags&VHF_EXTRATEXT) ||
-				((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL))) {
+				((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != nullptr) && (dat->vhs->fi->tszExtraText != nullptr))) {
 				// extratext window is created, but not necessarily shown
 				dat->hwndExtraTextDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
 				EnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 
 				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
 				ShowWindow(hPage, SW_HIDE);
-				if ((dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL)) {
+				if ((dat->vhs->fi != nullptr) && (dat->vhs->fi->tszExtraText != nullptr)) {
 					if (dat->vhs->fi->flags & FIF_UNICODE)
 						SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->tszExtraText);
 					else {
@@ -878,7 +878,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					tci.pszText = TranslateT("%extratext%");
 					tci.lParam = (LPARAM)hPage;
 					TabCtrl_InsertItem(hTab, tabCount++, &tci);
-					hShow = hShow == 0 ? hPage : hShow;
+					hShow = hShow == nullptr ? hPage : hShow;
 				}
 			}
 			if (dat->vhs->flags&VHF_HELP) {
@@ -892,7 +892,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2 * iFrameX, (rcTabs.bottom - rcTabs.top) - 2 * iFrameY, TRUE);
 				ShowWindow(hPage, SW_HIDE);
 				TabCtrl_InsertItem(hTab, tabCount++, &tci);
-				hShow = hShow == 0 ? hPage : hShow;
+				hShow = hShow == nullptr ? hPage : hShow;
 			}
 			Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "help");
 			SetWindowText(hwndDlg, TranslateT("Variables Help"));
@@ -903,10 +903,10 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OK:
-			if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
+			if ((dat->vhs->fi != nullptr) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
-					if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
+					if ((dat->vhs->fi != nullptr) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 						if (dat->vhs->fi->flags&FIF_UNICODE) {
 							dat->vhs->fi->tszFormat = (wchar_t*)mir_calloc((len + 1)*sizeof(WCHAR));
 							SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len + 1, (LPARAM)dat->vhs->fi->tszFormat);
@@ -919,13 +919,13 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 				}
 			}
 
-			if (dat->vhs->hwndCtrl != NULL) {
+			if (dat->vhs->hwndCtrl != nullptr) {
 				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
 					wchar_t *tszText;
 
 					tszText = (wchar_t*)mir_calloc((len + 1)*sizeof(wchar_t));
-					if (tszText != NULL) {
+					if (tszText != nullptr) {
 						SendMessage(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len + 1, (LPARAM)tszText);
 						SetWindowText(dat->vhs->hwndCtrl, tszText);
 						mir_free(tszText);
@@ -938,7 +938,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					(LPARAM)dat->vhs->hwndCtrl);
 			}
 
-			if ((dat->vhs->flags&VHF_FULLFILLSTRUCT) && (dat->vhs->fi != NULL)) {
+			if ((dat->vhs->flags&VHF_FULLFILLSTRUCT) && (dat->vhs->fi != nullptr)) {
 				int len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
 				if (len > 0) {
 					if (dat->vhs->fi->flags&FIF_UNICODE) {
@@ -955,7 +955,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			// fall through
 
 		case IDC_CANCEL:
-			if (GetParent(hwndDlg) == NULL)
+			if (GetParent(hwndDlg) == nullptr)
 				DestroyWindow(hwndDlg);
 			else
 				EndDialog(hwndDlg, 0);
@@ -1077,7 +1077,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		break;
 
 	case WM_CLOSE:
-		if (GetParent(hwndDlg) == NULL)
+		if (GetParent(hwndDlg) == nullptr)
 			DestroyWindow(hwndDlg);
 		else
 			EndDialog(hwndDlg, 0);
@@ -1105,7 +1105,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			DestroyWindow(dat->hwndExtraTextDlg);
 
 		mir_free(dat);
-		dat = NULL;
+		dat = nullptr;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
@@ -1128,23 +1128,23 @@ INT_PTR showHelpExService(WPARAM wParam, LPARAM lParam)
 	if (wParam)
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_HELP_DIALOG), (HWND)wParam, helpDlgProc, (LPARAM)lParam);
 	else
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELP_DIALOG), NULL, helpDlgProc, (LPARAM)lParam);
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HELP_DIALOG), nullptr, helpDlgProc, (LPARAM)lParam);
 
 	return 0;
 }
 
 INT_PTR showHelpService(WPARAM wParam, LPARAM lParam)
 {
-	static VARHELPINFO *vhs = NULL;
-	static FORMATINFO *fi = NULL;
+	static VARHELPINFO *vhs = nullptr;
+	static FORMATINFO *fi = nullptr;
 
-	if (fi == NULL)
+	if (fi == nullptr)
 		fi = (FORMATINFO*)mir_alloc(sizeof(FORMATINFO));
 
 	memset(fi, 0, sizeof(FORMATINFO));
 	fi->cbSize = sizeof(FORMATINFO);
 	fi->szFormat = (char *)lParam;
-	if (vhs == NULL)
+	if (vhs == nullptr)
 		vhs = (VARHELPINFO*)mir_alloc(sizeof(VARHELPINFO));
 
 	memset(vhs, 0, sizeof(VARHELPINFO));
@@ -1164,7 +1164,7 @@ INT_PTR getSkinItemService(WPARAM, LPARAM lParam)
 
 	switch (item) {
 	case VSI_HELPICON:
-		if (hHelpIcon == NULL)
+		if (hHelpIcon == nullptr)
 			hHelpIcon = IcoLib_GetIcon("vars_help");
 		return (INT_PTR)hHelpIcon;
 
@@ -1177,6 +1177,6 @@ INT_PTR getSkinItemService(WPARAM, LPARAM lParam)
 
 int iconsChanged(WPARAM, LPARAM)
 {
-	hHelpIcon = NULL;
+	hHelpIcon = nullptr;
 	return 0;
 }

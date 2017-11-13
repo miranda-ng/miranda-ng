@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 int hLangpack;
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
-FI_INTERFACE *fii = NULL;
+FI_INTERFACE *fii = nullptr;
 char g_szMirVer[100];
 HANDLE g_hCallEvent;
 CHAT_MANAGER *pci;

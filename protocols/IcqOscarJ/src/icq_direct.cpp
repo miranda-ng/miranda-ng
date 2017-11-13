@@ -52,7 +52,7 @@ void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 		if (!hContact || directConns[i]->hContact == hContact) {
 			HNETLIBCONN hConnection = directConns[i]->hConnection;
 
-			directConns[i]->hConnection = NULL; // do not allow reuse
+			directConns[i]->hConnection = nullptr; // do not allow reuse
 			NetLib_CloseConnection(&hConnection, FALSE);
 		}
 	}
@@ -61,7 +61,7 @@ void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 
 directconnect* CIcqProto::FindFileTransferDC(filetransfer* ft)
 {
-	directconnect* dc = NULL;
+	directconnect* dc = nullptr;
 	mir_cslock l(directConnListMutex);
 
 	for (int i = 0; i < directConns.getCount(); i++) {
@@ -77,7 +77,7 @@ directconnect* CIcqProto::FindFileTransferDC(filetransfer* ft)
 
 filetransfer* CIcqProto::FindExpectedFileRecv(DWORD dwUin, DWORD dwTotalSize)
 {
-	filetransfer* pFt = NULL;
+	filetransfer* pFt = nullptr;
 	mir_cslock l(expectedFileRecvMutex);
 
 	for (int i = 0; i < expectedFileRecvs.getCount(); i++) {
@@ -151,7 +151,7 @@ BOOL CIcqProto::IsDirectConnectionOpen(MCONTACT hContact, int type, int bPassive
 		// Set DC status as tried
 		setByte(hContact, "DCStatus", 1);
 		// Create a new connection
-		OpenDirectConnection(hContact, DIRECTCONN_STANDARD, NULL);
+		OpenDirectConnection(hContact, DIRECTCONN_STANDARD, nullptr);
 	}
 
 	return bIsOpen;
@@ -170,7 +170,7 @@ void icq_newConnectionReceived(HNETLIBCONN hNewConnection, DWORD, void *pExtra)
 void CIcqProto::OpenDirectConnection(MCONTACT hContact, int type, void* pvExtra)
 {
 	// Create a new connection
-	directthreadstartinfo* dtsi = CreateDTSI(hContact, NULL, type);
+	directthreadstartinfo* dtsi = CreateDTSI(hContact, nullptr, type);
 	dtsi->pvExtra = pvExtra;
 	ForkThread((MyThreadFunc)&CIcqProto::icq_directThread, dtsi);
 }
@@ -200,7 +200,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 	size_t nSkipPacketBytes = 0;
 	DWORD dwReqMsgID1 = 0, dwReqMsgID2 = 0;
 
-	srand(time(NULL));
+	srand(time(nullptr));
 	{
 		// add to DC connection list
 		mir_cslock l(directConnListMutex);
@@ -212,7 +212,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 	dc.dwThreadId = GetCurrentThreadId();
 	dc.incoming = dtsi->incoming;
 	dc.hConnection = dtsi->hConnection;
-	dc.ft = NULL;
+	dc.ft = nullptr;
 
 	if (!dc.incoming) {
 		dc.type = dtsi->type;
@@ -277,10 +277,10 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 		nloc.szHost = inet_ntoa(addr);
 		nloc.wPort = (WORD)dc.dwRemotePort;
 		nloc.timeout = 8; // 8 secs to connect
-		dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type == DIRECTCONN_REVERSE ? "Reverse " : NULL, &nloc);
+		dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type == DIRECTCONN_REVERSE ? "Reverse " : nullptr, &nloc);
 		if (!dc.hConnection && addr2.S_un.S_addr) { // first address failed, try second one if available
 			nloc.szHost = inet_ntoa(addr2);
-			dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type == DIRECTCONN_REVERSE ? "Reverse " : NULL, &nloc);
+			dc.hConnection = NetLib_OpenConnection(m_hDirectNetlibUser, dc.type == DIRECTCONN_REVERSE ? "Reverse " : nullptr, &nloc);
 		}
 		if (!dc.hConnection) {
 			if (CheckContactCapabilities(dc.hContact, CAPF_ICQDIRECT)) { // only if the contact support ICQ DC connections
@@ -468,7 +468,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 			dc->incoming = 0;
 
 			cookie_reverse_connect *pCookie;
-			if (FindCookie(dc->dwReqId, NULL, (void**)&pCookie) && pCookie) { // valid reverse DC, check and init session
+			if (FindCookie(dc->dwReqId, nullptr, (void**)&pCookie) && pCookie) { // valid reverse DC, check and init session
 				FreeCookie(dc->dwReqId);
 				if (pCookie->dwUin == dc->dwRemoteUin) { // valid connection
 					dc->type = pCookie->type;
@@ -551,7 +551,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 			unpackLEDWord(&buf, &dc->dwReqId);
 
 			if (dc->dwRemoteUin || !dc->dwReqId) { // OMG! Licq sends on reverse connection empty uin
-				hContact = HContactFromUIN(dc->dwRemoteUin, NULL);
+				hContact = HContactFromUIN(dc->dwRemoteUin, nullptr);
 				if (hContact == INVALID_CONTACT_ID) {
 					NetLog_Direct("Error: Received PEER_INIT from %u not on my list", dwUin);
 					CloseDirectConnection(dc);
@@ -579,7 +579,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 				if (!dc->dwRemoteUin) { // we need to load cookie (licq)
 					cookie_reverse_connect *pCookie;
 
-					if (FindCookie(dc->dwReqId, NULL, (void**)&pCookie) && pCookie) { // valid reverse DC, check and init session
+					if (FindCookie(dc->dwReqId, nullptr, (void**)&pCookie) && pCookie) { // valid reverse DC, check and init session
 						dc->dwRemoteUin = pCookie->dwUin;
 						dc->hContact = pCookie->hContact;
 					}
@@ -824,7 +824,7 @@ int CIcqProto::SendDirectMessage(MCONTACT hContact, icq_packet *pkt)
 	mir_cslock l(directConnListMutex);
 
 	for (int i = 0; i < directConns.getCount(); i++) {
-		if (directConns[i] == NULL)
+		if (directConns[i] == nullptr)
 			continue;
 
 		if (directConns[i]->hContact == hContact) {

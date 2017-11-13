@@ -22,8 +22,8 @@ Boston, MA 02111-1307, USA.
 
 #include <tchar.h>
 
-HMODULE hDwmapiDll = 0;
-HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = 0;
+HMODULE hDwmapiDll = nullptr;
+HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = nullptr;
 
 unsigned int uintMessagePumpThreadId = 0;
 POINT pt = {-1};
@@ -38,7 +38,7 @@ __inline bool IsContactTooltip(CLCINFOTIPEX *clc)
 
 void CALLBACK TimerProcWaitForContent(HWND, UINT, UINT_PTR, DWORD)
 {
-	KillTimer(0, WaitForContentTimerID);
+	KillTimer(nullptr, WaitForContentTimerID);
 	WaitForContentTimerID = 0;
 	bStatusMsgReady = true;
 	bAvatarReady = true;
@@ -60,9 +60,9 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 			if (CanRetrieveStatusMsg(hContact, szProto) && ProtoChainSend(hContact, PSS_GETAWAYMSG, 0, 0))
 			{
 				if (WaitForContentTimerID)
-					KillTimer(0, WaitForContentTimerID);
+					KillTimer(nullptr, WaitForContentTimerID);
 
-				WaitForContentTimerID = SetTimer(NULL, 0, WAIT_TIMER_INTERVAL, TimerProcWaitForContent);
+				WaitForContentTimerID = SetTimer(nullptr, 0, WAIT_TIMER_INTERVAL, TimerProcWaitForContent);
 				bNeedWait = true;
 			}
 		}
@@ -79,9 +79,9 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 					if (!ace)
 					{
 						if (WaitForContentTimerID)
-							KillTimer(0, WaitForContentTimerID);
+							KillTimer(nullptr, WaitForContentTimerID);
 
-						WaitForContentTimerID = SetTimer(NULL, 0, WAIT_TIMER_INTERVAL, TimerProcWaitForContent);
+						WaitForContentTimerID = SetTimer(nullptr, 0, WAIT_TIMER_INTERVAL, TimerProcWaitForContent);
 						bNeedWait = true;
 					}
 					else
@@ -105,12 +105,12 @@ unsigned int CALLBACK MessagePumpThread(void*)
 {
 	Thread_SetName("TipperYM: MessagePumpThread");
 
-	HWND hwndTip = NULL;
-	CLCINFOTIPEX *clcitex = NULL;
-	MSG hwndMsg = {0};
+	HWND hwndTip = nullptr;
+	CLCINFOTIPEX *clcitex = nullptr;
+	MSG hwndMsg = {};
 
-	while (GetMessage(&hwndMsg, NULL, 0, 0) > 0 && !Miranda_IsTerminated()) {
-		if (hwndMsg.hwnd != NULL && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
+	while (GetMessage(&hwndMsg, nullptr, 0, 0) > 0 && !Miranda_IsTerminated()) {
+		if (hwndMsg.hwnd != nullptr && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
 			continue;
 		switch (hwndMsg.message) {
 		case MUM_CREATEPOPUP:
@@ -124,11 +124,11 @@ unsigned int CALLBACK MessagePumpThread(void*)
 			if (!NeedWaitForContent(clcitex)) {
 				if (hwndTip)
 					MyDestroyWindow(hwndTip);
-				hwndTip = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)clcitex);
+				hwndTip = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, hInst, (LPVOID)clcitex);
 
 				if (clcitex) {
 					mir_free(clcitex);
-					clcitex = NULL;
+					clcitex = nullptr;
 				}
 
 				bStatusMsgReady = false;
@@ -138,12 +138,12 @@ unsigned int CALLBACK MessagePumpThread(void*)
 		case MUM_DELETEPOPUP:
 			if (hwndTip) {
 				MyDestroyWindow(hwndTip);
-				hwndTip = 0;
+				hwndTip = nullptr;
 			}
 
 			if (clcitex) {
 				mir_free(clcitex);
-				clcitex = NULL;
+				clcitex = nullptr;
 			}
 
 			bStatusMsgReady = false;
@@ -156,7 +156,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 
 				if (opt.bWaitForContent && !bStatusMsgReady && clcitex && clcitex->hItem == (HANDLE)hContact) {
 					if (WaitForContentTimerID) {
-						KillTimer(0, WaitForContentTimerID);
+						KillTimer(nullptr, WaitForContentTimerID);
 						WaitForContentTimerID = 0;
 					}
 
@@ -183,7 +183,7 @@ unsigned int CALLBACK MessagePumpThread(void*)
 				MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
 				if (opt.bWaitForContent && !bAvatarReady && clcitex && clcitex->hItem == (HANDLE)hContact) {
 					if (WaitForContentTimerID) {
-						KillTimer(0, WaitForContentTimerID);
+						KillTimer(nullptr, WaitForContentTimerID);
 						WaitForContentTimerID = 0;
 					}
 
@@ -215,7 +215,7 @@ void InitMessagePump()
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = PopupWindowProc;
 	wcl.hInstance = hInst;
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wcl.lpszClassName = POP_WIN_CLASS;
 	RegisterClassEx(&wcl);
@@ -224,7 +224,7 @@ void InitMessagePump()
 	if (hDwmapiDll)
 		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 
-	CloseHandle(mir_forkthreadex(MessagePumpThread, NULL, &uintMessagePumpThreadId));
+	CloseHandle(mir_forkthreadex(MessagePumpThread, nullptr, &uintMessagePumpThreadId));
 }
 
 void DeinitMessagePump()
@@ -247,8 +247,8 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 	CLCINFOTIPEX *clcit2 = (CLCINFOTIPEX *)mir_alloc(sizeof(CLCINFOTIPEX));
 	memcpy(clcit2, clcit, sizeof(CLCINFOTIP));
 	clcit2->cbSize = sizeof(CLCINFOTIPEX);
-	clcit2->szProto = NULL;
-	clcit2->swzText = NULL;
+	clcit2->szProto = nullptr;
+	clcit2->swzText = nullptr;
 
 	if (wParam) // wParam is char pointer containing text - e.g. status bar tooltip
 	{
@@ -279,8 +279,8 @@ INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 	CLCINFOTIPEX *clcit2 = (CLCINFOTIPEX *)mir_alloc(sizeof(CLCINFOTIPEX));
 	memcpy(clcit2, clcit, sizeof(CLCINFOTIP));
 	clcit2->cbSize = sizeof(CLCINFOTIPEX);
-	clcit2->szProto = NULL;
-	clcit2->swzText = NULL;
+	clcit2->szProto = nullptr;
+	clcit2->swzText = nullptr;
 
 	if (wParam) // wParam is char pointer containing text - e.g. status bar tooltip
 	{
@@ -311,7 +311,7 @@ int HideTipHook(WPARAM wParam, LPARAM lParam)
 int ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
-	if ((ack==NULL) || (ack->result != ACKRESULT_SUCCESS))
+	if ((ack==nullptr) || (ack->result != ACKRESULT_SUCCESS))
 		return 0;
 
 	if (ack->type == ACKTYPE_AWAYMSG) {

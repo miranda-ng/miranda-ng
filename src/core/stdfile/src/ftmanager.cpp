@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "file.h"
 
-static HWND hwndFtMgr = NULL;
+static HWND hwndFtMgr = nullptr;
 
 struct TFtMgrData
 {
@@ -78,8 +78,8 @@ static void LayoutTransfers(HWND hwnd, struct TFtPageData *dat)
 		top -= dat->scrollPos;
 		for (int i = 0; i < dat->wnds->realCount; ++i) {
 			int height = dat->wnds->items[i]->rc.bottom - dat->wnds->items[i]->rc.top;
-			if (NULL != dat->wnds->items[i]->hwnd) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, dat->wnds->items[i]->hwnd, NULL, 0, top, rc.right, height, SWP_NOZORDER);
+			if (nullptr != dat->wnds->items[i]->hwnd) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, dat->wnds->items[i]->hwnd, nullptr, 0, top, rc.right, height, SWP_NOZORDER);
 			top += height;
 		}
 		top += dat->scrollPos;
@@ -215,7 +215,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			if (pos < 0) pos = 0;
 
 			if (dat->scrollPos != pos) {
-				ScrollWindow(hwnd, 0, dat->scrollPos - pos, NULL, NULL);
+				ScrollWindow(hwnd, 0, dat->scrollPos - pos, nullptr, nullptr);
 				SetScrollPos(hwnd, SB_VERT, pos, TRUE);
 				dat->scrollPos = pos;
 			}
@@ -306,25 +306,25 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			hdwp = BeginDeferWindowPos(3);
 
 			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDC_CLEAR), NULL, rc.left, rc.bottom-rcButton.bottom, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
-			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDCANCEL), NULL, rc.right-rcButton.right, rc.bottom-rcButton.bottom, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
+			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, IDCANCEL), nullptr, rc.right-rcButton.right, rc.bottom-rcButton.bottom, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
 
 			rc.bottom -= rcButton.bottom + 5;
 
-			if (NULL != hwndTab) /* Wine fix. */
-				hdwp = DeferWindowPos(hdwp, hwndTab, NULL, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, SWP_NOZORDER);
+			if (nullptr != hwndTab) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndTab, nullptr, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, SWP_NOZORDER);
 
 			EndDeferWindowPos(hdwp);
 
 			GetWindowRect(hwndTab, &rc);
-			MapWindowPoints(NULL, hwnd, (LPPOINT)&rc, 2);
+			MapWindowPoints(nullptr, hwnd, (LPPOINT)&rc, 2);
 			TabCtrl_AdjustRect(hwndTab, FALSE, &rc);
 			InflateRect(&rc, -5, -5);
 
 			hdwp = BeginDeferWindowPos(2);
 
-			if (NULL != dat->hwndIncoming) /* Wine fix. */
+			if (nullptr != dat->hwndIncoming) /* Wine fix. */
 				hdwp = DeferWindowPos(hdwp, dat->hwndIncoming, HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 0);
-			if (NULL != dat->hwndOutgoing) /* Wine fix. */
+			if (nullptr != dat->hwndOutgoing) /* Wine fix. */
 				hdwp = DeferWindowPos(hdwp, dat->hwndOutgoing, HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 0);
 
 			EndDeferWindowPos(hdwp);
@@ -444,7 +444,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_TIMER:
 		if (pTaskbarInterface) {
-			SetTimer(hwnd, 1, 400, NULL);
+			SetTimer(hwnd, 1, 400, nullptr);
 			if ((lParam == ACKRESULT_FAILED) || (lParam == ACKRESULT_DENIED))
 				dat->errorState = TBPF_ERROR;
 
@@ -478,7 +478,7 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 {
 	bool bAutoMin = db_get_b(NULL, "SRFile", "AutoMin", 0) != 0; /* lqbe */
 
-	bool bJustCreated = (hwndFtMgr == NULL);
+	bool bJustCreated = (hwndFtMgr == nullptr);
 	if (bJustCreated)
 		hwndFtMgr = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
 
@@ -522,8 +522,8 @@ HWND FtMgr_AddTransfer(FileDlgData *fdd)
 {
 	bool bForceActivate = fdd->send || !db_get_b(NULL, "SRFile", "AutoAccept", 0);
 	TFtMgrData *dat = (TFtMgrData*)GetWindowLongPtr(FtMgr_Show(bForceActivate, false), GWLP_USERDATA);
-	if (dat == NULL)
-		return NULL;
+	if (dat == nullptr)
+		return nullptr;
 
 	HWND hwndBox = fdd->send ? dat->hwndOutgoing : dat->hwndIncoming;
 	HWND hwndFt = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILETRANSFERINFO), hwndBox, DlgProcFileTransfer, (LPARAM)fdd);

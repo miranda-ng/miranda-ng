@@ -8,7 +8,7 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new
 	// First, check if this contact exists
 	MCONTACT hContact = ContactIDToHContact(jid);
 	if (hContact) {
-		if (new_name != NULL) {
+		if (new_name != nullptr) {
 			DBVARIANT dbv;
 			string oldName;
 			if (db_get_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, &dbv))
@@ -44,7 +44,7 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new
 	db_set_b(hContact, "CList", "NotOnList", 1);
 	db_set_ws(hContact, "CList", "Group", m_tszDefaultGroup);
 
-	if (new_name != NULL)
+	if (new_name != nullptr)
 		db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, new_name);
 
 	return hContact;
@@ -110,7 +110,7 @@ void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolea
 	if (hContact != NULL) {
 		if (paramBoolean) {
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
-			setDword(hContact, WHATSAPP_KEY_LAST_SEEN, time(NULL));
+			setDword(hContact, WHATSAPP_KEY_LAST_SEEN, time(nullptr));
 		}
 		else {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);

@@ -42,7 +42,7 @@ HANDLE GetIconHandle(const char* name) {
 			return hIconLibItem[i];
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 

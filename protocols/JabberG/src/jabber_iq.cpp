@@ -61,7 +61,7 @@ bool CJabberIqManager::Start()
 	if (m_hExpirerThread || m_bExpirerThreadShutdownRequest)
 		return false;
 
-	m_hExpirerThread = ppro->ForkThreadEx(&CJabberProto::ExpirerThread, this, 0);
+	m_hExpirerThread = ppro->ForkThreadEx(&CJabberProto::ExpirerThread, this, nullptr);
 	if (!m_hExpirerThread)
 		return false;
 

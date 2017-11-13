@@ -14,7 +14,7 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	ptrA szAvatarId(getStringA(pai->hContact, WHATSAPP_KEY_AVATAR_ID));
 	if (szAvatarId == NULL || (wParam & GAIF_FORCE) != 0)
-		if (pai->hContact != NULL && m_pConnection != NULL) {
+		if (pai->hContact != NULL && m_pConnection != nullptr) {
 			m_pConnection->sendGetPicture(id, "image");
 			return GAIR_WAITFOR;
 		}
@@ -70,34 +70,34 @@ INT_PTR WhatsAppProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 static std::vector<unsigned char>* sttFileToMem(const wchar_t *ptszFileName)
 {
-	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(ptszFileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
-		return NULL;
+		return nullptr;
 
 	DWORD upperSize, lowerSize = GetFileSize(hFile, &upperSize);
 	std::vector<unsigned char> *result = new std::vector<unsigned char>(lowerSize);
-	ReadFile(hFile, (void*)result->data(), lowerSize, &upperSize, NULL);
+	ReadFile(hFile, (void*)result->data(), lowerSize, &upperSize, nullptr);
 	CloseHandle(hFile);
 	return result;
 }
 
 int WhatsAppProto::InternalSetAvatar(MCONTACT hContact, const char *szJid, const wchar_t *ptszFileName)
 {
-	if (!isOnline() || ptszFileName == NULL)
+	if (!isOnline() || ptszFileName == nullptr)
 		return 1;
 
 	if (_waccess(ptszFileName, 4) != 0)
 		return errno;
 
 	ResizeBitmap resize = { 0 };
-	if ((resize.hBmp = Bitmap_Load(ptszFileName)) == NULL)
+	if ((resize.hBmp = Bitmap_Load(ptszFileName)) == nullptr)
 		return 2;
 	resize.size = sizeof(resize);
 	resize.fit = RESIZEBITMAP_KEEP_PROPORTIONS;
 	resize.max_height = resize.max_width = 96;
 
 	HBITMAP hbmpPreview = (HBITMAP)CallService(MS_IMG_RESIZE, (LPARAM)&resize, 0);
-	if (hbmpPreview == NULL)
+	if (hbmpPreview == nullptr)
 		return 3;
 
 	wchar_t tszTempFile[MAX_PATH], tszMyFile[MAX_PATH];
@@ -111,7 +111,7 @@ int WhatsAppProto::InternalSetAvatar(MCONTACT hContact, const char *szJid, const
 		wcsncpy_s(tszTempFile, (tszContactAva + L".preview").c_str(), _TRUNCATE);
 	}
 
-	IMGSRVC_INFO saveInfo = { sizeof(saveInfo), 0 };
+	IMGSRVC_INFO saveInfo = { sizeof(saveInfo), nullptr };
 	saveInfo.hbm = hbmpPreview;
 	saveInfo.tszName = tszTempFile;
 	saveInfo.dwMask = IMGI_HBITMAP;

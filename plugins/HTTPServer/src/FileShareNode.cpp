@@ -18,7 +18,7 @@
 
 #include "Glob.h"
 
-CLFileShareNode * pclFirstNode = NULL;
+CLFileShareNode * pclFirstNode = nullptr;
 mir_cs csFileShareListAccess;
 
 
@@ -40,7 +40,7 @@ CLShareUser::CLShareUser(HNETLIBCONN hCon, in_addr stAdd)
 {
 	hConnection = hCon;
 	stAddr = stAdd;
-	pclNext = NULL;
+	pclNext = nullptr;
 	dwTotalSize = 0;
 	dwCurrentDL = 0;
 	dwSpeed = 0;
@@ -132,8 +132,8 @@ CLFileShareNode::CLFileShareNode(char * pszSrvPath, char * pszRealPath)
 {
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
-	pclNext = NULL;
-	pclCurrentUsers = NULL;
+	pclNext = nullptr;
+	pclCurrentUsers = nullptr;
 
 	bSetPaths(pszSrvPath, pszRealPath);
 }
@@ -155,8 +155,8 @@ CLFileShareNode::CLFileShareNode(STFileShareInfo * pstInfo)
 {
 	memset(&st, 0, sizeof(STFileShareInfo));
 	st.lStructSize = sizeof(STFileShareInfo);
-	pclNext = NULL;
-	pclCurrentUsers = NULL;
+	pclNext = nullptr;
+	pclCurrentUsers = nullptr;
 
 	bSetInfo(pstInfo);
 }

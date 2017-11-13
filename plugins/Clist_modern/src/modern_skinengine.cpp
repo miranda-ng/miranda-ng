@@ -985,7 +985,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 	HDC memdc = nullptr, glyphdc = nullptr;
 	int k = 0;
 	//BITMAP bmp = {0};
-	HBITMAP membmp = 0, oldbmp = 0, oldglyph = 0;
+	HBITMAP membmp = nullptr, oldbmp = nullptr, oldglyph = nullptr;
 	BYTE Is32Bit = 0;
 	RECT PRect;
 	POINT mode2offset = { 0 };
@@ -2467,7 +2467,7 @@ BOOL ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT form
 
 HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i)
 {
-	IMAGEINFO imi = { 0 };
+	IMAGEINFO imi = {};
 	BITMAP bm = { 0 };
 	if (i != -1) {
 		ImageList_GetImageInfo(himl, i, &imi);
@@ -2712,7 +2712,7 @@ int ske_PrepareImageButDontUpdateIt(RECT *r)
 int ske_RedrawCompleteWindow()
 {
 	if (g_CluiData.fLayered) {
-		ske_DrawNonFramedObjects(TRUE, 0);
+		ske_DrawNonFramedObjects(TRUE, nullptr);
 		CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, 0, 0);
 	}
 	else RedrawWindow(pcli->hwndContactList, nullptr, nullptr, RDW_ALLCHILDREN | RDW_ERASE | RDW_INVALIDATE | RDW_FRAME);
@@ -2755,7 +2755,7 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM)           // 
 		else {
 			if (frm->UpdateRgn) {
 				DeleteObject(frm->UpdateRgn);
-				frm->UpdateRgn = 0;
+				frm->UpdateRgn = nullptr;
 			}
 			ske_ValidateSingleFrameImage(frm, 0);
 			ske_UpdateWindowImage();
@@ -2810,7 +2810,7 @@ static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)   
 
 					if (!frm->UpdateRgn) {
 						frm->UpdateRgn = CreateRectRgn(0, 0, 1, 1);
-						CombineRgn(frm->UpdateRgn, r2, 0, RGN_COPY);
+						CombineRgn(frm->UpdateRgn, r2, nullptr, RGN_COPY);
 					}
 					else CombineRgn(frm->UpdateRgn, frm->UpdateRgn, r2, RGN_OR);
 					DeleteObject(r2);
@@ -2919,7 +2919,7 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 		DeleteObject(rgnUpdate);
 	}
 	DeleteObject(Frame->UpdateRgn);
-	Frame->UpdateRgn = 0;
+	Frame->UpdateRgn = nullptr;
 
 	if (!IsRectEmpty(&ru)) {
 		x1 = ru.left;
@@ -3060,7 +3060,7 @@ int ske_DrawNonFramedObjects(BOOL Erase, RECT *r)
 	RECT w, wnd;
 	if (r) w = *r;
 	else CLUI_SizingGetWindowRect(pcli->hwndContactList, &w);
-	if (!g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE, 0);
+	if (!g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE, nullptr);
 	if (g_pCachedWindow == nullptr)
 		return ske_ValidateFrameImageProc(&w);
 
@@ -3173,7 +3173,7 @@ int ske_UpdateWindowImage()
 		GetWindowRect(pcli->hwndContactList, &r);
 		return ske_UpdateWindowImageRect(&r);
 	}
-	else ske_ReCreateBackImage(FALSE, 0);
+	else ske_ReCreateBackImage(FALSE, nullptr);
 	ske_ApplyTranslucency();
 	return 0;
 }
@@ -3184,7 +3184,7 @@ int ske_UpdateWindowImageRect(RECT *r)                                     // Up
 	//else Update using current alpha
 	RECT wnd = *r;
 
-	if (!g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE, 0);
+	if (!g_CluiData.fLayered) return ske_ReCreateBackImage(FALSE, nullptr);
 	if (g_pCachedWindow == nullptr) return ske_ValidateFrameImageProc(&wnd);
 	if (g_pCachedWindow->Width != wnd.right - wnd.left || g_pCachedWindow->Height != wnd.bottom - wnd.top) return ske_ValidateFrameImageProc(&wnd);
 	if (g_flag_bFullRepaint) {

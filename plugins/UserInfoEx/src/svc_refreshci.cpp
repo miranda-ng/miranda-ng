@@ -96,7 +96,7 @@ public:
 
 	BYTE IsVisible() const
 	{
-		return _hWnd != NULL;
+		return _hWnd != nullptr;
 	}
 	/**
 	 *
@@ -195,9 +195,9 @@ public:
 	 **/
 	CUpdProgress()
 	{
-		_hWnd = NULL;
-		_pFnCallBack = NULL;
-		_pData = NULL;
+		_hWnd = nullptr;
+		_pFnCallBack = nullptr;
+		_pData = nullptr;
 		_bIsCanceled = FALSE;
 		_bBBCode = FALSE;
 	}
@@ -208,8 +208,8 @@ public:
 	 **/
 	CUpdProgress(void *data)
 	{
-		_hWnd = NULL;
-		_pFnCallBack = NULL;
+		_hWnd = nullptr;
+		_pFnCallBack = nullptr;
 		_pData = data;
 		_bIsCanceled = FALSE;
 		_bBBCode = FALSE;
@@ -283,7 +283,7 @@ public:
 		_pFnCallBack = pFnCallBack;
 		_hWnd = CreateDialogParam(ghInst, 
 							MAKEINTRESOURCE(IDD_REFRESHDETAILS), 
-							0, 
+							nullptr, 
 							CDlgUpdProgress::WndProc, 
 							(LPARAM) this);
 		if (_hWnd)
@@ -304,7 +304,7 @@ public:
 		{
 			SetUserData(_hWnd, NULL);
 			EndDialog(_hWnd, IDOK);
-			_hWnd = NULL;
+			_hWnd = nullptr;
 		}
 	}
 
@@ -389,7 +389,7 @@ public:
 	CPopupUpdProgress(void *data)
 		: CUpdProgress(data)
 	{
-		_szText = NULL;
+		_szText = nullptr;
 		_bBBCode = db_get_b(NULL, "Popup", "UseMText", FALSE);
 
 		_popupButtons[0].cbSize = sizeof(POPUPACTION);
@@ -443,7 +443,7 @@ public:
 		if (_hWnd)
 		{
 			PUDeletePopup(_hWnd);
-			_hWnd = NULL;
+			_hWnd = nullptr;
 		}
 		MIR_FREE(_szText);
 	}
@@ -583,7 +583,7 @@ class CContactUpdater : public CContactQueue
 		if (_hProtoAckEvent)
 		{
 			UnhookEvent(_hProtoAckEvent);
-			_hProtoAckEvent = NULL;
+			_hProtoAckEvent = nullptr;
 		}
 
 		// free up last ackresult array
@@ -597,7 +597,7 @@ class CContactUpdater : public CContactQueue
 			_pProgress->Destroy();
 
 			delete _pProgress;
-			_pProgress = NULL;
+			_pProgress = nullptr;
 		}
 
 		// reset menu
@@ -653,11 +653,11 @@ public:
 	 **/
 	CContactUpdater() : CContactQueue()
 	{
-		_hContactAcks	= NULL;
+		_hContactAcks	= nullptr;
 		_nContactAcks	= 0;
 		_hContact		= NULL;
-		_pProgress		= NULL;
-		_hProtoAckEvent	= NULL;
+		_pProgress		= nullptr;
+		_hProtoAckEvent	= nullptr;
 	}
 
 	/**
@@ -728,7 +728,7 @@ public:
 
 };
 
-static CContactUpdater	*ContactUpdater = NULL;
+static CContactUpdater	*ContactUpdater = nullptr;
 
 /***********************************************************************************************************
  * common helper functions
@@ -785,7 +785,7 @@ static INT_PTR RefreshService(WPARAM, LPARAM)
 			{
 				ContactUpdater->RefreshAll();
 			}
-			else if (IDYES == MsgBox(NULL, MB_YESNO|MB_ICON_QUESTION, LPGENW("Refresh contact details"), NULL, 
+			else if (IDYES == MsgBox(nullptr, MB_YESNO|MB_ICON_QUESTION, LPGENW("Refresh contact details"), nullptr, 
 				LPGENW("Do you want to cancel the current refresh procedure?")))
 			{
 				ContactUpdater->Cancel();
@@ -793,12 +793,12 @@ static INT_PTR RefreshService(WPARAM, LPARAM)
 		}
 		else
 		{
-			MsgErr(NULL, LPGENW("Miranda must be online for refreshing contact information!"));
+			MsgErr(nullptr, LPGENW("Miranda must be online for refreshing contact information!"));
 		}
 	}
 	catch(...)
 	{
-		MsgErr(NULL, LPGENW("The function caused an exception!"));
+		MsgErr(nullptr, LPGENW("The function caused an exception!"));
 	}
 	return 0;
 }
@@ -838,7 +838,7 @@ static int OnContactAdded(WPARAM hContact, LPARAM)
 	}
 	catch(...)
 	{
-		MsgErr(NULL, LPGENW("The function caused an exception!"));
+		MsgErr(nullptr, LPGENW("The function caused an exception!"));
 	}
 	return 0;
 }
@@ -856,7 +856,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 {
 	if (ContactUpdater) {
 		delete ContactUpdater;
-		ContactUpdater = 0;
+		ContactUpdater = nullptr;
 	}
 	//MIR_DELETE(ContactUpdater);
 	return 0;

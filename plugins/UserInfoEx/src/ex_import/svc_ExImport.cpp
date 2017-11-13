@@ -35,8 +35,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WORD cchFileName)
 {
-	LPCSTR	disp = 0;
-	LPSTR	temp = 0;
+	LPCSTR	disp = nullptr;
+	LPSTR	temp = nullptr;
 
 	cchFileName--;
 	pszFileName[0] = 0;
@@ -88,7 +88,7 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 
 LPCSTR FilterString(lpExImParam ExImContact)
 {
-	LPCSTR pszFilter = 0;
+	LPCSTR pszFilter = nullptr;
 	switch (ExImContact->Typ) {
 		case EXIM_SUBGROUP:
 		case EXIM_ACCOUNT:
@@ -135,12 +135,12 @@ INT_PTR SvcExImport_Export(lpExImParam ExImContact, HWND hwndParent)
 		case 3:		// .vcf
 		{
 			CVCardFileVCF vcfFile;
-			SetCursor(LoadCursor(NULL, IDC_WAIT));
+			SetCursor(LoadCursor(nullptr, IDC_WAIT));
 			if (vcfFile.Open(ExImContact->hContact, szFileName, "wt")) {
 				vcfFile.Export(FALSE);
 				vcfFile.Close();
 			}
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			return 0;
 		}
 	}
@@ -184,10 +184,10 @@ INT_PTR SvcExImport_Import(lpExImParam ExImContact, HWND hwndParent)
 	case 3:
 		CVCardFileVCF vcfFile;
 		if (vcfFile.Open(ExImContact->hContact, szFileName, "rt")) {
-			SetCursor(LoadCursor(NULL, IDC_WAIT));
+			SetCursor(LoadCursor(nullptr, IDC_WAIT));
 			vcfFile.Import();
 			vcfFile.Close();
-			SetCursor(LoadCursor(NULL, IDC_ARROW));
+			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 		}
 		return 0;
 	}

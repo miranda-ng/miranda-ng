@@ -47,7 +47,7 @@ static int findHeader(const NETLIBHTTPREQUEST *nlhrReply, const char *hdr)
 //
 int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **szData)
 {
-	if (userAgent == NULL || userAgent[0] == 0)
+	if (userAgent == nullptr || userAgent[0] == 0)
 		userAgent = NETLIB_USER_AGENT;
 
 	NETLIBHTTPHEADER headers[5];
@@ -71,17 +71,17 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 	nlhr.headers = headers;
 	nlhr.headersCount = _countof(headers);
 
-	if (cookie == NULL || cookie[0] == 0)
+	if (cookie == nullptr || cookie[0] == 0)
 		--nlhr.headersCount;
 
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply = Netlib_HttpTransaction(hNetlibUser, &nlhr);
-	if (nlhrReply == 0) {
+	if (nlhrReply == nullptr) {
 		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
 		*szData = (wchar_t*)mir_alloc(512);
 		// store the error code in szData
 		mir_wstrcpy(*szData, L"NetLib error occurred!!");
-		hNetlibHttp = NULL;
+		hNetlibHttp = nullptr;
 		return NLHRF_REDIRECT;
 	}
 
@@ -125,10 +125,10 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 				}
 			}
 
-			wchar_t *retVal = NULL;
+			wchar_t *retVal = nullptr;
 			if (bIsUtf)
 				retVal = mir_utf8decodeW(nlhrReply->pData);
-			if (retVal == NULL)
+			if (retVal == nullptr)
 				retVal = mir_a2u(nlhrReply->pData);
 			*szData = retVal;
 		}
@@ -164,7 +164,7 @@ void NetlibHttpDisconnect(void)
 {
 	if (hNetlibHttp) {
 		HANDLE hConn = hNetlibHttp;
-		hNetlibHttp = NULL;
+		hNetlibHttp = nullptr;
 		Netlib_CloseHandle(hConn);
 	}
 }

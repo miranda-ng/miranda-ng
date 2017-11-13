@@ -21,7 +21,7 @@ void CToxProto::OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYP
 	rawMessage[length] = 0;
 
 	PROTORECVEVENT recv = { 0 };
-	recv.timestamp = time(NULL);
+	recv.timestamp = time(nullptr);
 	recv.szMessage = rawMessage;
 	recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL ? EVENTTYPE_MESSAGE : DB_EVENT_ACTION;
 	ProtoChainRecvMsg(hContact, &recv);
@@ -73,7 +73,7 @@ void CToxProto::SendMessageAsync(void *arg)
 int CToxProto::OnSendMessage(MCONTACT hContact, const char *szMessage)
 {
 	if (!IsOnline()) {
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("You cannot send when you are offline."));
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)Translate("You cannot send when you are offline."));
 		return 0;
 	}
 

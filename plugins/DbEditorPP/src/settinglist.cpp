@@ -2,7 +2,7 @@
 
 
 SettingListInfo info = {0};
-HWND hwnd2List = 0;
+HWND hwnd2List = nullptr;
 
 
 static int lastColumn = -1;
@@ -14,7 +14,7 @@ struct ColumnsSettings csSettingList[] =
 	{ LPGENW("Type"), 2, "Column2width", 60 },
 	{ LPGENW("Size"), 3, "Column3width", 80 },
 	{ LPGENW("#"), 4, "Column4width", 30 },
-	{ 0 }
+	{ nullptr }
 };
 
 int ListView_GetItemTextA(HWND hwndLV, int i, int iSubItem, char *pszText, int cchTextMax)
@@ -74,7 +74,7 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 			value = mir_a2u(dbv.pszVal);
 
 		if (mir_wstrlen(value) < 11)
-			val = wcstoul(value, NULL, NULL);
+			val = wcstoul(value, nullptr, NULL);
 	}
 
 	switch (toType) {
@@ -108,7 +108,7 @@ void EditFinish(int selected)
 {
 	if (info.hwnd2Edit) {
 		SendMessage(info.hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
-		info.hwnd2Edit = NULL;
+		info.hwnd2Edit = nullptr;
 	}
 	info.selectedItem = selected;
 }
@@ -157,7 +157,7 @@ void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *s
 	}
 
 	if (ListView_GetItemCount(hwnd2List) == 0)
-		replaceTreeItem(hContact, module, 0);
+		replaceTreeItem(hContact, module, nullptr);
 }
 
 
@@ -301,7 +301,7 @@ void addListHandle(MCONTACT hContact)
 	lvi.lParam = hContact;
 	lvi.iImage = IMAGE_HANDLE;
 
-	GetContactName(hContact, NULL, name, _countof(name));
+	GetContactName(hContact, nullptr, name, _countof(name));
 	lvi.pszText = name;
 
 	int index = ListView_InsertItem(hwnd2List, &lvi);
@@ -408,7 +408,7 @@ void settingChanged(MCONTACT hContact, const char *module, const char *setting, 
 	if (dbv->type != DBVT_DELETED) {
 		HTREEITEM hItem = findItemInTree(hContact, module);
 		if (!hItem) {
-			HTREEITEM hParent = findItemInTree(hContact, NULL);
+			HTREEITEM hParent = findItemInTree(hContact, nullptr);
 			if (hParent)
 				insertItem(hContact, module, hParent);
 		}
@@ -510,7 +510,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					switch (value[0]) {
 					case 'b':
 					case 'B':
-						val = wcstoul(&value[1], NULL, 0);
+						val = wcstoul(&value[1], nullptr, 0);
 						if (!val || value[1] == '0') {
 							res = !db_set_b(info.hContact, info.module, info.setting, (BYTE)val);
 						}
@@ -519,7 +519,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 						break;
 					case 'w':
 					case 'W':
-						val = wcstoul(&value[1], NULL, 0);
+						val = wcstoul(&value[1], nullptr, 0);
 						if (!val || value[1] == '0')
 							res = !db_set_w(info.hContact, info.module, info.setting, (WORD)val);
 						else
@@ -527,7 +527,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 						break;
 					case 'd':
 					case 'D':
-						val = wcstoul(&value[1], NULL, 0);
+						val = wcstoul(&value[1], nullptr, 0);
 						if (!val || value[1] == '0')
 							res = !db_set_dw(info.hContact, info.module, info.setting, val);
 						else
@@ -550,9 +550,9 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					case 'x':
 					case 'X':
 						if (value[i] == 'x' || value[i] == 'X')
-							val = wcstoul(&value[i + 1], NULL, 16);
+							val = wcstoul(&value[i + 1], nullptr, 16);
 						else
-							val = wcstoul(value, NULL, 10);
+							val = wcstoul(value, nullptr, 10);
 
 						switch (dbv.type) {
 						case DBVT_BYTE:
@@ -608,7 +608,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 		return DLGC_WANTALLKEYS;
 
 	case WM_DESTROY:
-		info.hwnd2Edit = NULL;
+		info.hwnd2Edit = nullptr;
 		break;
 	}
 	return mir_callNextSubclass(hwnd, SettingLabelEditSubClassProc, msg, wParam, lParam);
@@ -622,7 +622,7 @@ void EditLabel(int item, int subitem)
 
 	if (info.hwnd2Edit) {
 		SendMessage(info.hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0); // ignore the new value of the last edit
-		info.hwnd2Edit = NULL;
+		info.hwnd2Edit = nullptr;
 	}
 
 	if (!ListView_GetItemTextA(hwnd2List, item, 0, setting, _countof(setting))) return;
@@ -636,9 +636,9 @@ void EditLabel(int item, int subitem)
 	info.subitem = subitem;
 
 	if (!subitem)
-		info.hwnd2Edit = CreateWindow(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
+		info.hwnd2Edit = CreateWindow(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, nullptr, hInst, nullptr);
 	else {
-		wchar_t *str = NULL, value[16] = { 0 };
+		wchar_t *str = nullptr, value[16] = { 0 };
 
 		switch (dbv.type) {
 		case DBVT_ASCIIZ:
@@ -670,11 +670,11 @@ void EditLabel(int item, int subitem)
 			GetClientRect(hwnd2List, &rclist);
 			if (rc.top + height > rclist.bottom && rclist.bottom - rclist.top > height)
 				rc.top = rc.bottom - height;
-			info.hwnd2Edit = CreateWindow(L"EDIT", str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, hwnd2List, 0, hInst, 0);
+			info.hwnd2Edit = CreateWindow(L"EDIT", str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, hwnd2List, nullptr, hInst, nullptr);
 			mir_free(str);
 		}
 		else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
-			info.hwnd2Edit = CreateWindow(L"EDIT", value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, 0, hInst, 0);
+			info.hwnd2Edit = CreateWindow(L"EDIT", value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), hwnd2List, nullptr, hInst, nullptr);
 	}
 
 	db_free(&dbv);
@@ -735,7 +735,7 @@ void SettingsListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 
 	case LVN_COLUMNCLICK:
 		LPNMLISTVIEW lv = (LPNMLISTVIEW)lParam;
-		ColumnsSortParams params = { 0 };
+		ColumnsSortParams params = {};
 		params.hList = hwnd2List;
 		params.column = lv->iSubItem;
 		params.last = lastColumn;
@@ -766,7 +766,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 			RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // separator
 		}
 
-		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL)) {
+		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr)) {
 		case MENU_ADD_BYTE:
 			newSetting(info.hContact, info.module, DBVT_BYTE);
 			return;
@@ -869,7 +869,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to
 	if (watchIdx >= 0)
 		CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
 
-	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL)) {
+	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, nullptr)) {
 	case MENU_EDIT_SET:
 		editSetting(info.hContact, info.module, setting);
 		break;

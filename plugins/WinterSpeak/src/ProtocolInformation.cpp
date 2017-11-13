@@ -3,7 +3,7 @@
 
 
 //------------------------------------------------------------------------------
-ProtocolInformation *ProtocolInformation::m_instance = 0;
+ProtocolInformation *ProtocolInformation::m_instance = nullptr;
 
 //------------------------------------------------------------------------------
 // public:
@@ -16,12 +16,12 @@ ProtocolInformation::ProtocolInformation() : m_protocol_timeout()
 //------------------------------------------------------------------------------
 ProtocolInformation::~ProtocolInformation()
 {
-	m_instance = 0;
+	m_instance = nullptr;
 
 	// kill all the timers
 	for (ProtocolTimeoutQueue::const_iterator iter = m_protocol_timeout.begin(); iter != m_protocol_timeout.end(); ++iter)
 	{
-		KillTimer(NULL, (*iter).second);
+		KillTimer(nullptr, (*iter).second);
 	}
 }
 
@@ -29,7 +29,7 @@ void CALLBACK ProtocolInformation::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	ProtocolTimeout pt = m_instance->m_protocol_timeout.front();    
 	
-	KillTimer(NULL, pt.second);
+	KillTimer(nullptr, pt.second);
 
 	m_instance->m_protocol_timeout.pop_front();
 }
@@ -37,21 +37,21 @@ void CALLBACK ProtocolInformation::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 //------------------------------------------------------------------------------
 void ProtocolInformation::disable(const char *protocol)
 {
-	if (NULL == protocol)
+	if (nullptr == protocol)
 	{
 		return;
 	}
 
 	const unsigned int TIMEOUT = 10000;
 
-	unsigned int t  = SetTimer(NULL, (UINT_PTR)this, TIMEOUT, TimerProc);
+	unsigned int t  = SetTimer(nullptr, (UINT_PTR)this, TIMEOUT, TimerProc);
 	m_protocol_timeout.push_back(std::make_pair(protocol, t));
 }
 
 //------------------------------------------------------------------------------
 bool ProtocolInformation::isDisabled(const char *protocol) const
 {
-	if (NULL == protocol)
+	if (nullptr == protocol)
 	{
 		return false;
 	}

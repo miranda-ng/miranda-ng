@@ -130,7 +130,7 @@ extern "C" int __declspec(dllexport) Load()
 	for (int i = 0; i < acc_num; i++)
 		db_set_dw(acc[i].hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
 
-	hTimer = SetTimer(NULL, 0, opt.circleTime * 60000, TimerProc);
+	hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
 	hMirandaStarted = HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);
 	hOptionsInitial = HookEvent(ME_OPT_INITIALISE, OptInit);
 	
@@ -154,7 +154,7 @@ extern "C" int __declspec(dllexport) Load()
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	if (hTimer)
-		KillTimer(NULL, hTimer);
+		KillTimer(nullptr, hTimer);
 	for (int i = 0; i < acc_num; i++)
 		DeleteResults(acc[i].results.next);
 	free(acc);

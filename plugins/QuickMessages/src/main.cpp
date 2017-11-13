@@ -55,7 +55,7 @@ int PreShutdown(WPARAM, LPARAM)
 
 static int InputMenuPopup(WPARAM, LPARAM lParam)
 {
-	HMENU hSubMenu = NULL;
+	HMENU hSubMenu = nullptr;
 	int i = 0;
 	MessageWindowPopupData *mwpd = (MessageWindowPopupData *)lParam;
 	if (mwpd->uFlags == MSG_WINDOWPOPUP_LOG || !g_bQuickMenu || !QuickList->realCount)
@@ -65,12 +65,12 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 		hSubMenu = CreatePopupMenu();
 
 		InsertMenu((HMENU)mwpd->hMenu, 6, MF_STRING | MF_POPUP | MF_BYPOSITION, (UINT_PTR)hSubMenu, TranslateT("Quick Messages"));
-		InsertMenu((HMENU)mwpd->hMenu, 7, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
+		InsertMenu((HMENU)mwpd->hMenu, 7, MF_SEPARATOR | MF_BYPOSITION, 0, nullptr);
 		qsort(QuickList->items, QuickList->realCount, sizeof(QuickData *), sstQuickSortButtons);
 		for (i = 0; i < QuickList->realCount; i++) {
 			QuickData *qd = (QuickData*)QuickList->items[i];
 			if (qd->fEntryType & QMF_EX_SEPARATOR)
-				AppendMenu(hSubMenu, MF_SEPARATOR, 0, NULL);
+				AppendMenu(hSubMenu, MF_SEPARATOR, 0, nullptr);
 			else
 				AppendMenu(hSubMenu, MF_STRING, qd->dwPos + 254, qd->ptszValueName);
 		}
@@ -87,8 +87,8 @@ static int InputMenuPopup(WPARAM, LPARAM lParam)
 
 				if (IsClipboardFormatAvailable(CF_TEXT)) {
 					if (OpenClipboard(mwpd->hwnd)) {
-						HANDLE hData = NULL;
-						wchar_t* chBuffer = NULL;
+						HANDLE hData = nullptr;
+						wchar_t* chBuffer = nullptr;
 						int textLength = 0;
 
 						hData = GetClipboardData(CF_UNICODETEXT);
@@ -200,7 +200,7 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 		if (!g_iButtonsCount)
 			break;
 			
-		HMENU hMenu = CreatePopupMenu(), hSubMenu = NULL;
+		HMENU hMenu = CreatePopupMenu(), hSubMenu = nullptr;
 
 		for (int menunum = 0; menunum < sl->realCount; menunum++) {
 			ButtonData *bd = (ButtonData *)sl->items[menunum];
@@ -208,23 +208,23 @@ static int CustomButtonPressed(WPARAM, LPARAM lParam)
 				continue;
 
 			BOOL bSetPopupMark = FALSE;
-			if (bd->pszValue == 0 && bd->fEntryType == 0) {
+			if (bd->pszValue == nullptr && bd->fEntryType == 0) {
 				hSubMenu = CreatePopupMenu();
 				bSetPopupMark = TRUE;
 			}
 
 			if (bd->pszValue && bd->fEntryType == 0)
-				hSubMenu = NULL;
+				hSubMenu = nullptr;
 
 			if (bd->fEntryType & QMF_EX_SEPARATOR)
-				AppendMenu((HMENU)((hSubMenu && !bSetPopupMark) ? hSubMenu : hMenu), MF_SEPARATOR, 0, NULL);
+				AppendMenu((HMENU)((hSubMenu && !bSetPopupMark) ? hSubMenu : hMenu), MF_SEPARATOR, 0, nullptr);
 			else
 				AppendMenu((HMENU)((hSubMenu && !bSetPopupMark) ? hSubMenu : hMenu),
 				MF_STRING | (bSetPopupMark ? MF_POPUP : 0),
 				(bSetPopupMark ? (UINT_PTR)hSubMenu : (menunum + 1)), bd->pszName);
 		}
 
-		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
+		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, nullptr);
 		if (res == 0)
 			break;
 

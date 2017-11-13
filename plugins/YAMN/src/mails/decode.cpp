@@ -209,7 +209,7 @@ int GetCharsetFromString(char *input,size_t size)
 	char *pin=input;
 	char *pout,*parser;
 
-	if ((size<1) || (parser=pout=new char[size+1])==NULL)
+	if ((size<1) || (parser=pout=new char[size+1])==nullptr)
 		return -1;
 	while((*pin != 0) && (pin-input< (INT_PTR)size))
 	{
@@ -405,17 +405,17 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 			break;
 		}
 	if (Index==-1)
-		streamlen=MultiByteToWideChar(cp,0,stream,-1,NULL,0);
+		streamlen=MultiByteToWideChar(cp,0,stream,-1,nullptr,0);
 	else
-		streamlen=MultiByteToWideChar(cp,MB_USEGLYPHCHARS,stream,-1,NULL,0);
+		streamlen=MultiByteToWideChar(cp,MB_USEGLYPHCHARS,stream,-1,nullptr,0);
 
-	if (*out != NULL)
+	if (*out != nullptr)
 		outlen=mir_wstrlen(*out);
 	else
 		outlen=0;
 	temp=new WCHAR[streamlen+outlen+1];
 
-	if (*out != NULL)
+	if (*out != nullptr)
 	{
 		for (dest=temp;*src != (WCHAR)0;src++,dest++)				//copy old string from *out to temp
 			*dest=*src;
@@ -444,11 +444,11 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 	char *start=stream,*finder,*finderend;
 	char Encoding=0;
 
-	if (stream==NULL)
+	if (stream==nullptr)
 		return;
 
 	while(WS(start)) start++;
-	WCHAR *tempstore=0;
+	WCHAR *tempstore=nullptr;
 	if (!ConvertStringToUnicode(stream,cp,&tempstore))return;
 
 	size_t tempstoreLength = mir_wstrlen(tempstore);
@@ -477,7 +477,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 				if (Encoding != 0)
 				{
 					int size = 0,codeend;
-					char *pcodeend = 0;
+					char *pcodeend = nullptr;
 
 					finder=finderend+2;
 					if (CODED(finder))
@@ -530,14 +530,14 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 						DecodedResult[len+1]=0;
 						finderend++;
 					}
-					WCHAR *oneWord=0;
+					WCHAR *oneWord=nullptr;
 					if (ConvertStringToUnicode(DecodedResult,cp,&oneWord)) {
 						size_t len = mir_wstrlen(oneWord);
 						memcpy(&tempstore[outind],oneWord,len*sizeof(WCHAR));
 						outind += len;
 					}
 					delete oneWord;
-					oneWord = 0;
+					oneWord = nullptr;
 					delete[] DecodedResult;
 					start = finderend;
 				} else if (!EOS(start)) start++;

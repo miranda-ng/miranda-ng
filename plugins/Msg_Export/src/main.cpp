@@ -19,10 +19,10 @@
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;
-HINSTANCE hInstance = NULL;
+HINSTANCE hInstance = nullptr;
 int hLangpack = 0;
 
-MWindowList hInternalWindowList = NULL;
+MWindowList hInternalWindowList = nullptr;
 
 /////////////////////////////////////////////////////
 // Remember to update the Version in the resource !!!
@@ -208,7 +208,7 @@ extern "C" __declspec(dllexport) int Load()
 	enRenameAction = (ENDialogAction)db_get_b(NULL, MODULE, "RenameAction", enRenameAction);
 	enDeleteAction = (ENDialogAction)db_get_b(NULL, MODULE, "DeleteAction", enDeleteAction);
 
-	HANDLE hServiceFunñ = 0;
+	HANDLE hServiceFunñ = nullptr;
 	if (bReplaceHistory)
 		hServiceFunñ = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
 

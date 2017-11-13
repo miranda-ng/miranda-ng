@@ -312,7 +312,7 @@ static int getProfile(wchar_t *szProfile, size_t cch)
 		return 0;
 	}
 
-	PROFILEMANAGERDATA pd = { 0 };
+	PROFILEMANAGERDATA pd = {};
 	if (CmdLine_GetOption(L"ForceShowPM")) {
 LBL_Show:
 		pd.ptszProfile = szProfile;
@@ -466,7 +466,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 
 static int FindMirandaForProfile(wchar_t *szProfile)
 {
-	ENUMMIRANDAWINDOW x = { 0 };
+	ENUMMIRANDAWINDOW x = {};
 	x.profile = szProfile;
 	x.msg = RegisterWindowMessage(L"Miranda::ProcessProfile");
 	x.aPath = GlobalAddAtom(szProfile);

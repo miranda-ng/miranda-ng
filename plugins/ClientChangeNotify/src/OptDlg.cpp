@@ -21,7 +21,7 @@
 
 // ================================================ Popup options ================================================
 
-COptPage g_PopupOptPage(MOD_NAME, NULL);
+COptPage g_PopupOptPage(MOD_NAME, nullptr);
 
 void EnablePopupOptDlgControls()
 {
@@ -53,7 +53,7 @@ void EnablePopupOptDlgControls()
 	}
 	SetDlgItemText(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_STATIC_REGEXP, TranslateT("(you can use regular expressions here)"));
 	g_PopupOptPage.MemToPage(true);
-	InvalidateRect(GetDlgItem(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_POPUPDELAY_SPIN), NULL, false); // update spin control
+	InvalidateRect(GetDlgItem(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_POPUPDELAY_SPIN), nullptr, false); // update spin control
 }
 
 static struct
@@ -125,13 +125,13 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			case IDC_POPUPOPTDLG_POPUPPREVIEW:
 				g_PreviewOptPage = new COptPage(g_PopupOptPage);
 				g_PreviewOptPage->PageToMem();
-				DBCONTACTWRITESETTING cws = { 0 };
+				DBCONTACTWRITESETTING cws = {};
 				cws.szModule = "ICQ";
 				cws.szSetting = DB_MIRVER;
 				db_set_s(NULL, MOD_NAME, DB_OLDMIRVER, "ICQ Lite v5");
 				ContactSettingChanged(NULL, (LPARAM)&cws); // simulate a version change
 				delete g_PreviewOptPage;
-				g_PreviewOptPage = NULL;
+				g_PreviewOptPage = nullptr;
 				break;
 			}
 			break;
@@ -152,7 +152,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_DESTROY:
-		g_PopupOptPage.SetWnd(NULL);
+		g_PopupOptPage.SetWnd(nullptr);
 		return 0;
 	}
 	return 0;
@@ -161,7 +161,7 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 int OptionsDlgInit(WPARAM wParam, LPARAM)
 {
 	if (bPopupExists) {
-		OPTIONSDIALOGPAGE optDi = { sizeof(optDi) };
+		OPTIONSDIALOGPAGE optDi = {};
 		optDi.position = 920000000;
 		optDi.szGroup.a = LPGEN("Popups");
 		optDi.szTitle.a = LPGEN("ClientChangeNotify");

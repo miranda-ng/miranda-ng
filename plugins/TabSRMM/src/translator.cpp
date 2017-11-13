@@ -184,7 +184,7 @@ TOptionListItem* CTranslator::getTree(UINT id)
 	case TREE_LOG:       return m_lvItemsLog;
 	case TREE_TAB:       return m_lvItemsTab;
 	}
-	return 0;
+	return nullptr;
 }
 
 TOptionListGroup* CTranslator::getGroupTree(UINT id)
@@ -196,5 +196,5 @@ TOptionListGroup* CTranslator::getGroupTree(UINT id)
 	case TREE_LOG:       return m_lvGroupsLog;
 	case TREE_TAB:       return m_lvGroupsTab;
 	}
-	return 0;
+	return nullptr;
 }

@@ -33,10 +33,10 @@ struct gateway_index
 
 static mir_cs gatewayMutex;
 
-static gateway_index *gateways = NULL;
+static gateway_index *gateways = nullptr;
 static int gatewayCount = 0;
 
-static DWORD *spammerList = NULL;
+static DWORD *spammerList = nullptr;
 static int spammerListCount = 0;
 
 
@@ -232,7 +232,7 @@ char** CIcqProto::MirandaStatusToAwayMsg(int nStatus)
 		return &m_modeMsgs.szFfc;
 
 	default:
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -421,7 +421,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 	if (Added)
 		*Added = 0;
 
-	MCONTACT hContact = HandleFromCacheByUid(dwUin, NULL);
+	MCONTACT hContact = HandleFromCacheByUid(dwUin, nullptr);
 	if (hContact)
 		return hContact;
 
@@ -431,7 +431,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 
 		dwContactUin = getContactUin(hContact);
 		if (dwContactUin == dwUin) {
-			AddToContactsCache(hContact, dwUin, NULL);
+			AddToContactsCache(hContact, dwUin, nullptr);
 			return hContact;
 		}
 
@@ -466,9 +466,9 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 			icq_QueueUser(hContact);
 
 			if (icqOnline())
-				icq_sendNewContact(dwUin, NULL);
+				icq_sendNewContact(dwUin, nullptr);
 		}
-		AddToContactsCache(hContact, dwUin, NULL);
+		AddToContactsCache(hContact, dwUin, nullptr);
 		*Added = 1;
 		debugLogA("ICQ contact %u created ok", dwUin);
 		return hContact;
@@ -583,7 +583,7 @@ char* __fastcall strstrnull(const char *str, const char *substr)
 	if (str)
 		return (char*)strstr(str, substr);
 
-	return NULL;
+	return nullptr;
 }
 
 char* __fastcall null_strdup(const char *string)
@@ -591,7 +591,7 @@ char* __fastcall null_strdup(const char *string)
 	if (string)
 		return _strdup(string);
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -600,14 +600,14 @@ WCHAR* __fastcall null_strdup(const WCHAR *string)
 	if (string)
 		return wcsdup(string);
 
-	return NULL;
+	return nullptr;
 }
 
 
 char* __fastcall null_strcpy(char *dest, const char *src, size_t maxlen)
 {
 	if (!dest)
-		return NULL;
+		return nullptr;
 
 	if (src && src[0]) {
 		strncpy(dest, src, maxlen);
@@ -623,7 +623,7 @@ char* __fastcall null_strcpy(char *dest, const char *src, size_t maxlen)
 WCHAR* __fastcall null_strcpy(WCHAR *dest, const WCHAR *src, size_t maxlen)
 {
 	if (!dest)
-		return NULL;
+		return nullptr;
 
 	if (src && src[0]) {
 		wcsncpy(dest, src, maxlen);
@@ -802,7 +802,7 @@ char* ApplyEncoding(const char *string, const char *pszEncoding)
 	if (string) // consider it CP_ACP
 		return ansi_to_utf8(string);
 
-	return NULL;
+	return nullptr;
 }
 
 void CIcqProto::ResetSettingsOnListReload()
@@ -973,7 +973,7 @@ int CIcqProto::IsMetaInfoChanged(MCONTACT hContact)
 
 			db_free(&infoSaved);
 
-			if ((time(NULL) - dwInfoTime) > 14 * 3600 * 24) {
+			if ((time(nullptr) - dwInfoTime) > 14 * 3600 * 24) {
 				res = 3; // threshold exceeded
 			}
 		}
@@ -1015,7 +1015,7 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 			}
 			rlck.unlock();
 
-			BYTE *pBuffer = NULL;
+			BYTE *pBuffer = nullptr;
 			size_t cbBuffer = 0;
 
 			ppackTLV(&pBuffer, &cbBuffer, 0x226, mir_strlen(setStatusNoteText), (BYTE*)setStatusNoteText);
@@ -1047,8 +1047,8 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 			rlck.unlock();
 
 			// check if the session data were not updated already
-			char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, NULL);
-			char *szCurrentStatusMood = NULL;
+			char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, nullptr);
+			char *szCurrentStatusMood = nullptr;
 			DBVARIANT dbv = { DBVT_DELETED };
 
 			if (m_bMoodsEnabled && !getString(DBSETTING_STATUS_MOOD, &dbv))
@@ -1111,7 +1111,7 @@ int CIcqProto::SetStatusNote(const char *szStatusNote, DWORD dwDelay, int bForce
 	mir_cslock l(cookieMutex);
 
 	if (!setStatusNoteText && (!m_bMoodsEnabled || !setStatusMoodData)) { // check if the status note was changed and if yes, create thread to change it
-		char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, NULL);
+		char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, nullptr);
 
 		if (mir_strcmp(szCurrentStatusNote, szStatusNote)) { // status note was changed
 			// create thread to change status note on existing server connection
@@ -1120,7 +1120,7 @@ int CIcqProto::SetStatusNote(const char *szStatusNote, DWORD dwDelay, int bForce
 			if (dwDelay)
 				ForkThread(&CIcqProto::SetStatusNoteThread, (void*)dwDelay);
 			else // we cannot afford any delay, so do not run in separate thread
-				SetStatusNoteThread(NULL);
+				SetStatusNoteThread(nullptr);
 
 			bChanged = TRUE;
 		}
@@ -1147,7 +1147,7 @@ int CIcqProto::SetStatusMood(const char *szMoodData, DWORD dwDelay)
 	mir_cslock l(cookieMutex);
 
 	if (!setStatusNoteText && !setStatusMoodData) { // check if the status mood was changed and if yes, create thread to change it
-		char *szCurrentStatusMood = NULL;
+		char *szCurrentStatusMood = nullptr;
 		DBVARIANT dbv = { DBVT_DELETED };
 
 		if (!getString(DBSETTING_STATUS_MOOD, &dbv))
@@ -1159,7 +1159,7 @@ int CIcqProto::SetStatusMood(const char *szMoodData, DWORD dwDelay)
 			if (dwDelay)
 				ForkThread(&CIcqProto::SetStatusNoteThread, (void*)dwDelay);
 			else // we cannot afford any delay, so do not run in separate thread
-				SetStatusNoteThread(NULL);
+				SetStatusNoteThread(nullptr);
 
 			bChanged = TRUE;
 		}
@@ -1321,13 +1321,13 @@ void __fastcall SAFE_FREE(void** p)
 {
 	if (*p) {
 		free(*p);
-		*p = NULL;
+		*p = nullptr;
 	}
 }
 
 void* __fastcall SAFE_MALLOC(size_t size)
 {
-	void* p = NULL;
+	void* p = nullptr;
 
 	if (size) {
 		p = malloc(size);
@@ -1388,7 +1388,7 @@ void NetLib_CloseConnection(HNETLIBCONN *hConnection, int bServerConn)
 {
 	if (*hConnection) {
 		Netlib_CloseHandle(*hConnection);
-		*hConnection = NULL;
+		*hConnection = nullptr;
 
 		if (bServerConn)
 			FreeGatewayIndex(*hConnection);
@@ -1400,7 +1400,7 @@ void NetLib_SafeCloseHandle(HANDLE *hConnection)
 {
 	if (*hConnection) {
 		Netlib_CloseHandle(*hConnection);
-		*hConnection = NULL;
+		*hConnection = nullptr;
 	}
 }
 
@@ -1430,7 +1430,7 @@ int CIcqProto::NetLog_Uni(BOOL bDC, const char *fmt, ...)
 
 char* __fastcall ICQTranslateUtf(const char *src)
 { // this takes UTF-8 strings only!!!
-	char *szRes = NULL;
+	char *szRes = nullptr;
 
 	if (!mir_strlen(src)) { // for the case of empty strings
 		return null_strdup(src);
@@ -1467,7 +1467,7 @@ char* CIcqProto::GetUserStoredPassword(char *szBuffer, size_t cbSize)
 		if (mir_strlen(szBuffer))
 			return szBuffer;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1481,7 +1481,7 @@ char* CIcqProto::GetUserPassword(BOOL bAlways)
 		return m_szPassword;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1530,7 +1530,7 @@ const char* ExtractFileName(const char *fullname)
 	const char *szFileName;
 
 	// already is only filename
-	if (((szFileName = strrchr(fullname, '\\')) == NULL) && ((szFileName = strrchr(fullname, '/')) == NULL))
+	if (((szFileName = strrchr(fullname, '\\')) == nullptr) && ((szFileName = strrchr(fullname, '/')) == nullptr))
 		return fullname;
 
 	return szFileName + 1;  // skip backslash
@@ -1539,7 +1539,7 @@ const char* ExtractFileName(const char *fullname)
 
 char* FileNameToUtf(const wchar_t *filename)
 {
-	WCHAR *usFileName = NULL;
+	WCHAR *usFileName = nullptr;
 	int wchars = GetLongPathName(filename, usFileName, 0);
 	usFileName = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
 	GetLongPathName(filename, usFileName, wchars);
@@ -1702,11 +1702,11 @@ int MessageBoxUtf(HWND hWnd, const char *szText, const char *szCaption, UINT uTy
 char* CIcqProto::ConvertMsgToUserSpecificAnsi(MCONTACT hContact, const char* szMsg)
 { // this takes utf-8 encoded message
 	WORD wCP = getWord(hContact, "CodePage", m_wAnsiCodepage);
-	char* szAnsi = NULL;
+	char* szAnsi = nullptr;
 
 	if (wCP != CP_ACP) // convert to proper codepage
 		if (!utf8_decode_codepage(szMsg, &szAnsi, wCP))
-			return NULL;
+			return nullptr;
 
 	return szAnsi;
 }

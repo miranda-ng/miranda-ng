@@ -41,9 +41,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TreeView_DeleteAllItems(hTree);
 
 			for (int i = 2; i < nII; i++) { // we don`t need it IGNORE_ALL and IGNORE_MESSAGE
-				TVINSERTSTRUCT tvis = { 0 };
+				TVINSERTSTRUCT tvis = {};
 				int index = ImageList_AddIcon(himlButtonIcons, Skin_LoadIcon(ii[i].icon));
-				tvis.hParent = NULL;
+				tvis.hParent = nullptr;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 				tvis.item.lParam = ii[i].type;

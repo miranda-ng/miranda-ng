@@ -91,7 +91,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 					char *p = id + 2;		// it's wrong - it works for a list of user id's with no prefix - so we'll do both
 
 					// build recipient list
-					safArg->recipients = 0;
+					safArg->recipients = nullptr;
 
 					int size = ListView_GetItemCount(GetDlgItem(hwndDlg, IDC_LST_ANTO));
 					int send_count = 0;

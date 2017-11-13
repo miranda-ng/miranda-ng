@@ -31,10 +31,10 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 {
 	int i;
 	char *p;
-	TLEN_FILE_PACKET *rpacket = NULL, *packet;
+	TLEN_FILE_PACKET *rpacket = nullptr, *packet;
 	if (ft->state == FT_CONNECTING) {
 		rpacket = TlenP2PPacketReceive(ft->s);
-		if (rpacket != NULL) {
+		if (rpacket != nullptr) {
 			p = rpacket->packet;
 			if (rpacket->type == TLEN_FILE_PACKET_FILE_LIST) { // list of files (length & name)
 				ft->fileCount = (int)(*((DWORD*)p));
@@ -53,7 +53,7 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 					p += 256;
 				}
 				
-				if ((packet = TlenP2PPacketCreate(3 * sizeof(DWORD))) == NULL)
+				if ((packet = TlenP2PPacketCreate(3 * sizeof(DWORD))) == nullptr)
 					ft->state = FT_ERROR;
 				else {
 					TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_FILE_LIST_ACK);
@@ -69,7 +69,7 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 	}
 	else if (ft->state == FT_INITIALIZING) {
 		char *fullFileName;
-		if ((packet = TlenP2PPacketCreate(3 * sizeof(DWORD))) != NULL) {
+		if ((packet = TlenP2PPacketCreate(3 * sizeof(DWORD))) != nullptr) {
 			TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_FILE_REQUEST); // file request
 			TlenP2PPacketPackDword(packet, ft->currentFile);
 			TlenP2PPacketPackDword(packet, 0);
@@ -101,14 +101,14 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 		pfts.totalFiles = ft->fileCount;
 		pfts.currentFileNumber = ft->currentFile;
 		pfts.totalBytes = ft->allFileTotalSize;
-		pfts.szWorkingDir = NULL;
+		pfts.szWorkingDir = nullptr;
 		pfts.szCurrentFile = ft->files[ft->currentFile];
 		pfts.currentFileSize = ft->filesSize[ft->currentFile];
 		pfts.currentFileTime = 0;
 		ft->proto->debugLogA("Receiving data...");
 		while (ft->state == FT_RECEIVING) {
 			rpacket = TlenP2PPacketReceive(ft->s);
-			if (rpacket != NULL) {
+			if (rpacket != nullptr) {
 				p = rpacket->packet;
 				if (rpacket->type == TLEN_FILE_PACKET_FILE_DATA) { // file data
 					int writeSize;
@@ -148,7 +148,7 @@ static void TlenFileReceivingConnection(HNETLIBCONN hConnection, DWORD, void * p
 {
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
-	if (ft != NULL) {
+	if (ft != nullptr) {
 		HNETLIBCONN slisten = ft->s;
 		ft->s = hConnection;
 		ft->proto->debugLogA("Set ft->s to %d (saving %d)", hConnection, slisten);
@@ -166,7 +166,7 @@ static void TlenFileReceivingConnection(HNETLIBCONN hConnection, DWORD, void * p
 		
 		if (ft->s != hConnection)
 			Netlib_CloseHandle(hConnection);
-		if (ft->hFileEvent != NULL)
+		if (ft->hFileEvent != nullptr)
 			SetEvent(ft->hFileEvent);
 	}
 	else Netlib_CloseHandle(hConnection);
@@ -183,7 +183,7 @@ static void __cdecl TlenFileReceiveThread(void *arg)
 	nloc.wPort = ft->wPort;
 	ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 	HNETLIBCONN s = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
-	if (s != NULL) {
+	if (s != nullptr) {
 		ft->s = s;
 		ft->proto->debugLogA("Entering file receive loop");
 		TlenP2PEstablishOutgoingConnection(ft, TRUE);
@@ -192,16 +192,16 @@ static void __cdecl TlenFileReceiveThread(void *arg)
 
 		if (ft->s) {
 			Netlib_CloseHandle(s);
-			ft->s = NULL;
+			ft->s = nullptr;
 		}
 	}
 	else {
 		ft->pfnNewConnectionV2 = TlenFileReceivingConnection;
 		ft->proto->debugLogA("Connection failed - receiving as server");
 		s = TlenP2PListen(ft);
-		if (s != NULL) {
+		if (s != nullptr) {
 			ft->s = s;
-			HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+			HANDLE hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 			ft->hFileEvent = hEvent;
 			ft->currentFile = 0;
 			ft->state = FT_CONNECTING;
@@ -210,7 +210,7 @@ static void __cdecl TlenFileReceiveThread(void *arg)
 			mir_free(nick);
 			ft->proto->debugLogA("Waiting for the file to be received...");
 			WaitForSingleObject(hEvent, INFINITE);
-			ft->hFileEvent = NULL;
+			ft->hFileEvent = nullptr;
 			CloseHandle(hEvent);
 			ft->proto->debugLogA("Finish all files");
 			Netlib_CloseHandle(s);
@@ -245,7 +245,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 
 	if (ft->state == FT_CONNECTING) {
 		char filename[256];	// Must be 256 (0x100)
-		if ((packet = TlenP2PPacketCreate(sizeof(DWORD) + (ft->fileCount*(sizeof(filename) + sizeof(DWORD))))) != NULL) {
+		if ((packet = TlenP2PPacketCreate(sizeof(DWORD) + (ft->fileCount*(sizeof(filename) + sizeof(DWORD))))) != nullptr) {
 			// Must pause a bit, sending these two packets back to back
 			// will break the session because the receiver cannot take it :)
 			SleepEx(1000, TRUE);
@@ -258,7 +258,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 				//					TlenP2PPacketPackDword(packet, statbuf.st_size);
 				TlenP2PPacketPackDword(packet, ft->filesSize[i]);
 				memset(filename, 0, sizeof(filename));
-				if ((t = strrchr(ft->files[i], '\\')) != NULL)
+				if ((t = strrchr(ft->files[i], '\\')) != nullptr)
 					t++;
 				else
 					t = ft->files[i];
@@ -277,7 +277,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 	else if (ft->state == FT_INITIALIZING) {	// FT_INITIALIZING
 		TLEN_FILE_PACKET *rpacket = TlenP2PPacketReceive(ft->s);
 		ft->proto->debugLogA("FT_INITIALIZING: recv %d", rpacket);
-		if (rpacket == NULL) {
+		if (rpacket == nullptr) {
 			ft->state = FT_ERROR;
 			return;
 		}
@@ -319,12 +319,12 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 					pfts.totalFiles = ft->fileCount;
 					pfts.currentFileNumber = ft->currentFile;
 					pfts.totalBytes = ft->allFileTotalSize;
-					pfts.szWorkingDir = NULL;
+					pfts.szWorkingDir = nullptr;
 					pfts.szCurrentFile = ft->files[ft->currentFile];
 					pfts.currentFileSize = ft->filesSize[ft->currentFile]; //statbuf.st_size;
 					pfts.currentFileTime = 0;
 					ft->fileReceivedBytes = 0;
-					if ((packet = TlenP2PPacketCreate(2 * sizeof(DWORD) + 2048)) == NULL) {
+					if ((packet = TlenP2PPacketCreate(2 * sizeof(DWORD) + 2048)) == nullptr) {
 						ft->state = FT_ERROR;
 					}
 					else {
@@ -384,7 +384,7 @@ static void TlenFileSendingConnection(HNETLIBCONN hConnection, DWORD, void * pEx
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 
 	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
-	if (ft != NULL) {
+	if (ft != nullptr) {
 		slisten = ft->s;
 		ft->s = hConnection;
 		ft->proto->debugLogA("Set ft->s to %d (saving %d)", hConnection, slisten);
@@ -403,7 +403,7 @@ static void TlenFileSendingConnection(HNETLIBCONN hConnection, DWORD, void * pEx
 
 		if (ft->s != hConnection)
 			Netlib_CloseHandle(hConnection);
-		if (ft->hFileEvent != NULL)
+		if (ft->hFileEvent != nullptr)
 			SetEvent(ft->hFileEvent);
 	}
 	else Netlib_CloseHandle(hConnection);
@@ -416,19 +416,19 @@ int TlenFileCancelAll(TlenProtocol *proto)
 
 	while ((i = TlenListFindNext(proto, LIST_FILE, 0)) >= 0) {
 		TLEN_LIST_ITEM *item = TlenListGetItemPtrFromIndex(proto, i);
-		if (item != NULL) {
+		if (item != nullptr) {
 			TLEN_FILE_TRANSFER *ft = item->ft;
 			TlenListRemoveByIndex(proto, i);
-			if (ft != NULL) {
+			if (ft != nullptr) {
 				if (ft->s) {
 					//ProtoBroadcastAck(m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
 					ft->proto->debugLogA("Closing ft->s = %d", ft->s);
 					ft->state = FT_ERROR;
 					Netlib_CloseHandle(ft->s);
-					ft->s = NULL;
-					if (ft->hFileEvent != NULL) {
+					ft->s = nullptr;
+					if (ft->hFileEvent != nullptr) {
 						hEvent = ft->hFileEvent;
-						ft->hFileEvent = NULL;
+						ft->hFileEvent = nullptr;
 						SetEvent(hEvent);
 					}
 				}
@@ -451,13 +451,13 @@ static void __cdecl TlenFileSendingThread(void *arg)
 	ft->mode = FT_SEND;
 	ft->pfnNewConnectionV2 = TlenFileSendingConnection;
 	HNETLIBCONN s = TlenP2PListen(ft);
-	if (s != NULL) {
+	if (s != nullptr) {
 		ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 		ft->s = s;
 		//TlenLog("ft->s = %d", s);
 		//TlenLog("fileCount = %d", ft->fileCount);
 
-		HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+		HANDLE hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 		ft->hFileEvent = hEvent;
 		ft->currentFile = 0;
 		ft->state = FT_CONNECTING;
@@ -467,11 +467,11 @@ static void __cdecl TlenFileSendingThread(void *arg)
 		mir_free(nick);
 		ft->proto->debugLogA("Waiting for the file to be sent...");
 		WaitForSingleObject(hEvent, INFINITE);
-		ft->hFileEvent = NULL;
+		ft->hFileEvent = nullptr;
 		CloseHandle(hEvent);
 		ft->proto->debugLogA("Finish all files");
 		Netlib_CloseHandle(s);
-		ft->s = NULL;
+		ft->s = nullptr;
 		ft->proto->debugLogA("ft->s is NULL");
 
 		if (ft->state == FT_SWITCH) {
@@ -482,7 +482,7 @@ static void __cdecl TlenFileSendingThread(void *arg)
 			nloc.szHost = ft->hostName;
 			nloc.wPort = ft->wPort;
 			HNETLIBCONN hConn = Netlib_OpenConnection(ft->proto->m_hNetlibUser, &nloc);
-			if (hConn != NULL) {
+			if (hConn != nullptr) {
 				ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 				ft->s = hConn;
 				TlenP2PEstablishOutgoingConnection(ft, TRUE);
@@ -548,30 +548,30 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 	TLEN_LIST_ITEM *item;
 
 	//	if (!node->name || mir_strcmp(node->name, "f")) return;
-	if (info == NULL) return;
+	if (info == nullptr) return;
 
 	char *from = TlenXmlGetAttrValue(node, "f");
-	if (from != NULL) {
-		if (strchr(from, '@') == NULL)
+	if (from != nullptr) {
+		if (strchr(from, '@') == nullptr)
 			mir_snprintf(jid, "%s@%s", from, info->server);
 		else
 			strncpy_s(jid, from, _TRUNCATE);
 
 		char *e = TlenXmlGetAttrValue(node, "e");
-		if (e != NULL) {
+		if (e != nullptr) {
 			if (!mir_strcmp(e, "1")) {
 				// FILE_RECV : e='1' : File transfer request
 				TLEN_FILE_TRANSFER *ft = TlenFileCreateFT(info->proto, jid);
 				ft->hContact = TlenHContactFromJID(info->proto, jid);
 
-				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL)
+				if ((p = TlenXmlGetAttrValue(node, "i")) != nullptr)
 					ft->iqId = mir_strdup(p);
 
 				szFilename[0] = '\0';
-				if ((p = TlenXmlGetAttrValue(node, "c")) != NULL) {
+				if ((p = TlenXmlGetAttrValue(node, "c")) != nullptr) {
 					numFiles = atoi(p);
 					if (numFiles == 1) {
-						if ((p = TlenXmlGetAttrValue(node, "n")) != NULL) {
+						if ((p = TlenXmlGetAttrValue(node, "n")) != nullptr) {
 							p = TlenTextDecode(p);
 							strncpy(szFilename, p, sizeof(szFilename) - 1);
 							mir_free(p);
@@ -582,12 +582,12 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 						mir_snprintf(szFilename, Translate("%d Files"), numFiles);
 				}
 
-				if (szFilename[0] != '\0' && ft->iqId != NULL) {
+				if (szFilename[0] != '\0' && ft->iqId != nullptr) {
 					wchar_t* filenameT = mir_utf8decodeW((char*)szFilename);
 					PROTORECVFILET pre = { 0 };
 					pre.dwFlags = PRFF_UNICODE;
 					pre.fileCount = 1;
-					pre.timestamp = time(NULL);
+					pre.timestamp = time(nullptr);
 					pre.descr.w = filenameT;
 					pre.files.w = &filenameT;
 					pre.lParam = (LPARAM)ft;
@@ -606,9 +606,9 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 			}
 			else if (!mir_strcmp(e, "3")) {
 				// FILE_RECV : e='3' : invalid transfer error
-				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL) {
-						if (item->ft != NULL) {
+				if ((p = TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != nullptr) {
+						if (item->ft != nullptr) {
 							ProtoBroadcastAck(info->proto->m_szModuleName, item->ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, item->ft, 0);
 							info->proto->FileCancel(NULL, item->ft);
 						}
@@ -618,8 +618,8 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 			}
 			else if (!mir_strcmp(e, "4")) {
 				// FILE_SEND : e='4' : File sending request was denied by the remote client
-				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL) {
+				if ((p = TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != nullptr) {
 						if (!mir_strcmp(item->ft->jid, jid)) {
 							ProtoBroadcastAck(info->proto->m_szModuleName, item->ft->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, item->ft, 0);
 							TlenListRemove(info->proto, LIST_FILE, p);
@@ -629,18 +629,18 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 			}
 			else if (!mir_strcmp(e, "5")) {
 				// FILE_SEND : e='5' : File sending request was accepted
-				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL)
-					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL)
+				if ((p = TlenXmlGetAttrValue(node, "i")) != nullptr)
+					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != nullptr)
 						if (!mir_strcmp(item->ft->jid, jid))
 							mir_forkthread(TlenFileSendingThread, item->ft);
 			}
 			else if (!mir_strcmp(e, "6")) {
 				// FILE_RECV : e='6' : IP and port information to connect to get file
-				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL) {
-						if ((p = TlenXmlGetAttrValue(node, "a")) != NULL) {
+				if ((p = TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != nullptr) {
+						if ((p = TlenXmlGetAttrValue(node, "a")) != nullptr) {
 							item->ft->hostName = mir_strdup(p);
-							if ((p = TlenXmlGetAttrValue(node, "p")) != NULL) {
+							if ((p = TlenXmlGetAttrValue(node, "p")) != nullptr) {
 								item->ft->wPort = atoi(p);
 								mir_forkthread(TlenFileReceiveThread, item->ft);
 							}
@@ -651,12 +651,12 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 			else if (!mir_strcmp(e, "7")) {
 				// FILE_RECV : e='7' : IP and port information to connect to send file
 				// in case the conection to the given server was not successful
-				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL) {
-						if ((p = TlenXmlGetAttrValue(node, "a")) != NULL) {
-							if (item->ft->hostName != NULL) mir_free(item->ft->hostName);
+				if ((p = TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != nullptr) {
+						if ((p = TlenXmlGetAttrValue(node, "a")) != nullptr) {
+							if (item->ft->hostName != nullptr) mir_free(item->ft->hostName);
 							item->ft->hostName = mir_strdup(p);
-							if ((p = TlenXmlGetAttrValue(node, "p")) != NULL) {
+							if ((p = TlenXmlGetAttrValue(node, "p")) != nullptr) {
 								item->ft->wPort = atoi(p);
 								item->ft->state = FT_SWITCH;
 								SetEvent(item->ft->hFileEvent);
@@ -667,10 +667,10 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 			}
 			else if (!mir_strcmp(e, "8")) {
 				// FILE_RECV : e='8' : transfer error
-				if ((p = TlenXmlGetAttrValue(node, "i")) != NULL) {
-					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != NULL) {
+				if ((p = TlenXmlGetAttrValue(node, "i")) != nullptr) {
+					if ((item = TlenListGetItemPtr(info->proto, LIST_FILE, p)) != nullptr) {
 						item->ft->state = FT_ERROR;
-						if (item->ft->hFileEvent != NULL)
+						if (item->ft->hFileEvent != nullptr)
 							SetEvent(item->ft->hFileEvent);
 						else
 							ProtoBroadcastAck(info->proto->m_szModuleName, item->ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, item->ft, 0);

@@ -38,7 +38,7 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 	nlhr.timeout = 1000 * ((request_type == MINECRAFTDYNMAP_REQUEST_EVENTS) ? 65 : 20);
 
 	// Set request type (GET/POST) and eventually also POST data
-	if (post_data != NULL) {
+	if (post_data != nullptr) {
 		nlhr.requestType = REQUEST_POST;
 		nlhr.pData = (char*)(*post_data).c_str();
 		nlhr.dataLength = (int)post_data->length();
@@ -63,7 +63,7 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 	switch (request_type)
 	{
 	case MINECRAFTDYNMAP_REQUEST_HOME:
-		nlhr.nlc = NULL;
+		nlhr.nlc = nullptr;
 		break;
 
 	case MINECRAFTDYNMAP_REQUEST_EVENTS:
@@ -92,17 +92,17 @@ http::response MinecraftDynmapProto::sendRequest(const int request_type, std::st
 		break;
 
 	case MINECRAFTDYNMAP_REQUEST_EVENTS:
-		hEventsConnection = pnlhr ? pnlhr->nlc : NULL;
+		hEventsConnection = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 
 	default:
 		ReleaseMutex(connection_lock_);
-		hConnection = pnlhr ? pnlhr->nlc : NULL;
+		hConnection = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 	}
 
 	// Check and copy response data
-	if (pnlhr != NULL)
+	if (pnlhr != nullptr)
 	{
 		debugLogA("@@@@@ Got response with code %d", pnlhr->resultCode);
 		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
@@ -318,7 +318,7 @@ bool MinecraftDynmapProto::doSendMessage(const std::string &message_text)
 					return handleSuccess(__FUNCTION__);
 				}
 				else if (error == "not-allowed") {
-					UpdateChat(NULL, Translate("Message was not sent. Probably you are sending them too fast or chat is disabled completely."));
+					UpdateChat(nullptr, Translate("Message was not sent. Probably you are sending them too fast or chat is disabled completely."));
 				}
 			}
 		}
@@ -355,7 +355,7 @@ void MinecraftDynmapProto::SignOnWorker(void*)
 	// Load server from database
 	ptrA str(db_get_sa(NULL, m_szModuleName, MINECRAFTDYNMAP_KEY_SERVER));
 	if (!str || !str[0]) {
-		MessageBox(NULL, TranslateT("Set server address to connect."), m_tszUserName, MB_OK);
+		MessageBox(nullptr, TranslateT("Set server address to connect."), m_tszUserName, MB_OK);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
@@ -372,7 +372,7 @@ void MinecraftDynmapProto::SignOnWorker(void*)
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		setDword("LogonTS", (DWORD)time(NULL));
+		setDword("LogonTS", (DWORD)time(nullptr));
 		ClearChat();
 		OnJoinChat(0, false);
 
@@ -414,18 +414,18 @@ void MinecraftDynmapProto::SignOffWorker(void*)
 
 	if (hConnection)
 		Netlib_CloseHandle(hConnection);
-	hConnection = NULL;
+	hConnection = nullptr;
 
 	if (hEventsConnection)
 		Netlib_CloseHandle(hEventsConnection);
-	hEventsConnection = NULL;
+	hEventsConnection = nullptr;
 }
 
 void MinecraftDynmapProto::EventsLoop(void *)
 {
 	ScopedLock s(events_loop_lock_);
 
-	time_t tim = ::time(NULL);
+	time_t tim = ::time(nullptr);
 	debugLogA(">>>>> Entering %s[%d]", __FUNCTION__, tim);
 
 	while (doEvents())
@@ -446,7 +446,7 @@ void MinecraftDynmapProto::EventsLoop(void *)
 
 void MinecraftDynmapProto::SendMsgWorker(void *p)
 {
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	ScopedLock s(send_message_lock_);

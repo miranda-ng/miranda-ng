@@ -34,7 +34,7 @@ static BYTE* GetDataHeader(BYTE *data,DWORD cbDataSize,DWORD *pnDataRecordCount)
 	/* uncompressed size stored in first DWORD */
 	*pnDataRecordCount=(*(DWORD*)data)/DATARECORD_SIZE;
 	recordData=(BYTE*)mir_alloc(*(DWORD*)data);
-	if (recordData != NULL)
+	if (recordData != nullptr)
 		Huffman_Uncompress(data+sizeof(DWORD),recordData,cbDataSize-sizeof(DWORD),*(DWORD*)data);
 	return recordData;
 }
@@ -44,7 +44,7 @@ static int GetDataRecord(BYTE *data,DWORD index,DWORD *pdwFrom,DWORD *pdwTo)
 	data+=index*DATARECORD_SIZE;
 	*pdwFrom=*(DWORD*)data;
 	data+=sizeof(DWORD);
-	if (pdwTo != NULL) *pdwTo=*(DWORD*)data;
+	if (pdwTo != nullptr) *pdwTo=*(DWORD*)data;
 	data+=sizeof(DWORD);
 	return (int)*(WORD*)data;
 }
@@ -61,7 +61,7 @@ static void CALLBACK UnloadRecordCache(LPARAM)
 {
 	mir_cslock lck(csRecordCache);
 	mir_free(dataRecords);
-	dataRecords=NULL;
+	dataRecords=nullptr;
 }
 
 // function assumes it has got the csRecordCache mutex
@@ -70,16 +70,16 @@ static BOOL EnsureRecordCacheLoaded(BYTE **pdata,DWORD *pcount)
 	HRSRC hrsrc;
 	DWORD cb;
 	mir_cslock lck(csRecordCache);
-	if (dataRecords == NULL) {
+	if (dataRecords == nullptr) {
 		/* load record data list from resources */
 		hrsrc=FindResource(hInst,MAKEINTRESOURCE(IDR_IPTOCOUNTRY),L"BIN");
 		cb=SizeofResource(hInst,hrsrc);
 		dataRecords=(BYTE*)LockResource(LoadResource(hInst,hrsrc));
-		if (cb<=sizeof(DWORD) || dataRecords == NULL)
+		if (cb<=sizeof(DWORD) || dataRecords == nullptr)
 			return FALSE;
 		/* uncompress record data */
 		dataRecords=GetDataHeader(dataRecords,cb,&nDataRecordsCount);
-		if (dataRecords == NULL || !nDataRecordsCount)
+		if (dataRecords == nullptr || !nDataRecordsCount)
 			return FALSE;
 	}
 	*pdata=dataRecords;
@@ -104,7 +104,7 @@ INT_PTR ServiceIpToCountry(WPARAM wParam, LPARAM)
 	int id;
 	if (EnsureRecordCacheLoaded(&data,&high)) {
 		/* binary search in record data */
-		GetDataRecord(data,low,&dwFrom,NULL);
+		GetDataRecord(data,low,&dwFrom,nullptr);
 		--high;
 		if (wParam>=dwFrom) /* only search if wParam valid */
 			while (low<=high) {
@@ -301,7 +301,7 @@ static void BinConvThread(void *unused)
 void InitIpToCountry(void)
 {
 	nDataRecordsCount=0;
-	dataRecords=NULL;
+	dataRecords=nullptr;
 	/* Services */
 	CreateServiceFunction(MS_FLAGS_IPTOCOUNTRY,ServiceIpToCountry);
 #ifdef BINCONV

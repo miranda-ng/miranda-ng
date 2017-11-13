@@ -440,7 +440,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 				szMsgBody += 5;
 				wchar_t *szDelim = wcschr(szMsgBody, ';');
 				if (szDelim)
-					szDelim = 0;
+					szDelim = nullptr;
 				JabberHttpUrlDecode(szMsgBody);
 			}
 		}

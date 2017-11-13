@@ -183,7 +183,7 @@ static CQuotesProviderGoogle* get_google_provider()
 	}
 
 	assert(!"We should never get here!");
-	return NULL;
+	return nullptr;
 }
 
 CQuotesProviderGoogle::CQuoteSection get_quotes()

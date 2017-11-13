@@ -396,7 +396,7 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 		size_t len;
 		DWORD ofsDest;
 		mir_ptr<BYTE> pBlob;
-		BYTE *pSource = DBRead(offset + offsetof(DBEvent, blob), 0);
+		BYTE *pSource = DBRead(offset + offsetof(DBEvent, blob), nullptr);
 		if (!m_bEncrypted) { // we need more space
 			if ((pBlob = m_crypto->encodeBuffer(pSource, evt.cbBlob, &len)) == nullptr)
 				return;

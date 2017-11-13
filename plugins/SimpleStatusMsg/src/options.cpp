@@ -180,7 +180,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				if (index != CB_ERR && index != CB_ERRSPACE)
 				{
-					data->proto_msg[0].msg = NULL;
+					data->proto_msg[0].msg = nullptr;
 
 					val = db_get_b(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
 					data->proto_msg[0].flags = val;
@@ -194,7 +194,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						|| !CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0)
 						|| !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 					{
-						data->proto_msg[i+1].msg = NULL;
+						data->proto_msg[i+1].msg = nullptr;
 						continue;
 					}
 
@@ -232,8 +232,8 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if (ServiceExists(MS_VARS_FORMATSTRING))
 			{
-				HICON hIcon=NULL;
-				char *szTipInfo=NULL;
+				HICON hIcon=nullptr;
+				char *szTipInfo=nullptr;
 
 				if (ServiceExists(MS_VARS_GETSKINITEM))
 				{
@@ -241,12 +241,12 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					szTipInfo = (char *)CallService(MS_VARS_GETSKINITEM, 0, VSI_HELPTIPTEXT);
 				}
 
-				if (hIcon != NULL)
+				if (hIcon != nullptr)
 					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 				else
 					SetDlgItemText(hwndDlg, IDC_VARSHELP, L"V");
 
-				if (szTipInfo == NULL)
+				if (szTipInfo == nullptr)
 					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open string formatting help"), 0);
 				else
 					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONADDTOOLTIP, (WPARAM)szTipInfo, 0);
@@ -600,7 +600,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 							char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-							if (szSetting != NULL)
+							if (szSetting != nullptr)
 							{
 								wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 								if (tszStatusMsg)
@@ -640,7 +640,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								mir_snprintf(setting, "Msg");
 
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
-							if (tszStatusMsg != NULL)
+							if (tszStatusMsg != nullptr)
 							{
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 								mir_free(tszStatusMsg);
@@ -695,7 +695,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, L"");
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-						if (szSetting != NULL)
+						if (szSetting != nullptr)
 						{
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 							if (tszStatusMsg)
@@ -727,7 +727,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							mir_snprintf(setting, "Msg");
 
 						wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting));
-						if (tszStatusMsg != NULL)
+						if (tszStatusMsg != nullptr)
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 							mir_free(tszStatusMsg);
@@ -805,7 +805,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 
 						char *szSetting = db_get_sa(NULL, "SimpleStatusMsg", setting);
-						if (szSetting != NULL)
+						if (szSetting != nullptr)
 						{
 							wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
 							if (tszStatusMsg)
@@ -838,7 +838,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							mir_snprintf(setting, "Msg");
 
 						wchar_t *tszStatusMsg = db_get_wsa(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting));
-						if (tszStatusMsg != NULL)
+						if (tszStatusMsg != nullptr)
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, tszStatusMsg);
 							mir_free(tszStatusMsg);
@@ -869,7 +869,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						int len = GetDlgItemText(hwndDlg, IDC_OPTEDIT1, msg, _countof(msg));
 						if (len > 0)
 						{	
-							if (data->proto_msg[j].msg == NULL)
+							if (data->proto_msg[j].msg == nullptr)
 								data->proto_msg[j].msg = mir_wstrdup(msg);
 							else
 							{
@@ -879,10 +879,10 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						}
 						else
 						{
-							if (data->proto_msg[j].msg != NULL)
+							if (data->proto_msg[j].msg != nullptr)
 							{
 								mir_free(data->proto_msg[j].msg);
-								data->proto_msg[j].msg = NULL;
+								data->proto_msg[j].msg = nullptr;
 							}
 						}
 					}
@@ -896,7 +896,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 
 		case IDC_VARSHELP:
-			variables_showhelp(hwndDlg, IDC_OPTEDIT1, VHF_FULLDLG|VHF_SETLASTSUBJECT, NULL, NULL);
+			variables_showhelp(hwndDlg, IDC_OPTEDIT1, VHF_FULLDLG|VHF_SETLASTSUBJECT, nullptr, nullptr);
 			break;
 
 		case IDC_BOPTPROTO:
@@ -932,7 +932,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							size_t len = mir_wstrlen(data->proto_msg[j].msg);
 							if (len > 0)
 							{	
-								if (data->proto_msg[k+1].msg == NULL)
+								if (data->proto_msg[k+1].msg == nullptr)
 									data->proto_msg[k+1].msg = mir_wstrdup(data->proto_msg[j].msg);
 								else
 								{
@@ -942,10 +942,10 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							}
 							else
 							{
-								if (data->proto_msg[k+1].msg != NULL)
+								if (data->proto_msg[k+1].msg != nullptr)
 								{
 									mir_free(data->proto_msg[k+1].msg);
-									data->proto_msg[k+1].msg = NULL;
+									data->proto_msg[k+1].msg = nullptr;
 								}
 							}
 						}
@@ -1122,7 +1122,7 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 		case IDC_ESECUPDTMSG:
 			{
 				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return 0;
-				int val = GetDlgItemInt(hwndDlg, IDC_ESECUPDTMSG, NULL, FALSE);
+				int val = GetDlgItemInt(hwndDlg, IDC_ESECUPDTMSG, nullptr, FALSE);
 				if (val == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_ESECUPDTMSG)))
 					SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETPOS, 0, MAKELONG((short)1, 0));
 				break;
@@ -1143,7 +1143,7 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY)
 		{
 			if (g_uUpdateMsgTimer)
-				KillTimer(NULL, g_uUpdateMsgTimer);
+				KillTimer(nullptr, g_uUpdateMsgTimer);
 
 			int val = SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_GETPOS, 0, 0);
 			db_set_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", (WORD)val);
@@ -1151,7 +1151,7 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 			if (IsDlgButtonChecked(hwndDlg, IDC_CUPDATEMSG) == BST_CHECKED && val)
 			{
 				db_set_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", (BYTE)1);
-				g_uUpdateMsgTimer = SetTimer(NULL, 0, val * 1000, (TIMERPROC)UpdateMsgTimerProc);
+				g_uUpdateMsgTimer = SetTimer(nullptr, 0, val * 1000, (TIMERPROC)UpdateMsgTimerProc);
 			}
 			else
 			{
@@ -1182,7 +1182,7 @@ static bool IsHistoryMsgsFound(HWND, int histMax)
 			j = histMax;
 		mir_snprintf(szSetting, "SMsg%d", j);
 		wchar_t *tszStatusMsg = db_get_wsa(NULL, "SimpleStatusMsg", szSetting);
-		if (tszStatusMsg != NULL) {
+		if (tszStatusMsg != nullptr) {
 			if (*tszStatusMsg != '\0') {
 				mir_free(tszStatusMsg);
 				return true;
@@ -1296,7 +1296,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			{
 				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE)
 					return 0;
-				int val = GetDlgItemInt(hwndDlg, IDC_EMAXHIST, NULL, FALSE);
+				int val = GetDlgItemInt(hwndDlg, IDC_EMAXHIST, nullptr, FALSE);
 				if (val > 25)
 					SendDlgItemMessage(hwndDlg, IDC_SMAXHIST, UDM_SETPOS, 0, MAKELONG((short)25, 0));
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CICONS2), val != 0);
@@ -1311,7 +1311,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			{
 				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE)
 					return 0;
-				int val = GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, NULL, FALSE);
+				int val = GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, nullptr, FALSE);
 				if (val == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_ETIMEOUT)))
 					SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETPOS, 0, MAKELONG((short)1, 0));
 				else if (val > 60)
@@ -1320,7 +1320,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			}
 
 		case IDC_BOPTHIST:
-			if (MessageBox(NULL, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
+			if (MessageBox(nullptr, TranslateT("Are you sure you want to clear status message history?"), TranslateT("Confirm clearing history"), MB_ICONQUESTION | MB_YESNO) == IDYES)
 			{
 
 				if (hwndSAMsgDialog)
@@ -1355,7 +1355,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			return 0;
 
 		case IDC_BOPTDEF:
-			if (MessageBox(NULL, TranslateT("Are you sure you want to clear predefined status messages?"), TranslateT("Confirm clearing predefined"), MB_ICONQUESTION | MB_YESNO) == IDYES)
+			if (MessageBox(nullptr, TranslateT("Are you sure you want to clear predefined status messages?"), TranslateT("Confirm clearing predefined"), MB_ICONQUESTION | MB_YESNO) == IDYES)
 			{
 				if (hwndSAMsgDialog)
 					DestroyWindow(hwndSAMsgDialog);
@@ -1395,9 +1395,9 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			db_set_b(NULL, "SimpleStatusMsg", "DlgFlags", (BYTE)flags);
 
 			// Misc.
-			db_set_b(NULL, "SimpleStatusMsg", "MaxHist", (BYTE)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, NULL, FALSE));
+			db_set_b(NULL, "SimpleStatusMsg", "MaxHist", (BYTE)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, nullptr, FALSE));
 			db_set_b(NULL, "SimpleStatusMsg", "AutoClose", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CCLOSEWND) == BST_CHECKED));
-			db_set_b(NULL, "SimpleStatusMsg", "DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, NULL, FALSE));
+			db_set_b(NULL, "SimpleStatusMsg", "DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, nullptr, FALSE));
 			db_set_b(NULL, "SimpleStatusMsg", "WinCentered", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
 			db_set_b(NULL, "SimpleStatusMsg", "RemoveCR", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
 			db_set_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWSMSG) == BST_CHECKED));

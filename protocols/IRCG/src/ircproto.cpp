@@ -39,7 +39,7 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 	vUserhostReasons(10),
 	vWhoInProgress(10)
 {
-	m_evWndCreate = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_evWndCreate = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	CreateProtoService(PS_GETMYAWAYMSG, &CIrcProto::GetMyAwayMsg);
 
@@ -140,11 +140,11 @@ CIrcProto::~CIrcProto()
 {
 	if (con) {
 		Netlib_CloseHandle(con);
-		con = NULL;
+		con = nullptr;
 	}
 
-	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = NULL;
-	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = NULL;
+	Netlib_CloseHandle(m_hNetlibUser); m_hNetlibUser = nullptr;
+	Netlib_CloseHandle(hNetlibDCC); hNetlibDCC = nullptr;
 
 	mir_free(m_alias);
 
@@ -210,9 +210,9 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 	mir_snwprintf(szTemp, L"%%miranda_path%%\\Plugins\\%S_perform.ini", m_szModuleName);
 	wchar_t *szLoadFileName = Utils_ReplaceVarsW(szTemp);
 	char* pszPerformData = IrcLoadFile(szLoadFileName);
-	if (pszPerformData != NULL) {
+	if (pszPerformData != nullptr) {
 		char *p1 = pszPerformData, *p2 = pszPerformData;
-		while ((p1 = strstr(p2, "NETWORK: ")) != NULL) {
+		while ((p1 = strstr(p2, "NETWORK: ")) != nullptr) {
 			p1 += 9;
 			p2 = strchr(p1, '\n');
 			CMStringA sNetwork(p1, int(p2 - p1 - 1));
@@ -284,7 +284,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 	wchar_t *id = psr->id.w ? psr->id.w : psr->nick.w;
 	id = psr->flags & PSR_UNICODE ? mir_wstrdup((wchar_t*)id) : mir_a2u((char*)id);
 
-	CONTACT user = { id, NULL, NULL, true, false, false };
+	CONTACT user = { id, nullptr, nullptr, true, false, false };
 	MCONTACT hContact = CList_AddContact(&user, true, false);
 
 	if (hContact) {
@@ -487,7 +487,7 @@ HANDLE __cdecl CIrcProto::SearchBasic(const wchar_t* szId)
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -495,14 +495,14 @@ HANDLE __cdecl CIrcProto::SearchBasic(const wchar_t* szId)
 
 HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFiles)
 {
-	DCCINFO* dci = NULL;
+	DCCINFO* dci = nullptr;
 	int iPort = 0;
 	int index = 0;
 	unsigned __int64 size = 0;
 
 	// do not send to channels :-P
 	if (isChatRoom(hContact))
-		return 0;
+		return nullptr;
 
 	// stop if it is an active type filetransfer and the user's IP is not known
 	unsigned long ulAdr = 0;
@@ -512,8 +512,8 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 		ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 
 	if (!m_DCCPassive && !ulAdr) {
-		DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), TranslateT("DCC ERROR: Unable to automatically resolve external IP"), NULL, NULL, NULL, true, false);
-		return 0;
+		DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("DCC ERROR: Unable to automatically resolve external IP"), nullptr, nullptr, NULL, true, false);
+		return nullptr;
 	}
 
 	if (ppszFiles[index]) {
@@ -529,8 +529,8 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 		}
 
 		if (size == 0) {
-			DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), TranslateT("DCC ERROR: No valid files specified"), NULL, NULL, NULL, true, false);
-			return 0;
+			DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), TranslateT("DCC ERROR: No valid files specified"), nullptr, nullptr, NULL, true, false);
+			return nullptr;
 		}
 
 		DBVARIANT dbv;
@@ -579,7 +579,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 				mir_snwprintf(szTemp,
 					TranslateT("DCC reversed file transfer request sent to %s [%s]"),
 					dci->sContactName.c_str(), sFileCorrect.c_str());
-				DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+				DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 
 				if (m_sendNotice) {
 					mir_snwprintf(szTemp,
@@ -598,7 +598,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 					mir_snwprintf(szTemp,
 						TranslateT("DCC file transfer request sent to %s [%s]"),
 						dci->sContactName.c_str(), sFileCorrect.c_str());
-					DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(), szTemp, NULL, NULL, NULL, true, false);
+					DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(), szTemp, nullptr, nullptr, NULL, true, false);
 
 					if (m_sendNotice) {
 						mir_snwprintf(szTemp,
@@ -607,8 +607,8 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 						PostIrcMessage(szTemp);
 					}
 				}
-				else DoEvent(GC_EVENT_INFORMATION, 0, m_info.sNick.c_str(),
-					TranslateT("DCC ERROR: Unable to bind local port"), NULL, NULL, NULL, true, false);
+				else DoEvent(GC_EVENT_INFORMATION, nullptr, m_info.sNick.c_str(),
+					TranslateT("DCC ERROR: Unable to bind local port"), nullptr, nullptr, NULL, true, false);
 			}
 
 			// fix for sending multiple files
@@ -626,7 +626,7 @@ HANDLE __cdecl CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** 
 
 	if (dci)
 		return dci;
-	return NULL;
+	return nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -645,13 +645,13 @@ struct TFakeAckParam
 void __cdecl CIrcProto::AckMessageFail(void *info)
 {
 	Thread_SetName("IRC: AckMessageFail");
-	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The protocol is not online"));
+	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)Translate("The protocol is not online"));
 }
 
 void __cdecl CIrcProto::AckMessageFailDcc(void *info)
 {
 	Thread_SetName("IRC: AckMessageFailDcc");
-	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)Translate("The dcc chat connection is not active"));
+	ProtoBroadcastAck((UINT_PTR)info, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)Translate("The dcc chat connection is not active"));
 }
 
 void __cdecl CIrcProto::AckMessageSuccess(void *info)
@@ -678,7 +678,7 @@ int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 
 	wchar_t *result;
 	mir_utf8decode(NEWSTR_ALLOCA(pszSrc), &result);
-	PostIrcMessageWnd(NULL, hContact, result);
+	PostIrcMessageWnd(nullptr, hContact, result);
 	mir_free(result);
 
 	int seq = InterlockedIncrement(&g_msgid);
@@ -698,7 +698,7 @@ int CIrcProto::SetStatusInternal(int iNewStatus, bool bIsInternal)
 {
 	if (iNewStatus != ID_STATUS_OFFLINE && !m_network[0]) {
 		if (m_nick[0] && !m_disableDefaultServer) {
-			if (m_quickDlg == NULL) {
+			if (m_quickDlg == nullptr) {
 				m_quickDlg = new CQuickDlg(this);
 				m_quickComboSelection = m_serverComboSelection + 1;
 				m_quickDlg->Show();
@@ -767,7 +767,7 @@ HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
 			int i = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 			if (i != ID_STATUS_AWAY) {
 				db_free(&dbv);
-				return 0;
+				return nullptr;
 			}
 			CMStringW S = L"WHOIS ";
 			S += dbv.ptszVal;
@@ -793,8 +793,8 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const wchar_t* msg)
 	default:
 		CMStringW newStatus = msg;
 		newStatus.Replace(L"\r\n", L" ");
-		if (m_statusMessage.IsEmpty() || msg == NULL || m_statusMessage != newStatus) {
-			if (msg == NULL || *msg == 0)
+		if (m_statusMessage.IsEmpty() || msg == nullptr || m_statusMessage != newStatus) {
+			if (msg == nullptr || *msg == 0)
 				m_statusMessage = STR_AWAYMESSAGE;
 			else
 				m_statusMessage = newStatus;

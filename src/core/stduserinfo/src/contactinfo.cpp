@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static HFONT hEmailFont = NULL;
-static HCURSOR hHandCursor = NULL;
+static HFONT hEmailFont = nullptr;
+static HCURSOR hHandCursor = nullptr;
 
 static INT_PTR CALLBACK EditUserEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -126,7 +126,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			if (noRecursion) break;
 			noRecursion = 1;
 			{
-				char szText[256], *pText = NULL, *pArea, *pNumber;
+				char szText[256], *pText = nullptr, *pArea, *pNumber;
 				int i, isValid = 1;
 				GetDlgItemTextA(hwndDlg, IDC_PHONE, szText, _countof(szText));
 				if (szText[0] != '+')
@@ -224,8 +224,8 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			lf.lfUnderline = 1;
 			hEmailFont = CreateFontIndirect(&lf);
 		}
-		if (hHandCursor == NULL)
-			hHandCursor = LoadCursor(NULL, IDC_HAND);
+		if (hHandCursor == nullptr)
+			hHandCursor = LoadCursor(nullptr, IDC_HAND);
 		{
 			RECT rc;
 			GetClientRect(GetDlgItem(hwndDlg, IDC_EMAILS), &rc);
@@ -257,7 +257,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (hContact != NULL) {
 				char *szProto = GetContactProto(hContact);
-				if (szProto == NULL)
+				if (szProto == nullptr)
 					break;
 
 				//e-mails
@@ -516,7 +516,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			GetCursorPos(&pt);
 			ScreenToClient(hwndDlg, &pt);
 		}
-		if (IsOverEmail(hwndDlg, NULL, 0)) {
+		if (IsOverEmail(hwndDlg, nullptr, 0)) {
 			SetCursor(hHandCursor);
 			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
 			return TRUE;

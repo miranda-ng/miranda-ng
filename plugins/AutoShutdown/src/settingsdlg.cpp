@@ -33,7 +33,7 @@ const wchar_t *unitNames[] = { LPGENW("Second(s)"), LPGENW("Minute(s)"), LPGENW(
 static void EnableDlgItem(HWND hwndDlg, int idCtrl, BOOL fEnable)
 {
 	hwndDlg = GetDlgItem(hwndDlg, idCtrl);
-	if (hwndDlg != NULL && IsWindowEnabled(hwndDlg) != fEnable)
+	if (hwndDlg != nullptr && IsWindowEnabled(hwndDlg) != fEnable)
 		EnableWindow(hwndDlg, fEnable);
 }
 
@@ -80,7 +80,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					lf.lfWeight = FW_BOLD;
 					hBoldFont = CreateFontIndirect(&lf);
 				}
-				else hBoldFont = NULL;
+				else hBoldFont = nullptr;
 				SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_SETFONT, (WPARAM)hBoldFont, FALSE);
 			}
 			/* read-in watcher flags */
@@ -183,9 +183,9 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_GETFONT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TEXT_HEADER, WM_SETFONT, 0, FALSE); /* no return value */
-			if (hFont != NULL)
+			if (hFont != nullptr)
 				DeleteObject(hFont);
-			hwndSettingsDlg = NULL;
+			hwndSettingsDlg = nullptr;
 		}
 		return TRUE;
 
@@ -258,14 +258,14 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			GetLocalTime(&stBuf);
 			if (SystemTimeToTimeStamp(&st, &timestamp)) {
 				/* set to current date if earlier */
-				if (timestamp < time(NULL)) {
+				if (timestamp < time(nullptr)) {
 					st.wDay = stBuf.wDay;
 					st.wDayOfWeek = stBuf.wDayOfWeek;
 					st.wMonth = stBuf.wMonth;
 					st.wYear = stBuf.wYear;
 					if (SystemTimeToTimeStamp(&st, &timestamp)) {
 						/* step one day up if still earlier */
-						if (timestamp < time(NULL)) {
+						if (timestamp < time(nullptr)) {
 							timestamp += 24 * 60 * 60;
 							TimeStampToSystemTime(timestamp, &st);
 						}
@@ -307,7 +307,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_EDIT_COUNTDOWN:
 			if (HIWORD(wParam) == EN_KILLFOCUS) {
-				if ((int)GetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, NULL, TRUE) < 1) {
+				if ((int)GetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, nullptr, TRUE) < 1) {
 					SendDlgItemMessage(hwndDlg, IDC_SPIN_COUNTDOWN, UDM_SETPOS, 0, MAKELPARAM(1, 0));
 					SetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, 1, FALSE);
 				}
@@ -317,7 +317,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_EDIT_CPUUSAGE:
 			if (HIWORD(wParam) == EN_KILLFOCUS) {
-				WORD val = (WORD)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, NULL, FALSE);
+				WORD val = (WORD)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, nullptr, FALSE);
 				if (val < 1) val = 1;
 				else if (val>100) val = 100;
 				SendDlgItemMessage(hwndDlg, IDC_SPIN_CPUUSAGE, UDM_SETPOS, 0, MAKELPARAM(val, 0));
@@ -342,7 +342,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				HWND hwndEdit = GetDlgItem(hwndDlg, IDC_EDIT_MESSAGE);
 				int len = GetWindowTextLength(hwndEdit) + 1;
 				wchar_t *pszText = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
-				if (pszText != NULL && GetWindowText(hwndEdit, pszText, len + 1)) {
+				if (pszText != nullptr && GetWindowText(hwndEdit, pszText, len + 1)) {
 					TrimString(pszText);
 					db_set_ws(NULL, "AutoShutdown", "Message", pszText);
 				}
@@ -354,7 +354,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				time_t timestamp;
 				DateTime_GetSystemtime(GetDlgItem(hwndDlg, IDC_TIME_TIMESTAMP), &st); /* time gets synchronized */
 				if (!SystemTimeToTimeStamp(&st, &timestamp))
-					timestamp = time(NULL);
+					timestamp = time(nullptr);
 				db_set_dw(NULL, "AutoShutdown", "TimeStamp", (DWORD)timestamp);
 			}
 			/* shutdown type */
@@ -365,8 +365,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				index = SendDlgItemMessage(hwndDlg, IDC_COMBO_COUNTDOWNUNIT, CB_GETCURSEL, 0, 0);
 				if (index != LB_ERR)
 					db_set_dw(NULL, "AutoShutdown", "CountdownUnit", (DWORD)SendDlgItemMessage(hwndDlg, IDC_COMBO_COUNTDOWNUNIT, CB_GETITEMDATA, (WPARAM)index, 0));
-				db_set_dw(NULL, "AutoShutdown", "Countdown", (DWORD)GetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, NULL, FALSE));
-				db_set_b(NULL, "AutoShutdown", "CpuUsageThreshold", (BYTE)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, NULL, FALSE));
+				db_set_dw(NULL, "AutoShutdown", "Countdown", (DWORD)GetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, nullptr, FALSE));
+				db_set_b(NULL, "AutoShutdown", "CpuUsageThreshold", (BYTE)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, nullptr, FALSE));
 			}
 			/* watcher type */
 			{
@@ -399,11 +399,11 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 static INT_PTR ServiceShowSettingsDialog(WPARAM, LPARAM)
 {
-	if (hwndSettingsDlg != NULL) { /* already opened, bring to front */
+	if (hwndSettingsDlg != nullptr) { /* already opened, bring to front */
 		SetForegroundWindow(hwndSettingsDlg);
 		return 0;
 	}
-	return CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETTINGS), NULL, SettingsDlgProc) == NULL;
+	return CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETTINGS), nullptr, SettingsDlgProc) == nullptr;
 }
 
 /************************* Toolbar ************************************/
@@ -412,7 +412,7 @@ static HANDLE hToolbarButton;
 
 int ToolbarLoaded(WPARAM, LPARAM)
 {
-	TTBButton ttb = { 0 };
+	TTBButton ttb = {};
 	ttb.hIconHandleUp = iconList[2].hIcolib;
 	ttb.hIconHandleDn = iconList[1].hIcolib;
 	ttb.pszService = "AutoShutdown/MenuCommand";
@@ -450,14 +450,14 @@ void SetShutdownMenuItem(bool fActive)
 	}
 	mi.pszService = "AutoShutdown/MenuCommand";
 	mi.flags = CMIF_UNICODE;
-	if (hMainMenuItem != NULL)
+	if (hMainMenuItem != nullptr)
 		Menu_ModifyItem(hMainMenuItem, mi.name.w, mi.hIcolibItem);
 	else
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	/* tray menu */
 	mi.position = 899999;
-	if (hTrayMenuItem != NULL)
+	if (hTrayMenuItem != nullptr)
 		Menu_ModifyItem(hTrayMenuItem, mi.name.w, mi.hIcolibItem);
 	else
 		hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
@@ -479,11 +479,11 @@ void InitSettingsDlg(void)
 {
 	/* Menu Item */
 	CreateServiceFunction("AutoShutdown/MenuCommand", MenuItemCommand);
-	hMainMenuItem = hTrayMenuItem = NULL;
+	hMainMenuItem = hTrayMenuItem = nullptr;
 	SetShutdownMenuItem(false);
 	/* Hotkey */
 	AddHotkey();
 	/* Services */
-	hwndSettingsDlg = NULL;
+	hwndSettingsDlg = nullptr;
 	CreateServiceFunction(MS_AUTOSHUTDOWN_SHOWSETTINGSDIALOG, ServiceShowSettingsDialog);
 }

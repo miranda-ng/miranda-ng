@@ -97,9 +97,9 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM hContact, LPARAM lParam)
 			cgs->pValue->pszVal = mir_strdup(dbv.pszVal);
 		else if (type == DBVT_WCHAR) {
 			if (dbv.type != DBVT_UTF8) {
-				int len = MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, NULL, 0);
+				int len = MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, nullptr, 0);
 				cgs->pValue->pwszVal = (WCHAR*)mir_alloc((len + 1)*sizeof(WCHAR));
-				if (cgs->pValue->pwszVal == NULL)
+				if (cgs->pValue->pwszVal == nullptr)
 					rc = 1;
 				else {
 					MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, cgs->pValue->pwszVal, len);
@@ -107,19 +107,19 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM hContact, LPARAM lParam)
 				}
 			}
 			else {
-				char *savePtr = dbv.pszVal ? mir_strcpy((char*)_alloca(mir_strlen(dbv.pszVal) + 1), dbv.pszVal) : NULL;
+				char *savePtr = dbv.pszVal ? mir_strcpy((char*)_alloca(mir_strlen(dbv.pszVal) + 1), dbv.pszVal) : nullptr;
 				if (!mir_utf8decode(savePtr, &cgs->pValue->pwszVal))
 					rc = 1;
 			}
 		}
 		else if (type == DBVT_UTF8) {
 			cgs->pValue->pszVal = mir_utf8encode(dbv.pszVal);
-			if (cgs->pValue->pszVal == NULL)
+			if (cgs->pValue->pszVal == nullptr)
 				rc = 1;
 		}
 		else if (type == DBVT_ASCIIZ) {
 			cgs->pValue->pszVal = mir_strdup(dbv.pszVal);
-			mir_utf8decode(cgs->pValue->pszVal, NULL);
+			mir_utf8decode(cgs->pValue->pszVal, nullptr);
 		}
 
 		cgs->pValue->type = type;
@@ -156,14 +156,14 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM)
 	if (!icqOnline() || !wParam)
 		return 0;
 
-	PBYTE buf = NULL;
+	PBYTE buf = nullptr;
 	size_t buflen = 0;
 
 	// userinfo
 	ppackTLVWord(&buf, &buflen, 0x1C2, (WORD)GetACP());
 
 	if (wParam & CIXT_CONTACT) { // contact information
-		BYTE *pBlock = NULL;
+		BYTE *pBlock = nullptr;
 		size_t cbBlock = 0;
 		int nItems = 0;
 
@@ -205,7 +205,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM)
 	}
 
 	if (wParam & CIXT_WORK) {
-		BYTE *pBlock = NULL;
+		BYTE *pBlock = nullptr;
 		size_t cbBlock = 0;
 		int nItems = 1;
 
@@ -227,7 +227,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM)
 	}
 
 	if (wParam & CIXT_EDUCATION) {
-		BYTE *pBlock = NULL;
+		BYTE *pBlock = nullptr;
 		size_t cbBlock = 0;
 		int nItems = 1;
 
@@ -240,7 +240,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM)
 	}
 
 	if (wParam & CIXT_LOCATION) {
-		BYTE *pBlock = NULL;
+		BYTE *pBlock = nullptr;
 		size_t cbBlock = 0;
 		int nItems = 1;
 
@@ -269,7 +269,7 @@ INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM)
 	}
 
 	if (wParam & CIXT_BACKGROUND) {
-		BYTE *pBlock = NULL;
+		BYTE *pBlock = nullptr;
 		size_t cbBlock = 0;
 		int nItems = 0;
 
@@ -410,7 +410,7 @@ INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM)
 			return 0; // Invalid contact
 
 		// send without reason, do we need any ?
-		icq_sendGrantAuthServ(dwUin, szUid, NULL);
+		icq_sendGrantAuthServ(dwUin, szUid, nullptr);
 		// auth granted, remove contact menu item
 		delSetting(wParam, "Grant");
 	}
@@ -425,7 +425,7 @@ int CIcqProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	if (bPrivacy)
 		return 0;
 
-	setDword("IdleTS", bIdle ? time(0) : 0);
+	setDword("IdleTS", bIdle ? time(nullptr) : 0);
 
 	if (m_bTempVisListEnabled) // remove temporary visible users
 		sendEntireListServ(ICQ_BOS_FAMILY, ICQ_CLI_REMOVETEMPVISIBLE, BUL_TEMPVISIBLE);
@@ -442,7 +442,7 @@ INT_PTR CIcqProto::RevokeAuthorization(WPARAM wParam, LPARAM)
 		if (getContactUid(wParam, &dwUin, &szUid))
 			return 0; // Invalid contact
 
-		if (MessageBox(NULL, TranslateT("Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients."), TranslateT("Confirmation"), MB_ICONQUESTION | MB_YESNO) != IDYES)
+		if (MessageBox(nullptr, TranslateT("Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients."), TranslateT("Confirmation"), MB_ICONQUESTION | MB_YESNO) != IDYES)
 			return 0;
 		
 		icq_sendRevokeAuthServ(dwUin, szUid);
@@ -466,7 +466,7 @@ INT_PTR CIcqProto::SendYouWereAdded(WPARAM, LPARAM lParam)
 		CCSDATA* ccs = (CCSDATA*)lParam;
 		if (ccs->hContact) {
 			DWORD dwUin;
-			if (getContactUid(ccs->hContact, &dwUin, NULL))
+			if (getContactUid(ccs->hContact, &dwUin, nullptr))
 				return 1; // Invalid contact
 
 			DWORD dwMyUin = getContactUin(NULL);
@@ -498,7 +498,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		}
 
 		wchar_t tszMyFile[MAX_PATH + 1];
-		GetFullAvatarFileName(0, NULL, dwPaFormat, tszMyFile, MAX_PATH);
+		GetFullAvatarFileName(0, nullptr, dwPaFormat, tszMyFile, MAX_PATH);
 		
 		// if not in our storage, copy
 		if (mir_wstrcmp(tszFile, tszMyFile) && !CopyFile(tszFile, tszMyFile, FALSE)) {
@@ -507,7 +507,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		}
 
 		BYTE *hash = calcMD5HashOfFile(tszMyFile);
-		if (hash == NULL)
+		if (hash == nullptr)
 			return -1;
 
 		BYTE ihash[0x14];
@@ -635,7 +635,7 @@ INT_PTR icq_getEventTextMissedMessage(WPARAM pEvent, LPARAM datatype)
 	DBEVENTINFO *dbei = (DBEVENTINFO *)pEvent;
 
 	INT_PTR nRetVal = 0;
-	char *pszText = NULL;
+	char *pszText = nullptr;
 
 	if (dbei->cbBlob > 1) {
 		switch (((WORD*)dbei->pBlob)[0]) {
@@ -660,7 +660,7 @@ INT_PTR icq_getEventTextMissedMessage(WPARAM pEvent, LPARAM datatype)
 			break;
 		}
 		if (datatype == DBVT_WCHAR) {
-			int wchars = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), NULL, 0);
+			int wchars = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszText, (int)mir_strlen(pszText), nullptr, 0);
 
 			WCHAR *pwszText = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
 			pwszText[wchars] = 0;

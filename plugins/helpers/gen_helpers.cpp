@@ -63,7 +63,7 @@ wchar_t *Hlp_GetWindowText(HWND hwndDlg)
 // Logging
 static int WriteToDebugLogA(const char *szMsg)
 {
-	return Netlib_Log(0, szMsg);
+	return Netlib_Log(nullptr, szMsg);
 }
 
 int AddDebugLogMessageA(const char* fmt, ...)

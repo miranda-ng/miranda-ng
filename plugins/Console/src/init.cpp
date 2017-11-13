@@ -64,7 +64,7 @@ HANDLE LoadIcon(int iIconID)
 	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iIconID)
 			return iconList[i].hIcolib;
-	return NULL;
+	return nullptr;
 }
 
 extern "C" __declspec(dllexport) int Load(void)

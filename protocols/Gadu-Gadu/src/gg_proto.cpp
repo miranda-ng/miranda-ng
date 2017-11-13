@@ -254,14 +254,14 @@ void __cdecl GGPROTO::searchthread(void *)
 HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 {
 	if (!isonline())
-		return 0;
+		return nullptr;
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (!req) {
 	#ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 10 GGPROTO::searchthread");
 	#endif
-		ForkThread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HANDLE)1;
 	}
 
@@ -275,7 +275,7 @@ HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 	#ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 11 GGPROTO::searchthread");
 	#endif
-		ForkThread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HANDLE)1;
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 2, "sess_mutex", 1);
@@ -292,17 +292,17 @@ HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, cons
 {
 	// Check if connected and if there's a search data
 	if (!isonline())
-		return 0;
+		return nullptr;
 
 	if (!nick && !firstName && !lastName)
-		return 0;
+		return nullptr;
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
-	if (req == NULL) {
+	if (req == nullptr) {
 	#ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 12 GGPROTO::searchthread");
 	#endif
-		ForkThread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HANDLE)1;
 	}
 
@@ -343,7 +343,7 @@ HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, cons
 	#ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 13 GGPROTO::searchthread");
 	#endif
-		ForkThread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, nullptr);
 	}
 	else
 	{
@@ -362,14 +362,14 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 {
 	// Check if connected
 	if (!isonline())
-		return 0;
+		return nullptr;
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (!req) {
 	#ifdef DEBUGMODE
 		debugLogA("SearchAdvanced(): ForkThread 14 GGPROTO::searchthread");
 	#endif
-		ForkThread(&GGPROTO::searchthread, NULL);
+		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HWND)1;
 	}
 
@@ -413,7 +413,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	if (mir_wstrlen(text)) {
 		int yearTo = _tstoi(text);
 		int yearFrom;
-		time_t t = time(NULL);
+		time_t t = time(nullptr);
 		struct tm *lt = localtime(&t);
 		int ay = lt->tm_year + 1900;
 		char age[16];
@@ -459,7 +459,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	// No data entered
 	if (szQuery.GetLength() <= 7 || (szQuery.GetLength() == 8 && IsDlgButtonChecked(hwndDlg, IDC_ONLYCONNECTED))) {
 		gg_pubdir50_free(req);
-		return 0;
+		return nullptr;
 	}
 
 	// Count crc & check if the data was equal if yes do same search with shift
@@ -479,7 +479,7 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 		#ifdef DEBUGMODE
 			debugLogA("SearchAdvanced(): ForkThread 15 GGPROTO::searchthread");
 		#endif
-			ForkThread(&GGPROTO::searchthread, NULL);
+			ForkThread(&GGPROTO::searchthread, nullptr);
 			return (HWND)1;
 		}
 		gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 2, "sess_mutex", 1);
@@ -663,7 +663,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 	else {
 		if (*msgPtr)
 			mir_free(*msgPtr);
-		*msgPtr = newMsg && *newMsg ? mir_wstrdup(newMsg) : NULL;
+		*msgPtr = newMsg && *newMsg ? mir_wstrdup(newMsg) : nullptr;
 	#ifdef DEBUGMODE
 		debugLogA("SetAwayMsg(): Message changed.");
 	#endif

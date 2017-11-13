@@ -44,7 +44,7 @@ BOOL Player::GetListeningInfo(LISTENINGTOINFO *lti)
 	if (listening_info.cbSize == 0)
 		return false;
 
-	if (lti != NULL)
+	if (lti != nullptr)
 		CopyListeningInfo(lti, &listening_info);
 	return true;
 }
@@ -62,7 +62,7 @@ ExternalPlayer::ExternalPlayer()
 	name = L"ExternalPlayer";
 	needPoll = TRUE;
 
-	window_classes = NULL;
+	window_classes = nullptr;
 	num_window_classes = 0;
 	found_window = FALSE;
 }
@@ -73,10 +73,10 @@ ExternalPlayer::~ExternalPlayer()
 
 HWND ExternalPlayer::FindWindow()
 {
-	HWND hwnd = NULL;
+	HWND hwnd = nullptr;
 	for (int i = 0; i < num_window_classes; i++) {
-		hwnd = ::FindWindow(window_classes[i], NULL);
-		if (hwnd != NULL)
+		hwnd = ::FindWindow(window_classes[i], nullptr);
+		if (hwnd != nullptr)
 			break;
 	}
 	return hwnd;
@@ -84,7 +84,7 @@ HWND ExternalPlayer::FindWindow()
 
 BOOL ExternalPlayer::GetListeningInfo(LISTENINGTOINFO *lti)
 {
-	if (FindWindow() == NULL)
+	if (FindWindow() == nullptr)
 		return FALSE;
 
 	return Player::GetListeningInfo(lti);
@@ -95,8 +95,8 @@ BOOL ExternalPlayer::GetListeningInfo(LISTENINGTOINFO *lti)
 CodeInjectionPlayer::CodeInjectionPlayer()
 {
 	name = L"CodeInjectionPlayer";
-	dll_name = NULL;
-	message_window_class = NULL;
+	dll_name = nullptr;
+	message_window_class = nullptr;
 	next_request_time = 0;
 }
 
@@ -113,12 +113,12 @@ void CodeInjectionPlayer::InjectCode()
 
 	// Window is opened?
 	HWND hwnd = FindWindow();
-	if (hwnd == NULL)
+	if (hwnd == nullptr)
 		return;
 
 	// Msg Window is registered? (aka plugin is running?)
-	HWND msgHwnd = ::FindWindow(message_window_class, NULL);
-	if (msgHwnd != NULL)
+	HWND msgHwnd = ::FindWindow(message_window_class, nullptr);
+	if (msgHwnd != nullptr)
 		return;
 
 
@@ -131,7 +131,7 @@ void CodeInjectionPlayer::InjectCode()
 		return;
 
 	char *p = strrchr(dll_path, '\\');
-	if (p == NULL)
+	if (p == nullptr)
 		return;
 
 	p++;
@@ -153,21 +153,21 @@ void CodeInjectionPlayer::InjectCode()
 	GetWindowThreadProcessId(hwnd, &pid);
 	HANDLE hProcess = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION
 		| PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, pid);
-	if (hProcess == NULL)
+	if (hProcess == nullptr)
 		return;
 
-	char *_dll = (char *)VirtualAllocEx(hProcess, NULL, len + 1, MEM_COMMIT, PAGE_READWRITE);
-	if (_dll == NULL) {
+	char *_dll = (char *)VirtualAllocEx(hProcess, nullptr, len + 1, MEM_COMMIT, PAGE_READWRITE);
+	if (_dll == nullptr) {
 		CloseHandle(hProcess);
 		return;
 	}
-	WriteProcessMemory(hProcess, _dll, dll_path, len + 1, NULL);
+	WriteProcessMemory(hProcess, _dll, dll_path, len + 1, nullptr);
 
 	HMODULE hKernel32 = GetModuleHandleA("kernel32");
 	HANDLE hLoadLibraryA = GetProcAddress(hKernel32, "LoadLibraryA");
 	DWORD threadId;
-	HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)hLoadLibraryA, _dll, 0, &threadId);
-	if (hThread == NULL) {
+	HANDLE hThread = CreateRemoteThread(hProcess, nullptr, 0, (LPTHREAD_START_ROUTINE)hLoadLibraryA, _dll, 0, &threadId);
+	if (hThread == nullptr) {
 		VirtualFreeEx(hProcess, _dll, len + 1, MEM_RELEASE);
 		CloseHandle(hProcess);
 		return;

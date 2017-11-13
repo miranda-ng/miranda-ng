@@ -168,7 +168,7 @@ static void NetlibBindAcceptThread(void* param)
 	}
 
 	NetlibUPnPDeletePortMapping(nlbp->wExPort, "TCP");
-	nlbp->hThread = 0;
+	nlbp->hThread = nullptr;
 
 	Netlib_Logf(nlbp->nlu, "NetlibBindAcceptThread: (%p) thread for port %u closed", nlbp->s, nlbp->wPort);
 }

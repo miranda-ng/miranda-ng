@@ -35,7 +35,7 @@ bool bUseIntViewer = true;
 tstring sFileViewerPrg;
 
 // handle to the RichEditDll. We need to load this dll to use a RichEdit.
-HMODULE hRichEditDll = NULL;
+HMODULE hRichEditDll = nullptr;
 
 
 #define CONT(i) ((in[i]&0xc0) == 0x80)
@@ -115,7 +115,7 @@ public:
 
 	CLHistoryDlg(MCONTACT hContact) : hContact(hContact)
 	{
-		hFindDlg = NULL;
+		hFindDlg = nullptr;
 		acFindStr[0] = 0;
 		memset(&fr, 0, sizeof(fr));
 		fr.lStructSize = sizeof(fr);
@@ -203,7 +203,7 @@ int CLStreamRTFInfo::nWriteHeader(char *pszTarget, int nLen)
 
 	if (nSrcLen > nLen)
 	{
-		MessageBox(NULL, TranslateT("Failed to write to the Rich Edit the buffer was to small."), MSG_BOX_TITEL, MB_OK);
+		MessageBox(nullptr, TranslateT("Failed to write to the Rich Edit the buffer was to small."), MSG_BOX_TITEL, MB_OK);
 		return 0; // target buffer to small
 	}
 
@@ -236,14 +236,14 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 
 	if (nOptimalReadLen < 500)
 	{
-		MessageBox(NULL, TranslateT("Error: Optimal buffer size decreased to a too low size!"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(nullptr, TranslateT("Error: Optimal buffer size decreased to a too low size!"), MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
 	DWORD dwRead;
 	DWORD dwToRead = nOptimalReadLen;
 
-	if (!ReadFile(hFile, abBuf, dwToRead, &dwRead, (LPOVERLAPPED)NULL))
+	if (!ReadFile(hFile, abBuf, dwToRead, &dwRead, (LPOVERLAPPED)nullptr))
 		return 0;
 
 	DWORD dwCurrent = 0;
@@ -293,7 +293,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 			// and rewinde file
 			// we will adjust the optima buffer size
 			nOptimalReadLen -= 50;
-			SetFilePointer(hFile, n - dwRead, NULL, FILE_CURRENT);
+			SetFilePointer(hFile, n - dwRead, nullptr, FILE_CURRENT);
 			return dwCurrent;
 		}
 
@@ -326,8 +326,8 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 
 					LONG lExtraRead = (n + 1) - dwRead;
 					if (lExtraRead >= 0)
-						MessageBox(NULL, TranslateT("Internal error! (lExtraRead >= 0)"), MSG_BOX_TITEL, MB_OK);
-					SetFilePointer(hFile, lExtraRead, NULL, FILE_CURRENT);
+						MessageBox(nullptr, TranslateT("Internal error! (lExtraRead >= 0)"), MSG_BOX_TITEL, MB_OK);
+					SetFilePointer(hFile, lExtraRead, nullptr, FILE_CURRENT);
 					bCheckFirstForNick = true;
 					return dwCurrent;
 				}
@@ -370,7 +370,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 			int nValue;
 			int nLen = __utf8_get_char((const char *)&abBuf[n], &nValue);
 			if (nLen + n > dwRead) {
-				SetFilePointer(hFile, n - dwRead, NULL, FILE_CURRENT);
+				SetFilePointer(hFile, n - dwRead, nullptr, FILE_CURRENT);
 				break;
 			}
 			dwCurrent += sprintf((char*)&pbBuff[dwCurrent], "\\u%d?", nValue); //!!!!!!!!!
@@ -456,7 +456,7 @@ bool bOpenExternaly(MCONTACT hContact)
 		SHELLEXECUTEINFO st = { 0 };
 		st.cbSize = sizeof(st);
 		st.fMask = SEE_MASK_INVOKEIDLIST;
-		st.hwnd = NULL;
+		st.hwnd = nullptr;
 		st.lpFile = sPath.c_str();
 		st.nShow = SW_SHOWDEFAULT;
 		ShellExecuteEx(&st);
@@ -470,16 +470,16 @@ bool bOpenExternaly(MCONTACT hContact)
 	STARTUPINFO sStartupInfo = { 0 };
 	GetStartupInfo(&sStartupInfo); // we parse oure owne info on
 	sStartupInfo.lpTitle = (wchar_t*)sFileViewerPrg.c_str();
-	PROCESS_INFORMATION stProcesses = { 0 };
+	PROCESS_INFORMATION stProcesses = {};
 
-	if (!CreateProcess(NULL,
+	if (!CreateProcess(nullptr,
 		(wchar_t*)sTmp.c_str(),
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		FALSE,
 		CREATE_DEFAULT_ERROR_MODE | CREATE_NEW_CONSOLE | CREATE_NEW_PROCESS_GROUP,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		&sStartupInfo,
 		&stProcesses))
 	{
@@ -554,7 +554,7 @@ bool bUseInternalViewer(bool bNew)
 
 DWORD CALLBACK RichEditStreamLoadFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	ReadFile((HANDLE)dwCookie, pbBuff, (DWORD)cb, (DWORD *)pcb, (LPOVERLAPPED)NULL);
+	ReadFile((HANDLE)dwCookie, pbBuff, (DWORD)cb, (DWORD *)pcb, (LPOVERLAPPED)nullptr);
 	return (DWORD)(*pcb >= 0 ? NOERROR : (*pcb = 0, E_FAIL));
 }
 
@@ -568,7 +568,7 @@ DWORD CALLBACK RichEditRTFStreamLoadFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 
 DWORD CALLBACK RichEditStreamSaveFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	WriteFile((HANDLE)dwCookie, pbBuff, cb, (DWORD*)pcb, (LPOVERLAPPED)NULL);
+	WriteFile((HANDLE)dwCookie, pbBuff, cb, (DWORD*)pcb, (LPOVERLAPPED)nullptr);
 	return *pcb != cb;
 }
 
@@ -614,8 +614,8 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg * pclDlg)
 	}
 
 	HANDLE hFile = CreateFile(pclDlg->sPath.c_str(), GENERIC_READ,
-		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+		FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr,
+		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		int nDBCount = db_event_count(pclDlg->hContact);
 		wchar_t szTmp[1500];
@@ -707,7 +707,7 @@ bool bAdvancedCopy(HWND hwnd)
 	int nSelLenght = sSelectRange.cpMax - sSelectRange.cpMin + 1; // +1 for null termination
 	if (nSelLenght > 1)
 	{
-		if (OpenClipboard(NULL)) {
+		if (OpenClipboard(nullptr)) {
 			EmptyClipboard();
 
 			wchar_t *pszSrcBuf = new wchar_t[nSelLenght];
@@ -775,7 +775,7 @@ LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)dwEnd);
 			ClientToScreen(hwnd, &pt);
 		}
-		TrackPopupMenu(nSubMenu, TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, 0);
+		TrackPopupMenu(nSubMenu, TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, nullptr);
 
 		DestroyMenu(nSubMenu);
 		DestroyMenu(nMenu);
@@ -807,7 +807,7 @@ LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	if (msg == UM_FIND_CMD) {
 		FINDREPLACE *fr = (FINDREPLACE*)lParam;
 		if (fr->Flags & FR_DIALOGTERM) {
-			pclDlg->hFindDlg = NULL;
+			pclDlg->hFindDlg = nullptr;
 			return 0;
 		}
 
@@ -861,7 +861,7 @@ void SetWindowsCtrls(HWND hwndDlg)
 	GetWindowRect(hButton, &rCurSize);
 	int nButtonHeight = rCurSize.bottom - rCurSize.top;
 
-	SetWindowPos(GetDlgItem(hwndDlg, IDC_RICHEDIT), 0,
+	SetWindowPos(GetDlgItem(hwndDlg, IDC_RICHEDIT), nullptr,
 		nSpacing, nSpacing,
 		rNewSize.right - (nSpacing * 2),
 		rNewSize.bottom - (nSpacing * 3 + nButtonHeight),
@@ -872,17 +872,17 @@ void SetWindowsCtrls(HWND hwndDlg)
 	int nButtonTop = rNewSize.bottom - (nSpacing + nButtonHeight);
 	int nCurLeft = nButtonSpace;
 
-	SetWindowPos(GetDlgItem(hwndDlg, IDC_FV_FIND), 0,
+	SetWindowPos(GetDlgItem(hwndDlg, IDC_FV_FIND), nullptr,
 		nCurLeft, nButtonTop, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
 	nCurLeft += nButtonSpace + nButtonWidth;
 
-	SetWindowPos(GetDlgItem(hwndDlg, IDC_FV_EXTERNAL), 0,
+	SetWindowPos(GetDlgItem(hwndDlg, IDC_FV_EXTERNAL), nullptr,
 		nCurLeft, nButtonTop, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
 	nCurLeft += nButtonSpace + nButtonWidth;
 
-	SetWindowPos(hButton, 0, nCurLeft, nButtonTop, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+	SetWindowPos(hButton, nullptr, nCurLeft, nButtonTop, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
 }
 
@@ -952,9 +952,9 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendMessage(hRichEdit, EM_AUTOURLDETECT, TRUE, 0);
 
 			HMENU hSysMenu = GetSystemMenu(hwndDlg, FALSE);
-			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
+			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, nullptr);
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_SAVE_AS_RTF, LPGENW("Save as RTF"));
-			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
+			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, nullptr);
 
 			BYTE bUseCC = (BYTE)db_get_b(NULL, MODULE, szFileViewDB "UseCC", 0);
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseCC ? MF_CHECKED : 0), ID_FV_COLOR, LPGENW("Color..."));
@@ -1104,7 +1104,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			tstring sFile = pclDlg->sPath;
 			sFile += L".rtf";
 			HANDLE hFile = CreateFile(sFile.c_str(), GENERIC_WRITE,
-				FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				FILE_SHARE_READ, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 			if (hFile == INVALID_HANDLE_VALUE) {
 				DisplayLastError(LPGENW("Failed to create file"));
@@ -1124,7 +1124,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			CloseHandle(hFile);
 			tstring sReport = TranslateT("History was saved successfully in file\r\n");
 			sReport += sFile;
-			MessageBox(NULL, sReport.c_str(), MSG_BOX_TITEL, MB_OK);
+			MessageBox(nullptr, sReport.c_str(), MSG_BOX_TITEL, MB_OK);
 			return TRUE;
 		}
 		return FALSE;
@@ -1201,7 +1201,7 @@ bool bShowFileViewer(MCONTACT hContact)
 	}
 
 	CLHistoryDlg *pcl = new CLHistoryDlg(hContact);
-	pcl->hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_FILE_VIEWER), NULL, DlgProcFileViewer, (LPARAM)pcl);
+	pcl->hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_FILE_VIEWER), nullptr, DlgProcFileViewer, (LPARAM)pcl);
 	if (pcl->hWnd) {
 		mir_cslock lck(csHistoryList);
 		clHistoryDlgList.push_front(pcl);

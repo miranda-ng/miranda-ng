@@ -92,8 +92,8 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.dwButtonID = 1;
 	bbd.pszModuleName = "tb_splitter";
 	bbd.dwDefPos = 35;
-	bbd.hIcon = 0;
-	bbd.pwszTooltip = 0;
+	bbd.hIcon = nullptr;
+	bbd.pwszTooltip = nullptr;
 	Srmm_AddButton(&bbd);
 
 	bbd.dwButtonID = 2;
@@ -188,7 +188,7 @@ void CTabBaseDlg::BB_RedrawButtons()
 
 	HWND hwndToggleSideBar = GetDlgItem(m_hwnd, IDC_TOGGLESIDEBAR);
 	if (hwndToggleSideBar && IsWindow(hwndToggleSideBar))
-		InvalidateRect(hwndToggleSideBar, 0, TRUE);
+		InvalidateRect(hwndToggleSideBar, nullptr, TRUE);
 }
 
 void CTabBaseDlg::BB_RefreshTheme()

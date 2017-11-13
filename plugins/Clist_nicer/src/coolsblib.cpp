@@ -44,13 +44,13 @@ SCROLLBAR* GetScrollBarFromHwnd(HWND hwnd, UINT nBar)
 {
 	SCROLLWND *sw = GetScrollWndFromHwnd(hwnd);
 	if (!sw)
-		return 0;
+		return nullptr;
 
 	if (nBar == SB_HORZ)
 		return &sw->sbarHorz;
 	if (nBar == SB_VERT)
 		return &sw->sbarVert;
-	return 0;
+	return nullptr;
 }
 
 BOOL WINAPI CoolSB_IsCoolScrollEnabled(HWND hwnd)
@@ -74,7 +74,7 @@ BOOL GetScrollRect(SCROLLWND *sw, UINT nBar, HWND hwnd, RECT *rect);
 
 typedef BOOL(WINAPI *WPROC)(HWND, UINT, UINT);
 
-static WPROC pEnableScrollBar = 0;
+static WPROC pEnableScrollBar = nullptr;
 
 void WINAPI CoolSB_SetESBProc(WPROC proc)
 {
@@ -106,7 +106,7 @@ static void RedrawNonClient(HWND hwnd, BOOL fFrameChanged)
 		SendMessage(hwnd, WM_NCPAINT, 1, 0);
 	}
 	else {
-		SetWindowPos(hwnd, 0, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE
+		SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE
 			| SWP_FRAMECHANGED | SWP_DRAWFRAME);
 	}
 }
@@ -135,7 +135,7 @@ static SCROLLINFO *GetScrollInfoFromHwnd(HWND hwnd, int fnBar)
 {
 	SCROLLBAR *sb = GetScrollBarFromHwnd(hwnd, fnBar);
 
-	if (sb == 0)
+	if (sb == nullptr)
 		return FALSE;
 
 	if (fnBar == SB_HORZ) {
@@ -145,7 +145,7 @@ static SCROLLINFO *GetScrollInfoFromHwnd(HWND hwnd, int fnBar)
 		return &sb->scrollInfo;
 	}
 	else
-		return NULL;
+		return nullptr;
 }
 //
 //	Initialize the cool scrollbars for a window by subclassing it
@@ -161,14 +161,14 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 	DWORD dwCurStyle;
 	//BOOL fDisabled;
 
-	if (pEnableScrollBar == 0)
+	if (pEnableScrollBar == nullptr)
 		pEnableScrollBar = EnableScrollBar;
 
 	GetClientRect(hwnd, &rect);
 
 	//if we have already initialized Cool Scrollbars for this window,
 	//then stop the user from doing it again
-	if (GetScrollWndFromHwnd(hwnd) != 0) {
+	if (GetScrollWndFromHwnd(hwnd) != nullptr) {
 		return FALSE;
 	}
 
@@ -254,7 +254,7 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 
 	UNREFERENCED_PARAMETER(ice);
 	UNREFERENCED_PARAMETER(ti);
-	sw->hwndToolTip = 0;
+	sw->hwndToolTip = nullptr;
 
 #endif
 
@@ -385,7 +385,7 @@ int	WINAPI CoolSB_SetScrollInfo(HWND hwnd, int fnBar, LPSCROLLINFO lpsi, BOOL fR
 	}
 
 	SCROLLBAR *sbar = GetScrollBarFromHwnd(hwnd, fnBar);
-	if (sbar == NULL)
+	if (sbar == nullptr)
 		return 0;
 
 	if ((lpsi->fMask & SIF_DISABLENOSCROLL) || (sbar->fScrollFlags & CSBS_THUMBALWAYS)) {
@@ -497,7 +497,7 @@ BOOL WINAPI CoolSB_ShowScrollBar(HWND hwnd, int wBar, BOOL fShow)
 		//if (s
 		//SetWindowLongPtr(hwnd, GWL_STYLE, style);
 
-		SetWindowPos(hwnd, 0, 0, 0, 0, 0,
+		SetWindowPos(hwnd, nullptr, 0, 0, 0, 0,
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
 			SWP_NOACTIVATE | SWP_FRAMECHANGED);
 

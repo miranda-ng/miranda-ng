@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 time_t Today()
 {
-	time_t now = time(NULL);
+	time_t now = time(nullptr);
 	struct tm* date = localtime(&now);
 	date->tm_hour = date->tm_min = date->tm_sec = 0;
 	return mktime(date);

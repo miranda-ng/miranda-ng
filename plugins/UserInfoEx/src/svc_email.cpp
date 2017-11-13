@@ -21,12 +21,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static HGENMENU ghMenuItem = NULL;
+static HGENMENU ghMenuItem = nullptr;
 static HANDLE ghExtraIconDef = INVALID_HANDLE_VALUE;
 static HANDLE ghExtraIconSvc = INVALID_HANDLE_VALUE;
 
-static HANDLE hChangedHook = NULL;
-static HANDLE hApplyIconHook = NULL;
+static HANDLE hChangedHook = nullptr;
+static HANDLE hApplyIconHook = nullptr;
 
 bool g_eiEmail = false;
 
@@ -45,7 +45,7 @@ static LPSTR Get(MCONTACT hContact)
 	if (hContact != NULL) {
 		LPCSTR pszProto = Proto_GetBaseAccountName(hContact);
 		
-		if (pszProto != NULL) {
+		if (pszProto != nullptr) {
 			LPCSTR e[2][4] = {
 				{ SET_CONTACT_EMAIL,			SET_CONTACT_EMAIL0,			SET_CONTACT_EMAIL1,			"Mye-mail0"},
 				{ SET_CONTACT_COMPANY_EMAIL,	SET_CONTACT_COMPANY_EMAIL0,	SET_CONTACT_COMPANY_EMAIL1,	"MyCompanye-mail0"}
@@ -64,7 +64,7 @@ static LPSTR Get(MCONTACT hContact)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -80,7 +80,7 @@ static LPSTR Get(MCONTACT hContact)
 static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 {
 	int result = 0;
-	LPSTR val = NULL;
+	LPSTR val = nullptr;
 
 	__try 
 	{
@@ -100,7 +100,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 		}
 		else {
 			result = 1;
-			MsgBox((HWND)lParam, MB_OK, LPGENW("Send e-mail"), NULL, LPGENW("Memory allocation error!"));
+			MsgBox((HWND)lParam, MB_OK, LPGENW("Send e-mail"), nullptr, LPGENW("Memory allocation error!"));
 		}
 	}
 	__except(GetExceptionCode()==EXCEPTION_ACCESS_VIOLATION ? 
@@ -127,7 +127,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 static int OnCListApplyIcons(WPARAM wParam, LPARAM)
 {
 	LPSTR val = Get(wParam);
-	ExtraIcon_SetIconByName(ghExtraIconSvc, wParam, (val) ? ICO_BTN_EMAIL : 0);
+	ExtraIcon_SetIconByName(ghExtraIconSvc, wParam, (val) ? ICO_BTN_EMAIL : nullptr);
 	mir_free(val);
 	return 0;
 }
@@ -164,7 +164,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 static int OnPreBuildMenu(WPARAM wParam, LPARAM)
 {
 	LPSTR val = Get(wParam);
-	Menu_ShowItem(ghMenuItem, val != NULL);
+	Menu_ShowItem(ghMenuItem, val != nullptr);
 	mir_free(val);
 	return 0;
 }
@@ -175,7 +175,7 @@ static int OnPreBuildMenu(WPARAM wParam, LPARAM)
 
 void SvcEMailRebuildMenu()
 {
-	static HANDLE hPrebuildMenuHook = NULL;
+	static HANDLE hPrebuildMenuHook = nullptr;
 
 	if (db_get_b(NULL, MODNAME, SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		if (!hPrebuildMenuHook) 
@@ -198,7 +198,7 @@ void SvcEMailRebuildMenu()
 
 		if (ghMenuItem) {
 			Menu_RemoveItem(ghMenuItem);
-			ghMenuItem = NULL;
+			ghMenuItem = nullptr;
 		}
 	}
 }
@@ -222,10 +222,10 @@ bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 
 	if (g_eiEmail) { // E-mail checked
 		// hook events
-		if (hChangedHook == NULL) 
+		if (hChangedHook == nullptr) 
 			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
-		if (hApplyIconHook == NULL) 
+		if (hApplyIconHook == nullptr) 
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
@@ -234,11 +234,11 @@ bool SvcEMailEnableExtraIcons(bool bEnable, bool bUpdateDB)
 	else { // E-mail uncheckt
 		if (hChangedHook) {
 			UnhookEvent(hChangedHook); 
-			hChangedHook = NULL;
+			hChangedHook = nullptr;
 		}			
 		if (hApplyIconHook) {
 			UnhookEvent(hApplyIconHook); 
-			hApplyIconHook = NULL;
+			hApplyIconHook = nullptr;
 		}			
 	}
 
@@ -270,6 +270,6 @@ void SvcEMailLoadModule()
 void SvcEMailUnloadModule()
 {	
 	// unhook event handlers
-	UnhookEvent(hChangedHook); hChangedHook = NULL;
-	UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
+	UnhookEvent(hChangedHook); hChangedHook = nullptr;
+	UnhookEvent(hApplyIconHook); hApplyIconHook = nullptr;
 }
