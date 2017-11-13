@@ -11,7 +11,6 @@ bool CMraProto::MraChatRegister()
 {
 	GCREGISTER gcr = {};
 	gcr.iMaxText = MRA_MAXLENOFMESSAGE;
-	gcr.nColors = 0;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

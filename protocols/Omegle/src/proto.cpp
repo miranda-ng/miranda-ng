@@ -170,8 +170,6 @@ int OmegleProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.pszModule = m_szModuleName;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.iMaxText = OMEGLE_MESSAGE_LIMIT;
-	gcr.nColors = 0;
-	gcr.pColors = nullptr;
 	Chat_Register(&gcr);
 
 	return 0;

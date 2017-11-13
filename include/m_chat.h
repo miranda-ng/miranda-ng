@@ -144,11 +144,6 @@ struct GCREGISTER
 	const wchar_t *ptszDispName;   // This is the protocol's real name as it will be displayed to the user
 	unsigned       dwFlags;        // Use GC_* flags above to indicate features supported
 	int            iMaxText;       // Max message length the protocol supports. Will limit the typing area input. 0 = no limit
-	int            nColors;        // Number of colors in the colorchooser menu for the color buttons. Max = 100
-	COLORREF      *pColors;        // pointer to the first item in a static COLORREF array containing the colors
-	                               // that should be showed in the colorchooser menu.
-	                               // ie:	COLORREF crCols[nColors];
-	                               //	pColors = &crCols[0];
 };
 
 EXTERN_C MIR_APP_DLL(int) Chat_Register(const GCREGISTER*);
