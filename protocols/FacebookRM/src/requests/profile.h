@@ -42,13 +42,9 @@ class DtsgRequest : public HttpRequest
 {
 public:
 	DtsgRequest() :
-		HttpRequest(REQUEST_GET, FACEBOOK_SERVER_MOBILE "/editprofile.php")
+		HttpRequest(REQUEST_GET, FACEBOOK_SERVER_MOBILE "/profile/basic/intro/bio/")
 	{
 		flags |= NLHRF_REDIRECT;
-
-		Url
-			<< "edit=current_city"
-			<< "type=basic";
 	}
 };
 
