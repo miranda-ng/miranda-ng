@@ -862,6 +862,8 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 	}
 	else idx += 5;
 
+	MODULEINFO *mi = (isChat()) ? pci->MM_FindModule(m_si->pszModule) : nullptr;
+
 	bool bInsideColor = false, bInsideUl = false;
 	CMStringW res;
 
@@ -883,20 +885,17 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 				int iInd = RtfColorToIndex(iNumColors, pIndex, iCol);
 
 				if (iCol > 0) {
-					if (!isChat())
-						res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_clrs[iInd].szName);
-					else {
-						MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
+					if (isChat()) {
 						if (mi && mi->bColor)
 							res.AppendFormat((iInd >= 0) ? L"%%c%u" : L"%%C", iInd);
 					}
+					else res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_clrs[iInd].szName);
 				}
 
 				bInsideColor = iInd >= 0;
 			}
 			else if (!wcsncmp(p, L"\\highlight", 10)) { // background color
 				if (isChat()) {
-					MODULEINFO *mi = pci->MM_FindModule(m_si->pszModule);
 					if (mi && mi->bBkgColor) {
 						int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
 						res.AppendFormat((iInd >= 0) ? L"%%f%u" : L"%%F", iInd);
@@ -928,28 +927,46 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 				res.AppendChar(0x2019);
 			}
 			else if (!wcsncmp(p, L"\\b", 2)) { //bold
-				if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
-					if (m_SendFormat)
-						res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
+				if (isChat()) {
+					if (mi && mi->bBold)
+						res.Append((p[2] != '0') ? L"%b" : L"%B");
+				}
+				else {
+					if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
+						if (m_SendFormat)
+							res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
+				}
 			}
 			else if (!wcsncmp(p, L"\\i", 2)) { // italics
-				if (!lf.lfItalic && m_SendFormat)
-					res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
+				if (isChat()) {
+					if (mi && mi->bItalics)
+						res.Append((p[2] != '0') ? L"%i" : L"%I");
+				}
+				else {
+					if (!lf.lfItalic && m_SendFormat)
+						res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
+				}
 			}
 			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
 				if (!lf.lfStrikeOut && m_SendFormat)
 					res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
 			}
 			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
-				if (!lf.lfUnderline && m_SendFormat) {
-					if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
-						res.Append(L"[u]");
-						bInsideUl = true;
-					}
-					else if (!wcsncmp(p + 3, L"none", 4)) {
-						if (bInsideUl)
-							res.Append(L"[/u]");
-						bInsideUl = false;
+				if (isChat()) {
+					if (mi && mi->bUnderline)
+						res.Append((p[3] != '0') ? L"%u" : L"%U");
+				}
+				else {
+					if (!lf.lfUnderline && m_SendFormat) {
+						if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
+							res.Append(L"[u]");
+							bInsideUl = true;
+						}
+						else if (!wcsncmp(p + 3, L"none", 4)) {
+							if (bInsideUl)
+								res.Append(L"[/u]");
+							bInsideUl = false;
+						}
 					}
 				}
 			}
