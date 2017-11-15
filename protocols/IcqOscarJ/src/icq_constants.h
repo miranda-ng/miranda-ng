@@ -631,7 +631,7 @@
 #define CLIENT_MD5_STRING           "AOL Instant Messenger (SM)"
 #define UNIQUEIDSETTING             "UIN"
 #define UINMAXLEN                   11 // DWORD string max len + 1
-#define PASSWORDMAXLEN              14
+#define PASSWORDMAXLEN              16
 #define OSCAR_PROXY_HOST            "ars.icq.com"
 #define OSCAR_PROXY_VERSION         0x044A
 

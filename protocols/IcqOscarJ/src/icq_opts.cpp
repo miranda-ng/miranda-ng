@@ -72,7 +72,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else // keep it empty when no UIN entered
 				SetDlgItemTextA(hwndDlg, IDC_ICQNUM, "");
 
-			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 14, 0);
+			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 16, 0);
 
 			// bit of a security hole here, since it's easy to extract a password from an edit box
 			char pszPwd[PASSWORDMAXLEN+1];
