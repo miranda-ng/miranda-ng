@@ -80,7 +80,7 @@ CMStringW CIrcProto::DoAlias(const wchar_t *text, wchar_t *window)
 	bool LinebreakFlag = false, hasAlias = false;
 	p2 = wcsstr(p1, L"\r\n");
 	if (!p2)
-		p2 = wcschr(p1, '\0');
+		p2 = wcschr(p1, 0);
 	if (p1 == p2)
 		return (CMStringW)text;
 
@@ -112,7 +112,7 @@ CMStringW CIrcProto::DoAlias(const wchar_t *text, wchar_t *window)
 				hasAlias = true;
 				const wchar_t* p4 = wcsstr(p3, L"\r\n");
 				if (!p4)
-					p4 = wcschr(p3, '\0');
+					p4 = wcschr(p3, 0);
 
 				*(wchar_t*)p4 = 0;
 				CMStringW str = p3;
@@ -149,11 +149,11 @@ CMStringW CIrcProto::DoAlias(const wchar_t *text, wchar_t *window)
 			p1 += 2;
 		p2 = wcsstr(p1, L"\r\n");
 		if (!p2)
-			p2 = wcschr(p1, '\0');
+			p2 = wcschr(p1, 0);
 		delete[] line;
 		LinebreakFlag = true;
 	}
-	while (*p1 != '\0');
+	while (*p1 != 0);
 
 	return hasAlias ? DoIdentifiers(Messageout, window) : Messageout;
 }
@@ -178,7 +178,7 @@ CMStringW CIrcProto::DoIdentifiers(CMStringW text, const wchar_t*)
 	text.Replace(L"%mirver", _A2T(mirver));
 	text.Replace(L"%version", _A2T(__VERSION_STRING_DOTS));
 
-	str[0] = 3; str[1] = '\0';
+	str[0] = 3; str[1] = 0;
 	text.Replace(L"%color", str);
 
 	str[0] = 2;
@@ -732,21 +732,21 @@ static void __stdcall DoInputRequestAliasApcStub(void* _par)
 		infotext = &p[11];
 		p = wcschr(infotext, '\"');
 		if (p) {
-			*p = '\0';
+			*p = 0;
 			p++;
 			if (*p == ',' && p[1] == '\"') {
 				p++; p++;
 				title = p;
 				p = wcschr(title, '\"');
 				if (p) {
-					*p = '\0';
+					*p = 0;
 					p++;
 					if (*p == ',' && p[1] == '\"') {
 						p++; p++;
 						defaulttext = p;
 						p = wcschr(defaulttext, '\"');
 						if (p)
-							*p = '\0';
+							*p = 0;
 					}
 				}
 			}
@@ -815,7 +815,7 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 	if (mir_wstrcmpi(window, SERVERWINDOW) != 0) {
 		wchar_t* p1 = wcschr(windowname, ' ');
 		if (p1)
-			*p1 = '\0';
+			*p1 = 0;
 	}
 
 	// remove unecessary linebreaks, and do the aliases

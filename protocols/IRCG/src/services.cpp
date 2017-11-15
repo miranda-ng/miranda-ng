@@ -481,7 +481,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 			wchar_t *p1 = mir_wstrdup(gch->ptszID);
 			wchar_t *p2 = wcsstr(p1, L" - ");
 			if (p2)
-				*p2 = '\0';
+				*p2 = 0;
 
 			switch (gch->iType) {
 			case GC_SESSION_TERMINATE:

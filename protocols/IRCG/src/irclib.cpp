@@ -377,7 +377,7 @@ void CIrcProto::DoReceive()
 			break;
 
 		cbInBuf += cbRead;
-		chBuf[cbInBuf] = '\0';
+		chBuf[cbInBuf] = 0;
 
 		char* pStart = chBuf;
 		while (*pStart) {
@@ -386,14 +386,14 @@ void CIrcProto::DoReceive()
 			// seek end-of-line
 			for (pEnd = pStart; *pEnd && *pEnd != '\r' && *pEnd != '\n'; ++pEnd)
 				;
-			if (*pEnd == '\0')
+			if (*pEnd == 0)
 				break; // uncomplete message. stop parsing.
 
 			++nLinesProcessed;
 
 			// replace end-of-line with NULLs and skip
 			while (*pEnd == '\r' || *pEnd == '\n')
-				*pEnd++ = '\0';
+				*pEnd++ = 0;
 
 			// process single message by monitor objects
 			if (*pStart) {
@@ -403,9 +403,9 @@ void CIrcProto::DoReceive()
 					if (pszTemp) {
 						char* p1 = pszTemp;
 						// replace end-of-line with NULLs
-						while (*p1 != '\0') {
+						while (*p1 != 0) {
 							if (*p1 == '\r' || *p1 == '\n')
-								*p1 = '\0';
+								*p1 = 0;
 							p1++;
 						}
 
@@ -1307,7 +1307,7 @@ void CDccSession::DoChatReceive()
 			break;
 
 		cbInBuf += cbRead;
-		chBuf[cbInBuf] = '\0';
+		chBuf[cbInBuf] = 0;
 
 		char* pStart = chBuf;
 		while (*pStart) {
@@ -1316,14 +1316,14 @@ void CDccSession::DoChatReceive()
 			// seek end-of-line
 			for (pEnd = pStart; *pEnd && *pEnd != '\r' && *pEnd != '\n'; ++pEnd)
 				;
-			if (*pEnd == '\0')
+			if (*pEnd == 0)
 				break; // uncomplete message. stop parsing.
 
 			++nLinesProcessed;
 
 			// replace end-of-line with NULLs and skip
 			while (*pEnd == '\r' || *pEnd == '\n')
-				*pEnd++ = '\0';
+				*pEnd++ = 0;
 
 			if (*pStart) {
 				// send it off to some messaging module
@@ -1396,14 +1396,14 @@ void DoIdent(HNETLIBCONN hConnection, DWORD, void* extra)
 			break;
 
 		cbTotal += cbRead;
-		szBuf[cbTotal] = '\0';
+		szBuf[cbTotal] = 0;
 
 LBL_Parse:
 		char* EOLPos = strstr(szBuf, "\r\n");
 		if (EOLPos == nullptr)
 			continue;
 
-		EOLPos[0] = EOLPos[1] = '\0';
+		EOLPos[0] = EOLPos[1] = 0;
 		rtrim(szBuf);
 		ppro->debugLogA("Got Ident request: %s", szBuf);
 

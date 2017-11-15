@@ -746,14 +746,14 @@ void CQuestionDlg::OnOk(CCtrlButton*)
 					if (p2) {
 						p2++;
 						if (k == 2 || (*p2 != ',' || (*p2 == ',' && p2[1] != '\"')))
-							*p2 = '\0';
+							*p2 = 0;
 						else
 							p2 += 2;
 						p1 = p2;
 					}
 				}
 			}
-			else *p1 = '\0';
+			else *p1 = 0;
 		}
 
 		CMStringW S('\0', j + 2);
@@ -843,15 +843,15 @@ LRESULT CALLBACK MgrEditSubclassProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARA
 			char w[2];
 			if (wParam == 11) {
 				w[0] = 3;
-				w[1] = '\0';
+				w[1] = 0;
 			}
 			if (wParam == 2) {
 				w[0] = 2;
-				w[1] = '\0';
+				w[1] = 0;
 			}
 			if (wParam == 21) {
 				w[0] = 31;
-				w[1] = '\0';
+				w[1] = 0;
 			}
 			SendMessage(m_hwnd, EM_REPLACESEL, false, (LPARAM)w);
 			SendMessage(m_hwnd, EM_SCROLLCARET, 0, 0);
@@ -1081,8 +1081,8 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
 	CHANNELINFO *wi = (CHANNELINFO*)Chat_GetUserInfo(m_proto->m_szModuleName, window);
 	if (wi) {
-		wchar_t toadd[10]; *toadd = '\0';
-		wchar_t toremove[10]; *toremove = '\0';
+		wchar_t toadd[10]; *toadd = 0;
+		wchar_t toremove[10]; *toremove = 0;
 		CMStringW appendixadd = L"";
 		CMStringW appendixremove = L"";
 		if (wi->pszMode && wcschr(wi->pszMode, 't')) {
@@ -1308,7 +1308,7 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 		bool add = false;
 		wchar_t* p1 = wi->pszMode;
 		if (p1) {
-			while (*p1 != '\0' && *p1 != ' ') {
+			while (*p1 != 0 && *p1 != ' ') {
 				if (*p1 == '+')
 					add = true;
 				if (*p1 == '-')

@@ -58,11 +58,11 @@ CMStringW __stdcall GetWord(const wchar_t* text, int index)
 		while (*p1 == ' ')
 			p1++;
 
-		if (*p1 != '\0') {
+		if (*p1 != 0) {
 			for (int i = 0; i < index; i++) {
 				p2 = wcschr(p1, ' ');
 				if (!p2)
-					p2 = wcschr(p1, '\0');
+					p2 = wcschr(p1, 0);
 				else
 				while (*p2 == ' ')
 					p2++;
@@ -72,7 +72,7 @@ CMStringW __stdcall GetWord(const wchar_t* text, int index)
 
 			p2 = wcschr(p1, ' ');
 			if (!p2)
-				p2 = wcschr(p1, '\0');
+				p2 = wcschr(p1, 0);
 
 			if (p1 != p2)
 				return CMStringW(p1, p2 - p1);
@@ -98,7 +98,7 @@ const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index)
 	for (int i = 0; i < index; i++) {
 		temp = wcschr(temp, ' ');
 		if (!temp)
-			temp = (wchar_t*)wcschr(text, '\0');
+			temp = (wchar_t*)wcschr(text, 0);
 		else
 		while (*temp == ' ')
 			temp++;
@@ -131,7 +131,7 @@ char* __stdcall IrcLoadFile(wchar_t* szPath)
 		fseek(hFile, 0, SEEK_SET); // seek back to original pos
 		szContainer = new char[dwSiz + 1];
 		fread(szContainer, 1, dwSiz, hFile);
-		szContainer[dwSiz] = '\0';
+		szContainer[dwSiz] = 0;
 		fclose(hFile);
 		return szContainer;
 	}
@@ -191,11 +191,11 @@ CMStringA __stdcall GetWord(const char* text, int index)
 		while (*p1 == ' ')
 			p1++;
 
-		if (*p1 != '\0') {
+		if (*p1 != 0) {
 			for (int i = 0; i < index; i++) {
 				p2 = strchr(p1, ' ');
 				if (!p2)
-					p2 = strchr(p1, '\0');
+					p2 = strchr(p1, 0);
 				else
 				while (*p2 == ' ')
 					p2++;
@@ -205,7 +205,7 @@ CMStringA __stdcall GetWord(const char* text, int index)
 
 			p2 = strchr(p1, ' ');
 			if (!p2)
-				p2 = strchr(p1, '\0');
+				p2 = strchr(p1, 0);
 
 			if (p1 != p2)
 				return CMStringA(p1, p2 - p1 + 1);
@@ -254,7 +254,7 @@ static const wchar_t* DoEnterNumber(const wchar_t *text, int &res)
 
 wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplacePercent)
 {
-	static wchar_t szTemp[4000]; szTemp[0] = '\0';
+	static wchar_t szTemp[4000]; szTemp[0] = 0;
 	wchar_t* p = szTemp;
 	bool bBold = false;
 	bool bUnderline = false;
@@ -264,7 +264,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 	if (!text)
 		return szTemp;
 
-	while (*text != '\0') {
+	while (*text != 0) {
 		switch (*text) {
 		case '%': // escape
 			*p++ = '%';
@@ -354,7 +354,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 		}
 	}
 
-	*p = '\0';
+	*p = 0;
 	return szTemp;
 }
 

@@ -152,7 +152,7 @@ static int sttServerEnum( const char* szSetting, LPARAM )
 	}
 
 	p1 = strchr(p2, ':') + 1;
-	p2 = strchr(p1, '\0');
+	p2 = strchr(p1, 0);
 	pData->m_group = (char*)mir_alloc(p2 - p1 + 1);
 	mir_strncpy(pData->m_group, p1, p2 - p1 + 1);
 
@@ -949,7 +949,7 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_CHAR:
 		if (wParam == 21 || wParam == 11 || wParam == 2) {
 			char w[2];
-			w[1] = '\0';
+			w[1] = 0;
 			if (wParam == 11)
 				w[0] = 3;
 			if (wParam == 2)
@@ -1318,18 +1318,18 @@ void CIrcProto::InitIgnore(void)
 	char* pszIgnoreData = IrcLoadFile(szLoadFileName);
 	if (pszIgnoreData != nullptr) {
 		char *p1 = pszIgnoreData;
-		while (*p1 != '\0') {
+		while (*p1 != 0) {
 			while (*p1 == '\r' || *p1 == '\n')
 				p1++;
-			if (*p1 == '\0')
+			if (*p1 == 0)
 				break;
 
 			char* p2 = strstr(p1, "\r\n");
 			if (!p2)
-				p2 = strchr(p1, '\0');
+				p2 = strchr(p1, 0);
 
 			char* pTemp = p2;
-			while (pTemp > p1 && (*pTemp == '\r' || *pTemp == '\n' || *pTemp == '\0' || *pTemp == ' '))
+			while (pTemp > p1 && (*pTemp == '\r' || *pTemp == '\n' || *pTemp == 0 || *pTemp == ' '))
 				pTemp--;
 			*++pTemp = 0;
 
@@ -1701,7 +1701,7 @@ void CIrcProto::InitPrefs(void)
 		m_alias = mir_wstrdup(L"/op /mode ## +ooo $1 $2 $3\r\n/dop /mode ## -ooo $1 $2 $3\r\n/voice /mode ## +vvv $1 $2 $3\r\n/dvoice /mode ## -vvv $1 $2 $3\r\n/j /join #$1 $2-\r\n/p /part ## $1-\r\n/w /whois $1\r\n/k /kick ## $1 $2-\r\n/q /query $1\r\n/logon /log on ##\r\n/logoff /log off ##\r\n/save /log buffer $1\r\n/slap /me slaps $1 around a bit with a large trout");
 
 	m_quickComboSelection = getDword("QuickComboSelection", m_serverComboSelection + 1);
-	m_myHost[0] = '\0';
+	m_myHost[0] = 0;
 
 	colors[0] = RGB(255, 255, 255);
 	colors[1] = RGB(0, 0, 0);

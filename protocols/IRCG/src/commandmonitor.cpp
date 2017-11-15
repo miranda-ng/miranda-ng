@@ -431,7 +431,7 @@ bool CIrcProto::OnIrc_MODEQUERY(const CIrcMessage* pmsg)
 		int iParametercount = 3;
 
 		LPCTSTR p1 = pmsg->parameters[2];
-		while (*p1 != '\0') {
+		while (*p1 != 0) {
 			if (*p1 == '+')
 				bAdd = true;
 			if (*p1 == '-')
@@ -469,7 +469,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 			int  iParametercount = 2;
 			LPCTSTR p1 = pmsg->parameters[1];
 
-			while (*p1 != '\0') {
+			while (*p1 != 0) {
 				if (*p1 == '+') {
 					bAdd = true;
 					sModes += L"+";
@@ -902,13 +902,13 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 
 						// if all characters are number it indicates we have found the adress, port and size parameters
 						int ind = 0;
-						while (sTemp[ind] != '\0') {
+						while (sTemp[ind] != 0) {
 							if (!iswdigit(sTemp[ind]))
 								break;
 							ind++;
 						}
 
-						if (sTemp[ind] == '\0' && GetWord(mess, index + ((bIsChat) ? 1 : 2)).IsEmpty())
+						if (sTemp[ind] == 0 && GetWord(mess, index + ((bIsChat) ? 1 : 2)).IsEmpty())
 							bFlag = true;
 						index++;
 					}
@@ -921,7 +921,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 							if (p2 > p1) {
 								p2--;
 								while (p2 != p1 && *p2 == ' ') {
-									*p2 = '\0';
+									*p2 = 0;
 									p2--;
 								}
 								sFile = p1;
@@ -970,13 +970,13 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 						// if all characters are number it indicates we have found the adress, port and size parameters
 						int ind = 0;
 
-						while (sTemp[ind] != '\0') {
+						while (sTemp[ind] != 0) {
 							if (!iswdigit(sTemp[ind]))
 								break;
 							ind++;
 						}
 
-						if (sTemp[ind] == '\0' && GetWord(mess, index + 2).IsEmpty())
+						if (sTemp[ind] == 0 && GetWord(mess, index + 2).IsEmpty())
 							bFlag = true;
 						index++;
 					}
@@ -987,7 +987,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 						if (p2 > p1) {
 							p2--;
 							while (p2 != p1 && *p2 == ' ') {
-								*p2 = '\0';
+								*p2 = 0;
 								p2--;
 							}
 							sFile = p1;
@@ -1006,7 +1006,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			// 2. Check for malformed dcc commands or other errors
 			if (bIsChat || type == L"send") {
 				wchar_t szTemp[256];
-				szTemp[0] = '\0';
+				szTemp[0] = 0;
 
 				unsigned long ulAdr = 0;
 				if (m_manualHost)
@@ -1040,7 +1040,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 			}
 			else if (type == L"accept" || type == L"resume") {
 				wchar_t szTemp[256];
-				szTemp[0] = '\0';
+				szTemp[0] = 0;
 
 				if (type == L"resume" && !m_DCCFileEnabled)
 					mir_snwprintf(szTemp, TranslateT("DCC: File transfer resume request from %s denied"), pmsg->prefix.sNick.c_str());
@@ -1183,7 +1183,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage* pmsg)
 	// handle incoming ctcp in notices. This technique is used for replying to CTCP queries
 	else if (pmsg->sCommand == L"NOTICE") {
 		wchar_t szTemp[300];
-		szTemp[0] = '\0';
+		szTemp[0] = 0;
 
 		//if we got incoming CTCP Version for contact in CList - then write its as MirVer for that contact!
 		if (pmsg->m_bIncoming && command == L"version") {
@@ -1494,7 +1494,7 @@ bool CIrcProto::OnIrc_LIST(const CIrcMessage* pmsg)
 			temp = wcsstr(temp, L"]");
 			if (mir_wstrlen(temp) > 1) {
 				temp++;
-				temp[0] = '\0';
+				temp[0] = 0;
 				lvItem.iSubItem = 2;
 				lvItem.pszText = save;
 				ListView_SetItem(hListView, &lvItem);
@@ -2044,15 +2044,15 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage* pmsg)
 				// Pull out host, user and nick
 				wchar_t *p2 = wcschr(p1, '@');
 				if (p2) {
-					*p2 = '\0';
+					*p2 = 0;
 					p2++;
 					host = p2;
 				}
 				p2 = wcschr(p1, '=');
 				if (p2) {
 					if (*(p2 - 1) == '*')
-						*(p2 - 1) = '\0';  //  remove special char for IRCOps
-					*p2 = '\0';
+						*(p2 - 1) = 0;  //  remove special char for IRCOps
+					*p2 = 0;
 					p2++;
 					awaystatus = *p2;
 					p2++;
@@ -2188,7 +2188,7 @@ bool CIrcProto::OnIrc_SUPPORT(const CIrcMessage* pmsg)
 						sUserModes = (char*)_T2A(p1);
 					sUserModes = sUserModes.Mid(0, p2 - p1);
 					p2++;
-					if (*p2 != '\0')
+					if (*p2 != 0)
 						sUserModePrefixes = p2;
 				}
 				else {
@@ -2208,8 +2208,8 @@ bool CIrcProto::OnIrc_SUPPORT(const CIrcMessage* pmsg)
 							sUserModes.SetAt(n, 'a');
 						else if (sUserModePrefixes[n] == '*')
 							sUserModes.SetAt(n, 'q');
-						else if (sUserModePrefixes[n] == '\0')
-							sUserModes.SetAt(n, '\0');
+						else if (sUserModePrefixes[n] == 0)
+							sUserModes.SetAt(n, 0);
 						else
 							sUserModes.SetAt(n, '_');
 					}
@@ -2237,7 +2237,7 @@ void CIrcProto::OnIrcDisconnected()
 	bTempForceCheck = false;
 	m_iTempCheckTime = 0;
 
-	m_myHost[0] = '\0';
+	m_myHost[0] = 0;
 
 	int Temp = m_iStatus;
 	KillIdent();
@@ -2408,7 +2408,7 @@ bool CIrcProto::AddIgnore(const wchar_t* mask, const wchar_t* flags, const wchar
 bool CIrcProto::RemoveIgnore(const wchar_t* mask)
 {
 	int idx;
-	while ((idx = IsIgnored(mask, '\0')) != 0)
+	while ((idx = IsIgnored(mask, 0)) != 0)
 		m_ignoreItems.remove(idx - 1);
 
 	RewriteIgnoreSettings();

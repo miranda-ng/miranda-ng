@@ -27,7 +27,7 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 
 	if (pmsg->m_bIncoming) { // Is it an incoming message?
 		if (pmsg->sCommand == L"WALLOPS" && pmsg->parameters.getCount() > 0) {
-			wchar_t temp[200]; *temp = '\0';
+			wchar_t temp[200]; *temp = 0;
 			mir_snwprintf(temp, TranslateT("WallOps from %s: "), pmsg->prefix.sNick.c_str());
 			sMessage = temp;
 			for (int i = 0; i < (int)pmsg->parameters.getCount(); i++) {
@@ -39,7 +39,7 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 		}
 
 		if (pmsg->sCommand == L"INVITE" && pmsg->parameters.getCount() > 1) {
-			wchar_t temp[256]; *temp = '\0';
+			wchar_t temp[256]; *temp = 0;
 			mir_snwprintf(temp, TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 			sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
@@ -52,7 +52,7 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 
 		int index = _wtoi(pmsg->sCommand.c_str());
 		if (index == 301 && pmsg->parameters.getCount() > 0) {
-			wchar_t temp[500]; *temp = '\0';
+			wchar_t temp[500]; *temp = 0;
 			mir_snwprintf(temp, TranslateT("%s is away"), pmsg->parameters[1].c_str());
 			sMessage = temp;
 			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
@@ -80,7 +80,7 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 			return pmsg->parameters[2] + L": " + pmsg->parameters[1];
 	}
 	else if (pmsg->sCommand == L"NOTICE" && pmsg->parameters.getCount() > 1) {
-		wchar_t temp[500]; *temp = '\0';
+		wchar_t temp[500]; *temp = 0;
 
 		int l = pmsg->parameters[1].GetLength();
 		if (l > 3 && pmsg->parameters[1][0] == 1 && pmsg->parameters[1][l - 1] == 1) {
