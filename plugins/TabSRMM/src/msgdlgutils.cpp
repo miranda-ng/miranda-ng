@@ -1007,7 +1007,8 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 			if (isChat())
 				res.Append(L"%%");
 			else 
-				res.AppendChar(*p++);
+				res.AppendChar(*p);
+			p++;
 			break;
 
 		default: // other text that should not be touched
