@@ -923,7 +923,7 @@ void CCtcpPrefsDlg::OnApply()
 static TDbSetting OtherSettings[] =
 {
 	{ FIELD_OFFSET(CIrcProto, m_quitMessage), "QuitMessage", DBVT_WCHAR, _countof(pZero->m_quitMessage) },
-	{ FIELD_OFFSET(CIrcProto, m_alias), "Alias", DBVT_WCHAR, -1 },
+	{ FIELD_OFFSET(CIrcProto, m_alias), "Alias", DBVT_WCHAR, (size_t)-1 },
 	{ FIELD_OFFSET(CIrcProto, m_codepage), "Codepage", DBVT_DWORD, 0, CP_ACP },
 	{ FIELD_OFFSET(CIrcProto, m_utfAutodetect), "UtfAutodetect", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_perform), "Perform", DBVT_BYTE },

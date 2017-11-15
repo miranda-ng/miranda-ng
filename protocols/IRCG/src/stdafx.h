@@ -79,12 +79,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IRC_UM_DISCONNECT     "/UMenuDisconnect"
 #define IRC_UM_IGNORE         "/UMenuIgnore"
 
-#define STR_QUITMESSAGE  L"\002Miranda NG!\002 Smaller, Faster, Easier. https://miranda-ng.org/"
+#define STR_QUITMESSAGE  L"Miranda NG! Smaller, Faster, Easier. https://miranda-ng.org/"
 #define STR_USERINFO     L"I'm a happy Miranda NG user! Get it here: https://miranda-ng.org/"
 #define STR_AWAYMESSAGE  L"I'm away from the computer." // Default away
 #define DCCSTRING        L" (DCC)"
 #define SERVERSMODULE    "IRC Servers"
-#define SERVERWINDOW	 L"Network log"
+#define SERVERWINDOW	    L"Network log"
 
 #define DCC_CHAT		1
 #define DCC_SEND		2

@@ -33,6 +33,12 @@ char* ConvertIntegerToIP(unsigned long int_ip_addr);
 namespace irc {
 ////////////////////////////////////////////////////////////////////
 
+const int BOLD = 0x02;
+const int COLOR = 0x03;
+const int RESET = 0x0F;
+const int ITALICS = 0x1D;
+const int UNDERLINE = 0x1F;
+
 struct DCCINFO : public MZeroedObject
 {
 	DWORD    dwAdr;

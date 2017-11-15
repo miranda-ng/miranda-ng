@@ -273,7 +273,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 			text++;
 			break;
 
-		case 2: // bold
+		case irc::BOLD:
 			if (!bStrip) {
 				*p++ = '%';
 				*p++ = bBold ? 'B' : 'b';
@@ -282,7 +282,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 			text++;
 			break;
 
-		case 15: // reset
+		case irc::RESET:
 			if (!bStrip) {
 				*p++ = '%';
 				*p++ = 'r';
@@ -291,7 +291,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 			text++;
 			break;
 
-		case 22: // italics
+		case irc::ITALICS:
 			if (!bStrip) {
 				*p++ = '%';
 				*p++ = bItalics ? 'I' : 'i';
@@ -300,7 +300,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 			text++;
 			break;
 
-		case 31: //underlined
+		case irc::UNDERLINE:
 			if (!bStrip) {
 				*p++ = '%';
 				*p++ = bUnderline ? 'U' : 'u';
@@ -309,7 +309,7 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 			text++;
 			break;
 
-		case 3: // colors
+		case irc::COLOR:
 			int iOldBG, iOldFG;
 			iOldBG = iBG, iOldFG = iFG;
 

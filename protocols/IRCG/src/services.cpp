@@ -379,7 +379,7 @@ static int mapSrmm2irc[] = { 1, 2, 10, 6, 3, 7, 5, 14, 15, 12, 11, 13, 9, 8, 4, 
 
 static wchar_t* DoPrintColor(wchar_t *pDest, int iFG, int iBG)
 {
-	*pDest = 3;
+	*pDest = irc::COLOR;
 	if (iFG == -1) {
 		if (iBG == -1)
 			pDest[1] = 0;
@@ -409,17 +409,17 @@ static void DoChatFormatting(CMStringW &wszText)
 		case 'B':
 		case 'b':
 			wszText.Delete(i, 2);
-			wszText.Insert(i, L"\002");
+			wszText.Insert(i, irc::BOLD);
 			break;
 		case 'I':
 		case 'i':
 			wszText.Delete(i, 2);
-			wszText.Insert(i, L"\026");
+			wszText.Insert(i, irc::ITALICS);
 			break;
 		case 'U':
 		case 'u':
 			wszText.Delete(i, 2);
-			wszText.Insert(i, L"\037");
+			wszText.Insert(i, irc::UNDERLINE);
 			break;
 
 		case 'c':
@@ -1026,8 +1026,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *)&m_bConnectRequested);
 
 	wchar_t szTemp[300];
-	mir_snwprintf(szTemp, L"\033%s \002%s\002 (%S: %u)",
-		TranslateT("Connecting to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
+	mir_snwprintf(szTemp, L"\033%s %c%s%c (%S: %u)", TranslateT("Connecting to"), irc::BOLD, si.sNetwork.c_str(), irc::BOLD, si.sServer.c_str(), si.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, szTemp, nullptr, nullptr, NULL, true, false);
 }
 
