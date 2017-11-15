@@ -178,26 +178,10 @@ int ChangeInfoData::SaveSettingsToDb(HWND hwnd)
 		}
 		switch (si.dbType) {
 		case DBVT_ASCIIZ:
-			if (si.displayType & LIF_PASSWORD) {
-				size_t nSettingLen = mir_strlen((char*)sid.value);
-				if (nSettingLen > 8 || nSettingLen < 1) {
-					MessageBox(hwnd, TranslateT("The ICQ server does not support passwords longer than 8 characters. Please use a shorter password."), TranslateT("Change ICQ Details"), MB_OK);
-					ret = 0;
-					break;
-				}
-				PwConfirmDlgParam param = { ppro, (char*)sid.value };
-				if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PWCONFIRM), hwnd, PwConfirmDlgProc, (LPARAM)&param)) {
-					ret = 0;
-					break;
-				}
-				mir_strcpy(ppro->m_szPassword, (char*)sid.value);
-			}
-			else {
-				if (*(char*)sid.value)
-					db_set_utf(NULL, ppro->m_szModuleName, si.szDbSetting, (char*)sid.value);
-				else
-					ppro->delSetting(si.szDbSetting);
-			}
+			if (*(char*)sid.value)
+				db_set_utf(NULL, ppro->m_szModuleName, si.szDbSetting, (char*)sid.value);
+			else
+				ppro->delSetting(si.szDbSetting);
 			break;
 
 		case DBVT_UTF8:
