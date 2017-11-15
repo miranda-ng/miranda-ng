@@ -803,7 +803,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 						pszTemp.Replace(L"%s", L"~~++#%s#++~~");
 
 					if (g_Settings.bColorizeNicksInLog && pszIndicator[0])
-						str.AppendFormat("\\cf%u ", OPTIONS_FONTCOUNT + streamData->crCount + crNickIndex);
+						str.AppendFormat("\\cf%u ", OPTIONS_FONTCOUNT + Utils::rtf_clrs.getCount() + streamData->crCount + crNickIndex);
 				}
 
 				if (g_Settings.bNewLineAfterNames)
