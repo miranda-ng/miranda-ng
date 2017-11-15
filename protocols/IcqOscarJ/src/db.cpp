@@ -127,7 +127,7 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 15, 0);
+		SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, PASSWORDMAXLEN, 0);
 		return TRUE;
 
 	case WM_COMMAND:
