@@ -1461,7 +1461,8 @@ char* __fastcall ICQTranslateUtfStatic(const char *src, char *buf, size_t bufsiz
 	return buf;
 }
 
-char* CIcqProto::GetUserStoredPassword(char *szBuffer, size_t cbSize)
+template<size_t cbSize>
+char* CIcqProto::GetUserStoredPassword(char(&szBuffer)[cbSize])
 {
 	if (!getSettingStringStatic(NULL, "Password", szBuffer, cbSize))
 		if (mir_strlen(szBuffer))
@@ -1476,7 +1477,7 @@ char* CIcqProto::GetUserPassword(BOOL bAlways)
 	if (m_szPassword[0] != '\0' && (m_bRememberPwd || bAlways))
 		return m_szPassword;
 
-	if (GetUserStoredPassword(m_szPassword, sizeof(m_szPassword))) {
+	if (GetUserStoredPassword(m_szPassword)) {
 		m_bRememberPwd = true;
 		return m_szPassword;
 	}

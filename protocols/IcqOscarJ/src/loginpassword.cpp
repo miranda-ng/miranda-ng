@@ -44,7 +44,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			mir_snwprintf(pszUIN, TranslateT("Enter a password for UIN %u:"), dwUin);
 			SetDlgItemText(hwndDlg, IDC_INSTRUCTION, pszUIN);
 
-			SendDlgItemMessage(hwndDlg, IDC_LOGINPW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOGINPW, EM_LIMITTEXT, PASSWORDMAXLEN, 0);
 
 			CheckDlgButton(hwndDlg, IDC_SAVEPASS, ppro->getByte("RememberPass", 0) ? BST_CHECKED : BST_UNCHECKED);
 		}

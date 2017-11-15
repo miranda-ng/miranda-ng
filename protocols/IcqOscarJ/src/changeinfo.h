@@ -78,7 +78,7 @@ struct ChangeInfoData : public MZeroedObject
   HWND  hwndList;
   int   editTopIndex;
   int   iEditItem;
-  char  Password[PASSWORDMAXLEN];
+  char  Password[PASSWORDMAXLEN+1];
 
   SettingItemData *settingData;
 

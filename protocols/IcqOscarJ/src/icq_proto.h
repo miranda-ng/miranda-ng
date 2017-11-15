@@ -161,7 +161,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	DWORD m_dwLocalUIN;
 	BYTE m_bConnectionLost;
 
-	char m_szPassword[PASSWORDMAXLEN];
+	char m_szPassword[PASSWORDMAXLEN+1];
 	BYTE m_bRememberPwd;
 
 	int cheekySearchId;
@@ -847,7 +847,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	//----| utilities.cpp |---------------------------------------------------------------
 	char*  ConvertMsgToUserSpecificAnsi(MCONTACT hContact, const char* szMsg);
 
-	char*  GetUserStoredPassword(char *szBuffer, size_t cbSize);
+	template <size_t cbSize>
+	char*  GetUserStoredPassword(char(&szBuffer)[cbSize]);
 	char*  GetUserPassword(BOOL bAlways);
 	WORD   GetMyStatusFlags();
 

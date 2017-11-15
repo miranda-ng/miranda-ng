@@ -34,8 +34,8 @@ static void accountLoadDetails(CIcqProto *ppro, HWND hwndDlg)
 		SetDlgItemTextA(hwndDlg, IDC_UIN, pszUIN);
 	}
 
-	char pszPwd[PASSWORDMAXLEN];
-	if (ppro->GetUserStoredPassword(pszPwd, PASSWORDMAXLEN))
+	char pszPwd[PASSWORDMAXLEN+1];
+	if (ppro->GetUserStoredPassword(pszPwd))
 		SetDlgItemTextA(hwndDlg, IDC_PW, pszPwd);
 }
 
@@ -52,7 +52,7 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 
-		SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
+		SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, PASSWORDMAXLEN, 0);
 
 		accountLoadDetails(ppro, hwndDlg);
 		return TRUE;

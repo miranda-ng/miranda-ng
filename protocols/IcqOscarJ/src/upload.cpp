@@ -74,10 +74,10 @@ int ChangeInfoData::UploadSettings(void)
 			mir_strcpy(ppro->m_szPassword, tmp);
 			
 			hUpload[1] = (HANDLE)ppro->icq_changeUserPasswordServ(tmp);
-			char szPwd[PASSWORDMAXLEN] = {0};
 
 			// password is stored in DB, update
-			if (ppro->GetUserStoredPassword(szPwd, sizeof(szPwd)))
+			char szPwd[PASSWORDMAXLEN + 1];
+			if (ppro->GetUserStoredPassword(szPwd))
 				ppro->setString("Password", tmp);
 		}
 	}

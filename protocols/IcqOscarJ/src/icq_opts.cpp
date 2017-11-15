@@ -72,11 +72,11 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			else // keep it empty when no UIN entered
 				SetDlgItemTextA(hwndDlg, IDC_ICQNUM, "");
 
-			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
+			SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 14, 0);
 
 			// bit of a security hole here, since it's easy to extract a password from an edit box
-			char pszPwd[PASSWORDMAXLEN];
-			if (ppro->GetUserStoredPassword(pszPwd, sizeof(pszPwd)))
+			char pszPwd[PASSWORDMAXLEN+1];
+			if (ppro->GetUserStoredPassword(pszPwd))
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pszPwd);
 
 			LoadDBCheckState(ppro, hwndDlg, IDC_SSL, "SecureConnection", DEFAULT_SECURE_CONNECTION);
@@ -296,7 +296,7 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 static HWND hCpCombo;
 
 struct CPTABLE {
-	WORD cpId;
+	int cpId;
 	char *cpName;
 };
 
@@ -321,7 +321,7 @@ struct CPTABLE cpTable[] = {
 
 static BOOL CALLBACK FillCpCombo(LPSTR str)
 {
-	UINT i, cp = atoi(str);
+	int i, cp = atoi(str);
 	for (i = 0; cpTable[i].cpName != nullptr && cpTable[i].cpId != cp; i++);
 	if (cpTable[i].cpName)
 		ComboBoxAddStringUtf(hCpCombo, cpTable[i].cpName, cpTable[i].cpId);
