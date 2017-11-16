@@ -52,7 +52,7 @@ wstring gbQuestion;
 wstring gbAnswer;
 wstring gbCongratulation;
 std::wstring gbAuthRepl;
-extern wchar_t const * defQuestion;
+extern const wchar_t *defQuestion, *defCongrats, *defAuthReply;
 extern int RemoveTmp(WPARAM,LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -83,15 +83,14 @@ void InitVars()
 {
 	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"Spammers");
 	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
-	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", L"Congratulations! You just passed human/robot test. Now you can write me a message.");
 	gbInfTalkProtection = db_get_b(NULL, pluginName, "infTalkProtection", 0);
 	gbAddPermanent = db_get_b(NULL, pluginName, "addPermanent", 0);
 	gbMaxQuestCount = db_get_dw(NULL, pluginName, "maxQuestCount", 5);
 	gbHandleAuthReq = db_get_b(NULL, pluginName, "handleAuthReq", 1);
-	gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
+	gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", TranslateW(defQuestion));
 	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
-	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", L"Congratulations! You just passed human/robot test. Now you can write me a message.");
-	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", L"StopSpam: send a message and reply to an anti-spam bot question.");
+	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateW(defCongrats));
+	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateW(defAuthReply));
 	gbSpecialGroup = db_get_b(NULL, pluginName, "SpecialGroup", 0);
 	gbHideContacts = db_get_b(NULL, pluginName, "HideContacts", 0);
 	gbIgnoreContacts = db_get_b(NULL, pluginName, "IgnoreContacts", 0);

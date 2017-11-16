@@ -17,14 +17,17 @@
 
 #include "stdafx.h"
 
-char *pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
-wchar_t const *defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
+wchar_t const *pluginDescription = LPGENW("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
+
+const wchar_t *defQuestion = LPGENW("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
+const wchar_t *defCongrats = LPGENW("Congratulations! You just passed human/robot test. Now you can write me a message.");
+const wchar_t *defAuthReply = LPGENW("StopSpam: send a message and reply to an anti-spam bot question.");
 
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		SetDlgItemTextA(hwnd, ID_DESCRIPTION, pluginDescription);
+		SetDlgItemTextW(hwnd, ID_DESCRIPTION, TranslateW(pluginDescription));
 		TranslateDialogDefault(hwnd);
 		SetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, gbMaxQuestCount, FALSE);
 		CheckDlgButton(hwnd, ID_INFTALKPROT, gbInfTalkProtection ? BST_CHECKED : BST_UNCHECKED);
@@ -90,10 +93,10 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			break;
 
 		case ID_RESTOREDEFAULTS:
-			SetDlgItemText(hwnd, ID_QUESTION, defQuestion);
+			SetDlgItemText(hwnd, ID_QUESTION, TranslateW(defQuestion));
 			SetDlgItemText(hwnd, ID_ANSWER, L"nospam");
-			SetDlgItemText(hwnd, ID_AUTHREPL, TranslateT("StopSpam: send a message and reply to an anti-spam bot question."));
-			SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
+			SetDlgItemText(hwnd, ID_AUTHREPL, TranslateW(defAuthReply));
+			SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateW(defCongrats));
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			return TRUE;
 
@@ -109,13 +112,13 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		switch (nmhdr->code) {
 		case PSN_APPLY:
 			db_set_ws(NULL, pluginName, "question", GetDlgItemString(hwnd, ID_QUESTION).c_str());
-			gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
+			gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", TranslateW(defQuestion));
 			db_set_ws(NULL, pluginName, "answer", GetDlgItemString(hwnd, ID_ANSWER).c_str());
 			gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
 			db_set_ws(NULL, pluginName, "authrepl", GetDlgItemString(hwnd, ID_AUTHREPL).c_str());
-			gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateT("StopSpam: send a message and reply to an anti-spam bot question."));
+			gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateW(defAuthReply));
 			db_set_ws(NULL, pluginName, "congratulation", GetDlgItemString(hwnd, ID_CONGRATULATION).c_str());
-			gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
+			gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateW(defCongrats));
 			return TRUE;
 		}
 		break;
@@ -137,7 +140,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		WPARAM n;
+			WPARAM n;
 		case ID_ADD:
 			n = (WPARAM)SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETCURSEL, 0, 0);
 			if (LB_ERR != n) {

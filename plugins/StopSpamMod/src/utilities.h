@@ -3,14 +3,12 @@ std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szMod
 std::wstring &GetDlgItemString(HWND hwnd, int id);
 std::string &GetProtoList();
 bool ProtoInList(std::string proto);
-void RemoveExcludedUsers();
 std::wstring variables_parse(std::wstring const &tstrFormat, MCONTACT hContact);
 const int Stricmp(const wchar_t *str, const wchar_t *substr);
 //const int Stristr(const wchar_t *str, const wchar_t *substr);
 wchar_t* ReqGetText(DBEVENTINFO* dbei);
 BOOL IsUrlContains(wchar_t * Str);
 void DeleteCListGroupsByName(wchar_t* szGroupName);
-std::wstring GetContactUid(MCONTACT hContact, std::string Protocol);
 void LogSpamToFile(MCONTACT hContact, std::wstring message);
 std::string toUTF8(std::wstring str);
 std::string toUTF8(std::string str);
