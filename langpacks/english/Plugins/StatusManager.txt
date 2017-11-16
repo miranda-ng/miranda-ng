@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.2.1
+;  Version: 0.11.2.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -157,9 +157,9 @@
 [Status manager]
 ;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
 [minutes of %s mode]
+[Auto away]
 [Rules]
 [Status messages]
-[Auto away]
 ;file \plugins\StatusManager\src\KeepStatus\keepstatus.cpp
 [%s connected from another location]
 [%s login error, cancel reconnecting]
@@ -174,9 +174,9 @@
 [Status was set ok]
 [Giving up]
 ;file \plugins\StatusManager\src\KeepStatus\ks_options.cpp
+[You broke the Internet!]
 [Basic]
 [Advanced]
-[You broke the Internet!]
 [Popups]
 ;file \plugins\StatusManager\src\StartupStatus\ss_options.cpp
 [<unknown>]
