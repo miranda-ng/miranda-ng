@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.5
+;  Version: 0.11.3.6
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -444,8 +444,6 @@ To hasło nie odpowiada obecnemu. Sprawdź klawisz Caps Lock i spróbuj ponownie
 Zmień dane ICQ
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
 Hasło nie odpowiada temu wprowadzonemu wcześniej. Sprawdź klawisz Caps Lock i spróbuj ponownie.
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Serwer ICQ nie obsługuje haseł dłuższych niż 8 znaków. Wybierz krótsze hasło.
 ;file \protocols\IcqOscarJ\src\dlgproc.cpp
 [<unremovable once applied>]
 <nieusuwalne po zastosowaniu>

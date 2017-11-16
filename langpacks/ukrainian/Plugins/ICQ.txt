@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.5
+;  Version: 0.11.3.6
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -439,8 +439,6 @@ xСтатус "%s"
 Змінити дані ICQ
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
 Пароль не збігається з паролем, введеним раніше. Перевірте Caps Lock і спробуйте знову.
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Сервер ICQ не підтримує паролі довжиною більше 8 символів. Використовуйте коротший пароль.
 [<unremovable once applied>]
 <не можна видалити після введення>
 [<empty>]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.0.1.4
+;  Version: 0.0.1.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -41,6 +41,8 @@
 [Log Spammers to system history]
 
 ;file \plugins\StopSpamPlus\src\events.cpp
+[StopSpam automatic message:\r\n]
+
 [Message sessions]
 
 [General]
@@ -52,12 +54,17 @@ poruke
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 
-[StopSpam automatic message:\r\n]
-
 ;file \plugins\StopSpamPlus\src\services.cpp
 [Not In List]
 
 [Complete]
+
+;file \plugins\StopSpamPlus\src\settings.h
+[Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
+
+[StopSpam: send a message and reply to an anti-spam bot question.]
+
+[Congratulations! You just passed human/robot test. Now you can write me a message.]
 
 ;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]

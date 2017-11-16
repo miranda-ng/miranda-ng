@@ -347,8 +347,8 @@ Dat (плагин mContacts)
 Указать CSS
 [Export and Delete]
 Экспортировать и удалить
-[Import and Marge]
-Импорт и слияние
+[Import and Merge]
+Импортировать и слить
 [Minute]
 Минуты
 [Hour]

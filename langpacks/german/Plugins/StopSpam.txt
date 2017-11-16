@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.0.1.4
+;  Version: 0.0.1.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -41,6 +41,8 @@ Alle temporären Kontakte nach einem Neustart entfernen
 [Log Spammers to system history]
 Spammer in den Systemverlauf eintragen
 ;file \plugins\StopSpamPlus\src\events.cpp
+[StopSpam automatic message:\r\n]
+Automatische StopSpam-Nachricht:\r\n
 [Message sessions]
 Nachrichtensitzungen
 [General]
@@ -52,13 +54,18 @@ Konten
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Nie wieder Spam! Spambots haben keine Chance! Nur Menschen sind eingeladen!\r\n\r\nDieses Plugin arbeitet sehr einfach:\r\nNachrichten von Ihren Kontakten werden behandelt, als gäbe es kein Anti-Spam-System. Auf der anderen Seite werden Nachrichten von unbekannten Kontakten nicht direkt an Sie weitergeleitet. Sie werden aber auch nicht ignoriert, sondern dieses Plugin stellt eine einfache Frage. Wird diese richtig beantwortet, wird der Kontakt ihrer Kontaktliste hinzugefügt und kann Sie nun kontaktieren.
-[StopSpam automatic message:\r\n]
-Automatische StopSpam-Nachricht:\r\n
 ;file \plugins\StopSpamPlus\src\services.cpp
 [Not In List]
 Nicht auf der Liste
 [Complete]
 Fertig
+;file \plugins\StopSpamPlus\src\settings.h
+[Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
+Spammer haben mich dazu gebracht, ein kleines Anti-Spam-System zu installieren, mit dem Sie nun sprechen. Bitte antworten Sie mit "nospam" ohne Anführungszeichen, wenn Sie mich kontaktieren möchten.
+[Congratulations! You just passed human/robot test. Now you can write me a message.]
+Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Sie eine Nachricht schreiben.
+[StopSpam: send a message and reply to an anti-spam bot question.]
+StopSpam: senden Sie eine Nachricht und antworten Sie auf die Frage des Anti-Spam-Bots.
 ;file \plugins\StopSpamPlus\src\stdafx.h
 [StopSpam]
 StopSpam

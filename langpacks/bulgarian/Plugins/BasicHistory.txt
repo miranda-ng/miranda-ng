@@ -263,7 +263,7 @@ SMS съобщение
 Невалидна кодова страница
 [Export and Delete]
 Износ и изтриване
-[Import and Marge]
+[Import and Merge]
 Внос и обединяване
 [Minute]
 минута

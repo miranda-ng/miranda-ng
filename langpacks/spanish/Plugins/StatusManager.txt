@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.2.1
+;  Version: 0.11.2.3
 ;  Authors: P Boon
 ;============================================================
 [Allows you to define the status Miranda should set on startup, configurable per account.]
@@ -283,12 +283,12 @@ Protocolo
 Cerrando en %d
 [minutes of %s mode]
 minutos de modo %s
+[Auto away]
+Auto fuera
 [Rules]
 Reglas
 [Status messages]
 Mensajes de estado
-[Auto away]
-Auto fuera
 [Advanced]
 Avanzado
 [Popups]

@@ -19,5 +19,5 @@
 [No internet connection seems available... (next retry (%d) in %d s)]
 [Status was set ok]
 [Giving up]
-[Basic]
 [You broke the Internet!]
+[Basic]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 0.11.2.1
+;  Version: 0.11.2.3
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -279,12 +279,12 @@
 Закрити (%d)
 [minutes of %s mode]
 хвилин режиму "%s"
+[Auto away]
+Відсутність
 [Rules]
 Правила
 [Status messages]
 Статусні повідомлення
-[Auto away]
-Відсутність
 [%s connected from another location]
 %s підключено з іншого місця
 [%s login error, cancel reconnecting]
@@ -309,12 +309,12 @@
 Статус встановлено
 [Giving up]
 Припиняю
+[You broke the Internet!]
+З'єднання з Інтернет розірвано!
 [Basic]
 Основні
 [Advanced]
 Додатково
-[You broke the Internet!]
-З'єднання з Інтернет розірвано!
 [Popups]
 Спливаючі вікна
 [<unknown>]

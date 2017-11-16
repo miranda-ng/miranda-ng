@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartPosition.dll
 ;  Plugin: Start position
-;  Version: 0.2.0.3
+;  Version: 0.3.0.4
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
 [Plugin supports starting position of Contact List relative to the taskbar and screen side.]
@@ -10,15 +10,15 @@
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 
-[Left]
-
-[Right]
-
 [Pixels from Top]
 
 [Pixels from Bottom]
 
 [Pixels from Side]
+
+[Left]
+
+[Right]
 
 [Width]
 
@@ -28,7 +28,7 @@
 
 [Opened]
 
-;file \plugins\StartPosition\src\main.cpp
+;file \plugins\StartPosition\src\startposition.cpp
 [Contact list]
 Spisak kontakata
 [Start position]

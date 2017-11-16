@@ -353,7 +353,7 @@ Falsche Kodierung
 CSS-Datei auswählen
 [Export and Delete]
 Exportieren und Löschen
-[Import and Marge]
+[Import and Merge]
 Importieren und Zusammenführen
 [Minute]
 Minute

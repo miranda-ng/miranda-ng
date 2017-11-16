@@ -347,7 +347,7 @@ Dat (мКантакты)
 Паказаць CSS файл
 [Export and Delete]
 Экспартаваць і выдаліць
-[Import and Marge]
+[Import and Merge]
 Імпарт і зьліцьцё
 [Minute]
 Хвілін

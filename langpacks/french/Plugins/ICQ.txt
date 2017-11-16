@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.5
+;  Version: 0.11.3.6
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -444,8 +444,6 @@ Mots-clés 4
 Changer Détails ICQ
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
 
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Le serveur d'ICQ ne supporte pas les mots de passe supérieur à 8 caractères. Utiliser en un plus court.
 ;file \protocols\IcqOscarJ\src\dlgproc.cpp
 [<unremovable once applied>]
 <définitif une fois appliqué>

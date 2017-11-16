@@ -353,7 +353,7 @@ poruke
 
 [Export and Delete]
 
-[Import and Marge]
+[Import and Merge]
 
 [Minute]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StartPosition.dll
 ;  Plugin: Start position
-;  Version: 0.2.0.3
+;  Version: 0.3.0.4
 ;  Authors: Felipe Brahm - souFrag
 ;============================================================
 [Minimized to System Tray]

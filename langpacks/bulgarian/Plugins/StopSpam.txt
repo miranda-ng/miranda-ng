@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.0.1.4
+;  Version: 0.0.1.5
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -39,6 +39,8 @@
 Премахване на временните контакти след рестартиране
 [Log Spammers to system history]
 Вписване на спамърите в системната история
+[StopSpam automatic message:\r\n]
+Автоматично съобщение от StopSpam:\r\n
 [Message sessions]
 Разговори
 [General]
@@ -49,12 +51,16 @@
 Акаунти
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Без повече спам! Добре дошли са само изпратените от хора съобщения!\r\n\r\nКомуникацията ви с потребители от списъка с контакти няма да бъде възпрепятствана от приставката, но първите съобщенията от непознати потребители няма да ви бъдат предоставяни, но няма и да бъдат игнорирани. Вие ще получите даденото съобщение при условие, че потребителят даде (еднократно) правилен отговор на въпрос, предварително определен от вас.
-[StopSpam automatic message:\r\n]
-Автоматично съобщение от StopSpam:\r\n
 [Not In List]
 Не е в списъка
 [Complete]
 Завършен
+[Spammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.]
+Заради спамъри съм инсталирал приставка за борба с нежелани съобщения. Ако желаете да се свържете с мен, моля отговерете със следния текст: nospam.\r\nSpammers made me to install small anti-spam system you are now speaking with. Please reply "nospam" without quotes and spaces if you want to contact me.
+[Congratulations! You just passed human/robot test. Now you can write me a message.]
+Поздравления! Преминахте теста. Вече можете да изпратите съобщението си.\r\nCongratulations! You just passed human/robot test. Now you can write me a message.
+[StopSpam: send a message and reply to an anti-spam bot question.]
+StopSpam: изпратете съобщение и отговорете на въпроса.\r\nStopSpam: send a message and reply to an anti-spam bot question.
 [StopSpam]
 StopSpam
 [Remove Temporary Contacts]

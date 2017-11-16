@@ -353,7 +353,7 @@ Nieprawidłowa strona kodowa
 Wybierz plik CSS
 [Export and Delete]
 Eksportuj i usuń
-[Import and Marge]
+[Import and Merge]
 Importuj i scal
 [Minute]
 Minut

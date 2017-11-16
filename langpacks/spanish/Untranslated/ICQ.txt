@@ -176,7 +176,6 @@
 [The password does not match your current password. Check Caps Lock and try again.]
 [Change ICQ Details]
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 [<unremovable once applied>]
 [<empty>]
 [Unknown value]

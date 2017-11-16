@@ -134,7 +134,7 @@
 [Invalid codepage]
 [Browse CSS file]
 [Export and Delete]
-[Import and Marge]
+[Import and Merge]
 [Minute]
 [Hour]
 [At Start]

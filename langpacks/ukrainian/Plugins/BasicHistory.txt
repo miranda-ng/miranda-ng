@@ -347,7 +347,7 @@ dat (плагін mContacts)
 Вибрати CSS файл
 [Export and Delete]
 Експортувати та видалити
-[Import and Marge]
+[Import and Merge]
 Імпорт і злиття
 [Minute]
 Хвилини
