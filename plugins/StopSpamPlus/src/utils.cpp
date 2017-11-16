@@ -31,21 +31,15 @@ bool IsExistMyMessage(MCONTACT hContact)
 	return false;
 }
 
-void SetDlgItemString(HWND hwndDlg, UINT idItem, std::string const &str)
-{
-	SetDlgItemTextA(hwndDlg, idItem, str.c_str());
-}
-
 void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str)
 {
 	SetDlgItemTextW(hwndDlg, idItem, str.c_str());
 }
 
-tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
+tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact)
+{
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		FORMATINFO fi;
-		tstring tstrResult;
-
 		memset(&fi, 0, sizeof(fi));
 		fi.cbSize = sizeof(fi);
 		fi.tszFormat = wcsdup(tstrFormat.c_str());
@@ -54,7 +48,7 @@ tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
 		wchar_t *tszParsed = (wchar_t *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 		free(fi.tszFormat);
 		if (tszParsed) {
-			tstrResult = tszParsed;
+			tstring tstrResult = tszParsed;
 			mir_free(tszParsed);
 			return tstrResult;
 		}
@@ -69,6 +63,6 @@ tstring trim(const tstring &tstr, const tstring& trimChars)
 
 	if ((tstring::npos == s) || (tstring::npos == e))
 		return L"";
-	else
-		return tstr.substr(s, e - s + 1);
+
+	return tstr.substr(s, e - s + 1);
 }

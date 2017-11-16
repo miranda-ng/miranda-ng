@@ -61,28 +61,27 @@ public:
 	db_setting<bool> RemTmpAll;
 	db_setting<bool> HistLog;
 
-	Settings():Question("Question",TranslateW(L"Spammers made me to install small anti-spam system you are now speaking with. "
-		L"Please reply \"nospam\" without quotes and spaces if you want to contact me.\r\n"
-		L"Внимание! Антиспам защита. Ответьте \"nospam\" без кавычек и пробелов, если хотите связаться со мной."))
-	,AuthRepl("AuthReply",TranslateW(L"StopSpam: send a message and reply to a anti-spam bot question.\r\n"
-		L"Антиспам: отправьте сообщение и ответьте на вопрос антиспам системы."))
-	,Answer("Answer",L"nospam")
-	,Congratulation("Congratulation",TranslateW(L"Congratulations! You just passed human/robot test. Now you can write me a message.\r\n"
-		L"Поздравляю! Вы прошли антиспам проверку. Теперь вы можете писать мне."))
-	,DisabledProtoList("DisabledProtoList","MetaContacts RSSNews")
-	,InfTalkProtection("InfTalkProtection", 1)
-	,AddPermanent("AddPermanent", 0)
-	,HandleAuthReq("HandleAuthReq", 0)
-	,MaxQuestCount("MaxQuestCount", 2)
-	,AnswNotCaseSens("AnswNotCaseSens", 1)
-	,AnswSplitString("AnswSplitString",L"|")
-	,RemTmpAll("RemTmpAll", 1)
-	,HistLog("HistLog", 0)
+	Settings():
+		Question("Question", TranslateW(L"Spammers made me to install small anti-spam system you are now speaking with. "
+			L"Please reply \"nospam\" without quotes and spaces if you want to contact me.")),
+		AuthRepl("AuthReply", TranslateW(L"StopSpam: send a message and reply to a anti-spam bot question.")),
+		Answer("Answer", L"nospam"),
+		Congratulation("Congratulation", TranslateW(L"Congratulations! You just passed human/robot test. Now you can write me a message.")),
+		DisabledProtoList("DisabledProtoList", "MetaContacts RSSNews"),
+		InfTalkProtection("InfTalkProtection", 1),
+		AddPermanent("AddPermanent", 0),
+		HandleAuthReq("HandleAuthReq", 0),
+		MaxQuestCount("MaxQuestCount", 2),
+		AnswNotCaseSens("AnswNotCaseSens", 1),
+		AnswSplitString("AnswSplitString", L"|"),
+		RemTmpAll("RemTmpAll", 1),
+		HistLog("HistLog", 0)
 	{
-		const std::string& str = DisabledProtoList.Get();
-		if ( !str.empty() && *(str.rbegin()) != ' ' )
-			DisabledProtoList=DisabledProtoList.Get()+' ';
+		const std::string &str = DisabledProtoList.Get();
+		if (!str.empty() && *(str.rbegin()) != ' ')
+			DisabledProtoList = DisabledProtoList.Get() + ' ';
 	}
+
 	bool ProtoDisabled(std::string proto)
 	{
 		return std::string::npos != DisabledProtoList.Get().find(proto + " ");

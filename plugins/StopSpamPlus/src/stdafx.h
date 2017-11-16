@@ -43,7 +43,6 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //utils
-void SetDlgItemString(HWND hwndDlg, UINT idItem, std::string const &str);
 void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str);
 tstring &GetDlgItemString(HWND hwnd, int id);
 bool IsExistMyMessage(MCONTACT hContact);
