@@ -583,6 +583,7 @@ static renameTable[] =
 	{ L"srmm.dll",                       nullptr },
 	{ L"stdchat.dll",                    nullptr },
 	{ L"stdurl.dll",                     nullptr },
+	{ L"dbx_sqlite.dll",                 nullptr },
 	{ L"extraicons.dll",                 nullptr },
 	{ L"firstrun.dll",                   nullptr },
 	{ L"flashavatars.dll",               nullptr },
