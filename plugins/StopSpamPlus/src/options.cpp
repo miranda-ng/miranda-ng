@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-wchar_t *pluginDescription = TranslateT("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
-wchar_t const *infTalkProtPrefix = TranslateT("StopSpam automatic message:\r\n");
+const wchar_t pluginDescription[] = LPGENW("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
+
 char const *answeredSetting = "Answered";
 char const *questCountSetting = "QuestionCount";
 
@@ -9,7 +9,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		SetDlgItemText(hwnd, ID_DESCRIPTION, pluginDescription);
+		SetDlgItemText(hwnd, ID_DESCRIPTION, TranslateW(pluginDescription));
 		TranslateDialogDefault(hwnd);
 		SetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, plSets->MaxQuestCount.Get(), FALSE);
 		CheckDlgButton(hwnd, ID_INFTALKPROT, plSets->InfTalkProtection.Get() ? BST_CHECKED : BST_UNCHECKED);

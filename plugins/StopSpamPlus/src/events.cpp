@@ -132,11 +132,12 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
-	if ((!plSets->InfTalkProtection.Get() || tstring::npos == message.find(infTalkProtPrefix))
+	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
+	if ((!plSets->InfTalkProtection.Get() || tstring::npos == message.find(pwszPrefix))
 		&& (!plSets->MaxQuestCount.Get() || db_get_dw(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get()))
 	{
 		// send question
-		tstring q = infTalkProtPrefix + variables_parse((tstring)(plSets->Question), hContact);
+		tstring q = pwszPrefix + variables_parse((tstring)(plSets->Question), hContact);
 
 
 		char * buf = mir_utf8encodeW(q.c_str());
