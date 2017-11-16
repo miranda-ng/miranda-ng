@@ -62,7 +62,7 @@ public:
 	db_setting<bool> HistLog;
 
 	Settings():
-		Question("Question", TranslateW(L"Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.")),
+		Question("Question", TranslateW(L"Spammers made me to install small anti-spam system you are now speaking with. Please reply \"nospam\" without quotes and spaces if you want to contact me.")),
 		AuthRepl("AuthReply", TranslateW(L"StopSpam: send a message and reply to an anti-spam bot question.")),
 		Answer("Answer", L"nospam"),
 		Congratulation("Congratulation", TranslateW(L"Congratulations! You just passed human/robot test. Now you can write me a message.")),

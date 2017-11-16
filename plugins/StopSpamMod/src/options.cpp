@@ -19,7 +19,7 @@
 
 wchar_t const *pluginDescription = LPGENW("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
 
-const wchar_t *defQuestion = LPGENW("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
+const wchar_t *defQuestion = LPGENW("Spammers made me to install small anti-spam system you are now speaking with. Please reply \"nospam\" without quotes and spaces if you want to contact me.");
 const wchar_t *defCongrats = LPGENW("Congratulations! You just passed human/robot test. Now you can write me a message.");
 const wchar_t *defAuthReply = LPGENW("StopSpam: send a message and reply to an anti-spam bot question.");
 
