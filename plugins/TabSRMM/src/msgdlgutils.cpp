@@ -886,8 +886,12 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 
 				if (iCol > 0) {
 					if (isChat()) {
-						if (mi && mi->bColor)
-							res.AppendFormat((iInd >= 0) ? L"%%c%u" : L"%%C", iInd);
+						if (mi && mi->bColor) {
+							if (iInd >= 0)
+								res.AppendFormat(L"%%c%u", iInd);
+							else if (!res.IsEmpty())
+								res.Append(L"%%C");
+						}
 					}
 					else res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_clrs[iInd].szName);
 				}
@@ -898,7 +902,10 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 				if (isChat()) {
 					if (mi && mi->bBkgColor) {
 						int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
-						res.AppendFormat((iInd >= 0) ? L"%%f%u" : L"%%F", iInd);
+						if (iInd >= 0)
+							res.AppendFormat(L"%%f%u", iInd);
+						else if (!res.IsEmpty())
+							res.AppendFormat(L"%%F");
 					}
 				}
 			}
