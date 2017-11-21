@@ -58,12 +58,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
 {
 	TVINSERTSTRUCT tvis;
-	int i;
-
 	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-	for (i = 0; i < nValues; i++) {
+	for (int i = 0; i < nValues; i++) {
 		tvis.item.lParam = values[i].style;
 		tvis.item.pszText = TranslateW(values[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -98,10 +96,8 @@ static void UpdateMenuItem()
 static int SoundSettingChanged(WPARAM, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (strcmp(cws->szModule, "Skin") || strcmp(cws->szSetting, "UseSound"))
-		return 0;
-
-	UpdateMenuItem();
+	if (!strcmp(cws->szModule, "Skin") && !strcmp(cws->szSetting, "UseSound"))
+		UpdateMenuItem();
 	return 0;
 }
 
@@ -151,9 +147,11 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODNAME, "NoBlink", DEFAULT_NOBLINK));
 		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_NOCLCBLINK), statusValues, sizeof(statusValues) / sizeof(statusValues[0]), db_get_dw(NULL, MODNAME, "NoCLCBlink", DEFAULT_NOCLCBLINK));
 		return TRUE;
+	
 	case WM_COMMAND:
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
+	
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_NOSOUND:
@@ -165,7 +163,7 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARA
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
-					if (hti.flags&TVHT_ONITEMSTATEICON) {
+					if (hti.flags & TVHT_ONITEMSTATEICON) {
 						TVITEM tvi;
 						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 						tvi.hItem = hti.hItem;
