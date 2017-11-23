@@ -59,7 +59,7 @@ MDatabaseCache::~MDatabaseCache()
 
 DBCachedContact* MDatabaseCache::AddContactToCache(MCONTACT contactID)
 {
-	mir_cslock lck(m_cs);
+	mir_cslock lck(m_csContact);
 
 	int index = m_lContacts.getIndex((DBCachedContact*)&contactID);
 	if (index != -1)
@@ -74,7 +74,7 @@ DBCachedContact* MDatabaseCache::AddContactToCache(MCONTACT contactID)
 
 DBCachedContact* MDatabaseCache::GetCachedContact(MCONTACT contactID)
 {
-	mir_cslock lck(m_cs);
+	mir_cslock lck(m_csContact);
 
 	int index = m_lContacts.getIndex((DBCachedContact*)&contactID);
 	return (index == -1) ? nullptr : m_lContacts[index];
@@ -82,13 +82,13 @@ DBCachedContact* MDatabaseCache::GetCachedContact(MCONTACT contactID)
 
 DBCachedContact* MDatabaseCache::GetFirstContact()
 {
-	mir_cslock lck(m_cs);
+	mir_cslock lck(m_csContact);
 	return m_lContacts[0];
 }
 
 DBCachedContact* MDatabaseCache::GetNextContact(MCONTACT contactID)
 {
-	mir_cslock lck(m_cs);
+	mir_cslock lck(m_csContact);
 
 	int index = m_lContacts.getIndex((DBCachedContact*)&contactID);
 	return (index == -1) ? nullptr : m_lContacts[index+1];
@@ -96,7 +96,7 @@ DBCachedContact* MDatabaseCache::GetNextContact(MCONTACT contactID)
 
 void MDatabaseCache::FreeCachedContact(MCONTACT contactID)
 {
-	mir_cslock lck(m_cs);
+	mir_cslock lck(m_csContact);
 
 	int index = m_lContacts.getIndex((DBCachedContact*)&contactID);
 	if (index == -1)
@@ -124,7 +124,10 @@ char* MDatabaseCache::InsertCachedSetting(const char* szName, int cbLen)
 	char* newValue = (char*)HeapAlloc(m_hCacheHeap, 0, cbLen);
 	*newValue++ = 0;
 	mir_strcpy(newValue, szName);
-	m_lSettings.insert(newValue);
+	{
+		mir_cslock lck(m_csVal);
+		m_lSettings.insert(newValue);
+	}
 	return newValue;
 }
 

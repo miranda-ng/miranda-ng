@@ -27,7 +27,7 @@ class MDatabaseCache : public MIDatabaseCache
 	char* m_lastSetting;
 	size_t m_contactSize;
 	DBCachedContact *m_lastVL;
-	mir_cs m_cs;
+	mir_cs m_csContact, m_csVal;
 
 	LIST<DBCachedContact> m_lContacts;
 	LIST<DBCachedGlobalValue> m_lGlobalSettings;
