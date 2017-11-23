@@ -457,3 +457,25 @@ Skin_AddSound @461
 Skin_PlaySound @462
 Skin_PlaySoundFile @463
 Clist_SetStatusMode @464
+??0CProtoIntDlgBase@@QAE@$$QAV0@@Z @465 NONAME
+??0MDatabaseCommon@@IAE@XZ @466 NONAME
+??0MDatabaseCommon@@QAE@$$QAV0@@Z @467 NONAME
+??0MDatabaseCommon@@QAE@ABV0@@Z @468 NONAME
+??0MIDatabase@@QAE@$$QAU0@@Z @469 NONAME
+??0MIDatabase@@QAE@ABU0@@Z @470 NONAME
+??0MIDatabase@@QAE@XZ @471 NONAME
+??0PROTO_INTERFACE@@QAE@$$QAU0@@Z @472 NONAME
+??1MDatabaseCommon@@QAE@XZ @473 NONAME
+??4CProtoIntDlgBase@@QAEAAV0@$$QAV0@@Z @474 NONAME
+??4MDatabaseCommon@@QAEAAV0@$$QAV0@@Z @475 NONAME
+??4MDatabaseCommon@@QAEAAV0@ABV0@@Z @476 NONAME
+??4MIDatabase@@QAEAAU0@$$QAU0@@Z @477 NONAME
+??4MIDatabase@@QAEAAU0@ABU0@@Z @478 NONAME
+??4PROTO_INTERFACE@@QAEAAU0@$$QAU0@@Z @479 NONAME
+??_7MDatabaseCommon@@6B@ @480 NONAME
+??_7MIDatabase@@6B@ @481 NONAME
+?FreeVariant@MDatabaseCommon@@UAGHPAUDBVARIANT@@@Z @482 NONAME
+?GetContactSetting@MDatabaseCommon@@UAGHIPBD0PAUDBVARIANT@@@Z @483 NONAME
+?GetContactSettingStatic@MDatabaseCommon@@UAGHIPBD0PAUDBVARIANT@@@Z @484 NONAME
+?GetContactSettingStr@MDatabaseCommon@@UAGHIPBD0PAUDBVARIANT@@@Z @485 NONAME
+?SetSettingResident@MDatabaseCommon@@UAGHHPBD@Z @486 NONAME

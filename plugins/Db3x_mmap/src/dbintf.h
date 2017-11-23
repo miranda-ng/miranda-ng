@@ -181,7 +181,7 @@ struct DBCachedContact : public DBCachedContactBase
 	DWORD dwOfsContact;
 };
 
-struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
+struct CDb3Mmap : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
 {
 	CDb3Mmap(const wchar_t *tszFileName, int mode);
 	~CDb3Mmap();
@@ -234,14 +234,10 @@ public:
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, const void *pParam);
 
-	STDMETHODIMP_(BOOL)     GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)     GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)     GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)     FreeVariant(DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
 	STDMETHODIMP_(BOOL)     WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws);
 	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
 	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param);
-	STDMETHODIMP_(BOOL)     SetSettingResident(BOOL bIsResident, const char *pszSettingName);
 	STDMETHODIMP_(BOOL)     EnumResidentSettings(DBMODULEENUMPROC pFunc, const void *pParam);
 	STDMETHODIMP_(BOOL)     IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
@@ -302,8 +298,6 @@ protected:
 	DWORD    m_dwFileSize, m_dwMaxContactId;
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
-	mir_cs   m_csDbAccess;
-
 	int      CheckProto(DBCachedContact *cc, const char *proto);
 	DWORD    CreateNewSpace(int bytes);
 	void     DeleteSpace(DWORD ofs, int bytes);
@@ -312,7 +306,6 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// settings
 
-	int      m_codePage;
 	HANDLE   hService, hHook;
 
 	////////////////////////////////////////////////////////////////////////////
@@ -333,7 +326,6 @@ protected:
 
 	HANDLE   m_hModHeap;
 	LIST<ModuleName> m_lMods, m_lOfs;
-	LIST<char> m_lResidentSettings;
 	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 	MCONTACT m_hLastCachedContact;
 	ModuleName *m_lastmn;
@@ -356,7 +348,6 @@ protected:
 	DWORD    ConvertModuleNameOfs(DWORD ofsOld);
 	void     ConvertOldEvent(DBEvent*& dbei);
 
-	int      GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
 	int      WorkSettingsChain(DBContact *dbc, int firstTime);
 	int      WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime);
 

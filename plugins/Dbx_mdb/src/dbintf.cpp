@@ -27,7 +27,6 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
-	m_lResidentSettings(50, strcmp),
 	m_maxContactId(1)
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
@@ -37,8 +36,6 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	mdbx_env_set_maxdbs(m_pMdbEnv, 10);
 	mdbx_env_set_userctx(m_pMdbEnv, this);
 //	mdbx_env_set_assert(m_pMdbEnv, LMDBX_FailAssert);
-
-	m_codePage = Langpack_GetDefaultCodePage();
 }
 
 CDbxMdb::~CDbxMdb()

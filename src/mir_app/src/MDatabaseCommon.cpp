@@ -1,0 +1,187 @@
+/*
+
+Miranda NG: the free IM client for Microsoft* Windows*
+
+Copyright (C) 2012-17 Miranda NG project,
+all portions of this codebase are copyrighted to the people
+listed in contributors.txt.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
+
+#include "stdafx.h"
+#include "database.h"
+
+static int stringCompare2(const char *p1, const char *p2)
+{
+	return mir_strcmp(p1, p2);
+}
+
+MDatabaseCommon::MDatabaseCommon() :
+	m_lResidentSettings(50, stringCompare2)
+{
+	m_codePage = Langpack_GetDefaultCodePage();
+}
+
+STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+{
+	dbv->type = 0;
+	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 0))
+		return 1;
+
+	if (dbv->type == DBVT_UTF8) {
+		WCHAR *tmp = nullptr;
+		char *p = NEWSTR_ALLOCA(dbv->pszVal);
+		if (mir_utf8decode(p, &tmp) != nullptr) {
+			BOOL bUsed = FALSE;
+			int  result = WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, nullptr, 0, nullptr, &bUsed);
+
+			mir_free(dbv->pszVal);
+
+			if (bUsed || result == 0) {
+				dbv->type = DBVT_WCHAR;
+				dbv->pwszVal = tmp;
+			}
+			else {
+				dbv->type = DBVT_ASCIIZ;
+				dbv->pszVal = (char *)mir_alloc(result);
+				WideCharToMultiByte(m_codePage, WC_NO_BEST_FIT_CHARS, tmp, -1, dbv->pszVal, result, nullptr, nullptr);
+				mir_free(tmp);
+			}
+		}
+		else {
+			dbv->type = DBVT_ASCIIZ;
+			mir_free(tmp);
+		}
+	}
+
+	return 0;
+}
+
+STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+{
+	int iSaveType = dbv->type;
+
+	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 0))
+		return 1;
+
+	if (iSaveType == 0 || iSaveType == dbv->type)
+		return 0;
+
+	if (dbv->type != DBVT_ASCIIZ && dbv->type != DBVT_UTF8)
+		return 1;
+
+	if (iSaveType == DBVT_WCHAR) {
+		if (dbv->type != DBVT_UTF8) {
+			int len = MultiByteToWideChar(CP_ACP, 0, dbv->pszVal, -1, nullptr, 0);
+			wchar_t* wszResult = (wchar_t*)mir_alloc((len + 1) * sizeof(wchar_t));
+			if (wszResult == nullptr)
+				return 1;
+
+			MultiByteToWideChar(CP_ACP, 0, dbv->pszVal, -1, wszResult, len);
+			wszResult[len] = 0;
+			mir_free(dbv->pszVal);
+			dbv->pwszVal = wszResult;
+		}
+		else {
+			char* savePtr = NEWSTR_ALLOCA(dbv->pszVal);
+			mir_free(dbv->pszVal);
+			if (!mir_utf8decode(savePtr, &dbv->pwszVal))
+				return 1;
+		}
+	}
+	else if (iSaveType == DBVT_UTF8) {
+		char* tmpBuf = mir_utf8encode(dbv->pszVal);
+		if (tmpBuf == nullptr)
+			return 1;
+
+		mir_free(dbv->pszVal);
+		dbv->pszVal = tmpBuf;
+	}
+	else if (iSaveType == DBVT_ASCIIZ)
+		mir_utf8decode(dbv->pszVal, nullptr);
+
+	dbv->type = iSaveType;
+	return 0;
+}
+
+STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
+{
+	bool bNeedsWchars;
+	size_t cbSaved;
+
+	if (dbv->type == DBVT_WCHAR) { // there's no wchar_t strings in a database, we need conversion
+		cbSaved = dbv->cchVal - 1;
+		dbv->cchVal *= sizeof(wchar_t); // extend a room for the utf8 string
+		dbv->type = DBVT_UTF8;
+		bNeedsWchars = true;
+	}
+	else bNeedsWchars = false;
+
+	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 1))
+		return 1;
+
+	if (bNeedsWchars) {
+		char *pBuf = NEWSTR_ALLOCA(dbv->pszVal);
+		int cbLen = Utf8toUcs2(pBuf, dbv->cchVal, dbv->pwszVal, cbSaved);
+		if (cbLen < 0)
+			return 1;
+
+		dbv->pwszVal[cbLen] = 0;
+	}
+	else if (dbv->type == DBVT_UTF8) {
+		mir_utf8decode(dbv->pszVal, nullptr);
+		dbv->type = DBVT_ASCIIZ;
+	}
+
+	return 0;
+}
+
+STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
+{
+	if (dbv == nullptr) return 1;
+
+	switch (dbv->type) {
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+	case DBVT_WCHAR:
+		if (dbv->pszVal) mir_free(dbv->pszVal);
+		dbv->pszVal = nullptr;
+		break;
+	case DBVT_BLOB:
+		if (dbv->pbVal) mir_free(dbv->pbVal);
+		dbv->pbVal = nullptr;
+		break;
+	}
+	dbv->type = 0;
+	return 0;
+}
+
+STDMETHODIMP_(BOOL) MDatabaseCommon::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
+{
+	char *szSetting = m_cache->GetCachedSetting(nullptr, pszSettingName, 0, (int)mir_strlen(pszSettingName));
+	szSetting[-1] = (char)bIsResident;
+
+	mir_cslock lck(m_csDbAccess);
+	int idx = m_lResidentSettings.getIndex(szSetting);
+	if (idx == -1) {
+		if (bIsResident)
+			m_lResidentSettings.insert(szSetting);
+	}
+	else if (!bIsResident)
+		m_lResidentSettings.remove(idx);
+
+	return 0;
+}

@@ -39,11 +39,6 @@ static int OfsCompare(const ModuleName *mn1, const ModuleName *mn2)
 	return (mn1->ofs - mn2->ofs);
 }
 
-static int stringCompare2(const char *p1, const char *p2)
-{
-	return mir_strcmp(p1, p2);
-}
-
 CDb3Mmap::CDb3Mmap(const wchar_t *tszFileName, int iMode) :
 	m_hDbFile(INVALID_HANDLE_VALUE),
 	m_safetyMode(true),
@@ -51,8 +46,7 @@ CDb3Mmap::CDb3Mmap(const wchar_t *tszFileName, int iMode) :
 	m_bShared((iMode & DBMODE_SHARED) != 0),
 	m_dwMaxContactId(1),
 	m_lMods(50, ModCompare),
-	m_lOfs(50, OfsCompare),
-	m_lResidentSettings(50, stringCompare2)
+	m_lOfs(50, OfsCompare)
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
 	InitDbInstance(this);
@@ -61,7 +55,6 @@ CDb3Mmap::CDb3Mmap(const wchar_t *tszFileName, int iMode) :
 	GetSystemInfo(&sinf);
 	m_ChunkSize = sinf.dwAllocationGranularity;
 
-	m_codePage = Langpack_GetDefaultCodePage();
 	m_hModHeap = HeapCreate(0, 0, 0);
 }
 

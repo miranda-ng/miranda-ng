@@ -125,7 +125,7 @@ struct EventItem
 	MEVENT eventId;
 };
 
-struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
+struct CDbxMdb : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
 {
 	friend class LMDBEventCursor;
 
@@ -176,14 +176,10 @@ public:
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, const void *pParam);
 
-	STDMETHODIMP_(BOOL)     GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)     GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)     GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
-	STDMETHODIMP_(BOOL)     FreeVariant(DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL)     GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
 	STDMETHODIMP_(BOOL)     WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws);
 	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
 	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param);
-	STDMETHODIMP_(BOOL)     SetSettingResident(BOOL bIsResident, const char *pszSettingName);
 	STDMETHODIMP_(BOOL)     EnumResidentSettings(DBMODULEENUMPROC pFunc, const void *pParam);
 	STDMETHODIMP_(BOOL)     IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
@@ -230,10 +226,7 @@ protected:
 	MDBX_dbi  m_dbSettings;
 	MDBX_cursor *m_curSettings;
 
-	int      m_codePage;
 	HANDLE   hService, hHook;
-
-	LIST<char> m_lResidentSettings;
 
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
@@ -270,10 +263,6 @@ protected:
 	uint32_t GetModuleID(const char *szName);
 	char*    GetModuleName(uint32_t dwId);
 
-
-	int GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
-
-
 	DBCHeckCallback *cb;
 
 	////////////////////////////////////////////////////////////////////////////
@@ -283,7 +272,6 @@ protected:
 
 	int      InitCrypt(void);
 	CRYPTO_PROVIDER* SelectProvider();
-	void     GenerateNewKey();
 
 	void     InitDialogs();
 };

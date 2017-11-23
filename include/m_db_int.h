@@ -80,7 +80,7 @@ interface MIDatabaseCache : public MZeroedObject
 	STDMETHOD_(DBVARIANT*, GetCachedValuePtr)(MCONTACT contactID, char *szSetting, int bAllocate) PURE;
 };
 
-interface MIDatabase
+interface MIR_APP_EXPORT MIDatabase
 {
 	MIDatabaseCache* m_cache;
 
@@ -126,6 +126,28 @@ interface MIDatabase
 	STDMETHOD_(BOOL, MetaSetDefault)(DBCachedContact*) PURE;
 	STDMETHOD_(BOOL, MetaMergeHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
 	STDMETHOD_(BOOL, MetaSplitHistory)(DBCachedContact *ccMeta, DBCachedContact *ccSub) PURE;
+};
+
+class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase
+{
+
+protected:
+	int m_codePage;
+	
+	mir_cs m_csDbAccess;
+	LIST<char> m_lResidentSettings;
+
+protected:
+	MDatabaseCommon();
+
+	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) PURE;
+
+public:
+	STDMETHODIMP_(BOOL) GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL) GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL) GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL) FreeVariant(DBVARIANT *dbv);
+	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
