@@ -76,7 +76,7 @@ void	Delete(MCONTACT hContact, LPCSTR pszModule)
 * @retval	TRUE		- always true
 **/
 
-static int IsEmptyEnumProc(LPCSTR, LPARAM)
+static int IsEmptyEnumProc(LPCSTR, void*)
 {
 	return 1;
 }
@@ -672,16 +672,16 @@ bool Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei)
 
 } /* namespace Events */
 
-int CEnumList::EnumProc(LPCSTR pszName, DWORD, LPARAM lParam)
+int CEnumList::EnumProc(LPCSTR pszName, void *pParam)
 {
 	if (pszName)
-		((CEnumList*)lParam)->Insert(pszName);
+		((CEnumList*)pParam)->Insert(pszName);
 	return 0;
 }
 
-int CEnumList::EnumSettingsProc(LPCSTR pszName, LPARAM lParam)
+int CEnumList::EnumSettingsProc(LPCSTR pszName, void *param)
 {
-	return EnumProc(pszName, 0, lParam);
+	return EnumProc(pszName, param);
 }
 
 int CEnumList::CompareProc(LPCSTR p1, LPCSTR p2)

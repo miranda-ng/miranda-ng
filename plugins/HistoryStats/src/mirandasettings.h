@@ -22,7 +22,7 @@ private:
 	ext::a::string m_strModule;
 
 private:
-	static int enumSettingsProc(const char* szSetting, LPARAM lParam);
+	static int enumSettingsProc(const char* szSetting, void *lParam);
 
 public:
 	// constructor

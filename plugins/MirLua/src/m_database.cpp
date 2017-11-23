@@ -392,7 +392,7 @@ static int db_MarkReadEvent(lua_State *L)
 
 /***********************************************/
 
-static int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
+static int ModulesEnumProc(const char *szModuleName, void *lParam)
 {
 	if (szModuleName)
 	{
@@ -448,7 +448,7 @@ static int db_DeleteModule(lua_State *L)
 	return 1;
 }
 
-static int SettingsEnumProc(const char* szSetting, LPARAM lParam)
+static int SettingsEnumProc(const char* szSetting, void *lParam)
 {
 	if (szSetting)
 	{

@@ -43,7 +43,7 @@ LIST<PROTOACCOUNT> accounts(10, CompareAccounts);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int EnumDbModules(const char *szModuleName, DWORD, LPARAM)
+static int EnumDbModules(const char *szModuleName, void*)
 {
 	ptrA szProtoName(db_get_sa(0, szModuleName, "AM_BaseProto"));
 	if (szProtoName) {
@@ -128,7 +128,7 @@ typedef struct
 }
 enumDB_ProtoProcParam;
 
-static int enumDB_ProtoProc(const char* szSetting, LPARAM lParam)
+static int enumDB_ProtoProc(const char* szSetting, void *lParam)
 {
 	if (szSetting) {
 		enumDB_ProtoProcParam* p = (enumDB_ProtoProcParam*)lParam;

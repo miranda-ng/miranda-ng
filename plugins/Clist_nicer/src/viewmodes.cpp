@@ -57,7 +57,7 @@ static UINT _page2Controls[] = { IDC_CLIST, IDC_STATIC9, IDC_STATIC8, IDC_CLEARA
  * useful for filling lists, menus and so on..
  */
 
-int CLVM_EnumProc(const char *szSetting, LPARAM lParam)
+int CLVM_EnumProc(const char *szSetting, void *lParam)
 {
 	pfnEnumCallback EnumCallback = (pfnEnumCallback)lParam;
 	if (szSetting != nullptr)

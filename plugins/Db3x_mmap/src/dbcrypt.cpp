@@ -69,7 +69,7 @@ struct SettingUgraderParam
 	OBJLIST<VarDescr>* pList;
 };
 
-int sttSettingUgrader(const char *szSetting, LPARAM lParam)
+int sttSettingUgrader(const char *szSetting, void *lParam)
 {
 	SettingUgraderParam *param = (SettingUgraderParam*)lParam;
 	if (param->db->IsSettingEncrypted(param->szModule, szSetting)) {
@@ -108,7 +108,7 @@ void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
 	}
 }
 
-int sttModuleEnum(const char *szModule, DWORD, LPARAM lParam)
+int sttModuleEnum(const char *szModule, void *lParam)
 {
 	CDb3Mmap *db = (CDb3Mmap*)lParam;
 	sttContactEnum(0, szModule, db);

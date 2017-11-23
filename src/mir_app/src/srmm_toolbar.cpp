@@ -831,7 +831,7 @@ static void CALLBACK SrmmLoadToolbar()
 	DestroyHookableEvent(hHookToolBarLoadedEvt);
 }
 
-static int ConvertToolbarData(const char *szSetting, LPARAM)
+static int ConvertToolbarData(const char *szSetting, void*)
 {
 	DBVARIANT dbv;
 	if (!db_get(0, "Tab" MODULENAME, szSetting, &dbv)) {

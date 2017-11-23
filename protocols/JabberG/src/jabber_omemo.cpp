@@ -722,7 +722,7 @@ namespace omemo {
 		db_enum_settings_sub_cb_data(); //we always need array size
 	};
 
-	int db_enum_settings_sub_cb(const char *szSetting, LPARAM lParam)
+	int db_enum_settings_sub_cb(const char *szSetting, void *lParam)
 	{
 		db_enum_settings_sub_cb_data* data = (db_enum_settings_sub_cb_data*)lParam;
 		if (strstr(szSetting, "OmemoSignalSession_"))
@@ -765,7 +765,7 @@ namespace omemo {
 		ud->sessions = l;
 		ud->name = name;
 		ud->name_len = name_len;
-		db_enum_settings(data->hContact, &db_enum_settings_sub_cb, data->proto->m_szModuleName, (void*)ud);
+		db_enum_settings(data->hContact, &db_enum_settings_sub_cb, data->proto->m_szModuleName, ud);
 		*sessions = l;
 		delete ud;
 		return array_size;
@@ -870,7 +870,7 @@ namespace omemo {
 		size_t name_len;
 	};
 
-	int db_enum_settings_del_all_cb(const char *szSetting, LPARAM lParam)
+	int db_enum_settings_del_all_cb(const char *szSetting, void *lParam)
 	{
 		db_enum_settings_del_all_cb_data* data = (db_enum_settings_del_all_cb_data*)lParam;
 		if (strstr(szSetting, "OmemoSignalSession_"))
@@ -1989,7 +1989,7 @@ struct db_enum_settings_prekeys_cb_data
 };
 
 
-int db_enum_settings_prekeys_cb(const char *szSetting, LPARAM lParam)
+int db_enum_settings_prekeys_cb(const char *szSetting, void *lParam)
 {
 	db_enum_settings_prekeys_cb_data* data = (db_enum_settings_prekeys_cb_data*)lParam;
 	if (strstr(szSetting, "OmemoPreKey") && strstr(szSetting, "Public")) //TODO: suboptimal code, use different names for simple searching
@@ -2031,7 +2031,7 @@ void CJabberProto::OmemoSendBundle()
 	HXML prekeys_node = XmlAddChild(bundle_node, L"prekeys");
 
 	db_enum_settings_prekeys_cb_data *ud = new db_enum_settings_prekeys_cb_data;
-	db_enum_settings(0, &db_enum_settings_prekeys_cb, m_szModuleName, (void*)ud);
+	db_enum_settings(0, &db_enum_settings_prekeys_cb, m_szModuleName, ud);
 	for (std::list<char*>::iterator i = ud->settings.begin(), end = ud->settings.end(); i != end; i++)
 	{
 		ptrW val(getWStringA(*i));

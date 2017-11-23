@@ -265,7 +265,7 @@ struct sTreeReadEnumData
 	const CString &sModule, &sDBSettingPrefix;
 };
 
-int TreeReadEnum(const char *szSetting, LPARAM lParam)
+int TreeReadEnum(const char *szSetting, void *lParam)
 {
 	sTreeReadEnumData *pData = (sTreeReadEnumData*)lParam;
 	int Len = pData->TreeCtrl->sDBSetting.GetLen() + _countof(TREEITEM_DBSTR_TITLE) - 1;
@@ -441,7 +441,7 @@ typedef struct
 	CString *sDBSettingPrefix;
 } sTreeDeleteEnumData;
 
-int TreeDeleteEnum(const char *szSetting, LPARAM lParam)
+int TreeDeleteEnum(const char *szSetting, void *lParam)
 {
 	sTreeDeleteEnumData *TreeDeleteEnumData = (sTreeDeleteEnumData*)lParam;
 	CString CurSetting = *TreeDeleteEnumData->sDBSettingPrefix + TreeDeleteEnumData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_TITLE;
@@ -644,7 +644,7 @@ struct sListReadEnumData
 	const CString &sModule, &sDBSettingPrefix;
 };
 
-int ListReadEnum(const char *szSetting, LPARAM lParam)
+int ListReadEnum(const char *szSetting, void *lParam)
 {
 	sListReadEnumData *pData = (sListReadEnumData*)lParam;
 	int Len = pData->sDBSettingPrefix.GetLen() + pData->ListCtrl->sDBSetting.GetLen() + _countof(LISTITEM_DBSTR_TEXT) - 1;
@@ -721,7 +721,7 @@ typedef struct
 	CString *sDBSettingPrefix;
 } sListDeleteEnumData;
 
-int ListDeleteEnum(const char *szSetting, LPARAM lParam)
+int ListDeleteEnum(const char *szSetting, void *lParam)
 {
 	sListDeleteEnumData *ListDeleteEnumData = (sListDeleteEnumData*)lParam;
 	CString CurSetting = *ListDeleteEnumData->sDBSettingPrefix + ListDeleteEnumData->ListCtrl->sDBSetting + LISTITEM_DBSTR_TEXT;

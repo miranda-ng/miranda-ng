@@ -102,11 +102,11 @@ public:
 	void   flushQueue() { m_last_sendlater_processed = 0; }
 	bool   haveJobs() const { return (m_sendLaterJobList.getCount() != 0 && m_currJob != -1); }
 
-	static int _cdecl addStub(const char *szSetting, LPARAM lParam);
+	static int _cdecl addStub(const char *szSetting, void *lParam);
 
 	bool   processCurrentJob();
 	void   processContacts();
-	int    addJob(const char *szSetting, LPARAM lParam);
+	int    addJob(const char *szSetting, void *lParam);
 	void   addContact(const MCONTACT hContact);
 	HANDLE processAck(const ACKDATA *ack);
 

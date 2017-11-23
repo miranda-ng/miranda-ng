@@ -1223,7 +1223,7 @@ string time_str()
 	return (string)boost::posix_time::to_simple_string(now);
 }
 
-int handleEnum(const char *szSetting, LPARAM lParam)
+int handleEnum(const char *szSetting, void *lParam)
 {
 	if (!*(bool*)lParam && szSetting[0] && StriStr(szSetting, "tabsrmm")) {
 		bool f = false, *found = (bool*)lParam;

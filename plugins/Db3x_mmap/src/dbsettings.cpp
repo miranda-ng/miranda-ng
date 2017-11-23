@@ -648,7 +648,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
 {
 	if (!szModule)
 		return -1;
@@ -680,7 +680,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGE
 		NeedBytes(1 + pBlob[0]);
 		char szSetting[256];
 		memcpy(szSetting, pBlob + 1, pBlob[0]); szSetting[pBlob[0]] = 0;
-		result = pfnEnumProc(szSetting, LPARAM(param));
+		result = pfnEnumProc(szSetting, param);
 		MoveAlong(1 + pBlob[0]);
 		NeedBytes(3);
 		MoveAlong(1 + GetSettingValueLength(pBlob));
@@ -689,10 +689,10 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGE
 	return result;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, const void *pParam)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
-		int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam);
+		int ret = pFunc(m_lResidentSettings[i], pParam);
 		if (ret)
 			return ret;
 	}

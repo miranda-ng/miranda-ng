@@ -500,7 +500,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 ///////////////////////////////////////////////////////////////////////////////
 // for db cleanup
 
-static int DeleteSetting(const char *szSetting, LPARAM lParam)
+static int DeleteSetting(const char *szSetting, void *lParam)
 {
 	LIST<char> *p = (LIST<char> *)lParam;
 	p->insert(mir_strdup(szSetting));

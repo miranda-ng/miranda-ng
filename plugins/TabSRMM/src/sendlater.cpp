@@ -235,7 +235,7 @@ bool CSendLater::processCurrentJob()
 // stub used as enum proc for the database enumeration, collecting
 // all entries in the SendLater module
 // (static function)
-int _cdecl CSendLater::addStub(const char *szSetting, LPARAM lParam)
+int _cdecl CSendLater::addStub(const char *szSetting, void *lParam)
 {
 	return(sendLater->addJob(szSetting, lParam));
 }
@@ -272,9 +272,9 @@ void CSendLater::processContacts()
 //
 // @param 	lParam: a contact handle for which the job should be scheduled
 // @return 	0 on failure, 1 otherwise
-int CSendLater::addJob(const char *szSetting, LPARAM lParam)
+int CSendLater::addJob(const char *szSetting, void *lParam)
 {
-	MCONTACT	hContact = lParam;
+	MCONTACT	hContact = (MCONTACT)lParam;
 	DBVARIANT dbv = { 0 };
 	char *szOrig_Utf = nullptr;
 

@@ -91,7 +91,7 @@ struct EnumPrefixSettingsParams {
 	int nPrefixLen;
 };
 
-static int EnumPrefixSettingsProc(const char *pszSetting,LPARAM lParam)
+static int EnumPrefixSettingsProc(const char *pszSetting, void *lParam)
 {
 	struct EnumPrefixSettingsParams *param=(struct EnumPrefixSettingsParams*)lParam;
 	if (!strncmp(pszSetting,param->pszPrefix,param->nPrefixLen)) {

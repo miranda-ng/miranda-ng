@@ -156,7 +156,7 @@ CIrcProto::~CIrcProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoaded - performs hook registration
 
-static int sttCheckPerform(const char *szSetting, LPARAM lParam)
+static int sttCheckPerform(const char *szSetting, void *lParam)
 {
 	if (!_strnicmp(szSetting, "PERFORM:", 8)) {
 		CMStringA s = szSetting;

@@ -45,9 +45,9 @@ MIR_CORE_DLL(MIDatabase*) db_get_current()
 	return currDb;
 }
 
-static int sttEnumVars(const char *szVarName, LPARAM lParam)
+static int sttEnumVars(const char *szVarName, void *param)
 {
-	LIST<char>* vars = (LIST<char>*)lParam;
+	LIST<char>* vars = (LIST<char>*)param;
 	vars->insert(mir_strdup(szVarName));
 	return 0;
 }
@@ -92,17 +92,17 @@ MIR_CORE_DLL(int) db_is_contact(MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // enumerators
 
-MIR_CORE_DLL(int) db_enum_modules(DBMODULEENUMPROC pFunc, const void *param)
+MIR_CORE_DLL(int) db_enum_modules(DBMODULEENUMPROC pFunc, void *param)
 {
 	return (currDb) ? currDb->EnumModuleNames(pFunc, param) : 0;
 }
 
-MIR_CORE_DLL(int) db_enum_residents(DBMODULEENUMPROC pFunc, const void *param)
+MIR_CORE_DLL(int) db_enum_residents(DBMODULEENUMPROC pFunc, void *param)
 {
 	return (currDb) ? currDb->EnumResidentSettings(pFunc, param) : 0;
 }
 
-EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC pFunc, const char *szModule, const void *param)
+EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC pFunc, const char *szModule, void *param)
 {
 	return (currDb) ? currDb->EnumContactSettings(hContact, pFunc, szModule, param) : 0;
 }

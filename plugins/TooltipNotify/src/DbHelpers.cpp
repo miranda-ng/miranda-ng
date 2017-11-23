@@ -6,7 +6,7 @@
 
 typedef std::vector<const char*> SettingsList;
 
-static int EnumSettingsProc1(const char*, LPARAM)
+static int EnumSettingsProc1(const char*, void *)
 {
 	return 0;
 }
@@ -16,7 +16,7 @@ bool ModuleSettingsExists(MCONTACT hContact, const char* pszModuleName)
 	return db_enum_settings(hContact, EnumSettingsProc1, pszModuleName) != -1;
 }
 
-static int EnumSettingsProc2(const char *pszSetting, LPARAM lParam)
+static int EnumSettingsProc2(const char *pszSetting, void *lParam)
 {
 	SettingsList& settingsList = *((SettingsList*)lParam);
 	settingsList.push_back(_strdup(pszSetting));

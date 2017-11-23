@@ -812,7 +812,7 @@ struct GroupReserveIdsEnumParam
 	char *szModule;
 };
 
-static int GroupReserveIdsEnumProc(const char *szSetting, LPARAM lParam)
+static int GroupReserveIdsEnumProc(const char *szSetting, void *lParam)
 {
 	if (szSetting && mir_strlen(szSetting) < 5) {
 		// it is probably server group
@@ -1252,7 +1252,7 @@ void* CIcqProto::collectGroups(int *count)
 	return buf;
 }
 
-static int GroupLinksEnumProc(const char *szSetting, LPARAM lParam)
+static int GroupLinksEnumProc(const char *szSetting, void *lParam)
 {
 	// check link target, add if match
 	if (db_get_w(NULL, ((char**)lParam)[2], szSetting, 0) == (WORD)((char**)lParam)[1]) {
@@ -1489,7 +1489,7 @@ char *CIcqProto::getServListGroupCListPath(WORD wGroupId)
 }
 
 
-static int SrvGroupNamesEnumProc(const char *szSetting, LPARAM lParam)
+static int SrvGroupNamesEnumProc(const char *szSetting, void *lParam)
 {
 	// check server-group cache item
 	const char **params = (const char**)lParam;

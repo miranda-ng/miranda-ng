@@ -415,7 +415,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param)
+STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
 {
 	int result = -1;
 
@@ -430,16 +430,16 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT hContact, DBSETTINGENU
 		const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
 		if (pKey->hContact != hContact || pKey->dwModuleId != keyVal.dwModuleId)
 			break;
-		result = pfnEnumProc(pKey->szSettingName, LPARAM(param));
+		result = pfnEnumProc(pKey->szSettingName, param);
 	}
 
 	return result;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::EnumResidentSettings(DBMODULEENUMPROC pFunc, const void *pParam)
+STDMETHODIMP_(BOOL) CDbxMdb::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (int i = 0; i < m_lResidentSettings.getCount(); i++)
-		if (int ret = pFunc(m_lResidentSettings[i], 0, (LPARAM)pParam)) 
+		if (int ret = pFunc(m_lResidentSettings[i], pParam))
 			return ret;
 	return 0;
 }

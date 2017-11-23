@@ -597,7 +597,7 @@ int SendQueue::doSendLater(int iJobIndex, CTabBaseDlg *dat, MCONTACT hContact, b
 	}
 	else {
 		mir_snprintf(tszMsg, required, "%s%s", utf_header, job->szSendBuffer);
-		sendLater->addJob(tszMsg, hContact);
+		sendLater->addJob(tszMsg, (void*)hContact);
 	}
 	mir_free(tszMsg);
 

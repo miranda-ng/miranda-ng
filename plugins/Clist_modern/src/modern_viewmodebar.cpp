@@ -91,7 +91,7 @@ static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, vo
  * useful for filling lists, menus and so on..
  */
 
-int CLVM_EnumProc(const char *szSetting, LPARAM lParam)
+int CLVM_EnumProc(const char *szSetting, void *lParam)
 {
 	pfnEnumCallback EnumCallback = (pfnEnumCallback)lParam;
 	if (szSetting != nullptr)

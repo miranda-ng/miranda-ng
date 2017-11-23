@@ -30,7 +30,7 @@ struct mir_safety_dbvar
 	DBVARIANT* m_p;
 };
 
-static int enum_contact_settings(const char* szSetting, LPARAM lp)
+static int enum_contact_settings(const char* szSetting, void *lp)
 {
 	CEnumContext* ctx = reinterpret_cast<CEnumContext*>(lp);
 
@@ -98,7 +98,7 @@ static int enum_contact_settings(const char* szSetting, LPARAM lp)
 	return 0;
 }
 
-int EnumDbModules(const char *szModuleName, DWORD, LPARAM lp)
+int EnumDbModules(const char *szModuleName, void *lp)
 {
 	CEnumContext *ctx = (CEnumContext*)lp;
 	IXMLNode::TXMLNodePtr pXml = ctx->m_pNode;

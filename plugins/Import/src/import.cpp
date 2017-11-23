@@ -153,9 +153,9 @@ static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, wchar_t *pw
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int CopySettingsEnum(const char *szSetting, LPARAM lParam)
+static int CopySettingsEnum(const char *szSetting, void *param)
 {
-	LIST<char> *pSettings = (LIST<char>*)lParam;
+	LIST<char> *pSettings = (LIST<char>*)param;
 	pSettings->insert(mir_strdup(szSetting));
 	return 0;
 }
@@ -549,9 +549,9 @@ struct ImportContactData
 	const char *szSrcProto, *szDstProto;
 };
 
-int ModulesEnumProc(const char *szModuleName, DWORD, LPARAM lParam)
+int ModulesEnumProc(const char *szModuleName, void *pParam)
 {
-	ImportContactData *icd = (ImportContactData*)lParam;
+	ImportContactData *icd = (ImportContactData*)pParam;
 	if (!mir_strcmp(icd->szSrcProto, szModuleName))
 		CopySettings(icd->from, szModuleName, icd->to, icd->szDstProto);
 	else if (!mir_strcmp(szModuleName, "Protocol"))
@@ -572,9 +572,9 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int ImportGroup(const char* szSettingName, LPARAM lParam)
+static int ImportGroup(const char* szSettingName, void *param)
 {
-	int *pnGroups = (int*)lParam;
+	int *pnGroups = (int*)param;
 
 	wchar_t *tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
 	if (tszGroup != nullptr) {
@@ -802,7 +802,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 /////////////////////////////////////////////////////////////////////////////////////////
 // copying system settings
 
-static int CopySystemSettings(const char *szModuleName, DWORD, LPARAM param)
+static int CopySystemSettings(const char *szModuleName, void *param)
 {
 	LIST<char> *arSkippedAccs = (LIST<char>*)param;
 	if (!arSkippedAccs->find((char*)szModuleName))

@@ -110,7 +110,7 @@ void CIrcProto::WriteSettings( TDbSetting* sets, int count )
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int sttServerEnum( const char* szSetting, LPARAM )
+static int sttServerEnum( const char* szSetting, void*)
 {
 	DBVARIANT dbv;
 	if (db_get_s(NULL, SERVERSMODULE, szSetting, &dbv))

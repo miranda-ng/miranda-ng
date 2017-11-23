@@ -105,7 +105,7 @@ static int GetSetting(MCONTACT hContact, const char *szModule, const char *szSet
 	return db_get_s(hContact, szModule, szSetting, dbv, 0);
 }
 
-static int enumModulesSettingsProc(const char *szName, LPARAM lParam)
+static int enumModulesSettingsProc(const char *szName, void *lParam)
 {
 	ModuleSettingLL *msll = (ModuleSettingLL *)lParam;
 	if (!msll->first)

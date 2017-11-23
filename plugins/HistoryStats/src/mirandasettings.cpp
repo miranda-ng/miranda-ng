@@ -128,7 +128,7 @@ bool MirandaSettings::delSetting(const char* szSetting)
 	return db_unset(m_hContact, m_strModule.c_str(), szSetting) == 0;
 }
 
-int MirandaSettings::enumSettingsProc(const char* szSetting, LPARAM lParam)
+int MirandaSettings::enumSettingsProc(const char* szSetting, void *lParam)
 {
 	SetInserter* pInserter = reinterpret_cast<SetInserter*>(lParam);
 
@@ -139,5 +139,5 @@ int MirandaSettings::enumSettingsProc(const char* szSetting, LPARAM lParam)
 
 void MirandaSettings::enumSettings(const SetInserter& insertIterator)
 {
-	db_enum_settings(m_hContact, enumSettingsProc, m_strModule.c_str(), &insertIterator);
+	db_enum_settings(m_hContact, enumSettingsProc, m_strModule.c_str(), (void*)&insertIterator);
 }

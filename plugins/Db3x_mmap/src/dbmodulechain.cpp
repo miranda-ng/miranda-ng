@@ -127,11 +127,11 @@ char* CDb3Mmap::GetModuleNameByOfs(DWORD ofs)
 	return nullptr;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::EnumModuleNames(DBMODULEENUMPROC pFunc, const void *pParam)
+STDMETHODIMP_(BOOL) CDb3Mmap::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
 	for (int i = 0; i < m_lMods.getCount(); i++) {
 		ModuleName *pmn = m_lMods[i];
-		int ret = pFunc(pmn->name, pmn->ofs, (LPARAM)pParam);
+		int ret = pFunc(pmn->name, pParam);
 		if (ret)
 			return ret;
 	}

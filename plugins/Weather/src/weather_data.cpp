@@ -391,7 +391,7 @@ void wfree(WCHAR **Data)
 // get single setting that is found
 // szSetting = the setting name
 // lparam = the counter
-int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam)
+int GetWeatherDataFromDB(const char *szSetting, void *lparam)
 {
 	LIST<char> *pList = (LIST<char>*)lparam;
 	pList->insert(mir_strdup(szSetting));

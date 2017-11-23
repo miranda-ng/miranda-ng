@@ -99,21 +99,20 @@ EXTERN_C MIR_CORE_DLL(int) db_is_contact(MCONTACT hContact);
 // Returns the value returned by the last call to dbmep
 // This service is only really useful for debugging, in conjunction with db/contact/enumsettings
 // dbmep should return 0 to continue enumeration, or nonzero to stop.
-// ofsModuleName is the offset of the module name from the start of the profile
-// database, and is only useful for really heavyweight debugging
+//
 // Modules names will be enumerated in no particular order
 // Writing to the database while module names are being enumerated will cause
 // unpredictable results in the enumeration, but the write will work.
 // szModuleName is only guaranteed to be valid for the duration of the callback.
 // If you want to keep it for longer you must allocation your own storage.
 
-typedef int(*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam);
+typedef int(*DBMODULEENUMPROC)(const char *szModuleName, void *param);
 
-EXTERN_C MIR_CORE_DLL(int) db_enum_modules(DBMODULEENUMPROC dbmep, const void *param = NULL);
+EXTERN_C MIR_CORE_DLL(int) db_enum_modules(DBMODULEENUMPROC dbmep, void *param = nullptr);
 
 // Lists all resident settings
 
-EXTERN_C MIR_CORE_DLL(int) db_enum_residents(DBMODULEENUMPROC pFunc, const void *param = NULL);
+EXTERN_C MIR_CORE_DLL(int) db_enum_residents(DBMODULEENUMPROC pFunc, void *param = nullptr);
 
 // Lists all the settings a specific modules has stored in the database for a specific contact.
 // Returns the return value of the last call to pfnEnumProc, or -1 if there are
@@ -124,9 +123,9 @@ EXTERN_C MIR_CORE_DLL(int) db_enum_residents(DBMODULEENUMPROC pFunc, const void 
 // szSetting is only guaranteed to be valid for the duration of the callback. If
 // you want to keep it for longer you must allocation your own storage.
 
-typedef int (*DBSETTINGENUMPROC)(const char *szSetting, LPARAM lParam);
+typedef int (*DBSETTINGENUMPROC)(const char *szSetting, void *param);
 
-EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, const void *param = NULL);
+EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting

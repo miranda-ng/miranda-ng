@@ -1828,7 +1828,7 @@ static int ske_ProcessLoadindString(const char *szSetting, char *szValue)
 	return 1;
 }
 
-static int ske_enumdb_SkinObjectsProc(const char *szSetting, LPARAM)
+static int ske_enumdb_SkinObjectsProc(const char *szSetting, void *)
 {
 	ptrA value(db_get_sa(0, SKIN, szSetting));
 	ske_ProcessLoadindString(szSetting, value);

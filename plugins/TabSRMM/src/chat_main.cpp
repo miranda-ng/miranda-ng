@@ -155,7 +155,7 @@ void Chat_ModulesLoaded()
 /////////////////////////////////////////////////////////////////////////////////////////
 // load the group chat module
 
-static int CopyChatSetting(const char *szSetting, LPARAM param)
+static int CopyChatSetting(const char *szSetting, void *param)
 {
 	LIST<char> *szSettings = (LIST<char>*)param;
 	szSettings->insert(mir_strdup(szSetting));

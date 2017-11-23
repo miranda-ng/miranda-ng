@@ -131,7 +131,7 @@ static void GetLastUploadLogLine(HWND hwndDlg, char *szBuf, size_t cbBuf)
 	make_utf8_string_static(str, szBuf, cbBuf);
 }
 
-static int GroupEnumIdsEnumProc(const char *szSetting, LPARAM lParam)
+static int GroupEnumIdsEnumProc(const char *szSetting, void *lParam)
 {
 	// it is probably server group
 	if (szSetting && mir_strlen(szSetting) < 5) {

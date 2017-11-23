@@ -272,7 +272,7 @@ struct SettingsList
 	SettingsList *next;
 } *setting_items = nullptr;
 
-int SettingsEnumProc(const char *szSetting, LPARAM)
+int SettingsEnumProc(const char *szSetting, void *)
 {
 	SettingsList *newItem = (SettingsList *)mir_alloc(sizeof(SettingsList));
 	newItem->name = mir_strdup(szSetting);
@@ -303,7 +303,7 @@ struct ESFDParam
 	const char *pMask;
 };
 
-static int EnumSettingsForDeletion(const char *szSetting, LPARAM param)
+static int EnumSettingsForDeletion(const char *szSetting, void *param)
 {
 	ESFDParam *pParam = (ESFDParam*)param;
 	if (wildcmpi(szSetting, pParam->pMask))

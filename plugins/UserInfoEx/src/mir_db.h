@@ -114,8 +114,8 @@ namespace Event   {
 
 class CEnumList : public ::LIST<CHAR>
 {
-	static int EnumProc        (LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam);
-	static int EnumSettingsProc(LPCSTR pszName, LPARAM lParam);
+	static int EnumProc        (LPCSTR pszName, void *param);
+	static int EnumSettingsProc(LPCSTR pszName, void *param);
 
 	static int CompareProc     (LPCSTR p1, LPCSTR p2);
 	

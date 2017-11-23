@@ -585,7 +585,7 @@ typedef struct {
 } DeleteModuleStruct;
 
 
-int EnumProc(const char *szName, LPARAM lParam)
+int EnumProc(const char *szName, void *lParam)
 {
 	DeleteModuleStruct *dms = (DeleteModuleStruct *) lParam;
 	size_t len = mir_strlen(szName);
@@ -612,7 +612,7 @@ int EnumProc(const char *szName, LPARAM lParam)
 	return 0;
 }
 
-int ModuleEnumProc(const char *szName, DWORD, LPARAM lParam)
+int ModuleEnumProc(const char *szName, void *lParam)
 {
 	return EnumProc(szName, lParam);
 }

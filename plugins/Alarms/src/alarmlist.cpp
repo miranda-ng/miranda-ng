@@ -339,7 +339,7 @@ void LoadAlarms()
 	}
 }
 
-int db_enum_settings_sub_cb(const char *szSetting, LPARAM lParam)
+int db_enum_settings_sub_cb(const char *szSetting, void *lParam)
 {
 	//quick and dirty solution, feel free to rewrite
 	std::list<char*> *settings = (std::list<char*>*)lParam;
@@ -393,7 +393,7 @@ void SaveAlarms()
 		//quick and dirty solution, feel free to rewrite
 		//TODO: this should be done on "delete" button press instead, and for selected alrams only
 		std::list<char*> settings;
-		db_enum_settings(0, &db_enum_settings_sub_cb, MODULE, (void*)&settings);
+		db_enum_settings(0, &db_enum_settings_sub_cb, MODULE, &settings);
 		for (std::list<char*>::iterator i = settings.begin(), end = settings.end(); i != end; ++i)
 		{
 			db_unset(0, MODULE, *i);

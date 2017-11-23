@@ -21,9 +21,9 @@ void FreeModuleSettingLL(ModuleSettingLL *msll)
 }
 
 
-int enumModulesSettingsProc(const char *setting, DWORD, LPARAM lParam)
+int enumModulesSettingsProc(const char *setting, void *pParam)
 {
-	ModuleSettingLL *msll = (ModuleSettingLL *)lParam;
+	ModuleSettingLL *msll = (ModuleSettingLL *)pParam;
 	if (!msll->first) {
 		msll->first = (ModSetLinkLinkItem *)mir_alloc(sizeof(ModSetLinkLinkItem));
 		if (!msll->first)
@@ -59,9 +59,9 @@ int EnumModules(ModuleSettingLL *msll) // 1 = success, 0 = fail
 }
 
 
-int enumSettingsProc(const char *setting, LPARAM lParam)
+int enumSettingsProc(const char *setting, void *lParam)
 {
-	return enumModulesSettingsProc(setting, 0, lParam);
+	return enumModulesSettingsProc(setting, lParam);
 }
 
 
@@ -78,7 +78,7 @@ int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll)
 }
 
 
-int CheckIfModuleIsEmptyProc(const char *, LPARAM)
+int CheckIfModuleIsEmptyProc(const char*, void*)
 {
 	return 1;
 }
@@ -100,7 +100,7 @@ LIST<char> m_lResidentSettings(10, stringCompare);
 LIST<char> m_lResidentModules(5, stringCompare);
 
 
-int enumResidentProc(const char *setting, DWORD, LPARAM)
+int enumResidentProc(const char *setting, void*)
 {
 	m_lResidentSettings.insert(mir_strdup(setting));
 
@@ -170,7 +170,7 @@ int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 
 		if (m_lResidentSettings[i][len] != '/' || m_lResidentSettings[i][len+1] == 0) continue;
 
-		enumModulesSettingsProc(&m_lResidentSettings[i][len+1], 0, (LPARAM)msll);
+		enumModulesSettingsProc(&m_lResidentSettings[i][len+1], msll);
 		cnt++;
 	}
 	return cnt;
@@ -187,7 +187,7 @@ int EnumResidentModules(ModuleSettingLL *msll)
 	int cnt = 0;
 
 	for (int i = 0; i < m_lResidentModules.getCount(); i++) {
-		enumModulesSettingsProc(m_lResidentModules[i], 0, (LPARAM)msll);		
+		enumModulesSettingsProc(m_lResidentModules[i], msll);		
 		cnt++;		
 	}
 

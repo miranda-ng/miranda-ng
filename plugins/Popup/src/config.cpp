@@ -136,7 +136,7 @@ struct EnumProcParam
 	LPCSTR szModule, szNewModule;
 };
 
-static int EnumProc(const char *szSetting, LPARAM lParam)
+static int EnumProc(const char *szSetting, void *lParam)
 {
 	EnumProcParam* param = (EnumProcParam*)lParam;
 
