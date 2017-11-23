@@ -1052,3 +1052,5 @@ CallFunctionSync @1170
 Utils_IsRtl @1240
 HookTemporaryEvent @1241
 ?Click@CCtrlButton@@QAEXXZ @1242 NONAME
+??0CTimer@@QAE@$$QAV0@@Z @1243 NONAME
+??4CTimer@@QAEAAV0@$$QAV0@@Z @1244 NONAME
