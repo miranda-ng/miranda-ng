@@ -126,10 +126,13 @@ static __inline BOOL funlock(mdbx_filehandle_t fd, uint64_t offset,
 #define LCK_BODY LCK_BODY_OFFSET, LCK_BODY_LEN
 #define LCK_WHOLE 0, LCK_MAXLEN
 
-int mdbx_txn_lock(MDBX_env *env) {
-  if (flock(env->me_fd, LCK_EXCLUSIVE | LCK_WAITFOR, LCK_BODY))
+int mdbx_txn_lock(MDBX_env *env, bool dontwait) {
+  if (flock(env->me_fd, dontwait ? (LCK_EXCLUSIVE | LCK_DONTWAIT)
+                                 : (LCK_EXCLUSIVE | LCK_WAITFOR),
+            LCK_BODY))
     return MDBX_SUCCESS;
-  return GetLastError();
+  int rc = GetLastError();
+  return (!dontwait || rc != ERROR_LOCK_VIOLATION) ? rc : MDBX_BUSY;
 }
 
 void mdbx_txn_unlock(MDBX_env *env) {
