@@ -97,27 +97,17 @@ static int stringCompare(const char *p1, const char *p2)
 
 
 LIST<char> m_lResidentSettings(10, stringCompare);
-LIST<char> m_lResidentModules(5, stringCompare);
-
 
 int enumResidentProc(const char *setting, void*)
 {
 	m_lResidentSettings.insert(mir_strdup(setting));
-
-	char str[FLD_SIZE];
-	const char *end = strstr(setting, "/");
-	if (end && (end - setting) < _countof(str)) {
-		mir_strncpy(str, setting, end - setting + 1);
-		if (m_lResidentModules.getIndex(str) == -1)
-				m_lResidentModules.insert(mir_strdup(str));
-	}
 	return 0;
 }
 
 
 int LoadResidentSettings()
-{	
-	if (g_db) 
+{
+	if (g_db)
 		return !g_db->EnumResidentSettings(enumResidentProc, nullptr);
 	return 0;
 }
@@ -129,25 +119,18 @@ void FreeResidentSettings()
 		mir_free(m_lResidentSettings[i]);
 	}
 	m_lResidentSettings.destroy();
-
-	for (int i = 0; i < m_lResidentModules.getCount(); i++) {
-		mir_free(m_lResidentModules[i]);
-	}
-	m_lResidentModules.destroy();
 }
 
 
 int IsResidentSetting(const char *module, const char *setting)
 {
 	if (!m_lResidentSettings.getCount()) return 0;
-
-	if (m_lResidentModules.getIndex((char*)module) == -1) return 0; 
 	if (!setting) return 1;
 
-	char str[2*FLD_SIZE];
-    mir_strncpy(str, module, _countof(str)-1);
-    mir_strcat(str, "/");
-    mir_strncat(str, setting, _countof(str));
+	char str[2 * FLD_SIZE];
+	mir_strncpy(str, module, _countof(str) - 1);
+	mir_strcat(str, "/");
+	mir_strncat(str, setting, _countof(str));
 	return m_lResidentSettings.getIndex(str) != -1;
 }
 
@@ -159,7 +142,6 @@ int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 
 	if (!module) return 0;
 	if (!m_lResidentSettings.getCount()) return 0;
-	if (m_lResidentModules.getIndex((char*)module) == -1) return 0; 
 
 	int len = (int)mir_strlen(module);
 	int cnt = 0;
@@ -168,32 +150,13 @@ int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 		if (strncmp(module, m_lResidentSettings[i], len))
 			continue;
 
-		if (m_lResidentSettings[i][len] != '/' || m_lResidentSettings[i][len+1] == 0) continue;
+		if (m_lResidentSettings[i][len] != '/' || m_lResidentSettings[i][len + 1] == 0) continue;
 
-		enumModulesSettingsProc(&m_lResidentSettings[i][len+1], msll);
+		enumModulesSettingsProc(&m_lResidentSettings[i][len + 1], msll);
 		cnt++;
 	}
 	return cnt;
 }
-
-
-int EnumResidentModules(ModuleSettingLL *msll)
-{
-	msll->first = nullptr;
-	msll->last = nullptr;
-
-	if (!m_lResidentModules.getCount()) return 0;
-
-	int cnt = 0;
-
-	for (int i = 0; i < m_lResidentModules.getCount(); i++) {
-		enumModulesSettingsProc(m_lResidentModules[i], msll);		
-		cnt++;		
-	}
-
-	return cnt;
-}
-
 
 static int fixing = 0;
 
@@ -201,61 +164,44 @@ static int fixing = 0;
 // so let's find them and delete from DB
 int fixResidentSettings()
 {
-	if (!m_lResidentSettings.getCount() || fixing) return 0;
+	if (!m_lResidentSettings.getCount() || fixing)
+		return 0;
 
-	ModuleSettingLL ModuleList, SettingList;
-	ModSetLinkLinkItem *module, *setting;
-	MCONTACT hContact = 0;
-	int NULLContactDone = 0;
-	char str[2*FLD_SIZE];
-	int cnt = 0;
-
-	if (!EnumModules(&ModuleList)) return 0;
+	ModuleSettingLL ModuleList;
+	if (!EnumModules(&ModuleList))
+		return 0;
 
 	fixing = 1;
+	int cnt = 0;
 
-	while (hwnd2mainWindow) {
-
-		if (!hContact) {
-			if (NULLContactDone) 
-				break;
-			else {
-				NULLContactDone = 1;
-				hContact = db_find_first();
-			}
-		}
-		else 
-			hContact = db_find_next(hContact);
-
-		for (module = ModuleList.first; module; module = module->next) {
-
-			if (IsModuleEmpty(hContact, module->name) || m_lResidentModules.getIndex(module->name) == -1) 
+	for (MCONTACT hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact)) {
+		for (ModSetLinkLinkItem *module = ModuleList.first; module; module = module->next) {
+			if (IsModuleEmpty(hContact, module->name))
 				continue;
-	
+
+			ModuleSettingLL SettingList;
 			if (!EnumSettings(hContact, module->name, &SettingList))
-			 	continue;
+				continue;
 
-			for (setting = SettingList.first; setting; setting = setting->next) {
+			for (ModSetLinkLinkItem *setting = SettingList.first; setting; setting = setting->next) {
+				char str[2 * FLD_SIZE];
+				mir_strncpy(str, module->name, _countof(str) - 1);
+				mir_strcat(str, "/");
+				mir_strncat(str, setting->name, _countof(str));
 
-			    mir_strncpy(str, module->name, _countof(str)-1);
-			    mir_strcat(str, "/");
-			    mir_strncat(str, setting->name, _countof(str));
 				int idx = m_lResidentSettings.getIndex(str);
-
 				if (idx == -1)
 					continue;
 
+				Netlib_Logf(nullptr, "Removing resident setting %s/%s for contact %d", module->name, setting->name, hContact);
 				g_db->SetSettingResident(0, str);
 				db_unset(hContact, module->name, setting->name);
 				g_db->SetSettingResident(1, str);
-
 				cnt++;
-
-			} // for(setting)
+			}
 
 			FreeModuleSettingLL(&SettingList);
-
-		} // for(module)
+		}
 	}
 
 	FreeModuleSettingLL(&ModuleList);

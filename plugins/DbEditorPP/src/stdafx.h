@@ -24,6 +24,7 @@
 #include <m_database.h>
 #include <m_db_int.h>
 #include <m_system.h>
+#include <m_netlib.h>
 #include <m_protocols.h>
 #include <m_userinfo.h>
 #include <m_options.h>
@@ -282,7 +283,6 @@ int LoadResidentSettings();
 void FreeResidentSettings();
 int IsResidentSetting(const char *module, const char *setting);
 int EnumResidentSettings(const char *module, ModuleSettingLL *msll);
-int EnumResidentModules(ModuleSettingLL *msll);
 int fixResidentSettings();
 
 // icons
