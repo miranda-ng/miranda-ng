@@ -55,6 +55,7 @@ int MDatabaseCommon::CheckProto(DBCachedContact *cc, const char *proto)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Modules
 
 static int sttEnumVars(const char *szVarName, void *param)
 {
@@ -76,6 +77,7 @@ BOOL MDatabaseCommon::DeleteModule(MCONTACT hContact, LPCSTR szModule)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Contacts
 
 STDMETHODIMP_(MCONTACT) MDatabaseCommon::FindFirstContact(const char *szProto)
 {
@@ -108,6 +110,7 @@ STDMETHODIMP_(MCONTACT) MDatabaseCommon::FindNextContact(MCONTACT contactID, con
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Encryption support
 
 BOOL MDatabaseCommon::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 {
@@ -125,6 +128,7 @@ BOOL MDatabaseCommon::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Meta-contacts support
 
 BOOL MDatabaseCommon::MetaDetouchSub(DBCachedContact *cc, int nSub)
 {
@@ -142,6 +146,7 @@ BOOL MDatabaseCommon::MetaSetDefault(DBCachedContact *cc)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Getting settings
 
 STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
@@ -274,6 +279,19 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
 		break;
 	}
 	dbv->type = 0;
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Resident settings
+
+STDMETHODIMP_(BOOL) MDatabaseCommon::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
+{
+	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
+		int ret = pFunc(m_lResidentSettings[i], pParam);
+		if (ret)
+			return ret;
+	}
 	return 0;
 }
 

@@ -29,8 +29,7 @@ int CDbxMdb::InitModules()
 	cursor_ptr_ro cursor(m_curModules);
 
 	MDBX_val key, data;
-	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) 
-	{
+	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
 		uint32_t iMod = *(uint32_t*)key.iov_base;
 		const char *szMod = (const char*)data.iov_base;
 		m_Modules[iMod] = szMod;
@@ -42,8 +41,7 @@ int CDbxMdb::InitModules()
 uint32_t CDbxMdb::GetModuleID(const char *szName)
 {
 	uint32_t iHash = mir_hashstr(szName);
-	if (m_Modules.find(iHash) == m_Modules.end())
-	{
+	if (m_Modules.find(iHash) == m_Modules.end()) {
 		MDBX_val key = { &iHash, sizeof(iHash) }, data = { (void*)szName, strlen(szName) + 1 };
 
 		for (;; Remap()) {

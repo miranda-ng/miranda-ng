@@ -486,3 +486,4 @@ Clist_SetStatusMode @464
 ?FindNextContact@MDatabaseCommon@@UAGIIPBD@Z @491 NONAME
 ?MetaDetouchSub@MDatabaseCommon@@UAGHPAUDBCachedContact@@H@Z @492 NONAME
 ?MetaSetDefault@MDatabaseCommon@@UAGHPAUDBCachedContact@@@Z @493 NONAME
+?EnumResidentSettings@MDatabaseCommon@@UAGHP6AHPBDPAX@Z1@Z @494 NONAME

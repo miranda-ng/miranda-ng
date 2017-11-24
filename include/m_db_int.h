@@ -159,6 +159,8 @@ public:
 	STDMETHODIMP_(BOOL) GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
 	STDMETHODIMP_(BOOL) GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
 	STDMETHODIMP_(BOOL) FreeVariant(DBVARIANT *dbv);
+	
+	STDMETHODIMP_(BOOL) EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
 	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName);
 };
 

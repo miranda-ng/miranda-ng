@@ -35,7 +35,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	mdbx_env_create(&m_pMdbEnv);
 	mdbx_env_set_maxdbs(m_pMdbEnv, 10);
 	mdbx_env_set_userctx(m_pMdbEnv, this);
-//	mdbx_env_set_assert(m_pMdbEnv, LMDBX_FailAssert);
+	//	mdbx_env_set_assert(m_pMdbEnv, LMDBX_FailAssert);
 }
 
 CDbxMdb::~CDbxMdb()
@@ -82,8 +82,7 @@ int CDbxMdb::Load(bool bSkipInit)
 
 		uint32_t keyVal = 1;
 		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
-		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) 
-		{
+		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) {
 			const DBHeader *hdr = (const DBHeader*)data.iov_base;
 			if (hdr->dwSignature != DBHEADER_SIGNATURE)
 				return EGROKPRF_DAMAGED;
@@ -92,8 +91,7 @@ int CDbxMdb::Load(bool bSkipInit)
 
 			m_header = *hdr;
 		}
-		else 
-		{
+		else {
 			m_header.dwSignature = DBHEADER_SIGNATURE;
 			m_header.dwVersion = DBHEADER_VERSION;
 			data.iov_base = &m_header; data.iov_len = sizeof(m_header);
@@ -143,7 +141,7 @@ int CDbxMdb::Load(bool bSkipInit)
 			hEventMarkedRead = CreateHookableEvent(ME_DB_EVENT_MARKED_READ);
 
 			hEventAddedEvent = CreateHookableEvent(ME_DB_EVENT_ADDED);
-			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);	  
+			hEventDeletedEvent = CreateHookableEvent(ME_DB_EVENT_DELETED);
 			hEventFilterAddedEvent = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 		}
 

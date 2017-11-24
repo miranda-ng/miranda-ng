@@ -671,13 +671,3 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGE
 	}
 	return result;
 }
-
-STDMETHODIMP_(BOOL) CDb3Mmap::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
-{
-	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
-		int ret = pFunc(m_lResidentSettings[i], pParam);
-		if (ret)
-			return ret;
-	}
-	return 0;
-}
