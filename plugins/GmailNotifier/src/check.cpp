@@ -112,6 +112,8 @@ void CheckMailInbox(Account *curAcc)
 	nlr.cbSize = sizeof(nlr);
 	nlr.szUrl = szUrl.GetBuffer();
 	nlr.requestType = REQUEST_GET;
+	nlr.headers = headers;
+	nlr.headersCount = _countof(headers);
 
 	NETLIBHTTPREQUEST *nlu = Netlib_HttpTransaction(hNetlibUser, &nlr);
 	if (nlu == nullptr) {
