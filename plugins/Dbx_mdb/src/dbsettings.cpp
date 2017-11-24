@@ -84,13 +84,13 @@ LBL_Seek:
 
 	txn_ptr_ro trnlck(m_txn);
 
-	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
+	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
 	keyVal->hContact = contactID;
 	keyVal->dwModuleId = GetModuleID(szModule);
 	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
 
-	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen + 1 }, data;
+	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
 	if (mdbx_get(trnlck, m_dbSettings, &key, &data) != MDBX_SUCCESS) {
 		// try to get the missing mc setting from the active sub
 		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
@@ -283,13 +283,13 @@ LBL_WriteString:
 	}
 	else m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 
-	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
+	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
 	keyVal->hContact = contactID;
 	keyVal->dwModuleId = GetModuleID(dbcws->szModule);
 	memcpy(&keyVal->szSettingName, dbcws->szSetting, settingNameLen + 1);
 
 
-	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen + 1 }, data;
+	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
 
 	switch (dbcwWork.value.type) {
 	case DBVT_BYTE:  data.iov_len = 2; break;
@@ -351,12 +351,12 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 
 	if (szCachedSettingName[-1] == 0)  // it's not a resident variable
 	{
-		DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen + 1);
+		DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen);
 		keyVal->hContact = contactID;
 		keyVal->dwModuleId = GetModuleID(szModule);
 		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen + 1 };
+		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
 
 		for (;; Remap()) {
 			txn_ptr trnlck(m_pMdbEnv);
@@ -381,7 +381,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT hContact, DBSETTINGENU
 {
 	int result = -1;
 
-	DBSettingKey keyVal = { hContact, GetModuleID(szModule) };
+	DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
 	txn_ptr_ro txn(m_txn);
 	cursor_ptr_ro cursor(m_curSettings);
 

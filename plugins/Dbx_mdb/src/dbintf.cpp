@@ -79,31 +79,31 @@ int CDbxMdb::Load(bool bSkipInit)
 
 		mdbx_dbi_open_ex(trnlck, "eventsrt", defFlags, &m_dbEventsSort, DBEventSortingKey::Compare, nullptr);
 		mdbx_dbi_open_ex(trnlck, "settings", defFlags, &m_dbSettings, DBSettingKey::Compare, nullptr);
+		{
+			uint32_t keyVal = 1;
+			MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
+			if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) {
+				const DBHeader *hdr = (const DBHeader*)data.iov_base;
+				if (hdr->dwSignature != DBHEADER_SIGNATURE)
+					return EGROKPRF_DAMAGED;
+				if (hdr->dwVersion != DBHEADER_VERSION)
+					return EGROKPRF_OBSOLETE;
 
-		uint32_t keyVal = 1;
-		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
-		if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS) {
-			const DBHeader *hdr = (const DBHeader*)data.iov_base;
-			if (hdr->dwSignature != DBHEADER_SIGNATURE)
-				return EGROKPRF_DAMAGED;
-			if (hdr->dwVersion != DBHEADER_VERSION)
-				return EGROKPRF_OBSOLETE;
+				m_header = *hdr;
+			}
+			else {
+				m_header.dwSignature = DBHEADER_SIGNATURE;
+				m_header.dwVersion = DBHEADER_VERSION;
+				data.iov_base = &m_header; data.iov_len = sizeof(m_header);
+				mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
 
-			m_header = *hdr;
+				keyVal = 0;
+				DBContact dbc = { 0, 0, 0 };
+				data.iov_base = &dbc; data.iov_len = sizeof(dbc);
+				mdbx_put(trnlck, m_dbContacts, &key, &data, 0);
+			}
+			trnlck.commit();
 		}
-		else {
-			m_header.dwSignature = DBHEADER_SIGNATURE;
-			m_header.dwVersion = DBHEADER_VERSION;
-			data.iov_base = &m_header; data.iov_len = sizeof(m_header);
-			mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
-
-			keyVal = 0;
-			DBContact dbc = { 0, 0, 0 };
-			data.iov_base = &dbc; data.iov_len = sizeof(dbc);
-			mdbx_put(trnlck, m_dbContacts, &key, &data, 0);
-		}
-		trnlck.commit();
-
 		{
 			MDBX_val key, val;
 

@@ -81,10 +81,9 @@ struct DBSettingKey
 {
 	MCONTACT hContact;
 	uint32_t dwModuleId;
-	char     szSettingName[];
+	char     szSettingName[1];
 
 	static int Compare(const MDBX_val*, const MDBX_val*);
-
 };
 
 struct DBSettingValue

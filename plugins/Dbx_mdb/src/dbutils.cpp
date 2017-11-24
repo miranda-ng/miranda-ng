@@ -43,5 +43,5 @@ int DBSettingKey::Compare(const MDBX_val *ax, const MDBX_val *bx)
 
 	CMP_UINT(a->hContact, b->hContact);
 	CMP_UINT(a->dwModuleId, b->dwModuleId);
-	return (min(ax->iov_len, bx->iov_len) > sizeof(DBSettingKey)) ? strcmp(a->szSettingName, b->szSettingName) : 0;
+	return strcmp(a->szSettingName, b->szSettingName);
 }

@@ -156,10 +156,10 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 		return 0;
 
 	{
-		txn_ptr_ro txn(m_txn);
+		txn_ptr_ro txnro(m_txn);
 
 		MDBX_stat st;
-		mdbx_dbi_stat(txn, m_dbEvents, &st, sizeof(st));
+		mdbx_dbi_stat(txnro, m_dbEvents, &st, sizeof(st));
 
 		std::vector<MEVENT> lstEvents;
 		lstEvents.reserve(st.ms_entries);
@@ -175,7 +175,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 		for (auto it = lstEvents.begin(); it != lstEvents.end(); ++it) {
 			MEVENT &hDbEvent = *it;
 			MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-			mdbx_get(txn, m_dbEvents, &key, &data);
+			mdbx_get(txnro, m_dbEvents, &key, &data);
 
 			const DBEvent *dbEvent = (const DBEvent*)data.iov_base;
 			const BYTE    *pBlob = (BYTE*)(dbEvent + 1);
@@ -201,7 +201,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 
 					DBEvent *pNewDBEvent = (DBEvent *)data.iov_base;
 					*pNewDBEvent = *dbEvent;
-					pNewDBEvent->cbBlob = nNewBlob;
+					pNewDBEvent->cbBlob = (uint16_t)nNewBlob;
 					pNewDBEvent->flags = dwNewFlags;
 					memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
 

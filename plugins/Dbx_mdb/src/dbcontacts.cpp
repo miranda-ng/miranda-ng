@@ -49,7 +49,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	}
 	{
 		MDBX_val key, data;
-		DBSettingKey keyS = { contactID, 0 };
+		DBSettingKey keyS = { contactID, 0, 0 };
 
 		txn_ptr txn(m_pMdbEnv);
 		cursor_ptr cursor(txn, m_dbSettings);
