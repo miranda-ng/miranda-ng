@@ -36,12 +36,12 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case UM_INITPOPUP:
 		curAcc->popUpHwnd = hWnd;
 		break;
-	
+
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED)
 			OpenBrowser((WPARAM)hContact, 0);
 		break;
-	
+
 	case WM_CONTEXTMENU:
 		PUDeletePopup(hWnd);
 		curAcc->popUpHwnd = nullptr;
@@ -54,7 +54,7 @@ void NotifyUser(Account *curAcc)
 {
 	if (optionWindowIsOpen)
 		return;
-	
+
 	db_set_s(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
 	switch (curAcc->results_num) {
 	case 0:
@@ -63,11 +63,11 @@ void NotifyUser(Account *curAcc)
 		if (curAcc->oldResults_num != 0)
 			db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
 		break;
-	
+
 	case -1:
 		db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_AWAY);
 		break;
-	
+
 	default:
 		db_set_w(curAcc->hContact, MODULE_NAME, "Status", ID_STATUS_OCCUPIED);
 		int newMails = (curAcc->oldResults_num == -1) ? (curAcc->results_num) : (curAcc->results_num - curAcc->oldResults_num);

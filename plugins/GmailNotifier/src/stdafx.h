@@ -1,5 +1,4 @@
 #include <windows.h>
-#include <wininet.h>
 #include <time.h>
 #include <stdio.h>
 #include "resource.h"
@@ -35,24 +34,27 @@
 // #define STR5 ">');document.gmail.submit();"
 //#define LINK2 "https://www.google.com/a/altmanoptik.com/LoginAction?continue=https%3A%2F%2Fmail.google.com%2Fhosted%2Faltmanoptik.com&service=mail&userName=test&password=123456"
 
-typedef struct s_resultLink{
+struct resultLink
+{
 	char content[64];
-	struct s_resultLink *next;
-}resultLink;
+	struct resultLink *next;
+};
 
-typedef struct s_Account{
+struct Account : public MZeroedObject
+{
 	char name[256];
 	char pass[256];
 	char hosted[64];
 	MCONTACT hContact;
 	int oldResults_num;
-	int	results_num;
+	int results_num;
 	resultLink results;
 	HWND popUpHwnd;
-	BOOL IsChecking;
-}Account;
+	bool IsChecking;
+};
 
-typedef struct s_optionSettings{
+struct optionSettings
+{
 	int circleTime;
 	BOOL notifierOnTray;
 	BOOL notifierOnPop;
@@ -64,12 +66,12 @@ typedef struct s_optionSettings{
 	BOOL UseOnline;
 	int AutoLogin;
 	BOOL LogThreads;
-}optionSettings;
+};
 
-extern int acc_num;
-extern Account *acc;
+extern OBJLIST<Account> g_accs;
 extern optionSettings opt;
 extern HINSTANCE hInst;
+extern HNETLIBUSER hNetlibUser;
 extern UINT hTimer;
 extern short ID_STATUS_NONEW;
 extern BOOL optionWindowIsOpen;
@@ -78,13 +80,12 @@ INT_PTR Notifying(WPARAM, LPARAM);
 INT_PTR PluginMenuCommand(WPARAM, LPARAM);
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 BOOL GetBrowser(char *);
-//void CheckMailInbox(Account *);
+
 void NotifyUser(Account *);
 int OptInit(WPARAM, LPARAM);
 void Check_ThreadFunc(void *);
 void Login_ThreadFunc(void *);
-int OpenBrowser(WPARAM , LPARAM);
-int ParsePage(char *, resultLink *);
+int OpenBrowser(WPARAM, LPARAM);
 void DeleteResults(resultLink *);
 void BuildList(void);
 

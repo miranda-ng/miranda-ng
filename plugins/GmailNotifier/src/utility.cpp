@@ -2,31 +2,29 @@
 
 void BuildList(void)
 {
-	DBVARIANT dbv;
+	g_accs.destroy();
 
-	acc_num = 0;
 	for (MCONTACT hContact = db_find_first(MODULE_NAME); hContact; hContact = db_find_next(hContact, MODULE_NAME)) {
-		if (!db_get_s(hContact, MODULE_NAME, "name", &dbv)) {
-			acc_num++;
-			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
-			memset(&acc[acc_num-1], 0, sizeof(Account));
-			acc[acc_num-1].hContact = hContact;
-			mir_strcpy(acc[acc_num-1].name, dbv.pszVal);
+		ptrA szName(db_get_sa(hContact, MODULE_NAME, "name"));
+		if (szName != nullptr) {
+			Account *p = new Account;
+			p->hContact = hContact;
+			mir_strcpy(p->name, szName);
 			CallService(MS_IGNORE_IGNORE, hContact, IGNOREEVENT_USERONLINE);
-			db_free(&dbv);
-			
-			if (!db_get_s(hContact, MODULE_NAME, "Password", &dbv)) {
-				mir_strcpy(acc[acc_num-1].pass, dbv.pszVal);
-				db_free(&dbv);
-			}
+
+			ptrA szPassword(db_get_sa(hContact, MODULE_NAME, "Password"));
+			if (szPassword != nullptr)
+				mir_strcpy(p->pass, szPassword);
+			g_accs.insert(p);
 		}
 	}
 
-	for (int i = 0; i < acc_num; i++) {
-		char *tail = strchr(acc[i].name, '@');
+	for (int i = 0; i < g_accs.getCount(); i++) {
+		Account &acc = g_accs[i];
+		char *tail = strchr(acc.name, '@');
 		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
-			mir_strcpy(acc[i].hosted, tail + 1);
-		acc[i].IsChecking = FALSE;
+			mir_strcpy(acc.hosted, tail + 1);
+		acc.IsChecking = false;
 	}
 }
 
@@ -72,9 +70,9 @@ BOOL GetBrowser(char *str)
 
 Account* GetAccountByContact(MCONTACT hContact)
 {
-	for (int i = 0; i < acc_num; i++)
-		if (acc[i].hContact == hContact)
-			return &acc[i];
+	for (int i = 0; i < g_accs.getCount(); i++)
+		if (g_accs[i].hContact == hContact)
+			return &g_accs[i];
 
 	return nullptr;
 }

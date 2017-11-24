@@ -15,10 +15,11 @@ HINSTANCE hInst;
 int hLangpack;
 UINT hTimer;
 HANDLE hMirandaStarted, hOptionsInitial;
+HNETLIBUSER hNetlibUser;
 NOTIFYICONDATA niData;
 optionSettings opt;
-int acc_num = 0;
-Account *acc;
+
+OBJLIST<Account> g_accs(1);
 BOOL optionWindowIsOpen = FALSE;
 short ID_STATUS_NONEW;
 
@@ -99,6 +100,12 @@ extern "C" int __declspec(dllexport) Load()
 	pd.type = PROTOTYPE_VIRTUAL;
 	Proto_RegisterModule(&pd);
 
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
+	nlu.szSettingsModule = MODULE_NAME;
+	nlu.szDescriptiveName.w = TranslateT("Gmail Notifier connection");
+	hNetlibUser = Netlib_RegisterUser(&nlu);
+
 	CreateProtoServiceFunction(MODULE_NAME, PS_GETCAPS, GetCaps);
 	CreateProtoServiceFunction(MODULE_NAME, PS_GETSTATUS, GetStatus);
 	CreateProtoServiceFunction(MODULE_NAME, PS_GETNAME, GetName);
@@ -127,13 +134,13 @@ extern "C" int __declspec(dllexport) Load()
 
 	BuildList();
 	ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-	for (int i = 0; i < acc_num; i++)
-		db_set_dw(acc[i].hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
+	for (int i = 0; i < g_accs.getCount(); i++)
+		db_set_dw(g_accs[i].hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
 
 	hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
 	hMirandaStarted = HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);
 	hOptionsInitial = HookEvent(ME_OPT_INITIALISE, OptInit);
-	
+
 	CreateServiceFunction(MODULE_NAME "/MenuCommand", PluginMenuCommand);
 
 	CMenuItem mi;
@@ -155,9 +162,13 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	if (hTimer)
 		KillTimer(nullptr, hTimer);
-	for (int i = 0; i < acc_num; i++)
-		DeleteResults(acc[i].results.next);
-	free(acc);
+	
+	for (int i = 0; i < g_accs.getCount(); i++)
+		DeleteResults(g_accs[i].results.next);
+	g_accs.destroy();
+
+	Netlib_CloseHandle(hNetlibUser);
+
 	UnhookEvent(hMirandaStarted);
 	UnhookEvent(hOptionsInitial);
 	return 0;

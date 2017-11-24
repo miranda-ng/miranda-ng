@@ -1,19 +1,23 @@
 #include "stdafx.h"
 
-static void SaveButton(HWND hwndDlg,HWND hwndCombo, int curIndex) {
-	if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc[curIndex].name, _countof(acc[curIndex].name))) {
-		char *tail = strstr(acc[curIndex].name, "@");
+static void SaveButton(HWND hwndDlg, HWND hwndCombo, int curIndex)
+{
+	Account &acc = g_accs[curIndex];
+	if (GetDlgItemTextA(hwndDlg, IDC_NAME, acc.name, _countof(acc.name))) {
+		char *tail = strstr(acc.name, "@");
 		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
-			mir_strcpy(acc[curIndex].hosted, tail + 1);
+			mir_strcpy(acc.hosted, tail + 1);
 		SendMessageA(hwndCombo, CB_DELETESTRING, curIndex, 0);
-		SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LPARAM)acc[curIndex].name);
+		SendMessageA(hwndCombo, CB_INSERTSTRING, curIndex, (LPARAM)acc.name);
 		SendMessageA(hwndCombo, CB_SETCURSEL, curIndex, 0);
-		db_set_s(acc[curIndex].hContact, MODULE_NAME, "name", acc[curIndex].name);
-		db_set_s(acc[curIndex].hContact, MODULE_NAME, "Nick", acc[curIndex].name);
-		GetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass, _countof(acc[curIndex].pass));
-		db_set_s(acc[curIndex].hContact, MODULE_NAME, "Password", acc[curIndex].pass);
+		db_set_s(acc.hContact, MODULE_NAME, "name", acc.name);
+		db_set_s(acc.hContact, MODULE_NAME, "Nick", acc.name);
+		
+		GetDlgItemTextA(hwndDlg, IDC_PASS, acc.pass, _countof(acc.pass));
+		db_set_s(acc.hContact, MODULE_NAME, "Password", acc.pass);
 	}
 }
+
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ShowControl;
@@ -22,7 +26,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	static bool bInit = false;
 	HWND hwndCombo = GetDlgItem(hwndDlg, IDC_NAME);
 
-	if (acc_num) {
+	if (g_accs.getCount()) {
 		EnableWindow(hwndCombo, TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PASS), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BTNSAV), TRUE);
@@ -42,11 +46,11 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		optionWindowIsOpen = TRUE;
 		BuildList();
 
-		for (int i = 0; i < acc_num; i++)
-			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG_PTR)acc[i].name);
+		for (int i = 0; i < g_accs.getCount(); i++)
+			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG_PTR)g_accs[i].name);
 		SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
-		if (curIndex < acc_num)
-			SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
+		if (curIndex < g_accs.getCount())
+			SetDlgItemTextA(hwndDlg, IDC_PASS, g_accs[curIndex].pass);
 
 		SetDlgItemInt(hwndDlg, IDC_CIRCLE, opt.circleTime, FALSE);
 		if (opt.notifierOnTray)
@@ -141,50 +145,58 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+		
 		case IDC_BTNADD:
-			acc_num++;
-			acc = (Account *)realloc(acc, acc_num * sizeof(Account));
-			curIndex = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LPARAM)"");
-			memset(&acc[curIndex], 0, sizeof(Account));
-			SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
-			SetDlgItemTextA(hwndDlg, IDC_PASS, "");
-			SetFocus(hwndCombo);
-			acc[curIndex].hContact = db_add_contact();
-			Proto_AddToContact(acc[curIndex].hContact, MODULE_NAME);
+			{
+				Account *p = new Account();
+				p->hContact = db_add_contact();
+				Proto_AddToContact(p->hContact, MODULE_NAME);
+				g_accs.insert(p);
+
+				curIndex = SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LPARAM)"");
+				SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
+				SetDlgItemTextA(hwndDlg, IDC_PASS, "");
+				SetFocus(hwndCombo);
+			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-		
+
 		case IDC_BTNSAV:
-			SaveButton(hwndDlg,hwndCombo, curIndex);
+			SaveButton(hwndDlg, hwndCombo, curIndex);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_BTNDEL:
-			acc_num--;
-			SendMessage(hwndCombo, CB_DELETESTRING, curIndex, 0);
-			DeleteResults(acc[curIndex].results.next);
-			acc[curIndex].results.next = nullptr;
-			db_delete_contact(acc[curIndex].hContact);
-			for (int i = curIndex; i < acc_num; i++)
-				acc[i] = acc[i + 1];
-			curIndex = 0;
-			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
-			SetDlgItemTextA(hwndDlg, IDC_PASS, acc[0].pass);
+			{
+				SendMessage(hwndCombo, CB_DELETESTRING, curIndex, 0);
+
+				Account &acc = g_accs[curIndex];
+				DeleteResults(acc.results.next);
+				db_delete_contact(acc.hContact);
+				g_accs.remove(curIndex);
+
+				curIndex = 0;
+				SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
+				if (g_accs.getCount())
+					SetDlgItemTextA(hwndDlg, IDC_PASS, g_accs[0].pass);
+			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_NAME:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				curIndex = SendMessage(hwndCombo, CB_GETCURSEL, 0, 0);
-				SetDlgItemTextA(hwndDlg, IDC_PASS, acc[curIndex].pass);
+				SetDlgItemTextA(hwndDlg, IDC_PASS, g_accs[curIndex].pass);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;
+
 		case IDC_CIRCLE:
 		case IDC_DURATION:
 			if (!bInit && (HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+
 		case IDC_ONLINE:
 		case IDC_SHOWICON:
 		case IDC_AUTOLOGIN:
@@ -197,7 +209,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			SaveButton(hwndDlg,hwndCombo, curIndex);
+			SaveButton(hwndDlg, hwndCombo, curIndex);
 			opt.circleTime = GetDlgItemInt(hwndDlg, IDC_CIRCLE, nullptr, FALSE);
 			if (opt.circleTime > 0) {
 				KillTimer(nullptr, hTimer);
@@ -244,12 +256,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			db_set_dw(NULL, MODULE_NAME, "LogThreads", opt.LogThreads);
 
 			ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-			for (int i = 0; i < acc_num; i++)
-				db_set_w(acc[i].hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
+			for (int i = 0; i < g_accs.getCount(); i++)
+				db_set_w(g_accs[i].hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
 		}
 		return TRUE;
 
-	case WM_DESTROY:
+	case WM_CLOSE:
 		optionWindowIsOpen = FALSE;
 		return TRUE;
 	}
