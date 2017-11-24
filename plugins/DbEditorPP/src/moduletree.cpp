@@ -8,7 +8,6 @@ volatile int Select = 0;
 static ModuleTreeInfoStruct contacts_mtis = { CONTACT_ROOT_ITEM, 0 };
 static ModuleTreeInfoStruct settings_mtis = { CONTACT, 0 };
 
-
 void insertItem(MCONTACT hContact, const char *module, HTREEITEM hParent)
 {
 	_A2T text(module);
@@ -29,7 +28,6 @@ void insertItem(MCONTACT hContact, const char *module, HTREEITEM hParent)
 	tvi.item.lParam = (LPARAM)lParam;
 	TreeView_InsertItem(hwnd2Tree, &tvi);
 }
-
 
 int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelectedContact, const char *selectedModule, const char *selectedSetting)
 {
@@ -79,7 +77,6 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 		itemscount++;
 
 		if (hSelectedContact == hContact) {
-
 			for (ModSetLinkLinkItem *module = modlist->first; module && hwnd2mainWindow; module = module->next) {
 				if (!module->name[0] || IsModuleEmpty(hContact, module->name))
 					continue;
@@ -99,7 +96,6 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 
 	return itemscount;
 }
-
 
 void doItems(ModuleSettingLL* modlist, int count)
 {
@@ -273,7 +269,6 @@ http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?t
 	return Result;
 }
 
-
 void replaceTreeItem(MCONTACT hContact, const char* module, const char* newModule)
 {
 	HTREEITEM hItem = findItemInTree(hContact, module);
@@ -300,7 +295,6 @@ void replaceTreeItem(MCONTACT hContact, const char* module, const char* newModul
 		insertItem(hContact, newModule, hParent);
 	}
 }
-
 
 void __cdecl PopulateModuleTreeThreadFunc(LPVOID param)
 {
@@ -789,5 +783,4 @@ void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to t
 		break;
 	}
 	DestroyMenu(hMenu);
-
 }

@@ -3,7 +3,6 @@
 void copyModule(const char *module, MCONTACT hContactFrom, MCONTACT hContactTo)
 {
 	ModuleSettingLL msll;
-
 	if (IsModuleEmpty(hContactFrom, module) || !EnumSettings(hContactFrom, module, &msll))
 		return;
 
@@ -97,7 +96,6 @@ int CloneContact(MCONTACT hContact)
 
 	// enum all the modules
 	ModuleSettingLL modlist;
-
 	if (!EnumModules(&modlist))
 		return 0;
 

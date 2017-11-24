@@ -19,9 +19,8 @@ int deleteModule(MCONTACT hContact, const char *module, int confirm)
 	if (!EnumSettings(hContact, module, &settinglist))
 		return 0;
 
-	for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next) {
+	for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next)
 		db_unset(hContact, module, setting->name);
-	}
 
 	FreeModuleSettingLL(&settinglist);
 	return 1;

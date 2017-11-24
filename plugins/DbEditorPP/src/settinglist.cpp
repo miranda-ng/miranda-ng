@@ -26,7 +26,6 @@ int ListView_GetItemTextA(HWND hwndLV, int i, int iSubItem, char *pszText, int c
 	return SendMessageA(hwndLV, LVM_GETITEMTEXTA, (WPARAM)(i), (LPARAM)(LV_ITEMA *)&lvi);
 }
 
-
 int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText)
 {
 	LV_ITEMA lvi;
@@ -34,7 +33,6 @@ int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText)
 	lvi.pszText = (char*)pszText;
 	return SendMessageA(hwndLV, LVM_SETITEMTEXTA, (WPARAM)(i), (LPARAM)(LV_ITEMA *)&lvi);
 }
-
 
 int convertSetting(MCONTACT hContact, const char *module, const char *setting, int toType)
 {
@@ -78,7 +76,6 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	}
 
 	switch (toType) {
-
 	case DBVT_BYTE:
 	case DBVT_WORD:
 	case DBVT_DWORD:
@@ -103,7 +100,6 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	return res;
 }
 
-
 void EditFinish(int selected)
 {
 	if (info.hwnd2Edit) {
@@ -112,7 +108,6 @@ void EditFinish(int selected)
 	}
 	info.selectedItem = selected;
 }
-
 
 void ClearListView()
 {
@@ -123,7 +118,6 @@ void ClearListView()
 
 	ListView_DeleteAllItems(hwnd2List);
 }
-
 
 void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *setting)
 {
@@ -160,7 +154,6 @@ void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *s
 		replaceTreeItem(hContact, module, nullptr);
 }
 
-
 int findListItem(const char *setting)
 {
 	if (!setting || !setting[0]) return -1;
@@ -172,14 +165,12 @@ int findListItem(const char *setting)
 	return SendMessageA(hwnd2List, LVM_FINDITEMA, -1, (LPARAM)&lvfi);
 }
 
-
 void deleteListItem(const char *setting)
 {
 	int item = findListItem(setting);
 	if (item > -1)
 		ListView_DeleteItem(hwnd2List, item);
 }
-
 
 void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident)
 {
@@ -292,7 +283,6 @@ void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident
 	ListView_SetItemText(hwnd2List, index, 2, DBVType(dbv->type));
 }
 
-
 void addListHandle(MCONTACT hContact)
 {
 	wchar_t name[NAME_SIZE], data[32];
@@ -322,7 +312,6 @@ void addListHandle(MCONTACT hContact)
 	}
 }
 
-
 void addListItem(const char *setting, int resident)
 {
 	DBVARIANT dbv;
@@ -334,17 +323,15 @@ void addListItem(const char *setting, int resident)
 		updateListItem(index, setting, &dbv, resident);
 		db_free(&dbv);
 	}
-	else
-		if (!resident) {
-			LVITEMA lvi = { 0 };
-			lvi.mask = LVIF_TEXT;
-			lvi.pszText = (char*)setting;
-			int index = SendMessageA(hwnd2List, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
-			ListView_SetItemText(hwnd2List, index, 1, TranslateT("*** buggy resident ***"));
-			return;
-		}
+	else if (!resident) {
+		LVITEMA lvi = { 0 };
+		lvi.mask = LVIF_TEXT;
+		lvi.pszText = (char*)setting;
+		int index = SendMessageA(hwnd2List, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
+		ListView_SetItemText(hwnd2List, index, 1, TranslateT("*** buggy resident ***"));
+		return;
+	}
 }
-
 
 void PopulateSettings(MCONTACT hContact, const char *module)
 {
@@ -359,7 +346,6 @@ void PopulateSettings(MCONTACT hContact, const char *module)
 	mir_strncpy(info.module, tmp, _countof(info.module));
 
 	ModuleSettingLL setlist;
-
 	if (IsModuleEmpty(info.hContact, info.module) || !EnumSettings(info.hContact, info.module, &setlist))
 		return;
 
@@ -377,7 +363,6 @@ void PopulateSettings(MCONTACT hContact, const char *module)
 
 	FreeModuleSettingLL(&setlist);
 }
-
 
 void SelectSetting(const char *setting)
 {
@@ -400,7 +385,6 @@ void SelectSetting(const char *setting)
 		ListView_SetItem(hwnd2List, &lvItem);
 	}
 }
-
 
 void settingChanged(MCONTACT hContact, const char *module, const char *setting, DBVARIANT *dbv)
 {
@@ -432,7 +416,6 @@ void settingChanged(MCONTACT hContact, const char *module, const char *setting, 
 		updateListItem(lvi.iItem, setting, dbv, IsResidentSetting(module, setting));
 	}
 }
-
 
 static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -683,9 +666,7 @@ void EditLabel(int item, int subitem)
 	SendMessage(info.hwnd2Edit, WM_USER, 0, 0);
 }
 
-
 void SettingsListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam);
-
 
 void SettingsListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
@@ -744,7 +725,6 @@ void SettingsListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 }
-
 
 void SettingsListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to the main window, NOT the listview
 {

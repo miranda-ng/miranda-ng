@@ -1,19 +1,17 @@
 #include "stdafx.h"
 
-
 int renameModule(MCONTACT hContact, const char *oldName, const char *newName)
 {
-	DBVARIANT dbv;
 	ModuleSettingLL settinglist;
-
 	if (IsModuleEmpty(hContact, oldName) || !EnumSettings(hContact, oldName, &settinglist))
-		return 0; 
+		return 0;
 
 	int cnt = 0;
 
-	for(ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next) {
+	for (ModSetLinkLinkItem *setting = settinglist.first; setting; setting = setting->next) {
+		DBVARIANT dbv;
 		if (!db_get_s(hContact, oldName, setting->name, &dbv, 0)) {
-		    db_set(hContact, newName, setting->name, &dbv);
+			db_set(hContact, newName, setting->name, &dbv);
 			db_unset(hContact, oldName, setting->name);
 			db_free(&dbv);
 			cnt++;
@@ -23,7 +21,7 @@ int renameModule(MCONTACT hContact, const char *oldName, const char *newName)
 	return cnt;
 }
 
-INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:

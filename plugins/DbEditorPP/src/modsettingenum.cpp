@@ -1,17 +1,15 @@
 #include "stdafx.h"
 
-
 void FreeModuleSettingLL(ModuleSettingLL *msll)
 {
 	if (msll == nullptr)
 		return;
 
 	ModSetLinkLinkItem *item = msll->first;
-	ModSetLinkLinkItem *temp;
 
 	while (item) {
 		mir_free(item->name);
-		temp = item;
+		ModSetLinkLinkItem *temp = item;
 		item = (ModSetLinkLinkItem *)item->next;
 		mir_free(temp);
 	}
@@ -19,7 +17,6 @@ void FreeModuleSettingLL(ModuleSettingLL *msll)
 	msll->first = nullptr;
 	msll->last = nullptr;
 }
-
 
 int enumModulesSettingsProc(const char *setting, void *pParam)
 {
@@ -46,7 +43,6 @@ int enumModulesSettingsProc(const char *setting, void *pParam)
 	return 0;
 }
 
-
 int EnumModules(ModuleSettingLL *msll) // 1 = success, 0 = fail
 {
 	msll->first = nullptr;
@@ -58,12 +54,10 @@ int EnumModules(ModuleSettingLL *msll) // 1 = success, 0 = fail
 	return 1;
 }
 
-
 int enumSettingsProc(const char *setting, void *lParam)
 {
 	return enumModulesSettingsProc(setting, lParam);
 }
-
 
 int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll)
 {
@@ -77,24 +71,20 @@ int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll)
 	return 1;
 }
 
-
 int CheckIfModuleIsEmptyProc(const char*, void*)
 {
 	return 1;
 }
-
 
 int IsModuleEmpty(MCONTACT hContact, const char *module)
 {
 	return 0 > db_enum_settings(hContact, CheckIfModuleIsEmptyProc, module);
 }
 
-
 static int stringCompare(const char *p1, const char *p2)
 {
 	return mir_strcmp(p1, p2);
 }
-
 
 LIST<char> m_lResidentSettings(10, stringCompare);
 
@@ -104,7 +94,6 @@ int enumResidentProc(const char *setting, void*)
 	return 0;
 }
 
-
 int LoadResidentSettings()
 {
 	if (g_db)
@@ -112,15 +101,13 @@ int LoadResidentSettings()
 	return 0;
 }
 
-
 void FreeResidentSettings()
 {
-	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
+	for (int i = 0; i < m_lResidentSettings.getCount(); i++)
 		mir_free(m_lResidentSettings[i]);
-	}
+
 	m_lResidentSettings.destroy();
 }
-
 
 int IsResidentSetting(const char *module, const char *setting)
 {
@@ -133,7 +120,6 @@ int IsResidentSetting(const char *module, const char *setting)
 	mir_strncat(str, setting, _countof(str));
 	return m_lResidentSettings.getIndex(str) != -1;
 }
-
 
 int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 {
