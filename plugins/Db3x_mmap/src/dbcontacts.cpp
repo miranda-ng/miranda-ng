@@ -23,23 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int CDb3Mmap::CheckProto(DBCachedContact *cc, const char *proto)
-{
-	if (cc->szProto == nullptr) {
-		char protobuf[MAX_PATH] = { 0 };
-		DBVARIANT dbv;
-		dbv.type = DBVT_ASCIIZ;
-		dbv.pszVal = protobuf;
-		dbv.cchVal = sizeof(protobuf);
-		if (GetContactSettingStatic(cc->contactID, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
-			return 0;
-
-		cc->szProto = m_cache->GetCachedSetting(nullptr, protobuf, 0, (int)mir_strlen(protobuf));
-	}
-
-	return !mir_strcmp(cc->szProto, proto);
-}
-
 STDMETHODIMP_(LONG) CDb3Mmap::GetContactCount(void)
 {
 	mir_cslock lck(m_csDbAccess);
@@ -49,36 +32,6 @@ STDMETHODIMP_(LONG) CDb3Mmap::GetContactCount(void)
 STDMETHODIMP_(LONG) CDb3Mmap::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
-}
-
-STDMETHODIMP_(MCONTACT) CDb3Mmap::FindFirstContact(const char *szProto)
-{
-	mir_cslock lck(m_csDbAccess);
-	DBCachedContact *cc = m_cache->GetFirstContact();
-	if (cc == nullptr)
-		return 0;
-
-	if (!szProto || CheckProto(cc, szProto))
-		return cc->contactID;
-
-	return FindNextContact(cc->contactID, szProto);
-}
-
-STDMETHODIMP_(MCONTACT) CDb3Mmap::FindNextContact(MCONTACT contactID, const char *szProto)
-{
-	mir_cslock lck(m_csDbAccess);
-	while (contactID) {
-		DBCachedContact *cc = m_cache->GetNextContact(contactID);
-		if (cc == nullptr)
-			break;
-
-		if (!szProto || CheckProto(cc, szProto))
-			return cc->contactID;
-
-		contactID = cc->contactID;
-	}
-
-	return 0;
 }
 
 STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
@@ -205,17 +158,6 @@ STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(MCONTACT contactID)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // metacontacts support
-
-BOOL CDb3Mmap::MetaDetouchSub(DBCachedContact *cc, int nSub)
-{
-	db_delete_module(cc->pSubs[nSub], META_PROTO);
-	return 0;
-}
-
-BOOL CDb3Mmap::MetaSetDefault(DBCachedContact *cc)
-{
-	return db_set_dw(cc->contactID, META_PROTO, "Default", cc->nDefault);
-}
 
 static int SortEvent(const DBEvent *p1, const DBEvent *p2)
 {

@@ -225,7 +225,7 @@ void CDb3Mmap::StoreKey()
 	SecureZeroMemory(pKey, iKeyLength);
 }
 
-void CDb3Mmap::SetPassword(LPCTSTR ptszPassword)
+void CDb3Mmap::SetPassword(const wchar_t *ptszPassword)
 {
 	if (ptszPassword == nullptr || *ptszPassword == 0) {
 		m_bUsesPassword = false;

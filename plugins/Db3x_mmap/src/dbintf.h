@@ -89,13 +89,13 @@ struct ModuleName
 #include <pshpack1.h>
 struct DBHeader
 {
-	BYTE signature[16];     // 'Miranda ICQ DB',0,26
+	BYTE signature[16];        // 'Miranda ICQ DB',0,26
 	DWORD version;          // as 4 bytes, ie 1.2.3.10 = 0x0102030a
 	DWORD ofsFileEnd;       // offset of the end of the database - place to write new structures
 	DWORD slackSpace;       // a counter of the number of bytes that have been
-	// wasted so far due to deleting structures and/or
-	// re-making them at the end. We should compact when
-	// this gets above a threshold
+										// wasted so far due to deleting structures and/or
+										// re-making them at the end. We should compact when
+										// this gets above a threshold
 	DWORD contactCount;     // number of contacts in the chain,excluding the user
 	DWORD ofsFirstContact;  // offset to first DBContact in the chain
 	DWORD ofsUser;          // offset to DBContact representing the user
@@ -111,7 +111,7 @@ struct DBContact
 	DWORD ofsFirstSettings;	// offset to the first DBContactSettings in the chain for this contact.
 	DWORD eventCount;       // number of events in the chain for this contact
 	DWORD ofsFirstEvent,    // offsets to the first and
-		ofsLastEvent;     // last DBEvent in the chain for this contact
+	         ofsLastEvent;     // last DBEvent in the chain for this contact
 	DWORD ofsFirstUnread;   // offset to the first (chronological) unread event	in the chain, 0 if all are read
 	DWORD tsFirstUnread;    // timestamp of the event at ofsFirstUnread
 	DWORD dwContactID;
@@ -212,8 +212,6 @@ public:
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)     GetContactCount(void);
-	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = nullptr);
-	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = nullptr);
 	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
 	STDMETHODIMP_(MCONTACT) AddContact(void);
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
@@ -239,10 +237,7 @@ public:
 	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
 	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param);
 	STDMETHODIMP_(BOOL)     EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
-	STDMETHODIMP_(BOOL)     IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
-	STDMETHODIMP_(BOOL)     MetaDetouchSub(DBCachedContact *cc, int nSub);
-	STDMETHODIMP_(BOOL)     MetaSetDefault(DBCachedContact *cc);
 	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 
@@ -298,7 +293,6 @@ protected:
 	DWORD    m_dwFileSize, m_dwMaxContactId;
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
-	int      CheckProto(DBCachedContact *cc, const char *proto);
 	DWORD    CreateNewSpace(int bytes);
 	void     DeleteSpace(DWORD ofs, int bytes);
 	DWORD    ReallocSpace(DWORD ofs, int oldSize, int newSize);

@@ -72,7 +72,7 @@ int CDb3Mmap::ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
 
 DWORD CDb3Mmap::WriteSegment(DWORD ofs, PVOID buf, int cbBytes)
 {
-	DWORD bytesWritten;
+	DWORD  bytesWritten;
 	if (cb->bCheckOnly) return 0xbfbfbfbf;
 	if (ofs == WSOFS_END) {
 		ofs = m_dbHeader.ofsFileEnd;

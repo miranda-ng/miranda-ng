@@ -479,3 +479,10 @@ Clist_SetStatusMode @464
 ?GetContactSettingStatic@MDatabaseCommon@@UAGHIPBD0PAUDBVARIANT@@@Z @484 NONAME
 ?GetContactSettingStr@MDatabaseCommon@@UAGHIPBD0PAUDBVARIANT@@@Z @485 NONAME
 ?SetSettingResident@MDatabaseCommon@@UAGHHPBD@Z @486 NONAME
+?IsSettingEncrypted@MDatabaseCommon@@UAGHPBD0@Z @487 NONAME
+?CheckProto@MDatabaseCommon@@IAEHPAUDBCachedContact@@PBD@Z @488 NONAME
+?DeleteModule@MDatabaseCommon@@UAGHIPBD@Z @489 NONAME
+?FindFirstContact@MDatabaseCommon@@UAGIPBD@Z @490 NONAME
+?FindNextContact@MDatabaseCommon@@UAGIIPBD@Z @491 NONAME
+?MetaDetouchSub@MDatabaseCommon@@UAGHPAUDBCachedContact@@H@Z @492 NONAME
+?MetaSetDefault@MDatabaseCommon@@UAGHPAUDBCachedContact@@@Z @493 NONAME

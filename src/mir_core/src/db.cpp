@@ -45,23 +45,9 @@ MIR_CORE_DLL(MIDatabase*) db_get_current()
 	return currDb;
 }
 
-static int sttEnumVars(const char *szVarName, void *param)
-{
-	LIST<char>* vars = (LIST<char>*)param;
-	vars->insert(mir_strdup(szVarName));
-	return 0;
-}
-
 MIR_CORE_DLL(int) db_delete_module(MCONTACT hContact, const char *szModuleName)
 {
-	LIST<char> vars(20);
-	db_enum_settings(hContact, sttEnumVars, szModuleName, &vars);
-
-	for (int i = vars.getCount() - 1; i >= 0; i--) {
-		db_unset(hContact, szModuleName, vars[i]);
-		mir_free(vars[i]);
-	}
-	return 0;
+	return (currDb) ? currDb->DeleteModule(hContact, szModuleName) : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

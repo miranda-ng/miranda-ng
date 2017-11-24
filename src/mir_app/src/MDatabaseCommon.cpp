@@ -35,6 +35,114 @@ MDatabaseCommon::MDatabaseCommon() :
 	m_codePage = Langpack_GetDefaultCodePage();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int MDatabaseCommon::CheckProto(DBCachedContact *cc, const char *proto)
+{
+	if (cc->szProto == nullptr) {
+		char protobuf[MAX_PATH] = { 0 };
+		DBVARIANT dbv;
+		dbv.type = DBVT_ASCIIZ;
+		dbv.pszVal = protobuf;
+		dbv.cchVal = sizeof(protobuf);
+		if (GetContactSettingStatic(cc->contactID, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
+			return 0;
+
+		cc->szProto = m_cache->GetCachedSetting(nullptr, protobuf, 0, (int)mir_strlen(protobuf));
+	}
+
+	return !mir_strcmp(cc->szProto, proto);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int sttEnumVars(const char *szVarName, void *param)
+{
+	LIST<char>* vars = (LIST<char>*)param;
+	vars->insert(mir_strdup(szVarName));
+	return 0;
+}
+
+BOOL MDatabaseCommon::DeleteModule(MCONTACT hContact, LPCSTR szModule)
+{
+	LIST<char> vars(20);
+	EnumContactSettings(hContact, sttEnumVars, szModule, &vars);
+
+	for (int i = vars.getCount() - 1; i >= 0; i--) {
+		DeleteContactSetting(hContact, szModule, vars[i]);
+		mir_free(vars[i]);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+STDMETHODIMP_(MCONTACT) MDatabaseCommon::FindFirstContact(const char *szProto)
+{
+	mir_cslock lck(m_csDbAccess);
+	DBCachedContact *cc = m_cache->GetFirstContact();
+	if (cc == nullptr)
+		return 0;
+
+	if (!szProto || CheckProto(cc, szProto))
+		return cc->contactID;
+
+	return FindNextContact(cc->contactID, szProto);
+}
+
+STDMETHODIMP_(MCONTACT) MDatabaseCommon::FindNextContact(MCONTACT contactID, const char *szProto)
+{
+	mir_cslock lck(m_csDbAccess);
+	while (contactID) {
+		DBCachedContact *cc = m_cache->GetNextContact(contactID);
+		if (cc == nullptr)
+			break;
+
+		if (!szProto || CheckProto(cc, szProto))
+			return cc->contactID;
+
+		contactID = cc->contactID;
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+BOOL MDatabaseCommon::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
+{
+	if (!_strnicmp(szSetting, "password", 8))      return true;
+	if (!mir_strcmp(szSetting, "NLProxyAuthPassword")) return true;
+	if (!mir_strcmp(szSetting, "LNPassword"))          return true;
+	if (!mir_strcmp(szSetting, "FileProxyPassword"))   return true;
+	if (!mir_strcmp(szSetting, "TokenSecret"))         return true;
+
+	if (!mir_strcmp(szModule, "SecureIM")) {
+		if (!mir_strcmp(szSetting, "pgp"))              return true;
+		if (!mir_strcmp(szSetting, "pgpPrivKey"))       return true;
+	}
+	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+BOOL MDatabaseCommon::MetaDetouchSub(DBCachedContact *cc, int nSub)
+{
+	return DeleteModule(cc->pSubs[nSub], META_PROTO);
+}
+
+BOOL MDatabaseCommon::MetaSetDefault(DBCachedContact *cc)
+{
+	DBCONTACTWRITESETTING cws;
+	cws.szModule = META_PROTO;
+	cws.szSetting = "Default";
+	cws.value.type = DBVT_DWORD;
+	cws.value.dVal = cc->nDefault;
+	return WriteContactSetting(cc->contactID, &cws);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	dbv->type = 0;

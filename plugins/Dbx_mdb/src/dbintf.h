@@ -139,7 +139,7 @@ struct CDbxMdb : public MDatabaseCommon, public MIDatabaseChecker, public MZeroe
 	void DatabaseCorruption(const TCHAR *ptszText);
 
 	void StoreKey(void);
-	void SetPassword(const TCHAR *ptszPassword);
+	void SetPassword(const wchar_t *ptszPassword);
 	void UpdateMenuItem(void);
 
 	int  PrepareCheck(int*);
@@ -154,8 +154,6 @@ public:
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)     GetContactCount(void);
-	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = NULL);
-	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = NULL);
 	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
 	STDMETHODIMP_(MCONTACT) AddContact(void);
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
@@ -181,10 +179,7 @@ public:
 	STDMETHODIMP_(BOOL)     DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting);
 	STDMETHODIMP_(BOOL)     EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param);
 	STDMETHODIMP_(BOOL)     EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam);
-	STDMETHODIMP_(BOOL)     IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 
-	STDMETHODIMP_(BOOL)     MetaDetouchSub(DBCachedContact *cc, int nSub);
-	STDMETHODIMP_(BOOL)     MetaSetDefault(DBCachedContact *cc);
 	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 
@@ -217,8 +212,6 @@ protected:
 	DBHeader m_header;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
-
-	int      CheckProto(DBCachedContact *cc, const char *proto);
 
 	////////////////////////////////////////////////////////////////////////////
 	// settings

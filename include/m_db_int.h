@@ -109,6 +109,7 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(MEVENT, FindNextEvent)(MCONTACT contactID, MEVENT hDbEvent) PURE;
 	STDMETHOD_(MEVENT, FindPrevEvent)(MCONTACT contactID, MEVENT hDbEvent) PURE;
 
+	STDMETHOD_(BOOL, DeleteModule)(MCONTACT contactID, LPCSTR szModule) PURE;
 	STDMETHOD_(BOOL, EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
 
 	STDMETHOD_(BOOL, GetContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
@@ -140,9 +141,20 @@ protected:
 protected:
 	MDatabaseCommon();
 
+	int CheckProto(DBCachedContact *cc, const char *proto);
+
 	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) PURE;
 
 public:
+	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule);
+
+	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = nullptr);
+	STDMETHODIMP_(MCONTACT) FindNextContact(MCONTACT contactID, const char *szProto = nullptr);
+
+	STDMETHODIMP_(BOOL) MetaDetouchSub(DBCachedContact *cc, int nSub);
+	STDMETHODIMP_(BOOL) MetaSetDefault(DBCachedContact *cc);
+
+	STDMETHODIMP_(BOOL) IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting);
 	STDMETHODIMP_(BOOL) GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
 	STDMETHODIMP_(BOOL) GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);
 	STDMETHODIMP_(BOOL) GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv);

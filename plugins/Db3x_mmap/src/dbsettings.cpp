@@ -27,23 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED) ? DBVT_ASCIIZ : n)
 
-BOOL CDb3Mmap::IsSettingEncrypted(LPCSTR szModule, LPCSTR szSetting)
-{
-	if (!_strnicmp(szSetting, "password", 8))      return true;
-	if (!mir_strcmp(szSetting, "NLProxyAuthPassword")) return true;
-	if (!mir_strcmp(szSetting, "LNPassword"))          return true;
-	if (!mir_strcmp(szSetting, "FileProxyPassword"))   return true;
-	if (!mir_strcmp(szSetting, "TokenSecret"))         return true;
-
-	if (!mir_strcmp(szModule, "SecureIM")) {
-		if (!mir_strcmp(szSetting, "pgp"))              return true;
-		if (!mir_strcmp(szSetting, "pgpPrivKey"))       return true;
-	}
-	return false;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!mir_strcmp(szModule, META_PROTO))

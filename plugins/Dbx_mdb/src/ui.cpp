@@ -99,7 +99,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			}
 			else {
 				// param->db->WriteSignature(dbSignatureU);
-				param->db->SetPassword(NULL);
+				param->db->SetPassword(nullptr);
 				param->db->StoreKey();
 				EndDialog(hwndDlg, IDREMOVE);
 			}
