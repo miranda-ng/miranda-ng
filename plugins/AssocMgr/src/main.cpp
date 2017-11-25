@@ -42,23 +42,6 @@ PLUGININFOEX pluginInfo = {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// if we run here, we're running from the command prompt
-
-static bool bPathSet = false;
-
-FARPROC WINAPI myDliHook(unsigned dliNotify, PDelayLoadInfo)
-{
-	if (dliNotify == dliNotePreLoadLibrary && !bPathSet) {
-		bPathSet = true;
-		SetCurrentDirectoryW(L"Libs");
-		LoadLibraryW(L"ucrtbase.dll");
-	}
-	return NULL;
-}
-
-PfnDliHook  __pfnDliNotifyHook2 = &myDliHook;
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {

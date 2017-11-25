@@ -21,6 +21,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+void DynamicLoadInit()
+{
+	wchar_t wszPath[MAX_PATH];
+	GetModuleFileNameW(nullptr, wszPath, _countof(wszPath));
+
+	for (int i = lstrlenW(wszPath); i >= 0; i--)
+		if (wszPath[i] == '\\') {
+			wszPath[i + 1] = 0;
+			break;
+		}
+
+	lstrcatW(wszPath, L"\\libs");
+	SetDllDirectoryW(wszPath);
+
+	lstrcatW(wszPath, L"\\ucrtbase.dll");
+	LoadLibraryW(wszPath);
+}
+
 /************************* String Conv ****************************/
 
 // mir_free() the return value

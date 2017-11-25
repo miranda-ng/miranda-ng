@@ -185,15 +185,16 @@ static HANDLE StartupMainProcess(wchar_t *pszDatabasePath)
 // entry point for RunDll32, this is also WaitForDDEW
 EXTERN_C __declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, wchar_t *pszCmdLine, int)
 {
-	HANDLE pHandles[2];
-	DWORD dwTick;
+	// executed to initialize path for delay-loaded libraries
+	DynamicLoadInit();
 
 	/* wait for dde window to be available (avoiding race condition) */
+	HANDLE pHandles[2];
 	pHandles[0] = CreateEvent(nullptr, TRUE, FALSE, WNDCLASS_DDEMSGWINDOW);
 	if (pHandles[0] != nullptr) {
 		pHandles[1] = StartupMainProcess(pszCmdLine); /* obeys nCmdShow using GetStartupInfo() */
 		if (pHandles[1] != nullptr) {
-			dwTick = GetTickCount();
+			DWORD dwTick = GetTickCount();
 			/* either process terminated or dde window created */
 			if (WaitForMultipleObjects(_countof(pHandles), pHandles, FALSE, DDEMESSAGETIMEOUT) == WAIT_OBJECT_0) {
 				dwTick = GetTickCount() - dwTick;
