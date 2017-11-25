@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#pragma comment(lib, "delayimp.lib")
+
 typedef int (WINAPI *pfnMain)(LPTSTR);
 
 #ifdef _WIN64
@@ -39,18 +41,23 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 	wchar_t wszPath[MAX_PATH];
 	GetModuleFileNameW(hInstance, wszPath, _countof(wszPath));
 
-	wchar_t *p = wcsrchr(wszPath, '\\');
-	if (p == nullptr)
-		return 4;
-
 	// if current dir isn't set
-	p[1] = 0;
+	for (int i = lstrlenW(wszPath); i >= 0; i--)
+		if (wszPath[i] == '\\') {
+			wszPath[i] = 0;
+			break;
+		}
+
 	SetCurrentDirectoryW(wszPath);
 
-	wcsncat_s(wszPath, L"libs", _TRUNCATE);
+	lstrcatW(wszPath, L"\\libs");
 	SetDllDirectoryW(wszPath);
 
-	wcsncat_s(wszPath, L"\\ucrtbase.dll", _TRUNCATE);
+	#ifdef _DEBUG
+		lstrcatW(wszPath, L"\\ucrtbased.dll");
+	#else
+		lstrcatW(wszPath, L"\\ucrtbase.dll");
+	#endif
 	LoadLibraryW(wszPath);
 
 	int retVal;
