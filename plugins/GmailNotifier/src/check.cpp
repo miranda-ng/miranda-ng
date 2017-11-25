@@ -48,19 +48,21 @@ void CheckMailInbox(Account *curAcc)
 
 	curAcc->IsChecking = true;
 
-	mir_strcpy(curAcc->results.content, curAcc->name);
-	mir_strcat(curAcc->results.content, " [");
+	ptrA szNick(db_get_sa(curAcc->hContact, "CList", "MyHandle"));
+	if (szNick == nullptr)
+		szNick = mir_strdup(curAcc->name);
 
-	char str[64];
-	mir_snprintf(str, "%s%s]", curAcc->results.content, Translate("Checking..."));
-	db_set_s(curAcc->hContact, "CList", "MyHandle", str);
+	char *tail = strstr(szNick, " [");
+	if (tail) *tail = 0;
+
+	db_set_s(curAcc->hContact, "CList", "MyHandle", CMStringA(FORMAT, "%s [%s]", szNick.get(), Translate("Checking...")));
 
 	if (curAcc->hosted[0]) {
 		CMStringA szUrl(FORMAT, "https://www.google.com/a/%s/LoginAction", curAcc->hosted);
 		CMStringA szBody("continue=https%3A%2F%2Fmail.google.com%2Fa%2F");
 		szBody.Append(curAcc->hosted);
 		szBody.Append("%2Ffeed%2Fatom&service=mail&userName=");
-		char *tail = strchr(curAcc->name, '@');
+		tail = strchr(curAcc->name, '@');
 		if (tail) *tail = 0;
 		szBody.Append(curAcc->name);
 		if (tail) *tail = '@';
@@ -117,21 +119,17 @@ void CheckMailInbox(Account *curAcc)
 
 	NETLIBHTTPREQUEST *nlu = Netlib_HttpTransaction(hNetlibUser, &nlr);
 	if (nlu == nullptr) {
-		if (nlr.resultCode == 401)
-			mir_strcat(curAcc->results.content, Translate("Wrong name or password!"));
-		else
-			mir_strcat(curAcc->results.content, Translate("Can't get RSS feed!"));
+		mir_snprintf(curAcc->results.content, "%s [%s]", szNick.get(), 
+			(nlr.resultCode == 401) ? Translate("Wrong name or password!") : Translate("Can't get RSS feed!"));
 		Netlib_FreeHttpRequest(nlu);
 
 		curAcc->results_num = -1;
-		mir_strcat(curAcc->results.content, "]");
 		curAcc->IsChecking = false;
 		return;
 	}
 
 	curAcc->results_num = ParsePage(nlu->pData, &curAcc->results);
-	mir_strcat(curAcc->results.content, _itoa(curAcc->results_num, str, 10));
-	mir_strcat(curAcc->results.content, "]");
+	mir_snprintf(curAcc->results.content, "%s [%d]", szNick.get(), curAcc->results_num);
 
 	curAcc->IsChecking = false;
 }
