@@ -324,6 +324,9 @@ MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize)
 		case PRODUCT_WEB_SERVER:
 			ret.Append(L"Web Server Edition");
 			break;
+		case PRODUCT_CORE_SINGLELANGUAGE:
+			ret.Append(L"Home Single Language");
+			break;
 		}
 		if (sysInfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
 			ret.Append(L", 64-bit");
