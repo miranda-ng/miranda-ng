@@ -102,6 +102,7 @@ void InitGroupMenus(void)
 	mi.pszService = "Clist/ShowHide";
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	mi.name.a = LPGEN("&Hide/show");
+	mi.Module = "Clist_nicer";
 	hHideShowMainMenuItem = Menu_AddGroupMenuItem(&mi);
 
 	SET_UID(mi, 0xb0f29663, 0x68b6, 0x494c, 0xaf, 0xab, 0xf6, 0x86, 0x45, 0xb8, 0xdb, 0xde);

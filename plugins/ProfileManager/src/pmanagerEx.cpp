@@ -113,6 +113,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Database"), -500200000);
+	mi.Module = "Profile manager";
 
 	for (int i = 0; i < _countof(iconList); i++) {
 		mi.name.a = iconList[i].szDescr;

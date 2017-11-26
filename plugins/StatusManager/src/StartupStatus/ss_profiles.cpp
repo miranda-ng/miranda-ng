@@ -55,6 +55,7 @@ static int CreateMainMenuItems(WPARAM, LPARAM)
 	CMenuItem mi;
 	mi.position = 2000100000;
 	mi.flags = CMIF_UNICODE;
+	mi.Module = SSMODULENAME;
 	mcount = 0;
 	int count = GetProfileCount(0, 0);
 	for (int i = 0; i < count && mcount < MAX_MMITEMS; i++) {

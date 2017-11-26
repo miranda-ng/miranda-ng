@@ -344,6 +344,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.hIcolibItem = iconList[0].hIcolib;
 	mi.name.w = LPGENW("Send &nudge");
 	mi.pszService = MS_NUDGE_SEND;
+	mi.Module = MODULENAME;
 	g_hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	// register special type of event

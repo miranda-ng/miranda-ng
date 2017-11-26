@@ -100,6 +100,7 @@ void InitMenuItems()
 
 	SET_UID(mi, 0x28848d7a, 0x6995, 0x4799, 0x82, 0xd7, 0x18, 0x40, 0x3d, 0xe3, 0x71, 0xc4);
 	mi.position = 1000090000;
+	mi.Module = MODULE;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 	mi.name.a = LPGEN("View &History");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
@@ -126,6 +127,7 @@ void InitTaskMenuItems()
 			CMenuItem mi;
 			SET_UID(mi, 0xbf66499, 0x1b39, 0x47a2, 0x9b, 0x74, 0xa6, 0xae, 0x89, 0x95, 0x59, 0x59);
 			mi.position = 500060005;
+			mi.Module = MODULE;
 			mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
 			mi.name.a = LPGEN("Execute history task");
 			hTaskMainMenu = Menu_AddMainMenuItem(&mi);
@@ -146,6 +148,7 @@ void InitTaskMenuItems()
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.root = hTaskMainMenu;
 			mi.name.w = (wchar_t*)taskIt->taskName.c_str();
+			mi.Module = MODULE;
 			HGENMENU menu = Menu_AddMainMenuItem(&mi);
 			Menu_ConfigureItem(menu, MCI_OPT_EXECPARAM, pos++);
 			taskMenus.push_back(menu);

@@ -337,6 +337,7 @@ int CreateFrame()
 		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
 		mi.name.w = LPGENW("Show my details");
 		mi.pszService = MODULE_NAME"/ShowHideMyDetails";
+		mi.Module = MODULE_NAME;
 		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
 		Menu_ConfigureItem(hMenuShowHideFrame, MCI_OPT_EXECPARAM, -0x7FFFFFFF);
 

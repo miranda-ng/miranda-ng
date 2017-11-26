@@ -16,6 +16,7 @@ void InitMenus()
 	mi.hIcolibItem = hIconResponding;
 	mi.name.w = LPGENW("Enable all pings");
 	mi.pszService = PLUG "/EnableAll";
+	mi.Module = PLUG;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x1dac6ea6, 0x116e, 0x41a3, 0xa6, 0xe8, 0x42, 0xdf, 0xf7, 0x27, 0xc4, 0x7c);

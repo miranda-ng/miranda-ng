@@ -68,6 +68,7 @@ void MirandaContact::addMenuItem()
 	mi.name.a = MENU_ITEM_TEXT;
 	mi.position = 65535;
 	mi.pszService = MENU_COMMAND_CALLBACK_SERVICE;
+	mi.Module = SETTINGS_MODULE;
 	hTransliterateCmdMenuItem = Menu_AddContactMenuItem(&mi);
 }
 

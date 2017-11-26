@@ -294,6 +294,7 @@ static INT_PTR InitMenu()
 	mi.hIcolibItem = GetIconHandle(MENU_NAME);
 	mi.name.a = MENU_NAME;
 	mi.pszService = SS_SERVICE_NAME;
+	mi.Module = MODULE_NAME;
 	hSSMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
 	UpdateMenu();
 	return 0;

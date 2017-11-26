@@ -577,6 +577,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.name.a = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
+	mi.Module = "Scriver";
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
 	IcoLib_ReleaseIcon((HICON)mi.hIcolibItem);
 

@@ -188,6 +188,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.flags = CMIF_UNICODE;
 	mi.name.w = LPGENW("Quick Contacts...");
 	mi.pszService = MS_QC_SHOW_DIALOG;
+	mi.Module = MODULE_NAME;
 	Menu_AddMainMenuItem(&mi);
 	return 0;
 }

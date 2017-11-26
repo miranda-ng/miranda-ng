@@ -59,6 +59,7 @@ int MenuitemInit(BOOL bStatus)
 	mi.hIcolibItem = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
 	mi.pszService = MS_NEN_MENUNOTIFY;
 	mi.flags = 0;
+	mi.Module = MODULE;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);
 
 	bNotify = bStatus;

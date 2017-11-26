@@ -823,6 +823,7 @@ void AddMenuItem()
 	mi.name.a = "Set alarm";
 	mi.pszService = MODULE "/NewAlarm";
 	mi.position = 500010000;
+	mi.Module = MODULE;
 	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 

@@ -99,6 +99,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.a = LPGEN("Remove Personal Settings...");
 	mi.pszService="RemovePersonalSettings/RemoveAll";
+	mi.Module = "RemovePersonalSettings";
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, RemoveAllService);
 

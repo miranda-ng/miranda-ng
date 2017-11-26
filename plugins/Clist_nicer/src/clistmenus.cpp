@@ -371,6 +371,7 @@ int InitCustomMenus(void)
 	mi.pszService = "CList/SetContactIgnore";
 	mi.hIcolibItem = iconItem[0].hIcolib;
 	mi.name.a = LPGEN("&Contact list settings...");
+	mi.Module = "Clist_nicer";
 	Menu_AddContactMenuItem(&mi);
 	return 0;
 }

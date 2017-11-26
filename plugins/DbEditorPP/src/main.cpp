@@ -120,6 +120,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = GetIcoLibHandle(ICO_DBE_BUTT);
 	mi.name.a = modFullname;
 	mi.pszService = "DBEditorpp/MenuCommand";
+	mi.Module = modname;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x2fed8613, 0xac43, 0x4148, 0xbd, 0x5c, 0x44, 0x88, 0xaf, 0x68, 0x69, 0x10);

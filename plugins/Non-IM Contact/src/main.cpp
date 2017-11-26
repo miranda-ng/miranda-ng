@@ -152,6 +152,7 @@ extern "C" __declspec(dllexport) int Load()
 	mi.name.a = LPGEN("&Add Non-IM Contact");
 	mi.pszService = "AddLCcontact";
 	mi.hIcolibItem = icoList[0].hIcolib;
+	mi.Module = MODNAME;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xa511c5e, 0x26d2, 0x41b1, 0xbd, 0xb7, 0x3e, 0x62, 0xc8, 0x44, 0x37, 0xc9);

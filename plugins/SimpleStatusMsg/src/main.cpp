@@ -1383,6 +1383,7 @@ static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
+	mi.Module = "SimpleStatusMsg";
 	if (!db_get_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;
 	mi.hIcolibItem = GetIconHandle(IDI_CSMSG);

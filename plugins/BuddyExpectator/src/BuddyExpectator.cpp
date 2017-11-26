@@ -613,6 +613,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		mi.position = 200000;
 		mi.name.w = LPGENW("Enable Miss You");
 		mi.pszService = "BuddyExpectator/actionMissYouClick";
+		mi.Module = MODULE_NAME;
 		hContactMenu = Menu_AddContactMenuItem(&mi);
 	}
 

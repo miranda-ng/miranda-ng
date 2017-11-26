@@ -157,6 +157,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.a = LPGEN("Remove Temporary Contacts");
 	mi.pszService = "/RemoveTmp";
+	mi.Module = pluginName;
 
 	Menu_AddMainMenuItem(&mi);
 

@@ -154,6 +154,7 @@ type
     pszService:PAnsiChar;
     root      :HGENMENU;
     szName    :TCHAR;
+    Module    :TCHAR;
     flags     :integer;
     hIcon     :HICON;   // or hIcolibItem:THANDLE;
     hLangpack :int;

@@ -58,6 +58,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
 	mi.name.w = LPGENW("&Create Linklist");
 	mi.pszService = "Linklist/MenuCommand";
+	mi.Module = LINKLIST_MODULE;
 	Menu_AddContactMenuItem(&mi);
 
 	hWindowList = WindowList_Create();

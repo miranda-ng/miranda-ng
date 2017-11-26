@@ -170,6 +170,7 @@ void InitMirOTRMenu(void)
 	mi.flags = CMIF_DISABLED | CMIF_UNICODE;
 	mi.name.w = LPGENW("OTR Status");
 	mi.position = 0;
+	mi.Module = MODULENAME;
 	hStatusInfoItem = AddMirOTRMenuItem(&mi, nullptr);
 
 	mi.flags = CMIF_UNICODE | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;

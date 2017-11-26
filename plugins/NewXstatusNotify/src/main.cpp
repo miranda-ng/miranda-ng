@@ -1074,6 +1074,7 @@ void InitMainMenuItem()
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
+	mi.Module = MODULE;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 
 	opt.TempDisabled = !opt.TempDisabled;

@@ -96,6 +96,7 @@ void InitMenuItems()
 	mi.hIcolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.name.w = LPGENW("FTP File");
+	mi.Module = MODULE;
 
 	hMainMenu = Menu_AddMainMenuItem(&mi);
 	if (opt.bUseSubmenu)
@@ -124,6 +125,7 @@ void InitMenuItems()
 		mi2.root = hSubMenu[i];
 		mi2.pszService = MS_FTPFILE_CONTACTMENU;
 		mi2.name.w = LPGENW("Upload file(s)");
+		mi2.Module = MODULE;
 		HGENMENU tmp = Menu_AddContactMenuItem(&mi2);
 		Menu_ConfigureItem(tmp, MCI_OPT_EXECPARAM, mi2.position = i + UploadJob::FTP_RAWFILE);
 

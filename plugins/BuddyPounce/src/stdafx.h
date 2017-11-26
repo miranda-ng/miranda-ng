@@ -23,7 +23,7 @@
 //=======================================================
 //	Definitions
 //=======================================================
-#define modname			"buddypounce"
+#define modname			"BuddyPounce"
 #define modFullname		"Buddy Pounce"
 #define msg(a,b)		MessageBox(0,a,b,MB_OK)
 

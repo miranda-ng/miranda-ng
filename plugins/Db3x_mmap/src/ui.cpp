@@ -340,6 +340,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.w = db->GetMenuTitle();
 	mi.pszService = MS_DB_CHANGEPASSWORD;
+	mi.Module = "Dbx_mmap";
 	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;
 }

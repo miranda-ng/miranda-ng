@@ -149,6 +149,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.hIcolibItem = Skin_LoadProtoIcon(MODULE_NAME, ID_STATUS_ONLINE);
 	mi.name.a = LPGEN("&Check all Gmail inboxes");
 	mi.pszService = MODULE_NAME "/MenuCommand";
+	mi.Module = MODULE_NAME;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x22c6ace1, 0xba0c, 0x44b5, 0xa4, 0xd2, 0x1, 0x7d, 0xb1, 0xe0, 0x51, 0xeb);

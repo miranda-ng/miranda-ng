@@ -187,6 +187,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.w = LPGENW("Load public GPG key");
 	mi.pszService = "/LoadPubKey";
+	mi.Module = szGPGModuleName;
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0xc8008193, 0x56a9, 0x414a, 0x82, 0x98, 0x78, 0xe8, 0xa8, 0x84, 0x20, 0x67);

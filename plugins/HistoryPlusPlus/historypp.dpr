@@ -250,6 +250,7 @@ begin
   menuItem.szName.w := MenuHandles[miContact].Name;
   menuItem.pszService := MS_HISTORY_SHOWCONTACTHISTORY;
   menuItem.hIcon := hppIcons[HPP_ICON_CONTACTHISTORY].handle;
+  menuItem.Module := 'HistoryPlusPlus';
   MenuHandles[miContact].Handle := Menu_AddContactMenuItem(@menuItem);
 
   // create empty item in contact menu

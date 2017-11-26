@@ -926,6 +926,7 @@ extern "C" __declspec(dllexport) int Load()
 		mi.position = 1000085000;
 		mi.name.a = LPGEN("Enable HTTP server");
 		mi.pszService = MS_HTTP_ACCEPT_CONNECTIONS;
+		mi.Module = MODULE;
 		hAcceptConnectionsMenuItem = Menu_AddMainMenuItem(&mi);
 	}
 

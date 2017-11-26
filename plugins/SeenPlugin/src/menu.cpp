@@ -74,6 +74,7 @@ void InitMenuitem()
 	mi.position = -0x7FFFFFFF;
 	mi.name.a = LPGEN("Last seen");
 	mi.pszService = "LastSeenUserDetails";
+	mi.Module = S_MOD;
 	hmenuitem = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildContactMenu);

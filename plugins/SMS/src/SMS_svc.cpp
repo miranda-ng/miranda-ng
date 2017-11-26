@@ -35,6 +35,7 @@ int LoadModules(void)
 	mi.name.w = SMS_SEND_STR;
 	mi.pszService = szServiceFunction;
 	mi.flags = CMIF_UNICODE;
+	mi.Module = PROTOCOL_NAMEA;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x736e4cff, 0x769e, 0x45dc, 0x8b, 0x78, 0x83, 0xf9, 0xe4, 0xbb, 0x81, 0x9e);

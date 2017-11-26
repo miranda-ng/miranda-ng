@@ -727,6 +727,7 @@ static void LoadMenus()
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
 	mi.name.w = LPGENW("Remove thumb");
 	mi.pszService = MODULE "/RemoveThumb";
+	mi.Module = MODULE;
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 
 	// Hide all thumbs main menu item

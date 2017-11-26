@@ -244,6 +244,7 @@ void addProtoStatusMenuItem(char *protoName)
 	mi.position = 2000040000;
 	mi.pszService = buf;
 	mi.root = hRoot;
+	mi.Module = MODNAME;
 	Menu_AddStatusMenuItem(&mi);
 
 	RegisterHotkeys(buf, pdescr->tszAccountName, pdescr->iOrder);

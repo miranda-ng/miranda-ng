@@ -339,6 +339,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 			mi.name.w = LPGENW("Enable c&lient change notification");
 
 		mi.pszService = MS_CCN_TOGGLEPOPUPS;
+		mi.Module = MOD_NAME;
 		g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);
 	}
 

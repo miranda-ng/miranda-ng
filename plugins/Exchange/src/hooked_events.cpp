@@ -67,6 +67,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_EXCHANGE_CHECKEMAIL;
 	mi.flags = CMIF_UNICODE;
 	mi.name.w = LPGENW("Check exchange mailbox");
+	mi.Module = ModuleName;
 	Menu_AddMainMenuItem(&mi);
 	
 	hEmailsDlg = nullptr; //CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EMAILS), NULL, DlgProcEmails); //create emails window

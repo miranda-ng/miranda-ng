@@ -440,6 +440,7 @@ void SetShutdownMenuItem(bool fActive)
 	CMenuItem mi;
 	SET_UID(mi, 0x61e2a38f, 0xcd94, 0x4f72, 0x84, 0x8c, 0x72, 0x92, 0xde, 0x1d, 0x6d, 0x5);
 	mi.position = 2001090000;
+	mi.Module = "AutoShutdown";
 	if (fActive) {
 		mi.hIcolibItem = iconList[1].hIcolib;
 		mi.name.w = LPGENW("Stop automatic &shutdown");

@@ -548,6 +548,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.position = -50010002; //TODO: check the warning
 		mi.name.a = BOLTUN_AUTO_CHAT;
 		mi.pszService = SERV_CONTACT_AUTO_CHAT;
+		mi.Module = BOLTUN_NAME;
 		hMenuItemAutoChat = Menu_AddContactMenuItem(&mi);
 
 		SET_UID(mi, 0x726af984, 0x988c, 0x4d5d, 0x97, 0x30, 0xdc, 0x46, 0x55, 0x76, 0x1, 0x73);
