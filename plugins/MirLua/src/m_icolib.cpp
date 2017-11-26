@@ -50,7 +50,7 @@ static void MakeSKINICONDESC(lua_State *L, SKINICONDESC &sid)
 
 static int lua_AddIcon(lua_State *L)
 {
-	SKINICONDESC sid;
+	SKINICONDESC sid = { };
 
 	if (lua_type(L, 1) == LUA_TSTRING)
 	{
