@@ -39,6 +39,7 @@ struct TMO_MenuItem
 {
 	int position;
 	const char *pszService;
+	const char *Module;
 	HGENMENU root;
 	MAllStrings name;
 	int flags; // set of CMIF_* constants

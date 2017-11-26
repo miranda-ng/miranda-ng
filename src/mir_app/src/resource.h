@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
@@ -33,7 +33,7 @@
 #define IDI_INVISIBLE                   130
 #define IDI_NA                          131
 #define IDI_LOAD                        132
-#define IDR_SRMM						133
+#define IDR_SRMM                        133
 #define IDD_OPT_SOUND                   134
 #define IDI_RECVMSG                     136
 #define IDI_URL                         138
@@ -215,7 +215,7 @@
 #define IDC_URLS                        1037
 #define IDC_COLORTEXT                   1038
 #define IDC_REPLY                       1039
-#define IDC_TOOLBARTREE						 1040
+#define IDC_TOOLBARTREE                 1040
 #define IDC_URL                         1041
 #define IDC_FONTGROUP                   1042
 #define IDC_BTN_RESET                   1045
@@ -278,9 +278,9 @@
 #define IDC_IMCHECK                     1100
 #define IDC_CHATCHECK                   1101
 #define IDC_CANBEHIDDEN                 1102
-#define IDC_SPIN1								 1103
-#define IDC_SEPARATOR						 1104
-#define IDC_EDIT1								 1105
+#define IDC_SPIN1                       1103
+#define IDC_SEPARATOR                   1104
+#define IDC_EDIT1                       1105
 #define IDC_BUILDTIME                   1108
 #define IDC_CREDITSFILE                 1109
 #define IDC_NUMBER                      1113
@@ -549,6 +549,7 @@
 #define IDC_DISABLEMENUICONS            1745
 #define IDC_COMBO1                      1746
 #define IDC_LANGUAGES                   1746
+#define IDC_GENMENU_MODULE              1747
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889
@@ -593,9 +594,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        329
+#define _APS_NEXT_RESOURCE_VALUE        330
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1747
+#define _APS_NEXT_CONTROL_VALUE         1748
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

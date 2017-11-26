@@ -263,7 +263,7 @@ class CGenMenuOptionsPage : public CDlgBase
 	CCtrlListBox m_menuObjects;
 	CCtrlTreeView m_menuItems;
 	CCtrlCheck m_radio1, m_radio2, m_enableIcons;
-	CCtrlEdit m_customName, m_service;
+	CCtrlEdit m_customName, m_service, m_module;
 	CCtrlButton m_btnInsSeparator, m_btnInsMenu, m_btnReset, m_btnSet, m_btnDefault;
 	CCtrlBase m_warning;
 
@@ -282,6 +282,7 @@ public:
 		m_btnDefault(this, IDC_GENMENU_DEFAULT),
 		m_customName(this, IDC_GENMENU_CUSTOMNAME),
 		m_service(this, IDC_GENMENU_SERVICE),
+		m_module(this, IDC_GENMENU_MODULE),
 		m_warning(this, IDC_NOTSUPPORTWARNING)
 	{
 		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
@@ -298,6 +299,7 @@ public:
 
 		m_customName.SetSilent();
 		m_service.SetSilent();
+		m_module.SetSilent();
 	}
 
 	//---- init dialog -------------------------------------------
@@ -483,6 +485,7 @@ public:
 	{
 		m_customName.SetTextA("");
 		m_service.SetTextA("");
+		m_module.SetTextA("");
 
 		m_btnInsMenu.Enable(false);
 		m_btnDefault.Enable(false);
@@ -511,6 +514,8 @@ public:
 			bin2hex(&iod->pimi->mi.uid, sizeof(iod->pimi->mi.uid), szText);
 			m_service.SetTextA(szText);
 		}
+
+		m_module.SetTextA(iod->pimi->mi.Module);
 
 		m_btnInsMenu.Enable(iod->pimi->mi.root == nullptr);
 		m_btnDefault.Enable(mir_wstrcmp(iod->name, iod->defname) != 0);
