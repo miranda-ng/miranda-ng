@@ -24,8 +24,8 @@ void CSteamProto::ParsePollData(JSONNode *data)
 
 		node = json_get(item, "type");
 		ptrW type(json_as_string(node));
-		if (!lstrcmpi(type, L"saytext") || !lstrcmpi(type, L"emote") /*|| // FIXME: Properly fix showing duplicit sent messages
-			!lstrcmpi(type, L"my_saytext") || !lstrcmpi(type, L"my_emote")*/)
+		if (!lstrcmpi(type, L"saytext") || !lstrcmpi(type, L"emote") ||
+			!lstrcmpi(type, L"my_saytext") || !lstrcmpi(type, L"my_emote"))
 		{
 			MCONTACT hContact = FindContact(steamId);
 			if (!hContact)
