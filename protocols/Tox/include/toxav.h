@@ -192,7 +192,7 @@ typedef enum TOXAV_ERR_CALL {
     TOXAV_ERR_CALL_SYNC,
 
     /**
-     * The friend ID did not designate a valid friend.
+     * The friend number did not designate a valid friend.
      */
     TOXAV_ERR_CALL_FRIEND_NOT_FOUND,
 
@@ -268,7 +268,7 @@ typedef enum TOXAV_ERR_ANSWER {
     TOXAV_ERR_ANSWER_CODEC_INITIALIZATION,
 
     /**
-     * The friend ID did not designate a valid friend.
+     * The friend number did not designate a valid friend.
      */
     TOXAV_ERR_ANSWER_FRIEND_NOT_FOUND,
 

@@ -180,7 +180,7 @@ uint32_t tox_version_minor(void);
  * The patch or revision number. Incremented when bugfixes are applied without
  * changing any functionality or API or ABI.
  */
-#define TOX_VERSION_PATCH              9
+#define TOX_VERSION_PATCH              10
 
 uint32_t tox_version_patch(void);
 
@@ -1622,7 +1622,7 @@ typedef enum TOX_ERR_SET_TYPING {
     TOX_ERR_SET_TYPING_OK,
 
     /**
-     * The friend ID did not designate a valid friend.
+     * The friend number did not designate a valid friend.
      */
     TOX_ERR_SET_TYPING_FRIEND_NOT_FOUND,
 
@@ -1654,7 +1654,7 @@ typedef enum TOX_ERR_FRIEND_SEND_MESSAGE {
     TOX_ERR_FRIEND_SEND_MESSAGE_NULL,
 
     /**
-     * The friend ID did not designate a valid friend.
+     * The friend number did not designate a valid friend.
      */
     TOX_ERR_FRIEND_SEND_MESSAGE_FRIEND_NOT_FOUND,
 
@@ -2786,7 +2786,7 @@ typedef enum TOX_ERR_FRIEND_CUSTOM_PACKET {
     TOX_ERR_FRIEND_CUSTOM_PACKET_NULL,
 
     /**
-     * The friend ID did not designate a valid friend.
+     * The friend number did not designate a valid friend.
      */
     TOX_ERR_FRIEND_CUSTOM_PACKET_FRIEND_NOT_FOUND,
 
