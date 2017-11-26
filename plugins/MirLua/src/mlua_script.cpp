@@ -3,7 +3,7 @@
 #define MT_SCRIPT "SCRIPT"
 
 CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
-	: CMLuaEnviroment(L), status(None), unloadRef(LUA_NOREF)
+	: CMLuaEnvironment(L), status(None), unloadRef(LUA_NOREF)
 {
 	mir_wstrcpy(filePath, path);
 
@@ -19,7 +19,7 @@ CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 }
 
 CMLuaScript::CMLuaScript(const CMLuaScript &script)
-	: CMLuaEnviroment(L), status(None), unloadRef(LUA_NOREF)
+	: CMLuaEnvironment(L), status(None), unloadRef(LUA_NOREF)
 {
 	mir_wstrcpy(filePath, script.filePath);
 	fileName = mir_wstrdup(script.fileName);
@@ -75,7 +75,7 @@ bool CMLuaScript::Load()
 		return false;
 	}
 
-	if (!CMLuaEnviroment::Load()) {
+	if (!CMLuaEnvironment::Load()) {
 		ReportError(L);
 		return false;
 	}

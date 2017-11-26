@@ -37,7 +37,7 @@ int HookEventLuaStateParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param
 
 int HookEventEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	CMLuaEnviroment *env = (CMLuaEnviroment*)obj;
+	CMLuaEnvironment *env = (CMLuaEnvironment*)obj;
 
 	int ref = param;
 	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
@@ -66,7 +66,7 @@ static int core_HookEvent(lua_State *L)
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = nullptr;
-	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
+	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
 	if (env)
 		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
 	else
@@ -95,7 +95,7 @@ static int core_HookTemporaryEvent(lua_State *L)
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = nullptr;
-	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
+	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
 	if (env)
 		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
 	else
@@ -171,7 +171,7 @@ INT_PTR CreateServiceFunctionLuaStateParam(void *obj, WPARAM wParam, LPARAM lPar
 
 INT_PTR CreateServiceFunctionEnvParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	CMLuaEnviroment *env = (CMLuaEnviroment*)obj;
+	CMLuaEnvironment *env = (CMLuaEnvironment*)obj;
 
 	int ref = param;
 	lua_rawgeti(env->L, LUA_REGISTRYINDEX, ref);
@@ -195,7 +195,7 @@ static int core_CreateServiceFunction(lua_State *L)
 	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 	HANDLE res = nullptr;
-	CMLuaEnviroment *env = CMLuaEnviroment::GetEnviroment(L);
+	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
 	if (env)
 		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionEnvParam, env, ref);
 	else

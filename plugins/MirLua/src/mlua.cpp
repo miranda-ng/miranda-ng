@@ -325,7 +325,7 @@ INT_PTR CMLua::Call(WPARAM wParam, LPARAM lParam)
 	lua_newtable(L);
 	lua_pushcclosure(L, mlua_call, 1);
 	
-	CMLuaEnviroment env(L);
+	CMLuaEnvironment env(L);
 	env.Load();
 
 	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
@@ -343,7 +343,7 @@ INT_PTR CMLua::Exec(WPARAM, LPARAM lParam)
 		return NULL;
 	}
 
-	CMLuaEnviroment env(L);
+	CMLuaEnvironment env(L);
 	env.Load();
 
 	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));
@@ -361,7 +361,7 @@ INT_PTR CMLua::Eval(WPARAM, LPARAM lParam)
 		return NULL;
 	}
 
-	CMLuaEnviroment env(L);
+	CMLuaEnvironment env(L);
 	env.Load();
 
 	wchar_t *result = mir_utf8decodeW(lua_tostring(L, -1));

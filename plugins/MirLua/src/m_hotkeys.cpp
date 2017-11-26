@@ -41,7 +41,7 @@ static int hotkeys_Register(lua_State *L)
 	HOTKEYDESC hk;
 	MakeHotkey(L, hk);
 
-	int hScriptLangpack = CMLuaEnviroment::GetEnviromentId(L);
+	int hScriptLangpack = CMLuaEnvironment::GetEnvironmentId(L);
 
 	INT_PTR res = Hotkey_Register(&hk, hScriptLangpack);
 	lua_pushboolean(L, res);

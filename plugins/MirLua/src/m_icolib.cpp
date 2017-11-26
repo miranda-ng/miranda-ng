@@ -72,7 +72,7 @@ static int lua_AddIcon(lua_State *L)
 	else
 		luaL_argerror(L, 1, luaL_typename(L, 1));
 
-	int hScriptLangpack = CMLuaEnviroment::GetEnviromentId(L);
+	int hScriptLangpack = CMLuaEnvironment::GetEnvironmentId(L);
 	HANDLE res = IcoLib_AddIcon(&sid, hScriptLangpack);
 	lua_pushlightuserdata(L, res);
 

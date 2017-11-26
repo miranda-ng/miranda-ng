@@ -33,7 +33,7 @@
 class CMLuaScript;
 
 #include "mlua.h"
-#include "mlua_enviroment.h"
+#include "mlua_environment.h"
 #include "mlua_script.h"
 #include "mlua_module_loader.h"
 #include "mlua_script_loader.h"

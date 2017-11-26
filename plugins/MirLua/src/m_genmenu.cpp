@@ -2,7 +2,7 @@
 
 void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {
-	mi.hLangpack = CMLuaEnviroment::GetEnviromentId(L);
+	mi.hLangpack = CMLuaEnvironment::GetEnvironmentId(L);
 
 	lua_getfield(L, -1, "Flags");
 	mi.flags = lua_tointeger(L, -1);

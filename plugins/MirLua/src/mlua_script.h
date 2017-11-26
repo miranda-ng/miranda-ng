@@ -1,7 +1,7 @@
 #ifndef _LUA_SCRIPT_H_
 #define _LUA_SCRIPT_H_
 
-class CMLuaScript : public CMLuaEnviroment
+class CMLuaScript : public CMLuaEnvironment
 {
 public:
 	enum Status
