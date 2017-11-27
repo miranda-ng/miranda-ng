@@ -78,7 +78,6 @@ void InitMenu()
 {
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
-	mi.Module = QUOTES_PROTOCOL_NAME;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Quotes"), 0, Quotes_GetIconHandle(IDI_ICON_MAIN));
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "B474F556-22B6-42A1-A91E-22FE4F671388");
 

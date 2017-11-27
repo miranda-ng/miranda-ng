@@ -291,7 +291,6 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		mi.root = hContactMenuItem;
 		mi.flags = CMIF_UNICODE | CMIF_SYSTEM;
 		mi.pszService = MS_SMILEYADD_CUSTOMCATMENU;
-		mi.Module = MODULENAME;
 
 		bool nonecheck = true;
 		HGENMENU hMenu;

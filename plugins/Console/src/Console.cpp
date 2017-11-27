@@ -1150,7 +1150,6 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 		mi.position = 1900000000;
 		mi.name.w = (IsWindowVisible(hwndConsole)) ? LPGENW("Hide Console") : LPGENW("Show Console");
 		mi.pszService = MS_CONSOLE_SHOW_HIDE;
-		mi.Module = "Console";
 		hMenu = Menu_AddMainMenuItem(&mi);
 
 		OnFontChange(0, 0);

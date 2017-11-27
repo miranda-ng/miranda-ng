@@ -503,7 +503,6 @@ void InitMenuItem()
 	mi.position = 1000090010;
 	mi.hIcolibItem = createDefaultOverlayedIcon(FALSE);
 	mi.pszService = MS_AVATARHISTORY_SHOWDIALOG;
-	mi.Module = MODULE_NAME;
 	hMenu = Menu_AddContactMenuItem(&mi);
 	DestroyIcon((HICON)mi.hIcolibItem);
 }

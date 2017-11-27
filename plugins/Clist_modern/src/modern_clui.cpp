@@ -332,7 +332,6 @@ HRESULT CLUI::RegisterAvatarMenu()
 	mi.hIcolibItem = iconItem[0].hIcolib;
 	mi.name.a = LPGEN("Show contact &avatar");
 	mi.pszService = "CList/ShowContactAvatar";
-	mi.Module = "Clist_modern";
 	hShowAvatarMenuItem = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x13f93d1b, 0xd470, 0x45de, 0x86, 0x8f, 0x22, 0x3b, 0x89, 0x4f, 0x4f, 0xa3);

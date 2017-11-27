@@ -816,7 +816,6 @@ begin
           mi.flags     :=CMIF_UNICODE;
           mi.szName.w  :='Change setting through QS';
           mi.pszService:='QS/dummy';
-          mi.Module:=qs_module;
           mnuhandle:=Menu_AddContactMenuItem(@mi);
         end
         else

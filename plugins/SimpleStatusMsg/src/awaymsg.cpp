@@ -384,7 +384,6 @@ int LoadAwayMsgModule(void)
 
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
-	mi.Module = "SimpleStatusMsg";
 
 	SET_UID(mi, 0xd3282acc, 0x9ff1, 0x4ede, 0x8a, 0x1e, 0x36, 0x72, 0x3f, 0x44, 0x4f, 0x84);
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);

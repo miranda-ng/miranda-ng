@@ -896,7 +896,6 @@ void InitList()
 		mi.position = 3000320001;
 		mi.name.w = LPGENW("Show/Hide &Ping Window");
 		mi.pszService = PLUG "/ShowWindow";
-		mi.Module = PLUG;
 		Menu_AddMainMenuItem(&mi);
 
 		if (options.attach_to_clist) AttachToClist(true);

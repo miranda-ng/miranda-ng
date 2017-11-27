@@ -141,7 +141,6 @@ static int HookModulesLoaded(WPARAM, LPARAM)
 	mi.position = -2000009990;  //position in menu
 	mi.pszService = MS_CONTACTS_SEND;
 	mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
-	mi.Module = MODULENAME;
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);

@@ -30,7 +30,6 @@ void InitializeMenus()
 
 	mi.position = -2000019999;
 	mi.hIcon = LoadIconEx(IDI_UPLOAD);
-	mi.Module = MODULE;
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	if (defaultService)

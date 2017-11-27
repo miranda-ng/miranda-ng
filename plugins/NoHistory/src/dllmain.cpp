@@ -252,7 +252,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.name.w = LPGENW("Disable History");
 	mi.pszService = MS_NOHISTORY_TOGGLE;
 	mi.hIcolibItem = hIconRemove;
-	mi.Module = MODULE;
 	hMenuToggle = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x1c4b1c21, 0xc0d1, 0x44d1, 0xb5, 0x3c, 0xc7, 0x8d, 0xcf, 0x96, 0x51, 0xd7);

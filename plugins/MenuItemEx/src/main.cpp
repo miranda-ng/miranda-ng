@@ -741,7 +741,6 @@ static HGENMENU AddSubmenuItem(HGENMENU hRoot, wchar_t* name, HICON icon, DWORD 
 	mi.hIcolibItem = icon;
 	mi.flags = CMIF_UNICODE | CMIF_UNMOVABLE | flag;
 	mi.pszService = service;
-	mi.Module = MODULENAME;
 	
 	HGENMENU res = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, param);
@@ -948,7 +947,6 @@ static int PluginInit(WPARAM, LPARAM)
 	mi.position = 120000;
 	mi.name.w = LPGENW("Always visible");
 	mi.pszService = MS_SETVIS;
-	mi.Module = MODULENAME;
 	hmenuVis = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x7d93de78, 0xb1c, 0x4c51, 0x8c, 0x88, 0x33, 0x72, 0x12, 0xb5, 0xb8, 0xe7);

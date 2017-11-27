@@ -52,7 +52,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = LPGEN("Restart");
 	mi.pszService = "System/RestartMe";
-	mi.Module = "Restart";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
 	return 0;

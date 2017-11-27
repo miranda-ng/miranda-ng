@@ -36,7 +36,6 @@ begin
   SET_UID(@mi, 'DA1F1DA5-0C78-4FD5-B705-5F2C22EBDAD4');
   mi.pszService:=MS_RADIO_RECORD;
   mi.szName.a  :='Start/Stop Record';
-  mi.Module    :=cPluginName;
   hCMenuItemRec:=Menu_AddContactMenuItem(@mi);
 
   SET_UID(@mi, '03C42002-709A-48CA-A9AF-450BEBDBE3E0');

@@ -119,7 +119,6 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 		mi.position = 1000090100;
 		mi.name.a = LPGEN("Open E&xported History");
 		mi.pszService = MS_SHOW_EXPORT_HISTORY;
-		mi.Module = MODULE;
 		Menu_AddContactMenuItem(&mi);
 	}
 

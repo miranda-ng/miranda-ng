@@ -175,7 +175,6 @@ void InitMenuItems(void)
 {
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
-	mi.Module = MODULNAME_PLU;
 
 	HANDLE hIcon = GetIconHandle(PopupOptions.ModuleIsEnabled ? IDI_POPUP : IDI_NOPOPUP);
 

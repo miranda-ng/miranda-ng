@@ -253,7 +253,6 @@ extern "C" int __declspec(dllexport)Load(void)
 	CreateServiceFunction(protocolname"/ToggleAutoanswer", Toggle);
 
 	CMenuItem mi;
-	mi.Module = protocolname;
 
 	SET_UID(mi, 0xac1c64a, 0x82ca, 0x4845, 0x86, 0x89, 0x59, 0x76, 0x12, 0x74, 0x72, 0x7b);
 	mi.position = 500090000;

@@ -184,7 +184,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	mi.name.a = LPGEN("File As Message...");
 	mi.pszService = SERVICE_NAME "/FESendFile";
 	mi.flags = CMIF_NOTOFFLINE;
-	mi.Module = SERVICE_NAME;
 	Menu_AddContactMenuItem(&mi);
 	return 0;
 }

@@ -1495,7 +1495,6 @@ static int CLUIFramesLoadMainMenu()
 		mi.position = separator++;
 		mi.name.w = F.TitleBar.tbname ? F.TitleBar.tbname : F.name;
 		mi.pszService = nullptr;
-		mi.Module = "Clist_modern";
 		g_frameMenus.insert(F.MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi));
 		CLUIFramesCreateMenuForFrame(F.id, F.MenuHandles.MainMenuItem, separator, true);
 		CLUIFramesModifyMainMenuItems(F.id, 0);
@@ -3333,7 +3332,6 @@ int LoadCLUIFramesModule(void)
 		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 		mi.position = 3000090000;
 		mi.name.a = LPGEN("Frames");
-		mi.Module = "Clist_modern";
 		cont.MainMenuItem = Menu_AddMainMenuItem(&mi);
 		UNSET_UID(mi);
 

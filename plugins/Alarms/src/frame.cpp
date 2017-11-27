@@ -531,7 +531,6 @@ int CreateFrame()
 		mi.name.a = LPGEN("Show reminders");
 		mi.pszService = MODULE "/ShowHideReminders";
 		mi.position = 500010000;
-		mi.Module = MODULE;
 		hMenuShowReminders = Menu_AddMainMenuItem(&mi);
 		/////////////////////
 

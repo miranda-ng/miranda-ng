@@ -240,8 +240,7 @@ begin
   mi.position    :=500050000;
   mi.pszService  :=QS_SHOWSERVICE;
   mi.hIcon       :=IcoLib_GetIcon(QS_QS,0);
-  mi.Module      :=qs_module;
-  MainMenuItem    :=Menu_AddMainMenuItem(@mi);
+  MainMenuItem   :=Menu_AddMainMenuItem(@mi);
 end;
 
 // -------- column functions ---------

@@ -264,7 +264,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.name.a = LPGEN("Copy to clipboard");
 	mi.hIcolibItem = GetIconHandle(IDI_VITOCLIP);
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
-	mi.Module = PluginName;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x54109094, 0x494e, 0x4535, 0x9c, 0x3a, 0xf6, 0x9e, 0x9a, 0xf7, 0xcd, 0xbe);

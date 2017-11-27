@@ -93,7 +93,6 @@ static int MainInit(WPARAM, LPARAM)
 	mi.flags =  CMIF_UNICODE;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.name.w = LPGENW("My details");
-	mi.Module = MODULE_NAME;
 	HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags =  CMIF_UNICODE;

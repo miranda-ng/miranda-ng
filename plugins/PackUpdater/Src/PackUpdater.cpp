@@ -77,8 +77,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.hIcolibItem = IcoLib_GetIcon("check_update");
 	mi.name.w = LPGENW("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
-	mi.Module = MODNAME;
 	Menu_AddMainMenuItem(&mi);
+
 	// Add empty updates folder menu item
 	CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
 	memset(&mi, 0, sizeof(mi));

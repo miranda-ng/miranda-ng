@@ -297,7 +297,6 @@ DLL_EXPORT int Load(void)
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = GetIconHandle(ICO_MAINXS);
-	mi.Module = SZ_SENDSS;
 
 	SET_UID(mi, 0xa559a22e, 0xd0f9, 0x4553, 0x8e, 0x68, 0x55, 0xb3, 0xae, 0xc4, 0x5d, 0x93);
 	mi.name.w = LPGENW("Take a screenshot");

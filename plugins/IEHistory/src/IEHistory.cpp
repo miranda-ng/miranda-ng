@@ -82,7 +82,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.position = 1000090000;
 	mi.hIcolibItem = hIcon;
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-	mi.Module = ModuleName;
 	Menu_AddContactMenuItem(&mi);
 
 	/// @todo (White-Tiger#1#08/19/14): fully implement System History someday^^

@@ -101,7 +101,6 @@ begin
       mi.position  :=i;
       mi.pszService:=@buf;
       mi.szName.w  :=tmp.name;
-      mi.Module    :=cPluginName;
       tmp.menuitem:=Menu_AddTrayMenuItem(@mi);
     end;
   end;
@@ -137,7 +136,6 @@ begin
   mi.flags   :=CMIF_UNICODE;
   mi.szName.w:=cPluginName;
   mi.hIcon   :=IcoLib_GetIcon(IcoBtnSettings,0);
-  mi.MOdule  :=cPluginName;
   trayradioparent:=Menu_AddTrayMenuItem(@mi);
 
   FillChar(mi, sizeof(mi), 0);

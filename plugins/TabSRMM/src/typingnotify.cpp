@@ -543,7 +543,6 @@ int TN_ModuleInit()
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
 		mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("Popups"), 0);
-		mi.Module = "TabSRMM";
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 

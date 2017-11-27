@@ -45,7 +45,6 @@ static HGENMENU MyAddMenuItem(LPCWSTR name, int pos, LPCSTR szUid, HICON hicon, 
 	mi.hIcolibItem = hicon;
 	mi.name.w = (wchar_t*)name;
 	mi.pszService = (char*)service;
-	mi.Module = MODULENAME;
 	HGENMENU res = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(res, MCI_OPT_UID, szUid);
 	return res;
@@ -59,7 +58,6 @@ static HGENMENU MyAddSubItem(HGENMENU hRoot, LPCSTR name, int pos, int poppos, L
 	mi.name.a = (char*)name;
 	mi.root = hRoot;
 	mi.pszService = (char*)service;
-	mi.Module = MODULENAME;
 	HGENMENU res = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(res, MCI_OPT_EXECPARAM, poppos);
 	return res;

@@ -68,6 +68,7 @@ extern wchar_t mirandabootini[MAX_PATH];
 
 /**** newplugins.cpp *******************************************************************/
 
+char* GetPluginNameByLangpack(int _hLang);
 char* GetPluginNameByInstance(HINSTANCE hInstance);
 int   LoadStdPlugins(void);
 

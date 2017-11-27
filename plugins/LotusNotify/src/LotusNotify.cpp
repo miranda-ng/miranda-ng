@@ -1704,7 +1704,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.hIcolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 		mi.name.w = LPGENW("&Check Lotus");
 		mi.pszService = "LotusNotify/MenuCommand"; //service name thet listning for menu call
-		mi.Module = PLUGINNAME;
 		hMenuHandle = Menu_AddMainMenuItem(&mi); //create menu pos.
 
 		Menu_EnableItem(hMenuHandle, FALSE);

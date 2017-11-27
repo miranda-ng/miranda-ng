@@ -124,7 +124,6 @@ void CGlobals::reloadSystemModulesChanged()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.name.a = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
-	mi.Module = "TabSRMM";
 	PluginConfig.m_hMenuItem = Menu_AddContactMenuItem(&mi);
 
 	m_useAeroPeek = M.GetByte("useAeroPeek", 1);
@@ -312,7 +311,6 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = PluginConfig.g_iconContainer;
 	mi.name.a = LPGEN("&Messaging settings...");
 	mi.pszService = MS_TABMSG_SETUSERPREFS;
-	mi.Module = "TabSRMM";
 	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
 
 	if (sendLater->isAvail()) {

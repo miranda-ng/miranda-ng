@@ -104,7 +104,6 @@ void RebuildMenu()
 			| (ListeningToEnabled(info->proto, TRUE) ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
 
-		mi.Module = MODULE_NAME;
 		info->hMenu = Menu_AddMainMenuItem(&mi);
 		Menu_ConfigureItem(info->hMenu, MCI_OPT_EXECPARAM, i);
 	}
@@ -199,7 +198,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.name.w = LPGENW("Listening to");
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.Module = MODULE_NAME;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
 	mi.root = hMainMenuGroup;
@@ -213,7 +211,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	mi.flags = CMIF_UNICODE
 		| (ListeningToEnabled(nullptr, true) ? CMIF_CHECKED : 0)
 		| (opts.enable_sending ? 0 : CMIF_GRAYED);
-	mi.Module = MODULE_NAME;
 	proto_items.resize(1);
 	proto_items[0].hMenu = Menu_AddMainMenuItem(&mi);
 	proto_items[0].proto[0] = 0;

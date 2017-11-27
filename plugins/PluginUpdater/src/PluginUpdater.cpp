@@ -90,7 +90,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	SET_UID(mi, 0xfa2cbe01, 0x3b37, 0x4a4c, 0xa6, 0x97, 0xe4, 0x6f, 0x31, 0xa9, 0xfc, 0x33);
 	mi.name.a = LPGEN("Check for updates");
 	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.Module = MODULEA;
 #else
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);

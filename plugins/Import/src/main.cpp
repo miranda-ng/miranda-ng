@@ -126,7 +126,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.name.a = LPGEN("&Import...");
 	mi.position = 500050000;
 	mi.pszService = IMPORT_SERVICE;
-	mi.Module = IMPORT_MODULE;
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

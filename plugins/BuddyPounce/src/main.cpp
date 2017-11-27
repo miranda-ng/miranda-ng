@@ -50,7 +50,6 @@ int MainInit(WPARAM, LPARAM)
 	mi.hIcolibItem = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));
 	mi.name.a = LPGEN("&Buddy Pounce");
 	mi.pszService = "BuddyPounce/MenuCommand";
-	mi.Module = modname;
 	Menu_AddContactMenuItem(&mi);
 	return 0;
 }

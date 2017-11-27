@@ -455,7 +455,6 @@ int Create_MenuitemShowList(void)
 	mi.hIcolibItem = icon.hIcolib;
 	mi.name.a = LPGEN("Recent Contacts");
 	mi.pszService = msLastUC_ShowList;
-	mi.Module = MODULENAME;
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xe22ce213, 0x362a, 0x444a, 0xa5, 0x82, 0xc, 0xcf, 0xf5, 0x4b, 0xd1, 0x8e);

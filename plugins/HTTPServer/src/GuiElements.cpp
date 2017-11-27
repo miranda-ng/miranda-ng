@@ -1480,7 +1480,6 @@ void InitGuiElements()
 	mi.position = -2000019955;
 	mi.name.w = LPGENW("HTTP Share new file");
 	mi.pszService = MS_SHARE_NEW_FILE;
-	mi.Module = MODULE;
 	hShareNewFileMenuItem = Menu_AddContactMenuItem(&mi);
 
 	if (db_get_b(NULL, MODULE, "AddStatisticsMenuItem", 1) != 0) {

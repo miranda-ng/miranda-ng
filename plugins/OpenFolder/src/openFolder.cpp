@@ -103,7 +103,6 @@ extern "C" int __declspec(dllexport) Load()
 	mi.hIcolibItem = icon.hIcolib;
 	mi.name.w = LPGENW("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;
-	mi.Module = OPENFOLDER_MODULE_NAME;
 	Menu_AddMainMenuItem(&mi);
 
 	return 0;

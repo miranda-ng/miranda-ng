@@ -635,7 +635,6 @@ int MirandaLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[SendOnEvent ? 1 : 0].hIcolib;
 	mi.name.w = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
-	mi.Module = MOD_NAME;
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));

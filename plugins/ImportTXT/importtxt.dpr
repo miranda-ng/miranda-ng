@@ -135,7 +135,6 @@ begin
   mi.hIcon := LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DEFAULT));
   mi.szName.a := 'Import history';
   mi.pszService := IMPORT_TXT_SERVICE;
-  mi.Module := IMPORT_TXT_MODULE;
   Menu_AddContacTMenuItem(@mi);
 
   SET_UID(@mi, '0610209E-5BE0-4D57-AAE8-E1CCF1FB78B8');

@@ -25,7 +25,6 @@ namespace mu
 			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
 			mi.root = hRoot;
-			mi.Module = "HistoryStats";
 			mi.uid = menu_id; menu_id.d[7]++;
 			return Menu_AddMainMenuItem(&mi);
 		}
@@ -39,7 +38,6 @@ namespace mu
 			mi.position = position;
 			mi.hIcolibItem = hIcon;
 			mi.pszService = const_cast<char*>(pszService);
-			mi.Module = "HistoryStats";
 			mi.uid = menu_id; menu_id.d[7]++;
 			return Menu_AddContactMenuItem(&mi);
 		}

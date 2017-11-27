@@ -25,7 +25,6 @@ void InitMenu()
 {
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE | CMIF_NOTOFFLINE;
-	mi.Module = MODULE;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("News Aggregator"), 500099000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "D9733E4F-1946-4390-8EB3-591E8687222E");
 

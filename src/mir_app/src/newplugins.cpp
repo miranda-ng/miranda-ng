@@ -176,6 +176,19 @@ int LoadStdPlugins()
 /////////////////////////////////////////////////////////////////////////////////////////
 // global functions
 
+char* GetPluginNameByLangpack(int _hLang)
+{
+	if (pluginList.getCount() == 0)
+		return "";
+
+	for (int i = 0; i < pluginList.getCount(); i++) {
+		pluginEntry *p = pluginList[i];
+		if (p->hLangpack == _hLang)
+			return p->bpi.pluginInfo->shortName;
+	}
+	return "";
+}
+
 char* GetPluginNameByInstance(HINSTANCE hInstance)
 {
 	if (pluginList.getCount() == 0)

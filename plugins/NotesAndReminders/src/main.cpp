@@ -203,7 +203,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[2].hIcolib;
 	mi.name.w = LPGENW("New &Note");
 	mi.pszService = MODULENAME"/MenuCommandAddNew";
-	mi.Module = MODULENAME;
 	addMenuItem(mi);
 
 	mi.position = 1600000001;

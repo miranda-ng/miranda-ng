@@ -536,7 +536,6 @@ void BossKeyMenuItemInit(void) // Add menu item
 	mi.hIcolibItem = IcoLib_GetIcon("hidemim");
 	mi.name.w = LPGENW("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
-	mi.Module = MOD_NAME;
 	g_hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDMAINMENU, GenMenuInit);

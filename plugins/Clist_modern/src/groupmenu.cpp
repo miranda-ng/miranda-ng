@@ -63,7 +63,6 @@ void InitGroupMenus(void)
 	mi.pszService = "Clist/ShowHide";
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_SHOWHIDE);
 	mi.name.a = LPGEN("&Hide/show");
-	mi.Module = "Clist_modern";
 	Menu_AddGroupMenuItem(&mi);
 
 	SET_UID(mi, 0xb0f29663, 0x68b6, 0x494c, 0xaf, 0xab, 0xf6, 0x86, 0x45, 0xb8, 0xdb, 0xde);
@@ -138,6 +137,5 @@ void InitSubGroupMenus(void)
 	mi.position = 1002;
 	mi.pszService = "CLISTMENUSSubGroup/GroupMenuExecProxy";
 	mi.name.a = LPGEN("&Show offline users in here");
-	mi.Module = "Clist_modern";
 	hShowOfflineUsersHereMenuItem = Menu_AddSubGroupMenuItem(&mi, &gmp);
 }

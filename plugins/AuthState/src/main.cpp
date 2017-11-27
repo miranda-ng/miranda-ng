@@ -183,7 +183,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.flags = CMIF_UNICODE;
 	mi.name.w = LPGENW("Enable AuthState icons");
 	mi.pszService = "AuthState/MenuItem";
-	mi.Module = MODULENAME;
 	hUserMenu = Menu_AddContactMenuItem(&mi);
 
 	// IcoLib support

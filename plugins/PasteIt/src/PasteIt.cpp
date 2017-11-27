@@ -289,7 +289,6 @@ void InitMenuItems()
 	mi.hIcolibItem = icon.hIcolib;
 	mi.position = 3000090005;
 	mi.name.w = LPGENW("Paste It");
-	mi.Module = MODULE;
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
@@ -312,7 +311,6 @@ void InitMenuItems()
 	CMenuItem mi2;
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
 	mi2.root = hDefWebMenu;
-	mi2.Module = MODULE;
 	for (int i = 0; i < PasteToWeb::pages; ++i)
 	{
 		mi2.flags =  CMIF_UNICODE | CMIF_UNMOVABLE;
