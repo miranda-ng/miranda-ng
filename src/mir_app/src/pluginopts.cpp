@@ -41,16 +41,22 @@ static UINT_PTR timerID;
 
 struct PluginListItemData
 {
-	wchar_t fileName[MAX_PATH];
-	HINSTANCE hInst;
-	int   flags, stdPlugin;
-	char* author;
-	char* authorEmail;
-	char* description;
-	char* copyright;
-	char* homepage;
-	MUUID uuid;
+	wchar_t    fileName[MAX_PATH];
+	HINSTANCE  hInst;
+	int        flags, stdPlugin;
+	wchar_t   *author, *authorEmail, *description, *copyright, *homepage;
+	MUUID      uuid;
 };
+
+static wchar_t* sttUtf8auto(const char *src)
+{
+	if (src == nullptr)
+		return mir_wstrdup(L"");
+
+	char *p = NEWSTR_ALLOCA(src);
+	wchar_t *pwszRes;
+	return (Utf8Decode(p, &pwszRes) != nullptr) ? pwszRes : mir_a2u_cp(src, 1250);
+}
 
 static int sttSortPlugins(const PluginListItemData *p1, const PluginListItemData *p2)
 {
@@ -112,11 +118,11 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		it.pszText = fd->cFileName;
 		ListView_SetItem(hwndList, &it);
 
-		dat->author = mir_strdup(pi.pluginInfo->author);
-		dat->authorEmail = mir_strdup(pi.pluginInfo->authorEmail);
-		dat->copyright = mir_strdup(pi.pluginInfo->copyright);
-		dat->description = mir_strdup(pi.pluginInfo->description);
-		dat->homepage = mir_strdup(pi.pluginInfo->homepage);
+		dat->author = sttUtf8auto(pi.pluginInfo->author);
+		dat->authorEmail = sttUtf8auto(pi.pluginInfo->authorEmail);
+		dat->copyright = sttUtf8auto(pi.pluginInfo->copyright);
+		dat->description = sttUtf8auto(pi.pluginInfo->description);
+		dat->homepage = sttUtf8auto(pi.pluginInfo->homepage);
 		if (pi.pluginInfo->cbSize == sizeof(PLUGININFOEX))
 			dat->uuid = pi.pluginInfo->uuid;
 		else
@@ -303,14 +309,6 @@ static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM)
 	return mir_wstrcmp(p1->fileName, p2->fileName);
 }
 
-static wchar_t *latin2t(const char *p)
-{
-	if (p == nullptr)
-		return mir_wstrdup(L"");
-
-	return mir_a2u_cp(p, 1250);
-}
-
 INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -427,21 +425,11 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						wchar_t buf[1024];
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : L"");
-
-						ptrW tszAuthor(latin2t(sel ? dat->author : nullptr));
-						SetDlgItemText(hwndDlg, IDC_PLUGINAUTHOR, tszAuthor);
-
-						ptrW tszEmail(latin2t(sel ? dat->authorEmail : nullptr));
-						SetDlgItemText(hwndDlg, IDC_PLUGINEMAIL, tszEmail);
-
-						ptrW p(Langpack_PcharToTchar(dat->description));
-						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? p.get() : L"");
-
-						ptrW tszCopyright(latin2t(sel ? dat->copyright : nullptr));
-						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, tszCopyright);
-
-						ptrW tszUrl(latin2t(sel ? dat->homepage : nullptr));
-						SetDlgItemText(hwndDlg, IDC_PLUGINURL, tszUrl);
+						SetDlgItemText(hwndDlg, IDC_PLUGINAUTHOR, sel ? dat->author : L"");
+						SetDlgItemText(hwndDlg, IDC_PLUGINEMAIL, sel ? dat->authorEmail : L"");
+						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? dat->description : L"");
+						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, sel ? dat->copyright : L"");
+						SetDlgItemText(hwndDlg, IDC_PLUGINURL, sel ? dat->homepage : L"");
 
 						if (dat->uuid != miid_last) {
 							char szUID[128];
