@@ -1965,7 +1965,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	wchar_t szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq(L"set", SerialNext()); 
 	iq << XATTR(L"from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
-	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L":devicelist");
+	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish") << XATTR(L"node", JABBER_FEAT_OMEMO L".devicelist");
 	HXML list_node = publish_node << XCHILDNS(L"item") << XCHILDNS(L"list", JABBER_FEAT_OMEMO);
 
 	for (int i = 0; ; ++i) {
@@ -2012,7 +2012,7 @@ void CJabberProto::OmemoSendBundle()
 	HXML publish_node = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"publish");
 	{
 		wchar_t attr_val[128];
-		mir_snwprintf(attr_val, L"%s:bundles:%u", JABBER_FEAT_OMEMO, own_id);
+		mir_snwprintf(attr_val, L"%s.bundles:%u", JABBER_FEAT_OMEMO, own_id);
 		publish_node << XATTR(L"node", attr_val);
 	}
 	HXML bundle_node = publish_node << XCHILD(L"item") << XCHILDNS(L"bundle", JABBER_FEAT_OMEMO);
@@ -2104,7 +2104,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 			iq << XATTR(L"to", jid);
 			HXML items = iq << XCHILDNS(L"pubsub", L"http://jabber.org/protocol/pubsub") << XCHILD(L"items");
 			wchar_t bundle[64];
-			mir_snwprintf(bundle, 63, L"%s%s%u", JABBER_FEAT_OMEMO, L":bundles:", id);
+			mir_snwprintf(bundle, 63, L"%s%s%u", JABBER_FEAT_OMEMO, L".bundles:", id);
 			XmlAddAttr(items, L"node", bundle);
 			m_ThreadInfo->send(iq);
 			mir_free(jid);
@@ -2178,7 +2178,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	HXML items = XmlGetChild(pubsub, L"items");
 	LPCTSTR items_node_val = XmlGetAttrValue(items, L"node");
 	LPCTSTR device_id = items_node_val;
-	device_id += mir_wstrlen(JABBER_FEAT_OMEMO L":bundles:");
+	device_id += mir_wstrlen(JABBER_FEAT_OMEMO L".bundles:");
 	HXML bundle = XmlGetChild(XmlGetChild(items, L"item"), L"bundle");
 	if (!bundle)
 	{

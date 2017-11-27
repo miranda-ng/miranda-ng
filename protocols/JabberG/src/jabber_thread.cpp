@@ -947,7 +947,7 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 	HXML itemsNode;
 	if (m_options.UseOMEMO)
 	{
-		itemsNode = XmlGetChildByTag(eventNode, L"items", L"node", JABBER_FEAT_OMEMO L":devicelist");
+		itemsNode = XmlGetChildByTag(eventNode, L"items", L"node", JABBER_FEAT_OMEMO L".devicelist");
 		if (itemsNode)
 		{
 			OmemoHandleDeviceList(itemsNode);
