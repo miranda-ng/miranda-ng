@@ -3,7 +3,7 @@
 // Exif metadata model
 //
 // Design and implementation by
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 // - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // Based on the following implementations:

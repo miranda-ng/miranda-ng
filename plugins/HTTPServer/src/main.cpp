@@ -391,7 +391,7 @@ bool bWriteConfigurationFile()
 // References      : -
 // Remarks         : -
 // Created         : 030826, 26 august 2003
-// Developer       : KN, Houdini, changed By Sergio Vieira Rolanski
+// Developer       : KN, Houdini, changed By Sérgio Vieira Rolanski
 /////////////////////////////////////////////////////////////////////
 
 static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
@@ -463,7 +463,7 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
 	pclNewNode->pclNext = *pclPrev;
 	*pclPrev = pclNewNode;
 
-	/* Add by Sйrgio Vieira Rolanski */
+	/* Add by Sérgio Vieira Rolanski */
 	if (pclNew->dwOptions & OPT_SEND_LINK)
 		SendLinkToUser(wParam, pclNew->pszSrvPath);
 

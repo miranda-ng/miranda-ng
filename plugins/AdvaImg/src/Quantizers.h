@@ -2,7 +2,7 @@
 // Quantizer objects and functions
 //
 // Design and implementation by:
-// - Hervй Drolon <drolon@infonie.fr>
+// - Hervé Drolon <drolon@infonie.fr>
 // - Carsten Klein (cklein05@users.sourceforge.net)
 //
 // This file is part of FreeImage 3

@@ -545,7 +545,7 @@ static void RefreshControls(HWND hwnd)
 		InvalidateRect(GetDlgItem(hwnd, _controls_to_refresh[i]), nullptr, FALSE);
 }
 
-// wenn die listbox geдndert wurde
+// wenn die listbox geändert wurde
 static void OnListItemsChange(HWND hwndDlg)
 {
 	SendMessage(hwndDlg, WM_SETREDRAW, FALSE, 0);

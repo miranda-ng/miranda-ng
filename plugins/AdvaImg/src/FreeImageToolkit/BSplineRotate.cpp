@@ -2,9 +2,9 @@
 // Bitmap rotation using B-Splines
 //
 // Design and implementation by
-// - Philippe Thйvenaz (philippe.thevenaz@epfl.ch)
+// - Philippe Thévenaz (philippe.thevenaz@epfl.ch)
 // Adaptation for FreeImage by
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 //
 // This file is part of FreeImage 3
 //
@@ -25,7 +25,7 @@
 ==========================================================
 This code was taken and adapted from the following reference : 
 
-[1] Philippe Thйvenaz, Spline interpolation, a C source code 
+[1] Philippe Thévenaz, Spline interpolation, a C source code 
 implementation. http://bigwww.epfl.ch/thevenaz/
 
 It implements ideas described in the following papers : 

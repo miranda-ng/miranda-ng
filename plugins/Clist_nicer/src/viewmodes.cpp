@@ -72,7 +72,7 @@ void CLVM_EnumModes(pfnEnumCallback EnumCallback)
 
 int FillModes(char *szsetting)
 {
-	if (szsetting[0] != 'ц')
+	if (szsetting[0] != 'ö')
 		SendDlgItemMessageA(sttClvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szsetting);
 	return 1;
 }

@@ -2,7 +2,7 @@
 // Bitmap rotation by means of 3 shears.
 //
 // Design and implementation by
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 // - Thorsten Radde (support@IdealSoftware.com)
 // - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //

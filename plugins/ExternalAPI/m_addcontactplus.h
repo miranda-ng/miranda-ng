@@ -2,7 +2,7 @@
 
 AddContact+ plugin for Miranda IM
 
-Copyright (C) 2007-2011 Bartosz 'Dezeath' Biaіek
+Copyright (C) 2007-2011 Bartosz 'Dezeath' Białek
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

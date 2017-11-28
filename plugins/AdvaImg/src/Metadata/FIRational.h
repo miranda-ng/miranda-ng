@@ -2,7 +2,7 @@
 // Helper class for rational numbers
 //
 // Design and implementation by
-// - Hervй Drolon <drolon@infonie.fr>
+// - Hervé Drolon <drolon@infonie.fr>
 //
 // This file is part of FreeImage 3
 //
