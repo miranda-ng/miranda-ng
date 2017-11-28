@@ -23,297 +23,248 @@ const wchar_t *defQuestion = LPGENW("Spammers made me to install small anti-spam
 const wchar_t *defCongrats = LPGENW("Congratulations! You just passed human/robot test. Now you can write me a message.");
 const wchar_t *defAuthReply = LPGENW("StopSpam: send a message and reply to an anti-spam bot question.");
 
-INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptMainDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		SetDlgItemTextW(hwnd, ID_DESCRIPTION, TranslateW(pluginDescription));
-		TranslateDialogDefault(hwnd);
-		SetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, gbMaxQuestCount, FALSE);
-		CheckDlgButton(hwnd, ID_INFTALKPROT, gbInfTalkProtection ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_ADDPERMANENT, gbAddPermanent ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_HANDLEAUTHREQ, gbHandleAuthReq ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_HIDECONTACTS, gbHideContacts ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_IGNORESPAMMERS, gbIgnoreContacts ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_LOGSPAMTOFILE, gbLogToFile ? BST_CHECKED : BST_UNCHECKED);
-		return TRUE;
+public:
+	COptMainDlg() : CDlgBase(hInst, IDD_MAIN),
+		chk_INFTALKPROT(this, ID_INFTALKPROT), chk_ADDPERMANENT(this, ID_ADDPERMANENT), chk_HANDLEAUTHREQ(this, ID_HANDLEAUTHREQ),
+		chk_HIDECONTACTS(this, ID_HIDECONTACTS), chk_IGNORESPAMMERS(this, ID_IGNORESPAMMERS), chk_LOGSPAMTOFILE(this, ID_LOGSPAMTOFILE),
+		ctrl_DESCRIPTION(this, ID_DESCRIPTION), edit_MAXQUESTCOUNT(this, ID_MAXQUESTCOUNT)
+	{
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case ID_MAXQUESTCOUNT:
-			if (EN_CHANGE != HIWORD(wParam) || (HWND)lParam != GetFocus())
-				return FALSE;
-			break;
-		}
-		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		NMHDR* nmhdr = (NMHDR*)lParam;
-		switch (nmhdr->code) {
-		case PSN_APPLY:
-			{
-				db_set_dw(NULL, pluginName, "maxQuestCount", gbMaxQuestCount = GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, nullptr, FALSE));
-				db_set_b(NULL, pluginName, "infTalkProtection", gbInfTalkProtection = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_INFTALKPROT));
-				db_set_b(NULL, pluginName, "addPermanent", gbAddPermanent = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_ADDPERMANENT));
-				db_set_b(NULL, pluginName, "handleAuthReq", gbHandleAuthReq = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HANDLEAUTHREQ));
-				db_set_b(NULL, pluginName, "HideContacts", gbHideContacts = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HIDECONTACTS));
-				db_set_b(NULL, pluginName, "IgnoreContacts", gbIgnoreContacts = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_IGNORESPAMMERS));
-				db_set_b(NULL, pluginName, "LogSpamToFile", gbLogToFile = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_LOGSPAMTOFILE));
-			}
-			return TRUE;
-		}
-		break;
 	}
-	return FALSE;
-}
+	virtual void OnInitDialog() override
+	{
+		ctrl_DESCRIPTION.SetText(TranslateW(pluginDescription));
+		edit_MAXQUESTCOUNT.SetInt(gbMaxQuestCount);
+		chk_INFTALKPROT.SetState(gbInfTalkProtection);
+		chk_ADDPERMANENT.SetState(gbAddPermanent);
+		chk_HANDLEAUTHREQ.SetState(gbHandleAuthReq);
+		chk_HIDECONTACTS.SetState(gbHideContacts);
+		chk_IGNORESPAMMERS.SetState(gbIgnoreContacts);
+		chk_LOGSPAMTOFILE.SetState(gbLogToFile);
 
-INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
-		SetDlgItemText(hwnd, ID_QUESTION, gbQuestion.c_str());
-		SetDlgItemText(hwnd, ID_ANSWER, gbAnswer.c_str());
-		SetDlgItemText(hwnd, ID_CONGRATULATION, gbCongratulation.c_str());
-		SetDlgItemText(hwnd, ID_AUTHREPL, gbAuthRepl.c_str());
-		EnableWindow(GetDlgItem(hwnd, ID_ANSWER), !gbMathExpression);
-		variables_skin_helpbutton(hwnd, IDC_VARS);
-		gbVarsServiceExist ? EnableWindow(GetDlgItem(hwnd, IDC_VARS), 1) : EnableWindow(GetDlgItem(hwnd, IDC_VARS), 0);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case ID_QUESTION:
-		case ID_ANSWER:
-		case ID_AUTHREPL:
-		case ID_CONGRATULATION:
-			if (EN_CHANGE != HIWORD(wParam) || (HWND)lParam != GetFocus())
-				return FALSE;
-			break;
-
-		case ID_RESTOREDEFAULTS:
-			SetDlgItemText(hwnd, ID_QUESTION, TranslateW(defQuestion));
-			SetDlgItemText(hwnd, ID_ANSWER, L"nospam");
-			SetDlgItemText(hwnd, ID_AUTHREPL, TranslateW(defAuthReply));
-			SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateW(defCongrats));
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			return TRUE;
-
-		case IDC_VARS:
-			variables_showhelp(hwnd, msg, VHF_FULLDLG | VHF_SETLASTSUBJECT, nullptr, nullptr);
-			return TRUE;
-		}
-		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		NMHDR *nmhdr = (NMHDR*)lParam;
-		switch (nmhdr->code) {
-		case PSN_APPLY:
-			db_set_ws(NULL, pluginName, "question", GetDlgItemString(hwnd, ID_QUESTION).c_str());
-			gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", TranslateW(defQuestion));
-			db_set_ws(NULL, pluginName, "answer", GetDlgItemString(hwnd, ID_ANSWER).c_str());
-			gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
-			db_set_ws(NULL, pluginName, "authrepl", GetDlgItemString(hwnd, ID_AUTHREPL).c_str());
-			gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateW(defAuthReply));
-			db_set_ws(NULL, pluginName, "congratulation", GetDlgItemString(hwnd, ID_CONGRATULATION).c_str());
-			gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateW(defCongrats));
-			return TRUE;
-		}
-		break;
 	}
-	return FALSE;
-}
+	virtual void OnApply() override
+	{
+		db_set_dw(NULL, pluginName, "maxQuestCount", gbMaxQuestCount = edit_MAXQUESTCOUNT.GetInt());
+		db_set_b(NULL, pluginName, "infTalkProtection", gbInfTalkProtection = chk_INFTALKPROT.GetState());
+		db_set_b(NULL, pluginName, "addPermanent", gbAddPermanent = chk_ADDPERMANENT.GetState());
+		db_set_b(NULL, pluginName, "handleAuthReq", gbHandleAuthReq = chk_HANDLEAUTHREQ.GetState());
+		db_set_b(NULL, pluginName, "HideContacts", gbHideContacts = chk_HIDECONTACTS.GetState());
+		db_set_b(NULL, pluginName, "IgnoreContacts", gbIgnoreContacts = chk_IGNORESPAMMERS.GetState());
+		db_set_b(NULL, pluginName, "LogSpamToFile", gbLogToFile = chk_LOGSPAMTOFILE.GetState());
+	}
+private:
+	CCtrlCheck chk_INFTALKPROT, chk_ADDPERMANENT, chk_HANDLEAUTHREQ, chk_HIDECONTACTS, chk_IGNORESPAMMERS, chk_LOGSPAMTOFILE;
+	CCtrlData ctrl_DESCRIPTION;
+	CCtrlSpin edit_MAXQUESTCOUNT;
+};
 
-INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptMessagesDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
+public:
+	COptMessagesDlg() : CDlgBase(hInst, IDD_MESSAGES),
+		edit_QUESTION(this, ID_QUESTION), edit_ANSWER(this, ID_ANSWER), edit_CONGRATULATION(this, ID_CONGRATULATION), edit_AUTHREPL(this, ID_AUTHREPL),
+		btn_RESTOREDEFAULTS(this, ID_RESTOREDEFAULTS), btn_VARS(this, IDC_VARS)
+	{
+		btn_RESTOREDEFAULTS.OnClick = Callback(this, &COptMessagesDlg::onClick_RESTOREDEFAULTS);
+		btn_VARS.OnClick = Callback(this, &COptMessagesDlg::onClick_VARS);
+
+	}
+	virtual void OnInitDialog() override
+	{
+		edit_QUESTION.SetText(gbQuestion.c_str());
+		edit_ANSWER.SetText(gbAnswer.c_str());
+		edit_CONGRATULATION.SetText(gbCongratulation.c_str());
+		edit_AUTHREPL.SetText(gbAuthRepl.c_str());
+		if (gbMathExpression)
+			edit_ANSWER.Disable();
+		variables_skin_helpbutton(m_hwnd, IDC_VARS);
+		gbVarsServiceExist ? btn_VARS.Enable() : btn_VARS.Disable();
+	}
+	virtual void OnApply() override
+	{
+		db_set_ws(NULL, pluginName, "question", edit_QUESTION.GetText());
+		gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", TranslateW(defQuestion));
+		db_set_ws(NULL, pluginName, "answer", edit_ANSWER.GetText());
+		gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", L"nospam");
+		db_set_ws(NULL, pluginName, "authrepl", edit_AUTHREPL.GetText());
+		gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateW(defAuthReply));
+		db_set_ws(NULL, pluginName, "congratulation", edit_CONGRATULATION.GetText());
+		gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateW(defCongrats));
+	}
+	void onClick_RESTOREDEFAULTS(CCtrlButton*)
+	{
+		edit_QUESTION.SetText(TranslateW(defQuestion));
+		edit_ANSWER.SetText(L"nospam");
+		edit_AUTHREPL.SetText(TranslateW(defAuthReply));
+		edit_CONGRATULATION.SetText(TranslateW(defCongrats));
+	}
+	void onClick_VARS(CCtrlButton*)
+	{
+		variables_showhelp(m_hwnd, WM_COMMAND, VHF_FULLDLG | VHF_SETLASTSUBJECT, nullptr, nullptr);
+	}
+private:
+	CCtrlEdit edit_QUESTION, edit_ANSWER, edit_CONGRATULATION, edit_AUTHREPL;
+	CCtrlButton btn_RESTOREDEFAULTS, btn_VARS;
+
+};
+
+class COptProtoDlg : public CDlgBase
+{
+public:
+	COptProtoDlg() : CDlgBase(hInst, IDD_PROTO),
+		list_USEDPROTO(this, ID_USEDPROTO), list_ALLPROTO(this, ID_ALLPROTO),
+		btn_ADD(this, ID_ADD), btn_REMOVE(this, ID_REMOVE), btn_ADDALL(this, ID_ADDALL), btn_REMOVEALL(this, ID_REMOVEALL)
+	{
+		btn_ADD.OnClick = Callback(this, &COptProtoDlg::onClick_ADD);
+		btn_REMOVE.OnClick = Callback(this, &COptProtoDlg::onClick_REMOVE);
+		btn_ADDALL.OnClick = Callback(this, &COptProtoDlg::onClick_ADDALL);
+		btn_REMOVEALL.OnClick = Callback(this, &COptProtoDlg::onClick_REMOVEALL);
+	}
+	virtual void OnInitDialog() override
+	{
 		int nAccs;
 		PROTOACCOUNT **pppd;
 		Proto_EnumAccounts(&nAccs, &pppd);
 		for (int i = 0; i < nAccs; ++i)
-			SendDlgItemMessageA(hwnd, (ProtoInList(pppd[i]->szModuleName) ? ID_USEDPROTO : ID_ALLPROTO), LB_ADDSTRING, 0, (LPARAM)pppd[i]->szModuleName);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-			WPARAM n;
-		case ID_ADD:
-			n = (WPARAM)SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETCURSEL, 0, 0);
-			if (LB_ERR != n) {
-				size_t len = SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETTEXTLEN, n, 0);
-				if (LB_ERR != len) {
-					wchar_t * buf = new wchar_t[len + 1];
-					SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETTEXT, n, (LPARAM)buf);
-					SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_ADDSTRING, 0, (LPARAM)buf);
-					delete[]buf;
-					SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_DELETESTRING, n, 0);
-				}
-			}
-			break;
-
-		case ID_REMOVE:
-			n = (WPARAM)SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETCURSEL, 0, 0);
-			if (LB_ERR != n) {
-				size_t len = SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETTEXTLEN, n, 0);
-				if (LB_ERR != len) {
-					wchar_t * buf = new wchar_t[len + 1];
-					SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETTEXT, n, (LPARAM)buf);
-					SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_ADDSTRING, 0, (LPARAM)buf);
-					delete[]buf;
-					SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_DELETESTRING, n, 0);
-				}
-			}
-			break;
-
-		case ID_ADDALL:
-			for (;;) {
-				LRESULT count = SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETCOUNT, 0, 0);
-				if (!count || LB_ERR == count)
-					break;
-				SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_SETCURSEL, 0, 0);
-				SendMessage(hwnd, WM_COMMAND, ID_ADD, 0);
-			}
-			break;
-
-		case ID_REMOVEALL:
-			for (;;) {
-				LRESULT count = SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETCOUNT, 0, 0);
-				if (!count || LB_ERR == count)
-					break;
-				SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_SETCURSEL, 0, 0);
-				SendMessage(hwnd, WM_COMMAND, ID_REMOVE, 0);
-			}
-			break;
-
-		default:
-			return FALSE;
+		{
+			wchar_t *str = mir_utf8decodeW(pppd[i]->szModuleName);
+			ProtoInList(pppd[i]->szModuleName) ? list_USEDPROTO.AddString(str) : list_ALLPROTO.AddString(str);
+			mir_free(str);
 		}
-		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		return TRUE;
-
-	case WM_NOTIFY:
-		NMHDR* nmhdr = (NMHDR*)lParam;
-		switch (nmhdr->code) {
-		case PSN_APPLY:
-			LRESULT count = SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETCOUNT, 0, 0);
-			std::ostringstream out;
-			for (int i = 0; i < count; ++i) {
-				size_t len = SendDlgItemMessageA(hwnd, ID_USEDPROTO, LB_GETTEXTLEN, i, 0);
-				if (LB_ERR != len) {
-					char * buf = new char[len + 1];
-					SendDlgItemMessageA(hwnd, ID_USEDPROTO, LB_GETTEXT, i, (LPARAM)buf);
-					out << buf << "\r\n";
-					delete[]buf;
-				}
-			}
-			db_set_s(NULL, pluginName, "protoList", out.str().c_str());
-			return TRUE;
-		}
-		break;
 	}
-	return FALSE;
-}
+	virtual void OnApply() override
+	{
+		
+		LRESULT count = list_USEDPROTO.GetCount();
+		std::ostringstream out;
+		for (int i = 0; i < count; ++i) {
+			char *str = mir_utf8encodeW(list_USEDPROTO.GetItemText(i));
+			out << str << "\r\n";
+			mir_free(str);
+		}
+		db_set_s(NULL, pluginName, "protoList", out.str().c_str());
+	}
+	void onClick_ADD(CCtrlButton*)
+	{
+		list_USEDPROTO.AddString(list_ALLPROTO.GetItemText(list_ALLPROTO.GetCurSel()));
+		list_ALLPROTO.DeleteString(list_ALLPROTO.GetCurSel());
+	}
+	void onClick_REMOVE(CCtrlButton*)
+	{
+		list_ALLPROTO.AddString(list_USEDPROTO.GetItemText(list_USEDPROTO.GetCurSel()));
+		list_USEDPROTO.DeleteString(list_USEDPROTO.GetCurSel());
+	}
+	void onClick_ADDALL(CCtrlButton*)
+	{
+		for (;;) {
+			int count = list_ALLPROTO.GetCount();
+			if (!count || LB_ERR == count)
+				break;
+			list_USEDPROTO.AddString(list_ALLPROTO.GetItemText(0));
+			list_ALLPROTO.DeleteString(0);
+		}
+	}
+	void onClick_REMOVEALL(CCtrlButton*)
+	{
+		for (;;) {
+			int count = list_USEDPROTO.GetCount();
+			if (!count || LB_ERR == count)
+				break;
+			list_ALLPROTO.AddString(list_USEDPROTO.GetItemText(0));
+			list_USEDPROTO.DeleteString(0);
+		}
+	}
+private:
+	CCtrlListBox list_USEDPROTO, list_ALLPROTO;
+	CCtrlButton btn_ADD, btn_REMOVE, btn_ADDALL, btn_REMOVEALL;
 
-INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+};
+
+class COptAdvancedDlg : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
-		CheckDlgButton(hwnd, IDC_INVIS_DISABLE, gbInvisDisable ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_CASE_INSENSITIVE, gbCaseInsensitive ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemText(hwnd, ID_SPECIALGROUPNAME, gbSpammersGroup.c_str());
-		CheckDlgButton(hwnd, ID_SPECIALGROUP, gbSpecialGroup ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_EXCLUDE, gbExclude ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_REMOVE_TMP, gbDelExcluded ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_REMOVE_TMP_ALL, gbDelAllTempory ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, ID_IGNOREURL, gbIgnoreURL ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_AUTOAUTH, gbAutoAuth ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_ADDTOSRVLST, gbAutoAddToServerList ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_REQAUTH, gbAutoReqAuth ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_REGEX, gbRegexMatch ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_HISTORY_LOG, gbHistoryLog ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_MATH_QUESTION, gbMathExpression ? BST_CHECKED : BST_UNCHECKED);
-
-		SetDlgItemText(hwnd, IDC_AUTOADDGROUP, gbAutoAuthGroup.c_str());
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_MATH_DETAILS:
-			MessageBox(hwnd, TranslateT("If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces."), TranslateT("Info"), MB_OK);
-			break;
-
-		case IDC_INVIS_DISABLE:
-		case IDC_CASE_INSENSITIVE:
-		case ID_SPECIALGROUPNAME:
-		case ID_SPECIALGROUP:
-		case ID_EXCLUDE:
-		case ID_REMOVE_TMP:
-		case ID_REMOVE_TMP_ALL:
-		case ID_IGNOREURL:
-		case IDC_AUTOAUTH:
-		case IDC_ADDTOSRVLST:
-		case IDC_REQAUTH:
-		case IDC_AUTOADDGROUP:
-		case IDC_REGEX:
-		case IDC_HISTORY_LOG:
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		NMHDR* nmhdr = (NMHDR*)lParam;
-		switch (nmhdr->code) {
-		case PSN_APPLY:
-			db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_CASE_INSENSITIVE));
-			db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_INVIS_DISABLE));
-			{
-				static wstring NewGroupName, CurrentGroupName;
-				NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
-				CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"0");
-				if (mir_wstrcmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
-					bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
-					db_set_ws(NULL, pluginName, "SpammersGroup", NewGroupName.c_str());
-					gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"Spammers");
-					if (!GroupExist && gbSpecialGroup)
-						Clist_GroupCreate(0, gbSpammersGroup.c_str());
-				}
-			}
-			db_set_b(NULL, pluginName, "SpecialGroup", gbSpecialGroup = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_SPECIALGROUP));
-			db_set_b(NULL, pluginName, "ExcludeContacts", gbExclude = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_EXCLUDE));
-			db_set_b(NULL, pluginName, "DelExcluded", gbDelExcluded = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_REMOVE_TMP));
-			db_set_b(NULL, pluginName, "DelAllTempory", gbDelAllTempory = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_REMOVE_TMP_ALL));
-			db_set_b(NULL, pluginName, "IgnoreURL", gbIgnoreURL = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_IGNOREURL));
-
-			db_set_b(NULL, pluginName, "AutoAuth", gbAutoAuth = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_AUTOAUTH));
-			db_set_b(NULL, pluginName, "AutoAddToServerList", gbAutoAddToServerList = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_ADDTOSRVLST));
-			db_set_b(NULL, pluginName, "AutoReqAuth", gbAutoReqAuth = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_REQAUTH));
-			db_set_b(NULL, pluginName, "RegexMatch", gbRegexMatch = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_REGEX));
-			db_set_b(NULL, pluginName, "HistoryLog", gbHistoryLog = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_HISTORY_LOG));
-			db_set_b(NULL, pluginName, "MathExpression", gbMathExpression = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_MATH_QUESTION));
-			{
-				static wstring NewAGroupName, CurrentAGroupName;
-				NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
-				CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"0");
-				if (mir_wstrcmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
-					bool GroupExist = Clist_GroupExists(NewAGroupName.c_str()) != NULL;
-					db_set_ws(NULL, pluginName, "AutoAuthGroup", NewAGroupName.c_str());
-					gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"Not Spammers");
-					if (!GroupExist && gbAutoAddToServerList)
-						Clist_GroupCreate(0, gbAutoAuthGroup.c_str());
-				}
-			}
-			return TRUE;
-		}
-		break;
+public:
+	COptAdvancedDlg() : CDlgBase(hInst, IDD_ADVANCED),
+		chk_INVIS_DISABLE(this, IDC_INVIS_DISABLE), chk_CASE_INSENSITIVE(this, IDC_CASE_INSENSITIVE), chk_SPECIALGROUP(this, ID_SPECIALGROUP), chk_EXCLUDE(this, ID_EXCLUDE),
+		chk_REMOVE_TMP(this, ID_REMOVE_TMP), chk_REMOVE_TMP_ALL(this, ID_REMOVE_TMP_ALL), chk_IGNOREURL(this, ID_IGNOREURL), chk_AUTOAUTH(this, IDC_AUTOAUTH), chk_ADDTOSRVLST(this, IDC_ADDTOSRVLST),
+		chk_REQAUTH(this, IDC_REQAUTH), chk_REGEX(this, IDC_REGEX), chk_HISTORY_LOG(this, IDC_HISTORY_LOG), chk_MATH_QUESTION(this, IDC_MATH_QUESTION),
+		edit_SPECIALGROUPNAME(this, ID_SPECIALGROUPNAME), edit_AUTOADDGROUP(this, IDC_AUTOADDGROUP),
+		btn_MATH_DETAILS(this, IDC_MATH_DETAILS)
+	{
+		btn_MATH_DETAILS.OnClick = Callback(this, &COptAdvancedDlg::onClick_MATH_DETAILS);
 	}
-	return FALSE;
-}
+	virtual void OnInitDialog() override
+	{
+		chk_INVIS_DISABLE.SetState(gbInvisDisable);
+		chk_CASE_INSENSITIVE.SetState(gbCaseInsensitive);
+		edit_SPECIALGROUPNAME.SetText(gbSpammersGroup.c_str());
+		chk_SPECIALGROUP.SetState(gbSpecialGroup);
+		chk_EXCLUDE.SetState(gbExclude);
+		chk_REMOVE_TMP.SetState(gbDelExcluded);
+		chk_REMOVE_TMP_ALL.SetState(gbDelAllTempory);
+		chk_IGNOREURL.SetState(gbIgnoreURL);
+		chk_AUTOAUTH.SetState(gbAutoAuth);
+		chk_ADDTOSRVLST.SetState(gbAutoAddToServerList);
+		chk_REQAUTH.SetState(gbAutoReqAuth);
+		chk_REGEX.SetState(gbRegexMatch);
+		chk_HISTORY_LOG.SetState(gbHistoryLog);
+		chk_MATH_QUESTION.SetState(gbMathExpression);
+		edit_AUTOADDGROUP.SetText(gbAutoAuthGroup.c_str());
+	}
+	virtual void OnApply() override
+	{
+		db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = chk_CASE_INSENSITIVE.GetState());
+		db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = chk_INVIS_DISABLE.GetState());
+		{
+			static wstring NewGroupName = edit_SPECIALGROUPNAME.GetText(), CurrentGroupName;
+			CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"0");
+			if (mir_wstrcmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
+				bool GroupExist = Clist_GroupExists(NewGroupName.c_str()) != NULL;
+				db_set_ws(NULL, pluginName, "SpammersGroup", NewGroupName.c_str());
+				gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", L"Spammers");
+				if (!GroupExist && gbSpecialGroup)
+					Clist_GroupCreate(0, gbSpammersGroup.c_str());
+			}
+		}
+		db_set_b(NULL, pluginName, "SpecialGroup", gbSpecialGroup = chk_SPECIALGROUP.GetState());
+		db_set_b(NULL, pluginName, "ExcludeContacts", gbExclude = chk_EXCLUDE.GetState());
+		db_set_b(NULL, pluginName, "DelExcluded", gbDelExcluded = chk_REMOVE_TMP.GetState());
+		db_set_b(NULL, pluginName, "DelAllTempory", gbDelAllTempory = chk_REMOVE_TMP_ALL.GetState());
+		db_set_b(NULL, pluginName, "IgnoreURL", gbIgnoreURL = chk_IGNOREURL.GetState());
+
+		db_set_b(NULL, pluginName, "AutoAuth", gbAutoAuth = chk_AUTOAUTH.GetState());
+		db_set_b(NULL, pluginName, "AutoAddToServerList", gbAutoAddToServerList = chk_ADDTOSRVLST.GetState());
+		db_set_b(NULL, pluginName, "AutoReqAuth", gbAutoReqAuth = chk_REQAUTH.GetState());
+		db_set_b(NULL, pluginName, "RegexMatch", gbRegexMatch = chk_REGEX.GetState());
+		db_set_b(NULL, pluginName, "HistoryLog", gbHistoryLog = chk_HISTORY_LOG.GetState());
+		db_set_b(NULL, pluginName, "MathExpression", gbMathExpression = chk_MATH_QUESTION.GetState());
+		{
+			static wstring NewAGroupName = edit_AUTOADDGROUP.GetText(), CurrentAGroupName;
+			CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"0");
+			if (mir_wstrcmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
+				bool GroupExist = Clist_GroupExists(NewAGroupName.c_str()) != NULL;
+				db_set_ws(NULL, pluginName, "AutoAuthGroup", NewAGroupName.c_str());
+				gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", L"Not Spammers");
+				if (!GroupExist && gbAutoAddToServerList)
+					Clist_GroupCreate(0, gbAutoAuthGroup.c_str());
+			}
+		}
+	}
+	void onClick_MATH_DETAILS(CCtrlButton*)
+	{
+		MessageBox(m_hwnd, TranslateT("If math expression is turned on, you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one random number and answer will be expression result.\nMessage must contain only one expression without spaces."), TranslateT("Info"), MB_OK);
+	}
+private:
+	CCtrlCheck chk_INVIS_DISABLE, chk_CASE_INSENSITIVE, chk_SPECIALGROUP, chk_EXCLUDE, chk_REMOVE_TMP, chk_REMOVE_TMP_ALL, chk_IGNOREURL, chk_AUTOAUTH, chk_ADDTOSRVLST, chk_REQAUTH, chk_REGEX, chk_HISTORY_LOG, chk_MATH_QUESTION;
+	CCtrlEdit edit_SPECIALGROUPNAME, edit_AUTOADDGROUP;
+	CCtrlButton btn_MATH_DETAILS;
+
+};
+
+
+
 
 int OnOptInit(WPARAM w, LPARAM l)
 {
@@ -323,28 +274,23 @@ int OnOptInit(WPARAM w, LPARAM l)
 	odp.szGroup.w = LPGENW("Message sessions");
 	odp.szTitle.w = LPGENW("StopSpam");
 	odp.position = -1;
-	odp.hInstance = hInst;
 	odp.flags = ODPF_UNICODE;
 
 	odp.szTab.w = LPGENW("General");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
-	odp.pfnDlgProc = MainDlgProc;
+	odp.pDialog = new COptMainDlg();
 	Options_AddPage(w, &odp);
 
 
 	odp.szTab.w = LPGENW("Messages");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
-	odp.pfnDlgProc = MessagesDlgProc;
+	odp.pDialog = new COptMessagesDlg();
 	Options_AddPage(w, &odp);
 
 	odp.szTab.w = LPGENW("Accounts");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
-	odp.pfnDlgProc = ProtoDlgProc;
+	odp.pDialog = new COptProtoDlg();
 	Options_AddPage(w, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADVANCED);
-	odp.pfnDlgProc = AdvancedDlgProc;
+	odp.pDialog = new COptAdvancedDlg();
 	Options_AddPage(w, &odp);
 	return 0;
 }
