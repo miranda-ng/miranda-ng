@@ -410,9 +410,12 @@ void CSrmmWindow::OnDestroy()
 		DeleteObject(hFont);
 
 	db_set_b(m_hContact, SRMM_MODULE, "UseRTL", m_bUseRtl);
-	if (m_hContact && (g_dat.flags & SMF_DELTEMP))
+	if (m_hContact && (g_dat.flags & SMF_DELTEMP)) {
+		m_hContact = INVALID_CONTACT_ID; // to prevent recursion
+
 		if (db_get_b(m_hContact, "CList", "NotOnList", 0))
 			db_delete_contact(m_hContact);
+	}
 
 	SendMessage(m_hwndParent, CM_REMOVECHILD, 0, (LPARAM)m_hwnd);
 	if (m_hwndIeview != nullptr) {

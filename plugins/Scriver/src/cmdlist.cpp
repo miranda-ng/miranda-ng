@@ -85,7 +85,7 @@ TCmdList* tcmdlist_last(TCmdList *list)
 	return nullptr;
 }
 
-void tcmdlist_free(TCmdList *list)
+void tcmdlist_free(TCmdList *&list)
 {
 	TCmdList *n = list, *next;
 
@@ -95,4 +95,6 @@ void tcmdlist_free(TCmdList *list)
 		mir_free(n);
 		n = next;
 	}
+	
+	list = nullptr;
 }

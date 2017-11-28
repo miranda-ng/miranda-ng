@@ -34,6 +34,6 @@ TCmdList* tcmdlist_remove_first(TCmdList *list);
 TCmdList* tcmdlist_last(TCmdList *list);
 
 int tcmdlist_len(TCmdList *list);
-void tcmdlist_free(TCmdList *list);
+void tcmdlist_free(TCmdList *&list);
 
 #endif
