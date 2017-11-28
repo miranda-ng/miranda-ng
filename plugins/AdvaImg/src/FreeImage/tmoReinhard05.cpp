@@ -2,7 +2,7 @@
 // Tone mapping operator (Reinhard, 2005)
 //
 // Design and implementation by
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 // - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // This file is part of FreeImage 3

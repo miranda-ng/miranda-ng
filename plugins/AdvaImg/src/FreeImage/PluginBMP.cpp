@@ -5,7 +5,7 @@
 // - Floris van den Berg (flvdberg@wxs.nl)
 // - Markus Loibl (markus.loibl@epost.de)
 // - Martin Weber (martweb@gmx.net)
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 // - Michal Novotny (michal@etc.cz)
 //
 // This file is part of FreeImage 3

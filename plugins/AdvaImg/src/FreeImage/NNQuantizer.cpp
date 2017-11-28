@@ -22,12 +22,12 @@
 // -------
 // January 2001: Adaptation of the Neural-Net Quantization Algorithm
 //               for the FreeImage 2 library
-//               Author: Hervй Drolon (drolon@infonie.fr)
+//               Author: Hervé Drolon (drolon@infonie.fr)
 // March 2004:   Adaptation for the FreeImage 3 library (port to big endian processors)
-//               Author: Hervй Drolon (drolon@infonie.fr)
+//               Author: Hervé Drolon (drolon@infonie.fr)
 // April 2004:   Algorithm rewritten as a C++ class. 
 //               Fixed a bug in the algorithm with handling of 4-byte boundary alignment.
-//               Author: Hervй Drolon (drolon@infonie.fr)
+//               Author: Hervé Drolon (drolon@infonie.fr)
 ///////////////////////////////////////////////////////////////////////
 
 #include "Quantizers.h"

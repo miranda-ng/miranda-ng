@@ -3,7 +3,7 @@
 //
 // Design and implementation by
 // - Tanner Helland (tannerhelland@users.sf.net)
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 //
 // This file is part of FreeImage 3
 //

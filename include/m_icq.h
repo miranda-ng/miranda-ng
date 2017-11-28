@@ -4,7 +4,7 @@
 //
 // Copyright (c) 2000-01 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright (c) 2001-02 Jon Keating, Richard Hughes
-// Copyright (c) 2002-04 Martin Цberg, Sam Kothari, Robert Rainwater
+// Copyright (c) 2002-04 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright (c) 2004-10 Joe Kucera
 // Copyright (с) 2012-17 Miranda NG project (https://miranda-ng.org)
 //

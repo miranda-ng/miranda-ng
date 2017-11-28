@@ -1,7 +1,7 @@
 /*
 AddContact+ plugin for Miranda NG
 
-Copyright (C) 2007-11 Bartosz 'Dezeath' Biaіek
+Copyright (C) 2007-11 Bartosz 'Dezeath' Białek
 Copyright (C) 2012-17 Miranda NG Team
 
 This program is free software; you can redistribute it and/or modify

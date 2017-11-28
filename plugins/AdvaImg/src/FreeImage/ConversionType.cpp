@@ -2,7 +2,7 @@
 // Bitmap conversion routines
 //
 // Design and implementation by
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 // - Tanner Helland (tannerhelland@users.sf.net)
 //
 // This file is part of FreeImage 3

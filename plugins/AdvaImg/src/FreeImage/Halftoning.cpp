@@ -2,7 +2,7 @@
 // Bitmap conversion routines
 // Thresholding and halftoning functions
 // Design and implementation by
-// - Hervй Drolon (drolon@infonie.fr)
+// - Hervé Drolon (drolon@infonie.fr)
 // - Dennis Lim (dlkj@users.sourceforge.net)
 // - Thomas Chmielewski (Chmielewski.Thomas@oce.de)
 //
