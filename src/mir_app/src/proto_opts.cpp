@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (Ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -110,7 +110,7 @@ static bool FindAccountByName(const char *szModuleName)
 // Account edit form
 // gets PROTOACCOUNT* as a parameter, or nullptr to edit a new one
 
-class ÑAccountFormDlg : public CDlgBase
+class Ð¡AccountFormDlg : public CDlgBase
 {
 	int m_action;
 	PROTOACCOUNT *m_pa;
@@ -120,7 +120,7 @@ class ÑAccountFormDlg : public CDlgBase
 	CCtrlButton m_btnOk;
 
 public:
-	ÑAccountFormDlg(CDlgBase *pParent, int action, PROTOACCOUNT *pa) :
+	Ð¡AccountFormDlg(CDlgBase *pParent, int action, PROTOACCOUNT *pa) :
 		CDlgBase(g_hInst, IDD_ACCFORM),
 		m_btnOk(this, IDOK),
 		m_accName(this, IDC_ACCNAME),
@@ -130,7 +130,7 @@ public:
 		m_action(action)
 	{
 		m_hwndParent = pParent->GetHwnd();
-		m_btnOk.OnClick = Callback(this, &ÑAccountFormDlg::OnOk);
+		m_btnOk.OnClick = Callback(this, &Ð¡AccountFormDlg::OnOk);
 	}
 
 	virtual void OnInitDialog() override
@@ -594,7 +594,7 @@ public:
 
 	void OnAdd(CCtrlButton*)
 	{
-		if (IDOK == ÑAccountFormDlg(this, PRAC_ADDED, nullptr).DoModal())
+		if (IDOK == Ð¡AccountFormDlg(this, PRAC_ADDED, nullptr).DoModal())
 			SendMessage(m_hwnd, WM_MY_REFRESH, 0, 0);
 	}
 
@@ -669,7 +669,7 @@ public:
 	{
 		int idx = m_accList.GetCurSel();
 		if (idx != -1)
-			ÑAccountFormDlg(this, PRAC_UPGRADED, (PROTOACCOUNT*)m_accList.GetItemData(idx)).DoModal();
+			Ð¡AccountFormDlg(this, PRAC_UPGRADED, (PROTOACCOUNT*)m_accList.GetItemData(idx)).DoModal();
 	}
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override

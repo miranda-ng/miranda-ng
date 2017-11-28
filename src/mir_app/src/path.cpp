@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (Ò) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (—Å) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-12 Miranda IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -121,7 +121,7 @@ static __forceinline char* GetPathVarX(const char*, int code)
 		if (hAvatarFolder != nullptr)
 			wcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
-			mir_snwprintf(szFullPath, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
+			mir_snwprintf(szFullPath, L"%s\\%s\\Avatars", g_profileDir, g_shortProfileName);
 		break;
 	case 2:
 		mir_snwprintf(szFullPath, L"%s\\%s\\Logs", g_profileDir, g_shortProfileName);
@@ -205,7 +205,7 @@ static __forceinline wchar_t* GetPathVarX(const wchar_t*, int code)
 		if (hAvatarFolder != nullptr)
 			wcsncpy_s(szFullPath, tszAvatarRoot, _TRUNCATE);
 		else
-			mir_snwprintf(szFullPath, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
+			mir_snwprintf(szFullPath, L"%s\\%s\\Avatars", g_profileDir, g_shortProfileName);
 		break;
 	case 2:
 		mir_snwprintf(szFullPath, L"%s\\%s\\Logs", g_profileDir, g_shortProfileName);
@@ -364,7 +364,7 @@ MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *wszData, MCONTACT hConta
 
 static int OnFoldersChanged(WPARAM, LPARAM)
 {
-	mir_snwprintf(tszAvatarRoot, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
+	mir_snwprintf(tszAvatarRoot, L"%s\\%s\\Avatars", g_profileDir, g_shortProfileName);
 
 	wchar_t tmpVar[MAX_PATH];
 	if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))
@@ -374,7 +374,7 @@ static int OnFoldersChanged(WPARAM, LPARAM)
 
 void InitPathVar()
 {
-	mir_snwprintf(tszAvatarRoot, L"%s\\%s\\AvatarCache", g_profileDir, g_shortProfileName);
+	mir_snwprintf(tszAvatarRoot, L"%s\\%s\\Avatars", g_profileDir, g_shortProfileName);
 	if (hAvatarFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatars root folder"), tszAvatarRoot)) {
 		wchar_t tmpVar[MAX_PATH];
 		if (!FoldersGetCustomPathT(hAvatarFolder, tmpVar, _countof(tmpVar), tszAvatarRoot))

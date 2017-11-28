@@ -1,9 +1,9 @@
 /*
 former MetaContacts Plugin for Miranda IM.
 
-Copyright © 2014 Miranda NG Team
-Copyright © 2004-07 Scott Ellis
-Copyright © 2004 Universite Louis PASTEUR, STRASBOURG.
+Copyright Â© 2014 Miranda NG Team
+Copyright Â© 2004-07 Scott Ellis
+Copyright Â© 2004 Universite Louis PASTEUR, STRASBOURG.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
