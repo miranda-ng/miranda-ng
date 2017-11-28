@@ -791,7 +791,6 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 910000000;
-	odp.hInstance = g_hInst;
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Toolbar");
 	odp.flags = ODPF_BOLDGROUPS;

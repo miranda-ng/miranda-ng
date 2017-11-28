@@ -73,7 +73,6 @@ void CVkAccMgrForm::OnApply()
 int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
 	odp.szTitle.w = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
@@ -103,7 +102,6 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 5;
 	odp.pDialog = new CVkOptionMenuForm(this);
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 

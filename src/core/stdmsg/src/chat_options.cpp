@@ -688,7 +688,6 @@ public:
 int ChatOptionsInitialize(WPARAM wParam)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Group chats");

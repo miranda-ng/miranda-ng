@@ -624,7 +624,6 @@ static int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 910000000;
-	odp.hInstance = g_hInst;
 	odp.szTab.a = LPGEN("Messaging");
 	odp.flags = ODPF_BOLDGROUPS;
 

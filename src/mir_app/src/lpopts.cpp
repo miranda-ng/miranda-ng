@@ -271,7 +271,6 @@ void CLangpackDlg::OnDestroy()
 int LangpackOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInst;
 	odp.position = -1300000000;
 	odp.szTitle.a = LPGEN("Languages");
 	odp.szGroup.a = LPGEN("Customize");
