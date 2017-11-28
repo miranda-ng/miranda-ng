@@ -1,4 +1,4 @@
-// Copyright � 2010-2012 sss
+// Copyright © 2010-2012 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -2163,7 +2163,7 @@ void ImportKey()
 					string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 					string::size_type s2 = output.find(":", s);
 					db_set_s(hcnt, szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
-					s = output.find("“", s2);
+					s = output.find("вЂњ", s2);
 					if (s == string::npos) {
 						s = output.find("\"", s2);
 						s += 1;
@@ -2173,7 +2173,7 @@ void ImportKey()
 					bool uncommon = false;
 					if ((s2 = output.find("(", s)) == string::npos) {
 						if ((s2 = output.find("<", s)) == string::npos) {
-							s2 = output.find("”", s);
+							s2 = output.find("вЂќ", s);
 							uncommon = true;
 						}
 					}
@@ -2226,7 +2226,7 @@ void ImportKey()
 			string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 			string::size_type s2 = output.find(":", s);
 			db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
-			s = output.find("“", s2);
+			s = output.find("вЂњ", s2);
 			if (s == string::npos) {
 				s = output.find("\"", s2);
 				s += 1;
@@ -2236,7 +2236,7 @@ void ImportKey()
 			bool uncommon = false;
 			if ((s2 = output.find("(", s)) == string::npos) {
 				if ((s2 = output.find("<", s)) == string::npos) {
-					s2 = output.find("”", s);
+					s2 = output.find("вЂќ", s);
 					uncommon = true;
 				}
 			}
@@ -2287,7 +2287,7 @@ void ImportKey()
 		string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
 		string::size_type s2 = output.find(":", s);
 		db_set_s(hContact, szGPGModuleName, "KeyID", output.substr(s, s2 - s).c_str());
-		s = output.find("“", s2);
+		s = output.find("вЂњ", s2);
 		if (s == string::npos) {
 			s = output.find("\"", s2);
 			s += 1;
@@ -2297,7 +2297,7 @@ void ImportKey()
 		bool uncommon = false;
 		if ((s2 = output.find("(", s)) == string::npos) {
 			if ((s2 = output.find("<", s)) == string::npos) {
-				s2 = output.find("”", s);
+				s2 = output.find("вЂќ", s);
 				uncommon = true;
 			}
 		}

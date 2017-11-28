@@ -5,8 +5,8 @@
 
 							  Custom Status List plugin for Miranda-IM (www.miranda-im.org)
 							  Follower of Custom Status History List by HANAX
-							  Copyright © 2006-2008 HANAX
-							  Copyright © 2007-2009 jarvis
+							  Copyright Â© 2006-2008 HANAX
+							  Copyright Â© 2007-2009 jarvis
 							  Occasionally rewritten in 2012 by George Hazan
 
 							  This program is free software; you can redistribute it and/or

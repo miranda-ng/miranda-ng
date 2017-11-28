@@ -11,4 +11,4 @@
 #define __AUTHOR               "Martin Kleinhans"
 #define __AUTHOREMAIL            "mail@mkleinhans.de"
 #define __AUTHORWEB               "https://miranda-ng.org/p/MirandaG15/"
-#define __COPYRIGHT               "© 2009 Martin Kleinhans"
+#define __COPYRIGHT               "Â© 2009 Martin Kleinhans"

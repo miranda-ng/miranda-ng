@@ -11,4 +11,4 @@
 #define __AUTHOR                 "yaho"
 #define __AUTHOREMAIL            "yaho@miranda-easy.net"
 #define __AUTHORWEB              "https://miranda-ng.org/p/FTPFile/"
-#define __COPYRIGHT              "© 2007-2010 Jan Holub"
+#define __COPYRIGHT              "Â© 2007-2010 Jan Holub"

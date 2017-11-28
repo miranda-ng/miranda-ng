@@ -100,11 +100,11 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 
 		OutBuffer buf;
 		buf.SetUL(4);
-		buf.SetLPS(lpszBuf);// сообщение что у собеседника плохая версия :)
+		buf.SetLPS(lpszBuf);// СЃРѕРѕР±С‰РµРЅРёРµ С‡С‚Рѕ Сѓ СЃРѕР±РµСЃРµРґРЅРёРєР° РїР»РѕС…Р°СЏ РІРµСЂСЃРёСЏ :)
 		buf.SetUL(4);
 		buf.SetUL(getDword("RTFBackgroundColour", MRA_DEFAULT_RTF_BACKGROUND_COLOUR));
-		buf.SetLPS(lpszBuf);// сам мульт ANSI
-		buf.SetLPSW(lpwszMessage);// сам мульт UNICODE
+		buf.SetLPS(lpszBuf);// СЃР°Рј РјСѓР»СЊС‚ ANSI
+		buf.SetLPSW(lpwszMessage);// СЃР°Рј РјСѓР»СЊС‚ UNICODE
 
 		DWORD dwBufSize = DWORD(buf.Len() + 128);
 		lpszBuf.Truncate(dwBufSize);
@@ -273,7 +273,7 @@ DWORD CMraProto::MraChangeStatus(DWORD dwStatus, const CMStringA &szStatusUri, c
 	return MraSendCMD(MRIM_CS_CHANGE_STATUS, buf.Data(), buf.Len());
 }
 
-// Отправка файлов
+// РћС‚РїСЂР°РІРєР° С„Р°Р№Р»РѕРІ
 DWORD CMraProto::MraFileTransfer(const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwFilesTotalSize, const CMStringW &wszFiles, const CMStringA &szAddresses)
 {
 	if (szEmail.GetLength() <= 4)
@@ -297,7 +297,7 @@ DWORD CMraProto::MraFileTransfer(const CMStringA &szEmail, DWORD dwIDRequest, DW
 	return MraSendCMD(MRIM_CS_FILE_TRANSFER, buf.Data(), buf.Len());
 }
 
-// Ответ на отправку файлов
+// РћС‚РІРµС‚ РЅР° РѕС‚РїСЂР°РІРєСѓ С„Р°Р№Р»РѕРІ
 DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, const CMStringA &szDescription)
 {
 	if (szEmail.GetLength() <= 4)
@@ -311,7 +311,7 @@ DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DW
 	return MraSendCMD(MRIM_CS_FILE_TRANSFER_ACK, buf.Data(), buf.Len());
 }
 
-// Поиск контакта
+// РџРѕРёСЃРє РєРѕРЅС‚Р°РєС‚Р°
 HANDLE CMraProto::MraWPRequestW(MCONTACT hContact, DWORD dwAckType, DWORD dwRequestFlags, const CMStringA &szUser, const CMStringA &szDomain, const CMStringW &wszNickName, const CMStringW &wszFirstName, const CMStringW &wszLastName, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline)
 {
 	OutBuffer buf;
@@ -380,7 +380,7 @@ HANDLE CMraProto::MraWPRequestW(MCONTACT hContact, DWORD dwAckType, DWORD dwRequ
 	return (HANDLE)MraSendQueueCMD(hSendQueueHandle, dwRequestFlags, hContact, dwAckType, NULL, 0, MRIM_CS_WP_REQUEST, buf.Data(), buf.Len());
 }
 
-// Поиск контакта по EMail
+// РџРѕРёСЃРє РєРѕРЅС‚Р°РєС‚Р° РїРѕ EMail
 HANDLE CMraProto::MraWPRequestByEMail(MCONTACT hContact, DWORD dwAckType, CMStringA &szEmail)
 {
 	if (szEmail.GetLength() <= 4)
@@ -396,7 +396,7 @@ HANDLE CMraProto::MraWPRequestByEMail(MCONTACT hContact, DWORD dwAckType, CMStri
 	return MraWPRequestW(hContact, dwAckType, dwRequestFlags, szUser, szDomain, L"", L"", L"", 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
 
-// Отправка файлов
+// РћС‚РїСЂР°РІРєР° С„Р°Р№Р»РѕРІ
 DWORD CMraProto::MraGame(const CMStringA &szEmail, DWORD dwGameSessionID, DWORD dwGameMsg, DWORD dwGameMsgID, const CMStringA &szData)
 {
 	if (szEmail.GetLength() <= 4)
@@ -412,7 +412,7 @@ DWORD CMraProto::MraGame(const CMStringA &szEmail, DWORD dwGameSessionID, DWORD 
 	return MraSendCMD(MRIM_CS_GAME, buf.Data(), buf.Len());
 }
 
-// Авторизация
+// РђРІС‚РѕСЂРёР·Р°С†РёСЏ
 DWORD CMraProto::MraLogin2W(const CMStringA &szLogin, const CMStringA &szPassword, DWORD dwStatus, const CMStringA &szStatusUri, CMStringW &wszStatusTitle, CMStringW &wszStatusDesc, DWORD dwFutureFlags, CMStringA &szUserAgentFormatted, CMStringA &szUserAgent)
 {
 	if (wszStatusTitle.GetLength() > STATUS_TITLE_MAX)     wszStatusTitle.Truncate(STATUS_TITLE_MAX);
@@ -437,7 +437,7 @@ DWORD CMraProto::MraLogin2W(const CMStringA &szLogin, const CMStringA &szPasswor
 	return MraSendCMD(MRIM_CS_LOGIN2, buf.Data(), buf.Len());
 }
 
-// Отправка SMS
+// РћС‚РїСЂР°РІРєР° SMS
 DWORD CMraProto::MraSMSW(MCONTACT hContact, const CMStringA &lpszPhone, const CMStringW &lpwszMessage)
 {
 	CMStringA szPhoneLocal = "+" + CopyNumber(lpszPhone);
@@ -455,7 +455,7 @@ DWORD CMraProto::MraSMSW(MCONTACT hContact, const CMStringA &lpszPhone, const CM
 	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ICQACKTYPE_SMS, lpbData, lpszPhone.GetLength(), MRIM_CS_SMS, buf.Data(), buf.Len());
 }
 
-// Соединение с прокси
+// РЎРѕРµРґРёРЅРµРЅРёРµ СЃ РїСЂРѕРєСЃРё
 DWORD CMraProto::MraProxy(const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID)
 {
 	if (szEmail.GetLength() <= 4)
@@ -471,7 +471,7 @@ DWORD CMraProto::MraProxy(const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwD
 	return MraSendCMD(MRIM_CS_PROXY, buf.Data(), buf.Len());
 }
 
-// Ответ на соединение с прокси
+// РћС‚РІРµС‚ РЅР° СЃРѕРµРґРёРЅРµРЅРёРµ СЃ РїСЂРѕРєСЃРё
 DWORD CMraProto::MraProxyAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID)
 {
 	if (szEmail.GetLength() <= 4)
@@ -488,7 +488,7 @@ DWORD CMraProto::MraProxyAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwI
 	return MraSendCMD(MRIM_CS_PROXY_ACK, buf.Data(), buf.Len());
 }
 
-// Отправка сообщения в микроблог
+// РћС‚РїСЂР°РІРєР° СЃРѕРѕР±С‰РµРЅРёСЏ РІ РјРёРєСЂРѕР±Р»РѕРі
 DWORD CMraProto::MraChangeUserBlogStatus(DWORD dwFlags, const CMStringW &wszText, DWORDLONG dwBlogStatusID)
 {
 	OutBuffer buf;
@@ -505,10 +505,10 @@ DWORD CMraProto::MraSendPacket(HNETLIBCONN hConnection, DWORD dwCmdNum, DWORD dw
 	mrim_packet_header_t *pmaHeader = (mrim_packet_header_t*)lpbData;
 	memset(pmaHeader, 0, sizeof(mrim_packet_header_t));
 	pmaHeader->magic = CS_MAGIC;
-	pmaHeader->proto = (PROTO_VERSION_MAJOR << 16) + PROTO_VERSION_MINOR; // Версия протокола
+	pmaHeader->proto = (PROTO_VERSION_MAJOR << 16) + PROTO_VERSION_MINOR; // Р’РµСЂСЃРёСЏ РїСЂРѕС‚РѕРєРѕР»Р°
 	pmaHeader->seq = dwCmdNum;// Sequence
-	pmaHeader->msg = dwType;// Тип пакета
-	pmaHeader->dlen = (unsigned)dwDataSize;// Длина данных
+	pmaHeader->msg = dwType;// РўРёРї РїР°РєРµС‚Р°
+	pmaHeader->dlen = (unsigned)dwDataSize;// Р”Р»РёРЅР° РґР°РЅРЅС‹С…
 
 	debugLogA("Sending packet %08x\n", dwType);
 

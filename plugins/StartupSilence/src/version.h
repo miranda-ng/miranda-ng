@@ -17,7 +17,7 @@
 #define __AUTHOR               "Vladimir Lyubimov"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB               "https://miranda-ng.org/"
-#define __COPYRIGHT               "© 2012-17 Vladimir Lyubimov"
+#define __COPYRIGHT               "Â© 2012-17 Vladimir Lyubimov"
 
 // other stuff for Version resource
 #include <stdver.h>

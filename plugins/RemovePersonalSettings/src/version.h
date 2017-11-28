@@ -11,4 +11,4 @@
 #define __AUTHOR               "Ricardo Pescuma Domenecci"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB               "https://miranda-ng.org/p/RemovePersonalSettings/"
-#define __COPYRIGHT               "© 2007-2009 Ricardo Pescuma Domenecci"
+#define __COPYRIGHT               "Â© 2007-2009 Ricardo Pescuma Domenecci"

@@ -2,13 +2,13 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (Ò) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (—Å) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-10 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 Portions of this code modified for Simple Status Message plugin
-Copyright (C) 2006-2011 Bartosz 'Dezeath' Bia≥ek, (C) 2005 Harven
+Copyright (C) 2006-2011 Bartosz 'Dezeath' Bia—ñek, (C) 2005 Harven
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Mataes, ZERO_BiT"
 #define __AUTHOREMAIL            "mataes2007@gmail.com, zero-bit@mail.ru"
 #define __AUTHORWEB              "https://miranda-ng.org/p/PackUpdater/"
-#define __COPYRIGHT              "© 2011-2017 Mataes, 2007 ZERO_BiT"
+#define __COPYRIGHT              "Â© 2011-2017 Mataes, 2007 ZERO_BiT"

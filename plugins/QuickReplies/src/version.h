@@ -11,4 +11,4 @@
 #define __AUTHOR             "Unsane"
 #define __AUTHOREMAIL        ""
 #define __AUTHORWEB          "https://miranda-ng.org/p/QuickReplies/"
-#define __COPYRIGHT          "© 2010 Unsane"
+#define __COPYRIGHT          "Â© 2010 Unsane"

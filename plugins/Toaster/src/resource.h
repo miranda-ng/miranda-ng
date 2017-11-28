@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется d:\Others\SVN\MirandaNG\trunk\plugins\Toaster\res\resource.rc
+// В¬РєР»СЋС‡Р°РµРјС‹Р№ С„Р°Р№Р», СЃРѕР·РґР°РЅРЅС‹Р№ РІ Microsoft Visual C++.
+// В»СЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ d:\Others\SVN\MirandaNG\trunk\plugins\Toaster\res\resource.rc
 //
 #define IDD_OPTIONS_MAIN                107
 #define IDC_CHECK1                      1013

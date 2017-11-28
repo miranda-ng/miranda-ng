@@ -11,4 +11,4 @@
 #define __AUTHOR                "Bio, Jonathan Gordon"
 #define __AUTHOREMAIL           "bio@ktaspb.ru, jdgordy@gmail.com"
 #define __AUTHORWEB             "https://miranda-ng.org/p/DbEditorPP/"
-#define __COPYRIGHT             "© 2003-2017 Bio, Jonathan Gordon"
+#define __COPYRIGHT             "Â© 2003-2017 Bio, Jonathan Gordon"

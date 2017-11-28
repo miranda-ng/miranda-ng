@@ -1,7 +1,7 @@
 /*
 
 WhatsApp plugin for Miranda NG
-Copyright © 2013-14 Uli Hecht
+Copyright Â© 2013-14 Uli Hecht
 
 */
 

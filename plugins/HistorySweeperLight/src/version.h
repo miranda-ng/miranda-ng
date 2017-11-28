@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/HistorySweeperLight/"
-#define __COPYRIGHT              "© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010-2011 tico-tico"
+#define __COPYRIGHT              "Â© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010-2011 tico-tico"

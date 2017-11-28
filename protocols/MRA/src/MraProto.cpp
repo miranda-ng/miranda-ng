@@ -89,7 +89,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_WAT_NEWSTATUS, &CMraProto::MraMusicChanged);
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CMraProto::OnGroupChanged);
 
-	// всех в offline // тк unsaved values сохраняются их нужно инициализировать
+	// РІСЃРµС… РІ offline // С‚Рє unsaved values СЃРѕС…СЂР°РЅВ¤СЋС‚СЃВ¤ РёС… РЅСѓР¶РЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°С‚СЊ
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact != NULL; hContact = db_find_next(hContact, m_szModuleName))
 		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
 
@@ -460,7 +460,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		m_bLoggedIn = FALSE;
 		dwOldStatusMode = InterlockedExchange((volatile LONG*)&m_iStatus, m_iDesiredStatus);
 
-		// всех в offline, только если мы бывали подключены
+		// РІСЃРµС… РІ offline, С‚РѕР»СЊРєРѕ РµСЃР»Рё РјС‹ Р±С‹РІР°Р»Рё РїРѕРґРєР»СЋС‡РµРЅС‹
 		if (dwOldStatusMode > ID_STATUS_OFFLINE)
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
@@ -469,7 +469,7 @@ int CMraProto::SetStatus(int iNewStatus)
 			Netlib_Shutdown(m_hConnection);
 	}
 	else {
-		// если offline то сразу ставим connecting, но обработка как offline
+		// РµСЃР»Рё offline С‚Рѕ СЃСЂР°Р·Сѓ СЃС‚Р°РІРёРј connecting, РЅРѕ РѕР±СЂР°Р±РѕС‚РєР° РєР°Рє offline
 		dwOldStatusMode = InterlockedCompareExchange((volatile LONG*)&m_iStatus, ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
 
 		switch (dwOldStatusMode) {
@@ -487,7 +487,7 @@ int CMraProto::SetStatus(int iNewStatus)
 		case ID_STATUS_INVISIBLE:
 			MraSendNewStatus(m_iDesiredStatus, m_iXStatus, L"", L"");
 		case ID_STATUS_CONNECTING:
-			// предотвращаем переход в любой статус (кроме offline) из статуса connecting, если он не вызван самим плагином
+			// РїСЂРµРґРѕС‚РІСЂР°С‰Р°РµРј РїРµСЂРµС…РѕРґ РІ Р»СЋР±РѕР№ СЃС‚Р°С‚СѓСЃ (РєСЂРѕРјРµ offline) РёР· СЃС‚Р°С‚СѓСЃР° connecting, РµСЃР»Рё РѕРЅ РЅРµ РІС‹Р·РІР°РЅ СЃР°РјРёРј РїР»Р°РіРёРЅРѕРј
 			if (dwOldStatusMode == ID_STATUS_CONNECTING && iNewStatus != m_iDesiredStatus)
 				break;
 
@@ -535,7 +535,7 @@ int CMraProto::SetAwayMsg(int iStatus, const wchar_t *msg)
 	DWORD dwStatus = iStatus;
 	DWORD dwXStatus = m_iXStatus;
 
-	// не отправляем новый статусный текст для хстатусов, для хстатусов только эвей сообщения
+	// РЅРµ РѕС‚РїСЂР°РІР»В¤РµРј РЅРѕРІС‹Р№ СЃС‚Р°С‚СѓСЃРЅС‹Р№ С‚РµРєСЃС‚ РґР»В¤ С…СЃС‚Р°С‚СѓСЃРѕРІ, РґР»В¤ С…СЃС‚Р°С‚СѓСЃРѕРІ С‚РѕР»СЊРєРѕ СЌРІРµР№ СЃРѕРѕР±С‰РµРЅРёВ¤
 	if (dwStatus != ID_STATUS_ONLINE || IsXStatusValid(dwXStatus) == FALSE) {
 		dwStatusDescSize = min(dwStatusDescSize, STATUS_DESC_MAX);
 		MraSendNewStatus(dwStatus, dwXStatus, L"", msg);

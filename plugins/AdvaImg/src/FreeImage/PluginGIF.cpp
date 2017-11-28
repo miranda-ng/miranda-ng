@@ -3,7 +3,7 @@
 //
 // Design and implementation by
 // - Ryan Rubley <ryan@lostreality.org>
-// - Raphaël Gaquer <raphael.gaquer@alcer.com>
+// - RaphaÐ»l Gaquer <raphael.gaquer@alcer.com>
 // - Aaron Shumate <aaron@shumate.us>
 //
 // This file is part of FreeImage 3

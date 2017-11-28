@@ -43,7 +43,7 @@ static DWORD MraOfflineMessageGetMIMEHeadAndBody(LPCSTR lpszMessage, size_t dwMe
 	if (!lpszMessage || !dwMessageSize)
 		return ERROR_NOT_FOUND;
 
-	// затычка: майл не придерживается RFC и вместо CRLFCRLF ставит LFLF в MIME частях, иногда ставит
+	// Р·Р°С‚С‹С‡РєР°: РјР°Р№Р» РЅРµ РїСЂРёРґРµСЂР¶РёРІР°РµС‚СЃСЏ RFC Рё РІРјРµСЃС‚Рѕ CRLFCRLF СЃС‚Р°РІРёС‚ LFLF РІ MIME С‡Р°СЃС‚СЏС…, РёРЅРѕРіРґР° СЃС‚Р°РІРёС‚
 	LPSTR lpszBody = (LPSTR)MemoryFind(0, lpszMessage, dwMessageSize, CRLFCRLF, (sizeof(CRLFCRLF)-1));
 	if (lpszBody)
 		lpszBody += (sizeof(CRLFCRLF)-1);
@@ -55,7 +55,7 @@ static DWORD MraOfflineMessageGetMIMEHeadAndBody(LPCSTR lpszMessage, size_t dwMe
 	if (!lpszBody)
 		return ERROR_NOT_FOUND;
 
-	// нашли начало контента миме части
+	// РЅР°С€Р»Рё РЅР°С‡Р°Р»Рѕ РєРѕРЅС‚РµРЅС‚Р° РјРёРјРµ С‡Р°СЃС‚Рё
 	size_t dwBodySize = (dwMessageSize-(lpszBody-lpszMessage));
 	if (plpszHeader)   (*plpszHeader) = (LPSTR)lpszMessage;
 	if (pdwHeaderSize) (*pdwHeaderSize) = ((lpszBody-(sizeof(LFLF)-1))-lpszMessage);
@@ -96,10 +96,10 @@ static DWORD MraOfflineMessageGetNextMIMEPart(LPSTR lpszBody, size_t dwBodySize,
 	LPSTR lpszCurMIMEPos = plpszCurMIMEPos;
 
 	LPSTR lpszMIMEPart = (LPSTR)MemoryFind((lpszCurMIMEPos-lpszBody), lpszBody, dwBodySize, lpszBoundary, dwBoundarySize);
-	if (lpszMIMEPart) {// первая миме часть
+	if (lpszMIMEPart) {// РїРµСЂРІР°СЏ РјРёРјРµ С‡Р°СЃС‚СЊ
 		lpszMIMEPart += dwBoundarySize;
 
-		// затычка: майл не придерживается RFC и вместо CRLF ставит LF в MIME частях, иногда ставит
+		// Р·Р°С‚С‹С‡РєР°: РјР°Р№Р» РЅРµ РїСЂРёРґРµСЂР¶РёРІР°РµС‚СЃСЏ RFC Рё РІРјРµСЃС‚Рѕ CRLF СЃС‚Р°РІРёС‚ LF РІ MIME С‡Р°СЃС‚СЏС…, РёРЅРѕРіРґР° СЃС‚Р°РІРёС‚
 		if ((*((WORD*)lpszMIMEPart)) == (*((WORD*)CRLF)))
 			lpszMIMEPart += (sizeof(CRLF)-1);
 		else if ((*((BYTE*)lpszMIMEPart)) == (*((BYTE*)LF)))
@@ -112,9 +112,9 @@ static DWORD MraOfflineMessageGetNextMIMEPart(LPSTR lpszBody, size_t dwBodySize,
 		if (lpszMIMEPart == nullptr)
 			return ERROR_NO_MORE_ITEMS;
 		LPSTR lpszTemp = (LPSTR)MemoryFind((lpszMIMEPart-lpszBody), lpszBody, dwBodySize, lpszBoundary, dwBoundarySize);
-		if (lpszTemp) {// нашли конец миме части с текстом
+		if (lpszTemp) {// РЅР°С€Р»Рё РєРѕРЅРµС† РјРёРјРµ С‡Р°СЃС‚Рё СЃ С‚РµРєСЃС‚РѕРј
 			size_t dwMIMEPartSize = (lpszTemp-lpszMIMEPart);// 4 = CRLF"--"Boundary / 3 = LF"--"Boundary
-			// затычка: майл не придерживается RFC и вместо CRLF ставит LF в MIME частях, иногда ставит
+			// Р·Р°С‚С‹С‡РєР°: РјР°Р№Р» РЅРµ РїСЂРёРґРµСЂР¶РёРІР°РµС‚СЃСЏ RFC Рё РІРјРµСЃС‚Рѕ CRLF СЃС‚Р°РІРёС‚ LF РІ MIME С‡Р°СЃС‚СЏС…, РёРЅРѕРіРґР° СЃС‚Р°РІРёС‚
 			if ((*((WORD*)(lpszTemp-4))) == (*((WORD*)CRLF)))
 				dwMIMEPartSize -= 4;
 			else if ((*((BYTE*)(lpszTemp-3))) == (*((BYTE*)LF)))
@@ -132,12 +132,12 @@ static DWORD MraOfflineMessageGetNextMIMEPart(LPSTR lpszBody, size_t dwBodySize,
 	return ERROR_NOT_FOUND;
 }
 
-// Сообщение
+// РЎРѕРѕР±С‰РµРЅРёРµ
 static DWORD PlainText2message(const CMStringA &szContentType, const CMStringA &szBody, CMStringA &plpsText, DWORD *pdwFlags)
 {
 	// Content-Type: text/plain; charset = CP-1251
 	if ( strstr(szContentType, "utf-16le")) {
-		// charset = UTF-16LE// предполагаем что оно в base64
+		// charset = UTF-16LE// РїСЂРµРґРїРѕР»Р°РіР°РµРј С‡С‚Рѕ РѕРЅРѕ РІ base64
 		unsigned dwTextSize;
 		ptrA lpszText((LPSTR)mir_base64_decode(szBody, &dwTextSize));
 		if (lpszText) {

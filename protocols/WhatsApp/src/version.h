@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Uli Hecht"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/WhatsApp/"
-#define __COPYRIGHT              "© 2013-14 Uli Hecht, 2015-17 Miranda NG Team"
+#define __COPYRIGHT              "Â© 2013-14 Uli Hecht, 2015-17 Miranda NG Team"

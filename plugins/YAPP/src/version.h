@@ -11,4 +11,4 @@
 #define __AUTHOR               "Scott Ellis"
 #define __AUTHOREMAIL            "mail@scottellis.com.au"
 #define __AUTHORWEB               "https://miranda-ng.org/p/YAPP/"
-#define __COPYRIGHT               "© 2005-2006 Scott Ellis"
+#define __COPYRIGHT               "Â© 2005-2006 Scott Ellis"

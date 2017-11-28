@@ -11,4 +11,4 @@
 #define __AUTHOR               "Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan"
 #define __AUTHOREMAIL            "Rozhuk_I@mail.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/SMS/"
-#define __COPYRIGHT               "© 2001-02 Richard Hughes, 2003 Ariel Shulman, 2007-09 Rozhuk Ivan (Rozhuk_I@mail.ru)"
+#define __COPYRIGHT               "Â© 2001-02 Richard Hughes, 2003 Ariel Shulman, 2007-09 Rozhuk Ivan (Rozhuk_I@mail.ru)"

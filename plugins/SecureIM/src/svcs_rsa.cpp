@@ -20,7 +20,7 @@ int __cdecl rsa_inject(HANDLE context, LPCSTR msg)
 	LPSTR buf = (LPSTR)mir_alloc(LEN_SECU + len);
 	memcpy(buf, SIG_SECU, LEN_SECU);
 	memcpy(buf + LEN_SECU, msg, len);
-	// îòïğàâëÿåì ñîîáùåíèå
+	// Ğ¾Ñ‚Ğ¿Ñ€Ğ°Ğ²Ğ»ÑĞµĞ¼ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğµ
 	splitMessageSend(ptr, buf);
 	mir_free(buf);
 	return 1;
@@ -90,22 +90,22 @@ void __cdecl rsa_notify(HANDLE context, int state)
 	case 1:
 		showPopupEC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
-		waitForExchange(ptr, 2); // äîñûëàåì ñîîáùåíèÿ èç î÷åğåäè
+		waitForExchange(ptr, 2); // Ğ´Ğ¾ÑÑ‹Ğ»Ğ°ĞµĞ¼ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ñ Ğ¸Ğ· Ğ¾Ñ‡ĞµÑ€ĞµĞ´Ğ¸
 		return;
 
-	case -1: // ñåññèÿ ğàçîğâàíà ïî îøèáêå, íåâåğíûé òèï ñîîáùåíèÿ
+	case -1: // ÑĞµÑÑĞ¸Ñ Ñ€Ğ°Ğ·Ğ¾Ñ€Ğ²Ğ°Ğ½Ğ° Ğ¿Ğ¾ Ğ¾ÑˆĞ¸Ğ±ĞºĞµ, Ğ½ĞµĞ²ĞµÑ€Ğ½Ñ‹Ğ¹ Ñ‚Ğ¸Ğ¿ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ñ
 		msg = sim501; break;
-	case -2: // ñåññèÿ ğàçîğâàíà ïî îøèáêå äğóãîé ñòîğîíîé
+	case -2: // ÑĞµÑÑĞ¸Ñ Ñ€Ğ°Ğ·Ğ¾Ñ€Ğ²Ğ°Ğ½Ğ° Ğ¿Ğ¾ Ğ¾ÑˆĞ¸Ğ±ĞºĞµ Ğ´Ñ€ÑƒĞ³Ğ¾Ğ¹ ÑÑ‚Ğ¾Ñ€Ğ¾Ğ½Ğ¾Ğ¹
 		msg = sim502; break;
-	case -5: // îøèáêà äåêîäèğîâàíèÿ AES ñîîáùåíèÿ
+	case -5: // Ğ¾ÑˆĞ¸Ğ±ĞºĞ° Ğ´ĞµĞºĞ¾Ğ´Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ñ AES ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ñ
 		msg = sim505; break;
-	case -6: // îøèáêà äåêîäèğîâàíèÿ RSA ñîîáùåíèÿ
+	case -6: // Ğ¾ÑˆĞ¸Ğ±ĞºĞ° Ğ´ĞµĞºĞ¾Ğ´Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¸Ñ RSA ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ñ
 		msg = sim506; break;
-	case -7: // òàéìàóò óñòàíîâêè ñîåäèíåíèÿ (10 ñåêóíä)
+	case -7: // Ñ‚Ğ°Ğ¹Ğ¼Ğ°ÑƒÑ‚ ÑƒÑÑ‚Ğ°Ğ½Ğ¾Ğ²ĞºĞ¸ ÑĞ¾ĞµĞ´Ğ¸Ğ½ĞµĞ½Ğ¸Ñ (10 ÑĞµĞºÑƒĞ½Ğ´)
 		msg = sim507; break;
-	case -8: // ñåññèÿ ğàçîğâàíà ïî ïğè÷èíå "disabled"
+	case -8: // ÑĞµÑÑĞ¸Ñ Ñ€Ğ°Ğ·Ğ¾Ñ€Ğ²Ğ°Ğ½Ğ° Ğ¿Ğ¾ Ğ¿Ñ€Ğ¸Ñ‡Ğ¸Ğ½Ğµ "disabled"
 		msg = sim508; break;
-	case -0x10: // ñåññèÿ ğàçîğâàíà ïî îøèáêå
+	case -0x10: // ÑĞµÑÑĞ¸Ñ Ñ€Ğ°Ğ·Ğ¾Ñ€Ğ²Ğ°Ğ½Ğ° Ğ¿Ğ¾ Ğ¾ÑˆĞ¸Ğ±ĞºĞµ
 	case -0x21:
 	case -0x22:
 	case -0x23:
@@ -122,16 +122,16 @@ void __cdecl rsa_notify(HANDLE context, int state)
 		showPopupDCmsg(ptr->hContact, buf);
 		ShowStatusIconNotify(ptr->hContact);
 		if (ptr->cntx) deleteRSAcntx(ptr);
-		waitForExchange(ptr, 3); // äîñûëàåì íåøèôğîâàíî
+		waitForExchange(ptr, 3); // Ğ´Ğ¾ÑÑ‹Ğ»Ğ°ĞµĞ¼ Ğ½ĞµÑˆĞ¸Ñ„Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¾
 	}
 		return;
 
-	case -3: // ñîåäèíåíèå ğàçîğâàíî âğó÷íóş
-	case -4: // ñîåäèíåíèå ğàçîğâàíî âğó÷íóş äğóãîé ñòîğîíîé
+	case -3: // ÑĞ¾ĞµĞ´Ğ¸Ğ½ĞµĞ½Ğ¸Ğµ Ñ€Ğ°Ğ·Ğ¾Ñ€Ğ²Ğ°Ğ½Ğ¾ Ğ²Ñ€ÑƒÑ‡Ğ½ÑƒÑ
+	case -4: // ÑĞ¾ĞµĞ´Ğ¸Ğ½ĞµĞ½Ğ¸Ğµ Ñ€Ğ°Ğ·Ğ¾Ñ€Ğ²Ğ°Ğ½Ğ¾ Ğ²Ñ€ÑƒÑ‡Ğ½ÑƒÑ Ğ´Ñ€ÑƒĞ³Ğ¾Ğ¹ ÑÑ‚Ğ¾Ñ€Ğ¾Ğ½Ğ¾Ğ¹
 		showPopupDC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
 		if (ptr->cntx) deleteRSAcntx(ptr);
-		waitForExchange(ptr, 3); // äîñûëàåì íåøèôğîâàíî
+		waitForExchange(ptr, 3); // Ğ´Ğ¾ÑÑ‹Ğ»Ğ°ĞµĞ¼ Ğ½ĞµÑˆĞ¸Ñ„Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¾
 		return;
 
 	default:
@@ -140,7 +140,7 @@ void __cdecl rsa_notify(HANDLE context, int state)
 	showPopupDCmsg(ptr->hContact, msg);
 	ShowStatusIconNotify(ptr->hContact);
 	if (ptr->cntx) deleteRSAcntx(ptr);
-	waitForExchange(ptr, 3); // äîñûëàåì íåøèôğîâàíî
+	waitForExchange(ptr, 3); // Ğ´Ğ¾ÑÑ‹Ğ»Ğ°ĞµĞ¼ Ğ½ĞµÑˆĞ¸Ñ„Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ¾
 }
 
 void sttGenerateRSA(LPVOID)
@@ -156,7 +156,7 @@ void sttGenerateRSA(LPVOID)
 	rsa_4096 = 1;
 }
 
-// çàãğóæàåò ïàáëèê-êëş÷ â RSA êîíòåêñò
+// Ğ·Ğ°Ğ³Ñ€ÑƒĞ¶Ğ°ĞµÑ‚ Ğ¿Ğ°Ğ±Ğ»Ğ¸Ğº-ĞºĞ»ÑÑ‡ Ğ² RSA ĞºĞ¾Ğ½Ñ‚ĞµĞºÑÑ‚
 BYTE loadRSAkey(pUinKey ptr)
 {
 	if (!ptr->keyLoaded) {
@@ -171,7 +171,7 @@ BYTE loadRSAkey(pUinKey ptr)
 	return ptr->keyLoaded;
 }
 
-// ñîçäàåò RSA êîíòåêñò
+// ÑĞ¾Ğ·Ğ´Ğ°ĞµÑ‚ RSA ĞºĞ¾Ğ½Ñ‚ĞµĞºÑÑ‚
 void createRSAcntx(pUinKey ptr)
 {
 	if (!ptr->cntx) {
@@ -180,7 +180,7 @@ void createRSAcntx(pUinKey ptr)
 	}
 }
 
-// ïåğåñîçäàåò RSA êîíòåêñò
+// Ğ¿ĞµÑ€ĞµÑĞ¾Ğ·Ğ´Ğ°ĞµÑ‚ RSA ĞºĞ¾Ğ½Ñ‚ĞµĞºÑÑ‚
 void resetRSAcntx(pUinKey ptr)
 {
 	if (ptr->cntx) {
@@ -190,7 +190,7 @@ void resetRSAcntx(pUinKey ptr)
 	}
 }
 
-// óäàëÿåò RSA êîíòåêñò
+// ÑƒĞ´Ğ°Ğ»ÑĞµÑ‚ RSA ĞºĞ¾Ğ½Ñ‚ĞµĞºÑÑ‚
 void deleteRSAcntx(pUinKey ptr)
 {
 	cpp_delete_context(ptr->cntx);

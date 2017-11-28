@@ -11,4 +11,4 @@
 #define __AUTHOR               "Johell, Ghost, Nightwish, __alex, Baloo"
 #define __AUTHOREMAIL            "Johell@ifrance.com, baloo@bk.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/SecureIM/"
-#define __COPYRIGHT               "© 2003 Johell, 2005-09 Baloo"
+#define __COPYRIGHT               "Â© 2003 Johell, 2005-09 Baloo"

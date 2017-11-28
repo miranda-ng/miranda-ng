@@ -8,4 +8,4 @@
 #define __PLUGIN_NAME            "SecureIM icons"
 #define __FILENAME               "SecureIM_icons.dll"
 #define __DESCRIPTION             "Iconpack for SecureIM plugin of Miranda NG."
-#define __COPYRIGHT               "© 2003 Johell, 2005-09 Baloo"
+#define __COPYRIGHT               "Â© 2003 Johell, 2005-09 Baloo"

@@ -216,7 +216,7 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 				mir_wstrcpy(pszCountry,"UNITED KINGDOM");
 			else if (!mir_wstrcmpi(pszTwo,"JE")) /* map error */
 				mir_wstrcpy(pszCountry,"UNITED KINGDOM");
-			else if (!mir_wstrcmpi(pszTwo,"AX")) /* Åland Island belongs to Finland */
+			else if (!mir_wstrcmpi(pszTwo,"AX")) /* Ð•land Island belongs to Finland */
 				mir_wstrcpy(pszCountry,"FINLAND");
 			else if (!mir_wstrcmpi(pszTwo,"ME"))
 				mir_wstrcpy(pszCountry,"MONTENEGRO");

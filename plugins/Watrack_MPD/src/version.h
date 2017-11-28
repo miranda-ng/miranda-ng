@@ -11,4 +11,4 @@
 #define __AUTHOR               "sss"
 #define __AUTHOREMAIL            "sss123next@list.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/Watrack_MPD/"
-#define __COPYRIGHT               "© 2009 sss"
+#define __COPYRIGHT               "Â© 2009 sss"

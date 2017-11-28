@@ -52,7 +52,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 }
 
 /**
-* Protocols àcknowledgement
+* Protocols Ð°cknowledgement
 */
 int ProtoAck(WPARAM,LPARAM lparam)
 {

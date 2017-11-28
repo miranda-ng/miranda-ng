@@ -494,7 +494,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hQueue, DWORD dwFlags, MCONTACT
 	BOOL bQueueAdd = TRUE;// check for updates
 	SYSTEMTIME stAvatarLastCheckTime;
 
-	if ((dwFlags & GAIF_FORCE) == 0)// если флаг принудит. обновления, то даже не проверяем времени последнего обновления
+	if ((dwFlags & GAIF_FORCE) == 0)// РµСЃР»Рё С„Р»Р°Рі РїСЂРёРЅСѓРґРёС‚. РѕР±РЅРѕРІР»РµРЅРёСЏ, С‚Рѕ РґР°Р¶Рµ РЅРµ РїСЂРѕРІРµСЂСЏРµРј РІСЂРµРјРµРЅРё РїРѕСЃР»РµРґРЅРµРіРѕ РѕР±РЅРѕРІР»РµРЅРёСЏ
 	if (MraAvatarsGetContactTime(hContact, "AvatarLastCheckTime", &stAvatarLastCheckTime)) {
 		CMStringW wszFileName;
 		FILETIME ftCurrentTime, ftExpireTime;
@@ -506,7 +506,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hQueue, DWORD dwFlags, MCONTACT
 		if ((*((DWORDLONG*)&ftExpireTime)) > (*((DWORDLONG*)&ftCurrentTime)))
 		if (MraAvatarsGetFileName(hQueue, hContact, GetContactAvatarFormat(hContact, PA_FORMAT_DEFAULT), wszFileName) == NO_ERROR)
 		if (IsFileExist(wszFileName)) {
-			// файл с аватаром существует и не устарел/не было комманды обновлять(просто запрос имени)
+			// С„Р°Р№Р» СЃ Р°РІР°С‚Р°СЂРѕРј СЃСѓС‰РµСЃС‚РІСѓРµС‚ Рё РЅРµ СѓСЃС‚Р°СЂРµР»/РЅРµ Р±С‹Р»Рѕ РєРѕРјРјР°РЅРґС‹ РѕР±РЅРѕРІР»СЏС‚СЊ(РїСЂРѕСЃС‚Рѕ Р·Р°РїСЂРѕСЃ РёРјРµРЅРё)
 			if (lpszPath) {
 				if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
 					mir_wstrncpy(lpszPath, wszFileName, MAX_PATH);

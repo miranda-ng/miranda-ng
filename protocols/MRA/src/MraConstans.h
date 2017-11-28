@@ -9,7 +9,7 @@
 
 #define MIRVER_UNKNOWN                       ("Mail.ru Agent unknown client")
 
-#define MRA_PLUGIN_UPDATER_ID                2544 //появляется после первого выкладывания на сайт
+#define MRA_PLUGIN_UPDATER_ID                2544 //РїРѕСЏРІР»СЏРµС‚СЃСЏ РїРѕСЃР»Рµ РїРµСЂРІРѕРіРѕ РІС‹РєР»Р°РґС‹РІР°РЅРёСЏ РЅР° СЃР°Р№С‚
 #define MRA_SERVER_PORT_STANDART_NLB         2042
 #define MRA_SERVER_PORT_STANDART             2041
 #define MRA_SERVER_PORT_HTTPS                443
@@ -31,14 +31,14 @@ static const LPSTR lpcszMailRuDomains[] =
 #define BUFF_SIZE_RCV_MIN_FREE               (16 * 1024) //internal
 #define BUFF_SIZE_BLOB                       16384 //internal
 #define BUFF_SIZE_URL                        4096 //internal
-#define WAIT_FOR_THREAD_TIMEOUT              15 //internal // время ожидания завершения потока
+#define WAIT_FOR_THREAD_TIMEOUT              15 //internal // РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РїРѕС‚РѕРєР°
 #define THREAD_SLEEP_TIME                    100 //internal
 #define THREAD_MAX_PING_TIME                 20 // sec, internal
 #define THREAD_MAX_PING_FAIL_COUNT           3 // internal
-#define SEND_QUEUE_TIMEOUT                   600 //internal // время удаления недоставленных сообщений из очереди отправки
-#define ALLOCATED_COUNT                      32 //internal   // колличество элементов
-#define EMAILS_MIN_COUNT                     16 //internal   // колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
-#define PHONES_MIN_COUNT                     4 //internal   // колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
+#define SEND_QUEUE_TIMEOUT                   600 //internal // РІСЂРµРјСЏ СѓРґР°Р»РµРЅРёСЏ РЅРµРґРѕСЃС‚Р°РІР»РµРЅРЅС‹С… СЃРѕРѕР±С‰РµРЅРёР№ РёР· РѕС‡РµСЂРµРґРё РѕС‚РїСЂР°РІРєРё
+#define ALLOCATED_COUNT                      32 //internal   // РєРѕР»Р»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ
+#define EMAILS_MIN_COUNT                     16 //internal   // РєРѕР»Р»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂСЏРµРјС‹С… РїСЂРё РёР·РІР»РµС‡РµРЅРёРё email Р°РґСЂРµСЃР° РёР· РёРЅС„С‹ СЋР·РµСЂР°
+#define PHONES_MIN_COUNT                     4 //internal   // РєРѕР»Р»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂСЏРµРјС‹С… РїСЂРё РёР·РІР»РµС‡РµРЅРёРё email Р°РґСЂРµСЃР° РёР· РёРЅС„С‹ СЋР·РµСЂР°
 
 #define MRA_ALARM_MESSAGE                    LPGENW("Your contact wakes you")
 
@@ -133,9 +133,9 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEFAULT_TIMEOUT_RECV_NLB         20
 #define MRA_DEFAULT_CONN_RETRY_COUNT_FILES   2
 #define MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY 3
-#define MRA_TIMEOUT_DIRECT_CONN              30 //internal; время после которого клиент считает что к нему подключится не удалось
-#define MRA_TIMEOUT_CONN_MIN                 2 //internal; минимальное время ожидания пока устанавливается исходящее подключение
-#define MRA_TIMEOUT_CONN_MAX                 16 //internal; максимальное время ожидания пока устанавливается исходящее подключение
+#define MRA_TIMEOUT_DIRECT_CONN              30 //internal; РІСЂРµРјСЏ РїРѕСЃР»Рµ РєРѕС‚РѕСЂРѕРіРѕ РєР»РёРµРЅС‚ СЃС‡РёС‚Р°РµС‚ С‡С‚Рѕ Рє РЅРµРјСѓ РїРѕРґРєР»СЋС‡РёС‚СЃСЏ РЅРµ СѓРґР°Р»РѕСЃСЊ
+#define MRA_TIMEOUT_CONN_MIN                 2 //internal; РјРёРЅРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ РїРѕРєР° СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РёСЃС…РѕРґСЏС‰РµРµ РїРѕРґРєР»СЋС‡РµРЅРёРµ
+#define MRA_TIMEOUT_CONN_MAX                 16 //internal; РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РѕР¶РёРґР°РЅРёСЏ РїРѕРєР° СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РёСЃС…РѕРґСЏС‰РµРµ РїРѕРґРєР»СЋС‡РµРЅРёРµ
 #define MRA_MAXLENOFMESSAGE                  32768 //internal
 #define MRA_MAXCONTACTSPERPACKET             256 //internal
 #define MRA_CODE_PAGE                        1251 //internal
@@ -172,7 +172,7 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEFAULT_LAST_SEARCH_COUTRY       0
 
 
-#define MRA_DEFAULT_FILE_SEND_BLOCK_SIZE     8192 //hidden, размер блока при отправке файла
+#define MRA_DEFAULT_FILE_SEND_BLOCK_SIZE     8192 //hidden, СЂР°Р·РјРµСЂ Р±Р»РѕРєР° РїСЂРё РѕС‚РїСЂР°РІРєРµ С„Р°Р№Р»Р°
 
 #define MRA_DEFAULT_HIDE_MENU_ITEMS_FOR_NON_MRA     FALSE
 

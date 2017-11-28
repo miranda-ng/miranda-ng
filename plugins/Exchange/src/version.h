@@ -1,7 +1,7 @@
 /*
 Exchange notifier plugin for Miranda IM
 
-Copyright © 2006 Cristian Libotean, Attila Vajda
+Copyright Â© 2006 Cristian Libotean, Attila Vajda
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DESC                  "Notifies you if you have unread email on an exchange server."
 #define __AUTHOR                "Cristian Libotean, Attila Vajda, MaKaR (NG)"
 #define __AUTHOREMAIL           "makar@poczta.of.pl"
-#define __COPYRIGHT             "© 2006-2013 Cristian Libotean and Attila Vajda"
+#define __COPYRIGHT             "Â© 2006-2013 Cristian Libotean and Attila Vajda"
 #define __AUTHORWEB             "https://miranda-ng.org/p/Exchange/"
 
 #define __PLUGIN_DISPLAY_NAME   "Exchange notifier plugin"

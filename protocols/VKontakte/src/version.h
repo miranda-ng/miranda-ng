@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Miranda NG Team"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/VKontakte/"
-#define __COPYRIGHT              "© 2013-17 Miranda NG Team"
+#define __COPYRIGHT              "Â© 2013-17 Miranda NG Team"

@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Нейтральный resources
+// РќРµР№С‚СЂР°Р»СЊРЅС‹Р№ resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
@@ -63,12 +63,12 @@ BEGIN
     0x0000
 END
 
-#endif    // Нейтральный resources
+#endif    // РќРµР№С‚СЂР°Р»СЊРЅС‹Р№ resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Р СѓСЃСЃРєРёР№ (Р РѕСЃСЃРёСЏ) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -99,7 +99,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Р СѓСЃСЃРєРёР№ (Р РѕСЃСЃРёСЏ) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

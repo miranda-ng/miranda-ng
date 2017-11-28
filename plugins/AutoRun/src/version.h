@@ -11,4 +11,4 @@
 #define __AUTHOR             "Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)"
 #define __AUTHOREMAIL        ""
 #define __AUTHORWEB          "https://miranda-ng.org/p/AutoRun/"
-#define __COPYRIGHT          "© 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$"
+#define __COPYRIGHT          "Â© 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$"

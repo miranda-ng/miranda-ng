@@ -11,4 +11,4 @@
 #define __AUTHOR                "Jonathan Gordon"
 #define __AUTHOREMAIL           "jdgordy@gmail.com"
 #define __AUTHORWEB             "https://miranda-ng.org/p/BuddyPounce/"
-#define __COPYRIGHT             "© 2004 Jonathan Gordon"
+#define __COPYRIGHT             "Â© 2004 Jonathan Gordon"

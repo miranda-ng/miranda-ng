@@ -11,4 +11,4 @@
 #define __AUTHOR               "Heiko Schillinger, Baloo, Billy_Bons, Robert P\xf6" "sel"
 #define __AUTHOREMAIL            "micron@nexgo.de; baloo@bk.ru; tatarinov.sergey@gmail.com; robyer@seznam.cz"
 #define __AUTHORWEB               "https://miranda-ng.org/p/MenuEx/"
-#define __COPYRIGHT               "© 2001-03 Heiko Schillinger, © 2006-08 Baloo, © 2009-10 Billy_Bons, © 2011-13 Robert P\xf6" "sel"
+#define __COPYRIGHT               "Â© 2001-03 Heiko Schillinger, Â© 2006-08 Baloo, Â© 2009-10 Billy_Bons, Â© 2011-13 Robert P\xf6" "sel"

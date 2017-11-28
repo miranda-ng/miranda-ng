@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\Others\SVN\MirandaNG\trunk\plugins\Db3x_mmap\res\db3x_mmap.rc
+// В¬РєР»СЋС‡Р°РµРјС‹Р№ С„Р°Р№Р», СЃРѕР·РґР°РЅРЅС‹Р№ РІ Microsoft Visual C++.
+// В»СЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ D:\Others\SVN\MirandaNG\trunk\plugins\Db3x_mmap\res\db3x_mmap.rc
 //
 #define IDREMOVE                        3
 #define IDI_ICONPASS                    100

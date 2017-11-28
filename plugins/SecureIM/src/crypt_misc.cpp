@@ -16,7 +16,7 @@ static void sttWaitForExchange(LPVOID param)
 	Sent_NetLog("sttWaitForExchange: %d", ptr->waitForExchange);
 
 	// if keyexchange failed or timeout
-	if (ptr->waitForExchange == 1 || ptr->waitForExchange == 3) { // ïðîòóõëî - îòïðàâëÿåì íåçàøèôðîâàííî, åñëè íàäî
+	if (ptr->waitForExchange == 1 || ptr->waitForExchange == 3) { // Ð¿Ñ€Ð¾Ñ‚ÑƒÑ…Ð»Ð¾ - Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼ Ð½ÐµÐ·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾, ÐµÑÐ»Ð¸ Ð½Ð°Ð´Ð¾
 		if (ptr->msgQueue && msgbox1(nullptr, sim104, MODULENAME, MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			mir_cslock lck(localQueueMutex);
 			ptr->sendQueue = true;
@@ -37,7 +37,7 @@ static void sttWaitForExchange(LPVOID param)
 		ptr->waitForExchange = 0;
 		ShowStatusIconNotify(ptr->hContact);
 	}
-	else if (ptr->waitForExchange == 2) { // äîñëàòü î÷åðåäü ÷åðåç óñòàíîâëåííîå ñîåäèíåíèå
+	else if (ptr->waitForExchange == 2) { // Ð´Ð¾ÑÐ»Ð°Ñ‚ÑŒ Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ Ñ‡ÐµÑ€ÐµÐ· ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð½Ð¾Ðµ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ
 		mir_cslock lck(localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;
@@ -54,7 +54,7 @@ static void sttWaitForExchange(LPVOID param)
 		ptr->msgQueue = nullptr;
 		ptr->waitForExchange = 0;
 	}
-	else if (ptr->waitForExchange == 0) { // î÷èñòèòü î÷åðåäü
+	else if (ptr->waitForExchange == 0) { // Ð¾Ñ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ
 		mir_cslock lck(localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;

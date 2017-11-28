@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+Â© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

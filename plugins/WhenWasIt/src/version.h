@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Cristian Libotean"
 #define __AUTHOREMAIL             "eblis102@yahoo.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/WhenWasIt/"
-#define __COPYRIGHT               "© 2006-2011 Cristian Libotean"
+#define __COPYRIGHT               "Â© 2006-2011 Cristian Libotean"

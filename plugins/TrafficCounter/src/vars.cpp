@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 /* ======================================================================================
-Здесь содержатся функции для поддержки плагина Variables
-Автор: Mironych
+Р—РґРµСЃСЊ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ С„СѓРЅРєС†РёРё РґР»СЏ РїРѕРґРґРµСЂР¶РєРё РїР»Р°РіРёРЅР° Variables
+РђРІС‚РѕСЂ: Mironych
 =======================================================================================*/
 
 #include "stdafx.h"
@@ -50,7 +50,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 			}
 	}
 	else
-	{	// Ищем индекс протокола, переданного первым аргументом
+	{	// РС‰РµРј РёРЅРґРµРєСЃ РїСЂРѕС‚РѕРєРѕР»Р°, РїРµСЂРµРґР°РЅРЅРѕРіРѕ РїРµСЂРІС‹Рј Р°СЂРіСѓРјРµРЅС‚РѕРј
 		for (tmp = ed = 0; ed < NumberOfAccounts; ed++)
 		{
 			if (!ProtoList[ed].name) continue;
@@ -61,7 +61,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 				tmprn = ProtoList[ed].CurrentRecvTraffic;
 				tmpst = ProtoList[ed].TotalSentTraffic;
 				tmprt = ProtoList[ed].TotalRecvTraffic;
-				tmp = 0xAA; // Признак того, что протокол был найден
+				tmp = 0xAA; // РџСЂРёР·РЅР°Рє С‚РѕРіРѕ, С‡С‚Рѕ РїСЂРѕС‚РѕРєРѕР» Р±С‹Р» РЅР°Р№РґРµРЅ
 			}
 			mir_free(buf);
 		}
@@ -98,8 +98,8 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 	if (!mir_wstrcmp(ai->targv[4], L"d")) ed = 3;
 	else return nullptr;
 
-	// Получаем форматированную строку и возвращаем указатель на неё.
-	// Сначала узнаем размер буфера.
+	// РџРѕР»СѓС‡Р°РµРј С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ Рё РІРѕР·РІСЂР°С‰Р°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅРµС‘.
+	// РЎРЅР°С‡Р°Р»Р° СѓР·РЅР°РµРј СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°.
 	size_t l = GetFormattedTraffic(tmp, ed, nullptr, 0);
 	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
 	if (!res) return nullptr;
@@ -117,7 +117,7 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 
 	if (ai->argc != 4) return nullptr;
 
-	// Ищем индекс протокола, переданного первым аргументом
+	// РС‰РµРј РёРЅРґРµРєСЃ РїСЂРѕС‚РѕРєРѕР»Р°, РїРµСЂРµРґР°РЅРЅРѕРіРѕ РїРµСЂРІС‹Рј Р°СЂРіСѓРјРµРЅС‚РѕРј
 	for (flag = ed = 0; ed < NumberOfAccounts; ed++)
 	{
 		wchar_t *buf;
@@ -147,8 +147,8 @@ static wchar_t* GetTime(ARGUMENTSINFO *ai)
 	
 	if (flag != 0xAA) return nullptr;
 
-	// Получаем форматированную строку и возвращаем указатель на неё.
-	// Сначала узнаем размер буфера.
+	// РџРѕР»СѓС‡Р°РµРј С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ Рё РІРѕР·РІСЂР°С‰Р°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅРµС‘.
+	// РЎРЅР°С‡Р°Р»Р° СѓР·РЅР°РµРј СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°.
 	size_t l = GetDurationFormatM(Duration, ai->targv[3], nullptr, 0);
 	wchar_t *res = (wchar_t*)mir_alloc(l * sizeof(wchar_t));
 	if (!res) return nullptr;
@@ -166,14 +166,14 @@ void RegisterVariablesTokens(void)
 	memset(&trs, 0, sizeof(trs));
 	trs.cbSize = sizeof(TOKENREGISTER);
 
-	// Функция, возвращающая трафик
+	// Р¤СѓРЅРєС†РёСЏ, РІРѕР·РІСЂР°С‰Р°СЋС‰Р°СЏ С‚СЂР°С„РёРє
 	trs.tszTokenString = L"tc_GetTraffic";
 	trs.parseFunctionT = GetTraffic;
 	trs.szHelpText = "Traffic counter\t(A,B,C,D)\tGet traffic counter value. A: <ProtocolName> OR overall OR summary; B: now OR total; C: sent OR received OR both; D: b - in bytes, k - in kilobytes, m - in megabytes, d - dynamic";
 	trs.flags = TRF_TCHAR | TRF_PARSEFUNC | TRF_FUNCTION | TRF_FREEMEM;
 	trs.memType = TR_MEM_MIRANDA;
 	CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM)&trs);
-	// Функция, возвращающая время
+	// Р¤СѓРЅРєС†РёСЏ, РІРѕР·РІСЂР°С‰Р°СЋС‰Р°СЏ РІСЂРµРјСЏ
 	trs.tszTokenString = L"tc_GetTime";
 	trs.parseFunctionT = GetTime;
 	trs.szHelpText = "Traffic counter\t(A,B,C)\tGet time counter value. A: <ProtocolName> OR summary; B: now OR total; C: format";

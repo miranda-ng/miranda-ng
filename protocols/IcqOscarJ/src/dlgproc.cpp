@@ -2,9 +2,9 @@
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
 // 
-// Copyright © 2001-2004 Richard Hughes, Martin Öberg
-// Copyright © 2004-2010 Joe Kucera, Bio
-// Copyright © 2012-2017 Miranda NG Team
+// Copyright Â© 2001-2004 Richard Hughes, Martin Ð¦berg
+// Copyright Â© 2004-2010 Joe Kucera, Bio
+// Copyright Â© 2012-2017 Miranda NG Team
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Aleksey Smyrnov aka Soar"
 #define __AUTHOREMAIL            "i@soar.name"
 #define __AUTHORWEB              "https://miranda-ng.org/p/AsSingleWindow/"
-#define __COPYRIGHT              "© 2010-2011 Soar, 2017 Miranda NG team"
+#define __COPYRIGHT              "Â© 2010-2011 Soar, 2017 Miranda NG team"

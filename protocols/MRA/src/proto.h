@@ -12,22 +12,22 @@
 typedef struct mrim_packet_header_t
 {
     u_long      magic;		// Magic
-    u_long      proto;		// Версия протокола
+    u_long      proto;		// Р’РµСЂСЃРёСЏ РїСЂРѕС‚РѕРєРѕР»Р°
     u_long      seq;		// Sequence
-    u_long      msg;		// Тип пакета
-    u_long      dlen; 		// Длина данных
-    u_char	reserved[24];	// Зарезервировано
+    u_long      msg;		// РўРёРї РїР°РєРµС‚Р°
+    u_long      dlen; 		// Р”Р»РёРЅР° РґР°РЅРЅС‹С…
+    u_char	reserved[24];	// Р—Р°СЂРµР·РµСЂРІРёСЂРѕРІР°РЅРѕ
 }
 mrim_packet_header_t;
 
-#define CS_MAGIC    0xDEADBEEF	// Клиентский Magic ( C <-> S )
+#define CS_MAGIC    0xDEADBEEF	// РљР»РёРµРЅС‚СЃРєРёР№ Magic ( C <-> S )
 
 
 // UNICODE = (UTF-16LE) ( >= 1.17)
 
 /***************************************************************************
 
-		ПРОТОКОЛ СВЯЗИ КЛИЕНТ-СЕРВЕР
+		РџР РћРўРћРљРћР› РЎР’РЇР—Р РљР›РР•РќРў-РЎР•Р Р’Р•Р 
 
  ***************************************************************************/
 
@@ -71,7 +71,7 @@ mrim_packet_header_t;
 		#define MULTICHAT_DETACHED	5	// user leave chat (s->c)
 		#define MULTICHAT_DESTROYED	6	//
 		#define MULTICHAT_INVITE	7	//
-	#define MESSAGE_FLAG_v1p16		0x00100000 // для перекодировки юникода
+	#define MESSAGE_FLAG_v1p16		0x00100000 // РґР»СЏ РїРµСЂРµРєРѕРґРёСЂРѕРІРєРё СЋРЅРёРєРѕРґР°
 	#define MESSAGE_FLAG_CP1251		0x00200000
 // LPS to e-mail ANSI
 // LPS message ANSI/UNICODE (see flags)
@@ -418,8 +418,8 @@ mrim_packet_header_t;
 // LPS user_agent ANSI ( >= 1.14) (see MRIM_CS_USER_STATUS)
 	// + statistic packet data:
 // LPS lang ( >= 1.16)
-// LPS ua session ( >= 1.20) - шли пустой
-// LPS replaced ua session ( >= 1.20) - шли пустой
+// LPS ua session ( >= 1.20) - С€Р»Рё РїСѓСЃС‚РѕР№
+// LPS replaced ua session ( >= 1.20) - С€Р»Рё РїСѓСЃС‚РѕР№
 // LPS client description ANSI
 	#define MAX_CLIENT_DESCRIPTION 256
 // unknown data

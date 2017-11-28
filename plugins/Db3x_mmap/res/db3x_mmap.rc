@@ -12,7 +12,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Р СѓСЃСЃРєРёР№ (Р РѕСЃСЃРёСЏ) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -53,12 +53,12 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Р СѓСЃСЃРєРёР№ (Р РѕСЃСЃРёСЏ) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
+// РђРЅРіР»РёР№СЃРєРёР№ (РЎРЁРђ) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -189,7 +189,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Английский (США) resources
+#endif    // РђРЅРіР»РёР№СЃРєРёР№ (РЎРЁРђ) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -47,12 +47,12 @@ struct UinKey
 	LPSTR msgSplitted;	// message to combine
 	pPM msgPart;		// parts of message
 	pWM msgQueue;		// last messages not sended or to resend;
-	BOOL sendQueue;		// идет отсылка очереди - не обрабатываются сообщения
+	BOOL sendQueue;		// РёРґРµС‚ РѕС‚СЃС‹Р»РєР° РѕС‡РµСЂРµРґРё - РЅРµ РѕР±СЂР°Р±Р°С‚С‹РІР°СЋС‚СЃСЏ СЃРѕРѕР±С‰РµРЅРёСЏ
 	BOOL offlineKey;
-	char waitForExchange;	// 0 - сбросить очередь
-				// 1 - ожидаем
-				// 2 - дослать с шифрованием
-				// 3 - дослать без шифрования с вопросом
+	char waitForExchange;	// 0 - СЃР±СЂРѕСЃРёС‚СЊ РѕС‡РµСЂРµРґСЊ
+				// 1 - РѕР¶РёРґР°РµРј
+				// 2 - РґРѕСЃР»Р°С‚СЊ СЃ С€РёС„СЂРѕРІР°РЅРёРµРј
+				// 3 - РґРѕСЃР»Р°С‚СЊ Р±РµР· С€РёС„СЂРѕРІР°РЅРёСЏ СЃ РІРѕРїСЂРѕСЃРѕРј
 	BOOL decoded;		// false on decode error
 	short features;
 	HANDLE cntx;		// crypto context

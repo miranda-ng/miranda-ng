@@ -36,7 +36,7 @@ static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 	tvi.pszText = buf;
 	tvi.cchTextMax = _countof(buf);
 	SendMessage(hwndTree, TVM_GETITEM, 0, (LPARAM)&tvi);
-	// Проверим, надо ли переводить.
+	// РџСЂРѕРІРµСЂРёРј, РЅР°РґРѕ Р»Рё РїРµСЂРµРІРѕРґРёС‚СЊ.
 	if ((tvi.lParam != -1) && (pOptions[tvi.lParam].dwFlag & OPTTREE_NOTRANSLATE)) return;
 	tvi.pszText = TranslateW(tvi.pszText);
 	SendMessage(hwndTree, TVM_SETITEM, 0, (LPARAM)&tvi);

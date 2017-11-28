@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer"
 #define __AUTHOREMAIL             "jokusoftware@users.sourceforge.net; d00mEr@dir.bg"
 #define __AUTHORWEB               "https://miranda-ng.org/p/NotesAndReminders/"
-#define __COPYRIGHT               "© 2003-2005 Joe Kucera, Lubomir Ivanov"
+#define __COPYRIGHT               "Â© 2003-2005 Joe Kucera, Lubomir Ivanov"

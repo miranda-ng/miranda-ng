@@ -53,7 +53,7 @@ void RecvSMSWindowDestroy()
 	RECV_SMS_WINDOW_DATA *prswdWindowData;
 
 	ListMTLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
-	while (ListMTItemGetFirst(&ssSMSSettings.lmtRecvSMSWindowsListMT, nullptr, (LPVOID*)&prswdWindowData) == NO_ERROR) {// öèêë
+	while (ListMTItemGetFirst(&ssSMSSettings.lmtRecvSMSWindowsListMT, nullptr, (LPVOID*)&prswdWindowData) == NO_ERROR) {// Ñ†Ð¸ÐºÐ»
 		RecvSMSWindowRemove(prswdWindowData->hWnd);
 	}
 	ListMTUnLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);

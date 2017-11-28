@@ -22,7 +22,7 @@ struct HObject : public HRegisteredObject
    virtual  ~HObject() {}
 };
 
-//====[ Пул для ускорения выделений маленьких кусочков памяти ]================
+//====[ РџСѓР» РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ РІС‹РґРµР»РµРЅРёР№ РјР°Р»РµРЅСЊРєРёС… РєСѓСЃРѕС‡РєРѕРІ РїР°РјСЏС‚Рё ]================
 
 struct HDataPage
 {
@@ -83,7 +83,7 @@ inline   HSmallAllocator& ALLOCATOR( void* Obj )
             return *( HSmallAllocator* )p[ -1 ];
          }
 
-//====[ Реализация инлайновых методов HRegisteredObject ]======================
+//====[ Р РµР°Р»РёР·Р°С†РёСЏ РёРЅР»Р°Р№РЅРѕРІС‹С… РјРµС‚РѕРґРѕРІ HRegisteredObject ]======================
 
    #if !defined( __NO_MEM_MANAGER__ )
       inline   void* HRegisteredObject::operator new( size_t sz, HSmallAllocator& A )

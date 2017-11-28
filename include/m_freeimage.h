@@ -3,7 +3,7 @@
 //
 // Design and implementation by
 // - Floris van den Berg (flvdberg@wxs.nl)
-// - Hervé Drolon (drolon@infonie.fr)
+// - HervÐ¹ Drolon (drolon@infonie.fr)
 //
 // Contributors:
 // - Adam Gates (radad@xoasis.com)
@@ -24,7 +24,7 @@
 // - Petr Pytelka (pyta@lightcomp.com)
 // - Riley McNiff (rmcniff@marexgroup.com)
 // - Ryan Rubley (ryan@lostreality.org)
-// - Volker Gärtner (volkerg@gmx.at)
+// - Volker GÐ´rtner (volkerg@gmx.at)
 //
 // This file is part of FreeImage 3
 //

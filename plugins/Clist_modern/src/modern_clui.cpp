@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (Ñ) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -1588,7 +1588,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			WINDOWPOS *wp = (WINDOWPOS*)lParam;
 			GetWindowRect(m_hWnd, &rcOldWindowRect);
 
-			// Ïðèëèïàíèå ê êðàÿì by ZorG
+			// ÐŸÑ€Ð¸Ð»Ð¸Ð¿Ð°Ð½Ð¸Ðµ Ðº ÐºÑ€Ð°ÑÐ¼ by ZorG
 			CLUI::SnappingToEdge(wp);
 
 			if ((rcOldWindowRect.bottom - rcOldWindowRect.top != wp->cy || rcOldWindowRect.right - rcOldWindowRect.left != wp->cx) && !(wp->flags&SWP_NOSIZE)) {

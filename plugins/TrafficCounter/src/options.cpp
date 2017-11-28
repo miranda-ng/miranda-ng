@@ -17,13 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 /* ======================================================================================
-Здесь содержатся переменные и функции для работы со статистикой
-Автор: Mironych
+Р—РґРµСЃСЊ СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РїРµСЂРµРјРµРЅРЅС‹Рµ Рё С„СѓРЅРєС†РёРё РґР»СЏ СЂР°Р±РѕС‚С‹ СЃРѕ СЃС‚Р°С‚РёСЃС‚РёРєРѕР№
+РђРІС‚РѕСЂ: Mironych
 =======================================================================================*/
 
 #include "stdafx.h"
 
-OPTTREE_OPTION *pOptions; // Через этот указатель модуль opttree.c может добраться до списка опций.
+OPTTREE_OPTION *pOptions; // Р§РµСЂРµР· СЌС‚РѕС‚ СѓРєР°Р·Р°С‚РµР»СЊ РјРѕРґСѓР»СЊ opttree.c РјРѕР¶РµС‚ РґРѕР±СЂР°С‚СЊСЃСЏ РґРѕ СЃРїРёСЃРєР° РѕРїС†РёР№.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -135,8 +135,8 @@ static OPTTREE_OPTION options[] =
 	{0,	LPGENW("General") L"/" LPGENW("Draw frame as skin element"), OPTTREE_CHECK, 1, nullptr, "DrawFrmAsSkin"},
 	{0,	LPGENW("General") L"/" LPGENW("Show tooltip in traffic window"), OPTTREE_CHECK, 1, nullptr, "ShowTooltip"},
 	{0,	LPGENW("General") L"/" LPGENW("\"Toggle traffic counter\" in main menu"), OPTTREE_CHECK, 1, nullptr, "ShowMainMenuItem"},
-	// Резервируем место под активные и видимые протоколы
-	// Максимум 16 позиций видимых и 16 активных
+	// Р РµР·РµСЂРІРёСЂСѓРµРј РјРµСЃС‚Рѕ РїРѕРґ Р°РєС‚РёРІРЅС‹Рµ Рё РІРёРґРёРјС‹Рµ РїСЂРѕС‚РѕРєРѕР»С‹
+	// РњР°РєСЃРёРјСѓРј 16 РїРѕР·РёС†РёР№ РІРёРґРёРјС‹С… Рё 16 Р°РєС‚РёРІРЅС‹С…
 	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
 	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
 	{0,	nullptr, OPTTREE_CHECK, OPTTREE_INVISIBLE,	nullptr, nullptr},
@@ -183,12 +183,12 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	if (!Initialized) {
 		pOptions = options;
 		optionCount = _countof(options);
-		// Если нет Variables, активируем галочки для старого метода рисования
+		// Р•СЃР»Рё РЅРµС‚ Variables, Р°РєС‚РёРІРёСЂСѓРµРј РіР°Р»РѕС‡РєРё РґР»СЏ СЃС‚Р°СЂРѕРіРѕ РјРµС‚РѕРґР° СЂРёСЃРѕРІР°РЅРёСЏ
 		if (!bVariablesExists)
 			for (i = 0; i < 8; i++)
 				options[i].dwFlag = 1;
 
-		// Флажки для видимости аккаунтов создаются в любом случае.
+		// Р¤Р»Р°Р¶РєРё РґР»СЏ РІРёРґРёРјРѕСЃС‚Рё Р°РєРєР°СѓРЅС‚РѕРІ СЃРѕР·РґР°СЋС‚СЃСЏ РІ Р»СЋР±РѕРј СЃР»СѓС‡Р°Рµ.
 		for (i = j = 0; (j < NumberOfAccounts) && (i < optionCount) ; i++)
 			if ((options[i].dwFlag & OPTTREE_INVISIBLE) && !options[i].szSettingName)
 			{
@@ -215,11 +215,11 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		//show/hide button
 		SetDlgItemText(hwndDlg,IDC_BSHOWHIDE,(IsWindowVisible(TrafficHwnd) != 0)? TranslateT("Hide now") : TranslateT("Show now"));
 
-		// Строки формата для счётчиков
+		// РЎС‚СЂРѕРєРё С„РѕСЂРјР°С‚Р° РґР»СЏ СЃС‡С‘С‚С‡РёРєРѕРІ
 		EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), bVariablesExists);
 		SetDlgItemText(hwndDlg, IDC_EDIT_COUNTER_FORMAT, Traffic_CounterFormat);
 
-		// Формат всплывающей подсказки
+		// Р¤РѕСЂРјР°С‚ РІСЃРїР»С‹РІР°СЋС‰РµР№ РїРѕРґСЃРєР°Р·РєРё
 		EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_TOOLTIP_FORMAT), bTooltipExists);
 		SetDlgItemText(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
@@ -230,7 +230,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Year"));
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_SETCURSEL, unOptions.PeriodForShow, 0);
 
-		// Интервал между строками
+		// РРЅС‚РµСЂРІР°Р» РјРµР¶РґСѓ СЃС‚СЂРѕРєР°РјРё
 		SetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, Traffic_AdditionSpace, 0);
 		SendDlgItemMessage(hwndDlg, IDC_EDIT_SPACE, EM_LIMITTEXT, 2, 0);
 
@@ -246,7 +246,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowTooltip, "ShowTooltip");
 		OptTree_SetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, unOptions.ShowMainMenuItem, "ShowMainMenuItem");
 
-		// Настройки видимости протоколов
+		// РќР°СЃС‚СЂРѕР№РєРё РІРёРґРёРјРѕСЃС‚Рё РїСЂРѕС‚РѕРєРѕР»РѕРІ
 		for (i = 0; i < NumberOfAccounts; i++) {
 			char buffer[32];
 			mir_strcpy(buffer, ProtoList[i].name);
@@ -285,9 +285,9 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		case PSN_APPLY:
 			unOptions.PeriodForShow = (char)SendDlgItemMessage(hwndDlg,IDC_COMBO_AUTO_CLEAR,CB_GETCURSEL,0,0);
 
-			// Интервал между строками
+			// РРЅС‚РµСЂРІР°Р» РјРµР¶РґСѓ СЃС‚СЂРѕРєР°РјРё
 			Traffic_AdditionSpace = GetDlgItemInt(hwndDlg, IDC_EDIT_SPACE, nullptr, 0);
-			// Настройки Appearance
+			// РќР°СЃС‚СЂРѕР№РєРё Appearance
 			unOptions.DrawProtoIcon = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoIcon");
 			unOptions.DrawProtoName = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawProtoName");
 			unOptions.DrawCurrentTraffic = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "DrawCurrentTraffic");
@@ -300,7 +300,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			unOptions.ShowTooltip = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowTooltip");
 			unOptions.ShowMainMenuItem = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowMainMenuItem");
 
-			// Настройки видимости протоколов
+			// РќР°СЃС‚СЂРѕР№РєРё РІРёРґРёРјРѕСЃС‚Рё РїСЂРѕС‚РѕРєРѕР»РѕРІ
 			for (i = 0; i < NumberOfAccounts; i++)
 			{
 				char buffer[32];
@@ -309,25 +309,25 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			unOptions.ShowOverall = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowOverall");
 
-			// Формат счётчиков
+			// Р¤РѕСЂРјР°С‚ СЃС‡С‘С‚С‡РёРєРѕРІ
 			GetDlgItemText(hwndDlg, IDC_EDIT_COUNTER_FORMAT, Traffic_CounterFormat, _countof(Traffic_CounterFormat));
-			// Формат всплывающей подсказки
+			// Р¤РѕСЂРјР°С‚ РІСЃРїР»С‹РІР°СЋС‰РµР№ РїРѕРґСЃРєР°Р·РєРё
 			GetDlgItemText(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT, Traffic_TooltipFormat, _countof(Traffic_TooltipFormat));
 
-			// Ключевой цвет
+			// РљР»СЋС‡РµРІРѕР№ С†РІРµС‚
 			UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
 			KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
 
-			// Перерисовываем фрейм
+			// РџРµСЂРµСЂРёСЃРѕРІС‹РІР°РµРј С„СЂРµР№Рј
 			UpdateTrafficWindowSize();
 
-			// Если отключается показ пункта главного меню, то удаляем его.
+			// Р•СЃР»Рё РѕС‚РєР»СЋС‡Р°РµС‚СЃСЏ РїРѕРєР°Р· РїСѓРЅРєС‚Р° РіР»Р°РІРЅРѕРіРѕ РјРµРЅСЋ, С‚Рѕ СѓРґР°Р»СЏРµРј РµРіРѕ.
 			if (!unOptions.ShowMainMenuItem && hTrafficMainMenuItem)
 			{
 				Menu_RemoveItem(hTrafficMainMenuItem);
 				hTrafficMainMenuItem = nullptr;
 			}
-			// Если включается, то создаём.
+			// Р•СЃР»Рё РІРєР»СЋС‡Р°РµС‚СЃСЏ, С‚Рѕ СЃРѕР·РґР°С‘Рј.
 			if (unOptions.ShowMainMenuItem && !hTrafficMainMenuItem)
 				Traffic_AddMainMenuItem();
 

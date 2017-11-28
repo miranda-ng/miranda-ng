@@ -11,4 +11,4 @@
 #define __AUTHOR                 "ValeraVi, Kildor"
 #define __AUTHOREMAIL            "kostia@ngs.ru"
 #define __AUTHORWEB              "https://miranda-ng.org/p/RecentContacts/"
-#define __COPYRIGHT              "© 2005 ValeraVi, 2009 Kildor"
+#define __COPYRIGHT              "Â© 2005 ValeraVi, 2009 Kildor"

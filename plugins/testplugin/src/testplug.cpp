@@ -25,7 +25,7 @@ PLUGININFOEX pluginInfo = {
 	"The long description of your plugin, to go in the plugin options dialog",
 	"J. Random Hacker",
 	"noreply@sourceforge.net",
-	"© 2002 J. Random Hacker",
+	"Â© 2002 J. Random Hacker",
 	"https://miranda-ng.org/",
 	UNICODE_AWARE,		//not transient
    // Generate your own unique id for your plugin.

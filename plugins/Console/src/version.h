@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Bio"
 #define __AUTHOREMAIL             "bio@ktaspb.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/Console/"
-#define __COPYRIGHT               "© 2005-2012 Bio"
+#define __COPYRIGHT               "Â© 2005-2012 Bio"

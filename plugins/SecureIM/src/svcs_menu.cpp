@@ -158,7 +158,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 
 	case MODE_PGP:
 	case MODE_GPG:
-		// íóæíî ìíîãî ïğîâåğîê è îòêëş÷åíèå àêòèâíîãî êîíòåêñòà åñëè íåîáõîäèìî
+		// Ğ½ÑƒĞ¶Ğ½Ğ¾ Ğ¼Ğ½Ğ¾Ğ³Ğ¾ Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€Ğ¾Ğº Ğ¸ Ğ¾Ñ‚ĞºĞ»ÑÑ‡ĞµĞ½Ğ¸Ğµ Ğ°ĞºÑ‚Ğ¸Ğ²Ğ½Ğ¾Ğ³Ğ¾ ĞºĞ¾Ğ½Ñ‚ĞµĞºÑÑ‚Ğ° ĞµÑĞ»Ğ¸ Ğ½ĞµĞ¾Ğ±Ñ…Ğ¾Ğ´Ğ¸Ğ¼Ğ¾
 		if (ptr) {
 			if (ptr->cntx) {
 				cpp_delete_context(ptr->cntx);

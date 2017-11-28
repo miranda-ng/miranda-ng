@@ -11,4 +11,4 @@
 #define __AUTHOR               "Thomas Wendel, gureedo"
 #define __AUTHOREMAIL            "gureedo@gmail.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/LinkList/"
-#define __COPYRIGHT               "© 2010-2011 gureedo"
+#define __COPYRIGHT               "Â© 2010-2011 gureedo"

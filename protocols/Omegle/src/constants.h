@@ -3,7 +3,7 @@
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-17 Robert Pösel
+Copyright Â© 2011-17 Robert PÑ†sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -109,7 +109,7 @@ static const struct {
 		{ "fa", "Persian" },
 		{ "pl", "Polish" },
 		{ "pt", "Portugese" },
-		{ "ro", "Romañian" },
+		{ "ro", "RomaÑian" },
 		{ "ru", "Russian" },
 		{ "el", "Greek" },
 		{ "sk", "Slovak" },

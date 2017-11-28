@@ -1,6 +1,6 @@
 /* ============================================================================
 Hardware HotKeys plugin for Miranda NG.
-Copyright © Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
+Copyright В© Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
 
 This program is free software; you can redistribute it and / or
 modify it under the terms of the GNU General Public License
@@ -19,14 +19,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 #include "stdafx.h"
 
-// тут описаны известные имена кнопок по аппаратным сканкодам (KbdLLHookStruct.scanCode & 0xFF) и ((LOBYTE(KbdLLHookStruct.flags)&1) 
-// и по VK-кодам (KbdLLHookStruct.vkCode)
+// С‚СѓС‚ РѕРїРёСЃР°РЅС‹ РёР·РІРµСЃС‚РЅС‹Рµ РёРјРµРЅР° РєРЅРѕРїРѕРє РїРѕ Р°РїРїР°СЂР°С‚РЅС‹Рј СЃРєР°РЅРєРѕРґР°Рј (KbdLLHookStruct.scanCode & 0xFF) Рё ((LOBYTE(KbdLLHookStruct.flags)&1) 
+// Рё РїРѕ VK-РєРѕРґР°Рј (KbdLLHookStruct.vkCode)
 
-// при обнаружении новых кнопок (на мультимедийных клавиатурах) просьба сообщать об этом автору!
+// РїСЂРё РѕР±РЅР°СЂСѓР¶РµРЅРёРё РЅРѕРІС‹С… РєРЅРѕРїРѕРє (РЅР° РјСѓР»СЊС‚РёРјРµРґРёР№РЅС‹С… РєР»Р°РІРёР°С‚СѓСЂР°С…) РїСЂРѕСЃСЊР±Р° СЃРѕРѕР±С‰Р°С‚СЊ РѕР± СЌС‚РѕРј Р°РІС‚РѕСЂСѓ!
 
 
 
-// имена для KbdLLHookStruct.scanCode
+// РёРјРµРЅР° РґР»СЏ KbdLLHookStruct.scanCode
 const CHAR *k000 = "Undefined!";
 const CHAR *k001 = "Esc";
 const CHAR *k002 = "1";
@@ -188,7 +188,7 @@ const CHAR *k169 = "Browser_Forward";
 const CHAR *k16A = "Browser_Back";
 
 
-// кнопки регистров (Shift,Ctrl,Alt,Win)
+// РєРЅРѕРїРєРё СЂРµРіРёСЃС‚СЂРѕРІ (Shift,Ctrl,Alt,Win)
 const CHAR *t_CL = k01D;
 const CHAR *t_CR = k11D;
 const CHAR *t_CC = k01D + 2;
@@ -206,7 +206,7 @@ const CHAR *t_SS = k02A + 2;
 
 const CHAR *key_tab[0x200] = 
 {
-	k000, k001, k002, k003, k004, k005, k006, k007, k008, k009, k00A, k00B, k00C, k00D, k00E, k00F, // 000 - простые KbdLLHookStruct.scanCode
+	k000, k001, k002, k003, k004, k005, k006, k007, k008, k009, k00A, k00B, k00C, k00D, k00E, k00F, // 000 - РїСЂРѕСЃС‚С‹Рµ KbdLLHookStruct.scanCode
 	k010, k011, k012, k013, k014, k015, k016, k017, k018, k019, k01A, k01B, k01C, k01D, k01E, k01F, // 010
 	k020, k021, k022, k023, k024, k025, k026, k027, k028, k029, k02A, k02B, k02C, k02D, k02E, k02F, // 020
 	k030, k031, k032, k033, k034, k035, k036, k037, k038, k039, k03A, k03B, k03C, k03D, k03E, k03F, // 030

@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Tweety/GouZ, FREAK_THEMIGHTY"
 #define __AUTHOREMAIL            "francois.mean@skynet.be, Sylvain.gougouzian@gmail.com, wishmaster51@googlemail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Nudge/"
-#define __COPYRIGHT              "© the miranda community"
+#define __COPYRIGHT              "Â© the miranda community"

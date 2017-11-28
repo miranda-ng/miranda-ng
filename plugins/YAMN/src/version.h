@@ -11,4 +11,4 @@
 #define __AUTHOR                  "y_b, tweety, majvan"
 #define __AUTHOREMAIL             "francois.mean@skynet.be"
 #define __AUTHORWEB               "https://miranda-ng.org/p/YAMN/"
-#define __COPYRIGHT               "© 2002-2004 majvan, 2005-2007 tweety, y_b, Miranda community"
+#define __COPYRIGHT               "Â© 2002-2004 majvan, 2005-2007 tweety, y_b, Miranda community"

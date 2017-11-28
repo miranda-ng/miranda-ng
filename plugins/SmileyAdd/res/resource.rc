@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Нейтральный resources
+// РќРµР№С‚СЂР°Р»СЊРЅС‹Р№ resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
@@ -132,7 +132,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Нейтральный resources
+#endif    // РќРµР№С‚СЂР°Р»СЊРЅС‹Р№ resources
 /////////////////////////////////////////////////////////////////////////////
 
 

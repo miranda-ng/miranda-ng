@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (с) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (СЃ) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -318,14 +318,14 @@ int cliTrayIconInit(HWND hwnd)
 		TimerID = 0;
 	}
 
-	// Присутствуют ли в базе новые настройки? Если да, то обновление не нужно.
+	// РџСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ Р»Рё РІ Р±Р°Р·Рµ РЅРѕРІС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё? Р•СЃР»Рё РґР°, С‚Рѕ РѕР±РЅРѕРІР»РµРЅРёРµ РЅРµ РЅСѓР¶РЅРѕ.
 	if (-1 == db_get_b(0, "CList", "tiModeS", -1))
 		SettingsMigrate();
 
-	// Нужно узнать количество годных аккаунтов и неодинаковость их статусов.
+	// РќСѓР¶РЅРѕ СѓР·РЅР°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РіРѕРґРЅС‹С… Р°РєРєР°СѓРЅС‚РѕРІ Рё РЅРµРѕРґРёРЅР°РєРѕРІРѕСЃС‚СЊ РёС… СЃС‚Р°С‚СѓСЃРѕРІ.
 	bool bDiffers;
 	pcli->trayIconCount = GetGoodAccNum(&bDiffers, nullptr);
-	// Если таковых аккаунтов не нашлось вообще, то будем показывать основную иконку Миранды.
+	// Р•СЃР»Рё С‚Р°РєРѕРІС‹С… Р°РєРєР°СѓРЅС‚РѕРІ РЅРµ РЅР°С€Р»РѕСЃСЊ РІРѕРѕР±С‰Рµ, С‚Рѕ Р±СѓРґРµРј РїРѕРєР°Р·С‹РІР°С‚СЊ РѕСЃРЅРѕРІРЅСѓСЋ РёРєРѕРЅРєСѓ РњРёСЂР°РЅРґС‹.
 	if (!pcli->trayIconCount) {
 		pcli->trayIconCount = 1;
 		pcli->trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * pcli->trayIconCount);
@@ -339,13 +339,13 @@ int cliTrayIconInit(HWND hwnd)
 	else
 		OldMode = Mode = db_get_b(0, "CList", "tiModeV", TRAY_ICON_MODE_GLOBAL);
 
-	// Некоторые режимы всегда показывают единственную иконку.
+	// РќРµРєРѕС‚РѕСЂС‹Рµ СЂРµР¶РёРјС‹ РІСЃРµРіРґР° РїРѕРєР°Р·С‹РІР°СЋС‚ РµРґРёРЅСЃС‚РІРµРЅРЅСѓСЋ РёРєРѕРЅРєСѓ.
 	if (Mode < 8)
 		pcli->trayIconCount = 1;
 
 	pcli->trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * pcli->trayIconCount);
 
-	// Добавляем иконки.
+	// Р”РѕР±Р°РІР»СЏРµРј РёРєРѕРЅРєРё.
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
 		pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
@@ -369,7 +369,7 @@ int cliTrayIconInit(HWND hwnd)
 		pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
 		pcli->cycleStep = 0;
 		cliTrayCycleTimerProc(nullptr, 0, 0, 0); // force icon update
-		// Не сохраняем ID таймера в pcli, чтобы fnTrayIconUpdateBase не убивала его.
+		// РќРµ СЃРѕС…СЂР°РЅСЏРµРј ID С‚Р°Р№РјРµСЂР° РІ pcli, С‡С‚РѕР±С‹ fnTrayIconUpdateBase РЅРµ СѓР±РёРІР°Р»Р° РµРіРѕ.
 		TimerID = CLUI_SafeSetTimer(nullptr, 0, db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
 		break;
 
@@ -419,7 +419,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 		break;
 
 	case TRAY_ICON_MODE_ACC:
-		// В этом режиме показывается иконка совершенно определённого аккаунта, и не всегда это szChangedProto.
+		// Р’ СЌС‚РѕРј СЂРµР¶РёРјРµ РїРѕРєР°Р·С‹РІР°РµС‚СЃСЏ РёРєРѕРЅРєР° СЃРѕРІРµСЂС€РµРЅРЅРѕ РѕРїСЂРµРґРµР»С‘РЅРЅРѕРіРѕ Р°РєРєР°СѓРЅС‚Р°, Рё РЅРµ РІСЃРµРіРґР° СЌС‚Рѕ szChangedProto.
 		{
 			ptrA szProto(db_get_sa(0, "CList", bDiffers ? "tiAccV" : "tiAccS"));
 			if (szProto == nullptr)
@@ -445,7 +445,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 		break;
 
 	case TRAY_ICON_MODE_ALL:
-		// Какой индекс у аккаунта, который будем апдейтить?
+		// РљР°РєРѕР№ РёРЅРґРµРєСЃ Сѓ Р°РєРєР°СѓРЅС‚Р°, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµРј Р°РїРґРµР№С‚РёС‚СЊ?
 		for (; i < pcli->trayIconCount; i++)
 			if (!mir_strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 				break;

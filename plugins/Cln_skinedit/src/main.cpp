@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (Ò) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (—Å) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-04 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -545,7 +545,7 @@ static void RefreshControls(HWND hwnd)
 		InvalidateRect(GetDlgItem(hwnd, _controls_to_refresh[i]), nullptr, FALSE);
 }
 
-// wenn die listbox ge‰ndert wurde
+// wenn die listbox ge–¥ndert wurde
 static void OnListItemsChange(HWND hwndDlg)
 {
 	SendMessage(hwndDlg, WM_SETREDRAW, FALSE, 0);

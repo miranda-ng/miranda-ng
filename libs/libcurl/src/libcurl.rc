@@ -51,7 +51,7 @@ BEGIN
       VALUE "OriginalFilename", "libcurl.dll\0"
       VALUE "ProductName",      "The cURL library\0"
       VALUE "ProductVersion",   LIBCURL_VERSION "\0"
-      VALUE "LegalCopyright",   "© " LIBCURL_COPYRIGHT "\0"
+      VALUE "LegalCopyright",   "Â© " LIBCURL_COPYRIGHT "\0"
       VALUE "License",          "http://curl.haxx.se/docs/copyright.html\0"
     END
   END

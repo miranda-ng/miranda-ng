@@ -1,4 +1,4 @@
-// Copyright © 2010-2012 SecureIM developers (baloo and others), sss
+// Copyright В© 2010-2012 SecureIM developers (baloo and others), sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 	if(db_mc_isMeta(hContact))
 	{
 		hMeta = hContact;
-		hContact = metaGetMostOnline(hContact); // возьмем тот, через который пойдет сообщение
+		hContact = metaGetMostOnline(hContact); // РІРѕР·СЊРјРµРј С‚РѕС‚, С‡РµСЂРµР· РєРѕС‚РѕСЂС‹Р№ РїРѕР№РґРµС‚ СЃРѕРѕР±С‰РµРЅРёРµ
 	}
 	else if(db_mc_isSub(hContact))
 		hMeta = db_mc_getMeta(hContact);

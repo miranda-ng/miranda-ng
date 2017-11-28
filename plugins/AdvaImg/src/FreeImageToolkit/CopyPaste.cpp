@@ -3,7 +3,7 @@
 //
 // - Floris van den Berg (flvdberg@wxs.nl)
 // - Alexander Dymerets (sashad@te.net.ua)
-// - Hervé Drolon (drolon@infonie.fr)
+// - HervÐ¹ Drolon (drolon@infonie.fr)
 // - Manfred Tausch (manfred.tausch@t-online.de)
 // - Riley McNiff (rmcniff@marexgroup.com)
 // - Carsten Klein (cklein05@users.sourceforge.net)

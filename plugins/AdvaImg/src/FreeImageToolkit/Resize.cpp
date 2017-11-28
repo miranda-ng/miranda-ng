@@ -2,7 +2,7 @@
 // Upsampling / downsampling classes
 //
 // Design and implementation by
-// - Hervé Drolon (drolon@infonie.fr)
+// - HervÐ¹ Drolon (drolon@infonie.fr)
 // - Detlev Vendt (detlev.vendt@brillit.de)
 // - Carsten Klein (cklein05@users.sourceforge.net)
 //

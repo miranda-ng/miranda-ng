@@ -289,7 +289,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		showPopupDC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
 
-		waitForExchange(ptr, 3); // äîñëàòü íåøèôðîâàííî
+		waitForExchange(ptr, 3); // Ð´Ð¾ÑÐ»Ð°Ñ‚ÑŒ Ð½ÐµÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾
 		return 1;
 
 	case SiG_KEYR: // key3 message
@@ -322,7 +322,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				showPopup(sim013, ptr->hContact, g_hPOP[POP_PU_DIS], 0);
 				ShowStatusIconNotify(ptr->hContact);
 
-				waitForExchange(ptr, 3); // äîñëàòü íåøèôðîâàííî
+				waitForExchange(ptr, 3); // Ð´Ð¾ÑÐ»Ð°Ñ‚ÑŒ Ð½ÐµÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾
 				return 1;
 			}
 
@@ -354,7 +354,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				Proto_ChainSend(wParam, ccs);
 
 				showPopupKS(ptr->hContact);
-				waitForExchange(ptr); // çàïóñòèì îæèäàíèå
+				waitForExchange(ptr); // Ð·Ð°Ð¿ÑƒÑÑ‚Ð¸Ð¼ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ðµ
 				return 1;
 			}
 
@@ -386,7 +386,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				showPopup(sim013, ptr->hContact, g_hPOP[POP_PU_DIS], 0);
 				ShowStatusIconNotify(ptr->hContact);
 
-				waitForExchange(ptr, 3); // äîñëàòü íåøèôðîâàííî
+				waitForExchange(ptr, 3); // Ð´Ð¾ÑÐ»Ð°Ñ‚ÑŒ Ð½ÐµÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾
 				return 1;
 			}
 			else {
@@ -415,7 +415,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 				ShowStatusIconNotify(ptr->hContact);
 
 				cpp_reset_context(ptr->cntx);
-				waitForExchange(ptr, 3); // äîñëàòü íåøèôðîâàííî
+				waitForExchange(ptr, 3); // Ð´Ð¾ÑÐ»Ð°Ñ‚ÑŒ Ð½ÐµÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾
 				return 1;
 			}
 			break;
@@ -429,7 +429,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		ShowStatusIconNotify(ptr->hContact);
 		Sent_NetLog("onRecvMsg: Session established");
 
-		waitForExchange(ptr, 2); // äîøëåì ÷åðåç øèôðîâàííîå ñîåäèíåíèå
+		waitForExchange(ptr, 2); // Ð´Ð¾ÑˆÐ»ÐµÐ¼ Ñ‡ÐµÑ€ÐµÐ· ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ
 		return 1;
 	}
 
@@ -471,7 +471,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 	if (ptr->mode == MODE_PGP || ptr->mode == MODE_GPG) {
 		Sent_NetLog("onSendMsg: PGP|GPG mode");
 
-		// åñëè ìîæíî çàøèôðîâàòü - øèôðóåì
+		// ÐµÑÐ»Ð¸ Ð¼Ð¾Ð¶Ð½Ð¾ Ð·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ - ÑˆÐ¸Ñ„Ñ€ÑƒÐµÐ¼
 		if (isContactPGP(ptr->hContact) || isContactGPG(ptr->hContact)) {
 			if (!ptr->cntx) {
 				ptr->cntx = cpp_create_context((isContactGPG(ptr->hContact) ? CPP_MODE_GPG : CPP_MODE_PGP) | ((db_get_b(ptr->hContact, MODULENAME, "gpgANSI", 0)) ? CPP_MODE_GPG_ANSI : 0));
@@ -491,7 +491,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			if (!szNewMsg)
 				return returnError(ccs->hContact, Translate(sim109));
 
-			// îòïðàâëÿåì çàøèôðîâàííîå ñîîáùåíèå
+			// Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼ Ð·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ
 			splitMessageSend(ptr, szNewMsg);
 
 			showPopupSM(ptr->hContact);
@@ -499,7 +499,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			return returnNoError(ccs->hContact);
 		}
 
-		// îòïðàâëÿåì íåçàøèôðîâàííîå
+		// Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÑÐµÐ¼ Ð½ÐµÐ·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ
 		return Proto_ChainSend(wParam, ccs);
 	}
 
@@ -522,14 +522,14 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 			if (!bSOM || (!isClientMiranda(ptr, 1) && !isSecureIM(ptr, 1)) || !loadRSAkey(ptr)) {
 				if (ssig == SiG_NONE)
-					// ïðîñòî øëåì íåçàøèôðîâàííîå â îôôëàéí
+					// Ð¿Ñ€Ð¾ÑÑ‚Ð¾ ÑˆÐ»ÐµÐ¼ Ð½ÐµÐ·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð² Ð¾Ñ„Ñ„Ð»Ð°Ð¹Ð½
 					return Proto_ChainSend(wParam, ccs);
 
-				// íè÷åãî íå øëåì äàëüøå - ýòî ñëóæåáíîå ñîîáùåíèå
+				// Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ ÑˆÐ»ÐµÐ¼ Ð´Ð°Ð»ÑŒÑˆÐµ - ÑÑ‚Ð¾ ÑÐ»ÑƒÐ¶ÐµÐ±Ð½Ð¾Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ
 				return returnNoError(ccs->hContact);
 			}
 
-			// øëåì øèôðîâàííîå â îôôëàéí
+			// ÑˆÐ»ÐµÐ¼ ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð² Ð¾Ñ„Ñ„Ð»Ð°Ð¹Ð½
 			mir_exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
 			showPopupSM(ptr->hContact);
 			return returnNoError(ccs->hContact);
@@ -542,25 +542,25 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 				deleteRSAcntx(ptr);
 			}
 
-			if (ssig == SiG_NONE) // ïðîñòî øëåì íåçàøèôðîâàííîå
+			if (ssig == SiG_NONE) // Ð¿Ñ€Ð¾ÑÑ‚Ð¾ ÑˆÐ»ÐµÐ¼ Ð½ÐµÐ·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ
 				return Proto_ChainSend(wParam, ccs);
 
-			// íè÷åãî íå øëåì äàëüøå - ýòî ñëóæåáíîå ñîîáùåíèå
+			// Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ ÑˆÐ»ÐµÐ¼ Ð´Ð°Ð»ÑŒÑˆÐµ - ÑÑ‚Ð¾ ÑÐ»ÑƒÐ¶ÐµÐ±Ð½Ð¾Ðµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ
 			return returnNoError(ccs->hContact);
 		}
 
-		// ðàçîðâàòü ñîåäèíåíèå
+		// Ñ€Ð°Ð·Ð¾Ñ€Ð²Ð°Ñ‚ÑŒ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ
 		if (ssig == SiG_DEIN) {
 			if (ptr->cntx) {
 				mir_exp->rsa_disconnect(ptr->cntx);
 				deleteRSAcntx(ptr);
 			}
 			ShowStatusIconNotify(ptr->hContact);
-			waitForExchange(ptr, 3); // äîøëåì íåøèôðîâàííî
+			waitForExchange(ptr, 3); // Ð´Ð¾ÑˆÐ»ÐµÐ¼ Ð½ÐµÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾
 			return returnNoError(ccs->hContact);
 		}
 
-		// ñîåäèíåíèå óñòàíîâëåíî
+		// ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¾
 		if (ptr->cntx && mir_exp->rsa_get_state(ptr->cntx) == 7) {
 			mir_exp->rsa_send(ptr->cntx, ptrA(miranda_to_utf8((LPCSTR)ccs->lParam, ccs->wParam)));
 			ShowStatusIconNotify(ptr->hContact);
@@ -568,17 +568,17 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			return returnNoError(ccs->hContact);
 		}
 
-		// ïðîñòî ñîîáùåíèå (áåç òýãîâ, íåò êîíòåêñòà è ðàáîòàþò AIP & NOL)
+		// Ð¿Ñ€Ð¾ÑÑ‚Ð¾ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ (Ð±ÐµÐ· Ñ‚ÑÐ³Ð¾Ð², Ð½ÐµÑ‚ ÐºÐ¾Ð½Ñ‚ÐµÐºÑÑ‚Ð° Ð¸ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽÑ‚ AIP & NOL)
 		if (ssig == SiG_NONE && isSecureIM(ptr->hContact)) {
-			// äîáàâèì åãî â î÷åðåäü
+			// Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ ÐµÐ³Ð¾ Ð² Ð¾Ñ‡ÐµÑ€ÐµÐ´ÑŒ
 			addMsg2Queue(ptr, ccs->wParam, (LPSTR)ccs->lParam);
-			// çàïóñêàåì ïðîöåññ óñòàíîâêè ñîåäèíåíèÿ
+			// Ð·Ð°Ð¿ÑƒÑÐºÐ°ÐµÐ¼ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ¸ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ñ
 			ssig = SiG_INIT;
-			// çàïóñêàåì òðýä îæèäàíèÿ è äîñûëêè
+			// Ð·Ð°Ð¿ÑƒÑÐºÐ°ÐµÐ¼ Ñ‚Ñ€ÑÐ´ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ñ Ð¸ Ð´Ð¾ÑÑ‹Ð»ÐºÐ¸
 			waitForExchange(ptr);
 		}
 
-		// óñòàíîâèòü ñîåäèíåíèå
+		// ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ
 		if (ssig == SiG_INIT) {
 			createRSAcntx(ptr);
 			loadRSAkey(ptr);
@@ -588,7 +588,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			return returnNoError(ccs->hContact);
 		}
 
-		// ïðîñòî øëåì íåçàøèôðîâàííîå (íå çíàþ äàæå êîãäà òàêîå ñëó÷èòñÿ)
+		// Ð¿Ñ€Ð¾ÑÑ‚Ð¾ ÑˆÐ»ÐµÐ¼ Ð½ÐµÐ·Ð°ÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ (Ð½Ðµ Ð·Ð½Ð°ÑŽ Ð´Ð°Ð¶Ðµ ÐºÐ¾Ð³Ð´Ð° Ñ‚Ð°ÐºÐ¾Ðµ ÑÐ»ÑƒÑ‡Ð¸Ñ‚ÑÑ)
 		return Proto_ChainSend(wParam, ccs);
 	}
 
@@ -741,7 +741,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			showPopupKS(ccs->hContact);
 			ShowStatusIconNotify(ccs->hContact);
 
-			waitForExchange(ptr); // çàïóñêàåì îæèäàíèå
+			waitForExchange(ptr); // Ð·Ð°Ð¿ÑƒÑÐºÐ°ÐµÐ¼ Ð¾Ð¶Ð¸Ð´Ð°Ð½Ð¸Ðµ
 		}
 		return returnNoError(ccs->hContact);
 	}

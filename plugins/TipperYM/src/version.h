@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Scott Ellis, yaho"
 #define __AUTHOREMAIL              "yaho@miranda-easy.net"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Tipper/"
-#define __COPYRIGHT                "© 2005-2007 Scott Ellis, 2007-2011 Jan Holub"
+#define __COPYRIGHT                "Â© 2005-2007 Scott Ellis, 2007-2011 Jan Holub"

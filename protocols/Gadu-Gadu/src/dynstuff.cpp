@@ -28,15 +28,15 @@
 /*
  * list_add_sorted()
  *
- * dodaje do listy dany element. przy okazji mo¿e te¿ skopiowaæ zawarto¶æ.
- * je¶li poda siê jako ostatni parametr funkcjê porównuj±c± zawarto¶æ
- * elementów, mo¿e posortowaæ od razu.
+ * dodaje do listy dany element. przy okazji moÑ—e teÑ— skopiowaĞ¶ zawartoÂ¶Ğ¶.
+ * jeÂ¶li poda siĞº jako ostatni parametr funkcjĞº porÑƒwnujÂ±cÂ± zawartoÂ¶Ğ¶
+ * elementÑƒw, moÑ—e posortowaĞ¶ od razu.
  *
- *	- list - wska¼nik do listy,
- *	- data - wska¼nik do elementu,
- *	- alloc_size - rozmiar elementu, je¶li chcemy go skopiowaæ.
+ *	- list - wskaÑ˜nik do listy,
+ *	- data - wskaÑ˜nik do elementu,
+ *	- alloc_size - rozmiar elementu, jeÂ¶li chcemy go skopiowaĞ¶.
  *
- * zwraca wska¼nik zaalokowanego elementu lub NULL w przpadku b³êdu.
+ * zwraca wskaÑ˜nik zaalokowanego elementu lub NULL w przpadku bÑ–Ğºdu.
  */
 void *list_add_sorted(list_t *list, void *data, int alloc_size, int (*comparision)(void *, void *))
 {
@@ -90,7 +90,7 @@ void *list_add_sorted(list_t *list, void *data, int alloc_size, int (*comparisio
 /*
  * list_add()
  *
- * wrapper do list_add_sorted(), który zachowuje poprzedni± sk³adniê.
+ * wrapper do list_add_sorted(), ktÑƒry zachowuje poprzedniÂ± skÑ–adniĞº.
  */
 void *list_add(list_t *list, void *data, int alloc_size)
 {
@@ -102,9 +102,9 @@ void *list_add(list_t *list, void *data, int alloc_size)
  *
  * usuwa z listy wpis z podanym elementem.
  *
- *	- list - wska¼nik do listy,
+ *	- list - wskaÑ˜nik do listy,
  *	- data - element,
- *	- free_data - zwolniæ pamiêæ po elemencie.
+ *	- free_data - zwolniĞ¶ pamiĞºĞ¶ po elemencie.
  */
 int list_remove(list_t *list, void *data, int free_data)
 {
@@ -138,7 +138,7 @@ int list_remove(list_t *list, void *data, int free_data)
 /*
  * list_count()
  *
- * zwraca ilo¶æ elementów w danej li¶cie.
+ * zwraca iloÂ¶Ğ¶ elementÑƒw w danej liÂ¶cie.
  *
  *	- list - lista.
  */
@@ -158,7 +158,7 @@ int list_count(list_t list)
  * niszczy wszystkie elementy listy.
  *
  *	- list - lista,
- *	- free_data - czy zwalniaæ bufor danych?
+ *	- free_data - czy zwalniaĞ¶ bufor danych?
  */
 int list_destroy(list_t list, int free_data)
 {
@@ -181,10 +181,10 @@ int list_destroy(list_t list, int free_data)
 /*
  * string_realloc()
  *
- * upewnia siê, ¿e w stringu bêdzie wystarczaj±co du¿o miejsca.
+ * upewnia siĞº, Ñ—e w stringu bĞºdzie wystarczajÂ±co duÑ—o miejsca.
  *
- *	- s - ci±g znaków,
- *	- count - wymagana ilo¶æ znaków (bez koñcowego '\0').
+ *	- s - ciÂ±g znakÑƒw,
+ *	- count - wymagana iloÂ¶Ğ¶ znakÑƒw (bez koÑcowego '\0').
  */
 static void string_realloc(string_t s, int count)
 {
@@ -204,10 +204,10 @@ static void string_realloc(string_t s, int count)
 /*
  * string_append_c()
  *
- * dodaje do danego ci±gu jeden znak, alokuj±c przy tym odpowiedni± ilo¶æ
- * pamiêci.
+ * dodaje do danego ciÂ±gu jeden znak, alokujÂ±c przy tym odpowiedniÂ± iloÂ¶Ğ¶
+ * pamiĞºci.
  *
- *	- s - ci±g znaków.
+ *	- s - ciÂ±g znakÑƒw.
  *	- c - znaczek do dopisania.
  */
 int string_append_c(string_t s, char c)
@@ -228,11 +228,11 @@ int string_append_c(string_t s, char c)
 /*
  * string_append_n()
  *
- * dodaje tekst do bufora alokuj±c odpowiedni± ilo¶æ pamiêci.
+ * dodaje tekst do bufora alokujÂ±c odpowiedniÂ± iloÂ¶Ğ¶ pamiĞºci.
  *
- *	- s - ci±g znaków,
+ *	- s - ciÂ±g znakÑƒw,
  *	- str - tekst do dopisania,
- *	- count - ile znaków tego tekstu dopisaæ? (-1 znaczy, ¿e ca³y).
+ *	- count - ile znakÑƒw tego tekstu dopisaĞ¶? (-1 znaczy, Ñ—e caÑ–y).
  */
 int string_append_n(string_t s, const char *str, int count)
 {
@@ -264,10 +264,10 @@ int string_append(string_t s, const char *str)
  *
  * wstawia tekst w podane miejsce bufora.
  *
- *	- s - ci±g znaków,
- *	- index - miejsce, gdzie mamy wpisaæ (liczone od 0),
+ *	- s - ciÂ±g znakÑƒw,
+ *	- index - miejsce, gdzie mamy wpisaĞ¶ (liczone od 0),
  *	- str - tekst do dopisania,
- *	- count - ilo¶æ znaków do dopisania (-1 znaczy, ¿e wszystkie).
+ *	- count - iloÂ¶Ğ¶ znakÑƒw do dopisania (-1 znaczy, Ñ—e wszystkie).
  */
 void string_insert_n(string_t s, int index, const char *str, int count)
 {
@@ -296,11 +296,11 @@ void string_insert(string_t s, int index, const char *str)
 /*
  * string_init()
  *
- * inicjuje strukturê string. alokuje pamiêæ i przypisuje pierwsz± warto¶æ.
+ * inicjuje strukturĞº string. alokuje pamiĞºĞ¶ i przypisuje pierwszÂ± wartoÂ¶Ğ¶.
  *
- *	- value - je¶li NULL, ci±g jest pusty, inaczej kopiuje tam.
+ *	- value - jeÂ¶li NULL, ciÂ±g jest pusty, inaczej kopiuje tam.
  *
- * zwraca zaalokowan± strukturê `string'.
+ * zwraca zaalokowanÂ± strukturĞº `string'.
  */
 string_t string_init(const char *value)
 {
@@ -319,9 +319,9 @@ string_t string_init(const char *value)
 /*
  * string_clear()
  *
- * czy¶ci zawarto¶æ struktury `string'.
+ * czyÂ¶ci zawartoÂ¶Ğ¶ struktury `string'.
  *
- *	- s - ci±g znaków.
+ *	- s - ciÂ±g znakÑƒw.
  */
 void string_clear(string_t s)
 {
@@ -340,13 +340,13 @@ void string_clear(string_t s)
 /*
  * string_free()
  *
- * zwalnia pamiêæ po strukturze string i mo¿e te¿ zwolniæ pamiêæ po samym
- * ci±gu znaków.
+ * zwalnia pamiĞºĞ¶ po strukturze string i moÑ—e teÑ— zwolniĞ¶ pamiĞºĞ¶ po samym
+ * ciÂ±gu znakÑƒw.
  *
- *	- s - struktura, któr± wycinamy,
- *	- free_string - zwolniæ pamiêæ po ci±gu znaków?
+ *	- s - struktura, ktÑƒrÂ± wycinamy,
+ *	- free_string - zwolniĞ¶ pamiĞºĞ¶ po ciÂ±gu znakÑƒw?
  *
- * je¶li free_string=0 zwraca wska¼nik do ci±gu, inaczej NULL.
+ * jeÂ¶li free_string=0 zwraca wskaÑ˜nik do ciÂ±gu, inaczej NULL.
  */
 char *string_free(string_t s, int free_string)
 {
@@ -368,14 +368,14 @@ char *string_free(string_t s, int free_string)
 /*
  * _itoa()
  *
- * prosta funkcja, która zwraca tekstow± reprezentacjê liczby. w obrêbie
- * danego wywo³ania jakiej¶ funkcji lub wyra¿enia mo¿e byæ wywo³ania 10
- * razy, poniewa¿ tyle mamy statycznych buforów. lepsze to ni¿ ci±g³e
- * tworzenie tymczasowych buforów na stosie i sprintf()owanie.
+ * prosta funkcja, ktÑƒra zwraca tekstowÂ± reprezentacjĞº liczby. w obrĞºbie
+ * danego wywoÑ–ania jakiejÂ¶ funkcji lub wyraÑ—enia moÑ—e byĞ¶ wywoÑ–ania 10
+ * razy, poniewaÑ— tyle mamy statycznych buforÑƒw. lepsze to niÑ— ciÂ±gÑ–e
+ * tworzenie tymczasowych buforÑƒw na stosie i sprintf()owanie.
  *
  *	- i - liczba do zamiany.
  *
- * zwraca adres do bufora, którego _NIE_NALE¯Y_ zwalniaæ.
+ * zwraca adres do bufora, ktÑƒrego _NIE_NALEĞ‡Y_ zwalniaĞ¶.
  */
 
 const char *ditoa(long int i)
@@ -394,19 +394,19 @@ const char *ditoa(long int i)
 /*
  * array_make()
  *
- * tworzy tablicê tekstów z jednego, rozdzielonego podanymi znakami.
+ * tworzy tablicĞº tekstÑƒw z jednego, rozdzielonego podanymi znakami.
  *
- *	- string - tekst wej¶ciowy,
- *	- sep - lista elementów oddzielaj±cych,
- *	- max - maksymalna ilo¶æ elementów tablicy. je¶li równe 0, nie ma
- *			ograniczeñ rozmiaru tablicy.
- *	- trim - czy wiêksz± ilo¶æ elementów oddzielaj±cych traktowaæ jako
- *			 jeden (na przyk³ad spacje, tabulacja itp.)
- *	- quotes - czy pola mog± byæ zapisywane w cudzys³owiach lub
+ *	- string - tekst wejÂ¶ciowy,
+ *	- sep - lista elementÑƒw oddzielajÂ±cych,
+ *	- max - maksymalna iloÂ¶Ğ¶ elementÑƒw tablicy. jeÂ¶li rÑƒwne 0, nie ma
+ *			ograniczeÑ rozmiaru tablicy.
+ *	- trim - czy wiĞºkszÂ± iloÂ¶Ğ¶ elementÑƒw oddzielajÂ±cych traktowaĞ¶ jako
+ *			 jeden (na przykÑ–ad spacje, tabulacja itp.)
+ *	- quotes - czy pola mogÂ± byĞ¶ zapisywane w cudzysÑ–owiach lub
  *			   apostrofach z escapowanymi znakami.
  *
- * zaalokowan± tablicê z zaalokowanymi ci±gami znaków, któr± nale¿y
- * zwolniæ funkcj± array_free()
+ * zaalokowanÂ± tablicĞº z zaalokowanymi ciÂ±gami znakÑƒw, ktÑƒrÂ± naleÑ—y
+ * zwolniĞ¶ funkcjÂ± array_free()
  */
 char **array_make(const char *string, const char *sep, int max, int trim, int quotes)
 {
@@ -505,7 +505,7 @@ failure:
 /*
  * array_count()
  *
- * zwraca ilo¶æ elementów tablicy.
+ * zwraca iloÂ¶Ğ¶ elementÑƒw tablicy.
  */
 int array_count(char **array)
 {
@@ -539,13 +539,13 @@ void array_add(char ***array, char *string)
 /*
  * array_join()
  *
- * ³±czy elementy tablicy w jeden string oddzielaj±c elementy odpowiednim
+ * Ñ–Â±czy elementy tablicy w jeden string oddzielajÂ±c elementy odpowiednim
  * separatorem.
  *
- *	- array - wska¼nik do tablicy,
+ *	- array - wskaÑ˜nik do tablicy,
  *	- sep - seperator.
  *
- * zwrócony ci±g znaków nale¿y zwolniæ.
+ * zwrÑƒcony ciÂ±g znakÑƒw naleÑ—y zwolniĞ¶.
  */
 char *array_join(char **array, const char *sep)
 {
@@ -569,8 +569,8 @@ char *array_join(char **array, const char *sep)
  * stwierdza, czy tablica zawiera podany element.
  *
  *	- array - tablica,
- *	- string - szukany ci±g znaków,
- *	- casesensitive - czy mamy zwracaæ uwagê na wielko¶æ znaków?
+ *	- string - szukany ciÂ±g znakÑƒw,
+ *	- casesensitive - czy mamy zwracaĞ¶ uwagĞº na wielkoÂ¶Ğ¶ znakÑƒw?
  *
  * 0/1
  */
@@ -594,7 +594,7 @@ int array_contains(char **array, const char *string, int casesensitive)
 /*
  * array_free()
  *
- * zwalnia pamieæ zajmowan± przez tablicê.
+ * zwalnia pamieĞ¶ zajmowanÂ± przez tablicĞº.
  */
 void array_free(char **array)
 {

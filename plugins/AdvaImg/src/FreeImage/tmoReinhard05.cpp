@@ -2,7 +2,7 @@
 // Tone mapping operator (Reinhard, 2005)
 //
 // Design and implementation by
-// - Hervé Drolon (drolon@infonie.fr)
+// - HervÐ¹ Drolon (drolon@infonie.fr)
 // - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
@@ -30,7 +30,7 @@
 // [1] Erik Reinhard and Kate Devlin, 'Dynamic Range Reduction Inspired by Photoreceptor Physiology', 
 //     IEEE Transactions on Visualization and Computer Graphics, 11(1), Jan/Feb 2005. 
 // [2] Erik Reinhard, 'Parameter estimation for photographic tone reproduction',
-//     Journal of Graphics Tools, vol. 7, no. 1, pp. 45–51, 2003.
+//     Journal of Graphics Tools, vol. 7, no. 1, pp. 45â€“51, 2003.
 // ----------------------------------------------------------
 
 /**

@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Ricardo Pescuma Domenecci, Wishmaster"
 #define __AUTHOREMAIL             "pescuma@miranda-im.org"
 #define __AUTHORWEB               "https://miranda-ng.org/p/SpellChecker/"
-#define __COPYRIGHT               "© 2006-2010 Ricardo Pescuma Domenecci"
+#define __COPYRIGHT               "Â© 2006-2010 Ricardo Pescuma Domenecci"

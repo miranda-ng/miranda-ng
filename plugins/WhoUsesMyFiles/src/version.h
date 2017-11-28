@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Nikolay Redko"
 #define __AUTHOREMAIL            "nike000@users.sf.net"
 #define __AUTHORWEB              "https://miranda-ng.org/p/WhoUsesMyFiles/"
-#define __COPYRIGHT              "© 2003 Nike"
+#define __COPYRIGHT              "Â© 2003 Nike"

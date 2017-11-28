@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Kennet Nielsen, modified by Vampik, Houdini"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/HTTPServer/"
-#define __COPYRIGHT              "© 2003-2009 Kennet Nielsen, Vampik, Houdini"
+#define __COPYRIGHT              "Â© 2003-2009 Kennet Nielsen, Vampik, Houdini"

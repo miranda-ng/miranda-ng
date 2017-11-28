@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (с) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (СЃ) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-08 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -27,7 +27,7 @@ Created by Pescuma, modified by Artem Shpynov
 #include "stdafx.h"
 #include "modern_clcpaint.h"
 
-ROWCELL *gl_RowTabAccess[TC_ELEMENTSCOUNT + 1] = {};	// Массив, через который осуществляется доступ к элементам контакта.
+ROWCELL *gl_RowTabAccess[TC_ELEMENTSCOUNT + 1] = {};	// РњР°СЃСЃРёРІ, С‡РµСЂРµР· РєРѕС‚РѕСЂС‹Р№ РѕСЃСѓС‰РµСЃС‚РІР»СЏРµС‚СЃСЏ РґРѕСЃС‚СѓРї Рє СЌР»РµРјРµРЅС‚Р°Рј РєРѕРЅС‚Р°РєС‚Р°.
 ROWCELL *gl_RowRoot;
 
 void FreeRowCell()

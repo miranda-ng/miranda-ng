@@ -1,4 +1,4 @@
-﻿#ifndef _STEAM_REQUEST_CAPTCHA_H_
+#ifndef _STEAM_REQUEST_CAPTCHA_H_
 #define _STEAM_REQUEST_CAPTCHA_H_
 
 class GetCaptchaRequest : public HttpRequest

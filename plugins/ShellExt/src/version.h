@@ -11,4 +11,4 @@
 #define __AUTHOR             "Sam Kothari, Miranda NG Team"
 #define __AUTHOREMAIL        "egodust@users.sourceforge.net"
 #define __AUTHORWEB          "https://miranda-ng.org/p/ShellExt/"
-#define __COPYRIGHT          "© 2009 Sam Kothari (egoDust)"
+#define __COPYRIGHT          "Â© 2009 Sam Kothari (egoDust)"

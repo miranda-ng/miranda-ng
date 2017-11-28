@@ -2,7 +2,7 @@
 // Poisson solver based on a full multigrid algorithm
 //
 // Design and implementation by
-// - HervÈ Drolon (drolon@infonie.fr)
+// - Herv–π Drolon (drolon@infonie.fr)
 // Reference:
 // PRESS, W. H., TEUKOLSKY, S. A., VETTERLING, W. T., AND FLANNERY, B. P.
 // 1992. Numerical Recipes in C: The Art of Scientific Computing, 2nd ed. Cambridge University Press.
@@ -292,7 +292,7 @@ static void fmg_addint(FIBITMAP *UF, FIBITMAP *UC, FIBITMAP *RES, int nf) {
 
 /**
 Full Multigrid Algorithm for solution of linear elliptic equation, here the model problem (19.0.6).
-On input u[0..n-1][0..n-1] contains the right-hand side Ò, while on output it returns the solution.
+On input u[0..n-1][0..n-1] contains the right-hand side —Å, while on output it returns the solution.
 The dimension n must be of the form 2^j + 1 for some integer j. (j is actually the number of
 grid levels used in the solution, called ng below.) ncycle is the number of V-cycles to be
 used at each level.

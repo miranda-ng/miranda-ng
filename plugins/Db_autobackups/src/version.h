@@ -11,4 +11,4 @@
 #define __AUTHOR            "chaos.persei, sje, Kildor, Billy_Bons"
 #define __AUTHOREMAIL         "chaos.persei@gmail.com"
 #define __AUTHORWEB            "https://miranda-ng.org/p/Db_autobackups/"
-#define __COPYRIGHT            "© 2005-2017 chaos.persei, sje, Kildor, Billy_Bons, Vasilich, Miranda NG team"
+#define __COPYRIGHT            "Â© 2005-2017 chaos.persei, sje, Kildor, Billy_Bons, Vasilich, Miranda NG team"

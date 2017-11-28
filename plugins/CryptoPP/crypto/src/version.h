@@ -7,5 +7,5 @@
 
 #define __PLUGIN_NAME            "cryptopp"
 #define __FILENAME               "Cryptlib.lib"
-#define __DESCRIPTION             "Crypto++® Library DLL."
-#define __COPYRIGHT               "© 1995-2007 by Wei Dai"
+#define __DESCRIPTION             "Crypto++Â® Library DLL."
+#define __COPYRIGHT               "Â© 1995-2007 by Wei Dai"

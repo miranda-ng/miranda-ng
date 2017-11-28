@@ -1,34 +1,34 @@
 #if !defined(AFX_LIST_MT__H__INCLUDED_)
 #define AFX_LIST_MT__H__INCLUDED_
 
-// ñòðóêòóðà äëÿ ðàáîòû ñî ñïèñêîì, ýëåìåíò ñïèñêà
+// ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð° Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ ÑÐ¾ ÑÐ¿Ð¸ÑÐºÐ¾Ð¼, ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÑÐ¿Ð¸ÑÐºÐ°
 typedef struct _LIST_MT_ITEM
 {
 #ifdef __cplusplus
-	_LIST_MT_ITEM	*plmtiPrev;	// *ïðåäûäóùèé ýëåìåíò â ñïèñêå
-	_LIST_MT_ITEM	*plmtiNext;	// *ñëåäóþùèé ýëåìåíò â ñïèñêå
+	_LIST_MT_ITEM	*plmtiPrev;	// *Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð² ÑÐ¿Ð¸ÑÐºÐµ
+	_LIST_MT_ITEM	*plmtiNext;	// *ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð² ÑÐ¿Ð¸ÑÐºÐµ
 #else
-	LPVOID			*plmtiPrev;	// *ïðåäûäóùèé ýëåìåíò â ñïèñêå
-	LPVOID			*plmtiNext;	// *ñëåäóþùèé ýëåìåíò â ñïèñêå
+	LPVOID			*plmtiPrev;	// *Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð² ÑÐ¿Ð¸ÑÐºÐµ
+	LPVOID			*plmtiNext;	// *ÑÐ»ÐµÐ´ÑƒÑŽÑ‰Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð² ÑÐ¿Ð¸ÑÐºÐµ
 #endif
-	LPVOID			lpData;		// óêàçàòåëü íà äàííûå, ñâÿçàííûå ñ ýëåìåíòîì ñïèñêà
-	LPVOID			lpListMT;	// óêàçàòåëü íà çàãîëîâîê ñïèñêà, ñì ñòðóêòóðó íèæå
+	LPVOID			lpData;		// ÑƒÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÑŒ Ð½Ð° Ð´Ð°Ð½Ð½Ñ‹Ðµ, ÑÐ²ÑÐ·Ð°Ð½Ð½Ñ‹Ðµ Ñ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð¼ ÑÐ¿Ð¸ÑÐºÐ°
+	LPVOID			lpListMT;	// ÑƒÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÑŒ Ð½Ð° Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº ÑÐ¿Ð¸ÑÐºÐ°, ÑÐ¼ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ñƒ Ð½Ð¸Ð¶Ðµ
 }LIST_MT_ITEM, *PLIST_MT_ITEM, *LPLIST_MT_ITEM;
 typedef CONST PLIST_MT_ITEM	PCLIST_MT_ITEM, LPCLIST_MT_ITEM;
 
 
-// ñòðóêòóðà äëÿ ðàáîòû ñî ñïèñêîì, çàãîëîâîê ñïèñêà
+// ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð° Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ ÑÐ¾ ÑÐ¿Ð¸ÑÐºÐ¾Ð¼, Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº ÑÐ¿Ð¸ÑÐºÐ°
 typedef struct _LIST_MT
 {
-	size_t				nCount;			// *êîëëè÷åñòâî ýëåìåíòîâ â ñïèñêå
-	PLIST_MT_ITEM		plmtiFirst;		// *óêàçûâàåò íà ïåðâûé ýëåìåíò â ñïèñêå
-	PLIST_MT_ITEM		plmtiLast;		// *óêàçûâàåò íà ïîñëåäíèé ýëåìåíò â ñïèñêå
+	size_t				nCount;			// *ÐºÐ¾Ð»Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð² ÑÐ¿Ð¸ÑÐºÐµ
+	PLIST_MT_ITEM		plmtiFirst;		// *ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ð½Ð° Ð¿ÐµÑ€Ð²Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð² ÑÐ¿Ð¸ÑÐºÐµ
+	PLIST_MT_ITEM		plmtiLast;		// *ÑƒÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ð½Ð° Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð² ÑÐ¿Ð¸ÑÐºÐµ
 	CRITICAL_SECTION	cs;				// *section for exclysive access to List
 }LIST_MT, *PLIST_MT, *LPLIST_MT;
 typedef CONST PLIST_MT	PCLIST_MT, LPCLIST_MT;
 
 
-// ñòðóêòóðà äëÿ ðàáîòû ñ èòåðàòîðîì
+// ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð° Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ð¸Ñ‚ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ð¾Ð¼
 typedef struct _LIST_MT_ITERATOR
 {
 	PLIST_MT_ITEM plmtListMTItem;
@@ -117,23 +117,23 @@ __inline DWORD ListMTItemDelete(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMT
 	DWORD dwRetErrorCode;
 
 	if (pclmtListMTItem->lpListMT==pclmtListMT && pclmtListMT)
-	{// Äàííûé ýëåìåíò ïðèíàäëåæèò ê ýòîìó ñïèñêó, ìîæíî óäàëèòü.
+	{// Ð”Ð°Ð½Ð½Ñ‹Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð¿Ñ€Ð¸Ð½Ð°Ð´Ð»ÐµÐ¶Ð¸Ñ‚ Ðº ÑÑ‚Ð¾Ð¼Ñƒ ÑÐ¿Ð¸ÑÐºÑƒ, Ð¼Ð¾Ð¶Ð½Ð¾ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ.
 		PLIST_MT_ITEM plmtiPrevNode=pclmtListMTItem->plmtiPrev,plmtiNextNode=pclmtListMTItem->plmtiNext;
 		
 		if (plmtiPrevNode || plmtiNextNode) 
 		{
 			if (plmtiPrevNode && plmtiNextNode==NULL) 
 			{// This is the start node in the list to delete
-			// îòêëþ÷èëñÿ ïîñëåäíèé ïîäêëþ÷èâøèéñÿ
+			// Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ð¸Ð»ÑÑ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ð²ÑˆÐ¸Ð¹ÑÑ
 				plmtiPrevNode->plmtiNext=NULL;
 				pclmtListMT->plmtiLast=plmtiPrevNode;
 			}else{
 				if (plmtiPrevNode==NULL && plmtiNextNode) 
 				{// This is the end node in the list to delete
-				// îòêëþ÷èëñÿ ïåðâûé ïîäêëþ÷èâøèéñÿ
+				// Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ð¸Ð»ÑÑ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡Ð¸Ð²ÑˆÐ¸Ð¹ÑÑ
 					plmtiNextNode->plmtiPrev=NULL;
 					pclmtListMT->plmtiFirst=plmtiNextNode;
-				}else{// îêëþ÷èëñÿ êëèåíò íå ïåðâûé è íå ïîñëåäíèé
+				}else{// Ð¾ÐºÐ»ÑŽÑ‡Ð¸Ð»ÑÑ ÐºÐ»Ð¸ÐµÐ½Ñ‚ Ð½Ðµ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð¸ Ð½Ðµ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹
 					//if (plmtiPrev && plmtiNext) 
 					{// Neither start node nor end node in the list
 						plmtiPrevNode->plmtiNext=plmtiNextNode;
@@ -149,7 +149,7 @@ __inline DWORD ListMTItemDelete(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMT
 		pclmtListMTItem->lpListMT=NULL;
 		InterlockedDecrementPointer(&pclmtListMT->nCount);// pclmtListMT->nCount--;	
 		dwRetErrorCode=NO_ERROR;
-	}else{// ïîïûòàëèñü óäàëèòü ýëåìåíò íå îòíîñÿùèéñÿ ê äàííîìó ñïèñêó
+	}else{// Ð¿Ð¾Ð¿Ñ‹Ñ‚Ð°Ð»Ð¸ÑÑŒ ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð½Ðµ Ð¾Ñ‚Ð½Ð¾ÑÑÑ‰Ð¸Ð¹ÑÑ Ðº Ð´Ð°Ð½Ð½Ð¾Ð¼Ñƒ ÑÐ¿Ð¸ÑÐºÑƒ
 		dwRetErrorCode=ERROR_INVALID_HANDLE;
 	}
 return(dwRetErrorCode);
@@ -169,7 +169,7 @@ __inline void ListMTItemDataSet(PCLIST_MT_ITEM pclmtListMTItem, LPVOID lpData)
 
 
 __inline DWORD ListMTItemGetFirst(PCLIST_MT pclmtListMT,PLIST_MT_ITEM *pplmtListMTItem,LPVOID *plpData)
-{// åñëè íóæíî ãàðàíòèðîâàòü ýêñêëþçèâíûé äîñòóï, òî åñòü ListMTLock è ListMTUnLock
+{// ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ListMTLock Ð¸ ListMTUnLock
 	DWORD dwRetErrorCode;
 
 	if (pclmtListMT->plmtiFirst)
@@ -185,7 +185,7 @@ return(dwRetErrorCode);
 
 
 __inline DWORD ListMTItemGetLast(PCLIST_MT pclmtListMT,PLIST_MT_ITEM *pplmtListMTItem,LPVOID *plpData)
-{// åñëè íóæíî ãàðàíòèðîâàòü ýêñêëþçèâíûé äîñòóï, òî åñòü ListMTLock è ListMTUnLock
+{// ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ListMTLock Ð¸ ListMTUnLock
 	DWORD dwRetErrorCode;
 
 	if (pclmtListMT->plmtiLast)
@@ -202,32 +202,32 @@ return(dwRetErrorCode);
 
 
 __inline void ListMTItemSwap(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMTItem1,PCLIST_MT_ITEM pclmtListMTItem2)
-{// ïîìåíÿòü äâà ýëåìåíòà ñïèñêà ìåñòàìè, äàæå åñëè îíè èç ðàçíûõ ñïèñêîâ
+{// Ð¿Ð¾Ð¼ÐµÐ½ÑÑ‚ÑŒ Ð´Ð²Ð° ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð° ÑÐ¿Ð¸ÑÐºÐ° Ð¼ÐµÑÑ‚Ð°Ð¼Ð¸, Ð´Ð°Ð¶Ðµ ÐµÑÐ»Ð¸ Ð¾Ð½Ð¸ Ð¸Ð· Ñ€Ð°Ð·Ð½Ñ‹Ñ… ÑÐ¿Ð¸ÑÐºÐ¾Ð²
 
 	if (pclmtListMTItem1!=pclmtListMTItem2)
-	{// ýòî ðàçíûå ýëåìåíòû ñïèñêà
+	{// ÑÑ‚Ð¾ Ñ€Ð°Ð·Ð½Ñ‹Ðµ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñ‹ ÑÐ¿Ð¸ÑÐºÐ°
 		PLIST_MT_ITEM lpTemp;
 
 		lpTemp=pclmtListMTItem1->plmtiPrev;
 		if ((pclmtListMTItem1->plmtiPrev=pclmtListMTItem2->plmtiPrev)==NULL)
-		{// pclmtListMTItem2 áûë ïåðâûì, îáíîâëÿåì çàãîëâîê ëèñòà, òåïåðü ïåðâûé pclmtListMTItem1
+		{// pclmtListMTItem2 Ð±Ñ‹Ð» Ð¿ÐµÑ€Ð²Ñ‹Ð¼, Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ Ð·Ð°Ð³Ð¾Ð»Ð²Ð¾Ðº Ð»Ð¸ÑÑ‚Ð°, Ñ‚ÐµÐ¿ÐµÑ€ÑŒ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ pclmtListMTItem1
 			pclmtListMT->plmtiFirst=pclmtListMTItem1;
 		}
 
 		if ((pclmtListMTItem2->plmtiPrev=lpTemp)==NULL)
-		{// pclmtListMTItem1 áûë ïåðâûì, îáíîâëÿåì çàãîëâîê ëèñòà, òåïåðü ïåðâûé pclmtListMTItem2
+		{// pclmtListMTItem1 Ð±Ñ‹Ð» Ð¿ÐµÑ€Ð²Ñ‹Ð¼, Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ Ð·Ð°Ð³Ð¾Ð»Ð²Ð¾Ðº Ð»Ð¸ÑÑ‚Ð°, Ñ‚ÐµÐ¿ÐµÑ€ÑŒ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ pclmtListMTItem2
 			pclmtListMT->plmtiFirst=pclmtListMTItem2;
 		}
 
 
 		lpTemp=pclmtListMTItem1->plmtiNext;
 		if ((pclmtListMTItem1->plmtiNext=pclmtListMTItem2->plmtiNext)==NULL)
-		{// pclmtListMTItem2 áûë ïîñëåäíèì, îáíîâëÿåì çàãîëâîê ëèñòà, òåïåðü ïîñëåäíèé pclmtListMTItem1
+		{// pclmtListMTItem2 Ð±Ñ‹Ð» Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¼, Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ Ð·Ð°Ð³Ð¾Ð»Ð²Ð¾Ðº Ð»Ð¸ÑÑ‚Ð°, Ñ‚ÐµÐ¿ÐµÑ€ÑŒ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ pclmtListMTItem1
 			pclmtListMT->plmtiLast=pclmtListMTItem1;
 		}
 
 		if ((pclmtListMTItem2->plmtiNext=lpTemp)==NULL)
-		{// pclmtListMTItem1 áûë ïîñëåäíèì, îáíîâëÿåì çàãîëâîê ëèñòà, òåïåðü ïîñëåäíèé pclmtListMTItem2
+		{// pclmtListMTItem1 Ð±Ñ‹Ð» Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¼, Ð¾Ð±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ Ð·Ð°Ð³Ð¾Ð»Ð²Ð¾Ðº Ð»Ð¸ÑÑ‚Ð°, Ñ‚ÐµÐ¿ÐµÑ€ÑŒ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ pclmtListMTItem2
 			pclmtListMT->plmtiLast=pclmtListMTItem2;
 		}
 	}
@@ -235,19 +235,19 @@ __inline void ListMTItemSwap(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMTIte
 
 
 __inline BOOL ListMTIteratorMoveFirst(PCLIST_MT pclmtListMT,PCLIST_MT_ITERATOR pclmtiIterator)
-{// åñëè íóæíî ãàðàíòèðîâàòü ýêñêëþçèâíûé äîñòóï, òî åñòü ListMTLock è ListMTUnLock
+{// ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ListMTLock Ð¸ ListMTUnLock
 	return((pclmtiIterator->plmtListMTItem=pclmtListMT->plmtiFirst)? TRUE:FALSE);
 }
 
 
 __inline BOOL ListMTIteratorMoveLast(PCLIST_MT pclmtListMT,PCLIST_MT_ITERATOR pclmtiIterator)
-{// åñëè íóæíî ãàðàíòèðîâàòü ýêñêëþçèâíûé äîñòóï, òî åñòü ListMTLock è ListMTUnLock
+{// ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ListMTLock Ð¸ ListMTUnLock
 	return((pclmtiIterator->plmtListMTItem=pclmtListMT->plmtiLast)? TRUE:FALSE);
 }
 
 
 __inline BOOL ListMTIteratorMovePrev(PCLIST_MT_ITERATOR pclmtiIterator)
-{// åñëè íóæíî ãàðàíòèðîâàòü ýêñêëþçèâíûé äîñòóï, òî åñòü ListMTLock è ListMTUnLock
+{// ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ListMTLock Ð¸ ListMTUnLock
 	BOOL bRet=FALSE;
 
 	if (pclmtiIterator->plmtListMTItem)
@@ -259,7 +259,7 @@ return(bRet);
 
 
 __inline BOOL ListMTIteratorMoveNext(PCLIST_MT_ITERATOR pclmtiIterator)
-{// åñëè íóæíî ãàðàíòèðîâàòü ýêñêëþçèâíûé äîñòóï, òî åñòü ListMTLock è ListMTUnLock
+{// ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ListMTLock Ð¸ ListMTUnLock
 	BOOL bRet=FALSE;
 
 	if (pclmtiIterator->plmtListMTItem) 
@@ -271,7 +271,7 @@ return(bRet);
 
 
 __inline DWORD ListMTIteratorGet(PCLIST_MT_ITERATOR pclmtiIterator,PLIST_MT_ITEM *pplmtListMTItem,LPVOID *plpData)
-{// åñëè íóæíî ãàðàíòèðîâàòü ýêñêëþçèâíûé äîñòóï, òî åñòü ListMTLock è ListMTUnLock
+{// ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿, Ñ‚Ð¾ ÐµÑÑ‚ÑŒ ListMTLock Ð¸ ListMTUnLock
 	DWORD dwRetErrorCode;
 
 	if (pclmtiIterator->plmtListMTItem)

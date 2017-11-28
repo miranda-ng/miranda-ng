@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\MNG_orig\plugins\HistorySweeperLight\res\historysweeperlight.rc
+// В¬РєР»СЋС‡Р°РµРјС‹Р№ С„Р°Р№Р», СЃРѕР·РґР°РЅРЅС‹Р№ РІ Microsoft Visual C++.
+// В»СЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ D:\MNG_orig\plugins\HistorySweeperLight\res\historysweeperlight.rc
 //
 #define IDD_OPT_HISTORYSWEEPER          101
 #define IDI_ACTG                        102

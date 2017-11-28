@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Jonathan Gordon"
 #define __AUTHOREMAIL            "ICQ 98791178, MSN jonnog@hotmail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/NimContact/"
-#define __COPYRIGHT              "© 2003-2004 Jonathan Gordon, jdgordy@gmail.com"
+#define __COPYRIGHT              "Â© 2003-2004 Jonathan Gordon, jdgordy@gmail.com"

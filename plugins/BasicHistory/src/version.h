@@ -11,4 +11,4 @@
 #define __AUTHOR                "Krzysztof Kral"
 #define __AUTHOREMAIL           "krzysztof.kral@gmail.com"
 #define __AUTHORWEB             "https://miranda-ng.org/p/BasicHistory/"
-#define __COPYRIGHT             "© 2011-2012 Krzysztof Kral"
+#define __COPYRIGHT             "Â© 2011-2012 Krzysztof Kral"

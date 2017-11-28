@@ -112,11 +112,11 @@ LPTSTR GenerateLayoutString(HKL hklLayout)
 		bState[shVirtualKey & 0x00FF] = 0x80;
 
 		int iRes = ToUnicodeEx(shVirtualKey, iScanCode, bState, ptszTemp, 3, 0, hklLayout);
-		// Защита от дэд-кеев
+		// Р—Р°С‰РёС‚Р° РѕС‚ РґСЌРґ-РєРµРµРІ
 		if (iRes < 0)
 			ToUnicodeEx(shVirtualKey, iScanCode, bState, ptszTemp, 3, 0, hklLayout);
 
-		// Если нам вернули нулевой символ, или не вернули ничего, то присвоим "звоночек"
+		// Р•СЃР»Рё РЅР°Рј РІРµСЂРЅСѓР»Рё РЅСѓР»РµРІРѕР№ СЃРёРјРІРѕР», РёР»Рё РЅРµ РІРµСЂРЅСѓР»Рё РЅРёС‡РµРіРѕ, С‚Рѕ РїСЂРёСЃРІРѕРёРј "Р·РІРѕРЅРѕС‡РµРє"
 		if (ptszTemp[0] == 0)
 			ptszLayStr[i] = 3;
 		else
@@ -232,13 +232,13 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	if (hTextWnd == nullptr)
 		return 0;
 
-	//--------------Определяем тип окна-----------------
+	//--------------РћРїСЂРµРґРµР»СЏРµРј С‚РёРї РѕРєРЅР°-----------------
 	IEVIEWEVENT ieEvent = { 0 };
 	ieEvent.cbSize = sizeof(IEVIEWEVENT);
 	ieEvent.iType = IEE_GET_SELECTION;
 
 	if (ServiceExists(MS_HPP_EG_EVENT)) {
-		// То же самое для History++
+		// РўРѕ Р¶Рµ СЃР°РјРѕРµ РґР»СЏ History++
 		ieEvent.hwnd = hTextWnd;
 		ptszInText = (wchar_t*)CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&ieEvent);
 
@@ -247,7 +247,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	}
 
 	if ((WindowType == WTYPE_Unknown) && (ServiceExists(MS_IEVIEW_EVENT))) {
-		// Извращенное определение хэндла IEView
+		// РР·РІСЂР°С‰РµРЅРЅРѕРµ РѕРїСЂРµРґРµР»РµРЅРёРµ С…СЌРЅРґР»Р° IEView
 		ieEvent.hwnd = GetParent(GetParent(hTextWnd));
 
 		ptszInText = (wchar_t*)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&ieEvent);
@@ -272,15 +272,15 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			WindowType = WTYPE_Edit;
 	}
 
-	// Получим текст из Рича или обычного Едита
+	// РџРѕР»СѓС‡РёРј С‚РµРєСЃС‚ РёР· Р РёС‡Р° РёР»Рё РѕР±С‹С‡РЅРѕРіРѕ Р•РґРёС‚Р°
 	if (WindowType == WTYPE_RichEdit || WindowType == WTYPE_Edit) {
 		dwStartWord = dwEndWord = -1;
 		SendMessage(hTextWnd, WM_SETREDRAW, FALSE, 0);
 
-		// Бэкап выделения
+		// Р‘СЌРєР°Рї РІС‹РґРµР»РµРЅРёСЏ
 		crTemp = crSelection;
 
-		// Если имеется выделенный текст, то получим его
+		// Р•СЃР»Рё РёРјРµРµС‚СЃСЏ РІС‹РґРµР»РµРЅРЅС‹Р№ С‚РµРєСЃС‚, С‚Рѕ РїРѕР»СѓС‡РёРј РµРіРѕ
 		if (crSelection.cpMin != crSelection.cpMax) {
 			if (WindowType == WTYPE_RichEdit) {
 				EditStreamData esdData;
@@ -312,9 +312,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				}
 			}
 		}
-		// Если выделения нет, то получим нужный текст
+		// Р•СЃР»Рё РІС‹РґРµР»РµРЅРёСЏ РЅРµС‚, С‚Рѕ РїРѕР»СѓС‡РёРј РЅСѓР¶РЅС‹Р№ С‚РµРєСЃС‚
 		else {
-			// Получаем весь текст в поле
+			// РџРѕР»СѓС‡Р°РµРј РІРµСЃСЊ С‚РµРєСЃС‚ РІ РїРѕР»Рµ
 			if (WindowType == WTYPE_RichEdit) {
 				crTemp.cpMin = 0;
 				crTemp.cpMax = -1;
@@ -348,7 +348,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					return 1;
 				}
 			}
-			// Получаем текущее слово
+			// РџРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰РµРµ СЃР»РѕРІРѕ
 			if (CurrentWord) {
 				for (dwStartWord = crSelection.cpMin; (dwStartWord > 0) && (wcschr(ptszSeparators, ptszInText[dwStartWord - 1]) == nullptr); dwStartWord--);
 				for (dwEndWord = crSelection.cpMin; (dwEndWord < (mir_wstrlen(ptszInText))) && (wcschr(ptszSeparators, ptszInText[dwEndWord]) == nullptr); dwEndWord++);
@@ -390,7 +390,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		}
 	}
 
-	//---------------Выдаем результаты--------------------
+	//---------------Р’С‹РґР°РµРј СЂРµР·СѓР»СЊС‚Р°С‚С‹--------------------
 	WindowIsReadOnly = FALSE;
 	if (WindowType == WTYPE_IEView || WindowType == WTYPE_HistoryPP)
 		WindowIsReadOnly = TRUE;
@@ -400,7 +400,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	if (GetWindowLongPtr(hTextWnd, GWL_STYLE) & ES_READONLY)
 		WindowIsReadOnly = TRUE;
 
-	// Лог Иевью и ХисториПП в режиме эмуляции Иевью  и поля только для чтения.
+	// Р›РѕРі РРµРІСЊСЋ Рё РҐРёСЃС‚РѕСЂРёРџРџ РІ СЂРµР¶РёРјРµ СЌРјСѓР»СЏС†РёРё РРµРІСЊСЋ  Рё РїРѕР»СЏ С‚РѕР»СЊРєРѕ РґР»СЏ С‡С‚РµРЅРёСЏ.
 	if (WindowType != WTYPE_Unknown && !IsBadStringPtr(ptszInText, MaxTextSize))
 	if (WindowIsReadOnly) {
 		ptrW ptszMBox((LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t)));
@@ -443,7 +443,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		if (moOptions.CopyToClipboard)
 			CopyTextToClipboard(ptszMBox);
 
-		//-------------------------------Покажем попапы------------------------------------------ 			
+		//-------------------------------РџРѕРєР°Р¶РµРј РїРѕРїР°РїС‹------------------------------------------ 			
 		if (moOptions.ShowPopup) {
 			LPTSTR ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(wchar_t));
 			mir_wstrcpy(ptszPopupText, ptszMBox);
@@ -492,7 +492,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			}
 		}
 	}
-	//------------------Редактируемые поля ----------------------------
+	//------------------Р РµРґР°РєС‚РёСЂСѓРµРјС‹Рµ РїРѕР»СЏ ----------------------------
 	else {
 		ptrW ptszOutText;
 		if (TextOperation == TOT_Layout) {
@@ -518,16 +518,16 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			SendMessage(hTextWnd, EM_SETSEL, crSelection.cpMin, crSelection.cpMax);
 		}
 
-		// Переключим раскладку или изменим состояние Caps Lock
+		// РџРµСЂРµРєР»СЋС‡РёРј СЂР°СЃРєР»Р°РґРєСѓ РёР»Рё РёР·РјРµРЅРёРј СЃРѕСЃС‚РѕСЏРЅРёРµ Caps Lock
 		if (TextOperation == TOT_Layout && hklToLay != nullptr && moOptions.ChangeSystemLayout)
 			ActivateKeyboardLayout(hklToLay, KLF_SETFORPROCESS);
 		else if (TextOperation == TOT_Case) {
-			// Если нужно инвертнуть
+			// Р•СЃР»Рё РЅСѓР¶РЅРѕ РёРЅРІРµСЂС‚РЅСѓС‚СЊ
 			if (moOptions.bCaseOperations == 0) {
 				keybd_event(VK_CAPITAL, 0x45, 0, 0);
 				keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_KEYUP, 0);
 			}
-			// Если нужно отключить
+			// Р•СЃР»Рё РЅСѓР¶РЅРѕ РѕС‚РєР»СЋС‡РёС‚СЊ
 			else if (moOptions.bCaseOperations == 1) {
 				if (GetKeyState(VK_CAPITAL) & 0x0001) {
 					keybd_event(VK_CAPITAL, 0x45, 0, 0);

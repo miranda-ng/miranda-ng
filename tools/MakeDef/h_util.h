@@ -36,7 +36,7 @@ bool  fileExists(char* fileName);
 char* replaceExt(const char* fileName, char* ext, char* buffer);
 int   shareFile(const char* fileName, bool ifRead, bool ifWrite);
 
-//----------------- Функции для работы с расширенными строками ----------------
+//----------------- вЂСѓРЅРєС†РёРё РґР»В¤ СЂР°Р±РѕС‚С‹ СЃ СЂР°СЃС€РёСЂРµРЅРЅС‹РјРё СЃС‚СЂРѕРєР°РјРё ----------------
 
 int     cstrlen(const char *);
 size_t  getStrNumber(char* sText);

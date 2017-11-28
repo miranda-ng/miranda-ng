@@ -1,6 +1,6 @@
 /*
-Copyright © 2012-17 Miranda NG team
-Copyright © 2009 Jim Porter
+Copyright Â© 2012-17 Miranda NG team
+Copyright Â© 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

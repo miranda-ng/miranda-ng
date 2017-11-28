@@ -384,7 +384,7 @@ DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplaceItemsC
 				break;
 			}
 		}
-		else {// сюда по идее никогда не попадём, на всякий случай.
+		else {// СЃСЋРґР° РїРѕ РёРґРµРµ РЅРёРєРѕРіРґР° РЅРµ РїРѕРїР°РґС‘Рј, РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№.
 			DebugBreak();
 			break;
 		}

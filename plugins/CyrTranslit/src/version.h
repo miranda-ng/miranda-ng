@@ -30,4 +30,4 @@
 #define __AUTHOR                 "ValeraVi, Ivan Krechetov"
 #define __AUTHOREMAIL            "valeravi@vi-soft.com.ua"
 #define __AUTHORWEB              "https://miranda-ng.org/p/CyrTranslit/"
-#define __COPYRIGHT              "© 2005-2009 ValeraVi, Ivan Krechetov"
+#define __COPYRIGHT              "Â© 2005-2009 ValeraVi, Ivan Krechetov"

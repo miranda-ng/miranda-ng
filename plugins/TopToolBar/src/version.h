@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Bethoven"
 #define __AUTHOREMAIL             "bethoven@mailgate.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/TopToolBar/"
-#define __COPYRIGHT               "© 2003-2008 Bethoven"
+#define __COPYRIGHT               "Â© 2003-2008 Bethoven"

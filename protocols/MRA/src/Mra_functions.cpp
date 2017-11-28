@@ -444,14 +444,14 @@ DWORD CMraProto::SetContactBasicInfoW(MCONTACT hContact, DWORD dwSetInfoFlags, D
 	if (dwSetInfoFlags & SCBIFSI_LOCK_CHANGES_EVENTS)
 		setDword(hContact, "HooksLocked", TRUE);
 
-	// поля которые нужны, и изменения которых не отслеживаются
+	// РїРѕР»СЏ РєРѕС‚РѕСЂС‹Рµ РЅСѓР¶РЅС‹, Рё РёР·РјРµРЅРµРЅРёСЏ РєРѕС‚РѕСЂС‹С… РЅРµ РѕС‚СЃР»РµР¶РёРІР°СЋС‚СЃСЏ
 	if (dwFlags & SCBIF_ID)
 		setDword(hContact, "ContactID", dwID);
 
 	if ((dwFlags & SCBIF_EMAIL) && szEmail != NULL && !szEmail->IsEmpty())
 		mraSetStringExA(hContact, "e-mail", *szEmail);
 
-	// поля изменения которых отслеживаются
+	// РїРѕР»СЏ РёР·РјРµРЅРµРЅРёСЏ РєРѕС‚РѕСЂС‹С… РѕС‚СЃР»РµР¶РёРІР°СЋС‚СЃСЏ
 	if (dwFlags & SCBIF_GROUP_ID) {
 		setDword(hContact, "GroupID", dwGroupID);
 
@@ -694,13 +694,13 @@ bool IsHTTPSProxyUsed(HNETLIBUSER hNetlibUser)
 	return false;
 }
 
-// определяет принадлежность контакта данной копии плагина
+// РѕРїСЂРµРґРµР»СЏРµС‚ РїСЂРёРЅР°РґР»РµР¶РЅРѕСЃС‚СЊ РєРѕРЅС‚Р°РєС‚Р° РґР°РЅРЅРѕР№ РєРѕРїРёРё РїР»Р°РіРёРЅР°
 bool CMraProto::IsContactMra(MCONTACT hContact)
 {
 	return Proto_IsProtoOnContact(hContact, m_szModuleName) != 0;
 }
 
-// определяется является ли контакт контактом MRA протокола, не зависимо от того какому плагину он принадлежит
+// РѕРїСЂРµРґРµР»СЏРµС‚СЃСЏ СЏРІР»СЏРµС‚СЃСЏ Р»Рё РєРѕРЅС‚Р°РєС‚ РєРѕРЅС‚Р°РєС‚РѕРј MRA РїСЂРѕС‚РѕРєРѕР»Р°, РЅРµ Р·Р°РІРёСЃРёРјРѕ РѕС‚ С‚РѕРіРѕ РєР°РєРѕРјСѓ РїР»Р°РіРёРЅСѓ РѕРЅ РїСЂРёРЅР°РґР»РµР¶РёС‚
 bool IsContactMraProto(MCONTACT hContact)
 {
 	LPSTR lpszProto = GetContactProto(hContact);
@@ -1194,14 +1194,14 @@ DWORD GetYears(CONST PSYSTEMTIME pcstSystemTime)
 		SYSTEMTIME stTime;
 		GetLocalTime(&stTime);
 		dwRet = stTime.wYear - pcstSystemTime->wYear;
-		// день рожденья будет в след месяце
+		// РґРµРЅСЊ СЂРѕР¶РґРµРЅСЊСЏ Р±СѓРґРµС‚ РІ СЃР»РµРґ РјРµСЃСЏС†Рµ
 		if (stTime.wMonth < pcstSystemTime->wMonth)
 			dwRet--;
-		// др ещё будет в этом месяце или уже был...
+		// РґСЂ РµС‰С‘ Р±СѓРґРµС‚ РІ СЌС‚РѕРј РјРµСЃСЏС†Рµ РёР»Рё СѓР¶Рµ Р±С‹Р»...
 		else {
-			// др в этом месяце
+			// РґСЂ РІ СЌС‚РѕРј РјРµСЃСЏС†Рµ
 			if (stTime.wMonth == pcstSystemTime->wMonth)
-				// ещё только будет, не сегодня
+				// РµС‰С‘ С‚РѕР»СЊРєРѕ Р±СѓРґРµС‚, РЅРµ СЃРµРіРѕРґРЅСЏ
 			if (stTime.wDay < pcstSystemTime->wDay)
 				dwRet--;
 		}
@@ -1399,7 +1399,7 @@ static DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplac
 					break;
 				}
 			}
-			else {// сюда по идее никогда не попадём, на всякий случай.
+			else {// СЃСЋРґР° РїРѕ РёРґРµРµ РЅРёРєРѕРіРґР° РЅРµ РїРѕРїР°РґС‘Рј, РЅР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№.
 				_CrtDbgBreak();
 				break;
 			}

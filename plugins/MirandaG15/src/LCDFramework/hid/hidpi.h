@@ -269,8 +269,8 @@ Arguments:
    Capabilities     a HIDP_CAPS structure
 
 Return Value:
-·  HIDP_STATUS_SUCCESS
-·  HIDP_STATUS_INVALID_PREPARSED_DATA
+Â·  HIDP_STATUS_SUCCESS
+Â·  HIDP_STATUS_INVALID_PREPARSED_DATA
 --*/
 
 NTSTATUS __stdcall
@@ -340,8 +340,8 @@ Parameters:
 
 Return Value
 HidP_GetButtonCaps returns the following error codes:
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_BUFFER_TOO_SMALL
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_BUFFER_TOO_SMALL
 
 --*/
 
@@ -387,8 +387,8 @@ Parameters:
 
 Return Value
 HidP_GetValueCaps returns the following error codes:
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_BUFFER_TOO_SMALL (all given entries however have been filled in)
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_BUFFER_TOO_SMALL (all given entries however have been filled in)
 
 --*/
 
@@ -414,13 +414,13 @@ Return Value
     HidP_SetData returns the following error codes.  Upon an error the report
     packet is in an unknown state.
 
-· HIDP_STATUS_SUCCESS upon successful insertion of usages into the report packet.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if there exists a byte in the usage list for
+Â· HIDP_STATUS_SUCCESS upon successful insertion of usages into the report packet.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if there exists a byte in the usage list for
             which there is no corresponding control.
-· HIDP_STATUS_INVALID_REPORT_LENGTH the length of the report packet is not the
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH the length of the report packet is not the
             size expected.
-· HIDP_STATUS_BUFFER_TOO_SMALL if there are not enough entries in a given Main
+Â· HIDP_STATUS_BUFFER_TOO_SMALL if there are not enough entries in a given Main
             Array Item to list all of the given usages.  The user needs
             to split his request to set usages up.
 --*/
@@ -497,7 +497,7 @@ Routine Description:
    This function sets binary values (buttons) in the report.  Given an
    initialized packet of correct length, it modifies the report packet so that
    each element in the given list of usages has been set in the report packet.
-   For example, in an output report with 5 LED’s, each with a given usage,
+   For example, in an output report with 5 LEDâ€™s, each with a given usage,
    an application could turn on any subset of these lights by placing their
    usages in any order into the byte array (usageList).  HidP_SetUsage would,
    in turn, set the appropriate bit or add the corresponding byte into the
@@ -539,13 +539,13 @@ Return Value
 HidP_SetUsage returns the following error codes.  Upon an error the report
 packet is in an unknown state.
 
-· HIDP_STATUS_SUCCESS upon successful insertion of usages into the report packet.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if there exists a byte in the usage list for
+Â· HIDP_STATUS_SUCCESS upon successful insertion of usages into the report packet.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if there exists a byte in the usage list for
             which there is no corresponding control.
-· HIDP_STATUS_INVALID_REPORT_LENGTH the length of the report packet is not the
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH the length of the report packet is not the
             size expected.
-· HIDP_STATUS_BUFFER_TOO_SMALL if there are not enough entries in a given Main
+Â· HIDP_STATUS_BUFFER_TOO_SMALL if there are not enough entries in a given Main
             Array Item to list all of the given usages.  The user needs
             to split his request to set usages up.
 --*/
@@ -570,7 +570,7 @@ Routine Description:
    This function sets binary values (buttons) in the report.  Given an
    initialized packet of correct length, it modifies the report packet so that
    each element in the given list of usages has been set in the report packet.
-   For example, in an output report with 5 LED’s, each with a given usage,
+   For example, in an output report with 5 LEDâ€™s, each with a given usage,
    an application could turn on any subset of these lights by placing their
    usages in any order into the byte array (usageList).  HidP_SetUsage would,
    in turn, set the appropriate bit or add the corresponding byte into the
@@ -612,13 +612,13 @@ Return Value
 HidP_SetUsage returns the following error codes.  Upon an error the report
 packet is in an unknown state.
 
-· HIDP_STATUS_SUCCESS upon successful insertion of usages into the report packet.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if there exists a byte in the usage list for
+Â· HIDP_STATUS_SUCCESS upon successful insertion of usages into the report packet.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if there exists a byte in the usage list for
             which there is no corresponding control.
-· HIDP_STATUS_INVALID_REPORT_LENGTH the length of the report packet is not the
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH the length of the report packet is not the
             size expected.
-· HIDP_STATUS_BUFFER_TOO_SMALL if there are not enough entries in a given Main
+Â· HIDP_STATUS_BUFFER_TOO_SMALL if there are not enough entries in a given Main
             Array Item to list all of the given usages.  The user needs
             to split his request to set usages up.
 --*/
@@ -673,16 +673,16 @@ Parameters:
 
 Return Value
 HidpGetUsage returns the following error codes:
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if no control for this device matches the given
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if no control for this device matches the given
                              usagePage.
-· HIDP_STATUS_BUFFER_TOO_SMALL if the given usageList is not long enough to
+Â· HIDP_STATUS_BUFFER_TOO_SMALL if the given usageList is not long enough to
                           hold the usages found in the given report packet.
                           HidP_MaxUsageListLength should be used to prevent
                           this error.
-· HIDP_STATUS_INVALID_PREPARSED_DATA if the given preparsed data is invalid
-· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
+Â· HIDP_STATUS_INVALID_PREPARSED_DATA if the given preparsed data is invalid
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
                         the size expected.
 --*/
 
@@ -729,15 +729,15 @@ Parameters:
 
 Return Value
 HidpGetUsage returns the following error codes:
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if no button controls are found for this device.
-· HIDP_STATUS_BUFFER_TOO_SMALL if the given usageList is not long enough to
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if no button controls are found for this device.
+Â· HIDP_STATUS_BUFFER_TOO_SMALL if the given usageList is not long enough to
                           hold the usages found in the given report packet.
                           HidP_MaxUsageListLength should be used to prevent
                           this error.
-· HIDP_STATUS_INVALID_PREPARSED_DATA if the given preparsed data is invalid
-· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
+Â· HIDP_STATUS_INVALID_PREPARSED_DATA if the given preparsed data is invalid
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
                         the size expected.
 --*/
 
@@ -822,12 +822,12 @@ Parameters:
 Return Value:
    HidpSetUsageValue returns the following error codes:
 
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
                              control on the device, or if it refers to a button
                              style control.
-· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
          the size expected given the HIDP_CHANNELS structure.
 --*/
 
@@ -882,18 +882,18 @@ Parameters:
 Return Value:
    HidpSetUsageValue returns the following error codes:
 
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
                              control on the device, or if it refers to a button
                              style control.
-· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is not
          the size expected given the HIDP_CHANNELS structure.
-· HIDP_STATUS_VALUE_OUT_OF_RANGE The physical value given was out of range,
+Â· HIDP_STATUS_VALUE_OUT_OF_RANGE The physical value given was out of range,
                     but this field does not accept null values.  In this
                     case the field remains unchanged.
-· HIDP_STATUS_BAD_LOG_PHY_VALUES
-· HIDP_STATUS_NULL  A null value was written into the field, because the
+Â· HIDP_STATUS_BAD_LOG_PHY_VALUES
+Â· HIDP_STATUS_NULL  A null value was written into the field, because the
                     physical value given was out of range and this field
                     supports null values.  The value written was outside the
                     range of LogicalMin and LogicalMax and is specifically
@@ -1010,12 +1010,12 @@ Parameters:
 Return Value:
    HidpSetUsageValue returns the following error codes:
 
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
                              control on the device, or if it refers to a button
                              style control.
-· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is
                       not the size expected given the HIDP_CHANNELS structure.
 --*/
 
@@ -1070,16 +1070,16 @@ Parameters:
 Return Value:
    HidpSetUsageValue returns the following error codes:
 
-· HIDP_STATUS_SUCCESS.
-· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
-· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
+Â· HIDP_STATUS_SUCCESS.
+Â· HIDP_STATUS_INVALID_REPORT_TYPE if reportType is not valid.
+Â· HIDP_STATUS_USAGE_NOT_FOUND if the given usage does not correspond to a
                              control on the device, or if it refers to a button
                              style control.
-· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is
+Â· HIDP_STATUS_INVALID_REPORT_LENGTH if the length of the report packet is
                       not the size expected given the HIDP_CHANNELS structure.
-· HIDP_STATUS_VALUE_OUT_OF_RANGE
-· HIDP_STATUS_BAD_LOG_PHY_VALUES
-· HIDP_STATUS_NULL
+Â· HIDP_STATUS_VALUE_OUT_OF_RANGE
+Â· HIDP_STATUS_BAD_LOG_PHY_VALUES
+Â· HIDP_STATUS_NULL
 --*/
 
 NTSTATUS __stdcall

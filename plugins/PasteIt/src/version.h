@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Krzysztof Kral"
 #define __AUTHOREMAIL            "programista@poczta.of.pl"
 #define __AUTHORWEB              "https://miranda-ng.org/p/PasteIt/"
-#define __COPYRIGHT              "© 2011 Krzysztof Kral"
+#define __COPYRIGHT              "Â© 2011 Krzysztof Kral"

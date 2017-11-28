@@ -12,4 +12,4 @@
 #define __AUTHOR                 "kva"
 #define __AUTHOREMAIL            "kva@fromru.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/EmLanProto/"
-#define __COPYRIGHT              "© Viktor Kuzmin"
+#define __COPYRIGHT              "Â© Viktor Kuzmin"

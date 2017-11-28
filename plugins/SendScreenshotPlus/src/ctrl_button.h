@@ -1,11 +1,11 @@
 /*
 imported from UserinfoEx plugin for Miranda NG
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+¬© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (Ò) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (—Å) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-09 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.

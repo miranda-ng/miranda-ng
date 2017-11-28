@@ -35,27 +35,27 @@
 #define MS_HPP_EG_NAVIGATE			"History++/ExtGrid/Navigate"
 #define MS_HPP_EG_OPTIONSCHANGED	"History++/ExtGrid/OptionsChanged"
 
-// Типы окон
+// РўРёРїС‹ РѕРєРѕРЅ
 #define WTYPE_Unknown		0
 #define WTYPE_HistoryPP		1
 #define WTYPE_IEView		2
 #define WTYPE_RichEdit		3
 #define WTYPE_Edit			4
 
-//Тип операции над текстом
+//РўРёРї РѕРїРµСЂР°С†РёРё РЅР°Рґ С‚РµРєСЃС‚РѕРј
 #define TOT_Layout 0
 #define TOT_Case 1
 
-// Имена звуков
+// РРјРµРЅР° Р·РІСѓРєРѕРІ
 #define SND_ChangeLayout "ChangingLayout"
 #define SND_ChangeCase   "ChangingCase"
 
-//Цвета попапов
+//Р¦РІРµС‚Р° РїРѕРїР°РїРѕРІ
 #define PPC_POPUP		0
 #define PPC_WINDOWS		1
 #define PPC_CUSTOM		2
 
-//Таймаут попапов
+//РўР°Р№РјР°СѓС‚ РїРѕРїР°РїРѕРІ
 #define PPT_POPUP			0
 #define PPT_PERMANENT		1
 #define PPT_CUSTOM			2

@@ -11,4 +11,4 @@
 #define __AUTHOR              "Miranda team"
 #define __AUTHOREMAIL         "info@miranda-im.org"
 #define __AUTHORWEB           "https://miranda-ng.org/p/Import/"
-#define __COPYRIGHT           "© 2012-2017 George Hazan"
+#define __COPYRIGHT           "Â© 2012-2017 George Hazan"

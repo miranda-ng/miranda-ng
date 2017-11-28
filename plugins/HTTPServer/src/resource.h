@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\MNG_orig\plugins\HTTPServer\res\resource.rc
+// В¬РєР»СЋС‡Р°РµРјС‹Р№ С„Р°Р№Р», СЃРѕР·РґР°РЅРЅС‹Р№ РІ Microsoft Visual C++.
+// В»СЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ D:\MNG_orig\plugins\HTTPServer\res\resource.rc
 //
 #define IDD_NEW_SHARE_PROPERTIES        101
 #define IDI_DISABLE_SERVER              101

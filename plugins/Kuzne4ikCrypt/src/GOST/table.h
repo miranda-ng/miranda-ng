@@ -1,7 +1,7 @@
 #ifndef TABLE_H
 #define TABLE_H
 
-/** @brief таблица для умножения */
+/** @brief С‚Р°Р±Р»РёС†Р° РґР»СЏ СѓРјРЅРѕР¶РµРЅРёСЏ */
 static const unsigned char multTable[] = 
 {
   0x00,   0x00,   0x00,   0x00,   0x00,   0x00,   0x00,   0x00, 

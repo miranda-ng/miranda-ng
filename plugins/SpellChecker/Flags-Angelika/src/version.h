@@ -8,4 +8,4 @@
 #define __PLUGIN_NAME            "SpellChecker flags icons"
 #define __FILENAME               "Flags_icons.dll"
 #define __DESCRIPTION             "Flags icons for SpellChecker plugin of Miranda NG."
-#define __COPYRIGHT               "© 2006-2010 Ricardo Pescuma Domenecci"
+#define __COPYRIGHT               "Â© 2006-2010 Ricardo Pescuma Domenecci"

@@ -622,7 +622,7 @@ HWND SendSMSWindowHwndByHProcessGet(HANDLE hProcess)
 
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 	ListMTIteratorMoveFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, &lmtiIterator);
-	do {// öèêë
+	do {// Ñ†Ð¸ÐºÐ»
 		if (ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&psswdWindowData) == NO_ERROR)
 			if (psswdWindowData->hProcess == hProcess) {
 				hRet = psswdWindowData->hWnd;
@@ -825,7 +825,7 @@ HWND SendSMSWindowIsOtherInstanceHContact(MCONTACT hContact)
 
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 	ListMTIteratorMoveFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, &lmtiIterator);
-	do {// öèêë
+	do {// Ñ†Ð¸ÐºÐ»
 		if (ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&psswdWindowData) == NO_ERROR)
 			if (psswdWindowData->hMyContact == hContact) {
 				hRet = psswdWindowData->hWnd;
@@ -933,7 +933,7 @@ void SendSMSWindowsUpdateAllAccountLists()
 
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 	ListMTIteratorMoveFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, &lmtiIterator);
-	do {// öèêë
+	do {// Ñ†Ð¸ÐºÐ»
 		if (ListMTIteratorGet(&lmtiIterator, nullptr, (LPVOID*)&psswdWindowData) == NO_ERROR) {
 			SendSMSWindowUpdateAccountList(psswdWindowData->hWnd);
 		}

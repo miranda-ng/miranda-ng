@@ -11,4 +11,4 @@
 #define __AUTHOR              "ProgAndy & CHEF-KOCH"
 #define __AUTHOREMAIL			""
 #define __AUTHORWEB				"https://miranda-ng.org/p/MirOTR/"
-#define __COPYRIGHT				"© ProgAndy & CHEF-KOCH"
+#define __COPYRIGHT				"Â© ProgAndy & CHEF-KOCH"

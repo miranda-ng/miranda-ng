@@ -12,13 +12,13 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		MainDialogLock = TRUE;
 		TranslateDialogDefault(hWnd);
 			
-		//Горячие клавиши
-		// Запрещаем вводить в контролы все, кроме обычных кнопок
+		//Р“РѕСЂСЏС‡РёРµ РєР»Р°РІРёС€Рё
+		// Р—Р°РїСЂРµС‰Р°РµРј РІРІРѕРґРёС‚СЊ РІ РєРѕРЅС‚СЂРѕР»С‹ РІСЃРµ, РєСЂРѕРјРµ РѕР±С‹С‡РЅС‹С… РєРЅРѕРїРѕРє
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT, HKM_SETRULES, 0xFF, 0);
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT2, HKM_SETRULES, 0xFF, 0);
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_SETRULES, 0xFF, 0);
 			
-		//Отображаем управляющие клавиши
+		//РћС‚РѕР±СЂР°Р¶Р°РµРј СѓРїСЂР°РІР»СЏСЋС‰РёРµ РєР»Р°РІРёС€Рё
 		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_SHIFT, (moOptions.dwHotkey_Layout&0x00000100) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_CTRL, (moOptions.dwHotkey_Layout&0x00000200) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_ALT, (moOptions.dwHotkey_Layout&0x00000400) ? BST_CHECKED : BST_UNCHECKED);
@@ -34,12 +34,12 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		CheckDlgButton(hWnd, IDC_CHECK_CASE_ALT, (moOptions.dwHotkey_Case&0x00000400) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_CASE_WIN, (moOptions.dwHotkey_Case&0x00000800) ? BST_CHECKED : BST_UNCHECKED);
 
-		//Показываем символ из хоткея
+		//РџРѕРєР°Р·С‹РІР°РµРј СЃРёРјРІРѕР» РёР· С…РѕС‚РєРµСЏ
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT, HKM_SETHOTKEY, moOptions.dwHotkey_Layout&0x000000FF, 0);
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT2, HKM_SETHOTKEY, moOptions.dwHotkey_Layout2&0x000000FF, 0);
 		SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_SETHOTKEY, moOptions.dwHotkey_Case&0x000000FF, 0);
 			
-		//Остальные опции
+		//РћСЃС‚Р°Р»СЊРЅС‹Рµ РѕРїС†РёРё
 		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_MODE, moOptions.CurrentWordLayout ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_LAYOUT_MODE2, moOptions.CurrentWordLayout2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_CASE_MODE, moOptions.CurrentWordCase ? BST_CHECKED : BST_UNCHECKED);
@@ -48,7 +48,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		CheckDlgButton(hWnd, IDC_CHECK_CLIPBOARD, moOptions.CopyToClipboard ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_CHECK_POPUP, moOptions.ShowPopup ? BST_CHECKED : BST_UNCHECKED);
 
-		//Смена состояния CapsLock
+		//РЎРјРµРЅР° СЃРѕСЃС‚РѕСЏРЅРёСЏ CapsLock
 		switch (moOptions.bCaseOperations) {
 		case 1:
 			CheckDlgButton(hWnd, IDC_RADIO_OFFCAPS, BST_CHECKED);
@@ -61,20 +61,20 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 			break;
 		}
 
-		// Отображаем пример конфиг.строки
+		// РћС‚РѕР±СЂР°Р¶Р°РµРј РїСЂРёРјРµСЂ РєРѕРЅС„РёРі.СЃС‚СЂРѕРєРё
 		ptszMemLay = ptszLayStrings[0];
 		SetDlgItemText(hWnd, IDC_EDIT_EXAMPLE, ptszMemLay);
 		ptszShortNameLay = GetShortNameOfLayout(hklLayouts[0]);
 		SetDlgItemText(hWnd, IDC_STATIC_EXAMPLE, ptszShortNameLay);
 		mir_free(ptszShortNameLay);
 
-		// Заполняем комбобокс с текущими раскладками
+		// Р—Р°РїРѕР»РЅСЏРµРј РєРѕРјР±РѕР±РѕРєСЃ СЃ С‚РµРєСѓС‰РёРјРё СЂР°СЃРєР»Р°РґРєР°РјРё
 		for(i = 0; i < bLayNum; i++) {
 			ptszShortNameLay = GetShortNameOfLayout(hklLayouts[i]);				
 			SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_ADDSTRING, 0, (LPARAM)ptszShortNameLay);
 			mir_free(ptszShortNameLay);
 		}
-		//Отображаем первую раскладку в списке
+		//РћС‚РѕР±СЂР°Р¶Р°РµРј РїРµСЂРІСѓСЋ СЂР°СЃРєР»Р°РґРєСѓ РІ СЃРїРёСЃРєРµ
 		SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_SETCURSEL, 0, 0);
 		ptszMemLay = ptszLayStrings[0];
 		SetDlgItemText(hWnd, IDC_EDIT_SET, ptszMemLay);
@@ -149,12 +149,12 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		case 0: 
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				// Прочитаем хоткеи
+				// РџСЂРѕС‡РёС‚Р°РµРј С…РѕС‚РєРµРё
 				moOptions.dwHotkey_Layout = SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT, HKM_GETHOTKEY, 0, 0);
 				moOptions.dwHotkey_Layout2 = SendDlgItemMessage(hWnd, IDC_HOTKEY_LAYOUT2, HKM_GETHOTKEY, 0, 0);
 				moOptions.dwHotkey_Case = SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_GETHOTKEY, 0, 0);							
 
-				//Допишем к символам управляющие клавиши
+				//Р”РѕРїРёС€РµРј Рє СЃРёРјРІРѕР»Р°Рј СѓРїСЂР°РІР»СЏСЋС‰РёРµ РєР»Р°РІРёС€Рё
 				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_SHIFT)) 
 					moOptions.dwHotkey_Layout |= 0x00000100;
 				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_CTRL)) 
@@ -183,7 +183,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 					moOptions.dwHotkey_Case |= 0x00000800;
 
 
-				//Прочие опции
+				//РџСЂРѕС‡РёРµ РѕРїС†РёРё
 				moOptions.CurrentWordLayout = IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_MODE);
 				moOptions.CurrentWordLayout2 = IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_MODE2);
 				moOptions.CurrentWordCase = IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_MODE);
@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 		TranslateDialogDefault(hWnd);
 		poOptionsTemp = poOptions;
 
-		//Цвета
+		//Р¦РІРµС‚Р°
 		SendDlgItemMessage(hWnd, IDC_CUSTOM_BACK, CPM_SETCOLOUR, 0, poOptionsTemp.crBackColour);
 		SendDlgItemMessage(hWnd, IDC_CUSTOM_TEXT, CPM_SETCOLOUR, 0, poOptionsTemp.crTextColour);
 		CheckDlgButton(hWnd, IDC_RADIO_COLOURS_POPUP, poOptionsTemp.bColourType == PPC_POPUP ? BST_CHECKED : BST_UNCHECKED);
@@ -253,17 +253,17 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 		EnableWindow(GetDlgItem(hWnd, IDC_CUSTOM_BACK), poOptionsTemp.bColourType == PPC_CUSTOM);
 		EnableWindow(GetDlgItem(hWnd, IDC_CUSTOM_TEXT), poOptionsTemp.bColourType == PPC_CUSTOM);
 
-		// Таймаут
+		// РўР°Р№РјР°СѓС‚
 		CheckDlgButton(hWnd, IDC_RADIO_TIMEOUT_POPUP, poOptionsTemp.bTimeoutType == PPT_POPUP ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_RADIO_TIMEOUT_PERMANENT, poOptionsTemp.bTimeoutType == PPT_PERMANENT ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_RADIO_TIMEOUT_CUSTOM, poOptionsTemp.bTimeoutType == PPT_CUSTOM ? BST_CHECKED : BST_UNCHECKED);			
 		SetDlgItemInt(hWnd, IDC_EDIT_TIMEOUT, poOptionsTemp.bTimeout, FALSE);
 		EnableWindow(GetDlgItem(hWnd, IDC_EDIT_TIMEOUT), poOptionsTemp.bTimeoutType == PPT_CUSTOM);
 
-		// Клик левой
+		// РљР»РёРє Р»РµРІРѕР№
 		CheckDlgButton(hWnd, IDC_RADIO_LEFT_CLIPBOARD, poOptionsTemp.bLeftClick == 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_RADIO_LEFT_DISMISS, poOptionsTemp.bLeftClick == 1 ? BST_CHECKED : BST_UNCHECKED);
-		// Клик правой
+		// РљР»РёРє РїСЂР°РІРѕР№
 		CheckDlgButton(hWnd, IDC_RADIO_RIGHT_CLIPBOARD, poOptionsTemp.bRightClick == 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hWnd, IDC_RADIO_RIGHT_DISMISS, poOptionsTemp.bRightClick == 1 ? BST_CHECKED : BST_UNCHECKED);
 		PopupDialogLock = FALSE;

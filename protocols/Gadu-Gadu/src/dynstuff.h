@@ -54,7 +54,7 @@ void string_insert_n(string_t s, int index, const char *str, int count);
 void string_clear(string_t s);
 char *string_free(string_t s, int free_string);
 
-/* tablice stringów */
+/* tablice stringÑƒw */
 
 char **array_make(const char *string, const char *sep, int max, int trim, int quotes);
 char *array_join(char **array, const char *sep);
@@ -63,7 +63,7 @@ int array_count(char **array);
 int array_contains(char **array, const char *string, int casesensitive);
 void array_free(char **array);
 
-/* rozszerzenia libców */
+/* rozszerzenia libcÑƒw */
 
 const char *ditoa(long int i);
 

@@ -11,4 +11,4 @@
 #define __AUTHOR               "eugene.nv"
 #define __AUTHOREMAIL            "ep@eugn.me"
 #define __AUTHORWEB               "https://miranda-ng.org/p/Restart/"
-#define __COPYRIGHT               "© 2008-13 eugene.nv"
+#define __COPYRIGHT               "Â© 2008-13 eugene.nv"

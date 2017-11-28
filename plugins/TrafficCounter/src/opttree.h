@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __opttree_h__
 #define __opttree_h__
 
-// ‘Î‡„Ë
+// –¥—ã—Ä—É—à
 #define OPTTREE_CHECK	0
 #define OPTTREE_INVISIBLE 2
 #define OPTTREE_NOTRANSLATE 4

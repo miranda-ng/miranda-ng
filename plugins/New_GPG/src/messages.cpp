@@ -1,4 +1,4 @@
-// Copyright � 2010-2012 sss
+// Copyright © 2010-2012 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -491,7 +491,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 					s2 = output.find(":", s1);
 					db_set_s(ccs->hContact, szGPGModuleName, "KeyID", output.substr(s1, s2 - s1).c_str());
 					s2 += 2;
-					s1 = output.find("“", s2);
+					s1 = output.find("вЂњ", s2);
 					if (s1 == string::npos)
 					{
 						s1 = output.find("\"", s2);

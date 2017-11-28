@@ -1,5 +1,5 @@
 //***********************************************************
-//	Copyright © 2008 Valentin Pavlyuchenko
+//	Copyright Â© 2008 Valentin Pavlyuchenko
 //
 //	This file is part of Boltun.
 //

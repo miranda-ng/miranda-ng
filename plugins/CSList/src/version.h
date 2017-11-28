@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Mataes, jarvis"
 #define __AUTHOREMAIL            "mataes2007@gmail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/CSList/"
-#define __COPYRIGHT              "© 2010-17 Mataes, 2007-09 jarvis"
+#define __COPYRIGHT              "Â© 2010-17 Mataes, 2007-09 jarvis"

@@ -166,7 +166,7 @@ DWORD MraSymbolsToRTFTags(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMes
 
 				for (i = 0;i<SYMBOLS_COUNT;i++) { // looking for the next time
 					if (lpszFounded[i] && lpszFounded[i] < lpszMessageCurPrev) {
-						dwFoundCount--;// âû÷èòàåì òóò, ÷òîáû ó÷åñòü ñõîæèå ñìàéëû: "):-(" è ":-("
+						dwFoundCount--;// Ð²Ñ‹Ñ‡Ð¸Ñ‚Ð°ÐµÐ¼ Ñ‚ÑƒÑ‚, Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÑƒÑ‡ÐµÑÑ‚ÑŒ ÑÑ…Ð¾Ð¶Ð¸Ðµ ÑÐ¼Ð°Ð¹Ð»Ñ‹: "):-(" Ð¸ ":-("
 						lpszFounded[i] = (LPSTR)MemoryFind((lpszMessageCurPrev-lpszMessage), lpszMessage, dwMessageSize, lpszSimbols[i], dwcSimbolsCount[i]);
 						if (lpszFounded[i]) dwFoundCount++;
 					}

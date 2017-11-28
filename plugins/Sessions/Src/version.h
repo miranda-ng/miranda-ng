@@ -11,4 +11,4 @@
 #define __AUTHOR                "MaD_CLuSTeR"
 #define __AUTHOREMAIL           "daniok@yandex.ru"
 #define __AUTHORWEB             "https://miranda-ng.org/p/Sessions/"
-#define __COPYRIGHT             "© 2007-2008 Danil Mozhar"
+#define __COPYRIGHT             "Â© 2007-2008 Danil Mozhar"

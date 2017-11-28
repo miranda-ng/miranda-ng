@@ -11,4 +11,4 @@
 #define __AUTHOR               "Anar Ibragimoff"
 #define __AUTHOREMAIL            "ai91@mail.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/YARelay/"
-#define __COPYRIGHT               "© 2005 Anar Ibragimoff"
+#define __COPYRIGHT               "Â© 2005 Anar Ibragimoff"

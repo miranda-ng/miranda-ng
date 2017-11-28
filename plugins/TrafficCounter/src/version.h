@@ -11,4 +11,4 @@
 #define __AUTHOR               "Ghost, Mironych"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB               "https://miranda-ng.org/p/TrafficCounter/"
-#define __COPYRIGHT               "© 2002-2006 Ghost, 2007-2012 Mironych"
+#define __COPYRIGHT               "Â© 2002-2006 Ghost, 2007-2012 Mironych"

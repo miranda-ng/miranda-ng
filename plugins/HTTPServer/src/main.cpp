@@ -463,7 +463,7 @@ static INT_PTR nAddChangeRemoveShare(WPARAM wParam, LPARAM lParam)
 	pclNewNode->pclNext = *pclPrev;
 	*pclPrev = pclNewNode;
 
-	/* Add by Sérgio Vieira Rolanski */
+	/* Add by SÐ¹rgio Vieira Rolanski */
 	if (pclNew->dwOptions & OPT_SEND_LINK)
 		SendLinkToUser(wParam, pclNew->pszSrvPath);
 

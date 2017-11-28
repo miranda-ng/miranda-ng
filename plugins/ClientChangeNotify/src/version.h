@@ -11,4 +11,4 @@
 #define __AUTHOR               "Deathdemon"
 #define __AUTHOREMAIL            "dchervov@yahoo.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/ClientChangeNotify/"
-#define __COPYRIGHT               "© 2006-2008 Chervov Dmitry"
+#define __COPYRIGHT               "Â© 2006-2008 Chervov Dmitry"

@@ -8,9 +8,9 @@
 #define PROTOCOL_DISPLAY_NAME_ORIG	"SMS"
 
 #define TIMEOUT_MSGSEND			60000			// send sms timeout
-#define MIN_SMS_DBEVENT_LEN		4				// для фильтрации событий авторизации от джабер плагина
+#define MIN_SMS_DBEVENT_LEN		4				// РґР»СЏ С„РёР»СЊС‚СЂР°С†РёРё СЃРѕР±С‹С‚РёР№ Р°РІС‚РѕСЂРёР·Р°С†РёРё РѕС‚ РґР¶Р°Р±РµСЂ РїР»Р°РіРёРЅР°
 #define MAX_PHONE_LEN			MAX_PATH
-#define PHONES_MIN_COUNT		4 //internal	// колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
+#define PHONES_MIN_COUNT		4 //internal	// РєРѕР»Р»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РїСЂРѕРІРµСЂСЏРµРјС‹С… РїСЂРё РёР·РІР»РµС‡РµРЅРёРё email Р°РґСЂРµСЃР° РёР· РёРЅС„С‹ СЋР·РµСЂР°
 
 #define SMS_DEFAULT_
 #define SMS_DEFAULT_SIGNATUREPOS	FALSE
@@ -70,11 +70,11 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam);
 #define SMS_SEND_STR			LPGENW("Send &SMS...")
 #define SMS_SEND_CM_STR			LPGENW("&SMS Message")
 
-// структура содержащая информацию о сервисах/функциях
+// СЃС‚СЂСѓРєС‚СѓСЂР° СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЃРµСЂРІРёСЃР°С…/С„СѓРЅРєС†РёСЏС…
 struct SERVICE_ITEM
 {
-	LPSTR	lpszName;		// имя сервиса, оно же имя в иколибе
-	LPVOID	lpFunc;			// функция вызываемая
+	LPSTR	lpszName;		// РёРјСЏ СЃРµСЂРІРёСЃР°, РѕРЅРѕ Р¶Рµ РёРјСЏ РІ РёРєРѕР»РёР±Рµ
+	LPVOID	lpFunc;			// С„СѓРЅРєС†РёСЏ РІС‹Р·С‹РІР°РµРјР°СЏ
 };
 
 static const SERVICE_ITEM siPluginServices[] =

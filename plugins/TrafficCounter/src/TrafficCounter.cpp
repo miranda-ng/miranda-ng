@@ -23,15 +23,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //GLOBAL
 /*-------------------------------------------------------------------------------------------------------------------*/
 uTCFLAGS unOptions;
-PROTOLIST *ProtoList; // Данные обо всех аккаунтах.
-PROTOLIST OverallInfo; // Суммарные данные по видимым аккаунтам.
+PROTOLIST *ProtoList; // Р”Р°РЅРЅС‹Рµ РѕР±Рѕ РІСЃРµС… Р°РєРєР°СѓРЅС‚Р°С….
+PROTOLIST OverallInfo; // РЎСѓРјРјР°СЂРЅС‹Рµ РґР°РЅРЅС‹Рµ РїРѕ РІРёРґРёРјС‹Рј Р°РєРєР°СѓРЅС‚Р°Рј.
 int NumberOfAccounts;
 HWND TrafficHwnd;
 
 HINSTANCE hInst;
 CLIST_INTERFACE *pcli;
 
-int hLangpack = 0; // Поддержка плагинозависимого перевода.
+int hLangpack = 0; // РџРѕРґРґРµСЂР¶РєР° РїР»Р°РіРёРЅРѕР·Р°РІРёСЃРёРјРѕРіРѕ РїРµСЂРµРІРѕРґР°.
 BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
 
 static wchar_t tszFormat[] =
@@ -51,7 +51,7 @@ wchar_t *TRAFFIC_COUNTER_WINDOW_CLASS = L"TrafficCounterWnd";
 WORD notify_send_size = 0;
 WORD notify_recv_size = 0;
 //
-// Цвет шрифта и фона
+// Р¦РІРµС‚ С€СЂРёС„С‚Р° Рё С„РѕРЅР°
 COLORREF Traffic_BkColor, Traffic_FontColor;
 
 //notify
@@ -88,12 +88,12 @@ FontIDW TrafficFontID;
 ColourIDW TrafficBackgroundColorID;
 
 //---------------------------------------------------------------------------------------------
-// Для ToolTip
+// Р”Р»СЏ ToolTip
 //---------------------------------------------------------------------------------------------
 BOOL TooltipShowing;
 POINT TooltipPosition;
 
-// Вспомогательные переменные чтобы заставить работать ключевой цвет
+// Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ С‡С‚РѕР±С‹ Р·Р°СЃС‚Р°РІРёС‚СЊ СЂР°Р±РѕС‚Р°С‚СЊ РєР»СЋС‡РµРІРѕР№ С†РІРµС‚
 BOOL UseKeyColor;
 COLORREF KeyColor;
 
@@ -129,7 +129,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	// Получаем дескриптор языкового пакета.
+	// РџРѕР»СѓС‡Р°РµРј РґРµСЃРєСЂРёРїС‚РѕСЂ СЏР·С‹РєРѕРІРѕРіРѕ РїР°РєРµС‚Р°.
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
@@ -146,13 +146,13 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	// Удаляем шрифт.
+	// РЈРґР°Р»СЏРµРј С€СЂРёС„С‚.
 	if (Traffic_h_font) {
 		DeleteObject(Traffic_h_font);
 		Traffic_h_font = nullptr;
 	}
 
-	// Убиваем все рабочие данные.
+	// РЈР±РёРІР°РµРј РІСЃРµ СЂР°Р±РѕС‡РёРµ РґР°РЅРЅС‹Рµ.
 	DestroyProtocolList();
 	return 0;
 }
@@ -164,20 +164,20 @@ int TrafficCounterShutdown(WPARAM, LPARAM)
 
 	SaveSettings(0);
 
-	// Удаляем пункт главного меню.
+	// РЈРґР°Р»СЏРµРј РїСѓРЅРєС‚ РіР»Р°РІРЅРѕРіРѕ РјРµРЅСЋ.
 	if (hTrafficMainMenuItem) {
 		Menu_RemoveItem(hTrafficMainMenuItem);
 		hTrafficMainMenuItem = nullptr;
 	}
-	// Удаляем контекстное меню.
+	// РЈРґР°Р»СЏРµРј РєРѕРЅС‚РµРєСЃС‚РЅРѕРµ РјРµРЅСЋ.
 	if (TrafficPopupMenu) {
 		DestroyMenu(TrafficPopupMenu);
 		TrafficPopupMenu = nullptr;
 	}
-	// Разрегистрируем процедуру отрисовки фрейма.
+	// Р Р°Р·СЂРµРіРёСЃС‚СЂРёСЂСѓРµРј РїСЂРѕС†РµРґСѓСЂСѓ РѕС‚СЂРёСЃРѕРІРєРё С„СЂРµР№РјР°.
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)TrafficHwnd, (LPARAM)NULL);
 
-	// Удаляем фрейм.
+	// РЈРґР°Р»СЏРµРј С„СЂРµР№Рј.
 	if ((ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME)) && Traffic_FrameID) {
 		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)Traffic_FrameID, 0);
 		Traffic_FrameID = nullptr;
@@ -200,7 +200,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	CreateProtocolList();
 	ModuleLoad(0, 0);
 
-	// Читаем флаги
+	// Р§РёС‚Р°РµРј С„Р»Р°РіРё
 	unOptions.Flags = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, 0x0882);
 	Stat_SelAcc = db_get_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, 0x01);
 
@@ -214,7 +214,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	Traffic_PopupTimeoutDefault = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_DEFAULT, 1);
 	Traffic_PopupTimeoutValue = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, 5);
 
-	// Формат счётчика для каждого активного протокола
+	// Р¤РѕСЂРјР°С‚ СЃС‡С‘С‚С‡РёРєР° РґР»СЏ РєР°Р¶РґРѕРіРѕ Р°РєС‚РёРІРЅРѕРіРѕ РїСЂРѕС‚РѕРєРѕР»Р°
 	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0) {
 		if (mir_wstrlen(dbv.ptszVal) > 0)
 			mir_wstrncpy(Traffic_CounterFormat, dbv.ptszVal, _countof(Traffic_CounterFormat));
@@ -226,7 +226,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 		mir_wstrcpy(Traffic_CounterFormat, tszFormat);
 	}
 
-	// Формат всплывающих подсказок
+	// Р¤РѕСЂРјР°С‚ РІСЃРїР»С‹РІР°СЋС‰РёС… РїРѕРґСЃРєР°Р·РѕРє
 	if (db_get_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0) {
 		if (mir_wstrlen(dbv.ptszVal) > 0)
 			mir_wstrncpy(Traffic_TooltipFormat, dbv.ptszVal, _countof(Traffic_TooltipFormat));
@@ -240,7 +240,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 
 	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
 
-	// Счётчик времени онлайна
+	// РЎС‡С‘С‚С‡РёРє РІСЂРµРјРµРЅРё РѕРЅР»Р°Р№РЅР°
 	OverallInfo.Total.Timer = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, 0);
 
 	//register traffic font
@@ -258,7 +258,7 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 	TrafficFontID.order = 0;
 	Font_RegisterW(&TrafficFontID);
 
-	// Регистрируем цвет фона
+	// Р РµРіРёСЃС‚СЂРёСЂСѓРµРј С†РІРµС‚ С„РѕРЅР°
 	TrafficBackgroundColorID.cbSize = sizeof(ColourIDW);
 	mir_wstrcpy(TrafficBackgroundColorID.group, LPGENW("Traffic counter"));
 	mir_wstrcpy(TrafficBackgroundColorID.name, LPGENW("Font"));
@@ -269,11 +269,11 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_FONT_RELOAD, UpdateFonts);
 
-	// Добавляем поддержку плагина Variables
+	// Р”РѕР±Р°РІР»СЏРµРј РїРѕРґРґРµСЂР¶РєСѓ РїР»Р°РіРёРЅР° Variables
 	RegisterVariablesTokens();
 
 	CreateServiceFunction("TrafficCounter/ShowHide", MenuCommand_TrafficShowHide);
-	// Регистрируем горячую клавишу для показа/скрытия фрейма
+	// Р РµРіРёСЃС‚СЂРёСЂСѓРµРј РіРѕСЂСЏС‡СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїРѕРєР°Р·Р°/СЃРєСЂС‹С‚РёСЏ С„СЂРµР№РјР°
 	{
 		HOTKEYDESC hkd = {};
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'T');
@@ -284,17 +284,17 @@ int TrafficCounterModulesLoaded(WPARAM, LPARAM)
 		Hotkey_Register(&hkd);
 	}
 
-	// Добавляем пункт в главное меню.
+	// Р”РѕР±Р°РІР»СЏРµРј РїСѓРЅРєС‚ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ.
 	if (unOptions.ShowMainMenuItem)
 		Traffic_AddMainMenuItem();
 
-	// Создаём контекстное меню.
+	// РЎРѕР·РґР°С‘Рј РєРѕРЅС‚РµРєСЃС‚РЅРѕРµ РјРµРЅСЋ.
 	if (TrafficPopupMenu = CreatePopupMenu()) {
 		AppendMenu(TrafficPopupMenu, MF_STRING, POPUPMENU_HIDE, TranslateT("Hide traffic window"));
 		AppendMenu(TrafficPopupMenu, MF_STRING, POPUPMENU_CLEAR_NOW, TranslateT("Clear the current (Now:) value"));
 	}
 
-	// Регистрируем обработчики событий Netlib
+	// Р РµРіРёСЃС‚СЂРёСЂСѓРµРј РѕР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёР№ Netlib
 	HookEvent(ME_NETLIB_FASTRECV, TrafficRecv);
 	HookEvent(ME_NETLIB_FASTSEND, TrafficSend);
 
@@ -308,12 +308,12 @@ void SaveSettings(BYTE OnlyCnt)
 {
 	unsigned short int i;
 
-	// Сохраняем счётчик времени онлайна
+	// РЎРѕС…СЂР°РЅСЏРµРј СЃС‡С‘С‚С‡РёРє РІСЂРµРјРµРЅРё РѕРЅР»Р°Р№РЅР°
 	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
 
 	if (OnlyCnt) return;
 
-	// Для каждого протокола сохраняем флаги
+	// Р”Р»СЏ РєР°Р¶РґРѕРіРѕ РїСЂРѕС‚РѕРєРѕР»Р° СЃРѕС…СЂР°РЅСЏРµРј С„Р»Р°РіРё
 	for (i = 0; i < NumberOfAccounts; i++) {
 		if (!ProtoList[i].name) continue;
 		db_set_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, ProtoList[i].Flags);
@@ -331,13 +331,13 @@ void SaveSettings(BYTE OnlyCnt)
 	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_DEFAULT, Traffic_PopupTimeoutDefault);
 	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_POPUP_TIMEOUT_VALUE, Traffic_PopupTimeoutValue);
 	//
-	// Формат счётчиков
+	// Р¤РѕСЂРјР°С‚ СЃС‡С‘С‚С‡РёРєРѕРІ
 	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
 
 	db_set_ws(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
 	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
-	// Сохраняем флаги
+	// РЎРѕС…СЂР°РЅСЏРµРј С„Р»Р°РіРё
 	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
 	db_set_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
 }
@@ -414,7 +414,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	int height = rect.bottom - rect.top;
 	int width = rect.right - rect.left;
 
-	// Свой контекст устройства.
+	// РЎРІРѕР№ РєРѕРЅС‚РµРєСЃС‚ СѓСЃС‚СЂРѕР№СЃС‚РІР°.
 	HDC hdc = CreateCompatibleDC(hDC);
 
 	BITMAPINFO RGB32BitsBITMAPINFO = { 0 };
@@ -453,43 +453,43 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 
 	HFONT old_font = (HFONT)SelectObject(hdc, Traffic_h_font);
 
-	// Ограничиваем область рисования
+	// РћРіСЂР°РЅРёС‡РёРІР°РµРј РѕР±Р»Р°СЃС‚СЊ СЂРёСЃРѕРІР°РЅРёСЏ
 	rect.top += 2;
 	rect.left += 3;
 	rect.bottom -= 2;
 	rect.right -= 3;
 
 	//-------------------
-	// Если нет плагина Variables, рисуем упрощённо.
+	// Р•СЃР»Рё РЅРµС‚ РїР»Р°РіРёРЅР° Variables, СЂРёСЃСѓРµРј СѓРїСЂРѕС‰С‘РЅРЅРѕ.
 	//-------------------
 	if (!bVariablesExists) {
 		SummarySession = SummaryTotal = 0;
-		// Для каждого аккаунта
+		// Р”Р»СЏ РєР°Р¶РґРѕРіРѕ Р°РєРєР°СѓРЅС‚Р°
 		for (int i = 0; i < NumberOfAccounts; i++) {
-			// Только если разрешено его отображение.
+			// РўРѕР»СЊРєРѕ РµСЃР»Рё СЂР°Р·СЂРµС€РµРЅРѕ РµРіРѕ РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ.
 			if (ProtoList[i].Visible && ProtoList[i].Enabled) {
 				int dx = 0;
-				// Изображаем иконку аккаунта.
+				// РР·РѕР±СЂР°Р¶Р°РµРј РёРєРѕРЅРєСѓ Р°РєРєР°СѓРЅС‚Р°.
 				if (unOptions.DrawProtoIcon) {
 					TC_DrawIconEx(hdc, rect.left, rect.top,
 						Skin_LoadProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name, PS_GETSTATUS, 0, 0)), b, ClistModernPresent);
 					dx = 19;
 				}
-				// Изображаем имя аккаунта
+				// РР·РѕР±СЂР°Р¶Р°РµРј РёРјСЏ Р°РєРєР°СѓРЅС‚Р°
 				if (unOptions.DrawProtoName) {
 					rect.left += dx;
 					TC_AlphaText(hdc, ProtoList[i].tszAccountName, &rect, DT_SINGLELINE | DT_LEFT | DT_TOP, ClistModernPresent);
 					rect.left -= dx;
 				}
-				// Следующие позиции строятся от правого края.
-				// Общее время.
+				// РЎР»РµРґСѓСЋС‰РёРµ РїРѕР·РёС†РёРё СЃС‚СЂРѕСЏС‚СЃСЏ РѕС‚ РїСЂР°РІРѕРіРѕ РєСЂР°СЏ.
+				// РћР±С‰РµРµ РІСЂРµРјСЏ.
 				if (unOptions.DrawTotalTimeCounter) {
 					wchar_t bu[32];
 
 					GetDurationFormatM(ProtoList[i].Total.Timer, L"h:mm:ss", bu, 32);
 					TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 				}
-				// Текущее время.
+				// РўРµРєСѓС‰РµРµ РІСЂРµРјСЏ.
 				if (unOptions.DrawCurrentTimeCounter) {
 					wchar_t bu[32];
 
@@ -498,7 +498,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 					TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 					rect.right += 50;
 				}
-				// Изображаем общий трафик.
+				// РР·РѕР±СЂР°Р¶Р°РµРј РѕР±С‰РёР№ С‚СЂР°С„РёРє.
 				if (unOptions.DrawTotalTraffic) {
 					wchar_t bu[32];
 
@@ -510,7 +510,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 					if (ProtoList[i].Visible)
 						SummaryTotal += ProtoList[i].TotalRecvTraffic + ProtoList[i].TotalSentTraffic;
 				}
-				// Изображаем текущий трафик.
+				// РР·РѕР±СЂР°Р¶Р°РµРј С‚РµРєСѓС‰РёР№ С‚СЂР°С„РёРє.
 				if (unOptions.DrawCurrentTraffic) {
 					wchar_t bu[32];
 
@@ -526,17 +526,17 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				rect.top += Traffic_LineHeight + Traffic_AdditionSpace;
 			}
 		}
-		// Рисуем суммарный трафик выбранных аккаунтов.
+		// Р РёСЃСѓРµРј СЃСѓРјРјР°СЂРЅС‹Р№ С‚СЂР°С„РёРє РІС‹Р±СЂР°РЅРЅС‹С… Р°РєРєР°СѓРЅС‚РѕРІ.
 		if (unOptions.ShowSummary) {
-			// Изображаем иконку.
+			// РР·РѕР±СЂР°Р¶Р°РµРј РёРєРѕРЅРєСѓ.
 			int dx = 0;
 			if (unOptions.DrawProtoIcon) {
 				TC_DrawIconEx(hdc, rect.left, rect.top,
 					Skin_LoadIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
 				dx = 19;
 			}
-			// Выводим текст
-			// Изображаем имя
+			// Р’С‹РІРѕРґРёРј С‚РµРєСЃС‚
+			// РР·РѕР±СЂР°Р¶Р°РµРј РёРјСЏ
 			if (unOptions.DrawProtoName) {
 				wchar_t *bu = mir_a2u("Summary");
 
@@ -545,14 +545,14 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				rect.left -= dx;
 				mir_free(bu);
 			}
-			// Общее время.
+			// РћР±С‰РµРµ РІСЂРµРјСЏ.
 			if (unOptions.DrawTotalTimeCounter) {
 				wchar_t bu[32];
 
 				GetDurationFormatM(OverallInfo.Total.Timer, L"h:mm:ss", bu, 32);
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 			}
-			// Текущее время.
+			// РўРµРєСѓС‰РµРµ РІСЂРµРјСЏ.
 			if (unOptions.DrawCurrentTimeCounter) {
 				wchar_t bu[32];
 
@@ -561,7 +561,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 				rect.right += 50;
 			}
-			// Изображаем общий трафик.
+			// РР·РѕР±СЂР°Р¶Р°РµРј РѕР±С‰РёР№ С‚СЂР°С„РёРє.
 			if (unOptions.DrawTotalTraffic) {
 				wchar_t bu[32];
 
@@ -570,7 +570,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 				rect.right += 100;
 			}
-			// Изображаем текущий трафик.
+			// РР·РѕР±СЂР°Р¶Р°РµРј С‚РµРєСѓС‰РёР№ С‚СЂР°С„РёРє.
 			if (unOptions.DrawCurrentTraffic) {
 				wchar_t bu[32];
 
@@ -581,17 +581,17 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			}
 		}
 		rect.top += Traffic_LineHeight + Traffic_AdditionSpace;
-		// Рисуем всеобщий трафик.
+		// Р РёСЃСѓРµРј РІСЃРµРѕР±С‰РёР№ С‚СЂР°С„РёРє.
 		if (unOptions.ShowOverall) {
-			// Изображаем иконку.
+			// РР·РѕР±СЂР°Р¶Р°РµРј РёРєРѕРЅРєСѓ.
 			int dx = 0;
 			if (unOptions.DrawProtoIcon) {
 				TC_DrawIconEx(hdc, rect.left, rect.top,
 					Skin_LoadIcon(SKINICON_OTHER_MIRANDA), b, ClistModernPresent);
 				dx = 19;
 			}
-			// Выводим текст
-			// Изображаем имя
+			// Р’С‹РІРѕРґРёРј С‚РµРєСЃС‚
+			// РР·РѕР±СЂР°Р¶Р°РµРј РёРјСЏ
 			if (unOptions.DrawProtoName) {
 				wchar_t *bu = mir_a2u("Overall");
 
@@ -600,8 +600,8 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				rect.left -= dx;
 				mir_free(bu);
 			}
-			// Следующие позиции строятся от правого края.
-			// Изображаем общий трафик.
+			// РЎР»РµРґСѓСЋС‰РёРµ РїРѕР·РёС†РёРё СЃС‚СЂРѕСЏС‚СЃСЏ РѕС‚ РїСЂР°РІРѕРіРѕ РєСЂР°СЏ.
+			// РР·РѕР±СЂР°Р¶Р°РµРј РѕР±С‰РёР№ С‚СЂР°С„РёРє.
 			if (unOptions.DrawTotalTraffic) {
 				wchar_t bu[32];
 
@@ -610,7 +610,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				TC_AlphaText(hdc, bu, &rect, DT_SINGLELINE | DT_RIGHT | DT_TOP, ClistModernPresent);
 				rect.right += 100;
 			}
-			// Изображаем текущий трафик.
+			// РР·РѕР±СЂР°Р¶Р°РµРј С‚РµРєСѓС‰РёР№ С‚СЂР°С„РёРє.
 			if (unOptions.DrawCurrentTraffic) {
 				wchar_t bu[32];
 
@@ -623,16 +623,16 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	}
 	else {
 		//-------------
-		// Если есть Variables - рисуем по-новому
+		// Р•СЃР»Рё РµСЃС‚СЊ Variables - СЂРёСЃСѓРµРј РїРѕ-РЅРѕРІРѕРјСѓ
 		//-------------
 		RowItemInfo *ItemsList;
 		WORD ItemsNumber, RowsNumber;
 
-		// Готовим список строк для Variables и иконок.
+		// Р“РѕС‚РѕРІРёРј СЃРїРёСЃРѕРє СЃС‚СЂРѕРє РґР»СЏ Variables Рё РёРєРѕРЅРѕРє.
 		wchar_t **ExtraText = (wchar_t**)mir_alloc(sizeof(wchar_t*));
 		HICON *ahIcon = (HICON*)mir_alloc(sizeof(HICON));
 		RowsNumber = 0;
-		// Цикл по аккаунтам.
+		// Р¦РёРєР» РїРѕ Р°РєРєР°СѓРЅС‚Р°Рј.
 		for (int i = 0; i < NumberOfAccounts; i++) {
 			if (ProtoList[i].Visible && ProtoList[i].Enabled) {
 				ExtraText = (wchar_t**)mir_realloc(ExtraText, sizeof(wchar_t*) * (RowsNumber + 1));
@@ -642,7 +642,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				ahIcon[RowsNumber++] = Skin_LoadProtoIcon(ProtoList[i].name, CallProtoService(ProtoList[i].name, PS_GETSTATUS, 0, 0));
 			}
 		}
-		// Ещё 2 особых элемента.
+		// Р•С‰С‘ 2 РѕСЃРѕР±С‹С… СЌР»РµРјРµРЅС‚Р°.
 		if (unOptions.ShowSummary) {
 			ExtraText = (wchar_t**)mir_realloc(ExtraText, sizeof(wchar_t*) * (RowsNumber + 1));
 			ahIcon = (HICON*)mir_realloc(ahIcon, sizeof(HICON) * (RowsNumber + 1));
@@ -658,16 +658,16 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			ahIcon[RowsNumber++] = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 		}
 
-		// Рисуем свой счётчик для каждого из выбранных протоколов
+		// Р РёСЃСѓРµРј СЃРІРѕР№ СЃС‡С‘С‚С‡РёРє РґР»СЏ РєР°Р¶РґРѕРіРѕ РёР· РІС‹Р±СЂР°РЅРЅС‹С… РїСЂРѕС‚РѕРєРѕР»РѕРІ
 		for (int i = 0; i < RowsNumber; i++) {
 			wchar_t *buf = variables_parse(Traffic_CounterFormat, ExtraText[i], NULL);
 			if (ItemsNumber = GetRowItems(buf, &ItemsList)) {
-				// Рисуем текст.
+				// Р РёСЃСѓРµРј С‚РµРєСЃС‚.
 				for (int dx = 0; dx < ItemsNumber; dx++) {
-					// Делаем копию прямоугольника для рисования.
+					// Р”РµР»Р°РµРј РєРѕРїРёСЋ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР° РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ.
 					memcpy(&rect2, &rect, sizeof(RECT));
 					rect2.bottom = rect2.top + Traffic_LineHeight;
-					// Что за тег?
+					// Р§С‚Рѕ Р·Р° С‚РµРі?
 					switch (ItemsList[dx].Alignment) {
 					case 'I':
 						TC_DrawIconEx(hdc, ItemsList[dx].Interval, rect2.top, ahIcon[i], b, ClistModernPresent);
@@ -688,7 +688,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 					}
 				}
 
-				// Нужно освободить память.
+				// РќСѓР¶РЅРѕ РѕСЃРІРѕР±РѕРґРёС‚СЊ РїР°РјСЏС‚СЊ.
 				for (; ItemsNumber--;)
 					mir_free(ItemsList[ItemsNumber].String);
 
@@ -698,7 +698,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 			rect.top += Traffic_LineHeight + Traffic_AdditionSpace;
 		}
 
-		// Удаляем список строк.
+		// РЈРґР°Р»СЏРµРј СЃРїРёСЃРѕРє СЃС‚СЂРѕРє.
 		for (; RowsNumber--;)
 			mir_free(ExtraText[RowsNumber]);
 		mir_free(ExtraText);
@@ -735,7 +735,7 @@ void ProtocolIsOnLine(int num)
 		- 1000 * ProtoList[num].AllStatistics[ProtoList[num].NumberOfRecords - 1].Time;
 	ProtoList[num].Session.Timer = 0;
 
-	if (online_count == 1) // Хотя бы один аккаунт перешёл в онлайн - готовимся считать суммарное время.
+	if (online_count == 1) // РҐРѕС‚СЏ Р±С‹ РѕРґРёРЅ Р°РєРєР°СѓРЅС‚ РїРµСЂРµС€С‘Р» РІ РѕРЅР»Р°Р№РЅ - РіРѕС‚РѕРІРёРјСЃСЏ СЃС‡РёС‚Р°С‚СЊ СЃСѓРјРјР°СЂРЅРѕРµ РІСЂРµРјСЏ.
 	{
 		OverallInfo.Session.TimeAtStart = CurrentTimeMs - 1000 * OverallInfo.Session.Timer;
 		OverallInfo.Total.TimeAtStart = CurrentTimeMs - 1000 * OverallInfo.Total.Timer;
@@ -838,13 +838,13 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 			NotifyOnSend();
 			break;
 
-		case TIMER_REDRAW: // Перерисовка раз в полсекунды.
+		case TIMER_REDRAW: // РџРµСЂРµСЂРёСЃРѕРІРєР° СЂР°Р· РІ РїРѕР»СЃРµРєСѓРЅРґС‹.
 			{
 				DWORD CurrentTimeMs;
 				SYSTEMTIME stNow;
 
 				SaveSettings(1);
-				// Перед подсчётом суммарного трафика обнуляем счётчики.
+				// РџРµСЂРµРґ РїРѕРґСЃС‡С‘С‚РѕРј СЃСѓРјРјР°СЂРЅРѕРіРѕ С‚СЂР°С„РёРєР° РѕР±РЅСѓР»СЏРµРј СЃС‡С‘С‚С‡РёРєРё.
 				OverallInfo.CurrentRecvTraffic =
 					OverallInfo.CurrentSentTraffic =
 					OverallInfo.TotalRecvTraffic =
@@ -862,11 +862,11 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 					Stat_CheckStatistics(i);
 
-					{	// Здесь на основании статистики вычисляются значения всех трафиков и времени.
+					{	// Р—РґРµСЃСЊ РЅР° РѕСЃРЅРѕРІР°РЅРёРё СЃС‚Р°С‚РёСЃС‚РёРєРё РІС‹С‡РёСЃР»СЏСЋС‚СЃСЏ Р·РЅР°С‡РµРЅРёСЏ РІСЃРµС… С‚СЂР°С„РёРєРѕРІ Рё РІСЂРµРјРµРЅРё.
 						DWORD Sum1, Sum2;
 						unsigned long int j;
 
-						// Значения для текущей сессии.
+						// Р—РЅР°С‡РµРЅРёСЏ РґР»СЏ С‚РµРєСѓС‰РµР№ СЃРµСЃСЃРёРё.
 						for (Sum1 = Sum2 = 0, j = ProtoList[i].StartIndex; j < ProtoList[i].NumberOfRecords; j++) {
 							Sum1 += ProtoList[i].AllStatistics[j].Incoming;
 							Sum2 += ProtoList[i].AllStatistics[j].Outgoing;
@@ -875,7 +875,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 						ProtoList[i].CurrentSentTraffic = Sum2 - ProtoList[i].StartOutgoing;
 						OverallInfo.CurrentRecvTraffic += ProtoList[i].CurrentRecvTraffic;
 						OverallInfo.CurrentSentTraffic += ProtoList[i].CurrentSentTraffic;
-						// Значения для выбранного периода.
+						// Р—РЅР°С‡РµРЅРёСЏ РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕРіРѕ РїРµСЂРёРѕРґР°.
 						ProtoList[i].TotalRecvTraffic =
 							Stat_GetItemValue(1 << i,
 								unOptions.PeriodForShow + 1,
@@ -892,7 +892,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 						OverallInfo.TotalSentTraffic += ProtoList[i].TotalSentTraffic;
 					}
 				}
-				// Не пора ли уведомить?
+				// РќРµ РїРѕСЂР° Р»Рё СѓРІРµРґРѕРјРёС‚СЊ?
 				if (unOptions.NotifyBySize && Traffic_Notify_size_value) {
 					if (!((OverallInfo.CurrentRecvTraffic >> 10) % Traffic_Notify_size_value)
 						&& notify_recv_size != OverallInfo.CurrentRecvTraffic >> 10)
@@ -903,10 +903,10 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 						NotifyOnSend();
 				}
 
-				// Счётчики суммарного времени.
+				// РЎС‡С‘С‚С‡РёРєРё СЃСѓРјРјР°СЂРЅРѕРіРѕ РІСЂРµРјРµРЅРё.
 				GetLocalTime(&stNow);
 
-				// Не пора ли сбросить общий счётчик?
+				// РќРµ РїРѕСЂР° Р»Рё СЃР±СЂРѕСЃРёС‚СЊ РѕР±С‰РёР№ СЃС‡С‘С‚С‡РёРє?
 				if ((unOptions.PeriodForShow == 0
 					&& stNow.wHour == 0
 					&& stNow.wMinute == 0
@@ -1002,7 +1002,7 @@ void CreateTrafficWindow(HWND hCluiWnd)
 		0, 0, 0, 0, hCluiWnd, nullptr, hInst, nullptr);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		// Готовимся создавать фрейм
+		// Р“РѕС‚РѕРІРёРјСЃСЏ СЃРѕР·РґР°РІР°С‚СЊ С„СЂРµР№Рј
 		memset(&f, 0, sizeof(CLISTFrame));
 		f.align = alBottom;
 		f.cbSize = sizeof(CLISTFrame);
@@ -1011,12 +1011,12 @@ void CreateTrafficWindow(HWND hCluiWnd)
 		f.hWnd = TrafficHwnd;
 		f.TBname = ("Traffic counter");
 		f.name = ("Traffic counter");
-		// Создаём фрейм
+		// РЎРѕР·РґР°С‘Рј С„СЂРµР№Рј
 		Traffic_FrameID = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&f, 0);
 		CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)f.hWnd, (LPARAM)TrafficCounter_PaintCallbackProc);
 	}
 
-	// Создаём таймеры.
+	// РЎРѕР·РґР°С‘Рј С‚Р°Р№РјРµСЂС‹.
 	SetTimer(TrafficHwnd, TIMER_REDRAW, 500, nullptr);
 	UpdateNotifyTimer();
 }
@@ -1113,8 +1113,8 @@ void CreateProtocolList(void)
 		ProtoList[i].StartIndex = ProtoList[i].NumberOfRecords - 1;
 		ProtoList[i].StartIncoming = ProtoList[i].AllStatistics[ProtoList[i].StartIndex].Incoming;
 		ProtoList[i].StartOutgoing = ProtoList[i].AllStatistics[ProtoList[i].StartIndex].Outgoing;
-	} // цикл по аккаунтам
-	// Начальные значения для суммарной информации.
+	} // С†РёРєР» РїРѕ Р°РєРєР°СѓРЅС‚Р°Рј
+	// РќР°С‡Р°Р»СЊРЅС‹Рµ Р·РЅР°С‡РµРЅРёСЏ РґР»СЏ СЃСѓРјРјР°СЂРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё.
 	OverallInfo.Session.Timer = OverallInfo.Total.Timer = 0;
 }
 
@@ -1169,7 +1169,7 @@ int UpdateFonts(WPARAM, LPARAM)
 	TrafficFontHeight = abs(logfont.lfHeight) + 1;
 	Traffic_BkColor = Colour_GetW(TrafficBackgroundColorID);
 
-	// Ключевой цвет
+	// РљР»СЋС‡РµРІРѕР№ С†РІРµС‚
 	UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
 	KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
 
@@ -1190,15 +1190,15 @@ unsigned short int TrafficWindowHeight(void)
 	for (int i = 0; i < NumberOfAccounts; i++)
 		ActProto += ProtoList[i].Visible && ProtoList[i].Enabled;
 
-	// Высота строки минимум 16 пикселей (для иконки).
+	// Р’С‹СЃРѕС‚Р° СЃС‚СЂРѕРєРё РјРёРЅРёРјСѓРј 16 РїРёРєСЃРµР»РµР№ (РґР»СЏ РёРєРѕРЅРєРё).
 	Traffic_LineHeight = TrafficFontHeight > 16 ? TrafficFontHeight : 16;
 
-	// Высота фрейма равна количеству строк.
+	// Р’С‹СЃРѕС‚Р° С„СЂРµР№РјР° СЂР°РІРЅР° РєРѕР»РёС‡РµСЃС‚РІСѓ СЃС‚СЂРѕРє.
 	int MaxWndHeight = ActProto * Traffic_LineHeight + Traffic_AdditionSpace * (ActProto - 1) + 4;
 	return (MaxWndHeight < TrafficFontHeight) ? 0 : MaxWndHeight;
 }
 
-// Функция вносит изменения в ProtoList при коммутации аккаунтов
+// Р¤СѓРЅРєС†РёСЏ РІРЅРѕСЃРёС‚ РёР·РјРµРЅРµРЅРёСЏ РІ ProtoList РїСЂРё РєРѕРјРјСѓС‚Р°С†РёРё Р°РєРєР°СѓРЅС‚РѕРІ
 int OnAccountsListChange(WPARAM wParam, LPARAM lParam)
 {
 	PROTOACCOUNT *acc = (PROTOACCOUNT*)lParam;

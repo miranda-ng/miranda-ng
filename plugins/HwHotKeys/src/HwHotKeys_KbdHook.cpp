@@ -1,6 +1,6 @@
 /* ============================================================================
 Hardware HotKeys plugin for Miranda NG.
-Copyright © Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
+Copyright В© Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
 
 This program is free software; you can redistribute it and / or
 modify it under the terms of the GNU General Public License
@@ -24,31 +24,31 @@ LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://m
 		KBDLLHOOKSTRUCT *pKbdLLHookStruct = (KBDLLHOOKSTRUCT *)lParam;
 		if (nCode >= 0)
 		{
-			if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) // при отпускании любой кнопки - сбрасываем всю накопленную комбинацию
+			if (wParam == WM_KEYUP || wParam == WM_SYSKEYUP) // РїСЂРё РѕС‚РїСѓСЃРєР°РЅРёРё Р»СЋР±РѕР№ РєРЅРѕРїРєРё - СЃР±СЂР°СЃС‹РІР°РµРј РІСЃСЋ РЅР°РєРѕРїР»РµРЅРЅСѓСЋ РєРѕРјР±РёРЅР°С†РёСЋ
 			{
 				key_code = 0;
 			}
 			else if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN)
 			{
 				if (!(pKbdLLHookStruct->scanCode & 0xFFFFFF00) && (pKbdLLHookStruct->scanCode & 0xFF)) // && !(pKbdLLHookStruct->flags & LLKHF_INJECTED)) 
-					// 0xFFFFFF00 фильтр для странных двойных сканкодов например перед L_Alt/AltGr, 
-					// 0xFF фильтр для нулевых сканкодов(приходят при всякой там эмуляции нажатий и т.п.)
-					// LLKHF_INJECTED фильтр для эмулируемых нажатий, но есть проблема с некоторыми клавами
+					// 0xFFFFFF00 С„РёР»СЊС‚СЂ РґР»В¤ СЃС‚СЂР°РЅРЅС‹С… РґРІРѕР№РЅС‹С… СЃРєР°РЅРєРѕРґРѕРІ РЅР°РїСЂРёРјРµСЂ РїРµСЂРµРґ L_Alt/AltGr, 
+					// 0xFF С„РёР»СЊС‚СЂ РґР»В¤ РЅСѓР»РµРІС‹С… СЃРєР°РЅРєРѕРґРѕРІ(РїСЂРёС…РѕРґВ¤С‚ РїСЂРё РІСЃВ¤РєРѕР№ С‚Р°Рј СЌРјСѓР»В¤С†РёРё РЅР°Р¶Р°С‚РёР№ Рё С‚.Рї.)
+					// LLKHF_INJECTED С„РёР»СЊС‚СЂ РґР»В¤ СЌРјСѓР»РёСЂСѓРµРјС‹С… РЅР°Р¶Р°С‚РёР№, РЅРѕ РµСЃС‚СЊ РїСЂРѕР±Р»РµРјР° СЃ РЅРµРєРѕС‚РѕСЂС‹РјРё РєР»Р°РІР°РјРё
 				{
-					// строим комплексный код(сканкод + доп.флаг LLKHF_EXTENDED), от 0 до 1FF
+					// СЃС‚СЂРѕРёРј РєРѕРјРїР»РµРєСЃРЅС‹Р№ РєРѕРґ(СЃРєР°РЅРєРѕРґ + РґРѕРї.С„Р»Р°Рі LLKHF_EXTENDED), РѕС‚ 0 РґРѕ 1FF
 					key_code_raw = (LOBYTE(pKbdLLHookStruct->scanCode) | ((LOBYTE(pKbdLLHookStruct->flags)&1) << 8));
 
-					if (hDialogWnd) // если диалог настроек открыт - выводим в него нажимаемые кнопоки
+					if (hDialogWnd) // РµСЃР»Рё РґРёР°Р»РѕРі РЅР°СЃС‚СЂРѕРµРє РѕС‚РєСЂС‹С‚ - РІС‹РІРѕРґРёРј РІ РЅРµРіРѕ РЅР°Р¶РёРјР°РµРјС‹Рµ РєРЅРѕРїРѕРєРё
 					{
 						StringCbPrintfA(key_name_buffer, sizeof(key_name_buffer), "%03X %s", key_code_raw, key_tab[(key_code_raw & 0x1FF)]);
 						SetDlgItemTextA(hDialogWnd, dlg_scancode_edit, key_name_buffer);
 					}
 
-					switch (key_code_raw) // проверяем кнопки модификаторов
+					switch (key_code_raw) // РїСЂРѕРІРµСЂВ¤РµРј РєРЅРѕРїРєРё РјРѕРґРёС„РёРєР°С‚РѕСЂРѕРІ
 						{
 						case 0x01D: // L_Ctrl
 							key_code |= key_flag_cl;
-							break;   // после модификаторов - ничего не делаем, выход из хука.
+							break;   // РїРѕСЃР»Рµ РјРѕРґРёС„РёРєР°С‚РѕСЂРѕРІ - РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј, РІС‹С…РѕРґ РёР· С…СѓРєР°.
 						case 0x11D: // R_Ctrl
 							key_code |= key_flag_cr;
 							break;
@@ -76,11 +76,11 @@ LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://m
 						case 0x136: // R_Shift_fake
 							key_code |= key_flag_sr;
 							break; 
-						default:  // если это не кнопка модификатора - то дальнейшая обработка
-							key_code = (LOWORD(key_code_raw)) | (key_code & 0xFFFF0000); // в старшей половине там лежат биты модификаторов - их оставляем (они там могут быть от предыдущего раза)
-							if (hDialogWnd) // если диалог настроек открыт - выводим в него комплексную комбинацию (типа Shift+Key), которую потом можно назначить;
+						default:  // РµСЃР»Рё СЌС‚Рѕ РЅРµ РєРЅРѕРїРєР° РјРѕРґРёС„РёРєР°С‚РѕСЂР° - С‚Рѕ РґР°Р»СЊРЅРµР№С€Р°В¤ РѕР±СЂР°Р±РѕС‚РєР°
+							key_code = (LOWORD(key_code_raw)) | (key_code & 0xFFFF0000); // РІ СЃС‚Р°СЂС€РµР№ РїРѕР»РѕРІРёРЅРµ С‚Р°Рј Р»РµР¶Р°С‚ Р±РёС‚С‹ РјРѕРґРёС„РёРєР°С‚РѕСЂРѕРІ - РёС… РѕСЃС‚Р°РІР»В¤РµРј (РѕРЅРё С‚Р°Рј РјРѕРіСѓС‚ Р±С‹С‚СЊ РѕС‚ РїСЂРµРґС‹РґСѓС‰РµРіРѕ СЂР°Р·Р°)
+							if (hDialogWnd) // РµСЃР»Рё РґРёР°Р»РѕРі РЅР°СЃС‚СЂРѕРµРє РѕС‚РєСЂС‹С‚ - РІС‹РІРѕРґРёРј РІ РЅРµРіРѕ РєРѕРјРїР»РµРєСЃРЅСѓСЋ РєРѕРјР±РёРЅР°С†РёСЋ (С‚РёРїР° Shift+Key), РєРѕС‚РѕСЂСѓСЋ РїРѕС‚РѕРј РјРѕР¶РЅРѕ РЅР°Р·РЅР°С‡РёС‚СЊ;
 							{
-								if (IsDlgButtonChecked(hDialogWnd, dlg_combine)) // левые/правые модификаторы объединять в один?
+								if (IsDlgButtonChecked(hDialogWnd, dlg_combine)) // Р»РµРІС‹Рµ/РїСЂР°РІС‹Рµ РјРѕРґРёС„РёРєР°С‚РѕСЂС‹ РѕР±СЉРµРґРёРЅВ¤С‚СЊ РІ РѕРґРёРЅ?
 								{
 									DWORD tmp1, tmp2;
 									tmp1 = ((key_code >> 4) | (key_code >> 8)) & 0x00F00000;
@@ -95,34 +95,34 @@ LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://m
 								HwHotKeys_PrintFullKeyname(key_code_assign);
 								SetDlgItemTextA(hDialogWnd, dlg_keyname_edit, key_name_buffer);
 							}
-							else // хоткей выполняют действия только если закрыт диалог настроек (чтобы не мешал настраивать)
+							else // С…РѕС‚РєРµР№ РІС‹РїРѕР»РЅВ¤СЋС‚ РґРµР№СЃС‚РІРёВ¤ С‚РѕР»СЊРєРѕ РµСЃР»Рё Р·Р°РєСЂС‹С‚ РґРёР°Р»РѕРі РЅР°СЃС‚СЂРѕРµРє (С‡С‚РѕР±С‹ РЅРµ РјРµС€Р°Р» РЅР°СЃС‚СЂР°РёРІР°С‚СЊ)
 							{
-								if (HwHotKeys_CompareCurrentScancode(code_Close)) // хоткей полного закрытия Miranda
+								if (HwHotKeys_CompareCurrentScancode(code_Close)) // С…РѕС‚РєРµР№ РїРѕР»РЅРѕРіРѕ Р·Р°РєСЂС‹С‚РёВ¤ Miranda
 								{
 									// Beep(300, 200);
 									CallService("CloseAction", 0, 0);
 									return 1;
 								}
-								else if (HwHotKeys_CompareCurrentScancode(code_HideShow)) // хоткей сворачивания/разворачивания главного окна Miranda
+								else if (HwHotKeys_CompareCurrentScancode(code_HideShow)) // С…РѕС‚РєРµР№ СЃРІРѕСЂР°С‡РёРІР°РЅРёВ¤/СЂР°Р·РІРѕСЂР°С‡РёРІР°РЅРёВ¤ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР° Miranda
 								{
 									// Beep(700, 200);
-									pcli->pfnShowHide(); // есть варианты
+									pcli->pfnShowHide(); // РµСЃС‚СЊ РІР°СЂРёР°РЅС‚С‹
 									return 1;
 								}
-								else if (HwHotKeys_CompareCurrentScancode(code_ReadMsg)) // хоткей чтения сообщения
+								else if (HwHotKeys_CompareCurrentScancode(code_ReadMsg)) // С…РѕС‚РєРµР№ С‡С‚РµРЅРёВ¤ СЃРѕРѕР±С‰РµРЅРёВ¤
 								{
 									// Beep(1500, 200);
-									if (pcli->pfnEventsProcessTrayDoubleClick(0) != 0) // клик по трею для стандартного открытия сообщения
-									{ // иначе - окно чата уже открыто и надо его вытащить наверх...
+									if (pcli->pfnEventsProcessTrayDoubleClick(0) != 0) // РєР»РёРє РїРѕ С‚СЂРµСЋ РґР»В¤ СЃС‚Р°РЅРґР°СЂС‚РЅРѕРіРѕ РѕС‚РєСЂС‹С‚РёВ¤ СЃРѕРѕР±С‰РµРЅРёВ¤
+									{ // РёРЅР°С‡Рµ - РѕРєРЅРѕ С‡Р°С‚Р° СѓР¶Рµ РѕС‚РєСЂС‹С‚Рѕ Рё РЅР°РґРѕ РµРіРѕ РІС‹С‚Р°С‰РёС‚СЊ РЅР°РІРµСЂС…...
 										SetForegroundWindow(pcli->hwndContactList);
 										SetFocus(pcli->hwndContactList);
-										// хотя всё равно это не очень работает в новой винде
-										// надо http://www.rsdn.ru/article/qna/ui/wndsetfg.xml
-										// но пока незнаю где тут взять хэндл окна чата(причём именно для
-										// выбранного контакта, их же несколько может быть если простой srmm)
-										// у миранды в hkRead такие же проблемы
+										// С…РѕС‚В¤ РІСЃР„ СЂР°РІРЅРѕ СЌС‚Рѕ РЅРµ РѕС‡РµРЅСЊ СЂР°Р±РѕС‚Р°РµС‚ РІ РЅРѕРІРѕР№ РІРёРЅРґРµ
+										// РЅР°РґРѕ http://www.rsdn.ru/article/qna/ui/wndsetfg.xml
+										// РЅРѕ РїРѕРєР° РЅРµР·РЅР°СЋ РіРґРµ С‚СѓС‚ РІР·В¤С‚СЊ С…СЌРЅРґР» РѕРєРЅР° С‡Р°С‚Р°(РїСЂРёС‡Р„Рј РёРјРµРЅРЅРѕ РґР»В¤
+										// РІС‹Р±СЂР°РЅРЅРѕРіРѕ РєРѕРЅС‚Р°РєС‚Р°, РёС… Р¶Рµ РЅРµСЃРєРѕР»СЊРєРѕ РјРѕР¶РµС‚ Р±С‹С‚СЊ РµСЃР»Рё РїСЂРѕСЃС‚РѕР№ srmm)
+										// Сѓ РјРёСЂР°РЅРґС‹ РІ hkRead С‚Р°РєРёРµ Р¶Рµ РїСЂРѕР±Р»РµРјС‹
 									}
-									return 1; // возврат 1 запрещает дальнейшую работу кнопки, т.е. кнопка после нашего плагина никому более не достанется
+									return 1; // РІРѕР·РІСЂР°С‚ 1 Р·Р°РїСЂРµС‰Р°РµС‚ РґР°Р»СЊРЅРµР№С€СѓСЋ СЂР°Р±РѕС‚Сѓ РєРЅРѕРїРєРё, С‚.Рµ. РєРЅРѕРїРєР° РїРѕСЃР»Рµ РЅР°С€РµРіРѕ РїР»Р°РіРёРЅР° РЅРёРєРѕРјСѓ Р±РѕР»РµРµ РЅРµ РґРѕСЃС‚Р°РЅРµС‚СЃВ¤
 								}
 							}
 						}

@@ -2,8 +2,8 @@
 //                Contacts+ for Miranda Instant Messenger
 //                _______________________________________
 // 
-// Copyright © 2002 Dominus Procellarum 
-// Copyright © 2004-2008 Joe Kucera
+// Copyright Â© 2002 Dominus Procellarum 
+// Copyright Â© 2004-2008 Joe Kucera
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

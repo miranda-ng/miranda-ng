@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Baloo"
 #define __AUTHOREMAIL            "baloo@bk.ru"
 #define __AUTHORWEB              "https://miranda-ng.org/p/CryptoPP/"
-#define __COPYRIGHT              "© 2006-09 Baloo"
+#define __COPYRIGHT              "Â© 2006-09 Baloo"

@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"
 #define __AUTHOREMAIL            "koshechka@miranda.im"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StopSpam/"
-#define __COPYRIGHT              "© 2004-2010 Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"
+#define __COPYRIGHT              "Â© 2004-2010 Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"

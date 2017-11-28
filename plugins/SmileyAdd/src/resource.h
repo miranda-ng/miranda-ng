@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\Others\SVN\MirandaNG\trunk\plugins\SmileyAdd\res\resource.rc
+// В¬РєР»СЋС‡Р°РµРјС‹Р№ С„Р°Р№Р», СЃРѕР·РґР°РЅРЅС‹Р№ РІ Microsoft Visual C++.
+// В»СЃРїРѕР»СЊР·СѓРµС‚СЃВ¤ D:\Others\SVN\MirandaNG\trunk\plugins\SmileyAdd\res\resource.rc
 //
 #define IDI_SMILINGICON                 124
 #define IDD_OPT_SMILEYS                 245

@@ -24,7 +24,7 @@ int TrafficRecv(WPARAM wParam,LPARAM lParam);
 int TrafficSend(WPARAM wParam,LPARAM lParam);
 
 //---------------------------------------------------------------------------------------------
-// Имена параметров с настройками в базе
+// РРјРµРЅР° РїР°СЂР°РјРµС‚СЂРѕРІ СЃ РЅР°СЃС‚СЂРѕР№РєР°РјРё РІ Р±Р°Р·Рµ
 //---------------------------------------------------------------------------------------------
 #define TRAFFIC_SETTINGS_GROUP "TrafficCounter"
 
@@ -51,13 +51,13 @@ int TrafficSend(WPARAM wParam,LPARAM lParam);
 #define TIMER_REDRAW 3300
 #define TIMER_TOOLTIP 3301
 #define SETTINGS_TOTAL_ONLINE_TIME "TotalOnlineTime"
-// Разные флажки
+// Р Р°Р·РЅС‹Рµ С„Р»Р°Р¶РєРё
 #define SETTINGS_WHAT_DRAW "WhatDraw"
 
-// Настройки для протоколов - сохраняются в ветке протокола
+// РќР°СЃС‚СЂРѕР№РєРё РґР»СЏ РїСЂРѕС‚РѕРєРѕР»РѕРІ - СЃРѕС…СЂР°РЅСЏСЋС‚СЃСЏ РІ РІРµС‚РєРµ РїСЂРѕС‚РѕРєРѕР»Р°
 #define SETTINGS_PROTO_FLAGS "tc_Flags"
 
-/*====== ФУНКЦИИ МОДУЛЯ =====*/
+/*====== Р¤РЈРќРљР¦РР РњРћР”РЈР›РЇ =====*/
 int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam);
 int TrafficCounterModulesLoaded(WPARAM wParam,LPARAM lParam);
 int TrafficCounterShutdown(WPARAM wParam,LPARAM lParam);
@@ -77,10 +77,10 @@ int OnAccountsListChange(WPARAM wParam, LPARAM lParam);
 int UpdateFonts(WPARAM wParam, LPARAM lParam);
 void UpdateTrafficWindowSize(void);
 unsigned short int TrafficWindowHeight(void);
-// Рисование
+// Р РёСЃРѕРІР°РЅРёРµ
 int TrafficCounter_Draw(HWND, HDC);
 int PaintTrafficCounterWindow(HWND, HDC);
-// Вспомогательные функции
+// Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё
 INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM);
 void Traffic_AddMainMenuItem(void);
 

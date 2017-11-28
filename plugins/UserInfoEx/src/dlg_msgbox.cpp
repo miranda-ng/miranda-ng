@@ -2,8 +2,8 @@
 UserinfoEx plugin for Miranda NG
 
 Copyright:
-© 2012-17 Miranda NG project (https://miranda-ng.org)
-© 2006-10 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+Â© 2012-17 Miranda NG project (https://miranda-ng.org)
+Â© 2006-10 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,7 +35,7 @@ typedef struct _MSGPOPUPDATA
  *
  * @param	hDlg		- the dialog box's window handle
  * @param	idCtrl		- the identication number of the control to move
- * @param	dx			-´number of pixels to horizontal move the control
+ * @param	dx			-Ò‘number of pixels to horizontal move the control
  * @param	dy			- number of pixels to vertical move the control
  * @param	dw			- number of pixels to horizontal resize the control
  * @param	dh			- number of pixels to vertical resize the control

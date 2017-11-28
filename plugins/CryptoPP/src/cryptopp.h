@@ -111,8 +111,8 @@ typedef queue<string,STRINGDEQUE> STRINGQUEUE;
 
 
 typedef struct __RSADATA {
-	short			state;	// 0 - нифига нет, 1..6 - keyexchange, 7 - соединение установлено
-	u_int			time;	// для прерывания keyexchange, если долго нет ответа
+	short			state;	// 0 - РЅРёС„РёРіР° РЅРµС‚, 1..6 - keyexchange, 7 - СЃРѕРµРґРёРЅРµРЅРёРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ
+	u_int			time;	// РґР»СЏ РїСЂРµСЂС‹РІР°РЅРёСЏ keyexchange, РµСЃР»Рё РґРѕР»РіРѕ РЅРµС‚ РѕС‚РІРµС‚Р°
 	string			pub_k;	// public key string
 	string			pub_s;	// hash(pub_k)
 	RSA::PublicKey		pub;	// public key
@@ -162,20 +162,20 @@ string cpp_zlibc(string&);
 string cpp_zlibd(string&);
 
 typedef struct {
-    int (__cdecl *rsa_gen_keypair)(short);				// генерит RSA-ключи для указанной длины (либо тока 2048, либо 2048 и 4096)
-    int (__cdecl *rsa_get_keypair)(short,PBYTE,int*,PBYTE,int*);	// возвращает пару ключей для указанной длины
-    int (__cdecl *rsa_get_keyhash)(short,PBYTE,int*,PBYTE,int*);	// возвращает hash пары ключей для указанной длины
-    int (__cdecl *rsa_set_keypair)(short,PBYTE,int);			// устанавливает ключи, указанной длины
-    int (__cdecl *rsa_get_pubkey)(HANDLE,PBYTE,int*);			// возвращает паблик ключ из указанного контекста
-    int (__cdecl *rsa_set_pubkey)(HANDLE,PBYTE,int);			// загружает паблик ключ для указанного контекста
-    void (__cdecl *rsa_set_timeout)(int);				// установить таймаут для установки секюрного соединения
-    int (__cdecl *rsa_get_state)(HANDLE);				// получить статус указанного контекста
-    int (__cdecl *rsa_get_hash)(PBYTE,int,PBYTE,int*);			// вычисляет SHA1(key)
-    int (__cdecl *rsa_connect)(HANDLE);					// запускает процесс установки содинения с указанным контекстом
-    int (__cdecl *rsa_disconnect)(HANDLE);				// разрывает соединение с указанным контекстом
-    int (__cdecl *rsa_disabled)(HANDLE);				// разрывает соединение по причине "disabled"
-    LPSTR (__cdecl *rsa_recv)(HANDLE,LPCSTR);				// необходимо передавать сюда все входящие протокольные сообщения
-    int   (__cdecl *rsa_send)(HANDLE,LPCSTR);				// вызываем для отправки сообщения клиенту
+    int (__cdecl *rsa_gen_keypair)(short);				// РіРµРЅРµСЂРёС‚ RSA-РєР»СЋС‡Рё РґР»СЏ СѓРєР°Р·Р°РЅРЅРѕР№ РґР»РёРЅС‹ (Р»РёР±Рѕ С‚РѕРєР° 2048, Р»РёР±Рѕ 2048 Рё 4096)
+    int (__cdecl *rsa_get_keypair)(short,PBYTE,int*,PBYTE,int*);	// РІРѕР·РІСЂР°С‰Р°РµС‚ РїР°СЂСѓ РєР»СЋС‡РµР№ РґР»СЏ СѓРєР°Р·Р°РЅРЅРѕР№ РґР»РёРЅС‹
+    int (__cdecl *rsa_get_keyhash)(short,PBYTE,int*,PBYTE,int*);	// РІРѕР·РІСЂР°С‰Р°РµС‚ hash РїР°СЂС‹ РєР»СЋС‡РµР№ РґР»СЏ СѓРєР°Р·Р°РЅРЅРѕР№ РґР»РёРЅС‹
+    int (__cdecl *rsa_set_keypair)(short,PBYTE,int);			// СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РєР»СЋС‡Рё, СѓРєР°Р·Р°РЅРЅРѕР№ РґР»РёРЅС‹
+    int (__cdecl *rsa_get_pubkey)(HANDLE,PBYTE,int*);			// РІРѕР·РІСЂР°С‰Р°РµС‚ РїР°Р±Р»РёРє РєР»СЋС‡ РёР· СѓРєР°Р·Р°РЅРЅРѕРіРѕ РєРѕРЅС‚РµРєСЃС‚Р°
+    int (__cdecl *rsa_set_pubkey)(HANDLE,PBYTE,int);			// Р·Р°РіСЂСѓР¶Р°РµС‚ РїР°Р±Р»РёРє РєР»СЋС‡ РґР»СЏ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РєРѕРЅС‚РµРєСЃС‚Р°
+    void (__cdecl *rsa_set_timeout)(int);				// СѓСЃС‚Р°РЅРѕРІРёС‚СЊ С‚Р°Р№РјР°СѓС‚ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё СЃРµРєСЋСЂРЅРѕРіРѕ СЃРѕРµРґРёРЅРµРЅРёСЏ
+    int (__cdecl *rsa_get_state)(HANDLE);				// РїРѕР»СѓС‡РёС‚СЊ СЃС‚Р°С‚СѓСЃ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РєРѕРЅС‚РµРєСЃС‚Р°
+    int (__cdecl *rsa_get_hash)(PBYTE,int,PBYTE,int*);			// РІС‹С‡РёСЃР»СЏРµС‚ SHA1(key)
+    int (__cdecl *rsa_connect)(HANDLE);					// Р·Р°РїСѓСЃРєР°РµС‚ РїСЂРѕС†РµСЃСЃ СѓСЃС‚Р°РЅРѕРІРєРё СЃРѕРґРёРЅРµРЅРёСЏ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РєРѕРЅС‚РµРєСЃС‚РѕРј
+    int (__cdecl *rsa_disconnect)(HANDLE);				// СЂР°Р·СЂС‹РІР°РµС‚ СЃРѕРµРґРёРЅРµРЅРёРµ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј РєРѕРЅС‚РµРєСЃС‚РѕРј
+    int (__cdecl *rsa_disabled)(HANDLE);				// СЂР°Р·СЂС‹РІР°РµС‚ СЃРѕРµРґРёРЅРµРЅРёРµ РїРѕ РїСЂРёС‡РёРЅРµ "disabled"
+    LPSTR (__cdecl *rsa_recv)(HANDLE,LPCSTR);				// РЅРµРѕР±С…РѕРґРёРјРѕ РїРµСЂРµРґР°РІР°С‚СЊ СЃСЋРґР° РІСЃРµ РІС…РѕРґСЏС‰РёРµ РїСЂРѕС‚РѕРєРѕР»СЊРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ
+    int   (__cdecl *rsa_send)(HANDLE,LPCSTR);				// РІС‹Р·С‹РІР°РµРј РґР»СЏ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ РєР»РёРµРЅС‚Сѓ
     int (__cdecl *rsa_encrypt_file)(HANDLE,LPCSTR,LPCSTR);
     int (__cdecl *rsa_decrypt_file)(HANDLE,LPCSTR,LPCSTR);
     LPSTR  (__cdecl *utf8encode)(LPCWSTR);
@@ -190,9 +190,9 @@ typedef struct {
 typedef RSA_EXPORT* pRSA_EXPORT;
 
 typedef struct {
-    int  (__cdecl *rsa_inject)(HANDLE,LPCSTR);			// вставляет сообщение в очередь на отправку
-    int  (__cdecl *rsa_check_pub)(HANDLE,PBYTE,int,PBYTE,int);	// проверяет интерактивно SHA и сохраняет ключ, если все нормально
-    void (__cdecl *rsa_notify)(HANDLE,int);			// нотификация о смене состояния
+    int  (__cdecl *rsa_inject)(HANDLE,LPCSTR);			// РІСЃС‚Р°РІР»СЏРµС‚ СЃРѕРѕР±С‰РµРЅРёРµ РІ РѕС‡РµСЂРµРґСЊ РЅР° РѕС‚РїСЂР°РІРєСѓ
+    int  (__cdecl *rsa_check_pub)(HANDLE,PBYTE,int,PBYTE,int);	// РїСЂРѕРІРµСЂСЏРµС‚ РёРЅС‚РµСЂР°РєС‚РёРІРЅРѕ SHA Рё СЃРѕС…СЂР°РЅСЏРµС‚ РєР»СЋС‡, РµСЃР»Рё РІСЃРµ РЅРѕСЂРјР°Р»СЊРЅРѕ
+    void (__cdecl *rsa_notify)(HANDLE,int);			// РЅРѕС‚РёС„РёРєР°С†РёСЏ Рѕ СЃРјРµРЅРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ
 } RSA_IMPORT;
 typedef RSA_IMPORT* pRSA_IMPORT;
 

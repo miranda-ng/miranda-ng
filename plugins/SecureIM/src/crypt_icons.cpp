@@ -13,10 +13,10 @@ struct ICON_CACHE
 
 OBJLIST<ICON_CACHE> arIcoList(10);
 
-// преобразует mode в HICON который НЕ НУЖНО разрушать в конце
+// РїСЂРµРѕР±СЂР°Р·СѓРµС‚ mode РІ HICON РєРѕС‚РѕСЂС‹Р№ РќР• РќРЈР–РќРћ СЂР°Р·СЂСѓС€Р°С‚СЊ РІ РєРѕРЅС†Рµ
 static ICON_CACHE& getCacheItem(int mode, int type)
 {
-	int m = mode & 0x0f, s = (mode & SECURED) >> 4, i; // разобрали на части - режим и состояние
+	int m = mode & 0x0f, s = (mode & SECURED) >> 4, i; // СЂР°Р·РѕР±СЂР°Р»Рё РЅР° С‡Р°СЃС‚Рё - СЂРµР¶РёРј Рё СЃРѕСЃС‚РѕСЏРЅРёРµ
 	HICON icon;
 
 	for (i = 0; i < arIcoList.getCount(); i++)
@@ -61,12 +61,12 @@ HANDLE mode2clicon(int mode, int type)
 	return p.hCLIcon;
 }
 
-// обновляет иконки в clist и в messagew
+// РѕР±РЅРѕРІР»СЏРµС‚ РёРєРѕРЅРєРё РІ clist Рё РІ messagew
 void ShowStatusIcon(MCONTACT hContact, int mode)
 {
 	MCONTACT hMC = db_mc_getMeta(hContact);
 
-	// обновить иконки в clist
+	// РѕР±РЅРѕРІРёС‚СЊ РёРєРѕРЅРєРё РІ clist
 	if (mode != -1) {
 		HANDLE hIcon = mode2clicon(mode, 1);
 		ExtraIcon_SetIcon(g_hCLIcon, hContact, hIcon);
@@ -85,7 +85,7 @@ void ShowStatusIcon(MCONTACT hContact, int mode)
 		sid.dwId = i;
 		sid.flags = (mode & SECURED) ? 0 : MBF_DISABLED;
 		if (mode == -1 || (mode & 0x0f) != i || isChatRoom(hContact))
-			sid.flags |= MBF_HIDDEN;  // отключаем все ненужные иконки
+			sid.flags |= MBF_HIDDEN;  // РѕС‚РєР»СЋС‡Р°РµРј РІСЃРµ РЅРµРЅСѓР¶РЅС‹Рµ РёРєРѕРЅРєРё
 		Srmm_ModifyIcon(hContact, &sid);
 		if (hMC)
 			Srmm_ModifyIcon(hMC, &sid);

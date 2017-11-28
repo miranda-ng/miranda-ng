@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Szymon Tokarz"
 #define __AUTHOREMAIL             "wsx22@o2.pl"
 #define __AUTHORWEB               "https://miranda-ng.org/p/MirFox/"
-#define __COPYRIGHT               "© 2013 - 2017 Szymon Tokarz"
+#define __COPYRIGHT               "Â© 2013 - 2017 Szymon Tokarz"

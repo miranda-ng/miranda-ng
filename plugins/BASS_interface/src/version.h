@@ -11,4 +11,4 @@
 #define __AUTHOR               "tico-tico"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB               "https://miranda-ng.org/p/BASS_interface/"
-#define __COPYRIGHT               "© 2010, 2011 tico-tico"
+#define __COPYRIGHT               "Â© 2010, 2011 tico-tico"

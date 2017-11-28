@@ -4,9 +4,9 @@
 //
 // Copyright (c) 2000-01 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright (c) 2001-02 Jon Keating, Richard Hughes
-// Copyright (c) 2002-04 Martin ÷berg, Sam Kothari, Robert Rainwater
+// Copyright (c) 2002-04 Martin –¶berg, Sam Kothari, Robert Rainwater
 // Copyright (c) 2004-10 Joe Kucera
-// Copyright (Ò) 2012-17 Miranda NG project (https://miranda-ng.org)
+// Copyright (—Å) 2012-17 Miranda NG project (https://miranda-ng.org)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

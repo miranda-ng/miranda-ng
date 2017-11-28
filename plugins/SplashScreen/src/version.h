@@ -11,4 +11,4 @@
 #define __AUTHOR               "nullbie, Thief"
 #define __AUTHOREMAIL            "thief@miranda.im"
 #define __AUTHORWEB               "https://miranda-ng.org/p/SplashScreen/"
-#define __COPYRIGHT               "© 2004-2007 Victor Pavlychko, 2005-2011 Alexander Turyak"
+#define __COPYRIGHT               "Â© 2004-2007 Victor Pavlychko, 2005-2011 Alexander Turyak"

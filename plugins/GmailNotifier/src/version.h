@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Mixwind"
 #define __AUTHOREMAIL             "mixwind@gmail.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/GmailNotifier/"
-#define __COPYRIGHT               "© 2005 Sun Zhuo"
+#define __COPYRIGHT               "Â© 2005 Sun Zhuo"

@@ -1,4 +1,4 @@
-﻿#ifndef _HTTP_REQUEST_H_
+#ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
 typedef void (CSlackProto::*HttpCallback)(NETLIBHTTPREQUEST*, struct AsyncHttpRequest*);

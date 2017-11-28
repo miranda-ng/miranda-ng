@@ -1,6 +1,6 @@
 /* ============================================================================
 Hardware HotKeys plugin for Miranda NG.
-Copyright © Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
+Copyright В© Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
 
 This program is free software; you can redistribute it and / or
 modify it under the terms of the GNU General Public License
@@ -47,7 +47,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			code_Close_tmp = key_code_assign;
 			HwHotKeys_PrintFullKeyname(key_code_assign);
 			SetDlgItemTextA(hDialogWnd, dlg_close_edit, key_name_buffer);
-			SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0); // сообщает системе о том что были изменения
+			SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0); // СЃРѕРѕР±С‰Р°РµС‚ СЃРёСЃС‚РµРјРµ Рѕ С‚РѕРј С‡С‚Рѕ Р±С‹Р»Рё РёР·РјРµРЅРµРЅРёСЏ
 			break;
 		case dlg_close_clear:
 			code_Close_tmp = 0;
@@ -85,7 +85,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 0:
 			switch (((LPNMHDR)lParam)->code)
 			{
-			case PSN_APPLY: // система просит сохранить настройки плагина
+			case PSN_APPLY: // СЃРёСЃС‚РµРјР° РїСЂРѕСЃРёС‚ СЃРѕС…СЂР°РЅРёС‚СЊ РЅР°СЃС‚СЂРѕР№РєРё РїР»Р°РіРёРЅР°
 				code_Close = code_Close_tmp;
 				db_set_dw(0, __DbModName, "Close", code_Close_tmp);
 				code_HideShow = code_HideShow_tmp;
@@ -99,7 +99,7 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		break; //case WM_NOTIFY
 
 	case WM_DESTROY:
-		hDialogWnd = nullptr; // используется для вывода туда в реалтайме сканкодов клавы (пока открыты настройки), 0 (при закрытии диалога) блокирует это
+		hDialogWnd = nullptr; // РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РІС‹РІРѕРґР° С‚СѓРґР° РІ СЂРµР°Р»С‚Р°Р№РјРµ СЃРєР°РЅРєРѕРґРѕРІ РєР»Р°РІС‹ (РїРѕРєР° РѕС‚РєСЂС‹С‚С‹ РЅР°СЃС‚СЂРѕР№РєРё), 0 (РїСЂРё Р·Р°РєСЂС‹С‚РёРё РґРёР°Р»РѕРіР°) Р±Р»РѕРєРёСЂСѓРµС‚ СЌС‚Рѕ
 		break;
 	}
 

@@ -916,7 +916,7 @@ void CManagerDlg::OnClose()
 			CMStringW S1 = temp;
 			/* FIXME: What the hell does it mean!? GCC won't compile this on UNICODE */
 #if !defined(__GNUC__) || !defined(UNICODE)
-			S1.Replace(L" ", L"%¤");
+			S1.Replace(L" ", L"%Â¤");
 #endif
 			S += L" " + S1;
 		}
@@ -1289,7 +1289,7 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 					if (!S.IsEmpty()) {
 						/* FIXME: What the hell does it mean!? GCC won't compile this on UNICODE */
 #if !defined(__GNUC__) || !defined(UNICODE)
-						S.Replace(L"%¤", L" ");
+						S.Replace(L"%Â¤", L" ");
 #endif
 						m_topic.SendMsg(CB_ADDSTRING, 0, (LPARAM)S.c_str());
 					}

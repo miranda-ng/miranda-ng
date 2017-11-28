@@ -991,7 +991,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 // References      : -
 // Remarks         : -
 // Created         : 030826, 26 august 2003
-// Developer       : Sérgio Rolanski
+// Developer       : SÐ¹rgio Rolanski
 /////////////////////////////////////////////////////////////////////
 
 void SendLinkToUser(WPARAM wParam, char *pszSrvPath)

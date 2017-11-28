@@ -11,4 +11,4 @@
 #define __AUTHOR               "Ricardo Pescuma Domenecci, Heiko Schillinger"
 #define __AUTHOREMAIL            "pescuma@miranda-im.org"
 #define __AUTHORWEB               "https://miranda-ng.org/p/QuickContacts/"
-#define __COPYRIGHT               "© 2007-2009 Ricardo Pescuma Domenecci"
+#define __COPYRIGHT               "Â© 2007-2009 Ricardo Pescuma Domenecci"

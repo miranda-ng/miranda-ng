@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Luca Santarelli, Vasilich, yaho"
 #define __AUTHOREMAIL            "yaho@miranda-easy.net"
 #define __AUTHORWEB              "https://miranda-ng.org/p/NewXstatusNotify/"
-#define __COPYRIGHT              "© 2001-2004 Luca Santarelli, 2005-2007 Vasilich, 2007-2011 yaho"
+#define __COPYRIGHT              "Â© 2001-2004 Luca Santarelli, 2005-2007 Vasilich, 2007-2011 yaho"

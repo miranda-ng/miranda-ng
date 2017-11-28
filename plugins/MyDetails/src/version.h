@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Ricardo Pescuma Domenecci, Drugwash"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/MyDetails/"
-#define __COPYRIGHT              "© 2005-2008 Ricardo Pescuma Domenecci, Drugwash"
+#define __COPYRIGHT              "Â© 2005-2008 Ricardo Pescuma Domenecci, Drugwash"

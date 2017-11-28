@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Bartosz 'Dezeath' Bialek"
 #define __AUTHOREMAIL            "dezred@gmail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/AddContactPlus/"
-#define __COPYRIGHT              "© 2007-17 Bartosz 'Dezeath' Bialek, Miranda NG Team"
+#define __COPYRIGHT              "Â© 2007-17 Bartosz 'Dezeath' Bialek, Miranda NG Team"

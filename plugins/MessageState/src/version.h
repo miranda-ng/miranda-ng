@@ -11,4 +11,4 @@
 #define __AUTHOR                   "MikalaiR"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "https://miranda-ng.org/p/MessageState/"
-#define __COPYRIGHT                "© 2015-17 Miranda NG Team"
+#define __COPYRIGHT                "Â© 2015-17 Miranda NG Team"

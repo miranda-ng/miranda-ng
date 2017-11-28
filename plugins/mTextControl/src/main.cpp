@@ -1,8 +1,8 @@
 /*
 Miranda Text Control - Plugin for Miranda IM
 
-Copyright	© 2005 Victor Pavlychko (nullbie@gmail.com),
-© 2010 Merlin_de
+Copyright	Â© 2005 Victor Pavlychko (nullbie@gmail.com),
+Â© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

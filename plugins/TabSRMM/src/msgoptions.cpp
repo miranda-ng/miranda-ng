@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (Ò) 2012-17 Miranda NG project,
+// Copyright (—Å) 2012-17 Miranda NG project,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -1096,7 +1096,8 @@ public:
 	{
 		bool bEnabled = chkLimit.GetState() != 0;
 		edtLimit.Enable(bEnabled);
-		spnLimit.Enable(bEnabled);	}
+		spnLimit.Enable(bEnabled);
+	}
 
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{

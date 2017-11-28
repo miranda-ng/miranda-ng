@@ -1,6 +1,6 @@
 /* ============================================================================
 Hardware HotKeys plugin for Miranda NG.
-Copyright © Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
+Copyright В© Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
 
 This program is free software; you can redistribute it and / or
 modify it under the terms of the GNU General Public License
@@ -17,8 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 ============================================================================ */
 
-// история версий:
-// 1.0.0.6 - первая версия Hardware HotKeys для Miranda NG (более ранние версии были для Miranda IM), исправление старых ошибок.
+// РёСЃС‚РѕСЂРёСЏ РІРµСЂСЃРёР№:
+// 1.0.0.6 - РїРµСЂРІР°СЏ РІРµСЂСЃРёСЏ Hardware HotKeys РґР»СЏ Miranda NG (Р±РѕР»РµРµ СЂР°РЅРЅРёРµ РІРµСЂСЃРёРё Р±С‹Р»Рё РґР»СЏ Miranda IM), РёСЃРїСЂР°РІР»РµРЅРёРµ СЃС‚Р°СЂС‹С… РѕС€РёР±РѕРє.
 
 
 #define __MAJOR_VERSION          1
@@ -28,14 +28,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME      "Hardware HotKeys" // dll-fileinfo "FileVersion" и "ProductName", меню в настройках миранды, название плагина в миранде. Нелокализуемое!
+#define __PLUGIN_NAME      "Hardware HotKeys" // dll-fileinfo "FileVersion" Рё "ProductName", РјРµРЅСЋ РІ РЅР°СЃС‚СЂРѕР№РєР°С… РјРёСЂР°РЅРґС‹, РЅР°Р·РІР°РЅРёРµ РїР»Р°РіРёРЅР° РІ РјРёСЂР°РЅРґРµ. РќРµР»РѕРєР°Р»РёР·СѓРµРјРѕРµ!
 #define __FILENAME         "HwHotKeys.dll" // dll-fileinfo "OriginalFilename"
-#define __DESCRIPTION_MIR  "Allows you to assign expanded multimedia keys (only for PS/2 keyboards)." // описание плагина в миранде (локализуемое)
-#define __DESCRIPTION_DLL  "Hardware HotKeys plugin for Miranda NG." // описание плагина в dll-fileinfo "FileDescription" (там многострочные строки - не работают). Нелокализуемое!
-#define __AUTHOR           "Eugene f2065" // описание плагина в миранде
-#define __AUTHOREMAIL      "f2065@mail.ru" // описание плагина в миранде
-#define __AUTHORWEB        "http://f2065.narod.ru/" // описание плагина в dll-fileinfo "CompanyName", описание плагина в миранде
-#define __COPYRIGHT        "© 2010-2017 Eugene f2065" // описание плагина в dll-fileinfo "LegalCopyright", описание плагина в миранде
+#define __DESCRIPTION_MIR  "Allows you to assign expanded multimedia keys (only for PS/2 keyboards)." // РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ РјРёСЂР°РЅРґРµ (Р»РѕРєР°Р»РёР·СѓРµРјРѕРµ)
+#define __DESCRIPTION_DLL  "Hardware HotKeys plugin for Miranda NG." // РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ dll-fileinfo "FileDescription" (С‚Р°Рј РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹Рµ СЃС‚СЂРѕРєРё - РЅРµ СЂР°Р±РѕС‚Р°СЋС‚). РќРµР»РѕРєР°Р»РёР·СѓРµРјРѕРµ!
+#define __AUTHOR           "Eugene f2065" // РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ РјРёСЂР°РЅРґРµ
+#define __AUTHOREMAIL      "f2065@mail.ru" // РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ РјРёСЂР°РЅРґРµ
+#define __AUTHORWEB        "http://f2065.narod.ru/" // РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ dll-fileinfo "CompanyName", РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ РјРёСЂР°РЅРґРµ
+#define __COPYRIGHT        "В© 2010-2017 Eugene f2065" // РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ dll-fileinfo "LegalCopyright", РѕРїРёСЃР°РЅРёРµ РїР»Р°РіРёРЅР° РІ РјРёСЂР°РЅРґРµ
 
-#define __DbModName			"HwHotKeys" // имя раздела настроек плагина в БД миранды
+#define __DbModName			"HwHotKeys" // РёРјСЏ СЂР°Р·РґРµР»Р° РЅР°СЃС‚СЂРѕРµРє РїР»Р°РіРёРЅР° РІ Р‘Р” РјРёСЂР°РЅРґС‹
 

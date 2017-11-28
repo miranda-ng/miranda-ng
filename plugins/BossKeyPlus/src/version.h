@@ -11,4 +11,4 @@
 #define __AUTHOR               "Goblineye Entertainment, Billy_Bons"
 #define __AUTHOREMAIL            "tatarinov.sergey@gmail.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/BossKey/"
-#define __COPYRIGHT               "© 2002-2003 Goblineye Entertainment, 2007-2010 Billy_Bons"
+#define __COPYRIGHT               "Â© 2002-2003 Goblineye Entertainment, 2007-2010 Billy_Bons"

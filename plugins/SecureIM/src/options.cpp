@@ -555,7 +555,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 			if (res == IDOK) {
 				if (!mir_exp->rsa_import_keypair(CPP_MODE_RSA, priv, passphrase))
 					msgbox(hDlg, sim113, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
-				else // обновить SHA1 значение
+				else // РѕР±РЅРѕРІРёС‚СЊ SHA1 Р·РЅР°С‡РµРЅРёРµ
 					RefreshProtoDlg(hDlg);
 			}
 		}

@@ -1,8 +1,8 @@
 /*
 Popup Plus plugin for Miranda IM
 
-Copyright	© 2002 Luca Santarelli,
-© 2004-2007 Victor Pavlychko
+Copyright	Â© 2002 Luca Santarelli,
+Â© 2004-2007 Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

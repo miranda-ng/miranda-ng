@@ -285,7 +285,7 @@ static void CheckUpdates(void *)
 				return;
 			} // user have not admin's rights
 
-			//добавить проверку на существование файла
+			//РґРѕР±Р°РІРёС‚СЊ РїСЂРѕРІРµСЂРєСѓ РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ С„Р°Р№Р»Р°
 			wchar_t tszFilePathDest[MAX_PATH] = { 0 };
 			switch (Files[CurrentFile].FileType) {
 			case 0:

@@ -67,7 +67,7 @@ int __cdecl onRebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	BOOL bMC = db_mc_isMeta(hContact);
 	if (bMC)
-		hContact = db_mc_getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
+		hContact = db_mc_getMostOnline(hContact); // РІРѕР·СЊРјРµРј С‚РѕС‚, С‡РµСЂРµР· РєРѕС‚РѕСЂС‹Р№ РїРѕР№РґРµС‚ СЃРѕРѕР±С‰РµРЅРёРµ
 	pUinKey ptr = getUinKey(hContact);
 
 	ShowStatusIconNotify(hContact);

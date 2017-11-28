@@ -11,4 +11,4 @@
 #define __AUTHOR                   "dentist, omniwolf, Thief"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "https://miranda-ng.org/p/Twitter/"
-#define __COPYRIGHT                "© 2009-2010 dentist, 2010-2012 omniwolf and Thief"
+#define __COPYRIGHT                "Â© 2009-2010 dentist, 2010-2012 omniwolf and Thief"

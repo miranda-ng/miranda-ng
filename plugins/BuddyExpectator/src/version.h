@@ -11,4 +11,4 @@
 #define __AUTHOR               "Anar Ibragimoff, sje, Thief"
 #define __AUTHOREMAIL            "thief@miranda.im"
 #define __AUTHORWEB               "https://miranda-ng.org/p/BuddyExpectator/"
-#define __COPYRIGHT               "© 2005 Anar Ibragimoff, 2006 Scott Ellis, 2007-2009 Alexander Turyak"
+#define __COPYRIGHT               "Â© 2005 Anar Ibragimoff, 2006 Scott Ellis, 2007-2009 Alexander Turyak"

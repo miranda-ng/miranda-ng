@@ -281,7 +281,7 @@ int __cdecl rsa_disconnect(HANDLE context)
 	Sent_NetLog("rsa_disconnect: %08x", context);
 #endif
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
-	rsa_free(ptr); // удалим трэд и очередь сообщений
+	rsa_free(ptr); // СѓРґР°Р»РёРј С‚СЂСЌРґ Рё РѕС‡РµСЂРµРґСЊ СЃРѕРѕР±С‰РµРЅРёР№
 
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr);
 	if (!p->state) return 1;
@@ -291,7 +291,7 @@ int __cdecl rsa_disconnect(HANDLE context)
 	inject_msg(context, 0xF0, encode_msg(0, p, ::hash(buffer, RAND_SIZE)));
 
 	p->state = 0;
-	imp->rsa_notify(context, -3); // соединение разорвано вручную
+	imp->rsa_notify(context, -3); // СЃРѕРµРґРёРЅРµРЅРёРµ СЂР°Р·РѕСЂРІР°РЅРѕ РІСЂСѓС‡РЅСѓСЋ
 
 	return 1;
 }
@@ -302,12 +302,12 @@ int __cdecl rsa_disabled(HANDLE context)
 	Sent_NetLog("rsa_disabled: %08x", context);
 #endif
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
-	rsa_free(ptr); // удалим трэд и очередь сообщений
+	rsa_free(ptr); // СѓРґР°Р»РёРј С‚СЂСЌРґ Рё РѕС‡РµСЂРµРґСЊ СЃРѕРѕР±С‰РµРЅРёР№
 
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr);
 	p->state = 0;
 	inject_msg(context, 0xFF, null);
-	//	imp->rsa_notify(-context,-8); // соединение разорвано по причине "disabled"
+	//	imp->rsa_notify(-context,-8); // СЃРѕРµРґРёРЅРµРЅРёРµ СЂР°Р·РѕСЂРІР°РЅРѕ РїРѕ РїСЂРёС‡РёРЅРµ "disabled"
 	return 1;
 }
 
@@ -332,38 +332,38 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv: %02x %d", type, p->state);
 #endif
-	if (type > 0x10 && type < 0xE0)  // проверим тип сообщения (когда соединение еще не установлено)
-		if (p->state == 0 || p->state != (type >> 4)) { // неверное состояние
-			// шлем перерывание сессии
+	if (type > 0x10 && type < 0xE0)  // РїСЂРѕРІРµСЂРёРј С‚РёРї СЃРѕРѕР±С‰РµРЅРёСЏ (РєРѕРіРґР° СЃРѕРµРґРёРЅРµРЅРёРµ РµС‰Рµ РЅРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ)
+		if (p->state == 0 || p->state != (type >> 4)) { // РЅРµРІРµСЂРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
+			// С€Р»РµРј РїРµСЂРµСЂС‹РІР°РЅРёРµ СЃРµСЃСЃРёРё
 			p->state = 0; p->time = 0;
-			rsa_free(ptr); // удалим трэд и очередь сообщений
-			null_msg(context, 0x00, -1); // сессия разорвана по ошибке, неверный тип сообщения
+			rsa_free(ptr); // СѓРґР°Р»РёРј С‚СЂСЌРґ Рё РѕС‡РµСЂРµРґСЊ СЃРѕРѕР±С‰РµРЅРёР№
+			null_msg(context, 0x00, -1); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ, РЅРµРІРµСЂРЅС‹Р№ С‚РёРї СЃРѕРѕР±С‰РµРЅРёСЏ
 			return nullptr;
 		}
 
 	switch (type) {
 
-	case 0x00: // прерывание сессии по ошибке другой стороной
+	case 0x00: // РїСЂРµСЂС‹РІР°РЅРёРµ СЃРµСЃСЃРёРё РїРѕ РѕС€РёР±РєРµ РґСЂСѓРіРѕР№ СЃС‚РѕСЂРѕРЅРѕР№
 	{
-		// если соединение установлено - ничего не делаем
+		// РµСЃР»Рё СЃРѕРµРґРёРЅРµРЅРёРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ - РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
 		if (p->state == 0 || p->state == 7) return nullptr;
-		// иначе сбрасываем текущее состояние
+		// РёРЅР°С‡Рµ СЃР±СЂР°СЃС‹РІР°РµРј С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
 		p->state = 0; p->time = 0;
-		imp->rsa_notify(context, -2); // сессия разорвана по ошибке другой стороной
+		imp->rsa_notify(context, -2); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ РґСЂСѓРіРѕР№ СЃС‚РѕСЂРѕРЅРѕР№
 	} break;
 
-	// это все будем обрабатывать в отдельном потоке, чтобы избежать таймаутов
-	case 0x10: // запрос на установку соединения
-	case 0x22: // получили удаленный паблик, отправляем уже криптоключ
-	case 0x23: // отправляем локальный паблик
-	case 0x24: // получили удаленный паблик, отправим локальный паблик
-	case 0x33: // получили удаленный паблик, отправляем криптоключ
+	// СЌС‚Рѕ РІСЃРµ Р±СѓРґРµРј РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ РІ РѕС‚РґРµР»СЊРЅРѕРј РїРѕС‚РѕРєРµ, С‡С‚РѕР±С‹ РёР·Р±РµР¶Р°С‚СЊ С‚Р°Р№РјР°СѓС‚РѕРІ
+	case 0x10: // Р·Р°РїСЂРѕСЃ РЅР° СѓСЃС‚Р°РЅРѕРІРєСѓ СЃРѕРµРґРёРЅРµРЅРёСЏ
+	case 0x22: // РїРѕР»СѓС‡РёР»Рё СѓРґР°Р»РµРЅРЅС‹Р№ РїР°Р±Р»РёРє, РѕС‚РїСЂР°РІР»СЏРµРј СѓР¶Рµ РєСЂРёРїС‚РѕРєР»СЋС‡
+	case 0x23: // РѕС‚РїСЂР°РІР»СЏРµРј Р»РѕРєР°Р»СЊРЅС‹Р№ РїР°Р±Р»РёРє
+	case 0x24: // РїРѕР»СѓС‡РёР»Рё СѓРґР°Р»РµРЅРЅС‹Р№ РїР°Р±Р»РёРє, РѕС‚РїСЂР°РІРёРј Р»РѕРєР°Р»СЊРЅС‹Р№ РїР°Р±Р»РёРє
+	case 0x33: // РїРѕР»СѓС‡РёР»Рё СѓРґР°Р»РµРЅРЅС‹Р№ РїР°Р±Р»РёРє, РѕС‚РїСЂР°РІР»СЏРµРј РєСЂРёРїС‚РѕРєР»СЋС‡
 	case 0x34:
-	case 0x21: // получили криптоключ, отправляем криптотест
+	case 0x21: // РїРѕР»СѓС‡РёР»Рё РєСЂРёРїС‚РѕРєР»СЋС‡, РѕС‚РїСЂР°РІР»СЏРµРј РєСЂРёРїС‚РѕС‚РµСЃС‚
 	case 0x32:
 	case 0x40:
-	case 0x0D: // запрос паблика
-	case 0xD0: // ответ пабликом
+	case 0x0D: // Р·Р°РїСЂРѕСЃ РїР°Р±Р»РёРєР°
+	case 0xD0: // РѕС‚РІРµС‚ РїР°Р±Р»РёРєРѕРј
 		if (!p->event) {
 			p->event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 			unsigned int tID;
@@ -376,13 +376,13 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 			mir_cslock lck(localQueueMutex);
 			p->queue->push(tlv(type, data));
 		}
-		SetEvent(p->event); // сказали обрабатывать :)
+		SetEvent(p->event); // СЃРєР°Р·Р°Р»Рё РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ :)
 		break;
 
-	case 0x50: // получили криптотест, отправляем свой криптотест
+	case 0x50: // РїРѕР»СѓС‡РёР»Рё РєСЂРёРїС‚РѕС‚РµСЃС‚, РѕС‚РїСЂР°РІР»СЏРµРј СЃРІРѕР№ РєСЂРёРїС‚РѕС‚РµСЃС‚
 		if (!decode_msg(p, data).length()) {
 			p->state = 0; p->time = 0;
-			null_msg(context, 0x00, -type); // сессия разорвана по ошибке
+			null_msg(context, 0x00, -type); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ
 			return nullptr;
 		}
 		{
@@ -391,60 +391,60 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 			inject_msg(context, 0x60, encode_msg(0, p, ::hash(buffer, RAND_SIZE)));
 		}
 		p->state = 7; p->time = 0;
-		rsa_free_thread(p); // удалим трэд и очередь сообщений
-		imp->rsa_notify(context, 1);	// заебися, криптосессия установлена
+		rsa_free_thread(p); // СѓРґР°Р»РёРј С‚СЂСЌРґ Рё РѕС‡РµСЂРµРґСЊ СЃРѕРѕР±С‰РµРЅРёР№
+		imp->rsa_notify(context, 1);	// Р·Р°РµР±РёСЃСЏ, РєСЂРёРїС‚РѕСЃРµСЃСЃРёСЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°
 		break;
 
-	case 0x60: // получили криптотест, сессия установлена
+	case 0x60: // РїРѕР»СѓС‡РёР»Рё РєСЂРёРїС‚РѕС‚РµСЃС‚, СЃРµСЃСЃРёСЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°
 		if (!decode_msg(p, data).length()) {
 			p->state = 0; p->time = 0;
-			null_msg(context, 0x00, -type); // сессия разорвана по ошибке
+			null_msg(context, 0x00, -type); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ
 			return nullptr;
 		}
 		p->state = 7; p->time = 0;
-		rsa_free_thread(p); // удалим трэд и очередь сообщений
-		imp->rsa_notify(context, 1);	// заебися, криптосессия установлена
+		rsa_free_thread(p); // СѓРґР°Р»РёРј С‚СЂСЌРґ Рё РѕС‡РµСЂРµРґСЊ СЃРѕРѕР±С‰РµРЅРёР№
+		imp->rsa_notify(context, 1);	// Р·Р°РµР±РёСЃСЏ, РєСЂРёРїС‚РѕСЃРµСЃСЃРёСЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°
 		break;
 
-	case 0x70: // получили AES сообщение, декодируем
+	case 0x70: // РїРѕР»СѓС‡РёР»Рё AES СЃРѕРѕР±С‰РµРЅРёРµ, РґРµРєРѕРґРёСЂСѓРµРј
 	{
 		mir_free(ptr->tmp);
 		string msg = decode_msg(p, data);
 		if (msg.length())
 			return ptr->tmp = mir_strdup(msg.c_str());
 		else {
-			imp->rsa_notify(context, -5); // ошибка декодирования AES сообщения
+			imp->rsa_notify(context, -5); // РѕС€РёР±РєР° РґРµРєРѕРґРёСЂРѕРІР°РЅРёСЏ AES СЃРѕРѕР±С‰РµРЅРёСЏ
 			return ptr->tmp = nullptr;
 		}
 	}
 
-	case 0xE0: // получили RSA сообщение, декодируем
+	case 0xE0: // РїРѕР»СѓС‡РёР»Рё RSA СЃРѕРѕР±С‰РµРЅРёРµ, РґРµРєРѕРґРёСЂСѓРµРј
 	{
 		mir_free(ptr->tmp);
 		string msg = decode_rsa(p, r, data);
 		if (msg.length())
 			return ptr->tmp = mir_strdup(msg.c_str());
 		else {
-			imp->rsa_notify(context, -6); // ошибка декодирования RSA сообщения
+			imp->rsa_notify(context, -6); // РѕС€РёР±РєР° РґРµРєРѕРґРёСЂРѕРІР°РЅРёСЏ RSA СЃРѕРѕР±С‰РµРЅРёСЏ
 			return ptr->tmp = nullptr;
 		}
 	}
 
-	case 0xF0: // разрыв соединения вручную
+	case 0xF0: // СЂР°Р·СЂС‹РІ СЃРѕРµРґРёРЅРµРЅРёСЏ РІСЂСѓС‡РЅСѓСЋ
 	{
 		if (p->state != 7) return nullptr;
 		string msg = decode_msg(p, data);
 		if (!msg.length()) return nullptr;
 		p->state = 0;
-		rsa_free(ptr); // удалим трэд и очередь сообщений
-		imp->rsa_notify(context, -4); // соединение разорвано вручную другой стороной
+		rsa_free(ptr); // СѓРґР°Р»РёРј С‚СЂСЌРґ Рё РѕС‡РµСЂРµРґСЊ СЃРѕРѕР±С‰РµРЅРёР№
+		imp->rsa_notify(context, -4); // СЃРѕРµРґРёРЅРµРЅРёРµ СЂР°Р·РѕСЂРІР°РЅРѕ РІСЂСѓС‡РЅСѓСЋ РґСЂСѓРіРѕР№ СЃС‚РѕСЂРѕРЅРѕР№
 	}
 		break;
 
-	case 0xFF: // разрыв соединения по причине "disabled"
+	case 0xFF: // СЂР°Р·СЂС‹РІ СЃРѕРµРґРёРЅРµРЅРёСЏ РїРѕ РїСЂРёС‡РёРЅРµ "disabled"
 		p->state = 0;
-		rsa_free(ptr); // удалим трэд и очередь сообщений
-		imp->rsa_notify(context, -8); // соединение разорвано по причине "disabled"
+		rsa_free(ptr); // СѓРґР°Р»РёРј С‚СЂСЌРґ Рё РѕС‡РµСЂРµРґСЊ СЃРѕРѕР±С‰РµРЅРёР№
+		imp->rsa_notify(context, -8); // СЃРѕРµРґРёРЅРµРЅРёРµ СЂР°Р·РѕСЂРІР°РЅРѕ РїРѕ РїСЂРёС‡РёРЅРµ "disabled"
 		break;
 	}
 
@@ -459,11 +459,11 @@ int __cdecl rsa_send(HANDLE context, LPCSTR msg)
 	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr); if (p->state != 0 && p->state != 7) return 0;
 
-	if (p->state == 7) // сессия установлена, шифруем AES и отправляем
+	if (p->state == 7) // СЃРµСЃСЃРёСЏ СѓСЃС‚Р°РЅРѕРІР»РµРЅР°, С€РёС„СЂСѓРµРј AES Рё РѕС‚РїСЂР°РІР»СЏРµРј
 		inject_msg(context, 0x70, encode_msg(1, p, string(msg)));
-	else if (p->state == 0) { // сессия  установлена, отправляем RSA сообщение
+	else if (p->state == 0) { // СЃРµСЃСЃРёСЏ  СѓСЃС‚Р°РЅРѕРІР»РµРЅР°, РѕС‚РїСЂР°РІР»СЏРµРј RSA СЃРѕРѕР±С‰РµРЅРёРµ
 		if (!p->pub_k.length()) return 0;
-		// есть паблик ключ - отправим сообщение
+		// РµСЃС‚СЊ РїР°Р±Р»РёРє РєР»СЋС‡ - РѕС‚РїСЂР°РІРёРј СЃРѕРѕР±С‰РµРЅРёРµ
 		pRSAPRIV r = rsa_get_priv(ptr);
 		inject_msg(context, 0xE0, encode_rsa(1, p, r, string(msg)));
 	}
@@ -646,7 +646,7 @@ void rsa_timeout(HANDLE context, pRSADATA p)
 #endif
 	p->state = 0; p->time = 0;
 	//	null_msg(context,0x00,-7);
-	imp->rsa_notify(context, -7); // сессия разорвана по таймауту
+	imp->rsa_notify(context, -7); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ С‚Р°Р№РјР°СѓС‚Сѓ
 }
 
 int __cdecl rsa_encrypt_file(HANDLE context, LPCSTR file_in, LPCSTR file_out)
@@ -707,19 +707,19 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 			un_tlv(un_tlv(un_tlv(data, t[0], features), t[1], sha1), t[2], sha2);
 			BOOL lr = (p->pub_s == sha1); BOOL ll = (r->pub_s == sha2);
 			switch ((lr << 4) | ll) {
-			case 0x11:   // оба паблика совпали
+			case 0x11:   // РѕР±Р° РїР°Р±Р»РёРєР° СЃРѕРІРїР°Р»Рё
 				inject_msg(context, 0x21, gen_aes_key_iv(ptr->mode, p, r));
 				p->state = 5;
 				break;
-			case 0x10:  // совпал удаленный паблик, нужен локальный
+			case 0x10:  // СЃРѕРІРїР°Р» СѓРґР°Р»РµРЅРЅС‹Р№ РїР°Р±Р»РёРє, РЅСѓР¶РµРЅ Р»РѕРєР°Р»СЊРЅС‹Р№
 				inject_msg(context, 0x22, tlv(0, features) + tlv(1, r->pub_k) + tlv(2, r->pub_s));
 				p->state = 3;
 				break;
-			case 0x01:  // совпал локальный паблик, нужен удаленный
+			case 0x01:  // СЃРѕРІРїР°Р» Р»РѕРєР°Р»СЊРЅС‹Р№ РїР°Р±Р»РёРє, РЅСѓР¶РµРЅ СѓРґР°Р»РµРЅРЅС‹Р№
 				inject_msg(context, 0x23, tlv(0, features));
 				p->state = 3;
 				break;
-			case 0x00:  // не совпали оба паблика
+			case 0x00:  // РЅРµ СЃРѕРІРїР°Р»Рё РѕР±Р° РїР°Р±Р»РёРєР°
 				inject_msg(context, 0x24, tlv(0, features) + tlv(1, r->pub_k) + tlv(2, r->pub_s));
 				p->state = 3;
 				break;
@@ -727,14 +727,14 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 		}
 		break;
 
-	case 0x22: // получили удаленный паблик, отправляем уже криптоключ
+	case 0x22: // РїРѕР»СѓС‡РёР»Рё СѓРґР°Р»РµРЅРЅС‹Р№ РїР°Р±Р»РёРє, РѕС‚РїСЂР°РІР»СЏРµРј СѓР¶Рµ РєСЂРёРїС‚РѕРєР»СЋС‡
 		{
 			string pub;
 			un_tlv(un_tlv(data, t[0], features), t[1], pub);
 			string sig = ::hash(pub);
 			if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
 				p->state = 0; p->time = 0;
-				null_msg(context, 0x00, -type); // сессия разорвана по ошибке
+				null_msg(context, 0x00, -type); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ
 				return 0;
 			}
 			init_pub(p, pub);
@@ -747,20 +747,20 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 		}
 		break;
 
-	case 0x23: // отправляем локальный паблик
+	case 0x23: // РѕС‚РїСЂР°РІР»СЏРµРј Р»РѕРєР°Р»СЊРЅС‹Р№ РїР°Р±Р»РёРє
 		un_tlv(data, t[0], features);
 		inject_msg(context, 0x33, tlv(1, r->pub_k) + tlv(2, r->pub_s));
 		p->state = 4;
 		break;
 
-	case 0x24: // получили удаленный паблик, отправим локальный паблик
+	case 0x24: // РїРѕР»СѓС‡РёР»Рё СѓРґР°Р»РµРЅРЅС‹Р№ РїР°Р±Р»РёРє, РѕС‚РїСЂР°РІРёРј Р»РѕРєР°Р»СЊРЅС‹Р№ РїР°Р±Р»РёРє
 		{
 			string pub;
 			un_tlv(un_tlv(data, t[0], features), t[1], pub);
 			string sig = ::hash(pub);
 			if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
 				p->state = 0; p->time = 0;
-				null_msg(context, 0x00, -type); // сессия разорвана по ошибке
+				null_msg(context, 0x00, -type); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ
 				return 0;
 			}
 			init_pub(p, pub);
@@ -773,7 +773,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 		}
 		break;
 
-	case 0x33: // получили удаленный паблик, отправляем криптоключ
+	case 0x33: // РїРѕР»СѓС‡РёР»Рё СѓРґР°Р»РµРЅРЅС‹Р№ РїР°Р±Р»РёРє, РѕС‚РїСЂР°РІР»СЏРµРј РєСЂРёРїС‚РѕРєР»СЋС‡
 	case 0x34:
 		{
 			string pub;
@@ -781,7 +781,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 			string sig = ::hash(pub);
 			if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
 				p->state = 0; p->time = 0;
-				null_msg(context, 0x00, -type); // сессия разорвана по ошибке
+				null_msg(context, 0x00, -type); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ
 				return 0;
 			}
 			init_pub(p, pub);
@@ -794,14 +794,14 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 		}
 		break;
 
-	case 0x21: // получили криптоключ, отправляем криптотест
+	case 0x21: // РїРѕР»СѓС‡РёР»Рё РєСЂРёРїС‚РѕРєР»СЋС‡, РѕС‚РїСЂР°РІР»СЏРµРј РєСЂРёРїС‚РѕС‚РµСЃС‚
 	case 0x32:
 	case 0x40:
 		{
 			string key = decode_rsa(p, r, data);
 			if (!key.length()) {
 				p->state = 0; p->time = 0;
-				null_msg(context, 0x00, -type); // сессия разорвана по ошибке
+				null_msg(context, 0x00, -type); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ
 				return 0;
 			}
 			un_tlv(key, t[0], p->aes_k);
@@ -813,21 +813,21 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 		}
 		break;
 
-	case 0x0D: // запрос паблика
-	case 0xD0: // ответ пабликом
+	case 0x0D: // Р·Р°РїСЂРѕСЃ РїР°Р±Р»РёРєР°
+	case 0xD0: // РѕС‚РІРµС‚ РїР°Р±Р»РёРєРѕРј
 		{
 			string pub, sha;
 			un_tlv(un_tlv(un_tlv(data, t[0], features), t[1], pub), t[2], sha);
-			if (p->pub_k != pub) { // пришел новый паблик
+			if (p->pub_k != pub) { // РїСЂРёС€РµР» РЅРѕРІС‹Р№ РїР°Р±Р»РёРє
 				string sig = ::hash(pub);
 				if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
 					p->state = 0; p->time = 0;
-					null_msg(context, 0x00, -type); // сессия разорвана по ошибке
+					null_msg(context, 0x00, -type); // СЃРµСЃСЃРёСЏ СЂР°Р·РѕСЂРІР°РЅР° РїРѕ РѕС€РёР±РєРµ
 					return 0;
 				}
 				init_pub(p, pub);
 			}
-			if (type == 0x0D) // нужно отправить мой паблик
+			if (type == 0x0D) // РЅСѓР¶РЅРѕ РѕС‚РїСЂР°РІРёС‚СЊ РјРѕР№ РїР°Р±Р»РёРє
 				inject_msg(context, 0xD0, tlv(0, features) + tlv(1, r->pub_k) + tlv(2, p->pub_s));
 
 			p->state = 0; p->time = 0;
@@ -859,7 +859,7 @@ int rsa_free(pCNTX ptr)
 		return true;
 
 	if (p->event) {
-		p->thread_exit = 2; // отпускаем поток в свободное плавание
+		p->thread_exit = 2; // РѕС‚РїСѓСЃРєР°РµРј РїРѕС‚РѕРє РІ СЃРІРѕР±РѕРґРЅРѕРµ РїР»Р°РІР°РЅРёРµ
 		SetEvent(p->event);
 		return false;
 	}
@@ -875,7 +875,7 @@ void rsa_free_thread(pRSADATA p)
 	if (p->event) {
 		p->thread_exit = 1;
 		SetEvent(p->event);
-		// ждем завершения потока
+		// Р¶РґРµРј Р·Р°РІРµСЂС€РµРЅРёСЏ РїРѕС‚РѕРєР°
 		WaitForSingleObject(p->thread, INFINITE);
 		CloseHandle(p->thread);
 		CloseHandle(p->event);
@@ -911,7 +911,7 @@ unsigned __stdcall sttConnectThread(LPVOID arg)
 		WaitForSingleObject(p->event, INFINITE); // dwMsec rc==WAIT_TIMEOUT
 		if (p->thread_exit == 1) return 0;
 		if (p->thread_exit == 2) {
-			// мы в свободном плавании - освободим память и завершим трэд
+			// РјС‹ РІ СЃРІРѕР±РѕРґРЅРѕРј РїР»Р°РІР°РЅРёРё - РѕСЃРІРѕР±РѕРґРёРј РїР°РјСЏС‚СЊ Рё Р·Р°РІРµСЂС€РёРј С‚СЂСЌРґ
 			CloseHandle(p->thread);
 			CloseHandle(p->event);
 			SAFE_DELETE(p->queue);
@@ -919,11 +919,11 @@ unsigned __stdcall sttConnectThread(LPVOID arg)
 			return 0;
 		}
 
-		// дождались сообщения в очереди
+		// РґРѕР¶РґР°Р»РёСЃСЊ СЃРѕРѕР±С‰РµРЅРёСЏ РІ РѕС‡РµСЂРµРґРё
 		while (!p->thread_exit && p->queue && !p->queue->empty()) {
-			// обработаем сообщения из очереди
+			// РѕР±СЂР°Р±РѕС‚Р°РµРј СЃРѕРѕР±С‰РµРЅРёСЏ РёР· РѕС‡РµСЂРµРґРё
 			if (rsa_recv_thread(context, p->queue->front()) == -1) {
-				// очистить очередь
+				// РѕС‡РёСЃС‚РёС‚СЊ РѕС‡РµСЂРµРґСЊ
 				clear_queue(p);
 				break;
 			}

@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Matthew Wild (MattJ), Ricardo Pescuma Domenecci"
 #define __AUTHOREMAIL            "mwild1@gmail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/AvatarHistory/"
-#define __COPYRIGHT              "© 2006-2012 Matthew Wild, Ricardo Pescuma Domenecci"
+#define __COPYRIGHT              "Â© 2006-2012 Matthew Wild, Ricardo Pescuma Domenecci"

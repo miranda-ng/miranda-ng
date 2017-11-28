@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+Â© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -222,11 +222,11 @@ static zodiac[] = {
 	{ 111, 140,	LPGENW("Taurus"),      ICO_ZOD_TAURUS      }, // Stier
 	{ 141, 172,	LPGENW("Gemini"),      ICO_ZOD_GEMINI      }, // Zwillinge
 	{ 173, 203,	LPGENW("Cancer"),      ICO_ZOD_CANCER      }, // Krebs
-	{ 204, 235,	LPGENW("Leo"),         ICO_ZOD_LEO         }, // Löwe
+	{ 204, 235,	LPGENW("Leo"),         ICO_ZOD_LEO         }, // LÑ†we
 	{ 236, 266,	LPGENW("Virgo"),       ICO_ZOD_VIRGO       }, // Jungfrau
 	{ 267, 296,	LPGENW("Libra"),       ICO_ZOD_LIBRA       }, // Waage
 	{ 297, 326,	LPGENW("Scorpio"),     ICO_ZOD_SCORPIO     }, // Scorpion
-	{ 327, 355,	LPGENW("Sagittarius"), ICO_ZOD_SAGITTARIUS }, // Schütze
+	{ 327, 355,	LPGENW("Sagittarius"), ICO_ZOD_SAGITTARIUS }, // SchÑŒtze
 	{ 356, 364,	LPGENW("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
 	{   1,  19, LPGENW("Capricorn"),   ICO_ZOD_CAPRICORN   }, // Steinbock
 	{  20,  49, LPGENW("Aquarius"),    ICO_ZOD_AQUARIUS    }, // Wassermann

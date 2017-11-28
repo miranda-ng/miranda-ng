@@ -12,7 +12,7 @@ int __cdecl onWindowEvent(WPARAM, LPARAM lParam)
 int __cdecl onIconPressed(WPARAM hContact, LPARAM lParam)
 {
 	if (db_mc_isMeta(hContact))
-		hContact = db_mc_getMostOnline(hContact); // âîçüìåì òîò, ÷åðåç êîòîðûé ïîéäåò ñîîáùåíèå
+		hContact = db_mc_getMostOnline(hContact); // Ð²Ð¾Ð·ÑŒÐ¼ÐµÐ¼ Ñ‚Ð¾Ñ‚, Ñ‡ÐµÑ€ÐµÐ· ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð¿Ð¾Ð¹Ð´ÐµÑ‚ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ
 
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if (mir_strcmp(sicd->szModule, MODULENAME) != 0 || !isSecureProtocol(hContact))

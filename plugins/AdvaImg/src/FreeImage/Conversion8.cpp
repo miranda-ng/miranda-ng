@@ -3,7 +3,7 @@
 //
 // Design and implementation by
 // - Floris van den Berg (flvdberg@wxs.nl)
-// - Hervé Drolon (drolon@infonie.fr)
+// - HervÐ¹ Drolon (drolon@infonie.fr)
 // - Jani Kajala (janik@remedy.fi)
 // - Karl-Heinz Bussian (khbussian@moss.de)
 // - Carsten Klein (cklein05@users.sourceforge.net)

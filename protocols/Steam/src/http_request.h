@@ -1,4 +1,4 @@
-﻿#ifndef _HTTP_REQUEST_H_
+#ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
 class HttpResponse : public NETLIBHTTPREQUEST, public MZeroedObject

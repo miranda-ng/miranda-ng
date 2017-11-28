@@ -3,7 +3,7 @@
 // Exif metadata model
 //
 // Design and implementation by
-// - Hervé Drolon (drolon@infonie.fr)
+// - HervÐ¹ Drolon (drolon@infonie.fr)
 // - Mihail Naydenov (mnaydenov@users.sourceforge.net)
 //
 // Based on the following implementations:
@@ -974,12 +974,12 @@ RotateExif(FIBITMAP **dib) {
 		if((tag != NULL) && (FreeImage_GetTagID(tag) == TAG_ORIENTATION)) {
 			const WORD orientation = *((WORD *)FreeImage_GetTagValue(tag));
 			switch (orientation) {
-				case 1:		// "top, left side" => 0°
+				case 1:		// "top, left side" => 0Â°
 					break;
 				case 2:		// "top, right side" => flip left-right
 					FreeImage_FlipHorizontal(*dib);
 					break;
-				case 3:		// "bottom, right side" => -180°
+				case 3:		// "bottom, right side" => -180Â°
 					rotated = FreeImage_Rotate(*dib, 180);
 					FreeImage_Unload(*dib);
 					*dib = rotated;
@@ -987,24 +987,24 @@ RotateExif(FIBITMAP **dib) {
 				case 4:		// "bottom, left side" => flip up-down
 					FreeImage_FlipVertical(*dib);
 					break;
-				case 5:		// "left side, top" => +90° + flip up-down
+				case 5:		// "left side, top" => +90Â° + flip up-down
 					rotated = FreeImage_Rotate(*dib, 90);
 					FreeImage_Unload(*dib);
 					*dib = rotated;
 					FreeImage_FlipVertical(*dib);
 					break;
-				case 6:		// "right side, top" => -90°
+				case 6:		// "right side, top" => -90Â°
 					rotated = FreeImage_Rotate(*dib, -90);
 					FreeImage_Unload(*dib);
 					*dib = rotated;
 					break;
-				case 7:		// "right side, bottom" => -90° + flip up-down
+				case 7:		// "right side, bottom" => -90Â° + flip up-down
 					rotated = FreeImage_Rotate(*dib, -90);
 					FreeImage_Unload(*dib);
 					*dib = rotated;
 					FreeImage_FlipVertical(*dib);
 					break;
-				case 8:		// "left side, bottom" => +90°
+				case 8:		// "left side, bottom" => +90Â°
 					rotated = FreeImage_Rotate(*dib, 90);
 					FreeImage_Unload(*dib);
 					*dib = rotated;

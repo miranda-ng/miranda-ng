@@ -124,7 +124,7 @@ __inline void InternetTimeGetCurrentTime(INTERNET_TIME *pitTime)
 	GetSystemTime(&pitTime->stTime);
 }
 
-//	Переводит время из MAILTIME в строковое
+//	РџРµСЂРµРІРѕРґРёС‚ РІСЂРµРјСЏ РёР· MAILTIME РІ СЃС‚СЂРѕРєРѕРІРѕРµ
 __inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
 {
 	char lpszBuff[100];
@@ -145,7 +145,7 @@ __inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
 
 	// time zone
 	if (pitTime->lTimeZone) {
-		if (pitTime->lTimeZone < 0) { // нужно добавить плюсик, минус добавляется автоматом
+		if (pitTime->lTimeZone < 0) { // РЅСѓР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ РїР»СЋСЃРёРє, РјРёРЅСѓСЃ РґРѕР±Р°РІР»СЏРµС‚СЃСЏ Р°РІС‚РѕРјР°С‚РѕРј
 			(*((BYTE*)lpszCurPos)) = '+';
 			lpszCurPos ++;
 			dwTimeLen ++;
@@ -163,7 +163,7 @@ __inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
 	return lpszBuff;
 }
 
-//	Переводит время из строкового в INTERNET_TIME
+//	РџРµСЂРµРІРѕРґРёС‚ РІСЂРµРјСЏ РёР· СЃС‚СЂРѕРєРѕРІРѕРіРѕ РІ INTERNET_TIME
 __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pitTime)
 {
 	if (lpszTime.IsEmpty())
@@ -177,7 +177,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 	memset(&pitTime, 0, sizeof(INTERNET_TIME));
 	WSP2SP(lpszTime, lpszTime.GetLength(), lpszCurPos, &dwCurSize);
 
-	if (dwCurSize > 3) { // день недели
+	if (dwCurSize > 3) { // РґРµРЅСЊ РЅРµРґРµР»Рё
 		if (lpszCurPos[3] == ',') {
 			for (unsigned short i=0; i < 7; i++) {
 				if ( !_memicmp(lpcszenmDayOfWeakEnum[i], lpszCurPos, 3)) {
@@ -190,7 +190,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 			dwCurSize-=4;
 		}
 
-		if (dwCurSize>2) { // день месяца
+		if (dwCurSize>2) { // РґРµРЅСЊ РјРµСЃСЏС†Р°
 			SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
 			if ((lpszTemp = (LPSTR)MemoryFindByte(0, lpszCurPos, dwCurSize,' '))) {
 				dwTemp=(lpszTemp-lpszCurPos);
@@ -199,7 +199,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 				lpszCurPos=(lpszTemp+1);
 				dwCurSize-=(dwTemp+1);
 
-				if (dwCurSize > 3) { // месяц
+				if (dwCurSize > 3) { // РјРµСЃСЏС†
 					SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
 
 					for (unsigned short i=1; i < 13; i++)
@@ -211,7 +211,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 					lpszCurPos += 3;
 					dwCurSize -= 3;
 
-					if (dwCurSize > 3) { // год
+					if (dwCurSize > 3) { // РіРѕРґ
 						SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
 						if ((lpszTemp = (LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' '))) {
 							dwTemp=(lpszTemp-lpszCurPos);
@@ -220,7 +220,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 							lpszCurPos=(lpszTemp+1);
 							dwCurSize-=(dwTemp+1);
 
-							if (dwCurSize > 2) { // часы
+							if (dwCurSize > 2) { // С‡Р°СЃС‹
 								SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
 								if ((lpszTemp = (LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,':'))) {
 									dwTemp=(lpszTemp-lpszCurPos);
@@ -229,7 +229,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 									lpszCurPos=(lpszTemp+1);
 									dwCurSize-=(dwTemp+1);
 
-									if (dwCurSize > 2) { // минуты
+									if (dwCurSize > 2) { // РјРёРЅСѓС‚С‹
 										SkeepSPWSP(lpszCurPos,dwCurSize,&lpszCurPos,&dwCurSize);
 										if ((lpszTemp=(LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,':')))
 										{
@@ -239,7 +239,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 											lpszCurPos = (lpszTemp+1);
 											dwCurSize -= (dwTemp+1);
 
-											if (dwCurSize > 2) { // секунды, они есть
+											if (dwCurSize > 2) { // СЃРµРєСѓРЅРґС‹, РѕРЅРё РµСЃС‚СЊ
 												if ((lpszTemp = (LPSTR)MemoryFindByte(0,lpszCurPos,dwCurSize,' '))) {
 													dwTemp=(lpszTemp-lpszCurPos);
 													pitTime.stTime.wSecond=(unsigned short)StrToUNum32(lpszCurPos,dwTemp);
@@ -248,7 +248,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 													dwCurSize-=(dwTemp+1);
 												}
 											}
-											else {// зоны нет
+											else {// Р·РѕРЅС‹ РЅРµС‚
 												if (dwCurSize) {
 													pitTime.stTime.wSecond=(unsigned short)StrToUNum32(lpszCurPos,dwCurSize);
 													lpszCurPos+=dwCurSize;
@@ -266,7 +266,7 @@ __inline DWORD InternetTimeGetTime(const CMStringA &lpszTime, INTERNET_TIME &pit
 											}
 										}
 
-										if (dwCurSize) { // часовой пояс
+										if (dwCurSize) { // С‡Р°СЃРѕРІРѕР№ РїРѕСЏСЃ
 											SkeepSPWSP(lpszCurPos, dwCurSize, &lpszCurPos, &dwCurSize);
 											pitTime.lTimeZone = (LONG)StrToNum(lpszCurPos, dwCurSize);
 											if (pitTime.lTimeZone > 1300 || pitTime.lTimeZone < -1200)

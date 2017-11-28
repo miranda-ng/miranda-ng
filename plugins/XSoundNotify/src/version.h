@@ -11,4 +11,4 @@
 #define __AUTHOR               "Roman Torsten"
 #define __AUTHOREMAIL            "rs_torsten-public@yahoo.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/XSoundNotify/"
-#define __COPYRIGHT               "© 2011 Roman Torsten"
+#define __COPYRIGHT               "Â© 2011 Roman Torsten"

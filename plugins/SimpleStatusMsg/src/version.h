@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Bartosz 'Dezeath' Bialek, Harven"
 #define __AUTHOREMAIL              "dezred@gmail.com"
 #define __AUTHORWEB                "https://miranda-ng.org/p/SimpleStatusMsg/"
-#define __COPYRIGHT                "© 2006-2011 Bartosz Bialek, 2005 Harven"
+#define __COPYRIGHT                "Â© 2006-2011 Bartosz Bialek, 2005 Harven"

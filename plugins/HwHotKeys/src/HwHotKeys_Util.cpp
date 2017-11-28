@@ -1,6 +1,6 @@
 /* ============================================================================
 Hardware HotKeys plugin for Miranda NG.
-Copyright © Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
+Copyright В© Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
  
 This program is free software; you can redistribute it and / or
 modify it under the terms of the GNU General Public License
@@ -21,19 +21,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 
 
-// сравнивает текущий нажатый сканкод с указанным
+// СЃСЂР°РІРЅРёРІР°РµС‚ С‚РµРєСѓС‰РёР№ РЅР°Р¶Р°С‚С‹Р№ СЃРєР°РЅРєРѕРґ СЃ СѓРєР°Р·Р°РЅРЅС‹Рј
 BOOL HwHotKeys_CompareCurrentScancode(DWORD scancode)
 {
-	if (key_code == scancode) // key_code - текущий нажатый на клавиатуре сканкод.
+	if (key_code == scancode) // key_code - С‚РµРєСѓС‰РёР№ РЅР°Р¶Р°С‚С‹Р№ РЅР° РєР»Р°РІРёР°С‚СѓСЂРµ СЃРєР°РЅРєРѕРґ.
 	{
-		return true; // сканкод напрямую совпал - TRUE.
+		return true; // СЃРєР°РЅРєРѕРґ РЅР°РїСЂСЏРјСѓСЋ СЃРѕРІРїР°Р» - TRUE.
 	}
-	if (!(scancode & 0x00F00000)) // проверяем нет ли в сканкоде запроса на любой из левого/правого регистра.
+	if (!(scancode & 0x00F00000)) // РїСЂРѕРІРµСЂСЏРµРј РЅРµС‚ Р»Рё РІ СЃРєР°РЅРєРѕРґРµ Р·Р°РїСЂРѕСЃР° РЅР° Р»СЋР±РѕР№ РёР· Р»РµРІРѕРіРѕ/РїСЂР°РІРѕРіРѕ СЂРµРіРёСЃС‚СЂР°.
 	{
 		return false;
 	}
-	DWORD tmp1, tmp2; // битовые маски: 0xF0000000 - левые кнопки Sft/Ctr/Alt/Win, 0x0F000000 - правые кнопки, 0x00F00000 - любые кнопки Sft/Ctr/Alt/Win
-	tmp1 = key_code >> 8;    // сдвигаем биты левых и правых кнопок.
+	DWORD tmp1, tmp2; // Р±РёС‚РѕРІС‹Рµ РјР°СЃРєРё: 0xF0000000 - Р»РµРІС‹Рµ РєРЅРѕРїРєРё Sft/Ctr/Alt/Win, 0x0F000000 - РїСЂР°РІС‹Рµ РєРЅРѕРїРєРё, 0x00F00000 - Р»СЋР±С‹Рµ РєРЅРѕРїРєРё Sft/Ctr/Alt/Win
+	tmp1 = key_code >> 8;    // СЃРґРІРёРіР°РµРј Р±РёС‚С‹ Р»РµРІС‹С… Рё РїСЂР°РІС‹С… РєРЅРѕРїРѕРє.
 	tmp2 = key_code >> 4;
 	tmp1 |= tmp2;
 	tmp1 &= 0x00F00000;
@@ -47,12 +47,12 @@ BOOL HwHotKeys_CompareCurrentScancode(DWORD scancode)
 
 
 
-// печатает в буфер key_name_buffer текстовое описание нажатой комбинации кнопок
-// Кодировка ANSI (для экономии места, всё равно названия клавиш английские)
+// РїРµС‡Р°С‚Р°РµС‚ РІ Р±СѓС„РµСЂ key_name_buffer С‚РµРєСЃС‚РѕРІРѕРµ РѕРїРёСЃР°РЅРёРµ РЅР°Р¶Р°С‚РѕР№ РєРѕРјР±РёРЅР°С†РёРё РєРЅРѕРїРѕРє
+// РљРѕРґРёСЂРѕРІРєР° ANSI (РґР»СЏ СЌРєРѕРЅРѕРјРёРё РјРµСЃС‚Р°, РІСЃС‘ СЂР°РІРЅРѕ РЅР°Р·РІР°РЅРёСЏ РєР»Р°РІРёС€ Р°РЅРіР»РёР№СЃРєРёРµ)
 VOID HwHotKeys_PrintFullKeyname(DWORD scancode)
 {
 	key_name_buffer[0] = 0;
-	if (!scancode) // если нулевой сканкод - то пустую строку делаем.
+	if (!scancode) // РµСЃР»Рё РЅСѓР»РµРІРѕР№ СЃРєР°РЅРєРѕРґ - С‚Рѕ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РґРµР»Р°РµРј.
 	{
 		return;
 	}
@@ -121,7 +121,7 @@ VOID HwHotKeys_PrintFullKeyname(DWORD scancode)
 		StringCbCatA(key_name_buffer, sizeof(key_name_buffer), " + ");
 	}
 
-	if ((scancode & 0x1FF) < sizeof(key_tab)) // защита от ошибочных данных - чтобы не выйти из таблицы имён.
+	if ((scancode & 0x1FF) < sizeof(key_tab)) // Р·Р°С‰РёС‚Р° РѕС‚ РѕС€РёР±РѕС‡РЅС‹С… РґР°РЅРЅС‹С… - С‡С‚РѕР±С‹ РЅРµ РІС‹Р№С‚Рё РёР· С‚Р°Р±Р»РёС†С‹ РёРјС‘РЅ.
 	{
 		StringCbCatA(key_name_buffer, sizeof(key_name_buffer), key_tab[(scancode & 0x1FF)]);
 	}
@@ -130,7 +130,7 @@ VOID HwHotKeys_PrintFullKeyname(DWORD scancode)
 		StringCbCatA(key_name_buffer, sizeof(key_name_buffer), "out of range");
 	}
 
-	INT_PTR tmp1 = mir_strlen(key_name_buffer); // допечатываем в конеце строки сканкод - для удобства работы с пока ещё не известными (безимянными) кнопками
+	INT_PTR tmp1 = mir_strlen(key_name_buffer); // РґРѕРїРµС‡Р°С‚С‹РІР°РµРј РІ РєРѕРЅРµС†Рµ СЃС‚СЂРѕРєРё СЃРєР°РЅРєРѕРґ - РґР»СЏ СѓРґРѕР±СЃС‚РІР° СЂР°Р±РѕС‚С‹ СЃ РїРѕРєР° РµС‰С‘ РЅРµ РёР·РІРµСЃС‚РЅС‹РјРё (Р±РµР·РёРјСЏРЅРЅС‹РјРё) РєРЅРѕРїРєР°РјРё
 	StringCbPrintfA(key_name_buffer + tmp1, sizeof(key_name_buffer) - tmp1, " (%03X)", (scancode & 0x1FF));
 
 	return;

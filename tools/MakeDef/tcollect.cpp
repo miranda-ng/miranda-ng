@@ -200,12 +200,12 @@ bool HCollection::shiftItem(ccIndex pItemNo, int direction)
 		return false;
 
 	switch (direction) {
-	case 1:  // Раздвинуть массив на один элемент
+	case 1:  // Р Р°Р·РґРІРёРЅСѓС‚СЊ РјР°СЃСЃРёРІ РЅР° РѕРґРёРЅ СЌР»РµРјРµРЅС‚
 		memmove(items + pItemNo + 1, items + pItemNo, sizeof(void*)*(count - pItemNo));
 		items[pItemNo] = NULL;
 		return true;
 
-	case -1: // Сдвинуть массив на один элемент
+	case -1: // РЎРґРІРёРЅСѓС‚СЊ РјР°СЃСЃРёРІ РЅР° РѕРґРёРЅ СЌР»РµРјРµРЅС‚
 		memmove(items + pItemNo, items + pItemNo + 1, sizeof(void*)*(count - pItemNo));
 		items[count] = NULL;
 		return true;

@@ -2,7 +2,7 @@
 // Upsampling / downsampling routine
 //
 // Design and implementation by
-// - Hervé Drolon (drolon@infonie.fr)
+// - HervÐ¹ Drolon (drolon@infonie.fr)
 // - Carsten Klein (cklein05@users.sourceforge.net)
 //
 // This file is part of FreeImage 3

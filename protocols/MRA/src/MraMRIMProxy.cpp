@@ -82,12 +82,12 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phCo
 		MRA_MRIMPROXY_DATA *pmmpd = (MRA_MRIMPROXY_DATA*)hMraMrimProxyData;
 		NETLIBOPENCONNECTION nloc = {0};
 
-		// адреса есть, значит инициаторы не мы
+		// Р°РґСЂРµСЃР° РµСЃС‚СЊ, Р·РЅР°С‡РёС‚ РёРЅРёС†РёР°С‚РѕСЂС‹ РЅРµ РјС‹
 		if (pmmpd->malAddrList.dwAddrCount) {
 			CMStringA szAddresses = MraAddrListGetToBuff(&pmmpd->malAddrList);
 			MraProxyAck(PROXY_STATUS_OK, pmmpd->szEmail, pmmpd->dwIDRequest, pmmpd->dwDataType, pmmpd->lpszUserData, szAddresses, pmmpd->mguidSessionID);
 		}
-		// мы инициаторы
+		// РјС‹ РёРЅРёС†РёР°С‚РѕСЂС‹
 		else {
 			pmmpd->hWaitHandle = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 			if (pmmpd->szEmail)
@@ -105,13 +105,13 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phCo
 			dwConnectReTryCount = getDword("ConnectReTryCountMRIMProxy", MRA_DEFAULT_CONN_RETRY_COUNT_MRIMPROXY);
 			nloc.cbSize = sizeof(nloc);
 			nloc.flags = NLOCF_V2;
-			nloc.timeout = ((MRA_TIMEOUT_DIRECT_CONN-1)/(pmmpd->malAddrList.dwAddrCount*dwConnectReTryCount));// -1 сек чтобы был запас
+			nloc.timeout = ((MRA_TIMEOUT_DIRECT_CONN-1)/(pmmpd->malAddrList.dwAddrCount*dwConnectReTryCount));// -1 СЃРµРє С‡С‚РѕР±С‹ Р±С‹Р» Р·Р°РїР°СЃ
 			if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 			if (nloc.timeout > MRA_TIMEOUT_CONN_MAX) nloc.timeout = MRA_TIMEOUT_CONN_MAX;
 
 			// Set up the sockaddr structure
 			for (size_t i = 0; i < pmmpd->malAddrList.dwAddrCount && dwRetErrorCode != NO_ERROR; i++) {
-				// через https прокси только 443 порт
+				// С‡РµСЂРµР· https РїСЂРѕРєСЃРё С‚РѕР»СЊРєРѕ 443 РїРѕСЂС‚
 				if ((pmmpd->malAddrList.pMailAddress[i].dwPort == MRA_SERVER_PORT_HTTPS && bIsHTTPSProxyUsed) || bIsHTTPSProxyUsed == FALSE) {
 					if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
 						ProtoBroadcastAck(MraHContactFromEmail(pmmpd->szEmail, FALSE, TRUE, nullptr), ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)pmmpd->dwIDRequest, 0);
@@ -189,7 +189,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HNETLIBCONN *phCo
 				}// filtered
 			}// end for
 
-			if (dwRetErrorCode != NO_ERROR) // кажется не туда подключились :)
+			if (dwRetErrorCode != NO_ERROR) // РєР°Р¶РµС‚СЃСЏ РЅРµ С‚СѓРґР° РїРѕРґРєР»СЋС‡РёР»РёСЃСЊ :)
 				NETLIB_CLOSEHANDLE(pmmpd->hConnection);
 		}
 		*phConnection = pmmpd->hConnection;

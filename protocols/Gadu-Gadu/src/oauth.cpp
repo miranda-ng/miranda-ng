@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
-// Copyright (c) 2010 Bartosz Bia≥ek
+// Copyright (c) 2010 Bartosz Bia—ñek
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

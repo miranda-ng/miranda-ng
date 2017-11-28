@@ -2,8 +2,8 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (Ò) 2012-17 Miranda NG project (https://miranda-ng.org)
-Copyright (Ò) 2000-10 Miranda ICQ/IM project,
+Copyright (—Å) 2012-17 Miranda NG project (https://miranda-ng.org)
+Copyright (—Å) 2000-10 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 

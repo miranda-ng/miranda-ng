@@ -87,7 +87,7 @@ static int nUnescapedURI(char * pszURI)
 			nNewChar = '/';
 
 		if ((nNewChar & 0x80) == 0x00) {		// 0xxxxxxx (yields 7 bits)
-			more = -1; // this is to avoid sequence like %C3k%A6 will end up beeing "kæ" insted it will be "k"
+			more = -1; // this is to avoid sequence like %C3k%A6 will end up beeing "kÐ¶" insted it will be "k"
 			*pszCurInsert = (char)nNewChar;
 			pszCurInsert++;
 			continue;

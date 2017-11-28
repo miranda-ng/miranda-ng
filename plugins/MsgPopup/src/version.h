@@ -11,4 +11,4 @@
 #define __AUTHOR                 "StDenis"
 #define __AUTHOREMAIL            "stdenformiranda@fromru.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/MsgPopup/"
-#define __COPYRIGHT              "© 2004 Denis Stanishevskiy"
+#define __COPYRIGHT              "Â© 2004 Denis Stanishevskiy"

@@ -208,12 +208,12 @@ extern "C" __declspec(dllexport) int Load()
 	enRenameAction = (ENDialogAction)db_get_b(NULL, MODULE, "RenameAction", enRenameAction);
 	enDeleteAction = (ENDialogAction)db_get_b(NULL, MODULE, "DeleteAction", enDeleteAction);
 
-	HANDLE hServiceFunÒ = nullptr;
+	HANDLE hServiceFun—Å = nullptr;
 	if (bReplaceHistory)
-		hServiceFunÒ = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
+		hServiceFun—Å = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
 
-	if (!hServiceFunÒ)
-		hServiceFunÒ = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
+	if (!hServiceFun—Å)
+		hServiceFun—Å = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
 
 	hInternalWindowList = WindowList_Create();
 	return 0;

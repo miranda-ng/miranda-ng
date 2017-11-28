@@ -56,9 +56,9 @@ __inline BOOL BuffToLowerCase(LPCVOID lpcOutBuff,LPCVOID lpcBuff,size_t dwLen)
 		test	ecx,ecx
 		jz		short end_func
 
-		push	ebx					// сохраняем регистр
-		push	edi					// сохраняем регистр
-		push	esi					// сохраняем регистр
+		push	ebx					// СЃРѕС…СЂР°РЅСЏРµРј СЂРµРіРёСЃС‚СЂ
+		push	edi					// СЃРѕС…СЂР°РЅСЏРµРј СЂРµРіРёСЃС‚СЂ
+		push	esi					// СЃРѕС…СЂР°РЅСЏРµРј СЂРµРіРёСЃС‚СЂ
 		mov		esi,lpcBuff
 		mov		edi,lpcOutBuff
 		mov		bl,'A'
@@ -80,9 +80,9 @@ __inline BOOL BuffToLowerCase(LPCVOID lpcOutBuff,LPCVOID lpcBuff,size_t dwLen)
 		dec		ecx
 		jnz		short lowcaseloop
 
-		pop		esi					// восстанавливаем содержимое регистра
-		pop		edi					// восстанавливаем содержимое регистра
-		pop		ebx					// восстанавливаем содержимое регистра
+		pop		esi					// РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРґРµСЂР¶РёРјРѕРµ СЂРµРіРёСЃС‚СЂР°
+		pop		edi					// РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРґРµСЂР¶РёРјРѕРµ СЂРµРіРёСЃС‚СЂР°
+		pop		ebx					// РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј СЃРѕРґРµСЂР¶РёРјРѕРµ СЂРµРіРёСЃС‚СЂР°
 	end_func:
 	}
 #endif

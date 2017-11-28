@@ -152,7 +152,7 @@ protected:
 public:
 	
 	CDccSession(CIrcProto*, DCCINFO *pdci);  // constructor
-	~CDccSession();               // destructor, что характерно
+	~CDccSession();               // destructor, С‡С‚Рѕ С…Р°СЂР°РєС‚РµСЂРЅРѕ
 
 	time_t tLastPercentageUpdate; // time of last update of the filetransfer dialog
 	time_t tLastActivity;         // time of last in/out activity of the object

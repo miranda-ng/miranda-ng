@@ -1,4 +1,4 @@
-// Copyright © 2010-2012 sss
+// Copyright Â© 2010-2012 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

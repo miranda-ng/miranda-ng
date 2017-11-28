@@ -11,4 +11,4 @@
 #define __AUTHOR                 "perf"
 #define __AUTHOREMAIL            "perf@mail333.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/TooltipNotify/"
-#define __COPYRIGHT               "© 2004-2008 Gneedah software"
+#define __COPYRIGHT               "Â© 2004-2008 Gneedah software"

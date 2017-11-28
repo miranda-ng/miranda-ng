@@ -1,7 +1,7 @@
 /*
-Copyright ©2006 Ricardo Pescuma Domenecci
+Copyright Â©2006 Ricardo Pescuma Domenecci
 
-Modified  ©2008-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+Modified  Â©2008-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

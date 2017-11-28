@@ -11,4 +11,4 @@
 #define __AUTHOR               "Alexander S. Kiselev, Valentin Pavlyuchenko"
 #define __AUTHOREMAIL            "Valentin.Pavlyuchenko@gmail.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/Boltun/"
-#define __COPYRIGHT               "© 2003-2008 Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko"
+#define __COPYRIGHT               "Â© 2003-2008 Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko"

@@ -1,6 +1,6 @@
 /* ============================================================================
 Hardware HotKeys plugin for Miranda NG.
-Copyright © Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
+Copyright В© Eugene f2065, http://f2065.narod.ru, f2065 mail.ru, ICQ 35078112
 
 This program is free software; you can redistribute it and / or
 modify it under the terms of the GNU General Public License
@@ -41,7 +41,7 @@ extern CLIST_INTERFACE *pcli;
 
 extern HINSTANCE hInstance;
 extern INT hLangpack;
-extern HWND hDialogWnd; // глобально используется для вывода туда в реалтайме сканкодов клавы, из хука
+extern HWND hDialogWnd; // РіР»РѕР±Р°Р»СЊРЅРѕ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РІС‹РІРѕРґР° С‚СѓРґР° РІ СЂРµР°Р»С‚Р°Р№РјРµ СЃРєР°РЅРєРѕРґРѕРІ РєР»Р°РІС‹, РёР· С…СѓРєР°
 extern HHOOK hHook;
 
 extern DWORD code_Close_tmp;
@@ -72,7 +72,7 @@ extern const CHAR *t_SL;
 extern const CHAR *t_SR;
 extern const CHAR *t_SS;
 
-// значения связаны с битами в HwHotKeys_CompareCurrentScancode
+// Р·РЅР°С‡РµРЅРёСЏ СЃРІСЏР·Р°РЅС‹ СЃ Р±РёС‚Р°РјРё РІ HwHotKeys_CompareCurrentScancode
 #define key_flag_sr 0x01000000
 #define key_flag_cr 0x02000000
 #define key_flag_ar 0x04000000

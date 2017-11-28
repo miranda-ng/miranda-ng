@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Miranda NG Team"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              ""
-#define __COPYRIGHT              "© 2014-17 Miranda NG Team"
+#define __COPYRIGHT              "Â© 2014-17 Miranda NG Team"

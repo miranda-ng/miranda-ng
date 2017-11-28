@@ -3,7 +3,7 @@
 Minecraft Dynmap plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2015-17 Robert Pösel
+Copyright Â© 2015-17 Robert PÑ†sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

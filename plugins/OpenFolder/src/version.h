@@ -11,4 +11,4 @@
 #define __AUTHOR               "jarvis, Kreisquadratur"
 #define __AUTHOREMAIL            "jarvis@jabber.cz, djui@kreisquadratur.de"
 #define __AUTHORWEB               "https://miranda-ng.org/p/OpenFolder/"
-#define __COPYRIGHT               "© 2008 jarvis, © 2004 Kreisquadratur"
+#define __COPYRIGHT               "Â© 2008 jarvis, Â© 2004 Kreisquadratur"

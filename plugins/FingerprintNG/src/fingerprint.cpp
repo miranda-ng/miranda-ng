@@ -1,6 +1,6 @@
 /*
 Fingerprint NG (client version) icons module for Miranda NG
-Copyright © 2006-17 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.
+Copyright ¬© 2006-17 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -796,7 +796,7 @@ static INT_PTR ServiceGetClientDescrW(WPARAM wParam, LPARAM)
  *	 MS_FP_SAMECLIENTSW service implementation.
  *	 wParam - LPWSTR first MirVer value
  *	 lParam - LPWSTR second MirVer value
- *	 returns LPCWSTR: client desÒription (do not destroy) if clients are same or NULL
+ *	 returns LPCWSTR: client des—Åription (do not destroy) if clients are same or NULL
  */
 
 static INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)

@@ -11,4 +11,4 @@
 #define __AUTHOR             "Dioksin"
 #define __AUTHOREMAIL        "dioksin@ua.fm"
 #define __AUTHORWEB          "https://miranda-ng.org/p/SkypeStatusChange/"
-#define __COPYRIGHT          "© 2009-2010 Dioksin"
+#define __COPYRIGHT          "Â© 2009-2010 Dioksin"

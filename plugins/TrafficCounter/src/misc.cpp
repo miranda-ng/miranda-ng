@@ -19,52 +19,52 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-/* Функция разбирает строку и возвращает список тегов и соответствующих им строк.
-Аргументы:
-InputString - строка для разбора;
-RowItemsList - список найденных элементов.
-Возвращаемое значение - количество элементов в списках. */
+/* Р¤СѓРЅРєС†РёСЏ СЂР°Р·Р±РёСЂР°РµС‚ СЃС‚СЂРѕРєСѓ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРїРёСЃРѕРє С‚РµРіРѕРІ Рё СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёС… РёРј СЃС‚СЂРѕРє.
+РђСЂРіСѓРјРµРЅС‚С‹:
+InputString - СЃС‚СЂРѕРєР° РґР»СЏ СЂР°Р·Р±РѕСЂР°;
+RowItemsList - СЃРїРёСЃРѕРє РЅР°Р№РґРµРЅРЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ.
+Р’РѕР·РІСЂР°С‰Р°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ - РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРїРёСЃРєР°С…. */
 
 WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList)
 {
 	wchar_t *begin, *end;
 	WORD c = 0;
 
-	// Ищем слева открывающую скобку.
+	// РС‰РµРј СЃР»РµРІР° РѕС‚РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ.
 	begin = wcschr(InputString, '{');
-	// Если скобка найдена...
+	// Р•СЃР»Рё СЃРєРѕР±РєР° РЅР°Р№РґРµРЅР°...
 	if (begin) {
-		// Выделяем память под указатели
+		// Р’С‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ РїРѕРґ СѓРєР°Р·Р°С‚РµР»Рё
 		*RowItemsList = (RowItemInfo*)mir_alloc(sizeof(RowItemInfo));
 	}
 	else return 0;
 
 	do {
-		// Сразу вслед за ней ищем закрывающую.
+		// РЎСЂР°Р·Сѓ РІСЃР»РµРґ Р·Р° РЅРµР№ РёС‰РµРј Р·Р°РєСЂС‹РІР°СЋС‰СѓСЋ.
 		end = wcschr(begin, '}');
 
-		// Выделяем память под указатели
+		// Р’С‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ РїРѕРґ СѓРєР°Р·Р°С‚РµР»Рё
 		*RowItemsList = (RowItemInfo*)mir_realloc(*RowItemsList, sizeof(RowItemInfo) * (c + 1));
 
-		// Разбираем тег.
+		// Р Р°Р·Р±РёСЂР°РµРј С‚РµРі.
 		swscanf(begin + 1, L"%c%hd",
 			&((*RowItemsList)[c].Alignment),
 			&((*RowItemsList)[c].Interval));
 
-		// Ищем далее открывающую скобку - это конец строки, соответствующей тегу.
+		// РС‰РµРј РґР°Р»РµРµ РѕС‚РєСЂС‹РІР°СЋС‰СѓСЋ СЃРєРѕР±РєСѓ - СЌС‚Рѕ РєРѕРЅРµС† СЃС‚СЂРѕРєРё, СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµР№ С‚РµРіСѓ.
 		begin = wcschr(end, '{');
 
 		if (begin) {
-			// Выделяем память под строку.
+			// Р’С‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ РїРѕРґ СЃС‚СЂРѕРєСѓ.
 			(*RowItemsList)[c].String = (wchar_t*)mir_alloc(sizeof(wchar_t) * (begin - end));
-			// Копируем строку.
+			// РљРѕРїРёСЂСѓРµРј СЃС‚СЂРѕРєСѓ.
 			wcsncpy((*RowItemsList)[c].String, end + 1, begin - end - 1);
 			(*RowItemsList)[c].String[begin - end - 1] = 0;
 		}
 		else {
-			// Выделяем память под строку.
+			// Р’С‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ РїРѕРґ СЃС‚СЂРѕРєСѓ.
 			(*RowItemsList)[c].String = (wchar_t*)mir_alloc(sizeof(wchar_t) * mir_wstrlen(end));
-			// Копируем строку.
+			// РљРѕРїРёСЂСѓРµРј СЃС‚СЂРѕРєСѓ.
 			wcsncpy((*RowItemsList)[c].String, end + 1, mir_wstrlen(end));
 		}
 
@@ -74,7 +74,7 @@ WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList)
 	return c;
 }
 
-/* Функция возвращает количество дней в указанном месяце указанного года. */
+/* Р¤СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РґРЅРµР№ РІ СѓРєР°Р·Р°РЅРЅРѕРј РјРµСЃСЏС†Рµ СѓРєР°Р·Р°РЅРЅРѕРіРѕ РіРѕРґР°. */
 BYTE DaysInMonth(BYTE Month, WORD Year)
 {
 	switch (Month) {
@@ -94,8 +94,8 @@ BYTE DaysInMonth(BYTE Month, WORD Year)
 	return 0;
 }
 
-// Функция определяет день недели по дате
-// 7 - ВС, 1 - ПН и т. д.
+// Р¤СѓРЅРєС†РёСЏ РѕРїСЂРµРґРµР»СЏРµС‚ РґРµРЅСЊ РЅРµРґРµР»Рё РїРѕ РґР°С‚Рµ
+// 7 - Р’РЎ, 1 - РџРќ Рё С‚. Рґ.
 BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year)
 {
 	WORD a, y, m;
@@ -111,19 +111,19 @@ BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year)
 }
 
 /*
-Аргументы:
-Value - количество байт;
-Unit - единицы измерения (0 - байты, 1 - килобайты, 2 - мегабайты, 3 - автоматически);
-Buffer - адрес строки для записи результата;
-Size - размер буфера.
-Возвращаемое значение: требуемый размер буфера.
+РђСЂРіСѓРјРµРЅС‚С‹:
+Value - РєРѕР»РёС‡РµСЃС‚РІРѕ Р±Р°Р№С‚;
+Unit - РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ (0 - Р±Р°Р№С‚С‹, 1 - РєРёР»РѕР±Р°Р№С‚С‹, 2 - РјРµРіР°Р±Р°Р№С‚С‹, 3 - Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё);
+Buffer - Р°РґСЂРµСЃ СЃС‚СЂРѕРєРё РґР»СЏ Р·Р°РїРёСЃРё СЂРµР·СѓР»СЊС‚Р°С‚Р°;
+Size - СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°.
+Р’РѕР·РІСЂР°С‰Р°РµРјРѕРµ Р·РЅР°С‡РµРЅРёРµ: С‚СЂРµР±СѓРµРјС‹Р№ СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°.
 */
 size_t GetFormattedTraffic(DWORD Value, BYTE Unit, wchar_t *Buffer, size_t Size)
 {
 	wchar_t Str1[32], szUnit[4] = { ' ', 0 };
 	DWORD Divider;
 	NUMBERFMT nf = { 0, 1, 3, L",", L" ", 0 };
-	wchar_t *Res; // Промежуточный результат.
+	wchar_t *Res; // РџСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚.
 
 	switch (Unit) {
 	case 0: //bytes
@@ -167,36 +167,36 @@ size_t GetFormattedTraffic(DWORD Value, BYTE Unit, wchar_t *Buffer, size_t Size)
 	return l;
 }
 
-/* Преобразование интервала времени в его строковое представление
-Аргументы:
-Duration: интервал времени в секундах;
-Format: строка формата;
-Buffer: адрес буфера, куда функция помещает результат.
-Size - размер буфера. */
+/* РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РёРЅС‚РµСЂРІР°Р»Р° РІСЂРµРјРµРЅРё РІ РµРіРѕ СЃС‚СЂРѕРєРѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ
+РђСЂРіСѓРјРµРЅС‚С‹:
+Duration: РёРЅС‚РµСЂРІР°Р» РІСЂРµРјРµРЅРё РІ СЃРµРєСѓРЅРґР°С…;
+Format: СЃС‚СЂРѕРєР° С„РѕСЂРјР°С‚Р°;
+Buffer: Р°РґСЂРµСЃ Р±СѓС„РµСЂР°, РєСѓРґР° С„СѓРЅРєС†РёСЏ РїРѕРјРµС‰Р°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚.
+Size - СЂР°Р·РјРµСЂ Р±СѓС„РµСЂР°. */
 
 size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size_t Size)
 {
 	size_t Length;
 	DWORD q;
 	WORD TokenIndex, FormatIndex;
-	wchar_t Token[256],  // Аккумулятор.
-		*Res; // Промежуточный результат.
+	wchar_t Token[256],  // РђРєРєСѓРјСѓР»СЏС‚РѕСЂ.
+		*Res; // РџСЂРѕРјРµР¶СѓС‚РѕС‡РЅС‹Р№ СЂРµР·СѓР»СЊС‚Р°С‚.
 
-	Res = (wchar_t*)malloc(sizeof(wchar_t)); // Выделяем чуть-чуть памяти под результат, но это только начало.
+	Res = (wchar_t*)malloc(sizeof(wchar_t)); // Р’С‹РґРµР»СЏРµРј С‡СѓС‚СЊ-С‡СѓС‚СЊ РїР°РјСЏС‚Рё РїРѕРґ СЂРµР·СѓР»СЊС‚Р°С‚, РЅРѕ СЌС‚Рѕ С‚РѕР»СЊРєРѕ РЅР°С‡Р°Р»Рѕ.
 	//SecureZeroMemory(Res, sizeof(wchar_t));
 	Res[0] = 0;
 
 	for (FormatIndex = 0; Format[FormatIndex];) {
-		// Ищем токены. Считается, что токен - только буквы.
+		// РС‰РµРј С‚РѕРєРµРЅС‹. РЎС‡РёС‚Р°РµС‚СЃСЏ, С‡С‚Рѕ С‚РѕРєРµРЅ - С‚РѕР»СЊРєРѕ Р±СѓРєРІС‹.
 		TokenIndex = 0;
 		q = iswalpha(Format[FormatIndex]);
-		// Копируем символы в аккумулятор до смены флага.
+		// РљРѕРїРёСЂСѓРµРј СЃРёРјРІРѕР»С‹ РІ Р°РєРєСѓРјСѓР»СЏС‚РѕСЂ РґРѕ СЃРјРµРЅС‹ С„Р»Р°РіР°.
 		do {
 			Token[TokenIndex++] = Format[FormatIndex++];
 		} while (q == iswalpha(Format[FormatIndex]));
 		Token[TokenIndex] = 0;
 
-		// Что получили в аккумуляторе?
+		// Р§С‚Рѕ РїРѕР»СѓС‡РёР»Рё РІ Р°РєРєСѓРјСѓР»СЏС‚РѕСЂРµ?
 		if (!mir_wstrcmp(Token, L"d")) {
 			q = Duration / (60 * 60 * 24);
 			mir_snwprintf(Token, L"%d", q);
@@ -233,7 +233,7 @@ size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size
 			Duration -= q;
 		}
 
-		// Добавим памяти, если нужно.
+		// Р”РѕР±Р°РІРёРј РїР°РјСЏС‚Рё, РµСЃР»Рё РЅСѓР¶РЅРѕ.
 		Length = mir_wstrlen(Res) + mir_wstrlen(Token) + 1;
 		Res = (wchar_t*)realloc(Res, Length * sizeof(wchar_t));
 		mir_wstrcat(Res, Token);
@@ -249,7 +249,7 @@ size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size
 	return Length;
 }
 
-/* Результат:
+/* Р РµР·СѓР»СЊС‚Р°С‚:
 -1 - st1 < st2
 0 - st1 = st2
 +1 - st1 > st2

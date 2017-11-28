@@ -39,7 +39,7 @@ BEGIN
             VALUE "FileDescription", "libgpg-error - Common error codes\0"
             VALUE "FileVersion", "14.14.0.f796885\0"
             VALUE "InternalName", "libgpg-error\0"
-            VALUE "LegalCopyright", "Copyright © 2013 g10 Code GmbH\0"
+            VALUE "LegalCopyright", "Copyright Â© 2013 g10 Code GmbH\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "libgpg-error.dll\0"
             VALUE "PrivateBuild", "\0"

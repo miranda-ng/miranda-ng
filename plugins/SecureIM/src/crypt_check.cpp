@@ -20,11 +20,11 @@ bool isSecureProtocol(MCONTACT hContact)
 
 BYTE isContactSecured(MCONTACT hContact)
 {
-	// íóæíà ïğîâåğêà íà Offline è â ıòîì ñëó÷àå äğóãèå ñòàòóñû
+	// Ğ½ÑƒĞ¶Ğ½Ğ° Ğ¿Ñ€Ğ¾Ğ²ĞµÑ€ĞºĞ° Ğ½Ğ° Offline Ğ¸ Ğ² ÑÑ‚Ğ¾Ğ¼ ÑĞ»ÑƒÑ‡Ğ°Ğµ Ğ´Ñ€ÑƒĞ³Ğ¸Ğµ ÑÑ‚Ğ°Ñ‚ÑƒÑÑ‹
 	if (!arClist.getCount()) return 0;
 
 	if (db_mc_isMeta(hContact))
-		hContact = db_mc_getMostOnline(hContact); // âîçüìåì òîò, ÷åğåç êîòîğûé ïîéäåò ñîîáùåíèå
+		hContact = db_mc_getMostOnline(hContact); // Ğ²Ğ¾Ğ·ÑŒĞ¼ĞµĞ¼ Ñ‚Ğ¾Ñ‚, Ñ‡ĞµÑ€ĞµĞ· ĞºĞ¾Ñ‚Ğ¾Ñ€Ñ‹Ğ¹ Ğ¿Ğ¾Ğ¹Ğ´ĞµÑ‚ ÑĞ¾Ğ¾Ğ±Ñ‰ĞµĞ½Ğ¸Ğµ
 
 	pUinKey p = findUinKey(hContact);
 	if (!p || !p->proto || !p->proto->inspecting)

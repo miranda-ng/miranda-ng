@@ -231,7 +231,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM)
 		bHasEMailMR = false;
 		bChatAgent = false;
 		if (!getByte(NULL, "HideMenuItemsForNonMRAContacts", MRA_DEFAULT_HIDE_MENU_ITEMS_FOR_NON_MRA))
-		if (!IsContactMraProto(hContact))// избегаем добавления менюшек в контакты других копий MRA
+		if (!IsContactMraProto(hContact))// РёР·Р±РµРіР°РµРј РґРѕР±Р°РІР»РµРЅРёСЏ РјРµРЅСЋС€РµРє РІ РєРѕРЅС‚Р°РєС‚С‹ РґСЂСѓРіРёС… РєРѕРїРёР№ MRA
 		if (GetContactEMailCount(hContact, FALSE)) {
 			bHasEMail = true;
 			if (GetContactEMailCount(hContact, TRUE)) bHasEMailMR = true;

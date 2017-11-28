@@ -97,7 +97,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 {
 	LPCTSTR ptszEmptySting = L"";
 
-	// Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
+	// Р—Р°РїРѕР»РЅСЏРµРј РєРѕРЅС„РёРіСѓСЂР°С†РёРѕРЅРЅС‹Рµ СЃС‚СЂРѕРєРё РёР· Р±Р°Р·С‹. Р•СЃР»Рё РёС… С‚Р°Рј РЅРµС‚ - РіРµРЅРµСЂРёСЂСѓРµРј.
 	for (int i = 0; i < bLayNum; i++) {
 		LPTSTR ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
 		LPSTR ptszTemp = GetNameOfLayout(hklLayouts[i]);
@@ -115,17 +115,17 @@ int ModulesLoaded(WPARAM, LPARAM)
 		mir_free(ptszTemp);
 	}
 
-	// Прочитаем основные настройки
+	// РџСЂРѕС‡РёС‚Р°РµРј РѕСЃРЅРѕРІРЅС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё
 	ReadMainOptions();
 
-	// Прочитаем настройки попапов
+	// РџСЂРѕС‡РёС‚Р°РµРј РЅР°СЃС‚СЂРѕР№РєРё РїРѕРїР°РїРѕРІ
 	ReadPopupOptions();
 
-	// Зарегим звук
+	// Р—Р°СЂРµРіРёРј Р·РІСѓРє
 	Skin_AddSound(SND_ChangeLayout, ModuleNameW, LPGENW("Changing Layout"));
 	Skin_AddSound(SND_ChangeCase,   ModuleNameW, LPGENW("Changing Case"));
 
-	// Хук на нажатие клавиши
+	// РҐСѓРє РЅР° РЅР°Р¶Р°С‚РёРµ РєР»Р°РІРёС€Рё
 	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, nullptr, GetCurrentThreadId());
 
 	CreateServiceFunction(MS_CKL_CHANGELAYOUT, APIChangeLayout);
@@ -171,7 +171,7 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 		if ((wParam != VK_SHIFT) && (wParam != VK_MENU) && (wParam != VK_CONTROL) && (wParam != VK_LWIN) && (wParam != VK_RWIN))
 			lcode += wParam;
 
-		// Проверка на пустой хоткей. Иначе - пиздец, как в версии 1.4
+		// РџСЂРѕРІРµСЂРєР° РЅР° РїСѓСЃС‚РѕР№ С…РѕС‚РєРµР№. РРЅР°С‡Рµ - РїРёР·РґРµС†, РєР°Рє РІ РІРµСЂСЃРёРё 1.4
 		if (lcode != 0) {
 			if ((lcode == moOptions.dwHotkey_Layout) && (!(lParam & 0x40000000))) {
 				ChangeLayout(nullptr, TOT_Layout, moOptions.CurrentWordLayout);

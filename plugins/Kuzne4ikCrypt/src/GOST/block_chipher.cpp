@@ -1,5 +1,5 @@
 /** @file 
-* @brief Реализация режимов работы блочных алгоритмов
+* @brief Р РµР°Р»РёР·Р°С†РёСЏ СЂРµР¶РёРјРѕРІ СЂР°Р±РѕС‚С‹ Р±Р»РѕС‡РЅС‹С… Р°Р»РіРѕСЂРёС‚РјРѕРІ
 *
 * @copyright InfoTeCS. All rights reserved.
 */
@@ -12,150 +12,150 @@
 #include "28147_14.h"
 #include "block_chipher.h"
 
-/** @brief определение внутреннего ассерта */
+/** @brief РѕРїСЂРµРґРµР»РµРЅРёРµ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ Р°СЃСЃРµСЂС‚Р° */
 #define INFOTECS_ASSERT(e) typedef char __C_ASSERT__[(e)?1:-1]
 
-/** @brief размер тестовых данных для алгоритма "кузнечик" */
+/** @brief СЂР°Р·РјРµСЂ С‚РµСЃС‚РѕРІС‹С… РґР°РЅРЅС‹С… РґР»СЏ Р°Р»РіРѕСЂРёС‚РјР° "РєСѓР·РЅРµС‡РёРє" */
 #define textLen14 sizeof(kSeltTestGost14PlainText)/sizeof(kSeltTestGost14PlainText[0])
-/** @brief размер тестовых данных для алгоритма 28147-89 */
+/** @brief СЂР°Р·РјРµСЂ С‚РµСЃС‚РѕРІС‹С… РґР°РЅРЅС‹С… РґР»СЏ Р°Р»РіРѕСЂРёС‚РјР° 28147-89 */
 #define textLen89 sizeof(kSeltTestGost89PlainText)/sizeof(kSeltTestGost89PlainText[0])
 
-/** @brief Признак алгоритма "Кузнечик" */
+/** @brief РџСЂРёР·РЅР°Рє Р°Р»РіРѕСЂРёС‚РјР° "РљСѓР·РЅРµС‡РёРє" */
 const unsigned char kAlg14 = 1;
 
-/** @brief Признак алгоритма 28147-89 */
+/** @brief РџСЂРёР·РЅР°Рє Р°Р»РіРѕСЂРёС‚РјР° 28147-89 */
 const unsigned char kAlg89 = 2;
 
-/** @brief указатель на функцию шифрования */
+/** @brief СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ С€РёС„СЂРѕРІР°РЅРёСЏ */
 typedef int (DLL_IMPORT *pEncrypt)(unsigned char* plainText, unsigned char* chipherText, unsigned char* keys);
 
-/** @brief указатель на функцию расшифрования */
+/** @brief СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С„СѓРЅРєС†РёСЋ СЂР°СЃС€РёС„СЂРѕРІР°РЅРёСЏ */
 typedef int (DLL_IMPORT *pDecrypt)(unsigned char* chipherText, unsigned char* plainText, unsigned char* keys);
 
-/** @brief Функция самотестирования режима ECB */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° ECB */
 static int SelfTestGost14Ecb();
 
-/** @brief Функция самотестирования режима ECB */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° ECB */
 static int SelfTestGost89Ecb();
 
-/** @brief Функция самотестирования режима CRT */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° CRT */
 static int SelfTestGost14Crt();
 
-/** @brief Функция самотестирования режима CRT */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° CRT */
 static int SelfTestGost89Crt();
 
-/** @brief Функция самотестирования режима OFB */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° OFB */
 static int SelfTestGost14Ofb();
 
-/** @brief Функция самотестирования режима OFB */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° OFB */
 static int SelfTestGost89Ofb();
 
-/** @brief Функция самотестирования режима CBC */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° CBC */
 static int SelfTestGost14Cbc();
 
-/** @brief Функция самотестирования режима CBC */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° CBC */
 static int SelfTestGost89Cbc();
 
-/** @brief Функция самотестирования режима CFB */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° CFB */
 static int SelfTestGost14Cfb();
 
-/** @brief Функция самотестирования режима CFB */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° CFB */
 static int SelfTestGost89Cfb();
 
-/** @brief Функция самотестирования режима имитовставки */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° РёРјРёС‚РѕРІСЃС‚Р°РІРєРё */
 static int SelfTestGost14Imit();
 
-/** @brief Функция самотестирования режима имитовставки */
+/** @brief Р¤СѓРЅРєС†РёСЏ СЃР°РјРѕС‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ СЂРµР¶РёРјР° РёРјРёС‚РѕРІСЃС‚Р°РІРєРё */
 static int SelfTestGost89Imit();
 
-/** @brief Сдвиг влево на 1 бит */
+/** @brief РЎРґРІРёРі РІР»РµРІРѕ РЅР° 1 Р±РёС‚ */
 static void ShifttLeftOne(unsigned char *r, size_t length);
 
-/** @brief Контекст ECB */  
+/** @brief РљРѕРЅС‚РµРєСЃС‚ ECB */  
 typedef struct 
 {
-     unsigned char Alg; /**< идентификатор алгоритма */
-     unsigned char* Keys; /**< ключ */ 
-     unsigned int BlockLen; /**< размер блока */ 
-     pEncrypt EncryptFunc; /**< функция шифрования */
-     pDecrypt DecryptFunc; /**< функция расшифрования */
+     unsigned char Alg; /**< РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р°Р»РіРѕСЂРёС‚РјР° */
+     unsigned char* Keys; /**< РєР»СЋС‡ */ 
+     unsigned int BlockLen; /**< СЂР°Р·РјРµСЂ Р±Р»РѕРєР° */ 
+     pEncrypt EncryptFunc; /**< С„СѓРЅРєС†РёСЏ С€РёС„СЂРѕРІР°РЅРёСЏ */
+     pDecrypt DecryptFunc; /**< С„СѓРЅРєС†РёСЏ СЂР°СЃС€РёС„СЂРѕРІР°РЅРёСЏ */
 } Context_ecb;
 
-/** @brief Контекст CRT */
+/** @brief РљРѕРЅС‚РµРєСЃС‚ CRT */
 typedef struct 
 {
-     unsigned char Alg; /**< идентификатор алгоритма */
-     unsigned char* Counter; /**< счетчик */
-     unsigned char* Keys; /**< ключ */ 
-     size_t S; /**< размер синхропосылки */
-     size_t BlockLen;  /**< размер блока */ 
-     pEncrypt EncryptFunc; /**< функция шифрования */
-     unsigned char *tmpblock; /**< временный блок */
+     unsigned char Alg; /**< РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р°Р»РіРѕСЂРёС‚РјР° */
+     unsigned char* Counter; /**< СЃС‡РµС‚С‡РёРє */
+     unsigned char* Keys; /**< РєР»СЋС‡ */ 
+     size_t S; /**< СЂР°Р·РјРµСЂ СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєРё */
+     size_t BlockLen;  /**< СЂР°Р·РјРµСЂ Р±Р»РѕРєР° */ 
+     pEncrypt EncryptFunc; /**< С„СѓРЅРєС†РёСЏ С€РёС„СЂРѕРІР°РЅРёСЏ */
+     unsigned char *tmpblock; /**< РІСЂРµРјРµРЅРЅС‹Р№ Р±Р»РѕРє */
 } Context_crt;
 
-/** @brief Контекст OFB */
+/** @brief РљРѕРЅС‚РµРєСЃС‚ OFB */
 typedef struct 
 {
-     unsigned char Alg; /**< идентификатор алгоритма */
-     unsigned char* IV; /**< синхропосылка */
-     unsigned char* Keys;  /**< ключ */ 
-     size_t M; /**< размер синхрпосылки */
-     size_t S; /**< параметр S */
-     size_t BlockLen; /**< размер блока */ 
-     pEncrypt EncryptFunc; /**< функция шифрования */
-     pDecrypt DecryptFunc; /**< функция расшифрования */
-     unsigned char *tmpblock;  /**< временный блок */
-     unsigned char* nextIV; /**< синхропосылка для следующего блока */
+     unsigned char Alg; /**< РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р°Р»РіРѕСЂРёС‚РјР° */
+     unsigned char* IV; /**< СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєР° */
+     unsigned char* Keys;  /**< РєР»СЋС‡ */ 
+     size_t M; /**< СЂР°Р·РјРµСЂ СЃРёРЅС…СЂРїРѕСЃС‹Р»РєРё */
+     size_t S; /**< РїР°СЂР°РјРµС‚СЂ S */
+     size_t BlockLen; /**< СЂР°Р·РјРµСЂ Р±Р»РѕРєР° */ 
+     pEncrypt EncryptFunc; /**< С„СѓРЅРєС†РёСЏ С€РёС„СЂРѕРІР°РЅРёСЏ */
+     pDecrypt DecryptFunc; /**< С„СѓРЅРєС†РёСЏ СЂР°СЃС€РёС„СЂРѕРІР°РЅРёСЏ */
+     unsigned char *tmpblock;  /**< РІСЂРµРјРµРЅРЅС‹Р№ Р±Р»РѕРє */
+     unsigned char* nextIV; /**< СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєР° РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ Р±Р»РѕРєР° */
 } Context_ofb;
 
-/** @brief Контекст CFB */
+/** @brief РљРѕРЅС‚РµРєСЃС‚ CFB */
 typedef struct 
 {
-     unsigned char Alg; /**< идентификатор алгоритма */
-     unsigned char* IV; /**< синхропосылка */
-     unsigned char* Keys; /**< ключ */ 
-     size_t M; /**< размер синхрпосылки */
-     size_t S; /**< параметр S */
-     size_t BlockLen; /**< размер блока */
-     pEncrypt EncryptFunc; /**< функция шифрования */
-     pDecrypt DecryptFunc; /**< функция расшифрования */
-     unsigned char *tmpblock; /**< временный блок */
-     unsigned char* nextIV; /**< синхропосылка для следующего блока */
+     unsigned char Alg; /**< РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р°Р»РіРѕСЂРёС‚РјР° */
+     unsigned char* IV; /**< СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєР° */
+     unsigned char* Keys; /**< РєР»СЋС‡ */ 
+     size_t M; /**< СЂР°Р·РјРµСЂ СЃРёРЅС…СЂРїРѕСЃС‹Р»РєРё */
+     size_t S; /**< РїР°СЂР°РјРµС‚СЂ S */
+     size_t BlockLen; /**< СЂР°Р·РјРµСЂ Р±Р»РѕРєР° */
+     pEncrypt EncryptFunc; /**< С„СѓРЅРєС†РёСЏ С€РёС„СЂРѕРІР°РЅРёСЏ */
+     pDecrypt DecryptFunc; /**< С„СѓРЅРєС†РёСЏ СЂР°СЃС€РёС„СЂРѕРІР°РЅРёСЏ */
+     unsigned char *tmpblock; /**< РІСЂРµРјРµРЅРЅС‹Р№ Р±Р»РѕРє */
+     unsigned char* nextIV; /**< СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєР° РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ Р±Р»РѕРєР° */
 } Context_cfb;
 
-/** @brief Контекст CBC */
+/** @brief РљРѕРЅС‚РµРєСЃС‚ CBC */
 typedef struct 
 {
-     unsigned char Alg; /**< идентификатор алгоритма */
-     unsigned char* IV; /**< синхропосылка */
-     unsigned char* Keys; /**< ключ */
-     size_t BlockLen; /**< размер блока */
-     size_t M; /**< размер синхрпосылки */
-     pEncrypt EncryptFunc; /**< функция шифрования */
-     pDecrypt DecryptFunc; /**< функция расшифрования */
-     unsigned char* nextIV; /**< синхропосылка для следующего блока */
-     unsigned char* tempIV; /**< для временного хранения значения синхропосылки */
-     unsigned char *tmpblock; /**< временный блок */
+     unsigned char Alg; /**< РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р°Р»РіРѕСЂРёС‚РјР° */
+     unsigned char* IV; /**< СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєР° */
+     unsigned char* Keys; /**< РєР»СЋС‡ */
+     size_t BlockLen; /**< СЂР°Р·РјРµСЂ Р±Р»РѕРєР° */
+     size_t M; /**< СЂР°Р·РјРµСЂ СЃРёРЅС…СЂРїРѕСЃС‹Р»РєРё */
+     pEncrypt EncryptFunc; /**< С„СѓРЅРєС†РёСЏ С€РёС„СЂРѕРІР°РЅРёСЏ */
+     pDecrypt DecryptFunc; /**< С„СѓРЅРєС†РёСЏ СЂР°СЃС€РёС„СЂРѕРІР°РЅРёСЏ */
+     unsigned char* nextIV; /**< СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєР° РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ Р±Р»РѕРєР° */
+     unsigned char* tempIV; /**< РґР»СЏ РІСЂРµРјРµРЅРЅРѕРіРѕ С…СЂР°РЅРµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ СЃРёРЅС…СЂРѕРїРѕСЃС‹Р»РєРё */
+     unsigned char *tmpblock; /**< РІСЂРµРјРµРЅРЅС‹Р№ Р±Р»РѕРє */
 } Context_cbc;
 
-/** @brief Контекст имитовставки */
+/** @brief РљРѕРЅС‚РµРєСЃС‚ РёРјРёС‚РѕРІСЃС‚Р°РІРєРё */
 typedef struct 
 {
-     unsigned char Alg; /**< идентификатор алгоритма */
-     unsigned char* Keys; /**< ключ */
-     unsigned char* K1; /**< вспомогательный параметр K1 */
-     unsigned char* K2; /**< вспомогательный параметр K2 */
-     unsigned char* B; /**< вспомогательный параметр B */
-     unsigned char* R; /**< вспомогательный параметр R */
-     unsigned char* C; /**< вспомогательный параметр C */
-     unsigned char* LastBlock; /**< предыдущий блок */
-     size_t S; /**< параметр S */
-     size_t BlockLen; /**< размер блока */
-     size_t LastBlockSize; /**< размер предыдущего блока */
-     int isFistBlock; /**< идентификатор первого блока */
-     pEncrypt EncryptFunc; /**< функция шифрования */
-     unsigned char *tmpblock; /**< временный блок */
-     unsigned char *resimit; /**< имитовставка */
+     unsigned char Alg; /**< РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ Р°Р»РіРѕСЂРёС‚РјР° */
+     unsigned char* Keys; /**< РєР»СЋС‡ */
+     unsigned char* K1; /**< РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ K1 */
+     unsigned char* K2; /**< РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ K2 */
+     unsigned char* B; /**< РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ B */
+     unsigned char* R; /**< РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ R */
+     unsigned char* C; /**< РІСЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Р№ РїР°СЂР°РјРµС‚СЂ C */
+     unsigned char* LastBlock; /**< РїСЂРµРґС‹РґСѓС‰РёР№ Р±Р»РѕРє */
+     size_t S; /**< РїР°СЂР°РјРµС‚СЂ S */
+     size_t BlockLen; /**< СЂР°Р·РјРµСЂ Р±Р»РѕРєР° */
+     size_t LastBlockSize; /**< СЂР°Р·РјРµСЂ РїСЂРµРґС‹РґСѓС‰РµРіРѕ Р±Р»РѕРєР° */
+     int isFistBlock; /**< РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРµСЂРІРѕРіРѕ Р±Р»РѕРєР° */
+     pEncrypt EncryptFunc; /**< С„СѓРЅРєС†РёСЏ С€РёС„СЂРѕРІР°РЅРёСЏ */
+     unsigned char *tmpblock; /**< РІСЂРµРјРµРЅРЅС‹Р№ Р±Р»РѕРє */
+     unsigned char *resimit; /**< РёРјРёС‚РѕРІСЃС‚Р°РІРєР° */
 } Context_imit;
 
 static int init_ecb_14_impl(unsigned char *key, void* ctx)

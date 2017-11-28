@@ -11,4 +11,4 @@
 #define __AUTHOR               "Daniel Wesslen, Korney San"
 #define __AUTHOREMAIL            "wesslen@users.sourceforge.net, kora@users.sourceforge.net"
 #define __AUTHORWEB               "https://miranda-ng.org/p/NotifyAnything/"
-#define __COPYRIGHT               "© 2003 Daniel Wesslen"
+#define __COPYRIGHT               "Â© 2003 Daniel Wesslen"

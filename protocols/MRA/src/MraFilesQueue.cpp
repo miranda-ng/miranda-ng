@@ -222,12 +222,12 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 {
 	LPSTR lpszCurPos = lpszBuff;
 
-	if (getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES)) {// не выдаём врагу наш IP адрес!!! :)
-		if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES) == FALSE) {// только если не добавляем адрес роутера
+	if (getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES)) {// РЅРµ РІС‹РґР°С‘Рј РІСЂР°РіСѓ РЅР°С€ IP Р°РґСЂРµСЃ!!! :)
+		if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES) == FALSE) {// С‚РѕР»СЊРєРѕ РµСЃР»Рё РЅРµ РґРѕР±Р°РІР»СЏРµРј Р°РґСЂРµСЃ СЂРѕСѓС‚РµСЂР°
 			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize - ((size_t)lpszCurPos - (size_t)lpszBuff)), MRA_FILES_NULL_ADDRR);
 		}
 	}
-	else {// создаём список наших IP адресов
+	else {// СЃРѕР·РґР°С‘Рј СЃРїРёСЃРѕРє РЅР°С€РёС… IP Р°РґСЂРµСЃРѕРІ
 		BYTE btAddress[32];
 		DWORD dwSelfExternalIP;
 		size_t dwAdapter = 0;
@@ -250,7 +250,7 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 	}
 
 	CMStringA szHostName;
-	if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES))// добавляем произвольный адрес
+	if (getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES))// РґРѕР±Р°РІР»СЏРµРј РїСЂРѕРёР·РІРѕР»СЊРЅС‹Р№ Р°РґСЂРµСЃ
 	if (mraGetStringA(NULL, "FileSendExtraAddresses", szHostName))
 		lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize - ((size_t)lpszCurPos - (size_t)lpszBuff)), "%s:%lu;", szHostName.c_str(), dwPort);
 
@@ -435,7 +435,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 		size_t dwAddrCount = 0;
 		NETLIBOPENCONNECTION nloc = { 0 };
 
-		if (getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS) || bIsHTTPSProxyUsed) {// фильтруем порты для одного IP, вместо 3 будем коннектится только к одному
+		if (getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS) || bIsHTTPSProxyUsed) {// С„РёР»СЊС‚СЂСѓРµРј РїРѕСЂС‚С‹ РґР»СЏ РѕРґРЅРѕРіРѕ IP, РІРјРµСЃС‚Рѕ 3 Р±СѓРґРµРј РєРѕРЅРЅРµРєС‚РёС‚СЃСЏ С‚РѕР»СЊРєРѕ Рє РѕРґРЅРѕРјСѓ
 			if (bIsHTTPSProxyUsed)
 				dwLocalPort = MRA_SERVER_PORT_HTTPS;
 			else if ((dwLocalPort = getWord("ServerPort", MRA_DEFAULT_SERVER_PORT)) == MRA_SERVER_PORT_STANDART_NLB)
@@ -457,7 +457,7 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 			dwConnectReTryCount = getDword("ConnectReTryCountFileSend", MRA_DEFAULT_CONN_RETRY_COUNT_FILES);
 			nloc.cbSize = sizeof(nloc);
 			nloc.flags = NLOCF_V2;
-			nloc.timeout = getDword("TimeOutConnectFileSend", (int)((MRA_TIMEOUT_DIRECT_CONN - 1) / (dwAddrCount*dwConnectReTryCount)));// -1 сек чтобы был запас
+			nloc.timeout = getDword("TimeOutConnectFileSend", (int)((MRA_TIMEOUT_DIRECT_CONN - 1) / (dwAddrCount*dwConnectReTryCount)));// -1 СЃРµРє С‡С‚РѕР±С‹ Р±С‹Р» Р·Р°РїР°СЃ
 			if (nloc.timeout < MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 			if (nloc.timeout > MRA_TIMEOUT_CONN_MAX) nloc.timeout = MRA_TIMEOUT_CONN_MAX;
 
@@ -478,12 +478,12 @@ HANDLE CMraProto::MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *dat)
 					if (dat->hConnection) {
 						ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 						if (MraFilesQueueHandCheck(dat->hConnection, dat)) {
-							// связь установленная с тем кем нужно
+							// СЃРІСЏР·СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅР°СЏ СЃ С‚РµРј РєРµРј РЅСѓР¶РЅРѕ
 							setDword(dat->hContact, "OldIP", getDword(dat->hContact, "IP", 0));
 							setDword(dat->hContact, "IP", ntohl(dat->malAddrList.pMailAddress[i].dwAddr));
 							break;
 						}
-						else // кажется не туда подключились :)
+						else // РєР°Р¶РµС‚СЃСЏ РЅРµ С‚СѓРґР° РїРѕРґРєР»СЋС‡РёР»РёСЃСЊ :)
 							NETLIB_CLOSEHANDLE(dat->hConnection);
 					}
 				}
@@ -519,7 +519,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 		CHAR szAddrList[2048] = { 0 };
 		size_t dwAddrListSize;
 
-		// копируем адреса в соответствии с правилами и начинаем слушать порт
+		// РєРѕРїРёСЂСѓРµРј Р°РґСЂРµСЃР° РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїСЂР°РІРёР»Р°РјРё Рё РЅР°С‡РёРЅР°РµРј СЃР»СѓС€Р°С‚СЊ РїРѕСЂС‚
 		if (getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN)) {
 			NETLIBBIND nlbBind = {};
 			nlbBind.pfnNewConnectionV2 = MraFilesQueueConnectionReceived;
@@ -531,7 +531,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, (HANDLE)dat->dwIDRequest, 0);
 				dwAddrListSize = MraFilesQueueGetLocalAddressesList(szAddrList, sizeof(szAddrList), nlbBind.wPort);
 			}
-			// не смогли слушать порт, хз почему.
+			// РЅРµ СЃРјРѕРіР»Рё СЃР»СѓС€Р°С‚СЊ РїРѕСЂС‚, С…Р· РїРѕС‡РµРјСѓ.
 			else {
 				ShowFormattedErrorMessage(L"Files exchange: cant create listen soscket, will try connect to remonte host. Error", GetLastError());
 
@@ -540,7 +540,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 				dwAddrListSize = (sizeof(MRA_FILES_NULL_ADDRR)-1);
 			}
 		}
-		// подставляем ложный адрес, чтобы точно не подключились и не слушаем порт
+		// РїРѕРґСЃС‚Р°РІР»СЏРµРј Р»РѕР¶РЅС‹Р№ Р°РґСЂРµСЃ, С‡С‚РѕР±С‹ С‚РѕС‡РЅРѕ РЅРµ РїРѕРґРєР»СЋС‡РёР»РёСЃСЊ Рё РЅРµ СЃР»СѓС€Р°РµРј РїРѕСЂС‚
 		else {
 			memcpy(szAddrList, MRA_FILES_NULL_ADDRR, sizeof(MRA_FILES_NULL_ADDRR));
 			dwAddrListSize = (sizeof(MRA_FILES_NULL_ADDRR)-1);
@@ -548,10 +548,10 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 
 		if (dwAddrListSize) {
 			dat->hWaitHandle = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-			if (dat->bSending == FALSE) // запрашиваем зеркальное соединение, тк сами подключится не смогли
+			if (dat->bSending == FALSE) // Р·Р°РїСЂР°С€РёРІР°РµРј Р·РµСЂРєР°Р»СЊРЅРѕРµ СЃРѕРµРґРёРЅРµРЅРёРµ, С‚Рє СЃР°РјРё РїРѕРґРєР»СЋС‡РёС‚СЃСЏ РЅРµ СЃРјРѕРіР»Рё
 				MraFileTransferAck(FILE_TRANSFER_MIRROR, szEmail, dat->dwIDRequest, szAddrList);
-			else {  // здесь отправляем запрос на передачу(установление соединения)
-				// создаём текстовый список файлов для отправки другой стороне
+			else {  // Р·РґРµСЃСЊ РѕС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃ РЅР° РїРµСЂРµРґР°С‡Сѓ(СѓСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЃРѕРµРґРёРЅРµРЅРёСЏ)
+				// СЃРѕР·РґР°С‘Рј С‚РµРєСЃС‚РѕРІС‹Р№ СЃРїРёСЃРѕРє С„Р°Р№Р»РѕРІ РґР»СЏ РѕС‚РїСЂР°РІРєРё РґСЂСѓРіРѕР№ СЃС‚РѕСЂРѕРЅРµ
 				LPWSTR lpwszFiles, lpwszCurPos;
 				size_t dwFilesSize;
 
@@ -567,7 +567,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 					dwFilesSize = (lpwszCurPos - lpwszFiles);// size in WCHARs
 
 					if (dat->hMraMrimProxyData) {
-						// устанавливаем данные для майловской прокси, если она разрешена
+						// СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РґР°РЅРЅС‹Рµ РґР»СЏ РјР°Р№Р»РѕРІСЃРєРѕР№ РїСЂРѕРєСЃРё, РµСЃР»Рё РѕРЅР° СЂР°Р·СЂРµС€РµРЅР°
 						CMStringA lpszFiles = lpwszFiles;
 						MraMrimProxySetData(dat->hMraMrimProxyData, szEmail, dat->dwIDRequest, MRIM_PROXY_TYPE_FILES, lpszFiles, "", nullptr);
 					}
@@ -592,14 +592,14 @@ void MraFilesQueueConnectionReceived(HNETLIBCONN hNewConnection, DWORD dwRemoteI
 		MRA_FILES_QUEUE_ITEM *dat = (MRA_FILES_QUEUE_ITEM*)pExtra;
 
 		ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
-		if (dat->ppro->MraFilesQueueHandCheck(hNewConnection, dat)) { // связь установленная с тем кем нужно
+		if (dat->ppro->MraFilesQueueHandCheck(hNewConnection, dat)) { // СЃРІСЏР·СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅР°СЏ СЃ С‚РµРј РєРµРј РЅСѓР¶РЅРѕ
 			dat->hConnection = hNewConnection;
 			ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 			dat->ppro->setDword(dat->hContact, "OldIP", dat->ppro->getDword(dat->hContact, "IP", 0));
 			dat->ppro->setDword(dat->hContact, "IP", dwRemoteIP);
 			SetEvent(dat->hWaitHandle);
 		}
-		else {// кажется кто то не туда подключилися :)
+		else {// РєР°Р¶РµС‚СЃСЏ РєС‚Рѕ С‚Рѕ РЅРµ С‚СѓРґР° РїРѕРґРєР»СЋС‡РёР»РёСЃСЏ :)
 			ProtoBroadcastAck(dat->ppro->m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_LISTENING, (HANDLE)dat->dwIDRequest, 0);
 			Netlib_CloseHandle(hNewConnection);
 		}
@@ -752,8 +752,8 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 			else {
 				if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0)) {
 					ProtoBroadcastAck(dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
-					if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->hConnection) == NO_ERROR) {// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
-						if (MraFilesQueueHandCheck(dat->hConnection, dat)) {// связь установленная с тем кем нужно// dat->bSending
+					if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->hConnection) == NO_ERROR) {// РїРѕРґРєР»СЋС‡РёР»РёСЃСЊ Рє РїСЂРѕРєСЃРё, РїСЂРѕРІРµСЂСЏРµРј С‚Р° Р»Рё СЃРµСЃСЃРёСЏ (РµС‰С‘ СЂР°Р·, РЅР° СЌС‚РѕС‚ СЂР°Р· СЃР°РјРё)
+						if (MraFilesQueueHandCheck(dat->hConnection, dat)) {// СЃРІСЏР·СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅР°СЏ СЃ С‚РµРј РєРµРј РЅСѓР¶РЅРѕ// dat->bSending
 							ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 							bConnected = TRUE;
 						}
@@ -923,7 +923,7 @@ DWORD CMraProto::MraFilesQueueAddSend(HANDLE hQueue, DWORD dwFlags, MCONTACT hCo
 	dat->ppro = this;
 	dat->bIsWorking = TRUE;
 	dat->dwSendTime = GetTickCount();
-	dat->dwIDRequest = InterlockedIncrement((LONG volatile*)&dwCMDNum);// уникальный, рандомный идентификатор
+	dat->dwIDRequest = InterlockedIncrement((LONG volatile*)&dwCMDNum);// СѓРЅРёРєР°Р»СЊРЅС‹Р№, СЂР°РЅРґРѕРјРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ
 	dat->dwFlags = dwFlags;
 	dat->hContact = hContact;
 	if (getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS)) dat->hMraMrimProxyData = MraMrimProxyCreate();
@@ -1001,9 +1001,9 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 		if (InterlockedExchangeAdd((volatile LONG*)&dat->bIsWorking, 0)) {
 			ProtoBroadcastAck(dat->hContact, ACKRESULT_CONNECTPROXY, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 			if (MraMrimProxyConnect(dat->hMraMrimProxyData, &dat->hConnection) == NO_ERROR) {
-				// подключились к прокси, проверяем та ли сессия (ещё раз, на этот раз сами)
+				// РїРѕРґРєР»СЋС‡РёР»РёСЃСЊ Рє РїСЂРѕРєСЃРё, РїСЂРѕРІРµСЂСЏРµРј С‚Р° Р»Рё СЃРµСЃСЃРёСЏ (РµС‰С‘ СЂР°Р·, РЅР° СЌС‚РѕС‚ СЂР°Р· СЃР°РјРё)
 				if (MraFilesQueueHandCheck(dat->hConnection, dat)) {
-					// связь установленная с тем кем нужно// dat->bSending
+					// СЃРІСЏР·СЊ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅР°СЏ СЃ С‚РµРј РєРµРј РЅСѓР¶РЅРѕ// dat->bSending
 					ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)dat->dwIDRequest, 0);
 					bConnected = TRUE;
 				}

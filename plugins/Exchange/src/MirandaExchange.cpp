@@ -1,7 +1,7 @@
 /*
 Exchange notifier plugin for Miranda IM
 
-Copyright © 2006 Cristian Libotean, Attila Vajda
+Copyright Â© 2006 Cristian Libotean, Attila Vajda
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

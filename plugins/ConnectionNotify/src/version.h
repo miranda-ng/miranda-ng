@@ -1,7 +1,7 @@
 /*
 Exchange notifier plugin for Miranda IM
 
-Copyright © 2006 Cristian Libotean, Attila Vajda
+Copyright Â© 2006 Cristian Libotean, Attila Vajda
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DESCRIPTION           "Notify with popup if some connection established"
 #define __AUTHOR                "MaKaR"
 #define __AUTHOREMAIL           "makar@poczta.of.pl"
-#define __COPYRIGHT             "© 2011-2013 MaKaRSoFT"
+#define __COPYRIGHT             "Â© 2011-2013 MaKaRSoFT"
 #define __AUTHORWEB             "https://miranda-ng.org/p/ConnectionNotify/"
 #define __PLUGIN_DISPLAY_NAME   "ConnectionNotify"
 

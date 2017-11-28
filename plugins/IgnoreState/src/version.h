@@ -11,4 +11,4 @@
 #define __AUTHOR               "Kildor"
 #define __AUTHOREMAIL            "kostia@ngs.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/IgnoreState/"
-#define __COPYRIGHT               "© 2009-2010 Kostia Romanov"
+#define __COPYRIGHT               "Â© 2009-2010 Kostia Romanov"

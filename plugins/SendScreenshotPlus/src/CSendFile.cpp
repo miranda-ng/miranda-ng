@@ -2,14 +2,14 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (Ò) 2012-17 Miranda NG project (https://miranda-ng.org),
+Copyright (—Å) 2012-17 Miranda NG project (https://miranda-ng.org),
 Copyright (c) 2000-09 Miranda ICQ/IM project,
 
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
 Parts of this file based on original sorce code
-(c) 2004-2006 SÈrgio Vieira Rolanski (portet from Borland C++)
+(c) 2004-2006 S–πrgio Vieira Rolanski (portet from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

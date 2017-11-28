@@ -11,4 +11,4 @@
 #define __AUTHOR               "Thief, idea by snwbrdr"
 #define __AUTHOREMAIL            "thief@miranda.im"
 #define __AUTHORWEB               "https://miranda-ng.org/p/AuthState/"
-#define __COPYRIGHT               "© 2006-2010 Alexander Turyak"
+#define __COPYRIGHT               "Â© 2006-2010 Alexander Turyak"

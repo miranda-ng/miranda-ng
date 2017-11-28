@@ -11,4 +11,4 @@
 #define __AUTHOR                  "Mataes, George Hazan"
 #define __AUTHOREMAIL             "mataes2007@gmail.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/PluginUpdater/"
-#define __COPYRIGHT               "© 2012-17 Mataes, George Hazan"
+#define __COPYRIGHT               "Â© 2012-17 Mataes, George Hazan"

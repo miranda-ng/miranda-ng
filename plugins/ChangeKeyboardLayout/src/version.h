@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Yasnovidyashii"
 #define __AUTHOREMAIL            "Yasnovidyashii@gmail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/ChangeKeyboardLayout/"
-#define __COPYRIGHT              "© 2006-2009 Mikhail Yur'ev"
+#define __COPYRIGHT              "Â© 2006-2009 Mikhail Yur'ev"

@@ -194,7 +194,7 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	// ýòî íàø êîíòàêò, îí íå âðåìåííûé (åñòü â ñïèñêå íà ñåðâåðå) è åãî îáíîâëåíèå ðàçðåøåíî
+	// ÑÑ‚Ð¾ Ð½Ð°Ñˆ ÐºÐ¾Ð½Ñ‚Ð°ÐºÑ‚, Ð¾Ð½ Ð½Ðµ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ð¹ (ÐµÑÑ‚ÑŒ Ð² ÑÐ¿Ð¸ÑÐºÐµ Ð½Ð° ÑÐµÑ€Ð²ÐµÑ€Ðµ) Ð¸ ÐµÐ³Ð¾ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ñ€Ð°Ð·Ñ€ÐµÑˆÐµÐ½Ð¾
 	if (IsContactMra(hContact) && !db_get_b(hContact, "CList", "NotOnList", 0) && getDword(hContact, "HooksLocked", FALSE) == FALSE) {
 		if (!strcmp(cws->szModule, "CList")) {
 			// MyHandle setting
@@ -425,7 +425,7 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM, LPARAM lParam)
 					}
 				}
 			}
-			// íåóäà÷à òîëüêî åñëè ìû íå ñòàâèëè Õñòàòóñ è ïîïûòàëèñü çàïèñàòü ñîîáùåíèÿ äëÿ "íåò" ñòàòóñà
+			// Ð½ÐµÑƒÐ´Ð°Ñ‡Ð° Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÑÐ»Ð¸ Ð¼Ñ‹ Ð½Ðµ ÑÑ‚Ð°Ð²Ð¸Ð»Ð¸ Ð¥ÑÑ‚Ð°Ñ‚ÑƒÑ Ð¸ Ð¿Ð¾Ð¿Ñ‹Ñ‚Ð°Ð»Ð¸ÑÑŒ Ð·Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ Ð´Ð»Ñ "Ð½ÐµÑ‚" ÑÑ‚Ð°Ñ‚ÑƒÑÐ°
 			else if (!(pData->flags & CSSF_MASK_STATUS))
 				iRet = 1;
 		}
@@ -500,7 +500,7 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM hContact, LPARAM lParam)
 	if ((pData->flags & CSSF_STATUSES_COUNT) && pData->wParam)
 		*pData->wParam = MRA_XSTATUS_COUNT - 1;
 
-	//**deb ìîæíî îïòèìèçèðîâàòü, äàííûé ïàðàìåòð âîçìîæíî óæå áûë âû÷èñëåí ïðè ïîëó÷åíèè ñàìèõ òåêñòîâ
+	//**deb Ð¼Ð¾Ð¶Ð½Ð¾ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ, Ð´Ð°Ð½Ð½Ñ‹Ð¹ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ ÑƒÐ¶Ðµ Ð±Ñ‹Ð» Ð²Ñ‹Ñ‡Ð¸ÑÐ»ÐµÐ½ Ð¿Ñ€Ð¸ Ð¿Ð¾Ð»ÑƒÑ‡ÐµÐ½Ð¸Ð¸ ÑÐ°Ð¼Ð¸Ñ… Ñ‚ÐµÐºÑÑ‚Ð¾Ð²
 	if (pData->flags & CSSF_STR_SIZES) {
 		if (pData->wParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, nullptr, 0, (size_t*)pData->wParam);
 		if (pData->lParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSMSG, nullptr, 0, (size_t*)pData->lParam);

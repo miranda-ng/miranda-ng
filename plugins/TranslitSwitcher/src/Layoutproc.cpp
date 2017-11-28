@@ -64,280 +64,280 @@ void Transliterate(wchar_t *&str)
 	newStr[0] = 0;
 	for (; *str != 0; str++) {
 		switch (str[0]) {
-		case '‡': mir_wstrcat(newStr, L"a"); break;
-		case '·': mir_wstrcat(newStr, L"b"); break;
-		case '‚': mir_wstrcat(newStr, L"v"); break;
-		case '„': mir_wstrcat(newStr, L"g"); break;
-		case '‰': mir_wstrcat(newStr, L"d"); break;
-		case 'Â': mir_wstrcat(newStr, L"e"); break;
-		case '∏': mir_wstrcat(newStr, L"ye"); break;
-		case 'Ê': mir_wstrcat(newStr, L"zh"); break;
-		case 'Á': mir_wstrcat(newStr, L"z"); break;
-		case 'Ë': mir_wstrcat(newStr, L"i"); break;
-		case 'È': mir_wstrcat(newStr, L"y"); break;
-		case 'Í': mir_wstrcat(newStr, L"k"); break;
-		case 'Î': mir_wstrcat(newStr, L"l"); break;
-		case 'Ï': mir_wstrcat(newStr, L"m"); break;
-		case 'Ì': mir_wstrcat(newStr, L"n"); break;
-		case 'Ó': mir_wstrcat(newStr, L"o"); break;
-		case 'Ô': mir_wstrcat(newStr, L"p"); break;
-		case '': mir_wstrcat(newStr, L"r"); break;
-		case 'Ò': mir_wstrcat(newStr, L"s"); break;
-		case 'Ú': mir_wstrcat(newStr, L"t"); break;
-		case 'Û': mir_wstrcat(newStr, L"u"); break;
-		case 'Ù': mir_wstrcat(newStr, L"f"); break;
-		case 'ı': mir_wstrcat(newStr, L"kh"); break;
-		case 'ˆ': mir_wstrcat(newStr, L"ts"); break;
-		case '˜': mir_wstrcat(newStr, L"ch"); break;
-		case '¯': mir_wstrcat(newStr, L"sh"); break;
-		case '˘': mir_wstrcat(newStr, L"sch"); break;
-		case '˙': mir_wstrcat(newStr, L"'"); break;
-		case '˚': mir_wstrcat(newStr, L"yi"); break;
-		case '¸': mir_wstrcat(newStr, L""); break;
-		case '˝': mir_wstrcat(newStr, L"e"); break;
-		case '˛': mir_wstrcat(newStr, L"yu"); break;
-		case 'ˇ': mir_wstrcat(newStr, L"ya"); break;
-		case '¿': mir_wstrcat(newStr, L"A"); break;
-		case '¡': mir_wstrcat(newStr, L"B"); break;
-		case '¬': mir_wstrcat(newStr, L"V"); break;
-		case '√': mir_wstrcat(newStr, L"G"); break;
-		case 'ƒ': mir_wstrcat(newStr, L"D"); break;
-		case '≈': mir_wstrcat(newStr, L"E"); break;
-		case '®': mir_wstrcat(newStr, L"Ye"); break;
-		case '∆': mir_wstrcat(newStr, L"Zh"); break;
-		case '«': mir_wstrcat(newStr, L"Z"); break;
-		case '»': mir_wstrcat(newStr, L"I"); break;
-		case '…': mir_wstrcat(newStr, L"Y"); break;
-		case ' ': mir_wstrcat(newStr, L"K"); break;
-		case 'À': mir_wstrcat(newStr, L"L"); break;
-		case 'Ã': mir_wstrcat(newStr, L"M"); break;
-		case 'Õ': mir_wstrcat(newStr, L"N"); break;
-		case 'Œ': mir_wstrcat(newStr, L"O"); break;
-		case 'œ': mir_wstrcat(newStr, L"P"); break;
-		case '–': mir_wstrcat(newStr, L"R"); break;
-		case '—': mir_wstrcat(newStr, L"S"); break;
-		case '“': mir_wstrcat(newStr, L"T"); break;
-		case '”': mir_wstrcat(newStr, L"U"); break;
-		case '‘': mir_wstrcat(newStr, L"F"); break;
-		case '’': mir_wstrcat(newStr, L"Kh"); break;
-		case '÷': mir_wstrcat(newStr, L"Ts"); break;
-		case '◊': mir_wstrcat(newStr, L"Ch"); break;
-		case 'ÿ': mir_wstrcat(newStr, L"Sh"); break;
-		case 'Ÿ': mir_wstrcat(newStr, L"Sch"); break;
-		case '⁄': mir_wstrcat(newStr, L"'"); break;
-		case '€': mir_wstrcat(newStr, L"Yi"); break;
-		case '‹': mir_wstrcat(newStr, L""); break;
-		case '›': mir_wstrcat(newStr, L"E"); break;
-		case 'ﬁ': mir_wstrcat(newStr, L"Yu"); break;
-		case 'ﬂ': mir_wstrcat(newStr, L"Ya"); break;
+		case '–∞': mir_wstrcat(newStr, L"a"); break;
+		case '–±': mir_wstrcat(newStr, L"b"); break;
+		case '–≤': mir_wstrcat(newStr, L"v"); break;
+		case '–≥': mir_wstrcat(newStr, L"g"); break;
+		case '–¥': mir_wstrcat(newStr, L"d"); break;
+		case '–µ': mir_wstrcat(newStr, L"e"); break;
+		case '—ë': mir_wstrcat(newStr, L"ye"); break;
+		case '–∂': mir_wstrcat(newStr, L"zh"); break;
+		case '–∑': mir_wstrcat(newStr, L"z"); break;
+		case '–∏': mir_wstrcat(newStr, L"i"); break;
+		case '–π': mir_wstrcat(newStr, L"y"); break;
+		case '–∫': mir_wstrcat(newStr, L"k"); break;
+		case '–ª': mir_wstrcat(newStr, L"l"); break;
+		case '–º': mir_wstrcat(newStr, L"m"); break;
+		case '–Ω': mir_wstrcat(newStr, L"n"); break;
+		case '–æ': mir_wstrcat(newStr, L"o"); break;
+		case '–ø': mir_wstrcat(newStr, L"p"); break;
+		case '—Ä': mir_wstrcat(newStr, L"r"); break;
+		case '—Å': mir_wstrcat(newStr, L"s"); break;
+		case '—Ç': mir_wstrcat(newStr, L"t"); break;
+		case '—É': mir_wstrcat(newStr, L"u"); break;
+		case '—Ñ': mir_wstrcat(newStr, L"f"); break;
+		case '—Ö': mir_wstrcat(newStr, L"kh"); break;
+		case '—Ü': mir_wstrcat(newStr, L"ts"); break;
+		case '—á': mir_wstrcat(newStr, L"ch"); break;
+		case '—à': mir_wstrcat(newStr, L"sh"); break;
+		case '—â': mir_wstrcat(newStr, L"sch"); break;
+		case '—ä': mir_wstrcat(newStr, L"'"); break;
+		case '—ã': mir_wstrcat(newStr, L"yi"); break;
+		case '—å': mir_wstrcat(newStr, L""); break;
+		case '—ç': mir_wstrcat(newStr, L"e"); break;
+		case '—é': mir_wstrcat(newStr, L"yu"); break;
+		case '—è': mir_wstrcat(newStr, L"ya"); break;
+		case '–ê': mir_wstrcat(newStr, L"A"); break;
+		case '–ë': mir_wstrcat(newStr, L"B"); break;
+		case '–í': mir_wstrcat(newStr, L"V"); break;
+		case '–ì': mir_wstrcat(newStr, L"G"); break;
+		case '–î': mir_wstrcat(newStr, L"D"); break;
+		case '–ï': mir_wstrcat(newStr, L"E"); break;
+		case '–Å': mir_wstrcat(newStr, L"Ye"); break;
+		case '–ñ': mir_wstrcat(newStr, L"Zh"); break;
+		case '–ó': mir_wstrcat(newStr, L"Z"); break;
+		case '–ò': mir_wstrcat(newStr, L"I"); break;
+		case '–ô': mir_wstrcat(newStr, L"Y"); break;
+		case '–ö': mir_wstrcat(newStr, L"K"); break;
+		case '–õ': mir_wstrcat(newStr, L"L"); break;
+		case '–ú': mir_wstrcat(newStr, L"M"); break;
+		case '–ù': mir_wstrcat(newStr, L"N"); break;
+		case '–û': mir_wstrcat(newStr, L"O"); break;
+		case '–ü': mir_wstrcat(newStr, L"P"); break;
+		case '–†': mir_wstrcat(newStr, L"R"); break;
+		case '–°': mir_wstrcat(newStr, L"S"); break;
+		case '–¢': mir_wstrcat(newStr, L"T"); break;
+		case '–£': mir_wstrcat(newStr, L"U"); break;
+		case '–§': mir_wstrcat(newStr, L"F"); break;
+		case '–•': mir_wstrcat(newStr, L"Kh"); break;
+		case '–¶': mir_wstrcat(newStr, L"Ts"); break;
+		case '–ß': mir_wstrcat(newStr, L"Ch"); break;
+		case '–®': mir_wstrcat(newStr, L"Sh"); break;
+		case '–©': mir_wstrcat(newStr, L"Sch"); break;
+		case '–™': mir_wstrcat(newStr, L"'"); break;
+		case '–´': mir_wstrcat(newStr, L"Yi"); break;
+		case '–¨': mir_wstrcat(newStr, L""); break;
+		case '–≠': mir_wstrcat(newStr, L"E"); break;
+		case '–Æ': mir_wstrcat(newStr, L"Yu"); break;
+		case '–Ø': mir_wstrcat(newStr, L"Ya"); break;
 
-		case 'a': mir_wstrcat(newStr, L"‡"); break;
-		case 'b': mir_wstrcat(newStr, L"·"); break;
-		case 'v': mir_wstrcat(newStr, L"‚"); break;
-		case 'g': mir_wstrcat(newStr, L"„"); break;
-		case 'd': mir_wstrcat(newStr, L"‰"); break;
-		case 'e': mir_wstrcat(newStr, L"Â"); break;
+		case 'a': mir_wstrcat(newStr, L"–∞"); break;
+		case 'b': mir_wstrcat(newStr, L"–±"); break;
+		case 'v': mir_wstrcat(newStr, L"–≤"); break;
+		case 'g': mir_wstrcat(newStr, L"–≥"); break;
+		case 'd': mir_wstrcat(newStr, L"–¥"); break;
+		case 'e': mir_wstrcat(newStr, L"–µ"); break;
 		case 'z':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"Ê");
+				mir_wstrcat(newStr, L"–∂");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"Á");
+				mir_wstrcat(newStr, L"–∑");
 				break;
 			}
 		}
-		case 'i': mir_wstrcat(newStr, L"Ë"); break;
+		case 'i': mir_wstrcat(newStr, L"–∏"); break;
 		case 'y':
 		{
 			if (str[1] == 'a') {
-				mir_wstrcat(newStr, L"ˇ");
+				mir_wstrcat(newStr, L"—è");
 				str++;
 				break;
 			}
 			else if (str[1] == 'e') {
-				mir_wstrcat(newStr, L"∏");
+				mir_wstrcat(newStr, L"—ë");
 				str++;
 				break;
 			}
 			else if (str[1] == 'u') {
-				mir_wstrcat(newStr, L"˛");
+				mir_wstrcat(newStr, L"—é");
 				str++;
 				break;
 			}
 			else if (str[1] == 'i') {
-				mir_wstrcat(newStr, L"˚");
+				mir_wstrcat(newStr, L"—ã");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"È");
+				mir_wstrcat(newStr, L"–π");
 				break;
 			}
 		}
 		case 'k':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"ı");
+				mir_wstrcat(newStr, L"—Ö");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"Í");
+				mir_wstrcat(newStr, L"–∫");
 				break;
 			}
 		}
-		case 'l': mir_wstrcat(newStr, L"Î"); break;
-		case 'm': mir_wstrcat(newStr, L"Ï"); break;
-		case 'n': mir_wstrcat(newStr, L"Ì"); break;
-		case 'o': mir_wstrcat(newStr, L"Ó"); break;
-		case 'p': mir_wstrcat(newStr, L"Ô"); break;
-		case 'r': mir_wstrcat(newStr, L""); break;
+		case 'l': mir_wstrcat(newStr, L"–ª"); break;
+		case 'm': mir_wstrcat(newStr, L"–º"); break;
+		case 'n': mir_wstrcat(newStr, L"–Ω"); break;
+		case 'o': mir_wstrcat(newStr, L"–æ"); break;
+		case 'p': mir_wstrcat(newStr, L"–ø"); break;
+		case 'r': mir_wstrcat(newStr, L"—Ä"); break;
 		case 's':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"¯");
+				mir_wstrcat(newStr, L"—à");
 				str++;
 				break;
 			}
 			else if (str[1] == 'c' && str[2] == 'h') {
-				mir_wstrcat(newStr, L"˘");
+				mir_wstrcat(newStr, L"—â");
 				str += 2;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"Ò");
+				mir_wstrcat(newStr, L"—Å");
 				break;
 			}
 		}
 		case 't':
 		{
 			if (str[1] == 's') {
-				mir_wstrcat(newStr, L"ˆ");
+				mir_wstrcat(newStr, L"—Ü");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"Ú");
+				mir_wstrcat(newStr, L"—Ç");
 				break;
 			}
 		}
-		case 'u': mir_wstrcat(newStr, L"Û"); break;
-		case 'f': mir_wstrcat(newStr, L"Ù"); break;
+		case 'u': mir_wstrcat(newStr, L"—É"); break;
+		case 'f': mir_wstrcat(newStr, L"—Ñ"); break;
 		case 'c':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"˜");
+				mir_wstrcat(newStr, L"—á");
 				str++;
 				break;
 			}
 		}
-		case 'A': mir_wstrcat(newStr, L"¿"); break;
-		case 'B': mir_wstrcat(newStr, L"¡"); break;
-		case 'V': mir_wstrcat(newStr, L"¬"); break;
-		case 'G': mir_wstrcat(newStr, L"√"); break;
-		case 'D': mir_wstrcat(newStr, L"ƒ"); break;
-		case 'E': mir_wstrcat(newStr, L"≈"); break;
+		case 'A': mir_wstrcat(newStr, L"–ê"); break;
+		case 'B': mir_wstrcat(newStr, L"–ë"); break;
+		case 'V': mir_wstrcat(newStr, L"–í"); break;
+		case 'G': mir_wstrcat(newStr, L"–ì"); break;
+		case 'D': mir_wstrcat(newStr, L"–î"); break;
+		case 'E': mir_wstrcat(newStr, L"–ï"); break;
 		case 'Y':
 		{
 			if (str[1] == 'a') {
-				mir_wstrcat(newStr, L"ﬂ");
+				mir_wstrcat(newStr, L"–Ø");
 				str++;
 				break;
 			}
 			else if (str[1] == 'e') {
-				mir_wstrcat(newStr, L"®");
+				mir_wstrcat(newStr, L"–Å");
 				str++;
 				break;
 			}
 			else if (str[1] == 'u') {
-				mir_wstrcat(newStr, L"ﬁ");
+				mir_wstrcat(newStr, L"–Æ");
 				str++;
 				break;
 			}
 			else if (str[1] == 'i') {
-				mir_wstrcat(newStr, L"€");
+				mir_wstrcat(newStr, L"–´");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"…");
+				mir_wstrcat(newStr, L"–ô");
 				break;
 			}
 		}
 		case 'Z':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"∆");
+				mir_wstrcat(newStr, L"–ñ");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"«");
+				mir_wstrcat(newStr, L"–ó");
 				break;
 			}
 		}
-		case 'I': mir_wstrcat(newStr, L"»"); break;
+		case 'I': mir_wstrcat(newStr, L"–ò"); break;
 		case 'K':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"’");
+				mir_wstrcat(newStr, L"–•");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L" ");
+				mir_wstrcat(newStr, L"–ö");
 				break;
 			}
 		}
-		case 'L': mir_wstrcat(newStr, L"À"); break;
-		case 'M': mir_wstrcat(newStr, L"Ã"); break;
-		case 'N': mir_wstrcat(newStr, L"Õ"); break;
-		case 'O': mir_wstrcat(newStr, L"Œ"); break;
-		case 'P': mir_wstrcat(newStr, L"œ"); break;
-		case 'R': mir_wstrcat(newStr, L"–"); break;
+		case 'L': mir_wstrcat(newStr, L"–õ"); break;
+		case 'M': mir_wstrcat(newStr, L"–ú"); break;
+		case 'N': mir_wstrcat(newStr, L"–ù"); break;
+		case 'O': mir_wstrcat(newStr, L"–û"); break;
+		case 'P': mir_wstrcat(newStr, L"–ü"); break;
+		case 'R': mir_wstrcat(newStr, L"–†"); break;
 		case 'S':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"ÿ");
+				mir_wstrcat(newStr, L"–®");
 				str++;
 				break;
 			}
 			else if (str[1] == 'c' && str[2] == 'h') {
-				mir_wstrcat(newStr, L"Ÿ");
+				mir_wstrcat(newStr, L"–©");
 				str += 2;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"—");
+				mir_wstrcat(newStr, L"–°");
 				break;
 			}
 		}
 		case 'T':
 		{
 			if (str[1] == 's') {
-				mir_wstrcat(newStr, L"÷");
+				mir_wstrcat(newStr, L"–¶");
 				str++;
 				break;
 			}
 			else {
-				mir_wstrcat(newStr, L"“");
+				mir_wstrcat(newStr, L"–¢");
 				break;
 			}
 		}
-		case 'U': mir_wstrcat(newStr, L"”"); break;
-		case 'F': mir_wstrcat(newStr, L"‘"); break;
+		case 'U': mir_wstrcat(newStr, L"–£"); break;
+		case 'F': mir_wstrcat(newStr, L"–§"); break;
 		case 'C':
 		{
 			if (str[1] == 'h') {
-				mir_wstrcat(newStr, L"◊");
+				mir_wstrcat(newStr, L"–ß");
 				str++;
 				break;
 			}
 		}
-		case '\'': mir_wstrcat(newStr, L"˙"); break;
+		case '\'': mir_wstrcat(newStr, L"—ä"); break;
 
 		default: { wchar_t Temp[2] = { str[0], 0 }; mir_wstrcat(newStr, &Temp[0]); }
 		}

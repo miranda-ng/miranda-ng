@@ -6,7 +6,7 @@ string pad256(string& str)
 {
 	string out = str;
 	int pad = out.length() % 32;
-	if (pad) { // ­ ¤® ¢ëà®¢­ïâì ­  256 ¡¨â
+	if (pad) { // Ğ½Ğ°Ğ´Ğ¾ Ğ²Ñ‹Ñ€Ğ¾Ğ²Ğ½ÑÑ‚ÑŒ Ğ½Ğ° 256 Ğ±Ğ¸Ñ‚
 		if (pad > 3) {
 			out += tlv(0, padding.substr(0, 32 - 3 - pad));
 		}

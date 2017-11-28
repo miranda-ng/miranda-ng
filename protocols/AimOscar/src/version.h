@@ -11,4 +11,4 @@
 #define __AUTHOR               "Boris Krasnovskiy, Aaron Myles Landwehr"
 #define __AUTHOREMAIL            "borkra@miranda-im.org"
 #define __AUTHORWEB               "https://miranda-ng.org/p/AIM/"
-#define __COPYRIGHT               "© 2008-2011 Boris Krasnovskiy, 2005-2006 Aaron Myles Landwehr"
+#define __COPYRIGHT               "Â© 2008-2011 Boris Krasnovskiy, 2005-2006 Aaron Myles Landwehr"

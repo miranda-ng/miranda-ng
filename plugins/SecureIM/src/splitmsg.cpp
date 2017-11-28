@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-// разбивает сообщение szMsg на части длиной iLen, возвращает строку вида PARTzPARTzz
+// СЂР°Р·Р±РёРІР°РµС‚ СЃРѕРѕР±С‰РµРЅРёРµ szMsg РЅР° С‡Р°СЃС‚Рё РґР»РёРЅРѕР№ iLen, РІРѕР·РІСЂР°С‰Р°РµС‚ СЃС‚СЂРѕРєСѓ РІРёРґР° PARTzPARTzz
 LPSTR splitMsg(LPSTR szMsg, int iLen)
 {
 	Sent_NetLog("split: msg: -----\n%s\n-----\n", szMsg);
@@ -30,7 +30,7 @@ LPSTR splitMsg(LPSTR szMsg, int iLen)
 }
 
 
-// собираем сообщение из частей, части храним в структуре у контакта
+// СЃРѕР±РёСЂР°РµРј СЃРѕРѕР±С‰РµРЅРёРµ РёР· С‡Р°СЃС‚РµР№, С‡Р°СЃС‚Рё С…СЂР°РЅРёРј РІ СЃС‚СЂСѓРєС‚СѓСЂРµ Сѓ РєРѕРЅС‚Р°РєС‚Р°
 LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 {
 	Sent_NetLog("combine: part: %s", szMsg);
@@ -90,7 +90,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
 	return nullptr;
 }
 
-// отправляет сообщение, если надо то разбивает на части
+// РѕС‚РїСЂР°РІР»СЏРµС‚ СЃРѕРѕР±С‰РµРЅРёРµ, РµСЃР»Рё РЅР°РґРѕ С‚Рѕ СЂР°Р·Р±РёРІР°РµС‚ РЅР° С‡Р°СЃС‚Рё
 int splitMessageSend(pUinKey ptr, LPSTR szMsg)
 {
 	int len = (int)mir_strlen(szMsg);

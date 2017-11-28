@@ -35,16 +35,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKPOLL_RING			70
 
 // Flags for VKPOLL_MSG_ADDED
-#define VKFLAG_MSGUNREAD	1	// сообщение не прочитано
-#define VKFLAG_MSGOUTBOX	2	// исходящее сообщение
-#define VKFLAG_MSGREPLIED	4	// на сообщение был создан ответ
-#define VKFLAG_MSGIMPORTANT	8	// помеченное сообщение
-#define VKFLAG_MSGCHAT		16	// сообщение отправлено через чат
-#define VKFLAG_MSGFRIENDS	32	// сообщение отправлено другом
-#define VKFLAG_MSGSPAM		64	// сообщение помечено как "Спам"
-#define VKFLAG_MSGDELETED	128	// сообщение удалено (в корзине)
-#define VKFLAG_MSGFIXED		256	// сообщение проверено пользователем на спам
-#define VKFLAG_MSGMEDIA		512	// сообщение содержит медиаконтент
+#define VKFLAG_MSGUNREAD	1	// СЃРѕРѕР±С‰РµРЅРёРµ РЅРµ РїСЂРѕС‡РёС‚Р°РЅРѕ
+#define VKFLAG_MSGOUTBOX	2	// РёСЃС…РѕРґСЏС‰РµРµ СЃРѕРѕР±С‰РµРЅРёРµ
+#define VKFLAG_MSGREPLIED	4	// РЅР° СЃРѕРѕР±С‰РµРЅРёРµ Р±С‹Р» СЃРѕР·РґР°РЅ РѕС‚РІРµС‚
+#define VKFLAG_MSGIMPORTANT	8	// РїРѕРјРµС‡РµРЅРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
+#define VKFLAG_MSGCHAT		16	// СЃРѕРѕР±С‰РµРЅРёРµ РѕС‚РїСЂР°РІР»РµРЅРѕ С‡РµСЂРµР· С‡Р°С‚
+#define VKFLAG_MSGFRIENDS	32	// СЃРѕРѕР±С‰РµРЅРёРµ РѕС‚РїСЂР°РІР»РµРЅРѕ РґСЂСѓРіРѕРј
+#define VKFLAG_MSGSPAM		64	// СЃРѕРѕР±С‰РµРЅРёРµ РїРѕРјРµС‡РµРЅРѕ РєР°Рє "РЎРїР°Рј"
+#define VKFLAG_MSGDELETED	128	// СЃРѕРѕР±С‰РµРЅРёРµ СѓРґР°Р»РµРЅРѕ (РІ РєРѕСЂР·РёРЅРµ)
+#define VKFLAG_MSGFIXED		256	// СЃРѕРѕР±С‰РµРЅРёРµ РїСЂРѕРІРµСЂРµРЅРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РЅР° СЃРїР°Рј
+#define VKFLAG_MSGMEDIA		512	// СЃРѕРѕР±С‰РµРЅРёРµ СЃРѕРґРµСЂР¶РёС‚ РјРµРґРёР°РєРѕРЅС‚РµРЅС‚
 
 // Errors
 #define VKERR_NO_JSONNODE						-2	// No JSON Node in server reply

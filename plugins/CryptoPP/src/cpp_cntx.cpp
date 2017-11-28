@@ -19,7 +19,7 @@ pCNTX get_context_on_id(HANDLE context)
 HANDLE __cdecl cpp_create_context(int mode)
 {
 	pCNTX cntx = (pCNTX)malloc(sizeof(CNTX));
-	memset(cntx, 0, sizeof(CNTX)); // очищаем выделенный блок
+	memset(cntx, 0, sizeof(CNTX)); // РѕС‡РёС‰Р°РµРј РІС‹РґРµР»РµРЅРЅС‹Р№ Р±Р»РѕРє
 	cntx->header = HEADER;
 	cntx->footer = FOOTER;
 	cntx->mode = mode;
@@ -30,7 +30,7 @@ HANDLE __cdecl cpp_create_context(int mode)
 void __cdecl cpp_delete_context(HANDLE context)
 {
 	pCNTX tmp = get_context_on_id(context);
-	if (tmp) { // помечаем на удаление
+	if (tmp) { // РїРѕРјРµС‡Р°РµРј РЅР° СѓРґР°Р»РµРЅРёРµ
 		cpp_free_keys(tmp);
 		free(tmp);
 	}

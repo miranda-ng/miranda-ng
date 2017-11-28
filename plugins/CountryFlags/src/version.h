@@ -11,4 +11,4 @@
 #define __AUTHOR             "H. Herkenrath"
 #define __AUTHOREMAIL        "hrathh@users.sourceforge.net"
 #define __AUTHORWEB          "https://miranda-ng.org/p/Flags/"
-#define __COPYRIGHT          "© 2006-2007 H. Herkenrath"
+#define __COPYRIGHT          "Â© 2006-2007 H. Herkenrath"

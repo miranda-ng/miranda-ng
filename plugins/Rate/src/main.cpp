@@ -61,7 +61,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 	return TRUE;
 }
 
-// плагининфо
+// РїР»Р°РіРёРЅРёРЅС„Рѕ
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;

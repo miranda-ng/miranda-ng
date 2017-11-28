@@ -1,5 +1,5 @@
 //***********************************************************
-//	Copyright © 2008 Valentin Pavlyuchenko
+//	Copyright Â© 2008 Valentin Pavlyuchenko
 //
 //	This file is part of Boltun.
 //
@@ -94,7 +94,7 @@ wstring TalkBot::GetInitMessage(MCONTACT contact)
 
 wstring TalkBot::ReplaceAliases(const wstring &message)
 {
-	const wchar_t dividers[] = L" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—\1";
+	const wchar_t dividers[] = L" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}â€”\1";
 	wstring sentence = message;
 	wstring result;
 	map<size_t, wstring> sm;
@@ -490,7 +490,7 @@ const Mind& TalkBot::GetMind() const
 void TalkBot::SplitAndSortWords(wstring sentence, vector<wstring>& keywords,
 	vector<wstring>& otherwords, bool& isQuestion)
 {
-	const wchar_t dividers[] = L" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—";
+	const wchar_t dividers[] = L" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}â€”";
 	int len = (int)sentence.length();
 	vector<wstring> words;
 	map<size_t, wstring> sm;

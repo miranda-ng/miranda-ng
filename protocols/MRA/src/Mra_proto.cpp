@@ -8,7 +8,7 @@ DWORD CMraProto::StartConnect()
 	if (m_bShutdown)
 		return ERROR_OPERATION_ABORTED;
 
-	// поток ещё/уже не работал, поставили статус что работает и запускаем
+	// РїРѕС‚РѕРє РµС‰С‘/СѓР¶Рµ РЅРµ СЂР°Р±РѕС‚Р°Р», РїРѕСЃС‚Р°РІРёР»Рё СЃС‚Р°С‚СѓСЃ С‡С‚Рѕ СЂР°Р±РѕС‚Р°РµС‚ Рё Р·Р°РїСѓСЃРєР°РµРј
 	if (InterlockedCompareExchange((volatile LONG*)&m_dwThreadWorkerRunning, TRUE, FALSE))
 		return 0;
 
@@ -322,7 +322,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 				dwDataCurrentBuffOffset += sizeof(mrim_packet_header_t)+pmaHeader->dlen;
 			// move pointer to begin of buffer
 			else {
-				// динамическое уменьшение буффера приёма
+				// РґРёРЅР°РјРёС‡РµСЃРєРѕРµ СѓРјРµРЅСЊС€РµРЅРёРµ Р±СѓС„С„РµСЂР° РїСЂРёС‘РјР°
 				if (dwRcvBuffSize > BUFF_SIZE_RCV) {
 					dwRcvBuffSize = BUFF_SIZE_RCV;
 					lpbBufferRcv = (LPBYTE)mir_realloc(lpbBufferRcv, dwRcvBuffSize);
@@ -338,7 +338,7 @@ DWORD CMraProto::MraNetworkDispatcher()
 	return dwRetErrorCode;
 }
 
-//Подтверждение установки соединения// UL ## ping_period ## Ожидаемая частота подтверждения соединения (в секундах)
+//РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ СѓСЃС‚Р°РЅРѕРІРєРё СЃРѕРµРґРёРЅРµРЅРёСЏ// UL ## ping_period ## РћР¶РёРґР°РµРјР°СЏ С‡Р°СЃС‚РѕС‚Р° РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ СЃРѕРµРґРёРЅРµРЅРёСЏ (РІ СЃРµРєСѓРЅРґР°С…)
 bool CMraProto::CmdHelloAck(BinBuffer &buf)
 {
 	buf >> m_dwPingPeriod;
@@ -389,7 +389,7 @@ bool CMraProto::CmdLoginAck()
 	return true;
 }
 
-// Unsuccessful authorization //LPS ## reason ## причина отказа
+// Unsuccessful authorization //LPS ## reason ## РїСЂРёС‡РёРЅР° РѕС‚РєР°Р·Р°
 bool CMraProto::CmdLoginRejected(BinBuffer &buf)
 {
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_WRONGPASSWORD);
@@ -400,9 +400,9 @@ bool CMraProto::CmdLoginRejected(BinBuffer &buf)
 }
 
 // Message delivery
-//LPS ## from ## Адрес отправителя
-//LPS ## message ## текстовая версия сообщения
-//LPS ## rtf-message ## форматированная версия сообщения
+//LPS ## from ## РђРґСЂРµСЃ РѕС‚РїСЂР°РІРёС‚РµР»СЏ
+//LPS ## message ## С‚РµРєСЃС‚РѕРІР°СЏ РІРµСЂСЃРёСЏ СЃРѕРѕР±С‰РµРЅРёСЏ
+//LPS ## rtf-message ## С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРЅР°СЏ РІРµСЂСЃРёСЏ СЃРѕРѕР±С‰РµРЅРёСЏ
 bool CMraProto::CmdMessageAck(BinBuffer &buf)
 {
 	DWORD dwMsgID, dwFlags;
@@ -411,7 +411,7 @@ bool CMraProto::CmdMessageAck(BinBuffer &buf)
 	if (dwFlags & MESSAGE_FLAG_MULTICHAT)
 		buf >> szMultiChatData; // LPS multichat_data
 
-	// подтверждаем получение, только если удалось его обработать
+	// РїРѕРґС‚РІРµСЂР¶РґР°РµРј РїРѕР»СѓС‡РµРЅРёРµ, С‚РѕР»СЊРєРѕ РµСЃР»Рё СѓРґР°Р»РѕСЃСЊ РµРіРѕ РѕР±СЂР°Р±РѕС‚Р°С‚СЊ
 	if (MraRecvCommand_Message((DWORD)_time32(nullptr), dwFlags, szEmail, szText, szRTFText, szMultiChatData) == NO_ERROR)
 	if ((dwFlags & MESSAGE_FLAG_NORECV) == 0)
 		MraMessageRecv(szEmail, dwMsgID);
@@ -426,7 +426,7 @@ bool CMraProto::CmdMessageStatus(ULONG seq, BinBuffer &buf)
 		switch (dwTemp) {
 		case MESSAGE_DELIVERED:// Message delivered directly to user
 			ProtoBroadcastAckAsync(hContact, dwAckType, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
-			break;//***deb возможны сбои из-за асинхронности тк там передаётся указатель
+			break;//***deb РІРѕР·РјРѕР¶РЅС‹ СЃР±РѕРё РёР·-Р·Р° Р°СЃРёРЅС…СЂРѕРЅРЅРѕСЃС‚Рё С‚Рє С‚Р°Рј РїРµСЂРµРґР°С‘С‚СЃСЏ СѓРєР°Р·Р°С‚РµР»СЊ
 		case MESSAGE_REJECTED_NOUSER:// Message rejected - no such user
 			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)seq, (LPARAM)"Message rejected - no such user");
 			break;
@@ -525,7 +525,7 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 	return true;
 }
 
-//Сообщение доставленное, пока пользователь не был подключен к сети
+//РЎРѕРѕР±С‰РµРЅРёРµ РґРѕСЃС‚Р°РІР»РµРЅРЅРѕРµ, РїРѕРєР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ Р±С‹Р» РїРѕРґРєР»СЋС‡РµРЅ Рє СЃРµС‚Рё
 bool CMraProto::CmdOfflineMessageAck(BinBuffer &buf)
 {
 	CMStringA szEmail, szText, lpsRTFText, lpsMultiChatData, szString;
@@ -633,7 +633,7 @@ bool CMraProto::CmdFileTransferAck(BinBuffer &buf)
 	buf >> dwAckType >> szEmail >> dwTemp >> szString;
 
 	switch (dwAckType) {
-	case FILE_TRANSFER_STATUS_OK:// игнорируем, мы и так уже слушаем порт(ждём), то что кто то согласился ничего не меняет
+	case FILE_TRANSFER_STATUS_OK:// РёРіРЅРѕСЂРёСЂСѓРµРј, РјС‹ Рё С‚Р°Рє СѓР¶Рµ СЃР»СѓС€Р°РµРј РїРѕСЂС‚(Р¶РґС‘Рј), С‚Рѕ С‡С‚Рѕ РєС‚Рѕ С‚Рѕ СЃРѕРіР»Р°СЃРёР»СЃСЏ РЅРёС‡РµРіРѕ РЅРµ РјРµРЅСЏРµС‚
 		//hContact = MraHContactFromEmail(szEmail.lpszData, szEmail.dwSize, TRUE, TRUE, NULL);
 		break;
 	case FILE_TRANSFER_STATUS_DECLINE:
@@ -659,7 +659,7 @@ bool CMraProto::CmdFileTransferAck(BinBuffer &buf)
 	return true;
 }
 
-// Смена статуса другого пользователя
+// РЎРјРµРЅР° СЃС‚Р°С‚СѓСЃР° РґСЂСѓРіРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 bool CMraProto::CmdUserStatus(BinBuffer &buf)
 {
 	DWORD dwStatus, dwXStatus, dwFutureFlags;
@@ -685,7 +685,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 			delSetting(hContact, DBSETTING_XSTATUSMSG);
 		}
 
-		if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
+		if (dwTemp != ID_STATUS_OFFLINE) { // РїРёС€РµРј РєР»РёРµРЅС‚Р° С‚РѕР»СЊРєРѕ РµСЃР»Рё СЋР·РµСЂ РЅРµ РѕС‚РєР»СЋС‡С‘РЅ, РёРЅР°С‡Рµ РЅРµ Р·Р°С‚РёСЂР°РµРј СЃС‚Р°СЂРѕРµ
 			if (!szUserAgentFormatted.IsEmpty()) {
 				if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE)
 					szUserAgentFormatted = MraGetVersionStringFromFormatted(szUserAgentFormatted);
@@ -695,7 +695,7 @@ bool CMraProto::CmdUserStatus(BinBuffer &buf)
 			mraSetStringA(hContact, "MirVer", szUserAgentFormatted);
 		}
 
-		if (dwTemp == MraGetContactStatus(hContact)) {// меняем шило на шило, подозрительно? ;)
+		if (dwTemp == MraGetContactStatus(hContact)) {// РјРµРЅСЏРµРј С€РёР»Рѕ РЅР° С€РёР»Рѕ, РїРѕРґРѕР·СЂРёС‚РµР»СЊРЅРѕ? ;)
 			if (dwTemp == ID_STATUS_OFFLINE) { // was/now invisible
 				CMStringW wszEmail, wszBuff;
 				mraGetStringW(hContact, "e-mail", wszEmail);
@@ -717,7 +717,7 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 	if (!MraSendQueueFind(hSendQueueHandle, seq, nullptr, &hContact, &dwAckType, nullptr, nullptr)) {
 		DWORD dwTemp = buf.getDword();
 		switch (dwTemp) {
-		case CONTACT_OPER_SUCCESS:// ## добавление произведено успешно
+		case CONTACT_OPER_SUCCESS:// ## РґРѕР±Р°РІР»РµРЅРёРµ РїСЂРѕРёР·РІРµРґРµРЅРѕ СѓСЃРїРµС€РЅРѕ
 			if (cmd == MRIM_CS_ADD_CONTACT_ACK) {
 				DWORD dwFlags = SCBIF_ID | SCBIF_SERVER_FLAG, dwGroupID = 0;
 				ptrW grpName(db_get_wsa(hContact, "CList", "Group"));
@@ -728,23 +728,23 @@ bool CMraProto::CmdContactAck(int cmd, int seq, BinBuffer &buf)
 				SetContactBasicInfoW(hContact, 0, dwFlags, buf.getDword(), dwGroupID, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, 0, nullptr, nullptr, nullptr);
 			}
 			break;
-		case CONTACT_OPER_ERROR:// ## переданные данные были некорректны
+		case CONTACT_OPER_ERROR:// ## РїРµСЂРµРґР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ Р±С‹Р»Рё РЅРµРєРѕСЂСЂРµРєС‚РЅС‹
 			ShowFormattedErrorMessage(L"Data been sent are invalid", NO_ERROR);
 			break;
-		case CONTACT_OPER_INTERR:// ## при обработке запроса произошла внутренняя ошибка
+		case CONTACT_OPER_INTERR:// ## РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ Р·Р°РїСЂРѕСЃР° РїСЂРѕРёР·РѕС€Р»Р° РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°
 			ShowFormattedErrorMessage(L"Internal server error", NO_ERROR);
 			break;
-		case CONTACT_OPER_NO_SUCH_USER:// ## добавляемого пользователя не существует в системе
+		case CONTACT_OPER_NO_SUCH_USER:// ## РґРѕР±Р°РІР»СЏРµРјРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РІ СЃРёСЃС‚РµРјРµ
 			SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, nullptr, nullptr, nullptr);
 			ShowFormattedErrorMessage(L"No such user to add", NO_ERROR);
 			break;
-		case CONTACT_OPER_INVALID_INFO:// ## некорректное имя пользователя
+		case CONTACT_OPER_INVALID_INFO:// ## РЅРµРєРѕСЂСЂРµРєС‚РЅРѕРµ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 			ShowFormattedErrorMessage(L"Invalid user name", NO_ERROR);
 			break;
-		case CONTACT_OPER_USER_EXISTS:// ## пользователь уже есть в контакт-листе
+		case CONTACT_OPER_USER_EXISTS:// ## РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ РµСЃС‚СЊ РІ РєРѕРЅС‚Р°РєС‚-Р»РёСЃС‚Рµ
 			ShowFormattedErrorMessage(L"User already added", NO_ERROR);
 			break;
-		case CONTACT_OPER_GROUP_LIMIT:// ## превышено максимально допустимое количество групп (20)
+		case CONTACT_OPER_GROUP_LIMIT:// ## РїСЂРµРІС‹С€РµРЅРѕ РјР°РєСЃРёРјР°Р»СЊРЅРѕ РґРѕРїСѓСЃС‚РёРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РіСЂСѓРїРї (20)
 			ShowFormattedErrorMessage(L"Group limit is 20", NO_ERROR);
 			break;
 		default:// ## unknown error
@@ -768,10 +768,10 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 	}
 
 	switch (buf.getDword()) {
-	case MRIM_ANKETA_INFO_STATUS_NOUSER:// не найдено ни одной подходящей записи
+	case MRIM_ANKETA_INFO_STATUS_NOUSER:// РЅРµ РЅР°Р№РґРµРЅРѕ РЅРё РѕРґРЅРѕР№ РїРѕРґС…РѕРґСЏС‰РµР№ Р·Р°РїРёСЃРё
 		SetContactBasicInfoW(hContact, 0, SCBIF_SERVER_FLAG, 0, 0, 0, -1, 0, nullptr, nullptr, nullptr);
-	case MRIM_ANKETA_INFO_STATUS_DBERR:// ошибка базы данных
-	case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// слишком много запросов, поиск временно запрещен
+	case MRIM_ANKETA_INFO_STATUS_DBERR:// РѕС€РёР±РєР° Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+	case MRIM_ANKETA_INFO_STATUS_RATELIMERR:// СЃР»РёС€РєРѕРј РјРЅРѕРіРѕ Р·Р°РїСЂРѕСЃРѕРІ, РїРѕРёСЃРє РІСЂРµРјРµРЅРЅРѕ Р·Р°РїСЂРµС‰РµРЅ
 		switch (dwAckType) {
 		case ACKTYPE_GETINFO:
 			ProtoBroadcastAck(hContact, dwAckType, ACKRESULT_FAILED, (HANDLE)1, 0);
@@ -783,7 +783,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 		break;
 
 	case MRIM_ANKETA_INFO_STATUS_OK:
-		// поиск успешно завершен
+		// РїРѕРёСЃРє СѓСЃРїРµС€РЅРѕ Р·Р°РІРµСЂС€РµРЅ
 		DWORD dwFieldsNum, dwMaxRows, dwServerTime;
 		DWORD dwID, dwContactSeverFlags, dwStatus, dwXStatus;
 		buf >> dwFieldsNum >> dwMaxRows >> dwServerTime;
@@ -824,13 +824,13 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 					else if (fld == "Sex") {
 						buf >> val;
 						switch (atoi(val)) {
-						case 1:// мужской
+						case 1:// РјСѓР¶СЃРєРѕР№
 							setByte(hContact, "Gender", 'M');
 							break;
-						case 2:// женский
+						case 2:// Р¶РµРЅСЃРєРёР№
 							setByte(hContact, "Gender", 'F');
 							break;
-						default:// а фиг его знает
+						default:// Р° С„РёРі РµРіРѕ Р·РЅР°РµС‚
 							delSetting(hContact, "Gender");
 							break;
 						}
@@ -926,7 +926,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 						debugLogA("%s = %s\n", fld.c_str(), val.c_str());
 					}
 				} /* for */
-				// для авторизованного нам и так присылают правильный статус
+				// РґР»СЏ Р°РІС‚РѕСЂРёР·РѕРІР°РЅРЅРѕРіРѕ РЅР°Рј Рё С‚Р°Рє РїСЂРёСЃС‹Р»Р°СЋС‚ РїСЂР°РІРёР»СЊРЅС‹Р№ СЃС‚Р°С‚СѓСЃ
 				GetContactBasicInfoW(hContact, &dwID, nullptr, nullptr, &dwContactSeverFlags, nullptr, nullptr, nullptr, nullptr);
 				if (dwID == -1 || (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED)) {
 					/* Convert mail.ru statuses to miranda. */
@@ -961,7 +961,7 @@ bool CMraProto::CmdAnketaInfo(int seq, BinBuffer &buf)
 						buf >> val;
 						mralpsUsernameValue = val;
 					}
-					else if (fld == "Domain") { // имя было уже задано ранее
+					else if (fld == "Domain") { // РёРјСЏ Р±С‹Р»Рѕ СѓР¶Рµ Р·Р°РґР°РЅРѕ СЂР°РЅРµРµ
 						buf >> val;
 						wcsncpy_s(szEmail, _A2T(mralpsUsernameValue + "@" + val), _TRUNCATE);
 					}
@@ -1090,7 +1090,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			}
 
 			// add/modify group
-			if (dwControlParam > 1) { // все параметры правильно инициализированны!
+			if (dwControlParam > 1) { // РІСЃРµ РїР°СЂР°РјРµС‚СЂС‹ РїСЂР°РІРёР»СЊРЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹!
 				if (!(dwGroupFlags & CONTACT_FLAG_REMOVED)) {
 					m_groups.insert(new MraGroupItem(dwID, dwGroupFlags, wszGroupName));
 					Clist_GroupCreate(0, wszGroupName);
@@ -1238,7 +1238,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			// add/modify contact
 			if (dwGroupID != 103)//***deb filtering phone/sms contats
 			if (_strnicmp(szEmail, "phone", 5))
-			if (dwControlParam > 5)// все параметры правильно инициализированны!
+			if (dwControlParam > 5)// РІСЃРµ РїР°СЂР°РјРµС‚СЂС‹ РїСЂР°РІРёР»СЊРЅРѕ РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹!
 			if ((dwContactFlag & (CONTACT_FLAG_GROUP | CONTACT_FLAG_REMOVED)) == 0) {
 				BOOL bAdded;
 				MCONTACT hContact = MraHContactFromEmail(szEmail, TRUE, FALSE, &bAdded);
@@ -1282,7 +1282,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 						if (IsXStatusValid(dwXStatus) || wszBlogStatus.GetLength())
 							SetExtraIcons(hContact);
 
-						if (dwTemp != ID_STATUS_OFFLINE) { // пишем клиента только если юзер не отключён, иначе не затираем старое
+						if (dwTemp != ID_STATUS_OFFLINE) { // РїРёС€РµРј РєР»РёРµРЅС‚Р° С‚РѕР»СЊРєРѕ РµСЃР»Рё СЋР·РµСЂ РЅРµ РѕС‚РєР»СЋС‡С‘РЅ, РёРЅР°С‡Рµ РЅРµ Р·Р°С‚РёСЂР°РµРј СЃС‚Р°СЂРѕРµ
 							if (!szUserAgentFormatted.IsEmpty()) {
 								if (getByte("MirVerRaw", MRA_DEFAULT_MIRVER_RAW) == FALSE)
 									szUserAgentFormatted = MraGetVersionStringFromFormatted(szUserAgentFormatted);
@@ -1311,7 +1311,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 				if (GetContactBasicInfoW(hContact, &dwID, nullptr, nullptr, nullptr, nullptr, &email, nullptr, nullptr) == NO_ERROR)
 				if (dwID == -1) {
-					if (IsEMailChatAgent(email)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
+					if (IsEMailChatAgent(email)) {// С‡Р°С‚: РµС‰С‘ СЂР°Р· Р·Р°РїСЂРѕСЃРёРј Р°РІС‚РѕСЂРёР·Р°С†РёСЋ, РїРѕРјРµС‚РёРј РєР°Рє РІРёРґРёРјС‹Р№ РІ СЃРїРёСЃРєРµ, РїРѕСЃС‚РѕСЏРЅРЅС‹Р№
 						db_unset(hContact, "CList", "Hidden");
 						db_unset(hContact, "CList", "NotOnList");
 						SetExtraIcons(hContact);
@@ -1335,8 +1335,8 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		}
 		setByte("GroupMode", 1);
 	}
-	else { // контакт лист почемуто не получили
-		// всех в offline и id в нестандарт
+	else { // РєРѕРЅС‚Р°РєС‚ Р»РёСЃС‚ РїРѕС‡РµРјСѓС‚Рѕ РЅРµ РїРѕР»СѓС‡РёР»Рё
+		// РІСЃРµС… РІ offline Рё id РІ РЅРµСЃС‚Р°РЅРґР°СЂС‚
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
 				-1, -2, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
@@ -1344,9 +1344,9 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			MraUpdateContactInfo(hContact);
 		}
 
-		if (dwTemp == GET_CONTACTS_ERROR) // найденный контакт-лист некорректен
+		if (dwTemp == GET_CONTACTS_ERROR) // РЅР°Р№РґРµРЅРЅС‹Р№ РєРѕРЅС‚Р°РєС‚-Р»РёСЃС‚ РЅРµРєРѕСЂСЂРµРєС‚РµРЅ
 			ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: bad contact list", NO_ERROR);
-		else if (dwTemp == GET_CONTACTS_INTERR) // произошла внутренняя ошибка
+		else if (dwTemp == GET_CONTACTS_INTERR) // РїСЂРѕРёР·РѕС€Р»Р° РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РѕС€РёР±РєР°
 			ShowFormattedErrorMessage(L"MRIM_CS_CONTACT_LIST2: internal server error", NO_ERROR);
 		else {
 			wchar_t szBuff[1024];
@@ -1364,7 +1364,7 @@ bool CMraProto::CmdProxy(BinBuffer &buf)
 	MRA_GUID mguidSessionID;
 
 	buf >> szEmail >> dwIDRequest >> dwAckType >> szString >> szAddresses >> mguidSessionID;
-	if (dwAckType == MRIM_PROXY_TYPE_FILES) { // файлы, on file recv
+	if (dwAckType == MRIM_PROXY_TYPE_FILES) { // С„Р°Р№Р»С‹, on file recv
 		// set proxy info to file transfer context
 		if (!MraMrimProxySetData(MraFilesQueueItemProxyByID(hFilesQueueHandle, dwIDRequest), szEmail, dwIDRequest, dwAckType, szString, szAddresses, &mguidSessionID))
 			MraFilesQueueStartMrimProxy(hFilesQueueHandle, dwIDRequest);
@@ -1489,13 +1489,13 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	case MRIM_CS_NEW_MAIL:            return CmdNewMail(buf);
 	case MRIM_CS_USER_BLOG_STATUS:    return CmdBlogStatus(buf);
 
-	case MRIM_CS_CONNECTION_PARAMS:// Изменение параметров соединения
+	case MRIM_CS_CONNECTION_PARAMS:// РР·РјРµРЅРµРЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ СЃРѕРµРґРёРЅРµРЅРёСЏ
 		buf >> m_dwPingPeriod;
 		m_dwNextPingSendTickTime = 0; // force send ping
 		MraSendCMD(MRIM_CS_PING, nullptr, 0);
 		break;
 
-	case MRIM_CS_LOGOUT:// Пользователь отключен из-за параллельного входа с его логином.
+	case MRIM_CS_LOGOUT:// РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РѕС‚РєР»СЋС‡РµРЅ РёР·-Р·Р° РїР°СЂР°Р»Р»РµР»СЊРЅРѕРіРѕ РІС…РѕРґР° СЃ РµРіРѕ Р»РѕРіРёРЅРѕРј.
 		buf >> dwTemp;
 		if (dwTemp == LOGOUT_NO_RELOGIN_FLAG)
 			ShowFormattedErrorMessage(L"Another user connected with your login", NO_ERROR);
@@ -1551,7 +1551,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 	return true;
 }
 
-// Сообщение
+// РЎРѕРѕР±С‰РµРЅРёРµ
 DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &plpsFrom, CMStringA &plpsText, CMStringA &plpsRFTText, CMStringA &plpsMultiChatData)
 {
 	DWORD dwBackColour;
@@ -1569,7 +1569,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 		dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
 
 	// pre processing - extracting/decoding
-	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // extract auth message из обычного текста
+	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // extract auth message РёР· РѕР±С‹С‡РЅРѕРіРѕ С‚РµРєСЃС‚Р°
 		unsigned dwAuthDataSize;
 		LPBYTE lpbAuthData = (LPBYTE)mir_base64_decode(plpsText, &dwAuthDataSize);
 		if (lpbAuthData) {
@@ -1583,7 +1583,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 				buf >> lpsAuthMessageW;
 				wszMessage = lpsAuthMessageW;
 			}
-			else { // преобразуем в юникод текст только если он в АНСИ и если это не Флэш мультик и будильник тоже не нуждается в этом
+			else { // РїСЂРµРѕР±СЂР°Р·СѓРµРј РІ СЋРЅРёРєРѕРґ С‚РµРєСЃС‚ С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕРЅ РІ РђРќРЎР Рё РµСЃР»Рё СЌС‚Рѕ РЅРµ Р¤Р»СЌС€ РјСѓР»СЊС‚РёРє Рё Р±СѓРґРёР»СЊРЅРёРє С‚РѕР¶Рµ РЅРµ РЅСѓР¶РґР°РµС‚СЃСЏ РІ СЌС‚РѕРј
 				CMStringA lpsAuthMessage;
 				buf >> lpsAuthMessage;
 				wszMessage = ptrW(mir_a2u_cp(lpsAuthMessage, MRA_CODE_PAGE));
@@ -1616,7 +1616,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 						CMStringA lpsRTFString, lpsBackColour, szString;
 						DWORD dwRTFPartsCount;
 
-						// количество частей в некоторых случаях больше 2, тогда нужно игнорировать первый текст, тк там сообщения об ущербности
+						// РєРѕР»РёС‡РµСЃС‚РІРѕ С‡Р°СЃС‚РµР№ РІ РЅРµРєРѕС‚РѕСЂС‹С… СЃР»СѓС‡Р°СЏС… Р±РѕР»СЊС€Рµ 2, С‚РѕРіРґР° РЅСѓР¶РЅРѕ РёРіРЅРѕСЂРёСЂРѕРІР°С‚СЊ РїРµСЂРІС‹Р№ С‚РµРєСЃС‚, С‚Рє С‚Р°Рј СЃРѕРѕР±С‰РµРЅРёСЏ РѕР± СѓС‰РµСЂР±РЅРѕСЃС‚Рё
 						buf >> dwRTFPartsCount >> lpsRTFString >> dwBackColour;
 						if (dwFlags & MESSAGE_FLAG_FLASH) {
 							if (dwRTFPartsCount == 4) {
@@ -1772,7 +1772,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					pre.lParam = mir_strlen(lpbBuffer);
 
 					LPSTR lpbBufferCurPos = lpbBuffer;
-					while (TRUE) { // цикл замены ; на 0
+					while (TRUE) { // С†РёРєР» Р·Р°РјРµРЅС‹ ; РЅР° 0
 						lpbBufferCurPos = (LPSTR)MemoryFindByte((lpbBufferCurPos - (LPSTR)lpbBuffer), lpbBuffer, pre.lParam, ';');
 						if (!lpbBufferCurPos)
 							break;
@@ -1793,7 +1793,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 					}
 				}
 				else { // standart message// flash animation
-					// пишем в ANSI, всё равно RTF
+					// РїРёС€РµРј РІ ANSI, РІСЃС‘ СЂР°РІРЅРѕ RTF
 					if ((dwFlags & MESSAGE_FLAG_RTF) && (dwFlags & MESSAGE_FLAG_FLASH) == 0 && !lpszMessageExt.IsEmpty() && getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)) {
 						pre.flags = 0;
 						pre.szMessage = (LPSTR)lpszMessageExt.GetString();

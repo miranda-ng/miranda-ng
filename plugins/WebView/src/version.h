@@ -11,4 +11,4 @@
 #define __AUTHOR             "Vincent Joyce"
 #define __AUTHOREMAIL        "ungoliante666@hotmail.com"
 #define __AUTHORWEB          "https://miranda-ng.org/p/WebView/"
-#define __COPYRIGHT          "© 2011 Vincent Joyce"
+#define __COPYRIGHT          "Â© 2011 Vincent Joyce"

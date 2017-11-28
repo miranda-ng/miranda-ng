@@ -102,13 +102,13 @@ void __fastcall safe_delete(void** p)
 	}
 }
 
-// преобразуем текст из чистого UTF8 в формат миранды
+// РїСЂРµРѕР±СЂР°Р·СѓРµРј С‚РµРєСЃС‚ РёР· С‡РёСЃС‚РѕРіРѕ UTF8 РІ С„РѕСЂРјР°С‚ РјРёСЂР°РЅРґС‹
 LPSTR utf8_to_miranda(LPCSTR szUtfMsg, DWORD& flags)
 {
 	return mir_strdup(szUtfMsg);
 }
 
-// преобразуем текст из формата миранды в чистый UTF8
+// РїСЂРµРѕР±СЂР°Р·СѓРµРј С‚РµРєСЃС‚ РёР· С„РѕСЂРјР°С‚Р° РјРёСЂР°РЅРґС‹ РІ С‡РёСЃС‚С‹Р№ UTF8
 LPSTR miranda_to_utf8(LPCSTR szMirMsg, DWORD flags)
 {
 	return mir_strdup(szMirMsg);

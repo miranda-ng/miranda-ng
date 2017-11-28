@@ -9,4 +9,4 @@
 #define __AUTHOR                 "Miranda NG Development Team"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p//"
-#define __COPYRIGHT              "© 2016-17 Miranda NG Development Team"
+#define __COPYRIGHT              "Â© 2016-17 Miranda NG Development Team"

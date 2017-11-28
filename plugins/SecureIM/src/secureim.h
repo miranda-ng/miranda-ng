@@ -1,7 +1,7 @@
 #ifndef __SECURE_IM__
 #define __SECURE_IM__
 
-// режимы шифрования SecureIM
+// СЂРµР¶РёРјС‹ С€РёС„СЂРѕРІР°РЅРёСЏ SecureIM
 #define MODE_NATIVE	0
 #define MODE_PGP	1
 #define MODE_GPG	2
@@ -11,7 +11,7 @@
 
 #define SECURED		0x10
 
-// статусы для Native и RSA/AES режимов
+// СЃС‚Р°С‚СѓСЃС‹ РґР»СЏ Native Рё RSA/AES СЂРµР¶РёРјРѕРІ
 #define STATUS_DISABLED		0
 #define STATUS_ENABLED		1
 #define STATUS_ALWAYSTRY	2
