@@ -1,4 +1,4 @@
-/*
+﻿/*
 Fingerprint NG (client version) icons module for Miranda NG
 Copyright © 2006-17 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.
 
@@ -612,8 +612,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_XMPP", L"|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*", LPGENW("XMPP client"), IDI_XMPP, JABBER_CASE },
 
 	{ "client_Hangouts", L"messaging-*", L"Google+ Hangouts", IDI_HANGOUTS, OTHER_PROTOS_CASE, TRUE },
-
-	{ "client_WhatsApp", L"*WhatsApp*", L"WhatsApp", IDI_WHATSAPP, OTHER_PROTOS_CASE, TRUE },
 
 	{ "client_Twitter", L"*Twitter*", L"Twitter", IDI_TWITTER, OTHER_PROTOS_CASE, TRUE },
 
