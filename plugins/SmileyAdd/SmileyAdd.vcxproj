@@ -18,6 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\Pcre16\pcre16.vcxproj">
+      <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>SmileyAdd</ProjectName>
     <ProjectGuid>{5BBA7E51-B494-4462-BC4F-1AE5F57F9857}</ProjectGuid>
@@ -30,9 +35,4 @@
       <DisableSpecificWarnings>4458;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\regexp\*.cpp">
-      <PrecompiledHeaderFile>..\stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-  </ItemGroup>
 </Project>

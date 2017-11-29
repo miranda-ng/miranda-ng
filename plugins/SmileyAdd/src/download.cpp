@@ -158,18 +158,13 @@ void __cdecl SmileyDownloadThread(void*)
 
 bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 {
-	_TPattern *urlsplit = _TPattern::compile(L".*/(.*)");
-	_TMatcher *m0 = urlsplit->createWCMatcher(url);
-
-	m0->findFirstMatch();
+	MRegexp16 urlsplit(L".*/(.*)");
+	urlsplit.match(url);
 
 	CMStringW filename;
 	filename.AppendFormat(L"%s\\%s\\", cachepath, packstr.c_str());
 	int pathpos = filename.GetLength();
-	filename += m0->getGroup(1);
-
-	delete m0;
-	delete urlsplit;
+	filename += urlsplit.getGroup(1);
 
 	bool needext = filename.Find('.') == -1;
 	if (needext)

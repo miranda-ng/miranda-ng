@@ -130,7 +130,7 @@ template<class T> struct SMOBJLIST : public OBJLIST<T>
 class SmileyLookup
 {
 private:
-	_TPattern *m_pattern;
+	MRegexp16 m_pattern;
 
 	int m_ind;
 	CMStringW m_text;
@@ -145,11 +145,11 @@ public:
 	};
 	typedef SMOBJLIST<SmileyLocType> SmileyLocVecType;
 
-	SmileyLookup() { m_ind = 0; m_valid = false; m_pattern = NULL; };
+	SmileyLookup() : m_pattern(L"") { m_ind = 0; m_valid = false; m_pattern = NULL; };
 	SmileyLookup(const CMStringW &str, const bool regexs, const int ind, const CMStringW &smpt);
 	~SmileyLookup();
 
-	void Find(const CMStringW &str, SmileyLocVecType &smlcur, bool firstOnly) const;
+	void Find(const CMStringW &str, SmileyLocVecType &smlcur, bool firstOnly);
 	int GetIndex(void) const { return m_ind; }
 	bool IsValid(void) const { return m_valid; }
 };
@@ -183,7 +183,6 @@ private:
 	void AddTriggersToSmileyLookup(void);
 	void ReplaceAllSpecials(const CMStringW &Input, CMStringW &Output);
 	bool LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW &modpath);
-	bool LoadSmileyFileXEP(CMStringW &tbuf, bool onlyInfo, CMStringW &modpath);
 
 public:
 	SmileyPackType();
