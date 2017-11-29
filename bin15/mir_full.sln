@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -388,8 +388,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pcre16", "..\libs\Pcre16\pc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IEHistory", "..\plugins\IEHistory\IEHistory.vcxproj", "{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsApp", "..\protocols\WhatsApp\WhatsApp.vcxproj", "{13E796AD-BEA4-4213-A1B8-E18E2397E544}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dummy", "..\protocols\Dummy\dummy.vcxproj", "{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Steam", "..\protocols\Steam\Steam.vcxproj", "{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}"
@@ -425,8 +423,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_popup", "..\plugins\MirLua\Modules\m_popup\m_popup.vcxproj", "{D5C9CA74-4E25-478A-B890-75EB13E6DB1C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_variables", "..\plugins\MirLua\Modules\m_variables\m_variables.vcxproj", "{E604CD58-4579-4F69-9D6A-2605FD7CF716}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevent", "..\libs\libevent\libevent.vcxproj", "{46D53888-E60E-32A7-91EB-6336DE0D84D8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusManager", "..\plugins\StatusManager\StatusManager.vcxproj", "{D2EF305F-5255-49E8-A738-D4206D62D2B8}"
 EndProject
@@ -1808,14 +1804,6 @@ Global
 		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|Win32.Build.0 = Release|Win32
 		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|x64.ActiveCfg = Release|x64
 		{7F5EA8BC-8F2B-478E-8F05-0ED4B691B776}.Release|x64.Build.0 = Release|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|Win32.ActiveCfg = Debug|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|Win32.Build.0 = Debug|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|x64.ActiveCfg = Debug|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|x64.Build.0 = Debug|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|Win32.ActiveCfg = Release|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|Win32.Build.0 = Release|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.ActiveCfg = Release|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.Build.0 = Release|x64
 		{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}.Debug|Win32.ActiveCfg = Debug|Win32
 		{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}.Debug|Win32.Build.0 = Debug|Win32
 		{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}.Debug|x64.ActiveCfg = Debug|x64
@@ -1960,14 +1948,6 @@ Global
 		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|Win32.Build.0 = Release|Win32
 		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|x64.ActiveCfg = Release|x64
 		{E604CD58-4579-4F69-9D6A-2605FD7CF716}.Release|x64.Build.0 = Release|x64
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|Win32.ActiveCfg = Debug|Win32
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|Win32.Build.0 = Debug|Win32
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|x64.ActiveCfg = Debug|x64
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Debug|x64.Build.0 = Debug|x64
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|Win32.ActiveCfg = Release|Win32
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|Win32.Build.0 = Release|Win32
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|x64.ActiveCfg = Release|x64
-		{46D53888-E60E-32A7-91EB-6336DE0D84D8}.Release|x64.Build.0 = Release|x64
 		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|Win32.Build.0 = Debug|Win32
 		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|x64.ActiveCfg = Debug|x64
