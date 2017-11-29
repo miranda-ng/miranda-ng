@@ -182,7 +182,6 @@ private:
 
 	void AddTriggersToSmileyLookup(void);
 	void ReplaceAllSpecials(const CMStringW &Input, CMStringW &Output);
-	bool LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW &modpath);
 
 public:
 	SmileyPackType();

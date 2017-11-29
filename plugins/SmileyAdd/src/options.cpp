@@ -482,9 +482,9 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 
 	wchar_t filter[512], *pfilter;
 	mir_wstrcpy(filter, TranslateT("Smiley packs"));
-	mir_wstrcat(filter, L" (*.msl;*.asl;*.xep)");
+	mir_wstrcat(filter, L" (*.msl;*.asl)");
 	pfilter = filter + mir_wstrlen(filter) + 1;
-	mir_wstrcpy(pfilter, L"*.msl;*.asl;*.xep");
+	mir_wstrcpy(pfilter, L"*.msl;*.asl");
 	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	mir_wstrcpy(pfilter, TranslateT("All files"));
 	mir_wstrcat(pfilter, L" (*.*)");

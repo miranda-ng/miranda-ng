@@ -328,7 +328,7 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 	CMStringW modpath;
 	pathToAbsolute(filename, modpath);
 
-	// Load xep file
+	// Load file
 	int fh = _wopen(modpath.c_str(), _O_BINARY | _O_RDONLY);
 	if (fh == -1) {
 		if (!noerr) {
@@ -350,7 +350,7 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 	// Allocate file buffer
 	char *buf = new char[flen + sizeof(wchar_t)];
 
-	// Read xep file in
+	// Read file in
 	int len = _read(fh, buf, flen);
 	*(wchar_t*)(buf + len) = 0;
 
@@ -368,16 +368,6 @@ bool SmileyPackType::LoadSmileyFile(const CMStringW &filename, const CMStringW &
 
 	delete[] buf;
 
-	bool res = LoadSmileyFileMSL(tbuf, onlyInfo, modpath);
-
-	if (errorFound)
-		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee network log for details."));
-
-	return res;
-}
-
-bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW &modpath)
-{
 	CMStringW pathstr, packstr;
 	{
 		MRegexp16 pathsplit(L"(.*\\\\)(.*)\\.|$");
@@ -482,7 +472,6 @@ bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW
 					ReplaceAllSpecials(dat->m_TriggerText, dat->m_ToolText);
 			}
 
-			bool noerr;
 			if (resname.IsEmpty()) {
 				dat->SetHidden(true);
 				dat->SetText(true);
@@ -509,6 +498,10 @@ bool SmileyPackType::LoadSmileyFileMSL(CMStringW &tbuf, bool onlyInfo, CMStringW
 	m_VisibleCount = m_SmileyList.getCount();
 	m_SmileyList.splice(hiddenSmileys);
 	AddTriggersToSmileyLookup();
+
+	if (errorFound)
+		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee network log for details."));
+
 	return true;
 }
 
