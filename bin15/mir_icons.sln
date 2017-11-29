@@ -60,8 +60,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\plugins\YA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fp_icons", "..\plugins\FingerprintNG\iconpacks\fp_icons.vcxproj", "{7F854B13-37EA-4956-BAEE-9715AE9F4579}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_WhatsApp", "..\protocols\WhatsApp\proto_whatsapp\Proto_WhatsApp.vcxproj", "{64A2B403-90AF-4CF8-BC69-4E8D33872D64}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_VKontakte", "..\protocols\VKontakte\proto_vkontakte\Proto_VKontakte.vcxproj", "{5F8495EF-0765-4E03-905D-639BDBF05B4F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_MRA", "..\protocols\MRA\xstatus_mra\xStatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
@@ -324,14 +322,6 @@ Global
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|Win32.Build.0 = Release|Win32
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|x64.ActiveCfg = Release|x64
 		{7F854B13-37EA-4956-BAEE-9715AE9F4579}.Release|x64.Build.0 = Release|x64
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|Win32.ActiveCfg = Debug|Win32
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|Win32.Build.0 = Debug|Win32
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|x64.ActiveCfg = Debug|x64
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Debug|x64.Build.0 = Debug|x64
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|Win32.ActiveCfg = Release|Win32
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|Win32.Build.0 = Release|Win32
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|x64.ActiveCfg = Release|x64
-		{64A2B403-90AF-4CF8-BC69-4E8D33872D64}.Release|x64.Build.0 = Release|x64
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Debug|Win32.Build.0 = Debug|Win32
 		{5F8495EF-0765-4E03-905D-639BDBF05B4F}.Debug|x64.ActiveCfg = Debug|x64
