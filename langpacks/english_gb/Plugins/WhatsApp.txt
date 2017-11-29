@@ -1,9 +1,0 @@
-﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
-;============================================================
-;  File: WhatsApp.dll
-;  Plugin: WhatsApp protocol
-;  Version: 0.1.3.3
-;  Authors: Uli Hecht
-;============================================================
-[Unable to initialize Netlib for %s.]
-Unable to initialise Netlib for %s.
