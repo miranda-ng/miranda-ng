@@ -25,7 +25,6 @@ fast.
 - Tox
 - Twitter
 - VKontakte
-- WhatsApp
 
 ## Supported Operating Systems ##
 
