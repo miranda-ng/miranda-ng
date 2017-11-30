@@ -24,6 +24,7 @@
 #include <m_utils.h>
 #include <m_options.h>
 #include <m_langpack.h>
+#include <m_gui.h>
 
 #include <m_music.h>
 

@@ -16,66 +16,45 @@
 
 #include "stdafx.h"
 
-static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+class COptWaMpdDlg : public CDlgBase
 {
-  switch (msg)
-  {
-  case WM_INITDIALOG:
-    {
-		TranslateDialogDefault(hwndDlg);
-		SetDlgItemInt(hwndDlg, IDC_PORT, db_get_w(NULL, szModuleName, "Port", 6600), FALSE);
+public:
+	COptWaMpdDlg() : CDlgBase(hInst, IDD_OPT_WA_MPD),
+		edit_PORT(this, IDC_PORT), edit_SERVER(this, IDC_SERVER), edit_PASSWORD(this, IDC_PASSWORD)
+	{}
+	virtual void OnInitDialog() override
+	{
+		edit_PORT.SetInt(db_get_w(NULL, szModuleName, "Port", 6600));
 		wchar_t *tmp = UniGetContactSettingUtf(NULL, szModuleName, "Server", L"127.0.0.1");
-		SetDlgItemText(hwndDlg, IDC_SERVER, tmp);
+		edit_SERVER.SetText(tmp);
 		mir_free(tmp);
 		tmp = UniGetContactSettingUtf(NULL, szModuleName, "Password", L"");
-		SetDlgItemText(hwndDlg, IDC_PASSWORD, tmp);
+		edit_PASSWORD.SetText(tmp);
 		mir_free(tmp);
-      return TRUE;
-    }
-    
- 
-  case WM_COMMAND:
-    {
-      SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-      break;
-    }
-    
-  case WM_NOTIFY:
-    {
-      switch (((LPNMHDR)lParam)->code)
-      {
-        
-      case PSN_APPLY:
-        {
-			wchar_t szText[256];
-			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, nullptr, FALSE));
-			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, nullptr, FALSE);
-			GetDlgItemText(hwndDlg, IDC_SERVER, szText, _countof(szText));
-			db_set_ws(NULL, szModuleName, "Server", szText);
-			mir_wstrcpy(gbHost, szText);
-			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, _countof(szText));
-			db_set_ws(NULL, szModuleName, "Password", szText);
-			mir_wstrcpy(gbPassword, szText);
-          return TRUE;
-        }
-      }
-    }
-    break;
-  }
+	}
+	virtual void OnApply() override
+	{
+		db_set_w(NULL, szModuleName, "Port", (WORD)edit_PORT.GetInt());
+		gbPort = edit_PORT.GetInt();
+		db_set_ws(NULL, szModuleName, "Server", edit_SERVER.GetText());
+		mir_wstrcpy(gbHost, edit_SERVER.GetText());
+		db_set_ws(NULL, szModuleName, "Password", edit_PASSWORD.GetText());
+		mir_wstrcpy(gbPassword, edit_PASSWORD.GetText());
+	}
+private:
+	CCtrlSpin edit_PORT;
+	CCtrlEdit edit_SERVER, edit_PASSWORD;
+};
 
-  return FALSE;
-}
 
 int WaMpdOptInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WA_MPD);
 	odp.szTitle.w = LPGENW("Winamp Track");
 	odp.szGroup.w = LPGENW("Plugins");
 	odp.szTab.w = LPGENW("Watrack MPD");
 	odp.flags=ODPF_BOLDGROUPS|ODPF_UNICODE;
-	odp.pfnDlgProc = DlgProcWaMpdOpts;
+	odp.pDialog = new COptWaMpdDlg();
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
