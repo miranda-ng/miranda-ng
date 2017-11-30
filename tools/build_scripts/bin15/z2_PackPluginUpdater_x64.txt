@@ -43,7 +43,6 @@ Plugins\dbeditorpp.dll
 Plugins\dbx_mmap.dll
 Plugins\db_autobackups.dll
 Plugins\discord.dll
-Plugins\dropbox.dll
 Plugins\dummy.dll
 Plugins\emlanproto.dll
 Plugins\exchange.dll
@@ -141,7 +140,6 @@ Plugins\stopspam.dll
 Plugins\stopspammod.dll
 Plugins\tabsrmm.dll
 Plugins\tipper.dll
-Plugins\tlen.dll
 Plugins\toaster.dll
 Plugins\tooltipnotify.dll
 Plugins\toptoolbar.dll
@@ -209,7 +207,6 @@ Icons\fp_icons.dll
 Icons\historypp_icons.dll
 Icons\proto_aim.dll
 Icons\proto_discord.dll
-Icons\proto_dropbox.dll
 Icons\proto_dummy.dll
 Icons\proto_facebook.dll
 Icons\proto_gg.dll
@@ -227,7 +224,6 @@ Icons\proto_quotes.dll
 Icons\proto_sametime.dll
 Icons\proto_skype.dll
 Icons\proto_steam.dll
-Icons\proto_tlen.dll
 Icons\proto_tox.dll
 Icons\proto_twitter.dll
 Icons\proto_vkontakte.dll
