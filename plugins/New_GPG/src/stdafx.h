@@ -68,6 +68,7 @@ using std::fstream;
 #include <m_icolib.h>
 #include <m_extraicons.h>
 #include <m_string.h>
+#include <m_gui.h>
 #include <win2k.h>
 
 #include <m_metacontacts.h>
