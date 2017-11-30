@@ -6,6 +6,5 @@ else()
 endif()
 set(TARGET mir_app)
 include(${CMAKE_SOURCE_DIR}/cmake/lib.cmake)
-
+target_link_libraries(${TARGET} Zlib UxTheme.lib ws2_32.lib)
 set_target_properties(${TARGET} PROPERTIES COMPILE_DEFINITIONS "MIR_APP_EXPORTS")
-target_link_libraries(${TARGET} Zlib)

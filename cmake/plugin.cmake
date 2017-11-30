@@ -11,4 +11,3 @@ set_target_properties(${TARGET} PROPERTIES
 	LINK_FLAGS "/SUBSYSTEM:WINDOWS"
 	RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/$<CONFIG>/Plugins"
 )
-target_link_libraries(${TARGET} ${COMMON_LIBS})

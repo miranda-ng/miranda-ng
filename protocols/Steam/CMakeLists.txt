@@ -1,4 +1,5 @@
 file(GLOB SOURCES "src/*.h" "src/api/*.h" "src/*.cpp" "res/*.rc")
 set(TARGET Steam)
 include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+target_link_libraries(${TARGET} libjson comctl32.lib)
 add_subdirectory(proto_steam)

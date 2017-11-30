@@ -12,4 +12,3 @@ set_target_properties(${TARGET} PROPERTIES
 	SUFFIX ".mir"
 	RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/$<CONFIG>/Libs"
 )
-target_link_libraries(${TARGET} ${COMMON_LIBS})
