@@ -1,7 +1,7 @@
 /*
  * This file defines all needed parameters for one account.
  * Other plugin can use this (so YAMN does not check it and another plugin can inform YAMN about new mail e.g.),
- * this can be usefull for plugins like Yahoo or MSN (Hotmail notify)
+ * this can be usefull for plugins like MSN (Hotmail notify)
  *
  * (c) majvan 2002-2004
  */
