@@ -28,7 +28,12 @@ HWND hwndFirstRun = nullptr, hwndSetDirs = nullptr, hwndNewKey = nullptr, hwndKe
 int itemnum = 0;
 
 HWND hwndList_g = nullptr;
-BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting);
+BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting)
+{
+	BOOL state = IsDlgButtonChecked(hwndDlg, idCtrl);
+	db_set_b(NULL, szGPGModuleName, szSetting, (BYTE)state);
+	return state;
+}
 
 wchar_t key_id_global[17] = { 0 };
 
@@ -348,10 +353,10 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			break;
 		case IDC_OTHER:
 			{
-				void ShowLoadPublicKeyDialog();
+				void ShowLoadPublicKeyDialog(bool = false);
 				item_num = 0;		 //black magic here
 				user_data[1] = 0;
-				ShowLoadPublicKeyDialog();
+				ShowLoadPublicKeyDialog(true);
 				ListView_DeleteAllItems(hwndList);
 				{
 					int i = 1, iRow = 0;

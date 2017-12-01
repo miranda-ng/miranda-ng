@@ -41,10 +41,10 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 				{
 					if (!isContactHaveKey(hContact))
 					{
-						void ShowLoadPublicKeyDialog();
+						void ShowLoadPublicKeyDialog(bool = false);
 						item_num = 0;		 //black magic here
 						user_data[1] = hContact;
-						ShowLoadPublicKeyDialog();
+						ShowLoadPublicKeyDialog(true);
 					}
 					else
 					{
@@ -1001,77 +1001,87 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	return 0;
 }
 
-static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+extern HINSTANCE hInst;
+class CDlgKeyPasswordMsgBox : public CDlgBase //always modal
 {
-	char *inkeyid = nullptr;
-	switch (msg) {
-	case WM_INITDIALOG:
+public:
+	CDlgKeyPasswordMsgBox() : CDlgBase(hInst, IDD_KEY_PASSWD),
+		lbl_KEYID(this, IDC_KEYID),
+		edit_KEY_PASSWORD(this, IDC_KEY_PASSWORD),
+		chk_DEFAULT_PASSWORD(this, IDC_DEFAULT_PASSWORD), chk_SAVE_PASSWORD(this, IDC_SAVE_PASSWORD),
+		btn_OK(this, IDOK), btn_CANCEL(this, IDCANCEL)
+	{
+		btn_OK.OnClick = Callback(this, &CDlgKeyPasswordMsgBox::onClick_OK);
+		btn_CANCEL.OnClick = Callback(this, &CDlgKeyPasswordMsgBox::onClick_CANCEL);
+	}
+	virtual void OnInitDialog() override
+	{
 		inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
 		new_key_hcnt_mutex.unlock();
 
-		SetWindowPos(hwndDlg, nullptr, key_password_rect.left, key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-		TranslateDialogDefault(hwndDlg);
+		SetWindowPos(m_hwnd, nullptr, key_password_rect.left, key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		{
 			string questionstr = "Please enter password for key with ID: ";
 			questionstr += inkeyid;
 			mir_free(inkeyid);
-			SetDlgItemTextA(hwndDlg, IDC_KEYID, questionstr.c_str());
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULT_PASSWORD), 0);
+			lbl_KEYID.SetTextA(questionstr.c_str());
+			chk_DEFAULT_PASSWORD.Disable();
 		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			{
-				wchar_t tmp[64];
-				GetDlgItemText(hwndDlg, IDC_KEY_PASSWORD, tmp, _countof(tmp));
-				if (tmp[0]) {
-					extern wchar_t *password;
-					if (IsDlgButtonChecked(hwndDlg, IDC_SAVE_PASSWORD)) {
-						inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
-						if (inkeyid && inkeyid[0] && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULT_PASSWORD)) {
-							string dbsetting = "szKey_";
-							dbsetting += inkeyid;
-							dbsetting += "_Password";
-							db_set_ws(NULL, szGPGModuleName, dbsetting.c_str(), tmp);
-						}
-						else db_set_ws(NULL, szGPGModuleName, "szKeyPassword", tmp);
-					}
-					if (password)
-						mir_free(password);
-					password = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(tmp) + 1));
-					mir_wstrcpy(password, tmp);
-				}
-				mir_free(inkeyid);
-				DestroyWindow(hwndDlg);
-			}
-			break;
-
-		case IDCANCEL:
-			mir_free(inkeyid);
-			_terminate = true;
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
+	}
+	virtual void OnClose() override
+	{
+		DestroyWindow(m_hwnd);
+	}
+	virtual void OnDestroy() override
+	{
 		mir_free(inkeyid);
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		GetWindowRect(hwndDlg, &key_password_rect);
+		GetWindowRect(m_hwnd, &key_password_rect);
 		db_set_dw(NULL, szGPGModuleName, "PasswordWindowX", key_password_rect.left);
 		db_set_dw(NULL, szGPGModuleName, "PasswordWindowY", key_password_rect.top);
-		break;
+		delete this;
 	}
-	return FALSE;
-}
+	void onClick_OK(CCtrlButton*)
+	{
+		wchar_t *tmp = mir_wstrdup(edit_KEY_PASSWORD.GetText());
+		if (tmp && tmp[0]) {
+			extern wchar_t *password;
+			if (chk_SAVE_PASSWORD.GetState()) {
+				inkeyid = UniGetContactSettingUtf(new_key_hcnt, szGPGModuleName, "InKeyID", "");
+				if (inkeyid && inkeyid[0] && !chk_DEFAULT_PASSWORD.GetState()) {
+					string dbsetting = "szKey_";
+					dbsetting += inkeyid;
+					dbsetting += "_Password";
+					db_set_ws(NULL, szGPGModuleName, dbsetting.c_str(), tmp);
+				}
+				else 
+					db_set_ws(NULL, szGPGModuleName, "szKeyPassword", tmp);
+			}
+			if (password)
+				mir_free(password);
+			password = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(tmp) + 1));
+			mir_wstrcpy(password, tmp);
+		}
+		mir_free(inkeyid);
+		DestroyWindow(m_hwnd);
+	}
+	void onClick_CANCEL(CCtrlButton*)
+	{
+		_terminate = true;
+		DestroyWindow(m_hwnd);
+	}
+private:
+	char *inkeyid = nullptr;
+	CCtrlData lbl_KEYID;
+	CCtrlEdit edit_KEY_PASSWORD;
+	CCtrlCheck chk_DEFAULT_PASSWORD, chk_SAVE_PASSWORD;
+	CCtrlButton btn_OK, btn_CANCEL;
+};
+
+
 
 void ShowLoadKeyPasswordWindow()
 {
-	extern HINSTANCE hInst;
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_KEY_PASSWD), nullptr, DlgProcKeyPassword);
+	CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox;
+	d->DoModal();
+	d->Show();
 }

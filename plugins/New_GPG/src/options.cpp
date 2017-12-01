@@ -20,28 +20,13 @@ extern HINSTANCE hInst;
 extern bool bJabberAPI, bFileTransfers;
 
 
-BOOL CheckStateLoadDB(HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef)
-{
-	BOOL state = db_get_b(NULL, szGPGModuleName, szSetting, bDef);
-	CheckDlgButton(hwndDlg, idCtrl, state ? BST_CHECKED : BST_UNCHECKED);
-	return state;
-}
-
-BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting)
-{
-	BOOL state = IsDlgButtonChecked(hwndDlg, idCtrl);
-	db_set_b(NULL, szGPGModuleName, szSetting, (BYTE)state);
-	return state;
-}
-
-
 map<int, MCONTACT> user_data;
 
 int item_num = 0;
 HWND hwndList_p = nullptr;
 HWND hwndCurKey_p = nullptr;
 
-void ShowLoadPublicKeyDialog();
+void ShowLoadPublicKeyDialog(bool = false);
 
 
 class COptGpgMainDlg : public CDlgBase
@@ -383,339 +368,6 @@ private:
 	CCtrlButton btn_DELETE_KEY_BUTTON, btn_SELECT_KEY, btn_SAVE_KEY_BUTTON, btn_COPY_KEY, btn_LOG_FILE_SET;
 };
 
-//TODO: keep this block for a while in case what i have missed something
-/*static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)   
-{
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_USERLIST);
-	hwndList_p = hwndList;
-	hwndCurKey_p = GetDlgItem(hwndDlg, IDC_CURRENT_KEY);
-	LVITEM item = { 0 };
-	NMLISTVIEW *hdr = (NMLISTVIEW *)lParam;
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			LVCOLUMN col = { 0 };
-			col.pszText = TranslateT("Contact");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 60;
-			ListView_InsertColumn(hwndList, 0, &col);
-			
-			col.pszText = TranslateT("Key ID");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 50;
-			ListView_InsertColumn(hwndList, 1, &col);
-			
-			col.pszText = TranslateT("Name");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 50;
-			ListView_InsertColumn(hwndList, 2, &col);
-			
-			col.pszText = TranslateT("Email");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 50;
-			ListView_InsertColumn(hwndList, 3, &col);
-			
-			col.pszText = TranslateT("Protocol");
-			col.mask = LVCF_TEXT | LVCF_WIDTH;
-			col.fmt = LVCFMT_LEFT;
-			col.cx = 60;
-			ListView_InsertColumn(hwndList, 4, &col);
-			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
-			int i = 1, iRow = 0;
-			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
-				if (isContactHaveKey(hContact)) {
-					wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
-					item.mask = LVIF_TEXT;
-					item.iItem = i;
-					item.iSubItem = 0;
-					item.pszText = name;
-					iRow = ListView_InsertItem(hwndList, &item);
-					ListView_SetItemText(hwndList, iRow, 0, name);
-					
-					wchar_t *tmp = mir_a2u(GetContactProto(hContact));
-					ListView_SetItemText(hwndList, iRow, 4, tmp);
-					mir_free(tmp);
-					
-					char *tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
-					tmp = mir_a2u(tmp2);
-					mir_free(tmp2);
-					ListView_SetItemText(hwndList, iRow, 1, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
-					mir_free(tmp);
-					
-					tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainName", "");
-					if (!toUTF16(tmp2).empty())
-						tmp = mir_wstrdup(toUTF16(tmp2).c_str());
-					else
-						tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainName", L"");
-					mir_free(tmp2);
-					ListView_SetItemText(hwndList, iRow, 2, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
-					mir_free(tmp);
-					
-					tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainEmail", "");
-					if (!toUTF16(tmp2).empty())
-						tmp = mir_wstrdup(toUTF16(tmp2).c_str());
-					else
-						tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyMainEmail", L"");
-					mir_free(tmp2);
-					ListView_SetItemText(hwndList, iRow, 3, (mir_wstrlen(tmp) > 1) ? tmp : L"not set");
-					mir_free(tmp);
-					
-					if (db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0))
-						ListView_SetCheckState(hwndList, iRow, 1);
-					user_data[i] = hContact;
-					memset(&item, 0, sizeof(item));
-					ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);// not sure about this
-					ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList, 4, LVSCW_AUTOSIZE);
-					i++;
-				}
-			}
-			wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", L"");
-			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, (mir_wstrlen(tmp) > 1) ? tmp : L"c:\\GPGdebug.log");
-			mir_free(tmp);
-			CheckStateLoadDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog", 0);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_JABBER_API), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), bJabberAPI);
-			{
-				string keyinfo = Translate("Default private key ID");
-				keyinfo += ": ";
-				char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-				keyinfo += (mir_strlen(keyid) > 0) ? keyid : Translate("not set");
-				mir_free(keyid);
-				SetDlgItemTextA(hwndDlg, IDC_CURRENT_KEY, keyinfo.c_str());
-			}
-			CheckStateLoadDB(hwndDlg, IDC_JABBER_API, "bJabberAPI", 1);
-			CheckStateLoadDB(hwndDlg, IDC_FILE_TRANSFERS, "bFileTransfers", 0);
-			CheckStateLoadDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange", 0);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_DELETE_KEY_BUTTON:
-			void setClistIcon(MCONTACT hContact);
-			void setSrmmIcon(MCONTACT hContact);
-			{ //gpg execute block
-				wchar_t *ptmp;
-				char *tmp;
-				bool keep = false;
-				bool ismetacontact = false;
-				MCONTACT meta = NULL;
-				MCONTACT hContact = user_data[item_num + 1];
-				if (db_mc_isMeta(hContact)) {
-					meta = hContact;
-					hContact = metaGetMostOnline(hContact);
-					ismetacontact = true;
-				}
-				else if ((meta = db_mc_getMeta(user_data[item_num + 1])) != NULL) {
-					hContact = metaGetMostOnline(meta);
-					ismetacontact = true;
-				}
-				tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
-				for (MCONTACT hcnttmp = db_find_first(); hcnttmp != NULL; hcnttmp = db_find_next(hcnttmp)) {
-					if (hcnttmp != hContact) {
-						char *tmp2 = UniGetContactSettingUtf(hcnttmp, szGPGModuleName, "KeyID", "");
-						if (!mir_strcmp(tmp, tmp2)) {
-							mir_free(tmp2);
-							keep = true;
-							break;
-						}
-						mir_free(tmp2);
-					}
-				}
-				if (!keep)
-					if (MessageBox(nullptr, TranslateT("This key is not used by any contact. Do you want to remove it from public keyring?"), TranslateT("Key info"), MB_YESNO) == IDYES) {
-						std::vector<wstring> cmd;
-						string output;
-						DWORD exitcode;
-						cmd.push_back(L"--batch");
-						cmd.push_back(L"--yes");
-						cmd.push_back(L"--delete-key");
-						ptmp = mir_a2u(tmp);
-						cmd.push_back(ptmp);
-						mir_free(ptmp);
-						gpg_execution_params params(cmd);
-						pxResult result;
-						params.out = &output;
-						params.code = &exitcode;
-						params.result = &result;
-						if (!gpg_launcher(params)) {
-							mir_free(tmp);
-							break;
-						}
-						if (result == pxNotFound) {
-							mir_free(tmp);
-							break;
-						}
-						if (output.find("--delete-secret-keys") != string::npos)
-							MessageBox(nullptr, TranslateT("we have secret key for this public key, do not removing from GPG keyring"), TranslateT("info"), MB_OK);
-						else
-							MessageBox(nullptr, TranslateT("Key removed from GPG keyring"), TranslateT("info"), MB_OK);
-					}
-				mir_free(tmp);
-				if (ismetacontact) {
-					if (MessageBox(nullptr, TranslateT("Do you want to remove key from entire metacontact (all subcontacts)?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
-						MCONTACT hcnt = NULL;
-						int count = db_mc_getSubCount(meta);
-						for (int i = 0; i < count; i++) {
-							hcnt = db_mc_getSub(meta, i);
-							if (hcnt) {
-								db_unset(hcnt, szGPGModuleName, "KeyID");
-								db_unset(hcnt, szGPGModuleName, "GPGPubKey");
-								db_unset(hcnt, szGPGModuleName, "KeyMainName");
-								db_unset(hcnt, szGPGModuleName, "KeyType");
-								db_unset(hcnt, szGPGModuleName, "KeyMainEmail");
-								db_unset(hcnt, szGPGModuleName, "KeyComment");
-								setClistIcon(hcnt);
-								setSrmmIcon(hcnt);
-							}
-						}
-					}
-					else {
-						db_unset(hContact, szGPGModuleName, "KeyID");
-						db_unset(hContact, szGPGModuleName, "GPGPubKey");
-						db_unset(hContact, szGPGModuleName, "KeyMainName");
-						db_unset(hContact, szGPGModuleName, "KeyType");
-						db_unset(hContact, szGPGModuleName, "KeyMainEmail");
-						db_unset(hContact, szGPGModuleName, "KeyComment");
-						setClistIcon(hContact);
-						setSrmmIcon(hContact);
-					}
-				}
-				else {
-					db_unset(user_data[item_num + 1], szGPGModuleName, "KeyID");
-					db_unset(user_data[item_num + 1], szGPGModuleName, "GPGPubKey");
-					db_unset(user_data[item_num + 1], szGPGModuleName, "KeyMainName");
-					db_unset(user_data[item_num + 1], szGPGModuleName, "KeyType");
-					db_unset(user_data[item_num + 1], szGPGModuleName, "KeyMainEmail");
-					db_unset(user_data[item_num + 1], szGPGModuleName, "KeyComment");
-					setClistIcon(user_data[item_num + 1]);
-					setSrmmIcon(user_data[item_num + 1]);
-				}
-			}
-			ListView_SetItemText(hwndList, item_num, 3, TranslateT("not set"));
-			ListView_SetItemText(hwndList, item_num, 2, TranslateT("not set"));
-			ListView_SetItemText(hwndList, item_num, 1, TranslateT("not set"));
-			break;
-
-		case IDC_SELECT_KEY:
-			void ShowFirstRunDialog();
-			ShowFirstRunDialog();
-			break;
-
-		case IDC_SAVE_KEY_BUTTON:
-			{
-				wchar_t *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
-				if (tmp) {
-					wstring str(ptrW(UniGetContactSettingUtf(user_data[item_num + 1], szGPGModuleName, "GPGPubKey", L"")));
-					wstring::size_type s = 0;
-					while ((s = str.find(L"\r", s)) != wstring::npos)
-						str.erase(s, 1);
-
-					wfstream f(tmp, std::ios::out);
-					delete[] tmp;
-					f << str.c_str();
-					f.close();
-				}
-			}
-			break;
-
-		case IDC_COPY_KEY:
-			if (OpenClipboard(hwndDlg)) {
-				char *szKey = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
-				std::string str = szKey;
-				mir_free(szKey);
-				boost::algorithm::replace_all(str, "\n", "\r\n");
-				HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, str.size() + 1);
-				if (!hMem) {
-					MessageBox(nullptr, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				szKey = (char*)GlobalLock(hMem);
-				if (!szKey) {
-					wchar_t msg[64];
-					mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
-					MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
-					GlobalFree(hMem);
-				}
-				else {
-					memcpy(szKey, str.c_str(), str.size());
-					szKey[str.size()] = '\0';
-					str.clear();
-					EmptyClipboard();
-					GlobalUnlock(hMem);
-					if (!SetClipboardData(CF_OEMTEXT, hMem)) {
-						GlobalFree(hMem);
-						wchar_t msg[64];
-						mir_snwprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
-						MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
-					}
-					CloseClipboard();
-				}
-			}
-			else {
-				wchar_t msg[64];
-				mir_snwprintf(msg, TranslateT("Failed to open clipboard with error %d"), GetLastError());
-				MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
-			}
-			break;
-
-		case IDC_LOG_FILE_SET:
-			SetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, ptrW(GetFilePath(TranslateT("Set log file"), L"*", TranslateT("LOG files"), 1)));
-			break;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), IsDlgButtonChecked(hwndDlg, IDC_JABBER_API));
-		if (hdr && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1)) {
-			if (hdr->hdr.code == NM_CLICK)
-				item_num = hdr->iItem;
-			else if (hdr->hdr.code == LVN_ITEMCHANGED) {
-				void setClistIcon(MCONTACT hContact);
-				void setSrmmIcon(MCONTACT hContact);
-				if (ListView_GetCheckState(hwndList, item_num))
-					db_set_b(user_data[item_num + 1], szGPGModuleName, "GPGEncryption", 1);
-				else
-					db_set_b(user_data[item_num + 1], szGPGModuleName, "GPGEncryption", 0);
-				setClistIcon(user_data[item_num + 1]);
-				setSrmmIcon(user_data[item_num + 1]);
-			}
-		}
-
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			bDebugLog = CheckStateStoreDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog") != 0;
-			if (bDebugLog)
-				debuglog.init();
-			bJabberAPI = CheckStateStoreDB(hwndDlg, IDC_JABBER_API, "bJabberAPI") != 0;
-			bool old_bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0) != 0;
-			bFileTransfers = CheckStateStoreDB(hwndDlg, IDC_FILE_TRANSFERS, "bFileTransfers") != 0;
-			if (bFileTransfers != old_bFileTransfers) {
-				db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
-				bSameAction = false;
-			}
-			bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0;
-			{
-				wchar_t tmp[512];
-				GetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp, _countof(tmp));
-				db_set_ws(NULL, szGPGModuleName, "szLogFilePath", tmp);
-			}
-			return TRUE;
-		}
-		break;
-	}
-
-	return FALSE;
-}*/
 
 class COptGpgBinDlg : public CDlgBase
 {
@@ -902,187 +554,272 @@ static LRESULT CALLBACK editctrl_ctrl_a(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return mir_callNextSubclass(hwndDlg, editctrl_ctrl_a, msg, wParam, lParam);
 }
 
-static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class CDlgLoadPubKeyDlg : public CDlgBase
 {
-	static MCONTACT hContact;
-	wstring key_buf;
-	wstring::size_type ws1 = 0, ws2 = 0;
-	switch (uMsg) {
-	case WM_INITDIALOG:
+public:
+	CDlgLoadPubKeyDlg() : CDlgBase(hInst, IDD_LOAD_PUBLIC_KEY),
+		chk_ENABLE_ENCRYPTION(this, IDC_ENABLE_ENCRYPTION),
+		btn_SELECT_EXISTING(this, IDC_SELECT_EXISTING), btn_OK(this, ID_OK), btn_LOAD_FROM_FILE(this, ID_LOAD_FROM_FILE), btn_IMPORT(this, IDC_IMPORT),
+		edit_PUBLIC_KEY_EDIT(this, IDC_PUBLIC_KEY_EDIT)
+	{
+		btn_SELECT_EXISTING.OnClick = Callback(this, &CDlgLoadPubKeyDlg::onClick_SELECT_EXISTING);
+		btn_OK.OnClick = Callback(this, &CDlgLoadPubKeyDlg::onClick_OK);
+		btn_LOAD_FROM_FILE.OnClick = Callback(this, &CDlgLoadPubKeyDlg::onClick_LOAD_FROM_FILE);
+		btn_IMPORT.OnClick = Callback(this, &CDlgLoadPubKeyDlg::onClick_IMPORT);
+	}
+	virtual void OnInitDialog() override
+	{
+		hContact = user_data[1];
+		SetWindowPos(m_hwnd, nullptr, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
+		MCONTACT hcnt = db_mc_tryMeta(hContact);
 		{
-			hContact = user_data[1];
-			SetWindowPos(hwndDlg, nullptr, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
-			MCONTACT hcnt = db_mc_tryMeta(hContact);
-			TranslateDialogDefault(hwndDlg);
-			{
-				wstring msg = TranslateT("Load Public GPG Key for ");
-				msg += pcli->pfnGetContactDisplayName(hcnt, 0);
-				SetWindowText(hwndDlg, msg.c_str());
-			}
-			if (!hcnt) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SELECT_EXISTING), 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ENABLE_ENCRYPTION), 0);
-			}
-			if (isContactSecured(hcnt))
-				SetDlgItemText(hwndDlg, IDC_ENABLE_ENCRYPTION, TranslateT("Turn off encryption"));
-			else {
-				SetDlgItemText(hwndDlg, IDC_ENABLE_ENCRYPTION, TranslateT("Turn on encryption"));
-				CheckDlgButton(hwndDlg, IDC_ENABLE_ENCRYPTION, BST_CHECKED);
-			}
-			if (hcnt) {
-				wchar_t *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
-				wstring str = tmp;
-				mir_free(tmp); tmp = nullptr;
-				if (!str.empty()) {
-					wstring::size_type p = 0, stop = 0;
-					for (;;) {
-						if ((p = str.find(L"\n", p + 2)) != wstring::npos) {
-							if (p > stop) {
-								stop = p;
-								str.insert(p, L"\r");
-							}
-							else break;
-						}
-					}
-				}
-				//			char *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "KeyID_Prescense", "");
-				if (!hcontact_data[hcnt].key_in_prescense.empty()) {
-					char *tmp2 = UniGetContactSettingUtf(hcnt, szGPGModuleName, "KeyID", "");
-					if (!tmp2[0]) {
-						string out;
-						DWORD code;
-						std::vector<wstring> cmd;
-						cmd.push_back(L"--export");
-						cmd.push_back(L"-a");
-						cmd.push_back(toUTF16(hcontact_data[hcnt].key_in_prescense));
-						gpg_execution_params params(cmd);
-						pxResult result;
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_launcher(params); //TODO: handle errors
-						if ((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos)) {
-							boost::algorithm::replace_all(out, "\n", "\r\n");
-
-							wchar_t *tmp3 = mir_a2u(out.c_str());
-							str.clear();
-							str.append(tmp3);
-							mir_free(tmp3);
-							string msg = Translate("Load Public GPG Key for ");
-							msg += _T2A(pcli->pfnGetContactDisplayName(hcnt, 0));
-							msg += " (Key ID: ";
-							msg += hcontact_data[hcnt].key_in_prescense;
-							msg += Translate(" found in presence, and exists in keyring.)");
-							SetWindowTextA(hwndDlg, msg.c_str());
-						}
-						else {
-							string msg = Translate("Load Public GPG Key (Key ID: ");
-							msg += hcontact_data[hcnt].key_in_prescense;
-							msg += Translate(" found in presence.)");
-							SetWindowTextA(hwndDlg, msg.c_str());
-							EnableWindow(GetDlgItem(hwndDlg, IDC_IMPORT), 1);
-						}
-					}
-					mir_free(tmp2);
-				}
-				if (tmp)
-					mir_free(tmp);
-				SetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, !str.empty() ? str.c_str() : L"");
-			}
-			hPubKeyEdit = GetDlgItem(hwndDlg, IDC_PUBLIC_KEY_EDIT);
-			return TRUE;
+			wstring msg = TranslateT("Load Public GPG Key for ");
+			msg += pcli->pfnGetContactDisplayName(hcnt, 0);
+			this->SetCaption(msg.c_str());
 		}
+		if (!hcnt) {
+			btn_SELECT_EXISTING.Disable();
+			chk_ENABLE_ENCRYPTION.Disable();
+		}
+		if (isContactSecured(hcnt))
+			chk_ENABLE_ENCRYPTION.SetText(TranslateT("Turn off encryption"));
+		else {
+			chk_ENABLE_ENCRYPTION.SetText(TranslateT("Turn on encryption"));
+			chk_ENABLE_ENCRYPTION.SetState(1);
+		}
+		if (hcnt) {
+			wchar_t *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
+			wstring str = tmp;
+			mir_free(tmp); tmp = nullptr;
+			if (!str.empty()) {
+				wstring::size_type p = 0, stop = 0;
+				for (;;) {
+					if ((p = str.find(L"\n", p + 2)) != wstring::npos) {
+						if (p > stop) {
+							stop = p;
+							str.insert(p, L"\r");
+						}
+						else break;
+					}
+				}
+			}
+			//			char *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "KeyID_Prescense", "");
+			if (!hcontact_data[hcnt].key_in_prescense.empty()) {
+				char *tmp2 = UniGetContactSettingUtf(hcnt, szGPGModuleName, "KeyID", "");
+				if (!tmp2[0]) {
+					string out;
+					DWORD code;
+					std::vector<wstring> cmd;
+					cmd.push_back(L"--export");
+					cmd.push_back(L"-a");
+					cmd.push_back(toUTF16(hcontact_data[hcnt].key_in_prescense));
+					gpg_execution_params params(cmd);
+					pxResult result;
+					params.out = &out;
+					params.code = &code;
+					params.result = &result;
+					gpg_launcher(params); //TODO: handle errors
+					if ((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos)) {
+						boost::algorithm::replace_all(out, "\n", "\r\n");
 
-	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case ID_OK:
-				{
-					wchar_t *tmp = new wchar_t[40960];
-					wchar_t *begin, *end;
-					GetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, tmp, 40960);
-					key_buf.append(tmp);
-					key_buf.append(L"\n"); //no new line at end of file )
-					delete[] tmp;
-					while ((ws1 = key_buf.find(L"\r", ws1)) != wstring::npos) {
-						key_buf.erase(ws1, 1); //remove windows specific trash
-					}
-					ws1 = 0;
-					if (((ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos)) {
-						begin = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----BEGIN PGP PUBLIC KEY BLOCK-----") + 1));
-						mir_wstrcpy(begin, L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
-						end = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----") + 1));
-						mir_wstrcpy(end, L"-----END PGP PUBLIC KEY BLOCK-----");
-					}
-					else if (((ws2 = key_buf.find(L"-----END PGP PRIVATE KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----")) != wstring::npos)) {
-						begin = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----BEGIN PGP PRIVATE KEY BLOCK-----") + 1));
-						mir_wstrcpy(begin, L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
-						end = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----END PGP PRIVATE KEY BLOCK-----") + 1));
-						mir_wstrcpy(end, L"-----END PGP PRIVATE KEY BLOCK-----");
+						wchar_t *tmp3 = mir_a2u(out.c_str());
+						str.clear();
+						str.append(tmp3);
+						mir_free(tmp3);
+						string msg = Translate("Load Public GPG Key for ");
+						msg += _T2A(pcli->pfnGetContactDisplayName(hcnt, 0));
+						msg += " (Key ID: ";
+						msg += hcontact_data[hcnt].key_in_prescense;
+						msg += Translate(" found in presence, and exists in keyring.)");
+						SetCaption(toUTF16(msg).c_str());
 					}
 					else {
-						MessageBox(nullptr, TranslateT("This is not public or private key"), L"INFO", MB_OK);
-						break;
+						string msg = Translate("Load Public GPG Key (Key ID: ");
+						msg += hcontact_data[hcnt].key_in_prescense;
+						msg += Translate(" found in presence.)");
+						SetCaption(toUTF16(msg).c_str());
+						btn_IMPORT.Enable();
 					}
-					ws2 += mir_wstrlen(end);
-					bool allsubcontacts = false;
+				}
+				mir_free(tmp2);
+			}
+			if (tmp)
+				mir_free(tmp);
+			edit_PUBLIC_KEY_EDIT.SetText(!str.empty() ? str.c_str() : L"");
+		}
+		hPubKeyEdit = edit_PUBLIC_KEY_EDIT.GetHwnd();
+	}
+	virtual void OnClose() override
+	{
+		DestroyWindow(m_hwnd);
+	}
+	virtual void OnDestroy() override
+	{
+		GetWindowRect(m_hwnd, &load_key_rect);
+		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowX", load_key_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", load_key_rect.top);
+		delete this;
+	}
+	void onClick_SELECT_EXISTING(CCtrlButton*)
+	{
+		void ShowSelectExistingKeyDialog();
+		ShowSelectExistingKeyDialog();
+	}
+	void onClick_OK(CCtrlButton*)
+	{
+		wchar_t *tmp = mir_wstrdup(edit_PUBLIC_KEY_EDIT.GetText());
+		wchar_t *begin, *end;
+		key_buf.append(tmp);
+		key_buf.append(L"\n"); //no new line at end of file )
+		mir_free(tmp);
+		while ((ws1 = key_buf.find(L"\r", ws1)) != wstring::npos) {
+			key_buf.erase(ws1, 1); //remove windows specific trash
+		}
+		ws1 = 0;
+		if (((ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos)) {
+			begin = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----BEGIN PGP PUBLIC KEY BLOCK-----") + 1));
+			mir_wstrcpy(begin, L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
+			end = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----") + 1));
+			mir_wstrcpy(end, L"-----END PGP PUBLIC KEY BLOCK-----");
+		}
+		else if (((ws2 = key_buf.find(L"-----END PGP PRIVATE KEY BLOCK-----")) != wstring::npos) && ((ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----")) != wstring::npos)) {
+			begin = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----BEGIN PGP PRIVATE KEY BLOCK-----") + 1));
+			mir_wstrcpy(begin, L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
+			end = (wchar_t*)mir_alloc(sizeof(wchar_t) * (mir_wstrlen(L"-----END PGP PRIVATE KEY BLOCK-----") + 1));
+			mir_wstrcpy(end, L"-----END PGP PRIVATE KEY BLOCK-----");
+		}
+		else {
+			MessageBox(nullptr, TranslateT("This is not public or private key"), L"INFO", MB_OK);
+			return;
+		}
+		ws2 += mir_wstrlen(end);
+		bool allsubcontacts = false;
+		{
+			if (db_mc_isMeta(hContact)) {
+				if (MessageBox(nullptr, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
+					allsubcontacts = true;
+					int count = db_mc_getSubCount(hContact);
+					for (int i = 0; i < count; i++) {
+						MCONTACT hcnt = db_mc_getSub(hContact, i);
+						if (hcnt)
+							db_set_ws(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+					}
+				}
+				else db_set_ws(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+			}
+			else db_set_ws(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+		}
+		tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * (key_buf.length() + 1));
+		mir_wstrcpy(tmp, key_buf.substr(ws1, ws2 - ws1).c_str());
+		{ //gpg execute block
+			std::vector<wstring> cmd;
+			wchar_t tmp2[MAX_PATH] = { 0 };
+			wchar_t *ptmp;
+			string output;
+			DWORD exitcode;
+			{
+				MCONTACT hcnt = db_mc_tryMeta(hContact);
+				ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+				wcsncpy(tmp2, ptmp, MAX_PATH - 1);
+				mir_free(ptmp);
+				mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
+				mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
+				boost::filesystem::remove(tmp2);
+				wfstream f(tmp2, std::ios::out);
+				ptmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
+				wstring str = ptmp;
+				mir_free(ptmp);
+				wstring::size_type s = 0;
+				while ((s = str.find(L"\r", s)) != wstring::npos) {
+					str.erase(s, 1);
+				}
+				f << str.c_str();
+				f.close();
+				cmd.push_back(L"--batch");
+				cmd.push_back(L"--import");
+				cmd.push_back(tmp2);
+			}
+			gpg_execution_params params(cmd);
+			pxResult result;
+			params.out = &output;
+			params.code = &exitcode;
+			params.result = &result;
+			if (!gpg_launcher(params))
+				return;
+			if (result == pxNotFound)
+				return;
+			mir_free(begin);
+			mir_free(end);
+			if (hContact) {
+				if (db_mc_isMeta(hContact)) {
+					if (allsubcontacts) {
+						int count = db_mc_getSubCount(hContact);
+						for (int i = 0; i < count; i++) {
+							MCONTACT hcnt = db_mc_getSub(hContact, i);
+							if (hcnt)
+								db_unset(hcnt, szGPGModuleName, "bAlwatsTrust");
+						}
+					}
+					else db_unset(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
+				}
+				else db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
+			}
+			{
+				if (output.find("already in secret keyring") != string::npos) {
+					MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
+					boost::filesystem::remove(tmp2);
+					return;
+				}
+				string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
+				string::size_type s2 = output.find(":", s);
+				{
+					char *tmp3 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
+					mir_strcpy(tmp3, output.substr(s, s2 - s).c_str());
+					mir_utf8decode(tmp3, nullptr);
 					{
 						if (db_mc_isMeta(hContact)) {
-							if (MessageBox(nullptr, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
-								allsubcontacts = true;
+							if (allsubcontacts) {
 								int count = db_mc_getSubCount(hContact);
 								for (int i = 0; i < count; i++) {
 									MCONTACT hcnt = db_mc_getSub(hContact, i);
 									if (hcnt)
-										db_set_ws(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+										db_set_s(hcnt, szGPGModuleName, "KeyID", tmp3);
 								}
 							}
-							else db_set_ws(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+							else
+								db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", tmp3);
 						}
-						else db_set_ws(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1, ws2 - ws1).c_str());
+						else
+							db_set_s(hContact, szGPGModuleName, "KeyID", tmp3);
 					}
-					tmp = (wchar_t*)mir_alloc(sizeof(wchar_t) * (key_buf.length() + 1));
-					mir_wstrcpy(tmp, key_buf.substr(ws1, ws2 - ws1).c_str());
-					{ //gpg execute block
-						std::vector<wstring> cmd;
-						wchar_t tmp2[MAX_PATH] = { 0 };
-						wchar_t *ptmp;
-						string output;
-						DWORD exitcode;
-						{
-							MCONTACT hcnt = db_mc_tryMeta(hContact);
-							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-							wcsncpy(tmp2, ptmp, MAX_PATH - 1);
-							mir_free(ptmp);
-							mir_wstrncat(tmp2, L"\\", _countof(tmp2) - mir_wstrlen(tmp2));
-							mir_wstrncat(tmp2, L"temporary_exported.asc", _countof(tmp2) - mir_wstrlen(tmp2));
-							boost::filesystem::remove(tmp2);
-							wfstream f(tmp2, std::ios::out);
-							ptmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", L"");
-							wstring str = ptmp;
-							mir_free(ptmp);
-							wstring::size_type s = 0;
-							while ((s = str.find(L"\r", s)) != wstring::npos) {
-								str.erase(s, 1);
-							}
-							f << str.c_str();
-							f.close();
-							cmd.push_back(L"--batch");
-							cmd.push_back(L"--import");
-							cmd.push_back(tmp2);
-						}
-						gpg_execution_params params(cmd);
-						pxResult result;
-						params.out = &output;
-						params.code = &exitcode;
-						params.result = &result;
-						if (!gpg_launcher(params))
-							break;
-						if (result == pxNotFound)
-							break;
-						mir_free(begin);
-						mir_free(end);
+					mir_free(tmp3);
+				}
+				tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s)).c_str());
+				if (hContact && hwndList_p)
+					ListView_SetItemText(hwndList_p, item_num, 1, tmp);
+				mir_free(tmp);
+				s = output.find("“", s2);
+				if (s == string::npos) {
+					s = output.find("\"", s2);
+					s += 1;
+				}
+				else
+					s += 3;
+				bool uncommon = false;
+				if ((s2 = output.find("(", s)) == string::npos) {
+					if ((s2 = output.find("<", s)) == string::npos) {
+						s2 = output.find("”", s);
+						uncommon = true;
+					}
+				}
+				else if (s2 > output.find("<", s))
+					s2 = output.find("<", s);
+				if (s2 != string::npos && s != string::npos) {
+					{
+						char *tmp3 = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
+						mir_strcpy(tmp3, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
+						mir_utf8decode(tmp3, nullptr);
 						if (hContact) {
 							if (db_mc_isMeta(hContact)) {
 								if (allsubcontacts) {
@@ -1090,318 +827,231 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg, UINT uMsg, WPARAM wPa
 									for (int i = 0; i < count; i++) {
 										MCONTACT hcnt = db_mc_getSub(hContact, i);
 										if (hcnt)
-											db_unset(hcnt, szGPGModuleName, "bAlwatsTrust");
+											db_set_s(hcnt, szGPGModuleName, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 									}
 								}
-								else db_unset(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
+								else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 							}
-							else db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
+							else db_set_s(hContact, szGPGModuleName, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
 						}
-						{
-							if (output.find("already in secret keyring") != string::npos) {
-								MessageBox(nullptr, TranslateT("Key already in secret keyring."), TranslateT("Info"), MB_OK);
-								boost::filesystem::remove(tmp2);
-								break;
-							}
-							string::size_type s = output.find("gpg: key ") + mir_strlen("gpg: key ");
-							string::size_type s2 = output.find(":", s);
-							{
-								char *tmp3 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1)*sizeof(char));
-								mir_strcpy(tmp3, output.substr(s, s2 - s).c_str());
-								mir_utf8decode(tmp3, nullptr);
-								{
-									if (db_mc_isMeta(hContact)) {
-										if (allsubcontacts) {
-											int count = db_mc_getSubCount(hContact);
-											for (int i = 0; i < count; i++) {
-												MCONTACT hcnt = db_mc_getSub(hContact, i);
-												if (hcnt)
-													db_set_s(hcnt, szGPGModuleName, "KeyID", tmp3);
-											}
+						mir_free(tmp3);
+					}
+					tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s - 1)).c_str());
+					if (hContact && hwndList_p)
+						ListView_SetItemText(hwndList_p, item_num, 2, tmp); //TODO: do something with this
+					mir_free(tmp);
+					if ((s = output.find(")", s2)) == string::npos)
+						s = output.find(">", s2);
+					else if (s > output.find(">", s2))
+						s = output.find(">", s2);
+					s2++;
+					if (s != string::npos && s2 != string::npos) {
+						if (output[s] == ')') {
+							char *tmp3 = (char*)mir_alloc((output.substr(s2, s - s2).length() + 1) * sizeof(char));
+							mir_strcpy(tmp3, output.substr(s2, s - s2).c_str());
+							mir_utf8decode(tmp3, nullptr);
+							if (hContact) {
+								if (db_mc_isMeta(hContact)) {
+									if (allsubcontacts) {
+										int count = db_mc_getSubCount(hContact);
+										for (int i = 0; i < count; i++) {
+											MCONTACT hcnt = db_mc_getSub(hContact, i);
+											if (hcnt)
+												db_set_s(hcnt, szGPGModuleName, "KeyComment", output.substr(s2, s - s2).c_str());
 										}
-										else
-											db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", tmp3);
 									}
-									else
-										db_set_s(hContact, szGPGModuleName, "KeyID", tmp3);
+									else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2, s - s2).c_str());
 								}
-								mir_free(tmp3);
+								else db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2, s - s2).c_str());
 							}
+							mir_free(tmp3);
+							s += 3;
+							s2 = output.find(">", s);
+							tmp3 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
+							mir_strcpy(tmp3, output.substr(s, s2 - s).c_str());
+							mir_utf8decode(tmp3, nullptr);
+							if (hContact) {
+								if (db_mc_isMeta(hContact)) {
+									if (allsubcontacts) {
+										int count = db_mc_getSubCount(hContact);
+										for (int i = 0; i < count; i++) {
+											MCONTACT hcnt = db_mc_getSub(hContact, i);
+											if (hcnt)
+												db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+										}
+									}
+									else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+								}
+								else db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s, s2 - s).c_str());
+							}
+							mir_free(tmp3);
 							tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s)).c_str());
 							if (hContact && hwndList_p)
-								ListView_SetItemText(hwndList_p, item_num, 1, tmp);
+								ListView_SetItemText(hwndList_p, item_num, 3, tmp);
 							mir_free(tmp);
-							s = output.find("“", s2);
-							if (s == string::npos) {
-								s = output.find("\"", s2);
-								s += 1;
-							}
-							else
-								s += 3;
-							bool uncommon = false;
-							if ((s2 = output.find("(", s)) == string::npos) {
-								if ((s2 = output.find("<", s)) == string::npos) {
-									s2 = output.find("”", s);
-									uncommon = true;
-								}
-							}
-							else if (s2 > output.find("<", s))
-								s2 = output.find("<", s);
-							if (s2 != string::npos && s != string::npos) {
-								{
-									char *tmp3 = (char*)mir_alloc(sizeof(char)*(output.substr(s, s2 - s - (uncommon ? 1 : 0)).length() + 1));
-									mir_strcpy(tmp3, output.substr(s, s2 - s - (uncommon ? 1 : 0)).c_str());
-									mir_utf8decode(tmp3, nullptr);
-									if (hContact) {
-										if (db_mc_isMeta(hContact)) {
-											if (allsubcontacts) {
-												int count = db_mc_getSubCount(hContact);
-												for (int i = 0; i < count; i++) {
-													MCONTACT hcnt = db_mc_getSub(hContact, i);
-													if (hcnt)
-														db_set_s(hcnt, szGPGModuleName, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
-												}
-											}
-											else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
-										}
-										else db_set_s(hContact, szGPGModuleName, "KeyMainName", output.substr(s, s2 - s - 1).c_str());
-									}
-									mir_free(tmp3);
-								}
-								tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s - 1)).c_str());
-								if (hContact && hwndList_p)
-									ListView_SetItemText(hwndList_p, item_num, 2, tmp);
-								mir_free(tmp);
-								if ((s = output.find(")", s2)) == string::npos)
-									s = output.find(">", s2);
-								else if (s > output.find(">", s2))
-									s = output.find(">", s2);
-								s2++;
-								if (s != string::npos && s2 != string::npos) {
-									if (output[s] == ')') {
-										char *tmp3 = (char*)mir_alloc((output.substr(s2, s - s2).length() + 1)*sizeof(char));
-										mir_strcpy(tmp3, output.substr(s2, s - s2).c_str());
-										mir_utf8decode(tmp3, nullptr);
-										if (hContact) {
-											if (db_mc_isMeta(hContact)) {
-												if (allsubcontacts) {
-													int count = db_mc_getSubCount(hContact);
-													for (int i = 0; i < count; i++) {
-														MCONTACT hcnt = db_mc_getSub(hContact, i);
-														if (hcnt)
-															db_set_s(hcnt, szGPGModuleName, "KeyComment", output.substr(s2, s - s2).c_str());
-													}
-												}
-												else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2, s - s2).c_str());
-											}
-											else db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2, s - s2).c_str());
-										}
-										mir_free(tmp3);
-										s += 3;
-										s2 = output.find(">", s);
-										tmp3 = (char*)mir_alloc((output.substr(s, s2 - s).length() + 1) * sizeof(char));
-										mir_strcpy(tmp3, output.substr(s, s2 - s).c_str());
-										mir_utf8decode(tmp3, nullptr);
-										if (hContact) {
-											if (db_mc_isMeta(hContact)) {
-												if (allsubcontacts) {
-													int count = db_mc_getSubCount(hContact);
-													for (int i = 0; i < count; i++) {
-														MCONTACT hcnt = db_mc_getSub(hContact, i);
-														if (hcnt)
-															db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s, s2 - s).c_str());
-													}
-												}
-												else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s, s2 - s).c_str());
-											}
-											else db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s, s2 - s).c_str());
-										}
-										mir_free(tmp3);
-										tmp = mir_wstrdup(toUTF16(output.substr(s, s2 - s)).c_str());
-										if (hContact && hwndList_p)
-											ListView_SetItemText(hwndList_p, item_num, 3, tmp);
-										mir_free(tmp);
-									}
-									else {
-										char *tmp3 = (char*)mir_alloc(output.substr(s2, s - s2).length() + 1);
-										mir_strcpy(tmp3, output.substr(s2, s - s2).c_str());
-										mir_utf8decode(tmp3, nullptr);
-										if (hContact) {
-											if (db_mc_isMeta(hContact)) {
-												if (allsubcontacts) {
-													int count = db_mc_getSubCount(hContact);
-													for (int i = 0; i < count; i++) {
-														MCONTACT hcnt = db_mc_getSub(hContact, i);
-														if (hcnt)
-															db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
-													}
-												}
-												else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
-											}
-											else db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
-										}
-										mir_free(tmp3);
-										tmp = mir_wstrdup(toUTF16(output.substr(s2, s - s2)).c_str());
-										if (hContact && hwndList_p)
-											ListView_SetItemText(hwndList_p, item_num, 3, tmp);
-										mir_free(tmp);
-									}
-								}
-							}
-							if (hContact && hwndList_p) {
-								ListView_SetColumnWidth(hwndList_p, 0, LVSCW_AUTOSIZE);
-								ListView_SetColumnWidth(hwndList_p, 1, LVSCW_AUTOSIZE);
-								ListView_SetColumnWidth(hwndList_p, 2, LVSCW_AUTOSIZE);
-								ListView_SetColumnWidth(hwndList_p, 3, LVSCW_AUTOSIZE);
-							}
 						}
-						if (!hContact) {
-							wchar_t *fp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", L"");
-							{
-								string out;
-								DWORD code;
-								std::vector<wstring> cmds;
-								cmds.push_back(L"--batch");
-								cmds.push_back(L"-a");
-								cmds.push_back(L"--export");
-								cmds.push_back(fp);
-								mir_free(fp);
-								gpg_execution_params params2(cmds);
-								pxResult result2;
-								params2.out = &out;
-								params2.code = &code;
-								params2.result = &result2;
-								if (!gpg_launcher(params2))
-									break;
-								if (result2 == pxNotFound)
-									break;
-								string::size_type s = 0;
-								while ((s = out.find("\r", s)) != string::npos) {
-									out.erase(s, 1);
-								}
-								db_set_s(hContact, szGPGModuleName, "GPGPubKey", out.c_str());
-							}
-						}
-						tmp = mir_wstrdup(toUTF16(output).c_str());
-						MessageBox(nullptr, tmp, L"", MB_OK);
-						mir_free(tmp);
-						boost::filesystem::remove(tmp2);
-					}
-					key_buf.clear();
-					if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ENCRYPTION)) {
-						if (hContact) {
-							if (db_mc_isMeta(hContact)) {
-								if (allsubcontacts) {
-									int count = db_mc_getSubCount(hContact);
-									for (int i = 0; i < count; i++) {
-										MCONTACT hcnt = db_mc_getSub(hContact, i);
-										if (hcnt) {
-											if (!isContactSecured(hcnt))
-												db_set_b(hcnt, szGPGModuleName, "GPGEncryption", 1);
-											else
-												db_set_b(hcnt, szGPGModuleName, "GPGEncryption", 0);
-											setSrmmIcon(hContact);
-											setClistIcon(hContact);
+						else {
+							char *tmp3 = (char*)mir_alloc(output.substr(s2, s - s2).length() + 1);
+							mir_strcpy(tmp3, output.substr(s2, s - s2).c_str());
+							mir_utf8decode(tmp3, nullptr);
+							if (hContact) {
+								if (db_mc_isMeta(hContact)) {
+									if (allsubcontacts) {
+										int count = db_mc_getSubCount(hContact);
+										for (int i = 0; i < count; i++) {
+											MCONTACT hcnt = db_mc_getSub(hContact, i);
+											if (hcnt)
+												db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 										}
 									}
+									else db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 								}
-								else if (!isContactSecured(hContact))
-									db_set_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 1);
-								else
-									db_set_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
+								else db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2, s - s2).c_str());
 							}
-							else if (!isContactSecured(hContact))
-								db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
-							else
-								db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+							mir_free(tmp3);
+							tmp = mir_wstrdup(toUTF16(output.substr(s2, s - s2)).c_str());
+							if (hContact && hwndList_p)
+								ListView_SetItemText(hwndList_p, item_num, 3, tmp); //TODO: do something with this
+							mir_free(tmp);
 						}
 					}
-					DestroyWindow(hwndDlg);
 				}
-				break;
-			case ID_LOAD_FROM_FILE:
+				if (hContact && hwndList_p)  //TODO: do something with this
 				{
-					wchar_t *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file"));
-					if (!tmp)
-						break;
-
-					wfstream f(tmp, std::ios::in | std::ios::ate | std::ios::binary);
-					delete[] tmp;
-					if (!f.is_open()) {
-						MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
-						break;
-					}
-					if (f.is_open()) {
-						std::wifstream::pos_type size = f.tellg();
-						wchar_t *temp = new wchar_t[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
-						f.seekg(0, std::ios::beg);
-						f.read(temp, size);
-						temp[size] = '\0';
-						key_buf.append(temp);
-						delete[] temp;
-						f.close();
-					}
-					if (key_buf.empty()) {
-						key_buf.clear();
-						if (bDebugLog)
-							debuglog << std::string(time_str() + ": info: Failed to read key file");
-						break;
-					}
-					ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----");
-					ws1 = key_buf.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
-					if (ws2 == wstring::npos || ws1 == wstring::npos) {
-						ws2 = key_buf.find(L"-----END PGP PRIVATE KEY BLOCK-----");
-						ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
-					}
-					if (ws2 == wstring::npos || ws1 == wstring::npos) {
-						MessageBox(nullptr, TranslateT("There is no public or private key."), TranslateT("Info"), MB_OK);
-						break;
-					}
-					ws2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
-					SetDlgItemText(hwndDlg, IDC_PUBLIC_KEY_EDIT, key_buf.substr(ws1, ws2 - ws1).c_str());
-					key_buf.clear();
+					ListView_SetColumnWidth(hwndList_p, 0, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList_p, 1, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList_p, 2, LVSCW_AUTOSIZE);
+					ListView_SetColumnWidth(hwndList_p, 3, LVSCW_AUTOSIZE);
 				}
-				break;
-
-			case IDC_IMPORT:
-				new_key_hcnt_mutex.lock();
-				new_key_hcnt = hContact;
-				void ShowImportKeyDialog();
-				ShowImportKeyDialog();
-				break;
-
-			case IDC_SELECT_EXISTING:
-				void ShowSelectExistingKeyDialog();
-				ShowSelectExistingKeyDialog();
-				break;
 			}
-			break;
+			if (!hContact) {
+				wchar_t *fp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", L"");
+				{
+					string out;
+					DWORD code;
+					std::vector<wstring> cmds;
+					cmds.push_back(L"--batch");
+					cmds.push_back(L"-a");
+					cmds.push_back(L"--export");
+					cmds.push_back(fp);
+					mir_free(fp);
+					gpg_execution_params params2(cmds);
+					pxResult result2;
+					params2.out = &out;
+					params2.code = &code;
+					params2.result = &result2;
+					if (!gpg_launcher(params2))
+						return;
+					if (result2 == pxNotFound)
+						return;
+					string::size_type s = 0;
+					while ((s = out.find("\r", s)) != string::npos) {
+						out.erase(s, 1);
+					}
+					db_set_s(hContact, szGPGModuleName, "GPGPubKey", out.c_str());
+				}
+			}
+			tmp = mir_wstrdup(toUTF16(output).c_str());
+			MessageBox(nullptr, tmp, L"", MB_OK);
+			mir_free(tmp);
+			boost::filesystem::remove(tmp2);
 		}
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			return TRUE;
+		key_buf.clear();
+		if (chk_ENABLE_ENCRYPTION.GetState()) {
+			if (hContact) {
+				if (db_mc_isMeta(hContact)) {
+					if (allsubcontacts) {
+						int count = db_mc_getSubCount(hContact);
+						for (int i = 0; i < count; i++) {
+							MCONTACT hcnt = db_mc_getSub(hContact, i);
+							if (hcnt) {
+								if (!isContactSecured(hcnt))
+									db_set_b(hcnt, szGPGModuleName, "GPGEncryption", 1);
+								else
+									db_set_b(hcnt, szGPGModuleName, "GPGEncryption", 0);
+								setSrmmIcon(hContact);
+								setClistIcon(hContact);
+							}
+						}
+					}
+					else if (!isContactSecured(hContact))
+						db_set_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 1);
+					else
+						db_set_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
+				}
+				else if (!isContactSecured(hContact))
+					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
+				else
+					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+			}
 		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		GetWindowRect(hwndDlg, &load_key_rect);
-		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowX", load_key_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", load_key_rect.top);
-		break;
+		DestroyWindow(m_hwnd);
 	}
+	void onClick_LOAD_FROM_FILE(CCtrlButton*)
+	{
+		wchar_t *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file"));
+		if (!tmp)
+			return;
 
-	return FALSE;
-}
+		wfstream f(tmp, std::ios::in | std::ios::ate | std::ios::binary);
+		delete[] tmp;
+		if (!f.is_open()) {
+			MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+			return;
+		}
+		if (f.is_open()) {
+			std::wifstream::pos_type size = f.tellg();
+			wchar_t *temp = new wchar_t[(std::ifstream::pos_type)size + (std::ifstream::pos_type)1];
+			f.seekg(0, std::ios::beg);
+			f.read(temp, size);
+			temp[size] = '\0';
+			key_buf.append(temp);
+			delete[] temp;
+			f.close();
+		}
+		if (key_buf.empty()) {
+			key_buf.clear();
+			if (bDebugLog)
+				debuglog << std::string(time_str() + ": info: Failed to read key file");
+			return;
+		}
+		ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----");
+		ws1 = key_buf.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----");
+		if (ws2 == wstring::npos || ws1 == wstring::npos) {
+			ws2 = key_buf.find(L"-----END PGP PRIVATE KEY BLOCK-----");
+			ws1 = key_buf.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----");
+		}
+		if (ws2 == wstring::npos || ws1 == wstring::npos) {
+			MessageBox(nullptr, TranslateT("There is no public or private key."), TranslateT("Info"), MB_OK);
+			return;
+		}
+		ws2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
+		edit_PUBLIC_KEY_EDIT.SetText(key_buf.substr(ws1, ws2 - ws1).c_str());
+		key_buf.clear();
+	}
+	void onClick_IMPORT(CCtrlButton*)
+	{
+		new_key_hcnt_mutex.lock();
+		new_key_hcnt = hContact;
+		void ShowImportKeyDialog();
+		ShowImportKeyDialog();
+	}
+private:
+	MCONTACT hContact;
+	wstring key_buf;
+	wstring::size_type ws1 = 0, ws2 = 0;
+	CCtrlCheck chk_ENABLE_ENCRYPTION;
+	CCtrlButton btn_SELECT_EXISTING, btn_OK, btn_LOAD_FROM_FILE, btn_IMPORT;
+	CCtrlEdit edit_PUBLIC_KEY_EDIT;
+};
 
-void ShowLoadPublicKeyDialog()
+
+void ShowLoadPublicKeyDialog(bool modal)
 {
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_LOAD_PUBLIC_KEY), nullptr, DlgProcLoadPublicKey);
+	CDlgLoadPubKeyDlg *d = new CDlgLoadPubKeyDlg();
+	if (modal)
+		d->DoModal();
+	d->Show();
 }
 
 int GpgOptInit(WPARAM wParam, LPARAM)

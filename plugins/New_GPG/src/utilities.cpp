@@ -18,7 +18,7 @@
 #include "stdafx.h"
 
 void ShowExportKeysDlg();
-void ShowLoadPublicKeyDialog();
+void ShowLoadPublicKeyDialog(bool = false);
 
 extern HINSTANCE hInst;
 extern HANDLE hLoadPublicKey;
@@ -1796,188 +1796,204 @@ void strip_tags(std::wstring &str)
 	boost::algorithm::erase_all(str, outclosetag);
 }
 
-static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+class CDlgEncryptedFileMsgBox : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		file_msg_state = -1;
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_IGNORE:
-			if (IsDlgButtonChecked(hwndDlg, IDC_REMEMBER)) {
-				db_set_b(NULL, szGPGModuleName, "bSameAction", 1);
-				bSameAction = true;
-			}
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDC_DECRYPT:
-			file_msg_state = 1;
-			if (IsDlgButtonChecked(hwndDlg, IDC_REMEMBER)) {
-				db_set_b(NULL, szGPGModuleName, "bFileTransfers", 1);
-				bFileTransfers = true;
-				db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
-				bSameAction = false;
-			}
-
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
+public:
+	CDlgEncryptedFileMsgBox() : CDlgBase(hInst, IDD_ENCRYPTED_FILE_MSG_BOX),
+		chk_REMEMBER(this, IDC_REMEMBER),
+		btn_IGNORE(this, IDC_IGNORE), btn_DECRYPT(this, IDC_DECRYPT)
+	{
+		btn_IGNORE.OnClick = Callback(this, &CDlgEncryptedFileMsgBox::onClick_IGNORE);
+		btn_DECRYPT.OnClick = Callback(this, &CDlgEncryptedFileMsgBox::onClick_DECRYPT);
 	}
-	return FALSE;
-}
+	virtual void OnInitDialog() override
+	{
+		file_msg_state = -1;
+	}
+	virtual void OnClose() override
+	{
+		DestroyWindow(m_hwnd);
+	}
+	virtual void OnDestroy() override
+	{
+		delete this;
+	}
+	void onClick_IGNORE(CCtrlButton*)
+	{
+		if (chk_REMEMBER.GetState())
+		{
+			db_set_b(NULL, szGPGModuleName, "bSameAction", 1);
+			bSameAction = true;
+		}
+		DestroyWindow(m_hwnd);
+	}
+	void onClick_DECRYPT(CCtrlButton*)
+	{
+		file_msg_state = 1;
+		if (chk_REMEMBER.GetState())
+		{
+			db_set_b(NULL, szGPGModuleName, "bFileTransfers", 1);
+			bFileTransfers = true;
+			db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
+			bSameAction = false;
+		}
+		DestroyWindow(m_hwnd);
+	}
+private:
+	CCtrlCheck chk_REMEMBER;
+	CCtrlButton btn_IGNORE, btn_DECRYPT;
+};
 
 
 void ShowEncryptedFileMsgBox()
 {
-	extern HINSTANCE hInst;
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_ENCRYPTED_FILE_MSG_BOX), nullptr, DlgProcEncryptedFileMsgBox);
+	CDlgEncryptedFileMsgBox *d = new CDlgEncryptedFileMsgBox;
+	d->DoModal(); //TODO: check this
+	d->Show();
+	
 }
 
-static INT_PTR CALLBACK DlgProcExportKeys(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+class CDlgExportKeysMsgBox : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_OK:
-			if (IsDlgButtonChecked(hwndDlg, IDC_PUBLIC))
-				ExportGpGKeysFunc(0);
-			else if (IsDlgButtonChecked(hwndDlg, IDC_PRIVATE))
-				ExportGpGKeysFunc(1);
-			else if (IsDlgButtonChecked(hwndDlg, IDC_ALL))
-				ExportGpGKeysFunc(2);
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDC_CANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
+public:
+	CDlgExportKeysMsgBox() : CDlgBase(hInst, IDD_EXPORT_TYPE),
+		btn_OK(this, IDC_OK), btn_CANCEL(this, IDC_CANCEL),
+		chk_PUBLIC(this, IDC_PUBLIC), chk_PRIVATE(this, IDC_PRIVATE), chk_ALL(this, IDC_ALL)
+	{
+		btn_OK.OnClick = Callback(this, &CDlgExportKeysMsgBox::onClick_OK);
+		btn_CANCEL.OnClick = Callback(this, &CDlgExportKeysMsgBox::onClick_CANCEL);
 	}
-	return FALSE;
-}
+	virtual void OnInitDialog() override
+	{
+		chk_PUBLIC.SetState(1);
+	}
+	virtual void OnClose() override
+	{
+		DestroyWindow(m_hwnd);
+	}
+	virtual void OnDestroy() override
+	{
+		delete this;
+	}
+	void onClick_OK(CCtrlButton*)
+	{
+		if (chk_PUBLIC.GetState())
+			ExportGpGKeysFunc(0);
+		else if (chk_PRIVATE.GetState())
+			ExportGpGKeysFunc(1);
+		else if (chk_ALL.GetState())
+			ExportGpGKeysFunc(2);
+		DestroyWindow(m_hwnd);
+	}
+	void onClick_CANCEL(CCtrlButton*)
+	{
+		DestroyWindow(m_hwnd);
+	}
+
+private:
+	CCtrlButton btn_OK, btn_CANCEL;
+	CCtrlCheck chk_PUBLIC, chk_PRIVATE, chk_ALL;
+};
+
 
 void ShowExportKeysDlg()
 {
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT_TYPE), nullptr, DlgProcExportKeys);
+	CDlgExportKeysMsgBox *d = new CDlgExportKeysMsgBox;
+	d->Show();
 }
 
-static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+class CDlgChangePasswdMsgBox : public CDlgBase //always modal
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_OK:
-			//TODO: show some prgress
-			{
-				std::string old_pass, new_pass;
-				extern wchar_t key_id_global[17];
-				wchar_t buf[256] = { 0 };
-				GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, _countof(buf));
-				new_pass = toUTF8(buf);
-				GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, _countof(buf));
-				if (new_pass != toUTF8(buf)) {
-					MessageBox(hwndDlg, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
-					//key_id_global[0] = 0;
-					break;
-				}
-				GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, _countof(buf));
-				old_pass = toUTF8(buf);
-				bool old_pass_match = false;
-				wchar_t *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
-				if (!mir_wstrcmp(pass, buf))
-					old_pass_match = true;
-				mir_free(pass);
-				
-				if (!old_pass_match) {
-					if (key_id_global[0]) {
-						string dbsetting = "szKey_";
-						dbsetting += toUTF8(key_id_global);
-						dbsetting += "_Password";
-						pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
-						if (!mir_wstrcmp(pass, buf))
-							old_pass_match = true;
-						mir_free(pass);
-					}
-				}
-				
-				if (!old_pass_match)
-					if (MessageBox(hwndDlg, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
-						break;
-
-				std::vector<std::wstring> cmd;
-				string output;
-				DWORD exitcode;
-				cmd.push_back(L"--edit-key");
-				cmd.push_back(key_id_global);
-				cmd.push_back(L"passwd");
-				gpg_execution_params_pass params(cmd, old_pass, new_pass);
-				pxResult result;
-				params.out = &output;
-				params.code = &exitcode;
-				params.result = &result;
-				boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
-				if (!gpg_thread.timed_join(boost::posix_time::minutes(10))) {
-					gpg_thread.~thread();
-					if (params.child)
-						boost::process::terminate(*(params.child));
-					if (bDebugLog)
-						debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
-					DestroyWindow(hwndDlg);
-					break;
-				}
-				if (result == pxNotFound)
-					break;
-				//if(result == pxSuccess)
-				//TODO: save to db
-
-
-			}
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		extern wchar_t key_id_global[17];
-		key_id_global[0] = 0;
-		break;
+public:
+	CDlgChangePasswdMsgBox() : CDlgBase(hInst, IDD_CHANGE_PASSWD),
+		btn_OK(this, ID_OK),
+		edit_NEW_PASSWD1(this, IDC_NEW_PASSWD1), edit_NEW_PASSWD2(this, IDC_NEW_PASSWD2), edit_OLD_PASSWD(this, IDC_OLD_PASSWD)
+	{
+		btn_OK.OnClick = Callback(this, &CDlgChangePasswdMsgBox::onClick_OK);
 	}
-	return FALSE;
-}
+	virtual void OnClose() override
+	{
+		DestroyWindow(m_hwnd);
+	}
+	virtual void OnDestroy() override
+	{
+		delete this;
+	}
+	void onClick_OK(CCtrlButton*)
+	{
+		//TODO: show some prgress
+		{
+			if (mir_wstrcmp(edit_NEW_PASSWD1.GetText(), edit_NEW_PASSWD2.GetText()))
+			{
+				MessageBox(m_hwnd, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
+				return;
+			}
+			std::string old_pass, new_pass;
+			extern wchar_t key_id_global[17];
+//			wchar_t buf[256] = { 0 };
+			new_pass = toUTF8(edit_NEW_PASSWD1.GetText());
+			old_pass = toUTF8(edit_OLD_PASSWD.GetText());
+			bool old_pass_match = false;
+			wchar_t *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
+			if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
+				old_pass_match = true;
+			mir_free(pass);
+
+			if (!old_pass_match) {
+				if (key_id_global[0]) {
+					string dbsetting = "szKey_";
+					dbsetting += toUTF8(key_id_global);
+					dbsetting += "_Password";
+					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
+					if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
+						old_pass_match = true;
+					mir_free(pass);
+				}
+			}
+
+			if (!old_pass_match)
+				if (MessageBox(m_hwnd, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
+					return;
+
+			std::vector<std::wstring> cmd;
+			string output;
+			DWORD exitcode;
+			cmd.push_back(L"--edit-key");
+			cmd.push_back(key_id_global);
+			cmd.push_back(L"passwd");
+			gpg_execution_params_pass params(cmd, old_pass, new_pass);
+			pxResult result;
+			params.out = &output;
+			params.code = &exitcode;
+			params.result = &result;
+			boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
+			if (!gpg_thread.timed_join(boost::posix_time::minutes(10))) {
+				gpg_thread.~thread();
+				if (params.child)
+					boost::process::terminate(*(params.child));
+				if (bDebugLog)
+					debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
+				DestroyWindow(m_hwnd);
+				return;
+			}
+			if (result == pxNotFound)
+				return;
+		}
+		DestroyWindow(m_hwnd);
+	}
+private:
+	CCtrlButton btn_OK;
+	CCtrlEdit edit_NEW_PASSWD1, edit_NEW_PASSWD2, edit_OLD_PASSWD;
+
+};
+
 
 void ShowChangePasswdDlg()
 {
-	extern HINSTANCE hInst;
-	HWND hwndPaaswdDlg = nullptr;
-	hwndPaaswdDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHANGE_PASSWD), nullptr, DlgProcChangePasswd);
-	SetForegroundWindow(hwndPaaswdDlg);
+	CDlgChangePasswdMsgBox *d = new CDlgChangePasswdMsgBox;
+	d->DoModal();
+	d->Show();
+	SetForegroundWindow(d->GetHwnd()); //?
 }
 
 void clean_temp_dir()
