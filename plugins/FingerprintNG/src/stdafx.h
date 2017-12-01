@@ -83,7 +83,6 @@ typedef struct _foundInfo
 #define MSN_CASE					3012	//	MSN clients
 #define QQ_CASE						3013	//	QQ clients (+ versions)
 #define RSS_CASE					3014	//	RSS clients
-#define TLEN_CASE					3015	//	Tlen clients (+ versions)
 #define WEATHER_CASE				3016	//	Weather clients
 #define YAHOO_CASE					3017	//	Yahoo clients (+ versions)
 #define FACEBOOK_CASE               3018    //  Facebook clients

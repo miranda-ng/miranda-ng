@@ -580,11 +580,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_GG", L"|Gadu-Gadu*|GG*", LPGENW("Gadu-Gadu client"), IDI_GG, GG_CASE },
 
 	//#########################################################################################################################################################################
-	//#################################   TLEN   ##############################################################################################################################
-	//#########################################################################################################################################################################
-	{ "client_Tlen", L"*Tlen*", LPGENW("Tlen.pl client"), IDI_TLEN, TLEN_CASE },
-
-	//#########################################################################################################################################################################
 	//#################################   Facebook   ##########################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_Facebook_other", L"*Facebook*other*", L"Facebook (other)", IDI_FACEBOOK_OTHER, FACEBOOK_CASE },
@@ -693,7 +688,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_Jabber_overlay", L"|^jabber*|Miranda*Jabber*|py*jabb*", LPGENW("Jabber overlay"), IDI_JABBER_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MSN_overlay", L"|^MSN*|*Miranda*MSN*", LPGENW("MSN overlay"), IDI_MSN_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_QQ_overlay", L"|Miranda*QQ*|MIM*QQ*", LPGENW("QQ overlay"), IDI_QQ_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_Tlen_overlay", L"|^tlen*|*tlen*", LPGENW("Tlen.pl overlay"), IDI_TLEN_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Yahoo_overlay", L"|^Yahoo*|*yahoo*", LPGENW("Yahoo overlay"), IDI_YAHOO_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_MRA_overlay", L"|^MRA*|^Mail.ru*"
 							L"|*MRA*|*Mail.ru*IM*|Mrim*"
@@ -719,11 +713,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_GG_10", L"|Gadu-Gadu*10*|GG*10", LPGENW("Gadu-Gadu v10 client"), IDI_GG10_OVERLAY, GG_CASE },
 	{ "client_GG_9", L"|Gadu-Gadu*9*|GG*9*", LPGENW("Gadu-Gadu v9 client"), IDI_GG9_OVERLAY, GG_CASE },
 	{ "client_GG_8", L"|Gadu-Gadu*8*|GG*8*", LPGENW("Gadu-Gadu v8 client"), IDI_GG8_OVERLAY, GG_CASE },
-
-	// {"client_Tlen_8",           L"Tlen Protocol 1?",                     LPGENW("Tlen 8.x overlay"),              IDI_TLEN8_OVERLAY,       TLEN_CASE                   },
-	{ "client_Tlen_7", L"Tlen Protocol 16", LPGENW("Tlen 7.x overlay"), IDI_TLEN7_OVERLAY, TLEN_CASE },
-	{ "client_Tlen_6", L"Tlen Protocol 10", LPGENW("Tlen 6.x overlay"), IDI_TLEN6_OVERLAY, TLEN_CASE },
-	{ "client_Tlen_5", L"Tlen Protocol 7", LPGENW("Tlen 5.x overlay"), IDI_TLEN5_OVERLAY, TLEN_CASE },
 
 	{ "client_QQ_2012", L"|QQ2012*|TM2012*", LPGENW("TM/QQ 2012 overlay"), IDI_QQ_2012_OVERLAY, QQ_CASE },
 	{ "client_QQ_2011", L"|QQ2011*|TM2011*", LPGENW("TM/QQ 2011 overlay"), IDI_QQ_2011_OVERLAY, QQ_CASE },

@@ -63,11 +63,6 @@ case RSS_CASE:
 		return LPGENW("Client icons") L"/" LPGENW("RSS clients");
 	break;
 
-case TLEN_CASE:
-	if (db_get_b(NULL, MODULENAME, "GroupTlen", 1))
-		return LPGENW("Client icons") L"/" LPGENW("Tlen clients");
-	break;
-
 case WEATHER_CASE:
 	if (db_get_b(NULL, MODULENAME, "GroupWeather", 1))
 		return LPGENW("Client icons") L"/" LPGENW("Weather clients");

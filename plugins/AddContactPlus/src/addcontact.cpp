@@ -31,12 +31,6 @@ struct AddDialogParam : public MZeroedObject
 	PROTOSEARCHRESULT *psr;
 };
 
-// Tlen protocol
-struct TLEN_SEARCH_RESULT : public PROTOSEARCHRESULT
-{
-	char jid[256];
-};
-
 void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALSE)
 {
 	DWORD flags = (szProto) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
@@ -249,22 +243,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 				}
 
 				PROTOSEARCHRESULT *psr;
-				if (strstr(acs->proto, "TLEN")) { // Tlen protocol
-					if (wcschr(szUserId, '@') == nullptr) {
-						MessageBox(nullptr,
-							TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
-							TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-						break;
-					}
-					psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(TLEN_SEARCH_RESULT));
-					psr->cbSize = sizeof(TLEN_SEARCH_RESULT);
-					mir_snprintf(((TLEN_SEARCH_RESULT*)psr)->jid, _countof(((TLEN_SEARCH_RESULT*)psr)->jid), "%S", szUserId);
-				}
-				else {
-					psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
-					psr->cbSize = sizeof(PROTOSEARCHRESULT);
-				}
-
+				psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(PROTOSEARCHRESULT));
+				psr->cbSize = sizeof(PROTOSEARCHRESULT);
 				psr->flags = PSR_UNICODE;
 				psr->id.w = mir_wstrdup(szUserId);
 				acs->psr = psr;

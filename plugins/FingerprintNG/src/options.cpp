@@ -42,7 +42,6 @@ static settings[] =
 	{ IDC_GROUP_MSN, TRUE, "GroupMSN" },
 	{ IDC_GROUP_QQ, TRUE, "GroupQQ" },
 	{ IDC_GROUP_RSS, TRUE, "GroupRSS" },
-	{ IDC_GROUP_TLEN, TRUE, "GroupTlen" },
 	{ IDC_GROUP_WEATHER, TRUE, "GroupWeather" },
 	{ IDC_GROUP_YAHOO, TRUE, "GroupYahoo" },
 	{ IDC_GROUP_FACEBOOK, TRUE, "GroupFacebook" },

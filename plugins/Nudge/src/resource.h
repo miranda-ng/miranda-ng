@@ -7,7 +7,6 @@
 #define IDI_NUGDE_YAHOO                 107
 #define IDI_NUDGE_IRC                   109
 #define IDI_NUDGE_MSN                   110
-#define IDI_NUDGE_TLEN                  111
 #define IDI_NUDGE_META                  113
 #define IDD_SHAKEOPT                    126
 #define IDD_OPT_NUDGE                   126

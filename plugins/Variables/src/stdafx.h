@@ -118,7 +118,7 @@ The contact function will return either a unique contact according to the argume
 // Messages you can send to the help window:
 #define VARM_PARSE              (WM_APP+11) // wParam=lParam=0
 #define VARM_SETINPUTTEXT       (WM_APP+12)
-#define VARM_GETINPUTTEXT	     (WM_APP+13)
+#define VARM_GETINPUTTEXT	    (WM_APP+13)
 #define VARM_GETINPUTTEXTLENGTH (WM_APP+14)
 #define VARM_SETSUBJECT         (WM_APP+15)
 #define VARM_GETSUBJECT         (WM_APP+16) // wParam=MCONTACT hContact

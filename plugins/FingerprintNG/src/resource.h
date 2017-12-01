@@ -64,7 +64,6 @@
 #define IDI_MAILRU_OVERLAY              85
 #define IDI_MSN_OVERLAY                 86
 #define IDI_QQ_OVERLAY                  87
-#define IDI_TLEN_OVERLAY                88
 #define IDI_YAHOO_OVERLAY               89
 #define IDI_VK_OVERLAY                  90
 #define IDI_SKYPE_OVERLAY               91
@@ -413,11 +412,6 @@
 #define IDI_GG9_OVERLAY                 726
 #define IDI_GG10_OVERLAY                727
 #define IDI_GG11_OVERLAY                728
-#define IDI_TLEN                        731
-#define IDI_TLEN5_OVERLAY               732
-#define IDI_TLEN6_OVERLAY               733
-#define IDI_TLEN7_OVERLAY               734
-#define IDI_TLEN8_OVERLAY               735
 #define IDI_AMSN                        741
 #define IDI_MSN_MAC                     742
 #define IDI_MSN_45                      743
@@ -600,7 +594,6 @@
 #define IDC_GROUP_MRA                   10036
 #define IDC_GROUP_QQ                    10037
 #define IDC_GROUP_RSS                   10038
-#define IDC_GROUP_TLEN                  10039
 #define IDC_GROUP_WEATHER               10040
 #define IDC_GROUP_YAHOO                 10041
 #define IDC_GROUP_FACEBOOK              10042

@@ -21,7 +21,6 @@ fast.
 - Sametime
 - Skype
 - Steam
-- Tlen
 - Tox
 - Twitter
 - VKontakte
