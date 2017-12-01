@@ -28,9 +28,14 @@ HWND hwndCurKey_p = nullptr;
 
 void ShowLoadPublicKeyDialog(bool = false);
 
-
 class COptGpgMainDlg : public CDlgBase
 {
+	CCtrlListView list_USERLIST;
+	CCtrlData lbl_CURRENT_KEY;
+	CCtrlEdit edit_LOG_FILE_EDIT;
+	CCtrlCheck check_DEBUG_LOG, check_JABBER_API, check_AUTO_EXCHANGE, check_FILE_TRANSFERS;
+	CCtrlButton btn_DELETE_KEY_BUTTON, btn_SELECT_KEY, btn_SAVE_KEY_BUTTON, btn_COPY_KEY, btn_LOG_FILE_SET;
+
 public:
 	COptGpgMainDlg() : CDlgBase(hInst, IDD_OPT_GPG),
 		list_USERLIST(this, IDC_USERLIST), lbl_CURRENT_KEY(this, IDC_CURRENT_KEY), edit_LOG_FILE_EDIT(this, IDC_LOG_FILE_EDIT),
@@ -48,8 +53,8 @@ public:
 		list_USERLIST.OnItemActivate;
 		list_USERLIST.OnColumnClick;
 		list_USERLIST.OnDoubleClick;
-		
 	}
+
 	virtual void OnInitDialog() override
 	{
 		list_USERLIST.AddColumn(0, TranslateT("Contact"), 60);
@@ -132,9 +137,9 @@ public:
 		hwndCurKey_p = lbl_CURRENT_KEY.GetHwnd();
 		////////////////
 
-
 		list_USERLIST.OnItemChanged = Callback(this, &COptGpgMainDlg::onItemChanged_USERLIST);
 	}
+
 	virtual void OnApply() override
 	{
 		db_set_b(NULL, szGPGModuleName, "bDebugLog", bDebugLog = check_DEBUG_LOG.GetState());
@@ -151,6 +156,7 @@ public:
 		db_set_b(NULL, szGPGModuleName, "bAutoExchange", bAutoExchange = check_JABBER_API.GetState());
 		db_set_ws(NULL, szGPGModuleName, "szLogFilePath", ptrW(edit_LOG_FILE_EDIT.GetText()));
 	}
+
 	void onClick_DELETE_KEY_BUTTON(CCtrlButton*)
 	{
 		void setClistIcon(MCONTACT hContact);
@@ -257,11 +263,13 @@ public:
 		list_USERLIST.SetItemText(item_num, 2, TranslateT("not set"));
 		list_USERLIST.SetItemText(item_num, 1, TranslateT("not set"));
 	}
+
 	void onClick_SELECT_KEY(CCtrlButton*)
 	{
 		void ShowFirstRunDialog();
 		ShowFirstRunDialog();
 	}
+
 	void onClick_SAVE_KEY_BUTTON(CCtrlButton*)
 	{
 		wchar_t *tmp = GetFilePath(TranslateT("Export public key"), L"*", TranslateT(".asc pubkey file"), true);
@@ -277,6 +285,7 @@ public:
 			f.close();
 		}
 	}
+
 	void onClick_COPY_KEY(CCtrlButton*)
 	{
 		if (OpenClipboard(m_hwnd)) {
@@ -317,16 +326,17 @@ public:
 			MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
 		}
 	}
+
 	void onClick_LOG_FILE_SET(CCtrlButton*)
 	{
 		edit_LOG_FILE_EDIT.SetText(ptrW(GetFilePath(TranslateT("Set log file"), L"*", TranslateT("LOG files"), 1)));
 	}
-	//IDC_LOG_FILE_SET:
 
 	void onChange_JABBER_API(CCtrlCheck *chk)
 	{
 		check_AUTO_EXCHANGE.Enable(chk->GetState());
 	}
+
 	void onItemChanged_USERLIST(CCtrlListView::TEventInfo *ev)
 	{
 		//TODO: get rid of "item_num"
@@ -347,6 +357,7 @@ public:
 			setSrmmIcon(user_data[item_num + 1]);
 		}
 	}
+
 	void onClick_USERLIST(CCtrlListView::TEventInfo *ev)
 	{
 		//TODO: get rid of "item_num"
@@ -360,17 +371,14 @@ public:
 			item_num = hdr->iItem;
 		}
 	}
-private:
-	CCtrlListView list_USERLIST;
-	CCtrlData lbl_CURRENT_KEY;
-	CCtrlEdit edit_LOG_FILE_EDIT;
-	CCtrlCheck check_DEBUG_LOG, check_JABBER_API, check_AUTO_EXCHANGE, check_FILE_TRANSFERS;
-	CCtrlButton btn_DELETE_KEY_BUTTON, btn_SELECT_KEY, btn_SAVE_KEY_BUTTON, btn_COPY_KEY, btn_LOG_FILE_SET;
 };
 
 
 class COptGpgBinDlg : public CDlgBase
 {
+	CCtrlEdit edit_BIN_PATH, edit_HOME_DIR;
+	CCtrlButton btn_SET_BIN_PATH, btn_SET_HOME_DIR;
+
 public:
 	COptGpgBinDlg() : CDlgBase(hInst, IDD_OPT_GPG_BIN),
 		edit_BIN_PATH(this, IDC_BIN_PATH), edit_HOME_DIR(this, IDC_HOME_DIR),
@@ -380,11 +388,13 @@ public:
 		btn_SET_HOME_DIR.OnClick = Callback(this, &COptGpgBinDlg::onClick_SET_HOME_DIR);
 
 	}
+
 	virtual void OnInitDialog() override
 	{
 		edit_BIN_PATH.SetText(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe")));
 		edit_HOME_DIR.SetText(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"gpg")));
 	}
+
 	virtual void OnApply() override
 	{
 		wchar_t tmp[8192];
@@ -394,6 +404,7 @@ public:
 			tmp[mir_wstrlen(tmp) - 1] = '\0';
 		db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
 	}
+
 	void onClick_SET_BIN_PATH(CCtrlButton*)
 	{
 		GetFilePath(TranslateT("Choose gpg.exe"), "szGpgBinPath", L"*.exe", TranslateT("EXE Executables"));
@@ -443,6 +454,7 @@ public:
 			edit_BIN_PATH.SetText(path);
 		}
 	}
+
 	void onClick_SET_HOME_DIR(CCtrlButton*)
 	{
 		GetFolderPath(TranslateT("Set home directory"), "szHomePath");
@@ -455,18 +467,19 @@ public:
 			edit_HOME_DIR.SetText(tmp);
 		}
 	}
-private:
-	CCtrlEdit edit_BIN_PATH, edit_HOME_DIR;
-	CCtrlButton btn_SET_BIN_PATH, btn_SET_HOME_DIR;
 };
 
 class COptGpgMsgDlg : public CDlgBase
 {
+	CCtrlCheck check_APPEND_TAGS, check_STRIP_TAGS;
+	CCtrlEdit edit_IN_OPEN_TAG, edit_IN_CLOSE_TAG, edit_OUT_OPEN_TAG, edit_OUT_CLOSE_TAG;
+
 public:
 	COptGpgMsgDlg() : CDlgBase(hInst, IDD_OPT_GPG_MESSAGES),
 		check_APPEND_TAGS(this, IDC_APPEND_TAGS), check_STRIP_TAGS(this, IDC_STRIP_TAGS),
 		edit_IN_OPEN_TAG(this, IDC_IN_OPEN_TAG), edit_IN_CLOSE_TAG(this, IDC_IN_CLOSE_TAG), edit_OUT_OPEN_TAG(this, IDC_OUT_OPEN_TAG), edit_OUT_CLOSE_TAG(this, IDC_OUT_CLOSE_TAG)
 	{}
+
 	virtual void OnInitDialog() override
 	{
 		check_APPEND_TAGS.SetState(db_get_b(NULL, szGPGModuleName, "bAppendTags", 0));
@@ -476,6 +489,7 @@ public:
 		edit_OUT_OPEN_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutOpenTag", L"<GPGenc>")));
 		edit_OUT_CLOSE_TAG.SetText(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", L"</GPGenc>")));
 	}
+
 	virtual void OnApply() override
 	{
 		db_set_b(NULL, szGPGModuleName, "bAppendTags", bAppendTags = check_APPEND_TAGS.GetState());
@@ -499,15 +513,13 @@ public:
 			outclosetag = tmp;
 		}
 	}
-private:
-	CCtrlCheck check_APPEND_TAGS, check_STRIP_TAGS;
-	CCtrlEdit edit_IN_OPEN_TAG, edit_IN_CLOSE_TAG, edit_OUT_OPEN_TAG, edit_OUT_CLOSE_TAG;
 };
-
-
 
 class COptGpgAdvDlg : public CDlgBase
 {
+	CCtrlButton btn_EXPORT, btn_IMPORT;
+	CCtrlCheck check_PRESCENSE_SUBSCRIPTION;
+
 public:
 	COptGpgAdvDlg() : CDlgBase(hInst, IDD_OPT_GPG_ADVANCED),
 		btn_EXPORT(this, IDC_EXPORT), btn_IMPORT(this, IDC_IMPORT),
@@ -516,28 +528,29 @@ public:
 		btn_EXPORT.OnClick = Callback(this, &COptGpgAdvDlg::onClick_EXPORT);
 		btn_IMPORT.OnClick = Callback(this, &COptGpgAdvDlg::onClick_IMPORT);
 	}
+
 	virtual void OnInitDialog() override
 	{
 		check_PRESCENSE_SUBSCRIPTION.SetState(db_get_b(NULL, szGPGModuleName, "bPresenceSigning", 0));
 		check_PRESCENSE_SUBSCRIPTION.Enable(bJabberAPI);
 	}
+
 	virtual void OnApply() override
 	{
 		db_set_b(NULL, szGPGModuleName, "bPresenceSigning", bPresenceSigning = check_PRESCENSE_SUBSCRIPTION.GetState());
 	}
+
 	void onClick_EXPORT(CCtrlButton*)
 	{
 		INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
 		ExportGpGKeys(NULL, NULL);
 	}
+
 	void onClick_IMPORT(CCtrlButton*)
 	{
 		INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
 		ImportGpGKeys(NULL, NULL);
 	}
-	CCtrlButton btn_EXPORT, btn_IMPORT;
-	CCtrlCheck check_PRESCENSE_SUBSCRIPTION;
-
 };
 
 
@@ -556,6 +569,13 @@ static LRESULT CALLBACK editctrl_ctrl_a(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 class CDlgLoadPubKeyDlg : public CDlgBase
 {
+	MCONTACT hContact;
+	wstring key_buf;
+	wstring::size_type ws1 = 0, ws2 = 0;
+	CCtrlCheck chk_ENABLE_ENCRYPTION;
+	CCtrlButton btn_SELECT_EXISTING, btn_OK, btn_LOAD_FROM_FILE, btn_IMPORT;
+	CCtrlEdit edit_PUBLIC_KEY_EDIT;
+
 public:
 	CDlgLoadPubKeyDlg() : CDlgBase(hInst, IDD_LOAD_PUBLIC_KEY),
 		chk_ENABLE_ENCRYPTION(this, IDC_ENABLE_ENCRYPTION),
@@ -567,6 +587,7 @@ public:
 		btn_LOAD_FROM_FILE.OnClick = Callback(this, &CDlgLoadPubKeyDlg::onClick_LOAD_FROM_FILE);
 		btn_IMPORT.OnClick = Callback(this, &CDlgLoadPubKeyDlg::onClick_IMPORT);
 	}
+
 	virtual void OnInitDialog() override
 	{
 		hContact = user_data[1];
@@ -650,10 +671,7 @@ public:
 		}
 		hPubKeyEdit = edit_PUBLIC_KEY_EDIT.GetHwnd();
 	}
-	virtual void OnClose() override
-	{
-		DestroyWindow(m_hwnd);
-	}
+
 	virtual void OnDestroy() override
 	{
 		GetWindowRect(m_hwnd, &load_key_rect);
@@ -661,11 +679,13 @@ public:
 		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", load_key_rect.top);
 		delete this;
 	}
+
 	void onClick_SELECT_EXISTING(CCtrlButton*)
 	{
 		void ShowSelectExistingKeyDialog();
 		ShowSelectExistingKeyDialog();
 	}
+
 	void onClick_OK(CCtrlButton*)
 	{
 		wchar_t *tmp = mir_wstrdup(edit_PUBLIC_KEY_EDIT.GetText());
@@ -987,6 +1007,7 @@ public:
 		}
 		DestroyWindow(m_hwnd);
 	}
+
 	void onClick_LOAD_FROM_FILE(CCtrlButton*)
 	{
 		wchar_t *tmp = GetFilePath(TranslateT("Set file containing GPG public key"), L"*", TranslateT("GPG public key file"));
@@ -1036,13 +1057,6 @@ public:
 		void ShowImportKeyDialog();
 		ShowImportKeyDialog();
 	}
-private:
-	MCONTACT hContact;
-	wstring key_buf;
-	wstring::size_type ws1 = 0, ws2 = 0;
-	CCtrlCheck chk_ENABLE_ENCRYPTION;
-	CCtrlButton btn_SELECT_EXISTING, btn_OK, btn_LOAD_FROM_FILE, btn_IMPORT;
-	CCtrlEdit edit_PUBLIC_KEY_EDIT;
 };
 
 
@@ -1056,10 +1070,9 @@ void ShowLoadPublicKeyDialog(bool modal)
 
 int GpgOptInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.szGroup.w = LPGENW("Services");
 	odp.szTitle.w = _T(szGPGModuleName);
-	
 
 	odp.szTab.w = LPGENW("Main");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
@@ -1067,8 +1080,6 @@ int GpgOptInit(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 	odp.szTab.w = LPGENW("GnuPG Variables");
-	odp.pfnDlgProc = nullptr;
-	odp.pszTemplate = nullptr;
 	odp.pDialog = new COptGpgBinDlg();
 	Options_AddPage(wParam, &odp);
 
