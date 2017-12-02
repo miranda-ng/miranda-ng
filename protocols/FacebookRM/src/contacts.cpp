@@ -310,7 +310,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	http::response resp = facy.sendRequest(request);
 
 	if (resp.code != HTTP_CODE_OK) {
-		facy.handle_error("LoadChatInfo");
+		//!!!!!!! facy.handle_error("LoadChatInfo");
 		return;
 	}
 
