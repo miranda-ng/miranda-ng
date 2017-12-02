@@ -39,6 +39,185 @@ wchar_t key_id_global[17] = { 0 };
 
 extern HINSTANCE hInst;
 
+bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
+{
+	wstring tmp = gpg_bin_path;
+	if (!tmp.empty()) {
+		wchar_t mir_path[MAX_PATH];
+		PathToAbsoluteW(L"\\", mir_path);
+		SetCurrentDirectoryW(mir_path);
+		if (!boost::filesystem::exists(tmp)) {
+			MessageBox(nullptr, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
+			return false;
+		}
+	}
+	else {
+		MessageBox(nullptr, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
+		return false;
+	}
+	{
+		bool bad_version = false;
+		db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp.c_str());
+		string out;
+		DWORD code;
+		std::vector<wstring> cmd;
+		cmd.push_back(L"--version");
+		gpg_execution_params params(cmd);
+		pxResult result;
+		params.out = &out;
+		params.code = &code;
+		params.result = &result;
+		gpg_valid = true;
+		gpg_launcher(params);
+		gpg_valid = false;
+		db_unset(NULL, szGPGModuleName, "szGpgBinPath");
+		string::size_type p1 = out.find("(GnuPG) ");
+		if (p1 != string::npos) {
+			p1 += mir_strlen("(GnuPG) ");
+			if (out[p1] != '1')
+				bad_version = true;
+		}
+		else {
+			bad_version = false;
+			MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+			return false;
+		}
+		if (bad_version)
+			MessageBox(nullptr, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
+	}
+	tmp = gpg_home_path;
+	if (tmp[tmp.length()] == '\\')
+		tmp.erase(tmp.length());
+	if (tmp.empty()) {
+		MessageBox(nullptr, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
+		return false;
+	}
+	{
+		wchar_t *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+		DWORD dwFileAttr = GetFileAttributes(path);
+		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
+			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
+			SetFileAttributes(path, dwFileAttr);
+		}
+		mir_free(path);
+	}
+	return true;
+}
+
+void gpg_save_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
+{
+	db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", gpg_bin_path);
+	db_set_ws(NULL, szGPGModuleName, "szHomePath", gpg_home_path);
+}
+
+bool gpg_use_new_random_key(char *account_name = Translate("Default"), wchar_t *gpg_bin_path = nullptr, wchar_t *gpg_home_dir = nullptr)
+{
+	if (gpg_bin_path && gpg_home_dir)
+		gpg_save_paths(gpg_bin_path, gpg_home_dir);
+	{
+		wstring path;
+		{
+			// generating key file
+			wchar_t *tmp = nullptr;
+			if (gpg_home_dir)
+				tmp = gpg_home_dir;
+			else
+			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
+			path = tmp;
+			if(!gpg_home_dir)
+				mir_free(tmp);
+			path.append(L"\\new_key");
+			wfstream f(path.c_str(), std::ios::out);
+			if (!f.is_open()) {
+				MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
+				return false;
+			}
+			f << "Key-Type: RSA";
+			f << "\n";
+			f << "Key-Length: 4096";
+			f << "\n";
+			f << "Subkey-Type: RSA";
+			f << "\n";
+			f << "Name-Real: ";
+			f << get_random(6).c_str();
+			f << "\n";
+			f << "Name-Email: ";
+			f << get_random(5).c_str();
+			f << "@";
+			f << get_random(5).c_str();
+			f << ".";
+			f << get_random(3).c_str();
+			f << "\n";
+			f.close();
+		}
+		{	// gpg execution
+			DWORD code;
+			string out;
+			std::vector<wstring> cmd;
+			cmd.push_back(L"--batch");
+			cmd.push_back(L"--yes");
+			cmd.push_back(L"--gen-key");
+			cmd.push_back(path);
+			gpg_execution_params params(cmd);
+			pxResult result;
+			params.out = &out;
+			params.code = &code;
+			params.result = &result;
+			if (!gpg_launcher(params, boost::posix_time::minutes(10)))
+				return false;
+			if (result == pxNotFound)
+				return false;
+
+			boost::filesystem::remove(path);
+			string::size_type p1 = 0;
+			if ((p1 = out.find("key ")) != string::npos)
+				path = toUTF16(out.substr(p1 + 4, 8));
+			else
+				path.clear();
+		}
+		if (!path.empty()) {
+			string out;
+			DWORD code;
+			std::vector<wstring> cmd;
+			cmd.push_back(L"--batch");
+			cmd.push_back(L"-a");
+			cmd.push_back(L"--export");
+			cmd.push_back(path);
+			gpg_execution_params params(cmd);
+			pxResult result;
+			params.out = &out;
+			params.code = &code;
+			params.result = &result;
+			if (!gpg_launcher(params)) {
+				return false;
+			}
+			if (result == pxNotFound)
+				return false;
+			string::size_type s = 0;
+			while ((s = out.find("\r", s)) != string::npos) {
+				out.erase(s, 1);
+			}
+			{
+				if (!mir_strcmp(account_name, Translate("Default")))
+				{
+					db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
+					db_set_ws(NULL, szGPGModuleName, "KeyID", path.c_str());
+				}
+				else
+				{
+					std::string acc_str = account_name;
+					acc_str += "_GPGPubKey";
+					db_set_s(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
+					acc_str = account_name;
+					acc_str += "_KeyID";
+					db_set_ws(NULL, szGPGModuleName, acc_str.c_str(), path.c_str());
+				}
+			}
+		}
+	}
+	return true;
+}
+
 class CDlgFirstRun : public CDlgBase
 {
 public:
@@ -236,115 +415,14 @@ public:
 	}
 	void onClick_GENERATE_RANDOM(CCtrlButton*)
 	{
-		{
-			wstring path;
-			{
-				// generating key file
-				wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-				path = tmp;
-				mir_free(tmp);
-				path.append(L"\\new_key");
-				wfstream f(path.c_str(), std::ios::out);
-				if (!f.is_open()) {
-					MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
-					return;
-				}
-				f << "Key-Type: RSA";
-				f << "\n";
-				f << "Key-Length: 4096";
-				f << "\n";
-				f << "Subkey-Type: RSA";
-				f << "\n";
-				f << "Name-Real: ";
-				f << get_random(6).c_str();
-				f << "\n";
-				f << "Name-Email: ";
-				f << get_random(5).c_str();
-				f << "@";
-				f << get_random(5).c_str();
-				f << ".";
-				f << get_random(3).c_str();
-				f << "\n";
-				f.close();
-			}
-			{	// gpg execution
-				DWORD code;
-				string out;
-				std::vector<wstring> cmd;
-				cmd.push_back(L"--batch");
-				cmd.push_back(L"--yes");
-				cmd.push_back(L"--gen-key");
-				cmd.push_back(path);
-				gpg_execution_params params(cmd);
-				pxResult result;
-				params.out = &out;
-				params.code = &code;
-				params.result = &result;
-				extern HFONT bold_font;
-				lbl_GENERATING_KEY.SendMsg(WM_SETFONT, (WPARAM)bold_font, TRUE);
-				lbl_GENERATING_KEY.SetText(TranslateT("Generating new random key, please wait"));
-				btn_GENERATE_KEY.Disable();
-				btn_OTHER.Disable();
-				btn_DELETE_KEY.Disable();
-				list_KEY_LIST.Disable();
-				btn_GENERATE_RANDOM.Disable();
-				if (!gpg_launcher(params, boost::posix_time::minutes(10)))
-					return;
-				if (result == pxNotFound)
-					return;
-
-				boost::filesystem::remove(path);
-				string::size_type p1 = 0;
-				if ((p1 = out.find("key ")) != string::npos)
-					path = toUTF16(out.substr(p1 + 4, 8));
-				else
-					path.clear();
-			}
-			if (!path.empty()) {
-				string out;
-				DWORD code;
-				std::vector<wstring> cmd;
-				cmd.push_back(L"--batch");
-				cmd.push_back(L"-a");
-				cmd.push_back(L"--export");
-				cmd.push_back(path);
-				gpg_execution_params params(cmd);
-				pxResult result;
-				params.out = &out;
-				params.code = &code;
-				params.result = &result;
-				if (!gpg_launcher(params)) {
-					return;
-				}
-				if (result == pxNotFound)
-					return;
-				string::size_type s = 0;
-				while ((s = out.find("\r", s)) != string::npos) {
-					out.erase(s, 1);
-				}
-				{
-					char *buf = mir_strdup(combo_ACCOUNT.GetTextA());
-					if (!mir_strcmp(buf, Translate("Default"))) 
-					{
-						db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
-						db_set_ws(NULL, szGPGModuleName, "KeyID", fp);
-					}
-					else 
-					{
-						std::string acc_str = buf;
-						acc_str += "_GPGPubKey";
-						db_set_s(NULL, szGPGModuleName, acc_str.c_str(), out.c_str());
-						acc_str = buf;
-						acc_str += "_KeyID";
-						db_set_ws(NULL, szGPGModuleName, acc_str.c_str(), fp);
-					}
-					if (buf)
-						mir_free(buf);
-				}
-				extern HWND hwndCurKey_p;
-				SetWindowText(hwndCurKey_p, path.c_str());
-			}
-		}
+		lbl_GENERATING_KEY.SendMsg(WM_SETFONT, (WPARAM)bold_font, TRUE);
+		lbl_GENERATING_KEY.SetText(TranslateT("Generating new random key, please wait"));
+		btn_GENERATE_KEY.Disable();
+		btn_OTHER.Disable();
+		btn_DELETE_KEY.Disable();
+		list_KEY_LIST.Disable();
+		btn_GENERATE_RANDOM.Disable();
+		gpg_use_new_random_key(combo_ACCOUNT.GetTextA());
 		this->Close();
 	}
 	void onClick_GENERATE_KEY(CCtrlButton*)
@@ -731,19 +809,28 @@ private:
 };
 
 
-static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+class CDlgGpgBinOpts : public CDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
+public:
+	CDlgGpgBinOpts() : CDlgBase(hInst, IDD_BIN_PATH),
+		btn_SET_BIN_PATH(this, IDC_SET_BIN_PATH), btn_SET_HOME_DIR(this, IDC_SET_HOME_DIR), btn_OK(this, ID_OK), btn_GENERATE_RANDOM(this, IDC_GENERATE_RANDOM),
+		edit_BIN_PATH(this, IDC_BIN_PATH), edit_HOME_DIR(this, IDC_HOME_DIR),
+		chk_AUTO_EXCHANGE(this, IDC_AUTO_EXCHANGE)
+	{
+		btn_SET_BIN_PATH.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_SET_BIN_PATH);
+		btn_SET_HOME_DIR.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_SET_HOME_DIR);
+		btn_OK.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_OK);
+		btn_GENERATE_RANDOM.OnClick = Callback(this, &CDlgGpgBinOpts::onClick_GENERATE_RANDOM);
+	}
+	virtual void OnInitDialog() override
+	{
 			CMStringW path;
 			bool gpg_exists = false, lang_exists = false;
 			{
 				wchar_t mir_path[MAX_PATH];
 				PathToAbsoluteW(L"\\", mir_path);
 				SetCurrentDirectoryW(mir_path);
-				
+
 				CMStringW gpg_path(mir_path); gpg_path.Append(L"\\GnuPG\\gpg.exe");
 				CMStringW gpg_lang_path(mir_path); gpg_lang_path.Append(L"\\GnuPG\\gnupg.nls\\en@quot.mo");
 
@@ -752,7 +839,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					path = L"GnuPG\\gpg.exe";
 				}
 				else path = gpg_path;
-				
+
 				if (boost::filesystem::exists(gpg_lang_path.c_str()))
 					lang_exists = true;
 				if (gpg_exists && !lang_exists)
@@ -770,7 +857,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 				else tmp = mir_wstrdup(path.c_str());
 
-				SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
+				edit_BIN_PATH.SetText(tmp);
 				if (gpg_exists/* && lang_exists*/) {
 					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					string out;
@@ -816,302 +903,81 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						tmp = mir_wstrdup(path_.c_str());
 					}
 				}
-				SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists ? tmp : L"gpg");
+				edit_HOME_DIR.SetText(!gpg_exists ? tmp : L"gpg");
 			}
 			//TODO: additional check for write access
 			if (gpg_exists && lang_exists && !bad_version)
 				MessageBox(nullptr, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTO_EXCHANGE), TRUE);
-			return TRUE;
+			chk_AUTO_EXCHANGE.Enable();
+	}
+	void onClick_SET_BIN_PATH(CCtrlButton*)
+	{
+		GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
+		CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe")));
+		edit_BIN_PATH.SetText(tmp);
+		wchar_t mir_path[MAX_PATH];
+		PathToAbsoluteW(L"\\", mir_path);
+		if (tmp.Find(mir_path, 0) == 0) 
+		{
+			CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
+			edit_BIN_PATH.SetText(path);
 		}
 
+	}
+	void onClick_SET_HOME_DIR(CCtrlButton*)
+	{
+		GetFolderPath(L"Set home directory", "szHomePath");
+		CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")));
+		edit_HOME_DIR.SetText(tmp);
+		wchar_t mir_path[MAX_PATH];
+		PathToAbsoluteW(L"\\", mir_path);
+		PathToAbsoluteW(L"\\", mir_path);
+		if (tmp.Find(mir_path, 0) == 0) {
+			CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
+			edit_HOME_DIR.SetText(path);
+		}
 
-	case WM_COMMAND:
+	}
+	void onClick_OK(CCtrlButton*)
+	{
+		if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText()))
 		{
-			switch (LOWORD(wParam)) {
-			case IDC_SET_BIN_PATH:
-				{
-					GetFilePath(L"Choose gpg.exe", "szGpgBinPath", L"*.exe", L"EXE Executables");
-					CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"gpg.exe")));
-					SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
-					wchar_t mir_path[MAX_PATH];
-					PathToAbsoluteW(L"\\", mir_path);
-					if (tmp.Find(mir_path, 0) == 0) {
-						CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
-						SetDlgItemText(hwndDlg, IDC_BIN_PATH, path);
-					}
-				}
-				break;
-			case IDC_SET_HOME_DIR:
-				{
-					GetFolderPath(L"Set home directory", "szHomePath");
-					CMStringW tmp(ptrW(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"")));
-					SetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp);
-					wchar_t mir_path[MAX_PATH];
-					PathToAbsoluteW(L"\\", mir_path);
-					PathToAbsoluteW(L"\\", mir_path);
-					if (tmp.Find(mir_path, 0) == 0) {
-						CMStringW path = tmp.Mid(mir_wstrlen(mir_path));
-						SetDlgItemText(hwndDlg, IDC_HOME_DIR, path);
-					}
-				}
-				break;
-			case ID_OK:
-				{
-					wchar_t tmp[512];
-					GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
-					if (tmp[0]) {
-						wchar_t mir_path[MAX_PATH];
-						PathToAbsoluteW(L"\\", mir_path);
-						SetCurrentDirectoryW(mir_path);
-						if (!boost::filesystem::exists(tmp)) {
-							MessageBox(nullptr, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
-							break;
-						}
-					}
-					else {
-						MessageBox(nullptr, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					{
-						bool bad_version = false;
-						db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-						string out;
-						DWORD code;
-						std::vector<wstring> cmd;
-						cmd.push_back(L"--version");
-						gpg_execution_params params(cmd);
-						pxResult result;
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						gpg_launcher(params);
-						gpg_valid = false;
-						db_unset(NULL, szGPGModuleName, "szGpgBinPath");
-						string::size_type p1 = out.find("(GnuPG) ");
-						if (p1 != string::npos) {
-							p1 += mir_strlen("(GnuPG) ");
-							if (out[p1] != '1')
-								bad_version = true;
-						}
-						else {
-							bad_version = false;
-							MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
-						}
-						if (bad_version)
-							MessageBox(nullptr, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
-					}
-					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
-					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
-						tmp[mir_wstrlen(tmp) - 1] = '\0';
-					if (!tmp[0]) {
-						MessageBox(nullptr, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
-					{
-						wchar_t *path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-						DWORD dwFileAttr = GetFileAttributes(path);
-						if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
-							dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
-							SetFileAttributes(path, dwFileAttr);
-						}
-						mir_free(path);
-					}
-					gpg_valid = true;
-					db_set_b(NULL, szGPGModuleName, "FirstRun", 0);
-					DestroyWindow(hwndDlg);
-					ShowFirstRunDialog();
-				}
-				break;
-			case IDC_GENERATE_RANDOM:
-				{
-					wchar_t tmp[512];
-					GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, _countof(tmp));
-					if (tmp[0]) {
-						wchar_t mir_path[MAX_PATH];
-						PathToAbsoluteW(L"\\", mir_path);
-						SetCurrentDirectoryW(mir_path);
-						if (!boost::filesystem::exists(tmp)) {
-							MessageBox(nullptr, TranslateT("GPG binary does not exist.\nPlease choose another location"), TranslateT("Warning"), MB_OK);
-							break;
-						}
-					}
-					else {
-						MessageBox(nullptr, TranslateT("Please choose GPG binary location"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					{
-						bool bad_version = false;
-						db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-						string out;
-						DWORD code;
-						std::vector<wstring> cmd;
-						cmd.push_back(L"--version");
-						gpg_execution_params params(cmd);
-						pxResult result;
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						gpg_launcher(params);
-						gpg_valid = false;
-						db_unset(NULL, szGPGModuleName, "szGpgBinPath");
-						string::size_type p1 = out.find("(GnuPG) ");
-						if (p1 != string::npos) {
-							p1 += mir_strlen("(GnuPG) ");
-							if (out[p1] != '1')
-								bad_version = true;
-						}
-						else {
-							bad_version = false;
-							MessageBox(nullptr, TranslateT("This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
-						}
-						if (bad_version)
-							MessageBox(nullptr, TranslateT("Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin."), TranslateT("Warning"), MB_OK);
-					}
-					db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp);
-					GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, _countof(tmp));
-					while (tmp[mir_wstrlen(tmp) - 1] == '\\')
-						tmp[mir_wstrlen(tmp) - 1] = '\0';
-					if (!tmp[0]) {
-						MessageBox(nullptr, TranslateT("Please set keyring's home directory"), TranslateT("Warning"), MB_OK);
-						break;
-					}
-					db_set_ws(NULL, szGPGModuleName, "szHomePath", tmp);
-					{
-						ptrW path(UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L""));
-						DWORD dwFileAttr = GetFileAttributes(path);
-						if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
-							dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
-							SetFileAttributes(path, dwFileAttr);
-						}
-					}
-				}
-				{
-					wstring path;
-					{ //generating key file
-						wchar_t *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
-						path = tmp;
-						mir_free(tmp);
-						path.append(L"\\new_key");
-						wfstream f(path.c_str(), std::ios::out);
-						if (!f.is_open()) {
-							MessageBox(nullptr, TranslateT("Failed to open file"), TranslateT("Error"), MB_OK);
-							break;
-						}
-						f << "Key-Type: RSA";
-						f << "\n";
-						f << "Key-Length: 2048";
-						f << "\n";
-						f << "Subkey-Type: RSA";
-						f << "\n";
-						f << "Name-Real: ";
-						f << get_random(6).c_str();
-						f << "\n";
-						f << "Name-Email: ";
-						f << get_random(5).c_str();
-						f << "@";
-						f << get_random(5).c_str();
-						f << ".";
-						f << get_random(3).c_str();
-						f << "\n";
-						f.close();
-					}
-					{ //gpg execution
-						DWORD code;
-						string out;
-						std::vector<wstring> cmd;
-						cmd.push_back(L"--batch");
-						cmd.push_back(L"--yes");
-						cmd.push_back(L"--gen-key");
-						cmd.push_back(path);
-						gpg_execution_params params(cmd);
-						pxResult result;
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						if (!gpg_launcher(params, boost::posix_time::minutes(10))) {
-							gpg_valid = false;
-							break;
-						}
-						gpg_valid = false;
-						if (result == pxNotFound)
-							break;
-						boost::filesystem::remove(path);
-						string::size_type p1 = 0;
-						if ((p1 = out.find("key ")) != string::npos)
-							path = toUTF16(out.substr(p1 + 4, 8));
-						else
-							path.clear();
-					}
-					if (!path.empty()) {
-						string out;
-						DWORD code;
-						std::vector<wstring> cmd;
-						cmd.push_back(L"--batch");
-						cmd.push_back(L"-a");
-						cmd.push_back(L"--export");
-						cmd.push_back(path);
-						gpg_execution_params params(cmd);
-						pxResult result;
-						params.out = &out;
-						params.code = &code;
-						params.result = &result;
-						gpg_valid = true;
-						if (!gpg_launcher(params)) {
-							gpg_valid = false;
-							break;
-						}
-						gpg_valid = false;
-						if (result == pxNotFound)
-							break;
-						string::size_type s = 0;
-						while ((s = out.find("\r", s)) != string::npos) {
-							out.erase(s, 1);
-						}
-						db_set_s(NULL, szGPGModuleName, "GPGPubKey", out.c_str());
-						db_set_ws(NULL, szGPGModuleName, "KeyID", path.c_str());
-						extern HWND hwndCurKey_p;
-						SetWindowText(hwndCurKey_p, path.c_str());
-					}
-				}
-				bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0;
+			gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
+			gpg_valid = true;
+			db_set_b(NULL, szGPGModuleName, "FirstRun", 0);
+			this->Hide();
+			ShowFirstRunDialog();
+			this->Close();
+		}
+	}
+	void onClick_GENERATE_RANDOM(CCtrlButton*)
+	{
+		if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText()))
+		{
+			gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
+			gpg_valid = true;
+			if (gpg_use_new_random_key())
+			{
+				db_set_b(NULL, szGPGModuleName, "bAutoExchange", bAutoExchange = chk_AUTO_EXCHANGE.GetState());
 				gpg_valid = true;
 				db_set_b(NULL, szGPGModuleName, "FirstRun", 0);
-				DestroyWindow(hwndDlg);
-				break;
-			default:
-				break;
+				this->Close();
 			}
-
-			break;
 		}
-
-	case WM_NOTIFY:
-		{
-			/*      switch (((LPNMHDR)lParam)->code)
-					{
-				  default:
-					  break;
-					}*/
-		}
-		break;
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-	case WM_DESTROY:
+	}
+	virtual void OnDestroy() override
+	{
 		hwndSetDirs = nullptr;
 		void InitCheck();
 		InitCheck();
-		break;
-
+		delete this;
 	}
-	return FALSE;
-}
+private:
+	CCtrlButton btn_SET_BIN_PATH, btn_SET_HOME_DIR, btn_OK, btn_GENERATE_RANDOM;
+	CCtrlEdit edit_BIN_PATH, edit_HOME_DIR;
+	CCtrlCheck chk_AUTO_EXCHANGE;
+};
+
 
 static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
@@ -1679,10 +1545,8 @@ void ShowFirstRunDialog()
 
 void ShowSetDirsDialog()
 {
-	if (hwndSetDirs == nullptr) {
-		hwndSetDirs = CreateDialog(hInst, MAKEINTRESOURCE(IDD_BIN_PATH), nullptr, DlgProcGpgBinOpts);
-	}
-	SetForegroundWindow(hwndSetDirs);
+	CDlgGpgBinOpts *d = new CDlgGpgBinOpts;
+	d->Show();
 }
 
 void ShowNewKeyDialog()

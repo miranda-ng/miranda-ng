@@ -144,12 +144,12 @@ public:
 			debuglog.init();
 		db_set_b(NULL, szGPGModuleName, "bJabberAPI", bJabberAPI = check_JABBER_API.GetState());
 		bool old_bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0) != 0;
-		db_set_b(NULL, szGPGModuleName, "bFileTransfers", bFileTransfers = check_JABBER_API.GetState());
+		db_set_b(NULL, szGPGModuleName, "bFileTransfers", bFileTransfers = check_FILE_TRANSFERS.GetState());
 		if (bFileTransfers != old_bFileTransfers) {
 			db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
 			bSameAction = false;
 		}
-		db_set_b(NULL, szGPGModuleName, "bAutoExchange", bAutoExchange = check_JABBER_API.GetState());
+		db_set_b(NULL, szGPGModuleName, "bAutoExchange", bAutoExchange = check_AUTO_EXCHANGE.GetState());
 		db_set_ws(NULL, szGPGModuleName, "szLogFilePath", ptrW(edit_LOG_FILE_EDIT.GetText()));
 	}
 
