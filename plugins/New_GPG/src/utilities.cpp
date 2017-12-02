@@ -1810,10 +1810,6 @@ public:
 	{
 		file_msg_state = -1;
 	}
-	virtual void OnClose() override
-	{
-		DestroyWindow(m_hwnd);
-	}
 	virtual void OnDestroy() override
 	{
 		delete this;
@@ -1825,7 +1821,7 @@ public:
 			db_set_b(NULL, szGPGModuleName, "bSameAction", 1);
 			bSameAction = true;
 		}
-		DestroyWindow(m_hwnd);
+		this->Close();
 	}
 	void onClick_DECRYPT(CCtrlButton*)
 	{
@@ -1837,7 +1833,7 @@ public:
 			db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
 			bSameAction = false;
 		}
-		DestroyWindow(m_hwnd);
+		this->Close();
 	}
 private:
 	CCtrlCheck chk_REMEMBER;
@@ -1848,9 +1844,7 @@ private:
 void ShowEncryptedFileMsgBox()
 {
 	CDlgEncryptedFileMsgBox *d = new CDlgEncryptedFileMsgBox;
-	d->DoModal(); //TODO: check this
-	d->Show();
-	
+	d->DoModal();
 }
 
 class CDlgExportKeysMsgBox : public CDlgBase
@@ -1867,10 +1861,6 @@ public:
 	{
 		chk_PUBLIC.SetState(1);
 	}
-	virtual void OnClose() override
-	{
-		DestroyWindow(m_hwnd);
-	}
 	virtual void OnDestroy() override
 	{
 		delete this;
@@ -1883,11 +1873,11 @@ public:
 			ExportGpGKeysFunc(1);
 		else if (chk_ALL.GetState())
 			ExportGpGKeysFunc(2);
-		DestroyWindow(m_hwnd);
+		this->Close();
 	}
 	void onClick_CANCEL(CCtrlButton*)
 	{
-		DestroyWindow(m_hwnd);
+		this->Close();
 	}
 
 private:
@@ -1910,10 +1900,6 @@ public:
 		edit_NEW_PASSWD1(this, IDC_NEW_PASSWD1), edit_NEW_PASSWD2(this, IDC_NEW_PASSWD2), edit_OLD_PASSWD(this, IDC_OLD_PASSWD)
 	{
 		btn_OK.OnClick = Callback(this, &CDlgChangePasswdMsgBox::onClick_OK);
-	}
-	virtual void OnClose() override
-	{
-		DestroyWindow(m_hwnd);
 	}
 	virtual void OnDestroy() override
 	{
@@ -1973,13 +1959,13 @@ public:
 					boost::process::terminate(*(params.child));
 				if (bDebugLog)
 					debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
-				DestroyWindow(m_hwnd);
+				this->Close();
 				return;
 			}
 			if (result == pxNotFound)
 				return;
 		}
-		DestroyWindow(m_hwnd);
+		this->Close();
 	}
 private:
 	CCtrlButton btn_OK;
@@ -1992,8 +1978,6 @@ void ShowChangePasswdDlg()
 {
 	CDlgChangePasswdMsgBox *d = new CDlgChangePasswdMsgBox;
 	d->DoModal();
-	d->Show();
-	SetForegroundWindow(d->GetHwnd()); //?
 }
 
 void clean_temp_dir()

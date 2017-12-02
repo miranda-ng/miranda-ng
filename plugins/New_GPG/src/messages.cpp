@@ -1083,5 +1083,4 @@ void ShowLoadKeyPasswordWindow()
 {
 	CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox;
 	d->DoModal();
-	d->Show();
 }

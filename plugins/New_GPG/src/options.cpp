@@ -49,10 +49,6 @@ public:
 		btn_LOG_FILE_SET.OnClick = Callback(this, &COptGpgMainDlg::onClick_LOG_FILE_SET);
 
 		check_JABBER_API.OnChange = Callback(this, &COptGpgMainDlg::onChange_JABBER_API);
-
-		list_USERLIST.OnItemActivate;
-		list_USERLIST.OnColumnClick;
-		list_USERLIST.OnDoubleClick;
 	}
 
 	virtual void OnInitDialog() override
@@ -1005,7 +1001,7 @@ public:
 					db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 			}
 		}
-		DestroyWindow(m_hwnd);
+		this->Close();
 	}
 
 	void onClick_LOAD_FROM_FILE(CCtrlButton*)
@@ -1065,7 +1061,8 @@ void ShowLoadPublicKeyDialog(bool modal)
 	CDlgLoadPubKeyDlg *d = new CDlgLoadPubKeyDlg();
 	if (modal)
 		d->DoModal();
-	d->Show();
+	else
+		d->Show();
 }
 
 int GpgOptInit(WPARAM wParam, LPARAM)
