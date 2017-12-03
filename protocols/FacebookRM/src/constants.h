@@ -66,7 +66,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_MESSAGES_ON_OPEN_LIMIT			99
 #define FACEBOOK_TYPING_TIME					60
 #define FACEBOOK_IGNORE_COUNTER_LIMIT			100 // how many consequent requests it should keep info about duplicit message ids
-#define FACEBOOK_PING_TIME						600 // every 10 minutes send activity_ping (it is just random/guessed value)
+#define FACEBOOK_PING_TIME						90 // every 90 seconds send activity_ping (it's guessed value, but it's similar how often website does it)
 
 #define MAX_NEWSFEED_LEN						500
 #define MAX_LINK_DESCRIPTION_LEN				200
