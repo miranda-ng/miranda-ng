@@ -58,7 +58,7 @@ public:
 		list_USERLIST.AddColumn(2, TranslateT("Name"), 50);
 		list_USERLIST.AddColumn(3, TranslateT("Email"), 50);
 		list_USERLIST.AddColumn(4, TranslateT("Protocol"), 60);
-		list_USERLIST.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
+		list_USERLIST.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SINGLEROW);
 		int i = 1;
 		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 		{
@@ -550,7 +550,7 @@ public:
 };
 
 
-HWND hPubKeyEdit = nullptr;
+CCtrlEdit *edit_p_PubKeyEdit = nullptr;
 
 static LRESULT CALLBACK editctrl_ctrl_a(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -665,7 +665,7 @@ public:
 				mir_free(tmp);
 			edit_PUBLIC_KEY_EDIT.SetText(!str.empty() ? str.c_str() : L"");
 		}
-		hPubKeyEdit = edit_PUBLIC_KEY_EDIT.GetHwnd();
+		edit_p_PubKeyEdit = &edit_PUBLIC_KEY_EDIT;
 	}
 
 	virtual void OnDestroy() override
@@ -673,6 +673,7 @@ public:
 		GetWindowRect(m_hwnd, &load_key_rect);
 		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowX", load_key_rect.left);
 		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", load_key_rect.top);
+		edit_p_PubKeyEdit = nullptr;
 		delete this;
 	}
 
