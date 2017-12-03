@@ -639,6 +639,9 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				UpdateControlsState(hwndDlg);
 				MarkChanges(2, hwndDlg);
 				break;
+			case IDC_GETTEMPLATES:
+				Utils_OpenUrl("https://miranda-ng.org/addons/category/16");
+				break;
 			}
 		}
 		break;

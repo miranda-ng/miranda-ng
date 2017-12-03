@@ -51,6 +51,7 @@
 #define IDC_PROTOLIST                   1063
 #define IDC_RTLSUPPORT                  1070
 #define IDC_GROUPSUPPORT                1071
+#define IDC_GETTEMPLATES                1072
 #define IDC_TABS                        2000
 #define ID_MENU_SHOWSOURCE              2139
 #define ID_MENU_COPYLINK                2262
@@ -62,7 +63,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        101
+#define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101

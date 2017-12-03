@@ -7,8 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -50,9 +49,13 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_RTL_ON              ICON                    "rtl_on.ico"
+
 IDI_RTL_OFF             ICON                    "rtl_off.ico"
+
 IDI_GROUP_ON            ICON                    "group_on.ico"
+
 IDI_GROUP_OFF           ICON                    "group_off.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -105,6 +108,7 @@ BEGIN
     CONTROL         "Show date",IDC_LOG_SHOW_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,145,173,143,10
     CONTROL         "Use long date format",IDC_LOG_LONG_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,183,131,10
     CONTROL         "Use relative timestamp",IDC_LOG_RELATIVE_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,193,131,10
+    CONTROL         "Download more templates",IDC_GETTEMPLATES,"Hyperlink",WS_TABSTOP,119,145,100,12
 END
 
 
@@ -156,6 +160,17 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_SRMM_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -166,8 +181,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 
