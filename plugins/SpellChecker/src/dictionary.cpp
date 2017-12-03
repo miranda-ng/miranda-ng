@@ -428,12 +428,12 @@ protected:
 		return ret;
 	}
 
-	wchar_t* fromHunspellAndFree(std::string hunspellWord)
+	wchar_t* fromHunspellAndFree(const char *hunspellWord)
 	{
-		if (hunspellWord.c_str() == nullptr)
+		if (hunspellWord == nullptr)
 			return nullptr;
 
-		wchar_t *ret = fromHunspell(hunspellWord.c_str());
+		wchar_t *ret = fromHunspell(hunspellWord);
 		return ret;
 	}
 
@@ -460,16 +460,15 @@ public:
 
 	virtual ~HunspellDictionary()
 	{
-		if (hunspell != nullptr)
-			delete hunspell;
+		delete hunspell;
 		if (wordChars != nullptr)
 			free(wordChars);
 	}
 
 	wchar_t * merge(wchar_t * s1, wchar_t *s2)
 	{
-		int len1 = (s1 == nullptr ? 0 : mir_wstrlen(s1));
-		int len2 = (s2 == nullptr ? 0 : mir_wstrlen(s2));
+		int len1 = mir_wstrlen(s1);
+		int len2 = mir_wstrlen(s2);
 
 		wchar_t *ret;
 		if (len1 > 0 && len2 > 0) {
@@ -549,7 +548,7 @@ public:
 			hwordchars = fromHunspell(hunspell->get_wordchars());
 		}
 
-		wchar_t *casechars = fromHunspellAndFree(get_casechars(dic_enc));
+		wchar_t *casechars = fromHunspellAndFree(get_casechars(dic_enc).c_str());
 		wchar_t *try_string = fromHunspellAndFree(hunspell->get_try_string());
 
 		wordChars = merge(merge(casechars, hwordchars), try_string);
