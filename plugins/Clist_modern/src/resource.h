@@ -232,6 +232,7 @@
 #define IDC_STATIC9                     1374
 #define IDC_STATIC10                    1375
 #define IDC_STATIC13                    1376
+#define IDC_GETSKINS                    1377
 #define IDC_AVATAR_OVERLAY_ICON_CONTACT 1502
 #define IDC_HIDE                        1534
 #define IDC_TOPLINE                     1535
@@ -501,7 +502,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        509
+#define _APS_NEXT_RESOURCE_VALUE        510
 #define _APS_NEXT_COMMAND_VALUE         40022
 #define _APS_NEXT_CONTROL_VALUE         2025
 #define _APS_NEXT_SYMED_VALUE           101

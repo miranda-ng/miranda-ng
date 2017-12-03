@@ -28,40 +28,75 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_HIDE_AVATAR         ICON                    "hide_avatar.ico"
+
 IDI_SHOW_AVATAR         ICON                    "show_avatar.ico"
+
 IDI_LISTENING_TO        ICON                    "listening_to.ico"
+
 IDI_FAVORITE_0          ICON                    "rate_none.ico"
+
 IDI_FAVORITE_1          ICON                    "rate_low.ico"
+
 IDI_FAVORITE_2          ICON                    "rate_med.ico"
+
 IDI_FAVORITE_3          ICON                    "rate_high.ico"
+
 IDI_AVATAR_OVERLAY_NA   ICON                    "NA.ico"
+
 IDI_AVATAR_OVERLAY_OCCUPIED ICON                    "occupied.ico"
+
 IDI_AVATAR_OVERLAY_OFFLINE ICON                    "offline.ico"
+
 IDI_AVATAR_OVERLAY_PHONE ICON                    "phone.ico"
+
 IDI_AVATAR_OVERLAY_AWAY ICON                    "Away.ico"
+
 IDI_AVATAR_OVERLAY_DND  ICON                    "DND.ico"
+
 IDI_AVATAR_OVERLAY_INVISIBLE ICON                    "invisible.ico"
+
 IDI_AVATAR_OVERLAY_LUNCH ICON                    "lunch.ico"
+
 IDI_AVATAR_OVERLAY_CHAT ICON                    "chat.ico"
+
 IDI_STATUS_OVERLAY_NA   ICON                    "MicroNA.ico"
+
 IDI_STATUS_OVERLAY_OCCUPIED ICON                    "Microoccupied.ico"
+
 IDI_STATUS_OVERLAY_OFFLINE ICON                    "Microoffline.ico"
+
 IDI_STATUS_OVERLAY_PHONE ICON                    "Microphone.ico"
+
 IDI_STATUS_OVERLAY_AWAY ICON                    "MicroAway.ico"
+
 IDI_STATUS_OVERLAY_DND  ICON                    "MicroDND.ico"
+
 IDI_STATUS_OVERLAY_INVISIBLE ICON                    "Microinvisible.ico"
+
 IDI_STATUS_OVERLAY_LUNCH ICON                    "Microlunch.ico"
+
 IDI_STATUS_OVERLAY_CHAT ICON                    "Microchat.ico"
+
 IDI_ICQC1               ICON                    "1.ico"
+
 IDI_ICQC2               ICON                    "2.ico"
+
 IDI_ICQC3               ICON                    "3.ico"
+
 IDI_ICQC4               ICON                    "4.ico"
+
 IDI_ICQC5               ICON                    "5.ico"
+
 IDI_ICQC6               ICON                    "6.ico"
+
 IDI_ICQC7               ICON                    "7.ico"
+
 IDI_ICQC8               ICON                    "8.ico"
+
 IDI_SETVIEW             ICON                    "set_view.ico"
+
 IDI_RESETVIEW           ICON                    "reset_view.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -69,8 +104,11 @@ IDI_RESETVIEW           ICON                    "reset_view.ico"
 //
 
 IDC_DEFAULTSUB          CURSOR                  "neo_meta_default.cur"
+
 IDC_DROPMETA            CURSOR                  "neo_meta_create.cur"
+
 IDC_REGROUP             CURSOR                  "neo_meta_move.cur"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -107,18 +145,19 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Available skins",IDC_STATIC,0,25,173,182,WS_DISABLED
-    PUSHBUTTON      "Rescan",IDC_BUTTON_RESCAN,5,190,48,12
-    PUSHBUTTON      "Apply",IDC_BUTTON_APPLY_SKIN,61,190,48,12,WS_DISABLED
-    PUSHBUTTON      "Info",IDC_BUTTON_INFO,118,190,48,12,WS_DISABLED
-    CTEXT           "\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.",IDC_STATIC_INFO,180,50,108,150
+    GROUPBOX        "Available skins",IDC_STATIC,0,25,173,187,WS_DISABLED
+    PUSHBUTTON      "Rescan",IDC_BUTTON_RESCAN,5,185,48,12
+    PUSHBUTTON      "Apply",IDC_BUTTON_APPLY_SKIN,61,185,48,12,WS_DISABLED
+    PUSHBUTTON      "Info",IDC_BUTTON_INFO,118,185,48,12,WS_DISABLED
+    CTEXT           "\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.",IDC_STATIC_INFO,180,50,108,159
     CONTROL         "",IDC_PREVIEW,"Static",SS_OWNERDRAW | SS_CENTERIMAGE | SS_REALSIZEIMAGE,180,36,113,167
-    GROUPBOX        "Skin preview",IDC_STATIC,175,25,123,182,WS_DISABLED
-    LTEXT           "WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.",IDC_STATIC,3,208,300,17
-    LTEXT           "* Restart may be required for all changes to take effect",IDC_STATIC,3,230,300,8
+    GROUPBOX        "Skin preview",IDC_STATIC,175,25,123,187,WS_DISABLED
+    LTEXT           "WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.",IDC_STATIC,3,213,300,17
+    LTEXT           "* Restart may be required for all changes to take effect",IDC_STATIC,3,233,300,8
     CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND | WS_BORDER | WS_HSCROLL | WS_TABSTOP,5,35,161,148
     GROUPBOX        "Skin folder",IDC_STATIC,0,0,298,24
     LTEXT           "",IDC_SKINFOLDERLABEL,6,10,290,9
+    CONTROL         "Download more skins",IDC_GETSKINS,"Hyperlink",WS_TABSTOP,5,199,100,12
 END
 
 IDD_OPT_ITEMS DIALOGEX 0, 0, 315, 243
@@ -745,6 +784,7 @@ END
 
 IDR_TGA_DEFAULT_SKIN    TGA                     "Back.tga"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // MSF
@@ -752,32 +792,33 @@ IDR_TGA_DEFAULT_SKIN    TGA                     "Back.tga"
 
 IDR_MSF_DEFAULT_SKIN    MSF                     "skin.msf"
 
-///////////////////////////////////////////////////////////////////////////// 
-// 
-// Menu 
-// 
- 
-IDR_CLISTMENU MENU 
-BEGIN 
-	POPUP "&Main menu" 
-	BEGIN 
-		MENUITEM SEPARATOR 
-		MENUITEM "E&xit",                       ID_ICQ_EXIT 
-	END 
-	POPUP "&Status" 
-	BEGIN 
-		MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED 
-		MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE 
-		MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY 
-		MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA 
-		MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED 
-		MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND 
-		MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT 
-		MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE 
-		MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE 
-		MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
-    END 
-END 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_CLISTMENU MENU
+BEGIN
+    POPUP "&Main menu"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_ICQ_EXIT
+    END
+    POPUP "&Status"
+    BEGIN
+        MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED
+        MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE
+        MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY
+        MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA
+        MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED
+        MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND
+        MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
+        MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
+        MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
+    END
+END
 
 
 #ifdef APSTUDIO_INVOKED
@@ -815,6 +856,10 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPT_SKIN, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_CLUI_2, DIALOG
     BEGIN
         RIGHTMARGIN, 285
@@ -827,6 +872,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_SKIN AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////

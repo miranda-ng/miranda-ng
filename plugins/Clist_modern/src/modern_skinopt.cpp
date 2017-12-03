@@ -157,6 +157,12 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 			break;
 
+		case IDC_GETSKINS:
+			if (HIWORD(wParam) == BN_CLICKED)
+				Utils_OpenUrl("https://miranda-ng.org/addons/category/17");
+			break;
+
+
 		case IDC_BUTTON_RESCAN:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				HTREEITEM it = FillAvailableSkinList(hwndDlg);
