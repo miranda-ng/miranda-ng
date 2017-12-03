@@ -335,6 +335,10 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Using_skins");
 			break;
 
+		case IDC_GETSKINS:
+			Utils_OpenUrl("https://miranda-ng.org/addons/category/19");
+			break;
+
 		case IDC_SKIN_CLOSENOW:
 			CloseAllContainers();
 			break;

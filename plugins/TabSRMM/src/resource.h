@@ -499,6 +499,7 @@
 #define IDC_STATIC_VISIBILTY            1491
 #define IDC_BUTTONTABS                  1492
 #define IDC_CLOSEBUTTONONTABS           1493
+#define IDC_GETSKINS                    1494
 #define IDC_O_STATIC_AVATAR             1501
 #define IDC_O_STATIC_OWNAVATAR          1502
 #define IDC_USEAERO                     1531
@@ -738,7 +739,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        17
+#define _APS_NEXT_RESOURCE_VALUE        18
 #define _APS_NEXT_COMMAND_VALUE         40263
 #define _APS_NEXT_CONTROL_VALUE         1453
 #define _APS_NEXT_SYMED_VALUE           40283

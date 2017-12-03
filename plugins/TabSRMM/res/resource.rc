@@ -157,7 +157,6 @@ BEGIN
     GROUPBOX        "Send text formatting method",IDC_STATIC,4,45,310,33
     COMBOBOX        IDC_TEXTFORMATTING,8,57,128,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "You can override the global setting for text formatting here. Use ""Force off"" to never send formatting info for this contact.",IDC_STATIC,143,52,164,24
-
     GROUPBOX        "Other options",IDC_STATIC,4,118,310,142
     LTEXT           "Info panel mode",IDC_STATIC,12,128,128,8
     COMBOBOX        IDC_INFOPANEL,9,138,130,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -524,6 +523,7 @@ BEGIN
     LTEXT           "You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.",IDC_STATIC,9,137,286,26
     PUSHBUTTON      "Export to a file...",IDC_THEMEEXPORT,9,164,139,14
     PUSHBUTTON      "Import from a file...",IDC_THEMEIMPORT,156,164,139,14
+    CONTROL         "Download more skins",IDC_GETSKINS,"Hyperlink",WS_TABSTOP,196,22,100,12
 END
 
 IDD_USERPREFS_FRAME DIALOGEX 0, 0, 326, 316
@@ -611,7 +611,9 @@ END
 //
 
 IDC_DROP                CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drag_copy.cur"
+
 IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drop_user.cur"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -812,11 +814,11 @@ BEGIN
         MENUITEM "Info panel...",               ID_VIEW_INFOPANEL
         POPUP "Toolbar"
         BEGIN
-            MENUITEM "Show toolbar",               ID_VIEW_SHOWTOOLBAR
+            MENUITEM "Show toolbar",                ID_VIEW_SHOWTOOLBAR
             MENUITEM "Place toolbar at bottom",     ID_VIEW_BOTTOMTOOLBAR
         END
         MENUITEM "Title bar",                   ID_VIEW_SHOWTITLEBAR
-        MENUITEM "Tabs at the bottom",              ID_VIEW_TABSATBOTTOM
+        MENUITEM "Tabs at the bottom",          ID_VIEW_TABSATBOTTOM
         MENUITEM "Vertical maximize",           ID_VIEW_VERTICALMAXIMIZE
         MENUITEM SEPARATOR
         POPUP "Window flashing"
@@ -865,9 +867,13 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_FEATURE_DISABLED    ICON                    "overlay_disabled.ico"
+
 IDI_ENABLED             ICON                    "res_TN\\popup.ico"
+
 IDI_DISABLED            ICON                    "res_TN\\popup_no.ico"
+
 IDI_FEATURE_ENABLED     ICON                    "overlay_enabled.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -880,6 +886,10 @@ BEGIN
     IDD_OPT_TYPINGNOTIFYPOPUP, DIALOG
     BEGIN
         BOTTOMMARGIN, 191
+    END
+
+    IDD_OPT_SKIN, DIALOG
+    BEGIN
     END
 
     IDD_SENDLATER_QMGR, DIALOG
@@ -933,9 +943,24 @@ END
 //
 
 IDR_SKIN_AERO           SKIN_GLYPH              "SKIN\\tabskin_aero.png"
+
 IDR_SKIN_AERO_GLOW      SKIN_GLYPH              "SKIN\\tabskin_aero_glow.png"
+
 IDR_SKIN_AERO_SWITCHBAR SKIN_GLYPH              "SKIN\\tabskin_aero_button.png"
+
 IDR_SKIN_LOGO           SKIN_GLYPH              "SKIN\\unknown.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_SKIN AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
