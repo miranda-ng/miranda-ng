@@ -220,6 +220,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					break;
 				}
 
+			case IDC_GETSPLASHES:
+				Utils_OpenUrl("https://miranda-ng.org/addons/category/15");
+				break;
+
 			case IDC_CHOOSESND:
 				{
 					wchar_t szTempPath[MAX_PATH], initDir[MAX_PATH];

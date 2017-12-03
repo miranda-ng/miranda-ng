@@ -1,5 +1,5 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
+// Microsoft Visual C++ generated include file.
 // Used by splash.rc
 //
 #define IDD_SPLASH_OPT                  102
@@ -19,6 +19,7 @@
 #define IDC_FOSTEP                      1017
 #define IDC_FO_SPIN                     1018
 #define IDC_RANDOM                      1019
+#define IDC_GETSPLASHES                 1020
 #define IDC_LOOPSOUND                   1022
 #define IDC_SHOWVERSION                 1023
 #define IDC_VERSIONPREFIX               1024
@@ -28,7 +29,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1026
 #define _APS_NEXT_SYMED_VALUE           101
