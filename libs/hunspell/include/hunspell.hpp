@@ -7,7 +7,6 @@
 #include "../src/affixmgr.hxx"
 #include "../src/langnum.hxx"
 #include "../src/atypes.hxx"
-#include "../src/dictmgr.hxx"
 #include "../src/filemgr.hxx"
 #include "../src/hashmgr.hxx"
 #include "../src/hunzip.hxx"

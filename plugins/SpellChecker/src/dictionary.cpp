@@ -428,13 +428,12 @@ protected:
 		return ret;
 	}
 
-	wchar_t* fromHunspellAndFree(char *hunspellWord)
+	wchar_t* fromHunspellAndFree(std::string hunspellWord)
 	{
-		if (hunspellWord == nullptr)
+		if (hunspellWord.c_str() == nullptr)
 			return nullptr;
 
-		wchar_t *ret = fromHunspell(hunspellWord);
-		free(hunspellWord);
+		wchar_t *ret = fromHunspell(hunspellWord.c_str());
 		return ret;
 	}
 
