@@ -95,7 +95,6 @@ public:
   std::vector<std::string> stem(const std::string& word);
   std::vector<std::string> stem(const std::vector<std::string>& morph);
   std::vector<std::string> analyze(const std::string& word);
-  int get_langnum() const;
   bool input_conv(const std::string& word, std::string& dest);
   bool spell(const std::string& word, int* info = NULL, std::string* root = NULL);
   std::vector<std::string> suggest(const std::string& word);
@@ -105,9 +104,12 @@ public:
   int add(const std::string& word);
   int add_with_affix(const std::string& word, const std::string& example);
   int remove(const std::string& word);
-  const std::string& get_version() const;
   struct cs_info* get_csconv();
   std::vector<char> dic_encoding_vec;
+
+  int get_langnum() const { return langnum; }
+  const char* get_try_string() const { return pAMgr->get_try_string(); }
+  const std::string& get_version() const { return pAMgr->get_version(); }
 
 private:
   AffixMgr* pAMgr;
@@ -1336,8 +1338,8 @@ const std::string& Hunspell::get_version_cpp() const {
   return m_Impl->get_version();
 }
 
-const std::string& HunspellImpl::get_version() const {
-  return pAMgr->get_version();
+const char* Hunspell::get_try_string() const {
+	return m_Impl->get_try_string();
 }
 
 struct cs_info* HunspellImpl::get_csconv() {
@@ -1672,10 +1674,6 @@ std::string HunspellImpl::get_xml_par(const char* par) {
 
 int Hunspell::get_langnum() const {
   return m_Impl->get_langnum();
-}
-
-int HunspellImpl::get_langnum() const {
-  return langnum;
 }
 
 bool Hunspell::input_conv(const std::string& word, std::string& dest) {
