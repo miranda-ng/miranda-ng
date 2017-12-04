@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "BASS interface"
+#define __PLUGIN_NAME            "BASS Interface"
 #define __FILENAME               "BASS_interface.dll"
 #define __DESCRIPTION             "Un4seen's BASS interface Miranda NG plugin."
 #define __AUTHOR               "tico-tico"

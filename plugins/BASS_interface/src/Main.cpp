@@ -449,11 +449,11 @@ void CreateFrame()
 	wndclass.lpszClassName = L"BassInterfaceFrame";
 	RegisterClass(&wndclass);
 
-	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("BASS interface"),
+	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("BASS Interface"),
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, nullptr);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
-	Frame.tname = TranslateT("BASS interface");
+	Frame.tname = TranslateT("BASS Interface");
 	Frame.hWnd = hwnd_plugin;
 	Frame.align = alBottom;
 	Frame.Flags = F_UNICODE | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
