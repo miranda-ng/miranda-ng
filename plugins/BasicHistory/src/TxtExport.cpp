@@ -27,7 +27,7 @@ TxtExport::~TxtExport()
 void TxtExport::WriteHeader(const std::wstring&, const std::wstring &filterName, const std::wstring &myName, const std::wstring &myId, const std::wstring &name1, const std::wstring &proto1, const std::wstring &id1, const std::string&, const std::wstring&)
 {
 	wchar_t* start = TranslateT("###");
-	EXP_FILE << start << "\n" << start << L" " << TranslateT("History Log") << L"\n";
+	EXP_FILE << start << "\n" << start << L" " << TranslateT("History log") << L"\n";
 	EXP_FILE << start << L" " << myName;
 	if (proto1.length() || myId.length())
 		EXP_FILE << L" (" << proto1 << L": " << myId << L") - ";

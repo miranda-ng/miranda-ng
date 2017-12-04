@@ -41,7 +41,7 @@ std::wstring GetFile(const wchar_t* ext, HWND hwnd, bool open)
 
 	wcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
-	mir_snwprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
+	mir_snwprintf(filter, TranslateT("%s files (*.%s)"), extUpper, ext);
 	size_t len = mir_wstrlen(filter) + 1;
 	mir_snwprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
 	len += mir_wstrlen(filter + len);

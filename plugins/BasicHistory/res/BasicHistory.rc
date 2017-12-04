@@ -32,7 +32,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDD_HISTORY DIALOGEX 0, 0, 496, 366
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Message History"
+CAPTION "Message history"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL        "",IDC_LIST,WC_LISTVIEW, WS_TABSTOP | WS_BORDER | LVS_REPORT | LVS_NOCOLUMNHEADER | LVS_SHOWSELALWAYS | LVS_SINGLESEL | LVS_SHAREIMAGELISTS ,102,27,387,73
@@ -55,10 +55,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,23,270,10
     CONTROL         "Show groups in contact list",IDC_SHOWCONTACTGROUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,34,270,10
-    CONTROL         "Do not show Find control border",IDC_FINDNOBORDER,
+    CONTROL         "Do not show find control border",IDC_FINDNOBORDER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,45,270,10
     COMBOBOX        IDC_DEFFILTER,172,56,122,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Default Event Filter",IDC_STATIC,12,59,145,8
+    LTEXT           "Default event filter",IDC_STATIC,12,59,145,8
     GROUPBOX        "Custom filters",IDC_STATIC,12,78,282,86
     LISTBOX         IDC_LIST_FILTERS,20,92,133,30, WS_TABSTOP | LBS_NOINTEGRALHEIGHT | WS_BORDER | WS_VSCROLL
     LISTBOX         IDC_LIST_EVENTS,20,124,133,30, WS_TABSTOP | LBS_NOINTEGRALHEIGHT | WS_BORDER | WS_VSCROLL
@@ -117,7 +117,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,65,270,10
     CONTROL         "Show event icons",IDC_SHOWEVENTS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,79,270,10
-    CONTROL         "Enable Smileys",IDC_SHOWSMILEYS,
+    CONTROL         "Enable smileys",IDC_SHOWSMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,270,10
 END
 
@@ -131,17 +131,17 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,23,270,10
     CONTROL         "Search forward in message window",IDC_FORMES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,37,270,10
-    CONTROL         "Match Case",IDC_MATCHCASE,
+    CONTROL         "Match case",IDC_MATCHCASE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,51,270,10
-    CONTROL         "Match Whole Word",IDC_MATCHWHOLE,
+    CONTROL         "Match whole word",IDC_MATCHWHOLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,65,270,10
-    CONTROL         "Only Incoming Messages",IDC_ONLYIN,
+    CONTROL         "Only incoming messages",IDC_ONLYIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,79,270,10
-    CONTROL         "Only Outgoing Messages",IDC_ONLYOUT,
+    CONTROL         "Only outgoing messages",IDC_ONLYOUT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,93,270,10
-    CONTROL         "Only Selected Group",IDC_ONLYGROUP,
+    CONTROL         "Only selected group",IDC_ONLYGROUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,107,270,10
-    CONTROL         "All Contacts",IDC_ALLCONTACTS,
+    CONTROL         "All contacts",IDC_ALLCONTACTS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,121,270,10
 END
 
@@ -150,20 +150,20 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Export To Txt",IDC_STATIC,4,5,298,37
+    GROUPBOX        "Export to txt",IDC_STATIC,4,5,298,37
     COMBOBOX        IDC_TXTENC,142,20,152,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     LTEXT           "File encoding*",IDC_STATIC,12,23,115,8
-    GROUPBOX        "Export To Plain Html",IDC_STATIC,4,47,298,50
+    GROUPBOX        "Export to plain HTML",IDC_STATIC,4,47,298,50
     COMBOBOX        IDC_HTML1ENC,142,62,152,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     LTEXT           "File encoding*",IDC_STATIC,12,65,115,8
     CONTROL         "Show date in timestamps",IDC_HTML1DATE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,80,270,10
-    GROUPBOX        "Export To Rich Html",IDC_STATIC,4,102,298,80
+    GROUPBOX        "Export to rich HTML",IDC_STATIC,4,102,298,80
     COMBOBOX        IDC_HTML2ENC,142,117,152,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
     LTEXT           "File encoding*",IDC_STATIC,12,120,115,8
     CONTROL         "Show date in timestamps",IDC_HTML2DATE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,135,270,10
-    CONTROL         "Enable Smileys",IDC_HTML2SHOWSMILEYS,
+    CONTROL         "Enable smileys",IDC_HTML2SHOWSMILEYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,270,10
     CONTROL         "External CSS file",IDC_HTML2EXTCSS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,163,115,10

@@ -101,7 +101,7 @@ void InitMenuItems()
 	SET_UID(mi, 0x28848d7a, 0x6995, 0x4799, 0x82, 0xd7, 0x18, 0x40, 0x3d, 0xe3, 0x71, 0xc4);
 	mi.position = 1000090000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	mi.name.a = LPGEN("View &History");
+	mi.name.a = LPGEN("View &history");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
@@ -112,7 +112,7 @@ void InitMenuItems()
 	SET_UID(mi, 0x63929694, 0x2d3d, 0x4c5d, 0xa5, 0x2b, 0x64, 0x59, 0x72, 0x23, 0xe, 0x66);
 	mi.position = 1000090001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	mi.name.a = LPGEN("Delete All User History");
+	mi.name.a = LPGEN("Delete all user history");
 	mi.pszService = MS_HISTORY_DELETEALLCONTACTHISTORY;
 	hDeleteContactMenu = Menu_AddContactMenuItem(&mi);
 
@@ -160,10 +160,10 @@ IconItem iconList[] =
 	{ LPGEN("Incoming message"), "BasicHistory_in", IDI_INM },
 	{ LPGEN("Outgoing message"), "BasicHistory_out", IDI_OUTM },
 	{ LPGEN("Status change"),    "BasicHistory_status", IDI_STATUS },
-	{ LPGEN("Show Contacts"),    "BasicHistory_show", IDI_SHOW },
-	{ LPGEN("Hide Contacts"),    "BasicHistory_hide", IDI_HIDE },
-	{ LPGEN("Find Next"),        "BasicHistory_findnext", IDI_FINDNEXT },
-	{ LPGEN("Find Previous"),    "BasicHistory_findprev", IDI_FINDPREV },
+	{ LPGEN("Show contacts"),    "BasicHistory_show", IDI_SHOW },
+	{ LPGEN("Hide contacts"),    "BasicHistory_hide", IDI_HIDE },
+	{ LPGEN("Find next"),        "BasicHistory_findnext", IDI_FINDNEXT },
+	{ LPGEN("Find previous"),    "BasicHistory_findprev", IDI_FINDPREV },
 	{ LPGEN("Plus in export"),   "BasicHistory_plusex", IDI_PLUSEX },
 	{ LPGEN("Minus in export"),  "BasicHistory_minusex", IDI_MINUSEX },
 };

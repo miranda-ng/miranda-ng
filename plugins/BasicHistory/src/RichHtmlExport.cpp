@@ -315,7 +315,7 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 
 	EXP_FILE << L"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 	EXP_FILE << L"<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=" << encoding << L"\">\n";
-	EXP_FILE << L"<title>" << TranslateT("History Log") << L" [" << MakeTextHtmled(myName) << L"] - [" << MakeTextHtmled(name1) << L"]</title>\n";
+	EXP_FILE << L"<title>" << TranslateT("History log") << L" [" << MakeTextHtmled(myName) << L"] - [" << MakeTextHtmled(name1) << L"]</title>\n";
 	EXP_FILE << L"<link rel=\"Stylesheet\" href=\"" << folderName << L"\\history.css\" type=\"text/css\">\n";
 	EXP_FILE << L"<script type=\"text/javascript\" src=\"" << folderName << L"\\history.js\"></script>\n";
 	EXP_FILE << L"</head><body>\n";
@@ -338,7 +338,7 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 	EXP_FILE << L"// -->\n";
 	EXP_FILE << L"</script>\n";
 
-	EXP_FILE << L"<h4>" << TranslateT("History Log") << L"</h4>\n<h3>";
+	EXP_FILE << L"<h4>" << TranslateT("History log") << L"</h4>\n<h3>";
 	EXP_FILE << MakeTextHtmled(myName);
 	if (proto1.length() || myId.length())
 		EXP_FILE << L" (" << MakeTextHtmled(proto1) << L": " << MakeTextHtmled(myId) << L") - ";

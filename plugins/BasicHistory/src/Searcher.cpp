@@ -40,11 +40,11 @@ void Searcher::ChangeFindDirection(bool isBack)
 		tbInfo.cbSize = sizeof(TBBUTTONINFO);
 		tbInfo.dwMask = TBIF_TEXT | TBIF_IMAGE;
 		if (isBack) {
-			tbInfo.pszText = TranslateT("Find Previous");
+			tbInfo.pszText = TranslateT("Find previous");
 			tbInfo.iImage = 1;
 		}
 		else {
-			tbInfo.pszText = TranslateT("Find Next");
+			tbInfo.pszText = TranslateT("Find next");
 			tbInfo.iImage = 0;
 		}
 		SendMessage(context->toolbarWindow, TB_SETBUTTONINFO, (WPARAM)IDM_FIND, (LPARAM)&tbInfo);

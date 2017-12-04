@@ -208,23 +208,23 @@ static ColorOptionsList g_ColorOptionsList[] = {
 static HotkeyOptionsList g_HotkeyOptionsList[] = {
 	{ "basichistory_hot_showall", LPGENW("Open global history"), LPGENW("History"), MS_HISTORY_SHOWCONTACTHISTORY, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'H') | HKF_MIRANDA_LOCAL, 0 },
 	{ "basichistory_hot_find", LPGENW("Find"), LPGENW("History"), nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'F'), HISTORY_HK_FIND },
-	{ "basichistory_hot_findnext", LPGENW("Find Next"), LPGENW("History"), nullptr, VK_F3, HISTORY_HK_FINDNEXT },
-	{ "basichistory_hot_findprev", LPGENW("Find Previous"), LPGENW("History"), nullptr, VK_F2, HISTORY_HK_FINDPREV },
-	{ "basichistory_hot_matchcase", LPGENW("Switch Match Case"), LPGENW("History"), nullptr, 0, HISTORY_HK_MATCHCASE },
-	{ "basichistory_hot_matchwhole", LPGENW("Switch Match Whole Word"), LPGENW("History"), nullptr, 0, HISTORY_HK_MATCHWHOLE },
-	{ "basichistory_hot_showcontacts", LPGENW("Show/Hide Contacts"), LPGENW("History"), nullptr, 0, HISTORY_HK_SHOWCONTACTS },
-	{ "basichistory_hot_onlyin", LPGENW("Switch Only Incoming Messages"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYIN },
-	{ "basichistory_hot_onlyout", LPGENW("Switch Only Outgoing Messages"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYOUT },
-	{ "basichistory_hot_onlygroup", LPGENW("Switch Only Selected Group"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYGROUP },
-	{ "basichistory_hot_allcontacts", LPGENW("Switch All Contacts"), LPGENW("History"), nullptr, 0, HISTORY_HK_ALLCONTACTS },
+	{ "basichistory_hot_findnext", LPGENW("Find next"), LPGENW("History"), nullptr, VK_F3, HISTORY_HK_FINDNEXT },
+	{ "basichistory_hot_findprev", LPGENW("Find previous"), LPGENW("History"), nullptr, VK_F2, HISTORY_HK_FINDPREV },
+	{ "basichistory_hot_matchcase", LPGENW("Switch match case"), LPGENW("History"), nullptr, 0, HISTORY_HK_MATCHCASE },
+	{ "basichistory_hot_matchwhole", LPGENW("Switch match whole word"), LPGENW("History"), nullptr, 0, HISTORY_HK_MATCHWHOLE },
+	{ "basichistory_hot_showcontacts", LPGENW("Show/hide contacts"), LPGENW("History"), nullptr, 0, HISTORY_HK_SHOWCONTACTS },
+	{ "basichistory_hot_onlyin", LPGENW("Switch only incoming messages"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYIN },
+	{ "basichistory_hot_onlyout", LPGENW("Switch only outgoing messages"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYOUT },
+	{ "basichistory_hot_onlygroup", LPGENW("Switch only selected group"), LPGENW("History"), nullptr, 0, HISTORY_HK_ONLYGROUP },
+	{ "basichistory_hot_allcontacts", LPGENW("Switch all contacts"), LPGENW("History"), nullptr, 0, HISTORY_HK_ALLCONTACTS },
 	{ "basichistory_hot_delete", LPGENW("Delete"), LPGENW("History"), nullptr, VK_DELETE, HISTORY_HK_DELETE },
-	{ "basichistory_hot_exrhtml", LPGENW("Export To Rich Html"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXRHTML },
-	{ "basichistory_hot_exphtml", LPGENW("Export To Plain Html"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXPHTML },
-	{ "basichistory_hot_extxt", LPGENW("Export To Txt"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXTXT },
-	{ "basichistory_hot_exbin", LPGENW("Export To Binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXBIN },
-	{ "basichistory_hot_impbin", LPGENW("Import From Binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_IMPBIN },
-	{ "basichistory_hot_exdat", LPGENW("Export To Dat (mContacts)"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXDAT },
-	{ "basichistory_hot_impdat", LPGENW("Import From Dat (mContacts)"), LPGENW("History"), nullptr, 0, HISTORY_HK_IMPDAT },
+	{ "basichistory_hot_exrhtml", LPGENW("Export to rich HTML"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXRHTML },
+	{ "basichistory_hot_exphtml", LPGENW("Export to plain HTML"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXPHTML },
+	{ "basichistory_hot_extxt", LPGENW("Export to txt"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXTXT },
+	{ "basichistory_hot_exbin", LPGENW("Export to binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXBIN },
+	{ "basichistory_hot_impbin", LPGENW("Import from binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_IMPBIN },
+	{ "basichistory_hot_exdat", LPGENW("Export to dat (mContacts)"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXDAT },
+	{ "basichistory_hot_impdat", LPGENW("Import from dat (mContacts)"), LPGENW("History"), nullptr, 0, HISTORY_HK_IMPDAT },
 };
 
 const int g_fontsSize = _countof(g_FontOptionsList);
@@ -800,11 +800,11 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const wchar_t* defName, const wcha
 	wchar_t extUpper[32];
 	wcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
-	mir_snwprintf(filter, TranslateT("%s Files (*.%s)"), extUpper, ext);
+	mir_snwprintf(filter, TranslateT("%s files (*.%s)"), extUpper, ext);
 	size_t len = mir_wstrlen(filter) + 1;
 	mir_snwprintf(filter + len, _countof(filter) - len, L"*.%s", ext);
 	len += mir_wstrlen(filter + len) + 1;
-	wcscpy_s(filter + len, 1024 - len, TranslateT("All Files (*.*)"));
+	wcscpy_s(filter + len, 1024 - len, TranslateT("All files (*.*)"));
 	len += mir_wstrlen(filter + len) + 1;
 	wcscpy_s(filter + len, 1024 - len, L"*.*");
 	len += mir_wstrlen(filter + len) + 1;
@@ -1614,9 +1614,9 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			ComboBox_AddString(comboType, TranslateT("Export"));
 			ComboBox_AddString(comboType, TranslateT("Delete"));
-			ComboBox_AddString(comboType, TranslateT("Export and Delete"));
+			ComboBox_AddString(comboType, TranslateT("Export and delete"));
 			ComboBox_AddString(comboType, TranslateT("Import"));
-			ComboBox_AddString(comboType, TranslateT("Import and Merge"));
+			ComboBox_AddString(comboType, TranslateT("Import and merge"));
 			ComboBox_SetCurSel(comboType, to->type);
 
 			Edit_LimitText(GetDlgItem(hwndDlg, IDC_EVENT_TIME), 6);
@@ -1640,8 +1640,8 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			ComboBox_SetCurSel(filter, selFilter);
 
-			ComboBox_AddString(trigerType, TranslateT("At Start"));
-			ComboBox_AddString(trigerType, TranslateT("At Finish"));
+			ComboBox_AddString(trigerType, TranslateT("At start"));
+			ComboBox_AddString(trigerType, TranslateT("At finish"));
 			ComboBox_AddString(trigerType, TranslateT("Daily"));
 			ComboBox_AddString(trigerType, TranslateT("Weekly"));
 			ComboBox_AddString(trigerType, TranslateT("Monthly"));
@@ -1649,8 +1649,8 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ComboBox_AddString(trigerType, TranslateT("Delta time (hours)"));
 			ComboBox_SetCurSel(trigerType, to->trigerType);
 
-			ComboBox_AddString(exportType, TranslateT("Rich Html"));
-			ComboBox_AddString(exportType, TranslateT("Plain Html"));
+			ComboBox_AddString(exportType, TranslateT("Rich HTML"));
+			ComboBox_AddString(exportType, TranslateT("Plain HTML"));
 			ComboBox_AddString(exportType, TranslateT("Txt"));
 			ComboBox_AddString(exportType, TranslateT("Binary"));
 			ComboBox_AddString(exportType, TranslateT("Dat (mContacts)"));

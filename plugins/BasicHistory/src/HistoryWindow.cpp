@@ -389,7 +389,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 	}
 
 	wchar_t *message = TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?");
-	if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
+	if (MessageBox(hWnd, message, TranslateT("Are you sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return FALSE;
 
 	db_set_safety_mode(FALSE);
@@ -402,7 +402,7 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 
 	if (HistoryEventList::IsImportedHistory(hContact)) {
 		message = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
-		if (MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
+		if (MessageBox(hWnd, message, TranslateT("Are you sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
 			HistoryEventList::DeleteImporter(hContact);
 	}
 
@@ -551,14 +551,14 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			if (HIWORD(wParam) == BN_CLICKED) {
 				if (Button_GetCheck(GetDlgItem(hwndDlg, IDC_SHOWHIDE)) & BST_CHECKED) {
 					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)historyWindow->minusIco);
-					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_UNICODE);
+					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide contacts"), BATF_UNICODE);
 					historyWindow->isContactList = true;
 					ShowWindow(GetDlgItem(hwndDlg, IDC_LIST_CONTACTS), SW_SHOW);
 					ShowWindow(historyWindow->splitterYhWnd, SW_SHOW);
 				}
 				else {
 					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)historyWindow->plusIco);
-					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_UNICODE);
+					SendDlgItemMessage(hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show contacts"), BATF_UNICODE);
 					historyWindow->isContactList = false;
 					ShowWindow(GetDlgItem(hwndDlg, IDC_LIST_CONTACTS), SW_HIDE);
 					ShowWindow(historyWindow->splitterYhWnd, SW_HIDE);
@@ -656,10 +656,10 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 							AppendMenu(hPopupMenu, MF_STRING, IDM_COPY, TranslateT("Copy"));
 							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETE, TranslateT("Delete"));
 							AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
-							AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send Message"));
-							AppendMenu(hPopupMenu, MF_STRING, IDM_QUOTE, TranslateT("Reply &Quoted"));
-							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
-							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete All User History"));
+							AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send message"));
+							AppendMenu(hPopupMenu, MF_STRING, IDM_QUOTE, TranslateT("Reply &quoted"));
+							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete group"));
+							AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all user history"));
 						}
 
 						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, nullptr);
@@ -833,10 +833,10 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 					HMENU hPopupMenu = CreatePopupMenu();
 					if (hPopupMenu != nullptr) {
 						AppendMenu(hPopupMenu, MF_STRING, IDM_COPY, TranslateT("Copy"));
-						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
+						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete group"));
 						AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
-						AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send Message"));
-						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete All User History"));
+						AppendMenu(hPopupMenu, MF_STRING, IDM_MESSAGE, TranslateT("Send message"));
+						AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all user history"));
 
 						int selected = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, clicked.x, clicked.y, 0, hwndDlg, nullptr);
 						switch (selected) {
@@ -973,13 +973,13 @@ void HistoryWindow::Initialise()
 	SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, TRUE, 0);
 	if (m_hContact == NULL || Options::instance->showContacts) {
 		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)minusIco);
-		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide Contacts"), BATF_UNICODE);
+		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Hide contacts"), BATF_UNICODE);
 		Button_SetCheck(GetDlgItem(m_hWnd, IDC_SHOWHIDE), BST_CHECKED);
 		isContactList = true;
 	}
 	else {
 		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)plusIco);
-		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show Contacts"), BATF_UNICODE);
+		SendDlgItemMessage(m_hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Show contacts"), BATF_UNICODE);
 		Button_SetCheck(GetDlgItem(m_hWnd, IDC_SHOWHIDE), BST_UNCHECKED);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LIST_CONTACTS), SW_HIDE);
 		ShowWindow(splitterYhWnd, SW_HIDE);
@@ -1061,7 +1061,7 @@ void HistoryWindow::Initialise()
 
 	TBBUTTON tbButtons[] =
 	{
-		{ 0, IDM_FIND,  TBSTATE_ENABLED, BTNS_DROPDOWN, {0}, 0, (INT_PTR)TranslateT("Find Next") },
+		{ 0, IDM_FIND,  TBSTATE_ENABLED, BTNS_DROPDOWN, {0}, 0, (INT_PTR)TranslateT("Find next") },
 		{ 3, IDM_DELETE, TBSTATE_ENABLED,  BTNS_DROPDOWN, {0}, 0, (INT_PTR)TranslateT("Delete")},
 		{ 2, IDM_CONFIG, TBSTATE_ENABLED,  BTNS_DROPDOWN, {0}, 0, (INT_PTR)TranslateT("Options")},
 	};
@@ -1657,15 +1657,15 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 	MapWindowPoints(lpnmTB->hdr.hwndFrom, HWND_DESKTOP, (LPPOINT)&rc, 2);
 	HMENU hPopupMenu = CreatePopupMenu();
 	if (hPopupMenu != nullptr) {
-		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDNEXT, TranslateT("Find Next"));
-		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDPREV, TranslateT("Find Previous"));
+		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDNEXT, TranslateT("Find next"));
+		AppendMenu(hPopupMenu, MF_STRING, IDM_FINDPREV, TranslateT("Find previous"));
 		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
-		AppendMenu(hPopupMenu, searcher.IsMatchCase() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_MATCHCASE, TranslateT("Match Case"));
-		AppendMenu(hPopupMenu, searcher.IsMatchWholeWords() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_MATCHWHOLE, TranslateT("Match Whole Word"));
-		AppendMenu(hPopupMenu, searcher.IsOnlyIn() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYIN, TranslateT("Only Incoming Messages"));
-		AppendMenu(hPopupMenu, searcher.IsOnlyOut() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYOUT, TranslateT("Only Outgoing Messages"));
-		AppendMenu(hPopupMenu, searcher.IsOnlyGroup() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYGROUP, TranslateT("Only Selected Group"));
-		AppendMenu(hPopupMenu, searcher.IsAllUsers() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ALLUSERS, TranslateT("All Contacts"));
+		AppendMenu(hPopupMenu, searcher.IsMatchCase() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_MATCHCASE, TranslateT("Match case"));
+		AppendMenu(hPopupMenu, searcher.IsMatchWholeWords() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_MATCHWHOLE, TranslateT("Match whole word"));
+		AppendMenu(hPopupMenu, searcher.IsOnlyIn() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYIN, TranslateT("Only incoming messages"));
+		AppendMenu(hPopupMenu, searcher.IsOnlyOut() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYOUT, TranslateT("Only outgoing messages"));
+		AppendMenu(hPopupMenu, searcher.IsOnlyGroup() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ONLYGROUP, TranslateT("Only selected group"));
+		AppendMenu(hPopupMenu, searcher.IsAllUsers() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ALLUSERS, TranslateT("All contacts"));
 		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 		HMENU hFilterMenu = CreatePopupMenu();
 		int filter = GetFilterNr();
@@ -1745,8 +1745,8 @@ void HistoryWindow::ConfigToolbarClicked(LPNMTOOLBAR lpnmTB)
 		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 
 		HMENU hExportMenu = CreatePopupMenu();
-		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTRHTML, TranslateT("Rich Html"));
-		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTPHTML, TranslateT("Plain Html"));
+		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTRHTML, TranslateT("Rich HTML"));
+		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTPHTML, TranslateT("Plain HTML"));
 		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTTXT, TranslateT("Txt"));
 		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTBINARY, TranslateT("Binary"));
 		AppendMenu(hExportMenu, MF_STRING, IDM_EXPORTDAT, TranslateT("Dat (mContacts)"));
@@ -1873,8 +1873,8 @@ void HistoryWindow::DeleteToolbarClicked(LPNMTOOLBAR lpnmTB)
 	HMENU hPopupMenu = CreatePopupMenu();
 	if (hPopupMenu != nullptr) {
 		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETE, TranslateT("Delete"));
-		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete Group"));
-		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete All User History"));
+		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEGROUP, TranslateT("Delete group"));
+		AppendMenu(hPopupMenu, MF_STRING, IDM_DELETEUSER, TranslateT("Delete all user history"));
 		SetMenuDefaultItem(hPopupMenu, IDM_DELETE, FALSE);
 
 		int iResult = TrackPopupMenu(hPopupMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hWnd, nullptr);
@@ -1931,7 +1931,7 @@ void HistoryWindow::Delete(int what)
 
 	wchar_t message[256];
 	mir_snwprintf(message, TranslateT("Number of history items to delete: %d.\nAre you sure you want to do this?"), toDelete);
-	if (MessageBox(m_hWnd, message, TranslateT("Are You sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
+	if (MessageBox(m_hWnd, message, TranslateT("Are you sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
 		return;
 
 	bool areImpMessages = false;
@@ -1946,7 +1946,7 @@ void HistoryWindow::Delete(int what)
 
 	if (areImpMessages) {
 		wchar_t *ptszMsg = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
-		if (MessageBox(m_hWnd, ptszMsg, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES) {
+		if (MessageBox(m_hWnd, ptszMsg, TranslateT("Are you sure?"), MB_YESNO | MB_ICONERROR) == IDYES) {
 			HistoryEventList::DeleteImporter(m_hContact);
 			rebuild = true;
 		}
