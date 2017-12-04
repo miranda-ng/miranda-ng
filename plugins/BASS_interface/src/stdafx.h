@@ -23,7 +23,7 @@ Copyright (C) 2010, 2011 tico-tico
 #include "resource.h"
 #include "version.h"
 
-#define ModuleName LPGEN("Bass Interface")
+#define ModuleName LPGEN("BASS interface")
 
 #define OPT_VOLUME		"Volume"
 #define OPT_BASSPATH	"PathToDll"

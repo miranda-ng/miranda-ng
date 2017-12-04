@@ -190,7 +190,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 		else {
 			DWORD bassver = BASS_GetVersion();
-			mir_snwprintf(tmp, TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
+			mir_snwprintf(tmp, TranslateT("Un4seen's BASS version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
 			SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
 
 			SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
@@ -304,7 +304,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_GETBASS:
-			Utils_OpenUrl("http://www.un4seen.com/");
+			Utils_OpenUrl("https://www.un4seen.com/");
 			break;
 		}
 		break;
@@ -449,11 +449,11 @@ void CreateFrame()
 	wndclass.lpszClassName = L"BassInterfaceFrame";
 	RegisterClass(&wndclass);
 
-	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("Bass Interface"),
+	hwnd_plugin = CreateWindow(L"BassInterfaceFrame", TranslateT("BASS interface"),
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, pcli->hwndContactList, nullptr, hInst, nullptr);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
-	Frame.tname = TranslateT("Bass Interface");
+	Frame.tname = TranslateT("BASS interface");
 	Frame.hWnd = hwnd_plugin;
 	Frame.align = alBottom;
 	Frame.Flags = F_UNICODE | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
@@ -540,14 +540,14 @@ int OnFoldersChanged(WPARAM, LPARAM)
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT L"\\Bass")) {
+	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT L"\\BASS")) {
 		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, L"");
 		mir_wstrcat(CurrBassPath, L"\\bass.dll");
 	}
 	else {
 		DBVARIANT dbv;
 		if (db_get_ws(NULL, ModuleName, OPT_BASSPATH, &dbv)) {
-			mir_wstrncpy(CurrBassPath, VARSW(L"Plugins\\Bass\\bass.dll"), _countof(CurrBassPath));
+			mir_wstrncpy(CurrBassPath, VARSW(L"Plugins\\BASS\\bass.dll"), _countof(CurrBassPath));
 			db_set_ws(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
 		}
 		else {
