@@ -902,8 +902,11 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 				if (isChat()) {
 					if (mi && mi->bBkgColor) {
 						int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
-						if (iInd >= 0)
-							res.AppendFormat(L"%%f%u", iInd);
+						if (iInd >= 0) {
+							// if the entry field is empty & the color passed is the back color, skip it
+							if (!(res.IsEmpty() && m_pContainer->theme.inputbg == pColors[iInd]))
+								res.AppendFormat(L"%%f%u", iInd);
+						}
 						else if (!res.IsEmpty())
 							res.AppendFormat(L"%%F");
 					}
