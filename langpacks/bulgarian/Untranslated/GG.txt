@@ -1,4 +1,4 @@
-﻿[After disconnection leave away message of status:]
+[After disconnection leave away message of status:]
 [Automatically reconnect after unintentional disconnection]
 [Manually specify connection servers' hosts]
 [* new line is separator\n** hostname:port format]

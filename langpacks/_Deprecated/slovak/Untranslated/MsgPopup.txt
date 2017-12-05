@@ -1,4 +1,4 @@
-﻿[ASTERISK style]
+[ASTERISK style]
 [ERROR style]
 [EXCLAMATION style]
 [QUESTION style]

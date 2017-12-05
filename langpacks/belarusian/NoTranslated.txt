@@ -1,4 +1,4 @@
-Файл утрымлівае радкі шаблона, пераклад якіх не мае сэнсу.
+Р¤Р°Р№Р» СѓС‚СЂС‹РјР»С–РІР°Рµ СЂР°РґРєС– С€Р°Р±Р»РѕРЅР°, РїРµСЂР°РєР»Р°Рґ СЏРєС–С… РЅРµ РјР°Рµ СЃСЌРЅСЃСѓ.
 [Ctrl + ]
 [Alt + ]
 [Shift + ]
@@ -53,7 +53,7 @@
 [Credits]
 [Mirandag15 + TrillianG15]
 [mail@mkleinhans.de]
-[© 2006 by Martin Kleinhans]
+[В© 2006 by Martin Kleinhans]
 [MirandaG15]
 [[b]Number of new message(s): %d[/b]\n]
 [All\0*.*\0Text\0*.TXT\0]

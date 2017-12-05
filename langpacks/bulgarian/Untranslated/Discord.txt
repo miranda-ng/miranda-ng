@@ -1,4 +1,4 @@
-﻿[Discord support for Miranda NG.]
+[Discord support for Miranda NG.]
 [Hide guild chats on startup]
 [edited at]
 [Channel control]

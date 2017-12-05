@@ -1,4 +1,4 @@
-﻿Miranda Language Pack Version 1
+Miranda Language Pack Version 1
 Locale: 0419
 Last-Modified-Using: 0.94.5
 Authors: Homeric (founder), BasiL (maintainer),

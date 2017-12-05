@@ -1,4 +1,4 @@
-﻿[Editing view mode]
+[Editing view mode]
 [Layered]
 [Row design]
 [Empty %s cell]

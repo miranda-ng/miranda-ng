@@ -1,4 +1,4 @@
-﻿#muuid {3005c2b1-4278-470c-9498-05953dfa4d88}
+#muuid {3005c2b1-4278-470c-9498-05953dfa4d88}
 ;============================================================
 ;  File: imoproxy.dll
 ;  Module: Tunnelling Skype traffic via imo.im Web service

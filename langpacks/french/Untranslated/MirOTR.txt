@@ -1,4 +1,4 @@
-﻿[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
+[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 [Opportunistic]
 [End sessions on window close]
 [End sessions when contacts go offline]

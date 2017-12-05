@@ -1,4 +1,4 @@
-﻿[Allows inline skin item editing for Clist nicer.]
+[Allows inline skin item editing for Clist nicer.]
 [Skin items]
 [General]
 [Gradient]

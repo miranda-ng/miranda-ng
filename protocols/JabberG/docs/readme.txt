@@ -31,7 +31,7 @@ Acknowledgement:
     Dmitry Balabanov
     Nikola Dachev
     Sam Kothari
-    Jörgen Persson
+    JÑ†rgen Persson
     Robert Rainwater
     Adam Strzelecki
     Michal Wojciechowski

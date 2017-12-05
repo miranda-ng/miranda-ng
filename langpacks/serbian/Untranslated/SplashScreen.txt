@@ -1,4 +1,4 @@
-﻿[Shows a splash at Miranda startup.]
+[Shows a splash at Miranda startup.]
 [Splash Options]
 [Show splash]
 [Show random splash]

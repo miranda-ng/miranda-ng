@@ -1,4 +1,4 @@
-﻿[Simple Auto Replier.]
+[Simple Auto Replier.]
 [Enable Auto Replier]
 [Reply Message Heading:]
 [Reply Message when]

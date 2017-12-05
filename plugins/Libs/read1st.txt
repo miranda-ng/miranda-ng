@@ -9,10 +9,10 @@ To get newer version, go to Web-page http://www.kolmck.net and get there updates
 
 __________________
 BRIEF DESCRIPTION:
-    KOL - Key Objects Library is a set of objects to develop applications using Delphi. It is distributed free of charge, with source code.
-   KOL allows to create very compact GUI applications (starting from ~14,0K without compression - if suggested system units replacement used). The majority of the code is converted to assembly.
-   A Help generating tool, xHelpGen is provided for KOL, which creates detailed documentation in html format. Documentation is generated on from the source code comments, so developers instantly  have access to the most fresh and complete documentation.
-   With advent of the MCK (Mirror Classes Kit) package, all advantages of visual programming are available for developers who use KOL. Additionally with MCK it is possible to make large enough projects smaller converting part of machine code to a byte code of Forth-like virtual (emulated at run time) machint (see more detailed: Collapse).
+Â Â Â  KOL - Key Objects Library is a set of objects to develop applications using Delphi. It is distributed free of charge, with source code.
+Â Â  KOL allows to create very compact GUI applications (starting from ~14,0K without compression - if suggested system units replacement used). The majority of the code is converted to assembly.
+Â Â  A Help generating tool, xHelpGen is provided for KOL, which creates detailed documentation in html format. Documentation is generated on from the source code comments, so developers instantlyÂ  have access to the most fresh and complete documentation.
+Â Â  With advent of the MCK (Mirror Classes Kit) package, all advantages of visual programming are available for developers who use KOL. Additionally with MCK it is possible to make large enough projects smaller converting part of machine code to a byte code of Forth-like virtual (emulated at run time) machint (see more detailed: Collapse).
    A lot of additions are available for KOL, which allow to work with data bases, Active-X components, print reports, different image and compression formats, etc.
 --------------------------------------------
 

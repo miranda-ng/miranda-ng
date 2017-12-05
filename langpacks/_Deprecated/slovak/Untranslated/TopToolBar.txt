@@ -1,4 +1,4 @@
-﻿[Buttons order and visibility]
+[Buttons order and visibility]
 [Button height]
 [Button width]
 [Interval between buttons]

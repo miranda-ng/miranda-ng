@@ -1,1 +1,1 @@
-﻿[Phone/SMS]
+[Phone/SMS]

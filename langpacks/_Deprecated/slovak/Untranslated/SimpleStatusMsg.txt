@@ -1,4 +1,4 @@
-﻿[&Cancel]
+[&Cancel]
 [Co&py to clipboard]
 [%s message (%s)]
 [Retrieving status message for %s...]

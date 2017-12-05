@@ -1,4 +1,4 @@
-﻿[Provides an interface to use Miranda from the LCD of various Logitech devices.]
+[Provides an interface to use Miranda from the LCD of various Logitech devices.]
 [General settings]
 [Show softkey labels]
 [Fonts]

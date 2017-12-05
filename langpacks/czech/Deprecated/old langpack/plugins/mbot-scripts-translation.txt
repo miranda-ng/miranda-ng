@@ -4,47 +4,47 @@
 ;
 ; Import Gaim History 0.0.2.1
 ;
-; Pøeklad: Libor Polèák <e1ko.gm (zavináè) gmail (teèka) com>
+; PÑˆeklad: Libor PolĞ¸Ğ±k <e1ko.gm (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3117
 ;
 
 [Import Gaim history]
 Import Gaim history
 [Unexpected format]
-Neoèekávanı formát
+NeoĞ¸ekĞ±vanÑ formĞ±t
 [Text files(*.txt)|*.txt|]
-Textové soubory(*.txt)|*.txt|
+TextovĞ¹ soubory(*.txt)|*.txt|
 [If you want to import history for %uin, you have to add them to your contact list first!]
-Pokud chcete importovat zprávy uivatele %uin, musíte jej pøidat!
+Pokud chcete importovat zprĞ±vy uÑ›ivatele %uin, musĞ½te jej pÑˆidat!
 [Error]
 Chyba
 [Unknown error.]
-Neznámá chyba.
+NeznĞ±mĞ± chyba.
 [This script is in early phase, it can harm your computer!]
-Toto je raná verze skriptu, mùe zpùsobit váné potíe!
+Toto je ranĞ± verze skriptu, mÑ‰Ñ›e zpÑ‰sobit vĞ±Ñ›nĞ¹ potĞ½Ñ›e!
 [%n events were imported.]
-Bylo importováno %n událostí.
+Bylo importovĞ±no %n udĞ±lostĞ½.
 [Total]
 Celkem
 [Configuration file for this script is corupted or missing!]
-Chybí konfiguraèní soubor pro tento skript!
+ChybĞ½ konfiguraĞ¸nĞ½ soubor pro tento skript!
 [Missing file]
-Chybí soubor
+ChybĞ½ soubor
 
 
 ; Name Day script 1.0.0.0
 ;
-; Pøeklad: Libor Polèák <e1ko.gm (zavináè) gmail (teèka) com>
+; PÑˆeklad: Libor PolĞ¸Ğ±k <e1ko.gm (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3117
 ;
 
 [Name day]
-Svátek
+SvĞ±tek
 [has name day today]
-dnes slaví svátek
+dnes slavĞ½ svĞ±tek
 [Today]
 Dnes
 [%n has name day]
-Svátek má %n
+SvĞ±tek mĞ± %n
 
 ; ---

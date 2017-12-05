@@ -1,4 +1,4 @@
-﻿[FTP File]
+[FTP File]
 [FTP (Standard)]
 [FTP+SSL (Explicit)]
 [FTP+SSL (Implicit)]

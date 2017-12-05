@@ -1,4 +1,4 @@
-﻿[PreBuf, % (75%)]
+[PreBuf, % (75%)]
 [Psychotic]
 [Protocol depending status]
 [Quick Open]

@@ -1,4 +1,4 @@
-﻿[Omegle protocol support for Miranda NG.]
+[Omegle protocol support for Miranda NG.]
 [Server:]
 [Language:]
 [Visible name:]

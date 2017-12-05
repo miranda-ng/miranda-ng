@@ -1,3 +1,3 @@
-﻿[Forwards messages to some contact when you are not available.]
+[Forwards messages to some contact when you are not available.]
 [Template]
 [Messages forwarding]

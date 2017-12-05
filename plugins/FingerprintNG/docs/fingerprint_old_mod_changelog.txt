@@ -184,27 +184,27 @@ Python
 
 
 
-Û ÏÂÌˇ Ëı ÌÂ ÏÌÓ„Ó:
+—É –º–µ–Ω¬§ –∏—Ö –Ω–µ –º–Ω–æ–≥–æ:
 WLM 2009
 WLM 8.1
 MSN 7.0
 aMSN 0.97.2
 
-Ô‡‚ËÎ¸ÌÓ ‚ÒÂ, ÍÓÏÂ ÔÂ‚Ó„Ó - Ú‡Ï (?)
+–ø—Ä–∞–≤–∏–ª—å–Ω–æ –≤—Å–µ, –∫—Ä–æ–º–µ –ø–µ—Ä–≤–æ–≥–æ - —Ç–∞–º (?)
 
-Gtalk 1.0.0.104 ÓÔÂ‰ÂÎËÎÒˇ ÔÓÒÎÂ ÔÂÂÁ‡ÔÛÒÍ‡, ÌÓ ÔË ˝ÚÓÏ 
-JuBo (http://pjc.googlecode.com/caps PJC 0.02) ÚÓÊÂ ÒÚ‡Î GtalkÓÏ
+Gtalk 1.0.0.104 –æ–ø—Ä–µ–¥–µ–ª–∏–ª—Å¬§ –ø–æ—Å–ª–µ –ø–µ—Ä–µ–∑–∞–ø—É—Å–∫–∞, –Ω–æ –ø—Ä–∏ —ç—Ç–æ–º 
+JuBo (http://pjc.googlecode.com/caps PJC 0.02) —Ç–æ–∂–µ —Å—Ç–∞–ª Gtalk–æ–º
 kxepal, 16.07.2010 @ 12:54:12:
-public@disk.jabbim.cz (http://dev.jabbim.cz/jdisk/0.2 DvVWmEyPVYYdEqMX2iFuMK/ReFU=) ÚÓÊÂ „Ú‡ÎÍ, ÌÓ „Û„Î‡ ÌÂÚ(:
+public@disk.jabbim.cz (http://dev.jabbim.cz/jdisk/0.2 DvVWmEyPVYYdEqMX2iFuMK/ReFU=) —Ç–æ–∂–µ –≥—Ç–∞–ª–∫, –Ω–æ –≥—É–≥–ª–∞ –Ω–µ—Ç(:
 
 
 kxepal, 16.07.2010 @ 13:13:58:
 Incoming file transfer: 4.png
-ÒÍËÌ 1. ÌÂÚ ÍÓÌ‡ÍÚÓ‚ Ò gtalk, ‚ÒÂ ÔÓÍ‡Á˚‚‡ÂÚ Í‡Í Ì‡‰Ó.
-ÒÍËÌ 2. ‰Ó·‡‚ËÎ ÍÓÌÚ‡ÍÚ‡ Ò „Ú‡ÎÍÓÏ - artasis@gmail.com - Á‡ÏÂÚ¸, Â„Ó ËÍÓÌÍÛ ‚ ÚËÔÔÂÂ
-ÒÍËÌ 3. ÔÂÂÁ‡ÔÛÒÚËÎ ÏË‡Ì‰Û 
-ÒÍËÌ 4. Á‡ÏÂÚ¸ ËÍÓÍÛ jubo ‚ ÚËÔÔÂÂ Ë ‚ ÍÓÌÚ‡ÍÚ ÎËÒÚÂ
-Û‰‡ÎËÎ ÍÓÌÚ‡ÍÚ Ò gtalkÓÏ - ‚ÒÂ ‚ÂÌÛÎÓÒ¸ Í ÒÍËÌ 1. ÔÓÒÎÂ ÔÂÂÁ‡ÔÛÒÍ‡
+—Å–∫—Ä–∏–Ω 1. –Ω–µ—Ç –∫–æ–Ω–∞–∫—Ç–æ–≤ —Å gtalk, –≤—Å–µ –ø–æ–∫–∞–∑—ã–≤–∞–µ—Ç –∫–∞–∫ –Ω–∞–¥–æ.
+—Å–∫—Ä–∏–Ω 2. –¥–æ–±–∞–≤–∏–ª –∫–æ–Ω—Ç–∞–∫—Ç–∞ —Å –≥—Ç–∞–ª–∫–æ–º - artasis@gmail.com - –∑–∞–º–µ—Ç—å, –µ–≥–æ –∏–∫–æ–Ω–∫—É –≤ —Ç–∏–ø–ø–µ—Ä–µ
+—Å–∫—Ä–∏–Ω 3. –ø–µ—Ä–µ–∑–∞–ø—É—Å—Ç–∏–ª –º–∏—Ä–∞–Ω–¥—É 
+—Å–∫—Ä–∏–Ω 4. –∑–∞–º–µ—Ç—å –∏–∫–æ–∫—É jubo –≤ —Ç–∏–ø–ø–µ—Ä–µ –∏ –≤ –∫–æ–Ω—Ç–∞–∫—Ç –ª–∏—Å—Ç–µ
+—É–¥–∞–ª–∏–ª –∫–æ–Ω—Ç–∞–∫—Ç —Å gtalk–æ–º - –≤—Å–µ –≤–µ—Ä–Ω—É–ª–æ—Å—å –∫ —Å–∫—Ä–∏–Ω 1. –ø–æ—Å–ª–µ –ø–µ—Ä–µ–∑–∞–ø—É—Å–∫–∞
 
 
 
@@ -328,7 +328,7 @@ Peekko Chat
 Miranda Pack
 
 iPhone
-Miranda IM 0.9 alpha build #5†[eternity†mod]†SVN†11209 Unicode (Jabber 0.9.0.2 alpha [miranda-laptop])
+Miranda IM 0.9 alpha build #5‚Ä†[eternity‚Ä†mod]‚Ä†SVN‚Ä†11209 Unicode (Jabber 0.9.0.2 alpha [miranda-laptop])
 Miranda IM Jabber 0.9.0.2
 
 
@@ -609,7 +609,7 @@ Bombus
 [!] some overlays routines changed.
 [!] some overlays icons changed.
 [!] Unknown Miranda version icon changed.
-[!] new way to show alpha build state - now if MirVer contains SecureIM/SimpPro/Unicode/etÒ (i.e. overlay with arrow overlay), then small white triangle puts into that arrow/triange overlay (it probably looks not the best with very dark clist themes, so if you really don't like the way it looks - just assign blank icon onto +nightly ovelay).
+[!] new way to show alpha build state - now if MirVer contains SecureIM/SimpPro/Unicode/et—Å (i.e. overlay with arrow overlay), then small white triangle puts into that arrow/triange overlay (it probably looks not the best with very dark clist themes, so if you really don't like the way it looks - just assign blank icon onto +nightly ovelay).
 
 >>> 0.1.73.80 (12.01.07)
 [+] Updater support for official FileListing (full version only!).
@@ -1058,7 +1058,7 @@ Bombus
 [+] added Easy Message client.
 [+] more accurate MirandaIM Jabber detection (thanks JKL for note).
 [*] experimental Updater support (not tested!), thanks FREAK_THEMIGHTY for suggestion.
-[+] added something more, but I donít remember now>>> :)
+[+] added something more, but I don–¢t remember now>>> :)
 
 >>> 0.0.0.12a
 [+] added Jabber Messenger client.
@@ -1072,11 +1072,11 @@ Bombus
 >>> 0.0.0.10a
 [+] added R&Q (thanks to Thief).
 [+] added Bombus java client (thanks to Shaggoth).
-[+] added MirandaIMís Jabber client detection.
+[+] added MirandaIM–¢s Jabber client detection.
 [+] added AdiumX client.
 [+] added Meebo client.
 [+] added ComPad (forthcoming ICQ fork release).
-[+] added Jabberwocky icon (fake actually - canít test).
+[+] added Jabberwocky icon (fake actually - can–¢t test).
 [*] replaced all official ICQ icons.
 [+] replaced/fixed/redraw other client icons.
 [-] fixed ISee and ICQJ Mod client detection when using ICQJ/ICQJ Mod.

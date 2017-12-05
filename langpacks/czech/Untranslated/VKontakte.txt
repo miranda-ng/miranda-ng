@@ -1,4 +1,4 @@
-﻿[VKontakte protocol support for Miranda NG.]
+[VKontakte protocol support for Miranda NG.]
 [Show in protocol menu ]
 [Send message to my wall]
 [Load news from VK]

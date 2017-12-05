@@ -1,4 +1,4 @@
-﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu item ext

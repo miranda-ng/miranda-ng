@@ -2,61 +2,61 @@
 ; |  ScrollLockNotify 1.0.1.3                                |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ;
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [ScrollLockNotify - properties]
-ScrollLockNotify - nastavení
+ScrollLockNotify - nastavenĞ½
 [ScrollLockNotify - Properties]
-ScrollLockNotify - nastavení
+ScrollLockNotify - nastavenĞ½
 [When receiving something while Miranda is inactive:]
-Pokud byla pøijata událost a Miranda je neaktivní:
+Pokud byla pÑˆijata udĞ±lost a Miranda je neaktivnĞ½:
 [Flash until Miranda gets activated]
-Blikat, dokud není Miranda aktivována
+Blikat, dokud nenĞ½ Miranda aktivovĞ±na
 [Flash for max]
 Blikat max.
 [When receiving something while Miranda is active:]
-Pokud byla pøijata událost a Miranda je aktivní:
+Pokud byla pÑˆijata udĞ±lost a Miranda je aktivnĞ½:
 [Don't flash]
 Neblikat
 [Flash for]
 Blikat
 [Interval (time between on / off):]
-Doba rozsvícení (rychlost):
+Doba rozsvĞ½cenĞ½ (rychlost):
 
 ;///////////////////////
 ;//  Version 1.0.1.3  //
 ;///////////////////////
 [Messages]
-Zprávy
+ZprĞ±vy
 [URLs]
 Odkazy
 [Files]
 Soubory
 [Auth requests]
-ádost o autorizaci
+Ğ‹Ğ±dost o autorizaci
 [Added notifications]
-Oznámení o pøidání
+OznĞ±menĞ½ o pÑˆidĞ±nĞ½
 
 [Flash duration]
-Doby blikání
+Doby blikĞ±nĞ½
 [Additional LEDs]
-Další LEDky
+DalÑ™Ğ½ LEDky
 [Flash when my status is]
-Blikat, kdy je mùj stav
+Blikat, kdyÑ› je mÑ‰j stav
 [Flash on]
-Blikat pøi
+Blikat pÑˆi
 [Flash until Miranda gets focused]
 Blikat do aktivace Mirandy
 [Flash interval (speed)]
-Doba rozsvícení (rychlost)
+Doba rozsvĞ½cenĞ½ (rychlost)
 [Troubleshooting]
-Kdy jsou problémy
+KdyÑ› jsou problĞ¹my
 [Force newer Windows version (only try if flashing doesn't work)]
-Vnutit novìjší verzi Windows (zkuste jen kdy LEDky neblikají)
+Vnutit novĞ¼jÑ™Ğ½ verzi Windows (zkuste jen kdyÑ› LEDky neblikajĞ½)
 
 [ScrollLockNotify]
-Blikání LED klávesnice
+BlikĞ±nĞ½ LED klĞ±vesnice
 
 ; ---

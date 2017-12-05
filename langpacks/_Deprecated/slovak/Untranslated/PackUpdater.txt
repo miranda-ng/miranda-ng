@@ -1,4 +1,4 @@
-﻿[Updates found!]
+[Updates found!]
 [Update]
 [View info]
 [PackUpdater has detected updated versions\nof the following Miranda components:]

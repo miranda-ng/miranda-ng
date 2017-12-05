@@ -1,4 +1,4 @@
-﻿[Allows you to transfer files via cloud services.]
+[Allows you to transfer files via cloud services.]
 [Default service]
 [Autosend download link to contact]
 [Paste download link into message input area]

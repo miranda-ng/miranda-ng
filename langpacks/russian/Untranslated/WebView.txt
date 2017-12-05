@@ -1,4 +1,4 @@
-﻿[Webview]
+[Webview]
 [Delay update on start]
 [Hide icon on status bar]
 [Load page on window open]

@@ -1,4 +1,4 @@
-﻿[Tox protocol support for Miranda NG.]
+[Tox protocol support for Miranda NG.]
 [Tox ID:]
 [Create]
 [Import]

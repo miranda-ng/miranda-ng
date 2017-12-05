@@ -1,4 +1,4 @@
-﻿Fingerprint NG 0.1.0.0
+Fingerprint NG 0.1.0.0
 
 Changelog:
 mass-update of Fingerprint Mod and renaming it to Fingerprint NG 0.1.0.0.

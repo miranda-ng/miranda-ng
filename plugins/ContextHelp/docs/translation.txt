@@ -40,7 +40,7 @@ Bietet kontextsensitive Hilfe in allen Dialogen von Miranda IM.
 [Help Plugin]
 Hilfe-Plugin
 [The Help Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Das Hilfe-Plugin kann nicht geladen werden. Es benötigt Miranda IM %hs oder neuer.
+Das Hilfe-Plugin kann nicht geladen werden. Es benÑ†tigt Miranda IM %hs oder neuer.
 [The Help Plugin can not be loaded, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed.\n\nPress 'Yes' to continue loading the Help Plugin.]
 Das Hilfe-Plugin kann nicht geladen werden, da riched20.dll fehlt. Sofern Windows 95 oder WINE verwendet wird stellen Sie bitte sicher, dass riched20.dll installiert ist.\n\nKlicken Sie auf "Ja" um das Hilfe-Plugin trotzdem zu laden.
 
@@ -71,7 +71,7 @@ Context-Sensitive Hilfe
 [&Automatically show help when hovered]
 &Automatisch Hilfe anbieten bei Stillstand der Maus
 [&Delay:]
-&Verzögerung:
+&VerzÑ†gerung:
 [milliseconds]
 Millisekunden
 
@@ -113,7 +113,7 @@ Alle installierten Plugins sind enthalten.
 [Download more Help Packs]
 Weitere Hilfedateien herunterladen
 [Check for new &versions of Help Packs periodically]
-Regelmäßig auf neue Hilfedatei-&Versionen überprüfen
+RegelmĞ´Ğ¯ig auf neue Hilfedatei-&Versionen ÑŒberprÑŒfen
 [&Download Language]
 Sprache &herunterladen
 
@@ -123,9 +123,9 @@ Englisch (Standard)
 
 ; Update Notify
 [Help Pack Update Now Available]
-Update für Hilfedatei ist jetzt verfügbar
+Update fÑŒr Hilfedatei ist jetzt verfÑŒgbar
 [A new version of a Help Pack is now available. Click the install button to download and install this new update.]
-Eine neue Version einer Hilfedatei ist verfügbar. Klicken Sie auf "Jetzt installieren" um das neue Update herunterzuladen und zu installieren.
+Eine neue Version einer Hilfedatei ist verfÑŒgbar. Klicken Sie auf "Jetzt installieren" um das neue Update herunterzuladen und zu installieren.
 [Language:]
 Sprache:
 [Current:]
@@ -146,13 +146,13 @@ Die Hilfedatei "%s" konnte nicht heruntergeladen oder extrahiert werden.
 
 ; Download Language
 [Select your help language]
-Sprache der Hilfetexte wählen
+Sprache der Hilfetexte wĞ´hlen
 [Help is available in different languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-Hilfe is in vielen Sprachen verfügbar.\nEs folgt eine Liste aller verfügbaren Sprachen auf der Website. Bitte wählen Sie Ihre gewünschte &Sprache aus:
+Hilfe is in vielen Sprachen verfÑŒgbar.\nEs folgt eine Liste aller verfÑŒgbaren Sprachen auf der Website. Bitte wĞ´hlen Sie Ihre gewÑŒnschte &Sprache aus:
 [Download &all languages]
 &Alle Sprachen herunterladen
 [Note: This will download and install the newest help pack available for the selected language. There might be help packs from other authors available on the file listing.]
-Hinweis: Es wird die jeweils neueste Hilfedatei für die gewählte Sprache heruntergeladen. Es könnten noch weitere Hilfedateien von anderen Autoren auf der Website verfügbar sein.
+Hinweis: Es wird die jeweils neueste Hilfedatei fÑŒr die gewĞ´hlte Sprache heruntergeladen. Es kÑ†nnten noch weitere Hilfedateien von anderen Autoren auf der Website verfÑŒgbar sein.
 [downloading]
 downloaden
 ;[OK]
@@ -171,9 +171,9 @@ Chinesisch
 [Portuguese]
 Portugiesisch
 [French]
-Französisch
+FranzÑ†sisch
 [Hebrew]
-Hebräisch
+HebrĞ´isch
 [Hungarian]
 Ungarisch
 [Italian]
@@ -187,7 +187,7 @@ Russisch
 [German]
 Deutsch
 [Dutch]
-Holländisch
+HollĞ´ndisch
 [Bulgarian]
 Bulgarisch
 [Czech]
@@ -197,15 +197,15 @@ Koreanisch
 [Polish]
 Polnisch
 [Turkish]
-Türkisch
+TÑŒrkisch
 [Swedish]
 Schwedisch
 [Japanese]
 Japanisch
 [Belarusian]
-Weißrussisch
+WeiĞ¯russisch
 [Danish]
-Dänisch
+DĞ´nisch
 [Finnish]
 Finnisch
 [Croatian]

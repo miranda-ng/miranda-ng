@@ -1,4 +1,4 @@
-﻿[Database autobackuper plugin.]
+[Database autobackuper plugin.]
 [Backup progress]
 [Browse...]
 [Go to the "Options -> Customize -> Folders" to change settings]

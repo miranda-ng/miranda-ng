@@ -1,7 +1,7 @@
 MAYBE:
 =================
 metacontacts:
-- eventuell chat für metakontakte öffnen..?!
+- eventuell chat fÑŒr metakontakte Ñ†ffnen..?!
 
 hidden contacts bei gruppen-membercounter ignorieren 
 

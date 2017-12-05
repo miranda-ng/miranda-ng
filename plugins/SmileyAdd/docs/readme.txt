@@ -110,7 +110,7 @@ Thanks to:
 - Jeff Stuart  For excelent regular expression library
 - MatriX       For helping out with the icons and other stuff!
 - Pixador      For some bug tracking :)
-- Wesslén      For even more enhancing the standard message dialog and 
+- WesslÐ¹n      For even more enhancing the standard message dialog and 
                fine tuning my subclass routines.. :)
 - Various forum people tracking bugs for me
 - Miranda NG crew for Miranda NG... :)
@@ -1114,7 +1114,7 @@ Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 license
 Under this license:
 
 You are free:
-to Share — to copy, distribute and transmit the work 
+to Share â€” to copy, distribute and transmit the work 
 
 Under the following conditions:
 Attribution. You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work). 

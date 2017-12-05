@@ -1,2 +1,2 @@
-﻿[Recode]
+[Recode]
 [Paste It HTTP connections]

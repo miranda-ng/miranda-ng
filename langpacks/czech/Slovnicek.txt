@@ -1,45 +1,45 @@
 Pojmy:
 
-(system) tray - oznamovacÌ oblast
-Autoreply - automatick· odpovÏÔ
-Avatar - avatar (avatara, avatar˘, avata¯i)
-Code page - kÛdov· str·nka
-Contact list - seznam kontakt˘
-Credits - podÏkov·nÌ
-Drop down - öipka
-Fatal error - katastrof·lnÌ selh·nÌ
-Frames, windows - r·meËky
-Fullscreen mode - celoobrazovkov˝ reûim (celoobraz. reûim)
-Hotkey - kl·vesov· zkratka
+(system) tray - oznamovac–Ω oblast
+Autoreply - automatick–± odpov–º–ø
+Avatar - avatar (avatara, avatar—â, avata—ài)
+Code page - k—Édov–± str–±nka
+Contact list - seznam kontakt—â
+Credits - pod–ºkov–±n–Ω
+Drop down - —ôipka
+Fatal error - katastrof–±ln–Ω selh–±n–Ω
+Frames, windows - r–±me–∏ky
+Fullscreen mode - celoobrazovkov—ç re—õim (celoobraz. re—õim)
+Hotkey - kl–±vesov–± zkratka
 Icon library, icon pack - knihovna ikon
-Idle - neËinnost
-Idle contacts - neaktivnÌ kontakty
-Item - poloûka
-Langpack - jazykov˝ balÌËek
-Log - z·znam
-Main menu - hlavnÌ nabÌdka
-Message log - z·znam komunikace
-Message window - komunikaËnÌ okno
-Nick - p¯ezdÌvka
-PopUp - ozn·menÌ
+Idle - ne–∏innost
+Idle contacts - neaktivn–Ω kontakty
+Item - polo—õka
+Langpack - jazykov—ç bal–Ω–∏ek
+Log - z–±znam
+Main menu - hlavn–Ω nab–Ωdka
+Message log - z–±znam komunikace
+Message window - komunika–∏n–Ω okno
+Nick - p—àezd–Ωvka
+PopUp - ozn–±men–Ω
 Session nebo message session, conversation - rozhovor
-Smiley library - knihovna smajlÌk˘
+Smiley library - knihovna smajl–Ωk—â
 Status - stav
-Status bar - stavov· liöta
-Status message - zpr·va stavu
+Status bar - stavov–± li—ôta
+Status message - zpr–±va stavu
 Subcontact - podkontakt
 Tab - panel
-Task bar - hlavnÌ panel
-Timestamp - Ëasov˝ ˙daj
-Titlebar - z·hlavÌ okna
-Toolbar - tlaËÌtkov· liöta
+Task bar - hlavn–Ω panel
+Timestamp - –∏asov—ç —ädaj
+Titlebar - z–±hlav–Ω okna
+Toolbar - tla–∏–Ωtkov–± li—ôta
 Tooltip - tip
-Userinfoex, extended user info - detaily uûivatele
+Userinfoex, extended user info - detaily u—õivatele
 View mode - pohled
-Xstatus - rozöÌ¯en˝ stav
-Xstatus message - zpr·va rozöÌ¯enÈho stavu
+Xstatus - roz—ô–Ω—àen—ç stav
+Xstatus message - zpr–±va roz—ô–Ω—àen–πho stavu
 
-Fr·ze:
-Go to ... -> ... to change settings - NastavenÌ zmÏnÌte v sekci ... -> ...
-Use Popup colors - PouûÌt v˝chozÌ barvy
-Reset to default - Obnovit v˝chozÌ
+Fr–±ze:
+Go to ... -> ... to change settings - Nastaven–Ω zm–ºn–Ωte v sekci ... -> ...
+Use Popup colors - Pou—õ–Ωt v—çchoz–Ω barvy
+Reset to default - Obnovit v—çchoz–Ω

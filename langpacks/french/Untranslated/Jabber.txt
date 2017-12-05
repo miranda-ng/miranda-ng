@@ -1,4 +1,4 @@
-﻿[Tags:]
+[Tags:]
 [Use Domain Login]
 [Go]
 [Roster Editor]

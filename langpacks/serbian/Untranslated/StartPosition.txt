@@ -1,4 +1,4 @@
-﻿[Plugin supports starting position of Contact List relative to the taskbar and screen side.]
+[Plugin supports starting position of Contact List relative to the taskbar and screen side.]
 [Contact List Window Start Position]
 [Pixels from Top]
 [Pixels from Bottom]

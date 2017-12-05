@@ -1,4 +1,4 @@
-﻿[Enter text to display in contact list.]
+[Enter text to display in contact list.]
 [Enter integer value]
 [Enter log file name.]
 [Enter log file format.]

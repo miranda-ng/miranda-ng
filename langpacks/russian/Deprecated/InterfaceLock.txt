@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: InterfaceLock.dll
 ;  Module: MIMLocker - Miranda IM interface lock plugin
 ;  Versions: 0.0.4.1

@@ -1,4 +1,4 @@
-﻿[Scans for network users of your shared files and notify you with popups.]
+[Scans for network users of your shared files and notify you with popups.]
 [WUMF: Current connections]
 [Popup delay settings]
 [Popup Delay (seconds)]

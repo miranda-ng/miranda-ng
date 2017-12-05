@@ -1,4 +1,4 @@
-﻿#muuid {ddd4b8f3-d74b-4a5f-a112-0b1a3e1ca54b}
+#muuid {ddd4b8f3-d74b-4a5f-a112-0b1a3e1ca54b}
 ;============================================================
 ;  File: MathModulePP.dll
 ;  Module: MathModulePP

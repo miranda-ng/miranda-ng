@@ -1,4 +1,4 @@
-﻿[&E-mail]
+[&E-mail]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

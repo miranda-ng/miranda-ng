@@ -61,7 +61,7 @@ Copyright (C) 2006-2011 Bartosz 'Dezeath' Bialek
 mailto: dezred(at)gmail(dot)com
 http://code.google.com/p/dezeath
 
-Copyright (C) 2005 Mateusz 'Harven' Kwaúniewski
+Copyright (C) 2005 Mateusz 'Harven' Kwa—öniewski
 mailto: harven(at)users(dot)berlios(dot)de
 http://developer.berlios.de/projects/mgoodies/
 

@@ -1,4 +1,4 @@
-﻿[Auth]
+[Auth]
 [Alias]
 [Auto]
 [On]

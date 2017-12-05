@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: ReceivedFilesFolders.dll
 ;  Module: Received Files Folders Plugin
 ;  Versions: 0.1.1.0a

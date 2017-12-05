@@ -1,4 +1,4 @@
-﻿[Fair / Windy]
+[Fair / Windy]
 [Freezing Drizzle / Windy]
 [Heavy T-Storm]
 [Heavy T-Storms]

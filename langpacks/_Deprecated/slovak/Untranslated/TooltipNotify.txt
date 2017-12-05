@@ -1,4 +1,4 @@
-﻿[Select protocols]
+[Select protocols]
 [Choose contacts]
 [Allow tooltip notifications for the following users:]
 [Notify upon the following events]

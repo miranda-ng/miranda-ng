@@ -1,4 +1,4 @@
-﻿[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
 [History Sweeper Light]
 [Sweep history for these contacts:]
 [Action 1]

@@ -435,15 +435,15 @@ Info:
  (Already in official version)
 --------------------------------
 0.0.2.0 (0.1.3.0) - 20.12.2010 (not released)
- ! Oprava zobrazování bublinového oznámení
- ! Oprava odhlašovací procedury
- ! Oprava zobrazení poètu novıch zpráv
- ! Oprava správy neèinnosti  TODO
- ! Oprava naèítání stavovıch zpráv TODO
- ! Oprava naèítání avatarù TODO
- + Kontrola úspìšného odeslání zprávy
- * Aktualizována modifikovaná miranda32.exe na nejnovìjší verzi
- * Rozdìleno readme na èeské a anglické
+ ! Oprava zobrazovĞ±nĞ½ bublinovĞ¹ho oznĞ±menĞ½
+ ! Oprava odhlaÑ™ovacĞ½ procedury
+ ! Oprava zobrazenĞ½ poĞ¸tu novÑch zprĞ±v
+ ! Oprava sprĞ±vy neĞ¸innosti  TODO
+ ! Oprava naĞ¸Ğ½tĞ±nĞ½ stavovÑch zprĞ±v TODO
+ ! Oprava naĞ¸Ğ½tĞ±nĞ½ avatarÑ‰ TODO
+ + Kontrola ÑŠspĞ¼Ñ™nĞ¹ho odeslĞ±nĞ½ zprĞ±vy
+ * AktualizovĞ±na modifikovanĞ± miranda32.exe na nejnovĞ¼jÑ™Ğ½ verzi
+ * RozdĞ¼leno readme na Ğ¸eskĞ¹ a anglickĞ¹
 1.21 - 27.11.2010
  + Notifying about received new "private" (not chat messages) messages
  + Pseudo idle management (when idle, miranda let facebook fall into his own idle)

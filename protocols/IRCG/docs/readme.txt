@@ -32,7 +32,7 @@ http://www.miranda-im.org/download/details.php?action=viewlog&id=550
 Copyright and license
 ---------------------
 
-Copyright (C) 2003-2005  Jörgen Persson
+Copyright (C) 2003-2005  JÑ†rgen Persson
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

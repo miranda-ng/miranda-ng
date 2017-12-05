@@ -2,10 +2,10 @@
 ; |  CopyIP 0.0.0.3                                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: waclaw <waclaw (zavináè) cmail (teèka) cz>
+; PÑˆeklad: waclaw <waclaw (zavinÐ±Ð¸) cmail (teÐ¸ka) cz>
 ; Adresa: 
 ;
 [Copy &IP]
-Zkopírovat &IP
+ZkopÐ½rovat &IP
 
 ; ---

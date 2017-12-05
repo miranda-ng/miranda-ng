@@ -3,14 +3,14 @@
 		-=====================================-
 
 
-Copyright (C) 2002,2003	Martin ÷berg
+Copyright (C) 2002,2003	Martin –¶berg
 Copyright (C) 2004	Std
 Copyright (C) 2005-2006	TioDuke (tioduke@yahoo.ca)
 
 
 Description
 -----------
-This plugin for Miranda-IM notifies user of specified events (as incoming messages, incoming files, incoming URLs or other events). This plugin is based on the original one by Martin ÷berg (aka strickz) and Std's modifications (mainly the idea of using direct port handling using a driver).
+This plugin for Miranda-IM notifies user of specified events (as incoming messages, incoming files, incoming URLs or other events). This plugin is based on the original one by Martin –¶berg (aka strickz) and Std's modifications (mainly the idea of using direct port handling using a driver).
 
 It has many options allowing:
   a) To select on which events to react
@@ -32,7 +32,7 @@ IMPORTANT NOTE FOR USB KEYBOARD'S USERS: The plugin will only work if you choose
 
 Installation
 ------------
-Just the typical Miranda way: drop keyboardnotify.dll into your plugins folder, restart Miranda and configure the options as you like... voil‡! done! NO OTHER FILES ARE REQUIRED.
+Just the typical Miranda way: drop keyboardnotify.dll into your plugins folder, restart Miranda and configure the options as you like... voil–∞! done! NO OTHER FILES ARE REQUIRED.
 
 
 Options
@@ -139,7 +139,7 @@ Note: remember that when the sequence is finished the plugin will go back to the
   -----------
   This plugin for Miranda-IM notifies user of specified events (as incoming messages,
   incoming files, incoming URLs or other events). This plugin is based on the original one
-  by Martin ÷berg (aka strickz) and Std's modifications (mainly the idea of using direct
+  by Martin –¶berg (aka strickz) and Std's modifications (mainly the idea of using direct
   port handling using a driver).
   It has many options allowing:
   a) To select on which events to react

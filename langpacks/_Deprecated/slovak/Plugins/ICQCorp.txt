@@ -1,4 +1,4 @@
-﻿;#muuid for ICQCorp not found, please specify manually!
+;#muuid for ICQCorp not found, please specify manually!
 ;============================================================
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol

@@ -1,4 +1,4 @@
-﻿[Jun]
+[Jun]
 [Latitude]
 [Longitude]
 [N/A%]

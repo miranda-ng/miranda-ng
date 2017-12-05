@@ -1,4 +1,4 @@
-﻿[Forward messages from...]
+[Forward messages from...]
 [Everyone]
 [Forward when your status is...]
 [Forward messages to...]

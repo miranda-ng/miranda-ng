@@ -1,4 +1,4 @@
-﻿[Drizzle]
+[Drizzle]
 [Freezing Drizzle Mist]
 [Light Drizzle Fog]
 [Light Drizzle Mist Patches Fog]

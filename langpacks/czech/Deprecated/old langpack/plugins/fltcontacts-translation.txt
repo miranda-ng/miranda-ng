@@ -2,21 +2,21 @@
 ; |  FLTContacts 1.0.0.3                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Tur McDonnel <tur (teĞ¸ka) mcdonnel (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [Floating contacts]
-Plovoucí kontakty
+PlovoucĞ½ kontakty
 [Properties]
 Vlastnosti
 [Hide offline contacts]
-Skrıt uivatele offline
+SkrÑt uÑ›ivatele offline
 [Stick together]
-Lepit k sobì
+Lepit k sobĞ¼
 [Win 2000 / XP]
 Windows 2000/XP
 [Opacity]
-Prùhlednost
+PrÑ‰hlednost
 
 ; ---

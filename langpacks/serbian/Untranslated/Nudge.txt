@@ -1,4 +1,4 @@
-﻿[Plugin to shake the contact list and chat window.]
+[Plugin to shake the contact list and chat window.]
 [Protocol options]
 [Specify options for each protocol]
 [Open contact list]

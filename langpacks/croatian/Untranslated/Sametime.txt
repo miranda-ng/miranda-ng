@@ -1,4 +1,4 @@
-﻿[Implementation of instant messaging for the Lotus Sametime protocol.]
+[Implementation of instant messaging for the Lotus Sametime protocol.]
 [Connection]
 [ID:]
 [Password:]

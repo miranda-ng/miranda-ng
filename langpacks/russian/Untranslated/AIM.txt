@@ -1,4 +1,4 @@
-﻿[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
+[This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 [Server rate limit exceeded.]
 [Client rate limit exceeded]
 [Recipient is not logged in.]

@@ -335,7 +335,7 @@ Enhancements:
  
 Bugfixes:
  - Improved upgrade procedure when using older contact list and messaging plugins
- - Network list in options wasn’t sorted
+ - Network list in options wasnâ€™t sorted
  - Fixed missing icon/menu issues
  - Fixed crash in options on XP pre SP2
  - Fixed errors loading dlls on wrong OS

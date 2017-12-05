@@ -1,4 +1,4 @@
-﻿#muuid {f6914126-843d-40b2-9263-4c3f95fe4a15}
+#muuid {f6914126-843d-40b2-9263-4c3f95fe4a15}
 ;============================================================
 ;  File: extendedidle.dll
 ;  Module: Extended Idle System

@@ -1,4 +1,4 @@
-﻿[ToptoolBar adds buttons in top frame for fast access.]
+[ToptoolBar adds buttons in top frame for fast access.]
 [Buttons order and visibility]
 [Button height]
 [Button width]

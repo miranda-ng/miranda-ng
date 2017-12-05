@@ -1,4 +1,4 @@
-﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+

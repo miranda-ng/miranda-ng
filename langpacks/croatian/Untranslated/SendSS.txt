@@ -1,4 +1,4 @@
-﻿[Take a screenshot and send it to a contact.]
+[Take a screenshot and send it to a contact.]
 [Dialog]
 [All]
 [None]

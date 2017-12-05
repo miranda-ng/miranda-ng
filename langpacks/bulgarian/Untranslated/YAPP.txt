@@ -1,2 +1,2 @@
-﻿[Case sensitive]
+[Case sensitive]
 [Global hover]

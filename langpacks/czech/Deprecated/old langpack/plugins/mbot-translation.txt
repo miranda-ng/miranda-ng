@@ -2,42 +2,42 @@
 ; |  MSP - Miranda Scripting Plugin 0.0.3.2                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1584
 ;
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Enable MBot]
 Aktivovat MBot
 [Disable all events]
-Deaktivovat všechny události
+Deaktivovat vÑ™echny udĞ±losti
 [Disable file caching (overwrites script settings)]
-Zakázat kešování souborù (má vyšší prioritu ne skript)
+ZakĞ±zat keÑ™ovĞ±nĞ½ souborÑ‰ (mĞ± vyÑ™Ñ™Ğ½ prioritu neÑ› skript)
 [Disable scheduler]
-Deaktivovat plánovaè
+Deaktivovat plĞ±novaĞ¸
 [Show MBot console on startup]
-Zobrazit konzolu pøi spuštìní
+Zobrazit konzolu pÑˆi spuÑ™tĞ¼nĞ½
 [Show MBot console on error]
-Zobrazit konzolu pøi chybì
+Zobrazit konzolu pÑˆi chybĞ¼
 ;[Wrap console output]
 [Enable WWW Server]
 Aktivovat WWW server
 [Enable WWW Log]
-Poøizovat záznam o WWW serveru
+PoÑˆizovat zĞ±znam o WWW serveru
 [Show advanced script configuration (requires options restart);]
-Umonit pokroèilejší konfiguraci skriptù (vyaduje restart)
+UmoÑ›nit pokroĞ¸ilejÑ™Ğ½ konfiguraci skriptÑ‰ (vyÑ›aduje restart)
 [Command Tags]
-Znaèky pøíkazù
+ZnaĞ¸ky pÑˆĞ½kazÑ‰
 [Script tag (default: "?>")]
-pro skript (vıchozí: "?>")
+pro skript (vÑchozĞ½: "?>")
 [Command tag (default: "m>")]
-pro pøíkaz (vıchozí: "m>")
+pro pÑˆĞ½kaz (vÑchozĞ½: "m>")
 [Installed scripts (double click to configure)]
-Nainstalované skripty (dvojím kliknutím lze konfigurovat)
+NainstalovanĞ¹ skripty (dvojĞ½m kliknutĞ½m lze konfigurovat)
 [no description]
 bez popisu
 [Are you sure you want to unload selected script?]
-Opravdu chcete odinstalovat vybranı skript?
+Opravdu chcete odinstalovat vybranÑ skript?
 [Uninstall]
 Odinstalovat
 [Show MBot Console]

@@ -1,4 +1,4 @@
-﻿[MPD Host]
+[MPD Host]
 [Port]
 [Password]
 [Watrack MPD connection]

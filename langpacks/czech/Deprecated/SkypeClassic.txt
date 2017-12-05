@@ -1,4 +1,4 @@
-﻿#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
+#muuid {a71f8335-7b87-4432-b8a3-81479431c6f5}
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)

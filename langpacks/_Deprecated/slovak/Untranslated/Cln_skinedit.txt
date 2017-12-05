@@ -1,4 +1,4 @@
-﻿[Skin items]
+[Skin items]
 [General]
 [Gradient]
 [Left to right]

@@ -1,4 +1,4 @@
-﻿[Database autobackuper plugin.]
+[Database autobackuper plugin.]
 [Use Dropbox]
 [Backup profile folder]
 [Uploading to Dropbox failed]

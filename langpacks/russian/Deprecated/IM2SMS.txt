@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: IM2SMS.dll
 ;  Module: forward IM messages to your mobile phone as an SMS.
 ;  Versions: 0.1.0.0

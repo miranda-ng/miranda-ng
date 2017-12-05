@@ -1,4 +1,4 @@
-﻿[Notify about new mail in Lotus Database]
+[Notify about new mail in Lotus Database]
 [Lotus connection settings]
 [Primary server:]
 [Secondary server:]

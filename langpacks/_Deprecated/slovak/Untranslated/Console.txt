@@ -1,4 +1,4 @@
-﻿[Console]
+[Console]
 [Single window mode*]
 [Show icons in log*]
 [New lines between events*]

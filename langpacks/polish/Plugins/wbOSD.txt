@@ -1,4 +1,4 @@
-﻿#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
+#muuid {fc718bc7-abc8-43cd-aad9-761614617738}
 ;============================================================
 ;  File: wbOSD.dll
 ;  Plugin: WannaBe OSD

@@ -1,4 +1,4 @@
-﻿[Notifies you when a contact changes his/her (X)status or status message.]
+[Notifies you when a contact changes his/her (X)status or status message.]
 [Notify when contact changes]
 [Notify me for people not on my contact list]
 [Also when extra status or status message changes]

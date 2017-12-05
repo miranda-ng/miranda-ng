@@ -96,7 +96,7 @@ Variables in Autoexec_PackUpdater.ini:
 
 Options of file1.ini:
 
-Handle [FileInfo_õ], where õ - serial number file, begining from 1 (must be equal with number in profile)
+Handle [FileInfo_Ñ…], where Ñ… - serial number file, begining from 1 (must be equal with number in profile)
 
 
 FileVersion - Current file version (Version of new pack file)

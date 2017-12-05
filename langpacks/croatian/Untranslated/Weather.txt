@@ -1,4 +1,4 @@
-﻿[Retrieves weather information and displays it in your contact list.]
+[Retrieves weather information and displays it in your contact list.]
 [Update]
 [Brief Info]
 [Webpage]

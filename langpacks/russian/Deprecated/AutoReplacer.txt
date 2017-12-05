@@ -1,4 +1,4 @@
-﻿#muuid {ad39ba63-e9af-4115-aed5-29633359948d}
+#muuid {ad39ba63-e9af-4115-aed5-29633359948d}
 ;============================================================
 ;  File: AutoReplacer.dll
 ;  Plugin: AutoReplacer

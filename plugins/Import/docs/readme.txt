@@ -103,7 +103,7 @@ http://bugs.miranda-im.org/
 Contact
 _______
 
-Current maintainer is Martin Öberg.
+Current maintainer is Martin Ğ¦berg.
 E-mail: strickz at miranda-im.org
 
 

@@ -1,4 +1,4 @@
-﻿[Shell Status]
+[Shell Status]
 [Shell context menus]
 [Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
 [Problem]

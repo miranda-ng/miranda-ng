@@ -1,4 +1,4 @@
-﻿[No expand/collapse icon]
+[No expand/collapse icon]
 [Inner row vertical padding]
 [Tree hide offline]
 [Client margins]

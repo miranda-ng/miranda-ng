@@ -1,1 +1,1 @@
-﻿[Select crypto provider]
+[Select crypto provider]

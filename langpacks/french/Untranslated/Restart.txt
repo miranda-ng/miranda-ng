@@ -1,3 +1,3 @@
-﻿[Adds Restart menu item.]
+[Adds Restart menu item.]
 [Restart]
 [Restart Plugin]

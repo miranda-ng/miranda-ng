@@ -1,4 +1,4 @@
-﻿[Connection]
+[Connection]
 [Server name:]
 [Client ID and version]
 [Error display]

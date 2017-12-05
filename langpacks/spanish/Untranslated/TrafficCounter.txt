@@ -1,4 +1,4 @@
-﻿[Adding traffic and time counters.]
+[Adding traffic and time counters.]
 [Selected totals]
 [Units]
 [Clear statistics]

@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: mContacts.dll
 ;  Module: independent contact list/history import/export
 ;  Versions: 0.0.1.1

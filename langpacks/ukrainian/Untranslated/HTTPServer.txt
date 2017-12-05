@@ -1,4 +1,4 @@
-﻿[Miranda NG HTTP-Server]
+[Miranda NG HTTP-Server]
 [Failed to get close the clipboard]
 [Failed to set clipboard data]
 [ListView_GetItem failed]

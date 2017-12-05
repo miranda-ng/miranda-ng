@@ -42,39 +42,39 @@ directory where lotus exist (where nnotes.dll can be find)
 
 
 PL
-1. Od wersji 0.0.11.19 plugin u¿ywa dynamicznego ³adowania biblioteki API Lotusa (ustawienie zmiennej œrodowiskowej PATH uwzglêdniaj¹cej katalog gdzie zainstalowany zosta³ lotus (u mnie "C:\Program Files\lotus\notes\") nie jest ju¿ wymagane. Je¿eli plugin nie za³aduje biblioteki nnotes.dll której szuka w lokalizacji (zapisanej przez instalatora Lotusa w rejestrze pod kluczem HKLM/Software/Lotus/Notes) , plugin nie zostanie za³adowany.
+1. Od wersji 0.0.11.19 plugin uÑ—ywa dynamicznego Ñ–adowania biblioteki API Lotusa (ustawienie zmiennej Ñšrodowiskowej PATH uwzglĞºdniajâ„–cej katalog gdzie zainstalowany zostaÑ– lotus (u mnie "C:\Program Files\lotus\notes\") nie jest juÑ— wymagane. JeÑ—eli plugin nie zaÑ–aduje biblioteki nnotes.dll ktÑƒrej szuka w lokalizacji (zapisanej przez instalatora Lotusa w rejestrze pod kluczem HKLM/Software/Lotus/Notes) , plugin nie zostanie zaÑ–adowany.
 2.Instalacja:
   Skopiuj plik lotusnotify.dll do folderu /Plugins/ Mirandy.
-  W opcjach mirandy przejdŸ do za³adki Wtyczki->LotusNotify
-  Wybierz przycisk 'wykryj' aby odczytaæ ustawienia serwera Lotus z pliku lotus.ini
-  Uzupe³nij swoje has³o, i wybierz 'Zarejestruj' aby dodaæ plugin jako zaufany w Lotus Notes.
-3. Aby pokazywaæ komunikaty o nowych wiadomoœciach, plugin wymaga w³¹czonej opcji pokazywania komunikatów (plugin yapp.dll M->komunikaty->enable popups)
-4. Jeœli chcesz, aby po klikniêciu lewym klawiszem myszy otwiera³a siê ta wiadomoœæ w programie Lotus Notes:
-	-Otwórz klienta Lotus Notes
-	-Otwórz bazê która ma siê otwieraæ
-	-Otwórz jeden z dokumentów (eMaili)
-	-We w³aœciwoœciach dokumentu przejd¿ do pi¹tej zak³adki <+>
-	-W polu identyfikator znajduje siê link do tego dokumentu w formacie notes://serwer/baza/widok/dokument
-	(np Notes:///C125709600375164/01D6C45C67A7DC98C3256C70004F4814/94FDCE1037A90037C125726C004795DD gdzie serwer nie zosta³ podany)
-	-skopiuj fragment adresu bez czêœci dokument któr¹ zamieñ na nazwê zmiennej %OID% za któr¹ plugin wstawi id dokumentu
+  W opcjach mirandy przejdÑŸ do zaÑ–adki Wtyczki->LotusNotify
+  Wybierz przycisk 'wykryj' aby odczytaĞ¶ ustawienia serwera Lotus z pliku lotus.ini
+  UzupeÑ–nij swoje hasÑ–o, i wybierz 'Zarejestruj' aby dodaĞ¶ plugin jako zaufany w Lotus Notes.
+3. Aby pokazywaĞ¶ komunikaty o nowych wiadomoÑšciach, plugin wymaga wÑ–â„–czonej opcji pokazywania komunikatÑƒw (plugin yapp.dll M->komunikaty->enable popups)
+4. JeÑšli chcesz, aby po klikniĞºciu lewym klawiszem myszy otwieraÑ–a siĞº ta wiadomoÑšĞ¶ w programie Lotus Notes:
+	-OtwÑƒrz klienta Lotus Notes
+	-OtwÑƒrz bazĞº ktÑƒra ma siĞº otwieraĞ¶
+	-OtwÑƒrz jeden z dokumentÑƒw (eMaili)
+	-We wÑ–aÑšciwoÑšciach dokumentu przejdÑ— do piâ„–tej zakÑ–adki <+>
+	-W polu identyfikator znajduje siĞº link do tego dokumentu w formacie notes://serwer/baza/widok/dokument
+	(np Notes:///C125709600375164/01D6C45C67A7DC98C3256C70004F4814/94FDCE1037A90037C125726C004795DD gdzie serwer nie zostaÑ– podany)
+	-skopiuj fragment adresu bez czĞºÑšci dokument ktÑƒrâ„– zamieÑ na nazwĞº zmiennej %OID% za ktÑƒrâ„– plugin wstawi id dokumentu
 		notes://serwer/baza/widok/%OID%
-	(w naszym przyk³adzie Notes:///C125709600375164/01D6C45C67A7DC98C3256C70004F4814/%OID%)
-	-tak skomponowany link wstaw w ustawieniach pluginu w polu: "Polecenie po klikniêciu", a pole "Argumenty polecenia" pozostaw puste.
-5.Pocz¹wszy od wersji 0.0.15.26 mo¿liwe jest zapisanie has³a dostêpu do bazy Lotus w ustawieniach pluginu. Pozwala to na autoryzacjê w API Lotusa bez podawania has³a przy ka¿dym uruchomieniu. W celu u¿ycia koniecznych jest kilka ustawieñ:
-	-dodanie do pliku notes.ini (w katalogu instalacyjnym Lotus Notes) linii (mo¿na to zrobiæ automatycznie za pomoc¹ przycisku "autoregister" znajduj¹cego siê w opcjach wtyczki. Jeœli ta opcja jest zaznaczone, plugin przy starcie sprawdza czy istnieje stosowny wpis w pliku notes.ini oraz w zale¿noœci od potrzeby i wybranej opcji modyfikuje plik ini przed kontynuacj¹ inicjalizacji Lotus API):
+	(w naszym przykÑ–adzie Notes:///C125709600375164/01D6C45C67A7DC98C3256C70004F4814/%OID%)
+	-tak skomponowany link wstaw w ustawieniach pluginu w polu: "Polecenie po klikniĞºciu", a pole "Argumenty polecenia" pozostaw puste.
+5.Poczâ„–wszy od wersji 0.0.15.26 moÑ—liwe jest zapisanie hasÑ–a dostĞºpu do bazy Lotus w ustawieniach pluginu. Pozwala to na autoryzacjĞº w API Lotusa bez podawania hasÑ–a przy kaÑ—dym uruchomieniu. W celu uÑ—ycia koniecznych jest kilka ustawieÑ:
+	-dodanie do pliku notes.ini (w katalogu instalacyjnym Lotus Notes) linii (moÑ—na to zrobiĞ¶ automatycznie za pomocâ„– przycisku "autoregister" znajdujâ„–cego siĞº w opcjach wtyczki. JeÑšli ta opcja jest zaznaczone, plugin przy starcie sprawdza czy istnieje stosowny wpis w pliku notes.ini oraz w zaleÑ—noÑšci od potrzeby i wybranej opcji modyfikuje plik ini przed kontynuacjâ„– inicjalizacji Lotus API):
 		EXTMGR_ADDINS=lotusnotify
-		lub jeœli linia EXTMGR_ADDINS ju¿ istnieje, poprostu dodaæ po przecinku nowe rozszerzenie np.:
+		lub jeÑšli linia EXTMGR_ADDINS juÑ— istnieje, poprostu dodaĞ¶ po przecinku nowe rozszerzenie np.:
 		EXTMGR_ADDINS=someextension, lotusnotify
-	-nie zapomnij te¿ o ustawieniu has³a w opcjach pluginu!!!
-	Teraz mo¿esz (jeœli chcesz/powinieneœ) ustawiæ opcjê zabezpieczeñ któr¹ sugerowa³em wy³¹czyæ w drugiej odpowiedzi FAQ poni¿ej
-6. Wraz z wersj¹ 0.0.14.25 dodany zosta³ prymitywny filtr antyspamowy. Mo¿liwe jest definiowanie s³ów znajduj¹cych siê w polach OD i TEMAT maila których wyst¹pienie bêdzie skutkowa³o brakiem powiadomienia o tej wiadomoœci.
+	-nie zapomnij teÑ— o ustawieniu hasÑ–a w opcjach pluginu!!!
+	Teraz moÑ—esz (jeÑšli chcesz/powinieneÑš) ustawiĞ¶ opcjĞº zabezpieczeÑ ktÑƒrâ„– sugerowaÑ–em wyÑ–â„–czyĞ¶ w drugiej odpowiedzi FAQ poniÑ—ej
+6. Wraz z wersjâ„– 0.0.14.25 dodany zostaÑ– prymitywny filtr antyspamowy. MoÑ—liwe jest definiowanie sÑ–Ñƒw znajdujâ„–cych siĞº w polach OD i TEMAT maila ktÑƒrych wystâ„–pienie bĞºdzie skutkowaÑ–o brakiem powiadomienia o tej wiadomoÑšci.
 
 FAQ:
-P: Czy klient Lotus Notes mo¿e byæ uruchomiony na komputerze?
-O: Nie zaobserwowa³em jeszcze ubocznych skutków pracy plugina przy uruchomionym klientcie, dlatego nie widzê przeciwskazañ.
+P: Czy klient Lotus Notes moÑ—e byĞ¶ uruchomiony na komputerze?
+O: Nie zaobserwowaÑ–em jeszcze ubocznych skutkÑƒw pracy plugina przy uruchomionym klientcie, dlatego nie widzĞº przeciwskazaÑ.
 
-P: Plugin pyta o has³o do pliku id gdy próbuje sprawdzaæ pocztê.
-O: Jest to wbudowane w klienta rozwi¹zanie zabezpieczaj¹ce krórego wy³¹czenie jest mo¿liwe w jego w³aœciwoœciach (kosztem obni¿enia zabezpieczeñ). Aby wy³¹czyæ t¹ funkcjonalnoœæ nale¿y zaznaczyæ opcjê "Nie pytaj o has³o w innych aplikacjach dzia³aj¹cych w praogramie Lotus Notes..." któr¹ mo¿na znaleŸæ w zak³adce "Podst. dane o zabezp" opcji Plik->Zabezpieczenia->Zabezpieczenia u¿ytkownia. Ostatnie wersje pluginu posiadaj¹ wbudowany mechanizm autoryzacji i zmiana tej opcji nie jest wymagana. Konieczne jest jedynie ustawienie has³a odpowiedniego wpisu w konfiguracji lotusa (patrz pkt. 5 procedury instalacyjnej)
+P: Plugin pyta o hasÑ–o do pliku id gdy prÑƒbuje sprawdzaĞ¶ pocztĞº.
+O: Jest to wbudowane w klienta rozwiâ„–zanie zabezpieczajâ„–ce krÑƒrego wyÑ–â„–czenie jest moÑ—liwe w jego wÑ–aÑšciwoÑšciach (kosztem obniÑ—enia zabezpieczeÑ). Aby wyÑ–â„–czyĞ¶ tâ„– funkcjonalnoÑšĞ¶ naleÑ—y zaznaczyĞ¶ opcjĞº "Nie pytaj o hasÑ–o w innych aplikacjach dziaÑ–ajâ„–cych w praogramie Lotus Notes..." ktÑƒrâ„– moÑ—na znaleÑŸĞ¶ w zakÑ–adce "Podst. dane o zabezp" opcji Plik->Zabezpieczenia->Zabezpieczenia uÑ—ytkownia. Ostatnie wersje pluginu posiadajâ„– wbudowany mechanizm autoryzacji i zmiana tej opcji nie jest wymagana. Konieczne jest jedynie ustawienie hasÑ–a odpowiedniego wpisu w konfiguracji lotusa (patrz pkt. 5 procedury instalacyjnej)
 
-P: Miranda uruchamia siê z b³êdem ¿e nie mo¿e znaleŸæ biblioteki nNotes.dll
-O: biblioteka nNotes.dll powinna znajdowaæ siê w katalogu instalacyjnym klienta lotusa, i plugin lotusnotify.dll powinien o tym wiedzieæ. Aby go poinformowaæ najlepiej jest dodaæ katalog instalacyjny lotusa (katalog gdzie znajduje siê biblioteka nNotes.dll) do zmiennej œrodowiskowej PATH (Mój komputer->w³aœciwoœci->zaawansowane->Zmienne œrodowiskowe->zmienne systemowe). Aktualne wersje nie powinny wymagaæ tego ustawienia.
+P: Miranda uruchamia siĞº z bÑ–Ğºdem Ñ—e nie moÑ—e znaleÑŸĞ¶ biblioteki nNotes.dll
+O: biblioteka nNotes.dll powinna znajdowaĞ¶ siĞº w katalogu instalacyjnym klienta lotusa, i plugin lotusnotify.dll powinien o tym wiedzieĞ¶. Aby go poinformowaĞ¶ najlepiej jest dodaĞ¶ katalog instalacyjny lotusa (katalog gdzie znajduje siĞº biblioteka nNotes.dll) do zmiennej Ñšrodowiskowej PATH (MÑƒj komputer->wÑ–aÑšciwoÑšci->zaawansowane->Zmienne Ñšrodowiskowe->zmienne systemowe). Aktualne wersje nie powinny wymagaĞ¶ tego ustawienia.

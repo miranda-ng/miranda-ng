@@ -1,4 +1,4 @@
-﻿[Change status when you send/receive an event.]
+[Change status when you send/receive an event.]
 [Offline]
 [Online]
 [Away]

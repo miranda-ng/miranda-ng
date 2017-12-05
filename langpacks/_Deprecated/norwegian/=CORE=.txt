@@ -1,4 +1,4 @@
-﻿
+
 [Cancel]
 Avbryt
 [Add %s]

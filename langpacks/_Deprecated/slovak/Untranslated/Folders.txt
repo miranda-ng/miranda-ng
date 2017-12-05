@@ -1,4 +1,4 @@
-﻿[Custom folders]
+[Custom folders]
 [Preview]
 [Edit]
 [Refresh preview]

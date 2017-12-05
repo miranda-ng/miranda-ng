@@ -1,4 +1,4 @@
-﻿[IPAddress1]
+[IPAddress1]
 [IPAddress2]
 [Max downloads]
 [Address]

@@ -1,4 +1,4 @@
-﻿[Protocol options]
+[Protocol options]
 [Specify options for each protocol]
 [Open contact list]
 [Enable contact list shaking]

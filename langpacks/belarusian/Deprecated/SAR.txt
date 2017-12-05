@@ -1,4 +1,4 @@
-﻿;  File: sar.dll
+;  File: sar.dll
 ;  Module: Smart Auto Replier
 [Advanced autoreplier plugin which is capable to execute custom actions depending on incoming messages.]
 Перадавы плагін аўтаадказнік, здольны выконваць розныя дзеянні ў залежнасці ад уваходных паведамленняў

@@ -1,2 +1,2 @@
-﻿[reftime]
+[reftime]
 [Context Menu Note Popup]

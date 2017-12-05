@@ -1,4 +1,4 @@
-﻿[Extends Miranda NG functionality with Lua scripts.]
+[Extends Miranda NG functionality with Lua scripts.]
 [Reload all]
 [Scripts]
 [Popup on script error]

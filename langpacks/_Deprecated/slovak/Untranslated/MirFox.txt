@@ -1,4 +1,4 @@
-﻿[Send to contact action]
+[Send to contact action]
 [on left mouse button click]
 [on right mouse button click]
 [on middle mouse button click\n(note: use middle mouse button to send multiple messages from Firefox)]

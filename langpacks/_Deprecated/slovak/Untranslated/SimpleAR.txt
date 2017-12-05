@@ -1,4 +1,4 @@
-﻿[Enable Auto Replier]
+[Enable Auto Replier]
 [Reply Message Heading:]
 [Reply Message when]
 [No-repeat Interval:]

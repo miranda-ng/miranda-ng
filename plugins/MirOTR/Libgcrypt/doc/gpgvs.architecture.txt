@@ -15,7 +15,7 @@ have to change settings.
 ~~~~~~~~~~~
 DIRECTORIES
 ~~~~~~~~~~~
-As said in ìaimî document, I do not want to get inside original
+As said in ‚Äúaim‚Äù document, I do not want to get inside original
 source code, less than it is not forced:
 so the first step is to look at directories structure (not whole)
 
@@ -70,7 +70,7 @@ created, and I provide them in a "custom" way
 EXAMPLE
 ~~~~~~~
 You want to compile with vs libgpg-error-1.1.: choose your parent directory,
-in my case ìgnuî
+in my case ‚Äúgnu‚Äù
 
 \gnu\
 
@@ -91,7 +91,7 @@ you have choosen (gnu in my case),
 \gnu\gpg.vs\
 
 In gpg.vs directory find the libgpg-error-1.1.vs
-(appending .vs at the end of package name is the ìstandardî for this project)
+(appending .vs at the end of package name is the ‚Äústandard‚Äù for this project)
 
 \gnu\gpg.vs\ libgpg-error-1.1.vs\
 

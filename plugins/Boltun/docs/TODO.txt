@@ -19,8 +19,8 @@ Done:
 - Add "don't use "don't understand"" option
 - Division between question and non-question sentenses
 - Empty keywords or specials should not be loaded
-- Check "каким-либо"
-- Check :-) on "ок"
+- Check "РєР°РєРёРј-Р»РёР±Рѕ"
+- Check :-) on "РѕРє"
 - Add answer-on status info to the readme.
 - Make AI options dependent.
 - Update mind.txt with UpdateStartChar

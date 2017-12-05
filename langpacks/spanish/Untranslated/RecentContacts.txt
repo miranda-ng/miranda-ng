@@ -1,1 +1,1 @@
-﻿[Resize window according to contact list]
+[Resize window according to contact list]

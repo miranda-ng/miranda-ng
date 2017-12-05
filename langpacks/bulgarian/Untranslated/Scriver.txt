@@ -1,4 +1,4 @@
-﻿[user-defined account name of current contact (if defined).]
+[user-defined account name of current contact (if defined).]
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 [will return parsed string %miranda_userdata%\\Logs]

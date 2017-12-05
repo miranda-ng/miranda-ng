@@ -11,38 +11,38 @@ Autor: Robyer
   Web: http://www.robyer.cz
 
 Info:
- - Tento plugin pouívá èást kódu z Facebook Protokolu (autor jarvis) verze 0.1.3.3 (open source).
- - Originální zdrojové kódy jsou k nalezení na http://code.google.com/p/eternityplugins/
+ - Tento plugin pouÑ›Ğ½vĞ± Ğ¸Ğ±st kÑƒdu z Facebook Protokolu (autor jarvis) verze 0.1.3.3 (open source).
+ - OriginĞ±lnĞ½ zdrojovĞ¹ kÑƒdy jsou k nalezenĞ½ na http://code.google.com/p/eternityplugins/
 
 --------------------------------
-			 SKRYTÉ NASTAVENÍ
+			 SKRYTĞ™ NASTAVENĞ
 --------------------------------
-TimeoutsLimit (byte) - poèet povolenıch timeoutù pøed odpojením protokolu
+TimeoutsLimit (byte) - poĞ¸et povolenÑch timeoutÑ‰ pÑˆed odpojenĞ½m protokolu
 
 --------------------------------
-       Historie verzí
+       Historie verzĞ½
 --------------------------------
 0.1.2.0 - 16.5.2013
- + Zobrazení upozornìní na psaní cizince ve stavovém øádku
- + Pøidána monost pro volbu jazyka cizince
- ! Drobné opravy.
+ + ZobrazenĞ½ upozornĞ¼nĞ½ na psanĞ½ cizince ve stavovĞ¹m ÑˆĞ±dku
+ + PÑˆidĞ±na moÑ›nost pro volbu jazyka cizince
+ ! DrobnĞ¹ opravy.
 
 0.1.1.0 - 8.3.2013
- + Monost automaticky se pøipojit pøi pøepnutí protokolu do online
+ + MoÑ›nost automaticky se pÑˆipojit pÑˆi pÑˆepnutĞ½ protokolu do online
  * Aktualizace (tohoto) readme
  
-=== STARÉ ZMÌNY (MIRANDA IM) ===
+=== STARĞ™ ZMĞœNY (MIRANDA IM) ===
 
 0.1.0.1 - 24.5.2012
- * Stejné GUID pro 32bit a 64bit verzi pluginu 
+ * StejnĞ¹ GUID pro 32bit a 64bit verzi pluginu 
  * Aktualizace pro novou verzi smileyadd pluginu
- ! Opravena funkènost pluginu kvùli zmìnám na Omegle
- ! Opraveno nastavení (ukládání textovıch hodnot, TAB pøepínání) 
- ! Zobrazení vlastního jména v tooltipu v kontaktlistu (díky FREAK_THEMIGHTY) 
- ! Interní opravy 
+ ! Opravena funkĞ¸nost pluginu kvÑ‰li zmĞ¼nĞ±m na Omegle
+ ! Opraveno nastavenĞ½ (uklĞ±dĞ±nĞ½ textovÑch hodnot, TAB pÑˆepĞ½nĞ±nĞ½) 
+ ! ZobrazenĞ½ vlastnĞ½ho jmĞ¹na v tooltipu v kontaktlistu (dĞ½ky FREAK_THEMIGHTY) 
+ ! InternĞ½ opravy 
 
 0.1.0.0 - 26.4.2012
- První vydání na addons
+ PrvnĞ½ vydĞ±nĞ½ na addons
  
 0.0.2.0 - 23.4.2012
  ! Commited some fixes from Facebook protocol (patch by borkra)
@@ -62,39 +62,39 @@ TimeoutsLimit (byte) - poèet povolenıch timeoutù pøed odpojením protokolu
  ! Many fixes and improvements
 
 0.0.0.6 - 26.3.2012
- ! Opraveno pøipojení
- * Pøi pøipojování k cizinci se volí náhodnı Omegle server
+ ! Opraveno pÑˆipojenĞ½
+ * PÑˆi pÑˆipojovĞ±nĞ½ k cizinci se volĞ½ nĞ±hodnÑ Omegle server
 
 0.0.0.5 - 27.9.2011
- * Interní zmìny ohlednì stavù komunikace
+ * InternĞ½ zmĞ¼ny ohlednĞ¼ stavÑ‰ komunikace
  + Added support for send message after stranger connects (see hidden settings)
  + Added support for automatic reconnect to another stranger (see hidden settings)
  + Added support for not erasing content of chat window (see hidden settings) 
 
 0.0.0.4 - 18.4.2011
- * Pøipojování/odpojování cizincù v jiném vláknì
- * Úprava rolí kontaktù v chatu
+ * PÑˆipojovĞ±nĞ½/odpojovĞ±nĞ½ cizincÑ‰ v jinĞ¹m vlĞ±knĞ¼
+ * Ğªprava rolĞ½ kontaktÑ‰ v chatu
  ! Opraveno <undef> v Tabsrmm
- ! Opraveno neinformování o odpojení cizince
- ! Opravy k zobrazení vlastní pøezdívky místo "You"
- ! Oprava pro pouití smajlíkù
- ! Spousta rùznıch oprav
- * Zmìna názvu skrytého klíèe "ChatName" na "Nick"
- * Monost zapnutí logování skrz skrytı klíè "EnableLogging" (byte) = 1
+ ! Opraveno neinformovĞ±nĞ½ o odpojenĞ½ cizince
+ ! Opravy k zobrazenĞ½ vlastnĞ½ pÑˆezdĞ½vky mĞ½sto "You"
+ ! Oprava pro pouÑ›itĞ½ smajlĞ½kÑ‰
+ ! Spousta rÑ‰znÑch oprav
+ * ZmĞ¼na nĞ±zvu skrytĞ¹ho klĞ½Ğ¸e "ChatName" na "Nick"
+ * MoÑ›nost zapnutĞ½ logovĞ±nĞ½ skrz skrytÑ klĞ½Ğ¸ "EnableLogging" (byte) = 1
 
 0.0.0.3 - 16.4.2011
- + Pøidány ikony protokolu (dokud nìkdo nevytvoøí lepší)
- + Monost pøejmenování vlastního jména v chatu skrz Unicode klíè "ChatName".
- * Zmìna "ovládání": Pøíkaz "/new" pro pøipojení k nové konverzaci a "/quit" pro ukonèení stávající
- ! Opraveno duplikování odchozích událostí po pøepøipojení
- ! Oprava nezobrazení zpráv, které byly pøijaty s jinou událostí
+ + PÑˆidĞ±ny ikony protokolu (dokud nĞ¼kdo nevytvoÑˆĞ½ lepÑ™Ğ½)
+ + MoÑ›nost pÑˆejmenovĞ±nĞ½ vlastnĞ½ho jmĞ¹na v chatu skrz Unicode klĞ½Ğ¸ "ChatName".
+ * ZmĞ¼na "ovlĞ±dĞ±nĞ½": PÑˆĞ½kaz "/new" pro pÑˆipojenĞ½ k novĞ¹ konverzaci a "/quit" pro ukonĞ¸enĞ½ stĞ±vajĞ½cĞ½
+ ! Opraveno duplikovĞ±nĞ½ odchozĞ½ch udĞ±lostĞ½ po pÑˆepÑˆipojenĞ½
+ ! Oprava nezobrazenĞ½ zprĞ±v, kterĞ¹ byly pÑˆijaty s jinou udĞ±lostĞ½
 
 0.0.0.2 - 13.4.2011
- ! Nahrazování speciálních znakù v pøíchozích zprávách (\r,\n,\,")
- + Skrytı klíè "MessageAsl" (Unicode string), kde lze zapsat text zprávy, která se odešle pøi odeslání "/asl"
- * Pouití persistent http pøipojení
- * Drobné zmìny èi opravy
+ ! NahrazovĞ±nĞ½ speciĞ±lnĞ½ch znakÑ‰ v pÑˆĞ½chozĞ½ch zprĞ±vĞ±ch (\r,\n,\,")
+ + SkrytÑ klĞ½Ğ¸ "MessageAsl" (Unicode string), kde lze zapsat text zprĞ±vy, kterĞ± se odeÑ™le pÑˆi odeslĞ±nĞ½ "/asl"
+ * PouÑ›itĞ½ persistent http pÑˆipojenĞ½
+ * DrobnĞ¹ zmĞ¼ny Ğ¸i opravy
 
 0.0.0.1 - 10.4.2011
- + První veøejná verze
+ + PrvnĞ½ veÑˆejnĞ± verze
  

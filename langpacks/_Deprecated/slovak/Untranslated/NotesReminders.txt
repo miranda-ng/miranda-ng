@@ -1,4 +1,4 @@
-﻿[Notes Appearance]
+[Notes Appearance]
 [Show Scrollbars]
 [Show Buttons]
 [Title Date]

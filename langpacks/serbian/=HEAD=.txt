@@ -1,4 +1,4 @@
-﻿Miranda Language Pack Version 1
+Miranda Language Pack Version 1
 Language: Serbian (SR)
 Locale: 081A
 Authors: vultures

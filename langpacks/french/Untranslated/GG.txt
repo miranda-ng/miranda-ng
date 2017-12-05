@@ -1,4 +1,4 @@
-﻿[Show links from unknown contacts]
+[Show links from unknown contacts]
 [Enable avatars]
 [Automatically reconnect after unintentional disconnection]
 [Send messages slower, but with full acknowledgment]

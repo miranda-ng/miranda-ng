@@ -1,4 +1,4 @@
-﻿[Live ID:]
+[Live ID:]
 [Create a new Windows Live account]
 [Connection settings]
 [Direct:]

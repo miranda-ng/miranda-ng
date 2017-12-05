@@ -1,4 +1,4 @@
-﻿[Splash Options]
+[Splash Options]
 [Show splash]
 [Show random splash]
 [Play sound]

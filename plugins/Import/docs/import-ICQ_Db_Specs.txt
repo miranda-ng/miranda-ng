@@ -244,7 +244,7 @@ http://cvs.sourceforge.net/viewcvs.py/miranda-icq/Plugins/import/docs/import-ICQ
    $+00000000   WORD        length of picture file name
     +00000002   ASCIIZ      local path and file name of user's saved picture
    $+00000000   8 BYTEs     unused??? (0) 6??
-    +00000008   WORD        //separator value <-- redan här är det 2 bytes fel
+    +00000008   WORD        //separator value <-- redan hÐ´r Ð´r det 2 bytes fel
     +0000000A   LONG        timestamp of last My Details update
     +0000000E   WORD        length of secondary e-mail address
     +00000010   ASCIIZ      secondary e-mail address

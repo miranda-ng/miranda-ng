@@ -1,4 +1,4 @@
-﻿[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 [Settings]
 [Background color:]
 [Selection color:]

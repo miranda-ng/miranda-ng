@@ -1,4 +1,4 @@
-﻿[Hide/show with clist]
+[Hide/show with clist]
 [Auto size vertically]
 [Speak]
 [Selected days]

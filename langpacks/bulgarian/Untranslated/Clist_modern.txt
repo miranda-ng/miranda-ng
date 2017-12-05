@@ -1,4 +1,4 @@
-﻿[Tile vertically according to row height]
+[Tile vertically according to row height]
 [Skin folder]
 [Don't move offline user to bottom]
 [Place offline users out of groups]

@@ -1,4 +1,4 @@
-﻿[Adds some useful options to a contacts menu.]
+[Adds some useful options to a contacts menu.]
 [Enter an authorization request]
 [Shown menu items]
 [Visibility]

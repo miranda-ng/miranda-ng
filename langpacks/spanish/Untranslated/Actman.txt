@@ -1,4 +1,4 @@
-﻿[Up]
+[Up]
 [Down]
 [Import]
 [Yes to &All]
