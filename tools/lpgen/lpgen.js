@@ -496,12 +496,15 @@ if (!test1 && !test2 && !test3 && !test4) {
 
 function ReadWholeFile(path, codepage) {
     if (codepage === undefined) codepage = "UTF-8";
-    var bs = WScript.CreateObject("ADODB.Stream")
+    var bs = WScript.CreateObject("ADODB.Stream");
     bs.Type = 2; //FileReadTypes.adTypeText;
     bs.CharSet = codepage;
     bs.Open();
     bs.LoadFromFile(path);
     var what = bs.ReadText;
+    //remove all comments. The text starting with \\ (but not with ":\\" it's a links like https://miranda-ng.org/ and ")//" -there is one comment right after needed string)
+    //and remove multi-line comments, started with /* and ended with */
+    what = what.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg,".");
     bs.Close();
     return what;
 }
