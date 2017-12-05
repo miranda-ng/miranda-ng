@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// ¬ключаемый файл, созданный в Microsoft Visual C++.
-// »спользуетс¤ d:\Others\SVN\MirandaNG\trunk\plugins\Toaster\res\resource.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\Others\SVN\MirandaNG\trunk\plugins\Toaster\res\resource.rc
 //
 #define IDD_OPTIONS_MAIN                107
 #define IDC_CHECK1                      1013

@@ -1,6 +1,6 @@
 /*
 
-Copyright © 2009-11 Michal Zelinka, 2011-17 Robert Pцsel
+Copyright © 2009-11 Michal Zelinka, 2011-17 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

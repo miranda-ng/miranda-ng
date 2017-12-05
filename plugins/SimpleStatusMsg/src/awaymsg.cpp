@@ -8,7 +8,7 @@ all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 Portions of this code modified for Simple Status Message plugin
-Copyright (C) 2006-2011 Bartosz 'Dezeath' Biaіek, (C) 2005 Harven
+Copyright (C) 2006-2011 Bartosz 'Dezeath' Białek, (C) 2005 Harven
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

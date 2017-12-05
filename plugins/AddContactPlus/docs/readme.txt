@@ -69,7 +69,7 @@ Base Address: 0x3ae00000
 Copyright and License
 ---------------------
 
-Copyright (C) 2007-2011 Bartosz 'Dezeath' Bia³ek
+Copyright (C) 2007-2011 Bartosz 'Dezeath' Bialek
 mailto: dezred(at)gmail(dot)com
 http://code.google.com/p/dezeath
 

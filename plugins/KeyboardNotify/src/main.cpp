@@ -2,7 +2,7 @@
 				KeyboardNotify plugin v1.5 for Miranda IM
 				_________________________________________
 
-  Copyright (C) 2002,2003  Martin Цberg
+  Copyright (C) 2002,2003  Martin Öberg
   Copyright (C) 2004	   Std
   Copyright (C) 2005,2006  TioDuke (tioduke@yahoo.ca)
 

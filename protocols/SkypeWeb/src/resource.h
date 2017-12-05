@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// ¬ключаемый файл, созданный в Microsoft Visual C++.
-// »спользуетс¤ d:\Others\SVN\MirandaNG\trunk\protocols\SkypeWeb\res\resource.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\Others\SVN\MirandaNG\trunk\protocols\SkypeWeb\res\resource.rc
 //
 #define IDI_SKYPE                       100
 #define IDC_SKYPENAME                   101

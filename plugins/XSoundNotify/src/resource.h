@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// ¬ключаемый файл, созданный в Microsoft Visual C++.
-// »спользуетс¤ d:\MNG_orig\plugins\XSoundNotify\res\XSoundNotify.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\MNG_orig\plugins\XSoundNotify\res\XSoundNotify.rc
 //
 #define IDD_OPTIONS                     101
 #define IDD_CONTACTS                    102

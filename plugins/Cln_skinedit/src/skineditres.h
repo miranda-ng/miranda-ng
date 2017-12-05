@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// ¬ключаемый файл, созданный в Microsoft Visual C++.
-// »спользуетс¤ d:\MNG_orig\plugins\Clist_nicer\skineditor\res\skinedit.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\MNG_orig\plugins\Clist_nicer\skineditor\res\skinedit.rc
 //
 #define IDD_SKINITEMEDIT                101
 #define IDD_IMAGEITEMEDIT               102

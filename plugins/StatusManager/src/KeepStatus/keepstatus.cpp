@@ -912,7 +912,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		if (!db_get_b(0, KSMODULENAME, SETTING_PUCONNLOST, TRUE))
 			return -1;
 
-		if (lParam) { // ”казатель на им¤ модул¤. 
+		if (lParam) { // указатель на имя модуля. 
 			hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
 			mir_snwprintf(text, TranslateT("%s status error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, currentDelay / 1000);
 		}

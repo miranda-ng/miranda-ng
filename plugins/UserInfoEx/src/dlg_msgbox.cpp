@@ -35,7 +35,7 @@ typedef struct _MSGPOPUPDATA
  *
  * @param	hDlg		- the dialog box's window handle
  * @param	idCtrl		- the identication number of the control to move
- * @param	dx			-ґnumber of pixels to horizontal move the control
+ * @param	dx			- number of pixels to horizontal move the control
  * @param	dy			- number of pixels to vertical move the control
  * @param	dw			- number of pixels to horizontal resize the control
  * @param	dh			- number of pixels to vertical resize the control

@@ -2,7 +2,7 @@
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2009 Adam Strzelecki <ono+miranda@java.pl>
-// Copyright (c) 2009-2010 Bartosz Biaіek
+// Copyright (c) 2009-2010 Bartosz Białek
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

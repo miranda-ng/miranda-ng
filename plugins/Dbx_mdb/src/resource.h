@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// ¬ключаемый файл, созданный в Microsoft Visual C++.
-// »спользуетс¤ d:\Others\SVN\MirandaNG\trunk\plugins\Dbx_mdb\res\dbx_mdb.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\Others\SVN\MirandaNG\trunk\plugins\Dbx_mdb\res\dbx_mdb.rc
 //
 #define IDREMOVE                        3
 #define IDI_ICONPASS                    100
