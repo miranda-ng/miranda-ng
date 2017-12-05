@@ -184,6 +184,10 @@ void CSteamProto::OnAuthorizationError(const JSONNode &node)
 	if (node["clear_password_field"].as_bool())
 	{
 		debugLogA("CSteamProto::OnAuthorizationError: clear password field");
+
+		// Probably wrong password entered?
+		DeleteAuthSettings();
+		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
