@@ -2,7 +2,7 @@
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
 // 
-// Copyright © 2001-2004 Richard Hughes, Martin Цberg
+// Copyright © 2001-2004 Richard Hughes, Martin Öberg
 // Copyright © 2004-2010 Joe Kucera, Bio
 // Copyright © 2012-2017 Miranda NG Team
 // 
