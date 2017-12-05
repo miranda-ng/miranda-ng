@@ -142,7 +142,6 @@ int LoadDefaultModules(void)
 	if (LoadFontserviceModule()) return 1;
 	if (LoadSrmmModule()) return 1;
 	if (LoadChatModule()) return 1;
-	if (LoadHelpModule()) return 1;
 	if (LoadSendRecvAuthModule()) return 1;
 	if (LoadDescButtonModule()) return 1;
 	if (LoadOptionsModule()) return 1;
@@ -155,7 +154,8 @@ int LoadDefaultModules(void)
 	if (LoadMetacontacts()) return 1;
 
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first
-
+	if (LoadHelpModule()) return 1;
+	
 	Langpack_SortDuplicates();
 
 	if (LoadAccountsModule()) return 1;

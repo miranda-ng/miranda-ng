@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "resource.h"
 
 HWND hAboutDlg = nullptr;
 
@@ -34,20 +35,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{	wchar_t filename[MAX_PATH], *productCopyright;
-		DWORD unused;
-		DWORD verInfoSize;
-		UINT blockSize;
-		PVOID pVerInfo;
-
-		GetModuleFileName(nullptr, filename, _countof(filename));
-		verInfoSize = GetFileVersionInfoSize(filename, &unused);
-		pVerInfo = mir_alloc(verInfoSize);
-		GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
-		VerQueryValue(pVerInfo, L"\\StringFileInfo\\000004b0\\LegalCopyright", (LPVOID*)&productCopyright, &blockSize);
-		SetDlgItemText(hwndDlg, IDC_DEVS, productCopyright);
-		mir_free(pVerInfo);
-		}
+		SetDlgItemText(hwndDlg, IDC_DEVS, _T(LEGAL_COPYRIGHT));
 		{
 			char productVersion[56];
 			Miranda_GetVersionText(productVersion, _countof(productVersion));
@@ -58,12 +46,12 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 		{
-			HRSRC   hResInfo = FindResource(g_hInst, MAKEINTRESOURCE(IDR_CREDITS), L"TEXT");
-			DWORD   ResSize = SizeofResource(g_hInst, hResInfo);
+			HRSRC hResInfo = FindResource(g_hInst, MAKEINTRESOURCE(IDR_CREDITS), L"TEXT");
+			DWORD ResSize = SizeofResource(g_hInst, hResInfo);
 			HGLOBAL hRes = LoadResource(g_hInst, hResInfo);
-			char*   pszMsg = (char*)LockResource(hRes);
+			char *pszMsg = (char*)LockResource(hRes);
 			if (pszMsg) {
-				char* pszMsgt = (char*)alloca(ResSize + 1);
+				char *pszMsgt = (char*)alloca(ResSize + 1);
 				memcpy(pszMsgt, pszMsg, ResSize); pszMsgt[ResSize] = 0;
 
 				wchar_t *ptszMsg;
@@ -87,6 +75,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			return TRUE;
+		
 		case IDC_CONTRIBLINK:
 			if (iState) {
 				iState = 0;
@@ -112,6 +101,7 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case IDC_DEVS:
 			SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
 			break;
+
 		default:
 			return FALSE;
 		}
@@ -132,12 +122,11 @@ static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
 {
-	if (IsWindow(hAboutDlg)) {
+	if (hAboutDlg) {
 		SetForegroundWindow(hAboutDlg);
 		SetFocus(hAboutDlg);
-		return 0;
 	}
-	hAboutDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), (HWND)wParam, DlgProcAbout);
+	else hAboutDlg = CreateDialog(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), (HWND)wParam, DlgProcAbout);
 	return 0;
 }
 
@@ -161,19 +150,16 @@ static INT_PTR BugCommand(WPARAM, LPARAM)
 
 int ShutdownHelpModule(WPARAM, LPARAM)
 {
-	if (IsWindow(hAboutDlg)) DestroyWindow(hAboutDlg);
-	hAboutDlg = nullptr;
+	if (hAboutDlg) {
+		DestroyWindow(hAboutDlg);
+		hAboutDlg = nullptr;
+	}
 	return 0;
 }
 
 int LoadHelpModule(void)
 {
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownHelpModule);
-
-	CreateServiceFunction("Help/AboutCommand", AboutCommand);
-	CreateServiceFunction("Help/IndexCommand", IndexCommand);
-	CreateServiceFunction("Help/WebsiteCommand", WebsiteCommand);
-	CreateServiceFunction("Help/BugCommand", BugCommand);
 
 	CMenuItem mi;
 	mi.root = Menu_CreateRoot(MO_MAIN, LPGENW("&Help"), 2000090000);
@@ -185,6 +171,7 @@ int LoadHelpModule(void)
 	mi.name.a = LPGEN("&About...");
 	mi.pszService = "Help/AboutCommand";
 	Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, AboutCommand);
 
 	SET_UID(mi, 0x495df66f, 0x844e, 0x479a, 0xaf, 0x21, 0x3e, 0x42, 0xc5, 0x14, 0x7c, 0x7e);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HELP);
@@ -192,6 +179,7 @@ int LoadHelpModule(void)
 	mi.name.a = LPGEN("&Support");
 	mi.pszService = "Help/IndexCommand";
 	Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, IndexCommand);
 
 	SET_UID(mi, 0x15e18b58, 0xec73, 0x45c2, 0xb9, 0xf4, 0x2a, 0xfe, 0xc2, 0xb7, 0xd3, 0x25);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
@@ -199,6 +187,7 @@ int LoadHelpModule(void)
 	mi.name.a = LPGEN("&Miranda NG homepage");
 	mi.pszService = "Help/WebsiteCommand";
 	Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, WebsiteCommand);
 
 	SET_UID(mi, 0xe7d0fe8b, 0xfdeb, 0x45b3, 0xba, 0x83, 0x3, 0x1e, 0x15, 0xda, 0x7e, 0x52);
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
@@ -206,5 +195,6 @@ int LoadHelpModule(void)
 	mi.name.a = LPGEN("&Report bug");
 	mi.pszService = "Help/BugCommand";
 	Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, BugCommand);
 	return 0;
 }
