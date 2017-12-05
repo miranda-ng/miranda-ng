@@ -48,7 +48,7 @@ int CSteamProto::MirandaToSteamState(int status)
 	}
 }
 
-int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encryptedData, DWORD &encryptedSize)
+int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, BYTE *encryptedData, DWORD &encryptedSize)
 {
 	DWORD cchModulus = (DWORD)mir_strlen(pszModulus);
 	int result = 0;
@@ -103,7 +103,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 	RSAPUBKEY *pRsaPubKey = (RSAPUBKEY*)(pKeyBlob + sizeof(PUBLICKEYSTRUC));
 	pRsaPubKey->magic = 0x31415352; // RSA1 // Use public key
 	pRsaPubKey->bitlen = cbLen * 8;  // Number of bits in the modulus.
-	pRsaPubKey->pubexp = 0x10001; // "010001" // Exponent.
+	pRsaPubKey->pubexp = exponent; // Exponent.
 
 	// Copy the modulus into the blob. Put the modulus directly after the
 	// RSAPUBKEY structure in the blob.

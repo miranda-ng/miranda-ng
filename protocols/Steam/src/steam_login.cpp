@@ -64,8 +64,8 @@ void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 		return;
 
 	std::string modulus = root["publickey_mod"].as_string();
-	// exponent "010001" is used as constant in CSteamProto::RsaEncrypt
-	//std::string exponent = root["publickey_exp"].as_string();
+	std::string exp = root["publickey_exp"].as_string();
+	DWORD exponent = strtoul(exp.c_str(), nullptr, 16); // default "010001" = 0x10001
 
 	std::string timestamp = root["timestamp"].as_string();
 
@@ -75,14 +75,14 @@ void CSteamProto::OnGotRsaKey(const HttpResponse *response)
 
 	DWORD error = 0;
 	DWORD encryptedSize = 0;
-	if ((error = RsaEncrypt(modulus.c_str(), szPassword, nullptr, encryptedSize)) != 0)
+	if ((error = RsaEncrypt(modulus.c_str(), exponent, szPassword, nullptr, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::OnGotRsaKey: encryption error (%lu)", error);
 		return;
 	}
 
 	BYTE *encryptedPassword = (BYTE*)mir_calloc(encryptedSize);
-	if ((error = RsaEncrypt(modulus.c_str(), szPassword, encryptedPassword, encryptedSize)) != 0)
+	if ((error = RsaEncrypt(modulus.c_str(), exponent, szPassword, encryptedPassword, encryptedSize)) != 0)
 	{
 		debugLogA("CSteamProto::OnGotRsaKey: encryption error (%lu)", error);
 		return;
