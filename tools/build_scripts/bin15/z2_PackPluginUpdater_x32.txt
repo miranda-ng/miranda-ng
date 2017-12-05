@@ -175,7 +175,6 @@ Core\stdclist.dll
 Core\stdcrypt.dll
 Core\stdemail.dll
 Core\stdfile.dll
-Core\stdhelp.dll
 Core\stdidle.dll
 Core\stdmsg.dll
 Core\stdssl.dll

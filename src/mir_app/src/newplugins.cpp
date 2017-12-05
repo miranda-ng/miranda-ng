@@ -122,6 +122,7 @@ static const MUUID pluginBannedList[] =
 	{ 0xb908773a, 0x86f7, 0x4a91, { 0x86, 0x74, 0x6a, 0x20, 0xba, 0x0e, 0x67, 0xd1 } },  // dropbox
 	{ 0x748f8934, 0x781a, 0x528d, { 0x52, 0x08, 0x00, 0x12, 0x65, 0x40, 0x4a, 0xb3 } },  // tlen
 	{ 0x8d0a046d, 0x8ea9, 0x4c55, { 0xb5, 0x68, 0x38, 0xda, 0x52, 0x05, 0x64, 0xfd } },  // stdauth
+	{ 0x1e64fd80, 0x299e, 0x48a0, { 0x94, 0x41, 0xde, 0x28, 0x68, 0x56, 0x3b, 0x6f } },  // stdhelp
 };
 
 static bool isPluginBanned(const MUUID& u1)
@@ -143,12 +144,11 @@ static MuuidReplacement pluginDefault[] =
 	{ MIID_UIUSERINFO, L"stduserinfo",   nullptr }, // 2
 	{ MIID_SREMAIL,    L"stdemail",      nullptr }, // 3
 	{ MIID_SRFILE,     L"stdfile",       nullptr }, // 4
-	{ MIID_UIHELP,     L"stdhelp",       nullptr }, // 5
-	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 6
-	{ MIID_IDLE,       L"stdidle",       nullptr }, // 7
-	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 8
-	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 9
-	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 10
+	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 5
+	{ MIID_IDLE,       L"stdidle",       nullptr }, // 6
+	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 7
+	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 8
+	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 9
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)

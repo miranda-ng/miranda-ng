@@ -40,6 +40,7 @@ int  LoadAccountsModule(void);    // core: account manager
 int  LoadIgnoreModule(void);		// protocol filter: ignore
 int  LoadDbintfModule(void);
 int  LoadSrmmModule(void);
+int  LoadHelpModule(void);
 
 int  LoadContactsModule(void);
 int  LoadDatabaseModule(void);
@@ -141,6 +142,7 @@ int LoadDefaultModules(void)
 	if (LoadFontserviceModule()) return 1;
 	if (LoadSrmmModule()) return 1;
 	if (LoadChatModule()) return 1;
+	if (LoadHelpModule()) return 1;
 	if (LoadSendRecvAuthModule()) return 1;
 	if (LoadDescButtonModule()) return 1;
 	if (LoadOptionsModule()) return 1;
