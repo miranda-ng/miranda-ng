@@ -169,7 +169,6 @@ Plugins\zeronotify.dll
 Plugins\zeroswitch.dll
 
 
-Core\stdauth.dll
 Core\stdautoaway.dll
 Core\stdaway.dll
 Core\stdclist.dll

@@ -44,7 +44,6 @@ Libs\ucrtbase.dll
 Libs\vcruntime140.dll
 mirandaboot.ini
 pu_stub.exe
-Core\StdAuth.dll
 Core\StdAutoAway.dll
 Core\StdAway.dll
 Core\StdClist.dll

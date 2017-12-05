@@ -41,7 +41,6 @@ api-ms-win-crt-utility-l1-1-0.dll
 msvcp140.dll
 ucrtbase.dll
 vcruntime140.dll
-Core\StdAuth.dll
 Core\StdAutoAway.dll
 Core\StdAway.dll
 Core\StdClist.dll

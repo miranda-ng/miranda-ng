@@ -119,8 +119,9 @@ static const MUUID pluginBannedList[] =
 	{ 0x621f886b, 0xa7f6, 0x457f, { 0x9d, 0x62, 0x8e, 0xe8, 0x4c, 0x27, 0x59, 0x93 } },  // modernopt
 	{ 0x08B86253, 0xEC6E, 0x4d09, { 0xB7, 0xA9, 0x64, 0xAC, 0xDF, 0x06, 0x27, 0xB8 } },  // gtalkext
 	{ 0x4f1ff7fa, 0x4d75, 0x44b9, { 0x93, 0xb0, 0x2c, 0xed, 0x2e, 0x4f, 0x9e, 0x3e } },  // whatsapp
-	{ 0xb908773a, 0x86f7, 0x4a91, { 0x86, 0x74, 0x6a, 0x20, 0xba, 0xe, 0x67, 0xd1 } },   // dropbox (0xe isn't typo - it's from original plugin)
+	{ 0xb908773a, 0x86f7, 0x4a91, { 0x86, 0x74, 0x6a, 0x20, 0xba, 0x0e, 0x67, 0xd1 } },  // dropbox
 	{ 0x748f8934, 0x781a, 0x528d, { 0x52, 0x08, 0x00, 0x12, 0x65, 0x40, 0x4a, 0xb3 } },  // tlen
+	{ 0x8d0a046d, 0x8ea9, 0x4c55, { 0xb5, 0x68, 0x38, 0xda, 0x52, 0x05, 0x64, 0xfd } },  // stdauth
 };
 
 static bool isPluginBanned(const MUUID& u1)
@@ -137,18 +138,17 @@ static bool isPluginBanned(const MUUID& u1)
 
 static MuuidReplacement pluginDefault[] =
 {
-	{ MIID_UIUSERINFO, L"stduserinfo",   nullptr }, // 0
-	{ MIID_SREMAIL,    L"stdemail",      nullptr }, // 1
-	{ MIID_SRAUTH,     L"stdauth",       nullptr }, // 2
-	{ MIID_SRFILE,     L"stdfile",       nullptr }, // 3
-	{ MIID_UIHELP,     L"stdhelp",       nullptr }, // 4
-	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 5
-	{ MIID_IDLE,       L"stdidle",       nullptr }, // 6
-	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 7
-	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 8
-	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 9
-	{ MIID_CLIST,      L"stdclist",      nullptr }, // 10
-	{ MIID_SRMM,       L"stdmsg",        nullptr }  // 11
+	{ MIID_CLIST,      L"stdclist",      nullptr }, // 0
+	{ MIID_SRMM,       L"stdmsg",        nullptr }, // 1
+	{ MIID_UIUSERINFO, L"stduserinfo",   nullptr }, // 2
+	{ MIID_SREMAIL,    L"stdemail",      nullptr }, // 3
+	{ MIID_SRFILE,     L"stdfile",       nullptr }, // 4
+	{ MIID_UIHELP,     L"stdhelp",       nullptr }, // 5
+	{ MIID_UIHISTORY,  L"stduihist",     nullptr }, // 6
+	{ MIID_IDLE,       L"stdidle",       nullptr }, // 7
+	{ MIID_AUTOAWAY,   L"stdautoaway",   nullptr }, // 8
+	{ MIID_USERONLINE, L"stduseronline", nullptr }, // 9
+	{ MIID_SRAWAY,     L"stdaway",       nullptr }, // 10
 };
 
 int getDefaultPluginIdx(const MUUID &muuid)
@@ -170,7 +170,7 @@ int LoadStdPlugins()
 			return 1;
 	}
 
-	if (pluginDefault[11].pImpl == nullptr)
+	if (pluginDefault[1].pImpl == nullptr)
 		MessageBox(nullptr, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"StdMsg.dll\""), L"Miranda NG", MB_OK | MB_ICONWARNING);
 
 	return 0;
@@ -627,7 +627,7 @@ static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 		if (bpi.clistlink() == 0) {
 			p->bpi = bpi;
 			p->pclass |= PCLASS_LOADED;
-			pluginDefault[10].pImpl = p;
+			pluginDefault[0].pImpl = p;
 
 			LoadExtraIconsModule();
 			return true;
@@ -651,7 +651,7 @@ static pluginEntry* getCListModule(wchar_t *exe)
 			return p;
 	}
 
-	MuuidReplacement& stdClist = pluginDefault[10];
+	MuuidReplacement& stdClist = pluginDefault[0];
 	if (LoadCorePlugin(stdClist)) {
 		mir_snwprintf(tszFullPath, L"%s\\Core\\%s.dll", exe, stdClist.stdplugname);
 		if (loadClistModule(tszFullPath, stdClist.pImpl))
