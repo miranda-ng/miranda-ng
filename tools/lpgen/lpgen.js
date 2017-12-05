@@ -494,6 +494,18 @@ if (!test1 && !test2 && !test3 && !test4) {
         }
 };
 
+function ReadWholeFile(path, codepage) {
+    if (codepage === undefined) codepage = "UTF-8";
+    var bs = WScript.CreateObject("ADODB.Stream")
+    bs.Type = 2; //FileReadTypes.adTypeText;
+    bs.CharSet = codepage;
+    bs.Open();
+    bs.LoadFromFile(path);
+    var what = bs.ReadText;
+    bs.Close();
+    return what;
+}
+
 //Parse Version.h file to get one translated string from "Description" and make a plugin template header.
 function ParseVersion_h (pluginfolder,array) {
 //cleanup var
@@ -508,7 +520,7 @@ if (FSO.FileExists(FSO.BuildPath(pluginfolder,"src\\version.h"))) VersionFile=FS
 //If we still not found version.h, return
 if (!VersionFile) return;
 //read file fully into var allstrings
-allstrings=ReadFile(VersionFile)
+allstrings=ReadWholeFile(VersionFile);
 //define RegExp for defines.
 var filename=/(?:#define\s+_*?FILENAME\s+")(.+)(?=")/m;
 var pluginname=/(?:#define\s+_*?PLUG(?:IN)?_?NAME\s+")(.+)(?=")/i;
