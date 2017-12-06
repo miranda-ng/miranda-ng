@@ -376,7 +376,6 @@ struct CMsnProto : public PROTO<CMsnProto>
 
 	int       MSN_GetPassportAuth(void);
 	int       MSN_SkypeAuth(const char *pszNonce, char *pszUIC);
-	char*     GenerateLoginBlob(char* challenge);
 	void      LoadAuthTokensDB(void);
 	void      SaveAuthTokensDB(void);
 	bool	    parseLoginPage(char *pszHTML, NETLIBHTTPREQUEST *nlhr, CMStringA *post);

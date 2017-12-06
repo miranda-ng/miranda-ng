@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <WinInet.h>
 #include "msn_proto.h"
 #include "msn_ieembed.h"
-#include "des.h"
+
+#include <openssl\des.h>
 
 extern "C"
 {
@@ -535,90 +536,6 @@ static void derive_key(BYTE* der, unsigned char* key, size_t keylen, unsigned ch
 
 	memcpy(der, hash2, MIR_SHA1_HASH_SIZE);
 	memcpy(der + MIR_SHA1_HASH_SIZE, hash4, 4);
-}
-
-typedef struct tag_MsgrUsrKeyHdr
-{
-	unsigned size;
-	unsigned cryptMode;
-	unsigned cipherType;
-	unsigned hashType;
-	unsigned ivLen;
-	unsigned hashLen;
-	unsigned long cipherLen;
-} MsgrUsrKeyHdr;
-
-static const MsgrUsrKeyHdr userKeyHdr =
-{
-	sizeof(MsgrUsrKeyHdr),
-	1,			// CRYPT_MODE_CBC
-	0x6603,		// CALG_3DES
-	0x8004,		// CALG_SHA1
-	8,			// sizeof(ivBytes)
-	MIR_SHA1_HASH_SIZE,
-	72			// sizeof(cipherBytes);
-};
-
-
-static unsigned char* PKCS5_Padding(char* in, size_t &len)
-{
-	const size_t nlen = ((len >> 3) + 1) << 3;
-	unsigned char* res = (unsigned char*)mir_alloc(nlen);
-	memcpy(res, in, len);
-
-	const unsigned char pad = 8 - (len & 7);
-	memset(res + len, pad, pad);
-
-	len = nlen;
-	return res;
-}
-
-
-char* CMsnProto::GenerateLoginBlob(char* challenge)
-{
-	unsigned key1len;
-	mir_ptr<BYTE> key1((BYTE*)mir_base64_decode(authSecretToken, &key1len));
-
-	BYTE key2[MIR_SHA1_HASH_SIZE + 4], key3[MIR_SHA1_HASH_SIZE + 4];
-
-	static const unsigned char encdata1[] = "WS-SecureConversationSESSION KEY HASH";
-	static const unsigned char encdata2[] = "WS-SecureConversationSESSION KEY ENCRYPTION";
-
-	derive_key(key2, key1, key1len, (unsigned char*)encdata1, sizeof(encdata1) - 1);
-	derive_key(key3, key1, key1len, (unsigned char*)encdata2, sizeof(encdata2) - 1);
-
-	size_t chllen = mir_strlen(challenge);
-
-	BYTE hash[MIR_SHA1_HASH_SIZE];
-	mir_hmac_sha1(hash, key2, MIR_SHA1_HASH_SIZE + 4, (BYTE*)challenge, chllen);
-
-	unsigned char* newchl = PKCS5_Padding(challenge, chllen);
-
-	const size_t pktsz = sizeof(MsgrUsrKeyHdr) + MIR_SHA1_HASH_SIZE + 8 + chllen;
-	unsigned char* userKey = (unsigned char*)alloca(pktsz);
-
-	unsigned char* p = userKey;
-	memcpy(p, &userKeyHdr, sizeof(MsgrUsrKeyHdr));
-	((MsgrUsrKeyHdr*)p)->cipherLen = (int)chllen;
-	p += sizeof(MsgrUsrKeyHdr);
-
-	unsigned char iv[8];
-	Utils_GetRandom(iv, sizeof(iv));
-
-	memcpy(p, iv, sizeof(iv));
-	p += sizeof(iv);
-
-	memcpy(p, hash, sizeof(hash));
-	p += MIR_SHA1_HASH_SIZE;
-
-	des3_context ctxd;
-	memset(&ctxd, 0, sizeof(ctxd));
-	des3_set_3keys(&ctxd, key3);
-	des3_cbc_encrypt(&ctxd, iv, newchl, p, (int)chllen);
-
-	mir_free(newchl);
-
-	return mir_base64_encode(userKey, (unsigned)pktsz);
 }
 
 CMStringA CMsnProto::HotmailLogin(const char* url)
