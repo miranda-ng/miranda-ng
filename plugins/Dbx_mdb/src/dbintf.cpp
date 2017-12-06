@@ -196,7 +196,7 @@ bool CDbxMdb::Remap()
 {
 	MDBX_envinfo ei;
 	mdbx_env_info(m_pMdbEnv, &ei, sizeof(ei));
-	return mdbx_env_set_mapsize(m_pMdbEnv, ei.mi_mapsize + 0x100000) == MDBX_SUCCESS;
+	return mdbx_env_set_geometry(m_pMdbEnv, -1, -1, ei.mi_mapsize + 0x100000, 0x100000, -1, -1) == MDBX_SUCCESS;
 }
 
 
