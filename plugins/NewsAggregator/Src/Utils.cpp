@@ -481,6 +481,8 @@ LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 	result.Replace(L"&#9786;", L"☺"); //White Smiling Face
 	result.Replace(L"&#65279;", L"");
 
+	result.Trim();
+
 	return result;
 }
 
