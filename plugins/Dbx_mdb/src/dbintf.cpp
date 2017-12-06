@@ -27,7 +27,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
-	m_maxContactId(1)
+	m_maxContactId(0)
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
 	InitDbInstance(this);
