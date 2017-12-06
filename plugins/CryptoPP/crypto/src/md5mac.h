@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_MD5MAC_H
+﻿#ifndef CRYPTOPP_MD5MAC_H
 #define CRYPTOPP_MD5MAC_H
 
 /** \file

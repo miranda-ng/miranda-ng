@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 bool album_art_editor::g_get_interface(service_ptr_t<album_art_editor> & out,const char * path) {
 	service_enum_t<album_art_editor> e; ptr ptr;

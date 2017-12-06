@@ -1,4 +1,4 @@
-/*
+﻿/*
 AddContact+ plugin for Miranda NG
 
 Copyright (C) 2007-11 Bartosz 'Dezeath' Białek

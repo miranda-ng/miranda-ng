@@ -1,4 +1,4 @@
-#include "device_consistency.h"
+﻿#include "device_consistency.h"
 
 #include <assert.h>
 #include <string.h>

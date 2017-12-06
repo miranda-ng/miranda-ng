@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_CBCMAC_H
+﻿#ifndef CRYPTOPP_CBCMAC_H
 #define CRYPTOPP_CBCMAC_H
 
 #include "seckey.h"

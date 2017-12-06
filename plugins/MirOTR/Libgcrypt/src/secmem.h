@@ -1,4 +1,4 @@
-/* secmem.h -  internal definitions for secmem
+﻿/* secmem.h -  internal definitions for secmem
  *	Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

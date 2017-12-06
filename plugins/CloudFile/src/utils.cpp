@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {

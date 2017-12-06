@@ -1,4 +1,4 @@
-#include "..\src\resource.h"
+﻿#include "..\src\resource.h"
 #include "afxres.h"
 
 #ifndef IDC_STATIC

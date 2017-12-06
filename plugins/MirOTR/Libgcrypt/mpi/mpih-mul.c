@@ -1,4 +1,4 @@
-/* mpih-mul.c  -  MPI helper functions
+﻿/* mpih-mul.c  -  MPI helper functions
  * Copyright (C) 1994, 1996, 1998, 1999, 2000,
  *               2001, 2002 Free Software Foundation, Inc.
  *

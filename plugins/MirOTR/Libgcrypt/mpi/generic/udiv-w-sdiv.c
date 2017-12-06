@@ -1,4 +1,4 @@
-/* mpih-w-sdiv -- implement udiv_qrnnd on machines with only signed
+﻿/* mpih-w-sdiv -- implement udiv_qrnnd on machines with only signed
  *	      	  division.
  * Copyright (C) 1992, 1994, 1996, 1998, 2002 Free Software Foundation, Inc.
  * Contributed by Peter L. Montgomery.

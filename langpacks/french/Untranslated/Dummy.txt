@@ -1,4 +1,4 @@
-[Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
+﻿[Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
 [Protocol template:]
 [Unique ID setting:]
 [Name of setting that holds unique identifier of contacts]

@@ -1,4 +1,4 @@
-[Available accounts:]
+﻿[Available accounts:]
 [Filtered accounts:]
 [Hide unanswered contacts and spammers from contact list]
 [Ignore spammers (do not write messages to history)]

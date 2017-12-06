@@ -1,4 +1,4 @@
-/*
+﻿/*
 imported from UserinfoEx plugin for Miranda NG
 
 Copyright:

@@ -1,4 +1,4 @@
-[Microsoft Network (MSN) protocol support for Miranda NG.]
+﻿[Microsoft Network (MSN) protocol support for Miranda NG.]
 [Live ID:]
 [Password:]
 [Nickname:]

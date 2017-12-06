@@ -1,4 +1,4 @@
-[Show in protocol menu ]
+﻿[Show in protocol menu ]
 [Add message link to messages with attachments]
 [Accepted friend requests]
 [Send VK-objects links as attachments]

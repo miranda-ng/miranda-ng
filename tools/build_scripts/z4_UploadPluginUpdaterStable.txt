@@ -1,4 +1,4 @@
-option confirm off
+﻿option confirm off
 
 open miranda-ng
 

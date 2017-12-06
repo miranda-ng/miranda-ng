@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_ARGNAMES_H
+﻿#ifndef CRYPTOPP_ARGNAMES_H
 #define CRYPTOPP_ARGNAMES_H
 
 #include "cryptlib.h"

@@ -1,4 +1,4 @@
-/* coding: UTF-8 */
+﻿/* coding: UTF-8 */
 /* $Id: sha1.c,v 1.4 2007-07-20 23:00:50 wojtekka Exp $ */
 
 /*

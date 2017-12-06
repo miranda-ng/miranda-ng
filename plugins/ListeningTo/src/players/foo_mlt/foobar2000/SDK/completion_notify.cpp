@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 namespace {
 	class main_thread_callback_myimpl : public main_thread_callback {

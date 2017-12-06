@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #ifdef UNICODE
 #define CF_TCHAR CF_UNICODETEXT

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2005		Ricardo Pescuma Domenecci
 Copyright (C) 2007-2010	Jan Holub
 

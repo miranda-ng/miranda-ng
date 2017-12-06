@@ -1,4 +1,4 @@
-#ifndef NUMBERTOSTRING_H
+﻿#ifndef NUMBERTOSTRING_H
 #define NUMBERTOSTRING_H
 
 #include "JSONDebug.h"

@@ -1,4 +1,4 @@
-[Dialog]
+﻿[Dialog]
 [All]
 [Send screenshot to <unknown>]
 [Take a screenshot and send it to a contact]

@@ -1,4 +1,4 @@
-#ifndef _LUA_SCRIPT_LOADER_H_
+﻿#ifndef _LUA_SCRIPT_LOADER_H_
 #define _LUA_SCRIPT_LOADER_H_
 
 class CMLuaScriptLoader

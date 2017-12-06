@@ -1,4 +1,4 @@
-#ifndef _MESSAGE_PUMP_INC
+﻿#ifndef _MESSAGE_PUMP_INC
 #define _MESSAGE_PUMP_INC
 
 extern unsigned message_pump_thread_id;

@@ -1,4 +1,4 @@
-/* mac-internal.h  -  Internal defs for mac.c
+﻿/* mac-internal.h  -  Internal defs for mac.c
  * Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * This file is part of Libgcrypt.

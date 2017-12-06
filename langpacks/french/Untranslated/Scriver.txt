@@ -1,4 +1,4 @@
-[Save logs]
+﻿[Save logs]
 [Trim to]
 [(0 means default setting, -1 means indefinite time)]
 [Paste && send]

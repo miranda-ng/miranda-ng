@@ -1,4 +1,4 @@
-DESCRIPTION  'Miranda ListeningTo Winamp Plugin'
+﻿DESCRIPTION  'Miranda ListeningTo Winamp Plugin'
 
 EXPORTS
 	winampGetGeneralPurposePlugin

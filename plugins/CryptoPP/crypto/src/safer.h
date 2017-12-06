@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_SAFER_H
+﻿#ifndef CRYPTOPP_SAFER_H
 #define CRYPTOPP_SAFER_H
 
 /** \file

@@ -1,4 +1,4 @@
-#ifndef _TOX_MENUS_H_
+﻿#ifndef _TOX_MENUS_H_
 #define _TOX_MENUS_H_
 
 #define CMI_POSITION -201001000

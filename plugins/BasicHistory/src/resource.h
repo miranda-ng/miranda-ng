@@ -1,4 +1,4 @@
-
+﻿
 #define IDD_HISTORY                     101
 #define IDD_OPT_MAIN                    102
 #define IDD_OPT_GROUPLIST               103

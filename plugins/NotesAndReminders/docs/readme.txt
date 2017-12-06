@@ -1,4 +1,4 @@
-About
+﻿About
 -----
 New "Notes & Reminders" Plugin
 

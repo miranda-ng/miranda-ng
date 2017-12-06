@@ -1,4 +1,4 @@
-/*
+﻿/*
 	Helper functions for Miranda-IM (www.miranda-im.org)
 	Copyright 2006 P. Boon
 

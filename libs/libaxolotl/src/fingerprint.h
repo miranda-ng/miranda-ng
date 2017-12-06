@@ -1,4 +1,4 @@
-#ifndef FINGERPRINT_H
+﻿#ifndef FINGERPRINT_H
 #define FINGERPRINT_H
 
 #include "signal_protocol_types.h"

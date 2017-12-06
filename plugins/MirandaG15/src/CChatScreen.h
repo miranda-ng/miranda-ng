@@ -1,4 +1,4 @@
-#ifndef _CCHATSCREEN_H_
+﻿#ifndef _CCHATSCREEN_H_
 #define _CCHATSCREEN_H_
 
 #include "CScreen.h"

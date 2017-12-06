@@ -1,4 +1,4 @@
-/* hwf-arm.c - Detect hardware features - ARM part
+﻿/* hwf-arm.c - Detect hardware features - ARM part
  * Copyright © 2013  Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * This file is part of Libgcrypt.

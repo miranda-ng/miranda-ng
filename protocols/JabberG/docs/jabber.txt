@@ -1,4 +1,4 @@
-Legend:
+﻿Legend:
 [+] added
 [*] changed
 [-] deleted

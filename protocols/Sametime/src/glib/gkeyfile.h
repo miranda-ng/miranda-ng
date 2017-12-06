@@ -1,4 +1,4 @@
-/* gkeyfile.h - desktop entry file parser
+﻿/* gkeyfile.h - desktop entry file parser
  *
  *  Copyright 2004 Red Hat, Inc.
  *

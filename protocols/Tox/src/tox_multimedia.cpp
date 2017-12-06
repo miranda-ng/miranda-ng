@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 CToxCallDlgBase::CToxCallDlgBase(CToxProto *proto, int idDialog, MCONTACT hContact) :
 	CToxDlgBase(proto, idDialog, false), hContact(hContact)

@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_HISTORY_H_
+﻿#ifndef _STEAM_REQUEST_HISTORY_H_
 #define _STEAM_REQUEST_HISTORY_H_
 
 class GetConversationsRequest : public HttpRequest

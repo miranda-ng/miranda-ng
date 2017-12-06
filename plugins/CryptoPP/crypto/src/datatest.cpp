@@ -1,4 +1,4 @@
-#include "factory.h"
+﻿#include "factory.h"
 #include "integer.h"
 #include "filters.h"
 #include "hex.h"

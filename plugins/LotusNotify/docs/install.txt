@@ -1,4 +1,4 @@
-EN
+﻿EN
 1.With 0.0.11.19 version plugin use lotus API dynamicly (Set PATH environment to Lotus Notes bins directory is now not required). If plugin can't load propertly nnotes.dll that must be found in Lotus Client location (stored in HCLM/Software/Lotus/Notes/Path registry value by installer), plugin will not load. 
 2.Installation:
   Unpack lotusnotify.dll plugin in plugins directory.

@@ -1,4 +1,4 @@
-#ifndef _CLOUDFILE_ONEDRIVE_H_
+﻿#ifndef _CLOUDFILE_ONEDRIVE_H_
 #define _CLOUDFILE_ONEDRIVE_H_
 
 class COneDriveService : public CCloudService

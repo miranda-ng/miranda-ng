@@ -1,4 +1,4 @@
-#ifndef _LUA_OPTIONS_H_
+﻿#ifndef _LUA_OPTIONS_H_
 #define _LUA_OPTIONS_H_
 
 #include <m_gui.h>

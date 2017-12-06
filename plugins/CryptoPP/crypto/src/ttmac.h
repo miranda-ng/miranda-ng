@@ -1,4 +1,4 @@
-// ttmac.h - written and placed in the public domain by Kevin Springle
+﻿// ttmac.h - written and placed in the public domain by Kevin Springle
 
 #ifndef CRYPTOPP_TTMAC_H
 #define CRYPTOPP_TTMAC_H

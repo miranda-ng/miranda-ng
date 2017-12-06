@@ -1,4 +1,4 @@
-[Keep history for this contact]
+﻿[Keep history for this contact]
 [Disable history for this contact]
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 [Clear History]

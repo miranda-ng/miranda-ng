@@ -1,4 +1,4 @@
-[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
+﻿[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 [General options]
 [Show entry in the Popups menu]
 [Temporarily disable event popups]

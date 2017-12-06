@@ -1,4 +1,4 @@
-/* lock.h - Declarations for *-lock.c
+﻿/* lock.h - Declarations for *-lock.c
    Copyright (C) 2014 g10 Code GmbH
 
    This file is part of libgpg-error.

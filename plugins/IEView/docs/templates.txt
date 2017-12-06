@@ -1,4 +1,4 @@
-Each template begins with template name, which is a special kind of HTML comment, for instance:
+﻿Each template begins with template name, which is a special kind of HTML comment, for instance:
 <!--HTMLStart-->
 or
 <!--MessageIn-->

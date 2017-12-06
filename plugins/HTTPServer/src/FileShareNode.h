@@ -1,4 +1,4 @@
-//This file is part of HTTPServer a Miranda IM plugin
+﻿//This file is part of HTTPServer a Miranda IM plugin
 //Copyright (C)2002 Kennet Nielsen
 //
 //This program is free software; you can redistribute it and/or

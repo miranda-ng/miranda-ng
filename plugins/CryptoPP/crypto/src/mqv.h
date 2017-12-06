@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_MQV_H
+﻿#ifndef CRYPTOPP_MQV_H
 #define CRYPTOPP_MQV_H
 
 /** \file

@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 /* FILETIME unit is 100 nanoseconds */
 const static long div_100_nsec = 10000000;

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * YAMN plugin export functions for protocols
  *
  * (c) majvan 2002-2004

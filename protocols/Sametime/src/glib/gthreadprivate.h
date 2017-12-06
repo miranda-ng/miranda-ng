@@ -1,4 +1,4 @@
-/* GLIB - Library of useful routines for C programming
+﻿/* GLIB - Library of useful routines for C programming
  *
  * gthreadprivate.h - GLib internal thread system related declarations.
  *

@@ -1,4 +1,4 @@
-/* coding: UTF-8 */
+﻿/* coding: UTF-8 */
 /* $Id: libgadu.c 13762 2011-08-09 12:35:16Z dezred $ */
 
 /*

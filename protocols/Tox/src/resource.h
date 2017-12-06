@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by C:\Users\unsane\Projects\c++\miranda-ng\protocols\Tox\res\resource.rc
 //

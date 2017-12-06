@@ -1,4 +1,4 @@
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+﻿#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
 ;  Plugin: Mobile state

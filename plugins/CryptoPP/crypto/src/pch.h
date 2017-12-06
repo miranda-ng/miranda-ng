@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_PCH_H
+﻿#ifndef CRYPTOPP_PCH_H
 #define CRYPTOPP_PCH_H
 
 #ifdef CRYPTOPP_GENERATE_X64_MASM

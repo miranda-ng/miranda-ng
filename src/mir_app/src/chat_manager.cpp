@@ -1,4 +1,4 @@
-/*
+﻿/*
 Chat module plugin for Miranda IM
 
 Copyright 2000-12 Miranda IM, 2012-17 Miranda NG project,

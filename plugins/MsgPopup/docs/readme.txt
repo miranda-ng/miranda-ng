@@ -1,4 +1,4 @@
-"MessageBox -> Popup" plugin
+﻿"MessageBox -> Popup" plugin
 ==========================
 
 MsgBox.dll

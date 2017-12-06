@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 void audio_chunk::set_data(const audio_sample * src,t_size samples,unsigned nch,unsigned srate,unsigned channel_config)
 {

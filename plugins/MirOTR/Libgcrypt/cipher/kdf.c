@@ -1,4 +1,4 @@
-/* kdf.c  - Key Derivation Functions
+﻿/* kdf.c  - Key Derivation Functions
  * Copyright (C) 1998, 2011 Free Software Foundation, Inc.
  * Copyright (C) 2013 g10 Code GmbH
  *

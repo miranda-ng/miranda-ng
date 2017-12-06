@@ -1,4 +1,4 @@
-[Twitter protocol support for Miranda NG.]
+﻿[Twitter protocol support for Miranda NG.]
 [Server:]
 [Create a new Twitter account]
 [Default group:]

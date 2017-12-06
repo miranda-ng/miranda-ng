@@ -1,4 +1,4 @@
-extern BOOL IsUnicodeAscii(const wchar_t* pBuffer, int nSize);
+﻿extern BOOL IsUnicodeAscii(const wchar_t* pBuffer, int nSize);
 extern tstring toLower(const tstring &i_str);
 
 extern std::wstring toWideString( const char* pStr , int len=-1 ) ; 

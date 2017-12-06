@@ -1,4 +1,4 @@
-#ifndef CRC_H
+﻿#ifndef CRC_H
 #define CRC_H
 /* This computes a 32 bit CRC of the data in the buffer, and returns the
    CRC.  The polynomial used is 0xedb88320. */

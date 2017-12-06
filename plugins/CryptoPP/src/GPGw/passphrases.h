@@ -1,4 +1,4 @@
-#ifndef __PASSPHRASES_H__
+﻿#ifndef __PASSPHRASES_H__
 #define __PASSPHRASES_H__
 
 // funktions prototypen

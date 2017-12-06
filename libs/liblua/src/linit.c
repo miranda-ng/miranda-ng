@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id: linit.c,v 1.38 2015/01/05 13:48:33 roberto Exp roberto $
 ** Initialization of libraries for lua.c and other clients
 ** See Copyright Notice in lua.h

@@ -1,4 +1,4 @@
-[Module/InfoType]
+﻿[Module/InfoType]
 [Tool Window Style]
 [Draw Grid]
 [Save search pattern]

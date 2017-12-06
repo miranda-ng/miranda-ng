@@ -1,4 +1,4 @@
-struct hasher_md5_state {
+﻿struct hasher_md5_state {
 	char m_data[128];
 };
 

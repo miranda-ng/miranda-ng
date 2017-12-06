@@ -1,4 +1,4 @@
-void* mir_alloc(size_t sz) {
+﻿void* mir_alloc(size_t sz) {
    __coverity_alloc__(sz);
 }
 

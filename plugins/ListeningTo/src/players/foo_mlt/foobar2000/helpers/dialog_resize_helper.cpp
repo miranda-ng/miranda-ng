@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "dialog_resize_helper.h"
 
 BOOL GetChildWindowRect(HWND wnd,UINT id,RECT* child)

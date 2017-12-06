@@ -1,4 +1,4 @@
-/* Output of mkstrtable.awk.  DO NOT EDIT.  */
+﻿/* Output of mkstrtable.awk.  DO NOT EDIT.  */
 
 /* err-sources.h - List of error sources and their description.
    Copyright (C) 2003, 2004 g10 Code GmbH

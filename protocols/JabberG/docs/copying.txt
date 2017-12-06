@@ -1,4 +1,4 @@
-As a special exception, the authors give permission to modify code,
+﻿As a special exception, the authors give permission to modify code,
 dynamically link and distribute the Program in binary form within the QIP
 installer or archive, as long as the following requirements are fullfilled:
 1. The Jabber plugin must be announced and advertized as a separate product,

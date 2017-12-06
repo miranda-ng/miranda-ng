@@ -1,4 +1,4 @@
-
+﻿
 The latest version of this document is always at:
 http://cvs.sourceforge.net/viewcvs.py/miranda-icq/Plugins/import/docs/import-ICQ_Db_Specs.txt
 

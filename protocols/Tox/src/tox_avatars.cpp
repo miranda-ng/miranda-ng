@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 wchar_t* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {

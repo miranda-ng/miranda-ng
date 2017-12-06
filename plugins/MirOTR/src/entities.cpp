@@ -1,4 +1,4 @@
-// (C) of entities.cpp: Christoph
+﻿// (C) of entities.cpp: Christoph
 // http://mercurial.intuxication.org/hg/cstuff/raw-file/tip/entities.c
 // http://stackoverflow.com/questions/1082162/how-to-unescape-html-in-c/1082191#1082191
 // modified by ProgAndy

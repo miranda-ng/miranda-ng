@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_WINPIPES_H
+﻿#ifndef CRYPTOPP_WINPIPES_H
 #define CRYPTOPP_WINPIPES_H
 
 #include "config.h"

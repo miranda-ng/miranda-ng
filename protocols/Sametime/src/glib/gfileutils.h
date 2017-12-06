@@ -1,4 +1,4 @@
-/* gfileutils.h - File utility functions
+﻿/* gfileutils.h - File utility functions
  *
  *  Copyright 2000 Red Hat, Inc.
  *

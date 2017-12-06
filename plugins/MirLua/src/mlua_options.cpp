@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 CCtrlScriptList::CCtrlScriptList(CDlgBase* dlg, int ctrlId)
 	: CCtrlListView(dlg, ctrlId)

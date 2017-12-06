@@ -1,4 +1,4 @@
-#ifndef _FOOBAR2000_SDK_CFG_VAR_H_
+﻿#ifndef _FOOBAR2000_SDK_CFG_VAR_H_
 #define _FOOBAR2000_SDK_CFG_VAR_H_
 
 #define CFG_VAR_ASSERT_SAFEINIT PFC_ASSERT(!core_api::are_services_available());/*imperfect check for nonstatic instantiation*/

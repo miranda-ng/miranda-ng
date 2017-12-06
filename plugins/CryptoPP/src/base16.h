@@ -1,4 +1,4 @@
-#ifndef __BASE_16__
+﻿#ifndef __BASE_16__
 #define __BASE_16__
 
 #define BERR		0xFF	/* Illegal char marker */

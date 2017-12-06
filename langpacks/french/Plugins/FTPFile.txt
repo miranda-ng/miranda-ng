@@ -1,4 +1,4 @@
-#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM

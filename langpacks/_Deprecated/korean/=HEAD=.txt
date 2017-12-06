@@ -1,4 +1,4 @@
-Miranda Language Pack Version 1
+﻿Miranda Language Pack Version 1
 Language: Korean (Korea)
 Locale: 0412
 Authors: Sang Min Kang, Jerbifor

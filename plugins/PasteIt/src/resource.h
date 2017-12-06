@@ -1,4 +1,4 @@
-
+﻿
 #define IDD_OPT_MAIN                    101
 #define IDD_DLG_FROM_CLIPBOARD          102
 #define IDD_DLG_FROM_FILE               103

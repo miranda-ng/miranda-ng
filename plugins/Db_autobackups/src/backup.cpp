@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static UINT_PTR	timer_id = 0;
 volatile long m_state = 0;

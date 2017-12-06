@@ -1,4 +1,4 @@
-class titleformat_hook;
+﻿class titleformat_hook;
 class titleformat_text_filter;
 
 //! A metadb_handle object represents interface to reference-counted file_info cache entry for the specified location.\n

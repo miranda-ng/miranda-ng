@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by E:\Miranda\NG\plugins\DbeditorPP\res\resource.rc
 //

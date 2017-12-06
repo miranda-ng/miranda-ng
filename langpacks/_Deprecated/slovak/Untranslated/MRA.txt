@@ -1,4 +1,4 @@
-[Create a new Mail.ru account]
+﻿[Create a new Mail.ru account]
 [Configuration]
 [Automatically request authorization on logon]
 [Automatically add contacts to server list on logon]

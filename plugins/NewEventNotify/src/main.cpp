@@ -1,4 +1,4 @@
-/*
+﻿/*
   Name: NewEventNotify - Plugin for Miranda IM
   File: main.c - Main DLL procedures
   Version: 0.2.2.2

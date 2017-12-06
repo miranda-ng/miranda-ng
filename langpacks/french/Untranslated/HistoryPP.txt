@@ -1,4 +1,4 @@
-[Easy, fast and feature complete history viewer.]
+﻿[Easy, fast and feature complete history viewer.]
 [Voice call]
 [Sh&ow in history]
 [Log default]

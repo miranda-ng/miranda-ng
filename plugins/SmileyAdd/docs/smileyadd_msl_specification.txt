@@ -1,4 +1,4 @@
-
+﻿
 MSL (ASL) - Miranda Smiley Library specification
 Used for Smiley definitions
 Authors: Peacow, borkra

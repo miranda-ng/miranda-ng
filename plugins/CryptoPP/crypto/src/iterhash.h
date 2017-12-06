@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_ITERHASH_H
+﻿#ifndef CRYPTOPP_ITERHASH_H
 #define CRYPTOPP_ITERHASH_H
 
 #include "cryptlib.h"

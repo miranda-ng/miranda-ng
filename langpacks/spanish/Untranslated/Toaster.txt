@@ -1,4 +1,4 @@
-[Provides popup services based on Windows toast notification for different plugins.]
+﻿[Provides popup services based on Windows toast notification for different plugins.]
 [Add shortcut]
 [Enabled]
 [This plugin requires Windows 8 or higher]

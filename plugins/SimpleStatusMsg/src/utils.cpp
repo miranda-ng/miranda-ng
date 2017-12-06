@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Simple Status Message plugin for Miranda IM
 Copyright (C) 2006-2011 Bartosz 'Dezeath' Białek, (C) 2005 Harven

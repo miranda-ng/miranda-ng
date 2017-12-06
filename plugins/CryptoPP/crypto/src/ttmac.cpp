@@ -1,4 +1,4 @@
-// ttmac.cpp - written and placed in the public domain by Kevin Springle
+﻿// ttmac.cpp - written and placed in the public domain by Kevin Springle
 
 #include "pch.h"
 #include "ttmac.h"

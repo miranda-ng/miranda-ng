@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2003 Rozhuk Ivan <rozhuk.im@gmail.com>
  * All rights reserved.
  *

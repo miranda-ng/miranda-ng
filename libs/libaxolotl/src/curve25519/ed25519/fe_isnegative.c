@@ -1,4 +1,4 @@
-#include "fe.h"
+﻿#include "fe.h"
 
 /*
 return 1 if f is in {1,3,5,...,q-2}

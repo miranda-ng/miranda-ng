@@ -1,4 +1,4 @@
-
+﻿
 #include "stdafx.h"
 
 #define BitChanged(c) (dwFlags ^ Flags) & c

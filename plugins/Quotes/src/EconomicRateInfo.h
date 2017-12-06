@@ -1,4 +1,4 @@
-#ifndef __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
+﻿#ifndef __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
 #define __87d726e0_26c6_485d_8016_1fba819b037d_EconomicRateInfo__
 
 #define QUOTES_PROTOCOL_NAME "Quotes"// protocol name

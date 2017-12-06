@@ -1,4 +1,4 @@
-[Allowed (active) contact]
+﻿[Allowed (active) contact]
 [Enable Contact List notifications]
 [Enable Tray notifications]
 [Admin]

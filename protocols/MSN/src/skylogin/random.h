@@ -1,4 +1,4 @@
-unsigned int	BytesSHA1(uchar *Data, uint Length);
+﻿unsigned int	BytesSHA1(uchar *Data, uint Length);
 void	GenSessionKey(uchar *Buffer, uint Size);
 void	SpecialSHA(uchar *SessionKey, uint SkSz, uchar *SHAResult, uint ResSz);
 uchar		*FinalizeLoginDatas(Skype_Inst *pInst, uchar *Buffer, uint *Size, uchar *Suite, int SuiteSz);

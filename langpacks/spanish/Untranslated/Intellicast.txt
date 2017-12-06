@@ -1,4 +1,4 @@
-[Ceiling]
+﻿[Ceiling]
 [Full]
 [Waning Crescent]
 [Waning Gibbous]

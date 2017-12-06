@@ -1,4 +1,4 @@
-#ifndef __SIZE_H__
+﻿#ifndef __SIZE_H__
 #define __SIZE_H__
 
 // array groessen

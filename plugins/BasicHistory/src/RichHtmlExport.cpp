@@ -1,4 +1,4 @@
-/*
+﻿/*
 Basic History plugin
 Copyright (C) 2011-2012 Krzysztof Kral
 

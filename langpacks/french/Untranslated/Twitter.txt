@@ -1,4 +1,4 @@
-[Create a new Twitter account]
+﻿[Create a new Twitter account]
 [<Sign in to link your Twitter account>]
 [Send Tweet]
 [Send]

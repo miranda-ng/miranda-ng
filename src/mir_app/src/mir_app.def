@@ -1,4 +1,4 @@
-LIBRARY mir_app.mir
+﻿LIBRARY mir_app.mir
 
 EXPORTS
 CallProtoService            @2

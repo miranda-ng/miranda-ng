@@ -1,4 +1,4 @@
-#ifndef __7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_Quotes_h__
+﻿#ifndef __7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_Quotes_h__
 #define __7D8F07A4_72AF_4838_9C5C_6FDFF57D0DC6_m_Quotes_h__
 
 /*

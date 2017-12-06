@@ -1,4 +1,4 @@
-//! Structure containing ReplayGain scan results from some playable object, also providing various helper methods to manipulate those results.
+﻿//! Structure containing ReplayGain scan results from some playable object, also providing various helper methods to manipulate those results.
 struct replaygain_info
 {
 	float m_album_gain,m_track_gain;

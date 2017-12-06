@@ -1,4 +1,4 @@
-/*
+﻿/*
 UserinfoEx plugin for Miranda IM
 
 Copyright:

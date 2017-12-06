@@ -1,4 +1,4 @@
-#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
+﻿#muuid {2e0d2ae3-e123-4607-8539-d4448d675ddb}
 ;============================================================
 ;  File: NimContact.dll
 ;  Plugin: Non-IM Contact

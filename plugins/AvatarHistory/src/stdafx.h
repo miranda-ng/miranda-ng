@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <windowsx.h>
 #include <time.h>
 #include <ShObjIdl.h>

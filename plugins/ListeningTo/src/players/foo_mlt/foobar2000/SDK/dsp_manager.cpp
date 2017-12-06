@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 void dsp_manager::close() {
 	m_chain.remove_all();

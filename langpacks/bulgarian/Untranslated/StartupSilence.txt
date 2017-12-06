@@ -1,2 +1,2 @@
-[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
+﻿[Allow to set sounds and filtered popups only after startup (uncheck for all popups and sounds)]
 [You have to install popup plugin to use this option.]

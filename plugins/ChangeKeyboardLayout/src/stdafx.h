@@ -1,4 +1,4 @@
-#ifndef M_CKL_COMMONHEADERS_H
+﻿#ifndef M_CKL_COMMONHEADERS_H
 #define M_CKL_COMMONHEADERS_H
 
 #include <windows.h>

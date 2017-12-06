@@ -1,4 +1,4 @@
-/* random-daemon.c  - Access to the external random daemon
+﻿/* random-daemon.c  - Access to the external random daemon
  * Copyright (C) 2006  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

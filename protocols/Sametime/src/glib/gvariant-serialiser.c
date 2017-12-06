@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright © 2007, 2008 Ryan Lortie
  * Copyright © 2010 Codethink Limited
  *

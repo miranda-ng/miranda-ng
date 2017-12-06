@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 
 t_uint32 advconfig_entry::get_preferences_flags_() {

@@ -1,4 +1,4 @@
-#ifndef __LOADLIB_H__
+﻿#ifndef __LOADLIB_H__
 #define __LOADLIB_H__
 
 BOOL loadlib(void);

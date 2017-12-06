@@ -1,4 +1,4 @@
-#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker

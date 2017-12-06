@@ -1,4 +1,4 @@
-[Plugin replaces message boxes (those having only OK button) with popups.]
+﻿[Plugin replaces message boxes (those having only OK button) with popups.]
 [ASTERISK style]
 [Background color]
 [Text color]

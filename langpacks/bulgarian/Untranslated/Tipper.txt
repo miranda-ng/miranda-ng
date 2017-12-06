@@ -1,4 +1,4 @@
-[Hover time:]
+﻿[Hover time:]
 [Status bar tips]
 [Contact protocol module]
 [Parse Tipper variables first]

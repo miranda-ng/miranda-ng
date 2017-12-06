@@ -1,4 +1,4 @@
-/* estream.c - Extended Stream I/O Library
+﻿/* estream.c - Extended Stream I/O Library
  * Copyright (C) 2004, 2005, 2006, 2007, 2009, 2010, 2011,
  *               2014 g10 Code GmbH
  *

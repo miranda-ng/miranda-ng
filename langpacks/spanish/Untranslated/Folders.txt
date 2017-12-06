@@ -1,4 +1,4 @@
-[Allows plugins to save their data to user selected folders; supports variables.]
+﻿[Allows plugins to save their data to user selected folders; supports variables.]
 [Custom folders]
 [Refresh preview]
 [Variables help]

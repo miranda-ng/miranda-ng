@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\myranda\plugins\NotesAndReminders\res\resource.rc
 //

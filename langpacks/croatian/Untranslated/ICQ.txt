@@ -1,4 +1,4 @@
-[ICQ protocol support for Miranda NG.]
+﻿[ICQ protocol support for Miranda NG.]
 [ICQ Number:]
 [Password:]
 [Create a new ICQ account]

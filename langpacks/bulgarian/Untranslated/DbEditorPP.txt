@@ -1,4 +1,4 @@
-[Case sensitive]
+﻿[Case sensitive]
 [Base]
 [Delete &resident settings]
 [Edit &Bytes in Hex]

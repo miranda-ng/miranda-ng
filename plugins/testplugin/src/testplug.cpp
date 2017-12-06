@@ -1,4 +1,4 @@
-/*
+﻿/*
 Miranda NG plugin template
 https://miranda-ng.org/
 

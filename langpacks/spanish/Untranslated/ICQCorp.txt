@@ -1,4 +1,4 @@
-[ICQ corporate protocol support for Miranda NG.]
+﻿[ICQ corporate protocol support for Miranda NG.]
 [UIN:]
 [External IP:]
 [Internal IP:]

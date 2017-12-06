@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // Bitmap conversion routines
 // Thresholding and halftoning functions
 // Design and implementation by

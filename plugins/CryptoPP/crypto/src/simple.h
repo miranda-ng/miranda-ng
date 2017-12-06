@@ -1,4 +1,4 @@
-// simple.h - written and placed in the public domain by Wei Dai
+﻿// simple.h - written and placed in the public domain by Wei Dai
 /*! \file
  	Simple non-interface classes derived from classes in cryptlib.h.
 */

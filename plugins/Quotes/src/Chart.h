@@ -1,4 +1,4 @@
-#ifndef __FAE7F26E_61ED_4951_BE87_5E022CDF21DF_Chart_h__
+﻿#ifndef __FAE7F26E_61ED_4951_BE87_5E022CDF21DF_Chart_h__
 #define __FAE7F26E_61ED_4951_BE87_5E022CDF21DF_Chart_h__
 
 #pragma once

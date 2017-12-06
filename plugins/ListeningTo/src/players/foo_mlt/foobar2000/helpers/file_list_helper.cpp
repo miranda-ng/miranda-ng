@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static void file_list_remove_duplicates(pfc::ptr_list_t<char> & out)
 {

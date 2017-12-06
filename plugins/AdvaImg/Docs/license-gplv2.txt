@@ -1,4 +1,4 @@
-GNU General Public License, version 2 (GPL-2.0)
+﻿GNU General Public License, version 2 (GPL-2.0)
 [OSI Approved License]
 The GNU General Public License (GPL-2.0)
 Version 2, June 1991

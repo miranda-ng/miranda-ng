@@ -1,4 +1,4 @@
-#ifndef _DROPDOWN_HELPER_H_
+﻿#ifndef _DROPDOWN_HELPER_H_
 #define _DROPDOWN_HELPER_H_
 
 class _cfg_dropdown_history_base

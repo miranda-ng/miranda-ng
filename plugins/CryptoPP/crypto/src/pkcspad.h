@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_PKCSPAD_H
+﻿#ifndef CRYPTOPP_PKCSPAD_H
 #define CRYPTOPP_PKCSPAD_H
 
 #include "cryptlib.h"

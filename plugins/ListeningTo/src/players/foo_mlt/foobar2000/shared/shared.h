@@ -1,4 +1,4 @@
-#ifndef _SHARED_DLL__SHARED_H_
+﻿#ifndef _SHARED_DLL__SHARED_H_
 #define _SHARED_DLL__SHARED_H_
 
 #include "../../pfc/pfc.h"

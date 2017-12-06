@@ -1,4 +1,4 @@
-
+﻿
 class NOVTABLE ui_edit_context : public service_base {
 	FB2K_MAKE_SERVICE_INTERFACE(ui_edit_context, service_base)
 public:

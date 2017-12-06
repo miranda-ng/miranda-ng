@@ -1,4 +1,4 @@
-[Database autobackuper plugin.]
+﻿[Database autobackuper plugin.]
 [Backup progress]
 [Automatic backups]
 [Backup NOW]

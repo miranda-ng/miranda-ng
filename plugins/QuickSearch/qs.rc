@@ -1,4 +1,4 @@
-#include "resource.inc"
+﻿#include "resource.inc"
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef ske_H_INC
 #define ske_H_INC

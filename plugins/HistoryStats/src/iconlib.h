@@ -1,4 +1,4 @@
-#if !defined(HISTORYSTATS_GUARD_ICONLIB_H)
+﻿#if !defined(HISTORYSTATS_GUARD_ICONLIB_H)
 #define HISTORYSTATS_GUARD_ICONLIB_H
 
 #include "stdafx.h"

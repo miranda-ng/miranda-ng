@@ -1,4 +1,4 @@
-class dynamic_bitrate_helper
+﻿class dynamic_bitrate_helper
 {
 public:
 	dynamic_bitrate_helper();

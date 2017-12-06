@@ -1,4 +1,4 @@
-class win32_menu {
+﻿class win32_menu {
 public:
 	win32_menu(HMENU p_initval) : m_menu(p_initval) {}
 	win32_menu() : m_menu(NULL) {}

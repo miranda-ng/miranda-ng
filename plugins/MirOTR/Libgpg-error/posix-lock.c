@@ -1,4 +1,4 @@
-/* posix-lock.c - GPGRT lock functions for POSIX systems
+﻿/* posix-lock.c - GPGRT lock functions for POSIX systems
    Copyright (C) 2005-2009 Free Software Foundation, Inc.
    Copyright (C) 2014 g10 Code GmbH
 

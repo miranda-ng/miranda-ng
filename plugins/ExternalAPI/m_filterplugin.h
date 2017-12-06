@@ -1,4 +1,4 @@
-#ifndef __M_FILTERPLUGIN_H
+﻿#ifndef __M_FILTERPLUGIN_H
 #define __M_FILTERPLUGIN_H
 
 #include <windows.h>

@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 INT_PTR __cdecl Service_IsContactSecured(WPARAM wParam, LPARAM)
 {

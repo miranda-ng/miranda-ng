@@ -1,4 +1,4 @@
-#ifndef JSON_DEBUG_H
+﻿#ifndef JSON_DEBUG_H
 #define JSON_DEBUG_H
 
 #include "JSONDefs.h"

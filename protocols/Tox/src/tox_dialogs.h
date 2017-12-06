@@ -1,4 +1,4 @@
-#ifndef _TOX_DIALOGS_H_
+﻿#ifndef _TOX_DIALOGS_H_
 #define _TOX_DIALOGS_H_
 
 class CCtrlLabel : public CCtrlData

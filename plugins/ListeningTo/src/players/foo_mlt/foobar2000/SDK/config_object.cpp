@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 void config_object_notify_manager::g_on_changed(const service_ptr_t<config_object> & p_object)
 {

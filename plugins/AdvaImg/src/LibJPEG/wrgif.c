@@ -1,4 +1,4 @@
-/*
+﻿/*
  * wrgif.c
  *
  * Copyright (C) 1991-1997, Thomas G. Lane.

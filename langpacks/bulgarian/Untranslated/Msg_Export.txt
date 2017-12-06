@@ -1,4 +1,4 @@
-[Use internal viewer]
+﻿[Use internal viewer]
 [Replace Miranda history]
 [Use << and >>]
 [Note: 0 = no limit]

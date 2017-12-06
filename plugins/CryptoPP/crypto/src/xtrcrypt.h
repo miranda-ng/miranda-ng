@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_XTRCRYPT_H
+﻿#ifndef CRYPTOPP_XTRCRYPT_H
 #define CRYPTOPP_XTRCRYPT_H
 
 /** \file

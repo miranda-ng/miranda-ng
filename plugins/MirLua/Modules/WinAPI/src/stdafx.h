@@ -1,4 +1,4 @@
-/****h* Win32/luaw32.c [$Revision: 13 $]
+﻿/****h* Win32/luaw32.c [$Revision: 13 $]
 * NAME
 *  luaw32
 * COPYRIGHT

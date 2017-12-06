@@ -1,4 +1,4 @@
-#include "i_st_rc.inc"
+﻿#include "i_st_rc.inc"
 #include "resource.inc"
 
 LANGUAGE 0,0

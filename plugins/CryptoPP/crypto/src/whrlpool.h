@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_WHIRLPOOL_H
+﻿#ifndef CRYPTOPP_WHIRLPOOL_H
 #define CRYPTOPP_WHIRLPOOL_H
 
 #include "config.h"

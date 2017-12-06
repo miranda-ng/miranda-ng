@@ -1,4 +1,4 @@
-#include <string.h>
+﻿#include <string.h>
 #include "compare.h"
 
 /* Const-time comparison from SUPERCOP, but here it's only used for 

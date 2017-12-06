@@ -1,4 +1,4 @@
-/* crypto/ts/ts.h */
+﻿/* crypto/ts/ts.h */
 /*
  * Written by Zoltan Glozik (zglozik@opentsa.org) for the OpenSSL project
  * 2002, 2003, 2004.

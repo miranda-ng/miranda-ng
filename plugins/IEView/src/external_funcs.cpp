@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 template<typename T>
 T Var_To(VARIANTARG &pVar, char strType = 'W')

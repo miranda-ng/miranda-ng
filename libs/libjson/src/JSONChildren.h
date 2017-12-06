@@ -1,4 +1,4 @@
-#ifndef JSONCHILDREN_H
+﻿#ifndef JSONCHILDREN_H
 #define JSONCHILDREN_H
 
 #include "JSONMemory.h"

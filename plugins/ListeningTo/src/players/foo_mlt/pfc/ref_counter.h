@@ -1,4 +1,4 @@
-namespace pfc {
+﻿namespace pfc {
 	class counter {
 	public:
 		counter(long p_val = 0) : m_val(p_val) {}

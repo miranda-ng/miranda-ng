@@ -1,4 +1,4 @@
-[Go]
+﻿[Go]
 [Allow file sending through bytestream proxy server:]
 [Send group chat invitation]
 [Incoming group chat invitation]

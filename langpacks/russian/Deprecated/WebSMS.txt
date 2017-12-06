@@ -1,4 +1,4 @@
-;============================================================
+﻿;============================================================
 ;  File: sms_library.dll
 ;  Module: Support for sending SMS-Messages via HTTP SMS-Providers
 ;  Versions: 0.0.0.5 - 0.0.0.9

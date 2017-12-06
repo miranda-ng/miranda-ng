@@ -1,4 +1,4 @@
-#ifndef _COOLSBLIB_INCLUDED
+﻿#ifndef _COOLSBLIB_INCLUDED
 #define _COOLSBLIB_INCLUDED
 
 #ifdef __cplusplus

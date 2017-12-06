@@ -1,4 +1,4 @@
-ClientChangeNotify plugin for Miranda IM.
+﻿ClientChangeNotify plugin for Miranda IM.
 (c) Chervov Dmitry aka Deathdemon.
 
 This plugin shows a notification when someone in your contact list changes his client.

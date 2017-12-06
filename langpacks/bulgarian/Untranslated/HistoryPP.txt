@@ -1,4 +1,4 @@
-[Log default]
+﻿[Log default]
 [History default]
 [Group log messages]
 [Artist: %s\\nTitle: %s\\nAlbum: %s]

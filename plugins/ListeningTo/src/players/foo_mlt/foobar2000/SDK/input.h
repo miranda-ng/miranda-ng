@@ -1,4 +1,4 @@
-PFC_DECLARE_EXCEPTION(exception_tagging_unsupported, exception_io_data, "Tagging of this file format is not supported")
+﻿PFC_DECLARE_EXCEPTION(exception_tagging_unsupported, exception_io_data, "Tagging of this file format is not supported")
 
 enum {
 	input_flag_no_seeking					= 1 << 0,

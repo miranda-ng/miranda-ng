@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 //reading from database-------------
 tstring db_usage::DBGetPluginSetting(std::string const &name, tstring const &defValue)

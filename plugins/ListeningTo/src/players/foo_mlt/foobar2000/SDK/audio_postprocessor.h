@@ -1,4 +1,4 @@
-//! This class handles conversion of audio data (audio_chunk) to various linear PCM types, with optional dithering.
+﻿//! This class handles conversion of audio data (audio_chunk) to various linear PCM types, with optional dithering.
 
 class NOVTABLE audio_postprocessor : public service_base
 {

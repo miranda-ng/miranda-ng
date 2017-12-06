@@ -1,4 +1,4 @@
-/*
+﻿/*
  * strpos.c - Returns the offset of a string in a substring.
  *
  * Copyright (c) 2001, 2002 Andre Guibert de Bruet. <andre@siliconlandmark.com>

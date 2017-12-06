@@ -1,4 +1,4 @@
-/*
+﻿/*
 Custom profile folders plugin for Miranda IM
 
 Copyright © 2005 Cristian Libotean

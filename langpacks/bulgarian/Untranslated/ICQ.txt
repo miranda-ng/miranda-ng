@@ -1,4 +1,4 @@
-[Legacy fix (for ICQ Groupware or IServerD only)]
+﻿[Legacy fix (for ICQ Groupware or IServerD only)]
 [Ignore concurrent error messages]
 [Peer-to-peer Messaging]
 [Look && Feel]

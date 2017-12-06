@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "texttospeech.h"
 
 struct ITTSCentralW;

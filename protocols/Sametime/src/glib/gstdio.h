@@ -1,4 +1,4 @@
-/* gstdio.h - GFilename wrappers for C library functions
+﻿/* gstdio.h - GFilename wrappers for C library functions
  *
  * Copyright 2004 Tor Lillqvist
  *

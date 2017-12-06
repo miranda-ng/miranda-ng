@@ -1,4 +1,4 @@
-/* gost.h - GOST 28147-89 implementation
+﻿/* gost.h - GOST 28147-89 implementation
  * Copyright (C) 2012 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

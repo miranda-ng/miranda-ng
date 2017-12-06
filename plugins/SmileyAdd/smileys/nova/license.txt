@@ -1,4 +1,4 @@
-; Smiley Definitions
+﻿; Smiley Definitions
 ; Copyright (C) 2008 Angeli-Ka, borkra All Rights Reserved
 ;
 ; Licensed under:

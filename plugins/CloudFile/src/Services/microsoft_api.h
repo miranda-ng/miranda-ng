@@ -1,4 +1,4 @@
-#ifndef _ONEDRIVESERVICE_API_H_
+﻿#ifndef _ONEDRIVESERVICE_API_H_
 #define _ONEDRIVESERVICE_API_H_
 
 namespace OneDriveAPI

@@ -1,4 +1,4 @@
-#ifndef M_CKL_OPTIONS_H
+﻿#ifndef M_CKL_OPTIONS_H
 #define M_CKL_OPTIONS_H
 
 #include "stdafx.h"

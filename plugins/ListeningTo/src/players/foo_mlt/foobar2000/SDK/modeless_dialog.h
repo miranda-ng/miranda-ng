@@ -1,4 +1,4 @@
-//! Service for plugging your nonmodal dialog windows into main app loop to receive IsDialogMessage()-translated messages.\n
+﻿//! Service for plugging your nonmodal dialog windows into main app loop to receive IsDialogMessage()-translated messages.\n
 //! Note that all methods are valid from main app thread only.\n
 //! Usage: static_api_ptr_t<modeless_dialog_manager> or modeless_dialog_manager::g_add / modeless_dialog_manager::g_remove.
 class NOVTABLE modeless_dialog_manager : public service_base {

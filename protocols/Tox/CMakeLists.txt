@@ -1,4 +1,4 @@
-file(GLOB SOURCES "src/*.h" "include/*.h" "src/*.cpp" "res/*.rc")
+﻿file(GLOB SOURCES "src/*.h" "include/*.h" "src/*.cpp" "res/*.rc")
 set(TARGET Tox)
 include_directories("include")
 include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)

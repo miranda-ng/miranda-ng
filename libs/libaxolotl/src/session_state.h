@@ -1,4 +1,4 @@
-#ifndef SESSION_STATE_H
+﻿#ifndef SESSION_STATE_H
 #define SESSION_STATE_H
 
 #include <stdint.h>

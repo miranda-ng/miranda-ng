@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 
 #include <newpluginapi.h>
 #include <m_langpack.h>

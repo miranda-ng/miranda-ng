@@ -1,4 +1,4 @@
-[FTP accounts]
+﻿[FTP accounts]
 [Host name]
 [User]
 [Password]

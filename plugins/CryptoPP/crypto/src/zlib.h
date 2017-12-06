@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_ZLIB_H
+﻿#ifndef CRYPTOPP_ZLIB_H
 #define CRYPTOPP_ZLIB_H
 
 #include "adler32.h"

@@ -1,4 +1,4 @@
-class NOVTABLE resampler_entry : public dsp_entry
+﻿class NOVTABLE resampler_entry : public dsp_entry
 {
 public:
 	virtual bool is_conversion_supported(unsigned p_srate_from,unsigned p_srate_to) = 0;

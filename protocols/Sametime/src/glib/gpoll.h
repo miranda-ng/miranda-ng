@@ -1,4 +1,4 @@
-/* gpoll.h - poll(2) support
+﻿/* gpoll.h - poll(2) support
  * Copyright (C) 2008 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or

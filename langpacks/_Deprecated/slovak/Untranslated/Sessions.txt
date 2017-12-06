@@ -1,4 +1,4 @@
-[Action on Startup]
+﻿[Action on Startup]
 [Open Sessions Manager dialog]
 [Restore Last Session]
 [Do nothing]

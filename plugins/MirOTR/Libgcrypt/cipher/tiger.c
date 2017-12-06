@@ -1,4 +1,4 @@
-/* tiger.c  -  The TIGER hash function
+﻿/* tiger.c  -  The TIGER hash function
  * Copyright (C) 1998, 2001, 2002, 2003, 2010 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

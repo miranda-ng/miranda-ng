@@ -1,4 +1,4 @@
-#ifndef _CLCDCONNECTION_H_
+﻿#ifndef _CLCDCONNECTION_H_
 #define _CLCDCONNECTION_H_
 
 #include "CLCDDevice.h"

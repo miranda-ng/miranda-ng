@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_ELGAMAL_H
+﻿#ifndef CRYPTOPP_ELGAMAL_H
 #define CRYPTOPP_ELGAMAL_H
 
 #include "modexppc.h"

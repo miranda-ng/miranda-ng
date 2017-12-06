@@ -1,4 +1,4 @@
-[Server:]
+﻿[Server:]
 [Visible name:]
 [Meet strangers with common interests (separated by commas):]
 [Automatically send one of these messages (each on new line) to stranger after connection:]

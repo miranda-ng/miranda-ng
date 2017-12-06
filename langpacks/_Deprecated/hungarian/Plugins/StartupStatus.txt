@@ -1,4 +1,4 @@
-#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus

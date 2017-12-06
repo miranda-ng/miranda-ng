@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by D:\Development\Miranda\Miranda NG\protocols\Dummy\res\resource.rc
 //

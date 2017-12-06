@@ -1,4 +1,4 @@
-[Shutdown]
+﻿[Shutdown]
 [&Show confirmation dialog before shutdown]
 [&Countdown starts at:]
 [Shutdown events]

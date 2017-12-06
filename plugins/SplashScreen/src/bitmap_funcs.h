@@ -1,4 +1,4 @@
-#ifndef __bitmap_funcs_h__
+﻿#ifndef __bitmap_funcs_h__
 #define __bitmap_funcs_h__
 
 // This should make bitmap manipulations much easier...

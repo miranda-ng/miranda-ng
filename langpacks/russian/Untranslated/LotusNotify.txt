@@ -1,4 +1,4 @@
-[try detect]
+﻿[try detect]
 [autoregister]
 [Keep connection on error]
 [To / CopyTo]

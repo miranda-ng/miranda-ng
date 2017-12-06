@@ -1,4 +1,4 @@
-/* cipher-selftest.h - Helper functions for bulk encryption selftests.
+﻿/* cipher-selftest.h - Helper functions for bulk encryption selftests.
  *	Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * This file is part of Libgcrypt.

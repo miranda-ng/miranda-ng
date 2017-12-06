@@ -1,4 +1,4 @@
-#ifndef _MEM_BLOCK_MGR_H_
+﻿#ifndef _MEM_BLOCK_MGR_H_
 #define _MEM_BLOCK_MGR_H_
 
 #error DEPRECATED

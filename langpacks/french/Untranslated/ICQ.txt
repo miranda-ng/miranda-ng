@@ -1,4 +1,4 @@
-[Create a new ICQ account]
+﻿[Create a new ICQ account]
 [Enter an authorization request]
 [Remember this session password]
 [Connection settings]

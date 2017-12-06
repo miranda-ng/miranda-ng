@@ -1,4 +1,4 @@
-#ifndef __MAILS_H
+﻿#ifndef __MAILS_H
 #define __MAILS_H
 
 #include <windows.h>

@@ -1,4 +1,4 @@
-[Facebook protocol support for Miranda NG.]
+﻿[Facebook protocol support for Miranda NG.]
 [E-mail:]
 [Password:]
 [Create a new Facebook account]

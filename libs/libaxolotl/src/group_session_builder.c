@@ -1,4 +1,4 @@
-#include "group_session_builder.h"
+﻿#include "group_session_builder.h"
 
 #include <assert.h>
 #include <string.h>

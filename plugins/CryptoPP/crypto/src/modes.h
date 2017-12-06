@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_MODES_H
+﻿#ifndef CRYPTOPP_MODES_H
 #define CRYPTOPP_MODES_H
 
 /*! \file

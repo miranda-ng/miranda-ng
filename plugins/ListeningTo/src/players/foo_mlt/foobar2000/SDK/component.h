@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 // This is a helper class that gets reliably static-instantiated in all components so any special code that must be executed on startup can be shoved into its constructor.
 class foobar2000_component_globals {

@@ -1,4 +1,4 @@
-/* coding: UTF-8 */
+﻿/* coding: UTF-8 */
 /* $Id: dcc7.c,v 1.2 2007-07-20 23:00:49 wojtekka Exp $ */
 
 /*

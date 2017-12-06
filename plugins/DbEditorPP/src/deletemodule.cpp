@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 volatile BOOL working;
 static HWND hwnd2Delete = nullptr;

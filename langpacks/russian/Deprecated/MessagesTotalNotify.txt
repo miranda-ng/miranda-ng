@@ -1,4 +1,4 @@
-#muuid {c58dc8cc-a572-4a76-aaea-344baee6d889}
+﻿#muuid {c58dc8cc-a572-4a76-aaea-344baee6d889}
 ;============================================================
 ;  File: messagestotalnotify.dll
 ;  Module: Messages Total Notify (Unicode)

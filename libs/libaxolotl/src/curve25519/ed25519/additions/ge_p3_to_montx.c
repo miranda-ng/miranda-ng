@@ -1,4 +1,4 @@
-#include "fe.h"
+﻿#include "fe.h"
 #include "crypto_additions.h"
 
 void ge_p3_to_montx(fe u, const ge_p3 *ed)

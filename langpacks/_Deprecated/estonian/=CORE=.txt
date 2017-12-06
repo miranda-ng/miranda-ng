@@ -1,4 +1,4 @@
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Sisesta konto nimi (nt. Minu Google')
 [Choose the protocol type]
 Vali protokolli tüüp

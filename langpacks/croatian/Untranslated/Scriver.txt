@@ -1,4 +1,4 @@
-[Scriver - send and receive instant messages.]
+﻿[Scriver - send and receive instant messages.]
 [Behavior]
 [Automatically pop up the window when]
 [and stay minimized]

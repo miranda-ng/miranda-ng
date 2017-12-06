@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <Commctrl.h>
 #include <assert.h>
 #include <iphlpapi.h>

@@ -1,4 +1,4 @@
-class NOVTABLE commandline_handler : public service_base
+﻿class NOVTABLE commandline_handler : public service_base
 {
 public:
 	enum result

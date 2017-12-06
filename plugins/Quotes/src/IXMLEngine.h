@@ -1,4 +1,4 @@
-#ifndef __f88e20d7_5e65_40fb_a7b5_7c7af1ee1c78_IXMLEngine_h__
+﻿#ifndef __f88e20d7_5e65_40fb_a7b5_7c7af1ee1c78_IXMLEngine_h__
 #define __f88e20d7_5e65_40fb_a7b5_7c7af1ee1c78_IXMLEngine_h__
 
 class IXMLNode

@@ -1,4 +1,4 @@
-      How to automatically compile Miranda NG installer:
+﻿      How to automatically compile Miranda NG installer:
 
 
 1. Run make_all.bat (will download, compile and cleanup all) or make_interactive.bat for user interactive mode.

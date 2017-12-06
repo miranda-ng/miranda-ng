@@ -1,4 +1,4 @@
-#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+﻿#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier

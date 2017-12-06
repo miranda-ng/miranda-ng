@@ -1,4 +1,4 @@
-
+﻿
 extern BOOL gbDosServiceExist;
 extern BOOL gbVarsServiceExist;
 extern DWORD gbMaxQuestCount;

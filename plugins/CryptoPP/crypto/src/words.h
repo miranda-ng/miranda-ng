@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_WORDS_H
+﻿#ifndef CRYPTOPP_WORDS_H
 #define CRYPTOPP_WORDS_H
 
 #include "misc.h"

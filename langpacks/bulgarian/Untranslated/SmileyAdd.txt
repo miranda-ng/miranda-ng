@@ -1,4 +1,4 @@
-[Use per protocol global smiley packs]
+﻿[Use per protocol global smiley packs]
 [Maximum 'Custom smiley' height]
 [IEView style window]
 [Horizontal sorting]

@@ -1,4 +1,4 @@
-[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+﻿[Provides Miranda database support: global settings, contacts, history, settings per contact.]
 [Select crypto provider]
 [Cancel]
 [Login to Miranda NG]

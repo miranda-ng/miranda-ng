@@ -1,4 +1,4 @@
-[Omegle protocol support for Miranda NG.]
+﻿[Omegle protocol support for Miranda NG.]
 [Language:]
 [Visible name:]
 [Meet strangers with common interests (separated by commas):]

@@ -1,4 +1,4 @@
-//
+﻿//
 // ConStream.cpp: implementation of the ConStream class.
 //
 // Mark Nelson, October 17, 1998

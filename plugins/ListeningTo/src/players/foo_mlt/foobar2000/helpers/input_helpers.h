@@ -1,4 +1,4 @@
-#ifndef _INPUT_HELPERS_H_
+﻿#ifndef _INPUT_HELPERS_H_
 #define _INPUT_HELPERS_H_
 
 class input_helper {

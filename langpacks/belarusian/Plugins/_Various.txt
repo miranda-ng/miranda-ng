@@ -1,4 +1,4 @@
-;  This file is for lines that jpgen.js doesn't add to english templates but nevertheless must be translated.
+﻿;  This file is for lines that jpgen.js doesn't add to english templates but nevertheless must be translated.
 ;  Clist_modern
 [Show main menu]
 Галоўнае меню

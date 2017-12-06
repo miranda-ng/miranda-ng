@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jmemname.c
  *
  * Copyright (C) 1992-1997, Thomas G. Lane.

@@ -1,4 +1,4 @@
-#ifndef _DIALOG_RESIZE_HELPER_H_
+﻿#ifndef _DIALOG_RESIZE_HELPER_H_
 #define _DIALOG_RESIZE_HELPER_H_
 
 BOOL GetChildWindowRect(HWND wnd,UINT id,RECT* child);

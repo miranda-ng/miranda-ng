@@ -1,4 +1,4 @@
-#ifndef __M_PROTOPLUGIN_H
+﻿#ifndef __M_PROTOPLUGIN_H
 #define __M_PROTOPLUGIN_H
 
 #include <windows.h>

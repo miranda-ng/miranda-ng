@@ -1,4 +1,4 @@
-namespace pfc {
+﻿namespace pfc {
 	t_size getOptimalWorkerThreadCount();
 	t_size getOptimalWorkerThreadCountEx(t_size taskCountLimit);
 

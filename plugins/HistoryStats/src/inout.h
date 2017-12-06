@@ -1,4 +1,4 @@
-#if !defined(HISTORYSTATS_GUARD_INOUT_H)
+﻿#if !defined(HISTORYSTATS_GUARD_INOUT_H)
 #define HISTORYSTATS_GUARD_INOUT_H
 
 class InOut

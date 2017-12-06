@@ -1,4 +1,4 @@
-#ifndef __FOOBAR2000_HELPER_WILDCARD_H__
+﻿#ifndef __FOOBAR2000_HELPER_WILDCARD_H__
 #define __FOOBAR2000_HELPER_WILDCARD_H__
 
 namespace wildcard_helper

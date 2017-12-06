@@ -1,4 +1,4 @@
-#ifndef _TOX_MULTIMEDIA_H_
+﻿#ifndef _TOX_MULTIMEDIA_H_
 #define _TOX_MULTIMEDIA_H_
 
 #define WM_CALL_END (WM_PROTO_LAST + 100)

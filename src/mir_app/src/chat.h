@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Chat module plugin for Miranda IM
 

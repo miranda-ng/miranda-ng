@@ -1,2 +1,2 @@
-[First tweet from new contact]
+﻿[First tweet from new contact]
 [New tweet]

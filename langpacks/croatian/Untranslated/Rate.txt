@@ -1,4 +1,4 @@
-[Shows rating of contact in contact list (if present).]
+﻿[Shows rating of contact in contact list (if present).]
 [Rate high]
 [Rate medium]
 [Rate low]

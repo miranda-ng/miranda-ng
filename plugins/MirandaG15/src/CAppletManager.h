@@ -1,4 +1,4 @@
-#ifndef _COUTPUTMANAGER_H_
+﻿#ifndef _COUTPUTMANAGER_H_
 #define _COUTPUTMANAGER_H_
 
 #include "LCDFramework/CLCDOutputManager.h"

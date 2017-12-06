@@ -1,4 +1,4 @@
-[Tool style main window]
+﻿[Tool style main window]
 [Become idle if a terminal session is disconnected]
 [Show formatting]
 [(Setting timeout to 0 means default setting and -1 means indefinite time)]

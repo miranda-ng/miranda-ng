@@ -1,4 +1,4 @@
-/* gcrypt-int.h - Internal version of gcrypt.h
+﻿/* gcrypt-int.h - Internal version of gcrypt.h
  * Copyright (C) 2013 g10 Code GmbH
  *
  * This file is part of Libgcrypt.

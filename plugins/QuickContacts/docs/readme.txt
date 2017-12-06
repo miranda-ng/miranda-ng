@@ -1,4 +1,4 @@
-Quick Contacts plugin
+﻿Quick Contacts plugin
 ---------------------
 
 On pressing an user defined hotkey an dialog pops up where you can enter a contacts name or select it from a combobox and send it messages/files/urls an look at his details.

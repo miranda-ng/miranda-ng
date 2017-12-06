@@ -1,4 +1,4 @@
-/*
+﻿/*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
 
 Copyright (c) 2012-2017 Miranda NG Team

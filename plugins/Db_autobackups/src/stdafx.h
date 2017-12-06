@@ -1,4 +1,4 @@
-#ifndef _HEADERS_H
+﻿#ifndef _HEADERS_H
 #define _HEADERS_H
 
 #define _CRT_SECURE_NO_DEPRECATE

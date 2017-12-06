@@ -1,2 +1,2 @@
-[Crash Dumper and Version Information for Miranda NG.]
+﻿[Crash Dumper and Version Information for Miranda NG.]
 [Open online Version Info]

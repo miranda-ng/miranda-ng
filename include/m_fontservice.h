@@ -1,4 +1,4 @@
-// Copyright Scott Ellis (mail@scottellis.com.au) 2005
+﻿// Copyright Scott Ellis (mail@scottellis.com.au) 2005
 // This software is licenced under the GPL (General Public Licence)
 // available at http://www.gnu.org/copyleft/gpl.html
 

@@ -1,4 +1,4 @@
-[SecureIM plugin for Miranda NG.]
+﻿[SecureIM plugin for Miranda NG.]
 [Context Menu only for "Miranda" clients]
 [Not secured for NotOnList]
 [Auto accept RSA key (NOT SECURED)]

@@ -1,4 +1,4 @@
-#ifndef __CPP_RSAM_H__
+﻿#ifndef __CPP_RSAM_H__
 #define __CPP_RSAM_H__
 
 int __cdecl rsa_gen_keypair(short);

@@ -1,4 +1,4 @@
-[Contact List Window Start Position]
+﻿[Contact List Window Start Position]
 [Left]
 [Right]
 [Pixels from Top]

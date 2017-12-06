@@ -1,4 +1,4 @@
-/* random-system.c - wrapper around the system's RNG
+﻿/* random-system.c - wrapper around the system's RNG
  * Copyright (C) 2012  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

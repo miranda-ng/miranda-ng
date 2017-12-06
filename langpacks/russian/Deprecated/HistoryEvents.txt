@@ -1,4 +1,4 @@
-#muuid {25b9a055-1e7f-4505-99ef-9bc76e3f1bd0}
+﻿#muuid {25b9a055-1e7f-4505-99ef-9bc76e3f1bd0}
 ;============================================================
 ;  File: historyevents.dll
 ;  Module: History Events

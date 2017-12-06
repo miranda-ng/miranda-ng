@@ -1,4 +1,4 @@
-[Selected totals]
+﻿[Selected totals]
 [Accounts]
 [Units]
 [Clear statistics]

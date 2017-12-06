@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Standard e-mail urls launcher for Miranda NG
 

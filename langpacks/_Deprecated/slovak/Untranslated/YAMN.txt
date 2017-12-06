@@ -1,4 +1,4 @@
-[Installed plugins]
+﻿[Installed plugins]
 [Account]
 [Name:]
 [Server:]

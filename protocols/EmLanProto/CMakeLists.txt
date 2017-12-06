@@ -1,4 +1,4 @@
-set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "")
+﻿set_directory_properties(PROPERTIES COMPILE_DEFINITIONS "")
 
 file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
 set(TARGET EmLanProto)

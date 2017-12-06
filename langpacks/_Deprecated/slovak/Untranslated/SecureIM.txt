@@ -1,4 +1,4 @@
-[User List]
+﻿[User List]
 [Enable Secure Offline messages]
 [Enable Secure File Transfer]
 [Always show status icons in contact list]

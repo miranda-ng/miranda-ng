@@ -1,4 +1,4 @@
-namespace titleformat_inputtypes {
+﻿namespace titleformat_inputtypes {
 	extern const GUID meta, unknown;
 };
 

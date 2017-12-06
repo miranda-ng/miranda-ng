@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 void MakeMenuItem(lua_State *L, CMenuItem &mi)
 {

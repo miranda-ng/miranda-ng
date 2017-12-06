@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 bool file_move_helper::g_on_deleted(const pfc::list_base_const_t<const char *> & p_files)
 {

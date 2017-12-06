@@ -1,4 +1,4 @@
-[Place:]
+﻿[Place:]
 [Attach contacts:]
 [Automatically set 'Ignore status change' flag]
 [Prefer real names instead of nicknames]

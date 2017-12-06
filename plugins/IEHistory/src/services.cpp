@@ -1,4 +1,4 @@
-/*
+﻿/*
 IEView history viewer plugin for Miranda IM
 
 Copyright © 2005-2006 Cristian Libotean

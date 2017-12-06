@@ -1,4 +1,4 @@
-/* $Id: dynstuff.c 11259 2010-02-17 04:47:22Z borkra $ */
+﻿/* $Id: dynstuff.c 11259 2010-02-17 04:47:22Z borkra $ */
 
 /*
  *	(C) Copyright 2001-2003 Wojtek Kaniewski <wojtekka@irc.pl>

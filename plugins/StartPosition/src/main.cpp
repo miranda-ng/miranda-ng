@@ -1,4 +1,4 @@
-/*
+﻿/*
 StartPosition plugin for Miranda NG
 
 Copyright (C) 2005-2008 Felipe Brahm - souFrag

@@ -1,4 +1,4 @@
-[Smiley support for Miranda NG.]
+﻿[Smiley support for Miranda NG.]
 [Smiley categories]
 [Specify smiley pack for each category]
 [Name:]

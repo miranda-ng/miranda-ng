@@ -1,4 +1,4 @@
-/*
+﻿/*
   Name: NewEventNotify - Plugin for Miranda IM
   File: neweventnotify.h - Main Header File
   Version: 0.2.2.2

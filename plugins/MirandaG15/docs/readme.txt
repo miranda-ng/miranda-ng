@@ -1,4 +1,4 @@
-MirandaG15		 
+﻿MirandaG15		 
 --------------------
 MirandaG15 is a plugin for Miranda-IM (www.miranda-im.org).
 It's an applet for Logitech's G15 Keyboard.

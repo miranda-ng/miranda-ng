@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef modern_statusbar_h__
 #define modern_statusbar_h__

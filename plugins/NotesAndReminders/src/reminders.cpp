@@ -1,4 +1,4 @@
-#include "globals.h"
+﻿#include "globals.h"
 
 #define FILETIME_TICKS_PER_SEC ((ULONGLONG)10000000)
 

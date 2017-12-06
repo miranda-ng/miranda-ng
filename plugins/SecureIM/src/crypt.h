@@ -1,4 +1,4 @@
-#ifndef __CRYPT_H__
+﻿#ifndef __CRYPT_H__
 #define __CRYPT_H__
 
 #define KEYSIZE 256

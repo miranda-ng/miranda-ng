@@ -1,4 +1,4 @@
-/* GRegex -- regular expression API wrapper around PCRE.
+﻿/* GRegex -- regular expression API wrapper around PCRE.
  *
  * Copyright (C) 1999, 2000 Scott Wimer
  * Copyright (C) 2004, Matthias Clasen <mclasen@redhat.com>

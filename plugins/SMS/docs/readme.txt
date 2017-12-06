@@ -1,4 +1,4 @@
-SMS плагин для Miranda IM
+﻿SMS плагин для Miranda IM
 
 
 2001-2002 Richard Hughes 

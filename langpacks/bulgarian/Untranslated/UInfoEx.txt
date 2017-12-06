@@ -1,4 +1,4 @@
-[Display name:]
+﻿[Display name:]
 [Birthday compatibility mode:]
 [Automatically backup and keep protocol based birthdays up to date]
 [From popup plugin]

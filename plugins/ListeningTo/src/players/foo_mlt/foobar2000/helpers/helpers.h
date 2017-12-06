@@ -1,4 +1,4 @@
-#ifndef _FOOBAR2000_SDK_HELPERS_H_
+﻿#ifndef _FOOBAR2000_SDK_HELPERS_H_
 #define _FOOBAR2000_SDK_HELPERS_H_
 
 #include "input_helpers.h"

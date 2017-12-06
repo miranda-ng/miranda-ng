@@ -1,4 +1,4 @@
-[Exports every message, URL or file you receive to a text file.]
+﻿[Exports every message, URL or file you receive to a text file.]
 [Browse]
 [Use internal viewer]
 [Replace Miranda history]

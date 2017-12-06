@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 // type=0 key colors
 // type=1 session colors

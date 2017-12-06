@@ -1,4 +1,4 @@
-#ifndef _PING_OPTIONS
+﻿#ifndef _PING_OPTIONS
 #define _PING_OPTIONS
 
 INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

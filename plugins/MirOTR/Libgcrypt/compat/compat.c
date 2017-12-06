@@ -1,4 +1,4 @@
-/* compat.c - Dummy file to avoid an empty library.
+﻿/* compat.c - Dummy file to avoid an empty library.
  * Copyright (C) 2010  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

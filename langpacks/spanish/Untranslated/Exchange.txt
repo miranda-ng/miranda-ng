@@ -1,4 +1,4 @@
-[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
+﻿[Maximum number of retries reached.\nPlugin will stop trying to connect automatically.]
 [Server not available]
 [Server is not configured...]
 [Cannot connect to Exchange server...]

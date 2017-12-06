@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_LOGIN_H_
+﻿#ifndef _STEAM_REQUEST_LOGIN_H_
 #define _STEAM_REQUEST_LOGIN_H_
 
 class LogonRequest : public HttpRequest

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 int WindowEvent(WPARAM wParam, LPARAM lParam);
 int SVC_IconPressed(WPARAM wParam, LPARAM lParam);

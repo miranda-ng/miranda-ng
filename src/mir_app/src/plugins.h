@@ -1,4 +1,4 @@
-
+﻿
 // returns true if the API exports were good, otherwise, passed in data is returned
 #define CHECKAPI_NONE 	 0
 #define CHECKAPI_CLIST   1

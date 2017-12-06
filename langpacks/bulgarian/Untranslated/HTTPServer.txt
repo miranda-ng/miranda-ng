@@ -1,4 +1,4 @@
-[Share name]
+﻿[Share name]
 [Display hidden shares]
 [New share]
 [Write log file]

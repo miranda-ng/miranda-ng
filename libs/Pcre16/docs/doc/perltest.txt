@@ -1,4 +1,4 @@
-The perltest program
+﻿The perltest program
 --------------------
 
 The perltest.pl script tests Perl's regular expressions; it has the same

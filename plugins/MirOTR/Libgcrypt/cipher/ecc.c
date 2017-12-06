@@ -1,4 +1,4 @@
-/* ecc.c  -  Elliptic Curve Cryptography
+﻿/* ecc.c  -  Elliptic Curve Cryptography
  * Copyright (C) 2007, 2008, 2010, 2011 Free Software Foundation, Inc.
  * Copyright (C) 2013 g10 Code GmbH
  *

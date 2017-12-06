@@ -1,4 +1,4 @@
-/* idea.c  -  IDEA function
+﻿/* idea.c  -  IDEA function
  * Copyright 1997, 1998, 1999, 2001 Werner Koch (dd9jn)
  * Copyright 2013 g10 Code GmbH
  *

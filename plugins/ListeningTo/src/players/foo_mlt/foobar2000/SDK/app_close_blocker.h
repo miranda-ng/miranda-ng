@@ -1,4 +1,4 @@
-//! (DEPRECATED) This service is used to signal whether something is currently preventing main window from being closed and app from being shut down.
+﻿//! (DEPRECATED) This service is used to signal whether something is currently preventing main window from being closed and app from being shut down.
 class NOVTABLE app_close_blocker : public service_base
 {
 public:

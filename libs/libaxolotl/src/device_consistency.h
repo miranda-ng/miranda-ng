@@ -1,4 +1,4 @@
-#ifndef DEVICE_CONSISTENCY_H
+﻿#ifndef DEVICE_CONSISTENCY_H
 #define DEVICE_CONSISTENCY_H
 
 #include "signal_protocol_types.h"

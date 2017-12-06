@@ -1,4 +1,4 @@
-/* clock.c - Replacement for WindowsCE
+﻿/* clock.c - Replacement for WindowsCE
    Copyright (C) 2010 Free Software Foundation, Inc.
 
    This file is free software; as a special exception the author gives

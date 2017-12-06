@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "AsSingleWindow.h"
 #include "Options.h"
 #include "resource.h"

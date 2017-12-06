@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jinclude.h
  *
  * Copyright (C) 1991-1994, Thomas G. Lane.

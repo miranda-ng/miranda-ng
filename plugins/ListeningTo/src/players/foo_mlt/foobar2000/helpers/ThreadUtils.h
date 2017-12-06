@@ -1,4 +1,4 @@
-namespace ThreadUtils {
+﻿namespace ThreadUtils {
 	static bool WaitAbortable(HANDLE ev, abort_callback & abort, DWORD timeout = INFINITE) {
 		const HANDLE handles[2] = {ev, abort.get_abort_event()};
 		SetLastError(0);

@@ -1,4 +1,4 @@
-//! This interface allows filtering of playlist modification operations.\n
+﻿//! This interface allows filtering of playlist modification operations.\n
 //! Implemented by components "locking" playlists; use playlist_manager::playlist_lock_install() etc to takeover specific playlist with your instance of playlist_lock.
 class NOVTABLE playlist_lock : public service_base {
 public:

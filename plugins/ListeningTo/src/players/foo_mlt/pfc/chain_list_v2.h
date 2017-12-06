@@ -1,4 +1,4 @@
-namespace pfc {	
+﻿namespace pfc {	
 
 	template<typename t_item>
 	class __chain_list_elem : public _list_node<t_item> {

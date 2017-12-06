@@ -1,4 +1,4 @@
-/* stdbool.h standard header */
+﻿/* stdbool.h standard header */
 
 #ifndef _STDBOOL
 #define _STDBOOL

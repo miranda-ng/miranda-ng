@@ -1,4 +1,4 @@
-/* sexp.c  -  S-Expression handling
+﻿/* sexp.c  -  S-Expression handling
  * Copyright (C) 1999, 2000, 2001, 2002, 2003,
  *               2004, 2006, 2007, 2008, 2011  Free Software Foundation, Inc.
  * Copyright (C) 2013, 2014 g10 Code GmbH

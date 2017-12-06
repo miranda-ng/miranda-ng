@@ -1,4 +1,4 @@
-//! Callback class passed to your threaded_process client code; allows you to give various visual feedback to the user.
+﻿//! Callback class passed to your threaded_process client code; allows you to give various visual feedback to the user.
 class NOVTABLE threaded_process_status {
 public:
 	enum {progress_min = 0, progress_max = 5000};

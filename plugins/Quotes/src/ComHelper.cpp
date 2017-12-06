@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 
 tstring ComException2Msg(_com_error& e, const tstring& rsAdditionalInfo)
 {

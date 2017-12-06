@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 static void sttWaitForExchange(LPVOID param)
 {

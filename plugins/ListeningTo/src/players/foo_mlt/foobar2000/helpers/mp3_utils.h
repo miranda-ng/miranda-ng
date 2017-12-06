@@ -1,4 +1,4 @@
-namespace mp3_utils
+﻿namespace mp3_utils
 {
 
 	enum {

@@ -1,4 +1,4 @@
-// TooltipNotify.cpp: implementation of the CTooltipNotify class.
+﻿// TooltipNotify.cpp: implementation of the CTooltipNotify class.
 //
 //////////////////////////////////////////////////////////////////////
 

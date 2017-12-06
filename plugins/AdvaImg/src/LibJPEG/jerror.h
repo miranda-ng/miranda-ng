@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jerror.h
  *
  * Copyright (C) 1994-1997, Thomas G. Lane.

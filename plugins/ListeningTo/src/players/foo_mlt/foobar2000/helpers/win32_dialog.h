@@ -1,4 +1,4 @@
-#ifndef _FOOBAR2000_HELPERS_WIN32_DIALOG_H_
+﻿#ifndef _FOOBAR2000_HELPERS_WIN32_DIALOG_H_
 #define _FOOBAR2000_HELPERS_WIN32_DIALOG_H_
 
 //DEPRECATED dialog helpers - kept only for compatibility with old code - do not use in new code, use WTL instead.

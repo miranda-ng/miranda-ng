@@ -1,4 +1,4 @@
-#ifndef _M_CHANGEKEYBOARDLAYOUT_H
+﻿#ifndef _M_CHANGEKEYBOARDLAYOUT_H
 #define _M_CHANGEKEYBOARDLAYOUT_H
 
 // Меняет раскладку текста для окна с указанных хэндлом

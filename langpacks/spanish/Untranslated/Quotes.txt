@@ -1,4 +1,4 @@
-[Shows currency rates and economic quotes.]
+﻿[Shows currency rates and economic quotes.]
 [Variable List]
 [Edit Settings]
 [Use contact specific settings]

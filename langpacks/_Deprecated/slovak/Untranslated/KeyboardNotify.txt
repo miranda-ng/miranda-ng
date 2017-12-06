@@ -1,4 +1,4 @@
-[Accounts to check]
+﻿[Accounts to check]
 [Events to react on]
 [Incoming messages]
 [Incoming files]

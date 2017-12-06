@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (c) 2008-2016, Troy D. Hanson   http://troydhanson.github.com/uthash/
 All rights reserved.
 

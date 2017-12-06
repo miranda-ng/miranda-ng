@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static mir_cs threadLock;
 static HANDLE hScheduleEvent = nullptr;

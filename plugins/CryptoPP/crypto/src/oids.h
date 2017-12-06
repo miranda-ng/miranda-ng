@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_OIDS_H
+﻿#ifndef CRYPTOPP_OIDS_H
 #define CRYPTOPP_OIDS_H
 
 // crypto-related ASN.1 object identifiers

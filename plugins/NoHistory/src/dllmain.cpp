@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 HINSTANCE hInst;
 int hLangpack = 0;

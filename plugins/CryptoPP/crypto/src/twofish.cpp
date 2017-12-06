@@ -1,4 +1,4 @@
-// twofish.cpp - modified by Wei Dai from Matthew Skala's twofish.c
+﻿// twofish.cpp - modified by Wei Dai from Matthew Skala's twofish.c
 // The original code and all modifications are in the public domain.
 
 #include "pch.h"

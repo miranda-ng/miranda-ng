@@ -1,4 +1,4 @@
-//! Helper class for running audio data through a DSP chain.
+﻿//! Helper class for running audio data through a DSP chain.
 class dsp_manager {
 public:
 	dsp_manager() : m_config_changed(false) {}

@@ -1,4 +1,4 @@
-[Rate high]
+﻿[Rate high]
 [Rate medium]
 [Rate low]
 [Contact rate]

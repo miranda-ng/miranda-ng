@@ -1,4 +1,4 @@
-#include "ge.h"
+﻿#include "ge.h"
 
 void ge_precomp_0(ge_precomp *h)
 {

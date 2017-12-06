@@ -1,4 +1,4 @@
-/* cipher-ccm.c - CTR mode with CBC-MAC mode implementation
+﻿/* cipher-ccm.c - CTR mode with CBC-MAC mode implementation
  * Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * This file is part of Libgcrypt.

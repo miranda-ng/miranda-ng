@@ -1,4 +1,4 @@
-[Autostart error]
+﻿[Autostart error]
 [Miranda NG was not able to open "%S".\n\nThe file could not be processed.]
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 [Registry warning]

@@ -1,4 +1,4 @@
-KeepStatus plugin for Miranda IM v0.0.2.x
+﻿KeepStatus plugin for Miranda IM v0.0.2.x
 unregistered@users.sourceforge.net
 
 --- About ---

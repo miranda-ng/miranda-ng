@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_SESSION_H_
+﻿#ifndef _STEAM_REQUEST_SESSION_H_
 #define _STEAM_REQUEST_SESSION_H_
 
 class GetSessionRequest : public HttpRequest

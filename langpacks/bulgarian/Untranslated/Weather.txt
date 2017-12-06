@@ -1,4 +1,4 @@
-[From popup plugin]
+﻿[From popup plugin]
 [Weather Protocol INI Setup]
 [Weather Alert Issued]
 [Weather condition was not logged.]

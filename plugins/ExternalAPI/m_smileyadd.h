@@ -1,4 +1,4 @@
-/*
+﻿/*
 Miranda SmileyAdd Plugin
 Copyright (C) 2005 - 2010 Boris Krasnovskiy
 Copyright (C) 2003 - 2004 Rein-Peter de Boer

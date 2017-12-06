@@ -1,4 +1,4 @@
-/* init.h - Declarations for init.c
+﻿/* init.h - Declarations for init.c
    Copyright (C) 2010 g10 Code GmbH
 
    This file is part of libgpg-error.

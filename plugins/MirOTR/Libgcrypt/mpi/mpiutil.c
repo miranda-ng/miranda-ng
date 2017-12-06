@@ -1,4 +1,4 @@
-/* mpiutil.ac  -  Utility functions for MPI
+﻿/* mpiutil.ac  -  Utility functions for MPI
  * Copyright (C) 1998, 2000, 2001, 2002, 2003,
  *               2007  Free Software Foundation, Inc.
  * Copyright (C) 2013  g10 Code GmbH

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id: lapi.c,v 2.258 2016/01/05 16:07:21 roberto Exp roberto $
 ** Lua API
 ** See Copyright Notice in lua.h

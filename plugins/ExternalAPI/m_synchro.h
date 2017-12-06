@@ -1,4 +1,4 @@
-#ifndef	__SYNCHRO_H
+﻿#ifndef	__SYNCHRO_H
 #define	__SYNCHRO_H
 
 #include <windows.h>

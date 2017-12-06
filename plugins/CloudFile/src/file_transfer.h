@@ -1,4 +1,4 @@
-#ifndef _FILE_TRANSFER_H_
+﻿#ifndef _FILE_TRANSFER_H_
 #define _FILE_TRANSFER_H_
 
 class FileTransferParam

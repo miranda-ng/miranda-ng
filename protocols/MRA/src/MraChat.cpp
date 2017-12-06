@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "proto.h"
 
 static LPWSTR lpwszStatuses[] = { LPGENW("Owners"), LPGENW("Inviter"), LPGENW("Visitors") };

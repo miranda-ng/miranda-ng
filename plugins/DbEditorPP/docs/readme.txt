@@ -1,4 +1,4 @@
-Database Editor ++
+﻿Database Editor ++
 -------------------
 
 Database Editor ++ allows you to easily modify your database settings (which is a good and bad thing..). Be carefull editing values that you dont know what they are used for... you couldnt couse Miranda IM to not work if you change the wrong setting...

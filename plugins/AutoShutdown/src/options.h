@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 'AutoShutdown'-Plugin for Miranda IM
 

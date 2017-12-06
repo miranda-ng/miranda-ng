@@ -1,4 +1,4 @@
-/* SEED for libgcrypt
+﻿/* SEED for libgcrypt
  *	Copyright (C) 2006 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

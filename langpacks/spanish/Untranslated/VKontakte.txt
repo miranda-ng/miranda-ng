@@ -1,4 +1,4 @@
-[Show in protocol menu ]
+﻿[Show in protocol menu ]
 [Create new chat]
 [Status message]
 [Send message to my wall]

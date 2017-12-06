@@ -1,4 +1,4 @@
-//! API for tag read/write operations. Legal to call from main thread only, except for hint_multi_async() / hint_async() / hint_reader().\n
+﻿//! API for tag read/write operations. Legal to call from main thread only, except for hint_multi_async() / hint_async() / hint_reader().\n
 //! Implemented only by core, do not reimplement.\n
 //! Use static_api_ptr_t template to access metadb_io methods.\n
 //! WARNING: Methods that perform file access (tag reads/writes) run a modal message loop. They SHOULD NOT be called from global callbacks and such.

@@ -1,4 +1,4 @@
-<tc>
+﻿<tc>
     <tr vcenter>	
 	<tc status vcenter hcenter /> 
 	<tc fspace width 2 />

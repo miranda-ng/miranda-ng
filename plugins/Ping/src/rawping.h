@@ -1,4 +1,4 @@
-#ifndef _RAWPING_H
+﻿#ifndef _RAWPING_H
 #define _RAWPING_H
 
 // ICMP protocol identifier

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 
 std::string Quotes_DBGetStringA(MCONTACT hContact, const char* szModule, const char* szSetting, const char* pszDefValue /*= NULL*/)
 {

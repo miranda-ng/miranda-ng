@@ -1,4 +1,4 @@
-/*
+﻿/*
 imported from UserinfoEx plugin for Miranda NG
 Copyright:
 © 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol

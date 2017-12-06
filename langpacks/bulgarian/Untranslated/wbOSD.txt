@@ -1,4 +1,4 @@
-[Shows new message/status change info using on-screen display.]
+﻿[Shows new message/status change info using on-screen display.]
 [Select font]
 [Show drop shadow]
 [Shadow align]

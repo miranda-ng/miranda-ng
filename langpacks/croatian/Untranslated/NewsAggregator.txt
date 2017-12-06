@@ -1,4 +1,4 @@
-[RSS/Atom news aggregator.]
+﻿[RSS/Atom news aggregator.]
 [Add]
 [Change]
 [Remove]

@@ -1,4 +1,4 @@
-#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce

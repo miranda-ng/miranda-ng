@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "DialogConfigEngine.h"
 
 DialogConfigEngine *DialogConfigEngine::m_instance = nullptr;

@@ -1,4 +1,4 @@
-#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM

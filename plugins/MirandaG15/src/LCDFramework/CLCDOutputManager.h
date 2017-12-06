@@ -1,4 +1,4 @@
-#ifndef _CLCDOUTPUTMANAGER_H_
+﻿#ifndef _CLCDOUTPUTMANAGER_H_
 #define _CLCDOUTPUTMANAGER_H_
 
 #include "CLCDGfx.h"

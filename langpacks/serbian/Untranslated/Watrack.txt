@@ -1,4 +1,4 @@
-[Paste played music info into message window or status text]
+﻿[Paste played music info into message window or status text]
 [Clear xStatus before set new one]
 [Emulate Multimedia keys]
 [xStatus will be cleared before text changing and restored with new text later.]

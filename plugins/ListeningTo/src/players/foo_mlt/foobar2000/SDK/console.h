@@ -1,4 +1,4 @@
-//! Namespace with functions for sending text to console. All functions are fully multi-thread safe, though they must not be called during dll initialization or deinitialization (e.g. static object constructors or destructors) when service system is not available.
+﻿//! Namespace with functions for sending text to console. All functions are fully multi-thread safe, though they must not be called during dll initialization or deinitialization (e.g. static object constructors or destructors) when service system is not available.
 namespace console
 {
 	void info(const char * p_message);

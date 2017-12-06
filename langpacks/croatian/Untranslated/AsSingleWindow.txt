@@ -1,4 +1,4 @@
-[Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
+﻿[Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
 [Windows moving]
 [Contact list on the left]
 [Contact list on the right]

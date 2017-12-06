@@ -1,4 +1,4 @@
-#ifdef _WIN32
+﻿#ifdef _WIN32
 namespace pfc {
 
 	template<typename what> static void _COM_AddRef(what * ptr) {

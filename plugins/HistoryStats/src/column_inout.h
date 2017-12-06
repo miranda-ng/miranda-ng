@@ -1,4 +1,4 @@
-#if !defined(HISTORYSTATS_GUARD_COLUMN_INOUT_H)
+﻿#if !defined(HISTORYSTATS_GUARD_COLUMN_INOUT_H)
 #define HISTORYSTATS_GUARD_COLUMN_INOUT_H
 
 #include "column.h"

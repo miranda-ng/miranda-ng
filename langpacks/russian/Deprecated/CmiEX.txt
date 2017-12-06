@@ -1,4 +1,4 @@
-#muuid {977be6af-cd5f-4fe1-af2f-535b8aaeb749}
+﻿#muuid {977be6af-cd5f-4fe1-af2f-535b8aaeb749}
 ;============================================================
 ;  File: cmiex.dll
 ;  Module: ContactsMenuItemEx

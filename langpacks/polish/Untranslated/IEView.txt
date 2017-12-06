@@ -1,4 +1,4 @@
-[RTL On]
+﻿[RTL On]
 [RTL Off]
 [Group On]
 [Group Off]

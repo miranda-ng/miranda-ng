@@ -1,4 +1,4 @@
-//! Implementing this interface lets you maintain your own configuration files rather than depending on the cfg_var system. \n
+﻿//! Implementing this interface lets you maintain your own configuration files rather than depending on the cfg_var system. \n
 //! Note that you must not make assumptions about what happens first: config_io_callback::on_read(), initialization of cfg_var values or config_io_callback::on_read() in other components. Order of these things is undefined and will change with each run. \n
 //! Use service_factory_single_t<myclass> to register your implementations. Do not call other people's implementations, core is responsible for doing that when appropriate.
 class NOVTABLE config_io_callback : public service_base {

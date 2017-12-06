@@ -1,4 +1,4 @@
-[User ID (Ident)]
+﻿[User ID (Ident)]
 [Ident]
 ['Old style' mode changes]
 [Ping]

@@ -1,4 +1,4 @@
-/* guniprop.c - Unicode character properties.
+﻿/* guniprop.c - Unicode character properties.
  *
  * Copyright (C) 1999 Tom Tromey
  * Copyright (C) 2000 Red Hat, Inc.

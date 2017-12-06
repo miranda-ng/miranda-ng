@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_TEA_H
+﻿#ifndef CRYPTOPP_TEA_H
 #define CRYPTOPP_TEA_H
 
 /** \file

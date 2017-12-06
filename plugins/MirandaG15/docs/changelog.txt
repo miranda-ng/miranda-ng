@@ -1,4 +1,4 @@
-v 0.1.1.14 - 23.04.2008
+﻿v 0.1.1.14 - 23.04.2008
 -------------------------
 - fixed: some messages were not shown on the lcd
 - changed: updated IRC plugin

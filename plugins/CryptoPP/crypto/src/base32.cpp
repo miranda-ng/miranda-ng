@@ -1,4 +1,4 @@
-// base32.cpp - written and placed in the public domain by Frank Palazzolo, based on hex.cpp by Wei Dai
+﻿// base32.cpp - written and placed in the public domain by Frank Palazzolo, based on hex.cpp by Wei Dai
 
 #include "pch.h"
 #include "base32.h"

@@ -1,4 +1,4 @@
-[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
+﻿[Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 [Webview]
 [Update data every]
 [minutes]

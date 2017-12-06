@@ -1,4 +1,4 @@
-[Parse options]
+﻿[Parse options]
 [Automatically strip all non-parsing characters]
 [Parse the following string at startup]
 [Auto parse]

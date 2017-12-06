@@ -1,4 +1,4 @@
-class seekabilizer_backbuffer
+﻿class seekabilizer_backbuffer
 {
 public:
 	void initialize(t_size p_size);

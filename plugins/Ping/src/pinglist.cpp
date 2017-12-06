@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 PINGLIST list_items;
 mir_cs list_cs;

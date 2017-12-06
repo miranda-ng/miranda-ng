@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 Copyright (C) 2009-2010 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or

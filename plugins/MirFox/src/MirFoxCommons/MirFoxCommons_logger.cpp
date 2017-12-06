@@ -1,4 +1,4 @@
-#include "MirFoxCommons_pch.h"
+﻿#include "MirFoxCommons_pch.h"
 #include "MirFoxCommons_logger.h"
 
 /*static*/ MFLogger * MFLogger::m_pOnlyOneInstance;

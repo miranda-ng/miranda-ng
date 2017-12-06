@@ -1,4 +1,4 @@
-class string_filter_noncasesensitive {
+﻿class string_filter_noncasesensitive {
 public:
 	string_filter_noncasesensitive(const char * p_string,t_size p_string_len = ~0) {
 		uStringLower(m_pattern,p_string,p_string_len);

@@ -1,4 +1,4 @@
-#ifndef modern_row_h__
+﻿#ifndef modern_row_h__
 #define modern_row_h__
 
 #pragma once

@@ -1,4 +1,4 @@
-[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+﻿[Internet Relay Chat (IRC) protocol support for Miranda NG.]
 [Default network]
 [Server name]
 [Internet address]

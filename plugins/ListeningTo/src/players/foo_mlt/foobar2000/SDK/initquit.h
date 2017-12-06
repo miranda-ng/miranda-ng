@@ -1,4 +1,4 @@
-//! Basic callback startup/shutdown callback, on_init is called after the main window has been created, on_quit is called before the main window is destroyed. \n
+﻿//! Basic callback startup/shutdown callback, on_init is called after the main window has been created, on_quit is called before the main window is destroyed. \n
 //! To register: static initquit_factory_t<myclass> myclass_factory; \n
 //! Note that you should be careful with calling other components during on_init/on_quit or \n
 //! initializing services that are possibly used by other components by on_init/on_quit - \n

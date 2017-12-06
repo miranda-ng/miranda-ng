@@ -1,4 +1,4 @@
-[Notify of birthdays:]
+﻿[Notify of birthdays:]
 [Don't show popups for subcontacts]
 [Show popup when no birthdays are near]
 [Popup mouse click]

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id: ltable.h,v 2.22 2016/11/07 12:38:35 roberto Exp roberto $
 ** Lua tables (hash)
 ** See Copyright Notice in lua.h

@@ -1,4 +1,4 @@
-/* cipher-proto.h - Internal declarations
+﻿/* cipher-proto.h - Internal declarations
  *	Copyright (C) 2008, 2011 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

@@ -1,4 +1,4 @@
-#define WIN32_LEAN_AND_MEAN
+﻿#define WIN32_LEAN_AND_MEAN
 #define NETLIB_LOG
 
 #define _CRT_SECURE_NO_WARNINGS

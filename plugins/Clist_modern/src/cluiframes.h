@@ -1,4 +1,4 @@
-/*
+﻿/*
 Miranda ICQ: the free icq client for MS Windows
 Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 

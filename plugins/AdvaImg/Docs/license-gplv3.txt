@@ -1,4 +1,4 @@
-GNU General Public License, version 3 (GPL-3.0)
+﻿GNU General Public License, version 3 (GPL-3.0)
 [OSI Approved License]
 GNU GENERAL PUBLIC LICENSE
 

@@ -1,4 +1,4 @@
-Miranda Help Pack Version 1
+﻿Miranda Help Pack Version 1
 Language: English (default)
 Locale: 0809
 Last-Modified-Using: Miranda IM 0.6

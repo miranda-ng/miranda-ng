@@ -1,4 +1,4 @@
-Buddy Pounce
+﻿Buddy Pounce
 -------------
 
 Buddy Pounce allows you to send a message to a contact automatically when they change status (i.e from offline) if you are expecting to be away form the computer.

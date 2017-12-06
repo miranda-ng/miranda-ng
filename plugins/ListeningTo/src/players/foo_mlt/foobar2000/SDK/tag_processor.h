@@ -1,4 +1,4 @@
-PFC_DECLARE_EXCEPTION(exception_tag_not_found,exception_io_data,"Tag not found");
+﻿PFC_DECLARE_EXCEPTION(exception_tag_not_found,exception_io_data,"Tag not found");
 
 //! Callback interface for write-tags-to-temp-file-and-swap scheme, used for ID3v2 tag updates and such where entire file needs to be rewritten. 
 //! As a speed optimization, file content can be copied to a temporary file in the same directory as the file being updated, and then source file can be swapped for the newly created file with updated tags.

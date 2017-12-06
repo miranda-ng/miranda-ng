@@ -1,4 +1,4 @@
-#ifndef _ALARM_WIN_INC
+﻿#ifndef _ALARM_WIN_INC
 #define _ALARM_WIN_INC
 
 #include "options.h"

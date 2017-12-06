@@ -1,4 +1,4 @@
-[OTR Generating Private Key]
+﻿[OTR Generating Private Key]
 [Generating new private key - please wait.]
 [Default Policy]
 [Always]

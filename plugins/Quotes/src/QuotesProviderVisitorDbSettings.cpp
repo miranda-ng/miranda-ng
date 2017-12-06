@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 
 CQuotesProviderVisitorDbSettings::CQuotesProviderVisitorDbSettings()
 	: m_pszDbRefreshRateType(nullptr),

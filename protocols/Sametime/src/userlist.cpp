@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "sametime.h"
 
 MCONTACT CSametimeProto::FindContactByUserId(const char* id)

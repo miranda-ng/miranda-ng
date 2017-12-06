@@ -1,4 +1,4 @@
-
+﻿
 class metadb_io_hintlist {
 public:
 	void hint_reader(service_ptr_t<input_info_reader> p_reader, const char * p_path,abort_callback & p_abort);

@@ -1,4 +1,4 @@
-//! Entrypoint interface for registering media file types that can be opened through "open file" dialogs or associated with foobar2000 application in Windows shell. \n
+﻿//! Entrypoint interface for registering media file types that can be opened through "open file" dialogs or associated with foobar2000 application in Windows shell. \n
 //! Instead of implementing this directly, use DECLARE_FILE_TYPE() / DECLARE_FILE_TYPE_EX() macros.
 class input_file_type : public service_base {
 public:

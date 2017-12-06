@@ -1,4 +1,4 @@
-#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
+﻿#muuid {23eacc0d-bab0-49c0-8f37-5e259ece527f}
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify

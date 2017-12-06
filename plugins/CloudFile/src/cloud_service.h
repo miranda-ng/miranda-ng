@@ -1,4 +1,4 @@
-#ifndef _CLOUD_SERVICE_H_
+﻿#ifndef _CLOUD_SERVICE_H_
 #define _CLOUD_SERVICE_H_
 
 enum OnConflict

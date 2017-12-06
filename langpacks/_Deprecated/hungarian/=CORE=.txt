@@ -1,4 +1,4 @@
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Add meg a fiók nevét (pl. Saját Google)
 [Choose the protocol type]
 Protokolltípus választása

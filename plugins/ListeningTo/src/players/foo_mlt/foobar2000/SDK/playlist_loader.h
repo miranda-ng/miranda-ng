@@ -1,4 +1,4 @@
-#if FOOBAR2000_TARGET_VERSION >= 76
+﻿#if FOOBAR2000_TARGET_VERSION >= 76
 //! Callback interface receiving item locations from playlist loader. \n
 //! Typically, you call one of standard services such as playlist_incoming_item_filter instead of implementing this interface and calling playlist_loader methods directly.
 class NOVTABLE playlist_loader_callback : public service_base {

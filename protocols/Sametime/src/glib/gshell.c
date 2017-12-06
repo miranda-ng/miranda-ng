@@ -1,4 +1,4 @@
-/* gshell.c - Shell-related utilities
+﻿/* gshell.c - Shell-related utilities
  *
  *  Copyright 2000 Red Hat, Inc.
  *  g_execvpe implementation based on GNU libc execvp:

@@ -1,4 +1,4 @@
-#muuid {420ccb93-589f-40e5-80a1-91db18f1c5bd}
+﻿#muuid {420ccb93-589f-40e5-80a1-91db18f1c5bd}
 ;============================================================
 ;  File: dos.dll
 ;  Module: ddos plugin for stopspam mod by sss

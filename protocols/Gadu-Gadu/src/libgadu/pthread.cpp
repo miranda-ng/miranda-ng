@@ -1,4 +1,4 @@
-/*
+﻿/*
 AOL Instant Messenger Plugin for Miranda IM
 
 Copyright (c) 2003-2006 Robert Rainwater

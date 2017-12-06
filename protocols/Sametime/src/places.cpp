@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "sametime.h"
 
 /* Stubs, NOT IMPLEMENTED NOW */

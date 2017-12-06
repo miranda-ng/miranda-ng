@@ -1,4 +1,4 @@
-
+﻿
 
 #define dlg_options 100
 #define dlg_close_edit 111

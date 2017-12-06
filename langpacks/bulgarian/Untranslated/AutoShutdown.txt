@@ -1,4 +1,4 @@
-[Progress bar]
+﻿[Progress bar]
 [Header]
 [The computer will automatically be set to standby mode in %u second(s).]
 [All dial-up connections will be closed in %u second(s).]

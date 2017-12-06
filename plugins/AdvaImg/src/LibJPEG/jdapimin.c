@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jdapimin.c
  *
  * Copyright (C) 1994-1998, Thomas G. Lane.

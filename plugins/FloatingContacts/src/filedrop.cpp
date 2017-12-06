@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static void ProcessDroppedItems(char **ppDroppedItems, int nCount, char **ppFiles);
 static int  CountDroppedFiles(char **ppDroppedItems, int nCount);

@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_SKIPJACK_H
+﻿#ifndef CRYPTOPP_SKIPJACK_H
 #define CRYPTOPP_SKIPJACK_H
 
 /** \file

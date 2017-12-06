@@ -1,4 +1,4 @@
-/*
+﻿/*
 Plugin of Miranda IM for reading/writing PNG images.
 Copyright (c) 2004-6 George Hazan (ghazan@postman.ru)
 

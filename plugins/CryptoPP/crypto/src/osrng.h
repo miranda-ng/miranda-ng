@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_OSRNG_H
+﻿#ifndef CRYPTOPP_OSRNG_H
 #define CRYPTOPP_OSRNG_H
 
 #include "config.h"

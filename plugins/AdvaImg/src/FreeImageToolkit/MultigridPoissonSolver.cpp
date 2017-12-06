@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // Poisson solver based on a full multigrid algorithm
 //
 // Design and implementation by

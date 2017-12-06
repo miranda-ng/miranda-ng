@@ -1,4 +1,4 @@
-/* MinGW misses shobjidl.h,extracted from WinAPI documenttion */
+﻿/* MinGW misses shobjidl.h,extracted from WinAPI documenttion */
 
 #ifndef _SHOBJIDL_H
 #define _SHOBJIDL_H

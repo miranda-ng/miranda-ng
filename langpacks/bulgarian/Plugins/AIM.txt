@@ -1,4 +1,4 @@
-#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;============================================================
 ;  File: AIM.dll
 ;  Plugin: AIM protocol

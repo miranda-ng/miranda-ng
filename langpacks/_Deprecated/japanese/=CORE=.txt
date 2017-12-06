@@ -1,4 +1,4 @@
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 アカウント名を入力 ( 例: My Google )
 [Choose the protocol type]
 プロトコルタイプを選択

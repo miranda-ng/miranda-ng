@@ -1,4 +1,4 @@
-/*
+﻿/*
 	BossKey - Hide Miranda from your boss :)
 	Copyright (C) 2002-2003 Goblineye Entertainment, (C) 2007-2010 Billy_Bons
 

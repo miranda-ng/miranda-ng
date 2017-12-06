@@ -1,4 +1,4 @@
-IJG JPEG LIBRARY:  SYSTEM ARCHITECTURE
+﻿IJG JPEG LIBRARY:  SYSTEM ARCHITECTURE
 
 Copyright (C) 1991-2013, Thomas G. Lane, Guido Vollbeding.
 This file is part of the Independent JPEG Group's software.

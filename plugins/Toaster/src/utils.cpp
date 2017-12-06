@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #define SHORTCUT_PATH "\\Microsoft\\Windows\\Start Menu\\Programs\\Miranda NG.lnk"
 

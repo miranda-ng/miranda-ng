@@ -1,4 +1,4 @@
-#ifndef _statistics_h
+﻿#ifndef _statistics_h
 #define _statistics_h
 
 /*

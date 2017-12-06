@@ -1,4 +1,4 @@
-                              BossKey+
+﻿                              BossKey+
 --------------------------------------------------------------------------
                         -=Miranda Plug-In=-
 Copyrights (C) 2002-2003 Goblineye Entertainment, (C) 2007-2008 Billy_Bons

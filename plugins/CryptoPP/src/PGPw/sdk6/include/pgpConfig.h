@@ -1,4 +1,4 @@
-/*
+﻿/*
  * pgpConfig.h -- Configuration for the PGPsdk.  This file contains
  * the configuration information for the PGPsdk, and it should be
  * included in all PGPsdk source files.

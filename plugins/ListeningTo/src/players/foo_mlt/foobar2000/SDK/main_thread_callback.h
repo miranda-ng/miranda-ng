@@ -1,4 +1,4 @@
-//! Callback object class for main_thread_callback_manager service.
+﻿//! Callback object class for main_thread_callback_manager service.
 class NOVTABLE main_thread_callback : public service_base {
 public:
 	//! Gets called from main app thread. See main_thread_callback_manager description for more info.

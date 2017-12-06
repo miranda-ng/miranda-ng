@@ -1,4 +1,4 @@
-/*
+﻿/*
 	ClientChangeNotify - Plugin for Miranda IM
 	Copyright (c) 2006-2008 Chervov Dmitry
 

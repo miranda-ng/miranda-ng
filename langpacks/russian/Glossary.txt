@@ -1,4 +1,4 @@
-account - учётная запись
+﻿account - учётная запись
 attachment - вложение
 cache - кэш
 contact list - список контактов

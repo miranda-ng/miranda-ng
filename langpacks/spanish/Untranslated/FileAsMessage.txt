@@ -1,4 +1,4 @@
-[File transfer by using the messaging services - as plain text.]
+﻿[File transfer by using the messaging services - as plain text.]
 [fileAsMessage]
 [Filename:]
 [Chunk size]

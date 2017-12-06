@@ -1,4 +1,4 @@
-namespace foobar2000_io {
+﻿namespace foobar2000_io {
 	t_filetimestamp filetimestamp_from_string(const char * date);
 
 	//! Warning: this formats according to system timezone settings, created strings should be used for display only, never for storage.

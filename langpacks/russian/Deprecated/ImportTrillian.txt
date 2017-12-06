@@ -1,4 +1,4 @@
-;============================================================
+﻿;============================================================
 ;  File: importTrillian.dll
 ;  Module: Trillian message history and contacts importer	
 ;  Versions: 0.2.0.0

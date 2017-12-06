@@ -1,4 +1,4 @@
-/* include/ekhtml_config.h.  Generated from config.in by configure.  */
+﻿/* include/ekhtml_config.h.  Generated from config.in by configure.  */
 /* config.in.  Generated from configure.in by autoheader.  */
 /* local_template.h
    This file is in the public domain.

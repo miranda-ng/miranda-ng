@@ -1,4 +1,4 @@
-
+﻿
 #if !defined( __TOBJECT_H )
    #define __TOBJECT_H
 

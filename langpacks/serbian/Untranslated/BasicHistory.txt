@@ -1,4 +1,4 @@
-[History viewer for Miranda NG.]
+﻿[History viewer for Miranda NG.]
 [Settings]
 [Always show contact list]
 [Show groups in contact list]

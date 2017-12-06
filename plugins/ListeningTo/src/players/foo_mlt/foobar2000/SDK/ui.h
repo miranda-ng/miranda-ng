@@ -1,4 +1,4 @@
-#ifndef _WINDOWS
+﻿#ifndef _WINDOWS
 #error PORTME
 #endif
 

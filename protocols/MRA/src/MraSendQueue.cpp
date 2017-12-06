@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "MraSendQueue.h"
 
 struct MRA_SEND_QUEUE : public LIST_MT

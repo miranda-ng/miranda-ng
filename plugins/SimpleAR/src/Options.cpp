@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 wchar_t* ptszMessage[6]= {};
 INT lastIndex=-1;

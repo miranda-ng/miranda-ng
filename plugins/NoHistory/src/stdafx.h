@@ -1,4 +1,4 @@
-#ifndef _COMMON_INC
+﻿#ifndef _COMMON_INC
 #define _COMMON_INC
 
 #include <windows.h>

@@ -1,4 +1,4 @@
-#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;============================================================
 ;  File: Clist_mw.dll
 ;  Plugin: MultiWindow contact list

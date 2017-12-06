@@ -1,4 +1,4 @@
-/* md5.c - MD5 Message-Digest Algorithm
+﻿/* md5.c - MD5 Message-Digest Algorithm
  * Copyright (C) 1995,1996,1998,1999,2001,2002,
  *               2003  Free Software Foundation, Inc.
  *

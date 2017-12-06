@@ -1,4 +1,4 @@
-#ifndef __RICHEDIT_H__
+﻿#ifndef __RICHEDIT_H__
 #define __RICHEDIT_H__
 
 class RichEdit

@@ -1,4 +1,4 @@
-#define LINE_MAX_SIZE 512
+﻿#define LINE_MAX_SIZE 512
 
 #ifdef __cplusplus
 extern "C" {

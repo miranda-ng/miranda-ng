@@ -1,4 +1,4 @@
-#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
 ;============================================================
 ;  File: AutoShutdown.dll
 ;  Plugin: Auto shutdown

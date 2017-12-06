@@ -1,4 +1,4 @@
-SmileyAdd plugin for Miranda NG
+﻿SmileyAdd plugin for Miranda NG
 =====================================================================
 A plugin that adds smileys to the standard message dialog. 
 Features:

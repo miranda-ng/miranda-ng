@@ -1,4 +1,4 @@
-[Resulting URL from\n]
+﻿[Resulting URL from\n]
 [Copy BBCode]
 [Copy BBCode w/ link]
 [%s requires a valid contact!]

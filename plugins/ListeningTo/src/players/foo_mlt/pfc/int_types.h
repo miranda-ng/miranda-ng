@@ -1,4 +1,4 @@
-#if !defined(_MSC_VER) && !defined(_EVC_VER)
+﻿#if !defined(_MSC_VER) && !defined(_EVC_VER)
 #include <stdint.h>
 typedef int64_t t_int64;
 typedef uint64_t t_uint64;

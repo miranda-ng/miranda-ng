@@ -1,4 +1,4 @@
-[Plugin to shake the contact list and chat window.]
+﻿[Plugin to shake the contact list and chat window.]
 [Open contact list]
 [Enable contact list shaking]
 [Open message window]

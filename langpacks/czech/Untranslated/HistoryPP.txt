@@ -1,4 +1,4 @@
-[Log default]
+﻿[Log default]
 [History default]
 [Group log messages]
 [Need more options?]

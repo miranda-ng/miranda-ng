@@ -1,2 +1,2 @@
-[This plugin adds the main menu item used to view Miranda NG pack user guide.]
+﻿[This plugin adds the main menu item used to view Miranda NG pack user guide.]
 [User Guide]

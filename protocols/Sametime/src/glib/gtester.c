@@ -1,4 +1,4 @@
-/* GLib testing framework runner
+﻿/* GLib testing framework runner
  * Copyright (C) 2007 Sven Herzberg
  * Copyright (C) 2007 Tim Janik
  *

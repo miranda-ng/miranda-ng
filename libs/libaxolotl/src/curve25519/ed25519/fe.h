@@ -1,4 +1,4 @@
-#ifndef FE_H
+﻿#ifndef FE_H
 #define FE_H
 
 #include "crypto_int32.h"

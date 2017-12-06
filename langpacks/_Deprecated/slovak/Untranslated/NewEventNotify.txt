@@ -1,4 +1,4 @@
-[Show entry in the Popups menu]
+﻿[Show entry in the Popups menu]
 [Temporarily disable event popups]
 [Show preview of event in popup]
 [Message]

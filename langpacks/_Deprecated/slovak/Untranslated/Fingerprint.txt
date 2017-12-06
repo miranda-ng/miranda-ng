@@ -1,4 +1,4 @@
-[Fingerprint overlays icons]
+﻿[Fingerprint overlays icons]
 [Miranda clients]
 [Miranda packs overlays]
 [Show Miranda version at Overlay#2]

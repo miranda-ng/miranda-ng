@@ -1,4 +1,4 @@
------------------------------------------------------------------------------
+﻿-----------------------------------------------------------------------------
 This file contains a concatenation of the PCRE man pages, converted to plain
 text format for ease of searching with a text editor, or for use on systems
 that do not have a man page processor. The small individual files that give

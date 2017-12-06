@@ -1,4 +1,4 @@
-[Always when changing from offline]
+﻿[Always when changing from offline]
 [Notify when contact changes]
 [Extra status]
 [Status message]

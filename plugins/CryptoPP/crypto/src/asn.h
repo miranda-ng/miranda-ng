@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_ASN_H
+﻿#ifndef CRYPTOPP_ASN_H
 #define CRYPTOPP_ASN_H
 
 #include "filters.h"

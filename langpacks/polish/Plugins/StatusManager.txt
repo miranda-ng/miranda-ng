@@ -1,4 +1,4 @@
-#muuid {fadd4a8a-1fd0-4398-83bd-e378b85ed8f1}
+﻿#muuid {fadd4a8a-1fd0-4398-83bd-e378b85ed8f1}
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager

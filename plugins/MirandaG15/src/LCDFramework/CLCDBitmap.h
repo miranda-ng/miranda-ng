@@ -1,4 +1,4 @@
-#ifndef _CLCDBITMAP_H_
+﻿#ifndef _CLCDBITMAP_H_
 #define _CLCDBITMAP_H_
 
 #include "CLCDGfx.h"

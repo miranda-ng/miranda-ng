@@ -1,4 +1,4 @@
-/* goption.c - Option parser
+﻿/* goption.c - Option parser
  *
  *  Copyright (C) 1999, 2003 Red Hat Software
  *  Copyright (C) 2004       Anders Carlsson <andersca@gnome.org>

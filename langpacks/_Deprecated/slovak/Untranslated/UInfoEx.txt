@@ -1,4 +1,4 @@
-[Edit contact information]
+﻿[Edit contact information]
 [This list gives you some overview about all your contact's anniversaries.]
 [Origin]
 [&Update]

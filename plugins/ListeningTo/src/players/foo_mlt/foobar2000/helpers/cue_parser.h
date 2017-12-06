@@ -1,4 +1,4 @@
-//HINT: for info on how to generate an embedded cuesheet enabled input, see the end of this header.
+﻿//HINT: for info on how to generate an embedded cuesheet enabled input, see the end of this header.
 
 //to be moved somewhere else later
 namespace file_info_record_helper {

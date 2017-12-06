@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _INC_PID2NAME
 #define _INC_PID2NAME

@@ -1,4 +1,4 @@
-#ifndef __95A13A68_0DF0_43FA_B6C1_81D83AED59AA_QuotesProviderFinance_h__
+﻿#ifndef __95A13A68_0DF0_43FA_B6C1_81D83AED59AA_QuotesProviderFinance_h__
 #define __95A13A68_0DF0_43FA_B6C1_81D83AED59AA_QuotesProviderFinance_h__
 
 class CQuotesProviderFinance : public CQuotesProviderBase

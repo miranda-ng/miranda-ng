@@ -1,4 +1,4 @@
-/* pubkey-internal.h  - Internal defs for pubkey.c
+﻿/* pubkey-internal.h  - Internal defs for pubkey.c
  * Copyright (C) 2013 g10 code GmbH
  *
  * This file is part of Libgcrypt.

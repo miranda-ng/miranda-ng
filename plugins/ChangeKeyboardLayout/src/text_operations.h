@@ -1,4 +1,4 @@
-#ifndef M_CKL_TEXT_OPERATIONS_H
+﻿#ifndef M_CKL_TEXT_OPERATIONS_H
 #define M_CKL_TEXT_OPERATIONS_H
 
 #include "stdafx.h"

@@ -1,4 +1,4 @@
-[Provides a simple way to set status and away messages.]
+﻿[Provides a simple way to set status and away messages.]
 [Co&py to clipboard]
 [%s message (%s)]
 [Retrieving status message for %s...]

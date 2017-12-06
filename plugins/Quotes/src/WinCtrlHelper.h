@@ -1,4 +1,4 @@
-#ifndef __a05d6852_4497_4f28_85e1_48a15a170738_WinCtrlHelper_h__
+﻿#ifndef __a05d6852_4497_4f28_85e1_48a15a170738_WinCtrlHelper_h__
 #define __a05d6852_4497_4f28_85e1_48a15a170738_WinCtrlHelper_h__
 
 class IQuotesProvider;

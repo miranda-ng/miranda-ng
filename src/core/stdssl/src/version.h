@@ -1,4 +1,4 @@
-
+﻿
 #include <m_version.h>
 
 #define __FILEVERSION_STRING      MIRANDA_VERSION_FILEVERSION

@@ -1,4 +1,4 @@
-#include "fingerprint.h"
+﻿#include "fingerprint.h"
 
 #include <assert.h>
 #include <string.h>

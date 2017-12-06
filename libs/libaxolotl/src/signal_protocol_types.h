@@ -1,4 +1,4 @@
-#ifndef SIGNAL_PROTOCOL_TYPES_H
+﻿#ifndef SIGNAL_PROTOCOL_TYPES_H
 #define SIGNAL_PROTOCOL_TYPES_H
 
 #include <stdint.h>

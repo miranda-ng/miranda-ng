@@ -1,4 +1,4 @@
-[Tile vertically according to row height]
+﻿[Tile vertically according to row height]
 [Rescan]
 [Skin folder]
 [Sticky contacts]

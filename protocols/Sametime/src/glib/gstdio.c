@@ -1,4 +1,4 @@
-/* gstdio.c - wrappers for C library functions
+﻿/* gstdio.c - wrappers for C library functions
  *
  * Copyright 2004 Tor Lillqvist
  *

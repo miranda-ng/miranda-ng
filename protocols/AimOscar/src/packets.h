@@ -1,4 +1,4 @@
-/*
+﻿/*
 Plugin of Miranda IM for communicating with users of the AIM protocol.
 Copyright (c) 2008-2010 Boris Krasnovskiy
 Copyright (C) 2005-2006 Aaron Myles Landwehr

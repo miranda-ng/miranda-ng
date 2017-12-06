@@ -1,4 +1,4 @@
-/*
+﻿/*
 Quick Messages plugin for Miranda IM
 
 Copyright (C) 2008 Danil Mozhar

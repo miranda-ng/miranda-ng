@@ -1,4 +1,4 @@
-USING THE IJG JPEG LIBRARY
+﻿USING THE IJG JPEG LIBRARY
 
 Copyright (C) 1994-2013, Thomas G. Lane, Guido Vollbeding.
 This file is part of the Independent JPEG Group's software.

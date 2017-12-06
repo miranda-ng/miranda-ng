@@ -1,4 +1,4 @@
-/*  phonetic.c - generic replacement aglogithms for phonetic transformation
+﻿/*  phonetic.c - generic replacement aglogithms for phonetic transformation
     Copyright (C) 2000 Bjoern Jacke
 
     This library is free software; you can redistribute it and/or

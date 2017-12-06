@@ -1,4 +1,4 @@
-
+﻿
 #include "stdafx.h"
 
 pfnCustomProc g_CustomProc = nullptr;

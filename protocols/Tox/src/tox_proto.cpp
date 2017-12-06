@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CToxProto>(protoName, userName),

@@ -1,4 +1,4 @@
-Miranda Language Pack Version 1
+﻿Miranda Language Pack Version 1
 Language: Chinese (Simplified)
 Locale: 0804
 Last-Modified-Using: 0.95.1

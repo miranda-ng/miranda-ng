@@ -1,4 +1,4 @@
-WhenWasIt birthday reminder plugin v.0.3.3.4
+﻿WhenWasIt birthday reminder plugin v.0.3.3.4
 Copyright © 2006-2011 Cristian Libotean
 Thanks go to Angeli-Ka for the icons.
 

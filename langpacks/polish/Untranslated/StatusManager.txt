@@ -1,4 +1,4 @@
-[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
+﻿[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
 [Available modules]
 [Automatically reconnects your accounts after protocol error or internet drop.]
 [Advanced auto away]

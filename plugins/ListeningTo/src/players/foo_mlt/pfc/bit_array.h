@@ -1,4 +1,4 @@
-#ifndef _PFC_BIT_ARRAY_H_
+﻿#ifndef _PFC_BIT_ARRAY_H_
 #define _PFC_BIT_ARRAY_H_
 namespace pfc {
 	//! Bit array interface class, constant version (you can only retrieve values). \n

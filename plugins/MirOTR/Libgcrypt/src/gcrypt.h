@@ -1,4 +1,4 @@
-/* gcrypt.h -  GNU Cryptographic Library Interface              -*- c -*-
+﻿/* gcrypt.h -  GNU Cryptographic Library Interface              -*- c -*-
  * Copyright (C) 1998-2015 Free Software Foundation, Inc.
  * Copyright (C) 2012-2015 g10 Code GmbH
  *

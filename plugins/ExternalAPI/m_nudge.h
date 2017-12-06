@@ -1,4 +1,4 @@
-// protocol service that sends a nudge
+﻿// protocol service that sends a nudge
 #define  PS_SEND_NUDGE  "/SendNudge"
 
 // event to be create in protocol with its m_szModuleName

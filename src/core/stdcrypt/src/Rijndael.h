@@ -1,4 +1,4 @@
-
+﻿
 //Rijndael.h
 
 #ifndef __RIJNDAEL_H__

@@ -1,4 +1,4 @@
-[Choose a pattern...]
+﻿[Choose a pattern...]
 [No Files Patterns Found]
 [In: %d:%d:%d]
 [Error mapping file]

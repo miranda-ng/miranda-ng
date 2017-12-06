@@ -1,4 +1,4 @@
-// rabin.cpp - written and placed in the public domain by Wei Dai
+﻿// rabin.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "rabin.h"

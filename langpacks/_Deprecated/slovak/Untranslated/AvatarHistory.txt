@@ -1,4 +1,4 @@
-[Avatar List Popup]
+﻿[Avatar List Popup]
 [Delete this entry]
 [Delete this entry and the bitmap file]
 [Avatar History]

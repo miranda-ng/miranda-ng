@@ -1,4 +1,4 @@
-/* w32-lock.c - GPGRT lock functions for Windows
+﻿/* w32-lock.c - GPGRT lock functions for Windows
    Copyright (C) 2014 g10 Code GmbH
 
    This file is part of libgpg-error.

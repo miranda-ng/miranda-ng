@@ -1,4 +1,4 @@
-
+﻿
 EXPORTS
  gpg_strerror @1
  gpg_strerror_r @2

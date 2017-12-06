@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 // {4B897EC8-A2F9-478d-A95E-1A2110A40078}
 FOOGUIDDECL const GUID hasher_md5::class_guid =

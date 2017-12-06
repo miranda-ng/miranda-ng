@@ -1,4 +1,4 @@
-class file_wrapper_simple
+﻿class file_wrapper_simple
 {
 public:
 	explicit file_wrapper_simple(const service_ptr_t<file> & p_file,abort_callback & p_abort) : m_file(p_file), m_abort(p_abort), m_has_failed(false) {}

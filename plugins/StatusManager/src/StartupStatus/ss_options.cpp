@@ -1,4 +1,4 @@
-/*
+﻿/*
 	StartupStatus Plugin for Miranda-IM (www.miranda-im.org)
 	Copyright 2003-2006 P. Boon
 

@@ -1,4 +1,4 @@
-IgnoreState plugin for Miranda IM (http://miranda-im.org)
+﻿IgnoreState plugin for Miranda IM (http://miranda-im.org)
 Version: 0.0.3.0 (c) 2009 Kildor, 2010 Mataes.
 
 

@@ -1,4 +1,4 @@
-
+﻿
 #ifndef __KEYGEN_H__
 #define __KEYGEN_H__
 

@@ -1,4 +1,4 @@
-IJG JPEG LIBRARY:  CODING RULES
+﻿IJG JPEG LIBRARY:  CODING RULES
 
 Copyright (C) 1991-1996, Thomas G. Lane.
 This file is part of the Independent JPEG Group's software.

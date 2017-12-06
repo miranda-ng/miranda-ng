@@ -1,4 +1,4 @@
-#ifndef _M_HISTORYSTATS_H
+﻿#ifndef _M_HISTORYSTATS_H
 #define _M_HISTORYSTATS_H
 
 /**

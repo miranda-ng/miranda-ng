@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 
 t_size file_info_impl::meta_get_count() const

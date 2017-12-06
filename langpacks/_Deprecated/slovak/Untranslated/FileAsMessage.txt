@@ -1,4 +1,4 @@
-[fileAsMessage]
+﻿[fileAsMessage]
 [Filename:]
 [Chunk size]
 [ms]

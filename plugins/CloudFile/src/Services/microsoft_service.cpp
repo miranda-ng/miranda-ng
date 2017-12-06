@@ -1,4 +1,4 @@
-#include "..\stdafx.h"
+﻿#include "..\stdafx.h"
 #include "microsoft_api.h"
 
 COneDriveService::COneDriveService(HNETLIBUSER hConnection)

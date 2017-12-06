@@ -1,4 +1,4 @@
-[Type]
+﻿[Type]
 [Description]
 [Associations]
 [Miranda NG was not able to open "%S".\n\nThere is no registered handler for this file type.]

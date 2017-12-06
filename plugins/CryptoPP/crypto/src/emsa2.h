@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_EMSA2_H
+﻿#ifndef CRYPTOPP_EMSA2_H
 #define CRYPTOPP_EMSA2_H
 
 /** \file

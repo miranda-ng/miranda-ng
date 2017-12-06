@@ -1,4 +1,4 @@
-[Check connection]
+﻿[Check connection]
 [Max. retries]
 [Account connection]
 [Delay between retries (secs)]

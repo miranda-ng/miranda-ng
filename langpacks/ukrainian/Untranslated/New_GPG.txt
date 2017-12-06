@@ -1,4 +1,4 @@
-[Load public GPG key]
+﻿[Load public GPG key]
 [Received encrypted file]
 [Decrypt]
 [Remember choice]

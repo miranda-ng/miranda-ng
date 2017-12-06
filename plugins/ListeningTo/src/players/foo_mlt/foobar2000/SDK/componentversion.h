@@ -1,4 +1,4 @@
-//! Entrypoint interface for declaring component's version information. Instead of implementing this directly, use DECLARE_COMPONENT_VERSION().
+﻿//! Entrypoint interface for declaring component's version information. Instead of implementing this directly, use DECLARE_COMPONENT_VERSION().
 class NOVTABLE componentversion : public service_base {
 public:
 	virtual void get_file_name(pfc::string_base & out)=0;

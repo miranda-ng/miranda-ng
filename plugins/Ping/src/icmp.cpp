@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 char data[] = "AAAABBBBCCCCDDDDEEEEFFFFGGGGHHH";
 ICMP *ICMP::instance = nullptr;

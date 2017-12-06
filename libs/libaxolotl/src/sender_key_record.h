@@ -1,4 +1,4 @@
-#ifndef SENDER_KEY_RECORD_H
+﻿#ifndef SENDER_KEY_RECORD_H
 #define SENDER_KEY_RECORD_H
 
 #include "signal_protocol_types.h"

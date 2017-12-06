@@ -1,4 +1,4 @@
-[Plugin settings]
+﻿[Plugin settings]
 [Filtered events:]
 [Use Miranda ignore settings for All Contacts]
 [All]

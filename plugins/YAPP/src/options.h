@@ -1,4 +1,4 @@
-#ifndef _OPTIONS_INC
+﻿#ifndef _OPTIONS_INC
 #define _OPTIONS_INC
 
 typedef enum {PL_BOTTOMRIGHT=0, PL_BOTTOMLEFT=1, PL_TOPRIGHT=2, PL_TOPLEFT=3} PopupLocation;

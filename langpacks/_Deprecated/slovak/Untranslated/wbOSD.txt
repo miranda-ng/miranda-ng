@@ -1,4 +1,4 @@
-[General]
+﻿[General]
 [Align]
 [Select font]
 [Shadow]

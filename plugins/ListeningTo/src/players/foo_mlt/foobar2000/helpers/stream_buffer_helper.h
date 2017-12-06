@@ -1,4 +1,4 @@
-class stream_reader_buffered : public stream_reader
+﻿class stream_reader_buffered : public stream_reader
 {
 public:
 	stream_reader_buffered(stream_reader * p_base,t_size p_buffer);

@@ -1,4 +1,4 @@
-/* strerror.c - Describing an error code.
+﻿/* strerror.c - Describing an error code.
    Copyright (C) 2003 g10 Code GmbH
 
    This file is part of libgpg-error.

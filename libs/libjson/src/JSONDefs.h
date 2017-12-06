@@ -1,4 +1,4 @@
-#ifndef JSONDEFS_H
+﻿#ifndef JSONDEFS_H
 #define JSONDEFS_H
 
 /*

@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_DH_H
+﻿#ifndef CRYPTOPP_DH_H
 #define CRYPTOPP_DH_H
 
 /** \file

@@ -1,4 +1,4 @@
-[Voice calls]
+﻿[Voice calls]
 [Voice call]
 [Sh&ow in history]
 [Log default]

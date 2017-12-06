@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto)
 	: CSteamDlgBase(proto, IDD_PASSWORD_EDITOR, false), m_ok(this, IDOK),

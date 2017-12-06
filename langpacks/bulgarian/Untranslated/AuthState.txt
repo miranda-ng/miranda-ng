@@ -1,4 +1,4 @@
-[Show Request icon]
+﻿[Show Request icon]
 [Request]
 [Request & Grant]
 [Auth state]

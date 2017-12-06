@@ -1,4 +1,4 @@
-// ripemd.cpp
+﻿// ripemd.cpp
 // RIPEMD-160 written and placed in the public domain by Wei Dai
 // RIPEMD-320, RIPEMD-128, RIPEMD-256 written by Kevin Springle
 // and also placed in the public domain

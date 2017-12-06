@@ -1,4 +1,4 @@
-// md5.cpp - modified by Wei Dai from Colin Plumb's public domain md5.c
+﻿// md5.cpp - modified by Wei Dai from Colin Plumb's public domain md5.c
 // any modifications are placed in the public domain
 
 #include "pch.h"

@@ -1,4 +1,4 @@
-/* md4.c - MD4 Message-Digest Algorithm
+﻿/* md4.c - MD4 Message-Digest Algorithm
  * Copyright (C) 2002, 2003 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

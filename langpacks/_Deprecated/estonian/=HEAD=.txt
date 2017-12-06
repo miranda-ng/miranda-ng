@@ -1,4 +1,4 @@
-Miranda Language Pack Version 1
+﻿Miranda Language Pack Version 1
 Language: Estonian (Estonia)
 Locale: 0425
 Authors: Erkki Laaneoks

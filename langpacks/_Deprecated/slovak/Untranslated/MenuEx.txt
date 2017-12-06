@@ -1,4 +1,4 @@
-[Enter an authorization request]
+﻿[Enter an authorization request]
 [&Cancel]
 [Shown menu items]
 [Show alpha icons]

@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_TRUNHASH_H
+﻿#ifndef CRYPTOPP_TRUNHASH_H
 #define CRYPTOPP_TRUNHASH_H
 
 #include "cryptlib.h"

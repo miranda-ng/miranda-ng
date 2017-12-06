@@ -1,3 +1,3 @@
-[AutoShutdown]
+﻿[AutoShutdown]
 [Header]
 [Lock workstation]

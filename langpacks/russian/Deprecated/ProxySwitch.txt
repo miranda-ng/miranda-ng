@@ -1,4 +1,4 @@
-;============================================================
+﻿;============================================================
 ;  File: proxySwitch.dll
 ;  Module: proxySwith - Automatic proxy settings manager
 ;  Versions: 1.0.0.1

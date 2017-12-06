@@ -1,4 +1,4 @@
-
+﻿
           ICQ protocol plugin for Miranda IM (Joe)
           ________________________________________
 

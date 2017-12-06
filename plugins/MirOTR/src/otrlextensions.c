@@ -1,4 +1,4 @@
-/*
+﻿/*
  * otrlextensions.c - Off-the-Record Messaging library extensions
  *
  * Strongly based on parts of the Off-the-Record Messaging library,

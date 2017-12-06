@@ -1,4 +1,4 @@
-//
+﻿//
 //	ENUMFORMAT.CPP
 //
 //	By J Brown 2004 

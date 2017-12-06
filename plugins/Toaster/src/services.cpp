@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 mir_cs csNotifications;
 OBJLIST<ToastNotification> lstNotifications(2, PtrKeySortT);

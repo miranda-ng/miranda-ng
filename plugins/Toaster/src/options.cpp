@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 COptions::COptions()
 	: CDlgBase(g_hInstance, IDD_OPTIONS_MAIN),

@@ -1,4 +1,4 @@
-Version 1.3.0.9
+﻿Version 1.3.0.9
 
 [+] Ability to hide contact from contact list when 'Ignore All'
 

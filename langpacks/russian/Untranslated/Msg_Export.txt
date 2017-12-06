@@ -1,4 +1,4 @@
-[Note: 0 = no limit]
+﻿[Note: 0 = no limit]
 [Failed to write to the Rich Edit the buffer was to small.]
 [Failed to execute external file view]
 [Failed to get handle to Rich Edit!]

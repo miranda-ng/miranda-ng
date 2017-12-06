@@ -1,4 +1,4 @@
-#include "pfc.h"
+﻿#include "pfc.h"
 
 namespace pfc {
 	t_size getOptimalWorkerThreadCount() {

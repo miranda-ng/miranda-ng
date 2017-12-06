@@ -1,4 +1,4 @@
-/* rand-internal.h - header to glue the random functions
+﻿/* rand-internal.h - header to glue the random functions
  *	Copyright (C) 1998, 2002 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

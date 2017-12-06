@@ -1,4 +1,4 @@
-/* context.c - Context management
+﻿/* context.c - Context management
  * Copyright (C) 2013  g10 Code GmbH
  *
  * This file is part of Libgcrypt.

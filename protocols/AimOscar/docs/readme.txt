@@ -1,4 +1,4 @@
-AIM protocol plugin for Miranda IM
+﻿AIM protocol plugin for Miranda IM
 
 About:
 

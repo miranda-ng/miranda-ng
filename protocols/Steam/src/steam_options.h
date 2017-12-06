@@ -1,4 +1,4 @@
-#ifndef _STEAM_OPTIONS_H_
+﻿#ifndef _STEAM_OPTIONS_H_
 #define _STEAM_OPTIONS_H_
 
 class CSteamOptionsMain : public CSteamDlgBase

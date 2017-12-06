@@ -1,4 +1,4 @@
-/*
+﻿/*
 Miranda IM History Sweeper Light plugin
 Copyright (C) 2002-2003  Sergey V. Gershovich
 Copyright (C) 2006-2009  Boris Krasnovskiy

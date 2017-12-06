@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 INT_PTR Log(WPARAM wParam, LPARAM) {
 

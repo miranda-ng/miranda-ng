@@ -1,4 +1,4 @@
-#include "filters.h"
+﻿#include "filters.h"
 #include "files.h"
 #include "base64.h"
 #include "hex.h"

@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_TIGER_H
+﻿#ifndef CRYPTOPP_TIGER_H
 #define CRYPTOPP_TIGER_H
 
 #include "config.h"

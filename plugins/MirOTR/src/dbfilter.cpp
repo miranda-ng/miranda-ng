@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static HANDLE hDBEventPreAdd, hDBEventAdded, hContactSettingChanged;
 static mir_cs RemoveChainCS;

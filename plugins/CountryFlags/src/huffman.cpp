@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
 * Name:        huffman.c
 * Author:      Marcus Geelnard
 * Description: Huffman coder/decoder implementation.

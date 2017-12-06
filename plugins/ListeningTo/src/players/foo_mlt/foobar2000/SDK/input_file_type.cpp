@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 #if FOOBAR2000_TARGET_VERSION >= 76
 

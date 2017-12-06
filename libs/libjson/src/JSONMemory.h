@@ -1,4 +1,4 @@
-#ifndef JSON_MEMORY_H
+﻿#ifndef JSON_MEMORY_H
 #define JSON_MEMORY_H
 
 #include <cstdlib> //for malloc, realloc, and free

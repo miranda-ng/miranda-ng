@@ -1,4 +1,4 @@
-#ifndef _STDAFX_H_
+﻿#ifndef _STDAFX_H_
 #define _STDAFX_H_
 
 #define APP_SHORTNAME __PLUGIN_NAME

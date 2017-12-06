@@ -1,4 +1,4 @@
-[Check your Gmail inboxes locally.]
+﻿[Check your Gmail inboxes locally.]
 [Gmail account]
 [Save]
 [Configuration]

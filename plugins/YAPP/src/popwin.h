@@ -1,4 +1,4 @@
-#ifndef _POPWIN_INC
+﻿#ifndef _POPWIN_INC
 #define _POPWIN_INC
 
 #define POP_WIN_CLASS        _A2W(MODULE) L"YAPPWindowClass"

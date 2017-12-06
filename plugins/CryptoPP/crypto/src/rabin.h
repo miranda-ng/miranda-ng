@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_RABIN_H
+﻿#ifndef CRYPTOPP_RABIN_H
 #define CRYPTOPP_RABIN_H
 
 /** \file

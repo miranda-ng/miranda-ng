@@ -1,4 +1,4 @@
-/*
+﻿/*
  * DIRENT.H (formerly DIRLIB.H)
  * This file has no copyright assigned and is placed in the Public Domain.
  * This file is a part of the mingw-runtime package.

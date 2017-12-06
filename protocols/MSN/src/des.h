@@ -1,4 +1,4 @@
-/**
+﻿/**
  * \file des.h
  */
 #ifndef _DES_H

@@ -1,4 +1,4 @@
-//! Interface for object storing list of chapters.
+﻿//! Interface for object storing list of chapters.
 class NOVTABLE chapter_list {
 public:
 	//! Returns number of chapters.

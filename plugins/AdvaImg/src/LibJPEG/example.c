@@ -1,4 +1,4 @@
-/*
+﻿/*
  * example.c
  *
  * This file illustrates how to use the IJG code as a subroutine library

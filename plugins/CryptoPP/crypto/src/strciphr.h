@@ -1,4 +1,4 @@
-/*! \file
+﻿/*! \file
  	This file contains helper classes for implementing stream ciphers.
 
 	All this infrastructure may look very complex compared to what's in Crypto++ 4.x,

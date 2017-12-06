@@ -1,4 +1,4 @@
-/* winres.h Missing in MinGW. Adding missing constants */
+﻿/* winres.h Missing in MinGW. Adding missing constants */
 
 #ifdef __GNUC__
 #ifndef __WINRES_H

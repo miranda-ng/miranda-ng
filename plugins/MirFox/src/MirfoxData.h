@@ -1,4 +1,4 @@
-#ifndef _MIRFOXDATA_INC
+﻿#ifndef _MIRFOXDATA_INC
 #define _MIRFOXDATA_INC
 
 

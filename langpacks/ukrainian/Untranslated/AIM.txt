@@ -1,4 +1,4 @@
-[Use "clientlogin" (recommended)]
+﻿[Use "clientlogin" (recommended)]
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 [Invalid screen name or password.]
 [Invalid SNAC header.]

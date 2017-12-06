@@ -1,4 +1,4 @@
-#ifndef _CEVENTLOG_H_
+﻿#ifndef _CEVENTLOG_H_
 #define _CEVENTLOG_H_
 
 #include "LCDFramework/CLCDList.h"

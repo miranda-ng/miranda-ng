@@ -1,4 +1,4 @@
-// cryptlib.h - written and placed in the public domain by Wei Dai
+﻿// cryptlib.h - written and placed in the public domain by Wei Dai
 /*! \file
  	This file contains the declarations for the abstract base
 	classes that provide a uniform interface to this library.

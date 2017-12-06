@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static INT_PTR CALLBACK VariableListDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {

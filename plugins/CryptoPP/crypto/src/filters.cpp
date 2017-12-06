@@ -1,4 +1,4 @@
-// filters.cpp - written and placed in the public domain by Wei Dai
+﻿// filters.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 

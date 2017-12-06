@@ -1,4 +1,4 @@
-#ifndef __m_hhp__
+﻿#ifndef __m_hhp__
 #define __m_hhp__
 
 #define MS_HPP_GETVERSION			"History++/GetVersion"

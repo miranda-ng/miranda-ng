@@ -1,4 +1,4 @@
-/*
+﻿/*
 
    IgnoreState plugin for Miranda-IM (www.miranda-im.org)
    (c) 2010 by Kildor

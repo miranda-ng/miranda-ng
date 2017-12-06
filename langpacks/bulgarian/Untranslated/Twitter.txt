@@ -1,4 +1,4 @@
-[<Sign in to link your Twitter account>]
+﻿[<Sign in to link your Twitter account>]
 [Send Tweet]
 [Use group chat for Twitter feed]
 [Base URL:]

@@ -1,4 +1,4 @@
-#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
+﻿#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
 ;============================================================
 ;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module

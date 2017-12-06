@@ -1,4 +1,4 @@
-/*
+﻿/*
 Sessions Management plugin for Miranda IM
 
 Copyright (C) 2007-2008 Danil Mozhar

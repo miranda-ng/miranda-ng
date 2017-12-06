@@ -1,4 +1,4 @@
-// winpipes.cpp - written and placed in the public domain by Wei Dai
+﻿// winpipes.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "winpipes.h"

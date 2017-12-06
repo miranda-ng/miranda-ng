@@ -1,4 +1,4 @@
-[Confirm Pounce send]
+﻿[Confirm Pounce send]
 [Send]
 [Pounce being sent to]
 [Buddy Pounce]

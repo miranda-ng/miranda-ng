@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Standard idle state module for Miranda NG
 

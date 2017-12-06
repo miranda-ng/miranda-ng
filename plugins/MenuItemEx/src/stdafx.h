@@ -1,4 +1,4 @@
-#ifndef MENUEX_H__
+﻿#ifndef MENUEX_H__
 #define MENUEX_H__
 
 #define _CRT_SECURE_NO_DEPRECATE

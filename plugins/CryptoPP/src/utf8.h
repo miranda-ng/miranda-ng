@@ -1,4 +1,4 @@
-#ifndef __UTF_8__
+﻿#ifndef __UTF_8__
 #define __UTF_8__
 
 LPSTR __cdecl utf8encode(LPCWSTR str);

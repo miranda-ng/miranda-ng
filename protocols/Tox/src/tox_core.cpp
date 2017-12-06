@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 Tox_Options* CToxProto::GetToxOptions()
 {

@@ -1,4 +1,4 @@
-typedef struct
+﻿typedef struct
 {
 	wchar_t Alignment;	// Выравнивание. L - к левой границе, R - к правой.
 	WORD Interval;		// Расстояние, на которое граница строки отстоит от левого края фрейма.

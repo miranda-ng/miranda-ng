@@ -1,1 +1,1 @@
-[Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]
+﻿[Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]

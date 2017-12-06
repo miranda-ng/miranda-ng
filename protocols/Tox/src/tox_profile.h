@@ -1,4 +1,4 @@
-#ifndef _TOX_PROFILE_H_
+﻿#ifndef _TOX_PROFILE_H_
 #define _TOX_PROFILE_H_
 
 class CToxPasswordEditor : public CToxDlgBase

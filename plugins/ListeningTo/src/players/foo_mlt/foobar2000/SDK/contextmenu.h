@@ -1,4 +1,4 @@
-//! Reserved for future use.
+﻿//! Reserved for future use.
 typedef void * t_glyph;
 
 

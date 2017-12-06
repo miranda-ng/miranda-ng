@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_STDCPP_H
+﻿#ifndef CRYPTOPP_STDCPP_H
 #define CRYPTOPP_STDCPP_H
 
 #include <stddef.h>

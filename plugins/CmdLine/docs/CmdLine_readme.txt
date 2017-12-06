@@ -1,4 +1,4 @@
-CmdLine plugin v.0.0.4.1
+﻿CmdLine plugin v.0.0.4.1
 Copyright © 2007-2011 Cristian Libotean
 
 This plugin lets you control Miranda from the command line.

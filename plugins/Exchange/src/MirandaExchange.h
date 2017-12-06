@@ -1,4 +1,4 @@
-/*
+﻿/*
 Exchange notifier plugin for Miranda IM
 
 Copyright © 2006 Cristian Libotean, Attila Vajda

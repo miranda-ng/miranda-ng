@@ -1,4 +1,4 @@
-#ifndef _TOX_CHATROOMS_H_
+﻿#ifndef _TOX_CHATROOMS_H_
 #define _TOX_CHATROOMS_H_
 
 struct ChatRoomInviteParam

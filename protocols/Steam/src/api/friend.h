@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_FRIEND_H_
+﻿#ifndef _STEAM_REQUEST_FRIEND_H_
 #define _STEAM_REQUEST_FRIEND_H_
 
 class GetUserSummariesRequest : public HttpRequest

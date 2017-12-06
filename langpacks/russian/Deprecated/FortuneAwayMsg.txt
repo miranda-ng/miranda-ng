@@ -1,4 +1,4 @@
-#muuid {9c00ab77-41ce-4e93-9a83-f9a8205ca91b}
+﻿#muuid {9c00ab77-41ce-4e93-9a83-f9a8205ca91b}
 ;============================================================
 ;  File: FortuneAwayMsg.dll
 ;  Module: Fortune Messages for the AwayMessages

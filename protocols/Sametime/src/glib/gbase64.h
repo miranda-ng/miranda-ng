@@ -1,4 +1,4 @@
-/* gbase64.h - Base64 coding functions
+﻿/* gbase64.h - Base64 coding functions
  *
  *  Copyright (C) 2005  Alexander Larsson <alexl@redhat.com>
  *

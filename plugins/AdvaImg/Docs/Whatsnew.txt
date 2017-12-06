@@ -1,4 +1,4 @@
-What's New for FreeImage
+﻿What's New for FreeImage
 
 * : fixed
 - : removed

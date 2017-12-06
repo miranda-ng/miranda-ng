@@ -1,4 +1,4 @@
-#ifndef _CCREDITSSCREEN_H_
+﻿#ifndef _CCREDITSSCREEN_H_
 #define _CCREDITSSCREEN_H_
 
 #include "CScreen.h"

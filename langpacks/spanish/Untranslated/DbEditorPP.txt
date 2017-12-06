@@ -1,4 +1,4 @@
-[Advanced Database Editor.]
+﻿[Advanced Database Editor.]
 [Search and replace]
 [Search for]
 [Exact match]

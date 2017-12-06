@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 
 bool input_entry::g_find_service_by_path(service_ptr_t<input_entry> & p_out,const char * p_path)

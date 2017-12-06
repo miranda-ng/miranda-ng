@@ -1,4 +1,4 @@
-#ifndef __PFC_PTR_LIST_H_
+﻿#ifndef __PFC_PTR_LIST_H_
 #define __PFC_PTR_LIST_H_
 
 namespace pfc {

@@ -1,4 +1,4 @@
-#muuid {2f30f130-9749-4523-91c9-28b7e9779dcd}
+﻿#muuid {2f30f130-9749-4523-91c9-28b7e9779dcd}
 ;============================================================
 ;  File: aaaaServicesList.dll
 ;  Plugin: Services list

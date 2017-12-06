@@ -1,4 +1,4 @@
-[Legacy fix (for ICQ Groupware or IServerD only)]
+﻿[Legacy fix (for ICQ Groupware or IServerD only)]
 [Retrieving custom status details...]
 [Unable to connect to migrated ICQ communication server]
 [Unable to connect to ICQ communication server]

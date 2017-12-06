@@ -1,4 +1,4 @@
-#ifndef _PING_UTILS
+﻿#ifndef _PING_UTILS
 #define _PING_UTILS
 
 void __stdcall	ShowPopup(wchar_t *line1, wchar_t *line2, int flags);

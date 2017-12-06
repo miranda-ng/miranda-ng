@@ -1,4 +1,4 @@
-#ifndef M_CKL_HOOK_EVENTS_H
+﻿#ifndef M_CKL_HOOK_EVENTS_H
 #define M_CKL_HOOK_EVENTS_H
 
 #include "stdafx.h"

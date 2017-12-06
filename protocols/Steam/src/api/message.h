@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_MESSAGE_H_
+﻿#ifndef _STEAM_REQUEST_MESSAGE_H_
 #define _STEAM_REQUEST_MESSAGE_H_
 
 class SendMessageRequest : public HttpRequest

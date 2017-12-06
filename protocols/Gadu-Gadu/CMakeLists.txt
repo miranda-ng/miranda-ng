@@ -1,4 +1,4 @@
-file(GLOB SOURCES "src/*.h" "src/libgadu/*.h" "res/*.rc"
+﻿file(GLOB SOURCES "src/*.h" "src/libgadu/*.h" "res/*.rc"
 "src/avatar.cpp"
 "src/core.cpp"
 "src/dialogs.cpp"

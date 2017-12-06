@@ -1,4 +1,4 @@
-/* types.h - some common typedefs
+﻿/* types.h - some common typedefs
  *	Copyright (C) 1998, 2000, 2002, 2003 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

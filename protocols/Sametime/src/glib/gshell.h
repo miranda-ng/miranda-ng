@@ -1,4 +1,4 @@
-/* gshell.h - Shell-related utilities
+﻿/* gshell.h - Shell-related utilities
  *
  *  Copyright 2000 Red Hat, Inc.
  *

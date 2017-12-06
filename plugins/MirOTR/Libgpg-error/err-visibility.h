@@ -1,4 +1,4 @@
-/* err-visibility.h - Set visibility attribute
+﻿/* err-visibility.h - Set visibility attribute
  * Copyright (C) 2014  g10 Code GmbH
  *
  * This file is part of libgpg-error.

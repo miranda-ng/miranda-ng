@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 void CSteamProto::OnGotConversations(const HttpResponse *response)
 {

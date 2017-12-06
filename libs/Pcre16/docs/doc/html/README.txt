@@ -1,4 +1,4 @@
-README file for PCRE (Perl-compatible regular expression library)
+﻿README file for PCRE (Perl-compatible regular expression library)
 -----------------------------------------------------------------
 
 NOTE: This set of files relates to PCRE releases that use the original API,

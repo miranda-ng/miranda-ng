@@ -1,4 +1,4 @@
-[Select crypto provider]
+﻿[Select crypto provider]
 [Logo]
 [Performing aggressive pass]
 [Aggressive: random junk at %08X: skipping]

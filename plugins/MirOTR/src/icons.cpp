@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static IconItem iconList[] = {
 	{ LPGEN(LANG_ICON_OTR), ICON_OTR, IDI_OTR },

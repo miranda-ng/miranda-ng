@@ -1,4 +1,4 @@
-#ifndef __MMI_H__
+﻿#ifndef __MMI_H__
 #define __MMI_H__
 /*
 void *m_alloc(size_t);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This code implements retrieving info from MIME header 
  *
  * (c) majvan 2002-2004

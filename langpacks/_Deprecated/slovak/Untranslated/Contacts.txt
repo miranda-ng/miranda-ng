@@ -1,4 +1,4 @@
-[Send contacts]
+﻿[Send contacts]
 [&Add]
 [&User menu]
 [&History]

@@ -1,4 +1,4 @@
-#include "globals.h"
+﻿#include "globals.h"
 
 #ifndef MONITOR_DEFAULTTONULL
 #define MONITOR_DEFAULTTONULL       0x00000000

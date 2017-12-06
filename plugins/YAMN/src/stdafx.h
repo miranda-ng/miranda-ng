@@ -1,4 +1,4 @@
-
+﻿
 #ifndef __YAMN_H
 #define __YAMN_H
 

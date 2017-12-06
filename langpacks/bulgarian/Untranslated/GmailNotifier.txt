@@ -1,4 +1,4 @@
-[On double click:]
+﻿[On double click:]
 [Login using default browser]
 [Login using Internet Explorer]
 [Run custom program]

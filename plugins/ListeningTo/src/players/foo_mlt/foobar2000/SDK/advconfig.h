@@ -1,4 +1,4 @@
-//! Entrypoint class for adding items to Advanced Preferences page. \n
+﻿//! Entrypoint class for adding items to Advanced Preferences page. \n
 //! Implementations must derive from one of subclasses: advconfig_branch, advconfig_entry_checkbox, advconfig_entry_string. \n
 //! Implementations are typically registered using static service_factory_single_t<myclass>, or using provided helper classes in case of standard implementations declared in this header.
 class NOVTABLE advconfig_entry : public service_base {

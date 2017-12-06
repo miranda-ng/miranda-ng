@@ -1,4 +1,4 @@
-Scriver user's manual & FAQ v1.0
+﻿Scriver user's manual & FAQ v1.0
 ---------------------------------
 
 1. Overview

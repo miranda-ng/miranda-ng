@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "shlcom.h"
 
 CLIST_INTERFACE *pcli;

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Miranda NG SmileyAdd Plugin
 Copyright (C) 2012 - 2017 Miranda NG project (https://miranda-ng.org)
 Copyright (C) 2005 - 2011 Boris Krasnovskiy

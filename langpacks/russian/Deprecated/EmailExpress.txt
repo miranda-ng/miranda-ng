@@ -1,4 +1,4 @@
-;  File: EmailExpress.dll
+﻿;  File: EmailExpress.dll
 ;  Module: EmailExpress plugin
 ;  Versions: 0.0.1.8
 ;============================================================

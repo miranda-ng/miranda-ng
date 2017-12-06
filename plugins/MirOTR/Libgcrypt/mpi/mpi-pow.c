@@ -1,4 +1,4 @@
-/* mpi-pow.c  -  MPI functions for exponentiation
+﻿/* mpi-pow.c  -  MPI functions for exponentiation
  * Copyright (C) 1994, 1996, 1998, 2000, 2002
  *               2003  Free Software Foundation, Inc.
  *               2013  g10 Code GmbH

@@ -1,4 +1,4 @@
-class NOVTABLE playlist_dataobject_desc {
+﻿class NOVTABLE playlist_dataobject_desc {
 public:
 	virtual t_size get_entry_count() const = 0;
 	virtual void get_entry_name(t_size which, pfc::string_base & out) const = 0;

@@ -1,4 +1,4 @@
-add_subdirectory(stdauth)
+﻿add_subdirectory(stdauth)
 add_subdirectory(stdautoaway)
 add_subdirectory(stdaway)
 add_subdirectory(stdclist)

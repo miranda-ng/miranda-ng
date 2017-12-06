@@ -1,4 +1,4 @@
-// xormac.h - written and placed in the public domain by Wei Dai
+﻿// xormac.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_XORMAC_H
 #define CRYPTOPP_XORMAC_H

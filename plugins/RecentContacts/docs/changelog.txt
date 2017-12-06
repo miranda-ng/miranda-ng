@@ -1,4 +1,4 @@
-v0.0.2.0 (10.04.2009)
+﻿v0.0.2.0 (10.04.2009)
  + Options page (Contact List > Recent Contacts)
  + some clean-up.
 

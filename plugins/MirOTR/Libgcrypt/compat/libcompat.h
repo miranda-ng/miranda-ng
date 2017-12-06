@@ -1,4 +1,4 @@
-/* libcomapt.h - Prototypes for AC_REPLACE_FUNCtions.
+﻿/* libcomapt.h - Prototypes for AC_REPLACE_FUNCtions.
  * Copyright (C) 2010 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

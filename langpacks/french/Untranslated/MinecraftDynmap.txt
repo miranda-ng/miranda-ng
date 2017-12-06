@@ -1,4 +1,4 @@
-[Minecraft Dynmap support for Miranda NG.]
+﻿[Minecraft Dynmap support for Miranda NG.]
 [Visible name:]
 [Admin]
 [You]

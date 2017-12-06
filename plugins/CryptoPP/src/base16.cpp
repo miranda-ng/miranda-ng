@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 char *base16encode(const char *inBuffer, int count)
 {

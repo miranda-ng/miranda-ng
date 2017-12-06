@@ -1,4 +1,4 @@
-[This plugin plays and records Internet radio streams. Also local media files can be played.]
+﻿[This plugin plays and records Internet radio streams. Also local media files can be played.]
 [mRadio Mod]
 [REC]
 [Cave]

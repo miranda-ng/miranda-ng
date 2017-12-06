@@ -1,4 +1,4 @@
--- modified version
+﻿-- modified version
 
 Version 1.1.0.0
  [+] Added enhanced 0.7+ core support + UUID

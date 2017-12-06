@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_EPRECOMP_H
+﻿#ifndef CRYPTOPP_EPRECOMP_H
 #define CRYPTOPP_EPRECOMP_H
 
 #include "integer.h"

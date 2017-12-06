@@ -1,4 +1,4 @@
-
+﻿
 struct HISTORIA
 {
 	DWORD noteID;

@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 const unsigned char IV[] = "SIMhell@MIRANDA!";
 

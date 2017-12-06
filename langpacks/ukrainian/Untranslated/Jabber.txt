@@ -1,4 +1,4 @@
-[JID:]
+﻿[JID:]
 [Open]
 [Do you want to create OMEMO session with new device:]
 [OMEMO: New session]

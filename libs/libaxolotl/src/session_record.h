@@ -1,4 +1,4 @@
-#ifndef SESSION_RECORD_H
+﻿#ifndef SESSION_RECORD_H
 #define SESSION_RECORD_H
 
 #include <stdint.h>

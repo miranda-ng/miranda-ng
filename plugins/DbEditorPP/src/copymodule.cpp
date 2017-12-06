@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 void copyModule(const char *module, MCONTACT hContactFrom, MCONTACT hContactTo)
 {

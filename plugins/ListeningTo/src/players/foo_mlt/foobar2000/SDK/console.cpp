@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 
 void console::info(const char * p_message) {print(p_message);}

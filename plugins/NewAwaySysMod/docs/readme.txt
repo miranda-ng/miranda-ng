@@ -1,4 +1,4 @@
-New Away System plugin
+﻿New Away System plugin
   by Chervov Dmitry aka Deathdemon
 
 You can always find the latest plugin version here: http://deathdemon.int.ru/projects.php

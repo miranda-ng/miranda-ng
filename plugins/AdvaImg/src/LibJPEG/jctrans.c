@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jctrans.c
  *
  * Copyright (C) 1995-1998, Thomas G. Lane.

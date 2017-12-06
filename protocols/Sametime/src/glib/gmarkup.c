@@ -1,4 +1,4 @@
-/* gmarkup.c - Simple XML-like parser
+﻿/* gmarkup.c - Simple XML-like parser
  *
  *  Copyright 2000, 2003 Red Hat, Inc.
  *  Copyright 2007, 2008 Ryan Lortie <desrt@desrt.ca>

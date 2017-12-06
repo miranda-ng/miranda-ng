@@ -1,4 +1,4 @@
-/*
+﻿/*
 	GroupCheckbox.cpp
 	Copyright (c) 2007 Chervov Dmitry
 

@@ -1,4 +1,4 @@
-[Settings]
+﻿[Settings]
 [Default web page]
 [Default file encoding]
 [Auto-detect UTF-8]

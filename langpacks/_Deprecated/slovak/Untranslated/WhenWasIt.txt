@@ -1,4 +1,4 @@
-[Notify of birthdays:]
+﻿[Notify of birthdays:]
 [Popups]
 [Popup timeout:]
 [Preview]

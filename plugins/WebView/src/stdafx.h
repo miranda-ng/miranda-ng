@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include <shlwapi.h>
 #include <Richedit.h>
 #include <Commctrl.h>

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright © 2016-2017 The TokTok team.
  * Copyright © 2013-2015 Tox project.
  *

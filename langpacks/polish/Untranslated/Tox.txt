@@ -1,4 +1,4 @@
-[Max connect retries:]
+﻿[Max connect retries:]
 [Max reconnect retries:]
 [Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
 [Enter port]

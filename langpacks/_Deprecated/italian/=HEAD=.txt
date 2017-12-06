@@ -1,4 +1,4 @@
-Miranda Language Pack Version 1
+﻿Miranda Language Pack Version 1
 Language: Italian (Italy)
 Locale: 0410
 Authors: Andrea Decorte aka Klenje, S3pHiroTh, Angelo Tata, TJL73, Stoka, Michele Nasi, Jerbifor

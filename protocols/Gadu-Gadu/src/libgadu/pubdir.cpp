@@ -1,4 +1,4 @@
-/* coding: UTF-8 */
+﻿/* coding: UTF-8 */
 /* $Id: pubdir.c 11370 2010-03-13 16:17:54Z dezred $ */
 
 /*

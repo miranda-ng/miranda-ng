@@ -1,4 +1,4 @@
-[Screen name:]
+﻿[Screen name:]
 [Display name:]
 [Masquerade as a Sidekick/Hiptop user]
 [Force single client]

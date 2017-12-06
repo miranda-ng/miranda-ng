@@ -1,4 +1,4 @@
-[Current Password:]
+﻿[Current Password:]
 [New Password:]
 [Confirm New Password:]
 [Jabber Multi-User Conference]

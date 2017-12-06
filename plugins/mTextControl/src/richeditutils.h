@@ -1,4 +1,4 @@
-#ifndef __richeditutils_h__
+﻿#ifndef __richeditutils_h__
 #define __richeditutils_h__
 
 extern IRichEditOleCallback *reOleCallback;

@@ -1,4 +1,4 @@
-// md2.cpp - modified by Wei Dai from Andrew M. Kuchling's md2.c
+﻿// md2.cpp - modified by Wei Dai from Andrew M. Kuchling's md2.c
 // The original code and all modifications are in the public domain.
 
 // This is the original introductory comment:

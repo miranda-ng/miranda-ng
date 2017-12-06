@@ -1,4 +1,4 @@
-gpgvs
+﻿gpgvs
 building gnupg related projects with Visual Studio
 
 Authors:

@@ -1,4 +1,4 @@
-[File Manager]
+﻿[File Manager]
 [How to proceed?]
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]

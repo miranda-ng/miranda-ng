@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 void threaded_process_status::set_progress(t_size p_state,t_size p_max)
 {

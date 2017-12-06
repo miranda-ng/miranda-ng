@@ -1,4 +1,4 @@
-
+﻿
 	This is a fairly incomplete list of contributors to this project.
 	-----------------------------------------------------------------
 	

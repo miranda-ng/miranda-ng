@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 
 static const unsigned char utf8_header[3] = {0xEF,0xBB,0xBF};
 

@@ -1,4 +1,4 @@
-/* goption.h - Option parser
+﻿/* goption.h - Option parser
  *
  *  Copyright (C) 2004  Anders Carlsson <andersca@gnome.org>
  *

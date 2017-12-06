@@ -1,4 +1,4 @@
-[Indirect capture]
+﻿[Indirect capture]
 [Resulting URL from\n]
 [Copy BBCode]
 [Copy BBCode w/ link]

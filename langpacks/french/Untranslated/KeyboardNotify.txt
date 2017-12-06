@@ -1,4 +1,4 @@
-[Flashes your keyboard LEDs when a message has arrived.]
+﻿[Flashes your keyboard LEDs when a message has arrived.]
 [Accounts to check]
 [Message-Event only]
 [Flash until]

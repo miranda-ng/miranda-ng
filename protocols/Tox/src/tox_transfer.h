@@ -1,4 +1,4 @@
-#ifndef _TOX_TRANSFERS_H_
+﻿#ifndef _TOX_TRANSFERS_H_
 #define _TOX_TRANSFERS_H_
 
 struct FileTransferParam

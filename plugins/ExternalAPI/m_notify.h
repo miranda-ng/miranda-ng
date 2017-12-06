@@ -1,4 +1,4 @@
-#ifndef __m_notify_h__
+﻿#ifndef __m_notify_h__
 #define __m_notify_h__
 
 #include <m_database.h>

@@ -1,4 +1,4 @@
-[Content and Style]
+﻿[Content and Style]
 [Go to Customize -> Fonts and Colors for fonts and colors options]
 [Miscellaneous]
 [Live Preview]

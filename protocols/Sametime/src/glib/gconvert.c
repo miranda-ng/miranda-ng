@@ -1,4 +1,4 @@
-/* GLIB - Library of useful routines for C programming
+﻿/* GLIB - Library of useful routines for C programming
  *
  * gconvert.c: Convert between character sets using iconv
  * Copyright Red Hat Inc., 2000

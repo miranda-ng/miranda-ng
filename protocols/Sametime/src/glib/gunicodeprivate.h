@@ -1,4 +1,4 @@
-/* gunicodeprivate.h
+﻿/* gunicodeprivate.h
  *
  * Copyright (C) 2003 Noah Levitt
  *

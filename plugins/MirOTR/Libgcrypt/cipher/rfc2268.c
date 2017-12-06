@@ -1,4 +1,4 @@
-/* rfc2268.c  - The cipher described in rfc2268; aka Ron's Cipher 2.
+﻿/* rfc2268.c  - The cipher described in rfc2268; aka Ron's Cipher 2.
  * Copyright (C) 2003 Nikos Mavroyanopoulos
  * Copyright (C) 2004 Free Software Foundation, Inc.
  *

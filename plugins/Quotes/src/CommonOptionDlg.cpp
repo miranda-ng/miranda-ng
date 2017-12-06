@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 
 typedef boost::shared_ptr<CAdvProviderSettings> TAdvSettingsPtr;
 typedef std::map<const IQuotesProvider*, TAdvSettingsPtr> TAdvSettings;

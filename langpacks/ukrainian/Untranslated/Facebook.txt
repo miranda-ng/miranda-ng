@@ -1,4 +1,4 @@
-[Load also Messenger contacts at login (not only Facebook friends)]
+﻿[Load also Messenger contacts at login (not only Facebook friends)]
 [Use Invisible status for Facebook Pages (instead of Offline)]
 [Send typing notifications even when Invisible]
 [Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]

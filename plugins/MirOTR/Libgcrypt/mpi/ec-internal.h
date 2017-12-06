@@ -1,4 +1,4 @@
-/* ec-internal.h - Internal declarations of ec*.c
+﻿/* ec-internal.h - Internal declarations of ec*.c
  * Copyright (C) 2013 g10 Code GmbH
  *
  * This file is part of Libgcrypt.

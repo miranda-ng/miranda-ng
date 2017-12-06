@@ -1,2 +1,2 @@
-[From popup plugin]
+﻿[From popup plugin]
 [Avatar path is null.]

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This code implements window handling (connection error)
  *
  * (c) majvan 2002,2004

@@ -1,4 +1,4 @@
-class NOVTABLE keyboard_shortcut_manager : public service_base
+﻿class NOVTABLE keyboard_shortcut_manager : public service_base
 {
 public:
 	static bool g_get(service_ptr_t<keyboard_shortcut_manager> & p_out) {return service_enum_create_t(p_out,0);}

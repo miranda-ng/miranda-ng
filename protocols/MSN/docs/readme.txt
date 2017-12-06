@@ -1,4 +1,4 @@
-Protocol for the Miranda IM for communicating with users of
+﻿Protocol for the Miranda IM for communicating with users of
 the MSN Messenger protocol.
 
 Copyright (C) 2003-5 George Hazan (ghazan@postman.ru)

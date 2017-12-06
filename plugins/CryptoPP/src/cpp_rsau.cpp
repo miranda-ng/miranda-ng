@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 const string padding = "PADDING!PADDING!PADDING!PADDING!"; // 256 bit
 

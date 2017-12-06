@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This code implements basics of POP3 protocol
  *
  * (c) majvan 2002-2004

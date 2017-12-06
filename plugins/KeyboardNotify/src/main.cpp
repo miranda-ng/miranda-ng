@@ -1,4 +1,4 @@
-/*
+﻿/*
 				KeyboardNotify plugin v1.5 for Miranda IM
 				_________________________________________
 

@@ -1,4 +1,4 @@
-PCRE-CONFIG(1)              General Commands Manual             PCRE-CONFIG(1)
+﻿PCRE-CONFIG(1)              General Commands Manual             PCRE-CONFIG(1)
 
 
 

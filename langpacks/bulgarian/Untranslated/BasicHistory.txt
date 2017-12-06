@@ -1,4 +1,4 @@
-[Do not show Find control border]
+﻿[Do not show Find control border]
 [Default Event Filter]
 [Delta time to group messages:]
 [Search forward in list group]

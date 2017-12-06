@@ -1,4 +1,4 @@
-;#muuid {0f6c73b4-2b2b-711d-fbb6-bb267dfd7208}
+﻿;#muuid {0f6c73b4-2b2b-711d-fbb6-bb267dfd7208}
 ;  Module: AsSingleWindow.dll
 ;  Plugin: AsSingleWindow
 [AsSingleWindow]

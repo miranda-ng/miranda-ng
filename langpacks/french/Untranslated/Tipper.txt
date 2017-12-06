@@ -1,4 +1,4 @@
-[Tooltip notification windows.]
+﻿[Tooltip notification windows.]
 [Text indent:]
 [Title indent:]
 [Value indent:]

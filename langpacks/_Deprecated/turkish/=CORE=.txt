@@ -1,4 +1,4 @@
-[Enter account name (for example, My Google)]
+﻿[Enter account name (for example, My Google)]
 Hesap adını yazın (örneğin google hesabım)
 [Choose the protocol type]
 Protokol tipini seç

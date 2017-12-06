@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 namespace VisUtils {
 	void PrepareFFTChunk(audio_chunk const & source, audio_chunk & out, double centerOffset) {

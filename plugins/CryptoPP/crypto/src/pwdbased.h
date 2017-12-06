@@ -1,4 +1,4 @@
-// pwdbased.h - written and placed in the public domain by Wei Dai
+﻿// pwdbased.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_PWDBASED_H
 #define CRYPTOPP_PWDBASED_H

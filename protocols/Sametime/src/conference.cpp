@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "sametime.h"
 
 void CloseMyConference(CSametimeProto* proto)

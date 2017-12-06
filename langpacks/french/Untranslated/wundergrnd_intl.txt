@@ -1,4 +1,4 @@
-[Blowing Snow]
+﻿[Blowing Snow]
 [Chance Of A Thunderstorm 20% Chance Of Precipitation]
 [Chance Of Rain 20% Chance Of Precipitation]
 [Chance Of Rain 30% Chance Of Precipitation]

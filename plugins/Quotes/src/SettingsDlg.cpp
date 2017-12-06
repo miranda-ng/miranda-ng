@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 
 #define WINDOW_PREFIX_SETTINGS "Edit Settings_"
 

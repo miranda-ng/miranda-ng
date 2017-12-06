@@ -1,4 +1,4 @@
-/* getpid.c - Replacement for WindowsCE
+﻿/* getpid.c - Replacement for WindowsCE
    Copyright (C) 2010 Free Software Foundation, Inc.
 
    This file is free software; as a special exception the author gives

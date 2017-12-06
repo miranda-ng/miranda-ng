@@ -1,4 +1,4 @@
-/* mpi-div.c  -  MPI functions
+﻿/* mpi-div.c  -  MPI functions
  * Copyright (C) 1994, 1996, 1998, 2001, 2002,
  *               2003 Free Software Foundation, Inc.
  *

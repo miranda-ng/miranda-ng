@@ -1,4 +1,4 @@
-[Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
+﻿[Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
 [Issued a quit and wait command.]
 [utf8:'%s']
 [blob:N/A]

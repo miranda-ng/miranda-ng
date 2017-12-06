@@ -1,4 +1,4 @@
-/*
+﻿/*
 	GroupCheckbox.h
 	Copyright (c) 2007 Chervov Dmitry
 

@@ -1,4 +1,4 @@
-/* fips.c - FIPS mode management
+﻿/* fips.c - FIPS mode management
  * Copyright (C) 2008  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

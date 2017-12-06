@@ -1,4 +1,4 @@
-  A. GNU General Public License
+﻿  A. GNU General Public License
   B. License of WinSCP Icon Set
   C. Privacy Policy
 

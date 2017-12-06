@@ -1,4 +1,4 @@
-[Allows you to transfer files via cloud services.]
+﻿[Allows you to transfer files via cloud services.]
 [Default service]
 [Paste download link into message input area]
 [Copy download link to clipboard]

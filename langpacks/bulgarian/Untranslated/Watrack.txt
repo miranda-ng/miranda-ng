@@ -1,4 +1,4 @@
-[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
+﻿[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
 [Report on some errors.]
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
 [Text insertion to other Apps]

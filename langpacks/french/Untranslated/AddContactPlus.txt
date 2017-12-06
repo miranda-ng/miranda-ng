@@ -1,2 +1,2 @@
-[Contact ID:]
+﻿[Contact ID:]
 [Open add contact dialog]

@@ -1,4 +1,4 @@
-[Miranda Mail.ru Agent protocol plugin.]
+﻿[Miranda Mail.ru Agent protocol plugin.]
 [E-mail:]
 [Password:]
 [Create a new Mail.ru account]

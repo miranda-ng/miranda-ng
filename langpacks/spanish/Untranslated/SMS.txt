@@ -1,4 +1,4 @@
-[Send SMS text messages to mobile phones through the IM networks.]
+﻿[Send SMS text messages to mobile phones through the IM networks.]
 [Received SMS]
 [&Reply]
 [Read Next]

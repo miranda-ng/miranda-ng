@@ -1,4 +1,4 @@
-[Listening to information]
+﻿[Listening to information]
 [Enable sending listening information to contacts:]
 [Radio]
 [Video]

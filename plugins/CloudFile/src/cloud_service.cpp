@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static int CompareServices(const CCloudService *p1, const CCloudService *p2)
 {

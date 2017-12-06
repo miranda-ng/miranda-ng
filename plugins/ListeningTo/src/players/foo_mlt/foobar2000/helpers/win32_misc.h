@@ -1,4 +1,4 @@
-PFC_NORETURN PFC_NOINLINE void WIN32_OP_FAIL();
+﻿PFC_NORETURN PFC_NOINLINE void WIN32_OP_FAIL();
 
 #ifdef _DEBUG
 void WIN32_OP_D_FAIL(const wchar_t * _Message, const wchar_t *_File, unsigned _Line);

@@ -1,4 +1,4 @@
-/* context.h - Declarations for the context management
+﻿/* context.h - Declarations for the context management
  * Copyright (C) 2013  g10 Code GmbH
  *
  * This file is part of Libgcrypt.

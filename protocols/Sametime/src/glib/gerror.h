@@ -1,4 +1,4 @@
-/* gerror.h - Error reporting system
+﻿/* gerror.h - Error reporting system
  *
  *  Copyright 2000 Red Hat, Inc.
  *

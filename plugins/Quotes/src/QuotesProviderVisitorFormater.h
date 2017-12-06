@@ -1,4 +1,4 @@
-#ifndef __2b5ddd05_9255_4be0_9408_e59768b70568_QuotesProviderVisitorFormater_h__
+﻿#ifndef __2b5ddd05_9255_4be0_9408_e59768b70568_QuotesProviderVisitorFormater_h__
 #define __2b5ddd05_9255_4be0_9408_e59768b70568_QuotesProviderVisitorFormater_h__
 
 class CQuotesProviderVisitorFormater : public CQuotesProviderVisitor

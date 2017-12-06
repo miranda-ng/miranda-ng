@@ -1,4 +1,4 @@
-#include "globals.h"
+﻿#include "globals.h"
 
 CLIST_INTERFACE *pcli;
 HINSTANCE hinstance = nullptr;

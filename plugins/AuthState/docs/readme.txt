@@ -1,4 +1,4 @@
-Authorization State plugin for Miranda IM (http://miranda-im.org)
+﻿Authorization State plugin for Miranda IM (http://miranda-im.org)
 Homepage: http://thief.miranda.im
 Version: 0.0.2.0 (c) 2006-2009 Thief
 Idea by snwbrdr, icons by Faith Healer, Angeli-Ka

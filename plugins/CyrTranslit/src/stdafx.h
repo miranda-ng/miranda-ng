@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Plugin.H: Main common header of MirandaIM plugin
  * Copyright 2009 Valeriy V. Vyshnyak. 
  * 

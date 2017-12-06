@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 
 #define tf_profiler(x) // profiler(x)

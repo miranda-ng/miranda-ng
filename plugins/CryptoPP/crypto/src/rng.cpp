@@ -1,4 +1,4 @@
-// rng.cpp - written and placed in the public domain by Wei Dai
+﻿// rng.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 

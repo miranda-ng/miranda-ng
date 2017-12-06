@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 // gzip data
 BYTE *cpp_gzip(BYTE *pData, size_t nLen, size_t& nCompressedLen)

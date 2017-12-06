@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #define STATUS_TITLE_MAX 64
 #define STATUS_DESC_MAX  250

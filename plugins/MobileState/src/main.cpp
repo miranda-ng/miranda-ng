@@ -1,4 +1,4 @@
-/*
+﻿/*
    Mobile State plugin for Miranda NG (www.miranda-ng.org)
    (c) 2012-17 by Robert Pösel
 

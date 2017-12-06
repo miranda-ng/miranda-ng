@@ -1,4 +1,4 @@
-#ifndef _FILE_OPERATION_CALLBACK_H_
+﻿#ifndef _FILE_OPERATION_CALLBACK_H_
 #define _FILE_OPERATION_CALLBACK_H_
 
 //! Interface to notify component system about files being deleted or moved. Operates in app's main thread only.

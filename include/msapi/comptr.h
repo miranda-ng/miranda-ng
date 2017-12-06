@@ -1,4 +1,4 @@
-// This is a part of the Active Template Library.
+﻿// This is a part of the Active Template Library.
 // Copyright (C) Microsoft Corporation
 // All rights reserved.
 

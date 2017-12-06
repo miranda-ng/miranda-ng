@@ -1,4 +1,4 @@
-// bench2.cpp - written and placed in the public domain by Wei Dai
+﻿// bench2.cpp - written and placed in the public domain by Wei Dai
 
 #include "bench.h"
 #include "rng.h"

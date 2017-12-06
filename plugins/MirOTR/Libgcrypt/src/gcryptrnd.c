@@ -1,4 +1,4 @@
-/* gcryptrnd.c - Libgcrypt Random Number Daemon
+﻿/* gcryptrnd.c - Libgcrypt Random Number Daemon
  * Copyright (C) 2006 Free Software Foundation, Inc.
  *
  * Gcryptend is free software; you can redistribute it and/or modify

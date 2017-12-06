@@ -1,4 +1,4 @@
-/* sha256.c - SHA256 hash function
+﻿/* sha256.c - SHA256 hash function
  * Copyright (C) 2003, 2006, 2008, 2009 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

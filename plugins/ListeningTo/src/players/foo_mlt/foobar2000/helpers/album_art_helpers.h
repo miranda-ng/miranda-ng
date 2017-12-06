@@ -1,4 +1,4 @@
-//! Helper class to load album art from a separate thread (without lagging GUI). In most scenarios you will want to use CAlbumArtLoader instead of deriving from CAlbumArtLoaderBase, unless you want to additionally process the images as they are loaded.
+﻿//! Helper class to load album art from a separate thread (without lagging GUI). In most scenarios you will want to use CAlbumArtLoader instead of deriving from CAlbumArtLoaderBase, unless you want to additionally process the images as they are loaded.
 //! All methods meant to be called from the main thread.
 //! IMPORTANT: derived classes must call Abort() in their own destructor rather than relying on CAlbumArtLoaderBase destructor, since the thread calls virtual functions!
 class CAlbumArtLoaderBase : private CSimpleThread {

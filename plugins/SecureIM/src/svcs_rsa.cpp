@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 pRSA_EXPORT mir_exp = nullptr;
 RSA_IMPORT imp =

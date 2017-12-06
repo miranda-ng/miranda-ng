@@ -1,4 +1,4 @@
-/* gdatetime.c
+﻿/* gdatetime.c
  *
  * Copyright (C) 2009-2010 Christian Hergert <chris@dronelabs.com>
  * Copyright (C) 2010 Thiago Santos <thiago.sousa.santos@collabora.co.uk>

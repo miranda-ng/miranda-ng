@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 // get context data on context id
 pCNTX get_context_on_id(HANDLE context)

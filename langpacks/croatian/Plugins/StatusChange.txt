@@ -1,4 +1,4 @@
-#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
+﻿#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
 ;============================================================
 ;  File: StatusChange.dll
 ;  Plugin: Status change

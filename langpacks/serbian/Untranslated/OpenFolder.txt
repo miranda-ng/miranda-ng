@@ -1,2 +1,2 @@
-[Adds a menu/toolbar item which opens the main Miranda NG folder.]
+﻿[Adds a menu/toolbar item which opens the main Miranda NG folder.]
 [Main]

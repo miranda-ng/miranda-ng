@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 #if FOOBAR2000_TARGET_VERSION >= 76
 static void process_path_internal(const char * p_path,const service_ptr_t<file> & p_reader,playlist_loader_callback::ptr callback, abort_callback & abort,playlist_loader_callback::t_entry_type type,const t_filestats & p_stats);

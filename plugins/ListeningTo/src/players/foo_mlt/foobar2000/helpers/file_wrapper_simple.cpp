@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 t_size file_wrapper_simple::read(void * p_buffer,t_size p_bytes) {
 	if (m_has_failed) return 0;

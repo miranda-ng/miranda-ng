@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Chat module interface for Miranda NG
 

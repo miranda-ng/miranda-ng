@@ -1,4 +1,4 @@
-//! Instance of a search filter object. New in 0.9.5. \n
+﻿//! Instance of a search filter object. New in 0.9.5. \n
 //! This object contains a preprocessed search query; used to perform filtering similar to Media Library Search or Album List's "filter" box. \n
 //! Use search_filter_manager API to instantiate search_filter objects.
 class search_filter : public service_base {

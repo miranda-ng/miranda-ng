@@ -1,4 +1,4 @@
-// tea.cpp - modified by Wei Dai from code in the original paper
+﻿// tea.cpp - modified by Wei Dai from code in the original paper
 
 #include "pch.h"
 #include "tea.h"

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <m_core.h>
 #include <m_database.h>

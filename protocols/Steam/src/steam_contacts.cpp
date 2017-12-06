@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 {

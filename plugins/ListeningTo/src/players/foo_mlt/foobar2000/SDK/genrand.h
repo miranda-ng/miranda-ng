@@ -1,4 +1,4 @@
-//! PRNG service. Implemented by the core, do not reimplement.  Use g_create() helper function to instantiate.
+﻿//! PRNG service. Implemented by the core, do not reimplement.  Use g_create() helper function to instantiate.
 class NOVTABLE genrand_service : public service_base
 {
 public:

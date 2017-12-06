@@ -1,4 +1,4 @@
-/* strsource-sym.c - Describing an error source with its symbol name.
+﻿/* strsource-sym.c - Describing an error source with its symbol name.
    Copyright (C) 2003, 2004 g10 Code GmbH
 
    This file is part of libgpg-error.

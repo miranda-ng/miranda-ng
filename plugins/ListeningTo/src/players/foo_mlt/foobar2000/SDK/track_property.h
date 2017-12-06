@@ -1,4 +1,4 @@
-//! Callback interface for track_property_provider::enumerate_properties().
+﻿//! Callback interface for track_property_provider::enumerate_properties().
 class NOVTABLE track_property_callback {
 public:
 	//! Sets a property list entry to display. Called by track_property_provider::enumerate_properties() implementation.

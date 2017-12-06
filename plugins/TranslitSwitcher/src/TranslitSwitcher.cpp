@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2007 Dmitry Titkov (C) 2010 tico-tico, Mataes
 
 This is free software; you can redistribute it and/or

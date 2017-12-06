@@ -1,4 +1,4 @@
-/* hmac-tests.c - HMAC selftests.
+﻿/* hmac-tests.c - HMAC selftests.
  * Copyright (C) 2008 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

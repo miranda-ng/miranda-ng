@@ -1,4 +1,4 @@
-#include "pfc.h"
+﻿#include "pfc.h"
 
 namespace bitWriter {
 	static void set_bit(t_uint8 * p_stream,size_t p_offset, bool state) {

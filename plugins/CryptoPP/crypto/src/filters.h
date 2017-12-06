@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_FILTERS_H
+﻿#ifndef CRYPTOPP_FILTERS_H
 #define CRYPTOPP_FILTERS_H
 
 #include "simple.h"

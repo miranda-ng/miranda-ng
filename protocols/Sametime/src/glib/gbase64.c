@@ -1,4 +1,4 @@
-/* gbase64.c - Base64 encoding/decoding
+﻿/* gbase64.c - Base64 encoding/decoding
  *
  *  Copyright (C) 2006 Alexander Larsson <alexl@redhat.com>
  *  Copyright (C) 2000-2003 Ximian Inc.

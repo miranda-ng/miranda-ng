@@ -1,4 +1,4 @@
-extern HINSTANCE hInst;
+﻿extern HINSTANCE hInst;
 
 int getMsgId(char *msg);
 

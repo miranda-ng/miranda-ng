@@ -1,4 +1,4 @@
-
+﻿
 // Checksum Tool
 // By Bio (C) 2012
 

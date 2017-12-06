@@ -1,4 +1,4 @@
-[Frame template]
+﻿[Frame template]
 ["mono"/"stereo"]
 [Color codes]
 [No-music text]

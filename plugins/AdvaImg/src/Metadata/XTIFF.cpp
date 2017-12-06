@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 // Metadata functions implementation
 // Extended TIFF Directory GEO Tag Support
 //

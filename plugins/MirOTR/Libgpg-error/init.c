@@ -1,4 +1,4 @@
-/* init.c - Initialize the GnuPG error library.
+﻿/* init.c - Initialize the GnuPG error library.
    Copyright (C) 2005, 2010 g10 Code GmbH
 
    This file is part of libgpg-error.

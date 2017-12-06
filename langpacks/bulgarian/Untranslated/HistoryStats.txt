@@ -1,4 +1,4 @@
-[Band]
+﻿[Band]
 [Column holding in/out bar graphs for characters, messages or chats.]
 [Column holding the contact's placing according to your sorting criteria.]
 [[#{hour}:00-#{hour}:59] #{amount}]

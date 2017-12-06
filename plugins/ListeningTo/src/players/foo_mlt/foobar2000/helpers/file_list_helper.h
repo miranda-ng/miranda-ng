@@ -1,4 +1,4 @@
-#ifndef _foobar2000_helpers_file_list_helper_
+﻿#ifndef _foobar2000_helpers_file_list_helper_
 #define _foobar2000_helpers_file_list_helper_
 
 

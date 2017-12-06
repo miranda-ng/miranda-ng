@@ -1,4 +1,4 @@
-#if !defined(HISTORYSTATS_GUARD_CANVAS_H)
+﻿#if !defined(HISTORYSTATS_GUARD_CANVAS_H)
 #define HISTORYSTATS_GUARD_CANVAS_H
 
 #include "stdafx.h"

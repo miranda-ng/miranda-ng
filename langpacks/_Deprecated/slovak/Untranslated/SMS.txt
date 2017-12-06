@@ -1,4 +1,4 @@
-[Received SMS]
+﻿[Received SMS]
 [Read Next]
 [Message received:]
 [Number:]

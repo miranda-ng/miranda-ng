@@ -1,4 +1,4 @@
-/* mkerrcodes.c - Generate list of system error values.
+﻿/* mkerrcodes.c - Generate list of system error values.
    Copyright (C) 2004 g10 Code GmbH
 
    This file is part of libgpg-error.

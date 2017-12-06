@@ -1,4 +1,4 @@
-[View/Edit Files]
+﻿[View/Edit Files]
 [Add File]
 [Add URL]
 [Remove Selected File]

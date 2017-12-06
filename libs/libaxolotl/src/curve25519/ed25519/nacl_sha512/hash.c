@@ -1,4 +1,4 @@
-/*
+﻿/*
 20080913
 D. J. Bernstein
 Public domain.

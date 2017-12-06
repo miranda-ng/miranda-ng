@@ -1,4 +1,4 @@
-// trdlocal.cpp - written and placed in the public domain by Wei Dai
+﻿// trdlocal.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 

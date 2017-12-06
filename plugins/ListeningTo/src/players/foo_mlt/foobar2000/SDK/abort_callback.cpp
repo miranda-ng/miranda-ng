@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 void abort_callback::check() const {
 	if (is_aborting()) throw exception_aborted();

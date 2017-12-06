@@ -1,4 +1,4 @@
-[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+﻿[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
 [Apply]
 [New]
 [Delete]

@@ -1,4 +1,4 @@
-Splash Screen Plugin for Miranda IM
+﻿Splash Screen Plugin for Miranda IM
 Version 0.1.2.2
 Copyright: 2004-2007 nullbie, 2005-2010 Thief
 Addons page: http://nightly.miranda.im/

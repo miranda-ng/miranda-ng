@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CSteamProto>(protoName, userName),

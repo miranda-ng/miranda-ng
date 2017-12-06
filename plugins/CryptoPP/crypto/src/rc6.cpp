@@ -1,4 +1,4 @@
-// rc6.cpp - written and placed in the public domain by Sean Woods
+﻿// rc6.cpp - written and placed in the public domain by Sean Woods
 // based on Wei Dai's RC5 code.
 
 #include "pch.h"

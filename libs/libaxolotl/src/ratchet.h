@@ -1,4 +1,4 @@
-#ifndef RATCHET_H
+﻿#ifndef RATCHET_H
 #define RATCHET_H
 
 #include <stdint.h>

@@ -1,4 +1,4 @@
-/*
+﻿/*
 ** $Id: lcorolib.c,v 1.9 2014/11/02 19:19:04 roberto Exp roberto $
 ** Coroutine Library
 ** See Copyright Notice in lua.h

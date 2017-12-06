@@ -1,4 +1,4 @@
-//
+﻿//
 //	DATAOBJECT.CPP
 //
 //	Implementation of the IDataObject COM interface

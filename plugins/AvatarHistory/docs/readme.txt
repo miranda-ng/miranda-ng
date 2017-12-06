@@ -1,4 +1,4 @@
-Avatar History plugin
+﻿Avatar History plugin
 -----------------------------------
 
 CAUTION: THIS IS AN BETA STAGE PLUGIN. IT CAN DO VERY BAD THINGS. USE AT YOUR OWN RISK.

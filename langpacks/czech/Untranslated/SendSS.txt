@@ -1,4 +1,4 @@
-[Target tool]
+﻿[Target tool]
 [Thumbnail]
 [Resulting URL from\n]
 [Copy BBCode]

@@ -1,4 +1,4 @@
-#ifndef __ROWHEIGHT_FUNCS_H__
+﻿#ifndef __ROWHEIGHT_FUNCS_H__
 # define __ROWHEIGHT_FUNCS_H__
 
 #define ROW_SPACE_BEETWEEN_LINES 0

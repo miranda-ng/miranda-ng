@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_FLTRIMPL_H
+﻿#ifndef CRYPTOPP_FLTRIMPL_H
 #define CRYPTOPP_FLTRIMPL_H
 
 #define FILTER_BEGIN	\

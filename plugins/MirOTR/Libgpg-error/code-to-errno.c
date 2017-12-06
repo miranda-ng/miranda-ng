@@ -1,4 +1,4 @@
-/* code-to-errno.c - Mapping error codes to errnos.
+﻿/* code-to-errno.c - Mapping error codes to errnos.
    Copyright (C) 2003 g10 Code GmbH
 
    This file is part of libgpg-error.

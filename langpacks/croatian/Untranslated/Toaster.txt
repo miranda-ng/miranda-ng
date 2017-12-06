@@ -1,4 +1,4 @@
-[Provides popup services based on Windows toast notification for different plugins.]
+﻿[Provides popup services based on Windows toast notification for different plugins.]
 [Preview]
 [Add shortcut]
 [Enabled]

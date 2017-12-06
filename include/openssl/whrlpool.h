@@ -1,4 +1,4 @@
-#ifndef HEADER_WHRLPOOL_H
+﻿#ifndef HEADER_WHRLPOOL_H
 # define HEADER_WHRLPOOL_H
 
 # include <openssl/e_os2.h>

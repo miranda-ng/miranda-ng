@@ -1,4 +1,4 @@
-if(BUILD_SHARED_LIBS)
+﻿if(BUILD_SHARED_LIBS)
 	find_library(M_LIB m)
 endif()
 

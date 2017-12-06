@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_SHACAL2_H
+﻿#ifndef CRYPTOPP_SHACAL2_H
 #define CRYPTOPP_SHACAL2_H
 
 /** \file

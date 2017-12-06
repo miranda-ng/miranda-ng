@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 void chapter_list::copy(const chapter_list & p_source)
 {

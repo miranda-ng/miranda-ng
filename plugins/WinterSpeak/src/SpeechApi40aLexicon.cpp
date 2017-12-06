@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "SpeechApi40aLexicon.h"
 
 #include <windows.h>

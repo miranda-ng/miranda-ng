@@ -1,4 +1,4 @@
-/*
+﻿/*
 Fingerprint Mod+ (client version) icons module for Miranda IM
 
 Copyright © 2006-2007 Artem Shpynov aka FYR, Bio, Faith Healer. 2009-2010 HierOS

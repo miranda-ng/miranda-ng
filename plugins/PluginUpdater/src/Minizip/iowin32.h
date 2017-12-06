@@ -1,4 +1,4 @@
-/* iowin32.h -- IO base function header for compress/uncompress .zip
+﻿/* iowin32.h -- IO base function header for compress/uncompress .zip
      Version 1.1, February 14h, 2010
      part of the MiniZip project - ( http://www.winimage.com/zLibDll/minizip.html )
 

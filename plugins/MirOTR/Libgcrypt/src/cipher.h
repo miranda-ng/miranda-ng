@@ -1,4 +1,4 @@
-/* cipher.h
+﻿/* cipher.h
  *	Copyright (C) 1998, 2002, 2003, 2009 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

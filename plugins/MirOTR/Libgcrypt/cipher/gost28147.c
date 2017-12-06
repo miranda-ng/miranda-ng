@@ -1,4 +1,4 @@
-/* gost28147.c - GOST 28147-89 implementation for Libgcrypt
+﻿/* gost28147.c - GOST 28147-89 implementation for Libgcrypt
  * Copyright (C) 2012 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

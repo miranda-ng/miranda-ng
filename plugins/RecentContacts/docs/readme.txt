@@ -1,4 +1,4 @@
-Recent Contacts v0.0.2.0
+﻿Recent Contacts v0.0.2.0
 (c) 2005 ValeraVi, 2009 Kildor
 web:    http://kildor.miranda.im
 email:	kostia@ngs.ru

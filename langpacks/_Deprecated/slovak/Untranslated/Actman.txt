@@ -1,4 +1,4 @@
-[New]
+﻿[New]
 [Delete]
 [Up]
 [Down]

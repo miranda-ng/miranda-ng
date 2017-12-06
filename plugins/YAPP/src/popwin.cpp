@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #define ID_CLOSETIMER		0x0101
 #define ID_MOVETIMER		0x0102

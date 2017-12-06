@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________

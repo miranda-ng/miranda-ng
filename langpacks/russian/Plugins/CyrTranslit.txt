@@ -1,4 +1,4 @@
-#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+﻿#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
 ;============================================================
 ;  File: CyrTranslit.dll
 ;  Plugin: CyrTranslit

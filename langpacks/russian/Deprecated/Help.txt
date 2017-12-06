@@ -1,4 +1,4 @@
-#muuid {b16df0b2-a08f-4bc6-8fa2-3d5fffa2708d}
+﻿#muuid {b16df0b2-a08f-4bc6-8fa2-3d5fffa2708d}
 ;============================================================
 ;  File: help.dll
 ;  Module: Help Plugin  for Miranda IM

@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 void preferences_page::get_help_url_helper(pfc::string_base & out, const char * category, const GUID & id, const char * name) {
 	out.reset();

@@ -1,4 +1,4 @@
-[Attach contacts:]
+﻿[Attach contacts:]
 [Prefer real names instead of nicknames]
 [Load also Messenger contacts at login (not only Facebook friends)]
 [Use Invisible status for Facebook Pages (instead of Offline)]

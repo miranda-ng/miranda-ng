@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Tox secure username DNS toxid resolving functions.
  */
 

@@ -1,4 +1,4 @@
-[Floating Contacts plugin for Miranda.]
+﻿[Floating Contacts plugin for Miranda.]
 [Hiding contacts]
 [Stick together]
 [Use fixed width]

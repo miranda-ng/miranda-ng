@@ -1,4 +1,4 @@
-#muuid {e876fe63-0701-4cda-bed5-7c73a379c1d1}
+﻿#muuid {e876fe63-0701-4cda-bed5-7c73a379c1d1}
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile

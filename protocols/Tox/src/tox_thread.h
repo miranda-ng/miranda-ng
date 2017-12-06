@@ -1,4 +1,4 @@
-#ifndef _TOX_THREAD_H_
+﻿#ifndef _TOX_THREAD_H_
 #define _TOX_THREAD_H_
 
 class CToxThread

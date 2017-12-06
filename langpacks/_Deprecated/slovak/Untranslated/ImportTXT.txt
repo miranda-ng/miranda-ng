@@ -1,4 +1,4 @@
-[Import history to ]
+﻿[Import history to ]
 [Import history]
 [Choose a file...]
 [Choose a pattern...]

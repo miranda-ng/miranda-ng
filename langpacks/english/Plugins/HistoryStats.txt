@@ -1,4 +1,4 @@
-#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
+﻿#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
 ;============================================================
 ;  File: HistoryStats.dll
 ;  Plugin: HistoryStats

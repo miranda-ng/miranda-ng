@@ -1,4 +1,4 @@
-Custom profile folders v.0.1.6.0
+﻿Custom profile folders v.0.1.6.0
 Copyright © 2005-2010 Cristian Libotean
 
 This plugin allows users to select the folders where plugins save their data.

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 
 HRESULT IDataObjectUtils::DataBlockToSTGMEDIUM(const void * blockPtr, t_size blockSize, STGMEDIUM * medium, DWORD tymed, bool bHere) throw() {

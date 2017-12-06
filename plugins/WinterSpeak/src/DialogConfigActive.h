@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "mirandadialog.h"
 
 class DialogConfigActive : public MirandaDialog

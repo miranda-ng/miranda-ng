@@ -1,4 +1,4 @@
-// mars.cpp - modified by Sean Woods from Brian Gladman's mars6.c for Crypto++
+﻿// mars.cpp - modified by Sean Woods from Brian Gladman's mars6.c for Crypto++
 // key setup updated by Wei Dai to reflect IBM's "tweak" proposed in August 1999
 
 /* This is an independent implementation of the MARS encryption         */

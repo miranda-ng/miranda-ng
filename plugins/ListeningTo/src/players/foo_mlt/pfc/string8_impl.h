@@ -1,4 +1,4 @@
-namespace pfc {
+﻿namespace pfc {
 
 template<template<typename> class t_alloc>
 void string8_t<t_alloc>::add_string(const char * ptr,t_size len)

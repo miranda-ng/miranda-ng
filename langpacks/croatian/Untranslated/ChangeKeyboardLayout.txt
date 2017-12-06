@@ -1,4 +1,4 @@
-[Plugin for changing keyboard layout of text (multilayout).]
+﻿[Plugin for changing keyboard layout of text (multilayout).]
 [Hotkeys]
 [Changing layout:]
 ["Current word" mode]

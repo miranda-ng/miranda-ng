@@ -1,4 +1,4 @@
-#ifndef __PASSDIALOG_H__
+﻿#ifndef __PASSDIALOG_H__
 #define __PASSDIALOG_H__
 
 extern char dlgpassphrase[];

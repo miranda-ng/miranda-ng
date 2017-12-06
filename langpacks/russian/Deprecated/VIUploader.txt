@@ -1,4 +1,4 @@
-;============================================================
+﻿;============================================================
 ;  File: VIUploader.dll
 ;  Module: This plugin lets you upload your Version Info report to miranda-vi.org
 ;  Versions: 0.0.1.5

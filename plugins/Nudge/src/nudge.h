@@ -1,4 +1,4 @@
-#ifndef NUDGE_H
+﻿#ifndef NUDGE_H
 #define NUDGE_H
 
 #define MODULENAME "Nudge"

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2002-2004, Jon Travis
  * All rights reserved.
  * 

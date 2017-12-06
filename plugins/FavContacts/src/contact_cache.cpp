@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static int CompareItem(const CContactCache::TContactInfo *p1, const CContactCache::TContactInfo *p2)
 {

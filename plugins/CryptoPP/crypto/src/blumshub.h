@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_BLUMSHUB_H
+﻿#ifndef CRYPTOPP_BLUMSHUB_H
 #define CRYPTOPP_BLUMSHUB_H
 
 #include "modarith.h"

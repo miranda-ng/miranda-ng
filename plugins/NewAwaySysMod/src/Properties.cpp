@@ -1,4 +1,4 @@
-/*
+﻿/*
 	New Away System - plugin for Miranda IM
 	Copyright (C) 2005-2007 Chervov Dmitry
 

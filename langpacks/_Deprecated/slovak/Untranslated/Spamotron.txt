@@ -1,4 +1,4 @@
-[Enabled]
+﻿[Enabled]
 [Learned ham messages:]
 [Learned spam messages:]
 [Filtering options]

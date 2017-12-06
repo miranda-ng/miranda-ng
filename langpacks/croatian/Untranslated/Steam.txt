@@ -1,4 +1,4 @@
-[Steam protocol support for Miranda NG.]
+﻿[Steam protocol support for Miranda NG.]
 [Username:]
 [Password:]
 [Default group:]

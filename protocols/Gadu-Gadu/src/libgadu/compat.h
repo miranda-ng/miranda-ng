@@ -1,4 +1,4 @@
-/* coding: UTF-8 */
+﻿/* coding: UTF-8 */
 /* $Id: compat.h 11075 2009-12-20 15:01:43Z dezred $ */
 
 /*

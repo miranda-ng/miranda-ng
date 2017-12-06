@@ -1,4 +1,4 @@
-;#muuid for MimCmd not found, please specify manually!
+﻿;#muuid for MimCmd not found, please specify manually!
 ;============================================================
 ;  File: MimCmd.exe
 ;  Plugin: MimCmd

@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 
 static void g_on_files_deleted_sorted(const pfc::list_base_const_t<const char *> & p_items)

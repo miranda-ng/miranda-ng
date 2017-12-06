@@ -1,4 +1,4 @@
-/* rndw32ce.c  -  W32CE entropy gatherer
+﻿/* rndw32ce.c  -  W32CE entropy gatherer
  * Copyright (C) 2010 Free Software Foundation, Inc.
  *
  * Libgcrypt is free software; you can redistribute it and/or modify

@@ -1,2 +1,2 @@
-[Miranda ListeningTo receiver]
+﻿[Miranda ListeningTo receiver]
 [Miranda ListeningTo WMP receiver]

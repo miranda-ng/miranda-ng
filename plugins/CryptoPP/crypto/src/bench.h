@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_BENCH_H
+﻿#ifndef CRYPTOPP_BENCH_H
 #define CRYPTOPP_BENCH_H
 
 #include "cryptlib.h"

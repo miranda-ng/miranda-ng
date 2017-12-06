@@ -1,4 +1,4 @@
-/*
+﻿/*
 WhenWasIt (birthday reminder) plugin for Miranda IM
 
 Copyright © 2006 Cristian Libotean

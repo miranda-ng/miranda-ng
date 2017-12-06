@@ -1,4 +1,4 @@
-/*
+﻿/*
 Miranda plugin template, originally by Richard Hughes
 http://miranda-icq.sourceforge.net/
 

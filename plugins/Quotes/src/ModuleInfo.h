@@ -1,4 +1,4 @@
-#ifndef __d0f22b66_3135_4bbe_bee5_a31ea631ce58_ModuleInfo__
+﻿#ifndef __d0f22b66_3135_4bbe_bee5_a31ea631ce58_ModuleInfo__
 #define __d0f22b66_3135_4bbe_bee5_a31ea631ce58_ModuleInfo__
 
 class CQuotesProviders;

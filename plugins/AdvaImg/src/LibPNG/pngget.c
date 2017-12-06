@@ -1,4 +1,4 @@
-
+﻿
 /* pngget.c - retrieval of values from info struct
  *
  * Last changed in libpng 1.6.32 [August 24, 2017]

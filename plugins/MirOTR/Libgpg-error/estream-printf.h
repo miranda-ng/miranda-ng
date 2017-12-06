@@ -1,4 +1,4 @@
-/* estream-printf.h - Versatile mostly C-99 compliant printf formatting.
+﻿/* estream-printf.h - Versatile mostly C-99 compliant printf formatting.
  * Copyright (C) 2007, 2010, 2012 g10 Code GmbH
  *
  * This file is part of Libestream.

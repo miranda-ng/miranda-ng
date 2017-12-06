@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_FIPS140_H
+﻿#ifndef CRYPTOPP_FIPS140_H
 #define CRYPTOPP_FIPS140_H
 
 /*! \file

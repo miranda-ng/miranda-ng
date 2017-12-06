@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright © 2009-11 Michal Zelinka, 2011-17 Robert Pösel
 

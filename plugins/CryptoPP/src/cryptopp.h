@@ -1,4 +1,4 @@
-#ifndef __CRYPTOPP_H__
+﻿#ifndef __CRYPTOPP_H__
 #define __CRYPTOPP_H__
 
 #include <queue>

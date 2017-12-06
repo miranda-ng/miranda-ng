@@ -1,4 +1,4 @@
-#include "pfc.h"
+﻿#include "pfc.h"
 
 static void selftest() //never called, testing done at compile time
 {

@@ -1,4 +1,4 @@
-                   Miranda Instant Messenger Change Log
+﻿                   Miranda Instant Messenger Change Log
                    ------------------------------------
                            www.miranda-im.org
 

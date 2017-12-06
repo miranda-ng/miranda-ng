@@ -1,4 +1,4 @@
-#define UM_SETDLGITEMINT          5674
+﻿#define UM_SETDLGITEMINT          5674
 
 #define TIMEOUT_MINVALUE     -1
 #define TIMEOUT_MAXVALUE     99

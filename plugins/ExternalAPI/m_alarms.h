@@ -1,4 +1,4 @@
-#ifndef _ALARMS_H
+﻿#ifndef _ALARMS_H
 #define _ALARMS_H
 
 // flags for alarm action

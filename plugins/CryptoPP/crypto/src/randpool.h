@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_RANDPOOL_H
+﻿#ifndef CRYPTOPP_RANDPOOL_H
 #define CRYPTOPP_RANDPOOL_H
 
 #include "cryptlib.h"

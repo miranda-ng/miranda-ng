@@ -1,4 +1,4 @@
-/* ssl/srtp.h */
+﻿/* ssl/srtp.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *

@@ -1,4 +1,4 @@
-#ifndef __NETLIB_H
+﻿#ifndef __NETLIB_H
 #define __NETLIB_H
 
 class CNLClient: public CNetClient

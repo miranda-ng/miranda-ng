@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "sametime.h"
 
 CSametimeProto* getProtoFromMwConversation(mwConversation* conv)

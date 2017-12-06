@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jidctint.c
  *
  * Copyright (C) 1991-1998, Thomas G. Lane.

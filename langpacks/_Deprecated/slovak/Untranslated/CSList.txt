@@ -1,4 +1,4 @@
-[Custom Status List]
+﻿[Custom Status List]
 [No items available in the database.\nClick the Add button to define some.]
 [Add/Modify Custom Status]
 [Add/Modify]

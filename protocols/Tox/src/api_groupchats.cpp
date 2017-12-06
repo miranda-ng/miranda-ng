@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 /* GROUP CHAT FUNCTIONS: WARNING Group chats will be rewritten so this might change */
 

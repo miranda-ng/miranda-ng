@@ -1,4 +1,4 @@
-#ifndef _foobar2000_sdk_service_h_included_
+﻿#ifndef _foobar2000_sdk_service_h_included_
 #define _foobar2000_sdk_service_h_included_
 
 typedef const void* service_class_ref;

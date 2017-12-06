@@ -1,4 +1,4 @@
-/* This file is a modification of clcfiledrop.h originally 
+﻿/* This file is a modification of clcfiledrop.h originally 
  written by Richard Hughes*/
 
 static HWND	hwndCurDrag	 = NULL;

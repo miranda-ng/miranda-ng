@@ -1,4 +1,4 @@
-#ifndef _FB2K_CORE_API_H_
+﻿#ifndef _FB2K_CORE_API_H_
 #define _FB2K_CORE_API_H_
 
 namespace core_api {

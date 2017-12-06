@@ -1,4 +1,4 @@
-// rijndael.cpp - modified by Chris Morgan <cmorgan@wpi.edu>
+﻿// rijndael.cpp - modified by Chris Morgan <cmorgan@wpi.edu>
 // and Wei Dai from Paulo Baretto's Rijndael implementation
 // The original code and all modifications are in the public domain.
 

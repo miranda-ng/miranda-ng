@@ -1,4 +1,4 @@
-[Server name:]
+﻿[Server name:]
 [Client ID and version]
 [Error display]
 [Use message boxes]

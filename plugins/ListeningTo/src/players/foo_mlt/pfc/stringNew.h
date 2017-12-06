@@ -1,4 +1,4 @@
-namespace pfc {
+﻿namespace pfc {
 	//helper, const methods only
 	class __stringEmpty : public string_base {
 	public:

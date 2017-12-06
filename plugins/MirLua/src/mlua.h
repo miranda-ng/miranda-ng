@@ -1,4 +1,4 @@
-#ifndef _LUA_CORE_H_
+﻿#ifndef _LUA_CORE_H_
 #define _LUA_CORE_H_
 
 struct HandleRefParam

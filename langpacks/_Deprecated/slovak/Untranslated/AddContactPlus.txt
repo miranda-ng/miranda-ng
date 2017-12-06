@@ -1,4 +1,4 @@
-[Add contact]
+﻿[Add contact]
 [Add a contact to your contact list]
 [Account:]
 [Contact ID:]

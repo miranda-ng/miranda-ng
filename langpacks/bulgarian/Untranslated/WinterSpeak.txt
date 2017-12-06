@@ -1,4 +1,4 @@
-[Miranda interface to the Microsoft Speech API.]
+﻿[Miranda interface to the Microsoft Speech API.]
 [Engine Settings]
 [Engine]
 [Pitch]

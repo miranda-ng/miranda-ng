@@ -1,4 +1,4 @@
-[Favorite contacts menu.]
+﻿[Favorite contacts menu.]
 [Hotkey shows menu centered on screen]
 [Align to the right]
 [Dim idle contact icons]

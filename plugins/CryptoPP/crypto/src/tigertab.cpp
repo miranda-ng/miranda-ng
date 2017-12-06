@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "tiger.h"
 
 #ifdef WORD64_AVAILABLE

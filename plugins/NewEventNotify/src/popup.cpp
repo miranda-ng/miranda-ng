@@ -1,4 +1,4 @@
-/*
+﻿/*
   Name: NewEventNotify - Plugin for Miranda IM
   File: popup.c - Displays a popup using the popup-plugin by hrk
   Version: 2.2.3

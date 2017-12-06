@@ -1,4 +1,4 @@
-static IconItem iconList[] =
+﻿static IconItem iconList[] =
 {
 	{ LPGEN("Logo"), "logo", IDI_LOGO },
 	{ LPGEN("Password"), "password", IDI_ICONPASS }

@@ -1,4 +1,4 @@
-#ifndef __3c99e3f7_ecd9_4d9b_8f86_fe293c5fc8e6_HTMLParserMS_h__
+﻿#ifndef __3c99e3f7_ecd9_4d9b_8f86_fe293c5fc8e6_HTMLParserMS_h__
 #define __3c99e3f7_ecd9_4d9b_8f86_fe293c5fc8e6_HTMLParserMS_h__
 
 class CHTMLParserMS : public IHTMLParser

@@ -1,4 +1,4 @@
-#ifndef _PFC_ARRAY_H_
+﻿#ifndef _PFC_ARRAY_H_
 #define _PFC_ARRAY_H_
 
 namespace pfc {

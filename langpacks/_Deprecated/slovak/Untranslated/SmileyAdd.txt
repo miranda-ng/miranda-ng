@@ -1,4 +1,4 @@
-[Smiley categories]
+﻿[Smiley categories]
 [Specify smiley pack for each category]
 [Name:]
 [Preview]

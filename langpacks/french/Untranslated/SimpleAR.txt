@@ -1,4 +1,4 @@
-[Simple Auto Replier.]
+﻿[Simple Auto Replier.]
 [mins]
 [Turn off Autoanswer]
 [Turn on Autoanswer]

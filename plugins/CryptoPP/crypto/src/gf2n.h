@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_GF2N_H
+﻿#ifndef CRYPTOPP_GF2N_H
 #define CRYPTOPP_GF2N_H
 
 /*! \file */

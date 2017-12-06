@@ -1,4 +1,4 @@
-[Gadu-Gadu protocol support for Miranda NG.]
+﻿[Gadu-Gadu protocol support for Miranda NG.]
 [Gadu-Gadu User Details]
 [Gadu-Gadu Number:]
 [Password:]

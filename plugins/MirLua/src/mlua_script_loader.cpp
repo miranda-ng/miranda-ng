@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L) : L(L)
 {

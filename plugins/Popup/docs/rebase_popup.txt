@@ -1,4 +1,4 @@
-=§= TO PLUGIN DEVELOPERS =§=
+﻿=ยง= TO PLUGIN DEVELOPERS =ยง=
 
 This plugin has its Base Address set to:
 0x25020000
@@ -28,5 +28,5 @@ K = 11th letter in the english alphabet.
 37(dec) = 25(Hex)
 
 Base Address can be found/configured:
-§ MSVC++ 6.0
+ยง MSVC++ 6.0
   Project->Settings->Link->Output->Base Address

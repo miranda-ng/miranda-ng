@@ -1,4 +1,4 @@
-/* w32-thread.c - GPGRT thread functions for Windows
+﻿/* w32-thread.c - GPGRT thread functions for Windows
    Copyright (C) 2014 g10 Code GmbH
 
    This file is part of libgpg-error.

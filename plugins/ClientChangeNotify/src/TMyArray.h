@@ -1,4 +1,4 @@
-/*
+﻿/*
 	TMyArray.h - TMyArray template
 	Copyright (c) 2005-2008 Chervov Dmitry
 

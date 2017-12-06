@@ -1,4 +1,4 @@
-//! Service used to access various external (online) track info lookup services, such as freedb, to update file tags with info retrieved from those services.
+﻿//! Service used to access various external (online) track info lookup services, such as freedb, to update file tags with info retrieved from those services.
 class NOVTABLE info_lookup_handler : public service_base {
 public:
 	enum {

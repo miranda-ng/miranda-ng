@@ -1,4 +1,4 @@
-[Show Request icon]
+﻿[Show Request icon]
 [Show Grant icon]
 [Plugin settings]
 [Enable menu item]

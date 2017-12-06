@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 
 CQuotesProviderVisitorFormater::CQuotesProviderVisitorFormater(MCONTACT hContact, wchar_t chr, int nWidth)
 	: m_hContact(hContact),

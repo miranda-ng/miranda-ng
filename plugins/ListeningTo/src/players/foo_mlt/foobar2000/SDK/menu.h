@@ -1,4 +1,4 @@
-class NOVTABLE mainmenu_group : public service_base {
+﻿class NOVTABLE mainmenu_group : public service_base {
 public:
 	virtual GUID get_guid() = 0;
 	virtual GUID get_parent() = 0;

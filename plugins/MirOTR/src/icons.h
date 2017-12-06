@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define ICON_FINISHED (MODULENAME"_finished")
 #define ICON_UNVERIFIED (MODULENAME"_unverified")
 #define ICON_PRIVATE (MODULENAME"_private")

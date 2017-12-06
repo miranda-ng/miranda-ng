@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jmemansi.c
  *
  * Copyright (C) 1992-1996, Thomas G. Lane.

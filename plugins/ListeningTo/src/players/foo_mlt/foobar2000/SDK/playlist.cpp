@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 namespace {
 	class enum_items_callback_retrieve_item : public playlist_manager::enum_items_callback

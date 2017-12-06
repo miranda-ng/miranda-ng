@@ -1,4 +1,4 @@
-[Search and replace]
+﻿[Search and replace]
 [Search for]
 [Exact match]
 [Module name]

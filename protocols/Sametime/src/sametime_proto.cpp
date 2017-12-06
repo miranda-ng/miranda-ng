@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+﻿#include "StdAfx.h"
 #include "sametime.h"
 
 CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserName) :

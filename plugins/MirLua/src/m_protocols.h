@@ -1,4 +1,4 @@
-#ifndef _LUA_M_PROTOCOLS_H_
+﻿#ifndef _LUA_M_PROTOCOLS_H_
 #define _LUA_M_PROTOCOLS_H_
 
 #define MLUA_PROTOCOLS	"m_protocols"

@@ -1,4 +1,4 @@
-#ifndef JSONNODE_H
+﻿#ifndef JSONNODE_H
 #define JSONNODE_H
 
 #include "JSONDefs.h"   //for string type

@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_VMAC_H
+﻿#ifndef CRYPTOPP_VMAC_H
 #define CRYPTOPP_VMAC_H
 
 #include "iterhash.h"

@@ -1,4 +1,4 @@
-/* gspawn-win32-helper.c - Helper program for process launching on Win32.
+﻿/* gspawn-win32-helper.c - Helper program for process launching on Win32.
  *
  *  Copyright 2000 Red Hat, Inc.
  *  Copyright 2000 Tor Lillqvist

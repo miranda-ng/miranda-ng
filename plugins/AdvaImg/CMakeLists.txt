@@ -1,4 +1,4 @@
-file(GLOB SOURCES "src/*.h"
+﻿file(GLOB SOURCES "src/*.h"
 "src/FreeImage/*.h"
 "src/FreeImageToolkit/*.h"
 "src/LibJPEG/*.h"

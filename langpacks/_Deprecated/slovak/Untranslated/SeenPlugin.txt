@@ -1,4 +1,4 @@
-[Last seen options]
+﻿[Last seen options]
 [Last seen menu item]
 [Show icon]
 [User info tab]

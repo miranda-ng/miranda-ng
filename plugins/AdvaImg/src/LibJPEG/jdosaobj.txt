@@ -1,4 +1,4 @@
-This archive contains already-assembled object files for JMEMDOSA.ASM
+﻿This archive contains already-assembled object files for JMEMDOSA.ASM
 of the Independent JPEG Group's JPEG package.  These files will be helpful
 if you want to compile the IJG code for DOS, but don't have an assembler.
 

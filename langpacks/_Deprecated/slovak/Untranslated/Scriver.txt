@@ -1,4 +1,4 @@
-[Behavior]
+﻿[Behavior]
 [Automatically pop up the window when]
 [and stay minimized]
 [Cascade new windows]

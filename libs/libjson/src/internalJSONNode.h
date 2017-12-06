@@ -1,4 +1,4 @@
-#ifndef INTERNAL_JSONNODE_H
+﻿#ifndef INTERNAL_JSONNODE_H
 #define INTERNAL_JSONNODE_H
 
 #include "JSONChildren.h"

@@ -1,4 +1,4 @@
-[Authentication]
+﻿[Authentication]
 [0 - check manually]
 [Feed name]
 [This feed seems to need authentication. Please fill username and password fields:]

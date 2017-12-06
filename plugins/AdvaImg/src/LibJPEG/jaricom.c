@@ -1,4 +1,4 @@
-/*
+﻿/*
  * jaricom.c
  *
  * Developed 1997-2011 by Guido Vollbeding.

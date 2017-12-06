@@ -1,4 +1,4 @@
-#ifndef __93121758_68c7_4836_b571_da84dfe82b84_QuotesProviderDukasCopy_h__
+﻿#ifndef __93121758_68c7_4836_b571_da84dfe82b84_QuotesProviderDukasCopy_h__
 #define __93121758_68c7_4836_b571_da84dfe82b84_QuotesProviderDukasCopy_h__
 
 #define DB_STR_REFRESH_RATE_TYPE "RefreshRateType"

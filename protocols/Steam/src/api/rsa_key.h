@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_RSA_KEY_H_
+﻿#ifndef _STEAM_REQUEST_RSA_KEY_H_
 #define _STEAM_REQUEST_RSA_KEY_H_
 
 class GetRsaKeyRequest : public HttpRequest

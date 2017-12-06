@@ -1,4 +1,4 @@
-[Shows a splash at Miranda startup.]
+﻿[Shows a splash at Miranda startup.]
 [Show splash]
 [Show random splash]
 [Play sound]

@@ -1,4 +1,4 @@
-[HTTP Web Server plugin for Miranda.]
+﻿[HTTP Web Server plugin for Miranda.]
 [Mask]
 [Share name]
 [HTTP Server statistics view]

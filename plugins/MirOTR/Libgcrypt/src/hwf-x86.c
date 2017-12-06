@@ -1,4 +1,4 @@
-/* hwf-x86.c - Detect hardware features - x86 part
+﻿/* hwf-x86.c - Detect hardware features - x86 part
  * Copyright (C) 2007, 2011, 2012  Free Software Foundation, Inc.
  * Copyright (C) 2012  Jussi Kivilinna
  *

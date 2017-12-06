@@ -1,4 +1,4 @@
-[Smiley support for Miranda NG.]
+﻿[Smiley support for Miranda NG.]
 [Author:]
 [Version:]
 [Use per protocol global smiley packs]

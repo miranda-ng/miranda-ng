@@ -1,4 +1,4 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Включаемый файл, созданный в Microsoft Visual C++.
 // Используется D:\Others\SVN\MirandaNG\trunk\plugins\Db3x_mmap\res\db3x_mmap.rc
 //

@@ -1,4 +1,4 @@
-#ifndef _STATUS_ICON_INC
+﻿#ifndef _STATUS_ICON_INC
 #define _STATUS_ICON_INC
 
 extern HANDLE hHookIconPressedEvt;

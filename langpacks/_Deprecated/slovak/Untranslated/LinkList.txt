@@ -1,4 +1,4 @@
-[Search for:]
+﻿[Search for:]
 [Message direction]
 [Message types]
 [All directions]

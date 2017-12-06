@@ -1,4 +1,4 @@
-/* Wrapper for XP theme */
+﻿/* Wrapper for XP theme */
 typedef void * XPTHANDLE;
 typedef HANDLE HTHEME;
 

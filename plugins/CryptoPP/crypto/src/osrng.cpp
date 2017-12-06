@@ -1,4 +1,4 @@
-// osrng.cpp - written and placed in the public domain by Wei Dai
+﻿// osrng.cpp - written and placed in the public domain by Wei Dai
 
 // Thanks to Leonard Janke for the suggestion for AutoSeededRandomPool.
 

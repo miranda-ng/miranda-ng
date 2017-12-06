@@ -1,4 +1,4 @@
-#include <stdint.h>
+﻿#include <stdint.h>
 typedef uint64_t uint64;
 
 static uint64 load_bigendian(const unsigned char *x)

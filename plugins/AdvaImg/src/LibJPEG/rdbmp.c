@@ -1,4 +1,4 @@
-/*
+﻿/*
  * rdbmp.c
  *
  * Copyright (C) 1994-1996, Thomas G. Lane.

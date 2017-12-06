@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_AUTHORIZATION_H_
+﻿#ifndef _STEAM_REQUEST_AUTHORIZATION_H_
 #define _STEAM_REQUEST_AUTHORIZATION_H_
 
 class AuthorizationRequest : public HttpRequest

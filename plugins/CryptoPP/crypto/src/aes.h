@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_AES_H
+﻿#ifndef CRYPTOPP_AES_H
 #define CRYPTOPP_AES_H
 
 #include "rijndael.h"

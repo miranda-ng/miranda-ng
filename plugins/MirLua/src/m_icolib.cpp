@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 static void MakeSKINICONDESC(lua_State *L, SKINICONDESC &sid)
 {

@@ -1,4 +1,4 @@
-#include "..\stdafx.h"
+﻿#include "..\stdafx.h"
 #include "dropbox_api.h"
 
 CDropboxService::CDropboxService(HNETLIBUSER hConnection)

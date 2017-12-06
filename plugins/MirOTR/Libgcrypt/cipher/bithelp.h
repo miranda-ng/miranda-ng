@@ -1,4 +1,4 @@
-/* bithelp.h  -  Some bit manipulation helpers
+﻿/* bithelp.h  -  Some bit manipulation helpers
  *	Copyright (C) 1999, 2002 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

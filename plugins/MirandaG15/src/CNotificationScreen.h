@@ -1,4 +1,4 @@
-#ifndef _CNOTIFICATIONSCREEN_H_
+﻿#ifndef _CNOTIFICATIONSCREEN_H_
 #define _CNOTIFICATIONSCREEN_H_
 
 #include "CScreen.h"

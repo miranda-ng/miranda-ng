@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 Copyright (C) 2008 Jan Holub
 
 This is free software; you can redistribute it and/or

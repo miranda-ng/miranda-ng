@@ -1,4 +1,4 @@
-	       Off-The-Record Wire Protocol Documentation
+﻿	       Off-The-Record Wire Protocol Documentation
 	       ------------------------------------------
 
 		    Nikita Borisov and Ian Goldberg

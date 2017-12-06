@@ -1,4 +1,4 @@
-/*
+﻿/*
  * YAMN plugin export functions for filtering
  *
  * (c) majvan 2002-2004

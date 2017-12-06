@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2006-2007 Scott Ellis
 Copyright (C) 2007-2011 Jan Holub
 

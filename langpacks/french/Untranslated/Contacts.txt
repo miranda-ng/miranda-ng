@@ -1,4 +1,4 @@
-[Allows you to send and receive contacts.]
+﻿[Allows you to send and receive contacts.]
 [&Select All]
 [Popup]
 [Send Message]

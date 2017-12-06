@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2010 Unsane
 
 This is free software; you can redistribute it and/or

@@ -1,4 +1,4 @@
-#ifndef commonheaders_h__
+﻿#ifndef commonheaders_h__
 #define commonheaders_h__
 
 /*

@@ -1,4 +1,4 @@
-[IE Based Chat Log.]
+﻿[IE Based Chat Log.]
 [Embed YouTube videos]
 [IID_IOleObject failed.]
 [IID_IOleInPlaceObject failed.]

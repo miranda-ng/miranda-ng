@@ -1,4 +1,4 @@
-#ifndef _SERVICES_INC
+﻿#ifndef _SERVICES_INC
 #define _SERVICES_INC
 
 void InitServices();

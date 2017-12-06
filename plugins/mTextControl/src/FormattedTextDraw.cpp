@@ -1,4 +1,4 @@
-// Feel free to use this code in your own applications.
+﻿// Feel free to use this code in your own applications.
 // The Author does not guarantee anything about this code.
 // Author : Yves Maurer
 

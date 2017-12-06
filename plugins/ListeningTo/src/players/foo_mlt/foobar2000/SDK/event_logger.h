@@ -1,4 +1,4 @@
-class NOVTABLE event_logger : public service_base {
+﻿class NOVTABLE event_logger : public service_base {
 	FB2K_MAKE_SERVICE_INTERFACE(event_logger, service_base);
 public:
 	enum {

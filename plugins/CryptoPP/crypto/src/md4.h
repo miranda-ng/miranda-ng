@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_MD4_H
+﻿#ifndef CRYPTOPP_MD4_H
 #define CRYPTOPP_MD4_H
 
 #include "iterhash.h"

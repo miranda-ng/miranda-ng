@@ -1,4 +1,4 @@
-/*
+﻿/*
  * wrtarga.c
  *
  * Copyright (C) 1991-1996, Thomas G. Lane.

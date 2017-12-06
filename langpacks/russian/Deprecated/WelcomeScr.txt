@@ -1,4 +1,4 @@
-;============================================================
+﻿;============================================================
 ;  File: welcomescr.dll
 ;  Module: This plugin writes unread events counts ofor each protocol to Welcome screen in Windows XP.
 ;  Versions: 1.1.1.1 - 1.1.3.1

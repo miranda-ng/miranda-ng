@@ -1,4 +1,4 @@
-#include "m_button.h"
+﻿#include "m_button.h"
 
 #define MBM_UPDATETRANSPARENTFLAG	WM_USER+52
 #define MBM_SETICOLIBHANDLE			WM_USER+53

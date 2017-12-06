@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include <wrl.h>
 using namespace Microsoft::WRL;
 

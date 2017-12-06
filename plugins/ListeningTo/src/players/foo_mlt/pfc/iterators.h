@@ -1,4 +1,4 @@
-namespace pfc {
+﻿namespace pfc {
 	//! Base class for list nodes. Implemented by list implementers.
 	template<typename t_item> class _list_node : public refcounted_object_root {
 	public:

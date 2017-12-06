@@ -1,4 +1,4 @@
-#ifndef _TOX_OPTIONS_H_
+﻿#ifndef _TOX_OPTIONS_H_
 #define _TOX_OPTIONS_H_
 
 class CToxOptionsMain : public CToxDlgBase

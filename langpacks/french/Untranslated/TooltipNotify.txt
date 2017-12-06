@@ -1,4 +1,4 @@
-[Shows a small tooltip above system tray area when a contact status is changed.]
+﻿[Shows a small tooltip above system tray area when a contact status is changed.]
 [Select protocols]
 [Prefix protocol name]
 [Misc]

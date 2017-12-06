@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 void MakeHotkey(lua_State *L, HOTKEYDESC &hk)
 {

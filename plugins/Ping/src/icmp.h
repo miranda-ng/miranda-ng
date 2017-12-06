@@ -1,4 +1,4 @@
-// adapted 23/9/2004 from public domain code at http://tangentsoft.net/wskfaq/examples/dllping.html
+﻿// adapted 23/9/2004 from public domain code at http://tangentsoft.net/wskfaq/examples/dllping.html
 
 #ifndef _ICMP_H
 #define _ICMP_H

@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 AddContact+ plugin for Miranda IM
 

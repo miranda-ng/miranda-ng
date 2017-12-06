@@ -1,4 +1,4 @@
-class cfg_guidlist : public cfg_var, public pfc::list_t<GUID>
+﻿class cfg_guidlist : public cfg_var, public pfc::list_t<GUID>
 {
 public:
 	void get_data_raw(stream_writer * p_stream,abort_callback & p_abort) {

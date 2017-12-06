@@ -1,4 +1,4 @@
-Exchange mail notifier plugin v.0.1.3.4
+﻿Exchange mail notifier plugin v.0.1.3.4
 Copyright © 2006-2009 Cristian Libotean, Attila Vajda, MaKaR
 
 This plugin notifies you if you have unread emails on an exchange server.

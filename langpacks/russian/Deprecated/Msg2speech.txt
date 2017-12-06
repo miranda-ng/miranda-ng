@@ -1,4 +1,4 @@
-#muuid {02b563f1-8719-47b6-b619-d8a765c5f89e}
+﻿#muuid {02b563f1-8719-47b6-b619-d8a765c5f89e}
 ;============================================================
 ;  File: msg2speech.dll
 ;  Module: msg2speech. Speaks incoming text messages using Acapela Group Speech API

@@ -1,2 +1,2 @@
-[Divider:]
+﻿[Divider:]
 [Divider: %s]

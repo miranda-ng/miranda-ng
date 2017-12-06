@@ -1,4 +1,4 @@
-[Replacements]
+﻿[Replacements]
 [Enable auto-replacements]
 [Add...]
 [Edit...]

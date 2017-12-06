@@ -1,4 +1,4 @@
-
+﻿
 #ifndef __CRYPTO_ADDITIONS__
 #define __CRYPTO_ADDITIONS__
 

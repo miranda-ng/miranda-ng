@@ -1,4 +1,4 @@
-// test.cpp - written and placed in the public domain by Wei Dai
+﻿// test.cpp - written and placed in the public domain by Wei Dai
 
 #define _CRT_SECURE_NO_DEPRECATE
 #define CRYPTOPP_DEFAULT_NO_DLL

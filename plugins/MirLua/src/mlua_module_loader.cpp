@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 CMLuaModuleLoader::CMLuaModuleLoader(lua_State *L) : L(L)
 {

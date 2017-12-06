@@ -1,4 +1,4 @@
-[Plugin for quick insert (or sending) pre-defined messages in message input area.]
+﻿[Plugin for quick insert (or sending) pre-defined messages in message input area.]
 [Quick Replies]
 [Send replies immediately]
 [- Add your replies, one per line.]

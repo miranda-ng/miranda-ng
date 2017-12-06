@@ -1,4 +1,4 @@
-[ClientChangeNotify error]
+﻿[ClientChangeNotify error]
 [Fingerprint plugin not found.]
 [ClientChangeNotify requires it to work properly.]
 [Don't remind me anymore]

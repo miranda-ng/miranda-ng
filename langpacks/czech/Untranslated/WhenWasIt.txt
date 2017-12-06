@@ -1,4 +1,4 @@
-[days in advance and]
+﻿[days in advance and]
 [Notify for]
 [afterwards]
 [Upcoming birthdays]

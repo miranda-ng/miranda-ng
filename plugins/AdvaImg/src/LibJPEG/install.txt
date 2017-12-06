@@ -1,4 +1,4 @@
-INSTALLATION INSTRUCTIONS for the Independent JPEG Group's JPEG software
+﻿INSTALLATION INSTRUCTIONS for the Independent JPEG Group's JPEG software
 
 Copyright (C) 1991-2015, Thomas G. Lane, Guido Vollbeding.
 This file is part of the Independent JPEG Group's software.

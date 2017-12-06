@@ -1,4 +1,4 @@
-/* gchecksum.h - data hashing functions
+﻿/* gchecksum.h - data hashing functions
  *
  * Copyright (C) 2007  Emmanuele Bassi  <ebassi@gnome.org>
  *

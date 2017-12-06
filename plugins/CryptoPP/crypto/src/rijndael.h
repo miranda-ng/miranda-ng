@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_RIJNDAEL_H
+﻿#ifndef CRYPTOPP_RIJNDAEL_H
 #define CRYPTOPP_RIJNDAEL_H
 
 /** \file

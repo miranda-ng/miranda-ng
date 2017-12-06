@@ -1,4 +1,4 @@
-[ENE]
+﻿[ENE]
 [ESE]
 [E]
 [East]

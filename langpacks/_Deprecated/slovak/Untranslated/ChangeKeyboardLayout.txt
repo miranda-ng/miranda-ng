@@ -1,4 +1,4 @@
-[Changing layout:]
+﻿[Changing layout:]
 ["Current word" mode]
 [Changing layout (alternative):]
 [Inverting lettercase:]

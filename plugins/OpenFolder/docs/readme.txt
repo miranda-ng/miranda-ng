@@ -1,4 +1,4 @@
-OpenFolder v1.0.4.0
+﻿OpenFolder v1.0.4.0
 by Kreisquadratur 2004
 email:	djui@kreisquadratur.de
 ICQ:	56165405

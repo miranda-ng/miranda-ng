@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_SOSEMANUK_H
+﻿#ifndef CRYPTOPP_SOSEMANUK_H
 #define CRYPTOPP_SOSEMANUK_H
 
 #include "strciphr.h"

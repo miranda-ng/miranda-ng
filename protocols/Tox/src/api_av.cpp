@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 /* COMMON A/V FUNCTIONS */
 

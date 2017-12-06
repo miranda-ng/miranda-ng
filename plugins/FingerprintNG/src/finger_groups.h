@@ -1,4 +1,4 @@
-case MIRANDA_CASE:
+﻿case MIRANDA_CASE:
 	if (db_get_b(NULL, MODULENAME, "GroupMiranda", 1))
 		return LPGENW("Client icons") L"/" LPGENW("Miranda clients");
 	break;

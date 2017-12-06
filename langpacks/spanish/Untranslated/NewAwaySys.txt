@@ -1,4 +1,4 @@
-[Allows you to handle your status messages in a convenient way.]
+﻿[Allows you to handle your status messages in a convenient way.]
 [Enable autoreply]
 [On event...]
 [Don't reply to ICQ contacts]

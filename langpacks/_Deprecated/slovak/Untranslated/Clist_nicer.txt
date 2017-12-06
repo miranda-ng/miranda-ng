@@ -1,4 +1,4 @@
-[Clist nicer exception]
+﻿[Clist nicer exception]
 [Copy to clipboard]
 [Continue]
 [Exit Miranda]

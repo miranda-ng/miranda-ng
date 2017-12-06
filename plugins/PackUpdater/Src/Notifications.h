@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2011-2017 Mataes
 
 This is free software; you can redistribute it and/or

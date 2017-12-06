@@ -1,4 +1,4 @@
-#ifndef _COMMONHEADERS_H
+﻿#ifndef _COMMONHEADERS_H
 #define _COMMONHEADERS_H
 
 #define WIN32_LEAN_AND_MEAN

@@ -1,4 +1,4 @@
-#include "commonheaders.h"
+﻿#include "commonheaders.h"
 
 INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM lParam)
 {

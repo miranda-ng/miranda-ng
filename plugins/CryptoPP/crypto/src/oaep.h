@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_OAEP_H
+﻿#ifndef CRYPTOPP_OAEP_H
 #define CRYPTOPP_OAEP_H
 
 #include "pubkey.h"

@@ -1,4 +1,4 @@
-[A contact list for blind folks.]
+﻿[A contact list for blind folks.]
 [Hotkeys]
 [Show/Hide:]
 [Read message:]

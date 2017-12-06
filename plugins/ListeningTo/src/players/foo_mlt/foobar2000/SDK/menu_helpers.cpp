@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 
 
 bool menu_helpers::context_get_description(const GUID& p_guid,pfc::string_base & out) {

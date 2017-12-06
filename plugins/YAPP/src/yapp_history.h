@@ -1,4 +1,4 @@
-#ifndef __yapp_history_h__
+﻿#ifndef __yapp_history_h__
 #define __yapp_history_h__
 
 /****HISTORY ++ STUFF ***/

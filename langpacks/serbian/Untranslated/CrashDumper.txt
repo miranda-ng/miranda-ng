@@ -1,4 +1,4 @@
-[Crash Dumper and Version Information for Miranda NG.]
+﻿[Crash Dumper and Version Information for Miranda NG.]
 [View Version Information]
 [Copy To Clipboard]
 [To File]

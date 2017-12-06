@@ -1,4 +1,4 @@
-/*
+﻿/*
 former MetaContacts Plugin for Miranda IM.
 
 Copyright © 2014 Miranda NG Team

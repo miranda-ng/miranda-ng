@@ -1,4 +1,4 @@
-Wannabe (Miranda's) OSD
+﻿Wannabe (Miranda's) OSD
 (c)2005 Andrej Krutak
 Distribute under the GNU GPL 2.0 license
 

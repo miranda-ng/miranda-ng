@@ -1,4 +1,4 @@
-namespace pfc {
+﻿namespace pfc {
 	PFC_DECLARE_EXCEPTION( exception_invalid_permutation, exception_invalid_params, "Invalid permutation" );
 	t_size permutation_find_reverse(t_size const * order, t_size count, t_size value);
 

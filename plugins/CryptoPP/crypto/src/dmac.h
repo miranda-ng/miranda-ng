@@ -1,4 +1,4 @@
-#ifndef CRYPTOPP_DMAC_H
+﻿#ifndef CRYPTOPP_DMAC_H
 #define CRYPTOPP_DMAC_H
 
 #include "cbcmac.h"

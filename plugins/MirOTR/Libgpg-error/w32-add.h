@@ -1,4 +1,4 @@
-## w32-add.h - Snippet to be be included into gpg-error.h.
+﻿## w32-add.h - Snippet to be be included into gpg-error.h.
 ## Comments are indicated by a double hash mark.  Due to a
 ## peculiarity of the script the first used line must not
 ## start with a hash mark.

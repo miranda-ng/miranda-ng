@@ -1,4 +1,4 @@
-/* mpi-bit.c  -  MPI bit level functions
+﻿/* mpi-bit.c  -  MPI bit level functions
  * Copyright (C) 1998, 1999, 2001, 2002, 2006 Free Software Foundation, Inc.
  * Copyright (C) 2013  g10 Code GmbH
  *

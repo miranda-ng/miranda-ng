@@ -1,4 +1,4 @@
-/* w32-gettext.h - A simple gettext implementation for Windows targets.
+﻿/* w32-gettext.h - A simple gettext implementation for Windows targets.
    Copyright (C) 1995, 1996, 1997, 1999, 2005, 2007,
                  2008, 2010 Free Software Foundation, Inc.
 

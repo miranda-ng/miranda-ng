@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright (C) 1999, 2000, 2002 Aladdin Enterprises.  All rights reserved.
 
   This software is provided 'as-is', without any express or implied

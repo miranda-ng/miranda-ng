@@ -1,4 +1,4 @@
-/* random.h - random functions
+﻿/* random.h - random functions
  *	Copyright (C) 1998, 2002, 2006 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

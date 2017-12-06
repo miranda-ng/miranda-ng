@@ -1,4 +1,4 @@
-/*
+﻿/*
 CmdLine plugin for Miranda IM
 
 Copyright � 2007 Cristian Libotean

@@ -1,4 +1,4 @@
-USAGE instructions for the Independent JPEG Group's JPEG software
+﻿USAGE instructions for the Independent JPEG Group's JPEG software
 =================================================================
 
 This file describes usage of the JPEG conversion programs cjpeg and djpeg,

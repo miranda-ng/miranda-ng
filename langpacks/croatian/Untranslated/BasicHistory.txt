@@ -1,4 +1,4 @@
-[History viewer for Miranda NG.]
+﻿[History viewer for Miranda NG.]
 [Message History]
 [Settings]
 [Always show contact list]

@@ -1,4 +1,4 @@
-namespace pfc {
+﻿namespace pfc {
 
 	static void * raw_malloc(t_size p_size) {
 		return p_size > 0 ? new_ptr_check_t(malloc(p_size)) : NULL;

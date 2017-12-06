@@ -1,4 +1,4 @@
-#ifndef _STEAM_REQUEST_PENDING_H_
+﻿#ifndef _STEAM_REQUEST_PENDING_H_
 #define _STEAM_REQUEST_PENDING_H_
 
 class ApprovePendingRequest : public HttpRequest

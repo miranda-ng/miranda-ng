@@ -1,4 +1,4 @@
-/* GLIB - Library of useful routines for C programming
+﻿/* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1998  Peter Mattis, Spencer Kimball and Josh MacDonald
  * Copyright (C) 1998-1999  Tor Lillqvist
  *

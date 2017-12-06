@@ -1,4 +1,4 @@
-/*
+﻿/*
 -------------------------------------------------------------------------------
 lookup3.c, by Bob Jenkins, May 2006, Public Domain.
 These are functions for producing 32-bit hashes for hash table lookup.

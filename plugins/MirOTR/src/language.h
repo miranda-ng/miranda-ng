@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define LANG_INLINE_PREFIX	            "[OTR INFO] "
 

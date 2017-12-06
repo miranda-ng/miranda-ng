@@ -1,4 +1,4 @@
-#ifndef __IMAGE_UTILS_H__
+﻿#ifndef __IMAGE_UTILS_H__
 #define __IMAGE_UTILS_H__
 
 HICON BindOverlayIcon(HICON,HICON);

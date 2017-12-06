@@ -1,4 +1,4 @@
-/* GLIB - Library of useful routines for C programming
+﻿/* GLIB - Library of useful routines for C programming
  * Copyright (C) 1995-1997  Peter Mattis, Spencer Kimball and Josh MacDonald
  *
  * gdataset.c: Generic dataset mechanism, similar to GtkObject data.

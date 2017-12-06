@@ -1,4 +1,4 @@
-/* version.c - Version checking
+﻿/* version.c - Version checking
  * Copyright (C) 2001, 2002, 2012, 2013, 2014 g10 Code GmbH
  *
  * This file is part of libgpg-error.

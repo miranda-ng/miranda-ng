@@ -1,4 +1,4 @@
-/* gmarkup.h - Simple XML-like string parser/writer
+﻿/* gmarkup.h - Simple XML-like string parser/writer
  *
  *  Copyright 2000 Red Hat, Inc.
  *

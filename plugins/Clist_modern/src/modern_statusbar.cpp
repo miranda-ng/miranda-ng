@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "modern_statusbar.h"
 #include "m_skin_eng.h"
 #include "modern_clcpaint.h"

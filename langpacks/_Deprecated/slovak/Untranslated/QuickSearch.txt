@@ -1,4 +1,4 @@
-[Quick Search]
+﻿[Quick Search]
 [Quick search]
 [Title]
 [Module/InfoType]

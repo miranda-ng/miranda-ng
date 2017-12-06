@@ -1,4 +1,4 @@
-#ifndef _PINGGRAPH_H
+﻿#ifndef _PINGGRAPH_H
 #define _PINGGRAPH_H
 
 #define MIN_GRAPH_HEIGHT		10		// minimum braph height, ms

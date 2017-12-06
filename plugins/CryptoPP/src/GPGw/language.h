@@ -1,4 +1,4 @@
-#ifndef __TEXT_H__
+﻿#ifndef __TEXT_H__
 #define __TEXT_H__
 
 // textkonstanten, die uebersetzt werden muessen

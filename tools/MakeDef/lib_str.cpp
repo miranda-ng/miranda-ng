@@ -1,4 +1,4 @@
-#include <string.h>
+﻿#include <string.h>
 
 #include "h_util.h"
 

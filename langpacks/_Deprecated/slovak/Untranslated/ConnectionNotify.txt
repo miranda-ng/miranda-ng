@@ -1,4 +1,4 @@
-[Set popup colors]
+﻿[Set popup colors]
 [Close after:]
 [sec (0 default, -1 disabled)]
 [Settings]

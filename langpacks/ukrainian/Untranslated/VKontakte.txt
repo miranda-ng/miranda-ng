@@ -1,4 +1,4 @@
-[Add message link to messages with attachments]
+﻿[Add message link to messages with attachments]
 [Notify about changes of contacts audio broadcast]
 [Load last messages when message window open and local history is empty]
 [Load only friends to local contact list]

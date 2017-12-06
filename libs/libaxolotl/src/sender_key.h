@@ -1,4 +1,4 @@
-#ifndef SENDER_KEY
+﻿#ifndef SENDER_KEY
 #define SENDER_KEY
 
 #include <stdint.h>

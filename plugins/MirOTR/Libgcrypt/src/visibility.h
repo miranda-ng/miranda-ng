@@ -1,4 +1,4 @@
-/* visibility.h - Set visibility attribute
+﻿/* visibility.h - Set visibility attribute
  * Copyright (C) 2007  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

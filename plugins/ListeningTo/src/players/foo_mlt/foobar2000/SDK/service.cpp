@@ -1,4 +1,4 @@
-#include "foobar2000.h"
+﻿#include "foobar2000.h"
 #include "component.h"
 
 foobar2000_api * g_foobar2000_api = NULL;

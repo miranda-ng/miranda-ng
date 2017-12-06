@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 HGENMENU CToxProto::ContactMenuItems[CMI_MAX];
 

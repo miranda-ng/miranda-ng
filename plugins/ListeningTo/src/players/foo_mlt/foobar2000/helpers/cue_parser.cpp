@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 namespace {
 	PFC_DECLARE_EXCEPTION(exception_cue,pfc::exception,"Invalid cuesheet");

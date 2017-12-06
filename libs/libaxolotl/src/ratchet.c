@@ -1,4 +1,4 @@
-#include "ratchet.h"
+﻿#include "ratchet.h"
 
 #include <stdio.h>
 #include <stdlib.h>
