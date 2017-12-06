@@ -62,7 +62,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 MUUID Interfaces[2] = {0};
 MUUID miidAutoAway = MIID_AUTOAWAY;
 
-
 MUUID* GetInterfaces(void)
 {
 	if (IsSubPluginEnabled(AAAMODULENAME))
@@ -75,8 +74,11 @@ extern "C" __declspec(dllexport) MUUID* MirandaInterfaces = GetInterfaces();
 /////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
 
+bool g_bMirandaLoaded = false;
+
 int OnModulesLoaded(WPARAM, LPARAM)
 {
+	g_bMirandaLoaded = true;
 	HookEvent(ME_OPT_INITIALISE, CSubPluginsOptionsDlg::OnOptionsInit);
 	return 0;
 }
@@ -96,7 +98,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		StartupStatusLoad();
 	if (IsSubPluginEnabled(AAAMODULENAME))
 		AdvancedAutoAwayLoad();
-
 	return 0;
 }
 
@@ -105,9 +106,11 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	KeepStatusUnload();
-	StartupStatusUnload();
-	AdvancedAutoAwayUnload();
-
+	if (IsSubPluginEnabled(KSMODULENAME))
+		KeepStatusUnload();
+	if (IsSubPluginEnabled(SSMODULENAME))
+		StartupStatusUnload();
+	if (IsSubPluginEnabled(AAAMODULENAME))
+		AdvancedAutoAwayUnload();
 	return 0;
 }

@@ -1,8 +1,8 @@
 // plugin version part
-#define __MAJOR_VERSION          0
-#define __MINOR_VERSION          11
-#define __RELEASE_NUM            2
-#define __BUILD_NUM              3
+#define __MAJOR_VERSION          1
+#define __MINOR_VERSION          0
+#define __RELEASE_NUM            1
+#define __BUILD_NUM              1
 
 // other stuff for Version resource
 #include <stdver.h>

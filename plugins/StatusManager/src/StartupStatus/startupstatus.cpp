@@ -19,6 +19,9 @@
 
 #include "..\stdafx.h"
 
+int SSLangPack;
+
+static HANDLE hServices[3], hEvents[4];
 static UINT_PTR setStatusTimerId = 0;
 
 static TSettingsList startupSettings(10, SSCompareSettings);
@@ -394,12 +397,12 @@ int SSModuleLoaded(WPARAM, LPARAM)
 
 	InitProfileModule();
 
-	HookEvent(ME_PROTO_ACCLISTCHANGED, OnSSAccChanged);
-	HookEvent(ME_OPT_INITIALISE, StartupStatusOptionsInit);
+	hEvents[0] = HookEvent(ME_PROTO_ACCLISTCHANGED, OnSSAccChanged);
+	hEvents[1] = HookEvent(ME_OPT_INITIALISE, StartupStatusOptionsInit);
 
 	/* shutdown hook for normal shutdown */
-	HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
+	hEvents[2] = HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
+	hEvents[3] = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	/* message window for poweroff */
 	hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
@@ -481,7 +484,13 @@ static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
 
 void StartupStatusLoad()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
+	SSLangPack = GetPluginLangId(MIID_LAST, 0);
+
+	if (g_bMirandaLoaded) {
+		SSModuleLoaded(0, 0);
+		StartupStatusOptionsInit(0, 0);
+	}
+	else HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
 	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
 		db_set_w(0, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
@@ -496,14 +505,29 @@ void StartupStatusLoad()
 	}
 
 	// Create service functions; the get functions are created here; they don't rely on commonstatus
-	CreateServiceFunction(MS_SS_GETPROFILE, SrvGetProfile);
-	CreateServiceFunction(MS_SS_GETPROFILECOUNT, GetProfileCount);
-	CreateServiceFunction(MS_SS_GETPROFILENAME, GetProfileName);
+	hServices[0] = CreateServiceFunction(MS_SS_GETPROFILE, SrvGetProfile);
+	hServices[1] = CreateServiceFunction(MS_SS_GETPROFILECOUNT, GetProfileCount);
+	hServices[2] = CreateServiceFunction(MS_SS_GETPROFILENAME, GetProfileName);
 
 	LoadProfileModule();
 }
 
 void StartupStatusUnload()
 {
+	if (g_bMirandaLoaded)
+		OnShutdown(0, 0);
+
+	KillModuleOptions(SSLangPack);
+
+	for (int i = 0; i < _countof(hServices); i++) {
+		DestroyServiceFunction(hServices[i]);
+		hServices[i] = nullptr;
+	}
+
+	for (int i = 0; i < _countof(hEvents); i++) {
+		UnhookEvent(hEvents[i]);
+		hEvents[i] = nullptr;
+	}
+
 	DeinitProfilesModule();
 }

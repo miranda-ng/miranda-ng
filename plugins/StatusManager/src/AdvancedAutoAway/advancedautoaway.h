@@ -79,6 +79,6 @@ typedef OBJLIST<TAAAProtoSetting> TAAAProtoSettingList;
 extern TAAAProtoSettingList autoAwaySettings;
 
 int  LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char *protoName);
-void AAALoadOptions(TAAAProtoSettingList &settings, BOOL override);
+void AAALoadOptions(TAAAProtoSettingList &settings, bool override);
 
 #endif

@@ -328,7 +328,9 @@ int DeinitProfilesModule()
 		for (int i = 0; i < pceCount; i++)
 			free(pce[i].szProto);
 		free(pce);
+		pce = nullptr;
 	}
+	pceCount = 0;
 
 	UnregisterHotKeys();
 	RemoveTopToolbarButtons();

@@ -30,8 +30,6 @@ OBJLIST<PROTOCOLSETTINGEX> *protoList;
 char* StatusModeToDbSetting(int status, const char *suffix);
 DWORD StatusModeToProtoFlag(int status);
 INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam);
-int InitCommonStatus();
-int GetProtoCount();
 
 // some helpers from awaymsg.c ================================================================
 char *StatusModeToDbSetting(int status, const char *suffix)
@@ -252,16 +250,6 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 
 static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 {
-	return GetProtoCount();
-}
-
-bool IsSuitableProto(PROTOACCOUNT *pa)
-{
-	return (pa == nullptr) ? false : (pcli->pfnGetProtocolVisibility(pa->szModuleName) != 0);
-}
-
-int GetProtoCount()
-{
 	int pCount = 0, count;
 	PROTOACCOUNT **accs;
 	Proto_EnumAccounts(&count, &accs);
@@ -271,6 +259,11 @@ int GetProtoCount()
 			pCount++;
 
 	return pCount;
+}
+
+bool IsSuitableProto(PROTOACCOUNT *pa)
+{
+	return (pa == nullptr) ? false : (pcli->pfnGetProtocolVisibility(pa->szModuleName) != 0);
 }
 
 static int CreateServices()
@@ -287,6 +280,7 @@ static int CreateServices()
 
 static int onShutdown(WPARAM, LPARAM)
 {
+	g_bMirandaLoaded = false;
 	DestroyHookableEvent(hCSStatusChangedExEvent);
 	return 0;
 }

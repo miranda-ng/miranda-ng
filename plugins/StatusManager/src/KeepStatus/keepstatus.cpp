@@ -19,19 +19,10 @@
 
 #include "..\stdafx.h"
 
-struct TimerInfo
-{
-	int timer;
-	int timeout;
-	BOOL restart;
-	int result;
-	HANDLE hEvent;
-};
+int KSLangPack;
 
-HANDLE hMainThread = nullptr;
-unsigned long mainThreadId = 0;
-
-HANDLE hConnectionEvent = nullptr;
+static HANDLE hConnectionEvent = nullptr;
+static HANDLE hServices[4], hEvents[3];
 
 static mir_cs GenTimerCS, GenStatusCS, CheckContinueslyCS;
 
@@ -67,7 +58,6 @@ static int showConnectionPopups = 0;
 // prototypes
 static int StartTimer(int timer, int timeout, BOOL restart);
 static int StopTimer(int timer);
-static void GetCurrentConnectionSettings();
 static int ProcessProtoAck(WPARAM wParam, LPARAM lParam);
 static VOID CALLBACK CheckConnectingTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 static VOID CALLBACK CheckAckStatusTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
@@ -88,6 +78,8 @@ static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 // options.c
 extern int KeepStatusOptionsInit(WPARAM wparam, LPARAM);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 TKSSettings::TKSSettings(PROTOACCOUNT *pa)
 {
 	m_szName = pa->szModuleName;
@@ -102,7 +94,9 @@ TKSSettings::~TKSSettings()
 		free(m_szMsg);
 }
 
-int KSLoadOptions()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void KSUnloadOptions()
 {
 	UnhookEvent(hProtoAckHook);
 	UnhookEvent(hStatusChangeHook);
@@ -118,7 +112,20 @@ int KSLoadOptions()
 
 	StopTimer(IDT_CHECKCONN | IDT_PROCESSACK | IDT_AFTERCHECK | IDT_CHECKCONTIN | IDT_CHECKCONNECTING);
 
-	GetCurrentConnectionSettings();
+	connectionSettings.destroy();
+}
+
+int KSLoadOptions()
+{
+	KSUnloadOptions();
+
+	int count;
+	PROTOACCOUNT** protos;
+	Proto_EnumAccounts(&count, &protos);
+
+	for (int i = 0; i < count; i++)
+		if (IsSuitableProto(protos[i]))
+			connectionSettings.insert(new TKSSettings(protos[i]));
 
 	if (db_get_b(0, KSMODULENAME, SETTING_CHECKCONNECTION, FALSE)) {
 		if (db_get_b(0, KSMODULENAME, SETTING_CONTCHECK, FALSE)) {
@@ -151,18 +158,7 @@ int KSLoadOptions()
 	return 0;
 }
 
-static void GetCurrentConnectionSettings()
-{
-	connectionSettings.destroy();
-
-	int count;
-	PROTOACCOUNT** protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(protos[i]))
-			connectionSettings.insert(new TKSSettings(protos[i]));
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 {
@@ -350,80 +346,85 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int StartTimerFunction(int timer, int timeout, BOOL restart)
+struct TimerInfo
 {
+	int timer;
+	int timeout;
+	BOOL restart;
+};
+
+static INT_PTR CALLBACK StartTimerApcProc(void *param)
+{
+	TimerInfo *ti = (TimerInfo *)param;
 	int res = 0;
 
 	mir_cslock lck(GenTimerCS);
-	log_debugA("StartTimer: %d, %d, %d", timer, timeout, restart);
+	log_debugA("StartTimer: %d, %d, %d", ti->timer, ti->timeout, ti->restart);
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
-	if (timer & IDT_PROCESSACK) {
+	if (ti->timer & IDT_PROCESSACK) {
 		res = (processAckTimerId == 0) ? 0 : 1;
-		if (((processAckTimerId == 0) && (checkConnectionTimerId == 0)) || (restart)) {
-			if (timeout != -1) {
-				if (restart)
+		if (((processAckTimerId == 0) && (checkConnectionTimerId == 0)) || (ti->restart)) {
+			if (ti->timeout != -1) {
+				if (ti->restart)
 					KillTimer(nullptr, processAckTimerId);
-				if (timeout == 0)
-					processAckTimerId = SetTimer(nullptr, 0, ackDelay, CheckAckStatusTimer);
-				else
-					processAckTimerId = SetTimer(nullptr, 0, timeout, CheckAckStatusTimer);
+				if (ti->timeout == 0)
+					ti->timeout = ackDelay;
+				processAckTimerId = SetTimer(nullptr, 0, ti->timeout, CheckAckStatusTimer);
 			}
 		}
 	}
 
-	if (timer & IDT_CHECKCONN) {
+	if (ti->timer & IDT_CHECKCONN) {
 		res = (checkConnectionTimerId == 0 ? 0 : 1) || res;
-		if ((checkConnectionTimerId == 0) || (restart)) {
-			if (timeout != -1) {
-				if (restart)
+		if ((checkConnectionTimerId == 0) || (ti->restart)) {
+			if (ti->timeout != -1) {
+				if (ti->restart)
 					KillTimer(nullptr, checkConnectionTimerId);
-				if (timeout == 0)
-					checkConnectionTimerId = SetTimer(nullptr, 0, initDelay, CheckConnectionTimer);
-				else
-					checkConnectionTimerId = SetTimer(nullptr, 0, timeout, CheckConnectionTimer);
+
+				if (ti->timeout == 0)
+					ti->timeout = initDelay;
+				checkConnectionTimerId = SetTimer(nullptr, 0, ti->timeout, CheckConnectionTimer);
 			}
 		}
 	}
 
-	if (timer & IDT_AFTERCHECK) {
+	if (ti->timer & IDT_AFTERCHECK) {
 		res = (afterCheckTimerId == 0 ? 0 : 1) || res;
-		if ((afterCheckTimerId == 0) || (restart)) {
-			if (timeout != -1) {
-				if (restart)
+		if ((afterCheckTimerId == 0) || (ti->restart)) {
+			if (ti->timeout != -1) {
+				if (ti->restart)
 					KillTimer(nullptr, afterCheckTimerId);
-				if (timeout == 0)
-					afterCheckTimerId = SetTimer(nullptr, 0, initDelay / 2, AfterCheckTimer);
-				else
-					afterCheckTimerId = SetTimer(nullptr, 0, timeout, AfterCheckTimer);
+
+				if (ti->timeout == 0)
+					ti->timeout = initDelay / 2;
+				afterCheckTimerId = SetTimer(nullptr, 0, ti->timeout, AfterCheckTimer);
 			}
 		}
 	}
 
-	if (timer & IDT_CHECKCONTIN) {
+	if (ti->timer & IDT_CHECKCONTIN) {
 		res = (checkContinTimerId == 0 ? 0 : 1) || res;
-		if ((checkContinTimerId == 0) || (restart)) {
-			if (timeout != -1) {
-				if (restart)
+		if ((checkContinTimerId == 0) || (ti->restart)) {
+			if (ti->timeout != -1) {
+				if (ti->restart)
 					KillTimer(nullptr, checkContinTimerId);
-				if (timeout == 0) {
-					checkContinTimerId = SetTimer(nullptr, 0, 1000 * db_get_dw(0, KSMODULENAME, SETTING_CNTDELAY, CHECKCONTIN_DELAY), CheckContinueslyTimer);
-				}
-				else
-					checkContinTimerId = SetTimer(nullptr, 0, timeout, CheckContinueslyTimer);
+
+				if (ti->timeout == 0)
+					ti->timeout = 1000 * db_get_dw(0, KSMODULENAME, SETTING_CNTDELAY, CHECKCONTIN_DELAY);
+				checkContinTimerId = SetTimer(nullptr, 0, ti->timeout, CheckContinueslyTimer);
 			}
 		}
 	}
 
-	if (timer & IDT_CHECKCONNECTING) {
+	if (ti->timer & IDT_CHECKCONNECTING) {
 		res = (checkConnectingTimerId == 0 ? 0 : 1) || res;
-		if ((checkConnectingTimerId == 0) || (restart)) {
-			if (timeout != -1) {
-				if (restart)
+		if ((checkConnectingTimerId == 0) || (ti->restart)) {
+			if (ti->timeout != -1) {
+				if (ti->restart)
 					KillTimer(nullptr, checkConnectingTimerId);
-				if (timeout == 0) {
-					timeout = initDelay / 2;
-				}
-				checkConnectingTimerId = SetTimer(nullptr, 0, timeout, CheckConnectingTimer);
+				if (ti->timeout == 0)
+					ti->timeout = initDelay / 2;
+				checkConnectingTimerId = SetTimer(nullptr, 0, ti->timeout, CheckConnectingTimer);
 			}
 		}
 	}
@@ -433,30 +434,10 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 	return res;
 }
 
-static VOID CALLBACK StartTimerApcProc(ULONG_PTR param)
-{
-	struct TimerInfo *ti = (struct TimerInfo *)param;
-	log_debugA("StartTimerApcProc %d %d %d", ti->timer, ti->timeout, ti->restart);
-	ti->result = StartTimerFunction(ti->timer, ti->timeout, ti->restart);
-	SetEvent(ti->hEvent);
-}
-
 static int StartTimer(int timer, int timeout, BOOL restart)
 {
-	if (GetCurrentThreadId() == mainThreadId)
-		return StartTimerFunction(timer, timeout, restart);
-
-	TimerInfo *ti = (TimerInfo*)calloc(1, sizeof(struct TimerInfo));
-	ti->timer = timer;
-	ti->timeout = timeout;
-	ti->restart = restart;
-	ti->hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-	QueueUserAPC(StartTimerApcProc, hMainThread, (ULONG_PTR)ti);
-	WaitForSingleObject(ti->hEvent, INFINITE);
-	CloseHandle(ti->hEvent);
-	int res = ti->result;
-	free(ti);
-	return res;
+	TimerInfo ti = { timer, timeout, restart };
+	return CallFunctionSync(&StartTimerApcProc, &ti);
 }
 
 static int StopTimer(int timer)
@@ -743,9 +724,9 @@ static VOID CALLBACK AfterCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 		StopChecking();
 }
 
-static void CheckContinueslyFunction(void *)
+static void CheckContinuouslyFunction(void *)
 {
-	Thread_SetName("KeepStatus: CheckContinueslyFunction");
+	Thread_SetName("KeepStatus: CheckContinuouslyFunction");
 
 	static int pingFailures = 0;
 
@@ -764,13 +745,13 @@ static void CheckContinueslyFunction(void *)
 			continue;
 
 		if (shouldBeStatus != ID_STATUS_OFFLINE) {
-			log_debugA("CheckContinueslyFunction: %s should be %d", cs.m_szName, shouldBeStatus);
+			log_debugA("CheckContinuouslyFunction: %s should be %d", cs.m_szName, shouldBeStatus);
 			doPing = true;
 		}
 	}
 
 	if (!doPing) {
-		log_debugA("CheckContinueslyFunction: All protocols should be offline, no need to check connection");
+		log_debugA("CheckContinuouslyFunction: All protocols should be offline, no need to check connection");
 		return;
 	}
 
@@ -810,9 +791,9 @@ static void CheckContinueslyFunction(void *)
 						else
 							pingFailures++;
 
-						log_debugA("CheckContinueslyFunction: pinging %s (result: %d/%d)", host, bLastPingResult, pingFailures);
+						log_debugA("CheckContinuouslyFunction: pinging %s (result: %d/%d)", host, bLastPingResult, pingFailures);
 					}
-					else log_debugA("CheckContinueslyFunction: unable to resolve %s", host);
+					else log_debugA("CheckContinuouslyFunction: unable to resolve %s", host);
 
 					start = end;
 					while (*start == ' ')
@@ -839,16 +820,16 @@ static void CheckContinueslyFunction(void *)
 				continue;
 
 			if (IsStatusConnecting(CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0))) {
-				log_debugA("CheckContinueslyFunction: %s is connecting", protos[i]->szModuleName);
+				log_debugA("CheckContinuouslyFunction: %s is connecting", protos[i]->szModuleName);
 				continue; // connecting, leave alone
 			}
 			if (IsProtocolEnabledService(0, (LPARAM)protos[i]->szModuleName)) {
-				log_debugA("CheckContinueslyFunction: forcing %s offline", protos[i]->szModuleName);
+				log_debugA("CheckContinuouslyFunction: forcing %s offline", protos[i]->szModuleName);
 				CallProtoService(protos[i]->szModuleName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 			}
 		}
 		if (StartTimer(IDT_CHECKCONN | IDT_PROCESSACK, -1, FALSE)) {// are our 'set offlines' noticed?
-			log_debugA("CheckContinueslyFunction: currently checking");
+			log_debugA("CheckContinuouslyFunction: currently checking");
 			return;
 		}
 		log_infoA("KeepStatus: connection lost! (continuesly check)");
@@ -864,9 +845,9 @@ static void CheckContinueslyFunction(void *)
 static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	if (db_get_b(0, KSMODULENAME, SETTING_BYPING, FALSE))
-		mir_forkthread(CheckContinueslyFunction, nullptr);
+		mir_forkthread(CheckContinuouslyFunction, nullptr);
 	else
-		CheckContinueslyFunction(nullptr);
+		CheckContinuouslyFunction(nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1180,19 +1161,11 @@ int OnKSAccChanged(WPARAM wParam, LPARAM lParam)
 
 static int onShutdown(WPARAM, LPARAM)
 {
-	UnhookEvent(hStatusChangeHook);
-	UnhookEvent(hProtoAckHook);
-	UnhookEvent(hCSStatusChangeHook);
-	UnhookEvent(hCSStatusChangeExHook);
-
-	StopTimer(IDT_CHECKCONN | IDT_PROCESSACK | IDT_AFTERCHECK | IDT_CHECKCONTIN);
-	if (IsWindow(hMessageWindow))
-		DestroyWindow(hMessageWindow);
-
-	connectionSettings.destroy();
-
+	KSUnloadOptions();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int KSModuleLoaded(WPARAM, LPARAM)
 {
@@ -1201,31 +1174,46 @@ int KSModuleLoaded(WPARAM, LPARAM)
 	hMessageWindow = nullptr;
 	KSLoadOptions();
 
-	HookEvent(ME_OPT_INITIALISE, KeepStatusOptionsInit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
-	HookEvent(ME_PROTO_ACCLISTCHANGED, OnKSAccChanged);
+	hEvents[0] = HookEvent(ME_OPT_INITIALISE, KeepStatusOptionsInit);
+	hEvents[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
+	hEvents[2] = HookEvent(ME_PROTO_ACCLISTCHANGED, OnKSAccChanged);
 	return 0;
 }
 
 void KeepStatusLoad()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
+	KSLangPack = GetPluginLangId(MIID_LAST, 0);
 
-	CreateHookableEvent(ME_KS_CONNECTIONEVENT);
+	if (g_bMirandaLoaded) {
+		KSModuleLoaded(0, 0);
+		KeepStatusOptionsInit(0, 0);
+	}
+	else HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
 
-	CreateServiceFunction(MS_KS_STOPRECONNECTING, StopReconnectingService);
-	CreateServiceFunction(MS_KS_ENABLEPROTOCOL, EnableProtocolService);
-	CreateServiceFunction(MS_KS_ISPROTOCOLENABLED, IsProtocolEnabledService);
-	CreateServiceFunction(MS_KS_ANNOUNCESTATUSCHANGE, AnnounceStatusChangeService);
+	hConnectionEvent = CreateHookableEvent(ME_KS_CONNECTIONEVENT);
 
-	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
-	mainThreadId = GetCurrentThreadId();
+	hServices[0] = CreateServiceFunction(MS_KS_STOPRECONNECTING, StopReconnectingService);
+	hServices[1] = CreateServiceFunction(MS_KS_ENABLEPROTOCOL, EnableProtocolService);
+	hServices[2] = CreateServiceFunction(MS_KS_ISPROTOCOLENABLED, IsProtocolEnabledService);
+	hServices[3] = CreateServiceFunction(MS_KS_ANNOUNCESTATUSCHANGE, AnnounceStatusChangeService);
 }
 
 void KeepStatusUnload()
 {
-	if (hMainThread)
-		CloseHandle(hMainThread);
+	if (g_bMirandaLoaded)
+		onShutdown(0, 0);
 
-	DestroyHookableEvent(hConnectionEvent);
+	KillModuleOptions(KSLangPack);
+
+	for (int i = 0; i < _countof(hServices); i++) {
+		DestroyServiceFunction(hServices[i]);
+		hServices[i] = nullptr;
+	}
+
+	for (int i = 0; i < _countof(hEvents); i++) {
+		UnhookEvent(hEvents[i]);
+		hEvents[i] = nullptr;
+	}
+
+	DestroyHookableEvent(hConnectionEvent); hConnectionEvent = nullptr;
 }

@@ -456,12 +456,12 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 	odp.szTab.a = LPGEN("Basic");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KS_BASIC);
 	odp.pfnDlgProc = DlgProcKSBasicOpts;
-	Options_AddPage(wparam, &odp);
+	Options_AddPage(wparam, &odp, KSLangPack);
 
 	odp.szTab.a = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KS_ADV);
 	odp.pfnDlgProc = DlgProcKSAdvOpts;
-	Options_AddPage(wparam, &odp);
+	Options_AddPage(wparam, &odp, KSLangPack);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		memset(&odp, 0, sizeof(odp));
@@ -472,7 +472,7 @@ int KeepStatusOptionsInit(WPARAM wparam, LPARAM)
 		odp.szTitle.a = LPGEN("Keep status");
 		odp.pfnDlgProc = PopupOptDlgProc;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wparam, &odp);
+		Options_AddPage(wparam, &odp, KSLangPack);
 	}
 	return 0;
 }

@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				for (int i = 0; i < optionSettings.getCount(); i++)
 					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].m_szName);
 			}
-			AAALoadOptions(autoAwaySettings, FALSE);
+			AAALoadOptions(autoAwaySettings, false);
 		}
 		break;
 
@@ -407,7 +407,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 			db_set_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
 			db_set_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
 			db_set_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
-			AAALoadOptions(autoAwaySettings, FALSE);
+			AAALoadOptions(autoAwaySettings, false);
 		}
 		break;
 	}
@@ -429,16 +429,16 @@ int AutoAwayOptInitialise(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pfnDlgProc = DlgProcAutoAwayGeneralOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENAUTOAWAY);
-	Options_AddPage(wParam, &odp);
+	Options_AddPage(wParam, &odp, AAALangPack);
 
 	odp.szTab.a = LPGEN("Rules");
 	odp.pfnDlgProc = DlgProcAutoAwayRulesOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTOAWAY);
-	Options_AddPage(wParam, &odp);
+	Options_AddPage(wParam, &odp, AAALangPack);
 
 	odp.szTab.a = LPGEN("Status messages");
 	odp.pfnDlgProc = DlgProcAutoAwayMsgOpts;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTOAWAYMSG);
-	Options_AddPage(wParam, &odp);
+	Options_AddPage(wParam, &odp, AAALangPack);
 	return 0;
 }

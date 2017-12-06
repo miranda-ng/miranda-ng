@@ -49,7 +49,10 @@ TAAAProtoSetting::~TAAAProtoSetting()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE hStateChangedEvent = nullptr;
+int AAALangPack;
+
+static HANDLE hStateChangedEvent = nullptr;
+static HANDLE hEvents[4];
 
 static BOOL ignoreLockKeys = FALSE;
 static BOOL ignoreSysKeys = FALSE;
@@ -86,16 +89,21 @@ extern char *StatusModeToDbSetting(int status, const char *suffix);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load from DB
 
-void AAALoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
+void AAAUnloadOptions(bool bOverride)
 {
-	// if override is enabled, samesettings will be ignored (for options loading)
-	int monitorMiranda = FALSE; // use windows hooks?
-	int monitorAll = FALSE; // use windows hooks?
-
-	if (!override)
+	if (!bOverride)
 		UnhookWindowsHooks();
 	if (hAutoAwayTimer != 0)
 		KillTimer(nullptr, hAutoAwayTimer);
+}
+
+void AAALoadOptions(TAAAProtoSettingList &loadSettings, bool bOverride)
+{
+	// if bOverride is enabled, samesettings will be ignored (for options loading)
+	int monitorMiranda = FALSE; // use windows hooks?
+	int monitorAll = FALSE; // use windows hooks?
+
+	AAAUnloadOptions(bOverride);
 
 	ignoreLockKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNLOCK, FALSE);
 	ignoreSysKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE);
@@ -106,12 +114,12 @@ void AAALoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
 
 	for (int i = 0; i < loadSettings.getCount(); i++) {
 		char* protoName;
-		if ((db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0)) && !override)
+		if ((db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0)) && !bOverride)
 			protoName = SETTING_ALL;
 		else
 			protoName = loadSettings[i].m_szName;
 		LoadAutoAwaySetting(loadSettings[i], protoName);
-		if (!override) {
+		if (!bOverride) {
 			if (loadSettings[i].optionFlags & FLAG_MONITORMIRANDA)
 				monitorMiranda = TRUE;
 			else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
@@ -539,24 +547,17 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 
 static int AutoAwayShutdown(WPARAM, LPARAM)
 {
-	KillTimer(nullptr, hAutoAwayTimer);
-
-#ifdef TRIGGERPLUGIN
-	DeInitTrigger();
-#endif
-	UnhookWindowsHooks();
-	DestroyHookableEvent(hStateChangedEvent);
-
-	autoAwaySettings.destroy();
+	AAAUnloadOptions(false);
 	return 0;
 }
 
 int AAAModuleLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAAAAccChanged);
-	HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);
-	HookEvent(ME_PROTO_ACK, ProcessProtoAck);
+	hEvents[0] = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAAAAccChanged);
+	hEvents[1] = HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
+	hEvents[2] = HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);
+	hEvents[3] = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
+	
 	mouseStationaryTimer = 0;
 	lastInput = lastMirandaInput = GetTickCount();
 
@@ -574,17 +575,36 @@ int AAAModuleLoaded(WPARAM, LPARAM)
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	AAALoadOptions(autoAwaySettings, FALSE);
+	AAALoadOptions(autoAwaySettings, false);
 	return 0;
 }
 
 void AdvancedAutoAwayLoad()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
+	AAALangPack = GetPluginLangId(MIID_LAST, 0);
+
+	if (g_bMirandaLoaded) {
+		AAAModuleLoaded(0, 0);
+		AutoAwayOptInitialise(0, 0);
+	}
+	else HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
+
 	hStateChangedEvent = CreateHookableEvent(ME_AAA_STATECHANGED);
 }
 
 void AdvancedAutoAwayUnload()
 {
-	DestroyHookableEvent(hStateChangedEvent);
+	if (g_bMirandaLoaded)
+		AutoAwayShutdown(0, 0);
+
+	KillModuleOptions(AAALangPack);
+
+	for (int i = 0; i < _countof(hEvents); i++) {
+		UnhookEvent(hEvents[i]);
+		hEvents[i] = nullptr;
+	}
+
+	DestroyHookableEvent(hStateChangedEvent); hStateChangedEvent = nullptr;
+
+	autoAwaySettings.destroy();
 }

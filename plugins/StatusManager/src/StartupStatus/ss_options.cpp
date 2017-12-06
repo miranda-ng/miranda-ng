@@ -918,7 +918,7 @@ public:
 
 int StartupStatusOptionsInit(WPARAM wparam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.hInstance = hInst;
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Startup status");
@@ -927,12 +927,12 @@ int StartupStatusOptionsInit(WPARAM wparam, LPARAM)
 	odp.szTab.a = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STARTUPSTATUS);
 	odp.pfnDlgProc = StartupStatusOptDlgProc;
-	Options_AddPage(wparam, &odp);
+	Options_AddPage(wparam, &odp, SSLangPack);
 
 	odp.szTab.a = LPGEN("Status profiles");
 	odp.pszTemplate = nullptr;
 	odp.pfnDlgProc = nullptr;
 	odp.pDialog = new CSSAdvancedOptDlg();
-	Options_AddPage(wparam, &odp);
+	Options_AddPage(wparam, &odp, SSLangPack);
 	return 0;
 }

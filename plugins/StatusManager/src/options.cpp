@@ -35,12 +35,40 @@ void CSubPluginsOptionsDlg::OnApply()
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_enabled", KSMODULENAME);
-	db_set_b(0, MODULENAME, setting, m_enableKeepStatus.GetState());
+	int bEnabled = m_enableKeepStatus.GetState();
+	if (bEnabled != db_get_b(0, MODULENAME, setting)) {
+		db_set_b(0, MODULENAME, setting, m_enableKeepStatus.GetState());
+
+		if (bEnabled)
+			KeepStatusLoad();
+		else
+			KeepStatusUnload();
+	}
+
 	mir_snprintf(setting, "%s_enabled", SSMODULENAME);
-	db_set_b(0, MODULENAME, setting, m_enableStartupStatus.GetState());
+	bEnabled = m_enableStartupStatus.GetState();
+	if (bEnabled != db_get_b(0, MODULENAME, setting)) {
+		db_set_b(0, MODULENAME, setting, m_enableStartupStatus.GetState());
+
+		if (bEnabled)
+			StartupStatusLoad();
+		else
+			StartupStatusUnload();
+	}
+	
 	mir_snprintf(setting, "%s_enabled", AAAMODULENAME);
-	db_set_b(0, MODULENAME, setting, m_enableAdvancedAutoAway.GetState());
+	bEnabled = m_enableAdvancedAutoAway.GetState();
+	if (bEnabled != db_get_b(0, MODULENAME, setting)) {
+		db_set_b(0, MODULENAME, setting, m_enableAdvancedAutoAway.GetState());
+
+		if (bEnabled)
+			AdvancedAutoAwayLoad();
+		else
+			AdvancedAutoAwayUnload();
+	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CSubPluginsOptionsDlg::OnOptionsInit(WPARAM wParam, LPARAM)
 {

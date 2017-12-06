@@ -34,6 +34,8 @@
 #include "AdvancedAutoAway\advancedautoaway.h"
 
 extern HINSTANCE hInst;
+extern bool g_bMirandaLoaded;
+extern int AAALangPack, KSLangPack, SSLangPack;
 
 bool IsSubPluginEnabled(const char *name);
 
