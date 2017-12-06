@@ -1521,6 +1521,11 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			break;
 
+		case IDC_GETSKINS:
+			if (HIWORD(wParam) == BN_CLICKED)
+				Utils_OpenUrl("https://miranda-ng.org/addons/category/18");
+			break;
+
 		case IDC_SELECTSKINFILE:
 			{
 				OPENFILENAME ofn = { 0 };

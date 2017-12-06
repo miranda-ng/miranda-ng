@@ -18,7 +18,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1250)
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -438,6 +438,7 @@ BEGIN
     LTEXT           "Frame title bar height",IDC_STATIC,149,164,85,10
     CONTROL         "Ignore selection for groups",IDC_IGNORESELFORGROUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,152,286,10
+    CONTROL         "Download more skins",IDC_GETSKINS,"Hyperlink",WS_TABSTOP,196,39,100,12
 END
 
 IDD_OPT DIALOGEX 0, 0, 312, 247
@@ -521,31 +522,57 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_CLIST               ICON                    "clist.ico"
+
 IDI_DELETE              ICON                    "delete.ico"
+
 IDI_CLVM_OPTIONS        ICON                    "options_clvm.ico"
+
 IDI_CLVM_SELECT         ICON                    "arrow-down.ico"
+
 IDI_BLANK               ICON                    "..\\..\\..\\src\\mir_app\\res\\_blank.ico"
+
 IDI_OVL_OFFLINE         ICON                    "overlay/offline.ico"
+
 IDI_OVL_ONLINE          ICON                    "overlay/online.ico"
+
 IDI_OVL_AWAY            ICON                    "overlay/away.ico"
+
 IDI_OVL_DND             ICON                    "overlay/dnd.ico"
+
 IDI_OVL_NA              ICON                    "overlay/na.ico"
+
 IDI_OVL_OCCUPIED        ICON                    "overlay/occupied.ico"
+
 IDI_OVL_INVISIBLE       ICON                    "overlay/invisible.ico"
+
 IDI_OVL_ONTHEPHONE      ICON                    "overlay/phone.ico"
+
 IDI_OVL_OUTTOLUNCH      ICON                    "overlay/lunch.ico"
+
 IDI_HIDEOFFLINE         ICON                    "online.ico"
+
 IDI_HIDEGROUPS          ICON                    "groups.ico"
+
 IDI_SOUNDSON            ICON                    "sounds_on.ico"
+
 IDI_FINDANDADD          ICON                    "find.ico"
+
 IDI_TBOPTIONS           ICON                    "options.ico"
+
 IDI_MINIMIZE            ICON                    "minimize.ico"
+
 IDI_SOUNDSOFF           ICON                    "sounds_off.ico"
+
 IDI_TABSRMMSESSIONLIST  ICON                    "slist.ico"
+
 IDI_TABSRMMMENU         ICON                    "tabsrmm_menu.ico"
+
 IDI_PROTOCONNECTING     ICON                    "connecting.ico"
+
 IDI_TBTOPMENU           ICON                    "menu.ico"
+
 IDI_TBACCOUNTS          ICON                    "accounts.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -553,36 +580,40 @@ IDI_TBACCOUNTS          ICON                    "accounts.ico"
 //
 
 IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_hyperlink.cur"
+
 IDC_DROP                CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drag_copy.cur"
+
 IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drop_user.cur"
 
-// Menu 
-// 
 
-IDR_CLISTMENU MENU 
-BEGIN 
-	POPUP "&Main menu" 
-	BEGIN 
-		MENUITEM SEPARATOR 
-		MENUITEM "E&xit",                       ID_ICQ_EXIT 
-	END 
-	POPUP "&Status" 
-	BEGIN 
-		MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED 
-		MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE 
-		MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY 
-		MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA 
-		MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED 
-		MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND 
-		MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT 
-		MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE 
-		MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE 
-		MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH 
-	END 
-END 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
 
-///////////////////////////////////////////////////////////////////////////// 
-// 
+IDR_CLISTMENU MENU
+BEGIN
+    POPUP "&Main menu"
+    BEGIN
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_ICQ_EXIT
+    END
+    POPUP "&Status"
+    BEGIN
+        MENUITEM "&Offline\tCtrl+0",            ID_STATUS_OFFLINE, CHECKED
+        MENUITEM "On&line\tCtrl+1",             ID_STATUS_ONLINE
+        MENUITEM "&Away\tCtrl+2",               ID_STATUS_AWAY
+        MENUITEM "&Not available\tCtrl+3",      ID_STATUS_NA
+        MENUITEM "Occ&upied\tCtrl+4",           ID_STATUS_OCCUPIED
+        MENUITEM "&Do not disturb\tCtrl+5",     ID_STATUS_DND
+        MENUITEM "&Free for chat\tCtrl+6",      ID_STATUS_FREECHAT
+        MENUITEM "&Invisible\tCtrl+7",          ID_STATUS_INVISIBLE
+        MENUITEM "On the &phone\tCtrl+8",       ID_STATUS_ONTHEPHONE
+        MENUITEM "Out to &lunch\tCtrl+9",       ID_STATUS_OUTTOLUNCH
+    END
+END
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -662,6 +693,17 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_SKIN AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,6 @@
-//{{NO_DEPENDENCIES}}
+﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by d:\Miranda NG Git_orig_commit\miranda-ng\plugins\Clist_nicer\res\resource.rc
 //
 #define IDD_OPT_VIEWMODES               1
 #define IDD_OPT_SKIN                    4
@@ -123,6 +123,7 @@
 #define IDC_SHOWSTATUSMSG               1188
 #define IDC_SHOWLOCALTIME               1189
 #define IDC_SHOWLOCALTIMEONLYWHENDIFFERENT 1191
+#define IDC_GETSKINS                    1192
 #define IDC_TITLETEXT                   1196
 #define IDC_EXCEPTION_DETAILS           1200
 #define IDC_COPY_EXCEPTION              1201
@@ -339,7 +340,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        10
+#define _APS_NEXT_RESOURCE_VALUE        11
 #define _APS_NEXT_COMMAND_VALUE         40061
 #define _APS_NEXT_CONTROL_VALUE         40066
 #define _APS_NEXT_SYMED_VALUE           40154
