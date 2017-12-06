@@ -5,11 +5,11 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) 1998 - 2012, Daniel Stenberg, <daniel@haxx.se>, et al.
+ * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
  * you should have received as part of this distribution. The terms
- * are also available at http://curl.haxx.se/docs/copyright.html.
+ * are also available at https://curl.haxx.se/docs/copyright.html.
  *
  * You may opt to use, copy, modify, merge, publish, distribute and/or sell
  * copies of the Software, and permit persons to whom the Software is
@@ -80,7 +80,7 @@
 #endif
 
 #include <curl/curl.h>
-#include "rawstr.h"
+#include "strcase.h"
 #include "warnless.h"
 #include "parsedate.h"
 
@@ -167,20 +167,20 @@ static const struct tzinfo tz[]= {
      RFC 1123) had their signs wrong. Here we use the correct signs to match
      actual military usage.
    */
-  {"A",  +1 * 60},         /* Alpha */
-  {"B",  +2 * 60},         /* Bravo */
-  {"C",  +3 * 60},         /* Charlie */
-  {"D",  +4 * 60},         /* Delta */
-  {"E",  +5 * 60},         /* Echo */
-  {"F",  +6 * 60},         /* Foxtrot */
-  {"G",  +7 * 60},         /* Golf */
-  {"H",  +8 * 60},         /* Hotel */
-  {"I",  +9 * 60},         /* India */
+  {"A",  1 * 60},         /* Alpha */
+  {"B",  2 * 60},         /* Bravo */
+  {"C",  3 * 60},         /* Charlie */
+  {"D",  4 * 60},         /* Delta */
+  {"E",  5 * 60},         /* Echo */
+  {"F",  6 * 60},         /* Foxtrot */
+  {"G",  7 * 60},         /* Golf */
+  {"H",  8 * 60},         /* Hotel */
+  {"I",  9 * 60},         /* India */
   /* "J", Juliet is not used as a timezone, to indicate the observer's local
      time */
-  {"K", +10 * 60},         /* Kilo */
-  {"L", +11 * 60},         /* Lima */
-  {"M", +12 * 60},         /* Mike */
+  {"K", 10 * 60},         /* Kilo */
+  {"L", 11 * 60},         /* Lima */
+  {"M", 12 * 60},         /* Mike */
   {"N",  -1 * 60},         /* November */
   {"O",  -2 * 60},         /* Oscar */
   {"P",  -3 * 60},         /* Papa */
@@ -205,14 +205,14 @@ static int checkday(const char *check, size_t len)
 {
   int i;
   const char * const *what;
-  bool found= FALSE;
+  bool found = FALSE;
   if(len > 3)
     what = &weekday[0];
   else
     what = &Curl_wkday[0];
-  for(i=0; i<7; i++) {
-    if(Curl_raw_equal(check, what[0])) {
-      found=TRUE;
+  for(i = 0; i<7; i++) {
+    if(strcasecompare(check, what[0])) {
+      found = TRUE;
       break;
     }
     what++;
@@ -224,12 +224,12 @@ static int checkmonth(const char *check)
 {
   int i;
   const char * const *what;
-  bool found= FALSE;
+  bool found = FALSE;
 
   what = &Curl_month[0];
-  for(i=0; i<12; i++) {
-    if(Curl_raw_equal(check, what[0])) {
-      found=TRUE;
+  for(i = 0; i<12; i++) {
+    if(strcasecompare(check, what[0])) {
+      found = TRUE;
       break;
     }
     what++;
@@ -244,12 +244,12 @@ static int checktz(const char *check)
 {
   unsigned int i;
   const struct tzinfo *what;
-  bool found= FALSE;
+  bool found = FALSE;
 
   what = tz;
-  for(i=0; i< sizeof(tz)/sizeof(tz[0]); i++) {
-    if(Curl_raw_equal(check, what->name)) {
-      found=TRUE;
+  for(i = 0; i< sizeof(tz)/sizeof(tz[0]); i++) {
+    if(strcasecompare(check, what->name)) {
+      found = TRUE;
       break;
     }
     what++;
@@ -331,21 +331,21 @@ static time_t my_timegm(struct my_tm *tm)
 static int parsedate(const char *date, time_t *output)
 {
   time_t t = 0;
-  int wdaynum=-1;  /* day of the week number, 0-6 (mon-sun) */
-  int monnum=-1;   /* month of the year number, 0-11 */
-  int mdaynum=-1; /* day of month, 1 - 31 */
-  int hournum=-1;
-  int minnum=-1;
-  int secnum=-1;
-  int yearnum=-1;
-  int tzoff=-1;
+  int wdaynum = -1;  /* day of the week number, 0-6 (mon-sun) */
+  int monnum = -1;   /* month of the year number, 0-11 */
+  int mdaynum = -1; /* day of month, 1 - 31 */
+  int hournum = -1;
+  int minnum = -1;
+  int secnum = -1;
+  int yearnum = -1;
+  int tzoff = -1;
   struct my_tm tm;
   enum assume dignext = DATE_MDAY;
   const char *indate = date; /* save the original pointer */
   int part = 0; /* max 6 parts */
 
   while(*date && (part < 6)) {
-    bool found=FALSE;
+    bool found = FALSE;
 
     skip(&date);
 
@@ -353,9 +353,11 @@ static int parsedate(const char *date, time_t *output)
       /* a name coming up */
       char buf[32]="";
       size_t len;
-      sscanf(date, "%31[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]",
-             buf);
-      len = strlen(buf);
+      if(sscanf(date, "%31[ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                          "abcdefghijklmnopqrstuvwxyz]", buf))
+        len = strlen(buf);
+      else
+        len = 0;
 
       if(wdaynum == -1) {
         wdaynum = checkday(buf, len);
@@ -384,15 +386,17 @@ static int parsedate(const char *date, time_t *output)
       /* a digit */
       int val;
       char *end;
+      int len = 0;
       if((secnum == -1) &&
-         (3 == sscanf(date, "%02d:%02d:%02d", &hournum, &minnum, &secnum))) {
+         (3 == sscanf(date, "%02d:%02d:%02d%n",
+                      &hournum, &minnum, &secnum, &len))) {
         /* time stamp! */
-        date += 8;
+        date += len;
       }
       else if((secnum == -1) &&
-              (2 == sscanf(date, "%02d:%02d", &hournum, &minnum))) {
+              (2 == sscanf(date, "%02d:%02d%n", &hournum, &minnum, &len))) {
         /* time stamp without seconds */
-        date += 5;
+        date += len;
         secnum = 0;
       }
       else {
@@ -400,18 +404,20 @@ static int parsedate(const char *date, time_t *output)
         int error;
         int old_errno;
 
-        old_errno = ERRNO;
-        SET_ERRNO(0);
+        old_errno = errno;
+        errno = 0;
         lval = strtol(date, &end, 10);
-        error = ERRNO;
-        if(error != old_errno)
-          SET_ERRNO(old_errno);
+        error = errno;
+        if(errno != old_errno)
+          errno = old_errno;
 
         if(error)
           return PARSEDATE_FAIL;
 
+#if LONG_MAX != INT_MAX
         if((lval > (long)INT_MAX) || (lval < (long)INT_MIN))
           return PARSEDATE_FAIL;
+#endif
 
         val = curlx_sltosi(lval);
 
@@ -526,8 +532,10 @@ static int parsedate(const char *date, time_t *output)
     /* Add the time zone diff between local time zone and GMT. */
     long delta = (long)(tzoff!=-1?tzoff:0);
 
-    if((delta>0) && (t + delta < t))
-      return -1; /* time_t overflow */
+    if((delta>0) && (t > LONG_MAX - delta)) {
+      *output = 0x7fffffff;
+      return PARSEDATE_LATER; /* time_t overflow */
+    }
 
     t += delta;
   }
@@ -539,7 +547,7 @@ static int parsedate(const char *date, time_t *output)
 
 time_t curl_getdate(const char *p, const time_t *now)
 {
-  time_t parsed;
+  time_t parsed = -1;
   int rc = parsedate(p, &parsed);
   (void)now; /* legacy argument from the past that we ignore */
 
@@ -556,9 +564,6 @@ time_t curl_getdate(const char *p, const time_t *now)
 /*
  * Curl_gmtime() is a gmtime() replacement for portability. Do not use the
  * gmtime_r() or gmtime() functions anywhere else but here.
- *
- * To make sure no such function calls slip in, we define them to cause build
- * errors, which is why we use the name within parentheses in this function.
  *
  */
 
