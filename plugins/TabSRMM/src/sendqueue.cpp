@@ -311,7 +311,7 @@ void SendQueue::clearJob(const int iIndex)
 {
 	SendJob &job = m_jobs[iIndex];
 	mir_free(job.szSendBuffer);
-	memset(&job, 0, sizeof(SendJob));
+	SecureZeroMemory(&job, sizeof(SendJob));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

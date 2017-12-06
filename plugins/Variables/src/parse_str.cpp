@@ -486,8 +486,6 @@ static wchar_t *parseStrchr(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return nullptr;
 
-	char *szVal[34];
-	memset(szVal, 0, sizeof(szVal));
 	wchar_t *c = wcschr(ai->targv[1], *ai->targv[2]);
 	if (c == nullptr || *c == 0)
 		return mir_wstrdup(L"0");

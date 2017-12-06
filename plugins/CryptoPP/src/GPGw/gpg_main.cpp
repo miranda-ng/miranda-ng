@@ -250,7 +250,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 		if ( gpgresult==gpgSuccess && useridvalid==TRUE)
 			addPassphrase(keyuserid, passphrase);
 
-		memset(passphrase, 0, sizeof(passphrase));
+		SecureZeroMemory(passphrase, sizeof(passphrase));
 
 		size_t decmessagelen = strlen(buffer)+1;
 		decmessage = (char *) LocalAlloc(LPTR,decmessagelen);
