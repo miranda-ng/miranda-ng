@@ -28,9 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define OPTSTATE_PREFIX "s_"
 
+#define NEW_PAGE_TIMER       10011
 #define FILTER_TIMEOUT_TIMER 10012
-
-#define HM_MODULELOAD (WM_USER+12)
 
 #define ALL_MODULES_FILTER LPGENW("<all modules>")
 #define CORE_MODULES_FILTER LPGENW("<core modules>")
@@ -365,11 +364,11 @@ class COptionsDlg : public CDlgBase
 	RECT m_rcTab;
 	HFONT m_hBoldFont;
 	wchar_t m_szFilterString[1024];
-	HANDLE m_hPluginLoad;
 
 	const wchar_t *m_szCaption, *m_szGroup, *m_szPage, *m_szTab;
 	const OptionsPageList &m_pages;
 
+	CTimer m_timerRebuild, m_timerFilter;
 	CCtrlTreeView m_pageTree;
 	CCtrlCombo m_keywordFilter;
 	CCtrlButton m_btnApply, m_btnCancel;
@@ -666,24 +665,6 @@ class COptionsDlg : public CDlgBase
 		return (pages > 1);
 	}
 
-	void LoadOptionsModule(HINSTANCE hInst)
-	{
-		OptionsPageList arPages(1);
-		CallPluginEventHook(hInst, hOptionsInitEvent, (WPARAM)&arPages, 0);
-		if (arPages.getCount() == 0)
-			return;
-
-		for (int i = 0; i < arPages.getCount(); i++) {
-			OptionsPageData *opd = new OptionsPageData(arPages[i]);
-			if (opd->pDialog == nullptr) // smth went wrong
-				delete opd;
-			else
-				m_arOpd.insert(opd);
-		}
-
-		RebuildPageTree();
-	}
-
 	OptionsPageData* getCurrent() const
 	{	return (m_currentPage == -1) ? nullptr : m_arOpd[m_currentPage];
 	}
@@ -695,6 +676,8 @@ public:
 		m_btnCancel(this, IDCANCEL),
 		m_pageTree(this, IDC_PAGETREE),
 		m_keywordFilter(this, IDC_KEYWORD_FILTER),
+		m_timerFilter(this, FILTER_TIMEOUT_TIMER),
+		m_timerRebuild(this, NEW_PAGE_TIMER),
 		m_arOpd(10),
 		m_szCaption(pszCaption),
 		m_szGroup(pszGroup),
@@ -710,6 +693,9 @@ public:
 
 		m_btnCancel.OnClick = Callback(this, &COptionsDlg::OnCancel);
 		m_btnApply.OnClick = Callback(this, &COptionsDlg::btnApply_Click);
+
+		m_timerFilter.OnEvent = Callback(this, &COptionsDlg::onFilterTimer);
+		m_timerRebuild.OnEvent = Callback(this, &COptionsDlg::onNewPageTimer);
 	}
 
 	virtual void OnInitDialog() override
@@ -736,7 +722,6 @@ public:
 		lf.lfWeight = FW_BOLD;
 		m_hBoldFont = CreateFontIndirect(&lf);
 
-		m_hPluginLoad = HookEventMessage(ME_SYSTEM_MODULELOAD, m_hwnd, HM_MODULELOAD);
 		m_currentPage = -1;
 
 		ptrW lastPage, lastGroup, lastTab;
@@ -793,8 +778,6 @@ public:
 	{
 		ClearFilterStrings();
 		m_szFilterString[0] = 0;
-
-		UnhookEvent(m_hPluginLoad);
 
 		SaveOptionsTreeState();
 		Window_FreeIcon_IcoLib(m_hwnd);
@@ -909,10 +892,7 @@ public:
 
 	void OnFilterChanged(void*)
 	{
-		// add a timer - when the timer elapses filter the option pages
-		CTimer *pTimer = new CTimer(this, FILTER_TIMEOUT_TIMER);
-		pTimer->OnEvent = Callback(this, &COptionsDlg::OnTimer);
-		pTimer->Start(400);
+		m_timerFilter.Start(400);
 	}
 
 	void OnTreeChanged(CCtrlTreeView::TEventInfo *evt)
@@ -1018,10 +998,6 @@ public:
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		switch (msg) {
-		case HM_MODULELOAD:
-			LoadOptionsModule((HINSTANCE)lParam);
-			break;
-
 		case PSM_CHANGED:
 			m_btnApply.Enable();
 			{
@@ -1059,10 +1035,16 @@ public:
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	void OnTimer(CTimer *pTimer)
+	void onFilterTimer(CTimer *pTimer)
 	{
 		pTimer->Stop();
 		SaveOptionsTreeState();
+		RebuildPageTree();
+	}
+
+	void onNewPageTimer(CTimer *pTimer)
+	{
+		pTimer->Stop();
 		RebuildPageTree();
 	}
 
@@ -1084,10 +1066,19 @@ public:
 		}
 	}
 
+	void DynamicAddPage(OptionsPage *pPage)
+	{
+		OptionsPageData *opd = new OptionsPageData(*pPage);
+		if (opd->pDialog == nullptr) // smth went wrong
+			delete opd;
+		else {
+			m_arOpd.insert(opd);
+			m_timerRebuild.Start(50);
+		}
+	}
+
 	void KillModule(int _hLang)
 	{
-		bool bToRebuildTree = false;
-
 		for (int i = m_arOpd.getCount() - 1; i >= 0; i--) {
 			OptionsPageData *opd = m_arOpd[i];
 			if (opd->hLangpack != _hLang)
@@ -1098,11 +1089,8 @@ public:
 
 			m_arOpd.remove(i);
 			delete opd;
-			bToRebuildTree = true;
+			m_timerRebuild.Start(50);
 		}
-
-		if (bToRebuildTree)
-			RebuildPageTree();
 	}
 };
 
@@ -1153,7 +1141,7 @@ MIR_APP_DLL(HWND) Options_OpenPage(const wchar_t *pszGroup, const wchar_t *pszPa
 MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int _hLangpack)
 {
 	OptionsPageList *pList = (OptionsPageList*)wParam;
-	if (odp == nullptr || pList == nullptr)
+	if (odp == nullptr)
 		return 1;
 
 	OptionsPage *dst = new OptionsPage();
@@ -1190,7 +1178,11 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int _hLa
 	if ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000)
 		dst->pszTemplate = mir_strdup(odp->pszTemplate);
 
-	pList->insert(dst);
+	if (pList != nullptr)
+		pList->insert(dst);
+
+	if (pOptionsDlg)
+		pOptionsDlg->DynamicAddPage(dst);
 	return 0;
 }
 
