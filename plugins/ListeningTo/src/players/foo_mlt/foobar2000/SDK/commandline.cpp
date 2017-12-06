@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 void commandline_handler_metadb_handle::on_file(const char * url) {
 	metadb_handle_list handles;

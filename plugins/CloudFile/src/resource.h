@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by c:\Users\unsane\Projects\c++\miranda-ng\plugins\CloudFile\res\resource.rc
 //

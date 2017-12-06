@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 t_size file_info::meta_find_ex(const char * p_name,t_size p_name_length) const
 {

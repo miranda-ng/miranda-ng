@@ -1,4 +1,4 @@
-﻿#include <windows.h>
+#include <windows.h>
 #include <stdio.h>
 #include <assert.h>
 #include <commctrl.h>

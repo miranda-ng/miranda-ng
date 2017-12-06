@@ -1,2 +1,2 @@
-﻿#define XSLTF		"xsltf"
+#define XSLTF		"xsltf"
 #define XSLTS		"xslts"

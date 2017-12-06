@@ -1,4 +1,4 @@
-﻿About
+About
 -----
 
 Send and receive contacts ui

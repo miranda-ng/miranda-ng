@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 bool ui_drop_item_callback::g_on_drop(interface IDataObject * pDataObject)
 {

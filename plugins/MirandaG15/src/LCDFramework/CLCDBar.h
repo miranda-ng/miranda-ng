@@ -1,4 +1,4 @@
-﻿#ifndef _CLCDBar_H_
+#ifndef _CLCDBar_H_
 #define _CLCDBar_H_
 
 #define TOP 1

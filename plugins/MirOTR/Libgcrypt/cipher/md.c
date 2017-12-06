@@ -1,4 +1,4 @@
-﻿/* md.c  -  message digest dispatcher
+/* md.c  -  message digest dispatcher
  * Copyright (C) 1998, 1999, 2002, 2003, 2006,
  *               2008 Free Software Foundation, Inc.
  * Copyright (C) 2013, 2014 g10 Code GmbH

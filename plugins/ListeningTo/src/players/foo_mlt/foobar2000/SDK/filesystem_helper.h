@@ -1,4 +1,4 @@
-﻿//helper
+//helper
 class file_path_canonical {
 public:
 	file_path_canonical(const char * src) {filesystem::g_get_canonical_path(src,m_data);}

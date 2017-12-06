@@ -1,4 +1,4 @@
-﻿file(GLOB SOURCES "src/*.h" "src/*.c"
+file(GLOB SOURCES "src/*.h" "src/*.c"
 "src/protobuf-c/*.c" "src/protobuf-c/*.h"
 "src/curve25519/*.c" "src/curve25519/*.h"
 "src/curve25519/ed25519/*.c" "src/curve25519/ed25519/*.h"

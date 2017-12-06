@@ -1,4 +1,4 @@
-﻿/* GLIB - Library of useful routines for C programming
+/* GLIB - Library of useful routines for C programming
  * gdataset-private.h: Internal macros for accessing dataset values
  * Copyright (C) 2005  Red Hat
  *

@@ -1,4 +1,4 @@
-﻿#if !defined(AFX_MRA_PLACES_H__INCLUDED_)
+#if !defined(AFX_MRA_PLACES_H__INCLUDED_)
 #define AFX_MRA_PLACES_H__INCLUDED_
 
 

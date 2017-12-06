@@ -1,4 +1,4 @@
-﻿// lubyrack.h - written and placed in the public domain by Wei Dai
+// lubyrack.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_LUBYRACK_H
 #define CRYPTOPP_LUBYRACK_H

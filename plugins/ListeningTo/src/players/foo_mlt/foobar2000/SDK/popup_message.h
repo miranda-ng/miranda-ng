@@ -1,4 +1,4 @@
-﻿
+
 //! This interface allows you to show generic nonmodal noninteractive dialog with a text message. This should be used instead of MessageBox where possible.\n
 //! Usage: use popup_message::g_show / popup_message::g_show_ex static helpers, or static_api_ptr_t<popup_message>.\n
 //! Note that all strings are UTF-8.

@@ -1,4 +1,4 @@
-﻿#include "Glob.h"
+#include "Glob.h"
 
 /* MIME type/ext map */
 ContentTypeDB MIME = nullptr;

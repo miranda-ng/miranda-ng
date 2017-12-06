@@ -1,4 +1,4 @@
-﻿#ifndef __aa849fa0_ff3f_49e9_b47a_e7dd34783dc2_QuoteInfoDlg_h__
+#ifndef __aa849fa0_ff3f_49e9_b47a_e7dd34783dc2_QuoteInfoDlg_h__
 #define __aa849fa0_ff3f_49e9_b47a_e7dd34783dc2_QuoteInfoDlg_h__
 
 int QuotesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM lp);

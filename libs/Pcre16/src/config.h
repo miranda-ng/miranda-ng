@@ -1,4 +1,4 @@
-﻿/* config.h for CMake builds */
+/* config.h for CMake builds */
 
 /* #undef HAVE_DIRENT_H */
 #define HAVE_SYS_STAT_H 1

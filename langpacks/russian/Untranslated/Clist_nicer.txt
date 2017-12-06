@@ -1,2 +1,2 @@
-﻿[Tree hide offline]
+[Tree hide offline]
 [Tree gray out]

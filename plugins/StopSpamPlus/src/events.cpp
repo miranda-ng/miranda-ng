@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 int OnDbEventAdded(WPARAM wParam, LPARAM lParam)
 {

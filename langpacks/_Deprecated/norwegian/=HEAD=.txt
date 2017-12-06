@@ -1,4 +1,4 @@
-﻿Miranda Language Pack Version 1
+Miranda Language Pack Version 1
 Language: Norwegian (Bokmål)
 Locale: 0414
 Authors: Håvard Ostnes, Jerbifor

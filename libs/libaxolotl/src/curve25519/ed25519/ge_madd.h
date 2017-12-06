@@ -1,4 +1,4 @@
-﻿
+
 /* qhasm: enter ge_madd */
 
 /* qhasm: fe X1 */

@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_CHANNELS_H
+#ifndef CRYPTOPP_CHANNELS_H
 #define CRYPTOPP_CHANNELS_H
 
 #include "simple.h"

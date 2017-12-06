@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_INTEGER_H
+#ifndef CRYPTOPP_INTEGER_H
 #define CRYPTOPP_INTEGER_H
 
 /** \file */

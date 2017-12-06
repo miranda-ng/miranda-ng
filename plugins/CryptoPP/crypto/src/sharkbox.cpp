@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "shark.h"
 
 #ifdef WORD64_AVAILABLE

@@ -1,4 +1,4 @@
-﻿TODO List:
+TODO List:
 
 - merge code from advsplash
 - fading in/out time

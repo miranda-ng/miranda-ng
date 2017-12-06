@@ -1,4 +1,4 @@
-﻿[Quick Replies]
+[Quick Replies]
 [Send replies immediately]
 [- Add your replies, one per line.]
 [Variables]

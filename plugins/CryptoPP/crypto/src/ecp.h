@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_ECP_H
+#ifndef CRYPTOPP_ECP_H
 #define CRYPTOPP_ECP_H
 
 #include "modarith.h"

@@ -1,4 +1,4 @@
-﻿[Generates a list of extracted URIs from the history.]
+[Generates a list of extracted URIs from the history.]
 [Search for:]
 [Message types]
 [All directions]

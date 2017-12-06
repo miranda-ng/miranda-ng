@@ -1,4 +1,4 @@
-﻿[Account:]
+[Account:]
 [Sound:]
 [Not set]
 [Choose]

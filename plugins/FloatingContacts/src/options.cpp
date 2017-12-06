@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #pragma comment(lib, "shlwapi.lib")
 
 #define M_GUESSSAMEASBOXES		(WM_USER + 18)

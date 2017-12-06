@@ -1,4 +1,4 @@
-﻿Variables plugin for Miranda IM v0.2.2.0
+Variables plugin for Miranda IM v0.2.2.0
 unregistered@users.sourceforge.net
 
 --- About ---

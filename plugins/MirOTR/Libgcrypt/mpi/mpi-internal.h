@@ -1,4 +1,4 @@
-﻿/* mpi-internal.h  -  Internal to the Multi Precision Integers
+/* mpi-internal.h  -  Internal to the Multi Precision Integers
  * Copyright (C) 1994, 1996, 1998, 2000, 2002,
  *               2003 Free Software Foundation, Inc.
  *

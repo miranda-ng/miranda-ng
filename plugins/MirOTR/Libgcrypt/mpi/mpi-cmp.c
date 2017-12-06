@@ -1,4 +1,4 @@
-﻿/* mpi-cmp.c  -  MPI functions
+/* mpi-cmp.c  -  MPI functions
  * Copyright (C) 1998, 1999, 2001, 2002, 2005 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_SEAL_H
+#ifndef CRYPTOPP_SEAL_H
 #define CRYPTOPP_SEAL_H
 
 #include "strciphr.h"

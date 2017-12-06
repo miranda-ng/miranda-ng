@@ -1,4 +1,4 @@
-﻿#muuid {ca52cf41-12c2-411b-b800-d2bd959be099}
+#muuid {ca52cf41-12c2-411b-b800-d2bd959be099}
 ;============================================================
 ;  File: historykeeper.dll
 ;  Module: History Keeper

@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_RSA_H
+#ifndef CRYPTOPP_RSA_H
 #define CRYPTOPP_RSA_H
 
 /** \file

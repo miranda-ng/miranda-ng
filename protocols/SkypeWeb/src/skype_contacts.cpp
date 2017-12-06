@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2015-17 Miranda NG project (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or

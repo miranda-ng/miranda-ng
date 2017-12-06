@@ -1,4 +1,4 @@
-﻿Description:
+Description:
 ------------
 This plugin plays and records Internet radio streams. Also local media files can be played.
 

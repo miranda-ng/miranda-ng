@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: CallNetmeeting.dll
 ;  Module: Call Netmeeting
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=683

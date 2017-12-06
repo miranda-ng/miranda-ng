@@ -1,4 +1,4 @@
-﻿//
+//
 //  Register of plugin's user
 //
 //  wParam = (WPARAM)szSetting - string that describes a user

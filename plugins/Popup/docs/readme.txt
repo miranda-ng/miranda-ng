@@ -1,4 +1,4 @@
-﻿PopUp plugin, v.1.0.1.9
+PopUp plugin, v.1.0.1.9
    by Luca "Hrk" Santarelli
    hrk@users.sf.net
 

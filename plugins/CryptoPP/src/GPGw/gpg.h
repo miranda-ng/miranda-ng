@@ -1,4 +1,4 @@
-﻿#ifndef __GPG_H__
+#ifndef __GPG_H__
 #define __GPG_H__
 
 typedef enum

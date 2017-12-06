@@ -1,4 +1,4 @@
-﻿/*
+/*
    Authorization State plugin for Miranda-IM (www.miranda-im.org)
    (c) 2006 by Thief
    Icons by Faith Healer

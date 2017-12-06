@@ -1,4 +1,4 @@
-﻿/*
+/*
 A small Miranda plugin, by bidyut, updated by Maat.
 Original plugin idea (NoSound) by Anders Nilsson.
 

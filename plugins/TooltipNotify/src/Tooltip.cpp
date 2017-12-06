@@ -1,4 +1,4 @@
-﻿// Tooltip.cpp: implementation of the CTooltip class.
+// Tooltip.cpp: implementation of the CTooltip class.
 //
 //////////////////////////////////////////////////////////////////////
 

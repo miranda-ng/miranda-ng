@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by X:\install\git\miranda\miranda-ng\plugins\Alarms\res\resource.rc
 //

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2008-2014, Dave Benson and the protobuf-c authors.
  * All rights reserved.
  *

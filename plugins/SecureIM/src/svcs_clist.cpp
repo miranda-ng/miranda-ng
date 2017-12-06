@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 int __cdecl onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {

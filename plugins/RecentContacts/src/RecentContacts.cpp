@@ -1,4 +1,4 @@
-﻿
+
 #include "stdafx.h"
 
 extern int onOptInitialise(WPARAM wParam, LPARAM lParam);

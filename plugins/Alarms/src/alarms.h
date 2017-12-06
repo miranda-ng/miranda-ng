@@ -1,4 +1,4 @@
-﻿#ifndef _TESTPLUG_INC
+#ifndef _TESTPLUG_INC
 #define _TESTPLUG_INC
 
 //#include "win.h"

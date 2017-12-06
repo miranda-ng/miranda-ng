@@ -1,4 +1,4 @@
-﻿// This is the master foobar2000 SDK header file; it includes headers for all functionality exposed through the SDK project. #include this in your source code, never reference any of the other headers directly.
+// This is the master foobar2000 SDK header file; it includes headers for all functionality exposed through the SDK project. #include this in your source code, never reference any of the other headers directly.
 
 #ifndef _FOOBAR2000_H_
 #define _FOOBAR2000_H_

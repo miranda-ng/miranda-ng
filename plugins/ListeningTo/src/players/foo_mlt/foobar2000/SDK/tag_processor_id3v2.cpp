@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 bool tag_processor_id3v2::g_get(service_ptr_t<tag_processor_id3v2> & p_out)
 {

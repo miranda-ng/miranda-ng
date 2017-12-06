@@ -1,4 +1,4 @@
-﻿#ifndef __SVCS_PROTO_H__
+#ifndef __SVCS_PROTO_H__
 #define __SVCS_PROTO_H__
 
 INT_PTR __cdecl onRecvMsg(WPARAM,LPARAM);

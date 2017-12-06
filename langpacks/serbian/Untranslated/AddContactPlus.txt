@@ -1,4 +1,4 @@
-﻿[Provides the ability to quickly add new contacts.]
+[Provides the ability to quickly add new contacts.]
 [Add a contact to your contact list]
 [Account:]
 [Contact ID:]

@@ -1,4 +1,4 @@
-﻿#include "group_cipher.h"
+#include "group_cipher.h"
 
 #include <assert.h>
 #include <string.h>

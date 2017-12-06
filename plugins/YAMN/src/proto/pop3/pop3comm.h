@@ -1,4 +1,4 @@
-﻿#ifndef __POP3COMM_H
+#ifndef __POP3COMM_H
 #define __POP3COMM_H
 
 #define	POP3_FILEVERSION	1	//Version of aditional information stored in book file

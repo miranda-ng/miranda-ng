@@ -1,4 +1,4 @@
-﻿#include "MirFoxCommons_pch.h"
+#include "MirFoxCommons_pch.h"
 
 
 #pragma comment(lib, "comctl32.lib")

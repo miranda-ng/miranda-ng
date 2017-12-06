@@ -1,4 +1,4 @@
-﻿#ifndef _CLCDSCREEN_H_
+#ifndef _CLCDSCREEN_H_
 #define _CLCDSCREEN_H_
 
 #include "CLCDGfx.h"

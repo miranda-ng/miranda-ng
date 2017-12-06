@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "MraPopup.h"
 
 #define POPUPS_TYPES_COUNT	7

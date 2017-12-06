@@ -1,4 +1,4 @@
-﻿/*
+/*
 Favorite Contacts for Miranda IM
 
 Copyright 2007 Victor Pavlychko

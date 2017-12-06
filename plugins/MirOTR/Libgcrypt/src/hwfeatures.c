@@ -1,4 +1,4 @@
-﻿/* hwfeatures.c - Detect hardware features.
+/* hwfeatures.c - Detect hardware features.
  * Copyright (C) 2007, 2011  Free Software Foundation, Inc.
  * Copyright (C) 2012  g10 Code GmbH
  *

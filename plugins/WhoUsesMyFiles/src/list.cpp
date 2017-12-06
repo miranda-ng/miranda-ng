@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 PWumf new_wumf( DWORD dwID, 
 				LPTSTR szUser, 

@@ -1,4 +1,4 @@
-﻿0. Introduction
+0. Introduction
 ===============
 
  * Purpose of this document

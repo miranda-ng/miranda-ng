@@ -1,4 +1,4 @@
-﻿/* mpi-add.c  -  MPI functions
+/* mpi-add.c  -  MPI functions
  * Copyright (C) 1994, 1996, 1998, 2001, 2002, 2003 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

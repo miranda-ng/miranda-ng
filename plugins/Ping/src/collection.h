@@ -1,4 +1,4 @@
-﻿template<class T> class Collection
+template<class T> class Collection
 {
 protected:
 	unsigned long count;

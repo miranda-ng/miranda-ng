@@ -1,4 +1,4 @@
-﻿[On events...]
+[On events...]
 [Send]
 [Receive]
 [Message]

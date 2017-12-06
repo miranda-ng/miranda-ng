@@ -1,4 +1,4 @@
-﻿[Advanced Database Editor.]
+[Advanced Database Editor.]
 [Setting value]
 [Add to all contacts (including Settings)]
 [Base]

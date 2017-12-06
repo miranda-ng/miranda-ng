@@ -1,4 +1,4 @@
-﻿/* random.c - Random number switch
+/* random.c - Random number switch
  * Copyright (C) 2003, 2006, 2008, 2012  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

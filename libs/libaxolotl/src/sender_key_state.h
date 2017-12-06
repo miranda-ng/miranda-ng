@@ -1,4 +1,4 @@
-﻿#ifndef SENDER_KEY_STATE_H
+#ifndef SENDER_KEY_STATE_H
 #define SENDER_KEY_STATE_H
 
 #include <stdint.h>

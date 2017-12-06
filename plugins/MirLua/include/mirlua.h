@@ -1,4 +1,4 @@
-﻿#ifndef _MIRLUA_H_
+#ifndef _MIRLUA_H_
 #define _MIRLUA_H_
 
 #include <lua.hpp>

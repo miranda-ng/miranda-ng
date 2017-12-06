@@ -1,4 +1,4 @@
-﻿/* ecc-gots.c  -  Elliptic Curve GOST signatures
+/* ecc-gots.c  -  Elliptic Curve GOST signatures
  * Copyright (C) 2007, 2008, 2010, 2011 Free Software Foundation, Inc.
  * Copyright (C) 2013 Dmitry Eremin-Solenikov
  *

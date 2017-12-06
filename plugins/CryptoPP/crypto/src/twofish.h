@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_TWOFISH_H
+#ifndef CRYPTOPP_TWOFISH_H
 #define CRYPTOPP_TWOFISH_H
 
 /** \file

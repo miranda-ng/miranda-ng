@@ -1,4 +1,4 @@
-﻿#ifndef _CLCDOBJECT_H_
+#ifndef _CLCDOBJECT_H_
 #define _CLCDOBJECT_H_
 
 #include "CLCDGfx.h"

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda Floating Contacts plugin, created by Iavor Vajarov ( ivajarov@code.bg )
 http://miranda-icq.sourceforge.net/
 

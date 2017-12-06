@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_ARC4_H
+#ifndef CRYPTOPP_ARC4_H
 #define CRYPTOPP_ARC4_H
 
 #include "strciphr.h"

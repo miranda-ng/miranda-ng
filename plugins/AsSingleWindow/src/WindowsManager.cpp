@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "WindowsManager.h"
 #include "AsSingleWindow.h"
 

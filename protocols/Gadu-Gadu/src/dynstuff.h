@@ -1,4 +1,4 @@
-﻿/* $Id: dynstuff.h 4366 2006-12-20 22:40:37Z ono $ */
+/* $Id: dynstuff.h 4366 2006-12-20 22:40:37Z ono $ */
 
 /*
  *	(C) Copyright 2001-2002 Wojtek Kaniewski <wojtekka@irc.pl>

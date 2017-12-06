@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Copyright 2000-12 Miranda IM, 2012-17 Miranda NG project,
 all portions of this codebase are copyrighted to the people

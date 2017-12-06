@@ -1,4 +1,4 @@
-﻿#ifndef csocket_h__
+#ifndef csocket_h__
 #define csocket_h__
 
 class CSocket

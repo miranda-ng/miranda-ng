@@ -1,4 +1,4 @@
-﻿[&Deny]
+[&Deny]
 [Decide &later]
 [Denial reason:]
 [Add to contact list if authorized]

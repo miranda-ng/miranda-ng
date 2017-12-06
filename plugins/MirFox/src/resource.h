@@ -1,4 +1,4 @@
-﻿// Used by resource.rc
+// Used by resource.rc
 
 
 #define IDD_OPT1                        110

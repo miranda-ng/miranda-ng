@@ -1,4 +1,4 @@
-﻿#ifndef __KEYS_H__
+#ifndef __KEYS_H__
 #define __KEYS_H__
 
 #define publickeyuserid 0

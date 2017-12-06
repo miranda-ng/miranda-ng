@@ -1,4 +1,4 @@
-﻿[Creates detailed, colorful and highly customizable statistics using your message history.]
+[Creates detailed, colorful and highly customizable statistics using your message history.]
 [Band]
 [HistoryStats - Working...]
 [HistoryStats - Add column]

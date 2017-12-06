@@ -1,4 +1,4 @@
-﻿popup plus 2.0.3.96 RC1 internal, 05-11-28, 00:44
+popup plus 2.0.3.96 RC1 internal, 05-11-28, 00:44
  [-] Fixed line breaks
 
 popup plus 2.0.3.96 RC1 internal, 05-11-27, 01:07

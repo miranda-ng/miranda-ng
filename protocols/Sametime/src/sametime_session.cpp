@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #include "sametime.h"
 
 /// not in CSametimeProto (used at NETLIBOPENCONNECTION_tag.waitcallback)

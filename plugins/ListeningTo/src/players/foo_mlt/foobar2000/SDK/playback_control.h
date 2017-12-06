@@ -1,4 +1,4 @@
-﻿//! Provides control for various playback-related operations.
+//! Provides control for various playback-related operations.
 //! All methods provided by this interface work from main app thread only. Calling from another thread will do nothing or trigger an exception. If you need to trigger one of playback_control methods from another thread, see main_thread_callback.
 //! Do not call playback_control methods from inside any kind of global callback (e.g. playlist callback), otherwise race conditions may occur.
 //! Use static_api_ptr_t to instantiate. See static_api_ptr_t documentation for more info.

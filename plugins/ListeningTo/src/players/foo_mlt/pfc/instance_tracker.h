@@ -1,4 +1,4 @@
-﻿namespace pfc {
+namespace pfc {
 	template<typename t_object>
 	class instance_tracker_server_t {
 	public:

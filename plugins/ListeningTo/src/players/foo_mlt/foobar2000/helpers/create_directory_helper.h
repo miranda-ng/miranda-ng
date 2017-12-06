@@ -1,4 +1,4 @@
-﻿#ifndef _CREATE_DIRECTORY_HELPER_H_
+#ifndef _CREATE_DIRECTORY_HELPER_H_
 #define _CREATE_DIRECTORY_HELPER_H_
 
 namespace create_directory_helper {

@@ -1,4 +1,4 @@
-﻿/* rsa.c - RSA implementation
+/* rsa.c - RSA implementation
  * Copyright (C) 1997, 1998, 1999 by Werner Koch (dd9jn)
  * Copyright (C) 2000, 2001, 2002, 2003, 2008 Free Software Foundation, Inc.
  *

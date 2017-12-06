@@ -1,1 +1,1 @@
-﻿[Provides text render API for different plugins.]
+[Provides text render API for different plugins.]

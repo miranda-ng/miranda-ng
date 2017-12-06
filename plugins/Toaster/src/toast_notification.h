@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification_IInspectable ToastActivationHandler;
 typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification_Windows__CUI__CNotifications__CToastDismissedEventArgs ToastDismissHandler;

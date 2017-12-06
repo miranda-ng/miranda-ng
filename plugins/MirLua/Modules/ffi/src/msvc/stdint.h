@@ -1,4 +1,4 @@
-﻿//  boost cstdint.hpp header file  ------------------------------------------//
+//  boost cstdint.hpp header file  ------------------------------------------//
 
 //  (C) Copyright Beman Dawes 1999. 
 //  (C) Copyright Jens Mauer 2001  

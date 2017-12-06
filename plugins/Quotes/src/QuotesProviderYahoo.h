@@ -1,4 +1,4 @@
-﻿#ifndef __E927F394_5452_458E_AF48_71E44F9EE793_QuotesProviderYahoo_h__
+#ifndef __E927F394_5452_458E_AF48_71E44F9EE793_QuotesProviderYahoo_h__
 #define __E927F394_5452_458E_AF48_71E44F9EE793_QuotesProviderYahoo_h__
 
 #define DB_STR_YAHOO_OPEN_VALUE "OpenQuotePrice"

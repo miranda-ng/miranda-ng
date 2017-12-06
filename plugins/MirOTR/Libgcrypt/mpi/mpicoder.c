@@ -1,4 +1,4 @@
-﻿/* mpicoder.c  -  Coder for the external representation of MPIs
+/* mpicoder.c  -  Coder for the external representation of MPIs
  * Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003
  *               2008 Free Software Foundation, Inc.
  * Copyright (C) 2013, 2014 g10 Code GmbH

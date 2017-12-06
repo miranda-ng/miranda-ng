@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 COAuthDlg::COAuthDlg(CCloudService *service, const char *authUrl, pThreadFuncOwner requestAccessTokenThread)
 	: CDlgBase(hInstance, IDD_OAUTH), m_service(service),

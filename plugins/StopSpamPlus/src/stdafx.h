@@ -1,4 +1,4 @@
-﻿#ifndef _stopspam_headers_h
+#ifndef _stopspam_headers_h
 #define _stopspam_headers_h
 
 // disable security warnings about "*_s" functions

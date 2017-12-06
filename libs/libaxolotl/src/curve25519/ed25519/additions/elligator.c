@@ -1,4 +1,4 @@
-﻿#include <string.h>
+#include <string.h>
 #include "fe.h"
 #include "ge.h"
 #include "crypto_uint32.h"

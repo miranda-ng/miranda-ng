@@ -1,4 +1,4 @@
-﻿// rng.h - misc RNG related classes, see also osrng.h, randpool.h
+// rng.h - misc RNG related classes, see also osrng.h, randpool.h
 
 #ifndef CRYPTOPP_RNG_H
 #define CRYPTOPP_RNG_H

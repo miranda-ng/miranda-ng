@@ -1,4 +1,4 @@
-﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify

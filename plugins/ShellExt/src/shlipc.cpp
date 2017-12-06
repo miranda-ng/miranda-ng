@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "shlcom.h"
 
 TGroupNode* FindGroupNode(TGroupNode *p, const DWORD Hash, int Depth)

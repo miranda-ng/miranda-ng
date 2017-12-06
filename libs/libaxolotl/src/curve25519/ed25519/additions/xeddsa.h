@@ -1,4 +1,4 @@
-﻿
+
 #ifndef __XEDDSA_H__
 #define __XEDDSA_H__
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Hash Table Data Type
  * Copyright (C) 1997 Kaz Kylheku <kaz@ashi.footprints.net>
  *

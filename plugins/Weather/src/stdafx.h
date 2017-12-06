@@ -1,4 +1,4 @@
-﻿/*
+/*
 Weather Protocol plugin for Miranda NG
 Copyright (c) 2012-2014 Miranda NG Team
 Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved

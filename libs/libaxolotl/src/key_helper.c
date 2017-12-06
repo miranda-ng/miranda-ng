@@ -1,4 +1,4 @@
-﻿#include "key_helper.h"
+#include "key_helper.h"
 
 #include <assert.h>
 

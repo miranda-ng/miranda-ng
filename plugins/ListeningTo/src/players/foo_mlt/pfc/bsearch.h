@@ -1,4 +1,4 @@
-﻿namespace pfc {
+namespace pfc {
 
 	//deprecated
 

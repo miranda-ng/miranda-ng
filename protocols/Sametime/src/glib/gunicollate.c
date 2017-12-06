@@ -1,4 +1,4 @@
-﻿/* gunicollate.c - Collation
+/* gunicollate.c - Collation
  *
  *  Copyright 2001,2005 Red Hat, Inc.
  *

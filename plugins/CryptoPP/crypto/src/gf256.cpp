@@ -1,4 +1,4 @@
-﻿// gf256.cpp - written and placed in the public domain by Wei Dai
+// gf256.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "gf256.h"

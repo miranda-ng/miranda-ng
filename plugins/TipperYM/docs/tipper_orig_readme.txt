@@ -1,4 +1,4 @@
-﻿Document updated: 28/09/2010
+Document updated: 28/09/2010
 
 ******
 Tipper - shows a tooltip when you hover the mouse over a contact in your contact list

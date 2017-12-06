@@ -1,4 +1,4 @@
-﻿// specification file for an unlimited queue for storing bytes
+// specification file for an unlimited queue for storing bytes
 
 #ifndef CRYPTOPP_QUEUE_H
 #define CRYPTOPP_QUEUE_H

@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard auto away module for Miranda NG
 

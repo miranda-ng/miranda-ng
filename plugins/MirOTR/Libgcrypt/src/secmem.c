@@ -1,4 +1,4 @@
-﻿/* secmem.c  -	memory allocation from a secure heap
+/* secmem.c  -	memory allocation from a secure heap
  * Copyright (C) 1998, 1999, 2000, 2001, 2002,
  *               2003, 2007 Free Software Foundation, Inc.
  * Copyright (C) 2013 g10 Code GmbH

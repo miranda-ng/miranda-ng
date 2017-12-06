@@ -1,4 +1,4 @@
-﻿//! Common class for handling picture data. \n
+//! Common class for handling picture data. \n
 //! Type of contained picture data is unknown and to be determined according to memory block contents by code parsing/rendering the picture. Commonly encountered types are: BMP, PNG, JPEG and GIF. \n
 //! Implementation: use album_art_data_impl.
 class NOVTABLE album_art_data : public service_base {

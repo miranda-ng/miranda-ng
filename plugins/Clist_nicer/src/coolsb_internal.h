@@ -1,4 +1,4 @@
-﻿#ifndef _COOLSB_INTERNAL_INCLUDED
+#ifndef _COOLSB_INTERNAL_INCLUDED
 #define _COOLSB_INTERNAL_INCLUDED
 
 #ifdef __cplusplus

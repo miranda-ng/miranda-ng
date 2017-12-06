@@ -1,4 +1,4 @@
-﻿[Enter account name (for example, My Google)]
+[Enter account name (for example, My Google)]
 输入帐号名称 (例如 "我的 Google" )
 [Choose the protocol type]
 选择协议类型

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Avatar History Plugin
  Copyright (C) 2006  Matthew Wild - Email: mwild1@gmail.com
 

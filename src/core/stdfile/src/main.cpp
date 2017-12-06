@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard file transfers' plugin for Miranda NG
 

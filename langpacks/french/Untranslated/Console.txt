@@ -1,4 +1,4 @@
-﻿[Console log window for Miranda.]
+[Console log window for Miranda.]
 [Console]
 [Single window mode*]
 [Show icons in log*]

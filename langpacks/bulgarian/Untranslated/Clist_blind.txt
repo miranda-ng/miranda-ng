@@ -1,2 +1,2 @@
-﻿[Tool style main window]
+[Tool style main window]
 [Group: %name% %count% [%mode%]]

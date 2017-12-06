@@ -1,4 +1,4 @@
-﻿#ifndef _STEAM_REQUEST_POLL_H_
+#ifndef _STEAM_REQUEST_POLL_H_
 #define _STEAM_REQUEST_POLL_H_
 
 class PollRequest : public HttpRequest

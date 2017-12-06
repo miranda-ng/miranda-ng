@@ -1,4 +1,4 @@
-﻿#include "ge.h"
+#include "ge.h"
 
 /*
 r = p + q

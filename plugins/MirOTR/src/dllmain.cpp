@@ -1,4 +1,4 @@
-﻿// dllmain.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
+// dllmain.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
 #include "stdafx.h"
 
 CLIST_INTERFACE *pcli;

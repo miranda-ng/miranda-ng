@@ -1,4 +1,4 @@
-﻿#ifndef _CLOUDFILE_GDRIVE_H_
+#ifndef _CLOUDFILE_GDRIVE_H_
 #define _CLOUDFILE_GDRIVE_H_
 
 class CGDriveService : public CCloudService

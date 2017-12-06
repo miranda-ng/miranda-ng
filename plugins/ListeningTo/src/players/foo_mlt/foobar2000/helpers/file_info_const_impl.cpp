@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 // presorted - do not change without a proper strcmp resort
 static const char * const standard_fieldnames[] = {

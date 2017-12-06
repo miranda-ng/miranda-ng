@@ -1,4 +1,4 @@
-﻿Autorun 0.1.0.0
+Autorun 0.1.0.0
 
 Written by and copyright (c) Sergey V. Gershovich a.k.a. Jazzy$, March 2003
                              e-mail: jazzy@arcticsu.ru

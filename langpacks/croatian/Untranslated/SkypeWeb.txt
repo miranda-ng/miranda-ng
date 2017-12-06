@@ -1,4 +1,4 @@
-﻿[Skype protocol support for Miranda NG. Based on new Skype for Web.]
+[Skype protocol support for Miranda NG. Based on new Skype for Web.]
 [Create group chat]
 [Cancel]
 [Mark users you want to invite to a new chat]

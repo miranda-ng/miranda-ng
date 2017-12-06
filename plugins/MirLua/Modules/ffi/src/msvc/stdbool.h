@@ -1,4 +1,4 @@
-﻿/* vim: ts=4 sw=4 sts=4 et
+/* vim: ts=4 sw=4 sts=4 et
  *
  * Copyright (c) 2009 James R. McKaskill
  *

@@ -1,4 +1,4 @@
-﻿/* vim: ts=4 sw=4 sts=4 et tw=78
+/* vim: ts=4 sw=4 sts=4 et tw=78
  * Portions copyright (c) 2015-present, Facebook, Inc. All rights reserved.
  * Portions copyright (c) 2011 James R. McKaskill.
  *

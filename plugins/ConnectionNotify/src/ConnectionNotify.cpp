@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 HINSTANCE hInst;
 CLIST_INTERFACE *pcli;

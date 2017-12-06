@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_GFPCRYPT_H
+#ifndef CRYPTOPP_GFPCRYPT_H
 #define CRYPTOPP_GFPCRYPT_H
 
 /** \file

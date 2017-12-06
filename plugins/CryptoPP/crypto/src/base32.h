@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_BASE32_H
+#ifndef CRYPTOPP_BASE32_H
 #define CRYPTOPP_BASE32_H
 
 #include "basecode.h"

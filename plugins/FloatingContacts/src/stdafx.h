@@ -1,4 +1,4 @@
-﻿
+
 #ifndef __STDHDR_H__
 #define __STDHDR_H__
 

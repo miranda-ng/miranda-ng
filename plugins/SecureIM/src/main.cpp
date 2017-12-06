@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 CLIST_INTERFACE *pcli;
 int hLangpack = 0;

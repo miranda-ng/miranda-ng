@@ -1,4 +1,4 @@
-﻿[Move Yahoo contacts to groups now]
+[Move Yahoo contacts to groups now]
 [Move Yahoo contacts automatically on startup]
 [Yahoo Groups]
 [Plugins]

@@ -1,4 +1,4 @@
-﻿#ifndef CHAT_H
+#ifndef CHAT_H
 #define CHAT_H
 
 struct chatnav_param

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 void VerifyContextDialog(ConnContext* context);
 void SMPInitDialog(ConnContext* context);
 void SMPDialogUpdate(ConnContext *context, int percent);

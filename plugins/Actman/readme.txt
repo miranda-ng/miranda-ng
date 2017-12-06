@@ -1,4 +1,4 @@
-﻿Note
+Note
 ----
 'Actions' is action groups which can be executed through services
 'Subactions' is single simple action like 'Call service', 'run program' etc.

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 #define POLLING_ERRORS_LIMIT 5
 

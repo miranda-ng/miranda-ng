@@ -1,4 +1,4 @@
-﻿[Jabber (XMPP) protocol support for Miranda NG.]
+[Jabber (XMPP) protocol support for Miranda NG.]
 [Edit Note]
 [Tags:]
 [User:]

@@ -1,4 +1,4 @@
-﻿[Num Lock]
+[Num Lock]
 [Caps Lock]
 [Scroll Lock]
 [Num]

@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Copyright (C) 2012-17 Miranda NG team (https://miranda-ng.org)
 

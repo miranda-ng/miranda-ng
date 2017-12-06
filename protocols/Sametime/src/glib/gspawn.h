@@ -1,4 +1,4 @@
-﻿/* gspawn.h - Process launching
+/* gspawn.h - Process launching
  *
  *  Copyright 2000 Red Hat, Inc.
  *

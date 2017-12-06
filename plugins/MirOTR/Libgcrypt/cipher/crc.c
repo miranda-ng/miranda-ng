@@ -1,4 +1,4 @@
-﻿/* crc.c - Cyclic redundancy checks.
+/* crc.c - Cyclic redundancy checks.
  * Copyright (C) 2003 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

@@ -1,4 +1,4 @@
-﻿#include "fe.h"
+#include "fe.h"
 
 void fe_invert(fe out,const fe z)
 {

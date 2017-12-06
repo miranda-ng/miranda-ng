@@ -1,4 +1,4 @@
-﻿#ifndef __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
+#ifndef __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
 #define __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
 
 class CQuotesProviderBase : public IQuotesProvider

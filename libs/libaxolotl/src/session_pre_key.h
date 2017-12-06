@@ -1,4 +1,4 @@
-﻿#ifndef SESSION_PRE_KEY_H
+#ifndef SESSION_PRE_KEY_H
 #define SESSION_PRE_KEY_H
 
 #include <stdint.h>

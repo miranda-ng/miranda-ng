@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 void CToxProto::BootstrapUdpNode(Tox *tox, const char *address, int port, const char *hexKey)
 {

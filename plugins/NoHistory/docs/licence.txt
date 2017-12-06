@@ -1,4 +1,4 @@
-﻿The NoHistory plugin for Miranda-IM is Copyright (c) 2006 Scott Ellis (mail@scottellis.com.au)
+The NoHistory plugin for Miranda-IM is Copyright (c) 2006 Scott Ellis (mail@scottellis.com.au)
 
 http://www.scottellis.com.au
 

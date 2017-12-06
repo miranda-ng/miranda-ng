@@ -1,4 +1,4 @@
-﻿#define tabsize(x) ((size_t)(sizeof(x)/sizeof(*x)))
+#define tabsize(x) ((size_t)(sizeof(x)/sizeof(*x)))
 #define PFC_TABSIZE(x) ((size_t)(sizeof(x)/sizeof(*x)))
 
 #define TEMPLATE_CONSTRUCTOR_FORWARD_FLOOD_WITH_INITIALIZER(THISCLASS,MEMBER,INITIALIZER)	\

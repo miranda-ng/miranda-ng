@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 static POPUPDATAT* MakePopupData(lua_State *L)
 {

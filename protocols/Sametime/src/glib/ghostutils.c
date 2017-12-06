@@ -1,4 +1,4 @@
-﻿/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*- */
+/* -*- mode: C; c-file-style: "gnu"; indent-tabs-mode: nil; -*- */
 
 /* GLIB - Library of useful routines for C programming
  * Copyright (C) 2008 Red Hat, Inc.

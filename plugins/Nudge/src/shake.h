@@ -1,4 +1,4 @@
-﻿#ifndef SHAKE_H
+#ifndef SHAKE_H
 #define SHAKE_H
 
 class CShake

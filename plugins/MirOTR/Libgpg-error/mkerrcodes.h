@@ -1,4 +1,4 @@
-﻿/* Output of mkerrcodes.awk.  DO NOT EDIT.  */
+/* Output of mkerrcodes.awk.  DO NOT EDIT.  */
 
 static struct
   {

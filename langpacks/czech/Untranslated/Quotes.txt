@@ -1,4 +1,4 @@
-﻿[Do not add to popup's history]
+[Do not add to popup's history]
 [&Choose Quotes to watch in contact list:]
 [&Refresh Quotes Every:]
 [&Tendency:]

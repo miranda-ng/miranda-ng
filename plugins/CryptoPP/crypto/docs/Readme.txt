@@ -1,4 +1,4 @@
-﻿Crypto++: a C++ Class Library of Cryptographic Schemes
+Crypto++: a C++ Class Library of Cryptographic Schemes
 Version 5.5.2 (9/24/2007)
 
 Crypto++ Library is a free C++ class library of cryptographic schemes.

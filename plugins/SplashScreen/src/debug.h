@@ -1,4 +1,4 @@
-﻿#ifndef __debug_h__
+#ifndef __debug_h__
 #define __debug_h__
 
 #define PlugName "SplashScreen"

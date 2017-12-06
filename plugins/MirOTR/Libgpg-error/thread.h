@@ -1,4 +1,4 @@
-﻿/* thread.h - Declarations for *-thread.c
+/* thread.h - Declarations for *-thread.c
    Copyright (C) 2014 g10 Code GmbH
 
    This file is part of libgpg-error.

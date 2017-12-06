@@ -1,4 +1,4 @@
-﻿// plugin version part
+// plugin version part
 #define __MAJOR_VERSION          0
 #define __MINOR_VERSION          11
 #define __RELEASE_NUM            2

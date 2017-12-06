@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_CONFIG_H
+#ifndef CRYPTOPP_CONFIG_H
 #define CRYPTOPP_CONFIG_H
 
 // ***************** Important Settings ********************

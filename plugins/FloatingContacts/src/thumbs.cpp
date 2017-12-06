@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #pragma comment(lib, "Msimg32.lib")
 
 ThumbList thumbList;

@@ -1,4 +1,4 @@
-﻿/*
+/*
 FTP File YM plugin
 Copyright (C) 2007-2010 Jan Holub
 

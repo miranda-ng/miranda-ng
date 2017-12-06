@@ -1,4 +1,4 @@
-﻿#ifndef HKDF_H
+#ifndef HKDF_H
 #define HKDF_H
 
 #include <stdint.h>

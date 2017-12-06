@@ -1,4 +1,4 @@
-﻿Object properties
+Object properties
 
 Popup skin files are used to define popup layout. Each popup consists of several objects such as bitmaps, text, title 
 

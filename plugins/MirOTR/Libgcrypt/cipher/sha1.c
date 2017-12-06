@@ -1,4 +1,4 @@
-﻿/* sha1.c - SHA1 hash function
+/* sha1.c - SHA1 hash function
  * Copyright (C) 1998, 2001, 2002, 2003, 2008 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

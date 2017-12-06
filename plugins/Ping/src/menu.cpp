@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 HANDLE hMenuDisable, hMenuGraph, hMenuEdit;
 HANDLE hEventMenuBuild;

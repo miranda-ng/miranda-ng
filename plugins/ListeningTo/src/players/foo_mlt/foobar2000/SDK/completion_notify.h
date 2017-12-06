@@ -1,4 +1,4 @@
-﻿//! Generic service for receiving notifications about async operation completion. Used by various other services.
+//! Generic service for receiving notifications about async operation completion. Used by various other services.
 class completion_notify : public service_base {
 public:
 	//! Called when an async operation has been completed. Note that on_completion is always called from main thread. You can use on_completion_async() helper if you need to signal completion while your context is in another thread.\n

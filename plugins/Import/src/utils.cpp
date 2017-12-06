@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Import plugin for Miranda NG
 

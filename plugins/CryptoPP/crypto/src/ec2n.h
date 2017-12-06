@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_EC2N_H
+#ifndef CRYPTOPP_EC2N_H
 #define CRYPTOPP_EC2N_H
 
 #include "gf2n.h"

@@ -1,4 +1,4 @@
-﻿/*
+/*
   Meanwhile - Unofficial Lotus Sametime Community Client Library
   Copyright (C) 2004  Christopher (siege) O'Brien
   

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright ©2006 Ricardo Pescuma Domenecci
 
 Modified  ©2008-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol

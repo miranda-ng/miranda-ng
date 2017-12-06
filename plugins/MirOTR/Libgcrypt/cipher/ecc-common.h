@@ -1,4 +1,4 @@
-﻿/* ecc-common.h - Declarations of common ECC code
+/* ecc-common.h - Declarations of common ECC code
  * Copyright (C) 2013 g10 Code GmbH
  *
  * This file is part of Libgcrypt.

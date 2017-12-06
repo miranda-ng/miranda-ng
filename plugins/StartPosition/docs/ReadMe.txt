@@ -1,4 +1,4 @@
-﻿Window Start Position
+Window Start Position
 by souFrag / Felipe Brahm
 ICQ#50566818
 http://www.soufrag.cl

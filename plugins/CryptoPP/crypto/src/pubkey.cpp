@@ -1,4 +1,4 @@
-﻿// pubkey.cpp - written and placed in the public domain by Wei Dai
+// pubkey.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 

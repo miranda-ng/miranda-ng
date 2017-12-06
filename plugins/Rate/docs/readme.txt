@@ -1,4 +1,4 @@
-﻿Contacts Rate plugin for Miranda IM (http://miranda-im.org)
+Contacts Rate plugin for Miranda IM (http://miranda-im.org)
 Version: 0.0.2.1 (c) 2007-2009 Kildor
 Icons by Faith Healer
 

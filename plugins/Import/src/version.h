@@ -1,4 +1,4 @@
-﻿#define __MAJOR_VERSION       0
+#define __MAJOR_VERSION       0
 #define __MINOR_VERSION      95
 #define __RELEASE_NUM         4
 #define __BUILD_NUM           3

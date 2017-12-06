@@ -1,4 +1,4 @@
-﻿#include "ge.h"
+#include "ge.h"
 
 static void slide(signed char *r,const unsigned char *a)
 {

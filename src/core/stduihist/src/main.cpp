@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard ugly history viewer for Miranda NG
 

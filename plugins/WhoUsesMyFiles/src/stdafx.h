@@ -1,4 +1,4 @@
-﻿#include <windows.h>
+#include <windows.h>
 #include <lm.h>
 #include <locale.h>
 #include <shlobj.h>

@@ -1,4 +1,4 @@
-﻿[un4seen's BASS interface Miranda NG plugin.]
+[un4seen's BASS interface Miranda NG plugin.]
 [un4seen's bass interface]
 [bass.dll loading error]
 [Current bass.dll path:]

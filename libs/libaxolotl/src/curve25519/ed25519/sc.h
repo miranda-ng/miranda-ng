@@ -1,4 +1,4 @@
-﻿#ifndef SC_H
+#ifndef SC_H
 #define SC_H
 
 /*

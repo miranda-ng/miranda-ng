@@ -1,4 +1,4 @@
-﻿/*
+/*
  * A plugin for Miranda IM which displays web page text in a window Copyright 
  * (C) 2005 Vincent Joyce.
  * 

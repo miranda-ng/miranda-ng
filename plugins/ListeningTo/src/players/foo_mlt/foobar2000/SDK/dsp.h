@@ -1,4 +1,4 @@
-﻿//! Interface to a DSP chunk list. A DSP chunk list object is passed to the DSP chain each time, since DSPs are allowed to remove processed chunks or insert new ones.
+//! Interface to a DSP chunk list. A DSP chunk list object is passed to the DSP chain each time, since DSPs are allowed to remove processed chunks or insert new ones.
 class NOVTABLE dsp_chunk_list {
 public:
 	virtual t_size get_count() const = 0;

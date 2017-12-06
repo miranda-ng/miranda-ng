@@ -1,4 +1,4 @@
-﻿namespace pfc {
+namespace pfc {
 	namespace io {
 		namespace path {
 			string getFileName(string path);

@@ -1,4 +1,4 @@
-﻿#include "..\stdafx.h"
+#include "..\stdafx.h"
 #include "google_api.h"
 
 CGDriveService::CGDriveService(HNETLIBUSER hConnection)

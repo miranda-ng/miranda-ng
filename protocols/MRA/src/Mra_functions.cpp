@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 #define MRA_PASS_CRYPT_VER	2
 

@@ -1,4 +1,4 @@
-﻿#ifndef __USERDIALOG_H__
+#ifndef __USERDIALOG_H__
 #define __USERDIALOG_H__
 
 INT_PTR CALLBACK UserIdDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam);

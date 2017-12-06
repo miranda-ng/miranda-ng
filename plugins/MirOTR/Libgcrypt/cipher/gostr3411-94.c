@@ -1,4 +1,4 @@
-﻿/* gostr3411-94.c - GOST R 34.11-94 hash function
+/* gostr3411-94.c - GOST R 34.11-94 hash function
  * Copyright (C) 2012 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

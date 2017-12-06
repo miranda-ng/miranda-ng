@@ -1,4 +1,4 @@
-﻿Mail.ru Агент плагин для Miranda IM
+Mail.ru Агент плагин для Miranda IM
 
 Copyright (C) 2006-2011 Рожук Иван
 

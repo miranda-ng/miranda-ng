@@ -1,4 +1,4 @@
-﻿Miranda-Twitter
+Miranda-Twitter
 ---------------
 
 Warning! I'm not maintaining this code anymore! It's still around for people who

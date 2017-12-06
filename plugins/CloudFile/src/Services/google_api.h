@@ -1,4 +1,4 @@
-﻿#ifndef _GDRIVESERVICE_API_H_
+#ifndef _GDRIVESERVICE_API_H_
 #define _GDRIVESERVICE_API_H_
 
 namespace GDriveAPI

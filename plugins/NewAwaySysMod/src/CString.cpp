@@ -1,4 +1,4 @@
-﻿/*
+/*
 	TCString.cpp - TCString class
 	Copyright (c) 2005-2008 Chervov Dmitry
 

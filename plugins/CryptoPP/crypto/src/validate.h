@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_VALIDATE_H
+#ifndef CRYPTOPP_VALIDATE_H
 #define CRYPTOPP_VALIDATE_H
 
 #include "cryptlib.h"

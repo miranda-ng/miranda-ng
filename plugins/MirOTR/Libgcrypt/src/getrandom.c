@@ -1,4 +1,4 @@
-﻿/* getrandom.c - Libgcrypt Random Number client
+/* getrandom.c - Libgcrypt Random Number client
  * Copyright (C) 2006 Free Software Foundation, Inc.
  *
  * Getrandom is free software; you can redistribute it and/or modify

@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Omegle plugin for Miranda Instant Messenger
 _____________________________________________

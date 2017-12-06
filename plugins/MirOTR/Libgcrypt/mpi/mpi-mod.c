@@ -1,4 +1,4 @@
-﻿/* mpi-mod.c -  Modular reduction
+/* mpi-mod.c -  Modular reduction
    Copyright (C) 1998, 1999, 2001, 2002, 2003,
                  2007  Free Software Foundation, Inc.
 

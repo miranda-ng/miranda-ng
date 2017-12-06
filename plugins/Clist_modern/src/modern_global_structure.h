@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef modern_global_structure_h__
 #define modern_global_structure_h__

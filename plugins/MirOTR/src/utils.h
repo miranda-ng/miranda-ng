@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef __HEADER_UTILS_H
 #define __HEADER_UTILS_H
 #include "stdafx.h"

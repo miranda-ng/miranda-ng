@@ -1,4 +1,4 @@
-﻿/*
+/*
     Cool Scrollbar Library Version 1.2
 
     Module: coolscroll.c

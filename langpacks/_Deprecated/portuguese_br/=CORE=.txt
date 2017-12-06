@@ -1,4 +1,4 @@
-﻿[Enter account name (for example, My Google)]
+[Enter account name (for example, My Google)]
 Digite o nome da conta (por exemplo, Meu Google)
 [Choose the protocol type]
 Escolha o tipo de protocolo

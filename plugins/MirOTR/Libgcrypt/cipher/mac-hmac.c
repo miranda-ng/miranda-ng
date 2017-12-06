@@ -1,4 +1,4 @@
-﻿/* mac-hmac.c  -  HMAC glue for MAC API
+/* mac-hmac.c  -  HMAC glue for MAC API
  * Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * This file is part of Libgcrypt.

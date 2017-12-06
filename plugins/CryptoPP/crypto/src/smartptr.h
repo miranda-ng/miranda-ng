@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_SMARTPTR_H
+#ifndef CRYPTOPP_SMARTPTR_H
 #define CRYPTOPP_SMARTPTR_H
 
 #include "config.h"

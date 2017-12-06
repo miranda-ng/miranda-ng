@@ -1,4 +1,4 @@
-﻿#ifndef SIGNAL_PROTOCOL_INTERNAL_H
+#ifndef SIGNAL_PROTOCOL_INTERNAL_H
 #define SIGNAL_PROTOCOL_INTERNAL_H
 
 #include "protobuf-c/protobuf-c.h"

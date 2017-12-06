@@ -1,4 +1,4 @@
-﻿// idea.cpp - written and placed in the public domain by Wei Dai
+// idea.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "idea.h"

@@ -1,4 +1,4 @@
-﻿#ifndef SESSION_CIPHER_H
+#ifndef SESSION_CIPHER_H
 #define SESSION_CIPHER_H
 
 #include <stdint.h>

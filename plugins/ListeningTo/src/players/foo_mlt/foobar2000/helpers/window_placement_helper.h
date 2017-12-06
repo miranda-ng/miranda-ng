@@ -1,4 +1,4 @@
-﻿#ifndef _WINDOW_PLACEMENT_HELPER_H_
+#ifndef _WINDOW_PLACEMENT_HELPER_H_
 #define _WINDOW_PLACEMENT_HELPER_H_
 
 class cfg_window_placement : public cfg_var

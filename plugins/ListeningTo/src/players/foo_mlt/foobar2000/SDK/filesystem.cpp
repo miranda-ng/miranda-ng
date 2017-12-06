@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 static const char unpack_prefix[] = "unpack://";
 static const unsigned unpack_prefix_len = 9;

@@ -1,4 +1,4 @@
-﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview

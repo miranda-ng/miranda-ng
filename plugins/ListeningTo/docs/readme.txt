@@ -1,4 +1,4 @@
-﻿ListeningTo plugin
+ListeningTo plugin
 ------------------
 
 This plugins allows to set/remove your listening info to protocols that support it. It also has basic support for getting this info from the players.

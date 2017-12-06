@@ -1,4 +1,4 @@
-﻿#include "..\stdafx.h"
+#include "..\stdafx.h"
 #include "yandex_api.h"
 
 CYandexService::CYandexService(HNETLIBUSER hConnection)

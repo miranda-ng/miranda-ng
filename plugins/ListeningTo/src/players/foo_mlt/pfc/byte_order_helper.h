@@ -1,4 +1,4 @@
-﻿#ifndef _PFC_BYTE_ORDER_HELPER_
+#ifndef _PFC_BYTE_ORDER_HELPER_
 #define _PFC_BYTE_ORDER_HELPER_
 
 namespace pfc {

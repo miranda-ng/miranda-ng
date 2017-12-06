@@ -1,4 +1,4 @@
-﻿#ifndef __ZEROIZE_H__
+#ifndef __ZEROIZE_H__
 #define __ZEROIZE_H__
 
 #include <stdlib.h>

@@ -1,4 +1,4 @@
-﻿#include "sender_key.h"
+#include "sender_key.h"
 
 #include <assert.h>
 #include <string.h>

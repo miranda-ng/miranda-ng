@@ -1,4 +1,4 @@
-﻿#include "zeroize.h"
+#include "zeroize.h"
 
 void zeroize(unsigned char* b, size_t len)
 {

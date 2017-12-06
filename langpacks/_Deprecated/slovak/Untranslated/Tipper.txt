@@ -1,4 +1,4 @@
-﻿[Layout]
+[Layout]
 [Text indent:]
 [Title indent:]
 [Value indent:]

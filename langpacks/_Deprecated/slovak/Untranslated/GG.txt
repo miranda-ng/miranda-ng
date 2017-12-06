@@ -1,4 +1,4 @@
-﻿[Gadu-Gadu User Details]
+[Gadu-Gadu User Details]
 [Gadu-Gadu Number:]
 [Create new account]
 [Remove account]

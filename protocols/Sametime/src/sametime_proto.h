@@ -1,4 +1,4 @@
-﻿
+
 #ifndef _SAMETIME_PROTO_H
 #define _SAMETIME_PROTO_H
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Scriver
 
 Copyright (c) 2000-09 Miranda ICQ/IM project,

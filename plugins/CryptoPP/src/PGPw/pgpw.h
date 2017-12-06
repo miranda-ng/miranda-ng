@@ -1,4 +1,4 @@
-﻿// Windows API
+// Windows API
 
 #pragma once
 

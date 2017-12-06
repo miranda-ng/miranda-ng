@@ -1,4 +1,4 @@
-﻿Remove Personal Settings
+Remove Personal Settings
 
 Changelog:
 

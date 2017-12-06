@@ -1,4 +1,4 @@
-﻿Building PCRE without using autotools
+Building PCRE without using autotools
 -------------------------------------
 
 NOTE: This document relates to PCRE releases that use the original API, with

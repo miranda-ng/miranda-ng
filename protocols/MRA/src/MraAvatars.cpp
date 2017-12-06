@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "MraAvatars.h"
 
 #define PA_FORMAT_MAX		7

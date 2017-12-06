@@ -1,4 +1,4 @@
-﻿/*  
+/*  
  * Skype Login
  * 
  * Based on:

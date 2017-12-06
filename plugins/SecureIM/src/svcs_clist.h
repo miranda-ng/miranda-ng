@@ -1,4 +1,4 @@
-﻿#ifndef __SVCS_CLIST_H__
+#ifndef __SVCS_CLIST_H__
 #define __SVCS_CLIST_H__
 
 int __cdecl onContactSettingChanged(WPARAM,LPARAM);

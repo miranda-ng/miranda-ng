@@ -1,4 +1,4 @@
-﻿[Facebook ID]
+[Facebook ID]
 [Live ID]
 [Steam ID]
 [Tlen login]

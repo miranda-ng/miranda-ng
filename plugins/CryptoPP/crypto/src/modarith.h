@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_MODARITH_H
+#ifndef CRYPTOPP_MODARITH_H
 #define CRYPTOPP_MODARITH_H
 
 // implementations are in integer.cpp

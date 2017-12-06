@@ -1,4 +1,4 @@
-﻿#ifndef _STEAM_REQUEST_SEARCH_H_
+#ifndef _STEAM_REQUEST_SEARCH_H_
 #define _STEAM_REQUEST_SEARCH_H_
 
 class SearchRequest : public HttpRequest

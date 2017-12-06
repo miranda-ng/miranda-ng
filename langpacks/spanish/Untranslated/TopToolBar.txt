@@ -1,4 +1,4 @@
-﻿[Show main menu]
+[Show main menu]
 [Show options page]
 [Show accounts manager]
 [Show status menu]

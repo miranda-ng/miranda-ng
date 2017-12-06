@@ -1,4 +1,4 @@
-﻿#ifndef _OPTIONS_H_
+#ifndef _OPTIONS_H_
 #define _OPTIONS_H_
 
 class COptions : public CDlgBase

@@ -1,4 +1,4 @@
-﻿/* created by config.links - do not edit */
+/* created by config.links - do not edit */
 /* Host: x86_64-pc-mingw32 */
 #define ELF_SYNTAX
 /* syntax.h -- Definitions for x86 syntax variations.

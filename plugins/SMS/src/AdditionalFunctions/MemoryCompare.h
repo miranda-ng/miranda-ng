@@ -1,4 +1,4 @@
-﻿#if !defined(AFX_MEMORYCOMPARE__H__INCLUDED_)
+#if !defined(AFX_MEMORYCOMPARE__H__INCLUDED_)
 #define AFX_MEMORYCOMPARE__H__INCLUDED_
 
 __inline DWORD MemoryCompare(LPCVOID lpcSource1,size_t dwSource1Size,LPCVOID lpcSource2,size_t dwSource2Size)

@@ -1,4 +1,4 @@
-﻿/*
+/*
 	NewXstatusNotify YM - Plugin for Miranda IM
 	Copyright (c) 2001-2004 Luca Santarelli
 	Copyright (c) 2005-2007 Vasilich

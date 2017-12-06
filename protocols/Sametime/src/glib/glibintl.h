@@ -1,4 +1,4 @@
-﻿#ifndef __GLIBINTL_H__
+#ifndef __GLIBINTL_H__
 #define __GLIBINTL_H__
 
 #ifndef SIZEOF_CHAR

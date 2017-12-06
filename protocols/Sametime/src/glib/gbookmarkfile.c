@@ -1,4 +1,4 @@
-﻿/* gbookmarkfile.c: parsing and building desktop bookmarks
+/* gbookmarkfile.c: parsing and building desktop bookmarks
  *
  * Copyright (C) 2005-2006 Emmanuele Bassi
  *

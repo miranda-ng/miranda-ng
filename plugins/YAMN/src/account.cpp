@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This code implements manipulation with accounts
  * such as reading accounts from file, writing them to file,
  * finding account by name etc.

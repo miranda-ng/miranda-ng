@@ -1,4 +1,4 @@
-﻿/*
+/*
 ** $Id: lfunc.c,v 2.44 2014/10/25 11:50:46 roberto Exp roberto $
 ** Auxiliary functions to manipulate prototypes and closures
 ** See Copyright Notice in lua.h

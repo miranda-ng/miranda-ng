@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_THREEWAY_H
+#ifndef CRYPTOPP_THREEWAY_H
 #define CRYPTOPP_THREEWAY_H
 
 /** \file

@@ -1,4 +1,4 @@
-﻿/* ec-ed25519.c -  Ed25519 optimized elliptic curve functions
+/* ec-ed25519.c -  Ed25519 optimized elliptic curve functions
  * Copyright (C) 2013 g10 Code GmbH
  *
  * This file is part of Libgcrypt.

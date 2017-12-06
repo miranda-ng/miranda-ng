@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_WAIT_H
+#ifndef CRYPTOPP_WAIT_H
 #define CRYPTOPP_WAIT_H
 
 #include "config.h"

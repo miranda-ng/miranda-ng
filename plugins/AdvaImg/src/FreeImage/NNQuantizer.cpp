@@ -1,4 +1,4 @@
-﻿// NeuQuant Neural-Net Quantization Algorithm
+// NeuQuant Neural-Net Quantization Algorithm
 // ------------------------------------------
 //
 // Copyright (c) 1994 Anthony Dekker

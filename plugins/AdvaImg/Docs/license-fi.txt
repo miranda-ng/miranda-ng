@@ -1,4 +1,4 @@
-﻿FreeImage Public License - Version 1.0
+FreeImage Public License - Version 1.0
 ---------------------------------------------
 
 1. Definitions.

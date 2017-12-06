@@ -1,4 +1,4 @@
-﻿My Details plugin
+My Details plugin
 -----------------
 
 What it does:

@@ -1,4 +1,4 @@
-﻿/* mpicalc.c - Simple RPN calculator using gcry_mpi functions
+/* mpicalc.c - Simple RPN calculator using gcry_mpi functions
  * Copyright (C) 1997, 1998, 1999, 2004, 2006, 2013  Werner Koch
  *
  * This program is free software; you can redistribute it and/or modify

@@ -1,4 +1,4 @@
-﻿struct Opts
+struct Opts
 {
 	CMOption<BYTE> bUseAuthIcon;
 	CMOption<BYTE> bUseGrantIcon;

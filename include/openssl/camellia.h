@@ -1,4 +1,4 @@
-﻿/* crypto/camellia/camellia.h */
+/* crypto/camellia/camellia.h */
 /* ====================================================================
  * Copyright (c) 2006 The OpenSSL Project.  All rights reserved.
  *

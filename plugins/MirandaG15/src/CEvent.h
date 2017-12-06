@@ -1,4 +1,4 @@
-﻿#ifndef _CEVENT_H_
+#ifndef _CEVENT_H_
 #define _CEVENT_H_
 
 enum EventType {	EVENT_MSG_RECEIVED = 0,

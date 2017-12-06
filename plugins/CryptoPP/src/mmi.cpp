@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 void __fastcall safe_free(void** p)
 {

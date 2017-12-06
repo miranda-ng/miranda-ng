@@ -1,4 +1,4 @@
-﻿class file_info;
+class file_info;
 
 //! Contains various I/O related structures and interfaces.
 

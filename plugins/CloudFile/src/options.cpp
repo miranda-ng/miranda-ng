@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 COptionsMain::COptionsMain()
 	: CPluginDlgBase(hInstance, IDD_OPTIONS_MAIN, MODULE),

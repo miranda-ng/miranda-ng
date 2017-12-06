@@ -1,4 +1,4 @@
-﻿
+
 
        Tooltip notify plugin for Miranda IM
        ____________________________________

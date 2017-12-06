@@ -1,4 +1,4 @@
-﻿#include <windows.h>
+#include <windows.h>
 #include <time.h>
 
 #include <newpluginapi.h>

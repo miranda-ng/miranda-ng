@@ -1,4 +1,4 @@
-﻿
+
 Excecpt of GNU General Public License (Appendix):
  Copyright (C) 1989, 1991 Free Software Foundation, Inc.
                        51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA

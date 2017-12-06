@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Object UI extensions
 Copyright (c) 2008  Victor Pavlychko, George Hazan

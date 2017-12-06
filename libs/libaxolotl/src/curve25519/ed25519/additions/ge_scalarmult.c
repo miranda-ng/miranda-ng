@@ -1,4 +1,4 @@
-﻿#include "crypto_uint32.h"
+#include "crypto_uint32.h"
 #include "ge.h"
 #include "crypto_additions.h"
 

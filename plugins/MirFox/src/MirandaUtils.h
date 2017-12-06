@@ -1,4 +1,4 @@
-﻿#ifndef _MIRANDAUTILS_INC
+#ifndef _MIRANDAUTILS_INC
 #define _MIRANDAUTILS_INC
 
 #include "MirfoxData.h"

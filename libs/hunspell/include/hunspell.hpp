@@ -1,4 +1,4 @@
-﻿#include "../src/hunspell.h"
+#include "../src/hunspell.h"
 #include "../src/hunspell.hxx"
 #include "../src/affentry.hxx"
 #include "../src/config.h"

@@ -1,4 +1,4 @@
-﻿// esign.cpp - written and placed in the public domain by Wei Dai
+// esign.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "esign.h"

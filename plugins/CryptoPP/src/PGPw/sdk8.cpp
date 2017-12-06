@@ -1,4 +1,4 @@
-﻿#include "../commonheaders.h"
+#include "../commonheaders.h"
 
 #define PGP_WIN32 0x800
 

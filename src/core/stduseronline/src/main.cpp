@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard user online monitor for Miranda NG
 

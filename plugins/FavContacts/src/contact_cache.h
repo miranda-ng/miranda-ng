@@ -1,4 +1,4 @@
-﻿#ifndef __contact_cache__
+#ifndef __contact_cache__
 #define __contact_cache__
 
 class CContactCache

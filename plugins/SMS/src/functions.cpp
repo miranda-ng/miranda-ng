@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 BOOL DB_GetStaticStringW(MCONTACT hContact, LPSTR lpszModule, LPSTR lpszValueName, LPWSTR lpwszRetBuff, size_t dwRetBuffSize, size_t *pdwRetBuffSize)
 {// sizes in wchars

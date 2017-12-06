@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "alarm_win.h"
 
 #define ID_TIMER_SOUND				10101

@@ -1,4 +1,4 @@
-﻿#ifndef __G_TIME_ZONE_PRIVATE_H__
+#ifndef __G_TIME_ZONE_PRIVATE_H__
 #define __G_TIME_ZONE_PRIVATE_H__
 
 #include "gtimezone.h"

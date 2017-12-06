@@ -1,4 +1,4 @@
-﻿/*
+/*
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,

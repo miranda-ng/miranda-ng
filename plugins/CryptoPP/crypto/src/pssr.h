@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_PSSR_H
+#ifndef CRYPTOPP_PSSR_H
 #define CRYPTOPP_PSSR_H
 
 #include "pubkey.h"

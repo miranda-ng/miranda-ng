@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Включаемый файл, созданный в Microsoft Visual C++.
 // Используется d:\Others\SVN\MirandaNG\trunk\protocols\SkypeWeb\res\resource.rc
 //

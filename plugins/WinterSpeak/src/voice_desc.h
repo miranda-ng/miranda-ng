@@ -1,4 +1,4 @@
-﻿#include <string>
+#include <string>
 
 struct VoiceDesc
 {

@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 extern bool g_bAutoUpdate;
 extern HANDLE g_hEventWorkThreadStop;

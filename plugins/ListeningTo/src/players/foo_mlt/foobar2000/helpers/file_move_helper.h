@@ -1,4 +1,4 @@
-﻿class file_move_helper {
+class file_move_helper {
 public:
 	static bool g_on_deleted(const pfc::list_base_const_t<const char *> & p_files);
 

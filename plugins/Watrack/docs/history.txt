@@ -1,4 +1,4 @@
-﻿0.0.6.12 (17 nov 2009)
+0.0.6.12 (17 nov 2009)
   Added Last.FM scrobbling support
 0.0.6.11 (14 sep 2009)
   Added watrack parts admin page

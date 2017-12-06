@@ -1,4 +1,4 @@
-﻿IEView user's manual & FAQ v1.0
+IEView user's manual & FAQ v1.0
 -------------------------------
 
 1. Overview

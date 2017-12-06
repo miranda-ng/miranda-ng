@@ -1,4 +1,4 @@
-﻿
+
 #include <windows.h>
 #include <CommCtrl.h>
 #include <ShlObj.h>

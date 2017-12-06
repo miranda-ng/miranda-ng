@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_NETWORK_H
+#ifndef CRYPTOPP_NETWORK_H
 #define CRYPTOPP_NETWORK_H
 
 #include "config.h"

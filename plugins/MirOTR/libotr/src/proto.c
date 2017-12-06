@@ -1,4 +1,4 @@
-﻿/*
+/*
  *  Off-the-Record Messaging library
  *  Copyright (C) 2004-2016  Ian Goldberg, David Goulet, Rob Smits,
  *                           Chris Alexander, Willy Lew, Lisa Du,

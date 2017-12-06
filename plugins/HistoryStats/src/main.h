@@ -1,4 +1,4 @@
-﻿#if !defined(HISTORYSTATS_GUARD_MAIN_H)
+#if !defined(HISTORYSTATS_GUARD_MAIN_H)
 #define HISTORYSTATS_GUARD_MAIN_H
 
 #include "stdafx.h"

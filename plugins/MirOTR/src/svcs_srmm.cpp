@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 HICON hIconNotSecure, hIconFinished, hIconPrivate, hIconUnverified;
 BBButton OTRButton;

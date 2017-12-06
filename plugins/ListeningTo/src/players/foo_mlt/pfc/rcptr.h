@@ -1,4 +1,4 @@
-﻿namespace pfc {
+namespace pfc {
 
 	struct _rcptr_null;
 	typedef _rcptr_null* t_rcptr_null;

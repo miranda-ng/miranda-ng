@@ -1,4 +1,4 @@
-﻿/* gmp2-2.0.2-ppc/mpn/powerpc-linux/syntax.h   Tue Oct	6 19:27:01 1998 */
+/* gmp2-2.0.2-ppc/mpn/powerpc-linux/syntax.h   Tue Oct	6 19:27:01 1998 */
 /* From glibc's sysdeps/unix/sysv/linux/powerpc/sysdep.h */
 
 /* Copyright (C) 1992, 1997, 1998 Free Software Foundation, Inc.

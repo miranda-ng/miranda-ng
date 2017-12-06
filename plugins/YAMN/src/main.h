@@ -1,4 +1,4 @@
-﻿#ifndef __MAIN_H
+#ifndef __MAIN_H
 #define __MAIN_H
 
 #define YAMN_NEWMAILSNDDESC		LPGENW("YAMN: new mail message")

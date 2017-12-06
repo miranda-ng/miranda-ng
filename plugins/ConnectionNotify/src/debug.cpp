@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 void _OutputDebugString(wchar_t* lpOutputString, ...)
 {

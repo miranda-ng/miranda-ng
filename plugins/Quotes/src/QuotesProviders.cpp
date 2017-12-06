@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 #define LAST_RUN_VERSION "LastRunVersion"
 

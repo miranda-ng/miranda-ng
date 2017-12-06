@@ -1,4 +1,4 @@
-﻿/* Rijndael (AES) for GnuPG
+/* Rijndael (AES) for GnuPG
  * Copyright (C) 2000, 2001, 2002, 2003, 2007,
  *               2008, 2011, 2012 Free Software Foundation, Inc.
  *

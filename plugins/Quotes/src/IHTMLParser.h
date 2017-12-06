@@ -1,4 +1,4 @@
-﻿#ifndef __98ad6d6d_2a27_43fd_bf3e_c18416a45e54_IHTMLParser_h__
+#ifndef __98ad6d6d_2a27_43fd_bf3e_c18416a45e54_IHTMLParser_h__
 #define __98ad6d6d_2a27_43fd_bf3e_c18416a45e54_IHTMLParser_h__
 
 class IHTMLNode

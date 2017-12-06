@@ -1,4 +1,4 @@
-﻿/* ecc-eddsa.c  -  Elliptic Curve EdDSA signatures
+/* ecc-eddsa.c  -  Elliptic Curve EdDSA signatures
  * Copyright (C) 2013, 2014 g10 Code GmbH
  *
  * This file is part of Libgcrypt.

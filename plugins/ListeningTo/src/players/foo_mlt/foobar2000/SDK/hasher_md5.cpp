@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 GUID hasher_md5::guid_from_result(const hasher_md5_result & param)
 {

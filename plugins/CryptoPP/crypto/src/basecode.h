@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_BASECODE_H
+#ifndef CRYPTOPP_BASECODE_H
 #define CRYPTOPP_BASECODE_H
 
 #include "filters.h"

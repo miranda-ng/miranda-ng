@@ -1,4 +1,4 @@
-﻿/* visibility.c - Wrapper for all public functions.
+/* visibility.c - Wrapper for all public functions.
  * Copyright (C) 2007, 2008, 2011  Free Software Foundation, Inc.
  * Copyright (C) 2013  g10 Code GmbH
  *

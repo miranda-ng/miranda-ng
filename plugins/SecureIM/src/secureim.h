@@ -1,4 +1,4 @@
-﻿#ifndef __SECURE_IM__
+#ifndef __SECURE_IM__
 #define __SECURE_IM__
 
 // режимы шифрования SecureIM

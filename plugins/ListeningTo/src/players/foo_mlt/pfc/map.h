@@ -1,4 +1,4 @@
-﻿#ifndef _MAP_T_H_INCLUDED_
+#ifndef _MAP_T_H_INCLUDED_
 #define _MAP_T_H_INCLUDED_
 
 namespace pfc {

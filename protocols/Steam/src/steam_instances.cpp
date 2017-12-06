@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 int CSteamProto::CompareProtos(const CSteamProto *p1, const CSteamProto *p2)
 {

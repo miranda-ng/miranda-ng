@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 static int core_CreateHookableEvent(lua_State *L)
 {

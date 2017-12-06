@@ -1,4 +1,4 @@
-﻿#ifndef __TOOLS_H__
+#ifndef __TOOLS_H__
 #define __TOOLS_H__
 
 #ifdef __cplusplus

@@ -1,4 +1,4 @@
-﻿  7-Zip
+  7-Zip
   ~~~~~
   License for use and distribution
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

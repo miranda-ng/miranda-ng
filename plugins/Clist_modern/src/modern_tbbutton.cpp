@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "m_skinbutton.h"
 #include "modern_clcpaint.h"
 

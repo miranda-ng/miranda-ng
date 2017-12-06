@@ -1,4 +1,4 @@
-﻿;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
+;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
 [A list of entities with administrative privileges]
 Eine Liste an Benutzern mit administrativen Befugnissen
 [The text of an announcement to be sent to active users or all users]

@@ -1,4 +1,4 @@
-﻿#if !defined(HISTORYSTATS_GUARD_DLGOPTION_H)
+#if !defined(HISTORYSTATS_GUARD_DLGOPTION_H)
 #define HISTORYSTATS_GUARD_DLGOPTION_H
 
 #include "stdafx.h"

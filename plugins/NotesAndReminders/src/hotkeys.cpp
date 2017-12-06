@@ -1,4 +1,4 @@
-﻿#include "globals.h"
+#include "globals.h"
 
 #define MSG_WND_CLASS "MIM_SNMsgWindow"
 

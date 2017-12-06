@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: voiceservice.dll, voiceserviceW.dll
 ;  Module: Provide services for protocols that support voice calls
 ;  Versions: 0.1.2.0

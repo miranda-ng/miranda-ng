@@ -1,4 +1,4 @@
-﻿/**
+/**
  * CyrTranslit: the Cyrillic transliteration plug-in for Miranda IM.
  * Copyright 2005 Ivan Krechetov.
  *

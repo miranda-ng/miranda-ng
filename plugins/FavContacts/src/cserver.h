@@ -1,4 +1,4 @@
-﻿#ifndef cserver_h__
+#ifndef cserver_h__
 #define cserver_h__
 
 class IConnectionProcessor

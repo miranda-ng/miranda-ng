@@ -1,4 +1,4 @@
-﻿/* mkw32errmap.c - Generate mapping sources for Windows.
+/* mkw32errmap.c - Generate mapping sources for Windows.
    Copyright (C) 2010 g10 Code GmbH
 
    This file is part of libgpg-error.

@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 MessagePopup - replacer of MessageBox'es
 

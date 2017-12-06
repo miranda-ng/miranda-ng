@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_LUC_H
+#ifndef CRYPTOPP_LUC_H
 #define CRYPTOPP_LUC_H
 
 /** \file

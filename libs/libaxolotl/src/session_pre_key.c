@@ -1,4 +1,4 @@
-﻿#include "session_pre_key.h"
+#include "session_pre_key.h"
 
 #include <stdlib.h>
 #include <string.h>

@@ -1,4 +1,4 @@
-﻿#ifndef __OPTIONS_H__
+#ifndef __OPTIONS_H__
 #define __OPTIONS_H__
 
 INT_PTR CALLBACK OptionsDlgProc(HWND,UINT,WPARAM,LPARAM);

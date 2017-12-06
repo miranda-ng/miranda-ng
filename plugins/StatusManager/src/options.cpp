@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 bool IsSubPluginEnabled(const char *name)
 {

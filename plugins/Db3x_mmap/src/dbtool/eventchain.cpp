@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Miranda Database Tool
 Miranda NG: the free IM client for Microsoft* Windows*

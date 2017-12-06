@@ -1,4 +1,4 @@
-﻿/* mpihelp-add_1.c  -  MPI helper functions
+/* mpihelp-add_1.c  -  MPI helper functions
  * Copyright (C) 1994, 1996, 1997, 1998, 
  *               2000, 2002 Free Software Foundation, Inc.
  *

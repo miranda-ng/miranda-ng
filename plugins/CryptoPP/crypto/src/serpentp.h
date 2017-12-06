@@ -1,4 +1,4 @@
-﻿// private header for Serpent and Sosemanuk
+// private header for Serpent and Sosemanuk
 
 NAMESPACE_BEGIN(CryptoPP)
 

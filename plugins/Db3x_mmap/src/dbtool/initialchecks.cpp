@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda Database Tool
 Copyright (C) 2001-2005  Richard Hughes
 

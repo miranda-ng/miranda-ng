@@ -1,4 +1,4 @@
-﻿#define APPLINK_STDIN   1
+#define APPLINK_STDIN   1
 #define APPLINK_STDOUT  2
 #define APPLINK_STDERR  3
 #define APPLINK_FPRINTF 4

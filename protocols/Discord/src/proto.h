@@ -1,4 +1,4 @@
-﻿
+
 typedef __int64 SnowFlake;
 
 __forceinline int compareInt64(const SnowFlake i1, const SnowFlake i2)

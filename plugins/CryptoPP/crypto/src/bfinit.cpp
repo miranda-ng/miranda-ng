@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "blowfish.h"
 
 NAMESPACE_BEGIN(CryptoPP)

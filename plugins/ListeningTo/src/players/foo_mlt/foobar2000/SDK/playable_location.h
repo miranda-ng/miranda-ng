@@ -1,4 +1,4 @@
-﻿#ifndef _FOOBAR2000_PLAYABLE_LOCATION_H_
+#ifndef _FOOBAR2000_PLAYABLE_LOCATION_H_
 #define _FOOBAR2000_PLAYABLE_LOCATION_H_
 
 //playable_location stores location of a playable resource, currently implemented as file path and integer for indicating multiple playable "subsongs" per file

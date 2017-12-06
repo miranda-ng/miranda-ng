@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by E:\Projects\C++\miranda-ng\plugins\StatusManager\res\resource.rc
 //

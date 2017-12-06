@@ -1,4 +1,4 @@
-﻿[Delay between pings (secs):]
+[Delay between pings (secs):]
 [Ping timeout (secs):]
 [Logging]
 [Log to File]

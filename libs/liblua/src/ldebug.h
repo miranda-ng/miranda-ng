@@ -1,4 +1,4 @@
-﻿/*
+/*
 ** $Id: ldebug.h,v 2.13 2015/03/11 16:10:41 roberto Exp roberto $
 ** Auxiliary functions from Debug Interface module
 ** See Copyright Notice in lua.h

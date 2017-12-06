@@ -1,4 +1,4 @@
-﻿class file_cached : public file {
+class file_cached : public file {
 public:
 	static file::ptr g_create(service_ptr_t<file> p_base,abort_callback & p_abort, t_size blockSize) {
 		service_ptr_t<file_cached> temp = new service_impl_t<file_cached>(blockSize);

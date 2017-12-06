@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_ZINFLATE_H
+#ifndef CRYPTOPP_ZINFLATE_H
 #define CRYPTOPP_ZINFLATE_H
 
 #include "filters.h"

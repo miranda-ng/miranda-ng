@@ -1,4 +1,4 @@
-﻿#include <windows.h>
+#include <windows.h>
 #include <winsock.h>
 
 #include <iostream>

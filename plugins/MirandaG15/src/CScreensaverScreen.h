@@ -1,4 +1,4 @@
-﻿#ifndef _CSCREENSAVERSSCREEN_H_
+#ifndef _CSCREENSAVERSSCREEN_H_
 #define _CSCREENSAVERSSCREEN_H_
 
 #include "CScreen.h"

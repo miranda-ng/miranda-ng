@@ -1,4 +1,4 @@
-﻿/* GLIB - Library of useful routines for C programming
+/* GLIB - Library of useful routines for C programming
  * Copyright (C) 2008 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or

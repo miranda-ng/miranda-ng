@@ -1,4 +1,4 @@
-﻿/* gunibreak.c - line break properties
+/* gunibreak.c - line break properties
  *
  *  Copyright 2000 Red Hat, Inc.
  *

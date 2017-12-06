@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This code implements communication based on Miranda netlib library
  *
  * (c) majvan 2002-2004

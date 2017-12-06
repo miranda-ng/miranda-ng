@@ -1,4 +1,4 @@
-﻿[Provides extended options for sound notifications.]
+[Provides extended options for sound notifications.]
 [Not set]
 [Choose]
 [Test play]

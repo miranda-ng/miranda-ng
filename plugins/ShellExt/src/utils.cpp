@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 #ifdef LOG_ENABLED
 extern wchar_t tszLogPath[];

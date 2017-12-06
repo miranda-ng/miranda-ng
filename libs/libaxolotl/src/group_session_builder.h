@@ -1,4 +1,4 @@
-﻿#ifndef GROUP_SESSION_BUILDER_H
+#ifndef GROUP_SESSION_BUILDER_H
 #define GROUP_SESSION_BUILDER_H
 
 #include "signal_protocol_types.h"

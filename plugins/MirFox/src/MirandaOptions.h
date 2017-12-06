@@ -1,4 +1,4 @@
-﻿#ifndef _MIRANDA_OPTIONS_INC
+#ifndef _MIRANDA_OPTIONS_INC
 #define _MIRANDA_OPTIONS_INC
 
 #include "MirandaInterface.h"

@@ -1,4 +1,4 @@
-﻿LIBRARY mir_core.mir
+LIBRARY mir_core.mir
 
 EXPORTS
 Langpack_LookupUuid             @3

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "resource.h"
 
 static void AutoSize(HWND hwnd)

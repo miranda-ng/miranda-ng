@@ -1,4 +1,4 @@
-﻿[&Retry]
+[&Retry]
 [Scope of settings]
 [Message send timeout]
 [Message log view mode (does not affect open windows)]

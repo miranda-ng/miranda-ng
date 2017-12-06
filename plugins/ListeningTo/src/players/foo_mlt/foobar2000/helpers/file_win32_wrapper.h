@@ -1,4 +1,4 @@
-﻿namespace file_win32_helpers {
+namespace file_win32_helpers {
 	static t_filesize get_size(HANDLE p_handle) {
 		union {
 			t_uint64 val64;

@@ -1,4 +1,4 @@
-﻿[Popup history]
+[Popup history]
 [Case sensitive]
 [Default Timeout]
 [Never timeout]

@@ -1,4 +1,4 @@
-﻿/*
+/*
 IRC plugin for Miranda IM
 
 Copyright (C) 2003-05 Jurgen Persson

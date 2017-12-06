@@ -1,4 +1,4 @@
-﻿#ifndef _FRAME_INC
+#ifndef _FRAME_INC
 #define _FRAME_INC
 
 #include "alarmlist.h"

@@ -1,4 +1,4 @@
-﻿#if !defined( __UTIL_H )
+#if !defined( __UTIL_H )
    #define __UTIL_H
 
    #if !defined( __STDARG_H )

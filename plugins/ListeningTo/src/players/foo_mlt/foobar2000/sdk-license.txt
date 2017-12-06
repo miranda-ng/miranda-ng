@@ -1,4 +1,4 @@
-﻿foobar2000 1.0 SDK
+foobar2000 1.0 SDK
 Copyright (c) 2001-2010, Peter Pawlowski
 All rights reserved.
 

@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 static CModuleInfo::TXMLEnginePtr g_pXMLEngine;
 static CModuleInfo::THTMLEnginePtr g_pHTMLEngine;

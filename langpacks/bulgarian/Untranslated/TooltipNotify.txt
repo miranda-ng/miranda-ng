@@ -1,4 +1,4 @@
-﻿[Shows a small tooltip above system tray area when a contact status is changed.]
+[Shows a small tooltip above system tray area when a contact status is changed.]
 [Choose contacts]
 [Allow tooltip notifications for the following users:]
 [Notify upon the following events]

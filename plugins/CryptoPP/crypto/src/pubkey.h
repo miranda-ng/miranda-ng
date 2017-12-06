@@ -1,4 +1,4 @@
-﻿// pubkey.h - written and placed in the public domain by Wei Dai
+// pubkey.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_PUBKEY_H
 #define CRYPTOPP_PUBKEY_H

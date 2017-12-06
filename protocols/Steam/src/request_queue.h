@@ -1,4 +1,4 @@
-﻿#ifndef _REQUEST_QUEUE_H_
+#ifndef _REQUEST_QUEUE_H_
 #define _REQUEST_QUEUE_H_
 
 typedef void(*HttpResponseCallback)(const HttpResponse *response, void *arg);

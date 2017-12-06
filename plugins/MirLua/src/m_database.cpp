@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 void luaM_pushdbvt(lua_State *L, const DBVARIANT &value)
 {

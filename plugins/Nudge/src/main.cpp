@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 int nProtocol = 0;
 static HANDLE hPopupClass;

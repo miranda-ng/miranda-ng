@@ -1,4 +1,4 @@
-﻿// TooltipNotify.h: interface for the CTooltipNotify class.
+// TooltipNotify.h: interface for the CTooltipNotify class.
 //
 //////////////////////////////////////////////////////////////////////
 

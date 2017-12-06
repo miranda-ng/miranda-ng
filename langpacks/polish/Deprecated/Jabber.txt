@@ -1,4 +1,4 @@
-﻿;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
+;file \protocols\JabberG\src\obsoleted\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
 Jeden lub więcej adresów przeznaczonych do komunikacji w sprawach dotyczących nadużywania transmisji danych
 [One or more addresses for customer feedback]

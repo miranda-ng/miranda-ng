@@ -1,3 +1,3 @@
-﻿[Change status when you send/receive an event.]
+[Change status when you send/receive an event.]
 [...change status to...]
 [...if status is...]

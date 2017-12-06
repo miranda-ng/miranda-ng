@@ -1,4 +1,4 @@
-﻿/*
+/*
   Name: NewEventNotify - Plugin for Miranda IM
   File: mi.c - Manages item(s) in the Miranda Menu
   Version: 0.0.4

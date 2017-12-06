@@ -1,4 +1,4 @@
-﻿// gzip.cpp - written and placed in the public domain by Wei Dai
+// gzip.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "gzip.h"

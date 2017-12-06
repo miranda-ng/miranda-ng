@@ -1,4 +1,4 @@
-﻿#if !defined(HISTORYSTATS_GUARD_CONTACT_H)
+#if !defined(HISTORYSTATS_GUARD_CONTACT_H)
 #define HISTORYSTATS_GUARD_CONTACT_H
 
 #include "stdafx.h"

@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_PANAMA_H
+#ifndef CRYPTOPP_PANAMA_H
 #define CRYPTOPP_PANAMA_H
 
 #include "strciphr.h"

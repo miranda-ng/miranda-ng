@@ -1,4 +1,4 @@
-﻿#ifndef SIGNAL_UTARRAY_H
+#ifndef SIGNAL_UTARRAY_H
 #define SIGNAL_UTARRAY_H
 
 #include "signal_protocol.h"

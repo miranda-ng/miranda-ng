@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "MirandaDialog.h"
 #include "ConfigDatabase.h"

@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_MQUEUE_H
+#ifndef CRYPTOPP_MQUEUE_H
 #define CRYPTOPP_MQUEUE_H
 
 #include "queue.h"

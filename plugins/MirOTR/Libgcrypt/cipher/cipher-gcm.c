@@ -1,4 +1,4 @@
-﻿/* cipher-gcm.c  - Generic Galois Counter Mode implementation
+/* cipher-gcm.c  - Generic Galois Counter Mode implementation
  * Copyright (C) 2013 Dmitry Eremin-Solenikov
  * Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *

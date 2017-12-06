@@ -1,4 +1,4 @@
-﻿#ifndef JSON_WORKER_H
+#ifndef JSON_WORKER_H
 #define JSON_WORKER_H
 
 class LIBJSON_EXPORT JSONWorker

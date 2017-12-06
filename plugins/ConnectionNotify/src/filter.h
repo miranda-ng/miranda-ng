@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef _INC_FILTER
 #define _INC_FILTER
 

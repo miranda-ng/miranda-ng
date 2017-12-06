@@ -1,4 +1,4 @@
-﻿#if !defined(HISTORYSTATS_GUARD__GLOABLS_H)
+#if !defined(HISTORYSTATS_GUARD__GLOABLS_H)
 #define HISTORYSTATS_GUARD__GLOABLS_H
 
 #pragma warning(disable: 4018) // FIXME: supress "signed/unsigned mismatch" warnings

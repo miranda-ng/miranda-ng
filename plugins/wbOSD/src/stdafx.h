@@ -1,4 +1,4 @@
-﻿/*
+/*
 Wannabe OSD
 This plugin tries to become miranda's standard OSD ;-)
 

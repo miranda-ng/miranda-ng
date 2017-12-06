@@ -1,4 +1,4 @@
-﻿/* ***** BEGIN LICENSE BLOCK *****
+/* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
  * Copyright (C) 2002-2017 Németh László

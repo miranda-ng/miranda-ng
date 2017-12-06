@@ -1,4 +1,4 @@
-﻿#ifndef __CLIENT_H
+#ifndef __CLIENT_H
 #define __CLIENT_H
 
 class CNetClient

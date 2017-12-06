@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 static void SaveButton(HWND hwndDlg, HWND hwndCombo, int curIndex)
 {

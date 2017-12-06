@@ -1,4 +1,4 @@
-﻿Spell Checker plugin
+Spell Checker plugin
 --------------------
 
 This is a spell checker for message windows. It also allow to configure replacements to auto-correct words.

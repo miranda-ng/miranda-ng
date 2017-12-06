@@ -1,4 +1,4 @@
-﻿/* whirlpool.c - Whirlpool hashing algorithm
+/* whirlpool.c - Whirlpool hashing algorithm
  * Copyright (C) 2005 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

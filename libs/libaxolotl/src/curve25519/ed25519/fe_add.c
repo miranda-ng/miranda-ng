@@ -1,4 +1,4 @@
-﻿#include "fe.h"
+#include "fe.h"
 
 /*
 h = f + g

@@ -1,4 +1,4 @@
-﻿/*
+/*
 pthread Portable implementation
 
 Copyright (c) 2003 Robert Rainwater

@@ -1,4 +1,4 @@
-﻿#define IDI_PREV_NORMAL    1
+#define IDI_PREV_NORMAL    1
 #define IDI_PREV_HOVERED   2
 #define IDI_PREV_PRESSED   3
                    

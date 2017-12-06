@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_HAVAL_H
+#ifndef CRYPTOPP_HAVAL_H
 #define CRYPTOPP_HAVAL_H
 
 #include "iterhash.h"

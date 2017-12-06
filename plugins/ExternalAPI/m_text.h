@@ -1,4 +1,4 @@
-﻿#ifndef __mtext_h__
+#ifndef __mtext_h__
 #define __mtext_h__
 
 // NEW mtextcontrol interface:

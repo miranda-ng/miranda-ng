@@ -1,4 +1,4 @@
-﻿file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
+file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
 if(CMAKE_CL_64)
 	list(APPEND SOURCES "src/mir_app64.def")
 else()

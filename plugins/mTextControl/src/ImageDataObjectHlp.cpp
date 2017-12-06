@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda SmileyAdd Plugin
 Copyright (C) 2004-2005 Rein-Peter de Boer (peacow) and followers
 

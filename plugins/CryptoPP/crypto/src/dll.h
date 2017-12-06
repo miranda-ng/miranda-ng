@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_DLL_H
+#ifndef CRYPTOPP_DLL_H
 #define CRYPTOPP_DLL_H
 
 #if !defined(CRYPTOPP_IMPORTS) && !defined(CRYPTOPP_EXPORTS) && !defined(CRYPTOPP_DEFAULT_NO_DLL)

@@ -1,4 +1,4 @@
-﻿#include "crypto_additions.h"
+#include "crypto_additions.h"
 
 void sc_clamp(unsigned char* a)
 {

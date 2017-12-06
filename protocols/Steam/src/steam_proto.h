@@ -1,4 +1,4 @@
-﻿#ifndef _STEAM_PROTO_H_
+#ifndef _STEAM_PROTO_H_
 #define _STEAM_PROTO_H_
 
 #define STEAM_SEARCH_BYID 1001

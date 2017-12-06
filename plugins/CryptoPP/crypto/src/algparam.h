@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_ALGPARAM_H
+#ifndef CRYPTOPP_ALGPARAM_H
 #define CRYPTOPP_ALGPARAM_H
 
 #include "cryptlib.h"

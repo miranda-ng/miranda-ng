@@ -1,4 +1,4 @@
-﻿#ifndef M_GENMENU_H__
+#ifndef M_GENMENU_H__
 #define M_GENMENU_H__
 
 #ifndef M_CORE_H__

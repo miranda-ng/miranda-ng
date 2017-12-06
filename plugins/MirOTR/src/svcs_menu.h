@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 INT_PTR SVC_StartOTR(WPARAM wParam, LPARAM lParam);
 INT_PTR SVC_RefreshOTR(WPARAM wParam, LPARAM lParam);
 INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam);

@@ -1,4 +1,4 @@
-﻿// nbtheory.h - written and placed in the public domain by Wei Dai
+// nbtheory.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_NBTHEORY_H
 #define CRYPTOPP_NBTHEORY_H

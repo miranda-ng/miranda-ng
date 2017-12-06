@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 cfg_var_reader * cfg_var_reader::g_list = NULL;
 cfg_var_writer * cfg_var_writer::g_list = NULL;

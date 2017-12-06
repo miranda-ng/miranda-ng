@@ -1,4 +1,4 @@
-﻿[Unread emails]
+[Unread emails]
 [Mark as read]
 [Server:]
 [Preferences]

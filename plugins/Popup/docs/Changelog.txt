@@ -1,4 +1,4 @@
-﻿Popup Plus: 2.1.1.6
+Popup Plus: 2.1.1.6
 +added support for custom langpacks
 +added hotkey to open popup history
 +added action copy to clipboard

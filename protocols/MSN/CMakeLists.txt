@@ -1,4 +1,4 @@
-﻿file(GLOB SOURCES "src/*.h" "src/skylogin/*.h" "src/*.cpp" "src/*.c" "src/skylogin/*.c" "res/*.rc")
+file(GLOB SOURCES "src/*.h" "src/skylogin/*.h" "src/*.cpp" "src/*.c" "src/skylogin/*.c" "res/*.rc")
 set(TARGET MSN)
 include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
 target_link_libraries(${TARGET} libjson ${OPENSSL_LIBRARIES} comctl32.lib)

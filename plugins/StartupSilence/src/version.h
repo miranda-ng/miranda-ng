@@ -1,4 +1,4 @@
-﻿// Set the version number here - it will affect the version resource and the version field of the pluginInfo structure
+// Set the version number here - it will affect the version resource and the version field of the pluginInfo structure
 // (Be careful that you don't have the resource file open when you change this and rebuild, otherwise the changes may not
 // take effect within the version resource)
 // Do not forget to define symbol "_DEBUG" for resource compiler if you use debug configuration (in VisualStudio you can

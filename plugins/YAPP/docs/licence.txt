@@ -1,4 +1,4 @@
-﻿The YAPP plugin for Miranda-IM is Copyright (c) 2006 Scott Ellis (mail@scottellis.com.au)
+The YAPP plugin for Miranda-IM is Copyright (c) 2006 Scott Ellis (mail@scottellis.com.au)
 
 http://www.scottellis.com.au
 

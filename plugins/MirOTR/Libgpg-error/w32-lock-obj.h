@@ -1,4 +1,4 @@
-﻿/* w32-lock-obj.h - Declaration of the Windows lock object
+/* w32-lock-obj.h - Declaration of the Windows lock object
    Copyright (C) 2014 g10 Code GmbH
 
    This file is part of libgpg-error.

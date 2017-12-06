@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_IDA_H
+#ifndef CRYPTOPP_IDA_H
 #define CRYPTOPP_IDA_H
 
 #include "mqueue.h"

@@ -1,4 +1,4 @@
-﻿/* ath.c - A Thread-safeness library.
+/* ath.c - A Thread-safeness library.
  *  Copyright (C) 2002, 2003, 2004, 2011 Free Software Foundation, Inc.
  *  Copyright (C) 2014 g10 Code GmbH
  *

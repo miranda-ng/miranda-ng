@@ -1,4 +1,4 @@
-﻿void ReadSettingBlob(MCONTACT hContact, char *ModuleName,
+void ReadSettingBlob(MCONTACT hContact, char *ModuleName,
 					 char *SettingName, WORD *pSize, void **pbBlob);
 void FreeSettingBlob(WORD pSize,void * pbBlob);
 BOOL ReadSettingBool(MCONTACT hContact,char *ModuleName,

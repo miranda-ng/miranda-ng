@@ -1,4 +1,4 @@
-﻿#ifndef __148306d1_da2a_43df_b1ad_0cdc8ef8a79e_QuotesProviders_h__
+#ifndef __148306d1_da2a_43df_b1ad_0cdc8ef8a79e_QuotesProviders_h__
 #define __148306d1_da2a_43df_b1ad_0cdc8ef8a79e_QuotesProviders_h__
 
 class IQuotesProvider;

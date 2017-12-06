@@ -1,4 +1,4 @@
-﻿/* opensslconf.h */
+/* opensslconf.h */
 /* WARNING: Generated automatically from opensslconf.h.in by Configure. */
 
 #ifdef  __cplusplus

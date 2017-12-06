@@ -1,4 +1,4 @@
-﻿#ifndef _M_LUA_H_
+#ifndef _M_LUA_H_
 #define _M_LUA_H_
 
 // Call lua function from module

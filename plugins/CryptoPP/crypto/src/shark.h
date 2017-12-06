@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_SHARK_H
+#ifndef CRYPTOPP_SHARK_H
 #define CRYPTOPP_SHARK_H
 
 /** \file

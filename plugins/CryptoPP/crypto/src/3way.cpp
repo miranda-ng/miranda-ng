@@ -1,4 +1,4 @@
-﻿// 3way.cpp - modifed by Wei Dai from Joan Daemen's 3way.c
+// 3way.cpp - modifed by Wei Dai from Joan Daemen's 3way.c
 // The original code and all modifications are in the public domain.
 
 #include "pch.h"

@@ -1,4 +1,4 @@
-﻿#ifndef http_api_h__
+#ifndef http_api_h__
 #define http_api_h__
 
 void LoadHttpApi();

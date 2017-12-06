@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 #include "sametime.h"
 
 INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)

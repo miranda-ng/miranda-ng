@@ -1,4 +1,4 @@
-﻿#ifndef _TOX_ADDRESS_H_
+#ifndef _TOX_ADDRESS_H_
 #define _TOX_ADDRESS_H_
 
 class ToxHexAddress;

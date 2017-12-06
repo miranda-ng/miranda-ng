@@ -1,4 +1,4 @@
-﻿Some plugins in this folder can be automatically loaded into players. This means that you don't have to do nothing and the plugin will be loaded into the player when it is first detected running.
+Some plugins in this folder can be automatically loaded into players. This means that you don't have to do nothing and the plugin will be loaded into the player when it is first detected running.
 
 For this to happen 3 things are needed:
 1. The following option must be enabled: "Allow auto-loading plugins into players (affect players with *)" (Inside Options->Status->Listening info->Players)

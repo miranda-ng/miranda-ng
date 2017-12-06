@@ -1,4 +1,4 @@
-﻿[TranslitSwitcher]
+[TranslitSwitcher]
 [Switch Layout and Send]
 [Translit and Send]
 [Invert Case and Send]

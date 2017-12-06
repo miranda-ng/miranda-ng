@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_HRTIMER_H
+#ifndef CRYPTOPP_HRTIMER_H
 #define CRYPTOPP_HRTIMER_H
 
 #include "config.h"

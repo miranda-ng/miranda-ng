@@ -1,4 +1,4 @@
-﻿// haval.cpp - written and placed in the public domain by Wei Dai
+// haval.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "haval.h"

@@ -1,4 +1,4 @@
-﻿class _meta_table_enum_wrapper {
+class _meta_table_enum_wrapper {
 public:
 	_meta_table_enum_wrapper(file_info & p_info) : m_info(p_info) {}
 	template<typename t_values>

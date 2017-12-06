@@ -1,4 +1,4 @@
-﻿std::wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, std::wstring errorValue);
+std::wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModule, char const * szSetting, std::wstring errorValue);
 std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szModule, char const * szSetting, std::string errorValue);
 std::wstring &GetDlgItemString(HWND hwnd, int id);
 std::string &GetProtoList();

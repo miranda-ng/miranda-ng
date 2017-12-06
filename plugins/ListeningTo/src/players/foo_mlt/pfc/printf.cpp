@@ -1,4 +1,4 @@
-﻿#include "pfc.h"
+#include "pfc.h"
 
 //implementations of deprecated string_printf methods, with a pragma to disable warnings when they reference other deprecated methods.
 

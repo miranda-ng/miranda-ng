@@ -1,4 +1,4 @@
-﻿#ifndef __m_yapp_h__
+#ifndef __m_yapp_h__
 #define __m_yapp_h__
 
 #define NFOPT_POPUP2_BACKCOLOR    "Popup2/BackColor"

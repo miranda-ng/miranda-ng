@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Pcre.cpp
 	Copyright (c) 2007-2008 Chervov Dmitry
 

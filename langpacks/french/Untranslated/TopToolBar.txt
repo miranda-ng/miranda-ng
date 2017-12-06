@@ -1,4 +1,4 @@
-﻿[ToptoolBar adds buttons in top frame for fast access.]
+[ToptoolBar adds buttons in top frame for fast access.]
 [Button height]
 [Interval between buttons]
 [Use flat mode]

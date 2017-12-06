@@ -1,4 +1,4 @@
-﻿file(GLOB SOURCES "src/*.h" "src/*.cpp" "src/dbtool/*.cpp" "res/*.rc")
+file(GLOB SOURCES "src/*.h" "src/*.cpp" "src/dbtool/*.cpp" "res/*.rc")
 set(TARGET Dbx_mmap)
 
 # Just a workaround. Better to fix plugins that do not compile with this option.

@@ -1,4 +1,4 @@
-﻿[No sounds when:]
+[No sounds when:]
 [No CList blink when:]
 [No SysTray blink when:]
 [Zero Notifications]

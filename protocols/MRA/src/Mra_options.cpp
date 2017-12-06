@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

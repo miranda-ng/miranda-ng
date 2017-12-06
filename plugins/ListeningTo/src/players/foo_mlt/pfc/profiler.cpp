@@ -1,4 +1,4 @@
-﻿#include "pfc.h"
+#include "pfc.h"
 
 #ifdef _WINDOWS
 namespace pfc {

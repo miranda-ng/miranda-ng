@@ -1,4 +1,4 @@
-﻿namespace listview_helper
+namespace listview_helper
 {
 	unsigned insert_item(HWND p_listview,unsigned p_index,const char * p_name,LPARAM p_param);//returns index of new item on success, infinite on failure
 

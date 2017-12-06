@@ -1,4 +1,4 @@
-﻿[Not secured for NotOnList]
+[Not secured for NotOnList]
 [Auto accept RSA key (NOT SECURED)]
 [Mode in Context Menu]
 [SecureIM plugin Passphrase of private key]

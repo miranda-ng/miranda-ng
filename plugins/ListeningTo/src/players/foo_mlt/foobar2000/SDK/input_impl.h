@@ -1,4 +1,4 @@
-﻿enum t_input_open_reason {
+enum t_input_open_reason {
 	input_open_info_read,
 	input_open_decode,
 	input_open_info_write

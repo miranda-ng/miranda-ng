@@ -1,4 +1,4 @@
-﻿#include "sender_key_state.h"
+#include "sender_key_state.h"
 
 #include <stdlib.h>
 #include <string.h>

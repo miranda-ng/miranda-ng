@@ -1,4 +1,4 @@
-﻿namespace pfc {
+namespace pfc {
 	class comparator_default;
 
 	template<typename t_comparator = comparator_default>

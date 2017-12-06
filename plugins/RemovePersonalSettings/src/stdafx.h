@@ -1,4 +1,4 @@
-﻿/*
+/*
    Authorization State plugin for Miranda NG (www.miranda-ng.org)
    (c) 2006-2010 by Thief
 

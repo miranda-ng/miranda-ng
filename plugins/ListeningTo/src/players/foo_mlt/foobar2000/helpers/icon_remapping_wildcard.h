@@ -1,4 +1,4 @@
-﻿class icon_remapping_wildcard_impl : public icon_remapping {
+class icon_remapping_wildcard_impl : public icon_remapping {
 public:
 	icon_remapping_wildcard_impl(const char * p_pattern,const char * p_iconname) : m_pattern(p_pattern), m_iconname(p_iconname) {}
 	bool query(const char * p_extension,pfc::string_base & p_iconname) {

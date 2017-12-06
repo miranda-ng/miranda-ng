@@ -1,4 +1,4 @@
-﻿Болтун 0.3.0 Unicode Alpha 7
+Болтун 0.3.0 Unicode Alpha 7
 
 08.01.2009.
 

@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 void HistoryLog(MCONTACT hContact, LPCSTR szText)
 {

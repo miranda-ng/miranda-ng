@@ -1,4 +1,4 @@
-﻿Popis:     Иeskэ pшeklad komunikбtoru Miranda-IM
+Popis:     Иeskэ pшeklad komunikбtoru Miranda-IM
 Autoшi:    Vнt Љindlбш & dalљн (viz langpack_czech.txt)
 Verze:     2.19.x
 Poћadavky: Miranda-IM 0.9.47 nebo novмjљн

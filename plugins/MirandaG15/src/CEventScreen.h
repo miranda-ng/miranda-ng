@@ -1,4 +1,4 @@
-﻿#ifndef _CEVENTSCREEN_H_
+#ifndef _CEVENTSCREEN_H_
 #define _CEVENTSCREEN_H_
 
 #include "CScreen.h"

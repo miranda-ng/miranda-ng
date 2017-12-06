@@ -1,4 +1,4 @@
-﻿/* mpi-mpow.c  -  MPI functions
+/* mpi-mpow.c  -  MPI functions
  *	Copyright (C) 1998, 1999, 2001, 2002, 2003 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

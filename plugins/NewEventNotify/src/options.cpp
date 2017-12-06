@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Name: NewEventNotify - Plugin for Miranda IM
 	File: options.c - Manages Option Dialogs and Settings
 	Version: 0.0.4

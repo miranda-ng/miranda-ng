@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 // return SignID
 int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg = nullptr)

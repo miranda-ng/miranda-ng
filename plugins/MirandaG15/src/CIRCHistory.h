@@ -1,4 +1,4 @@
-﻿#ifndef _CIRCHISTORY_H_
+#ifndef _CIRCHISTORY_H_
 #define _CIRCHISTORY_H_
 
 struct SIRCMessage

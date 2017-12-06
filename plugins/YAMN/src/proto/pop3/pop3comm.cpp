@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This code implements POP3 server checking for new mail and so on.
  * There's function SynchroPOP3 in this file- for checking and synchronising POP3 account
  * and DeleteMailsPOP3- for deleting mails from POP3 server

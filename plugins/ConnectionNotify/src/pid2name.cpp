@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 void pid2name(DWORD procid, wchar_t *buffer, size_t bufLen)
 {

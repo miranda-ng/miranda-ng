@@ -1,4 +1,4 @@
-﻿
+
 /*
  * Miranda IM LCD Plugin
  * Displays incoming text messages on an LCD.

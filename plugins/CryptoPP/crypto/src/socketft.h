@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_SOCKETFT_H
+#ifndef CRYPTOPP_SOCKETFT_H
 #define CRYPTOPP_SOCKETFT_H
 
 #include "config.h"

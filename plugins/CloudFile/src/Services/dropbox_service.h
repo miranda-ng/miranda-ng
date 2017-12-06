@@ -1,4 +1,4 @@
-﻿#ifndef _CLOUDSERVICE_DROPBOX_H_
+#ifndef _CLOUDSERVICE_DROPBOX_H_
 #define _CLOUDSERVICE_DROPBOX_H_
 
 class CDropboxService : public CCloudService

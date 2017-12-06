@@ -1,4 +1,4 @@
-﻿#include "ge.h"
+#include "ge.h"
 
 static const fe d = {
 #include "d.h"

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 LRESULT CALLBACK NullWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef __ac71e133_786c_41a7_ab07_625b76ff2a8c_QuotesProvider_h__
 #define __ac71e133_786c_41a7_ab07_625b76ff2a8c_QuotesProvider_h__

@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 
 #ifdef _WIN32
 #include <ks.h>

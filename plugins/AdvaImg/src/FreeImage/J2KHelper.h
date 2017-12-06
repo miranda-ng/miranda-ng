@@ -1,4 +1,4 @@
-﻿#ifndef J2K_HELPER_H
+#ifndef J2K_HELPER_H
 #define J2K_HELPER_H
 
 // ==========================================================

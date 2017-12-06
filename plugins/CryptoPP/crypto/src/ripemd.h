@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_RIPEMD_H
+#ifndef CRYPTOPP_RIPEMD_H
 #define CRYPTOPP_RIPEMD_H
 
 #include "iterhash.h"

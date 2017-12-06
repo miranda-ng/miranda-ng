@@ -1,4 +1,4 @@
-﻿[Publicly visible status]
+[Publicly visible status]
 [Tlen Voice Chat]
 [Tlen inbox]
 [Microphone]

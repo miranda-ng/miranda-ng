@@ -1,4 +1,4 @@
-﻿LIBRARY ShlExt
+LIBRARY ShlExt
 
 EXPORTS
 DllCanUnloadNow PRIVATE

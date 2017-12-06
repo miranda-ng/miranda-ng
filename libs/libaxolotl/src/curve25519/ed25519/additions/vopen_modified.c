@@ -1,4 +1,4 @@
-﻿#include <string.h>
+#include <string.h>
 #include "sc.h"
 #include "ge.h"
 #include "crypto_hash_sha512.h"

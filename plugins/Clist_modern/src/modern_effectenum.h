@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 typedef signed char sbyte;
 typedef struct _MODERNEFFECTMATRIX

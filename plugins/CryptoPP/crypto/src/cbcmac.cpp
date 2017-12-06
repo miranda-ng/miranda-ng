@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 
 #ifndef CRYPTOPP_IMPORTS
 

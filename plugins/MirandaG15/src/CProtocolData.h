@@ -1,4 +1,4 @@
-﻿#ifndef _CPROTOCLDATA_H_INCLUDED_ 
+#ifndef _CPROTOCLDATA_H_INCLUDED_ 
 #define _CPROTOCLDATA_H_INCLUDED_ 
 
 class CProtocolData

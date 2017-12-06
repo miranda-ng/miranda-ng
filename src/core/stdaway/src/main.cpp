@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard away message processing module for Miranda NG
 

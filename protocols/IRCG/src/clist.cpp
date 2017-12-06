@@ -1,4 +1,4 @@
-﻿
+
 /*
 IRC plugin for Miranda IM
 

@@ -1,4 +1,4 @@
-﻿#ifndef _LUA_M_DATABASE_H_
+#ifndef _LUA_M_DATABASE_H_
 #define _LUA_M_DATABASE_H_
 
 #include <m_database.h>

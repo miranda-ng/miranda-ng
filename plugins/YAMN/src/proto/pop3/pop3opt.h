@@ -1,4 +1,4 @@
-﻿#ifndef __OPTIONS_H
+#ifndef __OPTIONS_H
 #define __OPTIONS_H
 
 #define M_SHOWACTUAL	0

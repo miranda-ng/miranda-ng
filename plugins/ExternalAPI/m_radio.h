@@ -1,4 +1,4 @@
-﻿#ifndef M_RADIO
+#ifndef M_RADIO
 #define M_RADIO
 
 #ifndef MIID_MRADIO

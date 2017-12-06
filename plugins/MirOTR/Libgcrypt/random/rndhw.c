@@ -1,4 +1,4 @@
-﻿/* rndhw.c  - Access to the external random daemon
+/* rndhw.c  - Access to the external random daemon
  * Copyright (C) 2007  Free Software Foundation, Inc.
  * Copyright (C) 2012  Dmitry Kasatkin
  *

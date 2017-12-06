@@ -1,4 +1,4 @@
-﻿/* hwf-common.h - Declarations for hwf-CPU.c modules
+/* hwf-common.h - Declarations for hwf-CPU.c modules
  * Copyright (C) 2012  g10 Code GmbH
  *
  * This file is part of Libgcrypt.

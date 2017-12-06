@@ -1,4 +1,4 @@
-﻿Last Seen plugin
+Last Seen plugin
 ****************
 This plugin logs when a contact was last seen online.
 You can choose between contactmenu item, userinfo page and file output.

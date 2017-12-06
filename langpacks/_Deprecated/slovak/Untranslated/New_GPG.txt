@@ -1,4 +1,4 @@
-﻿[Load Public GPG key]
+[Load Public GPG key]
 [Load from file]
 [Select existing]
 [Turn on encryption]

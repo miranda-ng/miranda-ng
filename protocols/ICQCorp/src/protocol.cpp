@@ -1,4 +1,4 @@
-﻿/*
+/*
 	ICQ Corporate protocol plugin for Miranda IM.
 	Copyright (C) 2003-2005 Eugene Tarasenko <zlyden13@inbox.ru>
 

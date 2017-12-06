@@ -1,4 +1,4 @@
-﻿file(GLOB SOURCES "src/*.h" "src/*.cpp")
+file(GLOB SOURCES "src/*.h" "src/*.cpp")
 if(CMAKE_CL_64)
 	list(APPEND SOURCES "src/libjson64.def")
 else()

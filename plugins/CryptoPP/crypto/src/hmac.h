@@ -1,4 +1,4 @@
-﻿// hmac.h - written and placed in the public domain by Wei Dai
+// hmac.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_HMAC_H
 #define CRYPTOPP_HMAC_H

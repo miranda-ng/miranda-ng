@@ -1,4 +1,4 @@
-﻿#ifndef _TOX_PROTO_H_
+#ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
 struct CToxProto : public PROTO<CToxProto>

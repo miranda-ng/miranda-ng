@@ -1,4 +1,4 @@
-﻿#ifndef _foobar2000_sdk_link_resolver_h_
+#ifndef _foobar2000_sdk_link_resolver_h_
 #define _foobar2000_sdk_link_resolver_h_
 
 //! Interface for resolving different sorts of link files.

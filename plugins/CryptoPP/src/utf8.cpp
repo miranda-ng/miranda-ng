@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 LPSTR szOut = nullptr;
 LPWSTR wszOut = nullptr;

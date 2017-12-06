@@ -1,4 +1,4 @@
-﻿struct MessageReadData
+struct MessageReadData
 {
 	DWORD dw_lastTime;
 	int iTimeType;

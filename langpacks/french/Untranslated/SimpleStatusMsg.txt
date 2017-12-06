@@ -1,4 +1,4 @@
-﻿[Provides a simple way to set status and away messages.]
+[Provides a simple way to set status and away messages.]
 [%s message (%s)]
 [Behavior on status change]
 [Apply to all]

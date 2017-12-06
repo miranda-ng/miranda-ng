@@ -1,4 +1,4 @@
-﻿/*
+/*
    Splash Screen Plugin for Miranda NG (www.miranda-ng.org)
    (c) 2004-2007 nullbie, (c) 2005-2007 Thief
 

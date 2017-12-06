@@ -1,4 +1,4 @@
-﻿#include "pfc.h"
+#include "pfc.h"
 
 #if defined(_M_IX86) || defined(_M_IX64)
 #include <intrin.h>

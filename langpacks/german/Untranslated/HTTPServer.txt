@@ -1,4 +1,4 @@
-﻿[IPAddress1]
+[IPAddress1]
 [IPAddress2]
 [Failed to get access to clipboard]
 [Failed to get close the clipboard]

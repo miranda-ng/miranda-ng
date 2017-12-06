@@ -1,4 +1,4 @@
-﻿#include <string.h>
+#include <string.h>
 #include <stdlib.h>
 #include "ge.h"
 #include "curve_sigs.h"

@@ -1,4 +1,4 @@
-﻿/*
+/*
 yaRelay.cpp
 
 Yet Another Relay plugin. v.0.0.0.3

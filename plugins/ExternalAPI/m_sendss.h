@@ -1,4 +1,4 @@
-﻿//This file is part of Send Screenshot a Miranda IM plugin
+//This file is part of Send Screenshot a Miranda IM plugin
 //Copyright (c) 2004-2006 Sérgio Vieira Rolanski
 //
 //This program is free software; you can redistribute it and/or

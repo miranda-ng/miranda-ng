@@ -1,4 +1,4 @@
-﻿#ifndef _LUA_ENVIRONMENT_H_
+#ifndef _LUA_ENVIRONMENT_H_
 #define _LUA_ENVIRONMENT_H_
 
 class CMLuaEnvironment

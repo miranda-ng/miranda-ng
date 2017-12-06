@@ -1,4 +1,4 @@
-﻿/* gkeyfile.c - key file parser
+/* gkeyfile.c - key file parser
  *
  *  Copyright 2004  Red Hat, Inc.  
  *  Copyright 2009-2010  Collabora Ltd.

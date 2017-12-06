@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda Text Control - Plugin for Miranda IM
 
 Copyright	© 2005 Victor Pavlychko (nullbie@gmail.com),

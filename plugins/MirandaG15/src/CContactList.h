@@ -1,4 +1,4 @@
-﻿#ifndef _CCONTACTLIST_H_
+#ifndef _CCONTACTLIST_H_
 #define _CCONTACTLIST_H_
 
 #include "LCDFramework/CLCDList.h"

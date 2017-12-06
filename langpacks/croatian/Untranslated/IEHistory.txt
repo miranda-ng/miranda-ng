@@ -1,4 +1,4 @@
-﻿[Shows the history for a given contact using IEView.]
+[Shows the history for a given contact using IEView.]
 [Dialog]
 [Close]
 [&Prev]

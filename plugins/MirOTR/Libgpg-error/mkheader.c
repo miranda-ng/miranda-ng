@@ -1,4 +1,4 @@
-﻿/* mkheader.c - Create a header file for libgpg-error
+/* mkheader.c - Create a header file for libgpg-error
  * Copyright (C) 2010 Free Software Foundation, Inc.
  * Copyright (C) 2014 g10 Code GmbH
  *

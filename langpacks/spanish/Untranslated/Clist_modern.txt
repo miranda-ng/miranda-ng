@@ -1,4 +1,4 @@
-﻿[Skin folder]
+[Skin folder]
 [Use xStatus icon]
 [Icon mode]
 [For similar statuses]

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #define SCBIFSI_LOCK_CHANGES_EVENTS	1
 #define SCBIF_ID			1

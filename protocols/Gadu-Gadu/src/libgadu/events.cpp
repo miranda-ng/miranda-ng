@@ -1,4 +1,4 @@
-﻿/* coding: UTF-8 */
+/* coding: UTF-8 */
 /* $Id: events.c 13583 2011-04-12 12:51:18Z dezred $ */
 
 /*

@@ -1,4 +1,4 @@
-﻿#ifndef crypto_sign_edwards25519sha512batch_H
+#ifndef crypto_sign_edwards25519sha512batch_H
 #define crypto_sign_edwards25519sha512batch_H
 
 #define crypto_sign_edwards25519sha512batch_ref10_SECRETKEYBYTES 64

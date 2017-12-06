@@ -1,4 +1,4 @@
-﻿[Transparency:]
+[Transparency:]
 [Window behavior:]
 [List sorting:]
 [Status bar:]

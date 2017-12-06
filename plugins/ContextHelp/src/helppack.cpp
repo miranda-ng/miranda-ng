@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda IM Help Plugin
 Copyright (C) 2002 Richard Hughes, 2005-2007 H. Herkenrath
 

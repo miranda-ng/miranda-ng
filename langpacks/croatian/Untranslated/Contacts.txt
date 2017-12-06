@@ -1,4 +1,4 @@
-﻿[Allows you to send and receive contacts.]
+[Allows you to send and receive contacts.]
 [Send contacts]
 [&User menu]
 [Choose contacts to be send:]

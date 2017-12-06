@@ -1,4 +1,4 @@
-﻿[Simple updater for Miranda NG premodified packs.]
+[Simple updater for Miranda NG premodified packs.]
 [Updates found!]
 [Update]
 [View info]

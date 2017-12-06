@@ -1,4 +1,4 @@
-﻿[Remove personal settings to allow you to send a profile to other user(s) without sending personal data.]
+[Remove personal settings to allow you to send a profile to other user(s) without sending personal data.]
 [Remove Personal Settings...]
 [Configuration file could not be found!]
 [Settings are deleted now.]

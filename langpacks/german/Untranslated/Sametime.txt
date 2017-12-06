@@ -1,4 +1,4 @@
-﻿[Master channel error]
+[Master channel error]
 [Already subscribed]
 [Not subscribed]
 [Not enough buffers memory]

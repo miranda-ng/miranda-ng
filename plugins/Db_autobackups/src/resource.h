@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by D:\Miranda NG Git_orig\plugins\Db_autobackups\res\db_autobackups.rc
 //

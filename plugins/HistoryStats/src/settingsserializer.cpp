@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "settingsserializer.h"
 
 #include "settingstree.h"

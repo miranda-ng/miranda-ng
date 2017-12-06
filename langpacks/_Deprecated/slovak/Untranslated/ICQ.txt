@@ -1,4 +1,4 @@
-﻿[ICQ Number:]
+[ICQ Number:]
 [Create a new ICQ account]
 [Enter an authorization request]
 [&Cancel]

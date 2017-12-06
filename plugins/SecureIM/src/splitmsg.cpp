@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 // разбивает сообщение szMsg на части длиной iLen, возвращает строку вида PARTzPARTzz
 LPSTR splitMsg(LPSTR szMsg, int iLen)

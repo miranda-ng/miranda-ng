@@ -1,4 +1,4 @@
-﻿struct t_cuesheet_index_list
+struct t_cuesheet_index_list
 {
 	enum {count = 100};
 	t_cuesheet_index_list() {reset();}

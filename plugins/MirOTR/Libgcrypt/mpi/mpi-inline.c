@@ -1,4 +1,4 @@
-﻿/* mpi-inline.c
+/* mpi-inline.c
  *	Copyright (C) 1999, 2002 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

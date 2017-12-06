@@ -1,4 +1,4 @@
-﻿file(GLOB SOURCES "src/*.h" "res/*.rc"
+file(GLOB SOURCES "src/*.h" "res/*.rc"
 "src/conference.cpp"
 "src/files.cpp"
 "src/messaging.cpp"

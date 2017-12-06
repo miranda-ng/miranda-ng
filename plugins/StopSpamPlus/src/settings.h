@@ -1,4 +1,4 @@
-﻿class db_usage
+class db_usage
 {
 public:
 	//reading from database

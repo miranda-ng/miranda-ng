@@ -1,4 +1,4 @@
-﻿// xtrcrypt.cpp - written and placed in the public domain by Wei Dai
+// xtrcrypt.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "xtrcrypt.h"

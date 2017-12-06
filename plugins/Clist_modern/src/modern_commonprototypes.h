@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifndef _COMMONPROTOTYPES
 #define _COMMONPROTOTYPES

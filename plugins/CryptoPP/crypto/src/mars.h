@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_MARS_H
+#ifndef CRYPTOPP_MARS_H
 #define CRYPTOPP_MARS_H
 
 /** \file

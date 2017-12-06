@@ -1,4 +1,4 @@
-﻿#ifndef _vars_h
+#ifndef _vars_h
 #define _vars_h
 
 extern int NumberOfAccounts;

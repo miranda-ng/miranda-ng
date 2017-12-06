@@ -1,1 +1,1 @@
-﻿#error DEPRECATED
+#error DEPRECATED

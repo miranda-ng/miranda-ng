@@ -1,4 +1,4 @@
-﻿
+
 /* pngerror.c - stub functions for i/o and memory allocation
  *
  * Last changed in libpng 1.6.31 [July 27, 2017]

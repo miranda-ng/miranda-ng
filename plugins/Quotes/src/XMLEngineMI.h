@@ -1,4 +1,4 @@
-﻿#ifndef __0c3d1da4_92b7_431c_83e5_f998cd513f0d_XMLEngineMI_h__
+#ifndef __0c3d1da4_92b7_431c_83e5_f998cd513f0d_XMLEngineMI_h__
 #define __0c3d1da4_92b7_431c_83e5_f998cd513f0d_XMLEngineMI_h__
 
 class CXMLEngineMI : public IXMLEngine

@@ -1,4 +1,4 @@
-﻿/*
+/*
 Plugin of miranda IM(ICQ) for Communicating with users of the baseProtocol.
 Copyright (C) 2004 Daniel Savi (dss@brturbo.com)
 

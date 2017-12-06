@@ -1,4 +1,4 @@
-﻿#include "signal_protocol.h"
+#include "signal_protocol.h"
 
 #include <stdio.h>
 #include <stdlib.h>

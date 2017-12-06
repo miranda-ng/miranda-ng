@@ -1,4 +1,4 @@
-﻿/*
+/*
 Traffic Counter plugin for Miranda IM 
 Copyright 2007-2011 Mironych.
 

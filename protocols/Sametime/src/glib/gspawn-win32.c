@@ -1,4 +1,4 @@
-﻿/* gspawn-win32.c - Process launching on Win32
+/* gspawn-win32.c - Process launching on Win32
  *
  *  Copyright 2000 Red Hat, Inc.
  *  Copyright 2003 Tor Lillqvist

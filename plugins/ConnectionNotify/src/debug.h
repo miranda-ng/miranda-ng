@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef _INC_DEBUG
 #define _INC_DEBUG
 

@@ -1,4 +1,4 @@
-﻿#ifndef _PFC_STRING_LIST_H_
+#ifndef _PFC_STRING_LIST_H_
 #define _PFC_STRING_LIST_H_
 
 namespace pfc {

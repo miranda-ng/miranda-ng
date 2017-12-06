@@ -1,4 +1,4 @@
-﻿
+
 sametime.dll
 
 Miranda NG Sametime protocol

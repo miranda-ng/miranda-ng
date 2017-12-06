@@ -1,4 +1,4 @@
-﻿Console window plugin for Netlib logging.
+Console window plugin for Netlib logging.
 
 It is designed for Miranda developers & advanced users! 8-)
 

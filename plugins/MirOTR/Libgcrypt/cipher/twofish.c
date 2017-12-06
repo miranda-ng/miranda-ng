@@ -1,4 +1,4 @@
-﻿/* Twofish for GPG
+/* Twofish for GPG
  * Copyright (C) 1998, 2002, 2003 Free Software Foundation, Inc.
  * Written by Matthew Skala <mskala@ansuz.sooke.bc.ca>, July 26, 1998
  * 256-bit key length added March 20, 1999

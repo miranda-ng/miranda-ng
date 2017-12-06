@@ -1,4 +1,4 @@
-﻿#include "main.h"
+#include "main.h"
 
 const ulong CRCPoly = 0xEDB88320;
 ulong CRC32Table[256];

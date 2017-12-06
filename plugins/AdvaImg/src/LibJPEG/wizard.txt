@@ -1,4 +1,4 @@
-﻿Advanced usage instructions for the Independent JPEG Group's JPEG software
+Advanced usage instructions for the Independent JPEG Group's JPEG software
 ==========================================================================
 
 This file describes cjpeg's "switches for wizards".

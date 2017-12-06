@@ -1,4 +1,4 @@
-﻿#muuid {f3ca0e5e-249a-40f0-8d74-80a80ef0c83d}
+#muuid {f3ca0e5e-249a-40f0-8d74-80a80ef0c83d}
 ;============================================================
 ;  File: dbx_dbrw.dll
 ;  Module: Miranda IM database driver engine powered by SQLite

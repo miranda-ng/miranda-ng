@@ -1,4 +1,4 @@
-﻿
+
 #include <glib.h>
 
 typedef gchar              mw_mp_sign;

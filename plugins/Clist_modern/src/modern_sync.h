@@ -1,4 +1,4 @@
-﻿#ifndef modern_sync_h__
+#ifndef modern_sync_h__
 #define modern_sync_h__
 
 typedef INT_PTR(*PSYNCCALLBACKPROC)(WPARAM, LPARAM);

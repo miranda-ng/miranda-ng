@@ -1,4 +1,4 @@
-﻿/* gpg-error.c - Determining gpg-error error codes.
+/* gpg-error.c - Determining gpg-error error codes.
    Copyright (C) 2004 g10 Code GmbH
 
    This file is part of libgpg-error.

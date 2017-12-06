@@ -1,4 +1,4 @@
-﻿#ifndef _STEAM_DIALOGS_H_
+#ifndef _STEAM_DIALOGS_H_
 #define _STEAM_DIALOGS_H_
 
 typedef CProtoDlgBase<CSteamProto> CSteamDlgBase;

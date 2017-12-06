@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda IM Country Flags Plugin
 Copyright (C) 2006-2007 H. Herkenrath
 

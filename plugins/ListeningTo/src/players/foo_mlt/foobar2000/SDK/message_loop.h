@@ -1,4 +1,4 @@
-﻿class NOVTABLE message_filter
+class NOVTABLE message_filter
 {
 public:
     virtual bool pretranslate_message(MSG * p_msg) = 0;

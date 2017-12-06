@@ -1,4 +1,4 @@
-﻿/* stdmem.c  -	private memory allocator
+/* stdmem.c  -	private memory allocator
  * Copyright (C) 1998, 2000, 2002, 2005, 2008 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

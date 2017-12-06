@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 void cslog(const wchar_t *what, const wchar_t *file, int line)
 {

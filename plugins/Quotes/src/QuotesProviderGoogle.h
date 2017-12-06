@@ -1,4 +1,4 @@
-﻿#ifndef __c0e48a95_b3f0_4227_8adc_455e265f3c14_QuotesProviderGoogle_h__
+#ifndef __c0e48a95_b3f0_4227_8adc_455e265f3c14_QuotesProviderGoogle_h__
 #define __c0e48a95_b3f0_4227_8adc_455e265f3c14_QuotesProviderGoogle_h__
 
 #define DB_STR_FROM_ID "FromID"

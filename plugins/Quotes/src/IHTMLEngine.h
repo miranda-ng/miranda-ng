@@ -1,4 +1,4 @@
-﻿#ifndef __85dbfa97_919b_4776_919c_7410a1c3d787_HTMLEngine_h__
+#ifndef __85dbfa97_919b_4776_919c_7410a1c3d787_HTMLEngine_h__
 #define __85dbfa97_919b_4776_919c_7410a1c3d787_HTMLEngine_h__
 
 class IHTMLParser;

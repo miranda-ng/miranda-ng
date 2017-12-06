@@ -1,4 +1,4 @@
-﻿[When a contact returns after]
+[When a contact returns after]
 [or comes online for the first time]
 [Show a popup]
 [Add an event (flashing icon) to the contact]

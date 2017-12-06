@@ -1,4 +1,4 @@
-﻿/*
+/*
 ** $Id: lstrlib.c,v 1.253 2016/12/20 18:37:00 roberto Exp roberto $
 ** Standard library for string operations and pattern-matching
 ** See Copyright Notice in lua.h

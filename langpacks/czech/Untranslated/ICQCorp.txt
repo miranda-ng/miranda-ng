@@ -1,4 +1,4 @@
-﻿[ICQ corporate protocol support for Miranda NG.]
+[ICQ corporate protocol support for Miranda NG.]
 [ICQ Corp]
 [ICQ Corporate plugin used only WinSock v2.2 or later.]
 [You need specify ICQ Corporate login server.]

@@ -1,4 +1,4 @@
-﻿//! Container of ReplayGain scan results from one or more tracks.
+//! Container of ReplayGain scan results from one or more tracks.
 class replaygain_result : public service_base {
 	FB2K_MAKE_SERVICE_INTERFACE(replaygain_result, service_base);
 public:

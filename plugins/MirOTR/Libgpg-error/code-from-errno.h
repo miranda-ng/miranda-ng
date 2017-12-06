@@ -1,4 +1,4 @@
-﻿/* Output of mkerrcodes2.awk.  DO NOT EDIT.  */
+/* Output of mkerrcodes2.awk.  DO NOT EDIT.  */
 
 /* errnos.h - List of system error values.
    Copyright (C) 2004 g10 Code GmbH

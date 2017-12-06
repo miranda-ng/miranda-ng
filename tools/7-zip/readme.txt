@@ -1,4 +1,4 @@
-﻿7-Zip 17.01 beta
+7-Zip 17.01 beta
 ----------------
 
 7-Zip is a file archiver for Windows NT / 2000 / 2003 / 2008 / 2012 / XP / Vista / 7 / 8 / 10. 

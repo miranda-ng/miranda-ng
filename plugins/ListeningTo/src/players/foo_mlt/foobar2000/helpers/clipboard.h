@@ -1,4 +1,4 @@
-﻿namespace ClipboardHelper {
+namespace ClipboardHelper {
 
 	class OpenScope {
 	public:

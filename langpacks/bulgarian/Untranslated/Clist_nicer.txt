@@ -1,4 +1,4 @@
-﻿[Set base visibility on the frames menu]
+[Set base visibility on the frames menu]
 [Inner row vertical padding]
 [Hide as offline]
 [Tree hide offline]

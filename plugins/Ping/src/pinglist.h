@@ -1,4 +1,4 @@
-﻿#ifndef _PINGLIST_H
+#ifndef _PINGLIST_H
 #define _PINGLIST_H
 
 INT_PTR LoadPingList(WPARAM wParam, LPARAM lParam);

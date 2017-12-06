@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_BLOWFISH_H
+#ifndef CRYPTOPP_BLOWFISH_H
 #define CRYPTOPP_BLOWFISH_H
 
 /** \file */

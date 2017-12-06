@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_DEFAULT_H
+#ifndef CRYPTOPP_DEFAULT_H
 #define CRYPTOPP_DEFAULT_H
 
 #include "sha.h"

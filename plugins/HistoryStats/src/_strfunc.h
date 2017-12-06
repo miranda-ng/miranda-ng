@@ -1,4 +1,4 @@
-﻿#if !defined(HISTORYSTATS_GUARD__STRFUNC_H)
+#if !defined(HISTORYSTATS_GUARD__STRFUNC_H)
 #define HISTORYSTATS_GUARD__STRFUNC_H
 
 namespace ext

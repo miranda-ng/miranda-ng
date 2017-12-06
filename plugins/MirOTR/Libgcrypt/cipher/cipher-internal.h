@@ -1,4 +1,4 @@
-﻿/* cipher-internal.h  - Internal defs for cipher.c
+/* cipher-internal.h  - Internal defs for cipher.c
  * Copyright (C) 2011 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

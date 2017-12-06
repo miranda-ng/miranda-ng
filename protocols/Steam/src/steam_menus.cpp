@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 int CSteamProto::hChooserMenu;
 HGENMENU CSteamProto::contactMenuItems[CMI_MAX];

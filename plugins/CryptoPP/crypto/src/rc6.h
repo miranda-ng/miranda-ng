@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_RC6_H
+#ifndef CRYPTOPP_RC6_H
 #define CRYPTOPP_RC6_H
 
 /** \file

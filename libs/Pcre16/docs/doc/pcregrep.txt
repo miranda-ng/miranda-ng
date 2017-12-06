@@ -1,4 +1,4 @@
-﻿PCREGREP(1)                 General Commands Manual                PCREGREP(1)
+PCREGREP(1)                 General Commands Manual                PCREGREP(1)
 
 
 

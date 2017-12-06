@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_SERPENT_H
+#ifndef CRYPTOPP_SERPENT_H
 #define CRYPTOPP_SERPENT_H
 
 /** \file

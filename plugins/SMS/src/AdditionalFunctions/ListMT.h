@@ -1,4 +1,4 @@
-﻿#if !defined(AFX_LIST_MT__H__INCLUDED_)
+#if !defined(AFX_LIST_MT__H__INCLUDED_)
 #define AFX_LIST_MT__H__INCLUDED_
 
 // структура для работы со списком, элемент списка

@@ -1,4 +1,4 @@
-﻿#ifndef SESSION_BUILDER_INTERNAL_H
+#ifndef SESSION_BUILDER_INTERNAL_H
 #define SESSION_BUILDER_INTERNAL_H
 
 #include <stdint.h>

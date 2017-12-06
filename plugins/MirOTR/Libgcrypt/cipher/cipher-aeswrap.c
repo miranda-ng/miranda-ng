@@ -1,4 +1,4 @@
-﻿/* cipher-aeswrap.c  - Generic AESWRAP mode implementation
+/* cipher-aeswrap.c  - Generic AESWRAP mode implementation
  * Copyright (C) 2009, 2011 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

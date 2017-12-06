@@ -1,4 +1,4 @@
-﻿/* coding: UTF-8 */
+/* coding: UTF-8 */
 /* $Id: dcc.c 12145 2010-07-07 23:49:04Z dezred $ */
 
 /*

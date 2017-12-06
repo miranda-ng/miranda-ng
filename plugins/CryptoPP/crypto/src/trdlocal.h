@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_TRDLOCAL_H
+#ifndef CRYPTOPP_TRDLOCAL_H
 #define CRYPTOPP_TRDLOCAL_H
 
 #include "config.h"

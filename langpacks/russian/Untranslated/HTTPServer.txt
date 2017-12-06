@@ -1,4 +1,4 @@
-﻿[Display hidden shares]
+[Display hidden shares]
 [New share]
 [Miranda NG HTTP-Server]
 [Failed to share new file]

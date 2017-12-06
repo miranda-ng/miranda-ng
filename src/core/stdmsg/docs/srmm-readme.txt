@@ -1,4 +1,4 @@
-﻿
+
        SRMM Plugin for Miranda IM
        __________________________
 

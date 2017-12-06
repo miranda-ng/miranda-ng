@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: mPhantomUser.dll
 ;  Module: Allow to add, edit and delete on phantom users (member on Phantom Protocol) in contact list.
 ;  Versions: 0.3.7.0

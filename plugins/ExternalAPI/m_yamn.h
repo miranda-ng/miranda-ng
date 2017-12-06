@@ -1,4 +1,4 @@
-﻿#ifndef	__M_YAMN_H
+#ifndef	__M_YAMN_H
 #define	__M_YAMN_H
 
 #include <windows.h>

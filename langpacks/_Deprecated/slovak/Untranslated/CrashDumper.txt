@@ -1,4 +1,4 @@
-﻿[View Version Information]
+[View Version Information]
 [Copy To Clipboard]
 [To File]
 [Support for vi.miranda-ng.org]

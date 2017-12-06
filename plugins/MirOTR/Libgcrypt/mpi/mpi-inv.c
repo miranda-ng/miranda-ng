@@ -1,4 +1,4 @@
-﻿/* mpi-inv.c  -  MPI functions
+/* mpi-inv.c  -  MPI functions
  *	Copyright (C) 1998, 2001, 2002, 2003 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

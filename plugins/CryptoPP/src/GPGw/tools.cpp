@@ -1,4 +1,4 @@
-﻿#include "../commonheaders.h"
+#include "../commonheaders.h"
 #include "gpgw.h"
 
 // escape sequence type

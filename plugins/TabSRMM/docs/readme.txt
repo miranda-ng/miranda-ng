@@ -1,4 +1,4 @@
-﻿				tabbed  SRMM plugin for Miranda NG
+				tabbed  SRMM plugin for Miranda NG
 				----------------------------------------
 
 Online resources at: http://wiki.miranda.or.at, http://blog.miranda.or.at and

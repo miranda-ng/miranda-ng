@@ -1,4 +1,4 @@
-﻿#ifndef __c85fe710_f71b_4a58_9d44_3e39f6209c5f_CommonOptionDlg_h__
+#ifndef __c85fe710_f71b_4a58_9d44_3e39f6209c5f_CommonOptionDlg_h__
 #define __c85fe710_f71b_4a58_9d44_3e39f6209c5f_CommonOptionDlg_h__
 
 class CQuotesProviderBase;

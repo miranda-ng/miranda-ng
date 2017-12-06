@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Minecraft Dynmap plugin for Miranda Instant Messenger
 _____________________________________________

@@ -1,4 +1,4 @@
-﻿#ifndef _COMMON_INC
+#ifndef _COMMON_INC
 #define _COMMON_INC
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers

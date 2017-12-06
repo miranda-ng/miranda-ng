@@ -1,4 +1,4 @@
-﻿[Logs when a user was last seen online and which users were online while you were away.]
+[Logs when a user was last seen online and which users were online while you were away.]
 [Enable 'Missed Ones' feature]
 [Count times]
 [Last seen plugin]

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "CLCDOutputManager.h"
 #include "CLCDGfx.h"
 #include "CLCDObject.h"

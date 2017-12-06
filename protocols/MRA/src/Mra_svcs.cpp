@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "proto.h"
 
 LPCSTR lpcszStatusUri[] =

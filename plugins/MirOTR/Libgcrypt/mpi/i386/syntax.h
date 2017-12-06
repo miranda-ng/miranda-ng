@@ -1,4 +1,4 @@
-﻿/* syntax.h -- Definitions for x86 syntax variations.
+/* syntax.h -- Definitions for x86 syntax variations.
  *
  *       Copyright (C) 1992, 1994, 1995, 1998, 
  *                     2001, 2002 Free Software Foundation, Inc.

@@ -1,4 +1,4 @@
-﻿#include "sender_key_record.h"
+#include "sender_key_record.h"
 
 #include <string.h>
 

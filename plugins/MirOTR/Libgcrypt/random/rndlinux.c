@@ -1,4 +1,4 @@
-﻿/* rndlinux.c  -  raw random number for OSes with /dev/random
+/* rndlinux.c  -  raw random number for OSes with /dev/random
  * Copyright (C) 1998, 2001, 2002, 2003, 2007,
  *               2009  Free Software Foundation, Inc.
  *

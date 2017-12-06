@@ -1,4 +1,4 @@
-﻿[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
+[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 [Check database]
 [Load profile]
 [Change profile]

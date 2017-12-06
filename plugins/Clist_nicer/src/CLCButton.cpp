@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda IM
 Copyright (C) 2002 Robert Rainwater
 

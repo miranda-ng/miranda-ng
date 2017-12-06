@@ -1,4 +1,4 @@
-﻿
+
 #include "stdafx.h"
 
 MIR_CORE_DLL(void) mir_sha256_init(SHA256_CONTEXT *hd)

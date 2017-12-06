@@ -1,4 +1,4 @@
-﻿/* crypto/ui/ui.h */
+/* crypto/ui/ui.h */
 /*
  * Written by Richard Levitte (richard@levitte.org) for the OpenSSL project
  * 2001.

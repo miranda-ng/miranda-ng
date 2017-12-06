@@ -1,4 +1,4 @@
-﻿id	city_id	country_id	name
+id	city_id	country_id	name
 24	0	24	Россия
 25	25	24	Россия,Москва
 1734	25	24	Россия,Москва,г. Зеленоград

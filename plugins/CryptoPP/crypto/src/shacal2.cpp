@@ -1,4 +1,4 @@
-﻿// shacal2.cpp - by Kevin Springle, 2003
+// shacal2.cpp - by Kevin Springle, 2003
 //
 // Portions of this code were derived from
 // Wei Dai's implementation of SHA-2

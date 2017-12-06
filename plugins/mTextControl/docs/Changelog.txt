@@ -1,4 +1,4 @@
-﻿0.8.0.1:
+0.8.0.1:
 + use precompiled header
 + mtextcontrol interface ( faster and no core traffic)
 0.8.0.0:

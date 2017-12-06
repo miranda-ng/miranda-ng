@@ -1,4 +1,4 @@
-﻿#ifndef _OPTIONS_INC
+#ifndef _OPTIONS_INC
 #define _OPTIONS_INC
 
 #define PRIVATE_KEY_FILENAME "otr.private_key"

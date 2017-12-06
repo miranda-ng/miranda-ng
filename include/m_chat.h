@@ -1,4 +1,4 @@
-﻿/*
+/*
 Chat module plugin for Miranda IM
 
 Copyright (C) 2003 Jörgen Persson

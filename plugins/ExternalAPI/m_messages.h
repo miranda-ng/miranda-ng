@@ -1,4 +1,4 @@
-﻿#ifndef __MESSAGES_H
+#ifndef __MESSAGES_H
 #define __MESSAGES_H
 
 //#include "list.h"

@@ -1,4 +1,4 @@
-﻿#muuid {240a91dc-9464-457a-9787-ff1ea88e77e3}
+#muuid {240a91dc-9464-457a-9787-ff1ea88e77e3}
 ;============================================================
 ;  File: clist_classic.dll
 ;  Module: Classic contact list

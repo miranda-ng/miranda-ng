@@ -1,4 +1,4 @@
-﻿#ifndef _CLCDTEXTLOG_H_
+#ifndef _CLCDTEXTLOG_H_
 #define _CLCDTEXTLOG_H_
 
 #include "CLCDTextObject.h"

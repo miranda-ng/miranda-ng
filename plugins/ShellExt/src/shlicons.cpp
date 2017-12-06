@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "shlicons.h"
 
 #pragma comment(lib, "windowscodecs.lib")

@@ -1,4 +1,4 @@
-﻿// vmac.cpp - written and placed in the public domain by Wei Dai
+// vmac.cpp - written and placed in the public domain by Wei Dai
 // based on Ted Krovetz's public domain vmac.c and draft-krovetz-vmac-01.txt
 
 #include "pch.h"

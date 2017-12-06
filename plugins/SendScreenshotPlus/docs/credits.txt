@@ -1,4 +1,4 @@
-﻿Special thanks to Michael Kunz aka "Protogenes"
+Special thanks to Michael Kunz aka "Protogenes"
 for helping me with 1001 tips and suggestions
 to design the program code.
 http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree&lang=de

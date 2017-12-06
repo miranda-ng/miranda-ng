@@ -1,4 +1,4 @@
-﻿#ifndef modern_clcpaint_h__
+#ifndef modern_clcpaint_h__
 #define modern_clcpaint_h__
 
 extern class CLCPaint g_clcPainter;

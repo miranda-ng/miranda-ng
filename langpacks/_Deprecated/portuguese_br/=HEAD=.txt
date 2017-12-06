@@ -1,4 +1,4 @@
-﻿Miranda Language Pack Version 1
+Miranda Language Pack Version 1
 Language: Portuguese (Brazil)
 Locale: 0416
 Authors: Paulo Giovanni Pereira (Paulus),Welinton Oliveira (weblade), Márcio Ricardo (Richard MacWell) Diego K. Sampaio (Kriador), Jerbifor

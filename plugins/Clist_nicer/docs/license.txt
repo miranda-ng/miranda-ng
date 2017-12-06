@@ -1,4 +1,4 @@
-﻿ NOTE: This copyright does *not* cover dynamically linked plugin libraries
+ NOTE: This copyright does *not* cover dynamically linked plugin libraries
  that link to Miranda - this is merely considered normal use of the
  programme, and does *not* fall under the heading of "derived work".
  Also note that the GPL below is copyrighted by the Free Software

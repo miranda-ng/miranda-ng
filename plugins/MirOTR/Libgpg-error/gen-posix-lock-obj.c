@@ -1,4 +1,4 @@
-﻿/* gen-posix-lock-obj.c - Build tool to construct the lock object.
+/* gen-posix-lock-obj.c - Build tool to construct the lock object.
    Copyright (C) 2014 g10 Code GmbH
 
    This file is part of libgpg-error.

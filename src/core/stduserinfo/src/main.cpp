@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard User Info plugin for Miranda NG
 

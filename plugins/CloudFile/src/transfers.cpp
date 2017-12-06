@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 LIST<FileTransferParam> Transfers(1, HandleKeySortT);
 

@@ -1,4 +1,4 @@
-﻿#ifndef _SUPERSCROLL_INCLUDED
+#ifndef _SUPERSCROLL_INCLUDED
 #define _SUPERSCROLL_INCLUDED
 
 #ifdef __cplusplus

@@ -1,4 +1,4 @@
-﻿#ifndef _LUA_METATABLE_H_
+#ifndef _LUA_METATABLE_H_
 #define _LUA_METATABLE_H_
 
 #include <map>

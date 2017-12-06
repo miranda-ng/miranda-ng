@@ -1,4 +1,4 @@
-﻿
+
 File Association Manager 0.1.1.0 for Miranda IM 0.6+
 ------------------------------------------------------------------------
                                       Developer Information

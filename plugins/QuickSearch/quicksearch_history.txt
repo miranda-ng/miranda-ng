@@ -1,4 +1,4 @@
-﻿Service:
+Service:
   wParam: 0, or pattern string
   lParam: 0 - wParam has unicode string;
           1 - Ansi String (only Unicode plugin version)

@@ -1,4 +1,4 @@
-﻿/* g10lib.h - Internal definitions for libgcrypt
+/* g10lib.h - Internal definitions for libgcrypt
  * Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2005
  *               2007, 2011 Free Software Foundation, Inc.
  *

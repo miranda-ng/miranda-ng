@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 static int hMirOTRMenuObject;
 static HGENMENU hStatusInfoItem, hHTMLConvMenuItem;

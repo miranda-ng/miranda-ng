@@ -1,4 +1,4 @@
-﻿#include "fe.h"
+#include "fe.h"
 
 /*
 Replace (f,g) with (g,g) if b == 1;

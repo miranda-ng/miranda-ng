@@ -1,4 +1,4 @@
-﻿AimOSCAR Release 6
+AimOSCAR Release 6
 
     *fixed contact list snac parsing error.
     *changed sleep limit on contact adding.

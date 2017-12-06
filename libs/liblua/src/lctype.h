@@ -1,4 +1,4 @@
-﻿/*
+/*
 ** $Id: lctype.h,v 1.11 2011/06/27 18:22:46 roberto Exp roberto $
 ** 'ctype' functions for Lua
 ** See Copyright Notice in lua.h

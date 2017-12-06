@@ -1,4 +1,4 @@
-﻿#ifndef _PFC_OTHER_H_
+#ifndef _PFC_OTHER_H_
 #define _PFC_OTHER_H_
 
 namespace pfc {

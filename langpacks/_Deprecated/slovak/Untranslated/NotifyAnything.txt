@@ -1,4 +1,4 @@
-﻿[Security]
+[Security]
 [Only listen to localhost]
 [(Default is 12001)]
 [Allow actions to execute programs]

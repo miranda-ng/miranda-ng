@@ -1,4 +1,4 @@
-﻿set(TARGET glib)
+set(TARGET glib)
 add_library(${TARGET}
 "garray.c"
 "gasyncqueue.c"

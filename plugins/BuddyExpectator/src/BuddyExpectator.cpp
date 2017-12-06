@@ -1,4 +1,4 @@
-﻿/*
+/*
 	Buddy Expectator+ plugin for Miranda-IM (www.miranda-im.org)
 	(c)2005 Anar Ibragimoff (ai91@mail.ru)
 	(c)2006 Scott Ellis (mail@scottellis.com.au)

@@ -1,4 +1,4 @@
-﻿// Rijndael tables
+// Rijndael tables
 
 #include "pch.h"
 

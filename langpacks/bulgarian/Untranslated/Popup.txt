@@ -1,4 +1,4 @@
-﻿[Use History++ to render log]
+[Use History++ to render log]
 [Multimonitor]
 [Disable when relevant protocol's status is...]
 [Ignore fullscreen]

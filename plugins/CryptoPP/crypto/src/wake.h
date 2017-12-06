@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_WAKE_H
+#ifndef CRYPTOPP_WAKE_H
 #define CRYPTOPP_WAKE_H
 
 #include "seckey.h"

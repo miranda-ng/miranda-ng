@@ -1,4 +1,4 @@
-﻿//***********************************************************
+//***********************************************************
 //	Copyright © 2003-2008 Alexander S. Kiselev, Valentin Pavlyuchenko
 //
 //	This file is part of Boltun.

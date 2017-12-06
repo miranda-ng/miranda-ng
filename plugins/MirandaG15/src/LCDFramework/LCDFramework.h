@@ -1,4 +1,4 @@
-﻿#ifndef _LCDFRAMEWORK_H
+#ifndef _LCDFRAMEWORK_H
 #define _LCDFRAMEWORK_H
 
 // HID Includes

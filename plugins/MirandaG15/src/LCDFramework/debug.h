@@ -1,4 +1,4 @@
-﻿#ifndef _DEBUG_H_
+#ifndef _DEBUG_H_
 #define _DEBUG_H_
 
 #define USECONSTREAM 1

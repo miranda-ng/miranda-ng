@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 struct STRIPHTML_DATA {
 	std::stack<char*> stack;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  *	RICHEDIT.H
  *	
  *	Purpose:

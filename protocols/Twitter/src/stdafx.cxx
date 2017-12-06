@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright © 2012-17 Miranda NG team
 Copyright © 2009 Jim Porter
 

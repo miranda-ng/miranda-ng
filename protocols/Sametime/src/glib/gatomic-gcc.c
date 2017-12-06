@@ -1,4 +1,4 @@
-﻿/* GLIB - Library of useful routines for C programming
+/* GLIB - Library of useful routines for C programming
  * gatomic-gcc.c: atomic operations using GCC builtins.
  * Copyright (C) 2009 Hiroyuki Ikezoe
  *

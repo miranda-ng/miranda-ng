@@ -1,4 +1,4 @@
-﻿/* Output of mkerrnos.awk.  DO NOT EDIT.  */
+/* Output of mkerrnos.awk.  DO NOT EDIT.  */
 
 /* errnos.in - List of system error values.
    Copyright (C) 2003, 2004 g10 Code GmbH

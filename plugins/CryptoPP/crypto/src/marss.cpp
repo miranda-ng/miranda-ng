@@ -1,4 +1,4 @@
-﻿// MARS S-Box
+// MARS S-Box
 
 #include "pch.h"
 #include "mars.h"

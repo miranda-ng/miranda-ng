@@ -1,4 +1,4 @@
-﻿/* ec-context.h - Private definitions for CONTEXT_TYPE_EC.
+/* ec-context.h - Private definitions for CONTEXT_TYPE_EC.
  * Copyright (C) 2013  g10 Code GmbH
  *
  * This file is part of Libgcrypt.

@@ -1,4 +1,4 @@
-﻿Quotes version 0.0.24.0 plugin for Miranda 
+Quotes version 0.0.24.0 plugin for Miranda 
 
 This plugin displays periodically updated economic quotes, currency exchanges and different economic and financial indexes in Miranda contact list.
 

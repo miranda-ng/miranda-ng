@@ -1,4 +1,4 @@
-﻿#ifndef _PFC_PROFILER_H_
+#ifndef _PFC_PROFILER_H_
 #define _PFC_PROFILER_H_
 
 #ifdef _WINDOWS

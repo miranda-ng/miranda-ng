@@ -1,4 +1,4 @@
-﻿/* mpi.h  -  Multi Precision Integers
+/* mpi.h  -  Multi Precision Integers
  * Copyright (C) 1994, 1996, 1998,
  *               2001, 2002, 2003, 2005 Free Software Foundation, Inc.
  *

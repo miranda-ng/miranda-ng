@@ -1,4 +1,4 @@
-﻿// Windows API
+// Windows API
 #define _CRT_NONSTDC_NO_DEPRECATE
 #define WIN32_LEAN_AND_MEAN
 #define NETLIB_LOG

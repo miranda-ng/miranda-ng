@@ -1,4 +1,4 @@
-﻿#include "fe.h"
+#include "fe.h"
 
 void fe_pow22523(fe out,const fe z)
 {

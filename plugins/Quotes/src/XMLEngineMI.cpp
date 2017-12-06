@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 class CXMLNodeMI : public IXMLNode, private boost::noncopyable
 {

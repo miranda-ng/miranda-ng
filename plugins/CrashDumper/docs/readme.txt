@@ -1,4 +1,4 @@
-﻿Crash Dumper plugin for Miranda NG
+Crash Dumper plugin for Miranda NG
 =====================================================================
 Plugin creates usable Crash Report and Version Information for Miranda NG
 

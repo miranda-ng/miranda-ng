@@ -1,4 +1,4 @@
-﻿                   Miranda New Generation Release Notes
+                   Miranda New Generation Release Notes
                    ---------------------------------------
 
                              www.miranda-ng.org

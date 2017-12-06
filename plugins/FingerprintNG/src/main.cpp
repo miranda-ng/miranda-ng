@@ -1,4 +1,4 @@
-﻿/*
+/*
 Fingerprint NG (client version) icons module for Miranda NG
 Copyright © 2006-17 FYR, Bio, nullbie, ghazan, mataes, HierOS, faith_healer and all respective contributors.
 

@@ -1,4 +1,4 @@
-﻿Jabber Protocol Plugin for Miranda IM
+Jabber Protocol Plugin for Miranda IM
 =====================================
 
 Installation:

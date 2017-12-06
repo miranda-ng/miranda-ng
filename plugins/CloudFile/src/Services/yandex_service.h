@@ -1,4 +1,4 @@
-﻿#ifndef _CLOUDFILE_YANDEX_H_
+#ifndef _CLOUDFILE_YANDEX_H_
 #define _CLOUDFILE_YANDEX_H_
 
 class CYandexService : public CCloudService

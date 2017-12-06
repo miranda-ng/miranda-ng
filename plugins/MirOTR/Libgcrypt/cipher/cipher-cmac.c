@@ -1,4 +1,4 @@
-﻿/* cmac.c - CMAC, Cipher-based MAC.
+/* cmac.c - CMAC, Cipher-based MAC.
  * Copyright © 2013 Jussi Kivilinna <jussi.kivilinna@iki.fi>
  *
  * This file is part of Libgcrypt.

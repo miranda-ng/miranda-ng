@@ -1,4 +1,4 @@
-﻿/*
+/*
 ** $Id: lvm.c,v 2.267 2016/01/05 16:07:21 roberto Exp roberto $
 ** Lua virtual machine
 ** See Copyright Notice in lua.h

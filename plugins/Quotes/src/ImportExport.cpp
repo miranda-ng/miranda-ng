@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 LPCTSTR g_pszXmlValue = L"Value";
 LPCTSTR g_pszXmlName = L"Name";

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "proto.h"
 #include "MraPlaces.h"
 

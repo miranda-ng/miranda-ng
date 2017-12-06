@@ -1,4 +1,4 @@
-﻿/* stribog.c - GOST R 34.11-2012 (Stribog) hash function
+/* stribog.c - GOST R 34.11-2012 (Stribog) hash function
  * Copyright (C) 2013 Dmitry Eremin-Solenikov
  *
  * This file is part of Libgcrypt.

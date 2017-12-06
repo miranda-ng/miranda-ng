@@ -1,4 +1,4 @@
-﻿hashes.txt
+hashes.txt
 miranda64.exe
 pu_stub.exe
 sendlog.exe

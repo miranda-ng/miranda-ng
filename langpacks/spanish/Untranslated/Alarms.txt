@@ -1,4 +1,4 @@
-﻿[Sets once-off, daily, weekly and weekday alarms.]
+[Sets once-off, daily, weekly and weekday alarms.]
 [Alarms]
 [Use popup plugin]
 [Default snooze:]

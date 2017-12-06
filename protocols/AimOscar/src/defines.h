@@ -1,4 +1,4 @@
-﻿#ifndef DEFINES_H
+#ifndef DEFINES_H
 #define DEFINES_H
 #if defined __GNUC__
 #pragma GCC system_header

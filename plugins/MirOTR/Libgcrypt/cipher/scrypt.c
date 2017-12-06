@@ -1,4 +1,4 @@
-﻿/* scrypt.c - Scrypt password-based key derivation function.
+/* scrypt.c - Scrypt password-based key derivation function.
  * Copyright (C) 2012 Simon Josefsson
  * Copyright (C) 2013 Christian Grothoff
  * Copyright (C) 2013 g10 Code GmbH

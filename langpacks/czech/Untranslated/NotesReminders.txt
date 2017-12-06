@@ -1,4 +1,4 @@
-﻿[Sticky Notes & Reminders Implementation for Miranda NG.]
+[Sticky Notes & Reminders Implementation for Miranda NG.]
 [Notes Appearance]
 [Title Date]
 [Title Time]

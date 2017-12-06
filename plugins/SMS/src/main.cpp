@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda-IM SMS Plugin
 Copyright (C) 2001-2  Richard Hughes
 Copyright (C) 2007-8  Rozhuk Ivan

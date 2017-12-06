@@ -1,4 +1,4 @@
-﻿// salsa.h - written and placed in the public domain by Wei Dai
+// salsa.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_SALSA_H
 #define CRYPTOPP_SALSA_H

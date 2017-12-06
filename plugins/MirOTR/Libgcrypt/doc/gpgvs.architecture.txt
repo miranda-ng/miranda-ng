@@ -1,4 +1,4 @@
-﻿~~~~~~~~~~~~
+~~~~~~~~~~~~
 ARCHITECTURE
 ~~~~~~~~~~~~
 I admit that architecture meaning is too much for this project,

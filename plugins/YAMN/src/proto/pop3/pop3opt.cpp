@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This code implements POP3 options window handling
  *
  * (c) majvan 2002-2003

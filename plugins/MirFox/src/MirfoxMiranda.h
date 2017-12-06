@@ -1,4 +1,4 @@
-﻿#ifndef _MIRFOXMIRANDA_INC
+#ifndef _MIRFOXMIRANDA_INC
 #define _MIRFOXMIRANDA_INC
 
 #include "MirfoxData.h"

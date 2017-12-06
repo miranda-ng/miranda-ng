@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 ToxHexAddress ResolveToxAddressFromDnsRecordV1(const std::string &dnsRecord)
 {

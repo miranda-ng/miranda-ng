@@ -1,4 +1,4 @@
-﻿/* Default configuration for MPI library */
+/* Default configuration for MPI library */
 
 #ifndef MPI_CONFIG_H_
 #define MPI_CONFIG_H_

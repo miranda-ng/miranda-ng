@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	if (!lParam) return 0;

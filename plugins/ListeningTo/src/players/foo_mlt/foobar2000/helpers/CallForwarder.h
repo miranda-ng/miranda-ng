@@ -1,4 +1,4 @@
-﻿namespace CF {
+namespace CF {
 	template<typename TWhat> class CallForwarder {
 	public:
 		CallForwarder(TWhat * ptr) { m_ptr.new_t(ptr); }

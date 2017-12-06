@@ -1,4 +1,4 @@
-﻿// secblock.h - written and placed in the public domain by Wei Dai
+// secblock.h - written and placed in the public domain by Wei Dai
 
 #ifndef CRYPTOPP_SECBLOCK_H
 #define CRYPTOPP_SECBLOCK_H

@@ -1,4 +1,4 @@
-﻿#include "session_cipher.h"
+#include "session_cipher.h"
 
 #include <assert.h>
 #include <string.h>

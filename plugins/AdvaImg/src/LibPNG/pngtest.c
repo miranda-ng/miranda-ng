@@ -1,4 +1,4 @@
-﻿
+
 /* pngtest.c - a simple test program to test libpng
  *
  * Last changed in libpng 1.6.32 [August 24, 2017]

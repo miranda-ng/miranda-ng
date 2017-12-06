@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_POLYNOMI_H
+#ifndef CRYPTOPP_POLYNOMI_H
 #define CRYPTOPP_POLYNOMI_H
 
 /*! \file */

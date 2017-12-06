@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_GZIP_H
+#ifndef CRYPTOPP_GZIP_H
 #define CRYPTOPP_GZIP_H
 
 #include "zdeflate.h"

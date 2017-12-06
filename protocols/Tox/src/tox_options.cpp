@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	: CToxDlgBase(proto, idDialog, false),

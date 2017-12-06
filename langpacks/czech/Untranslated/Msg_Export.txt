@@ -1,4 +1,4 @@
-﻿[Exports every message, URL or file you receive to a text file.]
+[Exports every message, URL or file you receive to a text file.]
 [Use UTF8 in new files]
 [History file for %s (%s format %s)]
 [Failed to write to the Rich Edit the buffer was to small.]

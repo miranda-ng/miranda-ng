@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_CRC32_H
+#ifndef CRYPTOPP_CRC32_H
 #define CRYPTOPP_CRC32_H
 
 #include "cryptlib.h"

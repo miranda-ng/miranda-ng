@@ -1,4 +1,4 @@
-﻿namespace cue_creator
+namespace cue_creator
 {
 	struct t_entry
 	{

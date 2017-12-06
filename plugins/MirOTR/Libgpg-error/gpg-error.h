@@ -1,4 +1,4 @@
-﻿/* gpg-error.h - Public interface to libgpg-error.               -*- c -*-
+/* gpg-error.h - Public interface to libgpg-error.               -*- c -*-
    Copyright (C) 2003, 2004, 2010, 2013, 2014, 2015 g10 Code GmbH
 
    This file is part of libgpg-error.

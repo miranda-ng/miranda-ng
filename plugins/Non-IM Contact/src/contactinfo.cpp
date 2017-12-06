@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {

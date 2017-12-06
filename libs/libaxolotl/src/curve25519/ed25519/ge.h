@@ -1,4 +1,4 @@
-﻿#ifndef GE_H
+#ifndef GE_H
 #define GE_H
 
 /*

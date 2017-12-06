@@ -1,4 +1,4 @@
-﻿/* strsource.c - Describing an error source.
+/* strsource.c - Describing an error source.
    Copyright (C) 2003 g10 Code GmbH
 
    This file is part of libgpg-error.

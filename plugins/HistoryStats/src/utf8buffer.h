@@ -1,4 +1,4 @@
-﻿#if !defined(HISTORYSTATS_GUARD_UTF8BUFFER_H)
+#if !defined(HISTORYSTATS_GUARD_UTF8BUFFER_H)
 #define HISTORYSTATS_GUARD_UTF8BUFFER_H
 
 #include <streambuf>

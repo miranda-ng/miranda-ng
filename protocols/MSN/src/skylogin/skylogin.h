@@ -1,4 +1,4 @@
-﻿typedef void* SkyLogin;
+typedef void* SkyLogin;
 
 /* Size of the buffer you should supply as pszOutUIC on SkyLogin_CreateUICString */
 #define UICSTR_SIZE	1024

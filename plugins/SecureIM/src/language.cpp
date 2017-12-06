@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 //Popup Messages
 LPCSTR sim001 = LPGEN("SecureIM established...");

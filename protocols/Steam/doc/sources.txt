@@ -1,4 +1,4 @@
-﻿Steam web API
+Steam web API
 http://steamcommunity.com/dev
 Official supported API 
 http://api.steampowered.com/ISteamWebAPIUtil/GetSupportedAPIList/v0001/

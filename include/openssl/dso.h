@@ -1,4 +1,4 @@
-﻿/* dso.h */
+/* dso.h */
 /*
  * Written by Geoff Thorpe (geoff@geoffthorpe.net) for the OpenSSL project
  * 2000.

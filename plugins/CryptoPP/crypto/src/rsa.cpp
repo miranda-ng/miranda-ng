@@ -1,4 +1,4 @@
-﻿// rsa.cpp - written and placed in the public domain by Wei Dai
+// rsa.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "rsa.h"

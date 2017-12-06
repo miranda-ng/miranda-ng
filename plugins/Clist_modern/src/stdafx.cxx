@@ -1,3 +1,3 @@
-﻿#define DB_USEHELPERFUNCTIONS
+#define DB_USEHELPERFUNCTIONS
 
 #include "stdafx.h"

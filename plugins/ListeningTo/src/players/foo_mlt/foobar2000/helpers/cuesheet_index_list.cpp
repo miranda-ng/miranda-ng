@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 bool t_cuesheet_index_list::is_valid() const {
 	if (m_positions[1] < m_positions[0]) return false;

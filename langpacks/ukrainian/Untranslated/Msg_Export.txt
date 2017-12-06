@@ -1,4 +1,4 @@
-﻿[Failed to write to the Rich Edit the buffer was to small.]
+[Failed to write to the Rich Edit the buffer was to small.]
 [Error: Optimal buffer size decreased to a too low size!]
 [Internal error! (lExtraRead >= 0)]
 [Failed to execute external file view]

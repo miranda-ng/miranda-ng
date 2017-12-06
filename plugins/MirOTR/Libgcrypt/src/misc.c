@@ -1,4 +1,4 @@
-﻿/* misc.c
+/* misc.c
  * Copyright (C) 1999, 2001, 2002, 2003, 2007,
  *               2008 Free Software Foundation, Inc.
  *

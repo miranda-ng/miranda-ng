@@ -1,4 +1,4 @@
-﻿[Imports contacts and messages from another Miranda profile or from an external program.]
+[Imports contacts and messages from another Miranda profile or from an external program.]
 [Choose how you would like to import:]
 [From a Miranda NG database.]
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]

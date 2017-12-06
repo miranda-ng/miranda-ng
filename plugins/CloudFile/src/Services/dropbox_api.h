@@ -1,4 +1,4 @@
-﻿#ifndef _DROPBOXSERVICE_API_H_
+#ifndef _DROPBOXSERVICE_API_H_
 #define _DROPBOXSERVICE_API_H_
 
 namespace DropboxAPI

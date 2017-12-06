@@ -1,4 +1,4 @@
-﻿#include "StdAfx.h"
+#include "StdAfx.h"
 
 // extern HANDLE g_hWindowListEditSettings;
 extern HGENMENU g_hMenuEditSettings;

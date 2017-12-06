@@ -1,4 +1,4 @@
-﻿// camellia.cpp - by Kevin Springle, 2003
+// camellia.cpp - by Kevin Springle, 2003
 // This code is hereby placed in the public domain.
 
 /*

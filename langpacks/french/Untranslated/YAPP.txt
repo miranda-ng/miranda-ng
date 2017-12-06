@@ -1,4 +1,4 @@
-﻿[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 [Default Timeout]
 [Opacity (%):]
 [Round corners (window)]

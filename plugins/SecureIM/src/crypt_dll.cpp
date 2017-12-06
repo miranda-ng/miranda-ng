@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 // generate KeyA pair and return public key
 LPSTR InitKeyA(pUinKey ptr, int features)

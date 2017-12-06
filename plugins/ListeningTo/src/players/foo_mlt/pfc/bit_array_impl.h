@@ -1,4 +1,4 @@
-﻿#ifndef _PFC_BIT_ARRAY_IMPL_H_
+#ifndef _PFC_BIT_ARRAY_IMPL_H_
 #define _PFC_BIT_ARRAY_IMPL_H_
 
 template<class T>

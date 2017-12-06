@@ -1,4 +1,4 @@
-﻿#include "curve.h"
+#include "curve.h"
 
 #include <stdio.h>
 #include <stdlib.h>

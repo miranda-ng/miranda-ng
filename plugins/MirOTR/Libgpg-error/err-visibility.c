@@ -1,4 +1,4 @@
-﻿/* visibility.c - Wrapper for all public functions.
+/* visibility.c - Wrapper for all public functions.
  * Copyright (C) 2014  g10 Code GmbH
  *
  * This file is part of libgpg-error.

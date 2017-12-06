@@ -1,4 +1,4 @@
-﻿#muuid {657fe89b-d121-40c2-8ac9-b9fa5755b30c}
+#muuid {657fe89b-d121-40c2-8ac9-b9fa5755b30c}
 ;============================================================
 ;  File: srmm.dll
 ;  Module: Send/Receive Messages

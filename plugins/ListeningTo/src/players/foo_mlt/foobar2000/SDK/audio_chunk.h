@@ -1,4 +1,4 @@
-﻿//! Thrown when audio_chunk sample rate or channel mapping changes in mid-stream and the code receiving audio_chunks can't deal with that scenario.
+//! Thrown when audio_chunk sample rate or channel mapping changes in mid-stream and the code receiving audio_chunks can't deal with that scenario.
 PFC_DECLARE_EXCEPTION(exception_unexpected_audio_format_change, exception_io_data, "Unexpected audio format change" );
 
 //! Interface to container of a chunk of audio data. See audio_chunk_impl for an implementation.

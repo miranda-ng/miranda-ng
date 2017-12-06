@@ -1,4 +1,4 @@
-﻿/* longlong.h -- definitions for mixed size 32/64 bit arithmetic.
+/* longlong.h -- definitions for mixed size 32/64 bit arithmetic.
    Note: I added some stuff for use with gnupg
 
 Copyright (C) 1991, 1992, 1993, 1994, 1996, 1998,

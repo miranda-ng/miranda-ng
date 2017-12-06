@@ -1,4 +1,4 @@
-﻿#define _WINSOCKAPI_ // don't include winsock 1.x
+#define _WINSOCKAPI_ // don't include winsock 1.x
 #include <windows.h>
 #include <winioctl.h>
 #include <winsock2.h>

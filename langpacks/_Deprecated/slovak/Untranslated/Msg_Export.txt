@@ -1,4 +1,4 @@
-﻿[Use UTF8 in new files]
+[Use UTF8 in new files]
 [Use << and >>]
 [History file for %s (%s format %s)]
 [&External]

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 stream_reader_buffered::stream_reader_buffered(stream_reader * p_base,t_size p_buffer) : m_base(p_base)
 {

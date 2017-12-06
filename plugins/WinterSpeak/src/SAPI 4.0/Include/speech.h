@@ -1,4 +1,4 @@
-﻿/************************************************************************
+/************************************************************************
 Speech.H - Header file to use the Microsoft Speech APIs.
 
 Copyright 1994 -1998 by Microsoft corporation.All rights reserved.

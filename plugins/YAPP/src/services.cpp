@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 extern HANDLE hTTButton;
 extern HGENMENU hMenuRoot, hMenuItem;

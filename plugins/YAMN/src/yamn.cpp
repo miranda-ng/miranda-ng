@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This code implements miscellaneous usefull functions
  *
  * (c) majvan 2002-2004

@@ -1,4 +1,4 @@
-﻿#ifndef __PIPEEXEC_H__
+#ifndef __PIPEEXEC_H__
 #define __PIPEEXEC_H__
 
 #include <windows.h>

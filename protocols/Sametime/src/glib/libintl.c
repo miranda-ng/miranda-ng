@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (C) 2008 Tor Lillqvist
  *
  * This library is free software; you can redistribute it and/or

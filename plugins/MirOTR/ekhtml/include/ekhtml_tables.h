@@ -1,4 +1,4 @@
-﻿#ifndef EKHTML_MKTABLES_DOT_H
+#ifndef EKHTML_MKTABLES_DOT_H
 #define EKHTML_MKTABLES_DOT_H
 #ifdef EKHTML_USE_TABLES
 const unsigned int EKCMap_CharMap[256] = {

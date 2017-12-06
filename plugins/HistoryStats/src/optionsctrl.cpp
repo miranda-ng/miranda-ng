@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "optionsctrl.h"
 
 #include "utils.h"

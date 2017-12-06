@@ -1,4 +1,4 @@
-﻿#ifndef GROUP_CIPHER_H
+#ifndef GROUP_CIPHER_H
 #define GROUP_CIPHER_H
 
 #include <stdint.h>

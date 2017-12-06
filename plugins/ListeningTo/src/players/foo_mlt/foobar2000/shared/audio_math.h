@@ -1,4 +1,4 @@
-﻿#include <math.h>
+#include <math.h>
 
 #ifdef _M_X64
 #include <xmmintrin.h>

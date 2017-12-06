@@ -1,4 +1,4 @@
-﻿Yet Another Relay plugin. v.0.0.0.3
+Yet Another Relay plugin. v.0.0.0.3
 This plugin forwards all incoming messages to any contact.
 
 Features:

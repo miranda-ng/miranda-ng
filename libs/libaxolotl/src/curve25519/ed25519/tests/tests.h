@@ -1,4 +1,4 @@
-﻿#ifndef __TESTS_H__
+#ifndef __TESTS_H__
 #define __TESTS_H__
 
 /* silent = 0 : prints info+error messages to stdout, abort() on test failure

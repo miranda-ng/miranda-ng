@@ -1,4 +1,4 @@
-﻿#ifndef _CCONTACTLISTSCREEN_H_
+#ifndef _CCONTACTLISTSCREEN_H_
 #define _CCONTACTLISTSCREEN_H_
 
 #include "CScreen.h"

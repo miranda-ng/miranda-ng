@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard SSL driver for Miranda NG
 

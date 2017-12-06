@@ -1,4 +1,4 @@
-﻿/* camellia-glue.c - Glue for the Camellia cipher
+/* camellia-glue.c - Glue for the Camellia cipher
  * Copyright (C) 2007 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

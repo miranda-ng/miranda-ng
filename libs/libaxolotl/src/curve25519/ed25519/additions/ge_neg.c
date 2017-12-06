@@ -1,4 +1,4 @@
-﻿#include "crypto_additions.h"
+#include "crypto_additions.h"
 #include "ge.h"
 
 /*

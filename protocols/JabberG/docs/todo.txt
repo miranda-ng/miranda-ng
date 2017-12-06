@@ -1,4 +1,4 @@
-﻿- remove built-in groupchat support
+- remove built-in groupchat support
 - place the conferences list into the contact list
 - HTTP Gateway mode support
 

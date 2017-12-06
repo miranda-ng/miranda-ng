@@ -1,4 +1,4 @@
-﻿Fingerprint Mod 0.3.0.01
+Fingerprint Mod 0.3.0.01
 
 Changelog:
 overlay Unicode client

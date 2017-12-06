@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This code implements synchronization objects code between threads. If you want, you can include it to your
  * code. This file is not dependent on any other external code (functions)
  *

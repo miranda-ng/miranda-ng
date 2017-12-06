@@ -1,4 +1,4 @@
-﻿
+
 #include "MirFoxCommons_pch.h"
 #include "MirFoxCommons_messageQueueBySM.h"
 

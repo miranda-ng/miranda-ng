@@ -1,4 +1,4 @@
-﻿/* strerror-sym.c - Describing an error code with its symbol name.
+/* strerror-sym.c - Describing an error code with its symbol name.
    Copyright (C) 2003, 2004 g10 Code GmbH
 
    This file is part of libgpg-error.

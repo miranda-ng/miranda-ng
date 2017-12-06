@@ -1,4 +1,4 @@
-﻿/* hmac256.c - Standalone HMAC implementation
+/* hmac256.c - Standalone HMAC implementation
  * Copyright (C) 2003, 2006, 2008  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

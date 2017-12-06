@@ -1,4 +1,4 @@
-﻿/* random-fips.c - FIPS style random number generator
+/* random-fips.c - FIPS style random number generator
  * Copyright (C) 2008  Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

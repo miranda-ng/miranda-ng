@@ -1,4 +1,4 @@
-﻿#ifndef _WSX22_UTILS_LOGGER
+#ifndef _WSX22_UTILS_LOGGER
 #define _WSX22_UTILS_LOGGER
 
 #define PREFIX_SIZE 6

@@ -1,4 +1,4 @@
-﻿#ifndef NG_UNISTD_H
+#ifndef NG_UNISTD_H
 #define NG_UNISTD_H
 #include <basetsd.h>
 #include <stddef.h>

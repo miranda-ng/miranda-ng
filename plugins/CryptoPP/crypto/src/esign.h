@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_ESIGN_H
+#ifndef CRYPTOPP_ESIGN_H
 #define CRYPTOPP_ESIGN_H
 
 /** \file

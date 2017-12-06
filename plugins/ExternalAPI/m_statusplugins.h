@@ -1,4 +1,4 @@
-﻿/*
+/*
     AdvancedAutoAway Plugin for Miranda-IM (www.miranda-im.org)
     KeepStatus Plugin for Miranda-IM (www.miranda-im.org)
     StartupStatus Plugin for Miranda-IM (www.miranda-im.org)

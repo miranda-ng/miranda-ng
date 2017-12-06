@@ -1,4 +1,4 @@
-﻿/*
+/*
 Miranda Crash Dumper Plugin
 Copyright (C) 2008 - 2012 Boris Krasnovskiy All Rights Reserved
 

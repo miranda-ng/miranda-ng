@@ -1,4 +1,4 @@
-﻿#if !defined(AFX_INTERLOCKED_FUNCTIONS__H__INCLUDED_)
+#if !defined(AFX_INTERLOCKED_FUNCTIONS__H__INCLUDED_)
 #define AFX_INTERLOCKED_FUNCTIONS__H__INCLUDED_
 
 #ifdef InterlockedCompareExchange

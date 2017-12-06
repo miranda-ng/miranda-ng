@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_GF256_H
+#ifndef CRYPTOPP_GF256_H
 #define CRYPTOPP_GF256_H
 
 #include "cryptlib.h"

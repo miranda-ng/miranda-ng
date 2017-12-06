@@ -1,4 +1,4 @@
-﻿#include "fe.h"
+#include "fe.h"
 
 void fe_mont_rhs(fe v2, fe u) {
   fe A, one;

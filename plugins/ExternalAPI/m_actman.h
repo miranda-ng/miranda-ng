@@ -1,4 +1,4 @@
-﻿#ifndef M_ACTMAN
+#ifndef M_ACTMAN
 #define M_ACTMAN
 
 #define AutoStartName "#Autostart"

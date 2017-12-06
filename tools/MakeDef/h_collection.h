@@ -1,4 +1,4 @@
-﻿
+
 #if !defined( __TNSCOLL_H )
    #define __TNSCOLL_H
 

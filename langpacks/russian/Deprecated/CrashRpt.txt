@@ -1,4 +1,4 @@
-﻿;============================================================
+;============================================================
 ;  File: crashrpt.dll
 ;  Module: Generates crashreport.txt about Miranda IM crashes
 ;  Versions: 0.0.0.1

@@ -1,4 +1,4 @@
-﻿//! \since 1.0
+//! \since 1.0
 class NOVTABLE playback_stream_capture_callback {
 public:
 	//! Delivers a real-time chunk of audio data. \n

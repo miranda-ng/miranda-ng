@@ -1,4 +1,4 @@
-﻿#ifndef _LUA_M_GENMENU_H_
+#ifndef _LUA_M_GENMENU_H_
 #define _LUA_M_GENMENU_H_
 
 #include <m_genmenu.h>

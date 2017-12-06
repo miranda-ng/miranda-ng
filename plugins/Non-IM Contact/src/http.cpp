@@ -1,4 +1,4 @@
-﻿/*
+/*
 Weather Protocol plugin for Miranda IM
 Copyright (C) 2002-2004 Calvin Che
 

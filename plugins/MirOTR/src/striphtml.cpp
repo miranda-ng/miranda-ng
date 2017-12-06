@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 void starttag_cb (void *cbdata, ekhtml_string_t *tag, ekhtml_attr_t *attrs) {
 	STRIPHTML_DATA *data = (STRIPHTML_DATA *)cbdata;

@@ -1,4 +1,4 @@
-﻿#if !defined(HISTORYSTATS_GUARD_COLUMN_WORDS_H)
+#if !defined(HISTORYSTATS_GUARD_COLUMN_WORDS_H)
 #define HISTORYSTATS_GUARD_COLUMN_WORDS_H
 
 #include "colbase_words.h"

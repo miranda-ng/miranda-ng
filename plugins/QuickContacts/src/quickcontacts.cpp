@@ -1,4 +1,4 @@
-﻿/* 
+/* 
 Copyright (C) 2006 Ricardo Pescuma Domenecci
 Based on work (C) Heiko Schillinger
 

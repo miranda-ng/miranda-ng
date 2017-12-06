@@ -1,4 +1,4 @@
-﻿#ifndef _SAMETIME_H
+#ifndef _SAMETIME_H
 #define _SAMETIME_H
 
 

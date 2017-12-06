@@ -1,4 +1,4 @@
-﻿#include "fe.h"
+#include "fe.h"
 #include "crypto_verify_32.h"
 
 int fe_isreduced(const unsigned char* s)

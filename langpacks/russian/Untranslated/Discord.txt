@@ -1,1 +1,1 @@
-﻿[%s gateway connection]
+[%s gateway connection]

@@ -1,4 +1,4 @@
-﻿[IM and group chat module for Miranda NG.]
+[IM and group chat module for Miranda NG.]
 [Popup]
 [Log files]
 [Group chat log formatting]

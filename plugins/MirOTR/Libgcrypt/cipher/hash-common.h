@@ -1,4 +1,4 @@
-﻿/* hash-common.h - Declarations of common code for hash algorithms.
+/* hash-common.h - Declarations of common code for hash algorithms.
  * Copyright (C) 2008 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.

@@ -1,4 +1,4 @@
-﻿#ifndef __MAILBROWSER_H
+#ifndef __MAILBROWSER_H
 #define __MAILBROWSER_H
 
 typedef struct MailBrowserWinParam

@@ -1,4 +1,4 @@
-﻿
+
 #ifndef __CURVE_SIGS_H__
 #define __CURVE_SIGS_H__
 

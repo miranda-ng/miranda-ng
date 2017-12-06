@@ -1,4 +1,4 @@
-﻿[Sessions Manager for Miranda NG.]
+[Sessions Manager for Miranda NG.]
 [Action on Startup]
 [Open Sessions Manager dialog]
 [Restore Last Session]

@@ -1,4 +1,4 @@
-﻿#ifndef TTB_COMMON_H
+#ifndef TTB_COMMON_H
 #define TTB_COMMON_H
 
 

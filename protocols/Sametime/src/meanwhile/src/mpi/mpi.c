@@ -1,4 +1,4 @@
-﻿/*
+/*
   mpi.c
   
   by Michael J. Fromberger <http://www.dartmouth.edu/~sting/>

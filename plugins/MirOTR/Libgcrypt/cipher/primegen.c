@@ -1,4 +1,4 @@
-﻿/* primegen.c - prime number generator
+/* primegen.c - prime number generator
  * Copyright (C) 1998, 2000, 2001, 2002, 2003
  *               2004, 2008 Free Software Foundation, Inc.
  *

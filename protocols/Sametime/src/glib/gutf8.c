@@ -1,4 +1,4 @@
-﻿/* gutf8.c - Operations on UTF-8 strings.
+/* gutf8.c - Operations on UTF-8 strings.
  *
  * Copyright (C) 1999 Tom Tromey
  * Copyright (C) 2000 Red Hat, Inc.

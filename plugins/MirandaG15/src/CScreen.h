@@ -1,4 +1,4 @@
-﻿#ifndef _CSCREEN_H_
+#ifndef _CSCREEN_H_
 #define _CSCREEN_H_
 
 #include "LCDFramework/CLCDScreen.h"

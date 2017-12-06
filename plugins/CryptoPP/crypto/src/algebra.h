@@ -1,4 +1,4 @@
-﻿#ifndef CRYPTOPP_ALGEBRA_H
+#ifndef CRYPTOPP_ALGEBRA_H
 #define CRYPTOPP_ALGEBRA_H
 
 #include "config.h"

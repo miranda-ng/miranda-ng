@@ -1,4 +1,4 @@
-﻿/*
+/*
 Paste It plugin
 Copyright (C) 2011 Krzysztof Kral
 

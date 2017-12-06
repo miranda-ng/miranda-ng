@@ -1,4 +1,4 @@
-﻿
+
 #if defined(OS400) && (__OS400_TGTVRM__ >= 510)
 #pragma datamodel(P128)
 #endif

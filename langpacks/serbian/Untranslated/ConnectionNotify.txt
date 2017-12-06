@@ -1,4 +1,4 @@
-﻿[Notify with popup if some connection established]
+[Notify with popup if some connection established]
 [Set popup colors]
 [Popup options]
 [Close after:]

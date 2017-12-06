@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Standard encryption plugin for Miranda NG
 Copyright (C) 2012-17 George Hazan

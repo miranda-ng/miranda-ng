@@ -1,4 +1,4 @@
-﻿[Displays popups for custom events, triggered by UDP packages.]
+[Displays popups for custom events, triggered by UDP packages.]
 [Security]
 [Only listen to localhost]
 [(Default is 12001)]

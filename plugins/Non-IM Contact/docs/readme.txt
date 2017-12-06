@@ -1,4 +1,4 @@
-﻿Non-IM Contact
+Non-IM Contact
 --------------
 
 Non-IM Contact allows you to add "contacts" that can act as shortcuts to other programs, or links to web pages.

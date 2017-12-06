@@ -1,4 +1,4 @@
-﻿#ifndef __COMMON_H__
+#ifndef __COMMON_H__
 #define __COMMON_H__
 
 #ifdef _WIN32

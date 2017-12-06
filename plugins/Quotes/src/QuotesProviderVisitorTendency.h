@@ -1,4 +1,4 @@
-﻿#ifndef __AD721194_E9944366_9CF1_0307460EF32F_QuotesProviderVisitorTendency_h__
+#ifndef __AD721194_E9944366_9CF1_0307460EF32F_QuotesProviderVisitorTendency_h__
 #define __AD721194_E9944366_9CF1_0307460EF32F_QuotesProviderVisitorTendency_h__
 
 class CQuotesProviderVisitorTendency : public CQuotesProviderVisitor

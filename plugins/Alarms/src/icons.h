@@ -1,4 +1,4 @@
-﻿#ifndef _ICONS_INC
+#ifndef _ICONS_INC
 #define _ICONS_INC
 
 #include "frame.h"

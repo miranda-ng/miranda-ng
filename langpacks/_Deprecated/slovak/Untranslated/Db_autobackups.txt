@@ -1,4 +1,4 @@
-﻿[Backup progress]
+[Backup progress]
 [Automatic backups]
 [Backup NOW]
 [Disabled]

@@ -1,4 +1,4 @@
-﻿#ifndef _ALARMLIST_INC
+#ifndef _ALARMLIST_INC
 #define _ALARMLIST_INC
 
 #include "options.h"

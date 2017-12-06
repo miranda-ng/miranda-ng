@@ -1,4 +1,4 @@
-﻿/*
+/*
  * jpegtran.c
  *
  * Copyright (C) 1995-2013, Thomas G. Lane, Guido Vollbeding.

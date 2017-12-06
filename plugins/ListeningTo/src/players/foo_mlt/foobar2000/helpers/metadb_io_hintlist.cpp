@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 void metadb_io_hintlist::run() {
 	if (m_entries.get_count() > 0) {

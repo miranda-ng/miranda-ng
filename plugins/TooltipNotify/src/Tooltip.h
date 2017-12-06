@@ -1,4 +1,4 @@
-﻿// Tooltip.h: interface for the CTooltip class.
+// Tooltip.h: interface for the CTooltip class.
 //
 //////////////////////////////////////////////////////////////////////
 

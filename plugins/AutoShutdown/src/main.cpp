@@ -1,4 +1,4 @@
-﻿/*
+/*
 'AutoShutdown'-Plugin for Miranda IM
 
 Copyright 2004-2007 H. Herkenrath

@@ -1,4 +1,4 @@
-﻿file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
+file(GLOB SOURCES "src/*.h" "src/*.cpp" "res/*.rc")
 set(TARGET Jabber)
 include_directories(${CMAKE_SOURCE_DIR}/libs/libaxolotl/src)
 include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)

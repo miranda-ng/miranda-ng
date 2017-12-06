@@ -1,4 +1,4 @@
-﻿#ifndef _PING_LOG
+#ifndef _PING_LOG
 #define _PING_LOG
 
 INT_PTR Log(WPARAM wParam, LPARAM lParam);

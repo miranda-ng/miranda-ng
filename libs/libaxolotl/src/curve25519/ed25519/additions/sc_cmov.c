@@ -1,4 +1,4 @@
-﻿#include "crypto_additions.h"
+#include "crypto_additions.h"
 
 /*
 Replace (f,g) with (g,g) if b == 1;

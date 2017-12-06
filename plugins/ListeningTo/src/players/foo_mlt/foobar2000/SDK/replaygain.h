@@ -1,4 +1,4 @@
-﻿//! Structure storing ReplayGain configuration: album/track source data modes, gain/peak processing modes and preamp values.
+//! Structure storing ReplayGain configuration: album/track source data modes, gain/peak processing modes and preamp values.
 struct t_replaygain_config
 {
 	enum /*t_source_mode*/ {source_mode_none,source_mode_track,source_mode_album};

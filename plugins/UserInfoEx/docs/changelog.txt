@@ -1,4 +1,4 @@
-﻿[in work] 0.8.4.3
+[in work] 0.8.4.3
 ! fix missing translation for MSG box (titel and header)
 * optimize code for faster import
 ! disable event import from metacontact, to avoid duplicate events from metasync

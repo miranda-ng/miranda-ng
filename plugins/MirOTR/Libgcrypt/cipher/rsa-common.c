@@ -1,4 +1,4 @@
-﻿/* rsa-common.c - Supporting functions for RSA
+/* rsa-common.c - Supporting functions for RSA
  * Copyright (C) 2011 Free Software Foundation, Inc.
  * Copyright (C) 2013  g10 Code GmbH
  *

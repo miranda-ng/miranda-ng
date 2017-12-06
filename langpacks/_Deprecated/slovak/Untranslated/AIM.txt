@@ -1,4 +1,4 @@
-﻿[AIM User Details]
+[AIM User Details]
 [Screen Name:]
 [Display Name:]
 [AIM Options]

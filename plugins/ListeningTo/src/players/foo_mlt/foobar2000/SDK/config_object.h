@@ -1,4 +1,4 @@
-﻿#ifndef _CONFIG_OBJECT_H_
+#ifndef _CONFIG_OBJECT_H_
 #define _CONFIG_OBJECT_H_
 
 class config_object;

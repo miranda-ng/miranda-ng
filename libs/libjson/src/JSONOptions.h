@@ -1,4 +1,4 @@
-﻿#ifndef JSON_OPTIONS_H
+#ifndef JSON_OPTIONS_H
 #define JSON_OPTIONS_H
 
 /**

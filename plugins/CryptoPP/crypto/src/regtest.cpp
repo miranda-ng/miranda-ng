@@ -1,4 +1,4 @@
-﻿#include "factory.h"
+#include "factory.h"
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include "modes.h"

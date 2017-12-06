@@ -1,4 +1,4 @@
-﻿namespace pfc {
+namespace pfc {
 	//! Generic variable bit array implementation. \n
 	//! Not very efficient to handle lots of items set to true but offers fast searches for true values and accepts arbitrary indexes, contrary to bit_array_bittable. Note that searches for false values are relatively inefficient.
 	class bit_array_var_impl : public bit_array_var {

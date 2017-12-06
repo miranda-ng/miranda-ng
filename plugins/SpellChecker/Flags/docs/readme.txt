@@ -1,4 +1,4 @@
-﻿flag icons - famfamfam.com
+flag icons - famfamfam.com
 
 Free for any use. If you use these flags in your software or
 on your website, an email with a link or a screenshot would be nice. :)

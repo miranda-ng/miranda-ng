@@ -1,4 +1,4 @@
-﻿#ifndef __SVCS_MENU_H__
+#ifndef __SVCS_MENU_H__
 #define __SVCS_MENU_H__
 
 INT_PTR __cdecl Service_IsContactSecured(WPARAM,LPARAM);

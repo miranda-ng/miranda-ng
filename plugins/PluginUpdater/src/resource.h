@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by d:\Miranda_orig\plugins\PluginUpdater\res\Resource.rc
 //

@@ -1,4 +1,4 @@
-﻿// History Linklist Plus
+// History Linklist Plus
 // Copyright (C) 2010 Thomas Wendel, gureedo
 // 
 // This program is free software; you can redistribute it and/or

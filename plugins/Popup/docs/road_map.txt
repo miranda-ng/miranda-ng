@@ -1,4 +1,4 @@
-﻿skin related classes:
+skin related classes:
 - PopUpSkin
 - Skin
 - Skins

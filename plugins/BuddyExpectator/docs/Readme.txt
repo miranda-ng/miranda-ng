@@ -1,4 +1,4 @@
-﻿BuddyExpectator+ plugin v0.1.2.3
+BuddyExpectator+ plugin v0.1.2.3
 This plugin notifies about contacts who has returned after an absence of long period.
 
 Features:

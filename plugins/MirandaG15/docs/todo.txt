@@ -1,4 +1,4 @@
-﻿MAYBE:
+MAYBE:
 =================
 metacontacts:
 - eventuell chat fьr metakontakte цffnen..?!

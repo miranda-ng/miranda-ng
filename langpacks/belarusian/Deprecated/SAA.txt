@@ -1,4 +1,4 @@
-﻿;  File: saa.dll
+;  File: saa.dll
 ;  Module: Smart Auto Away
 [Smart Auto Away]
 Пашыранае чаканне

@@ -1,4 +1,4 @@
-﻿Miranda Language Pack Version 1
+Miranda Language Pack Version 1
 Language: Czech (CZ)
 Locale: 0405
 Authors: Vнt Љindlбш, sir-qwerty, Martin Konниek, Aleљ Studenэ, madmojo, Dave-Dave, Tur McDonnel, waclaw, Lev, Pavel Svбtek, Mareman, Richard Niћnik, Laslo Gogolak, Petr Hanuљ, churchyard, tapin, Soustruh, Libor Polибk, Jiшн Kocman, MiSHAK, Robyer, Fille, Jake

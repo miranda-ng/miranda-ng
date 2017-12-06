@@ -1,4 +1,4 @@
-﻿#ifndef __7fca59e7_17b2_4849_bd7a_02c7675f2d76_QuotesProviderVisitor_h__
+#ifndef __7fca59e7_17b2_4849_bd7a_02c7675f2d76_QuotesProviderVisitor_h__
 #define __7fca59e7_17b2_4849_bd7a_02c7675f2d76_QuotesProviderVisitor_h__
 
 class CQuotesProviderBase;

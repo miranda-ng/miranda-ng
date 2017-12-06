@@ -1,4 +1,4 @@
-﻿#ifndef _CONFIG_OBJECT_IMPL_H_
+#ifndef _CONFIG_OBJECT_IMPL_H_
 #define _CONFIG_OBJECT_IMPL_H_
 
 //template function bodies from config_object class

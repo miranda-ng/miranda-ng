@@ -1,4 +1,4 @@
-﻿#ifndef M_TOPTOOLBAR_H
+#ifndef M_TOPTOOLBAR_H
 #define M_TOPTOOLBAR_H
 
 #ifndef M_CORE_H__

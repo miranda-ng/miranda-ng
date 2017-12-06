@@ -1,4 +1,4 @@
-﻿#include <assert.h>
+#include <assert.h>
 #include "fe.h"
 #include "crypto_additions.h"
 

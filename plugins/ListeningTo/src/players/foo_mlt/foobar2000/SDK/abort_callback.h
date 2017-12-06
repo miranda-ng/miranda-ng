@@ -1,4 +1,4 @@
-﻿#ifndef _foobar2000_sdk_abort_callback_h_
+#ifndef _foobar2000_sdk_abort_callback_h_
 #define _foobar2000_sdk_abort_callback_h_
 
 namespace foobar2000_io {

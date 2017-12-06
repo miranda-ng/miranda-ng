@@ -1,4 +1,4 @@
-﻿class playlist_position_reference_tracker : public playlist_callback_impl_base {
+class playlist_position_reference_tracker : public playlist_callback_impl_base {
 public:
 	//! @param p_trackitem Specifies whether we want to track some specific item rather than just an offset in a playlist. When set to true, item index becomes invalidated when the item we're tracking is removed.
 	playlist_position_reference_tracker(bool p_trackitem = true) : playlist_callback_impl_base(~0), m_trackitem(p_trackitem), m_playlist(pfc_infinite), m_item(pfc_infinite) {}

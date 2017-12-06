@@ -1,4 +1,4 @@
-﻿//
+//
 // ConStream.h: interface for the ConStream class.
 //
 // Mark Nelson, October 17, 1998

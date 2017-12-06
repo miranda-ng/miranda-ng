@@ -1,4 +1,4 @@
-﻿#ifndef favlist_h__
+#ifndef favlist_h__
 #define favlist_h__
 
 struct TContactInfo

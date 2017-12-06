@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #define CMIF_NOTNOTPRIVATE		CMIF_NOTOFFLINE
 #define CMIF_NOTUNVERIFIED		CMIF_NOTONLINE

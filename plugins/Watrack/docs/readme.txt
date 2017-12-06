@@ -1,4 +1,4 @@
-﻿For what:
+For what:
   Insert Played music info in message window or Status text. ICQ extended
   status supported.
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 extern OtrlUserState otr_user_state;
 extern OtrlMessageAppOps ops;

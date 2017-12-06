@@ -1,4 +1,4 @@
-﻿//! Configuration of a UI element.
+//! Configuration of a UI element.
 class NOVTABLE ui_element_config : public service_base {
 public:
 	//! Returns GUID of the UI element this configuration data belongs to.

@@ -1,4 +1,4 @@
-﻿#ifndef _YANDEXSERVICE_API_H_
+#ifndef _YANDEXSERVICE_API_H_
 #define _YANDEXSERVICE_API_H_
 
 namespace YandexAPI

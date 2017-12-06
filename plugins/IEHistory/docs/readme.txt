@@ -1,4 +1,4 @@
-﻿IEView History Viewer v.0.0.1.4
+IEView History Viewer v.0.0.1.4
   by Cristian "Eblis" Libotean
 	copyright © 2005-2007 Cristian Libotean
 

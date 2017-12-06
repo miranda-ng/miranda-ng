@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 tstring &GetDlgItemString(HWND hwnd, int id)
 {

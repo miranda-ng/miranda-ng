@@ -1,4 +1,4 @@
-﻿/* crypto/des/des_old.h */
+/* crypto/des/des_old.h */
 
 /*-
  * WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING

@@ -1,4 +1,4 @@
-﻿#ifndef _PINGTHREAD_H
+#ifndef _PINGTHREAD_H
 #define _PINGTHREAD_H
 
 int FillList(WPARAM wParam, LPARAM lParam);

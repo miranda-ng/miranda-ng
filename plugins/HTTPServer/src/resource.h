@@ -1,4 +1,4 @@
-﻿//{{NO_DEPENDENCIES}}
+//{{NO_DEPENDENCIES}}
 // Включаемый файл, созданный в Microsoft Visual C++.
 // Используется D:\MNG_orig\plugins\HTTPServer\res\resource.rc
 //

@@ -1,4 +1,4 @@
-﻿[A list of entities with administrative privileges]
+[A list of entities with administrative privileges]
 Список пользователей с правами администратора
 [A list of entities with whom communication is blocked]
 Список пользователей, чьи подключения блокируются

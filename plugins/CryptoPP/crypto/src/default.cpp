@@ -1,4 +1,4 @@
-﻿// default.cpp - written and placed in the public domain by Wei Dai
+// default.cpp - written and placed in the public domain by Wei Dai
 
 #include "pch.h"
 #include "default.h"

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 LIST<CMraProto> g_Instances(1, PtrKeySortT);
 

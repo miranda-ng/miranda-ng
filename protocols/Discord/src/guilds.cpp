@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright © 2016-17 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify

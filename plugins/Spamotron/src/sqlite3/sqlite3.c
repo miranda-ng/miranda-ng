@@ -1,4 +1,4 @@
-﻿/******************************************************************************
+/******************************************************************************
 ** This file is an amalgamation of many separate C source files from SQLite
 ** version 3.6.13.  By combining all the individual C code files into this 
 ** single large file, the entire code can be compiled as a one translation

@@ -1,4 +1,4 @@
-﻿#if !defined( __TTYPES_H )
+#if !defined( __TTYPES_H )
 #define __TTYPES_H
 
 #include <stddef.h>

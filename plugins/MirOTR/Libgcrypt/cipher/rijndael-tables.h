@@ -1,4 +1,4 @@
-﻿/* rijndael-tables.h - Rijndael (AES) for GnuPG,
+/* rijndael-tables.h - Rijndael (AES) for GnuPG,
  * Copyright (C) 2000, 2001, 2002, 2003, 2007,
  *               2008 Free Software Foundation, Inc.
  *

@@ -1,4 +1,4 @@
-﻿#include "internalJSONNode.h"  //internal structure for json value
+#include "internalJSONNode.h"  //internal structure for json value
 
 #ifdef JSON_BINARY
 	#include "JSON_Base64.h"

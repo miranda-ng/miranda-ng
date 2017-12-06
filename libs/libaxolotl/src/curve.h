@@ -1,4 +1,4 @@
-﻿#ifndef CURVE_H
+#ifndef CURVE_H
 #define CURVE_H
 
 #include <stdint.h>

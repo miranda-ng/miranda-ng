@@ -1,4 +1,4 @@
-﻿[OutputDebugString()]
+[OutputDebugString()]
 [Wikipedia (en)]
 [In a civil union]
 [Homepage]

@@ -1,4 +1,4 @@
-﻿/* ec.c -  Elliptic Curve functions
+/* ec.c -  Elliptic Curve functions
  * Copyright (C) 2007 Free Software Foundation, Inc.
  * Copyright (C) 2013 g10 Code GmbH
  *

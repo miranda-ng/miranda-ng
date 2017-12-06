@@ -1,4 +1,4 @@
-﻿/*
+/*
  * YAMN plugin main file
  * Miranda homepage: http://miranda-icq.sourceforge.net/
  * YAMN homepage: http://www.majvan.host.sk/Projekty/YAMN

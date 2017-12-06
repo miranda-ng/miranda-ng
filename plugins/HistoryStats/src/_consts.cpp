@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 
 #define HISTORYSTATS_CONST_DEFINE
 #include "_consts.h"

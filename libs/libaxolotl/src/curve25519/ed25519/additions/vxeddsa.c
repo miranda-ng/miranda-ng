@@ -1,4 +1,4 @@
-﻿#include <string.h>
+#include <string.h>
 #include "ge.h"
 #include "crypto_additions.h"
 #include "zeroize.h"

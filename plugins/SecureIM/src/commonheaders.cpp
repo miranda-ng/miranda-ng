@@ -1,4 +1,4 @@
-﻿#include "commonheaders.h"
+#include "commonheaders.h"
 
 HINSTANCE g_hInst, g_hIconInst;
 

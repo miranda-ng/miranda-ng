@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "CContactlistScreen.h"
 #include "CConfig.h"
 #include "CAppletManager.h"

@@ -1,4 +1,4 @@
-﻿#ifndef _TIME_UTILS_INC
+#ifndef _TIME_UTILS_INC
 #define _TIME_UTILS_INC
 
 bool IsBefore(SYSTEMTIME &time, SYSTEMTIME &start);

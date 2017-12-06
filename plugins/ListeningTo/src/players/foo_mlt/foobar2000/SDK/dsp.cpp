@@ -1,4 +1,4 @@
-﻿#include "foobar2000.h"
+#include "foobar2000.h"
 #include <math.h>
 
 t_size dsp_chunk_list_impl::get_count() const {return m_data.get_count();}

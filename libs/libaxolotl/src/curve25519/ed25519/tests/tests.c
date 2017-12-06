@@ -1,4 +1,4 @@
-﻿#include <stdlib.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "crypto_hash_sha512.h"

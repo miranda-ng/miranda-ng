@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 extern "C"{
 	#include "otrlextensions.h"
 }
