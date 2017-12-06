@@ -487,3 +487,4 @@ Clist_SetStatusMode @464
 ?MetaDetouchSub@MDatabaseCommon@@UEAAHPEAUDBCachedContact@@H@Z @492 NONAME
 ?MetaSetDefault@MDatabaseCommon@@UEAAHPEAUDBCachedContact@@@Z @493 NONAME
 ?EnumResidentSettings@MDatabaseCommon@@UEAAHP6AHPEBDPEAX@Z1@Z @494 NONAME
+KillModuleOptions @495

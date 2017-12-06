@@ -377,6 +377,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 		KillModuleExtraIcons(_hLang);
 		KillModuleSrmmIcons(_hLang);
 		KillModuleToolbarIcons(_hLang);
+		KillModuleOptions(_hLang);
 	}
 
 	NotifyFastHook(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);

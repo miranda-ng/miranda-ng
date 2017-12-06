@@ -84,6 +84,8 @@ struct OPTIONSDIALOGPAGE
 
 EXTERN_C MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int = hLangpack);
 
+EXTERN_C MIR_APP_DLL(void) KillModuleOptions(int _hLang);
+
 // The behaviour if the options dialog is already open is that it will just be
 // activated, the page won't be changed. This may change in the future.
 

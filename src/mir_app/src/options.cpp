@@ -31,7 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FILTER_TIMEOUT_TIMER 10012
 
 #define HM_MODULELOAD (WM_USER+12)
-#define HM_MODULEUNLOAD (WM_USER+13)
 
 #define ALL_MODULES_FILTER LPGENW("<all modules>")
 #define CORE_MODULES_FILTER LPGENW("<core modules>")
@@ -366,7 +365,7 @@ class COptionsDlg : public CDlgBase
 	RECT m_rcTab;
 	HFONT m_hBoldFont;
 	wchar_t m_szFilterString[1024];
-	HANDLE m_hPluginLoad, m_hPluginUnload;
+	HANDLE m_hPluginLoad;
 
 	const wchar_t *m_szCaption, *m_szGroup, *m_szPage, *m_szTab;
 	const OptionsPageList &m_pages;
@@ -685,27 +684,6 @@ class COptionsDlg : public CDlgBase
 		RebuildPageTree();
 	}
 
-	void UnloadOptionsModule(HINSTANCE hInst)
-	{
-		bool bToRebuildTree = false;
-
-		for (int i = m_arOpd.getCount() - 1; i >= 0; i--) {
-			OptionsPageData *opd = m_arOpd[i];
-			if (opd->getInst() != hInst)
-				continue;
-
-			if (m_currentPage > i)
-				m_currentPage--;
-
-			m_arOpd.remove(i);
-			delete opd;
-			bToRebuildTree = true;
-		}
-
-		if (bToRebuildTree)
-			RebuildPageTree();
-	}
-
 	OptionsPageData* getCurrent() const
 	{	return (m_currentPage == -1) ? nullptr : m_arOpd[m_currentPage];
 	}
@@ -759,7 +737,6 @@ public:
 		m_hBoldFont = CreateFontIndirect(&lf);
 
 		m_hPluginLoad = HookEventMessage(ME_SYSTEM_MODULELOAD, m_hwnd, HM_MODULELOAD);
-		m_hPluginUnload = HookEventMessage(ME_SYSTEM_MODULEUNLOAD, m_hwnd, HM_MODULEUNLOAD);
 		m_currentPage = -1;
 
 		ptrW lastPage, lastGroup, lastTab;
@@ -818,7 +795,6 @@ public:
 		m_szFilterString[0] = 0;
 
 		UnhookEvent(m_hPluginLoad);
-		UnhookEvent(m_hPluginUnload);
 
 		SaveOptionsTreeState();
 		Window_FreeIcon_IcoLib(m_hwnd);
@@ -1046,10 +1022,6 @@ public:
 			LoadOptionsModule((HINSTANCE)lParam);
 			break;
 
-		case HM_MODULEUNLOAD:
-			UnloadOptionsModule((HINSTANCE)lParam);
-			break;
-
 		case PSM_CHANGED:
 			m_btnApply.Enable();
 			{
@@ -1110,6 +1082,27 @@ public:
 			if (hItem != nullptr)
 				m_pageTree.SelectItem(hItem);
 		}
+	}
+
+	void KillModule(int _hLang)
+	{
+		bool bToRebuildTree = false;
+
+		for (int i = m_arOpd.getCount() - 1; i >= 0; i--) {
+			OptionsPageData *opd = m_arOpd[i];
+			if (opd->hLangpack != _hLang)
+				continue;
+
+			if (m_currentPage > i)
+				m_currentPage--;
+
+			m_arOpd.remove(i);
+			delete opd;
+			bToRebuildTree = true;
+		}
+
+		if (bToRebuildTree)
+			RebuildPageTree();
 	}
 };
 
@@ -1199,6 +1192,14 @@ MIR_APP_DLL(int) Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp, int _hLa
 
 	pList->insert(dst);
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) KillModuleOptions(int _hLang)
+{
+	if (pOptionsDlg != nullptr)
+		pOptionsDlg->KillModule(_hLang);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
