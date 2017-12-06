@@ -1,4 +1,4 @@
-﻿#include <winver.h>
+#include <winver.h>
 #include "..\src\zlib.h"
 
 #ifdef GCC_WINDRES

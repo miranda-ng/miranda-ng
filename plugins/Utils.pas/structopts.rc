@@ -1,4 +1,4 @@
-﻿#include "i_struct_const.inc"
+#include "i_struct_const.inc"
 
 LANGUAGE 0,0
 

@@ -1,4 +1,4 @@
-﻿Z_OPTIONS_CHECKED ICON res\options_checked.ico
+Z_OPTIONS_CHECKED ICON res\options_checked.ico
 
 207 DIALOGEX 0, 0, 314, 240
 STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE

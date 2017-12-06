@@ -1,4 +1,4 @@
-﻿#include "waticons.h"
+#include "waticons.h"
 LANGUAGE 0,0
 
 IDI_PREV_NORMAL    ICON "previous.ico"
