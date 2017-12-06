@@ -331,41 +331,25 @@ void HistoryLogFunc(MCONTACT hContact, std::string message)
 		std::string msg = message;
 		msg.append("\n");
 		msg.append("Protocol: ").append(GetContactProto(hContact)).append(" Contact: ");
-		msg.append(toUTF8((wchar_t*)pcli->pfnGetContactDisplayName(hContact, 0))).append(" ID: ");
+		msg.append(toUTF8(pcli->pfnGetContactDisplayName(hContact, 0))).append(" ID: ");
 		msg.append(toUTF8(GetContactUid(hContact, toUTF16(GetContactProto(hContact)))));
 		HistoryLog(NULL, (char*)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
 	}
 }
 
+std::wstring toUTF16(std::string str) //convert as much as possible
+{
+	return std::wstring(ptrW(mir_utf8decodeW(str.c_str())));
+}
+
 std::string toUTF8(std::wstring str)
 {
-	std::string ustr;
-	try {
-		utf8::utf16to8(str.begin(), str.end(), back_inserter(ustr));
-	}
-	catch (const std::exception&) {
-		//TODO: handle utf8cpp exceptions
-	}
-	return ustr;
+	return std::string(ptrA(mir_utf8encodeW(str.c_str())));
 }
 
 std::string toUTF8(std::string str)
 {
 	return toUTF8(toUTF16(str));
-}
-
-std::wstring toUTF16(std::string str) //convert as much as possible
-{
-	std::wstring ustr;
-	std::string tmpstr;
-	try {
-		utf8::replace_invalid(str.begin(), str.end(), back_inserter(tmpstr));
-		utf8::utf8to16(tmpstr.begin(), tmpstr.end(), back_inserter(ustr));
-	}
-	catch (const std::exception &) {
-		//TODO: handle utf8cpp exceptions
-	}
-	return ustr;
 }
 
 std::string get_random_num(int length)
