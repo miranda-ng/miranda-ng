@@ -96,11 +96,6 @@ int CDbxMdb::Load(bool bSkipInit)
 				m_header.dwVersion = DBHEADER_VERSION;
 				data.iov_base = &m_header; data.iov_len = sizeof(m_header);
 				mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
-
-				keyVal = 0;
-				DBContact dbc = { 0, 0, 0 };
-				data.iov_base = &dbc; data.iov_len = sizeof(dbc);
-				mdbx_put(trnlck, m_dbContacts, &key, &data, 0);
 			}
 			trnlck.commit();
 		}
