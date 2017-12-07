@@ -338,8 +338,8 @@ int CSteamProto::SetStatus(int new_status)
 		}
 		else
 		{
-			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
-			if (username == NULL || username[0] == '\0')
+			T2Utf username(getWStringA("Username"));
+			if (username == NULL)
 			{
 				m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
