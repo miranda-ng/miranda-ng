@@ -424,6 +424,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQCorp", "..\protocols\ICQ
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsSingleWindow", "..\plugins\AsSingleWindow\AsSingleWindow.vcxproj", "{CE6A5A24-EA88-4E67-BDF2-22517528E43F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite3", "..\libs\sqlite3\sqlite3.vcxproj", "{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1958,6 +1960,14 @@ Global
 		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|Win32.Build.0 = Release|Win32
 		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|x64.ActiveCfg = Release|x64
 		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Release|x64.Build.0 = Release|x64
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Debug|Win32.Build.0 = Debug|Win32
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Debug|x64.ActiveCfg = Debug|x64
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Debug|x64.Build.0 = Debug|x64
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|Win32.ActiveCfg = Release|Win32
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|Win32.Build.0 = Release|Win32
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|x64.ActiveCfg = Release|x64
+		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
