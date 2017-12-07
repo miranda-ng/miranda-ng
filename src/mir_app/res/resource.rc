@@ -1097,6 +1097,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+IDR_CREDITS             TEXT                    "../../docs/contributors.txt"
 
 /////////////////////////////////////////////////////////////////////////////
 //
