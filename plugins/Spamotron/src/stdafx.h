@@ -116,7 +116,8 @@ int LogToSystemHistory(char *message, char *origmessage);
 
 /* bayes.c */
 
-#include "sqlite3/sqlite3.h"
+#include "../../Libs/sqlite3/src/sqlite3.h"
+
 extern sqlite3 *bayesdb;
 #define BAYESDB_PATH "spamotron"
 #define BAYESDB_FILENAME "bayes.db"

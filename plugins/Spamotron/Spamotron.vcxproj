@@ -26,16 +26,14 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\sqlite3\sqlite3.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="src\sqlite3\sqlite3.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\libs\Pcre16\pcre16.vcxproj">
       <Project>{6124e997-426e-4a0b-9617-d6d577d5e7d7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\sqlite3\sqlite3.vcxproj">
+      <Project>{0c02e395-e73f-47e3-8b95-b7924c0c7a6a}</Project>
     </ProjectReference>
   </ItemGroup>
 </Project>

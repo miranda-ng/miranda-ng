@@ -74,6 +74,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Sametime.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Sametime.dll")
 	if /I "%%a"=="SecureIM.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\CryptoPP.dll" "Icons\SecureIM_icons.dll")
 	if /I "%%a"=="SkypeWeb.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Skype.dll")
+	if /I "%%a"=="Spamotron.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\sqlite3.mir")
 	if /I "%%a"=="SpellChecker.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Flags_icons.dll" "Libs\hunspell.mir")
 	if /I "%%a"=="Steam.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Steam.dll")
 	if /I "%%a"=="TabSRMM.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\TabSRMM_icons.dll")
