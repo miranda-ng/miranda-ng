@@ -16,15 +16,32 @@
 
 #ifndef GLOBALS_H
 #define GLOBALS_H
-extern bool bAppendTags, bPresenceSigning, bStripTags, gpg_valid, gpg_keyexist, tabsrmm_used, bSameAction, bFileTransfers, bDebugLog;
-extern wchar_t *inopentag, *inclosetag, *outopentag, *outclosetag;
-extern logtofile debuglog;
 
-extern map<int, MCONTACT> user_data;
-extern int item_num;
+struct globals_s
+{
+	bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false, bDecryptFiles = false;;
+	wchar_t *inopentag = nullptr, *inclosetag = nullptr, *outopentag = nullptr, *outclosetag = nullptr, *password = nullptr;
+	wchar_t key_id_global[17] = { 0 };
+	list <JabberAccount*> Accounts;
+	HINSTANCE hInst;
+	HFONT bold_font = nullptr;
+	HANDLE hLoadPubKey = nullptr, g_hCLIcon = nullptr, hExportGpgKeys = nullptr, hImportGpgKeys = nullptr;
+	HGENMENU hSendKey = nullptr, hToggleEncryption = nullptr;
+	RECT key_from_keyserver_rect = { 0 }, firstrun_rect = { 0 }, new_key_rect = { 0 }, key_gen_rect = { 0 }, load_key_rect = { 0 }, import_key_rect = { 0 }, key_password_rect = { 0 }, load_existing_key_rect = { 0 };
+	logtofile debuglog;
+	bool gpg_valid = false, gpg_keyexist = false;
+	std::map<MCONTACT, contact_data> hcontact_data;
+	map<int, MCONTACT> user_data;
+	bool _terminate;
+	wstring new_key;
+	MCONTACT new_key_hcnt;
+	boost::mutex new_key_hcnt_mutex;
 
-extern bool _terminate;
-extern wstring new_key;
-extern MCONTACT new_key_hcnt;
-extern boost::mutex new_key_hcnt_mutex;
+	int item_num; //TODO: get rid of this
+
+};
+
+extern globals_s globals;
+
+
 #endif

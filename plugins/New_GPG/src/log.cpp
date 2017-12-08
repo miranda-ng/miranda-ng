@@ -19,7 +19,7 @@
 
 logtofile& logtofile::operator<<(wchar_t *buf)
 {
-	if(_bDebugLog != bDebugLog)
+	if(_bDebugLog != globals.bDebugLog)
 		init();
 	log_mutex.lock();
 	log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
@@ -31,7 +31,7 @@ logtofile& logtofile::operator<<(wchar_t *buf)
 }
 logtofile& logtofile::operator<<(char *buf)
 {
-	if(_bDebugLog != bDebugLog)
+	if(_bDebugLog != globals.bDebugLog)
 		init();
 	log_mutex.lock();
 	log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
@@ -43,7 +43,7 @@ logtofile& logtofile::operator<<(char *buf)
 }
 logtofile& logtofile::operator<<(string buf)
 {
-	if(_bDebugLog != bDebugLog)
+	if(_bDebugLog != globals.bDebugLog)
 		init();
 	log_mutex.lock();
 	char *tmp = mir_utf8encode(buf.c_str());
@@ -57,7 +57,7 @@ logtofile& logtofile::operator<<(string buf)
 }
 logtofile& logtofile::operator<<(wstring buf)
 {
-	if(_bDebugLog != bDebugLog)
+	if(_bDebugLog != globals.bDebugLog)
 		init();
 	log_mutex.lock();
 	log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
@@ -69,13 +69,13 @@ logtofile& logtofile::operator<<(wstring buf)
 }
 void logtofile::init()
 {
-	if(bDebugLog)
+	if(globals.bDebugLog)
 	{
 		if(path)
 			mir_free(path);
 		path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", L"C:\\GPGdebug.log");
 	}
-	_bDebugLog = bDebugLog;
+	_bDebugLog = globals.bDebugLog;
 }
 logtofile::logtofile()
 {

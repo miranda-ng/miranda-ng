@@ -16,7 +16,6 @@
 
 #include "stdafx.h"
 
-extern HINSTANCE hInst;
 
 static IconItem iconList[] =
 {
@@ -26,7 +25,7 @@ static IconItem iconList[] =
 
 void InitIconLib()
 {
-	Icon_Register(hInst, szGPGModuleName, iconList, _countof(iconList));
+	Icon_Register(globals.hInst, szGPGModuleName, iconList, _countof(iconList));
 }
 
 HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)
@@ -37,12 +36,11 @@ HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)
 void setClistIcon(MCONTACT hContact)
 {
 	bool enabled = isContactSecured(hContact);
-	extern HANDLE g_hCLIcon;
 	MCONTACT hMC = db_mc_tryMeta(hContact);
 	const char *szIconId = (enabled) ? "secured" : nullptr;
-	ExtraIcon_SetIconByName(g_hCLIcon, hContact, szIconId);
+	ExtraIcon_SetIconByName(globals.g_hCLIcon, hContact, szIconId);
 	if(hMC != hContact)
-		ExtraIcon_SetIconByName(g_hCLIcon, hMC, szIconId);
+		ExtraIcon_SetIconByName(globals.g_hCLIcon, hMC, szIconId);
 }
 
 void setSrmmIcon(MCONTACT h)

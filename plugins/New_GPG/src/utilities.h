@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2012 sss
+﻿// Copyright © 2010-2017 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +16,7 @@
 
 #ifndef UTILITIES_H
 #define UTILITIES_H
+
 wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, wchar_t* szDef);
 char* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, char* szDef);
 void GetFilePath(wchar_t *WindowTittle, char *szSetting, wchar_t *szExt, wchar_t *szExtDesc);
@@ -35,6 +36,7 @@ bool isContactHaveKey(MCONTACT hContact);
 bool isTabsrmmUsed();
 bool isGPGKeyExist();
 bool isGPGValid();
+void ExportGpGKeysFunc(int type);
 const bool StriStr(const char *str, const char *substr);
 string toUTF8(wstring str);
 wstring toUTF16(string str);

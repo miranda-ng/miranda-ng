@@ -20,9 +20,8 @@
 
 pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD aexitcode, pxResult *result, boost::process::child *_child)
 {
-	if(!gpg_valid)
+	if(!globals.gpg_valid)
 		return pxNotConfigured;
-	extern logtofile debuglog;
 
 	
 	wchar_t *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
@@ -30,8 +29,8 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		if(!boost::filesystem::exists(bin_path))
 		{
 			mir_free(bin_path);
-			if(bDebugLog)
-				debuglog<<std::string(time_str()+": GPG executable not found");
+			if(globals.bDebugLog)
+				globals.debuglog<<std::string(time_str()+": GPG executable not found");
 			*result = pxNotFound;
 			return pxNotFound;
 		}
@@ -60,7 +59,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	argv.push_back(L"-z9");
 	argv.insert(argv.end(), aargv.begin(), aargv.end());
 
-	if(bDebugLog)
+	if(globals.bDebugLog)
 	{
 		std::wstring args;
 		for(unsigned int i = 0; i < argv.size(); ++i)
@@ -69,7 +68,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 			args += L" ";
 		}
 		args.erase(args.size()-1, 1);
-		debuglog<<std::string(time_str()+": gpg in: "+toUTF8(args));
+		globals.debuglog<<std::string(time_str()+": gpg in: "+toUTF8(args));
 	}
 
 
@@ -104,8 +103,8 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	}
 	catch(const std::exception &e)
 	{
-		if(bDebugLog)
-			debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
+		if(globals.bDebugLog)
+			globals.debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
 	}
 
 	file_descriptor_source source2(perr.source, close_handle);
@@ -122,14 +121,14 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	}
 	catch(const std::exception &e)
 	{
-		if(bDebugLog)
-			debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
+		if(globals.bDebugLog)
+			globals.debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
 	}
 
 	fix_line_term(*aoutput);
 
-	if(bDebugLog)
-		debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
+	if(globals.bDebugLog)
+		globals.debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
 
 	auto ec = wait_for_exit(*c);
 	delete c;
@@ -139,8 +138,8 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 
 	if(*aexitcode)
 	{
-		if(bDebugLog)
-			debuglog<<std::string(time_str()+": warning: wrong gpg exit status, gpg output: "+*aoutput);
+		if(globals.bDebugLog)
+			globals.debuglog<<std::string(time_str()+": warning: wrong gpg exit status, gpg output: "+*aoutput);
 		return pxSuccessExitCodeInvalid;
 	}
 
@@ -163,25 +162,24 @@ bool gpg_launcher(gpg_execution_params &params, boost::posix_time::time_duration
 		delete gpg_thread;
 		if(params.child)
 			boost::process::terminate(*(params.child));
-		if(bDebugLog)
-			debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+		if(globals.bDebugLog)
+			globals.debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 	}
 	return ret;
 }
 
 pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, pxResult *result, boost::process::child *_child)
 {
-	if(!gpg_valid)
+	if(!globals.gpg_valid)
 		return pxNotConfigured;
-	extern logtofile debuglog;
 
 	wchar_t *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", L"");
 	{
 		if(!boost::filesystem::exists(bin_path))
 		{
 			mir_free(bin_path);
-			if(bDebugLog)
-				debuglog<<std::string(time_str()+": GPG executable not found");
+			if(globals.bDebugLog)
+				globals.debuglog<<std::string(time_str()+": GPG executable not found");
 			*result = pxNotFound;
 			return pxNotFound;
 		}

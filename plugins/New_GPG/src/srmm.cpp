@@ -58,8 +58,8 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam)
 		if(!isContactHaveKey(hContact))
 		{
 			void ShowLoadPublicKeyDialog(bool = false);
-			item_num = 0;		 //black magic here
-			user_data[1] = hContact;
+			globals.item_num = 0;		 //black magic here
+			globals.user_data[1] = hContact;
 			ShowLoadPublicKeyDialog();
 		}
 		else

@@ -16,8 +16,7 @@
 
 #include "stdafx.h"
 
-extern HINSTANCE hInst;
-extern bool bJabberAPI, bFileTransfers;
+globals_s globals;
 
 
 map<int, MCONTACT> user_data;
@@ -37,7 +36,7 @@ class COptGpgMainDlg : public CDlgBase
 	CCtrlButton btn_DELETE_KEY_BUTTON, btn_SELECT_KEY, btn_SAVE_KEY_BUTTON, btn_COPY_KEY, btn_LOG_FILE_SET;
 
 public:
-	COptGpgMainDlg() : CDlgBase(hInst, IDD_OPT_GPG),
+	COptGpgMainDlg() : CDlgBase(globals.hInst, IDD_OPT_GPG),
 		list_USERLIST(this, IDC_USERLIST), lbl_CURRENT_KEY(this, IDC_CURRENT_KEY), edit_LOG_FILE_EDIT(this, IDC_LOG_FILE_EDIT),
 		check_DEBUG_LOG(this, IDC_DEBUG_LOG), check_JABBER_API(this, IDC_JABBER_API), check_AUTO_EXCHANGE(this, IDC_AUTO_EXCHANGE), check_FILE_TRANSFERS(this, IDC_FILE_TRANSFERS),
 		btn_DELETE_KEY_BUTTON(this, IDC_DELETE_KEY_BUTTON), btn_SELECT_KEY(this, IDC_SELECT_KEY), btn_SAVE_KEY_BUTTON(this, IDC_SAVE_KEY_BUTTON), btn_COPY_KEY(this, IDC_COPY_KEY), btn_LOG_FILE_SET(this, IDC_LOG_FILE_SET)
@@ -113,7 +112,7 @@ public:
 
 		check_DEBUG_LOG.SetState(db_get_b(NULL, szGPGModuleName, "bDebugLog", 0));
 		check_JABBER_API.Enable();
-		check_AUTO_EXCHANGE.Enable(bJabberAPI);
+		check_AUTO_EXCHANGE.Enable(globals.bJabberAPI);
 
 		{
 			string keyinfo = Translate("Default private key ID");
@@ -138,18 +137,18 @@ public:
 
 	virtual void OnApply() override
 	{
-		db_set_b(NULL, szGPGModuleName, "bDebugLog", bDebugLog = check_DEBUG_LOG.GetState());
+		db_set_b(NULL, szGPGModuleName, "bDebugLog", globals.bDebugLog = check_DEBUG_LOG.GetState());
 
-		if (bDebugLog)
-			debuglog.init();
-		db_set_b(NULL, szGPGModuleName, "bJabberAPI", bJabberAPI = check_JABBER_API.GetState());
+		if (globals.bDebugLog)
+			globals.debuglog.init();
+		db_set_b(NULL, szGPGModuleName, "bJabberAPI", globals.bJabberAPI = check_JABBER_API.GetState());
 		bool old_bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0) != 0;
-		db_set_b(NULL, szGPGModuleName, "bFileTransfers", bFileTransfers = check_FILE_TRANSFERS.GetState());
-		if (bFileTransfers != old_bFileTransfers) {
+		db_set_b(NULL, szGPGModuleName, "bFileTransfers", globals.bFileTransfers = check_FILE_TRANSFERS.GetState());
+		if (globals.bFileTransfers != old_bFileTransfers) {
 			db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
-			bSameAction = false;
+			globals.bSameAction = false;
 		}
-		db_set_b(NULL, szGPGModuleName, "bAutoExchange", bAutoExchange = check_AUTO_EXCHANGE.GetState());
+		db_set_b(NULL, szGPGModuleName, "bAutoExchange", globals.bAutoExchange = check_AUTO_EXCHANGE.GetState());
 		db_set_ws(NULL, szGPGModuleName, "szLogFilePath", ptrW(edit_LOG_FILE_EDIT.GetText()));
 	}
 
@@ -163,13 +162,13 @@ public:
 			bool keep = false;
 			bool ismetacontact = false;
 			MCONTACT meta = NULL;
-			MCONTACT hContact = user_data[item_num + 1];
+			MCONTACT hContact = globals.user_data[item_num + 1];
 			if (db_mc_isMeta(hContact)) {
 				meta = hContact;
 				hContact = metaGetMostOnline(hContact);
 				ismetacontact = true;
 			}
-			else if ((meta = db_mc_getMeta(user_data[item_num + 1])) != NULL) {
+			else if ((meta = db_mc_getMeta(globals.user_data[item_num + 1])) != NULL) {
 				hContact = metaGetMostOnline(meta);
 				ismetacontact = true;
 			}
@@ -376,7 +375,7 @@ class COptGpgBinDlg : public CDlgBase
 	CCtrlButton btn_SET_BIN_PATH, btn_SET_HOME_DIR;
 
 public:
-	COptGpgBinDlg() : CDlgBase(hInst, IDD_OPT_GPG_BIN),
+	COptGpgBinDlg() : CDlgBase(globals.hInst, IDD_OPT_GPG_BIN),
 		edit_BIN_PATH(this, IDC_BIN_PATH), edit_HOME_DIR(this, IDC_HOME_DIR),
 		btn_SET_BIN_PATH(this, IDC_SET_BIN_PATH), btn_SET_HOME_DIR(this, IDC_SET_HOME_DIR)
 	{
@@ -423,10 +422,10 @@ public:
 				params.out = &out;
 				params.code = &code;
 				params.result = &result;
-				auto old_gpg_state = gpg_valid;
-				gpg_valid = true;
+				bool old_gpg_state = globals.gpg_valid;
+				globals.gpg_valid = true;
 				gpg_launcher(params);
-				gpg_valid = old_gpg_state;
+				globals.gpg_valid = old_gpg_state;
 				db_set_ws(NULL, szGPGModuleName, "szGpgBinPath", tmp_path);
 				mir_free(tmp_path);
 				string::size_type p1 = out.find("(GnuPG) ");
@@ -471,7 +470,7 @@ class COptGpgMsgDlg : public CDlgBase
 	CCtrlEdit edit_IN_OPEN_TAG, edit_IN_CLOSE_TAG, edit_OUT_OPEN_TAG, edit_OUT_CLOSE_TAG;
 
 public:
-	COptGpgMsgDlg() : CDlgBase(hInst, IDD_OPT_GPG_MESSAGES),
+	COptGpgMsgDlg() : CDlgBase(globals.hInst, IDD_OPT_GPG_MESSAGES),
 		check_APPEND_TAGS(this, IDC_APPEND_TAGS), check_STRIP_TAGS(this, IDC_STRIP_TAGS),
 		edit_IN_OPEN_TAG(this, IDC_IN_OPEN_TAG), edit_IN_CLOSE_TAG(this, IDC_IN_CLOSE_TAG), edit_OUT_OPEN_TAG(this, IDC_OUT_OPEN_TAG), edit_OUT_CLOSE_TAG(this, IDC_OUT_CLOSE_TAG)
 	{}
@@ -488,25 +487,25 @@ public:
 
 	virtual void OnApply() override
 	{
-		db_set_b(NULL, szGPGModuleName, "bAppendTags", bAppendTags = check_APPEND_TAGS.GetState());
-		db_set_b(NULL, szGPGModuleName, "bStripTags", bStripTags = check_STRIP_TAGS.GetState());
+		db_set_b(NULL, szGPGModuleName, "bAppendTags", globals.bAppendTags = check_APPEND_TAGS.GetState());
+		db_set_b(NULL, szGPGModuleName, "bStripTags", globals.bStripTags = check_STRIP_TAGS.GetState());
 		{
 			wchar_t *tmp = mir_wstrdup(edit_IN_OPEN_TAG.GetText());
 			db_set_ws(NULL, szGPGModuleName, "szInOpenTag", tmp);
-			mir_free(inopentag);
-			inopentag = tmp;
+			mir_free(globals.inopentag);
+			globals.inopentag = tmp;
 			tmp = mir_wstrdup(edit_IN_CLOSE_TAG.GetText());
 			db_set_ws(NULL, szGPGModuleName, "szInCloseTag", tmp);
-			mir_free(inclosetag);
-			inclosetag = tmp;
+			mir_free(globals.inclosetag);
+			globals.inclosetag = tmp;
 			tmp = mir_wstrdup(edit_OUT_OPEN_TAG.GetText());
 			db_set_ws(NULL, szGPGModuleName, "szOutOpenTag", tmp);
-			mir_free(outopentag);
-			outopentag = tmp;
+			mir_free(globals.outopentag);
+			globals.outopentag = tmp;
 			tmp = mir_wstrdup(edit_OUT_CLOSE_TAG.GetText());
 			db_set_ws(NULL, szGPGModuleName, "szOutCloseTag", tmp);
-			mir_free(outclosetag);
-			outclosetag = tmp;
+			mir_free(globals.outclosetag);
+			globals.outclosetag = tmp;
 		}
 	}
 };
@@ -517,7 +516,7 @@ class COptGpgAdvDlg : public CDlgBase
 	CCtrlCheck check_PRESCENSE_SUBSCRIPTION;
 
 public:
-	COptGpgAdvDlg() : CDlgBase(hInst, IDD_OPT_GPG_ADVANCED),
+	COptGpgAdvDlg() : CDlgBase(globals.hInst, IDD_OPT_GPG_ADVANCED),
 		btn_EXPORT(this, IDC_EXPORT), btn_IMPORT(this, IDC_IMPORT),
 		check_PRESCENSE_SUBSCRIPTION(this, IDC_PRESCENSE_SUBSCRIPTION)
 	{
@@ -528,12 +527,12 @@ public:
 	virtual void OnInitDialog() override
 	{
 		check_PRESCENSE_SUBSCRIPTION.SetState(db_get_b(NULL, szGPGModuleName, "bPresenceSigning", 0));
-		check_PRESCENSE_SUBSCRIPTION.Enable(bJabberAPI);
+		check_PRESCENSE_SUBSCRIPTION.Enable(globals.bJabberAPI);
 	}
 
 	virtual void OnApply() override
 	{
-		db_set_b(NULL, szGPGModuleName, "bPresenceSigning", bPresenceSigning = check_PRESCENSE_SUBSCRIPTION.GetState());
+		db_set_b(NULL, szGPGModuleName, "bPresenceSigning", globals.bPresenceSigning = check_PRESCENSE_SUBSCRIPTION.GetState());
 	}
 
 	void onClick_EXPORT(CCtrlButton*)
@@ -573,7 +572,7 @@ class CDlgLoadPubKeyDlg : public CDlgBase
 	CCtrlEdit edit_PUBLIC_KEY_EDIT;
 
 public:
-	CDlgLoadPubKeyDlg() : CDlgBase(hInst, IDD_LOAD_PUBLIC_KEY),
+	CDlgLoadPubKeyDlg() : CDlgBase(globals.hInst, IDD_LOAD_PUBLIC_KEY),
 		chk_ENABLE_ENCRYPTION(this, IDC_ENABLE_ENCRYPTION),
 		btn_SELECT_EXISTING(this, IDC_SELECT_EXISTING), btn_OK(this, ID_OK), btn_LOAD_FROM_FILE(this, ID_LOAD_FROM_FILE), btn_IMPORT(this, IDC_IMPORT),
 		edit_PUBLIC_KEY_EDIT(this, IDC_PUBLIC_KEY_EDIT)
@@ -587,7 +586,7 @@ public:
 	virtual void OnInitDialog() override
 	{
 		hContact = user_data[1];
-		SetWindowPos(m_hwnd, nullptr, load_key_rect.left, load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(m_hwnd, nullptr, globals.load_key_rect.left, globals.load_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PUBLIC_KEY_EDIT), editctrl_ctrl_a);
 		MCONTACT hcnt = db_mc_tryMeta(hContact);
 		{
@@ -622,7 +621,7 @@ public:
 				}
 			}
 			//			char *tmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "KeyID_Prescense", "");
-			if (!hcontact_data[hcnt].key_in_prescense.empty()) {
+			if (!globals.hcontact_data[hcnt].key_in_prescense.empty()) {
 				char *tmp2 = UniGetContactSettingUtf(hcnt, szGPGModuleName, "KeyID", "");
 				if (!tmp2[0]) {
 					string out;
@@ -630,7 +629,7 @@ public:
 					std::vector<wstring> cmd;
 					cmd.push_back(L"--export");
 					cmd.push_back(L"-a");
-					cmd.push_back(toUTF16(hcontact_data[hcnt].key_in_prescense));
+					cmd.push_back(toUTF16(globals.hcontact_data[hcnt].key_in_prescense));
 					gpg_execution_params params(cmd);
 					pxResult result;
 					params.out = &out;
@@ -647,13 +646,13 @@ public:
 						string msg = Translate("Load Public GPG Key for ");
 						msg += _T2A(pcli->pfnGetContactDisplayName(hcnt, 0));
 						msg += " (Key ID: ";
-						msg += hcontact_data[hcnt].key_in_prescense;
+						msg += globals.hcontact_data[hcnt].key_in_prescense;
 						msg += Translate(" found in presence, and exists in keyring.)");
 						SetCaption(toUTF16(msg).c_str());
 					}
 					else {
 						string msg = Translate("Load Public GPG Key (Key ID: ");
-						msg += hcontact_data[hcnt].key_in_prescense;
+						msg += globals.hcontact_data[hcnt].key_in_prescense;
 						msg += Translate(" found in presence.)");
 						SetCaption(toUTF16(msg).c_str());
 						btn_IMPORT.Enable();
@@ -670,9 +669,9 @@ public:
 
 	virtual void OnDestroy() override
 	{
-		GetWindowRect(m_hwnd, &load_key_rect);
-		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowX", load_key_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", load_key_rect.top);
+		GetWindowRect(m_hwnd, &globals.load_key_rect);
+		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowX", globals.load_key_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", globals.load_key_rect.top);
 		edit_p_PubKeyEdit = nullptr;
 		delete this;
 	}
@@ -1029,8 +1028,8 @@ public:
 		}
 		if (key_buf.empty()) {
 			key_buf.clear();
-			if (bDebugLog)
-				debuglog << std::string(time_str() + ": info: Failed to read key file");
+			if (globals.bDebugLog)
+				globals.debuglog << std::string(time_str() + ": info: Failed to read key file");
 			return;
 		}
 		ws2 = key_buf.find(L"-----END PGP PUBLIC KEY BLOCK-----");
@@ -1049,8 +1048,8 @@ public:
 	}
 	void onClick_IMPORT(CCtrlButton*)
 	{
-		new_key_hcnt_mutex.lock();
-		new_key_hcnt = hContact;
+		globals.new_key_hcnt_mutex.lock();
+		globals.new_key_hcnt = hContact;
 		void ShowImportKeyDialog();
 		ShowImportKeyDialog();
 	}

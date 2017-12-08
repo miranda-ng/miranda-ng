@@ -1,4 +1,4 @@
-﻿// Copyright © 2010-2012 sss
+﻿// Copyright © 2010-2017 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -19,10 +19,6 @@
 
 void ShowExportKeysDlg();
 void ShowLoadPublicKeyDialog(bool = false);
-
-extern HINSTANCE hInst;
-extern HANDLE hLoadPublicKey;
-extern HGENMENU hToggleEncryption, hSendKey;
 
 wchar_t* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule, const char* szSetting, wchar_t* szDef)
 {
@@ -136,7 +132,7 @@ void GetFolderPath(wchar_t *WindowTittle, char*)
 
 INT_PTR LoadKey(WPARAM w, LPARAM)
 {
-	user_data[1] = (MCONTACT)w;
+	globals.user_data[1] = (MCONTACT)w;
 	ShowLoadPublicKeyDialog();
 	return 0;
 }
@@ -213,7 +209,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 	setSrmmIcon(hContact);
 	setClistIcon(hContact);
 
-	Menu_ModifyItem(hToggleEncryption, enc ? LPGENW("Turn off GPG encryption") : LPGENW("Turn on GPG encryption"));
+	Menu_ModifyItem(globals.hToggleEncryption, enc ? LPGENW("Turn off GPG encryption") : LPGENW("Turn on GPG encryption"));
 	return 0;
 }
 
@@ -240,7 +236,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 		wchar_t buf[128] = { 0 };
 		mir_snwprintf(buf, L"%s: %s", TranslateT("Send public key"), toUTF16(keyid).c_str());
 		mir_free(keyid);
-		Menu_ModifyItem(hSendKey, buf);
+		Menu_ModifyItem(globals.hSendKey, buf);
 	}
 
 	int flags;
@@ -251,7 +247,7 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 	}
 	else flags = 0;
 
-	Menu_ModifyItem(hToggleEncryption,
+	Menu_ModifyItem(globals.hToggleEncryption,
 		db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0) ? L"Turn off GPG encryption" : L"Turn on GPG encryption",
 		INVALID_HANDLE_VALUE, flags);
 	mir_free(tmp);
@@ -260,8 +256,6 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM)
 
 
 list<wstring> transfers;
-
-DWORD file_msg_state = -1;
 
 int onProtoAck(WPARAM, LPARAM l)
 {
@@ -292,13 +286,13 @@ int onProtoAck(WPARAM, LPARAM l)
 					}
 					if (wcsstr(filename, L".gpg")) { //decrypt it
 						//process encrypted file
-						if (!bFileTransfers && !bSameAction) {
+						if (!globals.bFileTransfers && !globals.bSameAction) {
 							void ShowEncryptedFileMsgBox();
 							ShowEncryptedFileMsgBox();
 						}
-						if (!bFileTransfers && bSameAction)
+						if (!globals.bFileTransfers && globals.bSameAction)
 							return 0;
-						if (file_msg_state < 1)
+						if (!globals.bDecryptFiles)
 							return 0;
 						HistoryLog(ack->hContact, db_event("Received encrypted file, trying to decrypt", 0, 0, 0));
 						if (!boost::filesystem::exists(f->tszCurrentFile))
@@ -317,7 +311,6 @@ int onProtoAck(WPARAM, LPARAM l)
 						}
 						cmd.push_back(file);
 						boost::filesystem::remove(file);
-						extern wchar_t *password;
 						{ // password
 							wchar_t *pass = nullptr;
 							char *keyid = UniGetContactSettingUtf(ack->hContact, szGPGModuleName, "KeyID", "");
@@ -326,26 +319,26 @@ int onProtoAck(WPARAM, LPARAM l)
 								dbsetting += keyid;
 								dbsetting += "_Password";
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
-								if (mir_wstrlen(pass) > 0 && bDebugLog)
-									debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid + ", trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
+								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
+									globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + keyid + ", trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
 							}
 							else {
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
-								if (mir_wstrlen(pass) > 0 && bDebugLog)
-									debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
+								if (mir_wstrlen(pass) > 0 && globals.bDebugLog)
+									globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
 							}
 							if (mir_wstrlen(pass) > 0) {
 								cmd.push_back(L"--passphrase");
 								cmd.push_back(pass);
 							}
-							else if (password) {
-								if (bDebugLog)
-									debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
+							else if (globals.password) {
+								if (globals.bDebugLog)
+									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with password");
 								cmd.push_back(L"--passphrase");
-								cmd.push_back(password);
+								cmd.push_back(globals.password);
 							}
-							else if (bDebugLog)
-								debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with out password");
+							else if (globals.bDebugLog)
+								globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " with out password");
 							mir_free(pass);
 							mir_free(keyid);
 						}
@@ -358,9 +351,9 @@ int onProtoAck(WPARAM, LPARAM l)
 						if (!gpg_launcher(params, boost::posix_time::minutes(15)))
 							return 0;
 						while (out.find("public key decryption failed: bad passphrase") != string::npos) {
-							if (bDebugLog)
-								debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " password needed, trying to get one");
-							if (_terminate)
+							if (globals.bDebugLog)
+								globals.debuglog << std::string(time_str() + ": info: failed to decrypt messaage from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)) + " password needed, trying to get one");
+							if (globals._terminate)
 								break;
 							{ //save inkey id
 								string::size_type s = out.find(" encrypted with ");
@@ -373,16 +366,16 @@ int onProtoAck(WPARAM, LPARAM l)
 									db_set_s(ack->hContact, szGPGModuleName, "InKeyID", out.substr(s, s2 - s).c_str());
 							}
 							void ShowLoadKeyPasswordWindow();
-							new_key_hcnt_mutex.lock();
-							new_key_hcnt = ack->hContact;
+							globals.new_key_hcnt_mutex.lock();
+							globals.new_key_hcnt = ack->hContact;
 							ShowLoadKeyPasswordWindow();
 							std::vector<wstring> cmd2 = cmd;
-							if (password) {
-								if (bDebugLog)
-									debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)));
+							if (globals.password) {
+								if (globals.bDebugLog)
+									globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to decrypt message from " + toUTF8(pcli->pfnGetContactDisplayName(ack->hContact, 0)));
 								std::vector<wstring> tmp;
 								tmp.push_back(L"--passphrase");
-								tmp.push_back(password);
+								tmp.push_back(globals.password);
 								cmd2.insert(cmd2.begin(), tmp.begin(), tmp.end());
 							}
 							out.clear();
@@ -485,7 +478,7 @@ std::wstring encrypt_file(MCONTACT hContact, wchar_t *filename)
 INT_PTR onSendFile(WPARAM w, LPARAM l)
 {
 	CCSDATA *ccs = (CCSDATA*)l;
-	if (!bFileTransfers)
+	if (!globals.bFileTransfers)
 		return Proto_ChainSend(w, ccs);
 
 	if (isContactSecured(ccs->hContact)) {
@@ -504,14 +497,15 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 		else {
 			wchar_t *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", L"");
 			if (jid[0]) {
-				extern list <JabberAccount*> Accounts;
-				list<JabberAccount*>::iterator end = Accounts.end();
-				for (list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++) {
-					wchar_t *caps = (*p)->getJabberInterface()->GetResourceFeatures(jid);
-					if (caps) {
+				for(auto p : globals.Accounts)
+				{
+					wchar_t *caps = p->getJabberInterface()->GetResourceFeatures(jid);
+					if (caps) 
+					{
 						supported_proto = true;
 						wstring str;
-						for (int i = 0;; i++) {
+						for (int i = 0;; i++)
+						{
 							str.push_back(caps[i]);
 							if (caps[i] == '\0')
 								if (caps[i + 1] == '\0')
@@ -602,15 +596,14 @@ int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data)
 
 int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, options later
 {
-	extern list <JabberAccount*> Accounts;
 	void AddHandlers();
 	int count = 0;
 	PROTOACCOUNT **accounts;
 	Proto_EnumAccounts(&count, &accounts);
 	list <JabberAccount*>::iterator p;
-	Accounts.clear();
-	Accounts.push_back(new JabberAccount);
-	p = Accounts.begin();
+	globals.Accounts.clear();
+	globals.Accounts.push_back(new JabberAccount);
+	p = globals.Accounts.begin();
 	(*p)->setAccountNumber(0);
 	for (int i = 0; i < count; i++) //get only jabber accounts from all accounts
 	{
@@ -628,11 +621,11 @@ int GetJabberInterface(WPARAM, LPARAM) //get interface for all jabber accounts, 
 			}
 			(*p)->setAccountNumber(a);
 			a++;
-			Accounts.push_back(new JabberAccount);
+			globals.Accounts.push_back(new JabberAccount);
 			p++;
 		}
 	}
-	Accounts.pop_back();
+	globals.Accounts.pop_back();
 	AddHandlers();
 	return 0;
 }
@@ -675,14 +668,14 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			wstring::size_type p2 = data.find(L"-----END PGP MESSAGE-----");
 			wstring data2 = data.substr(p1, p2 - p1 - 2);
 			strip_line_term(data2);
-			if(bDebugLog)
-				debuglog<<std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
+			if(globals.bDebugLog)
+				globals.debuglog<<std::string(time_str() + ": jabber_api: attaching:\r\n\r\n" + toUTF8(data2) + "\n\n\t to outgoing xml");
 			HXML encrypted_data = xmlAddChild(node, L"x", data2.c_str());
 			xmlAddAttr(encrypted_data, L"xmlns", L"jabber:x:encrypted");
 			break;
 		}
 
-		if (bPresenceSigning && nodename && wcsstr(nodename, L"status")) {
+		if (globals.bPresenceSigning && nodename && wcsstr(nodename, L"status")) {
 			wchar_t *path_c = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 			wstring path_out = path_c;
 			wstring file = toUTF16(get_random(10));
@@ -694,12 +687,11 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			f << toUTF8(str).c_str();
 			f.close();
 			if (!boost::filesystem::exists(path_out)) {
-				if (bDebugLog)
-					debuglog << std::string(time_str() + ": info: Failed to write prescense in file");
+				if (globals.bDebugLog)
+					globals.debuglog << std::string(time_str() + ": info: Failed to write prescense in file");
 				break;
 			}
 
-			extern wchar_t *password;
 			string out;
 			DWORD code;
 			std::vector<wstring> cmd;
@@ -720,26 +712,26 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					dbsetting += inkeyid;
 					dbsetting += "_Password";
 					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
-					if (pass[0] && bDebugLog)
-						debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid.get() + ", trying to encrypt message from self with password");
+					if (pass[0] && globals.bDebugLog)
+						globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid.get() + ", trying to encrypt message from self with password");
 				}
 				else {
 					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
-					if (pass[0] && bDebugLog)
-						debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to encrypt message from self with password");
+					if (pass[0] && globals.bDebugLog)
+						globals.debuglog << std::string(time_str() + ": info: found password for all keys in database, trying to encrypt message from self with password");
 				}
 				if (pass[0]) {
 					cmd.push_back(L"--passphrase");
 					cmd.push_back(pass.get());
 				}
-				else if (password) {
-					if (bDebugLog)
-						debuglog << std::string(time_str() + ": info: found password in memory, trying to encrypt message from self with password");
+				else if (globals.password) {
+					if (globals.bDebugLog)
+						globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to encrypt message from self with password");
 					cmd.push_back(L"--passphrase");
-					cmd.push_back(password);
+					cmd.push_back(globals.password);
 				}
-				else if (bDebugLog)
-					debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to encrypt message from self with out password");
+				else if (globals.bDebugLog)
+					globals.debuglog << std::string(time_str() + ": info: passwords not found in database or memory, trying to encrypt message from self with out password");
 			}
 
 			cmd.push_back(L"--local-user");
@@ -774,8 +766,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 				boost::filesystem::remove(path_out);
 			}
 			if (data.empty()) {
-				if (bDebugLog)
-					debuglog << std::string(time_str() + ": info: Failed to read prescense sign from file");
+				if (globals.bDebugLog)
+					globals.debuglog << std::string(time_str() + ": info: Failed to read prescense sign from file");
 				break;
 			}
 			if (data.find(L"-----BEGIN PGP SIGNATURE-----") != wstring::npos && data.find(L"-----END PGP SIGNATURE-----") != wstring::npos) {
@@ -869,8 +861,8 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface*, HXML node, void*)
 						f.close();
 						if (!boost::filesystem::exists(path_out)) {
 							//								sign_file_mutex.unlock();
-							if (bDebugLog)
-								debuglog << std::string(time_str() + ": info: Failed to write sign in file");
+							if (globals.bDebugLog)
+								globals.debuglog << std::string(time_str() + ": info: Failed to write sign in file");
 							return FALSE;
 						}
 						{ //gpg
@@ -901,14 +893,13 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface*, HXML node, void*)
 								if (p1 != string::npos && p2 != string::npos) {
 									MCONTACT hContact = NULL;
 									{
-										extern list <JabberAccount*> Accounts;
-										list <JabberAccount*>::iterator p = Accounts.begin();
-										for (unsigned int m = 0; m < Accounts.size(); m++, p++) {
-											if (!(*p))
-												break;
-											hContact = (*p)->getJabberInterface()->ContactFromJID(xmlGetAttrValue(node, L"from"));
+										for(auto p : globals.Accounts)
+										{
+											/*if (!p)
+												break;*/
+											hContact = p->getJabberInterface()->ContactFromJID(xmlGetAttrValue(node, L"from"));
 											if (hContact)
-												hcontact_data[hContact].key_in_prescense = out.substr(p1, p2 - p1 - 1).c_str();
+												globals.hcontact_data[hContact].key_in_prescense = out.substr(p1, p2 - p1 - 1).c_str();
 										}
 									}
 								}
@@ -931,24 +922,23 @@ static JABBER_HANDLER_FUNC MessageHandler(IJabberInterface*, HXML, void*)
 
 void AddHandlers()
 {
-	extern list<JabberAccount*> Accounts;
-	list<JabberAccount*>::iterator end = Accounts.end();
-	for (list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++) {
-		if (!(*p))
-			break;
-		if ((*p)->getSendHandler() == INVALID_HANDLE_VALUE)
-			(*p)->setSendHandler((*p)->getJabberInterface()->AddSendHandler((JABBER_HANDLER_FUNC)SendHandler));
-		if ((*p)->getPrescenseHandler() == INVALID_HANDLE_VALUE)
-			(*p)->setPrescenseHandler((*p)->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PrescenseHandler));
+	for(auto p : globals.Accounts)
+	{
+		/*if (p)
+			break;*/
+		if (p->getSendHandler() == INVALID_HANDLE_VALUE)
+			p->setSendHandler(p->getJabberInterface()->AddSendHandler((JABBER_HANDLER_FUNC)SendHandler));
+		if (p->getPrescenseHandler() == INVALID_HANDLE_VALUE)
+			p->setPrescenseHandler(p->getJabberInterface()->AddPresenceHandler((JABBER_HANDLER_FUNC)PrescenseHandler));
 		//		if((*p)->getMessageHandler() == INVALID_HANDLE_VALUE)
 		//			(*p)->setMessageHandler((*p)->getJabberInterface()->AddMessageHandler((JABBER_HANDLER_FUNC)MessageHandler, JABBER_MESSAGE_TYPE_ANY ,NULL,NULL));
-		if (bAutoExchange) {
-			(*p)->getJabberInterface()->RegisterFeature(L"GPG_Key_Auto_Exchange:0", L"Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
-			(*p)->getJabberInterface()->AddFeatures(L"GPG_Key_Auto_Exchange:0\0\0");
+		if (globals.bAutoExchange) {
+			p->getJabberInterface()->RegisterFeature(L"GPG_Key_Auto_Exchange:0", L"Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
+			p->getJabberInterface()->AddFeatures(L"GPG_Key_Auto_Exchange:0\0\0");
 		}
-		if (bFileTransfers) {
-			(*p)->getJabberInterface()->RegisterFeature(L"GPG_Encrypted_FileTransfers:0", L"Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
-			(*p)->getJabberInterface()->AddFeatures(L"GPG_Encrypted_FileTransfers:0\0\0");
+		if (globals.bFileTransfers) {
+			p->getJabberInterface()->RegisterFeature(L"GPG_Encrypted_FileTransfers:0", L"Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)");
+			p->getJabberInterface()->AddFeatures(L"GPG_Encrypted_FileTransfers:0\0\0");
 		}
 	}
 }
@@ -957,22 +947,22 @@ bool isContactSecured(MCONTACT hContact)
 {
 	BYTE gpg_enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if (!gpg_enc) {
-		if (bDebugLog)
-			debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
+		if (globals.bDebugLog)
+			globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 		return false;
 	}
 	if (!db_mc_isMeta(hContact)) {
 		wchar_t *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
 		if (!key[0]) {
 			mir_free(key);
-			if (bDebugLog)
-				debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
+			if (globals.bDebugLog)
+				globals.debuglog << std::string(time_str() + ": encryption is turned off for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 			return false;
 		}
 		mir_free(key);
 	}
-	if (bDebugLog)
-		debuglog << std::string(time_str() + ": encryption is turned on for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
+	if (globals.bDebugLog)
+		globals.debuglog << std::string(time_str() + ": encryption is turned on for " + toUTF8(pcli->pfnGetContactDisplayName(hContact, 0)));
 	return true;
 }
 
@@ -1047,9 +1037,10 @@ bool isGPGValid()
 		params.out = &out;
 		params.code = &code;
 		params.result = &result;
-		gpg_valid = true;
+		bool _gpg_valid = globals.gpg_valid;
+		globals.gpg_valid = true;
 		gpg_launcher(params);
-		gpg_valid = false;
+		globals.gpg_valid = _gpg_valid; //TODO: check this
 		string::size_type p1 = out.find("(GnuPG) ");
 		if (p1 == string::npos)
 			is_valid = false;
@@ -1157,8 +1148,8 @@ string toUTF8(wstring str)
 		utf8::utf16to8(str.begin(), str.end(), back_inserter(ustr));
 	}
 	catch (const utf8::exception& e) {
-		if (bDebugLog)
-			debuglog << std::string("utf8cpp encoding exception: ") + (char*)e.what();
+		if (globals.bDebugLog)
+			globals.debuglog << std::string("utf8cpp encoding exception: ") + (char*)e.what();
 		//TODO
 	}
 	return ustr;
@@ -1175,8 +1166,8 @@ wstring toUTF16(string str) //convert as much as possible
 		utf8::utf8to16(tmpstr.begin(), tmpstr.end(), back_inserter(ustr));
 	}
 	catch (const utf8::exception& e) {
-		if (bDebugLog)
-			debuglog << std::string("utf8cpp decoding exception: ") + (char*)e.what();
+		if (globals.bDebugLog)
+			globals.debuglog << std::string("utf8cpp decoding exception: ") + (char*)e.what();
 		//TODO
 	}
 	return ustr;
@@ -1200,16 +1191,16 @@ void send_encrypted_msgs_thread(void *param)
 		//char *key = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
 		while (!isContactSecured(hContact))
 			boost::this_thread::sleep(boost::posix_time::seconds(1));
-		if (!hcontact_data[hContact].msgs_to_send.empty()) {
+		if (!globals.hcontact_data[hContact].msgs_to_send.empty()) {
 			boost::this_thread::sleep(boost::posix_time::seconds(1));
-			list<string>::iterator end = hcontact_data[hContact].msgs_to_send.end();
+			list<string>::iterator end = globals.hcontact_data[hContact].msgs_to_send.end();
 			extern std::list<HANDLE> sent_msgs;
-			for (list<string>::iterator p = hcontact_data[hContact].msgs_to_send.begin(); p != end; ++p) {
+			for (list<string>::iterator p = globals.hcontact_data[hContact].msgs_to_send.begin(); p != end; ++p) {
 				sent_msgs.push_back((HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)p->c_str()));
 				HistoryLog(hContact, db_event((char*)p->c_str(), 0, 0, DBEF_SENT));
 				boost::this_thread::sleep(boost::posix_time::seconds(1));
 			}
-			hcontact_data[hContact].msgs_to_send.clear();
+			globals.hcontact_data[hContact].msgs_to_send.clear();
 			return;
 		}
 		else
@@ -1790,55 +1781,13 @@ void strip_tags(std::wstring &str)
 {
 	if (str.empty())
 		return;
-	boost::algorithm::erase_all(str, inopentag);
-	boost::algorithm::erase_all(str, inclosetag);
-	boost::algorithm::erase_all(str, outopentag);
-	boost::algorithm::erase_all(str, outclosetag);
+	boost::algorithm::erase_all(str, globals.inopentag);
+	boost::algorithm::erase_all(str, globals.inclosetag);
+	boost::algorithm::erase_all(str, globals.outopentag);
+	boost::algorithm::erase_all(str, globals.outclosetag);
 }
 
-class CDlgEncryptedFileMsgBox : public CDlgBase
-{
-public:
-	CDlgEncryptedFileMsgBox() : CDlgBase(hInst, IDD_ENCRYPTED_FILE_MSG_BOX),
-		chk_REMEMBER(this, IDC_REMEMBER),
-		btn_IGNORE(this, IDC_IGNORE), btn_DECRYPT(this, IDC_DECRYPT)
-	{
-		btn_IGNORE.OnClick = Callback(this, &CDlgEncryptedFileMsgBox::onClick_IGNORE);
-		btn_DECRYPT.OnClick = Callback(this, &CDlgEncryptedFileMsgBox::onClick_DECRYPT);
-	}
-	virtual void OnInitDialog() override
-	{
-		file_msg_state = -1;
-	}
-	virtual void OnDestroy() override
-	{
-		delete this;
-	}
-	void onClick_IGNORE(CCtrlButton*)
-	{
-		if (chk_REMEMBER.GetState())
-		{
-			db_set_b(NULL, szGPGModuleName, "bSameAction", 1);
-			bSameAction = true;
-		}
-		this->Close();
-	}
-	void onClick_DECRYPT(CCtrlButton*)
-	{
-		file_msg_state = 1;
-		if (chk_REMEMBER.GetState())
-		{
-			db_set_b(NULL, szGPGModuleName, "bFileTransfers", 1);
-			bFileTransfers = true;
-			db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
-			bSameAction = false;
-		}
-		this->Close();
-	}
-private:
-	CCtrlCheck chk_REMEMBER;
-	CCtrlButton btn_IGNORE, btn_DECRYPT;
-};
+
 
 
 void ShowEncryptedFileMsgBox()
@@ -1847,43 +1796,7 @@ void ShowEncryptedFileMsgBox()
 	d->DoModal();
 }
 
-class CDlgExportKeysMsgBox : public CDlgBase
-{
-public:
-	CDlgExportKeysMsgBox() : CDlgBase(hInst, IDD_EXPORT_TYPE),
-		btn_OK(this, IDC_OK), btn_CANCEL(this, IDC_CANCEL),
-		chk_PUBLIC(this, IDC_PUBLIC), chk_PRIVATE(this, IDC_PRIVATE), chk_ALL(this, IDC_ALL)
-	{
-		btn_OK.OnClick = Callback(this, &CDlgExportKeysMsgBox::onClick_OK);
-		btn_CANCEL.OnClick = Callback(this, &CDlgExportKeysMsgBox::onClick_CANCEL);
-	}
-	virtual void OnInitDialog() override
-	{
-		chk_PUBLIC.SetState(1);
-	}
-	virtual void OnDestroy() override
-	{
-		delete this;
-	}
-	void onClick_OK(CCtrlButton*)
-	{
-		if (chk_PUBLIC.GetState())
-			ExportGpGKeysFunc(0);
-		else if (chk_PRIVATE.GetState())
-			ExportGpGKeysFunc(1);
-		else if (chk_ALL.GetState())
-			ExportGpGKeysFunc(2);
-		this->Close();
-	}
-	void onClick_CANCEL(CCtrlButton*)
-	{
-		this->Close();
-	}
 
-private:
-	CCtrlButton btn_OK, btn_CANCEL;
-	CCtrlCheck chk_PUBLIC, chk_PRIVATE, chk_ALL;
-};
 
 
 void ShowExportKeysDlg()
@@ -1892,86 +1805,7 @@ void ShowExportKeysDlg()
 	d->Show();
 }
 
-class CDlgChangePasswdMsgBox : public CDlgBase //always modal
-{
-public:
-	CDlgChangePasswdMsgBox() : CDlgBase(hInst, IDD_CHANGE_PASSWD),
-		btn_OK(this, ID_OK),
-		edit_NEW_PASSWD1(this, IDC_NEW_PASSWD1), edit_NEW_PASSWD2(this, IDC_NEW_PASSWD2), edit_OLD_PASSWD(this, IDC_OLD_PASSWD)
-	{
-		btn_OK.OnClick = Callback(this, &CDlgChangePasswdMsgBox::onClick_OK);
-	}
-	virtual void OnDestroy() override
-	{
-		delete this;
-	}
-	void onClick_OK(CCtrlButton*)
-	{
-		//TODO: show some prgress
-		{
-			if (mir_wstrcmp(edit_NEW_PASSWD1.GetText(), edit_NEW_PASSWD2.GetText()))
-			{
-				MessageBox(m_hwnd, TranslateT("New passwords do not match"), TranslateT("Error"), MB_OK);
-				return;
-			}
-			std::string old_pass, new_pass;
-			extern wchar_t key_id_global[17];
-//			wchar_t buf[256] = { 0 };
-			new_pass = toUTF8(edit_NEW_PASSWD1.GetText());
-			old_pass = toUTF8(edit_OLD_PASSWD.GetText());
-			bool old_pass_match = false;
-			wchar_t *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
-			if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
-				old_pass_match = true;
-			mir_free(pass);
 
-			if (!old_pass_match) {
-				if (key_id_global[0]) {
-					string dbsetting = "szKey_";
-					dbsetting += toUTF8(key_id_global);
-					dbsetting += "_Password";
-					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
-					if (!mir_wstrcmp(pass, edit_OLD_PASSWD.GetText()))
-						old_pass_match = true;
-					mir_free(pass);
-				}
-			}
-
-			if (!old_pass_match)
-				if (MessageBox(m_hwnd, TranslateT("Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
-					return;
-
-			std::vector<std::wstring> cmd;
-			string output;
-			DWORD exitcode;
-			cmd.push_back(L"--edit-key");
-			cmd.push_back(key_id_global);
-			cmd.push_back(L"passwd");
-			gpg_execution_params_pass params(cmd, old_pass, new_pass);
-			pxResult result;
-			params.out = &output;
-			params.code = &exitcode;
-			params.result = &result;
-			boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
-			if (!gpg_thread.timed_join(boost::posix_time::minutes(10))) {
-				gpg_thread.~thread();
-				if (params.child)
-					boost::process::terminate(*(params.child));
-				if (bDebugLog)
-					debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
-				this->Close();
-				return;
-			}
-			if (result == pxNotFound)
-				return;
-		}
-		this->Close();
-	}
-private:
-	CCtrlButton btn_OK;
-	CCtrlEdit edit_NEW_PASSWD1, edit_NEW_PASSWD2, edit_OLD_PASSWD;
-
-};
 
 
 void ShowChangePasswdDlg()

@@ -78,11 +78,13 @@ using std::fstream;
 #include "version.h"
 #include "constants.h"
 #include "log.h"
-#include "globals.h"
 #include "utilities.h"
 #include "main.h"
 #include "gpg_wrapper.h"
 #include "jabber_account.h"
 #include "metacontacts.h"
+#include "ui.h"
+#include "options.h"
+#include "globals.h"
 
 #endif

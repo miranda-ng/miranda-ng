@@ -18,9 +18,6 @@
 
 #pragma comment(lib, "shlwapi.lib")
 
-extern HFONT bold_font;
-extern bool bAutoExchange;
-
 void ShowFirstRunDialog();
 
 HWND hwndFirstRun = nullptr, hwndSetDirs = nullptr, hwndNewKey = nullptr, hwndKeyGen = nullptr, hwndSelectExistingKey = nullptr;
@@ -34,10 +31,6 @@ BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting)
 	db_set_b(NULL, szGPGModuleName, szSetting, (BYTE)state);
 	return state;
 }
-
-wchar_t key_id_global[17] = { 0 };
-
-extern HINSTANCE hInst;
 
 bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 {
@@ -67,9 +60,10 @@ bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 		params.out = &out;
 		params.code = &code;
 		params.result = &result;
-		gpg_valid = true;
+		bool _gpg_valid = globals.gpg_valid;
+		globals.gpg_valid = true;
 		gpg_launcher(params);
-		gpg_valid = false;
+		globals.gpg_valid = _gpg_valid; //TODO: check this
 		db_unset(NULL, szGPGModuleName, "szGpgBinPath");
 		string::size_type p1 = out.find("(GnuPG) ");
 		if (p1 != string::npos) {
@@ -221,7 +215,7 @@ bool gpg_use_new_random_key(char *account_name = Translate("Default"), wchar_t *
 class CDlgFirstRun : public CDlgBase
 {
 public:
-	CDlgFirstRun() : CDlgBase(hInst, IDD_FIRST_RUN),
+	CDlgFirstRun() : CDlgBase(globals.hInst, IDD_FIRST_RUN),
 		list_KEY_LIST(this, IDC_KEY_LIST),
 		btn_COPY_PUBKEY(this, IDC_COPY_PUBKEY), btn_EXPORT_PRIVATE(this, IDC_EXPORT_PRIVATE), btn_CHANGE_PASSWD(this, IDC_CHANGE_PASSWD), btn_GENERATE_RANDOM(this, IDC_GENERATE_RANDOM),
 		btn_GENERATE_KEY(this, IDC_GENERATE_KEY), btn_OTHER(this, IDC_OTHER), btn_DELETE_KEY(this, IDC_DELETE_KEY), btn_OK(this, ID_OK),
@@ -244,7 +238,7 @@ public:
 	}
 	virtual void OnInitDialog() override
 	{
-			SetWindowPos(m_hwnd, nullptr, firstrun_rect.left, firstrun_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(m_hwnd, nullptr, globals.firstrun_rect.left, globals.firstrun_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetCaption(TranslateT("Set own key"));
 			btn_COPY_PUBKEY.Disable();
 			btn_EXPORT_PRIVATE.Disable();
@@ -387,7 +381,7 @@ public:
 		int  i = list_KEY_LIST.GetSelectionMark();
 		if (i == -1)
 			return;
-		list_KEY_LIST.GetItemText(i, 0, key_id_global, _countof(key_id_global));
+		list_KEY_LIST.GetItemText(i, 0, globals.key_id_global, _countof(globals.key_id_global));
 
 		//temporary code follows
 		std::vector<std::wstring> cmd;
@@ -395,7 +389,7 @@ public:
 		string output;
 		DWORD exitcode;
 		cmd.push_back(L"--edit-key");
-		cmd.push_back(key_id_global);
+		cmd.push_back(globals.key_id_global);
 		cmd.push_back(L"passwd");
 		gpg_execution_params_pass params(cmd, old_pass, new_pass);
 		pxResult result;
@@ -407,15 +401,15 @@ public:
 			gpg_thread.~thread();
 			if (params.child)
 				boost::process::terminate(*(params.child));
-			if (bDebugLog)
-				debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
+			if (globals.bDebugLog)
+				globals.debuglog << std::string(time_str() + ": GPG execution timed out, aborted");
 			this->Close();
 		}
 
 	}
 	void onClick_GENERATE_RANDOM(CCtrlButton*)
 	{
-		lbl_GENERATING_KEY.SendMsg(WM_SETFONT, (WPARAM)bold_font, TRUE);
+		lbl_GENERATING_KEY.SendMsg(WM_SETFONT, (WPARAM)globals.bold_font, TRUE);
 		lbl_GENERATING_KEY.SetText(TranslateT("Generating new random key, please wait"));
 		btn_GENERATE_KEY.Disable();
 		btn_OTHER.Disable();
@@ -434,8 +428,8 @@ public:
 	void onClick_OTHER(CCtrlButton*)
 	{
 		void ShowLoadPublicKeyDialog(bool = false);
-		item_num = 0;		 //black magic here
-		user_data[1] = 0;
+		globals.item_num = 0;		 //black magic here
+		globals.user_data[1] = 0;
 		ShowLoadPublicKeyDialog(true);
 		refresh_key_list();
 	}
@@ -603,8 +597,8 @@ public:
 			delete[] name;
 		}
 		//bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange") != 0; //TODO: check is it just typo, or doing something
-		gpg_valid = isGPGValid();
-		gpg_keyexist = isGPGKeyExist();
+		globals.gpg_valid = isGPGValid();
+		globals.gpg_keyexist = isGPGKeyExist();
 		DestroyWindow(m_hwnd);
 	}
 	void onChange_ACCOUNT(CCtrlCombo*)
@@ -647,9 +641,9 @@ public:
 	}
 	virtual void OnDestroy() override
 	{
-		GetWindowRect(m_hwnd, &firstrun_rect);
-		db_set_dw(NULL, szGPGModuleName, "FirstrunWindowX", firstrun_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "FirstrunWindowY", firstrun_rect.top);
+		GetWindowRect(m_hwnd, &globals.firstrun_rect);
+		db_set_dw(NULL, szGPGModuleName, "FirstrunWindowX", globals.firstrun_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "FirstrunWindowY", globals.firstrun_rect.top);
 		hwndFirstRun = nullptr;
 		delete this;
 	}
@@ -812,7 +806,7 @@ private:
 class CDlgGpgBinOpts : public CDlgBase
 {
 public:
-	CDlgGpgBinOpts() : CDlgBase(hInst, IDD_BIN_PATH),
+	CDlgGpgBinOpts() : CDlgBase(globals.hInst, IDD_BIN_PATH),
 		btn_SET_BIN_PATH(this, IDC_SET_BIN_PATH), btn_SET_HOME_DIR(this, IDC_SET_HOME_DIR), btn_OK(this, ID_OK), btn_GENERATE_RANDOM(this, IDC_GENERATE_RANDOM),
 		edit_BIN_PATH(this, IDC_BIN_PATH), edit_HOME_DIR(this, IDC_HOME_DIR),
 		chk_AUTO_EXCHANGE(this, IDC_AUTO_EXCHANGE)
@@ -869,9 +863,10 @@ public:
 					params.out = &out;
 					params.code = &code;
 					params.result = &result;
-					gpg_valid = true;
+					bool _gpg_valid = globals.gpg_valid;
+					globals.gpg_valid = true;
 					gpg_launcher(params);
-					gpg_valid = false;
+					globals.gpg_valid = _gpg_valid; //TODO: check this
 					db_unset(NULL, szGPGModuleName, "szGpgBinPath");
 					string::size_type p1 = out.find("(GnuPG) ");
 					if (p1 != string::npos) {
@@ -943,7 +938,7 @@ public:
 		if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText()))
 		{
 			gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
-			gpg_valid = true;
+			globals.gpg_valid = true;
 			db_set_b(NULL, szGPGModuleName, "FirstRun", 0);
 			this->Hide();
 			ShowFirstRunDialog();
@@ -955,11 +950,11 @@ public:
 		if (gpg_validate_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText()))
 		{
 			gpg_save_paths(edit_BIN_PATH.GetText(), edit_HOME_DIR.GetText());
-			gpg_valid = true;
+			globals.gpg_valid = true;
 			if (gpg_use_new_random_key())
 			{
-				db_set_b(NULL, szGPGModuleName, "bAutoExchange", bAutoExchange = chk_AUTO_EXCHANGE.GetState());
-				gpg_valid = true;
+				db_set_b(NULL, szGPGModuleName, "bAutoExchange", globals.bAutoExchange = chk_AUTO_EXCHANGE.GetState());
+				globals.gpg_valid = true;
 				db_set_b(NULL, szGPGModuleName, "FirstRun", 0);
 				this->Close();
 			}
@@ -981,7 +976,7 @@ private:
 class CDlgNewKey : public CDlgBase
 {
 public:
-	CDlgNewKey() : CDlgBase(hInst, IDD_NEW_KEY),
+	CDlgNewKey() : CDlgBase(globals.hInst, IDD_NEW_KEY),
 		lbl_KEY_FROM(this, IDC_KEY_FROM), lbl_MESSAGE(this, IDC_MESSAGE),
 		btn_IMPORT(this, ID_IMPORT), btn_IMPORT_AND_USE(this, IDC_IMPORT_AND_USE), btn_IGNORE_KEY(this, IDC_IGNORE_KEY)
 	{
@@ -993,9 +988,9 @@ public:
 	}
 	virtual void OnInitDialog() override
 	{
-		hContact = new_key_hcnt;
+		hContact = globals.new_key_hcnt;
 		//new_key_hcnt_mutex.unlock();
-		SetWindowPos(m_hwnd, nullptr, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(m_hwnd, nullptr, globals.new_key_rect.left, globals.new_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		wchar_t *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", L"");
 		lbl_MESSAGE.SetText(tmp[0] ? TranslateT("There is existing key for contact, would you like to replace it with new key?") : TranslateT("New public key was received, do you want to import it?"));
 		btn_IMPORT_AND_USE.Enable(db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0));
@@ -1008,9 +1003,9 @@ public:
 	}
 	virtual void OnDestroy() override
 	{
-		GetWindowRect(m_hwnd, &new_key_rect);
-		db_set_dw(NULL, szGPGModuleName, "NewKeyWindowX", new_key_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "NewKeyWindowY", new_key_rect.top);
+		GetWindowRect(m_hwnd, &globals.new_key_rect);
+		db_set_dw(NULL, szGPGModuleName, "NewKeyWindowX", globals.new_key_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "NewKeyWindowY", globals.new_key_rect.top);
 		delete this;
 	}
 	void onClick_IMPORT(CCtrlButton*)
@@ -1043,7 +1038,7 @@ private:
 class CDlgKeyGen : public CDlgBase //TODO: in modal mode window destroying on any button press even without direct "Close" call
 {
 public:
-	CDlgKeyGen() : CDlgBase(hInst, IDD_KEY_GEN),
+	CDlgKeyGen() : CDlgBase(globals.hInst, IDD_KEY_GEN),
 		combo_KEY_TYPE(this, IDC_KEY_TYPE),
 		edit_KEY_LENGTH(this, IDC_KEY_LENGTH), edit_KEY_PASSWD(this, IDC_KEY_PASSWD), edit_KEY_REAL_NAME(this, IDC_KEY_REAL_NAME), edit_KEY_EMAIL(this, IDC_KEY_EMAIL), edit_KEY_COMMENT(this, IDC_KEY_COMMENT),
 		edit_KEY_EXPIRE_DATE(this, IDC_KEY_EXPIRE_DATE),
@@ -1055,7 +1050,7 @@ public:
 	}
 	virtual void OnInitDialog() override
 	{
-		SetWindowPos(m_hwnd, nullptr, key_gen_rect.left, key_gen_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(m_hwnd, nullptr, globals.key_gen_rect.left, globals.key_gen_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		SetCaption(TranslateT("Key Generation dialog"));
 		combo_KEY_TYPE.AddString(L"RSA");
 		combo_KEY_TYPE.AddString(L"DSA");
@@ -1206,7 +1201,7 @@ public:
 				params.out = &out;
 				params.code = &code;
 				params.result = &result;
-				lbl_GENERATING_TEXT.SendMsg(WM_SETFONT, (WPARAM)bold_font, TRUE);
+				lbl_GENERATING_TEXT.SendMsg(WM_SETFONT, (WPARAM)globals.bold_font, TRUE);
 				lbl_GENERATING_TEXT.SetText(TranslateT("Generating new key, please wait..."));
 				btn_CANCEL.Disable();
 				btn_OK.Disable();
@@ -1232,9 +1227,9 @@ public:
 	}
 	virtual void OnDestroy() override
 	{
-		GetWindowRect(m_hwnd, &key_gen_rect);
-		db_set_dw(NULL, szGPGModuleName, "KeyGenWindowX", key_gen_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "KeyGenWindowY", key_gen_rect.top);
+		GetWindowRect(m_hwnd, &globals.key_gen_rect);
+		db_set_dw(NULL, szGPGModuleName, "KeyGenWindowX", globals.key_gen_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "KeyGenWindowY", globals.key_gen_rect.top);
 		delete this;
 	}
 
@@ -1251,7 +1246,7 @@ int itemnum2 = 0;
 class CDlgLoadExistingKey : public CDlgBase
 {
 public:
-	CDlgLoadExistingKey() : CDlgBase(hInst, IDD_LOAD_EXISTING_KEY),
+	CDlgLoadExistingKey() : CDlgBase(globals.hInst, IDD_LOAD_EXISTING_KEY),
 		btn_OK(this, IDOK), btn_CANCEL(this, IDCANCEL),
 		list_EXISTING_KEY_LIST(this, IDC_EXISTING_KEY_LIST)
 	{
@@ -1262,7 +1257,7 @@ public:
 	}
 	virtual void OnInitDialog() override
 	{
-		SetWindowPos(m_hwnd, nullptr, load_existing_key_rect.left, load_existing_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		SetWindowPos(m_hwnd, nullptr, globals.load_existing_key_rect.left, globals.load_existing_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 
 
 		list_EXISTING_KEY_LIST.AddColumn(0, TranslateT("Key ID"), 50);
@@ -1371,9 +1366,9 @@ public:
 	}
 	virtual void OnDestroy() override
 	{
-		GetWindowRect(m_hwnd, &load_existing_key_rect);
-		db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowX", load_existing_key_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowY", load_existing_key_rect.top);
+		GetWindowRect(m_hwnd, &globals.load_existing_key_rect);
+		db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowX", globals.load_existing_key_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowY", globals.load_existing_key_rect.top);
 		delete this;
 	}
 	void onClick_OK(CCtrlButton*)
@@ -1442,7 +1437,7 @@ private:
 class CDlgImportKey : public CDlgBase
 {
 public:
-	CDlgImportKey() : CDlgBase(hInst, IDD_IMPORT_KEY),
+	CDlgImportKey() : CDlgBase(globals.hInst, IDD_IMPORT_KEY),
 		combo_KEYSERVER(this, IDC_KEYSERVER),
 		btn_IMPORT(this, IDC_IMPORT)
 	{
@@ -1451,17 +1446,17 @@ public:
 	}
 	virtual void OnInitDialog() override
 	{
-		hContact = new_key_hcnt;
-		new_key_hcnt_mutex.unlock();
-		SetWindowPos(m_hwnd, nullptr, import_key_rect.left, import_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+		hContact = globals.new_key_hcnt;
+		globals.new_key_hcnt_mutex.unlock();
+		SetWindowPos(m_hwnd, nullptr, globals.import_key_rect.left, globals.import_key_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		combo_KEYSERVER.AddString(L"subkeys.pgp.net");
 		combo_KEYSERVER.AddString(L"keys.gnupg.net");
 	}
 	virtual void OnDestroy() override
 	{
-		GetWindowRect(m_hwnd, &import_key_rect);
-		db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowX", import_key_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowY", import_key_rect.top);
+		GetWindowRect(m_hwnd, &globals.import_key_rect);
+		db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowX", globals.import_key_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "ImportKeyWindowY", globals.import_key_rect.top);
 		delete this;
 	}
 	void onClick_IMPORT(CCtrlButton*)
@@ -1472,7 +1467,7 @@ public:
 		cmd.push_back(L"--keyserver");
 		cmd.push_back(combo_KEYSERVER.GetText());
 		cmd.push_back(L"--recv-keys");
-		cmd.push_back(toUTF16(hcontact_data[hContact].key_in_prescense));
+		cmd.push_back(toUTF16(globals.hcontact_data[hContact].key_in_prescense));
 		gpg_execution_params params(cmd);
 		pxResult result;
 		params.out = &out;
@@ -1538,7 +1533,7 @@ void InitCheck()
 		// parse gpg output
 		wchar_t *current_home = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", L"");
 		db_set_ws(NULL, szGPGModuleName, "szHomePath", L""); //we do not need home for gpg binary validation
-		gpg_valid = isGPGValid();
+		globals.gpg_valid = isGPGValid();
 		db_set_ws(NULL, szGPGModuleName, "szHomePath", current_home); //return current home dir back
 		mir_free(current_home);
 		bool home_dir_access = false, temp_access = false;
@@ -1568,18 +1563,18 @@ void InitCheck()
 			test_file.close();
 			boost::filesystem::remove(test_path);
 		}
-		if (!home_dir_access || !temp_access || !gpg_valid) {
+		if (!home_dir_access || !temp_access || !globals.gpg_valid) {
 			wchar_t buf[4096];
-			wcsncpy(buf, gpg_valid ? TranslateT("GPG binary is set and valid (this is good).\n") : TranslateT("GPG binary unset or invalid (plugin will not work).\n"), _countof(buf));
+			wcsncpy(buf, globals.gpg_valid ? TranslateT("GPG binary is set and valid (this is good).\n") : TranslateT("GPG binary unset or invalid (plugin will not work).\n"), _countof(buf));
 			mir_wstrncat(buf, home_dir_access ? TranslateT("Home dir write access granted (this is good).\n") : TranslateT("Home dir has no write access (plugin most probably will not work).\n"), _countof(buf) - mir_wstrlen(buf));
 			mir_wstrncat(buf, temp_access ? TranslateT("Temp dir write access granted (this is good).\n") : TranslateT("Temp dir has no write access (plugin should work, but may have some problems, file transfers will not work)."), _countof(buf) - mir_wstrlen(buf));
-			if (!gpg_valid)
+			if (!globals.gpg_valid)
 				mir_wstrncat(buf, TranslateT("\nGPG will be disabled until you solve these problems"), _countof(buf) - mir_wstrlen(buf));
 			MessageBox(nullptr, buf, TranslateT("GPG plugin problems"), MB_OK);
 		}
-		if (!gpg_valid)
+		if (!globals.gpg_valid)
 			return;
-		gpg_keyexist = isGPGKeyExist();
+		globals.gpg_keyexist = isGPGKeyExist();
 		string out;
 		DWORD code;
 		pxResult result;
@@ -1741,7 +1736,7 @@ void InitCheck()
 		}
 		mir_free(path);
 	}
-	if (bAutoExchange) {
+	if (globals.bAutoExchange) {
 		int count = 0;
 		PROTOACCOUNT **accounts;
 		Proto_EnumAccounts(&count, &accounts);
@@ -1755,7 +1750,7 @@ void InitCheck()
 			if (ProtoServiceExists(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY))
 				CallProtoService(accounts[i]->szProtoName, PS_ICQ_ADDCAPABILITY, 0, (LPARAM)&cap);
 	}
-	if (bFileTransfers) {
+	if (globals.bFileTransfers) {
 		int count = 0;
 		PROTOACCOUNT **accounts;
 		Proto_EnumAccounts(&count, &accounts);
@@ -1773,8 +1768,8 @@ void InitCheck()
 
 void ImportKey()
 {
-	MCONTACT hContact = new_key_hcnt;
-	new_key_hcnt_mutex.unlock();
+	MCONTACT hContact = globals.new_key_hcnt;
+	globals.new_key_hcnt_mutex.unlock();
 	bool for_all_sub = false;
 	if (db_mc_isMeta(hContact)) {
 		if (MessageBox(nullptr, TranslateT("Do you want to load key for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
@@ -1785,14 +1780,14 @@ void ImportKey()
 			for (int i = 0; i < count; i++) {
 				MCONTACT hcnt = db_mc_getSub(hContact, i);
 				if (hcnt)
-					db_set_ws(hcnt, szGPGModuleName, "GPGPubKey", new_key.c_str());
+					db_set_ws(hcnt, szGPGModuleName, "GPGPubKey", globals.new_key.c_str());
 			}
 		}
-		else db_set_ws(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", new_key.c_str());
+		else db_set_ws(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", globals.new_key.c_str());
 	}
-	else db_set_ws(hContact, szGPGModuleName, "GPGPubKey", new_key.c_str());
+	else db_set_ws(hContact, szGPGModuleName, "GPGPubKey", globals.new_key.c_str());
 
-	new_key.clear();
+	globals.new_key.clear();
 
 	// gpg execute block
 	std::vector<wstring> cmd;
