@@ -325,17 +325,6 @@ int fnEventsProcessTrayDoubleClick(int index)
 	return 0;
 }
 
-static int RemoveEventsForContact(WPARAM wParam, LPARAM)
-{
-	for (int i = g_cliEvents.getCount()-1; i >= 0; i--) {
-		CListEvent &e = g_cliEvents[i];
-		if (e.hContact == wParam)
-			cli.pfnRemoveEvent(wParam, e.hDbEvent);
-	}
-
-	return 0;
-}
-
 static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
@@ -356,7 +345,7 @@ int InitCListEvents(void)
 
 	disableTrayFlash = db_get_b(0, "CList", "DisableTrayFlash", 0);
 	disableIconFlash = db_get_b(0, "CList", "NoIconBlink", 0);
-	HookEvent(ME_DB_CONTACT_DELETED, RemoveEventsForContact);
+
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, CListEventSettingsChanged);
 	return 0;
 }
