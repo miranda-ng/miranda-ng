@@ -261,8 +261,8 @@ public:
 
 	void onClick_SELECT_KEY(CCtrlButton*)
 	{
-		void ShowFirstRunDialog();
-		ShowFirstRunDialog();
+		CDlgFirstRun *d = new CDlgFirstRun;
+		d->Show();
 	}
 
 	void onClick_SAVE_KEY_BUTTON(CCtrlButton*)
@@ -678,8 +678,8 @@ public:
 
 	void onClick_SELECT_EXISTING(CCtrlButton*)
 	{
-		void ShowSelectExistingKeyDialog();
-		ShowSelectExistingKeyDialog();
+		CDlgLoadExistingKey *d = new CDlgLoadExistingKey;
+		d->Show();
 	}
 
 	void onClick_OK(CCtrlButton*)
@@ -1048,10 +1048,8 @@ public:
 	}
 	void onClick_IMPORT(CCtrlButton*)
 	{
-		globals.new_key_hcnt_mutex.lock();
-		globals.new_key_hcnt = hContact;
-		void ShowImportKeyDialog();
-		ShowImportKeyDialog();
+		CDlgImportKey *d = new CDlgImportKey(hContact);
+		d->Show();
 	}
 };
 

@@ -22,6 +22,8 @@ struct contact_data
 	string key_in_prescense;
 };
 
+void ImportKey(MCONTACT hContact, std::wstring new_key);
+
 
 #endif
 

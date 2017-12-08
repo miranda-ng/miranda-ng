@@ -214,10 +214,9 @@ void RecvMsgSvc_func(MCONTACT hContact, std::wstring str, char *msg, DWORD, DWOR
 						s += mir_strlen(" ID ");
 						db_set_s(db_mc_isMeta(hContact) ? metaGetMostOnline(hContact) : hContact, szGPGModuleName, "InKeyID", out.substr(s, out.find(",", s) - s).c_str());
 					}
-					void ShowLoadKeyPasswordWindow();
-					globals.new_key_hcnt_mutex.lock();
-					globals.new_key_hcnt = hContact;
-					ShowLoadKeyPasswordWindow();
+
+					CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox(hContact);
+					d->DoModal();
 					std::vector<wstring> cmd2 = cmd;
 					if (globals.password)
 					{
@@ -558,15 +557,12 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 		s1 = 0;
 		while ((s1 = str.find(L"\r", s1)) != wstring::npos)
 			str.erase(s1, 1);
-		void ShowNewKeyDialog();
 		if (((s2 = str.find(L"-----END PGP PUBLIC KEY BLOCK-----")) != wstring::npos) && ((s1 = str.find(L"-----BEGIN PGP PUBLIC KEY BLOCK-----")) != wstring::npos))
 			s2 += mir_wstrlen(L"-----END PGP PUBLIC KEY BLOCK-----");
 		else if (((s2 = str.find(L"-----BEGIN PGP PRIVATE KEY BLOCK-----")) != wstring::npos) && ((s1 = str.find(L"-----END PGP PRIVATE KEY BLOCK-----")) != wstring::npos))
 			s2 += mir_wstrlen(L"-----END PGP PRIVATE KEY BLOCK-----");
-		globals.new_key.append(str.substr(s1, s2 - s1));
-		//new_key_hcnt_mutex.lock();
-		globals.new_key_hcnt = ccs->hContact;
-		ShowNewKeyDialog();
+		CDlgNewKey *d = new CDlgNewKey(ccs->hContact, str.substr(s1, s2 - s1));
+		d->Show();
 		HistoryLog(ccs->hContact, db_event(msg, 0, 0, dbflags));
 		return 0;
 	}
@@ -992,84 +988,3 @@ int HookSendMsg(WPARAM w, LPARAM l)
 	return 0;
 }
 
-class CDlgKeyPasswordMsgBox : public CDlgBase //always modal
-{
-public:
-	CDlgKeyPasswordMsgBox() : CDlgBase(globals.hInst, IDD_KEY_PASSWD),
-		lbl_KEYID(this, IDC_KEYID),
-		edit_KEY_PASSWORD(this, IDC_KEY_PASSWORD),
-		chk_DEFAULT_PASSWORD(this, IDC_DEFAULT_PASSWORD), chk_SAVE_PASSWORD(this, IDC_SAVE_PASSWORD),
-		btn_OK(this, IDOK), btn_CANCEL(this, IDCANCEL)
-	{
-		btn_OK.OnClick = Callback(this, &CDlgKeyPasswordMsgBox::onClick_OK);
-		btn_CANCEL.OnClick = Callback(this, &CDlgKeyPasswordMsgBox::onClick_CANCEL);
-	}
-	virtual void OnInitDialog() override
-	{
-		inkeyid = UniGetContactSettingUtf(globals.new_key_hcnt, szGPGModuleName, "InKeyID", "");
-		globals.new_key_hcnt_mutex.unlock();
-
-		SetWindowPos(m_hwnd, nullptr, globals.key_password_rect.left, globals.key_password_rect.top, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-		{
-			string questionstr = "Please enter password for key with ID: ";
-			questionstr += inkeyid;
-			mir_free(inkeyid);
-			lbl_KEYID.SetTextA(questionstr.c_str());
-			chk_DEFAULT_PASSWORD.Disable();
-		}
-	}
-	virtual void OnClose() override
-	{
-		DestroyWindow(m_hwnd);
-	}
-	virtual void OnDestroy() override
-	{
-		mir_free(inkeyid);
-		GetWindowRect(m_hwnd, &globals.key_password_rect);
-		db_set_dw(NULL, szGPGModuleName, "PasswordWindowX", globals.key_password_rect.left);
-		db_set_dw(NULL, szGPGModuleName, "PasswordWindowY", globals.key_password_rect.top);
-		delete this;
-	}
-	void onClick_OK(CCtrlButton*)
-	{
-		wchar_t *tmp = mir_wstrdup(edit_KEY_PASSWORD.GetText());
-		if (tmp && tmp[0]) {
-			if (chk_SAVE_PASSWORD.GetState()) {
-				inkeyid = UniGetContactSettingUtf(globals.new_key_hcnt, szGPGModuleName, "InKeyID", "");
-				if (inkeyid && inkeyid[0] && !chk_DEFAULT_PASSWORD.GetState()) {
-					string dbsetting = "szKey_";
-					dbsetting += inkeyid;
-					dbsetting += "_Password";
-					db_set_ws(NULL, szGPGModuleName, dbsetting.c_str(), tmp);
-				}
-				else 
-					db_set_ws(NULL, szGPGModuleName, "szKeyPassword", tmp);
-			}
-			if (globals.password)
-				mir_free(globals.password);
-			globals.password = (wchar_t*)mir_alloc(sizeof(wchar_t)*(mir_wstrlen(tmp) + 1));
-			mir_wstrcpy(globals.password, tmp);
-		}
-		mir_free(inkeyid);
-		DestroyWindow(m_hwnd);
-	}
-	void onClick_CANCEL(CCtrlButton*)
-	{
-		globals._terminate = true;
-		DestroyWindow(m_hwnd);
-	}
-private:
-	char *inkeyid = nullptr;
-	CCtrlData lbl_KEYID;
-	CCtrlEdit edit_KEY_PASSWORD;
-	CCtrlCheck chk_DEFAULT_PASSWORD, chk_SAVE_PASSWORD;
-	CCtrlButton btn_OK, btn_CANCEL;
-};
-
-
-
-void ShowLoadKeyPasswordWindow()
-{
-	CDlgKeyPasswordMsgBox *d = new CDlgKeyPasswordMsgBox;
-	d->DoModal();
-}

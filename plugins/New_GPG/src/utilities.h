@@ -109,5 +109,8 @@ void strip_line_term(std::wstring &s);
 void strip_line_term(std::string &s);
 void strip_tags(std::wstring &s);
 void clean_temp_dir();
+bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path);
+void gpg_save_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path);
+bool gpg_use_new_random_key(char *account_name = Translate("Default"), wchar_t *gpg_bin_path = nullptr, wchar_t *gpg_home_dir = nullptr);
 
 #endif

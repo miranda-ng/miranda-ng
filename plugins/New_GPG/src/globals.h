@@ -33,9 +33,6 @@ struct globals_s
 	std::map<MCONTACT, contact_data> hcontact_data;
 	map<int, MCONTACT> user_data;
 	bool _terminate;
-	wstring new_key;
-	MCONTACT new_key_hcnt;
-	boost::mutex new_key_hcnt_mutex;
 
 	int item_num; //TODO: get rid of this
 

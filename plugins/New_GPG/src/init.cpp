@@ -215,9 +215,9 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	if(!transfers.empty())
 	{
-		for(list<wstring>::iterator p = transfers.begin(); p != transfers.end(); p++)
-			if(!(*p).empty())
-				boost::filesystem::remove((*p));
+		for(auto p : transfers)
+			if(!p.empty())
+				boost::filesystem::remove(p);
 	}
 	mir_free(globals.inopentag);
 	mir_free(globals.inclosetag);
