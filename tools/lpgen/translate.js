@@ -156,11 +156,11 @@ if (WScript.Arguments.Named.Item("plugin")) {
     //Call TranslateTemplateFile for path specified in command line argument /path:"path/to/template", output result to "scriptpath"
     TranslateTemplateFile(WScript.Arguments.Named.Item("plugin"),cmdline_file_array,cmdline_untranslated_array);
     //Output results to scriptpath folder.
-    WriteToUnicodeFile(cmdline_file_array,traslated_cmdline_file);
+    WriteToUnicodeFileNoBOM(cmdline_file_array,traslated_cmdline_file);
     if (log) WScript.Echo("Translated file:     "+traslated_cmdline_file);
     //if there is something untranslated in cmdline_untranslated_array, output to file
     if (cmdline_untranslated_array.length>0) {
-        WriteToUnicodeFile(cmdline_untranslated_array,untranslated_cmdline_file);
+        WriteToUnicodeFileNoBOM(cmdline_untranslated_array,untranslated_cmdline_file);
         if (log) WScript.Echo("Untranslated file:   "+traslated_cmdline_file);
         }
     //We are done, quit.
@@ -213,12 +213,12 @@ ProcessFiles(TemplateFilesEnum);
 
 //if output to one langpack file, write a final array Translated_Core_Array into UTF-8 file with BOM
 if (outfile) {
-    WriteToUnicodeFile(full_langpack_array,full_langpack_file);
+    WriteToUnicodeFileNoBOM(full_langpack_array,full_langpack_file);
     if (log) WScript.Echo("Langpack file in "+full_langpack_file);
 }
 //if /release specified, output array into file
 if (release) {
-    WriteToUnicodeFile(release_array,release_langpack_file);
+    WriteToUnicodeFileNoBOM(release_array,release_langpack_file);
     if (log) WScript.Echo("Release langpack file in "+release_langpack_file);
 }
 if (log) WScript.Echo("Translation end");
@@ -290,7 +290,7 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
     // output translated file if /out and /outfile ommited, or if /out specified
     if ((!out && !outfile) || out) {
         if (log) WScript.Echo("Output to file:  "+TraslatedTemplateFile);
-        WriteToUnicodeFile(TranslatedArray,TraslatedTemplateFile);
+        WriteToUnicodeFileNoBOM(TranslatedArray,TraslatedTemplateFile);
         }
     
     //Write untranslated array into file, if /untranslated specified and there is something in array
@@ -298,7 +298,7 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FolderName,FileName) {
         //redefine Untranslated file path and name, if /untranslated:"/path/" specified
         if (UnTranslatedPath!="yes") UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
         if (log) WScript.Echo("Untranslated in: "+UnTranslatedFile);
-        WriteToUnicodeFile(UntranslatedArray,UnTranslatedFile);
+        WriteToUnicodeFileNoBOM(UntranslatedArray,UnTranslatedFile);
         }
 }
 
@@ -526,4 +526,38 @@ stream.Open();
 for (i=0;i<=array.length-1;i++) stream.WriteText(array[i]+"\r\n");
 stream.SaveToFile(langpack, 2);
 stream.Close();
+}
+
+//Write file as UTF-8 without BOM
+function WriteToUnicodeFileNoBOM(array, filename) {    
+    var UTFStream = WScript.CreateObject("ADODB.Stream");
+    var BinaryStream = WScript.CreateObject("ADODB.Stream");
+    var len = 0;
+    var adTypeBinary = 1;
+    var adTypeText = 2;
+    var adModeReadWrite = 3;
+    var adSaveCreateOverWrite = 2;
+    
+    UTFStream.Type = adTypeText;
+    UTFStream.Mode = adModeReadWrite;
+    UTFStream.Charset = "utf-8";
+    UTFStream.Open();
+    
+    len = array.length - 1;
+    for (var i = 0; i <= len; i++) {
+        UTFStream.WriteText(array[i] + "\r\n");
+    }    
+
+    UTFStream.Position = 3; // skip BOM
+    BinaryStream.Type = adTypeBinary;
+    BinaryStream.Mode = adModeReadWrite;
+    BinaryStream.Open();
+
+    // Strips BOM (first 3 bytes)
+    UTFStream.CopyTo(BinaryStream);
+
+    BinaryStream.SaveToFile(filename, adSaveCreateOverWrite);
+    BinaryStream.Flush();
+    BinaryStream.Close();
+    UTFStream.Close();
 }

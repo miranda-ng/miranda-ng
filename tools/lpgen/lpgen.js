@@ -209,7 +209,7 @@ function GenerateCore() {
     //concatenate head and nodupes
     corestrings = corehead.concat(nodupes);
     //finally, write "nodupes" array to file
-    WriteToUnicodeFile(corestrings, corefile);
+    WriteToUnicodeFileNoBOM(corestrings, corefile);
 }
 
 //Make a translation template for plugin in "pluginpath", put generated file into "langpackfilepath"
@@ -279,7 +279,7 @@ function GeneratePluginTranslate(pluginpath, langpackfilepath, vcxprojfile) {
         WScript.Echo("Writing " + plugintemplate.length + " strings for " + plugin);
     }
     //finally, write "nodupes" array to file
-    WriteToUnicodeFile(plugintemplate, langpack);
+    WriteToUnicodeFileNoBOM(plugintemplate, langpack);
 }
 
 //Recourse find all files in "path" with file RegExp mask "name" and return file list into filelistarray
@@ -676,4 +676,38 @@ function WriteToUnicodeFile(array, langpack) {
     }
     stream.SaveToFile(langpack, 2);
     stream.Close();
+}
+
+//Write file as UTF-8 without BOM
+function WriteToUnicodeFileNoBOM(array, filename) {
+    var UTFStream = WScript.CreateObject("ADODB.Stream");
+    var BinaryStream = WScript.CreateObject("ADODB.Stream");
+    var len = 0;
+    var adTypeBinary = 1;
+    var adTypeText = 2;
+    var adModeReadWrite = 3;
+    var adSaveCreateOverWrite = 2;
+
+    UTFStream.Type = adTypeText;
+    UTFStream.Mode = adModeReadWrite;
+    UTFStream.Charset = "utf-8";
+    UTFStream.Open();
+    
+    len = array.length - 1;
+    for (var i = 0; i <= len; i++) {
+        UTFStream.WriteText(array[i] + "\r\n");
+    }
+
+    UTFStream.Position = 3; // skip BOM
+    BinaryStream.Type = adTypeBinary;
+    BinaryStream.Mode = adModeReadWrite;
+    BinaryStream.Open();
+
+    // Strips BOM (first 3 bytes)
+    UTFStream.CopyTo(BinaryStream);
+
+    BinaryStream.SaveToFile(filename, adSaveCreateOverWrite);
+    BinaryStream.Flush();
+    BinaryStream.Close();
+    UTFStream.Close();
 }
