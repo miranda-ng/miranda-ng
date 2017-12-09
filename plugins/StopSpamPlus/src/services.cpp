@@ -6,7 +6,7 @@ INT_PTR IsContactPassed(WPARAM hContact, LPARAM /*lParam*/)
 	if (szProto == nullptr)
 		return CS_PASSED;
 
-	if (!plSets->ProtoDisabled(szProto))
+	if (!g_sets.ProtoDisabled(szProto))
 		return CS_PASSED;
 
 	if (db_get_b(hContact, pluginName, answeredSetting, 0))
@@ -70,7 +70,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 
 int OnSystemModulesLoaded(WPARAM, LPARAM)
 {
-	if (plSets->RemTmpAll.Get())
+	if (g_sets.RemTmpAll)
 		RemoveTempContacts(0, 1);
 	return 0;
 }

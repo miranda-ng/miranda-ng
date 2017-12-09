@@ -2,14 +2,14 @@
 
 const wchar_t pluginDescription[] = LPGENW("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.");
 
-class COptMainDlg : public CDlgBase
+class COptMainDlg : public CPluginDlgBase
 {
 	CCtrlEdit edtCount;
 	CCtrlCheck chk1, chk2, chk3, chk4, chk5, chk6;
 
 public:
 	COptMainDlg() :
-		CDlgBase(hInst, IDD_MAIN),
+		CPluginDlgBase(hInst, IDD_MAIN, pluginName),
 		edtCount(this, ID_MAXQUESTCOUNT),
 		chk1(this, ID_INFTALKPROT),
 		chk2(this, ID_ADDPERMANENT),
@@ -17,43 +17,28 @@ public:
 		chk4(this, ID_NOTCASESENS),
 		chk5(this, ID_REMOVE_TMP_ALL),
 		chk6(this, ID_HISTORY_LOG)
-	{}
-
-	virtual void OnInitDialog() override
 	{
-		SetDlgItemText(m_hwnd, ID_DESCRIPTION, TranslateW(pluginDescription));
+		CreateLink(edtCount, g_sets.MaxQuestCount);
 
-		edtCount.SetInt(plSets->MaxQuestCount.Get());
-		chk1.SetState(plSets->InfTalkProtection.Get());
-		chk2.SetState(plSets->AddPermanent.Get());
-		chk3.SetState(plSets->HandleAuthReq.Get());
-		chk4.SetState(plSets->AnswNotCaseSens.Get());
-		chk5.SetState(plSets->RemTmpAll.Get());
-		chk6.SetState(plSets->HistLog.Get());
-	}
-
-	virtual void OnApply() override
-	{
-		plSets->MaxQuestCount = edtCount.GetInt();
-		plSets->InfTalkProtection = chk1.GetState();
-		plSets->AddPermanent = chk2.GetState();
-		plSets->HandleAuthReq = chk3.GetState();
-		plSets->AnswNotCaseSens = chk4.GetState();
-		plSets->RemTmpAll = chk5.GetState();
-		plSets->HistLog = chk6.GetState();
+		CreateLink(chk1, g_sets.InfTalkProtection);
+		CreateLink(chk2, g_sets.AddPermanent);
+		CreateLink(chk3, g_sets.HandleAuthReq);
+		CreateLink(chk4, g_sets.AnswNotCaseSens);
+		CreateLink(chk5, g_sets.RemTmpAll);
+		CreateLink(chk6, g_sets.HistLog);
 	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptMessageDlg : public CDlgBase
+class COptMessageDlg : public CPluginDlgBase
 {
 	CCtrlButton btnHelp, btnRestore;
 	CCtrlEdit edtQuestion, edtAnswer, edtCongrat, edtReply, edtDivider;
 
 public:
 	COptMessageDlg() :
-		CDlgBase(hInst, IDD_MESSAGES),
+		CPluginDlgBase(hInst, IDD_MESSAGES, pluginName),
 		btnHelp(this, IDC_VARS),
 		btnRestore(this, ID_RESTOREDEFAULTS),
 		edtQuestion(this, ID_QUESTION),
@@ -64,26 +49,18 @@ public:
 	{
 		btnHelp.OnClick = Callback(this, &COptMessageDlg::onHelp);
 		btnRestore.OnClick = Callback(this, &COptMessageDlg::onRestore);
+
+		CreateLink(edtReply, g_sets.AuthRepl);
+		CreateLink(edtAnswer, g_sets.Answer);
+		CreateLink(edtQuestion, g_sets.Question);
+		CreateLink(edtCongrat, g_sets.Congratulation);
+		CreateLink(edtDivider, g_sets.AnswSplitString);
 	}
 
 	virtual void OnInitDialog() override
 	{
-		edtQuestion.SetText(plSets->Question.Get().c_str());
-		edtAnswer.SetText(plSets->Answer.Get().c_str());
-		edtCongrat.SetText(plSets->Congratulation.Get().c_str());
-		edtReply.SetText(plSets->AuthRepl.Get().c_str());
-		edtDivider.SetText(plSets->AnswSplitString.Get().c_str());
 		variables_skin_helpbutton(m_hwnd, IDC_VARS);
 		btnHelp.Enable(ServiceExists(MS_VARS_FORMATSTRING));
-	}
-
-	virtual void OnApply() override
-	{
-		plSets->Question = ptrW(edtQuestion.GetText()).get();
-		plSets->Answer = ptrW(edtAnswer.GetText()).get();
-		plSets->AuthRepl = ptrW(edtCongrat.GetText()).get();
-		plSets->Congratulation = ptrW(edtReply.GetText()).get();
-		plSets->AnswSplitString = ptrW(edtDivider.GetText()).get();
 	}
 
 	void onHelp(CCtrlButton*)
@@ -93,24 +70,25 @@ public:
 
 	void onRestore(CCtrlButton*)
 	{
-		edtQuestion.SetText(plSets->Question.GetDefault().c_str());
-		edtAnswer.SetText(plSets->Answer.GetDefault().c_str());
-		edtCongrat.SetText(plSets->Congratulation.GetDefault().c_str());
-		edtReply.SetText(plSets->AuthRepl.GetDefault().c_str());
-		edtDivider.SetText(plSets->AnswSplitString.GetDefault().c_str());
+		edtQuestion.SetText(g_sets.Question.Default());
+		edtAnswer.SetText(g_sets.Answer.Default());
+		edtCongrat.SetText(g_sets.Congratulation.Default());
+		edtReply.SetText(g_sets.AuthRepl.Default());
+		edtDivider.SetText(g_sets.AnswSplitString.Default());
+		
 		NotifyChange();
 	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptAccountDlg : public CDlgBase
+class COptAccountDlg : public CPluginDlgBase
 {
 	CCtrlListView m_accounts;
 
 public:
 	COptAccountDlg() :
-		CDlgBase(hInst, IDD_PROTO),
+		CPluginDlgBase(hInst, IDD_PROTO, pluginName),
 		m_accounts(this, IDC_PROTO)
 	{
 		m_accounts.OnItemChanged = Callback(this, &COptAccountDlg::list_OnItemChanged);
@@ -143,7 +121,7 @@ public:
 			item.lParam = (LPARAM)p->szModuleName;
 			item.pszText = p->tszAccountName;
 			int idx = m_accounts.InsertItem(&item);
-			m_accounts.SetCheckState(idx, !plSets->ProtoDisabled(p->szModuleName));
+			m_accounts.SetCheckState(idx, !g_sets.ProtoDisabled(p->szModuleName));
 		}
 	}
 
@@ -163,7 +141,7 @@ public:
 				out << (char*)item.lParam << " ";
 		}
 
-		plSets->DisabledProtoList = out.str();
+		g_sets.DisabledProtoList = (char*)out.str().c_str();
 	}
 
 	void list_OnItemChanged(CCtrlListView::TEventInfo*)

@@ -17,7 +17,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 	db_event_get(hDbEvent, &dbei);
 
 	// if event is in protocol that is not despammed
-	if (plSets->ProtoDisabled(dbei.szModule))
+	if (g_sets.ProtoDisabled(dbei.szModule))
 		return 0;
 
 	// event is an auth request
@@ -27,20 +27,20 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
 		if (db_get_b(hcntct, "CList", "NotOnList", 0) && !db_get_b(hcntct, pluginName, answeredSetting, 0) && !IsExistMyMessage(hcntct)) {
-			if (!plSets->HandleAuthReq.Get()) {
-				char *buf = mir_utf8encodeW(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
+			if (!g_sets.HandleAuthReq) {
+				char *buf = mir_utf8encodeW(variables_parse(g_sets.AuthRepl, hcntct).c_str());
 				ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 			}
 
 			// ...send message
-			char *AuthRepl = mir_u2a(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
+			char *AuthRepl = mir_u2a(variables_parse(g_sets.AuthRepl, hcntct).c_str());
 			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)AuthRepl);
 			mir_free(AuthRepl);
 
 			db_set_b(hcntct, "CList", "NotOnList", 1);
 			db_set_b(hcntct, "CList", "Hidden", 1);
-			if (!plSets->HistLog.Get())
+			if (!g_sets.HistLog)
 				db_event_delete(0, hDbEvent);
 			return 1;
 		}
@@ -56,7 +56,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		return 0;
 
 	// if event is in protocol that is not despammed
-	if (plSets->ProtoDisabled(dbei->szModule))
+	if (g_sets.ProtoDisabled(dbei->szModule))
 		// ...let the event go its way
 		return 0;
 
@@ -98,17 +98,17 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	}
 
 	// if message equal right answer...
-	tstring answers = variables_parse(plSets->Answer.Get(), hContact);
-	answers.append(plSets->AnswSplitString.Get());
+	tstring answers = variables_parse(g_sets.Answer, hContact);
+	answers.append(g_sets.AnswSplitString);
 	tstring::size_type pos = 0;
 	tstring::size_type prev_pos = 0;
-	while ((pos = answers.find(plSets->AnswSplitString.Get(), pos)) != tstring::npos) {
+	while ((pos = answers.find(g_sets.AnswSplitString, pos)) != tstring::npos) {
 		// get one of answers and trim witespace chars
 		tstring answer = trim(answers.substr(prev_pos, pos - prev_pos));
 		// if answer not empty
 		if (answer.length() > 0) {
 			// if message equal right answer...
-			if (plSets->AnswNotCaseSens.Get() ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
+			if (g_sets.AnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
 				db_unset(hContact, "CList", "Hidden");
 
@@ -116,12 +116,12 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 				db_set_b(hContact, pluginName, answeredSetting, 1);
 
 				//add contact permanently
-				if (plSets->AddPermanent.Get())
+				if (g_sets.AddPermanent)
 					db_unset(hContact, "CList", "NotOnList");
 
 				// send congratulation
 
-				char * buf = mir_utf8encodeW(variables_parse(plSets->Congratulation.Get(), hContact).c_str());
+				char * buf = mir_utf8encodeW(variables_parse(g_sets.Congratulation, hContact).c_str());
 				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
 				mir_free(buf);
 
@@ -135,9 +135,9 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
-	if ((!plSets->InfTalkProtection.Get() || tstring::npos == message.find(pwszPrefix)) && (!plSets->MaxQuestCount.Get() || db_get_dw(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get())) {
+	if ((!g_sets.InfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_sets.MaxQuestCount || db_get_dw(hContact, pluginName, questCountSetting, 0) < g_sets.MaxQuestCount)) {
 		// send question
-		tstring q = pwszPrefix + variables_parse((tstring)(plSets->Question), hContact);
+		tstring q = pwszPrefix + variables_parse(g_sets.Question, hContact);
 
 
 		char * buf = mir_utf8encodeW(q.c_str());

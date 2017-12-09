@@ -38,7 +38,7 @@ extern HINSTANCE hInst;
 // utils
 tstring &GetDlgItemString(HWND hwnd, int id);
 bool IsExistMyMessage(MCONTACT hContact);
-tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact);
+tstring variables_parse(const wchar_t *tstrFormat, MCONTACT hContact);
 tstring trim(tstring const &tstr, tstring const &trimChars = L" \f\n\r\t\v");
 
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/);

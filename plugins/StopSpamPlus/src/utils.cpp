@@ -31,13 +31,13 @@ bool IsExistMyMessage(MCONTACT hContact)
 	return false;
 }
 
-tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact)
+tstring variables_parse(const wchar_t *tstrFormat, MCONTACT hContact)
 {
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		FORMATINFO fi;
 		memset(&fi, 0, sizeof(fi));
 		fi.cbSize = sizeof(fi);
-		fi.tszFormat = wcsdup(tstrFormat.c_str());
+		fi.tszFormat = wcsdup(tstrFormat);
 		fi.hContact = hContact;
 		fi.flags |= FIF_TCHAR;
 		wchar_t *tszParsed = (wchar_t *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);

@@ -5,7 +5,6 @@ int hLangpack;
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
 
-
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -39,8 +38,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	plSets = new Settings;
-
 	CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
@@ -49,23 +46,20 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_OPT_INITIALISE, OnOptInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbContactSettingchanged);
 	
-	// Add deliting temporary contacts
-	CreateServiceFunction(MS_STOPSPAM_REMTEMPCONTACTS, RemoveTempContacts);
-
+	// Add deleting temporary contacts
 	CMenuItem mi;
 	SET_UID(mi, 0xf2164e17, 0xa4c1, 0x4b07, 0xae, 0x81, 0x9e, 0xae, 0x7f, 0xa2, 0x55, 0x13);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_UNICODE;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
 	mi.name.w = LPGENW("Remove Temporary Contacts");
-	mi.pszService = pluginName"/RemoveTempContacts";
+	mi.pszService = "StopSpam/RemoveTempContacts";
 	Menu_AddMainMenuItem(&mi);
-
+	CreateServiceFunction(mi.pszService, RemoveTempContacts);
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	delete plSets;
 	return 0;
 }

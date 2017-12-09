@@ -1,59 +1,22 @@
 #include "stdafx.h"
 
-//reading from database-------------
-tstring db_usage::DBGetPluginSetting(std::string const &name, tstring const &defValue)
+Settings g_sets;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Settings::Settings() :
+	Question(pluginName, "Question", TranslateW(L"Spammers made me to install small anti-spam system you are now speaking with. Please reply \"nospam\" without quotes and spaces if you want to contact me.")),
+	AuthRepl(pluginName, "AuthReply", TranslateW(L"StopSpam: send a message and reply to an anti-spam bot question.")),
+	Answer(pluginName, "Answer", L"nospam"),
+	Congratulation(pluginName, "Congratulation", TranslateW(L"Congratulations! You just passed human/robot test. Now you can write me a message.")),
+	DisabledProtoList(pluginName, "DisabledProtoList", "MetaContacts RSSNews"),
+	InfTalkProtection(pluginName, "InfTalkProtection", 1),
+	AddPermanent(pluginName, "AddPermanent", 0),
+	HandleAuthReq(pluginName, "HandleAuthReq", 0),
+	MaxQuestCount(pluginName, "MaxQuestCount", 2),
+	AnswNotCaseSens(pluginName, "AnswNotCaseSens", 1),
+	AnswSplitString(pluginName, "AnswSplitString", L"|"),
+	RemTmpAll(pluginName, "RemTmpAll", 1),
+	HistLog(pluginName, "HistLog", 0)
 {
-	DBVARIANT dbv;
-	if (db_get_ws(NULL, pluginName, name.c_str(), &dbv))
-		return defValue;
-	tstring value = dbv.ptszVal;
-	db_free(&dbv);
-	return value;
 }
-
-
-std::string db_usage::DBGetPluginSetting(std::string const &name, std::string const &defValue)
-{
-	DBVARIANT dbv;
-	if (db_get_s(NULL, pluginName, name.c_str(), &dbv))
-		return defValue;
-	std::string value = dbv.pszVal;
-	db_free(&dbv);
-	return value;
-}
-
-
-bool db_usage::DBGetPluginSetting(std::string const &name, bool const &defValue)
-{
-	return(0 != db_get_b(NULL, pluginName, name.c_str(), defValue ? 1 : 0));
-}
-
-DWORD db_usage::DBGetPluginSetting(std::string const &name, DWORD const &defValue)
-{
-	return db_get_dw(NULL, pluginName, name.c_str(), defValue);
-}
-
-//writting to database--------------
-void db_usage::DBSetPluginSetting(std::string const &name, tstring const &value)
-{
-	db_set_ws(NULL, pluginName, name.c_str(), value.c_str());
-}
-
-
-void db_usage::DBSetPluginSetting(std::string const &name, std::string const &value)
-{
-	db_set_s(NULL, pluginName, name.c_str(), value.c_str());
-}
-
-
-void db_usage::DBSetPluginSetting(std::string const &name, bool const &value)
-{
-	db_set_b(NULL, pluginName, name.c_str(), value ? 1 : 0);
-}
-
-void db_usage::DBSetPluginSetting(std::string const &name, DWORD const &value)
-{
-	db_set_dw(NULL, pluginName, name.c_str(), value);
-}
-
-Settings *plSets;

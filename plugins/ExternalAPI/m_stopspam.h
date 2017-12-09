@@ -32,10 +32,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns a "Contact Stae" flag
 #define MS_STOPSPAM_CONTACTPASSED		"StopSpam/IsContactPassed"
 
-//remove all temporary contacts from db
-//wParam=0
-//lParam=0
-//returns 0
-#define MS_STOPSPAM_REMTEMPCONTACTS		"StopSpam/RemoveTempContacts"
-
 #endif
