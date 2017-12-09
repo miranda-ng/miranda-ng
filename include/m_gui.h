@@ -141,10 +141,16 @@ public:
 		CMOptionBase(szModule, szSetting), m_default(defValue)
 	{}
 
+	__forceinline Type Default() const
+	{
+		return m_default;
+	}
+
 	__forceinline operator Type()
 	{
 		return (Type)CMDBTraits<sizeof(Type)>::Get(m_szModuleName, m_szSetting, m_default);
 	}
+	
 	__forceinline Type operator= (Type value)
 	{
 		CMDBTraits<sizeof(Type)>::Set(m_szModuleName, m_szSetting, (CMDBTraits<sizeof(Type)>::DBType)value);
@@ -175,12 +181,18 @@ public:
 		CMOptionBase(szModule, szSetting), m_default(defValue)
 	{}
 
+	__forceinline const Type* Default() const
+	{
+		return m_default;
+	}
+
 	__forceinline operator Type*()
 	{
 		m_value = db_get_sa(0, m_szModuleName, m_szSetting);
 		if (!m_value) m_value = mir_strdup(m_default);
 		return m_value;
 	}
+
 	__forceinline Type* operator= (Type *value)
 	{
 		db_set_s(0, m_szModuleName, m_szSetting, value);
@@ -209,6 +221,11 @@ public:
 	__forceinline CMOption(char *szModule, char *szSetting, const Type *defValue = nullptr) :
 		CMOptionBase(szModule, szSetting), m_default(defValue)
 	{}
+
+	__forceinline const Type* Default() const
+	{
+		return m_default;
+	}
 
 	__forceinline operator Type*()
 	{
