@@ -5,8 +5,8 @@
 
 struct DropboxUploadInfo
 {
-	const TCHAR *localPath; // local path
-	const TCHAR *serverFolder; // server folder in witch file will be placed (can be NULL)
+	const wchar_t *localPath; // local path
+	const wchar_t *serverFolder; // server folder in witch file will be placed (can be NULL)
 };
 
 // upload file on Dropbox
@@ -19,7 +19,7 @@ struct DropboxUploadInfo
 // upload file on Dropbox
 // wParam = 0
 // lParam = (LPARAM)(const DropboxUploadInfo*)
-// returns file htansfer handle or NULL on failure
+// returns file transfer handle or NULL on failure
 // returns immediately, without waiting for the send
 // note, that you can track progress by using ME_PROTO_ACK
 #define MS_DROPBOX_UPLOADASYNC "Dropbox/UploadAsync"

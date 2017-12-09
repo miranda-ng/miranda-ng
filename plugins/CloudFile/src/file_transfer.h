@@ -12,6 +12,8 @@ private:
 
 	bool isTerminated;
 
+	CMStringW serverFolder;
+
 	const wchar_t* folderName;
 	int relativePathStart;
 	
@@ -83,6 +85,19 @@ public:
 	void Terminate()
 	{
 		isTerminated = true;
+	}
+
+	void SetServerFolder(const wchar_t *path)
+	{
+		if (path)
+			serverFolder = path;
+	}
+
+	const wchar_t* GetServerFolder() const
+	{
+		if (serverFolder.IsEmpty())
+			return NULL;
+		return serverFolder;
 	}
 
 	void SetWorkingDirectory(const wchar_t *path)
@@ -193,7 +208,8 @@ public:
 	{
 		pfts.currentFileProgress += count;
 		pfts.totalProgress += count;
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
+		if (pfts.hContact)
+			ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
 	}
 
 	void FirstFile()
@@ -203,7 +219,8 @@ public:
 		pfts.currentFileNumber = 0;
 		pfts.currentFileProgress = 0;
 		pfts.tszCurrentFile = wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
+		if (pfts.hContact)
+			ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&pfts);
 
 		OpenCurrentFile();
 		CheckCurrentFile();
@@ -218,7 +235,8 @@ public:
 
 		pfts.currentFileProgress = 0;
 		pfts.tszCurrentFile = wcsrchr(pfts.ptszFiles[pfts.currentFileNumber], '\\') + 1;
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)id, 0);
+		if (pfts.hContact)
+			ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)id, 0);
 
 		OpenCurrentFile();
 		CheckCurrentFile();
@@ -228,7 +246,8 @@ public:
 
 	void SetStatus(int status, LPARAM param = 0)
 	{
-		ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, status, (HANDLE)id, param);
+		if (pfts.hContact)
+			ProtoBroadcastAck(MODULE, pfts.hContact, ACKTYPE_FILE, status, (HANDLE)id, param);
 	}
 };
 

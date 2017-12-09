@@ -4,6 +4,7 @@
 CDropboxService::CDropboxService(HNETLIBUSER hConnection)
 	: CCloudService(hConnection)
 {
+	CreateServiceFunctionObj(MS_DROPBOX_UPLOAD, &CDropboxService::UploadToDropbox, this);
 }
 
 const char* CDropboxService::GetModule() const
@@ -234,7 +235,14 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
 
 			char path[MAX_PATH];
-			PreparePath(fileName, path);
+			const wchar_t *serverFolder = ftp->GetServerFolder();
+			if (serverFolder) {
+				char serverPath[MAX_PATH] = { 0 };
+				mir_snprintf(serverPath, "%s\\%s", T2Utf(serverFolder), fileName);
+				PreparePath(serverPath, path);
+			}
+			else
+				PreparePath(fileName, path);
 
 			if (chunkSize == fileSize)
 			{
@@ -292,4 +300,36 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 
 	ftp->SetStatus(ACKRESULT_SUCCESS);
 	return ACKRESULT_SUCCESS;
+}
+
+INT_PTR CDropboxService::UploadToDropbox(void *obj, WPARAM wParam, LPARAM lParam)
+{
+	CDropboxService *self = (CDropboxService*)obj;
+	DropboxUploadInfo *uploadInfo = (DropboxUploadInfo*)lParam;
+
+	FileTransferParam *ftp = new FileTransferParam(0);
+	ftp->SetWorkingDirectory(uploadInfo->localPath);
+	ftp->SetServerFolder(uploadInfo->serverFolder);
+
+	if (PathIsDirectory(uploadInfo->localPath))
+	{
+		// temporary unsupported
+		Transfers.remove(ftp);
+		delete ftp;
+
+		return ACKRESULT_FAILED;
+	}
+	else
+		ftp->AddFile(uploadInfo->localPath);
+
+	int res = self->Upload(ftp);
+	if (res == ACKRESULT_SUCCESS && wParam) {
+		char **data = (char**)wParam;
+		*data = mir_utf8encodeW(ftp->GetData());
+	}
+
+	Transfers.remove(ftp);
+	delete ftp;
+
+	return res;
 }

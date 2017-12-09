@@ -28,6 +28,8 @@ public:
 	void Logout();
 
 	UINT Upload(FileTransferParam *ftp);
+
+	static INT_PTR UploadToDropbox(void*, WPARAM wParam, LPARAM lParam);
 };
 
 #endif //_CLOUDSERVICE_DROPBOX_H_
