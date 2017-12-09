@@ -33,24 +33,25 @@ var stream = new ActiveXObject("ADODB.Stream");
 //stream var tune
 stream.Type = 2; // text mode
 stream.Charset = "utf-8";
+//plugin - variable for plugin name
+var plugin = "";
 
 //Path variables
 //lpgen.js script path
 var scriptpath = FSO.GetParentFolderName(WScript.ScriptFullName);
-//crazy way to get path two layers upper "\tools\lpgen\"
-var trunk = FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath)));
-//text string for make path output into templates.
-var trunkPath = new String(trunk);
+//get path two layers upper "\tools\lpgen\"
+//string for make path output into templates.
+var trunkPath = FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath));
 //path to sln file
-var slnfile = trunk + "\\bin15\\mir_full.sln";
+var slnfile = FSO.BuildPath(trunkPath, "bin15\\mir_full.sln");
 //core path
-var core = FSO.BuildPath(trunk, "src");
+var core = FSO.BuildPath(trunkPath, "src");
 //langpack folder "\langpacks\english\" in trunk folder
-var langpack_en = FSO.BuildPath(trunk, "langpacks\\english");
+var langpack_en = FSO.BuildPath(trunkPath, "langpacks\\english");
 //Crap.txt will contain strings, which are removed by filtering engine as a garbage, in case if this string are not garbage :)
 var crapfile = "Crap.txt";
 //Crap array
-var crap = new Array();
+var crap = [];
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
@@ -69,9 +70,9 @@ if (WScript.Arguments.Named.Item("dupes")) {
 //If script run by double click, open choose folder dialog to choose plugin folder to parse. If Cancel pressed, quit script.
 if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11) == "w") {
     //Create Shell app object
-    objShellApp = WScript.CreateObject("Shell.Application");
+    var objShellApp = WScript.CreateObject("Shell.Application");
     //Open browse for folder dialog
-    objFolder = objShellApp.BrowseForFolder(0, "Choose plugin source files folder\nto generate translation template", 512, 17);
+    var objFolder = objShellApp.BrowseForFolder(0, "Choose plugin source files folder\nto generate translation template", 512, 17);
     //process generate translate for chosen folder, else quit.
     if (objFolder) {
         //Call GeneratePluginTranslate for chosen folder, output result to "scriptpath"
@@ -104,15 +105,15 @@ GenerateCore();
 //Generate plugins\protocols, listed in mir_full.sln
 
 //Init array with files path
-project_files = new Array();
+var project_files = [];
 //open mir_full.sln
-sln_stream = FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault);
+var sln_stream = FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault);
 //Reading line-by-line
 while (!sln_stream.AtEndOfStream) {
     //Init regexp array for our sln parse logic
-    sln_project_regexp = new Array();
+    var sln_project_regexp = [];
     //read one line into slnline
-    slnline = sln_stream.ReadLine();
+    var slnline = sln_stream.ReadLine();
     //find a project definition in sln file by RegExp
     sln_project_regexp = slnline.match(/(?:Project\(\"\{[\w\d-]+\}\"\)\x20+\=\x20+\"(.+?)\",\x20*?\"\.\.)(\\(:?plugins|protocols).*vcxproj)(?=",)/i);
     // if exist sln_project_regexp, add to array, adding leading path to "trunk"
@@ -122,7 +123,7 @@ while (!sln_stream.AtEndOfStream) {
         // Now check for unneeded modules NOT passed (module name are in sln_project_regexp[1]
         if (!unneeded_modules.test(sln_project_regexp[1])) {
             //no, this is not unneeded module, put path to array. Trunk path + path to file in sln_project_regexp[2]
-            project_files.push(trunk + sln_project_regexp[2]);
+            project_files.push(trunkPath + sln_project_regexp[2]);
         }
     }
 }
@@ -130,20 +131,20 @@ while (!sln_stream.AtEndOfStream) {
 sln_stream.Close();
 //ok, now we have all project files in array, let's add Pascal files to this array directly.
 // remove following lines comments to add Pascal plugins processing.
-// project_files.push(trunk+"\\plugins\\Actman\\actman.dpr");
-// project_files.push(trunk+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
-// project_files.push(trunk+"\\plugins\\ImportTXT\\importtxt.dpr");
-// project_files.push(trunk+"\\plugins\\QuickSearch\\quicksearch.dpr");
-// project_files.push(trunk+"\\plugins\\Watrack\\watrack.dpr");
-// project_files.push(trunk+"\\plugins\\mRadio\\mradio.dpr");
+// project_files.push(trunkPath+"\\plugins\\Actman\\actman.dpr");
+// project_files.push(trunkPath+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
+// project_files.push(trunkPath+"\\plugins\\ImportTXT\\importtxt.dpr");
+// project_files.push(trunkPath+"\\plugins\\QuickSearch\\quicksearch.dpr");
+// project_files.push(trunkPath+"\\plugins\\Watrack\\watrack.dpr");
+// project_files.push(trunkPath+"\\plugins\\mRadio\\mradio.dpr");
 
 //create Enumerator with project files from sln and dpr files, sorted alphabetically
-files = new Enumerator(project_files.sort());
+var files = new Enumerator(project_files.sort());
 while (!files.atEnd()) {
     //get file name
-    file = FSO.GetFile(files.item());
+    var file = FSO.GetFile(files.item());
     //get parent folder name
-    plugfolder = FSO.GetParentFolderName(file);
+    var plugfolder = FSO.GetParentFolderName(file);
     //call function for plugin folder, output to plugins folder.
     GeneratePluginTranslate(plugfolder, langpack_en + "\\Plugins", file);
     //next project file
@@ -164,11 +165,14 @@ if (log) {
 
 //Generate =CORE=.txt
 function GenerateCore() {
+    var corefile = "",
+        ver = "";
     //init arrays
-    corestrings = new Array();
-    corehead = new Array();
-    core_src = new Array();
-    core_rc = new Array();
+    var corestrings = [],
+        corehead = [],
+        core_src = [],
+        core_rc = [],
+        nodupes;
     //if log parameter specified, output a log.
     if (log) {
         WScript.Echo("Processing CORE...");
@@ -186,8 +190,6 @@ function GenerateCore() {
     corehead.push(";  Module: Miranda Core");
     corehead.push(";  Version: " + ver);
     corehead.push(";============================================================");
-    //define core filename. File will be overwritten!
-    corefile = FSO.BuildPath(langpack_en, "=CORE=.txt");
     //find all *.rc files and list files in array
     FindFiles(core, "\\.rc$", core_rc);
     //find all source files and list files in array
@@ -208,20 +210,25 @@ function GenerateCore() {
     }
     //concatenate head and nodupes
     corestrings = corehead.concat(nodupes);
+    //define core filename. File will be overwritten!
+    corefile = FSO.BuildPath(langpack_en, "=CORE=.txt");
     //finally, write "nodupes" array to file
     WriteToUnicodeFileNoBOM(corestrings, corefile);
 }
 
 //Make a translation template for plugin in "pluginpath", put generated file into "langpackfilepath"
 function GeneratePluginTranslate(pluginpath, langpackfilepath, vcxprojfile) {
+    var langpack = "",
+        nodupes = [],
+        plugintemplate =[];
     //init arrays with files to parse
-    resourcefiles = new Array();
-    sourcefiles = new Array();
-    versionfile = new Array();
+    var resourcefiles = [],
+        sourcefiles = [],
+        versionfile = [];
     //init array with muuid+"head"
-    head = new Array();
+    var head = [];
     //init array with strings from parsed files
-    foundstrings = new Array();
+    var foundstrings = [];
     //find a name of our plugin
     //if vcxprojfile param given, use it
     if (vcxprojfile) {
@@ -317,14 +324,17 @@ function FindFiles(path, name, filelistarray) {
 
 //Find a name for plugin translation template file from source
 function GetPluginName(folder_or_file) {
+    var plugin_project_file,
+        plugin_project_files = [],
+        project = "",
+        filename = "";
+    
     //check our parameter file or folder?
     if (FSO.FileExists(folder_or_file)) {
         //yes, it's a file, set plugin_project_file as a target
         plugin_project_file = FSO.GetFile(folder_or_file);
     } else {
-        //Given parameter is a folder, init file list array
-        plugin_project_files = new Array();
-        //find project files and put to array
+        //Given parameter is a folder, find project files and put to array
         FindFiles(folder_or_file, "\\.vcxproj$|\\.dpr$", plugin_project_files);
         //if there is nothing found, that's mean this is not a plugin, return from function
         if (!plugin_project_files[0]) return;
@@ -348,17 +358,25 @@ function GetPluginName(folder_or_file) {
 function GetMUUID(folder, array) {
     //first, find necessary file list, we are looking for UNICODE_AWARE function, usually this function are in *.cpp, sometimes in *.c and *.h
     //init fillelist array
-    muuidfilelist = new Array();
+    var curfile,
+        muuidfilelist = [],
+        muuid = "",
+        find = /()/,
+        i = 0,
+        values = [],
+        allstrings = "",
+        string = "",
+        vals = "";
     //search for files in "folder" by mask, put result into muuidfilelist
     FindFiles(folder, "\\.cpp$|\\.c$|\\.h$", muuidfilelist);
     //now we have files, let's put them to Enumerator
-    filesenum = new Enumerator(muuidfilelist);
+    var filesenum = new Enumerator(muuidfilelist);
     //cycle through file list and lookup each file for UNICODE_AWARE
     while (!filesenum.atEnd()) {
         //curfile is our current file in files enumerator
         curfile = filesenum.item();
         //this is a regexp to search UNICODE_AWARE
-        var find = /(?:UNICODE_AWARE(?:\s*?\|\s*?STATIC_PLUGIN)?,[\s\S]*?\{)(.+?)(?=\}\s{0,2}\})/g;
+        find = /(?:UNICODE_AWARE(?:\s*?\|\s*?STATIC_PLUGIN)?,[\s\S]*?\{)(.+?)(?=\}\s{0,2}\})/g;
         //read file fully into var "allstrings"
         allstrings = ReadFile(curfile);
         //search regexp in "allstrings" and put results into var "string"
@@ -389,7 +407,7 @@ function GetMUUID(folder, array) {
                     }
                 }
                 //Push to array founded #muuid
-                var muuid = "#muuid {" + values[0] + "-" + values[1] + "-" + values[2] + "-" + values[3] + values[4] + "-" + values[5] + values[6] + values[7] + values[8] + values[9] + values[10] + "}";
+                muuid = "#muuid {" + values[0] + "-" + values[1] + "-" + values[2] + "-" + values[3] + values[4] + "-" + values[5] + values[6] + values[7] + values[8] + values[9] + values[10] + "}";
             }
         }
         //moving to next file
@@ -412,12 +430,14 @@ function ReadFile(file) {
     //If file zero size, return;
     if (FSO.GetFile(file).Size === 0) return;
     //reading current file
-    file_stream = FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefault);
+    var file_stream = FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefault);
     //read file fully into var
-    allstrings = file_stream.ReadAll();
-    //remove all comments. The text starting with \\ (but not with ":\\" it's a links like https://miranda-ng.org/ and ")//" -there is one comment right after needed string)
+    var allstrings = file_stream.ReadAll();
+    //remove all comments. The text starting with \\ 
+    //(but not with ":\\" it's a link like https://miranda-ng.org/ 
+    //and ")//" -there is one comment right after needed string)
     //and remove multi-line comments, started with /* and ended with */
-    text = allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg, ".");
+    var text = allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg, ".");
     //close file
     file_stream.Close();
     return text;
@@ -425,22 +445,27 @@ function ReadFile(file) {
 
 //Parsing filelist into stringsarray by parsefunction (ParseSourceFile OR ParseRCFile)
 function ParseFiles(filelist, stringsarray, parsefunction) {
+    var current_strings = 0,
+        crap_strings = 0,
+        curfile = {},
+        filetext = "",
+        curfilepath = "";
     //create enumerator filesenum from filelist
-    filesenum = new Enumerator(filelist);
+    var filesenum = new Enumerator(filelist);
     //cycle through file list
     while (!filesenum.atEnd()) {
         //record into current_strings current length of stringsarray
-        var current_strings = stringsarray.length;
+        current_strings = stringsarray.length;
         //record into crap_strings current length of crap array
-        var crap_strings = crap.length;
+        crap_strings = crap.length;
         //curfile is our current file in files enumerator
         curfile = filesenum.item();
         //read file (filtering comments) into filetext
-        var filetext = ReadFile(curfile);
+        filetext = ReadFile(curfile);
         //now apply a parsing function to current filetext, and put result into stringsarray
         parsefunction(filetext, stringsarray);
         //string variable to cut out a trunkPath from absolute path
-        curfilepath = new String(curfile);
+        curfilepath = curfile.Path;
         //if after parsing file our stringsarray length greater then var "current_strings", so parsed file return some strings. Thus, we need add a comment with filename
         if (stringsarray.length > current_strings) {
             stringsarray.splice(current_strings, 0, ";file " + curfilepath.substring(trunkPath.length));
@@ -456,6 +481,8 @@ function ParseFiles(filelist, stringsarray, parsefunction) {
 
 //*.RC files line-by-line parser for RC_File, return result into "array"
 function ParseRCFile(FileTextVar, array) {
+    var string = "",
+        onestring = "";
     var find = /^(?!\/{1,2})\s*(CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|(?:AUTO)?RADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/mgi;
     //now make a job, till end of matching regexp
     while ((string = find.exec(FileTextVar)) !== null) {
@@ -469,7 +496,7 @@ function ParseRCFile(FileTextVar, array) {
         onestring = onestring.replace(/\"{2}/g, "\"");
         //check result. If it does not match [a-z] (no any letter in results, such as "..." or "->") it's a crap, break further actions.
         if (!onestring.match(/[a-z]/i)) {
-            var onestring = "";
+            onestring = "";
         }
         //if still something in onestring, push to array
         if (onestring) {
@@ -480,6 +507,13 @@ function ParseRCFile(FileTextVar, array) {
 
 //Source files C++ (*.h,*.c,*.cpp) and *.pas,*.dpr,*.inc (Pascal) multiline parser for translations using LPGEN() LPGENT() TranslateT() Translate() _T() TranslateW()
 function ParseSourceFile(FileTextVar, array) {
+        var string = "",
+            onestring = "",
+            trimedstring = "",
+            noslashstring = "",
+            nofirstlaststring = "",
+            stringtolangpack = "",
+            clearstring = "";
     //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
     //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
     //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
@@ -487,7 +521,6 @@ function ParseSourceFile(FileTextVar, array) {
     //now make a job, till end of matching regexp
     while ((string = find.exec(FileTextVar)) !== null) {
         //first, init empty var
-        var string;
         //replace newlines and all spaces and tabs between two pairs of " or ' with the void string ("") in first [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
         onestring = string[1].replace(/["']?(?:\#13\#10)*?\\?\r*\n(?:(?:\x20|\t)*['"])?/g, "");
         //trim single-line whitespaces - multi-line parsing catches whitespaces after last " in single-line case
@@ -524,10 +557,10 @@ function filter_T(string) {
     //var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
 
     //apply filters to our string
-    test1 = filter1.test(string);
-    test2 = filter2.test(string);
-    test3 = filter3.test(string);
-    test4 = filter4.test(string);
+    var test1 = filter1.test(string);
+    var test2 = filter2.test(string);
+    var test3 = filter3.test(string);
+    var test4 = filter4.test(string);
     //test5=filter5.test(string);
 
     //if match (test1) first filter and NOT match other tests, thus string are good, return this string back.
@@ -538,29 +571,33 @@ function filter_T(string) {
     } else {
         //in other case, string is a garbage, put into crap array.
         crap.push(string);
-        return;
     }
+    return;
 }
 
 function ReadWholeFile(path, codepage) {
-    if (codepage === undefined) codepage = "utf-8";
+    if (codepage === undefined) {
+        codepage = "utf-8";
+    }
+    var adTypeText = 2;
     var bs = WScript.CreateObject("ADODB.Stream");
-    bs.Type = 2; //FileReadTypes.adTypeText;
+    bs.Type = adTypeText;
     bs.CharSet = codepage;
     bs.Open();
     bs.LoadFromFile(path);
-    var what = bs.ReadText;
+    var text = bs.ReadText;
     //remove all comments. The text starting with \\ (but not with ":\\" it's a links like https://miranda-ng.org/ and ")//" -there is one comment right after needed string)
     //and remove multi-line comments, started with /* and ended with */
-    what = what.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg, ".");
+    text = text.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg, ".");
     bs.Close();
-    return what;
+    return text;
 }
 
 //Parse Version.h file to get one translated string from "Description" and make a plugin template header.
 function ParseVersion_h(pluginfolder, array) {
     //cleanup var
-    var VersionFile;
+    var VersionFile,
+        allstrings = "";
     //Let's try default locations of version.h file;
     //Check pluginfolder root.
     if (FSO.FileExists(FSO.BuildPath(pluginfolder, "version.h"))) {
@@ -658,10 +695,13 @@ function eliminateDuplicates(arr) {
 
 //Output array of strings into file
 function WriteToFile(array, langpack) {
+    var i = 0,
+        len = 0;
     //Create file, overwrite if exists
-    langpackfile = FSO.CreateTextFile(langpack, overwritefile, unicode);
+    var langpackfile = FSO.CreateTextFile(langpack, overwritefile, unicode);
     //Finally, write strings from array to file
-    for (i = 0; i <= array.length - 1; i++) {
+    len = array.length - 1;
+    for (i = 0; i <= len; i++) {
         langpackfile.WriteLine(array[i]);
     }
     //Close file
@@ -670,8 +710,11 @@ function WriteToFile(array, langpack) {
 
 //Write UTF-8 file
 function WriteToUnicodeFile(array, langpack) {
+    var i = 0,
+        len = 0;
     stream.Open();
-    for (i = 0; i <= array.length - 1; i++) {
+    len = array.length - 1;
+    for (i = 0; i <= len; i++) {
         stream.WriteText(array[i] + "\r\n");
     }
     stream.SaveToFile(langpack, 2);
@@ -682,11 +725,12 @@ function WriteToUnicodeFile(array, langpack) {
 function WriteToUnicodeFileNoBOM(array, filename) {
     var UTFStream = WScript.CreateObject("ADODB.Stream");
     var BinaryStream = WScript.CreateObject("ADODB.Stream");
-    var len = 0;
-    var adTypeBinary = 1;
-    var adTypeText = 2;
-    var adModeReadWrite = 3;
-    var adSaveCreateOverWrite = 2;
+    var i = 0,
+        len = 0,
+        adTypeBinary = 1,
+        adTypeText = 2,
+        adModeReadWrite = 3,
+        adSaveCreateOverWrite = 2;
 
     UTFStream.Type = adTypeText;
     UTFStream.Mode = adModeReadWrite;
@@ -694,7 +738,7 @@ function WriteToUnicodeFileNoBOM(array, filename) {
     UTFStream.Open();
     
     len = array.length - 1;
-    for (var i = 0; i <= len; i++) {
+    for (i = 0; i <= len; i++) {
         UTFStream.WriteText(array[i] + "\r\n");
     }
 

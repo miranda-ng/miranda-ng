@@ -49,8 +49,9 @@ var popuntranslated = false;
 var release = false;
 //Path variables
 var scriptpath = FSO.GetParentFolderName(WScript.ScriptFullName);
-//crazy way to get path two layers upper "\tools\lpgen\"
-var trunk = FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath)));
+var UnTranslatedPath = "";
+//get path two layers upper "\tools\lpgen\"
+var trunkPath = FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath));
 //path to "English" langpack
 var langpackenglish = "\\langpacks\\english\\";
 //stream - our variable for output UTF-8 files with BOM
@@ -59,30 +60,34 @@ var stream = new ActiveXObject("ADODB.Stream");
 stream.Type = 2; // text mode
 stream.Charset = "utf-8";
 //init translate dictionaries
-CoreTranslateDict = WScript.CreateObject("Scripting.Dictionary");
-DupesTranslateDict = WScript.CreateObject("Scripting.Dictionary");
-LangpackTranslateDict = WScript.CreateObject("Scripting.Dictionary");
+var CoreTranslateDict = WScript.CreateObject("Scripting.Dictionary");
+var DupesTranslateDict = WScript.CreateObject("Scripting.Dictionary");
+var LangpackTranslateDict = WScript.CreateObject("Scripting.Dictionary");
 //init arrays
-Translated_Core_Array = new Array();
-UnTranslated_Core_Array = new Array();
-full_langpack_array = new Array();
-release_array = new Array();
+var Translated_Core_Array = [];
+var UnTranslated_Core_Array = [];
+var full_langpack_array = [];
+var release_array = [];
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
 //*********************************************************************************//
 
-// if console param /log: specified, put it to var log. To enable log, specify /log:"yes"
+// if console param /log: specified, put it to var log.
+// To enable log, specify /log:"yes"
 if (WScript.Arguments.Named.Item("log")) {
     log = true;
 }
 
-// if console param /noref: specified, put it to var noref. To remove ref's to files, specify /noref:"yes"
+// if console param /noref: specified, put it to var noref.
+// To remove ref's to files, specify /noref:"yes"
 if (WScript.Arguments.Named.Item("noref")) {
     noref = true;
 }
 
-// if console param /untranslated: specified, put it to var untranslated. To output untranslated_*  files, specify /untranslated:"yes", or specify a path to output untranslated files folder
+// if console param /untranslated: specified, put it to var untranslated.
+// To output untranslated_* files, specify /untranslated:"yes",
+// or specify a path to output untranslated files folder
 if (WScript.Arguments.Named.Item("untranslated")) {
     untranslated = true;
     UnTranslatedPath = WScript.Arguments.Named.Item("untranslated");
@@ -92,25 +97,25 @@ if (WScript.Arguments.Named.Item("untranslated")) {
 }
 
 //if console param /popuntranslated: specified, put it to var popuntranslated
-if (WScript.Arguments.Named.Item("popuntranslated")) {
+if (WScript.Arguments.Named.Exists("popuntranslated")) {
     popuntranslated = true;
 }
 
 // if console pararm /outpfile:"\path\filename.txt" given, put it to var outfile.
-if (WScript.Arguments.Named.Item("outfile")) {
+if (WScript.Arguments.Named.Exists("outfile")) {
     outfile = true;
     //path to full langpack file
-    full_langpack_file = WScript.Arguments.Named.Item("outfile");
+    var full_langpack_file = WScript.Arguments.Named.Item("outfile");
 }
 // if console pararm /release:"\path\filename.txt" given, put it to var release.
-if (WScript.Arguments.Named.Item("release")) {
+if (WScript.Arguments.Named.Exists("release")) {
     release = true;
     //path to full langpack file
-    release_langpack_file = WScript.Arguments.Named.Item("release");
+    var release_langpack_file = WScript.Arguments.Named.Item("release");
 }
 
 // if param /out specified, build a path and put it into var.
-if (WScript.Arguments.Named.Item("out")) {
+if (WScript.Arguments.Named.Exists("out")) {
     var out = WScript.Arguments.Named.Item("out");
     var OutPlugins = FSO.BuildPath(out, "Plugins");
     var OutWeather = FSO.BuildPath(out, "Weather");
@@ -119,17 +124,21 @@ if (WScript.Arguments.Named.Item("out")) {
     CreateFldr(OutWeather);
 }
 
-//If script run by double click, open choose folder dialog to choose plugin folder to parse. If Cancel pressed, quit script.
+//If script run by double click, open choose folder dialog to choose plugin folder to parse.
+//If Cancel pressed, quit script.
 if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11) == "w") {
     WScript.Echo("Please run from command line!");
     WScript.Quit();
 }
 
-//when /sourcelang specified, setup all source files already existed in trunk. Useful for running translate.js from trunk.
-// Currently seldom languages have same files structure, thus it is much more easier to just specify a language folder name, instead of specifying /path, /dupes, /langpack.
+//when /sourcelang specified, setup all source files already existed in trunk.
+//Useful for running translate.js from trunk.
+// Currently seldom languages have same files structure,
+//thus it is much more easier to just specify a language folder name,
+//instead of specifying /path, /dupes, /langpack.
 if (WScript.Arguments.Named.Item("sourcelang")) {
     var sourcelang = WScript.Arguments.Named.Item("sourcelang");
-    var langpack_path = FSO.BuildPath(FSO.BuildPath(trunk, "langpacks"), sourcelang);
+    var langpack_path = FSO.BuildPath(FSO.BuildPath(trunkPath, "langpacks"), sourcelang);
     var translated_plugins = FSO.BuildPath(langpack_path, "Plugins");
     var translated_weather = FSO.BuildPath(langpack_path, "Weather");
     var translated_core = FSO.BuildPath(langpack_path, "=CORE=.txt");
@@ -147,18 +156,19 @@ if (WScript.Arguments.Named.Item("plugin")) {
     checkparams();
     GenerateDictionaries();
     //plugin from command line:
-    var cmdline_file = new String(WScript.Arguments.Named.Item("plugin"));
+    var cmdline_file = WScript.Arguments.Named.Item("plugin");
     //init array for our file translation and untranslated strings
-    var cmdline_file_array = new Array();
-    var cmdline_untranslated_array = new Array();
+    var cmdline_file_array = [];
+    var cmdline_untranslated_array = [];
     //Output filename variable
-    var traslated_cmdline_file = new String(FSO.BuildPath(scriptpath, FSO.GetFileName(cmdline_file)));
-    var untranslated_cmdline_file = new String(FSO.BuildPath(scriptpath, "untranslated_" + FSO.GetFileName(cmdline_file)));
+    var traslated_cmdline_file = FSO.BuildPath(scriptpath, FSO.GetFileName(cmdline_file));
+    var untranslated_cmdline_file = FSO.BuildPath(scriptpath, "untranslated_" + FSO.GetFileName(cmdline_file));
     //logging
     if (log) {
         WScript.Echo("translating " + cmdline_file);
     }
-    //Call TranslateTemplateFile for path specified in command line argument /path:"path/to/template", output result to "scriptpath"
+    //Call TranslateTemplateFile for path specified in command line argument /path:"path/to/template",
+    //output result to "scriptpath"
     TranslateTemplateFile(WScript.Arguments.Named.Item("plugin"), cmdline_file_array, cmdline_untranslated_array);
     //Output results to scriptpath folder.
     WriteToUnicodeFileNoBOM(cmdline_file_array, traslated_cmdline_file);
@@ -205,7 +215,7 @@ if (log) {
     WScript.Echo("Translating Core");
 }
 //Call function for translate core template
-TranslateTemplateFile(FSO.BuildPath(trunk, langpackenglish + "=CORE=.txt"), Translated_Core_Array, UnTranslated_Core_Array);
+TranslateTemplateFile(FSO.BuildPath(trunkPath, langpackenglish + "=CORE=.txt"), Translated_Core_Array, UnTranslated_Core_Array);
 //output core file, if /out specified.
 if (out) {
     OutputFiles(Translated_Core_Array, UnTranslated_Core_Array, "", "=CORE=.txt");
@@ -213,16 +223,16 @@ if (out) {
 
 
 //Init array of template files
-TemplateFilesArray = new Array();
+var TemplateFilesArray = [];
 //Init array of weather.ini translation files
-WeatherFilesArray = new Array();
+var WeatherFilesArray = [];
 //Find all template files and put them to array
-FindFiles(FSO.BuildPath(trunk, langpackenglish + "plugins\\"), "\\.txt$", TemplateFilesArray);
+FindFiles(FSO.BuildPath(trunkPath, langpackenglish + "plugins\\"), "\\.txt$", TemplateFilesArray);
 //Find all weather.ini template files and add them into array
-FindFiles(FSO.BuildPath(trunk, langpackenglish + "Weather\\"), "\\.txt$", WeatherFilesArray);
+FindFiles(FSO.BuildPath(trunkPath, langpackenglish + "Weather\\"), "\\.txt$", WeatherFilesArray);
 //Build enumerator for each file array
-TemplateFilesEnum = new Enumerator(TemplateFilesArray);
-WeatherFilesEnum = new Enumerator(WeatherFilesArray);
+var TemplateFilesEnum = new Enumerator(TemplateFilesArray);
+var WeatherFilesEnum = new Enumerator(WeatherFilesArray);
 //Run processing files one-by-one;
 ProcessFiles(TemplateFilesEnum);
 
@@ -251,11 +261,14 @@ if (log) {
 
 //Process files one-by-one using enummerator
 function ProcessFiles(FilesEnum) {
+    var TranslatedTemplate = [],
+        UnTranslatedStrings = [],
+        curfile;
     //cycle through file list
     while (!FilesEnum.atEnd()) {
-        //intit Array with translated strings and untranslated stings
-        TranslatedTemplate = new Array();
-        UnTranslatedStrings = new Array();
+        //empty strings
+        TranslatedTemplate = [];
+        UnTranslatedStrings = [];
         //curfile is our current file in files enumerator
         curfile = FilesEnum.item();
         //Log output to console
@@ -288,12 +301,14 @@ function CreateFldr(FolderPathName) {
 //output to files. Checking params, and output file(s).
 function OutputFiles(TranslatedArray, UntranslatedArray, FolderName, FileName) {
     //clear var outpath
-    var outpath;
+    var outpath = "",
+        TraslatedTemplateFile = "",
+        UnTranslatedFile = "";
     //outpath is a /out:"path" + FolderName
     outpath = FSO.BuildPath(out, FolderName);
     //define default path to files in "langpacks\english\plugins"
-    TraslatedTemplateFile = trunk + langpackenglish + "plugins\\translated_" + FileName;
-    UnTranslatedFile = trunk + langpackenglish + "plugins\\untranslated_" + FileName;
+    TraslatedTemplateFile = trunkPath + langpackenglish + "plugins\\translated_" + FileName;
+    UnTranslatedFile = trunkPath + langpackenglish + "plugins\\untranslated_" + FileName;
 
     //redefine path to files, if /out specified
     if (out) {
@@ -303,10 +318,11 @@ function OutputFiles(TranslatedArray, UntranslatedArray, FolderName, FileName) {
 
     //redefine path to files, if FileName is a =CORE=.txt
     if (FileName == "=CORE=.txt") {
-        TraslatedTemplateFile = trunk + langpackenglish + "translated_" + FileName;
-        UnTranslatedFile = trunk + langpackenglish + "untranslated_" + FileName;
+        TraslatedTemplateFile = trunkPath + langpackenglish + "translated_" + FileName;
+        UnTranslatedFile = trunkPath + langpackenglish + "untranslated_" + FileName;
         if (out) {
-            // if /out:"/path/folder" specified redefine path of translated and untranslated =CORE=.txt file to parent folder of specified path
+            // if /out:"/path/folder" specified
+            // redefine path of translated and untranslated =CORE=.txt file to parent folder of specified path
             TraslatedTemplateFile = FSO.BuildPath(outpath, FileName);
             // if /untranslated:"yes" specified, redefine untranslated core to parent folder, same as above.
             UnTranslatedFile = FSO.BuildPath(outpath, "untranslated_" + FileName);
@@ -338,7 +354,9 @@ function OutputFiles(TranslatedArray, UntranslatedArray, FolderName, FileName) {
     }
 }
 
-//when /sourcelang: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are useless
+//when /sourcelang: and /path: are NOT specified,
+//thus we don't have any langpack file(s) to get translated strings.
+//Thus all other job are useless
 function checkparams() {
     if (!WScript.Arguments.Named.Exists("langpack") && !WScript.Arguments.Named.Exists("path") && !sourcelang) {
         WScript.Echo("you didn't specify /langpack:\"/path/to/langpack.txt\", /path:\"/path/to/plugnis/\"  or /sourcelang:\"language\" parameter, there is no files with translated strings!");
@@ -355,6 +373,8 @@ function CheckFileExist(file) {
 
 //Generate DB with translations from Core and Dupes files
 function GenerateDictionaries() {
+    var PathToCore = "",
+        PathToDupes = "";
     //if /sourcelang:"language" specified, use it for generate dicitionaries
     if (sourcelang) {
         CheckFileExist(translated_core);
@@ -387,6 +407,10 @@ function GenerateDictionaries() {
 
 //Generate Dictionary with english sting + translated string from file
 function GenerateTransalteDict(file, dictionary) {
+    var string = [],
+        key = "",
+        item = "",
+        lowerKey = "";
     //if file does not exist, it's a core, we do not need do the job again, so return.
     if (!FSO.FileExists(file)) return;
     //open file
@@ -394,15 +418,16 @@ function GenerateTransalteDict(file, dictionary) {
     stream.LoadFromFile(file);
     //read file into var
     var translatefiletext = stream.ReadText();
-    //"find" - RegularExpression, first string have to start with [ and end with]. Next string - translation
+    //"find" - RegularExpression, first string have to start with [ and end with].
+    //Next string - translation
     var find = /(^\[.+?\](?=$))\r?\n(^(?!;file|\r|\n).+?(?=$))/mg;
     //While our "find" RegExp return a results, add strings into dictionary.
     while ((string = find.exec(translatefiletext)) !== null) {
         //first, init empty var
-        var string;
-        //first match as original string [....], is a key of dictionary, second match is a translation - item of key in dictionary 
-        var key = string[1];
-        var item = string[2];
+        //first match as original string [....], is a key of dictionary,
+        //second match is a translation - item of key in dictionary 
+        key = string[1];
+        item = string[2];
         //ignore "translations" (wrongly parsed untranslated strings) begining and ending with []
         if (item.match(/^\[.*\]$/)) {
             continue;
@@ -434,6 +459,9 @@ function GenerateTransalteDict(file, dictionary) {
 
 //Generate array with stirngs from translation template, adding founded translation, if exist.
 function TranslateTemplateFile(Template_file, translated_array, untranslated_array) {
+    var englishstring = "",
+        refline = "",
+        headerline = "";
     //Init PluginTranslate Dictionary from plugins translate file
     var PluginTranslateDict = WScript.CreateObject("Scripting.Dictionary");
     //if /sourcelang specified, use it for search plugin translation.
@@ -456,13 +484,15 @@ function TranslateTemplateFile(Template_file, translated_array, untranslated_arr
         englishstring = "";
         //read on line
         var line = stream.ReadText(-2);
-        //If we need reference to "; file source\file\path" in template or langpack, put into array every line 
+        //If we need reference to "; file source\file\path" in template or langpack,
+        //put into array every line
         if (!noref) {
             translated_array.push(line);
         }
         //RegExp matching strings, starting from ";file"
         refline = line.match(/^;file.+/);
-        //RegExp for match a =CORE=.txt header line "Miranda Language Pack Version 1". If /noref specified, remove this line as well.
+        //RegExp for match a =CORE=.txt header line "Miranda Language Pack Version 1".
+        //If /noref specified, remove this line as well.
         headerline = line.match(/^Miranda Language Pack Version 1$/);
         //if /noref enabled, check string and if not matched, add to array
         if (noref && (!refline && !headerline)) {
@@ -544,7 +574,8 @@ function TranslateTemplateFile(Template_file, translated_array, untranslated_arr
     }
 }
 
-//Recourse find all files in "path" with file RegExp mask "name" and return file list into filelistarray
+//Recourse find all files in "path" with file RegExp mask "name"
+//and return file list into filelistarray
 function FindFiles(path, name, filelistarray) {
     //Init vars
     var Folder, Folders, Files, file, filename;
@@ -579,8 +610,12 @@ function FindFiles(path, name, filelistarray) {
 
 //Write UTF-8 file
 function WriteToUnicodeFile(array, langpack) {
+    var i = 0,
+        len = 0;
+
     stream.Open();
-    for (i = 0; i <= array.length - 1; i++) {
+    len = array.length - 1;
+    for (i = 0; i <= len; i++) {
         stream.WriteText(array[i] + "\r\n");
     }
     stream.SaveToFile(langpack, 2);
@@ -591,19 +626,20 @@ function WriteToUnicodeFile(array, langpack) {
 function WriteToUnicodeFileNoBOM(array, filename) {
     var UTFStream = WScript.CreateObject("ADODB.Stream");
     var BinaryStream = WScript.CreateObject("ADODB.Stream");
-    var len = 0;
-    var adTypeBinary = 1;
-    var adTypeText = 2;
-    var adModeReadWrite = 3;
-    var adSaveCreateOverWrite = 2;
+    var i = 0,
+        len = 0,
+        adTypeBinary = 1,
+        adTypeText = 2,
+        adModeReadWrite = 3,
+        adSaveCreateOverWrite = 2;
 
     UTFStream.Type = adTypeText;
     UTFStream.Mode = adModeReadWrite;
     UTFStream.Charset = "utf-8";
     UTFStream.Open();
-
+    
     len = array.length - 1;
-    for (var i = 0; i <= len; i++) {
+    for (i = 0; i <= len; i++) {
         UTFStream.WriteText(array[i] + "\r\n");
     }
 
