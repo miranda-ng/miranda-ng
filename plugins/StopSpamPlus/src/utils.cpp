@@ -31,11 +31,6 @@ bool IsExistMyMessage(MCONTACT hContact)
 	return false;
 }
 
-void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str)
-{
-	SetDlgItemTextW(hwndDlg, idItem, str.c_str());
-}
-
 tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact)
 {
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {

@@ -17,10 +17,10 @@
 #include <m_icolib.h>
 #include <m_skin.h>
 #include <m_clist.h>
+#include <m_gui.h>
 
 #include <m_stopspam.h>
 #include <m_variables.h>
-
 
 typedef std::wstring tstring;
 #define PREF_TCHAR2 PREF_UTF
@@ -32,16 +32,10 @@ typedef std::wstring tstring;
 #define pluginName LPGEN("StopSpam")
 
 extern char const *answeredSetting;
-extern char const *questCountSetting;
+
 extern HINSTANCE hInst;
 
-//options
-INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-//utils
-void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str);
+// utils
 tstring &GetDlgItemString(HWND hwnd, int id);
 bool IsExistMyMessage(MCONTACT hContact);
 tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact);

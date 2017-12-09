@@ -1,8 +1,10 @@
 #include "stdafx.h"
 
-int OnDbEventAdded(WPARAM wParam, LPARAM lParam)
+char const *answeredSetting = "Answered";
+char const *questCountSetting = "QuestionCount";
+
+int OnDbEventAdded(WPARAM, LPARAM lParam)
 {
-	UNREFERENCED_PARAMETER(wParam);
 	MEVENT hDbEvent = (MEVENT)lParam;
 
 	DBEVENTINFO dbei = {};
@@ -84,7 +86,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 	tstring message;
 
-	if (dbei->flags & DBEF_UTF){
+	if (dbei->flags & DBEF_UTF) {
 		WCHAR* msg_u = mir_utf8decodeW((char*)dbei->pBlob);
 		message = msg_u;
 		mir_free(msg_u);
@@ -133,9 +135,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
-	if ((!plSets->InfTalkProtection.Get() || tstring::npos == message.find(pwszPrefix))
-		&& (!plSets->MaxQuestCount.Get() || db_get_dw(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get()))
-	{
+	if ((!plSets->InfTalkProtection.Get() || tstring::npos == message.find(pwszPrefix)) && (!plSets->MaxQuestCount.Get() || db_get_dw(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get())) {
 		// send question
 		tstring q = pwszPrefix + variables_parse((tstring)(plSets->Question), hContact);
 
@@ -160,33 +160,6 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 	// reject processing of the event
 	return 1;
-}
-
-int OnOptInit(WPARAM w, LPARAM l)
-{
-	UNREFERENCED_PARAMETER(l);
-
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.szGroup.a = LPGEN("Message sessions");
-	odp.szTitle.a = pluginName;
-	odp.position = -1;
-	odp.hInstance = hInst;
-
-	odp.szTab.a = LPGEN("General");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
-	odp.pfnDlgProc = MainDlgProc;
-	Options_AddPage(w, &odp);
-
-	odp.szTab.a = LPGEN("Messages");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
-	odp.pfnDlgProc = MessagesDlgProc;
-	Options_AddPage(w, &odp);
-
-	odp.szTab.a = LPGEN("Accounts");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
-	odp.pfnDlgProc = ProtoDlgProc;
-	Options_AddPage(w, &odp);
-	return 0;
 }
 
 int OnDbContactSettingchanged(WPARAM hContact, LPARAM l)
