@@ -63,10 +63,10 @@ CoreTranslateDict = WScript.CreateObject("Scripting.Dictionary");
 DupesTranslateDict = WScript.CreateObject("Scripting.Dictionary");
 LangpackTranslateDict = WScript.CreateObject("Scripting.Dictionary");
 //init arrays
-Translated_Core_Array = new Array;
-UnTranslated_Core_Array = new Array;
-full_langpack_array = new Array;
-release_array = new Array;
+Translated_Core_Array = new Array();
+UnTranslated_Core_Array = new Array();
+full_langpack_array = new Array();
+release_array = new Array();
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
@@ -149,8 +149,8 @@ if (WScript.Arguments.Named.Item("plugin")) {
     //plugin from command line:
     var cmdline_file = new String(WScript.Arguments.Named.Item("plugin"));
     //init array for our file translation and untranslated strings
-    var cmdline_file_array = new Array;
-    var cmdline_untranslated_array = new Array;
+    var cmdline_file_array = new Array();
+    var cmdline_untranslated_array = new Array();
     //Output filename variable
     var traslated_cmdline_file = new String(FSO.BuildPath(scriptpath, FSO.GetFileName(cmdline_file)));
     var untranslated_cmdline_file = new String(FSO.BuildPath(scriptpath, "untranslated_" + FSO.GetFileName(cmdline_file)));
@@ -213,9 +213,9 @@ if (out) {
 
 
 //Init array of template files
-TemplateFilesArray = new Array;
+TemplateFilesArray = new Array();
 //Init array of weather.ini translation files
-WeatherFilesArray = new Array;
+WeatherFilesArray = new Array();
 //Find all template files and put them to array
 FindFiles(FSO.BuildPath(trunk, langpackenglish + "plugins\\"), "\\.txt$", TemplateFilesArray);
 //Find all weather.ini template files and add them into array
@@ -254,8 +254,8 @@ function ProcessFiles(FilesEnum) {
     //cycle through file list
     while (!FilesEnum.atEnd()) {
         //intit Array with translated strings and untranslated stings
-        TranslatedTemplate = new Array;
-        UnTranslatedStrings = new Array;
+        TranslatedTemplate = new Array();
+        UnTranslatedStrings = new Array();
         //curfile is our current file in files enumerator
         curfile = FilesEnum.item();
         //Log output to console
@@ -326,7 +326,7 @@ function OutputFiles(TranslatedArray, UntranslatedArray, FolderName, FileName) {
     }
 
     //Write untranslated array into file, if /untranslated specified and there is something in array
-    if (untranslated & UntranslatedArray.length > 0) {
+    if (untranslated && UntranslatedArray.length > 0) {
         //redefine Untranslated file path and name, if /untranslated:"/path/" specified
         if (UnTranslatedPath != "yes") {
             UnTranslatedFile = UnTranslatedPath + "\\" + FileName;
@@ -340,7 +340,7 @@ function OutputFiles(TranslatedArray, UntranslatedArray, FolderName, FileName) {
 
 //when /sourcelang: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are useless
 function checkparams() {
-    if (!WScript.Arguments.Named.Item("langpack") & !WScript.Arguments.Named.Item("path") & !sourcelang) {
+    if (!WScript.Arguments.Named.Exists("langpack") && !WScript.Arguments.Named.Exists("path") && !sourcelang) {
         WScript.Echo("you didn't specify /langpack:\"/path/to/langpack.txt\", /path:\"/path/to/plugnis/\"  or /sourcelang:\"language\" parameter, there is no files with translated strings!");
         WScript.Quit();
     }
@@ -397,7 +397,7 @@ function GenerateTransalteDict(file, dictionary) {
     //"find" - RegularExpression, first string have to start with [ and end with]. Next string - translation
     var find = /(^\[.+?\](?=$))\r?\n(^(?!;file|\r|\n).+?(?=$))/mg;
     //While our "find" RegExp return a results, add strings into dictionary.
-    while ((string = find.exec(translatefiletext)) != null) {
+    while ((string = find.exec(translatefiletext)) !== null) {
         //first, init empty var
         var string;
         //first match as original string [....], is a key of dictionary, second match is a translation - item of key in dictionary 
@@ -446,7 +446,7 @@ function TranslateTemplateFile(Template_file, translated_array, untranslated_arr
         GenerateTransalteDict(FSO.BuildPath(WScript.Arguments.Named.Item("path"), (FSO.GetBaseName(FSO.GetParentFolderName(Template_file)) + "\\" + FSO.GetFileName(Template_file))), PluginTranslateDict);
     }
     //If file zero size, return;
-    if (FSO.GetFile(Template_file).Size == 0) return;
+    if (FSO.GetFile(Template_file).Size === 0) return;
     //access file
     stream.Open();
     stream.LoadFromFile(Template_file);

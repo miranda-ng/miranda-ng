@@ -50,7 +50,7 @@ var langpack_en = FSO.BuildPath(trunk, "langpacks\\english");
 //Crap.txt will contain strings, which are removed by filtering engine as a garbage, in case if this string are not garbage :)
 var crapfile = "Crap.txt";
 //Crap array
-var crap = new Array;
+var crap = new Array();
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
@@ -104,7 +104,7 @@ GenerateCore();
 //Generate plugins\protocols, listed in mir_full.sln
 
 //Init array with files path
-project_files = new Array;
+project_files = new Array();
 //open mir_full.sln
 sln_stream = FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault);
 //Reading line-by-line
@@ -256,14 +256,14 @@ function GeneratePluginTranslate(pluginpath, langpackfilepath, vcxprojfile) {
     //OR head have only one string (version.h wasn't found and head have only MUUID)
     //AND didn't find anything in *.RC and source files, so:
     //we didn't find any string and generating file is useless, return from function and out log
-    if ((head.length == 7 || head.length == 1) && foundstrings.length == 0) {
+    if ((head.length == 7 || head.length == 1) && foundstrings.length === 0) {
         if (log) {
             WScript.Echo("!!!Nothing to translate in " + plugin + "!!!");
         }
         return;
     }
     //Suppose that we parse Pascal plugin, thus head have only one string with MUUID, push a plugin name there
-    if (head.length == 1 & foundstrings.length > 0) {
+    if (head.length == 1 && foundstrings.length > 0) {
         head.push(";langpack template for " + plugin);
     }
     //We have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
@@ -410,7 +410,7 @@ function GetMUUID(folder, array) {
 //read text file, removing all commented text for further processing
 function ReadFile(file) {
     //If file zero size, return;
-    if (FSO.GetFile(file).Size == 0) return;
+    if (FSO.GetFile(file).Size === 0) return;
     //reading current file
     file_stream = FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefault);
     //read file fully into var
@@ -458,7 +458,7 @@ function ParseFiles(filelist, stringsarray, parsefunction) {
 function ParseRCFile(FileTextVar, array) {
     var find = /^(?!\/{1,2})\s*(CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|(?:AUTO)?RADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/mgi;
     //now make a job, till end of matching regexp
-    while ((string = find.exec(FileTextVar)) != null) {
+    while ((string = find.exec(FileTextVar)) !== null) {
         // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
         onestring = string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList|&?[Oo][Kk]|AOL|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|Google Talk|GPG|Hotmail|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|Miranda NG|mRadio|MSN|NickServ|OSD|OTR|PCS|PGP|S.ms|SMS|SSL|Steam|Steam Guard|Tox|Twitter|Yahoo|Winamp \(\*\)|Windows|X400|&\w)|(%.(.*%)?))$/g, "");
         // ignore some popup menu craps
@@ -485,7 +485,7 @@ function ParseSourceFile(FileTextVar, array) {
     //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
     var find = /(?:LPGEN[TW]?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)((?:(?:"[^"\\]*(?:\\[\S\s][^"\\]*)*")\s*)*)(?:\s*?,?\s*?(?:tmp)?\))/gm;
     //now make a job, till end of matching regexp
-    while ((string = find.exec(FileTextVar)) != null) {
+    while ((string = find.exec(FileTextVar)) !== null) {
         //first, init empty var
         var string;
         //replace newlines and all spaces and tabs between two pairs of " or ' with the void string ("") in first [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
