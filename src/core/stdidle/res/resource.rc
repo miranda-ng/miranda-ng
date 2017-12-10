@@ -35,7 +35,7 @@ BEGIN
     CONTROL         "Windows",IDC_IDLEONWINDOWS,"Button",BS_AUTORADIOBUTTON,45,31,104,9
     CONTROL         "Miranda",IDC_IDLEONMIRANDA,"Button",BS_AUTORADIOBUTTON,45,43,103,9
     EDITTEXT        IDC_IDLE1STTIME,59,59,27,14,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Spin2",IDC_IDLESPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,71,55,12,23
+    CONTROL         "Spin2",IDC_IDLESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,86,59,11,14
     CONTROL         "Become idle if the screen saver is active",IDC_SCREENSAVER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,83,265,9
     CONTROL         "Become idle if the computer is locked",IDC_LOCKED,
@@ -44,7 +44,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,116,265,10
     CONTROL         "Do not let protocols report any idle information",IDC_IDLEPRIVATE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,131,251,9
-    LTEXT           "minute(s)",IDC_STATIC,91,61,76,9
+    LTEXT           "minute(s)",IDC_STATIC,99,61,76,9
     RTEXT           "for",IDC_STATIC,12,62,41,8
     COMBOBOX        IDC_AASTATUS,161,146,64,50,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Change my status mode to:",IDC_AASHORTIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,147,132,11

@@ -25,44 +25,45 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 #define IDLEMOD "Idle"
-#define IDL_USERIDLECHECK "UserIdleCheck"
-#define IDL_IDLEMETHOD    "IdleMethod"
-#define IDL_IDLETIME1ST   "IdleTime1st"
-#define IDL_IDLEONSAVER   "IdleOnSaver" // IDC_SCREENSAVER
-#define IDL_IDLEONFULLSCR "IdleOnFullScr" // IDC_FULLSCREEN
-#define IDL_IDLEONLOCK    "IdleOnLock" // IDC_LOCKED
-#define IDL_IDLEONTSDC    "IdleOnTerminalDisconnect" //
-#define IDL_IDLEPRIVATE   "IdlePrivate" // IDC_IDLEPRIVATE
-#define IDL_IDLESTATUSLOCK "IdleStatusLock" // IDC_IDLESTATUSLOCK
-#define IDL_AAENABLE      "AAEnable"
-#define IDL_AASTATUS      "AAStatus"
-#define IDL_IDLESOUNDSOFF "IdleSoundsOff"
 
-#define IdleObject_IsIdle(obj) (obj->state&0x1)
-#define IdleObject_SetIdle(obj) (obj->state|=0x1)
-#define IdleObject_ClearIdle(obj) (obj->state&=~0x1)
+static CMOption<BYTE> g_bIdleCheck(IDLEMOD, "UserIdleCheck", 0);
+static CMOption<BYTE> g_bIdleMethod(IDLEMOD, "IdleMethod", 0);
+static CMOption<BYTE> g_iIdleTime1st(IDLEMOD, "IdleTime1st", 10);
+static CMOption<BYTE> g_bIdleOnSaver(IDLEMOD, "IdleOnSaver", 0);
+static CMOption<BYTE> g_bIdleOnFullScr(IDLEMOD, "IdleOnFullScr", 0);
+static CMOption<BYTE> g_bIdleOnLock(IDLEMOD, "IdleOnLock", 0);
+static CMOption<BYTE> g_bIdlePrivate(IDLEMOD, "IdlePrivate", 0);
+static CMOption<BYTE> g_bIdleSoundsOff(IDLEMOD, "IdleSoundsOff", 1);
+static CMOption<BYTE> g_bIdleOnTerminal(IDLEMOD, "IdleOnTerminalDisconnect", 0);
+static CMOption<BYTE> g_bIdleStatusLock(IDLEMOD, "IdleStatusLock", 0);
+static CMOption<BYTE> g_bAAEnable(IDLEMOD, "AAEnable", 0);
+static CMOption<WORD> g_bAAStatus(IDLEMOD, "AAStatus", 0);
+
+#define IdleObject_IsIdle(obj) (obj->state & 0x1)
+#define IdleObject_SetIdle(obj) (obj->state |= 0x1)
+#define IdleObject_ClearIdle(obj) (obj->state &= ~0x1)
 
 // either use meth 0, 1 or figure out which one
-#define IdleObject_UseMethod0(obj) (obj->state&=~0x2)
-#define IdleObject_UseMethod1(obj) (obj->state|=0x2)
-#define IdleObject_GetMethod(obj) (obj->state&0x2)
+#define IdleObject_UseMethod0(obj) (obj->state &= ~0x2)
+#define IdleObject_UseMethod1(obj) (obj->state |= 0x2)
+#define IdleObject_GetMethod(obj) (obj->state & 0x2)
 
-#define IdleObject_IdleCheckSaver(obj) (obj->state&0x4)
-#define IdleObject_SetSaverCheck(obj) (obj->state|=0x4)
+#define IdleObject_IdleCheckSaver(obj) (obj->state & 0x4)
+#define IdleObject_SetSaverCheck(obj) (obj->state |= 0x4)
 
-#define IdleObject_IdleCheckWorkstation(obj) (obj->state&0x8)
-#define IdleObject_SetWorkstationCheck(obj) (obj->state|=0x8)
+#define IdleObject_IdleCheckWorkstation(obj) (obj->state & 0x8)
+#define IdleObject_SetWorkstationCheck(obj) (obj->state |= 0x8)
 
-#define IdleObject_IsPrivacy(obj) (obj->state&0x10)
-#define IdleObject_SetPrivacy(obj) (obj->state|=0x10)
+#define IdleObject_IsPrivacy(obj) (obj->state & 0x10)
+#define IdleObject_SetPrivacy(obj) (obj->state |= 0x10)
 
-#define IdleObject_SetStatusLock(obj) (obj->state|=0x20)
+#define IdleObject_SetStatusLock(obj) (obj->state |= 0x20)
 
-#define IdleObject_IdleCheckTerminal(obj) (obj->state&0x40)
-#define IdleObject_SetTerminalCheck(obj) (obj->state|=0x40)
+#define IdleObject_IdleCheckTerminal(obj) (obj->state & 0x40)
+#define IdleObject_SetTerminalCheck(obj) (obj->state |= 0x40)
 
-#define IdleObject_IdleCheckFullScr(obj) (obj->state&0x80)
-#define IdleObject_SetFullScrCheck(obj) (obj->state|=0x80)
+#define IdleObject_IdleCheckFullScr(obj) (obj->state & 0x80)
+#define IdleObject_SetFullScrCheck(obj) (obj->state |= 0x80)
 
 //#include <Wtsapi32.h>
 
@@ -147,30 +148,26 @@ static HANDLE hIdleEvent;
 
 void CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime);
 
-static void IdleObject_ReadSettings(IdleObject * obj)
-{
-	obj->useridlecheck = db_get_b(NULL, IDLEMOD, IDL_USERIDLECHECK, 0);
-	obj->minutes = db_get_b(NULL, IDLEMOD, IDL_IDLETIME1ST, 10);
-	obj->aastatus = !db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? 0 : db_get_w(NULL, IDLEMOD, IDL_AASTATUS, 0);
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1))
-		obj->aasoundsoff = 1;
-	else
-		obj->aasoundsoff = 0;
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLEMETHOD, 0)) IdleObject_UseMethod1(obj);
-	else IdleObject_UseMethod0(obj);
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLEONSAVER, 0)) IdleObject_SetSaverCheck(obj);
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLEONFULLSCR, 0)) IdleObject_SetFullScrCheck(obj);
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLEONLOCK, 0)) IdleObject_SetWorkstationCheck(obj);
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0)) IdleObject_SetPrivacy(obj);
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0)) IdleObject_SetStatusLock(obj);
-	if (db_get_b(NULL, IDLEMOD, IDL_IDLEONTSDC, 0)) IdleObject_SetTerminalCheck(obj);
-}
-
 static void IdleObject_Create(IdleObject * obj)
 {
 	memset(obj, 0, sizeof(IdleObject));
 	obj->hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
-	IdleObject_ReadSettings(obj);
+	obj->useridlecheck = g_bIdleCheck;
+	obj->minutes = g_iIdleTime1st;
+	obj->aastatus = (g_bAAEnable) ? g_bAAStatus : 0;
+	obj->aasoundsoff = g_bIdleSoundsOff;
+	
+	if (g_bIdleMethod)
+		IdleObject_UseMethod1(obj);
+	else
+		IdleObject_UseMethod0(obj);
+	
+	if (g_bIdleOnLock) IdleObject_SetWorkstationCheck(obj);
+	if (g_bIdlePrivate) IdleObject_SetPrivacy(obj);
+	if (g_bIdleOnSaver) IdleObject_SetSaverCheck(obj);
+	if (g_bIdleOnFullScr) IdleObject_SetFullScrCheck(obj);
+	if (g_bIdleStatusLock) IdleObject_SetStatusLock(obj);
+	if (g_bIdleOnTerminal) IdleObject_SetTerminalCheck(obj);
 }
 
 static void IdleObject_Destroy(IdleObject * obj)
@@ -183,8 +180,8 @@ static void IdleObject_Destroy(IdleObject * obj)
 
 static int IdleObject_IsUserIdle(IdleObject * obj)
 {
-	DWORD dwTick;
 	if (IdleObject_GetMethod(obj)) {
+		DWORD dwTick;
 		CallService(MS_SYSTEM_GETIDLE, 0, (LPARAM)&dwTick);
 		return GetTickCount() - dwTick > (obj->minutes * 60 * 1000);
 	}
@@ -247,113 +244,100 @@ int IdleGetStatusIndex(WORD status)
 	return 0;
 }
 
-static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class COptionsDlg : public CPluginDlgBase
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		{
-			int j;
-			int method = db_get_b(NULL, IDLEMOD, IDL_IDLEMETHOD, 0);
-			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_IDLESHORT, db_get_b(NULL, IDLEMOD, IDL_USERIDLECHECK, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IDLEONWINDOWS, method == 0 ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IDLEONMIRANDA, method ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SCREENSAVER, db_get_b(NULL, IDLEMOD, IDL_IDLEONSAVER, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FULLSCREEN, db_get_b(NULL, IDLEMOD, IDL_IDLEONFULLSCR, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_LOCKED, db_get_b(NULL, IDLEMOD, IDL_IDLEONLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IDLEPRIVATE, db_get_b(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IDLESTATUSLOCK, db_get_b(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, db_get_b(NULL, IDLEMOD, IDL_IDLEONTSDC, 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IDLESOUNDSOFF, db_get_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1) ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_IDLE1STTIME), 0);
-			SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETRANGE32, 1, 60);
-			SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short)db_get_b(NULL, IDLEMOD, IDL_IDLETIME1ST, 10), 0));
-			SendDlgItemMessage(hwndDlg, IDC_IDLE1STTIME, EM_LIMITTEXT, (WPARAM)2, 0);
+	CCtrlEdit edt1sttime;
+	CCtrlSpin spinIdle;
+	CCtrlCombo cmbAAStatus;
+	CCtrlCheck chkShort, chkOnWindows, chkOnMiranda, chkScreenSaver, chkFullScreen, chkLocked;
+	CCtrlCheck chkPrivate, chkStatusLock, chkTerminal, chkSoundsOff, chkShortIdle;
 
-			CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED : BST_UNCHECKED);
-			for (j = 0; j < _countof(aa_Status); j++)
-				SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
+	void ShowHide()
+	{
+		BOOL bChecked = chkShort.GetState();
+		chkOnWindows.Enable(bChecked);
+		chkOnMiranda.Enable(bChecked);
+		edt1sttime.Enable(bChecked);
 
-			j = IdleGetStatusIndex((WORD)(db_get_w(NULL, IDLEMOD, IDL_AASTATUS, 0)));
-			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_SETCURSEL, j, 0);
-			SendMessage(hwndDlg, WM_USER + 2, 0, 0);
-			return TRUE;
-		}
-	case WM_USER + 2:
-		{
-			BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_IDLESHORT) == BST_CHECKED;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEONWINDOWS), checked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEONMIRANDA), checked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLE1STTIME), checked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AASTATUS), IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED ? 1 : 0);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLESTATUSLOCK), IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED ? 1 : 0);
-			break;
-		}
-	case WM_NOTIFY:
-		{
-			NMHDR * hdr = (NMHDR *)lParam;
-			if (hdr && hdr->code == PSN_APPLY) {
-				int method = IsDlgButtonChecked(hwndDlg, IDC_IDLEONWINDOWS) == BST_CHECKED;
-				int mins = SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_GETPOS, 0, 0);
-				db_set_b(NULL, IDLEMOD, IDL_IDLETIME1ST, (BYTE)(HIWORD(mins) == 0 ? LOWORD(mins) : 10));
-				db_set_b(NULL, IDLEMOD, IDL_USERIDLECHECK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESHORT) == BST_CHECKED));
-				db_set_b(NULL, IDLEMOD, IDL_IDLEMETHOD, (BYTE)(method ? 0 : 1));
-				db_set_b(NULL, IDLEMOD, IDL_IDLEONSAVER, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCREENSAVER) == BST_CHECKED));
-				db_set_b(NULL, IDLEMOD, IDL_IDLEONFULLSCR, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FULLSCREEN) == BST_CHECKED));
-				db_set_b(NULL, IDLEMOD, IDL_IDLEONLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED));
-				db_set_b(NULL, IDLEMOD, IDL_IDLEONTSDC, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLETERMINAL) == BST_CHECKED));
-				db_set_b(NULL, IDLEMOD, IDL_IDLEPRIVATE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLEPRIVATE) == BST_CHECKED));
-				db_set_b(NULL, IDLEMOD, IDL_AAENABLE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED ? 1 : 0));
-				db_set_b(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESTATUSLOCK) == BST_CHECKED ? 1 : 0));
-				{
-					int curSel = SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_GETCURSEL, 0, 0);
-					if (curSel != CB_ERR) {
-						db_set_w(NULL, IDLEMOD, IDL_AASTATUS, (WORD)(aa_Status[curSel]));
-					}
-				}
-				db_set_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESOUNDSOFF) == BST_CHECKED));
-				// destroy any current idle and reset settings.
-				IdleObject_Destroy(&gIdleObject);
-				IdleObject_Create(&gIdleObject);
-			}
-			break;
-		}
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_IDLE1STTIME:
-			{
-				int min;
-				if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE) return FALSE;
-				min = GetDlgItemInt(hwndDlg, IDC_IDLE1STTIME, NULL, FALSE);
-				if (min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_IDLE1STTIME)))
-					SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short)1, 0));
-				break;
-			}
-		case IDC_IDLESHORT:
-		case IDC_AASHORTIDLE:
-			SendMessage(hwndDlg, WM_USER + 2, 0, 0);
-			break;
-
-		case IDC_AASTATUS:
-			if (HIWORD(wParam) != CBN_SELCHANGE)
-				return TRUE;
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
+		bChecked = chkShortIdle.GetState();
+		cmbAAStatus.Enable(bChecked);
+		chkStatusLock.Enable(bChecked);
 	}
-	return FALSE;
-}
+
+public:
+	COptionsDlg() :
+		CPluginDlgBase(hInst, IDD_OPT_IDLE, IDLEMOD),
+		edt1sttime(this, IDC_IDLE1STTIME),
+		spinIdle(this, IDC_IDLESPIN),
+		cmbAAStatus(this, IDC_AASTATUS),
+		chkShort(this, IDC_IDLESHORT),
+		chkLocked(this, IDC_LOCKED),
+		chkPrivate(this, IDC_IDLEPRIVATE),
+		chkTerminal(this, IDC_IDLETERMINAL),
+		chkOnWindows(this, IDC_IDLEONWINDOWS),
+		chkSoundsOff(this, IDC_IDLESOUNDSOFF),
+		chkOnMiranda(this, IDC_IDLEONMIRANDA),
+		chkShortIdle(this, IDC_AASHORTIDLE),
+		chkStatusLock(this, IDC_IDLESTATUSLOCK),
+		chkFullScreen(this, IDC_FULLSCREEN),
+		chkScreenSaver(this, IDC_SCREENSAVER)
+	{
+		CreateLink(chkShort, g_bIdleCheck);
+		CreateLink(chkLocked, g_bIdleOnLock);
+		CreateLink(chkPrivate, g_bIdlePrivate);
+		CreateLink(chkTerminal, g_bIdleOnTerminal);
+		CreateLink(chkShortIdle, g_bAAEnable);
+		CreateLink(chkOnMiranda, g_bIdleMethod);
+		CreateLink(chkSoundsOff, g_bIdleSoundsOff);
+		CreateLink(chkStatusLock, g_bIdleStatusLock);
+		CreateLink(chkFullScreen, g_bIdleOnFullScr);
+		CreateLink(chkScreenSaver, g_bIdleOnSaver);
+
+		chkShortIdle.OnChange = chkShort.OnChange = Callback(this, &COptionsDlg::onChange);
+	}
+
+	virtual void OnInitDialog() override
+	{
+		chkOnWindows.SetState(!g_bIdleMethod);
+
+		spinIdle.SetRange(60, 1);
+		spinIdle.SetPosition(g_iIdleTime1st);
+
+		for (int j = 0; j < _countof(aa_Status); j++)
+			cmbAAStatus.AddString(pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
+		cmbAAStatus.SetCurSel(IdleGetStatusIndex(g_bAAStatus));
+
+		ShowHide();
+	}
+
+	virtual void OnApply() override
+	{
+		g_iIdleTime1st = spinIdle.GetPosition();
+
+		int curSel = cmbAAStatus.GetCurSel();
+		if (curSel != CB_ERR)
+			g_bAAStatus = aa_Status[curSel];
+
+		// destroy any current idle and reset settings.
+		IdleObject_Destroy(&gIdleObject);
+		IdleObject_Create(&gIdleObject);
+	}
+
+	void onChange(CCtrlCheck*)
+	{
+		ShowHide();
+	}
+};
 
 static int IdleOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
-	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_IDLE);
 	odp.szGroup.a = LPGEN("Status");
 	odp.szTitle.a = LPGEN("Idle");
-	odp.pfnDlgProc = IdleOptsDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
+	odp.pDialog = new COptionsDlg();
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
