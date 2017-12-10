@@ -282,6 +282,11 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, const JSO
 	for (auto itAttachment = attachments_.begin(); itAttachment != attachments_.end(); ++itAttachment) {
 		const JSONNode &attach_ = legacy ? (*itAttachment) : (*itAttachment)["mercury"];
 
+		// FIXME: FB now doesn't have single "attach_type" node that we can check, but it's separated in different nodes. So we must check existence of different nodes for different types of attachments (or iterate over all existing nodes and check if some attachment node exists)
+		const JSONNode sticker_ = attach_["sticker_attachment"];
+		const JSONNode blob_ = attach_["blob_attachment"];
+		const JSONNode todo_ = attach_["todo"];
+
 		type = attach_["attach_type"].as_string();  // "sticker", "photo", "file", "share", "animated_image", "video"
 
 		if (type == "photo") {
