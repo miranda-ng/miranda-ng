@@ -1202,6 +1202,13 @@ static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 	return 0;
 }
 
+static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
+{
+	OptionsPageList arPages(1);
+	CallPluginEventHook((HINSTANCE)hInstance, hOptionsInitEvent, (WPARAM)&arPages, 0);
+	return 0;
+}
+
 static int OptModulesLoaded(WPARAM, LPARAM)
 {
 	CMenuItem mi;
@@ -1226,6 +1233,7 @@ int LoadOptionsModule(void)
 	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);
 	HookEvent(ME_OPT_INITIALISE, LangpackOptionsInit);
 
+	HookEvent(ME_SYSTEM_MODULELOAD, OptDynamicLoadOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OptModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownOptionsModule);
 	return 0;
