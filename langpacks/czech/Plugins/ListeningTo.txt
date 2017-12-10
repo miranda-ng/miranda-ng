@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ListeningTo.dll
 ;  Plugin: ListeningTo
-;  Version: 0.3.0.0
+;  Version: 0.4.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Handles listening information to/for contacts.]
@@ -95,12 +95,10 @@ Pokud nehraje hudba, namísto %listening% použít:
 Poslech hudby (zapnuto)
 [Listening to (disabled)]
 Poslech hudby (vypnuto)
-[ListeningTo]
-Poslech hudby
-[Listening to music]
-Poslouchám hudbu
 [Send to %s]
 Poslat %s
+[Listening to music]
+Poslouchám hudbu
 [Send to all protocols]
 Poslat všem protokolům
 [Listening info]
@@ -135,6 +133,8 @@ Zapnout/vypnout posílání informací o poslechu hudby (všem protokolům)
 Vypnout poslech hudby (pro všechny protokoly)
 [Enable ListeningTo (to all protocols)]
 Zapnout poslech hudby (pro všechny protokoly)
+[ListeningTo]
+Poslech hudby
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <neznámý>

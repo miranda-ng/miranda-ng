@@ -22,8 +22,6 @@ Verze ICQ:
 Verze Mirandy:
 [Ping:]
 Ping:
-[ICQ Corp]
-
 [Login Server:]
 Server:
 [ICQ number:]

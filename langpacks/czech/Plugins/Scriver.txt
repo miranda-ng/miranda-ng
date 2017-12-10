@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.12.2.1
+;  Version: 3.0.1.7
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -152,16 +152,6 @@ Opakovat
 Zrušit
 [Message session]
 Rozhovor
-[&User menu]
-Nabídka &uživatele
-[User &details]
-&Detaily uživatele
-[&Add]
-Přid&at
-[&History]
-&Historie
-[&Quote]
-&Citovat
 [Send to all tabs]
 Odeslat všem otevřeným
 [You are about to send a message to all open tabs.\nAre you sure?]
@@ -172,22 +162,6 @@ Pamatovat si mou volbu pro tento kontejner
 Ano
 [No]
 Ne
-[&Bold]
-&Tučné
-[&Italic]
-&Kurzíva
-[&Underline]
-Pod&tržené
-[&Color]
-&Barva
-[&Background color]
-Barva &pozadí
-[&Filter]
-&Filtr
-[&Room settings]
-&Správa místnosti
-[&Show/hide nick list]
-&Přepnout seznam účastníků
 [Show these events only:]
 Zobrazit pouze tyto události:
 [Actions]
@@ -308,327 +282,12 @@ Vymazat
 Zavřít ostatní panely
 [Close tab]
 Zavřít panel
-[List]
-Seznam
-[&Message]
-&Zpráva
-[Clear lo&g]
-Vy&mazat záznam
-;file \plugins\Scriver\src\globals.cpp
-[Add contact]
-Přidat kontakt
-[User's details]
-Osobní údaje
-[User's history]
-Historie komunikace
-[Send message]
-Poslat zprávu
-[Smiley button]
-Smajlík
-[User is typing]
-Indikace psaní zprávy
-[Typing notification off]
-Indikace psaní vypnuta
-[Sending]
-Odesílání
-[Quote button]
-Citovat text
-[Close button]
-Tlačítko Zavřít
-[Icon overlay]
-Překryvná ikona
-[Incoming message (10x10)]
-Příchozí zpráva (10x10)
-[Outgoing message (10x10)]
-Odchozí zpráva (10x10)
-[Notice (10x10)]
-Poznámka (10x10)
-[Window Icon]
-Ikona okna
-[Text color]
-Barva textu
-[Background color]
-Barva pozadí
-[Bold]
-Tučné
-[Italics]
-Kurzíva
-[Underlined]
-Podtržené
-[Room history]
-Historie místnosti
-[Room settings]
-Nastavení místnosti
-[Event filter disabled]
-Filtrování událostí deaktivováno
-[Event filter enabled]
-Filtrování událostí aktivováno
-[Hide nick list]
-Skrýt seznam účastníků
-[Show nick list]
-Zobrazit seznam účastníků
-[Status 1 (10x10)]
-Stav č.1 (10x10)
-[Status 2 (10x10)]
-Stav č.2 (10x10)
-[Status 3 (10x10)]
-Stav č.3 (10x10)
-[Status 4 (10x10)]
-Stav č.4 (10x10)
-[Status 5 (10x10)]
-Stav č.5 (10x10)
-[Status 6 (10x10)]
-Stav č.6 (10x10)
-[Message in (10x10)]
-Příchozí zpráva (10x10)
-[Message out (10x10)]
-Odchozí zpráva (10x10)
-[Action (10x10)]
-Akce (10x10)
-[Add Status (10x10)]
-Přidat stav (10x10)
-[Remove status (10x10)]
-Odebrat stav (10x10)
-[Join (10x10)]
-Přidat (10x10)
-[Leave (10x10)]
-Opustit (10x10)
-[Quit (10x10)]
-Ukončit (10x10)
-[Kick (10x10)]
-Vykopnout (10x10)
-[Nickchange (10x10)]
-Změna přezdívky (10x10)
-[Topic (10x10)]
-Téma (10x10)
-[Highlight (10x10)]
-Zvýraznění (10x10)
-[Information (10x10)]
-Informace (10x10)
-[Single Messaging]
-Běžný rozhovor
-[Group chats]
-Skupinové rozhovory
-[Thai]
-thajština
-[Japanese]
-japonština
-[Simplified Chinese]
-čínština (zjednodušená)
-[Korean]
-korejština
-[Traditional Chinese]
-čínština (tradiční)
-[Central European]
-středoevropský
-[Cyrillic]
-cyrilika
-[Latin I]
-západní
-[Greek]
-řečtina
-[Turkish]
-turečtina
-[Hebrew]
-hebrejština
-[Arabic]
-arabština
-[Baltic]
-pobaltský
-[Vietnamese]
-vietnamština
-[Korean (Johab)]
-korejština (Johab)
-;file \plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\chat_main.cpp
 [Messaging]
 Rozhovor
-[Navigate: previous tab]
-Přejít na předchozí panel
-[Navigate: next tab]
-Přejít na další panel
-[Navigate: tab %d]
-Přejít na panel č.%d
-[Window: Toggle status bar]
-Přepnout stavový řádek
-[Window: Toggle title bar]
-Přepnout záhlaví okna
-[Window: Toggle toolbar]
-Přepnout nástrojovou lištu
-[Window: Toggle info bar]
-Přepnout informační lištu
-[Window: Clear log]
-Vymazat záznam
-[Window: Minimize]
-Minimalizovat okno
-[Window: Close tab]
-Zavřít panel
-[Action: Quote]
-Vložit citaci
-[Action: Send to all]
-Poslat všem
-[Action: Paste and send]
-Vložit text a poslat
-;file \plugins\Scriver\src\msgdialog.cpp
-[Quote]
-Citovat
-[User menu]
-Nabídka kontaktu
-[User details]
-Informace o uživateli
-[History]
-Historie
-[Send]
-Poslat
-[Look up '%s':]
-Vyhledat '%s':
-[No word to look up]
-Není co vyhledat
-[Add contact permanently to list]
-Přidat do seznamu natrvalo
-[View user's details]
-Zobrazit osobní údaje
-[View user's history]
-Zobrazit historii
-[Quote text]
-Citovat text
-[User menu - %s]
-Uživatelské menu - %s
-[Sending in progress: %d message(s) left...]
-Odesílání; počet zpráv k odeslání: %d
-[%s is typing a message...]
-%s píše zprávu...
-[Last message received on %s at %s.]
-Poslední zpráva přijata %s v %s.
-;file \plugins\Scriver\src\msglog.cpp
-[Me]
-Já
-[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies
-[to tiny bits, in Thy mercy]
-to tiny bits, in Thy mercy
-[My contact]
-Můj kontakt
-[Lorem ipsum dolor sit amet,]
-Lorem ipsum dolor sit amet,
-[consectetur adipisicing elit]
-consectetur adipisicing elit
-[Today]
-Dnes
-[Yesterday]
-Včera
-[File sent]
-Odeslaný soubor
-[File received]
-Přijatý soubor
-[URL sent]
-Odeslaný odkaz
-[URL received]
-Přijatý odkaz
-;file \plugins\Scriver\src\msgoptions.cpp
-[General]
-Obecné
-[Event log]
-Záznam událostí
-[Group chat log]
-Záznam rozhovorů
-[Outgoing messages]
-Odchozí zprávy
-[Outgoing background]
-Pozadí odchozích zpráv
-[Incoming messages]
-Příchozí zprávy
-[Incoming background]
-Pozadí příchozích zpráv
-[Outgoing name]
-Odchozí jméno
-[Outgoing time]
-Odchozí čas
-[Outgoing colon]
-Odchozí dvojtečka
-[Incoming name]
-Příchozí jméno
-[Incoming time]
-Příchozí čas
-[Incoming colon]
-Příchozí dvojtečka
-[Message area]
-Oblast se zprávou
-[Input area background]
-Pozadí psaní zprávy
-[Outgoing URL]
-Odchozí odkaz
-[Incoming URL]
-Příchozí odkaz
-[Info bar contact name]
-Jméno v informační liště
-[Info bar background]
-Pozadí informační lišty
-[Info bar status message]
-Stav v informační liště
-[Line between messages]
-Oddělovač mezi zprávami
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Na chvíli pryč
-[Not available]
-Nejsem tady
-[Occupied]
-Nemám čas
-[Do not disturb]
-Nerušit!
-[Free for chat]
-Mám volno
-[Invisible]
-Neviditelný
-[Out to lunch]
-Na obědě
-[On the phone]
-Na telefonu
-[** New contacts **]
-** nové kontakty **
-[** Unknown contacts **]
-** neznámé kontakty **
-[Message sessions]
-Komunikace
-[Typing notify]
-Psaní zprávy
-;file \plugins\Scriver\src\msgs.cpp
-[Message from %s]
-Zpráva od: %s
-[%s is typing a message]
-%s píše zprávu
-[Typing notification]
-Upozornění na psaní zprávy
-[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Chybí knihovna Msftedit.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte emulaci WINE, doinstalujte si tuto knihovnu. Stiskněte 'Ano' pro pokračování v načítání Mirandy.
-[Instant messages]
-Zprávy
-[Incoming (focused window)]
-Příchozí (aktivní okno)
-[Incoming (unfocused window)]
-Příchozí (neaktivní okno)
-[Incoming (new session)]
-Příchozí (nová konverzace)
-[Outgoing]
-Odchozí
-[Contact started typing]
-Kontakt začal psát
-[Contact stopped typing]
-Kontakt přestal psát
-;file \plugins\Scriver\src\msgtimedout.cpp
-[An unknown error has occurred.]
-Neznámá chyba.
-;file \plugins\Scriver\src\msgwindow.cpp
-[Always on top]
-Vždy navrchu
-;file \plugins\Scriver\src\sendqueue.cpp
-[The message send timed out.]
-Překročen časový limit odeslání zprávy.
-;file \plugins\Scriver\src\chat\main.cpp
-;file \plugins\Scriver\src\chat\options.cpp
+[Group chats]
+Skupinové rozhovory
+;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Zablikat oknem při napsání zprávy
 [Flash when a word is highlighted]
@@ -799,46 +458,7 @@ Vzhled
 Výchozí události, které se mají zobrazit, pokud je filtr událostí aktivní
 [Select folder]
 Vyberte požadovanou složku
-[Popups]
-Oznámení
-;file \plugins\Scriver\src\chat\tools.cpp
-[&Message %s]
-&Zpráva pro '%s'
-;file \plugins\Scriver\src\chat\window.cpp
-[Italic]
-Kurzíva
-[Underline]
-Podtržené
-[Filter]
-Filtr
-[Manager]
-Manager
-[Nick list]
-Seznam přezdívek
-[Make the text bold (CTRL+B)]
-Změní styl písma na tučné (CTRL+B)
-[Make the text italicized (CTRL+I)]
-Změní styl písma na kurzívu (CTRL+I)
-[Make the text underlined (CTRL+U)]
-Změní styl písma na podtržené (CTRL+U)
-[Select a background color for the text (CTRL+L)]
-Změní barvu pozadí textu (CTRL+L)
-[Select a foreground color for the text (CTRL+K)]
-Změní barvu textu (CTRL+K)
-[Show the history (CTRL+H)]
-Zobrazí historii (CTRL+H)
-[Show/hide the nick list (CTRL+N)]
-Zobrazí/skryje seznam účastníků (CTRL+N)
-[Control this room (CTRL+O)]
-Možnosti řízení kanálu (CTRL+O)
-[Enable/disable the event filter (CTRL+F)]
-Aktivuje/deaktivuje filtrování událostí (CTRL+F)
-[Nickname]
-Přezdívka
-[Unique ID]
-Identifikátor
-[Status]
-Stavy
+;file \plugins\Scriver\src\chat_window.cpp
 [%s: chat room (%u user)]
 %s: kanál (účastníků: %u)
 [%s: chat room (%u users)]
@@ -847,3 +467,356 @@ Stavy
 %s: rozhovor
 [%s: message session (%u users)]
 %s: rozhovor (účastníků: %u)
+[Nickname]
+Přezdívka
+[Unique ID]
+Identifikátor
+[Status]
+Stavy
+;file \plugins\Scriver\src\globals.cpp
+[Add contact]
+Přidat kontakt
+[User's details]
+Osobní údaje
+[User's history]
+Historie komunikace
+[Send message]
+Poslat zprávu
+[Smiley button]
+Smajlík
+[User is typing]
+Indikace psaní zprávy
+[Typing notification off]
+Indikace psaní vypnuta
+[Sending]
+Odesílání
+[Quote button]
+Citovat text
+[Close button]
+Tlačítko Zavřít
+[Icon overlay]
+Překryvná ikona
+[Incoming message (10x10)]
+Příchozí zpráva (10x10)
+[Outgoing message (10x10)]
+Odchozí zpráva (10x10)
+[Notice (10x10)]
+Poznámka (10x10)
+[Window Icon]
+Ikona okna
+[Text color]
+Barva textu
+[Background color]
+Barva pozadí
+[Bold]
+Tučné
+[Italics]
+Kurzíva
+[Underlined]
+Podtržené
+[Room history]
+Historie místnosti
+[Room settings]
+Nastavení místnosti
+[Event filter disabled]
+Filtrování událostí deaktivováno
+[Event filter enabled]
+Filtrování událostí aktivováno
+[Hide nick list]
+Skrýt seznam účastníků
+[Show nick list]
+Zobrazit seznam účastníků
+[Status 1 (10x10)]
+Stav č.1 (10x10)
+[Status 2 (10x10)]
+Stav č.2 (10x10)
+[Status 3 (10x10)]
+Stav č.3 (10x10)
+[Status 4 (10x10)]
+Stav č.4 (10x10)
+[Status 5 (10x10)]
+Stav č.5 (10x10)
+[Status 6 (10x10)]
+Stav č.6 (10x10)
+[Message in (10x10)]
+Příchozí zpráva (10x10)
+[Message out (10x10)]
+Odchozí zpráva (10x10)
+[Action (10x10)]
+Akce (10x10)
+[Add Status (10x10)]
+Přidat stav (10x10)
+[Remove status (10x10)]
+Odebrat stav (10x10)
+[Join (10x10)]
+Přidat (10x10)
+[Leave (10x10)]
+Opustit (10x10)
+[Quit (10x10)]
+Ukončit (10x10)
+[Kick (10x10)]
+Vykopnout (10x10)
+[Nickchange (10x10)]
+Změna přezdívky (10x10)
+[Topic (10x10)]
+Téma (10x10)
+[Highlight (10x10)]
+Zvýraznění (10x10)
+[Information (10x10)]
+Informace (10x10)
+[Single Messaging]
+Běžný rozhovor
+[Thai]
+thajština
+[Japanese]
+japonština
+[Simplified Chinese]
+čínština (zjednodušená)
+[Korean]
+korejština
+[Traditional Chinese]
+čínština (tradiční)
+[Central European]
+středoevropský
+[Cyrillic]
+cyrilika
+[Latin I]
+západní
+[Greek]
+řečtina
+[Turkish]
+turečtina
+[Hebrew]
+hebrejština
+[Arabic]
+arabština
+[Baltic]
+pobaltský
+[Vietnamese]
+vietnamština
+[Korean (Johab)]
+korejština (Johab)
+;file \plugins\Scriver\src\input.cpp
+[Navigate: Previous tab]
+Přejít na předchozí panel
+[Navigate: Next tab]
+Přejít na další panel
+[Navigate: Tab %d]
+Přejít na panel č.%d
+[Window: Toggle status bar]
+Přepnout stavový řádek
+[Window: Toggle title bar]
+Přepnout záhlaví okna
+[Window: Toggle toolbar]
+Přepnout nástrojovou lištu
+[Window: Toggle info bar]
+Přepnout informační lištu
+[Window: Clear log]
+Vymazat záznam
+[Window: Minimize]
+Minimalizovat okno
+[Window: Close tab]
+Zavřít panel
+[Action: Quote]
+Vložit citaci
+[Action: Send to all]
+Poslat všem
+[Action: Paste and send]
+Vložit text a poslat
+;file \plugins\Scriver\src\msgdialog.cpp
+[Sending in progress: %d message(s) left...]
+Odesílání; počet zpráv k odeslání: %d
+[%s is typing a message...]
+%s píše zprávu...
+[Last message received on %s at %s.]
+Poslední zpráva přijata %s v %s.
+[Look up '%s':]
+Vyhledat '%s':
+[No word to look up]
+Není co vyhledat
+[User menu - %s]
+Uživatelské menu - %s
+;file \plugins\Scriver\src\msglog.cpp
+[Me]
+Já
+[O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies
+[to tiny bits, in Thy mercy]
+to tiny bits, in Thy mercy
+[My contact]
+Můj kontakt
+[Lorem ipsum dolor sit amet,]
+Lorem ipsum dolor sit amet,
+[consectetur adipisicing elit]
+consectetur adipisicing elit
+[Today]
+Dnes
+[Yesterday]
+Včera
+[File sent]
+Odeslaný soubor
+[File received]
+Přijatý soubor
+[URL sent]
+Odeslaný odkaz
+[URL received]
+Přijatý odkaz
+;file \plugins\Scriver\src\msgoptions.cpp
+[Outgoing messages]
+Odchozí zprávy
+[Outgoing background]
+Pozadí odchozích zpráv
+[Incoming messages]
+Příchozí zprávy
+[Incoming background]
+Pozadí příchozích zpráv
+[Outgoing name]
+Odchozí jméno
+[Outgoing time]
+Odchozí čas
+[Outgoing colon]
+Odchozí dvojtečka
+[Incoming name]
+Příchozí jméno
+[Incoming time]
+Příchozí čas
+[Incoming colon]
+Příchozí dvojtečka
+[Message area]
+Oblast se zprávou
+[Input area background]
+Pozadí psaní zprávy
+[Outgoing URL]
+Odchozí odkaz
+[Incoming URL]
+Příchozí odkaz
+[Info bar contact name]
+Jméno v informační liště
+[Info bar background]
+Pozadí informační lišty
+[Info bar status message]
+Stav v informační liště
+[Line between messages]
+Oddělovač mezi zprávami
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Na chvíli pryč
+[Not available]
+Nejsem tady
+[Occupied]
+Nemám čas
+[Do not disturb]
+Nerušit!
+[Free for chat]
+Mám volno
+[Invisible]
+Neviditelný
+[Out to lunch]
+Na obědě
+[On the phone]
+Na telefonu
+[** New contacts **]
+** nové kontakty **
+[** Unknown contacts **]
+** neznámé kontakty **
+[Message sessions]
+Komunikace
+[General]
+Obecné
+[Event log]
+Záznam událostí
+[Group chat log]
+Záznam rozhovorů
+[Typing notify]
+Psaní zprávy
+[Popups]
+Oznámení
+;file \plugins\Scriver\src\msgs.cpp
+[Message from %s]
+Zpráva od: %s
+[%s is typing a message]
+%s píše zprávu
+[Typing notification]
+Upozornění na psaní zprávy
+[&Quote]
+&Citovat
+[Quote]
+Citovat
+[&Add]
+Přid&at
+[Add contact permanently to list]
+Přidat do seznamu natrvalo
+[&User menu]
+Nabídka &uživatele
+[User menu]
+Nabídka kontaktu
+[User &details]
+&Detaily uživatele
+[View user's details]
+Zobrazit osobní údaje
+[&History]
+&Historie
+[View user's history (CTRL+H)]
+
+[&Bold]
+&Tučné
+[Make the text bold (CTRL+B)]
+Změní styl písma na tučné (CTRL+B)
+[&Italic]
+&Kurzíva
+[Make the text italicized (CTRL+I)]
+Změní styl písma na kurzívu (CTRL+I)
+[&Underline]
+Pod&tržené
+[Make the text underlined (CTRL+U)]
+Změní styl písma na podtržené (CTRL+U)
+[&Color]
+&Barva
+[Select a foreground color for the text (CTRL+K)]
+Změní barvu textu (CTRL+K)
+[&Background color]
+Barva &pozadí
+[Select a background color for the text (CTRL+L)]
+Změní barvu pozadí textu (CTRL+L)
+[&Room settings]
+&Správa místnosti
+[Control this room (CTRL+O)]
+Možnosti řízení kanálu (CTRL+O)
+[&Show/hide nick list]
+&Přepnout seznam účastníků
+[Show/hide the nick list (CTRL+N)]
+Zobrazí/skryje seznam účastníků (CTRL+N)
+[&Filter]
+&Filtr
+[Enable/disable the event filter (CTRL+F)]
+Aktivuje/deaktivuje filtrování událostí (CTRL+F)
+[&Message]
+&Zpráva
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
+Chybí knihovna Msftedit.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte emulaci WINE, doinstalujte si tuto knihovnu. Stiskněte 'Ano' pro pokračování v načítání Mirandy.
+[Instant messages]
+Zprávy
+[Incoming (focused window)]
+Příchozí (aktivní okno)
+[Incoming (unfocused window)]
+Příchozí (neaktivní okno)
+[Incoming (new session)]
+Příchozí (nová konverzace)
+[Outgoing]
+Odchozí
+[Contact started typing]
+Kontakt začal psát
+[Contact stopped typing]
+Kontakt přestal psát
+;file \plugins\Scriver\src\msgtimedout.cpp
+[An unknown error has occurred.]
+Neznámá chyba.
+;file \plugins\Scriver\src\sendqueue.cpp
+[The message send timed out.]
+Překročen časový limit odeslání zprávy.
+;file \plugins\Scriver\src\tabs.cpp
+[Always on top]
+Vždy navrchu

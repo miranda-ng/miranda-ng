@@ -37,6 +37,7 @@
 [Avatars' plugin connections]
 [Avatars: server return HTTP code: %lu]
 [Avatars: can't open file %s, error]
+[Inviter]
 [invite sender]
 [invite new members]
 [Your contact wakes you]

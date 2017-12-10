@@ -8,45 +8,45 @@
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 AOL Instant Messenger (AIM) protokol pro Mirandu NG.
 ;file \protocols\AimOscar\res\aim.rc
-[AIM User Details]
+[AIM user details]
 Informace o kontaktu
-[Screen Name:]
+[Screen name:]
 Identifikátor:
-[Display Name:]
+[Display name:]
 Zobr. jméno:
 [Password:]
 Heslo:
-[AIM Options]
+[AIM options]
 Možnosti AIM
-[Message Delivery Confirmation]
+[Message delivery confirmation]
 Potvrdit doručení zprávy
-[Do Not Autoreply When Away]
+[Do not autoreply when away]
 Vypnout automatické odpovědi
-[Convert Incoming Messages to BBCode]
+[Convert incoming messages to BBCode]
 Konvertovat příchozí zprávy do BBCode
-[Convert Outgoing Messages to HTML]
+[Convert outgoing messages to HTML]
 Konvertovat odchozí zprávy do HTML
-[Disable Avatars]
+[Disable avatars]
 Vypnout avatary
-[Disable Account Type Icons]
+[Disable account type icons]
 Vypnout informace o typu účtu
-[Disable Extended Status Icons]
+[Disable extended status icons]
 Vypnout rozšířené stavové ikony
 [Notify about new mail]
 Upozornit na novou poštu
-[Manage Server Groups]
-Spravovat skupiny na serveru
-[Advanced Options]
-Pro experty
-[Instant Idle on Login]
+[Manage server groups]
+Zapnout správu skupin na serveru
+[Advanced options]
+Pokročilé možnosti
+[Instant idle on login]
 Po přihlášení nečinnost
-[Force Proxy File Transfers]
+[Force proxy file transfers]
 Data přenášet jen přes proxy server
-[Masquerade as a Sidekick/Hiptop User]
+[Masquerade as a Sidekick/Hiptop user]
 Vydávat se za uživatele Sidekick/Hiptop
 [Connection]
 Spojení
-[Login Server:]
+[Login server:]
 Server:
 [Port:]
 Port:
@@ -54,25 +54,25 @@ Port:
 Reset
 [Disable SSL]
 Vypnout SSL
-[Force Single Client]
+[Force single client]
 Vynutit jediného klienta
 [Use "clientlogin" (recommended)]
 Použít "clientlogin" (doporučeno)
 [* Some changes will take effect the next time you connect to the AIM network]
 * Některé změny se projeví až po opětovném připojení k síti AIM.
-[Save Profile]
+[Save profile]
 Uložit profil
 [Create a new AIM account]
 Zřídit nový účet v síti AIM
-[AIM Instant Idler]
+[AIM instant idler]
 AIM :: Nečinnost
-[Number of Hours:]
+[Number of hours:]
 Počet hodin:
-[Number of Minutes:]
+[Number of minutes:]
 Počet minut:
-[Set Idle]
+[Set idle]
 Nastavit
-[Unset Idle]
+[Unset idle]
 Zrušit
 [Users who can contact me:]
 Pravidla pro komunikaci:
@@ -94,9 +94,9 @@ Odebrat
 Nečinnost
 [Allow contacts to be notified of:]
 Povolit kontaktům upozornění na:
-[Join Chat Room]
+[Join chat room]
 Připojit se do diskuse
-[Chat Room]
+[Chat room]
 Diskusní místnost
 [&Join]
 Při&jít
@@ -104,7 +104,7 @@ Při&jít
 &Zrušit
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 Toto umožní přístup k uživatelským diskuzním místnostem. Pro přístup k předdefinovaným místnostem použijte webové odkazy
-[Change Password]
+[Change password]
 Změnit heslo
 [Original]
 Původní
@@ -114,23 +114,23 @@ Nový
 Opakovat
 [*Passwords don't match.]
 *Hesla se neshodují.
-[Screen Name]
+[Screen name]
 Identifikátor
 [E-mail]
 E-mail
-[Confirm Account]
+[Confirm account]
 Potvrdit účet
 [*Applied upon reconnect]
 *Platnost až po dalším připojení
-[Save Changes]
+[Save changes]
 Uložit změny
-[Invite Buddy To Chat Room]
+[Invite buddy to chat room]
 Pozvat přítele
 [&Invite]
 &Pozvat
 [Invitation reason]
 Důvod pozvání
-[Chat Room Invitation Request]
+[Chat room invitation request]
 Pozvánka ke skupinovému rozhovoru
 [&Deny]
 O&dmítnout
@@ -152,9 +152,9 @@ Pozvat k d&iskusi...
 [User &history]
 Zobrazit &historii
 ;file \protocols\AimOscar\src\error.cpp
-[Invalid Screen Name or password.]
+[Invalid screen name or password.]
 Neplatný identifikátor nebo heslo.
-[Mismatched Screen Name or password.]
+[Mismatched screen name or password.]
 Neplatný identifikátor nebo heslo.
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
 Připojujete se příliš často. Zkuste počkat 10 minut před dalším připojením.
@@ -198,7 +198,7 @@ Odesílatel je příliš zlý.
 Příjemce je příliš zlý.
 [User temporarily unavailable.]
 Uživatel je dočasně nedostupný.
-[No Match.]
+[No match.]
 Žádná shoda.
 [List overflow.]
 Přetečení seznamu.
@@ -208,82 +208,82 @@ Pochybný požadavek.
 Fronta na serveru je plná.
 [Not while on AOL.]
 Ne dokud na AOL.
-[Check your Screen Name.]
+[Check your screen name.]
 Zkontrolujte váš identifikátor.
-[Check your Password.]
+[Check your password.]
 Zkontrolujte vaše heslo.
-[Check your Email Address.]
+[Check your email address.]
 Zkontrolujte vaši e-mailovou adresu.
 [Service temporarily unavailable.]
 Služba je dočasně nedostupná.
 [Field change temporarily unavailable.]
 Změna polí je dočasně nedostupná.
-[Invalid Screen Name.]
+[Invalid screen name.]
 Neplatný identifikátor.
-[Invalid Password.]
+[Invalid password.]
 Neplatné heslo.
-[Invalid Email.]
+[Invalid email.]
 Neplatný e-mail.
-[Invalid Registration Preference.]
+[Invalid registration preference.]
 Neplatná registrační preference.
-[Invalid Old Password.]
+[Invalid old password.]
 Neplatné staré heslo.
-[Invalid Screen Name Length.]
+[Invalid screen name Length.]
 Neplatná délka identifikátoru.
-[Invalid Password Length.]
+[Invalid password length.]
 Neplatná délka hesla.
-[Invalid Email Length.]
+[Invalid email length.]
 Neplatná délka e-mailu.
-[Invalid Old Password Length.]
+[Invalid old password length.]
 Neplatná délka starého hesla.
-[Need Old Password.]
+[Need old password.]
 Je vyžadováno staré heslo.
-[Read Only Field.]
+[Read only field.]
 Pole je pouze pro čtení.
-[Write Only Field.]
+[Write only field.]
 Pole je pouze pro zápis.
-[Unsupported Type.]
+[Unsupported type.]
 Nepodporovaný typ.
-[An Error has occurred.]
+[An error has occurred.]
 Nastala chyba.
-[Invalid Account.]
+[Invalid account.]
 Neplatný účet.
-[Delete Account.]
-Smazat účet.
-[Expired Account.]
+[Deleted account.]
+Smazaný účet.
+[Expired account.]
 Vypršený účet.
-[No Database access.]
+[No database access.]
 Není přístup k databázi.
-[Invalid Database fields.]
+[Invalid database fields.]
 Neplatné položky databáze.
-[Bad Database status.]
+[Bad database status.]
 Neplatný stav databáze.
-[Migration Cancel.]
+[Migration cancel.]
 Migrace zrušena.
-[Internal Error.]
+[Internal error.]
 Vnitřní chyba.
-[There is already a Pending Request for this Screen Name.]
+[There is already a pending request for this screen name.]
 Požadavek na tento identifikátor již probíhá.
 [Not DT status.]
 Chybějící stav DT.
-[Outstanding Confirmation.]
+[Outstanding confirmation.]
 Mimořádné potvrzení.
-[No Email Address.]
+[No email address.]
 Chybějící e-mailová adresa.
-[Over Limit.]
+[Over limit.]
 Přes limit.
-[Email Host Fail.]
+[Email host fail.]
 Chyba hostitele e-mailu.
-[DNS Fail.]
+[DNS fail.]
 Chyba DNS.
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 Nepodařilo se otevřít soubor: %s : %s
 ;file \protocols\AimOscar\src\links.cpp
-[AIM Link Protocol]
+[AIM link protocol]
 Odkaz protokolu AIM
 ;file \protocols\AimOscar\src\popup.cpp
-[%s Protocol]
+[%s protocol]
 %s protokol
 [Open mail account?]
 Otevřít poštovní účet?
@@ -293,7 +293,7 @@ Otevřít poštovní účet?
 [%s client-to-client connections]
 %s - přímé spojení mezi klienty
 ;file \protocols\AimOscar\src\server.cpp
-[[Auto-Response]:]
+[[Auto-response]:]
 Autom. odpověď:
 [Contact tried to open an audio/video conference (not currently supported)]
 Kontakt se pokusil otevřít audio/video konferenci (aktuálně není podporována)
@@ -344,69 +344,69 @@ Nelze zahájit potvrzovací proceduru.
 Blokovat
 [Profile]
 Profil
-[AOL Mail]
+[AOL mail]
 Pošta AOL
-[AIM Icon]
+[AIM icon]
 Ikona AIM
 [Hiptop]
 Hiptop
-[AOL Bot]
+[AOL bot]
 Robot AOL
 [Admin]
 Admin
 [Confirmed]
 Potvrzeno
-[Not Confirmed]
+[Not confirmed]
 Nepotvrzeno
 [Blocked list]
 Seznam zablokovaných
-[Foreground Color]
+[Foreground color]
 Barva popředí
-[Background Color]
+[Background color]
 Barva pozadí
 [Bold]
 Tučné
-[Not Bold]
+[Not bold]
 Tučné ne
 [Italic]
 Kurzíva
-[Not Italic]
+[Not italic]
 Kurzíva ne
 [Underline]
 Podtržené
-[Not Underline]
+[Not underline]
 Podtržené ne
 [Subscript]
 Dolní index
-[Not Subscript]
+[Not subscript]
 Dolní index ne
 [Superscript]
 Horní index
-[Not Superscript]
+[Not superscript]
 Horní index ne
-[Normal Script]
+[Normal script]
 Normální písmo
-[Not Normal Script]
+[Not normal script]
 Normální písmo ne
-[Profile Editor]
+[Profile editor]
 Editor profilu
-[AIM Account Type]
+[AIM account type]
 Typ AIM účtu
-[AIM Extended Status]
+[AIM extended status]
 AIM rozšířený stav
 [&Block]
 Za&blokovat
 [&Unblock]
 Od&blokovat
-[Manage Account]
+[Manage account]
 Upravit účet
-[Instant Idle]
+[Instant idle]
 Přejít do nečinnosti
-[Read &HTML Away Message]
+[Read &HTML away message]
 &Přečíst autom. odpověď
-[Read Profile]
+[Read profile]
 Přečíst profil
-[Add To Server List]
+[Add to server list]
 Přidat do seznamu na serveru
 ;file \protocols\AimOscar\src\ui.cpp
 [Network]
@@ -418,7 +418,7 @@ Soukromí
 [Join me in this buddy chat!]
 Přidejte se k této přátelské diskuzi!
 ;file \protocols\AimOscar\src\utility.cpp
-[Please, enter a username in the options dialog.]
+[Please, enter a user name in the options dialog.]
 Zadejte prosím uživatelské jméno v nastavení.
 [Please, enter a password in the options dialog.]
 Zadejte prosím heslo v nastavení.

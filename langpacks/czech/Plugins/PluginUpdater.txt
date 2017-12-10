@@ -50,8 +50,8 @@ Vývojová verze s debug symboly
 Vlastní verze
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Některé komponenty byly aktualizovány.\nJe nutné restartovat Mirandu pro použití nainstalovaných aktualizací.
-[Change platform to x86]
-Změnit platformu na x86
+[Change platform to 32-bit]
+Změnit platformu na 32-bit
 [Notifications]
 Upozornění
 [Restart]
@@ -174,8 +174,8 @@ Stabilní verze (nekompatibilní s aktuální vývojovou verzí)
 hodin
 [days]
 dnů
-[Change platform to x64]
-Změnit platformu na x64
+[Change platform to 64-bit]
+Změnit platformu na 64-bit
 [Test]
 Ověřit
 [Services]

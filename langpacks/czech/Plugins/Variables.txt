@@ -102,8 +102,8 @@ zkonvertuje 32bitové číslo do formátu IP(v4) adresy (zohlední pořadí bajt
 Logické výrazy
 [performs logical AND (x && y && ...)]
 logické AND (x && y && ...)
-[Boolean FALSE]
-Boolean FALSE
+[boolean FALSE]
+boolean FALSE
 [performs w, then shows z and performs y while x is TRUE]
 smyčka FOR (provede w, pak zobrazí z a provádí y dokud je x TRUE)
 [shows y if x is TRUE, otherwise it shows z]
@@ -128,8 +128,8 @@ je-li x delší než y, pak TRUE
 logické NOT (!x)
 [performs logical OR (x || y || ...)]
 logické OR (x || y || ...)
-[Boolean TRUE]
-Boolean TRUE
+[boolean TRUE]
+boolean TRUE
 [performs logical XOR (x ^ y)]
 logické XOR (x ^ y)
 ;file \plugins\Variables\src\parse_math.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.0.0
+;  Version: 0.3.3.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -46,6 +46,10 @@ Automaticky ignorovat změnu stavu
 Zobrazit větší avatary
 [Prefer real names instead of nicknames]
 Preferovat reálná jména namísto přezdívek
+[Load also Messenger contacts at login (not only Facebook friends)]
+
+[Use Invisible status for Facebook Pages (instead of Offline)]
+
 [Popup notifications]
 Oznámení
 [Show notifications]
@@ -82,6 +86,12 @@ Vypnout chat na Facebooku při odpojení v Mirandě
 Pro nepodporované stavy použít Neviditelný (nikoli Na chvíli pryč)
 [Allow posting statuses to my pages (may slow down login)]
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
+[Advanced]
+Extra
+[Send typing notifications even when Invisible]
+
+[Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
+
 [Bots challenge test]
 Kontrola robotů
 [Instruction:]
@@ -136,6 +146,8 @@ Pozvat k d&iskusi...
 Zobrazit &historii
 [Notifications]
 Upozornění
+[%s and more (%d)]
+%s a další (%d)
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Chyba připojení: %s
@@ -208,8 +220,6 @@ Přátelé kromě známých
 [Only me]
 Jenom já
 ;file \protocols\FacebookRM\src\contacts.cpp
-[%s and more (%d)]
-%s a další (%d)
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.
 [Error occurred when removing contact from server.]
@@ -258,10 +268,10 @@ GIF
 Uživatel odeslal %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Uživatel odeslal nepodporovanou přílohu. Otevřte webový prohlížeč pro její zobrazení.
-[This message is no longer available, because it was marked as abusive or spam.]
-Tato zpráva již není dostupná, protože byla označena jako urážlivá nebo spam.
 [%s is typing a message...]
 %s píše zprávu...
+[This message is no longer available, because it was marked as abusive or spam.]
+Tato zpráva již není dostupná, protože byla označena jako urážlivá nebo spam.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.
@@ -278,8 +288,26 @@ Načteno zpráv: %d/%d
 Načítání historie dokončeno.
 [<attachment without text>]
 <příloha bez textu>
+[Loading memories...]
+Načítání vzpomínek...
 [On this day]
 V tento den
+[Found %d memories.]
+
+[Loading notifications...]
+Načítání upozornění...
+[Found %d notifications.]
+
+[Loading friendship requests...]
+Načítání požadavků o přátelství...
+[Found %d friendship requests (%d seen).]
+
+[Found %d friendship requests.]
+
+[Loading wall posts...]
+Načítání příspěvků ze zdi...
+[Found %d wall posts.]
+
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
@@ -301,14 +329,6 @@ Komunikace
 Sdílet stav...
 [Own wall]
 Vlastní zeď
-[Loading wall posts...]
-Načítání příspěvků ze zdi...
-[Loading friendship requests...]
-Načítání požadavků o přátelství...
-[Loading notifications...]
-Načítání upozornění...
-[Loading memories...]
-Načítání vzpomínek...
 [Loading history is already in progress. It can't run for more contacts at once so please wait until it finishes.]
 Načítání historie již probíhá a nemůže být spuštěno pro více kontaktů najednou. Počkejte prosím na jeho dokončení.
 [This will load all messages from the server. To avoid having duplicate messages in your history, delete existing messages manually before continuing.\nLoading process might take a while, so be patient.\n\nDo you want to continue?]

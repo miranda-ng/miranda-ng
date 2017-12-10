@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.2.5
+;  Version: 0.1.3.0
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -51,6 +51,8 @@ Ostatní
 [Shorten links for audio attachments]
 
 [Use non-standard popups for news and event notifications]
+
+[Add message link to messages with attachments]
 
 [News and event notifications]
 
@@ -126,11 +128,11 @@ Vždy upozornit všechny příchozí zprávy jako nepřečtené
 
 [Invisible interval timeout (min):]
 
-[Use non-standard urlEncode for sent messages (less traffic)]
-
 [Send VK-objects links as attachments]
 
 [and load sent attachments]
+
+[Notify about changes of contacts audio broadcast]
 
 [When I ban user...]
 
@@ -162,15 +164,17 @@ Skupinové rozhovory
 
 [Language for names and titles:]
 
-[Server-side delivery confirmation]
-
-[Use local time for received messages]
-Použít lokální čas počítače pro příchozí zprávy
-[Automatically wipe local contacts missing in your friend list]
-
 [Mark message as read:]
 
 [Sync history on protocol online:]
+
+[Load last messages when message window open and local history is empty]
+
+[Use local time for received messages]
+Použít lokální čas počítače pro příchozí zprávy
+[Load only friends to local contact list]
+
+[Server-side delivery confirmation]
 
 [Bots challenge test]
 Kontrola robotů
@@ -241,6 +245,12 @@ Chyba
 
 [Access to adding post denied]
 
+[Can't send messages for users from blacklist]
+
+[Can't send messages for users without dialogs]
+
+[Can't send messages to this user due to their privacy settings]
+
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 
 [Attention!]
@@ -299,12 +309,12 @@ Přílohy:
 Audio
 [Video]
 Video
+[Link]
+Adresa
 [Document]
 Dokument
 [Wall post]
 Příspěvek na zdi
-[Link]
-Adresa
 [Product]
 
 [Price]
@@ -319,11 +329,19 @@ Nepodporovaný nebo neznámý typ přílohy: %s
 Zpráva od
 [at]
 
+[User restored control over own page]
+
+[User was deactivated (deleted)]
+
+[User was deactivated (banned)]
+
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Účastníci
 [Owners]
 Vlastníci
+[Message link]
+
 [create chat]
 
 [kick user]
@@ -372,6 +390,14 @@ Vy&kopnout
 [Enter the text you see]
 Zadejte text, který vidíte
 [Wall message for %s]
+
+[You delete %s from the contact list.\nWhat needs to be done additionally?]
+
+[Remove %s from your friend list]
+
+[Clear server history with %s]
+
+[Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [New news]
@@ -448,6 +474,7 @@ Protokol je offline
 
 [Loading messages for %s is completed.]
 
+;file \protocols\VKontakte\src\vk_messages.cpp
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Sítě
@@ -502,7 +529,7 @@ Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní 
 
 [Mark messages as read]
 
-[Send message to user\'s wall]
+[Send message to user's wall]
 
 [Add as friend]
 
@@ -528,6 +555,8 @@ Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní 
 Chyby
 [Notification]
 Oznámení
+[VK user activate/deactivate action]
+
 [User %s added as friend]
 
 [You cannot add yourself as friend]
@@ -544,10 +573,12 @@ Oznámení
 [Enter new status message]
 
 ;file \protocols\VKontakte\src\vk_struct.cpp
-[I\'m back]
+[I'm back]
 
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
+
+[%s is listening to]
 
 [Interests]
 Zájmy

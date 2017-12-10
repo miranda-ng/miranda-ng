@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Alarms.dll
 ;  Plugin: Alarms
-;  Version: 0.4.0.5
+;  Version: 0.4.0.6
 ;  Authors: Scott Ellis
 ;============================================================
 [Sets once-off, daily, weekly and weekday alarms.]
@@ -84,8 +84,6 @@ Co týden
 Každý den
 [Weekdays]
 Dny v týdnu
-[Monthly]
-Co měsíc
 [Yearly]
 Co rok
 [i'm hiding]
@@ -98,6 +96,24 @@ Vypnout příští oznámení
 Neupozorňovat při spuštění
 [No reminder]
 Bez upozornění
+[Selected days]
+Vybrané dny
+[Mon]
+Po
+[Tue]
+Út
+[Wed]
+St
+[Thu]
+Čt
+[Fri]
+Pá
+[Sat]
+So
+[Sun]
+Ne
+[Monthly]
+Co měsíc
 [Dismiss]
 Vyřízeno
 [Snooze]

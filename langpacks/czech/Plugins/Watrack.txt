@@ -652,3 +652,7 @@ Stav WATracku
 Povolit WATrack
 [Disable WATrack]
 Zakázat WATrack
+[Check unknown formats]
+
+[Check unknown file formats if player gives info.]
+

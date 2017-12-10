@@ -200,12 +200,6 @@ Neplatná substituce
 <bez titulku>
 [Add item]
 Přidat položku
-[Add separator]
-Přidat oddělovač
-[Move up]
-Přesunout nahoru
-[Move down]
-Přesunout dolů
 [No icon]
 Bez ikony
 [Icon on left]
@@ -478,6 +472,16 @@ Hodnoty
 Titulek oznam.oblasti
 [Tipper]
 Tipy
+[Copy item]
+
+[Arrow up]
+
+[Arrow down]
+
+[Reload]
+Načíst znovu
+[Apply]
+Použít
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 žena

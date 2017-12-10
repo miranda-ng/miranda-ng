@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.11.0.3
+;  Version: 0.95.7.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -310,6 +310,16 @@ DCC: Žádost o navázání přenosu souborů od %s odmítnuta
 Odpověď na žádost CTCP PING od %s: %u sek.
 [CTCP %s reply from %s: %s]
 Odpověď na žádost CTCP %s: %s
+[Owner]
+Něco o sobě
+[Admin]
+Admin
+[Op]
+
+[Halfop]
+
+[Voice]
+Hlas
 [Downloading list (%u%%) - %u channels]
 Stahování seznamu (%u %%) - %u kanálů
 [Downloading list - %u channels]

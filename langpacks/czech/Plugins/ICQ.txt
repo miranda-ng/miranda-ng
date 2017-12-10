@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.4
+;  Version: 0.11.3.6
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -110,8 +110,6 @@ Po změně vrátit výchozí rozšířený stav
 Automaticky zjistit rozšířený stav
 [Block known Spam Bots]
 Blokovat známé spamovací roboty
-[Enable AIM contacts support]
-Podpora kontaktů protokolu AIM
 [Direct connections]
 Přímá spojení
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
@@ -445,8 +443,6 @@ Oblast zájmů č.4
 [Change ICQ Details]
 Upravit informace
 [The password does not match the password you originally entered. Check Caps Lock and try again.]
-
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 
 ;file \protocols\IcqOscarJ\src\dlgproc.cpp
 [<unremovable once applied>]
@@ -1783,6 +1779,8 @@ Rozšířený stav
 [Greeting card:]
 Pohlednice:
 ;file \protocols\IcqOscarJ\src\init.cpp
+[Expand string edit]
+
 [ICQ xStatus]
 ICQ XStatus
 ;file \protocols\IcqOscarJ\src\log.cpp

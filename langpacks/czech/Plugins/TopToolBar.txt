@@ -49,32 +49,37 @@ Vyhledání kontaktů
 Zobrazit nabídku stavu
 [Show/hide offline contacts]
 Zobrazit/skrýt offline uživatele
-[Hide offline contacts]
-Skrýt uživatele offline
 [Show offline contacts]
 Zobrazit offline uživatele
+[Hide offline contacts]
+Skrýt uživatele offline
 [Enable/disable metacontacts]
 Povolit/zakázat metakontakty
-[Disable metacontacts]
-Zakázat metakontakty
 [Enable metacontacts]
 Povolit metakontakty
+[Disable metacontacts]
+Zakázat metakontakty
 [Enable/disable groups]
 Povolit/zakázat skupiny
-[Enable groups]
-Povolit skupiny
 [Disable groups]
 Zakázat skupiny
+[Enable groups]
+Povolit skupiny
 [Enable/disable sounds]
 Povolit/zakázat zvuky
-[Disable sounds]
-Zakázat zvuky
 [Enable sounds]
 Povolit zvuky
+[Disable sounds]
+Zakázat zvuky
 [Minimize contact list]
 Minimalizovat seznam
 [Exit]
 Ukončit
+;file \plugins\TopToolBar\src\main.cpp
+[Execute]
+Spustit
+[Separator]
+Oddělovač
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Výchozí

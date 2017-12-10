@@ -219,8 +219,12 @@ Ryby
 [Avatars: can't open file %s, error]
 
 ;file \protocols\MRA\src\MraChat.cpp
-[Chat plugin is required for conferences. Install it before chatting]
-Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
+[Owners]
+Vlastníci
+[Inviter]
+
+[Visitors]
+Přihlížející
 [invite sender]
 
 [invite new members]
@@ -298,6 +302,8 @@ Nová pošta
 [Send files: requested file: %S - not found in send files list.]
 
 ;file \protocols\MRA\src\MraIcons.cpp
+[Main icon]
+Hlavní ikona
 [Protocols]
 Protokoly
 [MRA]

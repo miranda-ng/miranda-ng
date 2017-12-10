@@ -2,25 +2,23 @@
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar history
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
-[Avatar List Popup]
-
-[Save As...]
+[Save as...]
 Uložit jako...
 [Delete this entry]
 Odstranit vybraný záznam
 [Delete this entry and the bitmap file]
 Odstranit vybraný záznam i s obrázkem
-[Avatar History]
+[Avatar history]
 Historie avatarů
 [Static]
 Statický
-[Open Folder]
+[Open folder]
 Otevřít složku
 [Store this user's old avatars in disk]
 Ukládat avatary kontaktu na disk
@@ -68,7 +66,7 @@ Změna avataru:
 Odstranění avataru:
 [Preview]
 Náhled
-[Avatar History: Select how to store history avatars]
+[Avatar history: Select how to store history avatars]
 Historie avatarů: Vyberte způsob ukládání historie avatarů
 [Please select how the avatar history should be stored. This setting CANNOT be changed in future, because it would cause all previous history to be lost.]
 Prosím vyberte způsob ukládání historie avatarů. Toto nastavení NELZE v budoucnu měnit, protože by to způsobilo ztrátu celé historie avatarů.
@@ -84,62 +82,56 @@ Ukládat avatary do složek jednotlivých kontaktů pomocí zástupců
 Ukládat avatary do složek jednotlivých kontaktů
 [History is stored inside Miranda database. It can be seen by History++ or Avatar History internal viewer.]
 Uloží historii do databáze Mirandy. Zobrazíte ji pomocí History++ nebo interním prohlížečem.
-[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar hash>]
 Umístění na disku: <profil>\\Avatars History\\<hash_avataru>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash>]
 Umístění na disku: <profil>\\Avatars History\\<protokol>\\<hash_avataru>
-[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Umístění na disku: <profil>\\Avatars History\\<protokol>\\<hash_avataru>, přičemž zástupce najdete v <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<časový údaj>
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 Uloží historii avatarů pouze na disk. Zobrazíte ji interním prohlížečem.
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
 Umístění na disku: <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<časový údaj> (stejný obrázek může být uložen víckrát!)
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
-[Avatar History for %s]
-
+[Avatar history for %s]
+Historie avatarů pro %s
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Opravdu chcete odstranit vybraný záznam v historii?\nTímto odstraníte pouze položku v historii, obrázek zůstane na disku!
 [Delete avatar log?]
 Odstranit záznam?
 [Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
 Opravdu chcete odstranit vybraného zástupce?\nTímto odstraníte pouze zástupce, obrázek zůstane na disku!
-[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING: This can affect more than one entry in history!]
 Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte záznam z historie i s obrázkem.\nVAROVÁNÍ: Tato operace může ovlivnit více položek v historii!
 [Delete avatar?]
 Odstranit avatar?
-[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING: This can affect more than one shortcut!]
 Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte zástupce i s obrázkem.\nVAROVÁNÍ: Tato operace může ovlivnit více zástupců!
-[Avatar History is empty!]
+[Avatar history is empty!]
 
-[avatar path is null.]
+[Avatar path is null.]
 
-[View Avatar History]
+[View avatar history]
 Zobrazit historii avatarů
-[Save Avatar for %s]
-
-[Save Avatar]
-
+[Save avatar for %s]
+Uložit avatar pro %s
+[Save avatar]
+Uložit avatar
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[AVH Debug]
-
-[Removed avatar, no avatar before... skipping]
-
-[Hashes are the same... skipping]
-
-[Avatar History: Unable to save avatar]
-
-[AVH Debug: File copied successfully]
-
+[Avatar history: Unable to save avatar]
+Historie avatarů: Nelze uložit avatar
 [Avatars]
 Avatary
+[Avatar History]
+Historie avatarů
 [Contact changed avatar]
-
+Kontakt změnil svůj avatar
 [Contact removed avatar]
-
+Kontakt odstranil svůj avatar
 ;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 Historie
-[Avatar Overlay]
+[Avatar overlay]
 Překrytí avataru
 ;file \plugins\AvatarHistory\src\options.cpp
 [Do nothing]
@@ -150,7 +142,7 @@ Zavřít oznámení
 Zobrazit historii avatarů
 [Show contact history]
 Zobrazit historii kontaktu
-[Test Contact]
+[Test contact]
 Testovací kontakt
 [Test description]
 Testovací popis
@@ -158,7 +150,7 @@ Testovací popis
 Avatar
 [Popups]
 Oznámení
-[Avatar Change]
+[Avatar change]
 Změna avataru
 ;file \plugins\AvatarHistory\src\stdafx.h
 [removed his/her avatar]
@@ -166,13 +158,9 @@ odstranil(a) svůj avatar
 [changed his/her avatar]
 změnil(a) svůj avatar
 ;file \plugins\AvatarHistory\src\utils.cpp
-[Unknown Protocol]
-neznámý protokol
+[Unknown protocol]
+Neznámý protokol
 [Unknown UIN]
-neznámé UIN
-[AVH Debug: GetOldStyleAvatarName]
-
-[Avatar History: Unable to create shortcut]
-
-[AVH Debug: Shortcut created successfully]
-
+Neznámé UIN
+[Avatar history: Unable to create shortcut]
+Historie avatarů: Nelze vytvořit zástupce

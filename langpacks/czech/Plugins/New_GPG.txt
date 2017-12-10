@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: New_GPG.dll
 ;  Plugin: GPG
-;  Version: 0.0.0.13
+;  Version: 0.0.0.14
 ;  Authors: sss
 ;============================================================
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
 
 ;file \plugins\New_GPG\res\new_gpg.rc
-[Load Public GPG key]
+[Load public GPG key]
 
 [Load from file]
 
@@ -154,7 +154,7 @@ Původní heslo:
 
 [Strip all tags in outgoing messages]
 
-[Turn on presence signing (Jabber) (required by XEP 0-27)]
+[Turn on presence signing (Jabber) (required by XEP-0027)]
 
 [Export keys]
 
@@ -164,8 +164,6 @@ Původní heslo:
 [GPG Turn off encryption]
 
 [GPG Turn on encryption]
-
-[Load GPG public key]
 
 [Toggle GPG encryption]
 

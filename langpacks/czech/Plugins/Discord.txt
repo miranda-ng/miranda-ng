@@ -1,0 +1,91 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.5.1.2
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+
+;file \protocols\Discord\res\discord.rc
+[User details]
+Informace o uživateli
+[E-mail:]
+E-mail:
+[Password:]
+Heslo:
+[Contacts]
+Kontakty
+[Default group:]
+Výchozí skupina:
+[Hide guild chats on startup]
+
+[Nick:]
+Přezdívka:
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+
+;file \protocols\Discord\src\groupchat.cpp
+[Change &nickname]
+Změ&nit přezdívku
+[Channel control]
+
+[Change &topic]
+
+[&Rename channel]
+
+[&Destroy channel]
+
+[&Invite a user]
+Pozvat už&ivatele
+[Do you really want to destroy this channel? This action is non-revertable.]
+
+[Enter new channel name:]
+
+[Enter new topic:]
+
+[Enter your new nick name:]
+
+;file \protocols\Discord\src\main.cpp
+[Main icon]
+Hlavní ikona
+[Group chats]
+Skupinové rozhovory
+;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+
+[Enter invitation code you received]
+
+[Do you really want to leave the guild?]
+
+[Join guild]
+
+[Copy my Discord ID]
+
+[Leave guild]
+
+[Create new channel]
+
+[Copy Discord ID]
+
+;file \protocols\Discord\src\options.cpp
+[Network]
+Sítě
+[Account]
+Účet
+;file \protocols\Discord\src\proto.cpp
+[%s server connection]
+%s - spojení se serverem
+[%s gateway connection]
+
+[User ID]
+Identifikátor
+[Protocol is offline or user isn't authorized yet]
+
+;file \protocols\Discord\src\utils.cpp
+[Attachment]
+
+[Embed]
+
+[Preview]
+Náhled

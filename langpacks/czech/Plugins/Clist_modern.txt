@@ -2,58 +2,12 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.5
+;  Version: 0.9.1.7
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Zobrazuje kontakty, upozornění na události, stavy protokolů a umožňuje pokročilé úpravy vzhledu. Podporuje rámečky a rozšířenou práci s metakontakty.
 ;file \plugins\Clist_modern\res\resource.rc
-[Transparency:]
-Průhlednost:
-[Window behavior:]
-Chování okna:
-[List sorting:]
-Řazení seznamu:
-[Status bar:]
-Stavová lišta:
-[List content:]
-Položky seznamu:
-[Show counts of number of contacts in a group]
-Zobrazit počet kontaktů ve skupině
-[Hide group counts when there are none online]
-Skrýt počet kontaktů ve skupině, jsou-li všichni offline
-[1st:]
-1)
-[2nd:]
- 2)
-[3rd:]
-3)
-[Always on top]
-Vždy navrchu
-[Hide contact list after]
-Skrýt seznam kontaktů po
-[seconds]
-sek.
-[Fade contact list in/out]
-Plynule přejít mezi zobrazením a skrytím
-[Transparent contact list]
-Povolit průhlednost seznamu kontaktů
-[Inactive opacity:]
-Neaktivní okno:
-[Active opacity:]
-Aktivní okno:
-[Show avatars]
-Zobrazit avatary
-[Animate avatars]
-Animovat avatary
-[Show contact time in list]
-Zobrazit čas kontaktu
-[Compact mode]
-Kompaktní režim
-[Show protocol names]
-Zobrazit názvy protokolů
-[Show status text]
-Zobrazit stav
 [Settings]
 Nastavení
 [Background color:]
@@ -124,6 +78,8 @@ Skupina
 Stav
 [Automatically clear this view mode after]
 Automaticky vymazat vybraný režim zobrazení po
+[seconds]
+sek.
 [View mode options]
 Možnosti režimu zobrazení
 [Editing view mode]
@@ -160,6 +116,8 @@ Nastavit pro každý účet zvlášť
 Povolit vlastní nastavení účtu
 [Hide account completely]
 Skýt účet úplně
+[Show protocol names]
+Zobrazit názvy protokolů
 [Show status name]
 Zobrazit název stavu
 [Show xStatus name]
@@ -214,6 +172,12 @@ Kontakty offline nepřesouvat na konec
 Seznam kontaktů
 [Contact list sorting]
 Řazení seznamu kontaktů
+[1st:]
+1)
+[2nd:]
+ 2)
+[3rd:]
+3)
 [Place offline users out of groups]
 Kontakty offline umístit mimo skupiny
 [Gamma correction]
@@ -230,6 +194,8 @@ Bez výběru
 Způsob výběru
 [Bring to front if covered]
 Při překrytí přenést do popředí
+[Hide contact list after]
+Skrýt seznam kontaktů po
 [Automatically resize window to height of list]
 Podle položek automaticky změnit výšku okna
 [maximum]
@@ -296,6 +262,10 @@ Zešednout neaktivní kontakty
 Skupiny
 [Draw a line alongside group names]
 Zobrazit vedle názvu skupin čáru
+[Show counts of number of contacts in a group]
+Zobrazit počet kontaktů ve skupině
+[Hide group counts when there are none online]
+Skrýt počet kontaktů ve skupině, jsou-li všichni offline
 [Sort groups alphabetically]
 Seřadit skupiny podle abecedy
 [Quicksearch in open groups only]
@@ -370,6 +340,8 @@ Zobrazit čas pouze když se liší od místního
 Zobrazit čas kontaktu jako položku řádku
 [Appearance]
 Vzhled
+[Always on top]
+Vždy navrchu
 [Pin to desktop]
 Připíchnout na plochu
 [Client area margins]
@@ -390,6 +362,14 @@ Zjednodušené záhlaví okna
 Minimalizovat do ozn. oblasti
 [Translucency options]
 Průhlednost
+[Fade contact list in/out]
+Plynule přejít mezi zobrazením a skrytím
+[Transparent contact list]
+Povolit průhlednost seznamu kontaktů
+[Inactive opacity:]
+Neaktivní okno:
+[Active opacity:]
+Aktivní okno:
 [Enable drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
 [Frames]
@@ -432,6 +412,8 @@ Pravý okraj:
 Kompaktní režim (zobrazí avatary a další informace pouze u vybraného kontaktu)
 [Draw border on avatar]
 Orámovat avatary
+[Show avatars]
+Zobrazit avatary
 [Draw overlay icons]
 Překrývat upřesňujícími ikonami
 [Max size (pixels):]
@@ -454,6 +436,8 @@ Ikona kontaktu
 výška
 [width]
 Šířka
+[Animate avatars]
+Animovat avatary
 [Use old render method (fast, but has artifacts)]
 Použít staré vykreslování (rychlé, ale zanechává stopy)
 [Hide icon when showing avatar]
@@ -659,10 +643,6 @@ Nastavení výchozího kontaktu
 Chcete odstranit kontakt '%s' z metakontaktu '%s' a přidat jej do '%s'?
 [Changing metacontacts (moving)]
 Změna metakontaktu (přesun)
-[Clist Modern requires AVS plugin to be present. Install it using PluginUpdater or download from https://wiki.miranda-ng.org/Download]
-Clist Modern vyžaduje použití doplňku AVS. Nainstalujte jej pomocí Aktualizátoru nebo jej stáhněte ručně z https://wiki.miranda-ng.org/Download
-[Error loading plugin]
-Chyba při načítání doplňku
 [Skins]
 Skiny
 [Modern contact list]
@@ -864,10 +844,10 @@ Seznam kontaktů
 [My Contacts]
 Seznam kontaktů
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
-[Close Miranda]
-Ukončit program Miranda
 [Main]
 Hlavní
+[Close Miranda]
+Ukončit program Miranda
 [Restore last status]
 Obnovit předchozí stav
 [Show/Hide offline users]

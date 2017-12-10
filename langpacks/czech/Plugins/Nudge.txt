@@ -87,9 +87,9 @@ Drcnutí
 Výchozí drcnutí
 [Nudge as Default]
 Drcnutí jako výchozí
-[Send Nudge]
+[Send nudge]
 Drc-drc
-[Send &Nudge]
+[Send &nudge]
 &Drc-drc
 [Show Nudge]
 Drcnutí

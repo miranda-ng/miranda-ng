@@ -15,6 +15,10 @@ Viditelné jméno:
 ;file \protocols\MinecraftDynmap\src\chat.cpp
 [Server]
 Server
+[Admin]
+Admin
+[Normal]
+Normální
 [You]
 Vy
 ;file \protocols\MinecraftDynmap\src\communication.cpp

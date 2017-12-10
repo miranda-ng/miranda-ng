@@ -80,10 +80,6 @@ Nová zpráva
 Nová kategorie
 [Delete]
 Smazat
-[Status messages:]
-Stavové zprávy:
-[Configure autoaway]
-
 [Wait]
 Počkat
 [seconds before closing the status message dialog (-1=don't close)]

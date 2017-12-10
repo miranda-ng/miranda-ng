@@ -353,7 +353,7 @@ Neplatné kódování
 Najít CSS soubor
 [Export and Delete]
 Exportovat a smazat
-[Import and Marge]
+[Import and Merge]
 Importovat a sjednotit
 [Minute]
 minuta
@@ -414,8 +414,6 @@ Filtr:
 [Conversation started at %s]
 Rozhovor začal %s
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[_files]
-_soubory
 [Menu]
 Menu
 [Open all]

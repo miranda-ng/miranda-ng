@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.12.2.3
+;  Version: 0.12.2.5
 ;  Authors: Miranda NG Team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -195,7 +195,5 @@ Zvuk zrušení příchozího hovoru
 [Skypename]
 Skype jméno
 ;file \protocols\SkypeWeb\src\skype_trouter.cpp
-[Failed to establish a TRouter connection.]
-Nelze navázat TRouter spojení.
 [Incoming call from %s]
 Příchozí hovor (%s)

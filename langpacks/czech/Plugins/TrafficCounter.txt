@@ -32,7 +32,7 @@ Barva textu:
 Obnovit výchozí
 [Popup timeout]
 Doba zobrazení
-[From Popup plugin]
+[From popup plugin]
 Globální nastavení
 [Custom]
 Vlastní

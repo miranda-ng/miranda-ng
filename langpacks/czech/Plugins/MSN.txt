@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN protocol
-;  Version: 0.12.1.2
+;  Version: 0.14.0.1
 ;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes, leecher
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
@@ -111,6 +111,10 @@ Identifikátor
 [Add]
 Přidat
 ;file \protocols\MSN\src\msn_chat.cpp
+[Admin]
+Admin
+[User]
+Uživatel
 [Chat #]
 Diskuse č.
 [&Invite user...]
@@ -132,30 +136,6 @@ Zobrazit &historii
 %I64u bajtů
 [MSN Alert]
 Upozornění MSN
-[Contact tried to open an audio conference (not currently supported)]
-Kontakt se pokusil začít hlasovou konferenci (aktuálně není podporováno)
-[Accept NetMeeting request from %s?]
-Přijmout NetMeeting požadavek od %s?
-[MSN Protocol]
-Protokol MSN
-[Chat session established by my request]
-Spojení navázáno (vlastní žádost)
-[Chat session established by contact request]
-Spojení navázáno (žádost protistrany)
-[Contact left channel]
-Kontakt odešel z kanálu
-[This conversation has been inactive, participants will be removed.]
-Tato konverzace byla delší dobu neaktivní, účastníci budou odpojeni.
-[To resume the conversation, please quit this session and start a new chat session.]
-Chcete-li v konverzaci pokračovat, ukončete tuto relaci a vytvořte novou.
-[There is only 1 person left in the chat, do you want to switch back to standard message window?]
-Konverzace probíhá jen s jedním člověkem. Chcete přepnout do klasického komunikačního okna?
-[MSN Chat]
-MSN :: diskuse
-[Others]
-Ostatní
-[Message delivery failed]
-Zpráva nebyla doručena
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Uživatel není online
@@ -196,10 +176,6 @@ Za&blokovat
 Přečíst poštu &Hotmail
 [Send &Hotmail E-mail]
 E-mail přes &Hotmail
-[You must be talking to start Netmeeting]
-Začněte mluvit, Netmeeting se spustí automaticky.
-[Set &Nickname]
-&Nastavit přezdívku...
 [Create &Chat]
 Začít &diskusi
 [Display &Hotmail Inbox]
@@ -208,8 +184,6 @@ Přečíst poštu &Hotmail
 Zobrazit profil
 [Setup Live &Alerts]
 N&astavit upozornění
-[&Start Netmeeting]
-Spustit Netmeetin&g
 ;file \protocols\MSN\src\msn_misc.cpp
 [Custom Smileys]
 Vlastní smajlíky
@@ -217,7 +191,8 @@ Vlastní smajlíky
 Oznámení
 [Error]
 Chyba
-;file \protocols\MSN\src\msn_msgqueue.cpp
+[MSN Protocol]
+Protokol MSN
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 Ikona protokolu
@@ -269,11 +244,6 @@ Spojení
 Seznamy
 [Notifications]
 Upozornění
-;file \protocols\MSN\src\msn_p2p.cpp
-[Contact tried to send its webcam data (not currently supported)]
-Kontakt se pokusil odeslat data ze své webkamery (aktuálně není podporováno)
-[Contact tried to view your webcam data (not currently supported)]
-Kontakt se pokusil zobrazit data z vaší webkamery (aktuálně není podporováno)
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Nová pošta (Live)
@@ -300,6 +270,3 @@ Pro LCS kontakty není umožněna offline komunikace
 MSN protokol vyžaduje časový interval pro odeslání zprávy 60 sek. a vyšší. Opravte prosím nastavenou hodnotu.
 [Convert to Chat]
 Převést na chat
-;file \protocols\MSN\src\msn_ws.cpp
-[Chat session dropped due to inactivity]
-Spojení ukončeno (neaktivní)
