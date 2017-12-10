@@ -1462,3 +1462,43 @@ int facebook_json_parser::parse_messages_count(std::string *data, int *messagesC
 
 	return EXIT_SUCCESS;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+JSONNode& operator<<(JSONNode &json, const NULL_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, nullptr));
+	return json;
+}
+
+JSONNode& operator<<(JSONNode &json, const JSON_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.node));
+	return json;
+}
+
+JSONNode& operator<<(JSONNode &json, const INT_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.iValue));
+	return json;
+}
+
+JSONNode& operator<<(JSONNode &json, const BOOL_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.bValue));
+	return json;
+}
+
+JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.szValue));
+	return json;
+}
+
+JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue)).get()));
+	return json;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////

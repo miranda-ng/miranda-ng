@@ -24,20 +24,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define _FACEBOOK_REQUEST_HISTORY_H_
 
 // getting thread info and messages
-// revised 17.8.2016
+// revised 3.12.2017
 class ThreadInfoRequest : public HttpRequest
 {
 public:
 	// Request only messages history
 	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, int offset, const char *timestamp, int limit) :
-		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/thread_info.php")
+		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
 	{
-		Url
-			<< "dpr=1";
-
 		setCommonBody(fc);
 
-		const char *type = isChat ? "thread_fbids" : "user_ids";
+		// FIXME: FB removed /ajax/mercury/thread_info requests and now all messaging stuff does through /api/graphqlbatch/ - all loading of threads, (unread) messages, list of contacts in groupchat, etc.
+		// All these request must be rewritten to the new request. Preparation is below but unfinished.
+
+		//const char *type = isChat ? "thread_fbids" : "user_ids";
 		std::string id_ = id; // FIXME: Rewrite this without std::string...
 		if (isChat) {
 			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
@@ -46,6 +46,38 @@ public:
 		}
 		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
+
+		JSONNode root, o0, query_params;
+
+		int before = -1;
+
+		query_params
+			<< CHAR_PARAM("id", id_) // TODO: Do I have to encode the id? And remove that first "id." at the begin as we do above?
+			<< INT_PARAM("message_limit", limit)
+			<< INT_PARAM("load_messages", 1)
+			<< BOOL_PARAM("load_read_receipts", false);
+
+		if (before != -1) {
+			query_params << INT_PARAM("before", before);
+		}
+		else {
+			query_params << NULL_PARAM("before");
+		}
+
+		o0
+			<< CHAR_PARAM("doc_id", id)
+			<< JSON_PARAM("query_params", query_params);
+
+		root << JSON_PARAM("o0", o0);
+
+		Body
+			<< "batch_name=MessengerGraphQLThreadFetcherRe"
+			<< CHAR_VALUE("queries", root.write().c_str());
+
+		// example request data we need to send: { "o0":{"doc_id":"456789456123","query_params" : {"id":"123456789","message_limit" : 20,"load_messages" : 1,"load_read_receipts" : false,"before" : null}} }
+
+		
+		/*
 		//if (loadMessages) {
 			// Grrr, offset doesn't work at all, we need to use timestamps to get back in history...
 			// And we don't know, what's timestamp of first message, so we need to get from latest to oldest
@@ -55,7 +87,7 @@ public:
 				<< CMStringA(::FORMAT, "%s[offset]=%i", begin.c_str(), offset).c_str()
 				<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin.c_str(), timestamp).c_str()
 				<< CMStringA(::FORMAT, "%s[limit]=%i", begin.c_str(), limit).c_str();
-		//}
+		//}*/
 
 		/*if (loadThreadInfo) {
 			data += "&threads[" + type + "][0]=" + idEncoded;
@@ -64,11 +96,8 @@ public:
 
 	// Request only thread info // TODO: Make it array of ids
 	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id) :
-		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/thread_info.php")
+		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
 	{
-		Url
-			<< "dpr=1";
-
 		setCommonBody(fc);
 
 		const char *type = isChat ? "thread_fbids" : "user_ids";
@@ -86,11 +115,8 @@ public:
 
 	// Request both thread info and messages for single contact/chat
 	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, int limit) :
-		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/thread_info.php")
+		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
 	{
-		Url
-			<< "dpr=1";
-
 		setCommonBody(fc);
 
 		const char *type = isChat ? "thread_fbids" : "user_ids";
@@ -116,11 +142,8 @@ public:
 
 	// Request both thread info and messages for more threads
 	ThreadInfoRequest(facebook_client *fc, const LIST<char> &ids, int offset, int limit) :
-		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/thread_info.php")
+		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
 	{
-		Url
-			<< "dpr=1";
-
 		setCommonBody(fc);
 
 		for (int i = 0; i < ids.getCount(); i++) {
@@ -146,7 +169,6 @@ private:
 	void setCommonBody(facebook_client *fc)
 	{
 		Body
-			<< "client=mercury"
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
 			<< CHAR_VALUE("__dyn", fc->__dyn())
 			<< CHAR_VALUE("__req", fc->__req())
@@ -155,7 +177,11 @@ private:
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
 			<< "__a=1"
 			<< "__pc=PHASED:DEFAULT"
-			<< "__be=-1";
+			<< "__be=1"
+			<< "jazoest="
+			<< "__spin_r="
+			<< "__spin_b="
+			<< "__spin_t=";
 	}
 };
 
@@ -183,6 +209,8 @@ public:
 			<< "__a=1"
 			<< "__pc=PHASED:DEFAULT"
 			<< "__be=-1";
+
+		//queries={"o0":{"doc_id":"2003371749678240","query_params":{"limit":99,"before":null,"tags":["PENDING","unread"],"includeDeliveryReceipts":true,"includeSeqID":false}}}
 	}
 };
 

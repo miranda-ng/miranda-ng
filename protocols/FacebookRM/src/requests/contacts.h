@@ -36,7 +36,7 @@ public:
 
 
 // getting info about particular friend
-// revised 17.8.2016
+// revised 3.12.2017
 class UserInfoRequest : public HttpRequest
 {
 public:
@@ -60,7 +60,11 @@ public:
 			<< CHAR_VALUE("__rev", fc->__rev())
 			<< "__a=1"
 			<< "__pc=PHASED:DEFAULT"
-			<< "__be=-1";
+			<< "__be=1"
+			<< "jazoest="
+			<< "__spin_r="
+			<< "__spin_b="
+			<< "__spin_t=";
 	}
 };
 

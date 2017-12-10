@@ -47,3 +47,63 @@ public:
 		this->proto = proto;
 	}
 };
+
+struct PARAM
+{
+	LPCSTR szName;
+	__forceinline PARAM(LPCSTR _name) : szName(_name)
+	{}
+};
+
+struct NULL_PARAM : public PARAM
+{
+	__forceinline NULL_PARAM(LPCSTR _name) : PARAM(_name)
+	{}
+};
+
+struct JSON_PARAM : public PARAM
+{
+	JSONNode node;
+	__forceinline JSON_PARAM(LPCSTR _name, JSONNode _node) :
+		PARAM(_name), node(_node)
+	{}
+};
+
+struct BOOL_PARAM : public PARAM
+{
+	bool bValue;
+	__forceinline BOOL_PARAM(LPCSTR _name, bool _value) :
+		PARAM(_name), bValue(_value)
+	{}
+};
+
+struct INT_PARAM : public PARAM
+{
+	int iValue;
+	__forceinline INT_PARAM(LPCSTR _name, int _value) :
+		PARAM(_name), iValue(_value)
+	{}
+};
+
+struct CHAR_PARAM : public PARAM
+{
+	LPCSTR szValue;
+	__forceinline CHAR_PARAM(LPCSTR _name, LPCSTR _value) :
+		PARAM(_name), szValue(_value)
+	{}
+};
+
+struct WCHAR_PARAM : public PARAM
+{
+	LPCWSTR wszValue;
+	__forceinline WCHAR_PARAM(LPCSTR _name, LPCWSTR _value) :
+		PARAM(_name), wszValue(_value)
+	{}
+};
+
+JSONNode& operator<<(JSONNode &json, const NULL_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const JSON_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const INT_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const BOOL_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param);
+JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
