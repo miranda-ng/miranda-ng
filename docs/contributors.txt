@@ -13,7 +13,6 @@ Alexander Lantsev aka Unsane
 Eugene Lishnevsky aka elishnevsky
 Vlad Mironov aka mironych
 Victor Pavlychko aka nullbie
-Robert Pösel aka Robyer
 Konstantin Romanov aka Kildor
 Nikolai Romanovich aka MikalaiR
 Ivan Rozhuk aka rozhuk
@@ -24,8 +23,9 @@ Tobias Weimer aka Wishmaster
 
 Sound pack is developed by Andre Louis aka onj
 
-People that previously used to develop Miranda IM Project:
+People that previously used to develop Miranda IM/NG Project:
 
+Robert Pösel aka Robyer
 Alexey Oblezov aka faith_healer
 Ulrich Hecht aka fishbone
 Vitaly Igonin aka persei
