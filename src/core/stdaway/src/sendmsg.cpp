@@ -27,42 +27,41 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static DWORD protoModeMsgFlags;
 static HWND hwndStatusMsg;
 
-static const wchar_t *GetDefaultMessage(int status)
+static const wchar_t* GetDefaultMessage(int status)
 {
-	switch(status) {
-		case ID_STATUS_AWAY: return TranslateT("I've been away since %time%.");
-		case ID_STATUS_NA: return TranslateT("Give it up, I'm not in!");
-		case ID_STATUS_OCCUPIED: return TranslateT("Not right now.");
-		case ID_STATUS_DND: return TranslateT("Give a guy some peace, would ya?");
-		case ID_STATUS_FREECHAT: return TranslateT("I'm a chatbot!");
-		case ID_STATUS_ONLINE: return TranslateT("Yep, I'm here.");
-		case ID_STATUS_OFFLINE: return TranslateT("Nope, not here.");
-		case ID_STATUS_INVISIBLE: return TranslateT("I'm hiding from the mafia.");
+	switch (status) {
+		case ID_STATUS_AWAY:       return TranslateT("I've been away since %time%.");
+		case ID_STATUS_NA:         return TranslateT("Give it up, I'm not in!");
+		case ID_STATUS_OCCUPIED:   return TranslateT("Not right now.");
+		case ID_STATUS_DND:        return TranslateT("Give a guy some peace, would ya?");
+		case ID_STATUS_FREECHAT:   return TranslateT("I'm a chatbot!");
+		case ID_STATUS_ONLINE:     return TranslateT("Yep, I'm here.");
+		case ID_STATUS_OFFLINE:    return TranslateT("Nope, not here.");
+		case ID_STATUS_INVISIBLE:  return TranslateT("I'm hiding from the mafia.");
 		case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
 		case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
-		case ID_STATUS_IDLE: return TranslateT("idleeeeeeee");
+		case ID_STATUS_IDLE:       return TranslateT("idleeeeeeee");
 	}
 	return nullptr;
 }
 
-static const char *StatusModeToDbSetting(int status, const char *suffix)
+static const char* StatusModeToDbSetting(int status, const char *suffix)
 {
 	const char *prefix;
 	static char str[64];
 
-	switch(status)
-	{
-		case ID_STATUS_AWAY:		prefix = "Away";		break;
-		case ID_STATUS_NA:			prefix = "Na";			break;
-		case ID_STATUS_DND:			prefix = "Dnd";			break;
-		case ID_STATUS_OCCUPIED:	prefix = "Occupied";	break;
-		case ID_STATUS_FREECHAT:	prefix = "FreeChat";	break;
-		case ID_STATUS_ONLINE:		prefix = "On";			break;
-		case ID_STATUS_OFFLINE:		prefix = "Off";			break;
-		case ID_STATUS_INVISIBLE:	prefix = "Inv";			break;
-		case ID_STATUS_ONTHEPHONE:	prefix = "Otp";			break;
-		case ID_STATUS_OUTTOLUNCH:	prefix = "Otl";			break;
-		case ID_STATUS_IDLE:		prefix = "Idl";			break;
+	switch (status) {
+		case ID_STATUS_AWAY:       prefix = "Away";     break;
+		case ID_STATUS_NA:         prefix = "Na";       break;
+		case ID_STATUS_DND:        prefix = "Dnd";      break;
+		case ID_STATUS_OCCUPIED:   prefix = "Occupied"; break;
+		case ID_STATUS_FREECHAT:   prefix = "FreeChat"; break;
+		case ID_STATUS_ONLINE:     prefix = "On";       break;
+		case ID_STATUS_OFFLINE:    prefix = "Off";      break;
+		case ID_STATUS_INVISIBLE:  prefix = "Inv";      break;
+		case ID_STATUS_ONTHEPHONE: prefix = "Otp";      break;
+		case ID_STATUS_OUTTOLUNCH: prefix = "Otl";      break;
+		case ID_STATUS_IDLE:       prefix = "Idl";      break;
 		default: return nullptr;
 	}
 	mir_snprintf(str, "%s%s", prefix, suffix);
@@ -84,26 +83,26 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 	if (szProto && !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
 		return nullptr;
 
-	if ( GetStatusModeByte(statusMode, "Ignore"))
+	if (GetStatusModeByte(statusMode, "Ignore"))
 		return nullptr;
 
 	DBVARIANT dbv;
-	if ( GetStatusModeByte(statusMode, "UsePrev")) {
-		if ( db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
+	if (GetStatusModeByte(statusMode, "UsePrev")) {
+		if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
 			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 	}
 	else {
-		if ( db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
+		if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
 			dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusMode));
 
-		for (int i=0; dbv.ptszVal[i]; i++) {
+		for (int i = 0; dbv.ptszVal[i]; i++) {
 			if (dbv.ptszVal[i] != '%')
 				continue;
 
 			wchar_t substituteStr[128];
-			if ( !wcsnicmp(dbv.ptszVal + i, L"%time%", 6)) {
-				MIRANDA_IDLE_INFO mii = { sizeof(mii) };
-				CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+			if (!wcsnicmp(dbv.ptszVal + i, L"%time%", 6)) {
+				MIRANDA_IDLE_INFO mii;
+				Idle_GetInfo(mii);
 
 				if (mii.idleType == 1) {
 					int mm;
@@ -117,14 +116,14 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 				}
 				else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, _countof(substituteStr));
 			}
-			else if ( !wcsnicmp(dbv.ptszVal + i, L"%date%", 6))
+			else if (!wcsnicmp(dbv.ptszVal + i, L"%date%", 6))
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, _countof(substituteStr));
 			else continue;
 
 			if (mir_wstrlen(substituteStr) > 6)
 				dbv.ptszVal = (wchar_t*)mir_realloc(dbv.ptszVal, (mir_wstrlen(dbv.ptszVal) + 1 + mir_wstrlen(substituteStr) - 6) * sizeof(wchar_t));
 			memmove(dbv.ptszVal + i + mir_wstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_wstrlen(dbv.ptszVal) - i - 5) * sizeof(wchar_t));
-			memcpy(dbv.ptszVal+i, substituteStr, mir_wstrlen(substituteStr) * sizeof(wchar_t));
+			memcpy(dbv.ptszVal + i, substituteStr, mir_wstrlen(substituteStr) * sizeof(wchar_t));
 		}
 	}
 	return dbv.ptszVal;
@@ -132,10 +131,9 @@ static wchar_t* GetAwayMessage(int statusMode, char *szProto)
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_CHAR:
-		if (wParam == '\n' && GetKeyState(VK_CONTROL) & 0x8000)
-		{
+		if (wParam == '\n' && GetKeyState(VK_CONTROL) & 0x8000) {
 			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 			return 0;
 		}
@@ -321,7 +319,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		// If its a single protocol check the PFLAGNUM_3 for the single protocol
 		if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) ||
 			 !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
-			 return 0;
+			return 0;
 	}
 
 	BOOL bScreenSaverRunning = IsScreenSaverRunning();
@@ -539,7 +537,7 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 	protoModeMsgFlags = 0;
 
 	int nAccounts;
-	PROTOACCOUNT** accounts;
+	PROTOACCOUNT **accounts;
 	Proto_EnumAccounts(&nAccounts, &accounts);
 	for (int i = 0; i < nAccounts; i++) {
 		if (!Proto_IsAccountEnabled(accounts[i]))
@@ -560,7 +558,7 @@ static int AwayMsgSendModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-//remember to mir_free() the return value
+// remember to mir_free() the return value
 static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 {
 	return (INT_PTR)GetAwayMessage((int)wParam, (char*)lParam);

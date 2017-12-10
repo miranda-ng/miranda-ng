@@ -49,8 +49,8 @@ int CAimProto::OnIdleChanged(WPARAM, LPARAM lParam)
 
 	if (bIdle)  //don't want to change idle time if we are already idle
 	{
-		MIRANDA_IDLE_INFO mii = { sizeof(mii) };
-		CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+		MIRANDA_IDLE_INFO mii;
+		Idle_GetInfo(mii);
 
 		m_idle = 1;
 		aim_set_idle(m_hServerConn, m_seqno, mii.idleTime * 60);

@@ -31,9 +31,6 @@ for "long" idle. Thie module will generate long/short events based on these user
 and other information too. If you are unsure which idle mode to report for, report it
 for short idle.*/
 
-#define IDF_ISIDLE		0x1 // idle has become active (if not set, inactive)
-#define IDF_PRIVACY		0x8 // if set, the information provided shouldn't be given to third parties.
-
 /*
 	wParam: 0
 	lParam: IDF_* (or'd field)
@@ -47,18 +44,11 @@ for short idle.*/
 		set.
 	Version: 0.3.4a+ (2004/09/16)
 */
-#define ME_IDLE_CHANGED "Miranda/Idle/Changed"
 
-typedef struct {
-	int cbSize;			    // sizeof()
-	int idleTime;	       // idle in mins, if zero then disabled
-	int privacy;		    // user doesnt want other people seeing anything more than they are idle
-	int aaStatus;			 // status to go to when user is auto away
-	int aaLock;				 // the status shouldn't be unset if its set
-	int idleType;
-	int idlesoundsoff;
-}
-	MIRANDA_IDLE_INFO;
+#define IDF_ISIDLE		0x1 // idle has become active (if not set, inactive)
+#define IDF_PRIVACY		0x8 // if set, the information provided shouldn't be given to third parties.
+
+#define ME_IDLE_CHANGED "Miranda/Idle/Changed"
 
 /*
 	wParam; 0
@@ -69,6 +59,23 @@ typedef struct {
 	Version: 0.3.4 (2004/09/16)
 */
 
+struct MIRANDA_IDLE_INFO
+{
+	int cbSize;			    // sizeof()
+	int idleTime;	       // idle in mins, if zero then disabled
+	int privacy;		    // user doesnt want other people seeing anything more than they are idle
+	int aaStatus;			 // status to go to when user is auto away
+	int aaLock;				 // the status shouldn't be unset if its set
+	int idleType;
+	int idlesoundsoff;
+};
+
 #define MS_IDLE_GETIDLEINFO "Miranda/Idle/GetInfo"
+
+__forceinline int Idle_GetInfo(MIRANDA_IDLE_INFO &pInfo)
+{
+	pInfo.cbSize = sizeof(MIRANDA_IDLE_INFO);
+	return CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&pInfo);
+}
 
 #endif // M_IDLE_H__

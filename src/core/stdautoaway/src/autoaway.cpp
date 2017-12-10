@@ -47,8 +47,8 @@ static void Proto_SetStatus(const char *szProto, unsigned status)
 
 static int AutoAwayEvent(WPARAM, LPARAM lParam)
 {
-	MIRANDA_IDLE_INFO mii = { sizeof(mii) };
-	CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+	MIRANDA_IDLE_INFO mii;
+	Idle_GetInfo(mii);
 
 	if (mii.idlesoundsoff)
 		iBreakSounds = (lParam & IDF_ISIDLE) != 0;

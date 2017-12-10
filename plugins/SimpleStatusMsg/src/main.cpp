@@ -204,9 +204,8 @@ wchar_t* InsertBuiltinVarsIntoMsg(wchar_t *in, const char *szProto, int)
 		}
 		else if (!wcsnicmp(msg + i, L"%time%", 6))
 		{
-			MIRANDA_IDLE_INFO mii = {0};
-			mii.cbSize = sizeof(mii);
-			CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+			MIRANDA_IDLE_INFO mii;
+			Idle_GetInfo(mii);
 
 			if (mii.idleType)
 			{
@@ -1268,9 +1267,8 @@ VOID CALLBACK SetStartupStatusProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 
 VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	MIRANDA_IDLE_INFO mii = {0};
-	mii.cbSize = sizeof(mii);
-	CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+	MIRANDA_IDLE_INFO mii;
+	Idle_GetInfo(mii);
 	if (db_get_b(NULL, "SimpleStatusMsg", "NoUpdateOnIdle", 1) && mii.idleType)
 		return;
 
@@ -1436,9 +1434,9 @@ static int OnIdleChanged(WPARAM, LPARAM lParam)
 	if (!(lParam & IDF_ISIDLE))
 		g_iIdleTime = -1;
 
-	MIRANDA_IDLE_INFO mii = {0};
-	mii.cbSize = sizeof(mii);
-	CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+	MIRANDA_IDLE_INFO mii;
+	Idle_GetInfo(mii);
+	
 	if (mii.aaStatus == 0)
 	{
 #ifdef _DEBUG
