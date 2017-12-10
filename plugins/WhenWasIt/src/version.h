@@ -9,6 +9,5 @@
 #define __FILENAME                "WhenWasIt.dll"
 #define __DESCRIPTION             "Notifies you of upcoming birthdays."
 #define __AUTHOR                  "Cristian Libotean"
-#define __AUTHOREMAIL             "eblis102@yahoo.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/WhenWasIt/"
 #define __COPYRIGHT               "© 2006-2011 Cristian Libotean"

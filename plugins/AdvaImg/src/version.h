@@ -9,6 +9,5 @@
 #define __FILENAME             "AdvaImg.dll"
 #define __DESCRIPTION          "Generic image services for Miranda NG."
 #define __AUTHOR               "Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)"
-#define __AUTHOREMAIL          ""
 #define __AUTHORWEB            "https://miranda-ng.org/p/AdvaImg/"
 #define __COPYRIGHT            "© 2000-2012 Miranda-IM project, 2012-17 Miranda NG project uses the FreeImage distribution"

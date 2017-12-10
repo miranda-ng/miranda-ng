@@ -9,6 +9,5 @@
 #define __FILENAME               "DbChecker.dll"
 #define __DESCRIPTION            "Miranda NG Database Checker."
 #define __AUTHOR                 "George Hazan"
-#define __AUTHOREMAIL            "ghazan@miranda-ng.org"
 #define __AUTHORWEB              "https://miranda-ng.org/p/DbChecker/"
 #define __COPYRIGHT              "© 2012-17 George Hazan"

@@ -9,6 +9,5 @@
 #define __FILENAME            "Import.dll"
 #define __DESCRIPTION         "Imports contacts and messages from another Miranda profile or from an external program."
 #define __AUTHOR              "Miranda team"
-#define __AUTHOREMAIL         "info@miranda-im.org"
 #define __AUTHORWEB           "https://miranda-ng.org/p/Import/"
 #define __COPYRIGHT           "© 2012-2017 George Hazan"

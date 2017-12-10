@@ -9,6 +9,5 @@
 #define __FILENAME                 "MobileState.dll"
 #define __DESCRIPTION              "Plugin shows mobile icon in contact list next to contacts which are using mobile client."
 #define __AUTHOR                   "Robert Pösel"
-#define __AUTHOREMAIL              "robyer@seznam.cz"
 #define __AUTHORWEB                "https://miranda-ng.org/p/MobileState/"
 #define __COPYRIGHT                "© 2012-17 Robert Pösel"

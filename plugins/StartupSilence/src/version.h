@@ -15,7 +15,6 @@
 #define __FILENAME               "StartupSilence.dll"
 #define __DESC                  "Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings)."
 #define __AUTHOR               "Vladimir Lyubimov"
-#define __AUTHOREMAIL            ""
 #define __AUTHORWEB               "https://miranda-ng.org/"
 #define __COPYRIGHT               "© 2012-17 Vladimir Lyubimov"
 

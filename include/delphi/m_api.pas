@@ -132,7 +132,6 @@ type
     version    :dword;
     description:PAnsiChar;
     author     :PAnsiChar;
-    authorEmail:PAnsiChar;
     copyright  :PAnsiChar;
     homepage   :PAnsiChar;
     flags      :byte;  // right now the only flag, UNICODE_AWARE, is recognized here

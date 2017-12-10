@@ -7,7 +7,6 @@
 
 #define __DESC                   "Internet Relay Chat (IRC) protocol support for Miranda NG."
 #define __AUTHOR                 "Miranda team"
-#define __AUTHOREMAIL            "ghazan@miranda.im"
 #define __COPYRIGHT              "© 2003-17 Jurgen Persson, George Hazan"
 #define __AUTHORWEB              "https://miranda-ng.org/p/IRC/"
 

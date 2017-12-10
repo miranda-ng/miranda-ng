@@ -7,6 +7,5 @@
 #define __FILENAME               "stduseronline.dll"
 #define __DESCRIPTION            "Core module for user-is-online event processing."
 #define __AUTHOR                 "Miranda NG Development Team"
-#define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdUserOnline/"
 #define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"

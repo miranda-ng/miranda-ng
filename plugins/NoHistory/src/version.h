@@ -9,6 +9,5 @@
 #define __FILENAME               "NoHistory.dll"
 #define __DESCRIPTION             "Prevent Miranda from storing any history."
 #define __AUTHOR               "Scott Ellis, NightFox"
-#define __AUTHOREMAIL            "mail@scottellis.com.au; nightfox@myied.org"
 #define __AUTHORWEB               "https://miranda-ng.org/p/NoHistory/"
 #define __COPYRIGHT               "© 2005 Scott Ellis, 2010-17 NightFox"

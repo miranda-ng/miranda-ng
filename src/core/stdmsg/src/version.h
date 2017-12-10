@@ -8,6 +8,5 @@
 #define __FILENAME               "stdmsg.dll"
 #define __DESCRIPTION             "Core module for send/receive instant messages."
 #define __AUTHOR                 "Miranda NG Development Team"
-#define __AUTHOREMAIL            ""
 #define __AUTHORWEB               "https://miranda-ng.org/p/StdMsg/"
 #define __COPYRIGHT               "© 2012-17 Miranda NG Development Team"

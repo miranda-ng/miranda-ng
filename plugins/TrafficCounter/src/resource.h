@@ -389,7 +389,6 @@
 #define IDC_PLUGINCPYR                  1681
 #define IDC_PLUGINURL                   1682
 #define IDC_PLUGINPID                   1683
-#define IDC_PLUGINEMAIL                 1684
 #define IDC_IDLESPIN                    1687
 #define IDC_NODBDRIVERS                 1690
 #define IDC_IDLESTATUSLOCK              1691

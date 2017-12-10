@@ -9,6 +9,5 @@
 #define __FILENAME               "WhoUsesMyFiles.dll"
 #define __DESCRIPTION            "Scans for network users of your shared files and notify you with popups."
 #define __AUTHOR                 "Nikolay Redko"
-#define __AUTHOREMAIL            "nike000@users.sf.net"
 #define __AUTHORWEB              "https://miranda-ng.org/p/WhoUsesMyFiles/"
 #define __COPYRIGHT              "© 2003 Nike"

@@ -28,6 +28,7 @@
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 [* Restart may be required for all changes to take effect]
 [Skin folder]
+[Download more skins]
 [Available view modes]
 [Include protocols]
 [New]

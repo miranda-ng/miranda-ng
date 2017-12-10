@@ -36,7 +36,6 @@ begin
   PluginInfo.description:='This plugin plays and records Internet radio streams.'+
                           ' Also local media files can be played.';
   PluginInfo.author     :='Awkward';
-  PluginInfo.authorEmail:='panda75@bk.ru; awk1975@ya.ru';
   PluginInfo.copyright  :='(c) 2007-2014 Awkward';
   PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
   PluginInfo.flags      :=UNICODE_AWARE;

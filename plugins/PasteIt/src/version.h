@@ -9,6 +9,5 @@
 #define __FILENAME               "PasteIt.dll"
 #define __DESCRIPTION            "Uploads the text to web page and sends the URL to your friends."
 #define __AUTHOR                 "Krzysztof Kral"
-#define __AUTHOREMAIL            "programista@poczta.of.pl"
 #define __AUTHORWEB              "https://miranda-ng.org/p/PasteIt/"
 #define __COPYRIGHT              "© 2011 Krzysztof Kral"

@@ -9,6 +9,5 @@
 #define __FILENAME               "CSList.dll"
 #define __DESCRIPTION            "This plugin offers simple management functions to keep your extra statuses on one place."
 #define __AUTHOR                 "Mataes, jarvis"
-#define __AUTHOREMAIL            "mataes2007@gmail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/CSList/"
 #define __COPYRIGHT              "© 2010-17 Mataes, 2007-09 jarvis"

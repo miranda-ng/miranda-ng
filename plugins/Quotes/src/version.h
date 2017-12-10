@@ -9,6 +9,5 @@
 #define __FILENAME               "Quotes.dll"
 #define __DESCRIPTION            "Shows currency rates and economic quotes."
 #define __AUTHOR                 "Dioksin"
-#define __AUTHOREMAIL            "dioksin@ua.fm"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Quotes/"
 #define __COPYRIGHT              ""

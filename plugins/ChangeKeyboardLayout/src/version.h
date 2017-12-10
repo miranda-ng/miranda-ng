@@ -9,6 +9,5 @@
 #define __FILENAME               "ChangeKeyboardLayout.dll"
 #define __DESCRIPTION            "Plugin for changing keyboard layout of text (multilayout)."
 #define __AUTHOR                 "Yasnovidyashii"
-#define __AUTHOREMAIL            "Yasnovidyashii@gmail.com"
 #define __AUTHORWEB              "https://miranda-ng.org/p/ChangeKeyboardLayout/"
 #define __COPYRIGHT              "© 2006-2009 Mikhail Yur'ev"

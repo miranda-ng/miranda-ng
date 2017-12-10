@@ -9,6 +9,5 @@
 #define __FILENAME               "ZeroSwitch.dll"
 #define __DESCRIPTION             "Adds Miranda NG icon into Alt-Tab switch dialog even if Miranda's main window has style other Title bar."
 #define __AUTHOR               "ZERO_BiT"
-#define __AUTHOREMAIL            "zero-bit@mail.ru"
 #define __AUTHORWEB               "https://miranda-ng.org/p/ZeroSwitch/"
 #define __COPYRIGHT               "© 2007 ZERO_BiT"

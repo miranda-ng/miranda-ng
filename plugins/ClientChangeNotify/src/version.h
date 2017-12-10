@@ -9,6 +9,5 @@
 #define __FILENAME               "ClientChangeNotify.dll"
 #define __DESCRIPTION             "Shows a notification when someone in your contact list changes his client."
 #define __AUTHOR               "Deathdemon"
-#define __AUTHOREMAIL            "dchervov@yahoo.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/ClientChangeNotify/"
 #define __COPYRIGHT               "© 2006-2008 Chervov Dmitry"

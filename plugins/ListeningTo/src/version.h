@@ -9,6 +9,5 @@
 #define __FILENAME               "ListeningTo.dll"
 #define __DESCRIPTION            "Handles listening information to/for contacts."
 #define __AUTHOR                 "Ricardo Pescuma Domenecci"
-#define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/ListeningTo/"
 #define __COPYRIGHT              "© 2006-2009 Ricardo Pescuma Domenecci"

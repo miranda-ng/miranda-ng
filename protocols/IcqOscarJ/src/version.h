@@ -9,6 +9,5 @@
 #define __FILENAME               "ICQ.dll"
 #define __DESCRIPTION            "ICQ protocol support for Miranda NG."
 #define __AUTHOR                 "Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc."
-#define __AUTHOREMAIL            "jokusoftware@miranda-im.org"
 #define __AUTHORWEB              "https://miranda-ng.org/p/ICQ/"
 #define __COPYRIGHT              "© 2000-17 M.Öberg, R.Hughes, J.Keating, Bio, Angeli-Ka, G.Hazan, J.Kucera"

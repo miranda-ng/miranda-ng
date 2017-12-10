@@ -14,7 +14,6 @@ begin
   PluginInfo.version    :=$00000001;
   PluginInfo.description:='The long description of your plugin, to go in the plugin options dialog';
   PluginInfo.author     :='J. Random Hacker';
-  PluginInfo.authorEmail:='noreply@sourceforge.net';
   PluginInfo.copyright  :='(c) 2003 J. Random Hacker';
   PluginInfo.homepage   :='http://miranda-icq.sourceforge.net/';
   PluginInfo.flags      :=UNICODE_AWARE;

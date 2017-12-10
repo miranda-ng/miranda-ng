@@ -113,7 +113,6 @@ struct PLUGININFOEX
 	DWORD version;
 	char *description;
 	char *author;
-	char *authorEmail;
 	char *copyright;
 	char *homepage;
 	BYTE flags;	   // right now the only flag, UNICODE_AWARE, is recognized here

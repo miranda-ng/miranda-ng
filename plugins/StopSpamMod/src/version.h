@@ -9,6 +9,5 @@
 #define __FILENAME              "StopSpamMod.dll"
 #define __DESCRIPTION           "Anti-spam plugin for Miranda NG."
 #define __AUTHOR                "Roman Miklashevsky, sss, Elzor"
-#define __AUTHOREMAIL           "sss123next@list.ru"
 #define __AUTHORWEB             "https://miranda-ng.org/p/StopSpamMod/"
 #define __COPYRIGHT             "© 2004-2017 Roman Miklashevsky, A. Petkevich, Kosh&chka, sss, Elzor"

@@ -9,6 +9,5 @@
 #define __FILENAME               "UserGuide.dll"
 #define __DESCRIPTION             "This plugin adds the main menu item used to view Miranda NG pack user guide."
 #define __AUTHOR               "Yasnovidyashii"
-#define __AUTHOREMAIL            "yasnovidyashii@gmail.com"
 #define __AUTHORWEB               "https://miranda-ng.org/p/UserGuide/"
 #define __COPYRIGHT               "© 2009 Mikhail Yuriev"

@@ -272,7 +272,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 		return FALSE;
 
 	if (pi->shortName == nullptr || pi->description == nullptr || pi->author == nullptr ||
-		pi->authorEmail == nullptr || pi->copyright == nullptr || pi->homepage == nullptr)
+		pi->copyright == nullptr || pi->homepage == nullptr)
 		return FALSE;
 
 	return TRUE;

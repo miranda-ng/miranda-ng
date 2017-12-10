@@ -136,7 +136,6 @@ begin
   PluginInfo.version:= hppVersion;
   PluginInfo.description:= hppDescription;
   PluginInfo.author:= hppAuthor;
-  PluginInfo.authorEmail:= hppAuthorEmail;
   PluginInfo.copyright:= hppCopyright;
   PluginInfo.homepage:= hppHomePageURL;
   PluginInfo.flags:= UNICODE_AWARE;

@@ -9,6 +9,5 @@
 #define __FILENAME               "OpenSSL.dll"
 #define __DESCRIPTION            "Core driver to provide OpenSSL-based SSL services."
 #define __AUTHOR                 "Miranda NG Team"
-#define __AUTHOREMAIL            ""
-#define __AUTHORWEB              ""
+#define __AUTHORWEB              "https://miranda-ng.org/p/OpenSSL/"
 #define __COPYRIGHT              "© 2014-17 Miranda NG Team"

@@ -168,7 +168,6 @@ const
 
   hppDescription = 'Easy, fast and feature complete history viewer.';
   hppAuthor      = 'theMIROn, Art Fedorov';
-  hppAuthorEmail = 'themiron@mail.ru, artemf@mail.ru';
   hppCopyright   = '© 2006-2009 theMIROn, 2003-2006 Art Fedorov. History+ parts © 2001 Christian Kastner';
 
   hppHomePageURL  = 'https://miranda-ng.org/p/HistoryPP/';

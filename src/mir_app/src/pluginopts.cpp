@@ -44,7 +44,7 @@ struct PluginListItemData
 	wchar_t    fileName[MAX_PATH];
 	HINSTANCE  hInst;
 	int        flags, stdPlugin;
-	wchar_t   *author, *authorEmail, *description, *copyright, *homepage;
+	wchar_t   *author, *description, *copyright, *homepage;
 	MUUID      uuid;
 };
 
@@ -119,7 +119,6 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		ListView_SetItem(hwndList, &it);
 
 		dat->author = sttUtf8auto(pi.pluginInfo->author);
-		dat->authorEmail = sttUtf8auto(pi.pluginInfo->authorEmail);
 		dat->copyright = sttUtf8auto(pi.pluginInfo->copyright);
 		dat->description = sttUtf8auto(pi.pluginInfo->description);
 		dat->homepage = sttUtf8auto(pi.pluginInfo->homepage);
@@ -179,7 +178,6 @@ static void RemoveAllItems(HWND hwnd)
 	while (ListView_GetItem(hwnd, &lvi)) {
 		PluginListItemData *dat = (PluginListItemData*)lvi.lParam;
 		mir_free(dat->author);
-		mir_free(dat->authorEmail);
 		mir_free(dat->copyright);
 		mir_free(dat->description);
 		mir_free(dat->homepage);
@@ -426,7 +424,6 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : L"");
 						SetDlgItemText(hwndDlg, IDC_PLUGINAUTHOR, sel ? dat->author : L"");
-						SetDlgItemText(hwndDlg, IDC_PLUGINEMAIL, sel ? dat->authorEmail : L"");
 						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? dat->description : L"");
 						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, sel ? dat->copyright : L"");
 						SetDlgItemText(hwndDlg, IDC_PLUGINURL, sel ? dat->homepage : L"");
@@ -513,13 +510,10 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				Utils_OpenUrl("https://miranda-ng.org/downloads/");
 				break;
 
-			case IDC_PLUGINEMAIL:
 			case IDC_PLUGINURL:
 				char buf[512];
-				char *p = &buf[7];
-				mir_strcpy(buf, "mailto:");
-				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), p, _countof(buf) - 7))
-					Utils_OpenUrl(LOWORD(wParam) == IDC_PLUGINEMAIL ? buf : p);
+				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), buf, _countof(buf)))
+                      Utils_OpenUrl(buf);
 				break;
 			}
 		}

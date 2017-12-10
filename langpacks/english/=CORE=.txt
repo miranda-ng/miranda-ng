@@ -3,18 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-;file \src\core\stdauth\res\resource.rc
-[Authorization request]
-[&Authorize]
-[&Deny]
-[Decide &later]
-[User &details]
-[Reason:]
-[Denial reason:]
-[Add to contact list if authorized]
-[You were added]
-[&Close]
-[&Add]
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 [&Cancel]
@@ -149,6 +137,7 @@
 [Total size:]
 [Description:]
 [&User menu]
+[User &details]
 [&History]
 [Incoming file transfer]
 [A&ccept]
@@ -157,6 +146,7 @@
 [Date:]
 [Files:]
 [Save to:]
+[&Add]
 [&Open...]
 [Open &folder]
 [Transfer completed, open file(s).]
@@ -201,9 +191,6 @@
 [Ask me]
 [Rename (append " (1)", etc.)]
 [You will always be asked about files from people not on your contact list]
-;file \src\core\stdhelp\res\resource.rc
-[About Miranda NG]
-[Credits >]
 ;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 [Become idle if the screen saver is active]
@@ -368,6 +355,7 @@
 [Open contact's chat window]
 [Custom name:]
 [Group:]
+[Authorization request]
 [&Yes]
 [&No]
 [Contact display options]
@@ -506,6 +494,7 @@
 [Warning!\r\nThis menu object not support user defined options.]
 [Insert submenu]
 [Insert separator]
+[Module:]
 [Service:]
 [Default]
 [Set]
@@ -573,6 +562,16 @@
 [Show in chat rooms]
 [Gap between buttons:]
 [Hide if there isn't enough space]
+[&Authorize]
+[&Deny]
+[Decide &later]
+[Reason:]
+[Denial reason:]
+[Add to contact list if authorized]
+[You were added]
+[&Close]
+[About Miranda NG]
+[Credits >]
 [Tray]
 [&Hide/Show]
 [Nowhere]
@@ -603,25 +602,6 @@
 [Wikipedia (en)]
 [Google Maps]
 [Google Translate]
-;file \src\core\stdauth\src\auth.cpp
-[%s requests authorization]
-[%u requests authorization]
-[%s added you to their contact list]
-[%u added you to their contact list]
-[Alerts]
-[Added event]
-;file \src\core\stdauth\src\authdialogs.cpp
-[View user's details]
-[Add contact permanently to list]
-[<Unknown>]
-[%s added you to the contact list\n%u (%s) on %s]
-[%s added you to the contact list\n%u on %s]
-[%s added you to the contact list\n%s on %s]
-[(Unknown)]
-[%s requested authorization\n%u (%s) on %s]
-[%s requested authorization\n%u on %s]
-[%s requested authorization\n%s on %s]
-[Feature is not supported by protocol]
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 [Re&ad status message]
@@ -689,6 +669,8 @@
 ;file \src\core\stdfile\src\filerecvdlg.cpp
 [Select folder]
 [My received files]
+[Add contact permanently to list]
+[View user's details]
 [View user's history]
 [User menu]
 [Canceled]
@@ -724,14 +706,6 @@
 [Transfer and virus scan complete]
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-[&About...]
-[&Support]
-[&Miranda NG homepage]
-[&Report bug]
 ;file \src\core\stdidle\src\idle.cpp
 [Idle]
 ;file \src\core\stdmsg\src\chat_manager.cpp
@@ -978,9 +952,26 @@
 [View/change my &details...]
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
+[Alerts]
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 [Please authorize my request and add me to your contact list.]
+;file \src\mir_app\src\auth.cpp
+[%s requests authorization]
+[%u requests authorization]
+[%s added you to their contact list]
+[%u added you to their contact list]
+[Added event]
+;file \src\mir_app\src\authdialogs.cpp
+[<Unknown>]
+[%s added you to the contact list\n%u (%s) on %s]
+[%s added you to the contact list\n%u on %s]
+[%s added you to the contact list\n%s on %s]
+[(Unknown)]
+[%s requested authorization\n%u (%s) on %s]
+[%s requested authorization\n%u on %s]
+[%s requested authorization\n%s on %s]
+[Feature is not supported by protocol]
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 [&Open chat window]
@@ -1135,6 +1126,13 @@
 [Headers]
 [Generic text]
 [Small text]
+;file \src\mir_app\src\help.cpp
+[< Copyright]
+[&Help]
+[&About...]
+[&Support]
+[&Miranda NG homepage]
+[&Report bug]
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 [Browser: Forward]

@@ -12,7 +12,6 @@ const
     version    :$00000001;
     description:'The long description of your plugin, to go in the plugin options dialog';
     author     :'J. Random Hacker';
-    authorEmail:'noreply@sourceforge.net';
     copyright  :'(c) 2003 J. Random Hacker';
     homepage   :'http://miranda-icq.sourceforge.net/';
     flags      :UNICODE_AWARE;

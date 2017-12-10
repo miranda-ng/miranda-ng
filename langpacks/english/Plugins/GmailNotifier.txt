@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 0.3.1.1
+;  Version: 1.0.1.1
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
@@ -32,14 +32,13 @@
 [Log unread threads into database (enable history)]
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
-[Can't open Internet!]
-[Can't reach server!]
 [Can't send account data!]
-[Can't get RSS feed!]
 [Wrong name or password!]
+[Can't get RSS feed!]
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 [Gmail: New thread(s)]
+[Gmail Notifier connection]
 [&Check all Gmail inboxes]
 [&Check Gmail inbox]
 ;file \plugins\GmailNotifier\src\options.cpp

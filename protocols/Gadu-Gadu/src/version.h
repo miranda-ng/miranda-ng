@@ -28,6 +28,5 @@
 #define __PLUGIN_NAME             "Gadu-Gadu protocol"
 #define __DESCRIPTION             "Gadu-Gadu protocol support for Miranda NG."
 #define __AUTHOR                  "Bartosz Bialek, Adam Strzelecki"
-#define __AUTHOREMAIL             "dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com"
 #define __COPYRIGHT               "© 2009-2012 Bartosz Bialek, 2003-2009 Adam Strzelecki"
 #define __AUTHORWEB               "https://miranda-ng.org/p/GG/"
