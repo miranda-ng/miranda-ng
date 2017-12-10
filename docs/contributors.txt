@@ -1,23 +1,14 @@
 ﻿Miranda NG is designed, written & supported by:
 
-Bartosz Białek aka Dezeath
 Sergey Bolkhovskoy aka Elzor
 Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
 Ekaterina Gritsenko aka Tuarisa
 George Hazan aka ghazan
-Alexey Koulakov aka Awkward
-Michael Kunz aka Protogenes
-Dmitry Kuzkin aka Bio
 Alexander Lantsev aka Unsane
-Eugene Lishnevsky aka elishnevsky
-Vlad Mironov aka mironych
-Victor Pavlychko aka nullbie
-Konstantin Romanov aka Kildor
 Nikolai Romanovich aka MikalaiR
 Ivan Rozhuk aka rozhuk
 Alexander Shorin aka Kxepal
-Artem Shpynov aka FYR
 Kirill Volinsky aka Mataes
 Tobias Weimer aka Wishmaster
 
@@ -26,6 +17,15 @@ Sound pack is developed by Andre Louis aka onj
 People that previously used to develop Miranda IM/NG Project:
 
 Robert Pösel aka Robyer
+Alexey Koulakov aka Awkward
+Bartosz Białek aka Dezeath
+Michael Kunz aka Protogenes
+Dmitry Kuzkin aka Bio
+Eugene Lishnevsky aka elishnevsky
+Vlad Mironov aka mironych
+Victor Pavlychko aka nullbie
+Konstantin Romanov aka Kildor
+Artem Shpynov aka FYR
 Alexey Oblezov aka faith_healer
 Ulrich Hecht aka fishbone
 Vitaly Igonin aka persei
