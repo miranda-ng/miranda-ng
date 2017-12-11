@@ -126,6 +126,8 @@ LIBJSON_DLL(JSONNode*) json_pop_back(JSONNode *node, const char *name);
 //comparison
 LIBJSON_DLL(int) json_equal(JSONNode *node, JSONNode *node2);
 
+}
+
 #ifdef __cplusplus
 
 class JSONROOT
@@ -142,7 +144,11 @@ public:
 	__forceinline JSONNode* Parse(LPCSTR text) { return (m_node = json_parse(text)); }
 };
 
-}
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT_PARAM &param);
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT64_PARAM &param);
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const BOOL_PARAM &param);
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param);
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
 #endif // __cplusplus
 

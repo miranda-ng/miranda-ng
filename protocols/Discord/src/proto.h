@@ -26,63 +26,10 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	void *pUserInfo;
 };
 
-struct PARAM
-{
-	LPCSTR szName;
-	__forceinline PARAM(LPCSTR _name) : szName(_name)
-	{}
-};
-
-struct BOOL_PARAM : public PARAM
-{
-	bool bValue;
-	__forceinline BOOL_PARAM(LPCSTR _name, bool _value) :
-		PARAM(_name), bValue(_value)
-	{}
-};
-AsyncHttpRequest* operator<<(AsyncHttpRequest*, const BOOL_PARAM&);
-
-struct INT_PARAM : public PARAM
-{
-	int iValue;
-	__forceinline INT_PARAM(LPCSTR _name, int _value) :
-		PARAM(_name), iValue(_value)
-	{}
-};
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
-
-struct INT64_PARAM : public PARAM
-{
-	SnowFlake iValue;
-	__forceinline INT64_PARAM(LPCSTR _name, SnowFlake _value) :
-		PARAM(_name), iValue(_value)
-	{}
-};
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT64_PARAM&);
-
-struct CHAR_PARAM : public PARAM
-{
-	LPCSTR szValue;
-	__forceinline CHAR_PARAM(LPCSTR _name, LPCSTR _value) :
-		PARAM(_name), szValue(_value)
-	{}
-};
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
-
-struct WCHAR_PARAM : public PARAM
-{
-	LPCWSTR wszValue;
-	__forceinline WCHAR_PARAM(LPCSTR _name, LPCWSTR _value) :
-		PARAM(_name), wszValue(_value)
-	{}
-};
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
-
-JSONNode& operator<<(JSONNode &json, const INT_PARAM &param);
-JSONNode& operator<<(JSONNode &json, const INT64_PARAM &param);
-JSONNode& operator<<(JSONNode &json, const BOOL_PARAM &param);
-JSONNode& operator<<(JSONNode &json, const CHAR_PARAM &param);
-JSONNode& operator<<(JSONNode &json, const WCHAR_PARAM &param);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

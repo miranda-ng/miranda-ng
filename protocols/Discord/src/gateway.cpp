@@ -220,7 +220,7 @@ void CDiscordProto::GatewayThreadWorker()
 		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
 
 		// we have some additional data, not only opcode
-		if (bufSize > hdr.headerSize) {
+		if ((size_t)bufSize > hdr.headerSize) {
 			size_t currPacketSize = bufSize - hdr.headerSize;
 			netbuf.append(buf, bufSize);
 			while (currPacketSize < hdr.payloadSize) {

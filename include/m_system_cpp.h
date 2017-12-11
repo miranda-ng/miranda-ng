@@ -319,6 +319,56 @@ public:
 	void remove(size_t sz);
 };
 
+///////////////////////////////////////////////////////////////////////////////
+// parameter classes for XML, JSON & HTTP requests
+
+struct PARAM
+{
+	const char *szName;
+	__forceinline PARAM(const char *_name) : szName(_name)
+	{}
+};
+
+struct BOOL_PARAM : public PARAM
+{
+	bool bValue;
+	__forceinline BOOL_PARAM(const char *_name, bool _value) :
+		PARAM(_name), bValue(_value)
+	{}
+};
+
+struct INT_PARAM : public PARAM
+{
+	int32_t iValue;
+	__forceinline INT_PARAM(const char *_name, int32_t _value) :
+		PARAM(_name), iValue(_value)
+	{}
+};
+
+struct INT64_PARAM : public PARAM
+{
+	int64_t iValue;
+	__forceinline INT64_PARAM(const char *_name, int64_t _value) :
+		PARAM(_name), iValue(_value)
+	{}
+};
+
+struct CHAR_PARAM : public PARAM
+{
+	const char *szValue;
+	__forceinline CHAR_PARAM(const char *_name, const char *_value) :
+		PARAM(_name), szValue(_value)
+	{}
+};
+
+struct WCHAR_PARAM : public PARAM
+{
+	const wchar_t *wszValue;
+	__forceinline WCHAR_PARAM(const char *_name, const wchar_t *_value) :
+		PARAM(_name), wszValue(_value)
+	{}
+};
+
 #endif
 
 #endif // M_SYSTEM_CPP_H

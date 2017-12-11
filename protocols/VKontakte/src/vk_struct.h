@@ -45,38 +45,8 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	bool bNeedsRestart, bIsMainConn;
 };
 
-struct PARAM
-{
-	LPCSTR szName;
-	__forceinline PARAM(LPCSTR _name) : szName(_name)
-	{}
-};
-
-struct INT_PARAM : public PARAM
-{
-	long iValue;
-	__forceinline INT_PARAM(LPCSTR _name, long _value) :
-		PARAM(_name), iValue(_value)
-	{}
-};
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
-
-struct CHAR_PARAM : public PARAM
-{
-	LPCSTR szValue;
-	__forceinline CHAR_PARAM(LPCSTR _name, LPCSTR _value) :
-		PARAM(_name), szValue(_value)
-	{}
-};
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
-
-struct WCHAR_PARAM : public PARAM
-{
-	LPCWSTR wszValue;
-	__forceinline WCHAR_PARAM(LPCSTR _name, LPCWSTR _value) :
-		PARAM(_name), wszValue(_value)
-	{}
-};
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const WCHAR_PARAM&);
 
 struct CVkFileUploadParam : public MZeroedObject {
