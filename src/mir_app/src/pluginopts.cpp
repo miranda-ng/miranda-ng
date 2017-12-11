@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "chat.h"
 #include "plugins.h"
 
-extern MUUID miid_clist, miid_database, miid_protocol, miid_srmm;
 HANDLE hevLoadModule, hevUnloadModule;
 
 static bool bOldMode = false;
@@ -101,7 +100,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	it.mask = LVIF_PARAM | LVIF_IMAGE;
 	it.iImage = (hInst != nullptr) ? 2 : 3;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
-	if (bNoCheckbox || hasMuuid(pi, miid_clist) || hasMuuid(pi, miid_protocol))
+	if (bNoCheckbox || hasMuuid(pi, MIID_CLIST) || hasMuuid(pi, MIID_PROTOCOL))
 		it.iImage += 2;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
@@ -424,7 +423,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ListView_GetItemText(hwndList, hdr->iItem, 2, buf, _countof(buf));
 						SetDlgItemText(hwndDlg, IDC_PLUGININFOFRAME, sel ? buf : L"");
 						SetDlgItemText(hwndDlg, IDC_PLUGINAUTHOR, sel ? dat->author : L"");
-						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? dat->description : L"");
+						SetDlgItemText(hwndDlg, IDC_PLUGINLONGINFO, sel ? TranslateW_LP(dat->description, GetPluginLangByInstance(dat->hInst)) : L"");
 						SetDlgItemText(hwndDlg, IDC_PLUGINCPYR, sel ? dat->copyright : L"");
 						SetDlgItemText(hwndDlg, IDC_PLUGINURL, sel ? dat->homepage : L"");
 
