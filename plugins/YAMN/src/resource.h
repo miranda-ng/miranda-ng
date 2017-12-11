@@ -90,7 +90,6 @@
 #define IDC_STSTATUS                    1102
 #define IDC_COMBOPLUGINS                1104
 #define IDC_STWWW                       1111
-#define IDC_STMAIL                      1113
 #define IDC_STCOPY                      1114
 #define IDC_STDESC                      1115
 #define IDC_STVER                       1116

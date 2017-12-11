@@ -97,7 +97,6 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 							SetDlgItemTextA(hDlg, IDC_STVER, PParser->Plugin->PluginInfo->Ver);
 							SetDlgItemTextA(hDlg, IDC_STDESC, PParser->Plugin->PluginInfo->Description == nullptr ? "" : PParser->Plugin->PluginInfo->Description);
 							SetDlgItemTextA(hDlg, IDC_STCOPY, PParser->Plugin->PluginInfo->Copyright == nullptr ? "" : PParser->Plugin->PluginInfo->Copyright);
-							SetDlgItemTextA(hDlg, IDC_STMAIL, PParser->Plugin->PluginInfo->Email == nullptr ? "" : PParser->Plugin->PluginInfo->Email);
 							SetDlgItemTextA(hDlg, IDC_STWWW, PParser->Plugin->PluginInfo->WWW == nullptr ? "" : PParser->Plugin->PluginInfo->WWW);
 							break;
 						}
@@ -106,7 +105,6 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 							SetDlgItemTextA(hDlg, IDC_STVER, FParser->Plugin->PluginInfo->Ver);
 							SetDlgItemTextA(hDlg, IDC_STDESC, FParser->Plugin->PluginInfo->Description == nullptr ? "" : FParser->Plugin->PluginInfo->Description);
 							SetDlgItemTextA(hDlg, IDC_STCOPY, FParser->Plugin->PluginInfo->Copyright == nullptr ? "" : FParser->Plugin->PluginInfo->Copyright);
-							SetDlgItemTextA(hDlg, IDC_STMAIL, FParser->Plugin->PluginInfo->Email == nullptr ? "" : FParser->Plugin->PluginInfo->Email);
 							SetDlgItemTextA(hDlg, IDC_STWWW, FParser->Plugin->PluginInfo->WWW == nullptr ? "" : FParser->Plugin->PluginInfo->WWW);
 							break;
 						}
