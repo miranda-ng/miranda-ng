@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <shlobj.h>
 #include <commctrl.h>
 #include <vssym32.h>
-#include <Wtsapi32.h>
 
 #include <stdio.h>
 #include <time.h>

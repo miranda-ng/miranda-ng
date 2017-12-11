@@ -533,17 +533,18 @@ MIR_CORE_DLL(void)    KillModuleSubclassing(HMODULE hInst);
 ///////////////////////////////////////////////////////////////////////////////
 // Windows utilities
 
-MIR_CORE_DLL(BOOL)    IsWinVerVistaPlus();
-MIR_CORE_DLL(BOOL)    IsWinVer7Plus();
-MIR_CORE_DLL(BOOL)    IsWinVer8Plus();
-MIR_CORE_DLL(BOOL)    IsWinVer81Plus();
-MIR_CORE_DLL(BOOL)    IsWinVer10Plus();
+MIR_CORE_DLL(BOOL) IsWinVerVistaPlus();
+MIR_CORE_DLL(BOOL) IsWinVer7Plus();
+MIR_CORE_DLL(BOOL) IsWinVer8Plus();
+MIR_CORE_DLL(BOOL) IsWinVer81Plus();
+MIR_CORE_DLL(BOOL) IsWinVer10Plus();
 
-MIR_CORE_DLL(BOOL)    IsFullScreen();
-MIR_CORE_DLL(BOOL)    IsWorkstationLocked();
-MIR_CORE_DLL(BOOL)    IsScreenSaverRunning();
+MIR_CORE_DLL(BOOL) IsFullScreen();
+MIR_CORE_DLL(BOOL) IsWorkstationLocked();
+MIR_CORE_DLL(BOOL) IsScreenSaverRunning();
+MIR_CORE_DLL(BOOL) IsTerminalDisconnected();
 
-MIR_CORE_DLL(BOOL)    GetOSDisplayString(wchar_t *buf, size_t bufSize);
+MIR_CORE_DLL(BOOL) GetOSDisplayString(wchar_t *buf, size_t bufSize);
 
 ///////////////////////////////////////////////////////////////////////////////
 

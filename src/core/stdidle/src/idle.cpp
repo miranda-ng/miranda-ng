@@ -111,22 +111,6 @@ typedef enum _WTS_INFO_CLASS
 
 static BOOL bModuleInitialized = FALSE;
 
-BOOL IsTerminalDisconnected()
-{
-	PVOID pBuffer = nullptr;
-	DWORD pBytesReturned = 0;
-	BOOL result = FALSE;
-
-	if (WTSQuerySessionInformation(WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, (LPTSTR *)&pBuffer, &pBytesReturned)) {
-		if (*(PDWORD)pBuffer == WTSDisconnected)
-			result = TRUE;
-	}
-
-	if (pBuffer)
-		WTSFreeMemory(pBuffer);
-	return result;
-}
-
 typedef struct
 {
 	UINT_PTR hTimer;
@@ -222,6 +206,7 @@ static void IdleObject_Tick(IdleObject * obj)
 		obj->idleType = idleType;
 		NotifyEventHooks(hIdleEvent, 0, IDF_ISIDLE | flags);
 	}
+	
 	if (IdleObject_IsIdle(obj) && !idle) {
 		IdleObject_ClearIdle(obj);
 		obj->idleType = 0;

@@ -1054,3 +1054,4 @@ HookTemporaryEvent @1241
 ?Click@CCtrlButton@@QEAAXXZ @1242 NONAME
 ??0CTimer@@QEAA@$$QEAV0@@Z @1243 NONAME
 ??4CTimer@@QEAAAEAV0@$$QEAV0@@Z @1244 NONAME
+IsTerminalDisconnected @1245

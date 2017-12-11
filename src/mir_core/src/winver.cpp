@@ -100,6 +100,21 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 	return bLocked;
 }
 
+MIR_CORE_DLL(BOOL) IsTerminalDisconnected(void)
+{
+	PVOID pBuffer = nullptr;
+	DWORD pBytesReturned = 0;
+	BOOL result = FALSE;
+
+	if (WTSQuerySessionInformation(WTS_CURRENT_SERVER_HANDLE, WTS_CURRENT_SESSION, WTSConnectState, (LPTSTR *)&pBuffer, &pBytesReturned))
+		if (*(PDWORD)pBuffer == WTSDisconnected)
+			result = TRUE;
+
+	if (pBuffer)
+		WTSFreeMemory(pBuffer);
+	return result;
+}
+
 MIR_CORE_DLL(BOOL) IsScreenSaverRunning(void)
 {
 	BOOL rc = FALSE;
