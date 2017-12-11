@@ -38,6 +38,8 @@ ms
 
 [Preview...]
 Aperçu...
+[Download more splash screens]
+
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 

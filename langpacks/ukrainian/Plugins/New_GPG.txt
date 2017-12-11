@@ -155,60 +155,6 @@ ID ключа:
 Імпортувати публічні ключі GPG
 [GPG encryption status]
 Статус шифрування GPG
-[Email]
-Пошта
-[Name]
-Ім'я
-[Creation date]
-Дата створення
-[Key length]
-Довжина ключа
-[Accounts]
-Облікові записи
-[Default]
-За замовчанням
-[key ID]
-Ключ
-[not set]
-Не встановлено
-[Default private key ID]
-Основний приватний ключ
-[Failed to open file]
-Неможливо відкрити файл
-[Error]
-Помилка
-[Warning]
-Попередження
-[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Вибраний вами exe не GnuPG!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Ваша версія GnuPG не підтримується і може працювати неправильно!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
-[Info]
-Інфо
-[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Ваша версія GPG підтримується. Мовні файли знайдені.\nПлагін повинен працювати нормально.\nНатисніть ОК.
-[Please choose GPG binary location]
-Виберіть директорію з GnuPG
-[Please set keyring's home directory]
-Виберіть директорію з ключами GnuPG
-[There is existing key for contact, would you like to replace it with new key?]
-Отримано ключ, але в контакту вже є ключ. Ви хочете його замінити новим?
-[New public key was received, do you want to import it?]
-Отримано новий відкритий ключ. Ви хочете його прийняти?
-[Replace]
-Замінити
-[Accept]
-Прийняти
-[Received key from %s]
-Отримано ключ від %s
-[Key length must be of length from 1024 to 4096 bits]
-Довжина ключа має бути від 1024 до 4096 біт
-[Name must contain at least 5 characters]
-Ім'я має містити щонайменше 5 символів
-[Name cannot contain '(' or ')']
-Ім'я не може містити '(' чи ')'
-[Invalid Email]
-Неправильний E-mail
 [GPG binary is set and valid (this is good).\n]
 Виконуваний файл GPG вказаний і є придатним (Це добре).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -233,6 +179,42 @@ ID ключа:
 Завантажити ключ для всіх субконтактів?
 [Metacontact detected]
 Виявлено метаконтакт
+[Warning]
+Попередження
+[Contact]
+Контакт
+[Key ID]
+Ключ
+[Name]
+Ім'я
+[Email]
+Пошта
+[Protocol]
+Протокол
+[Default private key ID]
+Основний приватний ключ
+[not set]
+Не встановлено
+[info]
+Інфо
+[Do you want to remove key from entire metacontact (all subcontacts)?]
+Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
+[Export public key]
+Експорт відкритого ключа
+[.asc pubkey file]
+Файл публічного ключа (.asc)
+[Error]
+Помилка
+[LOG files]
+Файли журналу
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Вибраний вами exe не GnuPG!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
+[Turn off encryption]
+Вимкнути шифрування
+[Info]
+Інфо
+[Failed to open file]
+Неможливо відкрити файл
 [Services]
 Служби
 [Main]
@@ -243,24 +225,42 @@ ID ключа:
 Повідомлення
 [Advanced]
 Додатково
-[Contact]
-Контакт
-[Key ID]
+[New passwords do not match]
+Нові паролі не збігаються
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Старий пароль не збігається, ви можете продовжити, але GPG не прийме неправильний пароль.\nПродовжити?
+[Creation date]
+Дата створення
+[Key length]
+Довжина ключа
+[Accounts]
+Облікові записи
+[Default]
+За замовчанням
+[key ID]
 Ключ
-[Protocol]
-Протокол
-[info]
-Інфо
-[Do you want to remove key from entire metacontact (all subcontacts)?]
-Ви хочете видалити ключ для метаконтакту (всіх субконтактів)?
-[Export public key]
-Експорт відкритого ключа
-[.asc pubkey file]
-Файл публічного ключа (.asc)
-[LOG files]
-Файли журналу
-[Turn off encryption]
-Вимкнути шифрування
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Ваша версія GnuPG не підтримується і може працювати неправильно!\nРекомендуємо використовувати GnuPG v1.x.x з цим плагіном.
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+Ваша версія GPG підтримується. Мовні файли знайдені.\nПлагін повинен працювати нормально.\nНатисніть ОК.
+[There is existing key for contact, would you like to replace it with new key?]
+Отримано ключ, але в контакту вже є ключ. Ви хочете його замінити новим?
+[New public key was received, do you want to import it?]
+Отримано новий відкритий ключ. Ви хочете його прийняти?
+[Replace]
+Замінити
+[Accept]
+Прийняти
+[Received key from %s]
+Отримано ключ від %s
+[Key length must be of length from 1024 to 4096 bits]
+Довжина ключа має бути від 1024 до 4096 біт
+[Name must contain at least 5 characters]
+Ім'я має містити щонайменше 5 символів
+[Name cannot contain '(' or ')']
+Ім'я не може містити '(' чи ')'
+[Invalid Email]
+Неправильний E-mail
 [Turn off GPG encryption]
 Вимкнути шифрування GPG
 [Turn on GPG encryption]
@@ -269,7 +269,7 @@ ID ключа:
 Результат експорту ключів
 [Keys import result]
 Результат імпорту ключів
-[New passwords do not match]
-Нові паролі не збігаються
-[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
-Старий пароль не збігається, ви можете продовжити, але GPG не прийме неправильний пароль.\nПродовжити?
+[Please choose GPG binary location]
+Виберіть директорію з GnuPG
+[Please set keyring's home directory]
+Виберіть директорію з ключами GnuPG

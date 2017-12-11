@@ -380,6 +380,8 @@ Décalage du haut des groupes
 Hauteur de la barre de titre des cadres
 [Ignore selection for groups]
 Ignorer la sélection des groupes
+[Download more skins]
+
 [Load from skin file]
 Charger depuis un fichier de skin
 [Export to skin file]

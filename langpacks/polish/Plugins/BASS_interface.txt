@@ -1,20 +1,20 @@
 #muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
 ;  File: BASS_interface.dll
-;  Plugin: BASS interface
+;  Plugin: BASS Interface
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-[un4seen's BASS interface Miranda NG plugin.]
+[Un4seen's BASS interface Miranda NG plugin.]
 Wtyczka interfejsu Un4seen's BASS dla Mirandy NG.
 ;file \plugins\BASS_interface\res\Bass.rc
-[un4seen's bass interface]
-Interfejs un4seen's bass
+[Un4seen's BASS interface]
+Interfejs Un4seen's BASS
 [bass.dll loading error]
-Błąd wczytywania Sterownika BASS.dll
+Błąd wczytywania sterownika bass.dll
 [Current bass.dll path:]
-Folder docelowy BASS.dll:
-[Maximum number of bass internal channels:]
+Folder docelowy bass.dll:
+[Maximum number of BASS internal channels:]
 Maksymalna ilość kanałów:
 [Output device:]
 Sterownik audio:
@@ -22,7 +22,7 @@ Sterownik audio:
 Głośność:
 [Quiet time:]
 Okres ciszy:
-[download bass library]
+[download BASS library]
 Pobierz biblioteki BASS
 [Play only if]
 Graj tylko gdy:
@@ -49,8 +49,8 @@ Na obiedzie
 [Preview]
 Podgląd
 ;file \plugins\BASS_interface\src\Main.cpp
-[un4seen's bass version: %d.%d.%d.%d]
-Wersja un4seen's bass: %d.%d.%d.%d
+[Un4seen's BASS version: %d.%d.%d.%d]
+Wersja Un4seen's BASS: %d.%d.%d.%d
 [--default device--]
 --domyślne sterowniki--
 [Sounds]
@@ -61,6 +61,8 @@ Wyłącz dźwięki
 Włącz dźwięki
 [Frame background]
 Tło ramki
+[BASS Interface]
+Interfejs BASS
 [Bass Interface]
 Interfejs BASS
 [Bass library]

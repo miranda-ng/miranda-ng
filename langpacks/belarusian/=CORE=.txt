@@ -3,28 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-[Authorization request]
-Запыт аўтарызацыі
-[&Authorize]
-Дазволіць
-[&Deny]
-Забараніць
-[Decide &later]
-Вырашыць &пазней
-[User &details]
-&Інфармацыя
-[Reason:]
-Чыннік:
-[Denial reason:]
-Чыннік адмовы:
-[Add to contact list if authorized]
-Дадаваць у спіс кантактаў пасля аўтарызацыі
-[You were added]
-Вас дадалі
-[&Close]
-Зачыніць
-[&Add]
-Дадаць
 [%s message for %s]
 %s (%s)
 [&Cancel]
@@ -287,6 +265,8 @@
 Апісанне:
 [&User menu]
 Меню кантакта
+[User &details]
+&Інфармацыя
 [&History]
 Гісторыя
 [Incoming file transfer]
@@ -303,6 +283,8 @@
 Файлы:
 [Save to:]
 Захоўваць у:
+[&Add]
+Дадаць
 [&Open...]
 Адкрыць...
 [Open &folder]
@@ -391,10 +373,6 @@
 Дапісаць "(1)" і г. д.
 [You will always be asked about files from people not on your contact list]
 Запыт заўсёды будзе паказаны, калі чалавек не ў спісе
-[About Miranda NG]
-Аб праграме
-[Credits >]
-Аўтары >
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
 [Become idle if the screen saver is active]
@@ -713,6 +691,8 @@
 Зададзенае імя:
 [Group:]
 Гурт:
+[Authorization request]
+Запыт аўтарызацыі
 [&Yes]
 &Так
 [&No]
@@ -989,6 +969,8 @@
 
 [Insert separator]
 Уставіць падзельнік
+[Module:]
+Модуль:
 [Service:]
 Cлужба:
 [Default]
@@ -1123,6 +1105,26 @@ UIN, E-mail і г.д.
 Прамежак кнопак:
 [Hide if there isn't enough space]
 Хаваць, калі недастаткова месцы
+[&Authorize]
+Дазволіць
+[&Deny]
+Забараніць
+[Decide &later]
+Вырашыць &пазней
+[Reason:]
+Чыннік:
+[Denial reason:]
+Чыннік адмовы:
+[Add to contact list if authorized]
+Дадаваць у спіс кантактаў пасля аўтарызацыі
+[You were added]
+Вас дадалі
+[&Close]
+Зачыніць
+[About Miranda NG]
+Аб праграме
+[Credits >]
+Аўтары >
 [Tray]
 Трэй
 [&Hide/Show]
@@ -1183,40 +1185,6 @@ UIN, E-mail і г.д.
 
 [Google Translate]
 
-[%s requests authorization]
-%s запытаў аўтарызацыю
-[%u requests authorization]
-%u запытаў аўтарызацыю
-[%s added you to their contact list]
-%s дадаў(ла) вас у свой спіс
-[%u added you to their contact list]
-%u дадаў(ла) вас у свой спіс
-[Alerts]
-Абвесткі
-[Added event]
-Падзея дадання
-[View user's details]
-Пра кантакт
-[Add contact permanently to list]
-Дадаць у спіс
-[<Unknown>]
-Невядома
-[%s added you to the contact list\n%u (%s) on %s]
-%s дададзены(а) у Ваш спіс кантактаў\n%u (%s) у %s
-[%s added you to the contact list\n%u on %s]
-%s дададзены(а) у Ваш спіс кантактаў\n%u у %s
-[%s added you to the contact list\n%s on %s]
-%s дададзены(а) у Ваш спіс кантактаў\n%s у %s
-[(Unknown)]
-(невядомы)
-[%s requested authorization\n%u (%s) on %s]
-%s запытаў(ла) аўтарызацыю\n%u (%s) у %s
-[%s requested authorization\n%u on %s]
-%s запытаў(ла) аўтарызацыю\n%u у %s
-[%s requested authorization\n%s on %s]
-%s запытаў(ла) аўтарызацыю\n%s у %s
-[Feature is not supported by protocol]
-Не падтрымліваецца пратаколам
 [Re&ad %s message]
 &Прачытаць паведамленне "%s"
 [Re&ad status message]
@@ -1327,6 +1295,10 @@ UIN, E-mail і г.д.
 Абраць тэчку
 [My received files]
 Мае атрыманыя файлы
+[Add contact permanently to list]
+Дадаць у спіс
+[View user's details]
+Пра кантакт
 [View user's history]
 Гісторыя паведамленняў
 [User menu]
@@ -1391,18 +1363,6 @@ UIN, E-mail і г.д.
 Перадача і праверка на вірусы завершаны
 [Outgoing]
 Выходныя
-[< Copyright]
-< Правы
-[&Help]
-Даведка
-[&About...]
-&Пра праграму
-[&Support]
-&Падтрымка
-[&Miranda NG homepage]
-А&фіцыйны сайт Miranda NG
-[&Report bug]
-Паведаміць пра памылку
 [Idle]
 Чаканне
 [Chat module]
@@ -1861,10 +1821,40 @@ Miranda не здолела загрузіць убудаваную сістэм
 Асабістыя дадзеныя
 [%s is online]
 %s далучаны
+[Alerts]
+Абвесткі
 [Add %s]
 Дадаць %s
 [Please authorize my request and add me to your contact list.]
 Калі ласка, дазвольце дадаць Вас у мой спіс кантактаў.
+[%s requests authorization]
+%s запытаў аўтарызацыю
+[%u requests authorization]
+%u запытаў аўтарызацыю
+[%s added you to their contact list]
+%s дадаў(ла) вас у свой спіс
+[%u added you to their contact list]
+%u дадаў(ла) вас у свой спіс
+[Added event]
+Падзея дадання
+[<Unknown>]
+Невядома
+[%s added you to the contact list\n%u (%s) on %s]
+%s дададзены(а) у Ваш спіс кантактаў\n%u (%s) у %s
+[%s added you to the contact list\n%u on %s]
+%s дададзены(а) у Ваш спіс кантактаў\n%u у %s
+[%s added you to the contact list\n%s on %s]
+%s дададзены(а) у Ваш спіс кантактаў\n%s у %s
+[(Unknown)]
+(невядомы)
+[%s requested authorization\n%u (%s) on %s]
+%s запытаў(ла) аўтарызацыю\n%u (%s) у %s
+[%s requested authorization\n%u on %s]
+%s запытаў(ла) аўтарызацыю\n%u у %s
+[%s requested authorization\n%s on %s]
+%s запытаў(ла) аўтарызацыю\n%s у %s
+[Feature is not supported by protocol]
+Не падтрымліваецца пратаколам
 [&Join chat]
 Зайсці
 [&Open chat window]
@@ -2133,6 +2123,18 @@ Ctrl+Шукаць дадае карыстальніка
 Асноўны тэкст
 [Small text]
 Дадатковы тэкст
+[< Copyright]
+< Правы
+[&Help]
+Даведка
+[&About...]
+&Пра праграму
+[&Support]
+&Падтрымка
+[&Miranda NG homepage]
+А&фіцыйны сайт Miranda NG
+[&Report bug]
+Паведаміць пра памылку
 [Browser: Back]
 
 [Browser: Forward]

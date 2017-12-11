@@ -35,6 +35,8 @@
 Сплив. вікно
 [Tray]
 Трей
+[Download more skins]
+Завантажити скіни
 [Options]
 Налаштування
 [Add new rooms to group:]

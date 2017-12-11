@@ -101,7 +101,7 @@
 
 [Sorry!]
 
-[BASS.DLL not found!]
+[bass.dll not found!]
 
 [Station]
 
@@ -198,4 +198,6 @@ Isklj.
 [New]
 
 [Quick Open]
+
+[bass.dll not found! Choose bass.dll path manually]
 

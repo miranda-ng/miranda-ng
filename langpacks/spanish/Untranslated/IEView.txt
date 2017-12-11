@@ -22,6 +22,7 @@
 [Show date]
 [Use long date format]
 [Use relative timestamp]
+[Download more templates]
 [Outgoing File Transfer]
 [URL sent]
 [URL received]

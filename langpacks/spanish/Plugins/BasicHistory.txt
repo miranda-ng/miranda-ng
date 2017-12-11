@@ -5,7 +5,7 @@
 ;  Version: 1.0.1.10
 ;  Authors: Krzysztof Kral
 ;============================================================
-[Message History]
+[Message history]
 Historial de mensajes
 [Settings]
 Ajustes
@@ -15,7 +15,7 @@ Mostrar nombres
 Mostrar mensajes
 [hours]
 horas
-[All Contacts]
+[All contacts]
 Todos los contactos
 [Name]
 Nombre
@@ -23,7 +23,7 @@ Nombre
 Contraseña
 [Cancel]
 Cancelar
-[View &History]
+[View &history]
 Ver &historial
 [Incoming message]
 Mensaje entrante
@@ -39,7 +39,7 @@ Todos los eventos
 Historial de %s
 [System]
 Sistema
-[Invalid Message]
+[Invalid message]
 Mensaje no válido
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Esta operación va a ELIMINAR DE FORMA PERMANENTE todo historial de este contacto.\n¿Está seguro de que quiere hacer esto?
@@ -53,9 +53,9 @@ Copiar enlace
 Copiar
 [Delete]
 Eliminar
-[Send Message]
+[Send message]
 Enviar mensaje
-[Delete Group]
+[Delete group]
 Eliminar grupo
 [Options]
 Opciones

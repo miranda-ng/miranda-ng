@@ -516,6 +516,8 @@ Utiliser le modèle du skin (attention, ceci remplacera votre modèle)
 
 [Import from a file...]
 
+[Download more skins]
+
 [Icons]
 Icônes
 [Event type icons in the message log]

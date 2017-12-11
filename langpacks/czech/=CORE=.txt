@@ -3,29 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-;file \src\core\stdauth\res\resource.rc
-[Authorization request]
-Žádost o autorizaci
-[&Authorize]
-&Autorizovat
-[&Deny]
-O&dmítnout
-[Decide &later]
-&Později
-[User &details]
-&Detaily uživatele
-[Reason:]
-Důvod:
-[Denial reason:]
-Důvod odmítnutí:
-[Add to contact list if authorized]
-Je-li autorizován, přidat mezi kontakty
-[You were added]
-Zpráva o zařazení mezi kontakty
-[&Close]
-&Zavřít
-[&Add]
-Přid&at
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Stav: '%s', uživatel: %s
@@ -291,6 +268,8 @@ Celková velikost:
 Popis:
 [&User menu]
 Nabídka &uživatele
+[User &details]
+&Detaily uživatele
 [&History]
 &Historie
 [Incoming file transfer]
@@ -307,6 +286,8 @@ Datum:
 Soubory:
 [Save to:]
 Uložit do:
+[&Add]
+Přid&at
 [&Open...]
 &Otevřít...
 [Open &folder]
@@ -395,11 +376,6 @@ Zeptat se
 Přejmenovat (přidá " (1)" atd.)
 [You will always be asked about files from people not on your contact list]
 Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
-;file \src\core\stdhelp\res\resource.rc
-[About Miranda NG]
-O programu Miranda NG
-[Credits >]
-Poděkování >
 ;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
@@ -723,6 +699,8 @@ Otevřít komunikační okno
 Vlastní jméno:
 [Group:]
 Skupina:
+[Authorization request]
+Žádost o autorizaci
 [&Yes]
 &Ano
 [&No]
@@ -999,6 +977,8 @@ Upozornění!\r\nTato nabídka nepodporuje změnu nastavení.
 Vložit podnabídku
 [Insert separator]
 Vložit oddělovač
+[Module:]
+Modul:
 [Service:]
 Služba:
 [Default]
@@ -1133,6 +1113,26 @@ Zobrazit v chatovacích místnostech
 Mezera mezi tlačítky:
 [Hide if there isn't enough space]
 Skrýt pokud není dost místa
+[&Authorize]
+&Autorizovat
+[&Deny]
+O&dmítnout
+[Decide &later]
+&Později
+[Reason:]
+Důvod:
+[Denial reason:]
+Důvod odmítnutí:
+[Add to contact list if authorized]
+Je-li autorizován, přidat mezi kontakty
+[You were added]
+Zpráva o zařazení mezi kontakty
+[&Close]
+&Zavřít
+[About Miranda NG]
+O programu Miranda NG
+[Credits >]
+Poděkování >
 [Tray]
 Oznamovací oblast
 [&Hide/Show]
@@ -1193,42 +1193,6 @@ Wikipedia (en)
 Mapy Google
 [Google Translate]
 Překladač Google
-;file \src\core\stdauth\src\auth.cpp
-[%s requests authorization]
-%s žádá o autorizaci
-[%u requests authorization]
-%u žádá o autorizaci
-[%s added you to their contact list]
-%s si vás přidal mezi své kontakty
-[%u added you to their contact list]
-%u si vás přidal mezi své kontakty
-[Alerts]
-Upozornění
-[Added event]
-Nová událost
-;file \src\core\stdauth\src\authdialogs.cpp
-[View user's details]
-Zobrazit osobní údaje
-[Add contact permanently to list]
-Přidat do seznamu natrvalo
-[<Unknown>]
-<neznámý>
-[%s added you to the contact list\n%u (%s) on %s]
-%s si vás přidal mezi své kontakty\n%u (%s) v síti %s
-[%s added you to the contact list\n%u on %s]
-%s si vás přidal mezi své kontakty\n%u v síti %s
-[%s added you to the contact list\n%s on %s]
-%s si vás přidal mezi své kontakty\n%s v síti %s
-[(Unknown)]
-(neznámý)
-[%s requested authorization\n%u (%s) on %s]
-%s žádá o autorizaci\n%u (%s) v síti %s
-[%s requested authorization\n%u on %s]
-%s žádá o autorizaci\n%u v síti %s
-[%s requested authorization\n%s on %s]
-%s žádá o autorizaci\n%s v síti %s
-[Feature is not supported by protocol]
-Funkce není protokolem podporována
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Přečíst &automatickou odpověď
@@ -1351,6 +1315,10 @@ Události
 Vyberte požadovanou složku
 [My received files]
 Moje přijaté soubory
+[Add contact permanently to list]
+Přidat do seznamu natrvalo
+[View user's details]
+Zobrazit osobní údaje
 [View user's history]
 Zobrazit historii
 [User menu]
@@ -1418,20 +1386,6 @@ Přenos a kontrola antivirem dokončena
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odchozí
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-< Copyright
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-&Nápověda
-[&About...]
-O progr&amu...
-[&Support]
-&Podpora
-[&Miranda NG homepage]
-Do&movská stránka
-[&Report bug]
-&Nahlásit chybu
 ;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Nečinnost
@@ -1907,11 +1861,43 @@ In&formace o sobě...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je online
+[Alerts]
+Upozornění
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Mezi kontakty přidat: %s
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
+;file \src\mir_app\src\auth.cpp
+[%s requests authorization]
+%s žádá o autorizaci
+[%u requests authorization]
+%u žádá o autorizaci
+[%s added you to their contact list]
+%s si vás přidal mezi své kontakty
+[%u added you to their contact list]
+%u si vás přidal mezi své kontakty
+[Added event]
+Nová událost
+;file \src\mir_app\src\authdialogs.cpp
+[<Unknown>]
+<neznámý>
+[%s added you to the contact list\n%u (%s) on %s]
+%s si vás přidal mezi své kontakty\n%u (%s) v síti %s
+[%s added you to the contact list\n%u on %s]
+%s si vás přidal mezi své kontakty\n%u v síti %s
+[%s added you to the contact list\n%s on %s]
+%s si vás přidal mezi své kontakty\n%s v síti %s
+[(Unknown)]
+(neznámý)
+[%s requested authorization\n%u (%s) on %s]
+%s žádá o autorizaci\n%u (%s) v síti %s
+[%s requested authorization\n%u on %s]
+%s žádá o autorizaci\n%u v síti %s
+[%s requested authorization\n%s on %s]
+%s žádá o autorizaci\n%s v síti %s
+[Feature is not supported by protocol]
+Funkce není protokolem podporována
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Přidat se do diskuse
@@ -2200,6 +2186,19 @@ Záhlaví
 Běžný text
 [Small text]
 Poznámky
+;file \src\mir_app\src\help.cpp
+[< Copyright]
+< Copyright
+[&Help]
+&Nápověda
+[&About...]
+O progr&amu...
+[&Support]
+&Podpora
+[&Miranda NG homepage]
+Do&movská stránka
+[&Report bug]
+&Nahlásit chybu
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 Prohlížeč: Zpět

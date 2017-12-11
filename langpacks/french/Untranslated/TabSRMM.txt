@@ -100,6 +100,7 @@
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
 [Export to a file...]
 [Import from a file...]
+[Download more skins]
 [Event type icons in the message log]
 [Text symbols as event markers]
 [Show timestamps]

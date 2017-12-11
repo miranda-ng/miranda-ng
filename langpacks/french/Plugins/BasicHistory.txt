@@ -8,7 +8,7 @@
 [History viewer for Miranda NG.]
 
 ;file \plugins\BasicHistory\res\BasicHistory.rc
-[Message History]
+[Message history]
 Historique des messages
 [Settings]
 Paramètres
@@ -16,9 +16,9 @@ Paramètres
 
 [Show groups in contact list]
 
-[Do not show Find control border]
+[Do not show find control border]
 
-[Default Event Filter]
+[Default event filter]
 
 [Custom filters]
 
@@ -56,31 +56,31 @@ heures
 
 [Show seconds in timestamps]
 
-[Enable Smileys]
+[Enable smileys]
 
 [Search forward in list group]
 
 [Search forward in message window]
 
-[Match Case]
+[Match case]
 
-[Match Whole Word]
+[Match whole word]
 
-[Only Incoming Messages]
+[Only incoming messages]
 
-[Only Outgoing Messages]
+[Only outgoing messages]
 
-[Only Selected Group]
+[Only selected group]
 
-[All Contacts]
+[All contacts]
 tous les contacts
-[Export To Txt]
+[Export to txt]
 
 [File encoding*]
 
-[Export To Plain Html]
+[Export to plain HTML]
 
-[Export To Rich Html]
+[Export to rich HTML]
 
 [External CSS file]
 Fichier CSS externe
@@ -141,9 +141,9 @@ Annuler
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Ouvrir historique
-[View &History]
+[View &history]
 Voir l'&historique
-[Delete All User History]
+[Delete all user history]
 
 [Execute history task]
 
@@ -153,13 +153,13 @@ Message reçu
 Message envoyé
 [Status change]
 Changement d'état
-[Show Contacts]
+[Show contacts]
 
-[Hide Contacts]
+[Hide contacts]
 
-[Find Next]
+[Find next]
 &Suivant
-[Find Previous]
+[Find previous]
 Précédent
 [Plus in export]
 
@@ -178,10 +178,10 @@ Historique de %s
 Système
 [Me]
 
-[Invalid Message]
+[Invalid message]
 Message invalide
 ;file \plugins\BasicHistory\src\ExportManager.cpp
-[%s Files (*.%s)]
+[%s files (*.%s)]
 
 [Import]
 
@@ -194,7 +194,7 @@ Message invalide
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 
-[Are You sure?]
+[Are you sure?]
 Etes-vous sûr?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 
@@ -208,11 +208,11 @@ Ouvrir dans une fenêtre existante
 Copier
 [Delete]
 Effacer
-[Send Message]
+[Send message]
 
-[Reply &Quoted]
+[Reply &quoted]
 Répondre en citant
-[Delete Group]
+[Delete group]
 Effacer un groupe
 [Options]
 Paramètres
@@ -224,9 +224,9 @@ Police et couleur
 Icônes
 [Hotkeys]
 Raccourcis clavier
-[Rich Html]
+[Rich HTML]
 
-[Plain Html]
+[Plain HTML]
 
 [Txt]
 
@@ -301,27 +301,27 @@ Arrière-plan de la liste
 
 [Find]
 Chercher
-[Switch Match Case]
+[Switch match case]
 
-[Switch Match Whole Word]
+[Switch match whole word]
 
-[Show/Hide Contacts]
+[Show/hide contacts]
 
-[Switch Only Incoming Messages]
+[Switch only incoming messages]
 
-[Switch Only Outgoing Messages]
+[Switch only outgoing messages]
 
-[Switch Only Selected Group]
+[Switch only selected group]
 
-[Switch All Contacts]
+[Switch all contacts]
 
-[Export To Binary]
+[Export to binary]
 
-[Import From Binary]
+[Import from binary]
 
-[Export To Dat (mContacts)]
+[Export to dat (mContacts)]
 
-[Import From Dat (mContacts)]
+[Import from dat (mContacts)]
 
 [Invalid event number]
 
@@ -333,7 +333,7 @@ Chercher
 
 [Invalid file]
 
-[All Files (*.*)]
+[All files (*.*)]
 Tous les fichiers (*.*)
 [Enter filter name]
 
@@ -351,17 +351,17 @@ Vous avez entré une page de codes invalide. Sélectionnez la page de codes dans
 Page de code invalide
 [Browse CSS file]
 
-[Export and Delete]
+[Export and delete]
 
-[Import and Merge]
+[Import and merge]
 
 [Minute]
 
 [Hour]
 
-[At Start]
+[At start]
 
-[At Finish]
+[At finish]
 
 [Daily]
 
@@ -407,7 +407,7 @@ Page de code invalide
 
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-[History Log]
+[History log]
 
 [Filter:]
 

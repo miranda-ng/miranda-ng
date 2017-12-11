@@ -50,6 +50,8 @@ UWAGA: \tSkórki mogą zmodyfikować twój profil. Przywrócenie zmian nie jest 
 * Miranda NG musi zostać zrestartowana aby zmiany przyniosły efekt
 [Skin folder]
 Folder skórek
+[Download more skins]
+Pobierz więcej skórek
 [Available view modes]
 Dostępne tryby widoku
 [Include protocols]

@@ -50,6 +50,8 @@ UPOZORNĚNÍ:\tSkiny mohou pozměnit váš datový profil, návrat není možný
 * Některé ze změn mohou vyžadovat restart programu.
 [Skin folder]
 Složka se skiny
+[Download more skins]
+Stáhnout další skiny
 [Available view modes]
 Přehled režimů zobrazení
 [Include protocols]

@@ -8,7 +8,7 @@
 [History viewer for Miranda NG.]
 Zobrazovač historie pro Mirandu NG.
 ;file \plugins\BasicHistory\res\BasicHistory.rc
-[Message History]
+[Message history]
 Historie zpráv
 [Settings]
 Nastavení
@@ -16,9 +16,9 @@ Nastavení
 Vždy zobrazit seznam kontaktů
 [Show groups in contact list]
 Zobrazit skupiny v seznamu kontaktů
-[Do not show Find control border]
+[Do not show find control border]
 Nezobrazovat okraj vyhledávacího pole
-[Default Event Filter]
+[Default event filter]
 Výchozí filtr událostí
 [Custom filters]
 Vlastní filtry
@@ -56,32 +56,32 @@ Omezit zprávy na:
 Zobrazit datum v časovém údaji
 [Show seconds in timestamps]
 Zobrazit sekundy v časovém údaji
-[Enable Smileys]
+[Enable smileys]
 Povolit smajlíky
 [Search forward in list group]
 Vyhledávat dopředu v seznamu skupin
 [Search forward in message window]
 Vyhledávat dopředu v okně se zprávami
-[Match Case]
+[Match case]
 Rozlišovat velikost písmen
-[Match Whole Word]
+[Match whole word]
 Pouze celá slova
-[Only Incoming Messages]
+[Only incoming messages]
 Pouze příchozí zprávy
-[Only Outgoing Messages]
+[Only outgoing messages]
 Pouze odchozí zprávy
-[Only Selected Group]
+[Only selected group]
 Pouze ve vybrané skupině
-[All Contacts]
-Ve všech kontaktech
-[Export To Txt]
-Exportovat do Txt
+[All contacts]
+Všechny kontakty
+[Export to txt]
+Exportovat do txt
 [File encoding*]
 Kódování souboru*
-[Export To Plain Html]
-Exportovat do čistého Html
-[Export To Rich Html]
-Exportovat do bohatého Html
+[Export to plain HTML]
+Exportovat do čistého HTML
+[Export to rich HTML]
+Exportovat do bohatého HTML
 [External CSS file]
 Externí CSS soubor
 [* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
@@ -141,9 +141,9 @@ Zrušit
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Otevřít historii
-[View &History]
+[View &history]
 Zobrazit &historii
-[Delete All User History]
+[Delete all user history]
 Smazat celou historii uživatele
 [Execute history task]
 Vykonat úlohu historie
@@ -153,13 +153,13 @@ Příchozí zpráva
 Odchozí zpráva
 [Status change]
 Změna stavu
-[Show Contacts]
+[Show contacts]
 Zobrazit kontakty
-[Hide Contacts]
+[Hide contacts]
 Skrýt kontakty
-[Find Next]
+[Find next]
 Najít další
-[Find Previous]
+[Find previous]
 Najít předchozí
 [Plus in export]
 Plus v exportu
@@ -178,10 +178,10 @@ Historie pro %s
 Systém
 [Me]
 Já
-[Invalid Message]
+[Invalid message]
 Neplatná zpráva
 ;file \plugins\BasicHistory\src\ExportManager.cpp
-[%s Files (*.%s)]
+[%s files (*.%s)]
 Soubory %s (*.%s)
 [Import]
 Importovat
@@ -194,7 +194,7 @@ Soubor je poškozen
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Tato operace ODSTRANÍ NATRVALO všechnu historii tohoto kontaktu.\nJste si jistí, že chcete pokračovat?
-[Are You sure?]
+[Are you sure?]
 Opravdu chcete pokračovat?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Přejete si smazat všechny importované zprávy tohoto kontaktu?\nUvědomte si, že další naplánovaná úloha naimportuje tyto zprávy znovu.
@@ -208,12 +208,12 @@ Z&kopírovat odkaz
 Zkopírovat
 [Delete]
 Smazat
-[Send Message]
-Odeslat zprávu
-[Reply &Quoted]
+[Send message]
+Poslat zprávu
+[Reply &quoted]
 Odpovědět s &citací
-[Delete Group]
-Smazat skupinu
+[Delete group]
+Odstranit skupinu
 [Options]
 Možnosti
 [Filters]
@@ -224,10 +224,10 @@ Písma a barvy
 Ikony
 [Hotkeys]
 Klávesové zkratky
-[Rich Html]
-Bohaté Html
-[Plain Html]
-Čisté Html
+[Rich HTML]
+Bohaté HTML
+[Plain HTML]
+Čisté HTML
 [Txt]
 Txt
 [Binary]
@@ -301,28 +301,28 @@ Pozadí seznamu kontaktů
 Otevřít globální historii
 [Find]
 Najít
-[Switch Match Case]
+[Switch match case]
 Přepnout rozlišování velikosti písmen
-[Switch Match Whole Word]
+[Switch match whole word]
 Přepnout vyhledávání pouze celých slov
-[Show/Hide Contacts]
+[Show/hide contacts]
 Zobrazit/Skrýt kontakty
-[Switch Only Incoming Messages]
+[Switch only incoming messages]
 Přepnout vyhledávání pouze příchozích zpráv
-[Switch Only Outgoing Messages]
+[Switch only outgoing messages]
 Přepnout vyhledávání pouze odchozích zpráv
-[Switch Only Selected Group]
+[Switch only selected group]
 Přepnout vyhledávání pouze ve vybrané skupině
-[Switch All Contacts]
+[Switch all contacts]
 Přepnout vyhledávání ve všech kontaktech
-[Export To Binary]
+[Export to binary]
 Exportovat do binárního souboru
-[Import From Binary]
+[Import from binary]
 Importovat z binárního souboru
-[Export To Dat (mContacts)]
-Exportovat do souboru Dat (mContacts)
-[Import From Dat (mContacts)]
-Importovat ze souboru Dat (mContacts)
+[Export to dat (mContacts)]
+Exportovat do souboru dat (mContacts)
+[Import from dat (mContacts)]
+Importovat ze souboru dat (mContacts)
 [Invalid event number]
 Neplatné číslo události
 [Incoming events]
@@ -333,7 +333,7 @@ Odchozí události
 Soubor neexistuje. Zadejte správnou cestu k souboru.
 [Invalid file]
 Neplatný soubor
-[All Files (*.*)]
+[All files (*.*)]
 Všechny soubory (*.*)
 [Enter filter name]
 Zadejte název filtru
@@ -351,17 +351,17 @@ Zadali jste neplatné kódování. Zvolte kódování z rozbalovacího seznamu n
 Neplatné kódování
 [Browse CSS file]
 Najít CSS soubor
-[Export and Delete]
+[Export and delete]
 Exportovat a smazat
-[Import and Merge]
+[Import and merge]
 Importovat a sjednotit
 [Minute]
 minuta
 [Hour]
 hodina
-[At Start]
+[At start]
 Při startu
-[At Finish]
+[At finish]
 Při ukončení
 [Daily]
 Každý den
@@ -407,7 +407,7 @@ Importovat z
 ** Použijte <date> pro vložení data, <ext> pro vložení přípony, <contact> pro vložení jména kontaktu
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-[History Log]
+[History log]
 Interní historie
 [Filter:]
 Filtr:

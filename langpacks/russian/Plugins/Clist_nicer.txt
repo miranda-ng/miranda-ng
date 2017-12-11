@@ -375,6 +375,8 @@
 Высота названия фрейма
 [Ignore selection for groups]
 Игнорировать выделение для групп
+[Download more skins]
+Скачать скины
 [Load from skin file]
 Загрузить из файла
 [Export to skin file]

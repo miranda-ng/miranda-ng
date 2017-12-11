@@ -63,6 +63,8 @@
 Включити статуси
 [Cancel]
 Скасувати
+[Download more skins]
+Завантажити скіни
 [Sticky contacts]
 Закріплені контакти
 [Clear all]

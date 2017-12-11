@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 0.3.1.1
+;  Version: 1.0.1.1
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
@@ -57,21 +57,19 @@ Zapisuj nieczytane wątki w bazie danych(włącz historię)
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Sprawdzanie...
-[Can't open Internet!]
-Nie udało się otworzyć przeglądarki!
-[Can't reach server!]
-Nie udało się połączyć z serwerem!
 [Can't send account data!]
 Nie udało się wysłać danych konta!
-[Can't get RSS feed!]
-Nie można pobrać kanału RSS!
 [Wrong name or password!]
 Błędna nazwa użytkownika lub hasło!
+[Can't get RSS feed!]
+Nie można pobrać kanału RSS!
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Inne
 [Gmail: New thread(s)]
 Gmail: Nowy wątek(ki)
+[Gmail Notifier connection]
+
 [&Check all Gmail inboxes]
 Sprawdź wszystkie skrzynki Gmail
 [&Check Gmail inbox]

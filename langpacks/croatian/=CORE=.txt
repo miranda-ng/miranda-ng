@@ -3,29 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-;file \src\core\stdauth\res\resource.rc
-[Authorization request]
-Zahtjev za prihvaćanje
-[&Authorize]
-&Prihvati
-[&Deny]
-&Odbij
-[Decide &later]
-Odlučit ću &Kasnije
-[User &details]
-Detalji o &Korisniku
-[Reason:]
-Razlog:
-[Denial reason:]
-Razlog za odbijanje:
-[Add to contact list if authorized]
-Dodaj u listu kontakata ako je autoriziran
-[You were added]
-Dodani ste.
-[&Close]
-&Zatvori
-[&Add]
-&Dodaj
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s poruka za %s
@@ -291,6 +268,8 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [&User menu]
 
+[User &details]
+Detalji o &Korisniku
 [&History]
 p&ovijest
 [Incoming file transfer]
@@ -307,6 +286,8 @@ p&ovijest
 
 [Save to:]
 
+[&Add]
+&Dodaj
 [&Open...]
 
 [Open &folder]
@@ -394,11 +375,6 @@ p&ovijest
 [Rename (append " (1)", etc.)]
 
 [You will always be asked about files from people not on your contact list]
-
-;file \src\core\stdhelp\res\resource.rc
-[About Miranda NG]
-
-[Credits >]
 
 ;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -723,6 +699,8 @@ Otvori na o&voj poziciji
 
 [Group:]
 
+[Authorization request]
+Zahtjev za prihvaćanje
 [&Yes]
 
 [&No]
@@ -999,6 +977,8 @@ Otvori na o&voj poziciji
 
 [Insert separator]
 
+[Module:]
+
 [Service:]
 
 [Default]
@@ -1133,6 +1113,26 @@ Otvori na o&voj poziciji
 
 [Hide if there isn't enough space]
 
+[&Authorize]
+&Prihvati
+[&Deny]
+&Odbij
+[Decide &later]
+Odlučit ću &Kasnije
+[Reason:]
+Razlog:
+[Denial reason:]
+Razlog za odbijanje:
+[Add to contact list if authorized]
+Dodaj u listu kontakata ako je autoriziran
+[You were added]
+Dodani ste.
+[&Close]
+&Zatvori
+[About Miranda NG]
+
+[Credits >]
+
 [Tray]
 
 [&Hide/Show]
@@ -1192,42 +1192,6 @@ popis
 [Google Maps]
 
 [Google Translate]
-
-;file \src\core\stdauth\src\auth.cpp
-[%s requests authorization]
-
-[%u requests authorization]
-
-[%s added you to their contact list]
-
-[%u added you to their contact list]
-
-[Alerts]
-
-[Added event]
-
-;file \src\core\stdauth\src\authdialogs.cpp
-[View user's details]
-
-[Add contact permanently to list]
-
-[<Unknown>]
-
-[%s added you to the contact list\n%u (%s) on %s]
-
-[%s added you to the contact list\n%u on %s]
-
-[%s added you to the contact list\n%s on %s]
-
-[(Unknown)]
-
-[%s requested authorization\n%u (%s) on %s]
-
-[%s requested authorization\n%u on %s]
-
-[%s requested authorization\n%s on %s]
-
-[Feature is not supported by protocol]
 
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
@@ -1351,6 +1315,10 @@ sve datoteke
 
 [My received files]
 
+[Add contact permanently to list]
+
+[View user's details]
+
 [View user's history]
 
 [User menu]
@@ -1417,20 +1385,6 @@ sve datoteke
 
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
-
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-
-[&About...]
-
-[&Support]
-
-[&Miranda NG homepage]
-
-[&Report bug]
 
 ;file \src\core\stdidle\src\idle.cpp
 [Idle]
@@ -1907,10 +1861,42 @@ Prika&ži/sakrij popis nadimaka
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 
+[Alerts]
+
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 
 [Please authorize my request and add me to your contact list.]
+
+;file \src\mir_app\src\auth.cpp
+[%s requests authorization]
+
+[%u requests authorization]
+
+[%s added you to their contact list]
+
+[%u added you to their contact list]
+
+[Added event]
+
+;file \src\mir_app\src\authdialogs.cpp
+[<Unknown>]
+
+[%s added you to the contact list\n%u (%s) on %s]
+
+[%s added you to the contact list\n%u on %s]
+
+[%s added you to the contact list\n%s on %s]
+
+[(Unknown)]
+
+[%s requested authorization\n%u (%s) on %s]
+
+[%s requested authorization\n%u on %s]
+
+[%s requested authorization\n%s on %s]
+
+[Feature is not supported by protocol]
 
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
@@ -2199,6 +2185,19 @@ Prika&ži/sakrij popis nadimaka
 [Generic text]
 
 [Small text]
+
+;file \src\mir_app\src\help.cpp
+[< Copyright]
+
+[&Help]
+
+[&About...]
+
+[&Support]
+
+[&Miranda NG homepage]
+
+[&Report bug]
 
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]

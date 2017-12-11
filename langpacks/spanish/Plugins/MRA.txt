@@ -65,6 +65,8 @@ Femenino
 Solicitar autorización
 [Grant authorization]
 Conceder autorización
+[Main icon]
+Icono principal
 [Protocols]
 Protocolos
 [Main Menu]
@@ -99,3 +101,7 @@ Avatares
 Inicio
 [On the phone]
 En el teléfono
+[Angry]
+Me enoja
+[Love]
+Me encanta

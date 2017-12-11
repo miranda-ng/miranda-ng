@@ -8,5 +8,6 @@
 [steps]
 [Fade out:]
 [AdvaImg plugin not found. Please get it from https://miranda-ng.org/p/AdvaImg/ to be able to use images.]
+[Download more splash screens]
 [Graphic files]
 [Splash Screen]

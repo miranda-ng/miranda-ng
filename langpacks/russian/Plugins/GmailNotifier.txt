@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 0.3.1.1
+;  Version: 1.0.1.1
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
@@ -55,16 +55,12 @@
 Записывать непрочтённое в базу (включает сохранение истории)
 [Checking...]
 Проверка...
-[Can't open Internet!]
-Не могу войти в Интернет!
-[Can't reach server!]
-Не могу связаться с сервером!
 [Can't send account data!]
 Не могу отправить данные учётной записи!
-[Can't get RSS feed!]
-Не могу прочитать RSS-ленту!
 [Wrong name or password!]
 Неправильное имя или пароль!
+[Can't get RSS feed!]
+Не могу прочитать RSS-ленту!
 [Other]
 Другое
 [Gmail: New thread(s)]

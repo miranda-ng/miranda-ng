@@ -101,8 +101,8 @@ Durchgängige Aufnahme
 Steinbruch
 [Sorry!]
 Entschuldigung!
-[BASS.DLL not found!]
-Bass.dll nicht gefunden!
+[bass.dll not found!]
+bass.dll nicht gefunden!
 [Station]
 Station
 [Custom INI file]
@@ -156,7 +156,7 @@ EQ-Preset hinzufügen
 [Delete EQ preset]
 EQ-Preset löschen
 [BASS library path (empty for default)]
-Bass.dll-Bibliothekverzeichnis (Standard leer)
+bass.dll-Bibliothekverzeichnis (Standard leer)
 [Tries to connect]
 Versuche zu verbinden
 [Mute]
@@ -199,3 +199,5 @@ Equalizer
 Neu
 [Quick Open]
 Schnell öffnen
+[bass.dll not found! Choose bass.dll path manually]
+Bass.dll nicht gefunden! Wählen Sie das bass.dll Verzeichnis manuell.

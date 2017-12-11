@@ -3,28 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-[Authorization request]
-Молба за упълномощаване
-[&Authorize]
-Приемане
-[&Deny]
-Отхвърляне
-[Decide &later]
-Попитай по-късно
-[User &details]
-Подробности за потребителя
-[Reason:]
-Причина:
-[Denial reason:]
-Причина за отказ:
-[Add to contact list if authorized]
-Добавяне в списъка с контакти при приемане
-[You were added]
-Вие бяхте добавен
-[&Close]
-Затваряне
-[&Add]
-Добавяне
 [%s message for %s]
 Текст "%s" на %s
 [&Cancel]
@@ -285,6 +263,8 @@
 Описание:
 [&User menu]
 Потребителско меню
+[User &details]
+Подробности за потребителя
 [&History]
 История
 [Incoming file transfer]
@@ -301,6 +281,8 @@
 Файлове:
 [Save to:]
 Запис в:
+[&Add]
+Добавяне
 [&Open...]
 Отваряне...
 [Open &folder]
@@ -389,10 +371,6 @@
 Преименуване (наставка (1),(2)...)
 [You will always be asked about files from people not on your contact list]
 Винаги ще бъдете питани за файлове, пратени от хора извън списъка ви с контакти
-[About Miranda NG]
-Относно Miranda NG
-[Credits >]
-Заслуги >
 [Become idle if the following is left unattended:]
 Бездействащ при липса на активност в:
 [Become idle if the screen saver is active]
@@ -703,6 +681,8 @@ Popup за приставката Chat
 Избор на име:
 [Group:]
 Група:
+[Authorization request]
+Молба за упълномощаване
 [&Yes]
 Да
 [&No]
@@ -961,6 +941,8 @@ Copyright:
 Внимание!\r\nТова меню не поддържа дефиниране на елементи от потребителя.
 [Insert separator]
 Вмъкване на разделител
+[Module:]
+Модул:
 [Service:]
 Услуга:
 [Default]
@@ -1085,6 +1067,26 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Пролука м/у бутоните:
 [Hide if there isn't enough space]
 Скриване, ако няма достатъчно място
+[&Authorize]
+Приемане
+[&Deny]
+Отхвърляне
+[Decide &later]
+Попитай по-късно
+[Reason:]
+Причина:
+[Denial reason:]
+Причина за отказ:
+[Add to contact list if authorized]
+Добавяне в списъка с контакти при приемане
+[You were added]
+Вие бяхте добавен
+[&Close]
+Затваряне
+[About Miranda NG]
+Относно Miranda NG
+[Credits >]
+Заслуги >
 [Tray]
 Трей
 [&Hide/Show]
@@ -1143,40 +1145,6 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
-[%s requests authorization]
-%s желае да бъде упълномощен
-[%u requests authorization]
-%u желае да бъде упълномощен
-[%s added you to their contact list]
-%s ви добави в списъка си с контакти
-[%u added you to their contact list]
-%u ви добави в списъка си с контакти
-[Alerts]
-Уведомявания
-[Added event]
-Добавяне на събитие
-[View user's details]
-Подробности за потребителя
-[Add contact permanently to list]
-Добавяне на контакта за постоянно в списъка
-[<Unknown>]
-<Неизвестно>
-[%s added you to the contact list\n%u (%s) on %s]
-%s ви добави в списъка си с контакти\n%u (%s) (Акаунт: %s)
-[%s added you to the contact list\n%u on %s]
-%s ви добави в списъка си с контакти\n%u (Акаунт: %s)
-[%s added you to the contact list\n%s on %s]
-%s ви добави в списъка си с контакти\n%s (Акаунт: %s)
-[(Unknown)]
-(Неизвестен)
-[%s requested authorization\n%u (%s) on %s]
-%s изпрати молба за упълномощаване\n%u (%s) (Акаунт: %s)
-[%s requested authorization\n%u on %s]
-%s изпрати молба за упълномощаване\n%u (Акаунт: %s)
-[%s requested authorization\n%s on %s]
-%s изпрати молба за упълномощаване\n%s (Акаунт: %s)
-[Feature is not supported by protocol]
-Не се поддържа от протокола
 [Re&ad %s message]
 Показване на текста "%s"
 [Re&ad status message]
@@ -1287,6 +1255,10 @@ Google Translate
 Избор на папка
 [My received files]
 Получени файлове
+[Add contact permanently to list]
+Добавяне на контакта за постоянно в списъка
+[View user's details]
+Подробности за потребителя
 [View user's history]
 История на съобщенията
 [User menu]
@@ -1351,18 +1323,6 @@ Google Translate
 Прехвърлянето и сканирането за вируси завърши.
 [Outgoing]
 Изходящи
-[< Copyright]
-< Copyright
-[&Help]
-Помощ
-[&About...]
-Относно...
-[&Support]
-Поддръжка
-[&Miranda NG homepage]
-Страницата на Miranda NG
-[&Report bug]
-Съобщи за програмна грешка
 [Idle]
 Бездействие
 [Chat module]
@@ -1807,10 +1767,40 @@ Popups за изобразяване
 Преглед/Промяна на личните данни
 [%s is online]
 %s е на линия
+[Alerts]
+Уведомявания
 [Add %s]
 Добавяне на %s
 [Please authorize my request and add me to your contact list.]
 Моля, приемете моята молба за упълномощаване и ме добавете в списъка си с контакти.
+[%s requests authorization]
+%s желае да бъде упълномощен
+[%u requests authorization]
+%u желае да бъде упълномощен
+[%s added you to their contact list]
+%s ви добави в списъка си с контакти
+[%u added you to their contact list]
+%u ви добави в списъка си с контакти
+[Added event]
+Добавяне на събитие
+[<Unknown>]
+<Неизвестно>
+[%s added you to the contact list\n%u (%s) on %s]
+%s ви добави в списъка си с контакти\n%u (%s) (Акаунт: %s)
+[%s added you to the contact list\n%u on %s]
+%s ви добави в списъка си с контакти\n%u (Акаунт: %s)
+[%s added you to the contact list\n%s on %s]
+%s ви добави в списъка си с контакти\n%s (Акаунт: %s)
+[(Unknown)]
+(Неизвестен)
+[%s requested authorization\n%u (%s) on %s]
+%s изпрати молба за упълномощаване\n%u (%s) (Акаунт: %s)
+[%s requested authorization\n%u on %s]
+%s изпрати молба за упълномощаване\n%u (Акаунт: %s)
+[%s requested authorization\n%s on %s]
+%s изпрати молба за упълномощаване\n%s (Акаунт: %s)
+[Feature is not supported by protocol]
+Не се поддържа от протокола
 [&Join chat]
 Влизане
 [&Open chat window]
@@ -2057,6 +2047,18 @@ Popups за изобразяване
 Основен текст
 [Small text]
 Малък текст
+[< Copyright]
+< Copyright
+[&Help]
+Помощ
+[&About...]
+Относно...
+[&Support]
+Поддръжка
+[&Miranda NG homepage]
+Страницата на Miranda NG
+[&Report bug]
+Съобщи за програмна грешка
 [Browser: Back]
 Браузър: Назад
 [Browser: Forward]

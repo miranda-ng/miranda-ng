@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 0.3.1.1
+;  Version: 1.0.1.1
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
@@ -57,21 +57,19 @@ Ungelesene Nachrichten protokollieren
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Prüfen...
-[Can't open Internet!]
-Keine Internetverbindung!
-[Can't reach server!]
-Kann Server nicht erreichen!
 [Can't send account data!]
 Kann Kontodaten nicht senden!
-[Can't get RSS feed!]
-Kann RSS Feed nicht empfangen!
 [Wrong name or password!]
 Falscher Nutzername oder Passwort!
+[Can't get RSS feed!]
+Kann RSS Feed nicht empfangen!
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Sonstige
 [Gmail: New thread(s)]
 Gmail: Neue Themen
+[Gmail Notifier connection]
+
 [&Check all Gmail inboxes]
 Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]

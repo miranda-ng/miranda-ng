@@ -7,7 +7,7 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Просмотрщик истории для Miranda NG.
-[Message History]
+[Message history]
 История сообщений
 [Settings]
 Настройки
@@ -15,9 +15,9 @@
 Всегда показывать список контактов
 [Show groups in contact list]
 Показывать группы в списке контактов
-[Do not show Find control border]
+[Do not show find control border]
 Не показывать рамку строки поиска
-[Default Event Filter]
+[Default event filter]
 Фильтр событий
 [Custom filters]
 Свои фильтры
@@ -55,31 +55,31 @@
 Показывать дату
 [Show seconds in timestamps]
 Показывать секунды
-[Enable Smileys]
+[Enable smileys]
 Включить смайлы
 [Search forward in list group]
 Искать дальше в группе
 [Search forward in message window]
 Искать дальше в окне сообщений
-[Match Case]
+[Match case]
 Учитывать регистр
-[Match Whole Word]
+[Match whole word]
 Слово целиком
-[Only Incoming Messages]
+[Only incoming messages]
 Только входящие сообщения
-[Only Outgoing Messages]
+[Only outgoing messages]
 Только исходящие сообщения
-[Only Selected Group]
+[Only selected group]
 Только выбранная группа
-[All Contacts]
+[All contacts]
 Все контакты
-[Export To Txt]
+[Export to txt]
 Экспорт в текст
 [File encoding*]
 Кодировка файла*
-[Export To Plain Html]
+[Export to plain HTML]
 Экспорт в чистый HTML
-[Export To Rich Html]
+[Export to rich HTML]
 Экспорт в полноценный HTML
 [External CSS file]
 Внешний файл CSS
@@ -139,9 +139,9 @@
 Отмена
 [Open History]
 Открыть историю
-[View &History]
+[View &history]
 &История
-[Delete All User History]
+[Delete all user history]
 Удалить всю историю пользователя
 [Execute history task]
 Выполнить задачу
@@ -151,13 +151,13 @@
 Исходящее сообщение
 [Status change]
 Смена статуса
-[Show Contacts]
+[Show contacts]
 Показать контакты
-[Hide Contacts]
+[Hide contacts]
 Скрыть контакты
-[Find Next]
+[Find next]
 Найти дальше
-[Find Previous]
+[Find previous]
 Найти предыдущее
 [Plus in export]
 Плюс в экспорте
@@ -175,9 +175,9 @@
 Система
 [Me]
 Я
-[Invalid Message]
+[Invalid message]
 Сообщение повреждено
-[%s Files (*.%s)]
+[%s files (*.%s)]
 Файлы %s (*.%s)
 [Import]
 Импорт
@@ -189,7 +189,7 @@
 Файл повреждён
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Эта операция полностью удалит историю этого контакта.\nВы уверены?
-[Are You sure?]
+[Are you sure?]
 Вы уверены?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Хотите удалить все импортированные сообщения для этого контакта?\nУчтите, что следующее задание планировщика снова импортирует эти сообщения.
@@ -203,11 +203,11 @@
 Копировать
 [Delete]
 Удалить
-[Send Message]
+[Send message]
 Отправить
-[Reply &Quoted]
+[Reply &quoted]
 Ответить с &цитатой
-[Delete Group]
+[Delete group]
 Удаление группы
 [Options]
 Настройки
@@ -219,9 +219,9 @@
 Значки
 [Hotkeys]
 Горячие клавиши
-[Rich Html]
+[Rich HTML]
 Полноценный HTML
-[Plain Html]
+[Plain HTML]
 Чистый HTML
 [Txt]
 Текстовый документ
@@ -295,28 +295,28 @@ Dat (плагин mContacts)
 Открыть глобальную историю
 [Find]
 Найти
-[Switch Match Case]
+[Switch match case]
 Учитывать регистр
-[Switch Match Whole Word]
+[Switch match whole word]
 Слово целиком
-[Show/Hide Contacts]
+[Show/hide contacts]
 Показать/скрыть контакты
-[Switch Only Incoming Messages]
+[Switch only incoming messages]
 Только входящие сообщения
-[Switch Only Outgoing Messages]
+[Switch only outgoing messages]
 Только исходящие сообщения
-[Switch Only Selected Group]
+[Switch only selected group]
 Только выбранные группы
-[Switch All Contacts]
+[Switch all contacts]
 Все контакты
-[Export To Binary]
+[Export to binary]
 Экспорт в двоичный файл
-[Import From Binary]
+[Import from binary]
 Импорт из двоичного файла
-[Export To Dat (mContacts)]
-Экспорт в Dat (плагин mContacts)
-[Import From Dat (mContacts)]
-Импорт из Dat (плагин mContacts)
+[Export to dat (mContacts)]
+Экспорт в dat (плагин mContacts)
+[Import from dat (mContacts)]
+Импорт из dat (плагин mContacts)
 [Invalid event number]
 Недопустимый номер события
 [Incoming events]
@@ -327,7 +327,7 @@ Dat (плагин mContacts)
 Файл отсутствует. Введите верный путь к файлу.
 [Invalid file]
 Неверный файл
-[All Files (*.*)]
+[All files (*.*)]
 Все файлы (*.*)
 [Enter filter name]
 Введите имя фильтра
@@ -345,17 +345,17 @@ Dat (плагин mContacts)
 Неверная кодовая страница
 [Browse CSS file]
 Указать CSS
-[Export and Delete]
+[Export and delete]
 Экспортировать и удалить
-[Import and Merge]
+[Import and merge]
 Импортировать и слить
 [Minute]
 Минуты
 [Hour]
 Часы
-[At Start]
+[At start]
 При запуске
-[At Finish]
+[At finish]
 При выходе
 [Daily]
 Ежедневно
@@ -399,7 +399,7 @@ Dat (плагин mContacts)
 Импорт из:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ** <date> - вставляет дату, <ext> - расширение, <contact> - имя контакта
-[History Log]
+[History log]
 Просмотр истории
 [Filter:]
 Фильтр

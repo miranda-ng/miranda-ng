@@ -50,6 +50,8 @@ ATTENTION : \tDes skins peuvent modifier votre profil. Un retour ne sera pas pos
 * Relancer Miranda pour valider tous les changements
 [Skin folder]
 
+[Download more skins]
+
 [Available view modes]
 Mode d'affichages disponibles
 [Include protocols]

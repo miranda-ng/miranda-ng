@@ -101,8 +101,8 @@ Ciągłe nagrywanie
 Kamieniołom
 [Sorry!]
 Przepraszamy!
-[BASS.DLL not found!]
-BASS.dll nie odnaleziony!
+[bass.dll not found!]
+bass.dll nie odnaleziony!
 [Station]
 Stacja
 [Custom INI file]
@@ -199,3 +199,5 @@ Equalizer
 Nowy
 [Quick Open]
 Szybkie Otwieranie
+[bass.dll not found! Choose bass.dll path manually]
+

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.1.1
+;  Version: 4.0.1.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -326,4 +326,4 @@ INI файлы
 [*** resident ***]
 
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
-Зменена налада базы: \nПлагін: "%s", налада: "%s"\nНовае значэнне (%s): "%s"
+Зменена налада базы: \nМодуль: "%s", налада: "%s"\nНовае значэнне (%s): "%s"

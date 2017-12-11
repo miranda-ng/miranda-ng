@@ -3,29 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-;file \src\core\stdauth\res\resource.rc
-[Authorization request]
-Autorisierungsanfrage
-[&Authorize]
-&Autorisieren
-[&Deny]
-&Ablehnen
-[Decide &later]
-&Später entscheiden
-[User &details]
-Kontakt&profil
-[Reason:]
-Grund:
-[Denial reason:]
-Grund der Ablehnung:
-[Add to contact list if authorized]
-Zur Kontaktliste hinzufügen, falls autorisiert
-[You were added]
-Sie wurden hinzugefügt
-[&Close]
-S&chließen
-[&Add]
-&Hinzufügen
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 '%s'-Nachricht von %s
@@ -291,6 +268,8 @@ Gesamtgröße:
 Beschreibung:
 [&User menu]
 &Kontaktmenü
+[User &details]
+Kontakt&profil
 [&History]
 &Verlauf
 [Incoming file transfer]
@@ -307,6 +286,8 @@ Datum:
 Dateien:
 [Save to:]
 Speichern nach:
+[&Add]
+&Hinzufügen
 [&Open...]
 &Öffnen...
 [Open &folder]
@@ -395,11 +376,6 @@ Nachfragen
 Umbenennen (Zusatz: (1), (2), ...)
 [You will always be asked about files from people not on your contact list]
 Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
-;file \src\core\stdhelp\res\resource.rc
-[About Miranda NG]
-Über Miranda NG
-[Credits >]
-Dank an >
 ;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Untätig werden, wenn keine Aktion innerhalb von:
@@ -723,6 +699,8 @@ Chatfenster des Kontaktes öffnen
 Eigener Name:
 [Group:]
 Gruppe:
+[Authorization request]
+Autorisierungsanfrage
 [&Yes]
 &Ja
 [&No]
@@ -999,6 +977,8 @@ Warnung!\r\nDieses Menüobjekt kann nicht vom Benutzer angepasst werden!
 Untermenü einfügen
 [Insert separator]
 Trennlinie einfügen
+[Module:]
+Modul:
 [Service:]
 Dienst:
 [Default]
@@ -1133,6 +1113,26 @@ In Gruppenchats anzeigen
 Schaltflächenabstand:
 [Hide if there isn't enough space]
 Verstecken, wenn nicht genügend Platz
+[&Authorize]
+&Autorisieren
+[&Deny]
+&Ablehnen
+[Decide &later]
+&Später entscheiden
+[Reason:]
+Grund:
+[Denial reason:]
+Grund der Ablehnung:
+[Add to contact list if authorized]
+Zur Kontaktliste hinzufügen, falls autorisiert
+[You were added]
+Sie wurden hinzugefügt
+[&Close]
+S&chließen
+[About Miranda NG]
+Über Miranda NG
+[Credits >]
+Dank an >
 [Tray]
 Tray
 [&Hide/Show]
@@ -1193,42 +1193,6 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
-;file \src\core\stdauth\src\auth.cpp
-[%s requests authorization]
-%s fragt nach Autorisierung
-[%u requests authorization]
-%u fragt nach Autorisierung
-[%s added you to their contact list]
-%s fügte Sie zu seiner Kontaktliste hinzu
-[%u added you to their contact list]
-%u fügte Sie zu seiner Kontaktliste hinzu
-[Alerts]
-Hinweis
-[Added event]
-Sie wurden von jemandem hinzugefügt
-;file \src\core\stdauth\src\authdialogs.cpp
-[View user's details]
-Kontaktprofil anzeigen
-[Add contact permanently to list]
-Kontakt dauerhaft zur Liste hinzufügen
-[<Unknown>]
-<Unbekannt>
-[%s added you to the contact list\n%u (%s) on %s]
-%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u (%s) in %s
-[%s added you to the contact list\n%u on %s]
-%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u in %s
-[%s added you to the contact list\n%s on %s]
-%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%s in %s
-[(Unknown)]
-(Unbekannt)
-[%s requested authorization\n%u (%s) on %s]
-%s fragt nach einer Autorisierung\n%u (%s) unter %s
-[%s requested authorization\n%u on %s]
-%s fragt nach einer Autorisierung\n%u unter %s
-[%s requested authorization\n%s on %s]
-%s fragt nach einer Autorisierung\n%s unter %s
-[Feature is not supported by protocol]
-Diese Funktion wird durch dieses Protokoll nicht unterstützt
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 '%s'-N&achricht lesen
@@ -1351,6 +1315,10 @@ Ereignisse
 Ordner wählen
 [My received files]
 Meine empfangenen Dateien
+[Add contact permanently to list]
+Kontakt dauerhaft zur Liste hinzufügen
+[View user's details]
+Kontaktprofil anzeigen
 [View user's history]
 Verlauf anzeigen
 [User menu]
@@ -1418,20 +1386,6 @@ Untersuche auf Viren...
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Ausgehend
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-< Copyright
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-&Hilfe
-[&About...]
-&Über...
-[&Support]
-Hilfe&seite
-[&Miranda NG homepage]
-&Miranda-NG-Webseite
-[&Report bug]
-Fehle&r melden
 ;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Untätigkeit
@@ -1907,11 +1861,43 @@ Mein Profil än&dern...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s ist online
+[Alerts]
+Hinweis
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 %s hinzufügen
 [Please authorize my request and add me to your contact list.]
 Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
+;file \src\mir_app\src\auth.cpp
+[%s requests authorization]
+%s fragt nach Autorisierung
+[%u requests authorization]
+%u fragt nach Autorisierung
+[%s added you to their contact list]
+%s fügte Sie zu seiner Kontaktliste hinzu
+[%u added you to their contact list]
+%u fügte Sie zu seiner Kontaktliste hinzu
+[Added event]
+Sie wurden von jemandem hinzugefügt
+;file \src\mir_app\src\authdialogs.cpp
+[<Unknown>]
+<Unbekannt>
+[%s added you to the contact list\n%u (%s) on %s]
+%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u (%s) in %s
+[%s added you to the contact list\n%u on %s]
+%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u in %s
+[%s added you to the contact list\n%s on %s]
+%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%s in %s
+[(Unknown)]
+(Unbekannt)
+[%s requested authorization\n%u (%s) on %s]
+%s fragt nach einer Autorisierung\n%u (%s) unter %s
+[%s requested authorization\n%u on %s]
+%s fragt nach einer Autorisierung\n%u unter %s
+[%s requested authorization\n%s on %s]
+%s fragt nach einer Autorisierung\n%s unter %s
+[Feature is not supported by protocol]
+Diese Funktion wird durch dieses Protokoll nicht unterstützt
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Chat &betreten
@@ -2200,6 +2186,19 @@ Kopfzeilen
 Allgemeiner Text
 [Small text]
 Kleiner Text
+;file \src\mir_app\src\help.cpp
+[< Copyright]
+< Copyright
+[&Help]
+&Hilfe
+[&About...]
+&Über...
+[&Support]
+Hilfe&seite
+[&Miranda NG homepage]
+&Miranda-NG-Webseite
+[&Report bug]
+Fehle&r melden
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 Browser: Zurück

@@ -345,6 +345,8 @@ ms
 Настройки на облика
 [Frame title bar height]
 Височина на имената на рамките
+[Download more skins]
+Сваляне на още облици
 [Load from skin file]
 Зареждане от файл
 [Export to skin file]

@@ -1,5 +1,6 @@
 [These changes will take effect the next time you connect to the network.]
 [Insert submenu]
+[Module:]
 [Enable icons]
 [Add to existing metacontact]
 [Please select a metacontact:]

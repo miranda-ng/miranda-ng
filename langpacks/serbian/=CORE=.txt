@@ -3,29 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-;file \src\core\stdauth\res\resource.rc
-[Authorization request]
-Zahtev za autorizaciju.
-[&Authorize]
-&Potvrdi autorizaciju
-[&Deny]
-&Odbij autorizaciju
-[Decide &later]
-Odluči &kasnije
-[User &details]
-Detalji &korisnika
-[Reason:]
-Razlog:
-[Denial reason:]
-Razlog odbijanja:
-[Add to contact list if authorized]
-Ubaciti na spisak kontakata po autorizaciji
-[You were added]
-Vaš kontakt je dodat
-[&Close]
-&Zatvori
-[&Add]
-&Dodati
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s poruka za %s
@@ -291,6 +268,8 @@ Ukupna veličina
 Opis:
 [&User menu]
 &Korisnički meni
+[User &details]
+Detalji &korisnika
 [&History]
 &Istorija
 [Incoming file transfer]
@@ -307,6 +286,8 @@ Datum:
 Datoteke:
 [Save to:]
 Sačuvaj u:
+[&Add]
+&Dodati
 [&Open...]
 &Otvori...
 [Open &folder]
@@ -395,11 +376,6 @@ Pitaj me
 Preimenuj (dodaj " (1)", itd)
 [You will always be asked about files from people not on your contact list]
 Pitanje će uvek biti postavljeno ako je datoteka stigla od nepoznatog kontakta
-;file \src\core\stdhelp\res\resource.rc
-[About Miranda NG]
-O programu
-[Credits >]
-Autori >
 ;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Pasivni režim usled navedenih događaja:
@@ -723,6 +699,8 @@ Razgovor s kontaktom u prozoru
 Izmenjeno ime:
 [Group:]
 Grupa:
+[Authorization request]
+Zahtev za autorizaciju.
 [&Yes]
 &Da
 [&No]
@@ -999,6 +977,8 @@ Upozorenje!\r\nNavedeni objekat u meniju ne podržava zadatu opciju.
 
 [Insert separator]
 Ubaci razdelnik
+[Module:]
+
 [Service:]
 Služi za:
 [Default]
@@ -1133,6 +1113,26 @@ Preuzimanje jezičkih paketa
 
 [Hide if there isn't enough space]
 
+[&Authorize]
+&Potvrdi autorizaciju
+[&Deny]
+&Odbij autorizaciju
+[Decide &later]
+Odluči &kasnije
+[Reason:]
+Razlog:
+[Denial reason:]
+Razlog odbijanja:
+[Add to contact list if authorized]
+Ubaciti na spisak kontakata po autorizaciji
+[You were added]
+Vaš kontakt je dodat
+[&Close]
+&Zatvori
+[About Miranda NG]
+O programu
+[Credits >]
+Autori >
 [Tray]
 Tray
 [&Hide/Show]
@@ -1193,42 +1193,6 @@ Pronađi reč
 
 [Google Translate]
 
-;file \src\core\stdauth\src\auth.cpp
-[%s requests authorization]
-&s zahteva autorizaciju
-[%u requests authorization]
-%u zahteva autorizaciju
-[%s added you to their contact list]
-%s dodaje vaš kontakt na spisak
-[%u added you to their contact list]
-%u dodaje vaš kontakt na spisak
-[Alerts]
-Upozorenja
-[Added event]
-Dodat događaj
-;file \src\core\stdauth\src\authdialogs.cpp
-[View user's details]
-Pregled detalja o korisniku
-[Add contact permanently to list]
-Zapamtiti kontakt na spisku
-[<Unknown>]
-<Nepoznato>
-[%s added you to the contact list\n%u (%s) on %s]
-%s dodaje vaš konatkt na spisak\n%u (%s) na %s
-[%s added you to the contact list\n%u on %s]
-%s dodaje vaš konatkt na spisak\n%u na %s
-[%s added you to the contact list\n%s on %s]
-%s dodaje vaš konatkt na spisak\n%s na %s
-[(Unknown)]
-(Nepoznato)
-[%s requested authorization\n%u (%s) on %s]
-%s šalje zahtev za autorizaciju\n%u (%s) na %s
-[%s requested authorization\n%u on %s]
-%s šalje zahtev za autorizaciju\n%u na %s
-[%s requested authorization\n%s on %s]
-%s šalje zahtev za autorizaciju\n%s na %s
-[Feature is not supported by protocol]
-Protokol ne podržava zahtevanu opciju
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Čitaj &poruku od: "%s"
@@ -1351,6 +1315,10 @@ Događaji
 Izbor foldera
 [My received files]
 Pristigle datoteke (lokalno)
+[Add contact permanently to list]
+Zapamtiti kontakt na spisku
+[View user's details]
+Pregled detalja o korisniku
 [View user's history]
 Vidi istoriju korisnika
 [User menu]
@@ -1418,20 +1386,6 @@ Prenos podataka i provera virusa dovršeni
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odlazni
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-< Zaštita prava
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-&Pomoć
-[&About...]
-&O programu...
-[&Support]
-&Korisnička podrška
-[&Miranda NG homepage]
-&Sajt Miranda NG
-[&Report bug]
-Prijavi &grešku
 ;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Pasivni režim
@@ -1907,11 +1861,43 @@ Pregledaj/menjaj &detalje...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je prisutan
+[Alerts]
+Upozorenja
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Dodaj %s
 [Please authorize my request and add me to your contact list.]
 Dodaj me na spisak i daj mi autorizaciju, molim.
+;file \src\mir_app\src\auth.cpp
+[%s requests authorization]
+&s zahteva autorizaciju
+[%u requests authorization]
+%u zahteva autorizaciju
+[%s added you to their contact list]
+%s dodaje vaš kontakt na spisak
+[%u added you to their contact list]
+%u dodaje vaš kontakt na spisak
+[Added event]
+Dodat događaj
+;file \src\mir_app\src\authdialogs.cpp
+[<Unknown>]
+<Nepoznato>
+[%s added you to the contact list\n%u (%s) on %s]
+%s dodaje vaš konatkt na spisak\n%u (%s) na %s
+[%s added you to the contact list\n%u on %s]
+%s dodaje vaš konatkt na spisak\n%u na %s
+[%s added you to the contact list\n%s on %s]
+%s dodaje vaš konatkt na spisak\n%s na %s
+[(Unknown)]
+(Nepoznato)
+[%s requested authorization\n%u (%s) on %s]
+%s šalje zahtev za autorizaciju\n%u (%s) na %s
+[%s requested authorization\n%u on %s]
+%s šalje zahtev za autorizaciju\n%u na %s
+[%s requested authorization\n%s on %s]
+%s šalje zahtev za autorizaciju\n%s na %s
+[Feature is not supported by protocol]
+Protokol ne podržava zahtevanu opciju
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Počni razgovor
@@ -2200,6 +2186,19 @@ Zaglavlja
 Bazični tekst
 [Small text]
 Dodatni tekst
+;file \src\mir_app\src\help.cpp
+[< Copyright]
+< Zaštita prava
+[&Help]
+&Pomoć
+[&About...]
+&O programu...
+[&Support]
+&Korisnička podrška
+[&Miranda NG homepage]
+&Sajt Miranda NG
+[&Report bug]
+Prijavi &grešku
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 

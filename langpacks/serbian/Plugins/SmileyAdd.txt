@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.4.2
+;  Version: 0.3.0.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -98,15 +98,13 @@ Podešavanja
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 
-[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
-
 [Smiley #%u in file %s for smiley pack %s not found.]
+
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 
 [%s global smiley pack]
 
 [Standard]
-
-[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
 
 [Regular expression "%s" in smiley pack "%s" malformed.]
 

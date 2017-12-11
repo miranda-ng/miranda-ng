@@ -2,12 +2,20 @@
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.2
+;  Version: 0.11.0.3
 ;  Authors: Miranda NG Team
 ;============================================================
 [General]
 General
+[Do nothing]
+No hacer nada
+[Authorization]
+Autorización
 [Cancel]
 Cancelar
+[Upload]
+Subir
 [None]
 Ninguno
+[Services]
+Servicios

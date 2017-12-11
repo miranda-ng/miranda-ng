@@ -66,6 +66,8 @@ Pokaż datę
 Użyj długiego formatu daty
 [Use relative timestamp]
 Użyj relatywnego czasu i daty
+[Download more templates]
+
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Wychodzące transfery

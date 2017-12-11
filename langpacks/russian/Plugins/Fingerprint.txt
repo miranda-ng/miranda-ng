@@ -45,8 +45,6 @@ Fingerprint NG отображает значки клиентов, исполь�
 Клиенты QQ
 [RSS clients]
 Клиенты RSS
-[Tlen clients]
-Клиенты Tlen
 [Weather clients]
 Клиенты погоды
 [Yahoo clients]
@@ -103,8 +101,6 @@ Mail.Ru (неизвестный клиент)
 TM 2008 и выше
 [Gadu-Gadu client]
 Gadu-Gadu клиент
-[Tlen.pl client]
-Tlen.pl клиент
 [Python-based clients]
 Клиенты на основе Python
 [Jabber client]
@@ -135,8 +131,6 @@ XMPP клиент
 Оверлей MSN
 [QQ overlay]
 Оверлей QQ
-[Tlen.pl overlay]
-Оверлей Tlen.pl
 [Yahoo overlay]
 Оверлей Yahoo
 [Mail.Ru Agent overlay]
@@ -171,12 +165,6 @@ Gadu-Gadu v10 клиент
 Gadu-Gadu v9 клиент
 [Gadu-Gadu v8 client]
 Gadu-Gadu v8 клиент
-[Tlen 7.x overlay]
-Tlen 7.x оверлей
-[Tlen 6.x overlay]
-Tlen 6.x оверлей
-[Tlen 5.x overlay]
-Tlen 5.x оверлей
 [TM/QQ 2012 overlay]
 TM/QQ 2012 оверлей
 [TM/QQ 2011 overlay]

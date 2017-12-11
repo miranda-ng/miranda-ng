@@ -491,6 +491,8 @@ Windows Aero - настройки
 Износ във файл...
 [Import from a file...]
 Внос от файл...
+[Download more skins]
+Сваляне на още облици
 [Icons]
 Икони
 [Event type icons in the message log]

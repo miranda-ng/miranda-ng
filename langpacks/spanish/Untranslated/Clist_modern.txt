@@ -1,4 +1,5 @@
 [Skin folder]
+[Download more skins]
 [Use xStatus icon]
 [Icon mode]
 [For similar statuses]

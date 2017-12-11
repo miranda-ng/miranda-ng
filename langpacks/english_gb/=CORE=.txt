@@ -3,12 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-[Authorization request]
-Authorisation request
-[&Authorize]
-&Authorise
-[Add to contact list if authorized]
-Add to contact list if authorised
 [Minimize to tray]
 Minimise to tray
 [Gray out entire list when:]
@@ -29,6 +23,8 @@ Use default colours
 Use custom colours
 [Send authorization request]
 Send authorisation request
+[Authorization request]
+Authorisation request
 [Run program when Miranda NG starts (e.g., tail -f, dbgview, etc.):]
 Run program when Miranda NG starts (e.g. tail -f, dbgview, etc.):
 [e.g., Workplace]
@@ -45,16 +41,10 @@ Text colour
 Base colour:
 [Secondary color:]
 Secondary colour:
-[%s requests authorization]
-%s requests authorisation
-[%u requests authorization]
-%u requests authorisation
-[%s requested authorization\n%u (%s) on %s]
-%s requested authorisation\n%u (%s) on %s
-[%s requested authorization\n%u on %s]
-%s requested authorisation\n%u on %s
-[%s requested authorization\n%s on %s]
-%s requested authorisation\n%s on %s
+[&Authorize]
+&Authorise
+[Add to contact list if authorized]
+Add to contact list if authorised
 [Canceled]
 Cancelled
 [This file transfer has been canceled by the other side]
@@ -77,6 +67,16 @@ Select a foreground colour for the text (CTRL+K)
 Select a background colour for the text (CTRL+L)
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
+[%s requests authorization]
+%s requests authorisation
+[%u requests authorization]
+%u requests authorisation
+[%s requested authorization\n%u (%s) on %s]
+%s requested authorisation\n%u (%s) on %s
+[%s requested authorization\n%u on %s]
+%s requested authorisation\n%u on %s
+[%s requested authorization\n%s on %s]
+%s requested authorisation\n%s on %s
 [Authorization request from %s%s: %s]
 Authorisation request from %s%s: %s
 [Customize]

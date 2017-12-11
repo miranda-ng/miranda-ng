@@ -46,8 +46,6 @@ Klienty MSN
 Klienty QQ
 [RSS clients]
 Klienty RSS
-[Tlen clients]
-Klienty Tlen
 [Weather clients]
 Klienty Pogodowe
 [Yahoo clients]
@@ -107,8 +105,6 @@ MRA (nieznany klient)
 TM 2008 i >
 [Gadu-Gadu client]
 Klient Gadu-Gadu
-[Tlen.pl client]
-Klient Tlen.pl
 [Python-based clients]
 Klient bazujący na Phytonie
 [Jabber client]
@@ -139,8 +135,6 @@ Nakładka Jabber
 Nakładka MSN
 [QQ overlay]
 Nakładka QQ
-[Tlen.pl overlay]
-Nakładka Tlen.pl
 [Yahoo overlay]
 Nakładka Yahoo
 [Mail.Ru Agent overlay]
@@ -175,12 +169,6 @@ Klient Gadu-Gadu v10
 Klient Gadu-Gadu v9
 [Gadu-Gadu v8 client]
 Klient Gadu-Gadu v8
-[Tlen 7.x overlay]
-Nakładka Tlen 7.x
-[Tlen 6.x overlay]
-Nakładka Tlen 6.x
-[Tlen 5.x overlay]
-Nakładka Tlen 5.x
 [TM/QQ 2012 overlay]
 Nakładka TM/QQ 2012
 [TM/QQ 2011 overlay]

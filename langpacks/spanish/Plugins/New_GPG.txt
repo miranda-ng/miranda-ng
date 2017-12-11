@@ -17,18 +17,20 @@ Ignorar
 Cancelar
 [Password:]
 Contraseña:
-[Name]
-Nombre
-[Accounts]
-Cuentas
-[Default]
-Por defecto
-[not set]
-no establecido
-[Error]
-Error
 [Warning]
 Advertencia
+[Contact]
+Contacto
+[Name]
+Nombre
+[Protocol]
+Protocolo
+[not set]
+no establecido
+[info]
+info
+[Error]
+Error
 [Info]
 Info
 [Services]
@@ -39,9 +41,7 @@ Principal
 Mensajes
 [Advanced]
 Avanzado
-[Contact]
-Contacto
-[Protocol]
-Protocolo
-[info]
-info
+[Accounts]
+Cuentas
+[Default]
+Por defecto

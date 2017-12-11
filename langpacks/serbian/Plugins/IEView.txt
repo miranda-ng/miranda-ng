@@ -66,6 +66,8 @@ Prikaži sekunde
 
 [Use relative timestamp]
 
+[Download more templates]
+
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 

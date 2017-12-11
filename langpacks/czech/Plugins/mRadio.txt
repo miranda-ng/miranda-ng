@@ -101,8 +101,8 @@ Nepřetržité nahrávání
 Kamenolom
 [Sorry!]
 
-[BASS.DLL not found!]
-Nelze najít knihovnu BASS.DLL!
+[bass.dll not found!]
+Nelze najít knihovnu bass.dll!
 [Station]
 Stanice
 [Custom INI file]
@@ -198,4 +198,6 @@ Ekvalizér
 [New]
 Nový
 [Quick Open]
+
+[bass.dll not found! Choose bass.dll path manually]
 

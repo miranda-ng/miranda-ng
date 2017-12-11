@@ -7,7 +7,7 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Переглядач історії для Miranda NG.
-[Message History]
+[Message history]
 Історія повідомлень
 [Settings]
 Налаштування
@@ -15,9 +15,9 @@
 Завжди показувати список контактів
 [Show groups in contact list]
 Показувати групи в списку контактів
-[Do not show Find control border]
+[Do not show find control border]
 Не показувати рамку рядка пошуку
-[Default Event Filter]
+[Default event filter]
 Фільтр подій
 [Custom filters]
 Свої фільтри
@@ -55,31 +55,31 @@
 Показувати дату
 [Show seconds in timestamps]
 Показувати секунди
-[Enable Smileys]
+[Enable smileys]
 Увімкнути смайли
 [Search forward in list group]
 Шукати далі в групі
 [Search forward in message window]
 Шукати далі у вікні повідомлень
-[Match Case]
+[Match case]
 Враховувати регістр
-[Match Whole Word]
+[Match whole word]
 Слово цілком
-[Only Incoming Messages]
+[Only incoming messages]
 Тільки вхідні повідомлення
-[Only Outgoing Messages]
+[Only outgoing messages]
 Тільки вихідні повідомлення
-[Only Selected Group]
+[Only selected group]
 Тільки вибрана група
-[All Contacts]
+[All contacts]
 Усі контакти
-[Export To Txt]
+[Export to txt]
 Експорт в текст
 [File encoding*]
 Кодування файлу*
-[Export To Plain Html]
+[Export to plain HTML]
 Експорт у чистий HTML
-[Export To Rich Html]
+[Export to rich HTML]
 Експорт в повноцінний HTML
 [External CSS file]
 Зовнішній файл CSS
@@ -139,9 +139,9 @@
 Скасувати
 [Open History]
 Відкрити історію
-[View &History]
+[View &history]
 &Історія
-[Delete All User History]
+[Delete all user history]
 Видалити всю історію користувача
 [Execute history task]
 Виконати задачу
@@ -151,13 +151,13 @@
 Вихідне повідомлення
 [Status change]
 Зміна статусу
-[Show Contacts]
+[Show contacts]
 Показати контакти
-[Hide Contacts]
+[Hide contacts]
 Сховати контакти
-[Find Next]
+[Find next]
 Знайти далі
-[Find Previous]
+[Find previous]
 Знайте попереднє
 [Plus in export]
 Плюс в експорті
@@ -175,9 +175,9 @@
 Система
 [Me]
 Я
-[Invalid Message]
+[Invalid message]
 Пошкоджене повідомлення
-[%s Files (*.%s)]
+[%s files (*.%s)]
 Файли %s (*.%s)
 [Import]
 Імпорт
@@ -189,7 +189,7 @@
 Файл пошкоджений
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Ця операція повністю видалить історію цього контакту.\nВи впевнені?
-[Are You sure?]
+[Are you sure?]
 Ви впевнені?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Ви дійсно хочете видалити всі імпортовані повідомлення для цього контакту?\nПримітка: наступне завдання планувача імпортує ці повідомлення знову.
@@ -203,11 +203,11 @@
 Копіювати
 [Delete]
 Видалити
-[Send Message]
+[Send message]
 Відправити
-[Reply &Quoted]
+[Reply &quoted]
 Відповісти з &цитатою
-[Delete Group]
+[Delete group]
 Видалення групи
 [Options]
 Налаштування
@@ -219,9 +219,9 @@
 Значки
 [Hotkeys]
 Гарячі клавіші
-[Rich Html]
+[Rich HTML]
 Повноцінний HTML
-[Plain Html]
+[Plain HTML]
 Чистий HTML
 [Txt]
 Текст
@@ -295,27 +295,27 @@ dat (плагін mContacts)
 Відкрити глобальну історію
 [Find]
 Знайти
-[Switch Match Case]
+[Switch match case]
 Враховувати регістр
-[Switch Match Whole Word]
+[Switch match whole word]
 Слово цілком
-[Show/Hide Contacts]
+[Show/hide contacts]
 Показати/сховати контакти
-[Switch Only Incoming Messages]
+[Switch only incoming messages]
 Тільки вхідні повідомлення
-[Switch Only Outgoing Messages]
+[Switch only outgoing messages]
 Тільки вихідні повідомлення
-[Switch Only Selected Group]
+[Switch only selected group]
 Тільки вибрані групи
-[Switch All Contacts]
+[Switch all contacts]
 Усі контакти
-[Export To Binary]
+[Export to binary]
 Експорт у двійковий файл
-[Import From Binary]
+[Import from binary]
 Імпорт з двійкового файлу
-[Export To Dat (mContacts)]
+[Export to dat (mContacts)]
 Експорт у dat (плагін mContacts)
-[Import From Dat (mContacts)]
+[Import from dat (mContacts)]
 Імпорт з dat (плагін mContacts)
 [Invalid event number]
 Неправильний номер події
@@ -327,7 +327,7 @@ dat (плагін mContacts)
 Файл відсутній. Вкажіть правильний шлях до файлу.
 [Invalid file]
 Неправильний файл
-[All Files (*.*)]
+[All files (*.*)]
 Усі файли (*.*)
 [Enter filter name]
 Введіть назву фільтра
@@ -345,17 +345,17 @@ dat (плагін mContacts)
 Неправильна кодова сторінка
 [Browse CSS file]
 Вибрати CSS файл
-[Export and Delete]
+[Export and delete]
 Експортувати та видалити
-[Import and Merge]
+[Import and merge]
 Імпорт і злиття
 [Minute]
 Хвилини
 [Hour]
 Години
-[At Start]
+[At start]
 На старті
-[At Finish]
+[At finish]
 На виході
 [Daily]
 Щодня
@@ -399,7 +399,7 @@ dat (плагін mContacts)
 Імпорт з:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ** <date> вставляє дату, <ext> - розширення, <contact> - ім'я контакту
-[History Log]
+[History log]
 Перегляд історії
 [Filter:]
 Фільтр:

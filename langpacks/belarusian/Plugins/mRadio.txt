@@ -101,8 +101,8 @@ PreBuf, % (75%)
 Кар'ер
 [Sorry!]
 Выбачыце!
-[BASS.DLL not found!]
-BASS.DLL не знойдзены!
+[bass.dll not found!]
+bass.dll не знойдзены!
 [Station]
 Станцыя
 [Custom INI file]
@@ -198,4 +198,6 @@ URL станцыі/плэйліста
 [New]
 Стварыць
 [Quick Open]
+
+[bass.dll not found! Choose bass.dll path manually]
 

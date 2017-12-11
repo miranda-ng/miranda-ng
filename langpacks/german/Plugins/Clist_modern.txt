@@ -50,6 +50,8 @@ WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich,
 * Evtl. Neustart erforderlich um alle Änderungen zu übernehmen
 [Skin folder]
 Skinverzeichnis
+[Download more skins]
+Weitere Skins herunterladen
 [Available view modes]
 Verfügbare Kontaktfilter
 [Include protocols]

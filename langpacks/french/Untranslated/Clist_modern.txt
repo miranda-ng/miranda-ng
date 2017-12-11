@@ -1,6 +1,7 @@
 [Tile vertically according to row height]
 [Rescan]
 [Skin folder]
+[Download more skins]
 [Sticky contacts]
 [Editing view mode]
 [[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]

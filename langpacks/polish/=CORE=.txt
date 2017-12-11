@@ -3,29 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-;file \src\core\stdauth\res\resource.rc
-[Authorization request]
-Prośba o autoryzację
-[&Authorize]
-&Autoryzuj
-[&Deny]
-&Odrzuć
-[Decide &later]
-Przypomnij &później
-[User &details]
-Dane &kontaktu
-[Reason:]
-Powód:
-[Denial reason:]
-Powód odmowy:
-[Add to contact list if authorized]
-Dodaj kontakt do listy jeśli autoryzowany
-[You were added]
-Zostałeś dodany
-[&Close]
-&Zamknij
-[&Add]
-&Dodaj
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Opis statusu "%s" - %s
@@ -291,6 +268,8 @@ Całkowity rozmiar:
 Opis:
 [&User menu]
 Menu &użytkownika
+[User &details]
+Dane &kontaktu
 [&History]
 &Historia
 [Incoming file transfer]
@@ -307,6 +286,8 @@ Data:
 Pliki:
 [Save to:]
 Zapisz do:
+[&Add]
+&Dodaj
 [&Open...]
 &Otwórz...
 [Open &folder]
@@ -395,11 +376,6 @@ Pytaj mnie
 Zmień nazwę (dodaj " (1)", itp.)
 [You will always be asked about files from people not on your contact list]
 Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
-;file \src\core\stdhelp\res\resource.rc
-[About Miranda NG]
-O Mirandzie NG
-[Credits >]
-Autorzy >
 ;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
@@ -723,6 +699,8 @@ Otwórz okno rozmowy z kontaktem
 Nazwa:
 [Group:]
 Grupa:
+[Authorization request]
+Prośba o autoryzację
 [&Yes]
 &Tak
 [&No]
@@ -999,6 +977,8 @@ Uwaga!\r\nTen obiekt menu nie obsługuje opcji użytkownika.
 Wstaw podmenu
 [Insert separator]
 Wstaw separator
+[Module:]
+Moduł:
 [Service:]
 Usługa:
 [Default]
@@ -1133,6 +1113,26 @@ Pokaż w oknie czatu
 Odstępy przycisków:
 [Hide if there isn't enough space]
 Ukryj, jeśli nie ma miejsca
+[&Authorize]
+&Autoryzuj
+[&Deny]
+&Odrzuć
+[Decide &later]
+Przypomnij &później
+[Reason:]
+Powód:
+[Denial reason:]
+Powód odmowy:
+[Add to contact list if authorized]
+Dodaj kontakt do listy jeśli autoryzowany
+[You were added]
+Zostałeś dodany
+[&Close]
+&Zamknij
+[About Miranda NG]
+O Mirandzie NG
+[Credits >]
+Autorzy >
 [Tray]
 Zasobnik
 [&Hide/Show]
@@ -1193,42 +1193,6 @@ Wikipedia
 Google Maps
 [Google Translate]
 Google Translate
-;file \src\core\stdauth\src\auth.cpp
-[%s requests authorization]
-%s prosi o autoryzację
-[%u requests authorization]
-%u prosi o autoryzację
-[%s added you to their contact list]
-%s dodał(a) cię do listy kontaktów
-[%u added you to their contact list]
-%u dodał(a) cię do swojej listy kontaktów
-[Alerts]
-Alarmy
-[Added event]
-Dodanie kontaktu
-;file \src\core\stdauth\src\authdialogs.cpp
-[View user's details]
-Zobacz dane kontaktu
-[Add contact permanently to list]
-Dodaj kontakt na stałe do listy
-[<Unknown>]
-<Nieznany>
-[%s added you to the contact list\n%u (%s) on %s]
-%s dodał(a) cię do listy kontaktów\n%u (%s) na %s
-[%s added you to the contact list\n%u on %s]
-%s dodał(a) cię do listy kontaktów\n%u na %s
-[%s added you to the contact list\n%s on %s]
-%s dodał(a) cię do listy kontaktów\n%s na %s
-[(Unknown)]
-(Nieznany)
-[%s requested authorization\n%u (%s) on %s]
-%s poprosił(a) o autoryzację\n%u (%s) na koncie %s
-[%s requested authorization\n%u on %s]
-%s poprosił(a) o autoryzację \n%u na koncie %s
-[%s requested authorization\n%s on %s]
-%s poprosił(a) o autoryzację\n%s na koncie %s
-[Feature is not supported by protocol]
-Funkcja nie wspierana przez protokół
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Po&każ opis "%s"
@@ -1351,6 +1315,10 @@ Zdarzenia
 Wybierz folder
 [My received files]
 Moje odebrane pliki
+[Add contact permanently to list]
+Dodaj kontakt na stałe do listy
+[View user's details]
+Zobacz dane kontaktu
 [View user's history]
 Zobacz historię użytkownika
 [User menu]
@@ -1418,20 +1386,6 @@ Ukończono przesyłanie i skanowanie wirusów
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Wychodzące
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-< Prawa aut.
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-&Pomoc
-[&About...]
-&O programie...
-[&Support]
-&Wsparcie techniczne
-[&Miranda NG homepage]
-Strona domowa &Mirandy
-[&Report bug]
-&Zgłoś błąd
 ;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Bezczynność
@@ -1907,11 +1861,43 @@ Pokaż/Zmień moje &dane...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
+[Alerts]
+Alarmy
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Dodaj %s
 [Please authorize my request and add me to your contact list.]
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
+;file \src\mir_app\src\auth.cpp
+[%s requests authorization]
+%s prosi o autoryzację
+[%u requests authorization]
+%u prosi o autoryzację
+[%s added you to their contact list]
+%s dodał(a) cię do listy kontaktów
+[%u added you to their contact list]
+%u dodał(a) cię do swojej listy kontaktów
+[Added event]
+Dodanie kontaktu
+;file \src\mir_app\src\authdialogs.cpp
+[<Unknown>]
+<Nieznany>
+[%s added you to the contact list\n%u (%s) on %s]
+%s dodał(a) cię do listy kontaktów\n%u (%s) na %s
+[%s added you to the contact list\n%u on %s]
+%s dodał(a) cię do listy kontaktów\n%u na %s
+[%s added you to the contact list\n%s on %s]
+%s dodał(a) cię do listy kontaktów\n%s na %s
+[(Unknown)]
+(Nieznany)
+[%s requested authorization\n%u (%s) on %s]
+%s poprosił(a) o autoryzację\n%u (%s) na koncie %s
+[%s requested authorization\n%u on %s]
+%s poprosił(a) o autoryzację \n%u na koncie %s
+[%s requested authorization\n%s on %s]
+%s poprosił(a) o autoryzację\n%s na koncie %s
+[Feature is not supported by protocol]
+Funkcja nie wspierana przez protokół
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Dołącz do czatu
@@ -2200,6 +2186,19 @@ Nagłówki
 Ogólny tekst
 [Small text]
 Mały tekst
+;file \src\mir_app\src\help.cpp
+[< Copyright]
+< Prawa aut.
+[&Help]
+&Pomoc
+[&About...]
+&O programie...
+[&Support]
+&Wsparcie techniczne
+[&Miranda NG homepage]
+Strona domowa &Mirandy
+[&Report bug]
+&Zgłoś błąd
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 Przeglądarka: wstecz

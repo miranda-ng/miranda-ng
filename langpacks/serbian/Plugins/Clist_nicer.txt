@@ -380,6 +380,8 @@ Grupa
 
 [Ignore selection for groups]
 
+[Download more skins]
+
 [Load from skin file]
 
 [Export to skin file]

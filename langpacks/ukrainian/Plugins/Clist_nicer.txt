@@ -59,6 +59,8 @@
 Завжди показувати статус у підказці
 [ms]
 мс
+[Download more skins]
+Завантажити скіни
 [Event area]
 Область подій
 [Set base visibility on the frames menu]

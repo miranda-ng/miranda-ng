@@ -171,84 +171,6 @@ ID ключа:
 Импортировать публичные GPG ключи
 [GPG encryption status]
 Статус шифрования GPG
-[Email]
-Почта
-[Name]
-Имя
-[Creation date]
-Дата создания
-[Expire date]
-Срок действия
-[Key length]
-Длина ключа
-[Accounts]
-Учётные записи
-[Default]
-По умолчанию
-[key ID]
-Ключ
-[not set]
-Не установлено
-[Default private key ID]
-Основной приватный ключ
-[Failed to open file]
-Невозможно открыть файл
-[Error]
-Ошибка
-[Generating new random key, please wait]
-Генерируется новый случайный ключ, пожалуйста, подождите
-[Failed to allocate memory]
-Не удалось выделить память
-[Failed to lock memory with error %d]
-Ошибка блокировки памяти с ошибкой %d
-[Failed write to clipboard with error %d]
-Ошибка записи в буфер обмена с ошибкой %d
-[Warning]
-Предупреждение
-[Wrong GPG binary location found in system.\nPlease choose another location]
-Исполняемый файл GPG не найден в системе.\nПожалуйста, укажите другое путь
-[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Выбранный вами exe не GnuPG!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Ваша версия GnuPG не поддерживается и может работать неправильно!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
-["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
-Каталог "GPG" найден в папке Миранды.\nЕсли предположить, что это домашний каталог GPG.\nДомашний каталог GPG выбран.
-[Info]
-Инфо
-[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Ваша версия GPG поддерживается. Языковые файлы найдены.\nПлагин должен работать нормально.\nНажмите ОК.
-[GPG binary does not exist.\nPlease choose another location]
-Исполняемый файл GPG не найден .\nПожалуйста, укажите другой путь
-[Please choose GPG binary location]
-Выберите директорию c GnuPG
-[Please set keyring's home directory]
-Выберите директорию с ключами GnuPG
-[There is existing key for contact, would you like to replace it with new key?]
-Получен ключ, но у контакта уже есть ключ. Вы хотите его заменить новым?
-[New public key was received, do you want to import it?]
-Получен новый отрытый ключ. Вы хотите его принять?
-[Replace]
-Заменить
-[Accept]
-Принять
-[Received key from %s]
-Получен ключ от %s
-[You must set encryption algorithm first]
-Сначала необходимо задать алгоритм шифрования
-[Key length must be of length from 1024 to 4096 bits]
-Длина ключа должна быть от 1024 до 4096 бит
-[Invalid date]
-Недопустимая дата
-[Name must contain at least 5 characters]
-Имя должно содержать не менее 5 символов
-[Name cannot contain '(' or ')']
-Имя не может содержать '(' или ')'
-[Invalid Email]
-Неверный e-mail
-[Generating new key, please wait...]
-Генерация нового ключа, пожалуйста подождите...
-[Failed to export public key.]
-Не удалось экспортировать открытый ключ.
 [GPG binary is set and valid (this is good).\n]
 Исполняемый файл GPG указан и работоспособен (это хорошо).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -279,26 +201,26 @@ ID ключа:
 Загрузить ключ для всех субконтактов?
 [Metacontact detected]
 Обнаружен метаконтакт
+[Warning]
+Предупреждение
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 Пытаемся зашифровать с помощью недоверенного ключа. Вы хотите доверять этому ключу постоянно?
 [Something is wrong, GPG does not understand us, aborting encryption.]
 Что-то не так, GPG не понимает нас, прерываю шифрование.
-[Services]
-Службы
-[Main]
-Главный
-[GnuPG Variables]
-Пути к GPG
-[Messages]
-Сообщения
-[Advanced]
-Дополнительно
 [Contact]
 Контакт
 [Key ID]
 Ключ
+[Name]
+Имя
+[Email]
+Почта
 [Protocol]
 Протокол
+[Default private key ID]
+Основной приватный ключ
+[not set]
+Не установлено
 [This key is not used by any contact. Do you want to remove it from public keyring?]
 Этот ключ не используется ни одним контактом. Вы действительно хотите удалить его из открытых ключей?
 [Key info]
@@ -315,6 +237,14 @@ ID ключа:
 Экспорт открытого ключа
 [.asc pubkey file]
 Файл публичного ключа (.asc )
+[Failed to allocate memory]
+Не удалось выделить память
+[Error]
+Ошибка
+[Failed to lock memory with error %d]
+Ошибка блокировки памяти с ошибкой %d
+[Failed write to clipboard with error %d]
+Ошибка записи в буфер обмена с ошибкой %d
 [Failed to open clipboard with error %d]
 Не удалось открыть буфер обмена с ошибкой %d
 [Set log file]
@@ -323,6 +253,8 @@ ID ключа:
 Файлы журнала
 [Choose gpg.exe]
 Выберите gpg.exe
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Выбранный вами exe не GnuPG!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
 [Set home directory]
 Выбор домашней папки
 [Load Public GPG Key for ]
@@ -333,12 +265,78 @@ ID ключа:
 Это не публичный или приватный ключ
 [Key already in secret keyring.]
 Ключ уже в векретном брелоке.
+[Info]
+Инфо
 [Set file containing GPG public key]
 Задать файл, содержащий открытый ключ GPG
 [GPG public key file]
 Файл открытого ключа GPG
+[Failed to open file]
+Невозможно открыть файл
 [There is no public or private key.]
 Это не файл открытого или закрытого ключа.
+[Services]
+Службы
+[Main]
+Главный
+[GnuPG Variables]
+Пути к GPG
+[Messages]
+Сообщения
+[Advanced]
+Дополнительно
+[New passwords do not match]
+Новые пароли не совпадают
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Старый пароль не совпадает, вы можете продолжить, но GPG не примет неверный пароль.\nПродолжить?
+[Creation date]
+Дата создания
+[Expire date]
+Срок действия
+[Key length]
+Длина ключа
+[Accounts]
+Учётные записи
+[Default]
+По умолчанию
+[key ID]
+Ключ
+[Generating new random key, please wait]
+Генерируется новый случайный ключ, пожалуйста, подождите
+[Wrong GPG binary location found in system.\nPlease choose another location]
+Исполняемый файл GPG не найден в системе.\nПожалуйста, укажите другое путь
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Ваша версия GnuPG не поддерживается и может работать неправильно!\nС этим плагином рекомендуется использовать GnuPG v1.x.x.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+Каталог "GPG" найден в папке Миранды.\nЕсли предположить, что это домашний каталог GPG.\nДомашний каталог GPG выбран.
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+Ваша версия GPG поддерживается. Языковые файлы найдены.\nПлагин должен работать нормально.\nНажмите ОК.
+[There is existing key for contact, would you like to replace it with new key?]
+Получен ключ, но у контакта уже есть ключ. Вы хотите его заменить новым?
+[New public key was received, do you want to import it?]
+Получен новый отрытый ключ. Вы хотите его принять?
+[Replace]
+Заменить
+[Accept]
+Принять
+[Received key from %s]
+Получен ключ от %s
+[You must set encryption algorithm first]
+Сначала необходимо задать алгоритм шифрования
+[Key length must be of length from 1024 to 4096 bits]
+Длина ключа должна быть от 1024 до 4096 бит
+[Invalid date]
+Недопустимая дата
+[Name must contain at least 5 characters]
+Имя должно содержать не менее 5 символов
+[Name cannot contain '(' or ')']
+Имя не может содержать '(' или ')'
+[Invalid Email]
+Неверный e-mail
+[Generating new key, please wait...]
+Генерация нового ключа, пожалуйста подождите...
+[Failed to export public key.]
+Не удалось экспортировать открытый ключ.
 [Turn off GPG encryption]
 Выключить шифрование GPG
 [Turn on GPG encryption]
@@ -355,7 +353,9 @@ ID ключа:
 Результат экспорта ключей
 [Keys import result]
 Результат импорта ключей
-[New passwords do not match]
-Новые пароли не совпадают
-[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
-Старый пароль не совпадает, вы можете продолжить, но GPG не примет неверный пароль.\nПродолжить?
+[GPG binary does not exist.\nPlease choose another location]
+Исполняемый файл GPG не найден .\nПожалуйста, укажите другой путь
+[Please choose GPG binary location]
+Выберите директорию c GnuPG
+[Please set keyring's home directory]
+Выберите директорию с ключами GnuPG

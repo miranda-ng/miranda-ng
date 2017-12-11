@@ -3,28 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-[Authorization request]
-Solicitud de autorización
-[&Authorize]
-&Autorizar
-[&Deny]
-&Denegar
-[Decide &later]
-&Decidir más &tarde
-[User &details]
-&Detalles del usuario
-[Reason:]
-Razón:
-[Denial reason:]
-Razón de rechazo:
-[Add to contact list if authorized]
-Añadir a la lista de contactos si está autorizado
-[You were added]
-Usted fue añadido
-[&Close]
-&Cerrar
-[&Add]
-&Añadir
 [%s message for %s]
 %s Mensaje(S) para %s
 [&Cancel]
@@ -287,6 +265,8 @@ Tamaño total:
 Detalles:
 [&User menu]
 Menú de usuario
+[User &details]
+&Detalles del usuario
 [&History]
 &Historial
 [Incoming file transfer]
@@ -303,6 +283,8 @@ Fecha:
 Archivos:
 [Save to:]
 Guardar a:
+[&Add]
+&Añadir
 [&Open...]
 &Abrir...
 [Open &folder]
@@ -391,10 +373,6 @@ Preguntarme
 Renombrar (añadir " (1)", etc.)
 [You will always be asked about files from people not on your contact list]
 Siempre que se pregunte sobre archivos de personas que no están en la lista
-[About Miranda NG]
-Acerca de Miranda NG
-[Credits >]
-Créditos >
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
 [Become idle if the screen saver is active]
@@ -713,6 +691,8 @@ Abrir ventana de conversación del contacto
 Nombre personalizado:
 [Group:]
 Grupo:
+[Authorization request]
+Solicitud de autorización
 [&Yes]
 &Sí
 [&No]
@@ -1067,6 +1047,26 @@ Local
 Recargar langpack
 [Download more language packs]
 Descargar más paquetes de idioma
+[&Authorize]
+&Autorizar
+[&Deny]
+&Denegar
+[Decide &later]
+&Decidir más &tarde
+[Reason:]
+Razón:
+[Denial reason:]
+Razón de rechazo:
+[Add to contact list if authorized]
+Añadir a la lista de contactos si está autorizado
+[You were added]
+Usted fue añadido
+[&Close]
+&Cerrar
+[About Miranda NG]
+Acerca de Miranda NG
+[Credits >]
+Créditos >
 [Tray]
 Bandeja
 [&Hide/Show]
@@ -1119,40 +1119,6 @@ Lista
 Limpiar re&gistro
 [Word lookup]
 Palabra de búsqueda
-[%s requests authorization]
-%s solicita autorización
-[%u requests authorization]
-%u olicita autorización
-[%s added you to their contact list]
-%s te ha añadido a su lista de contactos
-[%u added you to their contact list]
-%u te ha añadido a su lista de contactos
-[Alerts]
-Alertas
-[Added event]
-Evento añadido
-[View user's details]
-Ver detalles del usuario
-[Add contact permanently to list]
-Añadir contacto permanentemente a la lista
-[<Unknown>]
-<Desconocido>
-[%s added you to the contact list\n%u (%s) on %s]
-%s te agregó a la lista de contactos\n%u (%s) en %s
-[%s added you to the contact list\n%u on %s]
-%s te agregó a la lista de contactos\n%u en %s
-[%s added you to the contact list\n%s on %s]
-%s te agregó a la lista de contactos\n%s en %s
-[(Unknown)]
-(Desconocido)
-[%s requested authorization\n%u (%s) on %s]
-%s autorización solicitada\n%u (%s) en %s
-[%s requested authorization\n%u on %s]
-%s autorización solicitada\n%u en %s
-[%s requested authorization\n%s on %s]
-%s autorización solicitada\n%s on %s
-[Feature is not supported by protocol]
-La función no está soportada por el protocolo
 [Re&ad %s message]
 Leer %s mensaje(s)
 [Re&ad status message]
@@ -1263,6 +1229,10 @@ Eventos
 Seleccionar carpeta
 [My received files]
 Mis archivos recibidos
+[Add contact permanently to list]
+Añadir contacto permanentemente a la lista
+[View user's details]
+Ver detalles del usuario
 [View user's history]
 Ver historial del usuario
 [User menu]
@@ -1325,18 +1295,6 @@ Análisis en busca de virus...
 Transferencia y Análisis en busca de virus finalizado
 [Outgoing]
 Saliendo
-[< Copyright]
-< Copyright
-[&Help]
-A&yuda
-[&About...]
-&Acerca de...
-[&Support]
-&Soporte
-[&Miranda NG homepage]
-&Miranda NG página principal
-[&Report bug]
-&Reportar error
 [Idle]
 Inactivo
 [Chat module]
@@ -1771,10 +1729,40 @@ Propietario
 Ver/cambiar mis &datos...
 [%s is online]
 %s está en línea
+[Alerts]
+Alertas
 [Add %s]
 Añadir %s
 [Please authorize my request and add me to your contact list.]
 Por favor autorice mi petición y añadame a su lista de contactos.
+[%s requests authorization]
+%s solicita autorización
+[%u requests authorization]
+%u olicita autorización
+[%s added you to their contact list]
+%s te ha añadido a su lista de contactos
+[%u added you to their contact list]
+%u te ha añadido a su lista de contactos
+[Added event]
+Evento añadido
+[<Unknown>]
+<Desconocido>
+[%s added you to the contact list\n%u (%s) on %s]
+%s te agregó a la lista de contactos\n%u (%s) en %s
+[%s added you to the contact list\n%u on %s]
+%s te agregó a la lista de contactos\n%u en %s
+[%s added you to the contact list\n%s on %s]
+%s te agregó a la lista de contactos\n%s en %s
+[(Unknown)]
+(Desconocido)
+[%s requested authorization\n%u (%s) on %s]
+%s autorización solicitada\n%u (%s) en %s
+[%s requested authorization\n%u on %s]
+%s autorización solicitada\n%u en %s
+[%s requested authorization\n%s on %s]
+%s autorización solicitada\n%s on %s
+[Feature is not supported by protocol]
+La función no está soportada por el protocolo
 [&Join chat]
 &Entrar
 [%s has joined]
@@ -2021,6 +2009,18 @@ Cabeceras
 Texto genérico
 [Small text]
 Texto pequeño
+[< Copyright]
+< Copyright
+[&Help]
+A&yuda
+[&About...]
+&Acerca de...
+[&Support]
+&Soporte
+[&Miranda NG homepage]
+&Miranda NG página principal
+[&Report bug]
+&Reportar error
 [Ctrl + ]
 Ctrl +\s
 [Alt + ]

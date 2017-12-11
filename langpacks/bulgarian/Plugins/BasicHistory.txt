@@ -7,7 +7,7 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Прегледайте историята на разговорите в Miranda NG.
-[Message History]
+[Message history]
 История на съобщенията
 [Settings]
 Настройки
@@ -49,24 +49,24 @@
 Дата във времевата марка
 [Show seconds in timestamps]
 Показване на секунди във времевата марка
-[Enable Smileys]
+[Enable smileys]
 Включване на усмивките
-[Only Incoming Messages]
+[Only incoming messages]
 Само входящи съобщения
-[Only Outgoing Messages]
+[Only outgoing messages]
 Само изходящи съобщения
-[Only Selected Group]
+[Only selected group]
 Само ибраните групи
-[All Contacts]
+[All contacts]
 Всички контакти
-[Export To Txt]
+[Export to txt]
 Износ в текстови файл
 [File encoding*]
 Кодиране на файла*
-[Export To Plain Html]
-Износ в Plain Html
-[Export To Rich Html]
-Износ в Rich Html
+[Export to plain HTML]
+Износ в plain HTML
+[Export to rich HTML]
+Износ в rich HTML
 [External CSS file]
 Външен CSS файл
 [Add task]
@@ -113,9 +113,9 @@
 Отказ
 [Open History]
 Отваря историята
-[View &History]
+[View &history]
 Преглед на историята
-[Delete All User History]
+[Delete all user history]
 Изтриване на историята на всички потребители
 [Incoming message]
 Входящо съобщение
@@ -123,9 +123,9 @@
 Изходящо съобщение
 [Status change]
 Промяна на състояние
-[Show Contacts]
+[Show contacts]
 Показване на контакти
-[Hide Contacts]
+[Hide contacts]
 Скриване на контакти
 [History]
 История
@@ -139,9 +139,9 @@
 Система
 [Me]
 Аз
-[Invalid Message]
+[Invalid message]
 Невалидно съобщение
-[%s Files (*.%s)]
+[%s files (*.%s)]
 %s файла (*.%s)
 [Import]
 Внос
@@ -149,7 +149,7 @@
 Износ
 [File is corrupted]
 Файлът е повреден
-[Are You sure?]
+[Are you sure?]
 Сигурни ли сте?
 [Open in &new window]
 Отваряне в нов прозорец
@@ -161,11 +161,11 @@
 Копиране
 [Delete]
 Изтриване
-[Send Message]
+[Send message]
 Изпращане на съобщение
-[Reply &Quoted]
+[Reply &quoted]
 Цитиране
-[Delete Group]
+[Delete group]
 Изтриване на групата
 [Options]
 Настройки
@@ -177,10 +177,10 @@
 Икони
 [Hotkeys]
 Клавишни комбинации
-[Rich Html]
-Rich Html
-[Plain Html]
-Plain Html
+[Rich HTML]
+Rich HTML
+[Plain HTML]
+Plain HTML
 [Txt]
 Текст
 [Binary]
@@ -233,16 +233,16 @@ SMS съобщение
 Фон на списъка с контакти
 [Find]
 Намери
-[Show/Hide Contacts]
+[Show/hide contacts]
 Показване/Скриване на контактите
-[Export To Binary]
-Износ в Binary
-[Import From Binary]
-Внос от Binary
-[Export To Dat (mContacts)]
-Износ в Dat (mContacts)
-[Import From Dat (mContacts)]
-Внос от Dat (mContacts)
+[Export to binary]
+Износ в binary
+[Import from binary]
+Внос от binary
+[Export to dat (mContacts)]
+Износ в dat (mContacts)
+[Import from dat (mContacts)]
+Внос от dat (mContacts)
 [Invalid event number]
 Невалиден брой събития
 [Incoming events]
@@ -253,7 +253,7 @@ SMS съобщение
 Файлът не съществува. Въведете правилен път до файла.
 [Invalid file]
 Невалиден файл
-[All Files (*.*)]
+[All files (*.*)]
 Всички файлове (*.*)
 [Event already exists]
 Събитието вече съществува
@@ -261,17 +261,17 @@ SMS съобщение
 Въвели сте невалидна кодова страница. Изберете от падащото меню или въведете правилно число.
 [Invalid codepage]
 Невалидна кодова страница
-[Export and Delete]
+[Export and delete]
 Износ и изтриване
-[Import and Merge]
+[Import and merge]
 Внос и обединяване
 [Minute]
 минута
 [Hour]
 час
-[At Start]
+[At start]
 При стартиране
-[At Finish]
+[At finish]
 При приключване
 [Daily]
 Дневно
@@ -301,7 +301,7 @@ SMS съобщение
 Сваляне от FTP сървър (WinSCP requred)
 [Import from]
 Внос от
-[History Log]
+[History log]
 Дневник на историята
 [Filter:]
 Филтър:

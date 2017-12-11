@@ -45,8 +45,6 @@
 Клієнти QQ
 [RSS clients]
 Клієнти RSS
-[Tlen clients]
-Клієнти Tlen
 [Weather clients]
 Клієнти погоди
 [Yahoo clients]
@@ -103,8 +101,6 @@ Mail.Ru (невідомий клієнт)
 TM 2008 і вище
 [Gadu-Gadu client]
 Клієнт Gadu-Gadu
-[Tlen.pl client]
-Клієнт Tlen.pl
 [Python-based clients]
 Клієнти на основі Python
 [Jabber client]
@@ -135,8 +131,6 @@ TM 2008 і вище
 Оверлей MSN
 [QQ overlay]
 Оверлей QQ
-[Tlen.pl overlay]
-Оверлей Tlen.pl
 [Yahoo overlay]
 Оверлей Yahoo
 [Mail.Ru Agent overlay]
@@ -171,12 +165,6 @@ Gadu-Gadu v10 клієнт
 Gadu-Gadu v9 клієнт
 [Gadu-Gadu v8 client]
 Gadu-Gadu v8 клієнт
-[Tlen 7.x overlay]
-Оверлей Tlen 7.x
-[Tlen 6.x overlay]
-Оверлей Tlen 6.x
-[Tlen 5.x overlay]
-Оверлей Tlen 5.x
 [TM/QQ 2012 overlay]
 Оверлей TM/QQ 2012
 [TM/QQ 2011 overlay]

@@ -173,86 +173,6 @@ ID ключа:
 
 [GPG encryption status]
 Статус шыфравання GPG
-[Email]
-Пошта
-[Name]
-Імя
-[Creation date]
-Дата стварэння
-[Expire date]
-
-[Key length]
-Доўгая ключа
-[Accounts]
-Конты
-[Default]
-Змаўчанні
-[key ID]
-Ключ
-[not set]
-не наладжана
-[Default private key ID]
-Асноўны прыватны ключ
-[Failed to open file]
-
-[Error]
-Памылка
-[Generating new random key, please wait]
-
-[Failed to allocate memory]
-
-[Failed to lock memory with error %d]
-
-[Failed write to clipboard with error %d]
-
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
-
-[Warning]
-Заўвага
-[Wrong GPG binary location found in system.\nPlease choose another location]
-
-[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагінам.
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагінам.
-["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
-
-[Info]
-Інфа
-[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
-[GPG binary does not exist.\nPlease choose another location]
-
-[Please choose GPG binary location]
-Вылучыце дырэкторыю з GnuPG
-[Please set keyring's home directory]
-Вылучыце дырэкторыю з ключамі GnuPG
-[There is existing key for contact, would you like to replace it with new key?]
-Атрыманы ключ, але ў кантакта ўжо ёсць ключ. Вы жадаеце яго замяніць новым?
-[New public key was received, do you want to import it?]
-Атрыманы новы адкрыты ключ. Вы хочаце прыняць яго?
-[Replace]
-Замяніць
-[Accept]
-Прыняць
-[Received key from %s]
-
-[You must set encryption algorithm first]
-
-[Key length must be of length from 1024 to 4096 bits]
-
-[Invalid date]
-
-[Name must contain at least 5 characters]
-
-[Name cannot contain '(' or ')']
-
-[Invalid Email]
-
-[Generating new key, please wait...]
-
-[Failed to export public key.]
-
 [GPG binary is set and valid (this is good).\n]
 
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -289,28 +209,28 @@ ID ключа:
 
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 
+[Warning]
+Заўвага
 [Do you want to try to decrypt encrypted message?]
 
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
 
 [Something is wrong, GPG does not understand us, aborting encryption.]
 
-[Services]
-Службы
-[Main]
-Галоўны
-[GnuPG Variables]
-Шляхі да GPG
-[Messages]
-Паведамленні
-[Advanced]
-Дадаткова
 [Contact]
 Кантакт
 [Key ID]
 Ключ
+[Name]
+Імя
+[Email]
+Пошта
 [Protocol]
 Пратакол
+[Default private key ID]
+Асноўны прыватны ключ
+[not set]
+не наладжана
 [This key is not used by any contact. Do you want to remove it from public keyring?]
 
 [Key info]
@@ -327,6 +247,14 @@ ID ключа:
 
 [.asc pubkey file]
 
+[Failed to allocate memory]
+
+[Error]
+Памылка
+[Failed to lock memory with error %d]
+
+[Failed write to clipboard with error %d]
+
 [Failed to open clipboard with error %d]
 
 [Set log file]
@@ -335,6 +263,8 @@ ID ключа:
 Файлы лога
 [Choose gpg.exe]
 Знайсці gpg.exe
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Абраны вамі exe не GnuPG!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагінам.
 [Set home directory]
 
 [Load Public GPG Key for ]
@@ -351,11 +281,81 @@ ID ключа:
 
 [Key already in secret keyring.]
 
+[Info]
+Інфа
 [Set file containing GPG public key]
 
 [GPG public key file]
 
+[Failed to open file]
+
 [There is no public or private key.]
+
+[Services]
+Службы
+[Main]
+Галоўны
+[GnuPG Variables]
+Шляхі да GPG
+[Messages]
+Паведамленні
+[Advanced]
+Дадаткова
+[New passwords do not match]
+Новыя паролі не супадаюць
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Стары пароль не супадае, вы можаце працягваць, але GPG адхіліць няслушны пароль.\nХочаце прадоўжыць?
+[Creation date]
+Дата стварэння
+[Expire date]
+
+[Key length]
+Доўгая ключа
+[Accounts]
+Конты
+[Default]
+Змаўчанні
+[key ID]
+Ключ
+[Generating new random key, please wait]
+
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+
+[Wrong GPG binary location found in system.\nPlease choose another location]
+
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Ваша версія GnuPG не падтрымліваецца і можа працаваць не правільна!\nРэкамэндуецца выкарыстоўваць GnuPG v1.xx з гэтым плагінам.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
+[There is existing key for contact, would you like to replace it with new key?]
+Атрыманы ключ, але ў кантакта ўжо ёсць ключ. Вы жадаеце яго замяніць новым?
+[New public key was received, do you want to import it?]
+Атрыманы новы адкрыты ключ. Вы хочаце прыняць яго?
+[Replace]
+Замяніць
+[Accept]
+Прыняць
+[Received key from %s]
+
+[You must set encryption algorithm first]
+
+[Key length must be of length from 1024 to 4096 bits]
+
+[Invalid date]
+
+[Name must contain at least 5 characters]
+
+[Name cannot contain '(' or ')']
+
+[Invalid Email]
+
+[Generating new key, please wait...]
+
+[Expiration date]
+
+[Failed to export public key.]
 
 [Do you want to toggle encryption for all subcontacts?]
 
@@ -387,7 +387,9 @@ ID ключа:
 
 [Keys import result]
 
-[New passwords do not match]
-Новыя паролі не супадаюць
-[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
-Стары пароль не супадае, вы можаце працягваць, але GPG адхіліць няслушны пароль.\nХочаце прадоўжыць?
+[GPG binary does not exist.\nPlease choose another location]
+
+[Please choose GPG binary location]
+Вылучыце дырэкторыю з GnuPG
+[Please set keyring's home directory]
+Вылучыце дырэкторыю з ключамі GnuPG

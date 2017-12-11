@@ -46,7 +46,7 @@
 [Continuous record]
 [Quarry]
 [Sorry!]
-[BASS.DLL not found!]
+[bass.dll not found!]
 [Station]
 [Custom INI file]
 [Radio station URL]
@@ -92,3 +92,4 @@
 [Equalizer]
 [New]
 [Quick Open]
+[bass.dll not found! Choose bass.dll path manually]

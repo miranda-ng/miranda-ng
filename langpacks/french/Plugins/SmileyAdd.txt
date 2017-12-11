@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.4.2
+;  Version: 0.3.0.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -98,16 +98,14 @@ Apparence
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 
-[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
-Il s'est produit une erreur lors du chargement du pack de smileys (il doit être corrigé).\nLisez l'enregistrement réseau pour plus de détails.
 [Smiley #%u in file %s for smiley pack %s not found.]
 le smiley #%u, du fichier %s, du pack %s, est introuvable.
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
+Il s'est produit une erreur lors du chargement du pack de smileys (il doit être corrigé).\nLisez l'enregistrement réseau pour plus de détails.
 [%s global smiley pack]
 
 [Standard]
 
-[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
-L'expression régulière "%s" du pack de smileys "%s" pourrait produire des "empty matches".
 [Regular expression "%s" in smiley pack "%s" malformed.]
 L'expression régulière "%s" du pack de smileys "%s" est mal construite.
 ;file \plugins\SmileyAdd\src\smltool.cpp

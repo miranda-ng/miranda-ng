@@ -65,6 +65,8 @@
 Літарны фармат даты
 [Use relative timestamp]
 Адносны час
+[Download more templates]
+
 [Outgoing File Transfer]
 Выходныя перадачы файлаў
 [Incoming File Transfer]

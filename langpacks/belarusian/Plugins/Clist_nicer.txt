@@ -379,6 +379,8 @@
 Вышыня назвы фрэйма
 [Ignore selection for groups]
 Ігнараваць вылучэнне для гуртоў
+[Download more skins]
+Запампаваць скіны
 [Load from skin file]
 Загрузіць з файла
 [Export to skin file]

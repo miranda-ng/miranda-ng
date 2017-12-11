@@ -50,6 +50,8 @@ Primeni
 
 [Skin folder]
 
+[Download more skins]
+
 [Available view modes]
 
 [Include protocols]

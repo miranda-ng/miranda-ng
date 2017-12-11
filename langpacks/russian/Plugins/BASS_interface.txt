@@ -1,19 +1,19 @@
 #muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
 ;  File: BASS_interface.dll
-;  Plugin: BASS interface
+;  Plugin: BASS Interface
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-[un4seen's BASS interface Miranda NG plugin.]
+[Un4seen's BASS interface Miranda NG plugin.]
 Поддержка библиотеки BASS для Miranda NG.
-[un4seen's bass interface]
+[Un4seen's BASS interface]
 Поддержка библиотеки BASS
 [bass.dll loading error]
 Ошибка загрузки библиотеки bass.dll
 [Current bass.dll path:]
 Текущий путь к bass.dll:
-[Maximum number of bass internal channels:]
+[Maximum number of BASS internal channels:]
 Максимальное количество каналов:
 [Output device:]
 Устройство вывода:
@@ -21,8 +21,8 @@
 Уровень громкости:
 [Quiet time:]
 Тихий час:
-[download bass library]
-загрузить библиотеку bass
+[download BASS library]
+загрузить библиотеку BASS
 [Play only if]
 Играть, если
 [Offline]
@@ -47,7 +47,7 @@
 Обедаю
 [Preview]
 Тест
-[un4seen's bass version: %d.%d.%d.%d]
+[Un4seen's BASS version: %d.%d.%d.%d]
 Версия библиотеки BASS: %d.%d.%d.%d
 [--default device--]
 --устройство по умолчанию--
@@ -59,10 +59,12 @@
 Включить звуки
 [Frame background]
 Фон фрейма
+[BASS Interface]
+Библиотека BASS
 [Bass Interface]
 Библиотека BASS
 [Bass library]
-Библиотека Bass
+Библиотека BASS
 [Sounds enabled]
 Звуки включены
 [Sounds disabled]

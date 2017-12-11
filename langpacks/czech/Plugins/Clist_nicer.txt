@@ -380,6 +380,8 @@ Vyplnění skup. shora
 Výška záhlaví rámečku
 [Ignore selection for groups]
 Ignorovat výběr skupiny
+[Download more skins]
+Stáhnout další skiny
 [Load from skin file]
 Importovat skin
 [Export to skin file]

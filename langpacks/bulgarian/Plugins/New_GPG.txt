@@ -29,18 +29,22 @@
 Внос
 [Current password:]
 Текуща парола:
-[Email]
-Имейл
-[Name]
-Име
-[Accounts]
-Акаунти
-[Default]
-Стандарт
-[Error]
-Грешка
 [Warning]
 Предупреждение
+[Contact]
+Контакт
+[Name]
+Име
+[Email]
+Имейл
+[Protocol]
+Протокол
+[info]
+Информация
+[Error]
+Грешка
+[LOG files]
+Дневници (файлове)
 [Info]
 Информация
 [Services]
@@ -51,11 +55,7 @@
 Съобщения
 [Advanced]
 Разширени
-[Contact]
-Контакт
-[Protocol]
-Протокол
-[info]
-Информация
-[LOG files]
-Дневници (файлове)
+[Accounts]
+Акаунти
+[Default]
+Стандарт

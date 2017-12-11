@@ -38,6 +38,8 @@ Doběh:
 Doplněk AdvaImg nebyl nalezen. Abyste mohli pracovat s obrázky, stáhněte si jej z https://miranda-ng.org/p/AdvaImg/
 [Preview...]
 Náhled...
+[Download more splash screens]
+
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Grafické soubory

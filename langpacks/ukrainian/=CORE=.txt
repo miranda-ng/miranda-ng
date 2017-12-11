@@ -3,32 +3,12 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-[Authorization request]
-Запит авторизації
-[&Authorize]
-Дозволити
-[&Deny]
-&Відмовити
-[Decide &later]
-Вирішити &пізніше
-[User &details]
-&Про користувача
-[Reason:]
-Причина:
-[Denial reason:]
-Причина відмови:
-[Add to contact list if authorized]
-Додавати до списку контактів після авторизації
-[You were added]
-Вас додали
-[&Close]
-Закрити
-[&Add]
-&Додати
 [%s message for %s]
 %s (%s)
 [&Cancel]
 &Скасувати
+[Module:]
+Модуль:
 [Retrieving %s message...]
 Завантаження повідомлення "%s"...
 [Status messages]
@@ -287,6 +267,8 @@
 Опис:
 [&User menu]
 &Меню користувача
+[User &details]
+&Про користувача
 [&History]
 &Історія
 [Incoming file transfer]
@@ -303,6 +285,8 @@
 Файли:
 [Save to:]
 Зберегти до:
+[&Add]
+&Додати
 [&Open...]
 &Відкрити...
 [Open &folder]
@@ -391,10 +375,6 @@
 Перейменувати: додати "(1)"
 [You will always be asked about files from people not on your contact list]
 Запит буде показано завжди, якщо відправник поза списком контактів
-[About Miranda NG]
-Про Miranda NG
-[Credits >]
-Автори >
 [Become idle if the following is left unattended:]
 Перейти до режиму очікування, якщо неактивні:
 [Become idle if the screen saver is active]
@@ -713,6 +693,8 @@
 Вказане ім'я:
 [Group:]
 Група:
+[Authorization request]
+Запит авторизації
 [&Yes]
 &Так
 [&No]
@@ -1121,6 +1103,26 @@ UIN, E-mail тощо
 Проміжок кнопок:
 [Hide if there isn't enough space]
 Ховати, якщо недостатньо місця
+[&Authorize]
+Дозволити
+[&Deny]
+&Відмовити
+[Decide &later]
+Вирішити &пізніше
+[Reason:]
+Причина:
+[Denial reason:]
+Причина відмови:
+[Add to contact list if authorized]
+Додавати до списку контактів після авторизації
+[You were added]
+Вас додали
+[&Close]
+Закрити
+[About Miranda NG]
+Про Miranda NG
+[Credits >]
+Автори >
 [Tray]
 Трей
 [&Hide/Show]
@@ -1179,40 +1181,6 @@ UIN, E-mail тощо
 Мапи Google
 [Google Translate]
 Перекладач Google
-[%s requests authorization]
-%s запитує авторизацію
-[%u requests authorization]
-%u запитує авторизацію
-[%s added you to their contact list]
-%s додав вас до свого списку контактів
-[%u added you to their contact list]
-%u додав вас до свого списку контактів
-[Alerts]
-Сповіщення
-[Added event]
-Подія "Вас додали"
-[View user's details]
-Про користувача
-[Add contact permanently to list]
-Додати до списку
-[<Unknown>]
-<невідомо>
-[%s added you to the contact list\n%u (%s) on %s]
-%s додав вас до свого списку контактів\n%u (%s) о %s
-[%s added you to the contact list\n%u on %s]
-%s додав вас до свого списку контактів\n%u о %s
-[%s added you to the contact list\n%s on %s]
-%s додав вас до свого списку контактів\n%s о %s
-[(Unknown)]
-(невідомий)
-[%s requested authorization\n%u (%s) on %s]
-%s запитав(ла) авторизацію\n%u (%s) о %s
-[%s requested authorization\n%u on %s]
-%s запитав(ла) авторизацію\n%u о %s
-[%s requested authorization\n%s on %s]
-%s запитав(ла) авторизацію\n%s о %s
-[Feature is not supported by protocol]
-Не підтримується протоколом
 [Re&ad %s message]
 Читати повідомлення "%s"
 [Re&ad status message]
@@ -1323,6 +1291,10 @@ UIN, E-mail тощо
 Вибрати папку
 [My received files]
 Отримані файли
+[Add contact permanently to list]
+Додати до списку
+[View user's details]
+Про користувача
 [View user's history]
 Історія
 [User menu]
@@ -1387,18 +1359,6 @@ UIN, E-mail тощо
 Передачу та перевірку на віруси завершено
 [Outgoing]
 Вихідні
-[< Copyright]
-< Права
-[&Help]
-Довідка
-[&About...]
-Про Miranda NG
-[&Support]
-П&ідтримка користувачів
-[&Miranda NG homepage]
-Сайт Miranda NG
-[&Report bug]
-Повідомити про помилку
 [Idle]
 Очікування
 [Chat module]
@@ -1855,10 +1815,40 @@ UIN, E-mail тощо
 Особисті дані...
 [%s is online]
 %s в мережі
+[Alerts]
+Сповіщення
 [Add %s]
 Додати %s
 [Please authorize my request and add me to your contact list.]
 Будь ласка, авторизуйте мене і внесіть до свого списку контактів.
+[%s requests authorization]
+%s запитує авторизацію
+[%u requests authorization]
+%u запитує авторизацію
+[%s added you to their contact list]
+%s додав вас до свого списку контактів
+[%u added you to their contact list]
+%u додав вас до свого списку контактів
+[Added event]
+Подія "Вас додали"
+[<Unknown>]
+<невідомо>
+[%s added you to the contact list\n%u (%s) on %s]
+%s додав вас до свого списку контактів\n%u (%s) о %s
+[%s added you to the contact list\n%u on %s]
+%s додав вас до свого списку контактів\n%u о %s
+[%s added you to the contact list\n%s on %s]
+%s додав вас до свого списку контактів\n%s о %s
+[(Unknown)]
+(невідомий)
+[%s requested authorization\n%u (%s) on %s]
+%s запитав(ла) авторизацію\n%u (%s) о %s
+[%s requested authorization\n%u on %s]
+%s запитав(ла) авторизацію\n%u о %s
+[%s requested authorization\n%s on %s]
+%s запитав(ла) авторизацію\n%s о %s
+[Feature is not supported by protocol]
+Не підтримується протоколом
 [&Join chat]
 &Увійти до чату
 [&Open chat window]
@@ -2123,6 +2113,18 @@ Ctrl+Знайти додає контакт
 Звичайний текст
 [Small text]
 Дрібний текст
+[< Copyright]
+< Права
+[&Help]
+Довідка
+[&About...]
+Про Miranda NG
+[&Support]
+П&ідтримка користувачів
+[&Miranda NG homepage]
+Сайт Miranda NG
+[&Report bug]
+Повідомити про помилку
 [Remove shortcut]
 Видалити
 [Add another shortcut]

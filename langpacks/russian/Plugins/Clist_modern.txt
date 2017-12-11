@@ -49,6 +49,8 @@
 * Для вступления изменений в силу нужен перезапуск
 [Skin folder]
 Папка скинов
+[Download more skins]
+Скачать скины
 [Available view modes]
 Доступные режимы вида
 [Include protocols]

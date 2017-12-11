@@ -64,7 +64,7 @@
 [Label:]
 Пазнака:
 [Module:]
-Плагін:
+Модуль:
 [Contact protocol module]
 Плагін пратаколу кантакту
 [Setting or prefix:]

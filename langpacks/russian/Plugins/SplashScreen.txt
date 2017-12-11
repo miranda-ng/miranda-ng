@@ -37,6 +37,8 @@
 Не найден плагин AdvaImg. Скачайте его по адресу https://miranda-ng.org/p/AdvaImg/, чтобы использовать изображения.
 [Preview...]
 Просмотр...
+[Download more splash screens]
+Скачать всплывающие окна
 [Graphic files]
 Графические файлы
 [Sound Files]

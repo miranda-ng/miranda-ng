@@ -7,7 +7,7 @@
 ;============================================================
 [History viewer for Miranda NG.]
 Праглядчык гісторыі для Miranda NG.
-[Message History]
+[Message history]
 Гісторыя паведамленняў
 [Settings]
 Налады
@@ -15,9 +15,9 @@
 Заўсёды паказваць спіс кантактаў
 [Show groups in contact list]
 Паказваць гурты ў спісе кантактаў
-[Do not show Find control border]
+[Do not show find control border]
 Не маляваць рамку для радка пошуку
-[Default Event Filter]
+[Default event filter]
 Фільтр падзей
 [Custom filters]
 Свае фільтры
@@ -55,31 +55,31 @@
 Паказваць дату
 [Show seconds in timestamps]
 Паказваць секунды
-[Enable Smileys]
+[Enable smileys]
 Уключыць смайлы
 [Search forward in list group]
 Шукаць далей у гурце
 [Search forward in message window]
 Шукаць далей у вакне гутаркі
-[Match Case]
+[Match case]
 Улічваць рэгістр
-[Match Whole Word]
+[Match whole word]
 Слова цалкам
-[Only Incoming Messages]
+[Only incoming messages]
 Толькі ўваходныя паведамленні
-[Only Outgoing Messages]
+[Only outgoing messages]
 Толькі выходныя паведамленні
-[Only Selected Group]
+[Only selected group]
 Толькі абраны гурт
-[All Contacts]
+[All contacts]
 Усе кантакты
-[Export To Txt]
+[Export to txt]
 Экспарт у тэкст
 [File encoding*]
 Кадоўка файла*
-[Export To Plain Html]
+[Export to plain HTML]
 Экспарт у чысты HTML
-[Export To Rich Html]
+[Export to rich HTML]
 Экспарт у паўнавартасны HTML
 [External CSS file]
 Знешні CSS файл
@@ -139,9 +139,9 @@
 Скасаваць
 [Open History]
 Адчыніць гісторыю
-[View &History]
+[View &history]
 &Гісторыя
-[Delete All User History]
+[Delete all user history]
 Выдаліць усю гісторыю кантакта
 [Execute history task]
 Выканаць задачу гісторыі
@@ -151,13 +151,13 @@
 Зыходнае
 [Status change]
 Змена статусу
-[Show Contacts]
+[Show contacts]
 Паказаць кантакты
-[Hide Contacts]
+[Hide contacts]
 Схаваць кантакты
-[Find Next]
+[Find next]
 Знайсці далей
-[Find Previous]
+[Find previous]
 Знайсці раней
 [Plus in export]
 Плюс у экспарце
@@ -175,9 +175,9 @@
 Сістэма
 [Me]
 Я
-[Invalid Message]
+[Invalid message]
 Паведамленне пашкоджана
-[%s Files (*.%s)]
+[%s files (*.%s)]
 %s файлы (*.%s)
 [Import]
 Імпартаваць
@@ -189,7 +189,7 @@
 Файл спорчаны
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Гэта аперацыя цалкам выдаліць гісторыю гэтага кантакту.\nВы ўпэўнены?
-[Are You sure?]
+[Are you sure?]
 Вы ўпэўнены?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Вы хочаце выдаліць усе імпартаваныя паведамленні гэтага кантакту?\nПамятаеце, што наступная запланаваная задача будзе зноў імпартуе гэтыя паведамленні.
@@ -203,11 +203,11 @@
 Капіяваць
 [Delete]
 Выдаліць
-[Send Message]
+[Send message]
 Адправіць
-[Reply &Quoted]
+[Reply &quoted]
 Адказаць з &цытатай
-[Delete Group]
+[Delete group]
 Выдаленне гурту
 [Options]
 Налады
@@ -219,9 +219,9 @@
 Абразкі
 [Hotkeys]
 Гарачыя клавішы
-[Rich Html]
+[Rich HTML]
 Паўнавартасны HTML
-[Plain Html]
+[Plain HTML]
 Чысты HTML
 [Txt]
 Txt
@@ -295,28 +295,28 @@ Dat (мКантакты)
 Глабальная гісторыя
 [Find]
 Знайсці
-[Switch Match Case]
+[Switch match case]
 Улічваць рэгістр
-[Switch Match Whole Word]
+[Switch match whole word]
 Слова цалкам
-[Show/Hide Contacts]
+[Show/hide contacts]
 Паказаць/схаваць кантакты
-[Switch Only Incoming Messages]
+[Switch only incoming messages]
 Толькі ўваходныя паведамленні
-[Switch Only Outgoing Messages]
+[Switch only outgoing messages]
 Толькі выходныя паведамленні
-[Switch Only Selected Group]
+[Switch only selected group]
 Толькі абраныя гурты
-[Switch All Contacts]
+[Switch all contacts]
 Усе кантакты
-[Export To Binary]
+[Export to binary]
 Экспарт у двайковы файл
-[Import From Binary]
+[Import from binary]
 Імпарт з двайковага файла
-[Export To Dat (mContacts)]
-Экспарт у Dat (мКантакты)
-[Import From Dat (mContacts)]
-Імпарт з Dat (мКантакты)
+[Export to dat (mContacts)]
+Экспарт у dat (мКантакты)
+[Import from dat (mContacts)]
+Імпарт з dat (мКантакты)
 [Invalid event number]
 Непрымальны нумар падзеі
 [Incoming events]
@@ -327,7 +327,7 @@ Dat (мКантакты)
 Файл адсутнічае. Увядзі дакладны шлях да файла.
 [Invalid file]
 Няслушны файл
-[All Files (*.*)]
+[All files (*.*)]
 Усе файлы (*.*)
 [Enter filter name]
 Увядзіце імя фільтра
@@ -345,17 +345,17 @@ Dat (мКантакты)
 Няслушная кодавая старонка
 [Browse CSS file]
 Паказаць CSS файл
-[Export and Delete]
+[Export and delete]
 Экспартаваць і выдаліць
-[Import and Merge]
+[Import and merge]
 Імпарт і зьліцьцё
 [Minute]
 Хвілін
 [Hour]
 Гадзін
-[At Start]
+[At start]
 Пры запуску
-[At Finish]
+[At finish]
 Пры выйсці
 [Daily]
 Дзён
@@ -399,7 +399,7 @@ Dat (мКантакты)
 Імпарт з:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ** <date> - устаўляе дату, <ext> - пашырэнне, <contact> - імя кантакту
-[History Log]
+[History log]
 Прагляд гісторыі
 [Filter:]
 Фільтр:

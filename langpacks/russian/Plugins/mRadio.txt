@@ -101,8 +101,10 @@
 Карьер
 [Sorry!]
 Извините!
-[BASS.DLL not found!]
-BASS.DLL не найден!
+[bass.dll not found!]
+bass.dll не найден!
+[bass.dll not found! Choose bass.dll path manually]
+bass.dll не найден! Укажите путь к нему
 [Station]
 Станция
 [Custom INI file]

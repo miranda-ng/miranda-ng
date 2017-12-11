@@ -516,6 +516,8 @@ Można eksportować i importować wszystkie ustawienia kolorów i czcionek tutaj
 Eksportuj do pliku...
 [Import from a file...]
 Importuj z pliku...
+[Download more skins]
+Pobierz więcej skórek
 [Icons]
 Ikony
 [Event type icons in the message log]

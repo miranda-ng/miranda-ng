@@ -140,6 +140,7 @@
 [Group top padding]
 [Frame title bar height]
 [Ignore selection for groups]
+[Download more skins]
 [Load from skin file]
 [Export to skin file]
 [Dialog]

@@ -176,86 +176,6 @@ Importuj klucze publiczne GPG
 [GPG encryption status]
 Status szyfrowania GPG
 ;file \plugins\New_GPG\src\main.cpp
-[Email]
-E-mail
-[Name]
-Nazwa
-[Creation date]
-Data utworzenia
-[Expire date]
-Data wygaśnięcia
-[Key length]
-Długość klucza
-[Accounts]
-Konta
-[Default]
-Domyślny
-[key ID]
-ID klucza
-[not set]
-nie ustawiono
-[Default private key ID]
-Domyślny prywatny ID klucza
-[Failed to open file]
-Błąd otwierania pliku
-[Error]
-Błąd
-[Generating new random key, please wait]
-Generuj nowy losowy klucz, proszę czekać
-[Failed to allocate memory]
-Nie udało się przydzielić pamięci
-[Failed to lock memory with error %d]
-Nie udało się zablokować pamięci z błędem %d
-[Failed write to clipboard with error %d]
-Nie udało się zapisać w schowku z błędem %d
-[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
-Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
-[Warning]
-Ostrzeżenie
-[Wrong GPG binary location found in system.\nPlease choose another location]
-Znaleziono niepoprawną lokalizację pliku binarnego GPG w systemie.\nProszę wybrać inną lokalizację
-[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-To nie jest plik binarny GnuPG !\nZalecana wersja to v1.x.x.
-[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
-Znaleziono niewspieraną wersję GnuPG. Używasz na własną odpowiedzialność!\nZaleca się używania gnupg v1.x.x w połączeniu z tą wtyczką.
-["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
-Znaleziono katalog "GPG" w folderze Mirandy.\nZakładam, że jest to katalog domowy "GPG".\nUstawiono katalog domowy GPG.
-[Info]
-Info
-[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
-Twoja wersja GPG jest wspierana. Znaleziono plik językowy.\nWtyczka GPG powinna działać poprawnie.\nNaciśnij OK, aby kontynuować.
-[GPG binary does not exist.\nPlease choose another location]
-Plik binarny gpg nie istnieje.\nProszę wybrać inną lokalizację.
-[Please choose GPG binary location]
-Proszę wybrać lokalizację pliku binarnego GPG
-[Please set keyring's home directory]
-Proszę ustawić katalog domowy breloka
-[There is existing key for contact, would you like to replace it with new key?]
-Istnieje już klucz dla tego kontaktu. Czy chcesz zastąpić go nowym?
-[New public key was received, do you want to import it?]
-Otrzymano nowy klucz publiczny. Czy chcesz go zaimportować?
-[Replace]
-Zastąp
-[Accept]
-Akceptuj
-[Received key from %s]
-Otrzymano klucz od %s
-[You must set encryption algorithm first]
-Musisz najpierw ustawić algorytm szyfrujący
-[Key length must be of length from 1024 to 4096 bits]
-Długość klucza musi mieć od 1024 do 4096 bitów
-[Invalid date]
-Niepoprawna data
-[Name must contain at least 5 characters]
-Nazwa musi zawierać co najmniej 5 znaków
-[Name cannot contain '(' or ')']
-Nazwa nie może zawierać "(", ani ")"
-[Invalid Email]
-Niepoprawny adres e-mail
-[Generating new key, please wait...]
-Generuj nowy klucz, proszę czekać...
-[Failed to export public key.]
-Błąd eksportu kluczu publicznego.
 [GPG binary is set and valid (this is good).\n]
 Plik binarny GPG został ustawiony i jest poprawny (to dobrze).\n
 [GPG binary unset or invalid (plugin will not work).\n]
@@ -293,6 +213,8 @@ Wykryto metakontakt
 ;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want to turn on encryption for this contact?]
 Otrzymano zaszyfrowaną wiadomość od kontaktu, dla którego szyfrowanie jest wyłączone.\nCzy chcesz włączyć szyfrowanie dla tego kontaktu?
+[Warning]
+Ostrzeżenie
 [Do you want to try to decrypt encrypted message?]
 Czy chcesz spróbować odszyfrować zaszyfrowaną wiadomość?
 [We're trying to encrypt with untrusted key. Do you want to trust this key permanently?]
@@ -300,22 +222,20 @@ Próbujemy zaszyfrować niezaufanym kluczem. Czy chcesz na stałe zaufać temu k
 [Something is wrong, GPG does not understand us, aborting encryption.]
 Coś jest nie tak, GPG nas nie rozumie, anulowanie szyfrowania.
 ;file \plugins\New_GPG\src\options.cpp
-[Services]
-Usługi
-[Main]
-Ogólne
-[GnuPG Variables]
-Zmienne GnuPG
-[Messages]
-Wiadomości
-[Advanced]
-Zaawansowane
 [Contact]
 Kontakt
 [Key ID]
 ID klucza
+[Name]
+Nazwa
+[Email]
+E-mail
 [Protocol]
 Protokół
+[Default private key ID]
+Domyślny prywatny ID klucza
+[not set]
+nie ustawiono
 [This key is not used by any contact. Do you want to remove it from public keyring?]
 Ten klucz nie jest używany przez żaden kontakt. Czy chcesz usunąć go z breloka publicznego?
 [Key info]
@@ -332,6 +252,14 @@ Czy chcesz usunąć klucz z metakontaktu (wszystkie subkontakty)?
 Eksportuj klucz publiczny
 [.asc pubkey file]
 plik klucza publicznego .asc
+[Failed to allocate memory]
+Nie udało się przydzielić pamięci
+[Error]
+Błąd
+[Failed to lock memory with error %d]
+Nie udało się zablokować pamięci z błędem %d
+[Failed write to clipboard with error %d]
+Nie udało się zapisać w schowku z błędem %d
 [Failed to open clipboard with error %d]
 Nie udało się otworzyć schowka z błędem %d
 [Set log file]
@@ -340,6 +268,8 @@ Ustaw plik dziennika
 Pliki LOG
 [Choose gpg.exe]
 Wybierz gpg.exe
+[This is not GnuPG binary!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+To nie jest plik binarny GnuPG !\nZalecana wersja to v1.x.x.
 [Set home directory]
 Ustaw folder domowy
 [Load Public GPG Key for ]
@@ -356,12 +286,83 @@ Wczytaj klucz publiczny GPG (ID klucza:\s
 To nie jest prywatny, ani publiczny klucz
 [Key already in secret keyring.]
 Klucz znajduje się już w tajnym breloku.
+[Info]
+Info
 [Set file containing GPG public key]
 Ustaw plik zawierający publiczny klucz GPG
 [GPG public key file]
 Publiczny klucz GPG
+[Failed to open file]
+Błąd otwierania pliku
 [There is no public or private key.]
 Nie ma żadnych kluczy prywatnych, ani publicznych.
+[Services]
+Usługi
+[Main]
+Ogólne
+[GnuPG Variables]
+Zmienne GnuPG
+[Messages]
+Wiadomości
+[Advanced]
+Zaawansowane
+;file \plugins\New_GPG\src\ui.cpp
+[New passwords do not match]
+Nowe hasła nie zgadzają się
+[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
+Stare hasło nie zgadza się, możesz kontynuować, ale GPG odrzuci błędne hasło.\nCzy chcesz kontynuować?
+[Creation date]
+Data utworzenia
+[Expire date]
+Data wygaśnięcia
+[Key length]
+Długość klucza
+[Accounts]
+Konta
+[Default]
+Domyślny
+[key ID]
+ID klucza
+[Generating new random key, please wait]
+Generuj nowy losowy klucz, proszę czekać
+[GPG binary found in Miranda folder, but English locale does not exist.\nIt's highly recommended that you place \\gnupg.nls\\en@quot.mo in GnuPG folder under Miranda root.\nWithout this file you may experience many problems with GPG output on non-English systems\nand plugin may completely not work.\nYou have been warned.]
+Znaleziono plik binarny GPG w folderze Mirandy, ale angielskie ustawienia regionalne nie istnieją.\nWysoce zaleca się umieszczenie \\gnupg.nls\\en@quot.mo w folderze GnuPG w głównym folderze Mirandy.\nBez tego pliku możesz doświadczyć wielu problemów z wyjściem GPG w systemach innych niż angielski,\na wtyczka może w ogóle nie działać.\nZostałeś ostrzeżony.
+[Wrong GPG binary location found in system.\nPlease choose another location]
+Znaleziono niepoprawną lokalizację pliku binarnego GPG w systemie.\nProszę wybrać inną lokalizację
+[Unsupported GnuPG version found, use at you own risk!\nIt is recommended that you use GnuPG v1.x.x with this plugin.]
+Znaleziono niewspieraną wersję GnuPG. Używasz na własną odpowiedzialność!\nZaleca się używania gnupg v1.x.x w połączeniu z tą wtyczką.
+["GPG" directory found in Miranda root.\nAssuming it's GPG home directory.\nGPG home directory set.]
+Znaleziono katalog "GPG" w folderze Mirandy.\nZakładam, że jest to katalog domowy "GPG".\nUstawiono katalog domowy GPG.
+[Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+Twoja wersja GPG jest wspierana. Znaleziono plik językowy.\nWtyczka GPG powinna działać poprawnie.\nNaciśnij OK, aby kontynuować.
+[There is existing key for contact, would you like to replace it with new key?]
+Istnieje już klucz dla tego kontaktu. Czy chcesz zastąpić go nowym?
+[New public key was received, do you want to import it?]
+Otrzymano nowy klucz publiczny. Czy chcesz go zaimportować?
+[Replace]
+Zastąp
+[Accept]
+Akceptuj
+[Received key from %s]
+Otrzymano klucz od %s
+[You must set encryption algorithm first]
+Musisz najpierw ustawić algorytm szyfrujący
+[Key length must be of length from 1024 to 4096 bits]
+Długość klucza musi mieć od 1024 do 4096 bitów
+[Invalid date]
+Niepoprawna data
+[Name must contain at least 5 characters]
+Nazwa musi zawierać co najmniej 5 znaków
+[Name cannot contain '(' or ')']
+Nazwa nie może zawierać "(", ani ")"
+[Invalid Email]
+Niepoprawny adres e-mail
+[Generating new key, please wait...]
+Generuj nowy klucz, proszę czekać...
+[Expiration date]
+
+[Failed to export public key.]
+Błąd eksportu kluczu publicznego.
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts?]
 Czy chcesz przełączyć szyfrowanie dla wszystkich subkontaktów?
@@ -393,7 +394,10 @@ Pomyślnie przetworzono %d kluczy publicznych i ileś kluczy prywatnych.
 Pomyślnie przetworzono %d kluczy publicznych.
 [Keys import result]
 Wynik importu kluczy
-[New passwords do not match]
-Nowe hasła nie zgadzają się
-[Old password does not match, you can continue, but GPG will reject wrong password.\nDo you want to continue?]
-Stare hasło nie zgadza się, możesz kontynuować, ale GPG odrzuci błędne hasło.\nCzy chcesz kontynuować?
+[GPG binary does not exist.\nPlease choose another location]
+Plik binarny gpg nie istnieje.\nProszę wybrać inną lokalizację.
+[Please choose GPG binary location]
+Proszę wybrać lokalizację pliku binarnego GPG
+[Please set keyring's home directory]
+Proszę ustawić katalog domowy breloka
+;file \plugins\New_GPG\src\utilities.h

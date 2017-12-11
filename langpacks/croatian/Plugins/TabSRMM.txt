@@ -516,6 +516,8 @@ Poruka
 
 [Import from a file...]
 
+[Download more skins]
+
 [Icons]
 
 [Event type icons in the message log]

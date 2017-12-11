@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.4.2
+;  Version: 0.3.0.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -98,16 +98,14 @@ Závisí na protokolu
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Knihovna smajlíků %s pro kategorii "%s" nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti -> Vlastní úpravy -> Smajlíky.
-[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
-Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Smajlík č.%u v souboru %s sady smajlíků %s nebyl nalezen.
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
+Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
 [%s global smiley pack]
 %s globální sada smajlíků
 [Standard]
 Standardní
-[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
-Regulární výraz "%s" v knihovně smajlíků "%s" může vracet "prázdné výsledky".
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Regulární výraz "%s" v knihovně smajlíků "%s" je neplatný.
 ;file \plugins\SmileyAdd\src\smltool.cpp

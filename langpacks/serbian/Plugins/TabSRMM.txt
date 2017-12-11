@@ -516,6 +516,8 @@ Zatvori
 
 [Import from a file...]
 
+[Download more skins]
+
 [Icons]
 Ikonice
 [Event type icons in the message log]

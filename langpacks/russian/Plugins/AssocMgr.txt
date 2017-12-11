@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, gg, mirpu, tlen, wpmsg, xmpp, ymsgr.]
-Ассоциация расширений файлов и URL-ссылок с протоколами: AIM, Gadu-Gadu, Jabber, MSN, PluginUpdater, Tlen, Yahoo.
+[Handles file type associations and URLs like aim, gg, mirpu, wpmsg, xmpp, ymsgr.]
+Ассоциация расширений файлов и URL-ссылок с протоколами: AIM, Gadu-Gadu, Jabber, MSN, PluginUpdater, Yahoo.
 [Registered associations for Miranda NG:]
 Зарегистрированные ассоциации для Miranda NG:
 [Miscellaneous]

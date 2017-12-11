@@ -3,7 +3,7 @@
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
 ;  Version: 1.9.0.6
-;  Authors: Bartosz 'Dezeath' Bialek, Harven
+;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Быстрая смена статусов и предустановленных сообщений статуса.

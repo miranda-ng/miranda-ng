@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.2.4.2
+;  Version: 0.3.0.1
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
@@ -91,16 +91,14 @@ HTTP далучэнне SmileyAdd
 У адпаведнасці з пратаколам
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 
-[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
-Праблемы з загрузкай набору смайлаў (неабходна выправіць).\nДля падрабязнасцяў гледзіце сеткавы дзённік.
 [Smiley #%u in file %s for smiley pack %s not found.]
 Смайл #%u у файле %s для набору смайлікаў %s не знойдзены.
+[There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
+Праблемы з загрузкай набору смайлаў (неабходна выправіць).\nДля падрабязнасцяў гледзіце сеткавы дзённік.
 [%s global smiley pack]
 
 [Standard]
 Стандартныя
-[Regular expression "%s" in smiley pack "%s" could produce "empty matches".]
-Рэгулярны выраз "%s" у наборы смайлаў "%s" не можа выводзіць "пустыя значэнні".
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Рэгулярны выраз "%s" у наборы смайлаў "%s" пашкоджана.
 [d'Oh!]

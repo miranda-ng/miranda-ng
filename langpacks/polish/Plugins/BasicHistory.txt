@@ -8,7 +8,7 @@
 [History viewer for Miranda NG.]
 Pokazuje historię wiadomości.
 ;file \plugins\BasicHistory\res\BasicHistory.rc
-[Message History]
+[Message history]
 Historia wiadomości
 [Settings]
 Ustawienia
@@ -16,9 +16,9 @@ Ustawienia
 Zawsze pokazuj listę kontaktów
 [Show groups in contact list]
 Pokaż grupy na liście kontaktów
-[Do not show Find control border]
+[Do not show find control border]
 Nie pokazuj paska szukania
-[Default Event Filter]
+[Default event filter]
 Domyślne ustaw. zdarzeń
 [Custom filters]
 Filtry użytkownika
@@ -56,31 +56,31 @@ Limituj wiadomości do:
 Pokaż datę przy czasie
 [Show seconds in timestamps]
 Pokaż sekundy w czasie
-[Enable Smileys]
+[Enable smileys]
 Włącz emotikony
 [Search forward in list group]
 Wyszukuj do przodu na liście grup
 [Search forward in message window]
 Wyszukuj do przodu w oknie rozmowy
-[Match Case]
+[Match case]
 Po wielkości liter
-[Match Whole Word]
+[Match whole word]
 Po całych wyrazach
-[Only Incoming Messages]
+[Only incoming messages]
 Tylko przychodzące wiadomości
-[Only Outgoing Messages]
+[Only outgoing messages]
 Tylko wychodzące wiadomości
-[Only Selected Group]
+[Only selected group]
 Tylko zaznaczona grupa
-[All Contacts]
+[All contacts]
 Wszystkie kontakty
-[Export To Txt]
+[Export to txt]
 Eksportuj do pliku tekstowego
 [File encoding*]
 Kodowanie pliku*
-[Export To Plain Html]
+[Export to plain HTML]
 Eksportuj do czystego HTML
-[Export To Rich Html]
+[Export to rich HTML]
 Eksportuj do rozszerzonego HTML
 [External CSS file]
 Zewnętrzny plik CSS
@@ -141,9 +141,9 @@ Anuluj
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 Otwórz historię
-[View &History]
+[View &history]
 Zobacz &historię
-[Delete All User History]
+[Delete all user history]
 Usuń całą historię
 [Execute history task]
 Wykonaj zadanie historii
@@ -153,13 +153,13 @@ Przychodząca wiadomość
 Wychodząca wiadomość
 [Status change]
 Zmiana statusu
-[Show Contacts]
+[Show contacts]
 Pokaż kontakty
-[Hide Contacts]
+[Hide contacts]
 Ukryj kontakty
-[Find Next]
+[Find next]
 Wyszukaj następny
-[Find Previous]
+[Find previous]
 Wyszukaj poprzedni
 [Plus in export]
 Plus w eksporcie
@@ -178,10 +178,10 @@ Historia dla "%s"
 System
 [Me]
 Ja
-[Invalid Message]
-Nieprawidłowa Wiadomość
+[Invalid message]
+Nieprawidłowa wiadomość
 ;file \plugins\BasicHistory\src\ExportManager.cpp
-[%s Files (*.%s)]
+[%s files (*.%s)]
 %s Pliki (*.%s)
 [Import]
 Importuj
@@ -194,7 +194,7 @@ Plik jest nieprawidłowy
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Ta operacja TRWALE USUNIE całą historię tego kontaktu.\nCzy na pewno chcesz to zrobić?
-[Are You sure?]
+[Are you sure?]
 Czy na pewno?
 [Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 Czy chcesz usunąć wszystkie zaimportowane wiadomości dla tego kontaktu?\nZauważ, że następne zadanie harmonogramu zaimportuje tą wiadomość ponownie.
@@ -208,11 +208,11 @@ Otwórz w &nowym oknie
 Kopiuj
 [Delete]
 Usuń
-[Send Message]
+[Send message]
 Wyślij wiadomość
-[Reply &Quoted]
+[Reply &quoted]
 Odpowiedz &cytując
-[Delete Group]
+[Delete group]
 Usuń grupę
 [Options]
 Opcje
@@ -224,10 +224,10 @@ Czcionki i kolory
 Ikony
 [Hotkeys]
 Skróty
-[Rich Html]
-Rozszerzony Html
-[Plain Html]
-Czysty Html
+[Rich HTML]
+Rozszerzony HTML
+[Plain HTML]
+Czysty HTML
 [Txt]
 Plik tekstowy
 [Binary]
@@ -301,27 +301,27 @@ Tło listy kontaktów
 Otwórz globalną historię
 [Find]
 Szukaj
-[Switch Match Case]
+[Switch match case]
 Przełącz wielkość liter
-[Switch Match Whole Word]
+[Switch match whole word]
 Przełącz całe wyrazy
-[Show/Hide Contacts]
+[Show/hide contacts]
 Pokaż/Ukryj kontakty
-[Switch Only Incoming Messages]
+[Switch only incoming messages]
 Przełącz na przychodzące wiadomości
-[Switch Only Outgoing Messages]
+[Switch only outgoing messages]
 Przełącz na wychodzące wiadomości
-[Switch Only Selected Group]
+[Switch only selected group]
 Przełącz na tylko zaznaczoną grupę
-[Switch All Contacts]
+[Switch all contacts]
 Przełącz wszystkie kontakty
-[Export To Binary]
+[Export to binary]
 Eksportuj do pliku biniarnego
-[Import From Binary]
+[Import from binary]
 Importuj z pliku biniarnego
-[Export To Dat (mContacts)]
+[Export to dat (mContacts)]
 Eksportuj do pliku .dat (mContacts)
-[Import From Dat (mContacts)]
+[Import from dat (mContacts)]
 Importuj z pliku .dat (mContacts)
 [Invalid event number]
 Nieprawidłowy numer zdarzenia
@@ -333,7 +333,7 @@ Wychodzące zdarzenia
 Plik nie istnieje. Wprowadź poprawną ścieżkę do pliku.
 [Invalid file]
 Nieprawidłowy plik
-[All Files (*.*)]
+[All files (*.*)]
 Wszystkie pliki (*.*)
 [Enter filter name]
 Wpisz nazwę filtra
@@ -351,17 +351,17 @@ Wprowadziłeś nieprawidłową stronę kodową. Wybierz ją z combo boxa lub wpr
 Nieprawidłowa strona kodowa
 [Browse CSS file]
 Wybierz plik CSS
-[Export and Delete]
+[Export and delete]
 Eksportuj i usuń
-[Import and Merge]
+[Import and merge]
 Importuj i scal
 [Minute]
 Minut
 [Hour]
 Godzin
-[At Start]
+[At start]
 Na starcie
-[At Finish]
+[At finish]
 Przy wyłączaniu
 [Daily]
 Dziennie
@@ -407,7 +407,7 @@ Importuj z
 ** Użyj <date> do umieszczenia daty, <ext> do umieszczenia rozszerzenia, <contact> do umieszczenia nazwy kontaktu
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-[History Log]
+[History log]
 Historia
 [Filter:]
 Filtruj:

@@ -37,6 +37,8 @@
 AdvaImg плагін не знойдзены. Калі ласка, уключыце яго, каб мець магчымасць выкарыстоўваць выявы.
 [Preview...]
 Прагляд...
+[Download more splash screens]
+
 [Graphic files]
 Графічныя файлы
 [Sound Files]

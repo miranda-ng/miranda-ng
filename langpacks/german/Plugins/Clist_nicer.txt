@@ -380,6 +380,8 @@ Gruppenabstand oben
 Höhe der Titelzeilen
 [Ignore selection for groups]
 Markierungen für Gruppen ignorieren
+[Download more skins]
+Weitere Skins herunterladen
 [Load from skin file]
 Aus Skindatei laden
 [Export to skin file]

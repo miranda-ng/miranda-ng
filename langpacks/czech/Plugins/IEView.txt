@@ -66,6 +66,8 @@ Zobrazit datum
 Použít dlouhý formát data
 [Use relative timestamp]
 Použít relativní časové údaje
+[Download more templates]
+
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Odchozí přenos souboru

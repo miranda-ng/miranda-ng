@@ -101,8 +101,8 @@
 Кар'єр
 [Sorry!]
 Вибачте!
-[BASS.DLL not found!]
-BASS.DLL не знайдено!
+[bass.dll not found!]
+bass.dll не знайдено!
 [Station]
 Станція
 [Custom INI file]

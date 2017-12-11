@@ -95,8 +95,8 @@ mRadio Mod
 Кариера
 [Sorry!]
 Извинете!
-[BASS.DLL not found!]
-BASS.DLL не може да бъде намерен!
+[bass.dll not found!]
+bass.dll не може да бъде намерен!
 [Station]
 Станция
 [Custom INI file]

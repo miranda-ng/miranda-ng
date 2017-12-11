@@ -3,29 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-;file \src\core\stdauth\res\resource.rc
-[Authorization request]
-Demande d'autorisation
-[&Authorize]
-&Autoriser
-[&Deny]
-&Refuser
-[Decide &later]
-Décider plus &tard
-[User &details]
-&Détails du contact
-[Reason:]
-Motif :
-[Denial reason:]
-Raison du refus :
-[Add to contact list if authorized]
-Ajouter à la liste de contacts si autorisé
-[You were added]
-Vous avez été ajouté
-[&Close]
-&Fermer
-[&Add]
-&Ajouter
 ;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Message %s pour %s
@@ -291,6 +268,8 @@ Taille totale :
 Description :
 [&User menu]
 &Menu utilisateur
+[User &details]
+&Détails du contact
 [&History]
 &Historique
 [Incoming file transfer]
@@ -307,6 +286,8 @@ Date :
 Fichiers :
 [Save to:]
 Enregistrer sous :
+[&Add]
+&Ajouter
 [&Open...]
 Ouvrir...
 [Open &folder]
@@ -395,11 +376,6 @@ Me demander
 Renommer (ajouter (1), (2), etc.)
 [You will always be asked about files from people not on your contact list]
 Vous serez avisé des fichiers ne provenant pas de votre liste de contacts
-;file \src\core\stdhelp\res\resource.rc
-[About Miranda NG]
-À propos de Miranda NG
-[Credits >]
-Crédits >
 ;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
@@ -723,6 +699,8 @@ Ouvrir la fenêtre de discussion du contact
 Nom à afficher :
 [Group:]
 Groupe :
+[Authorization request]
+Demande d'autorisation
 [&Yes]
 &Oui
 [&No]
@@ -999,6 +977,8 @@ Déplacer dans la barre de status
 
 [Insert separator]
 Insérer un séparateur
+[Module:]
+Module :
 [Service:]
 Service :
 [Default]
@@ -1133,6 +1113,26 @@ Télécharger plus de pack de traduction
 
 [Hide if there isn't enough space]
 
+[&Authorize]
+&Autoriser
+[&Deny]
+&Refuser
+[Decide &later]
+Décider plus &tard
+[Reason:]
+Motif :
+[Denial reason:]
+Raison du refus :
+[Add to contact list if authorized]
+Ajouter à la liste de contacts si autorisé
+[You were added]
+Vous avez été ajouté
+[&Close]
+&Fermer
+[About Miranda NG]
+À propos de Miranda NG
+[Credits >]
+Crédits >
 [Tray]
 Tray
 [&Hide/Show]
@@ -1193,42 +1193,6 @@ Wikipedia (en)
 Google Maps
 [Google Translate]
 Google Translate
-;file \src\core\stdauth\src\auth.cpp
-[%s requests authorization]
-%s demande une autorisation
-[%u requests authorization]
-%u demande une autorisation
-[%s added you to their contact list]
-%s vous a ajouté à sa liste de contacts
-[%u added you to their contact list]
-%u vous a ajouté à sa liste de contacts
-[Alerts]
-Notifications
-[Added event]
-
-;file \src\core\stdauth\src\authdialogs.cpp
-[View user's details]
-Voir les détails du contact
-[Add contact permanently to list]
-Ajouter le contact à la liste
-[<Unknown>]
-<inconnu>
-[%s added you to the contact list\n%u (%s) on %s]
-
-[%s added you to the contact list\n%u on %s]
-
-[%s added you to the contact list\n%s on %s]
-
-[(Unknown)]
-(Inconnu)
-[%s requested authorization\n%u (%s) on %s]
-
-[%s requested authorization\n%u on %s]
-
-[%s requested authorization\n%s on %s]
-
-[Feature is not supported by protocol]
-Cette fonctionnalité n'est pas supportée par le protocole
 ;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Message d'état de "%s"
@@ -1351,6 +1315,10 @@ Fichiers exécutables
 Sélectionnez un répertoire
 [My received files]
 Mes fichiers reçus
+[Add contact permanently to list]
+Ajouter le contact à la liste
+[View user's details]
+Voir les détails du contact
 [View user's history]
 Voir l'historique
 [User menu]
@@ -1418,20 +1386,6 @@ Transfert et analyse de virus achevés
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Sortant
-;file \src\core\stdhelp\src\about.cpp
-[< Copyright]
-< Crédits
-;file \src\core\stdhelp\src\help.cpp
-[&Help]
-&Aide
-[&About...]
-À &propos...
-[&Support]
-
-[&Miranda NG homepage]
-&Miranda NG page web
-[&Report bug]
-Rapport de bogue
 ;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Inactif
@@ -1907,11 +1861,43 @@ Voir/Changer mes &détails...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s est en ligne
+[Alerts]
+Notifications
 ;file \src\mir_app\src\addcontact.cpp
 [Add %s]
 Ajouter %s
 [Please authorize my request and add me to your contact list.]
 Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
+;file \src\mir_app\src\auth.cpp
+[%s requests authorization]
+%s demande une autorisation
+[%u requests authorization]
+%u demande une autorisation
+[%s added you to their contact list]
+%s vous a ajouté à sa liste de contacts
+[%u added you to their contact list]
+%u vous a ajouté à sa liste de contacts
+[Added event]
+
+;file \src\mir_app\src\authdialogs.cpp
+[<Unknown>]
+<inconnu>
+[%s added you to the contact list\n%u (%s) on %s]
+
+[%s added you to the contact list\n%u on %s]
+
+[%s added you to the contact list\n%s on %s]
+
+[(Unknown)]
+(Inconnu)
+[%s requested authorization\n%u (%s) on %s]
+
+[%s requested authorization\n%u on %s]
+
+[%s requested authorization\n%s on %s]
+
+[Feature is not supported by protocol]
+Cette fonctionnalité n'est pas supportée par le protocole
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Re&joindre
@@ -2200,6 +2186,19 @@ Apparence
 
 [Small text]
 Petit texte
+;file \src\mir_app\src\help.cpp
+[< Copyright]
+< Crédits
+[&Help]
+&Aide
+[&About...]
+À &propos...
+[&Support]
+
+[&Miranda NG homepage]
+&Miranda NG page web
+[&Report bug]
+Rapport de bogue
 ;file \src\mir_app\src\hotkey_opts.cpp
 [Browser: Back]
 

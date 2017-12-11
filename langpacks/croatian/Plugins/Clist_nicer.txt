@@ -380,6 +380,8 @@ prikaži razdjelnik između kontakata na mreži i izvan mreže
 
 [Ignore selection for groups]
 
+[Download more skins]
+
 [Load from skin file]
 
 [Export to skin file]

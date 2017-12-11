@@ -49,6 +49,8 @@
 * Для змяненняў патрэбны перазапуск
 [Skin folder]
 
+[Download more skins]
+Запампаваць скіны
 [Available view modes]
 Даступныя рэжымы выгляду
 [Include protocols]

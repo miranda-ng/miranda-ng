@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 0.3.1.1
+;  Version: 1.0.1.1
 ;  Authors: Mixwind
 ;============================================================
 [Check your Gmail inboxes locally.]
@@ -57,21 +57,19 @@ Zapsat nepřečtené zprávy do databáze (historie)
 ;file \plugins\GmailNotifier\src\check.cpp
 [Checking...]
 Kontrolování...
-[Can't open Internet!]
-Chyba připojení k internetu!
-[Can't reach server!]
-Chyba připojení k serveru!
 [Can't send account data!]
 Nelze zaslat data o účtu!
-[Can't get RSS feed!]
-Nelze přečíst kanál RSS!
 [Wrong name or password!]
 Neplatné jméno nebo heslo!
+[Can't get RSS feed!]
+Nelze přečíst kanál RSS!
 ;file \plugins\GmailNotifier\src\main.cpp
 [Other]
 Ostatní
 [Gmail: New thread(s)]
 Gmail: Nové vlákno/a
+[Gmail Notifier connection]
+
 [&Check all Gmail inboxes]
 &Zkontrolovat všechny účty (Gmail)
 [&Check Gmail inbox]

@@ -1,19 +1,19 @@
 #muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
 ;  File: BASS_interface.dll
-;  Plugin: BASS interface
+;  Plugin: BASS Interface
 ;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
-[un4seen's BASS interface Miranda NG plugin.]
+[Un4seen's BASS interface Miranda NG plugin.]
 Підтримка бібліотеки BASS для Miranda NG.
-[un4seen's bass interface]
+[Un4seen's BASS interface]
 Підтримка бібліотеки BASS
 [bass.dll loading error]
 Помилка завантаження бібліотеки bass.dll
 [Current bass.dll path:]
 Поточний шлях до bass.dll:
-[Maximum number of bass internal channels:]
+[Maximum number of BASS internal channels:]
 Максимальна кількість каналів:
 [Output device:]
 Пристрій виводу:
@@ -21,7 +21,7 @@
 Рівень гучності:
 [Quiet time:]
 Тиха година:
-[download bass library]
+[download BASS library]
 завантажити бібліотеку BASS
 [Play only if]
 Грати, якщо
@@ -47,7 +47,7 @@
 Обідаю
 [Preview]
 Тест
-[un4seen's bass version: %d.%d.%d.%d]
+[Un4seen's BASS version: %d.%d.%d.%d]
 Версія бібліотеки BASS: %d.%d.%d.%d
 [--default device--]
 --типовий прилад--
@@ -59,6 +59,8 @@
 Увімкнути звуки
 [Frame background]
 Фон
+[BASS Interface]
+Бібліотека BASS
 [Bass Interface]
 Бібліотека BASS
 [Bass library]

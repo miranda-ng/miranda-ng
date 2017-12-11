@@ -66,6 +66,8 @@ Voir la date
 Utiliser date long format
 [Use relative timestamp]
 Utiliser la date relative
+[Download more templates]
+
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Transfert de fichiers sortants

@@ -3,28 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.8
 ;============================================================
-[Authorization request]
-Запрос авторизации
-[&Authorize]
-&Разрешить
-[&Deny]
-&Запретить
-[Decide &later]
-Решить &позже
-[User &details]
-&Информация
-[Reason:]
-Причина:
-[Denial reason:]
-Причина отказа:
-[Add to contact list if authorized]
-Добавить в список контактов после авторизации
-[You were added]
-Вас добавили
-[&Close]
-&Закрыть
-[&Add]
-&Добавить
 [%s message for %s]
 %s сообщение для %s
 [&Cancel]
@@ -287,6 +265,8 @@
 Описание:
 [&User menu]
 Меню &пользователя
+[User &details]
+&Информация
 [&History]
 &История
 [Incoming file transfer]
@@ -303,6 +283,8 @@
 Файлы:
 [Save to:]
 Сохранять в:
+[&Add]
+&Добавить
 [&Open...]
 &Открыть...
 [Open &folder]
@@ -391,10 +373,6 @@
 Дописать " (1)" и т.д.
 [You will always be asked about files from people not on your contact list]
 Запрос всегда будет показан, если человек не в списке контактов
-[About Miranda NG]
-О программе
-[Credits >]
-Благодарности >
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
 [Become idle if the screen saver is active]
@@ -713,6 +691,8 @@
 Заданное имя:
 [Group:]
 Группа:
+[Authorization request]
+Запрос авторизации
 [&Yes]
 &Да
 [&No]
@@ -989,6 +969,8 @@
 Вставить вложенное меню
 [Insert separator]
 Вставить разделитель
+[Module:]
+Модуль:
 [Service:]
 Cлужба:
 [Default]
@@ -1123,6 +1105,26 @@ UIN, E-mail и т.д.
 Промежуток кнопок:
 [Hide if there isn't enough space]
 Скрывать, если недостаточно места
+[&Authorize]
+&Разрешить
+[&Deny]
+&Запретить
+[Decide &later]
+Решить &позже
+[Reason:]
+Причина:
+[Denial reason:]
+Причина отказа:
+[Add to contact list if authorized]
+Добавить в список контактов после авторизации
+[You were added]
+Вас добавили
+[&Close]
+&Закрыть
+[About Miranda NG]
+О программе
+[Credits >]
+Благодарности >
 [Tray]
 Трей
 [&Hide/Show]
@@ -1183,40 +1185,6 @@ UIN, E-mail и т.д.
 Google Карты
 [Google Translate]
 Переводчик Google
-[%s requests authorization]
-%s запрашивает авторизацию
-[%u requests authorization]
-%u запрашивает авторизацию
-[%s added you to their contact list]
-%s добавил вас в свой список контактов
-[%u added you to their contact list]
-%u добавил вас в свой список контактов
-[Alerts]
-Уведомления
-[Added event]
-Событие добавления
-[View user's details]
-Информация о пользователе
-[Add contact permanently to list]
-Добавить в список контактов
-[<Unknown>]
-<Неизвестно>
-[%s added you to the contact list\n%u (%s) on %s]
-%s добавил вас в свой список контактов\n%u (%s) в %s
-[%s added you to the contact list\n%u on %s]
-%s добавил вас в свой список контактов\n%u в %s
-[%s added you to the contact list\n%s on %s]
-%s добавил вас в свой список контактов\n%s в %s
-[(Unknown)]
-(Неизвестный)
-[%s requested authorization\n%u (%s) on %s]
-%s запросил(а) авторизацию\n%u (%s) в %s
-[%s requested authorization\n%u on %s]
-%s запросил(а) авторизацию\n%u в %s
-[%s requested authorization\n%s on %s]
-%s запросил(а) авторизацию\n%s в %s
-[Feature is not supported by protocol]
-Не поддерживается протоколом
 [Re&ad %s message]
 &Прочитать сообщение "%s"
 [Re&ad status message]
@@ -1325,6 +1293,10 @@ Google Карты
 Выбрать папку
 [My received files]
 Принятые файлы
+[Add contact permanently to list]
+Добавить в список контактов
+[View user's details]
+Информация о пользователе
 [View user's history]
 История сообщений
 [User menu]
@@ -1389,18 +1361,6 @@ Google Карты
 Передача и проверка на вирусы завершены
 [Outgoing]
 Исходящие
-[< Copyright]
-< Авторские права
-[&Help]
-&Справка
-[&About...]
-&О программе...
-[&Support]
-&Поддержка
-[&Miranda NG homepage]
-О&фициальный сайт Miranda NG
-[&Report bug]
-Сооб&щить об ошибке
 [Idle]
 Ожидание
 [Chat module]
@@ -1859,10 +1819,40 @@ Miranda не смогла загрузить встроенную систему
 Личные &данные...
 [%s is online]
 %s в сети
+[Alerts]
+Уведомления
 [Add %s]
 Добавить %s
 [Please authorize my request and add me to your contact list.]
 Пожалуйста, разрешите добавить вас в мой список контактов.
+[%s requests authorization]
+%s запрашивает авторизацию
+[%u requests authorization]
+%u запрашивает авторизацию
+[%s added you to their contact list]
+%s добавил вас в свой список контактов
+[%u added you to their contact list]
+%u добавил вас в свой список контактов
+[Added event]
+Событие добавления
+[<Unknown>]
+<Неизвестно>
+[%s added you to the contact list\n%u (%s) on %s]
+%s добавил вас в свой список контактов\n%u (%s) в %s
+[%s added you to the contact list\n%u on %s]
+%s добавил вас в свой список контактов\n%u в %s
+[%s added you to the contact list\n%s on %s]
+%s добавил вас в свой список контактов\n%s в %s
+[(Unknown)]
+(Неизвестный)
+[%s requested authorization\n%u (%s) on %s]
+%s запросил(а) авторизацию\n%u (%s) в %s
+[%s requested authorization\n%u on %s]
+%s запросил(а) авторизацию\n%u в %s
+[%s requested authorization\n%s on %s]
+%s запросил(а) авторизацию\n%s в %s
+[Feature is not supported by protocol]
+Не поддерживается протоколом
 [&Join chat]
 Войти в чат
 [&Open chat window]
@@ -2131,6 +2121,18 @@ Ctrl+Искать добавляет контакт
 Основной текст
 [Small text]
 Дополнительный текст
+[< Copyright]
+< Авторские права
+[&Help]
+&Справка
+[&About...]
+&О программе...
+[&Support]
+&Поддержка
+[&Miranda NG homepage]
+О&фициальный сайт Miranda NG
+[&Report bug]
+Сооб&щить об ошибке
 [Browser: Back]
 Браузер: Назад
 [Browser: Forward]

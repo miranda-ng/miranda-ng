@@ -5,6 +5,7 @@
 [Tree gray out]
 [Sticky contacts]
 [Editing view mode]
+[Download more skins]
 [Setup accounts]
 [Overlay icons]
 [Connecting icons]

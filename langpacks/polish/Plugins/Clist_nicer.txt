@@ -380,6 +380,8 @@ Położenie grupy
 Wysokość paska tytułu
 [Ignore selection for groups]
 Ignoruj zaznaczenie dla grup
+[Download more skins]
+Pobierz więcej skórek
 [Load from skin file]
 Załaduj skórkę z pliku
 [Export to skin file]

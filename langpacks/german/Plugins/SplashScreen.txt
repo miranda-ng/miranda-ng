@@ -38,6 +38,8 @@ Ausblenden:
 Advaimg.dll nicht gefunden. Bitte entnehmen Sie die Datei aus der aktuellen Stable-/Testing-Version.
 [Preview...]
 Vorschau...
+[Download more splash screens]
+
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Grafikdateien

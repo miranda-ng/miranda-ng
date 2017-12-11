@@ -6,7 +6,7 @@
 [Enable icon selection and icon in status bar (restart)]
 [This is a shared computer so disable auto login]
 [Log unread threads into database (enable history)]
-[Can't open Internet!]
 [Can't send account data!]
 [Can't get RSS feed!]
+[Gmail Notifier connection]
 [GmailNotifier]

@@ -516,6 +516,8 @@ Sie können all Ihre Farben sowie die Schriftart-Einstellungen exportieren und i
 Exportiere in eine Datei...
 [Import from a file...]
 Importiere aus einer Datei...
+[Download more skins]
+Weitere Skins herunterladen
 [Icons]
 Icons
 [Event type icons in the message log]

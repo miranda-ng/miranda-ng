@@ -6,24 +6,24 @@
 ;  Authors: Aleksey Smyrnov aka Soar
 ;============================================================
 [Allows you to move, minimize and activate Miranda's windows as if it were a single window.]
-
+Палягчае маніпуляцыі з вокнамі, як быццам гэта адно акно.
 [Windows moving]
-
+Перамяшчэнне вокнаў
 [Contact list on the left]
-
+Спіс кантактаў злева
 [Contact list on the right]
-
+Спіс кантактаў справа
 [Don't merge windows]
-
+Не "склейваць" вокны
 [At opening one more message window]
-
+Пры адкрыцці больш аднаго вакна
 [Merge windows in opening order]
-
+"Прыляпляць" вокны ў парадку адкрыцця
 [Merge only first window]
-
+"Прыляпляць" толькі першае акно
 [Don't merge windows until closing]
-
+Адключыць "злепванне" да зачынення
 [AsSingleWindow]
-
+Як_адно_вакно
 [Customize]
 Тонкая налада
