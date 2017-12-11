@@ -64,4 +64,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../mir_app/src/resource.h"
 
+#define IDLEMOD "Idle"
+
 extern HINSTANCE hInst;
+
+struct Settings
+{
+	Settings() :
+		bIdleCheck(IDLEMOD, "UserIdleCheck", 0),
+		bIdleMethod(IDLEMOD, "IdleMethod", 0),
+		bIdleOnSaver(IDLEMOD, "IdleOnSaver", 0),
+		bIdleOnFullScr(IDLEMOD, "IdleOnFullScr", 0),
+		bIdleOnLock(IDLEMOD, "IdleOnLock", 0),
+		bIdlePrivate(IDLEMOD, "IdlePrivate", 0),
+		bIdleSoundsOff(IDLEMOD, "IdleSoundsOff", 1),
+		bIdleOnTerminal(IDLEMOD, "IdleOnTerminalDisconnect", 0),
+		bIdleStatusLock(IDLEMOD, "IdleStatusLock", 0),
+		bAAEnable(IDLEMOD, "AAEnable", 0),
+		bAAStatus(IDLEMOD, "AAStatus", 0),
+		iIdleTime1st(IDLEMOD, "IdleTime1st", 10)
+	{}
+
+	CMOption<BYTE> bIdleCheck, bIdleMethod, bIdleOnSaver, bIdleOnFullScr, bIdleOnLock;
+	CMOption<BYTE> bIdlePrivate, bIdleSoundsOff, bIdleOnTerminal, bIdleStatusLock;
+	CMOption<BYTE> bAAEnable;
+	CMOption<WORD> bAAStatus;
+	CMOption<DWORD> iIdleTime1st;
+};
+
+extern Settings S;
+
+void IdleObject_Destroy();
+void IdleObject_Create();
