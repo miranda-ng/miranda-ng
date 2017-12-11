@@ -545,12 +545,6 @@ MIR_CORE_DLL(BOOL)    IsScreenSaverRunning();
 
 MIR_CORE_DLL(BOOL)    GetOSDisplayString(wchar_t *buf, size_t bufSize);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// retrieves the hLangpack of a plugin by its HINSTANCE
-// returns hLangpack if found, or 0 if error occurred
-
-MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE);
-
 ///////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(void) UnloadCoreModule(void);

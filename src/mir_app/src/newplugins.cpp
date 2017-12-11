@@ -39,20 +39,13 @@ static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
 }
 
 LIST<pluginEntry>
-	pluginList(10, sttComparePluginsByName),
-	servicePlugins(5, sttComparePluginsByName),
-	clistPlugins(5, sttComparePluginsByName);
+pluginList(10, sttComparePluginsByName),
+servicePlugins(5, sttComparePluginsByName),
+clistPlugins(5, sttComparePluginsByName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MUUID miid_last = MIID_LAST;
-MUUID miid_srmm = MIID_SRMM;
-MUUID miid_clist = MIID_CLIST;
-MUUID miid_database = MIID_DATABASE;
-MUUID miid_protocol = MIID_PROTOCOL;
-MUUID miid_servicemode = MIID_SERVICEMODE;
-MUUID miid_crypto = MIID_CRYPTO;
-MUUID miid_ssl = MIID_SSL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,7 +66,7 @@ static pluginEntry *plugin_freeimg, *plugin_crshdmp, *serviceModePlugin, *plugin
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic functions
 
-bool hasMuuid(const MUUID* p, const MUUID& uuid)
+bool hasMuuid(const MUUID *p, const MUUID &uuid)
 {
 	if (p == nullptr)
 		return false;
@@ -85,7 +78,7 @@ bool hasMuuid(const MUUID* p, const MUUID& uuid)
 	return false;
 }
 
-bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
+bool hasMuuid(const BASIC_PLUGIN_INFO &bpi, const MUUID &uuid)
 {
 	if (bpi.Interfaces)
 		return hasMuuid(bpi.Interfaces, uuid);
@@ -344,7 +337,7 @@ void Plugin_Uninit(pluginEntry *p)
 		FreeLibrary(hInst);
 		memset(&p->bpi, 0, sizeof(p->bpi));
 	}
-	
+
 	if (p == plugin_crshdmp)
 		plugin_crshdmp = nullptr;
 	pluginList.remove(p);
@@ -448,8 +441,8 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	}
 
 	// plugin declared that it's a database or a cryptor. load it asap!
-	bool bIsDb = hasMuuid(pIds, miid_database);
-	if (bIsDb || hasMuuid(pIds, miid_crypto)) {
+	bool bIsDb = hasMuuid(pIds, MIID_DATABASE);
+	if (bIsDb || hasMuuid(pIds, MIID_CRYPTO)) {
 		BASIC_PLUGIN_INFO bpi;
 		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			// plugin is valid
@@ -466,24 +459,24 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 		else p->pclass |= PCLASS_FAILED;
 	}
 	// plugin declared that it's a contact list. mark it for the future load
-	else if (hasMuuid(pIds, miid_clist)) {
+	else if (hasMuuid(pIds, MIID_CLIST)) {
 		// keep a note of this plugin for later
 		clistPlugins.insert(p);
 		p->pclass |= PCLASS_CLIST;
 	}
 	// plugin declared that it's a ssl provider. mark it for the future load
-	else if (hasMuuid(pIds, miid_ssl)) {
+	else if (hasMuuid(pIds, MIID_SSL)) {
 		plugin_ssl = p;
 		p->pclass |= PCLASS_LAST;
 	}
 	// plugin declared that it's a service mode plugin.
 	// load it for a profile manager's window
-	else if (hasMuuid(pIds, miid_servicemode)) {
+	else if (hasMuuid(pIds, MIID_SERVICEMODE)) {
 		BASIC_PLUGIN_INFO bpi;
 		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			p->pclass |= (PCLASS_OK | PCLASS_BASICAPI);
 			p->bpi = bpi;
-			if (hasMuuid(bpi, miid_servicemode)) {
+			if (hasMuuid(bpi, MIID_SERVICEMODE)) {
 				p->pclass |= (PCLASS_SERVICE);
 				servicePlugins.insert(p);
 			}
@@ -756,18 +749,15 @@ void EnsureCheckerLoaded(bool bEnable)
 int LoadSslModule(void)
 {
 	bool bExtSSLLoaded = false;
-	
-	if (plugin_ssl != nullptr) 
-	{
-		if (!TryLoadPlugin(plugin_ssl, false)) 
-		{
+
+	if (plugin_ssl != nullptr) {
+		if (!TryLoadPlugin(plugin_ssl, false)) {
 			Plugin_Uninit(plugin_ssl);
 		}
 		else
 			bExtSSLLoaded = true;
 	}
-	if (!bExtSSLLoaded)
-	{
+	if (!bExtSSLLoaded) {
 		MuuidReplacement stdSsl = { MIID_SSL, L"stdssl", nullptr };
 		if (!LoadCorePlugin(stdSsl))
 			return 1;

@@ -92,6 +92,12 @@ EXTERN_C MIR_CORE_DLL(int) Langpack_GetDefaultLocale(void);
 EXTERN_C MIR_CORE_DLL(wchar_t*) Langpack_PcharToTchar(const char *pszStr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// retrieves the hLangpack of a plugin by its HINSTANCE
+// returns hLangpack if found, or 0 if error occurred
+
+EXTERN_C MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // reloads langpack
 // wParam = 0 (ignored)
 // lParam = (LPARAM)(wchar_t*)langpack file name or NULL to reload the current one
