@@ -61,7 +61,6 @@ for short idle.*/
 
 struct MIRANDA_IDLE_INFO
 {
-	int cbSize;			    // sizeof()
 	int idleTime;	       // idle in mins, if zero then disabled
 	int privacy;		    // user doesnt want other people seeing anything more than they are idle
 	int aaStatus;			 // status to go to when user is auto away
@@ -74,7 +73,6 @@ struct MIRANDA_IDLE_INFO
 
 __forceinline int Idle_GetInfo(MIRANDA_IDLE_INFO &pInfo)
 {
-	pInfo.cbSize = sizeof(MIRANDA_IDLE_INFO);
 	return CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&pInfo);
 }
 

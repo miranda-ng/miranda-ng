@@ -116,7 +116,7 @@ void CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 {
 	MIRANDA_IDLE_INFO *mii = (MIRANDA_IDLE_INFO*)lParam;
-	if (!mii || mii->cbSize != sizeof(MIRANDA_IDLE_INFO))
+	if (!mii)
 		return 1;
 
 	mii->idleTime = S.iIdleTime1st;
