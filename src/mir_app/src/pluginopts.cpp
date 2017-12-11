@@ -513,7 +513,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			case IDC_PLUGINURL:
 				char buf[512];
 				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), buf, _countof(buf)))
-                      Utils_OpenUrl(buf);
+					Utils_OpenUrl(buf);
 				break;
 			}
 		}
