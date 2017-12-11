@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static CMOption<BYTE> g_bIdleCheck(IDLEMOD, "UserIdleCheck", 0);
 static CMOption<BYTE> g_bIdleMethod(IDLEMOD, "IdleMethod", 0);
-static CMOption<BYTE> g_iIdleTime1st(IDLEMOD, "IdleTime1st", 10);
 static CMOption<BYTE> g_bIdleOnSaver(IDLEMOD, "IdleOnSaver", 0);
 static CMOption<BYTE> g_bIdleOnFullScr(IDLEMOD, "IdleOnFullScr", 0);
 static CMOption<BYTE> g_bIdleOnLock(IDLEMOD, "IdleOnLock", 0);
@@ -38,92 +37,16 @@ static CMOption<BYTE> g_bIdleOnTerminal(IDLEMOD, "IdleOnTerminalDisconnect", 0);
 static CMOption<BYTE> g_bIdleStatusLock(IDLEMOD, "IdleStatusLock", 0);
 static CMOption<BYTE> g_bAAEnable(IDLEMOD, "AAEnable", 0);
 static CMOption<WORD> g_bAAStatus(IDLEMOD, "AAStatus", 0);
+static CMOption<DWORD> g_iIdleTime1st(IDLEMOD, "IdleTime1st", 10);
 
-#define IdleObject_IsIdle(obj) (obj->state & 0x1)
-#define IdleObject_SetIdle(obj) (obj->state |= 0x1)
-#define IdleObject_ClearIdle(obj) (obj->state &= ~0x1)
+static bool bModuleInitialized = false;
 
-// either use meth 0, 1 or figure out which one
-#define IdleObject_UseMethod0(obj) (obj->state &= ~0x2)
-#define IdleObject_UseMethod1(obj) (obj->state |= 0x2)
-#define IdleObject_GetMethod(obj) (obj->state & 0x2)
-
-#define IdleObject_IdleCheckSaver(obj) (obj->state & 0x4)
-#define IdleObject_SetSaverCheck(obj) (obj->state |= 0x4)
-
-#define IdleObject_IdleCheckWorkstation(obj) (obj->state & 0x8)
-#define IdleObject_SetWorkstationCheck(obj) (obj->state |= 0x8)
-
-#define IdleObject_IsPrivacy(obj) (obj->state & 0x10)
-#define IdleObject_SetPrivacy(obj) (obj->state |= 0x10)
-
-#define IdleObject_SetStatusLock(obj) (obj->state |= 0x20)
-
-#define IdleObject_IdleCheckTerminal(obj) (obj->state & 0x40)
-#define IdleObject_SetTerminalCheck(obj) (obj->state |= 0x40)
-
-#define IdleObject_IdleCheckFullScr(obj) (obj->state & 0x80)
-#define IdleObject_SetFullScrCheck(obj) (obj->state |= 0x80)
-
-//#include <Wtsapi32.h>
-
-#ifndef _INC_WTSAPI
-
-#define WTS_CURRENT_SERVER_HANDLE  ((HANDLE)NULL)
-#define WTS_CURRENT_SESSION ((DWORD)-1)
-
-typedef enum _WTS_CONNECTSTATE_CLASS
-{
-	WTSActive,              // User logged on to WinStation
-	WTSConnected,           // WinStation connected to client
-	WTSConnectQuery,        // In the process of connecting to client
-	WTSShadow,              // Shadowing another WinStation
-	WTSDisconnected,        // WinStation logged on without client
-	WTSIdle,                // Waiting for client to connect
-	WTSListen,              // WinStation is listening for connection
-	WTSReset,               // WinStation is being reset
-	WTSDown,                // WinStation is down due to error
-	WTSInit,                // WinStation in initialization
-} WTS_CONNECTSTATE_CLASS;
-
-typedef enum _WTS_INFO_CLASS
-{
-	WTSInitialProgram,
-	WTSApplicationName,
-	WTSWorkingDirectory,
-	WTSOEMId,
-	WTSSessionId,
-	WTSUserName,
-	WTSWinStationName,
-	WTSDomainName,
-	WTSConnectState,
-	WTSClientBuildNumber,
-	WTSClientName,
-	WTSClientDirectory,
-	WTSClientProductId,
-	WTSClientHardwareId,
-	WTSClientAddress,
-	WTSClientDisplay,
-	WTSClientProtocolType,
-} WTS_INFO_CLASS;
-
-#endif
-
-static BOOL bModuleInitialized = FALSE;
-
-typedef struct
+struct IdleObject
 {
 	UINT_PTR hTimer;
-	unsigned int useridlecheck;
-	unsigned int state;
-	unsigned int minutes;	// user setting, number of minutes of inactivity to wait for
-	POINT mousepos;
-	unsigned int mouseidle;
-	int aastatus;
 	int idleType;
-	int aasoundsoff;
-}
-IdleObject;
+	int bIsIdle;
+};
 
 static const WORD aa_Status[] = { ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, ID_STATUS_ONTHEPHONE, ID_STATUS_OUTTOLUNCH };
 
@@ -132,83 +55,67 @@ static HANDLE hIdleEvent;
 
 void CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime);
 
-static void IdleObject_Create(IdleObject * obj)
+static void IdleObject_Create(IdleObject *obj)
 {
 	memset(obj, 0, sizeof(IdleObject));
 	obj->hTimer = SetTimer(nullptr, 0, 2000, IdleTimer);
-	obj->useridlecheck = g_bIdleCheck;
-	obj->minutes = g_iIdleTime1st;
-	obj->aastatus = (g_bAAEnable) ? g_bAAStatus : 0;
-	obj->aasoundsoff = g_bIdleSoundsOff;
-	
-	if (g_bIdleMethod)
-		IdleObject_UseMethod1(obj);
-	else
-		IdleObject_UseMethod0(obj);
-	
-	if (g_bIdleOnLock) IdleObject_SetWorkstationCheck(obj);
-	if (g_bIdlePrivate) IdleObject_SetPrivacy(obj);
-	if (g_bIdleOnSaver) IdleObject_SetSaverCheck(obj);
-	if (g_bIdleOnFullScr) IdleObject_SetFullScrCheck(obj);
-	if (g_bIdleStatusLock) IdleObject_SetStatusLock(obj);
-	if (g_bIdleOnTerminal) IdleObject_SetTerminalCheck(obj);
 }
 
-static void IdleObject_Destroy(IdleObject * obj)
+static void IdleObject_Destroy(IdleObject *obj)
 {
-	if (IdleObject_IsIdle(obj))
+	if (obj->bIsIdle)
 		NotifyEventHooks(hIdleEvent, 0, 0);
-	IdleObject_ClearIdle(obj);
+	obj->bIsIdle = false;
 	KillTimer(nullptr, obj->hTimer);
 }
 
-static int IdleObject_IsUserIdle(IdleObject * obj)
+static int IdleObject_IsUserIdle()
 {
-	if (IdleObject_GetMethod(obj)) {
+	if (g_bIdleMethod) {
 		DWORD dwTick;
 		CallService(MS_SYSTEM_GETIDLE, 0, (LPARAM)&dwTick);
-		return GetTickCount() - dwTick > (obj->minutes * 60 * 1000);
+		return GetTickCount() - dwTick > (g_iIdleTime1st * 60 * 1000);
 	}
 
 	LASTINPUTINFO ii = { sizeof(ii) };
 	if (GetLastInputInfo(&ii))
-		return GetTickCount() - ii.dwTime > (obj->minutes * 60 * 1000);
+		return GetTickCount() - ii.dwTime > (g_iIdleTime1st * 60 * 1000);
 
 	return FALSE;
 }
 
-static void IdleObject_Tick(IdleObject * obj)
+static void IdleObject_Tick(IdleObject *obj)
 {
 	bool idle = false;
-	int  idleType = 0, flags = 0;
+	int idleType = 0, flags = 0;
 
-	if (obj->useridlecheck && IdleObject_IsUserIdle(obj)) {
+	if (g_bIdleCheck && IdleObject_IsUserIdle()) {
 		idleType = 1; idle = true;
 	}
-	else if (IdleObject_IdleCheckSaver(obj) && IsScreenSaverRunning()) {
+	else if (g_bIdleOnSaver && IsScreenSaverRunning()) {
 		idleType = 2; idle = true;
 	}
-	else if (IdleObject_IdleCheckFullScr(obj) && IsFullScreen()) {
+	else if (g_bIdleOnFullScr && IsFullScreen()) {
 		idleType = 5; idle = true;
 	}
-	else if (IdleObject_IdleCheckWorkstation(obj) && IsWorkstationLocked()) {
+	else if (g_bIdleOnLock && IsWorkstationLocked()) {
 		idleType = 3; idle = true;
 	}
-	else if (IdleObject_IdleCheckTerminal(obj) && IsTerminalDisconnected()) {
+	else if (g_bIdleOnTerminal && IsTerminalDisconnected()) {
 		idleType = 4; idle = true;
 	}
 
-	if (IdleObject_IsPrivacy(obj))
+	if (g_bIdlePrivate)
 		flags |= IDF_PRIVACY;
 
-	if (!IdleObject_IsIdle(obj) && idle) {
-		IdleObject_SetIdle(obj);
+	if (!obj->bIsIdle && idle) {
+		obj->bIsIdle = true;
 		obj->idleType = idleType;
 		NotifyEventHooks(hIdleEvent, 0, IDF_ISIDLE | flags);
 	}
 	
-	if (IdleObject_IsIdle(obj) && !idle) {
-		IdleObject_ClearIdle(obj);
+	if (obj->bIsIdle && !idle) {
+		obj->bIsIdle = false;
 		obj->idleType = 0;
 		NotifyEventHooks(hIdleEvent, 0, flags);
 	}
@@ -333,11 +240,11 @@ static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 	if (!mii || mii->cbSize != sizeof(MIRANDA_IDLE_INFO))
 		return 1;
 
-	mii->idleTime = gIdleObject.minutes;
-	mii->privacy = gIdleObject.state & 0x10;
-	mii->aaStatus = gIdleObject.aastatus;
-	mii->aaLock = gIdleObject.state & 0x20;
-	mii->idlesoundsoff = gIdleObject.aasoundsoff;
+	mii->idleTime = g_iIdleTime1st;
+	mii->privacy = g_bIdlePrivate;
+	mii->aaStatus = (g_bAAEnable) ? g_bAAStatus : 0;
+	mii->aaLock = g_bIdleStatusLock;
+	mii->idlesoundsoff = g_bIdleSoundsOff;
 	mii->idleType = gIdleObject.idleType;
 	return 0;
 }
