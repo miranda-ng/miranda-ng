@@ -304,7 +304,7 @@ begin
 
   mGetMem(basspath,1024);
 
-  // trying to load Bass.dll from custom
+  // trying to load bass.dll from custom
   custom:=DBReadUnicode(0,PluginName,optBASSPath,nil);
   if custom<>nil then
   begin
@@ -339,7 +339,7 @@ begin
       result:=Load_BASSDLL(basspath);
       if not result then
       begin
-        pc:=StrCopyW(StrCopyEW(pc,'bass\'),BASSName);  // %miranda_path%\plugins\bass\
+        pc:=StrCopyW(StrCopyEW(pc,'BASS\'),BASSName);  // %miranda_path%\plugins\BASS\
         result:=Load_BASSDLL(basspath);
       end;
     end;
@@ -348,11 +348,11 @@ begin
   // not found but custom path is empty
   if (not result) and (custom=nil) then
   begin
-    if MessageboxW(0,TranslateW('BASS.DLL not found! Choose BASS.dll path manually'),
+    if MessageboxW(0,TranslateW('bass.dll not found! Choose bass.dll path manually'),
         cPluginName,MB_YESNO)=IDYES then
     begin
       pc:=nil;
-      if SelectDirectory(TranslateW('Choose BASS.dll path'),pc,0) then
+      if SelectDirectory(TranslateW('Choose bass.dll path'),pc,0) then
       begin
         //!! if options page opened, need to change edit field
 
@@ -372,18 +372,18 @@ begin
     end;
   end;
 
-  // check Bass.dll version
+  // check bass.dll version
   if result then
   begin
     if (BASS_GetVersion shr 16)<BASSVERSION then
     begin
       Unload_BASSDLL;
       result:=false;
-      BassError('Wrong version of BASS.DLL');
+      BassError('Wrong version of bass.dll');
     end
     else
     begin
-      // load Bass plugins
+      // load BASS plugins
       pc:=StrCopyW(pc,'bass*.dll');
       fh:=FindFirstFileW(basspath,fd);
       if fh<>THANDLE(INVALID_HANDLE_VALUE) then
@@ -391,7 +391,7 @@ begin
         repeat
           StrCopyW(pc,fd.cFileName);
           if BASS_PluginLoad(pAnsiChar(basspath),BASS_UNICODE)=0 then
-;//            break; // ignore if unsuccefull plugin load
+;//            break; // ignore if unsuccessful plugin load
         until not FindNextFileW(fh,fd);
         FindClose(fh);
       end;
@@ -402,7 +402,7 @@ begin
   end
   else
   begin
-    BassError('BASS.DLL not found!');
+    BassError('bass.dll not found!');
   end;
 
   mFreeMem(custom);

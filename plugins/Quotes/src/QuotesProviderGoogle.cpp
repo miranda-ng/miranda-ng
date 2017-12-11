@@ -398,7 +398,7 @@ double CQuotesProviderGoogle::Convert(double dAmount, const CQuote& from, const 
 			if ((true == parse_responce(sHTML, dResult)))
 				return dResult;
 
-			throw std::runtime_error(Translate("Error occurred during html parsing."));
+			throw std::runtime_error(Translate("Error occurred during HTML parsing."));
 		}
 		else throw std::runtime_error(Translate("Error occurred during site access."));
 	}
