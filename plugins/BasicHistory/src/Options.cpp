@@ -220,7 +220,7 @@ static HotkeyOptionsList g_HotkeyOptionsList[] = {
 	{ "basichistory_hot_delete", LPGENW("Delete"), LPGENW("History"), nullptr, VK_DELETE, HISTORY_HK_DELETE },
 	{ "basichistory_hot_exrhtml", LPGENW("Export to rich HTML"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXRHTML },
 	{ "basichistory_hot_exphtml", LPGENW("Export to plain HTML"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXPHTML },
-	{ "basichistory_hot_extxt", LPGENW("Export to txt"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXTXT },
+	{ "basichistory_hot_extxt", LPGENW("Export to text file"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXTXT },
 	{ "basichistory_hot_exbin", LPGENW("Export to binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXBIN },
 	{ "basichistory_hot_impbin", LPGENW("Import from binary"), LPGENW("History"), nullptr, 0, HISTORY_HK_IMPBIN },
 	{ "basichistory_hot_exdat", LPGENW("Export to dat (mContacts)"), LPGENW("History"), nullptr, 0, HISTORY_HK_EXDAT },
