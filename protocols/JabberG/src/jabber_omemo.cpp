@@ -570,7 +570,7 @@ namespace omemo {
 		signal_buffer *key_buf;
 		ec_public_key_serialize(&key_buf, public_key);
 //		SIGNAL_UNREF(public_key);
-		char *key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+		char *key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 		char *fingerprint = (char*)mir_alloc((signal_buffer_len(key_buf) * 2) + 1);
 		bin2hex(signal_buffer_data(key_buf), signal_buffer_len(key_buf), fingerprint);
 		proto->setString("OmemoFingerprintOwn", fingerprint);
@@ -581,7 +581,7 @@ namespace omemo {
 		ec_private_key *private_key = ratchet_identity_key_pair_get_private(new_dev->device_key);
 		ec_private_key_serialize(&key_buf, private_key);
 //		SIGNAL_UNREF(private_key);
-		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+		key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 		proto->setString("OmemoDevicePrivateKey", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
@@ -608,11 +608,11 @@ namespace omemo {
 		public_key = ec_key_pair_get_public(signed_pre_key_pair);
 		ec_public_key_serialize(&key_buf, public_key);
 //		SIGNAL_UNREF(public_key);
-		key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+		key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 		proto->setString("OmemoSignedPreKeyPublic", key);
 		mir_free(key);
 		signal_buffer_free(key_buf);
-		char *signature = mir_base64_encode(session_signed_pre_key_get_signature(signed_pre_key), (unsigned int)session_signed_pre_key_get_signature_len(signed_pre_key));
+		char *signature = mir_base64_encode(session_signed_pre_key_get_signature(signed_pre_key), session_signed_pre_key_get_signature_len(signed_pre_key));
 		proto->setString("OmemoSignedPreKeySignature", signature);
 		mir_free(signature);
 
@@ -638,7 +638,7 @@ namespace omemo {
 			public_key = ec_key_pair_get_public(pre_key_pair);
 			ec_public_key_serialize(&key_buf, public_key);
 			SIGNAL_UNREF(public_key);
-			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+			key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 			mir_snprintf(setting_name, "OmemoPreKey%uPublic", pre_key_id);
 			proto->setString(setting_name, key);
 			mir_free(key);
@@ -689,7 +689,7 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
 		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
@@ -729,12 +729,12 @@ namespace omemo {
 		{
 			char *ptr = (char*)szSetting;
 			ptr += mir_strlen("OmemoSignalSession_");
-			char *current_name = mir_base64_encode((BYTE*)data->name, (unsigned int)data->name_len);
+			char *current_name = mir_base64_encode(data->name, data->name_len);
 			if (strstr(ptr, current_name))
 			{
 				char *dev_encoded = ptr;
 				dev_encoded += strlen(current_name);
-				unsigned int len;
+				size_t len;
 				void *dev_tmp = mir_base64_decode(dev_encoded, &len);
 				signal_int_list_push_back(data->sessions, *((int *)dev_tmp));
 				data->arr_size++;
@@ -790,7 +790,7 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
 		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
@@ -817,7 +817,7 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
 		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
@@ -852,7 +852,7 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
 		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
@@ -877,7 +877,7 @@ namespace omemo {
 		{
 			char *ptr = (char*)szSetting;
 			ptr += mir_strlen("OmemoSignalSession_");
-			char *current_name = mir_base64_encode((BYTE*)data->name, (unsigned int)data->name_len);
+			char *current_name = mir_base64_encode(data->name, data->name_len);
 			if (strstr(ptr, current_name))
 				data->settings.push_back(mir_strdup(szSetting));
 			mir_free(current_name);
@@ -984,7 +984,7 @@ namespace omemo {
 				public_key = ec_key_pair_get_public(pre_key_pair);
 				ec_public_key_serialize(&key_buf, public_key);
 				SIGNAL_UNREF(public_key);
-				key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+				key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 				mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPublic", pre_key_id);
 				data->proto->setString(setting_name, key);
 				mir_free(key);
@@ -992,7 +992,7 @@ namespace omemo {
 /*				private_key = ec_key_pair_get_private(pre_key_pair);
 				ec_private_key_serialize(&key_buf, private_key);
 				SIGNAL_UNREF(private_key);
-				key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+				key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 				mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPrivate", pre_key_id);
 				data->proto->setString(setting_name, key);
 				mir_free(key);
@@ -1187,7 +1187,7 @@ namespace omemo {
 		signal_store_backend_user_data* data = (signal_store_backend_user_data*)user_data;
 		char *pub_key = data->proto->getStringA("OmemoDevicePublicKey");
 		char *priv_key = data->proto->getStringA("OmemoDevicePrivateKey");
-		unsigned int pub_key_len = 0, priv_key_len = 0;
+		size_t pub_key_len = 0, priv_key_len = 0;
 		char *pub_key_buf = (char*)mir_base64_decode(pub_key, &pub_key_len);
 		mir_free(pub_key);
 		char *priv_key_buf = (char*)mir_base64_decode(priv_key, &priv_key_len);
@@ -1242,7 +1242,7 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
 		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalIdentity_", id_str);
@@ -1284,7 +1284,7 @@ namespace omemo {
 		char *id_buf_ptr = id_buf;
 		id_buf_ptr += address->name_len;
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode((BYTE*)id_buf, (unsigned int)(address->name_len + sizeof(int32_t)));
+		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
 		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalIdentity_", id_str);
@@ -1400,7 +1400,7 @@ namespace omemo {
 		unsigned int key_id_int = _wtoi(key_id);
 
 		char *pre_key_a = mir_u2a(pre_key_public);
-		unsigned int key_buf_len;
+		size_t key_buf_len;
 		uint8_t *key_buf = (uint8_t*)mir_base64_decode(pre_key_a, &key_buf_len);
 		ec_public_key *prekey;
 		if (curve_decode_point(&prekey, key_buf, key_buf_len, global_context))
@@ -1542,7 +1542,7 @@ namespace omemo {
 			public_key = ec_key_pair_get_public(pre_key_pair);
 			ec_public_key_serialize(&key_buf, public_key);
 			SIGNAL_UNREF(public_key);
-			key = mir_base64_encode(signal_buffer_data(key_buf), (unsigned int)signal_buffer_len(key_buf));
+			key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 			mir_snprintf(setting_name, "OmemoPreKey%uPublic", pre_key_id);
 			proto->setString(setting_name, key);
 			mir_free(key);
@@ -1670,14 +1670,14 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		debugLogA("Jabber OMEMO: message does not have decryption key for our device");
 		return; //node does not contain key for our device
 	}
-	unsigned int encrypted_key_len;
+	size_t encrypted_key_len;
 	unsigned char *encrypted_key;
 	{
 		char *key_buf = mir_u2a(encrypted_key_base64);
 		encrypted_key = (unsigned char*)mir_base64_decode(key_buf, &encrypted_key_len);
 		mir_free(key_buf);
 	}
-	unsigned int iv_len;
+	size_t iv_len;
 	unsigned char *iv;
 	{
 		char *iv_buf = mir_u2a(iv_base64);
@@ -1799,7 +1799,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	char *out = nullptr;
 	{
 		int dec_success = 0;
-		unsigned int payload_len = 0;
+		size_t payload_len = 0;
 		int outl = 0, round_len = 0;
 		char *payload_base64 = mir_u2a(payload_base64w);
 		unsigned char *payload = (unsigned char*)mir_base64_decode(payload_base64, &payload_len);
@@ -2317,7 +2317,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 	mir_free(in);
 	HXML encrypted = msg << XCHILDNS(L"encrypted", JABBER_FEAT_OMEMO);
 	HXML payload = encrypted << XCHILD(L"payload");
-	char *payload_base64 = mir_base64_encode((BYTE*)out, tmp_len);
+	char *payload_base64 = mir_base64_encode(out, tmp_len);
 	wchar_t *payload_base64w = mir_a2u(payload_base64);
 	mir_free(payload_base64);
 	xmlSetText(payload, payload_base64w);
@@ -2357,7 +2357,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 				key_node << XATTR(L"prekey", L"true");
 			}
 			signal_buffer *serialized_encrypted_key = ciphertext_message_get_serialized(encrypted_key);
-			char *key_base64 = mir_base64_encode(signal_buffer_data(serialized_encrypted_key), (unsigned int)signal_buffer_len(serialized_encrypted_key));
+			char *key_base64 = mir_base64_encode(signal_buffer_data(serialized_encrypted_key), signal_buffer_len(serialized_encrypted_key));
 			wchar_t *key_base64w = mir_a2u(key_base64);
 			mir_free(key_base64);
 			xmlSetText(key_node, key_base64w);
@@ -2367,7 +2367,7 @@ unsigned int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const wchar_t *msg_
 		}
 	}
 	HXML iv_node = header << XCHILD(L"iv");
-	char *iv_base64 = mir_base64_encode((BYTE*)iv, _countof_portable(iv));
+	char *iv_base64 = mir_base64_encode(iv, _countof_portable(iv));
 	wchar_t *iv_base64w = mir_a2u(iv_base64);
 	mir_free(iv_base64);
 	xmlSetText(iv_node, iv_base64w);

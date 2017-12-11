@@ -98,7 +98,7 @@ void CheckMailInbox(Account *curAcc)
 
 	// go!
 	CMStringA loginPass(FORMAT, "%s:%s", curAcc->name, curAcc->pass);
-	ptrA loginPassEncoded(mir_base64_encode((BYTE*)loginPass.c_str(), loginPass.GetLength()));
+	ptrA loginPassEncoded(mir_base64_encode(loginPass.c_str(), loginPass.GetLength()));
 
 	CMStringA szUrl("https://mail.google.com"), szAuth(FORMAT, "Basic %s", loginPassEncoded.get());
 	if (curAcc->hosted[0])

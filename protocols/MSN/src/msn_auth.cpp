@@ -543,7 +543,7 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 	unsigned char nonce[24];
 	Utils_GetRandom(nonce, sizeof(nonce));
 
-	unsigned key1len;
+	size_t key1len;
 	mir_ptr<BYTE> key1((BYTE*)mir_base64_decode(hotSecretToken, &key1len));
 
 	static const unsigned char encdata[] = "WS-SecureConversation";

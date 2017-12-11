@@ -397,11 +397,11 @@ MIR_CORE_DLL(void) mir_hmac_sha256(BYTE hashout[MIR_SHA256_HASH_SIZE], const BYT
 ///////////////////////////////////////////////////////////////////////////////
 // strings
 
-MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen);
-MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen);
-MIR_CORE_DLL(char*) mir_base64_encodebuf(const BYTE *input, unsigned inputLen, char *output, unsigned outLen);
+MIR_CORE_DLL(void*) mir_base64_decode(const char *input, size_t *outputLen);
+MIR_CORE_DLL(char*) mir_base64_encode(const void *input, size_t inputLen);
+MIR_CORE_DLL(char*) mir_base64_encodebuf(const void *input, size_t inputLen, char *output, size_t outLen);
 
-__forceinline unsigned mir_base64_encode_bufsize(unsigned inputLen)
+__forceinline size_t mir_base64_encode_bufsize(size_t inputLen)
 {
 	return 4 * ((inputLen + 2) / 3) + 1;
 }

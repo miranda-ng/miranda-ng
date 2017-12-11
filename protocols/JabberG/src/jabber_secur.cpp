@@ -144,7 +144,7 @@ char* TMD5Auth::getChallenge(const wchar_t *challenge)
 
 	iCallCount++;
 
-	unsigned resultLen;
+	size_t resultLen;
 	ptrA text((char*)mir_base64_decode( _T2A(challenge), &resultLen));
 
 	TStringPairs pairs(text);
@@ -201,7 +201,7 @@ char* TMD5Auth::getChallenge(const wchar_t *challenge)
 		uname, realm, nonce, cnonce, iCallCount, serv,
 		htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-	return mir_base64_encode((PBYTE)buf, cbLen);
+	return mir_base64_encode(buf, cbLen);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -240,7 +240,7 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 
 char* TScramAuth::getChallenge(const wchar_t *challenge)
 {
-	unsigned chlLen, saltLen = 0;
+	size_t chlLen, saltLen = 0;
 	ptrA snonce, salt;
 	int ind = -1;
 
@@ -293,12 +293,12 @@ char* TScramAuth::getChallenge(const wchar_t *challenge)
 
 	BYTE srvSig[MIR_SHA1_HASH_SIZE];
 	mir_hmac_sha1(srvSig, serverKey, sizeof(serverKey), (BYTE*)authmsg, authmsgLen);
-	serverSignature = mir_base64_encode((PBYTE)srvSig, sizeof(srvSig));
+	serverSignature = mir_base64_encode(srvSig, sizeof(srvSig));
 
 	char buf[4096];
-	ptrA encproof(mir_base64_encode((PBYTE)clientProof, sizeof(clientProof)));
+	ptrA encproof(mir_base64_encode(clientProof, sizeof(clientProof)));
 	int cbLen = mir_snprintf(buf, "c=biws,r=%s,p=%s", snonce, encproof);
-	return mir_base64_encode((PBYTE)buf, cbLen);
+	return mir_base64_encode(buf, cbLen);
 }
 
 char* TScramAuth::getInitialRequest()
@@ -307,17 +307,17 @@ char* TScramAuth::getInitialRequest()
 
 	unsigned char nonce[24];
 	Utils_GetRandom(nonce, sizeof(nonce));
-	cnonce = mir_base64_encode((PBYTE)nonce, sizeof(nonce));
+	cnonce = mir_base64_encode(nonce, sizeof(nonce));
 
 	char buf[4096];
 	int cbLen = mir_snprintf(buf, "n,,n=%s,r=%s", uname, cnonce);
 	msg1 = mir_strdup(buf + 3);
-	return mir_base64_encode((PBYTE)buf, cbLen);
+	return mir_base64_encode(buf, cbLen);
 }
 
 bool TScramAuth::validateLogin(const wchar_t *challenge)
 {
-	unsigned chlLen;
+	size_t chlLen;
 	ptrA chl((char*)mir_base64_decode(_T2A(challenge), &chlLen));
 	return chl && strncmp((char*)chl + 2, serverSignature, chlLen - 2) == 0;
 }
@@ -347,7 +347,7 @@ char* TPlainAuth::getInitialRequest()
 	else
 		size = mir_snprintf(toEncode, size, "%c%s%c%s", 0, uname, 0, passw);
 
-	return mir_base64_encode((PBYTE)toEncode, (int)size);
+	return mir_base64_encode(toEncode, size);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

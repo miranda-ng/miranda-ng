@@ -382,7 +382,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	_read(file_fd, avatarFile, avatarFileLen);
 	_close(file_fd);
 
-	ptrA avatarFileB64(mir_base64_encode((PBYTE)avatarFile, avatarFileLen));
+	ptrA avatarFileB64(mir_base64_encode(avatarFile, avatarFileLen));
 	mir_free(avatarFile);
 
 	ptrA avatarFileB64Enc(mir_urlEncode(avatarFileB64));

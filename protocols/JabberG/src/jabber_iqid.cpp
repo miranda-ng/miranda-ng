@@ -588,7 +588,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 	if (o == nullptr || ptszBinval == nullptr)
 		return;
 
-	unsigned bufferLen;
+	size_t bufferLen;
 	ptrA buffer((char*)mir_base64_decode(_T2A(ptszBinval), &bufferLen));
 	if (buffer == nullptr)
 		return;
@@ -1406,7 +1406,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo*)
 
 void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, HXML n, const wchar_t *mimeType)
 {
-	unsigned resultLen;
+	size_t resultLen;
 	ptrA body((char*)mir_base64_decode(_T2A(XmlGetText(n)), &resultLen));
 	if (body == nullptr)
 		return;

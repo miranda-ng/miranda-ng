@@ -218,7 +218,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		bool isGSSAPI = mir_wstrcmpi(hNtlm->szProvider, L"Kerberos") == 0;
 		bool hasChallenge = szChallenge != nullptr && szChallenge[0] != '\0';
 		if (hasChallenge) {
-			unsigned tokenLen;
+			size_t tokenLen;
 			BYTE *token = (BYTE*)mir_base64_decode(szChallenge, &tokenLen);
 			if (token == nullptr)
 				return nullptr;
@@ -336,14 +336,14 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			return nullptr;
 		}
 
-		szOutputToken = mir_base64_encode((PBYTE)outputSecurityToken.pvBuffer, outputSecurityToken.cbBuffer);
+		szOutputToken = mir_base64_encode(outputSecurityToken.pvBuffer, outputSecurityToken.cbBuffer);
 	}
 	else {
 		if (!login || !psw)
 			return nullptr;
 
 		CMStringA szAuth(FORMAT, "%S:%S", login, psw);
-		szOutputToken = mir_base64_encode((BYTE*)szAuth.c_str(), szAuth.GetLength());
+		szOutputToken = mir_base64_encode(szAuth.c_str(), szAuth.GetLength());
 		complete = true;
 	}
 

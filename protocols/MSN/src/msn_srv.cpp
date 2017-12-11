@@ -296,7 +296,7 @@ void CMsnProto::msn_storeAvatarThread(void* arg)
 	ptrA szEncBuf;
 
 	if (dat)
-		szEncBuf = mir_base64_encode(dat->data, (unsigned)dat->dataSize);
+		szEncBuf = mir_base64_encode(dat->data, dat->dataSize);
 
 	if (photoid[0] && dat)
 		MSN_StoreUpdateDocument(dat->szName, dat->szMimeType, szEncBuf);

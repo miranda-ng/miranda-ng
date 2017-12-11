@@ -244,7 +244,7 @@ BOOL CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 			// let others send data too
 			Sleep(2);
 
-			char *encoded = mir_base64_encode((PBYTE)(char*)buffer, numRead);
+			char *encoded = mir_base64_encode(buffer, numRead);
 
 			msg << XCHILD(L"data", _A2T(encoded)) << XATTR(L"xmlns", JABBER_FEAT_IBB)
 				<< XATTR(L"sid", ft->jibb->sid) << XATTRI(L"seq", ft->jibb->wPacketId);

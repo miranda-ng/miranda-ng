@@ -50,7 +50,7 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	clen = (unsigned)ciphered.length();
 	mir_free(ptr->tmp);
 	if (ptr->features & FEATURES_BASE64)
-		ptr->tmp =  mir_base64_encode((PBYTE)ciphered.data(), clen);
+		ptr->tmp =  mir_base64_encode(ciphered.data(), clen);
 	else {
 		char *base16 = base16encode(ciphered.data(), clen);
 		ptr->tmp = mir_strdup(base16);
@@ -70,7 +70,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 		ptr->error = ERROR_SEH;
 		pSIMDATA p = (pSIMDATA)ptr->pdata;
 
-		unsigned clen = (unsigned)strlen(szEncMsg);
+		size_t clen = strlen(szEncMsg);
 
 		if (ptr->features & FEATURES_BASE64)
 			ciphered = (LPSTR)mir_base64_decode(szEncMsg, &clen);

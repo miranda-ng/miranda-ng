@@ -42,7 +42,7 @@ void CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg)
 	mir_free(tlogin);
 	mir_free(tpass);
 
-	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode((PBYTE)str, len)));
+	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode(str, len)));
 }
 
 INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

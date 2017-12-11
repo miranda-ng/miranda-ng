@@ -1570,7 +1570,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 
 	// pre processing - extracting/decoding
 	if (dwFlags & MESSAGE_FLAG_AUTHORIZE) { // extract auth message из обычного текста
-		unsigned dwAuthDataSize;
+		size_t dwAuthDataSize;
 		LPBYTE lpbAuthData = (LPBYTE)mir_base64_decode(plpsText, &dwAuthDataSize);
 		if (lpbAuthData) {
 			BinBuffer buf(lpbAuthData, dwAuthDataSize);
@@ -1607,7 +1607,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &
 
 				mir_ptr<BYTE> lpbRTFData((LPBYTE)mir_calloc(dwRFTBuffSize));
 				if (lpbRTFData) {
-					unsigned dwCompressedSize;
+					size_t dwCompressedSize;
 					mir_ptr<BYTE> lpbCompressed((LPBYTE)mir_base64_decode(plpsRFTText, &dwCompressedSize));
 					DWORD dwRTFDataSize = (DWORD)dwRFTBuffSize;
 					if (uncompress(lpbRTFData, &dwRTFDataSize, lpbCompressed, dwCompressedSize) == Z_OK) {

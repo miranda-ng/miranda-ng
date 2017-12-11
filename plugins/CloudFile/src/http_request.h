@@ -60,7 +60,7 @@ protected:
 			szLogin,
 			szPassword);
 
-		ptrA ePair(mir_base64_encode((BYTE*)(char*)cPair, length));
+		ptrA ePair(mir_base64_encode(cPair, length));
 
 		length = mir_strlen(ePair) + 7;
 		char *value = (char*)mir_calloc(length + 1);

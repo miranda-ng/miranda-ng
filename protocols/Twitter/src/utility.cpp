@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string b64encode(const std::string &s)
 {
-	return std::string(ptrA(mir_base64_encode((BYTE*)s.c_str(), (unsigned)s.length())));
+	return std::string(ptrA(mir_base64_encode(s.c_str(), s.length())));
 }
 
 std::string int2str(int32_t iVal)

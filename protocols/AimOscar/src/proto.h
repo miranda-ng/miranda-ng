@@ -98,7 +98,7 @@ struct CAimProto : public PROTO<CAimProto>
 	mir_cs connMutex;
 
 	char* COOKIE;
-	int COOKIE_LENGTH;
+	size_t COOKIE_LENGTH;
 	char* MAIL_COOKIE;
 	int MAIL_COOKIE_LENGTH;
 	char* AVATAR_COOKIE;

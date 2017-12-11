@@ -138,7 +138,7 @@ static DWORD PlainText2message(const CMStringA &szContentType, const CMStringA &
 	// Content-Type: text/plain; charset = CP-1251
 	if ( strstr(szContentType, "utf-16le")) {
 		// charset = UTF-16LE// предполагаем что оно в base64
-		unsigned dwTextSize;
+		size_t dwTextSize;
 		ptrA lpszText((LPSTR)mir_base64_decode(szBody, &dwTextSize));
 		if (lpszText) {
 			plpsText = CMStringA(lpszText, dwTextSize);

@@ -83,7 +83,7 @@ void CreateAuthString(char* auth)
 
 	char str[110];
 	int len = mir_snprintf(str, "%s:%s", user, pass);
-	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode((PBYTE)str, len)));
+	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode(str, len)));
 }
 
 

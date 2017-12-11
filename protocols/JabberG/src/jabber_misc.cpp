@@ -476,7 +476,7 @@ CMStringW CJabberProto::ExtractImage(HXML node)
 
 					if (h != INVALID_HANDLE_VALUE) {
 						DWORD n;
-						unsigned int bufferLen;
+						size_t bufferLen;
 						ptrA buffer((char*)mir_base64_decode(_T2A(image), &bufferLen));
 						WriteFile(h, buffer, bufferLen, &n, nullptr);
 						CloseHandle(h);

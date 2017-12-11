@@ -680,7 +680,7 @@ void FILEECHO::cmdDATA(char *param)
 	}
 	else
 	{
-		unsigned bufLen;
+		size_t bufLen;
 		mir_ptr<BYTE> buf((BYTE*)mir_base64_decode(param, &bufLen));
 		memcpy(data, buf, min(bufLen, unsigned(data_end - data)));
 		data += bufLen;

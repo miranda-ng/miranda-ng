@@ -204,7 +204,7 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	if (facy.loading_history)
 		return;
 
-	std::string b64 = ptrA(mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
+	std::string b64 = ptrA(mir_base64_encode(sticker.c_str(), sticker.length()));
 	b64 = utils::url::encode(b64);
 
 	std::wstring filename = GetAvatarFolder() + L"\\stickers\\";

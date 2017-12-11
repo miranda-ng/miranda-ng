@@ -355,7 +355,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 			str = (LPSTR)mir_alloc(baselen + 6);
 			assert(str != nullptr);
 			// encode data
-			if ( mir_base64_encodebuf(dbv.pbVal, dbv.cpbVal, str+1, baselen)) {
+			if (mir_base64_encodebuf(dbv.pbVal, dbv.cpbVal, str+1, baselen)) {
 				str[baselen+1] = 0;
 				str[0] = 'n';
 				xmlValue = new TiXmlText(str);
@@ -537,7 +537,7 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 			LPCSTR pUID = xContact->Attribute("uidv");
 
 			if (pUID != nullptr) {
-				unsigned valLen;
+				size_t valLen;
 				PBYTE	pbVal = nullptr;
 
 				switch (*(pUID++)) {
@@ -866,7 +866,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 	DBVARIANT dbv = { 0 };
 	
 	// convert data
-	unsigned baselen;
+	size_t baselen;
 
 	switch (value[0]) {
 	case 'b':			//'b' bVal and cVal are valid
@@ -952,7 +952,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 	if (!tmp || tmp[0] == 0)
 		return ERROR_INVALID_VALUE;
 
-	unsigned baselen;
+	size_t baselen;
 	mir_ptr<BYTE> tmpVal((PBYTE)mir_base64_decode(tmp, &baselen));
 	if (tmpVal != NULL) {
 		// event owning module

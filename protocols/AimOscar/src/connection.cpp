@@ -327,8 +327,7 @@ void CAimProto::aim_connection_clientlogin(void)
 	}
 	if(COOKIE)
 		mir_free(COOKIE);
-	COOKIE = (char*)mir_base64_decode(cookie, (unsigned int*)&COOKIE_LENGTH);
-
+	COOKIE = (char*)mir_base64_decode(cookie, &COOKIE_LENGTH);
 
 	m_hServerConn = aim_connect(bos_host, bos_port, (tls_cert_name[0] && encryption) ? true : false, bos_host);
 	if (!m_hServerConn) {
@@ -336,8 +335,6 @@ void CAimProto::aim_connection_clientlogin(void)
 		broadcast_status(ID_STATUS_OFFLINE);
 		return;
 	}
-
-
 
 	ForkThread(&CAimProto::aim_protocol_negotiation, nullptr);
 }

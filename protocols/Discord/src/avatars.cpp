@@ -191,7 +191,7 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	ptrA szFileContents((char*)mir_alloc(iFileLength));
 	fread(szFileContents, 1, iFileLength, in);
 	fclose(in);
-	szPayload.Append(ptrA(mir_base64_encode((BYTE*)szFileContents.get(), iFileLength)));
+	szPayload.Append(ptrA(mir_base64_encode(szFileContents.get(), iFileLength)));
 
 	JSONNode root; root << CHAR_PARAM("avatar", szPayload);
 	Push(new AsyncHttpRequest(this, REQUEST_PATCH, "/users/@me", nullptr, &root));

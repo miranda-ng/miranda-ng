@@ -72,7 +72,7 @@ bool SmileyCType::CreateTriggerText(char *text)
 	int len = (int)mir_strlen(text);
 	if (len == 0) return false;
 
-	unsigned reslen;
+	size_t reslen;
 	ptrA res((char*)mir_base64_decode(text, &reslen));
 	if (res == NULL)
 		return false;

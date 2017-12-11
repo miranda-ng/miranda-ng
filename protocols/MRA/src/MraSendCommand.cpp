@@ -89,7 +89,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		buf.SetUL(2);
 		buf.SetLPSW(L"");//***deb possible nick here
 		buf.SetLPSW(lpwszMessage);
-		lpszMessageConverted = mir_base64_encode(buf.Data(), (int)buf.Len());
+		lpszMessageConverted = mir_base64_encode(buf.Data(), buf.Len());
 		dwMessageConvertedSize = mir_strlen(lpszMessageConverted);
 	}
 	// messages with Flash
@@ -109,7 +109,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		DWORD dwBufSize = DWORD(buf.Len() + 128);
 		lpszBuf.Truncate(dwBufSize);
 		if (compress2((LPBYTE)(LPCSTR)lpszBuf, &dwBufSize, buf.Data(), (int)buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
-			lpszMessageRTF = mir_base64_encode((LPBYTE)(LPCSTR)lpszBuf, dwBufSize);
+			lpszMessageRTF = mir_base64_encode(lpszBuf, dwBufSize);
 			dwMessageRTFSize = mir_strlen(lpszMessageRTF);
 		}
 	}
@@ -129,7 +129,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 
 				DWORD dwRTFDataSize = lpbRTFData.GetLength();
 				if (compress2((LPBYTE)(LPCSTR)lpbRTFData, &dwRTFDataSize, buf.Data(), (int)buf.Len(), Z_BEST_COMPRESSION) == Z_OK) {
-					lpszMessageRTF = mir_base64_encode((LPBYTE)(LPCSTR)lpbRTFData, dwRTFDataSize);
+					lpszMessageRTF = mir_base64_encode(lpbRTFData, dwRTFDataSize);
 					dwMessageRTFSize = mir_strlen(lpszMessageRTF);
 				}
 			}
@@ -205,7 +205,7 @@ DWORD CMraProto::MraAddContact(MCONTACT hContact, DWORD dwContactFlag, DWORD dwG
 	buf2.SetUL(2);
 	buf2.SetLPSW(L"");//***deb possible nick here
 	buf2.SetLPSW((wszAuthMessage == NULL) ? L"" : *wszAuthMessage);
-	buf.SetLPS(CMStringA(ptrA(mir_base64_encode(buf2.Data(), (int)buf2.Len()))));
+	buf.SetLPS(CMStringA(ptrA(mir_base64_encode(buf2.Data(), buf2.Len()))));
 
 	buf.SetUL(0);
 

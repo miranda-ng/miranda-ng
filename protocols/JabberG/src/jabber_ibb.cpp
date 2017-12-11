@@ -178,7 +178,7 @@ BOOL CJabberProto::OnIbbRecvdData(const wchar_t *data, const wchar_t *sid, const
 
 	item->jibb->wPacketId++;
 
-	unsigned length;
+	size_t length;
 	ptrA decodedData((char*)mir_base64_decode( _T2A(data), &length));
 	if (decodedData == nullptr)
 		return FALSE;

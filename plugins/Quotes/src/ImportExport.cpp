@@ -331,7 +331,7 @@ bool handle_module(MCONTACT hContact, const IXMLNode::TXMLNodePtr& pXmlModule)
 							mir_free(dbs.value.pwszVal);
 						}
 						else if (0 == mir_wstrcmpi(g_pszXmlTypeBlob, sType.c_str())) {
-							unsigned bufLen;
+							size_t bufLen;
 							mir_ptr<BYTE> buf((PBYTE)mir_base64_decode(_T2A(sValue.c_str()), &bufLen));
 							if (buf) {
 								dbs.value.pbVal = buf;

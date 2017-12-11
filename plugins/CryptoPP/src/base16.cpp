@@ -1,6 +1,6 @@
 #include "commonheaders.h"
 
-char *base16encode(const char *inBuffer, int count)
+char* base16encode(const char *inBuffer, size_t count)
 {
 	char *outBuffer = (char *)malloc(count * 2 + 1);
 	char *outBufferPtr = outBuffer;
@@ -16,7 +16,7 @@ char *base16encode(const char *inBuffer, int count)
 	return outBuffer;
 }
 
-char *base16decode(const char *inBuffer, unsigned int *count)
+char* base16decode(const char *inBuffer, size_t *count)
 {
 	char *outBuffer = (char *)mir_alloc(*count);
 	BYTE *outBufferPtr = (BYTE *)outBuffer;
@@ -53,6 +53,6 @@ char *base16decode(const char *inBuffer, unsigned int *count)
 
 char *base16decode(const char *inBuffer)
 {
-	unsigned count = (unsigned)strlen(inBuffer);
+	size_t count = strlen(inBuffer);
 	return base16decode(inBuffer, &count);
 }

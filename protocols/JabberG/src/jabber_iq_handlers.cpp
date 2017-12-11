@@ -172,7 +172,7 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	fread(buffer, bytes, 1, in);
 	fclose(in);
 
-	ptrA str(mir_base64_encode((PBYTE)(char*)buffer, bytes));
+	ptrA str(mir_base64_encode(buffer, bytes));
 	m_ThreadInfo->send(XmlNodeIq(L"result", pInfo) << XQUERY(JABBER_FEAT_AVATAR) << XCHILD(L"query", _A2T(str)) << XATTR(L"mimetype", szMimeType));
 	return TRUE;
 }

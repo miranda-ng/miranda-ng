@@ -141,7 +141,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	if (o == nullptr || XmlGetText(o) == nullptr)
 		return false;
 
-	unsigned bufferLen;
+	size_t bufferLen;
 	ptrA buffer((char*)mir_base64_decode( _T2A(XmlGetText(o)), &bufferLen));
 	if (buffer == nullptr)
 		return false;

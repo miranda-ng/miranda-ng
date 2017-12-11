@@ -1337,7 +1337,7 @@ bool CMraProto::GetPassDB(CMStringA &res)
 			dwPassSize = (*btCryptedPass);
 			btCryptedPass[dwPassSize + 1 + MIR_SHA1_HASH_SIZE] = 0;
 
-			unsigned dwDecodedSize;
+			size_t dwDecodedSize;
 			mir_ptr<BYTE> pDecoded((PBYTE)mir_base64_decode((LPCSTR)&btCryptedPass[1 + MIR_SHA1_HASH_SIZE], &dwDecodedSize));
 			SHA1GetDigest(pDecoded, dwDecodedSize, btRandomData);
 			if (0 != memcmp(&btCryptedPass[1], btRandomData, MIR_SHA1_HASH_SIZE))

@@ -119,7 +119,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 	ezxml_t xmli = ezxml_parse_str(NEWSTR_ALLOCA(szContext), mir_strlen(szContext));
 	const char *szAvatarHash = ezxml_attr(xmli, "SHA1D");
 	if (szAvatarHash != nullptr) {
-		unsigned hashLen;
+		size_t hashLen;
 		mir_ptr<BYTE> hash((BYTE*)mir_base64_decode(szAvatarHash, &hashLen));
 		if (hash)
 			res = arrayToHex(hash, hashLen);
@@ -217,7 +217,7 @@ int CMsnProto::MSN_SetMyAvatar(const wchar_t* sztFname, void* pData, size_t cbLe
 	mir_sha1_append(&sha1ctx, (BYTE*)pData, (int)cbLen);
 	mir_sha1_finish(&sha1ctx, sha1d);
 
-	ptrA szSha1d(mir_base64_encode((PBYTE)sha1d, sizeof(sha1d)));
+	ptrA szSha1d(mir_base64_encode(sha1d, sizeof(sha1d)));
 
 	mir_sha1_init(&sha1ctx);
 	ezxml_t xmlp = ezxml_new("msnobj");
@@ -250,7 +250,7 @@ int CMsnProto::MSN_SetMyAvatar(const wchar_t* sztFname, void* pData, size_t cbLe
 
 	mir_sha1_finish(&sha1ctx, sha1c);
 
-	ptrA szSha1c(mir_base64_encode((PBYTE)sha1c, sizeof(sha1c)));
+	ptrA szSha1c(mir_base64_encode(sha1c, sizeof(sha1c)));
 
 	//	ezxml_set_attr(xmlp, "SHA1C", szSha1c);
 

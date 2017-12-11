@@ -61,7 +61,7 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 
 static char cb64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen)
+MIR_CORE_DLL(char*) mir_base64_encode(const void *input, size_t inputLen)
 {
 	if (input == nullptr)
 		return nullptr;
@@ -74,7 +74,7 @@ MIR_CORE_DLL(char*) mir_base64_encode(const BYTE *input, unsigned inputLen)
 	return mir_base64_encodebuf(input, inputLen, output, outputLen);
 }
 
-MIR_CORE_DLL(char*) mir_base64_encodebuf(const BYTE *input, unsigned inputLen, char *output, unsigned outputLen)
+MIR_CORE_DLL(char*) mir_base64_encodebuf(const void *input, size_t inputLen, char *output, size_t outputLen)
 {
 	if (input == nullptr)
 		return nullptr;
@@ -82,13 +82,14 @@ MIR_CORE_DLL(char*) mir_base64_encodebuf(const BYTE *input, unsigned inputLen, c
 	if (outputLen < mir_base64_encode_bufsize(inputLen))
 		return nullptr;
 
+	const BYTE *s = (const BYTE*)input;
 	char *p = output;
 	for (unsigned i=0; i < inputLen; ) {
 		int rest = 0;
 		BYTE chr[3];
-		chr[0] = input[i++];
-		chr[1] = (i < inputLen) ? input[i++] : rest++, 0;
-		chr[2] = (i < inputLen) ? input[i++] : rest++, 0;
+		chr[0] = s[i++];
+		chr[1] = (i < inputLen) ? s[i++] : rest++, 0;
+		chr[2] = (i < inputLen) ? s[i++] : rest++, 0;
 
 		*p++ = cb64[ chr[0] >> 2 ];
 		*p++ = cb64[ ((chr[0] & 0x03) << 4) | (chr[1] >> 4) ];
@@ -126,7 +127,7 @@ static BYTE Base64DecodeTable[] =
 	-1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1
 };
 
-MIR_CORE_DLL(void*) mir_base64_decode(const char *input, unsigned *outputLen)
+MIR_CORE_DLL(void*) mir_base64_decode(const char *input, size_t *outputLen)
 {
 	if (input == nullptr)
 		return nullptr;
