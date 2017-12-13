@@ -507,24 +507,6 @@ static int DeleteSetting(const char *szSetting, void *lParam)
 	return 0;
 }
 
-static int ClearDatabase(char* filter)
-{
-	LIST<char> arSettings(10);
-	db_enum_settings(0, DeleteSetting, SSMODULENAME, &arSettings);
-
-	for (int i = 0; i < arSettings.getCount(); i++) {
-		if ((filter == nullptr) || (!strncmp(filter, arSettings[i], mir_strlen(filter))))
-			db_unset(0, SSMODULENAME, arSettings[i]);
-		mir_free(arSettings[i]);
-	}
-
-	if (filter == nullptr)
-		db_unset(0, "AutoAway", "Confirm");
-
-	return 0;
-}
-
-
 INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static HWND hwndParent;
@@ -748,12 +730,20 @@ public:
 
 	virtual void OnApply() override
 	{
-		char setting[128];
 		int oldCount = db_get_w(0, SSMODULENAME, SETTING_PROFILECOUNT, 0);
 		for (int i = 0; i < oldCount; i++) {
-			mir_snprintf(setting, "%d_", i);
-			ClearDatabase(setting);
+			LIST<char> arSettings(10);
+			db_enum_settings(0, DeleteSetting, SSMODULENAME, &arSettings);
+
+			char setting[128];
+			int len = mir_snprintf(setting, "%d_", i);
+			for (int k = 0; k < arSettings.getCount(); k++) {
+				if (!strncmp(setting, arSettings[k], len))
+					db_unset(0, SSMODULENAME, arSettings[k]);
+				mir_free(arSettings[k]);
+			}
 		}
+
 		for (int i = 0; i < arProfiles.getCount(); i++) {
 			PROFILEOPTIONS& po = arProfiles[i];
 			db_set_b(0, SSMODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), po.showDialog);
@@ -767,6 +757,7 @@ public:
 			TSettingsList& ar = *po.ps;
 			for (int j = 0; j < ar.getCount(); j++) {
 				if (ar[j].m_szMsg != nullptr) {
+					char setting[128];
 					mir_snprintf(setting, "%s_%s", ar[j].m_szName, SETTING_PROFILE_STSMSG);
 					db_set_ws(0, SSMODULENAME, OptName(i, setting), ar[j].m_szMsg);
 				}
