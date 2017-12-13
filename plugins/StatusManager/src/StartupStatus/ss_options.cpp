@@ -820,6 +820,7 @@ public:
 		if (idx != -1) {
 			TSSSetting* ps = (TSSSetting*)lstAccount.GetItemData(idx);
 			ps->m_status = lstStatus.GetItemData(lstStatus.GetCurSel());
+			NotifyChange();
 		}
 		SetStatusMsg();
 	}
