@@ -246,10 +246,10 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 				break;
 
 			case IDM_COPYALL:
-				m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				m_message.SendMsg(WM_COPY, 0, 0);
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+				m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+				m_log.SendMsg(WM_COPY, 0, 0);
+				m_log.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 				PostMessage(m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 				break;
 
