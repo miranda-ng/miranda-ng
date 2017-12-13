@@ -148,6 +148,8 @@ static LRESULT CALLBACK Srmm_ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
+
 EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CSrmmBaseDialog *pDlg = (CSrmmBaseDialog*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
@@ -221,8 +223,6 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			int end = m_log.SendMsg(EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
 
 			if (end - start > 0) {
-				static wchar_t szTrimString[] = L":;,.!?\'\"><()[]- \r\n";
-
 				CHARRANGE cr;
 				cr.cpMin = start;
 				cr.cpMax = end;
@@ -232,6 +232,9 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 				tr.lpstrText = (wchar_t*)pszWord;
 				int iRes = m_log.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 				if (iRes > 0) {
+					wchar_t *p = wcschr(pszWord, '\r');
+					if (p) *p = 0;
+
 					size_t iLen = mir_wstrlen(pszWord) - 1;
 					while (wcschr(szTrimString, pszWord[iLen])) {
 						pszWord[iLen] = '\0';

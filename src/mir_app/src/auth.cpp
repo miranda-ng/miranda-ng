@@ -32,13 +32,13 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 INT_PTR ShowReqWindow(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_AUTHREQ), NULL, DlgProcAuthReq, (LPARAM)((CLISTEVENT *)lParam)->hDbEvent);
+	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_AUTHREQ), NULL, DlgProcAuthReq, ((CLISTEVENT *)lParam)->hDbEvent);
 	return 0;
 }
 
 INT_PTR ShowAddedWindow(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDED), NULL, DlgProcAdded, (LPARAM)((CLISTEVENT *)lParam)->hDbEvent);
+	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ADDED), NULL, DlgProcAdded, ((CLISTEVENT *)lParam)->hDbEvent);
 	return 0;
 }
 

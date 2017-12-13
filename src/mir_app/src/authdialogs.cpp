@@ -160,7 +160,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			hDbEvent = lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			//blob is: uin(DWORD), hcontact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+			// blob is: uin(DWORD), hcontact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 			DBEVENTINFO dbei = {};
 			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
