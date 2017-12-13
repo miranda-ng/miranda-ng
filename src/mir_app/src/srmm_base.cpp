@@ -185,9 +185,12 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CHAR:
-		SetFocus(m_message.GetHwnd());
-		if (wParam != '\t')
+		if (wParam >= ' ') {
+			SetFocus(m_message.GetHwnd());
 			m_message.SendMsg(WM_CHAR, wParam, lParam);
+		}
+		else if (wParam == '\t')
+			SetFocus(m_message.GetHwnd());
 		break;
 
 	case WM_CONTEXTMENU:
@@ -195,9 +198,9 @@ LRESULT CSrmmBaseDialog::WndProc_Log(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		POINT pt, ptl;
-		m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
+		m_log.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (lParam == 0xFFFFFFFF) {
-			m_message.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
+			m_log.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
 			ClientToScreen(m_log.GetHwnd(), &pt);
 		}
 		else {
