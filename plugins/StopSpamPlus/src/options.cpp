@@ -121,7 +121,7 @@ public:
 			item.lParam = (LPARAM)p->szModuleName;
 			item.pszText = p->tszAccountName;
 			int idx = m_accounts.InsertItem(&item);
-			m_accounts.SetCheckState(idx, !g_sets.ProtoDisabled(p->szModuleName));
+			m_accounts.SetCheckState(idx, g_sets.ProtoDisabled(p->szModuleName));
 		}
 	}
 
