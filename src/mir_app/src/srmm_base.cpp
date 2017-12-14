@@ -337,6 +337,23 @@ EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubMessageProc(HWND hwnd, UINT msg, WPAR
 
 LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (msg == WM_CHAR) {
+		switch (wParam) {
+		case 0x02:
+			if (m_btnBold.Enabled())
+				return 1;
+			break;
+		case 0x09:
+			if (m_btnItalic.Enabled())
+				return 1;
+			break;
+		case 0x15:
+			if (m_btnUnderline.Enabled())
+				return 1;
+			break;
+		}
+	}
+
 	LRESULT res = mir_callNextSubclass(m_message.GetHwnd(), stubMessageProc, msg, wParam, lParam);
 	switch (msg) {
 	case WM_GETDLGCODE:
