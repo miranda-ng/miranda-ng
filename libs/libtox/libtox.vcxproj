@@ -27,6 +27,9 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\pthreads\src;$(ProjectDir)..\libsodium\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <ModuleDefinitionFile>src/libtox.def</ModuleDefinitionFile>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\toxcore\*.c">
