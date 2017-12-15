@@ -45,7 +45,6 @@ DEFINE_PROPERTYKEY(PKEY_Device_FriendlyName, 0xa45c254e, 0xdf1c, 0x4efd, 0x80, 0
 #include <m_http.h>
 
 #include <tox.h>
-#include <ToxAV.h>
 #include <toxdns.h>
 #include <toxencryptsave.h>
 
@@ -60,8 +59,6 @@ struct CToxProto;
 #include "tox_profile.h"
 #include "tox_options.h"
 #include "tox_transfer.h"
-#include "tox_multimedia.h"
-#include "tox_chatrooms.h"
 #include "tox_proto.h"
 
 #include "http_request.h"
@@ -106,14 +103,5 @@ enum TOX_DB_EVENT
 #define PSR_AUDIO "/RecvAudio"
 
 #define TOX_MAX_AVATAR_SIZE 1 << 16 // 2 ^ 16 bytes
-
-#define TOX_LIBRARY L"libtox.dll"
-extern HMODULE g_hToxLibrary;
-
-template<typename T>
-T CreateFunction(LPCSTR functionName)
-{
-	return reinterpret_cast<T>(GetProcAddress(g_hToxLibrary, functionName));
-}
 
 #endif //_COMMON_H_

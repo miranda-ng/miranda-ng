@@ -18,10 +18,6 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
-	// services
-	CreateProtoService(PSR_AUDIO, &CToxProto::OnRecvAudioCall);
-	CreateProtoService("/Audio/Ring", &CToxProto::OnAudioRing);
-
 	// avatars
 	CreateProtoService(PS_GETAVATARCAPS, &CToxProto::GetAvatarCaps);
 	CreateProtoService(PS_GETAVATARINFO, &CToxProto::GetAvatarInfo);
@@ -31,15 +27,11 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
-	// hAudioDialogs = WindowList_Create();
-
 	hTerminateEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
 
 CToxProto::~CToxProto()
 {
-	WindowList_Destroy(hAudioDialogs);
-
 	UninitNetlib();
 }
 
