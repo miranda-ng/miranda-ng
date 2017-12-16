@@ -32,12 +32,6 @@
     <Link>
       <AdditionalDependencies>Winmm.lib;dnsapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent Condition="'$(Platform)'=='Win32'">
-      <Command>call copydll.cmd x86 "$(OutputPath)..\Libs"</Command>
-    </PostBuildEvent>
-    <PostBuildEvent Condition="'$(Platform)'=='x64'">
-      <Command>call copydll.cmd x64 "$(OutputPath)..\Libs"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="include\*.h" />
@@ -51,6 +45,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\libtox\libtox.vcxproj">
+      <Project>{a21c50cd-28a6-481a-a12b-47189fe66641}</Project>
     </ProjectReference>
   </ItemGroup>
 </Project>

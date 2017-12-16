@@ -21,9 +21,6 @@ int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	bool isGrantNeed = getByte(hContact, "Grant", 0) > 0;
 	Menu_ShowItem(ContactMenuItems[CMI_AUTH_GRANT], isCtrlPressed || isGrantNeed);
 
-	bool isContactOnline = GetContactStatus(hContact) > ID_STATUS_OFFLINE;
-	Menu_ShowItem(ContactMenuItems[CMI_AUDIO_CALL], toxThread->ToxAV() && isContactOnline);
-
 	return 0;
 }
 
@@ -59,15 +56,6 @@ void CToxProto::InitMenus()
 	mi.hIcolibItem = ::Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	ContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
-
-	// Start audio call
-	SET_UID(mi, 0x116cb7fe, 0xce37, 0x429c, 0xb0, 0xa9, 0x7d, 0xe7, 0x70, 0x59, 0xc3, 0x95);
-	mi.pszService = MODULE"/Audio/Call";
-	mi.name.w = LPGENW("Call");
-	mi.position = -2000020000 + CMI_AUDIO_CALL;
-	mi.hIcolibItem = GetIconHandle(IDI_AUDIO_START);
-	ContactMenuItems[CMI_AUDIO_CALL] = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnSendAudioCall>);
 }
 
 int CToxProto::OnInitStatusMenu()

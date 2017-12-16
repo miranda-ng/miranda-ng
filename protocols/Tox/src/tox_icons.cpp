@@ -3,10 +3,6 @@
 IconItemT CToxProto::Icons[] =
 {
 	{ LPGENW("Protocol icon"),			"main",				IDI_TOX			},
-	{ LPGENW("Audio call"),				"audio_call",		IDI_AUDIO_CALL	},
-	{ LPGENW("Audio ring"),				"audio_ring",		IDI_AUDIO_RING	},
-	{ LPGENW("Audio start"),			"audio_start",		IDI_AUDIO_START	},
-	{ LPGENW("Audio end"),				"audio_end",		IDI_AUDIO_END	},
 };
 
 void CToxProto::InitIcons()

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Users\unsane\Projects\c++\miranda-ng\protocols\Tox\res\resource.rc
+// Used by D:\Projects\c++\miranda-ng\protocols\Tox\res\resource.rc
 //
 #define IDI_TOX                         100
 #define IDD_USER_INFO                   101
@@ -12,28 +12,20 @@
 #define IDD_ADDNODE                     108
 #define IDD_NODE_EDITOR                 109
 #define IDD_OPTIONS_MULTIMEDIA          110
-#define IDD_CALL                        111
 #define IDI_AUDIO_END                   112
 #define IDI_AUDIO_RING                  113
 #define IDI_AUDIO_START                 114
 #define IDI_AUDIO_CALL                  115
-#define IDD_CHATROOM_INVITE             172
-#define IDC_CCLIST                      173
 #define IDC_EDITSCR                     174
-#define IDD_CALL_RECEIVE                175
-#define IDD_CALL_SEND                   176
 #define IDC_TOXID                       1001
 #define IDC_CLIPBOARD                   1002
 #define IDC_SEARCH                      1003
 #define IDC_PASSWORD                    1004
 #define IDC_NAME                        1005
-#define IDC_FROM                        1005
 #define IDC_GROUP                       1006
-#define IDC_DATE                        1006
 #define IDC_ENABLE_UDP                  1007
 #define IDC_ENABLE_IPV6                 1008
 #define IDC_PROFILE_EXPORT              1009
-#define IDC_NAME2                       1009
 #define IDC_DNS_ID                      1010
 #define IDC_PROFILE_NEW                 1011
 #define IDC_SAVEPERMANENT               1012
@@ -55,11 +47,7 @@
 #define IDC_MAXRECONNECTRETRIES         1026
 #define IDC_MAXCONNECTRETRIESSPIN       1027
 #define IDC_MAXRECONNECTRETRIESSPIN     1028
-#define IDC_DETAILS                     1069
-#define IDC_USERMENU                    1071
-#define IDC_HISTORY                     1080
 #define IDC_UPDATENODES                 1081
-#define IDC_PROTOCOL                    1580
 
 // Next default values for new objects
 // 

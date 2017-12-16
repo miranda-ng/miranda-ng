@@ -6,10 +6,6 @@ struct CToxProto : public PROTO<CToxProto>
 	friend CToxPasswordEditor;
 	friend CToxOptionsMain;
 	friend CToxOptionsNodeList;
-	friend CToxCallDlgBase;
-	friend CToxIncomingCall;
-	friend CToxOutgoingCall;
-	friend CToxCallDialog;
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -266,30 +262,6 @@ private:
 	void OnGotFriendAvatarInfo(AvatarTransferParam *transfer);
 	void OnGotFriendAvatarData(AvatarTransferParam *transfer);
 
-	// multimedia
-	MWindowList hAudioDialogs;
-	HWAVEOUT hOutDevice;
-	std::map<MCONTACT, int32_t> calls;
-
-	//ToxAvCSettings* GetAudioCSettings();
-	
-	
-	INT_PTR __cdecl OnRecvAudioCall(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl OnAudioRing(WPARAM wParam, LPARAM lParam);
-
-	INT_PTR __cdecl OnSendAudioCall(WPARAM wParam, LPARAM);
-
-	static void OnFriendCall(ToxAV *toxAV, uint32_t friend_number, bool audio_enabled, bool video_enabled, void *arg);
-	static void OnFriendCallState(ToxAV *toxAV, uint32_t friend_number, uint32_t state, void *user_data);
-	static void OnBitrateChanged(ToxAV *toxAV, uint32_t friend_number, uint32_t audio_bit_rate, uint32_t video_bit_rate, void *arg);
-	static void OnFriendAudioFrame(ToxAV *toxAV, uint32_t friend_number, const int16_t *pcm, size_t sample_count, uint8_t channels, uint32_t sampling_rate, void *user_data);
-
-	//static void OnAvEnd(void*, int32_t callId, void *arg);
-	//static void OnAvReject(void*, int32_t callId, void *arg);
-	//static void OnAvCancel(void*, int32_t callId, void *arg);
-	//static void OnAvCallTimeout(void*, int32_t callId, void *arg);
-	//static void OnAvPeerTimeout(void*, int32_t callId, void *arg);
-
 	// utils
 	static int MapStatus(int status);
 	static TOX_USER_STATUS MirandaToToxStatus(int status);
@@ -298,7 +270,6 @@ private:
 	static wchar_t* ToxErrorToString(TOX_ERR_NEW error);
 	static wchar_t* ToxErrorToString(TOX_ERR_FRIEND_SEND_MESSAGE error);
 
-	
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	static bool IsFileExists(const wchar_t* path);

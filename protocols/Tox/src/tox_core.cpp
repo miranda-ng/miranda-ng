@@ -58,22 +58,6 @@ void CToxProto::InitToxCore(Tox *tox)
 	tox_callback_file_recv(tox, OnFriendFile);
 	tox_callback_file_recv_chunk(tox, OnDataReceiving);
 	tox_callback_file_chunk_request(tox, OnFileSendData);
-	// group chats
-	//tox_callback_group_invite(tox, OnGroupChatInvite, this);
-	// a/v
-	//if (IsWinVerVistaPlus())
-	//{
-	//	TOXAV_ERR_NEW avInitError;
-	//	toxThread->Tox()AV = toxav_new(toxThread->Tox(), &avInitError);
-	//	if (initError != TOX_ERR_NEW_OK)
-	//	{
-	//		toxav_callback_call(toxThread->Tox()AV, OnFriendCall, this);
-	//		toxav_callback_call_state(toxThread->Tox()AV, OnFriendCallState, this);
-	//		toxav_callback_bit_rate_status(toxThread->Tox()AV, OnBitrateChanged, this);
-	//		toxav_callback_audio_receive_frame(toxThread->Tox()AV, OnFriendAudioFrame, this);
-	//		//toxav_callback_video_receive_frame(toxThread->Tox()AV, , this);
-	//	}
-	//}
 
 	uint8_t data[TOX_ADDRESS_SIZE];
 	tox_self_get_address(tox, data);

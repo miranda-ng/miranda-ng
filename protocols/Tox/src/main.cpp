@@ -36,14 +36,10 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	g_hToxLibrary = LoadLibrary(TOX_LIBRARY);
-	if (g_hToxLibrary == nullptr)
-		return 1;
-
 	if (!TOX_VERSION_IS_ABI_COMPATIBLE())
 	{
 		wchar_t message[100];
-		mir_snwprintf(message, TranslateT("Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s"), TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH, TOX_LIBRARY);
+		mir_snwprintf(message, TranslateT("Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s"), TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH, "");
 		CToxProto::ShowNotification(message, MB_ICONERROR);
 		FreeLibrary(g_hToxLibrary);
 		return 2;
@@ -68,8 +64,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (g_hToxLibrary)
-		FreeLibrary(g_hToxLibrary);
-
 	return 0;
 }
