@@ -64,6 +64,10 @@ pthread_mutex_trylock (pthread_mutex_t * mutex)
     }
 
   mx = *mutex;
+  if (mx == NULL) {
+	  return EINVAL;
+  }
+
   kind = mx->kind;
 
   if (kind >= 0)

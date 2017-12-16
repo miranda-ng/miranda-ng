@@ -50,6 +50,9 @@ pthread_mutex_unlock (pthread_mutex_t * mutex)
    */
 
   mx = *mutex;
+  if (mx == NULL) {
+	  return EINVAL;
+  }
 
   /*
    * If the thread calling us holds the mutex then there is no
