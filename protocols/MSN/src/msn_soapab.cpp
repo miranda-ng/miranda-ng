@@ -858,7 +858,7 @@ bool CMsnProto::MSN_ABRefreshClist(unsigned int nTry)
 	nlhr.headers[0].szValue = (char*)MSN_USER_AGENT;
 	nlhr.headers[1].szName = "Cookie";
 	nlhr.headers[1].szValue = authCookies;
-	nlhr.szUrl = "https://people.directory.live.com/people/abcore?SerializeAs=xml&market=en-gb&appid=3C48F07D-DE71-490C-B263-A78CFB1CA351&version=W5.M2";
+	nlhr.szUrl = "https://people.directory.live.com/people/abcore?SerializeAs=xml&market=en-gb&appid=369bdc41-b51e-46e0-a40e-d4b2b5e09a7c&version=W5.M2";
 
 	// Query addressbook
 	mHttpsTS = clock();
