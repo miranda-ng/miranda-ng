@@ -1,4 +1,4 @@
-LIBRARY libtox.DLL
+LIBRARY libtox.mir
 DESCRIPTION
 
 EXPORTS
