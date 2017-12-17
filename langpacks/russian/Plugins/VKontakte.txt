@@ -390,7 +390,7 @@ E-mail или номер телефона:
 [Remove %s from your friend list]
 Удалить %s из списка друзей
 [Clear server history with %s]
-Удались историю переписки с %s на сервере
+Удалить историю переписки с %s на сервере
 [Deleting %s from contact list]
 Удаление %s из списка контактов
 [New news]
