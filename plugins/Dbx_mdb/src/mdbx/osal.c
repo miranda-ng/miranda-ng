@@ -772,7 +772,7 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t must, size_t limit) {
   }
 
   NTSTATUS rc;
-#if defined(_WIN64) && defined(WOF_CURRENT_VERSION)
+#ifdef _WIN64
   struct {
     WOF_EXTERNAL_INFO wof_info;
     union {
