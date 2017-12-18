@@ -2537,7 +2537,7 @@ static int mdbx_txn_renew0(MDBX_txn *txn, unsigned flags) {
         r->mr_txnid = snap;
         mdbx_jitter4testing(false);
         mdbx_assert(env, r->mr_pid == mdbx_getpid());
-        mdbx_assert(env, r->mr_tid == mdbx_thread_self());
+        //mdbx_assert(env, r->mr_tid == mdbx_thread_self());
         mdbx_assert(env, r->mr_txnid == snap);
         mdbx_coherent_barrier();
         env->me_lck->mti_readers_refresh_flag = true;
