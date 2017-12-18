@@ -591,6 +591,7 @@ static renameTable[] =
 	{ L"gender.dll",                     nullptr },
 	{ L"gtalkext.dll",                   nullptr },
 	{ L"langman.dll",                    nullptr },
+	{ L"libtox.dll",                     nullptr },
 	{ L"metacontacts.dll",               nullptr },
 	{ L"modernopt.dll",                  nullptr },
 	{ L"msvcp100.dll",                   nullptr },
