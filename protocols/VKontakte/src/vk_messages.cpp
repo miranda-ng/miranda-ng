@@ -250,7 +250,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		UINT mid = jnMsg["id"].as_int();
 		CMStringW wszBody(jnMsg["body"].as_mstring());
-		int datetime = jnMsg["date"].as_int();
+		UINT datetime = jnMsg["date"].as_int();
 		int isOut = jnMsg["out"].as_int();
 		int isRead = jnMsg["read_state"].as_int();
 		int uid = jnMsg["user_id"].as_int();
@@ -313,8 +313,21 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		else if (m_vkOptions.bUserForceInvisibleOnActivity && time(nullptr) - datetime < 60 * m_vkOptions.iInvisibleInterval)
 			SetInvisible(hContact);
 
+		bool bEdited = CheckMid(m_editedIds, mid);
+		if (bEdited) {
+			CMStringW wszOldMsg;
+			MEVENT hDbEvent = GetMessageFromDb(hContact, szMid, datetime, wszOldMsg);
+			if (hDbEvent) {
+				wszBody = SetBBCString(TranslateT("Edited message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
+					wszBody +
+					SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
+					wszOldMsg;
+				db_event_delete(hContact, hDbEvent);
+			}
+		}
+
 		T2Utf pszBody(wszBody);
-		recv.timestamp = m_vkOptions.bUseLocalTime ? time(nullptr) : datetime;
+		recv.timestamp = bEdited ? datetime : (m_vkOptions.bUseLocalTime ? time(nullptr) : datetime);
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;
 		recv.pCustomData = szMid;

@@ -36,6 +36,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	PROTO<CVkProto>(szModuleName, pwszUserName),
 	m_arRequestsQueue(10, sttCompareAsyncHttpRequest),
 	m_sendIds(3, PtrKeySortT),
+	m_editedIds(1, PtrKeySortT),
 	m_incIds(3, PtrKeySortT),
 	m_cookies(5),
 	m_msgId(1),

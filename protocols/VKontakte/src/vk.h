@@ -25,6 +25,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKPOLL_MSG_ADDFLAGS	2
 #define VKPOLL_MSG_DELFLAGS	3
 #define VKPOLL_MSG_ADDED	4
+#define VKPOLL_MSG_EDITED	5
 #define VKPOLL_READ_ALL_IN	6
 #define VKPOLL_READ_ALL_OUT	7
 #define VKPOLL_USR_ONLINE	8
@@ -74,6 +75,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_CANT_SEND_USER_ON_BLACKLIST		900	// Can't send messages for users from blacklist
 #define VKERR_CANT_SEND_USER_WITHOUT_DIALOGS	901	// Can't send messages for users without dialogs
 #define VKERR_CANT_SEND_YOU_ON_BLACKLIST		902	// Can't send messages to this user due to their privacy settings
+#define VKERR_MESSAGE_IS_TOO_LONG				914	// Message is too long
+
 // File upload custom error
 #define VKERR_FILE_NOT_EXIST					10100	// File does not exist
 #define VKERR_FTYPE_NOT_SUPPORTED				10101	// File type not supported
@@ -85,7 +88,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define VK_USER_DEACTIVATE_ACTION	9321
 
-#define VK_API_VER "5.68"
+#define VK_API_VER "5.69"
 #define VER_API CHAR_PARAM("v", VK_API_VER)
 
 #define VK_FEED_USER 2147483647L

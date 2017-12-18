@@ -343,6 +343,9 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_CANT_SEND_YOU_ON_BLACKLIST:
 		MsgPopup(TranslateT("Can't send messages to this user due to their privacy settings"), TranslateT("Error"), true);
 		break;
+	case VKERR_MESSAGE_IS_TOO_LONG:
+		MsgPopup(TranslateT("Message is too long"), TranslateT("Error"), true);
+		break;
 	case VKERR_COULD_NOT_SAVE_FILE:
 	case VKERR_INVALID_ALBUM_ID:
 	case VKERR_INVALID_SERVER:
@@ -1513,6 +1516,41 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);
 	dbei.flags = DBEF_UTF | ((m_vkOptions.bShowVkDeactivateEvents && getBool(hContact, "ShowVkDeactivateEvents", true)) ? 0 : DBEF_READ);
 	db_event_add(hContact, &dbei);
+}
+
+MEVENT CVkProto::GetMessageFromDb(MCONTACT hContact, const char *messageId, UINT &timestamp, CMStringW &msg)
+{
+	if (messageId == nullptr)
+		return 0;
+
+	size_t messageIdLength = mir_strlen(messageId);
+
+	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
+		DBEVENTINFO dbei = {};
+		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+
+		if (dbei.cbBlob < messageIdLength)
+			continue;
+
+		mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
+		dbei.pBlob = blob;
+		db_event_get(hDbEvent, &dbei);
+
+		size_t cbLen = mir_strlen((char*)dbei.pBlob);
+		if ((dbei.eventType != EVENTTYPE_MESSAGE) || (cbLen + messageIdLength + 1 > dbei.cbBlob))
+			continue;
+
+		if (memcmp(&dbei.pBlob[cbLen + 1], messageId, messageIdLength) == 0) {
+			msg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
+			timestamp = dbei.timestamp;
+			return hDbEvent;
+		}
+
+		if (dbei.timestamp < timestamp)
+			break;
+	}
+
+	return 0;
 }
 
 int CVkProto::DeleteContact(MCONTACT hContact)

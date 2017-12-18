@@ -78,6 +78,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 	debugLogA("CVkProto::PollUpdates");
 	CMStringA mids;
 	int msgid, uid, flags, platform;
+	bool bNonEdited = true;
 	MCONTACT hContact;
 
 	for (auto it = jnUpdates.begin(); it != jnUpdates.end(); ++it) {
@@ -106,17 +107,25 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			}
 			break;
 
+		case VKPOLL_MSG_EDITED:
+			bNonEdited = false;
+
 		case VKPOLL_MSG_ADDED: // new message
 			msgid = jnChild[1].as_int();
 
 			// skip outgoing messages sent from a client
 			flags = jnChild[2].as_int();
-			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && CheckMid(m_sendIds, msgid))
+			if (bNonEdited && (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT) && !m_vkOptions.bSendVKLinksAsAttachments && CheckMid(m_sendIds, msgid)))
 				break;
 
 			if (!mids.IsEmpty())
 				mids.AppendChar(',');
 			mids.AppendFormat("%d", msgid);
+
+			if(!bNonEdited)
+				m_editedIds.insert((HANDLE)msgid);
+
+			bNonEdited = true;
 			break;
 
 		case VKPOLL_READ_ALL_OUT:

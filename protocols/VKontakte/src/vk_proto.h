@@ -212,6 +212,7 @@ private:
 
 	LIST<void>
 		m_sendIds,
+		m_editedIds,
 		m_incIds;
 
 	OBJLIST<CVkChatInfo> m_chats;
@@ -358,6 +359,7 @@ private:
 	void SetInvisible(MCONTACT hContact);
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
+	MEVENT GetMessageFromDb(MCONTACT hContact, const char * messageId, UINT &timestamp, CMStringW &msg);
 	int DeleteContact(MCONTACT hContact);
 	void InitQueue();
 	void UninitQueue();
