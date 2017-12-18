@@ -16,6 +16,22 @@ wchar_t* CToxProto::GetToxProfilePath(const wchar_t *accountName)
 	return profilePath;
 }
 
+static INT_PTR EnterPassword(void *param)
+{
+	CToxProto *pThis = (CToxProto*)param;
+
+	pass_ptrA password(mir_utf8encodeW(pass_ptrT(pThis->getWStringA("Password"))));
+	if (password == NULL || mir_strlen(password) == 0) {
+		CToxPasswordEditor passwordEditor(pThis);
+		if (!passwordEditor.DoModal())
+			return 0;
+
+		password = mir_utf8encodeW(pass_ptrT(passwordEditor.GetPassword()));
+	}
+
+	return (INT_PTR)password.detach();
+}
+
 bool CToxProto::LoadToxProfile(Tox_Options *options)
 {
 	debugLogA(__FUNCTION__": loading tox profile");
@@ -57,15 +73,12 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	fclose(profile);
 
 	if (tox_is_data_encrypted(data)) {
-		pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
-		if (password == NULL || mir_strlen(password) == 0) {
-			CToxPasswordEditor passwordEditor(this);
-			if (!passwordEditor.DoModal()) {
-				mir_free(data);
-				return false;
-			}
-			password = mir_utf8encodeW(pass_ptrT(passwordEditor.GetPassword()));
+		pass_ptrA password((char*)CallFunctionSync(EnterPassword, this));
+		if (password == nullptr) {
+			mir_free(data);
+			return false;
 		}
+
 		size_t decryptedSize = size - TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
 		uint8_t *decryptedData = (uint8_t*)mir_calloc(decryptedSize);
 		TOX_ERR_DECRYPTION coreDecryptError;
@@ -154,12 +167,12 @@ CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
 {
 	m_password.OnChange = Callback(this, &CToxPasswordEditor::OnOk);
 	m_ok.OnClick = Callback(this, &CToxPasswordEditor::OnOk);
-	m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()));
+	m_ok.Disable();
 }
 
 void CToxPasswordEditor::OnChange(CCtrlBase*)
 {
-	//m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()));
+	m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()));
 }
 
 void CToxPasswordEditor::OnOk(CCtrlButton*)
