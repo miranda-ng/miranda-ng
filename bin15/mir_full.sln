@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -425,6 +425,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsSingleWindow", "..\plugins\AsSingleWindow\AsSingleWindow.vcxproj", "{CE6A5A24-EA88-4E67-BDF2-22517528E43F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite3", "..\libs\sqlite3\sqlite3.vcxproj", "{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsodium", "..\libs\libsodium\libsodium.vcxproj", "{A185B162-6CB6-4502-B03F-B56F7699A8D9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pthreads", "..\libs\pthreads\pthreads.vcxproj", "{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtox", "..\libs\libtox\libtox.vcxproj", "{A21C50CD-28A6-481A-A12B-47189FE66641}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1968,6 +1974,30 @@ Global
 		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|Win32.Build.0 = Release|Win32
 		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|x64.ActiveCfg = Release|x64
 		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|x64.Build.0 = Release|x64
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Debug|Win32.Build.0 = Debug|Win32
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Debug|x64.ActiveCfg = Debug|x64
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Debug|x64.Build.0 = Debug|x64
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Release|Win32.ActiveCfg = Release|Win32
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Release|Win32.Build.0 = Release|Win32
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Release|x64.ActiveCfg = Release|x64
+		{A185B162-6CB6-4502-B03F-B56F7699A8D9}.Release|x64.Build.0 = Release|x64
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Debug|Win32.Build.0 = Debug|Win32
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Debug|x64.ActiveCfg = Debug|x64
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Debug|x64.Build.0 = Debug|x64
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Release|Win32.ActiveCfg = Release|Win32
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Release|Win32.Build.0 = Release|Win32
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Release|x64.ActiveCfg = Release|x64
+		{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}.Release|x64.Build.0 = Release|x64
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Debug|Win32.Build.0 = Debug|Win32
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Debug|x64.ActiveCfg = Debug|x64
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Debug|x64.Build.0 = Debug|x64
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Release|Win32.ActiveCfg = Release|Win32
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Release|Win32.Build.0 = Release|Win32
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Release|x64.ActiveCfg = Release|x64
+		{A21C50CD-28A6-481A-A12B-47189FE66641}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
