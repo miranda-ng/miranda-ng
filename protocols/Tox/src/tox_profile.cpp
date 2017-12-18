@@ -64,18 +64,21 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 				mir_free(data);
 				return false;
 			}
+			password = mir_utf8encodeW(pass_ptrT(passwordEditor.GetPassword()));
 		}
-		uint8_t *encryptedData = (uint8_t*)mir_calloc(size - TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
+		size_t decryptedSize = size - TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
+		uint8_t *decryptedData = (uint8_t*)mir_calloc(decryptedSize);
 		TOX_ERR_DECRYPTION coreDecryptError;
-		if (!tox_pass_decrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreDecryptError)) {
+		if (!tox_pass_decrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), decryptedData, &coreDecryptError)) {
 			ShowNotification(TranslateT("Unable to decrypt Tox profile"), MB_ICONERROR);
 			debugLogA(__FUNCTION__": failed to decrypt tox profile (%d)", coreDecryptError);
 			mir_free(data);
 			return false;
 		}
 		mir_free(data);
-		data = encryptedData;
-		size -= TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
+		data = decryptedData;
+		size = decryptedSize;
+		return true;
 	}
 
 	if (data) {
@@ -93,21 +96,26 @@ void CToxProto::SaveToxProfile(Tox *tox)
 	mir_cslock locker(profileLock);
 
 	size_t size = tox_get_savedata_size(tox);
-	uint8_t *data = (uint8_t*)mir_calloc(size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH);
+	uint8_t *data = (uint8_t*)mir_calloc(size);
 	tox_get_savedata(tox, data);
 
-	/*pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
+	pass_ptrA password(mir_utf8encodeW(pass_ptrT(getWStringA("Password"))));
 	if (password && mir_strlen(password))
 	{
 		TOX_ERR_ENCRYPTION coreEncryptError;
-		if (!tox_pass_encrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), data, &coreEncryptError))
+		size_t encryptedSize = size + TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
+		uint8_t *encryptedData = (uint8_t*)mir_calloc(encryptedSize);
+		if (!tox_pass_encrypt(data, size, (uint8_t*)(char*)password, mir_strlen(password), encryptedData, &coreEncryptError))
 		{
 			debugLogA(__FUNCTION__": failed to encrypt tox profile");
 			mir_free(data);
+			mir_free(encryptedData);
 			return;
 		}
-		size += TOX_PASS_ENCRYPTION_EXTRA_LENGTH;
-	}*/
+		mir_free(data);
+		data = encryptedData;
+		size = encryptedSize;
+	}
 
 	ptrW profilePath(GetToxProfilePath());
 	FILE *profile = _wfopen(profilePath, L"wb");
@@ -141,17 +149,28 @@ INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 }
 
 CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
-	CToxDlgBase(proto, IDD_PASSWORD, false), ok(this, IDOK),
-	password(this, IDC_PASSWORD), savePermanently(this, IDC_SAVEPERMANENTLY)
+	CToxDlgBase(proto, IDD_PASSWORD, false), m_ok(this, IDOK),
+	m_password(this, IDC_PASSWORD), m_savePermanently(this, IDC_SAVEPERMANENTLY)
 {
-	ok.OnClick = Callback(this, &CToxPasswordEditor::OnOk);
+	m_password.OnChange = Callback(this, &CToxPasswordEditor::OnOk);
+	m_ok.OnClick = Callback(this, &CToxPasswordEditor::OnOk);
+	m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()));
+}
+
+void CToxPasswordEditor::OnChange(CCtrlBase*)
+{
+	//m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()));
 }
 
 void CToxPasswordEditor::OnOk(CCtrlButton*)
 {
-	pass_ptrT tszPassword(password.GetText());
-	if (savePermanently.Enabled())
+	pass_ptrT tszPassword(m_password.GetText());
+	if (m_savePermanently.Enabled())
 		m_proto->setWString("Password", tszPassword);
-
 	EndDialog(m_hwnd, 1);
+}
+
+wchar_t* CToxPasswordEditor::GetPassword()
+{
+	return m_password.GetText();
 }

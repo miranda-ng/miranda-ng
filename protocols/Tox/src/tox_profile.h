@@ -4,16 +4,19 @@
 class CToxPasswordEditor : public CToxDlgBase
 {
 private:
-	CCtrlEdit password;
-	CCtrlCheck savePermanently;
+	CCtrlEdit m_password;
+	CCtrlCheck m_savePermanently;
 
-	CCtrlButton ok;
+	CCtrlButton m_ok;
 
 protected:
+	void OnChange(CCtrlBase*);
 	void OnOk(CCtrlButton*);
 
 public:
 	CToxPasswordEditor(CToxProto *proto);
+
+	wchar_t* GetPassword();
 };
 
 #endif //_TOX_PROFILE_H_
