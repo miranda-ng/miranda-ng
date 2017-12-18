@@ -16,7 +16,7 @@ wchar_t* CToxProto::GetToxProfilePath(const wchar_t *accountName)
 	return profilePath;
 }
 
-static INT_PTR EnterPassword(void *param)
+static INT_PTR CALLBACK EnterPassword(void *param)
 {
 	CToxProto *pThis = (CToxProto*)param;
 
@@ -172,7 +172,7 @@ CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
 
 void CToxPasswordEditor::OnChange(CCtrlBase*)
 {
-	m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()));
+	m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()) != 0);
 }
 
 void CToxPasswordEditor::OnOk(CCtrlButton*)
