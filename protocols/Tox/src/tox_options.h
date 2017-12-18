@@ -17,7 +17,9 @@ private:
 	CCtrlEdit m_group;
 
 	CCtrlCheck m_enableUdp;
+	CCtrlCheck m_enableUdpHolePunching;
 	CCtrlCheck m_enableIPv6;
+	CCtrlCheck m_enableLocalDiscovery;
 
 	CCtrlEdit m_maxConnectRetries;
 	CCtrlSpin m_maxConnectRetriesSpin;
@@ -26,6 +28,8 @@ private:
 
 protected:
 	void OnInitDialog();
+
+	void EnableUdp_OnClick(CCtrlBase*);
 
 	void ToxAddressCopy_OnClick(CCtrlButton*);
 	void ProfileCreate_OnClick(CCtrlButton*);

@@ -27,8 +27,9 @@
 #define IDC_ENABLE_IPV6                 1008
 #define IDC_PROFILE_EXPORT              1009
 #define IDC_DNS_ID                      1010
+#define IDC_ENABLE_HOLEPUNCHING         1010
 #define IDC_PROFILE_NEW                 1011
-#define IDC_SAVEPERMANENT               1012
+#define IDC_ENABLE_LOCALDISCOVERY       1012
 #define IDC_PROFILE_IMPORT              1013
 #define IDC_SAVEPERMANENTLY             1014
 #define IDC_NODESLIST                   1015

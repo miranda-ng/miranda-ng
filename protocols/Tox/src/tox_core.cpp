@@ -10,7 +10,10 @@ Tox_Options* CToxProto::GetToxOptions()
 	}
 
 	options->udp_enabled = getBool("EnableUDP", 1);
+	if (options->udp_enabled && getBool("EnableUDPHolePunching", 1))
+		options->hole_punching_enabled = true;
 	options->ipv6_enabled = getBool("EnableIPv6", 0);
+	options->local_discovery_enabled = getBool("EnableLocalDiscovery", 0);
 
 	if (m_hNetlibUser != nullptr) {
 		NETLIBUSERSETTINGS nlus = { sizeof(nlus) };
