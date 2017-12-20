@@ -76,14 +76,13 @@ extern HINSTANCE g_hInstance;
 #define TOX_MAX_CONNECT_RETRIES 10
 #define TOX_MAX_RECONNECT_RETRIES 10
 
-#define TOX_MAX_CALLS 1
-
 #define TOX_INI_PATH "%miranda_path%\\Plugins\\tox.ini"
 #define TOX_JSON_PATH "%miranda_userdata%\\tox.json"
 
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_DNS "DnsID"
 #define TOX_SETTINGS_CHAT_ID "ChatID"
+#define TOX_SETTINGS_PASSWORD "Password"
 #define TOX_SETTINGS_GROUP "DefaultGroup"
 #define TOX_SETTINGS_AVATAR_HASH "AvatarHash"
 
@@ -94,14 +93,9 @@ extern HINSTANCE g_hInstance;
 #define TOX_SETTINGS_NODE_PKEY TOX_SETTINGS_NODE_PREFIX"%d_PubKey"
 #define TOX_SETTINGS_NODE_COUNT TOX_SETTINGS_NODE_PREFIX"Count"
 
-enum TOX_DB_EVENT
-{
-	DB_EVENT_ACTION = 10001,
-	DB_EVENT_CALL = 20001
-};
-
-#define PSR_AUDIO "/RecvAudio"
-
+#define DB_EVENT_ACTION 10001
 #define TOX_MAX_AVATAR_SIZE 1 << 16 // 2 ^ 16 bytes
+
+extern HANDLE hProfileFolderPath;
 
 #endif //_COMMON_H_

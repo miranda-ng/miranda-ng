@@ -1,5 +1,16 @@
 #include "stdafx.h"
 
+void CToxProto::InitCustomDbEvents()
+{
+	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
+	dbEventType.module = m_szModuleName;
+	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
+
+	dbEventType.eventType = DB_EVENT_ACTION;
+	dbEventType.descr = Translate("Action");
+	DbEvent_RegisterType(&dbEventType);
+}
+
 /* MESSAGE RECEIVING */
 
 // incoming message flow

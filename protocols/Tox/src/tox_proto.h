@@ -3,7 +3,8 @@
 
 struct CToxProto : public PROTO<CToxProto>
 {
-	friend CToxPasswordEditor;
+	friend CToxChangePasswordDlg;
+	friend CToxEnterPasswordDlg;
 	friend CToxOptionsMain;
 	friend CToxOptionsNodeList;
 
@@ -54,15 +55,12 @@ public:
 	static void InitIcons();
 
 	// menus
-	static void InitMenus();
-
-	// events
-	void InitCustomDbEvents();
-
-	static int OnModulesLoaded(WPARAM, LPARAM);
+	static void InitContactMenu();
 
 	// utils
 	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+
+	static INT_PTR ParseToxUri(WPARAM, LPARAM lParam);
 
 private:
 	CToxThread *toxThread;
@@ -86,8 +84,10 @@ private:
 
 	bool LoadToxProfile(Tox_Options *options);
 	void SaveToxProfile(Tox *tox);
+	int OnDeleteToxProfile();
 
 	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
+	INT_PTR __cdecl OnChangePassword(WPARAM, LPARAM);
 
 	// tox core
 	Tox_Options* GetToxOptions();
@@ -137,15 +137,15 @@ private:
 	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
 	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
 
+	HGENMENU StatusMenuItems[SMI_MAX];
 	int OnInitStatusMenu();
+	int __cdecl PrebuildStatusMenu(WPARAM, LPARAM);
 
 	//services
 	INT_PTR __cdecl SetMyNickname(WPARAM wParam, LPARAM lParam);
 
 	// options
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
-
-	// events
 
 	// userinfo
 	static INT_PTR CALLBACK UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -189,34 +189,10 @@ private:
 	HWND __cdecl OnSearchAdvanced(HWND owner);
 	HWND __cdecl OnCreateExtendedSearchUI(HWND owner);
 
-	// chat rooms
-	//MCONTACT GetChatRoom(const char *pubKey);
-	MCONTACT GetChatRoom(int groupNumber);
-
-	//MCONTACT GetChatRoom(const char *pubKey);
-	MCONTACT AddChatRoom(int groupNumber);
-
-	void __cdecl LoadChatRoomList(void*);
-
-	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
-	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
-
-	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl OnCreateChatRoom(WPARAM, LPARAM);
-
-	//void InitGroupChatModule();
-	//void CloseAllChatChatSessions();
-
-	static void OnGroupChatInvite(Tox *tox, int32_t friendNumber, uint8_t type, const uint8_t *data, const uint16_t length, void *arg);
-
-	void ChatValidateContact(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
-	void ChatPrepare(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
-	static std::vector<MCONTACT> GetInvitedContacts(HWND hwndList, MCONTACT hContact = NULL);
-	static INT_PTR CALLBACK ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 	// messages
 	std::map<uint64_t, UINT> messages;
+
+	void InitCustomDbEvents();
 
 	void __cdecl SendMessageAsync(void *arg);
 	int OnSendMessage(MCONTACT hContact, const char *message);
@@ -275,8 +251,6 @@ private:
 	static bool IsFileExists(const wchar_t* path);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob);
-
-	static INT_PTR ParseToxUri(WPARAM, LPARAM lParam);
 
 	template<INT_PTR(__cdecl CToxProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)

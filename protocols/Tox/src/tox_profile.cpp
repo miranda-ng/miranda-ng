@@ -18,17 +18,15 @@ wchar_t* CToxProto::GetToxProfilePath(const wchar_t *accountName)
 
 static INT_PTR CALLBACK EnterPassword(void *param)
 {
-	CToxProto *pThis = (CToxProto*)param;
+	CToxProto *proto = (CToxProto*)param;
 
-	pass_ptrA password(mir_utf8encodeW(pass_ptrT(pThis->getWStringA("Password"))));
-	if (password == NULL || mir_strlen(password) == 0) {
-		CToxPasswordEditor passwordEditor(pThis);
-		if (!passwordEditor.DoModal())
+	pass_ptrW password(proto->getWStringA("Password"));
+	if (mir_wstrlen(password) == 0) {
+		CToxEnterPasswordDlg passwordDlg(proto);
+		if (!passwordDlg.DoModal())
 			return 0;
-
-		password = mir_utf8encodeW(pass_ptrT(passwordEditor.GetPassword()));
+		password = passwordDlg.GetPassword();
 	}
-
 	return (INT_PTR)password.detach();
 }
 
@@ -73,8 +71,8 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 	fclose(profile);
 
 	if (tox_is_data_encrypted(data)) {
-		pass_ptrA password((char*)CallFunctionSync(EnterPassword, this));
-		if (password == nullptr) {
+		pass_ptrA password(mir_utf8encodeW(pass_ptrW((wchar_t*)CallFunctionSync(EnterPassword, this))));
+		if (mir_strlen(password) == 0) {
 			mir_free(data);
 			return false;
 		}
@@ -91,7 +89,6 @@ bool CToxProto::LoadToxProfile(Tox_Options *options)
 		mir_free(data);
 		data = decryptedData;
 		size = decryptedSize;
-		return true;
 	}
 
 	if (data) {
@@ -146,6 +143,13 @@ void CToxProto::SaveToxProfile(Tox *tox)
 	mir_free(data);
 }
 
+int CToxProto::OnDeleteToxProfile()
+{
+	ptrW profilePath(GetToxProfilePath());
+	_wunlink(profilePath);
+	return 0;
+}
+
 INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 {
 	ptrA address(getStringA(TOX_SETTINGS_ID));
@@ -161,29 +165,108 @@ INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 	return 0;
 }
 
-CToxPasswordEditor::CToxPasswordEditor(CToxProto *proto) :
-	CToxDlgBase(proto, IDD_PASSWORD, false), m_ok(this, IDOK),
-	m_password(this, IDC_PASSWORD), m_savePermanently(this, IDC_SAVEPERMANENTLY)
+INT_PTR CToxProto::OnChangePassword(WPARAM, LPARAM)
 {
-	m_password.OnChange = Callback(this, &CToxPasswordEditor::OnOk);
-	m_ok.OnClick = Callback(this, &CToxPasswordEditor::OnOk);
+	CToxChangePasswordDlg passwordDlg(this);
+	return passwordDlg.DoModal();
+}
+
+/* CHANGE PASSWORD */
+
+CToxChangePasswordDlg::CToxChangePasswordDlg(CToxProto *proto)
+	: CToxDlgBase(proto, IDD_PASSWORD_CHANGE, false),
+	m_oldPassword(this, IDC_PASSWORD),
+	m_newPassword(this, IDC_PASSWORD_NEW),
+	m_confirmPassword(this, IDC_PASSWORD_CONFIRM),
+	m_passwordValidation(this, IDC_PASSWORD_VALIDATION),
+	m_ok(this, IDOK)
+{
+	m_oldPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
+	m_newPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
+	m_confirmPassword.OnChange = Callback(this, &CToxChangePasswordDlg::Password_OnChange);
+	m_ok.OnClick = Callback(this, &CToxChangePasswordDlg::OnOk);
+}
+
+void CToxChangePasswordDlg::OnInitDialog()
+{
+	pass_ptrW password(m_proto->getWStringA("Password"));
+	if (mir_wstrlen(password) == 0)
+		m_oldPassword.Disable();
 	m_ok.Disable();
 }
 
-void CToxPasswordEditor::OnChange(CCtrlBase*)
+void CToxChangePasswordDlg::Password_OnChange(CCtrlBase*)
+{
+	pass_ptrW password(m_proto->getWStringA("Password"));
+	pass_ptrW oldPassword(m_oldPassword.GetText());
+	if (mir_wstrlen(password) > 0 && mir_wstrcmp(password, oldPassword) != 0) {
+		m_ok.Disable();
+		m_passwordValidation.SetText(TranslateT("Old password is not valid"));
+		return;
+	}
+
+	pass_ptrW newPassword(m_newPassword.GetText());
+	if (mir_wstrlen(newPassword) == 0) {
+		m_ok.Disable();
+		m_passwordValidation.SetText(TranslateT("New password is empty"));
+		return;
+	}
+
+	pass_ptrW confirmPassword(m_confirmPassword.GetText());
+	if (mir_wstrcmp(newPassword, confirmPassword) != 0) {
+		m_ok.Disable();
+		m_passwordValidation.SetText(TranslateT("New password is not equal to confirmation"));
+		return;
+	}
+
+	m_passwordValidation.SetText(L"");
+	m_ok.Enable();
+}
+
+void CToxChangePasswordDlg::OnOk(CCtrlButton*)
+{
+	//if(m_proto->m_savePermanently.Enabled())
+	m_proto->setWString("Password", pass_ptrT(m_newPassword.GetText()));
+	m_proto->SaveToxProfile(m_proto->toxThread->Tox());
+	EndDialog(m_hwnd, 1);
+}
+
+wchar_t* CToxChangePasswordDlg::GetPassword()
+{
+	return m_newPassword.GetText();
+}
+
+/* ENTER PASSWORD */
+
+CToxEnterPasswordDlg::CToxEnterPasswordDlg(CToxProto *proto)
+	: CToxDlgBase(proto, IDD_PASSWORD_ENTER, false),
+	m_password(this, IDC_PASSWORD),
+	m_savePermanently(this, IDC_SAVEPERMANENTLY),
+	m_ok(this, IDOK)
+{
+	//m_savePermanently
+	m_password.OnChange = Callback(this, &CToxEnterPasswordDlg::Password_OnChange);
+	m_ok.OnClick = Callback(this, &CToxEnterPasswordDlg::OnOk);
+}
+
+void CToxEnterPasswordDlg::OnInitDialog()
+{
+	m_ok.Disable();
+}
+
+void CToxEnterPasswordDlg::Password_OnChange(CCtrlBase*)
 {
 	m_ok.Enable(GetWindowTextLength(m_password.GetHwnd()) != 0);
 }
 
-void CToxPasswordEditor::OnOk(CCtrlButton*)
+void CToxEnterPasswordDlg::OnOk(CCtrlButton*)
 {
-	pass_ptrT tszPassword(m_password.GetText());
 	if (m_savePermanently.Enabled())
-		m_proto->setWString("Password", tszPassword);
+		m_proto->setWString("Password", pass_ptrT(m_password.GetText()));
 	EndDialog(m_hwnd, 1);
 }
 
-wchar_t* CToxPasswordEditor::GetPassword()
+wchar_t* CToxEnterPasswordDlg::GetPassword()
 {
 	return m_password.GetText();
 }

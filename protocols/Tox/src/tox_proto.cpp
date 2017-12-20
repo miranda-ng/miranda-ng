@@ -143,15 +143,13 @@ int CToxProto::SetStatus(int iNewStatus)
 	int old_status = m_iStatus;
 	m_iDesiredStatus = iNewStatus;
 
+	// logout
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		// logout
 		isTerminated = true;
 		SetEvent(hTerminateEvent);
 
-		if (!Miranda_IsTerminated()) {
+		if (!Miranda_IsTerminated())
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
-			//CloseAllChatChatSessions();
-		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
@@ -161,19 +159,20 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (old_status >= ID_STATUS_CONNECTING && old_status < ID_STATUS_OFFLINE)
 		return 0;
 
+	// login
 	if (old_status == ID_STATUS_OFFLINE && !IsOnline()) {
-		// login
 		isTerminated = false;
 		m_iStatus = ID_STATUS_CONNECTING;
 		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, nullptr, nullptr);
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+		return 0;
 	}
-	else {
-		// set tox status
-		m_iStatus = iNewStatus;
-		tox_self_set_status(toxThread->Tox(), MirandaToToxStatus(iNewStatus));
-	}
-
+	
+	// change status
+	m_iStatus = iNewStatus;
+	tox_self_set_status(toxThread->Tox(), MirandaToToxStatus(iNewStatus));
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+	
 	return 0;
 }
 
@@ -220,9 +219,7 @@ int CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 		return OnInitStatusMenu();
 
 	case EV_PROTO_ONERASE:
-		ptrW profilePath(GetToxProfilePath());
-		_wunlink(profilePath);
-		break;
+		return OnDeleteToxProfile();
 	}
 
 	return 1;

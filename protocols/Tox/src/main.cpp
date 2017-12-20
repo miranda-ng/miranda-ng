@@ -4,7 +4,7 @@ int hLangpack;
 CHAT_MANAGER *pci;
 CLIST_INTERFACE *pcli;
 HINSTANCE g_hInstance;
-HMODULE g_hToxLibrary = nullptr;
+HANDLE hProfileFolderPath;
 
 PLUGININFOEX pluginInfo =
 {
@@ -34,20 +34,34 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
+int OnModulesLoaded(WPARAM, LPARAM)
+{
+	CToxProto::InitIcons();
+	CToxProto::InitContactMenu();
+
+	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", "ProfilesFolder", MIRANDA_USERDATAT, TranslateT("Profiles folder"));
+
+	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
+		CreateServiceFunction(MODULE "/ParseUri", CToxProto::ParseToxUri);
+		AssocMgr_AddNewUrlTypeT("tox:", TranslateT("Tox URI scheme"), g_hInstance, IDI_TOX, MODULE "/ParseUri", 0);
+	}
+
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	if (!TOX_VERSION_IS_ABI_COMPATIBLE())
 	{
 		wchar_t message[100];
-		mir_snwprintf(message, TranslateT("Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s"), TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH, "");
+		mir_snwprintf(message, TranslateT("Current version of plugin is support Tox API version %i.%i.%i which is incompatible with libtox.mir"), TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH);
 		CToxProto::ShowNotification(message, MB_ICONERROR);
-		FreeLibrary(g_hToxLibrary);
 		return 2;
 	}
 
+	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
-	mir_getLP(&pluginInfo);
 
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
@@ -57,7 +71,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;
 	Proto_RegisterModule(&pd);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, &CToxProto::OnModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	return 0;
 }

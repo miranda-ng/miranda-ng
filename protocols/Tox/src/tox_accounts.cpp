@@ -36,13 +36,12 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
 	InitCustomDbEvents();
-
 	return 0;
 }
 
 int CToxProto::OnAccountRenamed(WPARAM, LPARAM)
 {
-	mir_cslock locker(profileLock);
+	mir_cslock lock(profileLock);
 
 	ptrW newPath(GetToxProfilePath());
 	wchar_t oldPath[MAX_PATH];

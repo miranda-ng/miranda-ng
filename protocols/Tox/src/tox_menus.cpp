@@ -32,7 +32,7 @@ int CToxProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
-void CToxProto::InitMenus()
+void CToxProto::InitContactMenu()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::PrebuildContactMenu);
 
@@ -58,8 +58,17 @@ void CToxProto::InitMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
 }
 
+int CToxProto::PrebuildStatusMenu(WPARAM, LPARAM)
+{
+	bool isOnline = IsOnline();
+	Menu_EnableItem(StatusMenuItems[SMI_PASSWORD_CHANGE], isOnline);
+	return 0;
+}
+
 int CToxProto::OnInitStatusMenu()
 {
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CToxProto::PrebuildStatusMenu);
+
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
 	mi.root = Menu_GetProtocolRoot(this);
@@ -69,16 +78,14 @@ int CToxProto::OnInitStatusMenu()
 	CreateProtoService(mi.pszService, &CToxProto::OnCopyToxID);
 	mi.name.w = LPGENW("Copy Tox ID");
 	mi.position = SMI_POSITION + SMI_TOXID_COPY;
-	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	StatusMenuItems[SMI_TOXID_COPY] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-	// Create group chat command
-	/*
-	mi.pszService = "/CreateChatRoom";
-	CreateProtoService(mi.pszService, &CToxProto::OnCreateChatRoom);
-	mi.name.w = LPGENW("Create group chat");
-	mi.position = SMI_POSITION + SMI_GROUPCHAT_CREATE;
-	mi.hIcolibItem = Skin_GetIconHandle("conference");
-	HGENMENU hCreateChatRoom = Menu_AddProtoMenuItem(&mi, m_szModuleName);*/
+	// Change password command
+	mi.pszService = "/ChangePassword";
+	CreateProtoService(mi.pszService, &CToxProto::OnChangePassword);
+	mi.name.w = LPGENW("Change password");
+	mi.position = SMI_POSITION + SMI_PASSWORD_CHANGE;
+	StatusMenuItems[SMI_PASSWORD_CHANGE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	return 0;
 }
