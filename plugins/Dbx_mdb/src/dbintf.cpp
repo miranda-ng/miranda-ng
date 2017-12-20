@@ -125,7 +125,7 @@ int CDbxMdb::Load(bool bSkipInit)
 
 
 		if (InitModules()) return EGROKPRF_DAMAGED;
-		if (InitCrypt())       return EGROKPRF_DAMAGED;
+		if (InitCrypt())   return EGROKPRF_DAMAGED;
 
 		// everything is ok, go on
 		if (!m_bReadOnly) {
@@ -183,13 +183,12 @@ STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
 
 int CDbxMdb::Map()
 {
-	unsigned int mode = MDBX_NOSUBDIR | MDBX_NOTLS | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
+	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 	mdbx_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664);
 	mdbx_env_set_mapsize(m_pMdbEnv, 0x1000000);
 	return MDBX_SUCCESS;
-
 }
 
 bool CDbxMdb::Remap()
@@ -198,7 +197,6 @@ bool CDbxMdb::Remap()
 	mdbx_env_info(m_pMdbEnv, &ei, sizeof(ei));
 	return mdbx_env_set_geometry(m_pMdbEnv, -1, -1, ei.mi_mapsize + 0x100000, 0x100000, -1, -1) == MDBX_SUCCESS;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
