@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -430,7 +430,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsodium", "..\libs\libsod
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pthreads", "..\libs\pthreads\pthreads.vcxproj", "{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtox", "..\libs\libtox\libtox.vcxproj", "{A21C50CD-28A6-481A-A12B-47189FE66641}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtox", "..\protocols\Tox\libtox\libtox.vcxproj", "{A21C50CD-28A6-481A-A12B-47189FE66641}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

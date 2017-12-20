@@ -21,11 +21,16 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A21C50CD-28A6-481A-A12B-47189FE66641}</ProjectGuid>
     <ProjectName>libtox</ProjectName>
+    <GenerateManifest>false</GenerateManifest>
+    <EmbedManifest>false</EmbedManifest>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</OutDir>
   </PropertyGroup>
-  <Import Project="$(ProjectDir)..\..\build\vc.common\lib.props" />
+  <Import Project="..\..\..\build\vc.common\common.props" />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\pthreads\src;$(ProjectDir)..\libsodium\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\libs\pthreads\src;..\..\..\libs\libsodium\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>src/libtox.def</ModuleDefinitionFile>
@@ -45,10 +50,10 @@
     <ClInclude Include="src\toxencryptsave*.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libsodium\libsodium.vcxproj">
+    <ProjectReference Include="..\..\..\libs\libsodium\libsodium.vcxproj">
       <Project>{a185b162-6cb6-4502-b03f-b56f7699a8d9}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\pthreads\pthreads.vcxproj">
+    <ProjectReference Include="..\..\..\libs\pthreads\pthreads.vcxproj">
       <Project>{e0ebb8a5-b577-414c-a5f9-9b4e2a0a66e9}</Project>
     </ProjectReference>
   </ItemGroup>
