@@ -59,6 +59,6 @@ int load_state(load_state_callback_func load_state_callback, Logger *log, void *
                const uint8_t *data, uint32_t length, uint16_t cookie_inner);
 
 /* Returns -1 if failed or 0 if success */
-//int create_recursive_mutex(pthread_mutex_t *mutex);
+int create_recursive_mutex(pthread_mutex_t *mutex);
 
 #endif /* UTIL_H */

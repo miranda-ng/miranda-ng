@@ -2811,12 +2811,12 @@ Net_Crypto *new_net_crypto(Logger *log, DHT *dht, TCP_Proxy_Info *proxy_info)
     set_packet_tcp_connection_callback(temp->tcp_c, &tcp_data_callback, temp);
     set_oob_packet_tcp_connection_callback(temp->tcp_c, &tcp_oob_callback, temp);
 
-    /*if (create_recursive_mutex(&temp->tcp_mutex) != 0 ||
+    if (create_recursive_mutex(&temp->tcp_mutex) != 0 ||
             pthread_mutex_init(&temp->connections_mutex, NULL) != 0) {
         kill_tcp_connections(temp->tcp_c);
         free(temp);
         return NULL;
-    }*/
+    }
 
     temp->dht = dht;
 
