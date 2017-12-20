@@ -1,3 +1,4 @@
 [submodule "plugins/Dbx_mdb/src/libmdbx"]
 	path = plugins/Dbx_mdb/src/libmdbx
-	url = ../../leo-yuriev/libmdbx.git
+	url = https://github.com/leo-yuriev/libmdbx.git
+	branch = master
