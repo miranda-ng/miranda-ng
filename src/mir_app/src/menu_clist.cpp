@@ -394,7 +394,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszP
 MIR_APP_DLL(HMENU) Menu_GetStatusMenu()
 {
 	RecursiveDeleteMenu(hStatusMenu);
-
+	NotifyEventHooks(cli.hPreBuildStatusMenuEvent, 0, 0);
 	Menu_Build(hStatusMenu, hStatusMenuObject);
 	return hStatusMenu;
 }
