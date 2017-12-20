@@ -887,8 +887,10 @@ BOOL CTabBaseDlg::DoRtfToTags(CMStringW &pszText) const
 				if (iCol > 0) {
 					if (isChat()) {
 						if (mi && mi->bColor) {
-							if (iInd >= 0)
-								res.AppendFormat(L"%%c%u", iInd);
+							if (iInd >= 0) {
+								if (!(res.IsEmpty() && m_pContainer->theme.fontColors[MSGFONTID_MESSAGEAREA] == pColors[iInd]))
+									res.AppendFormat(L"%%c%u", iInd);
+							}
 							else if (!res.IsEmpty())
 								res.Append(L"%%C");
 						}
