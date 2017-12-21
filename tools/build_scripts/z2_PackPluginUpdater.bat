@@ -41,7 +41,6 @@ REM Plugins
 for /f %%a in ('dir plugins\*.dll /B /L') do (
 	rem check for special plugins and pack additional files first.
 	if /I "%%a"=="Actman.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\services.ini")
-	if /I "%%a"=="AIM.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_AIM.dll")
 	if /I "%%a"=="BASS_interface.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\BASS\*.dll")
 	if /I "%%a"=="Boltun.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\boltun.mindw")
 	if /I "%%a"=="Clist_modern.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\AVS.dll" "Icons\Toolbar_icons.dll")
