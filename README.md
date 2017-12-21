@@ -6,7 +6,6 @@ fast.
 
 ## Protocol Support ##
 
-- AIM (AOL Instant Messenger)
 - Discord
 - Em-LAN
 - Facebook

@@ -18,11 +18,6 @@ case MULTI_CASE:
 		return LPGENW("Client icons") L"/" LPGENW("Multi-proto clients");
 	break;
 
-case AIM_CASE:
-	if (db_get_b(NULL, MODULENAME, "GroupAIM", 1))
-		return LPGENW("Client icons") L"/" LPGENW("AIM clients");
-	break;
-
 case GG_CASE:
 	if (db_get_b(NULL, MODULENAME, "GroupGG", 1))
 		return LPGENW("Client icons") L"/" LPGENW("Gadu-Gadu clients");

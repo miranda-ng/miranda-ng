@@ -74,7 +74,6 @@ typedef struct _foundInfo
 #define MIRANDA_PACKS_CASE			3003	//	Miranda packs overlays
 
 #define MULTI_CASE					3004	//	multi-protocol clients
-#define AIM_CASE					3005	//	AIM clients
 #define GG_CASE						3006	//	Gadu-Gadu clients
 #define ICQ_CASE					3008	//	ICQ clients
 #define IRC_CASE					3009	//	IRC clients

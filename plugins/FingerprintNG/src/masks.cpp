@@ -487,20 +487,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_IRCUnknown", L"*IRC*", L"Unknown IRC client", IDI_IRC, IRC_CASE, TRUE },
 
 	//#########################################################################################################################################################################
-	//#################################   AIM   ###############################################################################################################################
-	//#########################################################################################################################################################################
-	{ "client_Aim7", L"AIM*7.*", L"AIM v7.x", IDI_AIM_7, AIM_CASE, TRUE },
-	{ "client_Aim6", L"AIM*6.*", L"AIM v6.x", IDI_AIM_6, AIM_CASE, TRUE },
-
-	{ "client_AIM_Triton", L"*AIM*Triton*", L"AIM Triton", IDI_AIM_TRITON, AIM_CASE, TRUE },
-	{ "client_AimMac", L"AIM*Mac*", L"AIM for MacOS", IDI_AIM_MAC, AIM_CASE, TRUE },
-	{ "client_AimMobile", L"|AIM*Mobile*|AIM*gprs*|Aim*sms*", L"AIM Mobile", IDI_AIM_MOBILE, AIM_CASE, TRUE },
-	{ "client_Naim", L"*naim*", L"Naim", IDI_NAIM, AIM_CASE, TRUE },
-	{ "client_miniaim", L"*miniaim*", L"miniaim", IDI_MINIAIM, AIM_CASE, TRUE },
-	{ "client_TerraIM", L"*Terra*", L"TerraIM", IDI_TERRAIM, AIM_CASE, TRUE },
-	{ "client_AIM", L"AIM*", L"AIM", IDI_AIM_7, AIM_CASE, TRUE },
-
-	//#########################################################################################################################################################################
 	//#################################   MSN   ###############################################################################################################################
 	//#########################################################################################################################################################################
 	{ "client_WLM11", L"WLM*2011*", L"Windows Live 11", IDI_WLM_10, MSN_CASE, TRUE },
@@ -679,7 +665,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	//#########################################################################################################################################################################
 	//#################################   PROTO OVERLAYS   ####################################################################################################################
 	//#########################################################################################################################################################################
-	{ "client_AIM_overlay", L"|^AIM*|*AIM*", LPGENW("AIM overlay"), IDI_AIM_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_ICQJ_Plus_over", L"*ICQ*Plus*", LPGENW("ICQJ Plus Mod overlay"), IDI_ICQJ_PLUS_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_ICQJ_overlay", L"|^ICQ|^ICQ*|*ICQ*|MRA client", LPGENW("ICQJ overlay"), IDI_ICQJ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_IRC_overlay", L"|^IRC*|Miranda*IRC*", LPGENW("IRC overlay"), IDI_IRC_OVERLAY, OVERLAYS_PROTO_CASE },

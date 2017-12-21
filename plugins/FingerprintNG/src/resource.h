@@ -54,7 +54,6 @@
 #define IDI_UNICODE_CLIENT              75
 #define IDI_PLATFORM_X32                76
 #define IDI_PLATFORM_X64                77
-#define IDI_AIM_OVERLAY                 78
 #define IDI_GMAIL_OVERLAY               79
 #define IDI_ICQJ_OVERLAY                80
 #define IDI_ICQJ_PLUS_OVERLAY           81
@@ -399,14 +398,6 @@
 #define IDI_MAIL_RU_OFFICIAL            702
 #define IDI_MAIL_RU_UNKNOWN             703
 #define IDI_MAIL_RU_WEBAGENT            704
-#define IDI_AIM_6                       714
-#define IDI_AIM_7                       715
-#define IDI_AIM_MAC                     716
-#define IDI_AIM_MOBILE                  717
-#define IDI_AIM_TRITON                  718
-#define IDI_MINIAIM                     719
-#define IDI_NAIM                        720
-#define IDI_TERRAIM                     721
 #define IDI_GG                          724
 #define IDI_GG8_OVERLAY                 725
 #define IDI_GG9_OVERLAY                 726
@@ -585,7 +576,6 @@
 #define IDC_GROUP_MIRANDA_VERSION       10026
 #define IDC_GROUP_MIRANDA_PACKS         10027
 #define IDC_GROUP_MULTI                 10028
-#define IDC_GROUP_AIM                   10029
 #define IDC_GROUP_GG                    10030
 #define IDC_GROUP_ICQ                   10032
 #define IDC_GROUP_IRC                   10033

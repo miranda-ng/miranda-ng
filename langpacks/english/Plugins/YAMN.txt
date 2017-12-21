@@ -11,7 +11,6 @@
 [Version:]
 [Description:]
 [Copyright:]
-[E-mail:]
 [Homepage:]
 [Account]
 [Name:]

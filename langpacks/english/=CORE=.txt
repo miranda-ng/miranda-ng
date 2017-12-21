@@ -706,7 +706,7 @@
 [Transfer and virus scan complete]
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
-;file \src\core\stdidle\src\idle.cpp
+;file \src\core\stdidle\src\options.cpp
 [Idle]
 ;file \src\core\stdmsg\src\chat_manager.cpp
 [Chat module]

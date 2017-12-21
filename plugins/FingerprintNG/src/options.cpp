@@ -33,7 +33,6 @@ static settings[] =
 	{ IDC_GROUP_MIRANDA_PACKS, TRUE, "GroupMirandaPacks" },
 
 	{ IDC_GROUP_MULTI, TRUE, "GroupMulti" },
-	{ IDC_GROUP_AIM, TRUE, "GroupAIM" },
 	{ IDC_GROUP_GG, TRUE, "GroupGG" },
 	{ IDC_GROUP_ICQ, TRUE, "GroupICQ" },
 	{ IDC_GROUP_IRC, TRUE, "GroupIRC" },

@@ -203,7 +203,6 @@ Scripts\winapi.dll
 Icons\flags_icons.dll
 Icons\fp_icons.dll
 Icons\historypp_icons.dll
-Icons\proto_aim.dll
 Icons\proto_discord.dll
 Icons\proto_dummy.dll
 Icons\proto_facebook.dll

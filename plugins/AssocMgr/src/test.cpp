@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 /*
-#define AIM_SUPPORT_TEST
 #define ICQ_SUPPORT_TEST
 #define YAHOO_SUPPORT_TEST
 #define MSN_SUPPORT_TEST
@@ -63,138 +62,6 @@ static int __inline AssocMgr_AddNewUrlType(const char *prefix, const char *desc,
 	utd.flags = flags&~UTDF_UNICODE;
 	return CallService(MS_ASSOCMGR_ADDNEWURLTYPE, 0, (LPARAM)&utd);
 }
-
-// -----------------------------------------
-
-#ifdef AIM_SUPPORT_TEST
-
-#define AIM_PROTOCOL_NAME  "AIM"
-#define IDI_AOL  28
-#define MOD_KEY_CL  "CList"
-#define AIM_KEY_NL  "NotOnList"
-struct oscar_data { HINSTANCE hInstance; } static conn;
-static __inline HANDLE find_contact(const char *nick) { nick; return NULL; }
-static __inline HANDLE add_contact(const char *nick) { nick; return db_find_first(); }
-static __inline void aim_gchat_joinrequest(const char *room, int exchange) { room; exchange; MessageBoxA(NULL, "Join group chat!", room, MB_OK); return; }
-#include <m_protosvc.h>
-#include <m_message.h>
-
-#include "m_assocmgr.h"
-static HANDLE hHookModulesLoaded;
-static HANDLE hServiceParseLink;
-
-static int ServiceParseAimLink(WPARAM, LPARAM lParam)
-{
-	char *arg = (char*)lParam;
-	if (arg == NULL) return 1; /* sanity check */
-  /* skip leading prefix */
-	arg = strchr(arg, ':');
-	if (arg == NULL) return 1; /* parse failed */
-	for (++arg; *arg == '/'; ++arg);
-	/*
-		add user:      aim:addbuddy?screenname=NICK&groupname=GROUP
-		send message:  aim:goim?screenname=NICK&message=MSG
-		open chatroom: aim:gochat?roomname=ROOM&exchange=NUM
-	*/
-	/* add a contact to the list */
-	if (!_strnicmp(arg, "addbuddy?", 9)) {
-		char *tok, *sn = NULL, *group = NULL;
-		ADDCONTACTSTRUCT acs;
-		PROTOSEARCHRESULT psr;
-		if (*(arg += 9) == 0) return 1; /* parse failed */
-		tok = strtok(arg, "&"); /* first token */
-		while (tok != NULL) {
-			if (!_strnicmp(tok, "screenname=", 11) && *(tok + 11) != 0)
-				sn = Netlib_UrlDecode(tok + 11);
-			if (!_strnicmp(tok, "groupname=", 10) && *(tok + 10) != 0)
-				group = Netlib_UrlDecode(tok + 10);  /* group is currently ignored */
-			tok = strtok(NULL, "&"); /* next token */
-		}
-		if (sn == NULL) return 1; /* parse failed */
-		if (find_contact(sn) == NULL) { /* does not yet check if sn is current user */
-			acs.handleType = HANDLE_SEARCHRESULT;
-			acs.szProto = AIM_PROTOCOL_NAME;
-			acs.psr = &psr;
-			memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
-			psr.cbSize = sizeof(PROTOSEARCHRESULT);
-			psr.nick.w = sn;
-			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
-		}
-		return 0;
-	}
-	/* send a message to a contact */
-	else if (!_strnicmp(arg, "goim?", 5)) {
-		char *tok, *sn = NULL, *msg = NULL;
-		MCONTACT hContact;
-		if (*(arg += 5) == 0) return 1; /* parse failed */
-		tok = strtok(arg, "&"); /* first token */
-		while (tok != NULL) {
-			if (!_strnicmp(tok, "screenname=", 11) && *(tok + 11) != 0)
-				sn = Netlib_UrlDecode(tok + 11);
-			if (!_strnicmp(tok, "message=", 8) && *(tok + 8) != 0)
-				msg = Netlib_UrlDecode(tok + 8);
-			tok = strtok(NULL, "&"); /* next token */
-		}
-		if (sn == NULL) return 1; /* parse failed */
-		if (ServiceExists(MS_MSG_SENDMESSAGE)) {
-			hContact = find_contact(sn);
-			if (hContact == NULL) {
-				hContact = add_contact(sn); /* does not yet check if sn is current user */
-				if (hContact != NULL)
-					db_set_b(hContact, MOD_KEY_CL, AIM_KEY_NL, 1);
-			}
-			if (hContact != NULL)
-				CallService(MS_MSG_SENDMESSAGE, hContact, (LPARAM)msg);
-		}
-		return 0;
-	}
-	/* open a chatroom */
-	else if (!_strnicmp(arg, "gochat?", 7)) {
-		char *tok, *rm = NULL;
-		int exchange = 0;
-		if (*(arg += 7) == 0) return 1; /* parse failed */
-		tok = strtok(arg, "&"); /* first token */
-		while (tok != NULL) {
-			if (!_strnicmp(tok, "roomname=", 9) && *(tok + 9) != 0)
-				rm = Netlib_UrlDecode(tok + 9);
-			if (!_strnicmp(tok, "exchange=", 9))
-				exchange = atoi(Netlib_UrlDecode(tok + 9));
-			tok = strtok(NULL, "&"); /* next token */
-		}
-		if (rm == NULL || exchange <= 0) return 1; /* parse failed */
-		aim_gchat_joinrequest(rm, exchange);
-		return 0;
-	}
-	return 1; /* parse failed */
-}
-
-static int AimLinksModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	char service_name[MAXMODULELABELLENGTH];
-	UNREFERENCED_PARAMETER(wParam);
-	UNREFERENCED_PARAMETER(lParam);
-	mir_snprintf(service_name, _countof(service_name), "%s%s", AIM_PROTOCOL_NAME, "ParseAimLink");
-	/* or "AOL Instant Messenger Links" */
-	AssocMgr_AddNewUrlType("aim:", Translate("AIM link protocol"), conn.hInstance, IDI_AOL, service_name, 0);
-	return 0;
-}
-
-void aim_links_init()
-{
-	char service_name[MAXMODULELABELLENGTH];
-	//LOG(LOG_DEBUG,"Links: init");
-	mir_snprintf(service_name, _countof(service_name), "%s%s", AIM_PROTOCOL_NAME, "ParseAimLink");
-	hServiceParseLink = CreateServiceFunction(service_name, ServiceParseAimLink);
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, AimLinksModulesLoaded);
-}
-
-void aim_links_destroy()
-{
-	//LOG(LOG_DEBUG,"Links: destroy");
-	UnhookEvent(hHookModulesLoaded);
-	DestroyServiceFunction(hServiceParseLink);
-}
-#endif
 
 // -----------------------------------------
 
@@ -808,10 +675,6 @@ int JabberLinksUninit()
 
 void InitTest(void)
 {
-	#ifdef AIM_SUPPORT_TEST
-	conn.hInstance = GetModuleHandleA("AIM");
-	aim_links_init();
-	#endif
 	#ifdef ICQ_SUPPORT_TEST
 	InitIcqFiles();
 	#endif
@@ -833,9 +696,6 @@ void InitTest(void)
 
 void UninitTest(void)
 {
-	#ifdef AIM_SUPPORT_TEST
-	aim_links_destroy();
-	#endif
 	#ifdef ICQ_SUPPORT_TEST
 	UninitIcqFiles();
 	#endif
