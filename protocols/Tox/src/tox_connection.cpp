@@ -2,7 +2,7 @@
 
 bool CToxProto::IsOnline()
 {
-	return toxThread && m_iStatus >= ID_STATUS_ONLINE;
+	return m_toxThread && m_iStatus >= ID_STATUS_ONLINE;
 }
 
 void CToxProto::TryConnect(Tox *tox)
@@ -99,7 +99,7 @@ void CToxProto::PollingThread(void*)
 	}
 	tox_options_free(options);
 
-	this->toxThread = &toxThread;
+	m_toxThread = &toxThread;
 	InitToxCore(toxThread.Tox());
 	BootstrapNodes(toxThread.Tox());
 	ForkThread(&CToxProto::CheckingThread, toxThread.Tox());
@@ -113,7 +113,7 @@ void CToxProto::PollingThread(void*)
 	}
 
 	UninitToxCore(toxThread.Tox());
-	this->toxThread = nullptr;
+	m_toxThread = nullptr;
 	hPollingThread = nullptr;
 
 	debugLogA(__FUNCTION__": leaving");

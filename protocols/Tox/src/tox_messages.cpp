@@ -69,7 +69,7 @@ void CToxProto::SendMessageAsync(void *arg)
 	}
 
 	TOX_ERR_FRIEND_SEND_MESSAGE sendError;
-	int messageNumber = tox_friend_send_message(toxThread->Tox(), friendNumber, type, msg, msgLen, &sendError);
+	int messageNumber = tox_friend_send_message(m_toxThread->Tox(), friendNumber, type, msg, msgLen, &sendError);
 	if (sendError != TOX_ERR_FRIEND_SEND_MESSAGE_OK) {
 		debugLogA(__FUNCTION__": failed to send message for %d (%d)", friendNumber, sendError);
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)param->hMessage, (LPARAM)_T2A(ToxErrorToString(sendError)));
@@ -149,7 +149,7 @@ void CToxProto::GetStatusMessageAsync(void* arg)
 	}
 
 	TOX_ERR_FRIEND_QUERY error;
-	size_t size = tox_friend_get_status_message_size(toxThread->Tox(), friendNumber, &error);
+	size_t size = tox_friend_get_status_message_size(m_toxThread->Tox(), friendNumber, &error);
 	if (error != TOX_ERR_FRIEND_QUERY::TOX_ERR_FRIEND_QUERY_OK) {
 		debugLogA(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
@@ -157,7 +157,7 @@ void CToxProto::GetStatusMessageAsync(void* arg)
 	}
 
 	ptrA statusMessage((char*)mir_calloc(size + 1));
-	if (!tox_friend_get_status_message(toxThread->Tox(), friendNumber, (uint8_t*)(char*)statusMessage, &error)) {
+	if (!tox_friend_get_status_message(m_toxThread->Tox(), friendNumber, (uint8_t*)(char*)statusMessage, &error)) {
 		debugLogA(__FUNCTION__": failed to get status message for (%d) (%d)", friendNumber, error);
 		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_FAILED, (HANDLE)hContact, 0);
 		return;
@@ -175,7 +175,7 @@ int CToxProto::OnUserIsTyping(MCONTACT hContact, int type)
 		return 0;
 
 	TOX_ERR_SET_TYPING error;
-	if (!tox_self_set_typing(toxThread->Tox(), friendNumber, type == PROTOTYPE_SELFTYPING_ON, &error))
+	if (!tox_self_set_typing(m_toxThread->Tox(), friendNumber, type == PROTOTYPE_SELFTYPING_ON, &error))
 		debugLogA(__FUNCTION__": failed to send typing (%d)", error);
 
 	return 0;

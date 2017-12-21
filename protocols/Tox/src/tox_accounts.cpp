@@ -41,13 +41,13 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 
 int CToxProto::OnAccountRenamed(WPARAM, LPARAM)
 {
-	mir_cslock lock(profileLock);
+	mir_cslock lock(m_profileLock);
 
 	ptrW newPath(GetToxProfilePath());
 	wchar_t oldPath[MAX_PATH];
-	mir_snwprintf(oldPath, MAX_PATH, L"%s\\%s.tox", VARSW(L"%miranda_userdata%"), wszAccountName);
+	mir_snwprintf(oldPath, MAX_PATH, L"%s\\%s.tox", VARSW(L"%miranda_userdata%"), m_accountName);
 	_wrename(oldPath, newPath);
-	wszAccountName = mir_wstrdup(m_tszUserName);
+	m_accountName = mir_wstrdup(m_tszUserName);
 	return 0;
 }
 

@@ -2,7 +2,7 @@
 
 void CToxProto::BootstrapUdpNode(Tox *tox, const char *address, int port, const char *hexKey)
 {
-	if (!toxThread)
+	if (!m_toxThread)
 		return;
 
 	if (address == nullptr || hexKey == nullptr)
@@ -16,7 +16,7 @@ void CToxProto::BootstrapUdpNode(Tox *tox, const char *address, int port, const 
 
 void CToxProto::BootstrapTcpRelay(Tox *tox, const char *address, int port, const char *hexKey)
 {
-	if (!toxThread)
+	if (!m_toxThread)
 		return;
 
 	if (address == nullptr || hexKey == nullptr)

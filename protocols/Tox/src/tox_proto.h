@@ -3,8 +3,9 @@
 
 struct CToxProto : public PROTO<CToxProto>
 {
-	friend CToxChangePasswordDlg;
 	friend CToxEnterPasswordDlg;
+	friend CToxCreatePasswordDlg;
+	friend CToxChangePasswordDlg;
 	friend CToxOptionsMain;
 	friend CToxOptionsNodeList;
 
@@ -63,9 +64,10 @@ public:
 	static INT_PTR ParseToxUri(WPARAM, LPARAM lParam);
 
 private:
-	CToxThread *toxThread;
-	mir_cs profileLock;
-	ptrW wszAccountName, wszGroup;
+	CToxThread *m_toxThread;
+	mir_cs m_profileLock;
+	ptrW m_accountName;
+	ptrW m_defaultGroup;
 	
 	CTransferList transfers;
 	ULONG hMessageProcess;
@@ -87,7 +89,9 @@ private:
 	int OnDeleteToxProfile();
 
 	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
+	INT_PTR __cdecl OnCreatePassword(WPARAM, LPARAM);
 	INT_PTR __cdecl OnChangePassword(WPARAM, LPARAM);
+	INT_PTR __cdecl OnRemovePassword(WPARAM, LPARAM);
 
 	// tox core
 	Tox_Options* GetToxOptions();

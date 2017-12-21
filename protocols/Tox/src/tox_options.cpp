@@ -5,7 +5,8 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	m_toxAddress(this, IDC_TOXID), m_toxAddressCopy(this, IDC_CLIPBOARD),
 	m_profileCreate(this, IDC_PROFILE_NEW), m_profileImport(this, IDC_PROFILE_IMPORT),
 	m_profileExport(this, IDC_PROFILE_EXPORT), m_nickname(this, IDC_NAME),
-	m_password(this, IDC_PASSWORD), m_group(this, IDC_GROUP),
+	m_passwordCreate(this, IDC_PASSWORD_CREATE), m_passwordChange(this, IDC_PASSWORD_CHANGE),
+	m_passwordRemove(this, IDC_PASSWORD_REMOVE), m_group(this, IDC_GROUP),
 	m_enableUdp(this, IDC_ENABLE_UDP), m_enableUdpHolePunching(this, IDC_ENABLE_HOLEPUNCHING),
 	m_enableIPv6(this, IDC_ENABLE_IPV6), m_enableLocalDiscovery(this, IDC_ENABLE_LOCALDISCOVERY),
 	m_maxConnectRetries(this, IDC_MAXCONNECTRETRIES), m_maxConnectRetriesSpin(this, IDC_MAXCONNECTRETRIESSPIN),
@@ -13,7 +14,6 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 {
 	CreateLink(m_toxAddress, TOX_SETTINGS_ID, L"");
 	CreateLink(m_nickname, "Nick", L"");
-	CreateLink(m_password, "Password", L"");
 	CreateLink(m_group, TOX_SETTINGS_GROUP, L"Tox");
 	CreateLink(m_enableUdp, "EnableUDP", DBVT_BYTE, TRUE);
 	CreateLink(m_enableUdpHolePunching, "EnableUDPHolePunching", DBVT_BYTE, TRUE);
@@ -24,6 +24,10 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 		CreateLink(m_maxConnectRetries, "MaxConnectRetries", DBVT_BYTE, TOX_MAX_CONNECT_RETRIES);
 		CreateLink(m_maxReconnectRetries, "MaxReconnectRetries", DBVT_BYTE, TOX_MAX_RECONNECT_RETRIES);
 	}
+
+	m_passwordCreate.OnClick = Callback(this, &CToxOptionsMain::PasswordCreate_OnClick);
+	m_passwordChange.OnClick = Callback(this, &CToxOptionsMain::PasswordChange_OnClick);
+	m_passwordRemove.OnClick = Callback(this, &CToxOptionsMain::PasswordRemove_OnClick);
 
 	m_enableUdp.OnChange = Callback(this, &CToxOptionsMain::EnableUdp_OnClick);
 	m_enableUdpHolePunching.Enable(m_enableUdp.GetState());
@@ -42,22 +46,51 @@ void CToxOptionsMain::OnInitDialog()
 	if (CToxProto::IsFileExists(profilePath)) {
 		m_toxAddress.Enable();
 
-		ShowWindow(m_profileCreate.GetHwnd(), FALSE);
-		ShowWindow(m_profileImport.GetHwnd(), FALSE);
+		m_profileCreate.Hide();
+		m_profileImport.Hide();
 
-		ShowWindow(m_toxAddressCopy.GetHwnd(), TRUE);
-		ShowWindow(m_profileExport.GetHwnd(), TRUE);
+		m_toxAddressCopy.Show();
+		m_profileExport.Show();
 	}
 
-	SendMessage(m_toxAddress.GetHwnd(), EM_LIMITTEXT, TOX_ADDRESS_SIZE * 2, 0);
-	SendMessage(m_nickname.GetHwnd(), EM_LIMITTEXT, TOX_MAX_NAME_LENGTH, 0);
-	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 32, 0);
-	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
+	m_passwordCreate.Enable(m_proto->IsOnline());
+	m_passwordChange.Enable(m_proto->IsOnline());
+	m_passwordRemove.Enable(m_proto->IsOnline());
+
+	pass_ptrW password(m_proto->getWStringA(TOX_SETTINGS_PASSWORD));
+	bool passwordExists = mir_wstrlen(password) > 0;
+	m_passwordCreate.Show(!passwordExists);
+	m_passwordChange.Show(passwordExists);
+	m_passwordRemove.Show(passwordExists);
+
+	m_toxAddress.SetMaxLength(TOX_ADDRESS_SIZE * 2);
+	m_nickname.SetMaxLength(TOX_MAX_NAME_LENGTH);
+	m_group.SetMaxLength(64);
 
 	m_maxConnectRetriesSpin.SetRange(255, 1);
 	m_maxConnectRetriesSpin.SetPosition(m_proto->getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES));
 	m_maxReconnectRetriesSpin.SetRange(255, 1);
 	m_maxReconnectRetriesSpin.SetPosition(m_proto->getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES));
+}
+
+void CToxOptionsMain::PasswordCreate_OnClick(CCtrlButton*)
+{
+	m_proto->OnCreatePassword(0, 0);
+}
+
+void CToxOptionsMain::PasswordChange_OnClick(CCtrlButton*)
+{
+	m_proto->OnChangePassword(0, 0);
+}
+
+void CToxOptionsMain::PasswordRemove_OnClick(CCtrlButton*)
+{
+	m_proto->OnRemovePassword(0, 0);
+	pass_ptrW password(m_proto->getWStringA(TOX_SETTINGS_PASSWORD));
+	bool passwordExists = mir_wstrlen(password) > 0;
+	m_passwordCreate.Show(!passwordExists);
+	m_passwordChange.Show(passwordExists);
+	m_passwordRemove.Show(passwordExists);
 }
 
 void CToxOptionsMain::EnableUdp_OnClick(CCtrlBase*)
@@ -105,7 +138,6 @@ void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)
 	m_toxAddress.SetTextA(ptrA(m_proto->getStringA(TOX_SETTINGS_ID)));
 
 	m_nickname.SetText(ptrW(m_proto->getWStringA("Nick")));
-	m_password.SetText(ptrW(m_proto->getWStringA("Password")));
 
 	ShowWindow(m_profileCreate.GetHwnd(), FALSE);
 	ShowWindow(m_profileImport.GetHwnd(), FALSE);
@@ -200,8 +232,8 @@ void CToxOptionsMain::ProfileExport_OnClick(CCtrlButton*)
 void CToxOptionsMain::OnApply()
 {
 	ptrW group(m_group.GetText());
-	if (mir_wstrcmp(group, m_proto->wszGroup)) {
-		m_proto->wszGroup = mir_wstrdup(group);
+	if (mir_wstrcmp(group, m_proto->m_defaultGroup)) {
+		m_proto->m_defaultGroup = mir_wstrdup(group);
 		Clist_GroupCreate(0, group);
 	}
 
@@ -209,9 +241,9 @@ void CToxOptionsMain::OnApply()
 		CallProtoService(m_proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_UNICODE, (LPARAM)ptrW(m_nickname.GetText()));
 
 		// todo: add checkbox
-		m_proto->setWString("Password", pass_ptrT(m_password.GetText()));
+		//m_proto->setWString("Password", pass_ptrW(m_password.GetText()));
 
-		m_proto->SaveToxProfile(m_proto->toxThread->Tox());
+		m_proto->SaveToxProfile(m_proto->m_toxThread->Tox());
 	}
 }
 

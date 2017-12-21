@@ -2,17 +2,17 @@
 
 CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CToxProto>(protoName, userName),
-	toxThread(nullptr), isTerminated(false),
+	m_toxThread(nullptr), isTerminated(false),
 	hCheckingThread(nullptr), hPollingThread(nullptr),
 	hMessageProcess(1)
 {
 	InitNetlib();
 
-	wszAccountName = mir_wstrdup(userName);
-	wszGroup = getWStringA(TOX_SETTINGS_GROUP);
-	if (wszGroup == nullptr)
-		wszGroup = mir_wstrdup(L"Tox");
-	Clist_GroupCreate(0, wszGroup);
+	m_accountName = mir_wstrdup(userName);
+	m_defaultGroup = getWStringA(TOX_SETTINGS_GROUP);
+	if (m_defaultGroup == nullptr)
+		m_defaultGroup = mir_wstrdup(L"Tox");
+	Clist_GroupCreate(0, m_defaultGroup);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
@@ -170,7 +170,7 @@ int CToxProto::SetStatus(int iNewStatus)
 	
 	// change status
 	m_iStatus = iNewStatus;
-	tox_self_set_status(toxThread->Tox(), MirandaToToxStatus(iNewStatus));
+	tox_self_set_status(m_toxThread->Tox(), MirandaToToxStatus(iNewStatus));
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	
 	return 0;
@@ -191,7 +191,7 @@ int CToxProto::SetAwayMsg(int, const wchar_t *msg)
 	if (IsOnline()) {
 		T2Utf statusMessage(msg);
 		TOX_ERR_SET_INFO error;
-		if (!tox_self_set_status_message(toxThread->Tox(), (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
+		if (!tox_self_set_status_message(m_toxThread->Tox(), (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUS_MESSAGE_LENGTH, mir_strlen(statusMessage)), &error))
 			debugLogA(__FUNCTION__": failed to set status status message %s (%d)", msg, error);
 	}
 

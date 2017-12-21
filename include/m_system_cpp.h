@@ -92,9 +92,8 @@ public:
 	__inline explicit pass_ptrA(char *_p) : mir_ptr(_p) {}
 	__inline ~pass_ptrA() { zero(); }
 	__inline char* operator = (char *_p){ zero(); return mir_ptr::operator=(_p); }
-	__inline void zero() 
-	{
-	  if (data) SecureZeroMemory(data, mir_strlen(data)); 
+	__inline void zero() {
+		if (data) SecureZeroMemory(data, mir_strlen(data));
 	}
 };
 
@@ -105,13 +104,10 @@ public:
 	__inline explicit pass_ptrW(wchar_t *_p) : mir_ptr(_p) {}
 	__inline ~pass_ptrW() { zero(); }
 	__inline wchar_t* operator = (wchar_t *_p){ zero(); return mir_ptr::operator=(_p); }
-	__inline void zero() 
-	{
-	  if (data) SecureZeroMemory(data, mir_wstrlen(data)*sizeof(wchar_t));
+	__inline void zero() {
+		if (data) SecureZeroMemory(data, mir_wstrlen(data)*sizeof(wchar_t));
 	}
 };
-
-typedef pass_ptrW pass_ptrT;
 
 ///////////////////////////////////////////////////////////////////////////////
 // mir_cslockfull - controllable locker for the critical sections

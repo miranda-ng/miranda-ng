@@ -13,8 +13,11 @@ private:
 	CCtrlButton m_profileExport;
 
 	CCtrlEdit m_nickname;
-	CCtrlEdit m_password;
 	CCtrlEdit m_group;
+
+	CCtrlButton m_passwordCreate;
+	CCtrlButton m_passwordChange;
+	CCtrlButton m_passwordRemove;
 
 	CCtrlCheck m_enableUdp;
 	CCtrlCheck m_enableUdpHolePunching;
@@ -28,6 +31,10 @@ private:
 
 protected:
 	void OnInitDialog();
+
+	void PasswordCreate_OnClick(CCtrlButton*);
+	void PasswordChange_OnClick(CCtrlButton*);
+	void PasswordRemove_OnClick(CCtrlButton*);
 
 	void EnableUdp_OnClick(CCtrlBase*);
 
@@ -50,29 +57,6 @@ public:
 	}
 
 	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsMain((CToxProto*)param, IDD_OPTIONS_MAIN); }
-};
-
-/////////////////////////////////////////////////////////////////////////////////
-
-class CToxOptionsMultimedia : public CToxDlgBase
-{
-private:
-	typedef CToxDlgBase CSuper;
-
-	CCtrlCombo m_audioInput;
-	CCtrlCombo m_audioOutput;
-
-protected:
-	void EnumDevices(CCtrlCombo &combo, IMMDeviceEnumerator *pEnumerator, EDataFlow dataFlow, const char* setting);
-
-	void OnInitDialog();
-	void OnApply();
-	void OnDestroy();
-
-public:
-	CToxOptionsMultimedia(CToxProto *proto);
-
-	static CDlgBase *CreateOptionsPage(void *param) { return new CToxOptionsMultimedia((CToxProto*)param); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,6 @@ class CToxEnterPasswordDlg : public CToxDlgBase
 {
 private:
 	CCtrlEdit m_password;
-	CCtrlCheck m_savePermanently;
 
 	CCtrlButton m_ok;
 
@@ -18,8 +17,27 @@ protected:
 
 public:
 	CToxEnterPasswordDlg(CToxProto *proto);
+};
 
-	wchar_t* GetPassword();
+/* CREATE PASSWORD */
+
+class CToxCreatePasswordDlg : public CToxDlgBase
+{
+private:
+	CCtrlEdit m_newPassword;
+	CCtrlEdit m_confirmPassword;
+
+	CCtrlBase m_passwordValidation;
+
+	CCtrlButton m_ok;
+
+protected:
+	void OnInitDialog();
+	void Password_OnChange(CCtrlBase*);
+	void OnOk(CCtrlButton*);
+
+public:
+	CToxCreatePasswordDlg(CToxProto *proto);
 };
 
 /* CHANGE PASSWORD */
@@ -33,6 +51,7 @@ private:
 	CCtrlEdit m_confirmPassword;
 
 	CCtrlBase m_passwordValidation;
+	
 	CCtrlButton m_ok;
 
 protected:
@@ -42,8 +61,6 @@ protected:
 
 public:
 	CToxChangePasswordDlg(CToxProto *proto);
-
-	wchar_t* GetPassword();
 };
 
 #endif //_TOX_PROFILE_H_
