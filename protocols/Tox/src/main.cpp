@@ -51,14 +51,6 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	if (!TOX_VERSION_IS_ABI_COMPATIBLE())
-	{
-		wchar_t message[100];
-		mir_snwprintf(message, TranslateT("Current version of plugin is support Tox API version %i.%i.%i which is incompatible with libtox.mir"), TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH);
-		CToxProto::ShowNotification(message, MB_ICONERROR);
-		return 2;
-	}
-
 	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
