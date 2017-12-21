@@ -28,8 +28,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvaImg", "..\plugins\AdvaI
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM", "..\plugins\TabSRMM\tabsrmm.vcxproj", "{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIM", "..\protocols\AimOscar\aim.vcxproj", "{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GG", "..\protocols\Gadu-Gadu\Gadu-Gadu_15.vcxproj", "{6DA1396F-2A44-4D5C-8442-012F71006217}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IRC", "..\protocols\IRCG\IRC.vcxproj", "{3A12F777-56A8-42EC-BD17-8F325524241E}"
@@ -47,8 +45,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_Jabber", "..\protocols\JabberG\jabber_xstatus\xStatus_Jabber.vcxproj", "{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cln_skinedit", "..\plugins\Cln_skinedit\skinedit.vcxproj", "{987F026D-EB1F-4013-ADA8-2406ACCDA526}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\AimOscar\proto_aim\Proto_AIM.vcxproj", "{975505EA-F0C7-4DAC-A95E-75249615F30C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Gadu-Gadu\proto_gg\Proto_GG.vcxproj", "{33912E32-3B68-4E2C-82AE-64C06EE987A7}"
 EndProject
@@ -234,14 +230,6 @@ Global
 		{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}.Release|Win32.Build.0 = Release|Win32
 		{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}.Release|x64.ActiveCfg = Release|x64
 		{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}.Release|x64.Build.0 = Release|x64
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Debug|Win32.ActiveCfg = Debug|Win32
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Debug|Win32.Build.0 = Debug|Win32
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Debug|x64.ActiveCfg = Debug|x64
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Debug|x64.Build.0 = Debug|x64
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Release|Win32.ActiveCfg = Release|Win32
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Release|Win32.Build.0 = Release|Win32
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Release|x64.ActiveCfg = Release|x64
-		{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}.Release|x64.Build.0 = Release|x64
 		{6DA1396F-2A44-4D5C-8442-012F71006217}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6DA1396F-2A44-4D5C-8442-012F71006217}.Debug|Win32.Build.0 = Debug|Win32
 		{6DA1396F-2A44-4D5C-8442-012F71006217}.Debug|x64.ActiveCfg = Debug|x64
@@ -314,14 +302,6 @@ Global
 		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release|Win32.Build.0 = Release|Win32
 		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release|x64.ActiveCfg = Release|x64
 		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release|x64.Build.0 = Release|x64
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Debug|Win32.ActiveCfg = Debug|Win32
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Debug|Win32.Build.0 = Debug|Win32
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Debug|x64.ActiveCfg = Debug|x64
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Debug|x64.Build.0 = Debug|x64
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Release|Win32.ActiveCfg = Release|Win32
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Release|Win32.Build.0 = Release|Win32
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Release|x64.ActiveCfg = Release|x64
-		{975505EA-F0C7-4DAC-A95E-75249615F30C}.Release|x64.Build.0 = Release|x64
 		{33912E32-3B68-4E2C-82AE-64C06EE987A7}.Debug|Win32.ActiveCfg = Debug|Win32
 		{33912E32-3B68-4E2C-82AE-64C06EE987A7}.Debug|Win32.Build.0 = Debug|Win32
 		{33912E32-3B68-4E2C-82AE-64C06EE987A7}.Debug|x64.ActiveCfg = Debug|x64
