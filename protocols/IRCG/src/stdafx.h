@@ -324,6 +324,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	BYTE     m_channelAwayNotification;
 	BYTE     m_sendNotice;
 	BYTE     m_utfAutodetect;
+	BYTE     m_bUseSASL;
 	int      m_codepage;
 	COLORREF colors[16];
 	HICON    hIcon[13];
@@ -567,6 +568,10 @@ private:
 	bool OnIrc_WHO_END(const CIrcMessage *pmsg);
 	bool OnIrc_WHO_REPLY(const CIrcMessage *pmsg);
 	bool OnIrc_WHOTOOLONG(const CIrcMessage *pmsg);
+	bool OnIrc_AUTHENTICATE(const CIrcMessage *pmsg);
+	bool OnIrc_AUTH_OK(const CIrcMessage *pmsg);
+	bool OnIrc_AUTH_FAIL(const CIrcMessage *pmsg);
+	bool OnIrc_CAP(const CIrcMessage *pmsg);
 
 	bool IsCTCP(const CIrcMessage *pmsg);
 

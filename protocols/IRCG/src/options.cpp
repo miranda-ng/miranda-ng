@@ -423,6 +423,7 @@ static TDbSetting ConnectSettings[] =
 	{ FIELD_OFFSET(CIrcProto, m_showAddresses), "ShowAddresses", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_oldStyleModes), "OldStyleModes", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_useServer), "UseServer", DBVT_BYTE, 0, 1 },
+	{ FIELD_OFFSET(CIrcProto, m_bUseSASL), "UseSASL", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_hideServerWindow), "HideServerWindow", DBVT_BYTE, 0, 1 },
 	{ FIELD_OFFSET(CIrcProto, m_serverComboSelection), "ServerComboSelection", DBVT_DWORD, 0 },
 	{ FIELD_OFFSET(CIrcProto, m_sendKeepAlive), "SendKeepAlive", DBVT_BYTE, 0, 1 },
@@ -457,6 +458,7 @@ CConnectPrefsDlg::CConnectPrefsDlg(CIrcProto* _pro)
 	m_keepAlive(this, IDC_KEEPALIVE),
 	m_autoJoin(this, IDC_AUTOJOIN),
 	m_oldStyle(this, IDC_OLDSTYLE),
+	m_useSasl(this, IDC_SASL),
 	m_onlineNotif(this, IDC_ONLINENOTIF),
 	m_channelAway(this, IDC_CHANNELAWAY),
 	m_enableServer(this, IDC_STARTUP),
@@ -509,10 +511,12 @@ void CConnectPrefsDlg::OnInitDialog()
 		}
 	}
 
-	m_spin1.SendMsg(UDM_SETRANGE, 0, MAKELONG(999, 20));
-	m_spin1.SendMsg(UDM_SETPOS, 0, MAKELONG(m_proto->m_onlineNotificationTime, 0));
-	m_spin2.SendMsg(UDM_SETRANGE, 0, MAKELONG(200, 0));
-	m_spin2.SendMsg(UDM_SETPOS, 0, MAKELONG(m_proto->m_onlineNotificationLimit, 0));
+	m_spin1.SetRange(999, 20);
+	m_spin1.SetPosition(m_proto->m_onlineNotificationTime);
+
+	m_spin2.SetRange(200);
+	m_spin2.SetPosition(m_proto->m_onlineNotificationLimit);
+
 	m_nick.SetText(m_proto->m_nick);
 	m_nick2.SetText(m_proto->m_alternativeNick);
 	m_userID.SetText(m_proto->m_userID);
@@ -522,6 +526,7 @@ void CConnectPrefsDlg::OnInitDialog()
 	m_identPort.SetText(m_proto->m_identPort);
 	m_address.SetState(m_proto->m_showAddresses);
 	m_oldStyle.SetState(m_proto->m_oldStyleModes);
+	m_useSasl.SetState(m_proto->m_bUseSASL);
 	m_channelAway.SetState(m_proto->m_channelAwayNotification);
 	m_onlineNotif.SetState(m_proto->m_autoOnlineNotification);
 	m_onlineTimer.Enable(m_proto->m_autoOnlineNotification);
@@ -708,6 +713,7 @@ void CConnectPrefsDlg::OnApply()
 	m_proto->m_showAddresses = m_address.GetState();
 	m_proto->m_oldStyleModes = m_oldStyle.GetState();
 	m_proto->m_useServer = m_useServer.GetState();
+	m_proto->m_bUseSASL = m_useSasl.GetState();
 
 	Menu_EnableItem(m_proto->hMenuServer, m_proto->m_useServer != 0);
 

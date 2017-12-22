@@ -224,11 +224,12 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 
 	m_info = info;
 
+	if (m_bUseSASL)
+		NLSend("CAP REQ :sasl\r\n");
+
 	// start receiving messages from host
 	ForkThread(&CIrcProto::ThreadProc, nullptr);
 	Sleep(100);
-	if (info.sPassword.GetLength())
-		NLSend("PASS %s\r\n", info.sPassword.c_str());
 	NLSend(L"NICK %s\r\n", info.sNick.c_str());
 
 	CMStringW userID = GetWord(info.sUserID.c_str(), 0);
@@ -241,6 +242,9 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	if (HostName.IsEmpty())
 		HostName = L"host";
 	NLSend(L"USER %s %s %s :%s\r\n", userID.c_str(), HostName.c_str(), L"server", info.sFullName.c_str());
+
+	if (!m_bUseSASL && info.sPassword.GetLength())
+		NLSend("PASS %s\r\n", info.sPassword.c_str());
 
 	return con != nullptr;
 }

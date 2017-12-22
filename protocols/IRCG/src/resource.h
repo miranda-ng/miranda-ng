@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\IRC.rc
+// Used by w:\miranda-ng\protocols\IRCG\res\IRC.rc
 //
 #define ID_INFO_QUERY                   3
 #define IDD_PREFS_MAIN                  101
@@ -184,6 +184,7 @@
 #define IDC_FILTER_STRING               1235
 #define IDC_BUTTON1                     1236
 #define IDC_FILTER_BTN                  1237
+#define IDC_SASL                        1238
 #define ID_MENU1_OP                     40013
 #define ID_MENU1_DEOP                   40014
 #define ID_MENU1_VOICE                  40015
@@ -242,9 +243,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        203
+#define _APS_NEXT_RESOURCE_VALUE        204
 #define _APS_NEXT_COMMAND_VALUE         40067
-#define _APS_NEXT_CONTROL_VALUE         1238
+#define _APS_NEXT_CONTROL_VALUE         1239
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

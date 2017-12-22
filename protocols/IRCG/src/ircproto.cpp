@@ -82,6 +82,8 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 		IRC_MAP_ENTRY("NOTICE", NOTICE)
 		IRC_MAP_ENTRY("PING", PINGPONG)
 		IRC_MAP_ENTRY("PONG", PINGPONG)
+		IRC_MAP_ENTRY("CAP", CAP)
+		IRC_MAP_ENTRY("AUTHENTICATE", AUTHENTICATE)
 		IRC_MAP_ENTRY("INVITE", INVITE)
 		IRC_MAP_ENTRY("ERROR", ERROR)
 		IRC_MAP_ENTRY("001", WELCOME)
@@ -134,6 +136,10 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 		IRC_MAP_ENTRY("474", JOINERROR)
 		IRC_MAP_ENTRY("475", JOINERROR)
 		IRC_MAP_ENTRY("671", WHOIS_OTHER)			//Encryption info (SSL connect)
+		IRC_MAP_ENTRY("903", AUTH_OK)
+		IRC_MAP_ENTRY("904", AUTH_FAIL)
+		IRC_MAP_ENTRY("905", AUTH_FAIL)
+		IRC_MAP_ENTRY("906", AUTH_FAIL)
 }
 
 CIrcProto::~CIrcProto()
