@@ -1,4 +1,4 @@
-#include "main.h"
+#include "stdafx.h"
 
 PLUGININFOEX pluginInfo =
 {

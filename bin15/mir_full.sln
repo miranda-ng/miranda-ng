@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -161,8 +161,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "..\plugins\MirOTR\MirOTR_15.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho_15.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhoUsesMyFiles", "..\plugins\WhoUsesMyFiles\wumf.vcxproj", "{F29CCB9B-79CF-4341-AA05-3626A036D3E3}"
 EndProject
@@ -429,6 +427,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pthreads", "..\libs\pthreads\pthreads.vcxproj", "{E0EBB8A5-B577-414C-A5F9-9B4E2A0A66E9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtox", "..\protocols\Tox\libtox\libtox.vcxproj", "{A21C50CD-28A6-481A-A12B-47189FE66641}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1062,14 +1062,6 @@ Global
 		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Release|Win32.Build.0 = Release|Win32
 		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Release|x64.ActiveCfg = Release|x64
 		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Release|x64.Build.0 = Release|x64
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|Win32.Build.0 = Debug|Win32
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|x64.ActiveCfg = Debug|x64
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|x64.Build.0 = Debug|x64
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|Win32.ActiveCfg = Release|Win32
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|Win32.Build.0 = Release|Win32
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.ActiveCfg = Release|x64
-		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.Build.0 = Release|x64
 		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Debug|Win32.Build.0 = Debug|Win32
 		{F29CCB9B-79CF-4341-AA05-3626A036D3E3}.Debug|x64.ActiveCfg = Debug|x64
@@ -1988,6 +1980,14 @@ Global
 		{A21C50CD-28A6-481A-A12B-47189FE66641}.Release|Win32.Build.0 = Release|Win32
 		{A21C50CD-28A6-481A-A12B-47189FE66641}.Release|x64.ActiveCfg = Release|x64
 		{A21C50CD-28A6-481A-A12B-47189FE66641}.Release|x64.Build.0 = Release|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|Win32.Build.0 = Debug|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|x64.ActiveCfg = Debug|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Debug|x64.Build.0 = Debug|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|Win32.ActiveCfg = Release|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|Win32.Build.0 = Release|Win32
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.ActiveCfg = Release|x64
+		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
