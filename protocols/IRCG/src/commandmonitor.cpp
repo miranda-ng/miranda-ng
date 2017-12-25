@@ -2165,8 +2165,9 @@ bool CIrcProto::OnIrc_AUTH_FAIL(const CIrcMessage*)
 bool CIrcProto::OnIrc_AUTHENTICATE(const CIrcMessage *pmsg)
 {
 	if (m_bUseSASL && pmsg->parameters[0] == "+") {
-		CMStringA payload(FORMAT, "%S%c%S%c%s%c", m_name, 0, m_name, 0, m_password, 0);
+		CMStringA payload(FORMAT, "%S%c%S%c%s%c", m_userID, 0, m_userID, 0, m_password, 0);
 		NLSend("AUTHENTICATE %s\r\n", ptrA(mir_base64_encode(payload, payload.GetLength())).get());
+		NLSend("CAP END\r\n");
 	}
 
 	return true;
