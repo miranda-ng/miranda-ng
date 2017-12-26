@@ -420,21 +420,21 @@ int CMLan::SendMessageUrl(CCSDATA* ccs, bool isUrl)
 		((char*)ccs->lParam)[len] = 0;
 		hold->msg[len] = 0;
 	}
-	CloseHandle(mir_forkthread(LaunchExt, (void*)hold));
+	mir_forkthread(LaunchExt, (void*)hold);
 	return cid;
 }
 
 int CMLan::Search(const char* name)
 {
 	int cid = GetRandomProcId();
-	CloseHandle(mir_forkthread(LaunchExt, (void*)new TDataHolder(name, cid, LEXT_SEARCH, this)));
+	mir_forkthread(LaunchExt, (void*)new TDataHolder(name, cid, LEXT_SEARCH, this));
 	return cid;
 }
 
 int CMLan::GetAwayMsg(CCSDATA* ccs)
 {
 	int cid = GetRandomProcId();
-	CloseHandle(mir_forkthread(LaunchExt, (void*)new TDataHolder(ccs, cid, LEXT_GETAWAYMSG, this)));
+	mir_forkthread(LaunchExt, (void*)new TDataHolder(ccs, cid, LEXT_GETAWAYMSG, this));
 	return cid;
 }
 
