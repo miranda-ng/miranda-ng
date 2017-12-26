@@ -112,7 +112,7 @@ search_again:
 						c_closing = colorname.GetLength();
 					const wchar_t *wszColname = colorname.c_str();
 					if (endmark != -1 && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing - 1])) {
-						Utils::RTF_ColorAdd(wszColname, c_closing);
+						Utils::RTF_ColorAdd(wszColname);
 						if (!was_added) {
 							clr_was_added = was_added = true;
 							goto search_again;
@@ -414,48 +414,22 @@ int CTabBaseDlg::FindRTLLocale()
 /////////////////////////////////////////////////////////////////////////////////////////
 // init default color table. the table may grow when using custom colors via bbcodes
 
-static TRTFColorTable _rtf_ctable[] =
-{
-	{ L"black", 0           },
-	{ L"", RGB(0,0,128)     },
-	{ L"", RGB(0,128,128)   },
-	{ L"", RGB(128,0,128)   },
-	{ L"", RGB(0,128,0)     },
-	{ L"", RGB(128,128,0)   },
-	{ L"", RGB(128,0,0)     },
-	{ L"", RGB(128,128,128) },
-
-	{ L"", RGB(192,192,192) },
-	{ L"blue", RGB(0, 0, 255) },
-	{ L"cyan", RGB(0, 255, 255) },
-	{ L"magenta", RGB(255, 0, 255) },
-	{ L"green", RGB(0, 255, 0) },
-	{ L"yellow", RGB(255, 255, 0) },
-	{ L"red", RGB(255, 0, 0) },
-	{ L"white", RGB(255, 255, 255) }
-};
-
 void Utils::RTF_CTableInit()
 {
-	for (int i = 0; i < _countof(_rtf_ctable); i++)
-		rtf_clrs.insert(new TRTFColorTable(_rtf_ctable[i]));
+	int iTableSize;
+	COLORREF *pTable = Srmm_GetColorTable(&iTableSize);
+	for (int i = 0; i < iTableSize; i++)
+		rtf_clrs.insert(new TRTFColorTable(L"", pTable[i]));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // add a color to the global rtf color table
 
-void Utils::RTF_ColorAdd(const wchar_t *tszColname, size_t length)
+void Utils::RTF_ColorAdd(const wchar_t *tszColname)
 {
-	TRTFColorTable *p = new TRTFColorTable;
-
 	wchar_t *stopped;
 	COLORREF clr = wcstol(tszColname, &stopped, 16);
-	mir_snwprintf(p->szName, length + 1, L"%06x", clr);
-
-	clr = wcstol(tszColname, &stopped, 16);
-	p->clr = (RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
-
-	rtf_clrs.insert(p);
+	rtf_clrs.insert(new TRTFColorTable(tszColname, RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr))));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

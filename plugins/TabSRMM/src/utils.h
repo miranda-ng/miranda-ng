@@ -38,6 +38,12 @@
 
 struct TRTFColorTable
 {
+	__forceinline TRTFColorTable(const wchar_t *wszName, COLORREF _clr) :
+		clr(_clr)
+	{
+		mir_wstrncpy(szName, wszName, _countof(szName));
+	}
+
 	wchar_t  szName[10];
 	COLORREF clr;
 };
@@ -50,7 +56,7 @@ public:
 	static char*    FilterEventMarkers(char *szText);
 	static void     DoubleAmpersands(wchar_t *pszText, size_t len);
 	static void     RTF_CTableInit();
-	static void     RTF_ColorAdd(const wchar_t *tszColname, size_t length);
+	static void     RTF_ColorAdd(const wchar_t *tszColname);
 	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
 	static int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
 	static void     SettingsToContainer(TContainerData *pContainer);

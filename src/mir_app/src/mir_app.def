@@ -488,3 +488,4 @@ Clist_SetStatusMode @464
 ?MetaSetDefault@MDatabaseCommon@@UAGHPAUDBCachedContact@@@Z @493 NONAME
 ?EnumResidentSettings@MDatabaseCommon@@UAGHP6AHPBDPAX@Z1@Z @494 NONAME
 KillModuleOptions @495
+Srmm_GetColorTable @496

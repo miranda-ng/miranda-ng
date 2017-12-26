@@ -32,6 +32,15 @@ static COLORREF colorTable[] =
 	RGB(0,255,0), RGB(255,255,0), RGB(255,0,0), RGB(255,255,255)
 };
 
+MIR_APP_DLL(COLORREF*) Srmm_GetColorTable(int *pSize)
+{
+	if (pSize != nullptr)
+		*pSize = _countof(colorTable);
+	return colorTable;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class CColorChooserDlg : public CDlgBase
 {
 	CCtrlBase m_text;
@@ -175,31 +184,26 @@ public:
 			break;
 
 		case WM_MOUSEMOVE:
+			if (iCurrentHotTrack == -2)
+				return 0; // prevent focussing when not drawn yet!
 			{
 				HDC hdc = GetDC(m_hwnd);
-				POINT pt;
-				RECT rect;
-				int but;
-
-				pt.x = LOWORD(lParam);
-				pt.y = HIWORD(lParam);
-
-				if (iCurrentHotTrack == -2)
-					return 0; // prevent focussing when not drawn yet!
-
-				but = CalculateCoordinatesToButton(pt);
 
 				// weird stuff
+				POINT pt;
+				pt.x = LOWORD(lParam);
+				pt.y = HIWORD(lParam);
+				int but = CalculateCoordinatesToButton(pt);
 				if (but != iCurrentHotTrack) {
 					if (iCurrentHotTrack >= 0) {
-						rect = CalculateButtonToCoordinates(iCurrentHotTrack);
+						RECT rect = CalculateButtonToCoordinates(iCurrentHotTrack);
 						DrawFocusRect(hdc, &rect);
 						iCurrentHotTrack = -1;
 					}
 					iCurrentHotTrack = but;
 
 					if (iCurrentHotTrack >= 0) {
-						rect = CalculateButtonToCoordinates(iCurrentHotTrack);
+						RECT rect = CalculateButtonToCoordinates(iCurrentHotTrack);
 						DrawFocusRect(hdc, &rect);
 					}
 				}
@@ -208,20 +212,18 @@ public:
 			break;
 
 		case WM_PAINT:
+			RECT rc;
+			GetClientRect(m_hwnd, &rc);
+			rc.top += 20;
 			{
 				PAINTSTRUCT ps;
-				int iThisRow = 1;
-				int iThisColumn = 0;
-
-				RECT rc;
-				GetClientRect(m_hwnd, &rc);
-				rc.top += 20;
-
 				HDC hdc = BeginPaint(m_hwnd, &ps);
 
 				// fill background
 				FillRect(hdc, &rc, GetSysColorBrush(COLOR_WINDOW));
 
+				int iThisRow = 1;
+				int iThisColumn = 0;
 				for (int i = 0; i < 16; i++) {
 					// decide place to draw the color block in the window
 					iThisColumn++;

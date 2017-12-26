@@ -299,4 +299,9 @@ struct CustomButtonClickData
 	DWORD    flags;       // BBCF_ flags
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// color table for embedded color chooser
+
+EXTERN_C MIR_APP_DLL(COLORREF*) Srmm_GetColorTable(int *pTableSize = nullptr);
+
 #endif // M_MESSAGE_H__
