@@ -38,9 +38,8 @@
 
 struct TRTFColorTable
 {
-	wchar_t    szName[10];
+	wchar_t  szName[10];
 	COLORREF clr;
-	int      menuid;
 };
 
 class Utils {

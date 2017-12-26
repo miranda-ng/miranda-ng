@@ -335,7 +335,7 @@ LRESULT CTabBaseDlg::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPar
 		break;
 
 	case IDC_INFOPANELMENU:
-		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 9);
+		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
 		GetWindowRect(GetDlgItem(m_hwnd, IDC_NAME), &rc);
 
 		EnableMenuItem(submenu, ID_FAVORITES_ADDCONTACTTOFAVORITES, !m_cache->isFavorite() ? MF_ENABLED : MF_GRAYED);

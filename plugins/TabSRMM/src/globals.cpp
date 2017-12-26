@@ -281,14 +281,6 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	::CreateImageList(TRUE);
 	::CB_InitCustomButtons();
 
-	MENUITEMINFOA mii = { 0 };
-	mii.cbSize = sizeof(mii);
-	mii.fMask = MIIM_BITMAP;
-	mii.hbmpItem = HBMMENU_CALLBACK;
-	HMENU submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
-	for (int k = 0; k <= 8; k++)
-		SetMenuItemInfoA(submenu, (UINT_PTR)k, TRUE, &mii);
-
 	PluginConfig.reloadSystemModulesChanged();
 
 	::Chat_ModulesLoaded();

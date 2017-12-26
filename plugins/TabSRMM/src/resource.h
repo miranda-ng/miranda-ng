@@ -684,16 +684,6 @@
 #define ID_SIZE_NORMAL                  40189
 #define ID_SIZE_SMALLER                 40190
 #define ID_SIZE_TINY                    40191
-#define ID_FONT_RED                     40192
-#define ID_FONT_GREEN                   40193
-#define ID_FONT_BLUE                    40194
-#define ID_FONT_MAGENTA                 40195
-#define ID_FONT_YELLOW                  40196
-#define ID_FONT_BLACK                   40197
-#define ID_FONT_WHITE                   40198
-#define ID_FONT_CLEARALLFORMATTING      40199
-#define ID_FONT_DEFAULTCOLOR            40200
-#define ID_FONT_CYAN                    40201
 #define ID_DUMMY_NOMESSAGESESSIONSOPENED 40202
 #define ID_SENDMENU_SENDWITHOUTTIMEOUTS 40203
 #define ID_TRAYCONTEXT_SHOWTHETRAYICON  40204

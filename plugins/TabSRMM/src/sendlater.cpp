@@ -700,7 +700,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_RCLICK:
 				HMENU hMenu = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
-				HMENU hSubMenu = ::GetSubMenu(hMenu, 13);
+				HMENU hSubMenu = ::GetSubMenu(hMenu, 9);
 				::TranslateMenu(hSubMenu);
 
 				POINT pt;

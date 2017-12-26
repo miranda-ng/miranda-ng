@@ -445,9 +445,9 @@ public:
 	void  UpdateReadChars() const;
 	void  UpdateSaveAndSendButton();
 
-	int   MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam);
-	int   MsgWindowUpdateMenu(HMENU submenu, int menuID);
+	int   MsgWindowDrawHandler(DRAWITEMSTRUCT *dis);
 	int   MsgWindowMenuHandler(int selection, int menuId);
+	int   MsgWindowUpdateMenu(HMENU submenu, int menuID);
 
 	void  RenderToolbarBG(HDC hdc, const RECT &rcWindow) const;
 	void  UpdateToolbarBG();
@@ -490,7 +490,6 @@ public:
 
 	void onClick_Ok(CCtrlButton*);
 	void onClick_Add(CCtrlButton*);
-	void onClick_Color(CCtrlButton*);
 	void onClick_Quote(CCtrlButton*);
 	void onClick_CancelAdd(CCtrlButton*);
 

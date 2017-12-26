@@ -1378,57 +1378,8 @@ void CTabBaseDlg::HandlePasteAndSend()
 // draw various elements of the message window, like avatar(s), info panel fields
 // and the color formatting menu
 
-int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
+int CTabBaseDlg::MsgWindowDrawHandler(DRAWITEMSTRUCT *dis)
 {
-	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-	if (dis->CtlType == ODT_MENU && dis->hwndItem == (HWND)GetSubMenu(PluginConfig.g_hMenuContext, 7)) {
-		RECT rc = { 0 };
-		HBRUSH old, col;
-		COLORREF clr;
-		switch (dis->itemID) {
-		case ID_FONT_RED:
-			clr = RGB(255, 0, 0);
-			break;
-		case ID_FONT_BLUE:
-			clr = RGB(0, 0, 255);
-			break;
-		case ID_FONT_GREEN:
-			clr = RGB(0, 255, 0);
-			break;
-		case ID_FONT_MAGENTA:
-			clr = RGB(255, 0, 255);
-			break;
-		case ID_FONT_YELLOW:
-			clr = RGB(255, 255, 0);
-			break;
-		case ID_FONT_WHITE:
-			clr = RGB(255, 255, 255);
-			break;
-		case ID_FONT_DEFAULTCOLOR:
-			clr = GetSysColor(COLOR_MENU);
-			break;
-		case ID_FONT_CYAN:
-			clr = RGB(0, 255, 255);
-			break;
-		case ID_FONT_BLACK:
-			clr = RGB(0, 0, 0);
-			break;
-		default:
-			clr = 0;
-		}
-		col = (HBRUSH)CreateSolidBrush(clr);
-		old = (HBRUSH)SelectObject(dis->hDC, col);
-		rc.left = 2;
-		rc.top = dis->rcItem.top - 5;
-		rc.right = 15;
-		rc.bottom = dis->rcItem.bottom + 4;
-		Rectangle(dis->hDC, rc.left - 1, rc.top - 1, rc.right + 1, rc.bottom + 1);
-		FillRect(dis->hDC, &rc, col);
-		SelectObject(dis->hDC, old);
-		DeleteObject(col);
-		return TRUE;
-	}
-
 	HBITMAP hbmAvatar = m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown;
 	if ((dis->hwndItem == GetDlgItem(m_hwnd, IDC_CONTACTPIC) && m_bShowAvatar) || (dis->hwndItem == m_hwnd && m_pPanel.isActive())) {
 		if (hbmAvatar == nullptr)
@@ -1570,7 +1521,7 @@ int CTabBaseDlg::MsgWindowDrawHandler(WPARAM, LPARAM lParam)
 		return TRUE;
 	}
 
-	return Menu_DrawItem(lParam);
+	return Menu_DrawItem((LPARAM)dis);
 }
 
 void TSAPI LoadThemeDefaults(TContainerData *pContainer)

@@ -416,23 +416,23 @@ int CTabBaseDlg::FindRTLLocale()
 
 static TRTFColorTable _rtf_ctable[] =
 {
-	{ L"black", 0, ID_FONT_BLACK },
-	{ L"", RGB(0,0,128), -1 },
-	{ L"", RGB(0,128,128), -1 },
-	{ L"", RGB(128,0,128), -1 },
-	{ L"", RGB(0,128,0), -1 },
-	{ L"", RGB(128,128,0), -1 },
-	{ L"", RGB(128,0,0), -1 },
-	{ L"", RGB(128,128,128), -1 },
+	{ L"black", 0           },
+	{ L"", RGB(0,0,128)     },
+	{ L"", RGB(0,128,128)   },
+	{ L"", RGB(128,0,128)   },
+	{ L"", RGB(0,128,0)     },
+	{ L"", RGB(128,128,0)   },
+	{ L"", RGB(128,0,0)     },
+	{ L"", RGB(128,128,128) },
 
-	{ L"", RGB(192,192,192), -1 },
-	{ L"blue", RGB(0, 0, 255), ID_FONT_BLUE },
-	{ L"cyan", RGB(0, 255, 255), ID_FONT_CYAN },
-	{ L"magenta", RGB(255, 0, 255), ID_FONT_MAGENTA },
-	{ L"green", RGB(0, 255, 0), ID_FONT_GREEN },
-	{ L"yellow", RGB(255, 255, 0), ID_FONT_YELLOW },
-	{ L"red", RGB(255, 0, 0), ID_FONT_RED },
-	{ L"white", RGB(255, 255, 255), ID_FONT_WHITE }
+	{ L"", RGB(192,192,192) },
+	{ L"blue", RGB(0, 0, 255) },
+	{ L"cyan", RGB(0, 255, 255) },
+	{ L"magenta", RGB(255, 0, 255) },
+	{ L"green", RGB(0, 255, 0) },
+	{ L"yellow", RGB(255, 255, 0) },
+	{ L"red", RGB(255, 0, 0) },
+	{ L"white", RGB(255, 255, 255) }
 };
 
 void Utils::RTF_CTableInit()
@@ -451,7 +451,6 @@ void Utils::RTF_ColorAdd(const wchar_t *tszColname, size_t length)
 	wchar_t *stopped;
 	COLORREF clr = wcstol(tszColname, &stopped, 16);
 	mir_snwprintf(p->szName, length + 1, L"%06x", clr);
-	p->menuid = 0;
 
 	clr = wcstol(tszColname, &stopped, 16);
 	p->clr = (RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));

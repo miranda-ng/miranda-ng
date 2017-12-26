@@ -218,7 +218,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 						HandleMenuEntryFromhContact((MCONTACT)iSelection);
 					}
-					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
+					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 6), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 
 					if (wParam == 100)
 						PostMessage(hwndDlg, WM_NULL, 0, 0);

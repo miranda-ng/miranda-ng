@@ -742,38 +742,10 @@ BEGIN
         MENUITEM "Don't play sounds",           ID_TRAYCONTEXT_DON40223
         MENUITEM "Be ""super quiet""",          ID_TRAYCONTEXT_BE
     END
-    POPUP "Font"
-    BEGIN
-        MENUITEM "Default color",               ID_FONT_DEFAULTCOLOR
-        MENUITEM "Red",                         ID_FONT_RED
-        MENUITEM "Green",                       ID_FONT_GREEN
-        MENUITEM "Blue",                        ID_FONT_BLUE
-        MENUITEM "Magenta",                     ID_FONT_MAGENTA
-        MENUITEM "Yellow",                      ID_FONT_YELLOW
-        MENUITEM "Cyan",                        ID_FONT_CYAN
-        MENUITEM "Black",                       ID_FONT_BLACK
-        MENUITEM "White",                       ID_FONT_WHITE
-        MENUITEM SEPARATOR
-        MENUITEM "Clear all formatting",        ID_FONT_CLEARALLFORMATTING
-    END
-    POPUP "Dummy", INACTIVE
-    BEGIN
-        MENUITEM "No message sessions opened",  ID_DUMMY_NOMESSAGESESSIONSOPENED
-    END
     POPUP "Favorites"
     BEGIN
         MENUITEM "Add contact to favorites",    ID_FAVORITES_ADDCONTACTTOFAVORITES
         MENUITEM "Remove contact from favorites", ID_FAVORITES_REMOVECONTACTFROMFAVORITES
-    END
-    POPUP "Apparentmenu"
-    BEGIN
-        MENUITEM "dummy",                       65535
-    END
-    POPUP "Panelpicmenu"
-    BEGIN
-        MENUITEM SEPARATOR
-        MENUITEM "Contact picture settings...", ID_PICMENU_SETTINGS
-        MENUITEM "Save this picture as...",     ID_PANELPICMENU_SAVETHISPICTUREAS
     END
     POPUP "Splitter context"
     BEGIN

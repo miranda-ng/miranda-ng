@@ -108,7 +108,6 @@ private:
 extern SendQueue *sendQueue;
 
 int  TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild);
-void TSAPI ShowMultipleControls(const HWND hwndDlg, const UINT * controls, int cControls, int state);
 void TSAPI HandleIconFeedback(CTabBaseDlg *dat, HICON iIcon);
 
 #endif /* __SENDQUEUE_H */

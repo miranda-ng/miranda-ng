@@ -358,7 +358,7 @@ void CSrmmWindow::MsgWindowUpdateState(UINT msg)
 		m_pWnd->Invalidate();
 }
 
-void TSAPI ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControls, int state)
+static void ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControls, int state)
 {
 	for (int i = 0; i < cControls; i++)
 		Utils::showDlgControl(hwndDlg, controls[i], state);
@@ -513,7 +513,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (dat->m_bIsAutosizingInput)
 				selection = ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION;
 			else
-				selection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 12), TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, nullptr);
+				selection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndParent, nullptr);
 
 			switch (selection) {
 			case ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY:
@@ -579,7 +579,6 @@ CSrmmWindow::CSrmmWindow()
 	m_btnOk.OnClick = Callback(this, &CSrmmWindow::onClick_Ok);
 	m_btnAdd.OnClick = Callback(this, &CSrmmWindow::onClick_Add);
 	m_btnQuote.OnClick = Callback(this, &CSrmmWindow::onClick_Quote);
-	m_btnColor.OnClick = Callback(this, &CSrmmWindow::onClick_Color);
 	m_btnCancelAdd.OnClick = Callback(this, &CSrmmWindow::onClick_CancelAdd);
 
 	m_message.OnChange = Callback(this, &CSrmmWindow::onChange_Message);
@@ -1180,42 +1179,6 @@ void CSrmmWindow::onClick_Add(CCtrlButton*)
 		if (!(m_dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 			Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
 		Resize();
-	}
-}
-
-void CSrmmWindow::onClick_Color(CCtrlButton *pButton)
-{
-	CHARFORMAT2 cf;
-	ZeroMemory(&cf, sizeof(CHARFORMAT2));
-	cf.cbSize = sizeof(CHARFORMAT2);
-	cf.dwMask = CFM_COLOR;
-	cf.dwEffects = 0;
-
-	RECT rc;
-	GetWindowRect(pButton->GetHwnd(), &rc);
-	int iSelection = TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 7), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
-	if (iSelection == ID_FONT_CLEARALLFORMATTING) {
-		cf.dwMask = CFM_BOLD | CFM_COLOR | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
-		cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
-		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-		return;
-	}
-
-	if (iSelection == ID_FONT_DEFAULTCOLOR) {
-		cf.crTextColor = M.GetDword(FONTMODULE, "Font16Col", 0);
-		for (int i = 0; i < Utils::rtf_clrs.getCount(); i++)
-			if (Utils::rtf_clrs[i].clr == cf.crTextColor)
-				cf.crTextColor = RGB(GetRValue(cf.crTextColor), GetGValue(cf.crTextColor), GetBValue(cf.crTextColor) == 0 ? GetBValue(cf.crTextColor) + 1 : GetBValue(cf.crTextColor) - 1);
-
-		m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-		return;
-	}
-	
-	for (int i = 0; i < RTF_CTABLE_DEFSIZE; i++) {
-		if (Utils::rtf_clrs[i].menuid == iSelection) {
-			cf.crTextColor = Utils::rtf_clrs[i].clr;
-			m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-		}
 	}
 }
 
@@ -2835,7 +2798,7 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DRAWITEM:
-		return MsgWindowDrawHandler(wParam, lParam);
+		return MsgWindowDrawHandler((DRAWITEMSTRUCT*)lParam);
 
 	case WM_APPCOMMAND:
 		{

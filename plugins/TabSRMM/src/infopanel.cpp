@@ -329,7 +329,7 @@ void CInfoPanel::renderContent(const HDC hdc)
 		dis.rcItem = m_dat->m_rcPic;
 		dis.hDC = hdc;
 		dis.hwndItem = m_dat->GetHwnd();
-		if (m_dat->MsgWindowDrawHandler(0, (LPARAM)&dis) == 0) {
+		if (m_dat->MsgWindowDrawHandler(&dis) == 0) {
 			::PostMessage(m_dat->GetHwnd(), WM_SIZE, 0, 1);
 			::PostMessage(m_dat->GetHwnd(), DM_FORCEREDRAW, 0, 0);
 		}
