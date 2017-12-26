@@ -28,7 +28,7 @@ bool g_InitOptions = false;
 std::fstream emlanLog("EmLanLog.txt", std::ios::out|std::ios::app);
 #endif
 
-extern "C" __declspec(dllexport)  PLUGININFOEX* __cdecl MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport)  PLUGININFOEX* __cdecl MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -95,7 +95,7 @@ static INT_PTR __cdecl EMPGetStatus(WPARAM, LPARAM)
 	return g_lan->GetMirandaStatus();
 }
 
-INT_PTR __cdecl EMPSetStatus(WPARAM new_status, LPARAM lParam)
+INT_PTR __cdecl EMPSetStatus(WPARAM new_status, LPARAM)
 {
 	g_lan->SetMirandaStatus(new_status);
 	return 0;
@@ -124,7 +124,8 @@ static INT_PTR __cdecl EMPAddToList(WPARAM flags, LPARAM lParam)
 
 static INT_PTR __cdecl EMPBasicSearch(WPARAM, LPARAM lParam)
 {
-	return g_lan->Search((const char*)lParam);
+	const wchar_t *wszName = (const wchar_t*)lParam;
+	return g_lan->Search(_T2A(wszName));
 }
 
 static INT_PTR __cdecl EMPGetAwayMsg(WPARAM, LPARAM lParam)
@@ -147,27 +148,27 @@ static INT_PTR __cdecl EMPFileResume(WPARAM wParam, LPARAM lParam)
 	return g_lan->FileResume((int)wParam, (PROTOFILERESUME*)lParam);
 }
 
-static INT_PTR __cdecl EMPSendFileAllow(WPARAM wParam, LPARAM lParam)
+static INT_PTR __cdecl EMPSendFileAllow(WPARAM, LPARAM lParam)
 {
 	return g_lan->FileAllow((CCSDATA*)lParam);
 }
 
-static INT_PTR __cdecl EMPSendFileDeny(WPARAM wParam, LPARAM lParam)
+static INT_PTR __cdecl EMPSendFileDeny(WPARAM, LPARAM lParam)
 {
 	return g_lan->FileDeny((CCSDATA*)lParam);
 }
 
-static INT_PTR __cdecl EMPSendFileCancel(WPARAM wParam, LPARAM lParam)
+static INT_PTR __cdecl EMPSendFileCancel(WPARAM, LPARAM lParam)
 {
 	return g_lan->FileCancel((CCSDATA*)lParam);
 }
 
-static INT_PTR __cdecl EMPSendFile(WPARAM wParam, LPARAM lParam)
+static INT_PTR __cdecl EMPSendFile(WPARAM, LPARAM lParam)
 {
 	return g_lan->SendFile((CCSDATA*)lParam);
 }
 
-static INT_PTR __cdecl EMPRecvFile(WPARAM wParam, LPARAM lParam)
+static INT_PTR __cdecl EMPRecvFile(WPARAM, LPARAM lParam)
 {
 	g_lan->RecvFile((CCSDATA*)lParam);
 	return 0;
@@ -187,7 +188,7 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			int cind = 0;
 			for (int i = 0; i < count; i++) {
 				in_addr addr = g_lan->GetHostAddress(i);
-				char* ipStr = inet_ntoa(addr);
+				wchar_t* ipStr = mir_a2u(inet_ntoa(addr));
 				if (addr.S_un.S_addr == caddr.S_un.S_addr)
 					cind = i;
 				SendDlgItemMessage(hwndDlg, IDC_LIST_IP, LB_ADDSTRING, 0, (LPARAM)ipStr);
@@ -275,7 +276,7 @@ int __cdecl EMPCreateOptionsDlg(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 100000000;
 	odp.hInstance = g_hInstance;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_EMP_FORM_OPT);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_EMP_FORM_OPT);
 	odp.szTitle.a = LPGEN("E-mage LAN protocol");
 	odp.szGroup.a = LPGEN("Network");
 	odp.flags = ODPF_BOLDGROUPS;
@@ -286,7 +287,7 @@ int __cdecl EMPCreateOptionsDlg(WPARAM wParam, LPARAM)
 
 //////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 {
 	HWND hwndOwner;
 	RECT rc, rcDlg, rcOwner;

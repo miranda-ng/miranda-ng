@@ -191,7 +191,7 @@ void CLan::SendPacket(in_addr addr, const u_char* mes, int len)
 		addrTo.sin_addr = addr;
 		addrTo.sin_family = AF_INET;
 		addrTo.sin_port = PORT_NUMBER;
-		int res = sendto(m_income, (const char*)mes, len, 0, (sockaddr*)&addrTo, sizeof(addrTo));
+		sendto(m_income, (const char*)mes, len, 0, (sockaddr*)&addrTo, sizeof(addrTo));
 	}
 }
 

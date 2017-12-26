@@ -274,8 +274,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoHistory", "..\plugins\NoH
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesReminders", "..\plugins\NotesAndReminders\NotesReminders_15.vcxproj", "{EEB57129-946C-4B98-8856-FDA501AE2A5E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmLanProto", "..\protocols\EmLanProto\amdproto_15.vcxproj", "{2115FEBC-1EC4-4F95-A058-A523ED5295A4}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAMN", "..\plugins\YAMN\YAMN.vcxproj", "{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\plugins\NewsAggregator\NewsAggregator.vcxproj", "{6DE11A47-2268-4B08-8DE5-15A1705FCE28}"
@@ -429,6 +427,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtox", "..\protocols\Tox\libtox\libtox.vcxproj", "{A21C50CD-28A6-481A-A12B-47189FE66641}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmLanProto", "..\protocols\EmLanProto\emlanproto.vcxproj", "{2115FEBC-1EC4-4F95-A058-A523ED5295A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1366,14 +1366,6 @@ Global
 		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|Win32.Build.0 = Release|Win32
 		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|x64.ActiveCfg = Release|x64
 		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|x64.Build.0 = Release|x64
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|Win32.Build.0 = Debug|Win32
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|x64.ActiveCfg = Debug|x64
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|x64.Build.0 = Debug|x64
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|Win32.ActiveCfg = Release|Win32
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|Win32.Build.0 = Release|Win32
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.ActiveCfg = Release|x64
-		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.Build.0 = Release|x64
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Debug|Win32.Build.0 = Debug|Win32
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Debug|x64.ActiveCfg = Debug|x64
@@ -1988,6 +1980,14 @@ Global
 		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|Win32.Build.0 = Release|Win32
 		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.ActiveCfg = Release|x64
 		{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}.Release|x64.Build.0 = Release|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|Win32.Build.0 = Debug|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|x64.ActiveCfg = Debug|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|x64.Build.0 = Debug|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|Win32.ActiveCfg = Release|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|Win32.Build.0 = Release|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.ActiveCfg = Release|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

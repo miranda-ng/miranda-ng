@@ -69,11 +69,11 @@ protected:
 	void SendPacketBroadcast(const u_char* mes, int len);
 
 	//! Event - called when packet is received
-	virtual void OnRecvPacket(u_char* mes, int len, in_addr from) { };
+	virtual void OnRecvPacket(u_char*, int, in_addr) { };
 	//! Event - called when new incoming tcp connection is created (new thread is created)
-	virtual void OnInTCPConnection(u_long addr, SOCKET m_socket) { };
+	virtual void OnInTCPConnection(u_long, SOCKET) { };
 	//! Event - called when new outgoing tcp connection is created )new thread is created)
-	virtual void OnOutTCPConnection(u_long addr, SOCKET m_socket, LPVOID lpParameter) {};
+	virtual void OnOutTCPConnection(u_long, SOCKET, LPVOID) {};
 	//! Creates new outgoing TCP connection
 	SOCKET CreateTCPConnection(u_long addr, LPVOID lpParameter);
 

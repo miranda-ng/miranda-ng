@@ -62,7 +62,7 @@ public:
 	void LoadSettings();
 	void SaveSettings();
 
-	char* GetName() { return m_name; }
+	wchar_t* GetName() { return m_name; }
 	bool GetUseHostName() { return m_UseHostName; }
 	void SetUseHostName(bool val) { m_UseHostName = val; }
 	void SetRequiredIp(u_long ip) { m_RequiredIp = ip; }
@@ -92,8 +92,8 @@ private:
 	TContact* m_pRootContact;
 	HANDLE m_hCheckThread;
 
-	char m_name[MAX_HOSTNAME_LEN];
-	int m_nameLen;
+	wchar_t m_name[MAX_HOSTNAME_LEN];
+	DWORD m_nameLen;
 
 	mir_cs m_csAccessClass;
 	mir_cs m_csAccessAwayMes;
@@ -174,10 +174,10 @@ private:
 		u_long m_addr;
 		MCONTACT m_hContact;
 
-		char* m_szDescription;
-		char** m_szFiles;
-		char* m_szDir;
-		char* m_szRenamedFile;
+		wchar_t* m_szDescription;
+		wchar_t** m_szFiles;
+		wchar_t* m_szDir;
+		wchar_t* m_szRenamedFile;
 
 		u_char* m_buf;
 		int m_recSize;

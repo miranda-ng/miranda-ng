@@ -392,7 +392,7 @@ MIR_CORE_DLL(char*) Utf8EncodeW(const wchar_t* src)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Utf8Encode - converts UCS2 string to the UTF8-encoded format
+// Utf8CheckString - checks if a string is a valid utf8-encoded string
 
 MIR_CORE_DLL(BOOL) Utf8CheckString(const char *str)
 {
