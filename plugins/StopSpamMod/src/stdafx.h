@@ -19,7 +19,9 @@ using namespace std;
 #include <m_variables.h>
 #include <m_folders.h>
 
-#include <boost\thread.hpp>
+#include <string>
+#include <sstream>
+
 #include <boost\regex.hpp>
 #include <boost\algorithm\string.hpp>
 #include <boost\nondet_random.hpp>
@@ -39,3 +41,5 @@ int OnDbContactSettingChanged(WPARAM w, LPARAM l);
 int OnDbEventFilterAdd(WPARAM w, LPARAM l);
 int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent);
 int OnOptInit(WPARAM w, LPARAM l);
+
+void __cdecl CleanThread(void*);

@@ -81,8 +81,7 @@ void DeleteCListGroupsByName(wchar_t* szGroupName)
 
 int RemoveTmp(WPARAM, LPARAM)
 {
-	void CleanThread();
-	CleanThread();
+	CleanThread(0);
 	return 0;
 }
 
@@ -239,59 +238,68 @@ void LogSpamToFile(MCONTACT hContact, wstring message)
 	file.close();
 }
 
-boost::mutex clean_mutex;
+mir_cs clean_mutex;
 
-void CleanProtocolTmpThread(std::string proto)
+void __cdecl CleanProtocolTmpThread(void *param)
 {
+	const char *szProto = (const char*)param;
+
 	while (true) {
-		UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
+		UINT status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 		if (status > ID_STATUS_OFFLINE)
 			break;
-		boost::this_thread::sleep(boost::posix_time::seconds(2));
+		Sleep(2000);
 	}
 
 	std::list<MCONTACT> contacts;
-	for (MCONTACT hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
+	for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
 		if (db_get_b(hContact, "CList", "NotOnList", 0) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
 			contacts.push_back(hContact);
 
-	boost::this_thread::sleep(boost::posix_time::seconds(5));
-	clean_mutex.lock();
-	std::list<MCONTACT>::iterator end = contacts.end();
-	for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
-		LogSpamToFile(*i, L"Deleted");
-		HistoryLogFunc(*i, "Deleted");
-		db_delete_contact(*i);
+	Sleep(5000);
+	{
+		mir_cslock lck(clean_mutex);
+
+		std::list<MCONTACT>::iterator end = contacts.end();
+		for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
+			LogSpamToFile(*i, L"Deleted");
+			HistoryLogFunc(*i, "Deleted");
+			db_delete_contact(*i);
+		}
 	}
-	clean_mutex.unlock();
+	mir_free(param);
 }
 
-void CleanProtocolExclThread(std::string proto)
+void __cdecl CleanProtocolExclThread(void *param)
 {
+	const char *szProto = (const char*)param;
+
 	while (true) {
-		UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
+		UINT status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 		if (status > ID_STATUS_OFFLINE)
 			break;
-		boost::this_thread::sleep(boost::posix_time::seconds(2));
+		Sleep(2000);
 	}
 
 	std::list<MCONTACT> contacts;
-	for (MCONTACT hContact = db_find_first(proto.c_str()); hContact; hContact = db_find_next(hContact, proto.c_str()))
+	for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto))
 		if (db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
 			contacts.push_back(hContact);
 
-	boost::this_thread::sleep(boost::posix_time::seconds(5));
-	clean_mutex.lock();
-	std::list<MCONTACT>::iterator end = contacts.end();
-	for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
-		LogSpamToFile(*i, L"Deleted");
-		HistoryLogFunc(*i, "Deleted");
-		db_delete_contact(*i);
+	Sleep(5000);
+	{
+		mir_cslock lck(clean_mutex);
+		std::list<MCONTACT>::iterator end = contacts.end();
+		for (std::list<MCONTACT>::iterator i = contacts.begin(); i != end; ++i) {
+			LogSpamToFile(*i, L"Deleted");
+			HistoryLogFunc(*i, "Deleted");
+			db_delete_contact(*i);
+		}
 	}
-	clean_mutex.unlock();
+	mir_free(param);
 }
 
-void CleanThread()
+void __cdecl CleanThread(void*)
 {
 	std::list<std::string> protocols;
 	int count = 0;
@@ -304,9 +312,9 @@ void CleanThread()
 	std::list<std::string>::iterator end = protocols.end();
 	for (std::list<std::string>::iterator i = protocols.begin(); i != end; ++i) {
 		if (gbDelAllTempory)
-			new boost::thread(boost::bind(&CleanProtocolTmpThread, *i));
+			mir_forkthread(CleanProtocolTmpThread, mir_strdup((*i).c_str()));
 		if (gbDelExcluded)
-			new boost::thread(boost::bind(&CleanProtocolExclThread, *i));
+			mir_forkthread(CleanProtocolExclThread, mir_strdup((*i).c_str()));
 	}
 }
 

@@ -117,9 +117,8 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 		gbVarsServiceExist = TRUE;
 	InitVars();
-	void CleanThread();
 	if(gbDelAllTempory || gbDelExcluded)
-		new boost::thread(&CleanThread);
+		mir_forkthread(&CleanThread);
 	
 	// Folders plugin support
 	hStopSpamLogDirH = FoldersRegisterCustomPathT(LPGEN("StopSpam"), LPGEN("StopSpam Logs"), FOLDER_LOGS);
