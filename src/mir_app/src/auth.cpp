@@ -31,6 +31,7 @@ class CAuthReqDlg : public CDlgBase
 {
 	MEVENT m_hDbEvent;
 	MCONTACT m_hContact;
+	const char *m_szProto;
 
 	CCtrlCheck chkAdd;
 	CCtrlButton btnDetails, btnLater, btnOk, btnCancel;
@@ -64,7 +65,10 @@ public:
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = iBlobSize;
 		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-		db_event_get(m_hDbEvent, &dbei);
+		if (db_event_get(m_hDbEvent, &dbei))
+			return;
+
+		m_szProto = dbei.szModule;
 
 		DWORD uin = *(PDWORD)dbei.pBlob;
 		m_hContact = DbGetAuthEventContact(&dbei);
@@ -139,9 +143,7 @@ public:
 
 	void onClick_OK(CCtrlButton*)
 	{
-		DBEVENTINFO dbei = {};
-		db_event_get(m_hDbEvent, &dbei);
-		CallProtoService(dbei.szModule, PS_AUTHALLOW, m_hDbEvent, 0);
+		CallProtoService(m_szProto, PS_AUTHALLOW, m_hDbEvent, 0);
 
 		if (chkAdd.GetState())
 			Contact_AddByEvent(m_hDbEvent, m_hwnd);
@@ -149,15 +151,12 @@ public:
 
 	void onClick_Cancel(CCtrlButton*)
 	{
-		DBEVENTINFO dbei = {};
-		db_event_get(m_hDbEvent, &dbei);
-
 		if (IsWindowEnabled(GetDlgItem(m_hwnd, IDC_DENYREASON))) {
 			wchar_t tszReason[256];
 			GetDlgItemText(m_hwnd, IDC_DENYREASON, tszReason, _countof(tszReason));
-			CallProtoService(dbei.szModule, PS_AUTHDENY, m_hDbEvent, (LPARAM)tszReason);
+			CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, (LPARAM)tszReason);
 		}
-		else CallProtoService(dbei.szModule, PS_AUTHDENY, m_hDbEvent, 0);
+		else CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, 0);
 	}
 
 	void onClick_Later(CCtrlButton*)

@@ -43,10 +43,10 @@ class CAddContactDlg : public CDlgBase
 	CCtrlCombo  m_group;
 
 protected:
-	MEVENT m_hDbEvent;
-	MCONTACT m_hContact;
+	MEVENT m_hDbEvent = 0;
+	MCONTACT m_hContact = 0;
 	const char *m_szProto;
-	PROTOSEARCHRESULT *m_psr;
+	PROTOSEARCHRESULT *m_psr = nullptr;
 	CMStringW m_szName;
 
 public:
