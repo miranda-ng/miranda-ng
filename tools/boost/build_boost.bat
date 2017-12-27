@@ -8,12 +8,8 @@ call bootstrap.bat
 
 if /i '%1' == '86' (
 	call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars32.bat"
-	pause
-
 	b2 --toolset=msvc-%2.0 runtime-link=shared threading=multi link=static architecture=x86 address-model=32 cxxflags=/Zc:threadSafeInit-
 ) else if /i '%1' == '64' (
 	call "%VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars64.bat"
-	pause
-
 	b2 --toolset=msvc-%2.0 runtime-link=shared threading=multi link=static architecture=x86 address-model=64 cxxflags=/Zc:threadSafeInit- --stagedir=stage64
 )
