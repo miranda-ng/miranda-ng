@@ -346,11 +346,16 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static void CALLBACK LaunchAuth()
+{
+	HookEvent(ME_DB_EVENT_ADDED, AuthEventAdded);
+}
+
 int LoadSendRecvAuthModule(void)
 {
 	CreateServiceFunction(MS_AUTH_SHOWREQUEST, ShowReqWindow);
 	CreateServiceFunction(MS_AUTH_SHOWADDED, ShowAddedWindow);
-	HookEvent(ME_DB_EVENT_ADDED, AuthEventAdded);
+	Miranda_WaitOnHandle(LaunchAuth);
 
 	Skin_AddSound("AuthRequest", LPGENW("Alerts"), LPGENW("Authorization request"));
 	Skin_AddSound("AddedEvent", LPGENW("Alerts"), LPGENW("Added event"));
