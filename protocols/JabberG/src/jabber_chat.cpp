@@ -1204,12 +1204,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			if (wchar_t *tmp = wcschr(psr.id.w, '/'))
 				*tmp = 0;
 			psr.nick.w = psr.id.w;
-
-			ADDCONTACTSTRUCT acs = { 0 };
-			acs.handleType = HANDLE_SEARCHRESULT;
-			acs.szProto = ppro->m_szModuleName;
-			acs.psr = &psr;
-			CallService(MS_ADDCONTACT_SHOW, (WPARAM)pcli->hwndContactList, (LPARAM)&acs);
+			Contact_AddBySearch(ppro->m_szModuleName, &psr, pcli->hwndContactList);
 		}
 		break;
 	}

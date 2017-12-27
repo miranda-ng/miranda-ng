@@ -545,9 +545,9 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 {
 	bool isIm = (m_hContact && (CallProtoService(GetContactProto(m_hContact), PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) ? true : false;
 
-	bool enableDefaultGen = (m_hContact || !(PopupOptions.actions&ACT_DEF_NOGLOBAL)) ? true : false;
-	bool enableDefaultUsr = (isIm || m_hContact && !(PopupOptions.actions&ACT_DEF_IMONLY)) ? true : false;
-	bool iconSize = PopupOptions.actions&ACT_LARGE ? TRUE : FALSE;
+	bool enableDefaultGen = (m_hContact || !(PopupOptions.actions & ACT_DEF_NOGLOBAL)) ? true : false;
+	bool enableDefaultUsr = (isIm || m_hContact && !(PopupOptions.actions & ACT_DEF_IMONLY)) ? true : false;
+	bool iconSize = PopupOptions.actions & ACT_LARGE ? TRUE : FALSE;
 
 	if (PopupOptions.actions & ACT_ENABLE) {
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Quick reply")) ++m_actionCount;
@@ -857,7 +857,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 	case WM_DESTROY:
 		PopupThreadUnlock();
-		if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
+		if (!(PopupOptions.actions & ACT_DEF_KEEPWND))
 			PUDeletePopup(dat->hwndPopup);
 		SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)dat->oldWndProc);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
@@ -908,7 +908,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		switch (lParam) {
 		case ACT_DEF_MESSAGE:
 			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)m_hContact, 0);
-			if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
+			if (!(PopupOptions.actions & ACT_DEF_KEEPWND))
 				PUDeletePopup(m_hwnd);
 			break;
 
@@ -936,7 +936,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case ACT_DEF_DETAILS:
 			CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)m_hContact, 0);
-			if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
+			if (!(PopupOptions.actions & ACT_DEF_KEEPWND))
 				PUDeletePopup(m_hwnd);
 			break;
 
@@ -946,15 +946,9 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			break;
 
 		case ACT_DEF_ADD:
-			{
-				ADDCONTACTSTRUCT acs = { 0 };
-				acs.hContact = m_hContact;
-				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = nullptr;
-				CallServiceSync(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);
-				if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
-					PUDeletePopup(m_hwnd);
-			}
+			Contact_Add(m_hContact);
+			if (!(PopupOptions.actions & ACT_DEF_KEEPWND))
+				PUDeletePopup(m_hwnd);
 			break;
 
 		case ACT_DEF_PIN:
@@ -965,7 +959,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 			m_bIsPinned = !m_bIsPinned;
 			{
-				bool iconSize = PopupOptions.actions&ACT_LARGE ? TRUE : FALSE;
+				bool iconSize = PopupOptions.actions & ACT_LARGE ? TRUE : FALSE;
 				PUModifyActionIcon(m_hwnd, wParam, lParam, m_bIsPinned ? LoadIconEx(IDI_ACT_PINNED, iconSize) : LoadIconEx(IDI_ACT_PIN, iconSize));
 			}
 			break;
@@ -1011,7 +1005,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 	case UM_MENUDONE:
 		{
 			unlock();
-			if (!(PopupOptions.actions&ACT_DEF_KEEPWND))
+			if (!(PopupOptions.actions & ACT_DEF_KEEPWND))
 				PUDeletePopup(m_hwnd);
 			break;
 		}

@@ -204,11 +204,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR MenuItem_AddContactToList(WPARAM hContact, LPARAM)
 {
-	ADDCONTACTSTRUCT acs = { 0 };
-	acs.hContact = hContact;
-	acs.handleType = HANDLE_CONTACT;
-	acs.szProto = "";
-	CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+	Contact_Add(hContact);
 	return 0;
 }
 

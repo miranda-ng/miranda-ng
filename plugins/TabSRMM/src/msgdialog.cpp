@@ -1168,11 +1168,8 @@ void CSrmmWindow::onClick_Ok(CCtrlButton*)
 
 void CSrmmWindow::onClick_Add(CCtrlButton*)
 {
-	ADDCONTACTSTRUCT acs = {};
-	acs.hContact = m_hContact;
-	acs.handleType = HANDLE_CONTACT;
-	acs.szProto = nullptr;
-	CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
+	Contact_Add(m_hContact, m_hwnd);
+
 	if (!db_get_b(m_hContact, "CList", "NotOnList", 0)) {
 		m_bNotOnList = FALSE;
 		ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);

@@ -64,7 +64,6 @@
 #include <m_imgsrvc.h>
 #include <m_timezones.h>
 
-#include <m_addcontact.h>  // not used, depends on m_protosvc.h
 #include <m_icq.h>         // depends on m_protosvc.h
 
 #include <m_metacontacts.h>

@@ -573,13 +573,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 			psr.id.w = mir_wstrdup(szJid);
 			psr.nick.w = mir_wstrdup(szJid);
 			psr.flags = PSR_UNICODE;
-
-			ADDCONTACTSTRUCT acs = { 0 };
-			acs.handleType = HANDLE_SEARCHRESULT;
-			acs.szProto = m_szModuleName;
-			acs.psr = &psr;
-
-			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+			Contact_AddBySearch(m_szModuleName, &psr);
 		}
 		return 0;
 	}

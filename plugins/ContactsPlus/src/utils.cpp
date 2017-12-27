@@ -87,15 +87,6 @@ wchar_t* GetContactUID(MCONTACT hContact)
 	return nullptr;
 }
 
-void DialogAddContactExecute(HWND hwndDlg, MCONTACT hNewContact)
-{
-	ADDCONTACTSTRUCT acs = { 0 };
-	acs.hContact = hNewContact;
-	acs.handleType = HANDLE_CONTACT;
-	CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
-}
-
-
 void DrawProtocolIcon(HWND hwndDlg, LPARAM lParam, MCONTACT hContact)
 {
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;

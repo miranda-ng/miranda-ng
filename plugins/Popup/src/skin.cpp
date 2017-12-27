@@ -128,8 +128,8 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 		wchar_t *str = TranslateW(wname);
 		GetTextExtentPoint32(bmp->getDC(), str, (int)mir_wstrlen(str), &szText);
 		bmp->Draw_Text(str,
-			(PopupOptions.actions&ACT_LARGE) ? (x + szSpace.cx + 32) : (x + szSpace.cx + 16),
-			max(y + 2, y + 2 + (((PopupOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy) / 2));
+			(PopupOptions.actions & ACT_LARGE) ? (x + szSpace.cx + 32) : (x + szSpace.cx + 16),
+			max(y + 2, y + 2 + (((PopupOptions.actions & ACT_LARGE) ? 32 : 16) - szText.cy) / 2));
 		mir_free(wname);
 
 		SelectObject(bmp->getDC(), hFntSave);
@@ -139,8 +139,8 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 			RECT rc;
 			rc.left = x;
 			rc.top = y;
-			rc.right = x + ((PopupOptions.actions&ACT_LARGE) ? 32 : 16) + 4;
-			rc.bottom = y + ((PopupOptions.actions&ACT_LARGE) ? 32 : 16) + 4;
+			rc.right = x + ((PopupOptions.actions & ACT_LARGE) ? 32 : 16) + 4;
+			rc.bottom = y + ((PopupOptions.actions & ACT_LARGE) ? 32 : 16) + 4;
 			bmp->saveAlpha(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
 			HBRUSH hbr = CreateSolidBrush(fonts.clActionHover);
 			FrameRect(bmp->getDC(), &rc, hbr);
@@ -520,7 +520,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DW
 					drawActionBar(bmp, wnd,
 						db_get_b(NULL, MODULNAME, "CenterActions", 0) ?
 						(pt.x + (textAreaWidth - wnd->getRenderInfo()->actw) / 2) :
-						(PopupOptions.actions&ACT_RIGHTICONS) ?
+						(PopupOptions.actions & ACT_RIGHTICONS) ?
 						(pt.x + textAreaWidth - wnd->getRenderInfo()->actw) :
 						// else
 						pt.x,

@@ -32,7 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_langpack.h>
 #include <m_message.h>
 #include <m_protosvc.h>
-#include <m_addcontact.h>
+#include <m_contacts.h>
 #include <m_string.h>
 
 #include "m_toptoolbar.h"

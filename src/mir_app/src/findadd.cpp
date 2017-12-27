@@ -745,36 +745,28 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_ADD:
-			{
-				ADDCONTACTSTRUCT acs = { 0 };
+			if (ListView_GetSelectedCount(hwndList) == 1) {
+				LVITEM lvi;
+				lvi.mask = LVIF_PARAM;
+				lvi.iItem = ListView_GetNextItem(hwndList, -1, LVNI_ALL | LVNI_SELECTED);
+				ListView_GetItem(hwndList, &lvi);
+				ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
+				Contact_AddBySearch(lsr->szProto, &lsr->psr, hwndDlg);
+			}
+			else {
+				wchar_t str[256];
+				GetDlgItemText(hwndDlg, IDC_PROTOID, str, _countof(str));
+				if (*rtrimw(str) == 0)
+					break;
 
-				if (ListView_GetSelectedCount(hwndList) == 1) {
-					LVITEM lvi;
-					lvi.mask = LVIF_PARAM;
-					lvi.iItem = ListView_GetNextItem(hwndList, -1, LVNI_ALL | LVNI_SELECTED);
-					ListView_GetItem(hwndList, &lvi);
-					ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
-					acs.szProto = lsr->szProto;
-					acs.psr = &lsr->psr;
-				}
-				else {
-					wchar_t str[256];
-					GetDlgItemText(hwndDlg, IDC_PROTOID, str, _countof(str));
-					if (*rtrimw(str) == 0)
-						break;
+				char *szProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA,
+					SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), 0);
 
-					PROTOSEARCHRESULT psr = { 0 };
-					psr.cbSize = sizeof(psr);
-					psr.flags = PSR_UNICODE;
-					psr.id.w = str;
-
-					acs.psr = &psr;
-					acs.szProto = (char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA,
-						SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), 0);
-				}
-
-				acs.handleType = HANDLE_SEARCHRESULT;
-				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
+				PROTOSEARCHRESULT psr = { 0 };
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_UNICODE;
+				psr.id.w = str;
+				Contact_AddBySearch(szProto, &psr, hwndDlg);
 			}
 			break;
 

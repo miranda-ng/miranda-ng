@@ -69,7 +69,7 @@ extern "C" {
 #include <m_clc.h>
 #include <m_utils.h>
 #include <m_idle.h>
-#include <m_addcontact.h>
+#include <m_contacts.h>
 #include <m_popup.h>
 #include <m_chat.h>
 #include <m_genmenu.h>

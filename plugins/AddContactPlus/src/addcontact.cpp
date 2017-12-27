@@ -25,7 +25,6 @@ struct AddDialogParam : public MZeroedObject
 {
 	AddDialogParam() {}
 
-	int handleType;
 	HANDLE handle;
 	CMStringA proto;
 	PROTOSEARCHRESULT *psr;
@@ -155,7 +154,6 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 	switch (msg) {
 	case WM_INITDIALOG:
 		acs = new AddDialogParam();
-		acs->handleType = HANDLE_SEARCHRESULT;
 		SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)acs);
 
 		Utils_RestoreWindowPositionNoSize(hdlg, NULL, "AddContact", "");

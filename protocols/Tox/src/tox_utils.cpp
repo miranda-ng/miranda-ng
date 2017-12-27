@@ -165,11 +165,6 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_UTF8;
 	psr.id.a = mir_u2a(&uri[4]);
-
-	ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
-	acs.szProto = proto->m_szModuleName;
-	acs.psr = &psr;
-
-	CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+	Contact_AddBySearch(proto->m_szModuleName, &psr);
 	return 0;
 }

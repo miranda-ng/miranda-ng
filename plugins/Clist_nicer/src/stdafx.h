@@ -48,7 +48,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
-#include <m_addcontact.h>
+#include <m_contacts.h>
 #include <m_timezones.h>
 #include <m_cluiframes.h>
 #include <m_icolib.h>

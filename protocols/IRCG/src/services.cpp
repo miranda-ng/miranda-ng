@@ -704,17 +704,12 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 					break;
 				case 30:
 					{
-						PROTOSEARCHRESULT psr = { 0 };
+						PROTOSEARCHRESULT psr = {};
 						psr.cbSize = sizeof(psr);
 						psr.flags = PSR_UNICODE;
 						psr.id.w = gch->ptszUID;
 						psr.nick.w = gch->ptszUID;
-
-						ADDCONTACTSTRUCT acs = { 0 };
-						acs.handleType = HANDLE_SEARCHRESULT;
-						acs.szProto = m_szModuleName;
-						acs.psr = &psr;
-						CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+						Contact_AddBySearch(m_szModuleName, &psr);
 					}
 					break;
 				case 31:	//slap

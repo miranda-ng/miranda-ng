@@ -173,13 +173,8 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			break;
 
 		case IDC_IGN_ADDPERMANENTLY:
-			{
-				ADDCONTACTSTRUCT acs = { 0 };
-				acs.hContact = hContact;
-				acs.handleType = HANDLE_CONTACT;
-				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hWnd, (LPARAM)&acs);
-				Utils::enableDlgControl(hWnd, IDC_IGN_ADDPERMANENTLY, db_get_b(hContact, "CList", "NotOnList", 0));
-			}
+			Contact_Add(hContact, hWnd);
+			Utils::enableDlgControl(hWnd, IDC_IGN_ADDPERMANENTLY, db_get_b(hContact, "CList", "NotOnList", 0));
 			break;
 
 		case IDC_DSP_LOADDEFAULT:

@@ -489,3 +489,6 @@ Clist_SetStatusMode @464
 ?EnumResidentSettings@MDatabaseCommon@@UEAAHP6AHPEBDPEAX@Z1@Z @494 NONAME
 KillModuleOptions @495
 Srmm_GetColorTable @496
+Contact_Add @497
+Contact_AddByEvent @498
+Contact_AddBySearch @499

@@ -353,14 +353,9 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hwndDlg, nullptr);
 	switch (commandId) {
 	case IDC_ADD:
-		{
-			ADDCONTACTSTRUCT acs = { 0 };
-			acs.handleType = HANDLE_SEARCHRESULT;
-			acs.szProto = lsr->szProto;
-			acs.psr = &lsr->psr;
-			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
-		}
+		Contact_AddBySearch(lsr->szProto, &lsr->psr, hwndDlg);
 		break;
+
 	case IDC_DETAILS:
 		{
 			MCONTACT hContact = (MCONTACT)CallProtoServiceInt(0, lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);

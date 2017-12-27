@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include "m_addcontact.h"
 #include "jabber_disco.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -456,12 +455,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			psr.flags = PSR_UNICODE;
 			psr.nick.w = szJid;
 			psr.id.w = szJid;
-
-			ADDCONTACTSTRUCT acs;
-			acs.handleType = HANDLE_SEARCHRESULT;
-			acs.szProto = m_szModuleName;
-			acs.psr = &psr;
-			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+			Contact_AddBySearch(m_szModuleName, &psr);
 		}
 		return 0;
 	}

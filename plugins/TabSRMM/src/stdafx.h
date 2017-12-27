@@ -65,7 +65,6 @@
 #include <m_clist.h>
 #include <m_userinfo.h>
 #include <m_history.h>
-#include <m_addcontact.h>
 #include <m_file.h>
 #include <m_fontservice.h>
 #include <m_acc.h>

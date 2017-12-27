@@ -21,8 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "msn_proto.h"
 
-#include <m_addcontact.h>
-
 #include "m_assocmgr.h"
 
 static MCONTACT GetContact(wchar_t *arg, wchar_t **pemail, CMsnProto *proto)
@@ -96,12 +94,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 			psr.flags = PSR_UNICODE;
 			psr.nick.w = email;
 			psr.email.w = email;
-
-			ADDCONTACTSTRUCT acs = { 0 };
-			acs.handleType = HANDLE_SEARCHRESULT;
-			acs.szProto = proto->m_szModuleName;
-			acs.psr = &psr;
-			CallService(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+			Contact_AddBySearch(proto->m_szModuleName, &psr);
 		}
 		return 0;
 	}

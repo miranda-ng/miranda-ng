@@ -226,12 +226,7 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UTF8;
 		psr.id.a = mir_strdup(query.c_str());
-
-		ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
-		acs.szProto = m_szModuleName;
-		acs.psr = &psr;
-
-		CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
+		Contact_AddBySearch(m_szModuleName, &psr, owner);
 
 		ForkThread(&CToxProto::SearchFailedAsync, nullptr);
 	}

@@ -233,7 +233,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSettingStr(MCONTACT contactID, LP
 STDMETHODIMP_(BOOL) MDatabaseCommon::GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv)
 {
 	bool bNeedsWchars;
-	size_t cbSaved;
+	size_t cbSaved = 0;
 
 	if (dbv->type == DBVT_WCHAR) { // there's no wchar_t strings in a database, we need conversion
 		cbSaved = dbv->cchVal - 1;

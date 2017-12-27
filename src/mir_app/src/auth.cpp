@@ -143,13 +143,8 @@ public:
 		db_event_get(m_hDbEvent, &dbei);
 		CallProtoService(dbei.szModule, PS_AUTHALLOW, m_hDbEvent, 0);
 
-		if (chkAdd.GetState()) {
-			ADDCONTACTSTRUCT acs = { 0 };
-			acs.hDbEvent = m_hDbEvent;
-			acs.handleType = HANDLE_EVENT;
-			acs.szProto = "";
-			CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
-		}
+		if (chkAdd.GetState())
+			Contact_AddByEvent(m_hDbEvent, m_hwnd);
 	}
 
 	void onClick_Cancel(CCtrlButton*)
@@ -273,20 +268,12 @@ public:
 
 	void onClick_OK(CCtrlButton*)
 	{
-		ADDCONTACTSTRUCT acs = { 0 };
-		acs.hDbEvent = m_hDbEvent;
-		acs.handleType = HANDLE_EVENT;
-		acs.szProto = "";
-		CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
+		Contact_AddByEvent(m_hDbEvent, m_hwnd);
 	}
 
 	void onClick_Add(CCtrlButton*)
 	{
-		ADDCONTACTSTRUCT acs = { 0 };
-		acs.hDbEvent = m_hDbEvent;
-		acs.handleType = HANDLE_EVENT;
-		acs.szProto = "";
-		CallService(MS_ADDCONTACT_SHOW, (WPARAM)m_hwnd, (LPARAM)&acs);
+		Contact_AddByEvent(m_hDbEvent, m_hwnd);
 
 		if (m_hContact == INVALID_CONTACT_ID || !db_get_b(m_hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);

@@ -338,7 +338,8 @@ static __inline unsigned long Proto_Status2Flag(int status)
 #define PSR_UNICODE 0x0001  // all strings go in UTF16-LE
 #define PSR_UTF8    0x0002  // all strings go in UTF8
 
-typedef struct {
+struct PROTOSEARCHRESULT
+{
 	int cbSize;
 	MAllStrings nick;
 	MAllStrings firstName;
@@ -346,7 +347,7 @@ typedef struct {
 	MAllStrings email;
 	MAllStrings id;
 	int flags;
-} PROTOSEARCHRESULT;
+};
 
 #define PS_BASICSEARCH  "/BasicSearch"
 
@@ -371,11 +372,12 @@ typedef struct {
 // Results are returned as for PS_BASICSEARCH.
 // This function is only available if the PF1_SEARCHBYNAME capability is set
 
-typedef struct {
+struct PROTOSEARCHBYNAME
+{
 	wchar_t *pszNick;
 	wchar_t *pszFirstName;
 	wchar_t *pszLastName;
-} PROTOSEARCHBYNAME;
+};
 
 #define PS_SEARCHBYNAME    "/SearchByName"
 
@@ -405,12 +407,13 @@ typedef struct {
 
 #define PS_SEARCHBYADVANCED          "/SearchByAdvanced"
 
-typedef struct {
+struct CUSTOMSEARCHRESULTS
+{
 	size_t nSize;
 	int nFieldCount;
 	wchar_t **pszFields;
 	PROTOSEARCHRESULT psr;
-} CUSTOMSEARCHRESULTS;
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 // Adds a search result to the contact list
@@ -465,10 +468,11 @@ typedef struct {
 #define FILERESUME_RENAME     3
 #define FILERESUME_SKIP       4
 
-typedef struct {
+struct PROTOFILERESUME
+{
 	int action;    // a FILERESUME_ flag
 	const wchar_t *szFilename;  // full path. Only valid if action == FILERESUME_RENAME
-} PROTOFILERESUME;
+};
 
 #define PS_FILERESUME     "/FileResume"
 
@@ -743,14 +747,15 @@ typedef struct {
 // DB event: EVENTTYPE_MESSAGE, blob contains szMessage without 0 terminator
 // Return 0 - success, other failure
 
-typedef struct {
+struct PROTORECVEVENT
+{
 	DWORD  flags;
 	DWORD  timestamp;   // unix time
 	char  *szMessage;   // message body in utf8
 	LPARAM lParam;      // extra space for the network level protocol module
 	void  *pCustomData;
 	DWORD  cbCustomDataSize;
-} PROTORECVEVENT;
+};
 
 #define PREF_CREATEREAD   1     // create the database event with the 'read' flag set
 #define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
@@ -801,14 +806,15 @@ __forceinline INT_PTR Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pc
 
 #define PRFF_UNICODE 1
 
-typedef struct {
+struct PROTORECVFILET
+{
 	DWORD dwFlags;          // PRFF_*
 	DWORD timestamp;        // unix time
 	MAllStrings descr;	   // file description
 	int fileCount;          // number of files being transferred
 	MAllStringArray files;  // array of file names
 	LPARAM lParam;          // extra space for the network level protocol module
-} PROTORECVFILET;
+};
 
 #define PSR_FILE       "/RecvFile"
 

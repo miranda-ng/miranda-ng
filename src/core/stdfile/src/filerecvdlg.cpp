@@ -346,15 +346,10 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_ADD:
-			{
-				ADDCONTACTSTRUCT acs = { 0 };
-				acs.hContact = dat->hContact;
-				acs.handleType = HANDLE_CONTACT;
-				acs.szProto = "";
-				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
-				if (!db_get_b(dat->hContact, "CList", "NotOnList", 0))
-					ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
-			}
+			Contact_Add(dat->hContact, hwndDlg);
+
+			if (!db_get_b(dat->hContact, "CList", "NotOnList", 0))
+				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 			break;
 
 		case IDC_USERMENU:

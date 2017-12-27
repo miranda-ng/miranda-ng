@@ -53,7 +53,6 @@ int  LoadSkinHotkeys(void);
 int  LoadUserInfoModule(void);	// ui: user info
 int  LoadVisibilityModule(void);	// ui: visibility control
 
-int  LoadAddContactModule(void);	// ui: authcontrol contacts
 int  LoadUtilsModule(void);		// ui: utils (has a few window classes, like HyperLink)
 int  LoadCLCModule(void);		// window class: CLC control
 int  LoadButtonModule(void);		// window class: button class
@@ -150,7 +149,6 @@ int LoadDefaultModules(void)
 	if (LoadProtocolsModule()) return 1;
 	LoadDbAccounts();                    // retrieves the account array from a database
 	if (LoadContactsModule()) return 1;
-	if (LoadAddContactModule()) return 1;
 	if (LoadMetacontacts()) return 1;
 
 	if (LoadNewPluginsModule()) return 1;    // will call Load(void) on everything, clist will load first

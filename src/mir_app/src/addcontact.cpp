@@ -37,15 +37,20 @@ static wchar_t* sttDecodeString(DWORD dwFlags, MAllStrings &src)
 
 class CAddContactDlg : public CDlgBase
 {
-	ADDCONTACTSTRUCT m_acs;
-
 	CCtrlEdit   m_authReq, m_myHandle;
 	CCtrlCheck  m_chkAdded, m_chkAuth, m_chkOpen;
 	CCtrlButton m_btnOk;
 	CCtrlCombo  m_group;
 
+protected:
+	MEVENT m_hDbEvent;
+	MCONTACT m_hContact;
+	const char *m_szProto;
+	PROTOSEARCHRESULT *m_psr;
+	CMStringW m_szName;
+
 public:
-	CAddContactDlg(ADDCONTACTSTRUCT *acs) :
+	CAddContactDlg() :
 		CDlgBase(g_hInst, IDD_ADDCONTACT),
 		m_chkAdded(this, IDC_ADDED),
 		m_chkAuth(this, IDC_AUTH),
@@ -58,67 +63,19 @@ public:
 		m_chkAuth.OnChange = Callback(this, &CAddContactDlg::OnAuthClicked);
 		m_chkOpen.OnChange = Callback(this, &CAddContactDlg::OnOpenClicked);
 		m_btnOk.OnClick = Callback(this, &CAddContactDlg::OnOk);
-
-		m_acs = *acs;
 	}
 
 	void OnInitDialog()
 	{
-		char szUin[10];
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_ADDCONTACT);
-		if (m_acs.handleType == HANDLE_EVENT) {
-			DWORD dwUin;
-			DBEVENTINFO dbei = {};
-			dbei.cbBlob = sizeof(DWORD);
-			dbei.pBlob = (PBYTE)&dwUin;
-			db_event_get(m_acs.hDbEvent, &dbei);
-			_ltoa(dwUin, szUin, 10);
-			m_acs.szProto = dbei.szModule;
-		}
 
-		MCONTACT hContact;
-		wchar_t *szName = nullptr, *tmpStr = nullptr;
-		if (m_acs.handleType == HANDLE_CONTACT)
-			szName = cli.pfnGetContactDisplayName(hContact = m_acs.hContact, 0);
-		else {
-			int isSet = 0;
-			hContact = 0;
-
-			if (m_acs.handleType == HANDLE_EVENT) {
-				DBEVENTINFO dbei = {};
-				dbei.cbBlob = db_event_getBlobSize(m_acs.hDbEvent);
-				dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-				db_event_get(m_acs.hDbEvent, &dbei);
-				hContact = *(MCONTACT*)(dbei.pBlob + sizeof(DWORD));
-				mir_free(dbei.pBlob);
-				if (hContact != INVALID_CONTACT_ID) {
-					szName = cli.pfnGetContactDisplayName(hContact, 0);
-					isSet = 1;
-				}
-			}
-			if (!isSet) {
-				if (m_acs.handleType == HANDLE_EVENT)
-					szName = mir_a2u(szUin);
-				else {
-					szName = sttDecodeString(m_acs.psr->flags, m_acs.psr->id);
-					if (szName == nullptr)
-						szName = sttDecodeString(m_acs.psr->flags, m_acs.psr->nick);
-				}
-			}
-		}
-
-		if (szName && szName[0])
-			SetCaption(CMStringW(FORMAT, TranslateT("Add %s"), szName));
+		if (!m_szName.IsEmpty())
+			SetCaption(CMStringW(FORMAT, TranslateT("Add %s"), m_szName.c_str()));
 		else
 			SetCaption(TranslateT("Add contact"));
-		mir_free(tmpStr);
-
-		if (m_acs.handleType == HANDLE_CONTACT && m_acs.hContact)
-			if (m_acs.szProto == nullptr || (m_acs.szProto != nullptr && *m_acs.szProto == 0))
-				m_acs.szProto = GetContactProto(m_acs.hContact);
 
 		int groupSel = 0;
-		ptrW tszGroup(db_get_wsa(hContact, "CList", "Group"));
+		ptrW tszGroup(db_get_wsa(m_hContact, "CList", "Group"));
 		wchar_t *grpName;
 		for (int groupId = 1; (grpName = Clist_GroupGetName(groupId, nullptr)) != nullptr; groupId++) {
 			int id = m_group.AddString(grpName, groupId);
@@ -137,7 +94,7 @@ public:
 		if (db_get_b(0, "Miranda", "AuthOpenWindow", 1))
 			m_chkOpen.SetState(true);
 
-		DWORD flags = (m_acs.szProto) ? CallProtoServiceInt(0, m_acs.szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
+		DWORD flags = (m_szProto) ? CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 		if (flags & PF4_FORCEADDED)  // force you were added requests for this protocol
 			m_chkAdded.Enable(false);
 
@@ -159,7 +116,7 @@ public:
 
 	void OnAuthClicked(CCtrlButton*)
 	{
-		DWORD flags = CallProtoServiceInt(0, m_acs.szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 		if (flags & PF4_NOCUSTOMAUTH)
 			m_authReq.Enable(false);
 		else
@@ -174,26 +131,15 @@ public:
 
 	void OnOk(CCtrlButton*)
 	{
-		MCONTACT hContact = INVALID_CONTACT_ID;
-		switch (m_acs.handleType) {
-		case HANDLE_EVENT:
-			{
-				DBEVENTINFO dbei = {};
-				db_event_get(m_acs.hDbEvent, &dbei);
-				hContact = (MCONTACT)CallProtoServiceInt(0, dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)m_acs.hDbEvent);
-			}
-			break;
+		MCONTACT hContact = 0;
+		if (m_hDbEvent)
+			hContact = (MCONTACT)CallProtoServiceInt(0, m_szProto, PS_ADDTOLISTBYEVENT, 0, m_hDbEvent);
+		else if (m_psr)
+			hContact = (MCONTACT)CallProtoServiceInt(0, m_szProto, PS_ADDTOLIST, 0, (LPARAM)m_psr);
+		else
+			hContact = m_hContact;
 
-		case HANDLE_SEARCHRESULT:
-			hContact = (MCONTACT)CallProtoServiceInt(0, m_acs.szProto, PS_ADDTOLIST, 0, (LPARAM)m_acs.psr);
-			break;
-
-		case HANDLE_CONTACT:
-			hContact = m_acs.hContact;
-			break;
-		}
-
-		if (hContact == 0)
+		if (hContact == 0) // something went wrong
 			return;
 
 		ptrW szHandle(m_myHandle.GetText());
@@ -210,7 +156,7 @@ public:
 			ProtoChainSend(hContact, PSS_ADDED, 0, 0);
 
 		if (m_chkAuth.GetState()) {
-			DWORD flags = CallProtoServiceInt(0, m_acs.szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+			DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 			if (flags & PF4_NOCUSTOMAUTH)
 				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 			else
@@ -222,23 +168,85 @@ public:
 	}
 };
 
-INT_PTR AddContactDialog(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent)
 {
-	if (lParam == 0)
-		return 1;
+	if (hContact == 0)
+		return;
 
-	ADDCONTACTSTRUCT *acs = (ADDCONTACTSTRUCT*)lParam;
-	if (wParam) {
-		CAddContactDlg dlg(acs);
-		dlg.SetParent((HWND)wParam);
+	struct CAddByContact : public CAddContactDlg
+	{
+		CAddByContact(MCONTACT hContact)			
+		{	
+			m_hContact = hContact;
+			m_szName = cli.pfnGetContactDisplayName(hContact, 0);
+			m_szProto = GetContactProto(hContact);
+		}
+	};
+
+	if (hwndParent != nullptr) {
+		CAddByContact dlg(hContact);
+		dlg.SetParent(hwndParent);
 		dlg.DoModal();
 	}
-	else (new CAddContactDlg(acs))->Show();
-	return 0;
+	else (new CAddByContact(hContact))->Show();
 }
 
-int LoadAddContactModule(void)
+MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, HWND hwndParent)
 {
-	CreateServiceFunction(MS_ADDCONTACT_SHOW, AddContactDialog);
-	return 0;
+	struct CAddByEvent : public CAddContactDlg
+	{
+		CAddByEvent(MEVENT hEvent)
+		{
+			m_hDbEvent = hEvent;
+
+			DWORD dwData[2];
+			DBEVENTINFO dbei = {};
+			dbei.cbBlob = sizeof(dwData);
+			dbei.pBlob = (PBYTE)&dwData;
+			db_event_get(hEvent, &dbei);
+			if (dwData[0] != 0)
+				m_szName.Format(L"%d", dwData[0]);
+
+			m_hContact = dwData[1];
+			if (m_hContact != INVALID_CONTACT_ID)
+				m_szName = cli.pfnGetContactDisplayName(m_hContact, 0);
+
+			m_szProto = dbei.szModule;
+		}
+	};
+
+	if (hwndParent != nullptr) {
+		CAddByEvent dlg(hEvent);
+		dlg.SetParent(hwndParent);
+		dlg.DoModal();
+	}
+	else (new CAddByEvent(hEvent))->Show();
+}
+
+MIR_APP_DLL(void) Contact_AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, HWND hwndParent)
+{
+	struct CAddBySearch : public CAddContactDlg
+	{
+		CAddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr)
+		{
+			m_szProto = szProto;
+			m_psr = psr;
+
+			wchar_t *p = sttDecodeString(psr->flags, psr->id);
+			if (p == nullptr)
+				p = sttDecodeString(psr->flags, psr->nick);
+			
+			if (p) {
+				m_szName = p;
+				mir_free(p);
+			}
+		}
+	};
+
+	if (hwndParent != nullptr) {
+		CAddBySearch dlg(szProto, psr);
+		dlg.SetParent(hwndParent);
+		dlg.DoModal();
+	}
+	else (new CAddBySearch(szProto, psr))->Show();
 }
