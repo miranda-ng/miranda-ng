@@ -144,11 +144,28 @@ public:
 	__forceinline JSONNode* Parse(LPCSTR text) { return (m_node = json_parse(text)); }
 };
 
+struct NULL_PARAM : public PARAM
+{
+	__forceinline NULL_PARAM(LPCSTR _name) : PARAM(_name)
+	{}
+	;
+};
+
+struct JSON_PARAM : public PARAM
+{
+	JSONNode node;
+	__forceinline JSON_PARAM(LPCSTR _name, JSONNode _node) :
+		PARAM(_name), node(_node)
+	{}
+};
+
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT64_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const BOOL_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param);
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const WCHAR_PARAM &param);
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const NULL_PARAM &param);
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const JSON_PARAM &param);
 
 #endif // __cplusplus
 

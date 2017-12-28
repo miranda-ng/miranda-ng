@@ -51,3 +51,15 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const WCHAR_PARAM &param)
 	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue)).get()));
 	return json;
 }
+
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const NULL_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, nullptr));
+	return json;
+}
+
+LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const JSON_PARAM &param)
+{
+	json.push_back(JSONNode(param.szName, param.node));
+	return json;
+}
