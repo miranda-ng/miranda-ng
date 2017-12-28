@@ -29,8 +29,8 @@ void FacebookProto::ChangeStatus(void*)
 	int new_status = m_iDesiredStatus;
 	int old_status = m_iStatus;
 
-	if (new_status == ID_STATUS_OFFLINE)
-	{ // Logout	
+	if (new_status == ID_STATUS_OFFLINE) {
+		// Logout	
 		debugLogA("### Beginning SignOff process");
 		m_signingOut = true;
 
@@ -74,13 +74,6 @@ void FacebookProto::ChangeStatus(void*)
 		facy.pages.clear();
 		facy.typers.clear();
 
-		// Clear thread/user id caches?
-		/* Right now it's commented out because it's not really needed to erase - maybe only when user changes login/pass in same account, but even then it shouldn't cause problems
-		facy.thread_id_to_user_id.clear();
-		facy.chat_id_to_hcontact.clear();
-		facy.user_id_to_hcontact.clear();
-		*/
-
 		// Close connection handle
 		if (facy.hFcbCon)
 			Netlib_CloseHandle(facy.hFcbCon);
@@ -94,8 +87,8 @@ void FacebookProto::ChangeStatus(void*)
 
 		return;
 	}
-	else if (old_status == ID_STATUS_OFFLINE)
-	{ // Login
+	else if (old_status == ID_STATUS_OFFLINE) {
+		// Login
 		SYSTEMTIME t;
 		GetLocalTime(&t);
 		debugLogA("[%d.%d.%d] Using Facebook Protocol RM %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING_DOTS);
@@ -112,8 +105,7 @@ void FacebookProto::ChangeStatus(void*)
 		// Workaround for not working "mbasic." for some users - reset this flag at every login
 		facy.mbasicWorks = true;
 
-		if (NegotiateConnection() && facy.home() && facy.reconnect())
-		{
+		if (NegotiateConnection() && facy.home() && facy.reconnect()) {
 			// Load all friends
 			ProcessFriendList(nullptr);
 
@@ -166,15 +158,10 @@ void FacebookProto::ChangeStatus(void*)
 		ToggleStatusMenuItems(true);
 		debugLogA("*** SignOn complete");
 	}
-	else
-	{ // Change between online/away/invisible statuses
-		if (new_status == ID_STATUS_INVISIBLE) {
+	else { // Change between online/away/invisible statuses
+		if (new_status == ID_STATUS_INVISIBLE) 
 			// When switching to invisible (from online/away), we need to set all contacts offline as we won't receive no status updates from Facebook
 			SetAllContactStatuses(ID_STATUS_OFFLINE);
-		}
-		else if (old_status == ID_STATUS_INVISIBLE) {
-			// TODO: When switching from invisible, we should somehow load all the contacts statuses...
-		}
 	}
 
 	bool wasAwayOrInvisible = (old_status == ID_STATUS_AWAY || old_status == ID_STATUS_INVISIBLE);
@@ -234,12 +221,10 @@ void FacebookProto::UpdateLoop(void *)
 	time_t tim = ::time(nullptr);
 	debugLogA(">>> Entering Facebook::UpdateLoop[%d]", tim);
 
-	for (int i = -1; !isOffline(); i = (i + 1) % 50)
-	{
-		if (i != -1) {
+	for (int i = -1; !isOffline(); i = (i + 1) % 50) {
+		if (i != -1)
 			if (getByte(FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE))
 				ProcessFeeds(nullptr);
-		}
 
 		debugLogA("*** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
 		if (WaitForSingleObjectEx(update_loop_lock_, GetPollRate() * 1000, true) != WAIT_TIMEOUT)
@@ -256,8 +241,7 @@ void FacebookProto::MessageLoop(void *)
 	time_t tim = ::time(nullptr);
 	debugLogA(">>> Entering Facebook::MessageLoop[%d]", tim);
 
-	while (facy.channel())
-	{
+	while (facy.channel()) {
 		if (isOffline() || m_signingOut)
 			break;
 
@@ -276,9 +260,5 @@ void FacebookProto::MessageLoop(void *)
 BYTE FacebookProto::GetPollRate()
 {
 	BYTE poll_rate = getByte(FACEBOOK_KEY_POLL_RATE, FACEBOOK_DEFAULT_POLL_RATE);
-
-	return (
-		(poll_rate >= FACEBOOK_MINIMAL_POLL_RATE &&
-		poll_rate <= FACEBOOK_MAXIMAL_POLL_RATE)
-		? poll_rate : FACEBOOK_DEFAULT_POLL_RATE);
+	return ((poll_rate >= FACEBOOK_MINIMAL_POLL_RATE && poll_rate <= FACEBOOK_MAXIMAL_POLL_RATE) ? poll_rate : FACEBOOK_DEFAULT_POLL_RATE);
 }

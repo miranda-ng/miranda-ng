@@ -51,19 +51,8 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		<< CHAR_VALUE("User-Agent", g_strUserAgent.c_str())
 		<< CHAR_VALUE("Cookie", ptrA(load_cookies())); // FIXME: Rework load_cookies to not do strdup
 
-	if (request->requestType == REQUEST_POST) {
-		request->Headers
-			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-	}
-
-	// TODO: rather change http_request than doing this ifdef magic here?
-/*#ifdef _DEBUG 
-	request->flags &= ~NLHRF_NODUMP;
-	request->flags |= NLHRF_DUMPASTEXT;
-#else
-	request->flags &= ~NLHRF_DUMPASTEXT;
-	request->flags |= NLHRF_NODUMP;
-#endif*/
+	if (request->requestType == REQUEST_POST)
+		request->Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
 	// Set persistent connection (or not)
 	switch (request->Persistent) {
@@ -136,9 +125,8 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 					pos += 20;
 
 					std::string::size_type pos2 = resp.data.find("\",\"", pos);
-					if (pos2 == std::string::npos) {
+					if (pos2 == std::string::npos)
 						pos2 = resp.data.find("\"", pos);
-					}
 
 					error = resp.data.substr(pos, pos2 - pos);
 					error = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(utils::text::slashu_to_utf8(error))));
@@ -244,15 +232,13 @@ char* facebook_client::load_cookies()
 
 	std::string cookieString;
 
-	if (!cookies.empty()) {
-		for (std::map< std::string, std::string >::iterator iter = cookies.begin(); iter != cookies.end(); ++iter)
-		{
+	if (!cookies.empty())
+		for (std::map< std::string, std::string >::iterator iter = cookies.begin(); iter != cookies.end(); ++iter) {
 			cookieString.append(iter->first);
 			cookieString.append(1, '=');
 			cookieString.append(iter->second);
 			cookieString.append(1, ';');
 		}
-	}
 
 	return mir_strdup(cookieString.c_str());
 }
@@ -274,9 +260,8 @@ void facebook_client::store_headers(http::response* resp, NETLIBHTTPHEADER* head
 				cookies.erase(cookie_name);
 			else
 				cookies[cookie_name] = cookie_value;
-		} else {
-			resp->headers[header_name] = header_value;
 		}
+		else resp->headers[header_name] = header_value;
 	}
 }
 
@@ -348,11 +333,10 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 
 			// try to get name of this participant
 			auto participant = participants.find(readerId);
-			if (participant != participants.end()) {
+			if (participant != participants.end())
 				name = participant->second.nick;
-			}
 		}
-		
+
 		std::wstring treaders;
 
 		// Load old readers
@@ -369,9 +353,8 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
 	parent->setDword(hContact, FACEBOOK_KEY_MESSAGE_READ, timestamp);
 	readers.insert(std::make_pair(hContact, timestamp));
 	parent->MessageRead(hContact);
-	if (ServiceExists(MS_MESSAGESTATE_UPDATE)) 
-	{
-		MessageReadData data(timestamp, MRD_TYPE_READTIME); 
+	if (ServiceExists(MS_MESSAGESTATE_UPDATE)) {
+		MessageReadData data(timestamp, MRD_TYPE_READTIME);
 		CallService(MS_MESSAGESTATE_UPDATE, hContact, (LPARAM)&data);
 	}
 }
@@ -381,23 +364,23 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const s
  */
 void facebook_client::erase_reader(MCONTACT hContact)
 {
-	if (parent->isChatRoom(hContact)) {
+	if (parent->isChatRoom(hContact))
 		parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READERS);
-	}
-	
+
 	parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READ);
 
 	readers.erase(hContact);
 	Srmm_SetStatusText(hContact, nullptr);
 }
 
-void loginError(FacebookProto *proto, std::string error_str) {
+void loginError(FacebookProto *proto, std::string error_str)
+{
 	utils::text::replace_all(&error_str, "<br \\/>", "\n");
 	utils::text::replace_all(&error_str, "\n\n\n", "\n\n");
 
 	error_str = utils::text::trim(
 		utils::text::html_entities_decode(
-		utils::text::remove_html(error_str)));
+			utils::text::remove_html(error_str)));
 
 	proto->debugLogA("!!! Login error: %s", !error_str.empty() ? error_str.c_str() : "Unknown error");
 
@@ -407,7 +390,8 @@ void loginError(FacebookProto *proto, std::string error_str) {
 	proto->facy.client_notify(buf);
 }
 
-void parseJsCookies(const std::string &search, const std::string &data, std::map<std::string, std::string> &cookies) {
+void parseJsCookies(const std::string &search, const std::string &data, std::map<std::string, std::string> &cookies)
+{
 	std::string::size_type pos = 0;
 	while ((pos = data.find(search, pos)) != std::string::npos) {
 		pos += search.length();
@@ -467,8 +451,7 @@ bool facebook_client::login(const char *username, const char *password)
 	if (!cookies["datr"].empty())
 		parent->setString(FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
 
-	if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
-	{
+	if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
 		std::string location = resp.headers["Location"];
 
 		// Check for invalid requests
@@ -518,19 +501,14 @@ bool facebook_client::login(const char *username, const char *password)
 							parent->debugLogA("!!! Login error: Too many invalid attempts to verification code.");
 							return handle_error("login", FORCE_QUIT);
 						}
-						else {
-							client_notify(TranslateT("You entered wrong verification code. Try it again."));
-						}
+						else client_notify(TranslateT("You entered wrong verification code. Try it again."));
 					}
-					else {
-						// After successful verification is showed different page - classic form to save device (as handled at the bottom)
+					else // After successful verification is showed different page - classic form to save device (as handled at the bottom)
 						break;
-					}
 				}
 
 				// Save this actual device
-				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos
-					&& resp.data.find("name=\"name_action_selected\"") != std::string::npos) {
+				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos && resp.data.find("name=\"name_action_selected\"") != std::string::npos) {
 					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
@@ -566,9 +544,8 @@ bool facebook_client::login(const char *username, const char *password)
 
 					std::string activity = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "<body", "</strong></div>", "</div>"));
 					activity = utils::text::trim(utils::text::html_entities_decode(utils::text::remove_html(activity)));
-					if (!activity.empty()) {
+					if (!activity.empty())
 						tszMessage.AppendFormat(L"\n\n%s", ptrW(mir_utf8decodeW(activity.c_str())));
-					}
 
 					if (MessageBox(nullptr, tszMessage, tszTitle, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON1) != IDYES) {
 						// We will cancel connecting right away, because we don't want to handle password changing via Miranda
@@ -585,7 +562,7 @@ bool facebook_client::login(const char *username, const char *password)
 					// 3) Save last device
 					fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 					nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
-					
+
 					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
 					request->Body << "&name_action_selected=save_device"; // Save device - or "dont_save"
 					resp = sendRequest(request);
@@ -598,7 +575,8 @@ bool facebook_client::login(const char *username, const char *password)
 					parent->delSetting(FACEBOOK_KEY_DEVICE_ID);
 					parent->setByte(FACEBOOK_KEY_TRIED_DELETING_DEVICE_ID, 1);
 					return login(username, password);
-				} else {
+				}
+				else {
 					// Reset flag
 					parent->delSetting(FACEBOOK_KEY_TRIED_DELETING_DEVICE_ID);
 					// Facebook things that computer was infected by malware and needs cleaning
@@ -610,43 +588,40 @@ bool facebook_client::login(const char *username, const char *password)
 		}
 	}
 
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_FAKE_DISCONNECTED:
-	{
 		// When is error only because timeout, try login once more
 		if (handle_error("login"))
 			return login(username, password);
 		else
 			return handle_error("login", FORCE_QUIT);
-	}
 
 	case HTTP_CODE_OK: // OK page returned, but that is regular login page we don't want in fact
-	{
 		// Check whether captcha code is required
 		if (resp.data.find("id=\"captcha\"") != std::string::npos) {
 			client_notify(TranslateT("Login error: Captcha code is required. You need to confirm this device from web browser."));
 			parent->debugLogA("!!! Login error: Captcha code is required.");
 			return handle_error("login", FORCE_QUIT);
 		}
+		else {
+			// Get and notify error message
+			std::string error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "[\"LoginFormError\"", "\"__html\":\"", "\"}"));
+			if (error.empty())
+				error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "role=\"alert\"", ">", "</div"));
+			if (error.empty())
+				error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "id=\"globalContainer\"", ">", "</div"));
+			if (error.empty())
+				error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 2, "<strong>", "</strong"));
+			loginError(parent, error);
+		}
+		// fall through
 
-		// Get and notify error message
-		std::string error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "[\"LoginFormError\"", "\"__html\":\"", "\"}"));
-		if (error.empty())
-			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "role=\"alert\"", ">", "</div"));
-		if (error.empty())
-			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "id=\"globalContainer\"", ">", "</div"));
-		if (error.empty())
-			error = utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 2, "<strong>", "</strong"));
-		loginError(parent, error);
-	}
 	case HTTP_CODE_FORBIDDEN: // Forbidden
 	case HTTP_CODE_NOT_FOUND: // Not Found
 	default:
 		return handle_error("login", FORCE_QUIT);
 
 	case HTTP_CODE_FOUND: // Found and redirected somewhere
-	{
 		if (resp.headers.find("Location") != resp.headers.end()) {
 			std::string redirectUrl = resp.headers["Location"];
 			std::string expectedUrl = HTTP_PROTO_SECURE FACEBOOK_SERVER_REGULAR "/";
@@ -655,7 +630,7 @@ bool facebook_client::login(const char *username, const char *password)
 			std::string::size_type pos = redirectUrl.rfind("?");
 			if (pos != std::string::npos)
 				redirectUrl = redirectUrl.substr(0, pos);
-			
+
 			if (redirectUrl != expectedUrl) {
 				// Unexpected redirect, but we try to ignore it - maybe we were logged in anyway
 				parent->debugLogA("!!! Login error: Unexpected redirect: %s (Original: %s) (Expected: %s)", redirectUrl.c_str(), resp.headers["Location"].c_str(), expectedUrl.c_str());
@@ -675,7 +650,6 @@ bool facebook_client::login(const char *username, const char *password)
 			return handle_error("login", FORCE_QUIT);
 		}
 	}
-	}
 }
 
 bool facebook_client::logout()
@@ -689,8 +663,7 @@ bool facebook_client::logout()
 	this->password_.clear();
 	this->self_.user_id.clear();
 
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
 	case HTTP_CODE_FOUND:
 		return handle_success("logout");
@@ -711,115 +684,114 @@ bool facebook_client::home()
 	{
 		// Compute ttstamp from dtsg_
 		std::stringstream csrf;
-		for (unsigned int i = 0; i < this->dtsg_.length(); i++) {
+		for (unsigned int i = 0; i < this->dtsg_.length(); i++)
 			csrf << (int)this->dtsg_.at(i);
-		}
+
 		this->ttstamp_ = "2" + csrf.str();
-	}	
+	}
 
 	if (this->dtsg_.empty()) {
 		parent->debugLogA("!!! Empty dtsg. Source code:\n%s", resp.data.c_str());
 		client_notify(TranslateT("Could not load communication token. You should report this and wait for plugin update."));
 		return handle_error("home", FORCE_QUIT);
-	} else {
-		parent->debugLogA("    Got self dtsg");
 	}
+	
+	parent->debugLogA("    Got self dtsg");
 
 	resp = sendRequest(new HomeRequest());
 
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
-	{
-		std::string touchSearch = "{\"id\":" + this->self_.user_id;
-		std::string touchData = utils::text::source_get_value(&resp.data, 2, touchSearch.c_str(), "}");
+		{
+			std::string touchSearch = "{\"id\":" + this->self_.user_id;
+			std::string touchData = utils::text::source_get_value(&resp.data, 2, touchSearch.c_str(), "}");
 
-		// Get real name (from touch version)
-		if (!touchData.empty())
-			this->self_.real_name = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&touchData, 2, "\"name\":\"", "\"")));
+			// Get real name (from touch version)
+			if (!touchData.empty())
+				this->self_.real_name = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&touchData, 2, "\"name\":\"", "\"")));
 
-		// Another attempt to get real name (from mbasic version)
-		if (this->self_.real_name.empty())
-			this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
+			// Another attempt to get real name (from mbasic version)
+			if (this->self_.real_name.empty())
+				this->self_.real_name = utils::text::source_get_value(&resp.data, 4, "id=\"root", "<strong", ">", "</strong>");
 
-		// Try to get name again, if we've got some some weird version of Facebook
-		if (this->self_.real_name.empty())
-			this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</a>", "<div", ">", "</div>");
+			// Try to get name again, if we've got some some weird version of Facebook
+			if (this->self_.real_name.empty())
+				this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</a>", "<div", ">", "</div>");
 
-		// Another attempt to get name
-		if (this->self_.real_name.empty())
-			this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</td>", "<div", ">", "</td>");
+			// Another attempt to get name
+			if (this->self_.real_name.empty())
+				this->self_.real_name = utils::text::source_get_value(&resp.data, 5, "id=\"root", "</td>", "<div", ">", "</td>");
 
-		// Get and strip optional nickname
-		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
-		if (pos != std::string::npos) {
-			this->self_.nick = utils::text::source_get_value(&this->self_.real_name, 2, "<span class=\"alternate_name\">(", ")</span>");
-			parent->debugLogA("    Got self nick name: %s", this->self_.nick.c_str());
+			// Get and strip optional nickname
+			std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
+			if (pos != std::string::npos) {
+				this->self_.nick = utils::text::source_get_value(&this->self_.real_name, 2, "<span class=\"alternate_name\">(", ")</span>");
+				parent->debugLogA("    Got self nick name: %s", this->self_.nick.c_str());
 
-			this->self_.real_name = this->self_.real_name.substr(0, pos - 1);
-		}
-		
-		// Another attempt to get optional nickname
-		if (this->self_.nick.empty())
-			this->self_.nick = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "class=\\\"alternate_name\\\"", ">(", ")\\u003C\\/")));
+				this->self_.real_name = this->self_.real_name.substr(0, pos - 1);
+			}
 
-		this->self_.real_name = utils::text::remove_html(this->self_.real_name);
-		parent->debugLogA("    Got self real name (nickname): %s (%s)", this->self_.real_name.c_str(), this->self_.nick.c_str());
-		parent->SaveName(NULL, &this->self_);
+			// Another attempt to get optional nickname
+			if (this->self_.nick.empty())
+				this->self_.nick = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "class=\\\"alternate_name\\\"", ">(", ")\\u003C\\/")));
 
-		// Get avatar (from touch version)
-		if (!touchData.empty())
-			this->self_.image_url = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&touchData, 2, "\"pic\":\"", "\"")));
-
-		// Another attempt to get avatar(from mbasic version)
-		if (this->self_.image_url.empty())
-			this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "<img src=\"", "\"");
-		
-		// Another attempt to get avatar
-		if (this->self_.image_url.empty()) {
-			this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "/photo.php?", "\"");
-			
-			// Prepare this special url (not direct image url) to be handled correctly in CheckAvatarChange()
-			// It must contain "/" at the beginning and also shouldn't contain "?" as parameters after that are stripped
-			if (!this->self_.image_url.empty())
-				this->self_.image_url = "/" + this->self_.image_url;
-		}
-		
-		// Final attempt to get avatar as on some pages is only link to photo page and not link to image itself
-		if (this->self_.image_url.empty()) {
-			HttpRequest *request = new ProfilePictureRequest(this->mbasicWorks, self_.user_id.c_str());
-			http::response resp2 = sendRequest(request);
-				
-			// Get avatar (from mbasic version of photo page)
-			this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "<img src=\"", "\""));
+			this->self_.real_name = utils::text::remove_html(this->self_.real_name);
+			parent->debugLogA("    Got self real name (nickname): %s (%s)", this->self_.real_name.c_str(), this->self_.nick.c_str());
+			parent->SaveName(NULL, &this->self_);
 
 			// Get avatar (from touch version)
-			if (this->self_.image_url.empty())
-				this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "background-image: url(&quot;", "&quot;)"));
+			if (!touchData.empty())
+				this->self_.image_url = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&touchData, 2, "\"pic\":\"", "\"")));
 
-			// Sometimes even Facebook doesn't show any picture at all! So just ignore this error in that case...
+			// Another attempt to get avatar(from mbasic version)
+			if (this->self_.image_url.empty())
+				this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "<img src=\"", "\"");
+
+			// Another attempt to get avatar
 			if (this->self_.image_url.empty()) {
-				parent->debugLogA("!!! Empty avatar even from avatar page. Source code:\n%s", resp2.data.c_str());
-				
-				// Set dumb avatar "url" (see how it works in CheckAvatarChange()) so we can't tell if/when the avatar changed, but it will be loaded at least once
-				this->self_.image_url = "/NO_AVATAR/";
+				this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "/photo.php?", "\"");
+
+				// Prepare this special url (not direct image url) to be handled correctly in CheckAvatarChange()
+				// It must contain "/" at the beginning and also shouldn't contain "?" as parameters after that are stripped
+				if (!this->self_.image_url.empty())
+					this->self_.image_url = "/" + this->self_.image_url;
+			}
+
+			// Final attempt to get avatar as on some pages is only link to photo page and not link to image itself
+			if (this->self_.image_url.empty()) {
+				HttpRequest *request = new ProfilePictureRequest(this->mbasicWorks, self_.user_id.c_str());
+				http::response resp2 = sendRequest(request);
+
+				// Get avatar (from mbasic version of photo page)
+				this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "<img src=\"", "\""));
+
+				// Get avatar (from touch version)
+				if (this->self_.image_url.empty())
+					this->self_.image_url = utils::text::html_entities_decode(utils::text::source_get_value(&resp2.data, 3, "id=\"root", "background-image: url(&quot;", "&quot;)"));
+
+				// Sometimes even Facebook doesn't show any picture at all! So just ignore this error in that case...
+				if (this->self_.image_url.empty()) {
+					parent->debugLogA("!!! Empty avatar even from avatar page. Source code:\n%s", resp2.data.c_str());
+
+					// Set dumb avatar "url" (see how it works in CheckAvatarChange()) so we can't tell if/when the avatar changed, but it will be loaded at least once
+					this->self_.image_url = "/NO_AVATAR/";
+				}
+			}
+
+			parent->debugLogA("    Got self avatar: %s", this->self_.image_url.c_str());
+			parent->CheckAvatarChange(NULL, this->self_.image_url);
+
+			// Get logout hash
+			this->logout_hash_ = utils::text::source_get_value2(&resp.data, "/logout.php?h=", "&\"");
+			parent->debugLogA("    Got self logout hash: %s", this->logout_hash_.c_str());
+
+			if (this->self_.real_name.empty() || this->self_.image_url.empty() || this->logout_hash_.empty()) {
+				parent->debugLogA("!!! Empty nick/avatar/hash. Source code:\n%s", resp.data.c_str());
+				client_notify(TranslateT("Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update."));
 			}
 		}
-
-		parent->debugLogA("    Got self avatar: %s", this->self_.image_url.c_str());
-		parent->CheckAvatarChange(NULL, this->self_.image_url);
-
-		// Get logout hash
-		this->logout_hash_ = utils::text::source_get_value2(&resp.data, "/logout.php?h=", "&\"");
-		parent->debugLogA("    Got self logout hash: %s", this->logout_hash_.c_str());
-
-		if (this->self_.real_name.empty() || this->self_.image_url.empty() || this->logout_hash_.empty()) {
-			parent->debugLogA("!!! Empty nick/avatar/hash. Source code:\n%s", resp.data.c_str());
-			client_notify(TranslateT("Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update."));
-		}
-
 		return handle_success("home");
-	}
+
 	case HTTP_CODE_FOUND:
 		// Work-around for replica_down, f**king hell what's that?
 		parent->debugLogA("!!! REPLICA_DOWN is back in force!");
@@ -850,39 +822,37 @@ bool facebook_client::reconnect()
 	// Request reconnect
 	http::response resp = sendRequest(new ReconnectRequest(this));
 
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
-	{
-		this->chat_channel_ = utils::text::source_get_value(&resp.data, 2, "\"user_channel\":\"", "\"");
-		parent->debugLogA("    Got self channel: %s", this->chat_channel_.c_str());
+		{
+			this->chat_channel_ = utils::text::source_get_value(&resp.data, 2, "\"user_channel\":\"", "\"");
+			parent->debugLogA("    Got self channel: %s", this->chat_channel_.c_str());
 
-		this->chat_channel_partition_ = utils::text::source_get_value2(&resp.data, "\"partition\":", ",}");
-		parent->debugLogA("    Got self channel partition: %s", this->chat_channel_partition_.c_str());
+			this->chat_channel_partition_ = utils::text::source_get_value2(&resp.data, "\"partition\":", ",}");
+			parent->debugLogA("    Got self channel partition: %s", this->chat_channel_partition_.c_str());
 
-		this->chat_channel_host_ = utils::text::source_get_value(&resp.data, 2, "\"host\":\"", "\"");
-		parent->debugLogA("    Got self channel host: %s", this->chat_channel_host_.c_str());
+			this->chat_channel_host_ = utils::text::source_get_value(&resp.data, 2, "\"host\":\"", "\"");
+			parent->debugLogA("    Got self channel host: %s", this->chat_channel_host_.c_str());
 
-		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
-		parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
+			this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
+			parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
-		this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
-		parent->debugLogA("    Got self max_conn: %s", this->chat_conn_num_.c_str());
+			this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
+			parent->debugLogA("    Got self max_conn: %s", this->chat_conn_num_.c_str());
 
-		this->chat_sticky_num_ = utils::text::source_get_value(&resp.data, 2, "\"sticky_token\":\"", "\"");
-		parent->debugLogA("    Got self sticky_token: %s", this->chat_sticky_num_.c_str());
+			this->chat_sticky_num_ = utils::text::source_get_value(&resp.data, 2, "\"sticky_token\":\"", "\"");
+			parent->debugLogA("    Got self sticky_token: %s", this->chat_sticky_num_.c_str());
 
-		//std::string retry_interval = utils::text::source_get_value2(&resp.data, "\"retry_interval\":", ",}");
-		//parent->debugLogA("    Got self retry_interval: %s", retry_interval.c_str());
+			//std::string retry_interval = utils::text::source_get_value2(&resp.data, "\"retry_interval\":", ",}");
+			//parent->debugLogA("    Got self retry_interval: %s", retry_interval.c_str());
 
-		//std::string visibility = utils::text::source_get_value2(&resp.data, "\"visibility\":", ",}");
-		//parent->debugLogA("    Got self visibility: %s", visibility.c_str());
+			//std::string visibility = utils::text::source_get_value2(&resp.data, "\"visibility\":", ",}");
+			//parent->debugLogA("    Got self visibility: %s", visibility.c_str());
 
-		// Send activity_ping after each reconnect
-		activity_ping();
-
+			// Send activity_ping after each reconnect
+			activity_ping();
+		}
 		return handle_success("reconnect");
-	}
 
 	default:
 		return handle_error("reconnect", FORCE_DISCONNECT);
@@ -897,16 +867,13 @@ bool facebook_client::channel()
 	ChannelRequest *request = new ChannelRequest(this, ChannelRequest::PULL);
 	http::response resp = sendRequest(request);
 
-	if (resp.data.empty()) {
-		// Something went wrong
+	if (resp.data.empty()) // Something went wrong
 		return handle_error("channel");
-	}
 
 	// Load traceId, if present
 	std::string traceId = utils::text::source_get_value(&resp.data, 2, "\"tr\":\"", "\"");
-	if (!traceId.empty()) {
+	if (!traceId.empty())
 		this->chat_traceid_ = traceId;
-	}
 
 	std::string type = utils::text::source_get_value(&resp.data, 2, "\"t\":\"", "\"");
 	parent->debugLogA("Pull response type = %s", type.c_str());
@@ -972,14 +939,11 @@ bool facebook_client::channel()
 
 		this->chat_sequence_num_ = seq;
 	}
-	else {
-		// No type? This shouldn't happen unless there is a big API change.
+	else // No type? This shouldn't happen unless there is a big API change.
 		return handle_error("channel");
-	}
 
 	// Return
-	switch (resp.code)
-	{
+	switch (resp.code) {
 	case HTTP_CODE_OK:
 		return handle_success("channel");
 
@@ -1023,12 +987,11 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 
 	bool isChatRoom = parent->isChatRoom(hContact);
 
-	ptrA userId( parent->getStringA(hContact, FACEBOOK_KEY_ID));
-	ptrA threadId( parent->getStringA(hContact, FACEBOOK_KEY_TID));
-	
+	ptrA userId(parent->getStringA(hContact, FACEBOOK_KEY_ID));
+	ptrA threadId(parent->getStringA(hContact, FACEBOOK_KEY_TID));
+
 	// Check if we have userId/threadId to be able to send message
-	if ((isChatRoom && (threadId == NULL || !mir_strcmp(threadId, "null")))
-		|| (!isChatRoom && (userId == NULL || !mir_strcmp(userId, "null")))) {
+	if ((isChatRoom && (threadId == NULL || !mir_strcmp(threadId, "null"))) || (!isChatRoom && (userId == NULL || !mir_strcmp(userId, "null")))) {
 		// This shouldn't happen unless user manually deletes some data via Database Editor++
 		*error_text = Translate("Contact doesn't have required data in database.");
 
@@ -1040,10 +1003,9 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	std::string messageId = utils::text::rand_string(10, "123456789", &this->random_);
 
 	http::response resp;
-
 	{
 		HttpRequest *request = new SendMessageRequest(this, userId, threadId, messageId.c_str(), message_text.c_str(), isChatRoom, captcha.c_str(), captcha_persist_data.c_str());
-		ScopedLock s(send_message_lock_);		
+		ScopedLock s(send_message_lock_);
 		resp = sendRequest(request);
 
 		*error_text = resp.error_text;
@@ -1076,11 +1038,11 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	}
 
 	switch (resp.error_number) {
-	case 0: 
+	case 0:
 		// Everything is OK
 		break;
 
-	// case 1356002: // You are offline (probably you can't use mercury or some other request when chat is offline)
+		// case 1356002: // You are offline (probably you can't use mercury or some other request when chat is offline)
 
 	case 1356003: // Contact is offline
 		parent->setWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -1161,22 +1123,19 @@ bool facebook_client::post_status(status_data *status)
 		std::string temp = utils::text::html_entities_decode(utils::text::slashu_to_utf8(resp.data));
 		std::string form = utils::text::source_get_value(&temp, 2, "<form", "</form>");
 		utils::text::replace_all(&form, "\\\"", "\"");
-		linkData += utils::text::source_get_form_data(&form);		
+		linkData += utils::text::source_get_form_data(&form);
 		// FIXME: Rework to some "scraped_link" structure to simplify working with it?
 	}
 
 	HttpRequest *request = new SharePostRequest(this, status, linkData.c_str());
 	http::response resp = sendRequest(request);
 
-	if (status->isPage) {
-		// Switch back to our identity
+	if (status->isPage) // Switch back to our identity
 		sendRequest(new SwitchIdentityRequest(this->dtsg_.c_str(), this->self_.user_id.c_str()));
-	}
 
 	// cleanup status elements (delete users)
-	for (std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {
+	for (std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++)
 		delete status->users[i];
-	}
 	status->users.clear();
 
 	if (resp.isValid()) {
@@ -1192,16 +1151,13 @@ bool facebook_client::post_status(status_data *status)
 bool facebook_client::save_url(const std::string &url, const std::wstring &filename, HNETLIBCONN &nlc)
 {
 	NETLIBHTTPREQUEST req = { sizeof(req) };
-	NETLIBHTTPREQUEST *resp;
 	req.requestType = REQUEST_GET;
 	req.szUrl = const_cast<char*>(url.c_str());
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT | NLHRF_NODUMP;
 	req.nlc = nlc;
 
-	resp = Netlib_HttpTransaction(handle_, &req);
-
 	bool ret = false;
-
+	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(handle_, &req);
 	if (resp) {
 		nlc = resp->nlc;
 		parent->debugLogA("@@@ Saving URL %s to file %s", url.c_str(), _T2A(filename.c_str()));
@@ -1222,9 +1178,7 @@ bool facebook_client::save_url(const std::string &url, const std::wstring &filen
 
 		Netlib_FreeHttpRequest(resp);
 	}
-	else {
-		nlc = nullptr;
-	}
+	else nlc = nullptr;
 
 	return ret;
 }

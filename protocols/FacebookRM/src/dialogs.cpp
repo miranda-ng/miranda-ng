@@ -40,42 +40,37 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-	switch (message)
-	{
+	switch (message) {
 
 	case WM_INITDIALOG:
-	{
-		TranslateDialogDefault(hwnd);
-
-		proto = reinterpret_cast<FacebookProto*>(lparam);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
-
-		ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
-		if (login != NULL)
-			SetDlgItemTextA(hwnd, IDC_UN, login);
-
-		ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
-		if (password != NULL)
-			SetDlgItemTextA(hwnd, IDC_PW, password);
-
-		if (!proto->isOffline())
 		{
-			SendDlgItemMessage(hwnd, IDC_UN, EM_SETREADONLY, 1, 0);
-			SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, 1, 0);
+			TranslateDialogDefault(hwnd);
+
+			proto = reinterpret_cast<FacebookProto*>(lparam);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
+
+			ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
+			if (login != NULL)
+				SetDlgItemTextA(hwnd, IDC_UN, login);
+
+			ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
+			if (password != NULL)
+				SetDlgItemTextA(hwnd, IDC_PW, password);
+
+			if (!proto->isOffline()) {
+				SendDlgItemMessage(hwnd, IDC_UN, EM_SETREADONLY, 1, 0);
+				SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, 1, 0);
+			}
+			return TRUE;
 		}
-		return TRUE;
-	}
 	case WM_COMMAND:
-		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK)
-		{
+		if (LOWORD(wparam) == IDC_NEWACCOUNTLINK) {
 			proto->OpenUrl(std::string(FACEBOOK_URL_HOMEPAGE));
 			return TRUE;
 		}
 
-		if (HIWORD(wparam) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
-		{
-			switch (LOWORD(wparam))
-			{
+		if (HIWORD(wparam) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus()) {
+			switch (LOWORD(wparam)) {
 			case IDC_UN:
 			case IDC_PW:
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -84,8 +79,7 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			char str[128];
 
 			GetDlgItemTextA(hwnd, IDC_UN, str, _countof(str));
@@ -122,8 +116,7 @@ void ClistPrepare(FacebookProto *proto, MCONTACT hItem, HWND hwndList)
 	if (hItem == NULL)
 		hItem = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem)
-	{
+	while (hItem) {
 		MCONTACT hItemN = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
 		if (IsHContactGroup(hItem)) {
@@ -170,7 +163,8 @@ void GetSelectedContacts(FacebookProto *proto, MCONTACT hItem, HWND hwndList, st
 	}
 }
 
-void ResizeHorizontal(HWND hwnd, bool wide) {
+void ResizeHorizontal(HWND hwnd, bool wide)
+{
 	RECT r = { 0, 0, wide ? 422 : 271, 116 };
 	MapDialogRect(hwnd, &r);
 	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
@@ -186,64 +180,62 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 {
 	post_status_data *data;
 
-	switch (message)
-	{
+	switch (message) {
 
 	case WM_INITDIALOG:
-	{
-		TranslateDialogDefault(hwnd);
+		{
+			TranslateDialogDefault(hwnd);
 
-		Window_SetIcon_IcoLib(hwnd, GetIconHandle("mind"));
+			Window_SetIcon_IcoLib(hwnd, GetIconHandle("mind"));
 
-		data = reinterpret_cast<post_status_data*>(lparam);
+			data = reinterpret_cast<post_status_data*>(lparam);
 
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
-		SendDlgItemMessage(hwnd, IDC_MINDMSG, EM_LIMITTEXT, FACEBOOK_MIND_LIMIT, 0);
-		SendDlgItemMessage(hwnd, IDC_URL, EM_LIMITTEXT, 1024, 0);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
+			SendDlgItemMessage(hwnd, IDC_MINDMSG, EM_LIMITTEXT, FACEBOOK_MIND_LIMIT, 0);
+			SendDlgItemMessage(hwnd, IDC_URL, EM_LIMITTEXT, 1024, 0);
 
-		ptrW place(data->proto->getWStringA(FACEBOOK_KEY_PLACE));
-		SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : L"Miranda NG");
+			ptrW place(data->proto->getWStringA(FACEBOOK_KEY_PLACE));
+			SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : L"Miranda NG");
 
-		bShowContacts = data->proto->getByte("PostStatusExpand", 0) > 0;
-		ResizeHorizontal(hwnd, bShowContacts);
+			bShowContacts = data->proto->getByte("PostStatusExpand", 0) > 0;
+			ResizeHorizontal(hwnd, bShowContacts);
 
-		HWND hwndClist = GetDlgItem(hwnd, IDC_CCLIST);
-		SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
+			HWND hwndClist = GetDlgItem(hwnd, IDC_CCLIST);
+			SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
 
-		for (std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
-			SendDlgItemMessage(hwnd, IDC_WALL, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(data->walls[i]->title));
-		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, 0, 0);
-		SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_LAST_WALL, 0), 0);
-		RefreshPrivacy(hwnd, data);
+			for (std::vector<wall_data*>::size_type i = 0; i < data->walls.size(); i++)
+				SendDlgItemMessage(hwnd, IDC_WALL, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(data->walls[i]->title));
+			SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwnd, IDC_WALL, CB_SETCURSEL, data->proto->getByte(FACEBOOK_KEY_LAST_WALL, 0), 0);
+			RefreshPrivacy(hwnd, data);
 
-		ptrA firstname(data->proto->getStringA(FACEBOOK_KEY_FIRST_NAME));
-		if (firstname != NULL) {
-			char title[100];
-			mir_snprintf(title, Translate("What's on your mind, %s?"), firstname);
-			SetWindowTextA(hwnd, title);
-		}
-	}
-
-	EnableWindow(GetDlgItem(hwnd, IDOK), FALSE);
-	return TRUE;
-
-	case WM_NOTIFY:
-	{
-		NMCLISTCONTROL *nmc = (NMCLISTCONTROL *)lparam;
-		if (nmc->hdr.idFrom == IDC_CCLIST) {
-			switch (nmc->hdr.code) {
-			case CLN_LISTREBUILT:
-				data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-				ClistPrepare(data->proto, NULL, nmc->hdr.hwndFrom);
-				break;
+			ptrA firstname(data->proto->getStringA(FACEBOOK_KEY_FIRST_NAME));
+			if (firstname != NULL) {
+				char title[100];
+				mir_snprintf(title, Translate("What's on your mind, %s?"), firstname);
+				SetWindowTextA(hwnd, title);
 			}
 		}
-	}
-	break;
+
+		EnableWindow(GetDlgItem(hwnd, IDOK), FALSE);
+		return TRUE;
+
+	case WM_NOTIFY:
+		{
+			NMCLISTCONTROL *nmc = (NMCLISTCONTROL *)lparam;
+			if (nmc->hdr.idFrom == IDC_CCLIST) {
+				switch (nmc->hdr.code) {
+				case CLN_LISTREBUILT:
+					data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+					ClistPrepare(data->proto, NULL, nmc->hdr.hwndFrom);
+					break;
+				}
+			}
+		}
+		break;
 
 	case WM_COMMAND:
-		switch (LOWORD(wparam))
-		{
+		switch (LOWORD(wparam)) {
 		case IDC_WALL:
 			if (HIWORD(wparam) == CBN_SELCHANGE) {
 				data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
@@ -269,59 +261,60 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			break;
 
 		case IDOK:
-		{
-			data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+			{
+				data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-			wchar_t mindMessageT[FACEBOOK_MIND_LIMIT + 1];
-			wchar_t urlT[1024];
-			wchar_t placeT[100];
+				wchar_t mindMessageT[FACEBOOK_MIND_LIMIT + 1];
+				wchar_t urlT[1024];
+				wchar_t placeT[100];
 
-			GetDlgItemText(hwnd, IDC_MINDMSG, mindMessageT, _countof(mindMessageT));
-			GetDlgItemText(hwnd, IDC_PLACE, placeT, _countof(placeT));
-			GetDlgItemText(hwnd, IDC_URL, urlT, _countof(urlT));
-			ShowWindow(hwnd, SW_HIDE);
+				GetDlgItemText(hwnd, IDC_MINDMSG, mindMessageT, _countof(mindMessageT));
+				GetDlgItemText(hwnd, IDC_PLACE, placeT, _countof(placeT));
+				GetDlgItemText(hwnd, IDC_URL, urlT, _countof(urlT));
+				ShowWindow(hwnd, SW_HIDE);
 
-			int wall_id = SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0);
-			int privacy_id = SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0);
+				int wall_id = SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCURSEL, 0, 0);
+				int privacy_id = SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCURSEL, 0, 0);
 
-			data->proto->setWString(FACEBOOK_KEY_PLACE, placeT);
-			data->proto->setByte("PostStatusExpand", bShowContacts);
+				data->proto->setWString(FACEBOOK_KEY_PLACE, placeT);
+				data->proto->setByte("PostStatusExpand", bShowContacts);
 
-			// remember last wall, only when there are more options
-			if (SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCOUNT, 0, 0) > 1)
-				data->proto->setByte(FACEBOOK_KEY_LAST_WALL, wall_id);
+				// remember last wall, only when there are more options
+				if (SendDlgItemMessage(hwnd, IDC_WALL, CB_GETCOUNT, 0, 0) > 1)
+					data->proto->setByte(FACEBOOK_KEY_LAST_WALL, wall_id);
 
-			// remember last privacy, only when there are more options
-			if (SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCOUNT, 0, 0) > 1)
-				data->proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, privacy_id);
+				// remember last privacy, only when there are more options
+				if (SendDlgItemMessage(hwnd, IDC_PRIVACY, CB_GETCOUNT, 0, 0) > 1)
+					data->proto->setByte(FACEBOOK_KEY_PRIVACY_TYPE, privacy_id);
 
-			status_data *status = new status_data();
-			status->user_id = data->walls[wall_id]->user_id;
-			status->isPage = data->walls[wall_id]->isPage;
-			status->privacy = privacy_types[privacy_id].id;
-			status->place = T2Utf(placeT);
-			status->url = _T2A(urlT);
+				status_data *status = new status_data();
+				status->user_id = data->walls[wall_id]->user_id;
+				status->isPage = data->walls[wall_id]->isPage;
+				status->privacy = privacy_types[privacy_id].id;
+				status->place = T2Utf(placeT);
+				status->url = _T2A(urlT);
 
-			HWND hwndList = GetDlgItem(hwnd, IDC_CCLIST);
-			GetSelectedContacts(data->proto, NULL, hwndList, &status->users);
+				HWND hwndList = GetDlgItem(hwnd, IDC_CCLIST);
+				GetSelectedContacts(data->proto, NULL, hwndList, &status->users);
 
-			T2Utf narrow(mindMessageT);
-			status->text = narrow;
+				T2Utf narrow(mindMessageT);
+				status->text = narrow;
 
-			if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != (char*)narrow)
-				data->proto->last_status_msg_ = narrow;
+				if (status->user_id == data->proto->facy.self_.user_id && data->proto->last_status_msg_ != (char*)narrow)
+					data->proto->last_status_msg_ = narrow;
 
-			data->proto->ForkThread(&FacebookProto::SetAwayMsgWorker, status);
+				data->proto->ForkThread(&FacebookProto::SetAwayMsgWorker, status);
 
-			EndDialog(hwnd, wparam);
-			return TRUE;
-		}
+				EndDialog(hwnd, wparam);
+				return TRUE;
+			}
 
 		case IDCANCEL:
 			EndDialog(hwnd, wparam);
 			return TRUE;
-
-		} break;
+		}
+		break;
+	
 	case WM_DESTROY:
 		data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
@@ -340,62 +333,60 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-	switch (message)
-	{
-
+	switch (message) {
 	case WM_INITDIALOG:
-	{
-		TranslateDialogDefault(hwnd);
+		{
+			TranslateDialogDefault(hwnd);
 
-		proto = reinterpret_cast<FacebookProto*>(lparam);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
+			proto = reinterpret_cast<FacebookProto*>(lparam);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-		ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
-		if (login != NULL)
-			SetDlgItemTextA(hwnd, IDC_UN, login);
+			ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
+			if (login != NULL)
+				SetDlgItemTextA(hwnd, IDC_UN, login);
 
-		ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
-		if (password != NULL)
-			SetDlgItemTextA(hwnd, IDC_PW, password);
+			ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
+			if (password != NULL)
+				SetDlgItemTextA(hwnd, IDC_PW, password);
 
-		if (!proto->isOffline()) {
-			SendDlgItemMessage(hwnd, IDC_UN, EM_SETREADONLY, TRUE, 0);
-			SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, TRUE, 0);
+			if (!proto->isOffline()) {
+				SendDlgItemMessage(hwnd, IDC_UN, EM_SETREADONLY, TRUE, 0);
+				SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, TRUE, 0);
+			}
+
+			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
+
+			if (proto->m_tszDefaultGroup != NULL)
+				SetDlgItemText(hwnd, IDC_GROUP, proto->m_tszDefaultGroup);
+
+			LoadDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, DEFAULT_DISABLE_STATUS_NOTIFY);
+			LoadDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
+			LoadDBCheckState(proto, hwnd, IDC_NAME_AS_NICK, FACEBOOK_KEY_NAME_AS_NICK, DEFAULT_NAME_AS_NICK);
+			LoadDBCheckState(proto, hwnd, IDC_LOAD_ALL_CONTACTS, FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
+			LoadDBCheckState(proto, hwnd, IDC_PAGES_ALWAYS_ONLINE, FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE);
 		}
-
-		SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
-
-		if (proto->m_tszDefaultGroup != NULL)
-			SetDlgItemText(hwnd, IDC_GROUP, proto->m_tszDefaultGroup);
-
-		LoadDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, DEFAULT_DISABLE_STATUS_NOTIFY);
-		LoadDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
-		LoadDBCheckState(proto, hwnd, IDC_NAME_AS_NICK, FACEBOOK_KEY_NAME_AS_NICK, DEFAULT_NAME_AS_NICK);
-		LoadDBCheckState(proto, hwnd, IDC_LOAD_ALL_CONTACTS, FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
-		LoadDBCheckState(proto, hwnd, IDC_PAGES_ALWAYS_ONLINE, FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE);
-
-	} return TRUE;
+		return TRUE;
 
 	case WM_COMMAND:
-	{
-		switch (LOWORD(wparam)) {
-		case IDC_NEWACCOUNTLINK:
-			proto->OpenUrl(std::string(FACEBOOK_URL_HOMEPAGE));
-			return TRUE;
-		case IDC_UN:
-		case IDC_PW:
-		case IDC_GROUP:
-			if (HIWORD(wparam) == EN_CHANGE && (HWND)lparam == GetFocus())
+		{
+			switch (LOWORD(wparam)) {
+			case IDC_NEWACCOUNTLINK:
+				proto->OpenUrl(std::string(FACEBOOK_URL_HOMEPAGE));
+				return TRUE;
+			case IDC_UN:
+			case IDC_PW:
+			case IDC_GROUP:
+				if (HIWORD(wparam) == EN_CHANGE && (HWND)lparam == GetFocus())
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				break;
+			default:
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-		default:
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			}
 		}
-	} break;
+		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			char str[128]; wchar_t tstr[128];
 
 			GetDlgItemTextA(hwnd, IDC_UN, str, _countof(str));
@@ -405,8 +396,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			proto->setString(FACEBOOK_KEY_PASS, str);
 
 			GetDlgItemText(hwnd, IDC_GROUP, tstr, _countof(tstr));
-			if (tstr[0] != '\0')
-			{
+			if (tstr[0] != '\0') {
 				proto->m_tszDefaultGroup = mir_wstrdup(tstr);
 				proto->setWString(FACEBOOK_KEY_DEF_GROUP, tstr);
 				Clist_GroupCreate(0, tstr);
@@ -414,18 +404,16 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			else {
 				proto->delSetting(FACEBOOK_KEY_DEF_GROUP);
 				proto->m_tszDefaultGroup = nullptr;
-			}				
+			}
 
 			StoreDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY);
 			StoreDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS);
 			StoreDBCheckState(proto, hwnd, IDC_NAME_AS_NICK, FACEBOOK_KEY_NAME_AS_NICK);
 			StoreDBCheckState(proto, hwnd, IDC_LOAD_ALL_CONTACTS, FACEBOOK_KEY_LOAD_ALL_CONTACTS);
 			StoreDBCheckState(proto, hwnd, IDC_PAGES_ALWAYS_ONLINE, FACEBOOK_KEY_PAGES_ALWAYS_ONLINE);
-
 			return TRUE;
 		}
 		break;
-
 	}
 
 	return FALSE;
@@ -435,11 +423,8 @@ INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM, LPARAM l
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-	switch (message)
-	{
-
+	switch (message) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<FacebookProto*>(lparam);
@@ -450,22 +435,19 @@ INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM, LPARAM l
 		LoadDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES);
 		LoadDBCheckState(proto, hwnd, IDC_LOAD_PAGES, FACEBOOK_KEY_LOAD_PAGES, DEFAULT_LOAD_PAGES);
 		LoadDBCheckState(proto, hwnd, IDC_TYPING_WHEN_INVISIBLE, FACEBOOK_KEY_TYPING_WHEN_INVISIBLE, DEFAULT_TYPING_WHEN_INVISIBLE);
-
 		return TRUE;
-	}
 
 	case WM_COMMAND: {
-		//switch (LOWORD(wparam)) {
-		//default:
-		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		break;
-		//}
-		//break;
-	}
+			//switch (LOWORD(wparam)) {
+			//default:
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			break;
+			//}
+			//break;
+		}
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			StoreDBCheckState(proto, hwnd, IDC_DISCONNECT_CHAT, FACEBOOK_KEY_DISCONNECT_CHAT);
 			StoreDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES);
 			StoreDBCheckState(proto, hwnd, IDC_LOAD_PAGES, FACEBOOK_KEY_LOAD_PAGES);
@@ -473,8 +455,7 @@ INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM, LPARAM l
 
 			BOOL setStatus = IsDlgButtonChecked(hwnd, IDC_SET_STATUS);
 			BOOL setStatusOld = proto->getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);
-			if (setStatus != setStatusOld)
-			{
+			if (setStatus != setStatusOld) {
 				proto->setByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, setStatus);
 				if (setStatus && proto->isOnline())
 					proto->ForkThread(&FacebookProto::SetAwayMsgWorker, nullptr);
@@ -489,16 +470,12 @@ INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM, LPARAM l
 	return FALSE;
 }
 
-
 INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-	switch (message)
-	{
-
+	switch (message) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<FacebookProto*>(lparam);
@@ -521,12 +498,10 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 		LoadDBCheckState(proto, hwnd, IDC_TICKER_ENABLE, FACEBOOK_KEY_EVENT_TICKER_ENABLE, DEFAULT_EVENT_TICKER_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_ON_THIS_DAY_ENABLE, FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE, DEFAULT_EVENT_ON_THIS_DAY_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_FILTER_ADS, FACEBOOK_KEY_FILTER_ADS, DEFAULT_FILTER_ADS);
-
-	} return TRUE;
+		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wparam))
-		{
+		switch (LOWORD(wparam)) {
 		case IDC_FEED_TYPE:
 		case IDC_URL_SERVER:
 			if (HIWORD(wparam) == CBN_SELCHANGE)
@@ -538,9 +513,7 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 		return TRUE;
 
 	case WM_NOTIFY:
-	{
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			proto->setByte(FACEBOOK_KEY_FEED_TYPE, SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_GETCURSEL, 0, 0));
 			proto->setByte(FACEBOOK_KEY_SERVER_TYPE, SendDlgItemMessage(hwnd, IDC_URL_SERVER, CB_GETCURSEL, 0, 0));
 
@@ -554,8 +527,7 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			StoreDBCheckState(proto, hwnd, IDC_ON_THIS_DAY_ENABLE, FACEBOOK_KEY_EVENT_ON_THIS_DAY_ENABLE);
 			StoreDBCheckState(proto, hwnd, IDC_FILTER_ADS, FACEBOOK_KEY_FILTER_ADS);
 		}
-	} return TRUE;
-
+		return TRUE;
 	}
 
 	return FALSE;
@@ -565,11 +537,9 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 {
 	FacebookProto *proto = reinterpret_cast<FacebookProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
-	switch (message)
-	{
+	switch (message) {
 
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<FacebookProto*>(lparam);
@@ -582,19 +552,17 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 		LoadDBCheckState(proto, hwnd, IDC_ENABLE_CHATS, FACEBOOK_KEY_ENABLE_CHATS, DEFAULT_ENABLE_CHATS);
 		LoadDBCheckState(proto, hwnd, IDC_HIDE_CHATS, FACEBOOK_KEY_HIDE_CHATS, DEFAULT_HIDE_CHATS);
 		LoadDBCheckState(proto, hwnd, IDC_JOIN_EXISTING_CHATS, FACEBOOK_KEY_JOIN_EXISTING_CHATS, DEFAULT_JOIN_EXISTING_CHATS);
-
-		int count = proto->getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, 10);
-		count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
-		SetDlgItemInt(hwnd, IDC_MESSAGES_COUNT, count, TRUE);
-
+		{
+			int count = proto->getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, 10);
+			count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
+			SetDlgItemInt(hwnd, IDC_MESSAGES_COUNT, count, TRUE);
+		}
 		SendDlgItemMessage(hwnd, IDC_MESSAGES_COUNT, EM_LIMITTEXT, 2, 0);
 		SendDlgItemMessage(hwnd, IDC_MESSAGES_COUNT_SPIN, UDM_SETRANGE32, 1, 99);
-
-	} return TRUE;
+		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wparam))
-		{
+		switch (LOWORD(wparam)) {
 		case IDC_MESSAGES_COUNT:
 			if (HIWORD(wparam) == EN_CHANGE && (HWND)lparam == GetFocus())
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -605,9 +573,7 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 		return TRUE;
 
 	case WM_NOTIFY:
-	{
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
-		{
+		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			StoreDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS);
 			StoreDBCheckState(proto, hwnd, IDC_KEEP_UNREAD, FACEBOOK_KEY_KEEP_UNREAD);
 			StoreDBCheckState(proto, hwnd, IDC_MESSAGES_ON_OPEN, FACEBOOK_KEY_MESSAGES_ON_OPEN);
@@ -620,8 +586,7 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 			count = min(count, FACEBOOK_MESSAGES_ON_OPEN_LIMIT);
 			proto->setByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, count);
 		}
-	} return TRUE;
-
+		return TRUE;
 	}
 
 	return FALSE;

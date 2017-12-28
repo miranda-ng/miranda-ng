@@ -145,17 +145,16 @@ FacebookProto::~FacebookProto()
 
 DWORD_PTR FacebookProto::GetCaps(int type, MCONTACT)
 {
-	switch (type)
-	{
+	switch (type) {
 	case PFLAGNUM_1:
-	{
-		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
+		{
+			DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 
-		if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS))
-			return flags |= PF1_MODEMSG;
-		else
-			return flags |= PF1_MODEMSGRECV;
-	}
+			if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS))
+				return flags |= PF1_MODEMSG;
+			else
+				return flags |= PF1_MODEMSGRECV;
+		}
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE;
 	case PFLAGNUM_3:
@@ -189,8 +188,7 @@ int FacebookProto::SetStatus(int new_status)
 	}
 
 	// Routing statuses not supported by Facebook
-	switch (new_status)
-	{
+	switch (new_status) {
 	case ID_STATUS_ONLINE:
 	case ID_STATUS_AWAY:
 	case ID_STATUS_INVISIBLE:
@@ -368,8 +366,7 @@ int FacebookProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	// Respect user choice about (not) notifying idle to protocols
 	if (privacy) {
 		// Reset it to 0 if there is some time already
-		if (m_idleTS)
-		{
+		if (m_idleTS) {
 			m_idleTS = 0;
 			delSetting("IdleTS");
 		}
@@ -389,7 +386,8 @@ int FacebookProto::OnIdleChanged(WPARAM, LPARAM lParam)
 		// Compute time when user really became idle
 		m_idleTS = time(nullptr) - mii.idleTime * 60;
 		setDword("IdleTS", m_idleTS);
-	} else {
+	}
+	else {
 		// User stopped being idle
 		m_idleTS = 0;
 		delSetting("IdleTS");
@@ -413,8 +411,7 @@ INT_PTR FacebookProto::GetNotificationsCount(WPARAM, LPARAM)
 
 int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
-	switch (event)
-	{
+	switch (event) {
 	case EV_PROTO_ONLOAD:
 		return OnModulesLoaded(wParam, lParam);
 
@@ -600,7 +597,7 @@ int FacebookProto::OnPreCreateEvent(WPARAM, LPARAM lParam)
 		evt->dbei->timestamp = it->second;
 		facy.messages_timestamp.erase(it);
 	}
-	
+
 	return 1;
 }
 
@@ -619,25 +616,22 @@ INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
 
 INT_PTR FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
 {
-	if (!isOffline()) {
+	if (!isOffline())
 		ForkThread(&FacebookProto::ProcessFriendRequests, MANUALLY_TRIGGERED);
-	}
 	return 0;
 }
 
 INT_PTR FacebookProto::CheckNotifications(WPARAM, LPARAM)
 {
-	if (!isOffline()) {
+	if (!isOffline())
 		ForkThread(&FacebookProto::ProcessNotifications, MANUALLY_TRIGGERED);
-	}
 	return 0;
 }
 
 INT_PTR FacebookProto::CheckMemories(WPARAM, LPARAM)
 {
-	if (!isOffline()) {
+	if (!isOffline())
 		ForkThread(&FacebookProto::ProcessMemories, MANUALLY_TRIGGERED);
-	}
 	return 0;
 }
 
@@ -649,10 +643,8 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam, LPARAM)
 	std::string url = FACEBOOK_URL_PROFILE;
 
 	ptrA val(getStringA(hContact, "Homepage"));
-	if (val != NULL) {
-		// Homepage link already present, get it
+	if (val != NULL) // Homepage link already present, get it
 		url = val;
-	}
 	else {
 		// No homepage link, create and save it
 		val = getStringA(hContact, FACEBOOK_KEY_ID);
@@ -832,7 +824,6 @@ INT_PTR FacebookProto::ApproveFriendship(WPARAM wParam, LPARAM)
 		return 1;
 
 	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
-
 	ForkThread(&FacebookProto::ApproveContactToServer, hContact);
 	return 0;
 }
@@ -843,9 +834,7 @@ INT_PTR FacebookProto::DenyFriendship(WPARAM wParam, LPARAM)
 		return 1;
 
 	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
-
 	ForkThread(&FacebookProto::IgnoreFriendshipRequest, hContact);
-
 	return 0;
 }
 
@@ -879,7 +868,8 @@ MCONTACT FacebookProto::HContactFromAuthEvent(MEVENT hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
-void FacebookProto::OpenUrlThread(void *p) {
+void FacebookProto::OpenUrlThread(void *p)
+{
 	if (p == nullptr)
 		return;
 
@@ -890,7 +880,8 @@ void FacebookProto::OpenUrlThread(void *p) {
 	delete data;
 }
 
-std::string FacebookProto::PrepareUrl(std::string url) {
+std::string FacebookProto::PrepareUrl(std::string url)
+{
 	std::string::size_type pos = url.find(FACEBOOK_SERVER_DOMAIN);
 	bool isFacebookUrl = (pos != std::string::npos);
 	bool isAbsoluteUrl = (url.find("://") != std::string::npos);
@@ -898,14 +889,14 @@ std::string FacebookProto::PrepareUrl(std::string url) {
 	// Do nothing with absolute non-Facebook URLs
 	if (isAbsoluteUrl && !isFacebookUrl)
 		return url;
-	
+
 	// Transform absolute URL to relative
 	if (isAbsoluteUrl) {
 		// Check and ignore special subdomains
 		std::string subdomain = utils::text::source_get_value(&url, 2, "://", "." FACEBOOK_SERVER_DOMAIN);
 		if (subdomain == "developers")
 			return url;
-		
+
 		// Make relative url
 		url = url.substr(pos + mir_strlen(FACEBOOK_SERVER_DOMAIN));
 
@@ -957,31 +948,30 @@ void FacebookProto::ReadNotificationWorker(void *p)
  */
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
-	{
+	switch (message) {
 	case WM_COMMAND:
 	case WM_CONTEXTMENU:
-	{
-		// Get the plugin data (we need the Popup service to do it)
-		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
-		if (data != nullptr) {
-			if (!data->notification_id.empty())
-				data->proto->ForkThread(&FacebookProto::ReadNotificationWorker, new std::string(data->notification_id));
+		{
+			// Get the plugin data (we need the Popup service to do it)
+			popup_data *data = (popup_data *)PUGetPluginData(hwnd);
+			if (data != nullptr) {
+				if (!data->notification_id.empty())
+					data->proto->ForkThread(&FacebookProto::ReadNotificationWorker, new std::string(data->notification_id));
 
-			if (message == WM_COMMAND && !data->url.empty())
-				data->proto->OpenUrl(data->url);
-		}
+				if (message == WM_COMMAND && !data->url.empty())
+					data->proto->OpenUrl(data->url);
+			}
 
-		// After a click, destroy popup
-		PUDeletePopup(hwnd);
-	} break;
+			// After a click, destroy popup
+			PUDeletePopup(hwnd);
+		} break;
 
 	case UM_FREEPLUGINDATA:
-	{
-		// After close, free
-		popup_data *data = (popup_data *)PUGetPluginData(hwnd);
-		delete data;
-	} return FALSE;
+		{
+			// After close, free
+			popup_data *data = (popup_data *)PUGetPluginData(hwnd);
+			delete data;
+		} return FALSE;
 
 	default:
 		break;

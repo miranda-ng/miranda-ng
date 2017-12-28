@@ -29,7 +29,7 @@ class ThreadInfoRequest : public HttpRequest
 {
 public:
 	// Request only messages history
-	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, int offset, const char *timestamp, int limit) :
+	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, int /*offset*/, const char* /*timestamp*/, int limit) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
 	{
 		setCommonBody(fc);
@@ -62,7 +62,7 @@ public:
 		else
 			query_params << NULL_PARAM("before");
 
-		o0	<< CHAR_PARAM("doc_id", id) << JSON_PARAM("query_params", query_params);
+		o0 << CHAR_PARAM("doc_id", id) << JSON_PARAM("query_params", query_params);
 
 		root << JSON_PARAM("o0", o0);
 
@@ -72,7 +72,7 @@ public:
 
 		// example request data we need to send: { "o0":{"doc_id":"456789456123","query_params" : {"id":"123456789","message_limit" : 20,"load_messages" : 1,"load_read_receipts" : false,"before" : null}} }
 
-		
+
 		/*
 		//if (loadMessages) {
 			// Grrr, offset doesn't work at all, we need to use timestamps to get back in history...

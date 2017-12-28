@@ -127,7 +127,6 @@ public:
 
 	// Services
 	INT_PTR __cdecl GetMyAwayMsg(WPARAM, LPARAM);
-	INT_PTR __cdecl SetMyAwayMsg(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
@@ -277,8 +276,6 @@ public:
 
 	std::string last_status_msg_;
 	std::vector<MCONTACT> avatar_queue;
-
-	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	// Information providing
 	HWND NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url = NULL, std::string *notification_id = NULL, const char *icon = NULL);

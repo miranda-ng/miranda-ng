@@ -92,20 +92,17 @@ void FacebookProto::UpdateAvatarWorker(void *)
 
 	std::string params = getBool(FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS) ? "?width=200&height=200" : "?width=80&height=80";
 
-	for (;;)
-	{
+	for (;;) {
 		std::string url;
 		PROTO_AVATAR_INFORMATION ai = { 0 };
 		ai.hContact = avatar_queue[0];
 
-		if (Miranda_IsTerminated())
-		{
+		if (Miranda_IsTerminated()) {
 			debugLogA("*** Terminating avatar update early: %s", url.c_str());
 			break;
 		}
 
-		if (GetDbAvatarInfo(ai, &url))
-		{
+		if (GetDbAvatarInfo(ai, &url)) {
 			debugLogA("*** Updating avatar: %s", url.c_str());
 			bool success = facy.save_url(url + params, ai.filename, nlc);
 
@@ -134,8 +131,7 @@ INT_PTR FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	int res = 0;
 
-	switch (wParam)
-	{
+	switch (wParam) {
 	case AF_MAXSIZE:
 		((POINT*)lParam)->x = -1;
 		((POINT*)lParam)->y = -1;
@@ -162,7 +158,7 @@ INT_PTR FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		res = 0;
 		break;
 
-	case AF_ENABLED:	
+	case AF_ENABLED:
 	case AF_FETCHIFPROTONOTVISIBLE:
 	case AF_FETCHIFCONTACTOFFLINE:
 		res = 1;
@@ -178,8 +174,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
-	if (GetDbAvatarInfo(*pai, nullptr))
-	{
+	if (GetDbAvatarInfo(*pai, nullptr)) {
 		bool fileExist = _waccess(pai->filename, 0) == 0;
 
 		bool needLoad;
@@ -188,13 +183,11 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		else
 			needLoad = (wParam & GAIF_FORCE) || !fileExist;
 
-		if (needLoad)
-		{
+		if (needLoad) {
 			debugLogA("*** Starting avatar request thread for %s", _T2A(pai->filename));
 			ScopedLock s(avatar_lock_);
 
-			if (std::find(avatar_queue.begin(), avatar_queue.end(), pai->hContact) == avatar_queue.end())
-			{
+			if (std::find(avatar_queue.begin(), avatar_queue.end(), pai->hContact) == avatar_queue.end()) {
 				bool is_empty = avatar_queue.empty();
 				avatar_queue.push_back(pai->hContact);
 				if (is_empty)

@@ -31,7 +31,7 @@ namespace List
 		T* data;
 		Item< T >* prev;
 		Item< T >* next;
-		
+
 		Item()
 		{
 			this->data = NULL;
@@ -51,7 +51,7 @@ namespace List
 		Item< T >* first;
 		Item< T >* last;
 		unsigned int count;
-		
+
 	public:
 		List()
 		{
@@ -86,11 +86,11 @@ namespace List
 
 		void insert(Item< T >* item)
 		{
-			if (this->empty())
-			{
+			if (this->empty()) {
 				this->first = this->last = item;
 				this->count = 1;
-			} else { // TODO: key sorting/comparation
+			}
+			else { // TODO: key sorting/comparation
 				item->next = this->first;
 				this->first->prev = item;
 				this->first = item;
@@ -108,34 +108,29 @@ namespace List
 		void erase(std::string key)
 		{
 			Item< T >* help = this->first;
-			while (help != NULL)
-			{
+			while (help != NULL) {
 				if (help->key.compare(key) != 0)
 					help = help->next;
-				else
-				{
-					if (help == this->first)
-					{
+				else {
+					if (help == this->first) {
 						this->first = help->next;
 						if (this->first != NULL)
 							this->first->prev = NULL;
 						else
 							this->last = NULL;
 					}
-					else if (help == this->last)
-					{
+					else if (help == this->last) {
 						this->last = help->prev;
 						if (this->last != NULL)
 							this->last->next = NULL;
 						else
 							this->first = NULL;
 					}
-					else
-					{
+					else {
 						help->prev->next = help->next;
 						help->next->prev = help->prev;
 					}
-					this->count--;            
+					this->count--;
 					delete help;
 					break;
 				}
@@ -151,8 +146,7 @@ namespace List
 		T* find(std::string key)
 		{
 			Item< T >* help = this->begin();
-			while (help != NULL)
-			{
+			while (help != NULL) {
 				if (help->key.compare(key) != 0)
 					help = help->next;
 				else
@@ -179,12 +173,11 @@ namespace List
 		void clear()
 		{
 			Item< T >* help;
-			while (this->first != NULL)
-			{
+			while (this->first != NULL) {
 				help = this->first;
 				this->first = this->first->next;
 				delete help;
-			}      
+			}
 			this->last = NULL;
 			this->count = 0;
 		}

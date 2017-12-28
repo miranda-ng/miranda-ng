@@ -67,13 +67,14 @@ void parseUser(const JSONNode &it, facebook_user *fbu)
 		case 2: // male
 			fbu->gender = 77;
 			break;
-		// case 7: // not available female?
-		// case 11: // page
+			// case 7: // not available female?
+			// case 11: // page
 		}
 	}
 }
 
-void FacebookProto::ParseMessageType(facebook_message &message, const JSONNode &log_type_, const JSONNode &log_body_, const JSONNode &log_data_) {
+void FacebookProto::ParseMessageType(facebook_message &message, const JSONNode &log_type_, const JSONNode &log_body_, const JSONNode &log_data_)
+{
 	if (!log_type_ || !log_body_ || !log_data_)
 		return;
 
@@ -263,7 +264,8 @@ bool FacebookProto::IgnoreDuplicates(const std::string &mid)
 	return false;
 }
 
-std::string absolutizeUrl(std::string &url) {
+std::string absolutizeUrl(std::string &url)
+{
 	if (url.find("/") == 0) {
 		url = HTTP_PROTO_SECURE FACEBOOK_SERVER_REGULAR + url;
 	}
@@ -278,7 +280,7 @@ void FacebookProto::ParseAttachments(std::string &message_text, const JSONNode &
 	const JSONNode &attachments_ = delta_["attachments"];
 	if (!attachments_ || attachments_.empty())
 		return;
-		
+
 	for (auto itAttachment = attachments_.begin(); itAttachment != attachments_.end(); ++itAttachment) {
 		const JSONNode &attach_ = legacy ? (*itAttachment) : (*itAttachment)["mercury"];
 
@@ -500,7 +502,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 				const JSONNode &time_ = delta_["actionTimestampMs"];
 				if (!time_)
 					continue;
-				
+
 				time_t timestamp = utils::time::from_string(time_.as_string());
 
 				// for multi chats (not available for single)
@@ -512,7 +514,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 
 				if (actor_ && thread_) {
 					// multi chat
-					
+
 					// ignore if disabled
 					if (!m_enableChat)
 						continue;
@@ -604,7 +606,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 			else if (cls == "ThreadName") {
 				// changed thread name (multi user chat)
 				const JSONNode &meta_ = delta_["messageMetadata"];
-				
+
 				const JSONNode &name_ = delta_["name"]; // new name of the chat (could be empty)
 				std::string data = (name_ ? name_.as_string() : "");
 
@@ -617,7 +619,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 			else if (cls == "ParticipantLeftGroupThread") {
 				// user was removed from multi user chat
 				const JSONNode &meta_ = delta_["messageMetadata"];
-				
+
 				const JSONNode &leftParticipantFbId_ = delta_["leftParticipantFbId"];
 				std::string data = (leftParticipantFbId_ ? leftParticipantFbId_.as_string() : "");
 
@@ -661,7 +663,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 				const JSONNode &text_ = (*itNodes)["unaggregatedTitle"]; // notifications one by one, not grouped
 				if (!text_)
 					continue;
-				
+
 				const JSONNode &text = text_["text"];
 				const JSONNode &url = (*itNodes)["url"];
 				const JSONNode &alert_id = (*itNodes)["alert_id"];
@@ -722,7 +724,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 
 				if (!html_ || !href_ || !unread_ || unread_.as_int() == 0)
 					continue;
-				
+
 				std::string text = utils::text::remove_html(utils::text::slashu_to_utf8(html_.as_string()));
 				std::string url = href_.as_string();
 				std::string alert_id = alertId_.as_string();
@@ -952,7 +954,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 
 				if (la_ /*&& status != ID_STATUS_ONLINE*/) {
 					time_t last_active = utils::time::from_string(la_.as_string());
-					
+
 					// we should set IdleTS only when contact is IDLE, or OFFLINE
 					//if (getDword(hContact, "IdleTS", 0) != last_active) {
 					//	if (/*(fbu->idle || status == ID_STATUS_OFFLINE) &&*/ last_active > 0)
@@ -1002,7 +1004,8 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 					setWString(hContact, "MirVer", client);
 				}
 			}
-		} else if (t == "ticker_update:home") {
+		}
+		else if (t == "ticker_update:home") {
 			if (!getByte(FACEBOOK_KEY_EVENT_TICKER_ENABLE, DEFAULT_EVENT_TICKER_ENABLE))
 				continue;
 
@@ -1415,7 +1418,7 @@ int FacebookProto::ParseMessagesCount(std::string *data, int *messagesCount, int
 		const JSONNode &message_count_ = (*it)["message_count"];
 		const JSONNode &unread_count_ = (*it)["unread_count"];
 
-		if (!message_count_|| !unread_count_)
+		if (!message_count_ || !unread_count_)
 			return EXIT_FAILURE;
 
 		*messagesCount = message_count_.as_int();

@@ -222,8 +222,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	Menu_ShowItem(g_hContactMenuPostStatus, !bIsChatroom);
 	Menu_ShowItem(g_hContactMenuLoadHistory, !bIsChatroom);
 
-	if (!isOffline() && !bIsChatroom && !bIsPage)
-	{
+	if (!isOffline() && !bIsChatroom && !bIsPage) {
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
 		Menu_ShowItem(g_hContactMenuAuthAsk, ctrlPressed || type == CONTACT_NONE || !type);

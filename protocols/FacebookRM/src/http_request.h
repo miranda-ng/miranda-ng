@@ -21,28 +21,31 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct VALUE
 {
 	LPCSTR szName;
-	__forceinline VALUE(LPCSTR _name) : szName(_name) { }
+	__forceinline VALUE(LPCSTR _name) : szName(_name) {}
 };
 
 struct INT_VALUE : public VALUE
 {
 	int iValue;
 	__forceinline INT_VALUE(LPCSTR _name, int _value)
-		: VALUE(_name), iValue(_value) { }
+		: VALUE(_name), iValue(_value)
+	{}
 };
 
 struct LONG_VALUE : public VALUE
 {
 	LONGLONG llValue;
 	__forceinline LONG_VALUE(LPCSTR _name, LONGLONG _value)
-		: VALUE(_name), llValue(_value) { }
+		: VALUE(_name), llValue(_value)
+	{}
 };
 
 struct CHAR_VALUE : public VALUE
 {
 	LPCSTR szValue;
 	__forceinline CHAR_VALUE(LPCSTR _name, LPCSTR _value)
-		: VALUE(_name), szValue(_value) { }
+		: VALUE(_name), szValue(_value)
+	{}
 };
 
 struct FORMAT_VALUE : public VALUE
@@ -73,7 +76,7 @@ protected:
 		friend HttpRequest;
 
 	private:
-		HttpRequest &request;
+		HttpRequest & request;
 
 		HttpRequestUrl(HttpRequest &request, const char *url) : request(request)
 		{
@@ -90,7 +93,7 @@ protected:
 		HttpRequestUrl& operator=(const HttpRequestUrl&); // to prevent copying;
 
 	public:
-		HttpRequestUrl &operator<<(const VALUE &param)
+		HttpRequestUrl & operator<<(const VALUE &param)
 		{
 			request.AddUrlParameter(param.szName);
 			return *this;
@@ -141,7 +144,7 @@ protected:
 		}
 
 	public:
-		HttpRequestHeaders(HttpRequest &request) : request(request) { }
+		HttpRequestHeaders(HttpRequest &request) : request(request) {}
 
 		HttpRequestHeaders& operator<<(const VALUE &param)
 		{
@@ -169,14 +172,13 @@ protected:
 
 		void AppendSeparator()
 		{
-			if (!content.IsEmpty())
-			{
+			if (!content.IsEmpty()) {
 				content.AppendChar('&');
 			}
 		}
 
 	public:
-		HttpRequestBody() { }
+		HttpRequestBody() {}
 
 		HttpRequestBody & operator<<(const VALUE &param)
 		{
@@ -213,7 +215,7 @@ protected:
 			return *this;
 		}
 
-		char * ToString()
+		char* ToString()
 		{
 			return content.GetBuffer();
 		}
@@ -233,7 +235,7 @@ public:
 	HttpRequestUrl Url;
 	HttpRequestHeaders Headers;
 	HttpRequestBody Body;
-	
+
 	enum PersistentType { NONE, DEFAULT, CHANNEL, MESSAGES };
 
 	bool NotifyErrors;
@@ -268,8 +270,7 @@ public:
 
 	virtual ~HttpRequest()
 	{
-		for (int i = 0; i < headersCount; i++)
-		{
+		for (int i = 0; i < headersCount; i++) {
 			mir_free(headers[i].szName);
 			mir_free(headers[i].szValue);
 		}

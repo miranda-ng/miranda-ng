@@ -38,30 +38,26 @@ void FacebookProto::SendMsgWorker(void *p)
 
 	ptrA id(getStringA(data->hContact, FACEBOOK_KEY_ID));
 
-	if (!isOnline()) {
+	if (!isOnline())
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
-	}
-	else if (id == NULL) {
+	else if (id == NULL)
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, 0);
-	}
 	else {
 		int tries = getByte(FACEBOOK_KEY_SEND_MESSAGE_TRIES, 1);
 		tries = min(max(tries, 1), 5);
 
 		std::string error_text;
 		int result = SEND_MESSAGE_ERROR;
-		while (result == SEND_MESSAGE_ERROR && tries-- > 0) {
+		while (result == SEND_MESSAGE_ERROR && tries-- > 0)
 			result = facy.send_message(data->msgid, data->hContact, data->msg, &error_text);
-		}
+
 		if (result == SEND_MESSAGE_OK) {
 			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
 
 			// Remove from "readers" list and clear statusbar
 			facy.erase_reader(data->hContact);
 		}
-		else {
-			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)error_text.c_str());
-		}
+		else ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)error_text.c_str());
 	}
 
 	delete data;
@@ -82,9 +78,8 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	if (hContact) {
 		ptrA tid_(getStringA(hContact, FACEBOOK_KEY_TID));
 		std::string tid;
-		if (tid_ != NULL && mir_strcmp(tid_, "null")) {
+		if (tid_ != NULL && mir_strcmp(tid_, "null"))
 			tid = tid_;
-		}
 		else {
 			// request info about chat thread
 			HttpRequest *request = new ThreadInfoRequest(&facy, true, data->chat_id.c_str());
@@ -113,7 +108,7 @@ int FacebookProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	std::string message = msg;
 	unsigned int msgId = InterlockedIncrement(&facy.msgid_);
-	
+
 	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, message, msgId));
 	return msgId;
 }
@@ -187,7 +182,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 		ids.insert(mir_strdup(id));
 	}
-	
+
 	hContacts->clear();
 	delete hContacts;
 
@@ -225,6 +220,5 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 	cont.hContact = hContact;
 	cont.type = 0;
 	cont.path = dir;
-
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 }

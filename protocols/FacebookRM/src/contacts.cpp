@@ -169,10 +169,10 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	// We don't have any contact with this thread_id cached, we must ask server	
 	if (isOffline())
 		return "";
-	
+
 	HttpRequest *request = new ThreadInfoRequest(&facy, true, thread_id.c_str());
 	http::response resp = facy.sendRequest(request);
-	
+
 	std::string user_id;
 
 	if (resp.code == HTTP_CODE_OK) {
@@ -183,7 +183,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 				facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
 
 			debugLogA("*** Thread info processed");
-		} 
+		}
 		catch (const std::exception &e) {
 			debugLogA("*** Error processing thread info: %s", e.what());
 		}
@@ -246,7 +246,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 							user.role = ROLE_FRIEND;
 						else
 							user.role = ROLE_NONE;
-					}					
+					}
 					user.loaded = true;
 				}
 
@@ -255,9 +255,6 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 			}
 		}
 	}
-
-	// if (isOffline())
-	//	return;
 
 	if (!namelessIds.empty()) {
 		// we have some contacts without name, let's load them all from the server
@@ -269,7 +266,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 
 		HttpRequest *request = new UserInfoRequest(&facy, userIds);
 		http::response resp = facy.sendRequest(request);
-		
+
 		FreeList(userIds);
 		userIds.destroy();
 
@@ -291,7 +288,7 @@ void FacebookProto::JoinChatrooms()
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (!isChatRoom(hContact))
 			continue;
-		
+
 		// Ignore archived and unsubscribed chats
 		if (getBool(hContact, FACEBOOK_KEY_CHAT_IS_ARCHIVED, false) || !getBool(hContact, FACEBOOK_KEY_CHAT_IS_SUBSCRIBED, true))
 			continue;
@@ -423,8 +420,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	HttpRequest *request = new DeleteFriendRequest(&facy, id.c_str());
 	http::response resp = facy.sendRequest(request);
 
-	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
-	{
+	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		// FIXME: Remember that we deleted this contact, so we won't accidentally add him at status change
 		/* facebook_user* fbu = facy.buddies.find(id);
 		if (fbu != NULL)
@@ -502,8 +498,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 	HttpRequest *request = new AnswerFriendshipRequest(&facy, id, AnswerFriendshipRequest::CONFIRM);
 	http::response resp = facy.sendRequest(request);
 
-	if (resp.data.find("\"success\":true") != std::string::npos)
-	{
+	if (resp.data.find("\"success\":true") != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was accepted."), NULL, EVENT_FRIENDSHIP);
 	}
@@ -534,8 +529,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	HttpRequest *request = new CancelFriendshipRequest(&facy, id);
 	http::response resp = facy.sendRequest(request);
 
-	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
-	{
+	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, EVENT_FRIENDSHIP);
 	}
@@ -566,8 +560,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 	HttpRequest *request = new AnswerFriendshipRequest(&facy, id, AnswerFriendshipRequest::REJECT);
 	http::response resp = facy.sendRequest(request);
 
-	if (resp.data.find("\"success\":true") != std::string::npos)
-	{
+	if (resp.data.find("\"success\":true") != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was ignored."), NULL, EVENT_FRIENDSHIP);
 
@@ -633,7 +626,7 @@ void FacebookProto::RefreshUserInfo(void *data)
 		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)nullptr, 0);
 		return;
 	}
-	
+
 	facebook_user fbu;
 	fbu.user_id = user_id;
 
@@ -730,12 +723,12 @@ int FacebookProto::OnContactDeleted(WPARAM wParam, LPARAM)
 
 	// Cancel friendship (with confirmation)
 	CancelFriendship(hContact, 1);
-
 	return 0;
 }
 
 
-void FacebookProto::StartTyping(MCONTACT hContact) {
+void FacebookProto::StartTyping(MCONTACT hContact)
+{
 	// ignore if contact is already typing
 	if (facy.typers.find(hContact) != facy.typers.end())
 		return;
@@ -745,7 +738,8 @@ void FacebookProto::StartTyping(MCONTACT hContact) {
 	facy.typers.insert(hContact);
 }
 
-void FacebookProto::StopTyping(MCONTACT hContact) {
+void FacebookProto::StopTyping(MCONTACT hContact)
+{
 	// ignore if contact is not typing
 	if (facy.typers.find(hContact) == facy.typers.end())
 		return;

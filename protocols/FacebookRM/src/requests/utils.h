@@ -93,7 +93,7 @@ class GetPagesRequest : public HttpRequest
 public:
 	GetPagesRequest() :
 		HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/bookmarks/pages")
-	{ }
+	{}
 };
 
 // changing identity to post status for pages
@@ -103,13 +103,8 @@ public:
 	SwitchIdentityRequest(const char *dtsg, const char *userId) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/identity_switch.php")
 	{
-		Url
-			<< "__a=1";
-
-		Body
-			<< CHAR_VALUE("fb_dtsg", dtsg)
-			<< CHAR_VALUE("user_id", userId)
-			<< CHAR_VALUE("url", FACEBOOK_URL_HOMEPAGE);
+		Url << "__a=1";
+		Body << CHAR_VALUE("fb_dtsg", dtsg) << CHAR_VALUE("user_id", userId) << CHAR_VALUE("url", FACEBOOK_URL_HOMEPAGE);
 	}
 };
 
@@ -131,7 +126,7 @@ public:
 			<< CHAR_VALUE("__req", fc->__req())
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
 			<< CHAR_VALUE("__user", status->isPage && !status->user_id.empty() ? status->user_id.c_str() : fc->self_.user_id.c_str())
-			<< CHAR_VALUE("xhpc_targetid", status->user_id.empty() ? fc->self_.user_id.c_str() : status->user_id.c_str())			
+			<< CHAR_VALUE("xhpc_targetid", status->user_id.empty() ? fc->self_.user_id.c_str() : status->user_id.c_str())
 			<< CHAR_VALUE("xhpc_message", text)
 			<< CHAR_VALUE("xhpc_message_text", text)
 			<< "xhpc_context=profile"
@@ -146,13 +141,11 @@ public:
 			<< "disable_location_sharing=false"
 			<< "nctr[_mod]=pagelet_composer";
 
-		if (!status->isPage) {
+		if (!status->isPage)
 			Body << CHAR_VALUE("audience[0][value]", fc->get_privacy_type().c_str());
-		}
 
-		if (!status->place.empty()) {
+		if (!status->place.empty())
 			Body << CHAR_VALUE("composertags_place_name", ptrA(mir_urlEncode(status->place.c_str())));
-		}
 
 		// Status with users
 		for (std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {
@@ -166,9 +159,8 @@ public:
 
 		// Link attachment
 		if (mir_strlen(linkData) > 0) {
-			Body				
-				<< linkData;
-				// << "no_picture=0" // for disabling link preview image
+			Body << linkData;
+			// << "no_picture=0" // for disabling link preview image
 		}
 	}
 };
@@ -185,7 +177,7 @@ public:
 
 		Body
 			<< "do_confirm=0"
-			<< CHAR_VALUE("poke_target", userId)			
+			<< CHAR_VALUE("poke_target", userId)
 			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
 			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
 			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str());

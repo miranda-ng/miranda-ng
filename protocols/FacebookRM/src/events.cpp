@@ -29,8 +29,7 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact,
 
 	char name[256];
 
-	switch (type)
-	{
+	switch (type) {
 	case EVENT_CLIENT:
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
 		break;
@@ -60,12 +59,11 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact,
 		break;
 
 	case EVENT_ON_THIS_DAY:
-		mir_snprintf(name, "%s_%s", m_szModuleName, "Memories");		
+		mir_snprintf(name, "%s_%s", m_szModuleName, "Memories");
 		break;
 	}
 
-	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY))
-	{
+	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY)) {
 		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 
 			// TODO: if popup with particular ID is already showed, just update his content

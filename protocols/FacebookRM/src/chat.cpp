@@ -62,7 +62,6 @@ void FacebookProto::RenameChat(const char *chat_id, const char *name)
 int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-
 	if (mir_strcmp(hook->pszModule, m_szModuleName))
 		return 0;
 
@@ -70,85 +69,81 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 	if (!mir_wstrcmp(hook->ptszID, _A2W(FACEBOOK_NOTIFICATIONS_CHATROOM)))
 		return 0;
 
-	switch (hook->iType)
-	{
+	switch (hook->iType) {
 	case GC_USER_MESSAGE:
-	{
-		std::string msg = _T2A(hook->ptszText, CP_UTF8);
-		std::string chat_id = _T2A(hook->ptszID, CP_UTF8);
+		{
+			std::string msg = _T2A(hook->ptszText, CP_UTF8);
+			std::string chat_id = _T2A(hook->ptszID, CP_UTF8);
 
-		if (isOnline()) {
-			debugLogA("  > Chat - Outgoing message");
-			ForkThread(&FacebookProto::SendChatMsgWorker, new send_chat(chat_id, msg));
+			if (isOnline()) {
+				debugLogA("  > Chat - Outgoing message");
+				ForkThread(&FacebookProto::SendChatMsgWorker, new send_chat(chat_id, msg));
+			}
 		}
-
 		break;
-	}
 
 	case GC_USER_PRIVMESS:
-	{
-		facebook_user fbu;
-		fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
-
-		// Find this contact in list or add new temporary contact
-		MCONTACT hContact = AddToContactList(&fbu, false, true);
-
-		if (!hContact)
-			break;
-
-		CallService(MS_MSG_SENDMESSAGEW, hContact);
-		break;
-	}
-
-	/*
-	case GC_USER_LOGMENU:
-	{
-	switch(hook->dwData)
-	{
-	case 10:
-	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
-	LPARAM(new invite_chat_param(item->id, this)));
-	break;
-
-	case 20:
-	//chat_leave(id);
-	break;
-	}
-	break;
-	}
-	*/
-
-	case GC_USER_NICKLISTMENU:
-	{
-		MCONTACT hContact = NULL;
-		if (hook->dwData == 10 || hook->dwData == 20) {
+		{
 			facebook_user fbu;
 			fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
 
 			// Find this contact in list or add new temporary contact
-			hContact = AddToContactList(&fbu, false, true);
-
+			MCONTACT hContact = AddToContactList(&fbu, false, true);
 			if (!hContact)
 				break;
-		}
 
-		switch (hook->dwData)
+			CallService(MS_MSG_SENDMESSAGEW, hContact);
+		}
+		break;
+
+		/*
+		case GC_USER_LOGMENU:
+		{
+		switch(hook->dwData)
 		{
 		case 10:
-			CallService(MS_USERINFO_SHOWDIALOG, hContact);
-			break;
+		DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
+		LPARAM(new invite_chat_param(item->id, this)));
+		break;
 
 		case 20:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact);
-			break;
+		//chat_leave(id);
+		break;
+		}
+		break;
+		}
+		*/
 
-		case 110:
-			//chat_leave(id);
+	case GC_USER_NICKLISTMENU:
+		{
+			MCONTACT hContact = NULL;
+			if (hook->dwData == 10 || hook->dwData == 20) {
+				facebook_user fbu;
+				fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
+
+				// Find this contact in list or add new temporary contact
+				hContact = AddToContactList(&fbu, false, true);
+
+				if (!hContact)
+					break;
+			}
+
+			switch (hook->dwData) {
+			case 10:
+				CallService(MS_USERINFO_SHOWDIALOG, hContact);
+				break;
+
+			case 20:
+				CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact);
+				break;
+
+			case 110:
+				//chat_leave(id);
+				break;
+			}
+
 			break;
 		}
-
-		break;
-	}
 
 	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
@@ -270,9 +265,8 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 	std::string thread_id = threadId;
 
 	auto it = facy.chat_rooms.find(thread_id);
-	if (it != facy.chat_rooms.end()) {
+	if (it != facy.chat_rooms.end())
 		fbc = it->second;
-	}
 	else {
 		// We don't have this chat loaded in memory yet, lets load some info (name, list of users)
 		fbc = new facebook_chatroom(thread_id);
@@ -313,9 +307,8 @@ INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam, LPARAM)
 	Chat_Control(m_szModuleName, idT, SESSION_OFFLINE);
 	Chat_Terminate(m_szModuleName, idT);
 
-	if (!wParam) {
+	if (!wParam)
 		facy.clear_chatrooms();
-	}
 	else if (!IsSpecialChatRoom(wParam)) {
 		ptrA threadId(getStringA(wParam, FACEBOOK_KEY_TID));
 		if (!threadId)
@@ -337,8 +330,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 
 	if (gcmi == nullptr || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
 
-	if (gcmi->Type == MENU_ON_LOG)
-	{
+	if (gcmi->Type == MENU_ON_LOG) {
 		static const struct gc_item Items[] =
 		{
 			{ LPGENW("&Invite user..."), 10, MENU_ITEM, FALSE },
@@ -346,10 +338,8 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 		};
 		Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
 	}
-	else if (gcmi->Type == MENU_ON_NICKLIST)
-	{
-		if (!_stricmp(facy.self_.user_id.c_str(), _T2A(gcmi->pszUID)))
-		{
+	else if (gcmi->Type == MENU_ON_NICKLIST) {
+		if (!_stricmp(facy.self_.user_id.c_str(), _T2A(gcmi->pszUID))) {
 			/*static const struct gc_item Items[] =
 			{
 			{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
@@ -360,8 +350,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			gcmi->nItems = _countof(Items);
 			gcmi->Item = (gc_item*)Items;*/
 		}
-		else
-		{
+		else {
 			static const struct gc_item Items[] =
 			{
 				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
@@ -374,7 +363,8 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-bool FacebookProto::IsSpecialChatRoom(MCONTACT hContact) {
+bool FacebookProto::IsSpecialChatRoom(MCONTACT hContact)
+{
 	if (!isChatRoom(hContact))
 		return false;
 
@@ -382,7 +372,8 @@ bool FacebookProto::IsSpecialChatRoom(MCONTACT hContact) {
 	return id && !mir_strcmp(id, FACEBOOK_NOTIFICATIONS_CHATROOM);
 }
 
-void FacebookProto::PrepareNotificationsChatRoom() {
+void FacebookProto::PrepareNotificationsChatRoom()
+{
 	if (!getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM))
 		return;
 
@@ -401,7 +392,8 @@ void FacebookProto::PrepareNotificationsChatRoom() {
 	}
 }
 
-void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notification) {
+void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notification)
+{
 	if (!getBool(FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM))
 		return;
 

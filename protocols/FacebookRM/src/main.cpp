@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // TODO: Make following as "globals" structure?
 
-CLIST_INTERFACE* pcli;
+CLIST_INTERFACE *pcli;
 int hLangpack;
 
 HINSTANCE g_hInstance;

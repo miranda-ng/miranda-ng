@@ -27,10 +27,8 @@ std::string utils::url::encode(const std::string &s)
 std::string utils::url::decode(std::string data)
 {
 	std::string new_string;
-	for (std::string::size_type i = 0; i < data.length(); i++)
-	{
-		if (data.at(i) == '%' && (i + 2) < data.length())
-		{
+	for (std::string::size_type i = 0; i < data.length(); i++) {
+		if (data.at(i) == '%' && (i + 2) < data.length()) {
 			std::string num = data.substr(i + 1, 2);
 			unsigned long udn = strtoul(num.c_str(), nullptr, 16);
 			utils::text::append_ordinal(udn, &new_string);
@@ -78,8 +76,7 @@ std::string utils::conversion::to_string(void* data, WORD type)
 {
 	std::stringstream out;
 
-	switch (type)
-	{
+	switch (type) {
 	case UTILS_CONV_BOOLEAN:
 		out << (data ? "true" : "false");
 		break;
@@ -103,8 +100,7 @@ std::string utils::conversion::to_string(void* data, WORD type)
 void utils::text::replace_first(std::string* data, const std::string &from, const std::string &to)
 {
 	std::string::size_type position = data->find(from);
-	if (position != std::string::npos)
-	{
+	if (position != std::string::npos) {
 		data->replace(position, from.size(), to);
 	}
 }
@@ -113,8 +109,7 @@ void utils::text::replace_all(std::string* data, const std::string &from, const 
 {
 	std::string::size_type position = 0;
 
-	while ((position = data->find(from, position)) != std::string::npos)
-	{
+	while ((position = data->find(from, position)) != std::string::npos) {
 		data->replace(position, from.size(), to);
 		position += to.size();
 	}
@@ -124,8 +119,7 @@ void utils::text::treplace_all(std::wstring* data, const std::wstring &from, con
 {
 	std::wstring::size_type position = 0;
 
-	while ((position = data->find(from, position)) != std::wstring::npos)
-	{
+	while ((position = data->find(from, position)) != std::wstring::npos) {
 		data->replace(position, from.size(), to);
 		position++;
 	}
@@ -136,8 +130,7 @@ unsigned int utils::text::count_all(std::string* data, const std::string &term)
 	unsigned int count = 0;
 	std::string::size_type position = 0;
 
-	while ((position = data->find(term, position)) != std::string::npos)
-	{
+	while ((position = data->find(term, position)) != std::string::npos) {
 		count++;
 		position++;
 	}
@@ -147,27 +140,23 @@ unsigned int utils::text::count_all(std::string* data, const std::string &term)
 
 void utils::text::append_ordinal(unsigned long value, std::string* data)
 {
-	if (value <= 127)
-	{ // U+0000 .. U+007F
+	if (value <= 127) { // U+0000 .. U+007F
 		*data += (char)value;
 	}
-	else if (value >= 128 && value <= 2047)
-	{ // U+0080 .. U+07FF
+	else if (value >= 128 && value <= 2047) { // U+0080 .. U+07FF
 		*data += (char)(192 + (value / 64));
 		*data += (char)(128 + (value % 64));
 	}
-	else if (value >= 2048 && value <= 65535)
-	{ // U+0800 .. U+FFFF
+	else if (value >= 2048 && value <= 65535) { // U+0800 .. U+FFFF
 		*data += (char)(224 + (value / 4096));
 		*data += (char)(128 + ((value / 64) % 64));
 		*data += (char)(128 + (value % 64));
 	}
-	else
-	{
+	else {
 		*data += (char)((value >> 24) & 0xFF);
 		*data += (char)((value >> 16) & 0xFF);
 		*data += (char)((value >> 8) & 0xFF);
-		*data += (char)((value)& 0xFF);
+		*data += (char)((value) & 0xFF);
 	}
 }
 
@@ -198,10 +187,8 @@ std::string utils::text::html_entities_decode(std::string data)
 	// http://webdesign.about.com/library/bl_htmlcodes.htm
 
 	std::string new_string;
-	for (std::string::size_type i = 0; i < data.length(); i++)
-	{
-		if (data.at(i) == '&' && (i + 1) < data.length() && data.at(i + 1) == '#')
-		{
+	for (std::string::size_type i = 0; i < data.length(); i++) {
+		if (data.at(i) == '&' && (i + 1) < data.length() && data.at(i + 1) == '#') {
 			std::string::size_type comma = data.find(";", i);
 			if (comma != std::string::npos) {
 				bool hexa = false;
@@ -234,10 +221,8 @@ std::string utils::text::remove_html(const std::string &data)
 {
 	std::string new_string;
 
-	for (std::string::size_type i = 0; i < data.length(); i++)
-	{
-		if (data.at(i) == '<' && (i + 1) < data.length() && data.at(i + 1) != ' ')
-		{
+	for (std::string::size_type i = 0; i < data.length(); i++) {
+		if (data.at(i) == '<' && (i + 1) < data.length() && data.at(i + 1) != ' ') {
 			i = data.find(">", i);
 			if (i == std::string::npos)
 				break;
@@ -255,10 +240,8 @@ std::string utils::text::slashu_to_utf8(const std::string &data)
 {
 	std::string new_string;
 
-	for (std::string::size_type i = 0; i < data.length(); i++)
-	{
-		if (data.at(i) == '\\' && (i + 1) < data.length() && data.at(i + 1) == 'u')
-		{
+	for (std::string::size_type i = 0; i < data.length(); i++) {
+		if (data.at(i) == '\\' && (i + 1) < data.length() && data.at(i + 1) == 'u') {
 			unsigned long udn = strtoul(data.substr(i + 2, 4).c_str(), nullptr, 16);
 			append_ordinal(udn, &new_string);
 			i += 5;
@@ -304,10 +287,8 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 
 	va_start(arg, argument_count);
 
-	for (unsigned int i = argument_count; i > 0; i--)
-	{
-		if (i == 1)
-		{
+	for (unsigned int i = argument_count; i > 0; i--) {
+		if (i == 1) {
 			end = data->find(va_arg(arg, char*), start);
 			if (start == std::string::npos || end == std::string::npos)
 				break;
@@ -417,7 +398,8 @@ std::string utils::text::rand_string(int len, const char *chars, unsigned int *n
 	return out.str();
 }
 
-std::string utils::text::truncate_utf8(const std::string &text, size_t maxLength) {
+std::string utils::text::truncate_utf8(const std::string &text, size_t maxLength)
+{
 	// To not split some unicode character we need to transform it to wchar_t first, then split it, and then convert it back, because we want std::string as result
 	// TODO: Probably there is much simpler and nicer way
 	std::wstring wtext = ptrW(mir_utf8decodeW(text.c_str()));
