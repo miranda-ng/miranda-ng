@@ -4,13 +4,14 @@ const wchar_t pluginDescription[] = LPGENW("No more spam! Robots can't go! Only 
 
 class COptMainDlg : public CPluginDlgBase
 {
-	CCtrlEdit edtCount;
+	CCtrlEdit edtCount, edtDescr;
 	CCtrlCheck chk1, chk2, chk3, chk4, chk5, chk6;
 
 public:
 	COptMainDlg() :
 		CPluginDlgBase(hInst, IDD_MAIN, pluginName),
 		edtCount(this, ID_MAXQUESTCOUNT),
+		edtDescr(this, ID_DESCRIPTION),
 		chk1(this, ID_INFTALKPROT),
 		chk2(this, ID_ADDPERMANENT),
 		chk3(this, ID_HANDLEAUTHREQ),
@@ -26,6 +27,11 @@ public:
 		CreateLink(chk4, g_sets.AnswNotCaseSens);
 		CreateLink(chk5, g_sets.RemTmpAll);
 		CreateLink(chk6, g_sets.HistLog);
+	}
+
+	virtual void OnInitDialog() override
+	{
+		edtDescr.SetText(pluginDescription);
 	}
 };
 
