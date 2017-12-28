@@ -74,7 +74,6 @@ class FacebookProto;
 #include "list.hpp"
 #include "client.h"
 #include "proto.h"
-#include "json.h"
 #include "db.h"
 #include "dialogs.h"
 #include "theme.h"

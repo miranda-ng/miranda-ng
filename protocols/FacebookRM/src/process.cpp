@@ -62,7 +62,7 @@ void FacebookProto::ProcessFriendList(void*)
 		bool loadAllContacts = getBool(FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
 		bool pagesAlwaysOnline = getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE);
 
-		facebook_json_parser(this).parse_friends(&resp.data, &friends, loadAllContacts);
+		ParseFriends(&resp.data, &friends, loadAllContacts);
 
 		// Check and update old contacts
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
@@ -193,7 +193,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 	try {
 		std::vector<std::string> threads;
-		facebook_json_parser(this).parse_unread_threads(&resp.data, &threads);
+		ParseUnreadThreads(&resp.data, &threads);
 
 		ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
 
@@ -243,7 +243,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		if (resp.code == HTTP_CODE_OK) {
 			try {
 				std::vector<facebook_message> messages;
-				facebook_json_parser(this).parse_thread_messages(&resp.data, &messages, false);
+				ParseThreadMessages(&resp.data, &messages, false);
 
 				ReceiveMessages(messages, true);
 				debugLogA("*** Unread messages processed");
@@ -308,7 +308,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 
 	try {
 		std::vector<facebook_message> messages;
-		facebook_json_parser(this).parse_thread_messages(&resp.data, &messages, false);
+		ParseThreadMessages(&resp.data, &messages, false);
 
 		ReceiveMessages(messages, true);
 		debugLogA("*** Thread messages processed");
@@ -365,9 +365,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	int messagesCount = -1;
 	int unreadCount = -1;
 
-	facebook_json_parser* p = new facebook_json_parser(this);
-	if (p->parse_messages_count(&resp.data, &messagesCount, &unreadCount) == EXIT_FAILURE) {
-		delete p;
+	if (ParseMessagesCount(&resp.data, &messagesCount, &unreadCount) == EXIT_FAILURE) {
 		facy.handle_error("LoadHistory");
 		return;
 	}
@@ -411,7 +409,7 @@ void FacebookProto::LoadHistory(void *pParam)
 		try {
 			messages.clear();
 
-			p->parse_history(&resp.data, &messages, &firstTimestamp);
+			ParseHistory(&resp.data, &messages, &firstTimestamp);
 
 			// Receive messages
 			std::string previousFirstMessageId = firstMessageId;
@@ -483,8 +481,6 @@ void FacebookProto::LoadHistory(void *pParam)
 			break;
 		}
 	}
-
-	delete p;
 
 	facy.handle_success("LoadHistory");
 
@@ -972,7 +968,7 @@ void FacebookProto::ProcessMessages(void* data)
 
 	try {
 		std::vector<facebook_message> messages;
-		facebook_json_parser(this).parse_messages(resp, &messages, &facy.notifications);
+		ParseMessages(resp, &messages, &facy.notifications);
 
 		ReceiveMessages(messages);
 
@@ -1031,7 +1027,7 @@ void FacebookProto::ProcessNotifications(void *p)
 	try {
 		size_t numNotifications = facy.notifications.size();
 
-		facebook_json_parser(this).parse_notifications(&resp.data, &facy.notifications);
+		ParseNotifications(&resp.data, &facy.notifications);
 
 		if (manuallyTriggered) {
 			numNotifications = facy.notifications.size() - numNotifications;

@@ -177,7 +177,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 
 	if (resp.code == HTTP_CODE_OK) {
 		try {
-			facebook_json_parser(this).parse_thread_info(&resp.data, &user_id);
+			ParseThreadInfo(&resp.data, &user_id);
 
 			if (!user_id.empty())
 				facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
@@ -208,7 +208,7 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 
 	if (resp.code == HTTP_CODE_OK) {
 		try {
-			facebook_json_parser(this).parse_user_info(&resp.data, fbu);
+			ParseUserInfo(&resp.data, fbu);
 			debugLogA("*** Contact thread info processed");
 		}
 		catch (const std::exception &e) {
@@ -276,7 +276,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 		if (resp.code == HTTP_CODE_OK) {
 			try {
 				// TODO: We can cache these results and next time (e.g. for different chatroom) we can use that already cached names
-				facebook_json_parser(this).parse_chat_participant_names(&resp.data, &fbc->participants);
+				ParseChatParticipants(&resp.data, &fbc->participants);
 				debugLogA("*** Participant names processed");
 			}
 			catch (const std::exception &e) {
@@ -315,7 +315,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 	}
 
 	try {
-		facebook_json_parser(this).parse_chat_info(&resp.data, fbc);
+		ParseChatInfo(&resp.data, fbc);
 
 		// Load missing participants names
 		LoadParticipantsNames(fbc);

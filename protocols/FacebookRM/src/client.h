@@ -161,7 +161,7 @@ public:
 	}
 
 	__inline const char *__rev() {
-		return "2828561"; // FIXME: Some version of communication protocol? This version is from 12.2.2017
+		return "3496859"; // FIXME: Some version of communication protocol? This version is from 3.12.2017
 	}
 
 	////////////////////////////////////////////////////////////

@@ -26,6 +26,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class FacebookProto : public PROTO<FacebookProto>
 {
+	bool IgnoreDuplicates(const std::string &mid);
+	bool ProcessSpecialMessage(std::vector<facebook_message>* messages, const JSONNode &meta_, MessageType messageType, const std::string &messageData = "");
+
+	void ParseAttachments(std::string &message_text, const JSONNode &delta_, std::string other_user_fbid, bool legacy);
+	void ParseMessageType(facebook_message &message, const JSONNode &log_type_, const JSONNode &log_body_, const JSONNode &log_data_);
+	bool ParseMessageMetadata(facebook_message &message, const JSONNode &meta_);
+
+	int ParseChatInfo(std::string* data, facebook_chatroom* fbc);
+	int ParseChatParticipants(std::string *data, std::map<std::string, chatroom_participant>* participants);
+	int ParseFriends(std::string*, std::map< std::string, facebook_user* >*, bool);
+	int ParseHistory(std::string*, std::vector< facebook_message >*, std::string *);
+	int ParseMessages(std::string*, std::vector< facebook_message >*, std::map< std::string, facebook_notification* >*);
+	int ParseMessagesCount(std::string *data, int *messagesCount, int *unreadCount);
+	int ParseNotifications(std::string*, std::map< std::string, facebook_notification* >*);
+	int ParseThreadInfo(std::string* data, std::string* user_id);
+	int ParseThreadMessages(std::string*, std::vector< facebook_message >*, bool unreadOnly);
+	int ParseUnreadThreads(std::string*, std::vector< std::string >*);
+	int ParseUserInfo(std::string* data, facebook_user* fbu);
+
 public:
 	FacebookProto(const char *proto_name, const wchar_t *username);
 	~FacebookProto();
@@ -48,7 +67,6 @@ public:
 	inline bool isInvisible()
 	{
 		return m_invisible;
-		//return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
 
 	inline int IdleSeconds()
