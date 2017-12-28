@@ -419,7 +419,7 @@
 		<id>SRD</id><symbol>SRD</symbol><description>Surinamese Dollar (SRD)</description>
 	</quote>
 	<quote>
-		<id>STD</id><symbol>STD</symbol><description>São Tomé & Príncipe Dobra (STD)</description>
+		<id>STD</id><symbol>STD</symbol><description>São Tomé and Príncipe Dobra (STD)</description>
 	</quote>
 	<quote>
 		<id>SVC</id><symbol>SVC</symbol><description>Salvadoran Colón (SVC)</description>
@@ -449,7 +449,7 @@
 		<id>TRY</id><symbol>TRY</symbol><description>Turkish Lira (TRY)</description>
 	</quote>
 	<quote>
-		<id>TTD</id><symbol>TTD</symbol><description>Trinidad & Tobago Dollar (TTD)</description>
+		<id>TTD</id><symbol>TTD</symbol><description>Trinidad and Tobago Dollar (TTD)</description>
 	</quote>
 	<quote>
 		<id>TWD</id><symbol>TWD</symbol><description>New Taiwan Dollar (TWD)</description>
