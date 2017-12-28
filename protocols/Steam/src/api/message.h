@@ -5,17 +5,14 @@ class SendMessageRequest : public HttpRequest
 {
 public:
 	SendMessageRequest(const char *token, const char *umqId, const char *steamId, const char *text) :
-		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001")
+		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001")
 	{
-		CMStringA data;
-		data.AppendFormat("access_token=%s&umqid=%s&steamid_dst=%s&type=saytext&text=%s",
-			token,
-			umqId,
-			steamId,
-			ptrA(mir_urlEncode(text)));
-
-		SetData(data, data.GetLength());
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("umqid", umqId)
+			<< CHAR_PARAM("steamid_dst", steamId)
+			<< CHAR_PARAM("type", "saytext")
+			<< CHAR_PARAM("text", text);
 	}
 };
 
@@ -23,16 +20,13 @@ class SendTypingRequest : public HttpRequest
 {
 public:
 	SendTypingRequest(const char *token, const char *umqId, const char *steamId) :
-		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001")
+		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Message/v0001")
 	{
-		CMStringA data;
-		data.AppendFormat("access_token=%s&umqid=%s&steamid_dst=%s&type=typing",
-			token,
-			umqId,
-			steamId);
-
-		SetData(data, data.GetLength());
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("umqid", umqId)
+			<< CHAR_PARAM("steamid_dst", steamId)
+			<< CHAR_PARAM("type", "typing");
 	}
 };
 

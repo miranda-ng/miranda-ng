@@ -7,14 +7,7 @@ struct SendMessageParam
 	char *message;
 };
 
-void MessageParamFree(void *arg)
-{
-	SendMessageParam *param = (SendMessageParam*)arg;
-	mir_free(param->message);
-	mir_free(param);
-}
-
-int CSteamProto::OnSendMessage(MCONTACT hContact, const char* message)
+int CSteamProto::OnSendMessage(MCONTACT hContact, const char *message)
 {
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 
@@ -29,40 +22,39 @@ int CSteamProto::OnSendMessage(MCONTACT hContact, const char* message)
 	PushRequest(
 		new SendMessageRequest(token, umqid, steamId, message),
 		&CSteamProto::OnMessageSent,
-		param, MessageParamFree);
+		param);
 
 	return hMessage;
 }
 
-void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
+void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 
-	ptrW error(mir_wstrdup(TranslateT("Unknown error")));
+	const char *error = Translate("Unknown error");
 	ptrW steamId(getWStringA(param->hContact, "SteamID"));
 	time_t timestamp = NULL;
 
-	if (ResponseHttpOk(response))
+	if (response)
 	{
-		JSONROOT root(response->pData);
-		JSONNode *node = json_get(root, "error");
-		if (node)
-			error = json_as_string(node);
+		JSONNode root = JSONNode::parse(response.Content);
+		JSONNode node = root["error"];
+		if (!node.isnull())
+			error = node.as_string().c_str();
 
-		node = json_get(root, "utc_timestamp");
-		if (node)
+		node = root["utc_timestamp"];
+		if (!node.isnull())
 		{
-			timestamp = atol(ptrA(mir_u2a(ptrW(json_as_string(node)))));
+			timestamp = atol(node.as_string().c_str());
 			if (timestamp > getDword("LastMessageTS", 0))
 				setDword("LastMessageTS", timestamp);
 		}
 	}
 
-	if (mir_wstrcmpi(error, L"OK") != 0)
+	if (mir_strcmpi(error, "OK") != 0)
 	{
-		ptrA errorA(mir_u2a(error));
-		debugLogA("CSteamProto::OnMessageSent: failed to send message for %s (%s)", steamId, errorA);
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)errorA);
+		debugLogA(__FUNCTION__ ": failed to send message for %s (%s)", steamId, error);
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)error);
 	}
 	else
 	{
@@ -73,6 +65,9 @@ void CSteamProto::OnMessageSent(const HttpResponse *response, void *arg)
 
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hMessage, 0);
 	}
+
+	mir_free(param->message);
+	mir_free(param);
 }
 
 int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)

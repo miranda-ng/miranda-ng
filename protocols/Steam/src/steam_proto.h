@@ -28,8 +28,16 @@ enum
 	CMI_MAX   // this item shall be the last one
 };
 
-typedef void(CSteamProto::*SteamResponseCallback)(const HttpResponse *response);
-typedef void(CSteamProto::*SteamResponseWithArgCallback)(const HttpResponse *response, void *arg);
+typedef void(CSteamProto::*HttpCallback)(const HttpResponse&, void*);
+typedef void(CSteamProto::*JsonCallback)(const JSONNode&, void*);
+
+struct RequestQueueItem
+{
+	HttpRequest *request;
+	HttpCallback httpCallback;
+	JsonCallback jsonCallback;
+	void *param;
+};
 
 class CSteamProto : public PROTO<CSteamProto>
 {
@@ -77,7 +85,11 @@ protected:
 	wchar_t *password;
 	bool isLoginAgain;
 	time_t m_idleTS;
-	HANDLE m_evRequestsQueue, m_hQueueThread;
+	bool isTerminated, isConnected;
+	mir_cs requestQueueLock;
+	HANDLE hRequestsQueueEvent;
+	HANDLE hRequestQueueThread;
+	LIST<RequestQueueItem> requestQueue;
 	HANDLE m_pollingConnection, m_hPollingThread;
 	ULONG  hAuthProcess;
 	ULONG  hMessageProcess;
@@ -85,6 +97,7 @@ protected:
 	mir_cs requests_queue_lock;
 	mir_cs set_status_lock;
 	std::map<HANDLE, time_t> m_mpOutMessages;
+	std::map<std::string, time_t> m_typingTimestamps;
 
 	/**
 	 * Used only to compare in steam_history.cpp, others should write such value directly to db profile, because PollingThread
@@ -97,36 +110,37 @@ protected:
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
 
 	// requests
-	RequestQueue *requestQueue;
-
+	HttpResponse* SendRequest(HttpRequest *request);
+	void SendRequest(HttpRequest *request, HttpCallback callback, void *param = NULL);
+	void SendRequest(HttpRequest *request, JsonCallback callback, void *param = NULL);
 	void PushRequest(HttpRequest *request);
-	void PushRequest(HttpRequest *request, SteamResponseCallback response);
-	void PushRequest(HttpRequest *request, SteamResponseWithArgCallback response, void *arg, HttpFinallyCallback last = NULL);
-
-	void SendRequest(HttpRequest *request);
-	void SendRequest(HttpRequest *request, SteamResponseCallback response);
-	void SendRequest(HttpRequest *request, SteamResponseWithArgCallback response, void *arg, HttpFinallyCallback last = NULL);
-
-	static void MirFreeArg(void *arg) { mir_free(arg); }
+	void PushRequest(HttpRequest *request, HttpCallback callback, void *param = NULL);
+	void PushRequest(HttpRequest *request, JsonCallback callback, void *param = NULL);
+	void __cdecl RequestQueueThread(void*);
 
 	// pooling thread
-	void ParsePollData(JSONNode *data);
+	void ParsePollData(const JSONNode &data);
+	void OnGotPoll(const HttpResponse &response, void *arg);
 	void __cdecl PollingThread(void*);
 
-	// account
+	// login
 	bool IsOnline();
 	bool IsMe(const char *steamId);
 	
+	void Login();
 	bool Relogin();
+	void LogOut();
 
-	void OnGotRsaKey(const HttpResponse *response);
+	void OnGotRsaKey(const JSONNode &root, void*);
+
+	void OnGotCaptcha(const HttpResponse &response, void *arg);
 	
-	void OnAuthorization(const HttpResponse *response);
-	void OnAuthorizationError(const JSONNode &node);
-	void OnAuthorizationSuccess(const JSONNode &node);
-	void OnGotSession(const HttpResponse *response);
+	void OnAuthorization(const HttpResponse &response, void*);
+	void OnAuthorizationError(const JSONNode &root);
+	void OnAuthorizationSuccess(const JSONNode &root);
+	void OnGotSession(const HttpResponse &response, void*);
 
-	void OnLoggedOn(const HttpResponse *response);
+	void OnLoggedOn(const HttpResponse &response, void*);
 
 	void HandleTokenExpired();
 	void DeleteAuthSettings();
@@ -137,8 +151,9 @@ protected:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	void UpdateContactDetails(MCONTACT hContact, JSONNode *data);
-	void UpdateContactRelationship(MCONTACT hContact, JSONNode *data);
+	void UpdateContactDetails(MCONTACT hContact, const JSONNode &data);
+	void UpdateContactRelationship(MCONTACT hContact, const JSONNode &data);
+	void OnGotAppInfo(const JSONNode &root, void *arg);
 
 	void ContactIsRemoved(MCONTACT hContact);
 	void ContactIsFriend(MCONTACT hContact);
@@ -148,31 +163,31 @@ protected:
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
 
-	void OnGotFriendList(const HttpResponse *response);
-	void OnGotBlockList(const HttpResponse *response);
-	void OnGotUserSummaries(const HttpResponse *response);
-	void OnGotAvatar(const HttpResponse *response, void *arg);
+	void OnGotFriendList(const JSONNode &root, void*);
+	void OnGotBlockList(const JSONNode &root, void*);
+	void OnGotUserSummaries(const JSONNode &root, void*);
+	void OnGotAvatar(const HttpResponse &response, void *arg);
 
-	void OnFriendAdded(const HttpResponse *response, void *arg);
-	void OnFriendBlocked(const HttpResponse *response, void *arg);
-	void OnFriendRemoved(const HttpResponse *response, void *arg);
+	void OnFriendAdded(const HttpResponse &response, void *arg);
+	void OnFriendBlocked(const HttpResponse &response, void *arg);
+	void OnFriendRemoved(const HttpResponse &response, void *arg);
 
-	void OnAuthRequested(const HttpResponse *response, void *arg);
+	void OnAuthRequested(const JSONNode &root, void *arg);
 
-	void OnPendingApproved(const HttpResponse *response, void *arg);
-	void OnPendingIgnoreded(const HttpResponse *response, void *arg);
+	void OnPendingApproved(const JSONNode &root, void *arg);
+	void OnPendingIgnoreded(const JSONNode &root, void *arg);
 
-	void OnSearchResults(const HttpResponse *response, void *arg);
-	void OnSearchByNameStarted(const HttpResponse *response, void *arg);
+	void OnSearchResults(const HttpResponse &response, void *arg);
+	void OnSearchByNameStarted(const HttpResponse &response, void *arg);
 
 	// messages
 	int OnSendMessage(MCONTACT hContact, const char* message);
-	void OnMessageSent(const HttpResponse *response, void *arg);
+	void OnMessageSent(const HttpResponse &response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	// history
-	void OnGotConversations(const HttpResponse *response);
-	void OnGotHistoryMessages(const HttpResponse *response, void *arg);
+	void OnGotConversations(const JSONNode &root, void *arg);
+	void OnGotHistoryMessages(const JSONNode &root, void*);
 
 	// menus
 	static int hChooserMenu;

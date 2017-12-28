@@ -1,78 +1,98 @@
 #include "stdafx.h"
 
-class SteamResponseDelegate
+HttpResponse* CSteamProto::SendRequest(HttpRequest *request)
 {
-private:
-	CSteamProto *proto;
-	SteamResponseCallback responseCallback;
-	SteamResponseWithArgCallback responseWithArgCallback;
-	HttpFinallyCallback httpFinallyCallback;
-
-	void *arg;
-	bool hasArg;
-
-public:
-	SteamResponseDelegate(CSteamProto *proto, SteamResponseCallback responseCallback)
-		: proto(proto), responseCallback(responseCallback), responseWithArgCallback(nullptr), arg(nullptr), httpFinallyCallback(nullptr), hasArg(false) {}
-
-	SteamResponseDelegate(CSteamProto *proto, SteamResponseWithArgCallback responseCallback, void *arg, HttpFinallyCallback httpFinallyCallback)
-		: proto(proto), responseCallback(nullptr), responseWithArgCallback(responseCallback), arg(arg), httpFinallyCallback(httpFinallyCallback), hasArg(true) { }
-
-	void Invoke(const HttpResponse *response)
-	{
-		if (hasArg)
-		{
-			(proto->*(responseWithArgCallback))(response, arg);
-			if (httpFinallyCallback != nullptr)
-				httpFinallyCallback(arg);
-		}
-		else
-			(proto->*(responseCallback))(response);
-	}
-};
-
-static void SteamHttpResponse(const HttpResponse *response, void *arg)
-{
-	SteamResponseDelegate *delegate = (SteamResponseDelegate*)arg;
-	delegate->Invoke(response);
+	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, (NETLIBHTTPREQUEST*)request);
+	HttpResponse *response = new HttpResponse(request, pResp);
+	delete request;
+	return response;
 }
 
-void SteamResponseDelegateFree(void *arg)
+void CSteamProto::SendRequest(HttpRequest *request, HttpCallback callback, void *param)
 {
-	SteamResponseDelegate *delegate = (SteamResponseDelegate*)arg;
-	delete delegate;
+	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, (NETLIBHTTPREQUEST*)request);
+	HttpResponse response(request, pResp);
+	if (callback)
+		(this->*callback)(response, param);
+	delete request;
+}
+
+void CSteamProto::SendRequest(HttpRequest *request, JsonCallback callback, void *param)
+{
+	NETLIBHTTPREQUEST *pResp = Netlib_HttpTransaction(m_hNetlibUser, (NETLIBHTTPREQUEST*)request);
+	HttpResponse response(request, pResp);
+	if (callback)
+	{
+		JSONNode root = JSONNode::parse(response.Content);
+		(this->*callback)(root, param);
+	}
+	delete request;
 }
 
 void CSteamProto::PushRequest(HttpRequest *request)
 {
-	requestQueue->Push(request);
+	RequestQueueItem *item = new RequestQueueItem();
+	item->request = request;
+	{
+		mir_cslock lock(requestQueueLock);
+		requestQueue.insert(item);
+	}
+	SetEvent(hRequestsQueueEvent);
 }
 
-void CSteamProto::PushRequest(HttpRequest *request, SteamResponseCallback response)
+void CSteamProto::PushRequest(HttpRequest *request, HttpCallback callback, void *param)
 {
-	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response);
-	requestQueue->Push(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
+	RequestQueueItem *item = new RequestQueueItem();
+	item->request = request;
+	item->httpCallback = callback;
+	item->param = param;
+	{
+		mir_cslock lock(requestQueueLock);
+		requestQueue.insert(item);
+	}
+	SetEvent(hRequestsQueueEvent);
 }
 
-void CSteamProto::PushRequest(HttpRequest *request, SteamResponseWithArgCallback response, void *arg, HttpFinallyCallback last)
+void CSteamProto::PushRequest(HttpRequest *request, JsonCallback callback, void *param)
 {
-	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response, arg, last);
-	requestQueue->Push(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
+	RequestQueueItem *item = new RequestQueueItem();
+	item->request = request;
+	item->jsonCallback = callback;
+	item->param = param;
+	{
+		mir_cslock lock(requestQueueLock);
+		requestQueue.insert(item);
+	}
+	SetEvent(hRequestsQueueEvent);
 }
 
-void CSteamProto::SendRequest(HttpRequest *request)
+void CSteamProto::RequestQueueThread(void*)
 {
-	requestQueue->Send(request);
-}
+	Login();
 
-void CSteamProto::SendRequest(HttpRequest *request, SteamResponseCallback response)
-{
-	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response);
-	requestQueue->Send(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
-}
+	do
+	{
+		RequestQueueItem *item;
+		while (true)
+		{
+			{
+				mir_cslock lock(requestQueueLock);
+				if (!requestQueue.getCount())
+					break;
 
-void CSteamProto::SendRequest(HttpRequest *request, SteamResponseWithArgCallback response, void *arg, HttpFinallyCallback last)
-{
-	SteamResponseDelegate *delegate = new SteamResponseDelegate(this, response, arg, last);
-	requestQueue->Send(request, SteamHttpResponse, delegate, SteamResponseDelegateFree);
+				item = requestQueue[0];
+				requestQueue.remove(0);
+			}
+			if (item->httpCallback)
+				SendRequest(item->request, item->httpCallback, item->param);
+			else if (item->jsonCallback)
+				SendRequest(item->request, item->jsonCallback, item->param);
+			else
+				SendRequest(item->request);
+			delete item;
+		}
+		WaitForSingleObject(hRequestsQueueEvent, 1000);
+	} while (!isTerminated);
+
+	hRequestQueueThread = NULL;
 }

@@ -5,7 +5,7 @@ class ApprovePendingRequest : public HttpRequest
 {
 public:
 	ApprovePendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-		HttpRequest(REQUEST_POST, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
+		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
 		char login[MAX_PATH];
 		mir_snprintf(login, "%s||oauth:%s", steamId, token);
@@ -13,12 +13,16 @@ public:
 		char cookie[MAX_PATH];
 		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
 
-		char data[MAX_PATH];
-		mir_snprintf(data, "sessionID=%s&id=%s&perform=accept&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
+		Headers << CHAR_PARAM("Cookie", cookie);
 
-		SetData(data, strlen(data));
-		AddHeader("Cookie", cookie);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("sessionID", sessionId)
+			<< CHAR_PARAM("id", who)
+			<< CHAR_PARAM("perform", "accept")
+			<< CHAR_PARAM("action", "approvePending")
+			<< CHAR_PARAM("itype", "friend")
+			<< INT_PARAM("json", 1)
+			<< INT_PARAM("xml", 0);
 	}
 };
 
@@ -26,7 +30,7 @@ class IgnorePendingRequest : public HttpRequest
 {
 public:
 	IgnorePendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-		HttpRequest(REQUEST_POST, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
+		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
 		char login[MAX_PATH];
 		mir_snprintf(login, "%s||oauth:%s", steamId, token);
@@ -34,12 +38,16 @@ public:
 		char cookie[MAX_PATH];
 		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
 
-		char data[MAX_PATH];
-		mir_snprintf(data, "sessionID=%s&id=%s&perform=ignore&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
+		Headers << CHAR_PARAM("Cookie", cookie);
 
-		SetData(data, strlen(data));
-		AddHeader("Cookie", cookie);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("sessionID", sessionId)
+			<< CHAR_PARAM("id", who)
+			<< CHAR_PARAM("perform", "ignore")
+			<< CHAR_PARAM("action", "approvePending")
+			<< CHAR_PARAM("itype", "friend")
+			<< INT_PARAM("json", 1)
+			<< INT_PARAM("xml", 0);
 	}
 };
 
@@ -47,7 +55,7 @@ class BlockPendingRequest : public HttpRequest
 {
 public:
 	BlockPendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-		HttpRequest(REQUEST_POST, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
+		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
 		char login[MAX_PATH];
 		mir_snprintf(login, "%s||oauth:%s", steamId, token);
@@ -55,12 +63,16 @@ public:
 		char cookie[MAX_PATH];
 		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
 
-		char data[MAX_PATH];
-		mir_snprintf(data, "sessionID=%s&id=%s&perform=block&action=approvePending&itype=friend&json=1&xml=0", sessionId, who);
+		Headers << CHAR_PARAM("Cookie", cookie);
 
-		SetData(data, strlen(data));
-		AddHeader("Cookie", cookie);
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("sessionID", sessionId)
+			<< CHAR_PARAM("id", who)
+			<< CHAR_PARAM("perform", "block")
+			<< CHAR_PARAM("action", "approvePending")
+			<< CHAR_PARAM("itype", "friend")
+			<< INT_PARAM("json", 1)
+			<< INT_PARAM("xml", 0);
 	}
 };
 

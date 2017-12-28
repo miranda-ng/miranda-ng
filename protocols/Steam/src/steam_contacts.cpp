@@ -50,13 +50,8 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 
 void CSteamProto::SetAllContactsStatus(WORD status)
 {
-	for (MCONTACT hContact = db_find_first(this->m_szModuleName); hContact; hContact = db_find_next(hContact, this->m_szModuleName))
-	{
-		if (this->isChatRoom(hContact))
-			continue;
-
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		SetContactStatus(hContact, status);
-	}
 }
 
 MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
@@ -84,7 +79,7 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 
 	mir_cslock lck(this->contact_search_lock);
 
-	for (hContact = db_find_first(this->m_szModuleName); hContact; hContact = db_find_next(hContact, this->m_szModuleName))
+	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
 		ptrA cSteamId(db_get_sa(hContact, this->m_szModuleName, "SteamID"));
 		if (!lstrcmpA(cSteamId, steamId))
@@ -94,34 +89,34 @@ MCONTACT CSteamProto::FindContact(const char *steamId)
 	return hContact;
 }
 
-void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
+void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 {
 	// set common data
-	JSONNode *node = json_get(data, "personaname");
-	setWString(hContact, "Nick", ptrW(json_as_string(node)));
+	CMStringW nick = data["personaname"].as_mstring();
+	setWString(hContact, "Nick", nick);
 
-	node = json_get(data, "profileurl");
-	setString(hContact, "Homepage", _T2A(ptrW(json_as_string(node))));
+	json_string homepage = data["profileurl"].as_string();
+	setString(hContact, "Homepage", homepage.c_str());
 
-	node = json_get(data, "primaryclanid");
-	setString(hContact, "PrimaryClanID", _T2A(ptrW(json_as_string(node))));
+	json_string primaryClanId = data["primaryclanid"].as_string();
+	setString(hContact, "PrimaryClanID", primaryClanId.c_str());
 
 	// set name
-	node = json_get(data, "realname");
-	if (node != nullptr)
+	JSONNode node = data["realname"];
+	if (!node.isnull())
 	{
-		std::wstring realname = (wchar_t*)ptrW(json_as_string(node));
-		if (!realname.empty())
+		CMStringW realName = node.as_mstring();
+		if (!realName.IsEmpty())
 		{
-			size_t pos = realname.find(L' ', 1);
-			if (pos != std::wstring::npos)
+			int pos = realName.Find(L' ', 1);
+			if (pos != -1)
 			{
-				setWString(hContact, "FirstName", realname.substr(0, pos).c_str());
-				setWString(hContact, "LastName", realname.substr(pos + 1).c_str());
+				setWString(hContact, "FirstName", realName.Mid(0, pos));
+				setWString(hContact, "LastName", realName.Mid(pos + 1));
 			}
 			else
 			{
-				setWString(hContact, "FirstName", realname.c_str());
+				setWString(hContact, "FirstName", realName);
 				delSetting(hContact, "LastName");
 			}
 		}
@@ -134,42 +129,41 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
 
 	// avatar
 	bool biggerAvatars = getBool("UseBigAvatars", false);
-	node = json_get(data, biggerAvatars ? "avatarfull" : "avatarmedium");
-	std::string avatarUrl = (char*)_T2A(ptrW(json_as_string(node)));
+	json_string avatarUrl = data[biggerAvatars ? "avatarfull" : "avatarmedium"].as_string();
 	CheckAvatarChange(hContact, avatarUrl);
 
 	// set country
-	node = json_get(data, "loccountrycode");
-	if (node != nullptr)
+	node = data["loccountrycode"];
+	if (!node.isnull())
 	{
-		const char *iso = ptrA(mir_u2a(ptrW(json_as_string(node))));
-		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)iso, 0);
+		json_string countryCode = node.as_string();
+		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)countryCode.c_str(), 0);
 		setString(hContact, "Country", country);
 	}
 	else
 		delSetting(hContact, "Country");
 
 	// state code
-	node = json_get(data, "locstatecode");
-	if (node)
-		setDword(hContact, "StateCode", json_as_int(node));
+	node = data["locstatecode"];
+	if (!node.isnull())
+		setDword(hContact, "StateCode", node.as_int());
 	else
 		delSetting(hContact, "StateCode");
 
 	// city id
-	node = json_get(data, "loccityid");
-	if (node)
-		setDword(hContact, "CityID", json_as_int(node));
+	node = data["loccityid"];
+	if (!node.isnull())
+		setDword(hContact, "CityID", node.as_int());
 	else
 		delSetting(hContact, "CityID");
 
 	// account created
-	node = json_get(data, "timecreated");
-	setDword(hContact, "MemberTS", json_as_int(node));
+	node = data["timecreated"];
+	setDword(hContact, "MemberTS", node.as_int());
 
 	// last logout time
-	node = json_get(data, "lastlogoff");
-	setDword(hContact, "LogoffTS", json_as_int(node));
+	node = data["lastlogoff"];
+	setDword(hContact, "LogoffTS", node.as_int());
 
 	// status
 	// NOTE: this here is wrong info, probably depending on publicity of steam profile, but we don't need this at all, we get status updates by polling
@@ -179,9 +173,8 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
 	*/
 
 	// client
-	node = json_get(data, "personastateflags");
-	int stateflags = node ? json_as_int(node) : -1;
-	
+	node = data["personastateflags"];
+	int stateflags = !node.isnull() ? node.as_int() : -1;
 	if (stateflags == 0) {
 		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
 		WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -208,31 +201,36 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, JSONNode *data)
 		// none/unknown (e.g. when contact is offline)
 		delSetting(hContact, "MirVer");
 	}
-	
+
 	// playing game
-	node = json_get(data, "gameid");
-	DWORD gameId = node ? atol(_T2A(ptrW(json_as_string(node)))) : 0;
-
-	node = json_get(data, "gameextrainfo");
-	ptrW gameInfo(json_as_string(node));
-
-	if (gameId > 0 || gameInfo[0] != '\0')
+	json_string appId = data["gameid"].as_string();
+	CMStringW gameInfo = data["gameextrainfo"].as_mstring();
+	if (!appId.empty() || !gameInfo.IsEmpty())
 	{
-		node = json_get(data, "gameserverip");
-		ptrW serverIP(json_as_string(node));
-
-		node = json_get(data, "gameserversteamid");
-		ptrW serverID (json_as_string(node));
+		DWORD gameId = atol(appId.c_str());
+		json_string serverIP = data["gameserverip"].as_string();
+		json_string serverID = data["gameserversteamid"].as_string();
 
 		setDword(hContact, "GameID", gameId);
-		setString(hContact, "ServerIP", _T2A(serverIP));
-		setString(hContact, "ServerID", _T2A(serverID));
+		setString(hContact, "ServerIP", serverIP.c_str());
+		setString(hContact, "ServerID", serverID.c_str());
 
 		CMStringW message(gameInfo);
-		if (!gameId)
-			message.Append(TranslateT(" (Non-Steam)"));
-		if (serverIP[0] != '\0')
-			message.AppendFormat(TranslateT(" on server %s"), serverIP);
+		if (gameId && message.IsEmpty())
+		{
+			ptrA token(getStringA("TokenSecret"));
+			PushRequest(
+				new GetAppInfoRequest(token, appId.c_str()),
+				&CSteamProto::OnGotAppInfo,
+				(void*)hContact);
+		}
+		else
+		{
+			if (!gameId)
+				message.Append(TranslateT(" (Non-Steam)"));
+			if (!serverIP.empty())
+				message.AppendFormat(TranslateT(" on server %s"), serverIP.c_str());
+		}
 		
 		setDword(hContact, "XStatusId", gameId);
 		setWString(hContact, "XStatusName", TranslateT("Playing"));
@@ -388,86 +386,75 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 	return hContact;
 }
 
-void CSteamProto::UpdateContactRelationship(MCONTACT hContact, JSONNode *data)
+void CSteamProto::UpdateContactRelationship(MCONTACT hContact, const JSONNode &data)
 {
-	JSONNode *node = json_get(data, "friend_since");
-	if (node)
-		db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
+	JSONNode node = data["friend_since"];
+	if (!node.isnull())
+		db_set_dw(hContact, "UserInfo", "ContactAddTime", node.as_int());
 
-	node = json_get(data, "relationship");
-	if (node == nullptr)
+	node = data["relationship"];
+	if (node.isnull())
 		return;
 
-	ptrA relationship(mir_u2a(ptrW(json_as_string(node))));
-	if (!lstrcmpiA(relationship, "friend"))
-	{
+	json_string relationship = node.as_string();
+	if (!lstrcmpiA(relationship.c_str(), "friend"))
 		ContactIsFriend(hContact);
-	}
-	else if (!lstrcmpiA(relationship, "ignoredfriend"))
-	{
+	else if (!lstrcmpiA(relationship.c_str(), "ignoredfriend"))
 		ContactIsIgnored(hContact);
-	}
-	else if (!lstrcmpiA(relationship, "requestrecipient"))
-	{
+	else if (!lstrcmpiA(relationship.c_str(), "requestrecipient"))
 		ContactIsAskingAuth(hContact);
+}
+
+void CSteamProto::OnGotAppInfo(const JSONNode &root, void *arg)
+{
+	MCONTACT hContact = (UINT_PTR)arg;
+
+	JSONNode apps = root["apps"].as_array();
+	for (const JSONNode &app : apps)
+	{
+		DWORD gameId = app["appid"].as_int();
+		CMStringW message = app["name"].as_mstring();
+
+		setDword(hContact, "XStatusId", gameId);
+		setWString(hContact, "XStatusName", TranslateT("Playing"));
+		setWString(hContact, "XStatusMsg", message);
 	}
 }
 
-void CSteamProto::OnGotFriendList(const HttpResponse *response)
+void CSteamProto::OnGotFriendList(const JSONNode &root, void*)
 {
-	if (!CheckResponse(response))
+	if (root.isnull())
 		return;
 
-	JSONROOT root(response->pData);
-	if (root == nullptr)
-		return;
-
+	// Comma-separated list of steam ids to update summaries
 	std::string steamIds = (char*)ptrA(getStringA("SteamID"));
 
-	std::map<std::string, JSONNode*> friends;
-
 	// Remember contacts on server
-	JSONNode *node = json_get(root, "friends");
-	JSONNode *nroot = json_as_array(node);
-	if (nroot != nullptr)
+		std::map<json_string, JSONNode*> friendsMap;
+	JSONNode friends = root["friends"].as_array();
+	for (const JSONNode &_friend : friends)
 	{
-		for (size_t i = 0; i < json_size(nroot); i++)
-		{
-			JSONNode *child = json_at(nroot, i);
-			if (child == nullptr)
-				break;
-
-			node = json_get(child, "steamid");
-			if (node == nullptr)
-				continue;
-
-			std::string steamId = (char*)_T2A(ptrW(json_as_string(node)));
-			friends.insert(std::make_pair(steamId, child));
-		}
+		json_string steamId = _friend["steamid"].as_string();
+		friendsMap.insert(std::make_pair(steamId, json_copy(&_friend)));
 	}
 
-	{
-		// Check and update contacts in database
+	{ // Check and update contacts in database
 		mir_cslock lck(this->contact_search_lock);
 
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 		{
-			if (isChatRoom(hContact))
+			ptrA steamId(getStringA(hContact, "SteamID"));
+			if (steamId == nullptr)
 				continue;
 
-			ptrA id(getStringA(hContact, "SteamID"));
-			if (id == NULL)
-				continue;
-
-			std::map<std::string, JSONNode*>::iterator it = friends.find(std::string(id));
-
-			if (it != friends.end())
+			auto it = friendsMap.find((char*)steamId);
+			if (it != friendsMap.end())
 			{
 				// Contact is on server-list, update (and eventually notify) it
-				UpdateContactRelationship(hContact, it->second);
-
+				UpdateContactRelationship(hContact, *it->second);
 				steamIds.append(",").append(it->first);
-				friends.erase(it);
+				json_delete(it->second);
+				friendsMap.erase(it);
 			}
 			else
 			{
@@ -478,19 +465,19 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 	}
 
 	// Check remaining contacts in map and add them to contact list
-	for (std::map<std::string, JSONNode*>::iterator it = friends.begin(); it != friends.end();)
+	for (auto it : friendsMap)
 	{
 		// Contact is on server-list, but not in database, add (but not notify) it
-		MCONTACT hContact = AddContact(it->first.c_str());
-		UpdateContactRelationship(hContact, it->second);
+		MCONTACT hContact = AddContact(it.first.c_str());
+		UpdateContactRelationship(hContact, *it.second);
 		
-		steamIds.append(",").append(it->first);
-		it = friends.erase(it);
+		steamIds.append(",").append(it.first);
+		json_delete(it.second);
 	}
-	friends.clear();
+	friendsMap.clear();
 
 	// We need to delete nroot here at the end, because we had references to JSONNode objects stored in friends map
-	json_delete(nroot);
+	// json_delete(nroot);
 
 	ptrA token(getStringA("TokenSecret"));
 
@@ -509,93 +496,68 @@ void CSteamProto::OnGotFriendList(const HttpResponse *response)
 		&CSteamProto::OnGotConversations);
 }
 
-void CSteamProto::OnGotBlockList(const HttpResponse *response)
+void CSteamProto::OnGotBlockList(const JSONNode &root, void*)
 {
-	if (!CheckResponse(response))
-		return;
-
-	JSONROOT root(response->pData);
-	if (root == nullptr)
+	if (root.isnull())
 		return;
 
 	//std::string steamIds;
 
-	JSONNode *node = json_get(root, "friends");
-	JSONNode *nroot = json_as_array(node);
-	if (nroot != nullptr)
+	JSONNode friends = root["friends"].as_array();
+	if (friends.isnull())
+		return;
+
+	for (size_t i = 0; i < friends.size(); i++)
 	{
-		for (size_t i = 0; i < json_size(nroot); i++)
+		JSONNode node = friends[i].as_node();
+
+		json_string steamId = node["steamid"].as_string();
+
+		/*MCONTACT hContact = FindContact(steamId);
+		if (!hContact)
 		{
-			JSONNode *child = json_at(nroot, i);
-			if (child == nullptr)
-				break;
+			hContact = AddContact(steamId);
+			steamIds.append(steamId).append(",");
+		}*/
 
-			node = json_get(child, "steamid");
-			ptrA steamId(mir_u2a(ptrW(json_as_string(node))));
-
-			/*MCONTACT hContact = FindContact(steamId);
-			if (!hContact)
-			{
-				hContact = AddContact(steamId);
-				steamIds.append(steamId).append(",");
-			}*/
-
-			node = json_get(child, "relationship");
-			ptrA relationship(mir_u2a(ptrW(json_as_string(node))));
-
-			if (!lstrcmpiA(relationship, "ignoredfriend"))
-			{
-				// todo: open block list
-			}
-			else continue;
+		json_string relationship = node["relationship"].as_string();
+		if (!lstrcmpiA(relationship.c_str(), "ignoredfriend"))
+		{
+			// todo: open block list
 		}
-		json_delete(nroot);
+		else continue;
 	}
 }
 
-void CSteamProto::OnGotUserSummaries(const HttpResponse *response)
+void CSteamProto::OnGotUserSummaries(const JSONNode &root, void*)
 {
-	if (!CheckResponse(response))
+	JSONNode players = root["players"].as_array();
+	if (players.isnull())
 		return;
 
-	JSONROOT root(response->pData);
-	if (root == nullptr)
-		return;
-		
-	JSONNode *node = json_get(root, "players");
-	JSONNode *nroot = json_as_array(node);
-	if (nroot != nullptr)
+	for (size_t i = 0; i < players.size(); i++)
 	{
-		for (size_t i = 0; i < json_size(nroot); i++)
-		{
-			JSONNode *item = json_at(nroot, i);
-			if (item == nullptr)
-				break;
+		JSONNode player = players[i];
+		json_string steamId = player["steamid"].as_string();
 
-			node = json_get(item, "steamid");
-			ptrA steamId(mir_u2a(ptrW(json_as_string(node))));
+		MCONTACT hContact = NULL;
+		if (!IsMe(steamId.c_str()))
+			hContact = AddContact(steamId.c_str());
 
-			MCONTACT hContact = NULL;
-			if (!IsMe(steamId)) {
-				hContact = AddContact(steamId);
-			}
-
-			UpdateContactDetails(hContact, item);
-		}
-		json_delete(nroot);
+		UpdateContactDetails(hContact, player);
 	}
 }
 
-void CSteamProto::OnGotAvatar(const HttpResponse *response, void *arg)
+void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 {
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.hContact = (UINT_PTR)arg;
 	GetDbAvatarInfo(ai);
 
-	if (!ResponseHttpOk(response))
+	if (!response.IsSuccess())
 	{
 		ptrA steamId(getStringA(ai.hContact, "SteamID"));
-		debugLogA("CSteamProto::OnGotAvatar: failed to get avatar %s", steamId);
+		debugLogA(__FUNCTION__ ": failed to get avatar %s", steamId);
 
 		if (ai.hContact)
 			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
@@ -605,7 +567,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse *response, void *arg)
 	FILE *fp = _wfopen(ai.filename, L"wb");
 	if (fp)
 	{
-		fwrite(response->pData, sizeof(char), response->dataLength, fp);
+		fwrite(response.Content, sizeof(char), response.Content.GetSize(), fp);
 		fclose(fp);
 
 		if (ai.hContact)
@@ -615,14 +577,14 @@ void CSteamProto::OnGotAvatar(const HttpResponse *response, void *arg)
 	}
 }
 
-void CSteamProto::OnFriendAdded(const HttpResponse *response, void *arg)
+void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 {
 	SendAuthParam *param = (SendAuthParam*)arg;
 
-	if (!response || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
+	if (!response.IsSuccess() || lstrcmpiA(response.Content, "true"))
 	{
 		ptrA steamId(getStringA(param->hContact, "SteamID"));
-		debugLogA("CSteamProto::OnFriendAdded: failed to add friend %s", steamId);
+		debugLogA(__FUNCTION__ ": failed to add friend %s", steamId);
 
 		ProtoBroadcastAck(param->hContact, ACKTYPE_AUTHREQ, ACKRESULT_FAILED, param->hAuth, 0);
 
@@ -637,24 +599,26 @@ void CSteamProto::OnFriendAdded(const HttpResponse *response, void *arg)
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, param->hAuth, 0);
 }
 
-void CSteamProto::OnFriendBlocked(const HttpResponse *response, void *arg)
+void CSteamProto::OnFriendBlocked(const HttpResponse &response, void *arg)
 {
-	if (!response || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
+	ptrA steamId((char*)arg);
+
+	if (!response.IsSuccess() || lstrcmpiA(response.Content, "true"))
 	{
-		debugLogA("CSteamProto::OnFriendIgnored: failed to ignore friend %s", (char*)arg);
+		debugLogA(__FUNCTION__ ": failed to ignore friend %s", (char*)arg);
 		return;
 	}
 }
 
-void CSteamProto::OnFriendRemoved(const HttpResponse *response, void *arg)
+void CSteamProto::OnFriendRemoved(const HttpResponse &response, void *arg)
 {
 	MCONTACT hContact = (UINT_PTR)arg;
 
-	if (!response || response->resultCode != HTTP_CODE_OK || lstrcmpiA(response->pData, "true"))
+	if (!response.IsSuccess() || lstrcmpiA(response.Content, "true"))
 	{
 		ptrA who(getStringA(hContact, "SteamID"));
 
-		debugLogA("CSteamProto::OnFriendRemoved: failed to remove friend %s", who);
+		debugLogA(__FUNCTION__ ": failed to remove friend %s", who);
 		return;
 	}
 
@@ -662,155 +626,123 @@ void CSteamProto::OnFriendRemoved(const HttpResponse *response, void *arg)
 	setDword(hContact, "DeletedTS", ::time(nullptr));
 }
 
-void CSteamProto::OnAuthRequested(const HttpResponse *response, void *arg)
+void CSteamProto::OnAuthRequested(const JSONNode &root, void*)
 {
-	if (!ResponseHttpOk(response))
-	{
-		debugLogA("CSteamProto::OnAuthRequested: failed to request info for %s", (char*)arg);
-		return;
-	}
-
-	JSONROOT root(response->pData);
-	if (root == nullptr)
+	if (root.isnull())
 		return;
 
-	JSONNode *node = json_get(root, "players");
-	JSONNode *nodes = json_as_array(node);
-	JSONNode *nroot = json_at(nodes, 0);
-
-	if (nroot != nullptr)
+	int first = 0;
+	JSONNode players = root["players"].as_array();
+	JSONNode player = players[first];
+	if (!player.isnull())
 	{
-		node = json_get(nroot, "steamid");
-		ptrA steamId(mir_u2a(ptrW(json_as_string(node))));
-
-		MCONTACT hContact = AddContact(steamId);
-
-		UpdateContactDetails(hContact, nroot);
-
+		json_string steamId = player["steamid"].as_string();
+		MCONTACT hContact = AddContact(steamId.c_str());
+		UpdateContactDetails(hContact, player);
 		ContactIsAskingAuth(hContact);
 	}
-
-	json_delete(nodes);
 }
 
-void CSteamProto::OnPendingApproved(const HttpResponse *response, void *arg)
+void CSteamProto::OnPendingApproved(const JSONNode &root, void *arg)
 {
-	if (!ResponseHttpOk(response))
-	{
-		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s", (char*)arg);
-		return;
-	}
+	ptrA steamId((char*)arg);
 
-	JSONROOT root(response->pData);
-	if (root == nullptr)
+	if (root.isnull())
 		return;
 
-	JSONNode *node = json_get(root, "success");
-	if (json_as_int(node) == 0)
+	int success = root["success"].as_int();
+	if (success == 0)
 	{
-		node = json_get(root, "error_text");
-		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s (%s)", (char*)arg, ptrA(mir_utf8encodeW(ptrW(json_as_string(node)))));
+		json_string error = root["error_text"].as_string();
+		debugLogA(__FUNCTION__ ": failed to approve pending from %s (%s)", steamId, ptrA(mir_utf8decodeA(error.c_str())));
 	}
 }
 
-void CSteamProto::OnPendingIgnoreded(const HttpResponse *response, void *arg)
+void CSteamProto::OnPendingIgnoreded(const JSONNode &root, void *arg)
 {
-	if (!ResponseHttpOk(response))
-	{
-		debugLogA("CSteamProto::OnPendingIgnored: failed to ignore pending from %s", (char*)arg);
-		return;
-	}
+	ptrA steamId((char*)arg);
 
-	JSONROOT root(response->pData);
-	if (root == nullptr)
+	if (root.isnull())
 		return;
 
-	JSONNode *node = json_get(root, "success");
-	if (json_as_int(node) == 0)
+	int success = root["success"].as_int();
+	if (success == 0)
 	{
-		node = json_get(root, "error_text");
-		debugLogA("CSteamProto::OnPendingIgnored: failed to ignore pending from %s (%s)", (char*)arg, ptrA(mir_utf8encodeW(ptrW(json_as_string(node)))));
+		json_string error = root["error_text"].as_string();
+		debugLogA(__FUNCTION__ ": failed to ignore pending from %s (%s)", steamId, ptrA(mir_utf8decodeA(error.c_str())));
 	}
 }
 
-void CSteamProto::OnSearchResults(const HttpResponse *response, void *arg)
+void CSteamProto::OnSearchResults(const HttpResponse &response, void *arg)
 {
 	HANDLE searchType = (HANDLE)arg;
 
-	if (!ResponseHttpOk(response))
+	if (!response.IsSuccess())
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
-		debugLogA("CSteamProto::AddSearchResults: failed to get summaries");
+		debugLogA(__FUNCTION__ ": failed to get summaries");
 		return;
 	}
 
-	JSONROOT root(response->pData);
-	if (root == nullptr)
+	JSONNode root = JSONNode::parse(response.Content);
+	if (root.isnull())
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
 		return;
 	}
 
-	JSONNode *node = json_get(root, "players");
-	JSONNode *nroot = json_as_array(node);
-	if (nroot != nullptr)
+	JSONNode players = root["players"].as_array();
+	for (size_t i = 0; i < players.size(); i++)
 	{
-		for (size_t i = 0; i < json_size(nroot); i++)
+		JSONNode player = players[i];
+
+		STEAM_SEARCH_RESULT ssr = { 0 };
+		ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
+		ssr.hdr.flags = PSR_UNICODE;
+
+		CMStringW steamId = player["steamid"].as_mstring();
+		ssr.hdr.id.w = steamId.Detach();
+
+		CMStringW nick = player["personaname"].as_mstring();
+		ssr.hdr.nick.w = nick.Detach();
+
+		JSONNode node = player["realname"];
+		if (!node.isnull())
 		{
-			JSONNode *child = json_at(nroot, i);
-			if (child == nullptr)
-				break;
-
-			STEAM_SEARCH_RESULT ssr = { 0 };
-			ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
-			ssr.hdr.flags = PSR_UNICODE;
-
-			node = json_get(child, "steamid");
-			ssr.hdr.id.w = mir_wstrdup(ptrW(json_as_string(node)));
-
-			node = json_get(child, "personaname");
-			ssr.hdr.nick.w = mir_wstrdup(ptrW(json_as_string(node)));
-
-			node = json_get(child, "realname");
-			if (node != nullptr)
+			CMStringW realName = node.as_mstring();
+			if (!realName.IsEmpty())
 			{
-				std::wstring realname = (wchar_t*)ptrW(json_as_string(node));
-				if (!realname.empty())
+				int pos = realName.Find(' ', 1);
+				if (pos != -1)
 				{
-					size_t pos = realname.find(' ', 1);
-					if (pos != std::wstring::npos)
-					{
-						ssr.hdr.firstName.w = mir_wstrdup(realname.substr(0, pos).c_str());
-						ssr.hdr.lastName.w = mir_wstrdup(realname.substr(pos + 1).c_str());
-					}
-					else
-						ssr.hdr.firstName.w = mir_wstrdup(realname.c_str());
+					ssr.hdr.firstName.w = realName.Mid(0, pos).Detach();
+					ssr.hdr.lastName.w = realName.Mid(pos + 1).Detach();
 				}
+				else
+					ssr.hdr.firstName.w = realName.Detach();
 			}
-
-			//ssr.contact = contact;
-			ssr.data = json_copy(child); // FIXME: is this needed and safe (no memleak) to be here?
-
-			ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, searchType, (LPARAM)&ssr);
 		}
+
+		//ssr.contact = contact;
+		ssr.data = json_copy(&player); // FIXME: is this needed and safe (no memleak) to be here?
+
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, searchType, (LPARAM)&ssr);
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, searchType, 0);
-
-	json_delete(nroot);
 }
 
-void CSteamProto::OnSearchByNameStarted(const HttpResponse *response, void *arg)
+void CSteamProto::OnSearchByNameStarted(const HttpResponse &response, void *arg)
 {
-	if (!ResponseHttpOk(response))
+	if (!response.IsSuccess())
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
-		debugLogA("CSteamProto::OnSearchByNameEnded: failed to get results");
+		debugLogA(__FUNCTION__ ": failed to get results");
 		return;
 	}
 
-	JSONROOT root(response->pData);
-	if (root == nullptr)
+	JSONNode root = JSONNode::parse(response.Content);
+	if (root.isnull())
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
 		return;
@@ -822,24 +754,12 @@ void CSteamProto::OnSearchByNameStarted(const HttpResponse *response, void *arg)
 
 	std::string steamIds;
 
-	JSONNode *node = json_get(root, "results");
-	JSONNode *nroot = json_as_array(node);
-	if (nroot != nullptr)
+	JSONNode results = root["results"].as_array();
+	for (size_t i = 0; i < results.size(); i++)
 	{
-		for (size_t i = 0; i < json_size(nroot); i++)
-		{
-			JSONNode *child = json_at(nroot, i);
-			if (child == nullptr)
-				break;
-
-			node = json_get(child, "steamid");
-			if (node == nullptr)
-				continue;
-
-			std::string steamId = (char*)_T2A(ptrW(json_as_string(node)));
-			steamIds.append(steamId).append(",");
-		}
-		json_delete(nroot);
+		JSONNode result = results[i];
+		json_string steamId = result["steamid"].as_string();
+		steamIds.append(steamId).append(",");
 	}
 
 	if (!steamIds.empty())

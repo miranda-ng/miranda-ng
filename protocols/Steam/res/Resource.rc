@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
-#pragma code_page(1250)
+#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,9 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_STEAM               ICON                    "steam.ico"
+
 IDI_GAMING              ICON                    "gaming.ico"
+
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -113,7 +115,8 @@ BEGIN
 END
 
 IDD_CAPTCHA DIALOGEX 0, 0, 143, 81
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
 CAPTION "Captcha"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -123,7 +126,8 @@ BEGIN
 END
 
 IDD_GUARD DIALOGEX 0, 0, 193, 93
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
 CAPTION "Steam Guard"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -146,7 +150,7 @@ END
 
 IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
+EXSTYLE WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
 CAPTION "Enter password"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
@@ -158,8 +162,9 @@ BEGIN
 END
 
 IDD_TWOFACTOR DIALOGEX 0, 0, 193, 83
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Steam Guard"
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Sms code"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_TEXT,7,41,179,14,ES_AUTOHSCROLL
@@ -236,6 +241,32 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_GUARD AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CAPTCHA AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PASSWORD_EDITOR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TWOFACTOR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English resources
 /////////////////////////////////////////////////////////////////////////////

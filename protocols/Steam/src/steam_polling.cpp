@@ -2,180 +2,141 @@
 
 #define POLLING_ERRORS_LIMIT 5
 
-void CSteamProto::ParsePollData(JSONNode *data)
+void CSteamProto::ParsePollData(const JSONNode &data)
 {
-	JSONNode *node, *item = nullptr;
-	
-	// FIXME: Temporary solution for receivng too many duplicated typing events; should be reworked better
-	std::string typingUser;
-
 	std::string steamIds;
-	for (size_t i = 0; i < json_size(data); i++)
+	for (const JSONNode &item : data)
 	{
-		item = json_at(data, i);
-		if (item == nullptr)
-			break;
+		json_string steamId = item["steamid_from"].as_string();
+		time_t timestamp = _wtol(item["utc_timestamp"].as_mstring());
 
-		node = json_get(item, "steamid_from");
-		ptrA steamId(mir_u2a(ptrW(json_as_string(node))));
+		MCONTACT hContact = NULL;
+		if (!IsMe(steamId.c_str()) &&
+			!(hContact = FindContact(steamId.c_str())))
+			// probably this is info about random player playing on same server, so we ignore it
+			continue;
 
-		node = json_get(item, "utc_timestamp");
-		time_t timestamp = atol(ptrA(mir_u2a(ptrW(json_as_string(node)))));
-
-		node = json_get(item, "type");
-		ptrW type(json_as_string(node));
-		if (!lstrcmpi(type, L"saytext") || !lstrcmpi(type, L"emote") ||
-			!lstrcmpi(type, L"my_saytext") || !lstrcmpi(type, L"my_emote"))
+		json_string type = item["type"].as_string();
+		if (!mir_strcmpi(type.c_str(), "my_saytext") ||
+			!mir_strcmpi(type.c_str(), "my_emote"))
 		{
-			MCONTACT hContact = FindContact(steamId);
-			if (!hContact)
-				continue;
-
-			node = json_get(item, "text");
-			ptrW text(json_as_string(node));
-			T2Utf szMessage(text);
+			json_string text = item["text"].as_string();
 
 			PROTORECVEVENT recv = { 0 };
 			recv.timestamp = timestamp;
-			recv.szMessage = szMessage;
-			if (wcsstr(type, L"my_") == nullptr)
-			{
-				ProtoChainRecvMsg(hContact, &recv);
-			}
-			else
-			{
-				recv.flags = PREF_SENT;
-				Proto_RecvMessage(hContact, &recv);
-			}
+			recv.szMessage = (char*)text.c_str();
+			recv.flags = PREF_SENT;
+			Proto_RecvMessage(hContact, &recv);
 		}
-		else if (!lstrcmpi(type, L"typing"))
+		else if (!mir_strcmpi(type.c_str(), "saytext") ||
+			!mir_strcmpi(type.c_str(), "emote"))
 		{
-			// FIXME: Temporary solution for receivng too many duplicated typing events; should be reworked better
-			if (typingUser == (char*)steamId)
-				continue;
-			typingUser = steamId;
-			
-			MCONTACT hContact = FindContact(steamId);
-			if (hContact)
-			{
-				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)STEAM_TYPING_TIME);
-			}
+			json_string text = item["text"].as_string();
+
+			PROTORECVEVENT recv = { 0 };
+			recv.timestamp = timestamp;
+			recv.szMessage = (char*)text.c_str();
+			ProtoChainRecvMsg(hContact, &recv);
+
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
+			m_typingTimestamps[steamId] = 0;
 		}
-		else if (!lstrcmpi(type, L"personastate"))
+		else if (!mir_strcmpi(type.c_str(), "typing") && hContact)
 		{
-			node = json_get(item, "persona_state");
-			int status = node ? SteamToMirandaStatus(json_as_int(node)) : -1;
-
-			if (IsMe(steamId))
+			auto it = m_typingTimestamps.find(steamId);
+			if (it != m_typingTimestamps.end())
 			{
-				node = json_get(item, "persona_name");
-				setWString("Nick", ptrW(json_as_string(node)));
+				if ((timestamp - it->second) < STEAM_TYPING_TIME)
+					continue;
+			}
+			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)STEAM_TYPING_TIME);
+			m_typingTimestamps[steamId] = timestamp;
+		}
+		else if (!mir_strcmpi(type.c_str(), "personastate"))
+		{
+			JSONNode node = item["persona_state"];
+			int status = !node.isnull()
+				? SteamToMirandaStatus(node.as_int())
+				: -1;
 
+			if (IsMe(steamId.c_str()))
+			{
 				if (status == -1 || status == ID_STATUS_OFFLINE)
 					continue;
-
-				if (status != m_iStatus)
-				{
-					debugLogW(L"CSteamProto::ParsePollData: Change own status to %i", status);
-					int oldStatus = m_iStatus;
-					m_iStatus = m_iDesiredStatus = status;
-					ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-				}
-
+				SetStatus(status);
 				continue;
 			}
 			
-			MCONTACT hContact = FindContact(steamId);
-			if (hContact == NULL)
-				continue; // probably this is info about random player playing on same server, so we ignore it
-
 			if (status != -1)
 				SetContactStatus(hContact, status);
-
-			node = json_get(item, "persona_name");
-			setWString(hContact, "Nick", ptrW(json_as_string(node)));
 
 			// todo: find difference between state changing and info changing
 			steamIds.append(steamId).append(",");
 		}
-		else if (!lstrcmpi(type, L"personarelationship"))
+		else if (!mir_strcmpi(type.c_str(), "personarelationship"))
 		{
-			node = json_get(item, "persona_state");
-			int state = json_as_int(node);
-
+			int state = item["persona_state"].as_int();
 			switch (state)
 			{
 			case 0:
 				{// removed
-					MCONTACT hContact = FindContact(steamId);
+					MCONTACT hContact = FindContact(steamId.c_str());
 					if (hContact)
-					{
 						ContactIsRemoved(hContact);
-					}
 				}
 				break;
 
 			case 1:
 				{// ignored
-					MCONTACT hContact = FindContact(steamId);
+					MCONTACT hContact = FindContact(steamId.c_str());
 					if (hContact)
-					{
 						ContactIsIgnored(hContact);
-					}
 				}
 				break;
 
 			case 2:
 				{// auth request
-					MCONTACT hContact = FindContact(steamId);
+					MCONTACT hContact = FindContact(steamId.c_str());
 					if (hContact)
-					{
 						ContactIsAskingAuth(hContact);
-					}
 					else
 					{
 						// load info about this user from server
 						ptrA token(getStringA("TokenSecret"));
 
 						PushRequest(
-							new GetUserSummariesRequest(token, steamId),
-							&CSteamProto::OnAuthRequested,
-							mir_strdup(steamId),
-							MirFreeArg);
+							new GetUserSummariesRequest(token, steamId.c_str()),
+							&CSteamProto::OnAuthRequested);
 					}
 				}
 				break;
 
 			case 3:
-				// add to list
-				// todo
+				// todo: add to list
 				break;
 
-			default: continue;
+			default:
+				continue;
 			}
 		}
-		else if (!lstrcmpi(type, L"leftconversation"))
+		else if (!mir_strcmpi(type.c_str(), "leftconversation") && hContact)
 		{
 			if (!getBool("ShowChatEvents", true))
 				continue;
 
-			// chatstates gone event
-			MCONTACT hContact = FindContact(steamId);
-			if (hContact)
-			{
-				BYTE bEventType = STEAM_DB_EVENT_CHATSTATES_GONE;
-				DBEVENTINFO dbei = {};
-				dbei.pBlob = &bEventType;
-				dbei.cbBlob = 1;
-				dbei.eventType = EVENTTYPE_STEAM_CHATSTATES;
-				dbei.flags = DBEF_READ;
-				dbei.timestamp = time(nullptr);
-				dbei.szModule = m_szModuleName;
-				db_event_add(hContact, &dbei);
-			}
+			BYTE bEventType = STEAM_DB_EVENT_CHATSTATES_GONE;
+			DBEVENTINFO dbei = {};
+			dbei.pBlob = &bEventType;
+			dbei.cbBlob = 1;
+			dbei.eventType = EVENTTYPE_STEAM_CHATSTATES;
+			dbei.flags = DBEF_READ;
+			dbei.timestamp = time(nullptr);
+			dbei.szModule = m_szModuleName;
+			db_event_add(hContact, &dbei);
 		}
 		else
 		{
+			debugLogA(__FUNCTION__ ": Unknown event type \"%s\"", type.c_str());
 			continue;
 		}
 	}
@@ -191,122 +152,108 @@ void CSteamProto::ParsePollData(JSONNode *data)
 	}
 }
 
-void CSteamProto::PollingThread(void*)
+struct PollParam
 {
-	debugLogW(L"CSteamProto::PollingThread: entering");
+	int errors;
+	int errorsLimit;
+};
 
-	ptrA token(getStringA("TokenSecret"));
-	ptrA umqId(getStringA("UMQID"));
-	UINT32 messageId = getDword("MessageID", 0);
-
-	int errors = 0;
-	int errorsLimit = getByte("PollingErrorsLimit", POLLING_ERRORS_LIMIT);
-	while (IsOnline() && errors < errorsLimit)
+void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
+{
+	PollParam *param = (PollParam*)arg;
+	if (!response.IsSuccess())
 	{
-		PollRequest *request = new PollRequest(token, umqId, messageId, IdleSeconds());
-		// request->nlc = m_pollingConnection;
-		HttpResponse *response = request->Send(m_hNetlibUser);
-		delete request;
-
-		if (!ResponseHttpOk(response))
-		{
-			errors++;
-		}
-		else
-		{
-			ptrA body((char*)mir_calloc(response->dataLength + 2));
-			mir_strncpy(body, response->pData, response->dataLength + 1);
-			JSONROOT root(body);
-			if (root == nullptr)
-			{
-				errors++;
-			}
-			else
-			{
-				JSONNode *node = json_get(root, "error");
-				if (node) {
-					ptrW error(json_as_string(node));
-
-					if (!lstrcmpi(error, L"OK"))
-					{
-						// Remember last message timestamp
-						node = json_get(root, "utc_timestamp");
-						time_t timestamp = _wtoi64(ptrW(json_as_string(node)));
-						if (timestamp > getDword("LastMessageTS", 0))
-							setDword("LastMessageTS", timestamp);
-
-						node = json_get(root, "messagelast");
-						messageId = json_as_int(node);
-
-						node = json_get(root, "messages");
-						JSONNode *nroot = json_as_array(node);
-
-						if (nroot != nullptr)
-						{
-							ParsePollData(nroot);
-							json_delete(nroot);
-						}
-
-						// Reset error counter only when we've got OK
-						errors = 0;
-
-						// m_pollingConnection = response->nlc;
-					}
-					else if (!lstrcmpi(error, L"Timeout"))
-					{
-						// Do nothing as this is not necessarily an error
-					}
-					else if (!lstrcmpi(error, L"Not Logged On")) // 'else' below will handle this error, we don't need this particular check right now
-					{
-						// need to relogin
-						debugLogW(L"CSteamProto::PollingThread: Not Logged On");
-
-						// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
-						if (IsOnline() && Relogin())
-						{
-							// load umqId and messageId again
-							umqId = getStringA("UMQID"); // it's ptrA so we can assign it without fearing a memory leak
-							messageId = getDword("MessageID", 0);
-						}
-						else
-						{
-							// let it jump out of further processing
-							errors = errorsLimit;
-						}
-					}
-					else
-					{
-						// something wrong
-						debugLogW(L"CSteamProto::PollingThread: %s (%d)", error, response->resultCode);
-
-						// token has expired
-						if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
-							delSetting("TokenSecret");
-
-						// too low timeout?
-						node = json_get(root, "sectimeout");
-						int timeout = json_as_int(node);
-						if (timeout < STEAM_API_TIMEOUT)
-							debugLogW(L"CSteamProto::PollingThread: Timeout is too low (%d)", timeout);
-
-						// let it jump out of further processing
-						errors = errorsLimit;
-					}
-				}
-			}
-		}
-
-		delete response;
+		param->errors++;
+		return;
 	}
 
-	setDword("MessageID", messageId);
+	JSONNode root = JSONNode::parse(response.Content);
+	if (root.isnull())
+	{
+		param->errors++;
+		return;
+	}
+
+	json_string error = root["error"].as_string();
+	if (!mir_strcmpi(error.c_str(), "Timeout"))
+	{
+		// Do nothing as this is not necessarily an error
+	}
+	else if (!mir_strcmpi(error.c_str(), "OK"))
+	{
+		// Remember last message timestamp
+		time_t timestamp = _wtoi64(root["utc_timestamp"].as_mstring());
+		if (timestamp > getDword("LastMessageTS", 0))
+			setDword("LastMessageTS", timestamp);
+
+		long messageId = root["messagelast"].as_int();
+		setDword("MessageID", messageId);
+
+		JSONNode data = root["messages"].as_array();
+		ParsePollData(data);
+
+		// Reset error counter only when we've got OK
+		param->errors = 0;
+
+		// m_pollingConnection = response->nlc;
+	}
+	else if (!mir_strcmpi(error.c_str(), "Not Logged On")) // 'else' below will handle this error, we don't need this particular check right now
+	{
+		// need to relogin
+		debugLogA(__FUNCTION__ ": Not Logged On");
+
+		// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
+		if (!IsOnline() && !Relogin())
+		{
+			// let it jump out of further processing
+			param->errors = param->errorsLimit;
+		}
+	}
+	else
+	{
+		// something wrong
+		debugLogA(__FUNCTION__ ": %s (%d)", error.c_str(), response.GetStatusCode());
+
+		// token has expired
+		if (response.GetStatusCode() == HTTP_CODE_UNAUTHORIZED)
+			delSetting("TokenSecret");
+
+		// too low timeout?
+		int timeout = root["sectimeout"].as_int();
+		if (timeout < STEAM_API_TIMEOUT)
+			debugLogA(__FUNCTION__ ": Timeout is too low (%d)", timeout);
+
+		// let it jump out of further processing
+		param->errors = param->errorsLimit;
+	}
+}
+
+void CSteamProto::PollingThread(void*)
+{
+	debugLogA(__FUNCTION__ ": entering");
+
+	ptrA token(getStringA("TokenSecret"));
+
+	PollParam param;
+	param.errors = 0;
+	param.errorsLimit = getByte("PollingErrorsLimit", POLLING_ERRORS_LIMIT);
+	while (IsOnline() && param.errors < param.errorsLimit)
+	{
+		// request->nlc = m_pollingConnection;
+		ptrA umqId(getStringA("UMQID"));
+		UINT32 messageId = getDword("MessageID", 0);
+		SendRequest(
+			new PollRequest(token, umqId, messageId, IdleSeconds()),
+			&CSteamProto::OnGotPoll,
+			(void*)&param);
+	}
 
 	if (IsOnline())
 	{
-		debugLogW(L"CSteamProto::PollingThread: unexpected termination; switching protocol to offline");
+		debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
 		SetStatus(ID_STATUS_OFFLINE);
 	}
 
 	m_hPollingThread = nullptr;
-	debugLogW(L"CSteamProto::PollingThread: leaving");
+	debugLogA(__FUNCTION__ ": leaving");
 }

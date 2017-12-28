@@ -5,13 +5,15 @@ class SearchRequest : public HttpRequest
 {
 public:
 	SearchRequest(const char *token, const char *text, int offset = 0, int count = 30) :
-		HttpRequest(REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/Search/v0001")
+		HttpRequest(HttpGet, STEAM_API_URL "/ISteamUserOAuth/Search/v0001")
 	{
-		AddParameter("access_token", token);
-		AddParameter("keywords", ptrA(mir_urlEncode(text)));
-		AddParameter("offset=%d", offset);
-		AddParameter("count=%d", count);
-		AddParameter("targets=users&fields=all");
+		Uri
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("keywords", text)
+			<< INT_PARAM("offset=%d", offset)
+			<< INT_PARAM("count=%d", count)
+			<< CHAR_PARAM("targets", "users")
+			<< CHAR_PARAM("fields", "all");
 	}
 };
 

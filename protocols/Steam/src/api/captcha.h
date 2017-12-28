@@ -5,9 +5,11 @@ class GetCaptchaRequest : public HttpRequest
 {
 public:
 	GetCaptchaRequest(const char *captchaId) :
-		HttpRequest(REQUEST_GET, FORMAT, STEAM_WEB_URL "/public/captcha.php?gid=%s", captchaId)
+		HttpRequest(HttpGet, STEAM_WEB_URL "/public/captcha.php")
 	{
 		flags = NLHRF_HTTP11 | NLHRF_NODUMP;
+
+		Uri << CHAR_PARAM("gid", captchaId);
 	}
 };
 

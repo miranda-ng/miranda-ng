@@ -35,8 +35,7 @@ int CSteamProto::BlockCommand(WPARAM hContact, LPARAM)
 	PushRequest(
 		new BlockFriendRequest(token, sessionId, steamId, who),
 		&CSteamProto::OnFriendBlocked,
-		who,
-		MirFreeArg);
+		who);
 
 	return 0;
 }

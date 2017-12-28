@@ -5,9 +5,9 @@ class GetConversationsRequest : public HttpRequest
 {
 public:
 	GetConversationsRequest(const char *token) :
-		HttpRequest(REQUEST_GET, STEAM_API_URL "/IFriendMessagesService/GetActiveMessageSessions/v0001")
+		HttpRequest(HttpGet, STEAM_API_URL "/IFriendMessagesService/GetActiveMessageSessions/v0001")
 	{
-		AddParameter("access_token", token);
+		Uri << CHAR_PARAM("access_token", token);
 	}
 };
 
@@ -15,13 +15,14 @@ class GetHistoryMessagesRequest : public HttpRequest
 {
 public:
 	GetHistoryMessagesRequest(const char *token, const char *steamId, const char *who, time_t since) :
-		HttpRequest(REQUEST_GET, STEAM_API_URL "/IFriendMessagesService/GetRecentMessages/v0001")
+		HttpRequest(HttpGet, STEAM_API_URL "/IFriendMessagesService/GetRecentMessages/v0001")
 	{
-		AddParameter("access_token", token);
-		AddParameter("steamid1", steamId);
-		AddParameter("steamid2", who);
-		// Steam somehow doesn't respect too precise start time parameter, so we better request older time and then do own filtering again
-		AddParameter("rtime32_start_time=%d", since - 1500);
+		Uri
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("steamid1", steamId)
+			<< CHAR_PARAM("steamid2", who)
+			// Steam somehow doesn't respect too precise start time parameter, so we better request older time and then do own filtering again
+			<< INT64_PARAM("rtime32_start_time", since - 1500);
 	}
 };
 

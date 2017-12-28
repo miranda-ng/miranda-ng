@@ -5,10 +5,11 @@ class GetUserSummariesRequest : public HttpRequest
 {
 public:
 	GetUserSummariesRequest(const char *token, const char *steamIds) :
-		HttpRequest(REQUEST_GET, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001")
+		HttpRequest(HttpGet, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001")
 	{
-		AddParameter("access_token", token);
-		AddParameter("steamids", steamIds);
+		Uri
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("steamids", steamIds);
 	}
 };
 

@@ -62,7 +62,7 @@ extern HANDLE hExtraXStatus;
 #include "steam_dialogs.h"
 #include "steam_options.h"
 #include "http_request.h"
-#include "request_queue.h"
+#include "api/app_info.h"
 #include "api/authorization.h"
 #include "api/authorization.h"
 #include "api/avatar.h"

@@ -5,13 +5,14 @@ class LogonRequest : public HttpRequest
 {
 public:
 	LogonRequest(const char *token) :
-		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001")
+		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001")
 	{
 		char data[256];
 		mir_snprintf(data, "access_token=%s&ui_mode=web", token);
 
-		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("ui_mode", "web");
 	}
 };
 
@@ -19,13 +20,11 @@ class LogoffRequest : public HttpRequest
 {
 public:
 	LogoffRequest(const char *token, const char *umqId) :
-		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logoff/v0001")
+		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logoff/v0001")
 	{
-		char data[256];
-		mir_snprintf(data, "access_token=%s&umqid=%s", token, umqId);
-
-		SetData(data, strlen(data));
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("umqid", umqId);
 	}
 };
 

@@ -5,23 +5,19 @@ class PollRequest : public HttpRequest
 {
 public:
 	PollRequest(const char *token, const char *umqId, UINT32 messageId, int idleSeconds) :
-		HttpRequest(REQUEST_POST, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001")
+		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001")
 	{
 		timeout = (STEAM_API_TIMEOUT + 5) * 1000;
 		// flags |= NLHRF_PERSISTENT;
 
-		CMStringA data;
-		data.AppendFormat("access_token=%s&umqid=%s&message=%u&secidletime=%d&sectimeout=%d",
-			token,
-			umqId,
-			messageId,
-			idleSeconds,
-			STEAM_API_TIMEOUT);
+		Headers << CHAR_PARAM("Connection", "keep-alive");
 
-		SetData(data, data.GetLength());
-
-		AddHeader("Connection", "keep-alive");
-		AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		Content = new FormUrlEncodedContent(this)
+			<< CHAR_PARAM("access_token", token)
+			<< CHAR_PARAM("umqid", umqId)
+			<< INT64_PARAM("message", messageId)
+			<< INT_PARAM("secidletime", idleSeconds)
+			<< INT_PARAM("sectimeout", STEAM_API_TIMEOUT);
 	}
 };
 
