@@ -158,7 +158,6 @@ private:
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
-	void SetAllContactsStatus(WORD status);
 
 	MCONTACT GetContact(const Tox *tox, const int friendNumber);
 	MCONTACT GetContact(const char *pubKey);

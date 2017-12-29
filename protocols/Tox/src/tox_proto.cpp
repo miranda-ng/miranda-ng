@@ -16,7 +16,7 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
-	SetAllContactsStatus(ID_STATUS_OFFLINE);
+	setAllContactStatuses(ID_STATUS_OFFLINE);
 
 	// avatars
 	CreateProtoService(PS_GETAVATARCAPS, &CToxProto::GetAvatarCaps);
@@ -149,7 +149,7 @@ int CToxProto::SetStatus(int iNewStatus)
 		SetEvent(hTerminateEvent);
 
 		if (!Miranda_IsTerminated())
-			SetAllContactsStatus(ID_STATUS_OFFLINE);
+			setAllContactStatuses(ID_STATUS_OFFLINE);
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
