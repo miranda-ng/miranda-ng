@@ -79,22 +79,22 @@ void PROTO_INTERFACE::setAllContactStatuses(int iStatus, bool bSkipChats)
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol constructor & destructor
 
-MIR_APP_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
+PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName)
 {
-	pThis->m_iVersion = 2;
-	pThis->m_iStatus = pThis->m_iDesiredStatus = ID_STATUS_OFFLINE;
-	pThis->m_szModuleName = mir_strdup(pszModuleName);
-	pThis->m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pszModuleName, ID_STATUS_ONLINE));
-	pThis->m_tszUserName = mir_wstrdup(ptszUserName);
-	db_set_resident(pThis->m_szModuleName, "Status");
+	m_iVersion = 2;
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	m_szModuleName = mir_strdup(pszModuleName);
+	m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pszModuleName, ID_STATUS_ONLINE));
+	m_tszUserName = mir_wstrdup(ptszUserName);
+	db_set_resident(m_szModuleName, "Status");
 }
 
-MIR_APP_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
+PROTO_INTERFACE::~PROTO_INTERFACE()
 {
-	mir_free(pThis->m_szModuleName);
-	mir_free(pThis->m_tszUserName);
+	mir_free(m_szModuleName);
+	mir_free(m_tszUserName);
 
-	WindowList_Destroy(pThis->m_hWindowList);
+	WindowList_Destroy(m_hWindowList);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -150,17 +150,17 @@ MIR_APP_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc pF
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol windows
 
-MIR_APP_DLL(void) ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd)
+void PROTO_INTERFACE::WindowSubscribe(HWND hwnd)
 {
-	if (pThis->m_hWindowList == nullptr)
-		pThis->m_hWindowList = WindowList_Create();
+	if (m_hWindowList == nullptr)
+		m_hWindowList = WindowList_Create();
 
-	WindowList_Add(pThis->m_hWindowList, hwnd, 0);
+	WindowList_Add(m_hWindowList, hwnd, 0);
 }
 
-MIR_APP_DLL(void) ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd)
+void PROTO_INTERFACE::WindowUnsubscribe(HWND hwnd)
 {
-	WindowList_Remove(pThis->m_hWindowList, hwnd);
+	WindowList_Remove(m_hWindowList, hwnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

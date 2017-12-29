@@ -77,32 +77,31 @@ typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM
 EXTERN_C MIR_APP_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
 #endif
 
-EXTERN_C MIR_APP_DLL(void) ProtoLogA(PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args);
-EXTERN_C MIR_APP_DLL(void) ProtoLogW(PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // interface declaration
 
 struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 {
-	int         m_iStatus,         // current protocol status
-	            m_iDesiredStatus,  // status to be set after logging in
-	            m_iXStatus,        // extanded status
-	            m_iVersion;        // version 2 or higher designate support of Unicode services
+
+protected:
+	MWindowList m_hWindowList;     // list of all windows which belong to this protocol's instance
+
+public:
+	int         m_iStatus;         // current protocol status
+	int         m_iDesiredStatus;  // status to be set after logging in
+	int         m_iXStatus;        // extanded status
+	int         m_iVersion;        // version 2 or higher designate support of Unicode services
 	wchar_t*    m_tszUserName;     // human readable protocol's name
 	char*       m_szModuleName;    // internal protocol name, also its database module name
 	HANDLE      m_hProtoIcon;      // icon to be displayed in the account manager
 	HNETLIBUSER m_hNetlibUser;     // network agent
-	MWindowList m_hWindowList;     // list of all windows which belong to this protocol's instance
 	HGENMENU    m_hMainMenuItem;	 // if protocol menus are displayed in the main menu, this is the root
+
+	PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName);
+	~PROTO_INTERFACE();
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
-
-	__forceinline void WindowSubscribe(HWND hwnd) {
-		::ProtoWindowAdd(this, hwnd); }
-	__forceinline void WindowUnsubscribe(HWND hwnd) {
-		::ProtoWindowRemove(this, hwnd); }
 
 	__forceinline INT_PTR ProtoBroadcastAck(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam = 0) {
 		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
@@ -175,6 +174,9 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 
 	void setAllContactStatuses(int iStatus, bool bSkipChats = true);
 
+	void WindowSubscribe(HWND hwnd);
+	void WindowUnsubscribe(HWND hwnd);
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions
 
@@ -227,11 +229,9 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 
 template<class T> struct PROTO : public PROTO_INTERFACE
 {
-	__forceinline PROTO(const char *szProto, const wchar_t *tszUserName) {
-		::ProtoConstructor(this, szProto, tszUserName); }
-
-	__forceinline ~PROTO() {
-		::ProtoDestructor(this); }
+	__forceinline PROTO(const char *szProto, const wchar_t *tszUserName) :
+		PROTO_INTERFACE(szProto, tszUserName)
+	{}
 
 	__forceinline HANDLE CreateProtoEvent(const char *name) {
 		return ::ProtoCreateHookableEvent(this, name); }

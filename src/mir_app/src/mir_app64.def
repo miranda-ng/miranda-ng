@@ -26,7 +26,6 @@ Skin_GetIconName           @24
 ??0CProtoIntDlgBase@@QEAA@AEBV0@@Z @25 NONAME
 ??0CProtoIntDlgBase@@QEAA@PEAUPROTO_INTERFACE@@H_N@Z @26 NONAME
 ??0PROTO_INTERFACE@@QEAA@AEBU0@@Z @27 NONAME
-??0PROTO_INTERFACE@@QEAA@XZ @28 NONAME
 ??1CProtoIntDlgBase@@UEAA@XZ @29 NONAME
 ??4CProtoIntDlgBase@@QEAAAEAV0@AEBV0@@Z @30 NONAME
 ??4PROTO_INTERFACE@@QEAAAEAU0@AEBU0@@Z @31 NONAME
@@ -110,11 +109,9 @@ Skin_GetIconName           @24
 ?setWord@PROTO_INTERFACE@@QEAAXPEBDG@Z @109 NONAME
 GetPluginLangByInstance @110
 ProtoBroadcastAck @111
-ProtoConstructor @112
 ProtoCreateHookableEvent @113
 ProtoCreateService @114
 ProtoCreateServiceParam @115
-ProtoDestructor @116
 ProtoForkThread @117
 ProtoForkThreadEx @118
 ProtoGetAvatarExtension @119
@@ -122,8 +119,6 @@ ProtoGetAvatarFileFormat @120
 ProtoGetAvatarFormat @121
 ProtoGetBufferFormat @122
 ProtoHookEvent @123
-ProtoWindowAdd @126
-ProtoWindowRemove @127
 Proto_IsProtocolLoaded @128
 GetPluginLangId @129
 Proto_GetAccount @130
@@ -462,14 +457,12 @@ Clist_SetStatusMode @464
 ??0MIDatabase@@QEAA@$$QEAU0@@Z @469 NONAME
 ??0MIDatabase@@QEAA@AEBU0@@Z @470 NONAME
 ??0MIDatabase@@QEAA@XZ @471 NONAME
-??0PROTO_INTERFACE@@QEAA@$$QEAU0@@Z @472 NONAME
 ??1MDatabaseCommon@@QEAA@XZ @473 NONAME
 ??4CProtoIntDlgBase@@QEAAAEAV0@$$QEAV0@@Z @474 NONAME
 ??4MDatabaseCommon@@QEAAAEAV0@$$QEAV0@@Z @475 NONAME
 ??4MDatabaseCommon@@QEAAAEAV0@AEBV0@@Z @476 NONAME
 ??4MIDatabase@@QEAAAEAU0@$$QEAU0@@Z @477 NONAME
 ??4MIDatabase@@QEAAAEAU0@AEBU0@@Z @478 NONAME
-??4PROTO_INTERFACE@@QEAAAEAU0@$$QEAU0@@Z @479 NONAME
 ??_7MDatabaseCommon@@6B@ @480 NONAME
 ??_7MIDatabase@@6B@ @481 NONAME
 ?FreeVariant@MDatabaseCommon@@UEAAHPEAUDBVARIANT@@@Z @482 NONAME
@@ -491,3 +484,5 @@ Contact_Add @497
 Contact_AddByEvent @498
 Contact_AddBySearch @499
 ?setAllContactStatuses@PROTO_INTERFACE@@QEAAXH_N@Z @500 NONAME
+??0PROTO_INTERFACE@@QEAA@PEBDPEB_W@Z @501 NONAME
+??1PROTO_INTERFACE@@QEAA@XZ @502 NONAME
