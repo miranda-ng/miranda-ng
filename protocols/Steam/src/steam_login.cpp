@@ -75,8 +75,8 @@ bool CSteamProto::Relogin()
 void CSteamProto::LogOut()
 {
 	isTerminated = true;
-	if (hRequestQueueThread)
-		SetEvent(hRequestsQueueEvent);
+	if (m_hRequestQueueThread)
+		SetEvent(m_hRequestsQueueEvent);
 
 	ptrA token(getStringA("TokenSecret"));
 	if (mir_strlen(token) > 0)

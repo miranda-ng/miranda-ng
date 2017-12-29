@@ -11,6 +11,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	isLoginAgain = false;
 	m_pollingConnection = nullptr;
 	m_hPollingThread = nullptr;
+	m_hRequestsQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 
 	// icons
 	wchar_t filePath[MAX_PATH];
@@ -78,8 +79,16 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 
 CSteamProto::~CSteamProto()
 {
-	Netlib_CloseHandle(m_hNetlibUser);
-	m_hNetlibUser = NULL;
+	if (m_hNetlibUser)
+	{
+		Netlib_CloseHandle(m_hNetlibUser);
+		m_hNetlibUser = nullptr;
+	}
+	if (m_hRequestsQueueEvent)
+	{
+		CloseHandle(m_hRequestsQueueEvent);
+		m_hRequestsQueueEvent = nullptr;
+	}
 }
 
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
@@ -322,7 +331,7 @@ int CSteamProto::SetStatus(int new_status)
 
 		isTerminated = false;
 
-		hRequestQueueThread = ForkThreadEx(&CSteamProto::RequestQueueThread, NULL, NULL);
+		m_hRequestQueueThread = ForkThreadEx(&CSteamProto::RequestQueueThread, NULL, NULL);
 
 		
 	}

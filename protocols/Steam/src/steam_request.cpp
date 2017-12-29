@@ -37,7 +37,7 @@ void CSteamProto::PushRequest(HttpRequest *request)
 		mir_cslock lock(requestQueueLock);
 		requestQueue.insert(item);
 	}
-	SetEvent(hRequestsQueueEvent);
+	SetEvent(m_hRequestsQueueEvent);
 }
 
 void CSteamProto::PushRequest(HttpRequest *request, HttpCallback callback, void *param)
@@ -50,7 +50,7 @@ void CSteamProto::PushRequest(HttpRequest *request, HttpCallback callback, void 
 		mir_cslock lock(requestQueueLock);
 		requestQueue.insert(item);
 	}
-	SetEvent(hRequestsQueueEvent);
+	SetEvent(m_hRequestsQueueEvent);
 }
 
 void CSteamProto::PushRequest(HttpRequest *request, JsonCallback callback, void *param)
@@ -63,7 +63,7 @@ void CSteamProto::PushRequest(HttpRequest *request, JsonCallback callback, void 
 		mir_cslock lock(requestQueueLock);
 		requestQueue.insert(item);
 	}
-	SetEvent(hRequestsQueueEvent);
+	SetEvent(m_hRequestsQueueEvent);
 }
 
 void CSteamProto::RequestQueueThread(void*)
@@ -91,8 +91,8 @@ void CSteamProto::RequestQueueThread(void*)
 				SendRequest(item->request);
 			delete item;
 		}
-		WaitForSingleObject(hRequestsQueueEvent, 1000);
+		WaitForSingleObject(m_hRequestsQueueEvent, 1000);
 	} while (!isTerminated);
 
-	hRequestQueueThread = NULL;
+	m_hRequestQueueThread = NULL;
 }

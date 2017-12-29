@@ -87,8 +87,8 @@ protected:
 	time_t m_idleTS;
 	bool isTerminated, isConnected;
 	mir_cs requestQueueLock;
-	HANDLE hRequestsQueueEvent;
-	HANDLE hRequestQueueThread;
+	HANDLE m_hRequestsQueueEvent;
+	HANDLE m_hRequestQueueThread;
 	LIST<RequestQueueItem> requestQueue;
 	HANDLE m_pollingConnection, m_hPollingThread;
 	ULONG  hAuthProcess;
