@@ -40,9 +40,6 @@
     <ClCompile Include="src\toxcore\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\toxdns\*.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\toxencryptsave\*.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

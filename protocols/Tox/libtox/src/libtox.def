@@ -40,9 +40,6 @@ tox_conference_peer_get_public_key
 tox_conference_peer_number_is_ours
 tox_conference_send_message
 tox_conference_set_title
-tox_decrypt_dns3_TXT
-tox_dns3_kill
-tox_dns3_new
 tox_file_control
 tox_file_get_file_id
 tox_file_id_length
@@ -66,7 +63,6 @@ tox_friend_get_typing
 tox_friend_send_lossless_packet
 tox_friend_send_lossy_packet
 tox_friend_send_message
-tox_generate_dns3_string
 tox_get_salt
 tox_get_savedata
 tox_get_savedata_size

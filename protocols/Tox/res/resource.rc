@@ -130,7 +130,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     EDITTEXT        IDC_SEARCH,0,4,109,14,ES_AUTOHSCROLL
-    LTEXT           "If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.",IDC_STATIC,0,20,109,93
+    LTEXT           "If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.",IDC_STATIC,0,20,109,93
 END
 
 IDD_USER_INFO DIALOGEX 0, 0, 221, 152
@@ -321,6 +321,11 @@ BEGIN
 END
 
 IDD_PASSWORD_CREATE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_SEARCH AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

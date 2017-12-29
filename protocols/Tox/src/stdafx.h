@@ -38,7 +38,6 @@
 #include <m_http.h>
 
 #include <tox.h>
-#include <toxdns.h>
 #include <toxencryptsave.h>
 
 struct CToxProto;
