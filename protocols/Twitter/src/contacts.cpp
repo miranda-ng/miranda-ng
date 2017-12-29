@@ -263,12 +263,3 @@ MCONTACT TwitterProto::AddToClientList(const char *name, const char *status)
 
 	return 0;
 }
-
-void TwitterProto::SetAllContactStatuses(int status)
-{
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
-		if (!getByte(hContact, "ChatRoom"))
-			setWord(hContact, "Status", (WORD)status);
-
-	SetChatStatus(status);
-}

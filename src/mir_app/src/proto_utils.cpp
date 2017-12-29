@@ -62,6 +62,23 @@ MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void PROTO_INTERFACE::setAllContactStatuses(int iStatus, bool bSkipChats)
+{
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (isChatRoom(hContact)) {
+			if (!bSkipChats && iStatus == ID_STATUS_OFFLINE) {
+				ptrW wszRoom(getWStringA(hContact, "ChatRoomID"));
+				if (wszRoom != nullptr)
+					Chat_Control(m_szModuleName, wszRoom, SESSION_OFFLINE);
+			}
+		}
+		else setWord(hContact, "Status", iStatus);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// protocol constructor & destructor
+
 MIR_APP_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
 {
 	pThis->m_iVersion = 2;
@@ -80,6 +97,9 @@ MIR_APP_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
 	WindowList_Destroy(pThis->m_hWindowList);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// protocol services
+
 MIR_APP_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc serviceProc)
 {
 	char str[MAXMODULELABELLENGTH * 2];
@@ -96,6 +116,9 @@ MIR_APP_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* sz
 	::CreateServiceFunctionObjParam(str, (MIRANDASERVICEOBJPARAM)*(void**)&serviceProc, pThis, lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// protocol events
+
 MIR_APP_DLL(void) ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szEvent, ProtoEventFunc handler)
 {
 	::HookEventObj(szEvent, (MIRANDAHOOKOBJ)*(void**)&handler, pThis);
@@ -109,6 +132,9 @@ MIR_APP_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char*
 	return CreateHookableEvent(str);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// protocol threads
+
 MIR_APP_DLL(void) ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc pFunc, void *param)
 {
 	UINT threadID;
@@ -120,6 +146,9 @@ MIR_APP_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc pF
 	UINT lthreadID;
 	return (HANDLE)::mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, pThis, param, threadID ? threadID : &lthreadID);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// protocol windows
 
 MIR_APP_DLL(void) ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd)
 {
@@ -135,6 +164,7 @@ MIR_APP_DLL(void) ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// avatar support
 
 MIR_APP_DLL(LPCTSTR) ProtoGetAvatarExtension(int format)
 {

@@ -224,13 +224,13 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				return nullptr;
 
 			if (isGSSAPI && complete)
-				return CompleteGssapi(hSecurity, token, tokenLen);
+				return CompleteGssapi(hSecurity, token, (unsigned)tokenLen);
 
 			inputBufferDescriptor.cBuffers = 1;
 			inputBufferDescriptor.pBuffers = &inputSecurityToken;
 			inputBufferDescriptor.ulVersion = SECBUFFER_VERSION;
 			inputSecurityToken.BufferType = SECBUFFER_TOKEN;
-			inputSecurityToken.cbBuffer = tokenLen;
+			inputSecurityToken.cbBuffer = (unsigned)tokenLen;
 			inputSecurityToken.pvBuffer = token;
 
 			// try to decode the domain name from the NTLM challenge

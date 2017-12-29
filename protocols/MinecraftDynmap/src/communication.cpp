@@ -409,9 +409,6 @@ void MinecraftDynmapProto::SignOffWorker(void*)
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-	//SetAllContactStatuses(ID_STATUS_OFFLINE);
-	//ToggleStatusMenuItems(false);
-
 	if (hConnection)
 		Netlib_CloseHandle(hConnection);
 	hConnection = nullptr;

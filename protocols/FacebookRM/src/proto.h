@@ -221,7 +221,6 @@ public:
 	std::string	ThreadIDToContactID(const std::string&);
 	void		LoadContactInfo(facebook_user* fbu);
 	MCONTACT	AddToContactList(facebook_user*, bool force_add = false, bool add_temporarily = false);
-	void		SetAllContactStatuses(int status);
 	MCONTACT	HContactFromAuthEvent(MEVENT hEvent);
 	void		StartTyping(MCONTACT hContact);
 	void		StopTyping(MCONTACT hContact);

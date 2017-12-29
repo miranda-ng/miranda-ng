@@ -95,7 +95,6 @@ private:
 	bool IsMyContact(MCONTACT, bool include_chat = false);
 	MCONTACT UsernameToHContact(const char *);
 	MCONTACT AddToClientList(const char *, const char *);
-	void SetAllContactStatuses(int);
 
 	static void CALLBACK APC_callback(ULONG_PTR p);
 

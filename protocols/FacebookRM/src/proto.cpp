@@ -99,7 +99,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	facy.set_handle(m_hNetlibUser);
 
 	// Set all contacts offline -- in case we crashed
-	SetAllContactStatuses(ID_STATUS_OFFLINE);
+	setAllContactStatuses(ID_STATUS_OFFLINE);
 
 	// register special type of event
 	// there's no need to declare the special service for getting text

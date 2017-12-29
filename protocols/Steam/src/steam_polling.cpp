@@ -11,8 +11,7 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 		time_t timestamp = _wtol(item["utc_timestamp"].as_mstring());
 
 		MCONTACT hContact = NULL;
-		if (!IsMe(steamId.c_str()) &&
-			!(hContact = FindContact(steamId.c_str())))
+		if (!IsMe(steamId.c_str()) && !(hContact = FindContact(steamId.c_str())))
 			// probably this is info about random player playing on same server, so we ignore it
 			continue;
 
@@ -79,35 +78,30 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			switch (state)
 			{
 			case 0:
-				{// removed
-					MCONTACT hContact = FindContact(steamId.c_str());
-					if (hContact)
-						ContactIsRemoved(hContact);
-				}
+				hContact = FindContact(steamId.c_str());
+				if (hContact)
+					ContactIsRemoved(hContact);
 				break;
 
 			case 1:
-				{// ignored
-					MCONTACT hContact = FindContact(steamId.c_str());
-					if (hContact)
-						ContactIsIgnored(hContact);
-				}
+				hContact = FindContact(steamId.c_str());
+				if (hContact)
+					ContactIsIgnored(hContact);
 				break;
 
 			case 2:
-				{// auth request
-					MCONTACT hContact = FindContact(steamId.c_str());
-					if (hContact)
-						ContactIsAskingAuth(hContact);
-					else
-					{
-						// load info about this user from server
-						ptrA token(getStringA("TokenSecret"));
+				// auth request
+				hContact = FindContact(steamId.c_str());
+				if (hContact)
+					ContactIsAskingAuth(hContact);
+				else
+				{
+					// load info about this user from server
+					ptrA token(getStringA("TokenSecret"));
 
-						PushRequest(
-							new GetUserSummariesRequest(token, steamId.c_str()),
-							&CSteamProto::OnAuthRequested);
-					}
+					PushRequest(
+						new GetUserSummariesRequest(token, steamId.c_str()),
+						&CSteamProto::OnAuthRequested);
 				}
 				break;
 

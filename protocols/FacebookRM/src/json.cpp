@@ -844,11 +844,10 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 			for (auto itNodes = buddyList.begin(); itNodes != buddyList.end(); ++itNodes) {
 				std::string id = (*itNodes).name();
 
+				// Facebook now sends info also about some nonfriends, so we just ignore status change of contacts we don't have in list
 				MCONTACT hContact = ContactIDToHContact(id);
-				if (!hContact) {
-					// Facebook now sends info also about some nonfriends, so we just ignore status change of contacts we don't have in list
+				if (!hContact)
 					continue;
-				}
 
 				// TODO: Check for friends existence/inexistence? Here we should get all friends (but we're already doing friendslist request, so we should have fresh data already)
 
@@ -880,27 +879,18 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 						delSetting(hContact, "LastActiveTS");
 
 					// Set users inactive for too long as offline
-					if (last_active > 0 && last_active < offlineThreshold) {
+					if (last_active > 0 && last_active < offlineThreshold)
 						setWord(hContact, "Status", ID_STATUS_OFFLINE);
-					}
 				}
 
 				// Probably means client: guess 0 = web, 8 = messenger, 10 = something else?
 				if (vc_) {
-					int vc = vc_.as_int();
 					wchar_t *client;
-
-					if (vc == 0) {
-						client = FACEBOOK_CLIENT_WEB;
-					}
-					else if (vc == 8) {
-						client = FACEBOOK_CLIENT_MESSENGER; // I was online on Miranda, but when looked at myself at messenger.com I had icon of Messenger.
-					}
-					else if (vc == 10) {
-						client = FACEBOOK_CLIENT_MOBILE;
-					}
-					else {
-						client = FACEBOOK_CLIENT_OTHER;
+					switch (vc_.as_int()) {
+						case 0: client = FACEBOOK_CLIENT_WEB; break;
+						case 8: client = FACEBOOK_CLIENT_MESSENGER; break;
+						case 10: client = FACEBOOK_CLIENT_MOBILE; break;
+						default: client = FACEBOOK_CLIENT_OTHER; break;
 					}
 					setWString(hContact, "MirVer", client);
 				}

@@ -177,7 +177,8 @@ int TwitterProto::SetStatus(int new_status)
 	else if (new_status == ID_STATUS_OFFLINE) {
 		twit_.Disconnect();
 		m_iStatus = m_iDesiredStatus;
-		SetAllContactStatuses(ID_STATUS_OFFLINE);
+		setAllContactStatuses(ID_STATUS_OFFLINE);
+		SetChatStatus(ID_STATUS_OFFLINE);
 
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
@@ -342,7 +343,8 @@ int TwitterProto::OnModulesLoaded(WPARAM, LPARAM)
 	evt.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	DbEvent_RegisterType(&evt);
 
-	SetAllContactStatuses(ID_STATUS_OFFLINE); // In case we crashed last time
+	setAllContactStatuses(ID_STATUS_OFFLINE); // In case we crashed last time
+	SetChatStatus(ID_STATUS_OFFLINE);
 	return 0;
 }
 

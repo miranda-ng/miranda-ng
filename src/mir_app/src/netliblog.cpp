@@ -352,18 +352,26 @@ int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) ProtoLogA(PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args)
+void PROTO_INTERFACE::debugLogA(const char *szFormat, ...)
 {
 	char buf[4096];
+	va_list args;
+	va_start(args, szFormat);
 	int res = _vsnprintf(buf, _countof(buf), szFormat, args);
-	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : nullptr, (res != -1) ? buf : CMStringA().FormatV(szFormat, args), 0);
+	va_end(args);
+
+	NetlibLog_Worker(m_hNetlibUser, (res != -1) ? buf : CMStringA().FormatV(szFormat, args), 0);
 }
 
-MIR_APP_DLL(void) ProtoLogW(PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
+void PROTO_INTERFACE::debugLogW(const wchar_t *wszFormat, ...)
 {
 	WCHAR buf[4096];
+	va_list args;
+	va_start(args, wszFormat);
 	int res = _vsnwprintf(buf, _countof(buf), wszFormat, args);
-	NetlibLog_Worker(pThis ? pThis->m_hNetlibUser : nullptr, ptrA(Utf8EncodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
+	va_end(args);
+
+	NetlibLog_Worker(m_hNetlibUser, ptrA(Utf8EncodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

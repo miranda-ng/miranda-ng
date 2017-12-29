@@ -55,7 +55,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.logout();
 
 		OnLeaveChat(NULL, NULL);
-		SetAllContactStatuses(ID_STATUS_OFFLINE);
+		setAllContactStatuses(ID_STATUS_OFFLINE);
 		ToggleStatusMenuItems(false);
 		delSetting(FACEBOOK_KEY_LOGON_TS);
 
@@ -161,7 +161,7 @@ void FacebookProto::ChangeStatus(void*)
 	else { // Change between online/away/invisible statuses
 		if (new_status == ID_STATUS_INVISIBLE) 
 			// When switching to invisible (from online/away), we need to set all contacts offline as we won't receive no status updates from Facebook
-			SetAllContactStatuses(ID_STATUS_OFFLINE);
+			setAllContactStatuses(ID_STATUS_OFFLINE);
 	}
 
 	bool wasAwayOrInvisible = (old_status == ID_STATUS_AWAY || old_status == ID_STATUS_INVISIBLE);

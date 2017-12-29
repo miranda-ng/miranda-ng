@@ -67,7 +67,8 @@ void TwitterProto::SignOn(void*)
 		if (!in_chat_ && getByte(TWITTER_KEY_CHATFEED))
 			OnJoinChat(0, true);
 
-		SetAllContactStatuses(ID_STATUS_ONLINE);
+		setAllContactStatuses(ID_STATUS_ONLINE);
+		SetChatStatus(ID_STATUS_ONLINE);
 		hMsgLoop_ = ForkThreadEx(&TwitterProto::MessageLoop, nullptr, nullptr);
 	}
 

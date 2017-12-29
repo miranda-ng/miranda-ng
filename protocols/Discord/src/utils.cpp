@@ -17,16 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CDiscordProto::SetAllContactStatuses(int status)
-{
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (!getByte(hContact, "ChatRoom"))
-			setWord(hContact, "Status", (WORD)status);
-		else if (status == ID_STATUS_OFFLINE)
-			Chat_Terminate(m_szModuleName, ptrW(getWStringA(hContact, "ChatRoomID")));
-	}
-}
-
 int StrToStatus(const CMStringW &str)
 {
 	if (str == L"idle")

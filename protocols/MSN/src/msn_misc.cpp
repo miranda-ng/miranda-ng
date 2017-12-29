@@ -368,24 +368,7 @@ void CMsnProto::MSN_GoOffline(void)
 		int msnOldStatus = m_iStatus; m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)msnOldStatus, ID_STATUS_OFFLINE);
 		isIdle = false;
-
-		MCONTACT hContact = NULL;
-
-		for (hContact = db_find_first(m_szModuleName); hContact; 
-				hContact = db_find_next(hContact, m_szModuleName)) 
-		{
-			if (isChatRoom(hContact) != 0) {
-				ptrW wszRoom(getWStringA(hContact, "ChatRoomID"));
-				if (wszRoom != NULL)
-					Chat_Control(m_szModuleName, wszRoom, SESSION_OFFLINE);
-			}
-			else {
-				if (ID_STATUS_OFFLINE != getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
-					setWord(hContact, "Status", ID_STATUS_OFFLINE);
-					setDword(hContact, "IdleTS", 0);
-				}
-			}
-		}
+		setAllContactStatuses(ID_STATUS_OFFLINE, true);
 	}
 }
 

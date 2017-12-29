@@ -122,8 +122,6 @@ ProtoGetAvatarFileFormat @120
 ProtoGetAvatarFormat @121
 ProtoGetBufferFormat @122
 ProtoHookEvent @123
-ProtoLogA @124
-ProtoLogW @125
 ProtoWindowAdd @126
 ProtoWindowRemove @127
 Proto_IsProtocolLoaded @128
@@ -492,3 +490,4 @@ Srmm_GetColorTable @496
 Contact_Add @497
 Contact_AddByEvent @498
 Contact_AddBySearch @499
+?setAllContactStatuses@PROTO_INTERFACE@@QAEXH_N@Z @500 NONAME

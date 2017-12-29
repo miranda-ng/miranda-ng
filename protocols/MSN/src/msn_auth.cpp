@@ -330,8 +330,9 @@ int debugLogSkyLoginA(void *Pproto, LPCSTR szFormat, ...)
 
 	va_list args;
 	va_start(args, szFormat);
-	ProtoLogA(pProto, szFormat, args);
+	CMStringA body; body.FormatV(szFormat, args);
 	va_end(args);
+	pProto->debugLogA("%s", body.c_str());
 	return 1;
 }
 

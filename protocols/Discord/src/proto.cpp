@@ -148,7 +148,7 @@ int CDiscordProto::SetStatus(int iNewStatus)
 			ShutdownSession();
 		}
 		m_iStatus = m_iDesiredStatus;
-		SetAllContactStatuses(ID_STATUS_OFFLINE);
+		setAllContactStatuses(ID_STATUS_OFFLINE, true);
 
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	}

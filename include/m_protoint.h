@@ -99,21 +99,6 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
 
-	__inline void debugLogA(LPCSTR szFormat, ...)
-	{
-		va_list args;
-		va_start(args, szFormat);
-		ProtoLogA(this, szFormat, args);
-		va_end(args);
-	}
-	__inline void debugLogW(LPCWSTR wszFormat, ...)
-	{
-		va_list args;
-		va_start(args, wszFormat);
-		ProtoLogW(this, wszFormat, args);
-		va_end(args);
-	}
-
 	__forceinline void WindowSubscribe(HWND hwnd) {
 		::ProtoWindowAdd(this, hwnd); }
 	__forceinline void WindowUnsubscribe(HWND hwnd) {
@@ -181,6 +166,14 @@ struct MIR_APP_EXPORT PROTO_INTERFACE : public MZeroedObject
 
 	__forceinline void setWString(const char *name, const wchar_t* value) { db_set_ws(NULL, m_szModuleName, name, value); }
 	__forceinline void setWString(MCONTACT hContact, const char *name, const wchar_t* value) { db_set_ws(hContact, m_szModuleName, name, value); }
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Service functions
+
+	void debugLogA(const char *szFormat, ...);
+	void debugLogW(const wchar_t *wszFormat, ...);
+
+	void setAllContactStatuses(int iStatus, bool bSkipChats = true);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions

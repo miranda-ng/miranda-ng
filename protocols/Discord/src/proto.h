@@ -132,7 +132,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// session control
 
-	void SetAllContactStatuses(int iStatus);
 	void ConnectionFailed(int iReason);
 	void ShutdownSession(void);
 

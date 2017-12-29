@@ -393,16 +393,6 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, boo
 	return hContact;
 }
 
-void FacebookProto::SetAllContactStatuses(int status)
-{
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (isChatRoom(hContact))
-			continue;
-
-		setWord(hContact, "Status", status);
-	}
-}
-
 void FacebookProto::DeleteContactFromServer(void *data)
 {
 	facy.handle_entry("DeleteContactFromServer");
@@ -638,13 +628,11 @@ void FacebookProto::RefreshUserInfo(void *data)
 	std::string homepage = FACEBOOK_URL_PROFILE + fbu.user_id;
 	setString(hContact, "Homepage", homepage.c_str());
 
-	if (!fbu.real_name.empty()) {
+	if (!fbu.real_name.empty())
 		SaveName(hContact, &fbu);
-	}
 
-	if (fbu.gender) {
+	if (fbu.gender)
 		setByte(hContact, "Gender", fbu.gender);
-	}
 
 	int oldType = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 	// From server we won't get request/approve types, only none, so we don't want to overwrite and lost it in that case
@@ -653,9 +641,8 @@ void FacebookProto::RefreshUserInfo(void *data)
 	}
 
 	// If this contact is page, set it as invisible (if enabled in options)
-	if (getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE) && fbu.type == CONTACT_PAGE) {
+	if (getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE) && fbu.type == CONTACT_PAGE)
 		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
-	}
 
 	CheckAvatarChange(hContact, fbu.image_url);
 
@@ -686,26 +673,21 @@ void FacebookProto::RefreshUserInfo(void *data)
 				std::string year = birthday.substr(pos2 + 2, 4);
 				setWord(hContact, "BirthYear", atoi(year.c_str()));
 			}
-			else {
-				// We have to set ANY year, otherwise UserInfoEx shows completely wrong date
+			else // We have to set ANY year, otherwise UserInfoEx shows completely wrong date
 				setWord(hContact, "BirthYear", 1800);
-			}
 		}
 	}
 
 	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)nullptr, 0);
 }
 
-
 HANDLE FacebookProto::GetAwayMsg(MCONTACT)
 {
 	return nullptr; // Status messages are disabled
 }
 
-int FacebookProto::OnContactDeleted(WPARAM wParam, LPARAM)
+int FacebookProto::OnContactDeleted(WPARAM hContact, LPARAM)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
-
 	// Remove this contact from caches
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id)

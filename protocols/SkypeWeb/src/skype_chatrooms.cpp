@@ -32,22 +32,6 @@ void CSkypeProto::InitGroupChatModule()
 	CreateProtoService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChatRoom);
 }
 
-void CSkypeProto::CloseAllChatChatSessions()
-{
-	GC_INFO gci = { 0 };
-	gci.Flags = GCF_BYINDEX | GCF_ID;
-	gci.pszModule = m_szModuleName;
-
-	int count = pci->SM_GetCount(m_szModuleName);
-	for (int i = 0; i < count; i++) {
-		gci.iItem = i;
-		if (!Chat_GetInfo(&gci)) {
-			Chat_Control(m_szModuleName, gci.pszID, SESSION_OFFLINE);
-			Chat_Terminate(m_szModuleName, gci.pszID);
-		}
-	}
-}
-
 MCONTACT CSkypeProto::FindChatRoom(const char *chatname)
 {
 	SESSION_INFO *si = pci->SM_FindSession(_A2T(chatname), m_szModuleName);

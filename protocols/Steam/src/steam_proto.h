@@ -147,7 +147,6 @@ protected:
 
 	// contacts
 	void SetContactStatus(MCONTACT hContact, WORD status);
-	void SetAllContactsStatus(WORD status);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 

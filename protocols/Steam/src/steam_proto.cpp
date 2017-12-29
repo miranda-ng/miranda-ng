@@ -46,7 +46,7 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	db_set_resident(m_szModuleName, "ServerIP");
 	db_set_resident(m_szModuleName, "ServerID");
 
-	SetAllContactsStatus(ID_STATUS_OFFLINE);
+	setAllContactStatuses(ID_STATUS_OFFLINE);
 
 	// services
 	CreateServiceFunction(MODULE"/MenuChoose", CSteamProto::MenuChooseService);
@@ -318,7 +318,7 @@ int CSteamProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 		if (!Miranda_IsTerminated())
-			SetAllContactsStatus(ID_STATUS_OFFLINE);
+			setAllContactStatuses(ID_STATUS_OFFLINE);
 
 		LogOut();
 	}

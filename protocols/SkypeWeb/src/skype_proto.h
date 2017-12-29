@@ -279,7 +279,6 @@ private:
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
-	void SetAllContactsStatus(WORD status);
 
 	void SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl);
 	void ReloadAvatarInfo(MCONTACT hContact);
@@ -325,15 +324,12 @@ private:
 	// sync
 	void OnGetServerHistory(const NETLIBHTTPREQUEST *response);
 	void OnSyncHistory(const NETLIBHTTPREQUEST *response);
-	void SyncHistory();
 
 	//chats
 
 	void InitGroupChatModule();
-	void CloseAllChatChatSessions();
 
 	MCONTACT FindChatRoom(const char *chatname);
-	MCONTACT AddChatRoom(const char *chatname);
 
 	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
 	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);

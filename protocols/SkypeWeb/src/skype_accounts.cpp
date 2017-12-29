@@ -51,7 +51,7 @@ CSkypeProto* CSkypeProto::GetContactAccount(MCONTACT hContact)
 
 int CSkypeProto::OnAccountLoaded(WPARAM, LPARAM)
 {
-	SetAllContactsStatus(ID_STATUS_OFFLINE);
+	setAllContactStatuses(ID_STATUS_OFFLINE, true);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSkypeProto::OnPreCreateMessage);
