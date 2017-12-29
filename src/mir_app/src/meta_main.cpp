@@ -54,21 +54,9 @@ void UnloadMetacontacts(void)
  
 // Initializes the services provided and the link to those needed
 // Called when the plugin is loaded into Miranda
-int LoadMetacontacts(void)
+
+static int RegisterMeta(WPARAM, LPARAM)
 {
-	Icon_Register(g_hInst, LPGEN("MetaContacts"), iconList, _countof(iconList), "mc");
-
-	db_set_resident(META_PROTO, "Status");
-	db_set_resident(META_PROTO, "IdleTS");
-
-	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
-	for (MCONTACT hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {
-		db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
-		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
-	}	
-
-	Meta_ReadOptions();
-
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
 	pd.szName = META_FILTER;
@@ -78,6 +66,25 @@ int LoadMetacontacts(void)
 	pd.szName = META_PROTO;
 	pd.type = PROTOTYPE_VIRTUAL;
 	Proto_RegisterModule(&pd);
+	return 0;
+}
+
+int LoadMetacontacts(void)
+{
+	Icon_Register(g_hInst, LPGEN("MetaContacts"), iconList, _countof(iconList), "mc");
+
+	db_set_resident(META_PROTO, "Status");
+	db_set_resident(META_PROTO, "IdleTS");
+
+	// set all contacts to 'offline', and initialize subcontact counter for db consistency check
+	for (MCONTACT hContact = db_find_first(META_PROTO); hContact; hContact = db_find_next(hContact, META_PROTO)) {
+		db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
+		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
+	}	
+
+	Meta_ReadOptions();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, RegisterMeta);
 
 	// further db setup done in modules loaded (nick [protocol string required] & clist display name)
 	Meta_InitServices();
