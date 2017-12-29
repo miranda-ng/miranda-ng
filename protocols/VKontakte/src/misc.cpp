@@ -1514,7 +1514,12 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	dbei.cbBlob = (DWORD)mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
 	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);
-	dbei.flags = DBEF_UTF | ((m_vkOptions.bShowVkDeactivateEvents && getBool(hContact, "ShowVkDeactivateEvents", true)) ? 0 : DBEF_READ);
+	dbei.flags = DBEF_UTF | (
+		(
+			m_vkOptions.bShowVkDeactivateEvents
+			&& getBool(hContact, "ShowVkDeactivateEvents", true)
+			&& (db_get_b(hContact, "CList", "Hidden", 0) == 0)
+		) ? 0 : DBEF_READ);
 	db_event_add(hContact, &dbei);
 }
 
