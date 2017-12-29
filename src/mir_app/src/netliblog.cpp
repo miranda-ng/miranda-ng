@@ -358,9 +358,8 @@ void PROTO_INTERFACE::debugLogA(const char *szFormat, ...)
 	va_list args;
 	va_start(args, szFormat);
 	int res = _vsnprintf(buf, _countof(buf), szFormat, args);
-	va_end(args);
-
 	NetlibLog_Worker(m_hNetlibUser, (res != -1) ? buf : CMStringA().FormatV(szFormat, args), 0);
+	va_end(args);
 }
 
 void PROTO_INTERFACE::debugLogW(const wchar_t *wszFormat, ...)
@@ -369,9 +368,8 @@ void PROTO_INTERFACE::debugLogW(const wchar_t *wszFormat, ...)
 	va_list args;
 	va_start(args, wszFormat);
 	int res = _vsnwprintf(buf, _countof(buf), wszFormat, args);
-	va_end(args);
-
 	NetlibLog_Worker(m_hNetlibUser, ptrA(Utf8EncodeW((res != -1) ? buf : CMStringW().FormatV(wszFormat, args))), 0);
+	va_end(args);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
