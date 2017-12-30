@@ -1490,7 +1490,11 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 
 void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 {
-	debugLogW(L"CVkProto::AddVkDeactivateEvent hContact=%d, wszType=%s bShowVkDeactivateEvents=%d", hContact, wszType.c_str(), (int)m_vkOptions.bShowVkDeactivateEvents);
+	debugLogW(L"CVkProto::AddVkDeactivateEvent hContact=%d, wszType=%s bShowVkDeactivateEvents=<%d,%d,%d>",
+		hContact, wszType.c_str(),
+		(int)m_vkOptions.bShowVkDeactivateEvents,
+		(int)getBool(hContact, "ShowVkDeactivateEvents", true),
+		(int)(db_get_b(hContact, "CList", "Hidden", 0) == 0));
 
 	CVKDeactivateEvent vkDeactivateEvent[] = {
 		{ L"", Translate("User restored control over own page") },

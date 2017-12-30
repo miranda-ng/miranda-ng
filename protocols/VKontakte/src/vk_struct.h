@@ -340,3 +340,5 @@ struct CVKDeactivateEvent {
 	wchar_t *wszType;
 	char *szDescription;
 };
+
+enum VKContactType : BYTE { vkContactNormal, vkContactSelf, vkContactMUCUser };

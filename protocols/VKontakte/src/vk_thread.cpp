@@ -272,7 +272,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	RetrievePollingInfo();
 }
 
-MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
+MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactType vkContactType)
 {
 	if (!jnItem) {
 		debugLogA("CVkProto::SetContactInfo pItem == nullptr");
@@ -288,13 +288,20 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, bool self)
 
 	if (userid == m_myUserId) {
 		if (hContact != 0)
-			if (self)
+			if (vkContactType == VKContactType::vkContactSelf)
 				hContact = 0;
 			else
-				SetContactInfo(jnItem, flag, true);
+				SetContactInfo(jnItem, flag, VKContactType::vkContactSelf);
 	}
 	else if (hContact == 0)
 		return 0;
+
+	if (vkContactType == VKContactType::vkContactMUCUser) {
+		db_set_b(hContact, "CList", "Hidden", 1);
+		db_set_b(hContact, "CList", "NotOnList", 1);
+		db_set_dw(hContact, "Ignore", "Mask1", 0);
+	}
+
 
 	CMStringW wszNick, wszValue;
 	int iValue;

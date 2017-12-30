@@ -206,10 +206,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (hContact)
 			continue;
 
-		hContact = SetContactInfo(jnUser, true);
-		db_set_b(hContact, "CList", "Hidden", 1);
-		db_set_b(hContact, "CList", "NotOnList", 1);
-		db_set_dw(hContact, "Ignore", "Mask1", 0);
+		hContact = SetContactInfo(jnUser, true, VKContactType::vkContactMUCUser);
+
 	}
 
 	const JSONNode &jnMsgs = jnResponse["msgs"];

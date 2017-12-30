@@ -294,7 +294,7 @@ private:
 	void RetrieveStatusMusic(const CMStringW &StatusMsg);
 	void OnReceiveStatus(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveStatusMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	MCONTACT SetContactInfo(const JSONNode &jnItem, bool flag = false, bool self = false);
+	MCONTACT SetContactInfo(const JSONNode &jnItem, bool flag = false, VKContactType vkContactType = VKContactType::vkContactNormal);
 	void TrackVisitor();
 	void RetrieveMyInfo(void);
 	void OnReceiveMyInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
