@@ -188,7 +188,7 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 
 	JSONNode error = root.at("error");
 	if (error.isnull()) {
-		JSONNode link = root.at("link");
+		JSONNode link = root.at("url");
 		mir_strcpy(url, link.as_string().c_str());
 		return;
 	}
