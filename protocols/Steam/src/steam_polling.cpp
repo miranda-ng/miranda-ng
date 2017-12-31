@@ -197,7 +197,7 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 		debugLogA(__FUNCTION__ ": Not Logged On");
 
 		// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
-		if (!IsOnline() && !Relogin())
+		if (!IsOnline() || !Relogin())
 		{
 			// let it jump out of further processing
 			param->errors = param->errorsLimit;
