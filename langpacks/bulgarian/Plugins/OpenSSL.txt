@@ -3,7 +3,7 @@
 ;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module
 ;  Version: 0.1.0.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Host we are connecting to is not the one certificate was issued for]
 Хоста към който се свързвате не е този, за който е издаден сертификата

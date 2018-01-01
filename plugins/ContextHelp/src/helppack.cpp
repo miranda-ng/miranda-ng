@@ -164,7 +164,7 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 	Miranda Help Pack Version 1
 	Language: (optional)
 	Locale: 0809
-	Authors: Miranda NG Development Team (multiple tags allowed)
+	Authors: Miranda NG team (multiple tags allowed)
 	Author-email: project-info at miranda-ng.org (" at " instead of "@" allowed)
 	Last-Modified-Using: Miranda IM 0.7
 	Plugins-included: (multiple tags allowed)

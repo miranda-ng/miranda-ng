@@ -3,7 +3,7 @@
 ;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module
 ;  Version: 0.1.0.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Core driver to provide OpenSSL-based SSL services.]
 Kerntreiber für OpenSSL-basierende SSL-Dienste.

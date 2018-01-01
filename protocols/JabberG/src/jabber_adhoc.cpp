@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Artem Shpynov
-Copyright (c) 2012-17 Miranda NG project
+Copyright (c) 2012-18 Miranda NG team
 
 Module implements an XMPP protocol extension for reporting and executing ad-hoc,
 human-oriented commands according to XEP-0050: Ad-Hoc Commands

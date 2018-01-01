@@ -3,7 +3,7 @@
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
 ;  Version: 0.12.2.4
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
 Загрузка и пересылка файлов с помощью Dropbox.

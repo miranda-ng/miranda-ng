@@ -1,8 +1,8 @@
 /*
 Miranda NG SmileyAdd Plugin
-Copyright (C) 2012 - 2017 Miranda NG project (https://miranda-ng.org)
-Copyright (C) 2005 - 2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2003 - 2004 Rein-Peter de Boer
+Copyright (C) 2012-18 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2005-11 Boris Krasnovskiy All Rights Reserved
+Copyright (C) 2003-04 Rein-Peter de Boer
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

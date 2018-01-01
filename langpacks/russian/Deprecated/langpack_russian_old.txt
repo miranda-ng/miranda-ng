@@ -23796,7 +23796,7 @@ HTTP подключение SendSS
 ;  File: ShlExt.dll
 ;  Plugin: ShlExt
 ;  Version: 2.2.0.1
-;  Authors: Sam Kothari, Miranda NG Team
+;  Authors: Sam Kothari, Miranda NG team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Интеграция Miranda NG в контекстное меню оболочки ОС.
@@ -26353,7 +26353,7 @@ UID: %s (SHIFT+клик -> копировать в буфер)\nКлик - Ин�
 Добавить контакт к избранным
 [Remove Contact from Favorites]
 Удалить контакт из избранных
-[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG team. More detailed copyright information can be found in the included README file.]
 Авторские права 2004-2011 проект Miranda IM, 2012-2013 проект Miranda NG. Более подробная информация находится в файле Readme.
 [Click for contact menu\nClick dropdown for window settings]
 Меню контакта\nСтрелка вниз - настройки окна

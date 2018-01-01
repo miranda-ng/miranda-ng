@@ -4,7 +4,7 @@
 DWORD  SendSMSWindowInitialize();
 void   SendSMSWindowDestroy();
 
-//Decleration of SMS send window list
+//Declaration of SMS send window list
 INT_PTR CALLBACK	SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 INT_PTR CALLBACK	SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam);
 

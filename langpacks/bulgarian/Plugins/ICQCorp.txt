@@ -3,7 +3,7 @@
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
 ;  Version: 0.0.1.0
-;  Authors: Miranda NG Team, Eugene Tarasenko
+;  Authors: Miranda NG team, Eugene Tarasenko
 ;============================================================
 [UIN:]
 UIN:

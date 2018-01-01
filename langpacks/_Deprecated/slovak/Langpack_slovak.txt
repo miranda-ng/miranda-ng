@@ -2856,7 +2856,7 @@ Zoznam kontaktov
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
 ;  Version: 0.2.0.1
-;  Authors: Cristian Libotean, Miranda NG Team
+;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Close]
 Zavrieť
@@ -4934,7 +4934,7 @@ Kontakt
 ;  File: Scriver.dll
 ;  Plugin: Scriver
 ;  Version: 2.10.0.2
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG team
 ;============================================================
 [Send message on 'Enter']
 Odoslať správu po stlačení Enter
@@ -6102,7 +6102,7 @@ Ok, niečo je zlé v "%s" nastavení. Spätný report má hodnoty:\nFacility: %X
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
 ;  Version: 0.1.0.6
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Password:]
 Heslo:
@@ -6151,7 +6151,7 @@ Pomoc
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.1
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Close]
 Zavrieť

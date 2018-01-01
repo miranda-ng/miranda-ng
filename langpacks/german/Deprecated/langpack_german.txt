@@ -26972,7 +26972,7 @@ Ident
 ; Pluginname: SecVirtDB
 ; Version: 0.5.1.0
 ; Dateiname: dbx_3xs.dll
-; Autor: Miranda NG project; Piotr Pawluczuk; Pescuma
+; Autor: Miranda NG team; Piotr Pawluczuk; Pescuma
 ; Link: http://saaplugin.no-ip.info/sdb/dbx_3xS.dll
 ; Übersetzung: CHEF-KOCH am 20.05.2010
 
@@ -31656,7 +31656,7 @@ ICQ-E-Mail-Express
 ; resource.rc:IDD_ABOUT
 [About tabSRMM]
 Über TabSRMM
-[Copyright © 2004-2005 by the Miranda NG project. More  \ndetailed copyright information can be found in the included README file.\n\nThis software is distributed and licensed under the terms of the GNU General Public License V2 or any later version.]
+[Copyright © 2004-2005 by the Miranda NG team. More  \ndetailed copyright information can be found in the included README file.\n\nThis software is distributed and licensed under the terms of the GNU General Public License V2 or any later version.]
 Copyright © 2004-2005 vom Miranda NG Projekt. Mehr  \ndetailierte Copyrightinformationen können in der beinhalteten README nachgelesen werden.\n\nDiese Software ist lizenziert und wird vertrieben von der GNU General Public License V2 und höheren Versionen.
 [ This option is disabled, if IEView is not installed.]
  Diese Einstellung ist deaktiviert, falls IEView nicht installiert ist.

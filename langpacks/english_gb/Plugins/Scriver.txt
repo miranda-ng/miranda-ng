@@ -3,7 +3,7 @@
 ;  File: Scriver.dll
 ;  Plugin: Scriver
 ;  Version: 3.0.1.7
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG team
 ;============================================================
 [Behavior]
 Behaviour

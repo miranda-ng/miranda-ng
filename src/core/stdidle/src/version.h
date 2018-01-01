@@ -6,6 +6,6 @@
 #define __PLUGIN_NAME            "Standard Idle module"
 #define __FILENAME               "stdidle.dll"
 #define __DESCRIPTION            "Core module for idle state processing."
-#define __AUTHOR                 "Miranda NG Development Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdIdle/"
-#define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"
+#define __COPYRIGHT              "© 2012-18 Miranda NG team"

@@ -3,7 +3,7 @@
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
 ;  Version: 0.11.0.3
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Allows you to transfer files via cloud services.]
 Pozwala na przesyłanie plików przez dyski w chmurze.

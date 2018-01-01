@@ -16,8 +16,8 @@
 AppVersion={#AppVer}
 AppName=Miranda NG
 AppVerName=Miranda NG {#SetupSetting("AppVersion")}
-AppPublisher=Miranda NG Team
-AppCopyRight=2017 © Miranda NG Team
+AppPublisher=Miranda NG team
+AppCopyRight=2018 © Miranda NG team
 VersionInfoVersion={#SetupSetting("AppVersion")}
 MinVersion=5.0
 ArchitecturesAllowed={#ArcAllow}

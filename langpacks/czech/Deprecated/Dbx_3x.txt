@@ -3,7 +3,7 @@
 ;  File: Dbx_3x.dll
 ;  Plugin: Miranda NG database driver
 ;  Version: 0.11.0.1
-;  Authors: Miranda NG project
+;  Authors: Miranda NG team
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.

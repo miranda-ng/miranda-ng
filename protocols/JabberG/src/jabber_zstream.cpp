@@ -6,7 +6,7 @@ XEP-0138 (Stream Compression) implementation
 
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Kostya Chukavin, Taras Zackrepa
-Copyright (c) 2012-17 Miranda NG project
+Copyright (c) 2012-18 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

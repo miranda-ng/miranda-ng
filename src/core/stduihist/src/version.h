@@ -6,6 +6,6 @@
 #define __PLUGIN_NAME            "Standard History UI"
 #define __FILENAME               "stduihist.dll"
 #define __DESCRIPTION            "Core module for built-in history viewer."
-#define __AUTHOR                 "Miranda NG Development Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdUIHist/"
-#define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"
+#define __COPYRIGHT              "© 2012-18 Miranda NG team"

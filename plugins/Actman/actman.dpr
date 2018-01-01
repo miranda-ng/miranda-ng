@@ -76,7 +76,7 @@ begin
   PluginInfo.description:='Plugin for manage hotkeys to open contact window, insert text, '+
                           'run program and call services';
   PluginInfo.author     :='Awkward';
-  PluginInfo.copyright  :='(c) 2007-2013 Awkward';
+  PluginInfo.copyright  :='(c) 2007-13 Awkward';
   PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_ACTMAN;

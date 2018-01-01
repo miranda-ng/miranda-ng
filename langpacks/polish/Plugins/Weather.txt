@@ -3,7 +3,7 @@
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.3
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Pobiera informacje o pogodzie wyświetlając je na twojej liście kontaktów.

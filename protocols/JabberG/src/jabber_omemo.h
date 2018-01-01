@@ -2,7 +2,7 @@
 
 Jabber Protocol Plugin for Miranda NG
 
-Copyright (�) 2017 Miranda NG project
+Copyright (c) 2017-18 Miranda NG team
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

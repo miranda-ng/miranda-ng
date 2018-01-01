@@ -7909,7 +7909,7 @@ Zanořený (s rámováním)
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
 ;  Version: 0.11.0.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [General]
 Obecné
@@ -10078,7 +10078,7 @@ Vzhled
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
 ;  Version: 0.2.0.2
-;  Authors: Cristian Libotean, Miranda NG Team
+;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Custom folders]
 Vlastní složky
@@ -13810,7 +13810,7 @@ Jméno:
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
 ;  Version: 0.0.1.0
-;  Authors: Miranda NG Team, Eugene Tarasenko
+;  Authors: Miranda NG team, Eugene Tarasenko
 ;============================================================
 [UIN:]
 UIN:
@@ -20398,7 +20398,7 @@ Hlavní
 ;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module
 ;  Version: 0.1.0.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Core driver to provide OpenSSL-based SSL services.]
 Základní ovladač poskytující SSL služby s použitím OpenSSL.
@@ -22030,7 +22030,7 @@ Neznámá chyba
 ;  File: Scriver.dll
 ;  Plugin: Scriver
 ;  Version: 3.0.1.7
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
 Scriver - doplněk pro odesílání a přijímání zpráv.
@@ -23739,7 +23739,7 @@ Relace před posledním pádem
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
 ;  Version: 2.2.0.3
-;  Authors: Sam Kothari, Miranda NG Team
+;  Authors: Sam Kothari, Miranda NG team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Rozšíření Mirandy NG pro Windows Explorer.
@@ -24085,7 +24085,7 @@ Doplňky
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
 ;  Version: 0.12.2.5
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Skype protokol pro Mirandu NG. Založen na novém Skypu pro Web.
@@ -25253,7 +25253,7 @@ Nestisknutá ikona tlačítkové lišty
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
 ;  Version: 0.11.6.1
-;  Authors: Miranda NG Team, Robert Pösel
+;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Steam protokol pro Mirandu NG.
@@ -28381,7 +28381,7 @@ Lišta tlačítek
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
 ;  Version: 0.11.1.25
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Tox protokol pro Mirandu NG.
@@ -30208,7 +30208,7 @@ pouze uloží y jako proměnnou x
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
 ;  Version: 0.1.3.0
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
 Založit novou diskusi
@@ -30931,7 +30931,7 @@ Doplňky
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.3
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Přijímá informace o počasí a zobrazuje je ve vašem seznamu kontaktů.

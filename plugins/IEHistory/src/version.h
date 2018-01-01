@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define __DESC                  "Shows the history for a given contact using IEView."
 #define __AUTHOR                "Cristian Libotean, Miranda NG team"
-#define __COPYRIGHT             "© 2006 Cristian Libotean, 2014-17 Miranda NG team"
+#define __COPYRIGHT             "© 2006 Cristian Libotean, 2014-18 Miranda NG team"
 #define __AUTHORWEB             "https://miranda-ng.org/p/IEHistory"
 #define __PLUGIN_DISPLAY_NAME   "IEView history viewer"
 

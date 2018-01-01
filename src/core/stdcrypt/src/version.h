@@ -6,6 +6,6 @@
 #define __PLUGIN_NAME            "Standard encrypting module"
 #define __FILENAME               "stdcrypt.dll"
 #define __DESCRIPTION            "Core module for encryption."
-#define __AUTHOR                 "Miranda NG Development Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdCrypt/"
-#define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"
+#define __COPYRIGHT              "© 2012-18 Miranda NG team"

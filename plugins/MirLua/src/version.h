@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Extends Miranda NG functionality with Lua scripts."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/MirLua/"
-#define __COPYRIGHT                "© 2015-17 Miranda NG project"
+#define __COPYRIGHT                "© 2015-18 Miranda NG team"

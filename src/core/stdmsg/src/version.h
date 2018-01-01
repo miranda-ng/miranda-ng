@@ -7,6 +7,6 @@
 #define __PLUGIN_NAME            "Send/Receive Messages"
 #define __FILENAME               "stdmsg.dll"
 #define __DESCRIPTION             "Core module for send/receive instant messages."
-#define __AUTHOR                 "Miranda NG Development Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB               "https://miranda-ng.org/p/StdMsg/"
-#define __COPYRIGHT               "© 2012-17 Miranda NG Development Team"
+#define __COPYRIGHT               "© 2012-18 Miranda NG team"

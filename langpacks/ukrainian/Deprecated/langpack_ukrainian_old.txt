@@ -8903,7 +8903,7 @@ HANDLE
 ;  File: Dbx_3x.dll
 ;  Plugin: Miranda NG database driver
 ;  Version: 0.11.0.1
-;  Authors: Miranda NG project
+;  Authors: Miranda NG team
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Підтримка бази Miranda NG: глобальні налаштування, контакти, історія, установки контактів і т.і.
@@ -10068,7 +10068,7 @@ Flash.ocx не зареестрованно!
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
 ;  Version: 0.2.0.1
-;  Authors: Cristian Libotean, Miranda NG Team
+;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Dialog]
 Діалог
@@ -22441,7 +22441,7 @@ XML файли
 ;  File: Scriver.dll
 ;  Plugin: Scriver
 ;  Version: 2.10.0.2
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
 Плагін особистих та групових чатів для Miranda NG.
@@ -24188,7 +24188,7 @@ FTPFile передача
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
 ;  Version: 2.2.0.3
-;  Authors: Sam Kothari, Miranda NG Team
+;  Authors: Sam Kothari, Miranda NG team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Інтеграція Miranda NG в контекстне меню оболонки ОС.
@@ -26557,7 +26557,7 @@ RTL шаблони
 Налаштування виду вкладок
 [About TabSRMM]
 про TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG team. More detailed copyright information can be found in the included README file.]
 Авторські права 2004-2011 проект Miranda IM, 2012-2013 проект Miranda NG. Більш детальна інформація знаходиться у файлі Readme.
 [Support and latest version information]
 Підтримка та інформація про останню версії
@@ -30717,7 +30717,7 @@ UUID плагіна
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
 ;  Version: 0.1.0.5
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
@@ -31456,7 +31456,7 @@ Watrack MPD
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.1
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Запит та відображення інформації про погоду у вашому списку контактів.

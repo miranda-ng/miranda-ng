@@ -589,7 +589,7 @@
 #define IDM_SEARCH_YAHOO                40086
 #define IDM_SEARCH_FOODNETWORK          40087
 
-#define LEGAL_COPYRIGHT "Copyright © 2000-11 Miranda IM, 2012-17 Miranda NG project. This software is released under the terms of the GNU General Public License.\0"
+#define LEGAL_COPYRIGHT "Copyright © 2000-11 Miranda IM, 2012-18 Miranda NG team. This software is released under the terms of the GNU General Public License.\0"
 
 // Next default values for new objects
 // 

@@ -1,6 +1,6 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2012 Miranda NG team
 Copyright (c) 2006-2009 Boris Krasnovskiy All Rights Reserved
 Copyright (c) 2002-2006 Calvin Che
 

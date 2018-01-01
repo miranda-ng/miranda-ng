@@ -6177,8 +6177,8 @@ L'exception a été capturée et vous pouvez continuer à travailler avec Mirand
 À propos de CList Nicer+
 [Clist Nicer+]
 Clist Nicer+
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. Plus d'informations sur le copyright peuvent être trouvées dans le fichier README inclus.
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG team. More detailed copyright information can be found in the included README file.]
+Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG team. Plus d'informations sur le copyright peuvent être trouvées dans le fichier README inclus.
 [Version]
 Version
 [Delete Contact]
@@ -8048,7 +8048,7 @@ Apparence
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
 ;  Version: 0.2.0.1
-;  Authors: Cristian Libotean, Miranda NG Team
+;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Dialog]
 Dialogue
@@ -15657,7 +15657,7 @@ Nom
 ;  File: Scriver.dll
 ;  Plugin: Scriver
 ;  Version: 2.11.0.1
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
 Scriver - envoyer et recevoir des messages instantanés.
@@ -16642,7 +16642,7 @@ Sessions de message
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
 ;  Version: 2.2.0.3
-;  Authors: Sam Kothari, Miranda NG Team
+;  Authors: Sam Kothari, Miranda NG team
 ;============================================================
 [Menus]
 Menus
@@ -20154,7 +20154,7 @@ Quelque chose est incorrect dans "%s". Faites un rapport avec ces valeurs :\nSer
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
 ;  Version: 0.1.0.10
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Support du protocole VKontakte pour Miranda NG.
@@ -20559,7 +20559,7 @@ Plugins
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.1
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Update]
 Mise à jour

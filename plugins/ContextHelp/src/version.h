@@ -27,6 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __PLUGIN_NAME            "Context help"
 #define __FILENAME               "ContextHelp.dll"
 #define __DESCRIPTION            "Provides context sensitive help in all of the Miranda NG dialog boxes."
-#define __AUTHOR                 "Richard Hughes, H. Herkenrath, Miranda NG Team"
+#define __AUTHOR                 "Richard Hughes, H. Herkenrath, Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/ContextHelp/"
-#define __COPYRIGHT              "© 2002 Richard Hughes, 2005-2007 H. Herkenrath, 2016-17 Miranda NG Team"
+#define __COPYRIGHT              "© 2002 Richard Hughes, 2005-2007 H. Herkenrath, 2016-18 Miranda NG team"

@@ -32,7 +32,7 @@ begin
     'And now you may add any setting to display - for example '+
     'user''s version of Miranda, group or city.';
   PluginInfo.author     :='Awkward, based on Bethoven sources';
-  PluginInfo.copyright  :='(c) 2004,2005 Bethoven; 2006-2013 Awkward';
+  PluginInfo.copyright  :='(c) 2004-05 Bethoven; 2006-13 Awkward';
   PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_QUICKSEARCH;

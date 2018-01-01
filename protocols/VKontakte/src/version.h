@@ -8,6 +8,6 @@
 #define __PLUGIN_NAME            "VKontakte protocol"
 #define __FILENAME               "VKontakte.dll"
 #define __DESCRIPTION            "VKontakte protocol support for Miranda NG."
-#define __AUTHOR                 "Miranda NG Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/VKontakte/"
-#define __COPYRIGHT              "© 2013-17 Miranda NG Team"
+#define __COPYRIGHT              "© 2013-18 Miranda NG team"

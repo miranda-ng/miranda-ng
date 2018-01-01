@@ -3,7 +3,7 @@
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
 ;  Version: 0.11.6.3
-;  Authors: Miranda NG Team, Robert Pösel
+;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Support du protocole Steam pour Miranda NG.

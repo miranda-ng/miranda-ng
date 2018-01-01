@@ -1,7 +1,7 @@
 /*
 Chat module plugin for Miranda IM
 
-Copyright 2000-12 Miranda IM, 2012-17 Miranda NG project,
+Copyright 2000-12 Miranda IM, 2012-18 Miranda NG team,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 

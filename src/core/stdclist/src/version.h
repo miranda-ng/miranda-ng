@@ -7,6 +7,6 @@
 #define __PLUGIN_NAME            "Classic contact list"
 #define __FILENAME               "stdclist.dll"
 #define __DESCRIPTION             "Core module for displaying contacts."
-#define __AUTHOR                 "Miranda NG Development Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB               "https://miranda-ng.org/p/StdClist/"
-#define __COPYRIGHT               "© 2012-17 Miranda NG Development Team"
+#define __COPYRIGHT               "© 2012-18 Miranda NG team"

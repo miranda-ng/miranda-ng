@@ -6,7 +6,7 @@
 // Copyright (c) 2001-02 Jon Keating, Richard Hughes
 // Copyright (c) 2002-04 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright (c) 2004-10 Joe Kucera
-// Copyright (c) 2012-17 Miranda NG project (https://miranda-ng.org)
+// Copyright (c) 2012-18 Miranda NG team (https://miranda-ng.org)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

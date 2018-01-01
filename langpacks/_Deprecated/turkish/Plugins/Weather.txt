@@ -3,7 +3,7 @@
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.1
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Brief Info]
 Kısa Bilgi

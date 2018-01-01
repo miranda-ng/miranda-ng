@@ -8,6 +8,6 @@
 #define __PLUGIN_NAME            "ICQ corporate protocol"
 #define __FILENAME               "ICQCorp.dll"
 #define __DESCRIPTION            "ICQ corporate protocol support for Miranda NG."
-#define __AUTHOR                 "Miranda NG Team, Eugene Tarasenko"
+#define __AUTHOR                 "Miranda NG team, Eugene Tarasenko"
 #define __AUTHORWEB              "https://miranda-ng.org/p/ICQCorp/"
-#define __COPYRIGHT              "© 2014-17 Miranda NG Team, 2003-2005 Eugene Tarasenko"
+#define __COPYRIGHT              "© 2014-18 Miranda NG team, 2003-2005 Eugene Tarasenko"

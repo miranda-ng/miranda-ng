@@ -6,6 +6,6 @@
 #define __PLUGIN_NAME            "Standard File Transfers"
 #define __FILENAME               "stdfile.dll"
 #define __DESCRIPTION            "Core module for sending/receiving files."
-#define __AUTHOR                 "Miranda NG Development Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdFile/"
-#define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"
+#define __COPYRIGHT              "© 2012-18 Miranda NG team"

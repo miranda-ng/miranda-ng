@@ -3,7 +3,7 @@
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
 ;  Version: 0.11.1.26
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.

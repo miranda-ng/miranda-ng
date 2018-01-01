@@ -37,7 +37,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 // protocol related services
 
-/** Copy the name of the protocole into lParam
+/** Copy the name of the protocol into lParam
 * @param wParam :	max size of the name
 * @param lParam :	reference to a char *, which will hold the name
 */

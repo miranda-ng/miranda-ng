@@ -1,7 +1,7 @@
 /*
 Miranda-IM SMS Plugin
 Copyright (C) 2001-2  Richard Hughes
-Copyright (C) 2007-8  Rozhuk Ivan
+Copyright (C) 2007-18  Rozhuk Ivan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

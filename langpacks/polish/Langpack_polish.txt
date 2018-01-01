@@ -7973,7 +7973,7 @@ Mimo, że wyjątek został wyłapany i możesz kontynuować korzystanie z Mirand
 O Clist nicer
 [Clist nicer]
 Clist nicer
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2016 by the Miranda NG team. More detailed copyright information can be found in the included README file.]
 Copyright © 2004-2010 przez projekt Miranda IM, 2012-2016 przez projekt Miranda NG. Bardziej szczegółowe informacje dotyczące praw autorskich znajdują się w dołączonym pliku README.
 [Version]
 Wersja
@@ -10179,7 +10179,7 @@ Błąd tworzenia folderu kopii bezpieczeństwa
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
 ;  Version: 0.12.2.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Allows you to transfer files via Dropbox.]
 Pozwala na transfer plików przez Dropbox.
@@ -11301,7 +11301,7 @@ Personalizacja
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
 ;  Version: 0.2.0.2
-;  Authors: Cristian Libotean, Miranda NG Team
+;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
 Pozwala wtyczkom zapisywać dane do folderów wybranych przez użytkownika; wspiera zmienne.
@@ -16012,7 +16012,7 @@ Członek od:
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
 ;  Version: 0.0.1.0
-;  Authors: Miranda NG Team, Eugene Tarasenko
+;  Authors: Miranda NG team, Eugene Tarasenko
 ;============================================================
 [ICQ corporate protocol support for Miranda NG.]
 Wsparcie protokołu ICQ Crporate dla Mirandy NG.
@@ -25116,7 +25116,7 @@ Ogólne
 ;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module
 ;  Version: 0.1.0.1
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Core driver to provide OpenSSL-based SSL services.]
 Sterownik rdzenia zapewniający usługi SSL oparte na OpenSSL.
@@ -27476,7 +27476,7 @@ Nieznany kod błędu
 ;  File: Scriver.dll
 ;  Plugin: Scriver
 ;  Version: 2.12.2.1
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
 Łatwa i lekka wtyczka rozmów.
@@ -29367,7 +29367,7 @@ Sesja przed ostatnią awarią
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
 ;  Version: 2.2.0.3
-;  Authors: Sam Kothari, Miranda NG Team
+;  Authors: Sam Kothari, Miranda NG team
 ;============================================================
 [Windows Explorer extension for Miranda NG.]
 Rozszerzenie eksploratora Windows dla Mirandy NG.
@@ -29763,7 +29763,7 @@ Wtyczki
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
 ;  Version: 0.12.2.3
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
 Wsparcie protokołu Skype dla Mirandy NG. Oparte na nowym Skype w przeglądarce.
@@ -31023,7 +31023,7 @@ Status
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
 ;  Version: 0.11.6.0
-;  Authors: Miranda NG Team, Robert Pösel
+;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Zapewnia obsługę protokołu Steam.
@@ -31818,7 +31818,7 @@ INFO: niektóre ustawienia przyniosą efekt po ponownym otwarciu kontenera.
 Układ kart
 [About TabSRMM]
 O TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2016 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2016 by the Miranda NG team. More detailed copyright information can be found in the included README file.]
 Copyright 2004-2011 przez projekt Miranda IM, 2012-2016 przez projekt Miranda NG. Bardziej szczegółowe informacje dotyczące praw autorskich znajdują się w dołączonym pliku readme.
 [Support and latest version information]
 Wsparcie i informacje o ostatniej wersji
@@ -34638,7 +34638,7 @@ Pasek narzędzi
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
 ;  Version: 0.11.1.21
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Wsparcie protokołu Tox dla Mirandy NG.
@@ -36717,7 +36717,7 @@ przechowuje "y" jako zmienną o nazwie "x"
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
 ;  Version: 0.1.2.6
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
@@ -38002,7 +38002,7 @@ Wtyczki
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.3
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
 Pobiera informacje o pogodzie wyświetlając je na twojej liście kontaktów.

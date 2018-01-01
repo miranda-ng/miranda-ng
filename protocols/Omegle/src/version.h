@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Omegle protocol support for Miranda NG."
 #define __AUTHOR                   "Robert Pösel"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Omegle/"
-#define __COPYRIGHT                "© 2011-17 Robert Pösel"
+#define __COPYRIGHT                "© 2011-17 Robert Pösel, 2017-18 Miranda NG team"

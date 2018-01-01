@@ -4,7 +4,7 @@ Jabber Protocol Plugin for Miranda NG
 
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
-Copyright (c) 2012-17 Miranda NG project
+Copyright (c) 2012-18 Miranda NG team
 
 Idea & portions of code by Artem Shpynov
 

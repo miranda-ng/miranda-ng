@@ -3,7 +3,7 @@
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
 ;  Version: 0.12.2.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
 Storno

@@ -1616,7 +1616,7 @@ sve datoteke
 ;  File: Dropbox.dll
 ;  Plugin: Dropbox
 ;  Version: 0.12.0.6
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
@@ -1708,7 +1708,7 @@ lista kontakata
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
 ;  Version: 0.2.0.2
-;  Authors: Cristian Libotean, Miranda NG Team
+;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 #muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
@@ -2271,7 +2271,7 @@ Odbaci autorizaciju
 ;  File: ICQCorp.dll
 ;  Plugin: ICQ corporate protocol
 ;  Version: 0.0.1.0
-;  Authors: Miranda NG Team, Eugene Tarasenko
+;  Authors: Miranda NG team, Eugene Tarasenko
 ;============================================================
 #muuid {2f093b88-f389-44f1-9e2a-37c29194203a}
 ;============================================================
@@ -2811,7 +2811,7 @@ tekst
 ;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module
 ;  Version: 0.1.0.1
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
@@ -2973,7 +2973,7 @@ označi sve
 ;  File: Scriver.dll
 ;  Plugin: Scriver
 ;  Version: 2.12.2.1
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG team
 ;============================================================
 [seconds]
 sekundi
@@ -3166,7 +3166,7 @@ informacija
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
 ;  Version: 2.2.0.3
-;  Authors: Sam Kothari, Miranda NG Team
+;  Authors: Sam Kothari, Miranda NG team
 ;============================================================
 #muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;============================================================
@@ -3218,7 +3218,7 @@ Zatvaranje za %d
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
 ;  Version: 0.12.1.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Warning]
 Upozorenje
@@ -3524,7 +3524,7 @@ lista kontakata
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
 ;  Version: 0.11.1.10
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [&Cancel]
 &Odustani
@@ -3609,7 +3609,7 @@ Pomoć
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
 ;  Version: 0.1.1.8
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [off]
 isključen
@@ -3652,7 +3652,7 @@ Pomoć
 ;  File: Weather.dll
 ;  Plugin: Weather
 ;  Version: 0.4.0.2
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [Options]
 opcije

@@ -3,7 +3,7 @@
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
 ;  Version: 0.1.3.0
-;  Authors: Miranda NG Team
+;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.

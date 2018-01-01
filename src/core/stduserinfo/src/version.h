@@ -6,6 +6,6 @@
 #define __PLUGIN_NAME            "Standard User Info module"
 #define __FILENAME               "stduserinfo.dll"
 #define __DESCRIPTION            "Core module for providing user information."
-#define __AUTHOR                 "Miranda NG Development Team"
+#define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdUserInfo/"
-#define __COPYRIGHT              "© 2012-17 Miranda NG Development Team"
+#define __COPYRIGHT              "© 2012-18 Miranda NG team"

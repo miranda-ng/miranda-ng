@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-� 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+(c) 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 part of this code based on:
 Miranda IM Country Flags Plugin Copyright �2006-2007 H. Herkenrath

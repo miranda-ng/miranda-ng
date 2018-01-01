@@ -1,7 +1,7 @@
 /*
 CmdLine plugin for Miranda IM
 
-Copyright � 2007 Cristian Libotean
+Copyright (c) 2007 Cristian Libotean
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

@@ -20,7 +20,7 @@ CSametimeProto* getProtoFromMwConference(mwConference* conf)
   conference, or mwConference_close to reject the invitation.
 
   @param conf     the newly created conference
-  @param inviter  the indentity of the user who sent the invitation
+  @param inviter  the identity of the user who sent the invitation
   @param invite   the invitation text
 */
 void mwServiceConf_on_invited(mwConference* conf, mwLoginInfo* inviter, const char* invite)

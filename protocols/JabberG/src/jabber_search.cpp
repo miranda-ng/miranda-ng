@@ -5,7 +5,7 @@ Jabber Protocol Plugin for Miranda NG
 Copyright (c) 2002-04  Santithorn Bunchua
 Copyright (c) 2005-12  George Hazan
 Copyright (c) 2007     Artem Shpynov
-Copyright (c) 2012-17 Miranda NG project
+Copyright (c) 2012-18 Miranda NG team
 
 Module implements a search according to XEP-0055: Jabber Search
 http://www.xmpp.org/extensions/xep-0055.html

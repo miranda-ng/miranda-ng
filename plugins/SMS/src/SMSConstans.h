@@ -10,7 +10,7 @@
 #define TIMEOUT_MSGSEND			60000			// send sms timeout
 #define MIN_SMS_DBEVENT_LEN		4				// для фильтрации событий авторизации от джабер плагина
 #define MAX_PHONE_LEN			MAX_PATH
-#define PHONES_MIN_COUNT		4 //internal	// колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
+#define PHONES_MIN_COUNT		4 //internal	// количество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
 
 #define SMS_DEFAULT_
 #define SMS_DEFAULT_SIGNATUREPOS	FALSE
@@ -25,7 +25,7 @@
 #define ICQEVENTTYPE_SMSCONFIRMATION 3001
 
 
-//Fonts defenitions
+//Fonts definitions
 //#define SRMMMOD 			"SRMM"
 #define SRMMMOD 			"TabSRMM_Fonts"
 

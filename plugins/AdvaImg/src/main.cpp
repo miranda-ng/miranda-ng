@@ -1,6 +1,6 @@
 /*
 Plugin of Miranda IM for reading/writing PNG images.
-Copyright (c) 2004-6 George Hazan (ghazan@postman.ru)
+Copyright (c) 2004-06 George Hazan (ghazan@postman.ru)
 
 Portions of this code are gotten from the libpng codebase.
 Copyright 2000, Willem van Schaik.  For conditions of distribution and

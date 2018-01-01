@@ -3,7 +3,7 @@
 ;  File: ShlExt.dll
 ;  Plugin: Shell extension
 ;  Version: 2.2.0.3
-;  Authors: Sam Kothari, Miranda NG Team
+;  Authors: Sam Kothari, Miranda NG team
 ;============================================================
 [Display contacts in their assigned groups (if any)]
 显示联系人于其指定群组 (如可用)

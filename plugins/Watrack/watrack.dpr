@@ -46,7 +46,7 @@ begin
   PluginInfo.version    :=$0000060C;
   PluginInfo.description:='Paste played music info into message window or status text';
   PluginInfo.author     :='Awkward';
-  PluginInfo.copyright  :='(c) 2005-2012 Awkward';
+  PluginInfo.copyright  :='(c) 2005-12 Awkward';
   PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_WATRACK;
