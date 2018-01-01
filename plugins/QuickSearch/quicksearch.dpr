@@ -33,7 +33,7 @@ begin
     'user''s version of Miranda, group or city.';
   PluginInfo.author     :='Awkward, based on Bethoven sources';
   PluginInfo.copyright  :='(c) 2004-05 Bethoven; 2006-13 Awkward';
-  PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/QuickSearch/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_QUICKSEARCH;
 end;

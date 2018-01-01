@@ -77,7 +77,7 @@ begin
                           'run program and call services';
   PluginInfo.author     :='Awkward';
   PluginInfo.copyright  :='(c) 2007-13 Awkward';
-  PluginInfo.homepage   :='http://code.google.com/p/delphi-miranda-plugins/';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/Actman/';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_ACTMAN;
 end;

@@ -308,7 +308,7 @@ const
     GetName  :@GetFileName;
     GetInfo  :@GetInfo;
     Command  :@Command;
-    URL      :'https://code.google.com/p/delphi-miranda-plugins/';
+    URL      :'https://miranda-ng.org/p/MRadio/';
     Notes    :nil);
 
 var
