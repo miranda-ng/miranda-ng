@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 // Product management
-#define MINECRAFTDYNMAP_NAME							"Mincraft Dynmap"
+#define MINECRAFTDYNMAP_NAME							"Minecraft Dynmap"
 
 // Limits
 #define MINECRAFTDYNMAP_TIMEOUTS_LIMIT					6
