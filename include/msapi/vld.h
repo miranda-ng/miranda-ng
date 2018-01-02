@@ -32,6 +32,10 @@ typedef void*          VLD_HMODULE;
 
 #if defined _DEBUG || defined VLD_FORCE_ENABLE
 
+#ifdef __AFXWIN_H__
+#error[VLD COMPILE ERROR] '#include <vld.h>' should appear before '#include <afxwin.h>' in file stdafx.h
+#endif
+
 #pragma comment(lib, "vld.lib")
 
 // Force a symbolic reference to the global VisualLeakDetector class object from
