@@ -119,7 +119,7 @@ while (!sln_stream.AtEndOfStream) {
     // if exist sln_project_regexp, add to array, adding leading path to "trunk"
     if (sln_project_regexp) {
         //RegExp for unneeded modules, such as crypting library, zlib.dll etc.
-        var unneeded_modules = /(libjson|Zlib|EkHtml|Libgcrypt|libotr|Cryptlib|pu_stub|libcurl|glib|Pcre16|liblua|winapi|json|libaxolotl|hunspell|ffi|m_popup|m_variables)/i;
+        var unneeded_modules = /(libjson|Zlib|EkHtml|Libgcrypt|libotr|Cryptlib|pu_stub|libcurl|glib|Pcre16|liblua|winapi|json|libaxolotl|hunspell|ffi|m_popup|m_variables|libsodium|libtox|pthreads|sqlite3)/i;
         // Now check for unneeded modules NOT passed (module name are in sln_project_regexp[1]
         if (!unneeded_modules.test(sln_project_regexp[1])) {
             //no, this is not unneeded module, put path to array. Trunk path + path to file in sln_project_regexp[2]
@@ -487,7 +487,7 @@ function ParseRCFile(FileTextVar, array) {
     //now make a job, till end of matching regexp
     while ((string = find.exec(FileTextVar)) !== null) {
         // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
-        onestring = string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList|&?[Oo][Kk]|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|Google Talk|GPG|Hotmail|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|Miranda NG|mRadio|MSN|NickServ|OSD|OTR|PCS|PGP|S.ms|SMS|SSL|Steam|Steam Guard|Tox|Twitter|Yahoo|Winamp \(\*\)|Windows|X400|&\w)|(%.(.*%)?))$/g, "");
+        onestring = string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList|&?[Oo][Kk]|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|Google Talk|GPG|Hotmail|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|Miranda NG|mRadio|MSN|NickServ|OSD|OTR|PCS|PGP|S.ms|SASL|SMS|SSL|Steam|Steam Guard|Tox|Twitter|Yahoo|Winamp \(\*\)|Windows|X400|&\w)|(%.(.*%)?))$/g, "");
         // ignore some popup menu craps
         if (string[1] == "POPUP" && onestring.match(/^([a-zA-Z ]*(menu|context|popup(?!s)))|([A-Z][a-z]+([A-Z][a-z]*)+)|(new item)$/g)) {
             continue;
@@ -546,7 +546,7 @@ function ParseSourceFile(FileTextVar, array) {
 //filter _T() function results
 function filter_T(string) {
     //filter for exact matched strings
-    var filter1 = /^(&?[Oo][Kk]|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|GPG|Hotmail|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|MirandaG15|Miranda NG|mRadio|MSN|NickServ|OSD|OTR|PCS|PGP|SMS|SSL|SteamID|Steam Guard|Tox|Twitter|Yahoo|Winamp \(\*\)|Windows|X400)$/g;
+    var filter1 = /^(&?[Oo][Kk]|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|GPG|Hotmail|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|MirandaG15|Miranda NG|mRadio|MSN|NickServ|OSD|OTR|PCS|PGP|SASL|SMS|SSL|SteamID|Steam Guard|Tox|Twitter|Yahoo|Winamp \(\*\)|Windows|X400)$/g;
     //filter string starting from following words
     var filter2 = /^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat[^a]|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|&?[Oo][Kk]|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
     //filter string ending with following words
