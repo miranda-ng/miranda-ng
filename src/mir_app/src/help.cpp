@@ -52,7 +52,10 @@ public:
 
 	virtual void OnInitDialog() override
 	{
-		ctrlDevelopers.SetText(_T(LEGAL_COPYRIGHT));
+		ptrW wszCopyright(mir_utf8decodeW(LEGAL_COPYRIGHT));
+		if (wszCopyright == nullptr)
+			wszCopyright = mir_a2u(LEGAL_COPYRIGHT);
+		ctrlDevelopers.SetText(wszCopyright);
 
 		char productVersion[56];
 		Miranda_GetVersionText(productVersion, _countof(productVersion));
