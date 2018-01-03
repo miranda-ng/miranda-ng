@@ -1386,7 +1386,7 @@ Přenos a kontrola antivirem dokončena
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odchozí
-;file \src\core\stdidle\src\idle.cpp
+;file \src\core\stdidle\src\options.cpp
 [Idle]
 Nečinnost
 ;file \src\core\stdmsg\src\chat_manager.cpp
@@ -1869,6 +1869,24 @@ Mezi kontakty přidat: %s
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 ;file \src\mir_app\src\auth.cpp
+[<Unknown>]
+<neznámý>
+[%s requested authorization\n%u (%s) on %s]
+%s žádá o autorizaci\n%u (%s) v síti %s
+[%s requested authorization\n%u on %s]
+%s žádá o autorizaci\n%u v síti %s
+[%s requested authorization\n%s on %s]
+%s žádá o autorizaci\n%s v síti %s
+[(Unknown)]
+(neznámý)
+[Feature is not supported by protocol]
+Funkce není protokolem podporována
+[%s added you to the contact list\n%u (%s) on %s]
+%s si vás přidal mezi své kontakty\n%u (%s) v síti %s
+[%s added you to the contact list\n%u on %s]
+%s si vás přidal mezi své kontakty\n%u v síti %s
+[%s added you to the contact list\n%s on %s]
+%s si vás přidal mezi své kontakty\n%s v síti %s
 [%s requests authorization]
 %s žádá o autorizaci
 [%u requests authorization]
@@ -1879,25 +1897,6 @@ Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 %u si vás přidal mezi své kontakty
 [Added event]
 Nová událost
-;file \src\mir_app\src\authdialogs.cpp
-[<Unknown>]
-<neznámý>
-[%s added you to the contact list\n%u (%s) on %s]
-%s si vás přidal mezi své kontakty\n%u (%s) v síti %s
-[%s added you to the contact list\n%u on %s]
-%s si vás přidal mezi své kontakty\n%u v síti %s
-[%s added you to the contact list\n%s on %s]
-%s si vás přidal mezi své kontakty\n%s v síti %s
-[(Unknown)]
-(neznámý)
-[%s requested authorization\n%u (%s) on %s]
-%s žádá o autorizaci\n%u (%s) v síti %s
-[%s requested authorization\n%u on %s]
-%s žádá o autorizaci\n%u v síti %s
-[%s requested authorization\n%s on %s]
-%s žádá o autorizaci\n%s v síti %s
-[Feature is not supported by protocol]
-Funkce není protokolem podporována
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Přidat se do diskuse

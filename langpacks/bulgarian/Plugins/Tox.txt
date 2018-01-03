@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -37,14 +37,16 @@ Tox ID:
 Включване на UDP (в противен случай Tox ще ползва TCP)
 [Enable IPv6]
 Включване на IPv6
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
-Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
+[Change password]
+Промяна на паролата
+[Set password]
+Задаване на парола
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
+Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез toxme.io.
 [DNS name:]
 DNS име:
 [Enter password]
 Въведете парола
-[Save password]
-Запис на паролата
 [Cancel]
 Отказ
 [Tox profile is encrypted. Enter the password to continue.]
@@ -61,62 +63,24 @@ IPv6 адрес (незадължително)
 Порт
 [Public key]
 Публичен ключ
-[Multimedia]
-Мултимедия
-[Audio input device]
-Микрофон
-[Audio output device]
-Говорител
-[Video input device]
-Камера
-[Invite contacts to chat room]
-Поканете контакти в стаята
-[&Invite]
-Покана
-[&Cancel]
-Отказ
-[Call]
-Обаждане
-[End]
-Край
-[Incoming call]
-Входящо обаждане
-[Answer]
-Отговор
-[Reject]
-Отхвърляне
-[From:]
-От:
-[Date:]
-Дата:
-[&User menu]
-Потребителско меню
-[User &details]
-Подробности за потребителя
-[&History]
-История
-[Outgoing call]
-Изходящо обаждане
-[To:]
-За:
+[New password:]
+Нова парола:
+[Confirm password:]
+Потвърдете паролата:
 [Profiles folder]
 Папка на профилите
-[Action]
-Действие
 [Protocol icon]
 Икона на протокола
-[Audio call]
-Аудио обаждане
 [Protocols]
 Протоколи
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
-[Incoming call from %s]
-Входящо обаждане от %s
-[Outgoing call to %s]
-Изходящо обаждане от %s
+[Password]
+Парола
+[Action]
+Действие
 [%s connection]
 %s връзка
 [Tox profile]

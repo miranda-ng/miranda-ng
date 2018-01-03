@@ -16,8 +16,6 @@ Plugins installés
 Description :
 [Copyright:]
 Copyright :
-[E-mail:]
-Courriel :
 [Homepage:]
 Page web :
 [Account]

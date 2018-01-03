@@ -543,6 +543,10 @@ popup за годишнина
 Основна
 [Extended user info]
 UserInfoEx
+[Dialogs]
+Прозорци
+[Buttons]
+Бутони
 [Export/import contact]
 Износ/Внос на контакта
 [User &details]

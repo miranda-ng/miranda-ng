@@ -1825,6 +1825,24 @@ Miranda не смогла загрузить встроенную систему
 Добавить %s
 [Please authorize my request and add me to your contact list.]
 Пожалуйста, разрешите добавить вас в мой список контактов.
+[<Unknown>]
+<Неизвестно>
+[%s requested authorization\n%u (%s) on %s]
+%s запросил(а) авторизацию\n%u (%s) в %s
+[%s requested authorization\n%u on %s]
+%s запросил(а) авторизацию\n%u в %s
+[%s requested authorization\n%s on %s]
+%s запросил(а) авторизацию\n%s в %s
+[(Unknown)]
+(Неизвестный)
+[Feature is not supported by protocol]
+Не поддерживается протоколом
+[%s added you to the contact list\n%u (%s) on %s]
+%s добавил вас в свой список контактов\n%u (%s) в %s
+[%s added you to the contact list\n%u on %s]
+%s добавил вас в свой список контактов\n%u в %s
+[%s added you to the contact list\n%s on %s]
+%s добавил вас в свой список контактов\n%s в %s
 [%s requests authorization]
 %s запрашивает авторизацию
 [%u requests authorization]
@@ -1835,24 +1853,6 @@ Miranda не смогла загрузить встроенную систему
 %u добавил вас в свой список контактов
 [Added event]
 Событие добавления
-[<Unknown>]
-<Неизвестно>
-[%s added you to the contact list\n%u (%s) on %s]
-%s добавил вас в свой список контактов\n%u (%s) в %s
-[%s added you to the contact list\n%u on %s]
-%s добавил вас в свой список контактов\n%u в %s
-[%s added you to the contact list\n%s on %s]
-%s добавил вас в свой список контактов\n%s в %s
-[(Unknown)]
-(Неизвестный)
-[%s requested authorization\n%u (%s) on %s]
-%s запросил(а) авторизацию\n%u (%s) в %s
-[%s requested authorization\n%u on %s]
-%s запросил(а) авторизацию\n%u в %s
-[%s requested authorization\n%s on %s]
-%s запросил(а) авторизацию\n%s в %s
-[Feature is not supported by protocol]
-Не поддерживается протоколом
 [&Join chat]
 Войти в чат
 [&Open chat window]

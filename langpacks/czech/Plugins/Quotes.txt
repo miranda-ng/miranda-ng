@@ -206,7 +206,7 @@ Miranda nemůže načíst doplněk Quotes. XML parser nebyl nalezen.
 Miranda nemůže načíst doplněk Quotes. Microsoft HTML parser nebyl nalezen.
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-[Error occurred during html parsing.]
+[Error occurred during HTML parsing.]
 
 [Error occurred during site access.]
 

@@ -15,5 +15,4 @@
 [Copy item]
 [Arrow up]
 [Arrow down]
-[Reload]
 [[No translation]]

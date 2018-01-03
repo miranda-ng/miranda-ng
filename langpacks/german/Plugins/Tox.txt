@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -42,14 +42,22 @@ IPv6 aktivieren
 Max. Verbindungsversuche:
 [Max reconnect retries:]
 Max. Wiederverbindungsversuche:
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
-Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
+[Enable UDP hole-punching]
+
+[Enable local network peer discovery]
+
+[Remove password]
+
+[Change password]
+Passwort ändern
+[Set password]
+Passwort setzen
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
+Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über toxme.io.
 [DNS name:]
 DNS-Name:
 [Enter password]
 Passwort eingeben
-[Save password]
-Passwort speichern
 [Cancel]
 Abbrechen
 [Tox profile is encrypted. Enter the password to continue.]
@@ -66,68 +74,23 @@ IPv6-Adresse (optional)
 Port
 [Public key]
 Öffentlicher Schlüssel
-[Multimedia]
-Multimedia
-[Audio input device]
-Audioeingabegeräte
-[Audio output device]
-Audioausgabegeräte
-[Video input device]
-Videoeingabegeräte
-[Invite contacts to chat room]
-Kontakte in Chatraum einladen
-[&Invite]
-E&inladen
-[&Cancel]
-Abbre&chen
-[Call]
-Anrufen
-[End]
-Ende
-[Incoming call]
-Eingehender Anruf
-[Answer]
-Antworten
-[Reject]
-Ablehnen
-[From:]
-Von:
-[Date:]
-Datum:
-[&User menu]
-&Kontaktmenü
-[User &details]
-Kontakt&profil
-[&History]
-&Verlauf
-[Outgoing call]
-Ausgehender Anruf
-[To:]
-An:
+[Old password:]
+Altes Passwort:
+[New password:]
+Neues Passwort:
+[Confirm password:]
+Passwort bestätigen:
 ;file \protocols\Tox\src\main.cpp
-[Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
-Aktuelle Version des Plugins unterstützt Tox-API %i.%i.%i, welche inkompatibel mit %s ist.
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-Konnte Tox-Core nicht initialisieren.
-;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 Profilverzeichnis
 [Tox URI scheme]
 Tox URI-Schema
-[Action]
-Aktion
+;file \protocols\Tox\src\tox_connection.cpp
+[Unable to initialize Tox core]
+Konnte Tox-Core nicht initialisieren.
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Protokollicon
-[Audio call]
-Audioanruf
-[Audio ring]
-Audioklingeln
-[Audio start]
-Audioanfang
-[Audio end]
-Audioende
 [Protocols]
 Protokolle
 ;file \protocols\Tox\src\tox_menus.cpp
@@ -135,14 +98,15 @@ Protokolle
 Autorisierung anfragen
 [Grant authorization]
 Autorisierung gewähren
+[Password]
+Passwort
+[Create password]
+
 ;file \protocols\Tox\src\tox_messages.cpp
+[Action]
+Aktion
 [You cannot send when you are offline.]
 Sie können keine Nachricht versenden, so lange Sie offline sind.
-;file \protocols\Tox\src\tox_multimedia.cpp
-[Incoming call from %s]
-Eingehender Anruf von %s
-[Outgoing call to %s]
-Ausgehender Anruf an %s
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
@@ -188,6 +152,14 @@ Konnte Tox-Profil nicht öffnen.
 Konnte Tox-Profil nicht lesen.
 [Unable to decrypt Tox profile]
 Konnte Tox-Profil nicht entschlüsseln.
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+
+[New password is empty]
+
+[New password is not equal to confirmation]
+
+[Old password is not valid]
+
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen

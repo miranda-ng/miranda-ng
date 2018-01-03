@@ -1386,7 +1386,7 @@ Prenos podataka i provera virusa dovršeni
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odlazni
-;file \src\core\stdidle\src\idle.cpp
+;file \src\core\stdidle\src\options.cpp
 [Idle]
 Pasivni režim
 ;file \src\core\stdmsg\src\chat_manager.cpp
@@ -1869,6 +1869,24 @@ Dodaj %s
 [Please authorize my request and add me to your contact list.]
 Dodaj me na spisak i daj mi autorizaciju, molim.
 ;file \src\mir_app\src\auth.cpp
+[<Unknown>]
+<Nepoznato>
+[%s requested authorization\n%u (%s) on %s]
+%s šalje zahtev za autorizaciju\n%u (%s) na %s
+[%s requested authorization\n%u on %s]
+%s šalje zahtev za autorizaciju\n%u na %s
+[%s requested authorization\n%s on %s]
+%s šalje zahtev za autorizaciju\n%s na %s
+[(Unknown)]
+(Nepoznato)
+[Feature is not supported by protocol]
+Protokol ne podržava zahtevanu opciju
+[%s added you to the contact list\n%u (%s) on %s]
+%s dodaje vaš konatkt na spisak\n%u (%s) na %s
+[%s added you to the contact list\n%u on %s]
+%s dodaje vaš konatkt na spisak\n%u na %s
+[%s added you to the contact list\n%s on %s]
+%s dodaje vaš konatkt na spisak\n%s na %s
 [%s requests authorization]
 &s zahteva autorizaciju
 [%u requests authorization]
@@ -1879,25 +1897,6 @@ Dodaj me na spisak i daj mi autorizaciju, molim.
 %u dodaje vaš kontakt na spisak
 [Added event]
 Dodat događaj
-;file \src\mir_app\src\authdialogs.cpp
-[<Unknown>]
-<Nepoznato>
-[%s added you to the contact list\n%u (%s) on %s]
-%s dodaje vaš konatkt na spisak\n%u (%s) na %s
-[%s added you to the contact list\n%u on %s]
-%s dodaje vaš konatkt na spisak\n%u na %s
-[%s added you to the contact list\n%s on %s]
-%s dodaje vaš konatkt na spisak\n%s na %s
-[(Unknown)]
-(Nepoznato)
-[%s requested authorization\n%u (%s) on %s]
-%s šalje zahtev za autorizaciju\n%u (%s) na %s
-[%s requested authorization\n%u on %s]
-%s šalje zahtev za autorizaciju\n%u na %s
-[%s requested authorization\n%s on %s]
-%s šalje zahtev za autorizaciju\n%s na %s
-[Feature is not supported by protocol]
-Protokol ne podržava zahtevanu opciju
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Počni razgovor

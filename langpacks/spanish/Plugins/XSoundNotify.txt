@@ -31,6 +31,8 @@ Sonido personalizado para %s (%s)
 Archivos de sonido
 [WAV files]
 Archivos WAV
+[All contacts]
+Todos los contactos
 [(Unknown contact)]
 (Contacto desconocido)
 [Sounds]

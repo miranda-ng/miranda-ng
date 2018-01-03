@@ -59,8 +59,6 @@
 Завжди показувати статус у підказці
 [ms]
 мс
-[Download more skins]
-Завантажити скіни
 [Event area]
 Область подій
 [Set base visibility on the frames menu]
@@ -375,6 +373,8 @@
 Висота назви фрейму
 [Ignore selection for groups]
 Ігнорувати виділення для груп
+[Download more skins]
+Завантажити скіни
 [Load from skin file]
 Завантжити з файлу
 [Export to skin file]

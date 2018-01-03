@@ -74,9 +74,9 @@
 [Exit]
 Выйсце
 [Execute]
-
+Выканаць
 [Separator]
-
+Падзельнік
 [Default]
 Змаўчанні
 [TopToolBar background]

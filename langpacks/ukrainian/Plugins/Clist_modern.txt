@@ -49,6 +49,8 @@
 * Необхідний рестарт для вступу змін у силу
 [Skin folder]
 Папка скінів
+[Download more skins]
+Завантажити скіни
 [Available view modes]
 Доступні режими перегляду
 [Include protocols]
@@ -63,8 +65,6 @@
 Включити статуси
 [Cancel]
 Скасувати
-[Download more skins]
-Завантажити скіни
 [Sticky contacts]
 Закріплені контакти
 [Clear all]

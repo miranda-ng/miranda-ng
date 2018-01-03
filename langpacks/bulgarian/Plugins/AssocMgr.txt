@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, gg, mirpu, wpmsg, xmpp, ymsgr.]
-Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към aim, gg, mirpu, wpmsg, xmpp, ymsgr.
+[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
+Осигурява възможност за асоцииране на някои типове файлове и на URL-адреси водещи към gg, mirpu, wpmsg, xmpp, ymsgr.
 [Registered associations for Miranda NG:]
 Регистрирани асоциации с Miranda NG:
 [Miscellaneous]
@@ -49,8 +49,6 @@ Miranda NG не може да отвори "%S".\n\nНяма програма а
 Miranda NG не може да отвори "%S".\n\nНяма програма асоциирана с този тип URL адрес.
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 Miranda NG не може да отвори "%S".\n\nURL адресът е невалиден и не може да се обработи.
-[AIM link protocol]
-Протокол за AIM връзки
 [ICQ link shortcut]
 Протокол за ICQ връзки
 [&Add to contact list...]

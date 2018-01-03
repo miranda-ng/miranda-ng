@@ -1910,7 +1910,7 @@ Kontakti
 [Amorous]
 
 [Angry]
-
+Љут
 [Annoyed]
 
 [Anxious]
@@ -2036,7 +2036,7 @@ Kontakti
 [Restless]
 
 [Sad]
-
+Тужан
 [Sarcastic]
 
 [Satisfied]

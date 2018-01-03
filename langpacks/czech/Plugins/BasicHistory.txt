@@ -74,8 +74,8 @@ Pouze odchozí zprávy
 Pouze ve vybrané skupině
 [All contacts]
 Všechny kontakty
-[Export to txt]
-Exportovat do txt
+[Export to text file]
+Export do textového souboru
 [File encoding*]
 Kódování souboru*
 [Export to plain HTML]

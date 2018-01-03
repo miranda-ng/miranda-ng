@@ -1735,6 +1735,24 @@ Alertas
 Añadir %s
 [Please authorize my request and add me to your contact list.]
 Por favor autorice mi petición y añadame a su lista de contactos.
+[<Unknown>]
+<Desconocido>
+[%s requested authorization\n%u (%s) on %s]
+%s autorización solicitada\n%u (%s) en %s
+[%s requested authorization\n%u on %s]
+%s autorización solicitada\n%u en %s
+[%s requested authorization\n%s on %s]
+%s autorización solicitada\n%s on %s
+[(Unknown)]
+(Desconocido)
+[Feature is not supported by protocol]
+La función no está soportada por el protocolo
+[%s added you to the contact list\n%u (%s) on %s]
+%s te agregó a la lista de contactos\n%u (%s) en %s
+[%s added you to the contact list\n%u on %s]
+%s te agregó a la lista de contactos\n%u en %s
+[%s added you to the contact list\n%s on %s]
+%s te agregó a la lista de contactos\n%s en %s
 [%s requests authorization]
 %s solicita autorización
 [%u requests authorization]
@@ -1745,24 +1763,6 @@ Por favor autorice mi petición y añadame a su lista de contactos.
 %u te ha añadido a su lista de contactos
 [Added event]
 Evento añadido
-[<Unknown>]
-<Desconocido>
-[%s added you to the contact list\n%u (%s) on %s]
-%s te agregó a la lista de contactos\n%u (%s) en %s
-[%s added you to the contact list\n%u on %s]
-%s te agregó a la lista de contactos\n%u en %s
-[%s added you to the contact list\n%s on %s]
-%s te agregó a la lista de contactos\n%s en %s
-[(Unknown)]
-(Desconocido)
-[%s requested authorization\n%u (%s) on %s]
-%s autorización solicitada\n%u (%s) en %s
-[%s requested authorization\n%u on %s]
-%s autorización solicitada\n%u en %s
-[%s requested authorization\n%s on %s]
-%s autorización solicitada\n%s on %s
-[Feature is not supported by protocol]
-La función no está soportada por el protocolo
 [&Join chat]
 &Entrar
 [%s has joined]

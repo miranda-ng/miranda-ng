@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -42,14 +42,22 @@ Groupes :
 
 [Max reconnect retries:]
 
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
+[Enable UDP hole-punching]
+
+[Enable local network peer discovery]
+
+[Remove password]
+
+[Change password]
+Changer le mot de passe
+[Set password]
+Mot de passe du profil
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
 
 [DNS name:]
 
 [Enter password]
 Entrez le passe
-[Save password]
-Enregistrer le passe
 [Cancel]
 Annuler
 [Tox profile is encrypted. Enter the password to continue.]
@@ -66,67 +74,22 @@ Mise à jour
 Port
 [Public key]
 
-[Multimedia]
+[Old password:]
 
-[Audio input device]
-
-[Audio output device]
-
-[Video input device]
-
-[Invite contacts to chat room]
-
-[&Invite]
-&Inviter
-[&Cancel]
-&Annuler
-[Call]
-
-[End]
-
-[Incoming call]
-
-[Answer]
-
-[Reject]
-
-[From:]
-De :
-[Date:]
-Date :
-[&User menu]
-&Menu utilisateur
-[User &details]
-&Détails du contact
-[&History]
-&Historique
-[Outgoing call]
-
-[To:]
-À :
+[New password:]
+Nouveau mot de passe :
+[Confirm password:]
+Confirmer le passe :
 ;file \protocols\Tox\src\main.cpp
-[Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
-
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-
-;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 
 [Tox URI scheme]
 
-[Action]
+;file \protocols\Tox\src\tox_connection.cpp
+[Unable to initialize Tox core]
 
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
-
-[Audio call]
-
-[Audio ring]
-
-[Audio start]
-
-[Audio end]
 
 [Protocols]
 Protocoles
@@ -135,13 +98,14 @@ Protocoles
 Demander l'autorisation
 [Grant authorization]
 Accorder l'autorisation
+[Password]
+Mot de passe
+[Create password]
+
 ;file \protocols\Tox\src\tox_messages.cpp
+[Action]
+
 [You cannot send when you are offline.]
-
-;file \protocols\Tox\src\tox_multimedia.cpp
-[Incoming call from %s]
-
-[Outgoing call to %s]
 
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
@@ -187,6 +151,14 @@ Compte
 [Unable to read Tox profile]
 
 [Unable to decrypt Tox profile]
+
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+
+[New password is empty]
+
+[New password is not equal to confirmation]
+
+[Old password is not valid]
 
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]

@@ -73,7 +73,7 @@
 Толькі абраны гурт
 [All contacts]
 Усе кантакты
-[Export to txt]
+[Export to text file]
 Экспарт у тэкст
 [File encoding*]
 Кадоўка файла*

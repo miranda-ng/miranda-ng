@@ -13,8 +13,6 @@
 [Splitter position]
 [BBCode]
 [Force off]
-[Dummy]
-[dummy]
 [Event popups]
 [Single Messaging]
 [Generic text color (only when fill color is set)]

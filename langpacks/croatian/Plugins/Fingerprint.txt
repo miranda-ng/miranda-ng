@@ -28,8 +28,6 @@
 
 [Select protocols]
 
-[AIM clients]
-
 [Gadu-Gadu clients]
 
 [ICQ clients]
@@ -116,8 +114,6 @@
 [Unknown client]
 
 [Undetected client]
-
-[AIM overlay]
 
 [ICQJ Plus Mod overlay]
 

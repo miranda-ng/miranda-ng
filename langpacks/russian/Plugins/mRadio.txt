@@ -103,8 +103,6 @@
 Извините!
 [bass.dll not found!]
 bass.dll не найден!
-[bass.dll not found! Choose bass.dll path manually]
-bass.dll не найден! Укажите путь к нему
 [Station]
 Станция
 [Custom INI file]
@@ -201,3 +199,5 @@ mRadio вкл
 Новый
 [Quick Open]
 Открыть
+[bass.dll not found! Choose bass.dll path manually]
+bass.dll не найден! Укажите путь к нему

@@ -470,7 +470,7 @@ xСтатус:
 [Arrow down]
 
 [Reload]
-
+Перагрузіць
 [Apply]
 Ужыць
 [Female]

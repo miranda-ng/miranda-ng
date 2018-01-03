@@ -1386,7 +1386,7 @@ sve datoteke
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 
-;file \src\core\stdidle\src\idle.cpp
+;file \src\core\stdidle\src\options.cpp
 [Idle]
 
 ;file \src\core\stdmsg\src\chat_manager.cpp
@@ -1869,6 +1869,24 @@ Prika&ži/sakrij popis nadimaka
 [Please authorize my request and add me to your contact list.]
 
 ;file \src\mir_app\src\auth.cpp
+[<Unknown>]
+
+[%s requested authorization\n%u (%s) on %s]
+
+[%s requested authorization\n%u on %s]
+
+[%s requested authorization\n%s on %s]
+
+[(Unknown)]
+
+[Feature is not supported by protocol]
+
+[%s added you to the contact list\n%u (%s) on %s]
+
+[%s added you to the contact list\n%u on %s]
+
+[%s added you to the contact list\n%s on %s]
+
 [%s requests authorization]
 
 [%u requests authorization]
@@ -1878,25 +1896,6 @@ Prika&ži/sakrij popis nadimaka
 [%u added you to their contact list]
 
 [Added event]
-
-;file \src\mir_app\src\authdialogs.cpp
-[<Unknown>]
-
-[%s added you to the contact list\n%u (%s) on %s]
-
-[%s added you to the contact list\n%u on %s]
-
-[%s added you to the contact list\n%s on %s]
-
-[(Unknown)]
-
-[%s requested authorization\n%u (%s) on %s]
-
-[%s requested authorization\n%u on %s]
-
-[%s requested authorization\n%s on %s]
-
-[Feature is not supported by protocol]
 
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]

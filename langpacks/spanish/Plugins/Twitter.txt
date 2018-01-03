@@ -33,6 +33,8 @@ Personalizado
 Permanente
 [Preview]
 Previsualizar
+[Normal]
+Normal
 [Network]
 Red
 [Popups]

@@ -1,0 +1,3 @@
+[Message is too long]
+[Edited message:\n]
+[\nOriginal message:\n]

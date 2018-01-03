@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.3.2
+;  Version: 0.4.0.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -250,20 +250,14 @@ Co se vám honí hlavou, %s?
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 samolepku
-[a link]
-odkaz
+[a GIF]
+GIF
 [files]
 soubory
 [a file]
 soubor
-[photos]
-fotky
-[a photo]
-fotku
-[a video]
-video
-[a GIF]
-GIF
+[a link]
+odkaz
 [User sent %s:]
 Uživatel odeslal %s:
 [User sent an unsupported attachment. Open your browser to see it.]

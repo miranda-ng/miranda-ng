@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.3.3.2
+;  Version: 0.4.0.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -231,20 +231,14 @@ SMS з кодом підтвердження відправлено на ваш 
 Про що ви думаєте, %s?
 [a sticker]
 стікер
-[a link]
-посилання
+[a GIF]
+анімоване зображення
 [files]
 файли
 [a file]
 файл
-[photos]
-фотографії
-[a photo]
-фотографію
-[a video]
-відео
-[a GIF]
-анімоване зображення
+[a link]
+посилання
 [User sent %s:]
 Контакт надіслав %s:
 [User sent an unsupported attachment. Open your browser to see it.]

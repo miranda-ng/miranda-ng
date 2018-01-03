@@ -28,8 +28,6 @@ Unicode-Overlay
 Sicherheits-Overlay
 [Select protocols]
 Protokolle auswählen
-[AIM clients]
-AIM-Clients
 [Gadu-Gadu clients]
 Gadu-Gadu-Clients
 [ICQ clients]
@@ -117,8 +115,6 @@ Client nicht gefunden
 Unbekannter Client
 [Undetected client]
 Unerkannter Client
-[AIM overlay]
-AIM overlay
 [ICQJ Plus Mod overlay]
 ICQJ Plus Mod overlay
 [ICQJ overlay]

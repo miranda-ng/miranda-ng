@@ -27,8 +27,6 @@
 Оверлеї шифрування
 [Select protocols]
 Протоколи
-[AIM clients]
-Клієнти AIM
 [Gadu-Gadu clients]
 Клієнти Gadu-Gadu
 [ICQ clients]
@@ -113,8 +111,6 @@ TM 2008 і вище
 Невідомий клієнт
 [Undetected client]
 Невизначений клієнт
-[AIM overlay]
-Оверлей AIM
 [ICQJ Plus Mod overlay]
 Оверлей ICQJ Plus Mod
 [ICQJ overlay]

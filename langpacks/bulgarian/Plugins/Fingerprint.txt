@@ -27,8 +27,6 @@ Miranda клиенти
 за сигурност
 [Select protocols]
 Изберете протоколи
-[AIM clients]
-AIM клиенти
 [Gadu-Gadu clients]
 Gadu-Gadu клиенти
 [ICQ clients]
@@ -113,8 +111,6 @@ XMPP клиент
 Непознат клиент
 [Undetected client]
 Незасечен клиент
-[AIM overlay]
-AIM
 [ICQJ Plus Mod overlay]
 ICQJ Plus Mod
 [ICQJ overlay]

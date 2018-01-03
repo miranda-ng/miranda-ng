@@ -16,8 +16,6 @@ Verze:
 Popis:
 [Copyright:]
 Copyright:
-[E-mail:]
-E-mail:
 [Homepage:]
 WWW:
 [Account]

@@ -1610,7 +1610,7 @@ UIN, E-mail і г.д.
 [Chat log]
 Лог чата
 [Chat]
-
+Чат
 [Popups]
 Усплывальныя вокны
 [%s: chat room (%u user)]
@@ -1827,6 +1827,24 @@ Miranda не здолела загрузіць убудаваную сістэм
 Дадаць %s
 [Please authorize my request and add me to your contact list.]
 Калі ласка, дазвольце дадаць Вас у мой спіс кантактаў.
+[<Unknown>]
+Невядома
+[%s requested authorization\n%u (%s) on %s]
+%s запытаў(ла) аўтарызацыю\n%u (%s) у %s
+[%s requested authorization\n%u on %s]
+%s запытаў(ла) аўтарызацыю\n%u у %s
+[%s requested authorization\n%s on %s]
+%s запытаў(ла) аўтарызацыю\n%s у %s
+[(Unknown)]
+(невядомы)
+[Feature is not supported by protocol]
+Не падтрымліваецца пратаколам
+[%s added you to the contact list\n%u (%s) on %s]
+%s дададзены(а) у Ваш спіс кантактаў\n%u (%s) у %s
+[%s added you to the contact list\n%u on %s]
+%s дададзены(а) у Ваш спіс кантактаў\n%u у %s
+[%s added you to the contact list\n%s on %s]
+%s дададзены(а) у Ваш спіс кантактаў\n%s у %s
 [%s requests authorization]
 %s запытаў аўтарызацыю
 [%u requests authorization]
@@ -1837,24 +1855,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 %u дадаў(ла) вас у свой спіс
 [Added event]
 Падзея дадання
-[<Unknown>]
-Невядома
-[%s added you to the contact list\n%u (%s) on %s]
-%s дададзены(а) у Ваш спіс кантактаў\n%u (%s) у %s
-[%s added you to the contact list\n%u on %s]
-%s дададзены(а) у Ваш спіс кантактаў\n%u у %s
-[%s added you to the contact list\n%s on %s]
-%s дададзены(а) у Ваш спіс кантактаў\n%s у %s
-[(Unknown)]
-(невядомы)
-[%s requested authorization\n%u (%s) on %s]
-%s запытаў(ла) аўтарызацыю\n%u (%s) у %s
-[%s requested authorization\n%u on %s]
-%s запытаў(ла) аўтарызацыю\n%u у %s
-[%s requested authorization\n%s on %s]
-%s запытаў(ла) аўтарызацыю\n%s у %s
-[Feature is not supported by protocol]
-Не падтрымліваецца пратаколам
 [&Join chat]
 Зайсці
 [&Open chat window]
@@ -2068,7 +2068,7 @@ Miranda не можа распазнаць гэты профіль
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Наслушны тып налады для '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h ці n.
 [Homepage]
-
+Сайт
 [Phone/SMS]
 
 [Chat activity]
@@ -2150,7 +2150,7 @@ Ctrl+Шукаць дадае карыстальніка
 [Browser: Home]
 
 [Mute]
-
+Выкл гук
 [Vol-]
 
 [Vol+]
@@ -2602,7 +2602,7 @@ ANSI плагін
 [<Separator>]
 <Падзельнік>
 [Toolbar]
-
+Панэль кнопак
 [Unspecified]
 Не пазначана
 [Afghanistan]

@@ -16,8 +16,6 @@
 Opis:
 [Copyright:]
 Prava (Licenca):
-[E-mail:]
-E-mail:
 [Homepage:]
 Web Stranica:
 [Account]

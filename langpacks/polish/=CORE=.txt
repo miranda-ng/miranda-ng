@@ -1386,7 +1386,7 @@ Ukończono przesyłanie i skanowanie wirusów
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Wychodzące
-;file \src\core\stdidle\src\idle.cpp
+;file \src\core\stdidle\src\options.cpp
 [Idle]
 Bezczynność
 ;file \src\core\stdmsg\src\chat_manager.cpp
@@ -1869,6 +1869,24 @@ Dodaj %s
 [Please authorize my request and add me to your contact list.]
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 ;file \src\mir_app\src\auth.cpp
+[<Unknown>]
+<Nieznany>
+[%s requested authorization\n%u (%s) on %s]
+%s poprosił(a) o autoryzację\n%u (%s) na koncie %s
+[%s requested authorization\n%u on %s]
+%s poprosił(a) o autoryzację \n%u na koncie %s
+[%s requested authorization\n%s on %s]
+%s poprosił(a) o autoryzację\n%s na koncie %s
+[(Unknown)]
+(Nieznany)
+[Feature is not supported by protocol]
+Funkcja nie wspierana przez protokół
+[%s added you to the contact list\n%u (%s) on %s]
+%s dodał(a) cię do listy kontaktów\n%u (%s) na %s
+[%s added you to the contact list\n%u on %s]
+%s dodał(a) cię do listy kontaktów\n%u na %s
+[%s added you to the contact list\n%s on %s]
+%s dodał(a) cię do listy kontaktów\n%s na %s
 [%s requests authorization]
 %s prosi o autoryzację
 [%u requests authorization]
@@ -1879,25 +1897,6 @@ Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 %u dodał(a) cię do swojej listy kontaktów
 [Added event]
 Dodanie kontaktu
-;file \src\mir_app\src\authdialogs.cpp
-[<Unknown>]
-<Nieznany>
-[%s added you to the contact list\n%u (%s) on %s]
-%s dodał(a) cię do listy kontaktów\n%u (%s) na %s
-[%s added you to the contact list\n%u on %s]
-%s dodał(a) cię do listy kontaktów\n%u na %s
-[%s added you to the contact list\n%s on %s]
-%s dodał(a) cię do listy kontaktów\n%s na %s
-[(Unknown)]
-(Nieznany)
-[%s requested authorization\n%u (%s) on %s]
-%s poprosił(a) o autoryzację\n%u (%s) na koncie %s
-[%s requested authorization\n%u on %s]
-%s poprosił(a) o autoryzację \n%u na koncie %s
-[%s requested authorization\n%s on %s]
-%s poprosił(a) o autoryzację\n%s na koncie %s
-[Feature is not supported by protocol]
-Funkcja nie wspierana przez protokół
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 &Dołącz do czatu

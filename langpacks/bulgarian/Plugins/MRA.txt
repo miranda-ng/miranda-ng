@@ -147,6 +147,8 @@
 Даване на пълномощно
 [New E-mail available in Inbox]
 Нов имейл във входящата кутия
+[Main icon]
+Главна икона
 [Protocols]
 Протоколи
 [Main Menu]

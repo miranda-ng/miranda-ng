@@ -36,9 +36,9 @@
 [Filters]
 Фільтры
 [Move down]
-
+Ніжэй
 [Move up]
-
+Вышэй
 [Add]
 Дадаць
 [Rule editor]

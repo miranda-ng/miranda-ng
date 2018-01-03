@@ -1,4 +1,4 @@
-[Handles file type associations and URLs like aim, gg, mirpu, wpmsg, xmpp, ymsgr.]
+[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
 [Registered associations for Miranda NG:]
 [Miscellaneous]
 [&Start Miranda NG automatically when the computer starts (using current profile)]
@@ -24,7 +24,6 @@
 [Miranda NG was not able to open "%S".\n\nThe given URL is invalid and cannot be parsed.]
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 [Registry warning]
-[AIM link protocol]
 [ICQ link shortcut]
 [&Add to contact list...]
 [Yahoo link protocol]

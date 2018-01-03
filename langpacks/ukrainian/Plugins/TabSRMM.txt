@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.7
+;  Version: 3.5.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -35,8 +35,6 @@
 Сплив. вікно
 [Tray]
 Трей
-[Download more skins]
-Завантажити скіни
 [Options]
 Налаштування
 [Add new rooms to group:]
@@ -515,6 +513,8 @@ ID користувача в панелі статусу
 Експортувати...
 [Import from a file...]
 Імпортувати...
+[Download more skins]
+Завантажити скіни
 [Icons]
 Значки
 [Event type icons in the message log]
@@ -691,38 +691,10 @@ BBCode ([b][i][u])
 Вимкнути звуки
 [Be "super quiet"]
 Бути "дуже тихим"
-[Font]
-Шрифт
-[Default color]
-Типовий колір
-[Red]
-Червоний
-[Green]
-Зелений
-[Blue]
-Синій
-[Magenta]
-Пурпурний
-[Yellow]
-Жовтий
-[Cyan]
-Блакитний
-[Black]
-Чорний
-[White]
-Білий
-[Clear all formatting]
-Очистити форматування
-[Dummy]
-Порожній
-[No message sessions opened]
-Немає відкритих вікон повідомлень
 [Add contact to favorites]
 Додати контакт до обраних
 [Remove contact from favorites]
 Видалити контакт з обраних
-[dummy]
-Порожній
 [Set position for this session]
 Встановити позицію для цієї сесії
 [Set and save for all sessions]

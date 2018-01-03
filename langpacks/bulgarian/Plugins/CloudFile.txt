@@ -7,7 +7,19 @@
 ;============================================================
 [General]
 Основни
+[Autosend download link to contact]
+Автоизпращане на връзка за сваляне на контакта
+[Do nothing]
+Нищо
+[Authorization]
+Упълномощаване
 [Cancel]
 Отказ
+[Upload file(s)]
+Качване на файл(ове)
+[Upload]
+Качване
 [None]
 Няма
+[Services]
+Услуги

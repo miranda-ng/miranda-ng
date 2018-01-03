@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.7.1
+;  Version: 0.95.7.2
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]

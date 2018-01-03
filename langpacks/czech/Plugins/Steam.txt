@@ -40,6 +40,8 @@ Zadejte heslo
 Uložit heslo
 [Enter the password to continue.]
 Zadejte heslo pro pokračování.
+[Security code]
+Bezpečnostní kód
 [As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
 Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadáním SMS kódu, který jsme vám právě odeslali na váš mobilní telefon.
 ;file \protocols\Steam\src\main.cpp

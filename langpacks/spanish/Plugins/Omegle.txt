@@ -7,6 +7,8 @@
 ;============================================================
 [Server:]
 Servidor:
+[Normal]
+Normal
 [Connecting...]
 Conectando...
 [%s server connection]

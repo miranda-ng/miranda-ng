@@ -7,8 +7,6 @@
 ;============================================================
 [IE Based Chat Log.]
 Журнал на движке IE.
-[Download more templates]
-Скачать шаблоны
 [Copy]
 Копировать
 [Copy Link]
@@ -67,6 +65,8 @@
 Буквенный формат даты
 [Use relative timestamp]
 Относительное время
+[Download more templates]
+Скачать шаблоны
 [Outgoing File Transfer]
 Исходящий файл
 [Incoming File Transfer]

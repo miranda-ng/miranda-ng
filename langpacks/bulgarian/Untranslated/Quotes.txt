@@ -5,7 +5,7 @@
 [Quotes Auto Update Enabled]
 [Quotes Auto Update Disabled]
 [Quote Section]
-[Error occurred during html parsing.]
+[Error occurred during HTML parsing.]
 [Error occurred during site access.]
 [Tabulation]
 [Percent Change to After Hours]

@@ -7,5 +7,7 @@
 ;============================================================
 [Server:]
 Servidor:
+[Normal]
+Normal
 [%s server connection]
 %s conexión al servidor

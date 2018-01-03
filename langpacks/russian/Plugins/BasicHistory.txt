@@ -73,8 +73,8 @@
 Только выбранная группа
 [All contacts]
 Все контакты
-[Export to txt]
-Экспорт в текст
+[Export to text file]
+Экспорт в текстовый файл
 [File encoding*]
 Кодировка файла*
 [Export to plain HTML]

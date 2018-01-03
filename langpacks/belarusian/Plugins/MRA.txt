@@ -296,7 +296,7 @@ xСтатус "%s"
 [Send files: requested file: %S - not found in send files list.]
 Адпраўка файлаў: запытаны файл: %S - не знойдзены сярод файлаў падрыхтаваных да адпраўкі
 [Main icon]
-
+Галоўны абразок
 [Protocols]
 Пратаколы
 [MRA]

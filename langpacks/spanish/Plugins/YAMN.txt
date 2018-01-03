@@ -11,8 +11,6 @@ Versión
 Detalles:
 [Copyright:]
 Copyright:
-[E-mail:]
-E-mail:
 [Homepage:]
 Sitio web:
 [Account]

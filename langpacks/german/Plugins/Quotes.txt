@@ -206,7 +206,7 @@ Miranda NG konnte das Quotes-Plugin nicht laden. Der XML-Parser fehlt.
 Miranda NG konnte das Quotes-Plugin nicht laden. Der Microsoft-HTML-Parser fehlt.
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-[Error occurred during html parsing.]
+[Error occurred during HTML parsing.]
 Fehler während des HTML-Parsens.
 [Error occurred during site access.]
 Fehler während des Seitenzugriffs.

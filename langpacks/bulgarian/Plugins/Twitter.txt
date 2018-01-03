@@ -51,6 +51,8 @@
 Въведете Twitter PIN
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
 Въведете PIN кода предоставен от Twitter, за да завършите вписването. Това е еднократен процес необходим за създаването на акаунт за Twitter в Miranda.
+[Normal]
+Нормално
 [Network]
 Мрежа
 [Basic]

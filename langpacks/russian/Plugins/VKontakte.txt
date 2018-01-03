@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.3.0
+;  Version: 0.1.4.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -247,6 +247,8 @@ E-mail или номер телефона:
 Нельзя первым писать пользователю от имени сообщества
 [Can't send messages to this user due to their privacy settings]
 Нельзя отправлять сообщения этому пользователю в связи с настройками приватности
+[Message is too long]
+Слишком длинное сообщение
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Введите недостающие цифры между %s и %s в телефонном номере, привязанном к вашей учётной записи
 [Attention!]
@@ -465,6 +467,10 @@ ID получателя ошибочен или неизвестен
 Ошибка загрузки истории сообщений для %s с сервера.
 [Loading messages for %s is completed.]
 Загрузка сообщений для %s завершена.
+[Edited message:\n]
+\nИзменённое сообщение:\n
+[\nOriginal message:\n]
+\nИсходное сообщение:\n
 [Network]
 Сеть
 [Account]

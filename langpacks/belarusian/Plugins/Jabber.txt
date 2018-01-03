@@ -800,7 +800,7 @@ Jabber памылка
 [Add contact]
 Дадаць кантакт
 [Open]
-
+Адкрыць
 [Discovery succeeded]
 Вызначэнне завершана
 [Discovery failed]

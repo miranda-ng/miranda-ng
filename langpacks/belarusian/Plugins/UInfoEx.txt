@@ -594,9 +594,9 @@ E-Mail
 [Extended user info]
 Асабістыя дадзеныя
 [Dialogs]
-
+Гутаркі
 [Buttons]
-
+Кнопкі
 [Export/import contact]
 Экс-/Імпарт кантакт
 [User &details]

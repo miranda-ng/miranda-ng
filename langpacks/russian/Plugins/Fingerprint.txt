@@ -27,8 +27,6 @@ Fingerprint NG отображает значки клиентов, исполь�
 Оверлеи шифрования
 [Select protocols]
 Протоколы
-[AIM clients]
-Клиенты AIM
 [Gadu-Gadu clients]
 Клиенты Gadu-Gadu
 [ICQ clients]
@@ -113,8 +111,6 @@ XMPP клиент
 Неизвестный клиент
 [Undetected client]
 Неопределённый клиент
-[AIM overlay]
-Оверлей AIM
 [ICQJ Plus Mod overlay]
 Оверлей ICQJ Plus Mod
 [ICQJ overlay]

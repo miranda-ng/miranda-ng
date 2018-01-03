@@ -311,8 +311,12 @@ texto
 Establecer mensaje de estado
 [None]
 Ninguno
+[Angry]
+Me enoja
 [Typing]
 Escribiendo
+[Love]
+Me encanta
 [Action group list was changed: some was added or deleted]
 Lista de grupos de acción fue cambiado: algunos se agregan o eliminan
 [contact list]

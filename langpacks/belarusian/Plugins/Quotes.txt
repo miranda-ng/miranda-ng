@@ -195,7 +195,7 @@ HTTP далучэнне Quotes
 
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 
-[Error occurred during html parsing.]
+[Error occurred during HTML parsing.]
 Памылка падчас парсінгу HTML.
 [Error occurred during site access.]
 Памылка пры доступе да сайта.

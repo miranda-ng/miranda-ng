@@ -19,6 +19,8 @@
 Файлове със звуци
 [WAV files]
 WAV файлове
+[All contacts]
+Всички контакти
 [(Unknown contact)]
 (Непознат контакт)
 [Sounds]

@@ -27,8 +27,6 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Адбітак шыфравання
 [Select protocols]
 Пратаколы
-[AIM clients]
-Кліенты AIM
 [Gadu-Gadu clients]
 Кліенты Gadu-Gadu
 [ICQ clients]
@@ -113,8 +111,6 @@ XMPP
 Невядомы кліент
 [Undetected client]
 Нязнойдзены кліент
-[AIM overlay]
-AIM
 [ICQJ Plus Mod overlay]
 ICQJ Plus Mod
 [ICQJ overlay]

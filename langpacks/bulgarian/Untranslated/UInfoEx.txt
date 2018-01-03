@@ -23,8 +23,6 @@
 [Fatal error, image services not found. Flags module will be disabled.]
 [IM naming]
 [Goto]
-[Dialogs]
-[Buttons]
 [No valid date selected for editing!]
 [Sorry, but there is a problem with adding a new item of type "%s"]
 [Media]

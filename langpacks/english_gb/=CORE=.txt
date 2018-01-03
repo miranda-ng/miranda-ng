@@ -67,16 +67,16 @@ Select a foreground colour for the text (CTRL+K)
 Select a background colour for the text (CTRL+L)
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
-[%s requests authorization]
-%s requests authorisation
-[%u requests authorization]
-%u requests authorisation
 [%s requested authorization\n%u (%s) on %s]
 %s requested authorisation\n%u (%s) on %s
 [%s requested authorization\n%u on %s]
 %s requested authorisation\n%u on %s
 [%s requested authorization\n%s on %s]
 %s requested authorisation\n%s on %s
+[%s requests authorization]
+%s requests authorisation
+[%u requests authorization]
+%u requests authorisation
 [Authorization request from %s%s: %s]
 Authorisation request from %s%s: %s
 [Customize]

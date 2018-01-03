@@ -74,7 +74,7 @@ heures
 
 [All contacts]
 tous les contacts
-[Export to txt]
+[Export to text file]
 
 [File encoding*]
 

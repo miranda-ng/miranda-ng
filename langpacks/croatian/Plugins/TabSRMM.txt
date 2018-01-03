@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.7
+;  Version: 3.5.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -694,37 +694,9 @@ isključen
 
 [Be "super quiet"]
 
-[Font]
-
-[Default color]
-
-[Red]
-
-[Green]
-
-[Blue]
-
-[Magenta]
-
-[Yellow]
-
-[Cyan]
-
-[Black]
-
-[White]
-
-[Clear all formatting]
-
-[Dummy]
-
-[No message sessions opened]
-
 [Add contact to favorites]
 
 [Remove contact from favorites]
-
-[dummy]
 
 [Set position for this session]
 

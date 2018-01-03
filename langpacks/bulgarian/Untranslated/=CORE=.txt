@@ -27,7 +27,6 @@
 [In a civil union]
 [Chat log symbols (Webdings)]
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
-[Homepage]
 [Phone/SMS]
 [Ctrl+Search add contact]
 [Handle]

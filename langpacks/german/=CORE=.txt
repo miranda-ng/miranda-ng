@@ -1386,7 +1386,7 @@ Untersuche auf Viren...
 ;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Ausgehend
-;file \src\core\stdidle\src\idle.cpp
+;file \src\core\stdidle\src\options.cpp
 [Idle]
 Untätigkeit
 ;file \src\core\stdmsg\src\chat_manager.cpp
@@ -1869,6 +1869,24 @@ Hinweis
 [Please authorize my request and add me to your contact list.]
 Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 ;file \src\mir_app\src\auth.cpp
+[<Unknown>]
+<Unbekannt>
+[%s requested authorization\n%u (%s) on %s]
+%s fragt nach einer Autorisierung\n%u (%s) unter %s
+[%s requested authorization\n%u on %s]
+%s fragt nach einer Autorisierung\n%u unter %s
+[%s requested authorization\n%s on %s]
+%s fragt nach einer Autorisierung\n%s unter %s
+[(Unknown)]
+(Unbekannt)
+[Feature is not supported by protocol]
+Diese Funktion wird durch dieses Protokoll nicht unterstützt
+[%s added you to the contact list\n%u (%s) on %s]
+%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u (%s) in %s
+[%s added you to the contact list\n%u on %s]
+%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u in %s
+[%s added you to the contact list\n%s on %s]
+%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%s in %s
 [%s requests authorization]
 %s fragt nach Autorisierung
 [%u requests authorization]
@@ -1879,25 +1897,6 @@ Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 %u fügte Sie zu seiner Kontaktliste hinzu
 [Added event]
 Sie wurden von jemandem hinzugefügt
-;file \src\mir_app\src\authdialogs.cpp
-[<Unknown>]
-<Unbekannt>
-[%s added you to the contact list\n%u (%s) on %s]
-%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u (%s) in %s
-[%s added you to the contact list\n%u on %s]
-%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u in %s
-[%s added you to the contact list\n%s on %s]
-%s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%s in %s
-[(Unknown)]
-(Unbekannt)
-[%s requested authorization\n%u (%s) on %s]
-%s fragt nach einer Autorisierung\n%u (%s) unter %s
-[%s requested authorization\n%u on %s]
-%s fragt nach einer Autorisierung\n%u unter %s
-[%s requested authorization\n%s on %s]
-%s fragt nach einer Autorisierung\n%s unter %s
-[Feature is not supported by protocol]
-Diese Funktion wird durch dieses Protokoll nicht unterstützt
 ;file \src\mir_app\src\chat_clist.cpp
 [&Join chat]
 Chat &betreten

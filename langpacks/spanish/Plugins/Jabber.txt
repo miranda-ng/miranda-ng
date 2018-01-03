@@ -327,5 +327,9 @@ Masculino
 Femenino
 [Contacts]
 Contactos
+[Angry]
+Me enoja
+[Sad]
+Me entristece
 [on the phone]
 en el teléfono

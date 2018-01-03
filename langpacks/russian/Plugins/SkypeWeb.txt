@@ -102,9 +102,9 @@ URI объект
 [Original message:\n%s\n]
 Исходное сообщение:\n%s\n
 [[b]Edited at %s:[/b]\n%s\n]
-\[b]Отредактировано в %s:[/b]\n%s\n
+\[b]Изменено в %s:[/b]\n%s\n
 [Edited at %s:\n%s\n]
-Отредактировано в %s:\n%s\n
+Изменено в %s:\n%s\n
 [Call]
 Звонок
 [Call missed]

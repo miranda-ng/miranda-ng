@@ -1,4 +1,4 @@
-[Install and update plugins and other Miranda NG components.]
+[Installs and updates plugins and other Miranda NG components.]
 [Update options]
 [Silent mode]
 [Backup database before update (requires Db_autobackups plugin)]

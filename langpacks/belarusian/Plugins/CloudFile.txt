@@ -12,7 +12,7 @@
 [General]
 Агульнае
 [Autosend download link to contact]
-
+Адправіць спасылку аўтаматычна
 [Paste download link into message input area]
 
 [Copy download link to clipboard]
@@ -20,7 +20,7 @@
 [Download link]
 
 [Do nothing]
-
+Нічога не рабіць
 [Try to rename]
 
 [Try to replace]
@@ -28,7 +28,7 @@
 [On conflict when upload]
 
 [Authorization]
-
+Аўтарызацыя
 [Cancel]
 Скасаваць
 [Enter authorization code:]
@@ -38,7 +38,7 @@
 [Go to this link]
 
 [Upload file(s)]
-
+Загрузіць файл(ы)
 [Dropbox]
 
 [Google Drive]
@@ -50,10 +50,10 @@
 [Upload to...]
 
 [Upload]
-
+Загрузіць
 [None]
 Няма
 [Services]
-
+Службы
 [Upload files to...]
 

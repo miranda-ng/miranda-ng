@@ -7,8 +7,6 @@
 %s (%s)
 [&Cancel]
 &Скасувати
-[Module:]
-Модуль:
 [Retrieving %s message...]
 Завантаження повідомлення "%s"...
 [Status messages]
@@ -969,6 +967,8 @@
 Вставити вкладене меню
 [Insert separator]
 Вставити роздільник
+[Module:]
+Модуль:
 [Service:]
 Служба:
 [Default]
@@ -1821,6 +1821,24 @@ UIN, E-mail тощо
 Додати %s
 [Please authorize my request and add me to your contact list.]
 Будь ласка, авторизуйте мене і внесіть до свого списку контактів.
+[<Unknown>]
+<невідомо>
+[%s requested authorization\n%u (%s) on %s]
+%s запитав(ла) авторизацію\n%u (%s) о %s
+[%s requested authorization\n%u on %s]
+%s запитав(ла) авторизацію\n%u о %s
+[%s requested authorization\n%s on %s]
+%s запитав(ла) авторизацію\n%s о %s
+[(Unknown)]
+(невідомий)
+[Feature is not supported by protocol]
+Не підтримується протоколом
+[%s added you to the contact list\n%u (%s) on %s]
+%s додав вас до свого списку контактів\n%u (%s) о %s
+[%s added you to the contact list\n%u on %s]
+%s додав вас до свого списку контактів\n%u о %s
+[%s added you to the contact list\n%s on %s]
+%s додав вас до свого списку контактів\n%s о %s
 [%s requests authorization]
 %s запитує авторизацію
 [%u requests authorization]
@@ -1831,24 +1849,6 @@ UIN, E-mail тощо
 %u додав вас до свого списку контактів
 [Added event]
 Подія "Вас додали"
-[<Unknown>]
-<невідомо>
-[%s added you to the contact list\n%u (%s) on %s]
-%s додав вас до свого списку контактів\n%u (%s) о %s
-[%s added you to the contact list\n%u on %s]
-%s додав вас до свого списку контактів\n%u о %s
-[%s added you to the contact list\n%s on %s]
-%s додав вас до свого списку контактів\n%s о %s
-[(Unknown)]
-(невідомий)
-[%s requested authorization\n%u (%s) on %s]
-%s запитав(ла) авторизацію\n%u (%s) о %s
-[%s requested authorization\n%u on %s]
-%s запитав(ла) авторизацію\n%u о %s
-[%s requested authorization\n%s on %s]
-%s запитав(ла) авторизацію\n%s о %s
-[Feature is not supported by protocol]
-Не підтримується протоколом
 [&Join chat]
 &Увійти до чату
 [&Open chat window]

@@ -73,7 +73,7 @@
 Тільки вибрана група
 [All contacts]
 Усі контакти
-[Export to txt]
+[Export to text file]
 Експорт в текст
 [File encoding*]
 Кодування файлу*

@@ -15,8 +15,6 @@
 Опис:
 [Copyright:]
 Права:
-[E-mail:]
-Пошта:
 [Homepage:]
 Сайт:
 [Account]

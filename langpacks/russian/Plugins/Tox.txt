@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -39,14 +39,22 @@
 Макс. попыток соединения:
 [Max reconnect retries:]
 Макс. попыток пересоединения:
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
-При введении в поле поиска адреса Tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи DNS сервиса обнаружения Tox.
+[Enable UDP hole-punching]
+Включить пробивание NAT
+[Enable local network peer discovery]
+Включить обнаружение локальных пиров
+[Remove password]
+Удалить пароль
+[Change password]
+Изменить пароль
+[Set password]
+Установить пароль
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
+При введении в поле поиска адреса Tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи toxme.io.
 [DNS name:]
 DNS имя:
 [Enter password]
 Введите пароль
-[Save password]
-Сохранить пароль
 [Cancel]
 Отмена
 [Tox profile is encrypted. Enter the password to continue.]
@@ -63,76 +71,34 @@ IPv6 адрес (необязательно)
 Порт
 [Public key]
 Открытый ключ
-[Multimedia]
-Мультимедиа
-[Audio input device]
-Устройство аудиовхода
-[Audio output device]
-Устройство аудиовыхода
-[Video input device]
-Устройство видеовхода
-[Invite contacts to chat room]
-Пригласить пользователей в комнату чата
-[&Invite]
-&Пригласить
-[&Cancel]
-О&тмена
-[Call]
-Позвонить
-[End]
-Завершить
-[Incoming call]
-Входящий звонок
-[Answer]
-Ответить
-[Reject]
-Отклонить
-[From:]
-От:
-[Date:]
-Дата:
-[&User menu]
-Меню &пользователя
-[User &details]
-&Информация
-[&History]
-&История
-[Outgoing call]
-Исходящий звонок
-[To:]
-Для:
-[Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
-Этот плагин поддерживает Tox API версии %i.%i.%i, который несовместим с %s
-[Unable to initialize Tox core]
-Невозможно инициализировать ядро Tox
+[Old password:]
+Старый пароль:
+[New password:]
+Новый пароль:
+[Confirm password:]
+Подтверждение пароля:
 [Profiles folder]
 Папка профилей
 [Tox URI scheme]
 Схема Tox URI
-[Action]
-Действие
+[Unable to initialize Tox core]
+Невозможно инициализировать ядро Tox
 [Protocol icon]
 Значок протокола
-[Audio call]
-Аудиовызов
-[Audio ring]
-Звонок
-[Audio start]
-Ответить
-[Audio end]
-Завершить
 [Protocols]
 Протоколы
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
+[Password]
+Пароль
+[Create password]
+Создать пароль
+[Action]
+Действие
 [You cannot send when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
-[Incoming call from %s]
-Входящий звонок от %s
-[Outgoing call to %s]
-Исходящий звонок к %s
 [%s connection]
 %s подключение
 [Tox profile]
@@ -175,6 +141,14 @@ IPv6 адрес (необязательно)
 Невозможно прочесть профиль
 [Unable to decrypt Tox profile]
 Невозможно расшифровать профиль
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+Удаление пароля оставит профиль незашифрованным.\r\nПродолжить?
+[New password is empty]
+Новый пароль не может быть пустым
+[New password is not equal to confirmation]
+Пароли не совпадают
+[Old password is not valid]
+Старый пароль не совпадает
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]

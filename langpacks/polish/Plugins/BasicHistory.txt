@@ -74,7 +74,7 @@ Tylko wychodzące wiadomości
 Tylko zaznaczona grupa
 [All contacts]
 Wszystkie kontakty
-[Export to txt]
+[Export to text file]
 Eksportuj do pliku tekstowego
 [File encoding*]
 Kodowanie pliku*

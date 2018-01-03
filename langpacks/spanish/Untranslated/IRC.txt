@@ -125,7 +125,6 @@
 [Admin]
 [Op]
 [Halfop]
-[Voice]
 [Downloading list (%u%%) - %u channels]
 [Downloading list - %u channels]
 [Done: %u channels]

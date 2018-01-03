@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -41,14 +41,22 @@
 
 [Max reconnect retries:]
 
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
+[Enable UDP hole-punching]
+
+[Enable local network peer discovery]
+
+[Remove password]
+
+[Change password]
+Змяніць пароль
+[Set password]
+Усталяваць пароль
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
 
 [DNS name:]
 
 [Enter password]
 Увядзіце пароль
-[Save password]
-Захаваць пароль
 [Cancel]
 Скасаваць
 [Tox profile is encrypted. Enter the password to continue.]
@@ -65,75 +73,33 @@
 Порт
 [Public key]
 Адкрыты ключ
-[Multimedia]
+[Old password:]
 
-[Audio input device]
-
-[Audio output device]
-
-[Video input device]
-
-[Invite contacts to chat room]
-
-[&Invite]
-Запрасіць
-[&Cancel]
-Скасаваць
-[Call]
-
-[End]
-канец
-[Incoming call]
-
-[Answer]
-
-[Reject]
-
-[From:]
-Ад:
-[Date:]
-Дата:
-[&User menu]
-Меню &кантакта
-[User &details]
-&Інфармацыя
-[&History]
-&Гісторыя
-[Outgoing call]
-
-[To:]
-Для:
-[Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
-
-[Unable to initialize Tox core]
-
+[New password:]
+Новы пароль:
+[Confirm password:]
+Пацвердзіць пароль:
 [Profiles folder]
 
 [Tox URI scheme]
 
-[Action]
-Дзеянне
+[Unable to initialize Tox core]
+
 [Protocol icon]
 Абразок пратаколу
-[Audio call]
-
-[Audio ring]
-
-[Audio start]
-
-[Audio end]
-
 [Protocols]
 Пратаколы
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
 Аўтарызаваць
+[Password]
+Пароль
+[Create password]
+
+[Action]
+Дзеянне
 [You cannot send when you are offline.]
-
-[Incoming call from %s]
-
-[Outgoing call to %s]
 
 [%s connection]
 Злучэнне %s
@@ -176,6 +142,14 @@
 [Unable to read Tox profile]
 
 [Unable to decrypt Tox profile]
+
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+
+[New password is empty]
+
+[New password is not equal to confirmation]
+
+[Old password is not valid]
 
 [You cannot add yourself to your contact list]
 

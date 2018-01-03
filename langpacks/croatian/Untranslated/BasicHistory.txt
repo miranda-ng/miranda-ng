@@ -32,7 +32,7 @@
 [Only outgoing messages]
 [Only selected group]
 [All contacts]
-[Export to txt]
+[Export to text file]
 [File encoding*]
 [Export to plain HTML]
 [Export to rich HTML]

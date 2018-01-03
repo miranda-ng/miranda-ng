@@ -32,7 +32,7 @@
 [WAV files]
 Файлы WAV
 [All contacts]
-
+Усе кантакты
 [(Unknown contact)]
 (Невядомы кантакт)
 [Sounds]

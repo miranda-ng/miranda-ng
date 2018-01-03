@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, gg, mirpu, wpmsg, xmpp, ymsgr.]
-Obsługuje skojarzenia rozszerzeń plików i linków protokołów AIM, Gadu-Gadu, Jabber, MSN, PluginUpdater, Yahoo.
+[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
+Obsługuje skojarzenia rozszerzeń plików i linków protokołów Gadu-Gadu, Jabber, MSN, PluginUpdater, Yahoo.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Zarejestrowane powiązania dla Mirandy NG
@@ -62,8 +62,6 @@ Brak dostępu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Ostrzeżenie rejestru
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM link protocol]
-Powiązanie protokołu AIM
 [ICQ link shortcut]
 Powiązanie protokołu ICQ
 [&Add to contact list...]

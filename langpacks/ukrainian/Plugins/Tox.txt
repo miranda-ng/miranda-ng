@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -35,14 +35,12 @@
 Увімкнути UDP (інакше примусово використовувати TCP)
 [Enable IPv6]
 Увімкнути IPv6
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
-Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
+Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою toxme.io.
 [DNS name:]
 Ім'я DNS:
 [Enter password]
 Введіть пароль
-[Save password]
-Зберегти пароль
 [Cancel]
 Скасувати
 [Tox profile is encrypted. Enter the password to continue.]
@@ -59,74 +57,24 @@ IPv6 адреса (необов'язково)
 Порт
 [Public key]
 Відкритий ключ
-[Multimedia]
-Мультимедіа
-[Audio input device]
-Пристрій аудіовходу
-[Audio output device]
-Пристрій аудіовиходу
-[Video input device]
-Пристрій відеовходу
-[Invite contacts to chat room]
-Запросити до чат-кімнати
-[&Invite]
-&Запросити
-[&Cancel]
-&Скасувати
-[Call]
-Дзвінок
-[End]
-Завершити
-[Incoming call]
-Вхідний дзвінок
-[Answer]
-Відповісти
-[Reject]
-Відхилити
-[From:]
-Від:
-[Date:]
-Дата:
-[&User menu]
-&Меню користувача
-[User &details]
-&Про користувача
-[&History]
-&Історія
-[Outgoing call]
-Вихідний дзвінок
-[To:]
-Для:
-[Unable to initialize Tox core]
-Неможливо ініціалізувати ядро Tox
 [Profiles folder]
 Папка профілів
 [Tox URI scheme]
 Схема Tox URI
-[Action]
-Дія
+[Unable to initialize Tox core]
+Неможливо ініціалізувати ядро Tox
 [Protocol icon]
 Значок протоколу
-[Audio call]
-Аудіовиклик
-[Audio ring]
-Дзвінок
-[Audio start]
-Відповісти
-[Audio end]
-Завершити
 [Protocols]
 Протоколи
 [Request authorization]
 Запитати авторизацію
 [Grant authorization]
 Авторизувати
+[Action]
+Дія
 [You cannot send when you are offline.]
 Для надсилання повідомлень необхідно підключитися до мережі.
-[Incoming call from %s]
-Вхідний дзвінок від %s
-[Outgoing call to %s]
-Вихідний дзвінок до %s
 [%s connection]
 З'єднання %s
 [Tox profile]

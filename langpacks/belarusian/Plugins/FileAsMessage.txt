@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.0.2.4
+;  Version: 0.1.0.1
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -40,7 +40,7 @@
 [Receive file]
 
 [Send file]
-
+Перадаць файл
 [File already exists. Overwrite?]
 Файл ужо існуе. Перазапісаць?
 [Couldn't open a file]

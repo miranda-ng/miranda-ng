@@ -22,7 +22,7 @@
 [Nick:]
 Ник:
 [edited at]
-отредактировано в
+изменено в
 [Change &nickname]
 Изменить &ник
 [Channel control]

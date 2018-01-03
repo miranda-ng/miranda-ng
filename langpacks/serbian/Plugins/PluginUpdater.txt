@@ -5,7 +5,7 @@
 ;  Version: 0.1.2.5
 ;  Authors: Mataes, George Hazan
 ;============================================================
-[Install and update plugins and other Miranda NG components.]
+[Installs and updates plugins and other Miranda NG components.]
 
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]

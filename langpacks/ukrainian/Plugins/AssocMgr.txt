@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, gg, mirpu, wpmsg, xmpp, ymsgr.]
-Асоціація розширень файлів і URL-посилань з протоколами: AIM, Gadu-Gadu, Jabber, MSN, PluginUpdater, Yahoo.
+[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
+Асоціація розширень файлів і URL-посилань з протоколами: Gadu-Gadu, Jabber, MSN, PluginUpdater, Yahoo.
 [Registered associations for Miranda NG:]
 Зареєстровані асоціації для Miranda NG:
 [Miscellaneous]
@@ -57,8 +57,6 @@ Miranda NG не може відкрити "%S".\n\nЦей URL є недійсн�
 Доступ заборонений:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Попередження
-[AIM link protocol]
-Протокол AIM
 [ICQ link shortcut]
 Протокол ICQ
 [&Add to contact list...]

@@ -16,8 +16,6 @@ Version:
 Beschreibung:
 [Copyright:]
 Copyright:
-[E-mail:]
-E-Mail:
 [Homepage:]
 Homepage:
 [Account]

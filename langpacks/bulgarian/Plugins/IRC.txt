@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.7.1
+;  Version: 0.95.7.2
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -257,6 +257,10 @@ CTCP PING отговор от %s: %u сек
 CTCP %s отговор от %s: %s
 [Owner]
 Собственик
+[Admin]
+Администратор
+[Voice]
+Глас
 [Downloading list (%u%%) - %u channels]
 Сваляне на списъка с канали (%u%%) - %u канала
 [Downloading list - %u channels]

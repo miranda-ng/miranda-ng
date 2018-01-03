@@ -23,7 +23,7 @@
 [Enter password]
 [Save password]
 [Enter the password to continue.]
-[Sms code]
+[Security code]
 [As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
 ;file \protocols\Steam\src\main.cpp
 [Steam game]

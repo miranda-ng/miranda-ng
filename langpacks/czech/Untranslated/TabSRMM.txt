@@ -1,5 +1,3 @@
-[Dummy]
-[dummy]
 [Most recent unread session]
 [Contact's messaging preferences]
 [Data path]

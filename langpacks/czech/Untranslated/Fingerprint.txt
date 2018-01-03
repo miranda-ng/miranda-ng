@@ -8,7 +8,6 @@
 [Protocols overlays]
 [Unicode overlay]
 [Secure overlays]
-[AIM overlay]
 [ICQJ Plus Mod overlay]
 [ICQJ overlay]
 [IRC overlay]

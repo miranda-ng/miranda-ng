@@ -9,6 +9,10 @@
 Сървър:
 [Server]
 Сървър
+[Admin]
+Администратор
+[Normal]
+Нормално
 [Protocol icon]
 Икона на протокола
 [%s server connection]

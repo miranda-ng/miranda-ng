@@ -16,8 +16,6 @@
 
 [Copyright:]
 
-[E-mail:]
-
 [Homepage:]
 
 [Account]

@@ -5,7 +5,7 @@
 ;  Version: 0.2.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, gg, mirpu, wpmsg, xmpp, ymsgr.]
+[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
 
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
@@ -62,8 +62,6 @@
 [Registry warning]
 
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM link protocol]
-
 [ICQ link shortcut]
 
 [&Add to contact list...]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.5.0.7
+;  Version: 3.5.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -691,38 +691,10 @@ BBCode ([b][i][u])
 Выключить звуки
 [Be "super quiet"]
 Быть "очень тихим"
-[Font]
-Шрифт
-[Default color]
-Цвет по умолчанию
-[Red]
-Красный
-[Green]
-Зелёный
-[Blue]
-Синий
-[Magenta]
-Пурпурный
-[Yellow]
-Жёлтый
-[Cyan]
-Голубой
-[Black]
-Чёрный
-[White]
-Белый
-[Clear all formatting]
-Очистить форматирование
-[Dummy]
-Пусто
-[No message sessions opened]
-Нет открытых окон с беседами
 [Add contact to favorites]
 Добавить контакт к избранным
 [Remove contact from favorites]
 Удалить контакт из избранных
-[dummy]
-Пусто
 [Set position for this session]
 Установить положение для этой сессии
 [Set and save for all sessions]

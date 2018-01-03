@@ -5,8 +5,8 @@
 ;  Version: 0.2.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
-[Handles file type associations and URLs like aim, gg, mirpu, wpmsg, xmpp, ymsgr.]
-Spravuje asociace souborů a URL jako jsou aim, gg, mirpu, wpmsg, xmpp, ymsgr.
+[Handles file type associations and URLs like gg, mirpu, wpmsg, xmpp, ymsgr.]
+Spravuje asociace souborů a URL jako jsou gg, mirpu, wpmsg, xmpp, ymsgr.
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 Asociace registrované pro Mirandu NG:
@@ -62,8 +62,6 @@ Selhání přístupu:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)
 [Registry warning]
 Varování registrů
 ;file \plugins\AssocMgr\src\test.cpp
-[AIM link protocol]
-Odkaz protokolu AIM
 [ICQ link shortcut]
 Odkaz protokolu ICQ
 [&Add to contact list...]

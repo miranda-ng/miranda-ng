@@ -15,8 +15,6 @@
 Апісанне:
 [Copyright:]
 Правы:
-[E-mail:]
-Пошта:
 [Homepage:]
 Сайт:
 [Account]

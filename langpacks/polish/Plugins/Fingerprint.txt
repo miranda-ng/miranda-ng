@@ -28,8 +28,6 @@ Nakładka Unicode
 Nakładki bezpieczeństwa
 [Select protocols]
 Zaznacz protokoły
-[AIM clients]
-Klienty AIM
 [Gadu-Gadu clients]
 Klienty Gadu-Gadu
 [ICQ clients]
@@ -117,8 +115,6 @@ Klient nie znaleziony
 Nieznany klient
 [Undetected client]
 Nie wykryty klient
-[AIM overlay]
-Nakładka AIM
 [ICQJ Plus Mod overlay]
 Nakładka ICQJ Plus Mod
 [ICQJ overlay]

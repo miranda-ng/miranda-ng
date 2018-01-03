@@ -59,7 +59,7 @@
 Само ибраните групи
 [All contacts]
 Всички контакти
-[Export to txt]
+[Export to text file]
 Износ в текстови файл
 [File encoding*]
 Кодиране на файла*

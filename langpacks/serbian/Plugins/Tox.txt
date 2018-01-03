@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -42,13 +42,21 @@ Ime:
 
 [Max reconnect retries:]
 
-[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via Tox DNS discovery.]
+[Enable UDP hole-punching]
+
+[Enable local network peer discovery]
+
+[Remove password]
+
+[Change password]
+
+[Set password]
+
+[If this field contains Tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via toxme.io.]
 
 [DNS name:]
 
 [Enter password]
-
-[Save password]
 
 [Cancel]
 Otkazivanje
@@ -66,67 +74,22 @@ Dodaj
 
 [Public key]
 
-[Multimedia]
+[Old password:]
 
-[Audio input device]
+[New password:]
 
-[Audio output device]
+[Confirm password:]
 
-[Video input device]
-
-[Invite contacts to chat room]
-
-[&Invite]
-
-[&Cancel]
-&Otkazivanje
-[Call]
-
-[End]
-
-[Incoming call]
-
-[Answer]
-
-[Reject]
-
-[From:]
-Od koga:
-[Date:]
-Datum:
-[&User menu]
-Korisnički &meni
-[User &details]
-&Detalji korisnika
-[&History]
-&Istorija
-[Outgoing call]
-
-[To:]
-Kome:
 ;file \protocols\Tox\src\main.cpp
-[Current version of plugin is support Tox API version %i.%i.%i which is incompatible with %s]
-
-;file \protocols\Tox\src\tox_connection.cpp
-[Unable to initialize Tox core]
-
-;file \protocols\Tox\src\tox_events.cpp
 [Profiles folder]
 
 [Tox URI scheme]
 
-[Action]
+;file \protocols\Tox\src\tox_connection.cpp
+[Unable to initialize Tox core]
 
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
-
-[Audio call]
-
-[Audio ring]
-
-[Audio start]
-
-[Audio end]
 
 [Protocols]
 
@@ -135,13 +98,14 @@ Kome:
 Zatraži autorizaciju
 [Grant authorization]
 Autorizuj
+[Password]
+
+[Create password]
+
 ;file \protocols\Tox\src\tox_messages.cpp
+[Action]
+
 [You cannot send when you are offline.]
-
-;file \protocols\Tox\src\tox_multimedia.cpp
-[Incoming call from %s]
-
-[Outgoing call to %s]
 
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
@@ -187,6 +151,14 @@ Mreža
 [Unable to read Tox profile]
 
 [Unable to decrypt Tox profile]
+
+[Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
+
+[New password is empty]
+
+[New password is not equal to confirmation]
+
+[Old password is not valid]
 
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]

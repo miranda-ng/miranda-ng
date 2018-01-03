@@ -1602,7 +1602,7 @@ Zatvori
 ** Svi kontakti **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Angry]
-
+Љут
 [Taking a bath]
 
 [Tired]
@@ -1660,7 +1660,7 @@ Kucanje
 [Watching pro7 on TV]
 
 [Love]
-
+Воли
 [Hot Dog]
 
 [Rough]

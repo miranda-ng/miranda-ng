@@ -14,9 +14,9 @@
 [Server]
 Сервер
 [Admin]
-
+Адмін
 [Normal]
-
+Звычайны
 [You]
 Вы
 [Message was not sent. Probably you are sending them too fast or chat is disabled completely.]

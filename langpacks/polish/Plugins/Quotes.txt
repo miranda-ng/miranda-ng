@@ -206,7 +206,7 @@ Miranda nie mogła załadować wtyczki Quotes. Brak parsera XML.
 Miranda nie mogła załadować wtyczki Quotes. Brak parsera Microsoft HTML.
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-[Error occurred during html parsing.]
+[Error occurred during HTML parsing.]
 Wystąpił błąd podczas przetwarzania HTML.
 [Error occurred during site access.]
 Wystąpił błąd podczas uzyskiwania dostępu do strony.

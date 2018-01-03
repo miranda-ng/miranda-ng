@@ -543,10 +543,14 @@ ID de usuario
 Cerrar
 [** All contacts **]
 ** Todos los contactos **
+[Angry]
+Me enoja
 [On the phone]
 En el teléfono
 [Typing]
 Escribiendo
+[Love]
+Me encanta
 [Free for chat]
 Libre para el chat
 [None]

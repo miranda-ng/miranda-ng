@@ -28,8 +28,6 @@
 
 [Select protocols]
 Vybrat protokoly
-[AIM clients]
-Klienti AIM
 [Gadu-Gadu clients]
 Klienti Gadu-Gadu
 [ICQ clients]
@@ -117,8 +115,6 @@ Klient nenalezen
 Neznámý klient
 [Undetected client]
 Nezjištěný klient
-[AIM overlay]
-
 [ICQJ Plus Mod overlay]
 
 [ICQJ overlay]

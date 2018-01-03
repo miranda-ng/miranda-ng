@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.0.2.4
+;  Version: 0.1.0.1
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -102,6 +102,6 @@ Allgemein
 Ereignisse
 [File As Message...]
 Datei als Nachricht...
-;file \plugins\FileAsMessage\src\main.h
+;file \plugins\FileAsMessage\src\stdafx.h
 [File As Message]
 Datei als Nachricht

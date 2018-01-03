@@ -1773,6 +1773,24 @@ Popups за изобразяване
 Добавяне на %s
 [Please authorize my request and add me to your contact list.]
 Моля, приемете моята молба за упълномощаване и ме добавете в списъка си с контакти.
+[<Unknown>]
+<Неизвестно>
+[%s requested authorization\n%u (%s) on %s]
+%s изпрати молба за упълномощаване\n%u (%s) (Акаунт: %s)
+[%s requested authorization\n%u on %s]
+%s изпрати молба за упълномощаване\n%u (Акаунт: %s)
+[%s requested authorization\n%s on %s]
+%s изпрати молба за упълномощаване\n%s (Акаунт: %s)
+[(Unknown)]
+(Неизвестен)
+[Feature is not supported by protocol]
+Не се поддържа от протокола
+[%s added you to the contact list\n%u (%s) on %s]
+%s ви добави в списъка си с контакти\n%u (%s) (Акаунт: %s)
+[%s added you to the contact list\n%u on %s]
+%s ви добави в списъка си с контакти\n%u (Акаунт: %s)
+[%s added you to the contact list\n%s on %s]
+%s ви добави в списъка си с контакти\n%s (Акаунт: %s)
 [%s requests authorization]
 %s желае да бъде упълномощен
 [%u requests authorization]
@@ -1783,24 +1801,6 @@ Popups за изобразяване
 %u ви добави в списъка си с контакти
 [Added event]
 Добавяне на събитие
-[<Unknown>]
-<Неизвестно>
-[%s added you to the contact list\n%u (%s) on %s]
-%s ви добави в списъка си с контакти\n%u (%s) (Акаунт: %s)
-[%s added you to the contact list\n%u on %s]
-%s ви добави в списъка си с контакти\n%u (Акаунт: %s)
-[%s added you to the contact list\n%s on %s]
-%s ви добави в списъка си с контакти\n%s (Акаунт: %s)
-[(Unknown)]
-(Неизвестен)
-[%s requested authorization\n%u (%s) on %s]
-%s изпрати молба за упълномощаване\n%u (%s) (Акаунт: %s)
-[%s requested authorization\n%u on %s]
-%s изпрати молба за упълномощаване\n%u (Акаунт: %s)
-[%s requested authorization\n%s on %s]
-%s изпрати молба за упълномощаване\n%s (Акаунт: %s)
-[Feature is not supported by protocol]
-Не се поддържа от протокола
 [&Join chat]
 Влизане
 [&Open chat window]
@@ -2009,6 +2009,8 @@ Popups за изобразяване
 Тази команда не е известна като сигурна.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Невалиден тип настройка за "%s". Първият знак на всяка стойност трябва да бъде b, w, d, l, s, e, u, g, h или n.
+[Homepage]
+Домашна страница
 [Chat activity]
 Чат активност
 [You haven't filled in the search field. Please enter a search term and try again.]

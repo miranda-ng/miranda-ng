@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.1.26
+;  Version: 0.11.3.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Name:]
@@ -11,8 +11,8 @@ Nombre:
 Contraseña:
 [Default group:]
 Grupo predeterminado:
-[Save password]
-Guardar contraseña
+[Change password]
+Cambiar contraseña
 [Cancel]
 Cancelar
 [Add]
@@ -21,26 +21,14 @@ Añadir
 Actualizar
 [Port]
 Puerto
-[&Cancel]
-&Cancelar
-[From:]
-De:
-[Date:]
-Fecha:
-[&User menu]
-&Menú de usuario
-[User &details]
-&Detalles del usuario
-[&History]
-&Historial
-[To:]
-A:
 [Protocols]
 Protocolos
 [Request authorization]
 Solicitar autorización
 [Grant authorization]
 Conceder autorización
+[Password]
+Contraseña
 [All files]
 Todos los archivos
 [Error]

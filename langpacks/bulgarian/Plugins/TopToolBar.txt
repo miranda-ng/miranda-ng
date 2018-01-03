@@ -73,6 +73,10 @@ ToptoolBar - добавя бутони в лента за бърз достъп 
 Минимизиране на списъка с контакти
 [Exit]
 Изход
+[Execute]
+Изпълнение
+[Separator]
+Разделител
 [Default]
 Стандарт
 [TopToolBar background]

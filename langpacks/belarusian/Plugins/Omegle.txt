@@ -54,9 +54,9 @@
 [You can't send messages in question mode.]
 Вы не можаце адпраўляць паведамленні ў рэжыме запроса.
 [Admin]
-
+Адмін
 [Normal]
-
+Звычайны
 [Omegle is a great way of meeting new friends!]
 Omegle гэта новы спосаб сяброўства!
 [You]

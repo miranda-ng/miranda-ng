@@ -768,7 +768,7 @@ Tekst
 [None]
 Nema
 [Angry]
-
+Љут
 [Taking a bath]
 
 [Tired]
@@ -828,7 +828,7 @@ Kucanje
 [Watching pro7 on TV]
 
 [Love]
-
+Воли
 [Sets owner current custom status]
 
 [Display xStatus detail]
