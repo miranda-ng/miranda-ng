@@ -32,15 +32,15 @@ public:
 		HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/presence/reconnect.php")
 	{
 		Url
-			<< "__a=1"
-			<< "__pc=PHASED:DEFAULT"
-			<< "__be=-1"
-			<< CHAR_VALUE("reason", fc->chat_reconnect_reason_.empty() ? "6" : fc->chat_reconnect_reason_.c_str())
-			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("__rev", fc->__rev());
+			<< INT_PARAM("__a", 1)
+			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+			<< INT_PARAM("__be", -1)
+			<< CHAR_PARAM("reason", fc->chat_reconnect_reason_.empty() ? "6" : fc->chat_reconnect_reason_.c_str())
+			<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("__rev", fc->__rev());
 	}
 };
 
@@ -52,22 +52,20 @@ public:
 	SetVisibilityRequest(facebook_client *fc, bool online) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/chat/privacy/visibility.php")
 	{
-		Url
-			<< "dpr=1";
+		Url << INT_PARAM("dpr", 1);
 
 		Body
-			<< (online ? "visibility=1" : "visibility=0")
-			<< "window_id=0"
-			<< "__a=1"
-			<< "__pc=PHASED:DEFAULT"
-			<< "__be=-1"			
-			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
-			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("__rev", fc->__rev());
-		;
+			<< INT_PARAM("visibility", online ? 1 : 0)
+			<< INT_PARAM("window_id", 0)
+			<< INT_PARAM("__a", 1)
+			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+			<< INT_PARAM("__be", -1)			
+			<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
+			<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("__rev", fc->__rev());
 	}
 };
 

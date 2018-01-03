@@ -114,7 +114,6 @@ public:
 	std::map<std::string, MCONTACT> chat_id_to_hcontact;
 	std::map<std::string, MCONTACT> user_id_to_hcontact;
 
-	std::string get_newsfeed_type();
 	std::string get_server_type();
 	std::string get_privacy_type();
 

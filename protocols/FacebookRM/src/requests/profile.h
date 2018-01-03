@@ -32,8 +32,7 @@ public:
 	{
 		flags |= NLHRF_REDIRECT;
 
-		Url
-			<< "v=info";
+		Url << CHAR_PARAM("v", "info");
 	}
 };
 
@@ -57,8 +56,7 @@ public:
 	{
 		flags |= NLHRF_REDIRECT;
 
-		Url
-			<< CHAR_VALUE("profile_id", userId);
+		Url << CHAR_PARAM("profile_id", userId);
 	}
 };
 
@@ -69,8 +67,7 @@ public:
 	ProfileRequest(bool mobileBasicWorks, const char *data) :
 		HttpRequest(REQUEST_GET, FORMAT, "%s/%s", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE, data)
 	{
-		Url
-			<< "v=info";
+		Url << CHAR_PARAM("v", "info");
 	}
 };
 
@@ -82,9 +79,9 @@ public:
 		HttpRequest(REQUEST_GET, FORMAT, "%s/profile.php", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
 	{
 		Url
-			<< CHAR_VALUE("id", userId)
-			<< "v=info"
-			<< "locale=en_US";
+			<< CHAR_PARAM("id", userId)
+			<< CHAR_PARAM("v", "info")
+			<< CHAR_PARAM("locale", "en_US");
 	}
 };
 

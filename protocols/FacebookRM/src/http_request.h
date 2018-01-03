@@ -18,49 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
-struct VALUE
-{
-	LPCSTR szName;
-	__forceinline VALUE(LPCSTR _name) : szName(_name) {}
-};
-
-struct INT_VALUE : public VALUE
-{
-	int iValue;
-	__forceinline INT_VALUE(LPCSTR _name, int _value)
-		: VALUE(_name), iValue(_value)
-	{}
-};
-
-struct LONG_VALUE : public VALUE
-{
-	LONGLONG llValue;
-	__forceinline LONG_VALUE(LPCSTR _name, LONGLONG _value)
-		: VALUE(_name), llValue(_value)
-	{}
-};
-
-struct CHAR_VALUE : public VALUE
-{
-	LPCSTR szValue;
-	__forceinline CHAR_VALUE(LPCSTR _name, LPCSTR _value)
-		: VALUE(_name), szValue(_value)
-	{}
-};
-
-struct FORMAT_VALUE : public VALUE
-{
-	CMStringA szValue;
-	FORMAT_VALUE(LPCSTR _name, LPCSTR _valueFormat, ...)
-		: VALUE(_name)
-	{
-		va_list args;
-		va_start(args, _valueFormat);
-		szValue.FormatV(_valueFormat, args);
-		va_end(args);
-	}
-};
-
 class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
 	HttpRequest& operator=(const HttpRequest&); // to prevent copying;
@@ -93,31 +50,38 @@ protected:
 		HttpRequestUrl& operator=(const HttpRequestUrl&); // to prevent copying;
 
 	public:
-		HttpRequestUrl & operator<<(const VALUE &param)
+		HttpRequestUrl& operator<<(const char *param)
 		{
-			request.AddUrlParameter(param.szName);
+			if (param)
+				request.AddUrlParameter("%s", param);
 			return *this;
 		}
 
-		HttpRequestUrl &operator<<(const INT_VALUE &param)
+		HttpRequestUrl& operator<<(const BOOL_PARAM &param)
+		{
+			request.AddUrlParameter("%s=%s", param.szName, param.bValue ? "true" : "false");
+			return *this;
+		}
+
+		HttpRequestUrl& operator<<(const INT_PARAM &param)
 		{
 			request.AddUrlParameter("%s=%i", param.szName, param.iValue);
 			return *this;
 		}
 
-		HttpRequestUrl &operator<<(const LONG_VALUE &param)
+		HttpRequestUrl& operator<<(const INT64_PARAM &param)
 		{
-			request.AddUrlParameter("%s=%lld", param.szName, param.llValue);
+			request.AddUrlParameter("%s=%lld", param.szName, param.iValue);
 			return *this;
 		}
 
-		HttpRequestUrl &operator<<(const CHAR_VALUE &param)
+		HttpRequestUrl& operator<<(const CHAR_PARAM &param)
 		{
 			request.AddUrlParameter("%s=%s", param.szName, param.szValue);
 			return *this;
 		}
 
-		char *ToString()
+		char* ToString()
 		{
 			return request.url.GetBuffer();
 		}
@@ -146,19 +110,7 @@ protected:
 	public:
 		HttpRequestHeaders(HttpRequest &request) : request(request) {}
 
-		HttpRequestHeaders& operator<<(const VALUE &param)
-		{
-			Add(param.szName);
-			return *this;
-		}
-
-		HttpRequestHeaders& operator<<(const CHAR_VALUE &param)
-		{
-			Add(param.szName, param.szValue);
-			return *this;
-		}
-
-		HttpRequestHeaders& operator<<(const FORMAT_VALUE &param)
+		HttpRequestHeaders& operator<<(const CHAR_PARAM &param)
 		{
 			Add(param.szName, param.szValue);
 			return *this;
@@ -172,46 +124,46 @@ protected:
 
 		void AppendSeparator()
 		{
-			if (!content.IsEmpty()) {
+			if (!content.IsEmpty())
 				content.AppendChar('&');
-			}
 		}
 
 	public:
 		HttpRequestBody() {}
 
-		HttpRequestBody & operator<<(const VALUE &param)
+		HttpRequestBody& operator<<(const char *str)
 		{
 			AppendSeparator();
-			content.Append(param.szName);
+			if (str != nullptr)
+				content.Append(str);
 			return *this;
 		}
 
-		HttpRequestBody & operator<<(const INT_VALUE &param)
+		HttpRequestBody& operator<<(const BOOL_PARAM &param)
+		{
+			AppendSeparator();
+			content.AppendFormat("%s=%s", param.szName, param.bValue ? "true" : "false");
+			return *this;
+		}
+
+		HttpRequestBody& operator<<(const INT_PARAM &param)
 		{
 			AppendSeparator();
 			content.AppendFormat("%s=%i", param.szName, param.iValue);
 			return *this;
 		}
 
-		HttpRequestBody & operator<<(const LONG_VALUE &param)
+		HttpRequestBody& operator<<(const INT64_PARAM &param)
 		{
 			AppendSeparator();
-			content.AppendFormat("%s=%lld", param.szName, param.llValue);
+			content.AppendFormat("%s=%lld", param.szName, param.iValue);
 			return *this;
 		}
 
-		HttpRequestBody & operator<<(const CHAR_VALUE &param)
+		HttpRequestBody& operator<<(const CHAR_PARAM &param)
 		{
 			AppendSeparator();
 			content.AppendFormat("%s=%s", param.szName, param.szValue);
-			return *this;
-		}
-
-		HttpRequestBody & operator<<(const FORMAT_VALUE &param)
-		{
-			AppendSeparator();
-			content.AppendFormat("%s=%s", param.szName, param.szValue.c_str());
 			return *this;
 		}
 

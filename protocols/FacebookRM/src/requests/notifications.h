@@ -31,22 +31,21 @@ public:
 	GetNotificationsRequest(facebook_client *fc, int count) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/notifications/client/get.php")
 	{
-		Url
-			<< "dpr=1";
+		Url << INT_PARAM("dpr", 1);
 
 		Body
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
-			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
-			<< "cursor=" // when loading more
-			<< INT_VALUE("length", count) // number of items to load
-			<< "businessID=" // probably for pages?
-			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("__rev", fc->__rev())
-			<< "__pc=PHASED:DEFAULT"
-			<< "__be=-1"
-			<< "__a=1";
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
+			// << "cursor=" // when loading more
+			<< INT_PARAM("length", count) // number of items to load
+			// << "businessID=" // probably for pages?
+			<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("__rev", fc->__rev())
+			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+			<< INT_PARAM("__be", -1)
+			<< INT_PARAM("__a", 1);
 	}
 };
 
@@ -59,16 +58,15 @@ public:
 		HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/notifications/mark_read.php")
 	{
 		Url
-			<< "__a=1"
-			<< "seen=0"
-			<< "asyncSignal="
-			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
-			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("__rev", fc->__rev())
-			<< CHAR_VALUE("alert_ids%5B0%5D", ptrA(mir_urlEncode(id)));
+			<< INT_PARAM("__a", 1)
+			<< INT_PARAM("seen", 0)
+			<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("__rev", fc->__rev())
+			<< CHAR_PARAM("alert_ids%5B0%5D", ptrA(mir_urlEncode(id)));
 	}
 };
 

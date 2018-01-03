@@ -30,10 +30,15 @@ public:
 	NewsfeedRequest(facebook_client *fc) :
 		HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/home/generic.php")
 	{
+		BYTE feed_type = fc->parent->getByte(FACEBOOK_KEY_FEED_TYPE, 0);
+		if (feed_type >= _countof(feed_types))
+			feed_type = 0;
+
 		Url
-			<< fc->get_newsfeed_type().c_str()
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
-			<< "__a=1";
+			<< CHAR_PARAM("sk", feed_types[feed_type].id)
+			<< CHAR_PARAM("key", (feed_type < 2) ? "nf" : feed_types[feed_type].id)
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< INT_PARAM("__a", 1);
 	}
 };
 
@@ -45,19 +50,18 @@ public:
 		HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/onthisday/story/query/")
 	{
 		Url
-			<< "__a=1"
-			<< "start_index=0"
-			<< "num_stories=20"
-			<< "last_section_header=0"
-			<< "last_section_key=regular_story"
-			<< "__af="
-			<< "__be=-1"
-			<< "__pc=PHASED:DEFAULT"
-			<< LONG_VALUE("timestamp", ::time(NULL))
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("__rev", fc->__rev())
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str());
+			<< INT_PARAM("__a", 1)
+			<< INT_PARAM("start_index", 0)
+			<< INT_PARAM("num_stories", 20)
+			<< INT_PARAM("last_section_header", 0)
+			<< CHAR_PARAM("last_section_key", "regular_story")
+			<< INT_PARAM("__be", -1)
+			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+			<< INT64_PARAM("timestamp", ::time(NULL))
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("__rev", fc->__rev())
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str());
 	}
 };
 

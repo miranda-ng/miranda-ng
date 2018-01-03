@@ -43,16 +43,16 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 
 	// Check and append user defined locale if request doesn't have it forced already
 	if (!parent->m_locale.empty() && strstr(request->szUrl, "&locale=") == nullptr)
-		request->Url << CHAR_VALUE("locale", parent->m_locale.c_str());
+		request->Url << CHAR_PARAM("locale", parent->m_locale.c_str());
 
 	request->Headers
-		<< CHAR_VALUE("Accept-Language", "en,en-US;q=0.9")
-		<< CHAR_VALUE("Accept", "*/*")
-		<< CHAR_VALUE("User-Agent", g_strUserAgent.c_str())
-		<< CHAR_VALUE("Cookie", ptrA(load_cookies())); // FIXME: Rework load_cookies to not do strdup
+		<< CHAR_PARAM("Accept-Language", "en,en-US;q=0.9")
+		<< CHAR_PARAM("Accept", "*/*")
+		<< CHAR_PARAM("User-Agent", g_strUserAgent.c_str())
+		<< CHAR_PARAM("Cookie", ptrA(load_cookies())); // FIXME: Rework load_cookies to not do strdup
 
 	if (request->requestType == REQUEST_POST)
-		request->Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		request->Headers << CHAR_PARAM("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
 	// Set persistent connection (or not)
 	switch (request->Persistent) {
@@ -195,19 +195,6 @@ bool facebook_client::handle_error(const std::string &method, int action)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-std::string facebook_client::get_newsfeed_type()
-{
-	BYTE feed_type = parent->getByte(FACEBOOK_KEY_FEED_TYPE, 0);
-	if (feed_type >= _countof(feed_types))
-		feed_type = 0;
-
-	std::string ret = "sk=";
-	ret += feed_types[feed_type].id;
-	ret += "&key=";
-	ret += (feed_type < 2 ? "nf" : feed_types[feed_type].id);
-	return ret;
-}
 
 std::string facebook_client::get_server_type()
 {
@@ -491,7 +478,7 @@ bool facebook_client::login(const char *username, const char *password)
 					const char *givenCode = guardDialog.GetCode();
 
 					request = new SetupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
-					request->Body << CHAR_VALUE("approvals_code", givenCode);
+					request->Body << CHAR_PARAM("approvals_code", givenCode);
 					resp = sendRequest(request);
 
 					if (resp.data.find("id=\"approvals_code\"") != std::string::npos) {

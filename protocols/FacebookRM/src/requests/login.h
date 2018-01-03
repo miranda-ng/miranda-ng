@@ -30,8 +30,7 @@ public:
 	LoginRequest() :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php")
 	{
-		Url
-			<< "login_attempt=1";
+		Url << INT_PARAM("login_attempt", 1);
 	}
 
 	LoginRequest(const char *username, const char *password, const char *urlData, const char *bodyData) :
@@ -40,14 +39,14 @@ public:
 		Persistent = NONE;
 
 		Url
-			<< "login_attempt=1"
+			<< INT_PARAM("login_attempt", 1)
 			<< urlData; // additional data parsed from form
 		
 		Body
-			<< "persistent=1"
-			<< CHAR_VALUE("email", ptrA(mir_urlEncode(username)))
-			<< CHAR_VALUE("pass", ptrA(mir_urlEncode(password)))
-			<< CHAR_VALUE("lgndim", "eyJ3IjoxOTIwLCJoIjoxMDgwLCJhdyI6MTgzNCwiYWgiOjEwODAsImMiOjMyfQ==") // means base64 encoded: {"w":1920,"h":1080,"aw":1834,"ah":1080,"c":32}
+			<< INT_PARAM("persistent", 1)
+			<< CHAR_PARAM("email", ptrA(mir_urlEncode(username)))
+			<< CHAR_PARAM("pass", ptrA(mir_urlEncode(password)))
+			<< CHAR_PARAM("lgndim", "eyJ3IjoxOTIwLCJoIjoxMDgwLCJhdyI6MTgzNCwiYWgiOjEwODAsImMiOjMyfQ==") // means base64 encoded: {"w":1920,"h":1080,"aw":1834,"ah":1080,"c":32}
 			<< bodyData; // additional data parsed from form
 	}
 };
@@ -59,21 +58,20 @@ public:
 	LoginSmsRequest(facebook_client *fc, const char *dtsg) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/login/approvals/send_sms")
 	{
-		Url
-			<< "dpr=1";
+		Url << INT_PARAM("dpr", 1);
 
 		Body
-			<< "method_requested=sms_requested"
-			<< "__a=1"
-			<< "__user=0"
-			<< "__be=0"
-			<< "__pc=EXP1:DEFAULT"
-			<< CHAR_VALUE("current_time", (utils::time::unix_timestamp() + ".000").c_str())
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("fb_dtsg", dtsg)
-			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
-			<< CHAR_VALUE("__rev", fc->__rev());
+			<< CHAR_PARAM("method_requested", "sms_requested")
+			<< INT_PARAM("__a", 1)
+			<< INT_PARAM("__user", 0)
+			<< INT_PARAM("__be", 0)
+			<< CHAR_PARAM("__pc", "EXP1:DEFAULT")
+			<< CHAR_PARAM("current_time", (utils::time::unix_timestamp() + ".000").c_str())
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("fb_dtsg", dtsg)
+			<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+			<< CHAR_PARAM("__rev", fc->__rev());
 	}
 };
 
@@ -84,20 +82,18 @@ public:
 	SetupMachineRequest() :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/")
 	{
-		Url
-			<< "next";
+		Url << "next";
 	}
 
 	SetupMachineRequest(const char *dtsg, const char *nh, const char *submit) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/")
 	{
-		Url
-			<< "next";
+		Url << "next";
 
 		Body
-			<< CMStringA(::FORMAT, "submit[%s]=%s", submit, submit).c_str()
-			<< CHAR_VALUE("nh", nh)
-			<< CHAR_VALUE("fb_dtsg", dtsg);
+			<< CHAR_PARAM(CMStringA(::FORMAT, "submit[%s]", submit), submit)
+			<< CHAR_PARAM("nh", nh)
+			<< CHAR_PARAM("fb_dtsg", dtsg);
 	}
 };
 
@@ -109,9 +105,8 @@ public:
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/logout.php")
 	{
 		Body
-			<< "ref="
-			<< CHAR_VALUE("fb_dtsg", dtsg)
-			<< CHAR_VALUE("h", logoutHash);
+			<< CHAR_PARAM("fb_dtsg", dtsg)
+			<< CHAR_PARAM("h", logoutHash);
 	}
 };
 

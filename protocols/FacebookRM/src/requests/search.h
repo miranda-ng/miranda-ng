@@ -33,12 +33,12 @@ public:
 		flags |= NLHRF_REDIRECT;
 
 		Url
-			<< CHAR_VALUE("q", query)
-			<< INT_VALUE("s", s)
-			<< INT_VALUE("pn", pn);
+			<< CHAR_PARAM("q", query)
+			<< INT_PARAM("s", s)
+			<< INT_PARAM("pn", pn);
 
 		if (mir_strlen(ssid) > 0) {
-			Url << CHAR_VALUE("ssid", ssid);
+			Url << CHAR_PARAM("ssid", ssid);
 		}
 	}
 };

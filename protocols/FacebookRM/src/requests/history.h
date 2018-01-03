@@ -46,7 +46,6 @@ public:
 		}
 		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
-
 		JSONNode root, o0, query_params;
 
 		int before = -1;
@@ -67,8 +66,8 @@ public:
 		root << JSON_PARAM("o0", o0);
 
 		Body
-			<< "batch_name=MessengerGraphQLThreadFetcherRe"
-			<< CHAR_VALUE("queries", root.write().c_str());
+			<< CHAR_PARAM("batch_name", "MessengerGraphQLThreadFetcherRe")
+			<< CHAR_PARAM("queries", root.write().c_str());
 
 		// example request data we need to send: { "o0":{"doc_id":"456789456123","query_params" : {"id":"123456789","message_limit" : 20,"load_messages" : 1,"load_read_receipts" : false,"before" : null}} }
 
@@ -106,7 +105,7 @@ public:
 		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 		// Load only thread info
-		Body << CMStringA(::FORMAT, "threads[%s][0]=%s", type, idEncoded).c_str();
+		Body << CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][0]", type), idEncoded);
 	}
 
 	// Request both thread info and messages for single contact/chat
@@ -128,12 +127,12 @@ public:
 		CMStringA begin(::FORMAT, "messages[%s][%s]", type, idEncoded);
 
 		Body
-			<< CMStringA(::FORMAT, "%s[offset]=%i", begin.c_str(), 0).c_str()
-			<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin.c_str(), "").c_str()
-			<< CMStringA(::FORMAT, "%s[limit]=%i", begin.c_str(), limit).c_str();
+			<< INT_PARAM(CMStringA(::FORMAT, "%s[offset]", begin.c_str()), 0)
+			<< CHAR_PARAM(CMStringA(::FORMAT, "%s[timestamp]", begin.c_str()), "")
+			<< INT_PARAM(CMStringA(::FORMAT, "%s[limit]", begin.c_str()), limit);
 
 		// Load thread info
-		Body << CMStringA(::FORMAT, "threads[%s][0]=%s", type, idEncoded).c_str();
+		Body << CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][0]", type), idEncoded);
 	}
 
 	// Request both thread info and messages for more threads
@@ -152,12 +151,9 @@ public:
 			// Load messages
 			CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_fbids", idEncoded);
 			Body
-				<< CMStringA(::FORMAT, "%s[offset]=%i", begin.c_str(), offset).c_str()
-				//<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin.c_str(), "").c_str()
-				<< CMStringA(::FORMAT, "%s[limit]=%i", begin.c_str(), limit).c_str();
-
-			// Load thread info
-			Body << CMStringA(::FORMAT, "threads[%s][%i]=%s", "thread_fbids", i, idEncoded).c_str();
+				<< INT_PARAM(CMStringA(::FORMAT, "%s[offset]", begin.c_str()), offset)
+				<< INT_PARAM(CMStringA(::FORMAT, "%s[limit]", begin.c_str()), limit)
+				<< CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][%i]", "thread_fbids", i), idEncoded);
 		}
 	}
 
@@ -165,19 +161,15 @@ private:
 	void setCommonBody(facebook_client *fc)
 	{
 		Body
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("__rev", fc->__rev())
-			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
-			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
-			<< "__a=1"
-			<< "__pc=PHASED:DEFAULT"
-			<< "__be=1"
-			<< "jazoest="
-			<< "__spin_r="
-			<< "__spin_b="
-			<< "__spin_t=";
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("__rev", fc->__rev())
+			<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
+			<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+			<< INT_PARAM("__a", 1)
+			<< INT_PARAM("__be", 1);
 	}
 };
 
@@ -189,24 +181,21 @@ public:
 	UnreadThreadsRequest(facebook_client *fc) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/unread_threads.php")
 	{
-		Url
-			<< "dpr=1";
+		Url << INT_PARAM("dpr", 1);
 
 		Body
-			<< "folders[0]=inbox"
-			<< "folders[1]=other" // TODO: "other" is probably unused, and there is now "pending" instead
-			<< "client=mercury"
-			<< CHAR_VALUE("__user", fc->self_.user_id.c_str())
-			<< CHAR_VALUE("__dyn", fc->__dyn())
-			<< CHAR_VALUE("__req", fc->__req())
-			<< CHAR_VALUE("__rev", fc->__rev())
-			<< CHAR_VALUE("fb_dtsg", fc->dtsg_.c_str())
-			<< CHAR_VALUE("ttstamp", fc->ttstamp_.c_str())
-			<< "__a=1"
-			<< "__pc=PHASED:DEFAULT"
-			<< "__be=-1";
-
-		//queries={"o0":{"doc_id":"2003371749678240","query_params":{"limit":99,"before":null,"tags":["PENDING","unread"],"includeDeliveryReceipts":true,"includeSeqID":false}}}
+			<< CHAR_PARAM("folders[0]", "inbox")
+			<< CHAR_PARAM("folders[1]", "other") // TODO: "other" is probably unused, and there is now "pending" instead
+			<< CHAR_PARAM("client", "mercury")
+			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< CHAR_PARAM("__dyn", fc->__dyn())
+			<< CHAR_PARAM("__req", fc->__req())
+			<< CHAR_PARAM("__rev", fc->__rev())
+			<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
+			<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+			<< INT_PARAM("__a", 1)
+			<< INT_PARAM("__be", -1);
 	}
 };
 
