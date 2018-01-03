@@ -43,11 +43,11 @@ Max. Verbindungsversuche:
 [Max reconnect retries:]
 Max. Wiederverbindungsversuche:
 [Enable UDP hole-punching]
-
+UDP Hole-Punching aktivieren
 [Enable local network peer discovery]
-
+Lokale Netzwerk-Peer-Erkennung aktivieren
 [Remove password]
-
+Passwort entfernen
 [Change password]
 Passwort ändern
 [Set password]
@@ -101,7 +101,7 @@ Autorisierung gewähren
 [Password]
 Passwort
 [Create password]
-
+Passwort erstellen
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Aktion
@@ -153,18 +153,18 @@ Konnte Tox-Profil nicht lesen.
 [Unable to decrypt Tox profile]
 Konnte Tox-Profil nicht entschlüsseln.
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
-
+Wenn Sie das Passwort entfernen wird das Profil entschlüsselt.\r\nSind Sie sich sicher dass Sie das Passwort entfernen möchten?
 [New password is empty]
-
+Neues Passwort ist leer.
 [New password is not equal to confirmation]
-
+Neues Passwort stimmt nicht mit der Bestätigung überein.
 [Old password is not valid]
-
+Altes Passwort ist ungültig.
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
-Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen
+Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen.
 [Contact already in your contact list]
-Der Kontakt ist bereits in Ihrer Kontaktliste
+Der Kontakt ist bereits in Ihrer Kontaktliste.
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Query
