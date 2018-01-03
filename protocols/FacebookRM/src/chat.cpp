@@ -260,9 +260,8 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 		AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
 
 		// Add chat contacts
-		for (std::map<std::string, chatroom_participant>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt) {
+		for (std::map<std::string, chatroom_participant>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt)
 			AddChatContact(fbc->thread_id.c_str(), jt->second, false);
-		}
 
 		// Load last messages
 		delSetting(hContact, FACEBOOK_KEY_MESSAGE_ID); // We're creating new chatroom so we want load all recent messages

@@ -149,7 +149,8 @@ public:
 	// Helpers for data
 
 	__inline const char *__dyn() {
-		return ""; // FIXME: What's this value and where it come from? Looks like it is the same through all requests.
+		return "7AzkXxaA4ojgDxyLqzGomzEbHGbGey8WhLFwgoqwWhE98nwgUaoepovHyodEbbxW4E4u3ucDBwJx62i2PxOcG4K1Zxa2m4oqyUf8oCK251G6XDwnU567oeo5m4pHxC326U6OfBwHx";
+		// FIXME: What's this value and where it come from? Looks like it is the same through all requests.
 	}
 
 	__inline CMStringA __req() {
@@ -160,7 +161,7 @@ public:
 	}
 
 	__inline const char *__rev() {
-		return "3496859"; // FIXME: Some version of communication protocol? This version is from 3.12.2017
+		return "3553943";
 	}
 
 	////////////////////////////////////////////////////////////

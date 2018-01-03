@@ -27,9 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // revised 3.12.2017
 class ThreadInfoRequest : public HttpRequest
 {
+	JSONNode data;
+
 public:
 	// Request only messages history
-	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, int /*offset*/, const char* /*timestamp*/, int limit) :
+	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, const char* timestamp = nullptr, int limit = -1) :
 		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
 	{
 		setCommonBody(fc);
@@ -47,92 +49,21 @@ public:
 		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 		JSONNode root, o0, query_params;
-
-		int before = -1;
-
 		query_params
-			<< CHAR_PARAM("id", id_.c_str()) // TODO: Do I have to encode the id? And remove that first "id." at the begin as we do above?
-			<< INT_PARAM("message_limit", limit)
-			<< INT_PARAM("load_messages", 1)
+			<< CHAR_PARAM("id", idEncoded)
+			<< INT_PARAM("message_limit", (limit == -1) ? 50 : limit)
+			<< INT_PARAM("load_messages", 0)
 			<< BOOL_PARAM("load_read_receipts", false);
 
-		if (before != -1)
-			query_params << INT_PARAM("before", before);
+		if (timestamp != nullptr)
+			query_params << CHAR_PARAM("before", timestamp);
 		else
 			query_params << NULL_PARAM("before");
 
-		o0 << CHAR_PARAM("doc_id", id) << JSON_PARAM("query_params", query_params);
-
+		o0 << CHAR_PARAM("doc_id", "1549485615075443") << JSON_PARAM("query_params", query_params);
 		root << JSON_PARAM("o0", o0);
 
-		Body
-			<< CHAR_PARAM("batch_name", "MessengerGraphQLThreadFetcherRe")
-			<< CHAR_PARAM("queries", root.write().c_str());
-
-		// example request data we need to send: { "o0":{"doc_id":"456789456123","query_params" : {"id":"123456789","message_limit" : 20,"load_messages" : 1,"load_read_receipts" : false,"before" : null}} }
-
-
-		/*
-		//if (loadMessages) {
-			// Grrr, offset doesn't work at all, we need to use timestamps to get back in history...
-			// And we don't know, what's timestamp of first message, so we need to get from latest to oldest
-			CMStringA begin(::FORMAT, "messages[%s][%s]", type, idEncoded);
-
-			Body
-				<< CMStringA(::FORMAT, "%s[offset]=%i", begin.c_str(), offset).c_str()
-				<< CMStringA(::FORMAT, "%s[timestamp]=%s", begin.c_str(), timestamp).c_str()
-				<< CMStringA(::FORMAT, "%s[limit]=%i", begin.c_str(), limit).c_str();
-		//}*/
-
-		/*if (loadThreadInfo) {
-			data += "&threads[" + type + "][0]=" + idEncoded;
-		}*/
-	}
-
-	// Request only thread info // TODO: Make it array of ids
-	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id) :
-		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
-	{
-		setCommonBody(fc);
-
-		const char *type = isChat ? "thread_fbids" : "user_ids";
-		std::string id_ = id; // FIXME: Rewrite this without std::string...
-		if (isChat) {
-			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
-			if (id_.substr(0, 3) == "id.")
-				id_ = id_.substr(3);
-		}
-		ptrA idEncoded(mir_urlEncode(id_.c_str()));
-
-		// Load only thread info
-		Body << CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][0]", type), idEncoded);
-	}
-
-	// Request both thread info and messages for single contact/chat
-	ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, int limit) :
-		HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
-	{
-		setCommonBody(fc);
-
-		const char *type = isChat ? "thread_fbids" : "user_ids";
-		std::string id_ = id; // FIXME: Rewrite this without std::string...
-		if (isChat) {
-			// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
-			if (id_.substr(0, 3) == "id.")
-				id_ = id_.substr(3);
-		}
-		ptrA idEncoded(mir_urlEncode(id_.c_str()));
-
-		// Load messages
-		CMStringA begin(::FORMAT, "messages[%s][%s]", type, idEncoded);
-
-		Body
-			<< INT_PARAM(CMStringA(::FORMAT, "%s[offset]", begin.c_str()), 0)
-			<< CHAR_PARAM(CMStringA(::FORMAT, "%s[timestamp]", begin.c_str()), "")
-			<< INT_PARAM(CMStringA(::FORMAT, "%s[limit]", begin.c_str()), limit);
-
-		// Load thread info
-		Body << CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][0]", type), idEncoded);
+		Body << CHAR_PARAM("queries", utils::url::encode(root.write()).c_str());
 	}
 
 	// Request both thread info and messages for more threads
@@ -161,15 +92,16 @@ private:
 	void setCommonBody(facebook_client *fc)
 	{
 		Body
+			<< CHAR_PARAM("batch_name", "MessengerGraphQLThreadFetcherRe")
 			<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+			<< INT_PARAM("__a", 1)
 			<< CHAR_PARAM("__dyn", fc->__dyn())
 			<< CHAR_PARAM("__req", fc->__req())
+			<< INT_PARAM("__be", 1)
+			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 			<< CHAR_PARAM("__rev", fc->__rev())
 			<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-			<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
-			<< INT_PARAM("__a", 1)
-			<< INT_PARAM("__be", 1);
+			<< CHAR_PARAM("jazoest", "265816910476541027556899745586581711208287100122699749108");
 	}
 };
 
