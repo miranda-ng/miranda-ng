@@ -158,8 +158,9 @@ json_string internalJSONNode::Write(unsigned int indent, bool arrayChild){
 		case JSON_ARRAY:		//write out the child nodes int he array
 			Fetch();
 			return WriteComment(indent) + WriteName(formatted, arrayChild) + JSON_TEXT("[") + WriteChildren(indent) + JSON_TEXT("]");
-		case JSON_NUMBER:	//write out a literal, without quotes
 		case JSON_NULL:
+			return WriteComment(indent) + WriteName(formatted, arrayChild) + CONST_NULL;
+		case JSON_NUMBER:	//write out a literal, without quotes
 		case JSON_BOOL:
 			return WriteComment(indent) + WriteName(formatted, arrayChild) + _string;
 	}
