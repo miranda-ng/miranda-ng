@@ -473,7 +473,7 @@ Nachrichten für alle Kontakte wurden komplett geladen.
 [Loading history]
 Verlauf laden
 [Error loading message history for %s from server.]
-Vehler beim Laden des Nachrichtenverlaufes von %s vom Server.
+Fehler beim Laden des Nachrichtenverlaufes von %s vom Server.
 [Loading messages for %s is completed.]
 Laden der Nachrichten von %s ist fertig.
 ;file \protocols\VKontakte\src\vk_messages.cpp
