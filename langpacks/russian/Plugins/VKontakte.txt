@@ -468,7 +468,7 @@ ID получателя ошибочен или неизвестен
 [Loading messages for %s is completed.]
 Загрузка сообщений для %s завершена.
 [Edited message:\n]
-\nИзменённое сообщение:\n
+Изменённое сообщение:\n
 [\nOriginal message:\n]
 \nИсходное сообщение:\n
 [Network]
