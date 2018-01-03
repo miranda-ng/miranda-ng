@@ -47,12 +47,12 @@ struct facebook_user
 
 	facebook_user()
 	{
-		this->handle = NULL;
-		this->status_id = ID_STATUS_OFFLINE;
-		this->gender = this->last_active = 0;
-		this->deleted = this->idle = this->updated = false;
-		this->client = CLIENT_WEB;
-		this->type = CONTACT_NONE;
+		handle = 0;
+		status_id = ID_STATUS_OFFLINE;
+		gender = last_active = 0;
+		deleted = idle = updated = false;
+		client = CLIENT_WEB;
+		type = CONTACT_NONE;
 	}
 
 	wchar_t *getMirVer()
@@ -143,26 +143,13 @@ struct facebook_notification
 	{
 		this->time = 0;
 		this->seen = false;
-		this->hWndPopup = NULL;
-		this->icon = NULL;
+		this->hWndPopup = nullptr;
+		this->icon = nullptr;
 	}
 
 	void setIcon(const std::string &iconUrl)
 	{
-		if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yj/r/6WffvhOaXGY.png")
-			icon = "like";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/y1/r/RvGKklgAefT.png")
-			icon = "love";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yV/r/McJA2ZjdJmf.png")
-			icon = "haha";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yL/r/IfsimazVjj4.png")
-			icon = "wow";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/yH/r/jOeSrGlcPLG.png")
-			icon = "sad";
-		else if (iconUrl == "https://www.facebook.com/rsrc.php/v3/y9/r/6K8v8Ju8kL2.png")
-			icon = "angry";
-		else
-			icon = NULL;
+		icon = nullptr;
 	}
 };
 
@@ -224,7 +211,7 @@ struct status_data
 struct wall_data
 {
 	wall_data() {
-		this->title = NULL;
+		this->title = nullptr;
 		this->isPage = false;
 	}
 	wall_data(std::string user_id, wchar_t *title, bool isPage = false) : user_id(user_id), title(title), isPage(isPage) {}

@@ -28,7 +28,7 @@ class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 protected:
 	enum HttpRequestUrlFormat { FORMAT };
 
-	class HttpRequestUrl
+	class HttpRequestUrl 
 	{
 		friend HttpRequest;
 
@@ -199,7 +199,7 @@ public:
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
-		pData = NULL;
+		pData = nullptr;
 		timeout = 20 * 1000;
 
 		NotifyErrors = true;
@@ -213,7 +213,7 @@ public:
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 		requestType = type;
 		va_end(formatArgs);
-		pData = NULL;
+		pData = nullptr;
 		timeout = 20 * 1000;
 
 		NotifyErrors = true;

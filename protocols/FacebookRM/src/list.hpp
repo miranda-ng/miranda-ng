@@ -34,9 +34,9 @@ namespace List
 
 		Item()
 		{
-			this->data = NULL;
-			this->prev = NULL;
-			this->next = NULL;
+			this->data = nullptr;
+			this->prev = nullptr;
+			this->next = nullptr;
 		}
 
 		~Item()
@@ -55,7 +55,7 @@ namespace List
 	public:
 		List()
 		{
-			this->first = this->last = NULL;
+			this->first = this->last = nullptr;
 			this->count = 0;
 		}
 
@@ -81,7 +81,7 @@ namespace List
 
 		bool empty()
 		{
-			return (this->first == NULL);
+			return (this->first == nullptr);
 		}
 
 		void insert(Item< T >* item)
@@ -108,23 +108,23 @@ namespace List
 		void erase(std::string key)
 		{
 			Item< T >* help = this->first;
-			while (help != NULL) {
+			while (help != nullptr) {
 				if (help->key.compare(key) != 0)
 					help = help->next;
 				else {
 					if (help == this->first) {
 						this->first = help->next;
-						if (this->first != NULL)
-							this->first->prev = NULL;
+						if (this->first != nullptr)
+							this->first->prev = nullptr;
 						else
-							this->last = NULL;
+							this->last = nullptr;
 					}
 					else if (help == this->last) {
 						this->last = help->prev;
-						if (this->last != NULL)
-							this->last->next = NULL;
+						if (this->last != nullptr)
+							this->last->next = nullptr;
 						else
-							this->first = NULL;
+							this->first = nullptr;
 					}
 					else {
 						help->prev->next = help->next;
@@ -139,26 +139,26 @@ namespace List
 
 		void erase(Item< T >* item)
 		{
-			if (item != NULL)
+			if (item != nullptr)
 				erase(item->key);
 		}
 
 		T* find(std::string key)
 		{
 			Item< T >* help = this->begin();
-			while (help != NULL) {
+			while (help != nullptr) {
 				if (help->key.compare(key) != 0)
 					help = help->next;
 				else
 					return help->data;
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		T* at(const unsigned int item)
 		{
 			if (item >= this->count)
-				return NULL;
+				return nullptr;
 			Item< T >* help = this->begin();
 			for (unsigned int i = 0; i < item; i++)
 				help = help->next;
@@ -173,12 +173,12 @@ namespace List
 		void clear()
 		{
 			Item< T >* help;
-			while (this->first != NULL) {
+			while (this->first != nullptr) {
 				help = this->first;
 				this->first = this->first->next;
 				delete help;
 			}
-			this->last = NULL;
+			this->last = nullptr;
 			this->count = 0;
 		}
 	};

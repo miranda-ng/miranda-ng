@@ -49,12 +49,12 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			proto = reinterpret_cast<FacebookProto*>(lparam);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-			ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
-			if (login != NULL)
+			ptrA login(db_get_sa(0, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
+			if (login != nullptr)
 				SetDlgItemTextA(hwnd, IDC_UN, login);
 
-			ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
-			if (password != NULL)
+			ptrA password(db_get_sa(0, proto->ModuleName(), FACEBOOK_KEY_PASS));
+			if (password != nullptr)
 				SetDlgItemTextA(hwnd, IDC_PW, password);
 
 			if (!proto->isOffline()) {
@@ -83,10 +83,10 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			char str[128];
 
 			GetDlgItemTextA(hwnd, IDC_UN, str, _countof(str));
-			db_set_s(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN, str);
+			db_set_s(0, proto->ModuleName(), FACEBOOK_KEY_LOGIN, str);
 
 			GetDlgItemTextA(hwnd, IDC_PW, str, _countof(str));
-			db_set_s(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS, str);
+			db_set_s(0, proto->ModuleName(), FACEBOOK_KEY_PASS, str);
 			return TRUE;
 		}
 		break;
@@ -113,7 +113,7 @@ void RefreshPrivacy(HWND hwnd, post_status_data *data)
 
 void ClistPrepare(FacebookProto *proto, MCONTACT hItem, HWND hwndList)
 {
-	if (hItem == NULL)
+	if (hItem == 0)
 		hItem = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
@@ -125,7 +125,7 @@ void ClistPrepare(FacebookProto *proto, MCONTACT hItem, HWND hwndList)
 				ClistPrepare(proto, hItemT, hwndList);
 		}
 		else if (IsHContactContact(hItem)) {
-			if (!proto->IsMyContact(hItem) || ptrA(proto->getStringA(hItem, FACEBOOK_KEY_ID)) == NULL)
+			if (!proto->IsMyContact(hItem) || ptrA(proto->getStringA(hItem, FACEBOOK_KEY_ID)) == nullptr)
 				SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 		}
 
@@ -135,7 +135,7 @@ void ClistPrepare(FacebookProto *proto, MCONTACT hItem, HWND hwndList)
 
 void GetSelectedContacts(FacebookProto *proto, MCONTACT hItem, HWND hwndList, std::vector<facebook_user*> *contacts)
 {
-	if (hItem == NULL)
+	if (hItem == 0)
 		hItem = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
 	while (hItem) {
@@ -195,7 +195,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			SendDlgItemMessage(hwnd, IDC_URL, EM_LIMITTEXT, 1024, 0);
 
 			ptrW place(data->proto->getWStringA(FACEBOOK_KEY_PLACE));
-			SetDlgItemText(hwnd, IDC_PLACE, place != NULL ? place : L"Miranda NG");
+			SetDlgItemText(hwnd, IDC_PLACE, place != nullptr ? place : L"Miranda NG");
 
 			bShowContacts = data->proto->getByte("PostStatusExpand", 0) > 0;
 			ResizeHorizontal(hwnd, bShowContacts);
@@ -210,7 +210,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 			RefreshPrivacy(hwnd, data);
 
 			ptrA firstname(data->proto->getStringA(FACEBOOK_KEY_FIRST_NAME));
-			if (firstname != NULL) {
+			if (firstname != nullptr) {
 				char title[100];
 				mir_snprintf(title, Translate("What's on your mind, %s?"), firstname);
 				SetWindowTextA(hwnd, title);
@@ -227,7 +227,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 				switch (nmc->hdr.code) {
 				case CLN_LISTREBUILT:
 					data = reinterpret_cast<post_status_data*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-					ClistPrepare(data->proto, NULL, nmc->hdr.hwndFrom);
+					ClistPrepare(data->proto, 0, nmc->hdr.hwndFrom);
 					break;
 				}
 			}
@@ -295,7 +295,7 @@ INT_PTR CALLBACK FBMindProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpara
 				status->url = _T2A(urlT);
 
 				HWND hwndList = GetDlgItem(hwnd, IDC_CCLIST);
-				GetSelectedContacts(data->proto, NULL, hwndList, &status->users);
+				GetSelectedContacts(data->proto, 0, hwndList, &status->users);
 
 				T2Utf narrow(mindMessageT);
 				status->text = narrow;
@@ -341,12 +341,12 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			proto = reinterpret_cast<FacebookProto*>(lparam);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
-			ptrA login(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
-			if (login != NULL)
+			ptrA login(db_get_sa(0, proto->ModuleName(), FACEBOOK_KEY_LOGIN));
+			if (login != nullptr)
 				SetDlgItemTextA(hwnd, IDC_UN, login);
 
-			ptrA password(db_get_sa(NULL, proto->ModuleName(), FACEBOOK_KEY_PASS));
-			if (password != NULL)
+			ptrA password(db_get_sa(0, proto->ModuleName(), FACEBOOK_KEY_PASS));
+			if (password != nullptr)
 				SetDlgItemTextA(hwnd, IDC_PW, password);
 
 			if (!proto->isOffline()) {
@@ -356,7 +356,7 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
 
-			if (proto->m_tszDefaultGroup != NULL)
+			if (proto->m_tszDefaultGroup != nullptr)
 				SetDlgItemText(hwnd, IDC_GROUP, proto->m_tszDefaultGroup);
 
 			LoadDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, DEFAULT_DISABLE_STATUS_NOTIFY);
@@ -612,7 +612,7 @@ void CFacebookGuardDialog::OnInitDialog()
 
 	SendMessage(m_text.GetHwnd(), EM_LIMITTEXT, 6, 0);
 
-	Utils_RestoreWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
+	Utils_RestoreWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "GuardWindow");
 }
 
 void CFacebookGuardDialog::OnOk(CCtrlButton*)
@@ -629,7 +629,7 @@ void CFacebookGuardDialog::OnSms(CCtrlButton *btn)
 
 void CFacebookGuardDialog::OnClose()
 {
-	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "GuardWindow");
+	Utils_SaveWindowPosition(m_hwnd, 0, m_proto->m_szModuleName, "GuardWindow");
 }
 
 const char* CFacebookGuardDialog::GetCode()

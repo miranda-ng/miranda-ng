@@ -234,7 +234,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 			}
 			else {
 				MCONTACT hContact = ContactIDToHContact(id);
-				if (hContact != NULL) {
+				if (hContact != 0) {
 					DBVARIANT dbv;
 					if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
 						user.nick = dbv.pszVal;
@@ -293,7 +293,7 @@ void FacebookProto::JoinChatrooms()
 		if (getBool(hContact, FACEBOOK_KEY_CHAT_IS_ARCHIVED, false) || !getBool(hContact, FACEBOOK_KEY_CHAT_IS_SUBSCRIBED, true))
 			continue;
 
-		OnJoinChat(hContact, NULL);
+		OnJoinChat(hContact, 0);
 	}
 }
 
@@ -336,7 +336,7 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, boo
 {
 	// Ignore self user completely
 	if (fbu->user_id == facy.self_.user_id)
-		return NULL;
+		return 0;
 
 	// First, check if this contact exists (and if does, just return it)
 	if (!force_add) {
@@ -351,7 +351,7 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, bool force_add, boo
 
 	if (hContact && Proto_AddToContact(hContact, m_szModuleName) != 0) {
 		db_delete_contact(hContact);
-		hContact = NULL;
+		hContact = 0;
 	}
 
 	// If we have some contact, we'll save its data
@@ -413,19 +413,19 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		// FIXME: Remember that we deleted this contact, so we won't accidentally add him at status change
 		/* facebook_user* fbu = facy.buddies.find(id);
-		if (fbu != NULL)
+		if (fbu != nullptr)
 			fbu->deleted = true; */
 
 		MCONTACT hContact = ContactIDToHContact(id);
 
 		// If contact wasn't deleted from database
-		if (hContact != NULL) {
+		if (hContact != 0) {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 			setDword(hContact, FACEBOOK_KEY_DELETED, ::time(nullptr));
 		}
 
-		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, EVENT_FRIENDSHIP);
+		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), 0, EVENT_FRIENDSHIP);
 	}
 	else {
 		facy.client_notify(TranslateT("Error occurred when removing contact from server."));
@@ -456,10 +456,10 @@ void FacebookProto::AddContactToServer(void *data)
 		MCONTACT hContact = ContactIDToHContact(id);
 
 		// If contact wasn't deleted from database
-		if (hContact != NULL)
+		if (hContact != 0)
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_REQUEST);
 
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, EVENT_FRIENDSHIP);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), 0, EVENT_FRIENDSHIP);
 	}
 	else facy.client_notify(TranslateT("Error occurred when requesting friendship."));
 
@@ -490,7 +490,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 
 	if (resp.data.find("\"success\":true") != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was accepted."), NULL, EVENT_FRIENDSHIP);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was accepted."), 0, EVENT_FRIENDSHIP);
 	}
 	else facy.client_notify(TranslateT("Error occurred when accepting friendship request."));
 
@@ -521,7 +521,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, EVENT_FRIENDSHIP);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), 0, EVENT_FRIENDSHIP);
 	}
 	else facy.client_notify(TranslateT("Error occurred when canceling friendship request."));
 
@@ -552,7 +552,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 
 	if (resp.data.find("\"success\":true") != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was ignored."), NULL, EVENT_FRIENDSHIP);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was ignored."), 0, EVENT_FRIENDSHIP);
 
 		// Delete this contact, if he's temporary
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
@@ -595,7 +595,7 @@ void FacebookProto::SendPokeWorker(void *p)
 			utils::text::remove_html(message));
 
 		ptrW tmessage(mir_utf8decodeW(message.c_str()));
-		NotifyEvent(m_tszUserName, tmessage, NULL, EVENT_OTHER);
+		NotifyEvent(m_tszUserName, tmessage, 0, EVENT_OTHER);
 	}
 
 	facy.handle_success("SendPokeWorker");
@@ -612,7 +612,7 @@ void FacebookProto::RefreshUserInfo(void *data)
 	delete (MCONTACT*)data;
 
 	ptrA user_id(getStringA(hContact, FACEBOOK_KEY_ID));
-	if (user_id == NULL || isOffline()) {
+	if (user_id == nullptr || isOffline()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE)nullptr, 0);
 		return;
 	}

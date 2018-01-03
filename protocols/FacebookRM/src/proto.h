@@ -89,11 +89,11 @@ public:
 	// DB utils missing in proto_interface
 
 	__forceinline INT_PTR getStringUtf(const char *name, DBVARIANT *result) {
-		return db_get_utf(NULL, m_szModuleName, name, result); }
+		return db_get_utf(0, m_szModuleName, name, result); }
 	__forceinline INT_PTR getStringUtf(MCONTACT hContact, const char *name, DBVARIANT *result) {
 		return db_get_utf(hContact, m_szModuleName, name, result); }
 
-	__forceinline void setStringUtf(const char *name, const char* value) { db_set_utf(NULL, m_szModuleName, name, value); }
+	__forceinline void setStringUtf(const char *name, const char* value) { db_set_utf(0, m_szModuleName, name, value); }
 	__forceinline void setStringUtf(MCONTACT hContact, const char *name, const char* value) { db_set_utf(hContact, m_szModuleName, name, value); }
 
 	//PROTO_INTERFACE
@@ -104,7 +104,7 @@ public:
 	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t* szReason);
 	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const wchar_t* szMessage);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = 0);
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
 
 	virtual	HANDLE    __cdecl SearchBasic(const wchar_t* id);
@@ -277,6 +277,6 @@ public:
 	std::vector<MCONTACT> avatar_queue;
 
 	// Information providing
-	HWND NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url = NULL, std::string *notification_id = NULL, const char *icon = NULL);
+	HWND NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url = nullptr, std::string *notification_id = nullptr, const char *icon = nullptr);
 	void ShowNotifications();
 };

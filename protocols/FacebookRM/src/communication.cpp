@@ -24,12 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void facebook_client::client_notify(wchar_t* message)
 {
-	parent->NotifyEvent(parent->m_tszUserName, message, NULL, EVENT_CLIENT);
+	parent->NotifyEvent(parent->m_tszUserName, message, 0, EVENT_CLIENT);
 }
 
 void facebook_client::info_notify(wchar_t* message)
 {
-	parent->NotifyEvent(parent->m_tszUserName, message, NULL, EVENT_OTHER);
+	parent->NotifyEvent(parent->m_tszUserName, message, 0, EVENT_OTHER);
 }
 
 http::response facebook_client::sendRequest(HttpRequest *request)
@@ -412,7 +412,7 @@ bool facebook_client::login(const char *username, const char *password)
 	if (cookies.empty()) {
 		// Set device ID
 		ptrA device(parent->getStringA(FACEBOOK_KEY_DEVICE_ID));
-		if (device != NULL)
+		if (device != nullptr)
 			cookies["datr"] = device;
 
 		// Get initial cookies
@@ -724,7 +724,7 @@ bool facebook_client::home()
 
 			this->self_.real_name = utils::text::remove_html(this->self_.real_name);
 			parent->debugLogA("    Got self real name (nickname): %s (%s)", this->self_.real_name.c_str(), this->self_.nick.c_str());
-			parent->SaveName(NULL, &this->self_);
+			parent->SaveName(0, &this->self_);
 
 			// Get avatar (from touch version)
 			if (!touchData.empty())
@@ -766,7 +766,7 @@ bool facebook_client::home()
 			}
 
 			parent->debugLogA("    Got self avatar: %s", this->self_.image_url.c_str());
-			parent->CheckAvatarChange(NULL, this->self_.image_url);
+			parent->CheckAvatarChange(0, this->self_.image_url);
 
 			// Get logout hash
 			this->logout_hash_ = utils::text::source_get_value2(&resp.data, "/logout.php?h=", "&\"");
@@ -978,7 +978,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	ptrA threadId(parent->getStringA(hContact, FACEBOOK_KEY_TID));
 
 	// Check if we have userId/threadId to be able to send message
-	if ((isChatRoom && (threadId == NULL || !mir_strcmp(threadId, "null"))) || (!isChatRoom && (userId == NULL || !mir_strcmp(userId, "null")))) {
+	if ((isChatRoom && (threadId == nullptr || !mir_strcmp(threadId, "null"))) || (!isChatRoom && (userId == nullptr || !mir_strcmp(userId, "null")))) {
 		// This shouldn't happen unless user manually deletes some data via Database Editor++
 		*error_text = Translate("Contact doesn't have required data in database.");
 
@@ -1126,7 +1126,7 @@ bool facebook_client::post_status(status_data *status)
 	status->users.clear();
 
 	if (resp.isValid()) {
-		parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), NULL, EVENT_OTHER);
+		parent->NotifyEvent(parent->m_tszUserName, TranslateT("Status update was successful."), 0, EVENT_OTHER);
 		return handle_success("post_status");
 	}
 
@@ -1180,6 +1180,6 @@ bool facebook_client::sms_code(const char *fb_dtsg)
 		return false;
 	}
 
-	parent->NotifyEvent(parent->m_tszUserName, TranslateT("Verification SMS code was sent to your mobile phone."), NULL, EVENT_OTHER);
+	parent->NotifyEvent(parent->m_tszUserName, TranslateT("Verification SMS code was sent to your mobile phone."), 0, EVENT_OTHER);
 	return true;
 }

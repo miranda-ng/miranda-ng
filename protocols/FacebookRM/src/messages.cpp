@@ -40,7 +40,7 @@ void FacebookProto::SendMsgWorker(void *p)
 
 	if (!isOnline())
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
-	else if (id == NULL)
+	else if (id == nullptr)
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, 0);
 	else {
 		int tries = getByte(FACEBOOK_KEY_SEND_MESSAGE_TRIES, 1);
@@ -78,7 +78,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	if (hContact) {
 		ptrA tid_(getStringA(hContact, FACEBOOK_KEY_TID));
 		std::string tid;
-		if (tid_ != NULL && mir_strcmp(tid_, "null"))
+		if (tid_ != nullptr && mir_strcmp(tid_, "null"))
 			tid = tid_;
 		else {
 			// request info about chat thread
@@ -143,7 +143,7 @@ void FacebookProto::SendTypingWorker(void *p)
 
 	const char *value = (isChatRoom(typing->hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
 	ptrA id(getStringA(typing->hContact, value));
-	if (id != NULL) {
+	if (id != nullptr) {
 		bool isChat = isChatRoom(typing->hContact);
 		HttpRequest *request = new SendTypingRequest(&facy, id, isChat, typing->status == PROTOTYPE_SELFTYPING_ON);
 		http::response resp = facy.sendRequest(request);
@@ -177,7 +177,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 		// mark message read (also send seen info)
 		const char *value = (isChatRoom(hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
 		ptrA id(getStringA(hContact, value));
-		if (id == NULL)
+		if (id == nullptr)
 			continue;
 
 		ids.insert(mir_strdup(id));

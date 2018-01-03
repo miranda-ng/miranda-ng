@@ -54,7 +54,7 @@ void FacebookProto::ChangeStatus(void*)
 
 		facy.logout();
 
-		OnLeaveChat(NULL, NULL);
+		OnLeaveChat(0, 0);
 		setAllContactStatuses(ID_STATUS_OFFLINE);
 		ToggleStatusMenuItems(false);
 		delSetting(FACEBOOK_KEY_LOGON_TS);

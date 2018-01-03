@@ -221,7 +221,7 @@ int FacebookProto::ParseNotifications(std::string *data, std::map< std::string, 
 		if (!text_ || !state_ || state_.as_string() == "SEEN_AND_READ" || !time_)
 			continue;
 
-		facebook_notification* notification = new facebook_notification();
+		facebook_notification *notification = new facebook_notification();
 
 		notification->id = id_.as_string();
 
@@ -681,7 +681,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 					// Only new notifications
 					facy.last_notification_time_ = timestamp;
 
-					facebook_notification* notification = new facebook_notification();
+					facebook_notification *notification = new facebook_notification();
 					notification->text = utils::text::slashu_to_utf8(text.as_string());
 					notification->link = url.as_string();
 					notification->id = alert_id.as_string();
@@ -709,46 +709,47 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 			if (!data)
 				continue;
 
-			const JSONNode &appId_ = data["app_id"];
+			const JSONNode &html_ = data["body"]["__html"];
+			const JSONNode &href_ = data["href"];
+			const JSONNode &unread_ = data["unread"];
+			if (!html_ || !href_ || !unread_ || unread_.as_int() == 0)
+				continue;
+
+			std::string alert_id = data["alert_id"].as_string();
+
 			const JSONNode &type_ = data["type"];
-
-			if (appId_.as_string() == "2356318349" || type_.as_string() == "friend_confirmed") {
-				// Friendship notifications
-
-				const JSONNode &body_ = data["body"];
-				const JSONNode &html_ = body_["__html"];
-
-				const JSONNode &href_ = data["href"];
-				const JSONNode &unread_ = data["unread"];
-				const JSONNode &alertId_ = data["alert_id"];
-
-				if (!html_ || !href_ || !unread_ || unread_.as_int() == 0)
-					continue;
-
+			if (type_.as_string() == "friend_confirmed") {
 				std::string text = utils::text::remove_html(utils::text::slashu_to_utf8(html_.as_string()));
 				std::string url = href_.as_string();
-				std::string alert_id = alertId_.as_string();
 
 				// Notify it, if user wants to be notified
-				if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
-					NotifyEvent(m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), NULL, EVENT_FRIENDSHIP, &url, alert_id.empty() ? nullptr : &alert_id);
-				}
+				if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE))
+					NotifyEvent(m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), 0, EVENT_FRIENDSHIP, &url, alert_id.empty() ? nullptr : &alert_id);
+			}
+			else { // new comment, like or reaction
+				PrepareNotificationsChatRoom();
+
+				// Fix notification ID
+				std::string::size_type pos = alert_id.find(":");
+				if (pos != std::string::npos)
+					alert_id = alert_id.substr(pos + 1);
+
+				facebook_notification *notification = new facebook_notification();
+				notification->text = utils::text::remove_html(utils::text::html_entities_decode(html_.as_string()));
+				notification->link = href_.as_string();
+				notification->id = alert_id;
+				notification->time = utils::time::from_string(data["time"].as_string());
+
+				// Write notification to chatroom
+				UpdateNotificationsChatRoom(notification);
+
+				notifications->insert(std::make_pair(notification->id, notification));
 			}
 		}
 		else if (t == "jewel_requests_add") {
 			// New friendship request, load them all with real names (because there is only user_id in "from" field)
 			ForkThread(&FacebookProto::ProcessFriendRequests, nullptr);
 		}
-		/*else if (t == "jewel_requests_handled") { // revised 5.3.2017
-			// When some request is approved (or perhaps even ignored/removed)
-			const JSONNode &item_id_ = (*it)["item_id"]; // "<other_userid>_1_req"
-			const JSONNode &realtime_viewer_fbid_ = (*it)["realtime_viewer_fbid"]; // our user fbid
-		}
-		else if (t == "type=jewel_requests_remove_old") { // revised 5.3.2017
-			// Probably same as above? Happened in same situation. Could happen few times in a row.
-			const JSONNode &from_ = (*it)["from"]; // other_userid
-			const JSONNode &realtime_viewer_fbid_ = (*it)["realtime_viewer_fbid"]; // our user fbid
-		}*/
 		else if (t == "typ") { // revised 5.3.2017
 			// chat typing notification
 			const JSONNode &from_ = (*it)["from"]; // user fbid

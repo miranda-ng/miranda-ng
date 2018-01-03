@@ -53,7 +53,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDC_TITLE:
 			return (INT_PTR)GetStockObject(WHITE_BRUSH);
 		}
-		return NULL;
+		return 0;
 
 	case WM_PAINT:
 		if (params) {

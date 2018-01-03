@@ -38,13 +38,13 @@ public:
 	{
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
 
-		send_message_lock_ = notifications_lock_ = cookies_lock_ = loading_history_lock_ = NULL;
-		hChannelCon = NULL;
-		hMessagesCon = NULL;
-		hFcbCon = NULL;
-		fcb_conn_lock_ = NULL;
-		handle_ = NULL;
-		parent = NULL;
+		send_message_lock_ = notifications_lock_ = cookies_lock_ = loading_history_lock_ = nullptr;
+		hChannelCon = nullptr;
+		hMessagesCon = nullptr;
+		hFcbCon = nullptr;
+		fcb_conn_lock_ = nullptr;
+		handle_ = nullptr;
+		parent = nullptr;
 
 		mbasicWorks = true;
 		loading_history = false;

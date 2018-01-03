@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai, std::string *url)
 {
 	ptrA id(getStringA(pai.hContact, FACEBOOK_KEY_ID));
-	if (id == NULL)
+	if (id == nullptr)
 		return false;
 
 	if (url) {
@@ -62,10 +62,10 @@ void FacebookProto::CheckAvatarChange(MCONTACT hContact, const std::string &imag
 
 	// Check for avatar change
 	ptrA old_name(getStringA(hContact, FACEBOOK_KEY_AVATAR));
-	bool update_required = (old_name == NULL || image_name.compare(old_name) != 0);
+	bool update_required = (old_name == nullptr || image_name.compare(old_name) != 0);
 
 	// TODO: Remove this in some newer version
-	if (old_name == NULL) {
+	if (old_name == nullptr) {
 		// Remove AvatarURL value, which was used in previous versions of plugin
 		delSetting(hContact, "AvatarURL");
 	}

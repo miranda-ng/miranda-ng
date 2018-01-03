@@ -45,14 +45,14 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 
 	// Load custom locale, if set
 	ptrA locale(getStringA(FACEBOOK_KEY_LOCALE));
-	if (locale != NULL)
+	if (locale != nullptr)
 		m_locale = locale;
 
 	// Load custom page prefix, if set
 	ptrW pagePrefix(getWStringA(FACEBOOK_KEY_PAGE_PREFIX));
-	m_pagePrefix = (pagePrefix != NULL) ? _T2A(pagePrefix, CP_UTF8) : TEXT_EMOJI_PAGE;
+	m_pagePrefix = (pagePrefix != nullptr) ? _T2A(pagePrefix, CP_UTF8) : TEXT_EMOJI_PAGE;
 
-	if (m_tszDefaultGroup == NULL)
+	if (m_tszDefaultGroup == nullptr)
 		m_tszDefaultGroup = mir_wstrdup(L"Facebook");
 
 	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
@@ -282,21 +282,21 @@ MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	ptrA name(mir_u2a_cp(psr->firstName.w, CP_UTF8));
 	ptrA surname(mir_u2a_cp(psr->lastName.w, CP_UTF8));
 
-	if (id == NULL)
-		return NULL;
+	if (id == nullptr)
+		return 0;
 
 	facebook_user fbu;
 	fbu.user_id = id;
-	if (name != NULL)
+	if (name != nullptr)
 		fbu.real_name = name;
-	if (surname != NULL) {
+	if (surname != nullptr) {
 		fbu.real_name += " ";
 		fbu.real_name += surname;
 	}
 
 	if (fbu.user_id.find_first_not_of("0123456789") != std::string::npos) {
 		MessageBox(nullptr, TranslateT("Facebook ID must be numeric value."), m_tszUserName, MB_ICONERROR | MB_OK);
-		return NULL;
+		return 0;
 	}
 
 	bool add_temporarily = (flags & PALF_TEMPORARY);
@@ -313,7 +313,7 @@ MCONTACT FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 int FacebookProto::AuthRequest(MCONTACT hContact, const wchar_t *)
 {
-	return RequestFriendship(hContact, NULL);
+	return RequestFriendship(hContact, 0);
 }
 
 int FacebookProto::Authorize(MEVENT hDbEvent)
@@ -325,7 +325,7 @@ int FacebookProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	return ApproveFriendship(hContact, NULL);
+	return ApproveFriendship(hContact, 0);
 }
 
 int FacebookProto::AuthDeny(MEVENT hDbEvent, const wchar_t *)
@@ -337,7 +337,7 @@ int FacebookProto::AuthDeny(MEVENT hDbEvent, const wchar_t *)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	return DenyFriendship(hContact, NULL);
+	return DenyFriendship(hContact, 0);
 }
 
 int FacebookProto::GetInfo(MCONTACT hContact, int)
@@ -352,7 +352,7 @@ int FacebookProto::GetInfo(MCONTACT hContact, int)
 INT_PTR FacebookProto::GetMyAwayMsg(WPARAM, LPARAM lParam)
 {
 	ptrW statusMsg(getWStringA("StatusMsg"));
-	if (statusMsg == NULL || statusMsg[0] == '\0')
+	if (statusMsg == nullptr || statusMsg[0] == '\0')
 		return 0;
 
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_wstrdup(statusMsg) : (INT_PTR)mir_u2a(statusMsg);
@@ -643,12 +643,12 @@ INT_PTR FacebookProto::VisitProfile(WPARAM wParam, LPARAM)
 	std::string url = FACEBOOK_URL_PROFILE;
 
 	ptrA val(getStringA(hContact, "Homepage"));
-	if (val != NULL) // Homepage link already present, get it
+	if (val != nullptr) // Homepage link already present, get it
 		url = val;
 	else {
 		// No homepage link, create and save it
 		val = getStringA(hContact, FACEBOOK_KEY_ID);
-		if (val != NULL) {
+		if (val != nullptr) {
 			url += val;
 			setString(hContact, "Homepage", url.c_str());
 		}
@@ -686,7 +686,7 @@ INT_PTR FacebookProto::VisitConversation(WPARAM wParam, LPARAM)
 
 	bool isChat = isChatRoom(hContact);
 	ptrA id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
-	if (id == NULL)
+	if (id == nullptr)
 		return 1;
 
 	std::string url = FACEBOOK_URL_CONVERSATION + std::string(id);
@@ -712,13 +712,13 @@ INT_PTR FacebookProto::VisitNotifications(WPARAM, LPARAM)
 
 INT_PTR FacebookProto::Poke(WPARAM wParam, LPARAM)
 {
-	if (wParam == NULL || isOffline())
+	if (wParam == 0 || isOffline())
 		return 1;
 
 	MCONTACT hContact = MCONTACT(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-	if (id == NULL)
+	if (id == nullptr)
 		return 1;
 
 	ForkThread(&FacebookProto::SendPokeWorker, new std::string(id));
@@ -727,7 +727,7 @@ INT_PTR FacebookProto::Poke(WPARAM wParam, LPARAM)
 
 INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 {
-	if (wParam == NULL || isOffline())
+	if (wParam == 0 || isOffline())
 		return 1;
 
 	MCONTACT hContact = MCONTACT(wParam);
@@ -744,9 +744,9 @@ INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 	}
 
 	ptrW name(getWStringA(hContact, FACEBOOK_KEY_NICK));
-	if (name == NULL)
+	if (name == nullptr)
 		name = getWStringA(hContact, FACEBOOK_KEY_ID);
-	if (name == NULL)
+	if (name == nullptr)
 		return 1;
 
 	CMStringW title;
@@ -762,7 +762,7 @@ INT_PTR FacebookProto::LoadHistory(WPARAM wParam, LPARAM)
 
 INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam == NULL || isOffline())
+	if (wParam == 0 || isOffline())
 		return 1;
 
 	bool deleting = (lParam == 1);
@@ -774,10 +774,10 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	ptrW tname(getWStringA(hContact, FACEBOOK_KEY_NICK));
-	if (tname == NULL)
+	if (tname == nullptr)
 		tname = getWStringA(hContact, FACEBOOK_KEY_ID);
 
-	if (tname == NULL)
+	if (tname == nullptr)
 		return 1;
 
 	wchar_t tstr[256];
@@ -785,7 +785,7 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 	if (MessageBox(nullptr, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2) == IDYES) {
 
 		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-		if (id == NULL)
+		if (id == nullptr)
 			return 1;
 
 		std::string *val = new std::string(id);
@@ -793,8 +793,8 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 		// FIXME: Remember that we deleted this contact, so we won't accidentally add him at status change
 		/*if (deleting) {
 			facebook_user *fbu = facy.buddies.find(*val);
-			if (fbu != NULL)
-				fbu->handle = NULL;
+			if (fbu != nullptr)
+				fbu->handle = nullptr;
 		}*/
 
 		ForkThread(&FacebookProto::DeleteContactFromServer, val);
@@ -805,13 +805,13 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 
 INT_PTR FacebookProto::RequestFriendship(WPARAM wParam, LPARAM)
 {
-	if (wParam == NULL || isOffline())
+	if (wParam == 0 || isOffline())
 		return 1;
 
 	MCONTACT hContact = MCONTACT(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-	if (id == NULL)
+	if (id == nullptr)
 		return 1;
 
 	ForkThread(&FacebookProto::AddContactToServer, new std::string(id));
@@ -820,7 +820,7 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam, LPARAM)
 
 INT_PTR FacebookProto::ApproveFriendship(WPARAM wParam, LPARAM)
 {
-	if (wParam == NULL || isOffline())
+	if (wParam == 0 || isOffline())
 		return 1;
 
 	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
@@ -830,7 +830,7 @@ INT_PTR FacebookProto::ApproveFriendship(WPARAM wParam, LPARAM)
 
 INT_PTR FacebookProto::DenyFriendship(WPARAM wParam, LPARAM)
 {
-	if (wParam == NULL || isOffline())
+	if (wParam == 0 || isOffline())
 		return 1;
 
 	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
@@ -840,7 +840,7 @@ INT_PTR FacebookProto::DenyFriendship(WPARAM wParam, LPARAM)
 
 INT_PTR FacebookProto::OnCancelFriendshipRequest(WPARAM wParam, LPARAM)
 {
-	if (wParam == NULL || isOffline())
+	if (wParam == 0 || isOffline())
 		return 1;
 
 	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
@@ -917,7 +917,7 @@ void FacebookProto::OpenUrl(std::string url)
 
 	// Check if there is user defined browser for opening links
 	ptrW browser(getWStringA(FACEBOOK_KEY_OPEN_URL_BROWSER));
-	if (browser != NULL)
+	if (browser != nullptr)
 		// If so, use it to open this link
 		ForkThread(&FacebookProto::OpenUrlThread, new open_url(browser, data));
 	else

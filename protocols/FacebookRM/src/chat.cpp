@@ -71,14 +71,11 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 
 	switch (hook->iType) {
 	case GC_USER_MESSAGE:
-		{
+		if (isOnline()) {
+			debugLogA("  > Chat - Outgoing message");
 			std::string msg = _T2A(hook->ptszText, CP_UTF8);
 			std::string chat_id = _T2A(hook->ptszID, CP_UTF8);
-
-			if (isOnline()) {
-				debugLogA("  > Chat - Outgoing message");
-				ForkThread(&FacebookProto::SendChatMsgWorker, new send_chat(chat_id, msg));
-			}
+			ForkThread(&FacebookProto::SendChatMsgWorker, new send_chat(chat_id, msg));
 		}
 		break;
 
@@ -96,57 +93,32 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		}
 		break;
 
-		/*
-		case GC_USER_LOGMENU:
-		{
-		switch(hook->dwData)
-		{
+	case GC_USER_NICKLISTMENU:
+		MCONTACT hContact = 0;
+		if (hook->dwData == 10 || hook->dwData == 20) {
+			facebook_user fbu;
+			fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
+
+			// Find this contact in list or add new temporary contact
+			hContact = AddToContactList(&fbu, false, true);
+			if (!hContact)
+				break;
+		}
+
+		switch (hook->dwData) {
 		case 10:
-		DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, invite_to_chat_dialog,
-		LPARAM(new invite_chat_param(item->id, this)));
-		break;
+			CallService(MS_USERINFO_SHOWDIALOG, hContact);
+			break;
 
 		case 20:
-		//chat_leave(id);
-		break;
-		}
-		break;
-		}
-		*/
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact);
+			break;
 
-	case GC_USER_NICKLISTMENU:
-		{
-			MCONTACT hContact = NULL;
-			if (hook->dwData == 10 || hook->dwData == 20) {
-				facebook_user fbu;
-				fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
-
-				// Find this contact in list or add new temporary contact
-				hContact = AddToContactList(&fbu, false, true);
-
-				if (!hContact)
-					break;
-			}
-
-			switch (hook->dwData) {
-			case 10:
-				CallService(MS_USERINFO_SHOWDIALOG, hContact);
-				break;
-
-			case 20:
-				CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact);
-				break;
-
-			case 110:
-				//chat_leave(id);
-				break;
-			}
-
+		case 110:
+			//chat_leave(id);
 			break;
 		}
 
-	case GC_USER_LEAVE:
-	case GC_SESSION_TERMINATE:
 		break;
 	}
 
@@ -228,7 +200,7 @@ char *FacebookProto::GetChatUsers(const char *chat_id)
 bool FacebookProto::IsChatContact(const char *chat_id, const char *id)
 {
 	ptrA users(GetChatUsers(chat_id));
-	return (users != NULL && strstr(users, id) != nullptr);
+	return (users != nullptr && strstr(users, id) != nullptr);
 }
 
 void FacebookProto::AddChat(const char *id, const wchar_t *tname)
@@ -281,9 +253,9 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 	}
 
 	// RM TODO: better use check if chatroom exists/is in db/is online... no?
-	// like: if (ChatIDToHContact(thread_id) == NULL) {
+	// like: if (ChatIDToHContact(thread_id) == nullptr) {
 	ptrA users(GetChatUsers(thread_id.c_str()));
-	if (users == NULL) {
+	if (users == nullptr) {
 		// Add chatroom
 		AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
 
@@ -379,7 +351,7 @@ void FacebookProto::PrepareNotificationsChatRoom()
 
 	// Prepare notifications chatroom if not exists
 	MCONTACT hNotificationsChatRoom = ChatIDToHContact(FACEBOOK_NOTIFICATIONS_CHATROOM);
-	if (hNotificationsChatRoom == NULL || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
+	if (hNotificationsChatRoom == 0 || getDword(hNotificationsChatRoom, "Status", ID_STATUS_OFFLINE) != ID_STATUS_ONLINE) {
 		wchar_t nameT[200];
 		mir_snwprintf(nameT, L"%s: %s", m_tszUserName, TranslateT("Notifications"));
 

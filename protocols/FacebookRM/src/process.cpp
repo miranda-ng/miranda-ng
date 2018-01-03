@@ -81,7 +81,7 @@ void FacebookProto::ProcessFriendList(void*)
 				setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 
 			ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
-			if (id != NULL) {
+			if (id != nullptr) {
 				std::map< std::string, facebook_user* >::iterator iter;
 
 				if ((iter = friends.find(std::string(id))) != friends.end()) {
@@ -281,7 +281,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 		return;
 
 	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
-	if (item_id == NULL) {
+	if (item_id == nullptr) {
 		debugLogA("!!! LoadLastMessages(): Contact has no TID/ID");
 		return;
 	}
@@ -316,7 +316,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 	facy.ignore_read.erase(hContact);
 
 	// And force mark read
-	OnDbEventRead(hContact, NULL);
+	OnDbEventRead(hContact, 0);
 }
 
 void FacebookProto::LoadHistory(void *pParam)
@@ -340,7 +340,7 @@ void FacebookProto::LoadHistory(void *pParam)
 		return;
 
 	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
-	if (item_id == NULL) {
+	if (item_id == nullptr) {
 		debugLogA("!!! LoadHistory(): Contact has no TID/ID");
 		return;
 	}
@@ -667,7 +667,7 @@ void FacebookProto::ProcessMemories(void *p)
 				ptrW tszTitle(mir_utf8decodeW(news[i]->title.c_str()));
 				ptrW tszText(mir_utf8decodeW(news[i]->text.c_str()));
 
-				NotifyEvent(TranslateT("On this day"), tszText, NULL, EVENT_ON_THIS_DAY, &news[i]->link);
+				NotifyEvent(TranslateT("On this day"), tszText, 0, EVENT_ON_THIS_DAY, &news[i]->link);
 				delete news[i];
 			}
 			news.clear();
@@ -693,11 +693,11 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			facebook_message &msg = messages[i];
 
 			MCONTACT hContact = msg.isChat ? ChatIDToHContact(msg.thread_id) : ContactIDToHContact(msg.user_id);
-			if (hContact == NULL)
+			if (hContact == 0)
 				continue;
 
 			ptrA lastId(getStringA(hContact, FACEBOOK_KEY_MESSAGE_ID));
-			if (lastId == NULL)
+			if (lastId == nullptr)
 				continue;
 
 			if (!msg.message_id.compare(lastId)) {
@@ -750,11 +750,11 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				facy.chat_rooms.insert(std::make_pair(thread_id, fbc));
 			}
 
-			MCONTACT hChatContact = NULL;
+			MCONTACT hChatContact = 0;
 			// RM TODO: better use check if chatroom exists/is in db/is online... no?
-			// like: if (ChatIDToHContact(thread_id) == NULL) {
+			// like: if (ChatIDToHContact(thread_id) == nullptr) {
 			ptrA users(GetChatUsers(fbc->thread_id.c_str()));
-			if (users == NULL) {
+			if (users == nullptr) {
 				AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
 				hChatContact = ChatIDToHContact(fbc->thread_id);
 				// Set thread id (TID) for later
@@ -851,7 +851,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			fbu.user_id = msg.user_id;
 
 			MCONTACT hContact = ContactIDToHContact(fbu.user_id);
-			if (hContact == NULL) {
+			if (hContact == 0) {
 				// In Naseem's spam mode we ignore outgoing messages sent from other instances
 				if (naseemsSpamMode && !msg.isIncoming)
 					continue;
@@ -960,7 +960,7 @@ void FacebookProto::ShowNotifications()
 		if (notification != nullptr && !notification->seen) {
 			debugLogA("    Showing popup for notification ID: %s", notification->id.c_str());
 			ptrW szText(mir_utf8decodeW(notification->text.c_str()));
-			MCONTACT hContact = (notification->user_id.empty() ? NULL : ContactIDToHContact(notification->user_id));
+			MCONTACT hContact = (notification->user_id.empty() ? 0 : ContactIDToHContact(notification->user_id));
 			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, hContact, EVENT_NOTIFICATION, &notification->link, &notification->id, notification->icon);
 			notification->seen = true;
 		}
@@ -1073,7 +1073,7 @@ void FacebookProto::ProcessFriendRequests(void *p)
 
 			bool isNew = false;
 			ptrA oldTime(getStringA(hContact, "RequestTime"));
-			if (oldTime == NULL || mir_strcmp(oldTime, time.c_str())) {
+			if (oldTime == nullptr || mir_strcmp(oldTime, time.c_str())) {
 				// This is new request
 				isNew = true;
 				setString(hContact, "RequestTime", time.c_str());
@@ -1291,7 +1291,7 @@ void FacebookProto::SearchAckThread(void *targ)
 				psr.firstName.w = tname;
 				psr.lastName.w = tsurname;
 				psr.email.w = tcommon;
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
+				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 			}
 
 			ssid = utils::text::source_get_value(&resp.data, 3, "id=\"more_objects\"", "ssid=", "&");
@@ -1302,7 +1302,7 @@ void FacebookProto::SearchAckThread(void *targ)
 		else break;
 	}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
 
 	facy.handle_success("searchAckThread");
 
@@ -1365,12 +1365,12 @@ void FacebookProto::SearchIdAckThread(void *targ)
 				psr.id.w = tid;
 				psr.firstName.w = tname;
 				psr.lastName.w = tsurname;
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
+				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
 			}
 		}
 	}
 
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
 
 	facy.handle_success("searchIdAckThread");
 

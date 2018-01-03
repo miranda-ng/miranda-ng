@@ -57,7 +57,7 @@ public:
 			<< CHAR_PARAM("last_section_key", "regular_story")
 			<< INT_PARAM("__be", -1)
 			<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
-			<< INT64_PARAM("timestamp", ::time(NULL))
+			<< INT64_PARAM("timestamp", ::time(nullptr))
 			<< CHAR_PARAM("__dyn", fc->__dyn())
 			<< CHAR_PARAM("__req", fc->__req())
 			<< CHAR_PARAM("__rev", fc->__rev())
