@@ -252,7 +252,7 @@ Nachrichten können nicht an Benutzer ohne vorherige Unterhaltung gesendet werde
 [Can't send messages to this user due to their privacy settings]
 Nachrichten können nicht an diesen Benutzer wegen seiner Privatsphäre-Einstellungen gesendet werden.
 [Message is too long]
-
+Nachricht ist zu lang.
 [Enter the missing digits between %s and %s of the phone number linked to your account]
 Geben Sie die fehlenden Ziffern zwischen %s und %s der mit Ihrem Konto verknüpften Telefonnummer ein.
 [Attention!]
@@ -478,9 +478,9 @@ Vehler beim Laden des Nachrichtenverlaufes von %s vom Server.
 Laden der Nachrichten von %s ist fertig.
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Edited message:\n]
-
+Bearbeitete Nachricht:\n
 [\nOriginal message:\n]
-
+\nOriginalnachricht:\n
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
