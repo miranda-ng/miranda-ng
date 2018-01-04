@@ -422,3 +422,157 @@ std::string FacebookProto::GenerateChatName(facebook_chatroom *fbc)
 
 	return name;
 }
+
+void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
+{
+	std::vector<std::string> namelessIds;
+
+	// TODO: We could load all names from server at once by skipping this for cycle and using namelessIds as all in participants list, but we would lost our local names of our contacts. But maybe that's not a problem?
+	for (auto &it : fbc->participants) {
+		const char *id = it.first.c_str();
+		chatroom_participant &user = it.second;
+
+		if (!user.loaded) {
+			if (!mir_strcmp(id, facy.self_.user_id.c_str())) {
+				user.nick = facy.self_.real_name;
+				user.role = ROLE_ME;
+				user.loaded = true;
+			}
+			else {
+				MCONTACT hContact = ContactIDToHContact(id);
+				if (hContact != 0) {
+					DBVARIANT dbv;
+					if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
+						user.nick = dbv.pszVal;
+						db_free(&dbv);
+					}
+					if (user.role == ROLE_NONE) {
+						int type = getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE);
+						if (type == CONTACT_FRIEND)
+							user.role = ROLE_FRIEND;
+						else
+							user.role = ROLE_NONE;
+					}
+					user.loaded = true;
+				}
+
+				if (!user.loaded)
+					namelessIds.push_back(id);
+			}
+		}
+	}
+
+	if (!namelessIds.empty()) {
+		// we have some contacts without name, let's load them all from the server
+
+		LIST<char> userIds(1);
+		for (std::string::size_type i = 0; i < namelessIds.size(); i++)
+			userIds.insert(mir_strdup(namelessIds.at(i).c_str()));
+
+		HttpRequest *request = new UserInfoRequest(&facy, userIds);
+		http::response resp = facy.sendRequest(request);
+
+		FreeList(userIds);
+		userIds.destroy();
+
+		if (resp.code == HTTP_CODE_OK) {
+			try {
+				// TODO: We can cache these results and next time (e.g. for different chatroom) we can use that already cached names
+				ParseChatParticipants(&resp.data, &fbc->participants);
+				debugLogA("*** Participant names processed");
+			}
+			catch (const std::exception &e) {
+				debugLogA("*** Error processing participant names: %s", e.what());
+			}
+		}
+	}
+}
+
+void FacebookProto::JoinChatrooms()
+{
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		if (!isChatRoom(hContact))
+			continue;
+
+		// Ignore archived and unsubscribed chats
+		if (getBool(hContact, FACEBOOK_KEY_CHAT_IS_ARCHIVED, false) || !getBool(hContact, FACEBOOK_KEY_CHAT_IS_SUBSCRIBED, true))
+			continue;
+
+		OnJoinChat(hContact, 0);
+	}
+}
+
+void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
+{
+	if (isOffline())
+		return;
+
+	// request info about chat thread
+	HttpRequest *request = new ThreadInfoRequest(&facy, true, fbc->thread_id.c_str());
+	http::response resp = facy.sendRequest(request);
+
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error("LoadChatInfo");
+		return;
+	}
+
+	try {
+		ParseChatInfo(&resp.data, fbc);
+
+		// Load missing participants names
+		LoadParticipantsNames(fbc);
+
+		// If chat has no name, create name from participants list
+		if (fbc->chat_name.empty()) {
+			std::string newName = GenerateChatName(fbc);
+			fbc->chat_name = _A2T(newName.c_str(), CP_UTF8);
+		}
+
+		debugLogA("*** Chat thread info processed");
+	}
+	catch (const std::exception &e) {
+		debugLogA("*** Error processing chat thread info: %s", e.what());
+	}
+
+	facy.handle_success("LoadChatInfo");
+}
+
+int FacebookProto::ParseChatInfo(std::string *data, facebook_chatroom* fbc)
+{
+	size_t len = data->find("\r\n");
+	if (len != data->npos)
+		data->erase(len);
+
+	JSONNode root = JSONNode::parse(data->c_str());
+	if (!root)
+		return EXIT_FAILURE;
+
+	const JSONNode &thread = root["o0"]["data"]["message_thread"];
+	if (!thread)
+		return EXIT_FAILURE;
+
+	const JSONNode &thread_fbid_ = thread["thread_key"]["thread_fbid"];
+	const JSONNode &name_ = thread["name"];
+	if (!thread_fbid_)
+		return EXIT_FAILURE;
+
+	std::string tid = "id." + thread_fbid_.as_string();
+	if (fbc->thread_id != tid)
+		return EXIT_FAILURE;
+
+	chatroom_participant user;
+	user.is_former = false;
+	user.role = ROLE_NONE;
+	const JSONNode &participants = thread["all_participants"]["nodes"];
+	for (auto &jt : participants) {
+		user.user_id = jt["messaging_actor"]["id"].as_string();
+		fbc->participants.insert(std::make_pair(user.user_id, user));
+	}
+
+	fbc->can_reply = thread["can_reply"].as_bool();
+	fbc->is_archived = thread["has_viewer_archived"].as_bool();
+	fbc->is_subscribed = thread["is_viewer_subscribed"].as_bool();
+	fbc->read_only = thread["read_only"].as_bool();
+	fbc->chat_name = std::wstring(ptrW(mir_utf8decodeW(name_.as_string().c_str())));
+	return EXIT_SUCCESS;
+}

@@ -1306,64 +1306,6 @@ int FacebookProto::ParseUserInfo(std::string *data, facebook_user* fbu)
 	return EXIT_SUCCESS;
 }
 
-int FacebookProto::ParseChatInfo(std::string *data, facebook_chatroom* fbc)
-{
-	std::string jsonData = data->substr(9);
-
-	JSONNode root = JSONNode::parse(jsonData.c_str());
-	if (!root)
-		return EXIT_FAILURE;
-
-	const JSONNode &threads = root["payload"].at("threads");
-	if (!threads)
-		return EXIT_FAILURE;
-
-	for (auto &it : threads) {
-		const JSONNode &is_canonical_user_ = it["is_canonical_user"];
-		const JSONNode &thread_fbid_ = it["thread_fbid"];
-		const JSONNode &name_ = it["name"];
-		//const JSONNode &message_count_ = it["message_count");
-		//const JSONNode &unread_count_ = it["unread_count"); // TODO: use it to check against number of loaded messages... but how?
-
-		if (!thread_fbid_ || !is_canonical_user_ || is_canonical_user_.as_bool())
-			continue;
-
-		std::string tid = "id." + thread_fbid_.as_string();
-
-		// TODO: allow more chats to parse at once
-		if (fbc->thread_id != tid)
-			continue;
-
-		chatroom_participant user;
-
-		user.is_former = true;
-		const JSONNode &former_participants = it["former_participants"];
-		for (auto &jt : former_participants) {
-			user.role = jt["is_friend"].as_bool() ? ROLE_FRIEND : ROLE_NONE;
-			user.user_id = jt["id"].as_string().substr(5); // strip "fbid:" prefix
-			fbc->participants.insert(std::make_pair(user.user_id, user));
-		}
-
-		user.is_former = false;
-		user.role = ROLE_NONE;
-		const JSONNode &participants = it["participants"];
-		for (auto &jt : participants) {
-			user.user_id = jt.as_string().substr(5); // strip "fbid:" prefix
-			fbc->participants.insert(std::make_pair(user.user_id, user));
-		}
-
-		// TODO: don't automatically join unsubscribed or archived chatrooms
-
-		fbc->can_reply = it["can_reply"].as_bool();
-		fbc->is_archived = it["is_archived"].as_bool();
-		fbc->is_subscribed = it["is_subscribed"].as_bool();
-		fbc->read_only = it["read_only"].as_bool();
-		fbc->chat_name = std::wstring(ptrW(mir_utf8decodeW(name_.as_string().c_str())));
-	}
-
-	return EXIT_SUCCESS;
-}
-
 int FacebookProto::ParseMessagesCount(std::string *data, int *messagesCount, int *unreadCount)
 {
 	std::string jsonData = data->substr(9);
