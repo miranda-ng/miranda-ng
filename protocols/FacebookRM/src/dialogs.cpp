@@ -22,6 +22,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+// News Feed types
+const ttype feed_types[3] =
+{
+	{ LPGEN("Top News"), "h_nor" },
+	{ LPGEN("Most Recent"), "h_chr" },
+	{ LPGEN("Pages"), "pages" },
+};
+
+// Server types
+const ttype server_types[3] =
+{
+	{ LPGEN("Classic website"), "www.facebook.com" },
+	{ LPGEN("Mobile website"), "m.facebook.com" },
+	{ LPGEN("Smartphone website"), "touch.facebook.com" },
+};
+
+// Status privacy types
+const ttype privacy_types[5] =
+{
+	{ LPGEN("Public"), "80" },
+	{ LPGEN("Friends of friends"), "111&audience[0][custom_value]=50" },
+	{ LPGEN("Friends"), "40" },
+	{ LPGEN("Friends except acquaintances"), "127" },
+	{ LPGEN("Only me"), "10" },
+};
+
 static BOOL LoadDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, BYTE bDef)
 {
 	BOOL state = ppro->getByte(szSetting, bDef);

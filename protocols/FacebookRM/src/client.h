@@ -205,7 +205,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// HTTP communication
 
-	http::response sendRequest(HttpRequest *request);
+	http::response sendRequest(class HttpRequest *request);
 	bool save_url(const std::string &url, const std::wstring &filename, HNETLIBCONN &nlc);
 
 	////////////////////////////////////////////////////////////

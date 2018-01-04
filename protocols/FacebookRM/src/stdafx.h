@@ -70,26 +70,14 @@ class FacebookProto;
 #include "constants.h"
 #include "entities.h"
 #include "http.h"
-#include "http_request.h"
 #include "client.h"
+#include "http_request.h"
 #include "proto.h"
 #include "db.h"
 #include "dialogs.h"
 #include "theme.h"
 #include "resource.h"
 #include "version.h"
-
-#include "requests/contacts.h"
-#include "requests/feeds.h"
-#include "requests/history.h"
-#include "requests/channel.h"
-#include "requests/login.h"
-#include "requests/messages.h"
-#include "requests/notifications.h"
-#include "requests/profile.h"
-#include "requests/search.h"
-#include "requests/status.h"
-#include "requests/utils.h"
 
 extern HINSTANCE g_hInstance;
 extern std::string g_strUserAgent;
