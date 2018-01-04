@@ -37,8 +37,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	is much faster
 */
 
-const json_string CONST_NULL(JSON_TEXT("null"));
-
 static const json_string CONST_TRUE(JSON_TEXT("true"));
 static const json_string CONST_FALSE(JSON_TEXT("false"));
 

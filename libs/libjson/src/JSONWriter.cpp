@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifdef JSON_WRITER
 #include "JSONWorker.h"
 
+static const json_string CONST_NULL(JSON_TEXT("null"));
+
 const static json_string WRITER_EMPTY;
 #ifndef JSON_NEWLINE
 	const static json_string NEW_LINE(JSON_TEXT("\n"));
