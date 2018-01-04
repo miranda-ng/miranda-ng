@@ -54,6 +54,8 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 	if (request->requestType == REQUEST_POST)
 		request->Headers << CHAR_PARAM("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 
+	mir_cslockfull s(fcb_conn_lock_); s.unlock();
+
 	// Set persistent connection (or not)
 	switch (request->Persistent) {
 	case ChannelRequest::NONE:
@@ -69,7 +71,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		request->flags |= NLHRF_PERSISTENT;
 		break;
 	case ChannelRequest::DEFAULT:
-		WaitForSingleObject(fcb_conn_lock_, INFINITE);
+		s.lock();
 		request->nlc = hFcbCon;
 		request->flags |= NLHRF_PERSISTENT;
 		break;
@@ -91,7 +93,7 @@ http::response facebook_client::sendRequest(HttpRequest *request)
 		hMessagesCon = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 	case ChannelRequest::DEFAULT:
-		ReleaseMutex(fcb_conn_lock_);
+		s.unlock();
 		hFcbCon = pnlhr ? pnlhr->nlc : nullptr;
 		break;
 	}

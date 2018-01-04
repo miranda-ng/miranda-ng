@@ -41,7 +41,6 @@ public:
 		hChannelCon = nullptr;
 		hMessagesCon = nullptr;
 		hFcbCon = nullptr;
-		fcb_conn_lock_ = nullptr;
 		handle_ = nullptr;
 		parent = nullptr;
 
@@ -52,7 +51,7 @@ public:
 	HNETLIBCONN hChannelCon;
 	HNETLIBCONN hMessagesCon;
 	HNETLIBCONN hFcbCon;
-	HANDLE fcb_conn_lock_;
+	mir_cs fcb_conn_lock_;
 
 	// Random generator value for this client
 
