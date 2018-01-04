@@ -264,10 +264,10 @@ public:
 	HGENMENU m_hStatusMind;
 
 	// Locks
-	HANDLE signon_lock_;
-	HANDLE avatar_lock_;
-	HANDLE log_lock_;
-	HANDLE update_loop_lock_;
+	mir_cs signon_lock_;
+	mir_cs avatar_lock_;
+	mir_cs log_lock_;
+	HANDLE update_loop_event;
 
 	ptrW m_tszDefaultGroup;
 

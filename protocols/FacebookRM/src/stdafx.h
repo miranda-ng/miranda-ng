@@ -83,28 +83,6 @@ extern HINSTANCE g_hInstance;
 extern std::string g_strUserAgent;
 extern DWORD g_mirandaVersion;
 
-class ScopedLock
-{
-public:
-	ScopedLock(HANDLE h, int t = INFINITE) : handle_(h), timeout_(t)
-	{
-		WaitForSingleObject(handle_,timeout_);
-	}
-	~ScopedLock()
-	{
-		if(handle_)
-			ReleaseMutex(handle_);
-	}
-	void Unlock()
-	{
-		ReleaseMutex(handle_);
-		handle_ = 0;
-	}
-private:
-	HANDLE handle_;
-	int timeout_;
-};
-
 template <typename T>
 __inline static void FreeList(const LIST<T> &lst)
 {

@@ -249,7 +249,7 @@ int FacebookProto::ParseNotifications(std::string *data, std::map< std::string, 
 
 bool FacebookProto::IgnoreDuplicates(const std::string &mid)
 {
-	ScopedLock s(facy.send_message_lock_);
+	mir_cslock s(facy.send_message_lock_);
 
 	std::map<std::string, int>::iterator it = facy.messages_ignore.find(mid);
 	if (it != facy.messages_ignore.end()) {
@@ -996,7 +996,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 				NotifyEvent(m_tszUserName, ptrW(mir_utf8decodeW(text.c_str())), hContact, EVENT_TICKER, &url);
 		}
 		else if (t == "notifications_read" || t == "notifications_seen") { // revised 5.3.2017
-			ScopedLock s(facy.notifications_lock_);
+			mir_cslock s(facy.notifications_lock_);
 
 			const JSONNode &alerts = it["alert_ids"];
 			for (auto &itAlerts : alerts) {

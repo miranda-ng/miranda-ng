@@ -38,7 +38,6 @@ public:
 	{
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = chat_msgs_recv_ = chat_req_ = 0;
 
-		send_message_lock_ = notifications_lock_ = cookies_lock_ = loading_history_lock_ = nullptr;
 		hChannelCon = nullptr;
 		hMessagesCon = nullptr;
 		hFcbCon = nullptr;
@@ -61,11 +60,11 @@ public:
 
 	// Parent handle
 
-	FacebookProto*  parent;
+	FacebookProto *parent;
 
 	// User data
 
-	facebook_user   self_;
+	facebook_user self_;
 
 	std::string username_;
 	std::string password_;
@@ -100,7 +99,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// Cookies, Data storage
 
-	HANDLE cookies_lock_;
+	mir_cs cookies_lock_;
 
 	std::map<std::string, std::string> cookies;
 	std::map<std::string, std::string> pages;
@@ -165,24 +164,22 @@ public:
 	////////////////////////////////////////////////////////////
 	// Login handling
 
-	bool    login(const char *username, const char *password);
-	bool    logout();
-	bool	sms_code(const char *fb_dtsg);
-
-	const std::string & get_username() const;
+	bool login(const char *username, const char *password);
+	bool logout();
+	bool sms_code(const char *fb_dtsg);
 
 	////////////////////////////////////////////////////////////
 	// Session handling
 
-	bool    home();
-	bool    reconnect();
-	bool    chat_state(bool online = true);
+	bool home();
+	bool reconnect();
+	bool chat_state(bool online = true);
 
 	////////////////////////////////////////////////////////////
 	// Updates handling
 
-	HANDLE  send_message_lock_;
-	HANDLE  notifications_lock_;
+	mir_cs send_message_lock_;
+	mir_cs notifications_lock_;
 
 	////////////////////////////////////////////////////////////
 	// Messages handling
@@ -191,7 +188,7 @@ public:
 	std::map<int, time_t> messages_timestamp;
 	
 	bool loading_history;
-	HANDLE loading_history_lock_;
+	mir_cs loading_history_lock_;
 
 	bool channel();
 	bool activity_ping();

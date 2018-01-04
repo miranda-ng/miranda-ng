@@ -215,7 +215,7 @@ std::string facebook_client::get_privacy_type()
 
 char* facebook_client::load_cookies()
 {
-	ScopedLock s(cookies_lock_);
+	mir_cslock s(cookies_lock_);
 
 	std::string cookieString;
 
@@ -232,7 +232,7 @@ char* facebook_client::load_cookies()
 
 void facebook_client::store_headers(http::response* resp, NETLIBHTTPHEADER* headers, int headersCount)
 {
-	ScopedLock c(cookies_lock_);
+	mir_cslock c(cookies_lock_);
 
 	for (int i = 0; i < headersCount; i++) {
 		std::string header_name = headers[i].szName;
@@ -254,7 +254,7 @@ void facebook_client::store_headers(http::response* resp, NETLIBHTTPHEADER* head
 
 void facebook_client::clear_cookies()
 {
-	ScopedLock s(cookies_lock_);
+	mir_cslock s(cookies_lock_);
 
 	if (!cookies.empty())
 		cookies.clear();
@@ -262,7 +262,7 @@ void facebook_client::clear_cookies()
 
 void facebook_client::clear_notifications()
 {
-	ScopedLock s(notifications_lock_);
+	mir_cslock s(notifications_lock_);
 
 	for (auto &it : notifications) {
 		if (it.second->hWndPopup != nullptr)
@@ -989,7 +989,8 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	http::response resp;
 	{
 		HttpRequest *request = new SendMessageRequest(this, userId, threadId, messageId.c_str(), message_text.c_str(), isChatRoom, captcha.c_str(), captcha_persist_data.c_str());
-		ScopedLock s(send_message_lock_);
+		
+		mir_cslock s(send_message_lock_);
 		resp = sendRequest(request);
 
 		*error_text = resp.error_text;

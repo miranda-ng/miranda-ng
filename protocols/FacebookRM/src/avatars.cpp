@@ -112,7 +112,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName);
 		}
 
-		ScopedLock s(avatar_lock_);
+		mir_cslock s(avatar_lock_);
 		avatar_queue.erase(avatar_queue.begin());
 		if (avatar_queue.empty())
 			break;
@@ -185,7 +185,7 @@ INT_PTR FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 		if (needLoad) {
 			debugLogA("*** Starting avatar request thread for %s", _T2A(pai->filename));
-			ScopedLock s(avatar_lock_);
+			mir_cslock s(avatar_lock_);
 
 			if (std::find(avatar_queue.begin(), avatar_queue.end(), pai->hContact) == avatar_queue.end()) {
 				bool is_empty = avatar_queue.empty();

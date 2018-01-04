@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void FacebookProto::ChangeStatus(void*)
 {
-	ScopedLock s(signon_lock_);
+	mir_cslock s(signon_lock_);
 
 	int new_status = m_iDesiredStatus;
 	int old_status = m_iStatus;
@@ -34,7 +34,7 @@ void FacebookProto::ChangeStatus(void*)
 		debugLogA("### Beginning SignOff process");
 		m_signingOut = true;
 
-		SetEvent(update_loop_lock_);
+		SetEvent(update_loop_event);
 
 		// Shutdown and close channel handle
 		Netlib_Shutdown(facy.hChannelCon);
@@ -84,7 +84,6 @@ void FacebookProto::ChangeStatus(void*)
 
 		m_signingOut = false;
 		debugLogA("### SignOff complete");
-
 		return;
 	}
 	else if (old_status == ID_STATUS_OFFLINE) {
@@ -100,7 +99,7 @@ void FacebookProto::ChangeStatus(void*)
 		m_iStatus = facy.self_.status_id = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		ResetEvent(update_loop_lock_);
+		ResetEvent(update_loop_event);
 
 		// Workaround for not working "mbasic." for some users - reset this flag at every login
 		facy.mbasicWorks = true;
@@ -227,12 +226,12 @@ void FacebookProto::UpdateLoop(void *)
 				ProcessFeeds(nullptr);
 
 		debugLogA("*** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
-		if (WaitForSingleObjectEx(update_loop_lock_, GetPollRate() * 1000, true) != WAIT_TIMEOUT)
+		if (WaitForSingleObjectEx(update_loop_event, GetPollRate() * 1000, true) != WAIT_TIMEOUT)
 			break;
 		debugLogA("*** FacebookProto::UpdateLoop[%d] waking up...", tim);
 	}
 
-	ResetEvent(update_loop_lock_);
+	ResetEvent(update_loop_event);
 	debugLogA("<<< Exiting FacebookProto::UpdateLoop[%d]", tim);
 }
 

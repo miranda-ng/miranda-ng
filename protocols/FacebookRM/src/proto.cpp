@@ -28,15 +28,7 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 {
 	facy.parent = this;
 
-	signon_lock_ = CreateMutex(nullptr, FALSE, nullptr);
-	avatar_lock_ = CreateMutex(nullptr, FALSE, nullptr);
-	log_lock_ = CreateMutex(nullptr, FALSE, nullptr);
-	update_loop_lock_ = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-	facy.send_message_lock_ = CreateMutex(nullptr, FALSE, nullptr);
-	facy.fcb_conn_lock_ = CreateMutex(nullptr, FALSE, nullptr);
-	facy.notifications_lock_ = CreateMutex(nullptr, FALSE, nullptr);
-	facy.cookies_lock_ = CreateMutex(nullptr, FALSE, nullptr);
-	facy.loading_history_lock_ = CreateMutex(nullptr, FALSE, nullptr);
+	update_loop_event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	// Initialize random seed for this client
 	facy.random_ = ::time(nullptr) + PtrToUint(&facy);
@@ -122,23 +114,8 @@ FacebookProto::~FacebookProto()
 
 	Netlib_CloseHandle(m_hNetlibUser);
 
-	WaitForSingleObject(signon_lock_, IGNORE);
-	WaitForSingleObject(avatar_lock_, IGNORE);
-	WaitForSingleObject(log_lock_, IGNORE);
-	WaitForSingleObject(facy.send_message_lock_, IGNORE);
-	WaitForSingleObject(facy.notifications_lock_, IGNORE);
-	WaitForSingleObject(facy.cookies_lock_, IGNORE);
-	WaitForSingleObject(facy.loading_history_lock_, IGNORE);
-
-	CloseHandle(signon_lock_);
-	CloseHandle(avatar_lock_);
-	CloseHandle(log_lock_);
-	CloseHandle(update_loop_lock_);
-	CloseHandle(facy.send_message_lock_);
-	CloseHandle(facy.fcb_conn_lock_);
-	CloseHandle(facy.notifications_lock_);
-	CloseHandle(facy.cookies_lock_);
-	CloseHandle(facy.loading_history_lock_);
+	WaitForSingleObject(update_loop_event, INFINITE);
+	CloseHandle(update_loop_event);
 }
 
 //////////////////////////////////////////////////////////////////////////////

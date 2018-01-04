@@ -326,7 +326,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	MCONTACT hContact = *(MCONTACT*)pParam;
 	delete (MCONTACT*)pParam;
 
-	ScopedLock s(facy.loading_history_lock_);
+	mir_cslock s(facy.loading_history_lock_);
 
 	// Allow loading history only from one contact at a time
 	if (!isOnline() || facy.loading_history)
@@ -951,7 +951,7 @@ void FacebookProto::ProcessMessages(void* data)
 
 void FacebookProto::ShowNotifications()
 {
-	ScopedLock s(facy.notifications_lock_);
+	mir_cslock s(facy.notifications_lock_);
 
 	// Show popups for unseen notifications and/or write them to chatroom
 	for (auto &it : facy.notifications) {
