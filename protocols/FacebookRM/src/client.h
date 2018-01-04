@@ -92,14 +92,12 @@ public:
 	bool mbasicWorks;
 
 	////////////////////////////////////////////////////////////
-
 	// Client vs protocol communication
 
 	void client_notify(wchar_t* message);
 	void info_notify(wchar_t* message);
 
 	////////////////////////////////////////////////////////////
-
 	// Cookies, Data storage
 
 	HANDLE cookies_lock_;
@@ -165,7 +163,6 @@ public:
 	}
 
 	////////////////////////////////////////////////////////////
-
 	// Login handling
 
 	bool    login(const char *username, const char *password);
@@ -175,7 +172,6 @@ public:
 	const std::string & get_username() const;
 
 	////////////////////////////////////////////////////////////
-
 	// Session handling
 
 	bool    home();
@@ -183,15 +179,12 @@ public:
 	bool    chat_state(bool online = true);
 
 	////////////////////////////////////////////////////////////
-
 	// Updates handling
 
-	List::List<facebook_user> buddies;
 	HANDLE  send_message_lock_;
 	HANDLE  notifications_lock_;
 
 	////////////////////////////////////////////////////////////
-
 	// Messages handling
 
 	std::map<std::string, int> messages_ignore;
@@ -205,13 +198,11 @@ public:
 	int  send_message(int seqid, MCONTACT, const std::string &message_text, std::string *error_text, const std::string &captchaPersistData = "", const std::string &captcha = "");
 
 	////////////////////////////////////////////////////////////
-
 	// Status handling
 
-	bool    post_status(status_data *data);
+	bool post_status(status_data *data);
 
 	////////////////////////////////////////////////////////////
-
 	// HTTP communication
 
 	http::response sendRequest(HttpRequest *request);

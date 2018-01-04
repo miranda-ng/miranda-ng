@@ -168,9 +168,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	}
 
 	LIST<char> ids(1);
-	for (std::set<MCONTACT>::iterator it = hContacts->begin(); it != hContacts->end(); ++it) {
-		MCONTACT hContact = *it;
-
+	for (auto &hContact : *hContacts) {
 		if (getBool(hContact, FACEBOOK_KEY_KEEP_UNREAD, 0))
 			continue;
 

@@ -534,11 +534,9 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM)
 
 	post_status_data *data = new post_status_data(this, wall);
 
-	if (wall->user_id == facy.self_.user_id) {
-		for (std::map<std::string, std::string>::iterator iter = facy.pages.begin(); iter != facy.pages.end(); ++iter) {
-			data->walls.push_back(new wall_data(iter->first, mir_utf8decodeW(iter->second.c_str()), true));
-		}
-	}
+	if (wall->user_id == facy.self_.user_id)
+		for (auto &iter : facy.pages)
+			data->walls.push_back(new wall_data(iter.first, mir_utf8decodeW(iter.second.c_str()), true));
 
 	HWND hDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MIND), (HWND)nullptr, FBMindProc, reinterpret_cast<LPARAM>(data));
 	ShowWindow(hDlg, SW_SHOW);
@@ -789,14 +787,6 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 			return 1;
 
 		std::string *val = new std::string(id);
-
-		// FIXME: Remember that we deleted this contact, so we won't accidentally add him at status change
-		/*if (deleting) {
-			facebook_user *fbu = facy.buddies.find(*val);
-			if (fbu != nullptr)
-				fbu->handle = nullptr;
-		}*/
-
 		ForkThread(&FacebookProto::DeleteContactFromServer, val);
 	}
 

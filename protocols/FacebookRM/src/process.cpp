@@ -157,12 +157,11 @@ void FacebookProto::ProcessFriendList(void*)
 		}
 
 		// Check remaining contacts in map and add them to contact list
-		for (std::map< std::string, facebook_user* >::iterator it = friends.begin(); it != friends.end();) {
-			if (!it->second->deleted)
-				AddToContactList(it->second, true); // we know this contact doesn't exists, so we force add it
+		for (auto &it : friends) {
+			if (!it.second->deleted)
+				AddToContactList(it.second, true); // we know this contact doesn't exists, so we force add it
 
-			delete it->second;
-			it = friends.erase(it);
+			delete it.second;
 		}
 		friends.clear();
 
@@ -714,7 +713,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 		}
 
 		// 2. remove all marked messages from list
-		for (std::vector<facebook_message>::iterator it = messages.begin(); it != messages.end();) {
+		for (auto it = messages.begin(); it != messages.end();) {
 			if ((*it).flag_ == 1)
 				it = messages.erase(it);
 			else
@@ -760,8 +759,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				// Set thread id (TID) for later
 				setString(hChatContact, FACEBOOK_KEY_TID, fbc->thread_id.c_str());
 
-				for (auto jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt)
-					AddChatContact(fbc->thread_id.c_str(), jt->second, false);
+				for (auto &jt : fbc->participants)
+					AddChatContact(fbc->thread_id.c_str(), jt.second, false);
 			}
 
 			if (!hChatContact)
@@ -955,8 +954,8 @@ void FacebookProto::ShowNotifications()
 	ScopedLock s(facy.notifications_lock_);
 
 	// Show popups for unseen notifications and/or write them to chatroom
-	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end(); ++it) {
-		facebook_notification *notification = it->second;
+	for (auto &it : facy.notifications) {
+		facebook_notification *notification = it.second;
 		if (notification != nullptr && !notification->seen) {
 			debugLogA("    Showing popup for notification ID: %s", notification->id.c_str());
 			ptrW szText(mir_utf8decodeW(notification->text.c_str()));

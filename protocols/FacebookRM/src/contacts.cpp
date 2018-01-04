@@ -222,9 +222,9 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 	std::vector<std::string> namelessIds;
 
 	// TODO: We could load all names from server at once by skipping this for cycle and using namelessIds as all in participants list, but we would lost our local names of our contacts. But maybe that's not a problem?
-	for (auto it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
-		const char *id = it->first.c_str();
-		chatroom_participant &user = it->second;
+	for (auto &it : fbc->participants) {
+		const char *id = it.first.c_str();
+		chatroom_participant &user = it.second;
 
 		if (!user.loaded) {
 			if (!mir_strcmp(id, facy.self_.user_id.c_str())) {
@@ -260,9 +260,8 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 		// we have some contacts without name, let's load them all from the server
 
 		LIST<char> userIds(1);
-		for (std::string::size_type i = 0; i < namelessIds.size(); i++) {
+		for (std::string::size_type i = 0; i < namelessIds.size(); i++)
 			userIds.insert(mir_strdup(namelessIds.at(i).c_str()));
-		}
 
 		HttpRequest *request = new UserInfoRequest(&facy, userIds);
 		http::response resp = facy.sendRequest(request);
@@ -411,14 +410,8 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
-		// FIXME: Remember that we deleted this contact, so we won't accidentally add him at status change
-		/* facebook_user* fbu = facy.buddies.find(id);
-		if (fbu != nullptr)
-			fbu->deleted = true; */
-
-		MCONTACT hContact = ContactIDToHContact(id);
-
 		// If contact wasn't deleted from database
+		MCONTACT hContact = ContactIDToHContact(id);
 		if (hContact != 0) {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
@@ -427,9 +420,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), 0, EVENT_FRIENDSHIP);
 	}
-	else {
-		facy.client_notify(TranslateT("Error occurred when removing contact from server."));
-	}
+	else facy.client_notify(TranslateT("Error occurred when removing contact from server."));
 
 	if (resp.code != HTTP_CODE_OK)
 		facy.handle_error("DeleteContactFromServer");

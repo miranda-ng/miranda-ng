@@ -147,7 +147,7 @@ struct facebook_notification
 		this->icon = nullptr;
 	}
 
-	void setIcon(const std::string &iconUrl)
+	void setIcon(const std::string& /*iconUrl*/)
 	{
 		icon = nullptr;
 	}

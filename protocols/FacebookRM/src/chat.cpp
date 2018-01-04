@@ -260,8 +260,8 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM)
 		AddChat(fbc->thread_id.c_str(), fbc->chat_name.c_str());
 
 		// Add chat contacts
-		for (std::map<std::string, chatroom_participant>::iterator jt = fbc->participants.begin(); jt != fbc->participants.end(); ++jt)
-			AddChatContact(fbc->thread_id.c_str(), jt->second, false);
+		for (auto &jt : fbc->participants)
+			AddChatContact(fbc->thread_id.c_str(), jt.second, false);
 
 		// Load last messages
 		delSetting(hContact, FACEBOOK_KEY_MESSAGE_ID); // We're creating new chatroom so we want load all recent messages
@@ -393,11 +393,11 @@ std::string FacebookProto::GenerateChatName(facebook_chatroom *fbc)
 	std::string name = "";
 	unsigned int namesUsed = 0;
 
-	for (auto it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
-		std::string participant = it->second.nick;
+	for (auto &it : fbc->participants) {
+		std::string participant = it.second.nick;
 
 		// Ignore self contact, empty and numeric only participant names
-		if (it->second.role == ROLE_ME || participant.empty() || participant.find_first_not_of("0123456789") == std::string::npos)
+		if (it.second.role == ROLE_ME || participant.empty() || participant.find_first_not_of("0123456789") == std::string::npos)
 			continue;
 
 		if (namesUsed > 0)
