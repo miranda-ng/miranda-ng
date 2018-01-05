@@ -1104,7 +1104,7 @@ UIN, E-mail и т.д.
 [Gap between buttons:]
 Промежуток кнопок:
 [Hide if there isn't enough space]
-Скрывать, если недостаточно места
+Скрыть, если не хватает места
 [&Authorize]
 &Разрешить
 [&Deny]

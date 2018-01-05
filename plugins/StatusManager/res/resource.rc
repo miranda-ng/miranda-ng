@@ -96,7 +96,7 @@ BEGIN
     GROUPBOX        "Account connection",IDC_STATIC,3,32,286,116
     CONTROL         "Check connection",IDC_CHECKCONNECTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,51,162,10
     EDITTEXT        IDC_MAXRETRIES,21,70,22,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Maximum retries (0 - infinite)",IDC_STATIC,47,73,129,14
+    LTEXT           "Maximum retries (0 - infinite)",IDC_STATIC,47,73,129,16
     EDITTEXT        IDC_INITDELAY,21,92,22,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Delay between retries (secs)",IDC_STATIC,47,95,129,17
     CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,180,52,101,92
