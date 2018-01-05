@@ -723,8 +723,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 
 	std::set<MCONTACT> *hChatContacts = new std::set<MCONTACT>();
 
-	for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
-		facebook_message &msg = messages[i];
+	for (auto &msg : messages) {
 		if (msg.isChat) {
 			if (!m_enableChat)
 				continue;
@@ -795,24 +794,33 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			case ADMIN_TEXT:
 				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				break;
-			case SUBSCRIBE:
 			case UNSUBSCRIBE:
+				// this is our own request to leave the groupchat
+				if (_atoi64(msg.message_id.c_str()) == fbc->tmp_msgid) {
+					Chat_Terminate(m_szModuleName, _A2T(fbc->thread_id.c_str()), true);
+					facy.chat_rooms.erase(thread_id);
+					delete fbc;
+					break;
+				}
+				// fall through
+
+			case SUBSCRIBE:
 				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				{
 					std::vector<std::string> ids;
 					utils::text::explode(msg.data, ";", &ids);
-					for (std::vector<std::string>::size_type k = 0; k < ids.size(); k++) {
-						auto jt = fbc->participants.find(ids[k]);
+					for (auto &id : ids) {
+						auto jt = fbc->participants.find(id);
 						if (jt == fbc->participants.end()) {
 							// We don't have this user there yet, so load info about him and then process event
 							chatroom_participant participant;
 							participant.is_former = (msg.type == UNSUBSCRIBE);
-							participant.user_id = ids[k];
+							participant.user_id = id;
 
 							// FIXME: Load info about all participants at once
 							fbc->participants.insert(std::make_pair(participant.user_id, participant));
 							LoadParticipantsNames(fbc);
-							jt = fbc->participants.find(ids[k]);
+							jt = fbc->participants.find(id);
 						}
 						if (jt != fbc->participants.end()) {
 							if (msg.type == SUBSCRIBE)
