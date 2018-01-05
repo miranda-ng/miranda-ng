@@ -222,7 +222,7 @@ Jabber vCard: добавление телефона
 [Other JID:]
 Другой JID:
 [Add]
-Добавить
++
 [Invitation reason:]
 Причина приглашения:
 [&Invite]
