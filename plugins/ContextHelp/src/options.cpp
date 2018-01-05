@@ -240,7 +240,6 @@ static void DisplayPackInfo(HWND hwndDlg, const HELPPACK_INFO *pack)
 		const int controls[] = { IDC_LANGNOTINCLUDEDLABEL, IDC_LANGNOTINCLUDED, IDC_LANGDATELABEL, IDC_LANGDATE,
 			IDC_LANGLOCALELABEL, IDC_LANGLOCALE, IDC_LANGVERSIONLABEL, IDC_LANGVERSION,
 			IDC_LANGMODUSINGLABEL, IDC_LANGMODUSING, IDC_LANGAUTHORSLABEL, IDC_LANGAUTHORS,
-			IDC_LANGEMAILLABEL, IDC_LANGEMAIL };
 		for (int i = 0; i < _countof(controls); i++)
 			ShowWindow(GetDlgItem(hwndDlg, controls[i]), (pack != NULL) ? SW_SHOW : SW_HIDE);
 		ShowWindow(GetDlgItem(hwndDlg, IDC_NOPACK), (pack != NULL) ? SW_HIDE : SW_SHOW);
@@ -307,7 +306,6 @@ static void DisplayPackInfo(HWND hwndDlg, const HELPPACK_INFO *pack)
 	/* general */
 	SetDlgItemTextA(hwndDlg, IDC_LANGMODUSING, pack->szLastModifiedUsing);
 	SetDlgItemTextA(hwndDlg, IDC_LANGAUTHORS, pack->szAuthors);
-	SetDlgItemTextA(hwndDlg, IDC_LANGEMAIL, pack->szAuthorEmail);
 	SetDlgItemText(hwndDlg, IDC_LANGINFOFRAME, TranslateTS(pack->szLanguage));
 }
 
@@ -495,15 +493,6 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_LANGEMAIL:
-			{
-				char buf[512];
-				mir_strcpy(buf, "mailto:");
-				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), &buf[7], _countof(buf) - 7))
-					Utils_OpenUrl(buf);
-				return TRUE;
-			}
-
 		case IDC_MORELANG:
 			Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Download");
 			return TRUE;

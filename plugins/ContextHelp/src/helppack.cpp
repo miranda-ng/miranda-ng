@@ -83,49 +83,6 @@ static void CleanupAuthors(char *szAuthors)
 	}
 }
 
-static void CleanupEmail(char *szAuthorEmail)
-{
-	char c, *p, *pAt;
-	/* replace ' dot ' with '.' (may be removed) */
-	p = strstr(szAuthorEmail, " dot ");
-	if (p != NULL) {
-		*p = '.';
-		MoveMemory(p + 1, p + 5, lstrlenA(p + 5) + 1);
-	}
-	/* also allow ' at ' instead of '@' for obfuscation */
-	p = strstr(szAuthorEmail, " at ");
-	if (p != NULL) {
-		*p = '@';
-		MoveMemory(p + 1, p + 4, lstrlenA(p + 4) + 1);
-	}
-	/* is valid? */
-	pAt = strchr(szAuthorEmail, '@');
-	if (pAt == NULL) {
-		szAuthorEmail[0] = '\0';
-		return;
-	}
-	/* strip-off extra text except exactly one email address
-	* this is needed as a click on the email addres brings up the mail client */
-	for (c = ' ';; c = ',') {
-		p = strchr(pAt, c);
-		if (p != NULL)
-			*p = '\0';
-		p = strrchr(szAuthorEmail, c);
-		if (p != NULL)
-			MoveMemory(szAuthorEmail, p + 1, lstrlenA(p + 1) + 1);
-		if (c == ',')
-			break;
-	}
-	p = strstr(szAuthorEmail, "__");
-	if (p != NULL)
-		MoveMemory(szAuthorEmail, p + 2, lstrlenA(p + 2) + 1);
-	/* lower case */
-	CharLowerA(szAuthorEmail);
-	/* 'none' specified */
-	if (!lstrcmpiA(szAuthorEmail, "none"))
-		szAuthorEmail[0] = '\0';
-}
-
 static void CleanupLastModifiedUsing(char *szLastModifiedUsing, int nSize)
 {
 	char *p;
@@ -208,8 +165,6 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 			if ((sizeof(pack->szAuthors) - lstrlenA(pack->szAuthors))>0) /* buffer safe */
 				mir_snprintf(buf, sizeof(pack->szAuthors) - lstrlenA(pack->szAuthors), (pack->szAuthors[0] == '\0') ? "%s" : " %s", pszColon + 1);
 		}
-		else if (!lstrcmpA(line, "Author-email") && !pack->szAuthorEmail[0])
-			lstrcpynA(pack->szAuthorEmail, pszColon + 1, sizeof(pack->szAuthorEmail)); /* buffer safe */
 		else if (!lstrcmpA(line, "Locale") && pack->flags&HPF_NOLOCALE) {
 			pack->Locale = MAKELCID((USHORT)strtol(pszColon + 1, NULL, 16), SORT_DEFAULT);
 			if (pack->Locale)
@@ -230,7 +185,6 @@ static BOOL LoadPackData(HELPPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 		pack->flags |= HPF_DEFAULT;
 	CleanupLanguage(szLanguageA, pack->Locale);
 	CleanupAuthors(pack->szAuthors);
-	CleanupEmail(pack->szAuthorEmail);
 	CleanupLastModifiedUsing(pack->szLastModifiedUsing, sizeof(pack->szLastModifiedUsing));
 	/* codepage */
 	if (!(pack->flags&HPF_NOLOCALE))

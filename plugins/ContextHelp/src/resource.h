@@ -18,8 +18,6 @@
 #define IDC_LANGINFOFRAME               1009
 #define IDC_LANGAUTHORSLABEL            1010
 #define IDC_LANGAUTHORS                 1011
-#define IDC_LANGEMAILLABEL              1012
-#define IDC_LANGEMAIL                   1013
 #define IDC_LANGMODUSINGLABEL           1014
 #define IDC_LANGMODUSING                1015
 #define IDC_LANGDATELABEL               1016

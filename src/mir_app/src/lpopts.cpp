@@ -45,7 +45,6 @@ class CLangpackDlg : public CDlgBase
 	CCtrlCombo m_languages;
 	CCtrlBase m_infoFrame;
 	CCtrlBase m_authors;
-	CCtrlButton m_email;
 	CCtrlBase m_lastModUsing;
 	CCtrlBase m_date;
 	CCtrlBase m_locale;
@@ -63,7 +62,6 @@ protected:
 	void OnDestroy();
 
 	void Languages_OnChange(CCtrlBase*);
-	void Email_OnClick(CCtrlBase*);
 	void Reload_OnClick(CCtrlBase*);
 
 public:
@@ -73,13 +71,12 @@ public:
 CLangpackDlg::CLangpackDlg()
 	: CDlgBase(g_hInst, IDD_OPT_LANGUAGES),
 	m_languages(this, IDC_LANGUAGES), m_infoFrame(this, IDC_LANGINFOFRAME),
-	m_authors(this, IDC_LANGAUTHORS), m_email(this, IDC_LANGEMAIL),
+	m_authors(this, IDC_LANGAUTHORS),
 	m_locale(this, IDC_LANGLOCALE), m_lastModUsing(this, IDC_LANGMODUSING),
 	m_date(this, IDC_LANGDATE), m_reload(this, IDC_RELOAD),
 	m_more(this, IDC_MORELANG, "https://wiki.miranda-ng.org/index.php?title=Langpacks/en#Download")
 {
 	m_languages.OnChange = Callback(this, &CLangpackDlg::Languages_OnChange);
-	m_email.OnClick = Callback(this, &CLangpackDlg::Email_OnClick);
 	m_reload.OnClick = Callback(this, &CLangpackDlg::Reload_OnClick);
 }
 
@@ -126,7 +123,6 @@ void CLangpackDlg::LoadLangpacks()
 		pack.Locale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
 		mir_wstrcpy(pack.tszLanguage, L"English");
 		pack.szAuthors = "Miranda NG team";
-		pack.szAuthorEmail = "project-info@miranda-ng.org";
 		DWORD v = Miranda_GetVersion();
 		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 
@@ -198,7 +194,6 @@ void CLangpackDlg::DisplayPackInfo(const LANGPACK_INFO *pack)
 
 	m_lastModUsing.SetText(ptrW(mir_utf8decodeW(pack->szLastModifiedUsing)));
 	m_authors.SetText(ptrW(mir_utf8decodeW(pack->szAuthors)));
-	m_email.SetText(ptrW(mir_utf8decodeW(pack->szAuthorEmail)));
 	m_infoFrame.SetText(TranslateW(pack->tszLanguage));
 }
 
@@ -210,16 +205,6 @@ void CLangpackDlg::Languages_OnChange(CCtrlBase*)
 	if (!(pack->flags & LPF_ENABLED))
 		SendMessage(GetParent(GetHwnd()), PSM_CHANGED, 0, 0);
 	m_reload.Enable((pack->flags & LPF_ENABLED) && !(pack->flags & LPF_DEFAULT));
-}
-
-void CLangpackDlg::Email_OnClick(CCtrlBase*)
-{
-	ptrA email(m_email.GetTextA());
-	if (email) {
-		char buf[512];
-		mir_snprintf(buf, "mailto:%s", email);
-		Utils_OpenUrl(buf);
-	}
 }
 
 void CLangpackDlg::Reload_OnClick(CCtrlBase*)

@@ -124,7 +124,6 @@ typedef struct {
 	LCID Locale;
 	WORD codepage;
 	char szAuthors[1024];
-	char szAuthorEmail[128];
 	char szLastModifiedUsing[64];
 	char szPluginsIncluded[4080];
 	char szVersion[21];

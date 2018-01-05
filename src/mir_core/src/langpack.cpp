@@ -343,10 +343,6 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 				szAuthors.AppendChar(' ');
 			szAuthors.Append(lrtrim(pszColon));
 		}
-		else if (!mir_strcmp(line, "Author-email")) {
-			lpinfo.szAuthorEmail = pszColon;
-			lpinfo.szAuthorEmail.Trim();
-		}
 		else if (!mir_strcmp(line, "Locale")) {
 			char szBuf[20], *stopped;
 
