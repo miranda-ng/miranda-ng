@@ -59,7 +59,7 @@ HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, con
 	o0 << CHAR_PARAM("doc_id", "1549485615075443") << JSON_PARAM("query_params", query_params);
 	root << JSON_PARAM("o0", o0);
 
-	p->Body << CHAR_PARAM("queries", utils::url::encode(root.write()).c_str());
+	p->Body << CHAR_PARAM("queries", root.write().c_str());
 
 	return p;
 }

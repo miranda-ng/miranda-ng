@@ -461,7 +461,7 @@ bool facebook_client::login(const char *username, const char *password)
 				while (resp.data.find("id=\"approvals_code\"") != std::string::npos) {
 					parent->debugLogA("    Login info: Approval code required.");
 
-					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string fb_dtsg = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
 					CFacebookGuardDialog guardDialog(parent, fb_dtsg.c_str());
@@ -492,7 +492,7 @@ bool facebook_client::login(const char *username, const char *password)
 
 				// Save this actual device
 				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos && resp.data.find("name=\"name_action_selected\"") != std::string::npos) {
-					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string fb_dtsg = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
 					HttpRequest *request = setupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
@@ -504,7 +504,7 @@ bool facebook_client::login(const char *username, const char *password)
 
 				// 1) Continue to check last unknown login
 				if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
-					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string fb_dtsg = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 					resp = sendRequest(setupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue"));
 				}
@@ -534,14 +534,14 @@ bool facebook_client::login(const char *username, const char *password)
 						return handle_error("login", FORCE_QUIT);
 					}
 
-					std::string fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					std::string fb_dtsg = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 					std::string nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
 					// Recognize device (or "This wasn't me" - this will force to change account password)
 					resp = sendRequest(setupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "This was me"));
 
 					// 3) Save last device
-					fb_dtsg = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+					fb_dtsg = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 					nh = utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"");
 
 					HttpRequest *request = setupMachineRequest(fb_dtsg.c_str(), nh.c_str(), "Continue");
@@ -660,7 +660,7 @@ bool facebook_client::home()
 	// get fb_dtsg
 	http::response resp = sendRequest(dtsgRequest());
 
-	this->dtsg_ = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
+	this->dtsg_ = utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"");
 	{
 		// Compute ttstamp from dtsg_
 		std::stringstream csrf;

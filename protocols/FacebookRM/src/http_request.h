@@ -161,7 +161,7 @@ protected:
 		HttpRequestBody& operator<<(const CHAR_PARAM &param)
 		{
 			AppendSeparator();
-			content.AppendFormat("%s=%s", param.szName, param.szValue);
+			content.AppendFormat("%s=%s", param.szName, utils::url::encode(param.szValue).c_str());
 			return *this;
 		}
 

@@ -91,7 +91,6 @@ struct facebook_chatroom
 	bool is_archived = false;
 	bool is_subscribed = true;
 	bool read_only = false;
-	int64_t tmp_msgid = 0;
 
 	facebook_chatroom(std::string _thread_id) : 
 		thread_id(_thread_id)
