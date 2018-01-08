@@ -59,7 +59,7 @@ HttpRequest* facebook_client::linkScraperRequest(status_data *status)
 	p->Url
 		<< INT_PARAM("__a", 1)
 		<< INT_PARAM("composerurihash", 2)
-		<< CHAR_PARAM("scrape_url", ptrA(mir_urlEncode(status->url.c_str())));
+		<< CHAR_PARAM("scrape_url", status->url.c_str());
 
 	p->Body
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
@@ -119,7 +119,6 @@ HttpRequest* facebook_client::sharePostRequest(status_data *status, const char *
 
 	p->Url << INT_PARAM("__a", 1);
 
-	ptrA text(mir_urlEncode(status->text.c_str()));
 	p->Body
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
 		<< CHAR_PARAM("__dyn", __dyn())
@@ -127,8 +126,8 @@ HttpRequest* facebook_client::sharePostRequest(status_data *status, const char *
 		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
 		<< CHAR_PARAM("__user", status->isPage && !status->user_id.empty() ? status->user_id.c_str() : self_.user_id.c_str())
 		<< CHAR_PARAM("xhpc_targetid", status->user_id.empty() ? self_.user_id.c_str() : status->user_id.c_str())
-		<< CHAR_PARAM("xhpc_message", text)
-		<< CHAR_PARAM("xhpc_message_text", text)
+		<< CHAR_PARAM("xhpc_message", status->text.c_str())
+		<< CHAR_PARAM("xhpc_message_text", status->text.c_str())
 		<< CHAR_PARAM("xhpc_context", "profile")
 		<< INT_PARAM("xhpc_ismeta", 1)
 		<< INT_PARAM("xhpc_timeline", 1)
@@ -140,7 +139,7 @@ HttpRequest* facebook_client::sharePostRequest(status_data *status, const char *
 		p->Body << CHAR_PARAM("audience[0][value]", get_privacy_type().c_str());
 
 	if (!status->place.empty())
-		p->Body << CHAR_PARAM("composertags_place_name", ptrA(mir_urlEncode(status->place.c_str())));
+		p->Body << CHAR_PARAM("composertags_place_name", status->place.c_str());
 
 	// Status with users
 	for (std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {

@@ -695,7 +695,7 @@ HttpRequest* facebook_client::userInfoRequest(const LIST<char> &userIds)
 
 	for (int i = 0; i < userIds.getCount(); i++) {
 		CMStringA id(::FORMAT, "ids[%i]", i);
-		p->Body << CHAR_PARAM(id, ptrA(mir_urlEncode(userIds[i])));
+		p->Body << CHAR_PARAM(id, userIds[i]);
 	}
 
 	p->Body

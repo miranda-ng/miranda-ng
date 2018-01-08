@@ -42,11 +42,10 @@ HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, con
 		if (id_.substr(0, 3) == "id.")
 			id_ = id_.substr(3);
 	}
-	ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 	JSONNode root, o0, query_params;
 	query_params
-		<< CHAR_PARAM("id", idEncoded)
+		<< CHAR_PARAM("id", id_.c_str())
 		<< INT_PARAM("message_limit", (limit == -1) ? 50 : limit)
 		<< INT_PARAM("load_messages", 0)
 		<< BOOL_PARAM("load_read_receipts", false);

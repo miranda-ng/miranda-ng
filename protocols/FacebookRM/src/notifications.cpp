@@ -64,7 +64,7 @@ HttpRequest* facebook_client::markNotificationReadRequest(const char *id)
 		<< CHAR_PARAM("__dyn", __dyn())
 		<< CHAR_PARAM("__req", __req())
 		<< CHAR_PARAM("__rev", __rev())
-		<< CHAR_PARAM("alert_ids%5B0%5D", ptrA(mir_urlEncode(id)));
+		<< CHAR_PARAM("alert_ids%5B0%5D", id);
 
 	return p;
 }

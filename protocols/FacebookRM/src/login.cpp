@@ -44,8 +44,8 @@ HttpRequest* facebook_client::loginRequest(const char *username, const char *pas
 		
 	p->Body
 		<< INT_PARAM("persistent", 1)
-		<< CHAR_PARAM("email", ptrA(mir_urlEncode(username)))
-		<< CHAR_PARAM("pass", ptrA(mir_urlEncode(password)))
+		<< CHAR_PARAM("email", username)
+		<< CHAR_PARAM("pass", password)
 		<< CHAR_PARAM("lgndim", "eyJ3IjoxOTIwLCJoIjoxMDgwLCJhdyI6MTgzNCwiYWgiOjEwODAsImMiOjMyfQ==") // means base64 encoded: {"w":1920,"h":1080,"aw":1834,"ah":1080,"c":32}
 		<< bodyData; // additional data parsed from form
 

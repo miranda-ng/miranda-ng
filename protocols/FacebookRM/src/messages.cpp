@@ -296,12 +296,10 @@ HttpRequest* facebook_client::sendTypingRequest(const char *userId, bool isChat,
 
 	p->Url << INT_PARAM("dpr", 1);
 
-	ptrA idEncoded(mir_urlEncode(userId));
-
 	p->Body
 		<< INT_PARAM("typ", isTyping ? 1 : 0)
-		<< CHAR_PARAM("to", isChat ? "" : idEncoded)
-		<< CHAR_PARAM("thread", idEncoded)
+		<< CHAR_PARAM("to", isChat ? "" : userId)
+		<< CHAR_PARAM("thread", userId)
 		<< CHAR_PARAM("source", "mercury-chat")
 		<< CHAR_PARAM("__user", self_.user_id.c_str())
 		<< CHAR_PARAM("__dyn", __dyn())
