@@ -52,15 +52,15 @@ static helpstring section3[] =
 	{ 'n', LPGENW("username") },
 	{ 'N', LPGENW("nick") },
 	{ 'u', LPGENW("UIN/handle") },
-	{ 'G', LPGENW("Group") },
-	{ 's', LPGENW("Status") },
-	{ 'T', LPGENW("Status message") },
-	{ 'o', LPGENW("Old status") },
+	{ 'G', LPGENW("group") },
+	{ 's', LPGENW("status") },
+	{ 'T', LPGENW("status message") },
+	{ 'o', LPGENW("old status") },
 	{ 'i', LPGENW("external IP") },
 	{ 'r', LPGENW("internal IP") },
-	{ 'C', LPGENW("Client info") },
-	{ 'P', LPGENW("Protocol") },
-	{ 'A', LPGENW("Account") },
+	{ 'C', LPGENW("client info") },
+	{ 'P', LPGENW("protocol") },
+	{ 'A', LPGENW("account") },
 };
 
 static helpstring section4[] =
@@ -333,12 +333,12 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 
 		if (LOWORD(wparam) == IDC_VARIABLES) {
 			CMStringW str;
-			addSection(str, L"-- Date --", section1, _countof(section1));
-			addSection(str, L"-- Time --", section2, _countof(section2));
-			addSection(str, L"-- User --", section3, _countof(section3));
-			addSection(str, L"-- Format --", section4, _countof(section4));
-			str.AppendFormat(L"%s\t%s \"#\" %s\n\t%s %s", TranslateT("Note:"), TranslateT("Use"), TranslateT("for empty string"), TranslateT("instead of"), TranslateT("<unknown>"));
-			MessageBoxW(hdlg, str, TranslateT("Last Seen Variables"), MB_OK | MB_TOPMOST);
+			addSection(str, LPGENW("-- Date --"), section1, _countof(section1));
+			addSection(str, LPGENW("-- Time --"), section2, _countof(section2));
+			addSection(str, LPGENW("-- User --"), section3, _countof(section3));
+			addSection(str, LPGENW("-- Format --"), section4, _countof(section4));
+			str.AppendFormat(L"%s\t%s\n\t%s", TranslateT("Note:"), TranslateT("Use # for empty string"), TranslateT("instead of <unknown>"));
+			MessageBoxW(hdlg, str, TranslateT("Last Seen variables"), MB_OK | MB_TOPMOST);
 		}
 		break; //case WM_COMMAND
 
