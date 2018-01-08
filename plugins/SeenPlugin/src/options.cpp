@@ -20,7 +20,64 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define VARIABLE_LIST "%s \n%%Y: \t %s \n%%y: \t %s \n%%m: \t %s \n%%E: \t %s \n%%e: \t %s \n%%d: \t %s \n%%W: \t %s \n%%w: \t %s \n\n%s \n%%H: \t %s \n%%h: \t %s \n%%p: \t %s \n%%M: \t %s \n%%S: \t %s \n\n%s \n%%n: \t %s \n%%N: \t %s \n%%u: \t %s \n%%G: \t %s \n%%s: \t %s \n%%T: \t %s \n%%o: \t %s \n%%i: \t %s \n%%r: \t %s \n%%C: \t %s \n%%P: \t %s \n%%A:\t %s\n\n%s \n%%t: \t %s \n%%b: \t %s\n\n%s\t%s \"#\" %s\n\t%s %s", Translate("-- Date --"), Translate("year (4 digits)"), Translate("year (2 digits)"), Translate("month"), Translate("name of month"), Translate("short name of month"), Translate("day"), Translate("weekday (full)"), Translate("weekday (abbreviated)"), Translate("-- Time --"), Translate("hours (24)"), Translate("hours (12)"), Translate("AM/PM"), Translate("minutes"), Translate("seconds"), Translate("-- User --"), Translate("username"), Translate("nick"), Translate("UIN/handle"), Translate("Group"), Translate("Status"), Translate("Status message"), Translate("Old status"), Translate("external IP"), Translate("internal IP"),Translate("Client info"),Translate("Protocol"), Translate("Account"),Translate("-- Format --"), Translate("tabulator"), Translate("line break"), Translate("Note:"),Translate("Use"),Translate("for empty string"),Translate("instead of"),Translate("<unknown>")
+struct helpstring
+{
+	wchar_t letter;
+	const wchar_t *pwszHelp;
+};
+
+static helpstring section1[] = 
+{
+	{ 'Y', LPGENW("year (4 digits)") },
+	{ 'y', LPGENW("year (2 digits)") },
+	{ 'm', LPGENW("month") },
+	{ 'E', LPGENW("name of month") },
+	{ 'e', LPGENW("short name of month") },
+	{ 'd', LPGENW("day") },
+	{ 'W', LPGENW("weekday (full)") },
+	{ 'w', LPGENW("weekday (abbreviated)") },
+};
+
+static helpstring section2[] =
+{
+	{ 'H', LPGENW("hours (24)") },
+	{ 'h', LPGENW("hours (12)") },
+	{ 'p', LPGENW("AM/PM") },
+	{ 'M', LPGENW("minutes") },
+	{ 'S', LPGENW("seconds") },
+};
+
+static helpstring section3[] =
+{
+	{ 'n', LPGENW("username") },
+	{ 'N', LPGENW("nick") },
+	{ 'u', LPGENW("UIN/handle") },
+	{ 'G', LPGENW("Group") },
+	{ 's', LPGENW("Status") },
+	{ 'T', LPGENW("Status message") },
+	{ 'o', LPGENW("Old status") },
+	{ 'i', LPGENW("external IP") },
+	{ 'r', LPGENW("internal IP") },
+	{ 'C', LPGENW("Client info") },
+	{ 'P', LPGENW("Protocol") },
+	{ 'A', LPGENW("Account") },
+};
+
+static helpstring section4[] =
+{
+	{ 't', LPGENW("tabulator") },
+	{ 'b', LPGENW("line break") },
+};
+
+static void addSection(CMStringW &str, const wchar_t *pwszTitle, const helpstring *strings, int count)
+{
+	str.Append(TranslateW(pwszTitle)); str.AppendChar('\n');
+	
+	for (int i=0; i < count; i++)
+		str.AppendFormat(L"%%%c: \t %s \n", strings[i].letter, TranslateW(strings[i].pwszHelp));
+
+	str.AppendChar('\n');
+}
 
 INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -275,9 +332,13 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 		}
 
 		if (LOWORD(wparam) == IDC_VARIABLES) {
-			char szout[2048];
-			mir_snprintf(szout, VARIABLE_LIST);
-			MessageBoxA(hdlg, szout, Translate("Last Seen Variables"), MB_OK | MB_TOPMOST);
+			CMStringW str;
+			addSection(str, L"-- Date --", section1, _countof(section1));
+			addSection(str, L"-- Time --", section2, _countof(section2));
+			addSection(str, L"-- User --", section3, _countof(section3));
+			addSection(str, L"-- Format --", section4, _countof(section4));
+			str.AppendFormat(L"%s\t%s \"#\" %s\n\t%s %s", TranslateT("Note:"), TranslateT("Use"), TranslateT("for empty string"), TranslateT("instead of"), TranslateT("<unknown>"));
+			MessageBoxW(hdlg, str, TranslateT("Last Seen Variables"), MB_OK | MB_TOPMOST);
 		}
 		break; //case WM_COMMAND
 
