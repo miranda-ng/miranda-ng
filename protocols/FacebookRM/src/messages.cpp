@@ -248,10 +248,10 @@ HttpRequest* facebook_client::sendMessageRequest(
 		// TODO: For sending GIF images instead of "sticker_id=" there is "image_ids[0]=", otherwise it's same
 		p->Body
 			<< "body="
-			<< CHAR_PARAM("sticker_id", ptrA(mir_urlEncode(message_text.substr(10, message_text.length() - 10 - 2).c_str())))
+			<< CHAR_PARAM("sticker_id", message_text.substr(10, message_text.length() - 10 - 2).c_str())
 			<< BOOL_PARAM("has_attachment", true);
 	else 
-		p->Body << CHAR_PARAM("body", ptrA(mir_urlEncode(messageText))) << BOOL_PARAM("has_attachment", false);
+		p->Body << CHAR_PARAM("body", messageText) << BOOL_PARAM("has_attachment", false);
 
 	p->Body
 		<< INT_PARAM("ephemeral_ttl_mode", 0)
