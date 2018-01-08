@@ -118,6 +118,12 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 			break;
 
 		case IDM_EXIT:
+			{
+				std::string thread_id = _T2A(hook->ptszID, CP_UTF8);
+				auto it = facy.chat_rooms.find(thread_id);
+				if (it != facy.chat_rooms.end())
+					facy.sendRequest(facy.exitThreadRequest(it->second));
+			}
 			break;
 		}
 		break;
@@ -189,10 +195,6 @@ void FacebookProto::AddChatContact(const char *chat_id, const chatroom_participa
 
 void FacebookProto::RemoveChatContact(const char *chat_id, const char *id, const char *name)
 {
-	// We dont want to remove our self-contact from chat. Ever.
-	if (!mir_strcmp(id, facy.self_.user_id.c_str()))
-		return;
-
 	ptrW tchat_id(mir_a2u(chat_id));
 	ptrW tnick(mir_a2u_cp(name, CP_UTF8));
 	ptrW tid(mir_a2u(id));

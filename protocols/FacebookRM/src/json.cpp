@@ -103,6 +103,10 @@ void FacebookProto::ParseMessageType(facebook_message &message, const JSONNode &
 	else if (logType == "log:unsubscribe") {
 		message.type = UNSUBSCRIBE;
 
+		const JSONNode &client_id = log_data_["client_message_id"];
+		if (client_id)
+			message.message_id = client_id.as_string();
+
 		const JSONNode &fbids_ = log_data_["removed_participants"];
 		for (auto &it2 : fbids_) {
 			std::string id = it2.as_string().substr(5); // strip "fbid:" prefix

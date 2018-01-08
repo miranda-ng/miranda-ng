@@ -781,19 +781,12 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 			case MESSAGE:
 				UpdateChat(fbc->thread_id.c_str(), msg.user_id.c_str(), name.c_str(), msg.message_text.c_str(), msg.time);
 				break;
+
 			case ADMIN_TEXT:
 				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				break;
-			case UNSUBSCRIBE:
-				// this is our own request to leave the groupchat
-				if (_atoi64(msg.message_id.c_str()) == fbc->tmp_msgid) {
-					Chat_Terminate(m_szModuleName, _A2T(fbc->thread_id.c_str()), true);
-					facy.chat_rooms.erase(thread_id);
-					delete fbc;
-					break;
-				}
-				// fall through
 
+			case UNSUBSCRIBE:
 			case SUBSCRIBE:
 				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				{
@@ -815,8 +808,15 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 						if (jt != fbc->participants.end()) {
 							if (msg.type == SUBSCRIBE)
 								AddChatContact(thread_id.c_str(), jt->second, msg.isUnread);
-							else
-								RemoveChatContact(thread_id.c_str(), jt->second.user_id.c_str(), jt->second.nick.c_str());
+							else {
+								if (jt->second.user_id == facy.self_.user_id) {
+									// we exited the thread
+									Chat_Terminate(m_szModuleName, _A2T(fbc->thread_id.c_str()), true);
+									facy.chat_rooms.erase(thread_id);
+									delete fbc;
+								}
+								else RemoveChatContact(thread_id.c_str(), jt->second.user_id.c_str(), jt->second.nick.c_str());
+							}
 						}
 					}
 				}
