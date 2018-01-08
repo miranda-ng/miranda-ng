@@ -84,14 +84,13 @@ HttpRequest* facebook_client::threadInfoRequest(const LIST<char> &ids, int offse
 		std::string id_ = ids[i]; // FIXME: Rewrite this without std::string...
 		if (id_.substr(0, 3) == "id.")
 			id_ = id_.substr(3);
-		ptrA idEncoded(mir_urlEncode(id_.c_str()));
 
 		// Load messages
-		CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_fbids", idEncoded);
+		CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_fbids", ptrA(mir_urlEncode(id_.c_str())).get());
 		p->Body
 			<< INT_PARAM(CMStringA(::FORMAT, "%s[offset]", begin.c_str()), offset)
 			<< INT_PARAM(CMStringA(::FORMAT, "%s[limit]", begin.c_str()), limit)
-			<< CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][%i]", "thread_fbids", i), idEncoded);
+			<< CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][%i]", "thread_fbids", i), id_.c_str());
 	}
 
 	return p;
