@@ -179,9 +179,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 	// Custom contact info
 	if (hContact) {
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH))) {
-		#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 6 GGPROTO::cmdgetinfothread");
-		#endif
+#endif
 			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
@@ -195,9 +195,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 48, "sess_mutex", 1);
 			if (!gg_pubdir50(sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 1, "sess_mutex", 1);
-			#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 7 GGPROTO::cmdgetinfothread");
-			#endif
+#endif
 				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 				return 1;
 			}
@@ -207,9 +207,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 	// Own contact info
 	else {
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_READ))) {
-		#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 			debugLogA("GetInfo(): ForkThread 8 GGPROTO::cmdgetinfothread");
-		#endif
+#endif
 			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
@@ -222,9 +222,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 49, "sess_mutex", 1);
 			if (!gg_pubdir50(sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 1, "sess_mutex", 1);
-			#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 				debugLogA("GetInfo(): ForkThread 9 GGPROTO::cmdgetinfothread");
-			#endif
+#endif
 				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
 				gg_pubdir50_free(req);
 				return 1;
@@ -258,9 +258,9 @@ HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (!req) {
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 10 GGPROTO::searchthread");
-	#endif
+#endif
 		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HANDLE)1;
 	}
@@ -272,9 +272,9 @@ HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 	gg_EnterCriticalSection(&sess_mutex, "SearchBasic", 50, "sess_mutex", 1);
 	if (!gg_pubdir50(sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 1, "sess_mutex", 1);
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 		debugLogA("SearchBasic(): ForkThread 11 GGPROTO::searchthread");
-	#endif
+#endif
 		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HANDLE)1;
 	}
@@ -299,9 +299,9 @@ HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, cons
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (req == nullptr) {
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 12 GGPROTO::searchthread");
-	#endif
+#endif
 		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HANDLE)1;
 	}
@@ -340,9 +340,9 @@ HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, cons
 	gg_EnterCriticalSection(&sess_mutex, "SearchByName", 51, "sess_mutex", 1);
 	if (!gg_pubdir50(sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 1, "sess_mutex", 1);
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 		debugLogA("SearchByName(): ForkThread 13 GGPROTO::searchthread");
-	#endif
+#endif
 		ForkThread(&GGPROTO::searchthread, nullptr);
 	}
 	else
@@ -366,9 +366,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (!req) {
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 		debugLogA("SearchAdvanced(): ForkThread 14 GGPROTO::searchthread");
-	#endif
+#endif
 		ForkThread(&GGPROTO::searchthread, nullptr);
 		return (HWND)1;
 	}
@@ -476,9 +476,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 		gg_EnterCriticalSection(&sess_mutex, "SearchAdvanced", 52, "sess_mutex", 1);
 		if (!gg_pubdir50(sess, req)) {
 			gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 1, "sess_mutex", 1);
-		#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 			debugLogA("SearchAdvanced(): ForkThread 15 GGPROTO::searchthread");
-		#endif
+#endif
 			ForkThread(&GGPROTO::searchthread, nullptr);
 			return (HWND)1;
 		}
@@ -547,9 +547,9 @@ int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 		if (ack) {
 			ack->seq = seq;
 			ack->hContact = hContact;
-		#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 			debugLogA("SendMsg(): ForkThread 16 GGPROTO::sendackthread");
-		#endif
+#endif
 			ForkThread(&GGPROTO::sendackthread, ack);
 		}
 	}
@@ -664,9 +664,9 @@ int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 		if (*msgPtr)
 			mir_free(*msgPtr);
 		*msgPtr = newMsg && *newMsg ? mir_wstrdup(newMsg) : nullptr;
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 		debugLogA("SetAwayMsg(): Message changed.");
-	#endif
+#endif
 	}
 	gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 3, "modemsg_mutex", 1);
 

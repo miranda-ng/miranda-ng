@@ -39,8 +39,6 @@ static INT_PTR gg_menuchoose(WPARAM wParam, LPARAM lParam)
 static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 {
 	char *arg = (char*)lParam;
-	uin_t uin;
-	int items = 0;
 
 	if (g_Instances.getCount() == 0)
 		return 0;
@@ -54,13 +52,14 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 		return 1;
 
 	for (++arg; *arg == '/'; ++arg);
-	uin = atoi(arg);
+	uin_t uin = atoi(arg);
 
 	if (!uin)
 		return 1;
 
 	GGPROTO *gg = nullptr;
-	for (int i=0; i < g_Instances.getCount(); i++) {
+	int items = 0;
+	for (int i = 0; i < g_Instances.getCount(); i++) {
 		gg = g_Instances[i];
 
 		if (gg->m_iStatus > ID_STATUS_OFFLINE) {
@@ -89,6 +88,7 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 	MCONTACT hContact = gg->getcontact(uin, 1, 0, nullptr);
 	if (hContact != NULL)
 		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
+
 	return 0;
 }
 

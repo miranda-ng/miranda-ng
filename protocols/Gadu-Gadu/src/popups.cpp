@@ -33,35 +33,35 @@ struct PopupData
 //
 LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
+	switch (msg)
 	{
-		case WM_COMMAND:
+	case WM_COMMAND:
+	{
+		PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
+		if (puData != nullptr)
 		{
-			PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
-			if (puData != nullptr)
-			{
-				if (puData->flags & GG_POPUP_MULTILOGON)
-					puData->gg->sessions_view(0, 0);
-			}
-			PUDeletePopup(hWnd);
-			break;
+			if (puData->flags & GG_POPUP_MULTILOGON)
+				puData->gg->sessions_view(0, 0);
 		}
+		PUDeletePopup(hWnd);
+		break;
+	}
 
-		case WM_CONTEXTMENU:
-			PUDeletePopup(hWnd);
-			break;
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hWnd);
+		break;
 
-		case UM_FREEPLUGINDATA:
+	case UM_FREEPLUGINDATA:
+	{
+		PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
+		if (puData != nullptr && puData != (PopupData*)CALLSERVICE_NOTFOUND)
 		{
-			PopupData* puData = (PopupData*)PUGetPluginData(hWnd);
-			if (puData != nullptr && puData != (PopupData*)CALLSERVICE_NOTFOUND)
-			{
-				mir_free(puData->title);
-				mir_free(puData->text);
-				mir_free(puData);
-			}
-			break;
+			mir_free(puData->title);
+			mir_free(puData->text);
+			mir_free(puData);
 		}
+		break;
+	}
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -75,7 +75,7 @@ void GGPROTO::initpopups()
 	wchar_t szDescr[256];
 	char  szName[256];
 
-	POPUPCLASS puc = {0};
+	POPUPCLASS puc = { 0 };
 	puc.cbSize = sizeof(puc);
 	puc.PluginWindowProc = PopupWindowProc;
 	puc.flags = PCF_TCHAR;
@@ -83,7 +83,7 @@ void GGPROTO::initpopups()
 	puc.pszName = szName;
 
 	puc.colorBack = RGB(173, 206, 247);
-	puc.colorText =  GetSysColor(COLOR_WINDOWTEXT);
+	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	puc.hIcon = CopyIcon(LoadIconEx("main", FALSE));
 	ReleaseIconEx("main", FALSE);
 	puc.iSeconds = 4;
@@ -110,12 +110,12 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char szName[256];
-		POPUPDATACLASS ppd = {sizeof(ppd)};
+		POPUPDATACLASS ppd = { sizeof(ppd) };
 		ppd.pwszTitle = puData->title;
 		ppd.pwszText = puData->text;
 		ppd.PluginData = puData;
 		ppd.pszClassName = szName;
-		
+
 		if (puData->flags & GG_POPUP_ERROR || puData->flags & GG_POPUP_WARNING)
 			mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Error");
 		else
@@ -151,7 +151,8 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 
 void GGPROTO::showpopup(const wchar_t* nickname, const wchar_t* msg, int flags)
 {
-	if (Miranda_IsTerminated()) return;
+	if (Miranda_IsTerminated())
+		return;
 
 	PopupData *puData = (PopupData*)mir_calloc(sizeof(PopupData));
 	puData->flags = flags;

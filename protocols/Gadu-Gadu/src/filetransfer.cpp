@@ -27,7 +27,8 @@ void GGPROTO::dccstart()
 {
 	DWORD exitCode = 0;
 
-	if (dcc) return;
+	if (dcc)
+		return;
 
 	// Startup dcc thread
 	GetExitCodeThread(pth_dcc.hThread, &exitCode);
@@ -38,7 +39,8 @@ void GGPROTO::dccstart()
 		debugLogA("dccstart(): DCC thread still active. Exiting...");
 #endif
 		// Signalize mainthread it's started
-		if (hEvent) SetEvent(hEvent);
+		if (hEvent)
+			SetEvent(hEvent);
 		return;
 	}
 
@@ -46,7 +48,8 @@ void GGPROTO::dccstart()
 	if (!getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS))
 	{
 		debugLogA("dccstart(): No direct connections setup.");
-		if (hEvent) SetEvent(hEvent);
+		if (hEvent)
+			SetEvent(hEvent);
 		return;
 	}
 
@@ -61,17 +64,17 @@ void GGPROTO::dccconnect(uin_t uin)
 {
 	struct gg_dcc *local_dcc;
 	MCONTACT hContact = getcontact(uin, 0, 0, nullptr);
-	DWORD ip, myuin; WORD port;
 
 	debugLogA("dccconnect(): Connecting to uin %d.", uin);
 
 	// If unknown user or not on list ignore
-	if (!hContact) return;
+	if (!hContact)
+		return;
 
 	// Read user IP and port
-	ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
-	port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
-	myuin = getDword(GG_KEY_UIN, 0);
+	DWORD ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
+	WORD port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
+	DWORD myuin = getDword(GG_KEY_UIN, 0);
 
 	// If not port nor ip nor my uin (?) specified
 	if (!ip || !port || !uin) return;
@@ -171,13 +174,14 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	debugLogA("dccmainthread(): Listening on port %d.", gg_dcc_port);
 
 	// Signalize mainthread we started
-	if (hEvent) SetEvent(hEvent);
+	if (hEvent)
+		SetEvent(hEvent);
 
 	// Add main dcc handler to watches
 	list_add(&watches, dcc, 0);
 
 	// Do while we are in the main server thread
-	while(pth_dcc.dwThreadId && dcc)
+	while (pth_dcc.dwThreadId && dcc)
 	{
 		// Timeouts
 		tv.tv_sec = 1;
@@ -230,380 +234,382 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 			switch (local_c->type)
 			{
-				default:
-					if (!local_dcc || (!FD_ISSET(local_dcc->fd, &rd) && !FD_ISSET(local_dcc->fd, &wd)))
-						continue;
+			default:
+				if (!local_dcc || (!FD_ISSET(local_dcc->fd, &rd) && !FD_ISSET(local_dcc->fd, &wd)))
+					continue;
 
-					/////////////////////////////////////////////////////////////////
-					// Process DCC events
+				/////////////////////////////////////////////////////////////////
+				// Process DCC events
 
-					// Connection broken/closed
-					gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 2, "ft_mutex", 1);
-					if (!(e = gg_dcc_socket_watch_fd(local_dcc)))
+				// Connection broken/closed
+				gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 2, "ft_mutex", 1);
+				if (!(e = gg_dcc_socket_watch_fd(local_dcc)))
+				{
+					debugLogA("dccmainthread(): Socket closed.");
+					// Remove socket and _close
+					gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					list_remove(&watches, local_dcc, 0);
+					gg_dcc_socket_free(local_dcc);
+
+					// Check if it's main socket
+					if (local_dcc == dcc) dcc = nullptr;
+					continue;
+				}
+				else {
+					gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					debugLogA("dccmainthread(): Event: %s", ggdebug_eventtype(e));
+				}
+
+				switch (e->type)
+				{
+					// Client connected
+				case GG_EVENT_DCC_NEW:
+					list_add(&watches, e->event.dcc_new, 0);
+					e->event.dcc_new = nullptr;
+					break;
+
+					//
+				case GG_EVENT_NONE:
+					// If transfer in progress do status
+					if (local_dcc->file_fd != -1 && local_dcc->offset > 0 && (((tick = GetTickCount()) - local_dcc->tick) > GGSTATREFRESHEVERY))
 					{
-						debugLogA("dccmainthread(): Socket closed.");
-						// Remove socket and _close
+						PROTOFILETRANSFERSTATUS pfts;
+						local_dcc->tick = tick;
+						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
+						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
+						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
+						pfts.hContact = (UINT_PTR)local_dcc->contact;
+						pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
+						pfts.pszFiles = nullptr;
+						pfts.totalFiles = 1;
+						pfts.currentFileNumber = 0;
+						pfts.totalBytes = local_dcc->file_info.size;
+						pfts.totalProgress = local_dcc->offset;
+						pfts.szWorkingDir = local_dcc->folder;
+						pfts.szCurrentFile = szFilename;
+						pfts.currentFileSize = local_dcc->file_info.size;
+						pfts.currentFileProgress = local_dcc->offset;
+						pfts.currentFileTime = 0;
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 3, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-						list_remove(&watches, local_dcc, 0);
-						gg_dcc_socket_free(local_dcc);
-
-						// Check if it's main socket
-						if (local_dcc == dcc) dcc = nullptr;
-						continue;
-					} else {
-						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-						debugLogA("dccmainthread(): Event: %s", ggdebug_eventtype(e));
 					}
+					break;
 
-					switch(e->type)
+					// Connection was successfuly ended
+				case GG_EVENT_DCC_DONE:
+					debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
+					// Remove from watches
+					list_remove(&watches, local_dcc, 0);
+					// Close file & success
+					if (local_dcc->file_fd != -1)
 					{
-						// Client connected
-						case GG_EVENT_DCC_NEW:
-							list_add(&watches, e->event.dcc_new, 0);
-							e->event.dcc_new = nullptr;
-							break;
+						PROTOFILETRANSFERSTATUS pfts;
+						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
+						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
+						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
+						pfts.hContact = (UINT_PTR)local_dcc->contact;
+						pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
+						pfts.pszFiles = nullptr;
+						pfts.totalFiles = 1;
+						pfts.currentFileNumber = 0;
+						pfts.totalBytes = local_dcc->file_info.size;
+						pfts.totalProgress = local_dcc->file_info.size;
+						pfts.szWorkingDir = local_dcc->folder;
+						pfts.szCurrentFile = szFilename;
+						pfts.currentFileSize = local_dcc->file_info.size;
+						pfts.currentFileProgress = local_dcc->file_info.size;
+						pfts.currentFileTime = 0;
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 4, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
+						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+						_close(local_dcc->file_fd); local_dcc->file_fd = -1;
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 5, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc, 0);
+						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					}
+					// Free dcc
+					gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+					break;
 
-						//
-						case GG_EVENT_NONE:
-							// If transfer in progress do status
-							if (local_dcc->file_fd != -1 && local_dcc->offset > 0 && (((tick = GetTickCount()) - local_dcc->tick) > GGSTATREFRESHEVERY))
-							{
-								PROTOFILETRANSFERSTATUS pfts;
-								local_dcc->tick = tick;
-								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
-								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
-								pfts.hContact = (UINT_PTR)local_dcc->contact;
-								pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
-								pfts.pszFiles = nullptr;
-								pfts.totalFiles = 1;
-								pfts.currentFileNumber = 0;
-								pfts.totalBytes = local_dcc->file_info.size;
-								pfts.totalProgress = local_dcc->offset;
-								pfts.szWorkingDir = local_dcc->folder;
-								pfts.szCurrentFile = szFilename;
-								pfts.currentFileSize = local_dcc->file_info.size;
-								pfts.currentFileProgress = local_dcc->offset;
-								pfts.currentFileTime = 0;
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 3, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-							}
-							break;
+					// Client error
+				case GG_EVENT_DCC_ERROR:
+					switch (e->event.dcc_error)
+					{
+					case GG_ERROR_DCC_HANDSHAKE:
+						debugLogA("dccmainthread(): Client: %d, Handshake error.", local_dcc->peer_uin);
+						break;
+					case GG_ERROR_DCC_NET:
+						debugLogA("dccmainthread(): Client: %d, Network error.", local_dcc->peer_uin);
+						break;
+					case GG_ERROR_DCC_FILE:
+						debugLogA("dccmainthread(): Client: %d, File read/write error.", local_dcc->peer_uin);
+						break;
+					case GG_ERROR_DCC_EOF:
+						debugLogA("dccmainthread(): Client: %d, End of file/connection error.", local_dcc->peer_uin);
+						break;
+					case GG_ERROR_DCC_REFUSED:
+						debugLogA("dccmainthread(): Client: %d, Connection refused error.", local_dcc->peer_uin);
+						break;
+					default:
+						debugLogA("dccmainthread(): Client: %d, Unknown error.", local_dcc->peer_uin);
+					}
+					// Don't do anything if it's main socket
+					if (local_dcc == dcc) break;
 
-						// Connection was successfuly ended
-						case GG_EVENT_DCC_DONE:
-							debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
-							// Remove from watches
-							list_remove(&watches, local_dcc, 0);
-							// Close file & success
-							if (local_dcc->file_fd != -1)
-							{
-								PROTOFILETRANSFERSTATUS pfts;
-								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc->file_info.filename);
-								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
-								pfts.hContact = (UINT_PTR)local_dcc->contact;
-								pfts.flags = (local_dcc->type == GG_SESSION_DCC_SEND);
-								pfts.pszFiles = nullptr;
-								pfts.totalFiles = 1;
-								pfts.currentFileNumber = 0;
-								pfts.totalBytes = local_dcc->file_info.size;
-								pfts.totalProgress = local_dcc->file_info.size;
-								pfts.szWorkingDir = local_dcc->folder;
-								pfts.szCurrentFile = szFilename;
-								pfts.currentFileSize = local_dcc->file_info.size;
-								pfts.currentFileProgress = local_dcc->file_info.size;
-								pfts.currentFileTime = 0;
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 4, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc, (LPARAM)&pfts);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-								_close(local_dcc->file_fd); local_dcc->file_fd = -1;
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 5, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc, 0);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-							}
-							// Free dcc
-							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
-							break;
+					// Remove from watches
+					list_remove(&watches, local_dcc, 0);
 
-						// Client error
-						case GG_EVENT_DCC_ERROR:
-							switch (e->event.dcc_error)
-							{
-								case GG_ERROR_DCC_HANDSHAKE:
-									debugLogA("dccmainthread(): Client: %d, Handshake error.", local_dcc->peer_uin);
-									break;
-								case GG_ERROR_DCC_NET:
-									debugLogA("dccmainthread(): Client: %d, Network error.", local_dcc->peer_uin);
-									break;
-								case GG_ERROR_DCC_FILE:
-									debugLogA("dccmainthread(): Client: %d, File read/write error.", local_dcc->peer_uin);
-									break;
-								case GG_ERROR_DCC_EOF:
-									debugLogA("dccmainthread(): Client: %d, End of file/connection error.", local_dcc->peer_uin);
-									break;
-								case GG_ERROR_DCC_REFUSED:
-									debugLogA("dccmainthread(): Client: %d, Connection refused error.", local_dcc->peer_uin);
-									break;
-								default:
-									debugLogA("dccmainthread(): Client: %d, Unknown error.", local_dcc->peer_uin);
-							}
-							// Don't do anything if it's main socket
-							if (local_dcc == dcc) break;
+					// Close file & fail
+					if (local_dcc->contact)
+					{
+						_close(local_dcc->file_fd); local_dcc->file_fd = -1;
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 6, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc, 0);
+						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					}
+					// Free dcc
+					gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+					break;
 
-							// Remove from watches
-							list_remove(&watches, local_dcc, 0);
+					// Need file acknowledgement
+				case GG_EVENT_DCC_NEED_FILE_ACK:
+					debugLogA("dccmainthread(): Client: %d, File ack filename \"%s\" size %d.", local_dcc->peer_uin,
+						local_dcc->file_info.filename, local_dcc->file_info.size);
+					// Do not watch for transfer until user accept it
+					list_remove(&watches, local_dcc, 0);
+					// Add to waiting transfers
+					list_add(&transfers, local_dcc, 0);
 
-							// Close file & fail
-							if (local_dcc->contact)
-							{
-								_close(local_dcc->file_fd); local_dcc->file_fd = -1;
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 6, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc, 0);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-							}
-							// Free dcc
-							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
-							break;
+					//////////////////////////////////////////////////
+					// Add file recv request
+					{
+						// Make new ggtransfer struct
+						local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
+						wchar_t* filenameT = mir_utf8decodeW((char*)dcc->file_info.filename);
 
-						// Need file acknowledgement
-						case GG_EVENT_DCC_NEED_FILE_ACK:
-							debugLogA("dccmainthread(): Client: %d, File ack filename \"%s\" size %d.", local_dcc->peer_uin,
-									local_dcc->file_info.filename, local_dcc->file_info.size);
-							// Do not watch for transfer until user accept it
-							list_remove(&watches, local_dcc, 0);
-							// Add to waiting transfers
-							list_add(&transfers, local_dcc, 0);
+						PROTORECVFILET pre = { 0 };
+						pre.dwFlags = PRFF_UNICODE;
+						pre.fileCount = 1;
+						pre.timestamp = time(nullptr);
+						pre.descr.w = filenameT;
+						pre.files.w = &filenameT;
+						pre.lParam = (LPARAM)local_dcc;
 
-							//////////////////////////////////////////////////
-							// Add file recv request
-							{
-								// Make new ggtransfer struct
-								local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
-								wchar_t* filenameT = mir_utf8decodeW((char*)dcc->file_info.filename);
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
+						ProtoChainRecvFile((UINT_PTR)local_dcc->contact, &pre);
+						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 
-								PROTORECVFILET pre = {0};
-								pre.dwFlags = PRFF_UNICODE;
-								pre.fileCount = 1;
-								pre.timestamp = time(nullptr);
-								pre.descr.w = filenameT;
-								pre.files.w = &filenameT;
-								pre.lParam = (LPARAM)local_dcc;
+						mir_free(filenameT);
+					}
+					break;
 
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
-								ProtoChainRecvFile((UINT_PTR)local_dcc->contact, &pre);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					// Need client accept
+				case GG_EVENT_DCC_CLIENT_ACCEPT:
+					debugLogA("dccmainthread(): Client: %d, Client accept.", local_dcc->peer_uin);
+					// Check if user is on the list and if it is my uin
+					if (getcontact(local_dcc->peer_uin, 0, 0, nullptr) &&
+						getDword(GG_KEY_UIN, -1) == local_dcc->uin)
+						break;
 
-								mir_free(filenameT);
-							}
-							break;
+					// Kill unauthorized dcc
+					list_remove(&watches, dcc, 0);
+					gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+					break;
 
-						// Need client accept
-						case GG_EVENT_DCC_CLIENT_ACCEPT:
-							debugLogA("dccmainthread(): Client: %d, Client accept.", local_dcc->peer_uin);
-							// Check if user is on the list and if it is my uin
-							if (getcontact(local_dcc->peer_uin, 0, 0, nullptr) &&
-								getDword(GG_KEY_UIN, -1) == local_dcc->uin)
-								break;
+					// Client connected as we wished to (callback)
+				case GG_EVENT_DCC_CALLBACK:
+				{
+					int found = 0;
+					debugLogA("dccmainthread(): Callback from client %d.", local_dcc->peer_uin);
+					// Seek for stored callback request
+					for (l = requests; l; l = l->next)
+					{
+						struct gg_dcc *req = (gg_dcc*)l->data;
 
-							// Kill unauthorized dcc
-							list_remove(&watches, dcc, 0);
-							gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
-							break;
-
-						// Client connected as we wished to (callback)
-						case GG_EVENT_DCC_CALLBACK:
+						if (req && req->peer_uin == local_dcc->peer_uin)
 						{
-							int found = 0;
-							debugLogA("dccmainthread(): Callback from client %d.", local_dcc->peer_uin);
-							// Seek for stored callback request
-							for (l = requests; l; l = l->next)
-							{
-								struct gg_dcc *req = (gg_dcc*)l->data;
+							gg_dcc_set_type(local_dcc, GG_SESSION_DCC_SEND);
+							found = 1;
 
-								if (req && req->peer_uin == local_dcc->peer_uin)
-								{
-									gg_dcc_set_type(local_dcc, GG_SESSION_DCC_SEND);
-									found = 1;
+							// Copy data req ===> dcc
+							local_dcc->folder = req->folder;
+							local_dcc->contact = req->contact;
+							local_dcc->file_fd = req->file_fd;
+							memcpy(&local_dcc->file_info, &req->file_info, sizeof(struct gg_file_info));
+							// Copy data back to dcc ===> req
+							memcpy(req, local_dcc, sizeof(struct gg_dcc));
 
-									// Copy data req ===> dcc
-									local_dcc->folder = req->folder;
-									local_dcc->contact = req->contact;
-									local_dcc->file_fd = req->file_fd;
-									memcpy(&local_dcc->file_info, &req->file_info, sizeof(struct gg_file_info));
-									// Copy data back to dcc ===> req
-									memcpy(req, local_dcc, sizeof(struct gg_dcc));
-
-									// Remove request
-									list_remove(&requests, req, 0);
-									// Remove dcc from watches
-									list_remove(&watches, local_dcc, 0);
-									// Add request to watches
-									list_add(&watches, req, 0);
-									// Free old dat
-									gg_free_dcc(local_dcc);
-									debugLogA("dccmainthread(): Found stored request to client %d, filename \"%s\" size %d, folder \"%s\".",
-										req->peer_uin, req->file_info.filename, req->file_info.size, req->folder);
-									break;
-								}
-							}
-
-							if (!found)
-							{
-								debugLogA("dccmainthread(): Unknown request to client %d.", local_dcc->peer_uin);
-								// Kill unauthorized dcc
-								list_remove(&watches, local_dcc, 0);
-								gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
-							}
+							// Remove request
+							list_remove(&requests, req, 0);
+							// Remove dcc from watches
+							list_remove(&watches, local_dcc, 0);
+							// Add request to watches
+							list_add(&watches, req, 0);
+							// Free old dat
+							gg_free_dcc(local_dcc);
+							debugLogA("dccmainthread(): Found stored request to client %d, filename \"%s\" size %d, folder \"%s\".",
+								req->peer_uin, req->file_info.filename, req->file_info.size, req->folder);
 							break;
 						}
 					}
 
-					// Free event
-					gg_free_event(e);
+					if (!found)
+					{
+						debugLogA("dccmainthread(): Unknown request to client %d.", local_dcc->peer_uin);
+						// Kill unauthorized dcc
+						list_remove(&watches, local_dcc, 0);
+						gg_free_dcc(local_dcc); if (local_dcc == dcc) dcc = nullptr;
+					}
+					break;
+				}
+				}
+
+				// Free event
+				gg_free_event(e);
+				break;
+
+			case GG_SESSION_DCC7_SOCKET:
+			case GG_SESSION_DCC7_GET:
+			case GG_SESSION_DCC7_SEND:
+			case GG_SESSION_DCC7_VOICE:
+				if (!local_dcc7 || (!FD_ISSET(local_dcc7->fd, &rd) && !FD_ISSET(local_dcc7->fd, &wd)))
+					continue;
+
+				/////////////////////////////////////////////////////////////////
+				// Process DCC7 events
+
+				// Connection broken/closed
+				gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 8, "ft_mutex", 1);
+				if (!(e = gg_dcc7_watch_fd(local_dcc7)))
+				{
+					debugLogA("dccmainthread(): Socket closed.");
+					// Remove socket and _close
+					gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					list_remove(&watches, local_dcc7, 0);
+					gg_dcc7_free(local_dcc7);
+					continue;
+				}
+				else {
+					gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					debugLogA("dccmainthread(): Event: %s", ggdebug_eventtype(e));
+				}
+
+				switch (e->type)
+				{
+					//
+				case GG_EVENT_NONE:
+					// If transfer in progress do status
+					if (local_dcc7->file_fd != -1 && local_dcc7->offset > 0 && (((tick = GetTickCount()) - local_dcc7->tick) > GGSTATREFRESHEVERY))
+					{
+						PROTOFILETRANSFERSTATUS pfts;
+						local_dcc7->tick = tick;
+						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
+						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
+						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
+						pfts.hContact = (UINT_PTR)local_dcc7->contact;
+						pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
+						pfts.pszFiles = nullptr;
+						pfts.totalFiles = 1;
+						pfts.currentFileNumber = 0;
+						pfts.totalBytes = local_dcc7->size;
+						pfts.totalProgress = local_dcc7->offset;
+						pfts.szWorkingDir = local_dcc7->folder;
+						pfts.szCurrentFile = szFilename;
+						pfts.currentFileSize = local_dcc7->size;
+						pfts.currentFileProgress = local_dcc7->offset;
+						pfts.currentFileTime = 0;
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 9, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
+						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					}
 					break;
 
-				case GG_SESSION_DCC7_SOCKET:
-				case GG_SESSION_DCC7_GET:
-				case GG_SESSION_DCC7_SEND:
-				case GG_SESSION_DCC7_VOICE:
-					if (!local_dcc7 || (!FD_ISSET(local_dcc7->fd, &rd) && !FD_ISSET(local_dcc7->fd, &wd)))
-						continue;
-
-					/////////////////////////////////////////////////////////////////
-					// Process DCC7 events
-
-					// Connection broken/closed
-					gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 8, "ft_mutex", 1);
-					if (!(e = gg_dcc7_watch_fd(local_dcc7)))
+					// Connection was successfuly ended
+				case GG_EVENT_DCC7_DONE:
+					debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
+					// Remove from watches
+					list_remove(&watches, local_dcc7, 0);
+					// Close file & success
+					if (local_dcc7->file_fd != -1)
 					{
-						debugLogA("dccmainthread(): Socket closed.");
-						// Remove socket and _close
+						PROTOFILETRANSFERSTATUS pfts;
+						mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
+						memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
+						pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
+						pfts.hContact = (UINT_PTR)local_dcc7->contact;
+						pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
+						pfts.pszFiles = nullptr;
+						pfts.totalFiles = 1;
+						pfts.currentFileNumber = 0;
+						pfts.totalBytes = local_dcc7->size;
+						pfts.totalProgress = local_dcc7->size;
+						pfts.szWorkingDir = local_dcc7->folder;
+						pfts.szCurrentFile = szFilename;
+						pfts.currentFileSize = local_dcc7->size;
+						pfts.currentFileProgress = local_dcc7->size;
+						pfts.currentFileTime = 0;
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 10, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-						list_remove(&watches, local_dcc7, 0);
-						gg_dcc7_free(local_dcc7);
-						continue;
-					} else {
+						_close(local_dcc7->file_fd); local_dcc7->file_fd = -1;
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 11, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc7, 0);
 						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-						debugLogA("dccmainthread(): Event: %s", ggdebug_eventtype(e));
 					}
-
-					switch(e->type)
-					{
-						//
-						case GG_EVENT_NONE:
-							// If transfer in progress do status
-							if (local_dcc7->file_fd != -1 && local_dcc7->offset > 0 && (((tick = GetTickCount()) - local_dcc7->tick) > GGSTATREFRESHEVERY))
-							{
-								PROTOFILETRANSFERSTATUS pfts;
-								local_dcc7->tick = tick;
-								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
-								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
-								pfts.hContact = (UINT_PTR)local_dcc7->contact;
-								pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
-								pfts.pszFiles = nullptr;
-								pfts.totalFiles = 1;
-								pfts.currentFileNumber = 0;
-								pfts.totalBytes = local_dcc7->size;
-								pfts.totalProgress = local_dcc7->offset;
-								pfts.szWorkingDir = local_dcc7->folder;
-								pfts.szCurrentFile = szFilename;
-								pfts.currentFileSize = local_dcc7->size;
-								pfts.currentFileProgress = local_dcc7->offset;
-								pfts.currentFileTime = 0;
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 9, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-							}
-							break;
-
-						// Connection was successfuly ended
-						case GG_EVENT_DCC7_DONE:
-							debugLogA("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
-							// Remove from watches
-							list_remove(&watches, local_dcc7, 0);
-							// Close file & success
-							if (local_dcc7->file_fd != -1)
-							{
-								PROTOFILETRANSFERSTATUS pfts;
-								mir_snprintf(szFilename, "%s%s", local_dcc->folder, local_dcc7->filename);
-								memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
-								pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
-								pfts.hContact = (UINT_PTR)local_dcc7->contact;
-								pfts.flags = (local_dcc7->type == GG_SESSION_DCC7_SEND);
-								pfts.pszFiles = nullptr;
-								pfts.totalFiles = 1;
-								pfts.currentFileNumber = 0;
-								pfts.totalBytes = local_dcc7->size;
-								pfts.totalProgress = local_dcc7->size;
-								pfts.szWorkingDir = local_dcc7->folder;
-								pfts.szCurrentFile = szFilename;
-								pfts.currentFileSize = local_dcc7->size;
-								pfts.currentFileProgress = local_dcc7->size;
-								pfts.currentFileTime = 0;
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 10, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_DATA, local_dcc7, (LPARAM)&pfts);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-								_close(local_dcc7->file_fd); local_dcc7->file_fd = -1;
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 11, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_SUCCESS, local_dcc7, 0);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-							}
-							// Free dcc
-							gg_dcc7_free(local_dcc7);
-							break;
-
-						// Client error
-						case GG_EVENT_DCC7_ERROR:
-							switch (e->event.dcc7_error)
-							{
-								case GG_ERROR_DCC7_HANDSHAKE:
-									debugLogA("dccmainthread(): Client: %d, Handshake error.", local_dcc7->peer_uin);
-									break;
-								case GG_ERROR_DCC7_NET:
-									debugLogA("dccmainthread(): Client: %d, Network error.", local_dcc7->peer_uin);
-									break;
-								case GG_ERROR_DCC7_FILE:
-									debugLogA("dccmainthread(): Client: %d, File read/write error.", local_dcc7->peer_uin);
-									break;
-								case GG_ERROR_DCC7_EOF:
-									debugLogA("dccmainthread(): Client: %d, End of file/connection error.", local_dcc7->peer_uin);
-									break;
-								case GG_ERROR_DCC7_REFUSED:
-									debugLogA("dccmainthread(): Client: %d, Connection refused error.", local_dcc7->peer_uin);
-									break;
-								case GG_ERROR_DCC7_RELAY:
-									debugLogA("dccmainthread(): Client: %d, Relay connection error.", local_dcc7->peer_uin);
-									break;
-								default:
-									debugLogA("dccmainthread(): Client: %d, Unknown error.", local_dcc7->peer_uin);
-							}
-							// Remove from watches
-							list_remove(&watches, local_dcc7, 0);
-
-							// Close file & fail
-							if (local_dcc7->file_fd != -1)
-							{
-								_close(local_dcc7->file_fd);
-								local_dcc7->file_fd = -1;
-							}
-
-							if (local_dcc7->contact) {
-								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 12, "ft_mutex", 1);
-								ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc7, 0);
-								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-							}
-
-							// Free dcc
-							gg_dcc7_free(local_dcc7);
-							break;
-					}
-
-					// Free event
-					gg_free_event(e);
+					// Free dcc
+					gg_dcc7_free(local_dcc7);
 					break;
+
+					// Client error
+				case GG_EVENT_DCC7_ERROR:
+					switch (e->event.dcc7_error)
+					{
+					case GG_ERROR_DCC7_HANDSHAKE:
+						debugLogA("dccmainthread(): Client: %d, Handshake error.", local_dcc7->peer_uin);
+						break;
+					case GG_ERROR_DCC7_NET:
+						debugLogA("dccmainthread(): Client: %d, Network error.", local_dcc7->peer_uin);
+						break;
+					case GG_ERROR_DCC7_FILE:
+						debugLogA("dccmainthread(): Client: %d, File read/write error.", local_dcc7->peer_uin);
+						break;
+					case GG_ERROR_DCC7_EOF:
+						debugLogA("dccmainthread(): Client: %d, End of file/connection error.", local_dcc7->peer_uin);
+						break;
+					case GG_ERROR_DCC7_REFUSED:
+						debugLogA("dccmainthread(): Client: %d, Connection refused error.", local_dcc7->peer_uin);
+						break;
+					case GG_ERROR_DCC7_RELAY:
+						debugLogA("dccmainthread(): Client: %d, Relay connection error.", local_dcc7->peer_uin);
+						break;
+					default:
+						debugLogA("dccmainthread(): Client: %d, Unknown error.", local_dcc7->peer_uin);
+					}
+					// Remove from watches
+					list_remove(&watches, local_dcc7, 0);
+
+					// Close file & fail
+					if (local_dcc7->file_fd != -1)
+					{
+						_close(local_dcc7->file_fd);
+						local_dcc7->file_fd = -1;
+					}
+
+					if (local_dcc7->contact) {
+						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 12, "ft_mutex", 1);
+						ProtoBroadcastAck((UINT_PTR)local_dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, local_dcc7, 0);
+						gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
+					}
+
+					// Free dcc
+					gg_dcc7_free(local_dcc7);
+					break;
+				}
+
+				// Free event
+				gg_free_event(e);
+				break;
 			}
 		}
 		gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 1, "ft_mutex", 1);
@@ -756,9 +762,14 @@ int GGPROTO::dccfiledeny(HANDLE hTransfer)
 
 	// Remove transfer from any list
 	gg_EnterCriticalSection(&ft_mutex, "dccfiledeny", 42, "ft_mutex", 1);
-	if (watches) list_remove(&watches, dcc, 0);
-	if (requests) list_remove(&requests, dcc, 0);
-	if (transfers) list_remove(&transfers, dcc, 0);
+
+	if (watches)
+		list_remove(&watches, dcc, 0);
+	if (requests)
+		list_remove(&requests, dcc, 0);
+	if (transfers)
+		list_remove(&transfers, dcc, 0);
+
 	gg_LeaveCriticalSection(&ft_mutex, "dccfiledeny", 42, 1, "ft_mutex", 1);
 
 	debugLogA("dccfiledeny(): Rejected file \"%s\" from/to %d.", dcc->file_info.filename, dcc->peer_uin);
@@ -777,8 +788,12 @@ int GGPROTO::dcc7filedeny(HANDLE hTransfer)
 
 	// Remove transfer from any list
 	gg_EnterCriticalSection(&ft_mutex, "dcc7filedeny", 43, "ft_mutex", 1);
-	if (watches) list_remove(&watches, dcc7, 0);
-	if (transfers) list_remove(&transfers, dcc7, 0);
+
+	if (watches)
+		list_remove(&watches, dcc7, 0);
+	if (transfers)
+		list_remove(&transfers, dcc7, 0);
+
 	gg_LeaveCriticalSection(&ft_mutex, "dcc7filedeny", 43, 1, "ft_mutex", 1);
 
 	debugLogA("dcc7filedeny(): Rejected file \"%s\" from/to %d.", dcc7->filename, dcc7->peer_uin);
@@ -795,9 +810,14 @@ int GGPROTO::dccfilecancel(HANDLE hTransfer)
 
 	// Remove transfer from any list
 	gg_EnterCriticalSection(&ft_mutex, "dccfilecancel", 44, "ft_mutex", 1);
-	if (watches) list_remove(&watches, dcc, 0);
-	if (requests) list_remove(&requests, dcc, 0);
-	if (transfers) list_remove(&transfers, dcc, 0);
+
+	if (watches)
+		list_remove(&watches, dcc, 0);
+	if (requests)
+		list_remove(&requests, dcc, 0);
+	if (transfers)
+		list_remove(&transfers, dcc, 0);
+
 	gg_LeaveCriticalSection(&ft_mutex, "dccfilecancel", 44, 1, "ft_mutex", 1);
 
 	// Send failed info
@@ -826,8 +846,12 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 
 	// Remove transfer from any list
 	gg_EnterCriticalSection(&ft_mutex, "dcc7filecancel", 45, "ft_mutex", 1);
-	if (watches) list_remove(&watches, dcc7, 0);
-	if (transfers) list_remove(&transfers, dcc7, 0);
+
+	if (watches)
+		list_remove(&watches, dcc7, 0);
+	if (transfers)
+		list_remove(&transfers, dcc7, 0);
+
 	gg_LeaveCriticalSection(&ft_mutex, "dcc7filecancel", 45, 1, "ft_mutex", 1);
 
 	// Send failed info
@@ -909,9 +933,6 @@ int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles)
 {
 	char *bslash, *filename;
-	DWORD ip, ver;
-	WORD port;
-	uin_t myuin, uin;
 
 	// Check if main dcc thread is on
 	if (!isonline())
@@ -920,15 +941,14 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 	filename = mir_u2a(ppszFiles[0]);
 
 	// Read user IP and port
-	ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
-	port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
-	myuin = getDword(GG_KEY_UIN, 0);
-	uin = getDword(hContact, GG_KEY_UIN, 0);
-	ver = getDword(hContact, GG_KEY_CLIENTVERSION, 0);
+	DWORD ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
+	WORD port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
+	uin_t myuin = getDword(GG_KEY_UIN, 0);
+	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
+	DWORD ver = getDword(hContact, GG_KEY_CLIENTVERSION, 0);
 
 	// Use DCC7 if a contact is using at least version 7.6 or unknown version
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {
-
 		gg_EnterCriticalSection(&sess_mutex, "SendFile", 46, "sess_mutex", 1);
 		struct gg_dcc7 *dcc7 = gg_dcc7_send_file(sess, uin, filename, nullptr, nullptr);
 		if (!dcc7) {
@@ -997,7 +1017,8 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 	debugLogA("SendFile(): Sending file \"%s\" to %d in %s mode.", filename, uin, (dcc->fd != -1) ? "active" : "passive");
 
 	// Add dcc to watches if not passive
-	if (dcc->fd != -1) list_add(&watches, dcc, 0);
+	if (dcc->fd != -1)
+		list_add(&watches, dcc, 0);
 
 	// Store handle
 	dcc->contact = (void*)hContact;
@@ -1013,4 +1034,3 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 	mir_free(filename);
 	return dcc;
 }
-

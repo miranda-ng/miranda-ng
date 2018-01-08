@@ -53,7 +53,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 		gg->setString(GG_KEY_EMAIL, newEmail);
 		gg_pubdir_free(h);
 		gg->debugLogA("gg_doregister(): Account registration succesful.");
-		MessageBox( nullptr, 
+		MessageBox(nullptr,
 			TranslateT("You have registered new account.\nPlease fill up your personal details in \"Main menu -> View/change my details...\""),
 			gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
@@ -78,10 +78,12 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 #ifdef DEBUGMODE
 	gg->debugLogA("gg_dounregister(): Starting.");
 #endif
-	if (!uin || !password) return nullptr;
+	if (!uin || !password)
+		return nullptr;
 
 	// Load token
-	if (!gg->gettoken(&token)) return nullptr;
+	if (!gg->gettoken(&token))
+		return nullptr;
 
 	if (!(h = gg_unregister3(uin, password, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success || s->uin != uin)
 	{
@@ -113,28 +115,28 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 //
 void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 {
-	// Readup email
-	char email[255] = "\0"; DBVARIANT dbv_email;
-	// Connection handles
-	struct gg_http *h;
-	struct gg_pubdir *s = nullptr;
-	GGTOKEN token;
-
 #ifdef DEBUGMODE
 	gg->debugLogA("gg_dochpass(): Starting.");
 #endif
-	if (!uin || !password || !newPass) return nullptr;
+	if (!uin || !password || !newPass)
+		return nullptr;
 
-	if (!gg->getString(GG_KEY_EMAIL, &dbv_email)) 
+	// Readup email
+	char email[255] = "\0";
+	DBVARIANT dbv_email;
+	if (!gg->getString(GG_KEY_EMAIL, &dbv_email))
 	{
 		strncpy(email, dbv_email.pszVal, sizeof(email));
 		db_free(&dbv_email);
 	}
 
 	// Load token
+	GGTOKEN token;
 	if (!gg->gettoken(&token))
 		return nullptr;
 
+	struct gg_http *h;
+	struct gg_pubdir *s = nullptr;
 	if (!(h = gg_change_passwd4(uin, email, password, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success)
 	{
 		wchar_t error[128];
@@ -209,70 +211,72 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg)
 	{
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SETTINGS));
-			dat = (GGUSERUTILDLGDATA *)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-			if (dat) SetDlgItemTextA(hwndDlg, IDC_EMAIL, dat->email); // Readup email
-			return TRUE;
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(IDI_SETTINGS));
+		dat = (GGUSERUTILDLGDATA *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
+		if (dat) SetDlgItemTextA(hwndDlg, IDC_EMAIL, dat->email); // Readup email
+		return TRUE;
 
-		case WM_COMMAND:
-			switch (LOWORD(wParam))
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDC_PASSWORD:
+		case IDC_CPASSWORD:
+		case IDC_CONFIRM:
+		{
+			char pass[128], cpass[128];
+			BOOL enable;
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
+			GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, _countof(cpass));
+			enable = mir_strlen(pass) && mir_strlen(cpass) && !mir_strcmp(cpass, pass);
+			if (dat && dat->mode == GG_USERUTIL_REMOVE)
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), IsDlgButtonChecked(hwndDlg, IDC_CONFIRM) ? enable : FALSE);
+			else
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), enable);
+			break;
+		}
+
+		case IDOK:
+		{
+			char pass[128], cpass[128], email[128];
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
+			GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, _countof(cpass));
+			GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, _countof(email));
+			EndDialog(hwndDlg, IDOK);
+
+			// Check dialog box mode
+			if (!dat)
+				break;
+
+			switch (dat->mode)
 			{
-				case IDC_PASSWORD:
-				case IDC_CPASSWORD:
-				case IDC_CONFIRM:
-				{
-					char pass[128], cpass[128];
-					BOOL enable;
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
-					GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, _countof(cpass));
-					enable = mir_strlen(pass) && mir_strlen(cpass) && !mir_strcmp(cpass, pass);
-					if (dat && dat->mode == GG_USERUTIL_REMOVE)
-						EnableWindow(GetDlgItem(hwndDlg, IDOK), IsDlgButtonChecked(hwndDlg, IDC_CONFIRM) ? enable : FALSE);
-					else
-						EnableWindow(GetDlgItem(hwndDlg, IDOK), enable);
-					break;
-				}
-
-				case IDOK:
-				{
-					char pass[128], cpass[128], email[128];
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, pass, _countof(pass));
-					GetDlgItemTextA(hwndDlg, IDC_CPASSWORD, cpass, _countof(cpass));
-					GetDlgItemTextA(hwndDlg, IDC_EMAIL, email, _countof(email));
-					EndDialog(hwndDlg, IDOK);
-
-					// Check dialog box mode
-					if (!dat) break;
-					switch (dat->mode)
-					{
-						case GG_USERUTIL_CREATE:
-							gg_doregister(dat->gg, pass, email);
-							break;
-						case GG_USERUTIL_REMOVE:
-							gg_dounregister(dat->gg, dat->uin, pass);
-							break;
-						case GG_USERUTIL_PASS:
-							gg_dochpass(dat->gg, dat->uin, dat->pass, pass);
-							break;
-						case GG_USERUTIL_EMAIL:
-							gg_dochemail(dat->gg, dat->uin, dat->pass, dat->email, email);
-							break;
-					}
-					break;
-				}
-
-				case IDCANCEL:
-					EndDialog(hwndDlg, IDCANCEL);
-					break;
+			case GG_USERUTIL_CREATE:
+				gg_doregister(dat->gg, pass, email);
+				break;
+			case GG_USERUTIL_REMOVE:
+				gg_dounregister(dat->gg, dat->uin, pass);
+				break;
+			case GG_USERUTIL_PASS:
+				gg_dochpass(dat->gg, dat->uin, dat->pass, pass);
+				break;
+			case GG_USERUTIL_EMAIL:
+				gg_dochemail(dat->gg, dat->uin, dat->pass, dat->email, email);
+				break;
 			}
 			break;
+		}
 
-		case WM_DESTROY:
-			Window_FreeIcon_IcoLib(hwndDlg);
+		case IDCANCEL:
+			EndDialog(hwndDlg, IDCANCEL);
 			break;
+		}
+		break;
+
+	case WM_DESTROY:
+		Window_FreeIcon_IcoLib(hwndDlg);
+		break;
 	}
 	return FALSE;
 }
@@ -282,9 +286,10 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 //
 void GGPROTO::threadwait(GGTHREAD *thread)
 {
-	if (!thread->hThread) return;
+	if (!thread->hThread)
+		return;
 	while (WaitForSingleObjectEx(thread->hThread, INFINITE, TRUE) != WAIT_OBJECT_0);
+
 	CloseHandle(thread->hThread);
 	memset(thread, 0, sizeof(GGTHREAD));
 }
-

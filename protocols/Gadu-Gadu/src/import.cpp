@@ -23,7 +23,6 @@
 char *gg_makecontacts(GGPROTO *gg, int cr)
 {
 	string_t s = string_init(nullptr);
-	char *contacts;
 
 	// Readup contacts
 	for (MCONTACT hContact = db_find_first(gg->m_szModuleName); hContact; hContact = db_find_next(hContact, gg->m_szModuleName)) {
@@ -62,7 +61,8 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 				mir_free(pszValA);
 				db_free(&dbv2);
 			}
-			else string_append(s, dbvA);
+			else
+				string_append(s, dbvA);
 
 			string_append_c(s, ';');
 			string_append(s, dbvA);
@@ -106,7 +106,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			string_append(s, ";0;;0;\n");
 	}
 
-	contacts = string_free(s, 0);
+	char *contacts = string_free(s, 0);
 
 #ifdef DEBUGMODE
 	gg->debugLogA("gg_makecontacts(): \n%s", contacts);
@@ -130,10 +130,12 @@ void GGPROTO::parsecontacts(char *contacts)
 	uin_t uin;
 
 	// Skip to proper data
-	if (p && p < strchr(contacts, ';')) p++;
-	else p = contacts;
+	if (p && p < strchr(contacts, ';'))
+		p++;
+	else
+		p = contacts;
 
-	while(p)
+	while (p)
 	{
 		// Processing line
 		strFirstName = strLastName = strNickname = strNick = strPhone = strGroup = strUin = strMail = nullptr;
@@ -143,28 +145,32 @@ void GGPROTO::parsecontacts(char *contacts)
 		if (p)
 		{
 			n = strchr(p, ';');
-			if (n && n != p) strFirstName = strndup(p, (n - p));
+			if (n && n != p)
+				strFirstName = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// LastName
 		if (n && p)
 		{
 			n = strchr(p, ';');
-			if (n && n != p) strLastName = strndup(p, (n - p));
+			if (n && n != p)
+				strLastName = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Nickname
 		if (n && p)
 		{
 			n = strchr(p, ';');
-			if (n && n != p) strNickname = strndup(p, (n - p));
+			if (n && n != p)
+				strNickname = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Nick
 		if (n && p)
 		{
 			n = strchr(p, ';');
-			if (n && n != p) strNick = strndup(p, (n - p));
+			if (n && n != p)
+				strNick = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Phone
@@ -183,7 +189,8 @@ void GGPROTO::parsecontacts(char *contacts)
 		if (n && p)
 		{
 			n = strchr(p, ';');
-			if (n && n != p) strGroup = strndup(p, (n - p));
+			if (n && n != p)
+				strGroup = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Uin
@@ -201,11 +208,13 @@ void GGPROTO::parsecontacts(char *contacts)
 		if (n && p)
 		{
 			n = strchr(p, ';');
-			if (n && n != p) strMail = strndup(p, (n - p));
+			if (n && n != p)
+				strMail = strndup(p, (n - p));
 			n = strchr(p, '\n');
 			p = (n + 1);
 		}
-		if (!n) p = nullptr;
+		if (!n)
+			p = nullptr;
 
 		// Loadup contact
 		if (uin && strNick)
@@ -216,24 +225,26 @@ void GGPROTO::parsecontacts(char *contacts)
 #endif
 			// Write group
 			if (hContact && strGroup) {
-				ptrW tszGrpName( mir_a2u(strGroup));
+				ptrW tszGrpName(mir_a2u(strGroup));
 				Clist_GroupCreate(0, tszGrpName);
 				db_set_ws(hContact, "CList", "Group", tszGrpName);
 			}
 
 			// Write misc data
-			if (hContact && strFirstName){
+			if (hContact && strFirstName) {
 				wchar_t *tstrFirstName = mir_a2u(strFirstName);
 				setWString(hContact, GG_KEY_PD_FIRSTNAME, tstrFirstName);
 				mir_free(tstrFirstName);
 			}
-			if (hContact && strLastName){
+			if (hContact && strLastName) {
 				wchar_t *tstrLastName = mir_a2u(strLastName);
 				setWString(hContact, GG_KEY_PD_LASTNAME, tstrLastName);
 				mir_free(tstrLastName);
 			}
-			if (hContact && strPhone) db_set_s(hContact, "UserInfo", "MyPhone0", strPhone); // Store now in User Info
-			if (hContact && strMail) db_set_s(hContact, "UserInfo", "Mye-mail0", strMail); // Store now in User Info
+			if (hContact && strPhone)
+				db_set_s(hContact, "UserInfo", "MyPhone0", strPhone); // Store now in User Info
+			if (hContact && strMail)
+				db_set_s(hContact, "UserInfo", "Mye-mail0", strMail); // Store now in User Info
 		}
 
 		// Release stuff
@@ -268,8 +279,8 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 	if (password == NULL)
 		return 0;
 
-	uin_t uin;
-	if (!(uin = getDword(GG_KEY_UIN, 0)))
+	uin_t uin = getDword(GG_KEY_UIN, 0);
+	if (!uin)
 		return 0;
 
 	// Making contacts list
@@ -306,8 +317,8 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 	if (password == NULL)
 		return 0;
 
-	uin_t uin;
-	if (!(uin = getDword(GG_KEY_UIN, 0)))
+	uin_t uin = getDword(GG_KEY_UIN, 0);
+	if (!uin)
 		return 0;
 
 	// Making contacts list
@@ -334,7 +345,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 	wchar_t filter[512], *pfilter;
 	struct _stat st;
 
-	OPENFILENAME ofn = {0};
+	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	wcsncpy(filter, TranslateT("Text files"), _countof(filter));
 	mir_wstrncat(filter, L" (*.txt)", _countof(filter) - mir_wstrlen(filter));
@@ -371,7 +382,8 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 #ifdef DEBUGMODE
 	debugLogA("import_text()");
 #endif
-	if (!GetOpenFileName(&ofn)) return 0;
+	if (!GetOpenFileName(&ofn))
+		return 0;
 
 	FILE *f = _wfopen(str, L"r");
 	_wstat(str, &st);
@@ -385,6 +397,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 		mir_free(contacts);
 
 		MessageBox(nullptr, TranslateT("List import successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
+
 		return 0;
 	}
 	else
@@ -395,6 +408,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 		debugLogW(L"import_text(): Cannot import list from file \"%s\". errno=%d: %s", str, errno, _tcserror(errno));
 		if (f)
 			fclose(f);
+
 		return 0;
 	}
 }
@@ -402,7 +416,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 {
 	wchar_t str[MAX_PATH];
-	OPENFILENAME ofn = {0};
+	OPENFILENAME ofn = { 0 };
 	wchar_t filter[512], *pfilter;
 
 	wcsncpy(str, TranslateT("contacts"), _countof(str));
@@ -438,7 +452,8 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 #ifdef DEBUGMODE
 	debugLogW(L"export_text(%s).", str);
 #endif
-	if (!GetSaveFileName(&ofn)) return 0;
+	if (!GetSaveFileName(&ofn))
+		return 0;
 
 	FILE *f = _wfopen(str, L"w");
 	if (f) {
@@ -488,7 +503,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 	char *contacts = gg_makecontacts(this, 1);
 
 #ifdef DEBUGMODE
-		debugLogA("export_server(): gg_userlist_request(%s).", contacts);
+	debugLogA("export_server(): gg_userlist_request(%s).", contacts);
 #endif
 
 	gg_EnterCriticalSection(&sess_mutex, "export_server", 67, "sess_mutex", 1);
@@ -525,7 +540,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.position = 2000500001;
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.w = LPGENW("Import List From &Server");
- 	hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	hMainMenu[2] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
 	// Import from textfile
 	SET_UID(mi, 0x39c036d5, 0x6eb5, 0x49ae, 0xa8, 0x78, 0x8a, 0x72, 0xeb, 0xf, 0x15, 0x3d);

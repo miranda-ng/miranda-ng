@@ -40,64 +40,64 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 {
 	GGTOKENDLGDATA *dat = (GGTOKENDLGDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch(msg)
+	switch (msg)
 	{
-		case WM_INITDIALOG:
-		{
-			RECT rc;
-			TranslateDialogDefault(hwndDlg);
-			GetClientRect(GetDlgItem(hwndDlg, IDC_WHITERECT), &rc);
-			InvalidateRect(hwndDlg, &rc, TRUE);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			return TRUE;
-		}
+	case WM_INITDIALOG:
+	{
+		RECT rc;
+		TranslateDialogDefault(hwndDlg);
+		GetClientRect(GetDlgItem(hwndDlg, IDC_WHITERECT), &rc);
+		InvalidateRect(hwndDlg, &rc, TRUE);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		return TRUE;
+	}
 
-		case WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-				case IDOK:
-				{
-					GetDlgItemTextA(hwndDlg, IDC_TOKEN, dat->val, _countof(dat->val));
-					EndDialog(hwndDlg, IDOK);
-					break;
-				}
-				case IDCANCEL:
-					EndDialog(hwndDlg, IDCANCEL);
-					break;
-			}
+	case WM_COMMAND:
+		switch (LOWORD(wParam))
+		{
+		case IDOK:
+		{
+			GetDlgItemTextA(hwndDlg, IDC_TOKEN, dat->val, _countof(dat->val));
+			EndDialog(hwndDlg, IDOK);
 			break;
-
-		case WM_PAINT:
-		{
-			PAINTSTRUCT paintStruct;
-			HDC hdc = BeginPaint(hwndDlg, &paintStruct);
-			RECT rc; GetClientRect(GetDlgItem(hwndDlg, IDC_WHITERECT), &rc);
-			FillRect(hdc, &rc, (HBRUSH)GetStockObject(WHITE_BRUSH));
-
-			if (dat && dat->hBitmap)
-			{
-				HDC hdcBmp = nullptr;
-				int nWidth, nHeight;
-				BITMAP bmp;
-
-				GetObject(dat->hBitmap, sizeof(bmp), &bmp);
-				nWidth = bmp.bmWidth; nHeight = bmp.bmHeight;
-
-				if (hdcBmp = CreateCompatibleDC(hdc))
-				{
-					SelectObject(hdcBmp, dat->hBitmap);
-					SetStretchBltMode(hdc, HALFTONE);
-					BitBlt(hdc,
-						(rc.left + rc.right - nWidth) / 2,
-						(rc.top + rc.bottom - nHeight) / 2,
-						nWidth, nHeight,
-						hdcBmp, 0, 0, SRCCOPY);
-					DeleteDC(hdcBmp);
-				}
-			}
-			EndPaint(hwndDlg, &paintStruct);
-			return 0;
 		}
+		case IDCANCEL:
+			EndDialog(hwndDlg, IDCANCEL);
+			break;
+		}
+		break;
+
+	case WM_PAINT:
+	{
+		PAINTSTRUCT paintStruct;
+		HDC hdc = BeginPaint(hwndDlg, &paintStruct);
+		RECT rc;
+		GetClientRect(GetDlgItem(hwndDlg, IDC_WHITERECT), &rc);
+		FillRect(hdc, &rc, (HBRUSH)GetStockObject(WHITE_BRUSH));
+
+		if (dat && dat->hBitmap)
+		{
+			HDC hdcBmp = nullptr;
+			BITMAP bmp;
+			GetObject(dat->hBitmap, sizeof(bmp), &bmp);
+			int nWidth = bmp.bmWidth;
+			int nHeight = bmp.bmHeight;
+
+			if (hdcBmp = CreateCompatibleDC(hdc))
+			{
+				SelectObject(hdcBmp, dat->hBitmap);
+				SetStretchBltMode(hdc, HALFTONE);
+				BitBlt(hdc,
+					(rc.left + rc.right - nWidth) / 2,
+					(rc.top + rc.bottom - nHeight) / 2,
+					nWidth, nHeight,
+					hdcBmp, 0, 0, SRCCOPY);
+				DeleteDC(hdcBmp);
+			}
+		}
+		EndPaint(hwndDlg, &paintStruct);
+		return 0;
+	}
 	}
 	return FALSE;
 }
@@ -130,18 +130,18 @@ int GGPROTO::gettoken(GGTOKEN *token)
 	}
 
 	// Return token id
-	GGTOKENDLGDATA dat = {0};
+	GGTOKENDLGDATA dat = { 0 };
 	strncpy(dat.id, t->tokenid, sizeof(dat.id));
 	dat.width = t->width;
 	dat.height = t->height;
 
 	// Load bitmap
-	IMGSRVC_MEMIO memio = {0};
+	IMGSRVC_MEMIO memio = { 0 };
 	memio.iLen = h->body_size;
 	memio.pBuf = h->body;
 	memio.fif = FIF_UNKNOWN; /* detect */
 	memio.flags = 0;
-	dat.hBitmap = (HBITMAP) CallService(MS_IMG_LOADFROMMEM, (WPARAM) &memio, 0);
+	dat.hBitmap = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
 	if (dat.hBitmap == nullptr)
 	{
 		MessageBox(nullptr, TranslateT("Could not load token image."), m_tszUserName, MB_OK | MB_ICONSTOP);

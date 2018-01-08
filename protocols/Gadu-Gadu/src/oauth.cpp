@@ -54,13 +54,12 @@ static int paramsortFunc(const OAUTHPARAMETER *p1, const OAUTHPARAMETER *p2)
 #define isunreserved(c) ( isalnum((unsigned char)c) || c == '-' || c == '.' || c == '_' || c == '~')
 char *oauth_uri_escape(const char *str)
 {
-	char *res;
-	int size, ix = 0;
+	int ix = 0;
 
 	if (str == nullptr) return mir_strdup("");
 
-	size = (int)mir_strlen(str) + 1;
-	res = (char *)mir_alloc(size);
+	int size = (int)mir_strlen(str) + 1;
+	char *res = (char *)mir_alloc(size);
 
 	while (*str) {
 		if (!isunreserved(*str)) {
@@ -82,13 +81,13 @@ char *oauth_uri_escape(const char *str)
 
 char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmethod, const char *url)
 {
-	char *res, *urlenc, *urlnorm;
+	char *res;
 	OAUTHPARAMETER *p;
-	int i, ix = 0, size;
+	int ix = 0;
 
 	if (httpmethod == nullptr || url == nullptr || !params.getCount()) return mir_strdup("");
 
-	urlnorm = (char *)mir_alloc(mir_strlen(url) + 1);
+	char *urlnorm = (char *)mir_alloc(mir_strlen(url) + 1);
 	while (*url) {
 		if (*url == '?' || *url == '#')	break; // see RFC 3986 section 3
 		urlnorm[ix++] = tolower(*url);
@@ -100,11 +99,11 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 	else if ((res = strstr(urlnorm, ":443")) != nullptr)
 		memmove(res, res + 4, mir_strlen(res) - 3);
 
-	urlenc = oauth_uri_escape(urlnorm);
+	char *urlenc = oauth_uri_escape(urlnorm);
 	mir_free(urlnorm);
-	size = (int)mir_strlen(httpmethod) + (int)mir_strlen(urlenc) + 1 + 2;
+	int size = (int)mir_strlen(httpmethod) + (int)mir_strlen(urlenc) + 1 + 2;
 
-	for (i = 0; i < params.getCount(); i++) {
+	for (int i = 0; i < params.getCount(); i++) {
 		p = params[i];
 		if (!mir_strcmp(p->name, "oauth_signature")) continue;
 		if (i > 0) size += 3;
@@ -118,7 +117,7 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 	mir_free(urlenc);
 	mir_strcat(res, "&");
 
-	for (i = 0; i < params.getCount(); i++) {
+	for (int i = 0; i < params.getCount(); i++) {
 		p = params[i];
 		if (!mir_strcmp(p->name, "oauth_signature")) continue;
 		if (i > 0) mir_strcat(res, "%26");
@@ -133,11 +132,11 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 char *oauth_getparam(LIST<OAUTHPARAMETER> &params, const char *name)
 {
 	OAUTHPARAMETER *p;
-	int i;
 
-	if (name == nullptr) return nullptr;
+	if (name == nullptr)
+		return nullptr;
 
-	for (i = 0; i < params.getCount(); i++) {
+	for (int i = 0; i < params.getCount(); i++) {
 		p = params[i];
 		if (!mir_strcmp(p->name, name))
 			return p->value;
@@ -149,11 +148,11 @@ char *oauth_getparam(LIST<OAUTHPARAMETER> &params, const char *name)
 void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *value)
 {
 	OAUTHPARAMETER *p;
-	int i;
 
-	if (name == nullptr) return;
+	if (name == nullptr)
+		return;
 
-	for (i = 0; i < params.getCount(); i++) {
+	for (int i = 0; i < params.getCount(); i++) {
 		p = params[i];
 		if (!mir_strcmp(p->name, name)) {
 			mir_free(p->value);
@@ -171,9 +170,8 @@ void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *
 void oauth_freeparams(LIST<OAUTHPARAMETER> &params)
 {
 	OAUTHPARAMETER *p;
-	int i;
 
-	for (i = 0; i < params.getCount(); i++) {
+	for (int i = 0; i < params.getCount(); i++) {
 		p = params[i];
 		mir_free(p->name);
 		mir_free(p->value);
@@ -181,19 +179,21 @@ void oauth_freeparams(LIST<OAUTHPARAMETER> &params)
 }
 
 int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, const char *url,
-					   const char *consumer_secret, const char *token_secret)
+	const char *consumer_secret, const char *token_secret)
 {
-	char *sign = nullptr, *signmethod;
+	char *sign = nullptr;
 
-	if (!params.getCount()) return -1;
+	if (!params.getCount())
+		return -1;
 
-	signmethod = oauth_getparam(params, "oauth_signature_method");
-	if (signmethod == nullptr) return -1;
+	char *signmethod = oauth_getparam(params, "oauth_signature_method");
+	if (signmethod == nullptr)
+		return -1;
 
 	if (!mir_strcmp(signmethod, "HMAC-SHA1")) {
-		ptrA text( oauth_generate_signature(params, httpmethod, url));
-		ptrA csenc( oauth_uri_escape(consumer_secret));
-		ptrA tsenc( oauth_uri_escape(token_secret));
+		ptrA text(oauth_generate_signature(params, httpmethod, url));
+		ptrA csenc(oauth_uri_escape(consumer_secret));
+		ptrA tsenc(oauth_uri_escape(token_secret));
 		ptrA key((char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2));
 		mir_strcpy(key, csenc);
 		mir_strcat(key, "&");
@@ -204,8 +204,8 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
 	}
 	else { // PLAINTEXT
-		ptrA csenc( oauth_uri_escape(consumer_secret));
-		ptrA tsenc( oauth_uri_escape(token_secret));
+		ptrA csenc(oauth_uri_escape(consumer_secret));
+		ptrA tsenc(oauth_uri_escape(token_secret));
 
 		sign = (char *)mir_alloc(mir_strlen(csenc) + mir_strlen(tsenc) + 2);
 		mir_strcpy(sign, csenc);
@@ -232,23 +232,23 @@ char* oauth_generate_nonce()
 }
 
 char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD signmethod,
-						const char *consumer_key, const char *consumer_secret,
-						const char *token, const char *token_secret)
+	const char *consumer_key, const char *consumer_secret,
+	const char *token, const char *token_secret)
 {
-	int i, size;
 	char *res, timestamp[22];
 
-	if (httpmethod == nullptr || url == nullptr) return nullptr;
+	if (httpmethod == nullptr || url == nullptr)
+		return nullptr;
 
 	LIST<OAUTHPARAMETER> oauth_parameters(1, paramsortFunc);
 	oauth_setparam(oauth_parameters, "oauth_consumer_key", consumer_key);
 	oauth_setparam(oauth_parameters, "oauth_version", "1.0");
 	switch (signmethod) {
-		case HMACSHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "HMAC-SHA1"); break;
-		case RSASHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "RSA-SHA1"); break;
-		default: oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT"); break;
+	case HMACSHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "HMAC-SHA1"); break;
+	case RSASHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "RSA-SHA1"); break;
+	default: oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT"); break;
 	};
-	mir_snprintf(timestamp, "%ld", time(nullptr)); 
+	mir_snprintf(timestamp, "%ld", time(nullptr));
 	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
 	oauth_setparam(oauth_parameters, "oauth_nonce", ptrA(oauth_generate_nonce()));
 	if (token != nullptr && *token)
@@ -259,8 +259,8 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 		return nullptr;
 	}
 
-	size = 7;
-	for (i = 0; i < oauth_parameters.getCount(); i++) {
+	int size = 7;
+	for (int i = 0; i < oauth_parameters.getCount(); i++) {
 		OAUTHPARAMETER *p = oauth_parameters[i];
 		if (i > 0) size++;
 		size += (int)mir_strlen(p->name) + (int)mir_strlen(p->value) + 3;
@@ -269,7 +269,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	res = (char *)mir_alloc(size);
 	mir_strcpy(res, "OAuth ");
 
-	for (i = 0; i < oauth_parameters.getCount(); i++) {
+	for (int i = 0; i < oauth_parameters.getCount(); i++) {
 		OAUTHPARAMETER *p = oauth_parameters[i];
 		if (i > 0) mir_strcat(res, ",");
 		mir_strcat(res, p->name);
@@ -288,7 +288,7 @@ int GGPROTO::oauth_receivetoken()
 	int res = 0;
 	HNETLIBCONN nlc = nullptr;
 
-	UIN2IDA( getDword(GG_KEY_UIN, 0), uin);
+	UIN2IDA(getDword(GG_KEY_UIN, 0), uin);
 	char *password = getStringA(GG_KEY_PASSWORD);
 
 	// 1. Obtaining an Unauthorized Request Token
@@ -297,11 +297,11 @@ int GGPROTO::oauth_receivetoken()
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, nullptr, nullptr);
 
 	NETLIBHTTPHEADER httpHeaders[3];
-	httpHeaders[0].szName   = "User-Agent";
+	httpHeaders[0].szName = "User-Agent";
 	httpHeaders[0].szValue = GG8_VERSION;
-	httpHeaders[1].szName  = "Authorization";
+	httpHeaders[1].szName = "Authorization";
 	httpHeaders[1].szValue = str;
-	httpHeaders[2].szName  = "Accept";
+	httpHeaders[2].szName = "Accept";
 	httpHeaders[2].szValue = "*/*";
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
@@ -313,7 +313,7 @@ int GGPROTO::oauth_receivetoken()
 
 	NETLIBHTTPREQUEST *resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (resp) {
-		nlc = resp->nlc; 
+		nlc = resp->nlc;
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			wchar_t *xmlAction = mir_a2u(resp->pData);
 			HXML hXml = xmlParseString(xmlAction, nullptr, L"result");
@@ -328,10 +328,13 @@ int GGPROTO::oauth_receivetoken()
 			}
 			mir_free(xmlAction);
 		}
-		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+		else
+			debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+
 		Netlib_FreeHttpRequest(resp);
 	}
-	else debugLogA("oauth_receivetoken(): No response from HTTP request");
+	else
+		debugLogA("oauth_receivetoken(): No response from HTTP request");
 
 	// 2. Obtaining User Authorization
 	debugLogA("oauth_receivetoken(): Obtaining User Authorization...");
@@ -339,7 +342,7 @@ int GGPROTO::oauth_receivetoken()
 	str = oauth_uri_escape("http://www.mojageneracja.pl");
 
 	mir_snprintf(szUrl, "callback_url=%s&request_token=%s&uin=%s&password=%s",
-			str, token, uin, password); 
+		str, token, uin, password);
 	mir_free(str);
 	str = mir_strdup(szUrl);
 
@@ -351,7 +354,7 @@ int GGPROTO::oauth_receivetoken()
 	req.headersCount = 3;
 	req.headers = httpHeaders;
 	mir_strcpy(szUrl, "https://login.gadu-gadu.pl/authorize");
-	httpHeaders[1].szName  = "Content-Type";
+	httpHeaders[1].szName = "Content-Type";
 	httpHeaders[1].szValue = "application/x-www-form-urlencoded";
 	req.pData = str;
 	req.dataLength = (int)mir_strlen(str);
@@ -380,7 +383,7 @@ int GGPROTO::oauth_receivetoken()
 	req.nlc = nlc;
 	req.headersCount = 3;
 	req.headers = httpHeaders;
-	httpHeaders[1].szName  = "Authorization";
+	httpHeaders[1].szName = "Authorization";
 	httpHeaders[1].szValue = str;
 
 	resp = Netlib_HttpTransaction(m_hNetlibUser, &req);
@@ -399,11 +402,14 @@ int GGPROTO::oauth_receivetoken()
 			}
 			mir_free(xmlAction);
 		}
-		else debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+		else
+			debugLogA("oauth_receivetoken(): Invalid response code from HTTP request");
+
 		Netlib_CloseHandle(resp->nlc);
 		Netlib_FreeHttpRequest(resp);
 	}
-	else debugLogA("oauth_receivetoken(): No response from HTTP request");
+	else
+		debugLogA("oauth_receivetoken(): No response from HTTP request");
 
 	mir_free(password);
 	mir_free(str);
@@ -430,8 +436,8 @@ int GGPROTO::oauth_checktoken(int force)
 	if (force)
 		return oauth_receivetoken();
 
-	ptrA token( getStringA(GG_KEY_TOKEN));
-	ptrA token_secret( getStringA(GG_KEY_TOKENSECRET));
+	ptrA token(getStringA(GG_KEY_TOKEN));
+	ptrA token_secret(getStringA(GG_KEY_TOKENSECRET));
 	if (token == NULL || token_secret == NULL)
 		return oauth_receivetoken();
 

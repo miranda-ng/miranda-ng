@@ -56,75 +56,73 @@ static unsigned long crc_table[256];
 //
 wchar_t* ws_strerror(int code)
 {
-   static wchar_t err_desc[160];
+	static wchar_t err_desc[160];
 
-   // Not a windows error display WinSock
-   if (code == 0)
-   {
-      wchar_t buff[128];
-      int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, WSAGetLastError(), 0, buff, _countof(buff), nullptr);
-      if (len == 0)
-         mir_snwprintf(err_desc, L"WinSock %u: Unknown error.", WSAGetLastError());
-      else
-         mir_snwprintf(err_desc, L"WinSock %d: %s", WSAGetLastError(), buff);
-      return err_desc;
-   }
+	// Not a windows error display WinSock
+	if (code == 0)
+	{
+		wchar_t buff[128];
+		int len = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, WSAGetLastError(), 0, buff, _countof(buff), nullptr);
+		if (len == 0)
+			mir_snwprintf(err_desc, L"WinSock %u: Unknown error.", WSAGetLastError());
+		else
+			mir_snwprintf(err_desc, L"WinSock %d: %s", WSAGetLastError(), buff);
+		return err_desc;
+	}
 
-   // Return normal error
-   return _tcserror(code);
+	// Return normal error
+	return _tcserror(code);
 }
 
 char* as_strerror(int code)
 {
-   static char err_desc[160];
+	static char err_desc[160];
 
-   // Not a windows error display WinSock
-   if (code == 0)
-   {
-      char buff[128];
-      int len = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, WSAGetLastError(), 0, buff, _countof(buff), nullptr);
-      if (len == 0)
-         mir_snprintf(err_desc, "WinSock %u: Unknown error.", WSAGetLastError());
-      else
-         mir_snprintf(err_desc, "WinSock %d: %s", WSAGetLastError(), buff);
-      return err_desc;
-   }
+	// Not a windows error display WinSock
+	if (code == 0)
+	{
+		char buff[128];
+		int len = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, WSAGetLastError(), 0, buff, _countof(buff), nullptr);
+		if (len == 0)
+			mir_snprintf(err_desc, "WinSock %u: Unknown error.", WSAGetLastError());
+		else
+			 mir_snprintf(err_desc, "WinSock %d: %s", WSAGetLastError(), buff);
+		return err_desc;
+	}
 
-   // Return normal error
-   return strerror(code);
+	// Return normal error
+	return strerror(code);
 }
 
 //////////////////////////////////////////////////////////
 // Build the crc table
 void crc_gentable(void)
 {
-   unsigned long crc, poly;
-   int   i, j;
-
-   poly = 0xEDB88320L;
-   for (i = 0; i < 256; i++)
-   {
-      crc = i;
-      for (j = 8; j > 0; j--)
-      {
-         if (crc & 1)
-            crc = (crc >> 1) ^ poly;
-         else
-            crc >>= 1;
-      }
-      crc_table[i] = crc;
-   }
+	unsigned long crc;
+	unsigned long poly = 0xEDB88320L;
+	for (int i = 0; i < 256; i++)
+	{
+		crc = i;
+		for (int j = 8; j > 0; j--)
+		{
+			if (crc & 1)
+				crc = (crc >> 1) ^ poly;
+			else
+				crc >>= 1;
+		}
+		crc_table[i] = crc;
+	}
 }
 
 //////////////////////////////////////////////////////////
 // Calculate the crc value
 unsigned long crc_get(char *mem)
 {
-   register unsigned long crc = 0xFFFFFFFF;
-   while(mem && *mem)
-      crc = ((crc>>8) & 0x00FFFFFF) ^ crc_table[(crc ^ *(mem++)) & 0xFF];
+	register unsigned long crc = 0xFFFFFFFF;
+	while (mem && *mem)
+		crc = ((crc >> 8) & 0x00FFFFFF) ^ crc_table[(crc ^ *(mem++)) & 0xFF];
 
-   return (crc ^ 0xFFFFFFFF);
+	return (crc ^ 0xFFFFFFFF);
 }
 
 //////////////////////////////////////////////////////////
@@ -133,21 +131,21 @@ unsigned long crc_get(char *mem)
 // returns http error text
 const wchar_t *http_error_string(int h)
 {
-   switch (h)
-   {
-      case 0:
-         return (errno == ENOMEM) ? TranslateT("HTTP failed memory") : TranslateT("HTTP failed connecting");
-      case GG_ERROR_RESOLVING:
-         return TranslateT("HTTP failed resolving");
-      case GG_ERROR_CONNECTING:
-         return TranslateT("HTTP failed connecting");
-      case GG_ERROR_READING:
-         return TranslateT("HTTP failed reading");
-      case GG_ERROR_WRITING:
-         return TranslateT("HTTP failed writing");
-   }
+	switch (h)
+	{
+	case 0:
+		return (errno == ENOMEM) ? TranslateT("HTTP failed memory") : TranslateT("HTTP failed connecting");
+	case GG_ERROR_RESOLVING:
+		return TranslateT("HTTP failed resolving");
+	case GG_ERROR_CONNECTING:
+		return TranslateT("HTTP failed connecting");
+	case GG_ERROR_READING:
+		return TranslateT("HTTP failed reading");
+	case GG_ERROR_WRITING:
+		return TranslateT("HTTP failed writing");
+	}
 
-   return TranslateT("Unknown HTTP error");
+	return TranslateT("Unknown HTTP error");
 }
 
 //////////////////////////////////////////////////////////
@@ -155,7 +153,7 @@ const wchar_t *http_error_string(int h)
 //
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
-   return &pluginInfo;
+	return &pluginInfo;
 }
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
@@ -169,11 +167,11 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 	setDword(GG_PLUGINVERSION, pluginInfo.version);
 
 	//1. clean files: %miranda_avatarcache%\GG\*.(null)
-	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)){
+	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)) {
 		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
 		wchar_t avatarsPath[MAX_PATH];
-		mir_snwprintf(avatarsPath, L"%s\\%s", VARSW( L"%miranda_avatarcache%"), m_tszUserName);
+		mir_snwprintf(avatarsPath, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
 
 		debugLogW(L"cleanuplastplugin() 1: miranda_avatarcache = %s", avatarsPath);
 
@@ -183,9 +181,9 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 		HANDLE hFind = FindFirstFile(spec, &ffd);
 		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
-				wchar_t filePathT [2*MAX_PATH + 10];
+				wchar_t filePathT[2 * MAX_PATH + 10];
 				mir_snwprintf(filePathT, L"%s\\%s", avatarsPath, ffd.cFileName);
-				if (!_waccess(filePathT, 0)){
+				if (!_waccess(filePathT, 0)) {
 					debugLogW(L"cleanuplastplugin() 1: remove file = %s", filePathT);
 					_wremove(filePathT);
 				}
@@ -200,13 +198,13 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 //
 static int gg_modulesloaded(WPARAM, LPARAM)
 {
-   // Get SSL API
-   mir_getSI(&sslApi);
+	// Get SSL API
+	mir_getSI(&sslApi);
 
-   // File Association Manager support
-   gg_links_init();
+	// File Association Manager support
+	gg_links_init();
 
-   return 0;
+	return 0;
 }
 
 //////////////////////////////////////////////////////////
@@ -214,15 +212,15 @@ static int gg_modulesloaded(WPARAM, LPARAM)
 //
 static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 {
-   char* szProto = GetContactProto(hContact);
-   if (szProto == nullptr)
-      return nullptr;
+	char* szProto = GetContactProto(hContact);
+	if (szProto == nullptr)
+		return nullptr;
 
-   for (int i=0; i < g_Instances.getCount(); i++)
-      if (mir_strcmp(szProto, g_Instances[i]->m_szModuleName) == 0)
-         return g_Instances[i];
+	for (int i = 0; i < g_Instances.getCount(); i++)
+		if (mir_strcmp(szProto, g_Instances[i]->m_szModuleName) == 0)
+			return g_Instances[i];
 
-   return nullptr;
+	return nullptr;
 }
 
 //////////////////////////////////////////////////////////
@@ -230,15 +228,15 @@ static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 //
 static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 {
-   GGPROTO* gg = gg_getprotoinstance(hContact);
-   if (gg == nullptr)
-      return 0;
+	GGPROTO* gg = gg_getprotoinstance(hContact);
+	if (gg == nullptr)
+		return 0;
 
-   if (gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) || gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
-      Menu_ShowItem(gg->hBlockMenuItem, false);
+	if (gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) || gg->isChatRoom(hContact) || db_get_b(hContact, "CList", "NotOnList", 0))
+		Menu_ShowItem(gg->hBlockMenuItem, false);
 	else
 		Menu_ModifyItem(gg->hBlockMenuItem, gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENW("&Unblock") : LPGENW("&Block"));
-   return 0;
+	return 0;
 }
 
 //////////////////////////////////////////////////////////
@@ -246,9 +244,9 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 //
 INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM)
 {
-   setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
-   notifyuser(hContact, 1);
-   return 0;
+	setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
+	notifyuser(hContact, 1);
+	return 0;
 }
 
 #define GGS_BLOCKUSER "/BlockUser"
@@ -258,15 +256,15 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM)
 //
 void GGPROTO::block_init()
 {
-   CMenuItem mi;
-   SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
-   mi.position = -500050000;
-   mi.hIcolibItem = iconList[8].hIcolib;
-   mi.name.a = LPGEN("&Block");
+	CMenuItem mi;
+	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
+	mi.position = -500050000;
+	mi.hIcolibItem = iconList[8].hIcolib;
+	mi.name.a = LPGEN("&Block");
 	mi.pszService = GGS_BLOCKUSER;
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
-   ::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
+	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
 }
 
 //////////////////////////////////////////////////////////
@@ -274,7 +272,7 @@ void GGPROTO::block_init()
 //
 void GGPROTO::block_uninit()
 {
-   Menu_RemoveItem(hBlockMenuItem);
+	Menu_RemoveItem(hBlockMenuItem);
 }
 
 //////////////////////////////////////////////////////////
@@ -283,24 +281,24 @@ void GGPROTO::block_uninit()
 void GGPROTO::menus_init()
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(this);
-	
+
 	CMenuItem mi;
 	mi.root = hRoot;
-   mi.flags = CMIF_UNICODE;
+	mi.flags = CMIF_UNICODE;
 
-   mi.name.w = LPGENW("Conference");
-   mi.position = 200001;
-   mi.hIcolibItem = iconList[14].hIcolib;
+	mi.name.w = LPGENW("Conference");
+	mi.position = 200001;
+	mi.hIcolibItem = iconList[14].hIcolib;
 	HGENMENU hGCRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-   mi.name.w = LPGENW("Contact list");
-   mi.position = 200002;
-   mi.hIcolibItem = iconList[7].hIcolib;
-   HGENMENU hCLRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	mi.name.w = LPGENW("Contact list");
+	mi.position = 200002;
+	mi.hIcolibItem = iconList[7].hIcolib;
+	HGENMENU hCLRoot = Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
-   gc_menus_init(hGCRoot);
-   import_init(hCLRoot);
-   sessions_menus_init(hRoot);
+	gc_menus_init(hGCRoot);
+	import_init(hCLRoot);
+	sessions_menus_init(hRoot);
 }
 
 //////////////////////////////////////////////////////////
@@ -308,9 +306,9 @@ void GGPROTO::menus_init()
 //
 static GGPROTO *gg_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
 {
-   GGPROTO *gg = new GGPROTO(pszProtoName, tszUserName);
-   g_Instances.insert(gg);
-   return gg;
+	GGPROTO *gg = new GGPROTO(pszProtoName, tszUserName);
+	g_Instances.insert(gg);
+	return gg;
 }
 
 //////////////////////////////////////////////////////////
@@ -318,10 +316,10 @@ static GGPROTO *gg_proto_init(const char* pszProtoName, const wchar_t* tszUserNa
 //
 static int gg_proto_uninit(PROTO_INTERFACE *proto)
 {
-   GGPROTO *gg = (GGPROTO *)proto;
-   g_Instances.remove(gg);
-   delete gg;
-   return 0;
+	GGPROTO *gg = (GGPROTO *)proto;
+	g_Instances.remove(gg);
+	delete gg;
+	return 0;
 }
 
 //////////////////////////////////////////////////////////
@@ -329,23 +327,23 @@ static int gg_proto_uninit(PROTO_INTERFACE *proto)
 //
 extern "C" int __declspec(dllexport) Load(void)
 {
-   mir_getLP(&pluginInfo);
-   pcli = Clist_GetInterface();
+	mir_getLP(&pluginInfo);
+	pcli = Clist_GetInterface();
 
-   // Hook system events
-   hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
+	// Hook system events
+	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
 
-   // Prepare protocol name
+	// Prepare protocol name
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);
-   pd.szName = GGDEF_PROTO;
-   pd.fnInit = (pfnInitProto)gg_proto_init;
-   pd.fnUninit = (pfnUninitProto)gg_proto_uninit;
-   pd.type = PROTOTYPE_PROTOCOL;
-   Proto_RegisterModule( &pd);
+	pd.szName = GGDEF_PROTO;
+	pd.fnInit = (pfnInitProto)gg_proto_init;
+	pd.fnUninit = (pfnUninitProto)gg_proto_uninit;
+	pd.type = PROTOTYPE_PROTOCOL;
+	Proto_RegisterModule(&pd);
 
 	gg_links_instancemenu_init();
-   return 0;
+	return 0;
 }
 
 //////////////////////////////////////////////////////////
@@ -353,17 +351,18 @@ extern "C" int __declspec(dllexport) Load(void)
 //
 extern "C" int __declspec(dllexport) Unload()
 {
-   WSACleanup();
-   return 0;
+	WSACleanup();
+	return 0;
 }
 
 //////////////////////////////////////////////////////////
 // DEBUGING FUNCTIONS
 struct
 {
-   int type;
-   char *text;
+	int type;
+	char *text;
 }
+
 static const ggdebug_eventype2string[] =
 {
    {GG_EVENT_NONE,                 "GG_EVENT_NONE"},
@@ -413,11 +412,11 @@ static const ggdebug_eventype2string[] =
 
 const char *ggdebug_eventtype(gg_event *e)
 {
-   int i;
-   for(i = 0; ggdebug_eventype2string[i].type != -1; i++)
-      if (ggdebug_eventype2string[i].type == e->type)
-         return ggdebug_eventype2string[i].text;
-   return ggdebug_eventype2string[i].text;
+	int i;
+	for (i = 0; ggdebug_eventype2string[i].type != -1; i++)
+		if (ggdebug_eventype2string[i].type == e->type)
+			return ggdebug_eventype2string[i].text;
+	return ggdebug_eventype2string[i].text;
 }
 
 //////////////////////////////////////////////////////////
@@ -427,22 +426,24 @@ const char *ggdebug_eventtype(gg_event *e)
 #ifdef DEBUGMODE
 void gg_debughandler(int level, const char *format, va_list ap)
 {
-   char szText[1024], *szFormat = _strdup(format);
-   // Kill end line
-   char *nl = strrchr(szFormat, '\n');
-   if (nl) *nl = 0;
+	char szText[1024], *szFormat = _strdup(format);
+	// Kill end line
+	char *nl = strrchr(szFormat, '\n');
+	if (nl)
+		*nl = 0;
 
-   strncpy(szText + PREFIXLEN, "[libgadu] \0", sizeof(szText) - PREFIXLEN);
+	strncpy(szText + PREFIXLEN, "[libgadu] \0", sizeof(szText) - PREFIXLEN);
 
-   char prefix[6];
-   mir_snprintf(prefix, "%lu", GetCurrentThreadId());
-   size_t prefixLen = mir_strlen(prefix);
-   if (prefixLen < PREFIXLEN) memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
-   memcpy(szText, prefix, PREFIXLEN);
+	char prefix[6];
+	mir_snprintf(prefix, "%lu", GetCurrentThreadId());
+	size_t prefixLen = mir_strlen(prefix);
+	if (prefixLen < PREFIXLEN)
+		memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
+	memcpy(szText, prefix, PREFIXLEN);
 
-   mir_vsnprintf(szText + mir_strlen(szText), sizeof(szText) - mir_strlen(szText), szFormat, ap);
-   Netlib_Log(nullptr, szText);
-   free(szFormat);
+	mir_vsnprintf(szText + mir_strlen(szText), sizeof(szText) - mir_strlen(szText), szFormat, ap);
+	Netlib_Log(nullptr, szText);
+	free(szFormat);
 }
 #endif
 
@@ -451,11 +452,11 @@ void gg_debughandler(int level, const char *format, va_list ap)
 //
 BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD, LPVOID)
 {
-   crc_gentable();
-   hInstance = hInst;
+	crc_gentable();
+	hInstance = hInst;
 #ifdef DEBUGMODE
-   gg_debug_level = GG_DEBUG_FUNCTION;
-   gg_debug_handler = gg_debughandler;
+	gg_debug_level = GG_DEBUG_FUNCTION;
+	gg_debug_handler = gg_debughandler;
 #endif
-   return TRUE;
+	return TRUE;
 }

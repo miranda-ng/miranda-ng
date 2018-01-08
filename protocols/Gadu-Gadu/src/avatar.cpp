@@ -28,7 +28,7 @@
 //
 void GGPROTO::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW( L"%miranda_avatarcache%"), m_szModuleName);
+	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
 	if (_waccess(pszDest, 0)) {
 		int ret = CreateDirectoryTreeW(pszDest);
@@ -80,8 +80,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 		return false;
 	}
 
-	if ((strncmp(resp->pData, "<result>", 8) == 0) || (strncmp(resp->pData, "<?xml", 5) == 0)){
-
+	if ((strncmp(resp->pData, "<result>", 8) == 0) || (strncmp(resp->pData, "<?xml", 5) == 0)) {
 		//if this url returned xml data (before and after 11.2013 gg convention)
 		wchar_t *xmlAction = mir_a2u(resp->pData);
 		HXML hXml = xmlParseString(xmlAction, nullptr, L"result");
@@ -92,7 +91,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/timestamp", 0);
 				*avatarts = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
 				node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/bigavatar", 0); //new gg convention
-				if (node == nullptr){
+				if (node == nullptr) {
 					node = xmlGetChildByPath(hXml, L"users/user/avatars/avatar/originBigAvatar", 0); //old gg convention
 				}
 				*avatarurl = node != nullptr ? mir_u2a(xmlGetText(node)) : nullptr;
@@ -100,9 +99,8 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 			xmlDestroyNode(hXml);
 		}
 		mir_free(xmlAction);
-
-	} else if (strncmp(resp->pData, "{\"result\":", 10) == 0){
-
+	}
+	else if (strncmp(resp->pData, "{\"result\":", 10) == 0) {
 		//if this url returns json data (11.2013 gg convention)
 		JSONNode root = JSONNode::parse(resp->pData);
 		if (root) {
@@ -150,9 +148,9 @@ void GGPROTO::requestAvatarTransfer(MCONTACT hContact, char *szAvatarURL)
 
 	gg_EnterCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, "avatar_mutex", 1);
 	if (avatar_transfers.getIndex((GGGETAVATARDATA*)&hContact) == -1) {
-		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA) + mir_strlen(szAvatarURL)+1);
+		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA) + mir_strlen(szAvatarURL) + 1);
 		data->hContact = hContact;
-		data->szAvatarURL = mir_strcpy((char*)(data+1), szAvatarURL);
+		data->szAvatarURL = mir_strcpy((char*)(data + 1), szAvatarURL);
 		avatar_transfers.insert(data);
 	}
 	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, 1, "avatar_mutex", 1);
@@ -164,7 +162,7 @@ void GGPROTO::requestAvatarInfo(MCONTACT hContact, int iWaitFor)
 		debugLogA("requestAvatarInfo(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
 		return;
 	}
-	
+
 	if (!getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS))
 		return;
 
@@ -195,7 +193,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			avatar_requests.remove(0);
 			mir_free(data);
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);
-			
+
 			uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 			debugLogA("avatarrequestthread() new avatar_requests item for uin=%d.", uin);
 
@@ -205,7 +203,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, nullptr, 0);
 			}
 			else {
-				if (AvatarURL == nullptr && AvatarTs == nullptr){
+				if (AvatarURL == nullptr && AvatarTs == nullptr) {
 					delSetting(hContact, GG_KEY_AVATARURL);
 					delSetting(hContact, GG_KEY_AVATARTS);
 					if (iWaitFor)
@@ -256,9 +254,9 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					int file_fd;
 
 					int avatarType = PA_FORMAT_UNKNOWN;
-					if (strncmp(resp->pData,"\xFF\xD8",2) == 0) avatarType = PA_FORMAT_JPEG;
-					if (strncmp(resp->pData,"\x47\x49\x46\x38",4) == 0) avatarType = PA_FORMAT_GIF;
-					if (strncmp(resp->pData,"\x89\x50\x4E\x47\x0D\x0A\x1A\x0A",8) == 0) avatarType = PA_FORMAT_PNG;
+					if (strncmp(resp->pData, "\xFF\xD8", 2) == 0) avatarType = PA_FORMAT_JPEG;
+					if (strncmp(resp->pData, "\x47\x49\x46\x38", 4) == 0) avatarType = PA_FORMAT_GIF;
+					if (strncmp(resp->pData, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A", 8) == 0) avatarType = PA_FORMAT_PNG;
 					setByte(data->hContact, GG_KEY_AVATARTYPE, (BYTE)avatarType);
 
 					getAvatarFilename(ai.hContact, ai.filename, _countof(ai.filename));
@@ -268,7 +266,8 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						_close(file_fd);
 						result = 1;
 						debugLogW(L"avatarrequestthread() new avatar_transfers item. Saved data to file=%s.", ai.filename);
-					} else {
+					}
+					else {
 						debugLogW(L"avatarrequestthread(): _wopen file %s error. errno=%d: %s", ai.filename, errno, ws_strerror(errno));
 						wchar_t error[512];
 						mir_snwprintf(error, TranslateT("Cannot create avatar file. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), ai.filename);
@@ -292,10 +291,10 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 		gg_sleep(100, FALSE, "avatarrequestthread", 101, 1);
 	}
 
-	for (int i=0; i < avatar_requests.getCount(); i++)
+	for (int i = 0; i < avatar_requests.getCount(); i++)
 		mir_free(avatar_requests[i]);
 
-	for (int k=0; k < avatar_transfers.getCount(); k++)
+	for (int k = 0; k < avatar_transfers.getCount(); k++)
 		mir_free(avatar_transfers[k]);
 
 	avatar_requests.destroy();
@@ -328,7 +327,8 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 			setString(GG_KEY_AVATARURL, AvatarURL);
 			setString(GG_KEY_AVATARTS, AvatarTs);
 			mir_free(AvatarURL); mir_free(AvatarTs);
-		} else {
+		}
+		else {
 			delSetting(GG_KEY_AVATARURL);
 			delSetting(GG_KEY_AVATARTS);
 		}
@@ -344,7 +344,7 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 
 void GGPROTO::getOwnAvatar()
 {
-	if (getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS) && getDword(GG_KEY_UIN, 0)){
+	if (getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS) && getDword(GG_KEY_UIN, 0)) {
 #ifdef DEBUGMODE
 		debugLogA("getOwnAvatar(): ForkThread 2 GGPROTO::getOwnAvatarThread");
 #endif
@@ -354,7 +354,6 @@ void GGPROTO::getOwnAvatar()
 
 void __cdecl GGPROTO::setavatarthread(void *param)
 {
-
 	debugLogA("setavatarthread(): started. Trying to set user avatar.");
 
 	//read file
@@ -371,9 +370,9 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 			setByte(GG_KEY_AVATARTYPE, prevType);
 		delSetting(GG_KEY_AVATARTYPEPREV);
 		getOwnAvatar();
-		#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 		debugLogA("setavatarthread(): end. err1");
-		#endif
+#endif
 		return;
 	}
 
@@ -402,32 +401,32 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	char* token = getStringA(GG_KEY_TOKEN);
 
 	//construct request
-	NETLIBHTTPREQUEST req = {0};
+	NETLIBHTTPREQUEST req = { 0 };
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
 	req.szUrl = "http://avatars.nowe.gg/upload";
 	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
 	req.headersCount = 10;
 	NETLIBHTTPHEADER httpHeaders[10];
-	httpHeaders[0].szName  = "X-Request";
+	httpHeaders[0].szName = "X-Request";
 	httpHeaders[0].szValue = "JSON";
-	httpHeaders[1].szName  = "Authorization";
+	httpHeaders[1].szName = "Authorization";
 	httpHeaders[1].szValue = token;
-	httpHeaders[2].szName  = "X-Requested-With";
+	httpHeaders[2].szName = "X-Requested-With";
 	httpHeaders[2].szValue = "XMLHttpRequest";
-	httpHeaders[3].szName  = "From";
+	httpHeaders[3].szName = "From";
 	httpHeaders[3].szValue = "avatars to avatars";
-	httpHeaders[4].szName  = "X-IM-Web-App-Version";
+	httpHeaders[4].szName = "X-IM-Web-App-Version";
 	httpHeaders[4].szValue = "10,5,2,13164";
-	httpHeaders[5].szName  = "User-Agent";
+	httpHeaders[5].szName = "User-Agent";
 	httpHeaders[5].szValue = "avatars to avatars";
-	httpHeaders[6].szName  = "From";
+	httpHeaders[6].szName = "From";
 	httpHeaders[6].szValue = NETLIB_USER_AGENT;
-	httpHeaders[7].szName  = "Content-type";
+	httpHeaders[7].szName = "Content-type";
 	httpHeaders[7].szValue = "application/x-www-form-urlencoded; charset=utf-8";
-	httpHeaders[8].szName  = "Accept";
+	httpHeaders[8].szName = "Accept";
 	httpHeaders[8].szValue = "application/json";
-	httpHeaders[9].szName  = "Referer";
+	httpHeaders[9].szName = "Referer";
 	httpHeaders[9].szValue = "http://avatars.nowe.gg/.static/index_new_22.0.2_595nwh.html";
 	req.headers = httpHeaders;
 	req.pData = data;
@@ -441,19 +440,21 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
 			resultSuccess = 1;
-		} else {
+		}
+		else {
 			debugLogA("setavatarthread() Invalid response code from HTTP request [%d]", resp->resultCode);
-			if (resp->resultCode == 399 || resp->resultCode == 403 || resp->resultCode == 401){
+			if (resp->resultCode == 399 || resp->resultCode == 403 || resp->resultCode == 401) {
 				needRepeat = 1;
 			}
 		}
 		Netlib_FreeHttpRequest(resp);
-	} else {
+	}
+	else {
 		debugLogA("setavatarthread(): No response from HTTP request");
 	}
 
 	//check if we should repeat request
-	if (needRepeat) { 
+	if (needRepeat) {
 		// Access Token expired - force obtain new
 		oauth_checktoken(1);
 		mir_free(token);
@@ -490,7 +491,8 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 
 	if (resultSuccess) {
 		debugLogA("setavatarthread(): User avatar set successfully.");
-	} else {
+	}
+	else {
 		int prevType = getByte(GG_KEY_AVATARTYPEPREV, -1);
 		if (prevType != -1)
 			setByte(GG_KEY_AVATARTYPE, prevType);
@@ -500,9 +502,9 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 
 	mir_free(szFilename);
 	getOwnAvatar();
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 	debugLogA("setavatarthread(): end.");
-	#endif
+#endif
 
 }
 

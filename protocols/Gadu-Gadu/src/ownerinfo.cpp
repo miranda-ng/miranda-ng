@@ -47,7 +47,7 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 	}
 
 	// Get token
-	if (!gettoken(&token)){
+	if (!gettoken(&token)) {
 #ifdef DEBUGMODE
 		debugLogA("remindpasswordthread(): End. err2");
 #endif

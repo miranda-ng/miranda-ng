@@ -21,17 +21,17 @@
 #include "gg.h"
 
 /* NOTE: Eventhough SetTimer seems to support UINT_PTR for idEvent, it seems that TimerProc
- * does not get full pointer but just 2 byte lower bytes.
- */
+* does not get full pointer but just 2 byte lower bytes.
+*/
 #define MAX_TIMERS 8
-GGPROTO *g_timers[MAX_TIMERS] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+GGPROTO *g_timers[MAX_TIMERS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	int i;
-	
+
 	//Search for GGPROTO* context
-	for(i = 0; i < MAX_TIMERS; i++)
+	for (i = 0; i < MAX_TIMERS; i++)
 		if (g_timers[i]->timer == idEvent)
 			break;
 
@@ -40,9 +40,9 @@ static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 		GGPROTO *gg = g_timers[i];
 		if (gg->isonline())
 		{
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 			gg->debugLogA("gg_keepalive(): Sending keep-alive");
-	#endif
+#endif
 			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_keepalive", 68, "sess_mutex", 1);
 			gg_ping(gg->sess);
 			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_keepalive", 68, 1, "sess_mutex", 1);
@@ -55,12 +55,12 @@ void GGPROTO::keepalive_init()
 	if (getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE))
 	{
 		int i;
-		for(i = 0; i < MAX_TIMERS && g_timers[i] != nullptr; i++);
+		for (i = 0; i < MAX_TIMERS && g_timers[i] != nullptr; i++);
 		if (i < MAX_TIMERS)
 		{
-	#ifdef DEBUGMODE
+#ifdef DEBUGMODE
 			debugLogA("keepalive_init(): Initializing Timer %d", i);
-	#endif
+#endif
 			timer = SetTimer(nullptr, 0, 1000 * 30, gg_keepalive);
 			g_timers[i] = this;
 		}
@@ -76,7 +76,7 @@ void GGPROTO::keepalive_destroy()
 	{
 		int i;
 		KillTimer(nullptr, timer);
-		for(i = 0; i < MAX_TIMERS; i++)
+		for (i = 0; i < MAX_TIMERS; i++)
 			if (g_timers[i] == this) {
 				g_timers[i] = nullptr;
 				break;
