@@ -48,36 +48,11 @@ protected:
 		HttpRequestUrl& operator=(const HttpRequestUrl&); // to prevent copying;
 
 	public:
-		HttpRequestUrl& operator<<(const char *param)
-		{
-			if (param)
-				request.AddUrlParameter("%s", param);
-			return *this;
-		}
-
-		HttpRequestUrl& operator<<(const BOOL_PARAM &param)
-		{
-			request.AddUrlParameter("%s=%s", param.szName, param.bValue ? "true" : "false");
-			return *this;
-		}
-
-		HttpRequestUrl& operator<<(const INT_PARAM &param)
-		{
-			request.AddUrlParameter("%s=%i", param.szName, param.iValue);
-			return *this;
-		}
-
-		HttpRequestUrl& operator<<(const INT64_PARAM &param)
-		{
-			request.AddUrlParameter("%s=%lld", param.szName, param.iValue);
-			return *this;
-		}
-
-		HttpRequestUrl& operator<<(const CHAR_PARAM &param)
-		{
-			request.AddUrlParameter("%s=%s", param.szName, param.szValue);
-			return *this;
-		}
+		HttpRequestUrl& operator<<(const char *param);
+		HttpRequestUrl& operator<<(const BOOL_PARAM &param);
+		HttpRequestUrl& operator<<(const INT_PARAM &param);
+		HttpRequestUrl& operator<<(const INT64_PARAM &param);
+		HttpRequestUrl& operator<<(const CHAR_PARAM &param);
 
 		char* ToString()
 		{
@@ -129,41 +104,11 @@ protected:
 	public:
 		HttpRequestBody() {}
 
-		HttpRequestBody& operator<<(const char *str)
-		{
-			AppendSeparator();
-			if (str != nullptr)
-				content.Append(str);
-			return *this;
-		}
-
-		HttpRequestBody& operator<<(const BOOL_PARAM &param)
-		{
-			AppendSeparator();
-			content.AppendFormat("%s=%s", param.szName, param.bValue ? "true" : "false");
-			return *this;
-		}
-
-		HttpRequestBody& operator<<(const INT_PARAM &param)
-		{
-			AppendSeparator();
-			content.AppendFormat("%s=%i", param.szName, param.iValue);
-			return *this;
-		}
-
-		HttpRequestBody& operator<<(const INT64_PARAM &param)
-		{
-			AppendSeparator();
-			content.AppendFormat("%s=%lld", param.szName, param.iValue);
-			return *this;
-		}
-
-		HttpRequestBody& operator<<(const CHAR_PARAM &param)
-		{
-			AppendSeparator();
-			content.AppendFormat("%s=%s", param.szName, utils::url::encode(param.szValue).c_str());
-			return *this;
-		}
+		HttpRequestBody& operator<<(const char *str);
+		HttpRequestBody& operator<<(const BOOL_PARAM &param);
+		HttpRequestBody& operator<<(const INT_PARAM &param);
+		HttpRequestBody& operator<<(const INT64_PARAM &param);
+		HttpRequestBody& operator<<(const CHAR_PARAM &param);
 
 		char* ToString()
 		{
