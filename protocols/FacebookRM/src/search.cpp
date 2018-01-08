@@ -23,16 +23,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 // searching
-SearchRequest::SearchRequest(bool mobileBasicWorks, const char *query, int s, int pn, const char *ssid) :
-	HttpRequest(REQUEST_GET, FORMAT, "%s/search/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
+HttpRequest* facebook_client::searchRequest(const char *query, int s, int pn, const char *ssid)
 {
-	flags |= NLHRF_REDIRECT;
+	HttpRequest* p = new HttpRequest(REQUEST_GET, FORMAT, "%s/search/", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE);
+	p->flags |= NLHRF_REDIRECT;
 
-	Url
+	p->Url
 		<< CHAR_PARAM("q", query)
 		<< INT_PARAM("s", s)
 		<< INT_PARAM("pn", pn);
 
 	if (mir_strlen(ssid) > 0)
-		Url << CHAR_PARAM("ssid", ssid);
+		p->Url << CHAR_PARAM("ssid", ssid);
+	
+	return p;
 }

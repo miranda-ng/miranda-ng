@@ -25,39 +25,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////////////////////////
 // getting info about channel and connecting to it
 
-ReconnectRequest::ReconnectRequest(facebook_client *fc) :
-	HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/presence/reconnect.php")
+HttpRequest* facebook_client::reconnectRequest()
 {
-	Url
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/presence/reconnect.php");
+
+	p->Url
 		<< INT_PARAM("__a", 1)
 		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 		<< INT_PARAM("__be", -1)
-		<< CHAR_PARAM("reason", fc->chat_reconnect_reason_.empty() ? "6" : fc->chat_reconnect_reason_.c_str())
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev());
+		<< CHAR_PARAM("reason", chat_reconnect_reason_.empty() ? "6" : chat_reconnect_reason_.c_str())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev());
+	
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // setting chat visibility
 
-SetVisibilityRequest::SetVisibilityRequest(facebook_client *fc, bool online) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/chat/privacy/visibility.php")
+HttpRequest* facebook_client::setVisibilityRequest(bool online)
 {
-	Url << INT_PARAM("dpr", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/chat/privacy/visibility.php");
 
-	Body
+	p->Url << INT_PARAM("dpr", 1);
+
+	p->Body
 		<< INT_PARAM("visibility", online ? 1 : 0)
 		<< INT_PARAM("window_id", 0)
 		<< INT_PARAM("__a", 1)
 		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 		<< INT_PARAM("__be", -1)			
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev());
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev());
+
+	return p;
 }

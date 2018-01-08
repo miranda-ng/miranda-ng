@@ -82,8 +82,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			tid = tid_;
 		else {
 			// request info about chat thread
-			HttpRequest *request = new ThreadInfoRequest(&facy, true, data->chat_id.c_str());
-			http::response resp = facy.sendRequest(request);
+			http::response resp = facy.sendRequest(facy.threadInfoRequest(true, data->chat_id.c_str()));
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
 			if (!tid.empty() && tid.compare("null"))
@@ -143,11 +142,8 @@ void FacebookProto::SendTypingWorker(void *p)
 
 	const char *value = (isChatRoom(typing->hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
 	ptrA id(getStringA(typing->hContact, value));
-	if (id != nullptr) {
-		bool isChat = isChatRoom(typing->hContact);
-		HttpRequest *request = new SendTypingRequest(&facy, id, isChat, typing->status == PROTOTYPE_SELFTYPING_ON);
-		http::response resp = facy.sendRequest(request);
-	}
+	if (id != nullptr)
+		http::response resp = facy.sendRequest(facy.sendTypingRequest(id, isChatRoom(typing->hContact), typing->status == PROTOTYPE_SELFTYPING_ON));
 
 	delete typing;
 }
@@ -184,8 +180,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	hContacts->clear();
 	delete hContacts;
 
-	HttpRequest *request = new MarkMessageReadRequest(&facy, ids);
-	facy.sendRequest(request);
+	facy.sendRequest(facy.markMessageReadRequest(ids));
 
 	FreeList(ids);
 	ids.destroy();
@@ -223,8 +218,7 @@ void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url,
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-SendMessageRequest::SendMessageRequest(
-	facebook_client *fc,
+HttpRequest* facebook_client::sendMessageRequest(
 	const char *userId,
 	const char *threadId,
 	const char *messageId,
@@ -232,33 +226,34 @@ SendMessageRequest::SendMessageRequest(
 	bool isChat,
 	const char *captcha,
 	const char *captchaPersistData)
-	: HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/messaging/send/")
 {
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/messaging/send/");
+
 	// Don't notify errors for this request, because we're getting them inline in messaging window
-	NotifyErrors = false;
+	p->NotifyErrors = false;
 
 	// Use own persistent connection for sending messages
-	Persistent = MESSAGES;
+	p->Persistent = p->MESSAGES;
 
-	Url << INT_PARAM("dpr", 1);
+	p->Url << INT_PARAM("dpr", 1);
 
 	if (mir_strlen(captcha) > 0)
-		Body << CHAR_PARAM("captcha_persist_data", captchaPersistData) << CHAR_PARAM("captcha_response", captcha);
+		p->Body << CHAR_PARAM("captcha_persist_data", captchaPersistData) << CHAR_PARAM("captcha_response", captcha);
 
-	Body << CHAR_PARAM("client", "mercury") << CHAR_PARAM("action_type", "ma-type:user-generated-message");
+	p->Body << CHAR_PARAM("client", "mercury") << CHAR_PARAM("action_type", "ma-type:user-generated-message");
 
 	// Experimental sticker sending support
 	std::string message_text = messageText; // FIXME: Rewrite this without std::string...
 	if (message_text.substr(0, 10) == "[[sticker:" && message_text.substr(message_text.length() - 2) == "]]")
 		// TODO: For sending GIF images instead of "sticker_id=" there is "image_ids[0]=", otherwise it's same
-		Body
+		p->Body
 			<< "body="
 			<< CHAR_PARAM("sticker_id", ptrA(mir_urlEncode(message_text.substr(10, message_text.length() - 10 - 2).c_str())))
 			<< BOOL_PARAM("has_attachment", true);
 	else 
-		Body << CHAR_PARAM("body", ptrA(mir_urlEncode(messageText))) << BOOL_PARAM("has_attachment", false);
+		p->Body << CHAR_PARAM("body", ptrA(mir_urlEncode(messageText))) << BOOL_PARAM("has_attachment", false);
 
-	Body
+	p->Body
 		<< INT_PARAM("ephemeral_ttl_mode", 0)
 		<< CHAR_PARAM("message_id", messageId)
 		<< CHAR_PARAM("offline_threading_id", messageId); // Same as message ID
@@ -269,57 +264,63 @@ SendMessageRequest::SendMessageRequest(
 		if (threadFbid.substr(0, 3) == "id.")
 			threadFbid = threadFbid.substr(3);
 
-		Body << CHAR_PARAM("thread_fbid", threadFbid.c_str());
+		p->Body << CHAR_PARAM("thread_fbid", threadFbid.c_str());
 	}
 	else 
-		Body
+		p->Body
 			<< CHAR_PARAM("other_user_fbid", userId)
 			<< CHAR_PARAM("specific_to_list[0]", CMStringA(::FORMAT, "fbid:%s", userId))
-			<< CHAR_PARAM("specific_to_list[1]", CMStringA(::FORMAT, "fbid:%s", fc->self_.user_id.c_str()));
+			<< CHAR_PARAM("specific_to_list[1]", CMStringA(::FORMAT, "fbid:%s", self_.user_id.c_str()));
 
-	Body
+	p->Body
 		// << "signature_id=" // TODO: How to generate signature ID? It is present only when sending via "mercury"
 		<< CHAR_PARAM("source", "source:chat:web") // or "source:titan:web" for web_messenger
 		<< CHAR_PARAM("timestamp", utils::time::mili_timestamp().c_str())
 		<< CHAR_PARAM("ui_push_phase", "V3")
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
 		<< INT_PARAM("__a", 1)
 		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 		<< INT_PARAM("__be", -1);
+	
+	return p;
 }
 
-SendTypingRequest::SendTypingRequest(facebook_client *fc, const char *userId, bool isChat, bool isTyping) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/messaging/typ.php")
+HttpRequest* facebook_client::sendTypingRequest(const char *userId, bool isChat, bool isTyping)
 {
-	Url << INT_PARAM("dpr", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/messaging/typ.php");
+
+	p->Url << INT_PARAM("dpr", 1);
 
 	ptrA idEncoded(mir_urlEncode(userId));
 
-	Body
+	p->Body
 		<< INT_PARAM("typ", isTyping ? 1 : 0)
 		<< CHAR_PARAM("to", isChat ? "" : idEncoded)
 		<< CHAR_PARAM("thread", idEncoded)
 		<< CHAR_PARAM("source", "mercury-chat")
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
 		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 		<< INT_PARAM("__a", 1)
 		<< INT_PARAM("__be", -1);
+
+	return p;
 }
 
-MarkMessageReadRequest::MarkMessageReadRequest(facebook_client *fc, const LIST<char> &ids) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/change_read_status.php")
+HttpRequest* facebook_client::markMessageReadRequest(const LIST<char> &ids)
 {
-	Url << INT_PARAM("__a", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/change_read_status.php");
+
+	p->Url << INT_PARAM("__a", 1);
 
 	for (int i = 0; i < ids.getCount(); i++) {
 		std::string id_ = ids[i];
@@ -328,15 +329,17 @@ MarkMessageReadRequest::MarkMessageReadRequest(facebook_client *fc, const LIST<c
 			id_ = id_.substr(3);
 
 		CMStringA id(::FORMAT, "ids[%s]", ptrA(mir_urlEncode(id_.c_str())));
-		Body << BOOL_PARAM(id, true);
+		p->Body << BOOL_PARAM(id, true);
 	}
 
-	Body
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
+	p->Body
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
 		<< INT_PARAM("__a", 1);
+
+	return p;
 }

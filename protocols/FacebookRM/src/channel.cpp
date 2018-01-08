@@ -25,53 +25,56 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // receiving updates, sending activity ping
 
-ChannelRequest::ChannelRequest(facebook_client *fc, Type type) :
-	HttpRequest(REQUEST_POST, FORMAT,
-		type == PULL ? FACEBOOK_SERVER_CHAT "/pull" : FACEBOOK_SERVER_CHAT "/active_ping",
-		fc->chat_conn_num_.empty() ? "0" : fc->chat_conn_num_.c_str(),
-		fc->chat_channel_host_.c_str())
+HttpRequest* facebook_client::channelRequest(facebook_client::Type type)
 {
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FORMAT,
+		(type == PULL) ? FACEBOOK_SERVER_CHAT "/pull" : FACEBOOK_SERVER_CHAT "/active_ping",
+		chat_conn_num_.empty() ? "0" : chat_conn_num_.c_str(),
+		chat_channel_host_.c_str());
+
 	if (type == PULL) {
-		timeout = 65 * 1000;
-		Persistent = CHANNEL;
+		p->timeout = 65 * 1000;
+		p->Persistent = p->CHANNEL;
 	}
 
 	bool isPing = (type == PING);
 
-	Url << CHAR_PARAM("channel", fc->chat_channel_.empty() ? ("p_" + fc->self_.user_id).c_str() : fc->chat_channel_.c_str());
+	p->Url << CHAR_PARAM("channel", chat_channel_.empty() ? ("p_" + self_.user_id).c_str() : chat_channel_.c_str());
 	if (!isPing)
-		Url << CHAR_PARAM("seq", fc->chat_sequence_num_.empty() ? "0" : fc->chat_sequence_num_.c_str());
+		p->Url << CHAR_PARAM("seq", chat_sequence_num_.empty() ? "0" : chat_sequence_num_.c_str());
 
-	Url
-		<< CHAR_PARAM("partition", fc->chat_channel_partition_.empty() ? "0" : fc->chat_channel_partition_.c_str())
-		<< CHAR_PARAM("clientid", fc->chat_clientid_.c_str())
-		<< CHAR_PARAM("cb", utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz", &fc->random_).c_str());
+	p->Url
+		<< CHAR_PARAM("partition", chat_channel_partition_.empty() ? "0" : chat_channel_partition_.c_str())
+		<< CHAR_PARAM("clientid", chat_clientid_.c_str())
+		<< CHAR_PARAM("cb", utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz", &random_).c_str());
 
-	int idleSeconds = fc->parent->IdleSeconds();
-	Url << INT_PARAM("idle", idleSeconds); // Browser is sending "idle" always, even if it's "0"
+	int idleSeconds = parent->IdleSeconds();
+	p->Url << INT_PARAM("idle", idleSeconds); // Browser is sending "idle" always, even if it's "0"
 
 	if (!isPing) {
-		Url << CHAR_PARAM("qp", "y") << CHAR_PARAM("pws", "fresh") << INT_PARAM("isq", 487632);
-		Url << INT_PARAM("msgs_recv", fc->chat_msgs_recv_);
+		p->Url << CHAR_PARAM("qp", "y") << CHAR_PARAM("pws", "fresh") << INT_PARAM("isq", 487632);
+		p->Url << INT_PARAM("msgs_recv", chat_msgs_recv_);
 		// TODO: sometimes there is &tur=1711 and &qpmade=<some actual timestamp> and &isq=487632
 		// Url << "request_batch=1"; // it somehow batches up more responses to one - then response has special "t=batched" type and "batches" array with the data
 		// Url << "msgr_region=LLA"; // it was here only for first pull, same as request_batch
 	}
 
-	Url << INT_PARAM("cap", 8) // TODO: what's this item? Sometimes it's 0, sometimes 8
-		<< CHAR_PARAM("uid", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("viewer_uid", fc->self_.user_id.c_str());
+	p->Url << INT_PARAM("cap", 8) // TODO: what's this item? Sometimes it's 0, sometimes 8
+		<< CHAR_PARAM("uid", self_.user_id.c_str())
+		<< CHAR_PARAM("viewer_uid", self_.user_id.c_str());
 
-	if (!fc->chat_sticky_num_.empty() && !fc->chat_sticky_pool_.empty()) {
-		Url << CHAR_PARAM("sticky_token", fc->chat_sticky_num_.c_str());
-		Url << CHAR_PARAM("sticky_pool", fc->chat_sticky_pool_.c_str());
+	if (!chat_sticky_num_.empty() && !chat_sticky_pool_.empty()) {
+		p->Url << CHAR_PARAM("sticky_token", chat_sticky_num_.c_str());
+		p->Url << CHAR_PARAM("sticky_pool", chat_sticky_pool_.c_str());
 	}
 
-	if (!isPing && !fc->chat_traceid_.empty())
-		Url << CHAR_PARAM("traceid", fc->chat_traceid_.c_str());
+	if (!isPing && !chat_traceid_.empty())
+		p->Url << CHAR_PARAM("traceid", chat_traceid_.c_str());
 
-	if (fc->parent->isInvisible())
-		Url << CHAR_PARAM("state", "offline");
+	if (parent->isInvisible())
+		p->Url << CHAR_PARAM("state", "offline");
 	else if (isPing || idleSeconds < 60)
-		Url << CHAR_PARAM("state", "active");
+		p->Url << CHAR_PARAM("state", "active");
+	
+	return p;
 }

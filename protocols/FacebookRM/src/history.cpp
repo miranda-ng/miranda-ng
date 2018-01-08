@@ -22,18 +22,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-ThreadInfoRequest::ThreadInfoRequest(facebook_client *fc, bool isChat, const char *id, const char* timestamp, int limit) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
+HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, const char* timestamp, int limit)
 {
-	setCommonBody(fc);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/");
 
-	// FIXME: FB removed /ajax/mercury/thread_info requests and now all messaging stuff does through /api/graphqlbatch/ - all loading of threads, (unread) messages, list of contacts in groupchat, etc.
-	// All these request must be rewritten to the new request. Preparation is below but unfinished.
+	p->Body
+		<< CHAR_PARAM("batch_name", "MessengerGraphQLThreadFetcherRe")
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< INT_PARAM("__a", 1)
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< INT_PARAM("__be", 1)
+		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str());
 
-	//const char *type = isChat ? "thread_fbids" : "user_ids";
-	std::string id_ = id; // FIXME: Rewrite this without std::string...
+	std::string id_ = id;
 	if (isChat) {
-		// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
 		if (id_.substr(0, 3) == "id.")
 			id_ = id_.substr(3);
 	}
@@ -54,14 +59,26 @@ ThreadInfoRequest::ThreadInfoRequest(facebook_client *fc, bool isChat, const cha
 	o0 << CHAR_PARAM("doc_id", "1549485615075443") << JSON_PARAM("query_params", query_params);
 	root << JSON_PARAM("o0", o0);
 
-	Body << CHAR_PARAM("queries", utils::url::encode(root.write()).c_str());
+	p->Body << CHAR_PARAM("queries", utils::url::encode(root.write()).c_str());
+
+	return p;
 }
 
 // Request both thread info and messages for more threads
-ThreadInfoRequest::ThreadInfoRequest(facebook_client *fc, const LIST<char> &ids, int offset, int limit) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/")
+HttpRequest* facebook_client::threadInfoRequest(const LIST<char> &ids, int offset, int limit)
 {
-	setCommonBody(fc);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/");
+
+	p->Body
+		<< CHAR_PARAM("batch_name", "MessengerGraphQLThreadFetcherRe")
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< INT_PARAM("__a", 1)
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< INT_PARAM("__be", 1)
+		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str());
 
 	for (int i = 0; i < ids.getCount(); i++) {
 		// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
@@ -72,44 +89,34 @@ ThreadInfoRequest::ThreadInfoRequest(facebook_client *fc, const LIST<char> &ids,
 
 		// Load messages
 		CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_fbids", idEncoded);
-		Body
+		p->Body
 			<< INT_PARAM(CMStringA(::FORMAT, "%s[offset]", begin.c_str()), offset)
 			<< INT_PARAM(CMStringA(::FORMAT, "%s[limit]", begin.c_str()), limit)
 			<< CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][%i]", "thread_fbids", i), idEncoded);
 	}
+
+	return p;
 }
 
-void ThreadInfoRequest::setCommonBody(facebook_client *fc)
+HttpRequest* facebook_client::unreadThreadsRequest()
 {
-	Body
-		<< CHAR_PARAM("batch_name", "MessengerGraphQLThreadFetcherRe")
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< INT_PARAM("__a", 1)
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< INT_PARAM("__be", 1)
-		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("jazoest", "265816910476541027556899745586581711208287100122699749108");
-}
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/unread_threads.php");
 
-UnreadThreadsRequest::UnreadThreadsRequest(facebook_client *fc) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/unread_threads.php")
-{
-	Url << INT_PARAM("dpr", 1);
+	p->Url << INT_PARAM("dpr", 1);
 
-	Body
+	p->Body
 		<< CHAR_PARAM("folders[0]", "inbox")
 		<< CHAR_PARAM("folders[1]", "other") // TODO: "other" is probably unused, and there is now "pending" instead
 		<< CHAR_PARAM("client", "mercury")
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
 		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 		<< INT_PARAM("__a", 1)
 		<< INT_PARAM("__be", -1);
+
+	return p;
 }

@@ -144,7 +144,7 @@ public:
 
 	// Helpers for data
 
-	__inline const char *__dyn() {
+	__inline const char *__dyn() const {
 		return "7AzkXxaA4ojgDxyLqzGomzEbHGbGey8WhLFwgoqwWhE98nwgUaoepovHyodEbbxW4E4u3ucDBwJx62i2PxOcG4K1Zxa2m4oqyUf8oCK251G6XDwnU567oeo5m4pHxC326U6OfBwHx";
 		// FIXME: What's this value and where it come from? Looks like it is the same through all requests.
 	}
@@ -156,7 +156,7 @@ public:
 		return CMStringA(buffer);
 	}
 
-	__inline const char *__rev() {
+	__inline const char *__rev() const {
 		return "3553943";
 	}
 
@@ -203,6 +203,68 @@ public:
 
 	http::response sendRequest(class HttpRequest *request);
 	bool save_url(const std::string &url, const std::wstring &filename, HNETLIBCONN &nlc);
+
+	// channel.cpp
+	enum Type { PULL, PING };
+	HttpRequest* channelRequest(Type type);
+
+	// contacts.cpp
+	HttpRequest* addFriendRequest(const char *userId);
+	HttpRequest* deleteFriendRequest(const char *userId);
+	HttpRequest* getFriendshipsRequest();
+	HttpRequest* answerFriendshipRequest(const char *userId, bool bConfirm);
+	HttpRequest* cancelFriendshipRequest(const char *userId);
+
+	HttpRequest* userInfoRequest(const LIST<char> &userIds);
+	HttpRequest* userInfoAllRequest();
+
+	// feeds.cpp
+	HttpRequest* newsfeedRequest();
+	HttpRequest* memoriesRequest();
+
+	// history.cpp
+	HttpRequest* threadInfoRequest(bool isChat, const char *id, const char* timestamp = nullptr, int limit = -1);
+	HttpRequest* threadInfoRequest(const LIST<char> &ids, int offset, int limit);
+	HttpRequest* unreadThreadsRequest();
+
+	// login.cpp
+	HttpRequest* loginRequest();
+	HttpRequest* loginRequest(const char *username, const char *password, const char *urlData, const char *bodyData);
+	HttpRequest* logoutRequest();
+	HttpRequest* loginSmsRequest(const char *dtsg);
+	HttpRequest* setupMachineRequest();
+	HttpRequest* setupMachineRequest(const char *dtsg, const char *nh, const char *submit);
+
+	// messages.cpp
+	HttpRequest* sendMessageRequest(const char *userId, const char *threadId, const char *messageId, const char *messageText, bool isChat, const char *captcha, const char *captchaPersistData);
+	HttpRequest* sendTypingRequest(const char *userId, bool isChat, bool isTyping);
+	HttpRequest* markMessageReadRequest(const LIST<char> &ids);
+
+	// notifications.cpp
+	HttpRequest* getNotificationsRequest(int count);
+	HttpRequest* markNotificationReadRequest(const char *id);
+
+	// profile.cpp
+	HttpRequest* homeRequest();
+	HttpRequest* dtsgRequest();
+	HttpRequest* profileRequest(const char *data);
+	HttpRequest* profileInfoRequest(const char *userId);
+	HttpRequest* profilePictureRequest(const char *userId);
+
+	// search.cpp
+	HttpRequest* searchRequest(const char *query, int s, int pn, const char *ssid);
+
+	// status.cpp
+	HttpRequest* reconnectRequest();
+	HttpRequest* setVisibilityRequest(bool online);
+
+	// utils.cpp
+	HttpRequest* linkScraperRequest(status_data *status);
+	HttpRequest* refreshCaptchaRequest(const char *captchaPersistData);
+	HttpRequest* getPagesRequest();
+	HttpRequest* switchIdentityRequest(const char *userId);
+	HttpRequest* sharePostRequest(status_data *status, const char *linkData);
+	HttpRequest* sendPokeRequest(const char *userId);
 
 	////////////////////////////////////////////////////////////
 	// Netlib handle

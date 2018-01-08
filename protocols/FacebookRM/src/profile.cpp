@@ -25,51 +25,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////////////////////////
 // getting own name, avatar, ...
 
-HomeRequest::HomeRequest() :
-	HttpRequest(REQUEST_GET, FACEBOOK_SERVER_MOBILE "/profile.php")
+HttpRequest* facebook_client::homeRequest()
 {
-	flags |= NLHRF_REDIRECT;
-
-	Url << CHAR_PARAM("v", "info");
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_MOBILE "/profile.php");
+	p->flags |= NLHRF_REDIRECT;
+	p->Url << CHAR_PARAM("v", "info");
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // getting fb_dtsg
 
-DtsgRequest::DtsgRequest() :
-	HttpRequest(REQUEST_GET, FACEBOOK_SERVER_MOBILE "/profile/basic/intro/bio/")
+HttpRequest* facebook_client::dtsgRequest()
 {
-	flags |= NLHRF_REDIRECT;
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_MOBILE "/profile/basic/intro/bio/");
+	p->flags |= NLHRF_REDIRECT;
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // request mobile page containing profile picture
 
-ProfilePictureRequest::ProfilePictureRequest(bool mobileBasicWorks, const char *userId) :
-	HttpRequest(REQUEST_GET, FORMAT, "%s/profile/picture/view/", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
+HttpRequest* facebook_client::profilePictureRequest(const char *userId)
 {
-	flags |= NLHRF_REDIRECT;
-
-	Url << CHAR_PARAM("profile_id", userId);
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FORMAT, "%s/profile/picture/view/", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE);
+	p->flags |= NLHRF_REDIRECT;
+	p->Url << CHAR_PARAM("profile_id", userId);
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // request mobile page containing user profile
 
-ProfileRequest::ProfileRequest(bool mobileBasicWorks, const char *data) :
-	HttpRequest(REQUEST_GET, FORMAT, "%s/%s", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE, data)
+HttpRequest* facebook_client::profileRequest(const char *data)
 {
-	Url << CHAR_PARAM("v", "info");
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FORMAT, "%s/%s", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE, data);
+	p->Url << CHAR_PARAM("v", "info");
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // request mobile page containing user profile by his id, and in english language (for parsing data)
 
-ProfileInfoRequest::ProfileInfoRequest(bool mobileBasicWorks, const char *userId) :
-	HttpRequest(REQUEST_GET, FORMAT, "%s/profile.php", mobileBasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE)
+HttpRequest* facebook_client::profileInfoRequest(const char *userId)
 {
-	Url
-		<< CHAR_PARAM("id", userId)
-		<< CHAR_PARAM("v", "info")
-		<< CHAR_PARAM("locale", "en_US");
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FORMAT, "%s/profile.php", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE);
+	p->Url << CHAR_PARAM("id", userId) << CHAR_PARAM("v", "info") << CHAR_PARAM("locale", "en_US");
+	return p;
 }

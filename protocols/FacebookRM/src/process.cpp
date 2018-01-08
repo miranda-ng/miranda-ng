@@ -46,9 +46,7 @@ void FacebookProto::ProcessFriendList(void*)
 	facy.handle_entry("load_friends");
 
 	// Get friends list
-	HttpRequest *request = new UserInfoAllRequest(&facy);
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.userInfoAllRequest());
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("load_friends");
 		return;
@@ -179,9 +177,7 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 	facy.handle_entry("ProcessUnreadMessages");
 
-	HttpRequest *request = new UnreadThreadsRequest(&facy);
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.unreadThreadsRequest());
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("ProcessUnreadMessages");
 		return;
@@ -229,8 +225,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		for (std::vector<std::string>::size_type i = 0; i < threads->size(); i++)
 			ids.insert(mir_strdup(threads->at(i).c_str()));
 
-		HttpRequest *request = new ThreadInfoRequest(&facy, ids, offset, limit);
-		http::response resp = facy.sendRequest(request);
+		http::response resp = facy.sendRequest(facy.threadInfoRequest(ids, offset, limit));
 
 		FreeList(ids);
 		ids.destroy();
@@ -287,9 +282,7 @@ void FacebookProto::LoadLastMessages(void *pParam)
 
 	int count = min(FACEBOOK_MESSAGES_ON_OPEN_LIMIT, getByte(FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT, DEFAULT_MESSAGES_ON_OPEN_COUNT));
 
-	HttpRequest *request = new ThreadInfoRequest(&facy, isChat, (const char*)item_id, nullptr, count);
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.threadInfoRequest(isChat, (const char*)item_id, nullptr, count));
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadLastMessages");
 		return;
@@ -345,8 +338,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	}
 
 	// first get info about this thread and how many messages is there
-	http::response resp = facy.sendRequest(new ThreadInfoRequest(&facy, isChat, item_id));
-
+	http::response resp = facy.sendRequest(facy.threadInfoRequest(isChat, item_id));
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadHistory");
 		return;
@@ -388,7 +380,7 @@ void FacebookProto::LoadHistory(void *pParam)
 			break;
 
 		// Load batch of messages
-		resp = facy.sendRequest(new ThreadInfoRequest(&facy, isChat, item_id, firstTimestamp.c_str(), messagesPerBatch));
+		resp = facy.sendRequest(facy.threadInfoRequest(isChat, item_id, firstTimestamp.c_str(), messagesPerBatch));
 
 		if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 			facy.handle_error("LoadHistory");
@@ -638,9 +630,7 @@ void FacebookProto::ProcessMemories(void *p)
 
 	facy.handle_entry(__FUNCTION__);
 
-	HttpRequest *request = new MemoriesRequest(&facy);
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.memoriesRequest());
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error(__FUNCTION__);
 		return;
@@ -987,9 +977,7 @@ void FacebookProto::ProcessNotifications(void *p)
 	facy.handle_entry("notifications");
 
 	// Get notifications
-	HttpRequest *request = new GetNotificationsRequest(&facy, FACEBOOK_NOTIFICATIONS_LOAD_COUNT);
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.getNotificationsRequest(FACEBOOK_NOTIFICATIONS_LOAD_COUNT));
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("notifications");
 		return;
@@ -1030,13 +1018,13 @@ void FacebookProto::ProcessFriendRequests(void *p)
 	facy.handle_entry("friendRequests");
 
 	// Get load friendships
-	http::response resp = facy.sendRequest(new GetFriendshipsRequest(facy.mbasicWorks));
+	http::response resp = facy.sendRequest(facy.getFriendshipsRequest());
 
 	// Workaround not working "mbasic." website for some people
 	if (!resp.isValid()) {
 		// Remember it didn't worked and try it again (internally it will use "m." this time)
 		facy.mbasicWorks = false;
-		resp = facy.sendRequest(new GetFriendshipsRequest(facy.mbasicWorks));
+		resp = facy.sendRequest(facy.getFriendshipsRequest());
 	}
 
 	if (resp.code != HTTP_CODE_OK) {
@@ -1130,8 +1118,7 @@ void FacebookProto::ProcessFeeds(void *p)
 	facy.handle_entry("feeds");
 
 	// Get feeds
-	HttpRequest *request = new NewsfeedRequest(&facy);
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(facy.newsfeedRequest());
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("feeds");
 		return;
@@ -1175,8 +1162,7 @@ void FacebookProto::ProcessPages(void*)
 	facy.handle_entry("load_pages");
 
 	// Get feeds
-	http::response resp = facy.sendRequest(new GetPagesRequest());
-
+	http::response resp = facy.sendRequest(facy.getPagesRequest());
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("load_pages");
 		return;
@@ -1224,9 +1210,7 @@ void FacebookProto::SearchAckThread(void *targ)
 	int pn = 1;
 
 	while (count < 50 && !isOffline()) {
-		SearchRequest *request = new SearchRequest(facy.mbasicWorks, search.c_str(), count, pn, ssid.c_str());
-		http::response resp = facy.sendRequest(request);
-
+		http::response resp = facy.sendRequest(facy.searchRequest(search.c_str(), count, pn, ssid.c_str()));
 		if (resp.code == HTTP_CODE_OK) {
 			std::string items = utils::text::source_get_value(&resp.data, 4, "<body", "</form", "<table", "</table>");
 
@@ -1333,14 +1317,14 @@ void FacebookProto::SearchIdAckThread(void *targ)
 	search = utils::url::encode(search);
 
 	if (!isOffline() && !search.empty()) {
-		http::response resp = facy.sendRequest(new ProfileRequest(facy.mbasicWorks, search.c_str()));
+		http::response resp = facy.sendRequest(facy.profileRequest(search.c_str()));
 
 		if (resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end()) {
 			search = utils::text::source_get_value(&resp.headers["Location"], 2, FACEBOOK_SERVER_MBASIC"/", "_rdr");
 
 			// Use only valid username redirects
 			if (search.find("home.php") == std::string::npos)
-				resp = facy.sendRequest(new ProfileRequest(facy.mbasicWorks, search.c_str()));
+				resp = facy.sendRequest(facy.profileRequest(search.c_str()));
 		}
 
 		if (resp.code == HTTP_CODE_OK) {

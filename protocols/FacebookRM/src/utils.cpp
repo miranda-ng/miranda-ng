@@ -23,43 +23,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
+// getting owned/admined pages list
+
+HttpRequest* facebook_client::getPagesRequest()
+{
+	return new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/bookmarks/pages");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
 // refreshing captcha dialog (changing captcha type)
 
-RefreshCaptchaRequest::RefreshCaptchaRequest(facebook_client *fc, const char *captchaPersistData) :
-	HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/captcha/refresh_ajax.php")
+HttpRequest* facebook_client::refreshCaptchaRequest(const char *captchaPersistData)
 {
-	Url
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/captcha/refresh_ajax.php");
+
+	p->Url
 		<< INT_PARAM("__a", 1)
 		<< CHAR_PARAM("new_captcha_type", "TFBCaptcha")
 		<< CHAR_PARAM("skipped_captcha_data", captchaPersistData)
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str());
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("__user", self_.user_id.c_str());
+
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // getting data for given url (for sending/posting reasons)
 
-LinkScraperRequest::LinkScraperRequest(facebook_client *fc, status_data *status) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/composerx/attachment/link/scraper/")
+HttpRequest* facebook_client::linkScraperRequest(status_data *status)
 {
-	Url
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/composerx/attachment/link/scraper/");
+
+	p->Url
 		<< INT_PARAM("__a", 1)
 		<< INT_PARAM("composerurihash", 2)
 		<< CHAR_PARAM("scrape_url", ptrA(mir_urlEncode(status->url.c_str())));
 
-	Body
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("targetid", status->user_id.empty() ? fc->self_.user_id.c_str() : status->user_id.c_str())
-		<< CHAR_PARAM("xhpc_targetid", status->user_id.empty() ? fc->self_.user_id.c_str() : status->user_id.c_str())
+	p->Body
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("targetid", status->user_id.empty() ? self_.user_id.c_str() : status->user_id.c_str())
+		<< CHAR_PARAM("xhpc_targetid", status->user_id.empty() ? self_.user_id.c_str() : status->user_id.c_str())
 		<< INT_PARAM("istimeline", 1)
 		<< CHAR_PARAM("composercontext", "composer")
 		<< INT_PARAM("onecolumn", 1)
 		<< CHAR_PARAM("nctr[_mod]", "pagelet_timeline_recent")
 		<< INT_PARAM("__a", 1)
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-		<< CHAR_PARAM("__user", status->isPage && !status->user_id.empty() ? status->user_id.c_str() : fc->self_.user_id.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
+		<< CHAR_PARAM("__user", status->isPage && !status->user_id.empty() ? status->user_id.c_str() : self_.user_id.c_str())
 		<< CHAR_PARAM("loaded_components[0]", "maininput")
 		<< CHAR_PARAM("loaded_components[1]", "backdateicon")
 		<< CHAR_PARAM("loaded_components[2]", "withtaggericon")
@@ -80,36 +92,41 @@ LinkScraperRequest::LinkScraperRequest(facebook_client *fc, status_data *status)
 		<< CHAR_PARAM("loaded_components[17]", "backdatepicker")
 		<< CHAR_PARAM("loaded_components[18]", "placetagger")
 		<< CHAR_PARAM("loaded_components[19]", "citysharericon");
+
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // changing identity to post status for pages
 
-SwitchIdentityRequest::SwitchIdentityRequest(const char *dtsg, const char *userId) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/identity_switch.php")
+HttpRequest* facebook_client::switchIdentityRequest(const char *userId)
 {
-	Url << INT_PARAM("__a", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/identity_switch.php");
 
-	Body << CHAR_PARAM("fb_dtsg", dtsg) << CHAR_PARAM("user_id", userId) << CHAR_PARAM("url", FACEBOOK_URL_HOMEPAGE);
+	p->Url << INT_PARAM("__a", 1);
+
+	p->Body << CHAR_PARAM("fb_dtsg", dtsg_.c_str()) << CHAR_PARAM("user_id", userId) << CHAR_PARAM("url", FACEBOOK_URL_HOMEPAGE);
+
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // posting status to our or friends's wall
 
-SharePostRequest::SharePostRequest(facebook_client *fc, status_data *status, const char *linkData) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/updatestatus.php")
+HttpRequest* facebook_client::sharePostRequest(status_data *status, const char *linkData)
 {
-	Url << INT_PARAM("__a", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/updatestatus.php");
+
+	p->Url << INT_PARAM("__a", 1);
 
 	ptrA text(mir_urlEncode(status->text.c_str()));
-
-	Body
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-		<< CHAR_PARAM("__user", status->isPage && !status->user_id.empty() ? status->user_id.c_str() : fc->self_.user_id.c_str())
-		<< CHAR_PARAM("xhpc_targetid", status->user_id.empty() ? fc->self_.user_id.c_str() : status->user_id.c_str())
+	p->Body
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
+		<< CHAR_PARAM("__user", status->isPage && !status->user_id.empty() ? status->user_id.c_str() : self_.user_id.c_str())
+		<< CHAR_PARAM("xhpc_targetid", status->user_id.empty() ? self_.user_id.c_str() : status->user_id.c_str())
 		<< CHAR_PARAM("xhpc_message", text)
 		<< CHAR_PARAM("xhpc_message_text", text)
 		<< CHAR_PARAM("xhpc_context", "profile")
@@ -120,38 +137,43 @@ SharePostRequest::SharePostRequest(facebook_client *fc, status_data *status, con
 		<< CHAR_PARAM("nctr[_mod]", "pagelet_composer");
 
 	if (!status->isPage)
-		Body << CHAR_PARAM("audience[0][value]", fc->get_privacy_type().c_str());
+		p->Body << CHAR_PARAM("audience[0][value]", get_privacy_type().c_str());
 
 	if (!status->place.empty())
-		Body << CHAR_PARAM("composertags_place_name", ptrA(mir_urlEncode(status->place.c_str())));
+		p->Body << CHAR_PARAM("composertags_place_name", ptrA(mir_urlEncode(status->place.c_str())));
 
 	// Status with users
 	for (std::vector<facebook_user*>::size_type i = 0; i < status->users.size(); i++) {
 		CMStringA withId(::FORMAT, "composertags_with[%i]", i);
 		CMStringA withName(::FORMAT, "text_composertags_with[%i]", i);
 
-		Body
+		p->Body
 			<< CHAR_PARAM(withId.c_str(), status->users[i]->user_id.c_str())
 			<< CHAR_PARAM(withName.c_str(), status->users[i]->real_name.c_str());
 	}
 
 	// Link attachment
 	if (mir_strlen(linkData) > 0)
-		Body << linkData;
+		p->Body << linkData;
+
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // sending pokes
 
-SendPokeRequest::SendPokeRequest(facebook_client *fc, const char *userId) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/pokes/dialog/")
+HttpRequest* facebook_client::sendPokeRequest(const char *userId)
 {
-	Url << INT_PARAM("__a", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/pokes/dialog/");
 
-	Body
+	p->Url << INT_PARAM("__a", 1);
+
+	p->Body
 		<< INT_PARAM("do_confirm", 0)
 		<< CHAR_PARAM("poke_target", userId)
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str());
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str());
+
+	return p;
 }

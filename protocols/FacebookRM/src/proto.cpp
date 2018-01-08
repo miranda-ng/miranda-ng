@@ -898,15 +898,8 @@ void FacebookProto::ReadNotificationWorker(void *p)
 		return;
 
 	std::string *id = (std::string*)p;
-
-	if (isOffline()) {
-		delete id;
-		return;
-	}
-
-	HttpRequest *request = new MarkNotificationReadRequest(&facy, id->c_str());
-	facy.sendRequest(request);
-
+	if (!isOffline())
+		facy.sendRequest(facy.markNotificationReadRequest(id->c_str()));
 	delete id;
 }
 

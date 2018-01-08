@@ -24,6 +24,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_history.h>
 #include <m_userinfo.h>
 
+enum ChatMenuItems
+{
+	IDM_INVITE = 10, IDM_EXIT,
+
+	IDM_DETAILS = 20, IDM_HISTORY
+};
+
+static const struct gc_item LogMenuItems[] =
+{
+	{ LPGENW("&Invite user..."), IDM_INVITE, MENU_ITEM, FALSE },
+	{ LPGENW("E&xit chat session"), IDM_EXIT, MENU_ITEM, FALSE },
+};
+
+static const struct gc_item NickMenuItems[] =
+{
+	{ LPGENW("User &details"), IDM_DETAILS, MENU_ITEM, FALSE },
+	{ LPGENW("User &history"), IDM_HISTORY, MENU_ITEM, FALSE },
+};
+
 void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp, bool is_old)
 {
 	// replace % to %% to not interfere with chat color codes
@@ -93,6 +112,16 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		}
 		break;
 
+	case GC_USER_LOGMENU:
+		switch (hook->dwData) {
+		case IDM_INVITE:
+			break;
+
+		case IDM_EXIT:
+			break;
+		}
+		break;
+
 	case GC_USER_NICKLISTMENU:
 		MCONTACT hContact = 0;
 		if (hook->dwData == 10 || hook->dwData == 20) {
@@ -106,16 +135,12 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		}
 
 		switch (hook->dwData) {
-		case 10:
+		case IDM_DETAILS:
 			CallService(MS_USERINFO_SHOWDIALOG, hContact);
 			break;
 
-		case 20:
+		case IDM_HISTORY:
 			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact);
-			break;
-
-		case 110:
-			//chat_leave(id);
 			break;
 		}
 
@@ -298,39 +323,13 @@ INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam, LPARAM)
 int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi = (GCMENUITEMS*)lParam;
+	if (mir_strcmp(gcmi->pszModule, m_szModuleName))
+		return 0;
 
-	if (gcmi == nullptr || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
-
-	if (gcmi->Type == MENU_ON_LOG) {
-		static const struct gc_item Items[] =
-		{
-			{ LPGENW("&Invite user..."), 10, MENU_ITEM, FALSE },
-			{ LPGENW("&Leave chat session"), 20, MENU_ITEM, FALSE }
-		};
-		Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
-	}
-	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		if (!_stricmp(facy.self_.user_id.c_str(), _T2A(gcmi->pszUID))) {
-			/*static const struct gc_item Items[] =
-			{
-			{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
-			{ LPGENW("User &history"), 20, MENU_ITEM, FALSE },
-			{ L"", 100, MENU_SEPARATOR, FALSE },
-			{ LPGENW("&Leave chat session"), 110, MENU_ITEM, FALSE }
-			};
-			gcmi->nItems = _countof(Items);
-			gcmi->Item = (gc_item*)Items;*/
-		}
-		else {
-			static const struct gc_item Items[] =
-			{
-				{ LPGENW("User &details"), 10, MENU_ITEM, FALSE },
-				{ LPGENW("User &history"), 20, MENU_ITEM, FALSE }
-			};
-			Chat_AddMenuItems(gcmi->hMenu, _countof(Items), Items);
-		}
-	}
-
+	if (gcmi->Type == MENU_ON_LOG)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(LogMenuItems), LogMenuItems);
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(NickMenuItems), NickMenuItems);
 	return 0;
 }
 
@@ -469,8 +468,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 		for (std::string::size_type i = 0; i < namelessIds.size(); i++)
 			userIds.insert(mir_strdup(namelessIds.at(i).c_str()));
 
-		HttpRequest *request = new UserInfoRequest(&facy, userIds);
-		http::response resp = facy.sendRequest(request);
+		http::response resp = facy.sendRequest(facy.userInfoRequest(userIds));
 
 		FreeList(userIds);
 		userIds.destroy();
@@ -508,9 +506,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 		return;
 
 	// request info about chat thread
-	HttpRequest *request = new ThreadInfoRequest(&facy, true, fbc->thread_id.c_str());
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.threadInfoRequest(true, fbc->thread_id.c_str()));
 	if (resp.code != HTTP_CODE_OK) {
 		facy.handle_error("LoadChatInfo");
 		return;

@@ -25,78 +25,92 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //////////////////////////////////////////////////////////////////////////////////////////
 // connecting physically
 
-LoginRequest::LoginRequest() :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php")
+HttpRequest* facebook_client::loginRequest()
 {
-	Url << INT_PARAM("login_attempt", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php");
+	p->Url << INT_PARAM("login_attempt", 1);
+	return p;
 }
 
-LoginRequest::LoginRequest(const char *username, const char *password, const char *urlData, const char *bodyData) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php")
+HttpRequest* facebook_client::loginRequest(const char *username, const char *password, const char *urlData, const char *bodyData)
 {
-	Persistent = NONE;
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php");
 
-	Url
+	p->Persistent = p->NONE;
+
+	p->Url
 		<< INT_PARAM("login_attempt", 1)
 		<< urlData; // additional data parsed from form
 		
-	Body
+	p->Body
 		<< INT_PARAM("persistent", 1)
 		<< CHAR_PARAM("email", ptrA(mir_urlEncode(username)))
 		<< CHAR_PARAM("pass", ptrA(mir_urlEncode(password)))
 		<< CHAR_PARAM("lgndim", "eyJ3IjoxOTIwLCJoIjoxMDgwLCJhdyI6MTgzNCwiYWgiOjEwODAsImMiOjMyfQ==") // means base64 encoded: {"w":1920,"h":1080,"aw":1834,"ah":1080,"c":32}
 		<< bodyData; // additional data parsed from form
+
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // request to receive login code via SMS
 
-LoginSmsRequest::LoginSmsRequest(facebook_client *fc, const char *dtsg) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/login/approvals/send_sms")
+HttpRequest* facebook_client::loginSmsRequest(const char *dtsg)
 {
-	Url << INT_PARAM("dpr", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/login/approvals/send_sms");
+		
+	p->Url << INT_PARAM("dpr", 1);
 
-	Body
+	p->Body
 		<< CHAR_PARAM("method_requested", "sms_requested")
 		<< INT_PARAM("__a", 1)
 		<< INT_PARAM("__user", 0)
 		<< INT_PARAM("__be", 0)
 		<< CHAR_PARAM("__pc", "EXP1:DEFAULT")
 		<< CHAR_PARAM("current_time", (utils::time::unix_timestamp() + ".000").c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
 		<< CHAR_PARAM("fb_dtsg", dtsg)
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-		<< CHAR_PARAM("__rev", fc->__rev());
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
+		<< CHAR_PARAM("__rev", __rev());
+
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // setting machine name
 
-SetupMachineRequest::SetupMachineRequest() :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/")
+HttpRequest* facebook_client::setupMachineRequest()
 {
-	Url << "next";
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/");
+	p->Url << "next";
+	return p;
 }
 
-SetupMachineRequest::SetupMachineRequest(const char *dtsg, const char *nh, const char *submit) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/")
+HttpRequest* facebook_client::setupMachineRequest(const char *dtsg, const char *nh, const char *submit)
 {
-	Url << "next";
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/checkpoint/");
 
-	Body
+	p->Url << "next";
+
+	p->Body
 		<< CHAR_PARAM(CMStringA(::FORMAT, "submit[%s]", submit), submit)
 		<< CHAR_PARAM("nh", nh)
 		<< CHAR_PARAM("fb_dtsg", dtsg);
+
+	return p;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // disconnecting physically
 
-LogoutRequest::LogoutRequest(const char *dtsg, const char *logoutHash) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/logout.php")
+HttpRequest* facebook_client::logoutRequest()
 {
-	Body
-		<< CHAR_PARAM("fb_dtsg", dtsg)
-		<< CHAR_PARAM("h", logoutHash);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/logout.php");
+
+	p->Body
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("h", logout_hash_.c_str());
+	
+	return p;
 }

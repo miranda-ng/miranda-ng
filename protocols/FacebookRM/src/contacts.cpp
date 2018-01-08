@@ -170,8 +170,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	if (isOffline())
 		return "";
 
-	HttpRequest *request = new ThreadInfoRequest(&facy, true, thread_id.c_str());
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(facy.threadInfoRequest(true, thread_id.c_str()));
 
 	std::string user_id;
 
@@ -200,8 +199,7 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 	LIST<char> userIds(1);
 	userIds.insert(mir_strdup(fbu->user_id.c_str()));
 
-	HttpRequest *request = new UserInfoRequest(&facy, userIds);
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(facy.userInfoRequest(userIds));
 
 	FreeList(userIds);
 	userIds.destroy();
@@ -292,7 +290,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		return;
 
 	// Delete contact from server
-	HttpRequest *request = new DeleteFriendRequest(&facy, id.c_str());
+	HttpRequest *request = facy.deleteFriendRequest(id.c_str());
 	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
@@ -326,7 +324,7 @@ void FacebookProto::AddContactToServer(void *data)
 		return;
 
 	// Request friendship
-	HttpRequest *request = new AddFriendRequest(&facy, id.c_str());
+	HttpRequest *request = facy.addFriendRequest(id.c_str());
 	http::response resp = facy.sendRequest(request);
 
 	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
@@ -362,8 +360,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 		return;
 
 	// Confirm friendship request
-	HttpRequest *request = new AnswerFriendshipRequest(&facy, id, AnswerFriendshipRequest::CONFIRM);
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(facy.answerFriendshipRequest(id, true));
 
 	if (resp.data.find("\"success\":true") != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
@@ -393,9 +390,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 		return;
 
 	// Cancel (our) friendship request
-	HttpRequest *request = new CancelFriendshipRequest(&facy, id);
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.cancelFriendshipRequest(id));
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), 0, EVENT_FRIENDSHIP);
@@ -424,8 +419,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 		return;
 
 	// Ignore friendship request
-	HttpRequest *request = new AnswerFriendshipRequest(&facy, id, AnswerFriendshipRequest::REJECT);
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(facy.answerFriendshipRequest(id, false));
 
 	if (resp.data.find("\"success\":true") != std::string::npos) {
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
@@ -456,8 +450,7 @@ void FacebookProto::SendPokeWorker(void *p)
 	}
 
 	// Send poke
-	HttpRequest *request = new SendPokeRequest(&facy, id->c_str());
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(facy.sendPokeRequest(id->c_str()));
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		resp.data = utils::text::slashu_to_utf8(
@@ -524,7 +517,7 @@ void FacebookProto::RefreshUserInfo(void *data)
 	CheckAvatarChange(hContact, fbu.image_url);
 
 	// Load additional info from profile page (e.g., birthday)
-	http::response resp = facy.sendRequest(new ProfileInfoRequest(facy.mbasicWorks, fbu.user_id.c_str()));
+	http::response resp = facy.sendRequest(facy.profileInfoRequest(fbu.user_id.c_str()));
 
 	if (resp.code == HTTP_CODE_OK) {
 		std::string birthday = utils::text::source_get_value(&resp.data, 4, ">Birthday</", "<td", ">", "</td>");
@@ -609,113 +602,134 @@ void FacebookProto::StopTyping(MCONTACT hContact)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// handling friends requests
 
-UserInfoRequest::UserInfoRequest(facebook_client *fc, const LIST<char> &userIds) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/chat/user_info/")
+HttpRequest* facebook_client::addFriendRequest(const char *userId)
 {
-	Url << INT_PARAM("dpr", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/add_friend/action.php");
+	
+	p->Url << INT_PARAM("__a", 1);
 
-	for (int i = 0; i < userIds.getCount(); i++) {
-		CMStringA id(::FORMAT, "ids[%i]", i);
-		Body << CHAR_PARAM(id, ptrA(mir_urlEncode(userIds[i])));
-	}
-
-	Body
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< INT_PARAM("__a", 1)
-		<< INT_PARAM("__be", 1)
-		<< CHAR_PARAM("__pc", "PHASED:DEFAULT");
-}
-
-UserInfoAllRequest::UserInfoAllRequest(facebook_client *fc) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/chat/user_info_all/")
-{
-	Url
-		<< INT_PARAM("dpr", 1)
-		<< CHAR_PARAM("viewer", fc->self_.user_id.c_str());
-
-	Body
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
-		<< INT_PARAM("__a", 1)
-		<< INT_PARAM("__be", -1);
-}
-
-AddFriendRequest::AddFriendRequest(facebook_client *fc, const char *userId) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/add_friend/action.php")
-{
-	Url << INT_PARAM("__a", 1);
-
-	Body
+	p->Body
 		<< CHAR_PARAM("to_friend", userId)
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
 		<< CHAR_PARAM("action", "add_friend")
 		<< CHAR_PARAM("how_found", "profile_button")
 		<< CHAR_PARAM("ref_param", "ts")
 		<< CHAR_PARAM("no_flyout_on_click", "false");
+
+	return p;
 }
 
-DeleteFriendRequest::DeleteFriendRequest(facebook_client *fc, const char *userId) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/profile/removefriendconfirm.php")
+HttpRequest* facebook_client::deleteFriendRequest(const char *userId)
 {
-	Url
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/profile/removefriendconfirm.php");
+
+	p->Url
 		<< INT_PARAM("__a", 1)
 		<< BOOL_PARAM("norefresh", true)
 		<< CHAR_PARAM("unref", "button_dropdown")
 		<< CHAR_PARAM("uid", userId);
 
-	Body
+	p->Body
 		<< CHAR_PARAM("uid", userId)
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
-		<< CHAR_PARAM("ttstamp", fc->ttstamp_.c_str())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
 		<< CHAR_PARAM("norefresh", "true")
 		<< CHAR_PARAM("unref", "button_dropdown")
 		<< INT_PARAM("confirmed", 1)
 		<< INT_PARAM("__a", 1);
+
+	return p;
 }
 
-CancelFriendshipRequest::CancelFriendshipRequest(facebook_client *fc, const char *userId) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/friends/requests/cancel.php")
+HttpRequest* facebook_client::getFriendshipsRequest()
 {
-	Url << INT_PARAM("__a", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FORMAT, "%s/friends/center/requests/", mbasicWorks ? FACEBOOK_SERVER_MBASIC : FACEBOOK_SERVER_MOBILE);
 
-	Body
+	p->flags |= NLHRF_REDIRECT;
+
+	return p;
+}
+
+HttpRequest* facebook_client::cancelFriendshipRequest(const char *userId)
+{
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/friends/requests/cancel.php");
+
+	p->Url << INT_PARAM("__a", 1);
+
+	p->Body
 		<< INT_PARAM("confirmed", 1)
 		<< CHAR_PARAM("friend", userId)
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str());
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str());
+	
+	return p;
 }
 
-AnswerFriendshipRequest::AnswerFriendshipRequest(facebook_client *fc, const char *userId, Answer answer) :
-	HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/requests/friends/ajax/")
+HttpRequest* facebook_client::answerFriendshipRequest(const char *userId, bool bConfirm)
 {
-	Url << INT_PARAM("__a", 1);
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/requests/friends/ajax/");
 
-	const char *action = "";
-	switch (answer) {
-	case CONFIRM:
-		action = "confirm";
-		break;
-	case REJECT:
-		action = "reject";
-		break;
+	p->Url << INT_PARAM("__a", 1);
+
+	p->Body
+		<< CHAR_PARAM("action", (bConfirm) ? "confirm" : "reject")
+		<< CHAR_PARAM("id", userId)
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str());
+	
+	return p;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// requesting user info
+
+HttpRequest* facebook_client::userInfoRequest(const LIST<char> &userIds)
+{
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/chat/user_info/");
+
+	p->Url << INT_PARAM("dpr", 1);
+
+	for (int i = 0; i < userIds.getCount(); i++) {
+		CMStringA id(::FORMAT, "ids[%i]", i);
+		p->Body << CHAR_PARAM(id, ptrA(mir_urlEncode(userIds[i])));
 	}
 
-	Body
-		<< CHAR_PARAM("action", action)
-		<< CHAR_PARAM("id", userId)
-		<< CHAR_PARAM("fb_dtsg", fc->dtsg_.c_str())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str());
+	p->Body
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< INT_PARAM("__a", 1)
+		<< INT_PARAM("__be", 1)
+		<< CHAR_PARAM("__pc", "PHASED:DEFAULT");
+	
+	return p;
+}
+
+HttpRequest* facebook_client::userInfoAllRequest()
+{
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/chat/user_info_all/");
+
+		p->Url
+		<< INT_PARAM("dpr", 1)
+		<< CHAR_PARAM("viewer", self_.user_id.c_str());
+
+	p->Body
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+		<< INT_PARAM("__a", 1)
+		<< INT_PARAM("__be", -1);
+
+	return p;
 }

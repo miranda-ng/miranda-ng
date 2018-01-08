@@ -23,24 +23,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 // getting newsfeed posts
-NewsfeedRequest::NewsfeedRequest(facebook_client *fc) :
-	HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/home/generic.php")
+HttpRequest* facebook_client::newsfeedRequest()
 {
-	BYTE feed_type = fc->parent->getByte(FACEBOOK_KEY_FEED_TYPE, 0);
+	HttpRequest *p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/ajax/home/generic.php");
+
+	BYTE feed_type = parent->getByte(FACEBOOK_KEY_FEED_TYPE, 0);
 	if (feed_type >= _countof(feed_types))
 		feed_type = 0;
 
-	Url
+	p->Url
 		<< CHAR_PARAM("sk", feed_types[feed_type].id)
 		<< CHAR_PARAM("key", (feed_type < 2) ? "nf" : feed_types[feed_type].id)
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
 		<< INT_PARAM("__a", 1);
+
+	return p;
 }
 
-MemoriesRequest::MemoriesRequest(facebook_client *fc) :
-	HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/onthisday/story/query/")
+HttpRequest* facebook_client::memoriesRequest()
 {
-	Url
+	HttpRequest * p = new HttpRequest(REQUEST_GET, FACEBOOK_SERVER_REGULAR "/onthisday/story/query/");
+
+	p->Url
 		<< INT_PARAM("__a", 1)
 		<< INT_PARAM("start_index", 0)
 		<< INT_PARAM("num_stories", 20)
@@ -49,8 +53,10 @@ MemoriesRequest::MemoriesRequest(facebook_client *fc) :
 		<< INT_PARAM("__be", -1)
 		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
 		<< INT64_PARAM("timestamp", ::time(nullptr))
-		<< CHAR_PARAM("__dyn", fc->__dyn())
-		<< CHAR_PARAM("__req", fc->__req())
-		<< CHAR_PARAM("__rev", fc->__rev())
-		<< CHAR_PARAM("__user", fc->self_.user_id.c_str());
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("__user", self_.user_id.c_str());
+
+	return p;
 }
