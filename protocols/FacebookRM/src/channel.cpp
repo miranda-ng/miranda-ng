@@ -27,10 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HttpRequest* facebook_client::channelRequest(facebook_client::Type type)
 {
-	HttpRequest *p = new HttpRequest(REQUEST_POST, FORMAT,
-		(type == PULL) ? FACEBOOK_SERVER_CHAT "/pull" : FACEBOOK_SERVER_CHAT "/active_ping",
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FORMAT, FACEBOOK_SERVER_CHAT,
 		chat_conn_num_.empty() ? "0" : chat_conn_num_.c_str(),
-		chat_channel_host_.c_str());
+		chat_channel_host_.c_str(), 
+		(type == PULL) ? "pull" : "active_ping");
 
 	if (type == PULL) {
 		p->timeout = 65 * 1000;
