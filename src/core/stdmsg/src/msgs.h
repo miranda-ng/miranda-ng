@@ -72,6 +72,7 @@ class CSrmmWindow : public CMsgDialog
 	CSplitter m_splitter;
 
 	void NotifyTyping(int mode);
+	void ProcessFileDrop(HDROP hDrop);
 	void ShowAvatar(void);
 	void ShowTime(void);
 	void SetupStatusBar(void);

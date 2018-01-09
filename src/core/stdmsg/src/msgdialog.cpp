@@ -487,6 +487,26 @@ void CSrmmWindow::NotifyTyping(int mode)
 	CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
 }
 
+void CSrmmWindow::ProcessFileDrop(HDROP hDrop)
+{
+	if (m_szProto == nullptr) return;
+	if (!(CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND)) return;
+	if (m_wStatus == ID_STATUS_OFFLINE) return;
+	if (m_hContact != 0) {
+		wchar_t szFilename[MAX_PATH];
+		int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0, i;
+		wchar_t **ppFiles = nullptr;
+		for (i = 0; i < fileCount; i++) {
+			DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
+			AddToFileList(&ppFiles, &totalCount, szFilename);
+		}
+		CallServiceSync(MS_FILE_SENDSPECIFICFILEST, m_hContact, (LPARAM)ppFiles);
+		for (i = 0; ppFiles[i]; i++)
+			mir_free(ppFiles[i]);
+		mir_free(ppFiles);
+	}
+}
+
 void CSrmmWindow::ScrollToBottom()
 {
 	if (!(GetWindowLongPtr(m_log.GetHwnd(), GWL_STYLE) & WS_VSCROLL))
@@ -850,7 +870,7 @@ LRESULT CSrmmWindow::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (OpenClipboard(m_message.GetHwnd())) {
 				HANDLE hDrop = GetClipboardData(CF_HDROP);
 				if (hDrop)
-					m_message.SendMsg(WM_DROPFILES, (WPARAM)hDrop, 0);
+					ProcessFileDrop((HDROP)hDrop);
 				CloseClipboard();
 			}
 		}
@@ -889,24 +909,8 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DROPFILES: // Mod from tabsrmm
-		if (m_szProto == nullptr) break;
-		if (!(CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND)) break;
-		if (m_wStatus == ID_STATUS_OFFLINE) break;
-		if (m_hContact != 0) {
-			wchar_t szFilename[MAX_PATH];
-			HDROP hDrop = (HDROP)wParam;
-			int fileCount = DragQueryFile(hDrop, -1, nullptr, 0), totalCount = 0, i;
-			wchar_t **ppFiles = nullptr;
-			for (i = 0; i < fileCount; i++) {
-				DragQueryFile(hDrop, i, szFilename, _countof(szFilename));
-				AddToFileList(&ppFiles, &totalCount, szFilename);
-			}
-			CallServiceSync(MS_FILE_SENDSPECIFICFILEST, m_hContact, (LPARAM)ppFiles);
-			for (i = 0; ppFiles[i]; i++)
-				mir_free(ppFiles[i]);
-			mir_free(ppFiles);
-		}
-		break;
+		ProcessFileDrop((HDROP)wParam);
+		return TRUE;
 
 	case HM_AVATARACK:
 		ShowAvatar();
