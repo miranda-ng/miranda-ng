@@ -111,23 +111,25 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, UINT msg, LPARAM lpFlags)
 
 	BYTE *pBits;
 	HBITMAP hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, (void **)&pBits, nullptr, 0);
-	HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
+	if (hBmp && pBits) {
+		HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
-	// paint
-	SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)TRUE);
-	mir_callNextSubclass(hwnd, AeroPaintSubclassProc, msg, (WPARAM)tempDC, lpFlags);
-	SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)FALSE);
+		// paint
+		SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)TRUE);
+		mir_callNextSubclass(hwnd, AeroPaintSubclassProc, msg, (WPARAM)tempDC, lpFlags);
+		SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)FALSE);
 
-	// Fix alpha channel
-	GdiFlush();
-	for (int i = 0; i < rc.right*rc.bottom; i++, pBits += 4)
-		if (!pBits[3])
-			pBits[3] = 255;
+		// Fix alpha channel
+		GdiFlush();
+		for (int i = 0; i < rc.right*rc.bottom; i++, pBits += 4)
+			if (!pBits[3])
+				pBits[3] = 255;
 
-	// Copy to output
-	BitBlt(hdc, 0, 0, rc.right, rc.bottom, tempDC, 0, 0, SRCCOPY);
-	SelectObject(tempDC, hOldBmp);
-	DeleteObject(hBmp);
+		// Copy to output
+		BitBlt(hdc, 0, 0, rc.right, rc.bottom, tempDC, 0, 0, SRCCOPY);
+		SelectObject(tempDC, hOldBmp);
+		DeleteObject(hBmp);
+	}
 	DeleteDC(tempDC);
 }
 
