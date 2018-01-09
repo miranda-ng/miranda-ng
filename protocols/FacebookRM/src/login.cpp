@@ -108,6 +108,8 @@ HttpRequest* facebook_client::logoutRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/logout.php");
 
+	p->flags |= NLHRF_REDIRECT;
+
 	p->Body
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
 		<< CHAR_PARAM("h", logout_hash_.c_str());

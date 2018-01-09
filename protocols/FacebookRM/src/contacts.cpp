@@ -290,9 +290,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		return;
 
 	// Delete contact from server
-	HttpRequest *request = facy.deleteFriendRequest(id.c_str());
-	http::response resp = facy.sendRequest(request);
-
+	http::response resp = facy.sendRequest(facy.deleteFriendRequest(id.c_str()));
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		// If contact wasn't deleted from database
 		MCONTACT hContact = ContactIDToHContact(id);
@@ -324,8 +322,7 @@ void FacebookProto::AddContactToServer(void *data)
 		return;
 
 	// Request friendship
-	HttpRequest *request = facy.addFriendRequest(id.c_str());
-	http::response resp = facy.sendRequest(request);
+	http::response resp = facy.sendRequest(facy.addFriendRequest(id.c_str()));
 
 	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
 		MCONTACT hContact = ContactIDToHContact(id);

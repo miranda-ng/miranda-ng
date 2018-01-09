@@ -25,18 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Helper function for loading name from database (or use default one specified as parameter), used for title of few notifications.
  */
-std::string getContactName(FacebookProto *proto, MCONTACT hContact, const char *defaultName)
-{
-	std::string name = defaultName;
-
-	DBVARIANT dbv;
-	if (!proto->getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
-		name = dbv.pszVal;
-		db_free(&dbv);
-	}
-
-	return name;
-}
 
 void FacebookProto::ProcessFriendList(void*)
 {
@@ -116,10 +104,7 @@ void FacebookProto::ProcessFriendList(void*)
 						// Notify it, if user wants to be notified
 						if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
 							std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
-							std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
-
-							ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-							NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, EVENT_FRIENDSHIP, &url);
+							NotifyEvent(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Contact is back on server-list."), hContact, EVENT_FRIENDSHIP, &url);
 						}
 					}
 
@@ -143,10 +128,7 @@ void FacebookProto::ProcessFriendList(void*)
 							// Notify it, if user wants to be notified
 							if (getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE)) {
 								std::string url = FACEBOOK_URL_PROFILE + std::string(id);
-								std::string contactname = getContactName(this, hContact, id);
-
-								ptrW szTitle(mir_utf8decodeW(contactname.c_str()));
-								NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
+								NotifyEvent(pcli->pfnGetContactDisplayName(hContact, 0), TranslateT("Contact is no longer on server-list."), hContact, EVENT_FRIENDSHIP, &url);
 							}
 						}
 					}

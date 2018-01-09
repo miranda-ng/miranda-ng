@@ -34,9 +34,7 @@ HttpRequest* facebook_client::getNotificationsRequest(int count)
 	p->Body
 		<< CHAR_PARAM("__user", self_.user_id.c_str())
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
-		// << "cursor=" // when loading more
 		<< INT_PARAM("length", count) // number of items to load
-		// << "businessID=" // probably for pages?
 		<< CHAR_PARAM("ttstamp", ttstamp_.c_str())
 		<< CHAR_PARAM("__dyn", __dyn())
 		<< CHAR_PARAM("__req", __req())
@@ -64,7 +62,7 @@ HttpRequest* facebook_client::markNotificationReadRequest(const char *id)
 		<< CHAR_PARAM("__dyn", __dyn())
 		<< CHAR_PARAM("__req", __req())
 		<< CHAR_PARAM("__rev", __rev())
-		<< CHAR_PARAM("alert_ids%5B0%5D", id);
+		<< CHAR_PARAM("alert_ids[0]", id);
 
 	return p;
 }
