@@ -77,7 +77,7 @@ void BaseExtraIcon::onClick(MCONTACT hContact)
 int BaseExtraIcon::ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage)
 {
 	ExtraIcon *tmp = extraIconsByHandle[m_id - 1];
-	if (tmp != this)
+	if (tmp != nullptr && tmp != this)
 		return tmp->ClistSetExtraIcon(hContact, hImage);
 	return Clist_SetExtraIcon(hContact, m_slot, hImage);
 }
