@@ -114,7 +114,6 @@ FacebookProto::~FacebookProto()
 
 	Netlib_CloseHandle(m_hNetlibUser);
 
-	WaitForSingleObject(update_loop_event, INFINITE);
 	CloseHandle(update_loop_event);
 }
 
