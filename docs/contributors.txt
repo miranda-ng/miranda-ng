@@ -1,6 +1,6 @@
 ﻿Miranda NG is designed, written & supported by:
 
-Alexander aka dartraiden
+Alexander Gavrilov aka dartraiden
 Sergey Bolkhovskoy aka Elzor
 Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
