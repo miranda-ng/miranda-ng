@@ -183,19 +183,19 @@ STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 
 int CDbxMDBX::Map()
 {
+	int rc = mdbx_env_set_geometry(m_env,
+		-1 /* minimal lower limit */,
+		64ul << 10 /* atleast 64K for now */,
+		256ul << 20 /* 256M upper limit */,
+		256ul << 10 /* 256K growth step */,
+		512ul << 10 /* 512K shrink threshold */,
+		-1 /* default page size */);
+	if (rc != MDBX_SUCCESS)
+		return rc;
 	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
-	mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
-	mdbx_env_set_mapsize(m_env, 0x1000000);
-	return MDBX_SUCCESS;
-}
-
-bool CDbxMDBX::Remap()
-{
-	MDBX_envinfo ei;
-	mdbx_env_info(m_env, &ei, sizeof(ei));
-	return mdbx_env_set_geometry(m_env, -1, -1, ei.mi_mapsize + 0x100000, 0x100000, -1, -1) == MDBX_SUCCESS;
+	return mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

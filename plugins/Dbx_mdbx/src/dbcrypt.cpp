@@ -48,18 +48,17 @@ CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 	}
 	else pProv = ppProvs[0];
 
-	for (;; Remap()) {
-		txn_ptr txn(m_env);
+	txn_ptr txn(m_env);
+	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value = { pProv->pszName, mir_strlen(pProv->pszName) + 1 };
+	if (mdbx_put(txn, m_dbCrypto, &key, &value, 0) != MDBX_SUCCESS)
+		return nullptr;
 
-		MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value = { pProv->pszName, mir_strlen(pProv->pszName) + 1 };
-		MDBX_CHECK(mdbx_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
+	key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted; value.iov_len = sizeof(bool); value.iov_base = &bTotalCrypt;
+	if (mdbx_put(txn, m_dbCrypto, &key, &value, 0) != MDBX_SUCCESS)
+		return nullptr;
 
-		key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted; value.iov_len = sizeof(bool); value.iov_base = &bTotalCrypt;
-		MDBX_CHECK(mdbx_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
-
-		if (txn.commit() == MDBX_SUCCESS)
-			break;
-	}
+	if (txn.commit() != MDBX_SUCCESS)
+		return nullptr;
 
 	return pProv;
 }
@@ -125,13 +124,15 @@ void CDbxMDBX::StoreKey()
 	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 
-	for (;; Remap()) {
-		txn_ptr txn(m_env);
-		MDBX_val key = { DBKey_Crypto_Key, sizeof(DBKey_Crypto_Key) }, value = { pKey, iKeyLength };
-		mdbx_put(txn, m_dbCrypto, &key, &value, 0);
-		if (txn.commit() == MDBX_SUCCESS)
-			break;
-	}
+	txn_ptr txn(m_env);
+	MDBX_val key = { DBKey_Crypto_Key, sizeof(DBKey_Crypto_Key) }, value = { pKey, iKeyLength };
+	int rc = mdbx_put(txn, m_dbCrypto, &key, &value, 0);
+	if (rc == MDBX_SUCCESS)
+		rc = txn.commit();
+	/* FIXME: throw an exception */
+	assert(rc == MDBX_SUCCESS);
+	(void)rc;
+
 	SecureZeroMemory(pKey, iKeyLength);
 }
 
@@ -175,7 +176,10 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 		for (auto it = lstEvents.begin(); it != lstEvents.end(); ++it) {
 			MEVENT &hDbEvent = *it;
 			MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-			mdbx_get(txnro, m_dbEvents, &key, &data);
+			int rc = mdbx_get(txnro, m_dbEvents, &key, &data);
+			/* FIXME: throw an exception */
+			assert(rc == MDBX_SUCCESS);
+			(void)rc;
 
 			const DBEvent *dbEvent = (const DBEvent*)data.iov_base;
 			const BYTE    *pBlob = (BYTE*)(dbEvent + 1);
@@ -194,32 +198,29 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 					dwNewFlags = dbEvent->flags | DBEF_ENCRYPTED;
 				}
 
-				for (;; Remap()) {
-					txn_ptr txn(m_env);
-					data.iov_len = sizeof(DBEvent) + nNewBlob;
-					MDBX_CHECK(mdbx_put(txn, m_dbEvents, &key, &data, MDBX_RESERVE), 1);
+				txn_ptr txn(m_env);
+				data.iov_len = sizeof(DBEvent) + nNewBlob;
+				if (mdbx_put(txn, m_dbEvents, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
+					return 1;
 
-					DBEvent *pNewDBEvent = (DBEvent *)data.iov_base;
-					*pNewDBEvent = *dbEvent;
-					pNewDBEvent->cbBlob = (uint16_t)nNewBlob;
-					pNewDBEvent->flags = dwNewFlags;
-					memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
+				DBEvent *pNewDBEvent = (DBEvent *)data.iov_base;
+				*pNewDBEvent = *dbEvent;
+				pNewDBEvent->cbBlob = (uint16_t)nNewBlob;
+				pNewDBEvent->flags = dwNewFlags;
+				memcpy(pNewDBEvent + 1, pNewBlob, nNewBlob);
 
-
-					if (txn.commit() == MDBX_SUCCESS)
-						break;
-				}
+				if (txn.commit() != MDBX_SUCCESS)
+					return 1;
 			}
 		}
 	}
 
-	for (;; Remap()) {
-		txn_ptr txn(m_env);
-		MDBX_val key = { DBKey_Crypto_IsEncrypted, sizeof(DBKey_Crypto_IsEncrypted) }, value = { &bEncrypted, sizeof(bool) };
-		MDBX_CHECK(mdbx_put(txn, m_dbCrypto, &key, &value, 0), 1);
-		if (txn.commit() == MDBX_SUCCESS)
-			break;
-	}
+	txn_ptr txn(m_env);
+	MDBX_val key = { DBKey_Crypto_IsEncrypted, sizeof(DBKey_Crypto_IsEncrypted) }, value = { &bEncrypted, sizeof(bool) };
+	if (mdbx_put(txn, m_dbCrypto, &key, &value, 0) != MDBX_SUCCESS)
+		return 1;
+	if (txn.commit() != MDBX_SUCCESS)
+		return 1;
 
 	m_bEncrypted = bEncrypted;
 	return 0;
