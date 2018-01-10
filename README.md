@@ -46,7 +46,6 @@ Miranda NG is published under the [GNU GPL license][2].
 
 - [Miranda NG on Facebook](https://www.facebook.com/miranda.newgen)
 - [Miranda NG on Google Plus](https://plus.google.com/u/0/112395897441053008352/)
-- [Miranda NG Community on Google Plus](https://plus.google.com/u/0/communities/108135091636191321308)
 - [Miranda NG on Twitter](https://twitter.com/MirandaNewgen)
 - [Miranda NG Commits on Twitter](https://twitter.com/MirandaNGcommit)
 
