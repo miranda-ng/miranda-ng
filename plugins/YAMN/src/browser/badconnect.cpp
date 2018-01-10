@@ -9,7 +9,7 @@
 #define BADCONNECTTITLE LPGEN("%s - connection error")
 #define BADCONNECTMSG LPGEN("An error occurred. Error code: %d")//is in use?
 
-//--------------------------------------------------------------------------------------------------
+ //--------------------------------------------------------------------------------------------------
 
 LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -24,11 +24,11 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			si.cb = sizeof(si);
 			HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 #ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
+			DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
 #endif
 			if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
 #ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter\n");
+				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read enter\n");
 #endif
 				if (ActualAccount->BadConnectN.App != nullptr) {
 					WCHAR *Command;
@@ -48,13 +48,13 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 					}
 				}
 #ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read done\n");
+				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read done\n");
 #endif
 				ReadDoneFcn(ActualAccount->AccountAccessSO);
 			}
 #ifdef DEBUG_SYNCHRO
 			else
-				DebugLog(SynchroFile,"PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
+				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 #endif
 			PUDeletePopup(hWnd);
 		}
@@ -76,108 +76,103 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		BOOL ShowPopup, ShowMsg, ShowIco;
-		HACCOUNT ActualAccount;
-		DWORD  ErrorCode;
-		char* TitleStrA;
-		char *Message1A = nullptr;
-		wchar_t *Message1W = nullptr;
-		POPUPDATAT BadConnectPopup;
-
-		ActualAccount = ((struct BadConnectionParam *)lParam)->account;
-		ErrorCode = ((struct BadConnectionParam *)lParam)->errcode;
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait\n");
-#endif
-		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 		{
+			BOOL ShowPopup, ShowMsg, ShowIco;
+			HACCOUNT ActualAccount;
+			DWORD  ErrorCode;
+			char* TitleStrA;
+			char *Message1A = nullptr;
+			wchar_t *Message1W = nullptr;
+			POPUPDATAT BadConnectPopup;
+
+			ActualAccount = ((struct BadConnectionParam *)lParam)->account;
+			ErrorCode = ((struct BadConnectionParam *)lParam)->errcode;
 #ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait failed\n");
+			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait\n");
 #endif
-			return FALSE;
-		}
+			if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
 #ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
+				DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait failed\n");
 #endif
-		int size = (int)(mir_strlen(ActualAccount->Name) + mir_strlen(Translate(BADCONNECTTITLE)));
-		TitleStrA = new char[size];
-		mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
-
-		ShowPopup = ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
-		ShowMsg = ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;
-		ShowIco = ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
-
-		if (ShowPopup) {
-			BadConnectPopup.lchIcon = g_LoadIconEx(3);
-			BadConnectPopup.colorBack = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupB : GetSysColor(COLOR_BTNFACE);
-			BadConnectPopup.colorText = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
-			BadConnectPopup.iSeconds = ActualAccount->BadConnectN.PopupTime;
-
-			BadConnectPopup.PluginWindowProc = BadConnectPopupProc;
-			BadConnectPopup.PluginData = ActualAccount;
-			mir_wstrncpy(BadConnectPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lptzContactName));
-		}
-
-		if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != nullptr) {
-			Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
-			SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-			wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
-			if (ShowPopup)
-				PUAddPopupT(&BadConnectPopup);
-		}
-		else if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr != nullptr)
-		{
-			Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
-			SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-			wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
-			if (ShowPopup)
-				PUAddPopupT(&BadConnectPopup);
-		}
-		else
-		{
-			Message1W = TranslateT("Unknown error");
-			SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
-			wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
-			if (ShowPopup)
-				PUAddPopupT(&BadConnectPopup);
-		}
-
-		if (!ShowMsg && !ShowIco)
-			DestroyWindow(hDlg);
+				return FALSE;
+			}
 #ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read done\n");
+			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read enter\n");
 #endif
-		ReadDoneFcn(ActualAccount->AccountAccessSO);
+			int size = (int)(mir_strlen(ActualAccount->Name) + mir_strlen(Translate(BADCONNECTTITLE)));
+			TitleStrA = new char[size];
+			mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
 
-		SetWindowTextA(hDlg, TitleStrA);
-		delete[] TitleStrA;
-		if (Message1A != nullptr)
-			delete[] Message1A;
-		if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != nullptr && Message1A != nullptr)
-			ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1A);
-		if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != nullptr && Message1W != nullptr)
-			ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1W);
-		return 0;
-	}
+			ShowPopup = ActualAccount->BadConnectN.Flags & YAMN_ACC_POP;
+			ShowMsg = ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG;
+			ShowIco = ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO;
+
+			if (ShowPopup) {
+				BadConnectPopup.lchIcon = g_LoadIconEx(3);
+				BadConnectPopup.colorBack = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupB : GetSysColor(COLOR_BTNFACE);
+				BadConnectPopup.colorText = ActualAccount->BadConnectN.Flags & YAMN_ACC_POPC ? ActualAccount->BadConnectN.PopupT : GetSysColor(COLOR_WINDOWTEXT);
+				BadConnectPopup.iSeconds = ActualAccount->BadConnectN.PopupTime;
+
+				BadConnectPopup.PluginWindowProc = BadConnectPopupProc;
+				BadConnectPopup.PluginData = ActualAccount;
+				mir_wstrncpy(BadConnectPopup.lptzContactName, _A2T(ActualAccount->Name), _countof(BadConnectPopup.lptzContactName));
+			}
+
+			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != nullptr) {
+				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
+				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
+				wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+				if (ShowPopup)
+					PUAddPopupT(&BadConnectPopup);
+			}
+			else if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr != nullptr) {
+				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
+				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
+				wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+				if (ShowPopup)
+					PUAddPopupT(&BadConnectPopup);
+			}
+			else {
+				Message1W = TranslateT("Unknown error");
+				SetDlgItemText(hDlg, IDC_STATICMSG, Message1W);
+				wcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
+				if (ShowPopup)
+					PUAddPopupT(&BadConnectPopup);
+			}
+
+			if (!ShowMsg && !ShowIco)
+				DestroyWindow(hDlg);
+#ifdef DEBUG_SYNCHRO
+			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read done\n");
+#endif
+			ReadDoneFcn(ActualAccount->AccountAccessSO);
+
+			SetWindowTextA(hDlg, TitleStrA);
+			delete[] TitleStrA;
+			if (Message1A != nullptr)
+				delete[] Message1A;
+			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != nullptr && Message1A != nullptr)
+				ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1A);
+			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != nullptr && Message1W != nullptr)
+				ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1W);
+			return 0;
+		}
 	case WM_DESTROY:
-	{
-		NOTIFYICONDATA nid;
-
-		memset(&nid, 0, sizeof(NOTIFYICONDATA));
-		nid.cbSize = sizeof(NOTIFYICONDATA);
-		nid.hWnd = hDlg;
-		nid.uID = 0;
-		Shell_NotifyIcon(NIM_DELETE, &nid);
-		PostQuitMessage(0);
-		break;
-	}
-	case WM_YAMN_NOTIFYICON:
-		switch (lParam)
 		{
+			NOTIFYICONDATA nid;
+
+			memset(&nid, 0, sizeof(NOTIFYICONDATA));
+			nid.cbSize = sizeof(NOTIFYICONDATA);
+			nid.hWnd = hDlg;
+			nid.uID = 0;
+			Shell_NotifyIcon(NIM_DELETE, &nid);
+			PostQuitMessage(0);
+			break;
+		}
+	case WM_YAMN_NOTIFYICON:
+		switch (lParam) {
 		case WM_LBUTTONDBLCLK:
 			ShowWindow(hDlg, SW_SHOWNORMAL);
 			SetForegroundWindow(hDlg);
@@ -185,8 +180,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		}
 		return 0;
 	case WM_CHAR:
-		switch ((wchar_t)wParam)
-		{
+		switch ((wchar_t)wParam) {
 		case 27:
 		case 13:
 			DestroyWindow(hDlg);
@@ -194,15 +188,13 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		}
 		break;
 	case WM_SYSCOMMAND:
-		switch (wParam)
-		{
+		switch (wParam) {
 		case SC_CLOSE:
 			DestroyWindow(hDlg);
 		}
 		break;
 	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_BTNOK:
 			DestroyWindow(hDlg);
 		}
@@ -220,29 +212,28 @@ void __cdecl BadConnection(void *Param)
 	struct BadConnectionParam MyParam = *(struct BadConnectionParam *)Param;
 	ActualAccount = MyParam.account;
 #ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"BadConnect:Incrementing \"using threads\" %x (account %x)\n",ActualAccount->UsingThreads,ActualAccount);
+	DebugLog(SynchroFile, "BadConnect:Incrementing \"using threads\" %x (account %x)\n", ActualAccount->UsingThreads, ActualAccount);
 #endif
 	SCIncFcn(ActualAccount->UsingThreads);
 
 	//	we will not use params in stack anymore
 	SetEvent(MyParam.ThreadRunningEV);
 
-	__try
-	{
+	__try {
 		hBadConnect = CreateDialogParam(YAMNVar.hInst, MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
 		Window_SetIcon_IcoLib(hBadConnect, g_GetIconHandle(3));
 
 #ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait\n");
+		DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait\n");
 #endif
 		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
 #ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait failed\n");
+			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait failed\n");
 #endif
 			return;
 		}
 #ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
+		DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read enter\n");
 #endif
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_SND)
 			Skin_PlaySound(YAMN_CONNECTFAILSOUND);
@@ -262,13 +253,12 @@ void __cdecl BadConnection(void *Param)
 		}
 
 #ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read done\n");
+		DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read done\n");
 #endif
 		ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 		UpdateWindow(hBadConnect);
-		while (GetMessage(&msg, nullptr, 0, 0))
-		{
+		while (GetMessage(&msg, nullptr, 0, 0)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -277,10 +267,9 @@ void __cdecl BadConnection(void *Param)
 		if ((ActualAccount->Plugin->Fcn != nullptr) && (ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr != nullptr) && ActualAccount->AbleToWork)
 			ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr();
 	}
-	__finally
-	{
+	__finally {
 #ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile,"BadConnect:Decrementing \"using threads\" %x (account %x)\n",ActualAccount->UsingThreads,ActualAccount);
+		DebugLog(SynchroFile, "BadConnect:Decrementing \"using threads\" %x (account %x)\n", ActualAccount->UsingThreads, ActualAccount);
 #endif
 		SCDecFcn(ActualAccount->UsingThreads);
 	}
@@ -289,26 +278,19 @@ void __cdecl BadConnection(void *Param)
 
 INT_PTR RunBadConnectionSvc(WPARAM wParam, LPARAM lParam)
 {
-	//an event for successfull copy parameters to which point a pointer in stack for new thread
-	HANDLE ThreadRunningEV;
+	// an event for successfull copy parameters to which point a pointer in stack for new thread
 	PYAMN_BADCONNECTIONPARAM Param = (PYAMN_BADCONNECTIONPARAM)wParam;
-
 	if ((DWORD)lParam != YAMN_BADCONNECTIONVERSION)
 		return 0;
 
-	if (nullptr != (ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr)))
-	{
-		HANDLE NewThread;
+	HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	Param->ThreadRunningEV = ThreadRunningEV;
 
-		Param->ThreadRunningEV = ThreadRunningEV;
-		if (nullptr != (NewThread = mir_forkthread(BadConnection, (void*)Param)))
-		{
-			WaitForSingleObject(ThreadRunningEV, INFINITE);
-			CloseHandle(NewThread);
-		}
-		CloseHandle(ThreadRunningEV);
+	HANDLE NewThread = mir_forkthread(BadConnection, (void*)Param);
+	if (nullptr == NewThread)
+		return 0;
 
-		return 1;
-	}
-	return 0;
+	WaitForSingleObject(ThreadRunningEV, INFINITE);
+	CloseHandle(ThreadRunningEV);
+	return 1;
 }
