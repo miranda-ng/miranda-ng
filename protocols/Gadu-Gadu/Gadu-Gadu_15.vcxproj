@@ -233,13 +233,25 @@
     <ClCompile Include="src\libgadu\dcc7.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\libgadu\debug.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\encoding.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\libgadu\events.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\handlers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\libgadu\http.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\libgadu\libgadu.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\message.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\libgadu\pthread.cpp">
@@ -264,11 +276,15 @@
   <ItemGroup>
     <ClInclude Include="src\gg_proto.h" />
     <ClInclude Include="src\libgadu\compat.h" />
+    <ClInclude Include="src\libgadu\debug.h" />
+    <ClInclude Include="src\libgadu\encoding.h" />
     <ClInclude Include="src\libgadu\internal.h" />
     <ClInclude Include="src\libgadu\libgadu.h" />
+    <ClInclude Include="src\libgadu\message.h" />
     <ClInclude Include="src\libgadu\protocol.h" />
     <ClInclude Include="src\libgadu\pthread.h" />
     <ClInclude Include="src\libgadu\resolver.h" />
+    <ClInclude Include="src\libgadu\session.h" />
     <ClInclude Include="src\libgadu\win32.h" />
     <ClInclude Include="src\dynstuff.h" />
     <ClInclude Include="src\gg.h" />

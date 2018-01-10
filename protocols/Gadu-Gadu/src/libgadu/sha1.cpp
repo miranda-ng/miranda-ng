@@ -1,5 +1,4 @@
-/* coding: UTF-8 */
-/* $Id: sha1.c,v 1.4 2007-07-20 23:00:50 wojtekka Exp $ */
+/* $Id$ */
 
 /*
  *  (C) Copyright 2007 Wojtek Kaniewski <wojtekka@irc.pl>
@@ -24,7 +23,7 @@
 /**
  * \file sha1.c
  *
- * \brief Funkcje wyznaczania skrĂłtu SHA1
+ * \brief Funkcje wyznaczania skrótu SHA1
  */
 
 #include <string.h>
@@ -38,11 +37,11 @@
 #include "libgadu.h"
 
 /**
- * \internal Liczy skrĂłt SHA1 z ziarna i hasĹa.
+ * \internal Liczy skrót SHA1 z ziarna i hasła.
  *
- * \param password HasĹo
+ * \param password Hasło
  * \param seed Ziarno
- * \param result Bufor na wynik funkcji skrĂłtu (20 bajtĂłw)
+ * \param result Bufor na wynik funkcji skrótu (20 bajtów)
  */
 void gg_login_hash_sha1(const char *password, uint32_t seed, uint8_t *result)
 {
@@ -56,10 +55,10 @@ void gg_login_hash_sha1(const char *password, uint32_t seed, uint8_t *result)
 }
 
 /**
- * \internal Liczy skrĂłt SHA1 z pliku.
+ * \internal Liczy skrót SHA1 z pliku.
  *
  * \param fd Deskryptor pliku
- * \param result WskaĹşnik na skrĂłt
+ * \param result WskaĹşnik na skrót
  *
  * \return 0 lub -1
  */

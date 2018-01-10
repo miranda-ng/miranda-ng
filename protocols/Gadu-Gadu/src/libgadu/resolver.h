@@ -1,4 +1,3 @@
-/* coding: UTF-8 */
 /* $Id$ */
 
 /*
@@ -28,6 +27,6 @@
 #include <arpa/inet.h>
 #endif /* _WIN32 */
 
-int gg_gethostbyname_real(const char *hostname, struct in_addr *result, int pthread);
+int gg_gethostbyname_real(const char *hostname, struct in_addr **result, int *count, int pthread);
 
 #endif /* LIBGADU_RESOLVER_H */

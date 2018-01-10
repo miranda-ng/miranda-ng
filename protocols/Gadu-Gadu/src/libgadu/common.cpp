@@ -1,9 +1,11 @@
-/* coding: UTF-8 */
 /* $Id: common.c 13762 2011-08-09 12:35:16Z dezred $ */
 
 /*
- *  (C) Copyright 2001-2002 Wojtek Kaniewski <wojtekka@irc.pl>
+ *  (C) Copyright 2001-2006 Wojtek Kaniewski <wojtekka@irc.pl>
  *                          Robert J. Woźny <speedy@ziew.org>
+ *                          Arkadiusz Miśkiewicz <arekm@pld-linux.org>
+ *                          Tomasz Chiliński <chilek@chilan.com>
+ *                          Adam Wysocki <gophi@ekg.chmurka.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License Version
@@ -18,29 +20,6 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307,
  *  USA.
- */
-
-/*
- * Funkcje konwersji między UTF-8 i CP1250 są oparte o kod biblioteki iconv.
- * Informacje o prawach autorskich oryginalnego kodu zamieszczono poniżej:
- *
- * Copyright (C) 1999-2001, 2004 Free Software Foundation, Inc.
- * This file is part of the GNU LIBICONV Library.
- *
- * The GNU LIBICONV Library is free software; you can redistribute it
- * and/or modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * The GNU LIBICONV Library is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public
- * License along with the GNU LIBICONV Library; see the file COPYING.LIB.
- * If not, write to the Free Software Foundation, Inc., 51 Franklin Street,
- * Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 /**
@@ -75,109 +54,7 @@
 #endif /* _WIN32 */
 
 #include "libgadu.h"
-#include "internal.h"
 
-/**
- * Plik, do którego będą przekazywane informacje odpluskwiania.
- *
- * Funkcja \c gg_debug() i pochodne mogą być przechwytywane przez aplikację
- * korzystającą z biblioteki, by wyświetlić je na żądanie użytkownika lub
- * zapisać do późniejszej analizy. Jeśli nie określono pliku, wybrane
- * informacje będą wysyłane do standardowego wyjścia błędu (\c stderr).
- *
- * \ingroup debug
- */
-FILE *gg_debug_file = NULL;
-
-#ifndef GG_DEBUG_DISABLE
-
-/**
- * \internal Przekazuje informacje odpluskwiania do odpowiedniej funkcji.
- *
- * Jeśli aplikacja ustawiła odpowiednią funkcję obsługi w
- * \c gg_debug_handler_session lub \c gg_debug_handler, jest ona wywoływana.
- * W przeciwnym wypadku wynik jest wysyłany do standardowego wyjścia błędu.
- *
- * \param sess Struktura sesji (może być \c NULL)
- * \param level Poziom informacji
- * \param format Format wiadomości (zgodny z \c printf)
- * \param ap Lista argumentów (zgodna z \c printf)
- */
-static void gg_debug_common(struct gg_session *sess, int level, const char *format, va_list ap)
-{
-	if (gg_debug_handler_session)
-		(*gg_debug_handler_session)(sess, level, format, ap);
-	else if (gg_debug_handler)
-		(*gg_debug_handler)(level, format, ap);
-	else if (gg_debug_level & level)
-		vfprintf(gg_debug_file ? gg_debug_file : stderr, format, ap);
-}
-
-
-/**
- * \internal Przekazuje informację odpluskawiania.
- *
- * \param level Poziom wiadomości
- * \param format Format wiadomości (zgodny z \c printf)
- *
- * \ingroup debug
- */
-void gg_debug(int level, const char *format, ...)
-{
-	va_list ap;
-	int old_errno = errno;
-	va_start(ap, format);
-	gg_debug_common(NULL, level, format, ap);
-	va_end(ap);
-	errno = old_errno;
-}
-
-/**
- * \internal Przekazuje informację odpluskwiania związaną z sesją.
- *
- * \param sess Struktura sesji
- * \param level Poziom wiadomości
- * \param format Format wiadomości (zgodny z \c printf)
- *
- * \ingroup debug
- */
-void gg_debug_session(struct gg_session *sess, int level, const char *format, ...)
-{
-	va_list ap;
-	int old_errno = errno;
-	va_start(ap, format);
-	gg_debug_common(sess, level, format, ap);
-	va_end(ap);
-	errno = old_errno;
-}
-
-/**
- * \internal Przekazuje informację odpluskwiania związane z zawartością pamięci.
- *
- * \param sess Struktura sesji
- * \param buf Adres w pamięci
- * \param buf_length Ilość danych do wyświetlenia
- * \param format Format wiadomości (zgodny z \c printf)
- *
- * \ingroup debug
- */
-void gg_debug_dump_session(struct gg_session *sess, const void *buf, unsigned int buf_length, const char *format, ...)
-{
-	va_list ap;
-
-	if ((gg_debug_level & GG_DEBUG_DUMP)) {
-		  unsigned int i;
-
-		  va_start(ap, format);
-		  gg_debug_common(sess, GG_DEBUG_DUMP, format, ap);
-		  for (i = 0; i < buf_length; ++i)
-			  gg_debug_session(sess, GG_DEBUG_DUMP, " %.2x", ((unsigned char*) buf)[i]);
-		  gg_debug_session(sess, GG_DEBUG_DUMP, "\n");
-		  va_end(ap);
-	  }
-}
-
-#endif
 
 /**
  * \internal Odpowiednik funkcji \c vsprintf alokujący miejsce na wynik.
@@ -481,7 +358,8 @@ void gg_chomp(char *line)
  */
 char *gg_urlencode(const char *str)
 {
-	char *q, *buf, hex[] = "0123456789abcdef";
+	char *q, *buf;
+	const char hex[] = "0123456789abcdef";
 	const char *p;
 	unsigned int size = 0;
 
@@ -694,7 +572,7 @@ char *gg_base64_decode(const char *buf)
  * \return Zaalokowany bufor z tekstem lub NULL, jeśli serwer pośredniczący
  *         nie jest używany lub nie wymaga autoryzacji.
  */
-char *gg_proxy_auth()
+char *gg_proxy_auth(void)
 {
 	char *tmp, *enc, *out;
 	size_t tmp_size;
@@ -729,33 +607,73 @@ char *gg_proxy_auth()
 /**
  * \internal Tablica pomocnicza do wyznaczania sumy kontrolnej.
  */
-static uint32_t gg_crc32_table[256];
-
-/**
- * \internal Flaga wypełnienia tablicy pomocniczej do wyznaczania sumy
- * kontrolnej.
- */
-static int gg_crc32_initialized = 0;
-
-/**
- * \internal Tworzy tablicę pomocniczą do wyznaczania sumy kontrolnej.
- */
-static void gg_crc32_make_table(void)
+static const uint32_t gg_crc32_table[256] =
 {
-	uint32_t h = 1;
-	unsigned int i, j;
-
-	memset(gg_crc32_table, 0, sizeof(gg_crc32_table));
-
-	for (i = 128; i; i >>= 1) {
-		h = (h >> 1) ^ ((h & 1) ? 0xedb88320L : 0);
-
-		for (j = 0; j < 256; j += 2 * i)
-			gg_crc32_table[i + j] = gg_crc32_table[j] ^ h;
-	}
-
-	gg_crc32_initialized = 1;
-}
+	0x00000000, 0x77073096, 0xee0e612c, 0x990951ba,
+	0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
+	0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988,
+	0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
+	0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de,
+	0x1adad47d, 0x6ddde4eb, 0xf4d4b551, 0x83d385c7,
+	0x136c9856, 0x646ba8c0, 0xfd62f97a, 0x8a65c9ec,
+	0x14015c4f, 0x63066cd9, 0xfa0f3d63, 0x8d080df5,
+	0x3b6e20c8, 0x4c69105e, 0xd56041e4, 0xa2677172,
+	0x3c03e4d1, 0x4b04d447, 0xd20d85fd, 0xa50ab56b,
+	0x35b5a8fa, 0x42b2986c, 0xdbbbc9d6, 0xacbcf940,
+	0x32d86ce3, 0x45df5c75, 0xdcd60dcf, 0xabd13d59,
+	0x26d930ac, 0x51de003a, 0xc8d75180, 0xbfd06116,
+	0x21b4f4b5, 0x56b3c423, 0xcfba9599, 0xb8bda50f,
+	0x2802b89e, 0x5f058808, 0xc60cd9b2, 0xb10be924,
+	0x2f6f7c87, 0x58684c11, 0xc1611dab, 0xb6662d3d,
+	0x76dc4190, 0x01db7106, 0x98d220bc, 0xefd5102a,
+	0x71b18589, 0x06b6b51f, 0x9fbfe4a5, 0xe8b8d433,
+	0x7807c9a2, 0x0f00f934, 0x9609a88e, 0xe10e9818,
+	0x7f6a0dbb, 0x086d3d2d, 0x91646c97, 0xe6635c01,
+	0x6b6b51f4, 0x1c6c6162, 0x856530d8, 0xf262004e,
+	0x6c0695ed, 0x1b01a57b, 0x8208f4c1, 0xf50fc457,
+	0x65b0d9c6, 0x12b7e950, 0x8bbeb8ea, 0xfcb9887c,
+	0x62dd1ddf, 0x15da2d49, 0x8cd37cf3, 0xfbd44c65,
+	0x4db26158, 0x3ab551ce, 0xa3bc0074, 0xd4bb30e2,
+	0x4adfa541, 0x3dd895d7, 0xa4d1c46d, 0xd3d6f4fb,
+	0x4369e96a, 0x346ed9fc, 0xad678846, 0xda60b8d0,
+	0x44042d73, 0x33031de5, 0xaa0a4c5f, 0xdd0d7cc9,
+	0x5005713c, 0x270241aa, 0xbe0b1010, 0xc90c2086,
+	0x5768b525, 0x206f85b3, 0xb966d409, 0xce61e49f,
+	0x5edef90e, 0x29d9c998, 0xb0d09822, 0xc7d7a8b4,
+	0x59b33d17, 0x2eb40d81, 0xb7bd5c3b, 0xc0ba6cad,
+	0xedb88320, 0x9abfb3b6, 0x03b6e20c, 0x74b1d29a,
+	0xead54739, 0x9dd277af, 0x04db2615, 0x73dc1683,
+	0xe3630b12, 0x94643b84, 0x0d6d6a3e, 0x7a6a5aa8,
+	0xe40ecf0b, 0x9309ff9d, 0x0a00ae27, 0x7d079eb1,
+	0xf00f9344, 0x8708a3d2, 0x1e01f268, 0x6906c2fe,
+	0xf762575d, 0x806567cb, 0x196c3671, 0x6e6b06e7,
+	0xfed41b76, 0x89d32be0, 0x10da7a5a, 0x67dd4acc,
+	0xf9b9df6f, 0x8ebeeff9, 0x17b7be43, 0x60b08ed5,
+	0xd6d6a3e8, 0xa1d1937e, 0x38d8c2c4, 0x4fdff252,
+	0xd1bb67f1, 0xa6bc5767, 0x3fb506dd, 0x48b2364b,
+	0xd80d2bda, 0xaf0a1b4c, 0x36034af6, 0x41047a60,
+	0xdf60efc3, 0xa867df55, 0x316e8eef, 0x4669be79,
+	0xcb61b38c, 0xbc66831a, 0x256fd2a0, 0x5268e236,
+	0xcc0c7795, 0xbb0b4703, 0x220216b9, 0x5505262f,
+	0xc5ba3bbe, 0xb2bd0b28, 0x2bb45a92, 0x5cb36a04,
+	0xc2d7ffa7, 0xb5d0cf31, 0x2cd99e8b, 0x5bdeae1d,
+	0x9b64c2b0, 0xec63f226, 0x756aa39c, 0x026d930a,
+	0x9c0906a9, 0xeb0e363f, 0x72076785, 0x05005713,
+	0x95bf4a82, 0xe2b87a14, 0x7bb12bae, 0x0cb61b38,
+	0x92d28e9b, 0xe5d5be0d, 0x7cdcefb7, 0x0bdbdf21,
+	0x86d3d2d4, 0xf1d4e242, 0x68ddb3f8, 0x1fda836e,
+	0x81be16cd, 0xf6b9265b, 0x6fb077e1, 0x18b74777,
+	0x88085ae6, 0xff0f6a70, 0x66063bca, 0x11010b5c,
+	0x8f659eff, 0xf862ae69, 0x616bffd3, 0x166ccf45,
+	0xa00ae278, 0xd70dd2ee, 0x4e048354, 0x3903b3c2,
+	0xa7672661, 0xd06016f7, 0x4969474d, 0x3e6e77db,
+	0xaed16a4a, 0xd9d65adc, 0x40df0b66, 0x37d83bf0,
+	0xa9bcae53, 0xdebb9ec5, 0x47b2cf7f, 0x30b5ffe9,
+	0xbdbdf21c, 0xcabac28a, 0x53b39330, 0x24b4a3a6,
+	0xbad03605, 0xcdd70693, 0x54de5729, 0x23d967bf,
+	0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94,
+	0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
+};
 
 /**
  * Wyznacza sumę kontrolną CRC32.
@@ -769,10 +687,7 @@ static void gg_crc32_make_table(void)
  */
 uint32_t gg_crc32(uint32_t crc, const unsigned char *buf, int len)
 {
-	if (!gg_crc32_initialized)
-		gg_crc32_make_table();
-
-	if (!buf || len < 0)
+	if (buf == NULL || len < 0)
 		return crc;
 
 	crc ^= 0xffffffffL;
@@ -781,187 +696,6 @@ uint32_t gg_crc32(uint32_t crc, const unsigned char *buf, int len)
 		crc = (crc >> 8) ^ gg_crc32_table[(crc ^ *buf++) & 0xff];
 
 	return crc ^ 0xffffffffL;
-}
-
-/**
- * \internal Tablica konwersji między CP1250 a UTF-8.
- */
-static const uint16_t table_cp1250[] = {
-	0x20ac, '?',    0x201a,    '?', 0x201e, 0x2026, 0x2020, 0x2021, 
-	   '?', 0x2030, 0x0160, 0x2039, 0x015a, 0x0164, 0x017d, 0x0179, 
-	   '?', 0x2018, 0x2019, 0x201c, 0x201d, 0x2022, 0x2013, 0x2014, 
-	   '?', 0x2122, 0x0161, 0x203a, 0x015b, 0x0165, 0x017e, 0x017a, 
-	0x00a0, 0x02c7, 0x02d8, 0x0141, 0x00a4, 0x0104, 0x00a6, 0x00a7, 
-	0x00a8, 0x00a9, 0x015e, 0x00ab, 0x00ac, 0x00ad, 0x00ae, 0x017b, 
-	0x00b0, 0x00b1, 0x02db, 0x0142, 0x00b4, 0x00b5, 0x00b6, 0x00b7, 
-	0x00b8, 0x0105, 0x015f, 0x00bb, 0x013d, 0x02dd, 0x013e, 0x017c, 
-	0x0154, 0x00c1, 0x00c2, 0x0102, 0x00c4, 0x0139, 0x0106, 0x00c7, 
-	0x010c, 0x00c9, 0x0118, 0x00cb, 0x011a, 0x00cd, 0x00ce, 0x010e, 
-	0x0110, 0x0143, 0x0147, 0x00d3, 0x00d4, 0x0150, 0x00d6, 0x00d7, 
-	0x0158, 0x016e, 0x00da, 0x0170, 0x00dc, 0x00dd, 0x0162, 0x00df, 
-	0x0155, 0x00e1, 0x00e2, 0x0103, 0x00e4, 0x013a, 0x0107, 0x00e7, 
-	0x010d, 0x00e9, 0x0119, 0x00eb, 0x011b, 0x00ed, 0x00ee, 0x010f, 
-	0x0111, 0x0144, 0x0148, 0x00f3, 0x00f4, 0x0151, 0x00f6, 0x00f7, 
-	0x0159, 0x016f, 0x00fa, 0x0171, 0x00fc, 0x00fd, 0x0163, 0x02d9, 
-};
-
-/**
- * \internal Zamienia tekst kodowany CP1250 na UTF-8.
- *
- * \param b Tekst źródłowy w CP1250.
- *
- * \return Zaalokowany bufor z tekstem w UTF-8.
- */
-char *gg_cp_to_utf8(const char *b)
-{
-	unsigned char *buf = (unsigned char *) b;
-	char *newbuf;
-	int newlen = 0;
-	int i, j;
-
-	for (i = 0; buf[i]; i++) {
-		uint16_t znak = (buf[i] < 0x80) ? buf[i] : table_cp1250[buf[i]-0x80];
-
-		if (znak < 0x80)	newlen += 1;
-		else if (znak < 0x800)	newlen += 2;
-		else			newlen += 3;
-	}
-
-	if (!(newbuf = (char*)malloc(newlen + 1))) {
-		gg_debug(GG_DEBUG_MISC, "// gg_cp_to_utf8() not enough memory\n");
-		return NULL;
-	}
-
-	for (i = 0, j = 0; buf[i]; i++) {
-		uint16_t znak = (buf[i] < 0x80) ? buf[i] : table_cp1250[buf[i]-0x80];
-		int count;
-
-		if (znak < 0x80)	count = 1;
-		else if (znak < 0x800)	count = 2;
-		else			count = 3;
-
-		switch (count) {
-			case 3: newbuf[j+2] = 0x80 | (znak & 0x3f); znak = znak >> 6; znak |= 0x800;
-			case 2: newbuf[j+1] = 0x80 | (znak & 0x3f); znak = znak >> 6; znak |= 0xc0;
-			case 1: newbuf[j] = (char)znak;
-		}
-		j += count;
-	}
-	newbuf[j] = '\0';
-
-	return newbuf;
-}
-
-/**
- * \internal Dekoduje jeden znak UTF-8.
- *
- * \note Funkcja nie jest kompletną implementacją UTF-8, a wersją uproszczoną
- * do potrzeb kodowania CP1250.
- *
- * \param s Tekst źródłowy.
- * \param n Długość tekstu źródłowego.
- * \param ch Wskaźnik na wynik dekodowania.
- *
- * \return Długość zdekodowanej sekwencji w bajtach lub wartość mniejsza
- * od zera w przypadku błędu.
- */
-static int gg_utf8_helper(unsigned char *s, int n, uint16_t *ch)
-{
-	unsigned char c = s[0];
-
-	if (c < 0x80) {
-		*ch = c;
-		return 1;
-	}
-
-	if (c < 0xc2) 
-		return -1;
-
-	if (c < 0xe0) {
-		if (n < 2)
-			return -2;
-		if (!((s[1] ^ 0x80) < 0x40))
-			return -1;
-		*ch = ((uint16_t) (c & 0x1f) << 6) | (uint16_t) (s[1] ^ 0x80);
-		return 2;
-	} 
-	
-	if (c < 0xf0) {
-		if (n < 3)
-			return -2;
-		if (!((s[1] ^ 0x80) < 0x40 && (s[2] ^ 0x80) < 0x40 && (c >= 0xe1 || s[1] >= 0xa0)))
-			return -1;
-		*ch = ((uint16_t) (c & 0x0f) << 12) | ((uint16_t) (s[1] ^ 0x80) << 6) | (uint16_t) (s[2] ^ 0x80);
-		return 3;
-	}
-
-	return -1;
-}
-
-/**
- * \internal Zamienia tekst kodowany UTF-8 na CP1250.
- *
- * \param b Tekst źródłowy w UTF-8.
- *
- * \return Zaalokowany bufor z tekstem w CP1250.
- */
-char *gg_utf8_to_cp(const char *b)
-{
-	unsigned char *buf = (unsigned char *) b;
-	char *newbuf;
-	int newlen = 0;
-	int len;
-	int i, j;
-
-	len = (int)strlen(b);
-
-	for (i = 0; i < len; newlen++) {
-		uint16_t discard;
-		int ret;
-		
-		ret = gg_utf8_helper(&buf[i], len - i, &discard);
-
-		if (ret > 0)
-			i += ret;
-		else
-			i++;
-	}
-
-	if (!(newbuf = (char*)malloc(newlen + 1))) {
-		gg_debug(GG_DEBUG_MISC, "// gg_utf8_to_cp() not enough memory\n");
-		return NULL;
-	}
-
-	for (i = 0, j = 0; buf[i]; j++) {
-		uint16_t znak;
-		int ret, k;
-
-		ret = gg_utf8_helper(&buf[i], len - i, &znak);
-
-		if (ret > 0) {
-			i += ret;
-		} else {
-			znak = '?';
-			i++;
-		}
-
-		if (znak < 0x80) {
-			newbuf[j] = (char)znak;
-			continue;
-		}
-
-		newbuf[j] = '?';
-
-		for (k = 0; k < (sizeof(table_cp1250)/sizeof(table_cp1250[0])); k++) {
-			if (table_cp1250[k] == znak) {
-				newbuf[j] = (0x80 | k);
-				break;
-			}
-		}
-	}
-	newbuf[j] = '\0';
-
-	return newbuf;
 }
 
 /*

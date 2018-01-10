@@ -117,6 +117,18 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\libgadu\debug.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\encoding.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\handlers.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\message.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\libgadu\compat.h">
@@ -137,6 +149,9 @@
     <ClInclude Include="src\libgadu\resolver.h">
       <Filter>Source Files\libgadu</Filter>
     </ClInclude>
+    <ClInclude Include="src\libgadu\session.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
     <ClInclude Include="src\libgadu\win32.h">
       <Filter>Source Files\libgadu</Filter>
     </ClInclude>
@@ -154,6 +169,15 @@
     </ClInclude>
     <ClInclude Include="src\gg_proto.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\debug.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\encoding.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\message.h">
+      <Filter>Source Files\libgadu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

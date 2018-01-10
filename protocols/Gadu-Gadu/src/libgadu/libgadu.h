@@ -1,4 +1,3 @@
-/* coding: UTF-8 */
 /* $Id: libgadu.h 13762 2011-08-09 12:35:16Z dezred $ */
 
 /*
@@ -74,10 +73,10 @@
 #undef GG_CONFIG_HAVE___VA_COPY
 
 /* Defined if this machine supports long long. */
-/* Visual C++ 6.0 has no long long */
-#if !defined(_MSC_VER) || (_MSC_VER >= 1300)
 #define GG_CONFIG_HAVE_LONG_LONG
-#endif
+
+/* Defined if libgadu was compiled and linked with GnuTLS support. */
+#undef GG_CONFIG_HAVE_GNUTLS
 
 /* Defined if libgadu was compiled and linked with OpenSSL support. */
 #undef GG_CONFIG_HAVE_OPENSSL
@@ -337,6 +336,7 @@ struct gg_session {
 
 	int protocol_features;	/**< Opcje protokołu */
 	int status_flags;	/**< Flagi statusu */
+	int recv_msg_count;	/**< Liczba odebranych wiadomości */
 };
 
 /**
@@ -606,7 +606,9 @@ enum gg_state_t {
 
 	GG_STATE_RESOLVING_RELAY,	/**< Oczekiwanie na rozwiązanie nazwy serwera pośredniczącego */
 	GG_STATE_CONNECTING_RELAY,	/**< Oczekiwanie na połączenie z serwerem pośredniczącym */
-	GG_STATE_READING_RELAY		/**< Odbieranie danych */
+	GG_STATE_READING_RELAY,		/**< Odbieranie danych */
+
+	GG_STATE_DISCONNECTING,		/**< Oczekiwanie na potwierdzenie rozłączenia */
 };
 
 /**
@@ -754,7 +756,6 @@ enum gg_event_t {
 
 	GG_EVENT_XML_EVENT,		/**< Otrzymano komunikat systemowy (7.7) */
 	GG_EVENT_DISCONNECT_ACK,	/**< \brief Potwierdzenie zakończenia sesji. Informuje o tym, że zmiana stanu na niedostępny z opisem dotarła do serwera i można zakończyć połączenie TCP. */
-	GG_EVENT_XML_ACTION,
 	GG_EVENT_TYPING_NOTIFICATION,	/**< Powiadomienie o pisaniu */
 	GG_EVENT_USER_DATA,		/**< Informacja o kontaktach */
 	GG_EVENT_MULTILOGON_MSG,	/**< Wiadomość wysłana z innej sesji multilogowania */
@@ -955,13 +956,6 @@ struct gg_event_xml_event {
 };
 
 /**
- * Opis zdarzenia \c GG_EVENT_XML_ACTION.
- */
-struct gg_event_xml_action {
-	char *data;		/**< Bufor z komunikatem */
-};
-
-/**
  * Opis zdarzenia \c GG_EVENT_DCC7_CONNECTED.
  */
 struct gg_event_dcc7_connected {
@@ -1085,7 +1079,6 @@ union gg_event_union {
 	struct gg_event_userlist userlist;	/**< Odpowiedź listy kontaktów (\c GG_EVENT_USERLIST) */
 	gg_pubdir50_t pubdir50;	/**< Odpowiedź katalogu publicznego (\c GG_EVENT_PUBDIR50_*) */
 	struct gg_event_xml_event xml_event;	/**< Zdarzenie systemowe (\c GG_EVENT_XML_EVENT) */
-	struct gg_event_xml_action xml_action;	/**< Zdarzenie XML (\c GG_EVENT_XML_ACTION) */
 	struct gg_dcc *dcc_new;	/**< Nowe połączenie bezpośrednie (\c GG_EVENT_DCC_NEW) */
 	enum gg_error_t dcc_error;	/**< Błąd połączenia bezpośredniego (\c GG_EVENT_DCC_ERROR) */
 	struct gg_event_dcc_voice_data dcc_voice_data;	/**< Dane połączenia głosowego (\c GG_EVENT_DCC_VOICE_DATA) */
@@ -1523,12 +1516,12 @@ struct gg_image_queue {
 	struct gg_image_queue *next;	/**< Kolejny element listy */
 } GG_DEPRECATED;
 
-int gg_dcc7_handle_id(struct gg_session *sess, struct gg_event *e, void *payload, int len) GG_DEPRECATED;
-int gg_dcc7_handle_new(struct gg_session *sess, struct gg_event *e, void *payload, int len) GG_DEPRECATED;
-int gg_dcc7_handle_info(struct gg_session *sess, struct gg_event *e, void *payload, int len) GG_DEPRECATED;
-int gg_dcc7_handle_accept(struct gg_session *sess, struct gg_event *e, void *payload, int len) GG_DEPRECATED;
-int gg_dcc7_handle_reject(struct gg_session *sess, struct gg_event *e, void *payload, int len) GG_DEPRECATED;
-int gg_dcc7_handle_abort(struct gg_session *sess, struct gg_event *e, void *payload, int len) GG_DEPRECATED;
+int gg_dcc7_handle_id(struct gg_session *sess, struct gg_event *e, const void *payload, int len) GG_DEPRECATED;
+int gg_dcc7_handle_new(struct gg_session *sess, struct gg_event *e, const void *payload, int len) GG_DEPRECATED;
+int gg_dcc7_handle_info(struct gg_session *sess, struct gg_event *e, const void *payload, int len) GG_DEPRECATED;
+int gg_dcc7_handle_accept(struct gg_session *sess, struct gg_event *e, const void *payload, int len) GG_DEPRECATED;
+int gg_dcc7_handle_reject(struct gg_session *sess, struct gg_event *e, const void *payload, int len) GG_DEPRECATED;
+int gg_dcc7_handle_abort(struct gg_session *sess, struct gg_event *e, const void *payload, int len) GG_DEPRECATED;
 
 #define GG_APPMSG_HOST "appmsg.gadu-gadu.pl"
 #define GG_APPMSG_PORT 80
@@ -2267,17 +2260,17 @@ struct gg_dcc7_dunno1 {
 } GG_PACKED;
 */
 
-#define GG_DCC7_ABORT 0x0025
-
-struct gg_dcc7_abort {
-	gg_dcc7_id_t id;		/* identyfikator połączenia */
-	uint32_t uin_from;		/* numer nadawcy */
-	uint32_t uin_to;		/* numer odbiorcy */
-} GG_PACKED;
-
-struct gg_dcc7_aborted {
-	gg_dcc7_id_t id;		/* identyfikator połączenia */
-} GG_PACKED;
+//#define GG_DCC7_ABORT 0x0025
+//
+//struct gg_dcc7_abort {
+//	gg_dcc7_id_t id;		/* identyfikator połączenia */
+//	uint32_t uin_from;		/* numer nadawcy */
+//	uint32_t uin_to;		/* numer odbiorcy */
+//} GG_PACKED;
+//
+//struct gg_dcc7_aborted {
+//	gg_dcc7_id_t id;		/* identyfikator połączenia */
+//} GG_PACKED;
 
 #define GG_DCC7_TIMEOUT_CONNECT 10	/* 10 sekund */
 #define GG_DCC7_TIMEOUT_SEND 1800	/* 30 minut */

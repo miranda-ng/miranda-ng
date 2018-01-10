@@ -1,4 +1,3 @@
-/* coding: UTF-8 */
 /* $Id: http.c 11370 2010-03-13 16:17:54Z dezred $ */
 
 /*
@@ -137,20 +136,25 @@ struct gg_http *gg_http_connect(const char *hostname, int port, int async, const
 		h->check = GG_CHECK_READ;
 		h->timeout = GG_DEFAULT_TIMEOUT;
 	} else {
-		struct in_addr addr;
+		struct in_addr *addr_list = NULL;
+		int addr_count;
 
-		if (gg_gethostbyname_real(hostname, &addr, 0) == -1) {
+		if (gg_gethostbyname_real(hostname, &addr_list, &addr_count, 0) == -1 || addr_count == 0) {
 			gg_debug(GG_DEBUG_MISC, "// gg_http_connect() host not found\n");
 			gg_http_free(h);
+			free(addr_list);
 			errno = ENOENT;
 			return NULL;
 		}
 
-		if ((h->fd = gg_connect(&addr, port, 0)) == -1) {
+		if ((h->fd = gg_connect(&addr_list[0], port, 0)) == -1) {
 			gg_debug(GG_DEBUG_MISC, "// gg_http_connect() connection failed (errno=%d, %s)\n", errno, strerror(errno));
 			gg_http_free(h);
+			free(addr_list);
 			return NULL;
 		}
+
+		free(addr_list);
 
 		h->state = GG_STATE_CONNECTING;
 

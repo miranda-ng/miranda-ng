@@ -1,4 +1,3 @@
-/* coding: UTF-8 */
 /* $Id: pubdir50.c 11370 2010-03-13 16:17:54Z dezred $ */
 
 /*
@@ -23,6 +22,9 @@
  * \file pubdir50.c
  *
  * \brief Obsługa katalogu publicznego od wersji Gadu-Gadu 5.x
+ *
+ * \todo Zoptymalizować konwersję CP1250<->UTF8. Obecnie robiona jest
+ * testowa konwersja, żeby poznać długość tekstu wynikowego.
  */
 
 #ifndef _WIN64
@@ -41,6 +43,7 @@
 
 #include "libgadu.h"
 #include "internal.h"
+#include "encoding.h"
 
 /**
  * Tworzy nowe zapytanie katalogu publicznego.
@@ -235,7 +238,7 @@ uint32_t gg_pubdir50(struct gg_session *sess, gg_pubdir50_t req)
 		} else {
 			char *tmp;
 
-			tmp = gg_utf8_to_cp(req->entries[i].field);
+			tmp = gg_encoding_convert(req->entries[i].field, sess->encoding, GG_ENCODING_CP1250, -1, -1);
 
 			if (tmp == NULL)
 				return -1;
@@ -244,7 +247,7 @@ uint32_t gg_pubdir50(struct gg_session *sess, gg_pubdir50_t req)
 
 			free(tmp);
 
-			tmp = gg_utf8_to_cp(req->entries[i].value);
+			tmp = gg_encoding_convert(req->entries[i].value, sess->encoding, GG_ENCODING_CP1250, -1, -1);
 
 			if (tmp == NULL)
 				return -1;
@@ -282,7 +285,7 @@ uint32_t gg_pubdir50(struct gg_session *sess, gg_pubdir50_t req)
 		} else {
 			char *tmp;
 
-			tmp = gg_utf8_to_cp(req->entries[i].field);
+			tmp = gg_encoding_convert(req->entries[i].field, sess->encoding, GG_ENCODING_CP1250, -1, -1);
 
 			if (tmp == NULL) {
 				free(buf);
@@ -293,7 +296,7 @@ uint32_t gg_pubdir50(struct gg_session *sess, gg_pubdir50_t req)
 			p += strlen(tmp) + 1;
 			free(tmp);
 
-			tmp = gg_utf8_to_cp(req->entries[i].value);
+			tmp = gg_encoding_convert(req->entries[i].value, sess->encoding, GG_ENCODING_CP1250, -1, -1);
 
 			if (tmp == NULL) {
 				free(buf);
@@ -427,7 +430,7 @@ int gg_pubdir50_handle_reply_sess(struct gg_session *sess, struct gg_event *e, c
 			} else {
 				char *tmp;
 
-				tmp = gg_cp_to_utf8(value);
+				tmp = gg_encoding_convert(value, GG_ENCODING_CP1250, sess->encoding, -1, -1);
 
 				if (tmp == NULL)
 					goto failure;
