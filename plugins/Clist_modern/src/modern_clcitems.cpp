@@ -43,7 +43,12 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	int bHideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	for (int j = 0; j < subcount; j++) {
 		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
+		if (hsub == -1)
+			continue;
 		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hsub);
+		if (!pdnce)
+			continue;
+
 		WORD wStatus = pdnce->getStatus();
 
 		if (!showOfflineHereGroup && bHideOffline && !pdnce->m_bNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
