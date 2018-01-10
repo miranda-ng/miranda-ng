@@ -1,8 +1,10 @@
 ﻿Miranda NG is designed, written & supported by:
 
+Alexander aka dartraiden
 Sergey Bolkhovskoy aka Elzor
 Alexander Gluzsky aka sss
 Vladislav Grishenko aka theMIROn
+Franz Leecher aka leecher
 Ekaterina Gritsenko aka Tuarisa
 George Hazan aka ghazan
 Alexander Lantsev aka Unsane
