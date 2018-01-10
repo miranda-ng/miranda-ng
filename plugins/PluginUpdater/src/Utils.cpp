@@ -161,7 +161,7 @@ bool ParseHashes(const wchar_t *ptszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	mir_snwprintf(pFileUrl.tszDiskPath, L"%s\\hashes.zip", g_tszTempPath);
 	pFileUrl.CRCsum = 0;
 
-	HNETLIBCONN nlc;
+	HNETLIBCONN nlc = nullptr;
 	bool ret = DownloadFile(&pFileUrl, nlc);
 	Netlib_CloseHandle(nlc);
 
