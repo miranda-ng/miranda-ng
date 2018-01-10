@@ -11,7 +11,7 @@ class COptionsDialog : public CDlgBase
 	CCtrlCheck m_chkStandart;
 	CCtrlCheck m_chkTotal;
 	CCtrlButton m_btnChangePass;
-	CDbxMdb *m_db;
+	CDbxMDBX *m_db;
 
 	void OnInitDialog()
 	{
@@ -33,7 +33,7 @@ class COptionsDialog : public CDlgBase
 	}
 
 public:
-	COptionsDialog(CDbxMdb *db) :
+	COptionsDialog(CDbxMDBX *db) :
 		CDlgBase(g_hInst, IDD_OPTIONS),
 		m_chkStandart(this, IDC_STANDARD),
 		m_chkTotal(this, IDC_TOTAL),
@@ -101,7 +101,7 @@ public:
 
 struct DlgChangePassParam
 {
-	CDbxMdb *db;
+	CDbxMDBX *db;
 	TCHAR newPass[100];
 	unsigned short wrongPass;
 };

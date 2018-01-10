@@ -41,21 +41,21 @@ static PLUGININFOEX pluginInfo =
 
 HINSTANCE g_hInst = NULL;
 
-LIST<CDbxMdb> g_Dbs(1, HandleKeySortT);
+LIST<CDbxMDBX> g_Dbs(1, HandleKeySortT);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
-	std::unique_ptr<CDbxMdb> db(new CDbxMdb(profile, 0));
+	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, 0));
 	return db->Create();
 }
 
 // returns 0 if the given profile has a valid header
 static int grokHeader(const TCHAR *profile)
 {
-	std::unique_ptr<CDbxMdb> db(new CDbxMdb(profile, DBMODE_SHARED | DBMODE_READONLY));
+	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, DBMODE_SHARED | DBMODE_READONLY));
 	return db->Check();
 }
 
@@ -65,7 +65,7 @@ static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 	// set the memory, lists & UTF8 manager
 	mir_getLP(&pluginInfo);
 
-	std::unique_ptr<CDbxMdb> db(new CDbxMdb(profile, (bReadOnly) ? DBMODE_READONLY : 0));
+	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, (bReadOnly) ? DBMODE_READONLY : 0));
 	if (db->Load(false) != ERROR_SUCCESS)
 		return NULL;
 
@@ -75,14 +75,14 @@ static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 
 static int UnloadDatabase(MIDatabase *db)
 {
-	g_Dbs.remove((CDbxMdb*)db);
-	delete (CDbxMdb*)db;
+	g_Dbs.remove((CDbxMDBX*)db);
+	delete (CDbxMDBX*)db;
 	return 0;
 }
 
 MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
 {
-	std::unique_ptr<CDbxMdb> db(new CDbxMdb(profile, DBMODE_READONLY));
+	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, DBMODE_READONLY));
 	if (db->Load(true) != ERROR_SUCCESS) {
 		*error = ERROR_ACCESS_DENIED;
 		return NULL;
@@ -98,7 +98,7 @@ static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
 	"dbx_mdbx",
-	L"LMDBx database driver",
+	L"MDBX database driver",
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
