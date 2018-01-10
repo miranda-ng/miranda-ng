@@ -76,10 +76,12 @@ ClcCacheEntry* fnGetCacheEntry(MCONTACT hContact)
 	ClcCacheEntry *p;
 	int idx = clistCache.getIndex((ClcCacheEntry*)&hContact);
 	if (idx == -1) {
-		if ((p = cli.pfnCreateCacheItem(hContact)) != nullptr) {
-			clistCache.insert(p);
-			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
-		}
+		p = cli.pfnCreateCacheItem(hContact);
+		if (p == nullptr)
+			return nullptr;
+
+		clistCache.insert(p);
+		cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 	}
 	else p = clistCache[idx];
 
