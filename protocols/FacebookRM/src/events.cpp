@@ -28,7 +28,11 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact,
 		return nullptr;
 
 	char name[256];
-
+	if (icon != nullptr) {
+		strncpy_s(name, icon, _TRUNCATE);
+		Skin_PlaySound("Notification");
+	}
+	else
 	switch (type) {
 	case EVENT_CLIENT:
 		mir_snprintf(name, "%s_%s", m_szModuleName, "Client");
@@ -65,22 +69,11 @@ HWND FacebookProto::NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact,
 
 	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY)) {
 		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-
-			// TODO: if popup with particular ID is already showed, just update his content
-			// ... but f***ed up Popup Classes won't allow it now - they need to return hPopupWindow somehow
-			/* if (popup exists) {
-				if (PUChangeTextT(hWndPopup, info) > 0) // success
-				return;
-				}*/
-
 			POPUPDATACLASS pd = { sizeof(pd) };
 			pd.pwszTitle = title;
 			pd.pwszText = text;
 			pd.pszClassName = name;
 			pd.hContact = contact;
-			if (icon != nullptr) {
-				// pd.hIcon = IcoLib_GetIconByHandle(GetIconHandle(icon)); // FIXME: Uncomment when implemented in Popup+ and YAPP correctly
-			}
 
 			if (url != nullptr || notification_id != nullptr) {
 				popup_data *data = new popup_data(this);

@@ -108,8 +108,8 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 FacebookProto::~FacebookProto()
 {
 	// Uninit popup classes
-	for (std::vector<HANDLE>::size_type i = 0; i < popupClasses.size(); i++)
-		Popup_UnregisterClass(popupClasses[i]);
+	for (auto &it : popupClasses)
+		Popup_UnregisterClass(it);
 	popupClasses.clear();
 
 	Netlib_CloseHandle(m_hNetlibUser);

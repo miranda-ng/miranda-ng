@@ -45,6 +45,8 @@ class FacebookProto : public PROTO<FacebookProto>
 	int ParseUnreadThreads(std::string*, std::vector< std::string >*);
 	int ParseUserInfo(std::string* data, facebook_user* fbu);
 
+	const char* ParseIcon(const std::string &url);
+
 public:
 	FacebookProto(const char *proto_name, const wchar_t *username);
 	~FacebookProto();
@@ -275,6 +277,9 @@ public:
 
 	std::string last_status_msg_;
 	std::vector<MCONTACT> avatar_queue;
+
+	mir_cs csReactions;
+	std::map<std::string, std::string> reactions;
 
 	// Information providing
 	HWND NotifyEvent(wchar_t* title, wchar_t* text, MCONTACT contact, EventType type, std::string *url = nullptr, std::string *notification_id = nullptr, const char *icon = nullptr);

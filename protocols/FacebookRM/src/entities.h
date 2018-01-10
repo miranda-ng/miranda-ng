@@ -129,23 +129,10 @@ struct facebook_notification
 	std::string text;
 	std::string link;
 	std::string id;
-	const char *icon;
-	time_t time;
-	bool seen;
-	HWND hWndPopup;
-
-	facebook_notification()
-	{
-		this->time = 0;
-		this->seen = false;
-		this->hWndPopup = nullptr;
-		this->icon = nullptr;
-	}
-
-	void setIcon(const std::string& /*iconUrl*/)
-	{
-		icon = nullptr;
-	}
+	const char *icon = nullptr;
+	time_t time = 0;
+	bool seen = false;
+	HWND hWndPopup = nullptr;
 };
 
 struct facebook_newsfeed

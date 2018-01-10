@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 void parseUser(const JSONNode &it, facebook_user *fbu)
 {
 	fbu->user_id = it.name();
@@ -236,7 +238,7 @@ int FacebookProto::ParseNotifications(std::string *data, std::map< std::string, 
 		notification->link = url_.as_string();
 		notification->text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(text_.as_string()));
 		notification->time = utils::time::from_string(time_.as_string());
-		notification->setIcon(icon_.as_string());
+		notification->icon = ParseIcon(icon_.as_string());
 
 		// Write notification to chatroom
 		UpdateNotificationsChatRoom(notification);
@@ -431,6 +433,81 @@ bool FacebookProto::ProcessSpecialMessage(std::vector<facebook_message>* message
 	return true;
 }
 
+const char* FacebookProto::ParseIcon(const std::string &url)
+{
+	if (url.empty())
+		return nullptr;
+	
+	auto itr = reactions.find(url);
+	if (itr == reactions.end()) {
+		UCHAR hash[MIR_SHA256_HASH_SIZE];
+		mir_sha256_hash(url.c_str(), url.length(), hash);
+
+		wchar_t wszHash[MIR_SHA256_HASH_SIZE * 2 + 10];
+		bin2hexW(hash, sizeof(hash), wszHash);
+
+		wchar_t wszFileName[MAX_PATH];
+		mir_snwprintf(wszFileName, L"%s\\%s", VARSW(L"%miranda_avatarcache%"), m_tszUserName);
+		if (_waccess(wszFileName, 0))
+			CreateDirectoryTreeW(wszFileName);
+
+		wcscat_s(wszFileName, L"\\");
+		wcscat_s(wszFileName, wszHash);
+		wcscat_s(wszFileName, L".ico");
+		if (_waccess(wszFileName, 0)) {
+			NETLIBHTTPREQUEST req = { sizeof(req) };
+			req.requestType = REQUEST_GET;
+			req.szUrl = (char*)url.c_str();
+			req.flags = NLHRF_NODUMPHEADERS;
+
+			NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(facy.handle_, &req);
+			if (reply != nullptr && reply->resultCode == HTTP_CODE_OK) {
+				IMGSRVC_MEMIO memio = { 0 };
+				memio.iLen = reply->dataLength;
+				memio.pBuf = reply->pData;
+				memio.fif = FIF_UNKNOWN; /* detect */
+
+				HBITMAP hBmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
+				if (hBmp != nullptr) {
+					IMGSRVC_INFO info = { sizeof(info) };
+					info.wszName = wszFileName;
+					info.fif = FIF_ICO;
+					info.dwMask = IMGI_HBITMAP;
+					info.hbm = hBmp;
+					CallService(MS_IMG_SAVE, (WPARAM)&info, IMGL_WCHAR);
+				}
+			}
+		}
+
+		HICON hIcon;
+		if (ExtractIconEx(wszFileName, 0, nullptr, &hIcon, 1) == 1) {
+			int idx = (int)reactions.size() + 1;
+			wchar_t desc[256];
+			char name[256];
+			mir_snwprintf(desc, L"%s/%s%d", m_tszUserName, TranslateT("Reaction"), idx);
+			mir_snprintf(name, "%s_%s%d", m_szModuleName, "Reaction", idx);
+
+			POPUPCLASS ppc = { sizeof(ppc) };
+			ppc.flags = PCF_TCHAR;
+			ppc.PluginWindowProc = PopupDlgProc;
+			ppc.lParam = APF_RETURN_HWND;
+			ppc.pwszDescription = desc;
+			ppc.pszName = name;
+			ppc.hIcon = hIcon;
+			ppc.colorBack = RGB(59, 89, 152); // Facebook's blue
+			ppc.colorText = RGB(255, 255, 255); // white
+			ppc.iSeconds = 0;
+			popupClasses.push_back(Popup_RegisterClass(&ppc));
+
+			mir_cslock lck(csReactions);
+			reactions.insert(std::make_pair(url, name));
+		}
+
+		itr = reactions.find(url);
+	}
+
+	return (itr == reactions.end()) ? nullptr : itr->second.c_str();
+}
 
 int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_message>* messages, std::map< std::string, facebook_notification* >* notifications)
 {
@@ -684,7 +761,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 					notification->link = url.as_string();
 					notification->id = alert_id.as_string();
 					notification->time = timestamp;
-					notification->setIcon(icon_.as_string());
+					notification->icon = ParseIcon(icon_.as_string());
 
 					// Fix notification ID
 					std::string::size_type pos = notification->id.find(":");
@@ -737,6 +814,12 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 				notification->link = href_.as_string();
 				notification->id = alert_id;
 				notification->time = utils::time::from_string(data["time"].as_string());
+
+				const JSONNode &app_icon_ = data["app_icon"]["__html"];
+				if (app_icon_) {
+					std::string url = app_icon_.as_string();
+					notification->icon = ParseIcon(utils::text::source_get_value(&url, 3, "img class=\"img\"", "src=\"", "\""));
+				}
 
 				// Write notification to chatroom
 				UpdateNotificationsChatRoom(notification);
