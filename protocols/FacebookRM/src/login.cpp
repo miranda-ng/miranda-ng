@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 HttpRequest* facebook_client::loginRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php");
+	p->flags |= NLHRF_NODUMP;
 	p->Url << INT_PARAM("login_attempt", 1);
 	return p;
 }
@@ -35,7 +36,7 @@ HttpRequest* facebook_client::loginRequest()
 HttpRequest* facebook_client::loginRequest(const char *username, const char *password, const char *urlData, const char *bodyData)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_LOGIN "/login.php");
-
+	p->flags |= NLHRF_NODUMP;
 	p->Persistent = p->NONE;
 
 	p->Url
@@ -108,7 +109,7 @@ HttpRequest* facebook_client::logoutRequest()
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/logout.php");
 
-	p->flags |= NLHRF_REDIRECT;
+	p->flags |= NLHRF_REDIRECT | NLHRF_NODUMP;
 
 	p->Body
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
