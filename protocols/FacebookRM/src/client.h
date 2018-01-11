@@ -225,6 +225,7 @@ public:
 	// history.cpp
 	HttpRequest* threadInfoRequest(bool isChat, const char *id, const char* timestamp = nullptr, int limit = -1);
 	HttpRequest* threadInfoRequest(const LIST<char> &ids, int offset, int limit);
+	HttpRequest* threadInfoRequest(const char *id);
 	HttpRequest* unreadThreadsRequest();
 
 	// login.cpp
