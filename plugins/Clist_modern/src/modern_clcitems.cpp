@@ -47,6 +47,9 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 			continue;
 
 		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hsub);
+		if (!pdnce)
+			continue;
+
 		WORD wStatus = pdnce->getStatus();
 
 		if (!showOfflineHereGroup && bHideOffline && !pdnce->m_bNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)

@@ -187,7 +187,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	}
 
 	NotifyEventHooks(hEventDeletedEvent, contactID, hDbEvent);
-	return 0;
+  return 0;
 }
 
 STDMETHODIMP_(LONG) CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
