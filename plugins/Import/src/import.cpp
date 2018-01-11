@@ -671,16 +671,27 @@ void ImportMeta(DBCachedContact *ccSrc)
 			if (ccDst->nSubs = ccSrc->nSubs) {
 				ccDst->pSubs = (MCONTACT*)mir_alloc(sizeof(MCONTACT)*ccSrc->nSubs);
 				for (int i = 0; i < ccSrc->nSubs; i++) {
-					ccDst->pSubs[i] = MapContact(ccSrc->pSubs[i]);
+					MCONTACT hSub = MapContact(ccSrc->pSubs[i]);
+					if (hSub == INVALID_CONTACT_ID) {
+						hSub = db_add_contact();
+
+						DBCachedContact *ccSub = srcDb->m_cache->GetCachedContact(ccSrc->pSubs[i]);
+						if (ccSub && ccSub->szProto) {
+							Proto_AddToContact(hDest, ccSub->szProto);
+							CopySettings(ccSrc->contactID, ccSub->szProto, hSub, ccSub->szProto);
+						}
+					}
+
+					ccDst->pSubs[i] = hSub;
 
 					char szSettingName[100];
 					mir_snprintf(szSettingName, "Handle%d", i);
-					db_set_dw(hDest, META_PROTO, szSettingName, ccDst->pSubs[i]);
+					db_set_dw(hDest, META_PROTO, szSettingName, hSub);
 
-					db_set_b(ccDst->pSubs[i], META_PROTO, "IsSubcontact", 1);
-					db_set_dw(ccDst->pSubs[i], META_PROTO, "ParentMeta", hDest);
+					db_set_b(hSub, META_PROTO, "IsSubcontact", 1);
+					db_set_dw(hSub, META_PROTO, "ParentMeta", hDest);
 
-					DBCachedContact *ccSub = dstDb->m_cache->GetCachedContact(ccDst->pSubs[i]);
+					DBCachedContact *ccSub = dstDb->m_cache->GetCachedContact(hSub);
 					if (ccSub)
 						ccSub->parentID = hDest;
 				}
