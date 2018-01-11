@@ -42,7 +42,7 @@ void LanguageChanged(HWND hwndDlg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool CheckOldPassword(HWND hwndDlg, CDbxMdb *db)
+static bool CheckOldPassword(HWND hwndDlg, CDbxMDBX *db)
 {
 	if (db->usesPassword()) 
 	{
@@ -144,7 +144,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
-	CDbxMdb *db = (CDbxMdb*)obj;
+	CDbxMDBX *db = (CDbxMDBX*)obj;
 	DlgChangePassParam param = { db };
 	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param);
 	return 0;
@@ -159,23 +159,23 @@ static int OnOptionsInit(PVOID obj, WPARAM wParam, LPARAM)
 	odp.position = -790000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Database");
-	odp.pDialog = new COptionsDialog((CDbxMdb*)obj);
+	odp.pDialog = new COptionsDialog((CDbxMDBX*)obj);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxMdb::UpdateMenuItem()
+void CDbxMDBX::UpdateMenuItem()
 {
 	Menu_ModifyItem(hSetPwdMenu, _A2T(GetMenuTitle()), iconList[1].hIcolib);
 }
 
 static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 {
-	CDbxMdb *db = (CDbxMdb*)obj;
+	CDbxMDBX *db = (CDbxMDBX*)obj;
 
-	Icon_Register(g_hInst, LPGEN("Database"), iconList, _countof(iconList), "lmdb");
+	Icon_Register(g_hInst, LPGEN("Database"), iconList, _countof(iconList), "mdbx");
 
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, db);
 
@@ -195,7 +195,7 @@ static int OnModulesLoaded(PVOID obj, WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDbxMdb::InitDialogs()
+void CDbxMDBX::InitDialogs()
 {
 	hService = CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
 	hHook = HookEventObj(ME_SYSTEM_MODULESLOADED, OnModulesLoaded, this);

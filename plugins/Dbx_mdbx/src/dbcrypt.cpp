@@ -29,7 +29,7 @@ char DBKey_Crypto_Provider[] = "Provider";
 char DBKey_Crypto_Key[] = "Key";
 char DBKey_Crypto_IsEncrypted[] = "EncryptedDB";
 
-CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
+CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 {
 	CRYPTO_PROVIDER **ppProvs, *pProv;
 	int iNumProvs;
@@ -49,7 +49,7 @@ CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 	else pProv = ppProvs[0];
 
 	for (;; Remap()) {
-		txn_ptr txn(m_pMdbEnv);
+		txn_ptr txn(m_env);
 
 		MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value = { pProv->pszName, mir_strlen(pProv->pszName) + 1 };
 		MDBX_CHECK(mdbx_put(txn, m_dbCrypto, &key, &value, 0), nullptr);
@@ -64,7 +64,7 @@ CRYPTO_PROVIDER* CDbxMdb::SelectProvider()
 	return pProv;
 }
 
-int CDbxMdb::InitCrypt()
+int CDbxMDBX::InitCrypt()
 {
 	CRYPTO_PROVIDER *pProvider;
 
@@ -119,14 +119,14 @@ int CDbxMdb::InitCrypt()
 	return 0;
 }
 
-void CDbxMdb::StoreKey()
+void CDbxMDBX::StoreKey()
 {
 	size_t iKeyLength = m_crypto->getKeyLength();
 	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 
 	for (;; Remap()) {
-		txn_ptr txn(m_pMdbEnv);
+		txn_ptr txn(m_env);
 		MDBX_val key = { DBKey_Crypto_Key, sizeof(DBKey_Crypto_Key) }, value = { pKey, iKeyLength };
 		mdbx_put(txn, m_dbCrypto, &key, &value, 0);
 		if (txn.commit() == MDBX_SUCCESS)
@@ -135,7 +135,7 @@ void CDbxMdb::StoreKey()
 	SecureZeroMemory(pKey, iKeyLength);
 }
 
-void CDbxMdb::SetPassword(const wchar_t *ptszPassword)
+void CDbxMDBX::SetPassword(const wchar_t *ptszPassword)
 {
 	if (ptszPassword == NULL || *ptszPassword == 0) {
 		m_bUsesPassword = false;
@@ -150,7 +150,7 @@ void CDbxMdb::SetPassword(const wchar_t *ptszPassword)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CDbxMdb::EnableEncryption(bool bEncrypted)
+int CDbxMDBX::EnableEncryption(bool bEncrypted)
 {
 	if (m_bEncrypted == bEncrypted)
 		return 0;
@@ -195,7 +195,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 				}
 
 				for (;; Remap()) {
-					txn_ptr txn(m_pMdbEnv);
+					txn_ptr txn(m_env);
 					data.iov_len = sizeof(DBEvent) + nNewBlob;
 					MDBX_CHECK(mdbx_put(txn, m_dbEvents, &key, &data, MDBX_RESERVE), 1);
 
@@ -214,7 +214,7 @@ int CDbxMdb::EnableEncryption(bool bEncrypted)
 	}
 
 	for (;; Remap()) {
-		txn_ptr txn(m_pMdbEnv);
+		txn_ptr txn(m_env);
 		MDBX_val key = { DBKey_Crypto_IsEncrypted, sizeof(DBKey_Crypto_IsEncrypted) }, value = { &bEncrypted, sizeof(bool) };
 		MDBX_CHECK(mdbx_put(txn, m_dbCrypto, &key, &value, 0), 1);
 		if (txn.commit() == MDBX_SUCCESS)

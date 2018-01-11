@@ -39,11 +39,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\libmdbx\mdbx.h" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">MDB_DEBUG=5;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions>MDB_VL32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

@@ -36,7 +36,7 @@ static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
 	return true;
 }
 
-int CDbxMdb::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
+int CDbxMDBX::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
 {
 	if (szSetting == NULL || szModule == NULL)
 		return 1;
@@ -193,7 +193,7 @@ LBL_Seek:
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
+STDMETHODIMP_(BOOL) CDbxMDBX::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
 {
 	if (dbcws == NULL || dbcws->szSetting == NULL || dbcws->szModule == NULL || m_bReadOnly)
 		return 1;
@@ -306,7 +306,7 @@ LBL_WriteString:
 	}
 
 	for (;; Remap()) {
-		txn_ptr trnlck(m_pMdbEnv);
+		txn_ptr trnlck(m_env);
 		MDBX_CHECK(mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE), 1);
 
 		BYTE *pBlob = (BYTE*)data.iov_base;
@@ -339,7 +339,7 @@ LBL_WriteString:
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting)
+STDMETHODIMP_(BOOL) CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting)
 {
 	if (!szModule || !szSetting)
 		return 1;
@@ -359,7 +359,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
 
 		for (;; Remap()) {
-			txn_ptr trnlck(m_pMdbEnv);
+			txn_ptr trnlck(m_env);
 			MDBX_CHECK(mdbx_del(trnlck, m_dbSettings, &key, nullptr), 1);
 			if (trnlck.commit() == MDBX_SUCCESS)
 				break;
@@ -377,7 +377,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
+STDMETHODIMP_(BOOL) CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
 {
 	int result = -1;
 

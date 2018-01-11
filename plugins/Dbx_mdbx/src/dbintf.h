@@ -124,12 +124,12 @@ struct EventItem
 	MEVENT eventId;
 };
 
-struct CDbxMdb : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
+struct CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
 {
-	friend class LMDBEventCursor;
+	friend class MDBXEventCursor;
 
-	CDbxMdb(const TCHAR *tszFileName, int mode);
-	virtual ~CDbxMdb();
+	CDbxMDBX(const TCHAR *tszFileName, int mode);
+	virtual ~CDbxMDBX();
 
 	int Load(bool bSkipInit);
 	int Create(void);
@@ -203,7 +203,7 @@ public:
 	MICryptoEngine *m_crypto;
 
 protected:
-	MDBX_env *m_pMdbEnv;
+	MDBX_env *m_env;
 	CMDBX_txn_ro m_txn;
 
 	MDBX_dbi  m_dbGlobal;

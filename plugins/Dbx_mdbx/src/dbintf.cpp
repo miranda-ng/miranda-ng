@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
+CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 	m_safetyMode(true),
 	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
 	m_bShared((iMode & DBMODE_SHARED) != 0),
@@ -32,15 +32,15 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	m_tszProfileName = mir_wstrdup(tszFileName);
 	InitDbInstance(this);
 
-	mdbx_env_create(&m_pMdbEnv);
-	mdbx_env_set_maxdbs(m_pMdbEnv, 10);
-	mdbx_env_set_userctx(m_pMdbEnv, this);
-	//	mdbx_env_set_assert(m_pMdbEnv, LMDBX_FailAssert);
+	mdbx_env_create(&m_env);
+	mdbx_env_set_maxdbs(m_env, 10);
+	mdbx_env_set_userctx(m_env, this);
+	//	mdbx_env_set_assert(m_env, MDBX_FailAssert);
 }
 
-CDbxMdb::~CDbxMdb()
+CDbxMDBX::~CDbxMDBX()
 {
-	mdbx_env_close(m_pMdbEnv);
+	mdbx_env_close(m_env);
 
 	DestroyServiceFunction(hService);
 	UnhookEvent(hHook);
@@ -61,13 +61,13 @@ CDbxMdb::~CDbxMdb()
 	mir_free(m_tszProfileName);
 }
 
-int CDbxMdb::Load(bool bSkipInit)
+int CDbxMDBX::Load(bool bSkipInit)
 {
 	if (Map() != MDBX_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
-		txn_ptr trnlck(m_pMdbEnv);
+		txn_ptr trnlck(m_env);
 
 		unsigned int defFlags = MDBX_CREATE;
 
@@ -102,7 +102,7 @@ int CDbxMdb::Load(bool bSkipInit)
 		{
 			MDBX_val key, val;
 
-			mdbx_txn_begin(m_pMdbEnv, nullptr, MDBX_RDONLY, &m_txn);
+			mdbx_txn_begin(m_env, nullptr, MDBX_RDONLY, &m_txn);
 
 			mdbx_cursor_open(m_txn, m_dbEvents, &m_curEvents);
 			if (mdbx_cursor_get(m_curEvents, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
@@ -146,7 +146,7 @@ int CDbxMdb::Load(bool bSkipInit)
 	return EGROKPRF_NOERROR;
 }
 
-int CDbxMdb::Create(void)
+int CDbxMDBX::Create(void)
 {
 	return (Map() == MDBX_SUCCESS) ? 0 : EGROKPRF_CANTREAD;
 }
@@ -154,7 +154,7 @@ int CDbxMdb::Create(void)
 size_t iDefHeaderOffset = 0;
 BYTE bDefHeader[] = { 0 };
 
-int CDbxMdb::Check(void)
+int CDbxMDBX::Check(void)
 {
 	FILE *pFile = _wfopen(m_tszProfileName, L"rb");
 	if (pFile == nullptr)
@@ -170,32 +170,32 @@ int CDbxMdb::Check(void)
 	return (memcmp(buf, bDefHeader, _countof(bDefHeader))) ? EGROKPRF_UNKHEADER : 0;
 }
 
-int CDbxMdb::PrepareCheck(int*)
+int CDbxMDBX::PrepareCheck(int*)
 {
 	InitModules();
 	return InitCrypt();
 }
 
-STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
+STDMETHODIMP_(void) CDbxMDBX::SetCacheSafetyMode(BOOL bIsSet)
 {
 	m_safetyMode = bIsSet != 0;
 }
 
-int CDbxMdb::Map()
+int CDbxMDBX::Map()
 {
 	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
-	mdbx_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664);
-	mdbx_env_set_mapsize(m_pMdbEnv, 0x1000000);
+	mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
+	mdbx_env_set_mapsize(m_env, 0x1000000);
 	return MDBX_SUCCESS;
 }
 
-bool CDbxMdb::Remap()
+bool CDbxMDBX::Remap()
 {
 	MDBX_envinfo ei;
-	mdbx_env_info(m_pMdbEnv, &ei, sizeof(ei));
-	return mdbx_env_set_geometry(m_pMdbEnv, -1, -1, ei.mi_mapsize + 0x100000, 0x100000, -1, -1) == MDBX_SUCCESS;
+	mdbx_env_info(m_env, &ei, sizeof(ei));
+	return mdbx_env_set_geometry(m_env, -1, -1, ei.mi_mapsize + 0x100000, 0x100000, -1, -1) == MDBX_SUCCESS;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -221,12 +221,12 @@ EXTERN_C void __cdecl dbpanic(void *)
 }
 
 
-EXTERN_C void LMDBX_FailAssert(MDBX_env *env, const char *text)
+EXTERN_C void MDBX_FailAssert(MDBX_env *env, const char *text)
 {
-	((CDbxMdb*)mdbx_env_get_userctx(env))->DatabaseCorruption(_A2T(text));
+	((CDbxMDBX*)mdbx_env_get_userctx(env))->DatabaseCorruption(_A2T(text));
 }
 
-EXTERN_C void LMDBX_Log(const char *fmt, ...)
+EXTERN_C void MDBX_Log(const char *fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
@@ -234,7 +234,7 @@ EXTERN_C void LMDBX_Log(const char *fmt, ...)
 	va_end(args);
 }
 
-void CDbxMdb::DatabaseCorruption(const TCHAR *text)
+void CDbxMDBX::DatabaseCorruption(const TCHAR *text)
 {
 	int kill = 0;
 
@@ -260,20 +260,20 @@ void CDbxMdb::DatabaseCorruption(const TCHAR *text)
 ///////////////////////////////////////////////////////////////////////////////
 // MIDatabaseChecker
 
-typedef int (CDbxMdb::*CheckWorker)(int);
+typedef int (CDbxMDBX::*CheckWorker)(int);
 
-int CDbxMdb::Start(DBCHeckCallback *callback)
+int CDbxMDBX::Start(DBCHeckCallback *callback)
 {
 	cb = callback;
 	return ERROR_SUCCESS;
 }
 
-int CDbxMdb::CheckDb(int, int)
+int CDbxMDBX::CheckDb(int, int)
 {
 	return ERROR_OUT_OF_PAPER;
 }
 
-void CDbxMdb::Destroy()
+void CDbxMDBX::Destroy()
 {
 	delete this;
 }
