@@ -77,17 +77,13 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		}
 	}
 
-
 	MEVENT dwEventId = InterlockedIncrement(&m_dwMaxEventId);
-
-	const auto Snapshot = [&]() { cc->Snapshot(); if (ccSub) ccSub->Snapshot(); };
-	const auto Revert = [&]() { cc->Revert(); if (ccSub) ccSub->Revert(); };
-
-	for (Snapshot();; Revert(), Remap()) {
+	{
 		txn_ptr txn(m_env);
 
 		MDBX_val key = { &dwEventId, sizeof(MEVENT) }, data = { NULL, sizeof(DBEvent) + dbe.cbBlob };
-		MDBX_CHECK(mdbx_put(txn, m_dbEvents, &key, &data, MDBX_RESERVE), 0);
+		if (mdbx_put(txn, m_dbEvents, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
+			return 0;
 
 		DBEvent *pNewEvent = (DBEvent*)data.iov_base;
 		*pNewEvent = dbe;
@@ -97,25 +93,29 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		DBEventSortingKey key2 = { contactID, dwEventId, dbe.timestamp };
 		key.iov_len = sizeof(key2); key.iov_base = &key2;
 		data.iov_len = 1; data.iov_base = (char*)("");
-		MDBX_CHECK(mdbx_put(txn, m_dbEventsSort, &key, &data, 0), 0);
+		if (mdbx_put(txn, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+			return 0;
 
 		cc->Advance(dwEventId, dbe);
 		MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
-		MDBX_CHECK(mdbx_put(txn, m_dbContacts, &keyc, &datac, 0), 0);
+		if (mdbx_put(txn, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
+			return 0;
 
 		// insert an event into a sub's history too
 		if (ccSub != NULL) {
 			key2.hContact = ccSub->contactID;
-			MDBX_CHECK(mdbx_put(txn, m_dbEventsSort, &key, &data, 0), 0);
+			if (mdbx_put(txn, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+				return 0;
 
 			ccSub->Advance(dwEventId, dbe);
 			datac.iov_base = &ccSub->dbc;
 			keyc.iov_base = &ccSub->contactID;
-			MDBX_CHECK(mdbx_put(txn, m_dbContacts, &keyc, &datac, 0), 0);
+			if (mdbx_put(txn, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
+				return 0;
 		}
 
-		if (txn.commit() == MDBX_SUCCESS)
-			break;
+		if (txn.commit() != MDBX_SUCCESS)
+			return 0;
 	}
 
 	// Notify only in safe mode or on really new events
@@ -140,20 +140,16 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		dbe = *(DBEvent*)data.iov_base;
 	}
 
-	if (contactID != dbe.contactID) {
+	if (contactID != dbe.contactID)
 		cc2 = m_cache->GetCachedContact(dbe.contactID);
-	}
 
-	const auto Snapshot = [&]() { cc->Snapshot(); if (cc2) cc2->Snapshot(); };
-	const auto Revert = [&]() { cc->Revert(); if (cc2) cc2->Revert(); };
-
-	for (Snapshot();; Revert(), Remap()) {
-		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
-
+	{
 		txn_ptr txn(m_env);
+		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
 		MDBX_val key = { &key2, sizeof(key2) }, data;
 
-		MDBX_CHECK(mdbx_del(txn, m_dbEventsSort, &key, &data), 1)
+		if (mdbx_del(txn, m_dbEventsSort, &key, &data) != MDBX_SUCCESS)
+			return 1;
 
 		{
 			key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;
@@ -162,12 +158,14 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 				FindNextUnread(txn, cc, key2);
 
 			data.iov_len = sizeof(DBContact); data.iov_base = &cc->dbc;
-			MDBX_CHECK(mdbx_put(txn, m_dbContacts, &key, &data, 0), 1);
+			if (mdbx_put(txn, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
+				return 1;
 		}
 
 		if (cc2) {
 			key2.hContact = dbe.contactID;
-			MDBX_CHECK(mdbx_del(txn, m_dbEventsSort, &key, &data), 1);
+			if (mdbx_del(txn, m_dbEventsSort, &key, &data) != MDBX_SUCCESS)
+				return 1;
 
 			key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;
 			cc2->dbc.dwEventCount--;
@@ -175,20 +173,20 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 				FindNextUnread(txn, cc2, key2);
 
 			data.iov_len = sizeof(DBContact); data.iov_base = &cc2->dbc;
-			MDBX_CHECK(mdbx_put(txn, m_dbContacts, &key, &data, 0), 1);
-
+			if (mdbx_put(txn, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
+				return 1;
 		}
 
 		// remove a event
 		key.iov_len = sizeof(MEVENT); key.iov_base = &hDbEvent;
-		MDBX_CHECK(mdbx_del(txn, m_dbEvents, &key, &data), 1);
+		if (mdbx_del(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+			return 1;
 
-		if (txn.commit() == MDBX_SUCCESS)
-			break;
+		if (txn.commit() != MDBX_SUCCESS)
+			return 1;
 	}
 
 	NotifyEventHooks(hEventDeletedEvent, contactID, hDbEvent);
-
 	return 0;
 }
 
@@ -272,21 +270,19 @@ STDMETHODIMP_(BOOL) CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		return -1;
 
 	uint32_t wRetVal = -1;
-
-	for (cc->Snapshot();; cc->Revert(), Remap()) {
+	{
 		txn_ptr txn(m_env);
-
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-		MDBX_CHECK(mdbx_get(txn, m_dbEvents, &key, &data), -1);
+		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+			return -1;
 
 		const DBEvent *cdbe = (const DBEvent*)data.iov_base;
-
 		if (cdbe->markedRead())
 			return cdbe->flags;
 
 		DBEventSortingKey keyVal = { contactID, hDbEvent, cdbe->timestamp };
-
-		MDBX_CHECK(mdbx_put(txn, m_dbEvents, &key, &data, MDBX_RESERVE), -1);
+		if (mdbx_put(txn, m_dbEvents, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
+			return -1;
 
 		DBEvent *pNewEvent = (DBEvent*)data.iov_base;
 		*pNewEvent = *cdbe;
@@ -296,10 +292,11 @@ STDMETHODIMP_(BOOL) CDbxMDBX::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 		FindNextUnread(txn, cc, keyVal);
 		key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;
 		data.iov_base = &cc->dbc; data.iov_len = sizeof(cc->dbc);
-		MDBX_CHECK(mdbx_put(txn, m_dbContacts, &key, &data, 0), -1);
+		if (mdbx_put(txn, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
+			return -1;
 
-		if (txn.commit() == MDBX_SUCCESS)
-			break;
+		if (txn.commit() != MDBX_SUCCESS)
+			return -1;
 	}
 
 	NotifyEventHooks(hEventMarkedRead, contactID, (LPARAM)hDbEvent);

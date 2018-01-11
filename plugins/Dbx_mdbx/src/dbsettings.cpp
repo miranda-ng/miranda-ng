@@ -305,9 +305,10 @@ LBL_WriteString:
 		data.iov_len = 3 + dbcwWork.value.cpbVal; break;
 	}
 
-	for (;; Remap()) {
+	{
 		txn_ptr trnlck(m_env);
-		MDBX_CHECK(mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE), 1);
+		if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
+			return 1;
 
 		BYTE *pBlob = (BYTE*)data.iov_base;
 		*pBlob++ = dbcwWork.value.type;
@@ -330,8 +331,8 @@ LBL_WriteString:
 			memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 		}
 
-		if (trnlck.commit() == MDBX_SUCCESS)
-			break;
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
 	}
 
 	// notify
@@ -356,14 +357,12 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 		keyVal->dwModuleId = GetModuleID(szModule);
 		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
+		txn_ptr trnlck(m_env);
 		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
-
-		for (;; Remap()) {
-			txn_ptr trnlck(m_env);
-			MDBX_CHECK(mdbx_del(trnlck, m_dbSettings, &key, nullptr), 1);
-			if (trnlck.commit() == MDBX_SUCCESS)
-				break;
-		}
+		if (mdbx_del(trnlck, m_dbSettings, &key, nullptr) != MDBX_SUCCESS)
+			return 1;
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
 	}
 
 	m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);

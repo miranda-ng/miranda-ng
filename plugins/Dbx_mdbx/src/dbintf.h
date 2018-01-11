@@ -191,7 +191,6 @@ protected:
 	void  FillContacts(void);
 
 	int   Map();
-	bool  Remap();
 
 protected:
 	TCHAR*   m_tszProfileName;

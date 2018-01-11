@@ -43,13 +43,14 @@ uint32_t CDbxMDBX::GetModuleID(const char *szName)
 	uint32_t iHash = mir_hashstr(szName);
 	if (m_Modules.find(iHash) == m_Modules.end()) {
 		MDBX_val key = { &iHash, sizeof(iHash) }, data = { (void*)szName, strlen(szName) + 1 };
-
-		for (;; Remap()) {
+		{
 			txn_ptr txn(m_env);
-			MDBX_CHECK(mdbx_put(txn, m_dbModules, &key, &data, 0), -1);
-			if (txn.commit() == MDBX_SUCCESS)
-				break;
+			if (mdbx_put(txn, m_dbModules, &key, &data, 0) != MDBX_SUCCESS)
+				return -1;
+			if (txn.commit() != MDBX_SUCCESS)
+				return -1;
 		}
+
 		m_Modules[iHash] = szName;
 	}
 
