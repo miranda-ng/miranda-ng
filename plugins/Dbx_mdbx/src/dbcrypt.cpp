@@ -48,17 +48,19 @@ CRYPTO_PROVIDER* CDbxMDBX::SelectProvider()
 	}
 	else pProv = ppProvs[0];
 
-	txn_ptr txn(m_env);
-	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value = { pProv->pszName, mir_strlen(pProv->pszName) + 1 };
-	if (mdbx_put(txn, m_dbCrypto, &key, &value, 0) != MDBX_SUCCESS)
-		return nullptr;
+	{
+		txn_ptr txn(m_env);
+		MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value = { pProv->pszName, mir_strlen(pProv->pszName) + 1 };
+		if (mdbx_put(txn, m_dbCrypto, &key, &value, 0) != MDBX_SUCCESS)
+			return nullptr;
 
-	key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted; value.iov_len = sizeof(bool); value.iov_base = &bTotalCrypt;
-	if (mdbx_put(txn, m_dbCrypto, &key, &value, 0) != MDBX_SUCCESS)
-		return nullptr;
+		key.iov_len = sizeof(DBKey_Crypto_IsEncrypted); key.iov_base = DBKey_Crypto_IsEncrypted; value.iov_len = sizeof(bool); value.iov_base = &bTotalCrypt;
+		if (mdbx_put(txn, m_dbCrypto, &key, &value, 0) != MDBX_SUCCESS)
+			return nullptr;
 
-	if (txn.commit() != MDBX_SUCCESS)
-		return nullptr;
+		if (txn.commit() != MDBX_SUCCESS)
+			return nullptr;
+	}
 
 	return pProv;
 }
@@ -123,15 +125,16 @@ void CDbxMDBX::StoreKey()
 	size_t iKeyLength = m_crypto->getKeyLength();
 	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
-
-	txn_ptr txn(m_env);
-	MDBX_val key = { DBKey_Crypto_Key, sizeof(DBKey_Crypto_Key) }, value = { pKey, iKeyLength };
-	int rc = mdbx_put(txn, m_dbCrypto, &key, &value, 0);
-	if (rc == MDBX_SUCCESS)
-		rc = txn.commit();
-	/* FIXME: throw an exception */
-	assert(rc == MDBX_SUCCESS);
-	(void)rc;
+	{
+		txn_ptr txn(m_env);
+		MDBX_val key = { DBKey_Crypto_Key, sizeof(DBKey_Crypto_Key) }, value = { pKey, iKeyLength };
+		int rc = mdbx_put(txn, m_dbCrypto, &key, &value, 0);
+		if (rc == MDBX_SUCCESS)
+			rc = txn.commit();
+		/* FIXME: throw an exception */
+		assert(rc == MDBX_SUCCESS);
+		UNREFERENCED_PARAMETER(rc);
+	}
 
 	SecureZeroMemory(pKey, iKeyLength);
 }

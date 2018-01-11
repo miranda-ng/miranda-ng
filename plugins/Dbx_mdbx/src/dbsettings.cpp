@@ -305,33 +305,35 @@ LBL_WriteString:
 		data.iov_len = 3 + dbcwWork.value.cpbVal; break;
 	}
 
-	txn_ptr trnlck(m_env);
-	if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
-		return 1;
+	{
+		txn_ptr trnlck(m_env);
+		if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
+			return 1;
 
-	BYTE *pBlob = (BYTE*)data.iov_base;
-	*pBlob++ = dbcwWork.value.type;
-	switch (dbcwWork.value.type) {
-	case DBVT_BYTE:  *pBlob = dbcwWork.value.bVal; break;
-	case DBVT_WORD:  *(WORD*)pBlob = dbcwWork.value.wVal; break;
-	case DBVT_DWORD: *(DWORD*)pBlob = dbcwWork.value.dVal; break;
+		BYTE *pBlob = (BYTE*)data.iov_base;
+		*pBlob++ = dbcwWork.value.type;
+		switch (dbcwWork.value.type) {
+		case DBVT_BYTE:  *pBlob = dbcwWork.value.bVal; break;
+		case DBVT_WORD:  *(WORD*)pBlob = dbcwWork.value.wVal; break;
+		case DBVT_DWORD: *(DWORD*)pBlob = dbcwWork.value.dVal; break;
 
-	case DBVT_ASCIIZ:
-	case DBVT_UTF8:
-		data.iov_len = *(WORD*)pBlob = dbcwWork.value.cchVal;
-		pBlob += 2;
-		memcpy(pBlob, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
-		break;
+		case DBVT_ASCIIZ:
+		case DBVT_UTF8:
+			data.iov_len = *(WORD*)pBlob = dbcwWork.value.cchVal;
+			pBlob += 2;
+			memcpy(pBlob, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
+			break;
 
-	case DBVT_BLOB:
-	case DBVT_ENCRYPTED:
-		data.iov_len = *(WORD*)pBlob = dbcwWork.value.cpbVal;
-		pBlob += 2;
-		memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+		case DBVT_BLOB:
+		case DBVT_ENCRYPTED:
+			data.iov_len = *(WORD*)pBlob = dbcwWork.value.cpbVal;
+			pBlob += 2;
+			memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+		}
+
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
 	}
-
-	if (trnlck.commit() != MDBX_SUCCESS)
-		return 1;
 
 	// notify
 	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwNotif);

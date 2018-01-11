@@ -67,11 +67,13 @@ STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
 	}
 
 	MDBX_val key = { &contactID, sizeof(MCONTACT) };
-	txn_ptr trnlck(m_env);
-	if (mdbx_del(trnlck, m_dbContacts, &key, nullptr) != MDBX_SUCCESS)
-		return 1;
-	if (trnlck.commit() != MDBX_SUCCESS)
-		return 1;
+	{
+		txn_ptr trnlck(m_env);
+		if (mdbx_del(trnlck, m_dbContacts, &key, nullptr) != MDBX_SUCCESS)
+			return 1;
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 1;
+	}
 
 	InterlockedDecrement(&m_contactCount);
 	return 0;
@@ -82,15 +84,16 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::AddContact()
 	MCONTACT dwContactId = InterlockedIncrement(&m_maxContactId);
 
 	DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
+	{
+		MDBX_val key = { &dwContactId, sizeof(MCONTACT) };
+		MDBX_val data = { &cc->dbc, sizeof(cc->dbc) };
 
-	MDBX_val key = { &dwContactId, sizeof(MCONTACT) };
-	MDBX_val data = { &cc->dbc, sizeof(cc->dbc) };
-
-	txn_ptr trnlck(m_env);
-	if (mdbx_put(trnlck, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
-		return 0;
-	if (trnlck.commit() != MDBX_SUCCESS)
-		return 0;
+		txn_ptr trnlck(m_env);
+		if (mdbx_put(trnlck, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
+			return 0;
+		if (trnlck.commit() != MDBX_SUCCESS)
+			return 0;
+	}
 
 	InterlockedIncrement(&m_contactCount);
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
@@ -107,7 +110,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::IsDbContact(MCONTACT contactID)
 
 void CDbxMDBX::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 {
-	DBEventSortingKey keyVal = { 0, 0, hContact };
+	DBEventSortingKey keyVal = { hContact, 0, 0 };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
 	txn_ptr_ro trnlck(m_txn);
@@ -129,15 +132,16 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 	for (int i = 0; i < list.getCount(); i++) {
 		EventItem *EI = list[i];
+		{
+			txn_ptr trnlck(m_env);
+			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
+			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
 
-		txn_ptr trnlck(m_env);
-		DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
-		MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
-
-		if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
-			return 1;
-		if (trnlck.commit() != MDBX_SUCCESS)
-			return 1;
+			if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+				return 1;
+			if (trnlck.commit() != MDBX_SUCCESS)
+				return 1;
+		}
 		ccMeta->dbc.dwEventCount++;
 		delete EI;
 	}
@@ -160,14 +164,15 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 	for (int i = 0; i < list.getCount(); i++) {
 		EventItem *EI = list[i];
-
-		txn_ptr trnlck(m_env);
-		DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
-		MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
-		if (mdbx_del(trnlck, m_dbEventsSort, &key, &data) != MDBX_SUCCESS)
-			return 1;
-		if (trnlck.commit() != MDBX_SUCCESS)
-			return 1;
+		{
+			txn_ptr trnlck(m_env);
+			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
+			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
+			if (mdbx_del(trnlck, m_dbEventsSort, &key, &data) != MDBX_SUCCESS)
+				return 1;
+			if (trnlck.commit() != MDBX_SUCCESS)
+				return 1;
+		}
 		ccMeta->dbc.dwEventCount--;
 		delete EI;
 	}
