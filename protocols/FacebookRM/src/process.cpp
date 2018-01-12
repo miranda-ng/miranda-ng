@@ -194,7 +194,6 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 
 	facy.handle_entry("ProcessUnreadMessage");
 
-	int offset = 0;
 	int limit = 21;
 
 	// FIXME: Rework this whole request as offset doesn't work anyway, and allow to load all the unread messages for each thread (IMHO could be done in 2 single requests = 1) get number of messages for all threads 2) load the counts of messages for all threads)
@@ -207,7 +206,7 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		for (std::vector<std::string>::size_type i = 0; i < threads->size(); i++)
 			ids.insert(mir_strdup(threads->at(i).c_str()));
 
-		http::response resp = facy.sendRequest(facy.threadInfoRequest(ids, offset, limit));
+		http::response resp = facy.sendRequest(facy.threadInfoRequest(ids, limit));
 
 		FreeList(ids);
 		ids.destroy();
@@ -228,7 +227,6 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		}
 		else facy.handle_error("ProcessUnreadMessage");
 
-		// offset += limit;
 		// limit = 20; // TODO: use better limits?
 
 		threads->clear(); // TODO: if we have limit messages from one user, there may be more unread messages... continue with it... otherwise remove that threadd from threads list -- or do it in json parser? hm			 = allow more than "limit" unread messages to be parsed
@@ -913,7 +911,7 @@ void FacebookProto::ProcessMessages(void* data)
 
 	try {
 		std::vector<facebook_message> messages;
-		ParseMessages(resp, &messages, &facy.notifications);
+		ParseMessages(resp, &messages);
 
 		ReceiveMessages(messages);
 

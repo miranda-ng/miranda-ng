@@ -37,7 +37,7 @@ class FacebookProto : public PROTO<FacebookProto>
 	int ParseChatParticipants(std::string *data, std::map<std::string, chatroom_participant>* participants);
 	int ParseFriends(std::string*, std::map< std::string, facebook_user* >*, bool);
 	int ParseHistory(std::string* data, std::vector<facebook_message>* messages, std::string* firstTimestamp);
-	int ParseMessages(std::string*, std::vector< facebook_message >*, std::map< std::string, facebook_notification* >*);
+	int ParseMessages(std::string*, std::vector< facebook_message >*);
 	int ParseMessagesCount(std::string *data, int *messagesCount, int *unreadCount);
 	int ParseNotifications(std::string*, std::map< std::string, facebook_notification* >*);
 	int ParseThreadInfo(std::string* data, std::string* user_id);

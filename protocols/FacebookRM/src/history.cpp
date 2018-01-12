@@ -64,7 +64,7 @@ HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, con
 }
 
 // Request both thread info and messages for more threads
-HttpRequest* facebook_client::threadInfoRequest(const LIST<char> &ids, int offset, int limit)
+HttpRequest* facebook_client::threadInfoRequest(const LIST<char> &ids, int limit)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/");
 

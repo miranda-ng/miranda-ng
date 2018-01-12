@@ -510,7 +510,7 @@ const char* FacebookProto::ParseIcon(const std::string &url)
 	return (itr == reactions.end()) ? nullptr : itr->second.c_str();
 }
 
-int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_message>* messages, std::map< std::string, facebook_notification* >* notifications)
+int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_message>* messages)
 {
 	// remove old received messages from map		
 	for (auto it = facy.messages_ignore.begin(); it != facy.messages_ignore.end();) {
@@ -773,8 +773,8 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 					UpdateNotificationsChatRoom(notification);
 
 					// If it's unseen, remember it, otherwise forget it (here it will always be unseen)
-					if (notifications->find(notification->id) == notifications->end() && !notification->seen)
-						notifications->insert(std::make_pair(notification->id, notification));
+					if (facy.notifications.find(notification->id) == facy.notifications.end() && !notification->seen)
+						facy.notifications.insert(std::make_pair(notification->id, notification));
 					else
 						delete notification;
 				}
@@ -825,7 +825,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 				// Write notification to chatroom
 				UpdateNotificationsChatRoom(notification);
 
-				notifications->insert(std::make_pair(notification->id, notification));
+				facy.notifications.insert(std::make_pair(notification->id, notification));
 			}
 		}
 		else if (t == "jewel_requests_add") {
@@ -1088,13 +1088,13 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 
 			const JSONNode &alerts = it["alert_ids"];
 			for (auto &itAlerts : alerts) {
-				auto itAlert = notifications->find(itAlerts.as_string());
-				if (itAlert != notifications->end()) {
+				auto itAlert = facy.notifications.find(itAlerts.as_string());
+				if (itAlert != facy.notifications.end()) {
 					if (itAlert->second->hWndPopup != nullptr)
 						PUDeletePopup(itAlert->second->hWndPopup); // close popup
 
 					delete itAlert->second;
-					notifications->erase(itAlert);
+					facy.notifications.erase(itAlert);
 				}
 			}
 		}
