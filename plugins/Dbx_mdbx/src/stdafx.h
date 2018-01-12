@@ -91,17 +91,14 @@ public:
 		/* FIXME: throw an exception */
 		assert(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
-		m_txn = NULL;
+		m_txn = nullptr;
 	}
 };
 
 struct CMDBX_txn_ro
 {
-	MDBX_txn *m_txn;
-	bool bIsActive;
+	MDBX_txn *m_txn = nullptr;
 	mir_cs cs;
-
-	__forceinline CMDBX_txn_ro() : m_txn(nullptr), bIsActive(false) {}
 
 	__forceinline operator MDBX_txn* () { return m_txn; }
 	__forceinline MDBX_txn** operator &() { return &m_txn; }
@@ -110,28 +107,22 @@ struct CMDBX_txn_ro
 class txn_ptr_ro
 {
 	CMDBX_txn_ro &m_txn;
-	bool bNeedReset;
 	mir_cslock lock;
+
 public:
-	__forceinline txn_ptr_ro(CMDBX_txn_ro &txn) : m_txn(txn), bNeedReset(!txn.bIsActive), lock(m_txn.cs)
+	__forceinline txn_ptr_ro(CMDBX_txn_ro &txn) : m_txn(txn), lock(m_txn.cs)
 	{
-		if (bNeedReset) {
-			int rc = mdbx_txn_renew(m_txn);
-			/* FIXME: throw an exception */
-			assert(rc == MDBX_SUCCESS);
-			(void)rc;
-			m_txn.bIsActive = true;
-		}
+		int rc = mdbx_txn_renew(m_txn);
+		/* FIXME: throw an exception */
+		assert(rc == MDBX_SUCCESS);
+		UNREFERENCED_PARAMETER(rc);
 	}
 	__forceinline ~txn_ptr_ro()
 	{
-		if (bNeedReset) {
-			int rc = mdbx_txn_reset(m_txn);
-			/* FIXME: throw an exception */
-			assert(rc == MDBX_SUCCESS);
-			(void)rc;
-			m_txn.bIsActive = false;
-		}
+		int rc = mdbx_txn_reset(m_txn);
+		/* FIXME: throw an exception */
+		assert(rc == MDBX_SUCCESS);
+		UNREFERENCED_PARAMETER(rc);
 	}
 	__forceinline operator MDBX_txn*() const { return m_txn; }
 };
@@ -144,7 +135,7 @@ public:
 	__forceinline cursor_ptr(MDBX_txn *_txn, MDBX_dbi _dbi)
 	{
 		if (mdbx_cursor_open(_txn, _dbi, &m_cursor) != MDBX_SUCCESS)
-			m_cursor = NULL;
+			m_cursor = nullptr;
 	}
 
 	__forceinline ~cursor_ptr()
