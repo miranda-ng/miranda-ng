@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include <regex>
 
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -1166,40 +1165,27 @@ int FacebookProto::ParseUnreadThreads(std::string *data, std::vector< std::strin
 
 int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_message >* messages, bool unreadOnly)
 {
-	/*size_t len = data->find("\r\n");
+	// cuts out the rest
+	size_t len = data->find("\r\n");
 	if (len != data->npos)
-		data->erase(len);*/
+		data->erase(len);
+
+	JSONNode root = JSONNode::parse(data->c_str());
+	if (!root)
+		return EXIT_FAILURE;
 
 	// since it could loop over multiple queries not all can be valid
 	// so return EXIT_FAILURE only if none is processed
 	bool hasResult = false;
 
-	// pattern for one query
-	std::regex r("\\{\"o\\d\":\\{\"data\":\\{\"message_thread\":\\{.+\\}{4,5}"); // (\\{|$)
-	std::sregex_iterator i = std::sregex_iterator(data->begin(), data->end(), r);
-	std::sregex_iterator end;
 	// loop over queries
-	for (; i != end; ++i) {
-
-		std::smatch m = *i;
-		std::string match = m.str();
-
-		JSONNode root = JSONNode::parse(match.c_str());
-		if (!root)
-			//return EXIT_FAILURE;
-			continue;
-
-		// query number "o0", "o1", .. but they are not ordered
-		std::string oX = std::string("o") + std::string(1, match.at(3));
-
-		const JSONNode &thread = root[oX.c_str()]["data"]["message_thread"];
+	for (auto &itr : root) {
+		const JSONNode &thread = itr["data"]["message_thread"];
 		if (!thread)
-			//return EXIT_FAILURE;
 			continue;
 
 		const JSONNode &nodes = thread["messages"]["nodes"];
 		if (!nodes)
-			//return EXIT_FAILURE;
 			continue;
 
 		// TODO! process commented sections and better pair json (this is just quick attempt, + I do not know what everything means yet)
@@ -1213,7 +1199,6 @@ int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_
 			const JSONNode &thread_id_ = it["offline_threading_id"];
 			const JSONNode &mid_ = it["message_id"];
 			const JSONNode &timestamp_ = it["timestamp_precise"];
-			// const JSONNode &filtered_ = it["is_filtered_content"];
 			const JSONNode &is_unread_ = it["unread"];
 
 			// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
@@ -1238,9 +1223,6 @@ int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_
 
 			// Process attachements and stickers
 			ParseAttachments(message_text, it, other_user_fbid, true);
-
-			//if (filtered_.as_bool() && message_text.empty())
-			//	message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 
 			message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
 			if (message_text.empty()) {
