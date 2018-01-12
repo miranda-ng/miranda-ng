@@ -1207,19 +1207,19 @@ int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_
 		const JSONNode &other_user_fbid_ = thread["thread_key"]["other_user_id"];
 		const JSONNode &thread_fbid_ = thread["thread_key"]["thread_fbid"];
 
-		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
-			const JSONNode &author_ = (*it)["message_sender"]["id"];
-			const JSONNode &body_ = (*it)["message"]["text"];
-			const JSONNode &thread_id_ = (*it)["offline_threading_id"];
-			const JSONNode &mid_ = (*it)["message_id"];
-			const JSONNode &timestamp_ = (*it)["timestamp_precise"];
-			// const JSONNode &filtered_ = (*it)["is_filtered_content"];
-			const JSONNode &is_unread_ = (*it)["unread"];
+		for (auto &it : nodes) {
+			const JSONNode &author_ = it["message_sender"]["id"];
+			const JSONNode &body_ = it["message"]["text"];
+			const JSONNode &thread_id_ = it["offline_threading_id"];
+			const JSONNode &mid_ = it["message_id"];
+			const JSONNode &timestamp_ = it["timestamp_precise"];
+			// const JSONNode &filtered_ = it["is_filtered_content"];
+			const JSONNode &is_unread_ = it["unread"];
 
 			// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
-			const JSONNode &log_type_ = (*it)["log_message_type"];
-			const JSONNode &log_body_ = (*it)["log_message_body"];
-			const JSONNode &log_data_ = (*it)["log_message_data"]; // additional data for this log message
+			const JSONNode &log_type_ = it["log_message_type"];
+			const JSONNode &log_body_ = it["log_message_body"];
+			const JSONNode &log_data_ = it["log_message_data"]; // additional data for this log message
 
 			if (!author_ || (!body_ && !log_body_) || !mid_ || (!thread_fbid_ && !thread_id_) || !timestamp_) {
 				debugLogA("ParseThreadMessages: ignoring message (%s) - missing attribute", mid_.as_string().c_str());
@@ -1237,7 +1237,7 @@ int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_
 				author_id = author_id.substr(pos + 1);
 
 			// Process attachements and stickers
-			ParseAttachments(message_text, (*it), other_user_fbid, true);
+			ParseAttachments(message_text, it, other_user_fbid, true);
 
 			//if (filtered_.as_bool() && message_text.empty())
 			//	message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
@@ -1304,21 +1304,21 @@ int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message
 	bool first = true;
 
 	const JSONNode &other_user_fbid_ = thread["thread_key"]["other_user_id"];
-	const JSONNode &thread_fbid_ = thread["thread_key"]["thread_fbid"];
+	// const JSONNode &thread_fbid_ = thread["thread_key"]["thread_fbid"];
 
-	for (auto it = nodes.begin(); it != nodes.end(); ++it) {
-		const JSONNode &author = (*it)["message_sender"]["id"];
-		const JSONNode &body = (*it)["message"]["text"];
-		const JSONNode &tid = (*it)["offline_threading_id"];
-		const JSONNode &mid = (*it)["message_id"];
-		const JSONNode &timestamp = (*it)["timestamp_precise"];
-		// const JSONNode &filtered = (*it)["is_filtered_content"];
-		const JSONNode &is_unread = (*it)["unread"];
+	for (auto &it : nodes) {
+		const JSONNode &author = it["message_sender"]["id"];
+		const JSONNode &body = it["message"]["text"];
+		const JSONNode &tid = it["offline_threading_id"];
+		const JSONNode &mid = it["message_id"];
+		const JSONNode &timestamp = it["timestamp_precise"];
+		// const JSONNode &filtered = it["is_filtered_content"];
+		const JSONNode &is_unread = it["unread"];
 
 		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
-		const JSONNode &log_type_ = (*it)["log_message_type"];
-		const JSONNode &log_body_ = (*it)["log_message_body"];
-		const JSONNode &log_data_ = (*it)["log_message_data"];
+		const JSONNode &log_type_ = it["log_message_type"];
+		const JSONNode &log_body_ = it["log_message_body"];
+		const JSONNode &log_data_ = it["log_message_data"];
 
 		if (!author || (!body && !log_body_) || !mid || !tid || !timestamp) {
 			debugLogA("ParseHistory: ignoring message (%s) - missing attribute", mid.as_string().c_str());
@@ -1340,7 +1340,7 @@ int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message
 			author_id = author_id.substr(pos + 1);
 
 		// Process attachements and stickers
-		ParseAttachments(message_text, (*it), other_user_id, true);
+		ParseAttachments(message_text, it, other_user_id, true);
 
 		//if (filtered.as_bool() && message_text.empty())
 		//	message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
