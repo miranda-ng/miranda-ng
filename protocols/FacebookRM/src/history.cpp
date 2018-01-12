@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, const char* timestamp, int limit)
+HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, const char* timestamp, int limit, bool loadMessages)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/api/graphqlbatch/");
 
@@ -47,13 +47,13 @@ HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, con
 	query_params
 		<< CHAR_PARAM("id", id_.c_str())
 		<< INT_PARAM("message_limit", (limit == -1) ? 50 : limit)
-		<< INT_PARAM("load_messages", 0)
+		<< BOOL_PARAM("load_messages", loadMessages)
 		<< BOOL_PARAM("load_read_receipts", false);
 
-	if (timestamp != nullptr)
-		query_params << CHAR_PARAM("before", timestamp);
-	else
+	if (timestamp == nullptr || strcmp(timestamp, "") == 0)
 		query_params << NULL_PARAM("before");
+	else
+		query_params << CHAR_PARAM("before", timestamp);
 
 	o0 << CHAR_PARAM("doc_id", "1549485615075443") << JSON_PARAM("query_params", query_params);
 	root << JSON_PARAM("o0", o0);
@@ -79,19 +79,27 @@ HttpRequest* facebook_client::threadInfoRequest(const LIST<char> &ids, int offse
 		<< CHAR_PARAM("__rev", __rev())
 		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str());
 
+	JSONNode root;
 	for (int i = 0; i < ids.getCount(); i++) {
 		// NOTE: Remove "id." prefix as here we need to give threadFbId and not threadId
 		std::string id_ = ids[i]; // FIXME: Rewrite this without std::string...
 		if (id_.substr(0, 3) == "id.")
 			id_ = id_.substr(3);
 
-		// Load messages
-		CMStringA begin(::FORMAT, "messages[%s][%s]", "thread_fbids", ptrA(mir_urlEncode(id_.c_str())).get());
-		p->Body
-			<< INT_PARAM(CMStringA(::FORMAT, "%s[offset]", begin.c_str()), offset)
-			<< INT_PARAM(CMStringA(::FORMAT, "%s[limit]", begin.c_str()), limit)
-			<< CHAR_PARAM(CMStringA(::FORMAT, "threads[%s][%i]", "thread_fbids", i), id_.c_str());
+		// Build query
+		JSONNode oX, query_params;
+		query_params
+			<< CHAR_PARAM("id", id_.c_str())
+			<< INT_PARAM("message_limit", limit)
+			<< BOOL_PARAM("load_messages", true)
+			<< BOOL_PARAM("load_read_receipts", false)
+			<< NULL_PARAM("before");
+
+		oX << CHAR_PARAM("doc_id", "1508526735892416") << JSON_PARAM("query_params", query_params);
+		root << JSON_PARAM(("o" + std::to_string(i)).c_str(), oX);
 	}
+
+	p->Body << CHAR_PARAM("queries", root.write().c_str());
 
 	return p;
 }

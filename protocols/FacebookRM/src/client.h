@@ -223,7 +223,7 @@ public:
 	HttpRequest* memoriesRequest();
 
 	// history.cpp
-	HttpRequest* threadInfoRequest(bool isChat, const char *id, const char* timestamp = nullptr, int limit = -1);
+	HttpRequest* threadInfoRequest(bool isChat, const char *id, const char* timestamp = nullptr, int limit = -1, bool loadMessages = false);
 	HttpRequest* threadInfoRequest(const LIST<char> &ids, int offset, int limit);
 	HttpRequest* unreadThreadsRequest();
 

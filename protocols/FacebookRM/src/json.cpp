@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
+#include <regex>
 
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -1165,127 +1166,159 @@ int FacebookProto::ParseUnreadThreads(std::string *data, std::vector< std::strin
 
 int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_message >* messages, bool unreadOnly)
 {
-	std::string jsonData = data->substr(9);
+	/*size_t len = data->find("\r\n");
+	if (len != data->npos)
+		data->erase(len);*/
 
-	JSONNode root = JSONNode::parse(jsonData.c_str());
-	if (!root)
-		return EXIT_FAILURE;
+	// since it could loop over multiple queries not all can be valid
+	// so return EXIT_FAILURE only if none is processed
+	bool hasResult = false;
 
-	const JSONNode &payload = root["payload"];
-	if (!payload)
-		return EXIT_FAILURE;
+	// pattern for one query
+	std::regex r("\\{\"o\\d\":\\{\"data\":\\{\"message_thread\":\\{.+\\}{4,5}"); // (\\{|$)
+	std::sregex_iterator i = std::sregex_iterator(data->begin(), data->end(), r);
+	std::sregex_iterator end;
+	// loop over queries
+	for (; i != end; ++i) {
 
-	const JSONNode &actions = payload["actions"];
-	const JSONNode &threads = payload["threads"];
-	if (!actions || !threads)
-		return EXIT_FAILURE;
+		std::smatch m = *i;
+		std::string match = m.str();
 
-	for (auto &it : actions) {
-		const JSONNode &author_ = it["author"];
-		const JSONNode &other_user_fbid_ = it["other_user_fbid"];
-		const JSONNode &body_ = it["body"];
-		const JSONNode &thread_id_ = it["thread_id"];
-		const JSONNode &thread_fbid_ = it["thread_fbid"];
-		const JSONNode &mid_ = it["message_id"];
-		const JSONNode &timestamp_ = it["timestamp"];
-		const JSONNode &filtered_ = it["is_filtered_content"];
-		const JSONNode &is_unread_ = it["is_unread"];
-
-		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
-		const JSONNode &log_type_ = it["log_message_type"];
-		const JSONNode &log_body_ = it["log_message_body"];
-		const JSONNode &log_data_ = it["log_message_data"]; // additional data for this log message
-
-		if (!author_ || (!body_ && !log_body_) || !mid_ || (!thread_fbid_ && !thread_id_) || !timestamp_) {
-			debugLogA("ParseThreadMessages: ignoring message (%s) - missing attribute", mid_.as_string().c_str());
-			continue;
-		}
-
-		std::string thread_id = thread_id_.as_string();
-		std::string thread_fbid = thread_fbid_.as_string();
-		std::string message_id = mid_.as_string();
-		std::string message_text = body_ ? body_.as_string() : log_body_.as_string();
-		std::string author_id = author_.as_string();
-		std::string other_user_fbid = other_user_fbid_ ? other_user_fbid_.as_string() : "";
-		std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
-		if (pos != std::string::npos)
-			author_id = author_id.substr(pos + 1);
-
-		// Process attachements and stickers
-		ParseAttachments(message_text, it, other_user_fbid, true);
-
-		if (filtered_.as_bool() && message_text.empty())
-			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
-
-		message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
-		if (message_text.empty()) {
-			debugLogA("ParseThreadMessages: ignoring message (%s) - empty message text", mid_.as_string().c_str());
-			continue;
-		}
-
-		bool isUnread = is_unread_.as_bool();
-
-		// Ignore read messages if we want only unread messages
-		if (unreadOnly && !isUnread)
+		JSONNode root = JSONNode::parse(match.c_str());
+		if (!root)
+			//return EXIT_FAILURE;
 			continue;
 
-		facebook_message message;
-		message.message_text = message_text;
-		message.time = utils::time::from_string(timestamp_.as_string());
-		message.message_id = message_id;
-		message.isIncoming = (author_id != facy.self_.user_id);
-		message.isUnread = isUnread;
+		// query number "o0", "o1", .. but they are not ordered
+		std::string oX = std::string("o") + std::string(1, match.at(3));
 
-		message.isChat = other_user_fbid.empty();
-		if (message.isChat) {
-			message.user_id = author_id;
-			message.thread_id = "id." + thread_fbid;
+		const JSONNode &thread = root[oX.c_str()]["data"]["message_thread"];
+		if (!thread)
+			//return EXIT_FAILURE;
+			continue;
+
+		const JSONNode &nodes = thread["messages"]["nodes"];
+		if (!nodes)
+			//return EXIT_FAILURE;
+			continue;
+
+		// TODO! process commented sections and better pair json (this is just quick attempt, + I do not know what everything means yet)
+
+		const JSONNode &other_user_fbid_ = thread["thread_key"]["other_user_id"];
+		const JSONNode &thread_fbid_ = thread["thread_key"]["thread_fbid"];
+
+		for (auto it = nodes.begin(); it != nodes.end(); ++it) {
+			const JSONNode &author_ = (*it)["message_sender"]["id"];
+			const JSONNode &body_ = (*it)["message"]["text"];
+			const JSONNode &thread_id_ = (*it)["offline_threading_id"];
+			const JSONNode &mid_ = (*it)["message_id"];
+			const JSONNode &timestamp_ = (*it)["timestamp_precise"];
+			// const JSONNode &filtered_ = (*it)["is_filtered_content"];
+			const JSONNode &is_unread_ = (*it)["unread"];
+
+			// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
+			const JSONNode &log_type_ = (*it)["log_message_type"];
+			const JSONNode &log_body_ = (*it)["log_message_body"];
+			const JSONNode &log_data_ = (*it)["log_message_data"]; // additional data for this log message
+
+			if (!author_ || (!body_ && !log_body_) || !mid_ || (!thread_fbid_ && !thread_id_) || !timestamp_) {
+				debugLogA("ParseThreadMessages: ignoring message (%s) - missing attribute", mid_.as_string().c_str());
+				continue;
+			}
+
+			std::string thread_id = thread_id_.as_string();
+			std::string thread_fbid = thread_fbid_.as_string();
+			std::string message_id = mid_.as_string();
+			std::string message_text = body_ ? body_.as_string() : log_body_.as_string();
+			std::string author_id = author_.as_string();
+			std::string other_user_fbid = other_user_fbid_ ? other_user_fbid_.as_string() : "";
+			std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
+			if (pos != std::string::npos)
+				author_id = author_id.substr(pos + 1);
+
+			// Process attachements and stickers
+			ParseAttachments(message_text, (*it), other_user_fbid, true);
+
+			//if (filtered_.as_bool() && message_text.empty())
+			//	message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
+
+			message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
+			if (message_text.empty()) {
+				debugLogA("ParseThreadMessages: ignoring message (%s) - empty message text", mid_.as_string().c_str());
+				continue;
+			}
+
+			bool isUnread = is_unread_.as_bool();
+
+			// Ignore read messages if we want only unread messages
+			if (unreadOnly && !isUnread)
+				continue;
+
+			facebook_message message;
+			message.message_text = message_text;
+			message.time = utils::time::from_string(timestamp_.as_string());
+			message.message_id = message_id;
+			message.isIncoming = (author_id != facy.self_.user_id);
+			message.isUnread = isUnread;
+
+			message.isChat = other_user_fbid.empty();
+			if (message.isChat) {
+				message.user_id = author_id;
+				message.thread_id = "id." + thread_fbid;
+			}
+			else {
+				message.user_id = other_user_fbid;
+				message.thread_id = thread_id;
+			}
+
+			ParseMessageType(message, log_type_, log_body_, log_data_);
+
+			messages->push_back(message);
+			hasResult = true;
 		}
-		else {
-			message.user_id = other_user_fbid;
-			message.thread_id = thread_id;
-		}
-
-		ParseMessageType(message, log_type_, log_body_, log_data_);
-
-		messages->push_back(message);
 	}
 
-	return EXIT_SUCCESS;
+	return hasResult ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
-int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message >* messages, std::string *firstTimestamp)
+int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message > *messages, std::string* firstTimestamp)
 {
-	std::string jsonData = data->substr(9);
+	size_t len = data->find("\r\n");
+	if (len != data->npos)
+		data->erase(len);
 
-	JSONNode root = JSONNode::parse(jsonData.c_str());
+	JSONNode root = JSONNode::parse(data->c_str());
 	if (!root)
 		return EXIT_FAILURE;
 
-	const JSONNode &payload = root["payload"];
-	if (!payload)
+	const JSONNode &thread = root["o0"]["data"]["message_thread"];
+	if (!thread)
 		return EXIT_FAILURE;
 
-	const JSONNode &actions = payload["actions"];
-	if (!actions)
+	const JSONNode &nodes = thread["messages"]["nodes"];
+	if (!nodes)
 		return EXIT_FAILURE;
+
+	// TODO! process commented sections and better pair json (this is just quick attempt, + I do not know what everything means yet)
 
 	bool first = true;
 
-	for (auto &it : actions) {
-		const JSONNode &author = it["author"];
-		const JSONNode &other_user_fbid = it["other_user_fbid"];
-		const JSONNode &body = it["body"];
-		const JSONNode &tid = it["thread_id"];
-		const JSONNode &mid = it["message_id"];
-		const JSONNode &timestamp = it["timestamp"];
-		const JSONNode &filtered = it["is_filtered_content"];
-		const JSONNode &is_unread = it["is_unread"];
+	const JSONNode &other_user_fbid_ = thread["thread_key"]["other_user_id"];
+	const JSONNode &thread_fbid_ = thread["thread_key"]["thread_fbid"];
+
+	for (auto it = nodes.begin(); it != nodes.end(); ++it) {
+		const JSONNode &author = (*it)["message_sender"]["id"];
+		const JSONNode &body = (*it)["message"]["text"];
+		const JSONNode &tid = (*it)["offline_threading_id"];
+		const JSONNode &mid = (*it)["message_id"];
+		const JSONNode &timestamp = (*it)["timestamp_precise"];
+		// const JSONNode &filtered = (*it)["is_filtered_content"];
+		const JSONNode &is_unread = (*it)["unread"];
 
 		// Either there is "body" (for classic messages), or "log_message_type" and "log_message_body" (for log messages)
-		const JSONNode &log_type_ = it["log_message_type"];
-		const JSONNode &log_body_ = it["log_message_body"];
-		const JSONNode &log_data_ = it["log_message_data"];
+		const JSONNode &log_type_ = (*it)["log_message_type"];
+		const JSONNode &log_body_ = (*it)["log_message_body"];
+		const JSONNode &log_data_ = (*it)["log_message_data"];
 
 		if (!author || (!body && !log_body_) || !mid || !tid || !timestamp) {
 			debugLogA("ParseHistory: ignoring message (%s) - missing attribute", mid.as_string().c_str());
@@ -1301,16 +1334,16 @@ int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message
 		std::string message_id = mid.as_string();
 		std::string message_text = body ? body.as_string() : log_body_.as_string();
 		std::string author_id = author.as_string();
-		std::string other_user_id = other_user_fbid ? other_user_fbid.as_string() : "";
+		std::string other_user_id = other_user_fbid_ ? other_user_fbid_.as_string() : "";
 		std::string::size_type pos = author_id.find(":"); // strip "fbid:" prefix
 		if (pos != std::string::npos)
 			author_id = author_id.substr(pos + 1);
 
 		// Process attachements and stickers
-		ParseAttachments(message_text, it, other_user_id, true);
+		ParseAttachments(message_text, (*it), other_user_id, true);
 
-		if (filtered.as_bool() && message_text.empty())
-			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
+		//if (filtered.as_bool() && message_text.empty())
+		//	message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
 
 		message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
 		if (message_text.empty()) {
@@ -1395,26 +1428,26 @@ int FacebookProto::ParseUserInfo(std::string *data, facebook_user* fbu)
 
 int FacebookProto::ParseMessagesCount(std::string *data, int *messagesCount, int *unreadCount)
 {
-	std::string jsonData = data->substr(9);
+	size_t len = data->find("\r\n");
+	if (len != data->npos)
+		data->erase(len);
 
-	JSONNode root = JSONNode::parse(jsonData.c_str());
+	JSONNode root = JSONNode::parse(data->c_str());
 	if (!root)
 		return EXIT_FAILURE;
 
-	const JSONNode &threads = root["payload"].at("threads");
-	if (!threads)
+	const JSONNode &thread = root["o0"]["data"]["message_thread"];
+	if (!thread)
 		return EXIT_FAILURE;
 
-	for (auto &it : threads) {
-		const JSONNode &message_count_ = it["message_count"];
-		const JSONNode &unread_count_ = it["unread_count"];
+	const JSONNode &message_count_ = thread["messages_count"];
+	const JSONNode &unread_count_ = thread["unread_count"];
 
-		if (!message_count_ || !unread_count_)
-			return EXIT_FAILURE;
+	if (!message_count_ || !unread_count_)
+		return EXIT_FAILURE;
 
-		*messagesCount = message_count_.as_int();
-		*unreadCount = unread_count_.as_int();
-	}
+	*messagesCount = message_count_.as_int();
+	*unreadCount = unread_count_.as_int();
 
 	return EXIT_SUCCESS;
 }
