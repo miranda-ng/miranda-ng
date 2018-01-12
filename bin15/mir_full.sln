@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -429,6 +429,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileAsMessage", "..\plugins\FileAsMessage\fileecho.vcxproj", "{D7A3B8D0-425A-2286-8E2F-2C0BF1EE5C2E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmLanProto", "..\protocols\EmLanProto\emlanproto.vcxproj", "{2115FEBC-1EC4-4F95-A058-A523ED5295A4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_mdbx", "..\plugins\Dbx_mdbx\dbx_mdbx.vcxproj", "{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1988,6 +1990,14 @@ Global
 		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|Win32.Build.0 = Release|Win32
 		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.ActiveCfg = Release|x64
 		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.Build.0 = Release|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|Win32.Build.0 = Debug|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|x64.ActiveCfg = Debug|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|x64.Build.0 = Debug|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|Win32.ActiveCfg = Release|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|Win32.Build.0 = Release|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|x64.ActiveCfg = Release|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

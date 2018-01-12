@@ -134,6 +134,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Facebook", "..\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\src\icons\proto_metacontacts\Proto_MetaContacts.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_mdbx", "..\plugins\Dbx_mdbx\dbx_mdbx.vcxproj", "{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -510,6 +512,14 @@ Global
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|Win32.Build.0 = Debug|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|x64.ActiveCfg = Debug|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Debug|x64.Build.0 = Debug|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|Win32.ActiveCfg = Release|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|Win32.Build.0 = Release|Win32
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|x64.ActiveCfg = Release|x64
+		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
