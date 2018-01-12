@@ -50,10 +50,10 @@ HttpRequest* facebook_client::threadInfoRequest(bool isChat, const char *id, con
 		<< BOOL_PARAM("load_messages", loadMessages)
 		<< BOOL_PARAM("load_read_receipts", false);
 
-	if (timestamp != nullptr)
-		query_params << CHAR_PARAM("before", timestamp);
-	else
+	if (timestamp == nullptr || strcmp(timestamp, "") == 0)
 		query_params << NULL_PARAM("before");
+	else
+		query_params << CHAR_PARAM("before", timestamp);
 
 	o0 << CHAR_PARAM("doc_id", "1549485615075443") << JSON_PARAM("query_params", query_params);
 	root << JSON_PARAM("o0", o0);
