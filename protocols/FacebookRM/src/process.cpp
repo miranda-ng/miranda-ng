@@ -43,11 +43,10 @@ void FacebookProto::ProcessFriendList(void*)
 	debugLogA("*** Starting processing friend list");
 
 	try {
-		std::map<std::string, facebook_user*> friends;
-
 		bool loadAllContacts = getBool(FACEBOOK_KEY_LOAD_ALL_CONTACTS, DEFAULT_LOAD_ALL_CONTACTS);
 		bool pagesAlwaysOnline = getBool(FACEBOOK_KEY_PAGES_ALWAYS_ONLINE, DEFAULT_PAGES_ALWAYS_ONLINE);
 
+		std::map<std::string, facebook_user*> friends;
 		ParseFriends(&resp.data, &friends, loadAllContacts);
 
 		// Check and update old contacts
@@ -201,7 +200,6 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 	// TODO: First load info about amount of unread messages, then load exactly this amount for each thread
 
 	while (!threads->empty()) {
-
 		LIST<char> ids(1);
 		for (std::vector<std::string>::size_type i = 0; i < threads->size(); i++)
 			ids.insert(mir_strdup(threads->at(i).c_str()));
@@ -350,9 +348,9 @@ void FacebookProto::LoadHistory(void *pParam)
 	}
 
 	std::vector<facebook_message> messages;
-	std::string firstTimestamp = "";
-	std::string firstMessageId = "";
-	std::string lastMessageId = "";
+	std::string firstTimestamp;
+	std::string firstMessageId;
+	std::string lastMessageId;
 	int loadedMessages = 0;
 	int messagesPerBatch = messagesCount > 10000 ? 500 : 100;
 	for (int batch = 0; batch < messagesCount; batch += messagesPerBatch) {
@@ -379,12 +377,12 @@ void FacebookProto::LoadHistory(void *pParam)
 				facebook_message &msg = messages[i];
 
 				// First message might overlap (as we are using it's timestamp for the next loading), so we need to check for it
-				if (i == 0) {
+				if (i == 0)
 					firstMessageId = msg.message_id;
-				}
-				if (previousFirstMessageId == msg.message_id) {
+
+				if (previousFirstMessageId == msg.message_id)
 					continue;
-				}
+
 				lastMessageId = msg.message_id;
 
 				// We don't use ProtoChainRecvMsg here as this is just loading of old messages, which we just add to log
@@ -803,9 +801,8 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 				break;
 			
 			case THREAD_NAME:
+				UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
 				{
-					UpdateChat(thread_id.c_str(), nullptr, nullptr, msg.message_text.c_str());
-
 					std::string chatName = (!msg.data.empty() ? msg.data : GenerateChatName(fbc));
 					// proto->RenameChat(thread_id.c_str(), chatName.c_str()); // this don't work, why?
 					setStringUtf(hChatContact, FACEBOOK_KEY_NICK, chatName.c_str());
@@ -887,12 +884,10 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 		}
 	}
 
-	if (!hChatContacts->empty()) {
+	if (!hChatContacts->empty())
 		ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContacts);
-	}
-	else {
+	else
 		delete hChatContacts;
-	}
 }
 
 void FacebookProto::ProcessMessages(void* data)
@@ -950,9 +945,8 @@ void FacebookProto::ProcessNotifications(void *p)
 		return;
 
 	bool manuallyTriggered = (p == MANUALLY_TRIGGERED);
-	if (manuallyTriggered) {
+	if (manuallyTriggered)
 		facy.info_notify(TranslateT("Loading notifications..."));
-	}
 
 	facy.handle_entry("notifications");
 
