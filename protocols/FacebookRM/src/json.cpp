@@ -1175,7 +1175,7 @@ int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_
 	bool hasResult = false;
 
 	// pattern for one query
-	std::regex r("\\{\"o\\d\":\\{\"data\":\\{\"message_thread\":\\{.+\\}\\}\\}\\}\\}"); // (\\{|$)
+	std::regex r("\\{\"o\\d\":\\{\"data\":\\{\"message_thread\":\\{.+\\}{4,5}"); // (\\{|$)
 	std::sregex_iterator i = std::sregex_iterator(data->begin(), data->end(), r);
 	std::sregex_iterator end;
 	// loop over queries

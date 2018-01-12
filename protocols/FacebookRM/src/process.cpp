@@ -228,8 +228,8 @@ void FacebookProto::ProcessUnreadMessage(void *pParam)
 		}
 		else facy.handle_error("ProcessUnreadMessage");
 
-		offset += limit;
-		limit = 20; // TODO: use better limits?
+		// offset += limit;
+		// limit = 20; // TODO: use better limits?
 
 		threads->clear(); // TODO: if we have limit messages from one user, there may be more unread messages... continue with it... otherwise remove that threadd from threads list -- or do it in json parser? hm			 = allow more than "limit" unread messages to be parsed
 	}
@@ -362,7 +362,7 @@ void FacebookProto::LoadHistory(void *pParam)
 			break;
 
 		// Load batch of messages
-		resp = facy.sendRequest(facy.threadInfoRequest(isChat, item_id, firstTimestamp.c_str(), messagesPerBatch));
+		resp = facy.sendRequest(facy.threadInfoRequest(isChat, item_id, firstTimestamp.c_str(), messagesPerBatch, true));
 
 		if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 			facy.handle_error("LoadHistory");

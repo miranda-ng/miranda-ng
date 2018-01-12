@@ -93,7 +93,7 @@ HttpRequest* facebook_client::threadInfoRequest(const LIST<char> &ids, int offse
 			<< INT_PARAM("message_limit", limit)
 			<< BOOL_PARAM("load_messages", true)
 			<< BOOL_PARAM("load_read_receipts", false)
-			<< NULL_PARAM("before");;
+			<< NULL_PARAM("before");
 
 		oX << CHAR_PARAM("doc_id", "1508526735892416") << JSON_PARAM("query_params", query_params);
 		root << JSON_PARAM(("o" + std::to_string(i)).c_str(), oX);
