@@ -1165,10 +1165,19 @@ int FacebookProto::ParseUnreadThreads(std::string *data, std::vector< std::strin
 
 int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_message >* messages, bool unreadOnly)
 {
-	// cuts out the rest
-	size_t len = data->find("\r\n");
+	// cuts out the rest (summary result)
+	size_t len = data->find("\r\n{\n   \"successful_results");
 	if (len != data->npos)
 		data->erase(len);
+
+	// make data to be valid json (queries are standalone JSONs --> merge them into one)
+	std::string::size_type n = 0;
+	std::string replaceFrom = "}\r\n{";
+	std::string replaceTo = ", ";
+	while ((n = data->find(replaceFrom, n)) != std::string::npos) {
+		data->replace(n, replaceFrom.size(), replaceTo);
+		n += replaceTo.size();
+	}
 
 	JSONNode root = JSONNode::parse(data->c_str());
 	if (!root)

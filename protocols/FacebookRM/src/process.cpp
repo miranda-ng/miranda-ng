@@ -316,7 +316,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	}
 
 	// first get info about this thread and how many messages is there
-	http::response resp = facy.sendRequest(facy.threadInfoRequest(isChat, item_id));
+	http::response resp = facy.sendRequest(facy.threadInfoRequest(isChat, (char*)item_id));
 	if (resp.code != HTTP_CODE_OK || resp.data.empty()) {
 		facy.handle_error("LoadHistory");
 		return;
