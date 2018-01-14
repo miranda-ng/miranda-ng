@@ -468,6 +468,7 @@ LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 	result.Replace(L"&#235;", L"ë"); //euml
 	result.Replace(L"&#246;", L"ö"); //ouml
 	result.Replace(L"&#382;", L"ž"); //Latin Small Letter Z With Caron
+	result.Replace(L"&#665;", L"ʙ"); //latin letter small capital b
 	result.Replace(L"&#774;", L"˘"); //Combining Breve
 	result.Replace(L"&#769;", L"´"); //Combining Acute Accent острое ударение
 	result.Replace(L"&#959;", L"ό"); // greek small letter omicron with tonos
