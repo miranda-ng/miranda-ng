@@ -9,12 +9,9 @@ public:
 	{
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 
-		CMStringA data;
-		data.AppendFormat("username=%s&donotcache=%lld", ptrA(mir_urlEncode(username)), time(NULL));
-
 		Content = new FormUrlEncodedContent(this)
 			<< CHAR_PARAM("username", username)
-			<< INT64_PARAM("donotcache", time(NULL));
+			<< INT64_PARAM("donotcache", now());
 	}
 };
 

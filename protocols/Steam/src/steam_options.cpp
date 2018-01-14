@@ -25,9 +25,11 @@ void CSteamOptionsMain::OnInitDialog()
 
 void CSteamOptionsMain::OnApply()
 {
-	wchar_t *group = m_group.GetText();
-	if (mir_wstrlen(group) > 0 && !Clist_GroupExists(group))
+	ptrW group(m_group.GetText());
+	if (mir_wstrcmp(group, m_proto->m_defaultGroup)) {
+		m_proto->m_defaultGroup = mir_wstrdup(group);
 		Clist_GroupCreate(0, group);
+	}
 
 	if (m_proto->IsOnline())
 	{

@@ -59,9 +59,12 @@ extern HANDLE hExtraXStatus;
 #define STEAM_DB_GETEVENTTEXT_CHATSTATES    "/GetEventText2000"
 #define STEAM_DB_EVENT_CHATSTATES_GONE      1
 
+#define now() time(NULL)
+
 #include "steam_dialogs.h"
 #include "steam_options.h"
 #include "http_request.h"
+#include "api/enums.h"
 #include "api/app_info.h"
 #include "api/authorization.h"
 #include "api/authorization.h"

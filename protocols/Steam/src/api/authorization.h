@@ -25,7 +25,7 @@ public:
 			<< CHAR_PARAM("captcha_text", captchaText)
 			<< CHAR_PARAM("rsatimestamp", timestamp)
 			<< BOOL_PARAM("rememberlogin", false)
-			<< INT64_PARAM("donotcache", time(NULL));
+			<< INT64_PARAM("donotcache", now());
 	}
 };
 

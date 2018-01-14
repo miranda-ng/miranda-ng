@@ -4,7 +4,6 @@ struct SendMessageParam
 {
 	MCONTACT hContact;
 	HANDLE hMessage;
-	char *message;
 };
 
 int CSteamProto::OnSendMessage(MCONTACT hContact, const char *message)
@@ -14,7 +13,6 @@ int CSteamProto::OnSendMessage(MCONTACT hContact, const char *message)
 	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
-	param->message = mir_strdup(message);
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
@@ -66,7 +64,6 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hMessage, 0);
 	}
 
-	mir_free(param->message);
 	mir_free(param);
 }
 
@@ -89,13 +86,13 @@ int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 int CSteamProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	// NOTE: Steam doesn't support sending "user stopped typing" so we're sending only positive info
-	if (hContact && IsOnline() && type == PROTOTYPE_SELFTYPING_ON)
-	{
-		ptrA token(getStringA("TokenSecret"));
-		ptrA umqid(getStringA("UMQID"));
-		ptrA steamId(getStringA(hContact, "SteamID"));
-		PushRequest(new SendTypingRequest(token, umqid, steamId));
-	}
+	if (type == PROTOTYPE_SELFTYPING_OFF)
+		return 0;
+	
+	ptrA token(getStringA("TokenSecret"));
+	ptrA umqid(getStringA("UMQID"));
+	ptrA steamId(getStringA(hContact, "SteamID"));
+	PushRequest(new SendTypingRequest(token, umqid, steamId));
 
 	return 0;
 }

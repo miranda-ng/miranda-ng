@@ -14,6 +14,17 @@ public:
 			<< CHAR_PARAM("access_token", token)
 			<< CHAR_PARAM("ui_mode", "web");
 	}
+
+	//{
+	//	"steamid": "XXXXXXXXXXXXXXXXX",
+	//	"error" : "OK",
+	//	"umqid" : "XXXXXXXXXXXXXXXXXXX",
+	//	"timestamp" : 16955891,
+	//	"utc_timestamp" : 1514974537,
+	//	"message" : 1,
+	//	"push" : 0
+	//}
+
 };
 
 class LogoffRequest : public HttpRequest
@@ -26,6 +37,10 @@ public:
 			<< CHAR_PARAM("access_token", token)
 			<< CHAR_PARAM("umqid", umqId);
 	}
+
+	//{
+	//	"error": "OK"
+	//}
 };
 
 #endif //_STEAM_REQUEST_LOGIN_H_

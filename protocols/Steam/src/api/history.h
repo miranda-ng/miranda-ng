@@ -9,6 +9,21 @@ public:
 	{
 		Uri << CHAR_PARAM("access_token", token);
 	}
+
+	//{
+	//	"response": {
+	//		"message_sessions": [
+	//			{
+	//				"accountid_friend": XXXXXXXXX,
+	//				"last_message" : 1514975719,
+	//				"last_view" : 1514975719,
+	//				"unread_message_count" : 0
+	//			}
+	//		]
+	//		,
+	//		"timestamp": 1515007542
+	//	}
+	//}
 };
 
 class GetHistoryMessagesRequest : public HttpRequest

@@ -2,16 +2,21 @@
 
 CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	: PROTO<CSteamProto>(protoName, userName),
-	requestQueue(1), hAuthProcess(1), hMessageProcess(1)
+	m_requestQueue(1), hAuthProcess(1), hMessageProcess(1)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
 	m_idleTS = 0;
 	m_lastMessageTS = 0;
 	isLoginAgain = false;
-	m_pollingConnection = nullptr;
 	m_hPollingThread = nullptr;
 	m_hRequestsQueueEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+	// default group
+	m_defaultGroup = getWStringA("DefaultGroup");
+	if (m_defaultGroup == nullptr)
+		m_defaultGroup = mir_wstrdup(L"Steam");
+	Clist_GroupCreate(0, m_defaultGroup);
 
 	// icons
 	wchar_t filePath[MAX_PATH];
@@ -47,9 +52,6 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	db_set_resident(m_szModuleName, "ServerID");
 
 	setAllContactStatuses(ID_STATUS_OFFLINE);
-
-	// services
-	CreateServiceFunction(MODULE"/MenuChoose", CSteamProto::MenuChooseService);
 
 	// avatar API
 	CreateProtoService(PS_GETAVATARINFO, &CSteamProto::GetAvatarInfo);
@@ -91,28 +93,13 @@ CSteamProto::~CSteamProto()
 	}
 }
 
-MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
+MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	MCONTACT hContact = NULL;
-	ptrA steamId(mir_u2a(psr->id.w));
-	if (psr->cbSize == sizeof(PROTOSEARCHRESULT))
-	{
-		if (!FindContact(steamId))
-		{
-			//hContact = AddContact(steamId, true);
-			//ForkThread(&CSteamProto::UpdateContactsThread, (void*)mir_strdup(steamId));
+	_T2A steamId(psr->id.w);
+	MCONTACT hContact = AddContact(steamId, psr->nick.w, true);
 
-			ptrA token(getStringA("TokenSecret"));
-
-			PushRequest(
-				new GetUserSummariesRequest(token, steamId),
-				&CSteamProto::OnGotUserSummaries);
-		}
-	}
-	else if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT))
-	{
+	if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT)) {
 		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT*)psr;
-		hContact = AddContact(steamId, true);
 		UpdateContactDetails(hContact, *ssr->data);
 	}
 
@@ -121,13 +108,10 @@ MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT* psr)
 
 int CSteamProto::Authorize(MEVENT hDbEvent)
 {
-	if (IsOnline() && hDbEvent)
-	{
+	if (IsOnline() && hDbEvent) {
 		MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
-
-		//ForkThread(&CSteamProto::AuthAllowThread, (void*)hContact);
 
 		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
@@ -145,15 +129,19 @@ int CSteamProto::Authorize(MEVENT hDbEvent)
 	return 1;
 }
 
+int CSteamProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT *pre)
+{
+	// remember to not create this event again, unless authorization status changes again
+	setByte(hContact, "AuthAsked", 1);
+	return Proto_AuthRecv(m_szModuleName, pre);
+}
+
 int CSteamProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 {
-	if (IsOnline() && hDbEvent)
-	{
+	if (IsOnline() && hDbEvent) {
 		MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
-
-		//ForkThread(&CSteamProto::AuthDenyThread, (void*)hContact);
 
 		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
@@ -173,31 +161,17 @@ int CSteamProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 
 int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 {
-	if (IsOnline() && hContact)
-	{
+	if (IsOnline() && hContact) {
 		UINT hAuth = InterlockedIncrement(&hAuthProcess);
 
 		SendAuthParam *param = (SendAuthParam*)mir_calloc(sizeof(SendAuthParam));
 		param->hContact = hContact;
 		param->hAuth = (HANDLE)hAuth;
 
-		//ForkThread(&CSteamProto::AddContactThread, param);
-
 		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
 		ptrA steamId(getStringA("SteamID"));
 		ptrA who(getStringA(hContact, "SteamID"));
-
-		/*
-		posilame: (kdyz my zadame)
-		sessionID	MjYzNDM4NDgw
-		steamid	76561198166125402
-		accept_invite	0
-
-		pri uspesnem pozadavku vrati: {"invited":["76561198166125402"],"success":1}
-		kdyz nas ignoruje: {"failed_invites":["76561198166125402"],"failed_invites_result":[41],"success":1}
-
-		*/
 
 		PushRequest(
 			new AddFriendRequest(token, sessionId, steamId, who),
@@ -212,8 +186,7 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 
 DWORD_PTR CSteamProto:: GetCaps(int type, MCONTACT)
 {
-	switch(type)
-	{
+	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_AUTHREQ | PF1_SERVERCLIST | PF1_ADDSEARCHRES | PF1_MODEMSGRECV;
 	case PFLAGNUM_2:
@@ -249,7 +222,7 @@ HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 
 HANDLE CSteamProto::SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName)
 {
-	if (!this->IsOnline())
+	if (!IsOnline())
 		return nullptr;
 
 	// Combine all fields to single text
@@ -257,7 +230,7 @@ HANDLE CSteamProto::SearchByName(const wchar_t* nick, const wchar_t* firstName, 
 	mir_snwprintf(keywordsT, L"%s %s %s", nick, firstName, lastName);
 
 	ptrA token(getStringA("TokenSecret"));
-	ptrA keywords(mir_utf8encodeW(keywordsT));
+	ptrA keywords(mir_utf8encodeW(rtrimw(keywordsT)));
 
 	PushRequest(
 		new SearchRequest(token, keywords),
@@ -269,8 +242,7 @@ HANDLE CSteamProto::SearchByName(const wchar_t* nick, const wchar_t* firstName, 
 
 int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 {
-	if (!IsOnline())
-	{
+	if (!IsOnline()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)Translate("You cannot send messages when you are offline."));
 		return 0;
 	}
@@ -280,11 +252,10 @@ int CSteamProto::SendMsg(MCONTACT hContact, int, const char *message)
 
 int CSteamProto::SetStatus(int new_status)
 {
-	mir_cslock lock(set_status_lock);
+	mir_cslock lock(m_setStatusLock);
 
 	// Routing statuses not supported by Steam
-	switch (new_status)
-	{
+	switch (new_status) {
 	case ID_STATUS_OFFLINE:
 	case ID_STATUS_AWAY:
 	case ID_STATUS_NA:
@@ -310,8 +281,7 @@ int CSteamProto::SetStatus(int new_status)
 	int old_status = m_iStatus;
 	m_iDesiredStatus = new_status;
 
-	if (new_status == ID_STATUS_OFFLINE)
-	{
+	if (new_status == ID_STATUS_OFFLINE) {
 		// Reset relogin flag
 		isLoginAgain = false;
 
@@ -320,20 +290,19 @@ int CSteamProto::SetStatus(int new_status)
 		if (!Miranda_IsTerminated())
 			setAllContactStatuses(ID_STATUS_OFFLINE);
 
-		LogOut();
+		Logout();
 	}
-	else if (old_status == ID_STATUS_OFFLINE)
-	{
+	else if (old_status == ID_STATUS_OFFLINE) {
 		// Load last message timestamp for correct loading of messages history
 		m_lastMessageTS = getDword("LastMessageTS", 0);
 
 		m_iStatus = ID_STATUS_CONNECTING;
 
-		isTerminated = false;
+		m_isTerminated = false;
 
-		m_hRequestQueueThread = ForkThreadEx(&CSteamProto::RequestQueueThread, NULL, NULL);
+		m_hRequestQueueThread = ForkThreadEx(&CSteamProto::RequestQueueThread, nullptr, nullptr);
 
-		
+		Login();
 	}
 	else
 		m_iStatus = new_status;
@@ -343,7 +312,7 @@ int CSteamProto::SetStatus(int new_status)
 	return 0;
 }
 
-void __cdecl CSteamProto::GetAwayMsgThread(void *arg)
+void CSteamProto::GetAwayMsgThread(void *arg)
 {
 	// Maybe not needed, but better to be sure that this won't happen faster than core handling return value of GetAwayMsg()
 	Sleep(50);
@@ -352,8 +321,7 @@ void __cdecl CSteamProto::GetAwayMsgThread(void *arg)
 	CMStringW message(db_get_wsa(hContact, "CList", "StatusMsg"));
 	
 	// if contact has no status message, get xstatus message
-	if (message.IsEmpty())
-	{
+	if (message.IsEmpty()) {
 		ptrW xStatusName(getWStringA(hContact, "XStatusName"));
 		ptrW xStatusMsg(getWStringA(hContact, "XStatusMsg"));
 
@@ -366,45 +334,37 @@ void __cdecl CSteamProto::GetAwayMsgThread(void *arg)
 	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)message.c_str());
 }
 
-HANDLE __cdecl CSteamProto::GetAwayMsg(MCONTACT hContact)
+HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 {
 	ForkThread(&CSteamProto::GetAwayMsgThread, (void*)hContact);
 	return (HANDLE)1;
 }
 
-int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (eventType)
-	{
+	switch (eventType) {
 	case EV_PROTO_ONLOAD:
-		return this->OnModulesLoaded(wParam, lParam);
-
-	/*case EV_PROTO_ONOPTIONS:
-		return this->OnOptionsInit(wParam, lParam);*/
+		return OnModulesLoaded(wParam, lParam);
 
 	case EV_PROTO_ONCONTACTDELETED:
-		if (IsOnline())
-		{
+		if (IsOnline()) {
 			MCONTACT hContact = (MCONTACT)wParam;
-
-			ptrA token(getStringA("TokenSecret"));
-			ptrA sessionId(getStringA("SessionID"));
-			ptrA steamId(getStringA("SteamID"));
-			ptrA who(getStringA(hContact, "SteamID"));
-
-			// Don't request delete contact from server when we're not friends anyway
-			if (getByte(hContact, "Auth", 0) != 0)
-				return 0;
-
-			PushRequest(
-				new RemoveFriendRequest(token, sessionId, steamId, who),
-				&CSteamProto::OnFriendRemoved,
-				(void*)hContact);
+			// remove only authorized contacts
+			if (!getByte(hContact, "Auth", 0)) {
+				ptrA token(getStringA("TokenSecret"));
+				ptrA sessionId(getStringA("SessionID"));
+				ptrA steamId(getStringA("SteamID"));
+				char *who = getStringA(hContact, "SteamID");
+				PushRequest(
+					new RemoveFriendRequest(token, sessionId, steamId, who),
+					&CSteamProto::OnFriendRemoved,
+					(void*)who);
+			}
 		}
 		return 0;
 
 	case EV_PROTO_ONMENU:
-		this->OnInitStatusMenu();
+		//OnInitStatusMenu();
 		break;
 	}
 

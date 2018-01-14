@@ -13,18 +13,19 @@ struct SendAuthParam
 
 struct STEAM_SEARCH_RESULT
 {
-	PROTOSEARCHRESULT hdr;
-	JSONNode *data;
+	PROTOSEARCHRESULT psr;
+	const JSONNode *data;
 };
 
 enum
 {
 	CMI_AUTH_REQUEST,
 	//CMI_AUTH_GRANT,
-	//CMI_AUTH_REVOKE,
+	CMI_AUTH_REVOKE,
 	CMI_BLOCK,
+	CMI_UNBLOCK,
 	CMI_JOIN_GAME,
-	SMI_BLOCKED_LIST,
+	//SMI_BLOCKED_LIST,
 	CMI_MAX   // this item shall be the last one
 };
 
@@ -37,6 +38,13 @@ struct RequestQueueItem
 	HttpCallback httpCallback;
 	JsonCallback jsonCallback;
 	void *param;
+
+	RequestQueueItem(HttpRequest *request)
+		: request(request), httpCallback(nullptr), jsonCallback(nullptr), param(nullptr) {}
+	RequestQueueItem(HttpRequest *request, HttpCallback callback, void *param)
+		: request(request), httpCallback(callback), jsonCallback(nullptr), param(param) {}
+	RequestQueueItem(HttpRequest *request, JsonCallback callback, void *param)
+		: request(request), httpCallback(nullptr), jsonCallback(callback), param(param) {}
 };
 
 class CSteamProto : public PROTO<CSteamProto>
@@ -54,15 +62,16 @@ public:
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
 
 	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
+	virtual int       __cdecl AuthRecv(MCONTACT, PROTORECVEVENT*);
 	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t * szMessage);
+	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
 	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
-	virtual HANDLE    __cdecl SearchByName(const wchar_t* nick, const wchar_t* firstName, const wchar_t* lastName);
+	virtual HANDLE    __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
 
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
+	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
 
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
@@ -71,31 +80,31 @@ public:
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	// instances
-	static CSteamProto* InitProtoInstance(const char* protoName, const wchar_t* userName);
-	static int UninitProtoInstance(CSteamProto* ppro);
+	static CSteamProto* InitAccount(const char* protoName, const wchar_t *userName);
+	static int UninitAccount(CSteamProto* ppro);
 
-	static CSteamProto* GetContactProtoInstance(MCONTACT hContact);
-	static void UninitProtoInstances();
+	static CSteamProto* GetContactAccount(MCONTACT hContact);
 
 	// menus
 	static void InitMenus();
-	static void UninitMenus();
 
 protected:
-	wchar_t *password;
+	ptrW m_password;
+	ptrW m_defaultGroup;
 	bool isLoginAgain;
 	time_t m_idleTS;
-	bool isTerminated, isConnected;
-	mir_cs requestQueueLock;
+	// requests
+	bool m_isTerminated;
+	mir_cs m_requestQueueLock;
 	HANDLE m_hRequestsQueueEvent;
 	HANDLE m_hRequestQueueThread;
-	LIST<RequestQueueItem> requestQueue;
-	HANDLE m_pollingConnection, m_hPollingThread;
-	ULONG  hAuthProcess;
-	ULONG  hMessageProcess;
-	mir_cs contact_search_lock;
-	mir_cs requests_queue_lock;
-	mir_cs set_status_lock;
+	LIST<RequestQueueItem> m_requestQueue;
+	// pooling
+	HANDLE m_hPollingThread;
+	ULONG hAuthProcess;
+	ULONG hMessageProcess;
+	mir_cs m_addContactLock;
+	mir_cs m_setStatusLock;
 	std::map<HANDLE, time_t> m_mpOutMessages;
 	std::map<std::string, time_t> m_typingTimestamps;
 
@@ -106,19 +115,22 @@ protected:
 	time_t m_lastMessageTS;
 
 	// instances
-	static LIST<CSteamProto> InstanceList;
+	static LIST<CSteamProto> Accounts;
 	static int CompareProtos(const CSteamProto *p1, const CSteamProto *p2);
 
 	// requests
-	HttpResponse* SendRequest(HttpRequest *request);
-	void SendRequest(HttpRequest *request, HttpCallback callback, void *param = NULL);
-	void SendRequest(HttpRequest *request, JsonCallback callback, void *param = NULL);
+	void SendRequest(HttpRequest *request);
+	void SendRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);
+	void SendRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
 	void PushRequest(HttpRequest *request);
-	void PushRequest(HttpRequest *request, HttpCallback callback, void *param = NULL);
-	void PushRequest(HttpRequest *request, JsonCallback callback, void *param = NULL);
+	void PushRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);
+	void PushRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
+	void PushToRequestQueue(RequestQueueItem *item);
+	RequestQueueItem *PopFromRequestQueue();
+	void ProcessRequestQueue();
 	void __cdecl RequestQueueThread(void*);
 
-	// pooling thread
+	// pooling
 	void ParsePollData(const JSONNode &data);
 	void OnGotPoll(const HttpResponse &response, void *arg);
 	void __cdecl PollingThread(void*);
@@ -128,8 +140,7 @@ protected:
 	bool IsMe(const char *steamId);
 	
 	void Login();
-	bool Relogin();
-	void LogOut();
+	void Logout();
 
 	void OnGotRsaKey(const JSONNode &root, void*);
 
@@ -141,6 +152,7 @@ protected:
 	void OnGotSession(const HttpResponse &response, void*);
 
 	void OnLoggedOn(const HttpResponse &response, void*);
+	void OnReLogin(const JSONNode &root, void*);
 
 	void HandleTokenExpired();
 	void DeleteAuthSettings();
@@ -156,11 +168,12 @@ protected:
 
 	void ContactIsRemoved(MCONTACT hContact);
 	void ContactIsFriend(MCONTACT hContact);
-	void ContactIsIgnored(MCONTACT hContact);
+	void ContactIsBlocked(MCONTACT hContact);
+	void ContactIsUnblocked(MCONTACT hContact);
 	void ContactIsAskingAuth(MCONTACT hContact);
 
-	MCONTACT FindContact(const char *steamId);
-	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
+	MCONTACT GetContact(const char *steamId);
+	MCONTACT AddContact(const char *steamId, const wchar_t *nick = nullptr, bool isTemporary = false);
 
 	void OnGotFriendList(const JSONNode &root, void*);
 	void OnGotBlockList(const JSONNode &root, void*);
@@ -169,6 +182,7 @@ protected:
 
 	void OnFriendAdded(const HttpResponse &response, void *arg);
 	void OnFriendBlocked(const HttpResponse &response, void *arg);
+	void OnFriendUnblocked(const HttpResponse &response, void *arg);
 	void OnFriendRemoved(const HttpResponse &response, void *arg);
 
 	void OnAuthRequested(const JSONNode &root, void *arg);
@@ -193,12 +207,12 @@ protected:
 	static HGENMENU contactMenuItems[CMI_MAX];
 
 	int __cdecl AuthRequestCommand(WPARAM, LPARAM);
+	int __cdecl AuthRevokeCommand(WPARAM, LPARAM);
 	int __cdecl BlockCommand(WPARAM, LPARAM);
+	int __cdecl UnblockCommand(WPARAM, LPARAM);
 	int __cdecl JoinToGameCommand(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OpenBlockListCommand(WPARAM, LPARAM);
-
-	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
@@ -231,8 +245,8 @@ protected:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
 	// utils
-	static WORD SteamToMirandaStatus(int state);
-	static int MirandaToSteamState(int status);
+	static WORD SteamToMirandaStatus(PersonaState state);
+	static PersonaState MirandaToSteamState(int status);
 
 	static int RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, BYTE *encrypted, DWORD &encryptedSize);
 
@@ -244,7 +258,7 @@ protected:
 	// helpers
 	inline int IdleSeconds() {
 		// Based on idle time we report Steam server will mark us as online/away/snooze
-		switch (this->m_iStatus) {
+		switch (m_iStatus) {
 		case ID_STATUS_AWAY:
 			return STEAM_API_IDLEOUT_AWAY;
 		case ID_STATUS_NA:
@@ -262,6 +276,13 @@ protected:
 		static char steamId[20];
 		mir_snprintf(steamId, "%llu", accountId + 76561197960265728ll);
 		return steamId;
+	}
+
+	inline const char *SteamIdToAccountId(long long steamId)
+	{
+		static char accountId[10];
+		mir_snprintf(accountId, "%llu", steamId - 76561197960265728ll);
+		return accountId;
 	}
 };
 

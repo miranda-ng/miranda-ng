@@ -26,10 +26,15 @@ public:
 class GetSessionRequest2 : public HttpRequest
 {
 public:
-	GetSessionRequest2() :
-		HttpRequest(HttpGet, STEAM_WEB_URL)
+	GetSessionRequest2(const char *token, const char *steamId) :
+		HttpRequest(HttpGet, STEAM_WEB_URL "/mobilesettings/GetManifest/v0001")
 	{
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPHEADERS;
+
+		char cookie[MAX_PATH];
+		mir_snprintf(cookie, "steamLogin=%s||oauth:%s", steamId, token);
+
+		Headers << CHAR_PARAM("Cookie", cookie);
 	}
 };
 

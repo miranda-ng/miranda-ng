@@ -10,11 +10,23 @@ public:
 		Uri
 			<< CHAR_PARAM("access_token", token)
 			<< CHAR_PARAM("keywords", text)
-			<< INT_PARAM("offset=%d", offset)
-			<< INT_PARAM("count=%d", count)
+			<< INT_PARAM("offset", offset)
+			<< INT_PARAM("count", count)
 			<< CHAR_PARAM("targets", "users")
 			<< CHAR_PARAM("fields", "all");
 	}
+
+	//{
+	//	"count": 1,
+	//	"total" : 336,
+	//	"success" : true,
+	//	"results" : [
+	//		{
+	//			"steamid": "XXXXXXXXXXXXXXXXX",
+	//			"type" : "user"
+	//		}
+	//	]
+	//}
 };
 
 #endif //_STEAM_REQUEST_SEARCH_H_

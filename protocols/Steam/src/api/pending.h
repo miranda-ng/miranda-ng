@@ -7,11 +7,9 @@ public:
 	ApprovePendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
 		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
-		char login[MAX_PATH];
-		mir_snprintf(login, "%s||oauth:%s", steamId, token);
-
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s||oauth:%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios",
+			steamId, token, sessionId);
 
 		Headers << CHAR_PARAM("Cookie", cookie);
 
@@ -32,11 +30,9 @@ public:
 	IgnorePendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
 		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
-		char login[MAX_PATH];
-		mir_snprintf(login, "%s||oauth:%s", steamId, token);
-
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s||oauth:%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios",
+			steamId, token, sessionId);
 
 		Headers << CHAR_PARAM("Cookie", cookie);
 
@@ -57,11 +53,9 @@ public:
 	BlockPendingRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
 		HttpRequest(HttpPost, FORMAT, STEAM_WEB_URL "/profiles/%s/home_process", steamId)
 	{
-		char login[MAX_PATH];
-		mir_snprintf(login, "%s||oauth:%s", steamId, token);
-
 		char cookie[MAX_PATH];
-		mir_snprintf(cookie, "steamLogin=%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios", login, sessionId);
+		mir_snprintf(cookie, "steamLogin=%s||oauth:%s;sessionid=%s;mobileClientVersion=1291812;forceMobile=1;mobileClient=ios",
+			steamId, token, sessionId);
 
 		Headers << CHAR_PARAM("Cookie", cookie);
 

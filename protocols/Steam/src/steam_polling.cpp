@@ -4,21 +4,17 @@
 
 void CSteamProto::ParsePollData(const JSONNode &data)
 {
-	std::string steamIds;
-	for (const JSONNode &item : data)
-	{
+	for (const JSONNode &item : data) {
 		json_string steamId = item["steamid_from"].as_string();
 		time_t timestamp = _wtol(item["utc_timestamp"].as_mstring());
 
 		MCONTACT hContact = NULL;
-		if (!IsMe(steamId.c_str()) && !(hContact = FindContact(steamId.c_str())))
+		if (!IsMe(steamId.c_str()) && !(hContact = GetContact(steamId.c_str())))
 			// probably this is info about random player playing on same server, so we ignore it
 			continue;
 
 		json_string type = item["type"].as_string();
-		if (!mir_strcmpi(type.c_str(), "my_saytext") ||
-			!mir_strcmpi(type.c_str(), "my_emote"))
-		{
+		if (type == "my_saytext" || type =="my_emote") {
 			json_string text = item["text"].as_string();
 
 			PROTORECVEVENT recv = { 0 };
@@ -27,9 +23,7 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			recv.flags = PREF_SENT;
 			Proto_RecvMessage(hContact, &recv);
 		}
-		else if (!mir_strcmpi(type.c_str(), "saytext") ||
-			!mir_strcmpi(type.c_str(), "emote"))
-		{
+		else if (type == "saytext" || type =="emote") {
 			json_string text = item["text"].as_string();
 
 			PROTORECVEVENT recv = { 0 };
@@ -40,81 +34,70 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 			m_typingTimestamps[steamId] = 0;
 		}
-		else if (!mir_strcmpi(type.c_str(), "typing") && hContact)
-		{
+		else if (type == "typing") {
 			auto it = m_typingTimestamps.find(steamId);
-			if (it != m_typingTimestamps.end())
-			{
+			if (it != m_typingTimestamps.end()) {
 				if ((timestamp - it->second) < STEAM_TYPING_TIME)
 					continue;
 			}
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)STEAM_TYPING_TIME);
 			m_typingTimestamps[steamId] = timestamp;
 		}
-		else if (!mir_strcmpi(type.c_str(), "personastate"))
-		{
-			JSONNode node = item["persona_state"];
-			int status = !node.isnull()
-				? SteamToMirandaStatus(node.as_int())
-				: -1;
-
-			if (IsMe(steamId.c_str()))
-			{
-				if (status == -1 || status == ID_STATUS_OFFLINE)
-					continue;
-				SetStatus(status);
-				continue;
+		else if (type == "personastate") {
+			if (!IsMe(steamId.c_str())) {
+				// there no sense to change own status
+				JSONNode node = item["persona_state"];
+				if (!node.isnull()) {
+					int status = SteamToMirandaStatus((PersonaState)node.as_int());
+					SetContactStatus(hContact, status);
+				}
 			}
-			
-			if (status != -1)
-				SetContactStatus(hContact, status);
 
-			// todo: find difference between state changing and info changing
-			steamIds.append(steamId).append(",");
+			int statusFlags = item["status_flags"].as_int();
+			if ((statusFlags & PersonaStatusFlag::PlayerName) == PersonaStatusFlag::PlayerName) {
+				CMStringW nick = item["persona_name"].as_mstring();
+				if (!nick.IsEmpty())
+					setWString(hContact, "Nick", nick);
+			}
 		}
-		else if (!mir_strcmpi(type.c_str(), "personarelationship"))
-		{
+		else if (type == "personarelationship") {
 			int state = item["persona_state"].as_int();
-			switch (state)
-			{
-			case 0:
-				hContact = FindContact(steamId.c_str());
+			switch (state) {
+			case PersonaRelationshipAction::Remove:
+				hContact = GetContact(steamId.c_str());
 				if (hContact)
 					ContactIsRemoved(hContact);
 				break;
 
-			case 1:
-				hContact = FindContact(steamId.c_str());
+			case PersonaRelationshipAction::Ignore:
+				hContact = GetContact(steamId.c_str());
 				if (hContact)
-					ContactIsIgnored(hContact);
+					ContactIsBlocked(hContact);
 				break;
 
-			case 2:
-				// auth request
-				hContact = FindContact(steamId.c_str());
+			case PersonaRelationshipAction::AuthRequest:
+				hContact = GetContact(steamId.c_str());
 				if (hContact)
 					ContactIsAskingAuth(hContact);
-				else
-				{
+				else {
 					// load info about this user from server
 					ptrA token(getStringA("TokenSecret"));
-
 					PushRequest(
 						new GetUserSummariesRequest(token, steamId.c_str()),
 						&CSteamProto::OnAuthRequested);
 				}
 				break;
 
-			case 3:
-				// todo: add to list
-				break;
+			case PersonaRelationshipAction::AuthRequested:
+				hContact = GetContact(steamId.c_str());
+				if (hContact)
+					ContactIsFriend(hContact);
 
 			default:
 				continue;
 			}
 		}
-		else if (!mir_strcmpi(type.c_str(), "leftconversation") && hContact)
-		{
+		else if (type == "leftconversation") {
 			if (!getBool("ShowChatEvents", true))
 				continue;
 
@@ -124,26 +107,24 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			dbei.cbBlob = 1;
 			dbei.eventType = EVENTTYPE_STEAM_CHATSTATES;
 			dbei.flags = DBEF_READ;
-			dbei.timestamp = time(nullptr);
+			dbei.timestamp = now();
 			dbei.szModule = m_szModuleName;
 			db_event_add(hContact, &dbei);
 		}
-		else
-		{
+		else {
 			debugLogA(__FUNCTION__ ": Unknown event type \"%s\"", type.c_str());
 			continue;
 		}
 	}
 
-	if (!steamIds.empty())
-	{
+	/*if (!steamIds.empty()) {
 		steamIds.pop_back();
-		ptrA token(getStringA("TokenSecret"));
 
+		ptrA token(getStringA("TokenSecret"));
 		PushRequest(
 			new GetUserSummariesRequest(token, steamIds.c_str()),
 			&CSteamProto::OnGotUserSummaries);
-	}
+	}*/
 }
 
 struct PollParam
@@ -172,8 +153,10 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 	if (!mir_strcmpi(error.c_str(), "Timeout"))
 	{
 		// Do nothing as this is not necessarily an error
+		return;
 	}
-	else if (!mir_strcmpi(error.c_str(), "OK"))
+
+	if (!mir_strcmpi(error.c_str(), "OK"))
 	{
 		// Remember last message timestamp
 		time_t timestamp = _wtoi64(root["utc_timestamp"].as_mstring());
@@ -197,10 +180,12 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 		debugLogA(__FUNCTION__ ": Not Logged On");
 
 		// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
-		if (!IsOnline() || !Relogin())
+		if (IsOnline())
 		{
-			// let it jump out of further processing
-			param->errors = param->errorsLimit;
+			ptrA token(getStringA("TokenSecret"));
+			SendRequest(
+				new LogonRequest(token),
+				&CSteamProto::OnReLogin);
 		}
 	}
 	else

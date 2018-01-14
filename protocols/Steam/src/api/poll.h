@@ -19,6 +19,62 @@ public:
 			<< INT_PARAM("secidletime", idleSeconds)
 			<< INT_PARAM("sectimeout", STEAM_API_TIMEOUT);
 	}
+
+	//{
+	//	"pollid": 0,
+	//	"sectimeout" : 30,
+	//	"error" : "Timeout"
+	//}
+
+	//{
+	//	"pollid": 0,
+	//	"messages": [
+	//		{
+	//			"type": "typing",
+	//			"timestamp": 17276041,
+	//			"utc_timestamp": 1514974857,
+	//			"steamid_from": "XXXXXXXXXXXXXXXXX",
+	//			"text": ""
+	//		},
+	//		{
+	//			"type": "saytext",
+	//			"timestamp" : 17380133,
+	//			"utc_timestamp" : 1514974961,
+	//			"steamid_from" : "XXXXXXXXXXXXXXXXX",
+	//			"text" : "message"
+	//		},
+	//		{
+	//			"type": "personarelationship",
+	//			"timestamp" : 7732750,
+	//			"utc_timestamp" : 1515187192,
+	//			"steamid_from" : "XXXXXXXXXXXXXXXXX",
+	//			"status_flags" : 1,
+	//			"persona_state" : 2
+	//		},
+	//		{
+	//			"type": "personastate",
+	//			"timestamp" : 366860,
+	//			"utc_timestamp" : 1515007523,
+	//			"steamid_from" : "XXXXXXXXXXXXXXXXX",
+	//			"status_flags" : 9055,
+	//			"persona_state" : 1,
+	//			"persona_name" : "nickname"
+	//		},
+	//		{
+	//			"type": "notificationcountupdate",
+	//			"timestamp" : 11605105,
+	//			"utc_timestamp" : 1515191064
+	//		}
+	//	]
+	//	,
+	//	"messagelast": 4,
+	//	"timestamp": 17276041,
+	//	"utc_timestamp": 1514974857,
+	//	"messagebase": 3,
+	//	"sectimeout": 14,
+	//	"error": "OK"
+	//}
+
 };
 
 #endif //_STEAM_REQUEST_POLL_H_

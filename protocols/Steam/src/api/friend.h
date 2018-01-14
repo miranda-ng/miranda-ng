@@ -5,12 +5,36 @@ class GetUserSummariesRequest : public HttpRequest
 {
 public:
 	GetUserSummariesRequest(const char *token, const char *steamIds) :
-		HttpRequest(HttpGet, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0001")
+		HttpRequest(HttpGet, STEAM_API_URL "/ISteamUserOAuth/GetUserSummaries/v0002")
 	{
 		Uri
 			<< CHAR_PARAM("access_token", token)
 			<< CHAR_PARAM("steamids", steamIds);
 	}
+
+	//{
+	//	"players": [
+	//		{
+	//			"steamid": "76561197960435530",
+	//			"communityvisibilitystate" : 3,
+	//			"profilestate" : 1,
+	//			"personaname" : "Robin",
+	//			"lastlogoff" : 1514966746,
+	//			"profileurl" : "http://steamcommunity.com/id/robinwalker/",
+	//			"avatar" : "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188883caf82d0cbfccfe6aba0af1732d4.jpg",
+	//			"avatarmedium" : "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188883caf82d0cbfccfe6aba0af1732d4_medium.jpg",
+	//			"avatarfull" : "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f1/f1dd60a188883caf82d0cbfccfe6aba0af1732d4_full.jpg",
+	//			"personastate" : 0,
+	//			"realname" : "Robin Walker",
+	//			"primaryclanid" : "103582791429521412",
+	//			"timecreated" : 1063407589,
+	//			"personastateflags" : 0,
+	//			"loccountrycode" : "US",
+	//			"locstatecode" : "WA",
+	//			"loccityid" : 3961
+	//		}
+	//	]
+	//}
 };
 
 #endif //_STEAM_REQUEST_FRIEND_H_

@@ -41,8 +41,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.cbSize = sizeof(pd);
 	pd.szName = "STEAM";
 	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = (pfnInitProto)CSteamProto::InitProtoInstance;
-	pd.fnUninit = (pfnUninitProto)CSteamProto::UninitProtoInstance;
+	pd.fnInit = (pfnInitProto)CSteamProto::InitAccount;
+	pd.fnUninit = (pfnUninitProto)CSteamProto::UninitAccount;
 	Proto_RegisterModule(&pd);
 
 	char iconName[100];
@@ -58,7 +58,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	CSteamProto::UninitProtoInstances();
-	CSteamProto::UninitMenus();
 	return 0;
 }

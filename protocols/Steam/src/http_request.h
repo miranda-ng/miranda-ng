@@ -35,7 +35,7 @@ private:
 
 	void FormatV(const char *urlFormat, va_list args)
 	{
-		m_uri.AppendFormatV(urlFormat, args);
+		m_uri.FormatV(urlFormat, args);
 		if (m_request)
 			m_request->szUrl = m_uri.GetBuffer();
 	}
@@ -125,7 +125,7 @@ public:
 	{
 		return m_request
 			? &m_request->headers[idx]
-			: NULL;
+			: nullptr;
 	}
 
 	size_t GetSize() const

@@ -54,7 +54,7 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		JSONNode message = messages[i - 1];
 
 		long long accountId = _wtoi64(message["accountid"].as_mstring());
-		const char *authorSteamId = AccountIdToSteamId(accountId);
+		const char *steamId = AccountIdToSteamId(accountId);
 
 		json_string text = message["message"].as_string();
 
@@ -68,13 +68,11 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		recv.timestamp = timestamp;
 		recv.szMessage = (char*)text.c_str();
 
-		MCONTACT hContact = FindContact(cSteamId);
+		MCONTACT hContact = GetContact(cSteamId);
 		if (!hContact)
 			return;
 
-		// Self SteamID
-		ptrA steamId(getStringA("SteamID"));
-		if (strcmp(steamId, authorSteamId))
+		if (IsMe(steamId))
 		{
 			// Received message
 			ProtoChainRecvMsg(hContact, &recv);
