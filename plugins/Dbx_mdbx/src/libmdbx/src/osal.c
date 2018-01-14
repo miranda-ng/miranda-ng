@@ -19,6 +19,8 @@
 #if defined(_WIN32) || defined(_WIN64)
 #include <winternl.h>
 
+typedef BOOL (WINAPI *pfnGetFileInformationByHandleEx)(HANDLE, FILE_INFO_BY_HANDLE_CLASS, LPVOID, DWORD);
+
 static int waitstatus2errcode(DWORD result) {
   switch (result) {
   case WAIT_OBJECT_0:
@@ -780,14 +782,15 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   if (GetFileType(map->fd) != FILE_TYPE_DISK)
     return ERROR_FILE_OFFLINE;
 
-  FILE_REMOTE_PROTOCOL_INFO RemoteProtocolInfo;
-  if (GetFileInformationByHandleEx(map->fd, FileRemoteProtocolInfo,
-                                   &RemoteProtocolInfo,
-                                   sizeof(RemoteProtocolInfo))) {
-    if ((RemoteProtocolInfo.Flags & (REMOTE_PROTOCOL_INFO_FLAG_LOOPBACK |
-                                     REMOTE_PROTOCOL_INFO_FLAG_OFFLINE)) !=
-        REMOTE_PROTOCOL_INFO_FLAG_LOOPBACK)
-      return ERROR_FILE_OFFLINE;
+  pfnGetFileInformationByHandleEx pfunc = (pfnGetFileInformationByHandleEx)GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetFileInformationByHandleEx");
+  if (pfunc) {
+	  FILE_REMOTE_PROTOCOL_INFO RemoteProtocolInfo;
+	  if (pfunc(map->fd, FileRemoteProtocolInfo,
+		  &RemoteProtocolInfo,
+		  sizeof(RemoteProtocolInfo))) {
+		  if ((RemoteProtocolInfo.Flags & (REMOTE_PROTOCOL_INFO_FLAG_LOOPBACK | REMOTE_PROTOCOL_INFO_FLAG_OFFLINE)) != REMOTE_PROTOCOL_INFO_FLAG_LOOPBACK)
+			  return ERROR_FILE_OFFLINE;
+	  }
   }
 
 #if defined(_WIN64) && defined(WOF_CURRENT_VERSION)
