@@ -98,9 +98,7 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case WM_PASTE:
 		wchar_t text[256];
 		GetWindowText(hwnd, text, _countof(text));
-
-		scoped_free<wchar_t> dest = data->dict->autoReplace->filterText(text);
-		SetWindowText(hwnd, dest);
+		SetWindowText(hwnd, ptrW(data->dict->autoReplace->filterText(text)));
 		break;
 	}
 
@@ -170,10 +168,9 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			SendDlgItemMessage(hwndDlg, IDC_OLD, EM_LIMITTEXT, 256, 0);
 			SendDlgItemMessage(hwndDlg, IDC_NEW, EM_LIMITTEXT, 256, 0);
 
-			if (!data->find.empty()) {
-				scoped_free<wchar_t> tmp = data->dict->autoReplace->filterText(data->find.c_str());
-				SetDlgItemText(hwndDlg, IDC_OLD, tmp);
-			}
+			if (!data->find.empty())
+				SetDlgItemText(hwndDlg, IDC_OLD, ptrW(data->dict->autoReplace->filterText(data->find.c_str())));
+
 			if (!data->replace.empty())
 				SetDlgItemText(hwndDlg, IDC_NEW, data->replace.c_str());
 

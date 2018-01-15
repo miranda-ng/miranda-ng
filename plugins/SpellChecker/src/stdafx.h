@@ -54,9 +54,7 @@ using namespace std;
 #include <m_spellchecker.h>
 
 #include <../../utils/mir_options.h>
-//#include <../../utils/tstring.h>
 #include <../../utils/utf8_helpers.h>
-#include <../../utils/scope.h>
 
 #include <hunspell.hpp>
 
@@ -130,7 +128,7 @@ struct Dialog
 
 static BOOL CenterParent(HWND hwnd);
 wchar_t *lstrtrim(wchar_t *str);
-BOOL lstreq(wchar_t *a, wchar_t *b, size_t len = -1);
+
 inline BOOL IsNumber(wchar_t c)
 {
 	return c >= '0' && c <= '9';
@@ -152,7 +150,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void ModifyIcon(Dialog *dlg);
 BOOL GetWordCharRange(Dialog *dlg, CHARRANGE &sel, wchar_t *text, size_t text_len, int &first_char);
-wchar_t *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel);
+wchar_t* GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel);
 
 int GetClosestLanguage(wchar_t *lang_name);
 

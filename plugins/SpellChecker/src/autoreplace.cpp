@@ -129,7 +129,7 @@ BOOL AutoReplaceMap::isWordChar(wchar_t c)
 
 wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 {
-	scoped_free<wchar_t> from = wcslwr(wcsdup(word));
+	ptrW from(wcslwr(mir_wstrdup(word)));
 
 	if (m_replacements.find(from.get()) == m_replacements.end())
 		return nullptr;
@@ -140,7 +140,7 @@ wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 	if (ar.useVariables)
 		to = variables_parsedup((wchar_t *)ar.replace.c_str(), (wchar_t *)word, NULL);
 	else
-		to = wcsdup(ar.replace.c_str());
+		to = mir_wstrdup(ar.replace.c_str());
 
 	// Wich case to use?
 	size_t len = mir_wstrlen(word);
@@ -166,7 +166,7 @@ wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 
 wchar_t* AutoReplaceMap::filterText(const wchar_t *find)
 {
-	wchar_t *ret = wcsdup(find);
+	wchar_t *ret = mir_wstrdup(find);
 	int len = mir_wstrlen(ret);
 	int pos = 0;
 	for (int i = 0; i < len; i++)
@@ -178,8 +178,7 @@ wchar_t* AutoReplaceMap::filterText(const wchar_t *find)
 
 void AutoReplaceMap::add(const wchar_t * aFrom, const wchar_t * to, BOOL useVariables)
 {
-	scoped_free<wchar_t> from = filterText(aFrom);
-
+	ptrW from(filterText(aFrom));
 	m_replacements[from.get()] = AutoReplacement(to, useVariables);
 
 	writeAutoReplaceMap();
@@ -196,7 +195,7 @@ void AutoReplaceMap::setMap(const map<std::wstring, AutoReplacement> &replacemen
 
 	map<std::wstring, AutoReplacement>::const_iterator it = replacements.begin();
 	for (; it != replacements.end(); it++) {
-		scoped_free<wchar_t> from = filterText(it->first.c_str());
+		ptrW from(filterText(it->first.c_str()));
 		m_replacements[from.get()] = it->second;
 	}
 

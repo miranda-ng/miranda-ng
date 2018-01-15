@@ -1000,7 +1000,7 @@ BOOL GetWordCharRange(Dialog *dlg, CHARRANGE &sel, wchar_t *text, size_t text_le
 	return has_valid_char;
 }
 
-wchar_t *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
+wchar_t* GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
 {
 	// Get text
 	if (dlg->re->GetTextLength() <= 0)
@@ -1018,9 +1018,8 @@ wchar_t *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
 
 	// copy the word
 	text[sel.cpMax - first_char] = '\0';
-	return wcsdup(&text[sel.cpMin - first_char]);
+	return mir_wstrdup(&text[sel.cpMin - first_char]);
 }
-
 
 void AppendSubmenu(HMENU hMenu, HMENU hSubMenu, wchar_t *name)
 {
@@ -1129,7 +1128,7 @@ void FoundWrongWord(wchar_t *word, CHARRANGE pos, void *param)
 
 	p->count++;
 
-	AddMenuForWord(p->dlg, wcsdup(word), pos, p->dlg->hWrongWordsSubMenu, TRUE, WORD_MENU_ID_BASE * p->count);
+	AddMenuForWord(p->dlg, word, pos, p->dlg->hWrongWordsSubMenu, TRUE, WORD_MENU_ID_BASE * p->count);
 }
 
 void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
@@ -1174,7 +1173,7 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 		}
 		else {
 			CHARRANGE sel;
-			wchar_t *word = GetWordUnderPoint(dlg, pt, sel);
+			ptrW word(GetWordUnderPoint(dlg, pt, sel));
 			if (word != nullptr && !dlg->lang->spell(word)) {
 				InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 				AddMenuForWord(dlg, word, sel, hMenu, FALSE, WORD_MENU_ID_BASE);
@@ -1558,14 +1557,4 @@ wchar_t* lstrtrim(wchar_t *str)
 		memmove(str, &str[i], (len - i + 1) * sizeof(wchar_t));
 
 	return str;
-}
-
-BOOL lstreq(wchar_t *a, wchar_t *b, size_t len)
-{
-	a = CharLower(wcsdup(a));
-	b = CharLower(wcsdup(b));
-	BOOL ret = len ? !wcsncmp(a, b, len) : !mir_wstrcmp(a, b);
-	free(a);
-	free(b);
-	return ret;
 }
