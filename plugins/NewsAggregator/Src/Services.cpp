@@ -23,12 +23,6 @@ int g_nStatus = ID_STATUS_ONLINE;
 UINT_PTR timerId = 0;
 HANDLE hTBButton = nullptr, hNewsAggregatorFolder = nullptr;
 
-void SetContactStatus(MCONTACT hContact, int nNewStatus)
-{
-	if(db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) != nNewStatus)
-		db_set_w(hContact, MODULE, "Status", nNewStatus);
-}
-
 int OnFoldersChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, L"");
@@ -45,7 +39,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 			db_set_dw(hContact, MODULE, "LastCheck", time(nullptr));
-		SetContactStatus(hContact, ID_STATUS_ONLINE);
+		db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
 	}
 
 	NetlibInit();
@@ -110,7 +104,7 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 			g_nStatus = nStatus;
 
 			for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE))
-				SetContactStatus(hContact, nStatus);
+				db_set_w(hContact, MODULE, "Status", nStatus);
 
 			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
 		}
