@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum ChatMenuItems
 {
-	IDM_INVITE = 10, IDM_EXIT,
+	IDM_INVITE = 10, IDM_EXIT, IDM_DESTROY,
 
 	IDM_DETAILS = 20, IDM_HISTORY
 };
@@ -35,6 +35,7 @@ static const struct gc_item LogMenuItems[] =
 {
 	{ LPGENW("&Invite user..."), IDM_INVITE, MENU_ITEM, FALSE },
 	{ LPGENW("E&xit chat session"), IDM_EXIT, MENU_ITEM, FALSE },
+	{ LPGENW("&Destroy chat session"), IDM_DESTROY, MENU_ITEM, FALSE },
 };
 
 static const struct gc_item NickMenuItems[] =
@@ -125,6 +126,15 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 					facy.sendRequest(facy.exitThreadRequest(it->second));
 			}
 			break;
+
+		case IDM_DESTROY:
+			{
+				std::string thread_id = _T2A(hook->ptszID, CP_UTF8);
+				auto it = facy.chat_rooms.find(thread_id);
+				if (it != facy.chat_rooms.end())
+					if (IDOK == MessageBoxW(nullptr, TranslateT("Delete conversation"), TranslateT("This will permanently delete the conversation history"), MB_OKCANCEL))
+						facy.sendRequest(facy.destroyThreadRequest(it->second));
+			}
 		}
 		break;
 

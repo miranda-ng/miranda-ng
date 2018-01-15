@@ -344,6 +344,26 @@ HttpRequest* facebook_client::markMessageReadRequest(const LIST<char> &ids)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+HttpRequest* facebook_client::destroyThreadRequest(facebook_chatroom *fbc)
+{
+	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/ajax/mercury/delete_thread.php");
+
+	p->Url << INT_PARAM("dpr", 1);
+
+	p->Body
+		<< CHAR_PARAM("ids[0]", fbc->thread_id.substr(3).c_str())
+		<< CHAR_PARAM("__user", self_.user_id.c_str())
+		<< CHAR_PARAM("fb_dtsg", dtsg_.c_str())
+		<< CHAR_PARAM("__dyn", __dyn())
+		<< CHAR_PARAM("__req", __req())
+		<< CHAR_PARAM("__rev", __rev())
+		<< CHAR_PARAM("__pc", "PHASED:DEFAULT")
+		<< INT_PARAM("__a", 1)
+		<< INT_PARAM("__be", 1);
+
+	return p;
+}
+
 HttpRequest* facebook_client::exitThreadRequest(facebook_chatroom *fbc)
 {
 	HttpRequest *p = new HttpRequest(REQUEST_POST, FACEBOOK_SERVER_REGULAR "/messaging/send/");

@@ -239,6 +239,8 @@ public:
 	HttpRequest* sendMessageRequest(const char *userId, const char *threadId, const char *messageId, const char *messageText, bool isChat, const char *captcha, const char *captchaPersistData);
 	HttpRequest* sendTypingRequest(const char *userId, bool isChat, bool isTyping);
 	HttpRequest* markMessageReadRequest(const LIST<char> &ids);
+
+	HttpRequest* destroyThreadRequest(facebook_chatroom *fbc);
 	HttpRequest* exitThreadRequest(facebook_chatroom *fbc);
 
 	// notifications.cpp
