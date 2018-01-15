@@ -1,4 +1,3 @@
-#add_subdirectory(AimOscar)
 #add_subdirectory(Discord)
 #add_subdirectory(Dummy)
 #add_subdirectory(EmLanProto)
