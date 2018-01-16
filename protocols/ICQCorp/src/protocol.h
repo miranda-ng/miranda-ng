@@ -150,7 +150,7 @@ public:
     ICQEvent *sendMessage(ICQUser *u, char *m);
     ICQEvent *sendUrl(ICQUser *u, char *url);
     ICQEvent *sendReadAwayMsg(ICQUser *u);
-    ICQTransfer *sendFile(ICQUser *u, char *description, char *filename, unsigned int size, char **files);
+    ICQTransfer *sendFile(ICQUser *u, char *description, char *filename, unsigned int size, wchar_t **files);
 
     bool logon(unsigned short logonStatus);
     void logoff(bool reconnect);

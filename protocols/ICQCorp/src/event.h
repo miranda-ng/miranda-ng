@@ -32,7 +32,8 @@ public:
     bool isEvent(SOCKET hSocket, unsigned long theSequence);
     void noAck();
     unsigned short cmd, subCmd;
-    unsigned int uin, sequence;
+    unsigned int uin;
+	 int sequence;
     int reply;
     unsigned int hTimer;
     Packet *packet;

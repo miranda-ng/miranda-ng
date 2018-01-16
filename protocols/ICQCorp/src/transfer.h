@@ -29,15 +29,14 @@ public:
 	MCONTACT hContact;
     unsigned int sequence;
     TCPSocket socket;
-    char **files;
-    char *description;
-    char *path;
+	 wchar_t **files;
+	 wchar_t *path, *fileName;
+	 char *description;
     unsigned char directory;
     unsigned int sending;
     unsigned int speed;
     unsigned int count;
-	unsigned int current;
-    char *fileName;
+	 unsigned int current;
     unsigned int fileDate;
     unsigned int fileSize;
     unsigned int fileProgress;
@@ -59,7 +58,7 @@ public:
     void sendPacket0x06();
     void ack(unsigned int result);
     void process();
-    void resume(int action, const char *newName);
+    void resume(int action, const wchar_t *newName);
     void openFile();
     void closeFile();
     void setFilePosition();

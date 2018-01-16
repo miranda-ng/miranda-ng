@@ -1548,7 +1548,7 @@ ICQEvent *ICQ::sendReadAwayMsg(ICQUser *u)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsigned int size, char **files)
+ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsigned int size, wchar_t **files)
 {
 	if (!u->socket.connected() && !openConnection(u->socket))
 		return nullptr;
@@ -1558,16 +1558,16 @@ ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsign
 	ICQTransfer *transfer = new ICQTransfer(u, tcpSequenceVal);
 
 	for (i = 0; files[i]; i++);
-	transfer->files = new char*[i + 1];
-	for (i = 0; files[i]; i++) transfer->files[i] = _strdup(files[i]);
+	transfer->files = new wchar_t*[i + 1];
+	for (i = 0; files[i]; i++) transfer->files[i] = _wcsdup(files[i]);
 	transfer->files[i] = nullptr;
 
 	transfer->description = _strdup(description);
 	transfer->count = i;
 	transfer->totalSize = size;
 
-	transfer->path = _strdup(transfer->files[0]);
-	char *s = strrchr(transfer->path, '\\');
+	transfer->path = _wcsdup(transfer->files[0]);
+	wchar_t *s = wcsrchr(transfer->path, '\\');
 	if (s != nullptr)
 		*s = 0;
 

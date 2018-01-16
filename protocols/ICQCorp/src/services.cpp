@@ -179,11 +179,10 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
-	//  uin = db_get_dw(ccs->hContact, ICQCORP_PROTONAME, "UIN", 0);
 	if (u == nullptr || icq.statusVal <= ID_STATUS_OFFLINE)
 		return 0;
 
-	ICQEvent *icqEvent = icq.sendMessage(u, ptrA(mir_utf8decodeA((char*)ccs->lParam)));
+	ICQEvent *icqEvent = icq.sendMessage(u, (char*)ccs->lParam);
 	return icqEvent ? icqEvent->sequence : 0;
 }
 
@@ -201,7 +200,9 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
+	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	if (Utf8CheckString(pre->szMessage))
+		dbei.flags |= DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (PBYTE)pre->szMessage;
@@ -301,21 +302,20 @@ static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *)lParam;
-	char **files = (char **)ccs->lParam;
-	//HANDLE hFile;
-	ICQUser *u;
+	wchar_t **files = (wchar_t**)ccs->lParam;
 
 	T("[   ] send file\n");
 
-	u = icq.getUserByContact(ccs->hContact);
-	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE || icq.statusVal <= ID_STATUS_OFFLINE) return 0;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE || icq.statusVal <= ID_STATUS_OFFLINE)
+		return 0;
 
 	unsigned long filesCount, directoriesCount, filesSize = 0;
 	char filename[MAX_PATH], format[32];
-	WIN32_FIND_DATA findData;
+	WIN32_FIND_DATAW findData;
 
 	for (filesCount = 0, directoriesCount = 0; files[filesCount]; filesCount++) {
-		FindClose(FindFirstFile(files[filesCount], &findData));
+		FindClose(FindFirstFileW(files[filesCount], &findData));
 		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) directoriesCount++;
 		else filesSize += findData.nFileSizeLow;
 	}
@@ -327,8 +327,8 @@ static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 	}
 	else {
 		if (filesCount == 1) {
-			char *p = strrchr(files[0], '\\');
-			mir_strcpy(filename, p ? p + 1 : files[0]);
+			wchar_t *p = wcsrchr(files[0], '\\');
+			mir_strcpy(filename, _T2A(p ? p + 1 : files[0]));
 		}
 		else sprintf(filename, filesCount == 1 ? Translate("%d file") : Translate("%d files"), filesCount);
 	}
@@ -340,16 +340,15 @@ static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileAllow(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
-	ICQUser *u;
-
 	T("[   ] send accept file request\n");
 
-	u = icq.getUserByContact(ccs->hContact);
-	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE) return 0;
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE)
+		return 0;
 
-	t->path = _strdup((char*)ccs->lParam);
+	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
+	t->path = _wcsdup((wchar_t*)ccs->lParam);
 
 	icq.acceptFile(u, t->sequence, (char*)ccs->lParam);
 	return (INT_PTR)t;
@@ -444,8 +443,8 @@ static INT_PTR icqFileResume(WPARAM wParam, LPARAM lParam)
 	ICQTransfer *t = (ICQTransfer *)wParam;
 
 	T("[   ] send file resume\n");
-	t->resume(pfr->action, (char*)pfr->szFilename);
 
+	t->resume(pfr->action, (wchar_t*)pfr->szFilename);
 	return 0;
 }
 
