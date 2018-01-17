@@ -134,9 +134,9 @@ static INT_PTR icqSearchByEmail(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSearchByName(WPARAM, LPARAM lParam)
 {
-	PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME*)lParam;
-
 	T("[   ] search by name\n");
+
+	PROTOSEARCHBYNAME *psbn = (PROTOSEARCHBYNAME*)lParam;
 	icq.startSearch(1, 0, (char*)psbn->pszNick, 0);
 	return 1;
 }
@@ -145,14 +145,13 @@ static INT_PTR icqSearchByName(WPARAM, LPARAM lParam)
 
 static INT_PTR icqAddToList(WPARAM wParam, LPARAM lParam)
 {
-	ICQSEARCHRESULT *isr = (ICQSEARCHRESULT *)lParam;
-	bool persistent = (wParam & PALF_TEMPORARY) == 0;
-
 	T("[   ] add user to list\n");
 
+	ICQSEARCHRESULT *isr = (ICQSEARCHRESULT *)lParam;
 	if (isr->hdr.cbSize != sizeof(ICQSEARCHRESULT) || isr->uin == icq.uin)
 		return NULL;
 	
+	bool persistent = (wParam & PALF_TEMPORARY) == 0;
 	return icq.addUser(isr->uin, persistent)->hContact;
 }
 
@@ -190,13 +189,12 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-
 	T("[   ] recieve message\n");
 
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	db_unset(ccs->hContact, "CList", "Hidden");
 
+	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
 	ptrA szMsg(Utf8CheckString(pre->szMessage) ? mir_strdup(pre->szMessage) : mir_utf8encode(pre->szMessage));
 
 	DBEVENTINFO dbei = {};
@@ -214,17 +212,14 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQUser *u;
-	ICQEvent *icqEvent;
-
 	T("[   ] send url\n");
 
-	u = icq.getUserByContact(ccs->hContact);
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
 	if (u == nullptr || icq.statusVal <= ID_STATUS_OFFLINE)
 		return 0;
 
-	icqEvent = icq.sendUrl(u, (char*)ccs->lParam);
+	ICQEvent *icqEvent = icq.sendUrl(u, (char*)ccs->lParam);
 	return icqEvent ? icqEvent->sequence : 0;
 }
 
@@ -232,14 +227,13 @@ static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	char *pszDescr;
-
 	T("[   ] recieve url\n");
 
+	CCSDATA *ccs = (CCSDATA*)lParam;
+	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
 	db_unset(ccs->hContact, "CList", "Hidden");
-	pszDescr = pre->szMessage + mir_strlen(pre->szMessage) + 1;
+
+	char *pszDescr = pre->szMessage + mir_strlen(pre->szMessage) + 1;
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
@@ -271,16 +265,13 @@ static INT_PTR icqSetAwayMsg(WPARAM, LPARAM lParam)
 
 static INT_PTR icqGetAwayMsg(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQUser *u;
-	ICQEvent *icqEvent;
-
 	T("[   ] send get away msg\n");
 
-	u = icq.getUserByContact(ccs->hContact);
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
 	if (u == nullptr || u->statusVal <= ID_STATUS_ONLINE) return 0;
 
-	icqEvent = icq.sendReadAwayMsg(u);
+	ICQEvent *icqEvent = icq.sendReadAwayMsg(u);
 	return icqEvent ? icqEvent->sequence : 0;
 }
 
@@ -288,12 +279,11 @@ static INT_PTR icqGetAwayMsg(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 {
+	T("[   ] receive away message\n");
+
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
-
-	T("[   ] recieve away message\n");
-
-	ProtoBroadcastAck(protoName, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)pre->lParam, (LPARAM)pre->szMessage);
+	ProtoBroadcastAck(protoName, ccs->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)pre->lParam, _A2T(pre->szMessage));
 	return 0;
 }
 
@@ -301,11 +291,9 @@ static INT_PTR icqRecvAwayMsg(WPARAM, LPARAM lParam)
 
 static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	wchar_t **files = (wchar_t**)ccs->lParam;
-
 	T("[   ] send file\n");
 
+	CCSDATA *ccs = (CCSDATA *)lParam;
 	ICQUser *u = icq.getUserByContact(ccs->hContact);
 	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE || icq.statusVal <= ID_STATUS_OFFLINE)
 		return 0;
@@ -314,6 +302,7 @@ static INT_PTR icqSendFile(WPARAM, LPARAM lParam)
 	char filename[MAX_PATH], format[32];
 	WIN32_FIND_DATAW findData;
 
+	wchar_t **files = (wchar_t**)ccs->lParam;
 	for (filesCount = 0, directoriesCount = 0; files[filesCount]; filesCount++) {
 		FindClose(FindFirstFileW(files[filesCount], &findData));
 		if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) directoriesCount++;
@@ -358,15 +347,14 @@ static INT_PTR icqFileAllow(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileDeny(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
-	ICQUser *u;
-
 	T("[   ] send refuse file request\n");
 
-	u = icq.getUserByContact(ccs->hContact);
-	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE) return 0;
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE)
+		return 0;
 
+	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
 	icq.refuseFile(u, t->sequence, (char*)ccs->lParam);
 
 	unsigned int i;
@@ -385,16 +373,14 @@ static INT_PTR icqFileDeny(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
-	ICQUser *u;
-
 	T("[   ] file cancel\n");
 
-	u = icq.getUserByContact(ccs->hContact);
-	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE) return 0;
+	CCSDATA *ccs = (CCSDATA *)lParam;
+	ICQUser *u = icq.getUserByContact(ccs->hContact);
+	if (u == nullptr || u->statusVal == ID_STATUS_OFFLINE)
+		return 0;
 
-	//	icq.refuseFile(u, t->sequence, (char*)ccs->lParam);
+	ICQTransfer *t = (ICQTransfer *)ccs->wParam;
 
 	unsigned int i;
 	for (i = 0; i < icqTransfers.size(); i++) {
@@ -412,16 +398,14 @@ static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
-	char *szDesc, *szFile;
-
 	T("[   ] recieve file\n");
 
+	CCSDATA *ccs = (CCSDATA *)lParam;
 	db_unset(ccs->hContact, "CList", "Hidden");
 
-	szFile = pre->szMessage + sizeof(DWORD);
-	szDesc = szFile + mir_strlen(szFile) + 1;
+	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
+	char *szFile = pre->szMessage + sizeof(DWORD);
+	char *szDesc = szFile + mir_strlen(szFile) + 1;
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
@@ -439,12 +423,11 @@ static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 
 static INT_PTR icqFileResume(WPARAM wParam, LPARAM lParam)
 {
-	PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
-	ICQTransfer *t = (ICQTransfer *)wParam;
-
 	T("[   ] send file resume\n");
 
-	t->resume(pfr->action, (wchar_t*)pfr->szFilename);
+	PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
+	ICQTransfer *t = (ICQTransfer *)wParam;
+	t->resume(pfr->action, pfr->szFilename);
 	return 0;
 }
 
@@ -478,13 +461,13 @@ static INT_PTR icqSetApparentMode(WPARAM, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int icqContactDeleted(WPARAM wParam, LPARAM)
+static int icqContactDeleted(WPARAM hContact, LPARAM)
 {
-	ICQUser *u;
-
 	T("[   ] contact deleted\n");
 
-	if ((u = icq.getUserByContact((MCONTACT)wParam)) != nullptr) icq.removeUser(u);
+	ICQUser *u = icq.getUserByContact(hContact);
+	if (u != nullptr)
+		icq.removeUser(u);
 	return 0;
 }
 
