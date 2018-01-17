@@ -58,7 +58,7 @@ void CToxProto::InitContactMenu()
 	CreateServiceFunction(mi.pszService, GlobalService<&CToxProto::OnGrantAuth>);
 }
 
-int CToxProto::PrebuildStatusMenu(WPARAM, LPARAM)
+int CToxProto::UpdateStatusMenu(WPARAM, LPARAM)
 {
 	bool isOnline = IsOnline();
 	Menu_EnableItem(StatusMenuItems[SMI_PASSWORD], isOnline);
@@ -77,7 +77,7 @@ int CToxProto::PrebuildStatusMenu(WPARAM, LPARAM)
 
 int CToxProto::OnInitStatusMenu()
 {
-	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CToxProto::PrebuildStatusMenu);
+	//HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CToxProto::UpdateStatusMenu);
 
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
@@ -116,6 +116,8 @@ int CToxProto::OnInitStatusMenu()
 	mi.name.w = LPGENW("Remove password");
 	mi.position = SMI_PASSWORD_REMOVE;
 	StatusMenuItems[SMI_PASSWORD_REMOVE] = Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
+	UpdateStatusMenu(NULL, NULL);
 
 	return 0;
 }

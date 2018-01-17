@@ -143,7 +143,7 @@ private:
 
 	HGENMENU StatusMenuItems[SMI_MAX];
 	int OnInitStatusMenu();
-	int __cdecl PrebuildStatusMenu(WPARAM, LPARAM);
+	int __cdecl UpdateStatusMenu(WPARAM, LPARAM);
 
 	//services
 	INT_PTR __cdecl SetMyNickname(WPARAM wParam, LPARAM lParam);

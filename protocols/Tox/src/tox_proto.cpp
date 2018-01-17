@@ -153,6 +153,9 @@ int CToxProto::SetStatus(int iNewStatus)
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		UpdateStatusMenu(NULL, NULL);
+
 		return 0;
 	}
 
@@ -163,8 +166,9 @@ int CToxProto::SetStatus(int iNewStatus)
 	if (old_status == ID_STATUS_OFFLINE && !IsOnline()) {
 		isTerminated = false;
 		m_iStatus = ID_STATUS_CONNECTING;
-		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, nullptr, nullptr);
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		hPollingThread = ForkThreadEx(&CToxProto::PollingThread, nullptr, nullptr);
 		return 0;
 	}
 	

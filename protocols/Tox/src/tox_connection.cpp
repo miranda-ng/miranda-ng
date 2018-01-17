@@ -17,6 +17,8 @@ void CToxProto::TryConnect(Tox *tox)
 
 		debugLogA(__FUNCTION__": changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
 
+		UpdateStatusMenu(NULL, NULL);
+
 		LoadFriendList(tox);
 		return;
 	}
