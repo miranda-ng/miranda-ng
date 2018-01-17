@@ -150,56 +150,68 @@ statusValues[] =
 	{ PF2_ONTHEPHONE, LPGENW("On the phone") }
 };
 
-static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
+class COptionMainDlg : public CPluginDlgBase
 {
-	TVINSERTSTRUCT tvis;
-	tvis.hParent = nullptr;
-	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-	for (int i = 0; i < nValues; i++) {
-		tvis.item.lParam = values[i].style;
-		tvis.item.pszText = TranslateW(values[i].szDescr);
-		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-		tvis.item.state = INDEXTOSTATEIMAGEMASK((style & tvis.item.lParam) != 0 ? 2 : 1);
-		TreeView_InsertItem(hwndTree, &tvis);
-	}
-}
-
-static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
-{
-	DWORD flags = 0;
-
-	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
-	tvi.hItem = TreeView_GetRoot(hwndTree);
-	while (tvi.hItem) {
-		TreeView_GetItem(hwndTree, &tvi);
-		if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2))
-			flags |= tvi.lParam;
-		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-	}
-	return flags;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-class COptionMainDlg : public CDlgBase
-{
-	CCtrlCheck chkAutoMin, chkAutoClose, chkSavePerContact;
+	CCtrlCheck chkAutoMin, chkAutoClose, chkSavePerContact, chkDoNotStealFocus;
+	CCtrlCheck chkDelTemp, chkCascade, chkCharCount, chkStatusWin, chkCtrlSupport;
 	CCtrlCheck chkAvatar, chkLimitAvatar;
-	CCtrlCheck chkSendOnEnter, chkSendOnDblEnter;
+	CCtrlCheck chkSendOnEnter, chkSendOnDblEnter, chkShowSend, chkShowButtons;
+
+	CCtrlTreeView tree;
+
+	void FillCheckBoxTree(DWORD style)
+	{
+		TVINSERTSTRUCT tvis;
+		tvis.hParent = nullptr;
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE;
+		for (int i = 0; i < _countof(statusValues); i++) {
+			tvis.item.lParam = statusValues[i].style;
+			tvis.item.pszText = TranslateW(statusValues[i].szDescr);
+			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+			tvis.item.iImage = (style & statusValues[i].style) != 0;
+			tree.InsertItem(&tvis);
+		}
+	}
+
+	DWORD MakeCheckBoxTreeFlags()
+	{
+		DWORD flags = 0;
+
+		TVITEMEX tvi;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
+		tvi.hItem = tree.GetRoot();
+		while (tvi.hItem) {
+			tree.GetItem(&tvi);
+			if (tvi.iImage)
+				flags |= tvi.lParam;
+			tvi.hItem = tree.GetNextSibling(tvi.hItem);
+		}
+		return flags;
+	}
 
 public:
-	COptionMainDlg()
-		: CDlgBase(g_hInst, IDD_OPT_MSGDLG),
+	COptionMainDlg() :
+		CPluginDlgBase(g_hInst, IDD_OPT_MSGDLG, SRMMMOD),
+		tree(this, IDC_POPLIST),
 		chkAvatar(this, IDC_AVATARSUPPORT),
+		chkDelTemp(this, IDC_DELTEMP),
 		chkAutoMin(this, IDC_AUTOMIN),
+		chkCascade(this, IDC_CASCADE),
+		chkShowSend(this, IDC_SHOWSENDBTN),
 		chkAutoClose(this, IDC_AUTOCLOSE),
+		chkStatusWin(this, IDC_STATUSWIN),
+		chkCharCount(this, IDC_CHARCOUNT),
 		chkLimitAvatar(this, IDC_LIMITAVATARH),
+		chkShowButtons(this, IDC_SHOWBUTTONLINE),
+		chkCtrlSupport(this, IDC_CTRLSUPPORT),
 		chkSendOnEnter(this, IDC_SENDONENTER),
 		chkSendOnDblEnter(this, IDC_SENDONDBLENTER),
-		chkSavePerContact(this, IDC_SAVEPERCONTACT)
+		chkSavePerContact(this, IDC_SAVEPERCONTACT),
+		chkDoNotStealFocus(this, IDC_DONOTSTEALFOCUS)
 	{
+		tree.SetFlags(MTREE_CHECKBOX);
+
 		chkAvatar.OnChange = Callback(this, &COptionMainDlg::onChange_Avatar);
 		chkAutoMin.OnChange = Callback(this, &COptionMainDlg::onChange_AutoMin);
 		chkAutoClose.OnChange = Callback(this, &COptionMainDlg::onChange_AutoClose);
@@ -207,216 +219,179 @@ public:
 		chkSendOnEnter.OnChange = Callback(this, &COptionMainDlg::onChange_SendOnEnter);
 		chkSendOnDblEnter.OnChange = Callback(this, &COptionMainDlg::onChange_SendOnDblEnter);
 		chkSavePerContact.OnChange = Callback(this, &COptionMainDlg::onChange_SavePerContact);
+
+		CreateLink(chkAvatar, g_dat.bShowAvatar);
+		CreateLink(chkLimitAvatar, g_dat.bLimitAvatarHeight);
+
+		CreateLink(chkDelTemp, g_dat.bDeleteTempCont);
+		CreateLink(chkCascade, g_dat.bCascade);
+		CreateLink(chkAutoMin, g_dat.bAutoMin);
+		CreateLink(chkAutoClose, g_dat.bAutoClose);
+		CreateLink(chkShowSend, g_dat.bSendButton);
+		CreateLink(chkCharCount, g_dat.bShowReadChar);
+		CreateLink(chkStatusWin, g_dat.bUseStatusWinIcon);
+		CreateLink(chkShowButtons, g_dat.bShowButtons);
+		CreateLink(chkSendOnEnter, g_dat.bSendOnEnter);
+		CreateLink(chkSendOnDblEnter, g_dat.bSendOnDblEnter);
+		CreateLink(chkSavePerContact, g_dat.bSavePerContact);
+		CreateLink(chkDoNotStealFocus, g_dat.bDoNotStealFocus);
 	}
 
 	virtual void OnInitDialog() override
 	{
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_POPLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_POPLIST), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-		FillCheckBoxTree(GetDlgItem(m_hwnd, IDC_POPLIST), statusValues, _countof(statusValues), db_get_dw(0, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS));
+		FillCheckBoxTree(g_dat.popupFlags);
 
-		CheckDlgButton(m_hwnd, IDC_DELTEMP, g_dat.bDeleteTempCont);
-		CheckDlgButton(m_hwnd, IDC_AUTOMIN, g_dat.bAutoMin);
-		CheckDlgButton(m_hwnd, IDC_CASCADE, g_dat.bCascade);
-		CheckDlgButton(m_hwnd, IDC_AUTOCLOSE, g_dat.bAutoClose);
-		CheckDlgButton(m_hwnd, IDC_CHARCOUNT, g_dat.bShowReadChar);
-		CheckDlgButton(m_hwnd, IDC_STATUSWIN, g_dat.bUseStatusWinIcon);
-		CheckDlgButton(m_hwnd, IDC_CTRLSUPPORT, g_dat.bCtrlSupport);
-		CheckDlgButton(m_hwnd, IDC_SHOWSENDBTN, g_dat.bSendButton);
-		CheckDlgButton(m_hwnd, IDC_SENDONENTER, g_dat.bSendOnEnter);
-		CheckDlgButton(m_hwnd, IDC_LIMITAVATARH, db_get_b(0, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT));
-		CheckDlgButton(m_hwnd, IDC_SENDONDBLENTER, g_dat.bSendOnDblEnter);
-		CheckDlgButton(m_hwnd, IDC_AVATARSUPPORT, g_dat.bShowAvatar);
-		CheckDlgButton(m_hwnd, IDC_SHOWBUTTONLINE, g_dat.bShowButtons);
-		CheckDlgButton(m_hwnd, IDC_SAVEPERCONTACT, g_dat.bSavePerContact);
-		CheckDlgButton(m_hwnd, IDC_DONOTSTEALFOCUS, g_dat.bDoNotStealFocus);
-
-		DWORD avatarHeight = db_get_dw(0, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT);
-		SetDlgItemInt(m_hwnd, IDC_NFLASHES, db_get_b(0, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT), FALSE);
-		SetDlgItemInt(m_hwnd, IDC_AVATARHEIGHT, avatarHeight, FALSE);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITAVATARH), IsDlgButtonChecked(m_hwnd, IDC_AVATARSUPPORT));
-		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_AVATARSUPPORT))
+		SetDlgItemInt(m_hwnd, IDC_NFLASHES, g_dat.nFlashMax, FALSE);
+		SetDlgItemInt(m_hwnd, IDC_AVATARHEIGHT, g_dat.iAvatarHeight, FALSE);
+		chkLimitAvatar.Enable(chkAvatar.GetState());
+		if (!chkAvatar.GetState())
 			EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), FALSE);
 		else
-			EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), IsDlgButtonChecked(m_hwnd, IDC_LIMITAVATARH));
+			EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), chkLimitAvatar.GetState());
 
-		DWORD msgTimeout = db_get_dw(0, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
-		SetDlgItemInt(m_hwnd, IDC_SECONDS, msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout / 1000 : SRMSGDEFSET_MSGTIMEOUT / 1000, FALSE);
+		DWORD msgTimeout = g_dat.msgTimeout;
+		SetDlgItemInt(m_hwnd, IDC_SECONDS, (msgTimeout >= 5000) ? msgTimeout / 1000 : 5, FALSE);
 
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CASCADE), !g_dat.bSavePerContact);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CTRLSUPPORT), !g_dat.bAutoClose);
+		chkCascade.Enable(!g_dat.bSavePerContact);
+		chkCtrlSupport.Enable(!g_dat.bAutoClose);
 	}
 
 	virtual void OnApply() override
 	{
-		db_set_dw(0, SRMMMOD, SRMSGSET_POPFLAGS, MakeCheckBoxTreeFlags(GetDlgItem(m_hwnd, IDC_POPLIST)));
-		db_set_b(0, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DONOTSTEALFOCUS));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWBUTTONLINE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWBUTTONLINE));
-		db_set_b(0, SRMMMOD, SRMSGSET_AUTOMIN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOMIN));
-		db_set_b(0, SRMMMOD, SRMSGSET_AUTOCLOSE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOCLOSE));
-		db_set_b(0, SRMMMOD, SRMSGSET_SAVEPERCONTACT, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SAVEPERCONTACT));
-		db_set_b(0, SRMMMOD, SRMSGSET_CASCADE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_CASCADE));
-		db_set_b(0, SRMMMOD, SRMSGSET_SENDONENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONENTER));
-		db_set_b(0, SRMMMOD, SRMSGSET_SENDONDBLENTER, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SENDONDBLENTER));
-		db_set_b(0, SRMMMOD, SRMSGSET_STATUSICON, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_STATUSWIN));
-
-		db_set_b(0, SRMMMOD, SRMSGSET_AVATARENABLE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AVATARSUPPORT));
-		db_set_b(0, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_LIMITAVATARH));
+		g_dat.popupFlags = MakeCheckBoxTreeFlags();
 
 		DWORD avatarHeight = GetDlgItemInt(m_hwnd, IDC_AVATARHEIGHT, nullptr, TRUE);
-		db_set_dw(0, SRMMMOD, SRMSGSET_AVHEIGHT, avatarHeight <= 0 ? SRMSGDEFSET_AVHEIGHT : avatarHeight);
-
-		db_set_b(0, SRMMMOD, SRMSGSET_SENDBUTTON, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWSENDBTN));
-		db_set_b(0, SRMMMOD, SRMSGSET_CHARCOUNT, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_CHARCOUNT));
-		db_set_b(0, SRMMMOD, SRMSGSET_CTRLSUPPORT, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_CTRLSUPPORT));
-		db_set_b(0, SRMMMOD, SRMSGSET_DELTEMP, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DELTEMP));
-		db_set_b(0, SRMMMOD, SRMSGSET_FLASHCOUNT, (BYTE)GetDlgItemInt(m_hwnd, IDC_NFLASHES, nullptr, TRUE));
+		g_dat.iAvatarHeight = (avatarHeight <= 0) ? 60 : avatarHeight;
 
 		DWORD msgTimeout = GetDlgItemInt(m_hwnd, IDC_SECONDS, nullptr, TRUE) * 1000;
-		if (msgTimeout < SRMSGSET_MSGTIMEOUT_MIN) msgTimeout = SRMSGDEFSET_MSGTIMEOUT;
-		db_set_dw(0, SRMMMOD, SRMSGSET_MSGTIMEOUT, msgTimeout);
+		if (msgTimeout < 5000)
+			msgTimeout = 5000;
+		g_dat.msgTimeout = msgTimeout;
 
-		ReloadGlobals();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
 	}
 
 	void onChange_AutoMin(CCtrlCheck*)
 	{
-		CheckDlgButton(m_hwnd, IDC_AUTOCLOSE, BST_UNCHECKED);
+		chkAutoClose.SetState(false);
 	}
 
 	void onChange_AutoClose(CCtrlCheck*)
 	{
-		CheckDlgButton(m_hwnd, IDC_AUTOMIN, BST_UNCHECKED);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CTRLSUPPORT), BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_AUTOCLOSE));
+		chkAutoMin.SetState(false);
+		chkCtrlSupport.Enable(!chkAutoClose.GetState());
 	}
 
 	void onChange_SendOnEnter(CCtrlCheck*)
 	{
-		CheckDlgButton(m_hwnd, IDC_SENDONDBLENTER, BST_UNCHECKED);
+		chkSendOnDblEnter.SetState(false);
 	}
 
 	void onChange_SendOnDblEnter(CCtrlCheck*)
 	{
-		CheckDlgButton(m_hwnd, IDC_SENDONENTER, BST_UNCHECKED);
+		chkSendOnEnter.SetState(false);
 	}
 
 	void onChange_SavePerContact(CCtrlCheck*)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CASCADE), BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_SAVEPERCONTACT));
+		chkCascade.Enable(!chkSavePerContact.GetState());
 	}
 
 	void onChange_Avatar(CCtrlCheck*)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LIMITAVATARH), IsDlgButtonChecked(m_hwnd, IDC_AVATARSUPPORT));
-		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_AVATARSUPPORT))
+		chkLimitAvatar.Enable(chkAvatar.GetState());
+		if (!chkAvatar.GetState())
 			EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), FALSE);
-		else EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), IsDlgButtonChecked(m_hwnd, IDC_LIMITAVATARH));
+		else EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), chkLimitAvatar.GetState());
 	}
 
 	void onChange_LimitAvatar(CCtrlCheck*)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), IsDlgButtonChecked(m_hwnd, IDC_LIMITAVATARH));
+		EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), chkLimitAvatar.GetState());
 	}
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	void onChange_Tree(CCtrlTreeView::TEventInfo*)
 	{
-		if (msg == WM_NOTIFY) {
-			LPNMHDR pHdr = (LPNMHDR)lParam;
-			if (pHdr->code == NM_CLICK && pHdr->idFrom == IDC_POPLIST) {
-				TVHITTESTINFO hti;
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
-					if (hti.flags & TVHT_ONITEMSTATEICON) {
-						TVITEM tvi;
-						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-						tvi.hItem = hti.hItem;
-						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
-						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
-					}
-				}
-			}
-		}
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+		NotifyChange();
 	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptionLogDlg : public CDlgBase
+class COptionLogDlg : public CPluginDlgBase
 {
 	HBRUSH hBkgColourBrush;
 
-	CCtrlCheck chkLoadUnread, chkLoadCount, chkLoadTime, chkTimes;
+	CCtrlCheck chkLoadUnread, chkLoadCount, chkLoadTime, chkDate, chkTime, chkSecs, chkIcons;
+	CCtrlCheck chkShowNames, chkFormat;
+	CCtrlSpin  spinCount, spinTime;
 
 public:
-	COptionLogDlg()
-		: CDlgBase(g_hInst, IDD_OPT_MSGLOG),
-		chkTimes(this, IDC_SHOWTIMES),
+	COptionLogDlg() :
+		CPluginDlgBase(g_hInst, IDD_OPT_MSGLOG, SRMMMOD),
+		chkSecs(this, IDC_SHOWSECS),
+		chkDate(this, IDC_SHOWDATES),
+		chkTime(this, IDC_SHOWTIMES),
+		chkIcons(this, IDC_SHOWLOGICONS),
+		chkFormat(this, IDC_SHOWFORMATTING),
 		chkLoadTime(this, IDC_LOADTIME),
+		chkShowNames(this, IDC_SHOWNAMES),
 		chkLoadCount(this, IDC_LOADCOUNT),
-		chkLoadUnread(this, IDC_LOADUNREAD)
+		chkLoadUnread(this, IDC_LOADUNREAD),
+		
+		spinTime(this, IDC_LOADTIMESPIN),
+		spinCount(this, IDC_LOADCOUNTSPIN)
 	{
-		chkTimes.OnChange = Callback(this, &COptionLogDlg::onChange_Time);
+		chkTime.OnChange = Callback(this, &COptionLogDlg::onChange_Time);
 		chkLoadUnread.OnChange = chkLoadCount.OnChange = chkLoadTime.OnChange = Callback(this, &COptionLogDlg::onChange_Load);
+
+		CreateLink(chkSecs, g_dat.bShowSecs);
+		CreateLink(chkDate, g_dat.bShowDate);
+		CreateLink(chkTime, g_dat.bShowTime);
+		CreateLink(chkIcons, g_dat.bShowIcons);
+		CreateLink(chkFormat, g_dat.bShowFormat);
+		CreateLink(chkShowNames, g_dat.bShowNames);
 	}
 	
 	virtual void OnInitDialog() override
 	{
-		switch (db_get_b(0, SRMMMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
+		switch (g_dat.iLoadHistory) {
 		case LOADHISTORY_UNREAD:
-			CheckDlgButton(m_hwnd, IDC_LOADUNREAD, BST_CHECKED);
+			chkLoadUnread.SetState(true);
 			break;
 		case LOADHISTORY_COUNT:
-			CheckDlgButton(m_hwnd, IDC_LOADCOUNT, BST_CHECKED);
+			chkLoadCount.SetState(true);
 			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTN), TRUE);
-			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTSPIN), TRUE);
+			spinCount.Enable();
 			break;
 		case LOADHISTORY_TIME:
-			CheckDlgButton(m_hwnd, IDC_LOADTIME, BST_CHECKED);
+			chkLoadTime.SetState(true);
 			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMEN), TRUE);
-			EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMESPIN), TRUE);
+			spinTime.Enable();
 			EnableWindow(GetDlgItem(m_hwnd, IDC_STMINSOLD), TRUE);
 			break;
 		}
-		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-		SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(0, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
-		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(12 * 60, 0));
-		SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_SETPOS, 0, db_get_w(0, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
+		spinCount.SetRange(100);
+		spinCount.SetPosition(g_dat.nLoadCount);
+		spinTime.SetRange(12 * 60);
+		spinTime.SetPosition(g_dat.nLoadTime);
 
-		CheckDlgButton(m_hwnd, IDC_SHOWLOGICONS, db_get_b(0, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS));
-		CheckDlgButton(m_hwnd, IDC_SHOWNAMES, !db_get_b(0, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES));
-		CheckDlgButton(m_hwnd, IDC_SHOWTIMES, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWSECS), IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES));
-		CheckDlgButton(m_hwnd, IDC_SHOWSECS, db_get_b(0, SRMMMOD, SRMSGSET_SHOWSECS, SRMSGDEFSET_SHOWSECS));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWDATES), IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES));
-		CheckDlgButton(m_hwnd, IDC_SHOWDATES, db_get_b(0, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE));
-		CheckDlgButton(m_hwnd, IDC_SHOWFORMATTING, db_get_b(0, SRMMMOD, SRMSGSET_SHOWFORMAT, SRMSGDEFSET_SHOWFORMAT));
+		onChange_Time(nullptr);
 	}
 
 	virtual void OnApply() override
 	{
-		if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
-			db_set_b(0, SRMMMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
-		else if (IsDlgButtonChecked(m_hwnd, IDC_LOADTIME))
-			db_set_b(0, SRMMMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
+		if (chkLoadCount.GetState())
+			g_dat.iLoadHistory = LOADHISTORY_COUNT;
+		else if (chkLoadTime.GetState())
+			g_dat.iLoadHistory = LOADHISTORY_TIME;
 		else
-			db_set_b(0, SRMMMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-		db_set_w(0, SRMMMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
-		db_set_w(0, SRMMMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(m_hwnd, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWLOGICONS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWLOGICONS));
-		db_set_b(0, SRMMMOD, SRMSGSET_HIDENAMES, (BYTE)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_SHOWNAMES));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWTIME, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWSECS, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWSECS));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWDATE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWDATES));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWFORMAT, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWFORMATTING));
+			g_dat.iLoadHistory = LOADHISTORY_UNREAD;
+		g_dat.nLoadCount = spinCount.GetPosition();
+		g_dat.nLoadTime = spinTime.GetPosition();
 
 		FreeMsgLogIcons();
 		LoadMsgLogIcons();
-		ReloadGlobals();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
 	}
 
@@ -427,72 +402,86 @@ public:
 
 	void onChange_Load(CCtrlCheck*)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTN), IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTSPIN), IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMEN), IsDlgButtonChecked(m_hwnd, IDC_LOADTIME));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMESPIN), IsDlgButtonChecked(m_hwnd, IDC_LOADTIME));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_STMINSOLD), IsDlgButtonChecked(m_hwnd, IDC_LOADTIME));
+		bool bEnabled = chkLoadCount.GetState();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADCOUNTN), bEnabled);
+		spinCount.Enable(bEnabled);
+
+		bEnabled = chkLoadTime.GetState();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_LOADTIMEN), bEnabled);
+		spinTime.Enable(bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_STMINSOLD), bEnabled);
 	}
 
 	void onChange_Time(CCtrlCheck*)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWSECS), IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_SHOWDATES), IsDlgButtonChecked(m_hwnd, IDC_SHOWTIMES));
+		bool bEnabled = chkTime.GetState();
+		chkSecs.Enable(bEnabled);
+		chkDate.Enable(bEnabled);
 	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptionTypingDlg : public CDlgBase
+class COptionTypingDlg : public CPluginDlgBase
 {
 	HANDLE hItemNew, hItemUnknown;
 
-	CCtrlCheck chkTray, chkShowNotify;
+	CCtrlClc clist;
+	CCtrlCheck chkType, chkTypeWin, chkTypeTray, chkTypeClist, chkTypeBalloon;
 
 public:
-	COptionTypingDlg()
-		: CDlgBase(g_hInst, IDD_OPT_MSGTYPE),
-		chkTray(this, IDC_TYPETRAY),
-		chkShowNotify(this, IDC_SHOWNOTIFY)
+	COptionTypingDlg() :
+		CPluginDlgBase(g_hInst, IDD_OPT_MSGTYPE, SRMMMOD),
+		clist(this, IDC_CLIST),
+		chkType(this, IDC_SHOWNOTIFY),
+		chkTypeWin(this, IDC_TYPEWIN),
+		chkTypeTray(this, IDC_TYPETRAY),
+		chkTypeClist(this, IDC_NOTIFYTRAY),
+		chkTypeBalloon(this, IDC_NOTIFYBALLOON)
 	{
-		chkTray.OnChange = Callback(this, &COptionTypingDlg::onChange_Tray);
-		chkShowNotify.OnChange = Callback(this, &COptionTypingDlg::onChange_ShowNotify);
+		chkType.OnChange = Callback(this, &COptionTypingDlg::onChange_ShowNotify);
+		chkTypeTray.OnChange = Callback(this, &COptionTypingDlg::onChange_Tray);
+
+		CreateLink(chkType, g_dat.bShowTyping);
+		CreateLink(chkTypeWin, g_dat.bShowTypingWin);
+		CreateLink(chkTypeTray, g_dat.bShowTypingTray);
+		CreateLink(chkTypeClist, g_dat.bShowTypingClist);
 	}
 
-	void ResetCList()
+	void ResetCList(CCtrlClc::TEventInfo* = nullptr)
 	{
-		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETUSEGROUPS, db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
-		SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+		clist.SetUseGroups(db_get_b(0, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+		clist.SetHideEmptyGroups(1);
 	}
 
-	void RebuildList()
+	void RebuildList(CCtrlClc::TEventInfo* = nullptr)
 	{
-		BYTE defType = db_get_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
+		BYTE defType = g_dat.bTypingNew;
 		if (hItemNew && defType)
-			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemNew, 1);
+			clist.SetCheck(hItemNew, 1);
 
-		if (hItemUnknown && db_get_b(0, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
-			SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItemUnknown, 1);
+		if (hItemUnknown && g_dat.bTypingUnknown)
+			clist.SetCheck(hItemUnknown, 1);
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			HANDLE hItem = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+			HANDLE hItem = clist.FindContact(hContact);
 			if (hItem && db_get_b(hContact, SRMMMOD, SRMSGSET_TYPING, defType))
-				SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
+				clist.SetCheck(hItem, 1);
 		}
 	}
 
 	void SaveList()
 	{
 		if (hItemNew)
-			db_set_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 1 : 0));
+			g_dat.bTypingNew = clist.GetCheck(hItemNew);
 
 		if (hItemUnknown)
-			db_set_b(0, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 1 : 0));
+			g_dat.bTypingUnknown = clist.GetCheck(hItemUnknown);
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			HANDLE hItem = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+			HANDLE hItem = clist.FindContact(hContact);
 			if (hItem)
-				db_set_b(hContact, SRMMMOD, SRMSGSET_TYPING, (BYTE)(SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0) ? 1 : 0));
+				db_set_b(hContact, SRMMMOD, SRMSGSET_TYPING, clist.GetCheck(hItem));
 		}
 	}
 
@@ -501,67 +490,47 @@ public:
 		CLCINFOITEM cii = { sizeof(cii) };
 		cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
 		cii.pszText = TranslateT("** New contacts **");
-		hItemNew = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
+		hItemNew = clist.AddInfoItem(&cii);
 		cii.pszText = TranslateT("** Unknown contacts **");
-		hItemUnknown = (HANDLE)SendDlgItemMessage(m_hwnd, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
+		hItemUnknown = clist.AddInfoItem(&cii);
 
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN) | (CLS_NOHIDEOFFLINE));
+		SetWindowLongPtr(clist.GetHwnd(), GWL_STYLE, GetWindowLongPtr(clist.GetHwnd(), GWL_STYLE) | (CLS_SHOWHIDDEN) | (CLS_NOHIDEOFFLINE));
 		ResetCList();
-		CheckDlgButton(m_hwnd, IDC_SHOWNOTIFY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING));
-		CheckDlgButton(m_hwnd, IDC_TYPEWIN, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN));
-		CheckDlgButton(m_hwnd, IDC_TYPETRAY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN));
-		CheckDlgButton(m_hwnd, IDC_NOTIFYTRAY, db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST));
-		CheckDlgButton(m_hwnd, IDC_NOTIFYBALLOON, !db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TYPEWIN), IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TYPETRAY), IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_NOTIFYTRAY), IsDlgButtonChecked(m_hwnd, IDC_TYPETRAY));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_NOTIFYBALLOON), IsDlgButtonChecked(m_hwnd, IDC_TYPETRAY));
+
+		clist.OnListRebuilt = Callback(this, &COptionTypingDlg::RebuildList);
+		clist.OnCheckChanged = Callback(this, &COptionTypingDlg::onChange_Clist);
+		clist.OnOptionsChanged = Callback(this, &COptionTypingDlg::ResetCList);
+
+		onChange_ShowNotify(nullptr);
 	}
 
 	virtual void OnApply() override
 	{
 		SaveList();
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPETRAY));
-		db_set_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY));
-		ReloadGlobals();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
+	}
+
+	void onChange_Clist(CCtrlClc::TEventInfo*)
+	{
+		NotifyChange();
 	}
 
 	void onChange_Tray(CCtrlCheck*)
 	{
-		bool bStatus = chkTray.GetState() != 0;
-		EnableWindow(GetDlgItem(m_hwnd, IDC_NOTIFYTRAY), bStatus);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_NOTIFYBALLOON), bStatus);
+		bool bStatus = chkTypeTray.GetState() != 0;
+		chkTypeClist.Enable(bStatus);
+		chkTypeBalloon.Enable(bStatus);
 	}
 
 	void onChange_ShowNotify(CCtrlCheck*)
 	{
-		bool bStatus = chkShowNotify.GetState() != 0;
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TYPEWIN), bStatus);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TYPETRAY), bStatus);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_NOTIFYTRAY), bStatus);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_NOTIFYBALLOON), bStatus);
-	}
+		bool bStatus = chkType.GetState();
+		chkTypeWin.Enable(bStatus);
+		chkTypeTray.Enable(bStatus);
 
-	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (msg == WM_NOTIFY && ((NMHDR *)lParam)->idFrom == IDC_CLIST) {
-			switch (((NMHDR *)lParam)->code) {
-			case CLN_OPTIONSCHANGED:
-				ResetCList();
-				break;
-			case CLN_CHECKCHANGED:
-				SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
-				break;
-			case CLN_LISTREBUILT:
-				RebuildList();
-				break;
-			}
-		}
-
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+		bool bTrayStatus = chkTypeTray.GetState();
+		chkTypeClist.Enable(bStatus && bTrayStatus);
+		chkTypeBalloon.Enable(bStatus && bTrayStatus);
 	}
 };
 

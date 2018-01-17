@@ -24,40 +24,48 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct GlobalMessageData
 {
-	bool bShowButtons;
-	bool bSendButton;
-	bool bShowTyping;
-	bool bShowTypingWin;
-	bool bShowTypingTray;
-	bool bShowTypingClist;
-	bool bShowIcons;
-	bool bShowTime;
-	bool bShowDate;
-	bool bShowAvatar;
-	bool bHideNames;
-	bool bShowSecs;
-	bool bShowReadChar;
-	bool bSendOnEnter;
-	bool bSendOnDblEnter;
-	bool bAutoClose;
-	bool bAutoMin;
-	bool bTypingUnknown;
-	bool bCtrlSupport;
-	bool bShowFormat;
-	bool bSavePerContact;
-	bool bUseStatusWinIcon;
-	bool bDoNotStealFocus;
-	bool bCascade;
-	bool bDeleteTempCont;
+	GlobalMessageData();
 
-	DWORD openFlags;
-	DWORD msgTimeout;
-	DWORD nFlashMax;
-	int iGap;
+	CMOption<bool> bShowButtons;
+	CMOption<bool> bSendButton;
+	CMOption<bool> bShowTyping;
+	CMOption<bool> bShowTypingWin;
+	CMOption<bool> bShowTypingTray;
+	CMOption<bool> bShowTypingClist;
+	CMOption<bool> bShowIcons;
+	CMOption<bool> bShowTime;
+	CMOption<bool> bShowDate;
+	CMOption<bool> bShowAvatar;
+	CMOption<bool> bShowNames;
+	CMOption<bool> bShowSecs;
+	CMOption<bool> bShowReadChar;
+	CMOption<bool> bSendOnEnter;
+	CMOption<bool> bSendOnDblEnter;
+	CMOption<bool> bAutoClose;
+	CMOption<bool> bAutoMin;
+	CMOption<bool> bTypingNew;
+	CMOption<bool> bTypingUnknown;
+	CMOption<bool> bCtrlSupport;
+	CMOption<bool> bShowFormat;
+	CMOption<bool> bSavePerContact;
+	CMOption<bool> bUseStatusWinIcon;
+	CMOption<bool> bDoNotStealFocus;
+	CMOption<bool> bCascade;
+	CMOption<bool> bDeleteTempCont;
+
+	CMOption<bool> bLimitAvatarHeight;
+	CMOption<WORD> iAvatarHeight;
+
+	CMOption<DWORD> popupFlags;
+	CMOption<DWORD> msgTimeout;
+	CMOption<DWORD> nFlashMax;
+	CMOption<BYTE>  iGap;
+
+	CMOption<BYTE>  iLoadHistory;
+	CMOption<WORD>  nLoadCount, nLoadTime;
 };
 
 void InitGlobals();
-void ReloadGlobals();
 
 extern GlobalMessageData g_dat;
 

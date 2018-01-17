@@ -118,7 +118,7 @@ void CSrmmWindow::OnInitDialog()
 	m_szProto = GetContactProto(m_hContact);
 
 	// avatar stuff
-	m_limitAvatarH = db_get_b(0, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT) ? db_get_dw(0, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT) : 0;
+	m_limitAvatarH = g_dat.bLimitAvatarHeight ? g_dat.iAvatarHeight : 0;
 
 	if (m_hContact && m_szProto != nullptr)
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
@@ -156,12 +156,11 @@ void CSrmmWindow::OnInitDialog()
 	}
 
 	if (m_hContact) {
-		int historyMode = db_get_b(0, SRMMMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 		// This finds the first message to display, it works like shit
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
-		switch (historyMode) {
+		switch (g_dat.iLoadHistory) {
 		case LOADHISTORY_COUNT:
-			for (int i = db_get_w(0, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i--;) {
+			for (int i = g_dat.nLoadCount; i--;) {
 				MEVENT hPrevEvent;
 				if (m_hDbEventFirst == 0)
 					hPrevEvent = db_event_last(m_hContact);
@@ -185,7 +184,7 @@ void CSrmmWindow::OnInitDialog()
 			else
 				db_event_get(m_hDbEventFirst, &dbei);
 
-			DWORD firstTime = dbei.timestamp - 60 * db_get_w(0, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+			DWORD firstTime = dbei.timestamp - 60 * g_dat.nLoadTime;
 			for (;;) {
 				MEVENT hPrevEvent;
 				if (m_hDbEventFirst == 0)
@@ -386,8 +385,7 @@ void CSrmmWindow::OnOptionsApplied(bool bUpdateAvatar)
 	m_avatarPic = nullptr;
 	m_limitAvatarH = 0;
 	if (CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_AVATARS)
-		m_limitAvatarH = db_get_b(0, SRMMMOD, SRMSGSET_LIMITAVHEIGHT, SRMSGDEFSET_LIMITAVHEIGHT) ?
-		db_get_dw(0, SRMMMOD, SRMSGSET_AVHEIGHT, SRMSGDEFSET_AVHEIGHT) : 0;
+		m_limitAvatarH = g_dat.bLimitAvatarHeight ? g_dat.iAvatarHeight : 0;
 
 	if (bUpdateAvatar)
 		SendMessage(m_hwnd, DM_GETAVATAR, 0, 0);
@@ -457,7 +455,7 @@ void CSrmmWindow::NotifyTyping(int mode)
 	// Don't send to protocols that are offline
 	// Don't send to users who are not visible and
 	// Don't send to users who are not on the visible list when you are in invisible mode.
-	if (!db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING, db_get_b(0, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	if (!db_get_b(m_hContact, SRMMMOD, SRMSGSET_TYPING, g_dat.bTypingNew))
 		return;
 
 	if (!m_szProto)

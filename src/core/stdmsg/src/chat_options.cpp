@@ -338,7 +338,6 @@ public:
 
 	virtual void OnInitDialog() override
 	{
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CHECKBOXES), GWL_STYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CHECKBOXES), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		hListHeading1 = InsertBranch(GetDlgItem(m_hwnd, IDC_CHECKBOXES), LPGEN("Appearance and functionality of chat room windows"), db_get_b(0, CHAT_MODULE, "Branch1Exp", 0) ? TRUE : FALSE);
 		hListHeading2 = InsertBranch(GetDlgItem(m_hwnd, IDC_CHECKBOXES), LPGEN("Appearance of the message log"), db_get_b(0, CHAT_MODULE, "Branch2Exp", 0) ? TRUE : FALSE);
 		hListHeading3 = InsertBranch(GetDlgItem(m_hwnd, IDC_CHECKBOXES), LPGEN("Default events to show in new chat rooms if the 'event filter' is enabled"), db_get_b(0, CHAT_MODULE, "Branch3Exp", 0) ? TRUE : FALSE);

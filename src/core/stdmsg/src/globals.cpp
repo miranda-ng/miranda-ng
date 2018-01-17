@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-GlobalMessageData g_dat;
-
 IconItem iconList[] =
 {
 	{ LPGEN("Incoming message (10x10)"), "INCOMING", IDI_INCOMING, 10 },
@@ -102,47 +100,62 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void ReloadGlobals()
+GlobalMessageData g_dat;
+
+GlobalMessageData::GlobalMessageData() :
+	bShowDate(SRMMMOD, "ShowDate", false),
+	bShowTime(SRMMMOD, "ShowTime", true),
+	bShowSecs(SRMMMOD, "ShowSeconds", true),
+	bShowIcons(SRMMMOD, "ShowLogIcon", true),
+	bShowAvatar(SRMMMOD, "AvatarEnable", true),
+	bShowButtons(SRMMMOD, "ShowButtonLine", true),
+
+	bTypingNew(SRMMMOD, "DefaultTyping", true),
+	bTypingUnknown(SRMMMOD, "UnknownTyping", false),
+
+	bShowTyping(SRMMMOD, "ShowTyping", true),
+	bShowTypingWin(SRMMMOD, "ShowTypingWin", true),
+	bShowTypingTray(SRMMMOD, "ShowTypingTray", false),
+	bShowTypingClist(SRMMMOD, "ShowTypingClist", true),
+
+	bCascade(SRMMMOD, "Cascade", true),
+	bAutoMin(SRMMMOD, "AutoMin", false),
+	bAutoClose(SRMMMOD, "AutoClose", false),
+	bShowNames(SRMMMOD, "ShowNames", false),
+	bShowFormat(SRMMMOD, "ShowFormatting", true),
+	bSendButton(SRMMMOD, "UseSendButton", false),
+	bSendOnEnter(SRMMMOD, "SendOnEnter", true),
+	bCtrlSupport(SRMMMOD, "SupportCtrlUpDn", true),
+	bShowReadChar(SRMMMOD, "ShowCharCount", false),
+	bSendOnDblEnter(SRMMMOD, "SendOnDblEnter", false),
+	bDeleteTempCont(SRMMMOD, "DeleteTempCont", false),
+	bSavePerContact(SRMMMOD, "SavePerContact", false),
+	bUseStatusWinIcon(SRMMMOD, "UseStatusWinIcon", false),
+	bDoNotStealFocus(SRMMMOD, "DoNotStealFocus", false),
+
+	bLimitAvatarHeight(SRMMMOD, "AvatarLimitHeight", true),
+	iAvatarHeight(SRMMMOD, "AvatarHeight", 60),
+
+	popupFlags(SRMMMOD, "PopupFlags", 0),
+	nFlashMax(SRMMMOD, "FlashMax", 5),
+	iGap(SRMSGMOD, "ButtonsBarGap", 1),
+
+	msgTimeout(SRMMMOD, "MessageTimeout", 65000),
+
+	iLoadHistory(SRMMMOD, "LoadHistory", LOADHISTORY_UNREAD),
+	nLoadCount(SRMMMOD, "LoadCount", 10),
+	nLoadTime(SRMMMOD, "LoadTime", 10)
 {
-	memset(&g_dat, 0, sizeof(g_dat));
-	g_dat.bShowDate = db_get_b(0, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE) != 0;
-	g_dat.bShowTime = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME) != 0;
-	g_dat.bShowSecs = db_get_b(0, SRMMMOD, SRMSGSET_SHOWSECS, SRMSGDEFSET_SHOWSECS) != 0;
-	g_dat.bShowIcons = db_get_b(0, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS) != 0;
-	g_dat.bShowAvatar = db_get_b(0, SRMMMOD, SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE) != 0;
-	g_dat.bShowButtons = db_get_b(0, SRMMMOD, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE) != 0;
-	g_dat.bShowTyping = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) != 0;
-	g_dat.bShowTypingWin = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN) != 0;
-	g_dat.bShowTypingTray = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN) != 0;
-	g_dat.bShowTypingClist = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) != 0;
-
-	g_dat.bCascade = db_get_b(0, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE) != 0;
-	g_dat.bAutoMin = db_get_b(0, SRMMMOD, SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN) != 0;
-	g_dat.bAutoClose = db_get_b(0, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE) != 0;
-	g_dat.bHideNames = db_get_b(0, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES) != 0;
-	g_dat.bShowFormat = db_get_b(0, SRMMMOD, SRMSGSET_SHOWFORMAT, SRMSGDEFSET_SHOWFORMAT) != 0;
-	g_dat.bSendButton = db_get_b(0, SRMMMOD, SRMSGSET_SENDBUTTON, SRMSGDEFSET_SENDBUTTON) != 0;
-	g_dat.bSendOnEnter = db_get_b(0, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER) != 0;
-	g_dat.bCtrlSupport = db_get_b(0, SRMMMOD, SRMSGSET_CTRLSUPPORT, SRMSGDEFSET_CTRLSUPPORT) != 0;
-	g_dat.bShowReadChar = db_get_b(0, SRMMMOD, SRMSGSET_CHARCOUNT, SRMSGDEFSET_CHARCOUNT) != 0;
-	g_dat.bSendOnDblEnter = db_get_b(0, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER) != 0;
-	g_dat.bTypingUnknown = db_get_b(0, SRMMMOD, SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN) != 0;
-	g_dat.bDeleteTempCont = db_get_b(0, SRMMMOD, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP) != 0;
-	g_dat.bSavePerContact = db_get_b(0, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT) != 0;
-	g_dat.bUseStatusWinIcon = db_get_b(0, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON) != 0;
-	g_dat.bDoNotStealFocus = db_get_b(0, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS) != 0;
-
-	g_dat.openFlags = db_get_dw(0, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
-	g_dat.nFlashMax = db_get_b(0, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
-	g_dat.iGap = db_get_b(0, SRMSGMOD, SRMSGSET_BUTTONGAP, SRMSGDEFSET_BUTTONGAP);
-
-	g_dat.msgTimeout = db_get_dw(0, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
-	if (g_dat.msgTimeout < SRMSGSET_MSGTIMEOUT_MIN)
-		g_dat.msgTimeout = SRMSGDEFSET_MSGTIMEOUT;
 }
 
 void InitGlobals()
 {
+	int iOldValue = db_get_b(0, SRMMMOD, "HideNames", -1);
+	if (iOldValue != -1) {
+		g_dat.bShowNames = !iOldValue;
+		db_unset(0, SRMMMOD, "HideNames");
+	}
+
 	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
 	HookEvent(ME_PROTO_ACK, ackevent);
 	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
@@ -150,6 +163,5 @@ void InitGlobals()
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaChanged);
 
-	ReloadGlobals();
 	InitIcons();
 }

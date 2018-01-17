@@ -265,7 +265,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 		showColon = 1;
 	}
 
-	if (!(g_dat.bHideNames) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
+	if (g_dat.bShowNames && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 		wchar_t *szName;
 
 		if (dbei.flags & DBEF_SENT) {
