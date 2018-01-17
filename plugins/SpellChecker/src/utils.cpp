@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-typedef void(*FoundWrongWordCallback)(wchar_t *word, CHARRANGE pos, void *param);
+typedef void(*FoundWrongWordCallback)(const wchar_t *word, CHARRANGE pos, void *param);
 
 typedef map<HWND, Dialog *> DialogMapType;
 DialogMapType dialogs;
@@ -276,7 +276,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 	int errors = 0;
 	wchar_t text[1024];
 	dlg->re->GetLine(line, text, _countof(text));
-	int len = mir_wstrlen(text);
+	int len = (int)mir_wstrlen(text);
 	int first_char = dlg->re->GetFirstCharOfLine(line);
 
 	// Now lets get the words
@@ -365,7 +365,7 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 			if (dif != 0) {
 				// Read line again
 				dlg->re->GetLine(line, text, _countof(text));
-				len = mir_wstrlen(text);
+				len = (int)mir_wstrlen(text);
 
 				int old_first_char = first_char;
 				first_char = dlg->re->GetFirstCharOfLine(line);
@@ -1021,15 +1021,15 @@ wchar_t* GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel)
 	return mir_wstrdup(&text[sel.cpMin - first_char]);
 }
 
-void AppendSubmenu(HMENU hMenu, HMENU hSubMenu, wchar_t *name)
+void AppendSubmenu(HMENU hMenu, HMENU hSubMenu, const wchar_t *name)
 {
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU | MIIM_TYPE;
 	mii.fType = MFT_STRING;
 	mii.hSubMenu = hSubMenu;
-	mii.dwTypeData = name;
-	mii.cch = mir_wstrlen(name);
+	mii.dwTypeData = (LPWSTR)name;
+	mii.cch = (int)mir_wstrlen(name);
 	InsertMenuItem(hMenu, 0, TRUE, &mii);
 }
 
@@ -1047,7 +1047,7 @@ void AppendMenuItem(HMENU hMenu, int id, wchar_t *name, HICON hIcon, BOOL checke
 	mii.hbmpChecked = iconInfo.hbmColor;
 	mii.hbmpUnchecked = iconInfo.hbmColor;
 	mii.dwTypeData = name;
-	mii.cch = mir_wstrlen(name);
+	mii.cch = (int)mir_wstrlen(name);
 	InsertMenuItem(hMenu, 0, TRUE, &mii);
 }
 
@@ -1055,7 +1055,7 @@ void AppendMenuItem(HMENU hMenu, int id, wchar_t *name, HICON hIcon, BOOL checke
 #define WORD_MENU_ID_BASE 100
 #define AUTOREPLACE_MENU_ID_BASE 50
 
-void AddMenuForWord(Dialog *dlg, wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOOL in_submenu, UINT base)
+void AddMenuForWord(Dialog *dlg, const wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOOL in_submenu, UINT base)
 {
 	if (dlg->wrong_words == nullptr)
 		dlg->wrong_words = new vector<WrongWordPopupMenuData>(1);
@@ -1066,7 +1066,7 @@ void AddMenuForWord(Dialog *dlg, wchar_t *word, CHARRANGE &pos, HMENU hMenu, BOO
 	memset(&data, 0, sizeof(WrongWordPopupMenuData));
 
 	// Get suggestions
-	data.word = word;
+	data.word = _wcsdup(word);
 	data.pos = pos;
 	data.suggestions = dlg->lang->suggest(word);
 
@@ -1122,7 +1122,7 @@ struct FoundWrongWordParam
 	int count;
 };
 
-void FoundWrongWord(wchar_t *word, CHARRANGE pos, void *param)
+void FoundWrongWord(const wchar_t *word, CHARRANGE pos, void *param)
 {
 	FoundWrongWordParam *p = (FoundWrongWordParam*)param;
 
@@ -1542,7 +1542,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 wchar_t* lstrtrim(wchar_t *str)
 {
-	int len = mir_wstrlen(str);
+	int len = (int)mir_wstrlen(str);
 
 	int i;
 	for (i = len - 1; i >= 0 && (str[i] == ' ' || str[i] == '\t'); --i);
