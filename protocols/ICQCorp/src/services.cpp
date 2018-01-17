@@ -197,15 +197,15 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 
 	db_unset(ccs->hContact, "CList", "Hidden");
 
+	ptrA szMsg(Utf8CheckString(pre->szMessage) ? mir_strdup(pre->szMessage) : mir_utf8encode(pre->szMessage));
+
 	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
-	if (Utf8CheckString(pre->szMessage))
-		dbei.flags |= DBEF_UTF;
+	dbei.flags = DBEF_UTF | (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
-	dbei.pBlob = (PBYTE)pre->szMessage;
+	dbei.cbBlob = (DWORD)mir_strlen(szMsg) + 1;
+	dbei.pBlob = (PBYTE)szMsg.get();
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }

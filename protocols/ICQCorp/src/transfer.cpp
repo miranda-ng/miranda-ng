@@ -91,8 +91,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 
 	case 0x01:
 		T("[tcp] ack initialising\n");
-		packet >> speed
-			>> name;
+		packet >> speed >> name;
 
 		ack(ACKRESULT_INITIALISING);
 		sendPacket0x02();
@@ -109,16 +108,20 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 
 		++current;
 		if (directoryName[0])
-			files[current] = CMStringW(FORMAT, L"%s\\%s", ptrW(Utf8DecodeW(directoryName)), ptrW(Utf8DecodeW(fileName))).Detach();
+			files[current] = CMStringW(FORMAT, L"%S\\%S", directoryName, fileName).Detach();
 		else
-			files[current] = Utf8DecodeW(fileName);
+			files[current] = mir_a2u(fileName);
 
-		if (directory) createDirectory();
-		else openFile();
+		if (directory)
+			createDirectory();
+		else
+			openFile();
 		ack(ACKRESULT_NEXTFILE);
 
-		if (fileProgress) ack(ACKRESULT_FILERESUME);
-		else sendPacket0x03();
+		if (fileProgress)
+			ack(ACKRESULT_FILERESUME);
+		else
+			sendPacket0x03();
 		break;
 
 	case 0x03:
