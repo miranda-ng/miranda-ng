@@ -59,11 +59,9 @@ extern HINSTANCE g_hInstance;
 
 #define MODULE "Tox"
 
-#define TOX_API_VER_MAJOR 0
-#define TOX_API_VER_MINOR 1
-#define TOX_API_VER_PATCH 5
-
 #define TOX_ERROR -1
+
+#define TOX_DEFAULT_INTERVAL 50
 
 #define TOX_MAX_CONNECT_RETRIES 10
 #define TOX_MAX_RECONNECT_RETRIES 10

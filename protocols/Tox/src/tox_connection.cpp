@@ -109,10 +109,15 @@ void CToxProto::PollingThread(void*)
 	while (!isTerminated) {
 		tox_iterate(toxThread.Tox(), this);
 		uint32_t interval = tox_iteration_interval(toxThread.Tox());
-		interval = interval ? interval : 50;
-
+		interval = interval 
+			? interval
+			: TOX_DEFAULT_INTERVAL;
 		WaitForSingleObject(hTerminateEvent, interval);
 	}
+
+	SetEvent(hTerminateEvent);
+
+	Sleep(TOX_DEFAULT_INTERVAL * 10);
 
 	UninitToxCore(toxThread.Tox());
 	m_toxThread = nullptr;
