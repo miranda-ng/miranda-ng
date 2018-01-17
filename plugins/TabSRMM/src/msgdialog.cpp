@@ -2877,14 +2877,6 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		DM_ThemeChanged();
 		return 0;
 
-	case DM_STATUSICONCHANGE:
-		if (m_pContainer->hwndStatus) {
-			SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 0);
-			SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, 0);
-			InvalidateRect(m_pContainer->hwndStatus, nullptr, TRUE);
-		}
-		return 0;
-
 	case WM_CBD_UPDATED:
 		if (lParam)
 			CB_ChangeButton((CustomButtonData*)lParam);

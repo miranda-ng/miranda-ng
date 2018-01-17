@@ -149,6 +149,10 @@ INT_PTR CTabBaseDlg::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 
+	case DM_STATUSICONCHANGE:
+		m_pContainer->InitRedraw();
+		return 0;
+
 	case DM_ACTIVATEME: // the child window will activate itself
 		ActivateExistingTab(m_pContainer, m_hwnd);
 		return 0;

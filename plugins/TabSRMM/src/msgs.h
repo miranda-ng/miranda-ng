@@ -225,6 +225,7 @@ struct TContainerData
 	CMenuBar *MenuBar;
 	CSideBar *SideBar;
 
+	void InitRedraw();
 	void UpdateTabs();
 	void UpdateTitle(MCONTACT, class CTabBaseDlg* = nullptr);
 

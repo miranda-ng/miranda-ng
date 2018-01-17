@@ -41,6 +41,12 @@ static TContainerData* TSAPI RemoveContainerFromList(TContainerData*);
 
 static bool fForceOverlayIcons = false;
 
+void TContainerData::InitRedraw()
+{
+	::KillTimer(m_hwnd, (UINT_PTR)this);
+	::SetTimer(m_hwnd, (UINT_PTR)this, 100, nullptr);
+}
+
 void TContainerData::UpdateTabs()
 {
 	HWND hwndTab = GetDlgItem(m_hwnd, IDC_MSGTABS);
@@ -463,6 +469,15 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				return HTLEFT;
 			else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
 				return HTRIGHT;
+		}
+		break;
+
+	case WM_TIMER:
+		if (wParam == (WPARAM)pContainer && pContainer->hwndStatus) {
+			SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);
+			SendMessage(pContainer->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, 0);
+			InvalidateRect(pContainer->hwndStatus, nullptr, TRUE);
+			KillTimer(hwndDlg, wParam);
 		}
 		break;
 
