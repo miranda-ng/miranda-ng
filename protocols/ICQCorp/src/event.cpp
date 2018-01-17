@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "corp.h"
+#include "stdafx.h"
 
 std::vector <ICQEvent *> icqEvents;
 
@@ -95,7 +95,7 @@ void ICQEvent::stop()
 
 bool ICQEvent::isEvent(SOCKET hSocket, unsigned long theSequence)
 {
-	return socket->handleVal == hSocket && sequence == theSequence;
+	return socket->handleVal == hSocket && sequence == (int)theSequence;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

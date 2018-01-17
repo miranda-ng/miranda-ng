@@ -17,7 +17,7 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "corp.h"
+#include "stdafx.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -103,7 +103,7 @@ void T(char *format, ...)
 
 	static HANDLE hFile = INVALID_HANDLE_VALUE;
 	if (hFile == INVALID_HANDLE_VALUE) {
-		hFile = CreateFile("ICQ Corp.log", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_ALWAYS, 0, nullptr);
+		hFile = CreateFileW(L"ICQ Corp.log", GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_ALWAYS, 0, nullptr);
 		SetFilePointer(hFile, 0, nullptr, FILE_END);
 	}
 

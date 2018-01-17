@@ -414,8 +414,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_schedule", "..\plugins\Mi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "m_toptoolbar", "..\plugins\MirLua\Modules\m_toptoolbar\m_toptoolbar.vcxproj", "{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQCorp", "..\protocols\ICQCorp\ICQCorp_15.vcxproj", "{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AsSingleWindow", "..\plugins\AsSingleWindow\AsSingleWindow.vcxproj", "{CE6A5A24-EA88-4E67-BDF2-22517528E43F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite3", "..\libs\sqlite3\sqlite3.vcxproj", "{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}"
@@ -431,6 +429,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmLanProto", "..\protocols\EmLanProto\emlanproto.vcxproj", "{2115FEBC-1EC4-4F95-A058-A523ED5295A4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_mdbx", "..\plugins\Dbx_mdbx\dbx_mdbx.vcxproj", "{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQCorp", "..\protocols\ICQCorp\ICQCorp.vcxproj", "{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1926,14 +1926,6 @@ Global
 		{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}.Release|Win32.Build.0 = Release|Win32
 		{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}.Release|x64.ActiveCfg = Release|x64
 		{277E433F-7D71-4247-8AAA-CC5FB1AA7A67}.Release|x64.Build.0 = Release|x64
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|Win32.ActiveCfg = Debug|Win32
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|Win32.Build.0 = Debug|Win32
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|x64.ActiveCfg = Debug|x64
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|x64.Build.0 = Debug|x64
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|Win32.ActiveCfg = Release|Win32
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|Win32.Build.0 = Release|Win32
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.ActiveCfg = Release|x64
-		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.Build.0 = Release|x64
 		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|Win32.ActiveCfg = Debug|Win32
 		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|Win32.Build.0 = Debug|Win32
 		{CE6A5A24-EA88-4E67-BDF2-22517528E43F}.Debug|x64.ActiveCfg = Debug|x64
@@ -1998,6 +1990,14 @@ Global
 		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|Win32.Build.0 = Release|Win32
 		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|x64.ActiveCfg = Release|x64
 		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}.Release|x64.Build.0 = Release|x64
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|Win32.Build.0 = Debug|Win32
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|x64.ActiveCfg = Debug|x64
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Debug|x64.Build.0 = Debug|x64
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|Win32.ActiveCfg = Release|Win32
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|Win32.Build.0 = Release|Win32
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.ActiveCfg = Release|x64
+		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

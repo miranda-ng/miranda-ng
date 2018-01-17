@@ -28,17 +28,17 @@
 class ICQUser
 {
 public:
-    unsigned int uin;
+	unsigned int dwUIN;
 	MCONTACT hContact;
-    TCPSocket socket;
-    unsigned short statusVal;
+	TCPSocket socket;
+	unsigned short statusVal;
 
-    ICQUser();
-    void setStatus(unsigned short newStatus);
-    void setInfo(char *name, unsigned int data);
-    void setInfo(char *name, unsigned short data);
-    void setInfo(char *name, unsigned char data);
-    void setInfo(char *name, char *data);
+	ICQUser();
+	void setStatus(unsigned short newStatus);
+	void setInfo(char *name, unsigned int data);
+	void setInfo(char *name, unsigned short data);
+	void setInfo(char *name, unsigned char data);
+	void setInfo(char *name, char *data);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

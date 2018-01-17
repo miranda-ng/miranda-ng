@@ -17,7 +17,7 @@
 	 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	 */
 
-#include "corp.h"
+#include "stdafx.h"
 
 std::vector <ICQUser *> icqUsers;
 
@@ -90,12 +90,12 @@ static char* iptoa(unsigned int ip)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static void setTextValue(HWND hWnd, int id, char *value)
+static void setTextValue(HWND hWnd, int id, const wchar_t *value)
 {
 	bool unspecified = value == nullptr;
 
 	EnableWindow(GetDlgItem(hWnd, id), !unspecified);
-	SetDlgItemText(hWnd, id, unspecified ? Translate("<not specified>") : value);
+	SetDlgItemText(hWnd, id, unspecified ? TranslateT("<not specified>") : value);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -112,21 +112,21 @@ static INT_PTR CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, L
 	case WM_NOTIFY:
 		hdr = (LPNMHDR)lParam;
 		if (hdr->idFrom == 0 && hdr->code == PSN_INFOCHANGED) {
-			char buffer[64];
+			wchar_t buffer[64];
 			unsigned long ip, port;
 			MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 
-			_itoa(db_get_dw(hContact, protoName, "UIN", 0), buffer, 10);
+			_itow(db_get_dw(hContact, protoName, "UIN", 0), buffer, 10);
 			setTextValue(hWnd, IDC_INFO_UIN, buffer);
 
 			ip = db_get_dw(hContact, protoName, "IP", 0);
-			setTextValue(hWnd, IDC_INFO_IP, ip ? iptoa(ip) : nullptr);
+			setTextValue(hWnd, IDC_INFO_IP, ip ? _A2T(iptoa(ip)) : nullptr);
 
 			ip = db_get_dw(hContact, protoName, "RealIP", 0);
-			setTextValue(hWnd, IDC_INFO_REALIP, ip ? iptoa(ip) : nullptr);
+			setTextValue(hWnd, IDC_INFO_REALIP, ip ? _A2T(iptoa(ip)) : nullptr);
 
 			port = db_get_w(hContact, protoName, "Port", 0);
-			_itoa(port, buffer, 10);
+			_itow(port, buffer, 10);
 			setTextValue(hWnd, IDC_INFO_PORT, port ? buffer : nullptr);
 
 			setTextValue(hWnd, IDC_INFO_VERSION, nullptr);
@@ -154,7 +154,7 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 	odp.position = -1900000000;
 	odp.szTitle.a = protoName;
 	odp.pfnDlgProc = icqUserInfoDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_INFO_ICQCORP);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQCORP);
 	odp.hInstance = hInstance;
 	UserInfo_AddPage(wParam, &odp);
 	return 0;

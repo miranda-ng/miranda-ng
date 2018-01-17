@@ -17,7 +17,7 @@
 	 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	 */
 
-#include "corp.h"
+#include "stdafx.h"
 
 std::vector <ICQTransfer *> icqTransfers;
 
@@ -37,7 +37,7 @@ void WINAPI transferTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
 ICQTransfer::ICQTransfer(ICQUser *u, unsigned int theSequence) :
 	socket(WM_NETEVENT_TRANSFER)
 {
-	uin = u->uin;
+	uin = u->dwUIN;
 	hContact = u->hContact;
 	sequence = theSequence;
 	files = nullptr;
@@ -70,7 +70,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 {
 	unsigned int /*i,*/ status, junkLong;
 	unsigned char cmd/*, junkChar*/;
-	char *name = nullptr, *directoryName = nullptr, *fileName = nullptr;
+	char *name = nullptr, *directoryName = nullptr, *szFileName = nullptr;
 
 	packet >> cmd;
 	switch (cmd) {
@@ -100,7 +100,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 	case 0x02:
 		T("[tcp] recieve next file\n");
 		packet >> directory
-			>> fileName
+			>> szFileName
 			>> directoryName
 			>> fileSize
 			>> fileDate
@@ -108,9 +108,9 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 
 		++current;
 		if (directoryName[0])
-			files[current] = CMStringW(FORMAT, L"%S\\%S", directoryName, fileName).Detach();
+			files[current] = CMStringW(FORMAT, L"%S\\%S", directoryName, szFileName).Detach();
 		else
-			files[current] = mir_a2u(fileName);
+			files[current] = mir_a2u(szFileName);
 
 		if (directory)
 			createDirectory();
@@ -126,9 +126,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 
 	case 0x03:
 		T("[tcp] ack next file\n");
-		packet >> fileProgress
-			>> status
-			>> speed;
+		packet >> fileProgress >> status >> speed;
 
 		totalProgress += fileProgress;
 		setFilePosition();
@@ -364,7 +362,7 @@ void ICQTransfer::process()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void ICQTransfer::resume(int action, const wchar_t *newName)
+void ICQTransfer::resume(int action, const wchar_t*)
 {
 	switch (action) {
 	case FILERESUME_OVERWRITE:
@@ -428,14 +426,14 @@ void ICQTransfer::openFile()
 
 	hFile = CreateFileW(fileName, sending ? GENERIC_READ : GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, 0, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		char msg[2048];
+		wchar_t msg[2048];
 
 		T("can't open file %S\n", fileName);
-		sprintf(msg, "%s\n%S", sending ? 
-			Translate("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.") : 
-			Translate("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."), 
+		mir_snwprintf(msg, L"%s\n%s", sending ? 
+			TranslateT("Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.") : 
+			TranslateT("Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder."), 
 			fileName);
-		MessageBox(nullptr, msg, Translate(protoName), MB_ICONWARNING | MB_OK);
+		MessageBox(nullptr, msg, _A2T(protoName), MB_ICONWARNING | MB_OK);
 		return;
 	}
 

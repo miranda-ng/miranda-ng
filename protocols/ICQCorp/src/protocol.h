@@ -175,7 +175,6 @@ public:
     void removeUser(ICQUser *u);
     void startSearch(unsigned char skrit, unsigned char smode, char *sstring, unsigned int s);
 
-
     bool getUserInfo(ICQUser *u, bool basicInfo);
     void authorize(unsigned int uinToAuthorize);
     void processTcpPacket(Packet &packet, unsigned int hSocket);
@@ -185,10 +184,10 @@ public:
     void recvTCP(SOCKET hSocket);
     void recvTransferTCP(SOCKET hSocket);
 
-    void addMessage(ICQUser *u, char *m, unsigned short theCmd, unsigned short theSubCmd, unsigned long theSequence, time_t t = 0);
-    void addUrl(ICQUser *u, char *m, unsigned short theCmd, unsigned short theSubCmd, unsigned long theSequence, time_t t = 0);
-    void addAwayMsg(ICQUser *u, char *m, unsigned short theCmd, unsigned short theSubCmd, unsigned long theSequence, time_t t = 0);
-    void addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, unsigned short theCmd, unsigned short theSubCmd, unsigned long theSequence, time_t t = 0);
+    void addMessage(ICQUser *u, char *m, time_t t);
+    void addUrl(ICQUser *u, char *m, time_t t);
+    void addAwayMsg(ICQUser *u, char *m, unsigned long theSequence, time_t t);
+    void addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, unsigned long theSequence, time_t t);
     void doneUserFcn(bool ack, ICQEvent *icqEvent);
 
     void acceptFile(ICQUser *u, unsigned long hTransfer, char *path);
@@ -197,23 +196,22 @@ public:
     TCPSocket tcpSocket;
     UDPSocket udpSocket;
     unsigned short sequenceVal, searchSequenceVal;
-    unsigned int uin, tcpSequenceVal;
+    unsigned int dwUIN, tcpSequenceVal;
     unsigned short desiredStatus;
     unsigned short statusVal;
     unsigned int pingTimer;
-//    int eventThread;
-    HWND hWnd;
+
+	 HWND hWnd;
     char *awayMessage;
     unsigned int timeStampLastMessage;
+
 private:
     ICQEvent *send(ICQUser *u, unsigned short cmd, char *cmdStr, char *m);
 
     bool openConnection(TCPSocket &socket);
 
     ICQEvent *sendTCP(ICQUser *u, unsigned short cmd, char *cmdStr, char *m);
-
     ICQEvent *sendUDP(ICQUser *u, unsigned short cmd, char *cmdStr, char *m);
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////

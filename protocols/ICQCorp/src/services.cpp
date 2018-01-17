@@ -17,7 +17,7 @@
 	 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "corp.h"
+#include "stdafx.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -148,7 +148,7 @@ static INT_PTR icqAddToList(WPARAM wParam, LPARAM lParam)
 	T("[   ] add user to list\n");
 
 	ICQSEARCHRESULT *isr = (ICQSEARCHRESULT *)lParam;
-	if (isr->hdr.cbSize != sizeof(ICQSEARCHRESULT) || isr->uin == icq.uin)
+	if (isr->hdr.cbSize != sizeof(ICQSEARCHRESULT) || isr->uin == icq.dwUIN)
 		return NULL;
 	
 	bool persistent = (wParam & PALF_TEMPORARY) == 0;

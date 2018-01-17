@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "corp.h"
+#include "stdafx.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -31,11 +31,11 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 		TranslateDialogDefault(hWnd);
 		SetDlgItemInt(hWnd, IDC_OPT_UIN, db_get_dw(NULL, protoName, "UIN", 0), FALSE);
 		if (!db_get(NULL, protoName, "Password", &dbv)) {
-			SetDlgItemText(hWnd, IDC_OPT_PASSWORD, dbv.pszVal);
+			SetDlgItemTextA(hWnd, IDC_OPT_PASSWORD, dbv.pszVal);
 			db_free(&dbv);
 		}
 		if (!db_get(NULL, protoName, "Server", &dbv)) {
-			SetDlgItemText(hWnd, IDC_OPT_SERVER, dbv.pszVal);
+			SetDlgItemTextA(hWnd, IDC_OPT_SERVER, dbv.pszVal);
 			db_free(&dbv);
 		}
 		SetDlgItemInt(hWnd, IDC_OPT_PORT, db_get_w(NULL, protoName, "Port", 4000), FALSE);
@@ -46,9 +46,9 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			db_set_dw(NULL, protoName, "UIN", (DWORD)GetDlgItemInt(hWnd, IDC_OPT_UIN, nullptr, FALSE));
-			GetDlgItemText(hWnd, IDC_OPT_PASSWORD, str, sizeof(str));
+			GetDlgItemTextA(hWnd, IDC_OPT_PASSWORD, str, sizeof(str));
 			db_set_s(NULL, protoName, "Password", str);
-			GetDlgItemText(hWnd, IDC_OPT_SERVER, str, sizeof(str));
+			GetDlgItemTextA(hWnd, IDC_OPT_SERVER, str, sizeof(str));
 			db_set_s(NULL, protoName, "Server", str);
 			db_set_w(NULL, protoName, "Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, nullptr, FALSE));
 			return TRUE;
@@ -67,12 +67,11 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 
 int icqOptionsInitialise(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -800000000;
 	odp.szTitle.a = protoName;
 	odp.pfnDlgProc = icqOptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_ICQCORP);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQCORP);
 	odp.hInstance = hInstance;
 	odp.szGroup.a = LPGEN("Network");
 	odp.flags = ODPF_BOLDGROUPS;
