@@ -153,17 +153,12 @@ public:
 		m_order.OnDeleteItem = Callback(this, &CProtocolOrderOpts::onOrder_DeleteItem);
 	}
 
-	virtual void OnInitDialog()
+	virtual void OnInitDialog() override
 	{
-		HIMAGELIST himlCheckBoxes = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 2, 2);
-		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
-		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
-		m_order.SetImageList(himlCheckBoxes, TVSIL_NORMAL);
-
 		FillTree();
 	}
 
-	virtual void OnApply()
+	virtual void OnApply() override
 	{
 		int idx = 0;
 
@@ -193,11 +188,6 @@ public:
 		cli.pfnTrayIconIconsChanged();
 		Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 		Clist_Broadcast(INTM_INVALIDATE, 0, 0);
-	}
-
-	virtual void OnDestroy()
-	{
-		ImageList_Destroy(m_order.GetImageList(TVSIL_NORMAL));
 	}
 
 	void onReset_Click(CCtrlButton*)

@@ -22,6 +22,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, int iconId)
+{
+	HICON hIcon = Skin_LoadIcon(iconId);
+	int res = ImageList_AddIcon(hIml, hIcon);
+	IcoLib_ReleaseIcon(hIcon);
+	return res;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
@@ -51,6 +59,21 @@ void CCtrlTreeView::OnInit()
 
 	if (m_bDndEnabled)
 		Subclass();
+
+	if (m_bCheckBox) {
+		HIMAGELIST himlCheckBoxes = ::ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 2);
+		::ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
+		::ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
+		SetImageList(himlCheckBoxes, TVSIL_NORMAL);
+	}
+}
+
+void CCtrlTreeView::OnDestroy()
+{
+	if (m_bCheckBox)
+		::ImageList_Destroy(GetImageList(TVSIL_NORMAL));
+
+	CSuper::OnDestroy();
 }
 
 HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, HTREEITEM hParent)

@@ -293,7 +293,7 @@ public:
 
 		m_menuObjects.OnSelChange = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
 
-		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND /*| MTREE_MULTISELECT*/);
+		m_menuItems.SetFlags(MTREE_CHECKBOX | MTREE_DND);
 		m_menuItems.OnSelChanged = Callback(this, &CGenMenuOptionsPage::onMenuItemChanged);
 		m_menuItems.OnBeginDrag = Callback(this, &CGenMenuOptionsPage::onMenuItemBeginDrag);
 
@@ -307,11 +307,6 @@ public:
 	{
 		iInitMenuValue = db_get_b(0, "CList", "MoveProtoMenus", TRUE);
 		
-		HIMAGELIST himlCheckBoxes = ImageList_Create(g_iIconSX, g_iIconSY, ILC_COLOR32 | ILC_MASK, 2, 2);
-		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
-		ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
-		m_menuItems.SetImageList(himlCheckBoxes, TVSIL_NORMAL);
-
 		if (iInitMenuValue)
 			m_radio2.SetState(true);
 		else
@@ -348,7 +343,6 @@ public:
 
 	virtual void OnDestroy()
 	{
-		ImageList_Destroy(m_menuItems.GetImageList(TVSIL_NORMAL));
 		FreeTreeData();
 	}
 

@@ -1248,6 +1248,7 @@ public:
 
 protected:
 	virtual void OnInit() override;
+	virtual void OnDestroy() override;
 	virtual BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	
 	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
