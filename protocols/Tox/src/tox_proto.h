@@ -135,6 +135,7 @@ private:
 	// icons
 	static IconItemT Icons[];
 	static HANDLE GetIconHandle(int iconId);
+	static HICON GetIcon(int iconId);
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
@@ -196,6 +197,8 @@ private:
 	std::map<uint64_t, UINT> messages;
 
 	void InitCustomDbEvents();
+
+	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
 
 	void __cdecl SendMessageAsync(void *arg);
 	int OnSendMessage(MCONTACT hContact, const char *message);

@@ -3,18 +3,20 @@
 // Used by D:\Projects\c++\miranda-ng\protocols\Tox\res\resource.rc
 //
 #define IDI_TOX                         100
-#define IDD_USER_INFO                   101
-#define IDD_PASSWORD_ENTER              102
-#define IDD_PASSWORD_CHANGE             103
-#define IDD_ACCOUNT_MANAGER             104
-#define IDD_SEARCH                      105
-#define IDD_OPTIONS_MAIN                106
-#define IDD_OPTIONS_NODES               107
-#define IDD_PASSWORD_CHANGE2            107
-#define IDD_ADDNODE                     108
-#define IDD_NODE_EDITOR                 109
-#define IDD_PASSWORD_CREATE             110
-#define IDC_EDITSCR                     174
+#define IDI_ME                          101
+#define IDI_EDIT                        102
+#define IDD_USER_INFO                   150
+#define IDD_PASSWORD_ENTER              151
+#define IDD_PASSWORD_CHANGE             152
+#define IDD_ACCOUNT_MANAGER             153
+#define IDD_SEARCH                      154
+#define IDD_OPTIONS_MAIN                155
+#define IDD_OPTIONS_NODES               156
+#define IDD_PASSWORD_CHANGE2            157
+#define IDD_ADDNODE                     158
+#define IDD_NODE_EDITOR                 159
+#define IDD_PASSWORD_CREATE             160
+#define IDC_EDITSCR                     1000
 #define IDC_TOXID                       1001
 #define IDC_CLIPBOARD                   1002
 #define IDC_SEARCH                      1003

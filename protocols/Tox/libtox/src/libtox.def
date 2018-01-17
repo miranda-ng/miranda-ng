@@ -121,7 +121,6 @@ tox_pass_key_derive_with_salt
 tox_pass_key_encrypt
 tox_pass_key_free
 tox_pass_key_length
-tox_pass_key_new
 tox_pass_salt_length
 tox_public_key_size
 tox_secret_key_size

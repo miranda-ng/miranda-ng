@@ -388,6 +388,31 @@ static void loglogdata(Logger *log, const char *message, const uint8_t *buffer,
     }
 }
 
+typedef struct {
+    packet_handler_callback function;
+    void *object;
+} Packet_Handler;
+
+struct Networking_Core {
+    Logger *log;
+    Packet_Handler packethandlers[256];
+
+    Family family;
+    uint16_t port;
+    /* Our UDP socket. */
+    Socket sock;
+};
+
+Family net_family(const Networking_Core *net)
+{
+    return net->family;
+}
+
+uint16_t net_port(const Networking_Core *net)
+{
+    return net->port;
+}
+
 /* Basic network functions:
  * Function to send packet(data) of length length to ip_port.
  */
@@ -814,6 +839,20 @@ Networking_Core *new_networking_ex(Logger *log, IP ip, uint16_t port_from, uint1
     }
 
     return NULL;
+}
+
+Networking_Core *new_networking_no_udp(Logger *log)
+{
+    /* this is the easiest way to completely disable UDP without changing too much code. */
+    Networking_Core *net = (Networking_Core *)calloc(1, sizeof(Networking_Core));
+
+    if (net == NULL) {
+        return NULL;
+    }
+
+    net->log = log;
+
+    return net;
 }
 
 /* Function to cleanup networking stuff. */
@@ -1273,12 +1312,14 @@ int32_t net_getipport(const char *node, IP_Port **res, int tox_type)
     assert(count <= MAX_COUNT);
 
     if (count == 0) {
+        freeaddrinfo(infos);
         return 0;
     }
 
     *res = (IP_Port *)malloc(sizeof(IP_Port) * count);
 
     if (*res == NULL) {
+        freeaddrinfo(infos);
         return -1;
     }
 

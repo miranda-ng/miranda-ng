@@ -9,6 +9,34 @@ void CToxProto::InitCustomDbEvents()
 	dbEventType.eventType = DB_EVENT_ACTION;
 	dbEventType.descr = Translate("Action");
 	DbEvent_RegisterType(&dbEventType);
+
+	dbEventType.eventType = DB_EVENT_CORRECTION;
+	dbEventType.descr = Translate("Correction");
+	DbEvent_RegisterType(&dbEventType);
+}
+
+INT_PTR CToxProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
+{
+	DBEVENTINFO *dbei = (DBEVENTINFO*)lParam;
+	HICON icon = nullptr;
+
+	switch (dbei->eventType) {
+	case DB_EVENT_ACTION:
+		icon = GetIcon(IDI_ME);
+		break;
+
+	case DB_EVENT_CORRECTION:
+		icon = GetIcon(IDI_EDIT);
+		break;
+
+	default:
+		icon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		break;
+	}
+
+	return (INT_PTR)((wParam & LR_SHARED)
+		? icon
+		: CopyIcon(icon));
 }
 
 /* MESSAGE RECEIVING */
@@ -34,7 +62,17 @@ void CToxProto::OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYP
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = time(nullptr);
 	recv.szMessage = rawMessage;
-	recv.lParam = type == TOX_MESSAGE_TYPE_NORMAL ? EVENTTYPE_MESSAGE : DB_EVENT_ACTION;
+	switch (type) {
+	case TOX_MESSAGE_TYPE_NORMAL:
+		recv.lParam = EVENTTYPE_MESSAGE;
+		break;
+	case TOX_MESSAGE_TYPE_ACTION:
+		recv.lParam = DB_EVENT_ACTION;
+		break;
+	case TOX_MESSAGE_TYPE_CORRECTION:
+		recv.lParam = DB_EVENT_CORRECTION;
+		break;
+	}
 	ProtoChainRecvMsg(hContact, &recv);
 
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
@@ -52,7 +90,7 @@ struct SendMessageParam
 
 void CToxProto::SendMessageAsync(void *arg)
 {
-	Thread_SetName("TOX: SendMessageAsync");
+	Thread_SetName(MODULE ": SendMessageThread");
 
 	SendMessageParam *param = (SendMessageParam*)arg;
 
@@ -138,7 +176,7 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 /* STATUS MESSAGE */
 void CToxProto::GetStatusMessageAsync(void* arg)
 {
-	Thread_SetName("TOX: GetStatusMessageAsync");
+	Thread_SetName(MODULE ": GetStatusMessageThread");
 
 	MCONTACT hContact = (UINT_PTR)arg;
 

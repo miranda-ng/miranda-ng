@@ -27,6 +27,9 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
+	// events
+	CreateServiceFunction(MODULE "/GetEventIcon", &CToxProto::EventGetIcon);
+
 	hTerminateEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }
 

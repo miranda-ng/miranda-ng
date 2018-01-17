@@ -57,7 +57,7 @@ void CToxProto::CheckConnection(Tox *tox, int &retriesCount)
 
 void CToxProto::CheckingThread(void *arg)
 {
-	Thread_SetName("TOX: CheckingThread");
+	Thread_SetName(MODULE ": CheckingThread");
 
 	debugLogA(__FUNCTION__": entering");
 
@@ -77,7 +77,7 @@ void CToxProto::CheckingThread(void *arg)
 
 void CToxProto::PollingThread(void*)
 {
-	Thread_SetName("TOX: PollingThread");
+	Thread_SetName(MODULE ": PollingThread");
 
 	debugLogA(__FUNCTION__": entering");
 

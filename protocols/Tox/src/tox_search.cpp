@@ -26,7 +26,7 @@ ToxHexAddress ResolveToxAddressFromToxme(HNETLIBUSER hNetlib, const char *query)
 
 void CToxProto::SearchByNameAsync(void *arg)
 {
-	Thread_SetName("TOX: SearchByNameAsync");
+	Thread_SetName(MODULE ": SearchByNameThread");
 
 	char *query = (char*)arg;
 	char *name = strtok(query, "@");
@@ -51,7 +51,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 void CToxProto::SearchFailedAsync(void*)
 {
-	Thread_SetName("TOX: SearchFailedAsync");
+	Thread_SetName(MODULE ": SearchFailedThread");
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
 }
 

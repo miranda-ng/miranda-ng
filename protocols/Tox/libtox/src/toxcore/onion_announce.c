@@ -37,6 +37,34 @@
 #define DATA_REQUEST_MIN_SIZE ONION_DATA_REQUEST_MIN_SIZE
 #define DATA_REQUEST_MIN_SIZE_RECV (DATA_REQUEST_MIN_SIZE + ONION_RETURN_3)
 
+typedef struct {
+    uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE];
+    IP_Port ret_ip_port;
+    uint8_t ret[ONION_RETURN_3];
+    uint8_t data_public_key[CRYPTO_PUBLIC_KEY_SIZE];
+    uint64_t time;
+} Onion_Announce_Entry;
+
+struct Onion_Announce {
+    DHT     *dht;
+    Networking_Core *net;
+    Onion_Announce_Entry entries[ONION_ANNOUNCE_MAX_ENTRIES];
+    /* This is CRYPTO_SYMMETRIC_KEY_SIZE long just so we can use new_symmetric_key() to fill it */
+    uint8_t secret_bytes[CRYPTO_SYMMETRIC_KEY_SIZE];
+
+    Shared_Keys shared_keys_recv;
+};
+
+uint8_t *onion_announce_entry_public_key(Onion_Announce *onion_a, uint32_t entry)
+{
+    return onion_a->entries[entry].public_key;
+}
+
+void onion_announce_entry_set_time(Onion_Announce *onion_a, uint32_t entry, uint64_t time)
+{
+    onion_a->entries[entry].time = time;
+}
+
 /* Create an onion announce request packet in packet of max_packet_length (recommended size ONION_ANNOUNCE_REQUEST_SIZE).
  *
  * dest_client_id is the public key of the node the packet will be sent to.
@@ -377,7 +405,7 @@ static int handle_announce_request(void *object, IP_Port source, const uint8_t *
     /*Respond with a announce response packet*/
     Node_format nodes_list[MAX_SENT_NODES];
     unsigned int num_nodes = get_close_nodes(onion_a->dht, plain + ONION_PING_ID_SIZE, nodes_list, 0,
-                             LAN_ip(source.ip) == 0, 1);
+                             ip_is_lan(source.ip) == 0, 1);
     uint8_t nonce[CRYPTO_NONCE_SIZE];
     random_nonce(nonce);
 
