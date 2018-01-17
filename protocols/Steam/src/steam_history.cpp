@@ -44,13 +44,16 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 {
 	ptrA cSteamId((char*)arg);
 
+	MCONTACT hContact = GetContact(cSteamId);
+	if (!hContact)
+		return;
+
 	if (root.isnull())
 		return;
 
 	JSONNode response = root["response"];
 	JSONNode messages = response["messages"].as_array();
-	for (size_t i = messages.size(); i > 0; i--)
-	{
+	for (size_t i = messages.size(); i > 0; i--) {
 		JSONNode message = messages[i - 1];
 
 		long long accountId = _wtoi64(message["accountid"].as_mstring());
@@ -68,20 +71,9 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		recv.timestamp = timestamp;
 		recv.szMessage = (char*)text.c_str();
 
-		MCONTACT hContact = GetContact(cSteamId);
-		if (!hContact)
-			return;
-
 		if (IsMe(steamId))
-		{
-			// Received message
-			ProtoChainRecvMsg(hContact, &recv);
-		}
-		else
-		{
-			// Sent message
 			recv.flags = PREF_SENT;
-			Proto_RecvMessage(hContact, &recv);
-		}
+
+		Proto_RecvMessage(hContact, &recv);
 	}
 }

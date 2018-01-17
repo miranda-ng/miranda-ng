@@ -369,11 +369,11 @@ void CSteamProto::UpdateContactRelationship(MCONTACT hContact, const JSONNode &d
 		return;
 
 	json_string relationship = node.as_string();
-	if (!mir_strcmp(relationship.c_str(), "friend"))
+	if (relationship == "friend")
 		ContactIsFriend(hContact);
-	else if (!mir_strcmp(relationship.c_str(), "ignoredfriend"))
+	else if (relationship == "ignoredfriend")
 		ContactIsBlocked(hContact);
-	else if (!mir_strcmp(relationship.c_str(), "requestrecipient"))
+	else if (relationship == "requestrecipient")
 		ContactIsAskingAuth(hContact);
 }
 

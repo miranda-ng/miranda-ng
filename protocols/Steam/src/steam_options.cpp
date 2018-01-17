@@ -70,3 +70,23 @@ void CSteamOptionsBlockList::OnInitDialog()
 void CSteamOptionsBlockList::OnBlock(CCtrlButton*)
 {
 }
+
+/////////////////////////////////////////////////////////////////////////////////
+
+int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.hInstance = g_hInstance;
+	odp.szTitle.w = m_tszUserName;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	odp.szGroup.w = LPGENW("Network");
+
+	odp.szTab.w = LPGENW("Account");
+	odp.pDialog = CSteamOptionsMain::CreateOptionsPage(this);
+	Options_AddPage(wParam, &odp);
+
+	odp.szTab.w = LPGENW("Blocked contacts");
+	odp.pDialog = CSteamOptionsBlockList::CreateOptionsPage(this);
+	Options_AddPage(wParam, &odp);
+	return 0;
+}

@@ -22,35 +22,15 @@ INT_PTR CSteamProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
 	return (INT_PTR)(CSteamOptionsMain::CreateAccountManagerPage(this, (HWND)lParam))->GetHwnd();
 }
 
-int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.hInstance = g_hInstance;
-	odp.szTitle.w = m_tszUserName;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.szGroup.w = LPGENW("Network");
-
-	odp.szTab.w = LPGENW("Account");
-	odp.pDialog = CSteamOptionsMain::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
-
-	odp.szTab.w = LPGENW("Blocked contacts");
-	odp.pDialog = CSteamOptionsBlockList::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
 int CSteamProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	bool idle = (lParam & IDF_ISIDLE) != 0;
 	bool privacy = (lParam & IDF_PRIVACY) != 0;
 
 	// Respect user choice about (not) notifying idle to protocols
-	if (privacy)
-	{
+	if (privacy) {
 		// Reset it to 0 if there is some time already
-		if (m_idleTS)
-		{
+		if (m_idleTS) {
 			m_idleTS = 0;
 			delSetting("IdleTS");
 		}
@@ -62,8 +42,7 @@ int CSteamProto::OnIdleChanged(WPARAM, LPARAM lParam)
 	if (idle && m_idleTS > 0)
 		return 0;
 
-	if (idle)
-	{
+	if (idle) {
 		// User started being idle
 		MIRANDA_IDLE_INFO mii;
 		Idle_GetInfo(mii);
@@ -72,8 +51,7 @@ int CSteamProto::OnIdleChanged(WPARAM, LPARAM lParam)
 		m_idleTS = now() - mii.idleTime * 60;
 		setDword("IdleTS", m_idleTS);
 	}
-	else
-	{
+	else {
 		// User stopped being idle
 		m_idleTS = 0;
 		delSetting("IdleTS");
