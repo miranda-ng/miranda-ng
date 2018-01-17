@@ -182,7 +182,7 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 	if (u == nullptr || icq.statusVal <= ID_STATUS_OFFLINE)
 		return 0;
 
-	ICQEvent *icqEvent = icq.sendMessage(u, (char*)ccs->lParam);
+	ICQEvent *icqEvent = icq.sendMessage(u, ptrA(mir_utf8decodeA((char*)ccs->lParam)));
 	return icqEvent ? icqEvent->sequence : 0;
 }
 
