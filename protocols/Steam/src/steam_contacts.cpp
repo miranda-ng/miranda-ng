@@ -149,7 +149,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 	setDword(hContact, "LogoffTS", node.as_int());
 
 	// status
-	node = data["lastlogoff"];
+	node = data["personastate"];
 	// note: this here is often wrong info, probably depending on publicity of steam profile
 	// but sometimes polling does not get status at all
 	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
