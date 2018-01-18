@@ -154,7 +154,7 @@ static struct gg_dcc7 *gg_dcc7_session_find(struct gg_session *sess, gg_dcc7_id_
 
 	for (tmp = sess->dcc7_list; tmp; tmp = tmp->next) {
 		if (empty) {
-			if (tmp->peer_uin == uin && !tmp->state == GG_STATE_WAITING_FOR_ACCEPT)
+			if (tmp->peer_uin == uin && tmp->state == GG_STATE_WAITING_FOR_ACCEPT)
 				return tmp;
 		} else {
 			if (!memcmp(&tmp->cid, &id, sizeof(id)))
@@ -228,11 +228,12 @@ static int gg_dcc7_connect(struct gg_dcc7 *dcc)
  * \internal Tworzy gniazdo nasłuchujące dla połączenia bezpośredniego
  *
  * \param dcc Struktura połączenia
- * \param port Preferowany port (jeśli równy 0 lub -1, próbuje się domyślnego)
+ * \param addr Preferowany adres (jeśli równy 0, nasłuchujemy na wszystkich interfejsach)
+ * \param port Preferowany port (jeśli równy 0, nasłuchujemy na losowym)
  *
  * \return 0 jeśli się powiodło, -1 w przypadku błędu
  */
-static int gg_dcc7_listen(struct gg_dcc7 *dcc, uint16_t port)
+static int gg_dcc7_listen(struct gg_dcc7 *dcc, uint32_t addr, uint16_t port)
 {
 	struct sockaddr_in sin;
 	int sin_len = sizeof(sin);
@@ -252,12 +253,13 @@ static int gg_dcc7_listen(struct gg_dcc7 *dcc, uint16_t port)
 		return -1;
 	}
 
+	memset(&sin, 0, sizeof(sin));
 	sin.sin_family = AF_INET;
-	sin.sin_addr.s_addr = INADDR_ANY;
+	sin.sin_addr.s_addr = addr;
 	sin.sin_port = htons(port);
 
 	if (bind(fd, (struct sockaddr*) &sin, sizeof(sin)) == -1) {
-		gg_debug_dcc(dcc, GG_DEBUG_MISC, "// gg_dcc7_listen() unable to bind to port %d\n", port);
+		gg_debug_dcc(dcc, GG_DEBUG_MISC, "// gg_dcc7_listen() unable to bind to %s:%d\n", inet_ntoa(sin.sin_addr), port);
 		goto fail;
 	}
 
@@ -272,6 +274,7 @@ static int gg_dcc7_listen(struct gg_dcc7 *dcc, uint16_t port)
 	}
 
 	dcc->fd = fd;
+	dcc->local_addr = sin.sin_addr.s_addr;
 	dcc->local_port = ntohs(sin.sin_port);
 	
 	dcc->state = GG_STATE_LISTENING;
@@ -298,39 +301,36 @@ static int gg_dcc7_listen_and_send_info(struct gg_dcc7 *dcc)
 {
 	struct gg_dcc7_info pkt;
 	uint16_t external_port;
-	uint16_t local_port;
-	uint32_t count;
+	uint32_t external_addr;
+	struct in_addr addr;
 
 	gg_debug_dcc(dcc, GG_DEBUG_FUNCTION, "** gg_dcc7_listen_and_send_info(%p)\n", dcc);
 	if (dcc == NULL)
 		return -1;
 
-	if (!dcc->sess->client_port)
-		local_port = dcc->sess->external_port;
-	else
-		local_port = dcc->sess->client_port;
-
-	if (gg_dcc7_listen(dcc, local_port) == -1)
+	if (gg_dcc7_listen(dcc, dcc->sess->client_addr, dcc->sess->client_port) == -1)
 		return -1;
 	
-	if (!dcc->sess->external_port || dcc->local_port != local_port)
-		external_port = dcc->local_port;
-	else
+	if (dcc->sess->external_port != 0)
 		external_port = dcc->sess->external_port;
-
-	if (!dcc->sess->external_addr || dcc->local_port != local_port)
-		dcc->local_addr = dcc->sess->client_addr;
 	else
-		dcc->local_addr = dcc->sess->external_addr;
+		external_port = dcc->local_port;
 
-	gg_debug_dcc(dcc, GG_DEBUG_MISC, "// dcc7_listen_and_send_info() sending IP address %s and port %d\n", inet_ntoa(*((struct in_addr*) &dcc->local_addr)), external_port);
+	if (dcc->sess->external_addr != 0)
+		external_addr = dcc->sess->external_addr;
+	else 
+		external_addr = dcc->local_addr;
+
+	addr.s_addr = external_addr;
+
+	gg_debug_dcc(dcc, GG_DEBUG_MISC, "// dcc7_listen_and_send_info() sending IP address %s and port %d\n", inet_ntoa(addr), external_port);
 
 	memset(&pkt, 0, sizeof(pkt));
 	pkt.uin = gg_fix32(dcc->peer_uin);
 	pkt.type = GG_DCC7_TYPE_P2P;
 	pkt.id = dcc->cid;
-	snprintf((char*) pkt.info, sizeof(pkt.info), "%s %d", inet_ntoa(*((struct in_addr*) &dcc->local_addr)), external_port);
-	snprintf((char*) pkt.hash, sizeof(pkt.hash), "%u", dcc->local_addr + external_port * rand());
+	snprintf((char*) pkt.info, sizeof(pkt.info), "%s %d", inet_ntoa(addr), external_port);
+	snprintf((char*) pkt.hash, sizeof(pkt.hash), "%u", external_addr + external_port * rand());
 
 	return gg_send_packet(dcc->sess, GG_DCC7_INFO, &pkt, sizeof(pkt), NULL);
 }
@@ -446,7 +446,7 @@ static struct gg_dcc7 *gg_dcc7_send_file_common(struct gg_session *sess, uin_t r
 	dcc->size = (unsigned int)size;
 	dcc->seek = seek;
 
-	strncpy((char*) dcc->filename, filename1250, GG_DCC7_FILENAME_LEN - 1);
+	strncpy((char*) dcc->filename, filename1250, GG_DCC7_FILENAME_LEN);
 	dcc->filename[GG_DCC7_FILENAME_LEN] = 0;
 
 	memcpy(dcc->hash, hash, GG_DCC7_HASH_LEN);
@@ -699,7 +699,9 @@ int gg_dcc7_handle_id(struct gg_session *sess, struct gg_event *e, const void *p
 				s.uin_to = gg_fix32(tmp->peer_uin);
 				s.size = gg_fix32(tmp->size);
 
-				strncpy((char*) s.filename, (char*) tmp->filename, GG_DCC7_FILENAME_LEN);
+				/* Uwaga: To nie jest ciąg kończony zerem.
+				 * Note: This is not a null-terminated string. */
+				strncpy((char*) s.filename, (char*) tmp->filename, sizeof(s.filename));
 
 				tmp->state = GG_STATE_WAITING_FOR_ACCEPT;
 				tmp->timeout = GG_DCC7_TIMEOUT_FILE_ACK;
@@ -805,6 +807,8 @@ int gg_dcc7_handle_info(struct gg_session *sess, struct gg_event *e, const void 
 		if (dcc->state == GG_STATE_WAITING_FOR_INFO) {
 			gg_debug_session(sess, GG_DEBUG_MISC, "// gg_dcc7_handle_info() waiting for info so send one\n");
 			gg_dcc7_listen_and_send_info(dcc);
+			e->type = GG_EVENT_DCC7_PENDING;
+			e->event.dcc7_pending.dcc7 = dcc;
 			return 0;
 		}
 
@@ -1025,7 +1029,7 @@ int gg_dcc7_handle_new(struct gg_session *sess, struct gg_event *e, const void *
 			}
 
 			dcc->size = gg_fix32(p->size);
-			strncpy((char*) dcc->filename, (char*) p->filename, GG_DCC7_FILENAME_LEN - 1);
+			strncpy((char*) dcc->filename, (char*) p->filename, GG_DCC7_FILENAME_LEN);
 			dcc->filename[GG_DCC7_FILENAME_LEN] = 0;
 			memcpy(dcc->hash, p->hash, GG_DCC7_HASH_LEN);
 
@@ -1489,6 +1493,9 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 			dcc->check = GG_CHECK_WRITE;
 			dcc->timeout = GG_DEFAULT_TIMEOUT;
 
+			e->type = GG_EVENT_DCC7_PENDING;
+			e->event.dcc7_pending.dcc7 = dcc;
+
 			return e;
 		}
 
@@ -1538,6 +1545,7 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 			char buf[256];
 			struct gg_dcc7_relay_reply *pkt;
 			struct gg_dcc7_relay_reply_server srv;
+			size_t max_relay_count = (sizeof(buf) - sizeof(*pkt)) / sizeof(srv);
 			int res;
 			int i;
 
@@ -1555,7 +1563,7 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 
 			pkt = (struct gg_dcc7_relay_reply*) buf;
 
-			if (gg_fix32(pkt->magic) != GG_DCC7_RELAY_REPLY || gg_fix32(pkt->rcount) < 1 || gg_fix32(pkt->rcount > 256) || gg_fix32(pkt->len) < sizeof(*pkt) + gg_fix32(pkt->rcount) * sizeof(srv)) {
+			if (gg_fix32(pkt->magic) != GG_DCC7_RELAY_REPLY || gg_fix32(pkt->rcount) < 1 || gg_fix32(pkt->rcount) > 256 || gg_fix32(pkt->len) < sizeof(*pkt) + gg_fix32(pkt->rcount) * sizeof(srv)) {
 				gg_debug_dcc(dcc, GG_DEBUG_MISC, "// gg_dcc7_wathc_fd() invalid reply\n");
 				errno = EINVAL;
 				e->type = GG_EVENT_DCC7_ERROR;
@@ -1571,6 +1579,18 @@ struct gg_event *gg_dcc7_watch_fd(struct gg_dcc7 *dcc)
 
 			dcc->relay_index = 0;
 			dcc->relay_count = gg_fix32(pkt->rcount);
+
+			if (dcc->relay_count > 0xffff ||
+				(size_t)dcc->relay_count > max_relay_count)
+			{
+				gg_debug_dcc(dcc, GG_DEBUG_MISC,
+					"// gg_dcc7_watch_fd() relay_count out "
+					"of bounds (%d)\n", dcc->relay_count);
+				dcc->relay_count = 0;
+				free(e);
+				return NULL;
+			}
+
 			dcc->relay_list = (gg_dcc7_relay*)malloc(dcc->relay_count * sizeof(gg_dcc7_relay_t));
 
 			if (dcc->relay_list == NULL) {

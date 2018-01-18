@@ -51,6 +51,7 @@
 #include "encoding.h"
 #include "message.h"
 #include "internal.h"
+#include "deflate.h"
 
 #include <errno.h>
 #ifndef _WIN32
@@ -97,6 +98,8 @@ static int gg_session_handle_welcome(struct gg_session *gs, uint32_t type, const
 	int ret;
 	uint8_t hash_buf[64];
 	uint32_t local_ip;
+	struct sockaddr_in sin;
+	int sin_len = sizeof(sin);
 
 	if (len < sizeof(struct gg_welcome)) {
 		ge->type = GG_EVENT_CONN_FAILED;
@@ -155,28 +158,21 @@ static int gg_session_handle_welcome(struct gg_session *gs, uint32_t type, const
 	}
 #endif
 
-	if (gg_dcc_ip == (unsigned long) inet_addr("255.255.255.255")) {
-		struct sockaddr_in sin;
-		int sin_len = sizeof(sin);
-
-		gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd() detecting address\n");
-
-		if (!getsockname(gs->fd, (struct sockaddr*) &sin, &sin_len)) {
-			gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd() detected address to %s\n", inet_ntoa(sin.sin_addr));
-			local_ip = sin.sin_addr.s_addr;
-		} else {
-			gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd() unable to detect address\n");
-			local_ip = 0;
-		}
-	} else
-		local_ip = gg_dcc_ip;
-
-	gs->client_addr = local_ip;
+	if (!getsockname(gs->fd, (struct sockaddr*) &sin, &sin_len)) {
+		gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd() detected address to %s\n", inet_ntoa(sin.sin_addr));
+		local_ip = sin.sin_addr.s_addr;
+	} else {
+		gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd() unable to detect address\n");
+		local_ip = 0;
+	}
 
 	if (GG_SESSION_IS_PROTOCOL_8_0(gs)) {
 		struct gg_login80 l80;
 		const char *client_name, *version, *descr;
 		uint32_t client_name_len, version_len, descr_len;
+
+		if (gs->external_addr == 0)
+			gs->external_addr = local_ip;
 
 		memset(&l80, 0, sizeof(l80));
 		gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd() sending GG_LOGIN80 packet\n");
@@ -215,6 +211,11 @@ static int gg_session_handle_welcome(struct gg_session *gs, uint32_t type, const
 				NULL);
 	} else {
 		struct gg_login70 l70;
+
+		if (gg_dcc_ip != (unsigned long) inet_addr("255.255.255.255"))
+			local_ip = gg_dcc_ip;
+
+		gs->client_addr = local_ip;
 
 		memset(&l70, 0, sizeof(l70));
 		l70.uin = gg_fix32(gs->uin);
@@ -777,7 +778,7 @@ malformed:
  *
  * \return 0 jeśli się powiodło, -1 jeśli wystąpił błąd
  */
-static int gg_session_send_msg_ack(struct gg_session *gs)
+static int gg_session_send_msg_ack(struct gg_session *gs, uint32_t seq)
 {
 	struct gg_recv_msg_ack pkt;
 
@@ -786,8 +787,11 @@ static int gg_session_send_msg_ack(struct gg_session *gs)
 	if ((gs->protocol_features & GG_FEATURE_MSG_ACK) == 0)
 		return 0;
 
+	/* Kiedyś zdawało nam się, że mamy wysyłać liczbę odebranych
+	 * wiadomości, ale okazało się, że numer sekwencyjny. */
 	gs->recv_msg_count++;
-	pkt.count = gg_fix32(gs->recv_msg_count);
+
+	pkt.seq = gg_fix32(seq);
 
 	return gg_send_packet(gs, GG_RECV_MSG_ACK, &pkt, sizeof(pkt), NULL);
 }
@@ -829,7 +833,7 @@ static int gg_session_handle_recv_msg(struct gg_session *sess, uint32_t type, co
 
 		switch (gg_handle_recv_msg_options(sess, e, gg_fix32(r->sender), options + 1, payload_end)) {
 			case -1:	// handled
-				gg_session_send_msg_ack(sess);
+				gg_session_send_msg_ack(sess, gg_fix32(r->seq));
 				return 0;
 
 			case -2:	// failed
@@ -851,7 +855,7 @@ static int gg_session_handle_recv_msg(struct gg_session *sess, uint32_t type, co
 		goto fail;
 	e->event.msg.message = tmp;
 
-	gg_session_send_msg_ack(sess);
+	gg_session_send_msg_ack(sess, gg_fix32(r->seq));
 	return 0;
 
 fail:
@@ -866,7 +870,7 @@ malformed:
 	free(e->event.msg.xhtml_message);
 	free(e->event.msg.recipients);
 	free(e->event.msg.formats);
-	gg_session_send_msg_ack(sess);
+	gg_session_send_msg_ack(sess, gg_fix32(r->seq));
 	return 0;
 }
 
@@ -924,7 +928,7 @@ static int gg_session_handle_recv_msg_80(struct gg_session *sess, uint32_t type,
 	if (offset_attr != 0) {
 		switch (gg_handle_recv_msg_options(sess, e, gg_fix32(r->sender), packet + offset_attr, packet + length)) {
 			case -1:	// handled
-				gg_session_send_msg_ack(sess);
+				gg_session_send_msg_ack(sess, gg_fix32(r->seq));
 				return 0;
 
 			case -2:	// failed
@@ -958,7 +962,7 @@ static int gg_session_handle_recv_msg_80(struct gg_session *sess, uint32_t type,
 	else
 		e->event.msg.xhtml_message = NULL;
 
-	gg_session_send_msg_ack(sess);
+	gg_session_send_msg_ack(sess, gg_fix32(r->seq));
 	return 0;
 
 fail:
@@ -974,7 +978,7 @@ malformed:
 	free(e->event.msg.xhtml_message);
 	free(e->event.msg.recipients);
 	free(e->event.msg.formats);
-	gg_session_send_msg_ack(sess);
+	gg_session_send_msg_ack(sess, gg_fix32(r->seq));
 	return 0;
 }
 
@@ -1705,6 +1709,53 @@ malformed:
 }
 
 /**
+ * \internal Obsługuje pakiet GG_USERLIST100_VERSION.
+ *
+ * Patrz gg_packet_handler_t
+ */
+static int gg_session_handle_userlist_100_version(struct gg_session *gs, uint32_t type, const char *ptr, size_t len, struct gg_event *ge)
+{
+	struct gg_userlist100_version *version = (struct gg_userlist100_version*) ptr;
+
+	gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd_connected() received userlist 100 version\n");
+
+	ge->type = GG_EVENT_USERLIST100_VERSION;
+	ge->event.userlist100_version.version = gg_fix32(version->version);
+
+	return 0;
+}
+
+/**
+ * \internal Obsługuje pakiet GG_USERLIST100_REPLY.
+ *
+ * Patrz gg_packet_handler_t
+ */
+static int gg_session_handle_userlist_100_reply(struct gg_session *gs, uint32_t type, const char *ptr, size_t len, struct gg_event *ge)
+{
+	struct gg_userlist100_reply *reply = (struct gg_userlist100_reply*) ptr;
+	char *data = NULL;
+
+	gg_debug_session(gs, GG_DEBUG_MISC, "// gg_watch_fd_connected() received userlist 100 reply\n");
+
+	if (len > sizeof(*reply)) {
+		data = gg_inflate((const unsigned char*) ptr + sizeof(*reply), len - sizeof(*reply));
+		
+		if (data == NULL) {
+			gg_debug_session(gs, GG_DEBUG_MISC, "// gg_handle_userlist_100_reply() gg_inflate() failed\n");
+			return -1;
+		}
+	}
+
+	ge->type = GG_EVENT_USERLIST100_REPLY;
+	ge->event.userlist100_reply.type = reply->type;
+	ge->event.userlist100_reply.version = gg_fix32(reply->version);
+	ge->event.userlist100_reply.format_type = reply->format_type;
+	ge->event.userlist100_reply.reply = data;
+
+	return 0;
+}
+
+/**
  * \internal Tablica obsługiwanych pakietów
  */
 static const gg_packet_handler_t handlers[] =
@@ -1744,6 +1795,8 @@ static const gg_packet_handler_t handlers[] =
 	{ GG_MULTILOGON_INFO, GG_STATE_CONNECTED, sizeof(struct gg_multilogon_info), gg_session_handle_multilogon_info },
 	{ GG_XML_ACTION, GG_STATE_CONNECTED, 0, gg_session_handle_xml_event },
 	{ GG_RECV_OWN_MSG, GG_STATE_CONNECTED, sizeof(struct gg_recv_msg80), gg_session_handle_recv_msg_80 },
+	{ GG_USERLIST100_VERSION, GG_STATE_CONNECTED, sizeof(struct gg_userlist100_version), gg_session_handle_userlist_100_version },
+	{ GG_USERLIST100_REPLY, GG_STATE_CONNECTED, sizeof(struct gg_userlist100_reply), gg_session_handle_userlist_100_reply },
 };
 
 /**

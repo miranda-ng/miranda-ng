@@ -22,6 +22,7 @@
 #define LIBGADU_INTERNAL_H
 
 #include "libgadu.h"
+// #include "config.h"
 
 struct gg_dcc7_relay {
 	uint32_t addr;

@@ -1,4 +1,4 @@
-/* $Id: libgadu.h 13762 2011-08-09 12:35:16Z dezred $ */
+/* $Id$ */
 
 /*
  *  (C) Copyright 2001-2009 Wojtek Kaniewski <wojtekka@irc.pl>
@@ -80,6 +80,9 @@
 
 /* Defined if libgadu was compiled and linked with OpenSSL support. */
 #undef GG_CONFIG_HAVE_OPENSSL
+
+/* Defined if libgadu was compiled and linked with zlib support. */
+#define GG_CONFIG_HAVE_ZLIB
 
 /* Defined if uintX_t types are defined in <stdint.h>. */
 #undef GG_CONFIG_HAVE_STDINT_H
@@ -271,11 +274,11 @@ struct gg_session {
 	uint32_t hub_addr;	/**< Adres huba po rozwiązaniu nazwy */
 	uint32_t server_addr;	/**< Adres serwera otrzymany od huba */
 
-	uint32_t client_addr;	/**< Adres gniazda dla połączeń bezpośrednich do wersji Gadu-Gadu 6.x */
-	uint16_t client_port;	/**< Port gniazda dla połączeń bezpośrednich do wersji Gadu-Gadu 6.x */
+	uint32_t client_addr;	/**< Adres gniazda dla połączeń bezpośrednich */
+	uint16_t client_port;	/**< Port gniazda dla połączeń bezpośrednich */
 
-	uint32_t external_addr;	/**< Publiczny adres dla połączeń bezpośrednich do wersji Gadu-Gadu 6.x */
-	uint16_t external_port;	/**< Publiczny port dla połączeń bezpośrednich do wersji Gadu-Gadu 6.x */
+	uint32_t external_addr;	/**< Publiczny adres dla połączeń bezpośrednich */
+	uint16_t external_port;	/**< Publiczny port dla połączeń bezpośrednich */
 
 	uin_t uin;		/**< Własny numer Gadu-Gadu */
 	char *password;		/**< Hasło (zwalniane po użyciu) */
@@ -624,6 +627,17 @@ enum gg_check_t {
 };
 
 /**
+ * Flaga połączenia szyfrowanego.
+ *
+ * \ingroup login
+ */
+typedef enum {
+	GG_SSL_DISABLED = 0,	/**< Połączenie SSL wyłączone */
+	GG_SSL_ENABLED,		/**< Połączenie SSL włączone gdy dostępne */
+	GG_SSL_REQUIRED		/**< Połączenie SSL wymagane */
+} gg_ssl_t;
+
+/**
  * Parametry połączenia z serwerem Gadu-Gadu. Parametry zostały przeniesione
  * do struktury, by uniknąć zmian API po rozszerzeniu protokołu i dodaniu
  * kolejnych opcji połączenia. Część parametrów, które nie są już aktualne
@@ -639,19 +653,15 @@ struct gg_login_params {
 	char *status_descr;		/**< Początkowy opis użytkownika (domyślnie brak) */
 	uint32_t server_addr;		/**< Adres serwera Gadu-Gadu (domyślnie pobierany automatycznie) */
 	uint16_t server_port;		/**< Port serwera Gadu-Gadu (domyślnie pobierany automatycznie) */
-#ifndef DOXYGEN
-	uint32_t client_addr;		/**< Adres połączeń bezpośrednich (nieaktualne) */
-	uint16_t client_port;		/**< Port połączeń bezpośrednich (nieaktualne) */
-#endif
+	uint32_t client_addr;		/**< Adres połączeń bezpośrednich (domyślnie dobierany automatycznie) */
+	uint16_t client_port;		/**< Port połączeń bezpośrednich (domyślnie dobierany automatycznie) */
 	int protocol_version;		/**< Wersja protokołu wysyłana do serwera (domyślnie najnowsza obsługiwana) */
 	char *client_version;		/**< Wersja klienta wysyłana do serwera (domyślnie najnowsza znana) */
 	int has_audio;			/**< Flaga obsługi połączeń głosowych */
 	int last_sysmsg;		/**< Numer ostatnio odebranej wiadomości systemowej */
-	uint32_t external_addr;		/**< Adres publiczny dla połączeń bezpośrednich (6.x) */
-	uint16_t external_port;		/**< Port publiczny dla połączeń bezpośrednich (6.x) */
-#ifndef DOXYGEN
-	int tls;			/**< Flaga połączenia szyfrowanego (nieaktualna) */
-#endif
+	uint32_t external_addr;		/**< Adres publiczny dla połączeń bezpośrednich (domyślnie dobierany automatycznie) */
+	uint16_t external_port;		/**< Port publiczny dla połączeń bezpośrednich (domyślnie dobierany automatycznie) */
+	int tls;			/**< Flaga połączenia szyfrowanego (patrz \ref gg_ssl_t) */
 	int image_size;			/**< Maksymalny rozmiar obsługiwanych obrazków w kilobajtach */
 #ifndef DOXYGEN
 	int era_omnix;			/**< Flaga udawania klienta Era Omnix (nieaktualna) */
@@ -688,6 +698,7 @@ int gg_send_message_confer_richtext(struct gg_session *sess, int msgclass, int r
 int gg_send_message_ctcp(struct gg_session *sess, int msgclass, uin_t recipient, const unsigned char *message, int message_len);
 int gg_ping(struct gg_session *sess);
 int gg_userlist_request(struct gg_session *sess, char type, const char *request);
+int gg_userlist100_request(struct gg_session *sess, char type, unsigned int version, char format_type, const char *request);
 int gg_image_request(struct gg_session *sess, uin_t recipient, int size, uint32_t crc32);
 int gg_image_reply(struct gg_session *sess, uin_t recipient, const char *filename, const char *image, int size);
 int gg_typing_notification(struct gg_session *sess, uin_t recipient, int length);
@@ -759,7 +770,10 @@ enum gg_event_t {
 	GG_EVENT_TYPING_NOTIFICATION,	/**< Powiadomienie o pisaniu */
 	GG_EVENT_USER_DATA,		/**< Informacja o kontaktach */
 	GG_EVENT_MULTILOGON_MSG,	/**< Wiadomość wysłana z innej sesji multilogowania */
-	GG_EVENT_MULTILOGON_INFO	/**< Informacja o innych sesjach multilogowania */
+	GG_EVENT_MULTILOGON_INFO,	/**< Informacja o innych sesjach multilogowania */
+
+	GG_EVENT_USERLIST100_VERSION,	/**< Otrzymano numer wersji listy kontaktów na serwerze (10.0) */
+	GG_EVENT_USERLIST100_REPLY	/**< Wynik importu lub eksportu listy kontaktów (10.0) */
 };
 
 #define GG_EVENT_SEARCH50_REPLY GG_EVENT_PUBDIR50_SEARCH_REPLY
@@ -778,7 +792,9 @@ enum gg_failure_t {
 	GG_FAILURE_TLS,			/**< Błąd negocjacji szyfrowanego połączenia */
 	GG_FAILURE_NEED_EMAIL, 		/**< Serwer rozłączył nas z prośbą o zmianę adresu e-mail */
 	GG_FAILURE_INTRUDER,		/**< Zbyt wiele prób połączenia z nieprawidłowym hasłem */
-	GG_FAILURE_UNAVAILABLE		/**< Serwery są wyłączone */
+	GG_FAILURE_UNAVAILABLE,		/**< Serwery są wyłączone */
+	GG_FAILURE_PROXY,		/**< Błąd serwera pośredniczącego */
+	GG_FAILURE_HUB,			/**< Błąd połączenia z hubem */
 };
 
 /**
@@ -1060,6 +1076,23 @@ struct gg_event_multilogon_info {
 };
 
 /**
+ * Opis zdarzenia \c GG_EVENT_USERLIST100_VERSION.
+ */
+struct gg_event_userlist100_version {
+	uint32_t version;		/**< Numer wersji listy kontaktów na serwerze */
+};
+
+/**
+ * Opis zdarzenia \c GG_EVENT_USERLIST100_REPLY.
+ */
+struct gg_event_userlist100_reply {
+	char type;			/**< Rodzaj odpowiedzi */
+	uint32_t version;		/**< Aktualna wersja listy kontaktów na serwerze */
+	char format_type;		/**< Typ formatu listy kontaktów (żądany w \c gg_userlist100_request.format_type) */
+	char *reply;			/**< Treść listy kontaktów w przesyłanej wersji i formacie */
+};
+
+/**
  * Unia wszystkich zdarzeń zwracanych przez funkcje \c gg_watch_fd(), 
  * \c gg_dcc_watch_fd() i \c gg_dcc7_watch_fd().
  *
@@ -1094,6 +1127,8 @@ union gg_event_union {
 	struct gg_event_user_data user_data;	/**< Informacje o kontaktach */
 	struct gg_event_msg multilogon_msg;	/**< Inna sesja wysłała wiadomość (\c GG_EVENT_MULTILOGON_MSG) */
 	struct gg_event_multilogon_info multilogon_info;	/**< Informacja o innych sesjach multilogowania (\c GG_EVENT_MULTILOGON_INFO) */
+	struct gg_event_userlist100_version userlist100_version;	/**< Informacja o numerze wersji listy kontaktów na serwerze (\c GG_EVENT_USERLIST100_VERSION) */
+	struct gg_event_userlist100_reply userlist100_reply;	/**< Odpowiedź listy kontaktów (10.0) (\c GG_EVENT_USERLIST100_REPLY) */
 };
 
 /**
@@ -1323,6 +1358,19 @@ void gg_debug_session(struct gg_session *sess, int level, const char *format, ..
 #endif
 
 const char *gg_libgadu_version(void);
+
+/**
+ * Lista funkcji biblioteki, które zależą od zewnętrznych bibliotek.
+ *
+ * \ingroup version
+ */
+typedef enum {
+	GG_LIBGADU_FEATURE_SSL,		/**< Biblioteka obsługuje połączenia szyfrowane */
+	GG_LIBGADU_FEATURE_PTHREAD,	/**< Biblioteka obsługuje rozwiązywanie nazw za pomocą wątków */
+	GG_LIBGADU_FEATURE_USERLIST100,	/**< Biblioteka obsługuje listę kontaktów zgodną z Gadu-Gadu 10 */
+} gg_libgadu_feature_t;
+
+int gg_libgadu_check_feature(gg_libgadu_feature_t feature);
 
 extern int gg_proxy_enabled;
 extern char *gg_proxy_host;
@@ -2154,6 +2202,67 @@ struct gg_userlist_reply {
 	uint8_t type;
 } GG_PACKED;
 
+#ifndef DOXYGEN
+
+#define GG_USERLIST100_PUT 0x00
+#define GG_USERLIST100_GET 0x02
+
+#else
+
+/**
+ * \ingroup importexport
+ *
+ * Rodzaj zapytania (10.0).
+ */
+enum {
+	GG_USERLIST100_PUT,	/**< Eksport listy kontaktów. */
+	GG_USERLIST100_GET,	/**< Import listy kontaktów. */
+};
+
+#endif	/* DOXYGEN */
+
+#ifndef DOXYGEN
+
+#define GG_USERLIST100_FORMAT_TYPE_NONE 0x00
+#define GG_USERLIST100_FORMAT_TYPE_GG70 0x01
+#define GG_USERLIST100_FORMAT_TYPE_GG100 0x02
+
+#else
+
+/**
+ * \ingroup importexport
+ *
+ * Typ formatu listy kontaktów (10.0).
+ */
+enum {
+	GG_USERLIST100_FORMAT_TYPE_NONE,	/**< Brak treści listy kontaktów. */
+	GG_USERLIST100_FORMAT_TYPE_GG70,	/**< Format listy kontaktów zgodny z Gadu-Gadu 7.0. */
+	GG_USERLIST100_FORMAT_TYPE_GG100,	/**< Format listy kontaktów zgodny z Gadu-Gadu 10.0. */
+};
+
+#endif	/* DOXYGEN */
+
+#ifndef DOXYGEN
+
+#define GG_USERLIST100_REPLY_LIST 0x00
+#define GG_USERLIST100_REPLY_ACK 0x10
+#define GG_USERLIST100_REPLY_REJECT 0x12
+
+#else
+
+/**
+ * \ingroup importexport
+ *
+ * Typ odpowiedzi listy kontaktów (10.0).
+ */
+enum {
+	GG_USERLIST100_REPLY_LIST,	/**< W odpowiedzi znajduje się aktualna lista kontaktów na serwerze. */
+	GG_USERLIST100_REPLY_ACK,	/**< Potwierdzenie odebrania nowej wersji listy kontaktów. W polu \c gg_userlist100_reply.version znajduje się numer nowej wersji listy kontaktów. */
+	GG_USERLIST100_REPLY_REJECT,	/**< Odmowa przyjęcia nowej wersji listy kontaktów. W polu \c gg_userlist100_reply.version znajduje się numer wersji listy kontaktów aktualnie przechowywanej przez serwer. */
+};
+
+#endif /* DOXYGEN */
+
 struct gg_dcc_tiny_packet {
 	uint8_t type;		/* rodzaj pakietu */
 } GG_PACKED;
@@ -2232,7 +2341,7 @@ struct gg_dcc7_reject {
 // XXX API
 #define GG_DCC7_REJECT_BUSY 0x00000001	/**< Połączenie bezpośrednie już trwa, nie umiem obsłużyć więcej */
 #define GG_DCC7_REJECT_USER 0x00000002	/**< Użytkownik odrzucił połączenie */
-#define GG_DCC7_REJECT_HIDDEN 0x00000003	/* użytkownik ojest ukryty i nie możesz mu wysłać pliku */
+#define GG_DCC7_REJECT_HIDDEN 0x00000003	/* użytkownik jest ukryty i nie możesz mu wysłać pliku */
 #define GG_DCC7_REJECT_VERSION 0x00000006	/**< Druga strona ma wersję klienta nieobsługującą połączeń bezpośrednich tego typu */
 
 #define GG_DCC7_ID_REQUEST 0x23

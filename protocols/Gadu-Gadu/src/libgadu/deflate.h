@@ -1,5 +1,7 @@
+/* $Id$ */
+
 /*
- *  (C) Copyright 2009 Wojtek Kaniewski <wojtekka@irc.pl>
+ *  (C) Copyright 2011 Bartosz Brachaczek <b.brachaczek@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License Version
@@ -16,14 +18,12 @@
  *  USA.
  */
 
-#ifndef LIBGADU_DEBUG_H
-#define LIBGADU_DEBUG_H
+#ifndef LIBGADU_DEFLATE_H
+#define LIBGADU_DEFLATE_H
 
 #include "libgadu.h"
 
-const char *gg_debug_state(enum gg_state_t state);
-const char *gg_debug_event(enum gg_event_t event);
-void gg_debug_dump(struct gg_session *sess, int level, const char *buf, size_t len);
-void gg_debug_common(struct gg_session *sess, int level, const char *format, va_list ap);
+unsigned char *gg_deflate(const char *in, size_t *out_lenp);
+char *gg_inflate(const unsigned char *in, size_t length);
 
-#endif /* LIBGADU_DEBUG_H */
+#endif /* LIBGADU_DEFLATE_H */

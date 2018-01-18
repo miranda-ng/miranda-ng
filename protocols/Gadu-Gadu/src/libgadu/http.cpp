@@ -1,4 +1,4 @@
-/* $Id: http.c 11370 2010-03-13 16:17:54Z dezred $ */
+/* $Id$ */
 
 /*
  *  (C) Copyright 2001-2002 Wojtek Kaniewski <wojtekka@irc.pl>
@@ -50,6 +50,8 @@
 #ifndef _WIN32
 #include <unistd.h>
 #endif /* _WIN32 */
+
+#define GG_HTTP_MAX_LENGTH 1000000000
 
 /**
  * Rozpoczyna połączenie HTTP.
@@ -366,6 +368,11 @@ int gg_http_watch_fd(struct gg_http *h)
 			if (h->body_size <= 0) {
 				gg_debug(GG_DEBUG_MISC, "=> http, content-length not found\n");
 				h->body_size = left;
+			}
+
+			if (h->body_size > GG_HTTP_MAX_LENGTH) {
+				gg_debug(GG_DEBUG_MISC, "=> http, content-length too big\n");
+				h->body_size = GG_HTTP_MAX_LENGTH;
 			}
 
 			if (left > h->body_size) {

@@ -442,6 +442,7 @@ struct gg_dcc *gg_dcc_socket_create(uin_t uin, uint16_t port)
 		port = GG_DEFAULT_DCC_PORT;
 
 	while (!bound) {
+		memset(&sin, 0, sizeof(sin));
 		sin.sin_family = AF_INET;
 		sin.sin_addr.s_addr = INADDR_ANY;
 		sin.sin_port = htons(port);

@@ -369,7 +369,7 @@ int gg_message_get_attributes(gg_message_t *gm, const char **attributes, size_t 
  * \param src Dodawany tekst
  * \param len Długość dodawanego tekstu
  */
-static void gg_append(char *dst, int *pos, const void *src, int len)
+static void gg_append(char *dst, size_t *pos, const void *src, int len)
 {
 	if (dst != NULL)
 		memcpy(&dst[*pos], src, len);
@@ -402,7 +402,8 @@ size_t gg_message_text_to_html(char *dst, const char *src, const char *format, s
 	int format_idx = 0;
 	unsigned char old_attr = 0;
 	const unsigned char *color = (const unsigned char*) "\x00\x00\x00";
-	int len, i;
+	int i;
+	size_t len;
 	const unsigned char *format_ = (const unsigned char*) format;
 
 	len = 0;
@@ -592,6 +593,11 @@ size_t gg_message_html_to_text(char *dst, const char *html)
 	entity = NULL;
 
 	for (src = html; *src != 0; src++) {
+		if (in_entity && !(isalnum(*src) || *src == '#' || *src == ';')) {
+			in_entity = 0;
+			gg_append(dst, &len, entity, src - entity);
+		}
+
 		if (*src == '<') {
 			tag = src;
 			in_tag = 1;

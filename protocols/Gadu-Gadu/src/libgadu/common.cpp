@@ -293,6 +293,7 @@ SOCKET gg_connect(void *addr, int port, int async)
 		}
 	}
 
+	memset(&sin, 0, sizeof(sin));
 	sin.sin_port = htons((uint16_t)port);
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = a->s_addr;
