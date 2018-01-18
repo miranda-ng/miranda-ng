@@ -744,6 +744,9 @@ public:
 		cbd->m_bChatButton = m_btnChat.GetState() != 0;
 		cbd->m_bCanBeHidden = !cbd->m_bCantBeHidden && m_btnHidden.GetState() != 0;
 		cbd->m_opFlags = (cbd->m_bIMButton ? BBSF_IMBUTTON : 0) + (cbd->m_bChatButton ? BBSF_CHATBUTTON : 0) + (cbd->m_bCanBeHidden ? BBSF_CANBEHIDDEN : 0);
+
+		if (!cbd->m_bChatButton && !cbd->m_bIMButton)
+			m_toolBar.SetCheckState(tvi.hItem, 0);
 	}
 
 	void OnTreeSelChanged(void*)
