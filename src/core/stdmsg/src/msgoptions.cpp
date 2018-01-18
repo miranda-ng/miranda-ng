@@ -152,6 +152,7 @@ statusValues[] =
 
 class COptionMainDlg : public CPluginDlgBase
 {
+	CCtrlEdit  edtNFlash, edtAvatarH, edtSecs;
 	CCtrlCheck chkAutoMin, chkAutoClose, chkSavePerContact, chkDoNotStealFocus;
 	CCtrlCheck chkDelTemp, chkCascade, chkCharCount, chkStatusWin, chkCtrlSupport;
 	CCtrlCheck chkAvatar, chkLimitAvatar;
@@ -194,6 +195,9 @@ public:
 	COptionMainDlg() :
 		CPluginDlgBase(g_hInst, IDD_OPT_MSGDLG, SRMMMOD),
 		tree(this, IDC_POPLIST),
+		edtSecs(this, IDC_SECONDS),
+		edtNFlash(this, IDC_NFLASHES),
+		edtAvatarH(this, IDC_AVATARHEIGHT),
 		chkAvatar(this, IDC_AVATARSUPPORT),
 		chkDelTemp(this, IDC_DELTEMP),
 		chkAutoMin(this, IDC_AUTOMIN),
@@ -220,6 +224,9 @@ public:
 		chkSendOnDblEnter.OnChange = Callback(this, &COptionMainDlg::onChange_SendOnDblEnter);
 		chkSavePerContact.OnChange = Callback(this, &COptionMainDlg::onChange_SavePerContact);
 
+		CreateLink(edtNFlash, g_dat.nFlashMax);
+		CreateLink(edtAvatarH, g_dat.iAvatarHeight);
+
 		CreateLink(chkAvatar, g_dat.bShowAvatar);
 		CreateLink(chkLimitAvatar, g_dat.bLimitAvatarHeight);
 
@@ -241,16 +248,10 @@ public:
 	{
 		FillCheckBoxTree(g_dat.popupFlags);
 
-		SetDlgItemInt(m_hwnd, IDC_NFLASHES, g_dat.nFlashMax, FALSE);
-		SetDlgItemInt(m_hwnd, IDC_AVATARHEIGHT, g_dat.iAvatarHeight, FALSE);
-		chkLimitAvatar.Enable(chkAvatar.GetState());
-		if (!chkAvatar.GetState())
-			EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), FALSE);
-		else
-			EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), chkLimitAvatar.GetState());
-
 		DWORD msgTimeout = g_dat.msgTimeout;
-		SetDlgItemInt(m_hwnd, IDC_SECONDS, (msgTimeout >= 5000) ? msgTimeout / 1000 : 5, FALSE);
+		edtSecs.SetInt((msgTimeout >= 5000) ? msgTimeout / 1000 : 5);
+		
+		onChange_Avatar(nullptr);
 
 		chkCascade.Enable(!g_dat.bSavePerContact);
 		chkCtrlSupport.Enable(!g_dat.bAutoClose);
@@ -260,10 +261,7 @@ public:
 	{
 		g_dat.popupFlags = MakeCheckBoxTreeFlags();
 
-		DWORD avatarHeight = GetDlgItemInt(m_hwnd, IDC_AVATARHEIGHT, nullptr, TRUE);
-		g_dat.iAvatarHeight = (avatarHeight <= 0) ? 60 : avatarHeight;
-
-		DWORD msgTimeout = GetDlgItemInt(m_hwnd, IDC_SECONDS, nullptr, TRUE) * 1000;
+		DWORD msgTimeout = edtSecs.GetInt() * 1000;
 		if (msgTimeout < 5000)
 			msgTimeout = 5000;
 		g_dat.msgTimeout = msgTimeout;
@@ -300,15 +298,14 @@ public:
 
 	void onChange_Avatar(CCtrlCheck*)
 	{
-		chkLimitAvatar.Enable(chkAvatar.GetState());
-		if (!chkAvatar.GetState())
-			EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), FALSE);
-		else EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), chkLimitAvatar.GetState());
+		bool bEnabled = chkAvatar.GetState();
+		edtAvatarH.Enable(bEnabled);
+		chkLimitAvatar.Enable(bEnabled);
 	}
 
 	void onChange_LimitAvatar(CCtrlCheck*)
 	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_AVATARHEIGHT), chkLimitAvatar.GetState());
+		edtAvatarH.Enable(chkLimitAvatar.GetState());
 	}
 
 	void onChange_Tree(CCtrlTreeView::TEventInfo*)
