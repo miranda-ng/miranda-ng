@@ -473,6 +473,7 @@ LPCTSTR ClearText(CMStringW &result, const wchar_t *message)
 	result.Replace(L"&#769;", L"´"); //Combining Acute Accent острое ударение
 	result.Replace(L"&#959;", L"ό"); // greek small letter omicron with tonos
 	result.Replace(L"&#1123;", L"ѣ"); //Cyrillic Small Letter Yat
+	result.Replace(L"&#1180;", L"Ҝ"); //cyrillic capital letter ka with vertical stroke
 	result.Replace(L"&#8203;", L"");
 	result.Replace(L"&#8206;", L""); //lrm
 	result.Replace(L"&#8207;", L""); //rlm
