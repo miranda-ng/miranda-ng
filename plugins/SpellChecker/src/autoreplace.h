@@ -53,7 +53,7 @@ public:
 
 	/// Return an auto replacement to a word or NULL if none exists.
 	/// You have to free the item.
-	wchar_t* autoReplace(const wchar_t *word);
+	CMStringW autoReplace(const wchar_t *word);
 
 	/// Add a word to the list of auto-replaced words
 	void add(const wchar_t *from, const wchar_t *to, BOOL useVariables = FALSE);

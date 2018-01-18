@@ -127,20 +127,20 @@ BOOL AutoReplaceMap::isWordChar(wchar_t c)
 }
 
 
-wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
+CMStringW AutoReplaceMap::autoReplace(const wchar_t * word)
 {
 	ptrW from(wcslwr(mir_wstrdup(word)));
 
 	if (m_replacements.find(from.get()) == m_replacements.end())
-		return nullptr;
+		return CMStringW();
 
 	AutoReplacement &ar = m_replacements[from.get()];
 
-	wchar_t *to;
+	CMStringW ret;
 	if (ar.useVariables)
-		to = variables_parsedup((wchar_t *)ar.replace.c_str(), (wchar_t *)word, NULL);
+		ret = ptrW(variables_parsedup((wchar_t *)ar.replace.c_str(), (wchar_t *)word, NULL));
 	else
-		to = mir_wstrdup(ar.replace.c_str());
+		ret = ar.replace.c_str();
 
 	// Wich case to use?
 	size_t len = mir_wstrlen(word);
@@ -150,18 +150,20 @@ wchar_t* AutoReplaceMap::autoReplace(const wchar_t * word)
 			break;
 
 	if (i <= 0) // All lower
-		return to;
+		return ret;
 
-	if (i >= len)  // All upper
-		return CharUpper(to);
+	if (i >= len) { // All upper
+		ret.MakeUpper();
+		return ret;
+	}
 
 	// First upper
 	wchar_t tmp[2];
-	tmp[0] = to[0];
+	tmp[0] = ret[0];
 	tmp[1] = '\0';
 	CharUpper(tmp);
-	to[0] = tmp[0];
-	return to;
+	ret.SetAt(0, tmp[0]);
+	return ret;
 }
 
 wchar_t* AutoReplaceMap::filterText(const wchar_t *find)

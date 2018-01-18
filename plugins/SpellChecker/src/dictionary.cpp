@@ -465,10 +465,10 @@ public:
 			free(wordChars);
 	}
 
-	wchar_t * merge(wchar_t * s1, wchar_t *s2)
+	wchar_t* merge(wchar_t * s1, wchar_t *s2)
 	{
-		int len1 = mir_wstrlen(s1);
-		int len2 = mir_wstrlen(s2);
+		size_t len1 = mir_wstrlen(s1);
+		size_t len2 = mir_wstrlen(s2);
 
 		wchar_t *ret;
 		if (len1 > 0 && len2 > 0) {
@@ -496,10 +496,10 @@ public:
 		}
 
 		// Remove duplicated chars
-		int last = mir_wstrlen(ret) - 1;
-		for (int i = 0; i <= last; i++) {
+		size_t last = mir_wstrlen(ret) - 1;
+		for (size_t i = 0; i <= last; i++) {
 			wchar_t c = ret[i];
-			for (int j = last; j > i; j--) {
+			for (size_t j = last; j > i; j--) {
 				if (c != ret[j])
 					continue;
 				if (j != last)
@@ -651,9 +651,8 @@ public:
 		char hunspell_word[1024];
 		toHunspell(hunspell_word, word, _countof(hunspell_word));
 
-		char ** words;
+		char **words;
 		int count = hunspell->suggest(&words, hunspell_word);
-
 		if (count <= 0)
 			return nullptr;
 

@@ -164,7 +164,7 @@ public:
 	virtual bool feed(int pos, wchar_t c) = 0;
 	virtual int  getFirstCharPos() = 0;
 	virtual void reset() = 0;
-	virtual void deal(const wchar_t *text, bool *mark, bool *replace, wchar_t **replacement) = 0;
+	virtual bool deal(const wchar_t *text, bool*, CMStringW &replacement) = 0;
 };
 
 class SpellParser : public TextParser
@@ -209,22 +209,24 @@ public:
 		return (!found_real_char) ? -1 : last_pos;
 	}
 
-	virtual void deal(const wchar_t *text, bool *mark, bool *replace, wchar_t **replacement)
+	virtual bool deal(const wchar_t *text, bool *mark, CMStringW &replacement) override
 	{
 		// Is it correct?
 		if (dict->spell(text))
-			return;
+			return false;
 
 		// Has to auto-correct?
 		if (opts.auto_replace_dict) {
-			*replacement = dict->autoSuggestOne(text);
-			if (*replacement != nullptr) {
-				*replace = true;
-				return;
+			wchar_t *pwszWord = dict->autoSuggestOne(text);
+			if (pwszWord != nullptr) {
+				replacement = pwszWord;
+				free(pwszWord);				
+				return true;
 			}
 		}
 
 		*mark = true;
+		return false;
 	}
 };
 
@@ -261,11 +263,10 @@ public:
 		return last_pos;
 	}
 
-	virtual void deal(const wchar_t *text, bool*, bool *replace, wchar_t **replacement)
+	virtual bool deal(const wchar_t *text, bool*, CMStringW &replacement) override
 	{
-		*replacement = ar->autoReplace(text);
-		if (*replacement != nullptr)
-			*replace = true;
+		replacement = ar->autoReplace(text);
+		return !replacement.IsEmpty();
 	}
 };
 
@@ -355,10 +356,8 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 		text[pos] = 0;
 
 		bool mark = false;
-		bool replace = false;
-		wchar_t *replacement = nullptr;
-		parser->deal(&text[last_pos], &mark, &replace, &replacement);
-
+		CMStringW replacement;
+		bool replace = parser->deal(&text[last_pos], &mark, replacement);
 		if (replace) {
 			// Replace in rich edit
 			int dif = dlg->re->Replace(sel.cpMin, sel.cpMax, replacement);
@@ -372,8 +371,6 @@ int CheckTextLine(Dialog *dlg, int line, TextParser *parser,
 
 				pos = max(-1, pos + dif + old_first_char - first_char);
 			}
-
-			free(replacement);
 		}
 		else if (mark) {
 			SetUnderline(dlg, sel.cpMin, sel.cpMax);
