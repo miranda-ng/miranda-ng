@@ -1077,14 +1077,14 @@ public:
 	struct TEventInfo {
 		CCtrlListView *treeviewctrl;
 		union {
-			NMHDR			*nmhdr;
-			NMLISTVIEW		*nmlv;
-			NMLVDISPINFO	*nmlvdi;
-			NMLVSCROLL		*nmlvscr;
-			NMLVGETINFOTIP	*nmlvit;
-			NMLVFINDITEM	*nmlvfi;
-			NMITEMACTIVATE	*nmlvia;
-			NMLVKEYDOWN		*nmlvkey;
+			NMHDR          *nmhdr;
+			NMLISTVIEW     *nmlv;
+			NMLVDISPINFO   *nmlvdi;
+			NMLVSCROLL     *nmlvscr;
+			NMLVGETINFOTIP *nmlvit;
+			NMLVFINDITEM   *nmlvfi;
+			NMITEMACTIVATE *nmlvia;
+			NMLVKEYDOWN    *nmlvkey;
 		};
 	};
 
@@ -1227,6 +1227,7 @@ public:
 			NMTVKEYDOWN *nmtvkey;
 			NMTVDISPINFO *nmtvdi;
 			NMTVGETINFOTIP *nmtvit;
+			HTREEITEM hItem; // for OnItemChanged
 		};
 	};
 

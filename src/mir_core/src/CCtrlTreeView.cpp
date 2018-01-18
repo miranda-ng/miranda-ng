@@ -280,8 +280,9 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 
 	case TVN_KEYDOWN:
 		if (evt.nmtvkey->wVKey == VK_SPACE) {
+			evt.hItem = GetSelection();
 			if (m_bCheckBox)
-				InvertCheck(GetSelection());
+				InvertCheck(evt.hItem);
 			OnItemChanged(&evt);
 			NotifyChange();
 		}
@@ -301,6 +302,8 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 					InvertCheck(hti.hItem);
 				else
 					SelectItem(hti.hItem);
+
+				evt.hItem = hti.hItem;
 				OnItemChanged(&evt);
 				NotifyChange();
 			}

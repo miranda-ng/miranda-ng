@@ -776,9 +776,9 @@ public:
 		m_btnHidden.Enable(); m_btnHidden.SetState(cbd->m_bCanBeHidden);
 	}
 
-	void OnTreeItemChanged(void*)
+	void OnTreeItemChanged(CCtrlTreeView::TEventInfo *evt)
 	{
-		bool iNewState = !m_toolBar.GetCheckState(m_toolBar.GetSelection());
+		bool iNewState = !m_toolBar.GetCheckState(evt->hItem);
 		m_btnIM.Enable(iNewState);
 		m_btnChat.Enable(iNewState);
 		m_btnHidden.Enable(iNewState);
