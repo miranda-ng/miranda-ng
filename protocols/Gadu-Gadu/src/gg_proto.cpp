@@ -70,9 +70,9 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 	mir_snwprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARSW(L"%miranda_userdata%"), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
-	DWORD dwVersion;
-	if ((dwVersion = getDword(GG_PLUGINVERSION, 0)) < pluginInfo.version)
-		cleanuplastplugin(dwVersion);
+	DWORD pluginVersion = getDword(GG_PLUGINVERSION, 0);
+	if (pluginVersion < pluginInfo.version)
+		cleanuplastplugin(pluginVersion);
 
 	links_instance_init();
 	initavatarrequestthread();

@@ -209,11 +209,11 @@ struct GGGETAVATARDATA
 #define GG_KEYDEF_MSGACK		1
 
 #define GG_KEY_MANUALHOST		"ManualHost"	// Specify by hand server host/port
-#define GG_KEYDEF_MANUALHOST	0
+#define GG_KEYDEF_MANUALHOST	1
 #define GG_KEY_SSLCONN			"SSLConnection" // Use SSL/TLS for connections
-#define GG_KEYDEF_SSLCONN		0
+#define GG_KEYDEF_SSLCONN		1
 #define GG_KEY_SERVERHOSTS		"ServerHosts"	// NL separated list of hosts for server connection
-#define GG_KEYDEF_SERVERHOSTS	"91.197.13.54\r\n91.197.13.66\r\n91.197.13.69\r\n91.197.13.72\r\n91.197.13.75\r\n91.197.13.81"
+#define GG_KEYDEF_SERVERHOSTS	"91.214.237.108\r\n91.214.237.112\r\n91.214.237.116\r\n91.214.237.120\r\n91.214.237.123"
 
 #define GG_KEY_CLIENTIP 		"IP"			// Contact IP (by notify)
 #define GG_KEY_CLIENTPORT		"ClientPort"	// Contact port

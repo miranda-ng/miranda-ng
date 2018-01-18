@@ -585,8 +585,14 @@ static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		CheckDlgButton(hwndDlg, IDC_MANUALHOST, gg->getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SSLCONN, gg->getByte(GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN) ? BST_CHECKED : BST_UNCHECKED);
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_KEEPALIVE), false);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_MANUALHOST), false);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_SSLCONN), false);
+
+		//EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+		//EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), false);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), false);
 
 		CheckDlgButton(hwndDlg, IDC_DIRECTCONNS, gg->getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS) ? BST_CHECKED : BST_UNCHECKED);
 		if (num = gg->getWord(GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))

@@ -61,7 +61,7 @@ void GGPROTO::keepalive_init()
 #ifdef DEBUGMODE
 			debugLogA("keepalive_init(): Initializing Timer %d", i);
 #endif
-			timer = SetTimer(nullptr, 0, 1000 * 30, gg_keepalive);
+			timer = SetTimer(nullptr, 0, 1000 * 60, gg_keepalive);
 			g_timers[i] = this;
 		}
 	}

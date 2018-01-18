@@ -191,6 +191,14 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 			FindClose(hFind);
 		}
 	}
+
+	//2. force SSL and keepalive; overwrite old server list; 
+	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 4)) {
+		setString(GG_KEY_SERVERHOSTS, GG_KEYDEF_SERVERHOSTS);
+		setByte(GG_KEY_MANUALHOST, 1);
+		setByte(GG_KEY_SSLCONN, 1);
+		setByte(GG_KEY_KEEPALIVE, 1);
+	}
 }
 
 //////////////////////////////////////////////////////////
