@@ -189,18 +189,20 @@ static INT_PTR icqSendMessage(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 {
-	T("[   ] recieve message\n");
+	T("[   ] receive message\n");
 
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	db_unset(ccs->hContact, "CList", "Hidden");
 
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	ptrA szMsg(Utf8CheckString(pre->szMessage) ? mir_strdup(pre->szMessage) : mir_utf8encode(pre->szMessage));
+	ptrA szMsg(mir_utf8encode(pre->szMessage));
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = protoName;
 	dbei.timestamp = pre->timestamp;
-	dbei.flags = DBEF_UTF | (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
+	dbei.flags = DBEF_UTF;
+	if (pre->flags & PREF_CREATEREAD) 
+		dbei.flags |= DBEF_READ;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (DWORD)mir_strlen(szMsg) + 1;
 	dbei.pBlob = (PBYTE)szMsg.get();
@@ -227,7 +229,7 @@ static INT_PTR icqSendUrl(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvUrl(WPARAM, LPARAM lParam)
 {
-	T("[   ] recieve url\n");
+	T("[   ] receive url\n");
 
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
@@ -398,7 +400,7 @@ static INT_PTR icqFileCancel(WPARAM, LPARAM lParam)
 
 static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 {
-	T("[   ] recieve file\n");
+	T("[   ] receive file\n");
 
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	db_unset(ccs->hContact, "CList", "Hidden");

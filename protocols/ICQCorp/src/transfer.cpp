@@ -75,7 +75,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 	packet >> cmd;
 	switch (cmd) {
 	case 0x00:
-		T("[tcp] recieve initialising file transfer\n");
+		T("[tcp] receive initialising file transfer\n");
 		packet >> junkLong
 			>> count
 			>> totalSize
@@ -98,7 +98,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x02:
-		T("[tcp] recieve next file\n");
+		T("[tcp] receive next file\n");
 		packet >> directory
 			>> szFileName
 			>> directoryName
@@ -143,7 +143,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x04:
-		T("[tcp] recieve stop file\n");
+		T("[tcp] receive stop file\n");
 		packet >> junkLong;
 
 		totalProgress += fileSize - fileProgress;
@@ -153,7 +153,7 @@ void ICQTransfer::processTcpPacket(Packet &packet)
 		break;
 
 	case 0x05:
-		T("[tcp] recieve new speed\n");
+		T("[tcp] receive new speed\n");
 		packet >> speed;
 		break;
 
