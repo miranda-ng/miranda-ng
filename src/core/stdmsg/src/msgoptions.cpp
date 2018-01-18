@@ -274,6 +274,7 @@ public:
 	void onChange_AutoMin(CCtrlCheck*)
 	{
 		chkAutoClose.SetState(false);
+		chkCtrlSupport.Enable(!chkAutoClose.GetState());
 	}
 
 	void onChange_AutoClose(CCtrlCheck*)
