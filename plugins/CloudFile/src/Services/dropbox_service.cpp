@@ -110,8 +110,7 @@ void CDropboxService::UploadFile(const char *data, size_t size, char *path)
 {
 	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
-	ptrA encodedPath(mir_utf8encode(path));
-	DropboxAPI::UploadFileRequest request(token, encodedPath, data, size, (OnConflict)strategy);
+	DropboxAPI::UploadFileRequest request(token, path, data, size, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(hConnection));
 
 	JSONNode root = GetJsonResponse(response);
