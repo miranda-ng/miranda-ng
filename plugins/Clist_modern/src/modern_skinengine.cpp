@@ -1899,17 +1899,14 @@ static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 		g_CluiData.RightClientMargin = 0;
 		g_CluiData.TopClientMargin = 0;
 		g_CluiData.BottomClientMargin = 0;
-	}
-	else {
-		// window borders
-		g_CluiData.LeftClientMargin = (int)db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
-		g_CluiData.RightClientMargin = (int)db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
-		g_CluiData.TopClientMargin = (int)db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
-		g_CluiData.BottomClientMargin = (int)db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
+		return 0;
 	}
 
-	if (g_CluiData.fDisableSkinEngine)
-		return 0;
+	// window borders
+	g_CluiData.LeftClientMargin = (int)db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
+	g_CluiData.RightClientMargin = (int)db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
+	g_CluiData.TopClientMargin = (int)db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
+	g_CluiData.BottomClientMargin = (int)db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
 
 	Skin->pMaskList = (LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
 	memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
