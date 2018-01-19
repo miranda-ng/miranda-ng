@@ -530,10 +530,10 @@ void RegisterFontServiceFonts()
 			wcsncpy(fid.group, LPGENW("Message Sessions"), _countof(fid.group));
 			wcsncpy(fid.backgroundGroup, LPGENW("Message Sessions"), _countof(fid.backgroundGroup));
 			wcsncpy(fid.backgroundName, LPGENW("Input area background"), _countof(fid.backgroundName));
-			fid.flags |= FIDF_DISABLESTYLES;
-			fid.flags &= ~FIDF_ALLOWEFFECTS;
 			break;
 		case 17:
+			fid.flags |= FIDF_DISABLESTYLES;
+			fid.flags &= ~FIDF_ALLOWEFFECTS;
 			wcsncpy(fid.backgroundName, LPGENW("Status background"), _countof(fid.backgroundName));
 			break;
 		case 18:
