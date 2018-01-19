@@ -32,19 +32,14 @@ void CSteamOptionsMain::OnApply()
 	}
 
 	if (m_proto->IsOnline())
-	{
 		// may be we should show message box with warning?
 		m_proto->SetStatus(ID_STATUS_OFFLINE);
-	}
-	if (m_username.IsChanged())
-	{
+	if (m_username.IsChanged()) {
 		m_proto->delSetting("SteamID");
 		m_proto->delSetting("TokenSecret");
 	}
 	if (m_password.IsChanged())
-	{
 		m_proto->delSetting("TokenSecret");
-	}
 	mir_free(group);
 }
 

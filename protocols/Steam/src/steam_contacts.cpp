@@ -286,9 +286,9 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 
 void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 {
-	//if (getByte(hContact, "AuthAsked", 0))
+	if (getByte(hContact, "AuthAsked", 0))
 		// auth request was already showed, do nothing here
-		//return;
+		return;
 
 	/*if (getByte(hContact, "Auth", 0) == 0) {
 		// user was just added or he already has authorization, but because we've just got auth request, he was probably deleted and requested again

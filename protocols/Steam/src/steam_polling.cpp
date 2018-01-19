@@ -136,28 +136,23 @@ struct PollParam
 void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 {
 	PollParam *param = (PollParam*)arg;
-	if (!response.IsSuccess())
-	{
+	if (!response.IsSuccess()) {
 		param->errors++;
 		return;
 	}
 
 	JSONNode root = JSONNode::parse(response.Content);
-	if (root.isnull())
-	{
+	if (root.isnull()) {
 		param->errors++;
 		return;
 	}
 
 	json_string error = root["error"].as_string();
-	if (!mir_strcmpi(error.c_str(), "Timeout"))
-	{
+	if (error == "Timeout")
 		// Do nothing as this is not necessarily an error
 		return;
-	}
 
-	if (!mir_strcmpi(error.c_str(), "OK"))
-	{
+	if (error == "OK") {
 		// Remember last message timestamp
 		time_t timestamp = _wtoi64(root["utc_timestamp"].as_mstring());
 		if (timestamp > getDword("LastMessageTS", 0))
@@ -173,38 +168,40 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 		param->errors = 0;
 
 		// m_pollingConnection = response->nlc;
+
+		return;
 	}
-	else if (!mir_strcmpi(error.c_str(), "Not Logged On")) // 'else' below will handle this error, we don't need this particular check right now
-	{
+
+	if (error == "Not Logged On") {
+		// 'else' below will handle this error, we don't need this particular check right now
+
 		// need to relogin
 		debugLogA(__FUNCTION__ ": Not Logged On");
 
 		// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
-		if (IsOnline())
-		{
+		if (IsOnline()) {
 			ptrA token(getStringA("TokenSecret"));
 			SendRequest(
 				new LogonRequest(token),
 				&CSteamProto::OnReLogin);
 		}
+		return;
 	}
-	else
-	{
-		// something wrong
-		debugLogA(__FUNCTION__ ": %s (%d)", error.c_str(), response.GetStatusCode());
 
-		// token has expired
-		if (response.GetStatusCode() == HTTP_CODE_UNAUTHORIZED)
-			delSetting("TokenSecret");
+	// something wrong
+	debugLogA(__FUNCTION__ ": %s (%d)", error.c_str(), response.GetStatusCode());
 
-		// too low timeout?
-		int timeout = root["sectimeout"].as_int();
-		if (timeout < STEAM_API_TIMEOUT)
-			debugLogA(__FUNCTION__ ": Timeout is too low (%d)", timeout);
+	// token has expired
+	if (response.GetStatusCode() == HTTP_CODE_UNAUTHORIZED)
+		delSetting("TokenSecret");
 
-		// let it jump out of further processing
-		param->errors = param->errorsLimit;
-	}
+	// too low timeout?
+	int timeout = root["sectimeout"].as_int();
+	if (timeout < STEAM_API_TIMEOUT)
+		debugLogA(__FUNCTION__ ": Timeout is too low (%d)", timeout);
+
+	// let it jump out of further processing
+	param->errors = param->errorsLimit;
 }
 
 void CSteamProto::PollingThread(void*)
@@ -216,8 +213,7 @@ void CSteamProto::PollingThread(void*)
 	PollParam param;
 	param.errors = 0;
 	param.errorsLimit = getByte("PollingErrorsLimit", POLLING_ERRORS_LIMIT);
-	while (IsOnline() && param.errors < param.errorsLimit)
-	{
+	while (IsOnline() && param.errors < param.errorsLimit) {
 		// request->nlc = m_pollingConnection;
 		ptrA umqId(getStringA("UMQID"));
 		UINT32 messageId = getDword("MessageID", 0);
@@ -227,8 +223,7 @@ void CSteamProto::PollingThread(void*)
 			(void*)&param);
 	}
 
-	if (IsOnline())
-	{
+	if (IsOnline()) {
 		debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
 		SetStatus(ID_STATUS_OFFLINE);
 	}
