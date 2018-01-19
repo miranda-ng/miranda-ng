@@ -28,7 +28,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvaImg", "..\plugins\AdvaI
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM", "..\plugins\TabSRMM\tabsrmm.vcxproj", "{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GG", "..\protocols\Gadu-Gadu\Gadu-Gadu_15.vcxproj", "{6DA1396F-2A44-4D5C-8442-012F71006217}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GG", "..\protocols\Gadu-Gadu\gadugadu.vcxproj", "{6DA1396F-2A44-4D5C-8442-012F71006217}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IRC", "..\protocols\IRCG\IRC.vcxproj", "{3A12F777-56A8-42EC-BD17-8F325524241E}"
 EndProject

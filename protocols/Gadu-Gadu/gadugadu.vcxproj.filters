@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
       <UniqueIdentifier>{3653ac07-1494-483a-8db4-4d335a086e79}</UniqueIdentifier>
@@ -14,7 +14,7 @@
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{8a0835f2-408c-40e6-bd62-75d4e24cae16}</UniqueIdentifier>
-      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -27,13 +27,31 @@
     <ClCompile Include="src\libgadu\dcc7.cpp">
       <Filter>Source Files\libgadu</Filter>
     </ClCompile>
+    <ClCompile Include="src\libgadu\debug.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\deflate.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\encoding.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
     <ClCompile Include="src\libgadu\events.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\handlers.cpp">
       <Filter>Source Files\libgadu</Filter>
     </ClCompile>
     <ClCompile Include="src\libgadu\http.cpp">
       <Filter>Source Files\libgadu</Filter>
     </ClCompile>
     <ClCompile Include="src\libgadu\libgadu.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\message.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\obsolete.cpp">
       <Filter>Source Files\libgadu</Filter>
     </ClCompile>
     <ClCompile Include="src\libgadu\pthread.cpp">
@@ -70,6 +88,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\gg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gg_proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\groupchat.cpp">
@@ -111,36 +132,30 @@
     <ClCompile Include="src\userutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gg_proto.cpp">
+    <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\debug.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\encoding.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\handlers.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\message.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\deflate.cpp">
-      <Filter>Source Files\libgadu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\libgadu\compat.h">
       <Filter>Source Files\libgadu</Filter>
     </ClInclude>
+    <ClInclude Include="src\libgadu\debug.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\deflate.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\encoding.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
     <ClInclude Include="src\libgadu\internal.h">
       <Filter>Source Files\libgadu</Filter>
     </ClInclude>
     <ClInclude Include="src\libgadu\libgadu.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\message.h">
       <Filter>Source Files\libgadu</Filter>
     </ClInclude>
     <ClInclude Include="src\libgadu\protocol.h">
@@ -164,26 +179,14 @@
     <ClInclude Include="src\gg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\gg_proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\gg_proto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\libgadu\debug.h">
-      <Filter>Source Files\libgadu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\libgadu\encoding.h">
-      <Filter>Source Files\libgadu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\libgadu\message.h">
-      <Filter>Source Files\libgadu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\libgadu\deflate.h">
-      <Filter>Source Files\libgadu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

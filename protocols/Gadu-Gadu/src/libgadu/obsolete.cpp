@@ -31,6 +31,14 @@
 
 /** \cond obsolete */
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4100 )
+#endif // _MSC_VER
+
+#ifdef _WIN32
+#include "win32.h"
+#endif /* _WIN32 */
+
 #include <errno.h>
 
 #include "libgadu.h"
