@@ -384,14 +384,19 @@ STDMETHODIMP_(BOOL) CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGEN
 	txn_ptr_ro txn(m_txn);
 	cursor_ptr_ro cursor(m_curSettings);
 
+	LIST<char> arKeys(100);
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
 	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
 		const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
 		if (pKey->hContact != hContact || pKey->dwModuleId != keyVal.dwModuleId)
 			break;
-		result = pfnEnumProc(pKey->szSettingName, param);
+
+		arKeys.insert((char*)pKey->szSettingName);
 	}
+
+	for (int i=0; i < arKeys.getCount(); i++)
+		result = pfnEnumProc(arKeys[i], param);
 
 	return result;
 }
