@@ -33,6 +33,7 @@ static INT_PTR gg_menuchoose(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam)
 		*(void**)lParam = (void*)wParam;
+
 	return 0;
 }
 
@@ -66,7 +67,8 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 			++items;
 			Menu_ModifyItem(gg->hInstanceMenuItem, nullptr, Skin_LoadProtoIcon(gg->m_szModuleName, gg->m_iStatus));
 		}
-		else Menu_ShowItem(gg->hInstanceMenuItem, false);
+		else
+			Menu_ShowItem(gg->hInstanceMenuItem, false);
 	}
 
 	if (items > 1) {

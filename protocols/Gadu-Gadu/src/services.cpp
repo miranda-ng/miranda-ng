@@ -43,6 +43,7 @@ char *gg_status2db(int status, const char *suffix)
 
 	static char str[64];
 	mir_snprintf(str, "%s%s", prefix, suffix);
+
 	return str;
 }
 
@@ -137,6 +138,7 @@ int gg_normalizestatus(int status)
 	case ID_STATUS_OFFLINE:   return ID_STATUS_OFFLINE;
 	case ID_STATUS_INVISIBLE: return ID_STATUS_INVISIBLE;
 	}
+
 	return ID_STATUS_AWAY;
 }
 
@@ -162,6 +164,7 @@ INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 	case AF_FETCHIFCONTACTOFFLINE:
 		return 1;
 	}
+
 	return 0;
 }
 
@@ -347,6 +350,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM, LPARAM lParam)
 	}
 
 	setAvatar(szMyFilename);
+
 	return 0;
 }
 
@@ -363,6 +367,7 @@ INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 	if (isonline() && szMsg)
 		res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_wstrdup(szMsg) : (INT_PTR)mir_u2a(szMsg);
 	gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 72, 1, "modemsg_mutex", 1);
+
 	return res;
 }
 

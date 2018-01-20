@@ -120,6 +120,7 @@ char *strndup(char *str, int c)
 	char *ret = (char*)malloc(c + 1);
 	ret[c] = 0;
 	strncpy(ret, str, c);
+
 	return ret;
 }
 
@@ -342,14 +343,14 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 {
 	wchar_t str[MAX_PATH];
-	wchar_t filter[512], *pfilter;
+	wchar_t filter[512];
 	struct _stat st;
 
 	OPENFILENAME ofn = { 0 };
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	wcsncpy(filter, TranslateT("Text files"), _countof(filter));
 	mir_wstrncat(filter, L" (*.txt)", _countof(filter) - mir_wstrlen(filter));
-	pfilter = filter + mir_wstrlen(filter) + 1;
+	wchar_t *pfilter = filter + mir_wstrlen(filter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
 
@@ -415,33 +416,38 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 
 INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 {
-	wchar_t str[MAX_PATH];
-	OPENFILENAME ofn = { 0 };
-	wchar_t filter[512], *pfilter;
 
+	wchar_t str[MAX_PATH];
 	wcsncpy(str, TranslateT("contacts"), _countof(str));
 	mir_wstrncat(str, L".txt", _countof(str) - mir_wstrlen(str));
 
-	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+	wchar_t filter[512];
 	wcsncpy(filter, TranslateT("Text files"), _countof(filter));
 	mir_wstrncat(filter, L" (*.txt)", _countof(filter) - mir_wstrlen(filter));
-	pfilter = filter + mir_wstrlen(filter) + 1;
+	wchar_t *pfilter = filter + mir_wstrlen(filter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
+
 	wcsncpy(pfilter, L"*.TXT", _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
+
 	wcsncpy(pfilter, TranslateT("All Files"), _countof(filter) - (pfilter - filter));
 	mir_wstrncat(pfilter, L" (*)", _countof(filter) - (pfilter - filter) - mir_wstrlen(pfilter));
 	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
+
 	wcsncpy(pfilter, L"*", _countof(filter) - (pfilter - filter));
 	pfilter = pfilter + mir_wstrlen(pfilter) + 1;
 	if (pfilter >= filter + _countof(filter))
 		return 0;
+
 	*pfilter = '\0';
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = str;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;

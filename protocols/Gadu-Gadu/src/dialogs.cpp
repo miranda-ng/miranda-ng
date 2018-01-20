@@ -166,7 +166,6 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 {
 	char oldpasswd[128];
 	DBVARIANT dbv;
-	uin_t olduin = (uin_t)getDword(GG_KEY_UIN, 0);
 
 	oldpasswd[0] = '\0';
 	if (!getString(GG_KEY_PASSWORD, &dbv))
@@ -176,6 +175,7 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 		db_free(&dbv);
 	}
 
+	uin_t olduin = (uin_t)getDword(GG_KEY_UIN, 0);
 	if (uin > 0 && mir_strlen(passwd) > 0 && (uin != olduin || mir_strcmp(oldpasswd, passwd)))
 		check_first_conn = 1;
 }

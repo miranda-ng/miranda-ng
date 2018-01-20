@@ -99,6 +99,7 @@ INT_PTR CALLBACK gg_tokendlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return 0;
 	}
 	}
+
 	return FALSE;
 }
 

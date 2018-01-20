@@ -135,8 +135,8 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 	if (!gg->gettoken(&token))
 		return nullptr;
 
-	struct gg_http *h;
-	struct gg_pubdir *s = nullptr;
+	gg_http *h;
+	gg_pubdir *s = nullptr;
 	if (!(h = gg_change_passwd4(uin, email, password, newPass, token.id, token.val, 0)) || !(s = (gg_pubdir*)h->data) || !s->success)
 	{
 		wchar_t error[128];
@@ -177,8 +177,8 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 		return nullptr;
 
 	// Connection handles
-	struct gg_pubdir *s = nullptr;
-	struct gg_http *h = gg_change_passwd4(uin, newEmail, password, password, token.id, token.val, 0);
+	gg_pubdir *s = nullptr;
+	gg_http *h = gg_change_passwd4(uin, newEmail, password, password, token.id, token.val, 0);
 	if (!h || !(s = (gg_pubdir*)h->data) || !s->success)
 	{
 		wchar_t error[128];

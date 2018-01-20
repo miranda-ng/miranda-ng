@@ -31,8 +31,6 @@
 #endif
 
 // Windows headers
-// Visual C++ .NET tries to include winsock.h
-// which is very ver bad
 #include <winsock2.h>
 #include <commctrl.h>
 #include <commdlg.h>
@@ -43,7 +41,7 @@
 #include <time.h>
 #include <sys/stat.h>
 
-// Miranda IM headers
+// Miranda NG headers
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>
@@ -69,18 +67,13 @@
 #include <m_chat.h>
 #include <m_popup.h>
 #include <win2k.h>
-
-// Custom profile folders plugin header
-#include "m_folders.h"
-
-// Visual C++ extras
-#define GGINLINE
+#include <m_folders.h>
 
 // Plugin headers
 #include "resource.h"
 
 // libgadu headers
-#include "libgadu/libgadu.h"
+#include "libgadu.h"
 #include "dynstuff.h"
 
 // Search
@@ -90,25 +83,25 @@ struct GGSEARCHRESULT : public PROTOSEARCHRESULT
 	uin_t uin;
 };
 
-typedef struct
+struct GGTHREAD
 {
 	HANDLE hThread;
 	UINT   dwThreadId;
-} GGTHREAD;
+};
 
-typedef struct
+struct GGGC
 {
 	uin_t *recipients;
 	int recipients_count;
 	wchar_t id[32];
 	BOOL ignore;
-} GGGC;
+};
 
-typedef struct
+struct GGTOKEN
 {
 	char id[256];
 	char val[256];
-} GGTOKEN;
+};
 
 struct GGREQUESTAVATARDATA
 {

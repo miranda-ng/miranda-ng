@@ -62,7 +62,6 @@ void GGPROTO::dccstart()
 
 void GGPROTO::dccconnect(uin_t uin)
 {
-	struct gg_dcc *local_dcc;
 	MCONTACT hContact = getcontact(uin, 0, 0, nullptr);
 
 	debugLogA("dccconnect(): Connecting to uin %d.", uin);
@@ -79,7 +78,8 @@ void GGPROTO::dccconnect(uin_t uin)
 	// If not port nor ip nor my uin (?) specified
 	if (!ip || !port || !uin) return;
 
-	if (!(local_dcc = gg_dcc_get_file(ip, port, myuin, uin)))
+	gg_dcc *local_dcc = gg_dcc_get_file(ip, port, myuin, uin);
+	if (!local_dcc)
 		return;
 
 	// Add client dcc to watches
@@ -131,23 +131,15 @@ HANDLE ftfail(GGPROTO *gg, MCONTACT hContact)
 //
 void __cdecl GGPROTO::dccmainthread(void*)
 {
-	uin_t uin;
-	gg_event *e;
-	struct timeval tv;
-	fd_set rd, wd;
-	int ret;
-	SOCKET maxfd;
-	DWORD tick;
-	list_t l;
-	char szFilename[MAX_PATH];
-
 	// Zero up lists
+	list_t l;
 	watches = transfers = requests = l = nullptr;
 
 	debugLogA("dccmainthread(): started. DCC Server Thread Starting");
 
 	// Readup number
-	if (!(uin = getDword(GG_KEY_UIN, 0)))
+	uin_t uin = getDword(GG_KEY_UIN, 0);
+	if (!uin)
 	{
 		debugLogA("dccmainthread(): No Gadu-Gadu number specified. Exiting.");
 		if (hEvent) SetEvent(hEvent);
@@ -181,6 +173,14 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	list_add(&watches, dcc, 0);
 
 	// Do while we are in the main server thread
+	gg_event *e;
+	timeval tv;
+	fd_set rd, wd;
+	int ret;
+	SOCKET maxfd;
+	DWORD tick;
+	char szFilename[MAX_PATH];
+
 	while (pth_dcc.dwThreadId && dcc)
 	{
 		// Timeouts
@@ -199,7 +199,8 @@ void __cdecl GGPROTO::dccmainthread(void*)
 				continue;
 
 			// Check if it's proper descriptor
-			if (w->fd == -1) continue;
+			if (w->fd == -1)
+				continue;
 
 			if (w->fd > maxfd)
 				maxfd = w->fd;
@@ -219,6 +220,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 				debugLogA("dccmainthread(): Bad descriptor on select().");
 			else if (errno != EINTR)
 				debugLogA("dccmainthread(): Unknown error on select().");
+
 			continue;
 		}
 
@@ -689,6 +691,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 		ProtoBroadcastAck((UINT_PTR)dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 		// Free transfer
 		gg_free_dcc(dcc);
+
 		return nullptr;
 	}
 
@@ -707,7 +710,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 
 HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 {
-	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
+	gg_dcc7 *dcc7 = (gg_dcc7 *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_u2a(szPath);
 	mir_snprintf(fileName, "%s%s", path, dcc7->filename);
 	dcc7->folder = _strdup((char*)path);
@@ -725,6 +728,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 		ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
 		// Free transfer
 		gg_dcc7_free(dcc7);
+
 		return nullptr;
 	}
 
@@ -739,6 +743,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 		ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 		// Free transfer
 		gg_dcc7_free(dcc7);
+
 		return nullptr;
 	}
 
@@ -758,7 +763,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 
 int GGPROTO::dccfiledeny(HANDLE hTransfer)
 {
-	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
+	gg_dcc *dcc = (gg_dcc *) hTransfer;
 
 	// Remove transfer from any list
 	gg_EnterCriticalSection(&ft_mutex, "dccfiledeny", 42, "ft_mutex", 1);
@@ -782,7 +787,7 @@ int GGPROTO::dccfiledeny(HANDLE hTransfer)
 
 int GGPROTO::dcc7filedeny(HANDLE hTransfer)
 {
-	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
+	gg_dcc7 *dcc7 = (gg_dcc7 *) hTransfer;
 
 	gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
 
@@ -806,7 +811,7 @@ int GGPROTO::dcc7filedeny(HANDLE hTransfer)
 
 int GGPROTO::dccfilecancel(HANDLE hTransfer)
 {
-	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
+	gg_dcc *dcc = (gg_dcc *) hTransfer;
 
 	// Remove transfer from any list
 	gg_EnterCriticalSection(&ft_mutex, "dccfilecancel", 44, "ft_mutex", 1);
@@ -839,7 +844,7 @@ int GGPROTO::dccfilecancel(HANDLE hTransfer)
 
 int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 {
-	struct gg_dcc7 *dcc7 = (struct gg_dcc7 *) hTransfer;
+	gg_dcc7 *dcc7 = (gg_dcc7 *) hTransfer;
 
 	if (dcc7->type == GG_SESSION_DCC7_SEND && dcc7->state == GG_STATE_WAITING_FOR_ACCEPT)
 		gg_dcc7_abort(dcc7);
@@ -877,7 +882,7 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	// Check if its proper dcc
-	struct gg_common *c = (struct gg_common *) hTransfer;
+	gg_common *c = (gg_common *) hTransfer;
 	if (!c)
 		return nullptr;
 
@@ -893,7 +898,7 @@ HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 int GGPROTO::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	// Check if its proper dcc
-	struct gg_common *c = (struct gg_common *) hTransfer;
+	gg_common *c = (gg_common *) hTransfer;
 	if (!c)
 		return 0;
 
@@ -909,7 +914,7 @@ int GGPROTO::FileCancel(MCONTACT, HANDLE hTransfer)
 int GGPROTO::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 {
 	// Check if its proper dcc
-	struct gg_common *c = (struct gg_common *) hTransfer;
+	gg_common *c = (gg_common *) hTransfer;
 	if (!c)
 		return 0;
 
@@ -954,7 +959,9 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 		if (!dcc7) {
 			gg_LeaveCriticalSection(&sess_mutex, "SendFile", 46, 1, "sess_mutex", 1);
 			debugLogA("SendFile(): Failed to send file \"%s\".", filename);
+
 			mir_free(filename);
+
 			return ftfail(this, hContact);
 		}
 		gg_LeaveCriticalSection(&sess_mutex, "SendFile", 46, 2, "sess_mutex", 1);
@@ -974,7 +981,9 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 			*(bslash + 1) = 0;
 		else
 			*(dcc7->folder) = 0;
+
 		mir_free(filename);
+
 		return dcc7;
 	}
 
@@ -983,6 +992,7 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 	{
 		debugLogA("SendFile(): Bad contact uin or my uin. Exit.");
 		mir_free(filename);
+
 		return ftfail(this, hContact);
 	}
 
@@ -1011,6 +1021,7 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 		debugLogA("SendFile(): Cannot open and file fileinfo \"%s\".", filename);
 		gg_free_dcc(dcc);
 		mir_free(filename);
+
 		return ftfail(this, hContact);
 	}
 
@@ -1032,5 +1043,6 @@ HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles
 		*(dcc->folder) = 0;
 
 	mir_free(filename);
+
 	return dcc;
 }

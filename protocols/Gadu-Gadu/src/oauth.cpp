@@ -31,18 +31,18 @@
 // RSA-SHA1 signature method (see RFC 3447 section 8.2
 // and RSASSA-PKCS1-v1_5 algorithm) is unimplemented
 
-typedef struct
+struct OAUTHPARAMETER
 {
 	char *name;
 	char *value;
-} OAUTHPARAMETER;
+};
 
-typedef enum
+enum OAUTHSIGNMETHOD
 {
 	HMACSHA1,
 	RSASHA1,
 	PLAINTEXT
-} OAUTHSIGNMETHOD;
+};
 
 static int paramsortFunc(const OAUTHPARAMETER *p1, const OAUTHPARAMETER *p2)
 {
@@ -228,6 +228,7 @@ char* oauth_generate_nonce()
 
 	BYTE digest[16];
 	mir_md5_hash((BYTE*)str.GetString(), str.GetLength(), digest);
+
 	return bin2hex(digest, sizeof(digest), (char *)mir_alloc(32 + 1));
 }
 
@@ -244,9 +245,17 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	oauth_setparam(oauth_parameters, "oauth_consumer_key", consumer_key);
 	oauth_setparam(oauth_parameters, "oauth_version", "1.0");
 	switch (signmethod) {
-	case HMACSHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "HMAC-SHA1"); break;
-	case RSASHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "RSA-SHA1"); break;
-	default: oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT"); break;
+	case HMACSHA1:
+		oauth_setparam(oauth_parameters, "oauth_signature_method", "HMAC-SHA1");
+		break;
+
+	case RSASHA1:
+		oauth_setparam(oauth_parameters, "oauth_signature_method", "RSA-SHA1");
+		break;
+
+	default:
+		oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT");
+		break;
 	};
 	mir_snprintf(timestamp, "%ld", time(nullptr));
 	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
@@ -284,7 +293,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 
 int GGPROTO::oauth_receivetoken()
 {
-	char szUrl[256], uin[32], *str, *token = nullptr, *token_secret = nullptr;
+	char szUrl[256], uin[32], *token = nullptr, *token_secret = nullptr;
 	int res = 0;
 	HNETLIBCONN nlc = nullptr;
 
@@ -294,7 +303,7 @@ int GGPROTO::oauth_receivetoken()
 	// 1. Obtaining an Unauthorized Request Token
 	debugLogA("oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
 	mir_strcpy(szUrl, "http://api.gadu-gadu.pl/request_token");
-	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, nullptr, nullptr);
+	char *str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, nullptr, nullptr);
 
 	NETLIBHTTPHEADER httpHeaders[3];
 	httpHeaders[0].szName = "User-Agent";

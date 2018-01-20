@@ -20,11 +20,11 @@
 
 #include "gg.h"
 
-typedef struct
+struct GG_REMIND_PASS
 {
 	uin_t uin;
 	const char *email;
-} GG_REMIND_PASS;
+};
 
 //////////////////////////////////////////////////////////
 // remind password
@@ -32,9 +32,7 @@ typedef struct
 void __cdecl GGPROTO::remindpasswordthread(void *param)
 {
 	// Connection handle
-	struct gg_http *h;
 	GG_REMIND_PASS *rp = (GG_REMIND_PASS *)param;
-	GGTOKEN token;
 
 	debugLogA("remindpasswordthread(): Started.");
 	if (!rp || !rp->email || !rp->uin || !mir_strlen(rp->email))
@@ -47,6 +45,7 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 	}
 
 	// Get token
+	GGTOKEN token;
 	if (!gettoken(&token)) {
 #ifdef DEBUGMODE
 		debugLogA("remindpasswordthread(): End. err2");
@@ -54,7 +53,8 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 		return;
 	}
 
-	if (!(h = gg_remind_passwd3(rp->uin, rp->email, token.id, token.val, 0)))
+	gg_http *h = gg_remind_passwd3(rp->uin, rp->email, token.id, token.val, 0);
+	if (!h)
 	{
 		wchar_t error[128];
 		mir_snwprintf(error, TranslateT("Password could not be reminded because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);

@@ -45,10 +45,6 @@ CLIST_INTERFACE *pcli;
 int hLangpack;
 LIST<GGPROTO> g_Instances(1, PtrKeySortT);
 
-// Event hooks
-static HANDLE hHookModulesLoaded = nullptr;
-static HANDLE hHookPreShutdown = nullptr;
-
 static unsigned long crc_table[256];
 
 //////////////////////////////////////////////////////////
@@ -67,6 +63,7 @@ wchar_t* ws_strerror(int code)
 			mir_snwprintf(err_desc, L"WinSock %u: Unknown error.", WSAGetLastError());
 		else
 			mir_snwprintf(err_desc, L"WinSock %d: %s", WSAGetLastError(), buff);
+
 		return err_desc;
 	}
 
@@ -87,6 +84,7 @@ char* as_strerror(int code)
 			mir_snprintf(err_desc, "WinSock %u: Unknown error.", WSAGetLastError());
 		else
 			 mir_snprintf(err_desc, "WinSock %d: %s", WSAGetLastError(), buff);
+
 		return err_desc;
 	}
 
@@ -244,6 +242,7 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 		Menu_ShowItem(gg->hBlockMenuItem, false);
 	else
 		Menu_ModifyItem(gg->hBlockMenuItem, gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENW("&Unblock") : LPGENW("&Block"));
+
 	return 0;
 }
 
@@ -254,6 +253,7 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM)
 {
 	setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
 	notifyuser(hContact, 1);
+
 	return 0;
 }
 
@@ -338,8 +338,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	// Hook system events
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
 
 	// Prepare protocol name
 	PROTOCOLDESCRIPTOR pd = { 0 };
@@ -423,6 +422,7 @@ const char *ggdebug_eventtype(gg_event *e)
 	for (i = 0; ggdebug_eventype2string[i].type != -1; i++)
 		if (ggdebug_eventype2string[i].type == e->type)
 			return ggdebug_eventype2string[i].text;
+
 	return ggdebug_eventype2string[i].text;
 }
 

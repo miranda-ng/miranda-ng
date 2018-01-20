@@ -512,11 +512,11 @@ HWND GGPROTO::CreateExtendedSearchUI(HWND owner)
 		MAKEINTRESOURCE(IDD_GGADVANCEDSEARCH), owner, gg_advancedsearchdlgproc, (LPARAM)this);
 }
 
-typedef struct
+struct GG_SEQ_ACK
 {
 	MCONTACT hContact;
 	int seq;
-} GG_SEQ_ACK;
+};
 
 void __cdecl GGPROTO::sendackthread(void *ack)
 {
@@ -553,6 +553,7 @@ int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 			ForkThread(&GGPROTO::sendackthread, ack);
 		}
 	}
+
 	return seq;
 }
 
@@ -563,6 +564,7 @@ int GGPROTO::SetApparentMode(MCONTACT hContact, int mode)
 {
 	setWord(hContact, GG_KEY_APPARENT, (WORD)mode);
 	notifyuser(hContact, 1);
+
 	return 0;
 }
 
@@ -741,5 +743,6 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 	case EV_PROTO_DBSETTINGSCHANGED:
 		return dbsettingchanged(wParam, lParam);
 	}
+
 	return TRUE;
 }

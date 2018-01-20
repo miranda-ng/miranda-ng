@@ -233,7 +233,7 @@ struct GGPROTO : public PROTO<GGPROTO>
 	HANDLE hConnStopEvent;
 	SOCKET sock;
 	UINT_PTR timer;
-	struct
+	struct Modemsg
 	{
 		wchar_t *online;
 		wchar_t *away;
@@ -241,7 +241,8 @@ struct GGPROTO : public PROTO<GGPROTO>
 		wchar_t *freechat;
 		wchar_t *invisible;
 		wchar_t *offline;
-	} modemsg;
+	};
+	Modemsg modemsg;
 
 	HGENMENU hMainMenu[7];
 	HGENMENU hBlockMenuItem, hImageMenuItem, hInstanceMenuItem;
@@ -251,14 +252,14 @@ struct GGPROTO : public PROTO<GGPROTO>
 	HANDLE   hPopupNotify, hPopupError;
 };
 
-typedef struct
+struct GGUSERUTILDLGDATA
 {
 	int mode;
 	uin_t uin;
 	char *pass;
 	char *email;
 	GGPROTO *gg;
-} GGUSERUTILDLGDATA;
+};
 
 
 #ifdef DEBUGMODE

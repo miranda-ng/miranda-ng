@@ -56,6 +56,7 @@ void GGPROTO::keepalive_init()
 	{
 		int i;
 		for (i = 0; i < MAX_TIMERS && g_timers[i] != nullptr; i++);
+
 		if (i < MAX_TIMERS)
 		{
 #ifdef DEBUGMODE

@@ -151,10 +151,7 @@ void GGPROTO::disconnect()
 // DNS lookup function
 uint32_t gg_dnslookup(GGPROTO *gg, char *host)
 {
-	uint32_t ip;
-	struct hostent *he;
-
-	ip = inet_addr(host);
+	uint32_t ip = inet_addr(host);
 	if (ip != INADDR_NONE)
 	{
 #ifdef DEBUGMODE
@@ -162,7 +159,8 @@ uint32_t gg_dnslookup(GGPROTO *gg, char *host)
 #endif
 		return ip;
 	}
-	he = gethostbyname(host);
+
+	hostent *he = gethostbyname(host);
 	if (he)
 	{
 		ip = *(uint32_t *)he->h_addr_list[0];
@@ -172,17 +170,19 @@ uint32_t gg_dnslookup(GGPROTO *gg, char *host)
 #endif
 		return ip;
 	}
+
 	gg->debugLogA("gg_dnslookup(): Cannot resolve hostname \"%s\".", host);
+
 	return 0;
 }
 
 ////////////////////////////////////////////////////////////
 // Host list decoder
-typedef struct
+struct GGHOST
 {
 	char hostname[128];
 	int port;
-} GGHOST;
+};
 
 #define ISHOSTALPHA(a) (((a) >= '0' && (a) <= '9') || ((a) >= 'a' && (a) <= 'z') || (a) == '.' || (a) == '-')
 
@@ -230,30 +230,20 @@ int gg_decodehosts(char *var, GGHOST *hosts, int max)
 // Main connection session thread
 void __cdecl GGPROTO::mainthread(void *)
 {
-	// Miranda variables
-	NETLIBUSERSETTINGS nlus = { 0 };
-	DBVARIANT dbv;
-	// Gadu-Gadu variables
-	gg_login_params p = { 0 };
-	gg_event *e;
-	struct gg_session *local_sess;
-	// Host cycling variables
-	int hostnum = 0, hostcount = 0;
-	GGHOST hosts[64];
 	// Gadu-gadu login errors
 	static const struct tagReason { int type; wchar_t *str; } reason[] = {
 		{ GG_FAILURE_RESOLVING,   LPGENW("Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.") },
-	{ GG_FAILURE_CONNECTING,  LPGENW("Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.") },
-	{ GG_FAILURE_INVALID,     LPGENW("Received invalid server response.") },
-	{ GG_FAILURE_READING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
-	{ GG_FAILURE_WRITING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
-	{ GG_FAILURE_PASSWORD,    LPGENW("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.") },
-	{ GG_FAILURE_404,         LPGENW("Connecting to Gadu-Gadu hub failed.") },
-	{ GG_FAILURE_TLS,         LPGENW("Cannot establish secure connection.") },
-	{ GG_FAILURE_NEED_EMAIL,  LPGENW("Server disconnected asking you for changing your e-mail.") },
-	{ GG_FAILURE_INTRUDER,    LPGENW("Too many login attempts with invalid password.") },
-	{ GG_FAILURE_UNAVAILABLE, LPGENW("Gadu-Gadu servers are now down. Try again later.") },
-	{ 0,                      LPGENW("Unknown") }
+		{ GG_FAILURE_CONNECTING,  LPGENW("Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.") },
+		{ GG_FAILURE_INVALID,     LPGENW("Received invalid server response.") },
+		{ GG_FAILURE_READING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
+		{ GG_FAILURE_WRITING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
+		{ GG_FAILURE_PASSWORD,    LPGENW("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.") },
+		{ GG_FAILURE_404,         LPGENW("Connecting to Gadu-Gadu hub failed.") },
+		{ GG_FAILURE_TLS,         LPGENW("Cannot establish secure connection.") },
+		{ GG_FAILURE_NEED_EMAIL,  LPGENW("Server disconnected asking you for changing your e-mail.") },
+		{ GG_FAILURE_INTRUDER,    LPGENW("Too many login attempts with invalid password.") },
+		{ GG_FAILURE_UNAVAILABLE, LPGENW("Gadu-Gadu servers are now down. Try again later.") },
+		{ 0,                      LPGENW("Unknown") }
 	};
 	time_t logonTime = 0;
 	time_t timeDeviation = getWord(GG_KEY_TIMEDEVIATION, GG_KEYDEF_TIMEDEVIATION);
@@ -270,6 +260,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	broadcastnewstatus(ID_STATUS_CONNECTING);
 
 	// Client version and misc settings
+	gg_login_params p = { 0 };
 	p.client_version = GG_DEFAULT_CLIENT_VERSION;
 	p.protocol_version = GG_DEFAULT_PROTOCOL_VERSION;
 	p.protocol_features = GG_FEATURE_DND_FFC | GG_FEATURE_UNKNOWN_100 | GG_FEATURE_USER_DATA | GG_FEATURE_MSG_ACK | GG_FEATURE_TYPING_NOTIFICATION | GG_FEATURE_MULTILOGON;
@@ -282,6 +273,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	p.era_omnix = getByte("EraOmnix", 0);
 
 	// Setup proxy
+	NETLIBUSERSETTINGS nlus = { 0 };
 	nlus.cbSize = sizeof(nlus);
 	if (Netlib_GetUserSettings(m_hNetlibUser, &nlus)) {
 		if (nlus.useProxy)
@@ -301,6 +293,10 @@ void __cdecl GGPROTO::mainthread(void *)
 	}
 
 	// Check out manual host setting
+	DBVARIANT dbv;
+	int hostcount = 0;
+	GGHOST hosts[64];
+
 	if (getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST)) {
 		if (!getString(GG_KEY_SERVERHOSTS, &dbv)) {
 			hostcount = gg_decodehosts(dbv.pszVal, hosts, 64);
@@ -377,6 +373,8 @@ void __cdecl GGPROTO::mainthread(void *)
 	if (dcc)
 		p.client_port = dcc->port;
 
+	int hostnum = 0;
+
 retry:
 	// Loadup startup status & description
 	gg_EnterCriticalSection(&modemsg_mutex, "mainthread", 13, "modemsg_mutex", 1);
@@ -410,6 +408,7 @@ retry:
 	}
 
 	// Send login request
+	struct gg_session *local_sess;
 	if (!(local_sess = gg_login(&p, &sock, &gg_failno))) {
 		broadcastnewstatus(ID_STATUS_OFFLINE);
 		// Check if connection attempt wasn't cancelled by the user
@@ -450,7 +449,9 @@ retry:
 
 				// Reconnect to the next server on the list
 				if (bRetry) {
-					if (hostnum < hostcount - 1) hostnum++;
+					if (hostnum < hostcount - 1)
+						++hostnum;
+
 					mir_free(p.status_descr);
 					broadcastnewstatus(ID_STATUS_CONNECTING);
 					goto retry;
@@ -496,6 +497,8 @@ retry:
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// Main loop
+	gg_event *e;
+
 	while (isonline())
 	{
 		// Connection broken/closed

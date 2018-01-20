@@ -50,6 +50,7 @@ HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, "%s_%s", GGDEF_PROTO, name);
+
 	return IcoLib_GetIcon(szSettingName, big);
 }
 

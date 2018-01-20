@@ -160,6 +160,7 @@ int GGPROTO::gc_event(WPARAM, LPARAM lParam)
 		}
 		else
 			nickT = mir_wstrdup(TranslateT("Me"));
+
 		gce.ptszNick = nickT;
 
 		// Get rid of CRLF at back
@@ -208,11 +209,10 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 {
 	list_t l;
 	GGGC *chat;
-	wchar_t id[32];
-	uin_t uin;
 
 	debugLogA("gc_getchat(): Count %d.", recipients_count);
-	if (!recipients) return nullptr;
+	if (!recipients)
+		return nullptr;
 
 	// Look for existing chat
 	for (l = chats; l; l = l->next)
@@ -222,9 +222,9 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 
 		if (chat->recipients_count == recipients_count + (sender ? 1 : 0))
 		{
-			int i, j, found = 0, sok = (sender == 0);
+			int sok = (sender == 0);
 			if (!sok) {
-				for (i = 0; i < chat->recipients_count; i++) {
+				for (int i = 0; i < chat->recipients_count; i++) {
 					if (sender == chat->recipients[i])
 					{
 						sok = 1;
@@ -232,10 +232,14 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 					}
 				}
 			}
+
+			int found = 0;
 			if (sok)
-				for (i = 0; i < chat->recipients_count; i++)
-					for (j = 0; j < recipients_count; j++)
-						if (recipients[j] == chat->recipients[i]) found++;
+				for (int i = 0; i < chat->recipients_count; i++)
+					for (int j = 0; j < recipients_count; j++)
+						if (recipients[j] == chat->recipients[i])
+							++found;
+
 			// Found all recipients
 			if (found == recipients_count)
 			{
@@ -260,13 +264,17 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 			unknownSender = unknown;
 		for (int i = 0; i < recipients_count; i++)
 			if (!getcontact(recipients[i], 0, 0, nullptr))
-				unknown++;
+				++unknown;
+
 		if ((getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 2) ||
 			(getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 2 &&
 				recipients_count >= getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
 				(getWord(GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 2 &&
 					unknown >= getWord(GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN)))
+		{
 			chat->ignore = TRUE;
+		}
+
 		if (!chat->ignore && ((getWord(GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 1) ||
 			(getWord(GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 1 &&
 				recipients_count >= getWord(GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
@@ -280,6 +288,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 				senderName, recipients_count + 1, unknown);
 			chat->ignore = MessageBox(nullptr, error, m_tszUserName, MB_OKCANCEL | MB_ICONEXCLAMATION) != IDOK;
 		}
+
 		if (chat->ignore)
 		{
 			// Copy recipient list
@@ -317,12 +326,15 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	// Add normal group
 	Chat_AddGroup(m_szModuleName, chat->id, TranslateT("Participants"));
 
+	wchar_t id[32];
+
 	GCEVENT gce = { m_szModuleName, chat->id, GC_EVENT_JOIN };
 	gce.ptszUID = id;
 	gce.dwFlags = GCEF_ADDTOLOG;
 
 	// Add myself
-	if (uin = getDword(GG_KEY_UIN, 0))
+	uin_t uin = getDword(GG_KEY_UIN, 0);
+	if (uin)
 	{
 		UIN2IDT(uin, id);
 
@@ -367,6 +379,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 
 	debugLogW(L"gc_getchat(): Returning new chat window %s, count %d.", chat->id, chat->recipients_count);
 	list_add(&chats, chat, 0);
+
 	return chat->id;
 }
 
@@ -382,7 +395,8 @@ static MCONTACT gg_getsubcontact(GGPROTO* gg, MCONTACT hContact)
 				return hMetaContact;
 		}
 	}
-	return NULL;
+
+	return 0;
 }
 
 static void gg_gc_resetclistopts(HWND hwndList)
@@ -396,8 +410,9 @@ static int gg_gc_countcheckmarks(HWND hwndList)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
-			count++;
+			++count;
 	}
+
 	return count;
 }
 
@@ -442,7 +457,6 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 			else if (hwndList && (count = gg_gc_countcheckmarks(hwndList)) >= 2)
 			{
 				// Create new participiants table
-				wchar_t* chat;
 				uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
 				gg->debugLogA("gg_gc_openconfdlg(): WM_COMMAND IDOK Opening new conference for %d contacts.", count);
 				for (MCONTACT hContact = db_find_first(); hContact && i < count; hContact = db_find_next(hContact)) {
@@ -452,8 +466,10 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 						participants[i++] = db_get_dw(hMetaContact ? hMetaContact : hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
 					}
 				}
-				if (count > i) i = count;
-				chat = gg->gc_getchat(0, participants, count);
+				if (count > i)
+					i = count;
+
+				wchar_t *chat = gg->gc_getchat(0, participants, count);
 				if (chat)
 					Chat_Control(gg->m_szModuleName, chat, WINDOW_VISIBLE);
 
@@ -488,7 +504,8 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 				uin_t uin;
 				GGPROTO* gg = (GGPROTO*)GetWindowLongPtr(hwndDlg, DWLP_USER);
 
-				if (!gg) break;
+				if (!gg)
+					break;
 
 				// Delete non-gg contacts
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -548,7 +565,8 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 
 INT_PTR GGPROTO::gc_clearignored(WPARAM, LPARAM)
 {
-	list_t l = chats; BOOL cleared = FALSE;
+	list_t l = chats;
+	BOOL cleared = FALSE;
 	while (l)
 	{
 		GGGC *chat = (GGGC *)l->data;

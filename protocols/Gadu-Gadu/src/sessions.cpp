@@ -86,10 +86,10 @@ static int gg_insertlistitem(HWND hList, gg_multilogon_id_t* id, const char* cli
 static void gg_listsessions(GGPROTO* gg, HWND hwndDlg)
 {
 	HWND hList = GetDlgItem(hwndDlg, IDC_SESSIONS);
-	list_t l;
-
 	if (!hList)
 		return;
+
+	list_t l;
 
 	gg->gg_EnterCriticalSection(&gg->sessions_mutex, "gg_listsessions", 73, "sessions_mutex", 1);
 	for (l = gg->sessions; l; l = l->next)
@@ -104,6 +104,7 @@ static void gg_listsessions(GGPROTO* gg, HWND hwndDlg)
 		gg_insertlistitem(hList, &sess->id, sess->name, ip, loginTime);
 	}
 	gg->gg_LeaveCriticalSection(&gg->sessions_mutex, "gg_listsessions", 73, 1, "sessions_mutex", 1);
+
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SIGNOUTALL), ListView_GetItemCount(hList) > 0);
 }
 
@@ -384,6 +385,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 		break;
 	}
 	}
+
 	return FALSE;
 }
 
@@ -410,6 +412,7 @@ BOOL GGPROTO::sessions_closedlg()
 {
 	if (hwndSessionsDlg && IsWindow(hwndSessionsDlg))
 		return PostMessage(hwndSessionsDlg, WM_CLOSE, 0, 0);
+
 	return FALSE;
 }
 
