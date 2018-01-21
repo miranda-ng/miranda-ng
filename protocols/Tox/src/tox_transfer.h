@@ -13,7 +13,7 @@ struct FileTransferParam
 
 	FileTransferParam(uint32_t friendNumber, uint32_t fileNumber, const wchar_t *fileName, uint64_t fileSize)
 	{
-		hFile = NULL;
+		hFile = nullptr;
 		this->friendNumber = friendNumber;
 		this->fileNumber = fileNumber;
 		transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
@@ -24,12 +24,12 @@ struct FileTransferParam
 		pfts.totalFiles = 1;
 		pfts.ptszFiles = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(pfts.totalFiles + 1));
 		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_wstrdup(fileName);
-		pfts.ptszFiles[pfts.totalFiles] = NULL;
+		pfts.ptszFiles[pfts.totalFiles] = nullptr;
 		pfts.totalBytes = pfts.currentFileSize = fileSize;
 		pfts.totalProgress = pfts.currentFileProgress = 0;
 		pfts.currentFileNumber = 0;
-		pfts.currentFileTime = time(NULL);
-		pfts.tszWorkingDir = NULL;
+		pfts.currentFileTime = now();
+		pfts.tszWorkingDir = nullptr;
 
 		transferType = TOX_FILE_KIND_DATA;
 	}
@@ -37,7 +37,7 @@ struct FileTransferParam
 	bool OpenFile(const wchar_t *mode)
 	{
 		hFile = _wfopen(pfts.tszCurrentFile, mode);
-		return hFile != NULL;
+		return hFile != nullptr;
 	}
 
 	void ChangeName(const wchar_t *fileName)
@@ -52,14 +52,14 @@ struct FileTransferParam
 
 	~FileTransferParam()
 	{
-		if (pfts.tszWorkingDir != NULL)
+		if (pfts.tszWorkingDir != nullptr)
 			mir_free(pfts.tszWorkingDir);
 		mir_free(pfts.pszFiles[0]);
 		mir_free(pfts.pszFiles);
-		if (hFile != NULL)
+		if (hFile != nullptr)
 		{
 			fclose(hFile);
-			hFile = NULL;
+			hFile = nullptr;
 		}
 	}
 };
@@ -89,39 +89,33 @@ public:
 	void Add(FileTransferParam *transfer)
 	{
 		if (transfers.find(transfer->transferNumber) == transfers.end())
-		{
 			transfers[transfer->transferNumber] = transfer;
-		}
 	}
 
 	FileTransferParam* Get(uint32_t friendNumber, uint32_t fileNumber)
 	{
 		int64_t transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
 		if (transfers.find(transferNumber) != transfers.end())
-		{
 			return transfers.at(transferNumber);
-		}
-		return NULL;
+		return nullptr;
 	}
 
 	FileTransferParam* GetAt(size_t index)
 	{
-		if (index < Count())
-		{
-			std::map<int64_t, FileTransferParam*>::iterator it = transfers.begin();
+		if (index < Count()) {
+			auto it = transfers.begin();
 			std::advance(it, index);
 			return it->second;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void Remove(FileTransferParam *transfer)
 	{
-		if (transfers.find(transfer->transferNumber) != transfers.end())
-		{
-			transfers.erase(transfer->transferNumber);
-			delete transfer;
-		}
+		if (transfer == nullptr)
+			return;
+		transfers.erase(transfer->transferNumber);
+		delete transfer;
 	}
 };
 

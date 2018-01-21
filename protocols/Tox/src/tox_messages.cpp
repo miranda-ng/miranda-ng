@@ -60,7 +60,7 @@ void CToxProto::OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYP
 	rawMessage[length] = 0;
 
 	PROTORECVEVENT recv = { 0 };
-	recv.timestamp = time(nullptr);
+	recv.timestamp = now();
 	recv.szMessage = rawMessage;
 	switch (type) {
 	case TOX_MESSAGE_TYPE_NORMAL:

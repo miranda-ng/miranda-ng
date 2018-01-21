@@ -42,6 +42,8 @@
 
 struct CToxProto;
 
+#define now() time(nullptr)
+
 #include "version.h"
 #include "resource.h"
 #include "tox_menus.h"

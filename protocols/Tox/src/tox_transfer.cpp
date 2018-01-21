@@ -52,7 +52,7 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 				PROTORECVFILET pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
-				pre.timestamp = time(nullptr);
+				pre.timestamp = now();
 				pre.descr.w = L"";
 				pre.files.w = &name;
 				pre.lParam = (LPARAM)transfer;
@@ -111,7 +111,7 @@ int CToxProto::OnFileResume(HANDLE hTransfer, int *action, const wchar_t **szFil
 		debugLogA(__FUNCTION__": failed to open file (%d) from %s(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 		tox_file_control(m_toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
 		transfers.Remove(transfer);
-		return NULL;
+		return 0;
 	}
 
 	TOX_ERR_FILE_CONTROL error;

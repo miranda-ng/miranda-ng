@@ -234,7 +234,7 @@ void CToxProto::OnFriendRequest(Tox*, const uint8_t *pubKey, const uint8_t *mess
 	DB_AUTH_BLOB blob(hContact, nullptr, nullptr, nullptr, (LPCSTR)address, (LPCSTR)message);
 
 	PROTORECVEVENT pre = { 0 };
-	pre.timestamp = time(nullptr);
+	pre.timestamp = now();
 	pre.lParam = blob.size();
 	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
