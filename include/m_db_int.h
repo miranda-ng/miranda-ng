@@ -74,8 +74,8 @@ interface MIDatabaseCache : public MZeroedObject
 	STDMETHOD_(DBCachedContact*, GetNextContact)(MCONTACT contactID) PURE;
 	STDMETHOD_(void, FreeCachedContact)(MCONTACT contactID) PURE;
 
-	STDMETHOD_(char*, InsertCachedSetting)(const char *szName, int) PURE;
-	STDMETHOD_(char*, GetCachedSetting)(const char *szModuleName, const char *szSettingName, int, int) PURE;
+	STDMETHOD_(char*, InsertCachedSetting)(const char *szName, size_t) PURE;
+	STDMETHOD_(char*, GetCachedSetting)(const char *szModuleName, const char *szSettingName, size_t, size_t) PURE;
 	STDMETHOD_(void, SetCachedVariant)(DBVARIANT *s, DBVARIANT *d) PURE;
 	STDMETHOD_(DBVARIANT*, GetCachedValuePtr)(MCONTACT contactID, char *szSetting, int bAllocate) PURE;
 };

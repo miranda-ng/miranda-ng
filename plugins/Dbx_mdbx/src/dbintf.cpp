@@ -35,7 +35,6 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 	mdbx_env_create(&m_env);
 	mdbx_env_set_maxdbs(m_env, 10);
 	mdbx_env_set_userctx(m_env, this);
-	//	mdbx_env_set_assert(m_env, MDBX_FailAssert);
 }
 
 CDbxMDBX::~CDbxMDBX()
@@ -170,7 +169,7 @@ int CDbxMDBX::Check(void)
 	return (memcmp(buf, bDefHeader, _countof(bDefHeader))) ? EGROKPRF_UNKHEADER : 0;
 }
 
-int CDbxMDBX::PrepareCheck(int*)
+int CDbxMDBX::PrepareCheck()
 {
 	InitModules();
 	return InitCrypt();
@@ -196,65 +195,6 @@ int CDbxMDBX::Map()
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
 	return mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static DWORD DatabaseCorrupted = 0;
-static const TCHAR *msg = NULL;
-static DWORD dwErr = 0;
-static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
-
-EXTERN_C void __cdecl dbpanic(void *)
-{
-	if (msg) {
-		if (dwErr == ERROR_DISK_FULL)
-			msg = TranslateT("Disk is full. Miranda will now shut down.");
-
-		TCHAR err[256];
-		mir_snwprintf(err, msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
-
-		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
-	}
-	else MessageBox(0, TranslateW(tszPanic), TranslateT("Database Panic"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
-	TerminateProcess(GetCurrentProcess(), 255);
-}
-
-
-EXTERN_C void MDBX_FailAssert(MDBX_env *env, const char *text)
-{
-	((CDbxMDBX*)mdbx_env_get_userctx(env))->DatabaseCorruption(_A2T(text));
-}
-
-EXTERN_C void MDBX_Log(const char *fmt, ...)
-{
-	va_list args;
-	va_start(args, fmt);
-	Netlib_Log(0, CMStringA().FormatV(fmt, args));
-	va_end(args);
-}
-
-void CDbxMDBX::DatabaseCorruption(const TCHAR *text)
-{
-	int kill = 0;
-
-	if (DatabaseCorrupted == 0) {
-		DatabaseCorrupted++;
-		kill++;
-		msg = text;
-		dwErr = GetLastError();
-	}
-	else {
-		/* db is already corrupted, someone else is dealing with it, wait here
-		so that we don't do any more damage */
-		Sleep(INFINITE);
-		return;
-	}
-
-	if (kill) {
-		_beginthread(dbpanic, 0, NULL);
-		Sleep(INFINITE);
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

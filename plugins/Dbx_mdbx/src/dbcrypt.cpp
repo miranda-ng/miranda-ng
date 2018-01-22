@@ -141,9 +141,9 @@ void CDbxMDBX::StoreKey()
 
 void CDbxMDBX::SetPassword(const wchar_t *ptszPassword)
 {
-	if (ptszPassword == NULL || *ptszPassword == 0) {
+	if (ptszPassword == nullptr || *ptszPassword == 0) {
 		m_bUsesPassword = false;
-		m_crypto->setPassword(NULL);
+		m_crypto->setPassword(nullptr);
 	}
 	else {
 		m_bUsesPassword = true;

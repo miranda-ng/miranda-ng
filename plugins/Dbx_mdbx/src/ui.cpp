@@ -72,7 +72,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		oldLangID = 0;
-		SetTimer(hwndDlg, 1, 200, NULL);
+		SetTimer(hwndDlg, 1, 200, nullptr);
 		LanguageChanged(hwndDlg);
 		return TRUE;
 

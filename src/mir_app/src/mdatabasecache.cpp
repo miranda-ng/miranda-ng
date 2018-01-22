@@ -119,7 +119,7 @@ void MDatabaseCache::FreeCachedContact(MCONTACT contactID)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* MDatabaseCache::InsertCachedSetting(const char* szName, int cbLen)
+char* MDatabaseCache::InsertCachedSetting(const char* szName, size_t cbLen)
 {
 	char* newValue = (char*)HeapAlloc(m_hCacheHeap, 0, cbLen);
 	*newValue++ = 0;
@@ -131,7 +131,7 @@ char* MDatabaseCache::InsertCachedSetting(const char* szName, int cbLen)
 	return newValue;
 }
 
-char* MDatabaseCache::GetCachedSetting(const char *szModuleName, const char *szSettingName, int moduleNameLen, int settingNameLen)
+char* MDatabaseCache::GetCachedSetting(const char *szModuleName, const char *szSettingName, size_t moduleNameLen, size_t settingNameLen)
 {
 	char szFullName[512];
 	const char *szKey;

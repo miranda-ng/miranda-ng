@@ -46,8 +46,8 @@ protected:
 	STDMETHODIMP_(DBCachedContact*) GetNextContact(MCONTACT contactID);
 	STDMETHODIMP_(void) FreeCachedContact(MCONTACT contactID);
 
-	STDMETHODIMP_(char*) InsertCachedSetting(const char *szName, int);
-	STDMETHODIMP_(char*) GetCachedSetting(const char *szModuleName, const char *szSettingName, int, int);
+	STDMETHODIMP_(char*) InsertCachedSetting(const char *szName, size_t size);
+	STDMETHODIMP_(char*) GetCachedSetting(const char *szModuleName, const char *szSettingName, size_t, size_t);
 	STDMETHODIMP_(void)  SetCachedVariant(DBVARIANT *s, DBVARIANT *d);
 	STDMETHODIMP_(DBVARIANT*) GetCachedValuePtr(MCONTACT contactID, char *szSetting, int bAllocate);
 };

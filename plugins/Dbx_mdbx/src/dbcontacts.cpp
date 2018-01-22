@@ -103,7 +103,7 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::AddContact()
 STDMETHODIMP_(BOOL) CDbxMDBX::IsDbContact(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	return (cc != NULL);
+	return (cc != nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -134,11 +134,12 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		EventItem *EI = list[i];
 		{
 			txn_ptr trnlck(m_env);
+
 			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
 			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
-
 			if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
 				return 1;
+
 			if (trnlck.commit() != MDBX_SUCCESS)
 				return 1;
 		}
@@ -179,7 +180,7 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 	txn_ptr trnlck(m_env);
 	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
-	if(mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
+	if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
 		return 1;
 	if (trnlck.commit() != MDBX_SUCCESS)
 		return 1;
@@ -237,10 +238,10 @@ void CDbxMDBX::FillContacts()
 			for (int k = 0; k < cc->nSubs; k++) {
 				char setting[100];
 				mir_snprintf(setting, _countof(setting), "Handle%d", k);
-				cc->pSubs[k] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
+				cc->pSubs[k] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? 0 : dbv.dVal;
 			}
 		}
 		cc->nDefault = (0 != GetContactSetting(cc->contactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(cc->contactID, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(cc->contactID, META_PROTO, "ParentMeta", &dbv)) ? 0 : dbv.dVal;
 	}
 }

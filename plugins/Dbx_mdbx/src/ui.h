@@ -158,7 +158,7 @@ class CEnterPasswordDialog : public CDlgBase
 		{
 			m_header.SetText(TranslateT("Please type in your password"));
 		}
-		SetTimer(m_hwnd, 1, 200, NULL);
+		SetTimer(m_hwnd, 1, 200, nullptr);
 	}
 
 	void OnOK(CCtrlButton*)

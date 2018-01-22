@@ -41,7 +41,7 @@ static PLUGININFOEX pluginInfo =
 	{ 0x7c3d0a33, 0x2646, 0x4001, { 0x91, 0x7, 0xf3, 0x5e, 0xa2, 0x99, 0xd2, 0x92 } }
 };
 
-HINSTANCE g_hInst = NULL;
+HINSTANCE g_hInst = nullptr;
 
 LIST<CDbxMDBX> g_Dbs(1, HandleKeySortT);
 
@@ -69,7 +69,7 @@ static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, (bReadOnly) ? DBMODE_READONLY : 0));
 	if (db->Load(false) != ERROR_SUCCESS)
-		return NULL;
+		return nullptr;
 
 	g_Dbs.insert(db.get());
 	return db.release();
@@ -87,11 +87,13 @@ MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
 	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, DBMODE_READONLY));
 	if (db->Load(true) != ERROR_SUCCESS) {
 		*error = ERROR_ACCESS_DENIED;
-		return NULL;
+		return nullptr;
 	}
 
-	if (db->PrepareCheck(error))
-		return NULL;
+	if (db->PrepareCheck()) {
+		*error = ERROR_BAD_FORMAT;
+		return nullptr;
+	}
 
 	return db.release();
 }

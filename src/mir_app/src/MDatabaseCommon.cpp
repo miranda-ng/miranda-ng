@@ -48,7 +48,7 @@ int MDatabaseCommon::CheckProto(DBCachedContact *cc, const char *proto)
 		if (GetContactSettingStatic(cc->contactID, "Protocol", "p", &dbv) != 0 || (dbv.type != DBVT_ASCIIZ))
 			return 0;
 
-		cc->szProto = m_cache->GetCachedSetting(nullptr, protobuf, 0, (int)mir_strlen(protobuf));
+		cc->szProto = m_cache->GetCachedSetting(nullptr, protobuf, 0, mir_strlen(protobuf));
 	}
 
 	return !mir_strcmp(cc->szProto, proto);
@@ -297,7 +297,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::EnumResidentSettings(DBMODULEENUMPROC pFunc
 
 STDMETHODIMP_(BOOL) MDatabaseCommon::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
-	char *szSetting = m_cache->GetCachedSetting(nullptr, pszSettingName, 0, (int)mir_strlen(pszSettingName));
+	char *szSetting = m_cache->GetCachedSetting(nullptr, pszSettingName, 0, mir_strlen(pszSettingName));
 	szSetting[-1] = (char)bIsResident;
 
 	mir_cslock lck(m_csDbAccess);

@@ -135,13 +135,11 @@ struct CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZero
 	int Create(void);
 	int Check(void);
 
-	void DatabaseCorruption(const TCHAR *ptszText);
-
 	void StoreKey(void);
 	void SetPassword(const wchar_t *ptszPassword);
 	void UpdateMenuItem(void);
 
-	int  PrepareCheck(int*);
+	int  PrepareCheck();
 
 	__forceinline LPSTR GetMenuTitle() const { return m_bUsesPassword ? (char*)LPGEN("Change/remove password") : (char*)LPGEN("Set password"); }
 
