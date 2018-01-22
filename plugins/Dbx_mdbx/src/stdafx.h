@@ -59,7 +59,7 @@ public:
 	{
 		int rc = mdbx_txn_begin(pEnv, NULL, 0, &m_txn);
 		/* FIXME: throw an exception */
-		assert(rc == MDBX_SUCCESS);
+		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
 	}
 
@@ -89,7 +89,7 @@ public:
 	{
 		int rc = mdbx_txn_abort(m_txn);
 		/* FIXME: throw an exception */
-		assert(rc == MDBX_SUCCESS);
+		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
 		m_txn = nullptr;
 	}
@@ -114,14 +114,14 @@ public:
 	{
 		int rc = mdbx_txn_renew(m_txn);
 		/* FIXME: throw an exception */
-		assert(rc == MDBX_SUCCESS);
+		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
 	}
 	__forceinline ~txn_ptr_ro()
 	{
 		int rc = mdbx_txn_reset(m_txn);
 		/* FIXME: throw an exception */
-		assert(rc == MDBX_SUCCESS);
+		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
 	}
 	__forceinline operator MDBX_txn*() const { return m_txn; }
@@ -155,7 +155,7 @@ public:
 	{
 		int rc = mdbx_cursor_renew(mdbx_cursor_txn(m_cursor), m_cursor);
 		/* FIXME: throw an exception */
-		assert(rc == MDBX_SUCCESS);
+		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
 	}
 	__forceinline operator MDBX_cursor*() const { return m_cursor; }

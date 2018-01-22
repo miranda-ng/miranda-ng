@@ -216,16 +216,18 @@ void DBCachedContact::Revert()
 
 void CDbxMDBX::FillContacts()
 {
-	LIST<DBCachedContact> arContacts(m_contactCount);
+	{
+		txn_ptr_ro trnlck(m_txn);
+		cursor_ptr_ro cursor(m_curContacts);
 
-	txn_ptr_ro trnlck(m_txn);
-	cursor_ptr_ro cursor(m_curContacts);
+		MDBX_val key, data;
+		while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
+			DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.iov_base);
+			cc->dbc = *(DBContact*)data.iov_base;
+		}
+	}
 
-	MDBX_val key, data;
-	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
-		DBCachedContact *cc = m_cache->AddContactToCache(*(MCONTACT*)key.iov_base);
-		cc->dbc = *(DBContact*)data.iov_base;
-
+	for (DBCachedContact *cc = m_cache->GetFirstContact(); cc; cc = m_cache->GetNextContact(cc->contactID)) {
 		CheckProto(cc, "");
 
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
