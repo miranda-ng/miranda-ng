@@ -247,6 +247,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, szBuf, iLen + 1);
 					db_set_ws(0, CHAT_MODULE, "HighlightNames", szBuf);
 				}
+				else db_set_ws(0, CHAT_MODULE, "HighlightNames", L"");
 
 				iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN));
 				if (iLen) {

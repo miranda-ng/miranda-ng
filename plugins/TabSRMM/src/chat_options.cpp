@@ -351,12 +351,6 @@ HICON LoadIconEx(char *pszIcoLibName)
 	return IcoLib_GetIcon(szTemp);
 }
 
-static void InitSetting(wchar_t* &ppPointer, const char *pszSetting, const wchar_t *pszDefault)
-{
-	ptrW val(db_get_wsa(0, CHAT_MODULE, pszSetting));
-	replaceStrW(ppPointer, (val != nullptr) ? val : pszDefault);
-}
-
 #define OPT_FIXHEADINGS (WM_USER+1)
 
 static UINT _o1controls[] = { IDC_CHECKBOXES, IDC_GROUP, IDC_STATIC_ADD };
@@ -407,10 +401,8 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, _countof(branch1), 0x0000);
 			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, _countof(branch2), 0x0000);
 
-			wchar_t* pszGroup = nullptr;
-			InitSetting(pszGroup, "AddToGroup", L"Chat rooms");
-			SetDlgItemText(hwndDlg, IDC_GROUP, pszGroup);
-			mir_free(pszGroup);
+			ptrW pszGroup(db_get_wsa(0, CHAT_MODULE, "AddToGroup"));
+			SetDlgItemText(hwndDlg, IDC_GROUP, (pszGroup != nullptr) ? pszGroup : TranslateT("Chat rooms"));
 		}
 		break;
 
