@@ -79,8 +79,8 @@ class COptionsDlg : public CPluginDlgBase
 public:
     COptionsDlg(StartPositionPlugin* instance);
 
-    virtual void OnInitDialog() override;
-    virtual void OnApply() override;
+    void OnInitDialog() override;
+    void OnApply() override;
 
 private:
     void removeOldSettings();
