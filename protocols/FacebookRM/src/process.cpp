@@ -353,7 +353,7 @@ void FacebookProto::LoadHistory(void *pParam)
 	std::string lastMessageId;
 	int loadedMessages = 0;
 	int messagesPerBatch = messagesCount > 10000 ? 500 : 100;
-	for (int batch = 0; batch < messagesCount; batch += messagesPerBatch) {
+	for (int batch = 0, batchLimit = messagesCount + messagesPerBatch; batch < batchLimit; batch += messagesPerBatch) {
 		if (!isOnline())
 			break;
 
