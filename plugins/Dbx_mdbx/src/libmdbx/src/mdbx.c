@@ -2775,12 +2775,16 @@ int mdbx_txn_begin(MDBX_env *env, MDBX_txn *parent, unsigned flags,
     size = env->me_maxdbs * (sizeof(MDBX_db) + sizeof(MDBX_cursor *) + 1);
     size += tsize = sizeof(MDBX_ntxn);
   } else if (flags & MDBX_RDONLY) {
+    if (env->me_txn0 && unlikely(env->me_txn0->mt_owner == mdbx_thread_self()))
+      return MDBX_BUSY;
     size = env->me_maxdbs * (sizeof(MDBX_db) + 1);
     size += tsize = sizeof(MDBX_txn);
   } else {
     /* Reuse preallocated write txn. However, do not touch it until
      * mdbx_txn_renew0() succeeds, since it currently may be active. */
     txn = env->me_txn0;
+    if (unlikely(txn->mt_owner == mdbx_thread_self()))
+      return MDBX_BUSY;
     goto renew;
   }
   if (unlikely((txn = calloc(1, size)) == NULL)) {
@@ -3954,30 +3958,6 @@ static int __cold mdbx_read_header(MDBX_env *env, MDBX_meta *meta) {
       continue;
     }
 
-    /* LY: check mapsize limits */
-    const uint64_t mapsize_min =
-        page.mp_meta.mm_geo.lower * (uint64_t)page.mp_meta.mm_psize;
-    const uint64_t mapsize_max =
-        page.mp_meta.mm_geo.upper * (uint64_t)page.mp_meta.mm_psize;
-    STATIC_ASSERT(MAX_MAPSIZE < SSIZE_MAX - MAX_PAGESIZE);
-    STATIC_ASSERT(MIN_MAPSIZE < MAX_MAPSIZE);
-    if (mapsize_min < MIN_MAPSIZE || mapsize_max > MAX_MAPSIZE) {
-      mdbx_notice("meta[%u] has invalid min-mapsize (%" PRIu64 "), skip it",
-                  meta_number, mapsize_min);
-      rc = MDBX_VERSION_MISMATCH;
-      continue;
-    }
-
-    STATIC_ASSERT(MIN_MAPSIZE < MAX_MAPSIZE);
-    if (mapsize_max > MAX_MAPSIZE ||
-        MAX_PAGENO < mdbx_roundup2((size_t)mapsize_max, env->me_os_psize) /
-                         (uint64_t)page.mp_meta.mm_psize) {
-      mdbx_notice("meta[%u] has too large max-mapsize (%" PRIu64 "), skip it",
-                  meta_number, mapsize_max);
-      rc = MDBX_TOO_LARGE;
-      continue;
-    }
-
     /* LY: check end_pgno */
     if (page.mp_meta.mm_geo.now < page.mp_meta.mm_geo.lower ||
         page.mp_meta.mm_geo.now > page.mp_meta.mm_geo.upper) {
@@ -3994,6 +3974,43 @@ static int __cold mdbx_read_header(MDBX_env *env, MDBX_meta *meta) {
                   meta_number, page.mp_meta.mm_geo.next);
       rc = MDBX_CORRUPTED;
       continue;
+    }
+
+    /* LY: check mapsize limits */
+    const uint64_t mapsize_min =
+        page.mp_meta.mm_geo.lower * (uint64_t)page.mp_meta.mm_psize;
+    STATIC_ASSERT(MAX_MAPSIZE < SSIZE_MAX - MAX_PAGESIZE);
+    STATIC_ASSERT(MIN_MAPSIZE < MAX_MAPSIZE);
+    if (mapsize_min < MIN_MAPSIZE || mapsize_min > MAX_MAPSIZE) {
+      mdbx_notice("meta[%u] has invalid min-mapsize (%" PRIu64 "), skip it",
+                  meta_number, mapsize_min);
+      rc = MDBX_VERSION_MISMATCH;
+      continue;
+    }
+
+    const uint64_t mapsize_max =
+        page.mp_meta.mm_geo.upper * (uint64_t)page.mp_meta.mm_psize;
+    STATIC_ASSERT(MIN_MAPSIZE < MAX_MAPSIZE);
+    if (mapsize_max > MAX_MAPSIZE ||
+        MAX_PAGENO < mdbx_roundup2((size_t)mapsize_max, env->me_os_psize) /
+                         (uint64_t)page.mp_meta.mm_psize) {
+      const uint64_t used_bytes =
+          page.mp_meta.mm_geo.next * (uint64_t)page.mp_meta.mm_psize;
+      if (page.mp_meta.mm_geo.next - 1 > MAX_PAGENO ||
+          used_bytes > MAX_MAPSIZE) {
+        mdbx_notice("meta[%u] has too large max-mapsize (%" PRIu64 "), skip it",
+                    meta_number, mapsize_max);
+        rc = MDBX_TOO_LARGE;
+        continue;
+      }
+
+      /* allow to open large DB from a 32-bit environment */
+      mdbx_notice("meta[%u] has too large max-mapsize (%" PRIu64 "), "
+                  "but size of used space still acceptable (%" PRIu64 ")",
+                  meta_number, mapsize_max, used_bytes);
+      page.mp_meta.mm_geo.upper = (pgno_t)(MAX_MAPSIZE / page.mp_meta.mm_psize);
+      if (page.mp_meta.mm_geo.now > page.mp_meta.mm_geo.upper)
+        page.mp_meta.mm_geo.now = page.mp_meta.mm_geo.upper;
     }
 
     if (page.mp_meta.mm_geo.next > page.mp_meta.mm_geo.now) {
@@ -4649,7 +4666,7 @@ LIBMDBX_API int mdbx_env_set_geometry(MDBX_env *env, intptr_t size_lower,
       goto bailout;
     }
     size_upper -= env->me_os_psize;
-    if ((size_t)size_upper > (size_t)size_lower)
+    if ((size_t)size_upper < (size_t)size_lower)
       size_lower = size_upper;
   }
   mdbx_assert(env, (size_upper - size_lower) % env->me_os_psize == 0);
@@ -4834,6 +4851,7 @@ static int __cold mdbx_setup_dxb(MDBX_env *env, int lck_rc) {
             meta.mm_txnid_a, mdbx_durable_str(&meta));
 
   mdbx_setup_pagesize(env, meta.mm_psize);
+  const size_t used_bytes = pgno2bytes(env, meta.mm_geo.next);
   if ((env->me_flags & MDBX_RDONLY) /* readonly */
       || lck_rc != MDBX_RESULT_TRUE /* not exclusive */) {
     /* use present params from db */
@@ -4849,9 +4867,6 @@ static int __cold mdbx_setup_dxb(MDBX_env *env, int lck_rc) {
     }
   } else if (env->me_dbgeo.now) {
     /* silently growth to last used page */
-    const size_t used_bytes = pgno2bytes(env, meta.mm_geo.next);
-    if (env->me_dbgeo.lower < used_bytes)
-      env->me_dbgeo.lower = used_bytes;
     if (env->me_dbgeo.now < used_bytes)
       env->me_dbgeo.now = used_bytes;
     if (env->me_dbgeo.upper < used_bytes)
@@ -4916,7 +4931,6 @@ static int __cold mdbx_setup_dxb(MDBX_env *env, int lck_rc) {
 
   const size_t expected_bytes =
       mdbx_roundup2(pgno2bytes(env, meta.mm_geo.now), env->me_os_psize);
-  const size_t used_bytes = pgno2bytes(env, meta.mm_geo.next);
   mdbx_ensure(env, expected_bytes >= used_bytes);
   if (filesize_before_mmap != expected_bytes) {
     if (lck_rc != /* lck exclusive */ MDBX_RESULT_TRUE) {
@@ -8082,7 +8096,10 @@ int mdbx_cursor_renew(MDBX_txn *txn, MDBX_cursor *mc) {
     return MDBX_EBADSIGN;
 
   if (unlikely(txn->mt_owner != mdbx_thread_self()))
-    return MDBX_THREAD_MISMATCH;
+    return txn->mt_owner ? MDBX_THREAD_MISMATCH : MDBX_BAD_TXN;
+
+  if (unlikely(txn->mt_flags & (MDBX_TXN_FINISHED | MDBX_TXN_ERROR)))
+    return MDBX_BAD_TXN;
 
   if (unlikely(mc->mc_signature != MDBX_MC_SIGNATURE &&
                mc->mc_signature != MDBX_MC_READY4CLOSE))
@@ -8180,7 +8197,12 @@ void mdbx_cursor_close(MDBX_cursor *mc) {
 MDBX_txn *mdbx_cursor_txn(MDBX_cursor *mc) {
   if (unlikely(!mc || mc->mc_signature != MDBX_MC_SIGNATURE))
     return NULL;
-  return mc->mc_txn;
+  MDBX_txn *txn = mc->mc_txn;
+  if (unlikely(!txn || txn->mt_signature != MDBX_MT_SIGNATURE))
+    return NULL;
+  if (unlikely(txn->mt_flags & MDBX_TXN_FINISHED))
+    return NULL;
+  return txn;
 }
 
 MDBX_dbi mdbx_cursor_dbi(MDBX_cursor *mc) {

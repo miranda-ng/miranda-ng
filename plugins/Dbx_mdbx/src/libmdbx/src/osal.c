@@ -99,12 +99,12 @@ extern NTSTATUS NTAPI NtUnmapViewOfSection(IN HANDLE ProcessHandle,
 extern NTSTATUS NTAPI NtClose(HANDLE Handle);
 
 extern NTSTATUS NTAPI NtAllocateVirtualMemory(
-    IN HANDLE ProcessHandle, IN OUT PVOID *BaseAddress, IN ULONG ZeroBits,
-    IN OUT PULONG RegionSize, IN ULONG AllocationType, IN ULONG Protect);
+    IN HANDLE ProcessHandle, IN OUT PVOID *BaseAddress, IN ULONG_PTR ZeroBits,
+    IN OUT PSIZE_T RegionSize, IN ULONG AllocationType, IN ULONG Protect);
 
 extern NTSTATUS NTAPI NtFreeVirtualMemory(IN HANDLE ProcessHandle,
                                           IN PVOID *BaseAddress,
-                                          IN OUT PULONG RegionSize,
+                                          IN OUT PSIZE_T RegionSize,
                                           IN ULONG FreeType);
 
 #ifndef FILE_PROVIDER_CURRENT_VERSION
@@ -870,7 +870,7 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
     if (rc == MDBX_SUCCESS)
       map->filesize = size;
     /* ignore error, because Windows unable shrink file
-     * that already mapped (by another process) */;
+     * that already mapped (by another process) */
   }
 
   LARGE_INTEGER SectionSize;
@@ -931,6 +931,12 @@ int mdbx_munmap(mdbx_mmap_t *map) {
   NTSTATUS rc = NtUnmapViewOfSection(GetCurrentProcess(), map->address);
   if (!NT_SUCCESS(rc))
     ntstatus2errcode(rc);
+
+  if (map->filesize != map->current &&
+      mdbx_filesize(map->fd, &map->filesize) == MDBX_SUCCESS &&
+      map->filesize != map->current)
+    (void)mdbx_ftruncate(map->fd, map->current);
+
   map->length = 0;
   map->current = 0;
   map->address = nullptr;
@@ -961,8 +967,23 @@ int mdbx_mresize(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
     return ntstatus2errcode(status);
   }
 
+  if (limit > map->length) {
+    /* check ability of address space for growth before umnap */
+    PVOID BaseAddress = (PBYTE)map->address + map->length;
+    SIZE_T RegionSize = limit - map->length;
+    status = NtAllocateVirtualMemory(GetCurrentProcess(), &BaseAddress, 0,
+                                     &RegionSize, MEM_RESERVE, PAGE_NOACCESS);
+    if (!NT_SUCCESS(status))
+      return ntstatus2errcode(status);
+
+    status = NtFreeVirtualMemory(GetCurrentProcess(), &BaseAddress, &RegionSize,
+                                 MEM_RELEASE);
+    if (!NT_SUCCESS(status))
+      return ntstatus2errcode(status);
+  }
+
   /* Windows unable:
-    *  - shrinking a mapped file;
+    *  - shrink a mapped file;
     *  - change size of mapped view;
     *  - extend read-only mapping;
     * Therefore we should unmap/map entire section. */
@@ -971,6 +992,8 @@ int mdbx_mresize(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
     return ntstatus2errcode(status);
   status = NtClose(map->section);
   map->section = NULL;
+  PVOID ReservedAddress = NULL;
+  SIZE_T ReservedSize = limit;
 
   if (!NT_SUCCESS(status)) {
   bailout_ntstatus:
@@ -978,7 +1001,25 @@ int mdbx_mresize(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   bailout:
     map->address = NULL;
     map->current = map->length = 0;
+    if (ReservedAddress)
+      (void)NtFreeVirtualMemory(GetCurrentProcess(), &ReservedAddress,
+                                &ReservedSize, MEM_RELEASE);
     return err;
+  }
+
+  /* resizing of the file may take a while,
+   * therefore we reserve address space to avoid occupy it by other threads */
+  ReservedAddress = map->address;
+  status = NtAllocateVirtualMemory(GetCurrentProcess(), &ReservedAddress, 0,
+                                   &ReservedSize, MEM_RESERVE, PAGE_NOACCESS);
+  if (!NT_SUCCESS(status)) {
+    ReservedAddress = NULL;
+    if (status != /* STATUS_CONFLICTING_ADDRESSES */ 0xC0000018 ||
+        limit == map->length)
+      goto bailout_ntstatus /* no way to recovery */;
+
+    /* assume we can change base address if mapping size changed */
+    map->address = NULL;
   }
 
 retry_file_and_section:
@@ -991,7 +1032,7 @@ retry_file_and_section:
     if (err == MDBX_SUCCESS)
       map->filesize = size;
     /* ignore error, because Windows unable shrink file
-     * that already mapped (by another process) */;
+     * that already mapped (by another process) */
   }
 
   SectionSize.QuadPart = size;
@@ -1009,6 +1050,15 @@ retry_file_and_section:
 
   if (!NT_SUCCESS(status))
     goto bailout_ntstatus;
+
+  if (ReservedAddress) {
+    /* release reserved address space */
+    status = NtFreeVirtualMemory(GetCurrentProcess(), &ReservedAddress,
+                                 &ReservedSize, MEM_RELEASE);
+    ReservedAddress = NULL;
+    if (!NT_SUCCESS(status))
+      goto bailout_ntstatus;
+  }
 
 retry_mapview:;
   SIZE_T ViewSize = (flags & MDBX_RDONLY) ? size : limit;
