@@ -80,18 +80,22 @@ LBL_Seek:
 	if (szCachedSettingName[-1] != 0)
 		return 1;
 
+	int res;
+	const BYTE *pBlob;
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
+	{
+		txn_ptr_ro trnlck(m_txn_ro);
 
-	txn_ptr_ro trnlck(m_txn);
+		DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
+		keyVal->hContact = contactID;
+		keyVal->dwModuleId = GetModuleID(szModule);
+		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-	DBSettingKey *keyVal = (DBSettingKey *)_alloca(sizeof(DBSettingKey) + settingNameLen);
-	keyVal->hContact = contactID;
-	keyVal->dwModuleId = GetModuleID(szModule);
-	memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
-
-
-	MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
-	if (mdbx_get(trnlck, m_dbSettings, &key, &data) != MDBX_SUCCESS) {
+		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen }, data;
+		res = mdbx_get(trnlck, m_dbSettings, &key, &data);
+		pBlob = (const BYTE*)data.iov_base;
+	}
+	if (res != MDBX_SUCCESS) {
 		// try to get the missing mc setting from the active sub
 		if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
 			if (contactID = db_mc_getDefault(contactID)) {
@@ -104,7 +108,6 @@ LBL_Seek:
 		return 1;
 	}
 
-	const BYTE *pBlob = (const BYTE*)data.iov_base;
 	if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
 		return 1;
 
@@ -381,7 +384,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGEN
 	int result = -1;
 
 	DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 	cursor_ptr_ro cursor(m_curSettings);
 
 	LIST<char> arKeys(100);

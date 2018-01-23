@@ -101,25 +101,25 @@ int CDbxMDBX::Load(bool bSkipInit)
 		{
 			MDBX_val key, val;
 
-			mdbx_txn_begin(m_env, nullptr, MDBX_RDONLY, &m_txn);
+			mdbx_txn_begin(m_env, nullptr, MDBX_RDONLY, &m_txn_ro);
 
-			mdbx_cursor_open(m_txn, m_dbEvents, &m_curEvents);
+			mdbx_cursor_open(m_txn_ro, m_dbEvents, &m_curEvents);
 			if (mdbx_cursor_get(m_curEvents, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
 				m_dwMaxEventId = *(MEVENT*)key.iov_base;
 
-			mdbx_cursor_open(m_txn, m_dbEventsSort, &m_curEventsSort);
-			mdbx_cursor_open(m_txn, m_dbSettings, &m_curSettings);
-			mdbx_cursor_open(m_txn, m_dbModules, &m_curModules);
+			mdbx_cursor_open(m_txn_ro, m_dbEventsSort, &m_curEventsSort);
+			mdbx_cursor_open(m_txn_ro, m_dbSettings, &m_curSettings);
+			mdbx_cursor_open(m_txn_ro, m_dbModules, &m_curModules);
 
-			mdbx_cursor_open(m_txn, m_dbContacts, &m_curContacts);
+			mdbx_cursor_open(m_txn_ro, m_dbContacts, &m_curContacts);
 			if (mdbx_cursor_get(m_curContacts, &key, &val, MDBX_LAST) == MDBX_SUCCESS)
 				m_maxContactId = *(MCONTACT*)key.iov_base;
 
 			MDBX_stat st;
-			mdbx_dbi_stat(m_txn, m_dbContacts, &st, sizeof(st));
+			mdbx_dbi_stat(m_txn_ro, m_dbContacts, &st, sizeof(st));
 			m_contactCount = st.ms_entries;
 
-			mdbx_txn_reset(m_txn);
+			mdbx_txn_reset(m_txn_ro);
 		}
 
 

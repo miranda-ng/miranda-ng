@@ -113,7 +113,7 @@ void CDbxMDBX::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
 	DBEventSortingKey keyVal = { hContact, 0, 0 };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	txn_ptr_ro trnlck(m_txn);
+	txn_ptr_ro trnlck(m_txn_ro);
 	cursor_ptr_ro cursor(m_curEventsSort);
 
 	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
@@ -218,7 +218,7 @@ void DBCachedContact::Revert()
 void CDbxMDBX::FillContacts()
 {
 	{
-		txn_ptr_ro trnlck(m_txn);
+		txn_ptr_ro trnlck(m_txn_ro);
 		cursor_ptr_ro cursor(m_curContacts);
 
 		MDBX_val key, data;

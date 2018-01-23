@@ -133,7 +133,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 	DBEvent dbe;
 	{
-		txn_ptr_ro txn(m_txn);
+		txn_ptr_ro txn(m_txn_ro);
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
 			return 1;
@@ -192,7 +192,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 STDMETHODIMP_(LONG) CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
 {
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 
 	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 	if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
@@ -208,13 +208,16 @@ STDMETHODIMP_(BOOL) CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		return 1;
 	}
 
-	txn_ptr_ro txn(m_txn);
+	const DBEvent *dbe;
+	{
+		txn_ptr_ro txn(m_txn_ro);
 
-	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
-	if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
-		return 1;
+		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
+		if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+			return 1;
 
-	const DBEvent *dbe = (const DBEvent*)data.iov_base;
+		dbe = (const DBEvent*)data.iov_base;
+	}
 
 	dbei->szModule = GetModuleName(dbe->iModuleId);
 	dbei->timestamp = dbe->timestamp;
@@ -223,7 +226,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	size_t bytesToCopy = min(dbei->cbBlob, dbe->cbBlob);
 	dbei->cbBlob = dbe->cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
-		BYTE *pSrc = (BYTE*)data.iov_base + sizeof(DBEvent);
+		BYTE *pSrc = (BYTE*)dbe + sizeof(DBEvent);
 		if (dbe->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;
 			size_t len;
@@ -308,7 +311,7 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::GetEventContact(MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return INVALID_CONTACT_ID;
 
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 
 	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 	if (mdbx_get(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
@@ -325,7 +328,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindFirstEvent(MCONTACT contactID)
 	DBEventSortingKey keyVal = { contactID, 0, 0 };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 
 	cursor_ptr_ro cursor(m_curEventsSort);
 	if (mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS)
@@ -347,7 +350,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindLastEvent(MCONTACT contactID)
 	DBEventSortingKey keyVal = { contactID, 0xFFFFFFFF, 0xFFFFFFFFFFFFFFFF };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 	cursor_ptr_ro cursor(m_curEventsSort);
 
 	if (mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE) != MDBX_SUCCESS) {
@@ -369,7 +372,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEven
 	if (hDbEvent == 0)
 		return t_evLast = 0;
 
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 
 	if (t_evLast != hDbEvent) {
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
@@ -400,7 +403,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEven
 
 	MDBX_val data;
 
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 
 	if (t_evLast != hDbEvent) {
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) };

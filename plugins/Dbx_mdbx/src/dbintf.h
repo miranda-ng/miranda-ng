@@ -201,7 +201,7 @@ public:
 
 protected:
 	MDBX_env *m_env;
-	CMDBX_txn_ro m_txn;
+	CMDBX_txn_ro m_txn_ro;
 
 	MDBX_dbi  m_dbGlobal;
 	DBHeader m_header;

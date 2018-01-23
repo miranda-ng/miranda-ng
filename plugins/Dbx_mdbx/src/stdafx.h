@@ -53,11 +53,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class txn_ptr
 {
-	MDBX_txn *m_txn;
+	MDBX_txn *txn;
 public:
 	__forceinline txn_ptr(MDBX_env *pEnv)
 	{
-		int rc = mdbx_txn_begin(pEnv, nullptr, 0, &m_txn);
+		int rc = mdbx_txn_begin(pEnv, nullptr, 0, &txn);
 		/* FIXME: throw an exception */
 		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
@@ -65,66 +65,66 @@ public:
 
 	__forceinline ~txn_ptr()
 	{
-		if (m_txn) {
+		if (txn) {
 			/* FIXME: see https://github.com/leo-yuriev/libfpta/blob/77a7251fde2030165a3916ee68fd86a1374b3dd8/src/common.cxx#L370 */
 			abort();
 		}
 	}
 
-	__forceinline operator MDBX_txn*() const { return m_txn; }
+	__forceinline operator MDBX_txn*() const { return txn; }
 
 	__forceinline int commit()
 	{
-		int rc = mdbx_txn_commit(m_txn);
+		int rc = mdbx_txn_commit(txn);
 		if (rc != MDBX_SUCCESS) {
 			/* FIXME: throw an exception */
 			abort();
 			return rc;
 		}
-		m_txn = nullptr;
+		txn = nullptr;
 		return MDBX_SUCCESS;
 	}
 
 	__forceinline void abort()
 	{
-		int rc = mdbx_txn_abort(m_txn);
+		int rc = mdbx_txn_abort(txn);
 		/* FIXME: throw an exception */
 		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
-		m_txn = nullptr;
+		txn = nullptr;
 	}
 };
 
 struct CMDBX_txn_ro
 {
-	MDBX_txn *m_txn = nullptr;
+	MDBX_txn *txn = nullptr;
 	mir_cs cs;
 
-	__forceinline operator MDBX_txn* () { return m_txn; }
-	__forceinline MDBX_txn** operator &() { return &m_txn; }
+	__forceinline operator MDBX_txn* () { return txn; }
+	__forceinline MDBX_txn** operator &() { return &txn; }
 };
 
 class txn_ptr_ro
 {
-	CMDBX_txn_ro &m_txn;
+	CMDBX_txn_ro &txn;
 	mir_cslock lock;
 
 public:
-	__forceinline txn_ptr_ro(CMDBX_txn_ro &txn) : m_txn(txn), lock(m_txn.cs)
+	__forceinline txn_ptr_ro(CMDBX_txn_ro &_txn) : txn(_txn), lock(txn.cs)
 	{
-		int rc = mdbx_txn_renew(m_txn);
+		int rc = mdbx_txn_renew(txn);
 		/* FIXME: throw an exception */
 		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
 	}
 	__forceinline ~txn_ptr_ro()
 	{
-		int rc = mdbx_txn_reset(m_txn);
+		int rc = mdbx_txn_reset(txn);
 		/* FIXME: throw an exception */
 		_ASSERT(rc == MDBX_SUCCESS);
 		UNREFERENCED_PARAMETER(rc);
 	}
-	__forceinline operator MDBX_txn*() const { return m_txn; }
+	__forceinline operator MDBX_txn*() const { return txn; }
 };
 
 class cursor_ptr

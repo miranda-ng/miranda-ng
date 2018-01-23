@@ -69,7 +69,7 @@ int CDbxMDBX::InitCrypt()
 {
 	CRYPTO_PROVIDER *pProvider;
 
-	txn_ptr_ro txn(m_txn);
+	txn_ptr_ro txn(m_txn_ro);
 
 	MDBX_val key = { DBKey_Crypto_Provider, sizeof(DBKey_Crypto_Provider) }, value;
 	if (mdbx_get(txn, m_dbCrypto, &key, &value) == MDBX_SUCCESS) {
@@ -160,7 +160,7 @@ int CDbxMDBX::EnableEncryption(bool bEncrypted)
 		return 0;
 
 	{
-		txn_ptr_ro txnro(m_txn);
+		txn_ptr_ro txnro(m_txn_ro);
 
 		MDBX_stat st;
 		mdbx_dbi_stat(txnro, m_dbEvents, &st, sizeof(st));
