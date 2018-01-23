@@ -381,23 +381,24 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 
 STDMETHODIMP_(BOOL) CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param)
 {
-	int result = -1;
-
-	DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
-	txn_ptr_ro txn(m_txn_ro);
-	cursor_ptr_ro cursor(m_curSettings);
-
 	LIST<char> arKeys(100);
-	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
+	{
+		DBSettingKey keyVal = { hContact, GetModuleID(szModule), 0 };
+		txn_ptr_ro txn(m_txn_ro);
+		cursor_ptr_ro cursor(m_curSettings);
 
-	for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
-		const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
-		if (pKey->hContact != hContact || pKey->dwModuleId != keyVal.dwModuleId)
-			break;
+		MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
 
-		arKeys.insert((char*)pKey->szSettingName);
+		for (int res = mdbx_cursor_get(cursor, &key, &data, MDBX_SET_RANGE); res == MDBX_SUCCESS; res = mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT)) {
+			const DBSettingKey *pKey = (const DBSettingKey*)key.iov_base;
+			if (pKey->hContact != hContact || pKey->dwModuleId != keyVal.dwModuleId)
+				break;
+
+			arKeys.insert((char*)pKey->szSettingName);
+		}
 	}
 
+	int result = -1;
 	for (int i=0; i < arKeys.getCount(); i++)
 		result = pfnEnumProc(arKeys[i], param);
 
