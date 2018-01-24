@@ -148,7 +148,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		DBEventSortingKey key2 = { contactID, hDbEvent, dbe.timestamp };
 		MDBX_val key = { &key2, sizeof(key2) }, data;
 
-		if (mdbx_del(txn, m_dbEventsSort, &key, &data) != MDBX_SUCCESS)
+		if (mdbx_del(txn, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
 
 		{
@@ -164,7 +164,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 		if (cc2) {
 			key2.hContact = dbe.contactID;
-			if (mdbx_del(txn, m_dbEventsSort, &key, &data) != MDBX_SUCCESS)
+			if (mdbx_del(txn, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
 
 			key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;
@@ -179,7 +179,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 		// remove a event
 		key.iov_len = sizeof(MEVENT); key.iov_base = &hDbEvent;
-		if (mdbx_del(txn, m_dbEvents, &key, &data) != MDBX_SUCCESS)
+		if (mdbx_del(txn, m_dbEvents, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
 
 		if (txn.commit() != MDBX_SUCCESS)

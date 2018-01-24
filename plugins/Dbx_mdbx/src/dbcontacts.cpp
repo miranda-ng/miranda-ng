@@ -168,8 +168,8 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		{
 			txn_ptr trnlck(m_env);
 			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
-			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
-			if (mdbx_del(trnlck, m_dbEventsSort, &key, &data) != MDBX_SUCCESS)
+			MDBX_val key = { &insVal, sizeof(insVal) };
+			if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 				return 1;
 			if (trnlck.commit() != MDBX_SUCCESS)
 				return 1;
