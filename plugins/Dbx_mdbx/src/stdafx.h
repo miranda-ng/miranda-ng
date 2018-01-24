@@ -113,16 +113,14 @@ public:
 	__forceinline txn_ptr_ro(CMDBX_txn_ro &_txn) : txn(_txn), lock(txn.cs)
 	{
 		int rc = mdbx_txn_renew(txn);
-		/* FIXME: throw an exception */
-		_ASSERT(rc == MDBX_SUCCESS);
-		UNREFERENCED_PARAMETER(rc);
+		if (rc != MDBX_SUCCESS)
+			DebugBreak();
 	}
 	__forceinline ~txn_ptr_ro()
 	{
 		int rc = mdbx_txn_reset(txn);
-		/* FIXME: throw an exception */
-		_ASSERT(rc == MDBX_SUCCESS);
-		UNREFERENCED_PARAMETER(rc);
+		if (rc != MDBX_SUCCESS)
+			DebugBreak();
 	}
 	__forceinline operator MDBX_txn*() const { return txn; }
 };
