@@ -26,7 +26,7 @@
 //////////////////////////////////////////////////////////
 // Avatars support
 //
-void GGPROTO::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
+void GaduProto::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 {
 	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
 
@@ -56,7 +56,7 @@ void GGPROTO::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 	else mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar%s", m_szModuleName, avatartype);
 }
 
-bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
+bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 {
 	*avatarurl = *avatarts = nullptr;
 
@@ -139,7 +139,7 @@ char *gg_avatarhash(char *param)
 	return bin2hex(digest, sizeof(digest), result);
 }
 
-void GGPROTO::requestAvatarTransfer(MCONTACT hContact, char *szAvatarURL)
+void GaduProto::requestAvatarTransfer(MCONTACT hContact, char *szAvatarURL)
 {
 	if (pth_avatar.dwThreadId == NULL) {
 		debugLogA("requestAvatarTransfer(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
@@ -156,7 +156,7 @@ void GGPROTO::requestAvatarTransfer(MCONTACT hContact, char *szAvatarURL)
 	gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, 1, "avatar_mutex", 1);
 }
 
-void GGPROTO::requestAvatarInfo(MCONTACT hContact, int iWaitFor)
+void GaduProto::requestAvatarInfo(MCONTACT hContact, int iWaitFor)
 {
 	if (pth_avatar.dwThreadId == NULL) {
 		debugLogA("requestAvatarInfo(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
@@ -180,7 +180,7 @@ void GGPROTO::requestAvatarInfo(MCONTACT hContact, int iWaitFor)
 		setByte(hContact, GG_KEY_AVATARREQUESTED, 1);
 }
 
-void __cdecl GGPROTO::avatarrequestthread(void*)
+void __cdecl GaduProto::avatarrequestthread(void*)
 {
 	debugLogA("avatarrequestthread() started. Avatar Request Thread Starting");
 	while (pth_avatar.dwThreadId)
@@ -302,7 +302,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 	debugLogA("avatarrequestthread(): end. Avatar Request Thread Ending");
 }
 
-void GGPROTO::initavatarrequestthread()
+void GaduProto::initavatarrequestthread()
 {
 	DWORD exitCode = 0;
 
@@ -311,13 +311,13 @@ void GGPROTO::initavatarrequestthread()
 		avatar_requests.destroy();
 		avatar_transfers.destroy();
 #ifdef DEBUGMODE
-		debugLogA("initavatarrequestthread(): ForkThreadEx 1 GGPROTO::avatarrequestthread");
+		debugLogA("initavatarrequestthread(): ForkThreadEx 1 GaduProto::avatarrequestthread");
 #endif
-		pth_avatar.hThread = ForkThreadEx(&GGPROTO::avatarrequestthread, nullptr, &pth_avatar.dwThreadId);
+		pth_avatar.hThread = ForkThreadEx(&GaduProto::avatarrequestthread, nullptr, &pth_avatar.dwThreadId);
 	}
 }
 
-void __cdecl GGPROTO::getOwnAvatarThread(void*)
+void __cdecl GaduProto::getOwnAvatarThread(void*)
 {
 	debugLogA("getOwnAvatarThread() started");
 
@@ -342,17 +342,17 @@ void __cdecl GGPROTO::getOwnAvatarThread(void*)
 #endif
 }
 
-void GGPROTO::getOwnAvatar()
+void GaduProto::getOwnAvatar()
 {
 	if (getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS) && getDword(GG_KEY_UIN, 0)) {
 #ifdef DEBUGMODE
-		debugLogA("getOwnAvatar(): ForkThread 2 GGPROTO::getOwnAvatarThread");
+		debugLogA("getOwnAvatar(): ForkThread 2 GaduProto::getOwnAvatarThread");
 #endif
-		ForkThread(&GGPROTO::getOwnAvatarThread, nullptr);
+		ForkThread(&GaduProto::getOwnAvatarThread, nullptr);
 	}
 }
 
-void __cdecl GGPROTO::setavatarthread(void *param)
+void __cdecl GaduProto::setavatarthread(void *param)
 {
 	debugLogA("setavatarthread(): started. Trying to set user avatar.");
 
@@ -508,10 +508,10 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 
 }
 
-void GGPROTO::setAvatar(const wchar_t *szFilename)
+void GaduProto::setAvatar(const wchar_t *szFilename)
 {
 #ifdef DEBUGMODE
-	debugLogA("setAvatar(): ForkThread 3 GGPROTO::setavatarthread");
+	debugLogA("setAvatar(): ForkThread 3 GaduProto::setavatarthread");
 #endif
-	ForkThread(&GGPROTO::setavatarthread, mir_wstrdup(szFilename));
+	ForkThread(&GaduProto::setavatarthread, mir_wstrdup(szFilename));
 }

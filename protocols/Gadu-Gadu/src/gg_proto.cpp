@@ -21,10 +21,11 @@
 
 #include "gg.h"
 
-GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
-	PROTO<GGPROTO>(pszProtoName, tszUserName),
+GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
+	PROTO<GaduProto>(pszProtoName, tszUserName),
 	avatar_requests(1, NumericKeySortT),
-	avatar_transfers(1, NumericKeySortT)
+	avatar_transfers(1, NumericKeySortT),
+	m_gaduOptions(this)
 {
 #ifdef DEBUGMODE
 	extendedLogging = 0;
@@ -50,15 +51,15 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// Register services
-	CreateProtoService(PS_GETAVATARCAPS, &GGPROTO::getavatarcaps);
-	CreateProtoService(PS_GETAVATARINFO, &GGPROTO::getavatarinfo);
-	CreateProtoService(PS_GETMYAVATAR, &GGPROTO::getmyavatar);
-	CreateProtoService(PS_SETMYAVATAR, &GGPROTO::setmyavatar);
+	CreateProtoService(PS_GETAVATARCAPS, &GaduProto::getavatarcaps);
+	CreateProtoService(PS_GETAVATARINFO, &GaduProto::getavatarinfo);
+	CreateProtoService(PS_GETMYAVATAR, &GaduProto::getmyavatar);
+	CreateProtoService(PS_SETMYAVATAR, &GaduProto::setmyavatar);
 
-	CreateProtoService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
-	CreateProtoService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
+	CreateProtoService(PS_GETMYAWAYMSG, &GaduProto::getmyawaymsg);
+	CreateProtoService(PS_CREATEACCMGRUI, &GaduProto::get_acc_mgr_gui);
 
-	CreateProtoService(PS_LEAVECHAT, &GGPROTO::leavechat);
+	CreateProtoService(PS_LEAVECHAT, &GaduProto::leavechat);
 
 	// Offline contacts and clear logon time
 	setalloffline();
@@ -78,10 +79,10 @@ GGPROTO::GGPROTO(const char *pszProtoName, const wchar_t *tszUserName) :
 	initavatarrequestthread();
 }
 
-GGPROTO::~GGPROTO()
+GaduProto::~GaduProto()
 {
 #ifdef DEBUGMODE
-	debugLogA("~GGPROTO(): destroying protocol interface");
+	debugLogA("~GaduProto(): destroying protocol interface");
 #endif
 
 	// Destroy modules
@@ -104,7 +105,7 @@ GGPROTO::~GGPROTO()
 	DeleteCriticalSection(&avatar_mutex);
 	DeleteCriticalSection(&sessions_mutex);
 #ifdef DEBUGMODE
-	debugLogA("~GGPROTO(): DeleteCriticalSections. OK");
+	debugLogA("~GaduProto(): DeleteCriticalSections. OK");
 #endif
 
 	// Free status messages
@@ -119,7 +120,7 @@ GGPROTO::~GGPROTO()
 //////////////////////////////////////////////////////////
 // when contact is added to list
 //
-MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
+MCONTACT GaduProto::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 {
 #ifdef DEBUGMODE
 	debugLogA("AddToList(): id=%s");
@@ -138,7 +139,7 @@ MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 //////////////////////////////////////////////////////////
 // checks proto capabilities
 //
-DWORD_PTR GGPROTO::GetCaps(int type, MCONTACT)
+DWORD_PTR GaduProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -164,7 +165,7 @@ DWORD_PTR GGPROTO::GetCaps(int type, MCONTACT)
 //////////////////////////////////////////////////////////
 // user info request
 //
-void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
+void __cdecl GaduProto::cmdgetinfothread(void *hContact)
 {
 	debugLogA("cmdgetinfothread(): started. Failed info retreival.");
 	gg_sleep(100, FALSE, "cmdgetinfothread", 103, 1);
@@ -172,7 +173,7 @@ void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
 	debugLogA("cmdgetinfothread(): end.");
 }
 
-int GGPROTO::GetInfo(MCONTACT hContact, int)
+int GaduProto::GetInfo(MCONTACT hContact, int)
 {
 	gg_pubdir50_t req;
 
@@ -180,9 +181,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 	if (hContact) {
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH))) {
 #ifdef DEBUGMODE
-			debugLogA("GetInfo(): ForkThread 6 GGPROTO::cmdgetinfothread");
+			debugLogA("GetInfo(): ForkThread 6 GaduProto::cmdgetinfothread");
 #endif
-			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
+			ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
 
@@ -196,9 +197,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 			if (!gg_pubdir50(sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-				debugLogA("GetInfo(): ForkThread 7 GGPROTO::cmdgetinfothread");
+				debugLogA("GetInfo(): ForkThread 7 GaduProto::cmdgetinfothread");
 #endif
-				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
+				ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
 				return 1;
 			}
 			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 2, "sess_mutex", 1);
@@ -208,9 +209,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 	else {
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_READ))) {
 #ifdef DEBUGMODE
-			debugLogA("GetInfo(): ForkThread 8 GGPROTO::cmdgetinfothread");
+			debugLogA("GetInfo(): ForkThread 8 GaduProto::cmdgetinfothread");
 #endif
-			ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
+			ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
 			return 1;
 		}
 
@@ -223,9 +224,9 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 			if (!gg_pubdir50(sess, req)) {
 				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-				debugLogA("GetInfo(): ForkThread 9 GGPROTO::cmdgetinfothread");
+				debugLogA("GetInfo(): ForkThread 9 GaduProto::cmdgetinfothread");
 #endif
-				ForkThread(&GGPROTO::cmdgetinfothread, (void*)hContact);
+				ForkThread(&GaduProto::cmdgetinfothread, (void*)hContact);
 				gg_pubdir50_free(req);
 				return 1;
 			}
@@ -238,7 +239,7 @@ int GGPROTO::GetInfo(MCONTACT hContact, int)
 	return 1;
 }
 
-void __cdecl GGPROTO::searchthread(void *)
+void __cdecl GaduProto::searchthread(void *)
 {
 	debugLogA("searchthread(): started. Failed search.");
 	gg_sleep(100, FALSE, "searchthread", 104, 1);
@@ -251,7 +252,7 @@ void __cdecl GGPROTO::searchthread(void *)
 //////////////////////////////////////////////////////////
 // when basic search
 //
-HANDLE GGPROTO::SearchBasic(const wchar_t *id)
+HANDLE GaduProto::SearchBasic(const wchar_t *id)
 {
 	if (!isonline())
 		return nullptr;
@@ -259,9 +260,9 @@ HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (!req) {
 #ifdef DEBUGMODE
-		debugLogA("SearchBasic(): ForkThread 10 GGPROTO::searchthread");
+		debugLogA("SearchBasic(): ForkThread 10 GaduProto::searchthread");
 #endif
-		ForkThread(&GGPROTO::searchthread, nullptr);
+		ForkThread(&GaduProto::searchthread, nullptr);
 		return (HANDLE)1;
 	}
 
@@ -273,9 +274,9 @@ HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 	if (!gg_pubdir50(sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-		debugLogA("SearchBasic(): ForkThread 11 GGPROTO::searchthread");
+		debugLogA("SearchBasic(): ForkThread 11 GaduProto::searchthread");
 #endif
-		ForkThread(&GGPROTO::searchthread, nullptr);
+		ForkThread(&GaduProto::searchthread, nullptr);
 		return (HANDLE)1;
 	}
 	gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 2, "sess_mutex", 1);
@@ -288,7 +289,7 @@ HANDLE GGPROTO::SearchBasic(const wchar_t *id)
 //////////////////////////////////////////////////////////
 // search by details
 //
-HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
+HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	// Check if connected and if there's a search data
 	if (!isonline())
@@ -300,9 +301,9 @@ HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, cons
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (req == nullptr) {
 #ifdef DEBUGMODE
-		debugLogA("SearchByName(): ForkThread 12 GGPROTO::searchthread");
+		debugLogA("SearchByName(): ForkThread 12 GaduProto::searchthread");
 #endif
-		ForkThread(&GGPROTO::searchthread, nullptr);
+		ForkThread(&GaduProto::searchthread, nullptr);
 		return (HANDLE)1;
 	}
 
@@ -341,9 +342,9 @@ HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, cons
 	if (!gg_pubdir50(sess, req)) {
 		gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-		debugLogA("SearchByName(): ForkThread 13 GGPROTO::searchthread");
+		debugLogA("SearchByName(): ForkThread 13 GaduProto::searchthread");
 #endif
-		ForkThread(&GGPROTO::searchthread, nullptr);
+		ForkThread(&GaduProto::searchthread, nullptr);
 	}
 	else
 	{
@@ -358,7 +359,7 @@ HANDLE GGPROTO::SearchByName(const wchar_t *nick, const wchar_t *firstName, cons
 //////////////////////////////////////////////////////////
 // search by advanced
 //
-HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
+HWND GaduProto::SearchAdvanced(HWND hwndDlg)
 {
 	// Check if connected
 	if (!isonline())
@@ -367,9 +368,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	gg_pubdir50_t req = gg_pubdir50_new(GG_PUBDIR50_SEARCH);
 	if (!req) {
 #ifdef DEBUGMODE
-		debugLogA("SearchAdvanced(): ForkThread 14 GGPROTO::searchthread");
+		debugLogA("SearchAdvanced(): ForkThread 14 GaduProto::searchthread");
 #endif
-		ForkThread(&GGPROTO::searchthread, nullptr);
+		ForkThread(&GaduProto::searchthread, nullptr);
 		return (HWND)1;
 	}
 
@@ -477,9 +478,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 		if (!gg_pubdir50(sess, req)) {
 			gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 1, "sess_mutex", 1);
 #ifdef DEBUGMODE
-			debugLogA("SearchAdvanced(): ForkThread 15 GGPROTO::searchthread");
+			debugLogA("SearchAdvanced(): ForkThread 15 GaduProto::searchthread");
 #endif
-			ForkThread(&GGPROTO::searchthread, nullptr);
+			ForkThread(&GaduProto::searchthread, nullptr);
 			return (HWND)1;
 		}
 		gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 2, "sess_mutex", 1);
@@ -506,7 +507,7 @@ static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg, UINT message, WPA
 	return FALSE;
 }
 
-HWND GGPROTO::CreateExtendedSearchUI(HWND owner)
+HWND GaduProto::CreateExtendedSearchUI(HWND owner)
 {
 	return CreateDialogParam(hInstance,
 		MAKEINTRESOURCE(IDD_GGADVANCEDSEARCH), owner, gg_advancedsearchdlgproc, (LPARAM)this);
@@ -518,7 +519,7 @@ struct GG_SEQ_ACK
 	int seq;
 };
 
-void __cdecl GGPROTO::sendackthread(void *ack)
+void __cdecl GaduProto::sendackthread(void *ack)
 {
 	GG_SEQ_ACK *pAck = (GG_SEQ_ACK *)ack;
 	gg_sleep(100, FALSE, "sendackthread", 105, 1);
@@ -529,7 +530,7 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 //////////////////////////////////////////////////////////
 // when messsage sent
 //
-int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
+int GaduProto::SendMsg(MCONTACT hContact, int, const char *msg)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 	if (!isonline() || !uin)
@@ -541,16 +542,16 @@ int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
 	int seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
-	if (!getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK)) {
+	if (!m_gaduOptions.useMsgDeliveryAcknowledge) {
 		// Auto-ack message without waiting for server ack
 		GG_SEQ_ACK *ack = (GG_SEQ_ACK*)mir_alloc(sizeof(GG_SEQ_ACK));
 		if (ack) {
 			ack->seq = seq;
 			ack->hContact = hContact;
 #ifdef DEBUGMODE
-			debugLogA("SendMsg(): ForkThread 16 GGPROTO::sendackthread");
+			debugLogA("SendMsg(): ForkThread 16 GaduProto::sendackthread");
 #endif
-			ForkThread(&GGPROTO::sendackthread, ack);
+			ForkThread(&GaduProto::sendackthread, ack);
 		}
 	}
 
@@ -560,7 +561,7 @@ int GGPROTO::SendMsg(MCONTACT hContact, int, const char *msg)
 //////////////////////////////////////////////////////////
 // visible lists
 //
-int GGPROTO::SetApparentMode(MCONTACT hContact, int mode)
+int GaduProto::SetApparentMode(MCONTACT hContact, int mode)
 {
 	setWord(hContact, GG_KEY_APPARENT, (WORD)mode);
 	notifyuser(hContact, 1);
@@ -571,7 +572,7 @@ int GGPROTO::SetApparentMode(MCONTACT hContact, int mode)
 //////////////////////////////////////////////////////////
 // sets protocol status
 //
-int GGPROTO::SetStatus(int iNewStatus)
+int GaduProto::SetStatus(int iNewStatus)
 {
 	int nNewStatus = gg_normalizestatus(iNewStatus);
 
@@ -589,7 +590,7 @@ int GGPROTO::SetStatus(int iNewStatus)
 	return 0;
 }
 
-void __cdecl GGPROTO::getawaymsgthread(void *arg)
+void __cdecl GaduProto::getawaymsgthread(void *arg)
 {
 	DBVARIANT dbv;
 
@@ -610,12 +611,12 @@ void __cdecl GGPROTO::getawaymsgthread(void *arg)
 //////////////////////////////////////////////////////////
 // when away message is requested
 //
-HANDLE GGPROTO::GetAwayMsg(MCONTACT hContact)
+HANDLE GaduProto::GetAwayMsg(MCONTACT hContact)
 {
 #ifdef DEBUGMODE
-	debugLogA("GetAwayMsg(): ForkThread 17 GGPROTO::getawaymsgthread");
+	debugLogA("GetAwayMsg(): ForkThread 17 GaduProto::getawaymsgthread");
 #endif
-	ForkThread(&GGPROTO::getawaymsgthread, (void*)hContact);
+	ForkThread(&GaduProto::getawaymsgthread, (void*)hContact);
 	return (HANDLE)1;
 }
 
@@ -623,7 +624,7 @@ HANDLE GGPROTO::GetAwayMsg(MCONTACT hContact)
 // when away message is being set
 // registered as ProtoService PS_SETAWAYMSGT
 //
-int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
+int GaduProto::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 {
 	int status = gg_normalizestatus(iStatus);
 	wchar_t **msgPtr;
@@ -682,7 +683,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 //////////////////////////////////////////////////////////
 // sends a notification that the user is typing a message
 //
-int GGPROTO::UserIsTyping(MCONTACT hContact, int type)
+int GaduProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
 	if (!uin || !isonline())
@@ -700,12 +701,12 @@ int GGPROTO::UserIsTyping(MCONTACT hContact, int type)
 //////////////////////////////////////////////////////////
 // Custom protocol event
 //
-int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
+int GaduProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch (eventType) {
 	case EV_PROTO_ONLOAD:
-		HookProtoEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
-		HookProtoEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);
+		HookProtoEvent(ME_OPT_INITIALISE, &GaduProto::options_init);
+		HookProtoEvent(ME_USERINFO_INITIALISE, &GaduProto::details_init);
 
 		// Init misc stuff
 		gg_icolib_init();

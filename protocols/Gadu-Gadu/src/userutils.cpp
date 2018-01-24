@@ -23,7 +23,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Create New Account : Proc
 //
-void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
+void *gg_doregister(GaduProto *gg, char *newPass, char *newEmail)
 {
 	// Connection handles
 	struct gg_http *h = nullptr;
@@ -68,7 +68,7 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 ////////////////////////////////////////////////////////////////////////////////
 // Remove Account : Proc
 //
-void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
+void *gg_dounregister(GaduProto *gg, uin_t uin, char *password)
 {
 	// Connection handles
 	struct gg_http *h;
@@ -113,7 +113,7 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 ////////////////////////////////////////////////////////////////////////////////
 // Change Password Page : Proc
 //
-void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
+void *gg_dochpass(GaduProto *gg, uin_t uin, char *password, char *newPass)
 {
 #ifdef DEBUGMODE
 	gg->debugLogA("gg_dochpass(): Starting.");
@@ -164,7 +164,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 ////////////////////////////////////////////////////////////////////////////////
 // Change E-mail Page : Proc
 //
-void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *newEmail)
+void *gg_dochemail(GaduProto *gg, uin_t uin, char *password, char *email, char *newEmail)
 {
 #ifdef DEBUGMODE
 	gg->debugLogA("gg_dochemail(): Starting.");
@@ -284,7 +284,7 @@ INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 //////////////////////////////////////////////////////////
 // Wait for thread to stop
 //
-void GGPROTO::threadwait(GGTHREAD *thread)
+void GaduProto::threadwait(GGTHREAD *thread)
 {
 	if (!thread->hThread)
 		return;

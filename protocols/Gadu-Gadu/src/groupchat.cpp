@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Inits Gadu-Gadu groupchat module using chat.dll
 //
-int GGPROTO::gc_init()
+int GaduProto::gc_init()
 {
 	char service[64];
 
@@ -38,7 +38,7 @@ int GGPROTO::gc_init()
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
-	HookProtoEvent(ME_GC_EVENT, &GGPROTO::gc_event);
+	HookProtoEvent(ME_GC_EVENT, &GaduProto::gc_event);
 
 	gc_enabled = TRUE;
 	// create & hook event
@@ -51,7 +51,7 @@ int GGPROTO::gc_init()
 ////////////////////////////////////////////////////////////////////////////////
 // Groupchat menus initialization
 //
-void GGPROTO::gc_menus_init(HGENMENU hRoot)
+void GaduProto::gc_menus_init(HGENMENU hRoot)
 {
 	if (gc_enabled) {
 		CMenuItem mi;
@@ -60,7 +60,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 
 		// Conferencing
 		mi.pszService = GGS_OPEN_CONF;
-		CreateProtoService(mi.pszService, &GGPROTO::gc_openconf);
+		CreateProtoService(mi.pszService, &GaduProto::gc_openconf);
 		mi.position = 2000050001;
 		mi.hIcolibItem = iconList[14].hIcolib;
 		mi.name.w = LPGENW("Open &conference...");
@@ -68,7 +68,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 
 		// Clear ignored conferences
 		mi.pszService = GGS_CLEAR_IGNORED;
-		CreateProtoService(mi.pszService, &GGPROTO::gc_clearignored);
+		CreateProtoService(mi.pszService, &GaduProto::gc_clearignored);
 		mi.position = 2000050002;
 		mi.hIcolibItem = iconList[15].hIcolib;
 		mi.name.w = LPGENW("&Clear ignored conferences");
@@ -79,7 +79,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 ////////////////////////////////////////////////////////////////////////////////
 // Releases Gadu-Gadu groupchat module using chat.dll
 //
-int GGPROTO::gc_destroy()
+int GaduProto::gc_destroy()
 {
 	list_t l;
 	for (l = chats; l; l = l->next)
@@ -92,7 +92,7 @@ int GGPROTO::gc_destroy()
 	return 1;
 }
 
-GGGC* GGPROTO::gc_lookup(const wchar_t *id)
+GGGC* GaduProto::gc_lookup(const wchar_t *id)
 {
 	GGGC *chat;
 	list_t l;
@@ -107,7 +107,7 @@ GGGC* GGPROTO::gc_lookup(const wchar_t *id)
 	return nullptr;
 }
 
-int GGPROTO::gc_event(WPARAM, LPARAM lParam)
+int GaduProto::gc_event(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK *)lParam;
 	GGGC *chat = nullptr;
@@ -205,7 +205,7 @@ typedef struct _gg_gc_echat
 ////////////////////////////////////////////////////////////////////////////////
 // This is main groupchat initialization routine
 //
-wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
+wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 {
 	list_t l;
 	GGGC *chat;
@@ -383,7 +383,7 @@ wchar_t* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_cou
 	return chat->id;
 }
 
-static MCONTACT gg_getsubcontact(GGPROTO* gg, MCONTACT hContact)
+static MCONTACT gg_getsubcontact(GaduProto* gg, MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto && !mir_strcmp(szProto, META_PROTO)) {
@@ -445,7 +445,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 		case IDOK:
 		{
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_CLIST);
-			GGPROTO* gg = (GGPROTO*)GetWindowLongPtr(hwndDlg, DWLP_USER);
+			GaduProto* gg = (GaduProto*)GetWindowLongPtr(hwndDlg, DWLP_USER);
 			int count = 0, i = 0;
 			// Check if connected
 			if (!gg->isonline())
@@ -502,7 +502,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 			{
 				char* szProto;
 				uin_t uin;
-				GGPROTO* gg = (GGPROTO*)GetWindowLongPtr(hwndDlg, DWLP_USER);
+				GaduProto* gg = (GaduProto*)GetWindowLongPtr(hwndDlg, DWLP_USER);
 
 				if (!gg)
 					break;
@@ -563,7 +563,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 	return FALSE;
 }
 
-INT_PTR GGPROTO::gc_clearignored(WPARAM, LPARAM)
+INT_PTR GaduProto::gc_clearignored(WPARAM, LPARAM)
 {
 	list_t l = chats;
 	BOOL cleared = FALSE;
@@ -588,7 +588,7 @@ INT_PTR GGPROTO::gc_clearignored(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR GGPROTO::gc_openconf(WPARAM, LPARAM)
+INT_PTR GaduProto::gc_openconf(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline())
@@ -604,7 +604,7 @@ INT_PTR GGPROTO::gc_openconf(WPARAM, LPARAM)
 	return 1;
 }
 
-int GGPROTO::gc_changenick(MCONTACT hContact, wchar_t *ptszNick)
+int GaduProto::gc_changenick(MCONTACT hContact, wchar_t *ptszNick)
 {
 	list_t l;
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);

@@ -37,7 +37,7 @@ uint32_t swap32(uint32_t x)
 ////////////////////////////////////////////////////////////
 // Is online function
 
-int GGPROTO::isonline()
+int GaduProto::isonline()
 {
 	int isonline;
 
@@ -50,7 +50,7 @@ int GGPROTO::isonline()
 
 ////////////////////////////////////////////////////////////
 // Send disconnect request and wait for server thread to die
-void GGPROTO::disconnect()
+void GaduProto::disconnect()
 {
 	// If main loop then send disconnect request
 	if (isonline())
@@ -149,7 +149,7 @@ void GGPROTO::disconnect()
 
 ////////////////////////////////////////////////////////////
 // DNS lookup function
-uint32_t gg_dnslookup(GGPROTO *gg, char *host)
+uint32_t gg_dnslookup(GaduProto *gg, const char *host)
 {
 	uint32_t ip = inet_addr(host);
 	if (ip != INADDR_NONE)
@@ -228,7 +228,7 @@ int gg_decodehosts(char *var, GGHOST *hosts, int max)
 
 ////////////////////////////////////////////////////////////
 // Main connection session thread
-void __cdecl GGPROTO::mainthread(void *)
+void __cdecl GaduProto::mainthread(void *)
 {
 	// Gadu-gadu login errors
 	static const struct tagReason { int type; wchar_t *str; } reason[] = {
@@ -297,10 +297,11 @@ void __cdecl GGPROTO::mainthread(void *)
 	int hostcount = 0;
 	GGHOST hosts[64];
 
-	if (getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST)) {
-		if (!getString(GG_KEY_SERVERHOSTS, &dbv)) {
-			hostcount = gg_decodehosts(dbv.pszVal, hosts, 64);
-			db_free(&dbv);
+	if (m_gaduOptions.useManualHosts) {
+		CMStringW serverHosts = m_gaduOptions.serverHosts;
+		if (!serverHosts.IsEmpty()) {
+			ptrA pHostsList(mir_u2a(serverHosts.c_str()));
+			hostcount = gg_decodehosts(pHostsList, hosts, 64);
 		}
 	}
 
@@ -330,7 +331,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	}
 
 	// Readup SSL/TLS setting
-	if (p.tls = getByte(GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN))
+	if (p.tls = m_gaduOptions.useSslConnection)
 		debugLogA("mainthread() (%x): Using TLS/SSL for connections.", this);
 
 	// Gadu-Gadu accepts image sizes upto 255
@@ -351,22 +352,19 @@ void __cdecl GGPROTO::mainthread(void *)
 	}
 
 	// Check if dcc is running and setup forwarding port
-	if (dcc && getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING)) {
-		if (!getString(GG_KEY_FORWARDHOST, &dbv)) {
-			if (!(p.external_addr = gg_dnslookup(this, dbv.pszVal))) {
-				wchar_t error[128];
-				wchar_t* forwardHostT = mir_a2u(dbv.pszVal);
-				mir_snwprintf(error, TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHostT);
-				mir_free(forwardHostT);
-				showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
+	if (dcc && m_gaduOptions.useForwarding) {
+		CMStringW forwardHost = m_gaduOptions.forwardHost;
+		ptrA pHost(mir_u2a(forwardHost.c_str()));
+		if (!forwardHost.IsEmpty()) {
+			if (!(p.external_addr = gg_dnslookup(this, pHost))) {
+				CMStringW error(FORMAT, TranslateT("External direct connections hostname %s is invalid. Disabling external host forwarding."), forwardHost.c_str());
+				showpopup(m_tszUserName, error.c_str(), GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
 			}
 			else
-				debugLogA("mainthread() (%x): Loading forwarding host %s and port %d.", dbv.pszVal, p.external_port, this);
+				debugLogA("mainthread() (%x): Loading forwarding host %s and port %d.", pHost, p.external_port, this);
 
 			if (p.external_addr)
-				p.external_port = getWord(GG_KEY_FORWARDPORT, GG_KEYDEF_FORWARDPORT);
-
-			db_free(&dbv);
+				p.external_port = m_gaduOptions.forwardPort;
 		}
 	}
 	// Setup client port
@@ -428,13 +426,13 @@ retry:
 				perror = error;
 			}
 			debugLogW(L"mainthread() (%x): %s", this, perror);
-			if (getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS))
+			if (m_gaduOptions.showConnectionErrors)
 				showpopup(m_tszUserName, perror, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 
 			// Check if we should reconnect
 			if ((gg_failno >= GG_FAILURE_RESOLVING && gg_failno != GG_FAILURE_PASSWORD && gg_failno != GG_FAILURE_INTRUDER && gg_failno != GG_FAILURE_UNAVAILABLE)
 				&& errno == EACCES
-				&& (getByte(GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT) || (hostnum < hostcount - 1)))
+				&& (m_gaduOptions.autoRecconect || (hostnum < hostcount - 1)))
 			{
 				DWORD dwInterval = getDword(GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL);
 				BOOL bRetry = TRUE;
@@ -1179,7 +1177,7 @@ retry:
 
 	// If it was unwanted disconnection reconnect
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE
-		&& getByte(GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT))
+		&& m_gaduOptions.autoRecconect)
 	{
 		debugLogA("mainthread() (%x): Unintentional disconnection detected. Going to reconnect...", this);
 		hostnum = 0;
@@ -1222,7 +1220,7 @@ retry:
 
 ////////////////////////////////////////////////////////////
 // Change status function
-void GGPROTO::broadcastnewstatus(int newStatus)
+void GaduProto::broadcastnewstatus(int newStatus)
 {
 	gg_EnterCriticalSection(&modemsg_mutex, "broadcastnewstatus", 24, "modemsg_mutex", 1);
 	int oldStatus = m_iStatus;
@@ -1241,7 +1239,7 @@ void GGPROTO::broadcastnewstatus(int newStatus)
 
 ////////////////////////////////////////////////////////////
 // When contact is deleted
-int GGPROTO::contactdeleted(WPARAM hContact, LPARAM)
+int GaduProto::contactdeleted(WPARAM hContact, LPARAM)
 {
 	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
 
@@ -1289,7 +1287,7 @@ static wchar_t* sttSettingToTchar(DBVARIANT* value)
 	return nullptr;
 }
 
-int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
+int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
@@ -1370,7 +1368,7 @@ int GGPROTO::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 ////////////////////////////////////////////////////////////
 // All users set offline
 //
-void GGPROTO::setalloffline()
+void GaduProto::setalloffline()
 {
 	debugLogA("setalloffline(): started. Setting buddies offline");
 	setWord(GG_KEY_STATUS, ID_STATUS_OFFLINE);
@@ -1391,7 +1389,7 @@ void GGPROTO::setalloffline()
 ////////////////////////////////////////////////////////////
 // All users set offline
 //
-void GGPROTO::notifyuser(MCONTACT hContact, int refresh)
+void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 {
 	uin_t uin;
 	if (!hContact)
@@ -1433,7 +1431,7 @@ void GGPROTO::notifyuser(MCONTACT hContact, int refresh)
 	}
 }
 
-void GGPROTO::notifyall()
+void GaduProto::notifyall()
 {
 	MCONTACT hContact;
 	debugLogA("notifyall(): Subscribing notification to all users");
@@ -1486,7 +1484,7 @@ void GGPROTO::notifyall()
 ////////////////////////////////////////////////////////////
 // Get contact by uin
 //
-MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
+MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 {
 #ifdef DEBUGMODE
 	debugLogA("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
@@ -1572,7 +1570,7 @@ MCONTACT GGPROTO::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 ////////////////////////////////////////////////////////////
 // Status conversion
 //
-int GGPROTO::status_m2gg(int status, int descr)
+int GaduProto::status_m2gg(int status, int descr)
 {
 	// check frends only
 	int mask = getByte(GG_KEY_FRIENDSONLY, GG_KEYDEF_FRIENDSONLY) ? GG_STATUS_FRIENDS_MASK : 0;
@@ -1601,7 +1599,7 @@ int GGPROTO::status_m2gg(int status, int descr)
 	}
 }
 
-int GGPROTO::status_gg2m(int status)
+int GaduProto::status_gg2m(int status)
 {
 	// ignore additional flags
 	status = GG_S(status);
@@ -1647,7 +1645,7 @@ int GGPROTO::status_gg2m(int status)
 ////////////////////////////////////////////////////////////
 // Called when contact status is changed
 //
-void GGPROTO::changecontactstatus(uin_t uin, int status, const wchar_t *idescr, int, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
+void GaduProto::changecontactstatus(uin_t uin, int status, const wchar_t *idescr, int, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
 {
 #ifdef DEBUGMODE
 	debugLogA("changecontactstatus(): uin=%d status=%d", uin, status);

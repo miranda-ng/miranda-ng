@@ -43,7 +43,7 @@ HINSTANCE hInstance;
 SSL_API sslApi;
 CLIST_INTERFACE *pcli;
 int hLangpack;
-LIST<GGPROTO> g_Instances(1, PtrKeySortT);
+LIST<GaduProto> g_Instances(1, PtrKeySortT);
 
 static unsigned long crc_table[256];
 
@@ -159,7 +159,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 //////////////////////////////////////////////////////////
 // Cleanups from last plugin
 //
-void GGPROTO::cleanuplastplugin(DWORD version)
+void GaduProto::cleanuplastplugin(DWORD version)
 {
 	// Store current plugin version
 	setDword(GG_PLUGINVERSION, pluginInfo.version);
@@ -192,10 +192,10 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 
 	//2. force SSL and keepalive; overwrite old server list; 
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 4)) {
-		setString(GG_KEY_SERVERHOSTS, GG_KEYDEF_SERVERHOSTS);
-		setByte(GG_KEY_MANUALHOST, 1);
-		setByte(GG_KEY_SSLCONN, 1);
-		setByte(GG_KEY_KEEPALIVE, 1);
+		setWString("ServerHosts", GG_KEYDEF_SERVERHOSTS);
+		m_gaduOptions.useManualHosts = 1;
+		m_gaduOptions.useSslConnection = 1;
+		m_gaduOptions.keepConnectionAlive = 1;
 	}
 }
 
@@ -216,7 +216,7 @@ static int gg_modulesloaded(WPARAM, LPARAM)
 //////////////////////////////////////////////////////////
 // Gets protocol instance associated with a contact
 //
-static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
+static GaduProto* gg_getprotoinstance(MCONTACT hContact)
 {
 	char* szProto = GetContactProto(hContact);
 	if (szProto == nullptr)
@@ -234,7 +234,7 @@ static GGPROTO* gg_getprotoinstance(MCONTACT hContact)
 //
 static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 {
-	GGPROTO* gg = gg_getprotoinstance(hContact);
+	GaduProto* gg = gg_getprotoinstance(hContact);
 	if (gg == nullptr)
 		return 0;
 
@@ -249,7 +249,7 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 //////////////////////////////////////////////////////////
 // Contact block service function
 //
-INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM)
+INT_PTR GaduProto::blockuser(WPARAM hContact, LPARAM)
 {
 	setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
 	notifyuser(hContact, 1);
@@ -262,7 +262,7 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM)
 //////////////////////////////////////////////////////////
 // Contact blocking initialization
 //
-void GGPROTO::block_init()
+void GaduProto::block_init()
 {
 	CMenuItem mi;
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
@@ -278,7 +278,7 @@ void GGPROTO::block_init()
 //////////////////////////////////////////////////////////
 // Contact blocking uninitialization
 //
-void GGPROTO::block_uninit()
+void GaduProto::block_uninit()
 {
 	Menu_RemoveItem(hBlockMenuItem);
 }
@@ -286,7 +286,7 @@ void GGPROTO::block_uninit()
 //////////////////////////////////////////////////////////
 // Menus initialization
 //
-void GGPROTO::menus_init()
+void GaduProto::menus_init()
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(this);
 
@@ -312,9 +312,9 @@ void GGPROTO::menus_init()
 //////////////////////////////////////////////////////////
 // Module instance initialization
 //
-static GGPROTO *gg_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
+static GaduProto *gg_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
 {
-	GGPROTO *gg = new GGPROTO(pszProtoName, tszUserName);
+	GaduProto *gg = new GaduProto(pszProtoName, tszUserName);
 	g_Instances.insert(gg);
 	return gg;
 }
@@ -324,7 +324,7 @@ static GGPROTO *gg_proto_init(const char* pszProtoName, const wchar_t* tszUserNa
 //
 static int gg_proto_uninit(PROTO_INTERFACE *proto)
 {
-	GGPROTO *gg = (GGPROTO *)proto;
+	GaduProto *gg = (GaduProto *)proto;
 	g_Instances.remove(gg);
 	delete gg;
 	return 0;

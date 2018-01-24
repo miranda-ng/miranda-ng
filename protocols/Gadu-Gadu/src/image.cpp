@@ -57,7 +57,7 @@ struct GGIMAGEDLGDATA
 	GGIMAGEENTRY *lpImages;
 	SIZE minSize;
 	BOOL bReceiving;
-	GGPROTO *gg;
+	GaduProto *gg;
 };
 
 // Prototypes
@@ -66,7 +66,7 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 ////////////////////////////////////////////////////////////////////////////
 // Image Module : Adding item to contact menu, creating sync objects
 //
-int GGPROTO::img_init()
+int GaduProto::img_init()
 {
 	// Send image contact menu item
 	CMenuItem mi;
@@ -78,7 +78,7 @@ int GGPROTO::img_init()
 	hImageMenuItem = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	// Receive image
-	CreateProtoService(GGS_RECVIMAGE, &GGPROTO::img_recvimage);
+	CreateProtoService(GGS_RECVIMAGE, &GaduProto::img_recvimage);
 
 	return FALSE;
 }
@@ -86,7 +86,7 @@ int GGPROTO::img_init()
 ////////////////////////////////////////////////////////////////////////////
 // Image Module : closing dialogs, sync objects
 //
-int GGPROTO::img_shutdown()
+int GaduProto::img_shutdown()
 {
 	list_t l;
 #ifdef DEBUGMODE
@@ -117,7 +117,7 @@ int GGPROTO::img_shutdown()
 ////////////////////////////////////////////////////////////////////////////
 // Image Module : destroying list
 //
-int GGPROTO::img_destroy()
+int GaduProto::img_destroy()
 {
 	// Release all dialogs
 	while (imagedlgs && gg_img_remove((GGIMAGEDLGDATA *)imagedlgs->data));
@@ -245,7 +245,7 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 	if (!dat)
 		return FALSE;
 
-	GGPROTO* gg = ((GGIMAGEDLGDATA *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->gg;
+	GaduProto* gg = ((GGIMAGEDLGDATA *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->gg;
 
 	wchar_t szFilter[128];
 	gg_img_getfilter(szFilter, _countof(szFilter));
@@ -516,7 +516,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			// Deleting all image entries
 			GGIMAGEENTRY *temp, *img = dat->lpImages;
-			GGPROTO *gg = dat->gg;
+			GaduProto *gg = dat->gg;
 			while (temp = img)
 			{
 				img = img->lpNext;
@@ -606,7 +606,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			unsigned char format[20];
 			char *msg = "\xA0\0";
-			GGPROTO *gg = dat->gg;
+			GaduProto *gg = dat->gg;
 
 			if (dat->lpImages && gg->isonline())
 			{
@@ -704,7 +704,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 ////////////////////////////////////////////////////////////////////////////
 // Image dialog call thread
 //
-void __cdecl GGPROTO::img_dlgcallthread(void *param)
+void __cdecl GaduProto::img_dlgcallthread(void *param)
 {
 	debugLogA("img_dlgcallthread(): started.");
 
@@ -721,7 +721,7 @@ void __cdecl GGPROTO::img_dlgcallthread(void *param)
 ////////////////////////////////////////////////////////////////////////////
 // Open dialog receive for specified contact
 //
-GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, MCONTACT hContact)
+GGIMAGEDLGDATA *gg_img_recvdlg(GaduProto *gg, MCONTACT hContact)
 {
 	// Create dialog data
 	GGIMAGEDLGDATA *dat = (GGIMAGEDLGDATA *)calloc(1, sizeof(GGIMAGEDLGDATA));
@@ -731,9 +731,9 @@ GGIMAGEDLGDATA *gg_img_recvdlg(GGPROTO *gg, MCONTACT hContact)
 	dat->gg = gg;
 	ResetEvent(dat->hEvent);
 #ifdef DEBUGMODE
-	gg->debugLogA("gg_img_recvdlg(): ForkThread 18 GGPROTO::img_dlgcallthread");
+	gg->debugLogA("gg_img_recvdlg(): ForkThread 18 GaduProto::img_dlgcallthread");
 #endif
-	gg->ForkThread(&GGPROTO::img_dlgcallthread, dat);
+	gg->ForkThread(&GaduProto::img_dlgcallthread, dat);
 
 	return dat;
 }
@@ -799,7 +799,7 @@ wchar_t *gg_img_hasextension(wchar_t *filename)
 ////////////////////////////////////////////////////////////////////////////////
 // Display received image using message with [img] BBCode
 //
-int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
+int GaduProto::img_displayasmsg(MCONTACT hContact, void *img)
 {
 	wchar_t szPath[MAX_PATH], path[MAX_PATH];
 	size_t tPathLen;
@@ -883,7 +883,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 ////////////////////////////////////////////////////////////////////////////
 // Return if uin has it's window already opened
 //
-BOOL GGPROTO::img_opened(uin_t uin)
+BOOL GaduProto::img_opened(uin_t uin)
 {
 	list_t l = imagedlgs;
 	while (l)
@@ -901,7 +901,7 @@ BOOL GGPROTO::img_opened(uin_t uin)
 ////////////////////////////////////////////////////////////////////////////
 // Image Module : Looking for window entry, create if not found
 //
-int GGPROTO::img_display(MCONTACT hContact, void *img)
+int GaduProto::img_display(MCONTACT hContact, void *img)
 {
 	list_t l = imagedlgs;
 	GGIMAGEDLGDATA *dat = nullptr;
@@ -970,7 +970,7 @@ const wchar_t *gg_img_guessfileextension(const char *lpData)
 ////////////////////////////////////////////////////////////////////////////
 // Image Window : Loading picture and sending for display
 //
-void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
+void* GaduProto::img_loadpicture(gg_event* e, wchar_t *szFileName)
 {
 	if (!szFileName &&
 		(!e || !e->event.image_reply.size || !e->event.image_reply.image || !e->event.image_reply.filename))
@@ -1085,7 +1085,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 ////////////////////////////////////////////////////////////////////////////
 // Image Recv : AddEvent proc
 //
-INT_PTR GGPROTO::img_recvimage(WPARAM wParam, LPARAM lParam)
+INT_PTR GaduProto::img_recvimage(WPARAM wParam, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT *)lParam;
 	GGIMAGEENTRY *img = (GGIMAGEENTRY *)cle->lParam;
@@ -1109,7 +1109,7 @@ INT_PTR GGPROTO::img_recvimage(WPARAM wParam, LPARAM lParam)
 int gg_img_remove(GGIMAGEDLGDATA *dat)
 {
 	GGIMAGEENTRY *temp = nullptr, *img = nullptr;
-	GGPROTO *gg;
+	GaduProto *gg;
 
 	if (!dat)
 		return FALSE;
@@ -1137,7 +1137,7 @@ int gg_img_remove(GGIMAGEDLGDATA *dat)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-GGIMAGEDLGDATA* gg_img_find(GGPROTO *gg, uin_t uin, uint32_t crc32)
+GGIMAGEDLGDATA* gg_img_find(GaduProto *gg, uin_t uin, uint32_t crc32)
 {
 	list_t l = gg->imagedlgs;
 	GGIMAGEDLGDATA *dat;
@@ -1170,7 +1170,7 @@ GGIMAGEDLGDATA* gg_img_find(GGPROTO *gg, uin_t uin, uint32_t crc32)
 ////////////////////////////////////////////////////////////////////////////
 // Image Module : Send on Request
 //
-BOOL GGPROTO::img_sendonrequest(gg_event* e)
+BOOL GaduProto::img_sendonrequest(gg_event* e)
 {
 	GGIMAGEDLGDATA *dat = gg_img_find(this, e->event.image_request.sender, e->event.image_request.crc32);
 	if (!dat || !isonline())
@@ -1190,7 +1190,7 @@ BOOL GGPROTO::img_sendonrequest(gg_event* e)
 ////////////////////////////////////////////////////////////////////////////
 // Send Image : Run (Thread and main)
 //
-INT_PTR GGPROTO::img_sendimg(WPARAM hContact, LPARAM)
+INT_PTR GaduProto::img_sendimg(WPARAM hContact, LPARAM)
 {
 	GGIMAGEDLGDATA *dat = nullptr;
 
@@ -1205,9 +1205,9 @@ INT_PTR GGPROTO::img_sendimg(WPARAM hContact, LPARAM)
 
 		// Create new dialog
 #ifdef DEBUGMODE
-		debugLogA("img_sendimg(): ForkThread 19 GGPROTO::img_dlgcallthread");
+		debugLogA("img_sendimg(): ForkThread 19 GaduProto::img_dlgcallthread");
 #endif
-		ForkThread(&GGPROTO::img_dlgcallthread, dat);
+		ForkThread(&GaduProto::img_dlgcallthread, dat);
 
 		while (WaitForSingleObjectEx(dat->hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 

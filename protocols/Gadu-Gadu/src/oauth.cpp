@@ -291,7 +291,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	return res;
 }
 
-int GGPROTO::oauth_receivetoken()
+int GaduProto::oauth_receivetoken()
 {
 	char szUrl[256], uin[32], *token = nullptr, *token_secret = nullptr;
 	int res = 0;
@@ -440,7 +440,7 @@ int GGPROTO::oauth_receivetoken()
 	return res;
 }
 
-int GGPROTO::oauth_checktoken(int force)
+int GaduProto::oauth_checktoken(int force)
 {
 	if (force)
 		return oauth_receivetoken();

@@ -68,9 +68,7 @@
 #include <m_popup.h>
 #include <win2k.h>
 #include <m_folders.h>
-
-// Plugin headers
-#include "resource.h"
+#include <m_gui.h>
 
 // libgadu headers
 #include "libgadu.h"
@@ -115,11 +113,9 @@ struct GGGETAVATARDATA
 	char *szAvatarURL;
 };
 
-
 // Wrappers of the old interface
 #define GGDEF_PROTO 	 "GG"        // Default Proto
 #define GGDEF_PROTONAME  "Gadu-Gadu" // Default ProtoName
-
 
 // Process handles / seqs
 #define GG_SEQ_INFO				100
@@ -138,7 +134,7 @@ struct GGGETAVATARDATA
 #define GGS_RECVIMAGE			"/RecvImage"
 
 // Keys
-#define GG_PLUGINVERSION		"Version"		// Plugin version.. user for cleanup from previous versions
+#define GG_PLUGINVERSION		"Version"		// Plugin version.. used for cleanup from previous versions
 
 #define GG_KEY_UIN				"UIN"			// Uin - unique number
 #define GG_KEY_PASSWORD			"Password"		// Password
@@ -149,15 +145,6 @@ struct GGGETAVATARDATA
 												// should be stored in "CList" group
 #define GG_KEY_TOKEN			"Token"			// OAuth Access Token
 #define GG_KEY_TOKENSECRET		"TokenSecret"	// OAuth Access Token Secret
-
-#define GG_KEY_KEEPALIVE		"KeepAlive" 	// Keep-alive support
-#define GG_KEYDEF_KEEPALIVE		1
-
-#define GG_KEY_SHOWCERRORS		"ShowCErrors"	// Show connection errors
-#define GG_KEYDEF_SHOWCERRORS	1
-
-#define GG_KEY_ARECONNECT		"AReconnect"	// Automatically reconnect
-#define GG_KEYDEF_ARECONNECT	0
 
 #define GG_KEY_LEAVESTATUSMSG	"LeaveStatusMsg"// Leave status msg when disconnected
 #define GG_KEYDEF_LEAVESTATUSMSG 0
@@ -198,30 +185,12 @@ struct GGGETAVATARDATA
 #define GG_KEY_IMGMETHOD		"PopupImg"		// Popup image window automatically
 #define GG_KEYDEF_IMGMETHOD		1
 
-#define GG_KEY_MSGACK			"MessageAck"	// Acknowledge when sending msg
-#define GG_KEYDEF_MSGACK		1
-
-#define GG_KEY_MANUALHOST		"ManualHost"	// Specify by hand server host/port
-#define GG_KEYDEF_MANUALHOST	1
-#define GG_KEY_SSLCONN			"SSLConnection" // Use SSL/TLS for connections
-#define GG_KEYDEF_SSLCONN		1
-#define GG_KEY_SERVERHOSTS		"ServerHosts"	// NL separated list of hosts for server connection
-#define GG_KEYDEF_SERVERHOSTS	"91.214.237.108\r\n91.214.237.112\r\n91.214.237.116\r\n91.214.237.120\r\n91.214.237.123"
+// newline separated list of hosts for server connection
+#define GG_KEYDEF_SERVERHOSTS	L"91.214.237.108\r\n91.214.237.112\r\n91.214.237.116\r\n91.214.237.120\r\n91.214.237.123"
 
 #define GG_KEY_CLIENTIP 		"IP"			// Contact IP (by notify)
 #define GG_KEY_CLIENTPORT		"ClientPort"	// Contact port
 #define GG_KEY_CLIENTVERSION	"ClientVersion"	// Contact app version
-
-#define GG_KEY_DIRECTCONNS		"DirectConns"	// Use direct connections
-#define GG_KEYDEF_DIRECTCONNS	1
-#define GG_KEY_DIRECTPORT		"DirectPort"	// Direct connections port
-#define GG_KEYDEF_DIRECTPORT	1550
-
-#define GG_KEY_FORWARDING		"Forwarding"	// Use forwarding
-#define GG_KEYDEF_FORWARDING	0
-#define GG_KEY_FORWARDHOST		"ForwardHost"	// Forwarding host (firewall)
-#define GG_KEY_FORWARDPORT		"ForwardPort"	// Forwarding port (firewall port)
-#define GG_KEYDEF_FORWARDPORT	1550			// Forwarding port (firewall port)
 
 #define GG_KEY_GC_POLICY_UNKNOWN		"GCPolicyUnknown"
 #define GG_KEYDEF_GC_POLICY_UNKNOWN 	1
@@ -286,13 +255,14 @@ struct GGGETAVATARDATA
 // Global variables
 /////////////////////////////////////////////////
 
-struct GGPROTO;
+struct GaduProto;
 
 extern HINSTANCE hInstance;
 extern CLIST_INTERFACE *pcli;
-extern LIST<GGPROTO> g_Instances;
+extern LIST<GaduProto> g_Instances;
 extern PLUGININFOEX pluginInfo;
 extern IconItem iconList[];
+extern SSL_API sslApi;
 
 /////////////////////////////////////////////////
 // Methods
@@ -326,8 +296,9 @@ void gg_links_init();
 // Debug functions
 const char *ggdebug_eventtype(gg_event *e);
 
+// Plugin headers
+#include "options.h" //include before protocol declaration
 #include "gg_proto.h"
-
-extern SSL_API sslApi;
+#include "resource.h"
 
 #endif

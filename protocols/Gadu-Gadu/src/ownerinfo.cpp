@@ -29,7 +29,7 @@ struct GG_REMIND_PASS
 //////////////////////////////////////////////////////////
 // remind password
 //
-void __cdecl GGPROTO::remindpasswordthread(void *param)
+void __cdecl GaduProto::remindpasswordthread(void *param)
 {
 	// Connection handle
 	GG_REMIND_PASS *rp = (GG_REMIND_PASS *)param;
@@ -74,14 +74,14 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 #endif
 }
 
-void GGPROTO::remindpassword(uin_t uin, const char *email)
+void GaduProto::remindpassword(uin_t uin, const char *email)
 {
 	GG_REMIND_PASS *rp = (GG_REMIND_PASS*)malloc(sizeof(GG_REMIND_PASS));
 
 	rp->uin = uin;
 	rp->email = email;
 #ifdef DEBUGMODE
-	debugLogA("remindpassword(): ForkThreadEx 20 GGPROTO::remindpasswordthread");
+	debugLogA("remindpassword(): ForkThreadEx 20 GaduProto::remindpasswordthread");
 #endif
-	ForkThread(&GGPROTO::remindpasswordthread, rp);
+	ForkThread(&GaduProto::remindpasswordthread, rp);
 }

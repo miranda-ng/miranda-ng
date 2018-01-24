@@ -50,7 +50,7 @@ char *gg_status2db(int status, const char *suffix)
 //////////////////////////////////////////////////////////
 // gets protocol status
 //
-wchar_t* GGPROTO::getstatusmsg(int status)
+wchar_t* GaduProto::getstatusmsg(int status)
 {
 	switch (status) {
 	case ID_STATUS_ONLINE:
@@ -74,7 +74,7 @@ wchar_t* GGPROTO::getstatusmsg(int status)
 //////////////////////////////////////////////////////////
 // sets specified protocol status
 //
-int GGPROTO::refreshstatus(int status)
+int GaduProto::refreshstatus(int status)
 {
 	if (status == ID_STATUS_OFFLINE)
 	{
@@ -94,9 +94,9 @@ int GGPROTO::refreshstatus(int status)
 		threadwait(&pth_sess);
 #ifdef DEBUGMODE
 		debugLogA("refreshstatus(): Waiting pth_sess thread - OK");
-		debugLogA("refreshstatus(): ForkThreadEx 21 GGPROTO::mainthread");
+		debugLogA("refreshstatus(): ForkThreadEx 21 GaduProto::mainthread");
 #endif
-		pth_sess.hThread = ForkThreadEx(&GGPROTO::mainthread, nullptr, &pth_sess.dwThreadId);
+		pth_sess.hThread = ForkThreadEx(&GaduProto::mainthread, nullptr, &pth_sess.dwThreadId);
 	}
 	else
 	{
@@ -146,7 +146,7 @@ int gg_normalizestatus(int status)
 // gets avatar capabilities
 // registered as ProtoService PS_GETAVATARCAPS
 //
-INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
+INT_PTR GaduProto::getavatarcaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
 	case AF_MAXSIZE:
@@ -172,7 +172,7 @@ INT_PTR GGPROTO::getavatarcaps(WPARAM wParam, LPARAM lParam)
 // gets avatar information
 // registered as ProtoService PS_GETAVATARINFO
 //
-INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
+INT_PTR GaduProto::getavatarinfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 	pai->filename[0] = 0;
@@ -288,7 +288,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 // gets avatar
 // registered as ProtoService PS_GETMYAVATAR
 //
-INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
+INT_PTR GaduProto::getmyavatar(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t *szFilename = (wchar_t*)wParam;
 	int len = (int)lParam;
@@ -319,7 +319,7 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 // sets avatar
 // registered as ProtoService PS_SETMYAVATAR
 //
-INT_PTR GGPROTO::setmyavatar(WPARAM, LPARAM lParam)
+INT_PTR GaduProto::setmyavatar(WPARAM, LPARAM lParam)
 {
 	wchar_t *szFilename = (wchar_t*)lParam;
 
@@ -358,7 +358,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM, LPARAM lParam)
 // gets protocol status message
 // registered as ProtoService PS_GETMYAWAYMSG
 //
-INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
+INT_PTR GaduProto::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR res = 0;
 
@@ -377,7 +377,7 @@ extern INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwnd, UINT msg, WPARAM wParam
 // gets account manager GUI
 // registered as ProtoService PS_CREATEACCMGRUI
 //
-INT_PTR GGPROTO::get_acc_mgr_gui(WPARAM, LPARAM lParam)
+INT_PTR GaduProto::get_acc_mgr_gui(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ACCMGRUI), (HWND)lParam, gg_acc_mgr_guidlgproc, (LPARAM)this);
 }
@@ -386,7 +386,7 @@ INT_PTR GGPROTO::get_acc_mgr_gui(WPARAM, LPARAM lParam)
 // leaves (terminates) conference
 // registered as ProtoService PS_LEAVECHAT
 //
-INT_PTR GGPROTO::leavechat(WPARAM hContact, LPARAM)
+INT_PTR GaduProto::leavechat(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 		db_delete_contact(hContact);

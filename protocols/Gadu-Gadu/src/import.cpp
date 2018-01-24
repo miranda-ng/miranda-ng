@@ -20,7 +20,7 @@
 
 #include "gg.h"
 
-char *gg_makecontacts(GGPROTO *gg, int cr)
+char *gg_makecontacts(GaduProto *gg, int cr)
 {
 	string_t s = string_init(nullptr);
 
@@ -124,7 +124,7 @@ char *strndup(char *str, int c)
 	return ret;
 }
 
-void GGPROTO::parsecontacts(char *contacts)
+void GaduProto::parsecontacts(char *contacts)
 {
 	char *p = strchr(contacts, ':'), *n = nullptr;
 	char *strFirstName, *strLastName, *strNickname, *strNick, *strPhone, *strGroup, *strUin, *strMail;
@@ -263,7 +263,7 @@ void GGPROTO::parsecontacts(char *contacts)
 //////////////////////////////////////////////////////////
 // import from server
 //
-INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
+INT_PTR GaduProto::import_server(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline())
@@ -302,7 +302,7 @@ INT_PTR GGPROTO::import_server(WPARAM, LPARAM)
 //////////////////////////////////////////////////////////
 // remove from server
 //
-INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
+INT_PTR GaduProto::remove_server(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline()) {
@@ -340,7 +340,7 @@ INT_PTR GGPROTO::remove_server(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
+INT_PTR GaduProto::import_text(WPARAM, LPARAM)
 {
 	wchar_t str[MAX_PATH];
 	wchar_t filter[512];
@@ -414,7 +414,7 @@ INT_PTR GGPROTO::import_text(WPARAM, LPARAM)
 	}
 }
 
-INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
+INT_PTR GaduProto::export_text(WPARAM, LPARAM)
 {
 
 	wchar_t str[MAX_PATH];
@@ -484,7 +484,7 @@ INT_PTR GGPROTO::export_text(WPARAM, LPARAM)
 //////////////////////////////////////////////////////////
 // export to server
 //
-INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
+INT_PTR GaduProto::export_server(WPARAM, LPARAM)
 {
 	// Check if connected
 	if (!isonline())
@@ -533,7 +533,7 @@ INT_PTR GGPROTO::export_server(WPARAM, LPARAM)
 //////////////////////////////////////////////////////////
 // Import menus and stuff
 //
-void GGPROTO::import_init(HGENMENU hRoot)
+void GaduProto::import_init(HGENMENU hRoot)
 {
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
@@ -542,7 +542,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	// Import from server item
 	SET_UID(mi, 0x50ea554c, 0x6371, 0x495c, 0x86, 0x7f, 0x28, 0x7, 0x47, 0x59, 0x20, 0x20);
 	mi.pszService = GGS_IMPORT_SERVER;
-	CreateProtoService(mi.pszService, &GGPROTO::import_server);
+	CreateProtoService(mi.pszService, &GaduProto::import_server);
 	mi.position = 2000500001;
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.name.w = LPGENW("Import List From &Server");
@@ -551,7 +551,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	// Import from textfile
 	SET_UID(mi, 0x39c036d5, 0x6eb5, 0x49ae, 0xa8, 0x78, 0x8a, 0x72, 0xeb, 0xf, 0x15, 0x3d);
 	mi.pszService = GGS_IMPORT_TEXT;
-	CreateProtoService(mi.pszService, &GGPROTO::import_text);
+	CreateProtoService(mi.pszService, &GaduProto::import_text);
 	mi.position = 2000500002;
 	mi.hIcolibItem = iconList[2].hIcolib;
 	mi.name.w = LPGENW("Import List From &Text File...");
@@ -560,7 +560,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	// Remove from server
 	SET_UID(mi, 0x6bdbe700, 0xf240, 0x4ed8, 0x86, 0x26, 0x31, 0x85, 0xf8, 0x5, 0xe5, 0xb1);
 	mi.pszService = GGS_REMOVE_SERVER;
-	CreateProtoService(mi.pszService, &GGPROTO::remove_server);
+	CreateProtoService(mi.pszService, &GaduProto::remove_server);
 	mi.position = 2000500003;
 	mi.hIcolibItem = iconList[3].hIcolib;
 	mi.name.w = LPGENW("&Remove List From Server");
@@ -569,7 +569,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	// Export to server
 	SET_UID(mi, 0xddb8e1f0, 0x7282, 0x4105, 0x90, 0x83, 0x92, 0x25, 0x21, 0x7d, 0xe2, 0x6a);
 	mi.pszService = GGS_EXPORT_SERVER;
-	CreateProtoService(mi.pszService, &GGPROTO::export_server);
+	CreateProtoService(mi.pszService, &GaduProto::export_server);
 	mi.position = 2005000001;
 	mi.hIcolibItem = iconList[4].hIcolib;
 	mi.name.w = LPGENW("Export List To &Server");
@@ -578,7 +578,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	// Export to textfile
 	SET_UID(mi, 0x7ee0000b, 0xb202, 0x4fe4, 0xb3, 0x42, 0x3b, 0x39, 0xfb, 0x9d, 0x80, 0x5d);
 	mi.pszService = GGS_EXPORT_TEXT;
-	CreateProtoService(mi.pszService, &GGPROTO::export_text);
+	CreateProtoService(mi.pszService, &GaduProto::export_text);
 	mi.position = 2005000002;
 	mi.hIcolibItem = iconList[5].hIcolib;
 	mi.name.w = LPGENW("Export List To &Text File...");

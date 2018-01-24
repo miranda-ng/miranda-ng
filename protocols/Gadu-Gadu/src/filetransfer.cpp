@@ -23,7 +23,7 @@
 #include <io.h>
 #include <fcntl.h>
 
-void GGPROTO::dccstart()
+void GaduProto::dccstart()
 {
 	DWORD exitCode = 0;
 
@@ -45,7 +45,7 @@ void GGPROTO::dccstart()
 	}
 
 	// Check if we wan't direct connections
-	if (!getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS))
+	if (!m_gaduOptions.useDirectConnections)
 	{
 		debugLogA("dccstart(): No direct connections setup.");
 		if (hEvent)
@@ -55,12 +55,12 @@ void GGPROTO::dccstart()
 
 	// Start thread
 #ifdef DEBUGMODE
-	debugLogA("dccstart(): ForkThreadEx 4 GGPROTO::dccmainthread");
+	debugLogA("dccstart(): ForkThreadEx 4 GaduProto::dccmainthread");
 #endif
-	pth_dcc.hThread = ForkThreadEx(&GGPROTO::dccmainthread, nullptr, &pth_dcc.dwThreadId);
+	pth_dcc.hThread = ForkThreadEx(&GaduProto::dccmainthread, nullptr, &pth_dcc.dwThreadId);
 }
 
-void GGPROTO::dccconnect(uin_t uin)
+void GaduProto::dccconnect(uin_t uin)
 {
 	MCONTACT hContact = getcontact(uin, 0, 0, nullptr);
 
@@ -97,7 +97,7 @@ struct ftfaildata
 //////////////////////////////////////////////////////////
 // THREAD: File transfer fail
 //
-void __cdecl GGPROTO::ftfailthread(void *param)
+void __cdecl GaduProto::ftfailthread(void *param)
 {
 	struct ftfaildata *ft = (struct ftfaildata *)param;
 	debugLogA("ftfailthread(): started. Sending failed file transfer.");
@@ -107,7 +107,7 @@ void __cdecl GGPROTO::ftfailthread(void *param)
 	debugLogA("ftfailthread(): end.");
 }
 
-HANDLE ftfail(GGPROTO *gg, MCONTACT hContact)
+HANDLE ftfail(GaduProto *gg, MCONTACT hContact)
 {
 	ftfaildata *ft = (ftfaildata*)malloc(sizeof(struct ftfaildata));
 #ifdef DEBUGMODE
@@ -117,9 +117,9 @@ HANDLE ftfail(GGPROTO *gg, MCONTACT hContact)
 	ft->hProcess = (HANDLE)rand();
 	ft->hContact = hContact;
 #ifdef DEBUGMODE
-	gg->debugLogA("ftfail(): ForkThread 5 GGPROTO::ftfailthread");
+	gg->debugLogA("ftfail(): ForkThread 5 GaduProto::ftfailthread");
 #endif
-	gg->ForkThread(&GGPROTO::ftfailthread, ft);
+	gg->ForkThread(&GaduProto::ftfailthread, ft);
 	return ft->hProcess;
 }
 
@@ -129,7 +129,7 @@ HANDLE ftfail(GGPROTO *gg, MCONTACT hContact)
 ////////////////////////////////////////////////////////////
 // Main DCC connection session thread
 //
-void __cdecl GGPROTO::dccmainthread(void*)
+void __cdecl GaduProto::dccmainthread(void*)
 {
 	// Zero up lists
 	list_t l;
@@ -150,7 +150,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	}
 
 	// Create listen socket on config direct port
-	if (!(dcc = gg_dcc_socket_create(uin, (uint16_t)getWord(GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))))
+	if (!(dcc = gg_dcc_socket_create(uin, static_cast<uint16_t>(m_gaduOptions.directConnectionPort))))
 	{
 		debugLogA("dccmainthread(): Cannot create DCC listen socket. Exiting.");
 		// Signalize mainthread we haven't start
@@ -667,7 +667,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	debugLogA("dccmainthread(): end. DCC Server Thread Ending");
 }
 
-HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
+HANDLE GaduProto::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 {
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_u2a(szPath);
@@ -708,7 +708,7 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const wchar_t* szPath)
 	return hTransfer;
 }
 
-HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
+HANDLE GaduProto::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 {
 	gg_dcc7 *dcc7 = (gg_dcc7 *) hTransfer;
 	char fileName[MAX_PATH], *path = mir_u2a(szPath);
@@ -761,7 +761,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const wchar_t* szPath)
 	return hTransfer;
 }
 
-int GGPROTO::dccfiledeny(HANDLE hTransfer)
+int GaduProto::dccfiledeny(HANDLE hTransfer)
 {
 	gg_dcc *dcc = (gg_dcc *) hTransfer;
 
@@ -785,7 +785,7 @@ int GGPROTO::dccfiledeny(HANDLE hTransfer)
 	return 0;
 }
 
-int GGPROTO::dcc7filedeny(HANDLE hTransfer)
+int GaduProto::dcc7filedeny(HANDLE hTransfer)
 {
 	gg_dcc7 *dcc7 = (gg_dcc7 *) hTransfer;
 
@@ -809,7 +809,7 @@ int GGPROTO::dcc7filedeny(HANDLE hTransfer)
 	return 0;
 }
 
-int GGPROTO::dccfilecancel(HANDLE hTransfer)
+int GaduProto::dccfilecancel(HANDLE hTransfer)
 {
 	gg_dcc *dcc = (gg_dcc *) hTransfer;
 
@@ -842,7 +842,7 @@ int GGPROTO::dccfilecancel(HANDLE hTransfer)
 	return 0;
 }
 
-int GGPROTO::dcc7filecancel(HANDLE hTransfer)
+int GaduProto::dcc7filecancel(HANDLE hTransfer)
 {
 	gg_dcc7 *dcc7 = (gg_dcc7 *) hTransfer;
 
@@ -879,7 +879,7 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 ////////////////////////////////////////////////////////////
 // File receiving allowed
 //
-HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
+HANDLE GaduProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	// Check if its proper dcc
 	gg_common *c = (gg_common *) hTransfer;
@@ -895,7 +895,7 @@ HANDLE GGPROTO::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 ////////////////////////////////////////////////////////////
 // File transfer canceled
 //
-int GGPROTO::FileCancel(MCONTACT, HANDLE hTransfer)
+int GaduProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	// Check if its proper dcc
 	gg_common *c = (gg_common *) hTransfer;
@@ -911,7 +911,7 @@ int GGPROTO::FileCancel(MCONTACT, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////
 // File receiving denied
 //
-int GGPROTO::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
+int GaduProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 {
 	// Check if its proper dcc
 	gg_common *c = (gg_common *) hTransfer;
@@ -927,7 +927,7 @@ int GGPROTO::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 ////////////////////////////////////////////////////////////
 // Called when received an file
 //
-int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
+int GaduProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 {
 	return Proto_RecvFile(hContact, pre);
 }
@@ -935,7 +935,7 @@ int GGPROTO::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
 ////////////////////////////////////////////////////////////
 // Called when user sends a file
 //
-HANDLE GGPROTO::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles)
+HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles)
 {
 	char *bslash, *filename;
 

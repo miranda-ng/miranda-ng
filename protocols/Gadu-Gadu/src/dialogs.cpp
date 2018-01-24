@@ -162,7 +162,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 ////////////////////////////////////////////////////////////////////////////////
 // Check if new user data has been filled in for specified account
 //
-void GGPROTO::checknewuser(uin_t uin, const char* passwd)
+void GaduProto::checknewuser(uin_t uin, const char* passwd)
 {
 	char oldpasswd[128];
 	DBVARIANT dbv;
@@ -212,14 +212,14 @@ static void gg_optsdlgcheck(HWND hwndDlg)
 //
 static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	GGPROTO *gg = (GGPROTO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	GaduProto *gg = (GaduProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
 		DBVARIANT dbv;
 		DWORD num;
-		gg = (GGPROTO *)lParam;
+		gg = (GaduProto *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 		TranslateDialogDefault(hwndDlg);
@@ -499,12 +499,12 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 //
 static INT_PTR CALLBACK gg_confoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	GGPROTO *gg = (GGPROTO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	GaduProto *gg = (GaduProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	DWORD num;
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		gg = (GGPROTO *)lParam;
+		gg = (GaduProto *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 		TranslateDialogDefault(hwndDlg);
@@ -557,127 +557,11 @@ static INT_PTR CALLBACK gg_confoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////
-// Proc: Advanced options dialog
-//
-static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	GGPROTO *gg = (GGPROTO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	DBVARIANT dbv;
-	DWORD num;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		gg = (GGPROTO *)lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-
-		TranslateDialogDefault(hwndDlg);
-		if (!gg->getString(GG_KEY_SERVERHOSTS, &dbv)) {
-			SetDlgItemTextA(hwndDlg, IDC_HOST, dbv.pszVal);
-			db_free(&dbv);
-		}
-		else SetDlgItemTextA(hwndDlg, IDC_HOST, GG_KEYDEF_SERVERHOSTS);
-
-		CheckDlgButton(hwndDlg, IDC_KEEPALIVE, gg->getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWCERRORS, gg->getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ARECONNECT, gg->getByte(GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MSGACK, gg->getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MANUALHOST, gg->getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SSLCONN, gg->getByte(GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN) ? BST_CHECKED : BST_UNCHECKED);
-
-		EnableWindow(GetDlgItem(hwndDlg, IDC_KEEPALIVE), false);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_MANUALHOST), false);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_SSLCONN), false);
-
-		//EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-		//EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), false);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), false);
-
-		CheckDlgButton(hwndDlg, IDC_DIRECTCONNS, gg->getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS) ? BST_CHECKED : BST_UNCHECKED);
-		if (num = gg->getWord(GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))
-			SetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, ditoa(num));
-		CheckDlgButton(hwndDlg, IDC_FORWARDING, gg->getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING) ? BST_CHECKED : BST_UNCHECKED);
-		if (!gg->getString(GG_KEY_FORWARDHOST, &dbv)) {
-			SetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, dbv.pszVal);
-			db_free(&dbv);
-		}
-		if (num = gg->getWord(GG_KEY_FORWARDPORT, GG_KEYDEF_FORWARDPORT))
-			SetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, ditoa(num));
-
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DIRECTPORT), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDING), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDPORT), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDHOST), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-		break;
-
-	case WM_COMMAND:
-		if ((LOWORD(wParam) == IDC_DIRECTPORT || LOWORD(wParam) == IDC_FORWARDHOST || LOWORD(wParam) == IDC_FORWARDPORT)
-			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-		switch (LOWORD(wParam)) {
-		case IDC_MANUALHOST:
-		{
-			EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-			ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
-			break;
-		}
-		case IDC_DIRECTCONNS:
-		case IDC_FORWARDING:
-		{
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DIRECTPORT), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDING), IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDPORT), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FORWARDHOST), IsDlgButtonChecked(hwndDlg, IDC_FORWARDING) && IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
-			break;
-		}
-		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-		{
-			char str[512];
-			gg->setByte(GG_KEY_KEEPALIVE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_KEEPALIVE));
-			gg->setByte(GG_KEY_SHOWCERRORS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWCERRORS));
-			gg->setByte(GG_KEY_ARECONNECT, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ARECONNECT));
-			gg->setByte(GG_KEY_MSGACK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MSGACK));
-			gg->setByte(GG_KEY_MANUALHOST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
-			gg->setByte(GG_KEY_SSLCONN, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SSLCONN));
-
-			// Transfer settings
-			gg->setByte(GG_KEY_DIRECTCONNS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DIRECTCONNS));
-			gg->setByte(GG_KEY_FORWARDING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FORWARDING));
-
-			// Write custom servers
-			GetDlgItemTextA(hwndDlg, IDC_HOST, str, _countof(str));
-			gg->setString(GG_KEY_SERVERHOSTS, str);
-
-			// Write direct port
-			GetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, str, _countof(str));
-			gg->setWord(GG_KEY_DIRECTPORT, (WORD)atoi(str));
-			// Write forwarding host
-			GetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, str, _countof(str));
-			gg->setString(GG_KEY_FORWARDHOST, str);
-			GetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, str, _countof(str));
-			gg->setWord(GG_KEY_FORWARDPORT, (WORD)atoi(str));
-			break;
-		}
-		}
-		break;
-	}
-	return FALSE;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // Info Page : Data
 struct GGDETAILSDLGDATA
 {
-	GGPROTO *gg;
+	GaduProto *gg;
 	MCONTACT hContact;
 	int disableUpdate;
 	int updating;
@@ -714,14 +598,14 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_PARAMCHANGED:
-				dat->gg = (GGPROTO *)((LPPSHNOTIFY)lParam)->lParam;
+				dat->gg = (GaduProto *)((LPPSHNOTIFY)lParam)->lParam;
 				break;
 
 			case PSN_INFOCHANGED:
 				if (dat)
 				{
 					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-					GGPROTO *gg = dat->gg;
+					GaduProto *gg = dat->gg;
 
 					// Show updated message
 					if (dat->updating)
@@ -807,7 +691,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					break;
 				{
 					wchar_t text[256];
-					GGPROTO *gg = dat->gg;
+					GaduProto *gg = dat->gg;
 
 					if (!gg->isonline())
 					{
@@ -884,11 +768,10 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // Options Page : Init
 //
-int GGPROTO::options_init(WPARAM wParam, LPARAM)
+int GaduProto::options_init(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.flags = ODPF_UNICODE;
@@ -910,9 +793,11 @@ int GGPROTO::options_init(WPARAM wParam, LPARAM)
 	Options_AddPage(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_ADVANCED);
-	odp.pfnDlgProc = gg_advoptsdlgproc;
+	odp.position = 2;
+	odp.pszTemplate = 0;
+	odp.pDialog = new GaduOptionsDlgAdvanced(this);
 	Options_AddPage(wParam, &odp);
+
 	return 0;
 }
 
@@ -920,7 +805,7 @@ int GGPROTO::options_init(WPARAM wParam, LPARAM)
 ////////////////////////////////////////////////////////////////////////////////
 // Info Page : Init
 //
-int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
+int GaduProto::details_init(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = lParam;
 	char* pszTemplate;
@@ -961,13 +846,13 @@ int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 //
 INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	GGPROTO *gg = (GGPROTO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	GaduProto *gg = (GaduProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
 		DBVARIANT dbv;
-		gg = (GGPROTO *)lParam;
+		gg = (GaduProto *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 		TranslateDialogDefault(hwndDlg);

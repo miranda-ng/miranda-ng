@@ -83,7 +83,7 @@ static int gg_insertlistitem(HWND hList, gg_multilogon_id_t* id, const char* cli
 	return index;
 }
 
-static void gg_listsessions(GGPROTO* gg, HWND hwndDlg)
+static void gg_listsessions(GaduProto* gg, HWND hwndDlg)
 {
 	HWND hList = GetDlgItem(hwndDlg, IDC_SESSIONS);
 	if (!hList)
@@ -154,12 +154,12 @@ static HCURSOR hHandCursor = nullptr;
 
 static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	GGPROTO* gg = (GGPROTO*)GetWindowLongPtr(hwndDlg, DWLP_USER);
+	GaduProto* gg = (GaduProto*)GetWindowLongPtr(hwndDlg, DWLP_USER);
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		gg = (GGPROTO*)lParam;
+		gg = (GaduProto*)lParam;
 		gg->hwndSessionsDlg = hwndDlg;
 
 		SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)lParam);
@@ -389,7 +389,7 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 	return FALSE;
 }
 
-INT_PTR GGPROTO::sessions_view(WPARAM, LPARAM)
+INT_PTR GaduProto::sessions_view(WPARAM, LPARAM)
 {
 	if (hwndSessionsDlg && IsWindow(hwndSessionsDlg)) {
 		ShowWindow(hwndSessionsDlg, SW_SHOWNORMAL);
@@ -402,13 +402,13 @@ INT_PTR GGPROTO::sessions_view(WPARAM, LPARAM)
 	return 0;
 }
 
-void GGPROTO::sessions_updatedlg()
+void GaduProto::sessions_updatedlg()
 {
 	if (hwndSessionsDlg && IsWindow(hwndSessionsDlg))
 		SendMessage(hwndSessionsDlg, WM_MULTILOGONINFO, 0, 0);
 }
 
-BOOL GGPROTO::sessions_closedlg()
+BOOL GaduProto::sessions_closedlg()
 {
 	if (hwndSessionsDlg && IsWindow(hwndSessionsDlg))
 		return PostMessage(hwndSessionsDlg, WM_CLOSE, 0, 0);
@@ -416,14 +416,14 @@ BOOL GGPROTO::sessions_closedlg()
 	return FALSE;
 }
 
-void GGPROTO::sessions_menus_init(HGENMENU hRoot)
+void GaduProto::sessions_menus_init(HGENMENU hRoot)
 {
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
 	mi.root = hRoot;
 
 	mi.pszService = GGS_CONCUR_SESS;
-	CreateProtoService(mi.pszService, &GGPROTO::sessions_view);
+	CreateProtoService(mi.pszService, &GaduProto::sessions_view);
 	mi.position = 200003;
 	mi.hIcolibItem = iconList[16].hIcolib;
 	mi.name.w = LPGENW("Concurrent &sessions");

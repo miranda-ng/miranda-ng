@@ -25,7 +25,7 @@ struct PopupData
 	unsigned flags;
 	wchar_t* title;
 	wchar_t* text;
-	GGPROTO* gg;
+	GaduProto* gg;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup plugin class registration
 //
-void GGPROTO::initpopups()
+void GaduProto::initpopups()
 {
 	wchar_t szDescr[256];
 	char  szName[256];
@@ -106,7 +106,7 @@ void GGPROTO::initpopups()
 void CALLBACK sttMainThreadCallback(PVOID dwParam)
 {
 	PopupData* puData = (PopupData*)dwParam;
-	GGPROTO* gg = puData->gg;
+	GaduProto* gg = puData->gg;
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char szName[256];
@@ -149,7 +149,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	mir_free(puData);
 }
 
-void GGPROTO::showpopup(const wchar_t* nickname, const wchar_t* msg, int flags)
+void GaduProto::showpopup(const wchar_t* nickname, const wchar_t* msg, int flags)
 {
 	if (Miranda_IsTerminated())
 		return;

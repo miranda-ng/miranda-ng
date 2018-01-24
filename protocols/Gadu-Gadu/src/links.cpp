@@ -58,7 +58,7 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 	if (!uin)
 		return 1;
 
-	GGPROTO *gg = nullptr;
+	GaduProto *gg = nullptr;
 	int items = 0;
 	for (int i = 0; i < g_Instances.getCount(); i++) {
 		gg = g_Instances[i];
@@ -114,7 +114,7 @@ void gg_links_init()
 	}
 }
 
-void GGPROTO::links_instance_init()
+void GaduProto::links_instance_init()
 {
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
 		CMenuItem mi;

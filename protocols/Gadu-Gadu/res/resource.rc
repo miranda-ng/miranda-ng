@@ -1,43 +1,69 @@
-////////////////////////////////////////////////////////////////////////////////
-// Gadu-Gadu Plugin for Miranda NG
+// Microsoft Visual C++ generated resource script.
 //
-// Copyright (c) 2003-2006 Adam Strzelecki <ono+miranda@java.pl>
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
-
-#include <windows.h>
 #include "..\src\resource.h"
 
-IDI_GG					ICON		"gg.ico"
-IDI_IMPORT_SERVER		ICON		"import_list_from_server.ico"
-IDI_IMPORT_TEXT 		ICON		"import_list_from_txt_file.ico"
-IDI_REMOVE_SERVER		ICON		"remove_list_from_server.ico"
-IDI_EXPORT_SERVER		ICON		"export_list_to_server.ico"
-IDI_EXPORT_TEXT 		ICON		"export_list_to_txt_file.ico"
-IDI_SETTINGS			ICON		"settings.ico"
-IDI_LIST				ICON		"list.ico"
-IDI_BLOCK				ICON		"block.ico"
-IDI_PREV				ICON		"previous.ico"
-IDI_NEXT				ICON		"next.ico"
-IDI_IMAGE				ICON		"image.ico"
-IDI_SAVE				ICON		"save.ico"
-IDI_DELETE				ICON		"delete.ico"
-IDI_CONFERENCE			ICON		"conference.ico"
-IDI_CLEAR_CONFERENCE	ICON		"clear_ignored_conference.ico"
-IDI_SESSIONS			ICON		"sessions.ico"
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Polish (Poland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PLK)
+LANGUAGE LANG_POLISH, SUBLANG_DEFAULT
+#pragma code_page(1250)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_GG                  ICON                    "gg.ico"
+
+IDI_IMPORT_SERVER       ICON                    "import_list_from_server.ico"
+
+IDI_IMPORT_TEXT         ICON                    "import_list_from_txt_file.ico"
+
+IDI_REMOVE_SERVER       ICON                    "remove_list_from_server.ico"
+
+IDI_EXPORT_SERVER       ICON                    "export_list_to_server.ico"
+
+IDI_EXPORT_TEXT         ICON                    "export_list_to_txt_file.ico"
+
+IDI_SETTINGS            ICON                    "settings.ico"
+
+IDI_LIST                ICON                    "list.ico"
+
+IDI_BLOCK               ICON                    "block.ico"
+
+IDI_PREV                ICON                    "previous.ico"
+
+IDI_NEXT                ICON                    "next.ico"
+
+IDI_IMAGE               ICON                    "image.ico"
+
+IDI_SAVE                ICON                    "save.ico"
+
+IDI_DELETE              ICON                    "delete.ico"
+
+IDI_CONFERENCE          ICON                    "conference.ico"
+
+IDI_CLEAR_CONFERENCE    ICON                    "clear_ignored_conference.ico"
+
+IDI_SESSIONS            ICON                    "sessions.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
 
 IDD_OPT_GG_GENERAL DIALOGEX 0, 0, 304, 207
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
@@ -55,7 +81,6 @@ BEGIN
     CONTROL         "Remove account",IDC_REMOVEACCOUNT,"Hyperlink",WS_TABSTOP,175,18,90,8
     CONTROL         "Change password",IDC_CHPASS,"Hyperlink",WS_TABSTOP,175,31,90,8
     CONTROL         "Retrieve password",IDC_LOSTPASS,"Hyperlink",WS_TABSTOP,175,44,90,8
-//		CONTROL 		"Change e-mail",IDC_CHEMAIL,"Hyperlink",WS_TABSTOP,175,62,90,8
     GROUPBOX        "Options",IDC_STATIC,4,75,298,106
     CONTROL         "Friends only",IDC_FRIENDSONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,90,284,10
     CONTROL         "Show offline users with status message as invisible in contact list",IDC_SHOWINVISIBLE,
@@ -65,7 +90,6 @@ BEGIN
     COMBOBOX        IDC_LEAVESTATUS,210,118,84,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Receive image and after image is received use:",IDC_IMGRECEIVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,135,177,10
-//		CONTROL 		"Ignore incoming conference messages",IDC_IGNORECONF,"Button",BS_AUTOCHECKBOX|WS_TABSTOP,12,145,255,10
     COMBOBOX        IDC_IMGMETHOD,190,133,104,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Show links from unknown contacts",IDC_SHOWLINKS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,150,284,10
     CONTROL         "Enable avatars",IDC_ENABLEAVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,165,284,10
@@ -102,22 +126,19 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,62,286,10
     CONTROL         "Manually specify connection servers' hosts",IDC_MANUALHOST,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,77,286,10
-//		LTEXT					"Host:",IDC_STATIC,31,97,26,8
-    EDITTEXT        IDC_HOST,22,91,144,36,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_DISABLED | WS_VSCROLL
-//		LTEXT					"Port:",IDC_STATIC,161,97,21,8
-//		EDITTEXT				IDC_PORT,186,96,31,12,ES_AUTOHSCROLL|WS_DISABLED|WS_TABSTOP|ES_NUMBER
+    EDITTEXT        IDC_HOST,22,91,144,39,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_DISABLED | WS_VSCROLL
     LTEXT           "* new line is separator\n** hostname:port format",IDC_STATIC,174,92,119,32
     CONTROL         "Use SSL secure connection",IDC_SSLCONN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,132,286,10
-    GROUPBOX        "File Transfer",IDC_STATIC,4,150,297,72
-    CONTROL         "Use direct connections",IDC_DIRECTCONNS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,165,153,10
-    LTEXT           "Port:",IDC_STATIC,161,164,21,8
-    EDITTEXT        IDC_DIRECTPORT,186,165,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
-    CONTROL         "Use forwarding",IDC_FORWARDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,178,286,10
+    GROUPBOX        "File Transfer",IDC_STATIC,4,150,297,58
+    CONTROL         "Use direct connections",IDC_DIRECTCONNS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,164,153,10
+    LTEXT           "Port:",IDC_STATIC,161,165,21,8
+    EDITTEXT        IDC_DIRECTPORT,186,163,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "Use forwarding",IDC_FORWARDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,178,153,10
     LTEXT           "Host:",IDC_STATIC,31,192,26,8
     EDITTEXT        IDC_FORWARDHOST,62,191,90,12,ES_AUTOHSCROLL | WS_DISABLED
     LTEXT           "Port:",IDC_STATIC,161,192,21,8
     EDITTEXT        IDC_FORWARDPORT,186,191,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
-    CTEXT           "These changes will take effect the next time you connect to the GG network.",IDC_RELOADREQD,7,209,286,8,NOT WS_VISIBLE
+    CTEXT           "These changes will take effect the next time you connect to the GG network.",IDC_RELOADREQD,7,213,286,8,NOT WS_VISIBLE
 END
 
 IDD_INFO_GG DIALOGEX 0, 0, 222, 132
@@ -126,31 +147,29 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Number:",IDC_STATIC,5,5,61,8
-    EDITTEXT        IDC_UIN,74,5,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
-//	LTEXT			"Version:",IDC_STATIC,144,5,56,8
-//	EDITTEXT		IDC_VERSION,175,5,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    EDITTEXT        IDC_UIN,74,5,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Internal IP:",IDC_STATIC,5,18,61,8
-    EDITTEXT        IDC_REALIP,74,18,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_REALIP,74,18,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Port:",IDC_STATIC,144,18,56,8
-    EDITTEXT        IDC_PORT,175,18,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_PORT,175,18,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "First name:",IDC_STATIC,5,31,61,8
-    EDITTEXT        IDC_FIRSTNAME,74,31,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_FIRSTNAME,74,31,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Last name:",IDC_STATIC,5,44,61,8
-    EDITTEXT        IDC_LASTNAME,74,44,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_LASTNAME,74,44,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Family name:",IDC_STATIC,5,57,61,8
-    EDITTEXT        IDC_FAMILYNAME,74,57,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_FAMILYNAME,74,57,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Nickname:",IDC_STATIC,5,70,61,8
-    EDITTEXT        IDC_NICKNAME,74,70,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_NICKNAME,74,70,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Gender:",IDC_STATIC,144,70,56,8
-    EDITTEXT        IDC_GENDER,165,70,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_GENDER,165,70,60,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "City:",IDC_STATIC,5,83,61,8
-    EDITTEXT        IDC_CITY,74,83,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_CITY,74,83,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Origin city:",IDC_STATIC,5,96,61,8
-    EDITTEXT        IDC_CITYORIGIN,74,96,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_CITYORIGIN,74,96,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Birth year:",IDC_STATIC,5,109,61,8
-    EDITTEXT        IDC_BIRTHYEAR,74,109,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_BIRTHYEAR,74,109,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
     LTEXT           "Description:",IDC_STATIC,5,122,61,8
-    EDITTEXT        IDC_STATUSDESCR,74,122,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | WS_TABSTOP
+    EDITTEXT        IDC_STATUSDESCR,74,122,161,8,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
 END
 
 IDD_CHINFO_GG DIALOGEX 0, 0, 222, 132
@@ -283,8 +302,6 @@ BEGIN
     CONTROL         "",IDC_IMG_NEXT,"MButtonClass",WS_TABSTOP,167,4,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "",IDC_IMG_DELETE,"MButtonClass",WS_TABSTOP,187,4,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "",IDC_IMG_SAVE,"MButtonClass",WS_TABSTOP,207,4,16,15,WS_EX_NOACTIVATE | 0x10000000L
-//	  CONTROL		  "",IDC_IMG_SCALE,"MButtonClass",WS_TABSTOP,207,4,16,15,0x18000000L
-//	  LTEXT 		  "",IDC_IMG_IMAGE,3,22,220,103,WS_BORDER
     CONTROL         "",IDC_IMG_IMAGE,"Static",SS_GRAYFRAME,3,22,220,103
     PUSHBUTTON      "&Close",IDC_IMG_CANCEL,171,130,50,14
 END
@@ -295,11 +312,6 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "",IDC_IMG_NAME,3,7,200,8
-/*
-	CONTROL 		"",IDC_IMG_SAVE,"MButtonClass",WS_TABSTOP,187,4,16,15,0x18000000L
-	CONTROL 		"",IDC_IMG_SCALE,"MButtonClass",WS_TABSTOP,207,4,16,15,0x18000000L
-*/
-//	  LTEXT 		  "",IDC_IMG_IMAGE,3,22,220,103,WS_BORDER
     CONTROL         "",IDC_IMG_IMAGE,"Static",SS_GRAYFRAME,3,22,220,103
     DEFPUSHBUTTON   "&Send",IDC_IMG_SEND,117,130,50,14
     PUSHBUTTON      "&Close",IDC_IMG_CANCEL,171,130,50,14
@@ -337,7 +349,75 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Concurrent %s Login Sessions"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "View information on active concurrent sessions",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,414,25
+    CONTROL         "View information on active concurrent sessions",IDC_HEADERBAR,
+                    "MHeaderbarCtrl",0x0,0,0,414,25
     CONTROL         "",IDC_SESSIONS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,5,30,403,81
     PUSHBUTTON      "Sign out all sessions",IDC_SIGNOUTALL,317,116,91,15,WS_DISABLED
 END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_GG_ADVANCED, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_GG_ADVANCED AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Polish (Poland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

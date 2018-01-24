@@ -22,10 +22,10 @@
 #ifndef GGPROTO_H
 #define GGPROTO_H
 
-struct GGPROTO : public PROTO<GGPROTO>
+struct GaduProto : public PROTO<GaduProto>
 {
-	GGPROTO(const char*, const wchar_t*);
-	~GGPROTO();
+	GaduProto(const char*, const wchar_t*);
+	~GaduProto();
 
 	//====================================================================================
 	// PROTO_INTERFACE
@@ -216,6 +216,7 @@ struct GGPROTO : public PROTO<GGPROTO>
 	void block_uninit();
 
 	//////////////////////////////////////////////////////////////////////////////////////
+	GaduOptions m_gaduOptions;
 
 	CRITICAL_SECTION ft_mutex, sess_mutex, img_mutex, modemsg_mutex, avatar_mutex, sessions_mutex;
 	list_t watches, transfers, requests, chats, imagedlgs, sessions;
@@ -258,14 +259,14 @@ struct GGUSERUTILDLGDATA
 	uin_t uin;
 	char *pass;
 	char *email;
-	GGPROTO *gg;
+	GaduProto *gg;
 };
 
 
 #ifdef DEBUGMODE
-inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, char* mutexName, int logging)
+inline void GaduProto::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, char* mutexName, int logging)
 #else
-inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char*, int, char *, int)
+inline void GaduProto::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char*, int, char *, int)
 #endif
 {
 #ifdef DEBUGMODE
@@ -286,9 +287,9 @@ inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char*, int
 }
 
 #ifdef DEBUGMODE
-inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, int returnNumber, char* mutexName, int logging) /*0-never, 1-debug, 2-all*/
+inline void GaduProto::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, int returnNumber, char* mutexName, int logging) /*0-never, 1-debug, 2-all*/
 #else
-inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char *, int, int, char *, int) /*0-never, 1-debug, 2-all*/
+inline void GaduProto::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char *, int, int, char *, int) /*0-never, 1-debug, 2-all*/
 #endif
 {
 #ifdef DEBUGMODE
@@ -299,9 +300,9 @@ inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char *, in
 }
 
 #ifdef DEBUGMODE
-inline void GGPROTO::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging) {
+inline void GaduProto::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging) {
 #else
-inline void GGPROTO::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int, int) {
+inline void GaduProto::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int, int) {
 #endif
 	SleepEx(miliseconds, alterable);
 #ifdef DEBUGMODE

@@ -24,20 +24,20 @@
 * does not get full pointer but just 2 byte lower bytes.
 */
 #define MAX_TIMERS 8
-GGPROTO *g_timers[MAX_TIMERS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+GaduProto *g_timers[MAX_TIMERS] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	int i;
 
-	//Search for GGPROTO* context
+	//Search for GaduProto* context
 	for (i = 0; i < MAX_TIMERS; i++)
 		if (g_timers[i]->timer == idEvent)
 			break;
 
 	if (i < MAX_TIMERS)
 	{
-		GGPROTO *gg = g_timers[i];
+		GaduProto *gg = g_timers[i];
 		if (gg->isonline())
 		{
 #ifdef DEBUGMODE
@@ -50,9 +50,9 @@ static VOID CALLBACK gg_keepalive(HWND, UINT, UINT_PTR idEvent, DWORD)
 	}
 }
 
-void GGPROTO::keepalive_init()
+void GaduProto::keepalive_init()
 {
-	if (getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE))
+	if (m_gaduOptions.keepConnectionAlive)
 	{
 		int i;
 		for (i = 0; i < MAX_TIMERS && g_timers[i] != nullptr; i++);
@@ -68,7 +68,7 @@ void GGPROTO::keepalive_init()
 	}
 }
 
-void GGPROTO::keepalive_destroy()
+void GaduProto::keepalive_destroy()
 {
 #ifdef DEBUGMODE
 	debugLogA("keepalive_destroy(): Killing Timer");
