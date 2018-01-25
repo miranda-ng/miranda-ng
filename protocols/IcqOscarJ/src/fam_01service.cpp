@@ -712,9 +712,6 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 		else
 			szMoodData[0] = '\0';
 
-		//! Tricky code, this ensures that the status note will be saved to the directory
-		SetStatusNote(szStatusNote, m_bGatewayMode ? 5000 : 2500, TRUE);
-
 		size_t wStatusNoteLen = mir_strlen(szStatusNote);
 		size_t wStatusMoodLen = mir_strlen(szMoodData);
 		size_t wSessionDataLen = (wStatusNoteLen ? wStatusNoteLen + 4 : 0) + 4 + wStatusMoodLen + 4;

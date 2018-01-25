@@ -519,30 +519,6 @@ void CIcqProto::updateServerCustomStatus(int fullUpdate)
 
 		SetStatusMood(szMoodData, 1500);
 	}
-
-	char *szStatusNote = nullptr;
-
-	// use custom status message as status note
-	if (bXStatus && (m_bXStatusEnabled || m_bMoodsEnabled))
-		szStatusNote = getSettingStringUtf(NULL, DBSETTING_XSTATUS_MSG, "");
-	// retrieve standard status message (e.g. custom status set to none)
-	else {
-		char **pszMsg = MirandaStatusToAwayMsg(m_iStatus);
-		{
-			mir_cslock l(m_modeMsgsMutex);
-			if (pszMsg)
-				szStatusNote = null_strdup(*pszMsg);
-		}
-
-		// no default status message, set empty
-		if (!szStatusNote)
-			szStatusNote = null_strdup("");
-	}
-
-	if (szStatusNote)
-		SetStatusNote(szStatusNote, 1500, FALSE);
-
-	SAFE_FREE(&szStatusNote);
 }
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

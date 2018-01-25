@@ -857,23 +857,6 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 
 	writeDbInfoSettingTLVStringUtf(hContact, "About", cDetails, 0x186);
 
-	//	if (hContact)
-	//		writeDbInfoSettingTLVStringUtf(hContact, DBSETTING_STATUS_NOTE, cDetails, 0x226);
-	//	else
-	if (!hContact) { // Owner contact needs special processing, in the database is current status note for the client
-		// We just received the last status note set on directory, if it differs call SetStatusNote() to 
-		// ensure the directory will be updated (it should be in process anyway)
-		char *szClientStatusNote = getSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, nullptr);
-		char *szDirectoryStatusNote = cDetails->getString(0x226, 1);
-
-		if (mir_strcmp(szClientStatusNote, szDirectoryStatusNote))
-			SetStatusNote(szClientStatusNote, 1000, TRUE);
-
-		// Release memory
-		SAFE_FREE(&szDirectoryStatusNote);
-		SAFE_FREE(&szClientStatusNote);
-	}
-
 	writeDbInfoSettingTLVByte(hContact, "PrivacyLevel", cDetails, 0x1F9);
 
 	if (!hContact) {

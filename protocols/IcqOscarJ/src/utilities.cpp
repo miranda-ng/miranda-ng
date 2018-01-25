@@ -1099,44 +1099,6 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 }
 
 
-int CIcqProto::SetStatusNote(const char *szStatusNote, DWORD dwDelay, int bForce)
-{
-	int bChanged = FALSE;
-
-	// bForce is intended for login sequence - need to call this earlier than icqOnline()
-	// the process is delayed and icqOnline() is ready when needed inside SetStatusNoteThread()
-	if (!bForce && !icqOnline()) return bChanged;
-
-	// reuse generic critical section (used for cookies list and object variables locks)
-	mir_cslock l(cookieMutex);
-
-	if (!setStatusNoteText && (!m_bMoodsEnabled || !setStatusMoodData)) { // check if the status note was changed and if yes, create thread to change it
-		char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, nullptr);
-
-		if (mir_strcmp(szCurrentStatusNote, szStatusNote)) { // status note was changed
-			// create thread to change status note on existing server connection
-			setStatusNoteText = null_strdup(szStatusNote);
-
-			if (dwDelay)
-				ForkThread(&CIcqProto::SetStatusNoteThread, (void*)dwDelay);
-			else // we cannot afford any delay, so do not run in separate thread
-				SetStatusNoteThread(nullptr);
-
-			bChanged = TRUE;
-		}
-		SAFE_FREE(&szCurrentStatusNote);
-	}
-	else { // only alter status note object with new status note, keep the thread waiting for execution
-		SAFE_FREE(&setStatusNoteText);
-		setStatusNoteText = null_strdup(szStatusNote);
-
-		bChanged = TRUE;
-	}
-
-	return bChanged;
-}
-
-
 int CIcqProto::SetStatusMood(const char *szMoodData, DWORD dwDelay)
 {
 	int bChanged = FALSE;
