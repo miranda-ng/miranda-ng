@@ -105,14 +105,6 @@ struct IMGSRVC_INFO
 
 #define MS_IMG_SAVE  "IMG/Save"
 
-// unload a FIFBITMAP
-// wParam = FIFBITMAP *
-// lParam = 0;
-// this service is useful when you have loaded a bitmap with IMGL_RETURNDIB in which case you do not get
-// a HBITMAP but instead a FBITMAP * which describes the freeimage-internal representation of a bitmap.
-
-#define MS_IMG_UNLOAD "IMG/Unload"
-
 /*
  * resizer from loadavatars moved to image service plugin
 */
