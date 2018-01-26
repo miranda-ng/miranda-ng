@@ -99,8 +99,6 @@ struct SetMyAvatarHookData
 	BOOL thumbnail;
 };
 
-extern FI_INTERFACE *fei;
-
 #define GAIR_FAILED 1000
 
 #define AVS_IGNORENOTIFY 0x1000

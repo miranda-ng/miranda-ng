@@ -30,8 +30,6 @@
 #ifndef __MIM_H
 #define __MIM_H
 
-extern  FI_INTERFACE *FIF;
-
 /*
  * Win32 API definitions of functions dynamically obtained via GetProcAddress()
  * - uxtheme
@@ -77,9 +75,6 @@ public:
 		InitPaths();
 		InitAPI();
 		getAeroState();
-
-		LRESULT fi_version = CallService(MS_IMG_GETIFVERSION, 0, 0);
-		CallService(MS_IMG_GETINTERFACE, fi_version, (LPARAM)&FIF);
 
 		::QueryPerformanceFrequency((LARGE_INTEGER *)&m_tFreq);
 		m_dFreq = (double)(1.0f / m_tFreq);

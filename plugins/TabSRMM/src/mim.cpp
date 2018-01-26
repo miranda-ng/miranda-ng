@@ -526,4 +526,3 @@ nowindowcreate:
 }
 
 CMimAPI M;
-FI_INTERFACE *FIF = nullptr;

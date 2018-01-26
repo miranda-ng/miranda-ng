@@ -587,8 +587,6 @@ extern unsigned int g_nTempFileId;
 extern int g_cbCountries;
 extern struct CountryListEntry* g_countries;
 
-extern FI_INTERFACE *FIP;
-
 extern HANDLE hExtListInit, hDiscoInfoResult;
 extern bool bSecureIM, bMirOTR, bNewGPG, bPlatform;
 

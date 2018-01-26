@@ -421,34 +421,34 @@ ImageFType::ImageFType(const unsigned id, const CMStringW &file)
 {
 	m_bmp = nullptr;
 
-	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeU(file.c_str(), 0);
+	FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeU(file.c_str(), 0);
 	if (fif == FIF_UNKNOWN)
-		fif = fei->FI_GetFIFFromFilenameU(file.c_str());
+		fif = FreeImage_GetFIFFromFilenameU(file.c_str());
 	if (fif == FIF_UNKNOWN) return;
 
-	FIBITMAP *dib = fei->FI_LoadU(fif, file.c_str(), 0);
+	FIBITMAP *dib = FreeImage_LoadU(fif, file.c_str(), 0);
 	if (dib == nullptr) return;
 
-	bool transp = fei->FI_IsTransparent(dib) != 0;
-	FREE_IMAGE_TYPE imt = fei->FI_GetImageType(dib);
-	unsigned bpp = fei->FI_GetBPP(dib);
+	bool transp = FreeImage_IsTransparent(dib) != 0;
+	FREE_IMAGE_TYPE imt = FreeImage_GetImageType(dib);
+	unsigned bpp = FreeImage_GetBPP(dib);
 
 	if (transp && bpp != 32 || imt == FIT_RGBA16) {
-		FIBITMAP *tdib = fei->FI_ConvertTo32Bits(dib);
-		fei->FI_Unload(dib);
+		FIBITMAP *tdib = FreeImage_ConvertTo32Bits(dib);
+		FreeImage_Unload(dib);
 		dib = tdib;
 	}
 	else if (!transp && bpp > 24) {
-		FIBITMAP *tdib = fei->FI_ConvertTo24Bits(dib);
-		fei->FI_Unload(dib);
+		FIBITMAP *tdib = FreeImage_ConvertTo24Bits(dib);
+		FreeImage_Unload(dib);
 		dib = tdib;
 	}
 
-	m_bmp = fei->FI_CreateHBITMAPFromDIB(dib);
-	fei->FI_Unload(dib);
+	m_bmp = FreeImage_CreateHBITMAPFromDIB(dib);
+	FreeImage_Unload(dib);
 
 	if (transp)
-		fei->FI_Premultiply(m_bmp);
+		FreeImage_Premultiply(m_bmp);
 }
 
 ImageFType::~ImageFType()
@@ -550,7 +550,7 @@ ImageBase* AddCacheImage(const CMStringW &file, int index)
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, index, icoIcl) : (ImageBase*)new IconType(id, file, index, icoIcl);
 		else if (ext == L"gif")
 			img = new ImageType(id, file, nullptr);
-		else if (fei == nullptr || ext == L"tif" || ext == L"tiff")
+		else if (ext == L"tif" || ext == L"tiff")
 			img = new ImageType(id, file, nullptr);
 		else
 			img = opt.HQScaling ? (ImageBase*)new ImageType(id, file, nullptr) : (ImageBase*)new ImageFType(id, file);

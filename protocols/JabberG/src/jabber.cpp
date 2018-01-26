@@ -60,7 +60,6 @@ PLUGININFOEX pluginInfo = {
 };
 
 CLIST_INTERFACE* pcli;
-FI_INTERFACE *FIP = nullptr;
 
 HANDLE hExtraActivity = nullptr;
 HANDLE hExtraMood = nullptr;
@@ -185,12 +184,6 @@ extern "C" int __declspec(dllexport) Load()
 	mir_getLP(&pluginInfo);
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
-
-	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-	if (FIP == nullptr || result != S_OK) {
-		MessageBoxEx(nullptr, TranslateT("Fatal error, image services not found. Jabber Protocol will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-		return 1;
-	}
 
 	char mirVer[100];
 	Miranda_GetVersionText(mirVer, _countof(mirVer));

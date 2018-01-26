@@ -162,31 +162,31 @@ FIBITMAP* ConvertTo(FIBITMAP* dib, UINT destBits, bool greyscale)
 		case 8:
 			// convert to 8Bits
 			if (greyscale) {
-				dib_res = FIP->FI_ConvertTo8Bits(dib);
+				dib_res = FreeImage_ConvertTo8Bits(dib);
 			}
 			else {
-				FIBITMAP* dib_tmp = FIP->FI_ConvertTo24Bits(dib);
+				FIBITMAP* dib_tmp = FreeImage_ConvertTo24Bits(dib);
 				if (dib_tmp) {
-					dib_res = FIP->FI_ColorQuantize(dib_tmp, FIQ_WUQUANT/*FIQ_NNQUANT*/);
-					FIP->FI_Unload(dib_tmp);
+					dib_res = FreeImage_ColorQuantize(dib_tmp, FIQ_WUQUANT/*FIQ_NNQUANT*/);
+					FreeImage_Unload(dib_tmp);
 				}
 			} break;
 		case 16:
 			// convert to 16Bits
-			dib_res = FIP->FI_ConvertTo16Bits555(dib);
+			dib_res = FreeImage_ConvertTo16Bits555(dib);
 			break;
 		case 24:
 			// convert to 24Bits
-			dib_res = FIP->FI_ConvertTo24Bits(dib);
+			dib_res = FreeImage_ConvertTo24Bits(dib);
 			break;
 		case 32:
 			// convert to 32Bits
-			dib_res = FIP->FI_ConvertTo32Bits(dib);
+			dib_res = FreeImage_ConvertTo32Bits(dib);
 			break;
 		default:
 			break;
 	}
-	FIP->FI_Unload(dib);
+	FreeImage_Unload(dib);
 	return dib_res;
 }
 
@@ -201,13 +201,13 @@ FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 		if (buffer)
 		{
 			// attach the binary data to a memory stream
-			FIMEMORY *hmem = FIP->FI_OpenMemory(buffer, ResSize);
+			FIMEMORY *hmem = FreeImage_OpenMemory(buffer, ResSize);
 			// get the file type
-			FREE_IMAGE_FORMAT fif = FIP->FI_GetFileTypeFromMemory(hmem, 0);
+			FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
 			// load an image from the memory stream
-			dib = FIP->FI_LoadFromMemory(fif, hmem, 0);
+			dib = FreeImage_LoadFromMemory(fif, hmem, 0);
 			// always close the memory stream
-			FIP->FI_CloseMemory(hmem);
+			FreeImage_CloseMemory(hmem);
 
 			UnlockResource(buffer);
 		}
@@ -217,7 +217,7 @@ FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 		HBITMAP hScrBM = (HBITMAP)LoadImage(ghInst,MAKEINTRESOURCE(ID), IMAGE_BITMAP, 0, 0,LR_SHARED);
 		if (hScrBM == nullptr)
 			return dib;
-		dib = FIP->FI_CreateDIBFromHBITMAP(hScrBM);
+		dib = FreeImage_CreateDIBFromHBITMAP(hScrBM);
 		DeleteObject(hScrBM);
 	}
 	return dib;
@@ -288,31 +288,31 @@ void InitIcons()
 	if (dib == nullptr)
 		return;
 
-	if (FIP->FI_GetBPP(dib) != ILC_COLOR32)
+	if (FreeImage_GetBPP(dib) != ILC_COLOR32)
 		if (nullptr == (dib = ConvertTo(dib, ILC_COLOR32, 0)))
 			return;
 
 	// create new dib
-	FIBITMAP *dib_ico = FIP->FI_Allocate(FIP->FI_GetWidth(dib), 16, ILC_COLOR32, 0, 0, 0);
+	FIBITMAP *dib_ico = FreeImage_Allocate(FreeImage_GetWidth(dib), 16, ILC_COLOR32, 0, 0, 0);
 	if (dib_ico == nullptr) {
-		FIP->FI_Unload(dib);
+		FreeImage_Unload(dib);
 		return;
 	}
 
-	UINT h = FIP->FI_GetHeight(dib_ico);
-	UINT w = FIP->FI_GetWidth(dib_ico);
-	UINT t = ((h - FIP->FI_GetHeight(dib)) / 2) + 1;
-	UINT b = t + FIP->FI_GetHeight(dib);
+	UINT h = FreeImage_GetHeight(dib_ico);
+	UINT w = FreeImage_GetWidth(dib_ico);
+	UINT t = ((h - FreeImage_GetHeight(dib)) / 2) + 1;
+	UINT b = t + FreeImage_GetHeight(dib);
 
 	// copy dib to new dib_ico (centered)
-	if (FIP->FI_Paste(dib_ico, dib, 0, t - 1, 255 + 1)) {
-		FIP->FI_Unload(dib);	dib = nullptr;
+	if (FreeImage_Paste(dib_ico, dib, 0, t - 1, 255 + 1)) {
+		FreeImage_Unload(dib);	dib = nullptr;
 
 		// Calculate the number of bytes per pixel (3 for 24-bit or 4 for 32-bit)
-		int bytespp = FIP->FI_GetLine(dib_ico) / w;
+		int bytespp = FreeImage_GetLine(dib_ico) / w;
 		// set alpha schannel
 		for (unsigned y = 0; y < h; y++) {
-			BYTE *bits = FIP->FI_GetScanLine(dib_ico, y);
+			BYTE *bits = FreeImage_GetScanLine(dib_ico, y);
 			for (unsigned x = 0; x < w; x++) {
 				bits[FI_RGBA_ALPHA] = (y < t || y >= b) ? 0 : 255;
 				// jump to next pixel
@@ -321,13 +321,13 @@ void InitIcons()
 		}
 	}
 	else {
-		FIP->FI_Unload(dib);
-		FIP->FI_Unload(dib_ico);
+		FreeImage_Unload(dib);
+		FreeImage_Unload(dib_ico);
 		return;
 	}
 
-	HBITMAP hScrBM = FIP->FI_CreateHBITMAPFromDIB(dib_ico);
-	FIP->FI_Unload(dib_ico);
+	HBITMAP hScrBM = FreeImage_CreateHBITMAPFromDIB(dib_ico);
+	FreeImage_Unload(dib_ico);
 	if (!hScrBM)
 		return;
 

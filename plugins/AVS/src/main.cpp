@@ -63,8 +63,6 @@ char *g_szMetaName = nullptr;
 int OnDetailsInit(WPARAM wParam, LPARAM lParam);
 int OptInit(WPARAM wParam, LPARAM lParam);
 
-FI_INTERFACE *fei = nullptr;
-
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -283,11 +281,11 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 			StretchBlt(r->hTargetDC, r->rcDraw.left + leftoffset, r->rcDraw.top + topoffset, newWidth, newHeight, hdcAvatar, 0, 0, bmWidth, bmHeight, SRCCOPY);
 		else {
 			// get around SUCKY AlphaBlend() rescaling quality...
-			FIBITMAP *fb = fei->FI_CreateDIBFromHBITMAP(hbm);
-			FIBITMAP *fbResized = fei->FI_Rescale(fb, newWidth, newHeight, FILTER_BICUBIC);
-			HBITMAP hbmResized = fei->FI_CreateHBITMAPFromDIB(fbResized);
-			fei->FI_Unload(fb);
-			fei->FI_Unload(fbResized);
+			FIBITMAP *fb = FreeImage_CreateDIBFromHBITMAP(hbm);
+			FIBITMAP *fbResized = FreeImage_Rescale(fb, newWidth, newHeight, FILTER_BICUBIC);
+			HBITMAP hbmResized = FreeImage_CreateHBITMAPFromDIB(fbResized);
+			FreeImage_Unload(fb);
+			FreeImage_Unload(fbResized);
 
 			HBITMAP hbmTempOld;
 			HDC hdcTemp = CreateCompatibleDC(r->hTargetDC);
@@ -337,17 +335,15 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	PROTOACCOUNT **accs = nullptr;
 	Proto_EnumAccounts(&accCount, &accs);
 
-	if (fei != nullptr) {
-		LoadDefaultInfo();
+	LoadDefaultInfo();
 
-		int protoCount;
-		PROTOCOLDESCRIPTOR **proto;
-		Proto_EnumProtocols(&protoCount, &proto);
-		for (int i = 0; i < protoCount; i++)
-			LoadProtoInfo(proto[i]);
-		for (int i = 0; i < accCount; i++)
-			LoadAccountInfo(accs[i]);
-	}
+	int protoCount;
+	PROTOCOLDESCRIPTOR **proto;
+	Proto_EnumProtocols(&protoCount, &proto);
+	for (int i = 0; i < protoCount; i++)
+		LoadProtoInfo(proto[i]);
+	for (int i = 0; i < accCount; i++)
+		LoadAccountInfo(accs[i]);
 
 	// Load global avatar
 	protoPicCacheEntry *pce = new protoPicCacheEntry;
@@ -401,14 +397,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 
-	INT_PTR result = CALLSERVICE_NOTFOUND;
-	if (ServiceExists(MS_IMG_GETINTERFACE))
-		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
-
-	if (fei == nullptr || result != S_OK) {
-		MessageBox(nullptr, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar service"), MB_OK);
-		return 1;
-	}
 	LoadACC();
 	return LoadAvatarModule();
 }

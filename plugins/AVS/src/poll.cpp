@@ -114,7 +114,7 @@ static void QueueRemove(MCONTACT hContact)
 // Add an contact to a queue
 void QueueAdd(MCONTACT hContact, int waitTime)
 {
-	if (fei == nullptr || g_shutDown)
+	if (g_shutDown)
 		return;
 
 	mir_cslock lck(cs);

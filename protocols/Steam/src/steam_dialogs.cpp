@@ -156,40 +156,27 @@ INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_PAINT)
 	{
-		FI_INTERFACE *fei = nullptr;
-
-		INT_PTR result = CALLSERVICE_NOTFOUND;
-		if (ServiceExists(MS_IMG_GETINTERFACE))
-			result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
-
-		if (fei == nullptr || result != S_OK) {
-			MessageBox(nullptr, TranslateT("Fatal error, image services not found. Avatar services will be disabled."), TranslateT("Avatar Service"), MB_OK);
-			return 0;
-		}
-
-		FIMEMORY *stream = fei->FI_OpenMemory(m_captchaImage, m_captchaImageSize);
-		FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeFromMemory(stream, 0);
-		FIBITMAP *bitmap = fei->FI_LoadFromMemory(fif, stream, 0);
-		fei->FI_CloseMemory(stream);
+		FIMEMORY *stream = FreeImage_OpenMemory(m_captchaImage, m_captchaImageSize);
+		FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(stream, 0);
+		FIBITMAP *bitmap = FreeImage_LoadFromMemory(fif, stream, 0);
+		FreeImage_CloseMemory(stream);
 
 		PAINTSTRUCT ps;
 		HDC hDC = BeginPaint(m_hwnd, &ps);
 
-		//SetStretchBltMode(hDC, COLORONCOLOR);
 		StretchDIBits(
 			hDC,
 			11, 11,
-			fei->FI_GetWidth(bitmap) - 13,
-			fei->FI_GetHeight(bitmap),
+			FreeImage_GetWidth(bitmap) - 13,
+			FreeImage_GetHeight(bitmap),
 			0, 0,
-			fei->FI_GetWidth(bitmap),
-			fei->FI_GetHeight(bitmap),
-			fei->FI_GetBits(bitmap),
-			fei->FI_GetInfo(bitmap),
+			FreeImage_GetWidth(bitmap),
+			FreeImage_GetHeight(bitmap),
+			FreeImage_GetBits(bitmap),
+			FreeImage_GetInfo(bitmap),
 			DIB_RGB_COLORS, SRCCOPY);
 
-		fei->FI_Unload(bitmap);
-		//fei->FI_DeInitialise();
+		FreeImage_Unload(bitmap);
 
 		EndPaint(m_hwnd, &ps);
 

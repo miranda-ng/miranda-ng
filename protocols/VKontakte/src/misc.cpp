@@ -1469,16 +1469,16 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	if (pFile == nullptr)
 		return;
 
-	FIBITMAP *dib = fii->FI_CreateDIBFromHBITMAP(hBitmap);
-	FIMEMORY *hMem = fii->FI_OpenMemory(nullptr, 0);
-	fii->FI_SaveToMemory(FIF_PNG, dib, hMem, 0);
+	FIBITMAP *dib = FreeImage_CreateDIBFromHBITMAP(hBitmap);
+	FIMEMORY *hMem = FreeImage_OpenMemory(nullptr, 0);
+	FreeImage_SaveToMemory(FIF_PNG, dib, hMem, 0);
 
 	BYTE *buf = nullptr;
 	DWORD bufLen;
-	fii->FI_AcquireMemory(hMem, &buf, &bufLen);
+	FreeImage_AcquireMemory(hMem, &buf, &bufLen);
 	ptrA base64(mir_base64_encode(buf, bufLen));
-	fii->FI_CloseMemory(hMem);
-	fii->FI_Unload(dib);
+	FreeImage_CloseMemory(hMem);
+	FreeImage_Unload(dib);
 
 	CMStringA szHTML(FORMAT, "<html><body><img src=\"data:image/png;base64,%s\" /></body></html>", base64);
 	fwrite(szHTML, 1, szHTML.GetLength(), pFile);

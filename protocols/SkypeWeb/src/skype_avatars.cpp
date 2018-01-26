@@ -179,9 +179,7 @@ INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 					mir_ptr<BYTE> data((PBYTE)mir_alloc(length));
 
 					if (data != NULL && fread(data, sizeof(BYTE), length, hFile) == length) {
-						const char *szMime = "image/jpeg";
-						if (fii)
-							szMime = fii->FI_GetFIFMimeType(fii->FI_GetFIFFromFilenameU(path));
+						const char *szMime = FreeImage_GetFIFMimeType(FreeImage_GetFIFFromFilenameU(path));
 
 						PushRequest(new SetAvatarRequest(data, length, szMime, li), &CSkypeProto::OnSentAvatar);
 						fclose(hFile);

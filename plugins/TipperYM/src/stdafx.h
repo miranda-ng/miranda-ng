@@ -52,6 +52,7 @@ Boston, MA 02111-1307, USA.
 #include <m_metacontacts.h>
 #include <m_variables.h>
 #include <m_smileyadd.h>
+#include <m_imgsrvc.h>
 
 #include "resource.h"
 #include "version.h"
@@ -76,8 +77,6 @@ extern HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 extern COLORREF	colTitle, colLabels, colBg, colValues;
 
 extern int iCodePage;
-
-extern FI_INTERFACE *fii;
 
 extern TOOLTIPSKIN skin;
 extern wchar_t SKIN_FOLDER[256];

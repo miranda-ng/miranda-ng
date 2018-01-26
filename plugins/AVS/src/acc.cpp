@@ -77,32 +77,32 @@ typedef struct
 
 BOOL AnimatedGifGetData(ACCData *data)
 {
-	FIBITMAP *page = fei->FI_LockPage(data->ag.multi, 0);
+	FIBITMAP *page = FreeImage_LockPage(data->ag.multi, 0);
 	if (page == nullptr)
 		return FALSE;
 
 	// Get info
 	FITAG *tag = nullptr;
-	if (!fei->FI_GetMetadata(FIMD_ANIMATION, page, "LogicalWidth", &tag))
+	if (!FreeImage_GetMetadata(FIMD_ANIMATION, page, "LogicalWidth", &tag))
 		goto ERR;
-	data->ag.logicalWidth = *(WORD *)fei->FI_GetTagValue(tag);
+	data->ag.logicalWidth = *(WORD *)FreeImage_GetTagValue(tag);
 
-	if (!fei->FI_GetMetadata(FIMD_ANIMATION, page, "LogicalHeight", &tag))
+	if (!FreeImage_GetMetadata(FIMD_ANIMATION, page, "LogicalHeight", &tag))
 		goto ERR;
-	data->ag.logicalHeight = *(WORD *)fei->FI_GetTagValue(tag);
+	data->ag.logicalHeight = *(WORD *)FreeImage_GetTagValue(tag);
 
-	if (!fei->FI_GetMetadata(FIMD_ANIMATION, page, "Loop", &tag))
+	if (!FreeImage_GetMetadata(FIMD_ANIMATION, page, "Loop", &tag))
 		goto ERR;
-	data->ag.loop = (*(LONG *)fei->FI_GetTagValue(tag) > 0);
+	data->ag.loop = (*(LONG *)FreeImage_GetTagValue(tag) > 0);
 
-	if (fei->FI_HasBackgroundColor(page))
-		fei->FI_GetBackgroundColor(page, &data->ag.background);
+	if (FreeImage_HasBackgroundColor(page))
+		FreeImage_GetBackgroundColor(page, &data->ag.background);
 
-	fei->FI_UnlockPage(data->ag.multi, page, FALSE);
+	FreeImage_UnlockPage(data->ag.multi, page, FALSE);
 	return TRUE;
 
 ERR:
-	fei->FI_UnlockPage(data->ag.multi, page, FALSE);
+	FreeImage_UnlockPage(data->ag.multi, page, FALSE);
 	return FALSE;
 }
 
@@ -113,7 +113,7 @@ void AnimatedGifDispodeFrame(ACCData *data)
 	}
 	else if (data->ag.frame.disposal_method == GIF_DISPOSAL_BACKGROUND) {
 		for (int y = 0; y < data->ag.frame.height; y++) {
-			RGBQUAD *scanline = (RGBQUAD*)fei->FI_GetScanLine(data->ag.dib, data->ag.logicalHeight - (y + data->ag.frame.top) - 1) + data->ag.frame.left;
+			RGBQUAD *scanline = (RGBQUAD*)FreeImage_GetScanLine(data->ag.dib, data->ag.logicalHeight - (y + data->ag.frame.top) - 1) + data->ag.frame.left;
 			for (int x = 0; x < data->ag.frame.width; x++)
 				*scanline++ = data->ag.background;
 		}
@@ -129,41 +129,41 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 		return;
 	}
 
-	FIBITMAP *dib = fei->FI_LockPage(data->ag.multi, data->ag.frame.num);
+	FIBITMAP *dib = FreeImage_LockPage(data->ag.multi, data->ag.frame.num);
 	if (dib == nullptr)
 		return;
 
 	FITAG *tag = nullptr;
-	if (fei->FI_GetMetadata(FIMD_ANIMATION, dib, "FrameLeft", &tag))
-		data->ag.frame.left = *(WORD *)fei->FI_GetTagValue(tag);
+	if (FreeImage_GetMetadata(FIMD_ANIMATION, dib, "FrameLeft", &tag))
+		data->ag.frame.left = *(WORD *)FreeImage_GetTagValue(tag);
 	else
 		data->ag.frame.left = 0;
 
-	if (fei->FI_GetMetadata(FIMD_ANIMATION, dib, "FrameTop", &tag))
-		data->ag.frame.top = *(WORD *)fei->FI_GetTagValue(tag);
+	if (FreeImage_GetMetadata(FIMD_ANIMATION, dib, "FrameTop", &tag))
+		data->ag.frame.top = *(WORD *)FreeImage_GetTagValue(tag);
 	else
 		data->ag.frame.top = 0;
 
-	if (fei->FI_GetMetadata(FIMD_ANIMATION, dib, "FrameTime", &tag))
-		data->ag.times[page] = *(LONG *)fei->FI_GetTagValue(tag);
+	if (FreeImage_GetMetadata(FIMD_ANIMATION, dib, "FrameTime", &tag))
+		data->ag.times[page] = *(LONG *)FreeImage_GetTagValue(tag);
 	else
 		data->ag.times[page] = 0;
 
-	if (fei->FI_GetMetadata(FIMD_ANIMATION, dib, "DisposalMethod", &tag))
-		data->ag.frame.disposal_method = *(BYTE *)fei->FI_GetTagValue(tag);
+	if (FreeImage_GetMetadata(FIMD_ANIMATION, dib, "DisposalMethod", &tag))
+		data->ag.frame.disposal_method = *(BYTE *)FreeImage_GetTagValue(tag);
 	else
 		data->ag.frame.disposal_method = 0;
 
-	data->ag.frame.width = fei->FI_GetWidth(dib);
-	data->ag.frame.height = fei->FI_GetHeight(dib);
+	data->ag.frame.width = FreeImage_GetWidth(dib);
+	data->ag.frame.height = FreeImage_GetHeight(dib);
 
 	//decode page
-	RGBQUAD *pal = fei->FI_GetPalette(dib);
+	RGBQUAD *pal = FreeImage_GetPalette(dib);
 	bool have_transparent = false;
 	int transparent_color = -1;
-	if (fei->FI_IsTransparent(dib)) {
-		int count = fei->FI_GetTransparencyCount(dib);
-		BYTE *table = fei->FI_GetTransparencyTable(dib);
+	if (FreeImage_IsTransparent(dib)) {
+		int count = FreeImage_GetTransparencyCount(dib);
+		BYTE *table = FreeImage_GetTransparencyTable(dib);
 		for (int i = 0; i < count; i++) {
 			if (table[i] == 0) {
 				have_transparent = true;
@@ -175,8 +175,8 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 
 	//copy page data into logical buffer, with full alpha opaqueness
 	for (int y = 0; y < data->ag.frame.height; y++) {
-		RGBQUAD *scanline = (RGBQUAD*)fei->FI_GetScanLine(data->ag.dib, data->ag.logicalHeight - (y + data->ag.frame.top) - 1) + data->ag.frame.left;
-		BYTE *pageline = fei->FI_GetScanLine(dib, data->ag.frame.height - y - 1);
+		RGBQUAD *scanline = (RGBQUAD*)FreeImage_GetScanLine(data->ag.dib, data->ag.logicalHeight - (y + data->ag.frame.top) - 1) + data->ag.frame.left;
+		BYTE *pageline = FreeImage_GetScanLine(dib, data->ag.frame.height - y - 1);
 		for (int x = 0; x < data->ag.frame.width; x++) {
 			if (!have_transparent || *pageline != transparent_color) {
 				*scanline = pal[*pageline];
@@ -187,20 +187,20 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 		}
 	}
 
-	data->ag.hbms[page] = fei->FI_CreateHBITMAPFromDIB(data->ag.dib);
+	data->ag.hbms[page] = FreeImage_CreateHBITMAPFromDIB(data->ag.dib);
 
-	fei->FI_UnlockPage(data->ag.multi, dib, FALSE);
+	FreeImage_UnlockPage(data->ag.multi, dib, FALSE);
 }
 
 void AnimatedGifDeleteTmpValues(ACCData* data)
 {
 	if (data->ag.multi != nullptr) {
-		fei->FI_CloseMultiBitmap(data->ag.multi, 0);
+		FreeImage_CloseMultiBitmap(data->ag.multi, 0);
 		data->ag.multi = nullptr;
 	}
 
 	if (data->ag.dib != nullptr) {
-		fei->FI_Unload(data->ag.dib);
+		FreeImage_Unload(data->ag.dib);
 		data->ag.dib = nullptr;
 	}
 }
@@ -232,9 +232,6 @@ void DestroyAnimatedGif(ACCData* data)
 
 void StartAnimatedGif(ACCData* data)
 {
-	if (fei == nullptr)
-		return;
-
 	AVATARCACHEENTRY *ace = nullptr;
 	if (data->hContact != NULL)
 		ace = (AVATARCACHEENTRY*)GetAvatarBitmap(data->hContact, 0);
@@ -248,15 +245,15 @@ void StartAnimatedGif(ACCData* data)
 	if (format != PA_FORMAT_GIF)
 		return;
 
-	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeU(ace->szFilename, 0);
+	FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeU(ace->szFilename, 0);
 	if (fif == FIF_UNKNOWN)
-		fif = fei->FI_GetFIFFromFilenameU(ace->szFilename);
+		fif = FreeImage_GetFIFFromFilenameU(ace->szFilename);
 
-	data->ag.multi = fei->FI_OpenMultiBitmapU(fif, ace->szFilename, FALSE, TRUE, FALSE, GIF_LOAD256);
+	data->ag.multi = FreeImage_OpenMultiBitmapU(fif, ace->szFilename, FALSE, TRUE, FALSE, GIF_LOAD256);
 	if (data->ag.multi == nullptr)
 		return;
 
-	data->ag.frameCount = fei->FI_GetPageCount(data->ag.multi);
+	data->ag.frameCount = FreeImage_GetPageCount(data->ag.multi);
 	if (data->ag.frameCount <= 1)
 		goto ERR;
 
@@ -264,13 +261,13 @@ void StartAnimatedGif(ACCData* data)
 		goto ERR;
 
 	// allocate entire logical area
-	data->ag.dib = fei->FI_Allocate(data->ag.logicalWidth, data->ag.logicalHeight, 32, 0, 0, 0);
+	data->ag.dib = FreeImage_Allocate(data->ag.logicalWidth, data->ag.logicalHeight, 32, 0, 0, 0);
 	if (data->ag.dib == nullptr)
 		goto ERR;
 
 	// fill with background color to start
 	for (int y = 0; y < data->ag.logicalHeight; y++) {
-		RGBQUAD *scanline = (RGBQUAD*)fei->FI_GetScanLine(data->ag.dib, y);
+		RGBQUAD *scanline = (RGBQUAD*)FreeImage_GetScanLine(data->ag.dib, y);
 		for (int x = 0; x < data->ag.logicalWidth; x++)
 			*scanline++ = data->ag.background;
 	}
@@ -287,7 +284,7 @@ void StartAnimatedGif(ACCData* data)
 
 	return;
 ERR:
-	fei->FI_CloseMultiBitmap(data->ag.multi, 0);
+	FreeImage_CloseMultiBitmap(data->ag.multi, 0);
 	data->ag.multi = nullptr;
 }
 

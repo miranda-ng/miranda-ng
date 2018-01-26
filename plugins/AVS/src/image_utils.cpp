@@ -62,7 +62,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 		DeleteObject(hdcOrig);
 
 		// Set alpha
-		fei->FI_CorrectBitmap32Alpha(hDirectBitmap, FALSE);
+		FreeImage_CorrectBitmap32Alpha(hDirectBitmap, FALSE);
 	}
 	else {
 		GetBitmapBits(hBitmap, dwLen, p);
@@ -161,38 +161,35 @@ void SetHIMETRICtoDP(HDC hdc, SIZE* sz)
 
 HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const wchar_t *ptszFilename)
 {
-	if (fei == nullptr)
-		return nullptr;
-
 	FIBITMAP *dib = (FIBITMAP*)CallService(MS_IMG_LOAD, (WPARAM)ptszFilename, IMGL_RETURNDIB | IMGL_WCHAR);
 	if (dib == nullptr)
 		return nullptr;
 
 	FIBITMAP *dib32 = nullptr;
-	if (fei->FI_GetBPP(dib) != 32) {
-		dib32 = fei->FI_ConvertTo32Bits(dib);
-		fei->FI_Unload(dib);
+	if (FreeImage_GetBPP(dib) != 32) {
+		dib32 = FreeImage_ConvertTo32Bits(dib);
+		FreeImage_Unload(dib);
 	}
 	else dib32 = dib;
 
 	if (dib32 == nullptr)
 		return nullptr;
 
-	if (fei->FI_IsTransparent(dib32))
+	if (FreeImage_IsTransparent(dib32))
 		if (bIsTransparent)
 			*bIsTransparent = TRUE;
 
-	if (fei->FI_GetWidth(dib32) > 128 || fei->FI_GetHeight(dib32) > 128) {
-		FIBITMAP *dib_new = fei->FI_MakeThumbnail(dib32, 128, FALSE);
-		fei->FI_Unload(dib32);
+	if (FreeImage_GetWidth(dib32) > 128 || FreeImage_GetHeight(dib32) > 128) {
+		FIBITMAP *dib_new = FreeImage_MakeThumbnail(dib32, 128, FALSE);
+		FreeImage_Unload(dib32);
 		if (dib_new == nullptr)
 			return nullptr;
 		dib32 = dib_new;
 	}
 
-	HBITMAP bitmap = fei->FI_CreateHBITMAPFromDIB(dib32);
-	fei->FI_Unload(dib32);
-	fei->FI_CorrectBitmap32Alpha(bitmap, FALSE);
+	HBITMAP bitmap = FreeImage_CreateHBITMAPFromDIB(dib32);
+	FreeImage_Unload(dib32);
+	FreeImage_CorrectBitmap32Alpha(bitmap, FALSE);
 	return bitmap;
 }
 
@@ -205,9 +202,6 @@ static HWND hwndClui = nullptr;
 
 int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 {
-	if (fei == nullptr)
-		return -1;
-
 	wchar_t tszFilename[MAX_PATH];
 	if (!PathToAbsoluteW(ptszFile, tszFilename))
 		wcsncpy_s(tszFilename, ptszFile, _TRUNCATE);
@@ -299,14 +293,14 @@ DWORD GetImgHash(HBITMAP hBitmap)
 HBITMAP MakeGrayscale(HBITMAP hBitmap)
 {
 	if (hBitmap) {
-		FIBITMAP *dib = fei->FI_CreateDIBFromHBITMAP(hBitmap);
+		FIBITMAP *dib = FreeImage_CreateDIBFromHBITMAP(hBitmap);
 		if (dib) {
-			FIBITMAP *dib_new = fei->FI_ConvertToGreyscale(dib);
-			fei->FI_Unload(dib);
+			FIBITMAP *dib_new = FreeImage_ConvertToGreyscale(dib);
+			FreeImage_Unload(dib);
 			if (dib_new) {
 				DeleteObject(hBitmap);
-				HBITMAP hbm_new = fei->FI_CreateHBITMAPFromDIB(dib_new);
-				fei->FI_Unload(dib_new);
+				HBITMAP hbm_new = FreeImage_CreateHBITMAPFromDIB(dib_new);
+				FreeImage_Unload(dib_new);
 				return hbm_new;
 			}
 		}

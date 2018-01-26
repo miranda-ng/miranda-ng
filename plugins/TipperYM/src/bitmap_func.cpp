@@ -34,28 +34,28 @@ HBITMAP CreateBitmapPart(FIBITMAP *fibSrc, int iSrcWidth, int iSrcHeight, int iD
 	case TM_NONE:
 	case TM_CENTRE:
 	case TM_TILE_ALL:
-		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibSrc);
+		hbmpDes = FreeImage_CreateHBITMAPFromDIB(fibSrc);
 		break;
 
 	case TM_STRECH_ALL:
-		fibMem = fii->FI_Rescale(fibSrc, iDesWidth, iDesHeight, FILTER_BILINEAR);
-		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
+		fibMem = FreeImage_Rescale(fibSrc, iDesWidth, iDesHeight, FILTER_BILINEAR);
+		hbmpDes = FreeImage_CreateHBITMAPFromDIB(fibMem);
 		break;
 
 	case TM_STRECH_HORIZONTAL:
 	case TM_TILE_VERTICAL:
-		fibMem = fii->FI_Rescale(fibSrc, iDesWidth, iSrcHeight, FILTER_BILINEAR);
-		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
+		fibMem = FreeImage_Rescale(fibSrc, iDesWidth, iSrcHeight, FILTER_BILINEAR);
+		hbmpDes = FreeImage_CreateHBITMAPFromDIB(fibMem);
 		break;
 
 	case TM_STRECH_VERTICAL:
 	case TM_TILE_HORIZONTAL:
-		fibMem = fii->FI_Rescale(fibSrc, iSrcWidth, iSrcHeight, FILTER_BILINEAR);
-		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
+		fibMem = FreeImage_Rescale(fibSrc, iSrcWidth, iSrcHeight, FILTER_BILINEAR);
+		hbmpDes = FreeImage_CreateHBITMAPFromDIB(fibMem);
 		break;
 	}
 
-	if (fibMem) fii->FI_Unload(fibMem);
+	if (fibMem) FreeImage_Unload(fibMem);
 	return hbmpDes;
 }
 
@@ -157,13 +157,13 @@ void CreateFromBitmaps(bool bServiceTip)
 				FIBITMAP *fibLoad = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFileName, IMGL_WCHAR | IMGL_RETURNDIB);
 				if (!fibLoad) continue;
 
-				if (fii->FI_GetBPP(fibLoad) != 32) 
-					fib = fii->FI_ConvertTo32Bits(fibLoad);
+				if (FreeImage_GetBPP(fibLoad) != 32) 
+					fib = FreeImage_ConvertTo32Bits(fibLoad);
 				else
 					fib = fibLoad;
 
 				if (fib != fibLoad) 
-					fii->FI_Unload(fibLoad);
+					FreeImage_Unload(fibLoad);
 
 				skin.fib[i] = fib;		
 			} 
@@ -181,8 +181,8 @@ void CreateFromBitmaps(bool bServiceTip)
 			else rcWidth = rcHeight = 0;
 
 			// bitmap size
-			iBmpWidth = fii->FI_GetWidth(fib);
-			iBmpHeight = fii->FI_GetHeight(fib);	
+			iBmpWidth = FreeImage_GetWidth(fib);
+			iBmpHeight = FreeImage_GetHeight(fib);	
 
 			// margins
 			top = opt.margins[i].top < iBmpHeight ? opt.margins[i].top : 0;
@@ -199,67 +199,75 @@ void CreateFromBitmaps(bool bServiceTip)
 				// create corners bitmaps
 				if (!skin.bCached) {
 					if (top > 0 && left > 0) { // TL
-						fibMem = fii->FI_Copy(fib, 0, 0, left, top);
-						skin.hbmpSkinParts[i][SP_CORNER_TL] = fii->FI_CreateHBITMAPFromDIB(fibMem);
-						if (fibMem) fii->FI_Unload(fibMem);
+						fibMem = FreeImage_Copy(fib, 0, 0, left, top);
+						skin.hbmpSkinParts[i][SP_CORNER_TL] = FreeImage_CreateHBITMAPFromDIB(fibMem);
+						if (fibMem)
+							FreeImage_Unload(fibMem);
 					}
 					if (top > 0 && right > 0) { // TR
-						fibMem = fii->FI_Copy(fib, iBmpWidth - right, 0, iBmpWidth, top);
-						skin.hbmpSkinParts[i][SP_CORNER_TR] = fii->FI_CreateHBITMAPFromDIB(fibMem);
-						if (fibMem) fii->FI_Unload(fibMem);
+						fibMem = FreeImage_Copy(fib, iBmpWidth - right, 0, iBmpWidth, top);
+						skin.hbmpSkinParts[i][SP_CORNER_TR] = FreeImage_CreateHBITMAPFromDIB(fibMem);
+						if (fibMem)
+							FreeImage_Unload(fibMem);
 					}
 					if (bottom > 0 && right > 0) { // BR
-						fibMem = fii->FI_Copy(fib, iBmpWidth - right, iBmpHeight - bottom, iBmpWidth, iBmpHeight);
-						skin.hbmpSkinParts[i][SP_CORNER_BR] = fii->FI_CreateHBITMAPFromDIB(fibMem);
-						if (fibMem) fii->FI_Unload(fibMem);
+						fibMem = FreeImage_Copy(fib, iBmpWidth - right, iBmpHeight - bottom, iBmpWidth, iBmpHeight);
+						skin.hbmpSkinParts[i][SP_CORNER_BR] = FreeImage_CreateHBITMAPFromDIB(fibMem);
+						if (fibMem)
+							FreeImage_Unload(fibMem);
 					}
 					if (bottom > 0 && left > 0) { // BL
-						fibMem = fii->FI_Copy(fib, 0, iBmpHeight - bottom, left, iBmpHeight);
-						skin.hbmpSkinParts[i][SP_CORNER_BL] = fii->FI_CreateHBITMAPFromDIB(fibMem);
-						if (fibMem) fii->FI_Unload(fibMem);
+						fibMem = FreeImage_Copy(fib, 0, iBmpHeight - bottom, left, iBmpHeight);
+						skin.hbmpSkinParts[i][SP_CORNER_BL] = FreeImage_CreateHBITMAPFromDIB(fibMem);
+						if (fibMem)
+							FreeImage_Unload(fibMem);
 					}
 				}
 
 				// create edge parts bitmaps
 				if (top > 0 && iCentWidth > 0) { // top
-					fibMem = fii->FI_Copy(fib, left, 0, iBmpWidth - right, top);
+					fibMem = FreeImage_Copy(fib, left, 0, iBmpWidth - right, top);
 					skin.hbmpSkinParts[i][SP_EDGE_TOP] = CreateBitmapPart(fibMem, iBmpWidth - left - right, top, iCentWidth, top, opt.transfMode[i]);
-					if (fibMem) fii->FI_Unload(fibMem);
+					if (fibMem)
+						FreeImage_Unload(fibMem);
 				}
 				if (right > 0 && iCentHeight > 0) { // right
-					fibMem = fii->FI_Copy(fib, iBmpWidth - right, top, iBmpWidth, iBmpHeight - bottom);
+					fibMem = FreeImage_Copy(fib, iBmpWidth - right, top, iBmpWidth, iBmpHeight - bottom);
 					skin.hbmpSkinParts[i][SP_EDGE_RIGHT] = CreateBitmapPart(fibMem, right, iBmpHeight - top - bottom, right, iCentHeight, opt.transfMode[i]);
-					if (fibMem) fii->FI_Unload(fibMem);
+					if (fibMem)
+						FreeImage_Unload(fibMem);
 				}
 				if (bottom > 0 && iCentWidth > 0) { // bottom
-					fibMem = fii->FI_Copy(fib, left, iBmpHeight - bottom, iBmpWidth - right, iBmpHeight);
+					fibMem = FreeImage_Copy(fib, left, iBmpHeight - bottom, iBmpWidth - right, iBmpHeight);
 					skin.hbmpSkinParts[i][SP_EDGE_BOTTOM] = CreateBitmapPart(fibMem, iBmpWidth - left - right, bottom, iCentWidth, bottom, opt.transfMode[i]);
-					if (fibMem) fii->FI_Unload(fibMem);
+					if (fibMem)
+						FreeImage_Unload(fibMem);
 				}
 				if (left > 0 && iCentHeight > 0) { // left
-					fibMem = fii->FI_Copy(fib, 0, top, left, iBmpHeight - bottom);
+					fibMem = FreeImage_Copy(fib, 0, top, left, iBmpHeight - bottom);
 					skin.hbmpSkinParts[i][SP_EDGE_LEFT] = CreateBitmapPart(fibMem, left, iBmpHeight - top - bottom, left, iCentHeight, opt.transfMode[i]);
-					if (fibMem) fii->FI_Unload(fibMem);
+					if (fibMem)
+						FreeImage_Unload(fibMem);
 				}	
 		
-				fibCentre = fii->FI_Copy(fib, left, top, iBmpWidth - right, iBmpHeight - bottom);
+				fibCentre = FreeImage_Copy(fib, left, top, iBmpWidth - right, iBmpHeight - bottom);
 				if (fibCentre) {
 					fib = fibCentre;
-					iBmpWidth = fii->FI_GetWidth(fib);
-					iBmpHeight = fii->FI_GetHeight(fib);
+					iBmpWidth = FreeImage_GetWidth(fib);
+					iBmpHeight = FreeImage_GetHeight(fib);
 				}
 			}
 
 			// create centre area bitmap
 			skin.hbmpSkinParts[i][SP_CENTRE_AREA] = CreateBitmapPart(fib, iBmpWidth, iBmpHeight, iCentWidth, iCentHeight, opt.transfMode[i]);			
 			if (fibCentre) 
-				fii->FI_Unload(fibCentre);
+				FreeImage_Unload(fibCentre);
 
 			if (i == SKIN_ITEM_SIDEBAR) {
 				int limit = skin.bCached ? SP_CORNER_TL : SKIN_PARTS_COUNT; // don't premultiply corner bitmaps multiple times
 				for (int j = 0; j < limit; j++) {
 					if (skin.hbmpSkinParts[i][j]) 
-						fii->FI_Premultiply(skin.hbmpSkinParts[i][j]);
+						FreeImage_Premultiply(skin.hbmpSkinParts[i][j]);
 				}
 			}
 
@@ -385,7 +393,7 @@ void DestroySkinBitmap()
 {
 	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) { 
 		if (skin.fib[i]) {
-			fii->FI_Unload(skin.fib[i]);
+			FreeImage_Unload(skin.fib[i]);
 			skin.fib[i] = nullptr;
 		}
 

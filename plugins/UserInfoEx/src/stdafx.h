@@ -171,7 +171,6 @@ typedef struct _MGLOBAL
 
 extern HINSTANCE		ghInst;
 extern MGLOBAL			myGlobals;
-extern FI_INTERFACE* FIP;
 extern int nCountriesCount;
 extern struct CountryListEntry *countries;
 

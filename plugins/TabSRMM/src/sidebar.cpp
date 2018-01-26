@@ -214,12 +214,13 @@ void CSideBarButton::RenderThis(const HDC hdc) const
 	if (fVertical) {
 		::SelectObject(hdcMem, hbmOld);
 
-		FIBITMAP *fib = FIF->FI_CreateDIBFromHBITMAP(hbmMem);
-		FIBITMAP *fib_new = FIF->FI_RotateClassic(fib, 90.0f);
-		FIF->FI_Unload(fib);
+		FIBITMAP *fib = FreeImage_CreateDIBFromHBITMAP(hbmMem);
+		FIBITMAP *fib_new = FreeImage_Rotate(fib, 90.0f, nullptr);
+		FreeImage_Unload(fib);
 		::DeleteObject(hbmMem);
-		hbmMem = FIF->FI_CreateHBITMAPFromDIB(fib_new);
-		FIF->FI_Unload(fib_new);
+		hbmMem = FreeImage_CreateHBITMAPFromDIB(fib_new);
+		FreeImage_Unload(fib_new);
+		
 		hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbmMem));
 		::BitBlt(hdc, 0, 0, cy, cx, hdcMem, 0, 0, SRCCOPY);
 		::SelectObject(hdcMem, hbmOld);

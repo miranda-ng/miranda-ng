@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM)
 {
-	if (hContact == 0 || g_shutDown || fei == nullptr)
+	if (hContact == 0 || g_shutDown)
 		return 0;
 
 	hContact = GetContactThatHaveTheAvatar(hContact);
@@ -46,7 +46,7 @@ INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 {
 	BYTE was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
-	if (fei == nullptr || was_locked == (BYTE)lParam)      // no need for redundant lockings...
+	if (was_locked == (BYTE)lParam)      // no need for redundant lockings...
 		return 0;
 
 	if (hContact) {
@@ -121,7 +121,7 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 	wchar_t *szFinalName;
 	BYTE locking_request;
 
-	if (hContact == NULL || fei == nullptr)
+	if (hContact == NULL)
 		return 0;
 
 	int is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
@@ -179,7 +179,7 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 static INT_PTR CanSetMyAvatar(WPARAM wParam, LPARAM)
 {
 	char *protocol = (char *)wParam;
-	if (protocol == nullptr || fei == nullptr)
+	if (protocol == nullptr)
 		return 0;
 
 	return ProtoServiceExists(protocol, PS_SETMYAVATAR);
@@ -718,7 +718,7 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 	AVATARCACHEENTRY *ace = nullptr;
 
 	AVATARDRAWREQUEST *r = (AVATARDRAWREQUEST*)lParam;
-	if (fei == nullptr || r == nullptr || IsBadReadPtr((void *)r, sizeof(AVATARDRAWREQUEST)))
+	if (r == nullptr || IsBadReadPtr((void *)r, sizeof(AVATARDRAWREQUEST)))
 		return 0;
 
 	if (r->cbSize != sizeof(AVATARDRAWREQUEST))
@@ -764,7 +764,7 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 
 INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam || g_shutDown || fei == nullptr)
+	if (wParam || g_shutDown)
 		return 0;
 
 	char *szProto = (char *)lParam;

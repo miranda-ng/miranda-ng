@@ -24,8 +24,6 @@ HINSTANCE g_hInst;
 HANDLE    hEvent1;
 HGENMENU  hContactMenuItem;
 
-FI_INTERFACE *fei;
-
 int hLangpack;
 
 static const PLUGININFOEX pluginInfoEx =
@@ -90,8 +88,6 @@ extern "C" __declspec(dllexport) int Load(void)
 		ReportError(TranslateT("Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory"));
 		return 1;
 	}
-
-	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fei);
 
 	InitImageCache();
 

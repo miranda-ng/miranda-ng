@@ -77,7 +77,7 @@ size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen)
 FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// capture window as FIBITMAP - caller must FIP->FI_Unload(dib)
+// capture window as FIBITMAP - caller must FreeImage_Unload(dib)
 
 FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 {
@@ -132,8 +132,8 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 			rectCA.top = ABS(rectCA.top - rect.top);
 			rectCA.right += rectCA.left; rectCA.bottom += rectCA.top;
 			/// crop the window to ClientArea
-			FIBITMAP* dibClient = FIP->FI_Copy(dib, rectCA.left, rectCA.top, rectCA.right, rectCA.bottom);
-			FIP->FI_Unload(dib);
+			FIBITMAP* dibClient = FreeImage_Copy(dib, rectCA.left, rectCA.top, rectCA.right, rectCA.bottom);
+			FreeImage_Unload(dib);
 			dib = dibClient;
 		}
 	}
@@ -196,7 +196,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	else // bitblt screen DC to memory DC
 		BitBlt(hMemDC, 0, 0, width, height, hScrDC, rect->left, rect->top, CAPTUREBLT | SRCCOPY);
 
-	FIBITMAP *dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
+	FIBITMAP *dib = FreeImage_CreateDIBFromHBITMAP(hBitmap);
 
 	// alpha channel from window is always wrong and sometimes even for desktop (Win7, no aero)
 	// coz GDI do not draw all in alpha mode.
@@ -239,13 +239,13 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	}
 	DeleteObject(hRgn);
 	if (bFixAlpha) {
-		FIBITMAP* dibMask = FIP->FI_CreateDIBFromHBITMAP(hMask);
-		if (bInvert) FIP->FI_Invert(dibMask);
-		FIBITMAP* dib8 = FIP->FI_ConvertTo8Bits(dibMask);
+		FIBITMAP* dibMask = FreeImage_CreateDIBFromHBITMAP(hMask);
+		if (bInvert) FreeImage_Invert(dibMask);
+		FIBITMAP* dib8 = FreeImage_ConvertTo8Bits(dibMask);
 		// copy the dib8 alpha mask to dib32 main bitmap
-		FIP->FI_SetChannel(dib, dib8, FICC_ALPHA);
-		FIP->FI_Unload(dibMask);
-		FIP->FI_Unload(dib8);
+		FreeImage_SetChannel(dib, dib8, FICC_ALPHA);
+		FreeImage_Unload(dibMask);
+		FreeImage_Unload(dib8);
 	}
 	DeleteDC(hMaskDC);
 	DeleteObject(hMask);
@@ -257,7 +257,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 		ReleaseDC(nullptr, hScrDC);
 
 #ifdef _DEBUG
-	switch (FIP->FI_GetImageType(dib)) {
+	switch (FreeImage_GetImageType(dib)) {
 	case FIT_UNKNOWN:
 		OutputDebugStringA("FIBITMAP Type: FIT_UNKNOWN\r\n");
 		break;
@@ -301,7 +301,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 		OutputDebugStringA("FIBITMAP Type: non detectable image type (error)\r\n");
 		break;
 	}
-	BOOL inf = FIP->FI_IsTransparent(dib);
+	BOOL inf = FreeImage_IsTransparent(dib);
 	OutputDebugStringA(inf ? "FIBITMAP Transparent: true\r\n" : "FIBITMAP Transparent: false\r\n");
 #endif
 	return dib;

@@ -35,7 +35,6 @@ HANDLE hFolderChanged, hSkinFolder;
 wchar_t SKIN_FOLDER[256];
 
 CLIST_INTERFACE *pcli = nullptr;
-FI_INTERFACE *fii = nullptr;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx =
@@ -321,7 +320,6 @@ IconItem iconList[] =
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	mir_getLP(&pluginInfoEx);
 	pcli = Clist_GetInterface();
 

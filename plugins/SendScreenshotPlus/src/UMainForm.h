@@ -49,8 +49,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define EVT_SendFileDone	2
 #define EVT_CheckOpenAgain	3
 
-extern FI_INTERFACE *FIP;
-
 struct TAB_INFO
 {
 	TCITEMHEADER tcih;

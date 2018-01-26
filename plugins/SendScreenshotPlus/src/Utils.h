@@ -31,8 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define SPP_USERPANE 1
 
-extern FI_INTERFACE* FIP;
-
 #define ABS(x) ((x)<0?-(x):(x))
 
 struct MONITORS

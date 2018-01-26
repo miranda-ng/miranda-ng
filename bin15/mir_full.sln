@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -21,8 +21,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Import", "..\plugins\Import\import.vcxproj", "{9299B507-1AF9-4C93-9560-5F637D1E0C9E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_mmap", "..\plugins\Db3x_mmap\db3x_mmap.vcxproj", "{20D781FB-4A20-4B75-B863-304A47182966}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvaImg", "..\plugins\AdvaImg\AdvaImg_15.vcxproj", "{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scriver", "..\plugins\Scriver\scriver.vcxproj", "{B8928210-546C-4AE3-956B-E2B724E6B8E5}"
 EndProject
@@ -432,6 +430,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_mdbx", "..\plugins\Dbx_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQCorp", "..\protocols\ICQCorp\ICQCorp.vcxproj", "{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImage", "..\libs\freeimage\freeimage.vcxproj", "{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvaImg", "..\plugins\AdvaImg\AdvaImg.vcxproj", "{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -504,14 +506,6 @@ Global
 		{20D781FB-4A20-4B75-B863-304A47182966}.Release|Win32.Build.0 = Release|Win32
 		{20D781FB-4A20-4B75-B863-304A47182966}.Release|x64.ActiveCfg = Release|x64
 		{20D781FB-4A20-4B75-B863-304A47182966}.Release|x64.Build.0 = Release|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|Win32.Build.0 = Debug|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|x64.ActiveCfg = Debug|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|x64.Build.0 = Debug|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|Win32.ActiveCfg = Release|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|Win32.Build.0 = Release|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|x64.ActiveCfg = Release|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|x64.Build.0 = Release|x64
 		{B8928210-546C-4AE3-956B-E2B724E6B8E5}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B8928210-546C-4AE3-956B-E2B724E6B8E5}.Debug|Win32.Build.0 = Debug|Win32
 		{B8928210-546C-4AE3-956B-E2B724E6B8E5}.Debug|x64.ActiveCfg = Debug|x64
@@ -1998,6 +1992,22 @@ Global
 		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|Win32.Build.0 = Release|Win32
 		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.ActiveCfg = Release|x64
 		{AD0D0500-CE7D-417D-9C36-3620D56CA6D4}.Release|x64.Build.0 = Release|x64
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Debug|Win32.Build.0 = Debug|Win32
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Debug|x64.ActiveCfg = Debug|x64
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Debug|x64.Build.0 = Debug|x64
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Release|Win32.ActiveCfg = Release|Win32
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Release|Win32.Build.0 = Release|Win32
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Release|x64.ActiveCfg = Release|x64
+		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Release|x64.Build.0 = Release|x64
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|Win32.Build.0 = Debug|Win32
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|x64.ActiveCfg = Debug|x64
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|x64.Build.0 = Debug|x64
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|Win32.ActiveCfg = Release|Win32
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|Win32.Build.0 = Release|Win32
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|x64.ActiveCfg = Release|x64
+		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

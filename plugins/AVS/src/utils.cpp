@@ -202,12 +202,12 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto)
 		ace->hbmPic = MakeGrayscale(ace->hbmPic);
 
 	if (noTransparency) {
-		fei->FI_CorrectBitmap32Alpha(ace->hbmPic, TRUE);
+		FreeImage_CorrectBitmap32Alpha(ace->hbmPic, TRUE);
 		isTransparentImage = FALSE;
 	}
 
 	if (bminfo.bmBitsPixel == 32 && isTransparentImage) {
-		if (fei->FI_Premultiply(ace->hbmPic))
+		if (FreeImage_Premultiply(ace->hbmPic))
 			ace->dwFlags |= AVS_HASTRANSPARENCY;
 
 		ace->dwFlags |= AVS_PREMULTIPLIED;

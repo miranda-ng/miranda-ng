@@ -35,7 +35,6 @@ CLIST_INTERFACE *pcli;
 HINSTANCE g_hSendSS;
 MGLOBAL g_myGlobals;
 HNETLIBUSER g_hNetlibUser=nullptr;//!< Netlib Register User
-FI_INTERFACE *FIP=nullptr;
 int hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
 
 IconItem ICONS[ICO_END_] =
@@ -270,11 +269,6 @@ DLL_EXPORT int Load(void)
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 
-	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-	if (FIP == nullptr || result != S_OK) {
-		MessageBox(nullptr, TranslateT("Image services (AdvaImg plugin) not found.\nSendSS disabled."), TranslateT("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
-		return 1;
-	}
 	/// hook events
 	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);

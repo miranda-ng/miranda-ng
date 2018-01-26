@@ -169,16 +169,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	// init clist interface
 	pcli = Clist_GetInterface();
 
-	// init freeimage interface
-	INT_PTR result = CALLSERVICE_NOTFOUND;
-	if (ServiceExists(MS_IMG_GETINTERFACE))
-		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-
-	if (FIP == nullptr || result != S_OK) {
-		MessageBoxEx(nullptr, TranslateT("Fatal error, image services not found. Flags module will be disabled."), L"Error", MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-		return 1;
-	}
-
 	if (IsWinVerVistaPlus()) {
 		hDwmApi = LoadLibraryA("dwmapi.dll");
 		if (hDwmApi)

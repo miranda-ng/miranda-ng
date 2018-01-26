@@ -1734,7 +1734,7 @@ void CSkin::setupAeroSkins()
 
 	FIBITMAP *fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
 
-	HBITMAP hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
+	HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(fib);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
 		GetGValue(m_dwmColorRGB),
@@ -1751,16 +1751,16 @@ void CSkin::setupAeroSkins()
 	m_tabTop->setMetrics(bm.bmWidth, bm.bmHeight);
 
 	// created inverted bitmap for bottom tabs
-	FIF->FI_FlipVertical(fib);
+	FreeImage_FlipVertical(fib);
 
-	hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
+	hbm = FreeImage_CreateHBITMAPFromDIB(fib);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
 		GetGValue(m_dwmColorRGB),
 		GetBValue(m_dwmColorRGB));
 
 	CImageItem::PreMultiply(hbm, 1);
-	FIF->FI_Unload(fib);
+	FreeImage_Unload(fib);
 
 	GetObject(hbm, sizeof(bm), &bm);
 	m_tabBottom = new CImageItem(4, 4, 4, 4, nullptr, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,
@@ -1777,7 +1777,7 @@ void CSkin::setupAeroSkins()
 	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
 
 	COLORREF glowColor = M.GetDword(FONTMODULE, "aeroGlow", RGB(40, 40, 255));
-	hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
+	hbm = FreeImage_CreateHBITMAPFromDIB(fib);
 	CImageItem::Colorize(hbm, GetRValue(glowColor), GetGValue(glowColor), GetBValue(glowColor));
 	CImageItem::PreMultiply(hbm, 1);
 
@@ -1788,12 +1788,12 @@ void CSkin::setupAeroSkins()
 	m_tabGlowTop->setAlphaFormat(AC_SRC_ALPHA, 255);
 	m_tabGlowTop->setMetrics(bm.bmWidth, bm.bmHeight);
 
-	FIF->FI_FlipVertical(fib);
+	FreeImage_FlipVertical(fib);
 
-	hbm = FIF->FI_CreateHBITMAPFromDIB(fib);
+	hbm = FreeImage_CreateHBITMAPFromDIB(fib);
 	CImageItem::Colorize(hbm, GetRValue(glowColor), GetGValue(glowColor), GetBValue(glowColor));
 	CImageItem::PreMultiply(hbm, 1);
-	FIF->FI_Unload(fib);
+	FreeImage_Unload(fib);
 
 	GetObject(hbm, sizeof(bm), &bm);
 	m_tabGlowBottom = new CImageItem(4, 4, 4, 4, nullptr, hbm, IMAGE_FLAG_DIVIDED | IMAGE_PERPIXEL_ALPHA,

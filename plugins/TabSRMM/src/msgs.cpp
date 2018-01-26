@@ -1040,11 +1040,6 @@ static void TSAPI InitAPI()
 
 int LoadSendRecvMessageModule(void)
 {
-	if (FIF == nullptr) {
-		MessageBox(nullptr, TranslateT("The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
-		return 1;
-	}
-
 	INITCOMMONCONTROLSEX icex;
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	icex.dwICC = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;

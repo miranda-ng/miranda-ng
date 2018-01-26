@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 // global:
 HINSTANCE ghInst = nullptr;
-FI_INTERFACE *FIP = nullptr;		//freeimage interface
 CLIST_INTERFACE *pcli = nullptr;
 
 MGLOBAL			myGlobals;

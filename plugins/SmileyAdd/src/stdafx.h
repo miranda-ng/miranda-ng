@@ -86,7 +86,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "smileyroutines.h"
 #include "smltool.h"
 
-extern FI_INTERFACE *fei;
 extern HINSTANCE g_hInst;
 extern HNETLIBUSER hNetlibUser;
 extern HANDLE hEvent1;

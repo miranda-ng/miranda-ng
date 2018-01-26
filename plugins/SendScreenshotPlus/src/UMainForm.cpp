@@ -578,7 +578,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 #endif
 		if (!m_bCapture) {		//only start once
 			if (m_Screenshot) {
-				FIP->FI_Unload(m_Screenshot);
+				FreeImage_Unload(m_Screenshot);
 				m_Screenshot = nullptr;
 			}
 			m_bCapture = true;
@@ -673,7 +673,7 @@ void TfrmMain::UMevent(WPARAM, LPARAM lParam)
 	case EVT_CheckOpenAgain:
 		if (m_opt_chkOpenAgain) {
 			if (m_Screenshot) {
-				FIP->FI_Unload(m_Screenshot);
+				FreeImage_Unload(m_Screenshot);
 				m_Screenshot = nullptr;
 			}
 			Show();
@@ -720,7 +720,7 @@ TfrmMain::~TfrmMain()
 	mir_free(m_pszFile);
 	mir_free(m_FDestFolder);
 	mir_free(m_Monitors);
-	if (m_Screenshot) FIP->FI_Unload(m_Screenshot);
+	if (m_Screenshot) FreeImage_Unload(m_Screenshot);
 	if (m_cSend) delete m_cSend;
 	if (m_hTargetHighlighter) {
 		DestroyWindow(m_hTargetHighlighter), m_hTargetHighlighter = nullptr;
@@ -1006,48 +1006,48 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	}
 
 	// convert to 32Bits (make sure it is 32bit)
-	FIBITMAP *dib_new = FIP->FI_ConvertTo32Bits(dib);
-	FIP->FI_SetTransparent(dib_new, TRUE);
+	FIBITMAP *dib_new = FreeImage_ConvertTo32Bits(dib);
+	FreeImage_SetTransparent(dib_new, TRUE);
 
 	BOOL ret = FALSE;
 	HWND hwndCombo = GetDlgItem(m_hWnd, ID_cboxFormat);
 	switch (ComboBox_GetItemData(hwndCombo, ComboBox_GetCurSel(hwndCombo))) {
 	case 0: // PNG
 		wszFileName.Append(L".png");
-		ret = FIP->FI_SaveU(FIF_PNG, dib_new, wszFileName, 0);
+		ret = FreeImage_SaveU(FIF_PNG, dib_new, wszFileName, 0);
 		break;
 
 	case 1: // JPG
 		wszFileName.Append(L".jpg");
 		{
-			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
-			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
-			FIP->FI_Unload(dib32);
-			ret = FIP->FI_SaveU(FIF_JPEG, dib24, wszFileName, 0);
-			FIP->FI_Unload(dib24);
+			FIBITMAP *dib32 = FreeImage_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
+			FIBITMAP *dib24 = FreeImage_ConvertTo24Bits(dib32);
+			FreeImage_Unload(dib32);
+			ret = FreeImage_SaveU(FIF_JPEG, dib24, wszFileName, 0);
+			FreeImage_Unload(dib24);
 		}
 		break;
 
 	case 2: // BMP
 		wszFileName.Append(L".bmp");
 		{
-			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
-			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
-			FIP->FI_Unload(dib32);
-			ret = FIP->FI_SaveU(FIF_BMP, dib24, wszFileName, 0);
-			FIP->FI_Unload(dib24);
+			FIBITMAP *dib32 = FreeImage_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
+			FIBITMAP *dib24 = FreeImage_ConvertTo24Bits(dib32);
+			FreeImage_Unload(dib32);
+			ret = FreeImage_SaveU(FIF_BMP, dib24, wszFileName, 0);
+			FreeImage_Unload(dib24);
 		}
 		break;
 
 	case 3: //TIFF (miranda freeimage interface do not support save tiff, we udse GDI+)
 		wszFileName.Append(L".tif");
 		{
-			FIBITMAP *dib32 = FIP->FI_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
-			FIBITMAP *dib24 = FIP->FI_ConvertTo24Bits(dib32);
-			FIP->FI_Unload(dib32);
+			FIBITMAP *dib32 = FreeImage_Composite(dib_new, FALSE, &m_AlphaColor, nullptr);
+			FIBITMAP *dib24 = FreeImage_ConvertTo24Bits(dib32);
+			FreeImage_Unload(dib32);
 		
-			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib24);
-			FIP->FI_Unload(dib24);
+			HBITMAP hBmp = FreeImage_CreateHBITMAPFromDIB(dib24);
+			FreeImage_Unload(dib24);
 			SaveTIF(hBmp, wszFileName);
 			DeleteObject(hBmp);
 		}
@@ -1057,7 +1057,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 	case 4: //GIF
 		wszFileName.Append(L".gif");
 		{
-			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib_new);
+			HBITMAP hBmp = FreeImage_CreateHBITMAPFromDIB(dib_new);
 			SaveGIF(hBmp, wszFileName);
 			DeleteObject(hBmp);
 		}
@@ -1065,7 +1065,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP *dib)
 		break;
 	}
 
-	FIP->FI_Unload(dib_new);
+	FreeImage_Unload(dib_new);
 
 	if (!ret)
 		return 1; // error

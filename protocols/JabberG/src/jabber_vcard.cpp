@@ -296,7 +296,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				dat->ppro->debugLogW(L"Temp file = %s", szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
 					if ((dat->hBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
-						FIP->FI_Premultiply(dat->hBitmap);
+						FreeImage_Premultiply(dat->hBitmap);
 						mir_wstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 					}
