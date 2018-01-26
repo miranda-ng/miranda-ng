@@ -666,8 +666,8 @@ class COptLogDlg : public CDlgBase
 		Utils::showDlgControl(m_hwnd, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 		Utils::showDlgControl(m_hwnd, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
 
-		for (int i = 0; i < _countof(__ctrls); i++)
-			Utils::enableDlgControl(m_hwnd, __ctrls[i], r == 0);
+		for (auto &it : __ctrls)
+			Utils::enableDlgControl(m_hwnd, it, r == 0);
 	}
 
 public:

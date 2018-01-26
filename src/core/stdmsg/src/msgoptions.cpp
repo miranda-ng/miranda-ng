@@ -166,11 +166,11 @@ class COptionMainDlg : public CPluginDlgBase
 		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE;
-		for (int i = 0; i < _countof(statusValues); i++) {
-			tvis.item.lParam = statusValues[i].style;
-			tvis.item.pszText = TranslateW(statusValues[i].szDescr);
+		for (auto &it : statusValues) {
+			tvis.item.lParam = it.style;
+			tvis.item.pszText = TranslateW(it.szDescr);
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-			tvis.item.iImage = (style & statusValues[i].style) != 0;
+			tvis.item.iImage = (style & it.style) != 0;
 			tree.InsertItem(&tvis);
 		}
 	}

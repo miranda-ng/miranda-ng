@@ -423,8 +423,8 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 	if (resourcepos != nullptr)
 		*resourcepos = '\0';
 
-	for (int i = 0; i < _countof(TransportProtoTable); i++)
-		if (MatchMask(domain, TransportProtoTable[i].mask)) {
+	for (auto &it : TransportProtoTable)
+		if (MatchMask(domain, it.mask)) {
 			GetTransportStatusIconIndex(GetTransportProtoID(domain), ID_STATUS_OFFLINE);
 			isTransported = TRUE;
 			break;
@@ -530,23 +530,21 @@ void g_IconsInit()
 
 HANDLE g_GetIconHandle(int iconId)
 {
-	int i;
+	for (auto &it : sharedIconList1)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
 
-	for (i = 0; i < _countof(sharedIconList1); i++)
-		if (sharedIconList1[i].defIconID == iconId)
-			return sharedIconList1[i].hIcolib;
+	for (auto &it : sharedIconList2)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
 
-	for (i = 0; i < _countof(sharedIconList2); i++)
-		if (sharedIconList2[i].defIconID == iconId)
-			return sharedIconList2[i].hIcolib;
+	for (auto &it : sharedIconList3)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
 
-	for (i = 0; i < _countof(sharedIconList3); i++)
-		if (sharedIconList3[i].defIconID == iconId)
-			return sharedIconList3[i].hIcolib;
-
-	for (i = 0; i < _countof(sharedIconList4); i++)
-		if (sharedIconList4[i].defIconID == iconId)
-			return sharedIconList4[i].hIcolib;
+	for (auto &it : sharedIconList4)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
 
 	return nullptr;
 }

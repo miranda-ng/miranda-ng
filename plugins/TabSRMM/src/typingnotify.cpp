@@ -191,9 +191,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			CheckDlgButton(hwndDlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 		}
 
-		for (int i = 0; i < _countof(colorPicker); i++) {
-			SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_SETCOLOUR, 0, colorPicker[i].color);
-			Utils::enableDlgControl(hwndDlg, colorPicker[i].res, (ColorMode == COLOR_OWN));
+		for (auto &it : colorPicker) {
+			SendDlgItemMessage(hwndDlg, it.res, CPM_SETCOLOUR, 0, it.color);
+			Utils::enableDlgControl(hwndDlg, it.res, (ColorMode == COLOR_OWN));
 		}
 
 		CheckDlgButton(hwndDlg, IDC_TIMEOUT_PERMANENT, (TimeoutMode == TIMEOUT_PERMANENT) ? BST_CHECKED : BST_UNCHECKED);
@@ -248,8 +248,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					bEnableOthers = true;
 				}
 
-				for (int i = 0; i < _countof(colorPicker); i++)
-					Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
+				for (auto &it : colorPicker)
+					Utils::enableDlgControl(hwndDlg, it.res, bEnableOthers);
 
 				Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, bEnableOthers);
 
@@ -522,8 +522,8 @@ int TN_ModuleInit()
 	Timeout2 = M.GetByte(TypigModule, SET_TIMEOUT2, DEF_TIMEOUT2);
 
 	if (!(M.GetDword(TypigModule, colorPicker[0].desc, 1) && !M.GetDword(TypigModule, colorPicker[0].desc, 0)))
-		for (i = 0; i < _countof(colorPicker); i++)
-			colorPicker[i].color = M.GetDword(TypigModule, colorPicker[i].desc, 0);
+		for (auto &it : colorPicker)
+			it.color = M.GetDword(TypigModule, it.desc, 0);
 
 	mir_snwprintf(szStart, TranslateT("...is typing a message."));
 	mir_snwprintf(szStop, TranslateT("...has stopped typing."));

@@ -276,22 +276,22 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_INFOCHANGED:
 			bInitialized = 0;
-			{
-				// menu item settings
-				for (int i = 0; i < _countof(ctrl_Menu); i++) {
-					int flag = db_get_b(NULL, MODNAME, ctrl_Menu[i].pszKey, 2);
-					// check button and enable / disable control
-					int idEnable[] = { ctrl_Menu[i].idCheckbox + 1, ctrl_Menu[i].idNONE, ctrl_Menu[i].idALL, ctrl_Menu[i].idEXIMPORT };
-					EnableControls(hDlg, idEnable, _countof(idEnable), DBGetCheckBtn(hDlg, ctrl_Menu[i].idCheckbox, ctrl_Menu[i].pszKey, 0));
-					// set radio button state
-					int id = ctrl_Menu[i].idNONE;	//default
-					if ((flag & 4) == 4)
-						id = ctrl_Menu[i].idALL;
-					else if ((flag & 8) == 8)
-						id = ctrl_Menu[i].idEXIMPORT;
-					CheckRadioButton(hDlg, ctrl_Menu[i].idNONE, ctrl_Menu[i].idEXIMPORT, id);
-				}
+
+			// menu item settings
+			for (auto &it : ctrl_Menu) {
+				int flag = db_get_b(NULL, MODNAME, it.pszKey, 2);
+				// check button and enable / disable control
+				int idEnable[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
+				EnableControls(hDlg, idEnable, _countof(idEnable), DBGetCheckBtn(hDlg, it.idCheckbox, it.pszKey, 0));
+				// set radio button state
+				int id = it.idNONE;	//default
+				if ((flag & 4) == 4)
+					id = it.idALL;
+				else if ((flag & 8) == 8)
+					id = it.idEXIMPORT;
+				CheckRadioButton(hDlg, it.idNONE, it.idEXIMPORT, id);
 			}
+
 			// extra icon settings
 			CheckDlgButton(hDlg, CHECK_OPT_GENDER, g_eiGender ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hDlg, CHECK_OPT_EMAILICON, g_eiEmail ? BST_CHECKED : BST_UNCHECKED);
@@ -308,12 +308,12 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 		case PSN_APPLY:
 			// menu item settings
-			for (int i = 0; i < _countof(ctrl_Menu); i++) {
-				int flag = IsDlgButtonChecked(hDlg, ctrl_Menu[i].idCheckbox);
-				flag |= IsDlgButtonChecked(hDlg, ctrl_Menu[i].idNONE) ? 2 : 0;
-				flag |= IsDlgButtonChecked(hDlg, ctrl_Menu[i].idALL) ? 4 : 0;
-				flag |= IsDlgButtonChecked(hDlg, ctrl_Menu[i].idEXIMPORT) ? 8 : 0;
-				db_set_b(NULL, MODNAME, ctrl_Menu[i].pszKey, (BYTE)flag);
+			for (auto &it : ctrl_Menu) {
+				int flag = IsDlgButtonChecked(hDlg, it.idCheckbox);
+				flag |= IsDlgButtonChecked(hDlg, it.idNONE) ? 2 : 0;
+				flag |= IsDlgButtonChecked(hDlg, it.idALL) ? 4 : 0;
+				flag |= IsDlgButtonChecked(hDlg, it.idEXIMPORT) ? 8 : 0;
+				db_set_b(NULL, MODNAME, it.pszKey, (BYTE)flag);
 			}
 
 			RebuildMenu();
@@ -359,9 +359,9 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 		case CHECK_OPT_MI_GROUP:
 		case CHECK_OPT_MI_SUBGROUP:
 		case CHECK_OPT_MI_ACCOUNT:
-			for (int i = 0; i < _countof(ctrl_Menu); i++) {
-				if (ctrl_Menu[i].idCheckbox == LOWORD(wParam)) {
-					const int idMenuItems[] = { ctrl_Menu[i].idCheckbox + 1, ctrl_Menu[i].idNONE, ctrl_Menu[i].idALL, ctrl_Menu[i].idEXIMPORT };
+			for (auto &it : ctrl_Menu) {
+				if (it.idCheckbox == LOWORD(wParam)) {
+					const int idMenuItems[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
 					EnableControls(hDlg, idMenuItems, _countof(idMenuItems), Button_GetCheck((HWND)lParam));
 					break;
 				}

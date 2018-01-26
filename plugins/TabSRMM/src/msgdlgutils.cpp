@@ -1238,8 +1238,8 @@ void CTabBaseDlg::GetSendFormat()
 	else if (m_SendFormat == 0)
 		m_SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
 
-	for (int i = 0; i < _countof(controls); i++)
-		Utils::enableDlgControl(m_hwnd, controls[i], m_SendFormat != 0);
+	for (auto &it : controls)
+		Utils::enableDlgControl(m_hwnd, it, m_SendFormat != 0);
 	return;
 }
 

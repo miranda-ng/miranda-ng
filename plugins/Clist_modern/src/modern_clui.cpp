@@ -470,10 +470,11 @@ HICON GetMainStatusOverlay(int STATUS)
 
 void UnloadAvatarOverlayIcon()
 {
-	for (int i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
-		g_pAvatarOverlayIcons[i].listID = -1;
-		g_pStatusOverlayIcons[i].listID = -1;
-	}
+	for (auto &it : g_pAvatarOverlayIcons)
+		it.listID = -1;
+	for (auto &it : g_pStatusOverlayIcons)
+		it.listID = -1;
+
 	ImageList_Destroy(hAvatarOverlays);
 	hAvatarOverlays = nullptr;
 	DestroyIcon_protect(g_hListeningToIcon);

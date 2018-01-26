@@ -793,15 +793,15 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					static const WORD idMove[] = { IDC_PAGETITLE, IDC_PAGETITLEBG, IDC_PAGETITLEBG2, IDOK, IDCANCEL, IDAPPLY };
 					HWND hCtrl;
 
-					for (int i = 0; i < _countof(idResize); i++) {
-						if (hCtrl = GetDlgItem(hDlg, idResize[i])) {
+					for (auto &it : idResize) {
+						if (hCtrl = GetDlgItem(hDlg, it)) {
 							GetWindowRect(hCtrl, &rc);
 							OffsetRect(&rc, -pt.x, -pt.y);
 							MoveWindow(hCtrl, rc.left, rc.top, rc.right - rc.left + addWidth, rc.bottom - rc.top, FALSE);
 						}
 					}
-					for (int k = 0; k < _countof(idMove); k++) {
-						if (hCtrl = GetDlgItem(hDlg, idMove[k])) {
+					for (auto &it : idMove) {
+						if (hCtrl = GetDlgItem(hDlg, it)) {
 							GetWindowRect(hCtrl, &rc);
 							OffsetRect(&rc, -pt.x, -pt.y);
 							MoveWindow(hCtrl, rc.left + addWidth, rc.top, rc.right - rc.left, rc.bottom - rc.top, FALSE);

@@ -44,10 +44,10 @@ static statusModeOrder[] = {
 
 int GetStatusModeOrdering(int statusMode)
 {
-	int i;
-	for (i = 0; i < _countof(statusModeOrder); i++)
-		if (statusModeOrder[i].status == statusMode)
-			return statusModeOrder[i].order;
+	for (auto &it : statusModeOrder)
+		if (it.status == statusMode)
+			return it.order;
+	
 	return 1000;
 }
 

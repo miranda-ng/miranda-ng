@@ -601,30 +601,30 @@ void RegisterFontServiceFonts()
 	strncpy(fid.dbSettingsGroup, FONTMODULE, _countof(fid.dbSettingsGroup));
 	strncpy(cid.dbSettingsGroup, FONTMODULE, _countof(fid.dbSettingsGroup));
 
-	for (int i = 0; i < _countof(_clrs); i++) {
-		cid.order = _clrs[i].order;
-		wcsncpy(cid.group, _clrs[i].tszGroup, _countof(fid.group));
-		wcsncpy(cid.name, _clrs[i].tszName, _countof(cid.name));
-		strncpy(cid.setting, _clrs[i].szSetting, _countof(cid.setting));
-		if (_clrs[i].def & 0xff000000)
-			cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
+	for (auto &it : _clrs) {
+		cid.order = it.order;
+		wcsncpy(cid.group, it.tszGroup, _countof(fid.group));
+		wcsncpy(cid.name, it.tszName, _countof(cid.name));
+		strncpy(cid.setting, it.szSetting, _countof(cid.setting));
+		if (it.def & 0xff000000)
+			cid.defcolour = GetSysColor(it.def & 0x000000ff);
 		else
-			cid.defcolour = _clrs[i].def;
+			cid.defcolour = it.def;
 		Colour_RegisterW(&cid);
 	}
 
 	strncpy(cid.dbSettingsGroup, SRMSGMOD_T, _countof(fid.dbSettingsGroup));
 
 	// text and background colors for tabs
-	for (int i = 0; i < _countof(_tabclrs); i++) {
-		cid.order = _tabclrs[i].order;
-		wcsncpy(cid.group, _tabclrs[i].tszGroup, _countof(fid.group));
-		wcsncpy(cid.name, _tabclrs[i].tszName, _countof(cid.name));
-		strncpy(cid.setting, _tabclrs[i].szSetting, _countof(cid.setting));
-		if (_tabclrs[i].def & 0xff000000)
-			cid.defcolour = GetSysColor(_tabclrs[i].def & 0x000000ff);
+	for (auto &it : _tabclrs) {
+		cid.order = it.order;
+		wcsncpy(cid.group, it.tszGroup, _countof(fid.group));
+		wcsncpy(cid.name, it.tszName, _countof(cid.name));
+		strncpy(cid.setting, it.szSetting, _countof(cid.setting));
+		if (it.def & 0xff000000)
+			cid.defcolour = GetSysColor(it.def & 0x000000ff);
 		else
-			cid.defcolour = _tabclrs[i].def;
+			cid.defcolour = it.def;
 
 		Colour_RegisterW(&cid);
 	}

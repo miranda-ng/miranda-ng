@@ -355,8 +355,7 @@ void LoadOptions()
 			opt.dsList = ds_node;
 			real_count++;
 		}
-		else
-			mir_free(ds_node);
+		else mir_free(ds_node);
 	}
 	opt.iDsCount = real_count;
 
@@ -375,8 +374,7 @@ void LoadOptions()
 			if (di_node->di.bIsVisible && wcsstr(di_node->di.swzValue, L"sys:status_msg"))
 				opt.bWaitForStatusMsg = true;
 		}
-		else
-			mir_free(di_node);
+		else mir_free(di_node);
 	}
 	opt.iDiCount = real_count;
 
@@ -535,105 +533,96 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			di = (DISPLAYITEM *)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)di);
+		TranslateDialogDefault(hwndDlg);
+		di = (DISPLAYITEM *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)di);
 
-			SetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel);
-			SetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue);
+		SetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel);
+		SetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue);
 
-			for (int i = 0; i < _countof(displayItemTypes); i++) {
-				int index = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateW(displayItemTypes[i].title));
-				SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETITEMDATA, index, (LPARAM)displayItemTypes[i].type);
-				if (displayItemTypes[i].type == di->type)
-					SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETCURSEL, index, 0);
-			}
-
-			CheckDlgButton(hwndDlg, IDC_CHK_LINEABOVE, di->bLineAbove ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_VALNEWLINE, di->bValueNewline ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_PARSETIPPERFIRST, di->bParseTipperVarsFirst ? BST_CHECKED : BST_UNCHECKED);
-
-			for (int i = 0; presetItems[i].szID; i++)
-				SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_ADDSTRING, 0, (LPARAM)TranslateW(presetItems[i].swzName));
-
-			variables_skin_helpbutton(hwndDlg, IDC_BTN_VARIABLE);
-
-			SetFocus(GetDlgItem(hwndDlg, IDC_ED_LABEL));
-			return TRUE;
+		for (auto &it : displayItemTypes) {
+			int index = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateW(it.title));
+			SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETITEMDATA, index, (LPARAM)it.type);
+			if (it.type == di->type)
+				SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETCURSEL, index, 0);
 		}
+
+		CheckDlgButton(hwndDlg, IDC_CHK_LINEABOVE, di->bLineAbove ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_VALNEWLINE, di->bValueNewline ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_PARSETIPPERFIRST, di->bParseTipperVarsFirst ? BST_CHECKED : BST_UNCHECKED);
+
+		for (int i = 0; presetItems[i].szID; i++)
+			SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_ADDSTRING, 0, (LPARAM)TranslateW(presetItems[i].swzName));
+
+		variables_skin_helpbutton(hwndDlg, IDC_BTN_VARIABLE);
+
+		SetFocus(GetDlgItem(hwndDlg, IDC_ED_LABEL));
+		return TRUE;
+
 	case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED) {
-				switch (LOWORD(wParam)) {
-				case IDOK:
-					{
-						GetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel, LABEL_LEN);
-						GetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue, VALUE_LEN);
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
+			case IDOK:
+				GetDlgItemText(hwndDlg, IDC_ED_LABEL, di->swzLabel, LABEL_LEN);
+				GetDlgItemText(hwndDlg, IDC_ED_VALUE, di->swzValue, VALUE_LEN);
+				{
+					int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETCURSEL, 0, 0);
+					int type = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETITEMDATA, sel, 0);
+					for (auto &it : displayItemTypes)
+						if (it.type == type)
+							di->type = it.type;
 
-						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETCURSEL, 0, 0);
-						int type = SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_GETITEMDATA, sel, 0);
-						for (int i = 0; i < _countof(displayItemTypes); i++) {
-							if (displayItemTypes[i].type == type)
-								di->type = displayItemTypes[i].type;
-						}
+					di->bLineAbove = (IsDlgButtonChecked(hwndDlg, IDC_CHK_LINEABOVE) ? true : false);
+					di->bValueNewline = (IsDlgButtonChecked(hwndDlg, IDC_CHK_VALNEWLINE) ? true : false);
+					di->bParseTipperVarsFirst = (IsDlgButtonChecked(hwndDlg, IDC_CHK_PARSETIPPERFIRST) ? true : false);
 
-						di->bLineAbove = (IsDlgButtonChecked(hwndDlg, IDC_CHK_LINEABOVE) ? true : false);
-						di->bValueNewline = (IsDlgButtonChecked(hwndDlg, IDC_CHK_VALNEWLINE) ? true : false);
-						di->bParseTipperVarsFirst = (IsDlgButtonChecked(hwndDlg, IDC_CHK_PARSETIPPERFIRST) ? true : false);
-
-						sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
-						if (sel != CB_ERR) {
-							wchar_t buff[256];
-							SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
-							for (int i = 0; presetItems[i].szID; i++) {
-								if (mir_wstrcmp(buff, TranslateW(presetItems[i].swzName)) == 0) {
-									if (presetItems[i].szNeededSubst[0])
-										EndDialog(hwndDlg, IDPRESETITEM + i);
-									else
-										EndDialog(hwndDlg, IDOK);
-									break;
-								}
-							}
-						}
-						else
-							EndDialog(hwndDlg, IDOK);
-
-						return TRUE;
-					}
-				case IDCANCEL:
-					{
-						EndDialog(hwndDlg, IDCANCEL);
-						return TRUE;
-					}
-				case IDC_BTN_VARIABLE:
-					{
-						if (GetFocus() == GetDlgItem(hwndDlg, IDC_ED_LABEL))
-							variables_showhelp(hwndDlg, IDC_ED_LABEL, VHF_FULLDLG, nullptr, nullptr);
-						else
-							variables_showhelp(hwndDlg, IDC_ED_VALUE, VHF_FULLDLG, nullptr, nullptr);
-						return TRUE;
-					}
-				}
-			}
-			else if (HIWORD(wParam) == CBN_SELCHANGE) {
-				if (LOWORD(wParam) == IDC_CMB_PRESETITEMS) {
-					int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
+					sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
 					if (sel != CB_ERR) {
 						wchar_t buff[256];
 						SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
 						for (int i = 0; presetItems[i].szID; i++) {
 							if (mir_wstrcmp(buff, TranslateW(presetItems[i].swzName)) == 0) {
-								SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateW(presetItems[i].swzLabel));
-								SetDlgItemText(hwndDlg, IDC_ED_VALUE, presetItems[i].swzValue);
+								if (presetItems[i].szNeededSubst[0])
+									EndDialog(hwndDlg, IDPRESETITEM + i);
+								else
+									EndDialog(hwndDlg, IDOK);
 								break;
 							}
 						}
 					}
+					else EndDialog(hwndDlg, IDOK);
+				}
+				return TRUE;
+
+			case IDCANCEL:
+				EndDialog(hwndDlg, IDCANCEL);
+				return TRUE;
+
+			case IDC_BTN_VARIABLE:
+				if (GetFocus() == GetDlgItem(hwndDlg, IDC_ED_LABEL))
+					variables_showhelp(hwndDlg, IDC_ED_LABEL, VHF_FULLDLG, nullptr, nullptr);
+				else
+					variables_showhelp(hwndDlg, IDC_ED_VALUE, VHF_FULLDLG, nullptr, nullptr);
+				return TRUE;
+			}
+		}
+		else if (HIWORD(wParam) == CBN_SELCHANGE) {
+			if (LOWORD(wParam) == IDC_CMB_PRESETITEMS) {
+				int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETCURSEL, 0, 0);
+				if (sel != CB_ERR) {
+					wchar_t buff[256];
+					SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_GETLBTEXT, sel, (LPARAM)buff);
+					for (int i = 0; presetItems[i].szID; i++) {
+						if (mir_wstrcmp(buff, TranslateW(presetItems[i].swzName)) == 0) {
+							SetDlgItemText(hwndDlg, IDC_ED_LABEL, TranslateW(presetItems[i].swzLabel));
+							SetDlgItemText(hwndDlg, IDC_ED_VALUE, presetItems[i].swzValue);
+							break;
+						}
+					}
 				}
 			}
-			break;
 		}
+		break;
 	}
 
 	return 0;
@@ -645,39 +634,38 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			ds = (DISPLAYSUBST *)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)ds);
+		TranslateDialogDefault(hwndDlg);
+		ds = (DISPLAYSUBST *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)ds);
 
-			SetDlgItemText(hwndDlg, IDC_ED_LABEL, ds->swzName);
+		SetDlgItemText(hwndDlg, IDC_ED_LABEL, ds->swzName);
 
-			switch (ds->type) {
-			case DVT_PROTODB:
-				CheckDlgButton(hwndDlg, IDC_CHK_PROTOMOD, BST_CHECKED);
-				SetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName);
-				break;
-			case DVT_DB:
-				SetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName);
-				SetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName);
-				break;
-			}
-
-			for (int i = 0; i < iTransFuncsCount; i++) {
-				int index = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateW(translations[i].swzName));
-				SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_SETITEMDATA, index, (LPARAM)translations[i].id);
-			}
-
-			for (int i = 0; i < iTransFuncsCount; i++) {
-				int id = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, i, 0);
-				if (id == ds->iTranslateFuncId)
-					SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_SETCURSEL, i, 0);
-			}
-
-			SendMessage(hwndDlg, WMU_ENABLE_MODULE_ENTRY, 0, 0);
-			SetFocus(GetDlgItem(hwndDlg, IDC_ED_LABEL));
-			return TRUE;
+		switch (ds->type) {
+		case DVT_PROTODB:
+			CheckDlgButton(hwndDlg, IDC_CHK_PROTOMOD, BST_CHECKED);
+			SetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName);
+			break;
+		case DVT_DB:
+			SetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName);
+			SetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName);
+			break;
 		}
+
+		for (int i = 0; i < iTransFuncsCount; i++) {
+			int index = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_ADDSTRING, (WPARAM)-1, (LPARAM)TranslateW(translations[i].swzName));
+			SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_SETITEMDATA, index, (LPARAM)translations[i].id);
+		}
+
+		for (int i = 0; i < iTransFuncsCount; i++) {
+			int id = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, i, 0);
+			if (id == ds->iTranslateFuncId)
+				SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_SETCURSEL, i, 0);
+		}
+
+		SendMessage(hwndDlg, WMU_ENABLE_MODULE_ENTRY, 0, 0);
+		SetFocus(GetDlgItem(hwndDlg, IDC_ED_LABEL));
+		return TRUE;
+
 	case WMU_ENABLE_MODULE_ENTRY:
 		{
 			HWND hw = GetDlgItem(hwndDlg, IDC_CHK_PROTOMOD);
@@ -686,52 +674,46 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			EnableWindow(hw, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_CHK_PROTOMOD));
 			hw = GetDlgItem(hwndDlg, IDC_ED_SETTING);
 			EnableWindow(hw, TRUE);
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED) {
-				switch (LOWORD(wParam)) {
-				case IDC_CHK_PROTOMOD:
-					{
-						SendMessage(hwndDlg, WMU_ENABLE_MODULE_ENTRY, 0, 0);
-						break;
-					}
-				case IDOK:
-					{
-						GetDlgItemText(hwndDlg, IDC_ED_LABEL, ds->swzName, LABEL_LEN);
-						if (ds->swzName[0] == 0) {
-							MessageBox(hwndDlg, TranslateT("You must enter a label"), TranslateT("Invalid Substitution"), MB_OK | MB_ICONWARNING);
-							return TRUE;
-						}
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
+			case IDC_CHK_PROTOMOD:
+				SendMessage(hwndDlg, WMU_ENABLE_MODULE_ENTRY, 0, 0);
+				break;
 
-						if (IsDlgButtonChecked(hwndDlg, IDC_CHK_PROTOMOD))
-							ds->type = DVT_PROTODB;
-						else {
-							ds->type = DVT_DB;
-							GetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName, _countof(ds->szModuleName));
-						}
-
-						GetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName, _countof(ds->szSettingName));
-
-						int sel = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETCURSEL, 0, 0);
-						ds->iTranslateFuncId = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, sel, 0);
-
-						EndDialog(hwndDlg, IDOK);
-						return TRUE;
-					}
-				case IDCANCEL:
-					{
-						EndDialog(hwndDlg, IDCANCEL);
-						return TRUE;
-					}
+			case IDOK:
+				GetDlgItemText(hwndDlg, IDC_ED_LABEL, ds->swzName, LABEL_LEN);
+				if (ds->swzName[0] == 0) {
+					MessageBox(hwndDlg, TranslateT("You must enter a label"), TranslateT("Invalid Substitution"), MB_OK | MB_ICONWARNING);
+					return TRUE;
 				}
-			}
-			else if (HIWORD(wParam) == CBN_SELCHANGE)
+
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_PROTOMOD))
+					ds->type = DVT_PROTODB;
+				else {
+					ds->type = DVT_DB;
+					GetDlgItemTextA(hwndDlg, IDC_ED_MODULE, ds->szModuleName, _countof(ds->szModuleName));
+				}
+
+				GetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName, _countof(ds->szSettingName));
+
+				ds->iTranslateFuncId = SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_CMB_TRANSLATE, CB_GETCURSEL, 0, 0), 0);
+
+				EndDialog(hwndDlg, IDOK);
 				return TRUE;
 
-			break;
+			case IDCANCEL:
+				EndDialog(hwndDlg, IDCANCEL);
+				return TRUE;
+			}
 		}
+		else if (HIWORD(wParam) == CBN_SELCHANGE)
+			return TRUE;
+
+		break;
 	}
 
 	return 0;
@@ -793,7 +775,6 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_CHECKBOXES);
 		{
-
 			TVINSERTSTRUCT tvi = {};
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
@@ -1174,6 +1155,7 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 				break;
 			}
+
 		case NM_CLICK:
 			TVHITTESTINFO hti;
 			hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -1233,196 +1215,191 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
+		TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_SHOWTITLE, opt.bShowTitle ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_NOFOCUS, opt.bShowNoFocus ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_SBAR, opt.bStatusBarTips ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_SHOWTITLE, opt.bShowTitle ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_NOFOCUS, opt.bShowNoFocus ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_SBAR, opt.bStatusBarTips ? BST_CHECKED : BST_UNCHECKED);
 
-			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("No icon"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on left"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on right"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_SETCURSEL, (int)opt.titleIconLayout, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("No icon"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on left"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on right"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_SETCURSEL, (int)opt.titleIconLayout, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom right"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom left"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top right"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top left"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_SETCURSEL, (int)opt.pos, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom right"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom left"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top right"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top left"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_SETCURSEL, (int)opt.pos, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Center"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom"));
-			switch (opt.iLabelValign) {
-			case DT_TOP: SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_SETCURSEL, 0, 0); break;
-			case DT_VCENTER: SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_SETCURSEL, 1, 0); break;
-			case DT_BOTTOM: SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_SETCURSEL, 2, 0); break;
-			}
-
-			SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Center"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom"));
-			switch (opt.iValueValign) {
-			case DT_TOP: SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_SETCURSEL, 0, 0); break;
-			case DT_VCENTER: SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_SETCURSEL, 1, 0); break;
-			case DT_BOTTOM: SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_SETCURSEL, 2, 0); break;
-			}
-
-			SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right"));
-			switch (opt.iLabelHalign) {
-			case DT_LEFT: SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_SETCURSEL, 0, 0); break;
-			case DT_RIGHT: SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_SETCURSEL, 1, 0); break;
-			}
-
-			SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right"));
-			switch (opt.iValueHalign) {
-			case DT_LEFT: SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_SETCURSEL, 0, 0); break;
-			case DT_RIGHT: SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_SETCURSEL, 1, 0); break;
-			}
-
-			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("No avatar"));
-			if (ServiceExists(MS_AV_DRAWAVATAR)) {
-				SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left avatar"));
-				SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right avatar"));
-			}
-			else {
-				HWND hw = GetDlgItem(hwndDlg, IDC_CMB_AV);
-				EnableWindow(hw, FALSE);
-				hw = GetDlgItem(hwndDlg, IDC_SPIN_AVSIZE);
-				EnableWindow(hw, FALSE);
-				hw = GetDlgItem(hwndDlg, IDC_ED_AVSIZE);
-				EnableWindow(hw, FALSE);
-			}
-			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_SETCURSEL, (int)opt.avatarLayout, 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_WIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_MINWIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_MAXHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_MINHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_AVSIZE, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 16));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_TITLEINDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_VALUEINDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_PADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_TEXTPADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_OUTAVPADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_INAVPADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_HOVER, UDM_SETRANGE, 0, (LPARAM)MAKELONG(5000, 5));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_SBWIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 0));
-
-			SetDlgItemInt(hwndDlg, IDC_ED_WIDTH, opt.iWinWidth, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_MAXHEIGHT, opt.iWinMaxHeight, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_MINWIDTH, opt.iMinWidth, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_MINHEIGHT, opt.iMinHeight, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_AVSIZE, opt.iAvatarSize, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_INDENT, opt.iTextIndent, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_TITLEINDENT, opt.iTitleIndent, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_VALUEINDENT, opt.iValueIndent, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_PADDING, opt.iPadding, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_TEXTPADDING, opt.iTextPadding, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_OUTAVPADDING, opt.iOuterAvatarPadding, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_INAVPADDING, opt.iInnerAvatarPadding, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_HOVER, opt.iTimeIn, FALSE);
-			SetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, opt.iSidebarWidth, FALSE);
-
-			CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERSAV, opt.bAvatarRound ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_AVBORDER, opt.bAvatarBorder ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_ORIGINALAVSIZE, opt.bOriginalAvatarSize ? BST_CHECKED : BST_UNCHECKED);
-
-			if (opt.bOriginalAvatarSize)
-				SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, TranslateT("Max avatar size:"));
-
-			return FALSE;
+		SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Center"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom"));
+		switch (opt.iLabelValign) {
+		case DT_TOP: SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_SETCURSEL, 0, 0); break;
+		case DT_VCENTER: SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_SETCURSEL, 1, 0); break;
+		case DT_BOTTOM: SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_SETCURSEL, 2, 0); break;
 		}
+
+		SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Top"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Center"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Bottom"));
+		switch (opt.iValueValign) {
+		case DT_TOP: SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_SETCURSEL, 0, 0); break;
+		case DT_VCENTER: SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_SETCURSEL, 1, 0); break;
+		case DT_BOTTOM: SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_SETCURSEL, 2, 0); break;
+		}
+
+		SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right"));
+		switch (opt.iLabelHalign) {
+		case DT_LEFT: SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_SETCURSEL, 0, 0); break;
+		case DT_RIGHT: SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_SETCURSEL, 1, 0); break;
+		}
+
+		SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right"));
+		switch (opt.iValueHalign) {
+		case DT_LEFT: SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_SETCURSEL, 0, 0); break;
+		case DT_RIGHT: SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_SETCURSEL, 1, 0); break;
+		}
+
+		SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("No avatar"));
+		if (ServiceExists(MS_AV_DRAWAVATAR)) {
+			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left avatar"));
+			SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right avatar"));
+		}
+		else {
+			HWND hw = GetDlgItem(hwndDlg, IDC_CMB_AV);
+			EnableWindow(hw, FALSE);
+			hw = GetDlgItem(hwndDlg, IDC_SPIN_AVSIZE);
+			EnableWindow(hw, FALSE);
+			hw = GetDlgItem(hwndDlg, IDC_ED_AVSIZE);
+			EnableWindow(hw, FALSE);
+		}
+		SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_SETCURSEL, (int)opt.avatarLayout, 0);
+
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_WIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_MINWIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_MAXHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_MINHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 16));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_AVSIZE, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 16));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_TITLEINDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_VALUEINDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_PADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_TEXTPADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_OUTAVPADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INAVPADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(128, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_HOVER, UDM_SETRANGE, 0, (LPARAM)MAKELONG(5000, 5));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_SBWIDTH, UDM_SETRANGE, 0, (LPARAM)MAKELONG(2048, 0));
+
+		SetDlgItemInt(hwndDlg, IDC_ED_WIDTH, opt.iWinWidth, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_MAXHEIGHT, opt.iWinMaxHeight, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_MINWIDTH, opt.iMinWidth, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_MINHEIGHT, opt.iMinHeight, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_AVSIZE, opt.iAvatarSize, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_INDENT, opt.iTextIndent, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_TITLEINDENT, opt.iTitleIndent, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_VALUEINDENT, opt.iValueIndent, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_PADDING, opt.iPadding, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_TEXTPADDING, opt.iTextPadding, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_OUTAVPADDING, opt.iOuterAvatarPadding, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_INAVPADDING, opt.iInnerAvatarPadding, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_HOVER, opt.iTimeIn, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, opt.iSidebarWidth, FALSE);
+
+		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERSAV, opt.bAvatarRound ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_AVBORDER, opt.bAvatarBorder ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ORIGINALAVSIZE, opt.bOriginalAvatarSize ? BST_CHECKED : BST_UNCHECKED);
+
+		if (opt.bOriginalAvatarSize)
+			SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, TranslateT("Max avatar size:"));
+		return FALSE;
+
 	case WM_COMMAND:
-		{
-			if (LOWORD(wParam) == IDC_CHK_ORIGINALAVSIZE)
-				SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, IsDlgButtonChecked(hwndDlg, IDC_CHK_ORIGINALAVSIZE) ? TranslateT("Max avatar size:") : TranslateT("Avatar size:"));
+		if (LOWORD(wParam) == IDC_CHK_ORIGINALAVSIZE)
+			SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, IsDlgButtonChecked(hwndDlg, IDC_CHK_ORIGINALAVSIZE) ? TranslateT("Max avatar size:") : TranslateT("Avatar size:"));
 
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			else if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			else if (HIWORD(wParam) == BN_CLICKED)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		if (HIWORD(wParam) == CBN_SELCHANGE)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		else if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		else if (HIWORD(wParam) == BN_CLICKED)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
-			break;
-		}
+		break;
+
 	case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
-				BOOL trans;
-				int new_val = GetDlgItemInt(hwndDlg, IDC_ED_WIDTH, &trans, FALSE);
-				if (trans) opt.iWinWidth = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_MINWIDTH, &trans, FALSE);
-				if (trans) opt.iMinWidth = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_MAXHEIGHT, &trans, FALSE);
-				if (trans) opt.iWinMaxHeight = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_MINHEIGHT, &trans, FALSE);
-				if (trans) opt.iMinHeight = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_AVSIZE, &trans, FALSE);
-				if (trans) opt.iAvatarSize = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_INDENT, &trans, FALSE);
-				if (trans) opt.iTextIndent = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_TITLEINDENT, &trans, FALSE);
-				if (trans) opt.iTitleIndent = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_VALUEINDENT, &trans, FALSE);
-				if (trans) opt.iValueIndent = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_PADDING, &trans, FALSE);
-				if (trans) opt.iPadding = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_TEXTPADDING, &trans, FALSE);
-				if (trans) opt.iTextPadding = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_OUTAVPADDING, &trans, FALSE);
-				if (trans) opt.iOuterAvatarPadding = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_INAVPADDING, &trans, FALSE);
-				if (trans) opt.iInnerAvatarPadding = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_HOVER, &trans, FALSE);
-				if (trans) opt.iTimeIn = new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, &trans, FALSE);
-				if (trans) opt.iSidebarWidth = new_val;
+		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
+			BOOL trans;
+			int new_val = GetDlgItemInt(hwndDlg, IDC_ED_WIDTH, &trans, FALSE);
+			if (trans) opt.iWinWidth = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_MINWIDTH, &trans, FALSE);
+			if (trans) opt.iMinWidth = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_MAXHEIGHT, &trans, FALSE);
+			if (trans) opt.iWinMaxHeight = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_MINHEIGHT, &trans, FALSE);
+			if (trans) opt.iMinHeight = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_AVSIZE, &trans, FALSE);
+			if (trans) opt.iAvatarSize = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_INDENT, &trans, FALSE);
+			if (trans) opt.iTextIndent = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_TITLEINDENT, &trans, FALSE);
+			if (trans) opt.iTitleIndent = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_VALUEINDENT, &trans, FALSE);
+			if (trans) opt.iValueIndent = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_PADDING, &trans, FALSE);
+			if (trans) opt.iPadding = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_TEXTPADDING, &trans, FALSE);
+			if (trans) opt.iTextPadding = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_OUTAVPADDING, &trans, FALSE);
+			if (trans) opt.iOuterAvatarPadding = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_INAVPADDING, &trans, FALSE);
+			if (trans) opt.iInnerAvatarPadding = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_HOVER, &trans, FALSE);
+			if (trans) opt.iTimeIn = new_val;
+			new_val = GetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, &trans, FALSE);
+			if (trans) opt.iSidebarWidth = new_val;
 
-				opt.titleIconLayout = (PopupIconTitleLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_GETCURSEL, 0, 0);
-				opt.avatarLayout = (PopupAvLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_GETCURSEL, 0, 0);
-				opt.pos = (PopupPosition)SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_GETCURSEL, 0, 0);
+			opt.titleIconLayout = (PopupIconTitleLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_GETCURSEL, 0, 0);
+			opt.avatarLayout = (PopupAvLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_GETCURSEL, 0, 0);
+			opt.pos = (PopupPosition)SendDlgItemMessage(hwndDlg, IDC_CMB_POS, CB_GETCURSEL, 0, 0);
 
-				opt.bAvatarBorder = IsDlgButtonChecked(hwndDlg, IDC_CHK_AVBORDER) ? true : false;
-				opt.bAvatarRound = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV)) ? true : false;
-				opt.bOriginalAvatarSize = IsDlgButtonChecked(hwndDlg, IDC_CHK_ORIGINALAVSIZE) ? true : false;
+			opt.bAvatarBorder = IsDlgButtonChecked(hwndDlg, IDC_CHK_AVBORDER) ? true : false;
+			opt.bAvatarRound = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV)) ? true : false;
+			opt.bOriginalAvatarSize = IsDlgButtonChecked(hwndDlg, IDC_CHK_ORIGINALAVSIZE) ? true : false;
 
-				opt.bShowTitle = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHOWTITLE) ? true : false;
-				opt.bShowNoFocus = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOFOCUS) ? true : false;
-				opt.bStatusBarTips = IsDlgButtonChecked(hwndDlg, IDC_CHK_SBAR) ? true : false;
+			opt.bShowTitle = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHOWTITLE) ? true : false;
+			opt.bShowNoFocus = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOFOCUS) ? true : false;
+			opt.bStatusBarTips = IsDlgButtonChecked(hwndDlg, IDC_CHK_SBAR) ? true : false;
 
-				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_GETCURSEL, 0, 0)) {
-				case 0: opt.iLabelValign = DT_TOP; break;
-				case 1: opt.iLabelValign = DT_VCENTER; break;
-				case 2: opt.iLabelValign = DT_BOTTOM; break;
-				}
-
-				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_GETCURSEL, 0, 0)) {
-				case 0: opt.iValueValign = DT_TOP; break;
-				case 1: opt.iValueValign = DT_VCENTER; break;
-				case 2: opt.iValueValign = DT_BOTTOM; break;
-				}
-
-				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_GETCURSEL, 0, 0)) {
-				case 0: opt.iLabelHalign = DT_LEFT; break;
-				case 1: opt.iLabelHalign = DT_RIGHT; break;
-				}
-
-				switch (SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_GETCURSEL, 0, 0)) {
-				case 0: opt.iValueHalign = DT_LEFT; break;
-				case 1: opt.iValueHalign = DT_RIGHT; break;
-				}
-
-				SaveOptions();
-				return TRUE;
+			switch (SendDlgItemMessage(hwndDlg, IDC_CMB_LV, CB_GETCURSEL, 0, 0)) {
+			case 0: opt.iLabelValign = DT_TOP; break;
+			case 1: opt.iLabelValign = DT_VCENTER; break;
+			case 2: opt.iLabelValign = DT_BOTTOM; break;
 			}
-			break;
+
+			switch (SendDlgItemMessage(hwndDlg, IDC_CMB_VV, CB_GETCURSEL, 0, 0)) {
+			case 0: opt.iValueValign = DT_TOP; break;
+			case 1: opt.iValueValign = DT_VCENTER; break;
+			case 2: opt.iValueValign = DT_BOTTOM; break;
+			}
+
+			switch (SendDlgItemMessage(hwndDlg, IDC_CMB_LH, CB_GETCURSEL, 0, 0)) {
+			case 0: opt.iLabelHalign = DT_LEFT; break;
+			case 1: opt.iLabelHalign = DT_RIGHT; break;
+			}
+
+			switch (SendDlgItemMessage(hwndDlg, IDC_CMB_VH, CB_GETCURSEL, 0, 0)) {
+			case 0: opt.iValueHalign = DT_LEFT; break;
+			case 1: opt.iValueHalign = DT_RIGHT; break;
+			}
+
+			SaveOptions();
+			return TRUE;
 		}
+		break;
 	}
 
 	return 0;
@@ -1434,40 +1411,40 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		CheckDlgButton(hwndDlg, IDC_CHK_WAITFORCONTENT, opt.bWaitForContent ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_GETSTATUSMSG, opt.bGetNewStatusMsg ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_DISABLEINVISIBLE, opt.bDisableIfInvisible ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_RETRIEVEXSTATUS, opt.bRetrieveXstatus ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_LIMITMSG, opt.bLimitMsg ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLESMILEYS, opt.iSmileyAddFlags & SMILEYADD_ENABLE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_USEPROTOSMILEYS, opt.iSmileyAddFlags & SMILEYADD_USEPROTO ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ONLYISOLATED, opt.iSmileyAddFlags & SMILEYADD_ONLYISOLATED ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_RESIZESMILEYS, opt.iSmileyAddFlags & SMILEYADD_RESIZE ? BST_CHECKED : BST_UNCHECKED);
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DISABLEINVISIBLE), opt.bGetNewStatusMsg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
-			CheckDlgButton(hwndDlg, IDC_CHK_WAITFORCONTENT, opt.bWaitForContent ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_GETSTATUSMSG, opt.bGetNewStatusMsg ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_DISABLEINVISIBLE, opt.bDisableIfInvisible ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_RETRIEVEXSTATUS, opt.bRetrieveXstatus ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_LIMITMSG, opt.bLimitMsg ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_ENABLESMILEYS, opt.iSmileyAddFlags & SMILEYADD_ENABLE ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_USEPROTOSMILEYS, opt.iSmileyAddFlags & SMILEYADD_USEPROTO ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_ONLYISOLATED, opt.iSmileyAddFlags & SMILEYADD_ONLYISOLATED ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_RESIZESMILEYS, opt.iSmileyAddFlags & SMILEYADD_RESIZE ? BST_CHECKED : BST_UNCHECKED);
-
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DISABLEINVISIBLE), opt.bGetNewStatusMsg);
-
 			BOOL bEnable = opt.iSmileyAddFlags & SMILEYADD_ENABLE;
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEPROTOSMILEYS), bEnable);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ONLYISOLATED), bEnable);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_RESIZESMILEYS), bEnable);
+		}
 
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_CHARCOUNT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(1024, 16));
-			SetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, opt.iLimitCharCount, FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_CHARCOUNT), opt.bLimitMsg);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_CHARCOUNT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(1024, 16));
+		SetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, opt.iLimitCharCount, FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_CHARCOUNT), opt.bLimitMsg);
 
-			for (int i = 0; i < EXICONS_COUNT; i++) {
-				exIcons[i].order = opt.exIconsOrder[i];
-				exIcons[i].vis = opt.exIconsVis[i];
-			}
+		for (int i = 0; i < EXICONS_COUNT; i++) {
+			exIcons[i].order = opt.exIconsOrder[i];
+			exIcons[i].vis = opt.exIconsVis[i];
+		}
 
-			dat = (EXTRAICONDATA *)mir_alloc(sizeof(EXTRAICONDATA));
-			dat->bDragging = false;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-
+		dat = (EXTRAICONDATA *)mir_alloc(sizeof(EXTRAICONDATA));
+		dat->bDragging = false;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		{
 			TVINSERTSTRUCT tvi = {};
 			tvi.hParent = nullptr;
 			tvi.hInsertAfter = TVI_LAST;
@@ -1479,129 +1456,115 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(exIcons[i].vis ? 2 : 1);
 				TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvi);
 			}
-
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case IDC_CHK_ENABLESMILEYS:
-				{
-					BOOL bEnable = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_RESIZESMILEYS), bEnable);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEPROTOSMILEYS), bEnable);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ONLYISOLATED), bEnable);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_RESIZESMILEYS), bEnable);
-					break;
-				}
-			case IDC_CHK_LIMITMSG:
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_ED_CHARCOUNT), IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG));
-					break;
-				}
-			case IDC_CHK_GETSTATUSMSG:
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DISABLEINVISIBLE), IsDlgButtonChecked(hwndDlg, IDC_CHK_GETSTATUSMSG));
-					break;
-				}
+		switch (LOWORD(wParam)) {
+		case IDC_CHK_ENABLESMILEYS:
+			{
+				BOOL bEnable = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_RESIZESMILEYS), bEnable);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEPROTOSMILEYS), bEnable);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ONLYISOLATED), bEnable);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_RESIZESMILEYS), bEnable);
 			}
+			break;
 
-			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		case IDC_CHK_LIMITMSG:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_CHARCOUNT), IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG));
+			break;
 
+		case IDC_CHK_GETSTATUSMSG:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DISABLEINVISIBLE), IsDlgButtonChecked(hwndDlg, IDC_CHK_GETSTATUSMSG));
 			break;
 		}
+
+		if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
 	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				{
-					if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
-						TVITEM item = { 0 };
-						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS));
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
+				TVITEM item = {};
+				item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS));
 
-						int i = 0;
-						while (item.hItem != nullptr) {
-							item.mask = TVIF_HANDLE | TVIF_PARAM;
-							TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
-							opt.exIconsOrder[i] = ((ICONSTATE *)item.lParam)->order;
-							opt.exIconsVis[i] = ((ICONSTATE *)item.lParam)->vis;
-							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), item.hItem);
-							i++;
-						}
-						db_set_blob(NULL, MODULE, "IconOrder", opt.exIconsOrder, _countof(opt.exIconsOrder));
-						db_set_blob(NULL, MODULE, "icons_vis", opt.exIconsVis, _countof(opt.exIconsVis));
-
-						opt.iSmileyAddFlags = 0;
-						opt.iSmileyAddFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS) ? SMILEYADD_ENABLE : 0)
-							| (IsDlgButtonChecked(hwndDlg, IDC_CHK_USEPROTOSMILEYS) ? SMILEYADD_USEPROTO : 0)
-							| (IsDlgButtonChecked(hwndDlg, IDC_CHK_ONLYISOLATED) ? SMILEYADD_ONLYISOLATED : 0)
-							| (IsDlgButtonChecked(hwndDlg, IDC_CHK_RESIZESMILEYS) ? SMILEYADD_RESIZE : 0);
-
-						opt.bWaitForContent = IsDlgButtonChecked(hwndDlg, IDC_CHK_WAITFORCONTENT) ? true : false;
-						opt.bGetNewStatusMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_GETSTATUSMSG) ? true : false;
-						opt.bDisableIfInvisible = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEINVISIBLE) ? true : false;
-						opt.bRetrieveXstatus = IsDlgButtonChecked(hwndDlg, IDC_CHK_RETRIEVEXSTATUS) ? true : false;
-						opt.bLimitMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG) ? true : false;
-						opt.iLimitCharCount = GetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, nullptr, FALSE);
-
-						db_set_dw(0, MODULE, "SmileyAddFlags", opt.iSmileyAddFlags);
-						db_set_b(0, MODULE, "WaitForContent", opt.bWaitForContent ? 1 : 0);
-						db_set_b(0, MODULE, "GetNewStatusMsg", opt.bGetNewStatusMsg ? 1 : 0);
-						db_set_b(0, MODULE, "DisableInvisible", opt.bDisableIfInvisible ? 1 : 0);
-						db_set_b(0, MODULE, "RetrieveXStatus", opt.bRetrieveXstatus ? 1 : 0);
-						db_set_b(0, MODULE, "LimitMsg", opt.bLimitMsg ? 1 : 0);
-						db_set_b(0, MODULE, "LimitCharCount", opt.iLimitCharCount);
-
-						return TRUE;
-					}
-					break;
+				int i = 0;
+				while (item.hItem != nullptr) {
+					item.mask = TVIF_HANDLE | TVIF_PARAM;
+					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
+					opt.exIconsOrder[i] = ((ICONSTATE *)item.lParam)->order;
+					opt.exIconsVis[i] = ((ICONSTATE *)item.lParam)->vis;
+					item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), item.hItem);
+					i++;
 				}
-			case IDC_TREE_EXTRAICONS:
-				{
-					switch (((LPNMHDR)lParam)->code) {
-					case TVN_BEGINDRAG:
-						SetCapture(hwndDlg);
-						dat->bDragging = true;
-						dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
-						TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), dat->hDragItem);
-						break;
+				db_set_blob(NULL, MODULE, "IconOrder", opt.exIconsOrder, _countof(opt.exIconsOrder));
+				db_set_blob(NULL, MODULE, "icons_vis", opt.exIconsVis, _countof(opt.exIconsVis));
 
-					case NM_CLICK:
-						{
-							TVHITTESTINFO hti;
-							hti.pt.x = (short)LOWORD(GetMessagePos());
-							hti.pt.y = (short)HIWORD(GetMessagePos());
-							ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-							if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
-								if (hti.flags & TVHT_ONITEMSTATEICON) {
-									TVITEMA item;
-									item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
-									item.stateMask = TVIS_STATEIMAGEMASK;
-									item.hItem = hti.hItem;
-									TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
-									if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 1)
-										((ICONSTATE *)item.lParam)->vis = 1;
-									else
-										((ICONSTATE *)item.lParam)->vis = 0;
+				opt.iSmileyAddFlags = 0;
+				opt.iSmileyAddFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLESMILEYS) ? SMILEYADD_ENABLE : 0)
+					| (IsDlgButtonChecked(hwndDlg, IDC_CHK_USEPROTOSMILEYS) ? SMILEYADD_USEPROTO : 0)
+					| (IsDlgButtonChecked(hwndDlg, IDC_CHK_ONLYISOLATED) ? SMILEYADD_ONLYISOLATED : 0)
+					| (IsDlgButtonChecked(hwndDlg, IDC_CHK_RESIZESMILEYS) ? SMILEYADD_RESIZE : 0);
 
-									TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &item);
-									SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-								}
-							}
-							break;
-						}
-					}
-					break;
-				}
+				opt.bWaitForContent = IsDlgButtonChecked(hwndDlg, IDC_CHK_WAITFORCONTENT) ? true : false;
+				opt.bGetNewStatusMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_GETSTATUSMSG) ? true : false;
+				opt.bDisableIfInvisible = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEINVISIBLE) ? true : false;
+				opt.bRetrieveXstatus = IsDlgButtonChecked(hwndDlg, IDC_CHK_RETRIEVEXSTATUS) ? true : false;
+				opt.bLimitMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG) ? true : false;
+				opt.iLimitCharCount = GetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, nullptr, FALSE);
+
+				db_set_dw(0, MODULE, "SmileyAddFlags", opt.iSmileyAddFlags);
+				db_set_b(0, MODULE, "WaitForContent", opt.bWaitForContent ? 1 : 0);
+				db_set_b(0, MODULE, "GetNewStatusMsg", opt.bGetNewStatusMsg ? 1 : 0);
+				db_set_b(0, MODULE, "DisableInvisible", opt.bDisableIfInvisible ? 1 : 0);
+				db_set_b(0, MODULE, "RetrieveXStatus", opt.bRetrieveXstatus ? 1 : 0);
+				db_set_b(0, MODULE, "LimitMsg", opt.bLimitMsg ? 1 : 0);
+				db_set_b(0, MODULE, "LimitCharCount", opt.iLimitCharCount);
+
+				return TRUE;
 			}
 			break;
-		}
-	case WM_MOUSEMOVE:
-		{
-			if (!dat->bDragging)
+
+		case IDC_TREE_EXTRAICONS:
+			switch (((LPNMHDR)lParam)->code) {
+			case TVN_BEGINDRAG:
+				SetCapture(hwndDlg);
+				dat->bDragging = true;
+				dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
+				TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), dat->hDragItem);
 				break;
 
+			case NM_CLICK:
+				TVHITTESTINFO hti;
+				hti.pt.x = (short)LOWORD(GetMessagePos());
+				hti.pt.y = (short)HIWORD(GetMessagePos());
+				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
+				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
+					if (hti.flags & TVHT_ONITEMSTATEICON) {
+						TVITEMA item;
+						item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
+						item.stateMask = TVIS_STATEIMAGEMASK;
+						item.hItem = hti.hItem;
+						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &item);
+						if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 1)
+							((ICONSTATE *)item.lParam)->vis = 1;
+						else
+							((ICONSTATE *)item.lParam)->vis = 0;
+
+						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &item);
+						SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+					}
+				}
+				break;
+			}
+		}
+		break;
+
+	case WM_MOUSEMOVE:
+		if (dat->bDragging) {
 			TVHITTESTINFO hti;
 			hti.pt.x = (short)LOWORD(lParam);
 			hti.pt.y = (short)HIWORD(lParam);
@@ -1625,58 +1588,56 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 				TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), 0, 0);
 			}
-			break;
 		}
+		break;
+
 	case WM_LBUTTONUP:
-		{
-			if (!dat->bDragging)
-				break;
-
-			TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), 0, 0);
-			dat->bDragging = false;
-			ReleaseCapture();
-
-			TVHITTESTINFO hti;
-			hti.pt.x = (short)LOWORD(lParam);
-			hti.pt.y = (short)HIWORD(lParam);
-			ClientToScreen(hwndDlg, &hti.pt);
-			ScreenToClient(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &hti.pt);
-			hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS)) / 2;
-			TreeView_HitTest(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &hti);
-			if (dat->hDragItem == hti.hItem)
-				break;
-
-			if (hti.flags & TVHT_ABOVE)
-				hti.hItem = TVI_FIRST;
-
-			TVITEM item;
-			item.mask = TVIF_HANDLE | TVIF_PARAM;
-			item.hItem = dat->hDragItem;
-			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
-				TVINSERTSTRUCT tvis;
-				wchar_t swzName[256];
-				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-				tvis.item.pszText = swzName;
-				tvis.item.cchTextMax = _countof(swzName);
-				tvis.item.hItem = dat->hDragItem;
-				tvis.item.state = INDEXTOSTATEIMAGEMASK(((ICONSTATE *)item.lParam)->vis ? 2 : 1);
-				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis.item);
-				TreeView_DeleteItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), dat->hDragItem);
-				tvis.hParent = nullptr;
-				tvis.hInsertAfter = hti.hItem;
-				TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis));
-				SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-			}
-
+		if (!dat->bDragging)
 			break;
+
+		TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), 0, 0);
+		dat->bDragging = false;
+		ReleaseCapture();
+
+		TVHITTESTINFO hti;
+		hti.pt.x = (short)LOWORD(lParam);
+		hti.pt.y = (short)HIWORD(lParam);
+		ClientToScreen(hwndDlg, &hti.pt);
+		ScreenToClient(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &hti.pt);
+		hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS)) / 2;
+		TreeView_HitTest(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &hti);
+		if (dat->hDragItem == hti.hItem)
+			break;
+
+		if (hti.flags & TVHT_ABOVE)
+			hti.hItem = TVI_FIRST;
+
+		TVITEM item;
+		item.mask = TVIF_HANDLE | TVIF_PARAM;
+		item.hItem = dat->hDragItem;
+		TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &item);
+		if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
+			TVINSERTSTRUCT tvis;
+			wchar_t swzName[256];
+			tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
+			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+			tvis.item.pszText = swzName;
+			tvis.item.cchTextMax = _countof(swzName);
+			tvis.item.hItem = dat->hDragItem;
+			tvis.item.state = INDEXTOSTATEIMAGEMASK(((ICONSTATE *)item.lParam)->vis ? 2 : 1);
+			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis.item);
+			TreeView_DeleteItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), dat->hDragItem);
+			tvis.hParent = nullptr;
+			tvis.hInsertAfter = hti.hItem;
+			TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_EXTRAICONS), &tvis));
+			SendMessage((GetParent(hwndDlg)), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		}
+
+		break;
+
 	case WM_DESTROY:
-		{
-			mir_free(dat);
-			break;
-		}
+		mir_free(dat);
+		break;
 	}
 	return 0;
 }
@@ -1710,174 +1671,166 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			iLastSel = RefreshSkinList(hwndDlg);
+		TranslateDialogDefault(hwndDlg);
+		iLastSel = RefreshSkinList(hwndDlg);
 
-			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOADLIST, BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOADLIST, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reload skin list"), BATF_UNICODE);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOADLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[5].hIcolib));
+		SendDlgItemMessage(hwndDlg, IDC_BTN_RELOADLIST, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_RELOADLIST, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Reload skin list"), BATF_UNICODE);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_RELOADLIST, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[5].hIcolib));
 
-			SendDlgItemMessage(hwndDlg, IDC_BTN_APPLYSKIN, BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_APPLYSKIN, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Apply skin"), BATF_UNICODE);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_APPLYSKIN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[6].hIcolib));
+		SendDlgItemMessage(hwndDlg, IDC_BTN_APPLYSKIN, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_APPLYSKIN, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Apply skin"), BATF_UNICODE);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_APPLYSKIN, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIconByHandle(iconList[6].hIcolib));
 
-			SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BUTTONSETASFLATBTN, TRUE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Get more skins"), BATF_UNICODE);
-			SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_URL));
+		SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Get more skins"), BATF_UNICODE);
+		SendDlgItemMessage(hwndDlg, IDC_BTN_GETSKINS, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadIcon(SKINICON_EVENT_URL));
 
 
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
-			SetDlgItemInt(hwndDlg, IDC_ED_TRANS, opt.iOpacity, FALSE);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
+		SetDlgItemInt(hwndDlg, IDC_ED_TRANS, opt.iOpacity, FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_BORDER, opt.bBorder ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERS, opt.bRound ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_SHADOW, opt.bDropShadow ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_AEROGLASS, opt.bAeroGlass ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_LOADFONTS, opt.bLoadFonts ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_LOADPROPORTIONS, opt.bLoadProportions ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_BORDER, opt.bBorder ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERS, opt.bRound ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_SHADOW, opt.bDropShadow ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_AEROGLASS, opt.bAeroGlass ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_LOADFONTS, opt.bLoadFonts ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_LOADPROPORTIONS, opt.bLoadProportions ? BST_CHECKED : BST_UNCHECKED);
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AEROGLASS), MyDwmEnableBlurBehindWindow != nullptr);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AEROGLASS), MyDwmEnableBlurBehindWindow != nullptr);
 
-			SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Animation"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Fade"));
-			SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_SETCURSEL, (int)opt.showEffect, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Animation"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Fade"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_SETCURSEL, (int)opt.showEffect, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_SPEED, UDM_SETRANGE, 0, (LPARAM)MAKELONG(20, 1));
-			SetDlgItemInt(hwndDlg, IDC_ED_SPEED, opt.iAnimateSpeed, FALSE);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_SPEED, UDM_SETRANGE, 0, (LPARAM)MAKELONG(20, 1));
+		SetDlgItemInt(hwndDlg, IDC_ED_SPEED, opt.iAnimateSpeed, FALSE);
 
-			EnableControls(hwndDlg, opt.skinMode == SM_IMAGE);
-			return TRUE;
-		}
+		EnableControls(hwndDlg, opt.skinMode == SM_IMAGE);
+		return TRUE;
+
 	case WM_DRAWITEM:
-		{
-			if (wParam == IDC_PIC_PREVIEW) {
-				DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-				HBRUSH hbr = GetSysColorBrush(COLOR_BTNFACE);
-				FillRect(dis->hDC, &dis->rcItem, hbr);
+		if (wParam == IDC_PIC_PREVIEW) {
+			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
+			HBRUSH hbr = GetSysColorBrush(COLOR_BTNFACE);
+			FillRect(dis->hDC, &dis->rcItem, hbr);
 
-				if (opt.szPreviewFile[0]) {
-					HDC hdcMem = CreateCompatibleDC(dis->hDC);
-					HBITMAP hbmpPreview = Bitmap_Load(opt.szPreviewFile);
-					if (hbmpPreview) {
-						int iWidth = dis->rcItem.right - dis->rcItem.left;
-						int iHeight = dis->rcItem.bottom - dis->rcItem.top;
+			if (opt.szPreviewFile[0]) {
+				HDC hdcMem = CreateCompatibleDC(dis->hDC);
+				HBITMAP hbmpPreview = Bitmap_Load(opt.szPreviewFile);
+				if (hbmpPreview) {
+					int iWidth = dis->rcItem.right - dis->rcItem.left;
+					int iHeight = dis->rcItem.bottom - dis->rcItem.top;
 
-						ResizeBitmap rb = { 0 };
-						rb.size = sizeof(rb);
-						rb.hBmp = hbmpPreview;
-						rb.max_width = iWidth;
-						rb.max_height = iHeight;
-						rb.fit = RESIZEBITMAP_KEEP_PROPORTIONS;
-						HBITMAP hbmpRes = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
-						if (hbmpRes) {
-							BITMAP bmp;
-							GetObject(hbmpRes, sizeof(bmp), &bmp);
-							SelectObject(hdcMem, hbmpRes);
-							BitBlt(dis->hDC, (iWidth - bmp.bmWidth) / 2, (iHeight - bmp.bmHeight) / 2, iWidth, iHeight, hdcMem, 0, 0, SRCCOPY);
-							if (hbmpPreview != hbmpRes)
-								DeleteBitmap(hbmpRes);
-						}
-
-						DeleteBitmap(hbmpPreview);
+					ResizeBitmap rb = { 0 };
+					rb.size = sizeof(rb);
+					rb.hBmp = hbmpPreview;
+					rb.max_width = iWidth;
+					rb.max_height = iHeight;
+					rb.fit = RESIZEBITMAP_KEEP_PROPORTIONS;
+					HBITMAP hbmpRes = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
+					if (hbmpRes) {
+						BITMAP bmp;
+						GetObject(hbmpRes, sizeof(bmp), &bmp);
+						SelectObject(hdcMem, hbmpRes);
+						BitBlt(dis->hDC, (iWidth - bmp.bmWidth) / 2, (iHeight - bmp.bmHeight) / 2, iWidth, iHeight, hdcMem, 0, 0, SRCCOPY);
+						if (hbmpPreview != hbmpRes)
+							DeleteBitmap(hbmpRes);
 					}
 
-					DeleteDC(hdcMem);
+					DeleteBitmap(hbmpPreview);
 				}
+
+				DeleteDC(hdcMem);
 			}
-			break;
 		}
+		break;
+
 	case WM_COMMAND:
-		{
-			switch (HIWORD(wParam)) {
-			case LBN_SELCHANGE:
-				{
-					if (LOWORD(wParam) == IDC_LB_SKINS) {
-						HWND hwndList = GetDlgItem(hwndDlg, IDC_LB_SKINS);
-						int iSel = ListBox_GetCurSel(hwndList);
-						if (iSel != iLastSel) {
-							if (iSel == 0) {
-								opt.szPreviewFile[0] = 0;
-								EnableControls(hwndDlg, false);
-							}
-							else if (iSel != LB_ERR) {
-								wchar_t swzSkinName[256];
-								if (ListBox_GetText(hwndList, iSel, swzSkinName) > 0)
-									ParseSkinFile(swzSkinName, false, true);
-								EnableControls(hwndDlg, true);
-							}
-
-							InvalidateRect(GetDlgItem(hwndDlg, IDC_PIC_PREVIEW), nullptr, FALSE);
-							iLastSel = iSel;
-						}
+		switch (HIWORD(wParam)) {
+		case LBN_SELCHANGE:
+			if (LOWORD(wParam) == IDC_LB_SKINS) {
+				HWND hwndList = GetDlgItem(hwndDlg, IDC_LB_SKINS);
+				int iSel = ListBox_GetCurSel(hwndList);
+				if (iSel != iLastSel) {
+					if (iSel == 0) {
+						opt.szPreviewFile[0] = 0;
+						EnableControls(hwndDlg, false);
 					}
-					else if (LOWORD(wParam) == IDC_CMB_EFFECT) {
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					else if (iSel != LB_ERR) {
+						wchar_t swzSkinName[256];
+						if (ListBox_GetText(hwndList, iSel, swzSkinName) > 0)
+							ParseSkinFile(swzSkinName, false, true);
+						EnableControls(hwndDlg, true);
 					}
 
-					break;
-				}
-			case BN_CLICKED:
-				{
-					if (LOWORD(wParam) == IDC_BTN_APPLYSKIN) {
-						int iSel = ListBox_GetCurSel(GetDlgItem(hwndDlg, IDC_LB_SKINS));
-						if (iSel == 0) {
-							opt.skinMode = SM_COLORFILL;
-							opt.szSkinName[0] = 0;
-						}
-						else if (iSel != LB_ERR) {
-							if (ListBox_GetText(GetDlgItem(hwndDlg, IDC_LB_SKINS), iSel, opt.szSkinName) > 0) {
-								opt.skinMode = SM_IMAGE;
-								ParseSkinFile(opt.szSkinName, false, false);
-								ReloadFont(0, 0);
-								SaveOptions();
-							}
-						}
-
-						db_set_b(0, MODULE, "SkinEngine", opt.skinMode);
-						db_set_ws(0, MODULE, "SkinName", opt.szSkinName);
-
-						DestroySkinBitmap();
-						SetDlgItemInt(hwndDlg, IDC_ED_TRANS, opt.iOpacity, FALSE);
-					}
-					else if (LOWORD(wParam) == IDC_BTN_RELOADLIST)
-						iLastSel = RefreshSkinList(hwndDlg);
-					else if (LOWORD(wParam) == IDC_CHK_LOADFONTS)
-						opt.bLoadFonts = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADFONTS) ? true : false;
-					else if (LOWORD(wParam) == IDC_CHK_LOADPROPORTIONS)
-						opt.bLoadProportions = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADPROPORTIONS) ? true : false;
-					else if (LOWORD(wParam) == IDC_BTN_GETSKINS)
-						Utils_OpenUrl("https://miranda-ng.org/addons/category/48");
-
-					break;
+					InvalidateRect(GetDlgItem(hwndDlg, IDC_PIC_PREVIEW), nullptr, FALSE);
+					iLastSel = iSel;
 				}
 			}
-
-			if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+			else if (LOWORD(wParam) == IDC_CMB_EFFECT) {
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+
+			break;
+
+		case BN_CLICKED:
+			if (LOWORD(wParam) == IDC_BTN_APPLYSKIN) {
+				int iSel = ListBox_GetCurSel(GetDlgItem(hwndDlg, IDC_LB_SKINS));
+				if (iSel == 0) {
+					opt.skinMode = SM_COLORFILL;
+					opt.szSkinName[0] = 0;
+				}
+				else if (iSel != LB_ERR) {
+					if (ListBox_GetText(GetDlgItem(hwndDlg, IDC_LB_SKINS), iSel, opt.szSkinName) > 0) {
+						opt.skinMode = SM_IMAGE;
+						ParseSkinFile(opt.szSkinName, false, false);
+						ReloadFont(0, 0);
+						SaveOptions();
+					}
+				}
+
+				db_set_b(0, MODULE, "SkinEngine", opt.skinMode);
+				db_set_ws(0, MODULE, "SkinName", opt.szSkinName);
+
+				DestroySkinBitmap();
+				SetDlgItemInt(hwndDlg, IDC_ED_TRANS, opt.iOpacity, FALSE);
+			}
+			else if (LOWORD(wParam) == IDC_BTN_RELOADLIST)
+				iLastSel = RefreshSkinList(hwndDlg);
+			else if (LOWORD(wParam) == IDC_CHK_LOADFONTS)
+				opt.bLoadFonts = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADFONTS) ? true : false;
+			else if (LOWORD(wParam) == IDC_CHK_LOADPROPORTIONS)
+				opt.bLoadProportions = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADPROPORTIONS) ? true : false;
+			else if (LOWORD(wParam) == IDC_BTN_GETSKINS)
+				Utils_OpenUrl("https://miranda-ng.org/addons/category/48");
 
 			break;
 		}
+
+		if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+
+		break;
+
 	case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
-				opt.iOpacity = GetDlgItemInt(hwndDlg, IDC_ED_TRANS, nullptr, 0);
-				opt.bDropShadow = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHADOW) ? true : false;
-				opt.bBorder = IsDlgButtonChecked(hwndDlg, IDC_CHK_BORDER) ? true : false;
-				opt.bRound = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) ? true : false;
-				opt.bAeroGlass = IsDlgButtonChecked(hwndDlg, IDC_CHK_AEROGLASS) ? true : false;
-				opt.showEffect = (PopupShowEffect)SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_GETCURSEL, 0, 0);
-				opt.iAnimateSpeed = GetDlgItemInt(hwndDlg, IDC_ED_SPEED, nullptr, 0);
-				opt.bLoadFonts = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADFONTS) ? true : false;
-				opt.bLoadProportions = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADPROPORTIONS) ? true : false;
+		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY) {
+			opt.iOpacity = GetDlgItemInt(hwndDlg, IDC_ED_TRANS, nullptr, 0);
+			opt.bDropShadow = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHADOW) ? true : false;
+			opt.bBorder = IsDlgButtonChecked(hwndDlg, IDC_CHK_BORDER) ? true : false;
+			opt.bRound = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) ? true : false;
+			opt.bAeroGlass = IsDlgButtonChecked(hwndDlg, IDC_CHK_AEROGLASS) ? true : false;
+			opt.showEffect = (PopupShowEffect)SendDlgItemMessage(hwndDlg, IDC_CMB_EFFECT, CB_GETCURSEL, 0, 0);
+			opt.iAnimateSpeed = GetDlgItemInt(hwndDlg, IDC_ED_SPEED, nullptr, 0);
+			opt.bLoadFonts = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADFONTS) ? true : false;
+			opt.bLoadProportions = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADPROPORTIONS) ? true : false;
 
-				if (opt.iEnableColoring != -1)
-					opt.iEnableColoring = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLECOLORING) ? true : false;
+			if (opt.iEnableColoring != -1)
+				opt.iEnableColoring = IsDlgButtonChecked(hwndDlg, IDC_CHK_ENABLECOLORING) ? true : false;
 
-				SaveSkinOptions();
-				return TRUE;
-			}
+			SaveSkinOptions();
+			return TRUE;
 		}
 	}
 
@@ -1894,13 +1847,13 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT), 0);
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
-		{
-			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
-				if (hItem && db_get_b(hContact, MODULE, "FavouriteContact", 0))
-					SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
-			}
+
+		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
+			if (hItem && db_get_b(hContact, MODULE, "FavouriteContact", 0))
+				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
+
 		CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_APPENDPROTO, opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
@@ -1928,7 +1881,9 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					| IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0;
 
 				db_set_dw(0, MODULE, "FavContFlags", opt.iFavoriteContFlags);
-			} // fall through
+			}
+			// fall through
+
 		case IDC_BTN_CANCEL:
 			DestroyWindow(hwndDlg);
 			break;
@@ -1947,32 +1902,31 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLETRAYTIP, opt.bTraytip ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_HANDLEBYTIPPER, opt.bHandleByTipper ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_EXPAND, opt.bExpandTraytip ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.bHideOffline ? BST_CHECKED : BST_UNCHECKED);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_EXPANDTIME, UDM_SETRANGE, 0, (LPARAM)MAKELONG(5000, 10));
+		SetDlgItemInt(hwndDlg, IDC_ED_EXPANDTIME, opt.iExpandTime, FALSE);
+		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_CHK_ENABLETRAYTIP, 0), 0);
+
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			TranslateDialogDefault(hwndDlg);
-
-			CheckDlgButton(hwndDlg, IDC_CHK_ENABLETRAYTIP, opt.bTraytip ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_HANDLEBYTIPPER, opt.bHandleByTipper ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_EXPAND, opt.bExpandTraytip ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.bHideOffline ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hwndDlg, IDC_SPIN_EXPANDTIME, UDM_SETRANGE, 0, (LPARAM)MAKELONG(5000, 10));
-			SetDlgItemInt(hwndDlg, IDC_ED_EXPANDTIME, opt.iExpandTime, FALSE);
-			SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_CHK_ENABLETRAYTIP, 0), 0);
-
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-
 			TVINSERTSTRUCT tvi = {};
 			tvi.hParent = nullptr;
 			tvi.hInsertAfter = TVI_LAST;
 			tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 
-			int i, count = 0;
+			int count = 0;
 			PROTOACCOUNT **accs;
 			Proto_EnumAccounts(&count, &accs);
 
-			for (i = 0; i < count; i++) {
+			for (int i = 0; i < count; i++) {
 				if (CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) != 0) {
 					tvi.item.pszText = accs[i]->tszAccountName;
 					tvi.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -1983,16 +1937,16 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 
-			for (i = 0; i < _countof(trayTipItems); i++) {
+			for (int i = 0; i < _countof(trayTipItems); i++) {
 				tvi.item.pszText = TranslateW(trayTipItems[i]);
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(opt.iFirstItems & (1 << i) ? 2 : 1);
 				TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_FIRST_ITEMS), &tvi);
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(opt.iSecondItems & (1 << i) ? 2 : 1);
 				TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TREE_SECOND_ITEMS), &tvi);
 			}
-
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		UINT state;

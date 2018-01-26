@@ -253,9 +253,9 @@ int Chat_Unload(void)
 	if (g_Settings.SelectionBGBrush)
 		DeleteObject(g_Settings.SelectionBGBrush);
 
-	for (int i = 0; i < _countof(g_Settings.UserListFonts); i++)
-		if (g_Settings.UserListFonts[i])
-			DeleteObject(g_Settings.UserListFonts[i]);
+	for (auto &it : g_Settings.UserListFonts)
+		if (it)
+			DeleteObject(it);
 
 	delete g_Settings.Highlight;
 	return 0;

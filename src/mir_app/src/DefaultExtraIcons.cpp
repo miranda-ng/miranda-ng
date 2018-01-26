@@ -144,9 +144,7 @@ static void SetExtraIcons(MCONTACT hContact)
 	if ( IsEmpty(proto))
 		return;
 
-	for (unsigned int i = 0; i < _countof(infos); i++) {
-		Info &p = infos[i];
-
+	for (auto &p : infos) {
 		for (unsigned int j = 0; j < _countof(p.db); j += 2) {
 			if (p.db[j + 1] == nullptr)
 				break;
@@ -181,9 +179,7 @@ static int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	for (int i = 0; i < _countof(infos); i++) {
-		Info &p = infos[i];
-
+	for (auto &p : infos) {
 		for (int j = 0; j < _countof(p.db); j += 2) {
 			if (p.db[j + 1] == nullptr)
 				break;
@@ -308,8 +304,7 @@ void DefaultExtraIcons_Load()
 	hExtraProto = ExtraIcon_RegisterCallback("protocol", "Account", Skin_GetIconName(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick, 0, EIF_DISABLED_BY_DEFAULT);
 
-	for (int i = 0; i < _countof(infos); i++) {
-		Info &p = infos[i];
+	for (auto &p : infos) {
 		p.hIcolib = Skin_GetIconHandle(p.iSkinIcon);
 		if (p.OnClick)
 			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), DefaultOnClick, (LPARAM)&p, p.flags);

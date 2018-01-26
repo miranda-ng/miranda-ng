@@ -354,24 +354,22 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_SPINCONTWIDTH, UDM_SETRANGE, 0, MAKELONG(999, 0));
 		SendDlgItemMessage(hwndDlg, IDC_SPINCONTHEIGHT, UDM_SETRANGE, 0, MAKELONG(999, 0));
 
-		int i, item;
-
-		for (i = 0; i < _countof(types); i++) {
-			item = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(types[i]));
+		for (auto &it : types) {
+			int item = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 			SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_SETCURSEL, 0, 0);
 
 		wchar_t *h_alignment[] = { L"left", L"hCenter", L"right" };
-		for (i = 0; i < _countof(h_alignment); i++) {
-			item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(h_alignment[i]));
+		for (auto &it : h_alignment) {
+			int item = SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 			SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_SETCURSEL, 0, 0);
 
 		wchar_t *v_alignment[] = { L"top", L"vCenter", L"bottom" };
-		for (i = 0; i < _countof(v_alignment); i++) {
-			item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(v_alignment[i]));
+		for (auto &it : v_alignment) {
+			int item = SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 			SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETITEMDATA, item, 0);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_SETCURSEL, 0, 0);

@@ -99,9 +99,9 @@ BYTE getContactInfoType(wchar_t* type)
 	if (type == nullptr || mir_wstrlen(type) == 0)
 		return 0;
 
-	for (int i = 0; i < _countof(builtinCnfs); i++)
-		if (!mir_wstrcmp(builtinCnfs[i].str, type))
-			return builtinCnfs[i].cnfCode;
+	for (auto &it : builtinCnfs)
+		if (!mir_wstrcmp(it.str, type))
+			return it.cnfCode;
 
 	return 0;
 }

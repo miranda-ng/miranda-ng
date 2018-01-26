@@ -405,9 +405,9 @@ char *CSkypeProto::RemoveHtml(const char *text)
 				}
 				else {
 					// Keyword replacement
-					for (int j = 0; j < _countof(htmlEntities); j++) {
-						if (!mir_strcmpi(entity.c_str(), htmlEntities[j].entity)) {
-							new_string += htmlEntities[j].symbol;
+					for (auto &it : htmlEntities) {
+						if (!mir_strcmpi(entity.c_str(), it.entity)) {
+							new_string += it.symbol;
 							found = true;
 							break;
 						}

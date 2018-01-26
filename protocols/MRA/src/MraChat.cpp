@@ -31,8 +31,8 @@ INT_PTR CMraProto::MraChatSessionNew(MCONTACT hContact)
 	if (Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, pcli->pfnGetContactDisplayName(hContact, 0), (void*)hContact))
 		return 1;
 
-	for (int i = 0; i < _countof(lpwszStatuses); i++)
-		Chat_AddGroup(m_szModuleName, wszEMail, TranslateW(lpwszStatuses[i]));
+	for (auto &it : lpwszStatuses)
+		Chat_AddGroup(m_szModuleName, wszEMail, TranslateW(it));
 
 	Chat_Control(m_szModuleName, wszEMail, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, wszEMail, SESSION_ONLINE);

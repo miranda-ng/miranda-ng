@@ -1318,9 +1318,9 @@ bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool
 				// then we will look for a ? and so on.
 
 				const wchar_t ac[] = { ' ', '?', '-', '.', ',' };
-				for (int y = 0; y < _countof(ac); y++) {
+				for (auto &it : ac) {
 					for (int n = nLineLen; n > 0; n--) {
-						if (pszSrc[n] == ac[y]) {
+						if (pszSrc[n] == it) {
 							nLineLen = n;
 							goto SuperBreak;
 						}

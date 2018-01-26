@@ -378,9 +378,9 @@ public:
 
 		SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_RESETCONTENT, 0, 0);
 		wchar_t *szSubscriptions[] = { L"none", L"from", L"to", L"both" };
-		for (i=0; i < _countof(szSubscriptions); i++) {
-			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSubscriptions[i]));
-			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETITEMDATA, nItem, (LPARAM)szSubscriptions[i]);
+		for (auto &it : szSubscriptions) {
+			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
+			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETITEMDATA, nItem, (LPARAM)it);
 		}
 
 		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_COMBO_TYPE, CBN_SELCHANGE), 0);
@@ -945,11 +945,11 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 	else if (lpdis->CtlID == IDC_LB_LISTS)
 		DrawLists(lpdis);
 	else if (lpdis->CtlID == IDC_CANVAS) {
-		int i, totalWidth = -5; // spacing for last item
-		for (i=0; i < _countof(drawItems); i++) {
+		int totalWidth = -5; // spacing for last item
+		for (auto &it : drawItems) {
 			SIZE sz = {0};
-			drawItems[i].text = TranslateW(drawItems[i].textEng);
-			GetTextExtentPoint32(lpdis->hDC, drawItems[i].text, (int)mir_wstrlen(drawItems[i].text), &sz);
+			it.text = TranslateW(it.textEng);
+			GetTextExtentPoint32(lpdis->hDC, it.text, (int)mir_wstrlen(it.text), &sz);
 			totalWidth += sz.cx + 18 + 5; // 18 pixels for icon, 5 pixel spacing
 		}
 
@@ -957,11 +957,11 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		RECT rc = lpdis->rcItem;
 		rc.left = (rc.left + rc.right - totalWidth)/2;
 
-		for (i=0; i < _countof(drawItems); i++) {
-			DrawIconEx(lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, m_proto->LoadIconEx(drawItems[i].icon),
+		for (auto &it : drawItems) {
+			DrawIconEx(lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, m_proto->LoadIconEx(it.icon),
 				16, 16, 0, nullptr, DI_NORMAL);
 			rc.left += 18;
-			DrawNextRulePart(lpdis->hDC, clText, drawItems[i].text, &rc);
+			DrawNextRulePart(lpdis->hDC, clText, it.text, &rc);
 			rc.left += 5;
 		}
 	}

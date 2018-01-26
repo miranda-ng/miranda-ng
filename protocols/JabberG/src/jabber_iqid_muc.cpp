@@ -199,12 +199,12 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			SendMessage(hwndDlg, WM_JABBER_REFRESH, 0, lParam);
 			dat = (JABBER_MUC_JIDLIST_INFO*)lParam;
 
-			for (int i = 0; i < _countof(buttons); i++) {
-				SendDlgItemMessage(hwndDlg, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)dat->ppro->LoadIconEx(buttons[i].icon));
-				SendDlgItemMessage(hwndDlg, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
-				SendDlgItemMessage(hwndDlg, buttons[i].idc, BUTTONADDTOOLTIP, (WPARAM)buttons[i].title, 0);
-				if (buttons[i].push)
-					SendDlgItemMessage(hwndDlg, buttons[i].idc, BUTTONSETASPUSHBTN, TRUE, 0);
+			for (auto &it : buttons) {
+				SendDlgItemMessage(hwndDlg, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)dat->ppro->LoadIconEx(it.icon));
+				SendDlgItemMessage(hwndDlg, it.idc, BUTTONSETASFLATBTN, TRUE, 0);
+				SendDlgItemMessage(hwndDlg, it.idc, BUTTONADDTOOLTIP, (WPARAM)it.title, 0);
+				if (it.push)
+					SendDlgItemMessage(hwndDlg, it.idc, BUTTONSETASPUSHBTN, TRUE, 0);
 			}
 
 			Utils_RestoreWindowPosition(hwndDlg, 0, dat->ppro->m_szModuleName, "jidListWnd_");

@@ -197,18 +197,18 @@ static IconItem iconList[] =
 
 HICON GetIcon(int iIconId, bool size)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iIconId)
-			return IcoLib_GetIconByHandle(iconList[i].hIcolib, size);
+	for (auto &it : iconList)
+		if (it.defIconID == iIconId)
+			return IcoLib_GetIconByHandle(it.hIcolib, size);
 
 	return nullptr;
 }
 
 HANDLE GetIconHandle(int iIconId)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iIconId)
-			return iconList[i].hIcolib;
+	for (auto &it : iconList)
+		if (it.defIconID == iIconId)
+			return it.hIcolib;
 
 	return nullptr;
 }

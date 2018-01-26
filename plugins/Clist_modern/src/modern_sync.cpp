@@ -81,10 +81,9 @@ int SyncCall(void * vproc, int count, ...)
 {
 	LPARAM params[5];
 	va_list va;
-	int i;
 	params[0] = (LPARAM)count;
 	va_start(va, count);
-	for (i = 0; i < count && i < _countof(params) - 1; i++)
+	for (int i = 0; i < count && i < _countof(params) - 1; i++)
 		params[i + 1] = va_arg(va, LPARAM);
 
 	va_end(va);

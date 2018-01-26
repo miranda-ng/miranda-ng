@@ -1205,14 +1205,14 @@ void KeepStatusUnload()
 
 	KillModuleOptions(KSLangPack);
 
-	for (int i = 0; i < _countof(hServices); i++) {
-		DestroyServiceFunction(hServices[i]);
-		hServices[i] = nullptr;
+	for (auto &it : hServices) {
+		DestroyServiceFunction(it);
+		it = nullptr;
 	}
 
-	for (int i = 0; i < _countof(hEvents); i++) {
-		UnhookEvent(hEvents[i]);
-		hEvents[i] = nullptr;
+	for (auto &it : hEvents) {
+		UnhookEvent(it);
+		it = nullptr;
 	}
 
 	DestroyHookableEvent(hConnectionEvent); hConnectionEvent = nullptr;

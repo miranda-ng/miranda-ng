@@ -458,7 +458,8 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			if (ack->type != ACKTYPE_SETINFO) break;
 			if (ack->result == ACKRESULT_SUCCESS) {
 				for (i = 0; i < _countof(dat->hUpload); i++)
-					if (dat->hUpload[i] && ack->hProcess == dat->hUpload[i]) break;
+					if (dat->hUpload[i] && ack->hProcess == dat->hUpload[i])
+						break;
 
 				if (i == _countof(dat->hUpload)) break;
 				dat->hUpload[i] = nullptr;

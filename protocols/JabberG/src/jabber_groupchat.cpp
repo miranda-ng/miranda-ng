@@ -369,10 +369,10 @@ static void sttJoinDlgShowRecentItems(HWND hwndDlg, int newCount)
 
 	RECT rc;
 	int ctrls[] = { IDC_BOOKMARKS, IDOK, IDCANCEL };
-	for (int i = 0; i < _countof(ctrls); i++) {
-		GetWindowRect(GetDlgItem(hwndDlg, ctrls[i]), &rc);
+	for (auto &it : ctrls) {
+		GetWindowRect(GetDlgItem(hwndDlg, it), &rc);
 		MapWindowPoints(nullptr, hwndDlg, (LPPOINT)&rc, 2);
-		SetWindowPos(GetDlgItem(hwndDlg, ctrls[i]), nullptr, rc.left, rc.top + offset, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		SetWindowPos(GetDlgItem(hwndDlg, it), nullptr, rc.left, rc.top + offset, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 	}
 
 	GetWindowRect(hwndDlg, &rc);

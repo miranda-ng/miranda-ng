@@ -74,8 +74,8 @@ static INT_PTR CommandHelper(WPARAM wParam, LPARAM)
 
 static int OnBuildGroupMenu(WPARAM, LPARAM)
 {
-	for (int i = 0; i < _countof(hAppearanceItems); i++)
-		Menu_SetChecked(hAppearanceItems[i].hMenu, (cfg::dat.dwFlags & hAppearanceItems[i].mask) != 0);
+	for (auto &it : hAppearanceItems)
+		Menu_SetChecked(it.hMenu, (cfg::dat.dwFlags & it.mask) != 0);
 	return 0;
 }
 
@@ -136,12 +136,12 @@ void InitGroupMenus(void)
 	mi.hIcolibItem = nullptr;
 	mi.pszService = "CLISTMENUSGroup/CommandHelper";
 	CreateServiceFunction(mi.pszService, CommandHelper);
-	for (int i = 0; i < _countof(hAppearanceItems); i++) {
+	for (auto &it : hAppearanceItems) {
 		GroupMenuParam gmp;
-		gmp.wParam = hAppearanceItems[i].command;
-		mi.name.a = hAppearanceItems[i].name;
-		mi.position = hAppearanceItems[i].position;
-		hAppearanceItems[i].hMenu = Menu_AddGroupMenuItem(&mi, &gmp);
+		gmp.wParam = it.command;
+		mi.name.a = it.name;
+		mi.position = it.position;
+		it.hMenu = Menu_AddGroupMenuItem(&mi, &gmp);
 	}
 
 	SET_UID(mi, 0xc2895531, 0x98e9, 0x40bc, 0x9b, 0x8e, 0xfb, 0x33, 0xe8, 0xab, 0xcc, 0xef);

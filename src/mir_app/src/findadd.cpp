@@ -284,8 +284,8 @@ static const int controls[] = { IDC_BYPROTOID, IDC_BYEMAIL, IDC_BYNAME, IDC_BYAD
 
 static void CheckSearchTypeRadioButton(HWND hwndDlg, int idControl)
 {
-	for (int i = 0; i < _countof(controls); i++)
-		CheckDlgButton(hwndDlg, controls[i], idControl == controls[i] ? BST_CHECKED : BST_UNCHECKED);
+	for (auto &it : controls)
+		CheckDlgButton(hwndDlg, it, idControl == it ? BST_CHECKED : BST_UNCHECKED);
 }
 
 #define sttErrMsg TranslateT("You haven't filled in the search field. Please enter a search term and try again.")

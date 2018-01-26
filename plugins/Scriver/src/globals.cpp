@@ -209,17 +209,15 @@ void ReleaseIcons()
 
 HICON GetCachedIcon(const char *name)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (!mir_strcmp(iconList[i].szName, name))
-			return IcoLib_GetIconByHandle(iconList[i].hIcolib);
+	for (auto &it : iconList)
+		if (!mir_strcmp(it.szName, name))
+			return IcoLib_GetIconByHandle(it.hIcolib);
 
 	return nullptr;
 }
 
 void LoadGlobalIcons()
 {
-	int i;
-
 	g_dat.hMsgIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	g_dat.hMsgIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	g_dat.hIconChatBig = IcoLib_GetIcon("chat_window", true);
@@ -228,19 +226,21 @@ void LoadGlobalIcons()
 	ImageList_RemoveAll(g_dat.hChatButtonIconList);
 	ImageList_RemoveAll(g_dat.hHelperIconList);
 	ImageList_RemoveAll(g_dat.hSearchEngineIconList);
-	for (i = 0; i < _countof(buttonIcons); i++) {
-		if (buttonIcons[i] == nullptr)
+	
+	for (auto &it : buttonIcons) {
+		if (it == nullptr)
 			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, nullptr, ID_STATUS_OFFLINE);
 		else
-			ImageList_AddIcon(g_dat.hButtonIconList, GetCachedIcon(buttonIcons[i]));
+			ImageList_AddIcon(g_dat.hButtonIconList, GetCachedIcon(it));
 	}
-	for (i = 0; i < _countof(chatButtonIcons); i++)
-		ImageList_AddIcon(g_dat.hChatButtonIconList, GetCachedIcon(chatButtonIcons[i]));
+	
+	for (auto &it : chatButtonIcons)
+		ImageList_AddIcon(g_dat.hChatButtonIconList, GetCachedIcon(it));
 
 	ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
 	int overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
 	ImageList_SetOverlayImage(g_dat.hHelperIconList, overlayIcon, 1);
-	for (i = IDI_GOOGLE; i < IDI_LASTICON; i++) {
+	for (int i = IDI_GOOGLE; i < IDI_LASTICON; i++) {
 		HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);
 		ImageList_AddIcon(g_dat.hSearchEngineIconList, hIcon);
 		DestroyIcon(hIcon);

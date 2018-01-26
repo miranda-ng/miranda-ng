@@ -29,8 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "modern_clcpaint.h"
 
-int ModernSkinOptInit(WPARAM wParam, LPARAM lParam);
-
 /*
 *	Private module variables
 */
@@ -69,23 +67,25 @@ static int clcHookIconsChanged(WPARAM, LPARAM)
 	if (MirandaExiting())
 		return 0;
 
-	for (int i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
-		g_pAvatarOverlayIcons[i].listID = -1;
-		g_pStatusOverlayIcons[i].listID = -1;
-	}
+	for (auto &it : g_pAvatarOverlayIcons)
+		it.listID = -1;
+	for (auto &it : g_pStatusOverlayIcons)
+		it.listID = -1;
 
 	if (hAvatarOverlays)
 		ImageList_Destroy(hAvatarOverlays);
 	hAvatarOverlays = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, _countof(g_pAvatarOverlayIcons) * 2, 1);
 
-	for (int i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
-		HICON hIcon = IcoLib_GetIcon(g_pAvatarOverlayIcons[i].name);
-		g_pAvatarOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays, hIcon);
-		IcoLib_Release(g_pAvatarOverlayIcons[i].name);
+	for (auto &it : g_pAvatarOverlayIcons) {
+		HICON hIcon = IcoLib_GetIcon(it.name);
+		it.listID = ImageList_AddIcon(hAvatarOverlays, hIcon);
+		IcoLib_Release(it.name);
+	}
 
-		hIcon = IcoLib_GetIcon(g_pStatusOverlayIcons[i].name);
-		g_pStatusOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays, hIcon);
-		IcoLib_Release(g_pStatusOverlayIcons[i].name);
+	for (auto &it : g_pStatusOverlayIcons) {
+		HICON hIcon = IcoLib_GetIcon(it.name);
+		it.listID = ImageList_AddIcon(hAvatarOverlays, hIcon);
+		IcoLib_Release(it.name);
 	}
 
 	g_hListeningToIcon = IcoLib_GetIcon("LISTENING_TO_ICON");
@@ -1564,18 +1564,18 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	IcoLib_AddIcon(&sid);
 
 	sid.section.a = LPGEN("Contact list") "/" LPGEN("Avatar overlay");
-	for (int i = 0; i < _countof(g_pAvatarOverlayIcons); i++) {
-		sid.description.a = g_pAvatarOverlayIcons[i].description;
-		sid.pszName = g_pAvatarOverlayIcons[i].name;
-		sid.iDefaultIndex = -g_pAvatarOverlayIcons[i].id;
+	for (auto &it : g_pAvatarOverlayIcons) {
+		sid.description.a = it.description;
+		sid.pszName = it.name;
+		sid.iDefaultIndex = -it.id;
 		IcoLib_AddIcon(&sid);
 	}
 
 	sid.section.a = LPGEN("Contact list") "/" LPGEN("Status overlay");
-	for (int i = 0; i < _countof(g_pStatusOverlayIcons); i++) {
-		sid.description.a = g_pStatusOverlayIcons[i].description;
-		sid.pszName = g_pStatusOverlayIcons[i].name;
-		sid.iDefaultIndex = -g_pStatusOverlayIcons[i].id;
+	for (auto &it : g_pStatusOverlayIcons) {
+		sid.description.a = it.description;
+		sid.pszName = it.name;
+		sid.iDefaultIndex = -it.id;
 		IcoLib_AddIcon(&sid);
 	}
 

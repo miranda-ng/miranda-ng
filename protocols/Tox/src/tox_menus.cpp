@@ -26,8 +26,8 @@ int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 int CToxProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
-	for (int i = 0; i < _countof(ContactMenuItems); i++)
-		Menu_ShowItem(ContactMenuItems[i], FALSE);
+	for (auto &it : ContactMenuItems)
+		Menu_ShowItem(it, FALSE);
 	CToxProto *proto = CToxProto::GetContactAccount(hContact);
 	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }

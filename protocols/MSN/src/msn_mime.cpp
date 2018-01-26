@@ -339,9 +339,9 @@ static const struct _tag_cpltbl
 static unsigned FindCP(const char* mimecp)
 {
 	unsigned cp = CP_ACP;
-	for (unsigned i = 0; i < _countof(cptbl); ++i) {
-		if (_stricmp(mimecp, cptbl[i].mimecp) == 0) {
-			cp = cptbl[i].cp;
+	for (auto &it : cptbl) {
+		if (_stricmp(mimecp, it.mimecp) == 0) {
+			cp = it.cp;
 			break;
 		}
 	}

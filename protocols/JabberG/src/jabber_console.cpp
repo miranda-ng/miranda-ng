@@ -370,18 +370,20 @@ void CJabberDlgConsole::OnInitDialog()
 		{ IDC_BTN_FILTER_REFRESH, "Refresh list", "sd_nav_refresh",  false, FALSE},
 	};
 
-	for (int i=0; i < _countof(buttons); i++) {
-		SendDlgItemMessage(m_hwnd, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(buttons[i].icon));
-		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONADDTOOLTIP, (WPARAM)buttons[i].title, 0);
-		if (buttons[i].push) SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASPUSHBTN, TRUE, 0);
-		if (buttons[i].pushed) CheckDlgButton(m_hwnd, buttons[i].idc, BST_CHECKED);
+	for (auto &it : buttons) {
+		SendDlgItemMessage(m_hwnd, it.idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
+		SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(m_hwnd, it.idc, BUTTONADDTOOLTIP, (WPARAM)it.title, 0);
+		if (it.push)
+			SendDlgItemMessage(m_hwnd, it.idc, BUTTONSETASPUSHBTN, TRUE, 0);
+		if (it.pushed)
+			CheckDlgButton(m_hwnd, it.idc, BST_CHECKED);
 	}
 
-	for (int i=0; i < _countof(filter_modes); i++)
-		if (filter_modes[i].type == m_proto->m_filterInfo.type) {
-			IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
-			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon));
+	for (auto &it : filter_modes)
+		if (it.type == m_proto->m_filterInfo.type) {
+			IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
+			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon));
 			break;
 		}
 
@@ -563,12 +565,9 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_BTN_FILTER:
-			int i;
 			HMENU hMenu = CreatePopupMenu();
-			for (i = 0; i < _countof(filter_modes); i++)
-				AppendMenu(hMenu,
-					MF_STRING | ((filter_modes[i].type == m_proto->m_filterInfo.type) ? MF_CHECKED : 0),
-					filter_modes[i].type + 1, TranslateW(filter_modes[i].title));
+			for (auto &it : filter_modes)
+				AppendMenu(hMenu, MF_STRING | ((it.type == m_proto->m_filterInfo.type) ? MF_CHECKED : 0), it.type + 1, TranslateW(it.title));
 
 			RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BTN_FILTER), &rc);
 			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_CHECKED);
@@ -578,9 +577,9 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (res) {
 				m_proto->m_filterInfo.type = (TFilterInfo::Type)(res - 1);
-				for (i = 0; i < _countof(filter_modes); i++) {
-					if (filter_modes[i].type == m_proto->m_filterInfo.type) {
-						IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
+				for (auto &it : filter_modes) {
+					if (it.type == m_proto->m_filterInfo.type) {
+						IcoLib_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(it.icon)));
 						break;
 					}
 				}

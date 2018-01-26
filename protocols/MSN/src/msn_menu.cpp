@@ -177,8 +177,8 @@ void CMsnProto::MsnInitMainMenu(void)
 
 void CMsnProto::MSN_EnableMenuItems(bool bEnable)
 {
-	for (int i = 0; i < _countof(menuItemsMain); i++)
-		Menu_ModifyItem(menuItemsMain[i], nullptr, INVALID_HANDLE_VALUE, bEnable ? 0 : CMIF_GRAYED);
+	for (auto &it : menuItemsMain)
+		Menu_ModifyItem(it, nullptr, INVALID_HANDLE_VALUE, bEnable ? 0 : CMIF_GRAYED);
 
 	if (bEnable)
 		Menu_ShowItem(menuItemsMain[1], emailEnabled);

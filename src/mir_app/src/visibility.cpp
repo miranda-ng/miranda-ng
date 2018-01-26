@@ -50,7 +50,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	else
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for (int i=0; i < _countof(iconOn); i++) {
+		for (int i = 0; i < _countof(iconOn); i++) {
 			int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if (iconOn[i] && iImage == 0) iconOn[i] = 0;
 			if (iImage != EMPTY_EXTRA_ICON)
@@ -59,9 +59,9 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
-	for (int i=0; i < _countof(iconOn); i++) {
-		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+1:0):EMPTY_EXTRA_ICON));
-		if (groupChildCount) groupChildCount[i]+=childCount[i];
+	for (int i = 0; i < _countof(iconOn); i++) {
+		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i] ? (iconOn[i] ? i + 1 : 0) : EMPTY_EXTRA_ICON));
+		if (groupChildCount) groupChildCount[i] += childCount[i];
 	}
 }
 

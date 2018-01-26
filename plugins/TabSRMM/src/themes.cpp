@@ -753,7 +753,6 @@ static struct
 void CImageItem::Create(const wchar_t *szImageFile)
 {
 	HBITMAP hbm = Bitmap_Load(szImageFile);
-	BITMAP bm;
 
 	m_hdc = nullptr;
 	m_hbmOld = nullptr;
@@ -765,6 +764,7 @@ void CImageItem::Create(const wchar_t *szImageFile)
 		m_bf.BlendOp = AC_SRC_OVER;
 		m_bf.AlphaFormat = 0;
 
+		BITMAP bm;
 		GetObject(hbm, sizeof(bm), &bm);
 		if (bm.bmBitsPixel == 32 && m_dwFlags & IMAGE_PERPIXEL_ALPHA) {
 			CImageItem::PreMultiply(m_hbm, 1);
@@ -2428,8 +2428,8 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 
 	m_fAeroSkinsValid = true;
 
-	for (int i = 0; i < _countof(my_default_skin); i++)
-		if (!Utils::extractResource(g_hInst, my_default_skin[i].ulID, L"SKIN_GLYPH", tszBasePath, my_default_skin[i].tszName, fForceOverwrite))
+	for (auto &it : my_default_skin)
+		if (!Utils::extractResource(g_hInst, it.ulID, L"SKIN_GLYPH", tszBasePath, it.tszName, fForceOverwrite))
 			m_fAeroSkinsValid = false;
 }
 

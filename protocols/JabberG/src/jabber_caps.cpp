@@ -276,9 +276,9 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const wchar_t *jid, pResour
 
 			wchar_t *token = wcstok(caps, L" ");
 			while (token) {
-				for (int i = 0; i < _countof(g_JabberFeatCapPairsExt); i++) {
-					if (!mir_wstrcmp(g_JabberFeatCapPairsExt[i].szFeature, token)) {
-						jcbCaps |= g_JabberFeatCapPairsExt[i].jcbCap;
+				for (auto &it : g_JabberFeatCapPairsExt) {
+					if (!mir_wstrcmp(it.szFeature, token)) {
+						jcbCaps |= it.jcbCap;
 						break;
 					}
 				}

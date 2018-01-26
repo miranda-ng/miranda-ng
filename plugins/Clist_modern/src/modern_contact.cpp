@@ -51,9 +51,10 @@ static int GetContactStatus(MCONTACT hContact)
 
 static int GetStatusModeOrdering(int statusMode)
 {
-	for (int i = 0; i < _countof(statusModeOrder); i++)
-		if (statusModeOrder[i].status == statusMode)
-			return statusModeOrder[i].order;
+	for (auto &it : statusModeOrder)
+		if (it.status == statusMode)
+			return it.order;
+	
 	return 1000;
 }
 

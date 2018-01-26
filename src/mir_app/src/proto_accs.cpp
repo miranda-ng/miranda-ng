@@ -413,8 +413,8 @@ void UnloadAccountsModule()
 	}
 	accounts.destroy();
 
-	for (int i = 0; i < _countof(hHooks); i++)
-		UnhookEvent(hHooks[i]);
+	for (auto &it : hHooks)
+		UnhookEvent(it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -879,11 +879,12 @@ static int TSAPI SetupIconLibConfig()
 	sid.flags = SIDF_PATH_UNICODE;
 
 	for (int n = 0; n < _countof(ICONBLOCKS); n++) {
-		sid.section.a = ICONBLOCKS[n].szSection;
-		for (int i = 0; i < ICONBLOCKS[n].nItems; i++) {
-			sid.pszName = ICONBLOCKS[n].idesc[i].szName;
-			sid.description.a = ICONBLOCKS[n].idesc[i].szDesc;
-			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
+		auto &it = ICONBLOCKS[n];
+		sid.section.a = it.szSection;
+		for (int i = 0; i < it.nItems; i++) {
+			sid.pszName = it.idesc[i].szName;
+			sid.description.a = it.idesc[i].szDesc;
+			sid.iDefaultIndex = it.idesc[i].uId == -IDI_HISTORY ? 0 : it.idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
 
 			if (n > 0 && n < 4)
 				PluginConfig.g_buttonBarIconHandles[j++] = IcoLib_AddIcon(&sid);
@@ -927,9 +928,9 @@ static int TSAPI SetupIconLibConfig()
 // load the icon theme from IconLib - check if it exists...
 static int TSAPI LoadFromIconLib()
 {
-	for (int n = 0; n < _countof(ICONBLOCKS); n++)
-		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
-			*(ICONBLOCKS[n].idesc[i].phIcon) = IcoLib_GetIcon(ICONBLOCKS[n].idesc[i].szName);
+	for (auto &it : ICONBLOCKS)
+		for (int i = 0; i < it.nItems; i++)
+			*(it.idesc[i].phIcon) = IcoLib_GetIcon(it.idesc[i].szName);
 
 	PluginConfig.g_buttonBarIcons[0] = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 	PluginConfig.g_buttonBarIcons[1] = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
@@ -969,11 +970,11 @@ void TSAPI LoadIconTheme()
 
 static void UnloadIcons()
 {
-	for (int n = 0; n < _countof(ICONBLOCKS); n++)
-		for (int i = 0; i < ICONBLOCKS[n].nItems; i++)
-			if (*(ICONBLOCKS[n].idesc[i].phIcon) != nullptr) {
-				DestroyIcon(*(ICONBLOCKS[n].idesc[i].phIcon));
-				*(ICONBLOCKS[n].idesc[i].phIcon) = nullptr;
+	for (auto &it : ICONBLOCKS)
+		for (int i = 0; i < it.nItems; i++)
+			if (*(it.idesc[i].phIcon) != nullptr) {
+				DestroyIcon(*(it.idesc[i].phIcon));
+				*(it.idesc[i].phIcon) = nullptr;
 			}
 
 	if (PluginConfig.g_hbmUnknown)

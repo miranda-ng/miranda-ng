@@ -866,8 +866,8 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 			HWND ftpLog = GetDlgItem(hwndDlg, IDC_WINSCPLOG);
 			ComboBox_AddString(events, TranslateT("Incoming events"));
 			ComboBox_AddString(events, TranslateT("Outgoing events"));
-			for (int i = 0; i < _countof(EventNames); ++i)
-				ComboBox_AddString(events, TranslateW(EventNames[i].name));
+			for (auto &it : EventNames)
+				ComboBox_AddString(events, TranslateW(it.name));
 
 			ComboBox_AddString(defFilter, TranslateT("Default history events"));
 			ComboBox_AddString(defFilter, TranslateT("All events"));

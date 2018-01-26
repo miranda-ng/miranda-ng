@@ -121,10 +121,10 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 		return 1;
 
 	// translate string for menus (this can't be done in initializer)
-	for (int i = 0; i < _countof(sttAffiliationItems); i++)
-		sttAffiliationItems[i].translate();
-	for (int i = 0; i < _countof(sttRoleItems); i++)
-		sttRoleItems[i].translate();
+	for (auto &it : sttAffiliationItems)
+		it.translate();
+	for (auto &it : sttRoleItems)
+		it.translate();
 
 	ptrW szNick(JabberNickFromJID(item->jid));
 	GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, item->jid, szNick);
@@ -568,16 +568,16 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			for (; idx <= IDM_LINK9; ++idx)
 				sttFindGcMenuItem(_countof(sttListItems), sttListItems, idx)->uType = 0;
 
-			for (i = 0; i < _countof(sttAffiliationItems); i++) {
-				gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, sttAffiliationItems[i].id);
-				pItem->uType = (him->m_affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
-				pItem->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
+			for (auto &it : sttAffiliationItems) {
+				gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, it.id);
+				pItem->uType = (him->m_affiliation == it.value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
+				pItem->bDisabled = !(force || it.check(me, him));
 			}
 
-			for (i = 0; i < _countof(sttRoleItems); i++) {
-				gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, sttRoleItems[i].id);
-				pItem->uType = (him->m_role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
-				pItem->bDisabled = !(force || sttRoleItems[i].check(me, him));
+			for (auto &it : sttRoleItems) {
+				gc_item *pItem = sttFindGcMenuItem(_countof(sttListItems), sttListItems, it.id);
+				pItem->uType = (him->m_role == it.value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
+				pItem->bDisabled = !(force || it.check(me, him));
 			}
 
 			if (him->m_tszRealJid && *him->m_tszRealJid) {
@@ -847,21 +847,22 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetDlgItemText(hwndDlg, IDC_TXT_JID, dat->him->m_tszRealJid ? dat->him->m_tszRealJid : TranslateT("Real JID not available"));
 		SetDlgItemText(hwndDlg, IDC_TXT_STATUS, dat->him->m_tszStatusMessage);
 
-		for (int i = 0; i < _countof(sttRoleItems); i++) {
-			if ((sttRoleItems[i].value == dat->him->m_role) || sttRoleItems[i].check(dat->me, dat->him)) {
+		for (auto &it : sttRoleItems) {
+			if ((it.value == dat->him->m_role) || it.check(dat->me, dat->him)) {
 				SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETITEMDATA,
-					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_ADDSTRING, 0, (LPARAM)sttRoleItems[i].title),
-					sttRoleItems[i].value);
-				if (sttRoleItems[i].value == dat->him->m_role)
+					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_ADDSTRING, 0, (LPARAM)it.title),
+					it.value);
+				if (it.value == dat->him->m_role)
 					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETCURSEL, idx, 0);
 			}
 		}
-		for (int i = 0; i < _countof(sttAffiliationItems); i++) {
-			if ((sttAffiliationItems[i].value == dat->him->m_affiliation) || sttAffiliationItems[i].check(dat->me, dat->him)) {
+		
+		for (auto &it : sttAffiliationItems) {
+			if ((it.value == dat->him->m_affiliation) || it.check(dat->me, dat->him)) {
 				SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETITEMDATA,
-					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_ADDSTRING, 0, (LPARAM)sttAffiliationItems[i].title),
-					sttAffiliationItems[i].value);
-				if (sttAffiliationItems[i].value == dat->him->m_affiliation)
+					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_ADDSTRING, 0, (LPARAM)it.title),
+					it.value);
+				if (it.value == dat->him->m_affiliation)
 					SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETCURSEL, idx, 0);
 			}
 		}

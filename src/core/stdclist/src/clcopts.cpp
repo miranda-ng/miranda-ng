@@ -149,12 +149,9 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE,
 			GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			int i;
 			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
-			for (i = 0; i < _countof(checkBoxToStyleEx); i++)
-				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id,
-				(exStyle & checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag *
-				checkBoxToStyleEx[i].not) ? BST_CHECKED : BST_UNCHECKED);
+			for (auto &it : checkBoxToStyleEx)
+				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		{
 			UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
@@ -242,11 +239,10 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				int i;
 				DWORD exStyle = 0;
-				for (i = 0; i < _countof(checkBoxToStyleEx); i++)
-					if ((IsDlgButtonChecked(hwndDlg, checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].not)
-						exStyle |= checkBoxToStyleEx[i].flag;
+				for (auto &it : checkBoxToStyleEx)
+					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not)
+						exStyle |= it.flag;
 
 				db_set_dw(NULL, "CLC", "ExStyle", exStyle);
 				{

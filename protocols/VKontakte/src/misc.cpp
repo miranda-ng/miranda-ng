@@ -84,9 +84,9 @@ void InitIcons()
 
 HANDLE GetIconHandle(int iCommand)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iCommand)
-			return iconList[i].hIcolib;
+	for (auto &it : iconList)
+		if (it.defIconID == iCommand)
+			return it.hIcolib;
 
 	return nullptr;
 }
@@ -847,10 +847,10 @@ CMStringA CVkProto::GetAttachmentsFromMessage(const char *Msg)
 		iOwner = 0,
 		iId = 0;
 
-	for (int i = 0; i < _countof(szAttachmentMasks); i++) {
-		iRes = sscanf(pos, szAttachmentMasks[i], &iOwner, &iId);
+	for (auto &it : szAttachmentMasks) {
+		iRes = sscanf(pos, it, &iOwner, &iId);
 		if (iRes == 2) {
-			CMStringA szAttachment(FORMAT, szAttachmentMasks[i], iOwner, iId);
+			CMStringA szAttachment(FORMAT, it, iOwner, iId);
 			CMStringA szAttachment2;
 
 			if (nextpos)
@@ -934,11 +934,11 @@ CMStringW CVkProto::SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeed
 
 	CMStringW wszRes;
 	vkFeedback = vkParent = vkNull;
-	for (int i = 0; i < _countof(vkNotification); i++)
-		if (wszType == vkNotification[i].pwszType) {
-			vkFeedback = vkNotification[i].vkFeedback;
-			vkParent = vkNotification[i].vkParent;
-			wszRes = vkNotification[i].pwszTranslate;
+	for (auto &it : vkNotification)
+		if (wszType == it.pwszType) {
+			vkFeedback = it.vkFeedback;
+			vkParent = it.vkParent;
+			wszRes = it.pwszTranslate;
 			break;
 		}
 	return wszRes;
@@ -952,8 +952,8 @@ CMStringW CVkProto::GetVkPhotoItem(const JSONNode &jnPhoto, BBCSupport iBBC)
 		return wszRes;
 
 	CMStringW wszLink, wszPreviewLink;
-	for (int i = 0; i < _countof(szImageTypes); i++) {
-		const JSONNode &n = jnPhoto[szImageTypes[i]];
+	for (auto &it : szImageTypes) {
+		const JSONNode &n = jnPhoto[it];
 		if (n) {
 			wszLink = n.as_mstring();
 			break;
@@ -1022,9 +1022,9 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 		return CMStringW();
 
 	wchar_t *pwszFormat = nullptr;
-	for (int i = 0; i < _countof(bbcItem); i++)
-		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == iBBC) {
-			pwszFormat = bbcItem[i].pwszTempate;
+	for (auto &it : bbcItem)
+		if (it.vkBBCType == bbcType && it.vkBBCSettings == iBBC) {
+			pwszFormat = it.pwszTempate;
 			break;
 		}
 
@@ -1178,8 +1178,8 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			}
 			else {
 				CMStringW wszLink;
-				for (int i = 0; i < _countof(szImageTypes); i++) {
-					const JSONNode &n = jnSticker[szImageTypes[i]];
+				for (auto &it : szImageTypes) {
+					const JSONNode &n = jnSticker[it];
 					if (n) {
 						wszLink = n.as_mstring();
 						break;
@@ -1251,8 +1251,8 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				continue;
 
 			CMStringW wszLink;
-			for (int i = 0; i < _countof(szGiftTypes); i++) {
-				const JSONNode &n = jnGift[szGiftTypes[i]];
+			for (auto &it : szGiftTypes) {
+				const JSONNode &n = jnGift[it];
 				if (n) {
 					wszLink = n.as_mstring();
 					break;
@@ -1397,9 +1397,9 @@ CMStringW CVkProto::RemoveBBC(CMStringW& wszSrc)
 	CMStringW wszLow(wszSrc);
 	wszLow.MakeLower();
 
-	for (int i = 0; i < _countof(wszSimpleBBCodes); i++) {
-		CMStringW wszOpenTag(wszSimpleBBCodes[i][0]);
-		CMStringW wszCloseTag(wszSimpleBBCodes[i][1]);
+	for (auto &it : wszSimpleBBCodes) {
+		CMStringW wszOpenTag(it[0]);
+		CMStringW wszCloseTag(it[1]);
 
 		int lenOpen = wszOpenTag.GetLength();
 		int lenClose = wszCloseTag.GetLength();
@@ -1423,9 +1423,9 @@ CMStringW CVkProto::RemoveBBC(CMStringW& wszSrc)
 		}
 	}
 
-	for (int i = 0; i < _countof(wszParamBBCodes); i++) {
-		CMStringW wszOpenTag(wszParamBBCodes[i][0]);
-		CMStringW wszCloseTag(wszParamBBCodes[i][1]);
+	for (auto &it : wszParamBBCodes) {
+		CMStringW wszOpenTag(it[0]);
+		CMStringW wszCloseTag(it[1]);
 
 		int lenOpen = wszOpenTag.GetLength();
 		int lenClose = wszCloseTag.GetLength();

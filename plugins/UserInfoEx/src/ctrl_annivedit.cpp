@@ -366,8 +366,8 @@ INT_PTR CAnnivEditCtrl::DBWriteAnniversaries(MCONTACT hContact)
 	do {
 		ofs = mir_snprintf(szSet0, "Anniv%d", wIndex);
 		ret = 1;
-		for (i = 0; i < _countof(szPrefix); i++) {
-			mir_strncpy(szSet0 + ofs, szPrefix[i], _countof(szSet0) - ofs);
+		for (auto &it : szPrefix) {
+			mir_strncpy(szSet0 + ofs, it, _countof(szSet0) - ofs);
 			ret &= db_unset(hContact, USERINFO, szSet0);
 		}
 	}

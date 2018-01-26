@@ -512,25 +512,26 @@ void CJabberProto::ApplyNodeIcon(HTREELISTITEM hItem, CJabberSDNode *pNode)
 			iOverlay = SD_OVERLAY_NONE;
 	}
 
-	for (int i = 0; i < _countof(sttNodeIcons); i++) {
-		if (!sttNodeIcons[i].iconIndex && !sttNodeIcons[i].iconName) continue;
+	for (auto &it : sttNodeIcons) {
+		if (!it.iconIndex && !it.iconName)
+			continue;
 
-		if (sttNodeIcons[i].category) {
+		if (it.category) {
 			CJabberSDIdentity *iIdentity;
 			for (iIdentity = pNode->GetFirstIdentity(); iIdentity; iIdentity = iIdentity->GetNext())
-				if (!mir_wstrcmp(iIdentity->GetCategory(), sttNodeIcons[i].category) &&
-					(!sttNodeIcons[i].type || !mir_wstrcmp(iIdentity->GetType(), sttNodeIcons[i].type))) {
-					iIcon = sttNodeIcons[i].listIndex;
+				if (!mir_wstrcmp(iIdentity->GetCategory(), it.category) &&
+					(!it.type || !mir_wstrcmp(iIdentity->GetType(), it.type))) {
+					iIcon = it.listIndex;
 					break;
 				}
 			if (iIdentity) break;
 		}
 
-		if (sttNodeIcons[i].feature) {
+		if (it.feature) {
 			CJabberSDFeature *iFeature;
 			for (iFeature = pNode->GetFirstFeature(); iFeature; iFeature = iFeature->GetNext())
-				if (!mir_wstrcmp(iFeature->GetVar(), sttNodeIcons[i].feature)) {
-					iIcon = sttNodeIcons[i].listIndex;
+				if (!mir_wstrcmp(iFeature->GetVar(), it.feature)) {
+					iIcon = it.listIndex;
 					break;
 				}
 			if (iFeature) break;
@@ -677,19 +678,19 @@ void CJabberDlgDiscovery::OnInitDialog()
 
 	TreeList_Create(hwndList);
 	TreeList_AddIcon(hwndList, m_proto->LoadIconEx("main"), 0);
-	for (int i = 0; i < _countof(sttNodeIcons); i++) {
+	for (auto &it : sttNodeIcons) {
 		bool needDestroy = false;
 		HICON hIcon;
-		if ((sttNodeIcons[i].iconIndex == SKINICON_STATUS_ONLINE) && sttNodeIcons[i].iconName) {
-			hIcon = (HICON)CallProtoService(sttNodeIcons[i].iconName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		if ((it.iconIndex == SKINICON_STATUS_ONLINE) && it.iconName) {
+			hIcon = (HICON)CallProtoService(it.iconName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 			needDestroy = true;
 		}
-		else if (sttNodeIcons[i].iconName)
-			hIcon = m_proto->LoadIconEx(sttNodeIcons[i].iconName);
-		else if (sttNodeIcons[i].iconIndex)
-			hIcon = Skin_LoadIcon(sttNodeIcons[i].iconIndex);
+		else if (it.iconName)
+			hIcon = m_proto->LoadIconEx(it.iconName);
+		else if (it.iconIndex)
+			hIcon = Skin_LoadIcon(it.iconIndex);
 		else continue;
-		sttNodeIcons[i].listIndex = TreeList_AddIcon(hwndList, hIcon, 0);
+		it.listIndex = TreeList_AddIcon(hwndList, hIcon, 0);
 		if (needDestroy) DestroyIcon(hIcon);
 	}
 	TreeList_AddIcon(hwndList, m_proto->LoadIconEx("disco_fail"), SD_OVERLAY_FAIL);
@@ -1207,37 +1208,37 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 	HMENU hMenu = CreatePopupMenu();
 	BOOL lastSeparator = TRUE;
 	bool bFilterItems = !GetAsyncKeyState(VK_CONTROL);
-	for (int i = 0; i < _countof(items); i++) {
+	for (auto &it : items) {
 		JABBER_LIST_ITEM *rosterItem = nullptr;
 		if (bFilterItems) {
-			if ((items[i].flags & SD_FLG_NONODE) && pNode->GetNode())
+			if ((it.flags & SD_FLG_NONODE) && pNode->GetNode())
 				continue;
-			if ((items[i].flags & SD_FLG_NOTONROSTER) && (rosterItem = ListGetItemPtr(LIST_ROSTER, pNode->GetJid())))
+			if ((it.flags & SD_FLG_NOTONROSTER) && (rosterItem = ListGetItemPtr(LIST_ROSTER, pNode->GetJid())))
 				continue;
-			if ((items[i].flags & SD_FLG_ONROSTER) && !(rosterItem = ListGetItemPtr(LIST_ROSTER, pNode->GetJid())))
+			if ((it.flags & SD_FLG_ONROSTER) && !(rosterItem = ListGetItemPtr(LIST_ROSTER, pNode->GetJid())))
 				continue;
-			if ((items[i].flags & SD_FLG_SUBSCRIBED) && (!rosterItem || (rosterItem->subscription == SUB_NONE)))
+			if ((it.flags & SD_FLG_SUBSCRIBED) && (!rosterItem || (rosterItem->subscription == SUB_NONE)))
 				continue;
-			if ((items[i].flags & SD_FLG_NOTSUBSCRIBED) && (rosterItem && (rosterItem->subscription != SUB_NONE)))
+			if ((it.flags & SD_FLG_NOTSUBSCRIBED) && (rosterItem && (rosterItem->subscription != SUB_NONE)))
 				continue;
-			if ((items[i].flags & SD_FLG_ONLINE) && rosterItem && (rosterItem->getTemp()->m_iStatus != ID_STATUS_OFFLINE))
+			if ((it.flags & SD_FLG_ONLINE) && rosterItem && (rosterItem->getTemp()->m_iStatus != ID_STATUS_OFFLINE))
 				continue;
-			if ((items[i].flags & SD_FLG_NOTONLINE) && rosterItem && (rosterItem->getTemp()->m_iStatus == ID_STATUS_OFFLINE))
+			if ((it.flags & SD_FLG_NOTONLINE) && rosterItem && (rosterItem->getTemp()->m_iStatus == ID_STATUS_OFFLINE))
 				continue;
-			if ((items[i].flags & SD_FLG_NORESOURCE) && wcschr(pNode->GetJid(), '/'))
+			if ((it.flags & SD_FLG_NORESOURCE) && wcschr(pNode->GetJid(), '/'))
 				continue;
-			if ((items[i].flags & SD_FLG_HASUSER) && !wcschr(pNode->GetJid(), '@'))
+			if ((it.flags & SD_FLG_HASUSER) && !wcschr(pNode->GetJid(), '@'))
 				continue;
 		}
 
-		if (!items[i].feature) {
-			if (items[i].title) {
+		if (!it.feature) {
+			if (it.title) {
 				MCONTACT hContact;
-				if ((items[i].action == SD_ACT_USERMENU) && (hContact = HContactFromJID(pNode->GetJid()))) {
+				if ((it.action == SD_ACT_USERMENU) && (hContact = HContactFromJID(pNode->GetJid()))) {
 					HMENU hContactMenu = Menu_BuildContactMenu(hContact);
-					AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT_PTR)hContactMenu, TranslateW(items[i].title));
+					AppendMenu(hMenu, MF_STRING | MF_POPUP, (UINT_PTR)hContactMenu, TranslateW(it.title));
 				}
-				else AppendMenu(hMenu, MF_STRING, items[i].action, TranslateW(items[i].title));
+				else AppendMenu(hMenu, MF_STRING, it.action, TranslateW(it.title));
 				lastSeparator = FALSE;
 			}
 			else if (!lastSeparator) {
@@ -1250,14 +1251,14 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		bool bFeatureOk = !bFilterItems;
 		if (bFilterItems)
 			for (CJabberSDFeature *iFeature = pNode->GetFirstFeature(); iFeature; iFeature = iFeature->GetNext())
-				if (!mir_wstrcmp(iFeature->GetVar(), items[i].feature)) {
+				if (!mir_wstrcmp(iFeature->GetVar(), it.feature)) {
 					bFeatureOk = true;
 					break;
 				}
 
 		if (bFeatureOk) {
-			if (items[i].title) {
-				AppendMenu(hMenu, MF_STRING, items[i].action, TranslateW(items[i].title));
+			if (it.title) {
+				AppendMenu(hMenu, MF_STRING, it.action, TranslateW(it.title));
 				lastSeparator = FALSE;
 			}
 			else if (!lastSeparator) {

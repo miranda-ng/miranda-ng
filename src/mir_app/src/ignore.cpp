@@ -314,8 +314,9 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 		break;
 
 	case WM_DESTROY:
-		for (int i = 0; i < _countof(hIcons); i++)
-			DestroyIcon(hIcons[i]);
+		for (auto &it : hIcons)
+			DestroyIcon(it);
+		
 		HIMAGELIST hIml = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 		ImageList_Destroy(hIml);
 		break;

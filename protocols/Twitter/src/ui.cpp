@@ -50,8 +50,8 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			db_free(&dbv);
 		}
 
-		for (size_t i = 0; i < _countof(sites); i++)
-			SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(sites[i]));
+		for (auto &it : sites)
+			SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(it));
 
 		if (!proto->getString(TWITTER_KEY_BASEURL, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_SERVER, dbv.pszVal);
@@ -180,8 +180,8 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		CheckDlgButton(hwndDlg, IDC_CHATFEED, proto->getByte(TWITTER_KEY_CHATFEED) ? BST_CHECKED : BST_UNCHECKED);
 
-		for (size_t i = 0; i < _countof(sites); i++)
-			SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(sites[i]));
+		for (auto &it : sites)
+			SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(it));
 
 		if (!proto->getString(TWITTER_KEY_BASEURL, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_BASEURL, dbv.pszVal);

@@ -132,8 +132,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	switch (msg) {
 	case WM_CREATE:
-		for (int i = 0; i < _countof(_hotkeydescs); i++)
-			Hotkey_Register(&_hotkeydescs[i]);
+		for (auto &it : _hotkeydescs)
+			Hotkey_Register(&it);
 
 		WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");
 		ShowWindow(hwndDlg, SW_HIDE);

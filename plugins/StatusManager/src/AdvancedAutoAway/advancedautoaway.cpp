@@ -599,9 +599,9 @@ void AdvancedAutoAwayUnload()
 
 	KillModuleOptions(AAALangPack);
 
-	for (int i = 0; i < _countof(hEvents); i++) {
-		UnhookEvent(hEvents[i]);
-		hEvents[i] = nullptr;
+	for (auto &it : hEvents) {
+		UnhookEvent(it);
+		it = nullptr;
 	}
 
 	DestroyHookableEvent(hStateChangedEvent); hStateChangedEvent = nullptr;

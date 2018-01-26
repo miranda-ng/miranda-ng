@@ -343,15 +343,15 @@ static int other_fonts[] = { FONTID_OPENGROUPS, FONTID_OPENGROUPCOUNTS, FONTID_C
 
 int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 {
-	int max_height = 0, i, tmp;
+	int max_height = 0;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (!dat->text_ignore_size_for_row_height) {
 		// Get contact font size
-		tmp = 0;
-		for (i = 0; i < _countof(contact_fonts); i++)
-			if (tmp < dat->fontModernInfo[contact_fonts[i]].fontHeight)
-				tmp = dat->fontModernInfo[contact_fonts[i]].fontHeight;
+		int tmp = 0;
+		for (auto &it : contact_fonts)
+			if (tmp < dat->fontModernInfo[it].fontHeight)
+				tmp = dat->fontModernInfo[it].fontHeight;
 
 		if (dat->text_replace_smileys && dat->first_line_draw_smileys && !dat->text_resize_smileys)
 			tmp = max(tmp, dat->text_smiley_height);
@@ -373,9 +373,9 @@ int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 		}
 
 		// Get other font sizes
-		for (i = 0; i < _countof(other_fonts); i++)
-			if (max_height < dat->fontModernInfo[other_fonts[i]].fontHeight)
-				max_height = dat->fontModernInfo[other_fonts[i]].fontHeight;
+		for (auto &it : other_fonts)
+			if (max_height < dat->fontModernInfo[it].fontHeight)
+				max_height = dat->fontModernInfo[it].fontHeight;
 	}
 
 	// Avatar size

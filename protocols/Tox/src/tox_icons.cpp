@@ -14,16 +14,16 @@ void CToxProto::InitIcons()
 
 HANDLE CToxProto::GetIconHandle(int iconId)
 {
-	for (size_t i = 0; i < _countof(Icons); i++)
-		if (Icons[i].defIconID == iconId)
-			return Icons[i].hIcolib;
+	for (auto &it : Icons)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
 	return nullptr;
 }
 
 HICON CToxProto::GetIcon(int iconId)
 {
-	for (size_t i = 0; i < _countof(Icons); i++)
-		if (Icons[i].defIconID == iconId)
-			return IcoLib_GetIconByHandle(Icons[i].hIcolib);
+	for (auto &it : Icons)
+		if (it.defIconID == iconId)
+			return IcoLib_GetIconByHandle(it.hIcolib);
 	return nullptr;
 }

@@ -435,8 +435,8 @@ protected:
 
 		// fill predefined resources
 		wchar_t *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
-		for (int i = 0; i < _countof(szResources); i++)
-			m_cbResource.AddString(szResources[i]);
+		for (auto &it : szResources)
+			m_cbResource.AddString(it);
 
 		// append computer name to the resource list
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];
@@ -1585,8 +1585,8 @@ protected:
 
 		// fill predefined resources
 		wchar_t *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
-		for (int i = 0; i < _countof(szResources); i++)
-			m_cbResource.AddString(szResources[i]);
+		for (auto &it : szResources)
+			m_cbResource.AddString(it);
 
 		// append computer name to the resource list
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];

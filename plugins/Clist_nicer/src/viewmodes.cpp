@@ -869,9 +869,9 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_USER + 100:
 		{
 			bool bSkinned = db_get_b(NULL, "CLCExt", "bskinned", 0) != 0;
-			for (int i = 0; i < _countof(_buttons); i++) {
-				HWND hwndButton = GetDlgItem(hwnd, _buttons[i].btn_id);
-				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(_buttons[i].icon));
+			for (auto &it : _buttons) {
+				HWND hwndButton = GetDlgItem(hwnd, it.btn_id);
+				SendMessage(hwndButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(it.icon));
 				CustomizeButton(hwndButton, bSkinned, !bSkinned, bSkinned);
 			}
 		}

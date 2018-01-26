@@ -378,8 +378,8 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
 			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", GetDefaultExStyle());
-			for (int i = 0; i < _countof(checkBoxToStyleEx); i++)
-				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id, (exStyle&checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag*checkBoxToStyleEx[i].neg) ? BST_CHECKED : BST_UNCHECKED);
+			for (auto &it : checkBoxToStyleEx)
+				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.neg) ? BST_CHECKED : BST_UNCHECKED);
 
 			UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
@@ -439,9 +439,9 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				DWORD exStyle = 0;
-				for (int i = 0; i < _countof(checkBoxToStyleEx); i++)
-					if ((IsDlgButtonChecked(hwndDlg, checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].neg)
-						exStyle |= checkBoxToStyleEx[i].flag;
+				for (auto &it : checkBoxToStyleEx)
+					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.neg)
+						exStyle |= it.flag;
 				db_set_dw(0, "CLC", "ExStyle", exStyle);
 
 				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
@@ -500,14 +500,13 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE2, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE3, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 3 ? BST_CHECKED : BST_UNCHECKED);
 		{
-			int i, item;
 			int s1, s2, s3;
-			for (i = 0; i < _countof(sortby); i++) {
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
+			for (auto &it : sortby) {
+				int item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_SETITEMDATA, item, 0);
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_SETITEMDATA, item, 0);
-				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_ADDSTRING, 0, (LPARAM)TranslateW(sortby[i]));
+				item = SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
 				SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_SETITEMDATA, item, 0);
 
 			}
@@ -515,7 +514,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			s2 = db_get_b(0, "CList", "SortBy2", SETTING_SORTBY2_DEFAULT);
 			s3 = db_get_b(0, "CList", "SortBy3", SETTING_SORTBY3_DEFAULT);
 
-			for (i = 0; i < _countof(sortby); i++) {
+			for (int i = 0; i < _countof(sortby); i++) {
 				if (s1 == sortbyValue[i])
 					SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_SETCURSEL, i, 0);
 				if (s2 == sortbyValue[i])
@@ -799,8 +798,8 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC01), IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 		{
 			wchar_t *hidemode[] = { TranslateT("Hide to tray"), TranslateT("Behind left edge"), TranslateT("Behind right edge") };
-			for (int i = 0; i < _countof(hidemode); i++) {
-				int item = SendDlgItemMessage(hwndDlg, IDC_HIDEMETHOD, CB_ADDSTRING, 0, (LPARAM)hidemode[i]);
+			for (auto &it : hidemode) {
+				int item = SendDlgItemMessage(hwndDlg, IDC_HIDEMETHOD, CB_ADDSTRING, 0, (LPARAM)it);
 				SendDlgItemMessage(hwndDlg, IDC_HIDEMETHOD, CB_SETITEMDATA, item, 0);
 				SendDlgItemMessage(hwndDlg, IDC_HIDEMETHOD, CB_SETCURSEL, db_get_b(0, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT), 0);
 			}
@@ -1356,8 +1355,8 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case M_BKGR_UPDATE:
 	{
 		int isChecked = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
-		for (int indx = 0; indx < _countof(bitmapRelatedControls); indx++)
-			EnableWindow(GetDlgItem(hwndDlg, bitmapRelatedControls[indx]), isChecked);
+		for (auto &it : bitmapRelatedControls)
+			EnableWindow(GetDlgItem(hwndDlg, it), isChecked);
 	}
 	break;
 
@@ -1526,11 +1525,11 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcClistListOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 
-	for (int i = 0; i < _countof(clist_opt_items); i++) {
-		odp.pszTemplate = MAKEINTRESOURCEA(clist_opt_items[i].id);
-		odp.szTab.a = clist_opt_items[i].name;
-		odp.pfnDlgProc = clist_opt_items[i].wnd_proc;
-		odp.flags = ODPF_BOLDGROUPS | clist_opt_items[i].flag;
+	for (auto &it : clist_opt_items) {
+		odp.pszTemplate = MAKEINTRESOURCEA(it.id);
+		odp.szTab.a = it.name;
+		odp.pfnDlgProc = it.wnd_proc;
+		odp.flags = ODPF_BOLDGROUPS | it.flag;
 		Options_AddPage(wParam, &odp);
 	}
 

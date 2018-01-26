@@ -271,10 +271,9 @@ StatusItems_t *GetProtocolStatusItem(const char *szProto)
 // fills the struct with the settings in the database
 void LoadExtBkSettingsFromDB()
 {
-	int i, n;
-	for (i = 0; i < _countof(_StatusItems); i++) {
+	for (auto &it : _StatusItems) {
 		StatusItems_t *p = (StatusItems_t*)mir_alloc(sizeof(StatusItems_t));
-		*p = _StatusItems[i];
+		*p = it;
 		arStatusItems.insert(p);
 	}
 
@@ -282,7 +281,7 @@ void LoadExtBkSettingsFromDB()
 	PROTOACCOUNT **accs;
 	Proto_EnumAccounts(&protoCount, &accs);
 
-	for (i = 0; i < protoCount; i++) {
+	for (int i = 0; i < protoCount; i++) {
 		StatusItems_t *p = (StatusItems_t*)mir_alloc(sizeof(StatusItems_t));
 		*p = _StatusItems[0];
 		ID_EXTBK_LAST++;
@@ -296,7 +295,7 @@ void LoadExtBkSettingsFromDB()
 		arStatusItems.insert(p);
 	}
 
-	for (n = 0; n < arStatusItems.getCount(); n++) {
+	for (int n = 0; n < arStatusItems.getCount(); n++) {
 		StatusItems_t *p = arStatusItems[n];
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;

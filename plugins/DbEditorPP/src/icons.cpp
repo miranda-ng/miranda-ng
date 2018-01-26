@@ -42,9 +42,9 @@ IconItem iconList[] = {
 
 HANDLE GetIcoLibHandle(int icon)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == icon)
-			return iconList[i].hIcolib;
+	for (auto &it : iconList)
+		if (it.defIconID == icon)
+			return it.hIcolib;
 	return INVALID_HANDLE_VALUE;
 }
 
@@ -55,9 +55,9 @@ void IcoLibRegister(void)
 
 HICON LoadSkinnedDBEIcon(int icon)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == icon)
-			return IcoLib_GetIconByHandle(iconList[i].hIcolib);
+	for (auto &it : iconList)
+		if (it.defIconID == icon)
+			return IcoLib_GetIconByHandle(it.hIcolib);
 
 	return LoadIcon(hInst, MAKEINTRESOURCE(icon));
 }
@@ -69,8 +69,8 @@ HIMAGELIST LoadIcons()
 	if (!hil)
 		return nullptr;
 
-	for(int i = 0; i < _countof(dbeIcons); i++)
-		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(dbeIcons[i]));
+	for (auto &it : dbeIcons)
+		ImageList_AddIcon(hil, LoadSkinnedDBEIcon(it));
 
 	int protoCount = 0;
 	PROTOACCOUNT **protocols = nullptr;

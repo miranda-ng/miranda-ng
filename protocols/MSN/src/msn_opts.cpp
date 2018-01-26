@@ -59,9 +59,9 @@ HICON LoadIconEx(const char* name, bool big)
 
 HANDLE GetIconHandle(int iconId)
 {
-	for (unsigned i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return iconList[i].hIcolib;
+	for (auto &it : iconList)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
 
 	return nullptr;
 }

@@ -88,32 +88,31 @@ BOOL RowHeight::Alloc(ClcData *dat, int size)
 // Calc and store max row height
 int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 {
-	int max_height = 0, i;
+	int max_height = 0;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	int contact_fonts[] = { FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS };
 	int other_fonts[] = { FONTID_GROUPS, FONTID_GROUPCOUNTS, FONTID_DIVIDERS };
 
 	// Get contact font size
-	for (i = 0; i < _countof(contact_fonts); i++)
-		if (max_height < dat->fontInfo[contact_fonts[i]].fontHeight)
-			max_height = dat->fontInfo[contact_fonts[i]].fontHeight;
+	for (auto &it : contact_fonts)
+		if (max_height < dat->fontInfo[it].fontHeight)
+			max_height = dat->fontInfo[it].fontHeight;
 
 	if (cfg::dat.dualRowMode == 1 && !dat->bisEmbedded)
 		max_height += ROW_SPACE_BEETWEEN_LINES + dat->fontInfo[FONTID_STATUS].fontHeight;
 
 	// Get other font sizes
-	for (i = 0; i < _countof(other_fonts); i++) {
-		if (max_height < dat->fontInfo[other_fonts[i]].fontHeight)
-			max_height = dat->fontInfo[other_fonts[i]].fontHeight;
-	}
+	for (auto &it : other_fonts)
+		if (max_height < dat->fontInfo[it].fontHeight)
+			max_height = dat->fontInfo[it].fontHeight;
 
 	// Avatar size
 	if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS && !dat->bisEmbedded)
 		max_height = max(max_height, cfg::dat.avatarSize + cfg::dat.avatarPadding);
 
 	// Checkbox size
-	if (style&CLS_CHECKBOXES || style&CLS_GROUPCHECKBOXES)
+	if (style & CLS_CHECKBOXES || style & CLS_GROUPCHECKBOXES)
 		max_height = max(max_height, dat->checkboxSize);
 
 	//max_height += 2 * dat->row_border;

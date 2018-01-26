@@ -303,16 +303,16 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 		case IDC_INCOMING:
 		case IDC_OUTGOING:
 			if (LOWORD(wParam) == IDC_ALL)
-				for (int i = 0; i < _countof(SysControls); i++)
-					CheckDlgButton(hwndDlg, SysControls[i], IsDlgButtonChecked(hwndDlg, SysControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
+				for (auto &it : SysControls)
+					CheckDlgButton(hwndDlg, it, IsDlgButtonChecked(hwndDlg, it) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 			if (LOWORD(wParam) != IDC_OUTGOING)
-				for (int i = 0; i < _countof(InControls); i++)
-					CheckDlgButton(hwndDlg, InControls[i], IsDlgButtonChecked(hwndDlg, InControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
+				for (auto &it : InControls)
+					CheckDlgButton(hwndDlg, it, IsDlgButtonChecked(hwndDlg, it) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 			if (LOWORD(wParam) != IDC_INCOMING)
-				for (int i = 0; i < _countof(OutControls); i++)
-					CheckDlgButton(hwndDlg, OutControls[i], IsDlgButtonChecked(hwndDlg, OutControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
+				for (auto &it : OutControls)
+					CheckDlgButton(hwndDlg, it, IsDlgButtonChecked(hwndDlg, it) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 			break;
 
 		case IDC_MSG:

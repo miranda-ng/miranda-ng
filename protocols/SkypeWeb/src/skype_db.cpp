@@ -150,9 +150,7 @@ void CSkypeProto::InitDBEvents()
 	dbEventType.iconService = MODULE "/GetEventIcon";
 	dbEventType.textService = MODULE "/GetEventText";
 
-	for (size_t i = 0; i < _countof(g_SkypeDBTypes); i++) {
-		SkypeDBType &cur = g_SkypeDBTypes[i];
-
+	for (auto &cur : g_SkypeDBTypes) {
 		dbEventType.eventType = cur.type;
 		dbEventType.descr = Translate(cur.name);
 		dbEventType.flags |= cur.flags;

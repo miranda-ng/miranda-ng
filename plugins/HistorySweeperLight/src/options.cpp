@@ -68,9 +68,9 @@ HICON LoadIconEx(const char* name)
 
 HANDLE GetIconHandle(const char* name)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (mir_strcmp(iconList[i].szName, name) == 0)
-			return hIconLibItem[i];
+	for (auto &it : iconList)
+		if (mir_strcmp(it.szName, name) == 0)
+			return &it;
 
 	return nullptr;
 }
@@ -100,7 +100,6 @@ static void ShowAllContactIcons(HWND hwndList)
 
 void LoadSettings(HWND hwndDlg)
 {
-	int i;
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
 	CLCINFOITEM cii = { 0 };
@@ -118,13 +117,13 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_RESETCONTENT, 0, 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_RESETCONTENT, 0, 0);
 
-	for (i = 0; i < _countof(time_stamp_strings); i++) {
-		ptrW ptszTimeStr(Langpack_PcharToTchar(time_stamp_strings[i]));
+	for (auto &it : time_stamp_strings) {
+		ptrW ptszTimeStr(Langpack_PcharToTchar(it));
 		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 	}
 
-	for (i = 0; i < _countof(keep_strings); i++) {
-		ptrW ptszTimeStr(Langpack_PcharToTchar(keep_strings[i]));
+	for (auto &it : keep_strings) {
+		ptrW ptszTimeStr(Langpack_PcharToTchar(it));
 		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 	}
 
@@ -134,8 +133,7 @@ void LoadSettings(HWND hwndDlg)
 	CheckDlgButton(hwndDlg, IDC_UNSAFEMODE, db_get_b(NULL, ModuleName, "UnsafeMode", 0) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_SWEEPONCLOSE, db_get_b(NULL, ModuleName, "SweepOnClose", 0) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_HISTMW, db_get_b(NULL, ModuleName, "ChangeInMW", 0) ? BST_CHECKED : BST_UNCHECKED);
-}//LoadSettings
-
+}
 
 void SaveSettings(HWND hwndDlg)
 {

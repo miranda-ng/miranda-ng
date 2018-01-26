@@ -598,11 +598,11 @@ void SvcReminderCheckAll(const ENotify notify)
 
 static int OnCListRebuildIcons(WPARAM, LPARAM)
 {
-	for (int i = 0; i < _countof(ghCListAnnivIcons); i++)
-		ghCListAnnivIcons[i] = INVALID_HANDLE_VALUE;
+	for (auto &it : ghCListAnnivIcons)
+		it = INVALID_HANDLE_VALUE;
 
-	for (int k = 0; k < _countof(ghCListBirthdayIcons); k++)
-		ghCListBirthdayIcons[k] = INVALID_HANDLE_VALUE;
+	for (auto &it : ghCListBirthdayIcons)
+		it = INVALID_HANDLE_VALUE;
 
 	return 0;
 }

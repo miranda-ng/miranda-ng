@@ -209,18 +209,18 @@ void InitIcons(void)
 
 HICON LoadIconEx(int iconId, bool big)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return IcoLib_GetIconByHandle(iconList[i].hIcolib, big);
+	for (auto &it : iconList)
+		if (it.defIconID == iconId)
+			return IcoLib_GetIconByHandle(it.hIcolib, big);
 
 	return nullptr;
 }
 
 HANDLE GetIconHandle(int iconId)
 {
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iconId)
-			return iconList[i].hIcolib;
+	for (auto &it : iconList)
+		if (it.defIconID == iconId)
+			return it.hIcolib;
 
 	return nullptr;
 }
@@ -352,8 +352,8 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 
 	void OnOk(CCtrlButton*)
 	{
-		for (int k = 0; k < _countof(sttRequiredFields); k++)
-			if (!GetWindowTextLength(GetDlgItem(m_hwnd, sttRequiredFields[k]))) {
+		for (auto &it : sttRequiredFields)
+			if (!GetWindowTextLength(GetDlgItem(m_hwnd, it))) {
 				MessageBox(m_hwnd, TranslateT("Please complete all fields"), TranslateT("IRC error"), MB_OK | MB_ICONERROR);
 				return;
 			}

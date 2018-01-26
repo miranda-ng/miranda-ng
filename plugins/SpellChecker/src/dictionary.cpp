@@ -537,10 +537,10 @@ public:
 
 		}
 		else {
-			for (int i = 0; i < _countof(codepages); i++) {
-				if (_strcmpi(codepages[i].name, dic_enc) == 0) {
-					if (IsValidCodePage(codepages[i].codepage))
-						codePage = codepages[i].codepage;
+			for (auto &it : codepages) {
+				if (_strcmpi(it.name, dic_enc) == 0) {
+					if (IsValidCodePage(it.codepage))
+						codePage = it.codepage;
 					break;
 				}
 			}
@@ -786,20 +786,18 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 			}
 
 			if (dict->localized_name[0] == '\0') {
-				for (size_t j = 0; j < _countof(aditionalLanguages); j++) {
-					if (!mir_wstrcmp(aditionalLanguages[j].language, dict->language)) {
-						mir_wstrncpy(dict->localized_name, TranslateW(aditionalLanguages[j].localized_name), _countof(dict->localized_name));
+				for (auto &it : aditionalLanguages) {
+					if (!mir_wstrcmp(it.language, dict->language)) {
+						mir_wstrncpy(dict->localized_name, TranslateW(it.localized_name), _countof(dict->localized_name));
 						break;
 					}
 				}
 			}
 
-			if (dict->localized_name[0] != '\0') {
+			if (dict->localized_name[0] != '\0')
 				mir_snwprintf(dict->full_name, L"%s [%s]", dict->localized_name, dict->language);
-			}
-			else {
+			else
 				mir_wstrncpy(dict->full_name, dict->language, _countof(dict->full_name));
-			}
 		}
 	}
 }
@@ -865,9 +863,9 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 
 	if (opts.use_other_apps_dicts) {
 		// Get other apps dicts
-		for (int i = 0; i < _countof(otherHunspellApps); i++) {
+		for (auto &it : otherHunspellApps) {
 			wchar_t key[1024];
-			mir_snwprintf(key, APPPATH, otherHunspellApps[i].key);
+			mir_snwprintf(key, APPPATH, it.key);
 
 			HKEY hKey = nullptr;
 			LONG lResult = 0;
@@ -892,7 +890,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 						key[cchValue] = 0;
 						wchar_t *pos;
 						if (pos = wcsrchr(key, '\\')) {
-							if (!mir_wstrcmpi(&pos[1], otherHunspellApps[i].key)) {
+							if (!mir_wstrcmpi(&pos[1], it.key)) {
 								pos[0] = 0;
 								lResult = ERROR_SUCCESS;
 								break;
@@ -907,7 +905,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 				wchar_t folder[1024];
 				mir_snwprintf(folder, L"%s\\Dictionaries", key);
 
-				GetHunspellDictionariesFromFolder(languages, folder, user_path, otherHunspellApps[i].name);
+				GetHunspellDictionariesFromFolder(languages, folder, user_path, it.name);
 			}
 		}
 	}

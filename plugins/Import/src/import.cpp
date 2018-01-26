@@ -77,7 +77,7 @@ void AddMessage(const wchar_t* fmt, ...)
 	va_list args;
 	wchar_t msgBuf[4096];
 	va_start(args, fmt);
-	mir_vsnwprintf(msgBuf, _countof(msgBuf), TranslateW(fmt), args);
+	mir_vsnwprintf(msgBuf, TranslateW(fmt), args);
 
 	SendMessage(hdlgProgress, PROGM_ADDMESSAGE, 0, (LPARAM)msgBuf);
 }

@@ -910,8 +910,8 @@ void LoadMsgLogIcons(void)
 
 void FreeMsgLogIcons(void)
 {
-	for (int i = 0; i < _countof(pLogIconBmpBits); i++)
-		mir_free(pLogIconBmpBits[i]);
+	for (auto &it : pLogIconBmpBits)
+		mir_free(it);
 
 	ImageList_RemoveAll(g_hImageList);
 	ImageList_Destroy(g_hImageList);

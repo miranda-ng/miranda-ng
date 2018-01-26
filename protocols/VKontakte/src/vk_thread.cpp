@@ -458,15 +458,15 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 
 	int iInteres = 0;
 
-	for (int i = 0; i < _countof(vkInteres); i++) {
-		wszValue = jnItem[vkInteres[i].szField].as_mstring();
+	for (auto &it : vkInteres) {
+		wszValue = jnItem[it.szField].as_mstring();
 		if (wszValue.IsEmpty())
 			continue;
 
 		CMStringA InteresCat(FORMAT, "Interest%dCat", iInteres);
 		CMStringA InteresText(FORMAT, "Interest%dText", iInteres);
 
-		setWString(hContact, InteresCat, vkInteres[i].pwszTranslate);
+		setWString(hContact, InteresCat, it.pwszTranslate);
 		setWString(hContact, InteresText, wszValue);
 
 		iInteres++;

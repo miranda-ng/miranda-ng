@@ -289,16 +289,16 @@ int StatusMsgExists(MCONTACT hContact)
 	LPSTR module = GetContactProto(hContact);
 	if (!module) return 0;
 
-	for (int i = 0; i < _countof(statusMsg); i++) {
-		if (statusMsg[i].flag & 8)
-			mir_snprintf(par, "%s/%s", module, statusMsg[i].name);
+	for (auto &it : statusMsg) {
+		if (it.flag & 8)
+			mir_snprintf(par, "%s/%s", module, it.name);
 		else
-			strncpy(par, statusMsg[i].name, _countof(par)-1);
+			strncpy(par, it.name, _countof(par)-1);
 
-		LPSTR msg = db_get_sa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
+		LPSTR msg = db_get_sa(hContact, (it.module) ? it.module : module, par);
 		if (msg) {
 			if (mir_strlen(msg))
-				ret |= statusMsg[i].flag;
+				ret |= it.flag;
 			mir_free(msg);
 		}
 	}
@@ -609,17 +609,17 @@ static INT_PTR onCopyStatusMsg(WPARAM wparam, LPARAM lparam)
 		return 0;
 
 	buffer[0] = 0;
-	for (int i = 0; i < _countof(statusMsg); i++) {
-		if (statusMsg[i].flag & 8)
-			mir_snprintf(par, "%s/%s", module, statusMsg[i].name);
+	for (auto &it : statusMsg) {
+		if (it.flag & 8)
+			mir_snprintf(par, "%s/%s", module, it.name);
 		else
-			strncpy(par, statusMsg[i].name, _countof(par) - 1);
+			strncpy(par, it.name, _countof(par) - 1);
 
-		LPTSTR msg = db_get_wsa(hContact, (statusMsg[i].module) ? statusMsg[i].module : module, par);
+		LPTSTR msg = db_get_wsa(hContact, (it.module) ? it.module : module, par);
 		if (msg) {
 			if (wcslen(msg)) {
 				if (flags & VF_SMNAME) {
-					mir_wstrncat(buffer, TranslateW(statusMsg[i].fullName), (_countof(buffer) - wcslen(buffer) - 1));
+					mir_wstrncat(buffer, TranslateW(it.fullName), (_countof(buffer) - wcslen(buffer) - 1));
 					mir_wstrncat(buffer, L": ", (_countof(buffer) - wcslen(buffer) - 1));
 				}
 				mir_wstrncat(buffer, msg, (_countof(buffer) - wcslen(buffer) - 1));

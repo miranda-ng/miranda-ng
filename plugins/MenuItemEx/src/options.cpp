@@ -35,25 +35,19 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 	switch (msg) {
 	case WM_INITDIALOG:
-
 		TranslateDialogDefault(hdlg);
 
-		for (i = 0; i < _countof(checkboxes); i++)
-		{
-			CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
-		}
+		for (auto &it : checkboxes)
+			CheckDlgButton(hdlg, it.idc, (flags & it.flag) ? BST_CHECKED : BST_UNCHECKED);
 
-		if (bPopupService)
-		{
-			for (i = 0; i < 4; i++)
-			{
+		if (bPopupService) {
+			for (i = 0; i < 4; i++) {
 				GetDlgItemText(hdlg, checkboxes[i].idc, buffer, (_countof(buffer) - 3));
 				mir_wstrcat(buffer, L" *");
 				SetDlgItemText(hdlg, checkboxes[i].idc, buffer);
 			}
 		}
-		else
-			ShowWindow(GetDlgItem(hdlg, IDC_HINT1), SW_HIDE);
+		else ShowWindow(GetDlgItem(hdlg, IDC_HINT1), SW_HIDE);
 
 		SendMessage(hdlg, WM_USER + 50, 0, 0);
 		return 0;
@@ -72,8 +66,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		case PSN_APPLY:
 			DWORD mod_flags = 0;
 
-			for (i = 0; i < _countof(checkboxes); i++)
-				mod_flags |= IsDlgButtonChecked(hdlg, checkboxes[i].idc) ? checkboxes[i].flag : 0;
+			for (auto &it : checkboxes)
+				mod_flags |= IsDlgButtonChecked(hdlg, it.idc) ? it.flag : 0;
 
 			db_set_dw(NULL, MODULENAME, "flags", mod_flags);
 			return 1;

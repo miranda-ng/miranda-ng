@@ -45,8 +45,8 @@ void LoadActions()
 		{ sizeof(POPUPACTION), LoadIconEx(IDI_ACT_COPY), LPGEN("General") "/" LPGEN("Copy to clipboard"), 0 },
 	};
 
-	for (int i = 0; i < _countof(actions); ++i)
-		RegisterAction(&actions[i]);
+	for (auto &it : actions)
+		RegisterAction(&it);
 }
 
 void UnloadActions()
@@ -174,7 +174,6 @@ static UINT controls[] =
 INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool windowInitialized = false;
-	int i;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -224,7 +223,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			LIST<char> groups(1, strcmp);
 
-			for (i = 0; i < gActions.getCount(); ++i) {
+			for (int i = 0; i < gActions.getCount(); ++i) {
 				char szGroup[64];
 				char *szName = strchr(gActions[i]->lpzTitle, '/');
 				if (!szName) szName = gActions[i]->lpzTitle;
@@ -261,8 +260,8 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			BOOL enabled = (PopupOptions.actions & ACT_ENABLE) ? TRUE : FALSE;
-			for (i = 0; i < _countof(controls); ++i)
-				EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);
+			for (auto &it : controls)
+				EnableWindow(GetDlgItem(hwnd, it), enabled);
 		}
 		windowInitialized = true;
 		break;
@@ -275,8 +274,8 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			{
 				BOOL enabled = (PopupOptions.actions & ACT_ENABLE) ? TRUE : FALSE;
-				for (i = 0; i < _countof(controls); ++i)
-					EnableWindow(GetDlgItem(hwnd, controls[i]), enabled);
+				for (auto &it : controls)
+					EnableWindow(GetDlgItem(hwnd, it), enabled);
 			}
 			break;
 
@@ -344,7 +343,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				db_set_dw(NULL, MODULNAME, "Actions", PopupOptions.actions);
 				HWND hwndList = GetDlgItem(hwnd, IDC_ACTIONS);
 
-				for (i = 0; i < gActions.getCount(); ++i) {
+				for (int i = 0; i < gActions.getCount(); ++i) {
 					gActions[i]->flags = (ListView_GetItemState(hwndList, i, LVIS_STATEIMAGEMASK) == 0x2000) ? PAF_ENABLED : 0;
 					db_set_b(NULL, "PopupActions", gActions[i]->lpzTitle, (gActions[i]->flags & PAF_ENABLED) ? 1 : 0);
 				}

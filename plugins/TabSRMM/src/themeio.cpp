@@ -211,15 +211,11 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CSrmmWindow *dat)
 	}
 	def = SRMSGDEFSET_BKGCOLOUR;
 
-	for (i = 0; i < _countof(_extSettings); i++) {
-		auto &p = _extSettings[i];
-		WritePrivateProfileStringA(p.szIniSection, p.szIniName, _itoa(M.GetDword(p.szDbModule, p.szDbSetting, p.dwDef), szBuf, 10), szIniFilename);
-	}
+	for (auto &it : _extSettings)
+		WritePrivateProfileStringA(it.szIniSection, it.szIniName, _itoa(M.GetDword(it.szDbModule, it.szDbSetting, it.dwDef), szBuf, 10), szIniFilename);
 
-	for (i = 0; i < _countof(_extSettings_v5); i++) {
-		auto &p = _extSettings_v5[i];
-		WritePrivateProfileStringA(p.szIniSection, p.szIniName, _itoa(M.GetDword(p.szDbModule, p.szDbSetting, p.dwDef), szBuf, 10), szIniFilename);
-	}
+	for (auto &it : _extSettings_v5)
+		WritePrivateProfileStringA(it.szIniSection, it.szIniName, _itoa(M.GetDword(it.szDbModule, it.szDbSetting, it.dwDef), szBuf, 10), szIniFilename);
 
 	WritePrivateProfileStringA("Message Log", "VGrid", _itoa(M.GetByte("wantvgrid", 0), szBuf, 10), szIniFilename);
 	WritePrivateProfileStringA("Message Log", "ExtraMicroLF", _itoa(M.GetByte("extramicrolf", 0), szBuf, 10), szIniFilename);
@@ -307,17 +303,12 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 		if (dwFlags & THEME_READ_FONTS) {
 			COLORREF defclr;
 
-			for (i = 0; i < _countof(_extSettings); i++) {
-				db_set_dw(0, _extSettings[i].szDbModule, _extSettings[i].szDbSetting,
-					GetPrivateProfileIntA(_extSettings[i].szIniSection, _extSettings[i].szIniName, _extSettings[i].dwDef, szIniFilename));
-			}
+			for (auto &it : _extSettings)
+				db_set_dw(0, it.szDbModule, it.szDbSetting, GetPrivateProfileIntA(it.szIniSection, it.szIniName, it.dwDef, szIniFilename));
 
-			if (version >= 5) {
-				for (i = 0; i < _countof(_extSettings_v5); i++) {
-					db_set_dw(0, _extSettings_v5[i].szDbModule, _extSettings_v5[i].szDbSetting,
-						GetPrivateProfileIntA(_extSettings_v5[i].szIniSection, _extSettings_v5[i].szIniName, _extSettings_v5[i].dwDef, szIniFilename));
-				}
-			}
+			if (version >= 5)
+				for (auto &it : _extSettings_v5)
+					db_set_dw(0, it.szDbModule, it.szDbSetting, GetPrivateProfileIntA(it.szIniSection, it.szIniName, it.dwDef, szIniFilename));
 
 			db_set_b(0, SRMSGMOD_T, "wantvgrid", (BYTE)(GetPrivateProfileIntA("Message Log", "VGrid", 0, szIniFilename)));
 			db_set_b(0, SRMSGMOD_T, "extramicrolf", (BYTE)(GetPrivateProfileIntA("Message Log", "ExtraMicroLF", 0, szIniFilename)));

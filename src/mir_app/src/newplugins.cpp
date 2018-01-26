@@ -121,8 +121,8 @@ static const MUUID pluginBannedList[] =
 
 static bool isPluginBanned(const MUUID& u1)
 {
-	for (int i = 0; i < _countof(pluginBannedList); i++)
-		if (pluginBannedList[i] == u1)
+	for (auto &it : pluginBannedList)
+		if (it == u1)
 			return true;
 
 	return false;
@@ -156,11 +156,11 @@ int getDefaultPluginIdx(const MUUID &muuid)
 
 int LoadStdPlugins()
 {
-	for (int i = 0; i < _countof(pluginDefault); i++) {
-		if (pluginDefault[i].pImpl)
+	for (auto &it : pluginDefault) {
+		if (it.pImpl)
 			continue;
 
-		if (!LoadCorePlugin(pluginDefault[i]))
+		if (!LoadCorePlugin(it))
 			return 1;
 	}
 
@@ -380,9 +380,9 @@ int Plugin_UnloadDyn(pluginEntry *p)
 
 	// mark default plugins to be loaded
 	if (!(p->pclass & PCLASS_CORE))
-		for (int i = 0; i < _countof(pluginDefault); i++)
-			if (pluginDefault[i].pImpl == p)
-				pluginDefault[i].pImpl = nullptr;
+		for (auto &it : pluginDefault)
+			if (it.pImpl == p)
+				it.pImpl = nullptr;
 
 	return TRUE;
 }

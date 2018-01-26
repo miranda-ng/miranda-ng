@@ -636,8 +636,8 @@ void CSrmmWindow::OnInitDialog()
 	}
 	else m_wStatus = ID_STATUS_OFFLINE;
 
-	for (int i = 0; i < _countof(btnControls); i++)
-		CustomizeButton(GetDlgItem(m_hwnd, btnControls[i]));
+	for (auto &it : btnControls)
+		CustomizeButton(GetDlgItem(m_hwnd, it));
 
 	GetMYUIN();
 	GetClientIcon();
@@ -721,8 +721,8 @@ void CSrmmWindow::OnInitDialog()
 
 	NotifyEvent(MSG_WINDOW_EVT_OPENING);
 
-	for (int i = 0; i < _countof(tooltips); i++)
-		SendDlgItemMessage(m_hwnd, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateW(tooltips[i].text), BATF_UNICODE);
+	for (auto &it : tooltips)
+		SendDlgItemMessage(m_hwnd, it.id, BUTTONADDTOOLTIP, (WPARAM)TranslateW(it.text), BATF_UNICODE);
 
 	SetDlgItemText(m_hwnd, IDC_LOGFROZENTEXT, m_bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 		TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
@@ -733,10 +733,10 @@ void CSrmmWindow::OnInitDialog()
 	SetDlgItemText(m_hwnd, IDC_RETRY, TranslateT("Retry"));
 	{
 		UINT _ctrls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
-		for (int i = 0; i < _countof(_ctrls); i++) {
-			SendDlgItemMessage(m_hwnd, _ctrls[i], BUTTONSETASPUSHBTN, TRUE, 0);
-			SendDlgItemMessage(m_hwnd, _ctrls[i], BUTTONSETASFLATBTN, FALSE, 0);
-			SendDlgItemMessage(m_hwnd, _ctrls[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
+		for (auto &it : _ctrls) {
+			SendDlgItemMessage(m_hwnd, it, BUTTONSETASPUSHBTN, TRUE, 0);
+			SendDlgItemMessage(m_hwnd, it, BUTTONSETASFLATBTN, FALSE, 0);
+			SendDlgItemMessage(m_hwnd, it, BUTTONSETASTHEMEDBTN, TRUE, 0);
 		}
 	}
 
@@ -2443,9 +2443,9 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_CBD_LOADICONS:
-		for (int i = 0; i < _countof(buttonicons); i++) {
-			SendDlgItemMessage(m_hwnd, buttonicons[i].id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)*buttonicons[i].pIcon);
-			SendDlgItemMessage(m_hwnd, buttonicons[i].id, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
+		for (auto &it : buttonicons) {
+			SendDlgItemMessage(m_hwnd, it.id, BM_SETIMAGE, IMAGE_ICON, (LPARAM)*it.pIcon);
+			SendDlgItemMessage(m_hwnd, it.id, BUTTONSETCONTAINER, (LPARAM)m_pContainer, 0);
 		}
 
 		Srmm_UpdateToolbarIcons(m_hwnd);

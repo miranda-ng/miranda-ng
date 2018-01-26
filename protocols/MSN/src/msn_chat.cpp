@@ -60,8 +60,8 @@ int CMsnProto::MSN_ChatInit(GCThreadData *info, const char *pszID, const char *p
 		m_tszUserName, TranslateT("Chat #"), m_chatID);
 	Chat_NewSession(GCW_CHATROOM, m_szModuleName, info->mChatID, szName);
 
-	for (int j = 0; j < _countof(m_ptszRoles); j++)
-		Chat_AddGroup(m_szModuleName, info->mChatID, TranslateW(m_ptszRoles[j]));
+	for (auto &it : m_ptszRoles)
+		Chat_AddGroup(m_szModuleName, info->mChatID, TranslateW(it));
 
 	Chat_Control(m_szModuleName, info->mChatID, SESSION_INITDONE);
 	Chat_Control(m_szModuleName, info->mChatID, SESSION_ONLINE);

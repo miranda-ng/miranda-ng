@@ -374,28 +374,28 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			dat = (AwayMsgDlgData*)mir_alloc(sizeof(AwayMsgDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->oldPage = -1;
-			for (int i = 0; i < _countof(statusModes); i++) {
-				if (!(protoModeMsgFlags & Proto_Status2Flag(statusModes[i])))
+			for (auto &it : statusModes) {
+				if (!(protoModeMsgFlags & Proto_Status2Flag(it)))
 					continue;
 
 				int j;
 				if (hLst) {
-					j = SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModes[i], 0));
-					SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_SETITEMDATA, j, statusModes[i]);
+					j = SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(it, 0));
+					SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_SETITEMDATA, j, it);
 				}
 				else {
-					j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModes[i], 0));
-					SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, j, statusModes[i]);
+					j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(it, 0));
+					SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, j, it);
 				}
 
-				dat->info[j].ignore = GetStatusModeByte(statusModes[i], "Ignore");
-				dat->info[j].noDialog = GetStatusModeByte(statusModes[i], "NoDlg", true);
-				dat->info[j].usePrevious = GetStatusModeByte(statusModes[i], "UsePrev");
+				dat->info[j].ignore = GetStatusModeByte(it, "Ignore");
+				dat->info[j].noDialog = GetStatusModeByte(it, "NoDlg", true);
+				dat->info[j].usePrevious = GetStatusModeByte(it, "UsePrev");
 
 				DBVARIANT dbv;
-				if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Default"), &dbv))
-					if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Msg"), &dbv))
-						dbv.ptszVal = mir_wstrdup(GetDefaultMessage(statusModes[i]));
+				if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(it, "Default"), &dbv))
+					if (db_get_ws(NULL, "SRAway", StatusModeToDbSetting(it, "Msg"), &dbv))
+						dbv.ptszVal = mir_wstrdup(GetDefaultMessage(it));
 				mir_wstrcpy(dat->info[j].msg, dbv.ptszVal);
 				mir_free(dbv.ptszVal);
 			}

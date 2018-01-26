@@ -1348,9 +1348,9 @@ void TSAPI FreeTabConfig()
 	if (PluginConfig.tabConfig.m_hMenuFont)
 		DeleteObject(PluginConfig.tabConfig.m_hMenuFont);
 
-	for (int i = 0; i < _countof(PluginConfig.tabConfig.m_brushes); i++)
-		if (PluginConfig.tabConfig.m_brushes[i])
-			DeleteObject(PluginConfig.tabConfig.m_brushes[i]);
+	for (auto &it : PluginConfig.tabConfig.m_brushes)
+		if (it)
+			DeleteObject(it);
 
 	memset(&PluginConfig.tabConfig, 0, sizeof(PluginConfig.tabConfig));
 }

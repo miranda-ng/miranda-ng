@@ -72,27 +72,27 @@ static void InitDefaultButtons()
 
 void ClcSetButtonState(int ctrlid, int status)
 {
-	for (int i = 0; i < _countof(BTNS); i++)
-		if (BTNS[i].ctrlid == ctrlid) {
-			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, status ? TTBST_PUSHED : 0);
+	for (auto &it : BTNS)
+		if (it.ctrlid == ctrlid) {
+			CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)it.hButton, status ? TTBST_PUSHED : 0);
 			break;
 		}
 }
 
 HWND ClcGetButtonWindow(int ctrlid)
 {
-	for (int i = 0; i < _countof(BTNS); i++)
-		if (BTNS[i].ctrlid == ctrlid)
-			return BTNS[i].hwndButton;
+	for (auto &it : BTNS)
+		if (it.ctrlid == ctrlid)
+			return it.hwndButton;
 
 	return nullptr;
 }
 
 int ClcGetButtonId(HWND hwnd)
 {
-	for (int i = 0; i < _countof(BTNS); i++)
-		if (BTNS[i].hwndButton == hwnd)
-			return BTNS[i].ctrlid;
+	for (auto &it : BTNS)
+		if (it.hwndButton == hwnd)
+			return it.ctrlid;
 
 	return 0;
 }

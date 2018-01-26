@@ -338,12 +338,12 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 		if (sscanf(store, "%s", tmp2) == EOF) continue;
 		//template start
 		bool bFound = false;
-		for (unsigned i = 0; i < _countof(templateNames); i++) {
-			if (!strncmp(store, templateNames[i].tokenString, templateNames[i].tokenLen)) {
+		for (auto &it : templateNames)
+			if (!strncmp(store, it.tokenString, it.tokenLen)) {
 				bFound = true;
 				break;
 			}
-		}
+
 		if (bFound) {
 			if (wasTemplate)
 				tmap->addTemplate(lastTemplate, templateText);
@@ -365,16 +365,16 @@ TemplateMap* TemplateMap::loadTemplateFile(const char *id, const char *filename,
 		"MessageOutGroupStart", "MessageOutGroupInner",
 		"hMessageOutGroupStart", "hMessageOutGroupInner" };
 	tmap->m_grouping = true;
-	for (int i = 0; i < _countof(groupTemplates); i++) {
-		if (tmap->getTemplate(groupTemplates[i]) == nullptr) {
+	for (auto &it : groupTemplates) {
+		if (tmap->getTemplate(it) == nullptr) {
 			tmap->m_grouping = false;
 			break;
 		}
 	}
 	static const char *rtlTemplates[] = { "MessageInRTL", "MessageOutRTL" }; //"HTMLStartRTL",
 	tmap->m_rtl = true;
-	for (int i = 0; i < _countof(rtlTemplates); i++) {
-		if (tmap->getTemplate(rtlTemplates[i]) == nullptr) {
+	for (auto &it : rtlTemplates) {
+		if (tmap->getTemplate(it) == nullptr) {
 			tmap->m_rtl = false;
 			break;
 		}

@@ -84,12 +84,12 @@ void NetLog_CapabilityChange(CIcqProto *ppro, const char *szChange, DWORD fdwCap
 
 	if (!fdwCapabilities) return;
 
-	for (int nIndex = 0; nIndex < _countof(CapabilityNames); nIndex++) {
+	for (auto &it : CapabilityNames) {
 		// Check if the current capability is present
-		if ((fdwCapabilities & CapabilityNames[nIndex].capID) == CapabilityNames[nIndex].capID) {
+		if ((fdwCapabilities & it.capID) == it.capID) {
 			if (mir_strlen(szBuffer))
 				mir_strcat(szBuffer, ", ");
-			mir_strcat(szBuffer, CapabilityNames[nIndex].capName);
+			mir_strcat(szBuffer, it.capName);
 		}
 	}
 	// Log the change

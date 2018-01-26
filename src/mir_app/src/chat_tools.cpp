@@ -681,8 +681,8 @@ wchar_t* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 			PathToAbsoluteW(tszParsedName, si->pszLogFileName);
 		mir_free(tszParsedName);
 
-		for (int i = 0; i < _countof(rva); i++)
-			mir_free(rva[i].value.w);
+		for (auto &it : rva)
+			mir_free(it.value.w);
 
 		for (wchar_t *p = si->pszLogFileName + 2; *p; ++p)
 			if (*p == ':' || *p == '*' || *p == '?' || *p == '"' || *p == '<' || *p == '>' || *p == '|')

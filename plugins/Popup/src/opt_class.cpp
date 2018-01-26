@@ -168,8 +168,6 @@ static statusButtons[] = {
 
 INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int i;
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
@@ -183,7 +181,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			ImageList_ReplaceIcon(hImgLst, -1, LoadIconEx(IDI_OPT_GROUP));
 			TreeView_SetImageList(hwndTree, hImgLst, TVSIL_NORMAL);
 
-			for (i = 0; i < gTreeData.getCount(); ++i) {
+			for (int i = 0; i < gTreeData.getCount(); ++i) {
 				POPUPTREEDATA *p = gTreeData[i];
 
 				wchar_t itemName[MAXMODULELABELLENGTH];
@@ -202,24 +200,24 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			OptTree_Translate(hwndTree);
 
 			// Bold Title
-			for (i = 0; i < _countof(titleIds); ++i) {
+			for (auto &it : titleIds) {
 				LOGFONT lf;
-				GetObject((HFONT)SendDlgItemMessage(hwnd, titleIds[i], WM_GETFONT, 0, 0), sizeof(lf), &lf);
+				GetObject((HFONT)SendDlgItemMessage(hwnd, it, WM_GETFONT, 0, 0), sizeof(lf), &lf);
 				lf.lfWeight = FW_BOLD;
-				SendDlgItemMessage(hwnd, titleIds[i], WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), TRUE);
+				SendDlgItemMessage(hwnd, it, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), TRUE);
 			}
 
 			// spindown for Timeout
 			SendDlgItemMessage(hwnd, IDC_TIMEOUT_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_LIFETIME_MAX, SETTING_LIFETIME_INFINITE));
 			SetDlgItemInt(hwnd, IDC_TIMEOUT, (UINT)0, TRUE);
 			// status buttons
-			for (i = 0; i < _countof(statusButtons); ++i) {
-				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BUTTONSETASFLATBTN, TRUE, 0);
-				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BUTTONSETASPUSHBTN, TRUE, 0);
-				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BM_SETIMAGE,
-					IMAGE_ICON, (LPARAM)Skin_LoadIcon(statusButtons[i].iconId));
-				SendDlgItemMessage(hwnd, statusButtons[i].idCtrl, BUTTONADDTOOLTIP,
-					(WPARAM)Translate(statusButtons[i].title), 0);
+			for (auto &it : statusButtons) {
+				SendDlgItemMessage(hwnd, it.idCtrl, BUTTONSETASFLATBTN, TRUE, 0);
+				SendDlgItemMessage(hwnd, it.idCtrl, BUTTONSETASPUSHBTN, TRUE, 0);
+				SendDlgItemMessage(hwnd, it.idCtrl, BM_SETIMAGE,
+					IMAGE_ICON, (LPARAM)Skin_LoadIcon(it.iconId));
+				SendDlgItemMessage(hwnd, it.idCtrl, BUTTONADDTOOLTIP,
+					(WPARAM)Translate(it.title), 0);
 			}
 			// info icon
 			SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)LoadIconEx(IDI_MB_INFO), 0);
@@ -265,7 +263,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					SendDlgItemMessage(hwnd, IDC_TIMEOUT_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(250, -1));
 					// combo left action (EXTRA)
 					hCtrl = GetDlgItem(hwnd, IDC_LACTION);
-					for (i = 0; i < ptd->notification.actionCount; ++i) {
+					for (int i = 0; i < ptd->notification.actionCount; ++i) {
 						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
 						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateW(psztAction)), ptd->notification.lpActions[i].lpzTitle);
 						mir_free(psztAction); psztAction = nullptr;
@@ -273,25 +271,27 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					// combo right action (EXTRA)
 					hCtrl = GetDlgItem(hwnd, IDC_RACTION);
 					psztAction = nullptr;
-					for (i = 0; i < ptd->notification.actionCount; ++i) {
+					for (int i = 0; i < ptd->notification.actionCount; ++i) {
 						psztAction = mir_a2u(ptd->notification.lpActions[i].lpzTitle);
 						ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateW(psztAction)), ptd->notification.lpActions[i].lpzTitle);
 						mir_free(psztAction); psztAction = nullptr;
 					}
 					// enable all controls
-					for (i = 0; i < _countof(ctrlsAll); ++i){
-						ShowWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp1 ? SW_SHOW : SW_HIDE);
-						EnableWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp1);
+					for (auto &it : ctrlsAll) {
+						ShowWindow(GetDlgItem(hwnd, it.idCtrl), it.onTyp1 ? SW_SHOW : SW_HIDE);
+						EnableWindow(GetDlgItem(hwnd, it.idCtrl), it.onTyp1);
 					}
 					// enable or disable controls ctrlsEnable
-					for (i = 0; i < _countof(ctrlsEnable); ++i)
-						EnableWindow(GetDlgItem(hwnd, ctrlsEnable[i]), ptd->enabled ? TRUE : FALSE);
+					for (auto &it : ctrlsEnable)
+						EnableWindow(GetDlgItem(hwnd, it), ptd->enabled ? TRUE : FALSE);
+					
 					// show or hide controls ctrlsContact
-					for (i = 0; i < _countof(ctrlsContact); ++i)
-						ShowWindow(GetDlgItem(hwnd, ctrlsContact[i]), ptd->notification.dwFlags&PNF_CONTACT ? SW_SHOW : SW_HIDE);
+					for (auto &it : ctrlsContact)
+						ShowWindow(GetDlgItem(hwnd, it), ptd->notification.dwFlags&PNF_CONTACT ? SW_SHOW : SW_HIDE);
+					
 					// statusButtons state
-					for (i = 0; i < _countof(statusButtons); ++i)
-						CheckDlgButton(hwnd, statusButtons[i].idCtrl, ptd->disableWhen & statusButtons[i].disableWhenFlag ? BST_CHECKED : BST_UNCHECKED);
+					for (auto &it : statusButtons)
+						CheckDlgButton(hwnd, it.idCtrl, ptd->disableWhen & it.disableWhenFlag ? BST_CHECKED : BST_UNCHECKED);
 				}
 				// element typ2 (CLASS Plugins)
 				else if (ptd->typ == 2) {
@@ -299,9 +299,9 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					SetDlgItemInt(hwnd, IDC_TIMEOUT, (UINT)ptd->timeoutValue, TRUE);
 					SendDlgItemMessage(hwnd, IDC_TIMEOUT_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(250, -1));
 					// enable ctrls
-					for (i = 0; i < _countof(ctrlsAll); ++i){
-						ShowWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp2 ? SW_SHOW : SW_HIDE);
-						EnableWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp2);
+					for (auto &it : ctrlsAll) {
+						ShowWindow(GetDlgItem(hwnd, it.idCtrl), it.onTyp2 ? SW_SHOW : SW_HIDE);
+						EnableWindow(GetDlgItem(hwnd, it.idCtrl), it.onTyp2);
 					}
 				}
 				// checkbox enable notify
@@ -315,9 +315,9 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			} // end if (tvi.lParam)
 			else {
 				// enable / disable controls
-				for (i = 0; i < _countof(ctrlsAll); ++i) {
-					ShowWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp0 ? SW_SHOW : SW_HIDE);
-					EnableWindow(GetDlgItem(hwnd, ctrlsAll[i].idCtrl), ctrlsAll[i].onTyp0);
+				for (auto &it : ctrlsAll) {
+					ShowWindow(GetDlgItem(hwnd, it.idCtrl), it.onTyp0 ? SW_SHOW : SW_HIDE);
+					EnableWindow(GetDlgItem(hwnd, it.idCtrl), it.onTyp0);
 				}
 			}
 		}
@@ -333,8 +333,8 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				switch (idCtrl) {
 				case IDC_ENABLE:
 					ptd->enabled = (BYTE)Button_GetCheck((HWND)lParam);
-					for (i = 0; i < _countof(ctrlsEnable); ++i)
-						EnableWindow(GetDlgItem(hwnd, ctrlsEnable[i]), ptd->enabled);
+					for (auto &it : ctrlsEnable)
+						EnableWindow(GetDlgItem(hwnd, it), ptd->enabled);
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					break;
 
@@ -378,10 +378,10 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				case IDC_SOFFLINE2: case IDC_SONLINE2:    case IDC_SAWAY2:      case IDC_SNA2:    case IDC_SOCCUPIED2:
 				case IDC_SDND2:     case IDC_SFREE4CHAT2: case IDC_SINVISIBLE2: case IDC_SPHONE2: case IDC_SLUNCH2:
 					ptd->disableWhen = 0;
-					for (i = 0; i < _countof(statusButtons); ++i) {
-						if (IsDlgButtonChecked(hwnd, statusButtons[i].idCtrl))
-							ptd->disableWhen |= statusButtons[i].disableWhenFlag;
-						if (idCtrl == (UINT)statusButtons[i].idCtrl)
+					for (auto &it : statusButtons) {
+						if (IsDlgButtonChecked(hwnd, it.idCtrl))
+							ptd->disableWhen |= it.disableWhenFlag;
+						if (idCtrl == (UINT)it.idCtrl)
 							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					}
 				}
@@ -438,7 +438,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_RESET:
-				for (i = 0; i < gTreeData.getCount(); ++i) {
+				for (int i = 0; i < gTreeData.getCount(); ++i) {
 					POPUPTREEDATA *p = gTreeData[i];
 					switch (p->typ) {
 					case 1:
@@ -453,7 +453,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				return TRUE;
 
 			case PSN_APPLY:
-				for (i = 0; i < gTreeData.getCount(); ++i) {
+				for (int i = 0; i < gTreeData.getCount(); ++i) {
 					POPUPTREEDATA *p = gTreeData[i];
 					switch (p->typ) {
 					case 1:

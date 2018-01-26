@@ -134,10 +134,10 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 	};
 	wchar_t absolute[MAX_PATH];
 
-	for (int i = 0; i < _countof(path); i++) {
-		PathToAbsoluteW(path[i], absolute);
+	for (auto &it : path) {
+		PathToAbsoluteW(it, absolute);
 		if (PathFileExists(absolute))
-			return path[i];
+			return it;
 	}
 	return nullptr;
 }
@@ -330,8 +330,6 @@ void IcoLib_LoadModule()
 	// load default icon if required
 	ghDefIcon = (HICON)IcoLib_GetIcon(ICO_COMMON_DEFAULT, false);
 
-	for (int i = 0; i < _countof(icoDesc); i++)
-		IcoLib_RegisterIconHandleEx(
-			icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection,
-			szDefaultFile, icoDesc[i].idResource, icoDesc[i].size, ghDefIcon);
+	for (auto &it : icoDesc)
+		IcoLib_RegisterIconHandleEx(it.pszName, it.pszDesc, it.pszSection, szDefaultFile, it.idResource, it.size, ghDefIcon);
 }

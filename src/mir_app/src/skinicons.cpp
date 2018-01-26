@@ -341,9 +341,9 @@ MIR_APP_DLL(HICON) Skin_LoadProtoIcon(const char *szProto, int status, bool big)
 
 MIR_APP_DLL(HANDLE) Skin_GetIconHandle(int idx)
 {
-	for (int i = 0; i < _countof(mainIcons); i++)
-		if (idx == mainIcons[i].id)
-			return mainIcons[i].hIcolib;
+	for (auto &it : mainIcons)
+		if (idx == it.id)
+			return it.hIcolib;
 
 	return nullptr;
 }

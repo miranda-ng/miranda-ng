@@ -156,8 +156,8 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Automatic (RTL)"));
 
 			DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
-			for (int i = 0; i < _countof(checkBoxToGroupStyleEx); i++)
-				CheckDlgButton(hwndDlg, checkBoxToGroupStyleEx[i].id, (exStyle & checkBoxToGroupStyleEx[i].flag) ^ (checkBoxToGroupStyleEx[i].flag * checkBoxToGroupStyleEx[i].not_t) ? BST_CHECKED : BST_UNCHECKED);
+			for (auto &it : checkBoxToGroupStyleEx)
+				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
 
 			CheckDlgButton(hwndDlg, IDC_NOGROUPICON, (cfg::dat.dwFlags & CLUI_FRAME_NOGROUPICON) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CENTERGROUPNAMES, db_get_b(NULL, "CLCExt", "EXBK_CenterGroupnames", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -195,11 +195,11 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
 
-				for (int i = 0; i < _countof(checkBoxToGroupStyleEx); i++) {
-					if ((IsDlgButtonChecked(hwndDlg, checkBoxToGroupStyleEx[i].id) == 0) == checkBoxToGroupStyleEx[i].not_t)
-						exStyle |= checkBoxToGroupStyleEx[i].flag;
+				for (auto &it : checkBoxToGroupStyleEx) {
+					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not_t)
+						exStyle |= it.flag;
 					else
-						exStyle &= ~(checkBoxToGroupStyleEx[i].flag);
+						exStyle &= ~(it.flag);
 				}
 				db_set_dw(NULL, "CLC", "ExStyle", exStyle);
 
@@ -602,8 +602,8 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)&accel);
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
 
-			for (int i = 0; i < _countof(checkBoxToStyleEx); i++)
-				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id, (exStyle & checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag * checkBoxToStyleEx[i].not_t) ? BST_CHECKED : BST_UNCHECKED);
+			for (auto &it : checkBoxToStyleEx)
+				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		CheckDlgButton(hwndDlg, IDC_FULLROWSELECT, (cfg::dat.dwFlags & CLUI_FULLROWSELECT) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -658,16 +658,15 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				if (!opt_clc_main_changed)
 					return TRUE;
 
-				int i;
 				DWORD exStyle = db_get_dw(NULL, "CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
 
-				for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++)
-					exStyle &= ~(checkBoxToStyleEx[i].flag);
+				for (auto &it : checkBoxToStyleEx)
+					exStyle &= ~(it.flag);
 
-				for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++) {
-					if ((IsDlgButtonChecked(hwndDlg, checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].not_t)
-						exStyle |= checkBoxToStyleEx[i].flag;
-				}
+				for (auto &it : checkBoxToStyleEx)
+					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not_t)
+						exStyle |= it.flag;
+
 				db_set_dw(NULL, "CLC", "ExStyle", exStyle);
 
 				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));

@@ -609,9 +609,9 @@ static renameTable[] =
 // Returns true if smth. was copied
 static bool CheckFileRename(const wchar_t *ptszOldName, wchar_t *pNewName)
 {
-	for (int i = 0; i < _countof(renameTable); i++) {
-		if (wildcmpiw(ptszOldName, renameTable[i].oldName)) {
-			wchar_t *ptszDest = renameTable[i].newName;
+	for (auto &it : renameTable) {
+		if (wildcmpiw(ptszOldName, it.oldName)) {
+			wchar_t *ptszDest = it.newName;
 			if (ptszDest == nullptr)
 				*pNewName = 0;
 			else {

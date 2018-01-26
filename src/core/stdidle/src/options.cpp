@@ -94,8 +94,8 @@ public:
 		spinIdle.SetRange(60, 1);
 		spinIdle.SetPosition(S.iIdleTime1st);
 
-		for (int j = 0; j < _countof(aa_Status); j++)
-			cmbAAStatus.AddString(pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
+		for (auto &it : aa_Status)
+			cmbAAStatus.AddString(pcli->pfnGetStatusModeDescription(it, 0));
 		cmbAAStatus.SetCurSel(IdleGetStatusIndex(S.bAAStatus));
 
 		ShowHide();

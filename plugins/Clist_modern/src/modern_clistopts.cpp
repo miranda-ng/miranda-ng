@@ -937,10 +937,10 @@ int CListOptInit(WPARAM wParam, LPARAM)
 	odp.szTitle.a = LPGEN("Row items");
 	odp.flags = ODPF_BOLDGROUPS;
 
-	for (int i = 0; i < _countof(row_opt_items); i++) {
-		odp.pszTemplate = MAKEINTRESOURCEA(row_opt_items[i].id);
-		odp.szTab.a = row_opt_items[i].name;
-		odp.pfnDlgProc = row_opt_items[i].wnd_proc;
+	for (auto &it : row_opt_items) {
+		odp.pszTemplate = MAKEINTRESOURCEA(it.id);
+		odp.szTab.a = it.name;
+		odp.pfnDlgProc = it.wnd_proc;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;
