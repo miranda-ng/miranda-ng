@@ -57,6 +57,7 @@ Core\StdUIHist.dll
 Core\StdUrl.dll
 Core\StdUserInfo.dll
 Core\StdUserOnline.dll
+Libs\freeimage.mir
 Libs\libaxolotl.mir
 Libs\libeay32.mir
 Libs\libjson.mir

@@ -58,6 +58,7 @@ Plugins\Dbx_mmap.dll
 Plugins\Dbx_mdbx.dll
 Plugins\DbChecker.dll
 Icons\Proto_MetaContacts.dll
+Libs\FreeImage.mir
 Libs\mir_app.mir
 Libs\mir_core.mir
 Libs\libjson.mir

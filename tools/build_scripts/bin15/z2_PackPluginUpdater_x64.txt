@@ -181,6 +181,7 @@ Core\stduserinfo.dll
 Core\stduseronline.dll
 
 
+Libs\freeimage.mir
 Libs\hunspell.mir
 Libs\libaxolotl.mir
 Libs\libeay32.mir
