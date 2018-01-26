@@ -435,7 +435,7 @@ int LoadContactListModule2(void)
 	ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
 
 	// now all core skin icons are loaded via icon lib. so lets release them
-	for (auto &it : statusModeList)
+	for (auto &it : skinIconStatusList)
 		ImageList_AddIcon_IconLibLoaded(hCListImages, it);
 
 	// see IMAGE_GROUP... in clist.h if you add more images above here
