@@ -501,7 +501,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 	}
 	else {
 		// Try to open if is not a flash or XML
-		hBmp = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFinalName, IMGL_WCHAR);
+		hBmp = Bitmap_Load(szFinalName);
 		if (hBmp == nullptr)
 			return -4;
 	}

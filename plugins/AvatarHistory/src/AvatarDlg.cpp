@@ -462,7 +462,7 @@ bool UpdateAvatarPic(HWND hwnd)
 	}
 	SetDlgItemText(hwnd, IDC_AVATARPATH, le->filename);
 
-	HBITMAP avpic = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)le->filename, IMGL_WCHAR);
+	HBITMAP avpic = Bitmap_Load(le->filename);
 
 	bool found_image = (avpic != nullptr);
 

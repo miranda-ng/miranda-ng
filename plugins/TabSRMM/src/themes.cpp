@@ -752,7 +752,7 @@ static struct
 
 void CImageItem::Create(const wchar_t *szImageFile)
 {
-	HBITMAP hbm = LoadPNG(szImageFile);
+	HBITMAP hbm = Bitmap_Load(szImageFile);
 	BITMAP bm;
 
 	m_hdc = nullptr;
@@ -994,16 +994,6 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 		dwLen = ::SetBitmapBits(hBitmap, dwLen, p);
 		mir_free(p);
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// load PNG image using core service(advaimg)
-
-HBITMAP TSAPI CImageItem::LoadPNG(const wchar_t *szFilename)
-{
-	HBITMAP hBitmap = nullptr;
-	hBitmap = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_WCHAR);
-	return hBitmap;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1675,7 +1665,7 @@ void CSkin::setupAeroSkins()
 		mir_snwprintf(tszFilename, L"%scustom_unknown.png", tszBasePath);
 		if (!PathFileExists(tszFilename))
 			mir_snwprintf(tszFilename, L"%sunknown.png", tszBasePath);
-		PluginConfig.g_hbmUnknown = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR);
+		PluginConfig.g_hbmUnknown = Bitmap_Load(tszFilename);
 		if (PluginConfig.g_hbmUnknown == nullptr) {
 			HDC dc = GetDC(nullptr);
 			PluginConfig.g_hbmUnknown = CreateCompatibleBitmap(dc, 20, 20);
@@ -1807,7 +1797,7 @@ void CSkin::setupAeroSkins()
 	if (!PathFileExists(tszFilename))
 		mir_snwprintf(tszFilename, L"%stabskin_aero_button.png", tszBasePath);
 
-	hbm = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR);
+	hbm = Bitmap_Load(tszFilename);
 
 	CImageItem::Colorize(hbm, GetRValue(m_dwmColorRGB),
 		GetGValue(m_dwmColorRGB),

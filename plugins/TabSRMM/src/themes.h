@@ -227,7 +227,6 @@ public:
 	static void TSAPI	PreMultiply(HBITMAP hBitmap, int mode);
 	static void TSAPI	SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha = 255);
 	static void TSAPI	Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha = 0);
-	static HBITMAP TSAPI LoadPNG(const wchar_t *szFilename);
 
 public:
 	bool			m_fValid;									// verified item, indicates that all parameters are valid

@@ -730,8 +730,7 @@ bool MyBitmap::loadFromFile(const wchar_t *fn)
 	if (!wcsncmp(fn, L"gradient:", mir_wstrlen(L"gradient:")))
 		return loadFromFile_gradient(fn);
 
-	SIZE sz;
-	HBITMAP hBmpLoaded = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)fn, IMGL_WCHAR);
+	HBITMAP hBmpLoaded = Bitmap_Load(fn);
 	if (!hBmpLoaded)
 		return false;
 
@@ -739,6 +738,8 @@ bool MyBitmap::loadFromFile(const wchar_t *fn)
 	SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, nullptr);
 
 	HDC dcTmp = CreateCompatibleDC(nullptr);
+
+	SIZE sz;
 	GetBitmapDimensionEx(hBmpLoaded, &sz);
 	HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp, hBmpLoaded);
 

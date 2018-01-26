@@ -1066,15 +1066,14 @@ void* GGPROTO::img_loadpicture(gg_event* e, wchar_t *szFileName)
 	}
 	// Load image from file
 	else
-		dat->hBitmap = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)szFileName, IMGL_WCHAR);
+		dat->hBitmap = Bitmap_Load(szFileName);
 
 	// If everything is fine return the handle
 	if (dat->hBitmap)
 		return dat;
 
 	debugLogA("img_loadpicture(): MS_IMG_LOAD(MEM) failed.");
-	if (dat)
-	{
+	if (dat) {
 		free(dat->lpData);
 		free(dat->lpszFileName);
 		free(dat);
