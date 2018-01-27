@@ -127,16 +127,16 @@ BEGIN
     CONTROL         "Manually specify connection servers' hosts",IDC_MANUALHOST,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,77,286,10
     EDITTEXT        IDC_HOST,22,91,144,39,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_DISABLED | WS_VSCROLL
-    LTEXT           "* new line is separator\n** hostname:port format",IDC_STATIC,174,92,119,32
+    LTEXT           "* new line is separator\n** hostname:port format",IDC_HOST_LIST_L,174,92,119,32
     CONTROL         "Use SSL secure connection",IDC_SSLCONN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,132,286,10
     GROUPBOX        "File Transfer",IDC_STATIC,4,150,297,58
     CONTROL         "Use direct connections",IDC_DIRECTCONNS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,164,153,10
-    LTEXT           "Port:",IDC_STATIC,161,165,21,8
+    RTEXT           "Port:",IDC_DIRECTPORT_L,157,165,25,8
     EDITTEXT        IDC_DIRECTPORT,186,163,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
-    CONTROL         "Use forwarding",IDC_FORWARDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,178,153,10
-    LTEXT           "Host:",IDC_STATIC,31,192,26,8
+    CONTROL         "Use forwarding",IDC_FORWARDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,178,153,10
+    RTEXT           "Host:",IDC_FORWARDHOST_L,21,192,36,8
     EDITTEXT        IDC_FORWARDHOST,62,191,90,12,ES_AUTOHSCROLL | WS_DISABLED
-    LTEXT           "Port:",IDC_STATIC,161,192,21,8
+    RTEXT           "Port:",IDC_FORWARDPORT_L,157,192,25,8
     EDITTEXT        IDC_FORWARDPORT,186,191,31,12,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     CTEXT           "These changes will take effect the next time you connect to the GG network.",IDC_RELOADREQD,7,213,286,8,NOT WS_VISIBLE
 END

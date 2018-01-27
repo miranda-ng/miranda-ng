@@ -35,13 +35,17 @@ private:
 	
 	CCtrlCheck chkManualHosts;
 	CCtrlEdit edtServerHosts;
+	CCtrlBase txtServerHostsLabel;
 
 	CCtrlCheck chkDirectConnections;
 	CCtrlEdit edtDirectPort;
+	CCtrlBase txtDirectPortLabel;
 
 	CCtrlCheck chkForwarding;
 	CCtrlEdit edtForwardHost;
+	CCtrlBase txtForwardHostLabel;
 	CCtrlEdit edtForwardPort;
+	CCtrlBase txtForwardPortLabel;
 
 	CCtrlBase txtReconnectRequired;
 
@@ -54,4 +58,6 @@ private:
 	void onCheck_ManualHosts(CCtrlCheck*);
 	void onCheck_DirectConnections(CCtrlCheck*);
 	void onCheck_Forwarding(CCtrlCheck*);
+
+	void showRecconectRequired(CCtrlBase* = nullptr);
 };

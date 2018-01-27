@@ -26,11 +26,15 @@ GaduOptionsDlgAdvanced::GaduOptionsDlgAdvanced(GaduProto * proto) :
 	chkSslConnection(this, IDC_SSLCONN),
 	chkManualHosts(this, IDC_MANUALHOST),
 	edtServerHosts(this, IDC_HOST),
+	txtServerHostsLabel(this, IDC_HOST_LIST_L),
 	chkDirectConnections(this, IDC_DIRECTCONNS),
 	edtDirectPort(this, IDC_DIRECTPORT),
+	txtDirectPortLabel(this, IDC_DIRECTPORT_L),
 	chkForwarding(this, IDC_FORWARDING),
 	edtForwardHost(this, IDC_FORWARDHOST),
+	txtForwardHostLabel(this, IDC_FORWARDHOST_L),
 	edtForwardPort(this, IDC_FORWARDPORT),
+	txtForwardPortLabel(this, IDC_FORWARDPORT_L),
 	txtReconnectRequired(this, IDC_RELOADREQD)
 {
 	CreateLink(chkAutoReconnect, proto->m_gaduOptions.autoRecconect);
@@ -51,7 +55,10 @@ GaduOptionsDlgAdvanced::GaduOptionsDlgAdvanced(GaduProto * proto) :
 
 	chkManualHosts.OnChange = Callback(this, &GaduOptionsDlgAdvanced::onCheck_ManualHosts);
 	chkDirectConnections.OnChange = Callback(this, &GaduOptionsDlgAdvanced::onCheck_DirectConnections);
+	edtDirectPort.OnChange = Callback(this, &GaduOptionsDlgAdvanced::showRecconectRequired);
 	chkForwarding.OnChange = Callback(this, &GaduOptionsDlgAdvanced::onCheck_Forwarding);
+	edtForwardHost.OnChange = Callback(this, &GaduOptionsDlgAdvanced::showRecconectRequired);
+	edtForwardPort.OnChange = Callback(this, &GaduOptionsDlgAdvanced::showRecconectRequired);
 }
 
 void GaduOptionsDlgAdvanced::OnInitDialog()
@@ -60,44 +67,61 @@ void GaduOptionsDlgAdvanced::OnInitDialog()
 	chkSslConnection.Disable();
 
 	chkManualHosts.Disable();
-	edtServerHosts.Enable(chkManualHosts.GetState());
-	edtServerHosts.Disable();
+	bool useManualHosts = chkManualHosts.GetState() && chkManualHosts.Enabled();
+	edtServerHosts.Enable(useManualHosts);
+	txtServerHostsLabel.Enable(useManualHosts);
 
 	bool useDirectConnection = chkDirectConnections.GetState();
 	edtDirectPort.Enable(useDirectConnection);
+	txtDirectPortLabel.Enable(useDirectConnection);
 	chkForwarding.Enable(useDirectConnection);
 
-	bool useForwarding = chkForwarding.GetState();
-	edtForwardHost.Enable(useDirectConnection && useForwarding);
-	edtForwardPort.Enable(useDirectConnection && useForwarding);
+	bool useForwarding = useDirectConnection && chkForwarding.GetState();
+	edtForwardHost.Enable(useForwarding);
+	txtForwardHostLabel.Enable(useForwarding);
+	edtForwardPort.Enable(useForwarding);
+	txtForwardPortLabel.Enable(useForwarding);
+
+	txtReconnectRequired.Hide();
 }
 
 void GaduOptionsDlgAdvanced::onCheck_ManualHosts(CCtrlCheck *)
 {
 	bool useManualHosts = chkManualHosts.GetState();
 	edtServerHosts.Enable(useManualHosts);
+	txtServerHostsLabel.Enable(useManualHosts);
 
-	txtReconnectRequired.Show();
+	showRecconectRequired();
 }
 
 void GaduOptionsDlgAdvanced::onCheck_DirectConnections(CCtrlCheck *)
 {
 	bool useDirectConnection = chkDirectConnections.GetState();
 	edtDirectPort.Enable(useDirectConnection);
+	txtDirectPortLabel.Enable(useDirectConnection);
 	chkForwarding.Enable(useDirectConnection);
 
-	bool useForwarding = chkForwarding.GetState();
-	edtForwardHost.Enable(useDirectConnection && useForwarding);
-	edtForwardPort.Enable(useDirectConnection && useForwarding);
+	bool useForwarding = useDirectConnection && chkForwarding.GetState();
+	edtForwardHost.Enable(useForwarding);
+	txtForwardHostLabel.Enable(useForwarding);
+	edtForwardPort.Enable(useForwarding);
+	txtForwardPortLabel.Enable(useForwarding);
 
-	txtReconnectRequired.Show();
+	showRecconectRequired();
 }
 
 void GaduOptionsDlgAdvanced::onCheck_Forwarding(CCtrlCheck *)
 {
 	bool useForwarding = chkForwarding.GetState();
 	edtForwardHost.Enable(useForwarding);
+	txtForwardHostLabel.Enable(useForwarding);
 	edtForwardPort.Enable(useForwarding);
+	txtForwardPortLabel.Enable(useForwarding);
 
+	showRecconectRequired();
+}
+
+void GaduOptionsDlgAdvanced::showRecconectRequired(CCtrlBase*)
+{
 	txtReconnectRequired.Show();
 }
