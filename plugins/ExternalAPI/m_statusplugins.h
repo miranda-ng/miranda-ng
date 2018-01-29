@@ -66,32 +66,6 @@ typedef struct {
 // returns 0 on success
 #define MS_SS_GETPROFILENAME			"StartupStatus/GetProfileName"
 
-// -- AdvancedAutoAway --
-typedef enum {
-	ACTIVE, // user is active
-	STATUS1_SET, // first status change happened
-	STATUS2_SET, // second status change happened
-	SET_ORGSTATUS, // user was active again, original status will be restored
-	HIDDEN_ACTIVE // user is active, but this is not shown to the outside world
-} STATES;
-
-typedef struct {
-	PROTOCOLSETTINGEX* protocolSetting;
-	int originalStatusMode;	// this is set only when going from ACTIVE to STATUS1_SET (or to STATUS2_SET)
-							// (note: this is therefore not always valid)
-	STATES
-		oldState,			// state before the call
-		curState;			// current state
-	BOOL bStatusChanged;		// the status of the protocol will actually be changed
-							// (note: unlike the name suggests, the status is changed AFTER this hook is called)
-	BOOL bManual;			// state changed becuase status was changed manually
-} AUTOAWAYSETTING;
-// wParam = 0;
-// lParam = AUTOAWAYSETTING*
-// Called when a protocol's state in AAA is changed this does NOT necessary means the status was changed
-// note: this hook is called for each protocol seperately
-#define ME_AAA_STATECHANGED				"AdvancedAutoAway/StateChanged"
-
 
 // -- KeepStatus --
 #define KS_CONN_STATE_LOST				1		// lParam = protocol

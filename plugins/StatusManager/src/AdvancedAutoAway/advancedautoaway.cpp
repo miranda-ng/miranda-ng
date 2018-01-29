@@ -51,7 +51,6 @@ TAAAProtoSetting::~TAAAProtoSetting()
 
 int AAALangPack;
 
-static HANDLE hStateChangedEvent = nullptr;
 static HANDLE hEvents[4];
 
 static BOOL ignoreLockKeys = FALSE;
@@ -227,7 +226,6 @@ static int changeState(TAAAProtoSetting &setting, STATES newState)
 
 	log_debugA("%s state change: %s -> %s", setting.m_szName, status2descr(setting.oldState), status2descr(setting.curState));
 
-	NotifyEventHooks(hStateChangedEvent, 0, (LPARAM)&setting);
 	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.statusChanged) {
 		/* change the awaymessage */
 		if (setting.m_szMsg != nullptr) {
@@ -588,8 +586,6 @@ void AdvancedAutoAwayLoad()
 		AutoAwayOptInitialise(0, 0);
 	}
 	else HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
-
-	hStateChangedEvent = CreateHookableEvent(ME_AAA_STATECHANGED);
 }
 
 void AdvancedAutoAwayUnload()
@@ -603,8 +599,6 @@ void AdvancedAutoAwayUnload()
 		UnhookEvent(it);
 		it = nullptr;
 	}
-
-	DestroyHookableEvent(hStateChangedEvent); hStateChangedEvent = nullptr;
 
 	autoAwaySettings.destroy();
 }

@@ -50,6 +50,15 @@
 #define FLAG_ONLOCK         0x0080 // db: on work station lock
 #define FLAG_FULLSCREEN     0x0100 // db: on full screen
 
+typedef enum
+{
+	ACTIVE, // user is active
+	STATUS1_SET, // first status change happened
+	STATUS2_SET, // second status change happened
+	SET_ORGSTATUS, // user was active again, original status will be restored
+	HIDDEN_ACTIVE // user is active, but this is not shown to the outside world
+} STATES;
+
 struct TAAAProtoSetting : public PROTOCOLSETTINGEX, public MZeroedObject
 {
 	TAAAProtoSetting(PROTOACCOUNT *pa);
