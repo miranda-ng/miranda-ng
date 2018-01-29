@@ -154,6 +154,9 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_PUBSUB_EVENT                L"http://jabber.org/protocol/pubsub#event"
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          L"http://jabber.org/protocol/pubsub#node_config"
 
+#define JABBER_FEAT_CARBONS						L"urn:xmpp:carbons:2"
+#define JABBER_CAPS_CARBONS						((JabberCapsBits)1<<43)
+
 #define JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY  ((JabberCapsBits)1<<63)
 #define JABBER_CAPS_OTHER_SPECIAL               (JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY|JABBER_RESOURCE_CAPS_ERROR) // must contain all the caps not listed in g_JabberFeatCapPairs, to prevent using these bits for features registered through IJabberNetInterface::RegisterFeature()
 
@@ -168,6 +171,7 @@ typedef unsigned __int64 JabberCapsBits;
                                      JABBER_CAPS_USER_MOOD_NOTIFY | JABBER_CAPS_USER_TUNE_NOTIFY | JABBER_CAPS_USER_ACTIVITY_NOTIFY  \
 									 | JABBER_CAPS_PLATFORMX86 | JABBER_CAPS_PLATFORMX64)
 
+#define JABBER_XMLNS_FORWARD					L"urn:xmpp:forward:0"
 
 #define JABBER_EXT_SECUREIM                     L"secureim"
 #define JABBER_EXT_MIROTR                       L"mirotr"

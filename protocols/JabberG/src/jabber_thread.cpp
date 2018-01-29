@@ -1051,6 +1051,43 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	if (m_messageManager.HandleMessagePermanent(node, info))
 		return;
 
+	//Handle carbons. The message MUST be coming from our bare JID.
+	HXML carbon = nullptr;
+	bool carbonSent = false; //2 cases: received or sent.
+	if (this->IsMyOwnJID(from)) {
+		carbon = XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_CARBONS);
+		if (!carbon) {
+			carbon = XmlGetChildByTag(node, "sent", "xmlns", JABBER_FEAT_CARBONS);
+			if (carbon)
+				carbonSent = true;
+		}
+		if (carbon) {
+			HXML forwarded = NULL;
+			HXML message = NULL;
+			//Carbons MUST have forwarded/message content
+			if (!(forwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD))
+				|| !(message = XmlGetChild(forwarded, "message")))
+				return;
+
+			//Unwrap the carbon in any case
+			node = message;
+			type = XmlGetAttrValue(node, L"type");
+
+			if (!carbonSent) {
+				//Received should just be treated like incoming messages, except maybe not flash the flasher. Simply unwrap.
+				from = XmlGetAttrValue(node, L"from");
+				if (from == nullptr)
+					return;
+			}
+			else {
+				//Sent should set SENT flag and invert from/to.
+				from = XmlGetAttrValue(node, L"to");
+				if (from == nullptr)
+					return;
+			}
+		}
+	}
+
 	MCONTACT hContact = HContactFromJID(from);
 	JABBER_LIST_ITEM *chatItem = ListGetItemPtr(LIST_CHATROOM, from);
 	if (chatItem) {
@@ -1416,6 +1453,11 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		msgTime = now;
 
 	PROTORECVEVENT recv = { 0 };
+	if (carbon) {
+		recv.flags |= PREF_CREATEREAD;
+		if (carbonSent)
+			recv.flags |= PREF_SENT;
+	}
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = buf;
 	recv.lParam = (LPARAM)((pFromResource != nullptr && m_options.EnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
@@ -1940,6 +1982,17 @@ void CJabberProto::OnProcessRegIq(HXML node, ThreadData *info)
 		info->send("</stream:stream>");
 	}
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Carbons -- this might need to go into its own module
+
+void CJabberProto::EnableCarbons(bool bEnable)
+{
+	m_ThreadInfo->send(XmlNodeIq(L"set", SerialNext())
+		<< XCHILDNS((bEnable) ? L"enable" : L"disable", JABBER_FEAT_CARBONS));
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // ThreadData constructor & destructor
