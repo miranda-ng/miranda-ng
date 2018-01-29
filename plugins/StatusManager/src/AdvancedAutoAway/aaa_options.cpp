@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "..\stdafx.h"
 
-int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName);
+int LoadAutoAwaySetting(SMProto &autoAwaySetting, char* protoName);
 
 INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -28,7 +28,7 @@ static BOOL bSettingSame = FALSE;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Dialog service functions
 
-static int WriteAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char *protoName)
+static int WriteAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_OptionFlags", protoName);
@@ -47,7 +47,7 @@ static int WriteAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char *protoNa
 	return 0;
 }
 
-static void SetDialogItems(HWND hwndDlg, TAAAProtoSetting *setting)
+static void SetDialogItems(HWND hwndDlg, SMProto *setting)
 {
 	bool bIsTimed = (setting->optionFlags & FLAG_ONMOUSE) != 0;
 	bool bSetNA = (setting->optionFlags & FLAG_SETNA) != 0;
@@ -83,7 +83,7 @@ static void SetDialogItems(HWND hwndDlg, TAAAProtoSetting *setting)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PROTOCOL), !bSettingSame);
 }
 
-static TAAAProtoSetting* GetSetting(HWND hwndDlg, TAAAProtoSetting *sameSetting)
+static SMProto* GetSetting(HWND hwndDlg, SMProto *sameSetting)
 {
 	if (bSettingSame)
 		return sameSetting;
@@ -93,12 +93,12 @@ static TAAAProtoSetting* GetSetting(HWND hwndDlg, TAAAProtoSetting *sameSetting)
 		return nullptr;
 
 	INT_PTR iData = (INT_PTR)SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_GETITEMDATA, iItem, 0);
-	return (iData == -1) ? nullptr : (TAAAProtoSetting*)iData;
+	return (iData == -1) ? nullptr : (SMProto*)iData;
 }
 
-static void SetDialogStatus(HWND hwndDlg, TAAAProtoSetting *sameSetting)
+static void SetDialogStatus(HWND hwndDlg, SMProto *sameSetting)
 {
-	TAAAProtoSetting *setting = GetSetting(hwndDlg, sameSetting);
+	SMProto *setting = GetSetting(hwndDlg, sameSetting);
 	if (setting == nullptr)
 		return;
 
@@ -119,17 +119,17 @@ static void SetDialogStatus(HWND hwndDlg, TAAAProtoSetting *sameSetting)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Rules dialog window procedure
 
-int AAACompareSettings(const TAAAProtoSetting *p1, const TAAAProtoSetting *p2)
+int AAACompareSettings(const SMProto *p1, const SMProto *p2)
 {
 	return mir_strcmp(p1->m_szName, p2->m_szName);
 }
 
-static TAAAProtoSettingList optionSettings(10, AAACompareSettings);
+static TProtoSettings optionSettings(10, AAACompareSettings);
 
 static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static TAAAProtoSetting* sameSetting;
-	TAAAProtoSetting *setting;
+	static SMProto* sameSetting;
+	SMProto *setting;
 	static int init;
 
 	switch (msg) {
@@ -138,15 +138,15 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 		TranslateDialogDefault(hwndDlg);
 
 		// copy the settings
-		optionSettings = autoAwaySettings;
+		optionSettings = protoList;
 
-		sameSetting = (TAAAProtoSetting*)malloc(sizeof(TAAAProtoSetting));
+		sameSetting = (SMProto*)malloc(sizeof(SMProto));
 		LoadAutoAwaySetting(*sameSetting, SETTING_ALL);
 
 		// fill list from currentProtoSettings
 		{
 			for (int i = 0; i < optionSettings.getCount(); i++) {
-				TAAAProtoSetting &p = optionSettings[i];
+				SMProto &p = optionSettings[i];
 				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)p.m_tszAccName);
 				SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_SETITEMDATA, item, (LPARAM)&p);
 			}
@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 				for (int i = 0; i < optionSettings.getCount(); i++)
 					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].m_szName);
 			}
-			AAALoadOptions(autoAwaySettings, false);
+			AAALoadOptions();
 		}
 		break;
 
@@ -407,7 +407,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 			db_set_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
 			db_set_b(0, AAAMODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
 			db_set_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
-			AAALoadOptions(autoAwaySettings, false);
+			AAALoadOptions();
 		}
 		break;
 	}

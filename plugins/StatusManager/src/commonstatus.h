@@ -72,18 +72,63 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting);
 int InitCommonStatus();
 bool IsSuitableProto(PROTOACCOUNT *pa);
 
-/* SimpleAway */
+/////////////////////////////////////////////////////////////////////////////////////////
+// external data
 
-// wParam = 0
-// lParam = 0
-// allways returns 1
-#define MS_SA_ISSARUNNING  "SimpleAway/IsSARunning"
+#define STATUS_RESET    1
+#define STATUS_AUTOAWAY 2
+#define STATUS_AUTONA   3
 
-typedef OBJLIST<PROTOCOLSETTINGEX> TProtoSettings;
+#define FLAG_ONSAVER        0x0001 // db: set lv1 status on screensaver ?
+#define FLAG_ONMOUSE        0x0002 // db: set after inactivity ?
+#define FLAG_SETNA          0x0004 // db: set NA after xx of away time ?
+#define FLAG_CONFIRM        0x0008 // db: show confirm dialog ?
+#define FLAG_RESET          0x0010 // db: restore status ?
+#define FLAG_LV2ONINACTIVE  0x0020 // db: set lv2 only on inactivity
+#define FLAG_MONITORMIRANDA 0x0040 // db: monitor miranda activity only
+#define FLAG_ONLOCK         0x0080 // db: on work station lock
+#define FLAG_FULLSCREEN     0x0100 // db: on full screen
 
-extern HINSTANCE hInst;
-extern TProtoSettings *protoList;
+typedef enum
+{
+	ACTIVE, // user is active
+	STATUS1_SET, // first status change happened
+	STATUS2_SET, // second status change happened
+	SET_ORGSTATUS, // user was active again, original status will be restored
+	HIDDEN_ACTIVE // user is active, but this is not shown to the outside world
+} STATES;
 
+struct SMProto : public PROTOCOLSETTINGEX, public MZeroedObject
+{
+	SMProto(PROTOACCOUNT *pa);
+	~SMProto();
+
+	// AdvancedAutoAway settings
+	int originalStatusMode = ID_STATUS_CURRENT;
+	STATES
+		oldState,
+		curState = ACTIVE;
+	BOOL statusChanged; // AAA changed the status, don't update mStatus
+	BOOL mStatus; // status changed manually or not ?
+	int optionFlags, // db: see above
+		awayTime, // db: time to wait for inactivity
+		naTime, // db: time to wait after away is set
+		statusFlags; // db: set lv1 status if this is original status
+	WORD lv1Status, // db
+		lv2Status; // db
+	unsigned int sts1setTimer;
+
+	// KeepStatus
+	int AssignStatus(int status, int lastStatus = 0, wchar_t *szMsg = nullptr);
+	int GetStatus() const;
+
+	int lastStatusAckTime; // the time the last status ack was received
+};
+
+typedef OBJLIST<SMProto> TProtoSettings;
+extern TProtoSettings protoList;
+
+int CompareProtoSettings(const SMProto *p1, const SMProto *p2);
 HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout);
 
 #endif //COMMONSTATUSHEADER

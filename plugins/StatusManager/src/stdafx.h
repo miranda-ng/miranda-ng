@@ -36,25 +36,9 @@
 extern HINSTANCE hInst;
 extern bool g_bMirandaLoaded;
 extern int AAALangPack, KSLangPack, SSLangPack;
+extern CMOption<bool> g_AAAEnabled, g_KSEnabled, g_SSEnabled;
 
-bool IsSubPluginEnabled(const char *name);
-
-class CSubPluginsOptionsDlg : CPluginDlgBase
-{
-private:
-	CCtrlCheck m_enableKeepStatus;
-	CCtrlCheck m_enableStartupStatus;
-	CCtrlCheck m_enableAdvancedAutoAway;
-
-protected:
-	void OnInitDialog();
-	void OnApply();
-
-public:
-	CSubPluginsOptionsDlg();
-
-	static int OnOptionsInit(WPARAM wParam, LPARAM);
-	static CDlgBase *CreateOptionsPage() { return new CSubPluginsOptionsDlg(); }
-};
+int OnCommonOptionsInit(WPARAM wParam, LPARAM);
+void InitCommonOptions();
 
 #endif //_COMMON_H_

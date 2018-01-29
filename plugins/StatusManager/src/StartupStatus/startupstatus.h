@@ -21,17 +21,6 @@
 
 #define SSMODULENAME    "StartupStatus"
 
-struct TSSSetting : public PROTOCOLSETTINGEX, public MZeroedObject
-{
-	TSSSetting(PROTOACCOUNT *pa);
-	TSSSetting(int profile, PROTOACCOUNT *pa);
-	~TSSSetting();
-};
-
-int SSCompareSettings(const TSSSetting *p1, const TSSSetting *p2);
-
-typedef OBJLIST<TSSSetting> TSettingsList;
-
 struct PROFILECE
 {
 	int profile;
@@ -41,14 +30,17 @@ struct PROFILECE
 
 struct PROFILEOPTIONS : public MZeroedObject
 {
+	__inline PROFILEOPTIONS() :
+		ps(10, CompareProtoSettings)
+	{}
+
 	__inline ~PROFILEOPTIONS()
 	{
-		delete ps;
 		mir_free(tszName);
 	}
 
 	wchar_t *tszName;
-	TSettingsList* ps;
+	TProtoSettings ps;
 	BOOL showDialog;
 	BOOL createTtb;
 	BOOL createMmi;
@@ -133,10 +125,11 @@ void StartupStatusUnload();
 
 int SSLoadMainOptions();
 
-TSettingsList* GetCurrentProtoSettings();
+void GetCurrentProtoSettings(TProtoSettings&);
 
 // profile
-int GetProfile(int profileID, TSettingsList& arSettings );
+void FillStatus(SMProto &ps, int profile);
+int GetProfile(int profileID, TProtoSettings& arSettings );
 wchar_t *GetStatusMessage(int profile, char *szProto);
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam);

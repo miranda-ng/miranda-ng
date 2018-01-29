@@ -88,17 +88,6 @@
 #define TRIGGER_CONNGIVEUP           0x20
 #define SETTING_TRIGGERON            "TriggerOn"
 
-struct TKSSettings : public PROTOCOLSETTINGEX
-{
-	TKSSettings(PROTOACCOUNT *pa);
-	~TKSSettings();
-
-	int AssignStatus(int status, int lastStatus = 0, wchar_t *szMsg = nullptr);
-	int GetStatus() const;
-
-	int lastStatusAckTime; // the time the last status ack was received
-};
-
 /* old; replaced by PROTOCOLSETTINGEX see m_statusplugins.h */
 typedef struct {
 	char *szName;	// pointer to protocol modulename

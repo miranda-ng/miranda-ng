@@ -164,7 +164,29 @@ wchar_t* GetStatusMessage(int profile, char *szProto)
 	return pce[pceCount - 1].msg;
 }
 
-int GetProfile(int profile, TSettingsList& arSettings)
+void FillStatus(SMProto &ps, int profile)
+{
+	// load status
+	char setting[80];
+	mir_snprintf(setting, "%d_%s", profile, ps.m_szName);
+	int iStatus = db_get_w(0, SSMODULENAME, setting, 0);
+	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
+		iStatus = DEFAULT_STATUS;
+	ps.m_status = iStatus;
+
+	// load last status
+	mir_snprintf(setting, "%s%s", PREFIX_LAST, ps.m_szName);
+	iStatus = db_get_w(0, SSMODULENAME, setting, 0);
+	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
+		iStatus = DEFAULT_STATUS;
+	ps.m_lastStatus = iStatus;
+
+	ps.m_szMsg = GetStatusMessage(profile, ps.m_szName);
+	if (ps.m_szMsg)
+		ps.m_szMsg = wcsdup(ps.m_szMsg);
+}
+
+int GetProfile(int profile, TProtoSettings &arSettings)
 {
 	if (profile < 0) // get default profile
 		profile = db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
@@ -173,15 +195,8 @@ int GetProfile(int profile, TSettingsList& arSettings)
 	if (profile >= count && count > 0)
 		return -1;
 
-	arSettings.destroy();
-
-	// if count == 0, continue so the default profile will be returned
-	PROTOACCOUNT** protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(protos[i]))
-			arSettings.insert(new TSSSetting(profile, protos[i]));
+	for (int i = 0; i < arSettings.getCount(); i++)
+		FillStatus(arSettings[i], profile);
 
 	return (arSettings.getCount() == 0) ? -1 : 0;
 }
@@ -197,7 +212,7 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 {
 	// wParam == profile no.
 	int profile = (int)iProfileNo;
-	TSettingsList profileSettings(10, SSCompareSettings);
+	TProtoSettings profileSettings(10, CompareProtoSettings);
 	if (!GetProfile(profile, profileSettings)) {
 		profile = (profile >= 0) ? profile : db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 

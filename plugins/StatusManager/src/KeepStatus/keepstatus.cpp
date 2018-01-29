@@ -22,7 +22,7 @@
 int KSLangPack;
 
 static HANDLE hConnectionEvent = nullptr;
-static HANDLE hServices[4], hEvents[3];
+static HANDLE hServices[4], hEvents[2];
 
 static mir_cs GenTimerCS, GenStatusCS, CheckContinueslyCS;
 
@@ -32,13 +32,6 @@ static HANDLE hCSStatusChangeHook = nullptr;
 static HANDLE hCSStatusChangeExHook = nullptr;
 
 static HWND hMessageWindow = nullptr;
-
-static int CompareConnections(const TKSSettings *p1, const TKSSettings *p2)
-{
-	return mir_strcmp(p1->m_szName, p2->m_szName);
-}
-
-static OBJLIST<TKSSettings> connectionSettings(10, CompareConnections);
 
 static UINT_PTR checkConnectionTimerId = 0;
 static UINT_PTR afterCheckTimerId = 0;
@@ -80,22 +73,6 @@ extern int KeepStatusOptionsInit(WPARAM wparam, LPARAM);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TKSSettings::TKSSettings(PROTOACCOUNT *pa)
-{
-	m_szName = pa->szModuleName;
-	m_tszAccName = pa->tszAccountName;
-	m_szMsg = nullptr;
-	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-}
-
-TKSSettings::~TKSSettings()
-{
-	if (m_szMsg != nullptr)
-		free(m_szMsg);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 void KSUnloadOptions()
 {
 	UnhookEvent(hProtoAckHook);
@@ -111,21 +88,11 @@ void KSUnloadOptions()
 		WSACleanup();
 
 	StopTimer(IDT_CHECKCONN | IDT_PROCESSACK | IDT_AFTERCHECK | IDT_CHECKCONTIN | IDT_CHECKCONNECTING);
-
-	connectionSettings.destroy();
 }
 
 int KSLoadOptions()
 {
 	KSUnloadOptions();
-
-	int count;
-	PROTOACCOUNT** protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(protos[i]))
-			connectionSettings.insert(new TKSSettings(protos[i]));
 
 	if (db_get_b(0, KSMODULENAME, SETTING_CHECKCONNECTION, FALSE)) {
 		if (db_get_b(0, KSMODULENAME, SETTING_CONTCHECK, FALSE)) {
@@ -163,18 +130,18 @@ int KSLoadOptions()
 static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 {
 	mir_cslock lck(GenStatusCS);
-	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)malloc(connectionSettings.getCount() * sizeof(PROTOCOLSETTINGEX *));
+	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)malloc(protoList.getCount() * sizeof(PROTOCOLSETTINGEX *));
 	if (ps == nullptr) {
 		return nullptr;
 	}
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
+	for (int i = 0; i < protoList.getCount(); i++) {
 		ps[i] = (PROTOCOLSETTINGEX*)calloc(1, sizeof(PROTOCOLSETTINGEX));
 		if (ps[i] == nullptr) {
 			free(ps);
 			return nullptr;
 		}
 
-		TKSSettings &cs = connectionSettings[i];
+		SMProto &cs = protoList[i];
 		ps[i]->m_lastStatus = cs.m_lastStatus;
 		ps[i]->m_status = cs.m_status;
 		ps[i]->m_szMsg = nullptr;
@@ -187,7 +154,7 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 
 static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
 {
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
+	for (int i = 0; i < protoList.getCount(); i++) {
 		if (ps[i]->m_szMsg != nullptr)
 			free(ps[i]->m_szMsg);
 		free(ps[i]);
@@ -195,7 +162,7 @@ static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
 	free(ps);
 }
 
-int TKSSettings::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
+int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 {
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		return -1;
@@ -233,7 +200,7 @@ int TKSSettings::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 	return 0;
 }
 
-int TKSSettings::GetStatus() const 
+int SMProto::GetStatus() const
 {
 	switch (m_status) {
 	case ID_STATUS_CURRENT:
@@ -248,10 +215,10 @@ int TKSSettings::GetStatus() const
 static int SetCurrentStatus()
 {
 	PROTOCOLSETTINGEX **ps = GetCurrentProtoSettingsCopy();
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
+	for (int i = 0; i < protoList.getCount(); i++) {
 		auto p = ps[i];
 		int realStatus = CallProtoService(p->m_szName, PS_GETSTATUS, 0, 0);
-		int curStatus = connectionSettings[i].GetStatus();
+		int curStatus = protoList[i].GetStatus();
 		if (curStatus == ID_STATUS_DISABLED || curStatus == realStatus) { // ignore this proto by removing it's name (not so nice)
 			p->m_szName = "";
 		}
@@ -276,14 +243,14 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 {
 	char *szProto = (char *)lParam;
 	if (szProto == nullptr) { // global status change
-		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			TKSSettings &cs = connectionSettings[i];
+		for (int i = 0; i < protoList.getCount(); i++) {
+			SMProto &cs = protoList[i];
 			cs.AssignStatus(wParam, 0, cs.m_szMsg);
 		}
 	}
 	else {
-		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			TKSSettings &cs = connectionSettings[i];
+		for (int i = 0; i < protoList.getCount(); i++) {
+			SMProto &cs = protoList[i];
 			if (!mir_strcmp(cs.m_szName, szProto))
 				cs.AssignStatus(wParam, 0, cs.m_szMsg);
 		}
@@ -300,13 +267,13 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 		if (protoSettings == nullptr)
 			return -1;
 
-		for (int i = 0; i < connectionSettings.getCount(); i++) {
+		for (int i = 0; i < protoList.getCount(); i++) {
 			auto psi = protoSettings[i];
 			if (psi->szName == nullptr)
 				continue;
 
-			for (int j = 0; j < connectionSettings.getCount(); j++) {
-				TKSSettings &cs = connectionSettings[i];
+			for (int j = 0; j < protoList.getCount(); j++) {
+				SMProto &cs = protoList[i];
 				if (cs.m_szName == nullptr)
 					continue;
 
@@ -327,13 +294,13 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 		if (protoSettings == nullptr)
 			return -1;
 
-		for (int i = 0; i < connectionSettings.getCount(); i++) {
+		for (int i = 0; i < protoList.getCount(); i++) {
 			auto psi = protoSettings[i];
 			if (psi->m_szName == nullptr)
 				continue;
 
-			for (int j = 0; j < connectionSettings.getCount(); j++) {
-				TKSSettings &cs = connectionSettings[i];
+			for (int j = 0; j < protoList.getCount(); j++) {
+				SMProto &cs = protoList[i];
 				if (cs.m_szName == nullptr)
 					continue;
 
@@ -515,8 +482,8 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
-		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			TKSSettings &cs = connectionSettings[i];
+		for (int i = 0; i < protoList.getCount(); i++) {
+			SMProto &cs = protoList[i];
 			if (!mir_strcmp(cs.m_szName, ack->szModule))
 				cs.lastStatusAckTime = GetTickCount();
 		}
@@ -526,14 +493,14 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 
 	if (ack->type == ACKTYPE_LOGIN) {
 		if (ack->lParam == LOGINERR_OTHERLOCATION) {
-			for (int i = 0; i < connectionSettings.getCount(); i++) {
-				TKSSettings &cs = connectionSettings[i];
+			for (int i = 0; i < protoList.getCount(); i++) {
+				SMProto &cs = protoList[i];
 				if (!mir_strcmp(ack->szModule, cs.m_szName)) {
 					cs.AssignStatus(ID_STATUS_OFFLINE);
 					if (db_get_b(0, KSMODULENAME, SETTING_CNCOTHERLOC, 0)) {
 						StopTimer(IDT_PROCESSACK);
-						for (int j = 0; j < connectionSettings.getCount(); j++)
-							connectionSettings[j].AssignStatus(ID_STATUS_OFFLINE);
+						for (int j = 0; j < protoList.getCount(); j++)
+							protoList[j].AssignStatus(ID_STATUS_OFFLINE);
 					}
 
 					NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_OTHERLOCATION, (LPARAM)cs.m_szName);
@@ -548,8 +515,8 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 			switch (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING)) {
 			case LOGINERR_CANCEL:
 				log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
-				for (int i = 0; i < connectionSettings.getCount(); i++) {
-					TKSSettings &cs = connectionSettings[i];
+				for (int i = 0; i < protoList.getCount(); i++) {
+					SMProto &cs = protoList[i];
 					if (!mir_strcmp(ack->szModule, cs.m_szName))
 						cs.AssignStatus(ID_STATUS_OFFLINE);
 				}
@@ -581,8 +548,8 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	StopTimer(IDT_CHECKCONNECTING);
 
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &cs = protoList[i];
 
 		int curStatus = cs.GetStatus();
 		if (IsStatusConnecting(curStatus)) { // connecting
@@ -603,8 +570,8 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 	bool needChecking = false;
 
 	StopTimer(IDT_PROCESSACK);
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &cs = protoList[i];
 
 		int curStatus = cs.GetStatus();
 		int newStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
@@ -641,8 +608,8 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 	log_debugA("CheckConnectionTimer");
 	bool setStatus = false;
 
-	for (int i = 0; i < connectionSettings.getCount() && !setStatus; i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount() && !setStatus; i++) {
+		SMProto &cs = protoList[i];
 		int realStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
 		int shouldBeStatus = cs.GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST)
@@ -682,8 +649,8 @@ static int StopChecking()
 	StopTimer(IDT_CHECKCONN | IDT_PROCESSACK | IDT_AFTERCHECK | IDT_CHECKCONNECTING);
 
 	BOOL isOk = TRUE;
-	for (int i = 0; i < connectionSettings.getCount() && isOk; i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount() && isOk; i++) {
+		SMProto &cs = protoList[i];
 		int curStatus = cs.GetStatus();
 		int newStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
 		if (newStatus != curStatus) {
@@ -708,8 +675,8 @@ static VOID CALLBACK AfterCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 
 	bool setStatus = false;
 
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &cs = protoList[i];
 		int realStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
 		int shouldBeStatus = cs.GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST) // this should never happen
@@ -735,8 +702,8 @@ static void CheckContinuouslyFunction(void *)
 
 	// do a ping, even if reconnecting
 	bool doPing = false;
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &cs = protoList[i];
 		int shouldBeStatus = cs.GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST)
 			shouldBeStatus = cs.m_lastStatus;
@@ -910,7 +877,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
 			memset(protoInfo, '\0', sizeof(protoInfo));
 			mir_wstrcpy(protoInfo, L"\r\n");
-			for (int i = 0; i < connectionSettings.getCount(); i++) {
+			for (int i = 0; i < protoList.getCount(); i++) {
 				if (mir_wstrlen(ps[i]->m_tszAccName) > 0 && mir_strlen(ps[i]->m_szName) > 0) {
 					if (db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
 						mir_snwprintf(protoInfoLine, TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->m_tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->m_status, 0));
@@ -1038,8 +1005,8 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	int ret = -2;
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &cs = protoList[i];
 		if (!mir_strcmp(szProto, cs.m_szName)) {
 			if (wParam)
 				cs.AssignStatus(CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0));
@@ -1062,8 +1029,8 @@ INT_PTR IsProtocolEnabledService(WPARAM, LPARAM lParam)
 	if (!db_get_b(0, KSMODULENAME, dbSetting, 1))
 		return FALSE;
 
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &cs = protoList[i];
 		if (!mir_strcmp(szProto, cs.m_szName))
 			return cs.GetStatus() != ID_STATUS_DISABLED;
 	}
@@ -1076,8 +1043,8 @@ INT_PTR AnnounceStatusChangeService(WPARAM, LPARAM lParam)
 	PROTOCOLSETTINGEX *newSituation = (PROTOCOLSETTINGEX *)lParam;
 	log_infoA("Another plugin announced a status change to %d for %s", newSituation->m_status, newSituation->m_szName == nullptr ? "all" : newSituation->m_szName);
 
-	for (int i = 0; i < connectionSettings.getCount(); i++) {
-		TKSSettings &cs = connectionSettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &cs = protoList[i];
 		if (!mir_strcmp(cs.m_szName, newSituation->m_szName))
 			cs.AssignStatus(newSituation->m_status, newSituation->m_lastStatus, newSituation->m_szMsg);
 	}
@@ -1099,7 +1066,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 			log_infoA("KeepStatus: suspend state detected: %08X %08X", wParam, lParam);
 			if (ps == nullptr) {
 				ps = GetCurrentProtoSettingsCopy();
-				for (int i = 0; i < connectionSettings.getCount(); i++)
+				for (int i = 0; i < protoList.getCount(); i++)
 					EnableProtocolService(0, (LPARAM)ps[i]->m_szName);
 
 				// set proto's offline, the clist will not try to reconnect in that case
@@ -1112,8 +1079,8 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 		case PBT_APMRESUMECRITICAL:
 			log_infoA("KeepStatus: resume from suspend state");
 			if (ps != nullptr) {
-				for (int i = 0; i < connectionSettings.getCount(); i++)
-					connectionSettings[i].AssignStatus(ps[i]->m_status, ps[i]->m_lastStatus, ps[i]->m_szMsg);
+				for (int i = 0; i < protoList.getCount(); i++)
+					protoList[i].AssignStatus(ps[i]->m_status, ps[i]->m_lastStatus, ps[i]->m_szMsg);
 				FreeProtoSettings(ps);
 				ps = nullptr;
 			}
@@ -1134,29 +1101,6 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Account control event
-
-int OnKSAccChanged(WPARAM wParam, LPARAM lParam)
-{
-	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
-	switch (wParam) {
-	case PRAC_ADDED:
-		connectionSettings.insert(new TKSSettings(pa));
-		break;
-
-	case PRAC_REMOVED:
-		for (int i = 0; i < connectionSettings.getCount(); i++) {
-			if (!mir_strcmp(connectionSettings[i].m_szName, pa->szModuleName)) {
-				connectionSettings.remove(i);
-				break;
-			}
-		}
-		break;
-	}
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // init stuff
 
 static int onShutdown(WPARAM, LPARAM)
@@ -1169,14 +1113,11 @@ static int onShutdown(WPARAM, LPARAM)
 
 int KSModuleLoaded(WPARAM, LPARAM)
 {
-	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&connectionSettings;
-
 	hMessageWindow = nullptr;
 	KSLoadOptions();
 
 	hEvents[0] = HookEvent(ME_OPT_INITIALISE, KeepStatusOptionsInit);
 	hEvents[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, onShutdown);
-	hEvents[2] = HookEvent(ME_PROTO_ACCLISTCHANGED, OnKSAccChanged);
 	return 0;
 }
 
@@ -1184,11 +1125,10 @@ void KeepStatusLoad()
 {
 	KSLangPack = GetPluginLangId(MIID_LAST, 0);
 
-	if (g_bMirandaLoaded) {
+	if (g_bMirandaLoaded)
 		KSModuleLoaded(0, 0);
-		KeepStatusOptionsInit(0, 0);
-	}
-	else HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
+	else
+		HookEvent(ME_SYSTEM_MODULESLOADED, KSModuleLoaded);
 
 	hConnectionEvent = CreateHookableEvent(ME_KS_CONNECTIONEVENT);
 

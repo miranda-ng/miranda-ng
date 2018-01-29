@@ -24,14 +24,36 @@
 // handles for hooks and other Miranda thingies
 static HANDLE hCSStatusChangedExEvent;
 
-OBJLIST<PROTOCOLSETTINGEX> *protoList;
+int CompareProtoSettings(const SMProto *p1, const SMProto *p2)
+{
+	return mir_strcmp(p1->m_szName, p2->m_szName);
+}
 
+OBJLIST<SMProto> protoList(10, CompareProtoSettings);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+SMProto::SMProto(PROTOACCOUNT *pa)
+{
+	m_szName = pa->szModuleName;
+	m_tszAccName = pa->tszAccountName;
+	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+}
+
+SMProto::~SMProto()
+{
+	free(m_szMsg);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // prototypes
+
 char* StatusModeToDbSetting(int status, const char *suffix);
 DWORD StatusModeToProtoFlag(int status);
 INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam);
 
 // some helpers from awaymsg.c ================================================================
+
 char *StatusModeToDbSetting(int status, const char *suffix)
 {
 	char *prefix;
@@ -79,6 +101,7 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 			return CallProtoService(protoSetting->m_szName, PS_GETSTATUS, 0, 0);
 		return protoSetting->m_lastStatus;
 	}
+	
 	if (protoSetting->m_status == ID_STATUS_CURRENT)
 		return CallProtoService(protoSetting->m_szName, PS_GETSTATUS, 0, 0);
 
@@ -105,7 +128,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 {
 	int i, j, pstatus = 0, gstatus = 0;
 
-	for (i = 0; i < protoList->getCount(); i++)
+	for (i = 0; i < protoList.getCount(); i++)
 		if (ps[i]->m_szMsg != nullptr && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE)
 			return 0;
 
@@ -118,7 +141,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 			continue;
 
 		pstatus = 0;
-		for (j = 0; j < protoList->getCount(); j++)
+		for (j = 0; j < protoList.getCount(); j++)
 			if (!mir_strcmp(protos[i]->szModuleName, ps[j]->m_szName))
 				pstatus = GetActualStatus(ps[j]);
 
@@ -187,10 +210,10 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 	// issue with setting global status;
 	// things get messy because SRAway hooks ME_CLIST_STATUSMODECHANGE, so the status messages of SRAway and
 	// commonstatus will clash
-	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&protoSettings, protoList->getCount());
+	NotifyEventHooks(hCSStatusChangedExEvent, (WPARAM)&protoSettings, protoList.getCount());
 
 	// set all status messages first
-	for (int i = 0; i < protoList->getCount(); i++) {
+	for (int i = 0; i < protoList.getCount(); i++) {
 		char *szProto = protoSettings[i]->m_szName;
 		if (!Proto_GetAccount(szProto)) {
 			log_debugA("CommonStatus: %s is not loaded", szProto);

@@ -401,7 +401,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return 0;
 }
 
-HWND ShowConfirmDialogEx(OBJLIST<PROTOCOLSETTINGEX> *params, int _timeout)
+HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout)
 {
 	delete confirmSettings;
 	confirmSettings = new OBJLIST<TConfirmSetting>(10, CompareSettings);

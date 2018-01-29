@@ -1,84 +1,90 @@
 #include "stdafx.h"
 
-bool IsSubPluginEnabled(const char *name)
-{
-	// Check if this plugin was disabled as separate dll
-	CMStringA dllName(FORMAT, "%s.dll", name);
-	dllName.MakeLower();
-	int dllEnabled = !db_get_b(0, "PluginDisable", dllName);
-
-	char setting[128];
-	mir_snprintf(setting, "%s_enabled", name);
-	return db_get_b(0, MODULENAME, setting, dllEnabled) != 0;
-}
+CMOption<bool> g_AAAEnabled(MODULENAME, AAAMODULENAME "_enabled", true);
+CMOption<bool> g_KSEnabled(MODULENAME, KSMODULENAME "_enabled", true);
+CMOption<bool> g_SSEnabled(MODULENAME, SSMODULENAME "_enabled", true);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSubPluginsOptionsDlg::CSubPluginsOptionsDlg() :
-	CPluginDlgBase(hInst, IDD_OPT_SUBPLUGINS, MODULENAME),
-	m_enableKeepStatus(this, IDC_ENABLE_KEEPSTATUS),
-	m_enableStartupStatus(this, IDC_ENABLE_STARTUPSTATUS),
-	m_enableAdvancedAutoAway(this, IDC_ENABLE_ADVANCEDAUTOAWAY)
+class CSubPluginsOptionsDlg : public CPluginDlgBase
 {
-}
+	CCtrlCheck m_enableKeepStatus;
+	CCtrlCheck m_enableStartupStatus;
+	CCtrlCheck m_enableAdvancedAutoAway;
 
-void CSubPluginsOptionsDlg::OnInitDialog()
-{
-	CDlgBase::OnInitDialog();
-
-	m_enableKeepStatus.SetState(IsSubPluginEnabled(KSMODULENAME));
-	m_enableStartupStatus.SetState(IsSubPluginEnabled(SSMODULENAME));
-	m_enableAdvancedAutoAway.SetState(IsSubPluginEnabled(AAAMODULENAME));
-}
-
-void CSubPluginsOptionsDlg::OnApply()
-{
-	char setting[128];
-	mir_snprintf(setting, "%s_enabled", KSMODULENAME);
-	int bEnabled = m_enableKeepStatus.GetState();
-	if (bEnabled != db_get_b(0, MODULENAME, setting)) {
-		db_set_b(0, MODULENAME, setting, m_enableKeepStatus.GetState());
-
-		if (bEnabled)
-			KeepStatusLoad();
-		else
-			KeepStatusUnload();
+public:
+	CSubPluginsOptionsDlg()
+		: CPluginDlgBase(hInst, IDD_OPT_SUBPLUGINS, MODULENAME),
+		m_enableKeepStatus(this, IDC_ENABLE_KEEPSTATUS),
+		m_enableStartupStatus(this, IDC_ENABLE_STARTUPSTATUS),
+		m_enableAdvancedAutoAway(this, IDC_ENABLE_ADVANCEDAUTOAWAY)
+	{
+		CreateLink(m_enableKeepStatus, g_KSEnabled);
+		CreateLink(m_enableStartupStatus, g_SSEnabled);
+		CreateLink(m_enableAdvancedAutoAway, g_AAAEnabled);
 	}
 
-	mir_snprintf(setting, "%s_enabled", SSMODULENAME);
-	bEnabled = m_enableStartupStatus.GetState();
-	if (bEnabled != db_get_b(0, MODULENAME, setting)) {
-		db_set_b(0, MODULENAME, setting, m_enableStartupStatus.GetState());
+	void OnApply() override
+	{
+		bool bEnabled = m_enableKeepStatus.GetState();
+		if (bEnabled != g_KSEnabled) {
+			if (bEnabled)
+				KeepStatusLoad();
+			else
+				KeepStatusUnload();
+		}
 
-		if (bEnabled)
-			StartupStatusLoad();
-		else
-			StartupStatusUnload();
+		bEnabled = m_enableStartupStatus.GetState();
+		if (bEnabled != g_SSEnabled) {
+			if (bEnabled)
+				StartupStatusLoad();
+			else
+				StartupStatusUnload();
+		}
+
+		bEnabled = m_enableAdvancedAutoAway.GetState();
+		if (bEnabled != g_AAAEnabled) {
+			if (bEnabled)
+				AdvancedAutoAwayLoad();
+			else
+				AdvancedAutoAwayUnload();
+		}
 	}
-	
-	mir_snprintf(setting, "%s_enabled", AAAMODULENAME);
-	bEnabled = m_enableAdvancedAutoAway.GetState();
-	if (bEnabled != db_get_b(0, MODULENAME, setting)) {
-		db_set_b(0, MODULENAME, setting, m_enableAdvancedAutoAway.GetState());
+};
 
-		if (bEnabled)
-			AdvancedAutoAwayLoad();
-		else
-			AdvancedAutoAwayUnload();
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int CSubPluginsOptionsDlg::OnOptionsInit(WPARAM wParam, LPARAM)
+int OnCommonOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 	odp.szGroup.w = LPGENW("Status");
 	odp.szTitle.w = LPGENW("Status manager");
-	odp.pDialog = CSubPluginsOptionsDlg::CreateOptionsPage();
+	odp.pDialog = new CSubPluginsOptionsDlg();
 	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool IsSubPluginEnabled(const char *name)
+{
+	// Check if this plugin was disabled as separate dll
+	CMStringA dllName(FORMAT, "%s.dll", name);
+	dllName.MakeLower();
+	bool res = !db_get_b(0, "PluginDisable", dllName);
+
+	db_unset(0, "PluginDisable", dllName);
+	return res;
+}
+
+void InitCommonOptions()
+{
+	// if this options dialog was never filled, apply default options
+	if (db_get_b(0, MODULENAME, AAAMODULENAME "_enabled", -1) == -1) {
+		g_AAAEnabled = IsSubPluginEnabled(AAAMODULENAME);
+		g_KSEnabled = IsSubPluginEnabled(KSMODULENAME);
+		g_SSEnabled = IsSubPluginEnabled(SSMODULENAME);
+	}
+}
+

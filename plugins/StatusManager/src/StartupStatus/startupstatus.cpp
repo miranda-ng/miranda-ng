@@ -21,49 +21,8 @@
 
 int SSLangPack;
 
-static HANDLE hServices[3], hEvents[4];
+static HANDLE hServices[3], hEvents[3];
 static UINT_PTR setStatusTimerId = 0;
-
-static TSettingsList startupSettings(10, SSCompareSettings);
-
-TSSSetting::TSSSetting(PROTOACCOUNT *pa)
-{
-	m_szName = pa->szModuleName;
-	m_tszAccName = pa->tszAccountName;
-	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-	m_szMsg = nullptr;
-}
-
-TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
-{
-	// copy name
-	m_szName = pa->szModuleName;
-	m_tszAccName = pa->tszAccountName;
-
-	// load status
-	char setting[80];
-	mir_snprintf(setting, "%d_%s", profile, pa->szModuleName);
-	int iStatus = db_get_w(0, SSMODULENAME, setting, 0);
-	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
-		iStatus = DEFAULT_STATUS;
-	m_status = iStatus;
-
-	// load last status
-	mir_snprintf(setting, "%s%s", PREFIX_LAST, m_szName);
-	iStatus = db_get_w(0, SSMODULENAME, setting, 0);
-	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
-		iStatus = DEFAULT_STATUS;
-	m_lastStatus = iStatus;
-
-	m_szMsg = GetStatusMessage(profile, m_szName);
-	if (m_szMsg)
-		m_szMsg = wcsdup(m_szMsg);
-}
-
-TSSSetting::~TSSSetting()
-{
-	free(m_szMsg);
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,7 +35,7 @@ static BYTE showDialogOnStartup = 0;
 /////////////////////////////////////////////////////////////////////////////////////////
 // command line options
 
-static PROTOCOLSETTINGEX* IsValidProtocol(TSettingsList& protoSettings, char* protoName)
+static PROTOCOLSETTINGEX* IsValidProtocol(TProtoSettings &protoSettings, const char *protoName)
 {
 	for (int i = 0; i < protoSettings.getCount(); i++)
 		if (!strncmp(protoSettings[i].m_szName, protoName, mir_strlen(protoSettings[i].m_szName)))
@@ -113,7 +72,7 @@ static int IsValidStatusDesc(char* statusDesc)
 	return 0;
 }
 
-static void ProcessCommandLineOptions(TSettingsList& protoSettings)
+static void ProcessCommandLineOptions(TProtoSettings& protoSettings)
 {
 	if (protoSettings.getCount() == 0)
 		return;
@@ -156,7 +115,7 @@ static void ProcessCommandLineOptions(TSettingsList& protoSettings)
 	}
 }
 
-static void SetLastStatusMessages(TSettingsList &ps)
+static void SetLastStatusMessages(TProtoSettings &ps)
 {
 	for (int i = 0; i < ps.getCount(); i++) {
 		if (ps[i].m_status != ID_STATUS_LAST)
@@ -176,27 +135,6 @@ static void SetLastStatusMessages(TSettingsList &ps)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Account control event
 
-int OnSSAccChanged(WPARAM wParam, LPARAM lParam)
-{
-	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
-	switch (wParam) {
-	case PRAC_ADDED:
-		startupSettings.insert(new TSSSetting(-1, pa));
-		break;
-
-	case PRAC_REMOVED:
-		for (int i = 0; i < startupSettings.getCount(); i++) {
-			if (!mir_strcmp(startupSettings[i].m_szName, pa->szModuleName)) {
-				startupSettings.remove(i);
-				break;
-			}
-		}
-		break;
-	}
-
-	return 0;
-}
-
 // 'allow override'
 static int ProcessProtoAck(WPARAM, LPARAM lParam)
 {
@@ -205,12 +143,12 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS && ack->result != ACKRESULT_FAILED)
 		return 0;
 
-	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
+	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
 		return 0;
 
-	for (int i = 0; i < startupSettings.getCount(); i++) {
-		if (!mir_strcmp(ack->szModule, startupSettings[i].m_szName)) {
-			startupSettings[i].m_szName = "";
+	for (int i = 0; i < protoList.getCount(); i++) {
+		if (!mir_strcmp(ack->szModule, protoList[i].m_szName)) {
+			protoList[i].m_szName = "";
 			log_debugA("StartupStatus: %s overridden by ME_PROTO_ACK, status will not be set", ack->szModule);
 		}
 	}
@@ -221,20 +159,20 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 static int StatusChange(WPARAM, LPARAM lParam)
 {
 	// change by menu
-	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
+	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
 		return 0;
 
 	char *szProto = (char *)lParam;
 	if (szProto == nullptr) { // global status change
-		for (int i = 0; i < startupSettings.getCount(); i++) {
-			startupSettings[i].m_szName = "";
+		for (int i = 0; i < protoList.getCount(); i++) {
+			protoList[i].m_szName = "";
 			log_debugA("StartupStatus: all protos overridden by ME_CLIST_STATUSMODECHANGE, status will not be set");
 		}
 	}
 	else {
-		for (int i = 0; i < startupSettings.getCount(); i++) {
-			if (!mir_strcmp(startupSettings[i].m_szName, szProto)) {
-				startupSettings[i].m_szName = "";
+		for (int i = 0; i < protoList.getCount(); i++) {
+			if (!mir_strcmp(protoList[i].m_szName, szProto)) {
+				protoList[i].m_szName = "";
 				log_debugA("StartupStatus: %s overridden by ME_CLIST_STATUSMODECHANGE, status will not be set", szProto);
 			}
 		}
@@ -246,7 +184,7 @@ static int StatusChange(WPARAM, LPARAM lParam)
 static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 {
 	// another status plugin made the change
-	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0)
+	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
 		return 0;
 
 	if (wParam != 0) {
@@ -254,15 +192,15 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 		if (ps == nullptr)
 			return -1;
 
-		for (int i = 0; i < startupSettings.getCount(); i++) {
-			for (int j = 0; j < startupSettings.getCount(); j++) {
-				if (ps[i]->m_szName == nullptr || startupSettings[j].m_szName == nullptr)
+		for (int i = 0; i < protoList.getCount(); i++) {
+			for (int j = 0; j < protoList.getCount(); j++) {
+				if (ps[i]->m_szName == nullptr || protoList[j].m_szName == nullptr)
 					continue;
 
-				if (!mir_strcmp(ps[i]->m_szName, startupSettings[j].m_szName)) {
+				if (!mir_strcmp(ps[i]->m_szName, protoList[j].m_szName)) {
 					log_debugA("StartupStatus: %s overridden by MS_CS_SETSTATUSEX, status will not be set", ps[i]->m_szName);
 					// use a hack to disable this proto
-					startupSettings[j].m_szName = "";
+					protoList[j].m_szName = "";
 				}
 			}
 		}
@@ -277,7 +215,7 @@ static void CALLBACK SetStatusTimed(HWND, UINT, UINT_PTR, DWORD)
 	UnhookEvent(hProtoAckHook);
 	UnhookEvent(hCSStatusChangeHook);
 	UnhookEvent(hStatusChangeHook);
-	CallService(MS_CS_SETSTATUSEX, (WPARAM)&startupSettings, 0);
+	CallService(MS_CS_SETSTATUSEX, (WPARAM)&protoList, 0);
 }
 
 static int OnOkToExit(WPARAM, LPARAM)
@@ -370,7 +308,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	if (hMessageWindow)
 		DestroyWindow(hMessageWindow);
 
-	startupSettings.destroy();
+	protoList.destroy();
 	return 0;
 }
 
@@ -393,28 +331,25 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 
 int SSModuleLoaded(WPARAM, LPARAM)
 {
-	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&startupSettings;
-
 	InitProfileModule();
 
-	hEvents[0] = HookEvent(ME_PROTO_ACCLISTCHANGED, OnSSAccChanged);
-	hEvents[1] = HookEvent(ME_OPT_INITIALISE, StartupStatusOptionsInit);
+	hEvents[0] = HookEvent(ME_OPT_INITIALISE, StartupStatusOptionsInit);
 
 	/* shutdown hook for normal shutdown */
-	hEvents[2] = HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
-	hEvents[3] = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
+	hEvents[1] = HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
+	hEvents[2] = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	/* message window for poweroff */
 	hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
 
-	GetProfile(-1, startupSettings);
+	GetProfile(-1, protoList);
 
 	// override with cmdl
-	ProcessCommandLineOptions(startupSettings);
-	if (startupSettings.getCount() == 0)
+	ProcessCommandLineOptions(protoList);
+	if (protoList.getCount() == 0)
 		return 0;// no protocols are loaded
 
-	SetLastStatusMessages(startupSettings);
+	SetLastStatusMessages(protoList);
 	showDialogOnStartup = (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, 0));
 
 	// dial
@@ -424,7 +359,7 @@ int SSModuleLoaded(WPARAM, LPARAM)
 
 	// set the status!
 	if (showDialogOnStartup || db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, 0))
-		ShowConfirmDialogEx((TProtoSettings*)&startupSettings, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
+		ShowConfirmDialogEx((TProtoSettings*)&protoList, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
 	else if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1)) {
 		// set hooks for override
 		if (db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1)) {
@@ -479,18 +414,17 @@ int SSModuleLoaded(WPARAM, LPARAM)
 
 static INT_PTR SrvGetProfile(WPARAM wParam, LPARAM lParam)
 {
-	return GetProfile((int)wParam, *(TSettingsList*)lParam);
+	return GetProfile((int)wParam, *(TProtoSettings*)lParam);
 }
 
 void StartupStatusLoad()
 {
 	SSLangPack = GetPluginLangId(MIID_LAST, 0);
 
-	if (g_bMirandaLoaded) {
+	if (g_bMirandaLoaded)
 		SSModuleLoaded(0, 0);
-		StartupStatusOptionsInit(0, 0);
-	}
-	else HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
+	else
+		HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
 	if (db_get_b(0, SSMODULENAME, SETTING_SETPROFILE, 1) || db_get_b(0, SSMODULENAME, SETTING_OFFLINECLOSE, 0))
 		db_set_w(0, "CList", "Status", (WORD)ID_STATUS_OFFLINE);

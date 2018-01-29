@@ -63,7 +63,7 @@ MUUID miidAutoAway = MIID_AUTOAWAY;
 
 MUUID* GetInterfaces(void)
 {
-	if (IsSubPluginEnabled(AAAMODULENAME))
+	if (g_AAAEnabled)
 		Interfaces[0] = miidAutoAway;
 	return Interfaces;
 };
@@ -78,7 +78,40 @@ bool g_bMirandaLoaded = false;
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	g_bMirandaLoaded = true;
-	HookEvent(ME_OPT_INITIALISE, CSubPluginsOptionsDlg::OnOptionsInit);
+
+	HookEvent(ME_OPT_INITIALISE, OnCommonOptionsInit);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	int count;
+	PROTOACCOUNT** protos;
+	Proto_EnumAccounts(&count, &protos);
+
+	for (int i = 0; i < count; i++)
+		if (IsSuitableProto(protos[i]))
+			protoList.insert(new SMProto(protos[i]));
+
+	return 0;
+}
+
+int OnAccChanged(WPARAM wParam, LPARAM lParam)
+{
+	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
+	switch (wParam) {
+	case PRAC_ADDED:
+		protoList.insert(new SMProto(pa));
+		break;
+
+	case PRAC_REMOVED:
+		for (int i = 0; i < protoList.getCount(); i++) {
+			if (!mir_strcmp(protoList[i].m_szName, pa->szModuleName)) {
+				protoList.remove(i);
+				break;
+			}
+		}
+		break;
+	}
+
 	return 0;
 }
 
@@ -88,15 +121,17 @@ extern "C" int __declspec(dllexport) Load(void)
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
 
 	InitCommonStatus();
+	InitCommonOptions();
 
-	if (IsSubPluginEnabled(KSMODULENAME))
-		KeepStatusLoad();
-	if (IsSubPluginEnabled(SSMODULENAME))
-		StartupStatusLoad();
-	if (IsSubPluginEnabled(AAAMODULENAME))
+	if (g_AAAEnabled)
 		AdvancedAutoAwayLoad();
+	if (g_KSEnabled)
+		KeepStatusLoad();
+	if (g_SSEnabled)
+		StartupStatusLoad();
 	return 0;
 }
 
@@ -105,11 +140,11 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (IsSubPluginEnabled(KSMODULENAME))
+	if (g_KSEnabled)
 		KeepStatusUnload();
-	if (IsSubPluginEnabled(SSMODULENAME))
+	if (g_SSEnabled)
 		StartupStatusUnload();
-	if (IsSubPluginEnabled(AAAMODULENAME))
+	if (g_AAAEnabled)
 		AdvancedAutoAwayUnload();
 	return 0;
 }

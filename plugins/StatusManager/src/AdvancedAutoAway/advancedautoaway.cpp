@@ -30,28 +30,9 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TAAAProtoSettingList autoAwaySettings(10, AAACompareSettings);
-
-TAAAProtoSetting::TAAAProtoSetting(PROTOACCOUNT *pa)
-{
-	m_szName = pa->szModuleName;
-	m_tszAccName = pa->tszAccountName;
-	m_lastStatus = m_status = originalStatusMode = ID_STATUS_CURRENT;
-	m_szMsg = nullptr;
-	curState = ACTIVE;
-	mStatus = FALSE;
-}
-
-TAAAProtoSetting::~TAAAProtoSetting()
-{
-	free(m_szMsg);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int AAALangPack;
 
-static HANDLE hEvents[4];
+static HANDLE hEvents[3];
 
 static BOOL ignoreLockKeys = FALSE;
 static BOOL ignoreSysKeys = FALSE;
@@ -88,21 +69,20 @@ extern char *StatusModeToDbSetting(int status, const char *suffix);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load from DB
 
-void AAAUnloadOptions(bool bOverride)
+void AAAUnloadOptions()
 {
-	if (!bOverride)
-		UnhookWindowsHooks();
+	UnhookWindowsHooks();
 	if (hAutoAwayTimer != 0)
 		KillTimer(nullptr, hAutoAwayTimer);
 }
 
-void AAALoadOptions(TAAAProtoSettingList &loadSettings, bool bOverride)
+void AAALoadOptions()
 {
 	// if bOverride is enabled, samesettings will be ignored (for options loading)
 	int monitorMiranda = FALSE; // use windows hooks?
 	int monitorAll = FALSE; // use windows hooks?
 
-	AAAUnloadOptions(bOverride);
+	AAAUnloadOptions();
 
 	ignoreLockKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNLOCK, FALSE);
 	ignoreSysKeys = db_get_b(0, AAAMODULENAME, SETTING_IGNSYSKEYS, FALSE);
@@ -111,19 +91,18 @@ void AAALoadOptions(TAAAProtoSettingList &loadSettings, bool bOverride)
 	monitorKeyboard = db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, TRUE);
 	lastInput = lastMirandaInput = GetTickCount();
 
-	for (int i = 0; i < loadSettings.getCount(); i++) {
+	for (int i = 0; i < protoList.getCount(); i++) {
 		char* protoName;
-		if ((db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0)) && !bOverride)
+		if ((db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0)))
 			protoName = SETTING_ALL;
 		else
-			protoName = loadSettings[i].m_szName;
-		LoadAutoAwaySetting(loadSettings[i], protoName);
-		if (!bOverride) {
-			if (loadSettings[i].optionFlags & FLAG_MONITORMIRANDA)
-				monitorMiranda = TRUE;
-			else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
-				monitorAll = TRUE;
-		}
+			protoName = protoList[i].m_szName;
+		LoadAutoAwaySetting(protoList[i], protoName);
+
+		if (protoList[i].optionFlags & FLAG_MONITORMIRANDA)
+			monitorMiranda = TRUE;
+		else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
+			monitorAll = TRUE;
 	}
 
 	if (db_get_b(0, "Idle", "AAEnable", 0))
@@ -133,7 +112,7 @@ void AAALoadOptions(TAAAProtoSettingList &loadSettings, bool bOverride)
 	hAutoAwayTimer = SetTimer(nullptr, 0, db_get_w(0, AAAMODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5) * 1000, AutoAwayTimer);
 }
 
-int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName)
+int LoadAutoAwaySetting(SMProto &autoAwaySetting, char* protoName)
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_OptionFlags", protoName);
@@ -165,8 +144,8 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	log_debugA("ProcessProtoAck: ack->szModule: %s", ack->szModule);
-	for (int i = 0; i < autoAwaySettings.getCount(); i++) {
-		TAAAProtoSetting &p = autoAwaySettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto &p = protoList[i];
 		log_debugA("chk: %s", p.m_szName);
 		if (!mir_strcmp(p.m_szName, ack->szModule)) {
 			log_debugA("ack->szModule: %s p.statusChanged: %d", ack->szModule, p.statusChanged);
@@ -183,27 +162,6 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Account control event
 
-int OnAAAAccChanged(WPARAM wParam, LPARAM lParam)
-{
-	PROTOACCOUNT *pa = (PROTOACCOUNT*)lParam;
-	switch (wParam) {
-	case PRAC_ADDED:
-		autoAwaySettings.insert(new TAAAProtoSetting(pa));
-		break;
-
-	case PRAC_REMOVED:
-		for (int i = 0; i < autoAwaySettings.getCount(); i++) {
-			if (!mir_strcmp(autoAwaySettings[i].m_szName, pa->szModuleName)) {
-				autoAwaySettings.remove(i);
-				break;
-			}
-		}
-		break;
-	}
-
-	return 0;
-}
-
 static char* status2descr(int status)
 {
 	switch (status) {
@@ -216,7 +174,7 @@ static char* status2descr(int status)
 	return "ERROR";
 }
 
-static int changeState(TAAAProtoSetting &setting, STATES newState)
+static int changeState(SMProto &setting, STATES newState)
 {
 	if (setting.curState == newState)
 		return 0;
@@ -254,8 +212,8 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	int statusChanged = FALSE;
 	int confirm = FALSE;
 
-	for (int i = 0; i < autoAwaySettings.getCount(); i++) {
-		TAAAProtoSetting& aas = autoAwaySettings[i];
+	for (int i = 0; i < protoList.getCount(); i++) {
+		SMProto& aas = protoList[i];
 		aas.m_status = ID_STATUS_DISABLED;
 
 		BOOL bTrigger = false;
@@ -362,11 +320,11 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			changeState(aas, ACTIVE);
 			aas.sts1setTimer = 0;
 		}
-		autoAwaySettings[i].mStatus = FALSE;
+		protoList[i].mStatus = FALSE;
 	}
 
 	if (confirm || statusChanged) {
-		TAAAProtoSettingList ps = autoAwaySettings;
+		TProtoSettings ps = protoList;
 		for (int i = 0; i < ps.getCount(); i++) {
 			if (ps[i].m_szMsg)
 				ps[i].m_szMsg = wcsdup(ps[i].m_szMsg);
@@ -376,7 +334,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		}
 
 		if (confirm)
-			confirmDialog = ShowConfirmDialogEx((TProtoSettings*)&ps, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));
+			confirmDialog = ShowConfirmDialogEx(&ps, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));
 		else if (statusChanged)
 			CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 	}
@@ -545,35 +503,22 @@ static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lPa
 
 static int AutoAwayShutdown(WPARAM, LPARAM)
 {
-	AAAUnloadOptions(false);
+	AAAUnloadOptions();
 	return 0;
 }
 
 int AAAModuleLoaded(WPARAM, LPARAM)
 {
-	hEvents[0] = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAAAAccChanged);
-	hEvents[1] = HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
-	hEvents[2] = HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);
-	hEvents[3] = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
+	hEvents[0] = HookEvent(ME_OPT_INITIALISE, AutoAwayOptInitialise);
+	hEvents[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, AutoAwayShutdown);
+	hEvents[2] = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
 	
 	mouseStationaryTimer = 0;
 	lastInput = lastMirandaInput = GetTickCount();
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	protoList = (OBJLIST<PROTOCOLSETTINGEX>*)&autoAwaySettings;
-
-	int count;
-	PROTOACCOUNT** protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(protos[i]))
-			autoAwaySettings.insert(new TAAAProtoSetting(protos[i]));
-
-	////////////////////////////////////////////////////////////////////////////////////////
-
-	AAALoadOptions(autoAwaySettings, false);
+	AAALoadOptions();
 	return 0;
 }
 
@@ -581,11 +526,10 @@ void AdvancedAutoAwayLoad()
 {
 	AAALangPack = GetPluginLangId(MIID_LAST, 0);
 
-	if (g_bMirandaLoaded) {
+	if (g_bMirandaLoaded)
 		AAAModuleLoaded(0, 0);
-		AutoAwayOptInitialise(0, 0);
-	}
-	else HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
+	else
+		HookEvent(ME_SYSTEM_MODULESLOADED, AAAModuleLoaded);
 }
 
 void AdvancedAutoAwayUnload()
@@ -600,5 +544,5 @@ void AdvancedAutoAwayUnload()
 		it = nullptr;
 	}
 
-	autoAwaySettings.destroy();
+	protoList.destroy();
 }

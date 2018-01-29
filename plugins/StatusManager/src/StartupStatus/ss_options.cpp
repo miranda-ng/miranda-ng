@@ -27,30 +27,6 @@ char* OptName(int i, const char* setting)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-int SSCompareSettings(const TSSSetting *p1, const TSSSetting *p2)
-{
-	return mir_strcmp(p1->m_szName, p2->m_szName);
-}
-
-TSettingsList* GetCurrentProtoSettings()
-{
-	int count;
-	PROTOACCOUNT **protos;
-	Proto_EnumAccounts(&count, &protos);
-
-	TSettingsList *result = new TSettingsList(count, SSCompareSettings);
-	if (result == nullptr)
-		return nullptr;
-
-	for (int i = 0; i < count; i++)
-		if (IsSuitableProto(protos[i]))
-			result->insert(new TSSSetting(protos[i]));
-
-	return result;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Command line processing
 
 static char* GetStatusDesc(int status)
@@ -71,7 +47,7 @@ static char* GetStatusDesc(int status)
 	return "offline";
 }
 
-static char* GetCMDLArguments(TSettingsList& protoSettings)
+static char* GetCMDLArguments(TProtoSettings& protoSettings)
 {
 	if (protoSettings.getCount() == 0)
 		return nullptr;
@@ -107,7 +83,7 @@ static char* GetCMDLArguments(TSettingsList& protoSettings)
 	return cmdl;
 }
 
-static char* GetCMDL(TSettingsList& protoSettings)
+static char* GetCMDL(TProtoSettings& protoSettings)
 {
 	char path[MAX_PATH];
 	GetModuleFileNameA(nullptr, path, MAX_PATH);
@@ -127,14 +103,14 @@ static char* GetCMDL(TSettingsList& protoSettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Link processing
 
-static wchar_t* GetLinkDescription(TSettingsList& protoSettings)
+static wchar_t* GetLinkDescription(TProtoSettings& protoSettings)
 {
 	if (protoSettings.getCount() == 0)
 		return nullptr;
 
 	CMStringW result(SHORTCUT_DESC);
 	for (int i = 0; i < protoSettings.getCount(); i++) {
-		TSSSetting &p = protoSettings[i];
+		SMProto &p = protoSettings[i];
 
 		wchar_t *status;
 		if (p.m_status == ID_STATUS_LAST)
@@ -158,7 +134,7 @@ static wchar_t* GetLinkDescription(TSettingsList& protoSettings)
 	return mir_wstrndup(result, result.GetLength());
 }
 
-HRESULT CreateLink(TSettingsList& protoSettings)
+HRESULT CreateLink(TProtoSettings& protoSettings)
 {
 	wchar_t savePath[MAX_PATH];
 	if (SHGetSpecialFolderPath(nullptr, savePath, 0x10, FALSE))
@@ -201,13 +177,13 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 
 INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static TSettingsList* optionsProtoSettings;
+	static TProtoSettings* optionsProtoSettings;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			optionsProtoSettings = (TSettingsList*)lParam;
+			optionsProtoSettings = (TProtoSettings*)lParam;
 			char* cmdl = GetCMDL(*optionsProtoSettings);
 			SetDlgItemTextA(hwndDlg, IDC_CMDL, cmdl);
 			free(cmdl);
@@ -421,15 +397,13 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				int defProfile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 
-				TSettingsList* ps = GetCurrentProtoSettings();
-				if (ps) {
-					GetProfile(defProfile, *ps);
-					for (int i = 0; i < ps->getCount(); i++)
-						if ((*ps)[i].m_szMsg != nullptr)
-							(*ps)[i].m_szMsg = wcsdup((*ps)[i].m_szMsg);
+				TProtoSettings ps = protoList;
+				GetProfile(defProfile, ps);
+				for (int i = 0; i < ps.getCount(); i++)
+					if (ps[i].m_szMsg != nullptr)
+						ps[i].m_szMsg = wcsdup(ps[i].m_szMsg);
 
-					CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CMDLOPTIONS), hwndDlg, CmdlOptionsDlgProc, (LPARAM)ps);
-				}
+				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CMDLOPTIONS), hwndDlg, CmdlOptionsDlgProc, (LPARAM)&ps);
 				break;
 			}
 		}
@@ -573,7 +547,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 
 		// fill proto list
 		lstAccount.ResetContent();
-		TSettingsList& ar = *arProfiles[sel].ps;
+		TProtoSettings &ar = arProfiles[sel].ps;
 		for (int i = 0; i < ar.getCount(); i++)
 			lstAccount.AddString(ar[i].m_tszAccName, (LPARAM)&ar[i]);
 		lstAccount.SetCurSel(0);
@@ -586,7 +560,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 		int idx = lstAccount.GetCurSel();
 		if (idx != -1) {
 			// fill status box
-			TSSSetting* ps = (TSSSetting*)lstAccount.GetItemData(idx);
+			SMProto* ps = (SMProto*)lstAccount.GetItemData(idx);
 
 			int flags = (CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_2, 0))&~(CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_5, 0));
 			lstStatus.ResetContent();
@@ -616,7 +590,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 		bool bStatusMsg = false;
 		int idx = lstAccount.GetCurSel();
 		if (idx != -1) {
-			TSSSetting *ps = (TSSSetting*)lstAccount.GetItemData(idx);
+			SMProto *ps = (SMProto*)lstAccount.GetItemData(idx);
 
 			CheckRadioButton(m_hwnd, IDC_MIRANDAMSG, IDC_CUSTOMMSG, ps->m_szMsg != nullptr ? IDC_CUSTOMMSG : IDC_MIRANDAMSG);
 			if (ps->m_szMsg != nullptr)
@@ -690,8 +664,8 @@ public:
 
 		for (int i = 0; i < profileCount; i++) {
 			PROFILEOPTIONS *ppo = new PROFILEOPTIONS;
-			ppo->ps = GetCurrentProtoSettings();
-			TSettingsList& ar = *ppo->ps;
+			ppo->ps = protoList;
+			TProtoSettings &ar = ppo->ps;
 
 			if (GetProfile(i, ar) == -1) {
 				/* create an empty profile */
@@ -754,7 +728,7 @@ public:
 			db_set_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), po.hotKey);
 			db_set_ws(0, SSMODULENAME, OptName(i, SETTING_PROFILENAME), po.tszName);
 
-			TSettingsList& ar = *po.ps;
+			TProtoSettings &ar = po.ps;
 			for (int j = 0; j < ar.getCount(); j++) {
 				if (ar[j].m_szMsg != nullptr) {
 					char setting[128];
@@ -809,7 +783,7 @@ public:
 	{
 		int idx = lstAccount.GetCurSel();
 		if (idx != -1) {
-			TSSSetting* ps = (TSSSetting*)lstAccount.GetItemData(idx);
+			SMProto* ps = (SMProto*)lstAccount.GetItemData(idx);
 			ps->m_status = lstStatus.GetItemData(lstStatus.GetCurSel());
 			NotifyChange();
 		}
@@ -829,7 +803,7 @@ public:
 	void onChange_StatusMsg(CCtrlCheck*)
 	{
 		int len;
-		TSSSetting* ps = (TSSSetting*)lstAccount.GetItemData(lstAccount.GetCurSel());
+		SMProto* ps = (SMProto*)lstAccount.GetItemData(lstAccount.GetCurSel());
 		if (ps->m_szMsg != nullptr)
 			free(ps->m_szMsg);
 
@@ -852,7 +826,7 @@ public:
 	{
 		// update the status message in memory, this is done on each character tick, not nice
 		// but it works
-		TSSSetting* ps = (TSSSetting*)lstAccount.GetItemData(lstAccount.GetCurSel());
+		SMProto* ps = (SMProto*)lstAccount.GetItemData(lstAccount.GetCurSel());
 		if (ps->m_szMsg != nullptr) {
 			if (*ps->m_szMsg)
 				free(ps->m_szMsg);
@@ -897,10 +871,10 @@ public:
 
 			PROFILEOPTIONS* ppo = new PROFILEOPTIONS;
 			ppo->tszName = mir_wstrdup(tszName);
-			ppo->ps = GetCurrentProtoSettings();
+			ppo->ps = protoList;
 			arProfiles.insert(ppo);
 
-			ReinitProfiles();;
+			ReinitProfiles();
 			break;
 		}
 
