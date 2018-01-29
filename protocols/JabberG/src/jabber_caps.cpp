@@ -76,6 +76,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{ JABBER_FEAT_ROSTER_EXCHANGE,      JABBER_CAPS_ROSTER_EXCHANGE,      LPGENW("Supports Roster Exchange") },
 	{ JABBER_FEAT_DIRECT_MUC_INVITE,    JABBER_CAPS_DIRECT_MUC_INVITE,    LPGENW("Supports direct chat invitations (XEP-0249)") },
 	{ JABBER_FEAT_OMEMO_DEVICELIST_NOTIFY,			JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY,		  LPGENW("Receives information about OMEMO devices") },
+	{ JABBER_FEAT_CARBONS,				JABBER_CAPS_CARBONS,			  LPGENW("Supports message carbons (XEP-0280)")},
 	{ nullptr }
 };
 

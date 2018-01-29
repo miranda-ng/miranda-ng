@@ -737,6 +737,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	bool   ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info);
 
+	void   EnableCarbons(bool bEnable);
+
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const wchar_t *jid);
 
