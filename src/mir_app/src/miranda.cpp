@@ -111,16 +111,19 @@ static void __cdecl compactHeapsThread(void*)
 	Thread_SetName("compactHeapsThread");
 
 	while (!Miranda_IsTerminated()) {
-		HANDLE hHeaps[256];
-		DWORD hc;
 		SleepEx((1000 * 60) * 5, TRUE); // every 5 minutes
-		hc = GetProcessHeaps(255, (PHANDLE)&hHeaps);
+
+		HANDLE hHeaps[256];
+		DWORD hc = GetProcessHeaps(255, (PHANDLE)&hHeaps);
 		if (hc != 0 && hc < 256) {
-			DWORD j;
-			for (j = 0; j < hc; j++)
-				HeapCompact(hHeaps[j], 0);
+			__try {
+				for (DWORD j = 0; j < hc; j++)
+					HeapCompact(hHeaps[j], 0);
+			}
+			__except (EXCEPTION_EXECUTE_HANDLER)
+			{}
 		}
-	} //while
+	}
 }
 
 void(*SetIdleCallback) (void) = nullptr;
