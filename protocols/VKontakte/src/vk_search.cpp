@@ -112,8 +112,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 
 	const JSONNode &jnItems = !jnResponse["items"] ? jnResponse : jnResponse["items"];
-	for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-		const JSONNode &jnRecord = (*it);
+	for (auto &jnRecord : jnItems) {
 		if (!jnRecord)
 			break;
 
@@ -170,8 +169,7 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		return;
 	}
 
-	for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-		const JSONNode &jnRecord = (*it);
+	for (auto &jnRecord : jnItems) {
 		if (!jnRecord)
 			break;
 

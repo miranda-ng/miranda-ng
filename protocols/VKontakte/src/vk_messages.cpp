@@ -241,8 +241,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	debugLogA("CVkProto::OnReceiveMessages numMessages = %d", numMessages);
 
-	for (auto it = jnMsgs.begin(); it != jnMsgs.end(); ++it) {
-		const JSONNode &jnMsg = (*it);
+	for (auto &jnMsg : jnMsgs) {
 		if (!jnMsg) {
 			debugLogA("CVkProto::OnReceiveMessages pMsg == nullptr");
 			break;
@@ -378,9 +377,9 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	LIST<void> lufUsers(20, PtrKeySortT);
 	const JSONNode &jnUsers = jnResponse["users"];
 	if (jnUsers)
-		for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
-			int iUserId = (*it)["user_id"].as_int();
-			int iStatus = (*it)["friend_status"].as_int();
+		for (auto &it : jnUsers) {
+			int iUserId = it["user_id"].as_int();
+			int iStatus = it["friend_status"].as_int();
 
 			// iStatus == 3 - user is friend
 			// uid < 0 - user is group
@@ -392,8 +391,8 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	const JSONNode &jnGroups = jnResponse["groups"];
 	if (jnGroups)
-		for (auto it = jnGroups.begin(); it != jnGroups.end(); ++it) {
-			int iUserId = 1000000000 + (*it).as_int();
+		for (auto &it : jnGroups) {
+			int iUserId = 1000000000 + it.as_int();
 
 			if (lufUsers.indexOf((HANDLE)iUserId) != -1)
 				continue;
@@ -403,11 +402,11 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	CMStringA szGroupIds;
 
-	for (auto it = jnDlgs.begin(); it != jnDlgs.end(); ++it) {
-		if (!(*it))
+	for (auto &it : jnDlgs) {
+		if (!it)
 			break;
-		int numUnread = (*it)["unread"].as_int();
-		const JSONNode &jnDlg = (*it)["message"];
+		int numUnread = it["unread"].as_int();
+		const JSONNode &jnDlg = it["message"];
 		if (!jnDlg)
 			break;
 

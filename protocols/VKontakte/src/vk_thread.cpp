@@ -606,8 +606,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (!isChatRoom(hContact) && !IsGroupUser(hContact))
 			arContacts.insert((HANDLE)hContact);
 
-	for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
-		hContact = SetContactInfo((*it));
+	for (auto &it : jnUsers) {
+		hContact = SetContactInfo(it);
 		if (hContact)
 			arContacts.remove((HANDLE)hContact);
 	}
@@ -642,8 +642,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		return;
 
 	debugLogA("CVkProto::OnReceiveUserInfo AuthRequests");
-	for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-		LONG userid = (*it).as_int();
+	for (auto it : jnItems) {
+		LONG userid = it.as_int();
 		if (userid == 0)
 			break;
 		hContact = FindUser(userid, true);
@@ -668,9 +668,7 @@ void CVkProto::OnReceiveGroupInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	if (!jnResponse)
 		return;
 
-	for (auto it = jnResponse.begin(); it != jnResponse.end(); ++it) {
-		const JSONNode &jnItem = (*it);
-
+	for (auto &jnItem : jnResponse) {
 		int iGroupId = (-1)*jnItem["id"].as_int();
 		bool bIsMember = jnItem["is_member"].as_bool();
 
@@ -769,8 +767,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	const JSONNode &jnItems = jnResponse["items"];
 
 	if (jnItems)
-		for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-			MCONTACT hContact = SetContactInfo((*it), true);
+		for (auto &it : jnItems) {
+			MCONTACT hContact = SetContactInfo(it, true);
 
 			if (hContact == 0 || hContact == INVALID_CONTACT_ID)
 				continue;

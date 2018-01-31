@@ -1069,9 +1069,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 	res += SetBBCString(TranslateT("Attachments:"), iBBC, vkbbcB);
 	res.AppendChar('\n');
 
-	for (auto it = jnAttachments.begin(); it != jnAttachments.end(); ++it) {
-		const JSONNode &jnAttach = (*it);
-
+	for (auto &jnAttach : jnAttachments) {
 		res.AppendChar('\t');
 		CMStringW wszType(jnAttach["type"].as_mstring());
 		if (wszType == L"photo") {
@@ -1137,24 +1135,24 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				wszText.IsEmpty() ? L" " : wszText.c_str());
 
 			const JSONNode &jnCopyHystory = jnWall["copy_history"];
-			for (auto aCHit = jnCopyHystory.begin(); aCHit != jnCopyHystory.end(); ++aCHit) {
-				const JSONNode &jnCopyHystoryItem = (*aCHit);
+			if (jnCopyHystory) {
+				for (auto &jnCopyHystoryItem : jnCopyHystory) {
+					CMStringW wszCHText(jnCopyHystoryItem["text"].as_mstring());
+					int iCHid = jnCopyHystoryItem["id"].as_int();
+					int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
+					CMStringW wszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
+					wszCHText.Replace(L"\n", L"\n\t\t");
+					res.AppendFormat(L"\n\t\t%s: %s",
+						SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszCHUrl).c_str(),
+						wszCHText.IsEmpty() ? L" " : wszCHText.c_str());
 
-				CMStringW wszCHText(jnCopyHystoryItem["text"].as_mstring());
-				int iCHid = jnCopyHystoryItem["id"].as_int();
-				int iCHfromID = jnCopyHystoryItem["from_id"].as_int();
-				CMStringW wszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
-				wszCHText.Replace(L"\n", L"\n\t\t");
-				res.AppendFormat(L"\n\t\t%s: %s",
-					SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszCHUrl).c_str(),
-					wszCHText.IsEmpty() ? L" " : wszCHText.c_str());
-
-				const JSONNode &jnSubAttachments = jnCopyHystoryItem["attachments"];
-				if (jnSubAttachments) {
-					debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
-					CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
-					wszAttachmentDescr.Replace(L"\n", L"\n\t\t");
-					res += L"\n\t\t" + wszAttachmentDescr;
+					const JSONNode &jnSubAttachments = jnCopyHystoryItem["attachments"];
+					if (jnSubAttachments) {
+						debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
+						CMStringW wszAttachmentDescr = GetAttachmentDescr(jnSubAttachments, iBBC);
+						wszAttachmentDescr.Replace(L"\n", L"\n\t\t");
+						res += L"\n\t\t" + wszAttachmentDescr;
+					}
 				}
 			}
 
@@ -1285,9 +1283,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 
 	OBJLIST<CVkUserInfo> vkUsers(2, NumericKeySortT);
 
-	for (auto it = jnFUsers.begin(); it != jnFUsers.end(); ++it) {
-		const JSONNode &jnUser = (*it);
-
+	for (auto &jnUser : jnFUsers) {
 		int iUserId = jnUser["id"].as_int();
 		CMStringW wszNick(FORMAT, L"%s %s", jnUser["first_name"].as_mstring().c_str(), jnUser["last_name"].as_mstring().c_str());
 		CMStringW wszLink(FORMAT, L"https://vk.com/id%d", iUserId);
@@ -1297,9 +1293,7 @@ CMStringW CVkProto::GetFwdMessages(const JSONNode &jnMessages, const JSONNode &j
 	}
 
 
-	for (auto it = jnMessages.begin(); it != jnMessages.end(); ++it) {
-		const JSONNode &jnMsg = (*it);
-
+	for (auto &jnMsg : jnMessages) {
 		UINT uid = jnMsg["user_id"].as_int();
 		CVkUserInfo *vkUser = vkUsers.find((CVkUserInfo *)&uid);
 		CMStringW wszNick, wszUrl;

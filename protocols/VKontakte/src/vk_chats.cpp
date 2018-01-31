@@ -136,8 +136,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		for (int i = 0; i < cc->m_users.getCount(); i++)
 			cc->m_users[i].m_bDel = true;
 
-		for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
-			const JSONNode &jnUser = (*it);
+		for (auto &jnUser : jnUsers) {
 			if (!jnUser)
 				break;
 
@@ -195,8 +194,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 
 	const JSONNode &jnMsgsUsers = jnResponse["msgs_users"];
-	for (auto it = jnMsgsUsers.begin(); it != jnMsgsUsers.end(); ++it) {
-		const JSONNode &jnUser = (*it);
+	for (auto &jnUser : jnMsgsUsers) {
 		LONG uid = jnUser["id"].as_int();
 		CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
 		if (cu)
@@ -215,8 +213,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (jnMsgs) {
 		const JSONNode &jnItems = jnMsgs["items"];
 		if (jnItems) {
-			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-				const JSONNode &jnMsg = (*it);
+			for (auto &jnMsg : jnItems) {
 				if (!jnMsg)
 					break;
 

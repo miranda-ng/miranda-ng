@@ -81,8 +81,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 	bool bNonEdited = true;
 	MCONTACT hContact;
 
-	for (auto it = jnUpdates.begin(); it != jnUpdates.end(); ++it) {
-		const JSONNode &jnChild = (*it).as_array();
+	for (auto &it : jnUpdates) {
+		const JSONNode &jnChild = it.as_array();
 		switch (jnChild[json_index_t(0)].as_int()) {
 		case VKPOLL_MSG_DELFLAGS:
 			if (jnChild.size() < 4)

@@ -122,8 +122,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 	const JSONNode &jnProfiles = jnResponse["profiles"];
 
 	if (jnProfiles)
-		for (auto it = jnProfiles.begin(); it != jnProfiles.end(); ++it) {
-			const JSONNode &jnProfile = (*it);
+		for (auto  &jnProfile : jnProfiles) {
 			if (!jnProfile["id"])
 				continue;
 			LONG UserId = jnProfile["id"].as_int();
@@ -142,8 +141,7 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, const JSONNod
 
 	const JSONNode &jnGroups = jnResponse["groups"];
 	if (jnGroups)
-		for (auto it = jnGroups.begin(); it != jnGroups.end(); ++it) {
-			const JSONNode &jnProfile = (*it);
+		for (auto &jnProfile : jnGroups) {
 			if (!jnProfile["id"])
 				continue;
 			LONG UserId = -jnProfile["id"].as_int();
@@ -189,8 +187,8 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			if (jnPhotoItems) {
 				wszText = TranslateT("User was tagged in these photos:");
 				wszPopupText = wszText + TranslateT("(photos)");
-				for (auto it = jnPhotoItems.begin(); it != jnPhotoItems.end(); ++it)
-					wszText += L"\n" + GetVkPhotoItem((*it), m_vkOptions.BBCForNews());
+				for (auto &it : jnPhotoItems)
+					wszText += L"\n" + GetVkPhotoItem(it, m_vkOptions.BBCForNews());
 			}
 		}
 	}
@@ -202,8 +200,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(const JSONNode &jnItem, OBJLIST<CVkUserInfo
 			const JSONNode &jnPhotoItems = jnPhotos["items"];
 			if (jnPhotoItems) {
 				wszPopupText += TranslateT("(photos)");
-				for (auto it = jnPhotoItems.begin(); it != jnPhotoItems.end(); ++it) {
-					const JSONNode &jnPhotoItem = (*it);
+				for (auto &jnPhotoItem : jnPhotoItems) {
 					wszText += GetVkPhotoItem(jnPhotoItem, m_vkOptions.BBCForNews()) + L"\n";
 					if (i == 0 && vkNewsItem->wszType == L"wall_photo") {
 						if (jnPhotoItem["post_id"]) {
@@ -301,8 +298,7 @@ CMStringW CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedba
 		const JSONNode &jnUsers = jnFeedback["items"];
 
 		CMStringW wszUsers;
-		for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
-			const JSONNode &jnUserItem = (*it);
+		for (auto &jnUserItem : jnUsers) {
 			if (!jnUserItem["from_id"])
 				continue;
 			iUserId = jnUserItem["from_id"].as_int();
@@ -513,8 +509,7 @@ void CVkProto::OnFriendAccepted(const JSONNode & jnFeedback)
 {
 	const JSONNode &jnUsers = jnFeedback["items"];
 
-	for (auto it = jnUsers.begin(); it != jnUsers.end(); ++it) {
-		const JSONNode &jnUserItem = (*it);
+	for (auto &jnUserItem : jnUsers) {
 		if (!jnUserItem["from_id"])
 			continue;
 
@@ -668,8 +663,8 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 
 	OBJLIST<CVKNewsItem> vkNews(5, sttCompareVKNewsItems);
 	if (jnItems)
-		for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-			CVKNewsItem *vkNewsItem = GetVkNewsItem((*it), vkUsers);
+		for (auto &it : jnItems) {
+			CVKNewsItem *vkNewsItem = GetVkNewsItem(it, vkUsers);
 			if (!vkNewsItem)
 				continue;
 			CVKNewsItem *vkNewsFoundItem = vkNews.find(vkNewsItem);
@@ -779,8 +774,8 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 		const JSONNode &jnItems = jnNotifications["items"];
 
 		if (jnItems)
-			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-				CVKNewsItem *vkNotificationItem = GetVkNotificationsItem((*it), vkUsers);
+			for (auto &it : jnItems) {
+				CVKNewsItem *vkNotificationItem = GetVkNotificationsItem(it, vkUsers);
 				if (!vkNotificationItem)
 					continue;
 				if (vkNotification.find(vkNotificationItem) == nullptr)
@@ -794,8 +789,8 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 		const JSONNode &jnItems = jnGroupInvates["items"];
 
 		if (jnItems)
-			for (auto it = jnItems.begin(); it != jnItems.end(); ++it) {
-				CVKNewsItem *vkNotificationItem = GetVkGroupInvates((*it), vkUsers);
+			for (auto &it : jnItems) {
+				CVKNewsItem *vkNotificationItem = GetVkGroupInvates(it, vkUsers);
 				if (!vkNotificationItem)
 					continue;
 				if (vkNotification.find(vkNotificationItem) == nullptr)
