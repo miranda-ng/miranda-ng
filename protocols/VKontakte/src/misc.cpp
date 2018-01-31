@@ -587,7 +587,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = blob.size();
 	dbei.pBlob = blob;
-	db_event_add(0, &dbei);
+	db_event_add(hContact, &dbei);
 	debugLogA("CVkProto::DBAddAuthRequest %s", blob.get_nick() ? blob.get_nick() : "<null>");
 }
 
