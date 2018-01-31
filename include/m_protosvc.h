@@ -793,20 +793,17 @@ __forceinline INT_PTR ProtoChainRecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 #define PSR_AUTH		"/RecvAuth"
 
-#define MS_PROTO_AUTHRECV  "Proto/AuthRecv"
-
-__forceinline INT_PTR Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre)
-{	return CallService(MS_PROTO_AUTHRECV, (WPARAM)szProtoName, (LPARAM)pcre);
-}
+// adds the standard EVENTTYPE_AUTHREQUEST event to the database
+EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre);
 
 ///////////////////////////////////////////////////////////////////////////////
 // File(s) have been received
 // wParam = 0
-// lParam = (LPARAM)(PROTORECVFILET*)&prf
+// lParam = (LPARAM)(PROTORECVFILE*)&prf
 
 #define PRFF_UNICODE 1
 
-struct PROTORECVFILET
+struct PROTORECVFILE
 {
 	DWORD dwFlags;          // PRFF_*
 	DWORD timestamp;        // unix time
@@ -820,13 +817,13 @@ struct PROTORECVFILET
 
 #define MS_PROTO_RECVFILET "Proto/RecvFileT"
 
-__forceinline INT_PTR Proto_RecvFile(MCONTACT hContact, PROTORECVFILET *pcre)
+__forceinline INT_PTR Proto_RecvFile(MCONTACT hContact, PROTORECVFILE *pcre)
 {
 	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pcre };
 	return CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);
 }
 
-__forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILET *pre)
+__forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, PROTORECVFILE *pre)
 {
 	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pre };
 	return Proto_ChainRecv(0, &ccs);

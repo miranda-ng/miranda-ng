@@ -203,7 +203,7 @@ public:
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
+	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILE*);
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 

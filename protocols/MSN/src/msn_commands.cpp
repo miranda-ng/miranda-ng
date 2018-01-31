@@ -452,7 +452,7 @@ void CMsnProto::MSN_ProcessURIObject(MCONTACT hContact, ezxml_t xmli)
 				wchar_t tComment[40];
 				mir_snwprintf(tComment, TranslateT("%I64u bytes"), ft->std.currentFileSize);
 
-				PROTORECVFILET pre = { 0 };
+				PROTORECVFILE pre = { 0 };
 				pre.dwFlags = PRFF_UNICODE;
 				pre.fileCount = 1;
 				pre.timestamp = time(nullptr);

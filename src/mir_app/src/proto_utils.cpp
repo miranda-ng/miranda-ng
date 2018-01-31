@@ -388,7 +388,7 @@ int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILET *evt)
+int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *evt)
 {
 	return ::Proto_RecvFile(hContact, evt); // default file receiver
 }

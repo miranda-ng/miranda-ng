@@ -1161,7 +1161,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 
 						wchar_t* tszTemp = sFile.GetBuffer();
 
-						PROTORECVFILET pre = { 0 };
+						PROTORECVFILE pre = { 0 };
 						pre.dwFlags = PRFF_UNICODE;
 						pre.timestamp = (DWORD)time(nullptr);
 						pre.fileCount = 1;

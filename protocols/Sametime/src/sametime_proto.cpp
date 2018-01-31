@@ -181,7 +181,7 @@ HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)
 }
 
 
-int CSametimeProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
+int CSametimeProto::RecvFile(MCONTACT hContact, PROTORECVFILE* pre)
 {
 	debugLogW(L"CSametimeProto::RecvFile()  hContact=[%x]", hContact);
 

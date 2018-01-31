@@ -882,7 +882,6 @@ Copies the EVENTTYPE_AUTHREQUEST event from PROTORECVEVENT into DBEVENTINFO and 
 Returns the result of MS_DB_EVENT_ADD
 }
   PSR_AUTH = '/RecvAuth';
-  MS_PROTO_AUTHRECV = 'Proto/AuthRecv';
 
 //File(s) have been received
 //wParam = 0

@@ -390,7 +390,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 						local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
 						wchar_t* filenameT = mir_utf8decodeW((char*)dcc->file_info.filename);
 
-						PROTORECVFILET pre = { 0 };
+						PROTORECVFILE pre = { 0 };
 						pre.dwFlags = PRFF_UNICODE;
 						pre.fileCount = 1;
 						pre.timestamp = time(nullptr);
@@ -927,7 +927,7 @@ int GaduProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 ////////////////////////////////////////////////////////////
 // Called when received an file
 //
-int GaduProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre)
+int GaduProto::RecvFile(MCONTACT hContact, PROTORECVFILE* pre)
 {
 	return Proto_RecvFile(hContact, pre);
 }

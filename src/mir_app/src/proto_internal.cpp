@@ -191,7 +191,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (int)ProtoCallService(m_szModuleName, PSR_CONTACTS, 0, (LPARAM)&ccs);
 	}
 
-	virtual int __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET* evt) override
+	virtual int __cdecl RecvFile(MCONTACT hContact, PROTORECVFILE* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)evt };
 		return ProtoCallService(m_szModuleName, PSR_FILE, 0, (LPARAM)&ccs);

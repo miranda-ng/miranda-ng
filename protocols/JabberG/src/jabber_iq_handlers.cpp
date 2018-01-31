@@ -375,7 +375,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		str2 = mir_wstrdup(str2);
 		JabberHttpUrlDecode(str2);
 
-		PROTORECVFILET pre;
+		PROTORECVFILE pre;
 		pre.dwFlags = PRFF_UNICODE;
 		pre.timestamp = time(nullptr);
 		pre.descr.w = desc;

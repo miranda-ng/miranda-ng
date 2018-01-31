@@ -38,7 +38,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 	} else
 		wcsncpy_s(descriptionT, filenameT, _TRUNCATE);
 
-	PROTORECVFILET pre = {0};
+	PROTORECVFILE pre = {0};
 	pre.dwFlags = PRFF_UNICODE;
 	pre.fileCount = 1;
 	pre.timestamp = time(nullptr);

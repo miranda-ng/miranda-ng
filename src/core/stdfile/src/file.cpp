@@ -355,7 +355,7 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVFILET* pre = (PROTORECVFILET*)ccs->lParam;
+	PROTORECVFILE* pre = (PROTORECVFILE*)ccs->lParam;
 	if (pre->fileCount == 0)
 		return 0;
 

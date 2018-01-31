@@ -1036,7 +1036,7 @@ retry:
 
 			wchar_t* filenameT = mir_a2u((char*)dcc7->filename);
 
-			PROTORECVFILET pre = { 0 };
+			PROTORECVFILE pre = { 0 };
 			pre.dwFlags = PRFF_UNICODE;
 			pre.fileCount = 1;
 			pre.timestamp = time(nullptr);

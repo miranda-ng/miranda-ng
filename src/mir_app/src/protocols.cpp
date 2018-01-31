@@ -182,18 +182,19 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	return (INT_PTR)db_event_add(ccs->hContact, &dbei);
 }
 
-static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre)
 {
-	PROTORECVEVENT* pre = (PROTORECVEVENT*)lParam;
+	if (szProtoName == nullptr || pcre == nullptr)
+		return 0;
 
 	DBEVENTINFO dbei = {};
-	dbei.szModule = (char*)wParam;
-	dbei.timestamp = pre->timestamp;
-	dbei.flags = DBEF_UTF | pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
+	dbei.szModule = (char*)szProtoName;
+	dbei.timestamp = pcre->timestamp;
+	dbei.flags = DBEF_UTF | pcre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = pre->lParam;
-	dbei.pBlob = (PBYTE)pre->szMessage;
-	return (INT_PTR)db_event_add(0, &dbei);
+	dbei.cbBlob = pcre->lParam;
+	dbei.pBlob = (PBYTE)pcre->szMessage;
+	return db_event_add(0, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -404,7 +405,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 				case 18: return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
 				case 19: return (INT_PTR)ppi->CreateExtendedSearchUI((HWND)lParam);
 				case 20: return (INT_PTR)ppi->RecvContacts(hContact, (PROTORECVEVENT*)lParam);
-				case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTORECVFILET*)lParam);
+				case 21: return (INT_PTR)ppi->RecvFile(hContact, (PROTORECVFILE*)lParam);
 				case 22: return (INT_PTR)ppi->RecvMsg(hContact, (PROTORECVEVENT*)lParam);
 				case 23: return (INT_PTR)ppi->RecvUrl(hContact, (PROTORECVEVENT*)lParam);
 				case 24: return (INT_PTR)ppi->SendContacts(hContact, LOWORD(wParam), HIWORD(wParam), (MCONTACT*)lParam);
@@ -460,7 +461,6 @@ int LoadProtocolsModule(void)
 	CreateServiceFunction(MS_PROTO_CONTACTISTYPING, Proto_ContactIsTyping);
 
 	CreateServiceFunction(MS_PROTO_RECVMSG, Proto_RecvMessage);
-	CreateServiceFunction(MS_PROTO_AUTHRECV, Proto_AuthRecv);
 
 	CreateServiceFunction(MS_PROTO_CREATEACCOUNT, srvProto_CreateAccount);
 

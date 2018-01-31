@@ -45,7 +45,7 @@ struct GaduProto : public PROTO<GaduProto>
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
+	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILE*);
 
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
@@ -139,7 +139,7 @@ struct GaduProto : public PROTO<GaduProto>
 	HANDLE fileallow(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szPath);
 	int filecancel(MCONTACT hContact, HANDLE hTransfer);
 	int filedeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t* szReason);
-	int recvfile(MCONTACT hContact, PROTORECVFILET* pre);
+	int recvfile(MCONTACT hContact, PROTORECVFILE* pre);
 	HANDLE sendfile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
 
 	HANDLE dccfileallow(HANDLE hTransfer, const wchar_t* szPath);
