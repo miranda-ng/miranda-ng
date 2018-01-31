@@ -1062,6 +1062,10 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 				carbonSent = true;
 		}
 		if (carbon) {
+			//If carbons are disabled in options, we should ignore occasional carbons sent to us by server
+			if (!m_options.EnableCarbons)
+				return;
+
 			HXML forwarded = NULL;
 			HXML message = NULL;
 			//Carbons MUST have forwarded/message content

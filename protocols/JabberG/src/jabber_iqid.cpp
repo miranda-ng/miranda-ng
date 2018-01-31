@@ -136,7 +136,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 			EnableArchive(m_options.EnableMsgArchive != 0);
 
 		if (info->jabberServerCaps & JABBER_CAPS_CARBONS)
-			EnableCarbons(true);
+			EnableCarbons(m_options.EnableCarbons != 0);
 
 		if (m_options.AutoJoinBookmarks) {
 			LIST<JABBER_LIST_ITEM> ll(10);
