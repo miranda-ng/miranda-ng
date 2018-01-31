@@ -33,6 +33,7 @@ Boston, MA 02111-1307, USA.
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_protosvc.h>
+#include <m_protoint.h>
 #include <m_database.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
@@ -108,6 +109,7 @@ INT_PTR  NewsAggrGetStatus(WPARAM/* wp*/, LPARAM/* lp*/);
 INT_PTR  NewsAggrLoadIcon(WPARAM wParam, LPARAM lParam);
 INT_PTR  NewsAggrGetInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR  NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam);
+INT_PTR  NewsAggrRecvMessage(WPARAM wParam, LPARAM lParam);
 
 INT_PTR  CheckAllFeeds(WPARAM wParam, LPARAM lParam);
 INT_PTR  AddFeed(WPARAM wParam, LPARAM lParam);
@@ -133,7 +135,6 @@ void     CheckCurrentFeed(MCONTACT hContact);
 void     CheckCurrentFeedAvatar(MCONTACT hContact);
 LPCTSTR  CheckFeed(wchar_t* tszURL, HWND hwndDlg);
 void     UpdateMenu(bool State);
-int      ImportFeedsDialog();
 LPCTSTR  ClearText(CMStringW &value, const wchar_t *message);
 bool     DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 void     CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg);

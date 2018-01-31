@@ -213,6 +213,17 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	return GAIR_WAITFOR;
 }
 
+INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
+{
+	PROTOACCOUNT *pa = Proto_GetAccount(MODULE);
+	if (pa && pa->ppro) {
+		CCSDATA *ccs = (CCSDATA*)lParam;
+		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, (PROTORECVEVENT*)ccs->lParam);
+	}
+
+	return 0;
+}
+
 void UpdateMenu(bool State)
 {
 	if (!State) // to enable auto-update

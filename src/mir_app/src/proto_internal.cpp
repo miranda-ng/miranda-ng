@@ -203,7 +203,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	{
 		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)evt };
 		INT_PTR res = ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);
-		return (res != CALLSERVICE_NOTFOUND) ? (int)res : CSuper::RecvMsg(hContact, evt);
+		return (res == CALLSERVICE_NOTFOUND) ? -1 : (int)res;
 	}
 
 	virtual int __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT* evt) override

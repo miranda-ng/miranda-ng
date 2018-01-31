@@ -78,6 +78,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateProtoServiceFunction(MODULE, PS_LOADICON, NewsAggrLoadIcon);
 	CreateProtoServiceFunction(MODULE, PSS_GETINFO, NewsAggrGetInfo);
 	CreateProtoServiceFunction(MODULE, PS_GETAVATARINFO, NewsAggrGetAvatarInfo);
+	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, NewsAggrRecvMessage);
 
 	CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKALLFEEDS, CheckAllFeeds);
 	CreateServiceFunction(MS_NEWSAGGREGATOR_ADDFEED, AddFeed);
