@@ -264,13 +264,32 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 			wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.BBCForAttachments(), vkbbcUrl,
 				CMStringW(FORMAT, L"https://vk.com/im?sel=%d&msgid=%d", uid, mid));
 
-		T2Utf pszBody(wszBody);
 		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };
 		if (isRead)
 			recv.flags |= PREF_CREATEREAD;
 		if (isOut)
 			recv.flags |= PREF_SENT;
+
+		time_t update_time = (time_t)jnMsg["update_time"].as_int();
+		if (update_time) {
+			CMStringW wszEditTime;
+
+			wchar_t ttime[64];
+			_locale_t locale = _create_locale(LC_ALL, "");
+			_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&update_time), locale);
+			_free_locale(locale);
+
+			wszEditTime.Format(TranslateT("Edited message (updated %s):\n"), ttime);
+
+			wszBody = SetBBCString(
+				wszEditTime,
+				m_vkOptions.BBCForAttachments(), vkbbcB) +
+				wszBody;
+		}
+
+		T2Utf pszBody(wszBody);
+
 		recv.timestamp = datetime;
 		recv.szMessage = pszBody;
 		recv.lParam = isOut;

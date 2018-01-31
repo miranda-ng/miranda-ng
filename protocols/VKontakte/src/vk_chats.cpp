@@ -319,7 +319,7 @@ void CVkProto::AppendChatMessage(int id, const JSONNode &jnMsg, const JSONNode &
 				}
 			}
 		}
-		else if (wszAction == L"chat_invite_user") {
+		else if (wszAction == L"chat_invite_user" || wszAction == L"chat_invite_user_by_link") {
 			CMStringW wszActionMid = jnMsg["action_mid"].as_mstring();
 			if (wszActionMid.IsEmpty())
 				wszBody = TranslateT("invite user");

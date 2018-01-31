@@ -314,12 +314,27 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		bool bEdited = CheckMid(m_editedIds, mid);
 		if (bEdited) {
+			time_t update_time = (time_t)jnMsg["update_time"].as_int();
+			CMStringW wszEditTime;
+
+			if (update_time) {
+				wchar_t ttime[64];
+				_locale_t locale = _create_locale(LC_ALL, "");
+				_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&update_time), locale);
+				_free_locale(locale);
+
+				wszEditTime.Format(TranslateT("Edited message (updated %s):\n"), ttime);
+			}
+
+			wszBody = SetBBCString(
+				wszEditTime.IsEmpty() ? TranslateT("Edited message:\n") : wszEditTime,
+				m_vkOptions.BBCForAttachments(), vkbbcB) +
+				wszBody;
+
 			CMStringW wszOldMsg;
 			MEVENT hDbEvent = GetMessageFromDb(hContact, szMid, datetime, wszOldMsg);
 			if (hDbEvent) {
-				wszBody = SetBBCString(TranslateT("Edited message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
-					wszBody +
-					SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
+				wszBody += SetBBCString(TranslateT("\nOriginal message:\n"), m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszOldMsg;
 				db_event_delete(hContact, hDbEvent);
 			}
