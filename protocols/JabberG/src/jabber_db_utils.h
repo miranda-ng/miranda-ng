@@ -83,6 +83,7 @@ struct CJabberOptions
 	CMOption<DWORD> ConnectionKeepAliveTimeout;
 	CMOption<BYTE> ProcessXMPPLinks;
 	CMOption<BYTE> IgnoreRosterGroups;
+	CMOption<BYTE> EnableCarbons;
 
 	CMOption<BYTE> UseOMEMO;
 
@@ -141,6 +142,7 @@ struct CJabberOptions
 		ConnectionKeepAliveTimeout(proto, "ConnectionKeepAliveTimeout", 50000),
 		ProcessXMPPLinks(proto, "ProcessXMPPLinks", FALSE),
 		IgnoreRosterGroups(proto, "IgnoreRosterGroups", FALSE),
+		EnableCarbons(proto, "EnableCarbons", TRUE),
 		UseOMEMO(proto, "UseOMEMO", FALSE)
 	{}
 };
