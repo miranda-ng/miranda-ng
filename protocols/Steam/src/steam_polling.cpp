@@ -21,7 +21,7 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			recv.timestamp = timestamp;
 			recv.szMessage = (char*)text.c_str();
 			recv.flags = PREF_SENT;
-			Proto_RecvMessage(hContact, &recv);
+			RecvMsg(hContact, &recv);
 		}
 		else if (type == "saytext" || type =="emote") {
 			json_string text = item["text"].as_string();

@@ -131,7 +131,7 @@ extern OBJLIST<CListEvent> g_cliEvents;
 extern LIST<PROTOACCOUNT> accounts;
 extern LIST<PROTOCOLDESCRIPTOR> protos;
 
-INT_PTR ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
+INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
 PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const wchar_t *tszAccountName);
 

@@ -74,6 +74,6 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		if (IsMe(steamId))
 			recv.flags = PREF_SENT;
 
-		Proto_RecvMessage(hContact, &recv);
+		RecvMsg(hContact, &recv);
 	}
 }

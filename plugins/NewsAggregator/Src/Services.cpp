@@ -213,12 +213,6 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	return GAIR_WAITFOR;
 }
 
-INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
-{
-	CallService(MS_PROTO_RECVMSG, 0, lParam);
-	return 0;
-}
-
 void UpdateMenu(bool State)
 {
 	if (!State) // to enable auto-update

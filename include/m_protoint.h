@@ -229,6 +229,8 @@ public:
 
 template<class T> struct PROTO : public PROTO_INTERFACE
 {
+	typedef PROTO_INTERFACE CSuper;
+
 	__forceinline PROTO(const char *szProto, const wchar_t *tszUserName) :
 		PROTO_INTERFACE(szProto, tszUserName)
 	{}

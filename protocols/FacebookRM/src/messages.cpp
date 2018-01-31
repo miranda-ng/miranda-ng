@@ -26,7 +26,7 @@ int FacebookProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	StopTyping(hContact);
 
-	return Proto_RecvMessage(hContact, pre);
+	return CSuper::RecvMsg(hContact, pre);
 }
 
 void FacebookProto::SendMsgWorker(void *p)

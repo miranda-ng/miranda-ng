@@ -337,8 +337,7 @@ int CDiscordProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 	T2Utf szResUtf((const wchar_t*)evt->lParam);
 	evt->pCustomData = (char*)szResUtf;
 	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
-	Proto_RecvMessage(hContact, evt);
-	return 0;
+	return CSuper::RecvMsg(hContact, evt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

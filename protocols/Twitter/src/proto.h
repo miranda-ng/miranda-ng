@@ -36,7 +36,6 @@ public:
 	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *);
 	virtual	HANDLE    __cdecl SearchByEmail(const wchar_t *);
 
-	virtual	int       __cdecl RecvMsg(MCONTACT, PROTORECVEVENT *);
 	virtual	int       __cdecl SendMsg(MCONTACT, int, const char *);
 
 	virtual	int       __cdecl SetStatus(int);

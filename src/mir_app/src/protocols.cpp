@@ -148,40 +148,6 @@ MIR_APP_DLL(int) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic core services
 
-static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
-{
-	CCSDATA *ccs = (CCSDATA*)lParam;
-	PROTORECVEVENT *pre = (PROTORECVEVENT*)ccs->lParam;
-	if (pre->szMessage == nullptr)
-		return 0;
-
-	ptrA pszTemp;
-	mir_ptr<BYTE> pszBlob;
-
-	DBEVENTINFO dbei = {};
-	dbei.flags = DBEF_UTF;
-	dbei.szModule = GetContactProto(ccs->hContact);
-	dbei.timestamp = pre->timestamp;
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
-	dbei.pBlob = (PBYTE)pre->szMessage;
-
-	if (pre->cbCustomDataSize != 0) {
-		pszBlob = (PBYTE)mir_alloc(dbei.cbBlob + pre->cbCustomDataSize);
-		memcpy(pszBlob, dbei.pBlob, dbei.cbBlob);
-		memcpy((PBYTE)pszBlob + dbei.cbBlob, pre->pCustomData, pre->cbCustomDataSize);
-		dbei.pBlob = pszBlob;
-		dbei.cbBlob += pre->cbCustomDataSize;
-	}
-
-	if (pre->flags & PREF_CREATEREAD)
-		dbei.flags |= DBEF_READ;
-	if (pre->flags & PREF_SENT)
-		dbei.flags |= DBEF_SENT;
-
-	return (INT_PTR)db_event_add(ccs->hContact, &dbei);
-}
-
 MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEVENT *pcre)
 {
 	if (szProtoName == nullptr || pcre == nullptr)
@@ -459,8 +425,6 @@ int LoadProtocolsModule(void)
 
 	CreateServiceFunction(MS_PROTO_SELFISTYPING, Proto_SelfIsTyping);
 	CreateServiceFunction(MS_PROTO_CONTACTISTYPING, Proto_ContactIsTyping);
-
-	CreateServiceFunction(MS_PROTO_RECVMSG, Proto_RecvMessage);
 
 	CreateServiceFunction(MS_PROTO_CREATEACCOUNT, srvProto_CreateAccount);
 

@@ -45,8 +45,6 @@ struct GaduProto : public PROTO<GaduProto>
 	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILE*);
-
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const wchar_t* szDescription, wchar_t** ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 

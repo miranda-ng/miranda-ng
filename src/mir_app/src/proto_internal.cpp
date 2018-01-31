@@ -46,6 +46,8 @@ void FreeFilesMatrix(wchar_t ***files)
 
 struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 {
+	typedef PROTO_INTERFACE CSuper;
+
 	DEFAULT_PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName) :
 		PROTO_INTERFACE(pszModuleName, ptszUserName)
 	{}
@@ -200,7 +202,8 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	virtual int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt) override
 	{
 		CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)evt };
-		return (int)ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);
+		INT_PTR res = ProtoCallService(m_szModuleName, PSR_MESSAGE, 0, (LPARAM)&ccs);
+		return (res != CALLSERVICE_NOTFOUND) ? (int)res : CSuper::RecvMsg(hContact, evt);
 	}
 
 	virtual int __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT* evt) override

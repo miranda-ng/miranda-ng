@@ -61,7 +61,6 @@ struct CVkProto : public PROTO<CVkProto>
 	virtual	HANDLE __cdecl SearchBasic(const wchar_t *id);
 	virtual	HANDLE __cdecl SearchByEmail(const wchar_t *email);
 	virtual	HANDLE __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
-	virtual	int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
 	virtual	HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles);
 	virtual	int __cdecl SetStatus(int iNewStatus);

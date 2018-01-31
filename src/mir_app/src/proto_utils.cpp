@@ -388,15 +388,42 @@ int PROTO_INTERFACE::RecvContacts(MCONTACT, PROTORECVEVENT*)
 	return 1; // error
 }
 
-int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *evt)
+int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTORECVFILE *pcre)
 {
-	return ::Proto_RecvFile(hContact, evt); // default file receiver
+	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pcre };
+	return CallService(MS_PROTO_RECVFILET, 0, (LPARAM)&ccs);
 }
 
-int PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
+int PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
-	::Proto_RecvMessage(hContact, evt); // default message receiver
-	return 0;
+	if (pre->szMessage == nullptr)
+		return 0;
+
+	ptrA pszTemp;
+	mir_ptr<BYTE> pszBlob;
+
+	DBEVENTINFO dbei = {};
+	dbei.flags = DBEF_UTF;
+	dbei.szModule = GetContactProto(hContact);
+	dbei.timestamp = pre->timestamp;
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
+	dbei.pBlob = (PBYTE)pre->szMessage;
+
+	if (pre->cbCustomDataSize != 0) {
+		pszBlob = (PBYTE)mir_alloc(dbei.cbBlob + pre->cbCustomDataSize);
+		memcpy(pszBlob, dbei.pBlob, dbei.cbBlob);
+		memcpy((PBYTE)pszBlob + dbei.cbBlob, pre->pCustomData, pre->cbCustomDataSize);
+		dbei.pBlob = pszBlob;
+		dbei.cbBlob += pre->cbCustomDataSize;
+	}
+
+	if (pre->flags & PREF_CREATEREAD)
+		dbei.flags |= DBEF_READ;
+	if (pre->flags & PREF_SENT)
+		dbei.flags |= DBEF_SENT;
+
+	return (INT_PTR)db_event_add(hContact, &dbei);
 }
 
 int PROTO_INTERFACE::RecvUrl(MCONTACT, PROTORECVEVENT*)

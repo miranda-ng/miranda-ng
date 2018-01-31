@@ -98,14 +98,6 @@ DWORD_PTR TwitterProto::GetCaps(int type, MCONTACT)
 
 // *************************
 
-int TwitterProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	Proto_RecvMessage(hContact, pre);
-	return 0;
-}
-
-// *************************
-
 struct send_direct
 {
 	__inline send_direct(MCONTACT _hContact, const std::string &_msg, int _msgid) :

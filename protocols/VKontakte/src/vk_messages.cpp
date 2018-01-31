@@ -19,15 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	debugLogA("CVkProto::RecvMsg");
-	Proto_RecvMessage(hContact, pre);
-	return 0;
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
 void CVkProto::SendMsgAck(void *param)
 {
 	debugLogA("CVkProto::SendMsgAck");

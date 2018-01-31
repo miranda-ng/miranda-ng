@@ -672,8 +672,7 @@ int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 			db_unset(hContact, "CList", "Hidden");
 	}
 
-
-	return Proto_RecvMessage(hContact, pre);
+	return CSuper::RecvMsg(hContact, pre);
 }
 
 int CMsnProto::GetInfo(MCONTACT hContact, int)

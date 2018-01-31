@@ -752,8 +752,7 @@ int __cdecl CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 	T2Utf szResUtf((LPCTSTR)evt->lParam);
 	evt->pCustomData = (char*)szResUtf;
 	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
-	Proto_RecvMessage(hContact, evt);
-	return 0;
+	return CSuper::RecvMsg(hContact, evt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

@@ -925,14 +925,6 @@ int GaduProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 }
 
 ////////////////////////////////////////////////////////////
-// Called when received an file
-//
-int GaduProto::RecvFile(MCONTACT hContact, PROTORECVFILE* pre)
-{
-	return Proto_RecvFile(hContact, pre);
-}
-
-////////////////////////////////////////////////////////////
 // Called when user sends a file
 //
 HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles)
