@@ -613,7 +613,7 @@ public:
 		pshn.hdr.hwndFrom = m_hwnd;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
-		Options_Open(L"Network");
+		Options_Open(nullptr, L"Network");
 	}
 
 	void OnOptions(CCtrlButton*)
