@@ -123,7 +123,7 @@ GaduProto::~GaduProto()
 MCONTACT GaduProto::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 {
 #ifdef DEBUGMODE
-	debugLogA("AddToList(): id=%s");
+	debugLogA("AddToList(): id=%S", pmsr->id.w);
 #endif
 	GGSEARCHRESULT *psr = (GGSEARCHRESULT *)pmsr;
 	uin_t uin;
