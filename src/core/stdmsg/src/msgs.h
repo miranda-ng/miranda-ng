@@ -79,8 +79,9 @@ class CSrmmWindow : public CMsgDialog
 	void StreamInEvents(MEVENT hDbEventFirst, int count, bool bAppend);
 
 	char *m_szProto;
-	HFONT m_hFont;
-	HBRUSH m_hBkgBrush;
+	HICON m_hStatusIcon = nullptr;
+	HFONT m_hFont = nullptr;
+	HBRUSH m_hBkgBrush = nullptr;
 
 	SIZE m_minEditBoxSize;
 	RECT m_minEditInit;

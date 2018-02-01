@@ -275,6 +275,8 @@ void CSrmmWindow::OnDestroy()
 
 	if (m_hBkgBrush)
 		DeleteObject(m_hBkgBrush);
+	if (m_hStatusIcon)
+		IcoLib_ReleaseIcon(m_hStatusIcon);
 
 	for (int i = 0; i < m_cmdList.getCount(); i++)
 		mir_free(m_cmdList[i]);
@@ -1029,11 +1031,12 @@ INT_PTR CSrmmWindow::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
 			if (!cws || (!mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))) {
 				if (m_szProto) {
-					int dwStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
-					HICON hIcon = Skin_LoadProtoIcon(m_szProto, dwStatus);
+					HICON hIcon = Skin_LoadProtoIcon(m_szProto, m_wStatus);
 					if (hIcon) {
+						if (m_hStatusIcon)
+							IcoLib_ReleaseIcon(m_hStatusIcon);
+						m_hStatusIcon = hIcon;
 						SendDlgItemMessage(m_hwnd, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-						IcoLib_ReleaseIcon(hIcon);
 					}
 				}
 				if (g_dat.bUseStatusWinIcon)
