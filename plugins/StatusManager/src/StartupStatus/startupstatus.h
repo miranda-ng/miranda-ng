@@ -21,13 +21,6 @@
 
 #define SSMODULENAME    "StartupStatus"
 
-struct PROFILECE
-{
-	int profile;
-	char *szProto;
-	wchar_t *msg;
-};
-
 struct PROFILEOPTIONS : public MZeroedObject
 {
 	__inline PROFILEOPTIONS() :

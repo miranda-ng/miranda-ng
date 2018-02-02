@@ -21,14 +21,19 @@
 
 #define MAX_MMITEMS		6
 
-extern HINSTANCE hInst;
+struct PROFILECE
+{
+	int profile;
+	ptrA szProto;
+	ptrW msg;
+};
+
+static OBJLIST<PROFILECE> arProfiles(1);
+
 extern int protoCount;
 
 static int menuprofiles[MAX_MMITEMS];
 static int mcount = 0;
-
-static PROFILECE *pce = nullptr;
-static int pceCount = 0;
 
 static UINT_PTR releaseTtbTimerId = 0;
 
@@ -128,23 +133,21 @@ wchar_t* GetStatusMessage(int profile, const char *szProto)
 	char dbSetting[80];
 	mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 
-	for (int i = 0; i < pceCount; i++) {
-		if ((pce[i].profile == profile) && (!mir_strcmp(pce[i].szProto, szProto))) {
-			replaceStrW(pce[i].msg, db_get_wsa(0, SSMODULENAME, dbSetting));
-			return pce[i].msg;
+	for (int i = 0; i < arProfiles.getCount(); i++) {
+		auto &p = arProfiles[i];
+		if (p.profile == profile && !mir_strcmp(p.szProto, szProto)) {
+			p.msg = db_get_wsa(0, SSMODULENAME, dbSetting);
+			return p.msg;
 		}
 	}
 
-	pce = (PROFILECE*)mir_realloc(pce, (pceCount + 1)*sizeof(PROFILECE));
-	if (pce == nullptr)
-		return nullptr;
+	PROFILECE *pce = new PROFILECE;
+	pce->profile = profile;
+	pce->szProto = mir_strdup(szProto);
+	pce->msg = db_get_wsa(0, SSMODULENAME, dbSetting);
+	arProfiles.insert(pce);
 
-	pce[pceCount].profile = profile;
-	pce[pceCount].szProto = _strdup(szProto);
-	pce[pceCount].msg = db_get_wsa(0, SSMODULENAME, dbSetting);
-	pceCount++;
-
-	return pce[pceCount - 1].msg;
+	return pce->msg;
 }
 
 void FillStatus(SMProto &ps, int profile)
@@ -195,7 +198,7 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 {
 	// wParam == profile no.
 	int profile = (int)iProfileNo;
-	TProtoSettings profileSettings(protoList);
+	TProtoSettings profileSettings = protoList;
 	if (!GetProfile(profile, profileSettings)) {
 		profile = (profile >= 0) ? profile : db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 
@@ -322,13 +325,7 @@ int InitProfileModule()
 
 int DeinitProfilesModule()
 {
-	if (pce) {
-		for (int i = 0; i < pceCount; i++)
-			mir_free(pce[i].szProto);
-		mir_free(pce);
-		pce = nullptr;
-	}
-	pceCount = 0;
+	arProfiles.destroy();
 
 	UnregisterHotKeys();
 	RemoveTopToolbarButtons();

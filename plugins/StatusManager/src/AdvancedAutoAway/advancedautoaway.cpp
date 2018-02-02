@@ -310,7 +310,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			/* SET_ORGSTATUS to ACTIVE */
 			aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
 			aas.m_status = aas.originalStatusMode;
-			confirm = (aas.optionFlags&FLAG_CONFIRM) ? TRUE : confirm;
+			confirm = (aas.optionFlags & FLAG_CONFIRM) ? TRUE : confirm;
 			aas.statusChanged = statusChanged = TRUE;
 			changeState(aas, ACTIVE);
 			aas.sts1setTimer = 0;
@@ -319,7 +319,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	}
 
 	if (confirm || statusChanged) {
-		TProtoSettings ps(protoList);
+		TProtoSettings ps = protoList;
 		for (int i = 0; i < ps.getCount(); i++)
 			if (ps[i].m_status == ID_STATUS_DISABLED)
 				ps[i].m_szName = "";
