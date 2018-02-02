@@ -21,17 +21,25 @@ enum PersonaState
 	LookingToPlay = 6,
 };
 
-enum PersonaStateFlag
+enum class PersonaStateFlag : int
 {
 	None = 0,
 	HasRichPresence = 1,
 	InJoinableGame = 2,
-	OnlineUsingWeb = 256,
-	OnlineUsingMobile = 512,
-	OnlineUsingBigPicture = 1024,
+	ClientTypeWeb = 256,
+	ClientTypeMobile = 512,
+	ClientTypeBigPicture = 1024,
+	ClientTypeVR = 2048,
 };
 
-enum PersonaStatusFlag
+inline PersonaStateFlag operator &(PersonaStateFlag lhs, PersonaStateFlag rhs)
+{
+	return static_cast<PersonaStateFlag> (
+		static_cast<std::underlying_type<PersonaStateFlag>::type>(lhs) &
+		static_cast<std::underlying_type<PersonaStateFlag>::type>(rhs));
+}
+
+enum class PersonaStatusFlag : int
 {
 	Status = 1,
 	PlayerName = 2,
@@ -45,9 +53,17 @@ enum PersonaStatusFlag
 	GameDataBlob = 512,
 	ClanTag = 1024,
 	Facebook = 2048,
+	Unknown = 4096,
 };
 
-enum PersonaRelationshipAction
+inline PersonaStatusFlag operator &(PersonaStatusFlag lhs, PersonaStatusFlag rhs)
+{
+	return static_cast<PersonaStatusFlag> (
+		static_cast<std::underlying_type<PersonaStatusFlag>::type>(lhs) &
+		static_cast<std::underlying_type<PersonaStatusFlag>::type>(rhs));
+}
+
+enum class PersonaRelationshipAction : int
 {
 	// friend removed from contact list
 	Remove = 0,
@@ -60,5 +76,12 @@ enum PersonaRelationshipAction
 	// friend got (or approved?) your auth request
 	AuthRequested = 4,
 };
+
+template<typename T>
+bool contains_flag(T x, T y) {
+	return (static_cast<typename std::underlying_type<T>::type>(x)
+		& static_cast<typename std::underlying_type<T>::type>(y))
+		== static_cast<typename std::underlying_type<T>::type>(y);
+}
 
 #endif //_STEAM_ENUMS_H_

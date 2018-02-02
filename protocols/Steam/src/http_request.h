@@ -128,11 +128,21 @@ public:
 			: nullptr;
 	}
 
-	size_t GetSize() const
+	size_t size() const
 	{
 		return m_request
 			? m_request->headersCount
 			: 0;
+	}
+
+	const NETLIBHTTPHEADER* begin() const
+	{
+		return m_request->headers;
+	}
+
+	const NETLIBHTTPHEADER* end() const
+	{
+		return m_request->headers + m_request->headersCount;
 	}
 
 	HttpHeaders& operator<<(const PARAM &param)
@@ -186,18 +196,21 @@ public:
 			: nullptr;
 	}
 
-	const char* GetData() const
+	operator const uint8_t*() const
 	{
 		return m_request
-			? m_request->pData
+			? (uint8_t*)m_request->pData
 			: nullptr;
 	}
 
-	size_t GetSize() const
+	const uint8_t* data() const
 	{
-		return m_request
-			? m_request->dataLength
-			: 0;
+		return this->operator const uint8_t*();
+	}
+
+	size_t size() const
+	{
+		return m_request ? m_request->dataLength : 0;
 	}
 };
 

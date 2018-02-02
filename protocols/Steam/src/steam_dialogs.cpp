@@ -112,21 +112,21 @@ const char* CSteamTwoFactorDialog::GetTwoFactorCode()
 
 /////////////////////////////////////////////////////////////////////////////////
 
-CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage, int captchaImageSize)
+CSteamCaptchaDialog::CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, int captchaImageSize)
 	: CSteamDlgBase(proto, IDD_CAPTCHA, false),
 	m_ok(this, IDOK), m_text(this, IDC_TEXT),
 	m_captchaImage(nullptr)
 {
 	memset(m_captchaText, 0, sizeof(m_captchaText));
 	m_captchaImageSize = captchaImageSize;
-	m_captchaImage = (BYTE*)mir_alloc(captchaImageSize);
+	m_captchaImage = (uint8_t*)mir_alloc(captchaImageSize);
 	memcpy(m_captchaImage, captchaImage, captchaImageSize);
 	m_ok.OnClick = Callback(this, &CSteamCaptchaDialog::OnOk);
 }
 
 CSteamCaptchaDialog::~CSteamCaptchaDialog()
 {
-	if(m_captchaImage)
+	if (m_captchaImage)
 		mir_free(m_captchaImage);
 }
 
@@ -154,8 +154,7 @@ void CSteamCaptchaDialog::OnClose()
 
 INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_PAINT)
-	{
+	if (msg == WM_PAINT) {
 		FIMEMORY *stream = FreeImage_OpenMemory(m_captchaImage, m_captchaImageSize);
 		FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(stream, 0);
 		FIBITMAP *bitmap = FreeImage_LoadFromMemory(fif, stream, 0);

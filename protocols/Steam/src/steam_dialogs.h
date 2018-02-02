@@ -75,7 +75,7 @@ class CSteamCaptchaDialog : public CSteamDlgBase
 private:
 	char m_captchaText[7];
 
-	BYTE *m_captchaImage;
+	uint8_t *m_captchaImage;
 	int m_captchaImageSize;
 
 	CCtrlEdit m_text;
@@ -89,7 +89,7 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 public:
-	CSteamCaptchaDialog(CSteamProto *proto, BYTE *captchaImage, int captchaImageSize);
+	CSteamCaptchaDialog(CSteamProto *proto, const uint8_t *captchaImage, int captchaImageSize);
 	~CSteamCaptchaDialog();
 
 	const char *GetCaptchaText();

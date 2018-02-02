@@ -123,7 +123,7 @@ void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
 		return;
 	}
 
-	CSteamCaptchaDialog captchaDialog(this, (BYTE*)response.Content.GetData(), response.Content.GetSize());
+	CSteamCaptchaDialog captchaDialog(this, response.Content, response.Content.size());
 	if (captchaDialog.DoModal() != DIALOG_RESULT_OK) {
 		DeleteAuthSettings();
 		SetStatus(ID_STATUS_OFFLINE);
@@ -300,11 +300,11 @@ void CSteamProto::OnGotSession(const HttpResponse &response, void*)
 		return;
 	}
 
-	for (size_t i = 0; i < response.Headers.GetSize(); i++) {
-		if (mir_strcmpi(response.Headers[i]->szName, "Set-Cookie"))
+	for (auto &header : response.Headers) {
+		if (mir_strcmpi(header.szName, "Set-Cookie"))
 			continue;
 
-		std::string cookies = response.Headers[i]->szValue;
+		std::string cookies = header.szValue;
 		size_t start = cookies.find("sessionid=") + 10;
 		size_t end = cookies.substr(start).find(';');
 		std::string sessionId = cookies.substr(start, end - start + 10);

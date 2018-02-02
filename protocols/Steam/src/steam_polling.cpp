@@ -4,6 +4,8 @@
 
 void CSteamProto::ParsePollData(const JSONNode &data)
 {
+	std::string steamIds;
+
 	for (const JSONNode &item : data) {
 		json_string steamId = item["steamid_from"].as_string();
 		time_t timestamp = _wtol(item["utc_timestamp"].as_mstring());
@@ -22,8 +24,11 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			recv.szMessage = (char*)text.c_str();
 			recv.flags = PREF_SENT;
 			RecvMsg(hContact, &recv);
+
+			continue;
 		}
-		else if (type == "saytext" || type =="emote") {
+
+		if (type == "saytext" || type =="emote") {
 			json_string text = item["text"].as_string();
 
 			PROTORECVEVENT recv = { 0 };
@@ -33,8 +38,11 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)PROTOTYPE_CONTACTTYPING_OFF);
 			m_typingTimestamps[steamId] = 0;
+
+			continue;
 		}
-		else if (type == "typing") {
+
+		if (type == "typing") {
 			auto it = m_typingTimestamps.find(steamId);
 			if (it != m_typingTimestamps.end()) {
 				if ((timestamp - it->second) < STEAM_TYPING_TIME)
@@ -42,8 +50,11 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			}
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)STEAM_TYPING_TIME);
 			m_typingTimestamps[steamId] = timestamp;
+
+			continue;
 		}
-		else if (type == "personastate") {
+
+		if (type == "personastate") {
 			if (!IsMe(steamId.c_str())) {
 				// there no sense to change own status
 				JSONNode node = item["persona_state"];
@@ -52,16 +63,13 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 					SetContactStatus(hContact, status);
 				}
 			}
+			steamIds.append(steamId).append(",");
 
-			int statusFlags = item["status_flags"].as_int();
-			if ((statusFlags & PersonaStatusFlag::PlayerName) == PersonaStatusFlag::PlayerName) {
-				CMStringW nick = item["persona_name"].as_mstring();
-				if (!nick.IsEmpty())
-					setWString(hContact, "Nick", nick);
-			}
+			continue;
 		}
-		else if (type == "personarelationship") {
-			int state = item["persona_state"].as_int();
+
+		if (type == "personarelationship") {
+			PersonaRelationshipAction state = (PersonaRelationshipAction)item["persona_state"].as_int();
 			switch (state) {
 			case PersonaRelationshipAction::Remove:
 				hContact = GetContact(steamId.c_str());
@@ -76,7 +84,7 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 				break;
 
 			case PersonaRelationshipAction::AuthRequest:
-				hContact = GetContact(steamId.c_str());
+				hContact = AddContact(steamId.c_str());
 				if (hContact)
 					ContactIsAskingAuth(hContact);
 				else {
@@ -92,12 +100,13 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 				hContact = GetContact(steamId.c_str());
 				if (hContact)
 					ContactIsFriend(hContact);
-
-			default:
-				continue;
+				break;
 			}
+
+			continue;
 		}
-		else if (type == "leftconversation") {
+		
+		if (type == "leftconversation") {
 			if (!getBool("ShowChatEvents", true))
 				continue;
 
@@ -110,21 +119,21 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			dbei.timestamp = now();
 			dbei.szModule = m_szModuleName;
 			db_event_add(hContact, &dbei);
-		}
-		else {
-			debugLogA(__FUNCTION__ ": Unknown event type \"%s\"", type.c_str());
+
 			continue;
 		}
+
+		debugLogA(__FUNCTION__ ": Unknown event type \"%s\"", type.c_str());
 	}
 
-	/*if (!steamIds.empty()) {
-		steamIds.pop_back();
+	if (steamIds.empty())
+		return;
 
-		ptrA token(getStringA("TokenSecret"));
-		PushRequest(
-			new GetUserSummariesRequest(token, steamIds.c_str()),
-			&CSteamProto::OnGotUserSummaries);
-	}*/
+	steamIds.pop_back();
+	ptrA token(getStringA("TokenSecret"));
+	PushRequest(
+		new GetUserSummariesRequest(token, steamIds.c_str()),
+		&CSteamProto::OnGotUserSummaries);
 }
 
 struct PollParam

@@ -33,6 +33,7 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 				SetContactExtraIcon(hContact, NULL);
 			}
 			// no break intentionally
+			[[fallthrough]];
 
 		default:
 			db_unset(hContact, "CList", "StatusMsg");
@@ -161,28 +162,35 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 
 	// client
 	node = data["personastateflags"];
-	long stateflags = !node.isnull() ? node.as_int() : -1;
-	if (stateflags == 0) {
+	PersonaStateFlag stateflags = !node.isnull()
+		? (PersonaStateFlag)node.as_int()
+		: (PersonaStateFlag)(-1);
+
+	if (stateflags == PersonaStateFlag::None) {
 		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
 		WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (status == ID_STATUS_ONLINE || status == ID_STATUS_OUTTOLUNCH || status == ID_STATUS_FREECHAT)
 			setWString(hContact, "MirVer", L"Steam");
 	}
-	else if (stateflags & PersonaStateFlag::InJoinableGame) {
+	else if (contains_flag(stateflags, PersonaStateFlag::InJoinableGame)) {
 		// game
 		setWString(hContact, "MirVer", L"Steam (in game)");
 	}
-	else if (stateflags & PersonaStateFlag::OnlineUsingWeb) {
+	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeWeb)) {
 		// on website
 		setWString(hContact, "MirVer", L"Steam (website)");
 	}
-	else if (stateflags & PersonaStateFlag::OnlineUsingMobile) {
+	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeMobile)) {
 		// on mobile
 		setWString(hContact, "MirVer", L"Steam (mobile)");
 	}
-	else if (stateflags & PersonaStateFlag::OnlineUsingBigPicture) {
-		// big picture mode
+	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeBigPicture)) {
+		// on big picture
 		setWString(hContact, "MirVer", L"Steam (Big Picture)");
+	}
+	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeVR)) {
+		// on VR
+		setWString(hContact, "MirVer", L"Steam (VR)");
 	}
 	else {
 		// none/unknown (e.g. when contact is offline)
@@ -533,7 +541,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 
 	FILE *file = _wfopen(ai.filename, L"wb");
 	if (file) {
-		fwrite(response.Content, sizeof(char), response.Content.GetSize(), file);
+		fwrite((const char*)response.Content, sizeof(char), response.Content.size(), file);
 		fclose(file);
 
 		if (ai.hContact)
