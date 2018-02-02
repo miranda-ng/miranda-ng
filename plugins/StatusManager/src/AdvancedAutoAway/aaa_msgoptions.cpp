@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				break;
 			}
 
-			settings = (AAMSGSETTING**)malloc(sizeof(AAMSGSETTING*));
+			settings = (AAMSGSETTING**)mir_alloc(sizeof(AAMSGSETTING*));
 			count = 0;
 			for (int i = 0; i < _countof(statusModeList); i++) {
 				if (!(protoModeMsgFlags & Proto_Status2Flag(statusModeList[i])))
@@ -76,13 +76,13 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				int j = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(statusModeList[i], 0));
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, j, statusModeList[i]);
-				settings = (AAMSGSETTING**)realloc(settings, (count + 1) * sizeof(AAMSGSETTING*));
-				settings[count] = (AAMSGSETTING*)malloc(sizeof(AAMSGSETTING));
+				settings = (AAMSGSETTING**)mir_realloc(settings, (count + 1) * sizeof(AAMSGSETTING*));
+				settings[count] = (AAMSGSETTING*)mir_alloc(sizeof(AAMSGSETTING));
 				settings[count]->status = statusModeList[i];
 
 				DBVARIANT dbv;
 				if (!db_get(0, AAAMODULENAME, StatusModeToDbSetting(statusModeList[i], SETTING_STATUSMSG), &dbv)) {
-					settings[count]->msg = (char*)malloc(mir_strlen(dbv.pszVal) + 1);
+					settings[count]->msg = (char*)mir_alloc(mir_strlen(dbv.pszVal) + 1);
 					mir_strcpy(settings[count]->msg, dbv.pszVal);
 					db_free(&dbv);
 				}
@@ -121,9 +121,9 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				int len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
 				if (last != -1) {
 					if (settings[last]->msg == nullptr)
-						settings[last]->msg = (char*)malloc(len + 1);
+						settings[last]->msg = (char*)mir_alloc(len + 1);
 					else
-						settings[last]->msg = (char*)realloc(settings[last]->msg, len + 1);
+						settings[last]->msg = (char*)mir_realloc(settings[last]->msg, len + 1);
 					GetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[last]->msg, (len + 1));
 				}
 
@@ -173,10 +173,10 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_DESTROY:
 		for (int i = 0; i < count; i++) {
-			free(settings[i]->msg);
-			free(settings[i]);
+			mir_free(settings[i]->msg);
+			mir_free(settings[i]);
 		}
-		free(settings);
+		mir_free(settings);
 		break;
 	}
 

@@ -53,7 +53,7 @@ static char* GetCMDLArguments(TProtoSettings& protoSettings)
 		return nullptr;
 
 	char *cmdl, *pnt;
-	pnt = cmdl = (char*)malloc(mir_strlen(protoSettings[0].m_szName) + mir_strlen(GetStatusDesc(protoSettings[0].m_status)) + 4);
+	pnt = cmdl = (char*)mir_alloc(mir_strlen(protoSettings[0].m_szName) + mir_strlen(GetStatusDesc(protoSettings[0].m_status)) + 4);
 
 	for (int i = 0; i < protoSettings.getCount(); i++) {
 		*pnt++ = '/';
@@ -65,7 +65,7 @@ static char* GetCMDLArguments(TProtoSettings& protoSettings)
 		if (i != protoSettings.getCount() - 1) {
 			*pnt++ = ' ';
 			*pnt++ = '\0';
-			cmdl = (char*)realloc(cmdl, mir_strlen(cmdl) + mir_strlen(protoSettings[i + 1].m_szName) + mir_strlen(GetStatusDesc(protoSettings[i + 1].m_status)) + 4);
+			cmdl = (char*)mir_realloc(cmdl, mir_strlen(cmdl) + mir_strlen(protoSettings[i + 1].m_szName) + mir_strlen(GetStatusDesc(protoSettings[i + 1].m_status)) + 4);
 			pnt = cmdl + mir_strlen(cmdl);
 		}
 	}
@@ -73,7 +73,7 @@ static char* GetCMDLArguments(TProtoSettings& protoSettings)
 	if (db_get_b(0, SSMODULENAME, SETTING_SHOWDIALOG, FALSE) == TRUE) {
 		*pnt++ = ' ';
 		*pnt++ = '\0';
-		cmdl = (char*)realloc(cmdl, mir_strlen(cmdl) + 12);
+		cmdl = (char*)mir_realloc(cmdl, mir_strlen(cmdl) + 12);
 		pnt = cmdl + mir_strlen(cmdl);
 		mir_strcpy(pnt, "/showdialog");
 		pnt += 11;
@@ -88,14 +88,14 @@ static char* GetCMDL(TProtoSettings& protoSettings)
 	char path[MAX_PATH];
 	GetModuleFileNameA(nullptr, path, MAX_PATH);
 
-	char* cmdl = (char*)malloc(mir_strlen(path) + 4);
+	char* cmdl = (char*)mir_alloc(mir_strlen(path) + 4);
 	mir_snprintf(cmdl, mir_strlen(path) + 4, "\"%s\" ", path);
 
 	char* args = GetCMDLArguments(protoSettings);
 	if (args) {
-		cmdl = (char*)realloc(cmdl, mir_strlen(cmdl) + mir_strlen(args) + 1);
+		cmdl = (char*)mir_realloc(cmdl, mir_strlen(cmdl) + mir_strlen(args) + 1);
 		mir_strcat(cmdl, args);
-		free(args);
+		mir_free(args);
 	}
 	return cmdl;
 }
@@ -168,8 +168,8 @@ HRESULT CreateLink(TProtoSettings& protoSettings)
 			ppf->Release();
 		}
 		psl->Release();
-		free(args);
-		free(desc);
+		mir_free(args);
+		mir_free(desc);
 	}
 
 	return hres;
@@ -186,7 +186,7 @@ INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			optionsProtoSettings = (TProtoSettings*)lParam;
 			char* cmdl = GetCMDL(*optionsProtoSettings);
 			SetDlgItemTextA(hwndDlg, IDC_CMDL, cmdl);
-			free(cmdl);
+			mir_free(cmdl);
 		}
 		break;
 
@@ -397,11 +397,8 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 				int defProfile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 
-				TProtoSettings ps = protoList;
+				TProtoSettings ps(protoList);
 				GetProfile(defProfile, ps);
-				for (int i = 0; i < ps.getCount(); i++)
-					if (ps[i].m_szMsg != nullptr)
-						ps[i].m_szMsg = wcsdup(ps[i].m_szMsg);
 
 				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CMDLOPTIONS), hwndDlg, CmdlOptionsDlgProc, (LPARAM)&ps);
 				break;
@@ -664,7 +661,6 @@ public:
 
 		for (int i = 0; i < profileCount; i++) {
 			PROFILEOPTIONS *ppo = new PROFILEOPTIONS;
-			ppo->ps = protoList;
 			TProtoSettings &ar = ppo->ps;
 
 			if (GetProfile(i, ar) == -1) {
@@ -675,10 +671,6 @@ public:
 					ppo->tszName = mir_wstrdup(TranslateT("unknown"));
 			}
 			else {
-				for (int j = 0; j < ar.getCount(); j++)
-					if (ar[j].m_szMsg != nullptr)
-						ar[j].m_szMsg = wcsdup(ar[j].m_szMsg);
-
 				ppo->tszName = db_get_wsa(0, SSMODULENAME, OptName(i, SETTING_PROFILENAME));
 				if (ppo->tszName == nullptr) {
 					if (i == defProfile)
@@ -805,12 +797,12 @@ public:
 		int len;
 		SMProto* ps = (SMProto*)lstAccount.GetItemData(lstAccount.GetCurSel());
 		if (ps->m_szMsg != nullptr)
-			free(ps->m_szMsg);
+			mir_free(ps->m_szMsg);
 
 		ps->m_szMsg = nullptr;
 		if (chkCustom.GetState()) {
 			len = edtStatusMsg.SendMsg(WM_GETTEXTLENGTH, 0, 0);
-			ps->m_szMsg = (wchar_t*)calloc(sizeof(wchar_t), len + 1);
+			ps->m_szMsg = (wchar_t*)mir_calloc(sizeof(wchar_t) * (len + 1));
 			GetDlgItemText(m_hwnd, IDC_STATUSMSG, ps->m_szMsg, (len + 1));
 		}
 		SetStatusMsg();
@@ -829,11 +821,11 @@ public:
 		SMProto* ps = (SMProto*)lstAccount.GetItemData(lstAccount.GetCurSel());
 		if (ps->m_szMsg != nullptr) {
 			if (*ps->m_szMsg)
-				free(ps->m_szMsg);
+				mir_free(ps->m_szMsg);
 			ps->m_szMsg = nullptr;
 		}
 		int len = edtStatusMsg.SendMsg(WM_GETTEXTLENGTH, 0, 0);
-		ps->m_szMsg = (wchar_t*)calloc(sizeof(wchar_t), len + 1);
+		ps->m_szMsg = (wchar_t*)mir_calloc(sizeof(wchar_t) * (len + 1));
 		GetDlgItemText(m_hwnd, IDC_STATUSMSG, ps->m_szMsg, (len + 1));
 	}
 
@@ -852,7 +844,7 @@ public:
 	void onChange_Option(CCtrlCheck*)
 	{
 		int sel = cmbProfile.GetItemData(cmbProfile.GetCurSel());
-		PROFILEOPTIONS& po = arProfiles[sel];
+		PROFILEOPTIONS &po = arProfiles[sel];
 		po.createMmi = chkCreateMMI.GetState();
 		po.inSubMenu = chkInSubmenu.GetState();
 		po.createTtb = chkCreateTTB.GetState();
@@ -871,7 +863,6 @@ public:
 
 			PROFILEOPTIONS* ppo = new PROFILEOPTIONS;
 			ppo->tszName = mir_wstrdup(tszName);
-			ppo->ps = protoList;
 			arProfiles.insert(ppo);
 
 			ReinitProfiles();

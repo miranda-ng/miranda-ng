@@ -29,16 +29,16 @@ static int timeOut;
 
 struct TConfirmSetting : public PROTOCOLSETTINGEX
 {
-	TConfirmSetting(const PROTOCOLSETTINGEX& x)
+	TConfirmSetting(const PROTOCOLSETTINGEX &x)
 	{
 		memcpy(this, &x, sizeof(PROTOCOLSETTINGEX));
 		if (m_szMsg)
-			m_szMsg = wcsdup(m_szMsg);
+			m_szMsg = mir_wstrdup(m_szMsg);
 	}
 
 	~TConfirmSetting()
 	{
-		free(m_szMsg);
+		mir_free(m_szMsg);
 	}
 };
 
@@ -80,7 +80,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			{
 				int len = SendDlgItemMessage(hwndDlg, IDC_STSMSG, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
-					protoSetting->m_szMsg = (wchar_t*)realloc(protoSetting->m_szMsg, sizeof(wchar_t)*(len + 1));
+					protoSetting->m_szMsg = (wchar_t*)mir_realloc(protoSetting->m_szMsg, sizeof(wchar_t)*(len + 1));
 					if (protoSetting->m_szMsg != nullptr)
 						GetDlgItemText(hwndDlg, IDC_STSMSG, protoSetting->m_szMsg, len + 1);
 				}
@@ -239,15 +239,11 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					int profile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 					for (int i = 0; i < confirmSettings->getCount(); i++)
-						if ((*confirmSettings)[i].m_szMsg != nullptr) {
-							free((*confirmSettings)[i].m_szMsg);
-							(*confirmSettings)[i].m_szMsg = nullptr;
-						}
+						replaceStrW((*confirmSettings)[i].m_szMsg, nullptr);
 
 					CallService(MS_SS_GETPROFILE, (WPARAM)profile, (LPARAM)confirmSettings);
 					for (int i = 0; i < confirmSettings->getCount(); i++)
-						if ((*confirmSettings)[i].m_szMsg != nullptr) // we free this later, copy to our memory space
-							(*confirmSettings)[i].m_szMsg = wcsdup((*confirmSettings)[i].m_szMsg);
+						(*confirmSettings)[i].m_szMsg = mir_wstrdup((*confirmSettings)[i].m_szMsg);
 
 					SetStatusList(hwndDlg);
 				}

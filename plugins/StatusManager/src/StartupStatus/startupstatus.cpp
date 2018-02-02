@@ -123,12 +123,7 @@ static void SetLastStatusMessages(TProtoSettings &ps)
 
 		char dbSetting[128];
 		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, ps[i].m_szName);
-
-		DBVARIANT dbv;
-		if (ps[i].m_szMsg == nullptr && !db_get_ws(0, SSMODULENAME, dbSetting, &dbv)) {
-			ps[i].m_szMsg = wcsdup(dbv.ptszVal); // remember this won't be freed
-			db_free(&dbv);
-		}
+		ps[i].m_szMsg = db_get_wsa(0, SSMODULENAME, dbSetting);
 	}
 }
 

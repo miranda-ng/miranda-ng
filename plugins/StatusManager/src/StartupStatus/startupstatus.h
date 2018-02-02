@@ -31,7 +31,7 @@ struct PROFILECE
 struct PROFILEOPTIONS : public MZeroedObject
 {
 	__inline PROFILEOPTIONS() :
-		ps(10, CompareProtoSettings)
+		ps(protoList)
 	{}
 
 	__inline ~PROFILEOPTIONS()
@@ -54,70 +54,70 @@ typedef struct {
 	int profile;
 } HKINFO;
 
-#define UM_REINITPROFILES	WM_USER + 1
-#define UM_ADDPROFILE		WM_USER + 5
-#define UM_REINITDOCKED		WM_USER + 7
-#define UM_REINITWINSTATE	WM_USER + 8
-#define UM_REINITWINSIZE	WM_USER + 9
+#define UM_REINITPROFILES   WM_USER + 1
+#define UM_ADDPROFILE       WM_USER + 5
+#define UM_REINITDOCKED     WM_USER + 7
+#define UM_REINITWINSTATE   WM_USER + 8
+#define UM_REINITWINSIZE    WM_USER + 9
 
 #define CLUIINTM_REDRAW (WM_USER+100)
 
-#define MODULE_CLIST					"CList"
-#define MODULE_CLUI						"CLUI"
-#define SETTING_STATUS					"Status"
+#define MODULE_CLIST              "CList"
+#define MODULE_CLUI               "CLUI"
+#define SETTING_STATUS            "Status"
 
-#define SETTING_SETWINSTATE				"SetState"
-#define SETTING_WINSTATE				"State"
+#define SETTING_SETWINSTATE       "SetState"
+#define SETTING_WINSTATE          "State"
 
-#define SETTING_SETDOCKED				"SetDocked"
-#define SETTING_DOCKED					"Docked"
+#define SETTING_SETDOCKED         "SetDocked"
+#define SETTING_DOCKED            "Docked"
 
-#define SETTING_SHOWDIALOG				"ShowDialog"
-#define SETTING_OFFLINECLOSE			"OfflineOnClose"
-#define SETTING_SETPROFILE				"SetStatusOnStartup"
-#define SETTING_AUTODIAL				"AutoDial"
-#define SETTING_AUTOHANGUP				"AutoHangup"
+#define SETTING_SHOWDIALOG        "ShowDialog"
+#define SETTING_OFFLINECLOSE      "OfflineOnClose"
+#define SETTING_SETPROFILE        "SetStatusOnStartup"
+#define SETTING_AUTODIAL          "AutoDial"
+#define SETTING_AUTOHANGUP        "AutoHangup"
 
-#define SETTING_TOOLWINDOW				"ToolWindow"
+#define SETTING_TOOLWINDOW        "ToolWindow"
 
-#define SETTING_OVERRIDE				"AllowOverride"
+#define SETTING_OVERRIDE          "AllowOverride"
 
-#define SETTING_SETWINLOCATION			"SetWinLoc"
-#define SETTING_XPOS					"x"
-#define SETTING_YPOS					"y"
+#define SETTING_SETWINLOCATION    "SetWinLoc"
+#define SETTING_XPOS              "x"
+#define SETTING_YPOS              "y"
 
-#define SETTING_SETWINSIZE				"SetWinSize"
-#define SETTING_WIDTH					"Width"
-#define SETTING_HEIGHT					"Height"
-#define SETTING_AUTOSIZE				"AutoSize"
+#define SETTING_SETWINSIZE        "SetWinSize"
+#define SETTING_WIDTH             "Width"
+#define SETTING_HEIGHT            "Height"
+#define SETTING_AUTOSIZE          "AutoSize"
 
-#define SETTING_PROFILECOUNT			"ProfileCount"
-#define SETTING_DEFAULTPROFILE			"DefaultProfile"
-#define SETTING_PROFILENAME				"ProfileName"
-#define SETTING_CREATETTBBUTTON			"CreateTTBButton"
-#define SETTING_PROFILE_STSMSG			"StatusMsg"
-#define SETTING_SHOWCONFIRMDIALOG		"profile_ShowDialog"
-#define SETTING_CREATEMMITEM			"CreateMMItem"
-#define SETTING_INSUBMENU				"InSubMenu"
-#define SETTING_REGHOTKEY				"RegHotKey"
-#define SETTING_HOTKEY					"HotKey"
-#define SETTING_PROFILENO				"ProfileNo"
+#define SETTING_PROFILECOUNT      "ProfileCount"
+#define SETTING_DEFAULTPROFILE    "DefaultProfile"
+#define SETTING_PROFILENAME       "ProfileName"
+#define SETTING_CREATETTBBUTTON   "CreateTTBButton"
+#define SETTING_PROFILE_STSMSG    "StatusMsg"
+#define SETTING_SHOWCONFIRMDIALOG "profile_ShowDialog"
+#define SETTING_CREATEMMITEM      "CreateMMItem"
+#define SETTING_INSUBMENU         "InSubMenu"
+#define SETTING_REGHOTKEY         "RegHotKey"
+#define SETTING_HOTKEY            "HotKey"
+#define SETTING_PROFILENO         "ProfileNo"
 
-#define SETTING_SETPROFILEDELAY			"SetStatusDelay"
-#define SETTING_DLGTIMEOUT				"DialogTimeout"
+#define SETTING_SETPROFILEDELAY "SetStatusDelay"
+#define SETTING_DLGTIMEOUT      "DialogTimeout"
 
-#define SHORTCUT_DESC					L"Miranda NG"
-#define SHORTCUT_FILENAME				L"\\Miranda NG.lnk"
+#define SHORTCUT_DESC      L"Miranda NG"
+#define SHORTCUT_FILENAME  L"\\Miranda NG.lnk"
 
-#define DOCKED_NONE						0
-#define DOCKED_LEFT						1
-#define DOCKED_RIGHT					2
+#define DOCKED_NONE  0
+#define DOCKED_LEFT  1
+#define DOCKED_RIGHT 2
 
 #define MS_SS_MENUSETPROFILEPREFIX		"StartupStatus/SetProfile_"
 
 // options
 int StartupStatusOptionsInit(WPARAM wparam,LPARAM lparam);
-char* OptName(int i, const char* setting);
+char* OptName(int i, const char *setting);
 
 // startupstatus
 void StartupStatusLoad();
@@ -125,12 +125,10 @@ void StartupStatusUnload();
 
 int SSLoadMainOptions();
 
-void GetCurrentProtoSettings(TProtoSettings&);
-
 // profile
 void FillStatus(SMProto &ps, int profile);
-int GetProfile(int profileID, TProtoSettings& arSettings );
-wchar_t *GetStatusMessage(int profile, char *szProto);
+int GetProfile(int profileID, TProtoSettings &arSettings);
+wchar_t* GetStatusMessage(int profile, const char *szProto);
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam);
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam);

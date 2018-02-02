@@ -187,20 +187,15 @@ static int changeState(SMProto &setting, STATES newState)
 	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.statusChanged) {
 		/* change the awaymessage */
 		if (setting.m_szMsg != nullptr) {
-			free(setting.m_szMsg);
+			mir_free(setting.m_szMsg);
 			setting.m_szMsg = nullptr;
 		}
 
-		if (db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_MSGCUSTOM), FALSE)) {
-			DBVARIANT dbv;
-			if (!db_get_ws(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_STATUSMSG), &dbv)) {
-				setting.m_szMsg = wcsdup(dbv.ptszVal);
-				db_free(&dbv);
-			}
-		}
+		if (db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_MSGCUSTOM), FALSE))
+			setting.m_szMsg = db_get_wsa(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_STATUSMSG));
 	}
 	else if (setting.m_szMsg != nullptr) {
-		free(setting.m_szMsg);
+		mir_free(setting.m_szMsg);
 		setting.m_szMsg = nullptr;
 	}
 
@@ -324,14 +319,10 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	}
 
 	if (confirm || statusChanged) {
-		TProtoSettings ps = protoList;
-		for (int i = 0; i < ps.getCount(); i++) {
-			if (ps[i].m_szMsg)
-				ps[i].m_szMsg = wcsdup(ps[i].m_szMsg);
-
+		TProtoSettings ps(protoList);
+		for (int i = 0; i < ps.getCount(); i++)
 			if (ps[i].m_status == ID_STATUS_DISABLED)
 				ps[i].m_szName = "";
-		}
 
 		if (confirm)
 			confirmDialog = ShowConfirmDialogEx(&ps, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));

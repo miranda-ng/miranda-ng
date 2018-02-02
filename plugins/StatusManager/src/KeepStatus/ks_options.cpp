@@ -136,7 +136,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				int len = SendDlgItemMessage(hwndDlg, IDC_PINGHOST, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
-					host = (char*)malloc(len + 1);
+					host = (char*)mir_alloc(len + 1);
 					if (host != nullptr) {
 						memset(host, '\0', len + 1);
 						GetDlgItemTextA(hwndDlg, IDC_PINGHOST, host, len + 1);

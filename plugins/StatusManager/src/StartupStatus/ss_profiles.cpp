@@ -123,42 +123,25 @@ INT_PTR GetProfileCount(WPARAM wParam, LPARAM)
 	return count;
 }
 
-wchar_t* GetStatusMessage(int profile, char *szProto)
+wchar_t* GetStatusMessage(int profile, const char *szProto)
 {
 	char dbSetting[80];
-	DBVARIANT dbv;
+	mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 
 	for (int i = 0; i < pceCount; i++) {
 		if ((pce[i].profile == profile) && (!mir_strcmp(pce[i].szProto, szProto))) {
-			mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-			if (!db_get_ws(0, SSMODULENAME, dbSetting, &dbv)) { // reload from db
-				pce[i].msg = (wchar_t*)realloc(pce[i].msg, sizeof(wchar_t)*(mir_wstrlen(dbv.ptszVal) + 1));
-				if (pce[i].msg != nullptr) {
-					mir_wstrcpy(pce[i].msg, dbv.ptszVal);
-				}
-				db_free(&dbv);
-			}
-			else {
-				if (pce[i].msg != nullptr) {
-					free(pce[i].msg);
-					pce[i].msg = nullptr;
-				}
-			}
+			replaceStrW(pce[i].msg, db_get_wsa(0, SSMODULENAME, dbSetting));
 			return pce[i].msg;
 		}
 	}
-	pce = (PROFILECE*)realloc(pce, (pceCount + 1)*sizeof(PROFILECE));
+
+	pce = (PROFILECE*)mir_realloc(pce, (pceCount + 1)*sizeof(PROFILECE));
 	if (pce == nullptr)
 		return nullptr;
 
 	pce[pceCount].profile = profile;
 	pce[pceCount].szProto = _strdup(szProto);
-	pce[pceCount].msg = nullptr;
-	mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-	if (!db_get_ws(0, SSMODULENAME, dbSetting, &dbv)) {
-		pce[pceCount].msg = wcsdup(dbv.ptszVal);
-		db_free(&dbv);
-	}
+	pce[pceCount].msg = db_get_wsa(0, SSMODULENAME, dbSetting);
 	pceCount++;
 
 	return pce[pceCount - 1].msg;
@@ -183,7 +166,7 @@ void FillStatus(SMProto &ps, int profile)
 
 	ps.m_szMsg = GetStatusMessage(profile, ps.m_szName);
 	if (ps.m_szMsg)
-		ps.m_szMsg = wcsdup(ps.m_szMsg);
+		ps.m_szMsg = mir_wstrdup(ps.m_szMsg);
 }
 
 int GetProfile(int profile, TProtoSettings &arSettings)
@@ -212,7 +195,7 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 {
 	// wParam == profile no.
 	int profile = (int)iProfileNo;
-	TProtoSettings profileSettings(10, CompareProtoSettings);
+	TProtoSettings profileSettings(protoList);
 	if (!GetProfile(profile, profileSettings)) {
 		profile = (profile >= 0) ? profile : db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 
@@ -264,7 +247,7 @@ static int UnregisterHotKeys()
 			UnregisterHotKey(hMessageWindow, (int)hkInfo[i].id);
 			GlobalDeleteAtom(hkInfo[i].id);
 		}
-		free(hkInfo);
+		mir_free(hkInfo);
 	}
 	DestroyWindow(hMessageWindow);
 
@@ -287,7 +270,7 @@ static int RegisterHotKeys()
 			continue;
 
 		WORD wHotKey = db_get_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), 0);
-		hkInfo = (HKINFO*)realloc(hkInfo, (hkiCount + 1)*sizeof(HKINFO));
+		hkInfo = (HKINFO*)mir_realloc(hkInfo, (hkiCount + 1)*sizeof(HKINFO));
 		if (hkInfo == nullptr)
 			return -1;
 
@@ -341,8 +324,8 @@ int DeinitProfilesModule()
 {
 	if (pce) {
 		for (int i = 0; i < pceCount; i++)
-			free(pce[i].szProto);
-		free(pce);
+			mir_free(pce[i].szProto);
+		mir_free(pce);
 		pce = nullptr;
 	}
 	pceCount = 0;

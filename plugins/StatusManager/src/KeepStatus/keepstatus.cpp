@@ -130,14 +130,14 @@ int KSLoadOptions()
 static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 {
 	mir_cslock lck(GenStatusCS);
-	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)malloc(protoList.getCount() * sizeof(PROTOCOLSETTINGEX *));
+	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)mir_alloc(protoList.getCount() * sizeof(PROTOCOLSETTINGEX *));
 	if (ps == nullptr) {
 		return nullptr;
 	}
 	for (int i = 0; i < protoList.getCount(); i++) {
-		ps[i] = (PROTOCOLSETTINGEX*)calloc(1, sizeof(PROTOCOLSETTINGEX));
+		ps[i] = (PROTOCOLSETTINGEX*)mir_calloc(sizeof(PROTOCOLSETTINGEX));
 		if (ps[i] == nullptr) {
-			free(ps);
+			mir_free(ps);
 			return nullptr;
 		}
 
@@ -156,10 +156,10 @@ static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
 {
 	for (int i = 0; i < protoList.getCount(); i++) {
 		if (ps[i]->m_szMsg != nullptr)
-			free(ps[i]->m_szMsg);
-		free(ps[i]);
+			mir_free(ps[i]->m_szMsg);
+		mir_free(ps[i]);
 	}
-	free(ps);
+	mir_free(ps);
 }
 
 int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
@@ -187,13 +187,13 @@ int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 
 	if (pwszMsg != nullptr && mir_wstrcmp(pwszMsg, m_szMsg)) {
 		if (m_szMsg != nullptr)
-			free(m_szMsg);
+			mir_free(m_szMsg);
 
-		m_szMsg = wcsdup(pwszMsg);
+		m_szMsg = mir_wstrdup(pwszMsg);
 	}
 	else if (pwszMsg != m_szMsg) {
 		if (m_szMsg != nullptr)
-			free(m_szMsg);
+			mir_free(m_szMsg);
 
 		m_szMsg = nullptr;
 	}

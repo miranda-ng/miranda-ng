@@ -119,12 +119,7 @@ static void SetDialogStatus(HWND hwndDlg, SMProto *sameSetting)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Rules dialog window procedure
 
-int AAACompareSettings(const SMProto *p1, const SMProto *p2)
-{
-	return mir_strcmp(p1->m_szName, p2->m_szName);
-}
-
-static TProtoSettings optionSettings(10, AAACompareSettings);
+static TProtoSettings optionSettings;
 
 static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -140,7 +135,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 		// copy the settings
 		optionSettings = protoList;
 
-		sameSetting = (SMProto*)malloc(sizeof(SMProto));
+		sameSetting = (SMProto*)mir_alloc(sizeof(SMProto));
 		LoadAutoAwaySetting(*sameSetting, SETTING_ALL);
 
 		// fill list from currentProtoSettings
@@ -348,7 +343,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 	case WM_DESTROY:
 		optionSettings.destroy();
-		free(sameSetting);
+		mir_free(sameSetting);
 		break;
 	}
 	return FALSE;

@@ -29,7 +29,7 @@ int CompareProtoSettings(const SMProto *p1, const SMProto *p2)
 	return mir_strcmp(p1->m_szName, p2->m_szName);
 }
 
-OBJLIST<SMProto> protoList(10, CompareProtoSettings);
+TProtoSettings protoList;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,9 +40,28 @@ SMProto::SMProto(PROTOACCOUNT *pa)
 	m_status = m_lastStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 }
 
+SMProto::SMProto(const SMProto &p)
+{
+	memcpy(this, &p, sizeof(SMProto));
+	m_szMsg = mir_wstrdup(p.m_szMsg);
+}
+
 SMProto::~SMProto()
 {
-	free(m_szMsg);
+	mir_free(m_szMsg);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+TProtoSettings::TProtoSettings()
+	: OBJLIST<SMProto>(10, CompareProtoSettings)
+{}
+
+TProtoSettings::TProtoSettings(const TProtoSettings &p)
+	: OBJLIST<SMProto>(p.getCount(), CompareProtoSettings)
+{
+	for (int i = 0; i < p.getCount(); i++)
+		insert(new SMProto(p[i]));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

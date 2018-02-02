@@ -101,6 +101,7 @@ typedef enum
 struct SMProto : public PROTOCOLSETTINGEX, public MZeroedObject
 {
 	SMProto(PROTOACCOUNT *pa);
+	SMProto(const SMProto&);
 	~SMProto();
 
 	// AdvancedAutoAway settings
@@ -125,7 +126,12 @@ struct SMProto : public PROTOCOLSETTINGEX, public MZeroedObject
 	int lastStatusAckTime; // the time the last status ack was received
 };
 
-typedef OBJLIST<SMProto> TProtoSettings;
+struct TProtoSettings : public OBJLIST<SMProto>
+{
+	TProtoSettings();
+	TProtoSettings(const TProtoSettings&);
+};
+
 extern TProtoSettings protoList;
 
 int CompareProtoSettings(const SMProto *p1, const SMProto *p2);
