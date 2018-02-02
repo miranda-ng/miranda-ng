@@ -117,7 +117,7 @@ void CToxProto::LoadFriendList(Tox *tox)
 	size_t count = tox_self_get_friend_list_size(tox);
 	if (count > 0) {
 		uint32_t *friends = (uint32_t*)mir_alloc(count * sizeof(uint32_t));
-		tox_self_get_friend_list(m_toxThread->Tox(), friends);
+		tox_self_get_friend_list(tox, friends);
 
 		for (size_t i = 0; i < count; i++) {
 			uint32_t friendNumber = friends[i];
@@ -133,13 +133,13 @@ void CToxProto::LoadFriendList(Tox *tox)
 
 				TOX_ERR_FRIEND_QUERY getNameResult;
 				uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
-				if (tox_friend_get_name(m_toxThread->Tox(), friendNumber, nick, &getNameResult))
+				if (tox_friend_get_name(tox, friendNumber, nick, &getNameResult))
 					setWString(hContact, "Nick", ptrW(mir_utf8decodeW((char*)nick)));
 				else
 					debugLogA(__FUNCTION__": failed to get friend name (%d)", getNameResult);
 
 				TOX_ERR_FRIEND_GET_LAST_ONLINE getLastOnlineResult;
-				uint64_t timestamp = tox_friend_get_last_online(m_toxThread->Tox(), friendNumber, &getLastOnlineResult);
+				uint64_t timestamp = tox_friend_get_last_online(tox, friendNumber, &getLastOnlineResult);
 				if (getLastOnlineResult == TOX_ERR_FRIEND_GET_LAST_ONLINE_OK)
 					setDword(hContact, "LastEventDateTS", timestamp);
 				else
