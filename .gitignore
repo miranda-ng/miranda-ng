@@ -24,3 +24,6 @@ ipch/
 include/m_version.h
 export.cmd
 vsbuild.cmd
+
+#Langpacks Tools Template
+langpacks/tool/VersionInfo.txt
