@@ -3,15 +3,20 @@
 CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent)
 	: CSteamDlgBase(proto, idDialog, false),
 	m_username(this, IDC_USERNAME), m_password(this, IDC_PASSWORD),
-	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS), m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS)
+	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS), m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS),
+	m_pollingErrorLimit(this, IDC_POLLINGERRORLIMIT), m_pollingErrorLimitSpin(this, IDC_POLLINGERRORLIMITSPIN)
 {
 	SetParent(hwndParent);
 
 	CreateLink(m_username, "Username", L"");
 	CreateLink(m_password, "Password", L"");
 	CreateLink(m_group, "DefaultGroup", L"Steam");
-	CreateLink(m_biggerAvatars, "UseBigAvatars", DBVT_BYTE, FALSE);
-	CreateLink(m_showChatEvents, "ShowChatEvents", DBVT_BYTE, TRUE);
+
+	if (idDialog == IDD_OPT_MAIN) {
+		CreateLink(m_biggerAvatars, "UseBigAvatars", DBVT_BYTE, FALSE);
+		CreateLink(m_showChatEvents, "ShowChatEvents", DBVT_BYTE, TRUE);
+		CreateLink(m_pollingErrorLimit, "PollingErrorsLimit", DBVT_BYTE, STEAM_API_POLLING_ERRORS_LIMIT);
+	}
 }
 
 void CSteamOptionsMain::OnInitDialog()
@@ -21,6 +26,9 @@ void CSteamOptionsMain::OnInitDialog()
 	SendMessage(m_username.GetHwnd(), EM_LIMITTEXT, 64, 0);
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 64, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
+
+	m_pollingErrorLimitSpin.SetRange(255, 1);
+	m_pollingErrorLimitSpin.SetPosition(m_proto->getByte("PollingErrorsLimit", STEAM_API_POLLING_ERRORS_LIMIT));
 }
 
 void CSteamOptionsMain::OnApply()
@@ -30,7 +38,6 @@ void CSteamOptionsMain::OnApply()
 		m_proto->m_defaultGroup = mir_wstrdup(group);
 		Clist_GroupCreate(0, group);
 	}
-
 	if (m_proto->IsOnline())
 		// may be we should show message box with warning?
 		m_proto->SetStatus(ID_STATUS_OFFLINE);
@@ -40,7 +47,6 @@ void CSteamOptionsMain::OnApply()
 	}
 	if (m_password.IsChanged())
 		m_proto->delSetting("TokenSecret");
-	mir_free(group);
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -80,8 +86,9 @@ int CSteamProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pDialog = CSteamOptionsMain::CreateOptionsPage(this);
 	Options_AddPage(wParam, &odp);
 
-	odp.szTab.w = LPGENW("Blocked contacts");
-	odp.pDialog = CSteamOptionsBlockList::CreateOptionsPage(this);
-	Options_AddPage(wParam, &odp);
+	//odp.szTab.w = LPGENW("Blocked contacts");
+	//odp.pDialog = CSteamOptionsBlockList::CreateOptionsPage(this);
+	//Options_AddPage(wParam, &odp);
+
 	return 0;
 }

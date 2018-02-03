@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#define POLLING_ERRORS_LIMIT 5
-
 void CSteamProto::ParsePollData(const JSONNode &data)
 {
 	std::string steamIds;
@@ -221,7 +219,7 @@ void CSteamProto::PollingThread(void*)
 
 	PollParam param;
 	param.errors = 0;
-	param.errorsLimit = getByte("PollingErrorsLimit", POLLING_ERRORS_LIMIT);
+	param.errorsLimit = getByte("PollingErrorsLimit", STEAM_API_POLLING_ERRORS_LIMIT);
 	while (IsOnline() && param.errors < param.errorsLimit) {
 		// request->nlc = m_pollingConnection;
 		ptrA umqId(getStringA("UMQID"));

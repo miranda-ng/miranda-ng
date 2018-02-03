@@ -45,6 +45,8 @@
 #define STEAM_API_IDLEOUT_AWAY 600
 #define STEAM_API_IDLEOUT_SNOOZE 8000
 
+#define STEAM_API_POLLING_ERRORS_LIMIT 5
+
 class CSteamProto;
 extern HINSTANCE g_hInstance;
 

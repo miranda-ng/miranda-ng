@@ -32,6 +32,8 @@
 #define IDC_BM_LIST                     1064
 #define IDC_LIST                        1065
 #define IDC_TEXT                        1082
+#define IDC_POLLINGERRORLIMIT           1085
+#define IDC_POLLINGERRORLIMITSPIN       1086
 #define IDC_OPENDOMAIN                  1200
 #define IDC_GETDOMAIN                   1200
 
@@ -39,9 +41,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        125
+#define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1085
+#define _APS_NEXT_CONTROL_VALUE         1087
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
