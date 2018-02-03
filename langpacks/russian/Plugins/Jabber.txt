@@ -1381,7 +1381,7 @@ OMEMO: Новая сессия
 Принимать заметки
 [Automatically save received notes]
 Автоматически сохранять принятые заметки
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
 [Server options]
 Настройки сервера

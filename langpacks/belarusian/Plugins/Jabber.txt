@@ -1383,7 +1383,7 @@ Jabber Рэсурс
 Прымаць нататкі
 [Automatically save received notes]
 Аўтаматычна захоўваць прынятыя нататкі
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 Уключыць гісторыю на серверы (XEP-0136)
 [Server options]
 Налады сервера

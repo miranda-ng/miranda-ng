@@ -1407,7 +1407,7 @@ Poruke
 
 [Automatically save received notes]
 
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 
 [Server options]
 

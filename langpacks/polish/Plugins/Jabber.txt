@@ -1407,7 +1407,7 @@ Włącz otrzymywanie aktywności użytkownika
 Odbieraj notatki
 [Automatically save received notes]
 Automatycznie zapisuj otrzymane notatki
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 Włącz historię po stronie serwera
 [Server options]
 Opcje serwera

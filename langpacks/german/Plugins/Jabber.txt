@@ -1407,7 +1407,7 @@ Empfang von Aktivität aktivieren
 Notizen empfangen
 [Automatically save received notes]
 Empfangene Notizen automatisch speichern
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 Server-seitigen Verlauf aktivieren
 [Server options]
 Servereinstellungen

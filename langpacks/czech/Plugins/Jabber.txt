@@ -1407,7 +1407,7 @@ Sledovat aktivity uživatelů
 Přijímat poznámky
 [Automatically save received notes]
 Automaticky uložit obdržené poznámky
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 Povolit historii na serveru
 [Server options]
 Možnosti serveru

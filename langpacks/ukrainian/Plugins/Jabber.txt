@@ -1375,7 +1375,7 @@ xHTML-формат повідомлень чату
 Приймати нотатки
 [Automatically save received notes]
 Автоматично зберігати прийняті нотатки
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 Увімкнути історію на сервері (XEP-0136) (тільки при підтримці на стороні сервера)
 [Server options]
 Налаштування сервера

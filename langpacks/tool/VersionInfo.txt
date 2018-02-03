@@ -1,0 +1,100 @@
+﻿CPU: AMD C-50 Processor [x86 Family 20 Model 1 Stepping 0] [DEP Enabled] [2 CPUs]
+Installed RAM: 1771 MBytes
+Microsoft Windows 7 Ultimate Edition, 32-bit Service Pack 1 (build 7601)
+Internet Explorer: 9.11.9600.18816 (build 99600)
+Administrator privileges: Yes
+OS Languages: (UI | Locale (User/System)) : Russian/Russian | Russian/Russian
+Free disk space on Miranda partition: 8556 MBytes
+
+Miranda NG Version: 0.95.8 alpha build #18779 (8449b9f785)
+Build time: 2017-11-12 04:04:54+0200
+Profile: D:\My Docs\Dropbox\miranda\Profiles\apollo2k4\apollo2k4.dat (dbx mmap driver)
+Profile size: 25100288 Bytes
+Profile creation date: 2016-08-31 14:16:14+0200
+Language pack: Russian (RU) [0419]
+Service Mode: No
+
+Active Plugins (29):
+¤ AdvaImg.dll v.0.11.0.2 [2017-11-08 13:13:18+0200] - Miranda image services 
+¤ AVS.dll v.0.95.3.4 [2017-11-09 04:07:26+0200] - Avatar service 
+¤ ChangeKeyboardLayout.dll v.0.0.1.6 [2017-10-24 11:28:50+0200] - Change keyboard layout 
+¤ Clist_modern.dll v.0.9.1.7 [2017-11-09 04:11:14+0200] - Modern contact list 
+¤ CloudFile.dll v.0.11.0.2 [2017-10-24 11:32:38+0200] - CloudFile 
+¤ CrashDumper.dll v.0.0.5.2 [2017-10-24 11:29:26+0200] - Crash dumper 
+¤ DbEditorPP.dll v.4.0.1.1 [2017-10-24 11:29:22+0200] - Database editor++ 
+¤ Dbx_mmap.dll v.0.95.3.1 [2017-11-12 04:05:14+0200] - Miranda NG mmap database driver 
+¤ Facebook.dll v.0.3.3.2 [2017-10-24 11:28:34+0200] - Facebook RM 
+¤ Fingerprint.dll v.0.1.0.0 [2017-11-08 04:04:08+0200] - Fingerprint NG 
+¤ HistoryPP.dll v.1.5.1.5 [2017-09-24 21:15:24+0200] - History++ 
+¤ ICQ.dll v.0.11.3.5 [2017-10-24 11:27:16+0200] - IcqOscarJ protocol 
+¤ Import.dll v.0.95.4.3 [2017-10-24 11:26:56+0200] - Import contacts and messages 
+¤ IRC.dll v.0.11.0.3 [2017-10-24 11:27:06+0200] - IRC protocol 
+¤ Jabber.dll v.0.11.0.5 [2017-11-10 09:29:54+0200] - Jabber protocol 
+¤ MessageState.dll v.0.0.1.0 [2017-10-24 11:32:02+0200] - Message state 
+¤ MirOTR.dll v.0.14.1.16 [2017-10-24 11:30:36+0200] - Miranda OTR 
+¤ NewEventNotify.dll v.0.2.2.3 [2017-10-24 11:28:58+0200] - NewEventNotify 
+¤ NewXstatusNotify.dll v.1.4.0.11 [2017-10-24 11:27:52+0200] - xStatus notify 
+¤ NotesReminders.dll v.0.1.0.1 [2017-10-24 11:30:12+0200] - Sticky Notes & Reminders 
+¤ PluginUpdater.dll v.0.1.2.5 [2017-10-24 11:29:50+0200] - Plugin updater 
+¤ Scriver.dll v.3.0.1.7 [2017-11-01 17:13:26+0200] - Scriver 
+¤ SkypeWeb.dll v.0.12.2.5 [2017-10-31 14:58:02+0200] - Skype protocol (Web) 
+¤ SmileyAdd.dll v.0.2.4.2 [2017-10-31 14:54:06+0200] - SmileyAdd 
+¤ SpellChecker.dll v.0.2.6.4 [2017-10-24 11:29:24+0200] - Spell checker 
+¤ StatusManager.dll v.0.11.2.3 [2017-10-24 11:32:18+0200] - Status manager 
+¤ Tox.dll v.0.11.1.25 [2017-10-24 11:32:06+0200] - Tox protocol 
+¤ VKontakte.dll v.0.1.3.0 [2017-11-03 04:05:08+0200] - VKontakte protocol 
+¤ YAPP.dll v.0.5.0.12 [2017-10-24 11:29:32+0200] - YAPP 
+
+Unloadable Plugins (1):
+¤ DbChecker.dll v.0.0.0.0 [2017-11-12 04:11:04+0200] - <unknown> 
+    Plugin statically linked to missing module: mir_core.mir
+    Plugin statically linked to missing module: mir_app.mir
+
+
+Protocols and Accounts:
+-------------------------------------------------------------------------------
+Facebook                 1 - Enabled 0 - Disabled  Loaded
+ICQ                      1 - Enabled 0 - Disabled  Loaded
+IRC                      1 - Enabled 0 - Disabled  Loaded
+JABBER                   2 - Enabled 0 - Disabled  Loaded
+SKYPE                    1 - Enabled 0 - Disabled  Loaded
+TOX                      1 - Enabled 0 - Disabled  Loaded
+VKontakte                1 - Enabled 0 - Disabled  Loaded
+CloudFile/Dropbox        1 - Enabled 0 - Disabled  Loaded
+CloudFile/Google         1 - Enabled 0 - Disabled  Loaded
+CloudFile/Microsoft      1 - Enabled 0 - Disabled  Loaded
+CloudFile/Yandex         1 - Enabled 0 - Disabled  Loaded
+MetaContacts             1 - Enabled 0 - Disabled  Loaded
+
+Icon Packs:
+-------------------------------------------------------------------------------
+ dbe_icons_yg.dll [2005-07-24 15:26:16+0200]
+ Flags_icons.dll [2017-10-24 11:32:58+0200]
+ Fp_icons.dll [2017-11-08 04:12:48+0200]
+ HistoryPP_icons.dll [2017-10-24 11:33:00+0200]
+ icons.dll [2013-01-07 21:51:09+0200]
+ icons_original.dll [2013-01-07 21:51:09+0200]
+ proto_conn_facebook.dll [2007-12-10 08:51:26+0200]
+ proto_conn_icq.dll [2009-03-26 17:04:18+0200]
+ proto_conn_irc.dll [2016-03-23 23:23:14+0200]
+ proto_conn_jabber.dll [2009-03-26 17:04:18+0200]
+ proto_conn_skype.dll [2015-03-19 22:36:59+0200]
+ proto_conn_tox.dll [2014-09-27 17:51:33+0200]
+ proto_conn_vk.dll [2012-08-24 15:40:39+0200]
+ proto_conn_xmppjp.dll [2012-09-04 21:41:58+0200]
+ Proto_Discord.dll [2017-08-25 18:31:18+0200]
+ Proto_Dropbox.dll [2017-04-10 20:12:42+0200]
+ Proto_Facebook.dll [2014-07-30 19:14:02+0200]
+ Proto_ICQ.dll [2009-03-26 14:04:18+0200]
+ Proto_IRC.dll [2017-09-22 16:38:22+0200]
+ Proto_Jabber.dll [2012-11-02 18:39:02+0200]
+ Proto_MetaContacts (a2k4-netbook's conflicted copy 2017-09-18).dll [2017-09-18 18:03:08+0200]
+ Proto_MetaContacts.dll [2017-09-29 20:05:10+0200]
+ Proto_Skype.dll [2015-04-17 07:23:29+0200]
+ Proto_Tox.dll [2014-09-27 17:41:45+0200]
+ proto_vk.dll [2012-11-02 18:31:10+0200]
+ Proto_VKontakte.dll [2017-09-22 16:38:24+0200]
+ proto_xmppjp.dll [2012-11-02 18:31:58+0200]
+ Toolbar_icons.dll [2017-09-13 12:26:46+0200]
+ xStatus_ICQ.dll [2009-03-02 03:38:36+0200]
+ xStatus_Jabber.dll [2009-03-02 06:38:34+0200]

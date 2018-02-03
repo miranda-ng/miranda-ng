@@ -718,7 +718,7 @@
 [Enable user activity receiving]
 [Receive notes]
 [Automatically save received notes]
-[Enable server-side history]
+[Enable server-side history (XEP-0136)]
 [Server options]
 [Disable SASL authentication (for old servers)]
 [Enable stream compression (if possible)]
