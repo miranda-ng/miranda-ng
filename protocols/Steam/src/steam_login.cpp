@@ -340,7 +340,6 @@ void CSteamProto::OnLoggedOn(const HttpResponse &response, void*)
 	if (!response.IsSuccess()) {
 		// Probably timeout or no connection, we can do nothing here
 		debugLogA(__FUNCTION__ ": unknown login error");
-		ShowNotification(TranslateT("Unknown login error."));
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
