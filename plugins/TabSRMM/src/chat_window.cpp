@@ -1592,13 +1592,13 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 	case WM_CLOSE:
 		if (wParam == 1 && lParam == 1) {
-			int iFlags = 0, i;
+			int iFlags = 0;
 			DWORD dwMask = 0;
 
-			for (auto &it : _eventorder) {
+			for (int i = 0; i < _countof(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
-				dwMask |= (result != BST_INDETERMINATE ? it : 0);
-				iFlags |= (result == BST_CHECKED ? it : 0);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
 			}
 
 			if (iFlags & GC_EVENT_ADDSTATUS)
@@ -1617,10 +1617,10 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 			dwMask = iFlags = 0;
 
-			for (auto &it : _eventorder) {
+			for (int i = 0; i < _countof(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
-				dwMask |= (result != BST_INDETERMINATE ? it : 0);
-				iFlags |= (result == BST_CHECKED ? it : 0);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
 			}
 
 			if (iFlags & GC_EVENT_ADDSTATUS)
@@ -1639,10 +1639,10 @@ INT_PTR CALLBACK CChatRoomDlg::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 			dwMask = iFlags = 0;
 
-			for (auto &it : _eventorder) {
+			for (int i = 0; i < _countof(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
-				dwMask |= (result != BST_INDETERMINATE ? it : 0);
-				iFlags |= (result == BST_CHECKED ? it : 0);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
 			}
 			if (iFlags & GC_EVENT_ADDSTATUS)
 				iFlags |= GC_EVENT_REMOVESTATUS;
