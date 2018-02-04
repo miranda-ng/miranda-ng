@@ -10,60 +10,65 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 	ToxHexAddress pubKey = proto->GetContactPublicKey(tox, friendNumber);
 
 	MCONTACT hContact = proto->GetContact(tox, friendNumber);
-	if (hContact) {
-		switch (kind) {
-		case TOX_FILE_KIND_AVATAR:
-			{
-				proto->debugLogA(__FUNCTION__": incoming avatar (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+	if (hContact == NULL) {
+		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": cannot find contact %s (%d)", (const char*)pubKey, friendNumber);
+		tox_file_control(tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
+		return;
+	}
 
-				ptrW address(proto->getWStringA(hContact, TOX_SETTINGS_ID));
-				wchar_t avatarName[MAX_PATH];
-				mir_snwprintf(avatarName, MAX_PATH, L"%s.png", address);
+	switch (kind) {
+	case TOX_FILE_KIND_AVATAR:
+		{
+			proto->debugLogA(__FUNCTION__": incoming avatar (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
 
-				AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
-				transfer->pfts.flags |= PFTS_RECEIVING;
-				transfer->pfts.hContact = hContact;
-				proto->transfers.Add(transfer);
+			ptrW address(proto->getWStringA(hContact, TOX_SETTINGS_ID));
+			wchar_t avatarName[MAX_PATH];
+			mir_snwprintf(avatarName, MAX_PATH, L"%s.png", address);
 
-				TOX_ERR_FILE_GET error;
-				tox_file_get_file_id(tox, friendNumber, fileNumber, transfer->hash, &error);
-				if (error != TOX_ERR_FILE_GET_OK) {
-					Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": unable to get avatar hash (%d) from %s(%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
-					memset(transfer->hash, 0, TOX_HASH_LENGTH);
-				}
-				proto->OnGotFriendAvatarInfo(transfer);
+			AvatarTransferParam *transfer = new AvatarTransferParam(friendNumber, fileNumber, avatarName, fileSize);
+			transfer->pfts.flags |= PFTS_RECEIVING;
+			transfer->pfts.hContact = hContact;
+			proto->transfers.Add(transfer);
+
+			TOX_ERR_FILE_GET error;
+			tox_file_get_file_id(tox, friendNumber, fileNumber, transfer->hash, &error);
+			if (error != TOX_ERR_FILE_GET_OK) {
+				Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": unable to get avatar hash (%d) from %s(%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
+				memset(transfer->hash, 0, TOX_HASH_LENGTH);
 			}
-			break;
-
-		case TOX_FILE_KIND_DATA:
-			{
-				proto->debugLogA(__FUNCTION__": incoming file (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
-
-				ptrA rawName((char*)mir_alloc(filenameLength + 1));
-				memcpy(rawName, fileName, filenameLength);
-				rawName[filenameLength] = 0;
-				wchar_t *name = mir_utf8decodeW(rawName);
-
-				FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
-				transfer->pfts.flags |= PFTS_RECEIVING;
-				transfer->pfts.hContact = hContact;
-				proto->transfers.Add(transfer);
-
-				PROTORECVFILE pre = { 0 };
-				pre.dwFlags = PRFF_UNICODE;
-				pre.fileCount = 1;
-				pre.timestamp = now();
-				pre.descr.w = L"";
-				pre.files.w = &name;
-				pre.lParam = (LPARAM)transfer;
-				ProtoChainRecvFile(hContact, &pre);
-			}
-			break;
-
-		default:
-			proto->debugLogA(__FUNCTION__": unsupported transfer (%d) from %s(%d) with type (%d)", fileNumber, (const char*)pubKey, friendNumber, kind);
-			return;
+			proto->OnGotFriendAvatarInfo(transfer);
 		}
+		break;
+
+	case TOX_FILE_KIND_DATA:
+		{
+			proto->debugLogA(__FUNCTION__": incoming file (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+
+			ptrA rawName((char*)mir_alloc(filenameLength + 1));
+			memcpy(rawName, fileName, filenameLength);
+			rawName[filenameLength] = 0;
+			wchar_t *name = mir_utf8decodeW(rawName);
+
+			FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
+			transfer->pfts.flags |= PFTS_RECEIVING;
+			transfer->pfts.hContact = hContact;
+			proto->transfers.Add(transfer);
+
+			PROTORECVFILE pre = { 0 };
+			pre.dwFlags = PRFF_UNICODE;
+			pre.fileCount = 1;
+			pre.timestamp = now();
+			pre.descr.w = L"";
+			pre.files.w = &name;
+			pre.lParam = (LPARAM)transfer;
+			ProtoChainRecvFile(hContact, &pre);
+		}
+		break;
+
+	default:
+		proto->debugLogA(__FUNCTION__": unsupported transfer (%d) from %s(%d) with type (%d)", fileNumber, (const char*)pubKey, friendNumber, kind);
+		tox_file_control(tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
+		break;
 	}
 }
 
@@ -153,7 +158,7 @@ void CToxProto::OnDataReceiving(Tox *tox, uint32_t friendNumber, uint32_t fileNu
 
 	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == nullptr) {
-		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to find transfer (%d) from %s(%d)", fileNumber, (const char*)pubKey, friendNumber);
+		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": failed to find transfer (%d) from %s (%d)", fileNumber, (const char*)pubKey, friendNumber);
 		return;
 	}
 
@@ -165,7 +170,7 @@ void CToxProto::OnDataReceiving(Tox *tox, uint32_t friendNumber, uint32_t fileNu
 
 	MCONTACT hContact = proto->GetContact(tox, friendNumber);
 	if (hContact == NULL) {
-		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": cannot find contact %s(%d)", (const char*)pubKey, friendNumber);
+		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": cannot find contact %s (%d)", (const char*)pubKey, friendNumber);
 		tox_file_control(tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
 		return;
 	}
@@ -328,10 +333,10 @@ void CToxProto::ResumeIncomingTransfers(uint32_t friendNumber)
 		if (transfer->friendNumber == friendNumber && transfer->GetDirection() == 1) {
 			ToxHexAddress pubKey = GetContactPublicKey(m_toxThread->Tox(), friendNumber);
 
-			debugLogA(__FUNCTION__": sending ask to resume the transfer of file (%d) from %s(%d) cause(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
+			debugLogA(__FUNCTION__": sending ask to resume the transfer of file (%d) from %s (%d) cause (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 			TOX_ERR_FILE_CONTROL error;
 			if (!tox_file_control(m_toxThread->Tox(), transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error)) {
-				debugLogA(__FUNCTION__": failed to resume the transfer (%d) from %s(%d) cause(%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
+				debugLogA(__FUNCTION__": failed to resume the transfer (%d) from %s (%d) cause (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
 				CancelTransfer(NULL, transfer);
 			}
 		}
@@ -352,25 +357,32 @@ void CToxProto::OnFileRequest(Tox *tox, uint32_t friendNumber, uint32_t fileNumb
 {
 	CToxProto *proto = (CToxProto*)arg;
 
+	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
+	if (transfer == nullptr) {
+		proto->debugLogA(__FUNCTION__": failed to find transfer (%d)", fileNumber);
+		return;
+	}
+
+	ToxHexAddress pubKey = proto->GetContactPublicKey(tox, friendNumber);
+
 	MCONTACT hContact = proto->GetContact(tox, friendNumber);
-	if (hContact) {
-		FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
-		if (transfer == nullptr) {
-			proto->debugLogA(__FUNCTION__": failed to find transfer (%d)", fileNumber);
-			return;
-		}
+	if (hContact == NULL) {
+		Netlib_Logf(proto->m_hNetlibUser, __FUNCTION__": cannot find contact %s (%d)", (const char*)pubKey, friendNumber);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		proto->transfers.Remove(transfer);
+		return;
+	}
 
-		switch (control) {
-		case TOX_FILE_CONTROL_PAUSE:
-			break;
+	switch (control) {
+	case TOX_FILE_CONTROL_PAUSE:
+		break;
 
-		case TOX_FILE_CONTROL_RESUME:
-			break;
+	case TOX_FILE_CONTROL_RESUME:
+		break;
 
-		case TOX_FILE_CONTROL_CANCEL:
-			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
-			proto->transfers.Remove(transfer);
-			break;
-		}
+	case TOX_FILE_CONTROL_CANCEL:
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		proto->transfers.Remove(transfer);
+		break;
 	}
 }
