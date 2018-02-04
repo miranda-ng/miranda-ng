@@ -90,11 +90,6 @@ MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
 		return nullptr;
 	}
 
-	if (db->PrepareCheck()) {
-		*error = ERROR_BAD_FORMAT;
-		return nullptr;
-	}
-
 	return db.release();
 }
 

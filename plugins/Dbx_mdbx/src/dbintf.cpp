@@ -201,7 +201,7 @@ int CDbxMDBX::Map()
 ///////////////////////////////////////////////////////////////////////////////
 // MIDatabaseChecker
 
-typedef int (CDbxMDBX::*CheckWorker)(int);
+typedef int (CDbxMDBX::*CheckWorker)(void);
 
 int CDbxMDBX::Start(DBCHeckCallback *callback)
 {
@@ -209,9 +209,18 @@ int CDbxMDBX::Start(DBCHeckCallback *callback)
 	return ERROR_SUCCESS;
 }
 
-int CDbxMDBX::CheckDb(int, int)
+static CheckWorker Workers[6] =
 {
-	return ERROR_OUT_OF_PAPER;
+	&CDbxMDBX::CheckEvents1,
+	&CDbxMDBX::CheckEvents2,
+};
+
+int CDbxMDBX::CheckDb(int phase, int)
+{
+	if (phase >= _countof(Workers))
+		return ERROR_OUT_OF_PAPER;
+
+	return (this->*Workers[phase])();
 }
 
 void CDbxMDBX::Destroy()

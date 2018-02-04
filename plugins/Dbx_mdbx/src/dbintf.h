@@ -199,6 +199,12 @@ protected:
 public:
 	MICryptoEngine *m_crypto;
 
+	////////////////////////////////////////////////////////////////////////////
+	// checker
+
+	int CheckEvents1();
+	int CheckEvents2();
+
 protected:
 	MDBX_env *m_env;
 	CMDBX_txn_ro m_txn_ro;

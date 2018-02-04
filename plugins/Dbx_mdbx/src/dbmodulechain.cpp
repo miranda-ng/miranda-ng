@@ -27,8 +27,9 @@ int CDbxMDBX::InitModules()
 {
 	txn_ptr_ro trnlck(m_txn_ro);
 	cursor_ptr_ro cursor(m_curModules);
-
-	MDBX_val key, data;
+	
+	uint32_t iHash = 0;
+	MDBX_val key = { &iHash, sizeof(iHash) }, data;
 	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
 		uint32_t iMod = *(uint32_t*)key.iov_base;
 		const char *szMod = (const char*)data.iov_base;
