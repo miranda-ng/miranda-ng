@@ -246,7 +246,9 @@ static void RestoreUnreadMessageAlerts(void)
 
 			DBEVENTINFO dbei = {};
 			dbei.cbBlob = 0;
-			db_event_get(hDbEvent, &dbei);
+			if (db_event_get(hDbEvent, &dbei))
+				continue;
+
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 				int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;
 				if (windowAlreadyExists)

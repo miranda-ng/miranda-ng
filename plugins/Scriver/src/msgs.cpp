@@ -252,7 +252,8 @@ static void RestoreUnreadMessageAlerts(void)
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = {};
 			dbei.cbBlob = 0;
-			db_event_get(hDbEvent, &dbei);
+			if (db_event_get(hDbEvent, &dbei))
+				continue;
 			if ((dbei.flags & (DBEF_SENT | DBEF_READ)) || !DbEventIsMessageOrCustom(&dbei))
 				continue;
 

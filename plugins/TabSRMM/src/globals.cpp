@@ -507,7 +507,9 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = {};
-			db_event_get(hDbEvent, &dbei);
+			if (db_event_get(hDbEvent, &dbei))
+				continue;
+
 			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
 				if (Srmm_FindWindow(hContact) != nullptr)
 					continue;

@@ -49,8 +49,6 @@ int LoadModules(void)
 	Skin_AddSound("RecvSMSConfirmation", PROTOCOL_NAMEW, LPGENW("Incoming SMS Confirmation"));
 
 	RefreshAccountList(NULL, NULL);
-
-	RestoreUnreadMessageAlerts();
 	return 0;
 }
 
@@ -129,26 +127,4 @@ int ReadAckSMS(WPARAM, LPARAM lParam)
 		}
 	}
 	return 1;
-}
-
-void RestoreUnreadMessageAlerts(void)
-{
-	DBEVENTINFO dbei = {};
-
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			dbei.cbBlob = 0;
-			if (db_event_get(hDbEvent, &dbei) == 0)
-			if ((dbei.flags & (DBEF_SENT | DBEF_READ)) == 0 && ((dbei.eventType == ICQEVENTTYPE_SMS) || (dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)))
-			if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN)
-				handleNewMessage(hContact, (LPARAM)hDbEvent);
-		}
-
-	for (MEVENT hDbEvent = db_event_firstUnread(NULL); hDbEvent; hDbEvent = db_event_next(NULL, hDbEvent)) {
-		dbei.cbBlob = 0;
-		if (db_event_get(hDbEvent, &dbei) == 0)
-			if ((dbei.flags & (DBEF_SENT | DBEF_READ)) == 0 && ((dbei.eventType == ICQEVENTTYPE_SMS) || (dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)))
-				if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN)
-					handleNewMessage(NULL, (LPARAM)hDbEvent);
-	}
 }

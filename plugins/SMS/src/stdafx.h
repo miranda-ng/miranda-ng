@@ -122,7 +122,6 @@ int    LoadModules();
 
 int    handleAckSMS(WPARAM wParam,LPARAM lParam);
 int    handleNewMessage(WPARAM wParam,LPARAM lParam);
-void   RestoreUnreadMessageAlerts();
 
 // Declaration of Menu SMS send click function
 int    SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam);
