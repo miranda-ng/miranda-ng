@@ -1,4 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.filters" /> 
+  <ItemGroup>
+    <Filter Include="Source Files\toxcore">
+      <UniqueIdentifier>{4c1f54aa-e38e-40ff-af6d-8b1204ea03e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\toxcore">
+      <UniqueIdentifier>{56ccf548-fd97-42d3-934a-8966cb5d6642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\toxencryptsave">
+      <UniqueIdentifier>{ced2050e-c17b-43b3-9a79-137d2f3d1ed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\toxencryptsave">
+      <UniqueIdentifier>{ce3f9bd0-40ed-49f3-8b69-53dc407e8da6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\toxcore\*.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClInclude Include="src\toxcore\*.h">
+      <Filter>Header Files\toxcore</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\toxencryptsave\*.c">
+      <Filter>Source Files\toxencryptsave</Filter>
+    </ClCompile>
+    <ClInclude Include="src\toxencryptsave\*.h">
+      <Filter>Header Files\toxencryptsave</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.filters" />
 </Project>
