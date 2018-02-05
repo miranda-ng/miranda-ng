@@ -27,7 +27,7 @@ void CSteamOptionsMain::OnInitDialog()
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 64, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
 
-	m_pollingErrorLimitSpin.SetRange(255, 1);
+	m_pollingErrorLimitSpin.SetRange(255, 0);
 	m_pollingErrorLimitSpin.SetPosition(m_proto->getByte("PollingErrorsLimit", STEAM_API_POLLING_ERRORS_LIMIT));
 }
 
