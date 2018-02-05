@@ -1,6 +1,6 @@
 ﻿/* LICENSE AND COPYRUSTING *****************************************************
  *
- * Copyright 2015-2017 Leonid Yuriev <leo@yuriev.ru>
+ * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
  * All rights reserved.
  *
@@ -60,14 +60,11 @@
 
 /* IMPENDING CHANGES WARNING ***************************************************
  *
- * Now MDBX is under active development and until November 2017 is expected a
- * big change both of API and database format.  Unfortunately those update will
- * lead to loss of compatibility with previous versions.
+ * MDBX is under active development, database format and API aren't stable
+ * at least until 2018Q2. New version won't be backwards compatible. Main focus
+ * of the rework is to provide clear and robust API and new features.
  *
- * The aim of this revolution in providing a clearer robust API and adding new
- * features, including the database properties. */
-
-/*--------------------------------------------------------------------------*/
+ ******************************************************************************/
 
 #ifdef _MSC_VER
 #pragma warning(push, 1)
@@ -478,6 +475,8 @@ typedef struct MDBX_envinfo {
   uint64_t mi_last_pgno;           /* ID of the last used page */
   uint64_t mi_recent_txnid;        /* ID of the last committed transaction */
   uint64_t mi_latter_reader_txnid; /* ID of the last reader transaction */
+  uint64_t mi_self_latter_reader_txnid; /* ID of the last reader transaction of
+                                           caller process */
   uint64_t mi_meta0_txnid, mi_meta0_sign;
   uint64_t mi_meta1_txnid, mi_meta1_sign;
   uint64_t mi_meta2_txnid, mi_meta2_sign;
@@ -1155,7 +1154,8 @@ LIBMDBX_API int mdbx_dbi_stat(MDBX_txn *txn, MDBX_dbi dbi, MDBX_stat *stat,
  * Returns A non-zero error value on failure and 0 on success. */
 #define MDBX_TBL_DIRTY 0x01 /* DB was written in this txn */
 #define MDBX_TBL_STALE 0x02 /* Named-DB record is older than txnID */
-#define MDBX_TBL_NEW 0x04   /* Named-DB handle opened in this txn */
+#define MDBX_TBL_FRESH 0x04 /* Named-DB handle opened in this txn */
+#define MDBX_TBL_CREAT 0x08 /* Named-DB handle created in this txn */
 LIBMDBX_API int mdbx_dbi_flags_ex(MDBX_txn *txn, MDBX_dbi dbi, unsigned *flags,
                                   unsigned *state);
 LIBMDBX_API int mdbx_dbi_flags(MDBX_txn *txn, MDBX_dbi dbi, unsigned *flags);
