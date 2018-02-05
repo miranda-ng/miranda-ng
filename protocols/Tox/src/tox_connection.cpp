@@ -69,8 +69,10 @@ void CToxProto::CheckingThread(void *arg)
 		else
 			CheckConnection(tox, retriesCount);
 
-		WaitForSingleObject(hTerminateEvent, 1000);
+		WaitForSingleObject(hTerminateEvent, TOX_CHECKING_INTERVAL);
 	}
+
+	hCheckingThread = nullptr;
 
 	debugLogA(__FUNCTION__": leaving");
 }
@@ -104,7 +106,7 @@ void CToxProto::PollingThread(void*)
 	m_toxThread = &toxThread;
 	InitToxCore(toxThread.Tox());
 	BootstrapNodes(toxThread.Tox());
-	ForkThread(&CToxProto::CheckingThread, toxThread.Tox());
+	hCheckingThread = ForkThreadEx(&CToxProto::CheckingThread, toxThread.Tox(), nullptr);
 
 	while (!isTerminated) {
 		tox_iterate(toxThread.Tox(), this);
@@ -116,8 +118,7 @@ void CToxProto::PollingThread(void*)
 	}
 
 	SetEvent(hTerminateEvent);
-
-	Sleep(TOX_DEFAULT_INTERVAL * 10);
+	WaitForSingleObject(hCheckingThread, TOX_CHECKING_INTERVAL);
 
 	UninitToxCore(toxThread.Tox());
 	m_toxThread = nullptr;
