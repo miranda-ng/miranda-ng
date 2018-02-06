@@ -14,21 +14,4 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\*.cpp;src\*.cxx;src\*.c;src\*.c++">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClInclude Include="src\*.h;src\*.hpp;src\*.hxx">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ResourceCompile Include="res\*.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <None Include="src\*.def">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="res\*.ico;res\*.bmp;res\*.cur">
-      <Filter>Resource Files</Filter>
-    </None>	 
-  </ItemGroup>
 </Project>
