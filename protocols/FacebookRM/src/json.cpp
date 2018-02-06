@@ -357,7 +357,7 @@ void FacebookProto::ParseAttachments(std::string &message_text, const JSONNode &
 		if (!story_.empty()) {
 			hasAttachement = true;
 			std::string type = story_["target"]["__typename"].as_string();
-			if (type == "ExternalUrl" || type == "Story") {
+			if (type == "ExternalUrl" || type == "Story" || type == "QuickInvite") {
 				newText = TranslateT("a link");
 
 				std::string title = story_["title_with_entities"]["text"].as_string();
@@ -380,7 +380,7 @@ void FacebookProto::ParseAttachments(std::string &message_text, const JSONNode &
 						attachments_text += description + "\n";
 					attachments_text += absolutizeUrl(link) + "\n";
 				}
-			}
+			} 
 			else debugLogA("json::parseAttachments (%s) - Unknown extensible attachment type %s", legacy ? "legacy" : "not legacy", type.c_str());
 		}
 		// else debugLogA("json::parseAttachments (%s) - Unknown attachment type", legacy ? "legacy" : "not legacy");
@@ -457,7 +457,7 @@ void FacebookProto::ParseAttachments(std::string &message_text, const JSONNode &
 				}
 				else if (const JSONNode story_ = attach_["extensible_attachment"]["story_attachment"]) {
 					std::string type = story_["target"]["__typename"].as_string();
-					if (type == "ExternalUrl" || type == "Story") {
+					if (type == "ExternalUrl" || type == "Story" || type == "QuickInvite") {
 						newText = TranslateT("a link");
 
 						std::string title = story_["title_with_entities"]["text"].as_string();
