@@ -1,44 +1,52 @@
 #include "stdafx.h"
 
+void CSteamProto::SetAllContactStatuses(int status)
+{
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+		SetContactStatus(hContact, status);
+}
+
 void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 {
 	if (!hContact)
 		return;
 
 	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-	if (oldStatus != status)
+	if (oldStatus == status)
+		return;
+	
+	setWord(hContact, "Status", status);
+
+	// Special handling of some statuses
+	switch (status)
 	{
-		setWord(hContact, "Status", status);
+	case ID_STATUS_FREECHAT:
+		// Contact is looking to play, save it to as status message
+		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to play"));
+		break;
 
-		// Special handling of some statuses
-		switch (status)
-		{
-		case ID_STATUS_FREECHAT:
-			// Contact is looking to play, save it to as status message
-			db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to play"));
-			break;
+	case ID_STATUS_OUTTOLUNCH:
+		// Contact is looking to trade, save it to as status message
+		db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to trade"));
+		break;
 
-		case ID_STATUS_OUTTOLUNCH:
-			// Contact is looking to trade, save it to as status message
-			db_set_ws(hContact, "CList", "StatusMsg", TranslateT("Looking to trade"));
-			break;
+	case ID_STATUS_OFFLINE:
+		// if contact is offline, remove played game info
+		delSetting(hContact, "GameID");
+		delSetting(hContact, "ServerIP");
+		delSetting(hContact, "ServerID"); 
+		// clear also xstatus
+		delSetting(hContact, "XStatusId");
+		delSetting(hContact, "XStatusName");
+		delSetting(hContact, "XStatusMsg");
+		// and extra icon
+		SetContactExtraIcon(hContact, NULL);
+		// no break intentionally
+		[[fallthrough]];
 
-		case ID_STATUS_OFFLINE:
-			{
-				// If contact is offline, clear also xstatus
-				delSetting(hContact, "XStatusId");
-				delSetting(hContact, "XStatusName");
-				delSetting(hContact, "XStatusMsg");
-
-				SetContactExtraIcon(hContact, NULL);
-			}
-			// no break intentionally
-			[[fallthrough]];
-
-		default:
-			db_unset(hContact, "CList", "StatusMsg");
-			break;
-		}
+	default:
+		db_unset(hContact, "CList", "StatusMsg");
+		break;
 	}
 }
 

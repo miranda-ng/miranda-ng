@@ -353,6 +353,7 @@ public:
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		requestType = method;
 		flags = NLHRF_HTTP11 | NLHRF_SSL;
+		timeout = 3000;
 
 		Content = new HttpContent(this);
 	}
@@ -363,6 +364,7 @@ public:
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		requestType = method;
 		flags = NLHRF_HTTP11 | NLHRF_SSL;
+		timeout = 5;
 
 		va_list formatArgs;
 		va_start(formatArgs, urlFormat);

@@ -158,6 +158,7 @@ protected:
 	void DeleteAuthSettings();
 
 	// contacts
+	void SetAllContactStatuses(int status);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
