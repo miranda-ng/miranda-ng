@@ -143,24 +143,50 @@ struct PollParam
 void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 {
 	PollParam *param = (PollParam*)arg;
-	if (!response.IsSuccess()) {
+	if (!response) {
+		// bad response
+		debugLogA(__FUNCTION__ ": server returns bad response (%d)", response.GetStatusCode());
 		param->errors++;
 		return;
 	}
 
+	// handling of known errors
+	if (!response.IsSuccess()) {
+		switch (response.GetStatusCode()) {
+		case HTTP_CODE_SERVICE_UNAVAILABLE:
+			// server on maintenance
+			SetAllContactStatuses(ID_STATUS_OFFLINE);
+			Sleep(STEAM_API_TIMEOUT * 1000);
+			return;
+
+		case HTTP_CODE_UNAUTHORIZED:
+			// token has expired
+			debugLogA(__FUNCTION__ ": access is denied");
+			delSetting("TokenSecret");
+			param->errors = param->errorsLimit;
+			return;
+
+		default:
+			debugLogA(__FUNCTION__ ": server returns bad status code (%d)", response.GetStatusCode());
+			param->errors++;
+			return;
+		}
+	}
+
 	JSONNode root = JSONNode::parse(response.Content);
 	if (root.isnull()) {
+		debugLogA(__FUNCTION__ ": could not recognize a response");
 		param->errors++;
 		return;
 	}
 
 	json_string error = root["error"].as_string();
 	if (error == "Timeout")
-		// Do nothing as this is not necessarily an error
+		// do nothing as this is not necessarily an error
 		return;
 
 	if (error == "OK") {
-		// Remember last message timestamp
+		// remember last message timestamp
 		time_t timestamp = _wtoi64(root["utc_timestamp"].as_mstring());
 		if (timestamp > getDword("LastMessageTS", 0))
 			setDword("LastMessageTS", timestamp);
@@ -180,10 +206,8 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 	}
 
 	if (error == "Not Logged On") {
-		// 'else' below will handle this error, we don't need this particular check right now
-
 		// need to relogin
-		debugLogA(__FUNCTION__ ": Not Logged On");
+		debugLogA(__FUNCTION__ ": not Logged On");
 
 		// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
 		if (IsOnline()) {
@@ -197,10 +221,6 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 
 	// something wrong
 	debugLogA(__FUNCTION__ ": %s (%d)", error.c_str(), response.GetStatusCode());
-
-	// token has expired
-	if (response.GetStatusCode() == HTTP_CODE_UNAUTHORIZED)
-		delSetting("TokenSecret");
 
 	// too low timeout?
 	int timeout = root["sectimeout"].as_int();

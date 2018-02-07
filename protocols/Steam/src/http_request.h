@@ -329,7 +329,9 @@ public:
 
 	int GetStatusCode() const
 	{
-		return m_response->resultCode;
+		return m_response
+			? m_response->resultCode
+			: 0;
 	}
 };
 
