@@ -157,12 +157,15 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 	node = data["lastlogoff"];
 	setDword(hContact, "LogoffTS", node.as_int());
 
+	if (!IsOnline())
+		return;
+
 	// status
 	node = data["personastate"];
 	// note: this here is often wrong info, probably depending on publicity of steam profile
 	// but sometimes polling does not get status at all
 	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-	// so, set status only if contact offline
+	// so, set status only if contact is offline
 	if (oldStatus == ID_STATUS_OFFLINE) {
 		WORD status = SteamToMirandaStatus((PersonaState)node.as_int());
 		SetContactStatus(hContact, status);
