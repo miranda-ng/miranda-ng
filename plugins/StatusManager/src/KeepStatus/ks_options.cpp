@@ -192,6 +192,11 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CheckRadioButton(hwndDlg, IDC_LOGINERR_CANCEL, IDC_LOGINERR_SETDELAY, IDC_LOGINERR_CANCEL);
 			break;
 		}
+
+		EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_CANCEL), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_SETDELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_DELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY) && IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+
 		break;
 
 	case WM_COMMAND:
@@ -200,10 +205,15 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		// something changed
 		switch (LOWORD(wParam)) {
+		case IDC_LOGINERR:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_CANCEL), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_SETDELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_DELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY) && IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+			break;
 		case IDC_LOGINERR_CANCEL:
 		case IDC_LOGINERR_SETDELAY:
 			CheckRadioButton(hwndDlg, IDC_LOGINERR_CANCEL, IDC_LOGINERR_SETDELAY, LOWORD(wParam));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_DELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY) && IsDlgButtonChecked(hwndDlg, IDC_LOGINERR) && IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_DELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY) && IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
 			break;
 		}
 		break;
