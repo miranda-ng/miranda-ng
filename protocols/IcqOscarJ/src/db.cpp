@@ -162,7 +162,7 @@ static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	return FALSE;
 }
 
-int ChangeInfoData::SaveSettingsToDb(HWND hwnd)
+int ChangeInfoData::SaveSettingsToDb()
 {
 	int ret = 1;
 

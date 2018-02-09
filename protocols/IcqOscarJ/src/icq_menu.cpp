@@ -27,8 +27,8 @@
 
 #include <m_skin.h>
 
-HGENMENU g_hContactMenuItems[6];
-HANDLE   g_hContactMenuSvc[6];
+HGENMENU g_hContactMenuItems[3];
+HANDLE   g_hContactMenuSvc[3];
 
 static int sttCompareProtocols(const CIcqProto *p1, const CIcqProto *p2)
 {
@@ -48,24 +48,6 @@ static CIcqProto* IcqGetInstanceByHContact(MCONTACT hContact)
 			return g_Instances[i];
 
 	return nullptr;
-}
-
-static INT_PTR IcqMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
-{
-	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->RequestAuthorization(wParam, lParam) : 0;
-}
-
-static INT_PTR IcqMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
-{
-	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->GrantAuthorization(wParam, lParam) : 0;
-}
-
-static INT_PTR IcqMenuHandleRevokeAuth(WPARAM wParam, LPARAM lParam)
-{
-	CIcqProto* ppro = IcqGetInstanceByHContact(wParam);
-	return (ppro) ? ppro->RevokeAuthorization(wParam, lParam) : 0;
 }
 
 static INT_PTR IcqMenuHandleAddServContact(WPARAM wParam, LPARAM lParam)
@@ -88,9 +70,6 @@ static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
 
 static int IcqPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
-	Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REQUEST], FALSE);
-	Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_GRANT], FALSE);
-	Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REVOKE], FALSE);
 	Menu_ShowItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], FALSE);
 	Menu_ShowItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], FALSE);
 	Menu_ShowItem(g_hContactMenuItems[ICMI_OPEN_PROFILE], FALSE);
@@ -113,30 +92,6 @@ void g_MenuInit(void)
 
 	CMenuItem mi;
 	mi.pszService = str;
-
-	// "Request authorization"
-	mir_strcpy(pszDest, MS_REQ_AUTH); CreateServiceFunction(str, IcqMenuHandleRequestAuth );
-	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
-	mi.name.a = LPGEN("Request authorization");
-	mi.position = 1000030000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
-	g_hContactMenuItems[ICMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
-	
-	// "Grant authorization"
-	mir_strcpy(pszDest, MS_GRANT_AUTH); CreateServiceFunction(str, IcqMenuHandleGrantAuth);
-	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
-	mi.name.a = LPGEN("Grant authorization");
-	mi.position = 1000029999;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
-	g_hContactMenuItems[ICMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
-	
-	// "Revoke authorization"
-	mir_strcpy(pszDest, MS_REVOKE_AUTH); CreateServiceFunction(str, IcqMenuHandleRevokeAuth);
-	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
-	mi.name.a = LPGEN("Revoke authorization");
-	mi.position = 1000029998;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
-	g_hContactMenuItems[ICMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 	
 	// "Add to server list"
 	mir_strcpy(pszDest, MS_ICQ_ADDSERVCONTACT); CreateServiceFunction(str, IcqMenuHandleAddServContact);
@@ -164,9 +119,6 @@ void g_MenuInit(void)
 
 void g_MenuUninit(void)
 {
-	Menu_RemoveItem(g_hContactMenuItems[ICMI_AUTH_REQUEST]);
-	Menu_RemoveItem(g_hContactMenuItems[ICMI_AUTH_GRANT]);
-	Menu_RemoveItem(g_hContactMenuItems[ICMI_AUTH_REVOKE]);
 	Menu_RemoveItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST]);
 	Menu_RemoveItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS]);
 	Menu_RemoveItem(g_hContactMenuItems[ICMI_OPEN_PROFILE]);
@@ -188,11 +140,10 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 
 		DWORD dwUin = getContactUin(hContact);
 
-		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REQUEST],
-			dwUin && (bCtrlPressed || (getByte(hContact, "Auth", 0) && getWord(hContact, DBSETTING_SERVLIST_ID, 0))));
-		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_GRANT], dwUin && (bCtrlPressed || getByte(hContact, "Grant", 0)));
-		Menu_ShowItem(g_hContactMenuItems[ICMI_AUTH_REVOKE],
-			dwUin && (bCtrlPressed || (getByte("PrivacyItems", 0) && !getByte(hContact, "Grant", 0))));
+		Menu_ShowItem(m_hmiReqAuth, dwUin && (bCtrlPressed || (getByte(hContact, "Auth", 0) && getWord(hContact, DBSETTING_SERVLIST_ID, 0))));
+		Menu_ShowItem(m_hmiGrantAuth, dwUin && (bCtrlPressed || getByte(hContact, "Grant", 0)));
+		Menu_ShowItem(m_hmiRevokeAuth, dwUin && (bCtrlPressed || (getByte("PrivacyItems", 0) && !getByte(hContact, "Grant", 0))));
+		
 		Menu_ShowItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST],
 			m_bSsiEnabled && !getWord(hContact, DBSETTING_SERVLIST_ID, 0) &&
 			!getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0) &&

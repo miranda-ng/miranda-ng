@@ -88,24 +88,6 @@ static CJabberProto* JabberGetInstanceByHContact(MCONTACT hContact)
 	return nullptr;
 }
 
-static INT_PTR JabberMenuHandleRequestAuth(WPARAM wParam, LPARAM lParam)
-{
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuHandleRequestAuth(wParam, lParam) : 0;
-}
-
-static INT_PTR JabberMenuHandleGrantAuth(WPARAM wParam, LPARAM lParam)
-{
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuHandleGrantAuth(wParam, lParam) : 0;
-}
-
-static INT_PTR JabberMenuRevokeAuth(WPARAM wParam, LPARAM lParam)
-{
-	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
-	return(ppro) ? ppro->OnMenuRevokeAuth(wParam, lParam) : 0;
-}
-
 static INT_PTR JabberMenuConvertChatContact(WPARAM wParam, LPARAM lParam)
 {
 	CJabberProto *ppro = JabberGetInstanceByHContact(wParam);
@@ -201,33 +183,6 @@ void g_MenuInit(void)
 
 	CMenuItem mi;
 	mi.flags = CMIF_UNMOVABLE;
-
-	// "Request authorization"
-	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
-	mi.name.a = LPGEN("Request authorization");
-	mi.position = -2000001000;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
-	mi.pszService = "Jabber/ReqAuth";
-	g_hMenuRequestAuth = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuHandleRequestAuth);
-
-	// "Grant authorization"
-	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
-	mi.pszService = "Jabber/GrantAuth";
-	mi.name.a = LPGEN("Grant authorization");
-	mi.position = -2000001001;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
-	g_hMenuGrantAuth = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuHandleGrantAuth);
-
-	// Revoke auth
-	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
-	mi.pszService = "Jabber/RevokeAuth";
-	mi.name.a = LPGEN("Revoke authorization");
-	mi.position = -2000001002;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
-	g_hMenuRevokeAuth = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuRevokeAuth);
 
 	// "Convert Chat/Contact"
 	SET_UID(mi, 0xa98894ec, 0xbaa6, 0x4e1e, 0x8d, 0x75, 0x72, 0xc, 0xae, 0x25, 0xd8, 0x87);
@@ -535,7 +490,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-INT_PTR __cdecl CJabberProto::OnMenuRevokeAuth(WPARAM hContact, LPARAM)
+INT_PTR __cdecl CJabberProto::OnMenuHandleRevokeAuth(WPARAM hContact, LPARAM)
 {
 	if (hContact != 0 && m_bJabberOnline) {
 		ptrW jid(getWStringA(hContact, "jid"));

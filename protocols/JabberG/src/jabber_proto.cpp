@@ -105,6 +105,10 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_SETMYAVATAR, &CJabberProto::JabberSetAvatar);
 	CreateProtoService(PS_SETMYNICKNAME, &CJabberProto::JabberSetNickname);
 
+	CreateProtoService(PS_MENU_REQAUTH, &CJabberProto::OnMenuHandleRequestAuth);
+	CreateProtoService(PS_MENU_GRANTAUTH, &CJabberProto::OnMenuHandleGrantAuth);
+	CreateProtoService(PS_MENU_REVOKEAUTH, &CJabberProto::OnMenuHandleRevokeAuth);
+
 	CreateProtoService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);
 	CreateProtoService(JS_DB_GETEVENTTEXT_PRESENCE, &CJabberProto::OnGetEventTextPresence);
 

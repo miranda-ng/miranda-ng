@@ -24,11 +24,17 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	CreateProtoService(PS_GETMYAVATAR, &CToxProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CToxProto::SetMyAvatar);
 
+	// menus
+	CreateProtoService(PS_MENU_REQAUTH, &CToxProto::OnRequestAuth);
+	CreateProtoService(PS_MENU_GRANTAUTH, &CToxProto::OnGrantAuth);
+
 	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
 	// events
 	CreateServiceFunction(MODULE "/GetEventIcon", &CToxProto::EventGetIcon);
+
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CToxProto::OnPrebuildContactMenu);
 
 	hTerminateEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 }

@@ -57,6 +57,10 @@ FacebookProto::FacebookProto(const char* proto_name, const wchar_t* username) :
 	CreateProtoService(PS_JOINCHAT, &FacebookProto::OnJoinChat);
 	CreateProtoService(PS_LEAVECHAT, &FacebookProto::OnLeaveChat);
 
+	CreateProtoService(PS_MENU_REQAUTH, &FacebookProto::RequestFriendship);
+	CreateProtoService(PS_MENU_GRANTAUTH, &FacebookProto::ApproveFriendship);
+	CreateProtoService(PS_MENU_REVOKEAUTH, &FacebookProto::CancelFriendship);
+
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu);
 	HookProtoEvent(ME_OPT_INITIALISE, &FacebookProto::OnOptionsInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &FacebookProto::OnIdleChanged);
@@ -769,12 +773,10 @@ INT_PTR FacebookProto::CancelFriendship(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR FacebookProto::RequestFriendship(WPARAM wParam, LPARAM)
+INT_PTR FacebookProto::RequestFriendship(WPARAM hContact, LPARAM)
 {
-	if (wParam == 0 || isOffline())
+	if (hContact == 0 || isOffline())
 		return 1;
-
-	MCONTACT hContact = MCONTACT(wParam);
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (id == nullptr)
@@ -784,23 +786,21 @@ INT_PTR FacebookProto::RequestFriendship(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-INT_PTR FacebookProto::ApproveFriendship(WPARAM wParam, LPARAM)
+INT_PTR FacebookProto::ApproveFriendship(WPARAM hContact, LPARAM)
 {
-	if (wParam == 0 || isOffline())
+	if (hContact == 0 || isOffline())
 		return 1;
 
-	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
-	ForkThread(&FacebookProto::ApproveContactToServer, hContact);
+	ForkThread(&FacebookProto::ApproveContactToServer, new MCONTACT(hContact));
 	return 0;
 }
 
-INT_PTR FacebookProto::DenyFriendship(WPARAM wParam, LPARAM)
+INT_PTR FacebookProto::DenyFriendship(WPARAM hContact, LPARAM)
 {
-	if (wParam == 0 || isOffline())
+	if (hContact == 0 || isOffline())
 		return 1;
 
-	MCONTACT *hContact = new MCONTACT((MCONTACT)wParam);
-	ForkThread(&FacebookProto::IgnoreFriendshipRequest, hContact);
+	ForkThread(&FacebookProto::IgnoreFriendshipRequest, new MCONTACT(hContact));
 	return 0;
 }
 

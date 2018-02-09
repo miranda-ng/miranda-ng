@@ -27,9 +27,6 @@ extern OBJLIST<FacebookProto> g_Instances;
 // Contact menu items
 HGENMENU g_hContactMenuVisitProfile;
 HGENMENU g_hContactMenuVisitFriendship;
-HGENMENU g_hContactMenuAuthRevoke;
-HGENMENU g_hContactMenuAuthAsk;
-HGENMENU g_hContactMenuAuthGrant;
 HGENMENU g_hContactMenuAuthCancel;
 HGENMENU g_hContactMenuAuthDeny;
 HGENMENU g_hContactMenuPoke;
@@ -97,9 +94,6 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	// Hide our all contact menu items first
 	Menu_ShowItem(g_hContactMenuVisitProfile, false);
 	Menu_ShowItem(g_hContactMenuVisitFriendship, false);
-	Menu_ShowItem(g_hContactMenuAuthRevoke, false);
-	Menu_ShowItem(g_hContactMenuAuthAsk, false);
-	Menu_ShowItem(g_hContactMenuAuthGrant, false);
 	Menu_ShowItem(g_hContactMenuAuthCancel, false);
 	Menu_ShowItem(g_hContactMenuAuthDeny, false);
 	Menu_ShowItem(g_hContactMenuPoke, false);
@@ -166,14 +160,6 @@ void InitContactMenus()
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::LoadHistory>);
 	g_hContactMenuLoadHistory = Menu_AddContactMenuItem(&mi);
 
-	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
-	mi.position = -2000006010;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
-	mi.name.a = LPGEN("Cancel friendship");
-	mi.pszService = "FacebookProto/CancelFriendship";
-	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::CancelFriendship>);
-	g_hContactMenuAuthRevoke = Menu_AddContactMenuItem(&mi);
-
 	SET_UID(mi, 0x6d6b49b9, 0x71b8, 0x4a57, 0xab, 0x80, 0xc3, 0xb2, 0xbe, 0x2b, 0x9b, 0xf5);
 	mi.position = -2000006011;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
@@ -181,23 +167,6 @@ void InitContactMenus()
 	mi.pszService = "FacebookProto/CancelFriendshipRequest";
 	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::OnCancelFriendshipRequest>);
 	g_hContactMenuAuthCancel = Menu_AddContactMenuItem(&mi);
-
-	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
-	mi.position = -2000006012;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
-	mi.name.a = LPGEN("Request friendship");
-	mi.pszService = "FacebookProto/RequestFriendship";
-	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::RequestFriendship>);
-	g_hContactMenuAuthAsk = Menu_AddContactMenuItem(&mi);
-
-	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
-	mi.position = -2000006013;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
-	mi.name.a = LPGEN("Approve friendship");
-	mi.pszService = "FacebookProto/ApproveFriendship";
-	CreateServiceFunction(mi.pszService, GlobalService<&FacebookProto::ApproveFriendship>);
-	g_hContactMenuAuthGrant = Menu_AddContactMenuItem(&mi);
-
 	SET_UID(mi, 0x29d0a371, 0xb8a7, 0x4fb2, 0x91, 0x10, 0x13, 0x6f, 0x8c, 0x5f, 0xb5, 0x7);
 	mi.position = -2000006014;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
@@ -225,12 +194,12 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	if (!isOffline() && !bIsChatroom && !bIsPage) {
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
-		Menu_ShowItem(g_hContactMenuAuthAsk, ctrlPressed || type == CONTACT_NONE || !type);
-		Menu_ShowItem(g_hContactMenuAuthGrant, ctrlPressed || type == CONTACT_APPROVE);
-		Menu_ShowItem(g_hContactMenuAuthDeny, ctrlPressed || type == CONTACT_APPROVE);
-		Menu_ShowItem(g_hContactMenuAuthRevoke, ctrlPressed || type == CONTACT_FRIEND);
-		Menu_ShowItem(g_hContactMenuAuthCancel, ctrlPressed || type == CONTACT_REQUEST);
+		Menu_ShowItem(m_hmiReqAuth, ctrlPressed || type == CONTACT_NONE || !type);
+		Menu_ShowItem(m_hmiGrantAuth, ctrlPressed || type == CONTACT_APPROVE);
+		Menu_ShowItem(m_hmiRevokeAuth, ctrlPressed || type == CONTACT_FRIEND);
 
+		Menu_ShowItem(g_hContactMenuAuthCancel, ctrlPressed || type == CONTACT_REQUEST);
+		Menu_ShowItem(g_hContactMenuAuthDeny, ctrlPressed || type == CONTACT_APPROVE);
 		Menu_ShowItem(g_hContactMenuPoke, true);
 	}
 
@@ -299,7 +268,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 
 void FacebookProto::ToggleStatusMenuItems(bool bEnable)
 {
-	Menu_EnableItem(m_hMainMenuItem, bEnable);
+	Menu_EnableItem(m_hmiMainMenu, bEnable);
 	Menu_EnableItem(m_hStatusMind, bEnable);
 	Menu_EnableItem(m_hMenuServicesRoot, bEnable);
 }

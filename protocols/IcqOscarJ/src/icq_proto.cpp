@@ -134,9 +134,9 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	CreateProtoService(MS_ICQ_ADDSERVCONTACT, &CIcqProto::AddServerContact);
 
-	CreateProtoService(MS_REQ_AUTH, &CIcqProto::RequestAuthorization);
-	CreateProtoService(MS_GRANT_AUTH, &CIcqProto::GrantAuthorization);
-	CreateProtoService(MS_REVOKE_AUTH, &CIcqProto::RevokeAuthorization);
+	CreateProtoService(PS_MENU_REQAUTH, &CIcqProto::RequestAuthorization);
+	CreateProtoService(PS_MENU_GRANTAUTH, &CIcqProto::GrantAuthorization);
+	CreateProtoService(PS_MENU_REVOKEAUTH, &CIcqProto::RevokeAuthorization);
 
 	CreateProtoService(MS_XSTATUS_SHOWDETAILS, &CIcqProto::ShowXStatusDetails);
 

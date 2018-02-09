@@ -19,13 +19,9 @@ struct STEAM_SEARCH_RESULT
 
 enum
 {
-	CMI_AUTH_REQUEST,
-	//CMI_AUTH_GRANT,
-	CMI_AUTH_REVOKE,
 	CMI_BLOCK,
 	CMI_UNBLOCK,
 	CMI_JOIN_GAME,
-	//SMI_BLOCKED_LIST,
 	CMI_MAX   // this item shall be the last one
 };
 
@@ -59,25 +55,25 @@ public:
 	~CSteamProto();
 
 	// PROTO_INTERFACE
-	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
+	virtual MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
 
-	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
+	virtual int       __cdecl Authorize(MEVENT hDbEvent);
 	virtual int       __cdecl AuthRecv(MCONTACT, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
+	virtual int       __cdecl AuthDeny(MEVENT hDbEvent, const wchar_t *szReason);
+	virtual int       __cdecl AuthRequest(MCONTACT hContact, const wchar_t *szMessage);
 
-	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
+	virtual DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
 
-	virtual	HANDLE    __cdecl SearchBasic(const wchar_t *id);
+	virtual HANDLE    __cdecl SearchBasic(const wchar_t *id);
 	virtual HANDLE    __cdecl SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName);
 
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
+	virtual int       __cdecl SendMsg(MCONTACT hContact, int flags, const char *msg);
 
-	virtual	int       __cdecl SetStatus(int iNewStatus);
+	virtual int       __cdecl SetStatus(int iNewStatus);
 
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
+	virtual int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	virtual int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	// instances
 	static CSteamProto* InitAccount(const char* protoName, const wchar_t *userName);

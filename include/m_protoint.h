@@ -95,7 +95,10 @@ public:
 	char*       m_szModuleName;    // internal protocol name, also its database module name
 	HANDLE      m_hProtoIcon;      // icon to be displayed in the account manager
 	HNETLIBUSER m_hNetlibUser;     // network agent
-	HGENMENU    m_hMainMenuItem;	 // if protocol menus are displayed in the main menu, this is the root
+	HGENMENU    m_hmiMainMenu;     // if protocol menus are displayed in the main menu, this is the root
+	HGENMENU    m_hmiReqAuth;      // a menu item for /RequestAuth service
+	HGENMENU    m_hmiGrantAuth;    // a menu item for /GrantAuth service
+	HGENMENU    m_hmiRevokeAuth;   // a menu item for /RevokeAuth service
 
 	PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName);
 	~PROTO_INTERFACE();

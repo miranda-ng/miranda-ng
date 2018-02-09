@@ -575,6 +575,27 @@ struct PROTOFILERESUME
 #define PS_GETUNREADEMAILCOUNT "/GetUnreadEmailCount"
 
 ///////////////////////////////////////////////////////////////////////////////
+// Gets called when a user clicks the "Request auth" menu item
+// wParam = hContact
+// lParam = 0
+
+#define PS_MENU_REQAUTH "/ReqAuth"
+
+///////////////////////////////////////////////////////////////////////////////
+// Gets called when a user clicks the "Grant auth" menu item
+// wParam = hContact
+// lParam = 0
+
+#define PS_MENU_GRANTAUTH "/GrantAuth"
+
+///////////////////////////////////////////////////////////////////////////////
+// Gets called when a user clicks the "Revoke auth" menu item
+// wParam = hContact
+// lParam = 0
+
+#define PS_MENU_REVOKEAUTH "/RevokeAuth"
+
+///////////////////////////////////////////////////////////////////////////////
 //                            SENDING SERVICES
 // these should be called with CallContactService()
 

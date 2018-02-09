@@ -77,6 +77,74 @@ void PROTO_INTERFACE::setAllContactStatuses(int iStatus, bool bSkipChats)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// protocol menus
+
+static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr;
+
+static INT_PTR __cdecl stubRequestAuth(WPARAM hContact, LPARAM)
+{
+	const char *szProto = GetContactProto(hContact);
+	if (szProto)
+		ProtoCallService(szProto, PS_MENU_REQAUTH, hContact, 0);
+	return 0;
+}
+
+static INT_PTR __cdecl stubGrantAuth(WPARAM hContact, LPARAM)
+{
+	const char *szProto = GetContactProto(hContact);
+	if (szProto)
+		ProtoCallService(szProto, PS_MENU_GRANTAUTH, hContact, 0);
+	return 0;
+}
+
+static INT_PTR __cdecl stubRevokeAuth(WPARAM hContact, LPARAM)
+{
+	const char *szProto = GetContactProto(hContact);
+	if (szProto)
+		ProtoCallService(szProto, PS_MENU_REVOKEAUTH, hContact, 0);
+	return 0;
+}
+
+static int __cdecl ProtoPrebuildContactMenu(WPARAM, LPARAM)
+{
+	Menu_ShowItem(hReqAuth, false);
+	Menu_ShowItem(hGrantAuth, false);
+	Menu_ShowItem(hRevokeAuth, false);
+	return 0;
+}
+
+void InitProtoMenus(void)
+{
+	// "Request authorization"
+	CMenuItem mi;
+	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
+	mi.pszService = "Proto/Menu/ReqAuth";
+	mi.name.a = LPGEN("Request authorization");
+	mi.position = -2000001002;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
+	hReqAuth = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, stubRequestAuth);
+
+	// "Grant authorization"
+	SET_UID(mi, 0x4c90452a, 0x869a, 0x4a81, 0xaf, 0xa8, 0x28, 0x34, 0xaf, 0x2b, 0x6b, 0x30);
+	mi.pszService = "Proto/Menu/GrantAuth";
+	mi.name.a = LPGEN("Grant authorization");
+	mi.position = -2000001001;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
+	hGrantAuth = Menu_AddContactMenuItem(&mi);
+
+	// "Revoke authorization"
+	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
+	mi.pszService = "Proto/Menu/RevokeAuth";
+	mi.name.a = LPGEN("Revoke authorization");
+	mi.position = -2000001000;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
+	hRevokeAuth = Menu_AddContactMenuItem(&mi);
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, ProtoPrebuildContactMenu);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // protocol constructor & destructor
 
 PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName)
@@ -87,6 +155,10 @@ PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszU
 	m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pszModuleName, ID_STATUS_ONLINE));
 	m_tszUserName = mir_wstrdup(ptszUserName);
 	db_set_resident(m_szModuleName, "Status");
+
+	m_hmiReqAuth = hReqAuth;
+	m_hmiGrantAuth = hGrantAuth;
+	m_hmiRevokeAuth = hRevokeAuth;
 }
 
 PROTO_INTERFACE::~PROTO_INTERFACE()

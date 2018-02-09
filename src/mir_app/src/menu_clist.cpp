@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void InitGroupMenus(void);
 void InitFramesMenus(void);
+void InitProtoMenus(void);
 void InitTrayMenus(void);
 
 #define MS_CLIST_HKSTATUS "Clist/HK/SetStatus"
@@ -1134,6 +1135,7 @@ void InitCustomMenus(void)
 	// other menus
 	InitGroupMenus();
 	InitFramesMenus();
+	InitProtoMenus();
 	InitTrayMenus();
 
 	// initialize hotkeys

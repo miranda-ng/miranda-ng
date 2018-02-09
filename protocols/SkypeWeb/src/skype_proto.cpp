@@ -39,6 +39,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_GETMYAVATAR, &CSkypeProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CSkypeProto::SvcSetMyAvatar);
 
+	CreateProtoService(PS_MENU_REQAUTH, &CSkypeProto::OnRequestAuth);
+	CreateProtoService(PS_MENU_GRANTAUTH, &CSkypeProto::OnGrantAuth);
+
 	CreateProtoService("/IncomingCallCLE", &CSkypeProto::OnIncomingCallCLE);
 	CreateProtoService("/IncomingCallPP", &CSkypeProto::OnIncomingCallPP);
 

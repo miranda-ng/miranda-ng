@@ -223,9 +223,9 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 		return nullptr;
 
 	if (db_get_b(0, "CList", "MoveProtoMenus", TRUE)) {
-		if (pThis->m_hMainMenuItem != nullptr) {
-			Menu_RemoveItem(pThis->m_hMainMenuItem);
-			pThis->m_hMainMenuItem = nullptr;
+		if (pThis->m_hmiMainMenu != nullptr) {
+			Menu_RemoveItem(pThis->m_hmiMainMenu);
+			pThis->m_hmiMainMenu = nullptr;
 		}
 		return cli.pfnGetProtocolMenu(pThis->m_szModuleName);
 	}
@@ -255,7 +255,7 @@ MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis)
 	}
 	hex2bin(szUid, &mi.uid, sizeof(mi.uid));
 
-	return pThis->m_hMainMenuItem = Menu_AddMainMenuItem(&mi);
+	return pThis->m_hmiMainMenu = Menu_AddMainMenuItem(&mi);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

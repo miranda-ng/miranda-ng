@@ -562,7 +562,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR    __cdecl OnMenuTransportLogin(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuTransportResolve(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuBookmarkAdd(WPARAM wParam, LPARAM lParam);
-	INT_PTR    __cdecl OnMenuRevokeAuth(WPARAM wParam, LPARAM lParam);
+	INT_PTR    __cdecl OnMenuHandleRevokeAuth(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuHandleResource(WPARAM wParam, LPARAM lParam, LPARAM res);
 	INT_PTR    __cdecl OnMenuHandleDirectPresence(WPARAM wParam, LPARAM lParam, LPARAM res);
 	INT_PTR    __cdecl OnMenuSetPriority(WPARAM wParam, LPARAM lParam, LPARAM dwDelta);

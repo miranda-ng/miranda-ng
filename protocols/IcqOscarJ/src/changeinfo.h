@@ -96,7 +96,7 @@ struct ChangeInfoData : public MZeroedObject
   void FreeStoredDbSettings(void);
   int  ChangesMade(void);
   void ClearChangeFlags(void);
-  int  SaveSettingsToDb(HWND hwndDlg);
+  int  SaveSettingsToDb(void);
 
   //upload.cpp
   int  UploadSettings(void);

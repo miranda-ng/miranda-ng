@@ -63,6 +63,10 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::OnGetXStatusIcon);
 	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CSteamProto::OnRequestAdvStatusIconIdx);
 
+	// menus
+	CreateProtoService(PS_MENU_REQAUTH, &CSteamProto::AuthRequestCommand);
+	CreateProtoService(PS_MENU_REVOKEAUTH, &CSteamProto::AuthRevokeCommand);
+
 	// custom db events API
 	CreateProtoService(STEAM_DB_GETEVENTTEXT_CHATSTATES, &CSteamProto::OnGetEventTextChatStates);
 

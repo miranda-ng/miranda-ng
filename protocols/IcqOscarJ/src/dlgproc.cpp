@@ -416,7 +416,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_SAVE:
-			if (!dat->SaveSettingsToDb(hwndDlg))
+			if (!dat->SaveSettingsToDb())
 				break;
 
 			EnableDlgItem(hwndDlg, IDC_SAVE, FALSE);

@@ -46,18 +46,6 @@ typedef struct {
 } ICQSEARCHRESULT;
 
 
-// Request authorization
-// wParam = (WPARAM)hContact
-#define MS_REQ_AUTH "/ReqAuth"
-
-// Grant authorization
-// wParam = (WPARAM)hContact;
-#define MS_GRANT_AUTH "/GrantAuth"
-
-// Revoke authorization
-// wParam = (WPARAM)hContact
-#define MS_REVOKE_AUTH "/RevokeAuth"
-
 // Open ICQ profile
 // wParam = (WPARAM)hContact
 #define MS_OPEN_PROFILE "/OpenProfile"

@@ -11,7 +11,7 @@ struct CToxProto : public PROTO<CToxProto>
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////
-	//Ctors
+	// Ctors
 
 	CToxProto(const char *protoName, const wchar_t *userName);
 	~CToxProto();
@@ -54,9 +54,6 @@ public:
 
 	// icons
 	static void InitIcons();
-
-	// menus
-	static void InitContactMenu();
 
 	// utils
 	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
@@ -139,8 +136,7 @@ private:
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
-	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
-	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
+	int __cdecl OnPrebuildContactMenu(WPARAM hContact, LPARAM);
 
 	HGENMENU StatusMenuItems[SMI_MAX];
 	int OnInitStatusMenu();
@@ -257,13 +253,6 @@ private:
 	static bool IsFileExists(const wchar_t* path);
 
 	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob);
-
-	template<INT_PTR(__cdecl CToxProto::*Service)(WPARAM, LPARAM)>
-	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
-	{
-		CToxProto *proto = CToxProto::GetContactAccount((MCONTACT)wParam);
-		return proto ? (proto->*Service)(wParam, lParam) : 0;
-	}
 };
 
 #endif //_TOX_PROTO_H_

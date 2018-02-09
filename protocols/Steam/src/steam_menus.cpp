@@ -13,7 +13,6 @@ INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 int CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
 {
 	ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
-
 	return 0;
 }
 
@@ -94,8 +93,8 @@ int CSteamProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
 	bool authNeeded = getBool(hContact, "Auth", 0);
-	Menu_ShowItem(contactMenuItems[CMI_AUTH_REQUEST], authNeeded || ctrlPressed);
-	Menu_ShowItem(contactMenuItems[CMI_AUTH_REVOKE], !authNeeded || ctrlPressed);
+	Menu_ShowItem(m_hmiReqAuth, authNeeded || ctrlPressed);
+	Menu_ShowItem(m_hmiRevokeAuth, !authNeeded || ctrlPressed);
 
 	bool isBlocked = getBool(hContact, "Block", 0);
 	Menu_ShowItem(contactMenuItems[CMI_BLOCK], !isBlocked || ctrlPressed);
@@ -138,24 +137,6 @@ void CSteamProto::InitMenus()
 	// Contact menu initialization
 	CMenuItem mi;
 	mi.flags = CMIF_UNICODE;
-
-	// "Request authorization"
-	SET_UID(mi, 0x36375a1f, 0xc142, 0x4d6e, 0xa6, 0x57, 0xe4, 0x76, 0x5d, 0xbc, 0x59, 0x8e);
-	mi.pszService = MODULE "/AuthRequest";
-	mi.name.w = LPGENW("Request authorization");
-	mi.position = -201001000 + CMI_AUTH_REQUEST;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REQUEST);
-	contactMenuItems[CMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::AuthRequestCommand>);
-
-	// "Revoke authorization"
-	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
-	mi.pszService = MODULE "/RevokeAuth";
-	mi.name.w = LPGENW("Revoke authorization");
-	mi.position = -201001001 + CMI_AUTH_REVOKE;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
-	contactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&CSteamProto::AuthRevokeCommand>);
 
 	// "Block"
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);

@@ -22,8 +22,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 enum
 {
-	CMI_AUTH_REQUEST,
-	CMI_AUTH_GRANT,
 	CMI_GETSERVERHISTORY,
 	CMI_BLOCK,
 	CMI_UNBLOCK,

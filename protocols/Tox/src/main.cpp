@@ -37,7 +37,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	CToxProto::InitIcons();
-	CToxProto::InitContactMenu();
 
 	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", "ProfilesFolder", MIRANDA_USERDATAT, TranslateT("Profiles folder"));
 
