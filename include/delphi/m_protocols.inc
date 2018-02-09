@@ -154,14 +154,6 @@ type
   they can be encryption and loads of other things, too.
   And yes, before you ask, that is triple indirection. Deal with it.
   Access members using ppProtocolDescriptors[index]->element }
-type
-  pfnInitProto = function(const szModuleName:PAnsiChar;const szUserName:TCHAR):PPROTO_INTERFACE; cdecl;
-
-// deallocates an account instance
-  pfnUninitProto = function(pin:PPROTO_INTERFACE):int; cdecl;
-
-// removes an account from the database
-  pfnDestroyProto = function(pin:PPROTO_INTERFACE):int; cdecl;
 
 type
   PPROTOCOLDESCRIPTOR = ^TPROTOCOLDESCRIPTOR;
@@ -170,14 +162,7 @@ type
     cbSize : size_t;
     szName : PAnsiChar; // unique name of the module
     _type  : int;   // module type, see PROTOTYPE_ constants
-  // 0.8.0+ additions
-    fnInit   :pfnInitProto;    // initializes an empty account
-    fnUninit :pfnUninitProto;  // deallocates an account instance
-    fnDestroy:pfnDestroyProto; // removes an account
   end;
-
-const
-  PROTOCOLDESCRIPTOR_V3_SIZE = SizeOf(int_ptr)+SizeOf(PAnsiChar)+SizeOf(size_t);
 
 { v0.3.3+:
   For recv, it will go from lower to higher, so in this case:
@@ -270,7 +255,7 @@ type
     bAccMgrUIChanged:ByteBool;
     hwndAccMgrUI    :HWND;
     iOrder          :int;              // account order in various menus & lists
-    ppro            :PPROTO_INTERFACE; // pointer to the underlying object
+    ppro            :pointer;          // pointer to the underlying object
   end;
   tagACCOUNT = TPROTOACCOUNT;
 

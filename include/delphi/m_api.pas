@@ -184,7 +184,6 @@ var
   {$include m_clist.inc}
   {$include m_genmenu.inc}
   {$include m_protosvc.inc}
-  {$include m_protoint.inc}
   {$include m_protocols.inc}
 
   {$include m_acc.inc}

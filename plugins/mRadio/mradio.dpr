@@ -162,8 +162,7 @@ begin
   Langpack_register;
 
   // register protocol
-  FillChar(desc,SizeOf(desc),0);
-  desc.cbSize:=PROTOCOLDESCRIPTOR_V3_SIZE;//SizeOf(desc);
+  desc.cbSize:=SizeOf(desc);
   desc.szName:=PluginName;
   desc._type :=PROTOTYPE_VIRTUAL;
   Proto_RegisterModule(@desc);

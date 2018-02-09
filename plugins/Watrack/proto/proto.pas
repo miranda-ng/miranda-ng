@@ -322,7 +322,7 @@ procedure SetProtocol;
 var
   desc:TPROTOCOLDESCRIPTOR;
 begin
-  desc.cbSize:=PROTOCOLDESCRIPTOR_V3_SIZE;//SizeOf(desc);
+  desc.cbSize:=SizeOf(desc);
   desc.szName:=PluginShort;
   desc._type :=PROTOTYPE_TRANSLATION;
   Proto_RegisterModule(@desc);
