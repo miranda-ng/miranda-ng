@@ -215,6 +215,8 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		_GlobalOptions.ShowXStatus = db_get_b(0, "CLUI", "ShowXStatus", SETTING_SHOWXSTATUS_DEFAULT);
 		_GlobalOptions.UseConnectingIcon = db_get_b(0, "CLUI", "UseConnectingIcon", SETTING_USECONNECTINGICON_DEFAULT);
 		_GlobalOptions.SBarShow = db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT);
+		_GlobalOptions.PaddingLeft = db_get_dw(0, "CLUI", "PaddingLeft", SETTING_PADDINGLEFT_DEFAULT);
+		_GlobalOptions.PaddingRight = db_get_dw(0, "CLUI", "PaddingRight", SETTING_PADDINGRIGHT_DEFAULT);
 
 		CheckDlgButton(hwndDlg, IDC_EQUALSECTIONS, db_get_b(0, "CLUI", "EqualSections", SETTING_EQUALSECTIONS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
