@@ -574,9 +574,8 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 
 class COptMainDlg : public CDlgBase
 {
-	CCtrlSpin   spnAvatar;
+	CCtrlSpin   spnAvaSize;
 	CCtrlButton btnHelp, btnReset;
-	CCtrlEdit   edtAvaSize;
 	CCtrlCheck  chkAvaPreserve;
 
 public:
@@ -584,8 +583,7 @@ public:
 		: CDlgBase(g_hInst, IDD_OPT_MSGDLG),
 		btnHelp(this, IDC_HELP_GENERAL),
 		btnReset(this, IDC_RESETWARNINGS),
-		spnAvatar(this, IDC_AVATARSPIN),
-		edtAvaSize(this, IDC_MAXAVATARHEIGHT),
+		spnAvaSize(this, IDC_AVATARSPIN),
 		chkAvaPreserve(this, IDC_PRESERVEAVATARSIZE)
 	{
 		btnHelp.OnClick = Callback(this, &COptMainDlg::onClick_Help);
@@ -595,20 +593,16 @@ public:
 	virtual void OnInitDialog() override
 	{
 		TreeViewInit(GetDlgItem(m_hwnd, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
-
-		int iAvaHeight = M.GetDword("avatarheight", 100);
-		edtAvaSize.SetInt(iAvaHeight);
 		
 		chkAvaPreserve.SetState(M.GetByte("dontscaleavatars", 0));
 
-		spnAvatar.SetRange(150);
-		spnAvatar.SetPosition(iAvaHeight);
+		spnAvaSize.SetRange(150);
+		spnAvaSize.SetPosition(M.GetDword("avatarheight", 100));
 	}
 
 	virtual void OnApply() override
 	{
-		db_set_dw(0, SRMSGMOD_T, "avatarheight", edtAvaSize.GetInt());
-
+		db_set_dw(0, SRMSGMOD_T, "avatarheight", spnAvaSize.GetPosition());
 		db_set_b(0, SRMSGMOD_T, "dontscaleavatars", chkAvaPreserve.GetState());
 
 		// scan the tree view and obtain the options...
