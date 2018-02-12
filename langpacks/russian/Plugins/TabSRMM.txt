@@ -1681,10 +1681,6 @@ UID: %s (SHIFT+клик -> копировать в буфер)\nКлик - ин�
 Включить уведомления о наборе текста
 [Disable typing notification]
 Выключить уведомления о наборе текста
-[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
-Не установлен плагин службы изображений (AdvaImg)\n\nTabSRMM отключён.
-[TabSRMM fatal error]
-Критическая ошибка TabSRMM
 [Message windows - IM]
 Окна сообщений - IM
 [Message windows - all]

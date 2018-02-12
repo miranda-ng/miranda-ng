@@ -49,8 +49,6 @@
 [Avatars]
 [My Avatars]
 [My Global Avatar Cache]
-[Fatal error, image services not found. Avatar services will be disabled.]
-[Avatar service]
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]

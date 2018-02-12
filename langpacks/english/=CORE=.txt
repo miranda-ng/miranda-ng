@@ -1343,6 +1343,10 @@
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\proto_ui.cpp
 [Account]
+;file \src\mir_app\src\proto_utils.cpp
+[Request authorization]
+[Grant authorization]
+[Revoke authorization]
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [Could not search on any of the protocols, are you online?]
@@ -1385,9 +1389,6 @@
 [Non-loadable plugin]
 [Frames]
 [Add group]
-[Request authorization]
-[Grant authorization]
-[Revoke authorization]
 [Warning]
 [Always visible]
 [Always invisible]

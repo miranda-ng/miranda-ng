@@ -383,8 +383,6 @@ XML Консоль
 Заголовок фрейма
 [Frame text]
 Текст фрейма
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-Критическая ошибка, не найдена служба изображений. Протокол Jabber будет отключён.
 [Jabber Activity]
 Занятие Jabber
 [Jabber Mood]
@@ -517,6 +515,8 @@ xHTML формат чат сообщений
 Поддержка прямых приглашений в чат (XEP-0249)
 [Receives information about OMEMO devices]
 Получение сведений об устройствах OMEMO
+[Supports message carbons (XEP-0280)]
+Поддержка синхронизации между включёнными устройствами (XEP-0280)
 [Enter the text you see]
 Введите текст, который видите
 [None]
@@ -891,12 +891,6 @@ Jabber ошибка
 Получен запрос HTTP авторизации
 [Jabber account chooser]
 Выбор учётной записи Jabber
-[Request authorization]
-Запросить авторизацию
-[Grant authorization]
-Авторизовать
-[Revoke authorization]
-Отозвать авторизацию
 [Convert]
 Конвертировать
 [Add to Bookmarks]
@@ -1383,6 +1377,8 @@ OMEMO: Новая сессия
 Автоматически сохранять принятые заметки
 [Enable server-side history (XEP-0136)]
 Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
+[Receive conversations from other devices (XEP-0280)]
+Синхронизировать сообщения между включёнными устройствами (XEP-0280)
 [Server options]
 Настройки сервера
 [Disable SASL authentication (for old servers)]

@@ -93,8 +93,6 @@
 <неизвестно>
 [Last seen]
 Последнее появление
-[-- Date --]
--- Дата --
 [year (4 digits)]
 год (4 цифры)
 [year (2 digits)]
@@ -111,8 +109,6 @@
 день недели (полн.)
 [weekday (abbreviated)]
 день недели (сокр.)
-[-- Time --]
--- Время --
 [hours (24)]
 часы (24)
 [hours (12)]
@@ -123,47 +119,45 @@
 минуты
 [seconds]
 секунды
-[-- User --]
--- Пользователь --
 [username]
 пользователь
 [nick]
 ник
 [UIN/handle]
 номер/обработчик
-[Group]
+[group]
 Группа
-[Status]
+[status]
 Статус
-[Status message]
+[status message]
 Сообщение статуса
-[Old status]
+[old status]
 Старый статус
 [external IP]
 внешний IP
 [internal IP]
 внутренний IP
-[Client info]
+[client info]
 Клиент
-[Protocol]
+[protocol]
 Протокол
-[Account]
+[account]
 Учётная запись
-[-- Format --]
--- Формат --
 [tabulator]
 табуляция
 [line break]
 с новой строки
+[-- Date --]
+-- Дата --
+[-- Time --]
+-- Время --
+[-- User --]
+-- Пользователь --
+[-- Format --]
+-- Формат --
 [Note:]
 Примечание:
-[Use]
-Использовать
-[for empty string]
-для пустой строки
-[instead of]
-вместо
-[Last Seen Variables]
+[Last Seen variables]
 Переменные
 [Contacts]
 Контакты

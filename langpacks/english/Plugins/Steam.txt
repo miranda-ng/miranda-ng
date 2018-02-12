@@ -15,6 +15,8 @@
 [Use bigger avatars]
 [Message sessions]
 [Show chat state events (i.e., user closed chat session)]
+[Connection]
+[Error limit before logout:]
 [Captcha]
 [Cancel]
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
@@ -33,26 +35,20 @@
 [ (Non-Steam)]
 [ on server %s]
 [Playing]
-[%s has been removed from your contact list]
 [%s is back in your contact list]
-[%s has added you to his or her Friend List]
-;file \protocols\Steam\src\steam_dialogs.cpp
-[Fatal error, image services not found. Avatar services will be disabled.]
-[Avatar Service]
-;file \protocols\Steam\src\steam_events.cpp
-[Network]
-[Blocked contacts]
+[%s has been removed from your contact list]
+[%s has added you to contact list]
 ;file \protocols\Steam\src\steam_login.cpp
 [Cannot obtain connection token.]
-[Unknown login error.]
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
-[Request authorization]
+[Unblock]
 [Join to game]
 ;file \protocols\Steam\src\steam_messages.cpp
 [Unknown error]
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
+[Network]
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 [Protocol icon]

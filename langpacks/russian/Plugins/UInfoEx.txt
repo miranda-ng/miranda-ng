@@ -485,8 +485,6 @@
 Ваши детали не загружены.\nОни сохранены локально.
 [updating]
 обновление
-[Fatal error, image services not found. Flags module will be disabled.]
-Фатальная ошибка: служба изображений не найдена. Плагин Flags будет отключён.
 [IM naming]
 Имя в IM
 [Password]

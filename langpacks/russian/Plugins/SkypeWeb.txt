@@ -143,10 +143,6 @@ URI объект
 Превышено допустимое количество неудачных попыток авторизации с этим именем пользователя или с этого IP-адреса.
 [Authentication failed. Unknown error.]
 Не удалось авторизоваться из-за неизвестной ошибки.
-[Request authorization]
-Запросить авторизацию
-[Grant authorization]
-Авторизовать
 [Get server history]
 Синхронизировать историю
 [Block contact]

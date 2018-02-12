@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -1445,12 +1445,6 @@ Web-службы
 Передача файла была отменена, потому что один из выбранных файлов не читается с диска, так как был перемещён или удалён.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Передача файла была отменена, не удалось открыть локальный файл на запись. Скорее всего, вы пытаетесь сохранить файл в папку где нет права на запись.
-[Request authorization]
-Запросить авторизацию
-[Grant authorization]
-Авторизовать
-[Revoke authorization]
-Отозвать авторизацию
 [Add to server list]
 Добавить в список на сервере
 [Show custom status details]

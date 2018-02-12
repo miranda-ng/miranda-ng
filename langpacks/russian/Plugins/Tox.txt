@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.0
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -85,18 +85,20 @@ IPv6 адрес (необязательно)
 Невозможно инициализировать ядро Tox
 [Protocol icon]
 Значок протокола
+[Action icon]
+Значок действия 
+[Correction icon]
+Значок исправления
 [Protocols]
 Протоколы
-[Request authorization]
-Запросить авторизацию
-[Grant authorization]
-Авторизовать
 [Password]
 Пароль
 [Create password]
 Создать пароль
 [Action]
 Действие
+[Correction]
+Исправление
 [You cannot send when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
 [%s connection]

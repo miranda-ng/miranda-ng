@@ -255,8 +255,6 @@
 [Upload failed]
 [Your details were not uploaded successfully.\nThey were written to database only.]
 [updating]
-;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags module will be disabled.]
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 [Password]

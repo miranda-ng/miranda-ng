@@ -2487,6 +2487,12 @@ ID учётной записи
 &Учётные записи...
 [Account]
 Учётная запись
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
+[Revoke authorization]
+Отозвать авторизацию
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не могу запустить поиск в сети %s. Пожалуйста, проверьте подключение к сети %s.
 [Could not search on any of the protocols, are you online?]
@@ -2565,12 +2571,6 @@ ANSI плагин
 Фреймы
 [Add group]
 Добавить группу
-[Request authorization]
-Запросить авторизацию
-[Grant authorization]
-Авторизовать
-[Revoke authorization]
-Отозвать авторизацию
 [Warning]
 Предупреждение
 [Always visible]

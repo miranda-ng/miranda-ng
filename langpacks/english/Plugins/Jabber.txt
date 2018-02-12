@@ -197,7 +197,6 @@
 [Jabber Link Protocol]
 [Frame title]
 [Frame text]
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
 [Jabber Activity]
 [Jabber Mood]
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -269,6 +268,7 @@
 [Supports Roster Exchange]
 [Supports direct chat invitations (XEP-0249)]
 [Receives information about OMEMO devices]
+[Supports message carbons (XEP-0280)]
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 ;file \protocols\JabberG\src\jabber_chat.cpp
@@ -468,9 +468,6 @@
 [Http authentication request received]
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
-[Request authorization]
-[Grant authorization]
-[Revoke authorization]
 [Convert]
 [Add to Bookmarks]
 [Commands]
@@ -719,6 +716,7 @@
 [Receive notes]
 [Automatically save received notes]
 [Enable server-side history (XEP-0136)]
+[Receive conversations from other devices (XEP-0280)]
 [Server options]
 [Disable SASL authentication (for old servers)]
 [Enable stream compression (if possible)]
