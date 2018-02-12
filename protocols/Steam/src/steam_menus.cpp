@@ -10,13 +10,13 @@ INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 	return ppro ? (ppro->*Service)(wParam, lParam) : 0;
 }
 
-int CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
+INT_PTR CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
 {
 	ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 	return 0;
 }
 
-int CSteamProto::AuthRevokeCommand(WPARAM hContact, LPARAM)
+INT_PTR CSteamProto::AuthRevokeCommand(WPARAM hContact, LPARAM)
 {
 	ptrA token(getStringA("TokenSecret"));
 	ptrA sessionId(getStringA("SessionID"));
