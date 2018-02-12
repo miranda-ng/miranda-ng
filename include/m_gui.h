@@ -468,6 +468,7 @@ private:
 
 	CTimer* FindTimer(int idEvent);
 
+	static BOOL CALLBACK GlobalFieldEnum(HWND hwnd, LPARAM lParam);
 	static INT_PTR CALLBACK GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static int GlobalDlgResizer(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc);
 };

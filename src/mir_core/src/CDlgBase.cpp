@@ -120,12 +120,33 @@ int CDlgBase::Resizer(UTILRESIZECONTROL*)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
+BOOL CALLBACK CDlgBase::GlobalFieldEnum(HWND hwnd, LPARAM lParam)
+{
+	CDlgBase *pDlg = (CDlgBase*)lParam;
+	int id = GetWindowLongPtr(hwnd, GWLP_ID);
+	if (id <= 0)
+		return TRUE;
+
+	CCtrlBase *ctrl = pDlg->FindControl(id);
+	if (ctrl != nullptr)
+		return TRUE;
+
+	wchar_t wszClass[100];
+	GetClassName(hwnd, wszClass, _countof(wszClass));
+	if (!wcsicmp(wszClass, L"EDIT"))
+		new CCtrlEdit(pDlg, id);
+
+	return TRUE;
+}
+
 INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
 		m_initialized = false;
 		TranslateDialog_LP(m_hwnd, GetPluginLangByInstance(m_hInst));
+
+		::EnumChildWindows(m_hwnd, &GlobalFieldEnum, LPARAM(this));
 
 		NotifyControls(&CCtrlBase::OnInit);
 		OnInitDialog();
