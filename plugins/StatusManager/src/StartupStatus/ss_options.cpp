@@ -134,104 +134,84 @@ static wchar_t* GetLinkDescription(TProtoSettings& protoSettings)
 	return mir_wstrndup(result, result.GetLength());
 }
 
-HRESULT CreateLink(TProtoSettings& protoSettings)
+class CCmdlDlg : public CDlgBase
 {
-	wchar_t savePath[MAX_PATH];
-	if (SHGetSpecialFolderPath(nullptr, savePath, 0x10, FALSE))
-		wcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_wstrlen(savePath));
-	else
-		mir_snwprintf(savePath, L".\\%s", SHORTCUT_FILENAME);
+	TProtoSettings ps;
 
-	// Get a pointer to the IShellLink interface.
-	IShellLink *psl;
-	HRESULT hres = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)&psl);
-	if (SUCCEEDED(hres)) {
-		char *args = GetCMDLArguments(protoSettings);
-		wchar_t *desc = GetLinkDescription(protoSettings);
+	CCtrlButton btnLink, btnCopy;
 
-		// Set the path to the shortcut target, and add the
-		// description.
-		wchar_t path[MAX_PATH];
-		GetModuleFileName(nullptr, path, _countof(path));
-		psl->SetPath(path);
-		psl->SetDescription(desc);
-		psl->SetArguments(_A2T(args));
-
-		// Query IShellLink for the IPersistFile interface for saving the
-		// shortcut in persistent storage.
-		IPersistFile *ppf;
-		hres = psl->QueryInterface(IID_IPersistFile, (void**)&ppf);
-
-		if (SUCCEEDED(hres)) {
-			// Save the link by calling IPersistFile::Save.
-			hres = ppf->Save(savePath, TRUE);
-			ppf->Release();
-		}
-		psl->Release();
-		mir_free(args);
-		mir_free(desc);
+public:
+	CCmdlDlg(int iProfileNo)
+		: CDlgBase(hInst, IDD_CMDLOPTIONS),
+		btnCopy(this, IDC_COPY),
+		btnLink(this, IDC_SHORTCUT),
+		ps(protoList)
+	{
+		GetProfile(iProfileNo, ps);
 	}
 
-	return hres;
-}
+	void OnInitDialog() override
+	{
+		char* cmdl = GetCMDL(ps);
+		SetDlgItemTextA(m_hwnd, IDC_CMDL, cmdl);
+		mir_free(cmdl);
+	}
 
-INT_PTR CALLBACK CmdlOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static TProtoSettings* optionsProtoSettings;
+	void onClick_Copy(CCtrlButton*)
+	{
+		if (OpenClipboard(m_hwnd)) {
+			EmptyClipboard();
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			optionsProtoSettings = (TProtoSettings*)lParam;
-			char* cmdl = GetCMDL(*optionsProtoSettings);
-			SetDlgItemTextA(hwndDlg, IDC_CMDL, cmdl);
-			mir_free(cmdl);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_COPY:
-			if (OpenClipboard(hwndDlg)) {
-				EmptyClipboard();
-
-				char cmdl[2048];
-				GetDlgItemTextA(hwndDlg, IDC_CMDL, cmdl, _countof(cmdl));
-				HGLOBAL cmdlGlob = GlobalAlloc(GMEM_MOVEABLE, sizeof(cmdl));
-				if (cmdlGlob == nullptr) {
-					CloseClipboard();
-					break;
-				}
+			char cmdl[2048];
+			GetDlgItemTextA(m_hwnd, IDC_CMDL, cmdl, _countof(cmdl));
+			HGLOBAL cmdlGlob = GlobalAlloc(GMEM_MOVEABLE, sizeof(cmdl));
+			if (cmdlGlob != nullptr) {
 				LPTSTR cmdlStr = (LPTSTR)GlobalLock(cmdlGlob);
 				memcpy(cmdlStr, &cmdl, sizeof(cmdl));
 				GlobalUnlock(cmdlGlob);
 				SetClipboardData(CF_TEXT, cmdlGlob);
-				CloseClipboard();
 			}
-			break;
-
-		case IDC_SHORTCUT:
-			CreateLink(*optionsProtoSettings);
-			break;
-
-		case IDC_OK:
-			DestroyWindow(hwndDlg);
-			break;
+			CloseClipboard();
 		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		delete optionsProtoSettings; optionsProtoSettings = nullptr;
-		break;
 	}
 
-	return 0;
-}
+	void onClick_Link(CCtrlButton*)
+	{
+		wchar_t savePath[MAX_PATH];
+		if (SHGetSpecialFolderPath(nullptr, savePath, 0x10, FALSE))
+			wcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_wstrlen(savePath));
+		else
+			mir_snwprintf(savePath, L".\\%s", SHORTCUT_FILENAME);
+
+		// Get a pointer to the IShellLink interface.
+		IShellLink *psl;
+		HRESULT hres = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)&psl);
+		if (SUCCEEDED(hres)) {
+			ptrA args(GetCMDLArguments(ps));
+			ptrW desc(GetLinkDescription(ps));
+
+			// Set the path to the shortcut target, and add the
+			// description.
+			wchar_t path[MAX_PATH];
+			GetModuleFileName(nullptr, path, _countof(path));
+			psl->SetPath(path);
+			psl->SetDescription(desc);
+			psl->SetArguments(_A2T(args));
+
+			// Query IShellLink for the IPersistFile interface for saving the
+			// shortcut in persistent storage.
+			IPersistFile *ppf;
+			hres = psl->QueryInterface(IID_IPersistFile, (void**)&ppf);
+
+			if (SUCCEEDED(hres)) {
+				// Save the link by calling IPersistFile::Save.
+				hres = ppf->Save(savePath, TRUE);
+				ppf->Release();
+			}
+			psl->Release();
+		}
+	}
+};
 
 static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -396,11 +376,8 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			{
 				int defProfile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
-
-				TProtoSettings ps = protoList;
-				GetProfile(defProfile, ps);
-
-				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CMDLOPTIONS), hwndDlg, CmdlOptionsDlgProc, (LPARAM)&ps);
+				CCmdlDlg *pDlg = new CCmdlDlg(defProfile);
+				pDlg->Show();
 				break;
 			}
 		}
