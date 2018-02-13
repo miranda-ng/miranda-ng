@@ -406,6 +406,9 @@ public:
 	int  DoModal();
 	void EndModal(INT_PTR nResult);
 
+	CCtrlBase* FindControl(int idCtrl);
+	CCtrlBase* FindControl(HWND hwnd);
+
 	void SetCaption(const wchar_t *ptszCaption);
 	void NotifyChange(void); // sends a notification to a parent window
 
@@ -463,8 +466,6 @@ private:
 	LIST<CCtrlBase> m_controls;
 
 	void NotifyControls(void (CCtrlBase::*fn)());
-	CCtrlBase* FindControl(int idCtrl);
-	CCtrlBase* FindControl(HWND hwnd);
 
 	CTimer* FindTimer(int idEvent);
 

@@ -587,7 +587,6 @@ mir_wstrcmpi                  @280
 ?Expand@CCtrlClc@@QEAAXPEAXK@Z @752 NONAME
 ?Expand@CCtrlTreeView@@QEAAXPEAU_TREEITEM@@K@Z @753 NONAME
 ?FindContact@CCtrlClc@@QEAAPEAXI@Z @754 NONAME
-?FindControl@CDlgBase@@AEAAPEAVCCtrlBase@@H@Z @755 NONAME
 ?FindGroup@CCtrlClc@@QEAAPEAXH@Z @756 NONAME
 ?FindItem@CCtrlListView@@QEAAHHPEBUtagLVFINDINFOW@@@Z @757 NONAME
 ?FindNamedItem@CCtrlTreeView@@QEAAPEAU_TREEITEM@@PEAU2@PEB_W@Z @758 NONAME
@@ -1004,7 +1003,6 @@ CallFunctionSync @1170
 ?Stop@CTimer@@QEAAXXZ @1189 NONAME
 ?AddTimer@CDlgBase@@IEAAXPEAVCTimer@@@Z @1190 NONAME
 ??0CCtrlBase@@AEAA@PEAUHWND__@@@Z @1191 NONAME
-?FindControl@CDlgBase@@AEAAPEAVCCtrlBase@@PEAUHWND__@@@Z @1192 NONAME
 ?GetItemRect@CCtrlListBox@@QEAAHHPEAUtagRECT@@@Z @1193 NONAME
 ?SetItemHeight@CCtrlListBox@@QEAAXHH@Z @1194 NONAME
 ?UseSystemColors@CCtrlBase@@QEAAXXZ @1195 NONAME
@@ -1055,3 +1053,7 @@ HookTemporaryEvent @1241
 ??0CTimer@@QEAA@$$QEAV0@@Z @1243 NONAME
 ??4CTimer@@QEAAAEAV0@$$QEAV0@@Z @1244 NONAME
 IsTerminalDisconnected @1245
+?FindControl@CDlgBase@@QEAAPEAVCCtrlBase@@H@Z @1246 NONAME
+?FindControl@CDlgBase@@QEAAPEAVCCtrlBase@@PEAUHWND__@@@Z @1247 NONAME
+?GlobalFieldEnum@CDlgBase@@CAHPEAUHWND__@@_J@Z @1248 NONAME
+?OnDestroy@CCtrlTreeView@@MEAAXXZ @1249 NONAME
