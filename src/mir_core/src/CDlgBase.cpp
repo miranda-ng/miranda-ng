@@ -138,12 +138,12 @@ BOOL CALLBACK CDlgBase::GlobalFieldEnum(HWND hwnd, LPARAM lParam)
 		new CCtrlEdit(pDlg, id);
 	else if (!wcsicmp(wszClass, L"ComboBox"))
 		new CCtrlCombo(pDlg, id);
-	else if (!wcsicmp(wszClass, L"Button")) {
+/*	else if (!wcsicmp(wszClass, L"Button")) {
 		if (GetWindowLongW(hwnd, GWL_STYLE) & (BS_CHECKBOX | BS_RADIOBUTTON))
 			new CCtrlCheck(pDlg, id);
 		else
 			new CCtrlButton(pDlg, id);
-	}
+	} */
 	else if (!wcsicmp(wszClass, L"RichEdit50W"))
 		new CCtrlRichEdit(pDlg, id);
 	else if (!wcsicmp(wszClass, L"msctls_updown32"))
