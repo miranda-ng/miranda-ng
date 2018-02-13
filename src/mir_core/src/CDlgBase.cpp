@@ -123,18 +123,31 @@ int CDlgBase::Resizer(UTILRESIZECONTROL*)
 BOOL CALLBACK CDlgBase::GlobalFieldEnum(HWND hwnd, LPARAM lParam)
 {
 	CDlgBase *pDlg = (CDlgBase*)lParam;
-	int id = GetWindowLongPtr(hwnd, GWLP_ID);
+	int id = GetWindowLongPtrW(hwnd, GWLP_ID);
 	if (id <= 0)
 		return TRUE;
 
+	// already declared inside the class? skipping
 	CCtrlBase *ctrl = pDlg->FindControl(id);
 	if (ctrl != nullptr)
 		return TRUE;
 
 	wchar_t wszClass[100];
-	GetClassName(hwnd, wszClass, _countof(wszClass));
-	if (!wcsicmp(wszClass, L"EDIT"))
+	GetClassNameW(hwnd, wszClass, _countof(wszClass));
+	if (!wcsicmp(wszClass, L"Edit"))
 		new CCtrlEdit(pDlg, id);
+	else if (!wcsicmp(wszClass, L"ComboBox"))
+		new CCtrlCombo(pDlg, id);
+	else if (!wcsicmp(wszClass, L"Button")) {
+		if (GetWindowLongW(hwnd, GWL_STYLE) & (BS_CHECKBOX | BS_RADIOBUTTON))
+			new CCtrlCheck(pDlg, id);
+		else
+			new CCtrlButton(pDlg, id);
+	}
+	else if (!wcsicmp(wszClass, L"RichEdit50W"))
+		new CCtrlRichEdit(pDlg, id);
+	else if (!wcsicmp(wszClass, L"msctls_updown32"))
+		new CCtrlSpin(pDlg, id);
 
 	return TRUE;
 }
