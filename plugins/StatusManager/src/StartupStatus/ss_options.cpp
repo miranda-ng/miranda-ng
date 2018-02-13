@@ -445,48 +445,52 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	return FALSE;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// for db cleanup
+/////////////////////////////////////////////////////////////////////////////////////////
+// new profile dialog
+
+class CAddProfileDlg : public CDlgBase
+{
+	CCtrlEdit edtProfile;
+	CCtrlButton btnOk;
+
+public:
+	CAddProfileDlg()
+		: CDlgBase(hInst, IDD_ADDPROFILE),
+		btnOk(this, IDOK),
+		edtProfile(this, IDC_PROFILENAME)
+	{
+		edtProfile.OnChange = Callback(this, &CAddProfileDlg::onChange_Edit);
+	}
+
+	void OnInitDialog() override
+	{
+		btnOk.Disable();
+	}
+
+	void OnApply() override
+	{
+		ptrW profileName(edtProfile.GetText());
+		SendMessage(m_hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName.get());
+	}
+
+	void OnDestroy() override
+	{
+		EnableWindow(m_hwndParent, TRUE);
+	}
+
+	void onChange_Edit(CCtrlEdit*)
+	{
+		btnOk.Enable(edtProfile.SendMsg(EM_LINELENGTH, 0, 0) > 0);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// advanced options dialog
 
 static int DeleteSetting(const char *szSetting, void *lParam)
 {
 	LIST<char> *p = (LIST<char> *)lParam;
 	p->insert(mir_strdup(szSetting));
-	return 0;
-}
-
-INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static HWND hwndParent;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		hwndParent = (HWND)lParam;
-		EnableWindow(GetDlgItem(hwndDlg, IDC_OK), FALSE);
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_OK) {
-			wchar_t profileName[128];
-			GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, _countof(profileName));
-			SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
-			// done and exit
-			DestroyWindow(hwndDlg);
-		}
-		else if (LOWORD(wParam) == IDC_CANCEL) {
-			DestroyWindow(hwndDlg);
-		}
-		else if (LOWORD(wParam) == IDC_PROFILENAME) {
-			(SendDlgItemMessage(hwndDlg, IDC_PROFILENAME, EM_LINELENGTH, 0, 0) > 0) ? EnableWindow(GetDlgItem(hwndDlg, IDC_OK), TRUE) : EnableWindow(GetDlgItem(hwndDlg, IDC_OK), FALSE);
-		}
-		break;
-
-	case WM_DESTROY:
-		EnableWindow(hwndParent, TRUE);
-		break;
-	}
-
 	return 0;
 }
 
@@ -718,8 +722,10 @@ public:
 
 	// add a profile
 	void onClick_Add(CCtrlButton*)
-	{			
-		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDPROFILE), m_hwnd, addProfileDlgProc, (LPARAM)m_hwnd);
+	{
+		CAddProfileDlg *pDlg = new CAddProfileDlg();
+		pDlg->SetParent(m_hwnd);
+		pDlg->Show();
 		EnableWindow(m_hwnd, FALSE);
 	}
 
