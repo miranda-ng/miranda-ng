@@ -178,7 +178,7 @@ public:
 	void onClick_Link(CCtrlButton*)
 	{
 		wchar_t savePath[MAX_PATH];
-		if (SHGetSpecialFolderPath(nullptr, savePath, 0x10, FALSE))
+		if (SHGetSpecialFolderPath(nullptr, savePath, CSIDL_DESKTOPDIRECTORY, FALSE))
 			wcsncat_s(savePath, SHORTCUT_FILENAME, _countof(savePath) - mir_wstrlen(savePath));
 		else
 			mir_snwprintf(savePath, L".\\%s", SHORTCUT_FILENAME);
