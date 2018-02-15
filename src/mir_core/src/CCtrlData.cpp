@@ -32,8 +32,7 @@ CCtrlData::CCtrlData(CDlgBase *wnd, int idCtrl)
 
 CCtrlData::~CCtrlData()
 {
-	if (m_dbLink)
-		delete m_dbLink;
+	delete m_dbLink;
 }
 
 void CCtrlData::OnInit()

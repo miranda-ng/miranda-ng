@@ -39,12 +39,14 @@ void CCtrlCheck::OnApply()
 {
 	CSuper::OnApply();
 
-	SaveInt(GetState());
+	if (m_dbLink != nullptr)
+		SaveInt(GetState());
 }
 
 void CCtrlCheck::OnReset()
 {
-	SetState(LoadInt());
+	if (m_dbLink != nullptr)
+		SetState(LoadInt());
 }
 
 int CCtrlCheck::GetState()
