@@ -192,8 +192,6 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				HTREEITEM hItem = TreeView_InsertItem(hwndTree, &tvis);
 				if (i == 0)
 					SendMessage(hwndTree, TVM_SELECTITEM, TVGN_CARET, (LPARAM)hItem);
-				for (int j = 0; j < _countof(o_pages[0].uIds) && o_pages[i].uIds[j] != 0; j++)
-					Utils::showDlgControl(hwndDlg, o_pages[i].uIds[j], SW_HIDE);
 				ShowPage(hwndDlg, i, FALSE);
 			}
 			Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_EVENT_MESSAGE);
