@@ -39,7 +39,7 @@ Nie znaleziono wtyczki AdvaImg.. Pobierz ją z https://miranda-ng.org/p/AdvaImg/
 [Preview...]
 Podgląd...
 [Download more splash screens]
-
+Pobierz więcej ekranów powitalnych
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Pliki graficzne

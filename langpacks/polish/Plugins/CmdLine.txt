@@ -52,7 +52,7 @@ Zmienia nick użytkownika w podanym protokole na nowy.\nUżyj: setnickname <prot
 [Ignores or removes ignore flags for specific contacts.\nUsage:\n  ignore (block | unblock) <contact> [<contact> [<contact> [...]]].\nThe command will set or remove ignore flags for the specified contacts]
 Ignoruje lub usuwa flagę ignorowania dla podanego kontaktu.\nUżyj:\n  ignore (block | unblock) <kontakt> [<kontakt> [<kontakt> [...]]].\nTa komenda ustawi lub usunie flagę ignorowania dla wybranych kontaktów.
 [Executes Lua script via MirLua plugin.\nUsage:\n  call [<module>] <function>\n  exec "<path>"\n  eval "<code>"]
-
+Wykonuje skrypt Lua używając wtyczki MirLua.\nUżycie:\n  call [<moduł>] <funkcja>\n  exec "<ścieżka>"\n  eval "<kod>"
 ;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Wrong number of parameters for command '%s'.]
 Zła ilość parametrów dla komendy "%s".

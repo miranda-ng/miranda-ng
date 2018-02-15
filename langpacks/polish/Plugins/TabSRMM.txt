@@ -1064,6 +1064,8 @@ Dziennik czatu
 Wygląd i funkcjonalność okna czatu
 [Appearance of the message log]
 Wygląd dziennika wiadomości
+[Chat rooms]
+Pokoje czatu
 [Voiced]
 Głos członków
 [Half operators]
@@ -1702,13 +1704,9 @@ Funkcja wyłączona (używany jako nakładka)
 [Feature enabled (used as overlay)]
 Funkcja włączona (używany jako nakładka)
 [Enable typing notification]
-
+Włącz powiadomienia o pisaniu
 [Disable typing notification]
-
-[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
-Usługa obrazków (AdvaImg) nie jest zainstalowany.\n\nTabSRMM zostanie wyłączony.
-[TabSRMM fatal error]
-Błąd TabSRMM
+Wyłącz powiadomienia o pisaniu
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Okno rozmowy - IM

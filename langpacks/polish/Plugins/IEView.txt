@@ -67,7 +67,7 @@ Użyj długiego formatu daty
 [Use relative timestamp]
 Użyj relatywnego czasu i daty
 [Download more templates]
-
+Pobierz więcej szablonów
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Wychodzące transfery
@@ -97,13 +97,13 @@ Nie udało się doradzić
 Zamarcie zdarzenia C++
 ;file \plugins\IEView\src\ieview_main.cpp
 [RTL On]
-
+RTL wł.
 [RTL Off]
-
+RTL wył.
 [Group On]
-
+Grupowanie wł.
 [Group Off]
-
+Grupowanie wył.
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 % dołączył.

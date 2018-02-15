@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -91,7 +91,7 @@ Zaawansowane
 [Send typing notifications even when Invisible]
 Wysyłaj powiadomienie o pisaniu nawet gdy Niewidoczny
 [Typing is one way how user is determined active. If you don't want to be seen "active 1 min ago" on Facebook, uncheck this option and also don't interact with website at all. Sending messages from Miranda should be ok, but don't 100% rely on it either.]
-
+Pisanie jest jednym z czynników po którym użytkownik oznaczany jest jako aktywny. Jeżeli nie chcesz być widoczny na Facebook'u jako "aktywny 1 min temu", to odznacz tą opcję oraz nie wykonuj żadnych działań na FB w przeglądarce. Wysyłanie wiadomości z Mirandy powinno być bezpieczne, ale nie polegaj na tym w 100%.
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
@@ -128,6 +128,20 @@ Wyślij SMS
 [Enter the text you see]
 Wprowadź tekst, który widzisz
 ;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+&Zaproś użytkownika
+[E&xit chat session]
+Opuść grupę
+[&Destroy chat session]
+&Usuń sesję czatu
+[User &details]
+&Dane użytkownika
+[User &history]
+&Historia użytkownika
+[Delete conversation]
+Usuń konwersację
+[This will permanently delete the conversation history]
+To nieodwracalnie usunie historię konwersacji
 [Former]
 
 [Myself]
@@ -136,14 +150,6 @@ Ja
 Znajomy
 [User]
 Użytkownik
-[&Invite user...]
-&Zaproś użytkownika
-[&Leave chat session]
-&Opuść sesję czatu
-[User &details]
-&Dane użytkownika
-[User &history]
-&Historia użytkownika
 [Notifications]
 Powiadomienia
 [%s and more (%d)]
@@ -196,29 +202,6 @@ SMS z kodem weryfikacyjnym został wysłany na Twój telefon.
 Wprowadź nazwę użytkownika.
 [Please enter a password.]
 Wprowadź hasło
-;file \protocols\FacebookRM\src\constants.h
-[Top News]
-Najpopularniejsze
-[Most Recent]
-Najnowsze
-[Pages]
-Strony
-[Classic website]
-Klasyczna strona
-[Mobile website]
-Strona mobilna
-[Smartphone website]
-Strona dla ekranów dotykowych
-[Public]
-Publiczny
-[Friends of friends]
-Znajomi znajomych
-[Friends]
-Znajomi
-[Friends except acquaintances]
-Znajomi poza dalszymi znajomymi
-[Only me]
-Tylko ja
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt został usunięty z listy serwera.
@@ -241,6 +224,28 @@ Prośba o dodanie do znajomych została zignorowana.
 [Error occurred when ignoring friendship request.]
 Wystąpił błąd podczas ignorowania prośby o dodanie do znajomych.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Top News]
+Najpopularniejsze
+[Most Recent]
+Najnowsze
+[Pages]
+Strony
+[Classic website]
+Klasyczna strona
+[Mobile website]
+Strona mobilna
+[Smartphone website]
+Strona dla ekranów dotykowych
+[Public]
+Publiczny
+[Friends of friends]
+Znajomi znajomych
+[Friends]
+Znajomi
+[Friends except acquaintances]
+Znajomi poza dalszymi znajomymi
+[Only me]
+Tylko ja
 [Default]
 Domyślny
 [<< Contacts]
@@ -250,22 +255,22 @@ O czym teraz myślisz, %s?
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 naklejka
-[a GIF]
-GIF
 [files]
 pliki
 [a file]
 plik
+[a GIF]
+GIF
 [a link]
 link
 [User sent %s:]
 Użytkownik wysłał %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Użytkownik wysłał plik niewspieranego typu. Otwórz przeglądarkę, aby go zobaczyć.
+[Reaction]
+Reakcje
 [%s is typing a message...]
 %s pisze wiadomość...
-[This message is no longer available, because it was marked as abusive or spam.]
-Ta wiadomość nie jest już dostępna, ponieważ została oznaczona jako nadużycie lub spam.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nie można wysłać wiadomości, gdy jesteś offline.
@@ -338,7 +343,7 @@ Inne zdarzenia
 [Friendship events]
 Zdarzenia znajomości
 [Real-time friends activity]
-
+Aktywność znajomych w czasie rzeczywistym
 [Memories]
 Wspomnienia
 [Visit profile]
@@ -396,14 +401,8 @@ Sprawdź dane znajomości
 Przejdź do historii rozmowy
 [Load history]
 Pobierz historię
-[Cancel friendship]
-Cofnij znajomość
 [Cancel friendship request]
 Cofnij zaproszenie
-[Request friendship]
-Zaproś do grona znajomych
-[Approve friendship]
-Zatwierdź znajomość
 [Deny friendship request]
 Odrzuć prośbę o dodanie do znajomych
 [Services...]

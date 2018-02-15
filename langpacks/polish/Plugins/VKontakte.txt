@@ -2,20 +2,20 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.4.0
+;  Version: 0.1.4.1
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 ;file \protocols\VKontakte\res\resource.rc
 [Show in protocol menu ]
-
+Pokazuje w menu protokołu
 [Create new chat]
 Utwórz nowy czat
 [Status message]
 Opis
 [Send message to my wall]
-Wyślij posta na moją tablicę
+Wyślij post na moją tablicę
 [Load news from VK]
 Załaduj aktualności z VK
 [Load history for all contacts from VK]
@@ -51,9 +51,9 @@ Przetwarzaj naklejki jako uśmieszki
 [Shorten links for audio attachments]
 Skracaj linki do załączników audio
 [Use non-standard popups for news and event notifications]
-Użyj niestandardowych popupów dla powiadomień o aktualnościach i zdarzeniach
+Używaj niestandardowych popupów dla powiadomień o aktualnościach i zdarzeniach
 [Add message link to messages with attachments]
-
+Dodawaj wiadomość z linkiem w przypadku wiadomości z załącznikiem
 [News and event notifications]
 Powiadomienia o aktualnościach i zdarzeniach
 [WARNING: Causes excessive network traffic!!!]
@@ -61,11 +61,11 @@ Ostrzeżenie: powoduje duże zużycie danych
 [Enable news feeds]
 Włącz kanały aktualności
 [Interval for news updates (min):]
-Co jaki czas odświeżać aktualności (min.):
+Co jaki czas odświeżać aktualności (min):
 [Enable event notifications]
 Włącz powiadomienia o zdarzeniach
 [Interval for notification updates (min):]
-Co jaki czas odświeżać powiadomienia (min.):
+Co jaki czas odświeżać powiadomienia (min):
 [Mark notification as viewed on receive]
 Oznacz powiadomienie jako obejrzane po otrzymaniu
 [Special contact always enabled]
@@ -109,7 +109,7 @@ Udostępnienia
 [Mentions in comments]
 Wspomnienia w komentarzach
 [Accepted friend requests]
-
+Zaakceptowane prośby znajomości
 [E-mail or phone number:]
 E-mail lub numer telefonu:
 [Password:]
@@ -167,13 +167,13 @@ Język dla nazw i tytułów:
 [Mark message as read:]
 Oznacz wiadomości jako odczytane:
 [Sync history on protocol online:]
-
+Synchronizuj historię gdy połączony:
 [Load last messages when message window open and local history is empty]
-
+Załaduj ostatnie wiadomości przy otwarciu okna wiadomości i pustej lokalnej historii rozmów
 [Use local time for received messages]
 Używaj czasu lokalnego dla odebranych wiadomości
 [Load only friends to local contact list]
-
+Wczytuj do lokalnej listy kontaktów wyłącznie znajomych
 [Server-side delivery confirmation]
 Potwierdzenie dostarczenia ze strony serwera
 [Bots challenge test]
@@ -246,15 +246,15 @@ Brakuje jednego z określonych parametrów lub jest on nieprawidłowy
 [Access to adding post denied]
 Odmówiono dostępu do dodawania postów
 [Can't send messages for users from blacklist]
-
+Nie można wysłać wiadomości do blokowanych użytkowników
 [Can't send messages for users without dialogs]
 
 [Can't send messages to this user due to their privacy settings]
-
+Nie można wysłać wiadomości do tego użytkownika ze względu na jego ustawienia prywatności
 [Message is too long]
-
+Wiadomość jest za długa
 [Enter the missing digits between %s and %s of the phone number linked to your account]
-
+Wprowadź brakujące kropki pomiędzy %s i %s numeru telefonu połączonego z Twoim kontem
 [Attention!]
 Uwaga!
 [Enter confirmation code]
@@ -318,9 +318,9 @@ Dokument
 [Wall post]
 Post na tablicy
 [Product]
-
+Produkt
 [Price]
-
+Cena
 [Gift]
 Prezent
 [Unsupported or unknown attachment type: %s]
@@ -332,18 +332,18 @@ Wiadomość od
 [at]
 o
 [User restored control over own page]
-
+Użytkownik odzyskał kontrolę nad swoją stroną
 [User was deactivated (deleted)]
-
+Użytkownik został dezaktywowany (usunięty)
 [User was deactivated (banned)]
-
+Użytkownik został dezaktywowany (zbanowany)
 ;file \protocols\VKontakte\src\vk_chats.cpp
 [Participants]
 Uczestnicy
 [Owners]
 Właściciele
 [Message link]
-
+Link wiadomości
 [create chat]
 stwórz czat
 [kick user]
@@ -383,7 +383,7 @@ Pokaż/Zmień &nazwę
 [&User details]
 Dane &kontaktu
 [Change nick]
-
+Zmień nick
 [&Kick]
 &Wyrzuć
 [%s is typing a message...]
@@ -473,6 +473,10 @@ Zakończono pobieranie wiadomości dla wszystkich kontaktów.
 [Loading history]
 Pobieranie historii
 [Error loading message history for %s from server.]
+
+[%x at %X]
+
+[Edited message (updated %s):\n]
 
 [Loading messages for %s is completed.]
 Zakończono pobieranie wiadomości dla %s.
@@ -580,12 +584,12 @@ Oczekiwanie...
 Wprowadź nowy opis
 ;file \protocols\VKontakte\src\vk_struct.cpp
 [I'm back]
-
+Wróciłam(-łem)
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Service message]
 
 [%s is listening to]
-
+%s słucha
 [Interests]
 Zainteresowania
 [Activities]

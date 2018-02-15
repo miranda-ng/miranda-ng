@@ -152,10 +152,6 @@ Zbyt wiele nieudanych prób autoryzacji z podaną nazwą użytkownika lub IP.
 [Authentication failed. Unknown error.]
 Autoryzacja nie powiodła się. Nieznany błąd.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Request authorization]
-Poproś o autoryzację
-[Grant authorization]
-Udziel autoryzacji
 [Get server history]
 Pobieraj historię z serwera
 [Block contact]

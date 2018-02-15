@@ -98,8 +98,6 @@ Użytkownik zalogowany
 [Last seen]
 Ostatnio widziany
 ;file \plugins\SeenPlugin\src\options.cpp
-[-- Date --]
--- Data --
 [year (4 digits)]
 rok (4 znaki)
 [year (2 digits)]
@@ -116,8 +114,6 @@ dzień
 dzień tygodnia (cały)
 [weekday (abbreviated)]
 dzień tygodnia (skrócony)
-[-- Time --]
--- Czas --
 [hours (24)]
 godziny (24)
 [hours (12)]
@@ -128,47 +124,49 @@ AM/PM
 minut
 [seconds]
 s
-[-- User --]
--- Użytkownik --
 [username]
 nazwa
 [nick]
 Nick
 [UIN/handle]
 UIN/Nazwa użytkownika
-[Group]
+[group]
 Grupa
-[Status]
+[status]
 Status
-[Status message]
+[status message]
 Opis
-[Old status]
+[old status]
 Stary status
 [external IP]
 zewnętrzne IP
 [internal IP]
 wewnętrzne IP
-[Client info]
+[client info]
 Informacje o kliencie
-[Protocol]
+[protocol]
 Protokół
-[Account]
+[account]
 Konto
-[-- Format --]
--- Format --
 [tabulator]
 tabulator
 [line break]
 koniec linii
+[-- Date --]
+-- Data --
+[-- Time --]
+-- Czas --
+[-- User --]
+-- Użytkownik --
+[-- Format --]
+-- Format --
 [Note:]
 Uwaga:
-[Use]
-Użyj
-[for empty string]
-dla pustego elementu
-[instead of]
-zamiast
-[Last Seen Variables]
+[Use # for empty string]
+Używaj # dla pustego ciągu
+[instead of <unknown>]
+zamiast wpisu <nieznany>
+[Last Seen variables]
 Zmienne
 [Contacts]
 Kontakty

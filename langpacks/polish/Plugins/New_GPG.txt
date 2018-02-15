@@ -360,7 +360,7 @@ Niepoprawny adres e-mail
 [Generating new key, please wait...]
 Generuj nowy klucz, proszę czekać...
 [Expiration date]
-
+Data wygaśnięcia
 [Failed to export public key.]
 Błąd eksportu kluczu publicznego.
 ;file \plugins\New_GPG\src\utilities.cpp

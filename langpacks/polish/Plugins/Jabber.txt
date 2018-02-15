@@ -387,8 +387,6 @@ Powiązanie protokołu Jabbera
 Ramka tytułu
 [Frame text]
 Ramka tekstu
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-Błąd krytyczny, nie znaleziono usługi obrazów. Protokół Jabber zostanie wyłączony.
 [Jabber Activity]
 Aktywność
 [Jabber Mood]
@@ -525,7 +523,9 @@ Wsparcie dla zarządzania listą kontaktów (Roster Exchange)
 [Supports direct chat invitations (XEP-0249)]
 Wsparcie dla bezpośrednich zaproszeń do czatu (XEP-0249)
 [Receives information about OMEMO devices]
-
+Otrzymuj informacje o urządzeniach OMEMO
+[Supports message carbons (XEP-0280)]
+Wsparcie message carbons (XEP-0280)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
@@ -912,12 +912,6 @@ Usunąć %s?
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Wybór konta Jabber
-[Request authorization]
-Poproś o autoryzację
-[Grant authorization]
-Udziel autoryzacji
-[Revoke authorization]
-Cofnij autoryzację
 [Convert]
 Konwertuj
 [Add to Bookmarks]
@@ -999,9 +993,9 @@ Jesteś pewien?
 Przychodząca notatka
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-
+Czy chcesz utworzyć sesję OMEMO z nowym urządzeniem:
 [OMEMO: New session]
-
+OMEMO: Nowa sesja
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afar
@@ -1409,6 +1403,8 @@ Odbieraj notatki
 Automatycznie zapisuj otrzymane notatki
 [Enable server-side history (XEP-0136)]
 Włącz historię po stronie serwera
+[Receive conversations from other devices (XEP-0280)]
+Otrzymuj konwersacje z innych urządzeń (XEP-0280)
 [Server options]
 Opcje serwera
 [Disable SASL authentication (for old servers)]
@@ -1444,7 +1440,7 @@ Akceptuj tylko wewnętrzne transfery plików (nie ujawniaj adresu IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Akceptuj prośby o autoryzację HTTP (XEP-0070)
 [Use OMEMO encryption for messages if possible (Experimental! WIP!)]
-
+Używaj jeżeli możliwe szyfrowania OMEMO dla wiadomości (Eksperymentalne!!!)
 [General]
 Ogólne
 [Autoaccept multiuser chat invitations]
@@ -1500,13 +1496,13 @@ Google Talk
 [LiveJournal Talk]
 LiveJournal Talk
 [League Of Legends (EU Nordic)]
-
+League Of Legends (Północ i Wschód)
 [League Of Legends (EU West)]
-
+League Of Legends (Zachód)
 [League Of Legends (Oceania)]
-
+League Of Legends (Oceania)
 [League Of Legends (US)]
-
+League Of Legends (Ameryka Północna)
 [Odnoklassniki]
 Odnoklassniki
 [S.ms]
@@ -1649,7 +1645,7 @@ Nie istnieje żaden kompatybilny mechanizm transferu plików
 [Protocol is offline or no JID]
 Protokół jest Rozłączony lub brak JID
 [No valid OMEMO session exists]
-
+Nie istnieje żadna ważna sesja OMEMO
 ;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Komenda zakończona poprawnie

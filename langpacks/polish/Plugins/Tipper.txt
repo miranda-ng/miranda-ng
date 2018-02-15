@@ -473,11 +473,11 @@ Tytuł w zasobniku
 [Tipper]
 Tipper
 [Copy item]
-
+Skopiuj wpis
 [Arrow up]
-
+Strzałka w górę
 [Arrow down]
-
+Strzałka w dół
 [Reload]
 Odśwież
 [Apply]

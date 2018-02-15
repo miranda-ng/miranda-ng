@@ -200,4 +200,4 @@ Nowy
 [Quick Open]
 Szybkie Otwieranie
 [bass.dll not found! Choose bass.dll path manually]
-
+Nie znaleziono bass.dll! Wybierz położenie bass.dll ręcznie

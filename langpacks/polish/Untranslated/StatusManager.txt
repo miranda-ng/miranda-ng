@@ -1,8 +1,1 @@
-[A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
-[Available modules]
-[Automatically reconnects your accounts after protocol error or internet drop.]
-[Advanced auto away]
-[Improved auto away module with some more options than the built in, configurable per account.]
-[Maximum retries (0 - infinite)]
 [This options are ignored because you enabled "Change my status mode to" in the "Idle" options dialog.]
-[Status manager]

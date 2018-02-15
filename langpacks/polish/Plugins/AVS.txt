@@ -90,10 +90,6 @@ Awatary
 Moje awatary
 [My Global Avatar Cache]
 Cache mojego głównego awataru
-[Fatal error, image services not found. Avatar services will be disabled.]
-Błąd, nie znaleziono wtyczki "advaimg.dll". Usługa awatarów zostanie wyłączona.
-[Avatar service]
-Usługa awatarów
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Ustaw opcje awataru dla %s

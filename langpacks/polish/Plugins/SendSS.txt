@@ -206,8 +206,6 @@ Połączenie HTTP SendSS
 Wyślij zrzut ekranu
 [Screenshots]
 Zrzuty ekranu
-[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
-Nie znaleziono usług obrazów (AdvaImg).\nSendSS wyłączony.
 [Buttons]
 Przyciski
 [Could not register Miranda service.]

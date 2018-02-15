@@ -23,7 +23,11 @@ Używaj większych awatarów
 [Message sessions]
 Okno rozmowy
 [Show chat state events (i.e., user closed chat session)]
-
+Wyświetlaj zdarzenia stanu czatu (np. rozmówca zakończył sesję rozmowy)
+[Connection]
+Połączenie
+[Error limit before logout:]
+Limit błędów przed wylogowaniem:
 [Captcha]
 Kod Captcha
 [Cancel]
@@ -41,9 +45,9 @@ Zapisz hasło
 [Enter the password to continue.]
 Wprowadź hasło, by kontynuować.
 [Security code]
-
+Kod bezpieczeństwa
 [As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-
+Jako dodatkowy środek bezpieczeństwa na koncie, musisz przyznać dostęp, wprowadzając kod SMS, który właśnie wysłaliśmy na Twój telefon komórkowy.
 ;file \protocols\Steam\src\main.cpp
 [Steam game]
 Gra Steam
@@ -58,32 +62,20 @@ Szuka partnera do wymiany
  na serwerze %s
 [Playing]
 Gra
-[%s has been removed from your contact list]
-%s został usunięty z listy kontaktów
 [%s is back in your contact list]
 %s jest z powrotem na twojej liście kontaktów
-[%s has added you to his or her Friend List]
-%s dodał cię do listy kontaktów
-;file \protocols\Steam\src\steam_dialogs.cpp
-[Fatal error, image services not found. Avatar services will be disabled.]
-Błąd krytyczny, nie znaleziono usługi obrazów. Usługa awatarów zostanie wyłączona
-[Avatar Service]
-Usługa awatarów
-;file \protocols\Steam\src\steam_events.cpp
-[Network]
-Sieć
-[Blocked contacts]
-Kontakty zablokowane
+[%s has been removed from your contact list]
+%s został usunięty z listy kontaktów
+[%s has added you to contact list]
+%s dodał(a) Cię do kontaktów
 ;file \protocols\Steam\src\steam_login.cpp
 [Cannot obtain connection token.]
 Nie można uzyskać tokenu połączenia.
-[Unknown login error.]
-Nieznany błąd logowania.
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Wybór menu Steam
-[Request authorization]
-Poproś o autoryzację
+[Unblock]
+Odblokuj
 [Join to game]
 Dołącz do gry
 ;file \protocols\Steam\src\steam_messages.cpp
@@ -92,6 +84,8 @@ Nieznany błąd
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Nazwa
+[Network]
+Sieć
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoły

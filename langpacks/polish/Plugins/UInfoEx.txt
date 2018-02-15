@@ -496,9 +496,6 @@ Błąd wysyłania
 Twoje dane nie zostały załadowane pomyślnie.\nZostały one zapisane tylko w bazie danych.
 [updating]
 Aktualizacja
-;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags module will be disabled.]
-Krytyczny błąd, nie znaleziono usługi obrazów. Moduł flag zostanie wyłączony.
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 Nazewnictwo IM

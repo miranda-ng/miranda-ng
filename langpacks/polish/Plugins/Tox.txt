@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.0
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -39,15 +39,15 @@ Włącz UDP (w przeciwnym razie wymuszaj używanie TCP przez tox)
 [Enable IPv6]
 Włącz IPV6
 [Max connect retries:]
-
+Maksimum prób ustanowienia połączenia:
 [Max reconnect retries:]
-
+Maksimum prób ponownego połączenia:
 [Enable UDP hole-punching]
 
 [Enable local network peer discovery]
 
 [Remove password]
-
+Usuń hasło
 [Change password]
 Zmień hasło
 [Set password]
@@ -75,7 +75,7 @@ Port
 [Public key]
 Klucz publiczny
 [Old password:]
-
+Stare hasło:
 [New password:]
 Nowe hasło:
 [Confirm password:]
@@ -91,20 +91,22 @@ Nie można uruchomić rdzenia Tox
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Ikona protokołu
+[Action icon]
+Ikona działania
+[Correction icon]
+
 [Protocols]
 Protokoły
 ;file \protocols\Tox\src\tox_menus.cpp
-[Request authorization]
-Poproś o autoryzację
-[Grant authorization]
-Udziel autoryzacji
 [Password]
 Hasło:
 [Create password]
-
+Utwórz hasło
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Działanie
+[Correction]
+Korekta
 [You cannot send when you are offline.]
 Nie możesz wysyłać będąc rozłączonym.
 ;file \protocols\Tox\src\tox_netlib.cpp
@@ -128,7 +130,7 @@ Wprowadź IPV4
 [Error]
 Błąd
 [Enter port]
-
+Wprowadź port
 [Enter public key]
 Wprowadź klucz publiczny
 [Common nodes]
@@ -153,13 +155,13 @@ Nie można odczytać profilu Tox
 [Unable to decrypt Tox profile]
 Nie można odszyfrować profilu Tox
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
-
+Usunięcie hasła spowoduje rozszyfrowanie profilu.\r\nCzy na pewno chcesz usunąć hasło?
 [New password is empty]
-
+Nowe hasło jest puste
 [New password is not equal to confirmation]
-
+Nowe hasło nie jest równe powtórzonemu
 [Old password is not valid]
-
+Stare hasło nie jest prawidłowe
 ;file \protocols\Tox\src\tox_proto.cpp
 [You cannot add yourself to your contact list]
 Nie możesz dodać siebie samego do swojej listy kontaktów

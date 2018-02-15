@@ -2,26 +2,26 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.0.1.1
+;  Version: 1.1.0.2
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
-
+Moduł "bezczynności" i sprawdzania połączenia. Pozwala także na określenie statusu jaki Miranda ustawi na starcie dla danych kont.
 ;file \plugins\StatusManager\res\resource.rc
 [Available modules]
-
+Dostępne moduły
 [Keep status]
 Przywracanie statusu
 [Automatically reconnects your accounts after protocol error or internet drop.]
-
+Automatycznie łączy ponownie Twoje konto po błędzie protokołu lub utracie sieci.
 [Startup status]
 Status podczas uruchamiania
 [Allows you to define the status Miranda should set on startup, configurable per account.]
 Pozwala na określenie statusu Mirandy podczas uruchamiania, konfigurowalna dla protokołów.
 [Advanced auto away]
-
+Zaawansowana obługa bezczynności
 [Improved auto away module with some more options than the built in, configurable per account.]
-
+Ulepszony moduł obsługi bezczynności z większą liczbą opcji niż podstawowy, z konfiguracją dla każdego konta z osobna.
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Info: Musisz ponownie uruchomić Mirandę NG aby wprowadzić zmiany.
 [General]
@@ -33,7 +33,7 @@ Połączenie konta
 [Check connection]
 Sprawdź połączenie
 [Maximum retries (0 - infinite)]
-
+Maksimum prób (0 - nieskończenie)
 [Delay between retries (secs)]
 Przerwa między powtórzeniami
 [Accounts to check]
@@ -301,7 +301,7 @@ Protokół
 Zamykanie w %d
 ;file \plugins\StatusManager\src\options.cpp
 [Status manager]
-
+Menedżer statusu
 ;file \plugins\StatusManager\src\AdvancedAutoAway\aaa_options.cpp
 [minutes of %s mode]
 minutach "%s"

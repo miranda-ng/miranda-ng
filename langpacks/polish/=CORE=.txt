@@ -2128,7 +2128,7 @@ Nieprawidłowe ustawienie typu dla "%s". Pierwszym znakiem każdej wartości mus
 [Homepage]
 Strona WWW
 [Phone/SMS]
-
+Telefon/SMS
 [Chat activity]
 Aktywność czatu
 ;file \src\mir_app\src\extraicons.cpp
@@ -2590,6 +2590,13 @@ Protokół nie jest załadowany.
 ;file \src\mir_app\src\proto_ui.cpp
 [Account]
 Konto
+;file \src\mir_app\src\proto_utils.cpp
+[Request authorization]
+Poproś o autoryzację
+[Grant authorization]
+Udziel autoryzacji
+[Revoke authorization]
+Cofnij autoryzację
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Nie można rozpocząć wyszukiwania w "%s", ponieważ wystąpił problem. Czy "%s" jest połączony?
@@ -2671,12 +2678,6 @@ Nie uruchamialne wtyczki
 Ramki
 [Add group]
 Dodaj grupę
-[Request authorization]
-Poproś o autoryzację
-[Grant authorization]
-Udziel autoryzacji
-[Revoke authorization]
-Cofnij autoryzację
 [Warning]
 Ostrzeżenie
 [Always visible]

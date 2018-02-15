@@ -6,16 +6,16 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Allows you to transfer files via cloud services.]
-Pozwala na przesyłanie plików przez dyski w chmurze.
+Pozwala na przesyłanie plików z wykorzystanie usług udostępniania plików w chmurze.
 ;file \plugins\CloudFile\res\resource.rc
 [Default service]
 Domyślna usługa
 [General]
 Ogólne
 [Autosend download link to contact]
-Automatycznie wyślij link do pobrana do kontaktu
+Automatycznie wysyłaj kontaktowi link do pobrania
 [Paste download link into message input area]
-Wklej link do pobrania do pola wpisywania wiadomości
+Wklejaj link do pobrania w pole wpisywania wiadomości
 [Copy download link to clipboard]
 Kopiuj link do pobrania do schowka
 [Download link]

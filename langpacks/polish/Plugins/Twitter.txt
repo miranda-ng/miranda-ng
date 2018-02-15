@@ -111,8 +111,8 @@ Odpowiedź na Tweet
 [Visit Homepage]
 Odwiedź stronę domową
 [First tweet from new contact]
-
+Pierwszy tweet nowego kontaktu
 [New tweet]
-
+Nowy tweet
 [Reply...]
 Odpowiedz...
