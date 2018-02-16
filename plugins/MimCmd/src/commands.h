@@ -35,8 +35,8 @@ int DisconnectFromMiranda();
 int GetKnownCommands();
 int DestroyKnownCommands();
 
-PCommand GetCommand(char *command);
-PReply ParseCommand(char *argv[], int argc);
-void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PReply reply);
+PCommand GetCommand(wchar_t *command);
+PReply ParseCommand(wchar_t *argv[], int argc);
+void ProcessConsoleCommand(PCommand command, wchar_t *arguments[], int count, PReply reply);
 
 #endif

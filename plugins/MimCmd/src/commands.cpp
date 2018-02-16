@@ -27,9 +27,9 @@ int cKnownCommands = 0;
 
 HMODULE hCmdLineDLL = nullptr;
 
-char *GetMirandaFolder(char *mimFolder, int size)
+wchar_t* GetMirandaFolder(wchar_t *mimFolder, int size)
 {
-	strncpy_s(mimFolder, size, sdCmdLine->mimFolder, _TRUNCATE);
+	wcsncpy_s(mimFolder, size, sdCmdLine->mimFolder, _TRUNCATE);
 	return mimFolder;
 }
 
@@ -51,17 +51,17 @@ int ConnectToMiranda()
 	SetEnvironmentVariable(L"PATH", ptszVal);
 	delete[] ptszVal;
 
-	char pluginPath[1024];
-	GetMirandaFolder(pluginPath, sizeof(pluginPath));
-	mir_strcat(pluginPath, "\\plugins\\cmdline.dll");
+	wchar_t pluginPath[1024];
+	GetMirandaFolder(pluginPath, _countof(pluginPath));
+	mir_wstrcat(pluginPath, L"\\plugins\\cmdline.dll");
 
 	ListCommands = nullptr;
 
-	hCmdLineDLL = LoadLibraryA(pluginPath);
+	hCmdLineDLL = LoadLibraryW(pluginPath);
 
 	int failure = 1;
 	if (hCmdLineDLL)
-		ListCommands = (LISTCOMMANDS) GetProcAddress(hCmdLineDLL, "ListCommands");
+		ListCommands = (LISTCOMMANDS)GetProcAddress(hCmdLineDLL, "ListCommands");
 
 	if (ListCommands)
 		failure = 0;
@@ -85,19 +85,19 @@ int DestroyKnownCommands()
 	return 0;
 }
 
-PCommand GetCommand(char *command)
+PCommand GetCommand(wchar_t *command)
 {
 	int i;
-	char lower[512];
-	strncpy_s(lower, command, _TRUNCATE);
-	_strlwr(lower);
+	wchar_t lower[512];
+	wcsncpy_s(lower, command, _TRUNCATE);
+	_wcslwr(lower);
 
 	for (i = 0; i < cKnownCommands; i++)
-		if (mir_strcmp(knownCommands[i].command, lower) == 0)
+		if (mir_wstrcmp(knownCommands[i].command, lower) == 0)
 			return &knownCommands[i];
 
 	//allow more parameters to trigger the help command - /h -h /? --help
-	if ((mir_strcmp(lower, "/h") == 0) || (mir_strcmp(lower, "-h") == 0) || (mir_strcmp(lower, "/?") == 0) || (mir_strcmp(lower, "--help") == 0))
+	if ((mir_wstrcmp(lower, L"/h") == 0) || (mir_wstrcmp(lower, L"-h") == 0) || (mir_wstrcmp(lower, L"/?") == 0) || (mir_wstrcmp(lower, L"--help") == 0))
 		for (i = 0; i < cKnownCommands; i++)
 			if (knownCommands[i].ID == MIMCMD_HELP)
 				return &knownCommands[i];
@@ -105,37 +105,37 @@ PCommand GetCommand(char *command)
 	return nullptr;
 }
 
-void HandleHelpCommand(PCommand, char *argv[], int argc, PReply reply)
+void HandleHelpCommand(PCommand, wchar_t *argv[], int argc, PReply reply)
 {
-	CMStringA szReply;
+	CMStringW szReply;
 
 	if (argc >= 3) {
 		PCommand command = GetCommand(argv[2]);
 
 		if (command) {
 			reply->code = MIMRES_SUCCESS;
-			szReply.Append(Translate(command->help));
+			szReply.Append(TranslateW(command->help));
 		}
 		else {
 			reply->code = MIMRES_NOTFOUND;
-			szReply.AppendFormat(Translate("No help for '%s'."), argv[2]);
+			szReply.AppendFormat(TranslateT("No help for '%s'."), argv[2]);
 		}
 	}
 	else {
 		reply->code = MIMRES_SUCCESS;
-		szReply.Append(Translate("Available commands: "));
+		szReply.Append(TranslateT("Available commands: "));
 
 		for (int i = 0; i < cKnownCommands - 1; i++) {
 			szReply.Append(knownCommands[i].command);
-			szReply.Append(", ");
+			szReply.Append(L", ");
 		}
 		szReply.Append(knownCommands[cKnownCommands-1].command);
 		szReply.AppendChar('.');
 	}
-	strncpy_s(reply->message, szReply, _TRUNCATE);
+	wcsncpy_s(reply->message, szReply, _TRUNCATE);
 }
 
-PReply ParseCommand(char *argv[], int argc)
+PReply ParseCommand(wchar_t *argv[], int argc)
 {
 	PCommand command = GetCommand(argv[1]);
 	if (!command)
@@ -150,10 +150,10 @@ PReply ParseCommand(char *argv[], int argc)
 	return reply;
 }
 
-void FillSharedDataStruct(PCommand command, char *arguments[], int count)
+void FillSharedDataStruct(PCommand command, wchar_t *arguments[], int count)
 {
 	for (int i = 0; i < count; i++)
-		strncpy_s(sdCmdLine->arguments[i], ARGUMENT_SIZE, arguments[i], _TRUNCATE);
+		wcsncpy_s(sdCmdLine->arguments[i], ARGUMENT_SIZE, arguments[i], _TRUNCATE);
 
 	sdCmdLine->cArguments = count;
 	sdCmdLine->command = *command;
@@ -161,10 +161,9 @@ void FillSharedDataStruct(PCommand command, char *arguments[], int count)
 	sdCmdLine->reply.code =-1;
 }
 
-void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PReply reply)
+void ProcessConsoleCommand(PCommand command, wchar_t *arguments[], int count, PReply reply)
 {
 	const HANDLE events[] = { heServerDone, heServerClose, heServerBufferFull };
-	const int cEvents = sizeof(events) / sizeof(events[0]);
 
 	if (WaitForSingleObject(hmClient, INFINITE) == WAIT_OBJECT_0) {//got the mutex, we're the only one who can talk to miranda now
 		FillSharedDataStruct(command, arguments, count);
@@ -173,25 +172,25 @@ void ProcessConsoleCommand(PCommand command, char *arguments[], int count, PRepl
 		int done = FALSE;
 		while (!done) {
 			// wait until server either finished processing or miranda was closed
-			switch (WaitForMultipleObjects(cEvents, events, FALSE, INFINITE)) {
+			switch (WaitForMultipleObjects(_countof(events), events, FALSE, INFINITE)) {
 			case WAIT_OBJECT_0: //done event
 				done = TRUE;
 				break; //nothing to do
 
 			case WAIT_OBJECT_0 + 1: //close event
 			default:
-				mir_strcpy(sdCmdLine->reply.message, Translate("Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
+				mir_wstrcpy(sdCmdLine->reply.message, TranslateT("Miranda has been closed or an error has occurred while waiting for the result, could not process request."));
 				done = TRUE;
 				break;
 
 			case WAIT_OBJECT_0 + 2: //buffer full event
-				lpprintf("%s", reply->message);
+				wprintf(L"%s", reply->message);
 				break;
 			}
 		}
 
 		reply->code = sdCmdLine->reply.code;
-		strncpy_s(reply->message, sdCmdLine->reply.message, _TRUNCATE);
+		wcsncpy_s(reply->message, sdCmdLine->reply.message, _TRUNCATE);
 
 		ReleaseMutex(hmClient); //let other possible clients talk to the server
 	}

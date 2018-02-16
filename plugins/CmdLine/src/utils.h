@@ -43,11 +43,9 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size);
 int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count);
 
-char* GetContactName(MCONTACT hContact, char *szProto);
-char* GetContactID(MCONTACT hContact);
-char* GetContactID(MCONTACT hContact, char *szProto);
-MCONTACT GetContactFromID(char *szID, char *szProto);
-MCONTACT GetContactFromID(char *szID, wchar_t *szProto);
+wchar_t* GetContactName(MCONTACT hContact, char *szProto);
+wchar_t* GetContactID(MCONTACT hContact, char *szProto);
+MCONTACT GetContactFromID(wchar_t *szID, char *szProto);
 void GetContactProto(MCONTACT hContact, char *szProto, size_t size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);

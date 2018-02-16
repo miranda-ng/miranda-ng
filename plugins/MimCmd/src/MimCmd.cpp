@@ -22,62 +22,47 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int hLangpack = 0;
 
-int lpprintf(const char *format, ...)
+wchar_t* GetProgramName(wchar_t *programName, size_t size)
 {
-	va_list va;
-	va_start(va, format);
-	const int MAX_SIZE = 16192;
-	char buffer[MAX_SIZE] = { 0 };
-	int len = _vsnprintf(buffer, MAX_SIZE, format, va);
-	va_end(va);
-	std::wcout << (wchar_t*)_A2T(buffer);
-	return len;
-}
-
-char* GetProgramName(char *programName, int size)
-{
-	char name[512];
-	GetModuleFileNameA(GetModuleHandle(nullptr), name, sizeof(name));
-	char *p = strrchr(name, '\\');
+	wchar_t name[512];
+	GetModuleFileNameW(GetModuleHandleW(nullptr), name, _countof(name));
+	wchar_t *p = wcsrchr(name, '\\');
 	if (p)
-		strncpy_s(programName, size, p + 1, _TRUNCATE);
+		wcsncpy_s(programName, size, p + 1, _TRUNCATE);
 	else
-		strncpy_s(programName, size, name, _TRUNCATE);
+		wcsncpy_s(programName, size, name, _TRUNCATE);
 
 	return programName;
 }
 
 void PrintUsage()
 {
-	char name[128];
-	GetProgramName(name, sizeof(name));
+	wchar_t name[128];
+	GetProgramName(name, _countof(name));
 
-	lpprintf(Translate("%s usage:\n"), name);
-	lpprintf(Translate("%s <command> [<param> [<param> [...]]].\n"), name);
-	lpprintf(Translate("This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n"), name);
-	lpprintf(Translate("No command can have more than %d parameters.\n"), MAX_ARGUMENTS - 1);
+	wprintf(TranslateT("%s usage:\n"), name);
+	wprintf(TranslateT("%s <command> [<param> [<param> [...]]].\n"), name);
+	wprintf(TranslateT("This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n"), name);
+	wprintf(TranslateT("No command can have more than %d parameters.\n"), MAX_ARGUMENTS - 1);
 }
 
 void ShowVersion()
 {
-	char name[128];
-	char message[1024];
-	GetProgramName(name, sizeof(name));
-	mir_snprintf(message, sizeof(message), Translate("%s version %s"), name, __VERSION_STRING_DOTS);
-
-	lpprintf("%s\n", message);
+	wchar_t name[128];
+	GetProgramName(name, _countof(name));
+	wprintf(TranslateT("%s version %s"), name, __VERSION_STRING_DOTS);
 }
 
-int main(int argc, char *argv[])
+int wmain(int argc, wchar_t *argv[])
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
-	if (argc == 2 && !strcmp(argv[1], "-v")) {
+	if (argc == 2 && !wcscmp(argv[1], L"-v")) {
 		ShowVersion();
 		return 0;
 	}
 
 	if ((InitClient()) || (ConnectToMiranda()) || (GetKnownCommands()) || (LoadLangPackModule())) {
-		lpprintf("Could not create connection with Miranda or could not retrieve list of known commands.\n");
+		wprintf(L"Could not create connection with Miranda or could not retrieve list of known commands.\n");
 		return MIMRES_NOMIRANDA;
 	}
 
@@ -90,10 +75,10 @@ int main(int argc, char *argv[])
 	PReply reply = ParseCommand(argv, argc);
 	if (reply) {
 		error = reply->code;
-		lpprintf("%s\n", reply->message);
+		wprintf(L"%s\n", reply->message);
 	}
 	else {
-		lpprintf(Translate("Unknown command '%s'.\n"), argv[1]);
+		wprintf(TranslateT("Unknown command '%s'.\n"), argv[1]);
 		error = 0;
 	}
 

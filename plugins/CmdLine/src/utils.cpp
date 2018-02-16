@@ -150,54 +150,36 @@ int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, 
 }
 
 #pragma warning (disable: 4312)
-char* GetContactName(MCONTACT hContact, char *szProto)
+wchar_t* GetContactName(MCONTACT hContact, char *szProto)
 {
-	ptrW name(Contact_GetInfo(CNF_DISPLAY, hContact, szProto));
-	return (name == NULL) ? nullptr : strdup(_T2A(name));
+	return Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312)
 void GetContactProto(MCONTACT hContact, char *szProto, size_t size)
 {
 	GetStringFromDatabase(hContact, "Protocol", "p", nullptr, szProto, size);
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312)
-char* GetContactID(MCONTACT hContact)
+wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 {
-	char protocol[256];
-	GetContactProto(hContact, protocol, sizeof(protocol));
-
-	return GetContactID(hContact, protocol);
+	return Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
 }
 
-char* GetContactID(MCONTACT hContact, char *szProto)
+MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 {
-	ptrW name(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
-	return (name == NULL) ? nullptr : strdup(_T2A(name));
-}
-#pragma warning (default: 4312)
-
-#pragma warning (disable: 4312)
-MCONTACT GetContactFromID(char *szID, char *szProto)
-{
-	char dispName[1024];
+	wchar_t dispName[1024];
 	char cProtocol[256];
 
 	int found = 0;
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
-		char *szHandle = GetContactID(hContact, cProtocol);
+		ptrW szHandle(GetContactID(hContact, cProtocol));
 
 		wchar_t *tmp = pcli->pfnGetContactDisplayName(hContact, 0);
-		strncpy_s(dispName, _T2A(tmp), _TRUNCATE);
+		wcsncpy_s(dispName, tmp, _TRUNCATE);
 
-		if ((szHandle) && ((mir_strcmpi(szHandle, szID) == 0) || (mir_strcmpi(dispName, szID) == 0)) && ((szProto == nullptr) || (_stricmp(szProto, cProtocol) == 0)))
+		if ((szHandle) && ((mir_wstrcmpi(szHandle, szID) == 0) || (mir_wstrcmpi(dispName, szID) == 0)) && ((szProto == nullptr) || (_stricmp(szProto, cProtocol) == 0)))
 			found = 1;
-
-		free(szHandle);
 
 		if (found)
 			return hContact;
@@ -205,15 +187,7 @@ MCONTACT GetContactFromID(char *szID, char *szProto)
 
 	return 0;
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312)
-MCONTACT GetContactFromID(char *szID, wchar_t *szProto)
-{
-	char protocol[1024];
-	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), nullptr, nullptr);
-	return GetContactFromID(szID, protocol);
-}
 #pragma warning (default: 4312)
 
 void ScreenToClient(HWND hWnd, LPRECT rect)

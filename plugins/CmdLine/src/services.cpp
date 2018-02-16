@@ -75,11 +75,11 @@ int StartServer()
 			HANDLE server = mir_forkthread(ServerWorkerThread, nullptr);
 			if (server)
 			{
-				char path[MIMFOLDER_SIZE];
-				GetModuleFileNameA(GetModuleHandle(nullptr), path, sizeof(path));
-				char *p = strrchr(path, '\\');
-				if (p) { *p = 0; }
-				strncpy_s(sdCmdLine->mimFolder, path, _TRUNCATE);
+				wchar_t path[MIMFOLDER_SIZE];
+				GetModuleFileNameW(GetModuleHandle(nullptr), path, _countof(path));
+				wchar_t *p = wcsrchr(path, '\\');
+				if (p) *p = 0;
+				wcsncpy_s(sdCmdLine->mimFolder, path, _TRUNCATE);
 				sdCmdLine->instances++;
 
 				failure = 0;
