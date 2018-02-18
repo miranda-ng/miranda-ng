@@ -24,7 +24,6 @@
 #include "webview.h"
 
 static int searchId = -1;
-static wchar_t sID[32];
 
 /*****************************************************************************/
 static char szInvalidChars[] = { '\\', '/', ':', '*', '?', '\"', '<', '>', '|' };
@@ -304,7 +303,8 @@ INT_PTR BPLoadIcon(WPARAM wParam, LPARAM)
 static void __cdecl BasicSearchTimerProc(void *pszNick)
 {
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
-	psr.nick.w = (wchar_t*) pszNick;
+	psr.flags = PSR_UNICODE;
+	psr.nick.w = (wchar_t*)pszNick;
 
 	// broadcast the search result
 	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
@@ -312,23 +312,18 @@ static void __cdecl BasicSearchTimerProc(void *pszNick)
 
 	// exit the search
 	searchId = -1;
+	mir_free(psr.nick.w);
 }
 
 INT_PTR BasicSearch(WPARAM, LPARAM lParam)
 {
-	static wchar_t buf[300];
-
-	if (lParam)
-		mir_wstrncpy(buf, (const wchar_t*) lParam, 256);
-
 	if (searchId != -1)
 		return 0; // only one search at a time
 
-	mir_wstrncpy(sID, (wchar_t*)lParam, _countof(sID));
 	searchId = 1;
 
 	// create a thread for the ID search
-	mir_forkthread(BasicSearchTimerProc, &buf);
+	mir_forkthread(BasicSearchTimerProc, mir_wstrdup((const wchar_t*)lParam));
 	return searchId;
 }
 
