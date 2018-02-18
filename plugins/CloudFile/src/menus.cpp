@@ -44,12 +44,11 @@ void InitializeMenus()
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
-		CMStringA serviceName = MODULE;
-		serviceName.AppendFormat("/%s/Upload", service->GetModule());
+		CMStringA serviceName(FORMAT, "/%s/Upload", service->GetAccountName());
 		mi.pszService = serviceName.GetBuffer();
 
 		mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
-		mi.name.w = (wchar_t*)service->GetText();
+		mi.name.w = (wchar_t*)service->GetUserName();
 		mi.position = i;
 		mi.hIcolibItem = GetIconHandle(Services[i]->GetIconId());
 		Menu_AddContactMenuItem(&mi);

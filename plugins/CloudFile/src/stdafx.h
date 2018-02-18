@@ -5,6 +5,9 @@
 #include <shlwapi.h>
 #include <commctrl.h>
 
+#include <exdisp.h>
+#include <msapi/comptr.h>
+
 #include <malloc.h>
 #include <time.h>
 
@@ -63,7 +66,7 @@ public:
 #include "file_transfer.h"
 
 // services
-#include "cloud_service.h"
+#include "cloud_file.h"
 #include "oauth.h"
 #include "Services\dropbox_service.h"
 #include "Services\google_service.h"
@@ -99,15 +102,11 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM);
 
 // transfers
 extern LIST<FileTransferParam> Transfers;
-INT_PTR ProtoSendFile(void *obj, WPARAM, LPARAM lParam);
-INT_PTR ProtoSendFileInterceptor(void *obj, WPARAM wParam, LPARAM lParam);
-INT_PTR ProtoCancelFile(WPARAM, LPARAM lParam);
 UINT UploadAndReportProgressThread(void *owner, void *arg);
 
 // utils
 void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact = NULL);
 void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact = NULL);
-MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 bool CanSendToContact(MCONTACT hContact);
 void SendToContact(MCONTACT hContact, const wchar_t *data);
 void PasteToInputArea(MCONTACT hContact, const wchar_t *data);

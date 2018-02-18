@@ -1,19 +1,28 @@
 #include "..\stdafx.h"
 #include "google_api.h"
 
-CGDriveService::CGDriveService(HNETLIBUSER hConnection)
-	: CCloudService(hConnection)
+CGDriveService::CGDriveService(const char *protoName, const wchar_t *userName)
+	: CCloudService(protoName, userName)
 {
 }
 
-const char* CGDriveService::GetModule() const
+CGDriveService* CGDriveService::Init(const char *moduleName, const wchar_t *userName)
 {
-	return "Google";
+	CGDriveService *proto = new CGDriveService(moduleName, userName);
+	Services.insert(proto);
+	return proto;
 }
 
-const wchar_t* CGDriveService::GetText() const
+int CGDriveService::UnInit(CGDriveService *proto)
 {
-	return LPGENW("Google Drive");
+	Services.remove(proto);
+	delete proto;
+	return 0;
+}
+
+const char* CGDriveService::GetModuleName() const
+{
+	return "/Google";
 }
 
 int CGDriveService::GetIconId() const
@@ -23,18 +32,18 @@ int CGDriveService::GetIconId() const
 
 bool CGDriveService::IsLoggedIn()
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
 	time_t now = time(nullptr);
-	time_t expiresIn = db_get_dw(NULL, GetModule(), "ExpiresIn");
+	time_t expiresIn = db_get_dw(NULL, GetAccountName(), "ExpiresIn");
 	return now < expiresIn;
 }
 
 void CGDriveService::Login()
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	ptrA refreshToken(db_get_sa(NULL, GetModule(), "RefreshToken"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA refreshToken(db_get_sa(NULL, GetAccountName(), "RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) 	{
 		GDriveAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(hConnection));
@@ -42,11 +51,11 @@ void CGDriveService::Login()
 		JSONNode root = GetJsonResponse(response);
 
 		JSONNode node = root.at("access_token");
-		db_set_s(NULL, GetModule(), "TokenSecret", node.as_string().c_str());
+		db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 		node = root.at("expires_in");
 		time_t expiresIn = time(nullptr) + node.as_int();
-		db_set_dw(NULL, GetModule(), "ExpiresIn", expiresIn);
+		db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
 		
 		return;
 	}
@@ -79,14 +88,14 @@ unsigned CGDriveService::RequestAccessTokenThread(void *owner, void *param)
 			? response->pData
 			: service->HttpStatusToError(response->resultCode);
 
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), error);
+		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), error);
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
@@ -94,20 +103,20 @@ unsigned CGDriveService::RequestAccessTokenThread(void *owner, void *param)
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
 		return 0;
 	}
 
 	node = root.at("access_token");
-	db_set_s(NULL, service->GetModule(), "TokenSecret", node.as_string().c_str());
+	db_set_s(NULL, service->GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
 	time_t expiresIn = time(nullptr) + node.as_int();
-	db_set_dw(NULL, service->GetModule(), "ExpiresIn", expiresIn);
+	db_set_dw(NULL, service->GetAccountName(), "ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");
-	db_set_s(NULL, service->GetModule(), "RefreshToken", node.as_string().c_str());
+	db_set_s(NULL, service->GetAccountName(), "RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -120,7 +129,7 @@ unsigned CGDriveService::RevokeAccessTokenThread(void *param)
 {
 	CGDriveService *service = (CGDriveService*)param;
 
-	ptrA token(db_get_sa(NULL, service->GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, service->GetAccountName(), "TokenSecret"));
 	GDriveAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(service->hConnection));
 
@@ -138,7 +147,7 @@ void CGDriveService::HandleJsonError(JSONNode &node)
 
 void CGDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	GDriveAPI::UploadFileRequest request(token, parentId, name, data, size);
 	NLHR_PTR response(request.Send(hConnection));
 
@@ -149,7 +158,7 @@ void CGDriveService::UploadFile(const char *parentId, const char *name, const ch
 
 void CGDriveService::CreateUploadSession(const char *parentId, const char *name, char *uploadUri)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	GDriveAPI::CreateUploadSessionRequest request(token, parentId, name);
 	NLHR_PTR response(request.Send(hConnection));
 
@@ -191,7 +200,7 @@ void CGDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, s
 
 void CGDriveService::CreateFolder(const char *path, char *folderId)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	GDriveAPI::CreateFolderRequest request(token, path);
 	NLHR_PTR response(request.Send(hConnection));
 
@@ -202,7 +211,7 @@ void CGDriveService::CreateFolder(const char *path, char *folderId)
 
 void CGDriveService::CreateSharedLink(const char *itemId, char *url)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	GDriveAPI::GrantPermissionsRequest request(token, itemId);
 	NLHR_PTR response(request.Send(hConnection));
 

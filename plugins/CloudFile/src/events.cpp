@@ -2,8 +2,12 @@
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
+	InitializeIcons();
+	InitializeMenus();
+
 	// options
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
+
 	// srfile
 	size_t count = Services.getCount();
 	for (size_t i = 0; i < count; i++) {

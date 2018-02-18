@@ -1,19 +1,28 @@
 #include "..\stdafx.h"
 #include "yandex_api.h"
 
-CYandexService::CYandexService(HNETLIBUSER hConnection)
-	: CCloudService(hConnection)
+CYandexService::CYandexService(const char *protoName, const wchar_t *userName)
+	: CCloudService(protoName, userName)
 {
 }
 
-const char* CYandexService::GetModule() const
+CYandexService* CYandexService::Init(const char *moduleName, const wchar_t *userName)
 {
-	return "Yandex";
+	CYandexService *proto = new CYandexService(moduleName, userName);
+	Services.insert(proto);
+	return proto;
 }
 
-const wchar_t* CYandexService::GetText() const
+int CYandexService::UnInit(CYandexService *proto)
 {
-	return LPGENW("Yandex.Disk");
+	Services.remove(proto);
+	delete proto;
+	return 0;
+}
+
+const char* CYandexService::GetModuleName() const
+{
+	return "Yandex.Disk";
 }
 
 int CYandexService::GetIconId() const
@@ -23,18 +32,18 @@ int CYandexService::GetIconId() const
 
 bool CYandexService::IsLoggedIn()
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
 	time_t now = time(nullptr);
-	time_t expiresIn = db_get_dw(NULL, GetModule(), "ExpiresIn");
+	time_t expiresIn = db_get_dw(NULL, GetAccountName(), "ExpiresIn");
 	return now < expiresIn;
 }
 
 void CYandexService::Login()
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
-	ptrA refreshToken(db_get_sa(NULL, GetModule(), "RefreshToken"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA refreshToken(db_get_sa(NULL, GetAccountName(), "RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) {
 		YandexAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(hConnection));
@@ -42,14 +51,14 @@ void CYandexService::Login()
 		JSONNode root = GetJsonResponse(response);
 
 		JSONNode node = root.at("access_token");
-		db_set_s(NULL, GetModule(), "TokenSecret", node.as_string().c_str());
+		db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 		node = root.at("expires_in");
 		time_t expiresIn = time(nullptr) + node.as_int();
-		db_set_dw(NULL, GetModule(), "ExpiresIn", expiresIn);
+		db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
 
 		node = root.at("refresh_token");
-		db_set_s(NULL, GetModule(), "RefreshToken", node.as_string().c_str());
+		db_set_s(NULL, GetAccountName(), "RefreshToken", node.as_string().c_str());
 
 		return;
 	}
@@ -82,14 +91,14 @@ unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
 			? response->pData
 			: service->HttpStatusToError(response->resultCode);
 
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), error);
+		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), error);
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
@@ -97,20 +106,20 @@ unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetModule(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
 		return 0;
 	}
 
 	node = root.at("access_token");
-	db_set_s(NULL, service->GetModule(), "TokenSecret", node.as_string().c_str());
+	db_set_s(NULL, service->GetAccountName(), "TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
 	time_t expiresIn = time(nullptr) + node.as_int();
-	db_set_dw(NULL, service->GetModule(), "ExpiresIn", expiresIn);
+	db_set_dw(NULL, service->GetAccountName(), "ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");
-	db_set_s(NULL, service->GetModule(), "RefreshToken", node.as_string().c_str());
+	db_set_s(NULL, service->GetAccountName(), "RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -123,7 +132,7 @@ unsigned CYandexService::RevokeAccessTokenThread(void *param)
 {
 	CYandexService *service = (CYandexService*)param;
 
-	ptrA token(db_get_sa(NULL, service->GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, service->GetAccountName(), "TokenSecret"));
 	YandexAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(service->hConnection));
 
@@ -141,7 +150,7 @@ void CYandexService::HandleJsonError(JSONNode &node)
 
 void CYandexService::CreateUploadSession(const char *path, char *uploadUri)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	YandexAPI::GetUploadUrlRequest request(token, path, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(hConnection));
@@ -180,7 +189,7 @@ void CYandexService::UploadFileChunk(const char *uploadUri, const char *chunk, s
 
 void CYandexService::CreateFolder(const char *path)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	YandexAPI::CreateFolderRequest request(token, path);
 	NLHR_PTR response(request.Send(hConnection));
 
@@ -189,7 +198,7 @@ void CYandexService::CreateFolder(const char *path)
 
 void CYandexService::CreateSharedLink(const char *path, char *url)
 {
-	ptrA token(db_get_sa(NULL, GetModule(), "TokenSecret"));
+	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	YandexAPI::PublishRequest publishRequest(token, path);
 	NLHR_PTR response(publishRequest.Send(hConnection));
 

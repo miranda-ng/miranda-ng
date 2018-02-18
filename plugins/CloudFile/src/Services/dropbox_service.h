@@ -17,10 +17,13 @@ private:
 	void CreateSharedLink(const char *path, char *url);
 
 public:
-	CDropboxService(HNETLIBUSER hConnection);
+	CDropboxService(const char *protoName, const wchar_t *userName);
 
-	const char* GetModule() const;
-	const wchar_t* GetText() const;
+	static CDropboxService* Init(const char *szModuleName, const wchar_t *szUserName);
+	static int UnInit(CDropboxService*);
+
+	const char* GetModuleName() const override;
+
 	int GetIconId() const;
 
 	bool IsLoggedIn();

@@ -10,10 +10,7 @@ COptionsMain::COptionsMain()
 	m_urlPasteToMessageInputArea(this, IDC_URL_COPYTOMIA),
 	m_urlCopyToClipboard(this, IDC_URL_COPYTOCB)
 {
-	/*CreateLink(m_defaultService, "DefaultService", L"");
-
-	CreateLink(m_renameOnConflict, "RenameOnConflict", DBVT_BYTE, 1);
-	CreateLink(m_repalceOnConflict, "RepalceOnConflict", DBVT_BYTE, 0);*/
+	CreateLink(m_defaultService, "DefaultService", L"");
 
 	CreateLink(m_urlAutoSend, "UrlAutoSend", DBVT_BYTE, 1);
 	CreateLink(m_urlPasteToMessageInputArea, "UrlPasteToMessageInputArea", DBVT_BYTE, 0);
@@ -32,18 +29,30 @@ void COptionsMain::OnInitDialog()
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
-		iItem = m_defaultService.AddString(mir_wstrdup(service->GetText()), (LPARAM)service);
-		if (!mir_strcmpi(service->GetModule(), defaultService))
+		iItem = m_defaultService.AddString(mir_wstrdup(service->GetUserName()), (LPARAM)service);
+		if (!mir_strcmpi(service->GetAccountName(), defaultService))
 			m_defaultService.SetCurSel(iItem);
 	}
 
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
-	if (strategy == OnConflict::RENAME)
+	switch (strategy)
+	{
+	case OnConflict::RENAME:
 		m_renameOnConflict.SetState(TRUE);
-	else if (strategy == OnConflict::REPLACE)
+		m_repalceOnConflict.SetState(FALSE);
+		m_doNothingOnConflict.SetState(FALSE);
+		break;
+	case OnConflict::REPLACE:
+		m_renameOnConflict.SetState(FALSE);
 		m_repalceOnConflict.SetState(TRUE);
-	else
+		m_doNothingOnConflict.SetState(FALSE);
+		break;
+	default:
+		m_renameOnConflict.SetState(FALSE);
+		m_repalceOnConflict.SetState(FALSE);
 		m_doNothingOnConflict.SetState(TRUE);
+		break;
+	}
 }
 
 void COptionsMain::OnApply()
@@ -51,7 +60,7 @@ void COptionsMain::OnApply()
 	int iItem = m_defaultService.GetCurSel();
 	CCloudService *service = (CCloudService*)m_defaultService.GetItemData(iItem);
 	if (service)
-		db_set_s(NULL, MODULE, "DefaultService", service->GetModule());
+		db_set_s(NULL, MODULE, "DefaultService", service->GetAccountName());
 	else
 		db_unset(NULL, MODULE, "DefaultService");
 

@@ -16,10 +16,13 @@ private:
 	void CreateSharedLink(const char *path, char *url);
 
 public:
-	CYandexService(HNETLIBUSER hConnection);
+	CYandexService(const char *protoName, const wchar_t *userName);
 
-	const char* GetModule() const;
-	const wchar_t* GetText() const;
+	static CYandexService* Init(const char *szModuleName, const wchar_t *szUserName);
+	static int UnInit(CYandexService*);
+
+	const char* GetModuleName() const override;
+
 	int GetIconId() const;
 
 	bool IsLoggedIn();

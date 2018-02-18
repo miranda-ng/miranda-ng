@@ -2,72 +2,77 @@
 
 static int CompareServices(const CCloudService *p1, const CCloudService *p2)
 {
-	return mir_strcmp(p1->GetModule(), p2->GetModule());
+	return mir_strcmp(p1->GetAccountName(), p2->GetAccountName());
 }
 
 LIST<CCloudService> Services(10, CompareServices);
 
 void InitServices()
 {
-	Services.insert(new CDropboxService(hNetlibConnection));
-	Services.insert(new CGDriveService(hNetlibConnection));
-	Services.insert(new COneDriveService(hNetlibConnection));
-	Services.insert(new CYandexService(hNetlibConnection));
-
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	pd.type = PROTOTYPE_PROTOCOL;
+	
+	pd.szName = MODULE "/Dropbox";
+	pd.fnInit = (pfnInitProto)CDropboxService::Init;
+	pd.fnUninit = (pfnUninitProto)CDropboxService::UnInit;
+	Proto_RegisterModule(&pd);
 
-	size_t count = Services.getCount();
-	for (size_t i = 0; i < count; i++) {
-		CCloudService *service = Services[i];
+	pd.szName = MODULE "/GDrive";
+	pd.fnInit = (pfnInitProto)CGDriveService::Init;
+	pd.fnUninit = (pfnUninitProto)CGDriveService::UnInit;
+	Proto_RegisterModule(&pd);
 
-		CMStringA moduleName = MODULE;
-		moduleName.AppendFormat("/%s", service->GetModule());
-		pd.type = PROTOTYPE_VIRTUAL;
-		pd.szName = moduleName.GetBuffer();
-		Proto_RegisterModule(&pd);
+	pd.szName = MODULE "/OneDrivre";
+	pd.fnInit = (pfnInitProto)COneDriveService::Init;
+	pd.fnUninit = (pfnUninitProto)COneDriveService::UnInit;
+	Proto_RegisterModule(&pd);
 
-		CMStringA serviceName = moduleName + PSS_FILE;
-		CreateServiceFunctionObj(serviceName, ProtoSendFile, service);
+	pd.szName = MODULE "/YandexDisk";
+	pd.fnInit = (pfnInitProto)CYandexService::Init;
+	pd.fnUninit = (pfnUninitProto)CYandexService::UnInit;
+	Proto_RegisterModule(&pd);
 
-		moduleName += "/Interceptor";
-		pd.szName = moduleName.GetBuffer();
-		pd.type = PROTOTYPE_FILTER;
-		Proto_RegisterModule(&pd);
+	pd.szName = MODULE;
+	pd.type = PROTOTYPE_FILTER;
+	Proto_RegisterModule(&pd);
 
-		serviceName = moduleName + PSS_FILE;
-		CreateServiceFunctionObj(serviceName, ProtoSendFileInterceptor, service);
+	CreateServiceFunction(MODULE PSS_FILE, &CCloudService::SendFileInterceptor);
+}
+
+CCloudService::CCloudService(const char *protoName, const wchar_t *userName)
+	: PROTO<CCloudService>(protoName, userName)
+{
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szSettingsModule = (char*)protoName;
+	nlu.szDescriptiveName.w = (wchar_t*)userName;
+	hConnection = Netlib_RegisterUser(&nlu);
+}
+
+CCloudService::~CCloudService()
+{
+	Netlib_CloseHandle(hConnection);
+	hConnection = nullptr;
+}
+
+const char* CCloudService::GetAccountName() const
+{
+	return m_szModuleName;
+}
+
+const wchar_t* CCloudService::GetUserName() const
+{
+	return m_tszUserName;
+}
+
+DWORD_PTR CCloudService::GetCaps(int type, MCONTACT)
+{
+	switch (type) {
+	case PFLAGNUM_1:
+		return PF1_FILESEND;
+	default:
+		return 0;
 	}
-}
-
-CCloudService::CCloudService(HNETLIBUSER hConnection)
-	: hConnection(hConnection)
-{
-}
-
-const wchar_t* CCloudService::GetText() const
-{
-	return _A2T(GetModule());
-}
-
-int CCloudService::GetIconId() const
-{
-	return 0;
-}
-
-void CCloudService::OpenUploadDialog(MCONTACT hContact)
-{
-	char *proto = GetContactProto(hContact);
-	if (!mir_strcmpi(proto, META_PROTO))
-		hContact = CallService(MS_MC_GETMOSTONLINECONTACT, hContact);
-
-	auto it = InterceptedContacts.find(hContact);
-	if (it == InterceptedContacts.end())
-	{
-		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, hContact, 0);
-		InterceptedContacts[hContact] = hwnd;
-	}
-	else
-		SetActiveWindow(it->second);
 }
 
 void CCloudService::Report(MCONTACT hContact, const wchar_t *data)
@@ -96,11 +101,6 @@ char* CCloudService::PreparePath(const char *oldPath, char *newPath)
 	else
 		mir_strcpy(newPath, oldPath);
 	return newPath;
-}
-
-char* CCloudService::PreparePath(const wchar_t *oldPath, char *newPath)
-{
-	return PreparePath(ptrA(mir_utf8encodeW(oldPath)), newPath);
 }
 
 char* CCloudService::HttpStatusToError(int status)

@@ -1,4 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files\Services">
+      <UniqueIdentifier>{64D2CE87-E04F-4768-BD94-86282BBD138B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Services">
+      <UniqueIdentifier>{1D61FE06-83AA-4C8A-A8FC-36EAD0EAAC97}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\*.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Services\*.h">
+      <Filter>Header Files\Services</Filter>
+    </ClInclude>
+    <ClCompile Include="src\*.cpp;src\*.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Services\*.cpp">
+      <Filter>Source Files\Services</Filter>
+    </ClCompile>
+    <ResourceCompile Include="res\*.rc">
+       <Filter>Resource Files</Filter>
+     </ResourceCompile>
+     <None Include="res\*.ico;res\*.bmp;res\*.cur">
+       <Filter>Resource Files</Filter>
+     </None>
+  </ItemGroup>
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
 </Project>

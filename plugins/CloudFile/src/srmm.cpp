@@ -59,7 +59,7 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 	for (size_t i = 0; i < count; i++) {
 		CCloudService *service = Services[i];
 
-		InsertMenu(hMenu, i, MF_STRING | MF_BYPOSITION, i + 1,TranslateW(service->GetText()));
+		InsertMenu(hMenu, i, MF_STRING | MF_BYPOSITION, i + 1,TranslateW(service->GetUserName()));
 		//HBITMAP hBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(service->GetIconId()), IMAGE_ICON, 16, 16, 0);
 		//SetMenuItemBitmaps(hMenu, i, MF_BITMAP, hBitmap, hBitmap);
 	}

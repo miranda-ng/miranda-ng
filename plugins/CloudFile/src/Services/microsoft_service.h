@@ -15,10 +15,13 @@ private:
 	void CreateSharedLink(const char *itemId, char *url);
 
 public:
-	COneDriveService(HNETLIBUSER hConnection);
+	COneDriveService(const char *protoName, const wchar_t *userName);
 
-	const char* GetModule() const;
-	const wchar_t* GetText() const;
+	static COneDriveService* Init(const char *szModuleName, const wchar_t *szUserName);
+	static int UnInit(COneDriveService*);
+
+	const char* GetModuleName() const override;
+	
 	int GetIconId() const;
 
 	bool IsLoggedIn();

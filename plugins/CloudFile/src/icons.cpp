@@ -19,7 +19,6 @@ HANDLE GetIconHandle(int iconId)
 	for (auto &it : iconList)
 		if (it.defIconID == iconId)
 			return it.hIcolib;
-
 	return nullptr;
 }
 
@@ -28,7 +27,6 @@ HANDLE GetIconHandle(const char *name)
 	for (auto &it : iconList)
 		if (mir_strcmpi(it.szName, name) == 0)
 			return it.hIcolib;
-
 	return nullptr;
 }
 
@@ -37,6 +35,5 @@ HICON LoadIconEx(int iconId, bool big)
 	for (auto &it : iconList)
 		if (it.defIconID == iconId)
 			return IcoLib_GetIconByHandle(it.hIcolib, big);
-
 	return nullptr;
 }
