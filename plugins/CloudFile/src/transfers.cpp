@@ -2,10 +2,10 @@
 
 LIST<FileTransferParam> Transfers(1, HandleKeySortT);
 
-INT_PTR CCloudService::SendFileInterceptor(WPARAM wParam, LPARAM lParam)
+INT_PTR CCloudService::SendFileInterceptor(WPARAM, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
-	for (size_t i = 0; i < Services.getCount(); i++) {
+	for (int i = 0; i < Services.getCount(); i++) {
 		CCloudService *service = Services[i];
 		auto it = service->InterceptedContacts.find(pccsd->hContact);
 		if (it == service->InterceptedContacts.end())
@@ -16,7 +16,7 @@ INT_PTR CCloudService::SendFileInterceptor(WPARAM wParam, LPARAM lParam)
 	return CALLSERVICE_NOTFOUND;
 }
 
-INT_PTR CCloudService::FileCancel(MCONTACT, HANDLE hTransfer)
+int CCloudService::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	FileTransferParam *ftp = Transfers.find((FileTransferParam*)&hTransfer);
 	if (ftp)
