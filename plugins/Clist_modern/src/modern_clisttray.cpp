@@ -37,7 +37,8 @@ POINT tray_hover_pos = { 0 };
 
 #ifndef _INC_SHLWAPI
 
-typedef struct _DllVersionInfo {
+typedef struct _DllVersionInfo
+{
 	DWORD cbSize;
 	DWORD dwMajorVersion;                   // Major version
 	DWORD dwMinorVersion;                   // Minor version
@@ -47,7 +48,7 @@ typedef struct _DllVersionInfo {
 
 #define DLLVER_PLATFORM_WINDOWS         0x00000001      // Windows 95
 #define DLLVER_PLATFORM_NT              0x00000002      // Windows NT
-typedef HRESULT (CALLBACK* DLLGETVERSIONPROC)(DLLVERSIONINFO *);
+typedef HRESULT(CALLBACK* DLLGETVERSIONPROC)(DLLVERSIONINFO *);
 
 #endif
 
@@ -284,7 +285,7 @@ int GetGoodAccNum(bool *bDiffers, bool *bConn)
 	BYTE d = 0;
 	for (i = AccNum, AccNum = 0; i--;) {
 		PROTOACCOUNT *pa = acc[i];
-		if (!pa->bIsVirtual && pa->bIsVisible && !pa->bDynDisabled && pa->ppro) {
+		if (pcli->pfnGetProtocolVisibility(pa->szModuleName) && pa->ppro) {
 			AccNum++;
 			if (!d) {
 				s = pa->ppro->m_iStatus;
@@ -308,13 +309,10 @@ UINT_PTR TimerID = 0;
 
 int cliTrayIconInit(HWND hwnd)
 {
-	BYTE Mode;
-
 	if (pcli->trayIconCount != 0)
 		return 0;
 
-	if (TimerID)
-	{
+	if (TimerID) {
 		KillTimer(nullptr, TimerID);
 		TimerID = 0;
 	}
@@ -335,6 +333,7 @@ int cliTrayIconInit(HWND hwnd)
 		return 0;
 	}
 
+	BYTE Mode;
 	if (!bDiffers)  // all equal
 		OldMode = Mode = db_get_b(0, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL);
 	else
@@ -353,18 +352,18 @@ int cliTrayIconInit(HWND hwnd)
 		break;
 
 	case TRAY_ICON_MODE_ACC:
-	{
-		ptrA szProto(db_get_sa(0, "CList", (!bDiffers) ? "tiAccS" : "tiAccV"));
-		if (!szProto)
-			break;
+		{
+			ptrA szProto(db_get_sa(0, "CList", (!bDiffers) ? "tiAccS" : "tiAccV"));
+			if (!szProto)
+				break;
 
-		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-		if (!pa || !pa->ppro)
-			pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
-		else
-			pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
-	}
-	break;
+			PROTOACCOUNT *pa = Proto_GetAccount(szProto);
+			if (!pa || !pa->ppro)
+				pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
+			else
+				pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
+		}
+		break;
 
 	case TRAY_ICON_MODE_CYCLE:
 		pcli->pfnTrayIconAdd(hwnd, nullptr, nullptr, CListTray_GetGlobalStatus(0, 0));
