@@ -5,8 +5,7 @@ LIST<FileTransferParam> Transfers(1, HandleKeySortT);
 INT_PTR CCloudService::SendFileInterceptor(WPARAM, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
-	for (int i = 0; i < Services.getCount(); i++) {
-		CCloudService *service = Services[i];
+	for (auto &service : Services) {
 		auto it = service->InterceptedContacts.find(pccsd->hContact);
 		if (it == service->InterceptedContacts.end())
 			return CALLSERVICE_NOTFOUND;

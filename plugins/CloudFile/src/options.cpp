@@ -25,10 +25,7 @@ void COptionsMain::OnInitDialog()
 	int iItem = m_defaultService.AddString(TranslateT("None"));
 	m_defaultService.SetCurSel(iItem);
 
-	size_t count = Services.getCount();
-	for (size_t i = 0; i < count; i++) {
-		CCloudService *service = Services[i];
-
+	for (auto &service : Services) {
 		iItem = m_defaultService.AddString(mir_wstrdup(service->GetUserName()), (LPARAM)service);
 		if (!mir_strcmpi(service->GetAccountName(), defaultService))
 			m_defaultService.SetCurSel(iItem);

@@ -9,12 +9,8 @@ int OnModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
 
 	// srfile
-	size_t count = Services.getCount();
-	for (size_t i = 0; i < count; i++) {
-		CCloudService *service = Services[i];
-
+	for (auto &service : Services)
 		HookEventObj(ME_FILEDLG_CANCELED, OnFileDialogCanceled, service);
-	}
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 

@@ -5,9 +5,7 @@ HGENMENU hContactMenu;
 INT_PTR UploadMenuCommand(void *obj, WPARAM hContact, LPARAM)
 {
 	CCloudService *service = (CCloudService*)obj;
-
 	service->OpenUploadDialog(hContact);
-
 	return 0;
 }
 
@@ -39,18 +37,14 @@ void InitializeMenus()
 	
 	mi.root = hContactMenu;
 
-	size_t count = Services.getCount();
-	
-	for (size_t i = 0; i < count; i++) {
+	for (int i = 0; i < Services.getCount(); i++) {
 		CCloudService *service = Services[i];
-
 		CMStringA serviceName(FORMAT, "/%s/Upload", service->GetAccountName());
 		mi.pszService = serviceName.GetBuffer();
-
 		mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
 		mi.name.w = (wchar_t*)service->GetUserName();
 		mi.position = i;
-		mi.hIcolibItem = GetIconHandle(Services[i]->GetIconId());
+		mi.hIcolibItem = GetIconHandle(service->GetIconId());
 		Menu_AddContactMenuItem(&mi);
 		CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, service);
 	}

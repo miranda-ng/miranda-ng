@@ -33,6 +33,7 @@
 #include <m_protoint.h>
 #include <m_protosvc.h>
 
+#include <m_cloudfile.h>
 #include <m_dropbox.h>
 
 #include "version.h"

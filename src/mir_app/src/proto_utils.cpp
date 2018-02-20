@@ -159,6 +159,8 @@ PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszU
 	m_hmiReqAuth = hReqAuth;
 	m_hmiGrantAuth = hGrantAuth;
 	m_hmiRevokeAuth = hRevokeAuth;
+
+	m_hWindowList = nullptr;
 }
 
 PROTO_INTERFACE::~PROTO_INTERFACE()

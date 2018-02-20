@@ -54,20 +54,16 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 	}
 
 	HMENU hMenu = CreatePopupMenu();
-
-	size_t count = Services.getCount();
-	for (size_t i = 0; i < count; i++) {
+	for (int i = 0; i < Services.getCount(); i++) {
 		CCloudService *service = Services[i];
-
-		InsertMenu(hMenu, i, MF_STRING | MF_BYPOSITION, i + 1,TranslateW(service->GetUserName()));
-		//HBITMAP hBitmap = (HBITMAP)LoadImage(hInstance, MAKEINTRESOURCE(service->GetIconId()), IMAGE_ICON, 16, 16, 0);
-		//SetMenuItemBitmaps(hMenu, i, MF_BITMAP, hBitmap, hBitmap);
+		AppendMenu(hMenu, MF_STRING, i + 1, TranslateW(service->GetUserName()));
 	}
 
 	int pos = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbc->pt.x, cbc->pt.y, 0, cbc->hwndFrom, nullptr);
+	DestroyMenu(hMenu);
+
 	if (pos > 0) {
 		CCloudService *service = Services[pos - 1];
-
 		service->OpenUploadDialog(cbc->hContact);
 	}
 
