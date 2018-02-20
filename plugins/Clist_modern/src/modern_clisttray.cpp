@@ -283,17 +283,18 @@ int GetGoodAccNum(bool *bDiffers, bool *bConn)
 	WORD s = 0;
 	BYTE d = 0;
 	for (i = AccNum, AccNum = 0; i--;) {
-		if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled && acc[i]->ppro) {
+		PROTOACCOUNT *pa = acc[i];
+		if (!pa->bIsVirtual && pa->bIsVisible && !pa->bDynDisabled && pa->ppro) {
 			AccNum++;
 			if (!d) {
-				s = acc[i]->ppro->m_iStatus;
+				s = pa->ppro->m_iStatus;
 				d = 1;
 			}
-			else if (s != acc[i]->ppro->m_iStatus)
+			else if (s != pa->ppro->m_iStatus)
 				d = 2;
 
 			if (bConn)
-				if (IsStatusConnecting(acc[i]->ppro->m_iStatus))
+				if (IsStatusConnecting(pa->ppro->m_iStatus))
 					*bConn = TRUE;
 		}
 	}
@@ -375,12 +376,13 @@ int cliTrayIconInit(HWND hwnd)
 
 	case TRAY_ICON_MODE_ALL:
 		PROTOACCOUNT **acc;
-		int AccNum, i;
+		int AccNum;
 		Proto_EnumAccounts(&AccNum, &acc);
 
-		for (i = AccNum; i--;) {
-			if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled && acc[i]->ppro)
-				pcli->pfnTrayIconAdd(hwnd, acc[i]->szModuleName, nullptr, acc[i]->ppro->m_iStatus);
+		for (int i = AccNum; i--;) {
+			PROTOACCOUNT *pa = acc[i];
+			if (pcli->pfnGetProtocolVisibility(pa->szModuleName) && pa->ppro != nullptr)
+				pcli->pfnTrayIconAdd(hwnd, pa->szModuleName, nullptr, pa->ppro->m_iStatus);
 		}
 		break;
 	}
