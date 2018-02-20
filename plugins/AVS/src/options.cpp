@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DM_AVATARCHANGED (WM_USER + 12)
 #define DM_PROTOCOLCHANGED (WM_USER + 13)
 
-extern int _DebugPopup(MCONTACT hContact, const char *fmt, ...);
 extern OBJLIST<protoPicCacheEntry> g_ProtoPictures;
 extern HANDLE hEventChanged;
 extern HINSTANCE g_hInst;
@@ -53,14 +52,13 @@ static void RemoveProtoPic(const char *szProto)
 	db_unset(NULL, PPICT_MODULE, szProto);
 
 	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
-		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			protoPicCacheEntry &p = g_ProtoPictures[i];
-			if (p.szProtoname == nullptr)
+		for (auto &p : g_ProtoPictures) {
+			if (p->szProtoname == nullptr)
 				continue;
 
-			p.clear();
-			CreateAvatarInCache(0, &p, (char *)p.szProtoname);
-			NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+			p->clear();
+			CreateAvatarInCache(0, p, p->szProtoname);
+			NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 		}
 		return;
 	}
@@ -69,29 +67,26 @@ static void RemoveProtoPic(const char *szProto)
 		char szProtoname[MAX_PATH] = { 0 };
 		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
 		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
-		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			protoPicCacheEntry &p = g_ProtoPictures[i];
-
-			if (p.szProtoname == nullptr)
+		for (auto &p : g_ProtoPictures) {
+			if (p->szProtoname == nullptr)
 				continue;
-			PROTOACCOUNT *pdescr = Proto_GetAccount(p.szProtoname);
-			if (pdescr == nullptr && mir_strcmp(p.szProtoname, szProto))
+			PROTOACCOUNT *pdescr = Proto_GetAccount(p->szProtoname);
+			if (pdescr == nullptr && mir_strcmp(p->szProtoname, szProto))
 				continue;
 
-			if (!mir_strcmp(p.szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
-				p.clear();
-				CreateAvatarInCache(0, &p, (char *)p.szProtoname);
-				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+			if (!mir_strcmp(p->szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
+				p->clear();
+				CreateAvatarInCache(0, p, p->szProtoname);
+				NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 			}
 		}
 		return;
 	}
 
-	for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-		protoPicCacheEntry &p = g_ProtoPictures[i];
-		if (!mir_strcmp(p.szProtoname, szProto)) {
-			p.clear();
-			NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+	for (auto &p : g_ProtoPictures) {
+		if (!mir_strcmp(p->szProtoname, szProto)) {
+			p->clear();
+			NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 		}
 	}
 }
@@ -123,14 +118,13 @@ static void SetProtoPic(char *szProto)
 	db_set_ws(NULL, PPICT_MODULE, szProto, szNewPath);
 
 	if (!mir_strcmp(AVS_DEFAULT, szProto)) {
-		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (mir_strlen(p.szProtoname) == 0)
+		for (auto &p : g_ProtoPictures) {
+			if (mir_strlen(p->szProtoname) == 0)
 				continue;
 
-			if (p.hbmPic == nullptr || !mir_strcmp(p.szProtoname, AVS_DEFAULT)) {
-				CreateAvatarInCache(0, &p, szProto);
-				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+			if (p->hbmPic == nullptr || !mir_strcmp(p->szProtoname, AVS_DEFAULT)) {
+				CreateAvatarInCache(0, p, szProto);
+				NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 			}
 		}
 	}
@@ -138,34 +132,32 @@ static void SetProtoPic(char *szProto)
 		char szProtoname[MAX_PATH] = { 0 };
 		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
 		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
-		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			PROTOACCOUNT* pdescr = Proto_GetAccount(g_ProtoPictures[i].szProtoname);
-			if (pdescr == nullptr && mir_strcmp(g_ProtoPictures[i].szProtoname, szProto))
+		for (auto &p : g_ProtoPictures) {
+			PROTOACCOUNT* pdescr = Proto_GetAccount(p->szProtoname);
+			if (pdescr == nullptr && mir_strcmp(p->szProtoname, szProto))
 				continue;
 
-			if (!mir_strcmp(g_ProtoPictures[i].szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
-				protoPicCacheEntry& p = g_ProtoPictures[i];
-				if (mir_strlen(p.szProtoname) != 0) {
-					if (p.hbmPic == nullptr) {
-						CreateAvatarInCache(0, &p, szProto);
-						NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+			if (!mir_strcmp(p->szProtoname, szProto) || !mir_strcmp(pdescr->szProtoName, szProtoname)) {
+				if (mir_strlen(p->szProtoname) != 0) {
+					if (p->hbmPic == nullptr) {
+						CreateAvatarInCache(0, p, szProto);
+						NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 					}
 				}
 			}
 		}
 	}
 	else {
-		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (mir_strlen(p.szProtoname) == 0)
+		for (auto &p : g_ProtoPictures) {
+			if (mir_strlen(p->szProtoname) == 0)
 				break;
 
-			if (!mir_strcmp(p.szProtoname, szProto) && mir_strlen(p.szProtoname) == mir_strlen(szProto)) {
-				if (p.hbmPic != nullptr)
-					DeleteObject(p.hbmPic);
-				memset(&p, 0, sizeof(AVATARCACHEENTRY));
-				CreateAvatarInCache(0, &p, szProto);
-				NotifyEventHooks(hEventChanged, 0, (LPARAM)&p);
+			if (!mir_strcmp(p->szProtoname, szProto) && mir_strlen(p->szProtoname) == mir_strlen(szProto)) {
+				if (p->hbmPic != nullptr)
+					DeleteObject(p->hbmPic);
+				memset(p, 0, sizeof(AVATARCACHEENTRY));
+				CreateAvatarInCache(0, p, szProto);
+				NotifyEventHooks(hEventChanged, 0, (LPARAM)p);
 				break;
 			}
 		}
@@ -304,13 +296,13 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 			LVITEM item = { 0 };
 			item.mask = LVIF_TEXT | LVIF_PARAM;
 			item.iItem = 1000;
-			for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-				item.lParam = (LPARAM)&g_ProtoPictures[i];
-				item.pszText = g_ProtoPictures[i].tszAccName;
+			for (auto &p : g_ProtoPictures) {
+				item.lParam = (LPARAM)p;
+				item.pszText = p->tszAccName;
 				int newItem = ListView_InsertItem(hwndList, &item);
 				if (newItem >= 0)
 					ListView_SetCheckState(hwndList, newItem,
-						db_get_b(NULL, AVS_MODULE, g_ProtoPictures[i].szProtoname, 1) ? TRUE : FALSE);
+						db_get_b(NULL, AVS_MODULE, p->szProtoname, 1) ? TRUE : FALSE);
 			}
 			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);

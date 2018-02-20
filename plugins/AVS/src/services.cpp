@@ -728,10 +728,9 @@ INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 		if (r->szProto == nullptr)
 			return 0;
 
-		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (!mir_strcmp(p.szProtoname, r->szProto) && mir_strlen(r->szProto) == mir_strlen(p.szProtoname) && p.hbmPic != nullptr) {
-				ace = (AVATARCACHEENTRY *)&g_ProtoPictures[i];
+		for (auto &p : g_ProtoPictures) {
+			if (!mir_strcmp(p->szProtoname, r->szProto) && mir_strlen(r->szProto) == mir_strlen(p->szProtoname) && p->hbmPic != nullptr) {
+				ace = p;
 				break;
 			}
 		}
@@ -771,9 +770,9 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (lParam == 0 || IsBadReadPtr(szProto, 4))
 		return 0;
 
-	for (int i = 0; i < g_MyAvatars.getCount(); i++)
-		if (!mir_strcmp(szProto, g_MyAvatars[i].szProtoname) && g_MyAvatars[i].hbmPic != nullptr)
-			return (INT_PTR)&g_MyAvatars[i];
+	for (auto &it : g_MyAvatars)
+		if (!mir_strcmp(szProto, it->szProtoname) && it->hbmPic != nullptr)
+			return (INT_PTR)it;
 
 	return 0;
 }
@@ -787,8 +786,11 @@ static void ReloadMyAvatar(LPVOID lpParam)
 	char *szProto = (char *)lpParam;
 
 	mir_sleep(500);
-	for (int i = 0; !g_shutDown && i < g_MyAvatars.getCount(); i++) {
-		char *myAvatarProto = g_MyAvatars[i].szProtoname;
+	if (g_shutDown)
+		return;
+
+	for (auto &it : g_MyAvatars) {
+		char *myAvatarProto = it->szProtoname;
 
 		if (szProto[0] == 0) {
 			// Notify to all possibles
@@ -803,11 +805,11 @@ static void ReloadMyAvatar(LPVOID lpParam)
 		else if (mir_strcmp(myAvatarProto, szProto))
 			continue;
 
-		if (g_MyAvatars[i].hbmPic)
-			DeleteObject(g_MyAvatars[i].hbmPic);
+		if (it->hbmPic)
+			DeleteObject(it->hbmPic);
 
-		if (CreateAvatarInCache(INVALID_CONTACT_ID, &g_MyAvatars[i], myAvatarProto) != -1)
-			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, (LPARAM)&g_MyAvatars[i]);
+		if (CreateAvatarInCache(INVALID_CONTACT_ID, it, myAvatarProto) != -1)
+			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, (LPARAM)it);
 		else
 			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, 0);
 	}
@@ -821,13 +823,13 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
 	if (proto == nullptr)
 		return -1;
 
-	for (int i = 0; i < g_MyAvatars.getCount(); i++) {
-		if (g_MyAvatars[i].dwFlags & AVS_IGNORENOTIFY)
+	for (auto &it : g_MyAvatars) {
+		if (it->dwFlags & AVS_IGNORENOTIFY)
 			continue;
 
-		if (!mir_strcmp(g_MyAvatars[i].szProtoname, proto)) {
-			LPVOID lpParam = (void *)malloc(mir_strlen(g_MyAvatars[i].szProtoname) + 2);
-			mir_strcpy((char *)lpParam, g_MyAvatars[i].szProtoname);
+		if (!mir_strcmp(it->szProtoname, proto)) {
+			LPVOID lpParam = (void *)malloc(mir_strlen(it->szProtoname) + 2);
+			mir_strcpy((char *)lpParam, it->szProtoname);
 			mir_forkthread(ReloadMyAvatar, lpParam);
 			return 0;
 		}

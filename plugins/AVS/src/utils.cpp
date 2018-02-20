@@ -65,7 +65,7 @@ void MakePathRelative(MCONTACT hContact)
 // create the avatar in cache
 // returns 0 if not created (no avatar), iIndex otherwise, -2 if has to request avatar, -3 if avatar too big
 
-int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto)
+int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *szProto)
 {
 	ptrW  tszValue;
 	wchar_t tszFilename[MAX_PATH]; tszFilename[0] = 0;
@@ -381,13 +381,11 @@ BOOL Proto_IsFetchingWhenContactOfflineAllowed(const char *proto)
 protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact)
 {
 	char *szProto = GetContactProto(hContact);
-	if (szProto) {
-		for (int i = 0; i < g_ProtoPictures.getCount(); i++) {
-			protoPicCacheEntry& p = g_ProtoPictures[i];
-			if (!mir_strcmp(p.szProtoname, szProto) && p.hbmPic != nullptr)
-				return &g_ProtoPictures[i];
-		}
-	}
+	if (szProto)
+		for (auto &p : g_ProtoPictures)
+			if (!mir_strcmp(p->szProtoname, szProto) && p->hbmPic != nullptr)
+				return p;
+
 	return nullptr;
 }
 
@@ -445,12 +443,12 @@ void DeleteGlobalUserAvatar()
 
 void SetIgnoreNotify(char *protocol, BOOL ignore)
 {
-	for (int i = 0; i < g_MyAvatars.getCount(); i++) {
-		if (protocol == nullptr || !mir_strcmp(g_MyAvatars[i].szProtoname, protocol)) {
+	for (auto &it : g_MyAvatars) {
+		if (protocol == nullptr || !mir_strcmp(it->szProtoname, protocol)) {
 			if (ignore)
-				g_MyAvatars[i].dwFlags |= AVS_IGNORENOTIFY;
+				it->dwFlags |= AVS_IGNORENOTIFY;
 			else
-				g_MyAvatars[i].dwFlags &= ~AVS_IGNORENOTIFY;
+				it->dwFlags &= ~AVS_IGNORENOTIFY;
 		}
 	}
 }

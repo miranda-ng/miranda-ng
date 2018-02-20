@@ -127,7 +127,7 @@ void  MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest);
 HBITMAP LoadPNG(struct AVATARCACHEENTRY *ace, char *szFilename);
 
 void UnloadCache(void);
-int  CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, char *szProto);
+int  CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *szProto);
 void DeleteAvatarFromCache(MCONTACT hContact, bool bForever);
 void PicLoader(LPVOID param);
 void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1);

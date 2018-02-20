@@ -52,9 +52,7 @@ static int ComparePicture(const protoPicCacheEntry *p1, const protoPicCacheEntry
 	return mir_strcmp(p1->szProtoname, p2->szProtoname);
 }
 
-OBJLIST<protoPicCacheEntry>
-g_ProtoPictures(10, ComparePicture),
-g_MyAvatars(10, ComparePicture);
+OBJLIST<protoPicCacheEntry> g_ProtoPictures(10, ComparePicture), g_MyAvatars(10, ComparePicture);
 
 char *g_szMetaName = nullptr;
 
