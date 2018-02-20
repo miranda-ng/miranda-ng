@@ -736,8 +736,8 @@ void NetlibUPnPCleanup(void*)
 	{
 		int incoming = 0;
 		mir_cslock lck(csNetlibUser);
-		for (int i = 0; i < netlibUser.getCount(); i++)
-			if (netlibUser[i]->user.flags & NUF_INCOMING) {
+		for (auto &p : netlibUser)
+			if (p->user.flags & NUF_INCOMING) {
 				incoming = 1;
 				break;
 			}

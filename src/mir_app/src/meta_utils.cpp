@@ -401,8 +401,8 @@ int Meta_HideMetaContacts(bool bHide)
 	}
 
 	if (bHide) {
-		for (int i = 0; i < arMetaWindows.getCount(); i++)
-			SendMessage(arMetaWindows[i].m_hWnd, WM_CLOSE, 0, 0);
+		for (auto &p : arMetaWindows)
+			SendMessage(p->m_hWnd, WM_CLOSE, 0, 0);
 		arMetaWindows.destroy();
 	}
 

@@ -129,9 +129,9 @@ void fnFreeGroup(ClcGroup *group)
 	if (!group)
 		return;
 
-	for (int i = 0; i < group->cl.getCount(); i++) {
-		cli.pfnFreeContact(group->cl[i]);
-		mir_free(group->cl[i]);
+	for (auto &it : group->cl) {
+		cli.pfnFreeContact(it);
+		mir_free(it);
 	}
 	group->cl.destroy();
 }
@@ -291,9 +291,9 @@ ClcGroup* fnRemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact,
 	group->cl.remove(iContact);
 
 	if ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) && group->cl.getCount() == 0 && group->parent != nullptr)
-		for (int i = 0; i < group->parent->cl.getCount(); i++)
-			if (group->parent->cl[i]->type == CLCIT_GROUP && group->parent->cl[i]->groupId == group->groupId)
-				return cli.pfnRemoveItemFromGroup(hwnd, group->parent, group->parent->cl[i], 0);
+		for (auto &cc : group->parent->cl)
+			if (cc->type == CLCIT_GROUP && cc->groupId == group->groupId)
+				return cli.pfnRemoveItemFromGroup(hwnd, group->parent, cc, 0);
 
 	return group;
 }
@@ -697,18 +697,18 @@ void fnSaveStateAndRebuildList(HWND hwnd, ClcData *dat)
 		group->scanIndex++;
 	}
 
-	for (int i = 0; i < saveInfo.getCount(); i++) {
-		if (saveInfo[i].parentId == -1)
+	for (auto &it : saveInfo) {
+		if (it->parentId == -1)
 			group = &dat->list;
 		else {
 			ClcContact *contact;
-			if (!Clist_FindItem(hwnd, dat, saveInfo[i].parentId | HCONTACT_ISGROUP, &contact, nullptr, nullptr))
+			if (!Clist_FindItem(hwnd, dat, it->parentId | HCONTACT_ISGROUP, &contact, nullptr, nullptr))
 				continue;
 			group = contact->group;
 		}
 	
-		ClcContact *cc = cli.pfnAddInfoItemToGroup(group, saveInfo[i].contact.flags, L"");
-		*cc = saveInfo[i].contact;
+		ClcContact *cc = cli.pfnAddInfoItemToGroup(group, it->contact.flags, L"");
+		*cc = it->contact;
 	}
 
 	dat->bLockScrollbar = false;

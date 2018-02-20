@@ -837,8 +837,7 @@ void fnSetContactCheckboxes(ClcContact *cc, int checked)
 
 void fnSetGroupChildCheckboxes(ClcGroup *group, int checked)
 {
-	for (int i = 0; i < group->cl.getCount(); i++) {
-		ClcContact *cc = group->cl[i];
+	for (auto &cc : group->cl) {
 		if (cc->type == CLCIT_GROUP) {
 			cli.pfnSetGroupChildCheckboxes(cc->group, checked);
 			cli.pfnSetContactCheckboxes(cc, checked);

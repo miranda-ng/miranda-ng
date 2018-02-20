@@ -183,8 +183,8 @@ MIR_APP_DLL(BOOL) Menu_DrawItem(LPARAM lParam)
 
 int MO_RemoveAllObjects()
 {
-	for (int i = 0; i < g_menus.getCount(); i++)
-		delete g_menus[i];
+	for (auto &p : g_menus)
+		delete p;
 	g_menus.destroy();
 	return 0;
 }
@@ -447,8 +447,8 @@ MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam)
 		return false;
 
 	mir_cslock lck(csMenuHook);
-	for (int i = 0; i < g_menus.getCount(); i++)
-		if (TMO_IntMenuItem *pimi = MO_RecursiveWalkMenu(g_menus[i]->m_items.first, FindMenuByCommand, &command))
+	for (auto &p : g_menus)
+		if (TMO_IntMenuItem *pimi = MO_RecursiveWalkMenu(p->m_items.first, FindMenuByCommand, &command))
 			return Menu_ProcessCommand(pimi, lParam);
 
 	return false;
@@ -634,11 +634,11 @@ MIR_APP_DLL(void) KillModuleMenus(int _hLang)
 	KillMenuItemsParam param(_hLang);
 
 	mir_cslock lck(csMenuHook);
-	for (int i = 0; i < g_menus.getCount(); i++)
-		MO_RecursiveWalkMenu(g_menus[i]->m_items.first, (pfnWalkFunc)KillMenuItems, &param);
+	for (auto &p : g_menus)
+		MO_RecursiveWalkMenu(p->m_items.first, (pfnWalkFunc)KillMenuItems, &param);
 
-	for (int k = 0; k < param.arItems.getCount(); k++)
-		Menu_RemoveItem(param.arItems[k]);
+	for (auto &p : param.arItems)
+		Menu_RemoveItem(p);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -655,8 +655,8 @@ static int GetNextObjectMenuItemId()
 	// if menu commands are exausted, pack the menu array
 	if (NextObjectMenuItemId >= CLISTMENUIDMAX) {
 		NextObjectMenuItemId = CLISTMENUIDMIN;
-		for (int i = 0; i < g_menus.getCount(); i++)
-			MO_RecursiveWalkMenu(g_menus[i]->m_items.first, PackMenuItems, nullptr);
+		for (auto &p : g_menus)
+			MO_RecursiveWalkMenu(p->m_items.first, PackMenuItems, nullptr);
 	}
 
 	return NextObjectMenuItemId++;
@@ -918,8 +918,7 @@ static int sttDumpItem(TMO_IntMenuItem *pmi, void *szModule)
 
 static void CALLBACK sttUpdateMenuService()
 {
-	for (int i = 0; i < g_menus.getCount(); i++) {						 
-		TIntMenuObject *pmo = g_menus[i];
+	for (auto &pmo : g_menus) {
 		if (!pmo->m_bUseUserDefinedItems)
 			continue;
 		
@@ -1195,9 +1194,9 @@ int OnIconLibChanges(WPARAM, LPARAM)
 {
 	{
 		mir_cslock lck(csMenuHook);
-		for (int mo = 0; mo < g_menus.getCount(); mo++)
-			if (hStatusMenuObject != g_menus[mo]->id) //skip status menu
-				MO_RecursiveWalkMenu(g_menus[mo]->m_items.first, MO_ReloadIcon, nullptr);
+		for (auto &p : g_menus)
+			if (hStatusMenuObject != p->id) //skip status menu
+				MO_RecursiveWalkMenu(p->m_items.first, MO_ReloadIcon, nullptr);
 	}
 
 	cli.pfnReloadProtoMenus();
@@ -1255,11 +1254,11 @@ static int MO_RegisterIcon(TMO_IntMenuItem *pmi, void*)
 int RegisterAllIconsInIconLib()
 {
 	// register all icons
-	for (int mo = 0; mo < g_menus.getCount(); mo++) {
-		if (hStatusMenuObject == g_menus[mo]->id) //skip status menu
+	for (auto &p : g_menus) {
+		if (hStatusMenuObject == p->id) //skip status menu
 			continue;
 
-		MO_RecursiveWalkMenu(g_menus[mo]->m_items.first, MO_RegisterIcon, nullptr);
+		MO_RecursiveWalkMenu(p->m_items.first, MO_RegisterIcon, nullptr);
 	}
 
 	return 0;

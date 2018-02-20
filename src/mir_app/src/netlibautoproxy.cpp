@@ -221,22 +221,24 @@ static void NetlibIeProxyThread(void *arg)
 
 char* NetlibGetIeProxy(char *szUrl)
 {
-	char *res = nullptr;
-	char* p = strstr(szUrl, "://");
-	if (p) p += 3; else p = szUrl;
+	char *res = nullptr, *szHost;
+	{
+		char* p = strstr(szUrl, "://");
+		if (p) p += 3; else p = szUrl;
 
-	char *szHost = NEWSTR_ALLOCA(p);
-	p = strchr(szHost, '/'); if (p) *p = 0;
-	p = strchr(szHost, ':'); if (p) *p = 0;
-	_strlwr(szHost);
+		szHost = NEWSTR_ALLOCA(p);
+		p = strchr(szHost, '/'); if (p) *p = 0;
+		p = strchr(szHost, ':'); if (p) *p = 0;
+		_strlwr(szHost);
+	}
 
 	if (bEnabled) {
-		for (int i = 0; i < proxyBypass.getCount(); i++) {
-			if (mir_strcmp(proxyBypass[i], "<local>") == 0) {
+		for (auto &p : proxyBypass) {
+			if (mir_strcmp(p, "<local>") == 0) {
 				if (strchr(szHost, '.') == nullptr)
 					return nullptr;
 			}
-			else if (wildcmp(szHost, proxyBypass[i]))
+			else if (wildcmp(szHost, p))
 				return nullptr;
 		}
 
@@ -353,12 +355,11 @@ void NetlibLoadIeProxy(void)
 
 void NetlibUnloadIeProxy(void)
 {
-	int i;
-	for (i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)
 		mir_free(szProxyHost[i]);
 
-	for (i = 0; i < proxyBypass.getCount(); i++)
-		mir_free(proxyBypass[i]);
+	for (auto &p : proxyBypass)
+		mir_free(p);
 
 	mir_free(abuf.lpszScriptBuffer);
 

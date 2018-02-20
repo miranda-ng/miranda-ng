@@ -57,7 +57,7 @@ static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
 MIR_APP_DLL(void) KillModuleSounds(int _hLang)
 {
-	for (int i = arSounds.getCount()-1; i >= 0; i--) {
+	for (int i = arSounds.getCount() - 1; i >= 0; i--) {
 		SoundItem &p = arSounds[i];
 		if (p.hLangpack == _hLang) {
 			p.clear();
@@ -95,7 +95,7 @@ MIR_APP_DLL(int) Skin_AddSound(const char *pszName, const wchar_t *pwszSection, 
 
 static int Skin_PlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
-	wchar_t *pszFile = (wchar_t*) lParam;
+	wchar_t *pszFile = (wchar_t*)lParam;
 	if (pszFile && (db_get_b(0, "Skin", "UseSound", 0) || (int)wParam == 1))
 		PlaySound(pszFile, nullptr, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
 
@@ -164,7 +164,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		hwndTree = GetDlgItem(hwndDlg, IDC_SOUNDTREE);
-		SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+		SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		SendMessage(hwndDlg, DM_REBUILD_STREE, 0, 0);
 		TreeView_SetItemState(hwndTree, 0, TVIS_SELECTED, TVIS_SELECTED);
@@ -182,24 +182,25 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			tvis.hInsertAfter = TVI_SORT;
 			tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-			for (int i=0; i < arSounds.getCount(); i++) {
+			for (auto &p : arSounds) {
 				tvis.item.stateMask = TVIS_EXPANDED;
 				tvis.item.state = TVIS_EXPANDED;
-				tvis.hParent = FindNamedTreeItemAtRoot(hwndTree, arSounds[i].getSection());
+				tvis.hParent = FindNamedTreeItemAtRoot(hwndTree, p->getSection());
 				if (tvis.hParent == nullptr) {
 					tvis.item.lParam = -1;
-					tvis.item.pszText = arSounds[i].getSection();
+					tvis.item.pszText = p->getSection();
 					tvis.hParent = tvis.item.hItem = TreeView_InsertItem(hwndTree, &tvis);
 					tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 					tvis.item.state = INDEXTOSTATEIMAGEMASK(0);
 					TreeView_SetItem(hwndTree, &tvis.item);
 				}
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-				tvis.item.state = INDEXTOSTATEIMAGEMASK(!db_get_b(0, "SkinSoundsOff", arSounds[i].name, 0)?2:1);
-				tvis.item.lParam = i;
-				tvis.item.pszText = arSounds[i].getDescr();
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(!db_get_b(0, "SkinSoundsOff", p->name, 0) ? 2 : 1);
+				tvis.item.lParam = (LPARAM)p;
+				tvis.item.pszText = p->getDescr();
 				TreeView_InsertItem(hwndTree, &tvis);
-		}	}
+			}
+		}
 		{
 			TVITEM tvi;
 			tvi.hItem = TreeView_GetRoot(hwndTree);
@@ -210,35 +211,36 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					TreeView_SetItemState(hwndTree, tvi.hItem, INDEXTOSTATEIMAGEMASK(0), TVIS_STATEIMAGEMASK);
 
 				tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-		}	}
+			}
+		}
 
 		ShowWindow(hwndTree, SW_SHOW);
 		break;
 
 	case DM_HIDEPANE:
-		ShowWindow( GetDlgItem(hwndDlg, IDC_SGROUP), SW_HIDE);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_NAME), SW_HIDE);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_HIDE);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_SLOC), SW_HIDE);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_LOCATION), SW_HIDE);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_CHANGE), SW_HIDE);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_GETMORE), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_SGROUP), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_NAME), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_SLOC), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_LOCATION), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_HIDE);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_GETMORE), SW_HIDE);
 		break;
 
 	case DM_SHOWPANE:
-		ShowWindow( GetDlgItem(hwndDlg, IDC_SGROUP), SW_SHOW);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_NAME), SW_SHOW);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_SHOW);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_SLOC), SW_SHOW);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_LOCATION), SW_SHOW);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_CHANGE), SW_SHOW);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_PREVIEW), SW_SHOW);
-		ShowWindow( GetDlgItem(hwndDlg, IDC_GETMORE), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_SGROUP), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_NAME), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_NAMEVAL), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_SLOC), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_LOCATION), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), SW_SHOW);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_GETMORE), SW_SHOW);
 		break;
 
 	case DM_CHECKENABLED:
-		EnableWindow( GetDlgItem(hwndDlg, IDC_SOUNDTREE), IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_SOUNDTREE), IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS))
 			SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		else if (TreeView_GetSelection(hwndTree) && TreeView_GetParent(hwndTree, TreeView_GetSelection(hwndTree)))
@@ -262,11 +264,12 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (tvi.lParam == -1)
 				break;
 
-			if (arSounds[tvi.lParam].ptszTempFile)
-				NotifyEventHooks(hPlayEvent, 1, (LPARAM)arSounds[tvi.lParam].ptszTempFile);
+			SoundItem *p = (SoundItem *)tvi.lParam;
+			if (p->ptszTempFile)
+				NotifyEventHooks(hPlayEvent, 1, (LPARAM)p->ptszTempFile);
 			else {
 				DBVARIANT dbv;
-				if (!db_get_ws(0, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+				if (!db_get_ws(0, "SkinSounds", p->name, &dbv)) {
 					wchar_t szPathFull[MAX_PATH];
 					PathToAbsoluteW(dbv.ptszVal, szPathFull);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
@@ -282,7 +285,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			TVITEM tvi = { 0 };
-			tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM|TVIF_TEXT;
+			tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_TEXT;
 			tvi.hItem = hti;
 			if (TreeView_GetItem(hwndTree, &tvi) == FALSE)
 				break;
@@ -300,7 +303,9 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					if (db_get_ws(0, "SkinSounds", snd.name, &dbv) == 0) {
 						PathToAbsoluteW(dbv.ptszVal, strdir);
 						db_free(&dbv);
-			}	}	}
+					}
+				}
+			}
 
 			wcsncpy_s(strFull, (snd.ptszTempFile ? snd.ptszTempFile : L""), _TRUNCATE);
 			PathToAbsoluteW(strFull, strdir);
@@ -324,7 +329,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			str[0] = 0;
 			ofn.lpstrFile = str;
-			ofn.Flags = OFN_FILEMUSTEXIST|OFN_HIDEREADONLY|OFN_EXPLORER|OFN_LONGNAMES|OFN_NOCHANGEDIR;
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER | OFN_LONGNAMES | OFN_NOCHANGEDIR;
 			ofn.nMaxFile = _countof(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = L"wav";
@@ -351,9 +356,9 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				db_set_b(0, "Skin", "UseSound", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
 
-				for (int i = 0; i < arSounds.getCount(); i++)
-					if (arSounds[i].ptszTempFile)
-						db_set_ws(0, "SkinSounds", arSounds[i].name, arSounds[i].ptszTempFile);
+				for (auto &p : arSounds)
+					if (p->ptszTempFile)
+						db_set_ws(0, "SkinSounds", p->name, p->ptszTempFile);
 
 				TVITEM tvi, tvic;
 				tvi.hItem = TreeView_GetRoot(hwndTree);
@@ -389,14 +394,16 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					if (tvi.lParam == -1)
 						SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 					else {
+						SoundItem *p = (SoundItem *)tvi.lParam;
+
 						wchar_t buf[256];
-						mir_snwprintf(buf, L"%s: %s", arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
+						mir_snwprintf(buf, L"%s: %s", p->getSection(), p->getDescr());
 						SetDlgItemText(hwndDlg, IDC_NAMEVAL, buf);
-						if (arSounds[tvi.lParam].ptszTempFile)
-							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);
+						if (p->ptszTempFile)
+							SetDlgItemText(hwndDlg, IDC_LOCATION, p->ptszTempFile);
 						else {
 							DBVARIANT dbv;
-							if (!db_get_ws(0, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+							if (!db_get_ws(0, "SkinSounds", p->name, &dbv)) {
 								SetDlgItemText(hwndDlg, IDC_LOCATION, dbv.ptszVal);
 								db_free(&dbv);
 							}
@@ -465,6 +472,6 @@ int LoadSkinSounds(void)
 
 void UnloadSkinSounds(void)
 {
-	for (int i = 0; i < arSounds.getCount(); i++)
-		arSounds[i].clear();
+	for (auto &p : arSounds)
+		p->clear();
 }

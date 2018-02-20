@@ -232,8 +232,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		else {
 			szFilter.AppendChar(wParam);
 
-			for (int i = 0; i < arPluginList.getCount(); i++) {
-				PluginListItemData *p = arPluginList[i];
+			for (auto &p : arPluginList) {
 				if (!wcsnicmp(szFilter, p->fileName, szFilter.GetLength())) {
 					LVFINDINFO lvfi;
 					lvfi.flags = LVFI_PARAM;

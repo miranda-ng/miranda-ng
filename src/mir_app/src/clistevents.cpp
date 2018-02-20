@@ -197,11 +197,11 @@ int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 	// count same protocoled events
 	int nSameProto = 0;
 	char *szEventProto;
-	for (i = 0; i < g_cliEvents.getCount(); i++) {
-		if (g_cliEvents[i].hContact)
-			szEventProto = GetContactProto((g_cliEvents[i].hContact));
-		else if (g_cliEvents[i].flags & CLEF_PROTOCOLGLOBAL)
-			szEventProto = (char*)g_cliEvents[i].lpszProtocol;
+	for (auto &it : g_cliEvents) {
+		if (it->hContact)
+			szEventProto = GetContactProto((it->hContact));
+		else if (it->flags & CLEF_PROTOCOLGLOBAL)
+			szEventProto = (char*)it->lpszProtocol;
 		else
 			szEventProto = nullptr;
 		if (szEventProto && szProto && !mir_strcmp(szEventProto, szProto))
@@ -232,19 +232,20 @@ CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 		return &g_cliEvents[idx];
 	}
 
-	for (int i=0; i < g_cliEvents.getCount(); i++)
-		if (g_cliEvents[i].hContact == hContact)
+	for (auto &it : g_cliEvents)
+		if (it->hContact == hContact)
 			if (idx-- == 0)
-				return &g_cliEvents[i];
+				return it;
+	
 	return nullptr;
 }
 
 int fnEventsProcessContactDoubleClick(MCONTACT hContact)
 {
-	for (int i = 0; i < g_cliEvents.getCount(); i++) {
-		if (g_cliEvents[i].hContact == hContact) {
-			MEVENT hDbEvent = g_cliEvents[i].hDbEvent;
-			CallService(g_cliEvents[i].pszService, 0, (LPARAM)&g_cliEvents[i]);
+	for (auto &it : g_cliEvents) {
+		if (it->hContact == hContact) {
+			MEVENT hDbEvent = it->hDbEvent;
+			CallService(it->pszService, 0, (LPARAM)it);
 			cli.pfnRemoveEvent(hContact, hDbEvent);
 			return 0;
 		}
@@ -274,12 +275,12 @@ int fnEventsProcessTrayDoubleClick(int index)
 			}
 		}
 		if (szProto) {
-			for (i = 0; i < g_cliEvents.getCount(); i++) {
+			for (auto &it : g_cliEvents) {
 				char *eventProto = nullptr;
-				if (g_cliEvents[i].hContact)
-					eventProto = GetContactProto(g_cliEvents[i].hContact);
+				if (it->hContact)
+					eventProto = GetContactProto(it->hContact);
 				if (!eventProto)
-					eventProto = g_cliEvents[i].lpszProtocol;
+					eventProto = it->lpszProtocol;
 
 				if (!eventProto || !_strcmpi(eventProto, szProto)) {
 					eventIndex = i;
@@ -290,12 +291,12 @@ int fnEventsProcessTrayDoubleClick(int index)
 			// let's process backward try to find first event without desired proto in tray
 			if (i == g_cliEvents.getCount()) {
 				if (click_in_first_icon) {
-					for (i = 0; i < g_cliEvents.getCount(); i++) {
+					for (auto &it : g_cliEvents) {
 						char *eventProto = nullptr;
-						if (g_cliEvents[i].hContact)
-							eventProto = GetContactProto(g_cliEvents[i].hContact);
+						if (it->hContact)
+							eventProto = GetContactProto(it->hContact);
 						if (!eventProto)
-							eventProto = g_cliEvents[i].lpszProtocol;
+							eventProto = it->lpszProtocol;
 						if (!eventProto)
 							continue;
 

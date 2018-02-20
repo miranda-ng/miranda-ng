@@ -440,9 +440,9 @@ void UnloadProtocolsModule()
 {
 	if (!bModuleInitialized) return;
 
-	for (int i = 0; i < protos.getCount(); i++) {
-		mir_free(protos[i]->szName);
-		mir_free(protos[i]);
+	for (auto &p : protos) {
+		mir_free(p->szName);
+		mir_free(p);
 	}
 	protos.destroy();
 

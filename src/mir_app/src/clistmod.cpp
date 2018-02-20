@@ -142,8 +142,7 @@ HICON fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status
 
 int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 {
-	int index, i;
-
+	int index;
 	for (index = 0; index < _countof(statusModeList); index++)
 		if (status == statusModeList[index])
 			break;
@@ -152,10 +151,11 @@ int fnIconFromStatusMode(const char *szProto, int status, MCONTACT)
 		index = 0;
 	if (szProto == nullptr)
 		return index + 1;
-	for (i = 0; i < protoIconIndex.getCount(); i++) {
-		if (mir_strcmp(szProto, protoIconIndex[i].szProto) == 0)
-			return protoIconIndex[i].iIconBase + index;
-	}
+
+	for (auto &it : protoIconIndex)
+		if (mir_strcmp(szProto, it->szProto) == 0)
+			return it->iIconBase + index;
+
 	return 1;
 }
 
@@ -192,8 +192,8 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 	ScheduleMenuUpdate();
 
 	RebuildMenuOrder();
-	for (int i = 0; i < accounts.getCount(); i++)
-		AddProtoIconIndex(accounts[i]);
+	for (auto &it : accounts)
+		AddProtoIconIndex(it);
 
 	cli.pfnLoadContactTree();
 
@@ -254,9 +254,9 @@ static int CListIconsChanged(WPARAM, LPARAM)
 		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, Skin_LoadIcon(skinIconStatusList[i]));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, Skin_LoadIcon(SKINICON_OTHER_GROUPOPEN));
 	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, Skin_LoadIcon(SKINICON_OTHER_GROUPSHUT));
-	for (int i = 0; i < protoIconIndex.getCount(); i++)
+	for (auto &it : protoIconIndex)
 		for (int j = 0; j < _countof(statusModeList); j++)
-			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, Skin_LoadProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
+			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, it->iIconBase + j, Skin_LoadProtoIcon(it->szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
 	cli.pfnInvalidateRect(cli.hwndContactList, nullptr, TRUE);
 	return 0;

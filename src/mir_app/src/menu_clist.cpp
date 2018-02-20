@@ -117,8 +117,7 @@ int fnGetAverageMode(int *pNetProtoCount)
 {
 	int netProtoCount = 0, averageMode = 0;
 
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	for (auto &pa : accounts) {
 		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0 || Proto_IsAccountLocked(pa))
 			continue;
 
@@ -610,14 +609,13 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 
 	int MenusProtoCount = 0;
 
-	for (int i = 0; i < accounts.getCount(); i++)
-		if (cli.pfnGetProtocolVisibility(accounts[i]->szModuleName))
+	for (auto &pa : accounts)
+		if (cli.pfnGetProtocolVisibility(pa->szModuleName))
 			MenusProtoCount++;
 
 	cli.currentDesiredStatusMode = smep->status;
 
-	for (int j = 0; j < accounts.getCount(); j++) {
-		PROTOACCOUNT *pa = accounts[j];
+	for (auto &pa : accounts) {
 		if (!Proto_IsAccountEnabled(pa))
 			continue;
 		if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
@@ -904,8 +902,7 @@ void RebuildMenuOrder(void)
 
 	// add to root menu
 	for (int j = 0; j < _countof(statusModeList); j++) {
-		for (int i = 0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT *pa = accounts[i];
+		for (auto &pa : accounts) {
 			if (!bHideStatusMenu && !cli.pfnGetProtocolVisibility(pa->szModuleName))
 				continue;
 

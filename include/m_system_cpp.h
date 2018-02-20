@@ -201,6 +201,9 @@ template<class T> struct LIST
 
 	__inline void put(int idx, T *p)   { items[idx] = p; }
 
+	__inline T** begin() const { return items; }
+	__inline T** end() const { return items + count; }
+
 protected:
 	T**        items;
 	int        count, limit, increment;

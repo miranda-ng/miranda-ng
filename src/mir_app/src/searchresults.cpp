@@ -199,8 +199,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		int failures = 0;
 		dat->searchCount = 0;
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
-		for (int i = 0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT *pa = accounts[i];
+		for (auto &pa : accounts) {
 			if (!Proto_IsAccountEnabled(pa))
 				continue;
 			

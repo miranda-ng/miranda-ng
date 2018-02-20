@@ -423,8 +423,7 @@ IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 	if (hIcon == nullptr)
 		return nullptr;
 
-	for (int i = 0; i < iconList.getCount(); i++) {
-		IcolibItem *p = iconList[i];
+	for (auto &p : iconList) {
 		if ((void*)p == hIcon) {
 			big = (p->source_small == nullptr);
 			return p;
@@ -808,8 +807,8 @@ void UnloadIcoLibModule(void)
 	while (iconList.getCount() > 0)
 		IcoLib_RemoveIcon_Internal(0);
 
-	for (int i = 0; i < iconSourceList.getCount(); i++)
-		delete iconSourceList[i];
+	for (auto &p : iconSourceList)
+		delete p;
 	iconSourceList.destroy();
 
 	while (iconSourceFileList.getCount() > 0) {
@@ -818,8 +817,8 @@ void UnloadIcoLibModule(void)
 		mir_free(p);
 	}
 
-	for (int i = 0; i < sectionList.getCount(); i++)
-		delete sectionList[i];
+	for (auto &p : sectionList)
+		delete p;
 
 	SafeDestroyIcon(hIconBlank);
 	bModuleInitialized = false;

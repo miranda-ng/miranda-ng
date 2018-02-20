@@ -88,8 +88,8 @@ static void AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM param, b
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 {
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
-	for (int i = 0; i < lphGroupsItems.getCount(); i++)
-		Menu_RemoveItem((HGENMENU)lphGroupsItems[i]);
+	for (auto &p : lphGroupsItems)
+		Menu_RemoveItem((HGENMENU)p);
 	lphGroupsItems.destroy();
 
 	ptrW szContactGroup(db_get_wsa(wParam, "CList", "Group"));
@@ -114,9 +114,9 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		mir_free(dbv.ptszVal);
 	}
 
-	for (int i = 0; i < groups.getCount(); i++) {
-		bool checked = szContactGroup && !mir_wstrcmp(szContactGroup, groups[i].name);
-		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
+	for (auto &p : groups) {
+		bool checked = szContactGroup && !mir_wstrcmp(szContactGroup, p->name);
+		AddGroupItem(hMoveToGroupItem, p->name, ++pos, p->position, checked);
 	}
 
 	return 0;

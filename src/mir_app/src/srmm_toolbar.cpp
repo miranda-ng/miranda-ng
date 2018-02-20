@@ -120,9 +120,9 @@ MIR_APP_DLL(int) Srmm_AddButton(const BBButton *bbdi, int _hLang)
 	cbd->m_dwOrigFlags.bit4 = cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
 
 	if (bbdi->pszHotkey) {
-		for (int i = 0; i < hotkeys.getCount(); i++) {
-			if (!mir_strcmp(hotkeys[i]->getName(), bbdi->pszHotkey)) {
-				cbd->m_hotkey = hotkeys[i];
+		for (auto &p : hotkeys) {
+			if (!mir_strcmp(p->getName(), bbdi->pszHotkey)) {
+				cbd->m_hotkey = p;
 				break;
 			}
 		}
@@ -168,13 +168,12 @@ MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi)
 
 	DWORD tempCID = 0;
 	bbdi->bbbFlags = 0;
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList)
 		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonID == bbdi->dwButtonID)) {
 			tempCID = cbd->m_dwButtonCID;
 			break;
 		}
-	}
+
 	if (!tempCID)
 		return 1;
 
@@ -189,13 +188,12 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 		return 1;
 
 	DWORD tempCID = 0;
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList)
 		if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonID == bbdi->dwButtonID)) {
 			tempCID = cbd->m_dwButtonCID;
 			break;
 		}
-	}
+
 	if (!tempCID)
 		return 1;
 
@@ -251,20 +249,17 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 	if (!bbdi)
 		return 1;
 
-	bool bFound = false;
 	CustomButtonData *cbd = nullptr;
 	{
 		mir_cslock lck(csToolBar);
 
-		for (int i = 0; i < arButtonsList.getCount(); i++) {
-			cbd = arButtonsList[i];
-			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && (cbd->m_dwButtonID == bbdi->dwButtonID)) {
-				bFound = true;
+		for (auto &p : arButtonsList)
+			if (!mir_strcmp(p->m_pszModuleName, bbdi->pszModuleName) && (p->m_dwButtonID == bbdi->dwButtonID)) {
+				cbd = p;
 				break;
 			}
-		}
 
-		if (bFound) {
+		if (cbd != nullptr) {
 			if (bbdi->pwszTooltip)
 				cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);
 			if (bbdi->hIcon)
@@ -280,7 +275,7 @@ MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi)
 		}
 	}
 
-	if (bFound)
+	if (cbd != nullptr)
 		WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, (LPARAM)cbd);
 	return 0;
 }
@@ -292,8 +287,7 @@ MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwnd
 
 	CustomButtonClickData cbcd = {};
 
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList) {
 		if	(cbd->m_dwButtonCID == idFrom) {
 			cbcd.pszModule = cbd->m_pszModuleName;
 			cbcd.dwButtonId = cbd->m_dwButtonID;
@@ -328,8 +322,7 @@ void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwnd
 
 	CustomButtonClickData cbcd = {};
 
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList) {
 		if (cbd->m_hotkey == nullptr || cbd->m_bDisabled)
 			continue;
 
@@ -358,8 +351,7 @@ void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwnd
 
 MIR_APP_DLL(void) Srmm_ResetToolbar()
 {
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList) {
 		cbd->m_dwPosition = cbd->m_dwOrigPosition;
 		cbd->m_bRSided = cbd->m_dwOrigFlags.bit1;
 		cbd->m_bIMButton = cbd->m_dwOrigFlags.bit2;
@@ -374,8 +366,7 @@ void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 
 	CDlgBase *pDlg = CDlgBase::Find(hwndDlg);
 
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList) {
 		if (cbd->m_bSeparator)
 			continue;
 
@@ -418,8 +409,7 @@ void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags)
 
 MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hwndDlg)
 {
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList) {
 		if (cbd->m_bSeparator || cbd->m_hIcon == nullptr)
 			continue;
 
@@ -431,8 +421,7 @@ MIR_APP_DLL(void) Srmm_UpdateToolbarIcons(HWND hwndDlg)
 
 MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg)
 {
-	for (int i = 0; i < arButtonsList.getCount(); i++) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList) {
 		HWND hwnd = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
 		if (hwnd)
 			InvalidateRect(hwnd, nullptr, TRUE);
@@ -582,9 +571,7 @@ class CSrmmToolbarOptions : public CDlgBase
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_SELECTEDIMAGE | TVIF_IMAGE;
 
 		mir_cslock lck(csToolBar);
-		for (int i = 0; i < arButtonsList.getCount(); i++) {
-			CustomButtonData *cbd = arButtonsList[i];
-
+		for (auto &cbd : arButtonsList) {
 			if (bPrevSide != cbd->m_bRSided) {
 				bPrevSide = true;
 

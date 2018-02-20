@@ -165,10 +165,9 @@ BOOL SM_SetOffline(const char *pszModule, SESSION_INFO *si)
 		if (pszModule == nullptr)
 			return FALSE;
 
-		for (int i = 0; i < g_arSessions.getCount(); i++) {
-			si = g_arSessions[i];
-			if (!_strcmpi(si->pszModule, pszModule))
-				SM_SetOffline(pszModule, si);
+		for (auto &p : g_arSessions) {
+			if (!_strcmpi(p->pszModule, pszModule))
+				SM_SetOffline(pszModule, p);
 		}
 		return TRUE;
 	}
@@ -244,8 +243,7 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (!pszModule || !pszUID)
 		return FALSE;
 
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
 			continue;
 
@@ -323,8 +321,7 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 
 static BOOL SM_BroadcastMessage(const char *pszModule, UINT msg, WPARAM wParam, LPARAM lParam, BOOL bAsync)
 {
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if (pszModule && _strcmpi(si->pszModule, pszModule))
 			continue;
 
@@ -344,10 +341,9 @@ BOOL SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 		if (pszModule == nullptr)
 			return FALSE;
 
-		for (int i = 0; i < g_arSessions.getCount(); i++) {
-			si = g_arSessions[i];
-			if (!_strcmpi(si->pszModule, pszModule))
-				SM_SetStatus(pszModule, si, wStatus);
+		for (auto &p : g_arSessions) {
+			if (!_strcmpi(p->pszModule, pszModule))
+				SM_SetStatus(pszModule, p, wStatus);
 		}
 		return TRUE;
 	}
@@ -371,8 +367,7 @@ BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 	if (!pszModule)
 		return FALSE;
 
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if ((!pszID || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
 			USERINFO *ui = chatApi.UM_FindUser(si->pUsers, gce->ptszUID);
 			if (ui) {
@@ -473,11 +468,9 @@ static int SM_GetCount(const char *pszModule)
 {
 	int count = 0;
 
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions)
 		if (!mir_strcmpi(pszModule, si->pszModule))
 			count++;
-	}
 
 	return count;
 }
@@ -485,8 +478,7 @@ static int SM_GetCount(const char *pszModule)
 static SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem)
 {
 	int count = 0;
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if (!mir_strcmpi(pszModule, si->pszModule)) {
 			if (iItem == count)
 				return si;
@@ -504,8 +496,7 @@ char* SM_GetUsers(SESSION_INFO *si)
 		return nullptr;
 
 	USERINFO *utemp = nullptr;
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *p = g_arSessions[i];
+	for (auto &p : g_arSessions) {
 		if (si == p) {
 			if ((utemp = p->pUsers) == nullptr)
 				return nullptr;
@@ -533,10 +524,8 @@ char* SM_GetUsers(SESSION_INFO *si)
 
 static void SM_InvalidateLogDirectories()
 {
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions)
 		si->pszLogFileName[0] = si->pszLogFileName[1] = 0;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -564,19 +553,15 @@ static void MM_IconsChanged()
 {
 	LoadChatIcons();
 
-	for (int i = 0; i < g_arModules.getCount(); i++) {
-		MODULEINFO *mi = g_arModules[i];
+	for (auto &mi : g_arModules)
 		if (chatApi.OnCreateModule) // recreate icons
 			chatApi.OnCreateModule(mi);
-	}
 }
 
 static void MM_FontsChanged()
 {
-	for (int i = 0; i < g_arModules.getCount(); i++) {
-		MODULEINFO *mi = g_arModules[i];
+	for (auto &mi : g_arModules)
 		mi->pszHeader = chatApi.Log_CreateRtfHeader();
-	}
 }
 
 static MODULEINFO* MM_FindModule(const char *pszModule)
@@ -589,8 +574,7 @@ static MODULEINFO* MM_FindModule(const char *pszModule)
 
 static BOOL MM_RemoveAll(void)
 {
-	for (int i = 0; i < g_arModules.getCount(); i++) {
-		MODULEINFO *mi = g_arModules[i];
+	for (auto &mi : g_arModules) {
 		if (chatApi.OnDestroyModule)
 			chatApi.OnDestroyModule(mi);
 
@@ -1003,12 +987,11 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	if (g_cbSession) { // reallocate old sessions
 		mir_cslock lck(csChat);
 
-		for (int i = 0; i < g_arSessions.getCount(); i++) {
-			SESSION_INFO *p = g_arSessions[i];
+		for (auto &p : g_arSessions) {
 			SESSION_INFO *p1 = (SESSION_INFO*)mir_realloc(p, pInit->cbSession);
 			memset(PBYTE(p1) + sizeof(GCSessionInfoBase), 0, pInit->cbSession - sizeof(GCSessionInfoBase));
 			if (p1 != p) { // realloc could change a pointer, reinsert a structure
-				g_arSessions.remove(i);
+				g_arSessions.remove(p);
 				g_arSessions.insert(p1);
 			}
 		}
@@ -1016,13 +999,12 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	if (g_cbModuleInfo) { // reallocate old modules
 		mir_cslock lck(csChat);
 
-		for (int i = 0; i < g_arModules.getCount(); i++) {
-			MODULEINFO *mi = g_arModules[i];
+		for (auto &mi : g_arModules) {
 			MODULEINFO *p1 = (MODULEINFO*)mir_realloc(mi, pInit->cbModuleInfo);
 			memset(PBYTE(p1) + sizeof(GCModuleInfoBase), 0, pInit->cbModuleInfo - sizeof(GCModuleInfoBase));
 			if (p1 != mi) { // realloc could change a pointer, reinsert a structure
-				g_arModules.remove(i);
-				g_arModules.insert(p1, i);
+				g_arModules.remove(mi);
+				g_arModules.insert(p1);
 			}
 		}
 	}

@@ -186,13 +186,12 @@ class CGenMenuOptionsPage : public CDlgBase
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.item.mask = TVIF_PARAM | TVIF_CHILDREN | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
-		for (int i = 0; i < arItems.getCount(); i++) {
-			MenuItemOptData *PD = arItems[i];
-			if (i > 0 && PD->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
+		for (auto &it : arItems) {
+			if (it != arItems[0] && it->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
 				MenuItemOptData *sep = new MenuItemOptData();
 				sep->id = -1;
 				sep->name = mir_wstrdup(STR_SEPARATOR);
-				sep->pos = PD->pos - 1;
+				sep->pos = it->pos - 1;
 
 				tvis.item.lParam = (LPARAM)sep;
 				tvis.item.pszText = sep->name;
@@ -201,10 +200,10 @@ class CGenMenuOptionsPage : public CDlgBase
 				m_menuItems.InsertItem(&tvis);
 			}
 
-			tvis.item.lParam = (LPARAM)PD;
-			tvis.item.pszText = PD->name;
-			tvis.item.iImage = tvis.item.iSelectedImage = PD->bShow;
-			tvis.item.cChildren = PD->pimi->submenu.first != nullptr;
+			tvis.item.lParam = (LPARAM)it;
+			tvis.item.pszText = it->name;
+			tvis.item.iImage = tvis.item.iSelectedImage = it->bShow;
+			tvis.item.cChildren = it->pimi->submenu.first != nullptr;
 
 			HTREEITEM hti = m_menuItems.InsertItem(&tvis);
 			if (bIsFirst) {
@@ -213,12 +212,12 @@ class CGenMenuOptionsPage : public CDlgBase
 				bIsFirst = false;
 			}
 
-			if (PD->pimi->submenu.first != nullptr) {
-				BuildTreeInternal(pszModule, bReread, PD->pimi->submenu.first, hti);
+			if (it->pimi->submenu.first != nullptr) {
+				BuildTreeInternal(pszModule, bReread, it->pimi->submenu.first, hti);
 				m_menuItems.Expand(hti, TVE_EXPAND);
 			}
 
-			lastpos = PD->pos;
+			lastpos = it->pos;
 		}
 	}
 
@@ -315,11 +314,9 @@ public:
 		m_enableIcons.SetState(!bIconsDisabled);
 
 		//---- init menu object list --------------------------------------
-		for (int i = 0; i < g_menus.getCount(); i++) {
-			TIntMenuObject *p = g_menus[i];
+		for (auto &p : g_menus)
 			if (p->id != (int)hStatusMenuObject && p->m_bUseUserDefinedItems)
 				m_menuObjects.AddString(TranslateW(p->ptszDisplayName), p->id);
-		}
 		
 		m_menuObjects.SetCurSel(0);
 		RebuildCurrent();

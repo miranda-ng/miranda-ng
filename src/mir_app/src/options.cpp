@@ -429,8 +429,7 @@ class COptionsDlg : public CDlgBase
 		m_keywordFilter.AddString(ALL_MODULES_FILTER, 0);
 		m_keywordFilter.AddString(CORE_MODULES_FILTER, (LPARAM)g_hInst);
 
-		for (int i = 0; i < m_arOpd.getCount(); i++) {
-			OptionsPageData *opd = m_arOpd[i];
+		for (auto &opd : m_arOpd) {
 			opd->FindFilterStrings(false, 0, m_hwnd); // only modules name (fast enougth)
 
 			HINSTANCE inst = opd->getInst();
@@ -755,7 +754,7 @@ public:
 
 			if (!mir_wstrcmp(lastPage, odp.szTitle.w) && !mir_wstrcmp(lastGroup, odp.szGroup.w))
 				if ((m_szTab == nullptr && m_currentPage == -1) || !mir_wstrcmp(lastTab, odp.szTab.w))
-					m_currentPage = (int)i;
+					m_currentPage = i;
 		}
 
 		GetWindowRect(GetDlgItem(m_hwnd, IDC_STNOPAGE), &m_rcDisplay);
@@ -804,8 +803,8 @@ public:
 
 		Utils_SaveWindowPosition(m_hwnd, 0, "Options", "");
 
-		for (int i = 0; i < m_arOpd.getCount(); i++)
-			delete m_arOpd[i];
+		for (auto &p : m_arOpd)
+			delete p;
 
 		DeleteObject(m_hBoldFont);
 		pOptionsDlg = nullptr;
@@ -867,8 +866,7 @@ public:
 		pshn.hdr.idFrom = 0;
 		pshn.lParam = 0;
 		pshn.hdr.code = PSN_RESET;
-		for (int i = 0; i < m_arOpd.getCount(); i++) {
-			OptionsPageData *p = m_arOpd[i];
+		for (auto &p : m_arOpd) {
 			if (p->getHwnd() == nullptr || !p->changed)
 				continue;
 			pshn.hdr.hwndFrom = p->getHwnd();

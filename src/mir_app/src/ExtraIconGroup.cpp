@@ -39,10 +39,10 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 	m_items.insert(extra);
 
 	CMStringW description;
-	for (int i = 0; i < m_items.getCount(); i++) {
-		if (i > 0)
-			description += L" / ";
-		description += m_items[i]->getDescription();
+	for (auto &p : m_items) {
+		if (!description.IsEmpty())
+			description.Append(L" / ");
+		description += p->getDescription();
 	}
 
 	m_tszDescription = mir_wstrdup(description);
@@ -50,8 +50,8 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 
 void ExtraIconGroup::rebuildIcons()
 {
-	for (int i = 0; i < m_items.getCount(); i++)
-		m_items[i]->rebuildIcons();
+	for (auto &p : m_items)
+		p->rebuildIcons();
 }
 
 void ExtraIconGroup::applyIcon(MCONTACT hContact)
@@ -77,8 +77,8 @@ void ExtraIconGroup::applyIcon(MCONTACT hContact)
 int ExtraIconGroup::getPosition() const
 {
 	int pos = INT_MAX;
-	for (int i = 0; i < m_items.getCount(); i++)
-		pos = min(pos, m_items[i]->getPosition());
+	for (auto &p : m_items)
+		pos = min(pos, p->getPosition());
 	return pos;
 }
 
@@ -86,8 +86,8 @@ void ExtraIconGroup::setSlot(int slot)
 {
 	ExtraIcon::setSlot(slot);
 
-	for (int i = 0; i < m_items.getCount(); i++)
-		m_items[i]->setSlot(slot);
+	for (auto &p : m_items)
+		p->setSlot(slot);
 }
 
 ExtraIcon * ExtraIconGroup::getCurrentItem(MCONTACT hContact) const
@@ -96,9 +96,9 @@ ExtraIcon * ExtraIconGroup::getCurrentItem(MCONTACT hContact) const
 	if (id < 1)
 		return nullptr;
 
-	for (int i = 0; i < m_items.getCount(); i++)
-		if (id == m_items[i]->getID())
-			return m_items[i];
+	for (auto &p : m_items)
+		if (id == p->getID())
+			return p;
 
 	return nullptr;
 }
@@ -123,11 +123,11 @@ int ExtraIconGroup::setIconByName(int id, MCONTACT hContact, const char *value)
 int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, void *value, bool bByName)
 {
 	if (m_insideApply) {
-		for (int i = 0; i < m_items.getCount(); i++)
-			if (m_items[i]->getID() == id) {
+		for (auto &p : m_items)
+			if (p->getID() == id) {
 				if (bByName)
-					return m_items[i]->setIconByName(id, hContact, (const char*)value);
-				return m_items[i]->setIcon(id, hContact, (HANDLE)value);
+					return p->setIconByName(id, hContact, (const char*)value);
+				return p->setIcon(id, hContact, (HANDLE)value);
 			}
 
 		return -1;
@@ -195,9 +195,9 @@ const wchar_t* ExtraIconGroup::getDescription() const
 
 const char *ExtraIconGroup::getDescIcon() const
 {
-	for (int i = 0; i < m_items.getCount(); i++)
-		if (!IsEmpty(m_items[i]->getDescIcon()))
-			return m_items[i]->getDescIcon();
+	for (auto &p : m_items)
+		if (!IsEmpty(p->getDescIcon()))
+			return p->getDescIcon();
 
 	return "";
 }

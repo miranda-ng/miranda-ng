@@ -116,11 +116,10 @@ static int PreShutdown(WPARAM, LPARAM)
 
 static int SmileyOptionsChanged(WPARAM, LPARAM)
 {
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions)
 		if (si->pDlg)
 			si->pDlg->RedrawLog();
-	}
+
 	return 0;
 }
 
@@ -397,8 +396,7 @@ static BOOL AddEventToAllMatchingUID(GCEVENT *gce)
 {
 	int bManyFix = 0;
 
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if (!si->bInitDone || mir_strcmpi(si->pszModule, gce->pszModule))
 			continue;
 
@@ -632,8 +630,7 @@ MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, c
 		return GC_EVENT_ERROR;
 	
 	mir_cslock lck(csChat);
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
@@ -660,8 +657,7 @@ MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId
 		return GC_EVENT_ERROR;
 	
 	mir_cslock lck(csChat);
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
@@ -699,8 +695,7 @@ MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, in
 		return GC_EVENT_ERROR;
 
 	mir_cslock lck(csChat);
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions) {
 		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
 			continue;
 
@@ -725,11 +720,9 @@ MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, vo
 
 EXTERN_C MIR_APP_DLL(void) Chat_UpdateOptions()
 {
-	for (int i = 0; i < g_arSessions.getCount(); i++) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions)
 		if (si->pDlg)
 			si->pDlg->UpdateOptions();
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

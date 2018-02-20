@@ -90,7 +90,8 @@ static void MITListDestructor(void * adr)
 
 void li_ListDestruct(LIST<MIcoTab> &pList, ItemDestuctor pItemDestructor)
 {
-	for (int i = 0; i < pList.getCount(); i++)	pItemDestructor(pList[i]);
+	for (auto &p : pList)
+		pItemDestructor(p);
 	pList.destroy();
 }
 
@@ -280,10 +281,8 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit)
 	HFONT hOldFont = (HFONT)SelectObject(tempDC, hFont);
 	SetBkMode(tempDC, TRANSPARENT);
 
-	for (int i = 0; i < mit->pList.getCount(); i++) {
-		MIcoTab *tab = (MIcoTab *)mit->pList[i];
-		MIcoTab_DrawItem(hwndDlg, tempDC, mit, tab, i);
-	}
+	for (int i = 0; i < mit->pList.getCount(); i++)
+		MIcoTab_DrawItem(hwndDlg, tempDC, mit, mit->pList[i], i);
 
 	//Copy to output
 	BitBlt(hdc, mit->rc.left, mit->rc.top, mit->width, mit->height, tempDC, 0, 0, SRCCOPY);

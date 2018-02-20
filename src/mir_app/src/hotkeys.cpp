@@ -50,9 +50,9 @@ static HHOOK hhkKeyboard = nullptr;
 
 WORD GetHotkeyValue(INT_PTR idHotkey)
 {
-	for (int i = 0; i < hotkeys.getCount(); i++)
-		if (hotkeys[i]->idHotkey == idHotkey)
-			return hotkeys[i]->Enabled ? hotkeys[i]->Hotkey : 0;
+	for (auto &it : hotkeys)
+		if (it->idHotkey == idHotkey)
+			return it->Enabled ? it->Hotkey : 0;
 
 	return 0;
 }
@@ -70,8 +70,7 @@ static void sttWordToModAndVk(WORD w, BYTE *mod, BYTE *vk)
 static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_HOTKEY) {
-		for (int i = 0; i < hotkeys.getCount(); i++) {
-			THotkeyItem *p = hotkeys[i];
+		for (auto &p : hotkeys) {
 			if (p->type != HKT_GLOBAL || !p->Enabled)
 				continue;
 
@@ -98,8 +97,7 @@ static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 			if (GetAsyncKeyState(VK_SHIFT)) mod |= MOD_SHIFT;
 			if (GetAsyncKeyState(VK_LWIN) || GetAsyncKeyState(VK_RWIN)) mod |= MOD_WIN;
 
-			for (int i = 0; i < hotkeys.getCount(); i++) {
-				THotkeyItem *p = hotkeys[i];
+			for (auto &p : hotkeys) {
 				if (p->type != HKT_LOCAL || !p->Enabled)
 					continue;
 
@@ -209,12 +207,12 @@ MIR_APP_DLL(int) Hotkey_Unregister(const char *pszName)
 	mir_snprintf(pszNamePrefix, "%s$", pszName);
 	cbNamePrefix = mir_strlen(pszNamePrefix);
 
-	for (int i = 0; i < hotkeys.getCount(); i++) {
-		char *pszCurrentName = hotkeys[i]->getName();
+	for (auto &it : hotkeys) {
+		char *pszCurrentName = it->getName();
 		if (!pszCurrentName)
 			continue;
 
-		hotkeys[i]->UnregisterHotkey =
+		it->UnregisterHotkey =
 			!mir_strcmp(pszCurrentName, pszName) ||
 			!strncmp(pszCurrentName, pszNamePrefix, cbNamePrefix);
 	}
@@ -244,8 +242,7 @@ MIR_APP_DLL(int) Hotkey_Check(MSG *msg, const char *szSection)
 			if (GetAsyncKeyState(VK_LWIN) || GetAsyncKeyState(VK_RWIN)) mod |= MOD_WIN;
 
 			ptrW pszSection(mir_a2u(szSection));
-			for (int i = 0; i < hotkeys.getCount(); i++) {
-				THotkeyItem *p = hotkeys[i];
+			for (auto &p : hotkeys) {
 				if ((p->type != HKT_MANUAL) || mir_wstrcmp(pszSection, p->pwszSection))
 					continue;
 
@@ -276,8 +273,7 @@ void FreeHotkey(THotkeyItem *p)
 
 void RegisterHotkeys()
 {
-	for (int i = 0; i < hotkeys.getCount(); i++) {
-		THotkeyItem *p = hotkeys[i];
+	for (auto &p : hotkeys) {
 		UnregisterHotKey(g_hwndHotkeyHost, p->idHotkey);
 		if (p->type != HKT_GLOBAL) continue;
 		if (p->Enabled) {
@@ -302,11 +298,9 @@ MIR_APP_DLL(void) KillModuleHotkeys(int _hLang)
 
 void UnregisterHotkeys()
 {
-	for (int i = 0; i < hotkeys.getCount(); i++) {
-		THotkeyItem *p = hotkeys[i];
+	for (auto &p : hotkeys)
 		if (p->type == HKT_GLOBAL && p->Enabled)
 			UnregisterHotKey(g_hwndHotkeyHost, p->idHotkey);
-	}
 }
 
 static int sttModulesLoaded(WPARAM, LPARAM)
@@ -379,8 +373,8 @@ void UnloadSkinHotkeys(void)
 	DestroyHookableEvent(hEvChanged);
 	UnhookWindowsHookEx(hhkKeyboard);
 
-	for (int i = 0; i < hotkeys.getCount(); i++)
-		FreeHotkey(hotkeys[i]);
+	for (auto &p : hotkeys)
+		FreeHotkey(p);
 
 	DestroyWindow(g_hwndHotkeyHost);
 }

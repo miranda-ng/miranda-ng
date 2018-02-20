@@ -99,8 +99,8 @@ static bool FindAccountByName(const char *szModuleName)
 	if (!mir_strlen(szModuleName))
 		return false;
 
-	for (int i = 0; i < accounts.getCount(); i++)
-		if (_stricmp(szModuleName, accounts[i]->szModuleName) == 0)
+	for (auto &pa : accounts)
+		if (_stricmp(szModuleName, pa->szModuleName) == 0)
 			return true;
 
 	return false;
@@ -427,8 +427,7 @@ public:
 		PSHNOTIFY pshn;
 		pshn.hdr.idFrom = 0;
 		pshn.hdr.code = PSN_APPLY;
-		for (int i = 0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT *pa = accounts[i];
+		for (auto &pa : accounts) {
 			if (pa->hwndAccMgrUI && pa->bAccMgrUIChanged) {
 				pshn.hdr.hwndFrom = pa->hwndAccMgrUI;
 				SendMessage(pa->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -442,8 +441,7 @@ public:
 		PSHNOTIFY pshn;
 		pshn.hdr.idFrom = 0;
 		pshn.hdr.code = PSN_RESET;
-		for (int i = 0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT *pa = accounts[i];
+		for (auto &pa : accounts) {
 			if (pa->hwndAccMgrUI && pa->bAccMgrUIChanged) {
 				pshn.hdr.hwndFrom = pa->hwndAccMgrUI;
 				SendMessage(pa->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -454,8 +452,7 @@ public:
 
 	virtual void OnDestroy() override
 	{
-		for (int i = 0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT *pa = accounts[i];
+		for (auto &pa : accounts) {
 			pa->bAccMgrUIChanged = FALSE;
 			if (pa->hwndAccMgrUI) {
 				::DestroyWindow(pa->hwndAccMgrUI);
@@ -682,8 +679,7 @@ public:
 				PROTOACCOUNT *acc = (i == LB_ERR) ? nullptr : (PROTOACCOUNT *)m_accList.GetItemData(i);
 
 				m_accList.ResetContent();
-				for (i = 0; i < accounts.getCount(); i++) {
-					PROTOACCOUNT *p = accounts[i];
+				for (auto &p : accounts) {
 					PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
 					if (pd != nullptr && pd->type != PROTOTYPE_PROTOCOL)
 						continue;

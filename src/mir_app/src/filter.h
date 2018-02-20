@@ -51,8 +51,8 @@ public:
 	CPageKeywords(PageHash pageHashKey) : _pageHashKey(pageHashKey), _pageKeyWords(1, _KeyWordsSortFunc) {};
 	~CPageKeywords()
 	{
-		for (int j = 0; j < _pageKeyWords.getCount(); j++)
-			mir_free(_pageKeyWords[j]);
+		for (auto &it : _pageKeyWords)
+			mir_free(it);
 	};
 
 	void AddKeyWord(wchar_t *ptKeyWord)
@@ -66,8 +66,8 @@ public:
 
 	BOOL ContainsString(wchar_t *data)
 	{
-		for (int i=0; i < _pageKeyWords.getCount(); i++)
-			if (wcsstr(_pageKeyWords[i], data))
+		for (auto &it : _pageKeyWords)
+			if (wcsstr(it, data))
 				return TRUE;
 		return FALSE;
 	}

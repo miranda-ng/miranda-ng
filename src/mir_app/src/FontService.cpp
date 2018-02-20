@@ -243,11 +243,9 @@ static int sttRegisterFontWorker(FontIDW *font_id, int _hLang)
 	if (font_id->cbSize != sizeof(FontIDW))
 		return -1;
 
-	for (int i = 0; i < font_id_list.getCount(); i++) {
-		FontInternal& F = font_id_list[i];
-		if (!mir_wstrcmp(F.group, font_id->group) && !mir_wstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
+	for (auto &F : font_id_list)
+		if (!mir_wstrcmp(F->group, font_id->group) && !mir_wstrcmp(F->name, font_id->name) && !(F->flags & FIDF_ALLOWREREGISTER))
 			return 1;
-	}
 
 	char idstr[256];
 	mir_snprintf(idstr, "%sFlags", font_id->prefix);
@@ -290,12 +288,11 @@ static COLORREF sttGetFontWorker(const wchar_t *wszGroup, const wchar_t *wszName
 {
 	COLORREF colour;
 
-	for (int i = 0; i < font_id_list.getCount(); i++) {
-		FontInternal& F = font_id_list[i];
-		if (!wcsncmp(F.name, wszName, _countof(F.name)) && !wcsncmp(F.group, wszGroup, _countof(F.group))) {
-			if (GetFontSettingFromDB(F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && (F.flags & FIDF_DEFAULTVALID)) {
-				CreateFromFontSettings(&F.deffontsettings, lf);
-				colour = F.deffontsettings.colour;
+	for (auto &F : font_id_list) {
+		if (!wcsncmp(F->name, wszName, _countof(F->name)) && !wcsncmp(F->group, wszGroup, _countof(F->group))) {
+			if (GetFontSettingFromDB(F->dbSettingsGroup, F->prefix, lf, &colour, F->flags) && (F->flags & FIDF_DEFAULTVALID)) {
+				CreateFromFontSettings(&F->deffontsettings, lf);
+				colour = F->deffontsettings.colour;
 			}
 
 			return colour;
@@ -347,11 +344,9 @@ static INT_PTR sttRegisterColourWorker(ColourIDW *colour_id, int _hLang)
 	if (colour_id->cbSize != sizeof(ColourIDW))
 		return -1;
 
-	for (int i = 0; i < colour_id_list.getCount(); i++) {
-		ColourInternal& C = colour_id_list[i];
-		if (!mir_wstrcmp(C.group, colour_id->group) && !mir_wstrcmp(C.name, colour_id->name))
+	for (auto &C : colour_id_list)
+		if (!mir_wstrcmp(C->group, colour_id->group) && !mir_wstrcmp(C->name, colour_id->name))
 			return 1;
-	}
 
 	ColourInternal* newItem = new ColourInternal;
 	memset(newItem, 0, sizeof(ColourInternal));
@@ -379,11 +374,9 @@ MIR_APP_DLL(int) Colour_Register(ColourID *pFont, int _hLang)
 
 static INT_PTR sttGetColourWorker(const wchar_t *wszGroup, const wchar_t *wszName)
 {
-	for (int i = 0; i < colour_id_list.getCount(); i++) {
-		ColourInternal& C = colour_id_list[i];
-		if (!mir_wstrcmp(C.group, wszGroup) && !mir_wstrcmp(C.name, wszName))
-			return db_get_dw(0, C.dbSettingsGroup, C.setting, C.defcolour);
-	}
+	for (auto &C : colour_id_list)
+		if (!mir_wstrcmp(C->group, wszGroup) && !mir_wstrcmp(C->name, wszName))
+			return db_get_dw(0, C->dbSettingsGroup, C->setting, C->defcolour);
 
 	return -1;
 }
@@ -437,11 +430,9 @@ static int sttRegisterEffectWorker(EffectIDW *effect_id, int _hLang)
 	if (effect_id->cbSize != sizeof(EffectIDW))
 		return -1;
 
-	for (int i = 0; i < effect_id_list.getCount(); i++) {
-		EffectInternal& E = effect_id_list[i];
-		if (!mir_wstrcmp(E.group, effect_id->group) && !mir_wstrcmp(E.name, effect_id->name))
+	for (auto &E : effect_id_list)
+		if (!mir_wstrcmp(E->group, effect_id->group) && !mir_wstrcmp(E->name, effect_id->name))
 			return 1;
-	}
 
 	EffectInternal* newItem = new EffectInternal;
 	memset(newItem, 0, sizeof(EffectInternal));
@@ -469,10 +460,9 @@ MIR_APP_DLL(int) Effect_Register(EffectID *pFont, int _hLang)
 
 static INT_PTR sttGetEffectWorker(const wchar_t *wszGroup, const wchar_t *wszName, FONTEFFECT *effect)
 {
-	for (int i = 0; i < effect_id_list.getCount(); i++) {
-		EffectInternal& E = effect_id_list[i];
-		if (!wcsncmp(E.name, wszName, _countof(E.name)) && !wcsncmp(E.group, wszGroup, _countof(E.group))) {
-			UpdateEffectSettings(&E, effect);
+	for (auto &E : effect_id_list) {
+		if (!wcsncmp(E->name, wszName, _countof(E->name)) && !wcsncmp(E->group, wszGroup, _countof(E->group))) {
+			UpdateEffectSettings(E, effect);
 			return TRUE;
 		}
 	}

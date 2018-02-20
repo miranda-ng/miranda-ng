@@ -207,8 +207,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 {
 	int count = 0;
 
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	for (auto &pa : accounts) {
 		if (!pa->ppro || !Proto_IsAccountEnabled(pa))
 			continue;
 
@@ -234,18 +233,16 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 
 static int UninitializeStaticAccounts(WPARAM, LPARAM)
 {
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	// request permission to exit first
+	for (auto &pa : accounts)
 		if (pa->ppro && Proto_IsAccountEnabled(pa))
 			if (pa->ppro->OnEvent(EV_PROTO_ONREADYTOEXIT, 0, 0) != TRUE)
 				return 1;
-	}
 
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	// okay, all protocols are ready, exiting
+	for (auto &pa : accounts)
 		if (pa->ppro && Proto_IsAccountEnabled(pa))
 			pa->ppro->OnEvent(EV_PROTO_ONEXIT, 0, 0);
-	}
 
 	return 0;
 }
@@ -254,8 +251,7 @@ int LoadAccountsModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	for (auto &pa : accounts) {
 		pa->bDynDisabled = !Proto_IsProtocolLoaded(pa->szProtoName);
 		if (pa->ppro)
 			continue;
@@ -421,8 +417,7 @@ void UnloadAccountsModule()
 
 void BuildProtoMenus()
 {
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	for (auto &pa : accounts) {
 		if (cli.pfnGetProtocolVisibility(pa->szModuleName) == 0)
 			continue;
 

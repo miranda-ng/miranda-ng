@@ -178,11 +178,10 @@ char* GetPluginNameByLangpack(int _hLang)
 	if (pluginList.getCount() == 0)
 		return "";
 
-	for (int i = 0; i < pluginList.getCount(); i++) {
-		pluginEntry *p = pluginList[i];
+	for (auto &p : pluginList)
 		if (p->hLangpack == _hLang)
 			return p->bpi.pluginInfo->shortName;
-	}
+
 	return "";
 }
 
@@ -191,11 +190,10 @@ char* GetPluginNameByInstance(HINSTANCE hInstance)
 	if (pluginList.getCount() == 0)
 		return nullptr;
 
-	for (int i = 0; i < pluginList.getCount(); i++) {
-		pluginEntry *p = pluginList[i];
+	for (auto &p : pluginList)
 		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
 			return p->bpi.pluginInfo->shortName;
-	}
+
 	return nullptr;
 }
 
@@ -204,11 +202,10 @@ MIR_APP_DLL(int) GetPluginLangByInstance(HINSTANCE hInstance)
 	if (pluginList.getCount() == 0)
 		return 0;
 
-	for (int i = 0; i < pluginList.getCount(); i++) {
-		pluginEntry *p = pluginList[i];
+	for (auto &p : pluginList)
 		if (p->bpi.pluginInfo && p->bpi.hInst == hInstance)
 			return p->hLangpack;
-	}
+
 	return 0;
 }
 
@@ -217,8 +214,7 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 	if (uuid == miid_last)
 		return --sttFakeID;
 
-	for (int i = 0; i < pluginList.getCount(); i++) {
-		pluginEntry *p = pluginList[i];
+	for (auto &p : pluginList) {
 		if (!p->bpi.hInst)
 			continue;
 
@@ -231,8 +227,7 @@ MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int _hLang)
 
 MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
 {
-	for (int i = 0; i < pluginList.getCount(); i++) {
-		pluginEntry *p = pluginList[i];
+	for (auto &p : pluginList) {
 		if (!p->bpi.hInst)
 			continue;
 
@@ -636,8 +631,7 @@ static pluginEntry* getCListModule(wchar_t *exe)
 {
 	wchar_t tszFullPath[MAX_PATH];
 
-	for (int i = 0; i < clistPlugins.getCount(); i++) {
-		pluginEntry *p = clistPlugins[i];
+	for (auto &p : clistPlugins) {
 		if (!isPluginOnWhiteList(p->pluginname))
 			continue;
 
@@ -646,7 +640,7 @@ static pluginEntry* getCListModule(wchar_t *exe)
 			return p;
 	}
 
-	MuuidReplacement& stdClist = pluginDefault[0];
+	MuuidReplacement &stdClist = pluginDefault[0];
 	if (LoadCorePlugin(stdClist)) {
 		mir_snwprintf(tszFullPath, L"%s\\Core\\%s.dll", exe, stdClist.stdplugname);
 		if (loadClistModule(tszFullPath, stdClist.pImpl))
@@ -705,8 +699,7 @@ int LoadDefaultServiceModePlugin()
 		return SERVICE_CONTINUE;
 
 	size_t cbLen = mir_wstrlen(param);
-	for (int i = 0; i < servicePlugins.getCount(); i++) {
-		pluginEntry *p = servicePlugins[i];
+	for (auto &p : servicePlugins) {
 		if (!wcsnicmp(p->pluginname, param, cbLen)) {
 			int res = LaunchServicePlugin(p);
 			if (res == SERVICE_ONLYDB) // load it later
@@ -725,8 +718,7 @@ int LoadServiceModePlugin()
 
 void EnsureCheckerLoaded(bool bEnable)
 {
-	for (int i = 0; i < pluginList.getCount(); i++) {
-		pluginEntry *p = pluginList[i];
+	for (auto &p : pluginList) {
 		if (mir_wstrcmpi(p->pluginname, L"dbchecker.dll"))
 			continue;
 
@@ -829,8 +821,8 @@ int LoadNewPluginsModule(void)
 	}
 
 	/* enable and disable as needed  */
-	for (int i = 0; i < clistPlugins.getCount(); i++)
-		SetPluginOnWhiteList(clistPlugins[i]->pluginname, clist != clistPlugins[i] ? 0 : 1);
+	for (auto &p : clistPlugins)
+		SetPluginOnWhiteList(p->pluginname, clist != p ? 0 : 1);
 
 	/* now loop thru and load all the other plugins, do this in one pass */
 	for (int i = 0; i < pluginList.getCount(); i++) {

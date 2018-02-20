@@ -555,9 +555,9 @@ static int Meta_MessageWindowEvent(WPARAM, LPARAM lParam)
 		}
 	}
 	else if (mwed->uType == MSG_WINDOW_EVT_CLOSING) {
-		for (int i = 0; i < arMetaWindows.getCount(); i++)
-			if (arMetaWindows[i].m_hWnd == mwed->hwndWindow)
-				arMetaWindows.remove(i);
+		for (auto &p : arMetaWindows)
+			if (p->m_hWnd == mwed->hwndWindow)
+				arMetaWindows.remove(p);
 	}
 	return 0;
 }

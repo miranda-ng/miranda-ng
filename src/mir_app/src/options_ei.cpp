@@ -173,9 +173,9 @@ class CExtraIconOptsDlg : public CDlgBase
 			HTREEITEM hNew = Tree_AddExtraIconGroup(ids, selected, hPlace);
 
 			// Remove old
-			for (int i = 0; i < toRemove.getCount(); i++) {
-				delete Tree_GetIDs(toRemove[i]);
-				m_tree.DeleteItem(toRemove[i]);
+			for (auto &p : toRemove) {
+				delete Tree_GetIDs(p);
+				m_tree.DeleteItem(p);
 			}
 
 			// Select
@@ -264,9 +264,7 @@ public:
 		HICON hBlankIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, 0);
 		ImageList_AddIcon(hImageList, hBlankIcon);
 
-		for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
-			ExtraIcon *extra = registeredExtraIcons[i];
-
+		for (auto &extra : registeredExtraIcons) {
 			HICON hIcon = IcoLib_GetIcon(extra->getDescIcon());
 			if (hIcon == nullptr)
 				ImageList_AddIcon(hImageList, hBlankIcon);
@@ -278,14 +276,12 @@ public:
 		m_tree.SetImageList(hImageList, TVSIL_NORMAL);
 		DestroyIcon(hBlankIcon);
 
-		for (int k = 0; k < extraIconsBySlot.getCount(); k++) {
-			ExtraIcon *extra = extraIconsBySlot[k];
-
+		for (auto &extra : extraIconsBySlot) {
 			if (extra->getType() == EXTRAICON_TYPE_GROUP) {
 				ExtraIconGroup *group = (ExtraIconGroup *)extra;
 				intlist ids;
-				for (int j = 0; j < group->m_items.getCount(); j++)
-					ids.add(group->m_items[j]->getID());
+				for (auto &p : group->m_items)
+					ids.add(p->getID());
 				Tree_AddExtraIconGroup(ids, extra->isEnabled());
 			}
 			else Tree_AddExtraIcon((BaseExtraIcon *)extra, extra->isEnabled());
@@ -361,9 +357,7 @@ public:
 		}
 
 		// Store data
-		for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
-			BaseExtraIcon *extra = registeredExtraIcons[i];
-
+		for (auto &extra : registeredExtraIcons) {
 			char setting[512];
 			mir_snprintf(setting, "Position_%s", extra->getName());
 			db_set_w(0, MODULE_NAME, setting, extra->getPosition());
@@ -395,8 +389,7 @@ public:
 
 		// Apply icons to new slots
 		RebuildListsBasedOnGroups(groups);
-		for (int n = 0; n < extraIconsBySlot.getCount(); n++) {
-			ExtraIcon *extra = extraIconsBySlot[n];
+		for (auto &extra : extraIconsBySlot) {
 			if (extra->getType() != EXTRAICON_TYPE_GROUP)
 				if (oldSlots[((BaseExtraIcon *)extra)->getID() - 1] == extra->getSlot())
 					continue;

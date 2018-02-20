@@ -79,8 +79,7 @@ int InitCrypt(void)
 
 void UninitCrypt(void)
 {
-	for (int i = 0; i < arProviders.getCount(); i++) {
-		CRYPTO_PROVIDER *p = arProviders[i];
+	for (auto &p : arProviders) {
 		mir_free(p->pszName);
 		mir_free(p->pszDescr);
 		delete p;

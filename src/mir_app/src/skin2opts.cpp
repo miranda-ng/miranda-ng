@@ -302,21 +302,19 @@ static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
 
 	mir_cslock lck(csIconList);
 
-	for (int indx = 0; indx < iconList.getCount(); indx++) {
-		IcolibItem *item = iconList[indx];
-
-		if (item->default_file && item->section == sectionActive) {
-			_itow(item->default_indx, path + suffIndx, 10);
-			HICON hIcon = ExtractIconFromPath(path, item->cx, item->cy);
+	for (auto &it : iconList) {
+		if (it->default_file && it->section == sectionActive) {
+			_itow(it->default_indx, path + suffIndx, 10);
+			HICON hIcon = ExtractIconFromPath(path, it->cx, it->cy);
 			if (!hIcon)
 				continue;
 
-			replaceStrW(item->temp_file, nullptr);
-			SafeDestroyIcon(item->temp_icon);
+			replaceStrW(it->temp_file, nullptr);
+			SafeDestroyIcon(it->temp_icon);
 
-			item->temp_file = mir_wstrdup(path);
-			item->temp_icon = hIcon;
-			item->temp_reset = FALSE;
+			it->temp_file = mir_wstrdup(path);
+			it->temp_icon = hIcon;
+			it->temp_reset = FALSE;
 		}
 	}
 }
@@ -500,15 +498,14 @@ class CIcoLibOptsDlg : public CDlgBase
 		iconEventActive = 0;
 
 		mir_cslock lck(csIconList); // Destroy unused icons
-		for (int indx = 0; indx < iconList.getCount(); indx++) {
-			IcolibItem *item = iconList[indx];
-			if (item->source_small && !item->source_small->icon_ref_count) {
-				item->source_small->icon_ref_count++;
-				item->source_small->releaseIcon();
+		for (auto &it : iconList) {
+			if (it->source_small && !it->source_small->icon_ref_count) {
+				it->source_small->icon_ref_count++;
+				it->source_small->releaseIcon();
 			}
-			if (item->source_big && !item->source_big->icon_ref_count) {
-				item->source_big->icon_ref_count++;
-				item->source_big->releaseIcon();
+			if (it->source_big && !it->source_big->icon_ref_count) {
+				it->source_big->icon_ref_count++;
+				it->source_big->releaseIcon();
 			}
 		}
 	}
@@ -582,10 +579,10 @@ public:
 		{
 			mir_cslock lck(csIconList);
 
-			for (int indx = 0; indx < iconList.getCount(); indx++) {
-				iconList[indx]->temp_file = nullptr;
-				iconList[indx]->temp_icon = nullptr;
-				iconList[indx]->temp_reset = false;
+			for (auto &it : iconList) {
+				it->temp_file = nullptr;
+				it->temp_icon = nullptr;
+				it->temp_reset = false;
 			}
 			bNeedRebuild = false;
 		}
@@ -646,20 +643,19 @@ public:
 		{
 			mir_cslock lck(csIconList);
 
-			for (int indx = 0; indx < iconList.getCount(); indx++) {
-				IcolibItem *item = iconList[indx];
-				if (item->temp_reset) {
-					db_unset(0, "SkinIcons", item->name);
-					if (item->source_small != item->default_icon) {
-						item->source_small->release();
-						item->source_small = nullptr;
+			for (auto &it : iconList) {
+				if (it->temp_reset) {
+					db_unset(0, "SkinIcons", it->name);
+					if (it->source_small != it->default_icon) {
+						it->source_small->release();
+						it->source_small = nullptr;
 					}
 				}
-				else if (item->temp_file) {
-					db_set_ws(0, "SkinIcons", item->name, item->temp_file);
-					item->source_small->release();
-					item->source_small = nullptr;
-					SafeDestroyIcon(item->temp_icon);
+				else if (it->temp_file) {
+					db_set_ws(0, "SkinIcons", it->name, it->temp_file);
+					it->source_small->release();
+					it->source_small = nullptr;
+					SafeDestroyIcon(it->temp_icon);
 				}
 			}
 		}
@@ -704,10 +700,9 @@ public:
 			m_pDialog->Close();
 
 		mir_cslock lck(csIconList);
-		for (int indx = 0; indx < iconList.getCount(); indx++) {
-			IcolibItem *item = iconList[indx];
-			replaceStrW(item->temp_file, nullptr);
-			SafeDestroyIcon(item->temp_icon);
+		for (auto &it : iconList) {
+			replaceStrW(it->temp_file, nullptr);
+			SafeDestroyIcon(it->temp_icon);
 		}
 	}
 

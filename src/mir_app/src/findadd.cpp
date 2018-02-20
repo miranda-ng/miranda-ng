@@ -368,12 +368,12 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (tszLast)
 				szProto = NEWWSTR_ALLOCA(tszLast);
 
-			int i, index = 0, cbwidth = 0, netProtoCount = 0;
-			for (i = 0; i < accounts.getCount(); i++) {
-				if (!Proto_IsAccountEnabled(accounts[i]))
+			int index = 0, cbwidth = 0, netProtoCount = 0;
+			for (auto &pa : accounts) {
+				if (!Proto_IsAccountEnabled(pa))
 					continue;
 
-				DWORD caps = (DWORD)CallProtoServiceInt(0, accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+				DWORD caps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_ANYSEARCH)
 					netProtoCount++;
 			}
@@ -396,8 +396,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				cbei.iItem++;
 			}
 
-			for (i = 0; i < accounts.getCount(); i++) {
-				PROTOACCOUNT *pa = accounts[i];
+			for (auto &pa : accounts) {
 				if (!Proto_IsAccountEnabled(pa))
 					continue;
 
@@ -473,8 +472,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (szProto == (char *)CB_ERR)
 				break;
 			if (szProto == nullptr) {
-				for (int i = 0; i < accounts.getCount(); i++) {
-					PROTOACCOUNT *pa = accounts[i];
+				for (auto &pa : accounts) {
 					if (Proto_IsAccountEnabled(pa)) {
 						DWORD protoCaps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 						if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
@@ -981,8 +979,7 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 		// One alternative would be to only create the service if we have network
 		// protocols loaded but that would delay the creation until MODULE_LOADED and
 		// that is not good either...
-		for (int i = 0; i < accounts.getCount(); i++) {
-			PROTOACCOUNT *pa = accounts[i];
+		for (auto &pa : accounts) {
 			if (!Proto_IsAccountEnabled(pa))
 				continue;
 
@@ -1027,8 +1024,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	int netProtoCount = 0;
 
 	// Make sure we have some networks to search on.
-	for (int i = 0; i < accounts.getCount(); i++) {
-		PROTOACCOUNT *pa = accounts[i];
+	for (auto &pa : accounts) {
 		int protoCaps = CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & PF1_ANYSEARCH)
 			netProtoCount++;

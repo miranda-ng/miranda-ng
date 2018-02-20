@@ -103,21 +103,19 @@ ExtraIcon* GetExtraIcon(HANDLE id)
 
 ExtraIcon* GetExtraIconBySlot(int slot)
 {
-	for (int i = 0; i < extraIconsBySlot.getCount(); i++) {
-		ExtraIcon *extra = extraIconsBySlot[i];
+	for (auto &extra : extraIconsBySlot)
 		if (extra->getSlot() == slot)
 			return extra;
-	}
+
 	return nullptr;
 }
 
 BaseExtraIcon* GetExtraIconByName(const char *name)
 {
-	for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
-		BaseExtraIcon *extra = registeredExtraIcons[i];
+	for (auto &extra : registeredExtraIcons)
 		if (mir_strcmp(name, extra->getName()) == 0)
 			return extra;
-	}
+
 	return nullptr;
 }
 
@@ -160,13 +158,11 @@ static void LoadGroups(LIST<ExtraIconGroup> &groups)
 
 static ExtraIconGroup* IsInGroup(LIST<ExtraIconGroup> &groups, BaseExtraIcon *extra)
 {
-	for (int i = 0; i < groups.getCount(); i++) {
-		ExtraIconGroup *group = groups[i];
-		for (int j = 0; j < group->m_items.getCount(); j++) {
+	for (auto &group : groups)
+		for (int j = 0; j < group->m_items.getCount(); j++)
 			if (extra == group->m_items[j])
 				return group;
-		}
-	}
+
 	return nullptr;
 }
 
@@ -174,30 +170,24 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 {
 	extraIconsByHandle.destroy();
 
-	for (int i = 0; i < registeredExtraIcons.getCount(); i++)
-		extraIconsByHandle.insert(registeredExtraIcons[i]);
+	for (auto &it : registeredExtraIcons)
+		extraIconsByHandle.insert(it);
 
-	for (int k = 0; k < extraIconsBySlot.getCount(); k++) {
-		ExtraIcon *extra = extraIconsBySlot[k];
+	for (auto &extra : extraIconsBySlot)
 		if (extra->getType() == EXTRAICON_TYPE_GROUP)
 			delete extra;
-	}
 	extraIconsBySlot.destroy();
 
-	for (int i = 0; i < groups.getCount(); i++) {
-		ExtraIconGroup *group = groups[i];
-
+	for (auto &group : groups) {
 		for (int j = 0; j < group->m_items.getCount(); j++)
 			extraIconsByHandle.put(group->m_items[j]->getID() - 1, group);
 
 		extraIconsBySlot.insert(group);
 	}
 
-	for (int k = 0; k < extraIconsByHandle.getCount(); k++) {
-		ExtraIcon *extra = extraIconsByHandle[k];
+	for (auto &extra : extraIconsByHandle)
 		if (extra->getType() != EXTRAICON_TYPE_GROUP)
 			extraIconsBySlot.insert(extra);
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -221,8 +211,8 @@ MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 	LoadGroups(groups);
 	RebuildListsBasedOnGroups(groups);
 
-	for (int k = 0; k < arDeleted.getCount(); k++)
-		delete arDeleted[k];
+	for (auto &it : arDeleted)
+		delete it;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -233,8 +223,8 @@ int ClistExtraListRebuild(WPARAM, LPARAM)
 
 	ResetIcons();
 
-	for (int i = 0; i < extraIconsBySlot.getCount(); i++)
-		extraIconsBySlot[i]->rebuildIcons();
+	for (auto &it : extraIconsBySlot)
+		it->rebuildIcons();
 
 	return 0;
 }
@@ -246,8 +236,8 @@ int ClistExtraImageApply(WPARAM hContact, LPARAM)
 
 	clistApplyAlreadyCalled = TRUE;
 
-	for (int i = 0; i < extraIconsBySlot.getCount(); i++)
-		extraIconsBySlot[i]->applyIcon(hContact);
+	for (auto &it : extraIconsBySlot)
+		it->applyIcon(hContact);
 
 	return 0;
 }
@@ -259,8 +249,7 @@ int ClistExtraClick(WPARAM hContact, LPARAM lParam)
 
 	int clistSlot = (int)lParam;
 
-	for (int i = 0; i < extraIconsBySlot.getCount(); i++) {
-		ExtraIcon *extra = extraIconsBySlot[i];
+	for (auto &extra : extraIconsBySlot) {
 		if (ConvertToClistSlot(extra->getSlot()) == clistSlot) {
 			extra->onClick(hContact);
 			break;
@@ -361,8 +350,8 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags, int
 	if (group != nullptr)
 		RebuildListsBasedOnGroups(groups);
 	else {
-		for (int i = 0; i < groups.getCount(); i++)
-			delete groups[i];
+		for (auto &it : groups)
+			delete it;
 
 		extraIconsBySlot.insert(extra);
 	}
@@ -372,8 +361,7 @@ static void EI_PostCreate(BaseExtraIcon *extra, const char *name, int flags, int
 			extra->rebuildIcons();
 
 		slot = 0;
-		for (int i = 0; i < extraIconsBySlot.getCount(); i++) {
-			ExtraIcon *ex = extraIconsBySlot[i];
+		for (auto &ex : extraIconsBySlot) {
 			if (ex->getSlot() < 0)
 				continue;
 
@@ -523,12 +511,10 @@ void LoadExtraIconsModule()
 
 void UnloadExtraIconsModule(void)
 {
-	for (int k = 0; k < extraIconsBySlot.getCount(); k++) {
-		ExtraIcon *extra = extraIconsBySlot[k];
+	for (auto &extra : extraIconsBySlot)
 		if (extra->getType() == EXTRAICON_TYPE_GROUP)
 			delete extra;
-	}
 
-	for (int i = 0; i < registeredExtraIcons.getCount(); i++)
-		delete registeredExtraIcons[i];
+	for (auto &it : registeredExtraIcons)
+		delete it;
 }

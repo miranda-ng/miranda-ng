@@ -165,11 +165,9 @@ static void ChangeSettingIntByCheckbox(HWND hwndDlg, UINT ctrlId, int iUser, int
 	int newValue = IsDlgButtonChecked(hwndDlg, ctrlId) != BST_CHECKED;
 	CheckDlgButton(hwndDlg, ctrlId, newValue ? BST_CHECKED : BST_UNCHECKED);
 	if (iUser == -1) {
-		for (int i = 0; i < tempSettings.getCount(); i++) {
-			NetlibTempSettings *p = tempSettings[i];
+		for (auto &p : tempSettings)
 			if (!(p->flags & NUF_NOOPTIONS))
 				*(int*)(((PBYTE)&p->settings) + memberOffset) = newValue;
-		}
 	}
 	else *(int*)(((PBYTE)&tempSettings[iUser]->settings) + memberOffset) = newValue;
 	SendMessage(hwndDlg, M_REFRESHENABLING, 0, 0);
@@ -181,8 +179,7 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 	char *szNewValue = (char*)mir_alloc(newValueLen+1);
 	GetDlgItemTextA(hwndDlg, ctrlId, szNewValue, newValueLen+1);
 	if (iUser == -1) {
-		for (int i = 0; i < tempSettings.getCount(); i++) {
-			NetlibTempSettings *p = tempSettings[i];
+		for (auto &p : tempSettings) {
 			if (!(p->flags & NUF_NOOPTIONS)) {
 				char **ppszNew = (char**)(((PBYTE)&p->settings) + memberOffset);
 				mir_free(*ppszNew);
@@ -238,10 +235,10 @@ void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSER
 	combinedSettings.cbSize = sizeof(combinedSettings);
 
 	DWORD flags = 0;
-	for (int i = 0; i < netlibUser.getCount(); i++) {
-		if (thisUser->user.flags & NUF_NOOPTIONS)
+	for (auto &p : netlibUser) {
+		if (p->user.flags & NUF_NOOPTIONS)
 			continue;
-		CombineSettingsStructs(&combinedSettings, &flags, &thisUser->settings, thisUser->user.flags);
+		CombineSettingsStructs(&combinedSettings, &flags, &p->settings, p->user.flags);
 	}
 	if (combinedSettings.validateSSL == 2) combinedSettings.validateSSL = 0;
 	if (combinedSettings.useProxy == 2) combinedSettings.useProxy = 0;
@@ -293,11 +290,9 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			if (iUser == -1) {
 				settings.cbSize = sizeof(settings);
-				for (int i = 0; i < tempSettings.getCount(); i++) {
-					NetlibTempSettings *p = tempSettings[i];
+				for (auto &p : tempSettings)
 					if (!(p->flags & NUF_NOOPTIONS))
 						CombineSettingsStructs(&settings, &flags, &p->settings, p->flags);
-				}
 			}
 			else {
 				NetlibFreeUserSettingsStruct(&settings);
@@ -347,10 +342,8 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				int enableAuth = 0, enableUser = 0, enablePass = 0, enableServer = 1;
 				EnableMultipleControls(hwndDlg, useProxyControls, _countof(useProxyControls), TRUE);
 				if (selectedProxyType == 0) {
-					for (int i = 0; i < tempSettings.getCount(); i++) {
-						NetlibTempSettings *p = tempSettings[i];
-						if (!p->settings.useProxy ||
-							 p->flags & NUF_NOOPTIONS || !(p->flags & NUF_OUTGOING))
+					for (auto &p : tempSettings) {
+						if (!p->settings.useProxy || p->flags & NUF_NOOPTIONS || !(p->flags & NUF_OUTGOING))
 							continue;
 
 						if (p->settings.proxyType == PROXYTYPE_SOCKS4) enableUser = 1;
@@ -402,8 +395,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (newValue == 0)
 						return 0;
 					
-					for (int i=0; i < tempSettings.getCount(); i++) {
-						NetlibTempSettings *p = tempSettings[i];
+					for (auto &p : tempSettings) {
 						if (p->flags & NUF_NOOPTIONS)
 							continue;
 						if (newValue == PROXYTYPE_HTTP && !(p->flags & NUF_HTTPCONNS))
@@ -450,11 +442,9 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				int newValue = GetDlgItemInt(hwndDlg, LOWORD(wParam), nullptr, FALSE);
 				if (iUser == -1) {
-					for (int i = 0; i < tempSettings.getCount(); i++) {
-						NetlibTempSettings *p = tempSettings[i];
+					for (auto &p : tempSettings)
 						if (!(p->flags & NUF_NOOPTIONS))
 							p->settings.wProxyPort = newValue;
-					}
 				}
 				else tempSettings[iUser]->settings.wProxyPort = newValue;
 			}
@@ -485,9 +475,8 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (iUser = 0; iUser < tempSettings.getCount(); iUser++)
-					NetlibSaveUserSettingsStruct(tempSettings[iUser]->szSettingsModule,
-					&tempSettings[iUser]->settings);
+				for (auto &p : tempSettings)
+					NetlibSaveUserSettingsStruct(p->szSettingsModule, &p->settings);
 				return TRUE;
 			}
 			break;
@@ -495,11 +484,10 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_DESTROY:
-		for (int i = 0; i < tempSettings.getCount(); ++i) {
-			NetlibTempSettings *p = tempSettings[i];
+		for (auto &p : tempSettings) {
 			mir_free(p->szSettingsModule);
 			NetlibFreeUserSettingsStruct(&p->settings);
-			mir_free(tempSettings[i]);
+			mir_free(p);
 		}
 		tempSettings.destroy();
 		break;
@@ -512,8 +500,8 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 	int optionsCount = 0;
 	{
 		mir_cslock lck(csNetlibUser);
-		for (int i=0; i < netlibUser.getCount(); i++)
-			if (!(netlibUser[i]->user.flags & NUF_NOOPTIONS))
+		for (auto &p : netlibUser)
+			if (!(p->user.flags & NUF_NOOPTIONS))
 				++optionsCount;
 	}
 

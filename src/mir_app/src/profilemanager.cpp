@@ -152,10 +152,8 @@ public:
 			ShowWindow(m_warning.GetHwnd(), TRUE);
 		}
 		else {
-			for (int i = 0; i < arDbPlugins.getCount(); i++) {
-				DATABASELINK *p = arDbPlugins[i];
+			for (auto &p : arDbPlugins)
 				m_driverList.AddString(TranslateW(p->szFullName), (LPARAM)p);
-			}
 		}
 
 		// default item

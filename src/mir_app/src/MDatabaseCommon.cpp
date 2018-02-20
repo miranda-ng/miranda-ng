@@ -287,8 +287,8 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
 
 STDMETHODIMP_(BOOL) MDatabaseCommon::EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
-		int ret = pFunc(m_lResidentSettings[i], pParam);
+	for (auto &it : m_lResidentSettings) {
+		int ret = pFunc(it, pParam);
 		if (ret)
 			return ret;
 	}

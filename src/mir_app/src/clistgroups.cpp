@@ -531,8 +531,8 @@ int InitGroupServices(void)
 
 void UninitGroupServices(void)
 {
-	for (int i = 0; i < arByIds.getCount(); i++)
-		delete arByIds[i];
+	for (auto &p : arByIds)
+		delete p;
 
 	arByIds.destroy();
 	arByName.destroy();

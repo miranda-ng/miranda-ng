@@ -38,8 +38,7 @@ static LIST<DBEVENTTYPEDESCR> eventTypes(10, CompareEventTypes);
 
 void UnloadEventsModule()
 {
-	for (int i = 0; i < eventTypes.getCount(); i++) {
-		DBEVENTTYPEDESCR *p = eventTypes[i];
+	for (auto &p : eventTypes) {
 		mir_free(p->module);
 		mir_free(p->descr);
 		mir_free(p->textService);

@@ -346,7 +346,6 @@ static void sttOptionsSetChanged(THotkeyItem *item)
 
 static void sttOptionsSaveItem(THotkeyItem *item)
 {
-	int i;
 	char buf[MAXMODULELABELLENGTH];
 
 	if (item->rootHotkey) return;
@@ -362,16 +361,15 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 		db_set_b(0, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
 
 	item->nSubHotkeys = 0;
-	for (i = 0; i < hotkeys.getCount(); i++) {
-		THotkeyItem *subItem = hotkeys[i];
-		if (subItem->rootHotkey == item) {
-			subItem->Hotkey = subItem->OptHotkey;
-			subItem->type = subItem->OptType;
+	for (auto &it : hotkeys) {
+		if (it->rootHotkey == item) {
+			it->Hotkey = it->OptHotkey;
+			it->type = it->OptType;
 
 			mir_snprintf(buf, "%s$%d", item->pszName, item->nSubHotkeys);
-			db_set_w(0, DBMODULENAME, buf, subItem->Hotkey);
-			if (subItem->type != HKT_MANUAL)
-				db_set_b(0, DBMODULENAME "Types", buf, (BYTE)subItem->type);
+			db_set_w(0, DBMODULENAME, buf, it->Hotkey);
+			if (it->type != HKT_MANUAL)
+				db_set_b(0, DBMODULENAME "Types", buf, (BYTE)it->type);
 
 			++item->nSubHotkeys;
 		}
@@ -502,14 +500,12 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			lvc.cx = g_iIconSX;
 			ListView_InsertColumn(hwndHotkey, COL_ADDREMOVE, &lvc);
 
-			for (int i = 0; i < hotkeys.getCount(); i++) {
-				THotkeyItem *item = hotkeys[i];
-
-				item->OptChanged = FALSE;
-				item->OptDeleted = item->OptNew = FALSE;
-				item->OptEnabled = item->Enabled;
-				item->OptHotkey = item->Hotkey;
-				item->OptType = item->type;
+			for (auto &it : hotkeys) {
+				it->OptChanged = FALSE;
+				it->OptDeleted = it->OptNew = FALSE;
+				it->OptEnabled = it->Enabled;
+				it->OptHotkey = it->Hotkey;
+				it->OptType = it->type;
 			}
 
 			currentLanguage = LOWORD(GetKeyboardLayout(0));
@@ -753,43 +749,33 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
 			switch (lpnmhdr->idFrom) {
 			case 0:
-				{
-					int i;
+				if ((lpnmhdr->code != PSN_APPLY) && (lpnmhdr->code != PSN_RESET))
+					break;
 
-					if ((lpnmhdr->code != PSN_APPLY) && (lpnmhdr->code != PSN_RESET))
-						break;
+				UnregisterHotkeys();
 
-					UnregisterHotkeys();
+				for (auto &it : hotkeys)
+					if (it->OptNew && it->OptDeleted || it->rootHotkey && !it->OptHotkey || (lpnmhdr->code == PSN_APPLY) && it->OptDeleted || (lpnmhdr->code == PSN_RESET) && it->OptNew)
+						FreeHotkey(it);
+				hotkeys.destroy();
 
-					for (i = 0; i < hotkeys.getCount(); i++) {
-						THotkeyItem *item = hotkeys[i];
-						if (item->OptNew && item->OptDeleted ||
-							item->rootHotkey && !item->OptHotkey ||
-							(lpnmhdr->code == PSN_APPLY) && item->OptDeleted ||
-							(lpnmhdr->code == PSN_RESET) && item->OptNew) {
-							FreeHotkey(item);
-							hotkeys.remove(i--);
-						}
-					}
+				if (lpnmhdr->code == PSN_APPLY) {
+					LVITEM lvi = { 0 };
+					int count = ListView_GetItemCount(hwndHotkey);
 
-					if (lpnmhdr->code == PSN_APPLY) {
-						LVITEM lvi = { 0 };
-						int count = ListView_GetItemCount(hwndHotkey);
+					for (auto &it : hotkeys)
+						sttOptionsSaveItem(it);
 
-						for (i = 0; i < hotkeys.getCount(); i++)
-							sttOptionsSaveItem(hotkeys[i]);
-
-						lvi.mask = LVIF_IMAGE;
-						lvi.iSubItem = COL_RESET;
-						lvi.iImage = -1;
-						for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem)
-							ListView_SetItem(hwndHotkey, &lvi);
-					}
-
-					RegisterHotkeys();
-
-					NotifyEventHooks(hEvChanged, 0, 0);
+					lvi.mask = LVIF_IMAGE;
+					lvi.iSubItem = COL_RESET;
+					lvi.iImage = -1;
+					for (lvi.iItem = 0; lvi.iItem < count; ++lvi.iItem)
+						ListView_SetItem(hwndHotkey, &lvi);
 				}
+
+				RegisterHotkeys();
+
+				NotifyEventHooks(hEvChanged, 0, 0);
 				break;
 
 			case IDC_LV_HOTKEYS:
@@ -917,18 +903,17 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 							else if (param->uNewState >> 12 == 2) {
 								int nItems = ListView_GetItemCount(lpnmhdr->hwndFrom);
 								initialized = FALSE;
-								for (int i = 0; i < hotkeys.getCount(); i++) {
+								for (auto &it : hotkeys) {
 									LVITEM lvi2 = { 0 };
-									item = hotkeys[i];
-									if (item->OptDeleted || mir_wstrcmp(buf, item->getSection()))
+									if (it->OptDeleted || mir_wstrcmp(buf, it->getSection()))
 										continue;
 
 									lvi2.mask = LVIF_PARAM | LVIF_INDENT;
 									lvi2.iIndent = 1;
 									lvi2.iItem = nItems++;
-									lvi2.lParam = (LPARAM)item;
+									lvi2.lParam = (LPARAM)it;
 									ListView_InsertItem(lpnmhdr->hwndFrom, &lvi2);
-									sttOptionsSetupItem(lpnmhdr->hwndFrom, nItems - 1, item);
+									sttOptionsSetupItem(lpnmhdr->hwndFrom, nItems - 1, it);
 								}
 								ListView_SortItemsEx(lpnmhdr->hwndFrom, sttOptionsSortList, (LPARAM)lpnmhdr->hwndFrom);
 								initialized = TRUE;

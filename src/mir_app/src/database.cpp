@@ -423,9 +423,7 @@ static int tryCreateDatabase(const wchar_t *ptszProfile)
 	wchar_t *tszProfile = NEWWSTR_ALLOCA(ptszProfile);
 	CreatePathToFileW(tszProfile);
 
-	for (int i = 0; i < arDbPlugins.getCount(); i++) {
-		DATABASELINK* p = arDbPlugins[i];
-
+	for (auto &p : arDbPlugins) {
 		int err = p->makeDatabase(tszProfile);
 		if (err == ERROR_SUCCESS) {
 			g_bDbCreated = true;

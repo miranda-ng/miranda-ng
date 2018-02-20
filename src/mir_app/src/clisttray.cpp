@@ -310,8 +310,9 @@ static VOID CALLBACK RefreshTimerProc(HWND, UINT, UINT_PTR, DWORD)
 		KillTimer(nullptr, RefreshTimerId);
 		RefreshTimerId = 0;
 	}
-	for (int i = 0; i < accounts.getCount(); i++)
-		cli.pfnTrayIconUpdateBase(accounts[i]->szModuleName);
+
+	for (auto &it : accounts)
+		cli.pfnTrayIconUpdateBase(it->szModuleName);
 }
 
 int fnTrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase)

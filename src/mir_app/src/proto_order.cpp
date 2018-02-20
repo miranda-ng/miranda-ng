@@ -53,9 +53,9 @@ bool CheckProtocolOrder(void)
 		if (i == accounts.getCount()) {
 			// Check if this is skipped id, if it is decrement all other ids
 			bool found = false;
-			for (i = 0; i < accounts.getCount(); i++) {
-				if (accounts[i]->iOrder < 1000000 && accounts[i]->iOrder > id) {
-					--accounts[i]->iOrder;
+			for (auto &pa : accounts) {
+				if (pa->iOrder < 1000000 && pa->iOrder > id) {
+					--pa->iOrder;
 					found = true;
 				}
 			}
@@ -67,9 +67,9 @@ bool CheckProtocolOrder(void)
 
 	if (id < accounts.getCount()) {
 		// Remove huge ids
-		for (i = 0; i < accounts.getCount(); i++)
-			if (accounts[i]->iOrder >= 1000000)
-				accounts[i]->iOrder = id++;
+		for (auto &pa : accounts)
+			if (pa->iOrder >= 1000000)
+				pa->iOrder = id++;
 
 		changed = true;
 	}

@@ -29,9 +29,9 @@ static LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
 void FreeDisplayNameCache(void)
 {
-	for (int i = 0; i < clistCache.getCount(); i++) {
-		cli.pfnFreeCacheItem(clistCache[i]);
-		mir_free(clistCache[i]);
+	for (auto &it : clistCache) {
+		cli.pfnFreeCacheItem(it);
+		mir_free(it);
 	}
 
 	clistCache.destroy();
