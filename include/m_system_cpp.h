@@ -182,8 +182,8 @@ template<class T> struct LIST
 	}
 
 	__inline T*  operator[](int idx) const { return (idx >= 0 && idx < count) ? items[idx] : NULL; }
-	__inline int getCount(void)     const { return count; }
-	__inline T** getArray(void)     const { return items; }
+	__inline int getCount(void)      const { return count; }
+	__inline T** getArray(void)      const { return items; }
 
 	__inline int getIndex(T *p) const
 	{	int idx;
@@ -199,7 +199,30 @@ template<class T> struct LIST
 	__inline int  insert(T *p)          { return List_InsertPtr((SortedList*)this, p); }
 	__inline int  remove(T *p)          { return List_RemovePtr((SortedList*)this, p); }
 
-	__inline void put(int idx, T *p)   { items[idx] = p; }
+	__inline void put(int idx, T *p)    { items[idx] = p; }
+
+	// stl-like functions
+	__inline int size(void) const        { return count; }
+	__inline T** data(void)              { return items; }
+	__inline const T**  data(void) const { return items; }
+
+	// iterator
+	struct iterator
+	{
+		iterator(T** ptr, int idx = 0)
+			: _items(ptr), _idx(idx) { }
+
+		bool operator!=(const iterator& other) const { return _idx != other._idx; }
+		T& operator*() const { return *_items[_idx]; }
+		const iterator& operator++() { ++_idx; return *this; }
+
+	private:
+		T** _items;
+		int _idx;
+	};
+	
+	__inline iterator begin(void)   const { return iterator(items, 0); }
+	__inline iterator end(void)     const { return iterator(items, count); }
 
 	__inline T** begin() const { return items; }
 	__inline T** end() const { return items + count; }
