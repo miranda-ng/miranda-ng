@@ -679,9 +679,9 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 		}
 
 	bool bNewsAdded = false;
-	for (int i = 0; i < vkNews.getCount(); i++)
-		if (!(m_vkOptions.bNewsSourceNoReposts && vkNews[i].bIsRepost)) {
-			AddFeedEvent(vkNews[i]);
+	for (auto &it : vkNews)
+		if (!(m_vkOptions.bNewsSourceNoReposts && it->bIsRepost)) {
+			AddFeedEvent(*it);
 			bNewsAdded = true;
 		}
 
@@ -803,9 +803,9 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 	bool bNotificationCommentAdded = false;
 	bool bNotificationComment = false;
 	bool bNotificationAdded = false;
-	for (int i = 0; i < vkNotification.getCount(); i++)
-		if (FilterNotification(&vkNotification[i], bNotificationComment)) {
-			AddFeedEvent(vkNotification[i]);
+	for (auto &it : vkNotification)
+		if (FilterNotification(it, bNotificationComment)) {
+			AddFeedEvent(*it);
 			bNotificationAdded = true;
 			bNotificationCommentAdded = bNotificationComment || bNotificationCommentAdded;
 		}

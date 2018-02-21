@@ -52,10 +52,10 @@ void CVkProto::ConnectionFailed(int iReason)
 static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	mir_cslock lck(csInstances);
-	for (int i = 0; i < vk_Instances.getCount(); i++)
-		if (vk_Instances[i]->IsOnline()) {
-			vk_Instances[i]->debugLogA("Tic timer for %i - %s", i, vk_Instances[i]->m_szModuleName);
-			vk_Instances[i]->OnTimerTic();
+	for (auto &it : vk_Instances)
+		if (it->IsOnline()) {
+			it->debugLogA("Tic timer for %s", it->m_szModuleName);
+			it->OnTimerTic();
 		}
 }
 
@@ -124,8 +124,8 @@ void CVkProto::OnLoggedOut()
 	bool bOnline = false;
 	{
 		mir_cslock lck(csInstances);
-		for (int i = 0; i < vk_Instances.getCount(); i++)
-			bOnline = bOnline || vk_Instances[i]->IsOnline();
+		for (auto &it : vk_Instances)
+			bOnline = bOnline || it->IsOnline();
 	}
 	if (!bOnline)
 		CallFunctionAsync(VKUnsetTimer, this);
@@ -613,19 +613,19 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	}
 
 	if (jnResponse["freeoffline"].as_bool())
-		for (int i = 0; i < arContacts.getCount(); i++) {
-			hContact = (UINT_PTR)arContacts[i];
-			LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
+		for (auto &it : arContacts) {
+			MCONTACT cc = (MCONTACT)it;
+			LONG userID = getDword(cc, "ID", VK_INVALID_USER);
 			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
 
-			int iContactStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+			int iContactStatus = getWord(cc, "Status", ID_STATUS_OFFLINE);
 
 			if ((iContactStatus == ID_STATUS_ONLINE)
-				|| (iContactStatus == ID_STATUS_INVISIBLE && time(nullptr) - getDword(hContact, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
-				setWord(hContact, "Status", ID_STATUS_OFFLINE);
-				SetMirVer(hContact, -1);
-				db_unset(hContact, m_szModuleName, "ListeningTo");
+				|| (iContactStatus == ID_STATUS_INVISIBLE && time(nullptr) - getDword(cc, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
+				setWord(cc, "Status", ID_STATUS_OFFLINE);
+				SetMirVer(cc, -1);
+				db_unset(cc, m_szModuleName, "ListeningTo");
 			}
 		}
 
@@ -778,8 +778,8 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		}
 
 	if (bCleanContacts)
-		for (int i = 0; i < arContacts.getCount(); i++) {
-			MCONTACT hContact = (UINT_PTR)arContacts[i];
+		for (auto &it : arContacts) {
+			MCONTACT hContact = (MCONTACT)it;
 			LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 			bool bIsFriendGroup = IsGroupUser(hContact) && getBool(hContact, "friend");
 			if (userID == m_myUserId || userID == VK_FEED_USER || bIsFriendGroup)

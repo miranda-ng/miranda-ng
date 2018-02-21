@@ -133,8 +133,8 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	const JSONNode &jnUsers = jnResponse["users"];
 	if (jnUsers) {
-		for (int i = 0; i < cc->m_users.getCount(); i++)
-			cc->m_users[i].m_bDel = true;
+		for (auto &it : cc->m_users)
+			it->m_bDel = true;
 
 		for (auto &jnUser : jnUsers) {
 			if (!jnUser)
@@ -223,10 +223,9 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 	}
 
-	for (int j = 0; j < cc->m_msgs.getCount(); j++) {
-		CVkChatMessage &p = cc->m_msgs[j];
-		AppendChatMessage(cc, p.m_uid, p.m_date, p.m_wszBody, p.m_bHistory, p.m_bIsAction);
-	}
+	for (auto &p : cc->m_msgs)
+		AppendChatMessage(cc, p->m_uid, p->m_date, p->m_wszBody, p->m_bHistory, p->m_bIsAction);
+
 	cc->m_msgs.destroy();
 }
 
@@ -407,9 +406,9 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCWSTR 
 
 CVkChatInfo* CVkProto::GetChatById(LPCWSTR pwszId)
 {
-	for (int i = 0; i < m_chats.getCount(); i++)
-		if (!mir_wstrcmp(m_chats[i].m_wszId, pwszId))
-			return &m_chats[i];
+	for (auto &it : m_chats)
+		if (!mir_wstrcmp(it->m_wszId, pwszId))
+			return it;
 
 	return nullptr;
 }

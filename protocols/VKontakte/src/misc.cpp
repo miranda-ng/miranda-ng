@@ -537,15 +537,15 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 	debugLogA("CVkProto::ApplyCookies");
 	CMStringA szCookie;
 
-	for (int i = 0; i < m_cookies.getCount(); i++) {
-		if (!strstr(pReq->m_szUrl, m_cookies[i].m_domain))
+	for (auto &it : m_cookies) {
+		if (!strstr(pReq->m_szUrl, it->m_domain))
 			continue;
 
 		if (!szCookie.IsEmpty())
 			szCookie.Append("; ");
-		szCookie.Append(m_cookies[i].m_name);
+		szCookie.Append(it->m_name);
 		szCookie.AppendChar('=');
-		szCookie.Append(m_cookies[i].m_value);
+		szCookie.Append(it->m_value);
 	}
 
 	if (!szCookie.IsEmpty())
