@@ -602,19 +602,19 @@ static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFun
 	if (!group)
 		return TRUE;
 
-	for (int scanIndex = 0; scanIndex < group->cl.getCount(); scanIndex++) {
-		if (group->cl[scanIndex]->type == CLCIT_CONTACT) {
-			if (!func(group->cl[scanIndex], FALSE, param))
+	for (auto &it : group->cl) {
+		if (it->type == CLCIT_CONTACT) {
+			if (!func(it, FALSE, param))
 				return FALSE;
 
-			if (group->cl[scanIndex]->iSubAllocated > 0) {
-				for (int i = 0; i < group->cl[scanIndex]->iSubAllocated; i++)
-					if (!func(&group->cl[scanIndex]->subcontacts[i], TRUE, param))
+			if (it->iSubAllocated > 0) {
+				for (int i = 0; i < it->iSubAllocated; i++)
+					if (!func(&it->subcontacts[i], TRUE, param))
 						return FALSE;
 			}
 		}
-		else if (group->cl[scanIndex]->type == CLCIT_GROUP)
-			if (!ExecuteOnAllContactsOfGroup(group->cl[scanIndex]->group, func, param))
+		else if (it->type == CLCIT_GROUP)
+			if (!ExecuteOnAllContactsOfGroup(it->group, func, param))
 				return FALSE;
 	}
 

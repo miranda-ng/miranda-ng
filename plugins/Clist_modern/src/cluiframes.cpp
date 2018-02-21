@@ -1480,8 +1480,8 @@ static int CLUIFramesLoadMainMenu()
 	if (_fCluiFramesModuleNotStarted)
 		return -1;
 
-	for (int i = 0; i < g_frameMenus.getCount(); i++)
-		Menu_RemoveItem(g_frameMenus[i]);
+	for (auto &it : g_frameMenus)
+		Menu_RemoveItem(it);
 	g_frameMenus.destroy();
 
 	// create frames menu

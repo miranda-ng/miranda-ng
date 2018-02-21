@@ -415,8 +415,8 @@ int SkinEngineUnloadModule()
 	mir_free_and_nil(g_SkinObjectList.pMaskList);
 	mir_free_and_nil(MainModernMaskList);
 
-	for (int i = 0; i < arEffectStack.getCount(); i++)
-		mir_free(arEffectStack[i]);
+	for (auto &it : arEffectStack)
+		mir_free(it);
 	arEffectStack.destroy();
 
 	if (g_pCachedWindow) {

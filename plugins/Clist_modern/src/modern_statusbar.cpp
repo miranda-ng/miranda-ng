@@ -683,12 +683,11 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			KillTimer(hwnd, TM_STATUSBAR);
 			GetCursorPos(&pt);
 			if (pt.x == lastpnt.x && pt.y == lastpnt.y) {
-				RECT rc;
 				ScreenToClient(hwnd, &pt);
-				for (int i = 0; i < ProtosData.getCount(); i++) {
-					rc = ProtosData[i].protoRect;
+				for (auto &it : ProtosData) {
+					RECT rc = it->protoRect;
 					if (PtInRect(&rc, pt)) {
-						NotifyEventHooks(g_CluiData.hEventStatusBarShowToolTip, (WPARAM)ProtosData[i].szAccountName, 0);
+						NotifyEventHooks(g_CluiData.hEventStatusBarShowToolTip, (WPARAM)it->szAccountName, 0);
 						CLUI_SafeSetTimer(hwnd, TM_STATUSBARHIDE, db_get_w(0, "CLUIFrames", "HideToolTipTime", SETTING_HIDETOOLTIPTIME_DEFAULT), nullptr);
 						tooltipshoing = TRUE;
 						ClientToScreen(hwnd, &pt);
@@ -749,15 +748,14 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			NotifyEventHooks(g_CluiData.hEventStatusBarHideToolTip, 0, 0);
 
 		tooltipshoing = FALSE;
-		for (int i = 0; i < ProtosData.getCount(); i++) {
-			ProtoItemData &p = ProtosData[i];
+		for (auto &p : ProtosData) {
 			bool isOnExtra = false;
 
-			rc = p.protoRect;
+			rc = p->protoRect;
 			RECT rc1 = rc;
 			rc1.left = rc.left + 16;
 			rc1.right = rc1.left + 16;
-			if (PtInRect(&rc, pt) && PtInRect(&rc1, pt) && p.bDoubleIcons)
+			if (PtInRect(&rc, pt) && PtInRect(&rc1, pt) && p->bDoubleIcons)
 				isOnExtra = true;
 
 			if (PtInRect(&rc, pt)) {
@@ -767,13 +765,13 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				if (msg == WM_LBUTTONDOWN && bCtrl) {
 					if (g_CluiData.bFilterEffective != CLVM_FILTER_PROTOS || !bShift) {
 						ApplyViewMode("");
-						mir_snprintf(g_CluiData.protoFilter, "%s|", p.szAccountName);
+						mir_snprintf(g_CluiData.protoFilter, "%s|", p->szAccountName);
 						g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
 					}
 					else {
 						char protoF[sizeof(g_CluiData.protoFilter)];
-						mir_snprintf(protoF, "%s|", p.szAccountName);
-						char *pos = strstri(g_CluiData.protoFilter, p.szAccountName);
+						mir_snprintf(protoF, "%s|", p->szAccountName);
+						char *pos = strstri(g_CluiData.protoFilter, p->szAccountName);
 						if (pos) {
 							// remove filter
 							size_t len = mir_strlen(protoF);
@@ -827,7 +825,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 				HMENU hMenu = nullptr;
 				if (msg == WM_RBUTTONDOWN) {
-					BOOL a = ((g_StatusBarData.perProtoConfig && p.SBarRightClk) || g_StatusBarData.SBarRightClk);
+					BOOL a = ((g_StatusBarData.perProtoConfig && p->SBarRightClk) || g_StatusBarData.SBarRightClk);
 					if (a ^ bShift)
 						hMenu = Menu_GetMainMenu();
 					else
@@ -835,7 +833,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				}
 				else {
 					hMenu = Menu_GetStatusMenu();
-					HMENU hSubMenu = GetSubMenu(hMenu, p.iProtoPos);
+					HMENU hSubMenu = GetSubMenu(hMenu, p->iProtoPos);
 					if (hSubMenu)
 						hMenu = hSubMenu;
 				}

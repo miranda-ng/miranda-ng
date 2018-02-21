@@ -56,11 +56,10 @@ struct NotifyMenuItemExData
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	for (int i = 0; i < pcli->events->getCount(); i++) {
-		CListEvent &p = (*pcli->events)[i];
-		if (p.menuId == iSelection)
-			return &p;
-	}
+	for (auto &it : *pcli->events)
+		if (it->menuId == iSelection)
+			return it;
+
 	return nullptr;
 }
 

@@ -946,9 +946,9 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 
 static PROTOTICKS* CLUI_GetProtoTicksByProto(char *szProto)
 {
-	for (int i = 0; i < arTicks.getCount(); i++)
-		if (!mir_strcmp(arTicks[i].szProto, szProto))
-			return &arTicks[i];
+	for (auto &it : arTicks)
+		if (!mir_strcmp(it->szProto, szProto))
+			return it;
 
 	PROTOTICKS *pt = new PROTOTICKS();
 	pt->szProto = mir_strdup(szProto);
@@ -1941,8 +1941,7 @@ LRESULT CLUI::OnSetFocus(UINT, WPARAM, LPARAM)
 
 LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	for (int i = 0; i < arTicks.getCount(); i++) {
-		PROTOTICKS *pt = &arTicks[i];
+	for (auto &pt : arTicks) {
 		if (!pt->bTimerCreated)
 			continue;
 

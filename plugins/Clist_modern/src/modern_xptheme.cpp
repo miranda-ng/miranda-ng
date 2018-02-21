@@ -86,8 +86,8 @@ void xpt_OnWM_THEMECHANGED()
 {
 	mir_cslock lck(xptCS);
 
-	for (int i = 0; i < xptObjectList.getCount(); i++)
-		_sttXptReloadThemeData(&xptObjectList[i]);
+	for (auto &it : xptObjectList)
+		_sttXptReloadThemeData(it);
 }
 
 HRESULT	xpt_DrawThemeBackground(XPTHANDLE xptHandle, HDC hdc, int type, int state, const RECT *sizeRect, const RECT *clipRect)

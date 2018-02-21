@@ -253,14 +253,14 @@ static HWND _AniAva_CreateAvatarWindowSync(wchar_t *szFileName)
 
 static void _AniAva_PausePainting()
 {
-	for (int i = 0; i < s_Objects.getCount(); i++)
-		SendMessage(s_Objects[i].hWindow, AAM_PAUSE, 0, 0);
+	for (auto &it : s_Objects)
+		SendMessage(it->hWindow, AAM_PAUSE, 0, 0);
 }
 
 static void _AniAva_ResumePainting()
 {
-	for (int i = 0; i < s_Objects.getCount(); i++)
-		SendNotifyMessage(s_Objects[i].hWindow, AAM_RESUME, 0, 0);
+	for (auto &it : s_Objects)
+		SendNotifyMessage(it->hWindow, AAM_RESUME, 0, 0);
 }
 
 static void _AniAva_ReduceAvatarImages(int startY, int dY, BOOL bDestroyWindow)
@@ -414,8 +414,7 @@ static int	_AniAva_LoadAvatarFromImage(wchar_t * szFileName, int width, int heig
 static BOOL _AniAva_GetAvatarImageInfo(DWORD dwAvatarUniqId, ANIAVATARIMAGEINFO * avii)
 {
 	BOOL res = FALSE;
-	for (int j = 0; j < s_AniAvatarList.getCount(); j++) {
-		ANIAVA_INFO * aai = (ANIAVA_INFO *)s_AniAvatarList[j];
+	for (auto &aai : s_AniAvatarList) {
 		if (aai->dwAvatarUniqId == dwAvatarUniqId) {
 			avii->nFramesCount = aai->nFrameCount;
 			avii->pFrameDelays = aai->pFrameDelays;
@@ -829,8 +828,8 @@ int AniAva_InvalidateAvatarPositions(MCONTACT hContact)
 			pai->bInvalidPos++;
 	}
 	else
-		for (int i = 0; i < s_Objects.getCount(); i++)
-			s_Objects[i].bInvalidPos++;
+		for (auto &it : s_Objects)
+			it->bInvalidPos++;
 
 	return 1;
 }
@@ -843,12 +842,11 @@ int AniAva_RedrawAllAvatars(BOOL updateZOrder)
 	aacheck 0;
 	mir_cslock lck(s_CS);
 	updateZOrder = 1;
-	for (int i = 0; i < s_Objects.getCount(); i++) {
-		ANIAVA_OBJECT &pai = s_Objects[i];
+	for (auto &it : s_Objects) {
 		if (updateZOrder)
-			SendMessage(pai.hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);
+			SendMessage(it->hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);
 		else
-			SendNotifyMessage(pai.hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);
+			SendNotifyMessage(it->hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);
 	}
 	return 1;
 }
@@ -876,15 +874,13 @@ int AniAva_RemoveInvalidatedAvatars()
 	aacheck 0;
 	mir_cslock lck(s_CS);
 
-	for (int i = 0; i < s_Objects.getCount(); i++) {
-		ANIAVA_OBJECT &pai = s_Objects[i];
-		if (pai.hWindow && pai.bInvalidPos) {
-			SendMessage(pai.hWindow, AAM_STOP, 0, 0);
-			pai.bInvalidPos = 0;
-			DestroyWindow(pai.hWindow);
-			pai.hWindow = nullptr;
+	for (auto &it : s_Objects)
+		if (it->hWindow && it->bInvalidPos) {
+			SendMessage(it->hWindow, AAM_STOP, 0, 0);
+			it->bInvalidPos = 0;
+			DestroyWindow(it->hWindow);
+			it->hWindow = nullptr;
 		}
-	}
 	return 1;
 }
 
@@ -975,8 +971,8 @@ void AniAva_UpdateParent()
 	aacheck;
 	mir_cslock lck(s_CS);
 	HWND parent = GetAncestor(pcli->hwndContactList, GA_PARENT);
-	for (int i = 0; i < s_Objects.getCount(); i++)
-		SendMessage(s_Objects[i].hWindow, AAM_SETPARENT, (WPARAM)parent, 0);
+	for (auto &it : s_Objects)
+		SendMessage(it->hWindow, AAM_SETPARENT, (WPARAM)parent, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1021,8 +1017,7 @@ int AniAva_UnloadModule()
 	s_bModuleStarted = FALSE;
 	s_Objects.destroy();
 
-	for (int i = 0; i < s_AniAvatarList.getCount(); i++) {
-		ANIAVA_INFO *aai = s_AniAvatarList[i];
+	for (auto &aai : s_AniAvatarList) {
 		mir_free(aai->tcsFilename);
 		free(aai->pFrameDelays);
 		mir_free(aai);
