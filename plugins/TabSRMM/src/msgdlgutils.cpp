@@ -1834,9 +1834,8 @@ void CTabBaseDlg::SendHBitmapAsFile(HBITMAP hbmp) const
 // remove all temporary files created by the "send clipboard as file" feature.
 void TSAPI CleanTempFiles()
 {
-	for (int i = 0; i < vTempFilenames.getCount(); i++) {
-		wchar_t* _t = vTempFilenames[i];
-		DeleteFileW(_t);
-		mir_free(_t);
+	for (auto &it : vTempFilenames) {
+		DeleteFileW(it);
+		mir_free(it);
 	}
 }

@@ -102,8 +102,8 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 				pwszFormatedText.Format(arMenuLines[res-1], pszText);
 			}
 
-			for (int i = 0; i < arMenuLines.getCount(); i++)
-				mir_free(arMenuLines[i]);
+			for (auto &it : arMenuLines)
+				mir_free(it);
 		}
 	}
 	else if (textlenght) {

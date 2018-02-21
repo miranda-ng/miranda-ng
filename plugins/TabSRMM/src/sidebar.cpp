@@ -732,12 +732,11 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 	LONG height = m_elementHeight;
 
-	for (int i = 0; i < m_buttonlist.getCount(); i++) {
-		CSideBarButton &p = m_buttonlist[i];
-		hwnd = p.getHwnd();
+	for (auto &p : m_buttonlist) {
+		hwnd = p->getHwnd();
 
 		if (m_dwFlags & SIDEBARLAYOUT_DYNHEIGHT)
-			height = p.getHeight();
+			height = p->getHeight();
 
 		if (spaceUsed > iSpaceAvail || m_totalItemHeight + height < m_firstVisibleOffset) {
 			::ShowWindow(hwnd, SW_HIDE);
@@ -745,7 +744,7 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 			continue;
 		}
 
-		if (p.isTopAligned()) {
+		if (p->isTopAligned()) {
 			if (m_totalItemHeight <= m_firstVisibleOffset) {				// partially visible
 				if (!fOnlyCalc && nullptr != hwnd) /* Wine fix. */
 					hdwp = ::DeferWindowPos(hdwp, hwnd, nullptr, 2, -(m_firstVisibleOffset - m_totalItemHeight),
@@ -793,8 +792,8 @@ void CSideBar::showAll(int showCmd)
 	::ShowWindow(m_up->getHwnd(), showCmd);
 	::ShowWindow(m_down->getHwnd(), showCmd);
 
-	for (int i = 0; i < m_buttonlist.getCount(); i++)
-		::ShowWindow(m_buttonlist[i].getHwnd(), showCmd);
+	for (auto &it : m_buttonlist)
+		::ShowWindow(it->getHwnd(), showCmd);
 }
 
 /**
@@ -811,11 +810,9 @@ CSideBarButton* CSideBar::findSession(const CTabBaseDlg *dat)
 	if (dat == nullptr)
 		return nullptr;
 
-	for (int i = 0; i < m_buttonlist.getCount(); i++) {
-		CSideBarButton &p = m_buttonlist[i];
-		if (p.getDat() == dat)
-			return &p;
-	}
+	for (auto &it : m_buttonlist)
+		if (it->getDat() == dat)
+			return it;
 
 	return nullptr;
 }
@@ -834,11 +831,9 @@ CSideBarButton* CSideBar::findSession(const MCONTACT hContact)
 	if (hContact == 0)
 		return nullptr;
 
-	for (int i = 0; i < m_buttonlist.getCount(); i++) {
-		CSideBarButton &p = m_buttonlist[i];
-		if (p.getContactHandle() == hContact)
-			return &p;
-	}
+	for (auto &it : m_buttonlist)
+		if (it->getContactHandle() == hContact)
+			return it;
 
 	return nullptr;
 }

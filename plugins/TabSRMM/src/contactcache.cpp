@@ -467,20 +467,19 @@ CContactCache* CContactCache::getContactCache(MCONTACT hContact)
 
 int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
 {
-	for (int i = 0; i < arContacts.getCount(); i++) {
-		CContactCache &c = arContacts[i];
-		if (c.isMeta() && !bMetaEnabled) {
-			c.closeWindow();
-			c.resetMeta();
+	for (auto &c : arContacts) {
+		if (c->isMeta() && !bMetaEnabled) {
+			c->closeWindow();
+			c->resetMeta();
 		}
 
 		// meta contacts are enabled, but current contact is a subcontact - > close window
-		if (bMetaEnabled && c.isSubContact())
-			c.closeWindow();
+		if (bMetaEnabled && c->isSubContact())
+			c->closeWindow();
 
 		// reset meta contact information, if metacontacts protocol became avail
-		if (bMetaEnabled && !c.cc->IsMeta())
-			c.resetMeta();
+		if (bMetaEnabled && !c->cc->IsMeta())
+			c->resetMeta();
 	}
 	return 0;
 }

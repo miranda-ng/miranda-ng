@@ -351,10 +351,8 @@ static void Build_RTF_Header(CMStringA &str, CTabBaseDlg *dat)
 	}
 
 	// bbcode colors...
-	for (i = 0; i < Utils::rtf_clrs.getCount(); i++) {
-		auto &p = Utils::rtf_clrs[i];
-		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(p.clr), GetGValue(p.clr), GetBValue(p.clr));
-	}
+	for (auto &p : Utils::rtf_clrs)
+		str.AppendFormat("\\red%u\\green%u\\blue%u;", GetRValue(p->clr), GetGValue(p->clr), GetBValue(p->clr));
 
 	// paragraph header
 	str.AppendFormat("}");

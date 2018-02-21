@@ -77,30 +77,26 @@ int UM_CompareItem(USERINFO *u1, const wchar_t* pszNick, WORD wStatus)
 
 BOOL SM_ReconfigureFilters()
 {
-	for (int i = 0; i < pci->arSessions.getCount(); i++)
-		Chat_SetFilters(pci->arSessions[i]);
+	for (auto &si : pci->arSessions)
+		Chat_SetFilters(si);
 
 	return TRUE;
 }
 
 SESSION_INFO* SM_FindSessionByHWND(HWND hWnd)
 {
-	for (int i = 0; i < pci->arSessions.getCount(); i++) {
-		SESSION_INFO *si = pci->arSessions[i];
+	for (auto &si : pci->arSessions)
 		if (si->pDlg && si->pDlg->GetHwnd() == hWnd)
 			return si;
-	}
 
 	return nullptr;
 }
 
 SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h)
 {
-	for (int i = 0; i < pci->arSessions.getCount(); i++) {
-		SESSION_INFO *si = pci->arSessions[i];
+	for (auto &si : pci->arSessions)
 		if (si->hContact == h)
 			return si;
-	}
 
 	return nullptr;
 }
@@ -115,17 +111,13 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 		pszCurrent = pszOriginal;
 
 	SESSION_INFO *pResult = nullptr;
-	for (int i = 0; i < pci->arSessions.getCount(); i++) {
-		SESSION_INFO *si = pci->arSessions[i];
-		if (si != currSession && !mir_strcmpi(pszModule, si->pszModule)) {
-			if (my_strstri(si->ptszName, pszOriginal) == si->ptszName) {
+	for (auto &si : pci->arSessions)
+		if (si != currSession && !mir_strcmpi(pszModule, si->pszModule))
+			if (my_strstri(si->ptszName, pszOriginal) == si->ptszName)
 				if (prevSession != si && mir_wstrcmpi(si->ptszName, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(si->ptszName, pszName) < 0)) {
 					pResult = si;
 					pszName = si->ptszName;
 				}
-			}
-		}
-	}
 
 	return pResult;
 }

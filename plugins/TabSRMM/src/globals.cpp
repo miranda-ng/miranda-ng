@@ -527,11 +527,10 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 	cle.flags = CLEF_UNICODE;
 	cle.szTooltip.w = toolTip;
 
-	for (int i = 0; i < arEvents.getCount(); i++) {
-		MSavedEvent &e = arEvents[i];
-		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e.hContact, 0));
-		cle.hContact = e.hContact;
-		cle.hDbEvent = e.hEvent;
+	for (auto &e : arEvents) {
+		mir_snwprintf(toolTip, TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(e->hContact, 0));
+		cle.hContact = e->hContact;
+		cle.hDbEvent = e->hEvent;
 		pcli->pfnAddEvent(&cle);
 	}
 }

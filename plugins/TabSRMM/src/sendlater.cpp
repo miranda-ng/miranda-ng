@@ -178,8 +178,7 @@ CSendLater::~CSendLater()
 	if (m_sendLaterJobList.getCount() == 0)
 		return;
 
-	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
-		CSendLaterJob *p = m_sendLaterJobList[i];
+	for (auto &p : m_sendLaterJobList) {
 		mir_free(p->sendBuffer);
 		mir_free(p->pBuf);
 		p->fSuccess = false;					// avoid clearing jobs from the database
@@ -255,9 +254,9 @@ void CSendLater::processSingleContact(const MCONTACT hContact)
 // and process them
 void CSendLater::processContacts()
 {
-	if (m_fAvail && m_sendLaterContactList.getCount() != 0) {
-		for (int i = 0; i < m_sendLaterContactList.getCount(); i++)
-			processSingleContact((UINT_PTR)m_sendLaterContactList[i]);
+	if (m_fAvail) {
+		for (auto &it : m_sendLaterContactList)
+			processSingleContact((UINT_PTR)it);
 
 		m_sendLaterContactList.destroy();
 	}
@@ -285,11 +284,9 @@ int CSendLater::addJob(const char *szSetting, void *lParam)
 		return 0;
 
 	// check for possible dupes
-	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
-		CSendLaterJob *p = m_sendLaterJobList[i];
+	for (auto &p : m_sendLaterJobList)
 		if (p->hContact == hContact && !mir_strcmp(p->szId, szSetting))
 			return 0;
-	}
 
 	if (szSetting[0] == 'S') {
 		if (0 == db_get_s(hContact, "SendLater", szSetting, &dbv))
@@ -436,8 +433,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 	if (m_sendLaterJobList.getCount() == 0 || !m_fAvail)
 		return nullptr;
 
-	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
-		CSendLaterJob *p = m_sendLaterJobList[i];
+	for (auto &p : m_sendLaterJobList)
 		if (p->hProcess == ack->hProcess && p->hTargetContact == ack->hContact && !(p->fSuccess || p->fFailed)) {
 			if (!p->fSuccess) {
 				DBEVENTINFO dbei = {};
@@ -458,7 +454,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 			qMgrUpdate();
 			return nullptr;
 		}
-	}
+
 	return nullptr;
 }
 
@@ -504,8 +500,7 @@ void CSendLater::qMgrFillList(bool fClear)
 
 	BYTE bCode = '-';
 	unsigned uIndex = 0;
-	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
-		CSendLaterJob *p = m_sendLaterJobList[i];
+	for (auto &p : m_sendLaterJobList) {
 		CContactCache *c = CContactCache::getContactCache(p->hContact);
 
 		const wchar_t *tszNick = c->getNick();
@@ -713,8 +708,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				m_fIsInteractive = true;
 				int selection = ::TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwndDlg, nullptr);
 				if (selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
-					for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
-						CSendLaterJob *p = m_sendLaterJobList[i];
+					for (auto &p : m_sendLaterJobList) {
 						if (p->szId[0] == 'M') {
 							p->fFailed = true;
 							p->bCode = CSendLaterJob::JOB_REMOVABLE;
