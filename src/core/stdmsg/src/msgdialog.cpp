@@ -278,8 +278,8 @@ void CSrmmWindow::OnDestroy()
 	if (m_hStatusIcon)
 		IcoLib_ReleaseIcon(m_hStatusIcon);
 
-	for (int i = 0; i < m_cmdList.getCount(); i++)
-		mir_free(m_cmdList[i]);
+	for (auto &it : m_cmdList)
+		mir_free(it);
 	m_cmdList.destroy();
 
 	MCONTACT hContact = (g_dat.bSavePerContact) ? m_hContact : 0;

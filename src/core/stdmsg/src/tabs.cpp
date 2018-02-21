@@ -96,10 +96,8 @@ void CTabbedWindow::OnInitDialog()
 
 	// restore previous tabs
 	if (g_Settings.bTabRestore) {
-		for (int i = 0; i < arSavedTabs.getCount(); i++) {
-			CSavedTab &p = arSavedTabs[i];
-
-			SESSION_INFO *si = pci->SM_FindSession(p.m_id, p.m_szModule);
+		for (auto &p : arSavedTabs) {
+			SESSION_INFO *si = pci->SM_FindSession(p->m_id, p->m_szModule);
 			if (si)
 				AddPage(si);
 		}

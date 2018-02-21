@@ -41,8 +41,8 @@ static VOID CALLBACK MsgTimer(HWND, UINT, UINT_PTR, DWORD dwTime)
 		}
 	}
 
-	for (int i = 0; i < arTimedOut.getCount(); ++i)
-		MessageFailureProcess(arTimedOut[i], LPGEN("The message send timed out."));
+	for (auto &it : arTimedOut)
+		MessageFailureProcess(it, LPGEN("The message send timed out."));
 }
 
 void msgQueue_add(MCONTACT hContact, int id, char *szMsg, int flags)
@@ -113,10 +113,9 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *sz
 
 void msgQueue_destroy(void)
 {
-	for (int i = 0; i < msgQueue.getCount(); i++) {
-		TMsgQueue *item = msgQueue[i];
-		mir_free(item->szMsg);
-		mir_free(item);
+	for (auto &it : msgQueue) {
+		mir_free(it->szMsg);
+		mir_free(it);
 	}
 	msgQueue.destroy();
 }

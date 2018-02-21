@@ -46,11 +46,9 @@ SESSION_INFO* SM_GetNextWindow(SESSION_INFO *si)
 	if (i == -1)
 		return nullptr;
 
-	for (i++; i < pci->arSessions.getCount(); i++) {
-		SESSION_INFO *p = pci->arSessions[i];
+	for (auto &p : pci->arSessions)
 		if (p->pDlg)
 			return p;
-	}
 
 	return nullptr;
 }
