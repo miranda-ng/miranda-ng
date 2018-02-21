@@ -140,8 +140,8 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	if (oldMsgId != 0 && pUser->lastMsg.id > oldMsgId)
 		RetrieveHistory(pUser->hContact, MSG_AFTER, oldMsgId, 99);
 
-	for (int i = 0; i < pGuild->arChatUsers.getCount(); i++)
-		AddUserToChannel(*pUser, pGuild->arChatUsers[i]);
+	for (auto &it : pGuild->arChatUsers)
+		AddUserToChannel(*pUser, *it);
 
 	return pUser;
 }
@@ -222,12 +222,10 @@ void CDiscordProto::ParseGuildContents(CDiscordGuild *pGuild, const JSONNode &pR
 			gm->iStatus = StrToStatus(s["status"].as_mstring());
 	}
 
-	for (int k = 0; k < newMembers.getCount(); k++) {
-		CDiscordGuildMember *pm = newMembers[k];
-		for (int i = 0; i < arUsers.getCount(); i++) {
-			CDiscordUser &pUser = arUsers[i];
-			if (pUser.guildId == pGuild->id)
-				AddUserToChannel(pUser, *pm);
+	for (auto &pm : newMembers) {
+		for (auto &pUser : arUsers) {
+			if (pUser->guildId == pGuild->id)
+				AddUserToChannel(*pUser, *pm);
 		}
 	}
 }

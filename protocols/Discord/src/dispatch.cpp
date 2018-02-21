@@ -95,8 +95,8 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 		// group channel for a guild
 		CDiscordUser *pUser = ProcessGuildChannel(pGuild, pRoot);
 		if (pUser != nullptr)
-			for (int i = 0; i < pGuild->arChatUsers.getCount(); i++)
-				AddUserToChannel(*pUser, pGuild->arChatUsers[i]);
+			for (auto &it : pGuild->arChatUsers)
+				AddUserToChannel(*pUser, *it);
 	}
 }
 
@@ -222,12 +222,11 @@ void CDiscordProto::OnCommandGuildMemberRemoved(const JSONNode &pRoot)
 	
 	CMStringW wszUserId = pRoot["user"]["id"].as_mstring();
 
-	for (int i = 0; i < arUsers.getCount(); i++) {
-		CDiscordUser &pUser = arUsers[i];
-		if (pUser.guildId != pGuild->id)
+	for (auto &pUser : arUsers) {
+		if (pUser->guildId != pGuild->id)
 			continue;
 
-		GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_PART };
+		GCEVENT gce = { m_szModuleName, pUser->wszUsername, GC_EVENT_PART };
 		gce.time = time(nullptr);
 		gce.ptszUID = wszUserId;
 		Chat_Event(&gce);
@@ -249,20 +248,19 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 	if (gm->wszNick.IsEmpty())
 		gm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
 
-	for (int i = 0; i < arUsers.getCount(); i++) {
-		CDiscordUser &pUser = arUsers[i];
-		if (pUser.guildId != pGuild->id)
+	for (auto &it : arUsers) {
+		if (it->guildId != pGuild->id)
 			continue;
 
 		CMStringW wszOldNick;
-		SESSION_INFO *si = pci->SM_FindSession(pUser.wszUsername, m_szModuleName);
+		SESSION_INFO *si = pci->SM_FindSession(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
 			USERINFO *ui = pci->UM_FindUser(si->pUsers, wszUserId);
 			if (ui != nullptr)
 				wszOldNick = ui->pszNick;
 		}
 
-		GCEVENT gce = { m_szModuleName, pUser.wszUsername, GC_EVENT_NICK };
+		GCEVENT gce = { m_szModuleName, it->wszUsername, GC_EVENT_NICK };
 		gce.time = time(nullptr);
 		gce.ptszUID = wszUserId;
 		gce.ptszNick = wszOldNick;
@@ -295,21 +293,18 @@ void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
 	int iOldPosition = pRole->position;
 	pGuild->arRoles.remove(pRole);
 
-	for (int i = 0; i < pGuild->arRoles.getCount(); i++) {
-		CDiscordRole &p = pGuild->arRoles[i];
-		if (p.position > iOldPosition)
-			p.position--;
-	}
+	for (auto &it : pGuild->arRoles)
+		if (it->position > iOldPosition)
+			it->position--;
 
-	for (int i = 0; i < arUsers.getCount(); i++) {
-		CDiscordUser &p = arUsers[i];
-		if (p.guildId != pGuild->id)
+	for (auto &it : arUsers) {
+		if (it->guildId != pGuild->id)
 			continue;
 
-		SESSION_INFO *si = pci->SM_FindSession(p.wszUsername, m_szModuleName);
+		SESSION_INFO *si = pci->SM_FindSession(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
 			pci->TM_RemoveAll(&si->pStatuses);
-			BuildStatusList(pGuild, p.wszUsername);
+			BuildStatusList(pGuild, it->wszUsername);
 		}
 	}
 }
@@ -384,11 +379,9 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot)
 					pm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
 				pGuild->arChatUsers.insert(pm);
 
-				for (int i = 0; i < arUsers.getCount(); i++) {
-					CDiscordUser &pChannel = arUsers[i];
-					if (pChannel.guildId == pGuild->id)
-						AddUserToChannel(pChannel, *pm);
-				}
+				for (auto &it : arUsers)
+					if (it->guildId == pGuild->id)
+						AddUserToChannel(*it, *pm);
 			}
 
 			ParseSpecialChars(si, wszText);

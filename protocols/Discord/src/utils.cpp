@@ -113,22 +113,18 @@ CDiscordUser* CDiscordProto::FindUser(SnowFlake id)
 
 CDiscordUser* CDiscordProto::FindUser(const wchar_t *pwszUsername, int iDiscriminator)
 {
-	for (int i = 0; i < arUsers.getCount(); i++) {
-		CDiscordUser &p = arUsers[i];
-		if (p.wszUsername == pwszUsername && p.iDiscriminator == iDiscriminator)
-			return &p;
-	}
+	for (auto &p : arUsers)
+		if (p->wszUsername == pwszUsername && p->iDiscriminator == iDiscriminator)
+			return p;
 
 	return nullptr;
 }
 
 CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
 {
-	for (int i = 0; i < arUsers.getCount(); i++) {
-		CDiscordUser &p = arUsers[i];
-		if (p.channelId == channelId)
-			return &p;
-	}
+	for (auto &p : arUsers)
+		if (p->channelId == channelId)
+			return p;
 
 	return nullptr;
 }

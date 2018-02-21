@@ -29,8 +29,8 @@ void CDiscordProto::BuildStatusList(const CDiscordGuild *pGuild, const CMStringW
 {
 	Chat_AddGroup(m_szModuleName, wszChannelId, L"@owner");
 
-	for (int i = 0; i < pGuild->arRoles.getCount(); i++)
-		Chat_AddGroup(m_szModuleName, wszChannelId, pGuild->arRoles[i].wszName);
+	for (auto &it : pGuild->arRoles)
+		Chat_AddGroup(m_szModuleName, wszChannelId, it->wszName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

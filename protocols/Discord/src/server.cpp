@@ -81,9 +81,8 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		arNodes.insert(&p);
 	}
 
-	for (int i = 0; i < arNodes.getCount(); i++) {
-		JSONNode &p = *arNodes[i];
-
+	for (auto &it : arNodes) {
+		auto &p = *it;
 		CMStringW wszText = PrepareMessageText(p);
 		CMStringW wszUserId = p["author"]["id"].as_mstring();
 		SnowFlake msgid = ::getId(p["id"]);
