@@ -66,10 +66,8 @@ TExtraCache* cfg::getCache(const MCONTACT hContact, const char *szProto)
 
 void ReloadSkinItemsToCache()
 {
-	for (int i = 0; i < cfg::arCache.getCount(); i++) {
-		TExtraCache *p = cfg::arCache[i];
+	for (auto &p : cfg::arCache)
 		LoadSkinItemToCache(p);
-	}
 }
 
 void CSH_Destroy()

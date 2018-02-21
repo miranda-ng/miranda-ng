@@ -194,8 +194,8 @@ int ClcShutdown(WPARAM, LPARAM)
 
 	CSH_Destroy();
 	IMG_DeleteItems();
-	for (int i = 0; i < arStatusItems.getCount(); i++)
-		mir_free(arStatusItems[i]);
+	for (auto &it : arStatusItems)
+		mir_free(it);
 	return 0;
 }
 

@@ -295,8 +295,7 @@ void LoadExtBkSettingsFromDB()
 		arStatusItems.insert(p);
 	}
 
-	for (int n = 0; n < arStatusItems.getCount(); n++) {
-		StatusItems_t *p = arStatusItems[n];
+	for (auto &p : arStatusItems) {
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;
 
@@ -333,8 +332,7 @@ void LoadExtBkSettingsFromDB()
 // writes whole struct to the database
 static void SaveCompleteStructToDB()
 {
-	for (int n = 0; n < arStatusItems.getCount(); n++) {
-		StatusItems_t *p = arStatusItems[n];
+	for (auto &p : arStatusItems) {
 		if (p->statusID != ID_EXTBKSEPARATOR) {
 			char buffer[255];
 			mir_snprintf(buffer, "%s_IGNORE", p->szDBname);
@@ -464,8 +462,7 @@ void extbk_export(char *file)
 	data = 3;
 
 	WritePrivateProfileStructA("Global", "Version", &data, 4, file);
-	for (n = 0; n < arStatusItems.getCount(); n++) {
-		StatusItems_t *p = arStatusItems[n];
+	for (auto &p : arStatusItems) {
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;
 
@@ -686,8 +683,7 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 
 
 	if (mir_strcmp(buffer, "None")) {
-		for (int i = 0; i < arStatusItems.getCount(); i++) {
-			StatusItems_t *p = arStatusItems[i];
+		for (auto &p : arStatusItems) {
 			if (!_stricmp(p->szName[0] == '{' ? p->szName + 3 : p->szName, buffer)) {
 				defaults = p;
 				break;
@@ -752,7 +748,7 @@ void IMG_ReadItem(const char *itemname, const char *szFileName)
 	char buffer[512], szItemNr[30];
 	char szFinalName[MAX_PATH];
 	HDC hdc = GetDC(pcli->hwndContactList);
-	int i, n;
+	int n;
 	BOOL alloced = FALSE;
 	char szDrive[MAX_PATH], szPath[MAX_PATH];
 
@@ -881,8 +877,8 @@ done_with_glyph:
 				}
 				continue;
 			}
-			for (i = 0; i < arStatusItems.getCount(); i++) {
-				StatusItems_t *p = arStatusItems[i];
+			
+			for (auto &p : arStatusItems) {
 				if (!_stricmp(p->szName[0] == '{' ? p->szName + 3 : p->szName, buffer)) {
 					if (!alloced) {
 						if (!(tmpItem.dwFlags & IMAGE_GLYPH))
@@ -919,8 +915,6 @@ void IMG_DeleteItems()
 	ImageItem *pItem = g_ImageItems, *pNextItem;
 	ButtonItem *pbItem = g_ButtonItems, *pbNextItem;
 
-	int i;
-
 	while (pItem) {
 		IMG_DeleteItem(pItem);
 		pNextItem = pItem->nextItem;
@@ -948,8 +942,8 @@ void IMG_DeleteItems()
 	}
 	g_glyphItem = nullptr;
 
-	for (i = 0; i < arStatusItems.getCount(); i++)
-		arStatusItems[i]->imageItem = nullptr;
+	for (auto &it : arStatusItems)
+		it->imageItem = nullptr;
 }
 
 static UINT nextButtonID = IDC_TBFIRSTUID;
@@ -1320,13 +1314,12 @@ void LoadPerContactSkins(wchar_t *tszFileName)
 
 void extbk_import(char *file, HWND hwndDlg)
 {
-	int n, i;
+	int i;
 	char buffer[255];
 	char szKey[255], szSection[255];
 	DWORD data, version = 0;
 
-	for (n = 0; n < arStatusItems.getCount(); n++) {
-		StatusItems_t *p = arStatusItems[n];
+	for (auto &p : arStatusItems) {
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;
 
@@ -1361,7 +1354,7 @@ void extbk_import(char *file, HWND hwndDlg)
 	data = 0;
 	GetPrivateProfileStructA("Global", "Version", &version, 4, file);
 	if (version >= 2) {
-		for (n = 0; n <= FONTID_LAST; n++) {
+		for (int n = 0; n <= FONTID_LAST; n++) {
 			mir_snprintf(szSection, "Font%d", n);
 
 			mir_snprintf(szKey, "Font%dName", n);

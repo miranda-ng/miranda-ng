@@ -1071,10 +1071,8 @@ void ApplyViewMode(const char *name)
 		BYTE bSaved = cfg::dat.sortOrder[0];
 
 		cfg::dat.sortOrder[0] = SORTBY_LASTMSG;
-		for (int i = 0; i < cfg::arCache.getCount(); i++) {
-			TExtraCache *p = cfg::arCache[i];
+		for (auto &p : cfg::arCache)
 			p->dwLastMsgTime = INTSORT_GetLastMsgTime(p->hContact);
-		}
 
 		cfg::dat.sortOrder[0] = bSaved;
 

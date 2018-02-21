@@ -66,11 +66,10 @@ void HideShowNotifyFrame()
 
 static CLISTEVENT* MyGetEvent(int iSelection)
 {
-	for (int i = 0; i < pcli->events->getCount(); i++) {
-		CListEvent &p = (*pcli->events)[i];
-		if (p.menuId == iSelection)
-			return &p;
-	}
+	for (auto &p : *pcli->events)
+		if (p->menuId == iSelection)
+			return p;
+
 	return nullptr;
 }
 
