@@ -119,8 +119,8 @@ void UpdateStatusIcons()
 	Srmm_ModifyIcon(NULL, &sid);
 
 	/* enum all opened message windows */
-	for (int i = 0; i < gMsgWndList.getCount(); i++)
-		gMsgWndList[i]->FlagsIconSet();
+	for (auto &it : gMsgWndList)
+		it->FlagsIconSet();
 }
 
 //hookProc ME_MSG_WINDOWEVENT

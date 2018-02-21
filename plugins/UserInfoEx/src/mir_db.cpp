@@ -65,8 +65,8 @@ void	Delete(MCONTACT hContact, LPCSTR pszModule)
 {
 	CEnumList Settings;
 	if (!Settings.EnumSettings(hContact, pszModule))
-		for (int i = 0; i < Settings.getCount(); i++)
-			db_unset(hContact, pszModule, Settings[i]);
+		for (auto &it : Settings)
+			db_unset(hContact, pszModule, it);
 }
 
 /**
@@ -701,11 +701,8 @@ CEnumList::CEnumList()	: LIST<CHAR>(50, CEnumList::CompareProc)
 
 CEnumList::~CEnumList() 
 { 
-	for (int i = 0, cnt = getCount(); i < cnt; i++) {
-		LPSTR p = (*this)[i];
-		if (p)
-			mir_free(p);
-	}
+	for (auto &it : *this)
+		mir_free(it);
 }
 
 LPSTR CEnumList::Insert(LPCSTR str)

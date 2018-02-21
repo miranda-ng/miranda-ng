@@ -572,23 +572,13 @@ void CPsTree::DBResetState()
 
 	if (!Settings.EnumSettings(NULL, MODNAME))
 	{
-		int i;
-		LPSTR s;
-		LPCSTR p;
-		INT_PTR c;
+		LPCSTR p = (_pPs->pszProto[0]) ? _pPs->pszProto : "Owner";
+		size_t c = mir_strlen(p);
 
-		p = (_pPs->pszProto[0]) ? _pPs->pszProto : "Owner";
-		c = mir_strlen(p);
-
-		for (i = 0; i < Settings.getCount(); i++)
-		{
-			s = Settings[i];
-
+		for (auto &s : Settings)
 			if (s && *s == '{' && !mir_strncmpi(s + 1, p, c)) 
-			{
 				db_unset(NULL, MODNAME, s);
-			}
-		}
+
 		// keep only these flags
 		_dwFlags &= PSTVF_SORTTREE|PSTVF_GROUPS;
 	}

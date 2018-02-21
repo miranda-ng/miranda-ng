@@ -51,8 +51,8 @@ CContactQueue::~CContactQueue()
 	for (int count = 0; _status != STOPPED && ++count < 50;)
 		Sleep(10);
 
-	for (int i = 0; i < _queue.getCount(); i++)
-		mir_free(_queue[i]);
+	for (auto &it : _queue)
+		mir_free(it);
 
 	CloseHandle(_hEvent);
 }

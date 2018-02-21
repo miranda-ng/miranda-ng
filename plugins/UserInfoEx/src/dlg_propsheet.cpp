@@ -80,8 +80,8 @@ CPsHdr::CPsHdr()
 CPsHdr::~CPsHdr()
 {
 	// delete data
-	for (int i = 0 ; i < _ignore.getCount(); i++)
-		mir_free(_ignore[i]);
+	for (auto &it : _ignore)
+		mir_free(it);
 }
 
 void CPsHdr::Free_pPages()

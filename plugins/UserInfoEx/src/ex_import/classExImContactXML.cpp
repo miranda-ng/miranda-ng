@@ -150,13 +150,8 @@ int CExImContactXML::ExportContact(DB::CEnumList* pModules)
 {
 	if (_pXmlFile->_wExport & EXPORT_DATA) {
 		if (pModules) {
-			int i;
-			LPSTR p;
-
-			for (i = 0; i < pModules->getCount(); i++) {
-				p = (*pModules)[i];
-				ExportModule(p);
-			}
+			for (auto &it : *pModules)
+				ExportModule(it);
 		}
 		else {
 			ExportModule(USERINFO);
@@ -270,8 +265,8 @@ int CExImContactXML::ExportModule(LPCSTR pszModule)
 			return ERROR_MEMORY_ALLOC;
 
 		xmod->SetAttribute("key", pszModule);
-		for (int i = 0; i < Settings.getCount(); i++)
-			ExportSetting(xmod, pszModule, Settings[i]);
+		for (auto &it : Settings)
+			ExportSetting(xmod, pszModule, it);
 
 		if (!xmod->NoChildren() && _xmlNode->LinkEndChild(xmod))
 			return ERROR_OK;

@@ -47,70 +47,52 @@ static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE* file)
 		LPSTR here;
 		WORD j;
 		int i;
-		LPSTR pszSetting;
 		//char tmp[32];
 
 		// print the module header..
 		fprintf(file, "\n[%s]\n", pszModule);
 
-		for (i = 0; i < Settings.getCount(); i++)
-		{
-			pszSetting = Settings[i];
-
-			if (!DB::Setting::GetAsIs(hContact, pszModule, pszSetting, &dbv))
-			{
-				switch (dbv.type) 
-				{
+		for (auto &it : Settings) {
+			if (!DB::Setting::GetAsIs(hContact, pszModule, it, &dbv)) {
+				switch (dbv.type) {
 					case DBVT_BYTE:
-						{
-							fprintf(file, "%s=b%u\n", pszSetting, dbv.bVal);
-						}
+						fprintf(file, "%s=b%u\n", it, dbv.bVal);
 						break;
 
 					case DBVT_WORD:
-						{
-							fprintf(file, "%s=w%u\n", pszSetting, dbv.wVal);
-						}
+						fprintf(file, "%s=w%u\n", it, dbv.wVal);
 						break;
 
 					case DBVT_DWORD:
-						{
-							fprintf(file, "%s=d%u\n", pszSetting, dbv.dVal);
-						}
+						fprintf(file, "%s=d%u\n", it, dbv.dVal);
 						break;
 
 					case DBVT_ASCIIZ:
 					case DBVT_UTF8:
+						for (here = dbv.pszVal; here && *here; here++) 
 						{
-							for (here = dbv.pszVal; here && *here; here++) 
-							{
-								switch (*here) {
-									// convert \r to STX
-									case '\r':
-										*here = 2;
-										break;
+							switch (*here) {
+								// convert \r to STX
+								case '\r':
+									*here = 2;
+									break;
 
-									// convert \n to ETX
-									case '\n':
-										*here = 3;
-								}
+								// convert \n to ETX
+								case '\n':
+									*here = 3;
 							}
-							if (dbv.type == DBVT_UTF8) 
-								fprintf(file, "%s=u%s\n", pszSetting, dbv.pszVal);
-							else
-								fprintf(file, "%s=s%s\n", pszSetting, dbv.pszVal);
 						}
+						if (dbv.type == DBVT_UTF8) 
+							fprintf(file, "%s=u%s\n", it, dbv.pszVal);
+						else
+							fprintf(file, "%s=s%s\n", it, dbv.pszVal);
 						break;
 
 					case DBVT_BLOB:
-						{
-							fprintf(file, "%s=n", pszSetting);
-							for (j = 0; j < dbv.cpbVal; j++)
-							{
-								fprintf(file, "%02X ", (BYTE)dbv.pbVal[j]);
-							}
-							fputc('\n', file);
-						}
+						fprintf(file, "%s=n", it);
+						for (j = 0; j < dbv.cpbVal; j++)
+							fprintf(file, "%02X ", (BYTE)dbv.pbVal[j]);
+						fputc('\n', file);
 						break;
 				}
 				db_free(&dbv);
@@ -130,25 +112,13 @@ static BYTE ExportContact(MCONTACT hContact, DB::CEnumList* pModules, FILE* file
 {
 	CExImContactBase vcc;
 
-	if (pModules) 
-	{
-		if ((vcc = hContact) >= NULL)
-		{
-			int i;
-			LPSTR p;
-
+	if (pModules) {
+		if ((vcc = hContact) >= NULL) {
 			vcc.toIni(file, pModules->getCount()-1);
 
-			for (i = 0; i < pModules->getCount(); i++)
-			{
-				p = (*pModules)[i];
+			for (auto &it : *pModules)
+				ExportModule(hContact, it, file);
 
-				/*Filter/
-				if (mir_strcmpi(p, "Protocol"))*/
-				{
-					ExportModule(hContact, p, file);
-				}
-			}
 			return TRUE;
 		}
 	}

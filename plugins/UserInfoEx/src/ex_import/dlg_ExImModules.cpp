@@ -275,12 +275,8 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					if (!Modules.EnumModules())	// init Modul list
 					{
-						int i;
-						LPSTR p;
-
-						for (i = 0; i < Modules.getCount(); i++)
+						for (auto &p : Modules)
 						{
-							p = Modules[i];
 							/*Filter/
 							if (!DB::Module::IsMeta(p))/end Filter*/
 							{
