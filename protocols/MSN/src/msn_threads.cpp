@@ -294,16 +294,14 @@ void CMsnProto::MSN_CloseConnections(void)
 
 	NETLIBSELECTEX nls = {};
 
-	for (int i = 0; i < m_arThreads.getCount(); i++) {
-		ThreadData &T = m_arThreads[i];
-
-		switch (T.mType) {
+	for (auto &it : m_arThreads) {
+		switch (it->mType) {
 		case SERVER_NOTIFICATION:
-			if (T.s != nullptr && !T.sessionClosed && !T.termPending) {
-				nls.hReadConns[0] = T.s;
+			if (it->s != nullptr && !it->sessionClosed && !it->termPending) {
+				nls.hReadConns[0] = it->s;
 				int res = Netlib_SelectEx(&nls);
 				if (res >= 0 || nls.hReadStatus[0] == 0)
-					T.sendTerminate();
+					it->sendTerminate();
 			}
 			break;
 		}
@@ -327,11 +325,9 @@ GCThreadData* CMsnProto::MSN_GetThreadByChatId(const wchar_t* chatId)
 		return nullptr;
 
 	mir_cslock lck(m_csThreads);
-	for (int i = 0; i < m_arGCThreads.getCount(); i++) {
-		GCThreadData *T = m_arGCThreads[i];
-		if (mir_wstrcmpi(T->mChatID, chatId) == 0)
-			return T;
-	}
+	for (auto &it : m_arGCThreads)
+		if (mir_wstrcmpi(it->mChatID, chatId) == 0)
+			return it;
 
 	return nullptr;
 }
@@ -340,11 +336,9 @@ ThreadData* CMsnProto::MSN_GetThreadByConnection(HANDLE s)
 {
 	mir_cslock lck(m_csThreads);
 
-	for (int i = 0; i < m_arThreads.getCount(); i++) {
-		ThreadData &T = m_arThreads[i];
-		if (T.s == s)
-			return &T;
-	}
+	for (auto &it : m_arThreads)
+		if (it->s == s)
+			return it;
 
 	return nullptr;
 }

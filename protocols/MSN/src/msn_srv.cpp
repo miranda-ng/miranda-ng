@@ -84,8 +84,7 @@ void CMsnProto::MSN_DeleteServerGroup(LPCSTR szId)
 
 void CMsnProto::MSN_FreeGroups(void)
 {
-	for (int i = 0; i < m_arGroups.getCount(); i++) {
-		ServerGroupItem* p = m_arGroups[i];
+	for (auto &p : m_arGroups) {
 		mir_free(p->id);
 		mir_free(p->name);
 		mir_free(p);
@@ -107,11 +106,9 @@ LPCSTR CMsnProto::MSN_GetGroupById(const char* pId)
 
 LPCSTR CMsnProto::MSN_GetGroupByName(const char* pName)
 {
-	for (int i = 0; i < m_arGroups.getCount(); i++) {
-		const ServerGroupItem* p = m_arGroups[i];
+	for (auto &p : m_arGroups)
 		if (mir_strcmp(p->name, pName) == 0)
 			return p->id;
-	}
 
 	return nullptr;
 }

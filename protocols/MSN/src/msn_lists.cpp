@@ -59,9 +59,9 @@ MsnContact* CMsnProto::Lists_Get(MCONTACT hContact)
 {
 	mir_cslock lck(m_csLists);
 
-	for (int i = 0; i < m_arContacts.getCount(); ++i)
-		if (m_arContacts[i].hContact == hContact)
-			return &m_arContacts[i];
+	for (auto &it : m_arContacts)
+		if (it->hContact == hContact)
+			return it;
 
 	return nullptr;
 }
@@ -346,17 +346,16 @@ static void AddPrivacyListEntries(HWND hwndList, CMsnProto *proto)
 	}
 
 	// Add new info
-	for (int i = 0; i < proto->m_arContacts.getCount(); ++i) {
-		MsnContact &cont = proto->m_arContacts[i];
-		if (!(cont.list & (LIST_FL | LIST_LL))) {
-			cii.pszText = (wchar_t*)cont.email;
+	for (auto &cont : proto->m_arContacts) {
+		if (!(cont->list & (LIST_FL | LIST_LL))) {
+			cii.pszText = (wchar_t*)cont->email;
 			hItem = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEMA, 0, (LPARAM)&cii);
 
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (cont.list & LIST_LL) ? 1 : 0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, (cont.list & LIST_FL) ? 2 : 0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2, (cont.list & LIST_AL) ? 3 : 0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3, (cont.list & LIST_BL) ? 4 : 0));
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(4, (cont.list & LIST_RL) ? 5 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, (cont->list & LIST_LL) ? 1 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, (cont->list & LIST_FL) ? 2 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(2, (cont->list & LIST_AL) ? 3 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(3, (cont->list & LIST_BL) ? 4 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(4, (cont->list & LIST_RL) ? 5 : 0));
 		}
 	}
 }

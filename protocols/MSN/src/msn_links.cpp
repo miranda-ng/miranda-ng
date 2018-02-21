@@ -71,14 +71,14 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 	if (g_Instances.getCount() == 0) return 0;
 
 	CMsnProto *proto = &g_Instances[0];
-	for (int i = 0; i < g_Instances.getCount(); ++i) {
-		if (g_Instances[i].m_iStatus > ID_STATUS_OFFLINE) {
-			proto = &g_Instances[i];
+	for (auto &it : g_Instances)
+		if (it->m_iStatus > ID_STATUS_OFFLINE) {
+			proto = it;
 			break;
 		}
-	}
-	if (proto == nullptr) return 1;
-
+	
+	if (proto == nullptr)
+		return 1;
 
 	/* add a contact to the list */
 	if (wcsnicmp(arg, L"add?", 4) == 0) {

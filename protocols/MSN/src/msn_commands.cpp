@@ -946,8 +946,7 @@ LBL_InvalidCommand:
 						/* We have to traverse the list in reverse order as newest events are on top (which is the opposite direction of Groupchat) */
 						LIST<ezxml> msgs(10,PtrKeySortT);
 						for (ezxml_t msg = ezxml_get(xmli, "messages", 0, "message", -1); msg != nullptr; msg = ezxml_next(msg)) msgs.insert(msg, 0);
-						for (int i=0; i<msgs.getCount(); i++) {
-							ezxml_t msg = msgs[i];
+						for (auto &msg : msgs) {
 							ezxml_t arrtime = ezxml_child(msg, "originalarrivaltime"), from = ezxml_child(msg, "from"),
 									msgtype = ezxml_child(msg, "messagetype"), content = ezxml_child(msg, "content");
 							time_t ts;

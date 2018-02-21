@@ -39,8 +39,8 @@ void CMsnProto::pushAvatarRequest(MCONTACT hContact, LPCSTR pszUrl)
 	if (pszUrl != nullptr && *pszUrl != 0) {
 		mir_cslock lck(csAvatarQueue);
 
-		for (int i = 0; i < lsAvatarQueue.getCount(); i++)
-			if (lsAvatarQueue[i]->hContact == hContact)
+		for (auto &it : lsAvatarQueue)
+			if (it->hContact == hContact)
 				return;
 
 		lsAvatarQueue.insert(new AvatarQueueEntry(hContact, pszUrl));

@@ -96,12 +96,12 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 		const char *role = ezxml_txt(ezxml_child(memb, "role"));
 		GCUserItem *gcu = nullptr;
 
-		for (int j = 0; j < info->mJoinedContacts.getCount(); j++) {
-			if (!mir_strcmp(info->mJoinedContacts[j]->WLID, mri)) {
-				gcu = info->mJoinedContacts[j];
+		for (auto &it : info->mJoinedContacts)
+			if (!mir_strcmp(it->WLID, mri)) {
+				gcu = it;
 				break;
 			}
-		}
+		
 		if (!gcu) {
 			gcu = new GCUserItem;
 			info->mJoinedContacts.insert(gcu);
@@ -244,8 +244,7 @@ void CMsnProto::MSN_GCRefreshThreadsInfo(void)
 	MCONTACT hContact;
 	int nThreads = 0;
 
-	for (hContact = db_find_first(m_szModuleName); hContact;
-	hContact = db_find_next(hContact, m_szModuleName)) {
+	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		if (isChatRoom(hContact) != 0) {
 			DBVARIANT dbv;
 			if (getString(hContact, "ChatRoomID", &dbv) == 0) {
@@ -281,12 +280,11 @@ void CMsnProto::MSN_GCAddMessage(wchar_t *mChatID, MCONTACT hContact, char *emai
 
 static void ChatInviteUser(ThreadData *thread, GCThreadData* info, const char* wlid)
 {
-	if (info->mJoinedContacts.getCount()) {
-		for (int j = 0; j < info->mJoinedContacts.getCount(); j++) {
-			if (_stricmp(info->mJoinedContacts[j]->WLID, wlid) == 0)
+	if (info->mJoinedContacts.getCount())
+		for (auto &it : info->mJoinedContacts)
+			if (!_stricmp(it->WLID, wlid))
 				return;
-		}
-	}
+
 	thread->sendPacketPayload("PUT", "MSGR\\THREAD",
 		"<thread><id>%d:%s</id><members><member><mri>%s</mri><role>user</role></member></members></thread>",
 		info->netId, info->szEmail, wlid);
@@ -424,8 +422,8 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			ChatInviteSend(nullptr, hwndList, *cont, param->ppro);
 
 			if (info) {
-				for (int i = 0; i < cont->getCount(); ++i)
-					ChatInviteUser(param->ppro->msnNsThread, info, (*cont)[i]);
+				for (auto &it : *cont)
+					ChatInviteUser(param->ppro->msnNsThread, info, it);
 				delete cont;
 			}
 			else {
@@ -433,9 +431,9 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				CMStringA buf;
 				buf.AppendFormat("<thread><id></id><members><member><mri>%d:%s</mri><role>admin</role></member>",
 					NETID_SKYPE, param->ppro->GetMyUsername(NETID_SKYPE));
-				for (int i = 0; i < cont->getCount(); ++i) {
+				for (auto &it : *cont) {
 					// TODO: Add support for assigning role in invite dialog maybe?
-					buf.AppendFormat("<member><mri>%s</mri><role>user</role></member>", (*cont)[i]);
+					buf.AppendFormat("<member><mri>%s</mri><role>user</role></member>", it);
 				}
 				buf.Append("</members></thread>");
 				param->ppro->msnNsThread->sendPacketPayload("PUT", "MSGR\\THREAD", buf);
@@ -462,8 +460,8 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 			GCThreadData* thread = MSN_GetThreadByChatId(gch->ptszID);
 			if (thread != nullptr) {
 				m_arGCThreads.remove(thread);
-				for (int i = 0; i < thread->mJoinedContacts.getCount(); i++)
-					delete thread->mJoinedContacts[i];
+				for (auto &it : thread->mJoinedContacts)
+					delete it;
 				delete thread;
 			}
 		}
