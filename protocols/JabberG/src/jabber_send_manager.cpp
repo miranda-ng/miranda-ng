@@ -62,12 +62,10 @@ bool CJabberSendManager::DeletePermanentHandler(CJabberSendPermanentInfo *pInfo)
 
 bool CJabberSendManager::HandleSendPermanent(HXML node, ThreadData *pThreadData)
 {
-	for (int i = 0; i < m_arHandlers.getCount(); i++) {
-		CJabberSendPermanentInfo &pInfo = m_arHandlers[i];
-
+	for (auto &pInfo : m_arHandlers) {
 		CJabberSendInfo sendInfo;
-		sendInfo.m_pUserData = pInfo.m_pUserData;
-		if ((ppro->*(pInfo.m_pHandler))(node, pThreadData, &sendInfo))
+		sendInfo.m_pUserData = pInfo->m_pUserData;
+		if ((ppro->*(pInfo->m_pHandler))(node, pThreadData, &sendInfo))
 			return true;
 	}
 

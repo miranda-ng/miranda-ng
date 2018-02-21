@@ -190,14 +190,14 @@ CJabberProto::~CJabberProto()
 
 	mir_free(m_transportProtoTableStartIndex);
 
-	for (int i = 0; i < m_lstTransports.getCount(); i++)
-		mir_free(m_lstTransports[i]);
+	for (auto &it : m_lstTransports)
+		mir_free(it);
 
-	for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
-		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szExt);
-		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szFeature);
-		mir_free(m_lstJabberFeatCapPairsDynamic[i]->szDescription);
-		delete m_lstJabberFeatCapPairsDynamic[i];
+	for (auto &it : m_lstJabberFeatCapPairsDynamic) {
+		mir_free(it->szExt);
+		mir_free(it->szFeature);
+		mir_free(it->szDescription);
+		delete it;
 	}
 }
 
@@ -596,8 +596,8 @@ int __cdecl CJabberProto::GetInfo(MCONTACT hContact, int /*infoType*/)
 
 		if (item != nullptr) {
 			if (item->arResources.getCount()) {
-				for (int i = 0; i < item->arResources.getCount(); i++) {
-					pResourceStatus r(item->arResources[i]);
+				for (auto &it : item->arResources) {
+					pResourceStatus r(it);
 					wchar_t tmp[JABBER_MAX_JID_LEN];
 					mir_snwprintf(tmp, L"%s/%s", szBareJid, r->m_tszResourceName);
 
@@ -1113,32 +1113,14 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 		if (item != nullptr) {
 			if (item->arResources.getCount() > 0) {
 				debugLogA("arResources.getCount() > 0");
-				int msgCount = 0;
-				size_t len = 0;
-				for (int i = 0; i < item->arResources.getCount(); i++) {
-					JABBER_RESOURCE_STATUS *r = item->arResources[i];
-					if (r->m_tszStatusMessage) {
-						msgCount++;
-						len += (mir_wstrlen(r->m_tszResourceName) + mir_wstrlen(r->m_tszStatusMessage) + 8);
-					}
-				}
 
-				wchar_t *str = (wchar_t*)alloca(sizeof(wchar_t)*(len + 1));
-				str[0] = str[len] = '\0';
-				for (int i = 0; i < item->arResources.getCount(); i++) {
-					JABBER_RESOURCE_STATUS *r = item->arResources[i];
-					if (r->m_tszStatusMessage) {
-						if (str[0] != '\0') mir_wstrcat(str, L"\r\n");
-						if (msgCount > 1) {
-							mir_wstrcat(str, L"(");
-							mir_wstrcat(str, r->m_tszResourceName);
-							mir_wstrcat(str, L"): ");
-						}
-						mir_wstrcat(str, r->m_tszStatusMessage);
-					}
-				}
+				CMStringW str;
+				for (auto &r : item->arResources)
+					if (r->m_tszStatusMessage)
+						str.AppendFormat(L"(%s): %s\r\n", r->m_tszResourceName, r->m_tszStatusMessage);
 
-				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str);
+				str.TrimRight();
+				ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
 				return;
 			}
 

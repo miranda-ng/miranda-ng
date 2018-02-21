@@ -157,9 +157,9 @@ void ThreadData::xmpp_client_query(void)
 			if (rec->Data.Srv.pNameTarget && rec->wType == DNS_TYPE_SRV)
 				dnsList.insert(&rec->Data.Srv);
 
-		for (int i = 0; i < dnsList.getCount(); i++) {
-			WORD dnsPort = (conn.port == 0 || conn.port == 5222) ? dnsList[i]->wPort : conn.port;
-			char* dnsHost = dnsList[i]->pNameTarget;
+		for (auto &it : dnsList) {
+			WORD dnsPort = (conn.port == 0 || conn.port == 5222) ? it->wPort : conn.port;
+			char* dnsHost = it->pNameTarget;
 
 			proto->debugLogA("%s%s resolved to %s:%d", "_xmpp-client._tcp.", conn.server, dnsHost, dnsPort);
 			s = proto->WsConnect(dnsHost, dnsPort);

@@ -81,9 +81,9 @@ static CJabberProto* JabberGetInstanceByHContact(MCONTACT hContact)
 	if (szProto == nullptr)
 		return nullptr;
 
-	for (int i = 0; i < g_Instances.getCount(); i++)
-		if (!mir_strcmp(szProto, g_Instances[i]->m_szModuleName))
-			return g_Instances[i];
+	for (auto &it : g_Instances)
+		if (!mir_strcmp(szProto, it->m_szModuleName))
+			return it;
 
 	return nullptr;
 }
@@ -863,8 +863,8 @@ void CJabberProto::CheckMenuItems()
 
 	Menu_ShowItem(m_hMenuPriorityRoot, m_menuItemsStatus != 0);
 
-	for (int i = 0; i < m_pepServices.getCount(); i++)
-		Menu_ShowItem(m_pepServices[i].GetMenu(), m_bPepSupported);
+	for (auto &it : m_pepServices)
+		Menu_ShowItem(it->GetMenu(), m_bPepSupported);
 
 	JabberUpdateDialogs(m_menuItemsStatus);
 }
@@ -1062,9 +1062,9 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 	}
 
 	if (bIsLink)
-		for (int i = 0; i < g_Instances.getCount(); i++)
-			if (g_Instances[i]->m_options.ProcessXMPPLinks)
-				return g_Instances[i];
+		for (auto &it : g_Instances)
+			if (it->m_options.ProcessXMPPLinks)
+				return it;
 
 	int nItems = 0, lastItemId = 0;
 	for (int i = 0; i < g_Instances.getCount(); i++) {

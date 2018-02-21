@@ -651,9 +651,9 @@ protected:
 		TCLCInfo(): newJids(1, TJidData::cmp), bChanged(false), pList(nullptr) {}
 		~TCLCInfo()
 		{
-			for (int i=0; i < newJids.getCount(); i++) {
-				mir_free(newJids[i]->jid);
-				mir_free(newJids[i]);
+			for (auto &it : newJids) {
+				mir_free(it->jid);
+				mir_free(it);
 			}
 		}
 
@@ -1367,8 +1367,8 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 			CListResetIcons(hwndList, hItem, bHideIcons);
 	}
 
-	for (int iJid = 0; iJid < clc_info.newJids.getCount(); ++iJid)
-		CListResetIcons(hwndList, clc_info.newJids[iJid]->hItem, bHideIcons);
+	for (auto &it : clc_info.newJids)
+		CListResetIcons(hwndList, it->hItem, bHideIcons);
 
 	if (!pList)
 		goto lbl_return;
@@ -1449,9 +1449,9 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 
 	pList->RemoveAllRules();
 
-	for (int iJid = 0; iJid < clc_info.newJids.getCount(); ++iJid) {
-		hItem = clc_info.newJids[iJid]->hItem;
-		szJid = clc_info.newJids[iJid]->jid;
+	for (auto &it : clc_info.newJids) {
+		hItem = it->hItem;
+		szJid = it->jid;
 
 		if (dwPackets = CListGetPackets(hwndList, hItem, true))
 			pList->AddRule(Jid, szJid, TRUE, dwOrder++, dwPackets);
@@ -2111,8 +2111,8 @@ void CJabberProto::BuildPrivacyMenu()
 void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 {
 	if (bDeleteOld)
-		for (int i = 0; i < m_hPrivacyMenuItems.getCount(); i++)
-			Menu_RemoveItem((HGENMENU)m_hPrivacyMenuItems[i]);
+		for (auto &it : m_hPrivacyMenuItems)
+			Menu_RemoveItem((HGENMENU)it);
 
 	m_hPrivacyMenuItems.destroy();
 

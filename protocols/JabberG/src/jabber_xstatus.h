@@ -66,56 +66,54 @@ public:
 
 	void ProcessEvent(const wchar_t *from, HXML eventNode)
 	{
-		for (int i=0; i < getCount(); i++)
-		{
-			CPepService &pepSvc = (*this)[i];
-			HXML itemsNode = XmlGetChildByTag(eventNode, L"items", L"node", pepSvc.GetNode());
+		for (auto &it : *this) {
+			HXML itemsNode = XmlGetChildByTag(eventNode, L"items", L"node", it->GetNode());
 			if (itemsNode)
-				pepSvc.ProcessItems(from, itemsNode);
+				it->ProcessItems(from, itemsNode);
 		}
 	}
 
 	void InitGui()
 	{
-		for (int i=0; i < getCount(); i++)
-			(*this)[i].InitGui();
+		for (auto &it : *this)
+			it->InitGui();
 	}
 
 	void RebuildMenu()
 	{
-		for (int i=0; i < getCount(); i++)
-			(*this)[i].RebuildMenu();
+		for (auto &it : *this)
+			it->RebuildMenu();
 	}
 
 	void ResetExtraIcon(MCONTACT hContact)
 	{
-		for (int i=0; i < getCount(); i++)
-			(*this)[i].ResetExtraIcon(hContact);
+		for (auto &it : *this)
+			it->ResetExtraIcon(hContact);
 	}
 
 	void PublishAll()
 	{
-		for (int i=0; i < getCount(); i++)
-			(*this)[i].Publish();
+		for (auto &it : *this)
+			it->Publish();
 	}
 
 	void RetractAll()
 	{
-		for (int i=0; i < getCount(); i++)
-			(*this)[i].Retract();
+		for (auto &it : *this)
+			it->Retract();
 	}
 
 	void ResetPublishAll()
 	{
-		for(int i=0; i < getCount(); i++)
-			(*this)[i].ResetPublish();
+		for (auto &it : *this)
+			it->ResetPublish();
 	}
 
 	CPepService *Find(wchar_t *node)
 	{
-		for (int i=0; i < getCount(); i++)
-			if (!mir_wstrcmp((*this)[i].GetNode(), node))
-				return &((*this)[i]);
+		for (auto &it : *this)
+			if (!mir_wstrcmp(it->GetNode(), node))
+				return it;
 		return nullptr;
 	}
 };

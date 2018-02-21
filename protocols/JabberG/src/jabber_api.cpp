@@ -88,8 +88,8 @@ LPTSTR CJabberProto::GetResourceList(LPCTSTR jid)
 		return nullptr;
 
 	CMStringW res;
-	for (int i=0; i < item->arResources.getCount(); i++) {
-		res.Append(item->arResources[i]->m_tszResourceName);
+	for (auto &it : item->arResources) {
+		res.Append(it->m_tszResourceName);
 		res.AppendChar(0);
 	}
 	res.AppendChar(0);
@@ -198,9 +198,9 @@ int CJabberProto::RemoveHandler(HJHANDLER hHandler)
 
 JabberFeatCapPairDynamic *CJabberProto::FindFeature(LPCTSTR szFeature)
 {
-	for (int i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (!mir_wstrcmp(m_lstJabberFeatCapPairsDynamic[i]->szFeature, szFeature))
-			return m_lstJabberFeatCapPairsDynamic[i];
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		if (!mir_wstrcmp(it->szFeature, szFeature))
+			return it;
 
 	return nullptr;
 }
@@ -226,8 +226,8 @@ int CJabberProto::RegisterFeature(LPCTSTR szFeature, LPCTSTR szDescription)
 			jcb |= g_JabberFeatCapPairs[i].jcbCap;
 
 		// set all bits already occupied by external plugins
-		for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-			jcb |= m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
+		for (auto &it : m_lstJabberFeatCapPairsDynamic)
+			jcb |= it->jcbCap;
 
 		// Now get first zero bit. The line below is a fast way to do it. If there are no zero bits, it returns 0.
 		jcb = (~jcb) & (JabberCapsBits)(-(__int64)(~jcb));
@@ -323,30 +323,30 @@ LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 		return nullptr;
 
 	mir_cslockfull lck(m_csLists);
-	int i;
+
 	size_t iLen = 1; // 1 for extra zero terminator at the end of the string
 	// calculate total necessary string length
-	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
 			iLen += mir_wstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 
-	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (jcb & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
-			iLen += mir_wstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		if (jcb & it->jcbCap)
+			iLen += mir_wstrlen(it->szFeature) + 1;
 
 	// allocate memory and fill it
 	LPTSTR str = (LPTSTR)mir_alloc(iLen * sizeof(wchar_t));
 	LPTSTR p = str;
-	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 			mir_wstrcpy(p, g_JabberFeatCapPairs[i].szFeature);
 			p += mir_wstrlen(g_JabberFeatCapPairs[i].szFeature) + 1;
 		}
 
-	for (i=0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (jcb & m_lstJabberFeatCapPairsDynamic[i]->jcbCap) {
-			mir_wstrcpy(p, m_lstJabberFeatCapPairsDynamic[i]->szFeature);
-			p += mir_wstrlen(m_lstJabberFeatCapPairsDynamic[i]->szFeature) + 1;
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		if (jcb & it->jcbCap) {
+			mir_wstrcpy(p, it->szFeature);
+			p += mir_wstrlen(it->szFeature) + 1;
 		}
 
 	*p = 0; // extra zero terminator

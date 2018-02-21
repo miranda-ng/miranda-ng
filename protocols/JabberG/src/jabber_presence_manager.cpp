@@ -66,12 +66,10 @@ bool CJabberPresenceManager::DeletePermanentHandler(CJabberPresencePermanentInfo
 
 bool CJabberPresenceManager::HandlePresencePermanent(HXML node, ThreadData *pThreadData)
 {
-	for (int i = 0; i < m_arHandlers.getCount(); i++) {
-		CJabberPresencePermanentInfo &pInfo = m_arHandlers[i];
-		
+	for (auto &it : m_arHandlers) {
 		CJabberPresenceInfo presenceInfo;
-		presenceInfo.m_pUserData = pInfo.m_pUserData;
-		if ((ppro->*(pInfo.m_pHandler))(node, pThreadData, &presenceInfo))
+		presenceInfo.m_pUserData = it->m_pUserData;
+		if ((ppro->*(it->m_pHandler))(node, pThreadData, &presenceInfo))
 			return true;
 	}
 

@@ -291,8 +291,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 
 bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 {
-	for (int i = 0; i < m_arHandlers.getCount(); i++) {
-		CJabberIqPermanentInfo &pInfo = m_arHandlers[i];
+	for (auto &pInfo : m_arHandlers) {
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
 		const wchar_t *szType = XmlGetAttrValue(pNode, L"type");
 		if (!szType)
@@ -307,7 +306,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 		else
 			return FALSE;
 
-		if (!(pInfo.m_nIqTypes & iqInfo.m_nIqType))
+		if (!(pInfo->m_nIqTypes & iqInfo.m_nIqType))
 			continue;
 
 		HXML pFirstChild = XmlGetChild(pNode , 0);
@@ -317,27 +316,27 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 		const wchar_t *szTagName = XmlGetName(pFirstChild);
 		const wchar_t *szXmlns = XmlGetAttrValue(pFirstChild, L"xmlns");
 
-		if ((!pInfo.m_szXmlns || (szXmlns && !mir_wstrcmp(pInfo.m_szXmlns, szXmlns))) &&
-			 (!pInfo.m_szTag || !mir_wstrcmp(pInfo.m_szTag, szTagName)))
+		if ((!pInfo->m_szXmlns || (szXmlns && !mir_wstrcmp(pInfo->m_szXmlns, szXmlns))) &&
+			 (!pInfo->m_szTag || !mir_wstrcmp(pInfo->m_szTag, szTagName)))
 		{
 			// node suits handler criteria, call the handler
 			iqInfo.m_pChildNode = pFirstChild;
 			iqInfo.m_szChildTagName = (wchar_t*)szTagName;
 			iqInfo.m_szChildTagXmlns = (wchar_t*)szXmlns;
 			iqInfo.m_szId = (wchar_t*)XmlGetAttrValue(pNode, L"id");
-			iqInfo.m_pUserData = pInfo.m_pUserData;
+			iqInfo.m_pUserData = pInfo->m_pUserData;
 
-			if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_TO)
+			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
 				iqInfo.m_szTo = (wchar_t*)XmlGetAttrValue(pNode, L"to");
 
-			if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
+			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
 				iqInfo.m_szFrom = (wchar_t*)XmlGetAttrValue(pNode, L"from");
 
-			if ((pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (iqInfo.m_szFrom))
+			if ((pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (iqInfo.m_szFrom))
 				iqInfo.m_hContact = ppro->HContactFromJID(iqInfo.m_szFrom);
 
 			ppro->debugLogW(L"Handling iq id %s, type %s, from %s", iqInfo.m_szId, szType, iqInfo.m_szFrom);
-			if ((ppro->*(pInfo.m_pHandler))(pNode, &iqInfo))
+			if ((ppro->*(pInfo->m_pHandler))(pNode, &iqInfo))
 				return true;
 		}
 	}
@@ -366,6 +365,7 @@ CJabberIqInfo* CJabberIqManager::DetouchInfo(int nIqId)
 			return pInfo;
 		}
 	}
+
 	return nullptr;
 }
 

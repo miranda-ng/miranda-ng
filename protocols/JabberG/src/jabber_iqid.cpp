@@ -147,9 +147,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 					ll.insert(item);
 			}
 
-			for (int j=0; j < ll.getCount(); j++) {
-				JABBER_LIST_ITEM *item = ll[j];
-
+			for (auto &item : ll) {
 				wchar_t room[256], text[128];
 				wcsncpy_s(text, item->jid, _TRUNCATE);
 				wcsncpy_s(room, text, _TRUNCATE);
@@ -509,8 +507,8 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	SetServerStatus(m_iDesiredStatus);
 
 	if (m_options.AutoJoinConferences)
-		for (int i = 0; i < chatRooms.getCount(); i++)
-			GroupchatJoinByHContact((DWORD_PTR)chatRooms[i], true);
+		for (auto &it : chatRooms)
+			GroupchatJoinByHContact((DWORD_PTR)it, true);
 
 	UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_JABBER_CHECK_ONLINE);
 	WindowList_Broadcast(m_hWindowList, WM_JABBER_CHECK_ONLINE, 0, 0);

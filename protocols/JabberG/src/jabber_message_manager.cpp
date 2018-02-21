@@ -51,9 +51,7 @@ void CJabberMessageManager::FillPermanentHandlers()
 
 bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThreadData)
 {
-	for (int k = 0; k < m_arHandlers.getCount(); k++) {
-		CJabberMessagePermanentInfo &pInfo = m_arHandlers[k];
-
+	for (auto &it : m_arHandlers) {
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
 		CJabberMessageInfo messageInfo;
 
@@ -74,7 +72,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 		}
 		else messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
 
-		if (pInfo.m_nMessageTypes & messageInfo.m_nMessageType) {
+		if (it->m_nMessageTypes & messageInfo.m_nMessageType) {
 			for (int i = XmlGetChildCount(node) - 1; i >= 0; i--) {
 				// enumerate all children and see whether this node suits handler criteria
 				HXML child = XmlGetChild(node, i);
@@ -82,26 +80,26 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 				LPCTSTR szTagName = XmlGetName(child);
 				LPCTSTR szXmlns = XmlGetAttrValue(child, L"xmlns");
 
-				if ((!pInfo.m_szXmlns || (szXmlns && !mir_wstrcmp(pInfo.m_szXmlns, szXmlns))) && (!pInfo.m_szTag || !mir_wstrcmp(pInfo.m_szTag, szTagName))) {
+				if ((!it->m_szXmlns || (szXmlns && !mir_wstrcmp(it->m_szXmlns, szXmlns))) && (!it->m_szTag || !mir_wstrcmp(it->m_szTag, szTagName))) {
 					// node suits handler criteria, call the handler
 					messageInfo.m_hChildNode = child;
 					messageInfo.m_szChildTagName = szTagName;
 					messageInfo.m_szChildTagXmlns = szXmlns;
-					messageInfo.m_pUserData = pInfo.m_pUserData;
+					messageInfo.m_pUserData = it->m_pUserData;
 					messageInfo.m_szFrom = XmlGetAttrValue(node, L"from"); // is necessary for ppro->debugLogA() below, that's why we must parse it even if JABBER_MESSAGE_PARSE_FROM flag is not set
 
-					if (pInfo.m_dwParamsToParse & JABBER_MESSAGE_PARSE_ID_STR)
+					if (it->m_dwParamsToParse & JABBER_MESSAGE_PARSE_ID_STR)
 						messageInfo.m_szId = XmlGetAttrValue(node, L"id");
 
-					if (pInfo.m_dwParamsToParse & JABBER_IQ_PARSE_TO)
+					if (it->m_dwParamsToParse & JABBER_IQ_PARSE_TO)
 						messageInfo.m_szTo = XmlGetAttrValue(node, L"to");
 
-					if (pInfo.m_dwParamsToParse & JABBER_MESSAGE_PARSE_HCONTACT)
+					if (it->m_dwParamsToParse & JABBER_MESSAGE_PARSE_HCONTACT)
 						messageInfo.m_hContact = ppro->HContactFromJID(messageInfo.m_szFrom);
 
 					if (messageInfo.m_szFrom)
 						ppro->debugLogW(L"Handling message from %s", messageInfo.m_szFrom);
-					if ((ppro->*(pInfo.m_pHandler))(node, pThreadData, &messageInfo))
+					if ((ppro->*(it->m_pHandler))(node, pThreadData, &messageInfo))
 						return true;
 				}
 			}

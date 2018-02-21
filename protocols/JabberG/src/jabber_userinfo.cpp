@@ -43,7 +43,8 @@ struct UserInfoStringBuf
 	UserInfoStringBuf() { buf = nullptr; size = 0; offset = 0; }
 	~UserInfoStringBuf() { mir_free(buf); }
 
-	void append(wchar_t *str) {
+	void append(wchar_t *str)
+	{
 		if (!str) return;
 
 		size_t length = mir_wstrlen(str);
@@ -55,7 +56,8 @@ struct UserInfoStringBuf
 		offset += length;
 	}
 
-	wchar_t* allocate(int length) {
+	wchar_t* allocate(int length)
+	{
 		if (size - offset < length) {
 			size += (length + STRINGBUF_INCREMENT);
 			buf = (wchar_t *)mir_realloc(buf, size * sizeof(wchar_t));
@@ -63,7 +65,8 @@ struct UserInfoStringBuf
 		return buf + offset;
 	}
 
-	void actualize() {
+	void actualize()
+	{
 		if (buf) offset = mir_wstrlen(buf);
 	}
 };
@@ -81,11 +84,11 @@ struct JabberUserInfoDlgData
 
 enum
 {
-	INFOLINE_DELETE	= 0x80000000,
-	INFOLINE_MASK	= 0x7fffffff,
-	INFOLINE_BAD_ID	= 0x7fffffff,
+	INFOLINE_DELETE = 0x80000000,
+	INFOLINE_MASK = 0x7fffffff,
+	INFOLINE_BAD_ID = 0x7fffffff,
 
-	INFOLINE_NAME	= 1,
+	INFOLINE_NAME = 1,
 	INFOLINE_MOOD,
 	INFOLINE_ACTIVITY,
 	INFOLINE_TUNE,
@@ -104,21 +107,20 @@ enum
 	INFOLINE_LASTACTIVE,
 };
 
-__forceinline DWORD sttInfoLineId(DWORD res, DWORD type, DWORD line=0)
+__forceinline DWORD sttInfoLineId(DWORD res, DWORD type, DWORD line = 0)
 {
 	return
 		(type << 24) & 0x7f000000 |
-		(res  << 12) & 0x00fff000 |
-		(line      ) & 0x00000fff;
+		(res << 12) & 0x00fff000 |
+		(line) & 0x00000fff;
 }
 
-static HTREEITEM sttFindInfoLine(HWND hwndTree, HTREEITEM htiRoot, LPARAM id=INFOLINE_BAD_ID)
+static HTREEITEM sttFindInfoLine(HWND hwndTree, HTREEITEM htiRoot, LPARAM id = INFOLINE_BAD_ID)
 {
 	if (id == INFOLINE_BAD_ID) return nullptr;
-	for (HTREEITEM hti = TreeView_GetChild(hwndTree, htiRoot); hti; hti = TreeView_GetNextSibling(hwndTree, hti))
-	{
-		TVITEMEX tvi = {0};
-		tvi.mask = TVIF_HANDLE|TVIF_PARAM;
+	for (HTREEITEM hti = TreeView_GetChild(hwndTree, htiRoot); hti; hti = TreeView_GetNextSibling(hwndTree, hti)) {
+		TVITEMEX tvi = { 0 };
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		tvi.hItem = hti;
 		TreeView_GetItem(hwndTree, &tvi);
 		if ((tvi.lParam&INFOLINE_MASK) == (id&INFOLINE_MASK))
@@ -131,8 +133,8 @@ void sttCleanupInfo(HWND hwndTree, int stage)
 {
 	HTREEITEM hItem = TreeView_GetRoot(hwndTree);
 	while (hItem) {
-		TVITEMEX tvi = {0};
-		tvi.mask = TVIF_HANDLE|TVIF_PARAM;
+		TVITEMEX tvi = { 0 };
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		tvi.hItem = hItem;
 		TreeView_GetItem(hwndTree, &tvi);
 
@@ -181,15 +183,15 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 	TVINSERTSTRUCT tvis = {};
 	tvis.hParent = htiRoot;
 	tvis.hInsertAfter = TVI_LAST;
-	tvis.itemex.mask = TVIF_TEXT|TVIF_PARAM;
+	tvis.itemex.mask = TVIF_TEXT | TVIF_PARAM;
 	tvis.itemex.pszText = buf;
 	tvis.itemex.lParam = id;
 
 	if (hIcon) {
 		HIMAGELIST himl = TreeView_GetImageList(hwndTree, TVSIL_NORMAL);
-		tvis.itemex.mask |= TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+		tvis.itemex.mask |= TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvis.itemex.iImage =
-		tvis.itemex.iSelectedImage = ImageList_AddIcon(himl, hIcon);
+			tvis.itemex.iSelectedImage = ImageList_AddIcon(himl, hIcon);
 		IcoLib_ReleaseIcon(hIcon);
 	}
 
@@ -212,7 +214,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 {
 	wchar_t buf[256];
 	HTREEITEM htiResource = htiRoot;
-	pResourceStatus r = resource ? item->arResources[resource-1] : item->getTemp();
+	pResourceStatus r = resource ? item->arResources[resource - 1] : item->getTemp();
 
 	if (r->m_tszResourceName && *r->m_tszResourceName)
 		htiResource = sttFillInfoLine(hwndTree, htiRoot, Skin_LoadProtoIcon(ppro->m_szModuleName, r->m_iStatus),
@@ -264,7 +266,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 		mir_wstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
 		size_t len = mir_wstrlen(buf);
 		if (len > 0)
-			buf[len-1] = 0;
+			buf[len - 1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
 		mir_wstrncpy(buf, TranslateT("unknown"), _countof(buf));
@@ -280,9 +282,9 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	if (!(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
 		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), nullptr, TranslateT("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
 		int i;
-		for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+		for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
-				wchar_t szDescription[ 1024 ];
+				wchar_t szDescription[1024];
 				if (g_JabberFeatCapPairs[i].tszDescription)
 					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
@@ -292,7 +294,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 
 		for (int j = 0; j < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); j++, i++)
 			if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[j]->jcbCap) {
-				wchar_t szDescription[ 1024 ];
+				wchar_t szDescription[1024];
 				if (ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription)
 					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
 				else
@@ -375,7 +377,7 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 		mir_wstrncpy(buf, _wctime(&r->m_dwIdleStartTime), _countof(buf));
 		size_t len = mir_wstrlen(buf);
 		if (len > 0)
-			buf[len-1] = 0;
+			buf[len - 1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
 		mir_wstrncpy(buf, TranslateT("unknown"), _countof(buf));
@@ -400,8 +402,8 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// resources
 	if (item->arResources.getCount()) {
-		for (int i=0; i < item->arResources.getCount(); i++)
-			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
+		for (int i = 0; i < item->arResources.getCount(); i++)
+			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i + 1);
 	}
 	else if (!wcschr(item->jid, '@') || (r->m_iStatus != ID_STATUS_OFFLINE))
 		sttFillResourceInfo(ppro, hwndTree, htiRoot, item, 0);
@@ -760,7 +762,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 				}
 			}
 
-			RECT rc; 
+			RECT rc;
 			if (IsThemeActive()) {
 				GetClientRect(hwndCanvas, &rc);
 				DrawThemeParentBackground(hwndCanvas, hdcCanvas, &rc);

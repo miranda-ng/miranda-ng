@@ -274,8 +274,7 @@ void CJabberProto::GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const wchar_t
 	
 	default:
 		mir_cslock lck(m_csLists);
-		for (int i = 0; i < item->arResources.getCount(); i++) {
-			JABBER_RESOURCE_STATUS *JS = item->arResources[i];
+		for (auto &JS : item->arResources) {
 			if (!mir_wstrcmp(resource, JS->m_tszResourceName)) {
 				if (action != GC_EVENT_JOIN) {
 					switch (action) {
@@ -495,8 +494,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		return 0;
 
 	pResourceStatus me(nullptr), him(nullptr);
-	for (int i = 0; i < item->arResources.getCount(); i++) {
-		JABBER_RESOURCE_STATUS *p = item->arResources[i];
+	for (auto &p : item->arResources) {
 		if (!mir_wstrcmp(p->m_tszResourceName, item->nick))
 			me = p;
 		if (!mir_wstrcmp(p->m_tszResourceName, gcmi->pszUID))
@@ -645,6 +643,15 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 	CCtrlEdit    m_txtReason;
 	CCtrlClc     m_clc;
 
+	bool FindJid(const wchar_t *buf)
+	{
+		for (auto &it : m_newJids)
+			if (!mir_wstrcmp(it->jid, buf))
+				return true;
+		
+		return false;
+	}
+
 	void FilterList(CCtrlClc *)
 	{
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
@@ -700,8 +707,8 @@ public:
 
 	~CGroupchatInviteDlg()
 	{
-		for (int i = 0; i < m_newJids.getCount(); i++)
-			mir_free(m_newJids[i]);
+		for (auto &it : m_newJids)
+			mir_free(it);
 		mir_free(m_room);
 	}
 
@@ -733,11 +740,7 @@ public:
 			return;
 		}
 
-		int i;
-		for (i = 0; i < m_newJids.getCount(); i++)
-			if (!mir_wstrcmp(m_newJids[i]->jid, buf))
-				break;
-		if (i != m_newJids.getCount())
+		if (FindJid(buf))
 			return;
 
 		JabberGcLogInviteDlgJidData *jidData = (JabberGcLogInviteDlgJidData *)mir_alloc(sizeof(JabberGcLogInviteDlgJidData));
@@ -774,9 +777,9 @@ public:
 		}
 
 		// invite others
-		for (int i = 0; i < m_newJids.getCount(); i++)
-			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)m_newJids[i]->hItem, 0))
-				InviteUser(m_newJids[i]->jid, text);
+		for (auto &it : m_newJids)
+			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)it->hItem, 0))
+				InviteUser(it->jid, text);
 
 		Close();
 	}

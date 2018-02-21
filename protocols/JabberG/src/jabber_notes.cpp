@@ -150,13 +150,12 @@ void CNoteList::LoadXml(HXML hXml)
 void CNoteList::SaveXml(HXML hXmlParent)
 {
 	m_bIsModified = false;
-	CNoteList &me = *this;
 
-	for (int i = 0; i < getCount(); i++) {
+	for (auto &it : *this) {
 		HXML hXmlItem = hXmlParent << XCHILD(L"note");
-		hXmlItem << XATTR(L"from", me[i].GetFrom()) << XATTR(L"tags", me[i].GetTagsStr());
-		hXmlItem << XCHILD(L"title", me[i].GetTitle());
-		hXmlItem << XCHILD(L"text", me[i].GetText());
+		hXmlItem << XATTR(L"from", it->GetFrom()) << XATTR(L"tags", it->GetTagsStr());
+		hXmlItem << XCHILD(L"title", it->GetTitle());
+		hXmlItem << XCHILD(L"text", it->GetText());
 	}
 }
 
@@ -481,18 +480,18 @@ private:
 	void PopulateTags(HTREEITEM htiRoot, wchar_t *szActiveTag)
 	{
 		LIST<wchar_t> tagSet(5, wcscmp);
-		for (int i = 0; i < m_proto->m_notes.getCount(); i++) {
-			wchar_t *tags = m_proto->m_notes[i].GetTags();
+		for (auto &it : m_proto->m_notes) {
+			wchar_t *tags = it->GetTags();
 			for (wchar_t *tag = tags; tag && *tag; tag = tag + mir_wstrlen(tag) + 1)
 				if (!tagSet.find(tag))
 					tagSet.insert(tag);
 		}
 
 		bool selected = false;
-		for (int j = 0; j < tagSet.getCount(); ++j) {
-			bool select = !mir_wstrcmp(szActiveTag, tagSet[j]);
+		for (auto &it : tagSet) {
+			bool select = !mir_wstrcmp(szActiveTag, it);
 			selected |= select;
-			InsertTag(htiRoot, tagSet[j], select);
+			InsertTag(htiRoot, it, select);
 		}
 
 		if (!selected)
@@ -528,9 +527,9 @@ private:
 	void ListItems(const wchar_t *tag)
 	{
 		m_lstNotes.ResetContent();
-		for (int i = 0; i < m_proto->m_notes.getCount(); i++)
-			if (m_proto->m_notes[i].HasTag(tag))
-				InsertItem(m_proto->m_notes[i]);
+		for (auto &it : m_proto->m_notes)
+			if (it->HasTag(tag))
+				InsertItem(*it);
 		EnableControls();
 	}
 

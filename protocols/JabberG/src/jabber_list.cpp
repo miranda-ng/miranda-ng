@@ -38,8 +38,8 @@ JABBER_LIST_ITEM::JABBER_LIST_ITEM() :
 
 JABBER_LIST_ITEM::~JABBER_LIST_ITEM()
 {
-	for (int i = 0; i < arResources.getCount(); i++)
-		delete arResources[i];
+	for (auto &it : arResources)
+		delete it;
 
 	if (m_pItemResource)
 		delete m_pItemResource;
@@ -107,8 +107,8 @@ void CJabberProto::ListInit(void)
 void CJabberProto::ListWipe(void)
 {
 	mir_cslock lck(m_csLists);
-	for (int i = 0; i < m_lstRoster.getCount(); i++)
-		delete m_lstRoster[i];
+	for (auto &it : m_lstRoster)
+		delete it;
 
 	m_lstRoster.destroy();
 }
@@ -243,11 +243,9 @@ pResourceStatus JABBER_LIST_ITEM::findResource(const wchar_t *resourceName) cons
 	if (arResources.getCount() == 0 || resourceName == nullptr || *resourceName == 0)
 		return nullptr;
 
-	for (int i = 0; i < arResources.getCount(); i++) {
-		JABBER_RESOURCE_STATUS *r = arResources[i];
-		if (!mir_wstrcmp(r->m_tszResourceName, resourceName))
-			return r;
-	}
+	for (auto &it : arResources)
+		if (!mir_wstrcmp(it->m_tszResourceName, resourceName))
+			return it;
 
 	return nullptr;
 }
@@ -396,10 +394,9 @@ wchar_t* CJabberProto::ListGetBestClientResourceNamePtr(const wchar_t *jid)
 
 	int status = ID_STATUS_OFFLINE;
 	wchar_t *res = nullptr;
-	for (int i = 0; i < LI->arResources.getCount(); i++) {
-		r = LI->arResources[i];
+	for (auto &it : LI->arResources) {
 		bool foundBetter = false;
-		switch (r->m_iStatus) {
+		switch (it->m_iStatus) {
 		case ID_STATUS_FREECHAT:
 			foundBetter = true;
 			break;
@@ -421,8 +418,8 @@ wchar_t* CJabberProto::ListGetBestClientResourceNamePtr(const wchar_t *jid)
 			break;
 		}
 		if (foundBetter) {
-			res = r->m_tszResourceName;
-			status = r->m_iStatus;
+			res = it->m_tszResourceName;
+			status = it->m_iStatus;
 		}
 	}
 

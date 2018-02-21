@@ -60,7 +60,7 @@ typedef struct tag_Data
 
 } Data;
 
-static HWND searchHandleDlg=nullptr;
+static HWND searchHandleDlg = nullptr;
 
 //local functions declarations
 static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lParam);
@@ -69,28 +69,28 @@ static void JabberIqResultGetSearchFields(HXML iqNode, void *userdata);
 static void JabberSearchFreeData(HWND hwndDlg, JabberSearchData * dat);
 static void JabberSearchRefreshFrameScroll(HWND hwndDlg, JabberSearchData * dat);
 static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-static void JabberSearchDeleteFromRecent(wchar_t * szAddr,BOOL deleteLastFromDB);
+static void JabberSearchDeleteFromRecent(wchar_t * szAddr, BOOL deleteLastFromDB);
 void SearchAddToRecent(wchar_t * szAddr, HWND hwnd);
 
 // Implementation of MAP class (the list
-template <typename _KEYTYPE , int (*COMPARATOR)(_KEYTYPE*, _KEYTYPE*) >
+template <typename _KEYTYPE, int(*COMPARATOR)(_KEYTYPE*, _KEYTYPE*) >
 class UNIQUE_MAP
 {
 
 public:
 	typedef _KEYTYPE* (*COPYKEYPROC)(_KEYTYPE*);
-	typedef void (*DESTROYKEYPROC)(_KEYTYPE*);
+	typedef void(*DESTROYKEYPROC)(_KEYTYPE*);
 
 private:
 	typedef struct _tagRECORD
 	{
-		_tagRECORD(_KEYTYPE * key, wchar_t * value=nullptr)	{ _key=key; _value=value; _order=0; _destroyKeyProc=nullptr;	}
+		_tagRECORD(_KEYTYPE * key, wchar_t * value = nullptr) { _key = key; _value = value; _order = 0; _destroyKeyProc = nullptr; }
 		~_tagRECORD()
 		{
 			if (_key && _destroyKeyProc)
 				_destroyKeyProc(_key);
-			_key=nullptr;
-			_destroyKeyProc=nullptr;
+			_key = nullptr;
+			_destroyKeyProc = nullptr;
 		}
 		_KEYTYPE *_key;
 		wchar_t * _value;
@@ -104,96 +104,84 @@ private:
 	static int _KeysEqual(const _RECORD* p1, const _RECORD* p2)
 	{
 		if (COMPARATOR)
-			return (int)(COMPARATOR((p1->_key),(p2->_key)));
+			return (int)(COMPARATOR((p1->_key), (p2->_key)));
 		else
-			return (int) (p1->_key < p2->_key);
+			return (int)(p1->_key < p2->_key);
 	}
 
 	inline int _remove(_RECORD* p)
 	{
-		int _itemOrder=p->_order;
-		if (_Records.remove(p))
-		{
+		int _itemOrder = p->_order;
+		if (_Records.remove(p)) {
 			delete(p);
 			_nextOrder--;
-			for (int i=0; i<_Records.getCount(); i++)
-			{
-				_RECORD * temp=_Records[i];
-				if (temp && temp->_order>_itemOrder)
+			for (auto &temp : _Records)
+				if (temp && temp->_order > _itemOrder)
 					temp->_order--;
-			}
 			return 1;
 		}
 		return 0;
 	}
-	inline _RECORD * _getUnorderedRec (int index)
+	inline _RECORD * _getUnorderedRec(int index)
 	{
-		for (int i=0; i<_Records.getCount(); i++)
-		{
-			_RECORD * rec=_Records[i];
-			if (rec->_order==index)	return rec;
-		}
+		for (auto &rec : _Records)
+			if (rec->_order == index)
+				return rec;
+
 		return nullptr;
 	}
 
 public:
-	UNIQUE_MAP(int incr):_Records(incr,_KeysEqual)
+	UNIQUE_MAP(int incr) :_Records(incr, _KeysEqual)
 	{
-		_nextOrder=0;
+		_nextOrder = 0;
 	};
 	~UNIQUE_MAP()
 	{
 		_RECORD * record;
-		int i=0;
-		while (record=_Records[i++]) delete record;
+		int i = 0;
+		while (record = _Records[i++]) delete record;
 	}
 
 	int insert(_KEYTYPE* Key, wchar_t *Value)
 	{
-		_RECORD * rec= new _RECORD(Key,Value);
-		int index=_Records.getIndex(rec);
-		if (index<0)
-		{
+		_RECORD * rec = new _RECORD(Key, Value);
+		int index = _Records.getIndex(rec);
+		if (index < 0) {
 			if (!_Records.insert(rec)) delete rec;
-			else
-			{
-				index=_Records.getIndex(rec);
-				rec->_order=_nextOrder++;
+			else {
+				index = _Records.getIndex(rec);
+				rec->_order = _nextOrder++;
 			}
 		}
-		else
-		{
-			_Records[index]->_value=Value;
+		else {
+			_Records[index]->_value = Value;
 			delete rec;
 		}
 		return index;
 	}
 	int insertCopyKey(_KEYTYPE* Key, wchar_t *Value, _KEYTYPE** _KeyReturn, COPYKEYPROC CopyProc, DESTROYKEYPROC DestroyProc)
 	{
-		_RECORD * rec= new _RECORD(Key,Value);
-		int index=_Records.getIndex(rec);
-		if (index<0)
-		{
-			_KEYTYPE* newKey=CopyProc(Key);
-			if (!_Records.insert(rec))
-			{
+		_RECORD * rec = new _RECORD(Key, Value);
+		int index = _Records.getIndex(rec);
+		if (index < 0) {
+			_KEYTYPE* newKey = CopyProc(Key);
+			if (!_Records.insert(rec)) {
 				delete rec;
 				DestroyProc(newKey);
-				if (_KeyReturn) *_KeyReturn=nullptr;
+				if (_KeyReturn) *_KeyReturn = nullptr;
 			}
-			else
-			{
-				rec->_key=newKey;
-				rec->_destroyKeyProc=DestroyProc;
-				index=_Records.getIndex(rec);
-				rec->_order=_nextOrder++;
-				if (_KeyReturn) *_KeyReturn=newKey;
+			else {
+				rec->_key = newKey;
+				rec->_destroyKeyProc = DestroyProc;
+				index = _Records.getIndex(rec);
+				rec->_order = _nextOrder++;
+				if (_KeyReturn) *_KeyReturn = newKey;
 			}
 		}
-		else
-		{
-			_Records[index]->_value=Value;
-			if (_KeyReturn) *_KeyReturn=_Records[index]->_key;
+		else {
+			_Records[index]->_value = Value;
+			if (_KeyReturn) *_KeyReturn = _Records[index]->_key;
 			delete rec;
 		}
 		return index;
@@ -201,10 +189,9 @@ public:
 	inline wchar_t* operator[](_KEYTYPE* _KEY) const
 	{
 		_RECORD rec(_KEY);
-		int index=_Records.getIndex(&rec);
-		_RECORD * rv=_Records[index];
-		if (rv)
-		{
+		int index = _Records.getIndex(&rec);
+		_RECORD * rv = _Records[index];
+		if (rv) {
 			if (rv->_value)
 				return rv->_value;
 			else
@@ -215,25 +202,25 @@ public:
 	}
 	inline wchar_t* operator[](int index) const
 	{
-		_RECORD * rv=_Records[index];
+		_RECORD * rv = _Records[index];
 		if (rv) return rv->_value;
 		else return nullptr;
 	}
 	inline _KEYTYPE* getKeyName(int index)
 	{
-		_RECORD * rv=_Records[index];
+		_RECORD * rv = _Records[index];
 		if (rv) return rv->_key;
 		else return nullptr;
 	}
 	inline wchar_t * getUnOrdered(int index)
 	{
-		_RECORD * rec=_getUnorderedRec(index);
+		_RECORD * rec = _getUnorderedRec(index);
 		if (rec) return rec->_value;
 		else return nullptr;
 	}
 	inline _KEYTYPE * getUnOrderedKeyName(int index)
 	{
-		_RECORD * rec=_getUnorderedRec(index);
+		_RECORD * rec = _getUnorderedRec(index);
 		if (rec) return rec->_key;
 		else return nullptr;
 	}
@@ -243,13 +230,13 @@ public:
 	}
 	inline int removeUnOrdered(int index)
 	{
-		_RECORD * p=_getUnorderedRec(index);
+		_RECORD * p = _getUnorderedRec(index);
 		if (p) return _remove(p);
 		else return 0;
 	}
 	inline int remove(int index)
 	{
-		_RECORD * p=_Records[index];
+		_RECORD * p = _Records[index];
 		if (p) return _remove(p);
 		else return 0;
 	}
@@ -262,5 +249,5 @@ public:
 
 inline int TCharKeyCmp(wchar_t* a, wchar_t* b)
 {
-	return (int)(mir_wstrcmpi(a,b));
+	return (int)(mir_wstrcmpi(a, b));
 }

@@ -400,8 +400,8 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 
 	SearchReturnResults((HANDLE)id, (void*)&SearchResults, (U_TCHAR_MAP *)&mColumnsNames);
 
-	for (int i = 0; i < SearchResults.getCount(); i++)
-		delete ((U_TCHAR_MAP*)SearchResults[i]);
+	for (auto &it : SearchResults)
+		delete ((U_TCHAR_MAP*)it);
 
 	//send success to finish searching
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);

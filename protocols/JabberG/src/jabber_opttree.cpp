@@ -37,8 +37,8 @@ CCtrlTreeOpts::CCtrlTreeOpts(CDlgBase* dlg, int ctrlId):
 
 CCtrlTreeOpts::~CCtrlTreeOpts()
 {
-	for (int i=0; i < m_options.getCount(); i++)
-		delete m_options[i];
+	for (auto &it : m_options)
+		delete it;
 }
 
 void CCtrlTreeOpts::AddOption(wchar_t *szOption, CMOption<BYTE> &option)

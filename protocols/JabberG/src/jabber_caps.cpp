@@ -218,10 +218,10 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilities(const wchar_t *jid)
 	}
 
 	if (item) {
-		for (int i = 0; i < item->arResources.getCount(); i++) {
+		for (auto &it : item->arResources) {
 			wchar_t szFullJid[JABBER_MAX_JID_LEN];
-			mir_snwprintf(szFullJid, L"%s/%s", szBareJid, item->arResources[i]->m_tszResourceName);
-			pResourceStatus r(item->arResources[i]);
+			mir_snwprintf(szFullJid, L"%s/%s", szBareJid, it->m_tszResourceName);
+			pResourceStatus r(it);
 			JabberCapsBits jcb = GetResourceCapabilities(szFullJid, r);
 			if (!(jcb & JABBER_RESOURCE_CAPS_ERROR))
 				jcbToReturn |= jcb;
@@ -467,8 +467,8 @@ void CJabberClientCapsManager::UpdateFeatHash()
 	m_szFeaturesCrc.Empty();
 
 	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
-	for (int i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		jcb |= ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
+	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
+		jcb |= it->jcbCap;
 	if (!ppro->m_options.AllowVersionRequests)
 		jcb &= ~JABBER_CAPS_VERSION;
 
@@ -482,9 +482,9 @@ void CJabberClientCapsManager::UpdateFeatHash()
 			feat_buf.AppendChar('<');
 		}
 
-	for (int i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap) {
-			feat_buf.Append(_T2A(ppro->m_lstJabberFeatCapPairsDynamic[i]->szFeature));
+	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
+		if (jcb & it->jcbCap) {
+			feat_buf.Append(_T2A(it->szFeature));
 			feat_buf.AppendChar('<');
 		}
 
@@ -555,7 +555,6 @@ CJabberClientPartialCaps* CJabberClientCapsManager::SetClientCaps(const wchar_t 
 
 bool CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const wchar_t *szNode)
 {
-	int i;
 	JabberCapsBits jcb = 0;
 
 	if (szNode) {
@@ -566,7 +565,7 @@ bool CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 			goto LBL_All;
 		}
 
-		for (i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++) {
+		for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++) {
 			if (!g_JabberFeatCapPairsExt[i].Valid())
 				continue;
 			// TODO: something better here
@@ -579,12 +578,12 @@ bool CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 		}
 
 		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
-		for (i = 0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++) {
+		for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic) {
 			// TODO: something better here
-			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, ppro->m_lstJabberFeatCapPairsDynamic[i]->szExt);
+			mir_snwprintf(szExtCap, L"%s#%s", JABBER_CAPS_MIRANDA_NODE, it->szExt);
 			mir_snwprintf(szExtCapWHash, L"%s %s", szExtCap, m_szFeaturesCrc.c_str());
 			if (!mir_wstrcmp(szNode, szExtCap) || !mir_wstrcmp(szNode, szExtCapWHash)) {
-				jcb = ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
+				jcb = it->jcbCap;
 				break;
 			}
 		}
@@ -596,8 +595,8 @@ bool CJabberClientCapsManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, con
 	else {
 LBL_All:
 		jcb = JABBER_CAPS_MIRANDA_ALL;
-		for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-			jcb |= ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap;
+		for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
+			jcb |= it->jcbCap;
 	}
 
 	if (ppro->m_options.UseOMEMO)
@@ -615,13 +614,13 @@ LBL_All:
 	CMStringW szName(FORMAT, L"Miranda %d.%d.%d.%d", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 	query << XCHILD(L"identity") << XATTR(L"category", L"client") << XATTR(L"type", L"pc") << XATTR(L"name", szName);
 
-	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)
 			query << XCHILD(L"feature") << XATTR(L"var", g_JabberFeatCapPairs[i].szFeature);
 
-	for (i=0; i < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-		if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
-			query << XCHILD(L"feature") << XATTR(L"var", ppro->m_lstJabberFeatCapPairsDynamic[i]->szFeature);
+	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
+		if (jcb & it->jcbCap)
+			query << XCHILD(L"feature") << XATTR(L"var", it->szFeature);
 
 	if (ppro->m_options.AllowVersionRequests && !szNode) {
 		HXML form = query << XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"result");

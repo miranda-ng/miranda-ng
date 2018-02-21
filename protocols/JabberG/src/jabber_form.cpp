@@ -110,7 +110,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 
 	size_t len = mir_wstrlen(text);
 	size_t fixedLen = len;
-	for (int i = 1; i < len; i++)
+	for (size_t i = 1; i < len; i++)
 		if ((text[i - 1] == '\n') && (text[i] != '\r'))
 			++fixedLen;
 
@@ -118,7 +118,7 @@ void JabberFormSetInstruction(HWND hwndForm, const wchar_t *text)
 	if (fixedLen != len) {
 		fixedText = (wchar_t *)mir_alloc(sizeof(wchar_t) * (fixedLen + 1));
 		wchar_t *p = fixedText;
-		for (int i = 0; i < len; i++) {
+		for (size_t i = 0; i < len; i++) {
 			*p = text[i];
 			if (i && (text[i] == '\n') && (text[i] != '\r')) {
 				*p++ = '\r';
@@ -394,17 +394,17 @@ void JabberFormLayoutControls(HWND hwndStatic, TJabberFormLayoutInfo *layout_inf
 	TJabberFormControlList *controls = (TJabberFormControlList *)GetWindowLongPtr(hwndStatic, GWLP_USERDATA);
 	if (!controls) return;
 
-	for (int i = 0; i < controls->getCount(); i++) {
-		if ((*controls)[i]->hLabel)
-			SetWindowPos((*controls)[i]->hLabel, nullptr,
-			layout_info->offset + (*controls)[i]->ptLabel.x, layout_info->y_pos + (*controls)[i]->ptLabel.y, 0, 0,
+	for (auto &it : *controls) {
+		if (it->hLabel)
+			SetWindowPos(it->hLabel, nullptr,
+			layout_info->offset + it->ptLabel.x, layout_info->y_pos + it->ptLabel.y, 0, 0,
 			SWP_NOZORDER | SWP_NOSIZE);
-		if ((*controls)[i]->hCtrl)
-			SetWindowPos((*controls)[i]->hCtrl, nullptr,
-			layout_info->offset + (*controls)[i]->ptCtrl.x, layout_info->y_pos + (*controls)[i]->ptCtrl.y, 0, 0,
+		if (it->hCtrl)
+			SetWindowPos(it->hCtrl, nullptr,
+			layout_info->offset + it->ptCtrl.x, layout_info->y_pos + it->ptCtrl.y, 0, 0,
 			SWP_NOZORDER | SWP_NOSIZE);
 
-		layout_info->y_pos += (*controls)[i]->szBlock.cy;
+		layout_info->y_pos += it->szBlock.cy;
 		layout_info->y_pos += layout_info->y_spacing;
 	}
 
@@ -562,8 +562,8 @@ void JabberFormDestroyUI(HWND hwndStatic)
 {
 	TJabberFormControlList *controls = (TJabberFormControlList *)GetWindowLongPtr(hwndStatic, GWLP_USERDATA);
 	if (controls) {
-		for (int i = 0; i < controls->getCount(); i++)
-			mir_free((*controls)[i]);
+		for (auto &it : *controls)
+			mir_free(it);
 		delete controls;
 		SetWindowLongPtr(hwndStatic, GWLP_USERDATA, 0);
 	}

@@ -432,9 +432,9 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 		NotifyFastHook(hExtListInit, (WPARAM)&arrExtCaps, (LPARAM)(IJabberInterface*)this);
 
 		// add features enabled through IJabberNetInterface::AddFeatures()
-		for (int i = 0; i < m_lstJabberFeatCapPairsDynamic.getCount(); i++)
-			if (m_uEnabledFeatCapsDynamic & m_lstJabberFeatCapPairsDynamic[i]->jcbCap)
-				arrExtCaps.insert(m_lstJabberFeatCapPairsDynamic[i]->szExt);
+		for (auto &it : m_lstJabberFeatCapPairsDynamic)
+			if (m_uEnabledFeatCapsDynamic & it->jcbCap)
+				arrExtCaps.insert(it->szExt);
 
 		if (arrExtCaps.getCount()) {
 			CMStringW szExtCaps = arrExtCaps[0];
@@ -890,12 +890,12 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 
 	OBJLIST<JABBER_HTTP_AVATARS> &avs = *(OBJLIST<JABBER_HTTP_AVATARS>*)param;
 	HNETLIBCONN hHttpCon = nullptr;
-	for (int i = 0; i < avs.getCount(); i++) {
+	for (auto &it : avs) {
 		NETLIBHTTPREQUEST nlhr = { 0 };
 		nlhr.cbSize = sizeof(nlhr);
 		nlhr.requestType = REQUEST_GET;
 		nlhr.flags = NLHRF_HTTP11 | NLHRF_REDIRECT | NLHRF_PERSISTENT;
-		nlhr.szUrl = avs[i].Url;
+		nlhr.szUrl = it->Url;
 		nlhr.nlc = hHttpCon;
 
 		NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
@@ -906,7 +906,7 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 				if (pictureType != PA_FORMAT_UNKNOWN) {
 					PROTO_AVATAR_INFORMATION ai;
 					ai.format = pictureType;
-					ai.hContact = avs[i].hContact;
+					ai.hContact = it->hContact;
 
 					if (getByte(ai.hContact, "AvatarType", PA_FORMAT_UNKNOWN) != (unsigned char)pictureType) {
 						wchar_t tszFileName[MAX_PATH];

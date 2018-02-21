@@ -50,11 +50,11 @@ struct TTreeList_ItemInfo
 		flags(0), indent(0), sortIndex(0), iIcon(0), iOverlay(0), data(0) {}
 	~TTreeList_ItemInfo()
 	{
-		for (int i = text.getCount(); i--;)
-			mir_free(text[i]);
+		for (auto &it : text)
+			mir_free(it);
 
-		for (int k = subItems.getCount(); k--;)
-			delete subItems[k];
+		for (auto &it : subItems)
+			delete it;
 	}
 };
 
@@ -222,8 +222,8 @@ void TreeList_ResetItem(HWND hwnd, HTREELISTITEM hParent)
 {
 	TTreeList_Data *data = (TTreeList_Data *)sttTreeList_GeWindowData(hwnd);
 
-	for (int i = hParent->subItems.getCount(); i--;)
-		delete hParent->subItems[i];
+	for (auto &it : hParent->subItems)
+		delete it;
 	hParent->subItems.destroy();
 
 	data->hItemSelected = hParent;
@@ -263,9 +263,9 @@ void TreeList_SetIcon(HTREELISTITEM hItem, int iIcon, int iOverlay)
 
 void TreeList_RecursiveApply(HTREELISTITEM hItem, void (*func)(HTREELISTITEM, LPARAM), LPARAM data)
 {
-	for (int i = 0; i < hItem->subItems.getCount(); i++) {
-		func(hItem->subItems[i], data);
-		TreeList_RecursiveApply(hItem->subItems[i], func, data);
+	for (auto &it : hItem->subItems) {
+		func(it, data);
+		TreeList_RecursiveApply(it, func, data);
 	}
 }
 

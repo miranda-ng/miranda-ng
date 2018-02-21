@@ -394,22 +394,20 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 	int line_height = cy_icon + SZ_LINEPADDING;
 	int cy = SZ_FRAMEPADDING;
 
-	for (int i=0; i < m_pItems.getCount(); i++) {
-		CJabberInfoFrameItem &item = m_pItems[i];
-
-		if (!item.m_bShow) {
-			SetRect(&item.m_rcItem, 0, 0, 0, 0);
+	for (auto &it : m_pItems) {
+		if (!it->m_bShow) {
+			SetRect(&it->m_rcItem, 0, 0, 0, 0);
 			continue;
 		}
 
 		int cx = SZ_FRAMEPADDING;
 		int depth = 0;
-		for (char *p = item.m_pszName; p = strchr(p+1, '/'); cx += cx_icon) ++depth;
+		for (char *p = it->m_pszName; p = strchr(p+1, '/'); cx += cx_icon) ++depth;
 
-		SetRect(&item.m_rcItem, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
+		SetRect(&it->m_rcItem, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
 
-		if (item.m_hIcolibIcon) {
-			HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
+		if (it->m_hIcolibIcon) {
+			HICON hIcon = IcoLib_GetIconByHandle(it->m_hIcolibIcon);
 			if (hIcon) {
 				DrawIconEx(hdc, cx, cy + (line_height-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 				cx += cx_icon + SZ_ICONSPACING;
@@ -422,9 +420,9 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 		SetTextColor(hdc, depth ? m_clText : m_clTitle);
 
 		RECT rcText; SetRect(&rcText, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
-		DrawText(hdc, item.m_pszText, -1, &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
+		DrawText(hdc, it->m_pszText, -1, &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
 
-		RemoveTooltip(item.m_tooltipId);
+		RemoveTooltip(it->m_tooltipId);
 
 		cy += line_height + SZ_LINESPACING;
 	}
@@ -461,9 +459,9 @@ void CJabberInfoFrame::ShowInfoItem(char *pszName, bool bShow)
 {
 	bool bUpdate = false;
 	size_t length = mir_strlen(pszName);
-	for (int i=0; i < m_pItems.getCount(); i++)
-		if ((m_pItems[i].m_bShow != bShow) && !strncmp(m_pItems[i].m_pszName, pszName, length)) {
-			m_pItems[i].m_bShow = bShow;
+	for (auto &it : m_pItems)
+		if ((it->m_bShow != bShow) && !strncmp(it->m_pszName, pszName, length)) {
+			it->m_bShow = bShow;
 			m_hiddenItemCount += bShow ? -1 : 1;
 			bUpdate = true;
 		}
@@ -476,14 +474,17 @@ void CJabberInfoFrame::RemoveInfoItem(char *pszName)
 {
 	bool bUpdate = false;
 	size_t length = mir_strlen(pszName);
-	for (int i=0; i < m_pItems.getCount(); i++)
-		if (!strncmp(m_pItems[i].m_pszName, pszName, length)) {
-			if (!m_pItems[i].m_bShow) --m_hiddenItemCount;
-			RemoveTooltip(m_pItems[i].m_tooltipId);
+	for (int i = 0; i < m_pItems.getCount(); i++) {
+		auto &p = m_pItems[i];
+		if (!strncmp(p.m_pszName, pszName, length)) {
+			if (!p.m_bShow)
+				--m_hiddenItemCount;
+			RemoveTooltip(p.m_tooltipId);
 			m_pItems.remove(i);
 			bUpdate = true;
 			--i;
 		}
+	}
 
 	if (bUpdate)
 		UpdateSize();
