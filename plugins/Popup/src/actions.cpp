@@ -51,8 +51,8 @@ void LoadActions()
 
 void UnloadActions()
 {
-	for (int i = 0; i < gActions.getCount(); ++i)
-		delete gActions[i];
+	for (auto &it : gActions)
+		delete it;
 	gActions.destroy();
 }
 

@@ -82,8 +82,8 @@ void FreePopupClass(POPUPTREEDATA *ptd)
 
 void UnloadTreeData()
 {
-	for (int i = 0; i < gTreeData.getCount(); ++i)
-		FreePopupClass(gTreeData[i]);
+	for (auto &it : gTreeData)
+		FreePopupClass(it);
 	gTreeData.destroy();
 }
 
@@ -213,11 +213,10 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 
 HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 {
-	for (int i = 0; i < gTreeData.getCount(); i++) {
-		POPUPTREEDATA *p = gTreeData[i];
+	for (auto &p : gTreeData)
 		if (p->typ == typ && (!group || (mir_wstrcmp(p->pszTreeRoot, group) == 0)) && (!name || (mir_wstrcmp(p->pszDescription, name) == 0)))
 			return p;
-	}
+
 	return nullptr;
 }
 

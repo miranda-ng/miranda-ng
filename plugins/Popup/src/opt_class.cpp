@@ -181,9 +181,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			ImageList_ReplaceIcon(hImgLst, -1, LoadIconEx(IDI_OPT_GROUP));
 			TreeView_SetImageList(hwndTree, hImgLst, TVSIL_NORMAL);
 
-			for (int i = 0; i < gTreeData.getCount(); ++i) {
-				POPUPTREEDATA *p = gTreeData[i];
-
+			for (auto &p : gTreeData) {
 				wchar_t itemName[MAXMODULELABELLENGTH];
 				int iconIndex;
 
@@ -438,8 +436,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_RESET:
-				for (int i = 0; i < gTreeData.getCount(); ++i) {
-					POPUPTREEDATA *p = gTreeData[i];
+				for (auto &p : gTreeData) {
 					switch (p->typ) {
 					case 1:
 						LoadNotificationSettings(p, "PopupNotifications");
@@ -453,8 +450,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				return TRUE;
 
 			case PSN_APPLY:
-				for (int i = 0; i < gTreeData.getCount(); ++i) {
-					POPUPTREEDATA *p = gTreeData[i];
+				for (auto &p : gTreeData) {
 					switch (p->typ) {
 					case 1:
 						p->notification.iSeconds = p->timeoutValue;

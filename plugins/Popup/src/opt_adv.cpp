@@ -37,8 +37,8 @@ void OptAdv_RegisterVfx(char *name)
 
 void OptAdv_UnregisterVfx()
 {
-	for (int i = 0; i < g_lstPopupVfx.getCount(); ++i)
-		mir_free(g_lstPopupVfx[i]);
+	for (auto &it : g_lstPopupVfx)
+		mir_free(it);
 	g_lstPopupVfx.destroy();
 }
 

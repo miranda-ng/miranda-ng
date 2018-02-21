@@ -135,9 +135,9 @@ void RepositionPopups()
 {
 	PopupWnd2 *prev = nullptr;
 	if (PopupOptions.ReorderPopups) {
-		for (int i = 0; i < popupList.getCount(); ++i) {
-			UpdatePopupPosition(prev, popupList[i]);
-			prev = popupList[i];
+		for (auto &it : popupList) {
+			UpdatePopupPosition(prev, it);
+			prev = it;
 		}
 	}
 }
@@ -153,8 +153,8 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 	case UTM_STOP_THREAD:
 		gTerminating = true;
 		if (db_get_b(NULL, MODULNAME, "FastExit", 0))
-			for (int i = 0; i < popupList.getCount(); ++i)
-				PUDeletePopup(popupList[i]->getHwnd());
+			for (auto &it : popupList)
+				PUDeletePopup(it->getHwnd());
 		PostQuitMessage(0);
 		break;
 
@@ -198,11 +198,9 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		break;
 
 	case UTM_AVATAR_CHANGED:
-		for (int i = 0; i < popupList.getCount(); i++) {
-			PopupWnd2 *p = popupList[i];
+		for (auto &p : popupList)
 			if (p->getContact() == wParam)
 				SendMessage(p->getHwnd(), UM_AVATARCHANGED, 0, 0);
-		}
 		break;
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -277,8 +275,8 @@ void UnloadPopupThread()
 	WaitForSingleObject(hThread, INFINITE);
 	CloseHandle(hThread);
 
-	for (int i = 0; i < popupList.getCount(); ++i)
-		delete popupList[i];
+	for (auto &it : popupList)
+		delete it;
 	popupList.destroy();
 }
 

@@ -113,14 +113,13 @@ void ReloadFonts()
 
 	// update class popupps(only temp at this point, must rework)
 	char setting[256];
-	for (int i = 0; i < gTreeData.getCount(); i++) {
-		if (gTreeData[i]->typ == 2) {
-			mir_snprintf(setting, "%s/TextCol", gTreeData[i]->pupClass.pszName);
-			gTreeData[i]->colorText = gTreeData[i]->pupClass.colorText =
-				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);
-			mir_snprintf(setting, "%s/BgCol", gTreeData[i]->pupClass.pszName);
-			gTreeData[i]->colorBack = gTreeData[i]->pupClass.colorBack =
-				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
+	for (auto &it : gTreeData) {
+		if (it->typ == 2) {
+			mir_snprintf(setting, "%s/TextCol", it->pupClass.pszName);
+			it->colorText = it->pupClass.colorText = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);
+			
+			mir_snprintf(setting, "%s/BgCol", it->pupClass.pszName);
+			it->colorBack = it->pupClass.colorBack = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 		}
 	}
 }

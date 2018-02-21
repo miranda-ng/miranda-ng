@@ -61,8 +61,8 @@ void PopupHistoryLoad()
 
 void PopupHistoryUnload()
 {
-	for (int i = 0; i < arPopupHistory.getCount(); ++i)
-		FreeHistoryItem(arPopupHistory[i]);
+	for (auto &it : arPopupHistory)
+		FreeHistoryItem(it);
 	arPopupHistory.destroy();
 }
 
@@ -127,7 +127,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 		{
 			oldWidth = 0;
 			HWND hwndList = GetDlgItem(hwnd, IDC_POPUP_LIST);
-			for (int i = 0; i < arPopupHistory.getCount(); ++i)
+			for (auto &it : arPopupHistory)
 				ListBox_SetItemData(hwndList, ListBox_AddString(hwndList, L""), 0);
 
 			Window_SetIcon_IcoLib(hwnd, GetIconHandle(IDI_HISTORY));
@@ -178,8 +178,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM, LPARAM lPara
 				ieEvent.codepage = 0;
 				ieEvent.pszProto = nullptr;
 
-				for (int i = 0; i < arPopupHistory.getCount(); ++i) {
-					POPUPDATA2* ppd = arPopupHistory[i];
+				for (auto &ppd : arPopupHistory) {
 					ieData.cbSize = sizeof(ieData);
 					ieData.iType = IEED_EVENT_SYSTEM;
 					ieData.dwFlags = 0;
