@@ -2129,8 +2129,8 @@ bool CIrcProto::OnIrc_USERHOST_REPLY(const CIrcMessage *pmsg)
 
 			// Status-check post-processing: make buddies in ckeck-list offline
 			if (command[0] == 'S') {
-				for (int i = 0; i < checklist.getCount(); i++) {
-					finduser.name = checklist[i].GetBuffer();
+				for (auto &it : checklist) {
+					finduser.name = it->GetBuffer();
 					finduser.ExactNick = true;
 					CList_SetOffline(&finduser);
 				}
@@ -2202,10 +2202,9 @@ bool CIrcProto::OnIrc_SUPPORT(const CIrcMessage *pmsg)
 	if (pmsg->m_bIncoming && !bPerformDone)
 		DoOnConnect(pmsg);
 
-	if (pmsg->m_bIncoming && pmsg->parameters.getCount() > 0) {
-		CMStringW S;
-		for (int i = 0; i < pmsg->parameters.getCount(); i++) {
-			wchar_t* temp = mir_wstrdup(pmsg->parameters[i]);
+	if (pmsg->m_bIncoming) {
+		for (auto &it : pmsg->parameters) {
+			wchar_t* temp = mir_wstrdup(it->GetString());
 			if (wcsstr(temp, L"CHANTYPES=")) {
 				wchar_t* p1 = wcschr(temp, '=');
 				p1++;
@@ -2408,7 +2407,7 @@ int CIrcProto::IsIgnored(const CMStringW& nick, const CMStringW& address, const 
 int CIrcProto::IsIgnored(CMStringW user, char type)
 {
 	for (int i = 0; i < m_ignoreItems.getCount(); i++) {
-		const CIrcIgnoreItem& C = m_ignoreItems[i];
+		const CIrcIgnoreItem &C = m_ignoreItems[i];
 
 		if (type == 0 && !mir_wstrcmpi(user, C.mask))
 			return i + 1;

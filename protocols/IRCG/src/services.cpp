@@ -70,9 +70,9 @@ static CIrcProto* IrcGetInstanceByHContact(MCONTACT hContact)
 	if (szProto == nullptr)
 		return nullptr;
 
-	for (int i = 0; i < g_Instances.getCount(); i++)
-		if (!mir_strcmp(szProto, g_Instances[i]->m_szModuleName))
-			return g_Instances[i];
+	for (auto &it : g_Instances)
+		if (!mir_strcmp(szProto, it->m_szModuleName))
+			return it;
 
 	return nullptr;
 }

@@ -242,13 +242,12 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 		OBJLIST<CMStringA> performToConvert(10);
 		db_enum_settings(NULL, sttCheckPerform, m_szModuleName, &performToConvert);
 
-		for (int i = 0; i < performToConvert.getCount(); i++) {
-			CMStringA s = performToConvert[i];
+		for (auto &it : performToConvert) {
 			DBVARIANT dbv;
-			if (!getWString(s, &dbv)) {
-				db_unset(NULL, m_szModuleName, s);
-				s.MakeUpper();
-				setWString(s, dbv.ptszVal);
+			if (!getWString(*it, &dbv)) {
+				db_unset(NULL, m_szModuleName, *it);
+				it->MakeUpper();
+				setWString(*it, dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}

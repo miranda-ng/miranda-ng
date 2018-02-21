@@ -58,8 +58,8 @@ CIrcMessage::CIrcMessage(const CIrcMessage& m) :
 	prefix.sUser = m.prefix.sUser;
 	prefix.sHost = m.prefix.sHost;
 
-	for (int i = 0; i < m.parameters.getCount(); i++)
-		parameters.insert(new CMStringW(m.parameters[i]));
+	for (auto &it : m.parameters)
+		parameters.insert(new CMStringW(*it));
 }
 
 CIrcMessage::~CIrcMessage()
@@ -468,9 +468,9 @@ void CIrcProto::RemoveDCCSession(MCONTACT hContact)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_chats.getCount(); i++)
-		if (m_dcc_chats[i]->di->hContact == hContact) {
-			m_dcc_chats.remove(i);
+	for (auto &it : m_dcc_chats)
+		if (it->di->hContact == hContact) {
+			m_dcc_chats.remove(it);
 			break;
 		}
 }
@@ -479,9 +479,9 @@ void CIrcProto::RemoveDCCSession(DCCINFO *pdci)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
-		if (m_dcc_xfers[i]->di == pdci) {
-			m_dcc_xfers.remove(i);
+	for (auto &it : m_dcc_xfers) {
+		if (it->di == pdci) {
+			m_dcc_xfers.remove(it);
 			break;
 		}
 	}
@@ -491,9 +491,9 @@ CDccSession* CIrcProto::FindDCCSession(MCONTACT hContact)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_chats.getCount(); i++)
-		if (m_dcc_chats[i]->di->hContact == hContact)
-			return m_dcc_chats[i];
+	for (auto &it : m_dcc_chats)
+		if (it->di->hContact == hContact)
+			return it;
 
 	return nullptr;
 }
@@ -502,9 +502,9 @@ CDccSession* CIrcProto::FindDCCSession(DCCINFO *pdci)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++)
-		if (m_dcc_xfers[i]->di == pdci)
-			return m_dcc_xfers[i];
+	for (auto &it : m_dcc_xfers)
+		if (it->di == pdci)
+			return it;
 
 	return nullptr;
 }
@@ -513,11 +513,9 @@ CDccSession* CIrcProto::FindDCCSendByPort(int iPort)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
-		CDccSession *p = m_dcc_xfers[i];
+	for (auto &p : m_dcc_xfers)
 		if (p->di->iType == DCC_SEND && p->di->bSender && iPort == p->di->iPort)
 			return p;
-	}
 
 	return nullptr;
 }
@@ -526,8 +524,7 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szNam
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
-		CDccSession* p = m_dcc_xfers[i];
+	for (auto &p : m_dcc_xfers) {
 		DBVARIANT dbv;
 		if (!getWString(p->di->hContact, "Nick", &dbv)) {
 			if (p->di->iType == DCC_SEND && !p->di->bSender && !mir_wstrcmpi(szName, dbv.ptszVal) && iPort == p->di->iPort) {
@@ -545,9 +542,9 @@ CDccSession* CIrcProto::FindPassiveDCCSend(int iToken)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++)
-		if (m_dcc_xfers[i]->iToken == iToken)
-			return m_dcc_xfers[i];
+	for (auto &it : m_dcc_xfers)
+		if (it->iToken == iToken)
+			return it;
 
 	return nullptr;
 }
@@ -556,39 +553,33 @@ CDccSession* CIrcProto::FindPassiveDCCRecv(CMStringW sName, CMStringW sToken)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_xfers.getCount(); i++) {
-		CDccSession *p = m_dcc_xfers[i];
+	for (auto &p : m_dcc_xfers)
 		if (sToken == p->di->sToken && sName == p->di->sContactName)
 			return p;
-	}
 
 	return nullptr;
 }
 
 void CIrcProto::DisconnectAllDCCSessions(bool Shutdown)
 {
-	mir_cslock lck(m_dcc);
-
-	for (int i = 0; i < m_dcc_chats.getCount(); i++)
-		if (m_disconnectDCCChats || Shutdown)
-			m_dcc_chats[i]->Disconnect();
+	if (m_disconnectDCCChats || Shutdown) {
+		mir_cslock lck(m_dcc);
+		for (auto &it : m_dcc_chats)
+			it->Disconnect();
+	}
 }
 
 void CIrcProto::CheckDCCTimeout(void)
 {
 	mir_cslock lck(m_dcc);
 
-	for (int i = 0; i < m_dcc_chats.getCount(); i++) {
-		CDccSession* p = m_dcc_chats[i];
+	for (auto &p : m_dcc_chats)
 		if (time(nullptr) > p->tLastActivity + DCCCHATTIMEOUT)
 			p->Disconnect();
-	}
 
-	for (int j = 0; j < m_dcc_xfers.getCount(); j++) {
-		CDccSession* p = m_dcc_xfers[j];
+	for (auto &p : m_dcc_xfers)
 		if (time(nullptr) > p->tLastActivity + DCCSENDTIMEOUT)
 			p->Disconnect();
-	}
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -1421,13 +1412,12 @@ LBL_Parse:
 		if (iParamCnt != 2)
 			cbLen = mir_snprintf(buf, "%s : ERROR : UNKNOWN-ERROR\r\n", szBuf);
 		else {
-			for (int i = 0; i < g_Instances.getCount(); i++) {
-				if (PeerPortNrRcvd == g_Instances[i]->m_info.iPort && LocalPortNrRcvd == g_Instances[i]->m_myLocalPort) {
+			for (auto &it : g_Instances)
+				if (PeerPortNrRcvd == it->m_info.iPort && LocalPortNrRcvd == it->m_myLocalPort) {
 					cbLen = mir_snprintf(buf, "%s : USERID : %S : %S\r\n",
-						szBuf, g_Instances[i]->m_info.sIdentServerType.c_str(), g_Instances[i]->m_info.sUserID.c_str());
+						szBuf, it->m_info.sIdentServerType.c_str(), it->m_info.sUserID.c_str());
 					break;
 				}
-			}
 
 			if (cbLen == 0)
 				cbLen = mir_snprintf(buf, "%s : ERROR : INVALID-PORT\r\n", szBuf);

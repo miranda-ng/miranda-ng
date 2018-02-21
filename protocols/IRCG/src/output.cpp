@@ -27,10 +27,8 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 
 	if (pmsg->m_bIncoming) { // Is it an incoming message?
 		if (pmsg->sCommand == L"WALLOPS" && pmsg->parameters.getCount() > 0) {
-			wchar_t temp[200]; *temp = 0;
-			mir_snwprintf(temp, TranslateT("WallOps from %s: "), pmsg->prefix.sNick.c_str());
-			sMessage = temp;
-			for (int i = 0; i < (int)pmsg->parameters.getCount(); i++) {
+			sMessage.Format(TranslateT("WallOps from %s: "), pmsg->prefix.sNick.c_str());
+			for (int i = 0; i < pmsg->parameters.getCount(); i++) {
 				sMessage += pmsg->parameters[i];
 				if (i != pmsg->parameters.getCount() - 1)
 					sMessage += L" ";
@@ -39,10 +37,8 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 		}
 
 		if (pmsg->sCommand == L"INVITE" && pmsg->parameters.getCount() > 1) {
-			wchar_t temp[256]; *temp = 0;
-			mir_snwprintf(temp, TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
-			sMessage = temp;
-			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
+			sMessage.Format(TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
+			for (int i = 2; i < pmsg->parameters.getCount(); i++) {
 				sMessage += L": " + pmsg->parameters[i];
 				if (i != pmsg->parameters.getCount() - 1)
 					sMessage += L" ";
@@ -52,10 +48,8 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 
 		int index = _wtoi(pmsg->sCommand.c_str());
 		if (index == 301 && pmsg->parameters.getCount() > 0) {
-			wchar_t temp[500]; *temp = 0;
-			mir_snwprintf(temp, TranslateT("%s is away"), pmsg->parameters[1].c_str());
-			sMessage = temp;
-			for (int i = 2; i < (int)pmsg->parameters.getCount(); i++) {
+			sMessage.Format(TranslateT("%s is away"), pmsg->parameters[1].c_str());
+			for (int i = 2; i < pmsg->parameters.getCount(); i++) {
 				sMessage += L": " + pmsg->parameters[i];
 				if (i != pmsg->parameters.getCount() - 1)
 					sMessage += L" ";
@@ -68,7 +62,7 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 
 		if (index == 303) {  // ISON command
 			sMessage = TranslateT("These are online: ");
-			for (int i = 1; i < (int)pmsg->parameters.getCount(); i++) {
+			for (int i = 1; i < pmsg->parameters.getCount(); i++) {
 				sMessage += pmsg->parameters[i];
 				if (i != pmsg->parameters.getCount() - 1)
 					sMessage += L", ";
@@ -80,8 +74,6 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 			return pmsg->parameters[2] + L": " + pmsg->parameters[1];
 	}
 	else if (pmsg->sCommand == L"NOTICE" && pmsg->parameters.getCount() > 1) {
-		wchar_t temp[500]; *temp = 0;
-
 		int l = pmsg->parameters[1].GetLength();
 		if (l > 3 && pmsg->parameters[1][0] == 1 && pmsg->parameters[1][l - 1] == 1) {
 			// CTCP reply
@@ -90,15 +82,13 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 			tempstr.Delete(tempstr.GetLength() - 1, 1);
 			CMStringW type = GetWord(tempstr.c_str(), 0);
 			if (mir_wstrcmpi(type.c_str(), L"ping") == 0)
-				mir_snwprintf(temp, TranslateT("CTCP %s reply sent to %s"), type.c_str(), pmsg->parameters[0].c_str());
+				sMessage.Format(TranslateT("CTCP %s reply sent to %s"), type.c_str(), pmsg->parameters[0].c_str());
 			else
-				mir_snwprintf(temp, TranslateT("CTCP %s reply sent to %s: %s"), type.c_str(), pmsg->parameters[0].c_str(), GetWordAddress(tempstr.c_str(), 1));
-			sMessage = temp;
+				sMessage.Format(TranslateT("CTCP %s reply sent to %s: %s"), type.c_str(), pmsg->parameters[0].c_str(), GetWordAddress(tempstr.c_str(), 1));
 		}
 		else {
-			mir_snwprintf(temp, TranslateT("Notice to %s: "), pmsg->parameters[0].c_str());
-			sMessage = temp;
-			for (int i = 1; i < (int)pmsg->parameters.getCount(); i++) {
+			sMessage.Format(TranslateT("Notice to %s: "), pmsg->parameters[0].c_str());
+			for (int i = 1; i < pmsg->parameters.getCount(); i++) {
 				sMessage += pmsg->parameters[i];
 				if (i != pmsg->parameters.getCount() - 1)
 					sMessage += L" ";
@@ -114,15 +104,15 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 			return pmsg->sCommand + L" : " + pmsg->parameters[0];
 
 		if (pmsg->parameters.getCount() > 1)
-		for (int i = 1; i < (int)pmsg->parameters.getCount(); i++)
+		for (int i = 1; i < pmsg->parameters.getCount(); i++)
 			sMessage += pmsg->parameters[i] + L" ";
 	}
 	else {
 		if (pmsg->prefix.sNick.GetLength())
 			sMessage = pmsg->prefix.sNick + L" ";
 		sMessage += pmsg->sCommand + L" ";
-		for (int i = 0; i < (int)pmsg->parameters.getCount(); i++)
-			sMessage += pmsg->parameters[i] + L" ";
+		for (auto &it : pmsg->parameters)
+			sMessage += *it + L" ";
 	}
 
 THE_END:

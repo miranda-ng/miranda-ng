@@ -485,10 +485,8 @@ void CConnectPrefsDlg::OnInitDialog()
 	m_proto->m_hwndConnect = m_hwnd;
 
 	//	Fill the servers combo box and create SERVER_INFO structures
-	for (int i = 0; i < g_servers.getCount(); i++) {
-		SERVER_INFO &si = g_servers[i];
-		m_serverCombo.AddStringA(si.m_name, LPARAM(&si));
-	}
+	for (auto &si : g_servers)
+		m_serverCombo.AddStringA(si->m_name, LPARAM(si));
 
 	m_serverCombo.SetCurSel(m_proto->m_serverComboSelection);
 	m_server.SetTextA(m_proto->m_serverName);
@@ -1022,17 +1020,15 @@ void COtherPrefsDlg::OnInitDialog()
 			break;
 		}
 	}
-
-
+	
 	if (m_proto->m_codepage == CP_UTF8)
 		m_autodetect.Disable();
 
-	for (int i = 0; i < g_servers.getCount(); i++) {
-		SERVER_INFO& si = g_servers[i];
-		int idx = m_performCombo.FindStringA(si.m_group, -1, true);
+	for (auto &si : g_servers) {
+		int idx = m_performCombo.FindStringA(si->m_group, -1, true);
 		if (idx == CB_ERR) {
-			idx = m_performCombo.AddStringA(si.m_group);
-			addPerformComboValue(idx, si.m_group);
+			idx = m_performCombo.AddStringA(si->m_group);
+			addPerformComboValue(idx, si->m_group);
 		}
 	}
 
@@ -1588,9 +1584,8 @@ void CIgnorePrefsDlg::RebuildList()
 {
 	m_list.DeleteAllItems();
 
-	for (int i = 0; i < m_proto->m_ignoreItems.getCount(); i++) {
-		CIrcIgnoreItem& C = m_proto->m_ignoreItems[i];
-		if (C.mask.IsEmpty() || C.flags[0] != '+')
+	for (auto &C : m_proto->m_ignoreItems) {
+		if (C->mask.IsEmpty() || C->flags[0] != '+')
 			continue;
 
 		LVITEM lvItem;
@@ -1598,17 +1593,17 @@ void CIgnorePrefsDlg::RebuildList()
 		lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 		lvItem.iSubItem = 0;
 		lvItem.lParam = lvItem.iItem;
-		lvItem.pszText = (wchar_t*)C.mask.c_str();
+		lvItem.pszText = (wchar_t*)C->mask.c_str();
 		lvItem.iItem = m_list.InsertItem(&lvItem);
 
 		lvItem.mask = LVIF_TEXT;
 		lvItem.iSubItem = 1;
-		lvItem.pszText = (wchar_t*)C.flags.c_str();
+		lvItem.pszText = (wchar_t*)C->flags.c_str();
 		m_list.SetItem(&lvItem);
 
 		lvItem.mask = LVIF_TEXT;
 		lvItem.iSubItem = 2;
-		lvItem.pszText = (wchar_t*)C.network.c_str();
+		lvItem.pszText = (wchar_t*)C->network.c_str();
 		m_list.SetItem(&lvItem);
 	}
 
@@ -1754,10 +1749,9 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 
 	virtual void OnInitDialog()
 	{
-		for (int i = 0; i < g_servers.getCount(); i++) {
-			SERVER_INFO& si = g_servers[i];
-			m_serverCombo.AddStringA(si.m_name, LPARAM(&si));
-		}
+		for (auto &si : g_servers)
+			m_serverCombo.AddStringA(si->m_name, LPARAM(si));
+
 		m_serverCombo.SetCurSel(m_proto->m_serverComboSelection);
 		m_server.SetTextA(m_proto->m_serverName);
 		m_port.SetTextA(m_proto->m_portStart);

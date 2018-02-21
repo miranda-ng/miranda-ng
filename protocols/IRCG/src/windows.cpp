@@ -563,10 +563,8 @@ void CQuickDlg::OnInitDialog()
 	CCoolIrcDlg::OnInitDialog();
 
 	if (g_servers.getCount() > 0) {
-		for (int i = 0; i < g_servers.getCount(); i++) {
-			const SERVER_INFO& si = g_servers[i];
-			m_serverCombo.AddStringA(si.m_name, (LPARAM)&si);
-		}
+		for (auto &si : g_servers)
+			m_serverCombo.AddStringA(si->m_name, (LPARAM)si);
 	}
 	else EnableWindow(GetDlgItem(m_hwnd, IDOK), false);
 
