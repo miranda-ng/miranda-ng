@@ -107,15 +107,14 @@ void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 	if (fcOpt.bMoveTogether)
 		UndockThumbs(this, thumbList.FindThumb(dockOpt.hwndLeft));
 
-	for (int i = 0; i < thumbList.getCount(); ++i) {
-		ThumbInfo *pCurThumb = &thumbList[i];
-		if (pCurThumb == this)
+	for (auto &it : thumbList) {
+		if (it == this)
 			continue;
 
 		GetThumbRect(&rcThumb);
 		OffsetRect(&rcThumb, nX - rcThumb.left, nY - rcThumb.top);
 
-		pCurThumb->GetThumbRect(&rc);
+		it->GetThumbRect(&rc);
 
 		// These are rects we will dock into
 
@@ -190,10 +189,10 @@ void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 
 		if (fcOpt.bMoveTogether) {
 			if (bDockedRight)
-				DockThumbs(this, pCurThumb);
+				DockThumbs(this, it);
 
 			if (bDockedLeft)
-				DockThumbs(pCurThumb, this);
+				DockThumbs(it, this);
 		}
 
 		// Lower-left
@@ -776,9 +775,9 @@ ThumbInfo* ThumbList::FindThumb(HWND hwnd)
 {
 	if (!hwnd) return nullptr;
 
-	for (int i = 0; i < getCount(); ++i)
-		if (items[i]->hwnd == hwnd)
-			return items[i];
+	for (auto &it : *this)
+		if (it->hwnd == hwnd)
+			return it;
 
 	return nullptr;
 }
@@ -787,9 +786,9 @@ ThumbInfo *ThumbList::FindThumbByContact(MCONTACT hContact)
 {
 	if (!hContact) return nullptr;
 
-	for (int i = 0; i < getCount(); ++i)
-		if (items[i]->hContact == hContact)
-			return items[i];
+	for (auto &it : *this)
+		if (it->hContact == hContact)
+			return it;
 
 	return nullptr;
 }

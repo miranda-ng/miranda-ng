@@ -48,7 +48,7 @@ HICON LoadIconEx(const char *name)
 
 HANDLE GetIconHandle(int iconId)
 {
-	for(int i = 0; i < _countof(iconList); i++)
+	for (int i = 0; i < _countof(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return iconList[i].hIcolib;
 
@@ -73,8 +73,8 @@ HANDLE HookProtoEvent(const char *szModule, const char *szEvent, MIRANDAHOOKPARA
 
 void UnhookProtoEvents(void)
 {
-	for (int i = 0; i < arProtoHooks.getCount(); ++i)
-		UnhookEvent( arProtoHooks[i] );
+	for (auto &it : arProtoHooks)
+		UnhookEvent(it);
 	arProtoHooks.destroy();
 }
 

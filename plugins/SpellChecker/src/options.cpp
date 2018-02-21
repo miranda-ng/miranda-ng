@@ -98,13 +98,11 @@ void LoadOptions()
 		db_free(&dbv);
 	}
 
-	int i;
-	for (i = 0; i < languages.getCount(); i++)
-		if (mir_wstrcmp(languages[i]->language, opts.default_language) == 0)
-			break;
+	for (auto &it : languages)
+		if (mir_wstrcmp(it->language, opts.default_language) == 0)
+			return;
 
-	if (i >= languages.getCount())
-		mir_wstrcpy(opts.default_language, languages[0]->language);
+	mir_wstrcpy(opts.default_language, languages[0]->language);
 }
 
 static void DrawItem(LPDRAWITEMSTRUCT lpdis, Dictionary *dict)

@@ -317,22 +317,21 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 	bool isUid = (((INT_PTR)uid != CALLSERVICE_NOTFOUND) && (uid != nullptr)) && (!strcmp(dbw->szSetting, uid));
 
 	mir_cslock lck(csContactCache);
-	for (int i = 0; i < arContactCache.getCount(); i++) {
-		CONTACTCE &cce = arContactCache[i];
-		if (hContact != cce.hContact && (cce.flags & CI_CNFINFO) == 0)
+	for (auto &it : arContactCache) {
+		if (hContact != it->hContact && (it->flags & CI_CNFINFO) == 0)
 			continue;
 		
-		if ((isNick && (cce.flags & CI_NICK)) ||
-			(isFirstName && (cce.flags & CI_FIRSTNAME)) ||
-			(isLastName && (cce.flags & CI_LASTNAME)) ||
-			(isEmail && (cce.flags & CI_EMAIL)) ||
-			(isMyHandle && (cce.flags & CI_LISTNAME)) ||
-			(cce.flags & CI_CNFINFO) != 0 || // lazy; always invalidate CNF info cache entries
-			(isUid && (cce.flags & CI_UNIQUEID))) 
+		if ((isNick && (it->flags & CI_NICK)) ||
+			(isFirstName && (it->flags & CI_FIRSTNAME)) ||
+			(isLastName && (it->flags & CI_LASTNAME)) ||
+			(isEmail && (it->flags & CI_EMAIL)) ||
+			(isMyHandle && (it->flags & CI_LISTNAME)) ||
+			(it->flags & CI_CNFINFO) != 0 || // lazy; always invalidate CNF info cache entries
+			(isUid && (it->flags & CI_UNIQUEID))) 
 		{
 			/* remove from cache */
-			mir_free(cce.tszContact);
-			arContactCache.remove(i);
+			mir_free(it->tszContact);
+			arContactCache.remove(it);
 			break;
 		}
 	}
@@ -347,8 +346,8 @@ int initContactModule()
 
 int deinitContactModule()
 {
-	for (int i = 0; i < arContactCache.getCount(); i++)
-		mir_free(arContactCache[i].tszContact);
+	for (auto &it : arContactCache)
+		mir_free(it->tszContact);
 	arContactCache.destroy();
 	return 0;
 }

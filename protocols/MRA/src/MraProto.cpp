@@ -2,8 +2,8 @@
 
 static int MraExtraIconsApplyAll(WPARAM, LPARAM)
 {
-	for (int i = 0; i < g_Instances.getCount(); i++)
-		g_Instances[i]->MraExtraIconsApply(0, 0);
+	for (auto &it : g_Instances)
+		it->MraExtraIconsApply(0, 0);
 	return 0;
 }
 

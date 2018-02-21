@@ -130,8 +130,7 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	LIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
-	for (int i = 0; i < list.getCount(); i++) {
-		EventItem *EI = list[i];
+	for (auto &EI : list) {
 		{
 			txn_ptr trnlck(m_env);
 
@@ -163,8 +162,7 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	LIST<EventItem> list(1000);
 	GatherContactHistory(ccSub->contactID, list);
 
-	for (int i = 0; i < list.getCount(); i++) {
-		EventItem *EI = list[i];
+	for (auto &EI : list) {
 		{
 			txn_ptr trnlck(m_env);
 			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };

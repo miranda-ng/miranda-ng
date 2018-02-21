@@ -23,9 +23,10 @@ int CToxProto::UninitAccount(CToxProto *proto)
 
 CToxProto* CToxProto::GetContactAccount(MCONTACT hContact)
 {
-	for (int i = 0; i < Accounts.getCount(); i++)
-		if (mir_strcmpi(GetContactProto(hContact), Accounts[i]->m_szModuleName) == 0)
-			return Accounts[i];
+	for (auto &it : Accounts)
+		if (mir_strcmpi(GetContactProto(hContact), it->m_szModuleName) == 0)
+			return it;
+	
 	return nullptr;
 }
 

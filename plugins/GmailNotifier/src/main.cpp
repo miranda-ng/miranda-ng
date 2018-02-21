@@ -133,8 +133,8 @@ extern "C" int __declspec(dllexport) Load()
 
 	BuildList();
 	ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-	for (int i = 0; i < g_accs.getCount(); i++)
-		db_set_dw(g_accs[i].hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
+	for (auto &it : g_accs)
+		db_set_dw(it->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
 
 	hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
 	hMirandaStarted = HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);
@@ -162,8 +162,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (hTimer)
 		KillTimer(nullptr, hTimer);
 	
-	for (int i = 0; i < g_accs.getCount(); i++)
-		DeleteResults(g_accs[i].results.next);
+	for (auto &it : g_accs)
+		DeleteResults(it->results.next);
 	g_accs.destroy();
 
 	Netlib_CloseHandle(hNetlibUser);

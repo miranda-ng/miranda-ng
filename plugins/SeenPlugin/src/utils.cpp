@@ -47,8 +47,8 @@ void LoadWatchedProtos()
 
 void UnloadWatchedProtos()
 {
-	for (int i = 0; i < arWatchedProtos.getCount(); i++)
-		mir_free(arWatchedProtos[i]);
+	for (auto &it : arWatchedProtos)
+		mir_free(it);
 	arWatchedProtos.destroy();
 }
 

@@ -32,13 +32,11 @@ PLUGININFOEX pluginInfo = {
 INT_PTR NudgeShowMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bEnabled = false;
-	for (int i = 0; i < arNudges.getCount(); i++) {
-		CNudgeElement &p = arNudges[i];
-		if (!mir_strcmp((char*)wParam, p.ProtocolName)) {
-			bEnabled = (GlobalNudge.useByProtocol) ? p.enabled : DefaultNudge.enabled;
+	for (auto &p : arNudges)
+		if (!mir_strcmp((char*)wParam, p->ProtocolName)) {
+			bEnabled = (GlobalNudge.useByProtocol) ? p->enabled : DefaultNudge.enabled;
 			break;
 		}
-	}
 
 	Menu_ShowItem(g_hContactMenu, bEnabled && lParam != 0);
 	return 0;
@@ -52,11 +50,9 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 		wchar_t msg[500];
 		mir_snwprintf(msg, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
 		if (GlobalNudge.useByProtocol) {
-			for (int i = 0; i < arNudges.getCount(); i++) {
-				CNudgeElement &p = arNudges[i];
-				if (!mir_strcmp(protoName, p.ProtocolName))
-					Nudge_ShowPopup(&p, hContact, msg);
-			}
+			for (auto &p : arNudges)
+				if (!mir_strcmp(protoName, p->ProtocolName))
+					Nudge_ShowPopup(p, hContact, msg);
 		}
 		else Nudge_ShowPopup(&DefaultNudge, hContact, msg);
 
@@ -66,12 +62,10 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 	db_set_dw(hContact, "Nudge", "LastSent", time(nullptr));
 
 	if (GlobalNudge.useByProtocol) {
-		for (int i = 0; i < arNudges.getCount(); i++) {
-			CNudgeElement &p = arNudges[i];
-			if (!mir_strcmp(protoName, p.ProtocolName))
-				if (p.showStatus)
-					Nudge_SentStatus(&p, hContact);
-		}
+		for (auto &p : arNudges)
+			if (!mir_strcmp(protoName, p->ProtocolName))
+				if (p->showStatus)
+					Nudge_SentStatus(p, hContact);
 	}
 	else if (DefaultNudge.showStatus)
 		Nudge_SentStatus(&DefaultNudge, hContact);
@@ -103,48 +97,47 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 		db_set_dw(hContact, "Nudge", "LastReceived2", nudgeSentTimestamp);
 
 	if (GlobalNudge.useByProtocol) {
-		for (int i = 0; i < arNudges.getCount(); i++) {
-			CNudgeElement &p = arNudges[i];
-			if (!mir_strcmp(protoName, p.ProtocolName)) {
+		for (auto &p : arNudges) {
+			if (!mir_strcmp(protoName, p->ProtocolName)) {
 
-				if (p.enabled) {
-					if (p.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
+				if (p->enabled) {
+					if (p->useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED, hContact, IGNOREEVENT_USERONLINE))
 						return 0;
 
 					DWORD Status = CallProtoService(protoName, PS_GETSTATUS, 0, 0);
 
-					if (((p.statusFlags & NUDGE_ACC_ST0) && (Status <= ID_STATUS_OFFLINE)) ||
-						((p.statusFlags & NUDGE_ACC_ST1) && (Status == ID_STATUS_ONLINE)) ||
-						((p.statusFlags & NUDGE_ACC_ST2) && (Status == ID_STATUS_AWAY)) ||
-						((p.statusFlags & NUDGE_ACC_ST3) && (Status == ID_STATUS_DND)) ||
-						((p.statusFlags & NUDGE_ACC_ST4) && (Status == ID_STATUS_NA)) ||
-						((p.statusFlags & NUDGE_ACC_ST5) && (Status == ID_STATUS_OCCUPIED)) ||
-						((p.statusFlags & NUDGE_ACC_ST6) && (Status == ID_STATUS_FREECHAT)) ||
-						((p.statusFlags & NUDGE_ACC_ST7) && (Status == ID_STATUS_INVISIBLE)) ||
-						((p.statusFlags & NUDGE_ACC_ST8) && (Status == ID_STATUS_ONTHEPHONE)) ||
-						((p.statusFlags & NUDGE_ACC_ST9) && (Status == ID_STATUS_OUTTOLUNCH)))
+					if (((p->statusFlags & NUDGE_ACC_ST0) && (Status <= ID_STATUS_OFFLINE)) ||
+						((p->statusFlags & NUDGE_ACC_ST1) && (Status == ID_STATUS_ONLINE)) ||
+						((p->statusFlags & NUDGE_ACC_ST2) && (Status == ID_STATUS_AWAY)) ||
+						((p->statusFlags & NUDGE_ACC_ST3) && (Status == ID_STATUS_DND)) ||
+						((p->statusFlags & NUDGE_ACC_ST4) && (Status == ID_STATUS_NA)) ||
+						((p->statusFlags & NUDGE_ACC_ST5) && (Status == ID_STATUS_OCCUPIED)) ||
+						((p->statusFlags & NUDGE_ACC_ST6) && (Status == ID_STATUS_FREECHAT)) ||
+						((p->statusFlags & NUDGE_ACC_ST7) && (Status == ID_STATUS_INVISIBLE)) ||
+						((p->statusFlags & NUDGE_ACC_ST8) && (Status == ID_STATUS_ONTHEPHONE)) ||
+						((p->statusFlags & NUDGE_ACC_ST9) && (Status == ID_STATUS_OUTTOLUNCH)))
 					{
 						if (diff >= GlobalNudge.recvTimeSec) {
-							if (p.showPopup)
-								Nudge_ShowPopup(&p, hContact, p.recText);
-							if (p.openContactList)
+							if (p->showPopup)
+								Nudge_ShowPopup(p, hContact, p->recText);
+							if (p->openContactList)
 								OpenContactList();
-							if (p.shakeClist)
+							if (p->shakeClist)
 								ShakeClist(hContact, lParam);
-							if (p.openMessageWindow)
+							if (p->openMessageWindow)
 								CallService(MS_MSG_SENDMESSAGEW, hContact, 0);
-							if (p.shakeChat)
+							if (p->shakeChat)
 								ShakeChat(hContact, lParam);
-							if (p.autoResend)
+							if (p->autoResend)
 								mir_forkthread(AutoResendNudge, (void*)hContact);
 
-							Skin_PlaySound(p.NudgeSoundname);
+							Skin_PlaySound(p->NudgeSoundname);
 						}
 					}
 
 					if (diff2 >= GlobalNudge.recvTimeSec)
-						if (p.showStatus)
-							Nudge_ShowStatus(&p, hContact, nudgeSentTimestamp);
+						if (p->showStatus)
+							Nudge_ShowStatus(p, hContact, nudgeSentTimestamp);
 				}
 				break;
 			}
@@ -407,19 +400,18 @@ int Preview()
 {
 	MCONTACT hContact = db_find_first();
 	if (GlobalNudge.useByProtocol) {
-		for (int i = 0; i < arNudges.getCount(); i++) {
-			CNudgeElement &p = arNudges[i];
-			if (p.enabled) {
-				Skin_PlaySound(p.NudgeSoundname);
-				if (p.showPopup)
-					Nudge_ShowPopup(&p, hContact, p.recText);
-				if (p.openContactList)
+		for (auto &p : arNudges) {
+			if (p->enabled) {
+				Skin_PlaySound(p->NudgeSoundname);
+				if (p->showPopup)
+					Nudge_ShowPopup(p, hContact, p->recText);
+				if (p->openContactList)
 					OpenContactList();
-				if (p.shakeClist)
+				if (p->shakeClist)
 					ShakeClist(0, 0);
-				if (p.openMessageWindow)
+				if (p->openMessageWindow)
 					CallService(MS_MSG_SENDMESSAGEW, hContact, NULL);
-				if (p.shakeChat)
+				if (p->shakeChat)
 					ShakeChat(hContact, (LPARAM)time(nullptr));
 			}
 		}

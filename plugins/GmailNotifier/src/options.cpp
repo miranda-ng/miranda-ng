@@ -46,8 +46,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		optionWindowIsOpen = TRUE;
 		BuildList();
 
-		for (int i = 0; i < g_accs.getCount(); i++)
-			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG_PTR)g_accs[i].name);
+		for (auto &it : g_accs)
+			SendMessageA(hwndCombo, CB_ADDSTRING, 0, (LONG_PTR)it->name);
 		SendMessage(hwndCombo, CB_SETCURSEL, curIndex, 0);
 		if (curIndex < g_accs.getCount())
 			SetDlgItemTextA(hwndDlg, IDC_PASS, g_accs[curIndex].pass);
@@ -256,8 +256,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			db_set_dw(NULL, MODULE_NAME, "LogThreads", opt.LogThreads);
 
 			ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-			for (int i = 0; i < g_accs.getCount(); i++)
-				db_set_w(g_accs[i].hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
+			for (auto &it : g_accs)
+				db_set_w(it->hContact, MODULE_NAME, "Status", ID_STATUS_NONEW);
 		}
 		return TRUE;
 

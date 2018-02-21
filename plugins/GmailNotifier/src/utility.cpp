@@ -19,12 +19,11 @@ void BuildList(void)
 		}
 	}
 
-	for (int i = 0; i < g_accs.getCount(); i++) {
-		Account &acc = g_accs[i];
-		char *tail = strchr(acc.name, '@');
+	for (auto &acc : g_accs) {
+		char *tail = strchr(acc->name, '@');
 		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
-			mir_strcpy(acc.hosted, tail + 1);
-		acc.IsChecking = false;
+			mir_strcpy(acc->hosted, tail + 1);
+		acc->IsChecking = false;
 	}
 }
 
@@ -70,9 +69,9 @@ BOOL GetBrowser(char *str)
 
 Account* GetAccountByContact(MCONTACT hContact)
 {
-	for (int i = 0; i < g_accs.getCount(); i++)
-		if (g_accs[i].hContact == hContact)
-			return &g_accs[i];
+	for (auto &it : g_accs)
+		if (it->hContact == hContact)
+			return it;
 
 	return nullptr;
 }

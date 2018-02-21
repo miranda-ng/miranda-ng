@@ -213,8 +213,8 @@ static int OnSkinIconsChanged(WPARAM, LPARAM)
 	himlMiranda = Clist_GetImageList();
 
 	// Update thumbs
-	for (int i = 0; i < thumbList.getCount(); ++i)
-		thumbList[i].UpdateContent();
+	for (auto &it : thumbList)
+		it->UpdateContent();
 
 	return 0;
 }
@@ -261,9 +261,9 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 static int OnStatusModeChange(WPARAM wParam, LPARAM)
 {
-	for (int i = 0; i < thumbList.getCount(); ++i) {
-		int idStatus = GetContactStatus(thumbList[i].hContact);
-		thumbList[i].RefreshContactStatus(idStatus);
+	for (auto &it : thumbList) {
+		int idStatus = GetContactStatus(it->hContact);
+		it->RefreshContactStatus(idStatus);
 	}
 
 	if (wParam == ID_STATUS_OFFLINE) {
@@ -434,8 +434,8 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 
 extern void SetThumbsOpacity(BYTE btAlpha)
 {
-	for (int i = 0; i < thumbList.getCount(); ++i)
-		thumbList[i].SetThumbOpacity(btAlpha);
+	for (auto &it : thumbList)
+		it->SetThumbOpacity(btAlpha);
 }
 
 static void GetScreenRect()
@@ -450,9 +450,9 @@ void OnStatusChanged()
 {
 	int idStatus = ID_STATUS_OFFLINE;
 
-	for (int i = 0; i < thumbList.getCount(); ++i) {
-		idStatus = GetContactStatus(thumbList[i].hContact);
-		thumbList[i].RefreshContactStatus(idStatus);
+	for (auto &it : thumbList) {
+		idStatus = GetContactStatus(it->hContact);
+		it->RefreshContactStatus(idStatus);
 	}
 }
 
@@ -475,8 +475,8 @@ void ApplyOptionsChanges()
 
 	OnStatusChanged();
 
-	for (int i = 0; i < thumbList.getCount(); ++i)
-		thumbList[i].ResizeThumb();
+	for (auto &it : thumbList)
+		it->ResizeThumb();
 }
 
 ///////////////////////////////////////////////////////
@@ -656,14 +656,14 @@ void RegHotkey(MCONTACT hContact, HWND hwnd)
 
 void SaveContactsPos()
 {
-	for (int i = 0; i < thumbList.getCount(); ++i) {
+	for (auto &it : thumbList) {
 		SetLastError(0);
 
 		RECT rc;
-		thumbList[i].GetThumbRect(&rc);
+		it->GetThumbRect(&rc);
 
 		if (0 == GetLastError())
-			db_set_dw(thumbList[i].hContact, MODULE, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
+			db_set_dw(it->hContact, MODULE, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
 	}
 }
 
@@ -803,8 +803,8 @@ BOOL HideOnFullScreen()
 
 static VOID CALLBACK ToTopTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	for (int i = 0; i < thumbList.getCount(); ++i)
-		SetWindowPos(thumbList[i].hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+	for (auto &it : thumbList)
+		SetWindowPos(it->hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 }
 
 void ShowThumbsOnHideCList()
@@ -812,9 +812,9 @@ void ShowThumbsOnHideCList()
 	if (!fcOpt.bHideWhenCListShow || fcOpt.bHideAll || HideOnFullScreen())
 		return;
 
-	for (int i = 0; i < thumbList.getCount(); ++i)
-		if (!fcOpt.bHideOffline || IsStatusVisible(GetContactStatus(thumbList[i].hContact)))
-			ShowWindow(thumbList[i].hwnd, SW_SHOWNA);
+	for (auto &it : thumbList)
+		if (!fcOpt.bHideOffline || IsStatusVisible(GetContactStatus(it->hContact)))
+			ShowWindow(it->hwnd, SW_SHOWNA);
 }
 
 
@@ -823,8 +823,8 @@ void HideThumbsOnShowCList()
 	if (!fcOpt.bHideWhenCListShow || fcOpt.bHideAll || HideOnFullScreen())
 		return;
 
-	for (int i = 0; i < thumbList.getCount(); ++i)
-		ShowWindow(thumbList[i].hwnd, SW_HIDE);
+	for (auto &it : thumbList)
+		ShowWindow(it->hwnd, SW_HIDE);
 }
 
 static LRESULT __stdcall newMirandaWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

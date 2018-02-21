@@ -61,8 +61,8 @@ static int BuildTree(HWND hwndDlg)
 	if (Buttons.getCount() == 0)
 		return FALSE;
 
-	for (int i = 0; i < Buttons.getCount(); i++)
-		AddLine(hTree, Buttons[i], TVI_LAST, dat->himlButtonIcons);
+	for (auto &it : Buttons)
+		AddLine(hTree, it, TVI_LAST, dat->himlButtonIcons);
 	return TRUE;
 }
 
@@ -95,9 +95,8 @@ static void SaveTree(HWND hwndDlg)
 	}
 	{
 		mir_cslock lck(csButtonsHook);
-		for (int i=0; i < Buttons.getCount(); i++)
-			delete Buttons[i];
-
+		for (auto &it : Buttons)
+			delete it;
 		Buttons = tmpList;
 	}
 	SaveAllButtonsOptions();
@@ -128,8 +127,7 @@ static void RecreateWindows()
 {
 	{
 		mir_cslock lck(csButtonsHook);
-		for (int i = 0; i < Buttons.getCount(); i++) {
-			TopButtonInt *b = Buttons[i];
+		for (auto &b : Buttons) {
 			if (b->hwnd) {
 				if (g_ctrl->bHardUpdate) {
 					DestroyWindow(b->hwnd);

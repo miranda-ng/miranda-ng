@@ -458,21 +458,21 @@ int ShowMenu(bool centered)
 		g_maxItemWidth /= favList.groupCount();
 
 	prevGroup = nullptr;
-	for (int i = 0; i < favList.getCount(); ++i) {
-		hContact = favList[i]->getHandle();
+	for (auto &it : favList) {
+		hContact = it->getHandle();
 
 		MEASUREITEMSTRUCT mis = { 0 };
 		mis.CtlID = 0;
 		mis.CtlType = ODT_MENU;
 
-		if (!prevGroup || mir_wstrcmp(prevGroup, favList[i]->getGroup())) {
+		if (!prevGroup || mir_wstrcmp(prevGroup, it->getGroup())) {
 			if (prevGroup && g_Options.bUseColumns) {
 				szMenu.cx += szColumn.cx;
 				szMenu.cy = max(szMenu.cy, szColumn.cy);
 				szColumn.cx = szColumn.cy = 0;
 			}
 
-			int groupID = -((INT_PTR)Clist_GroupExists(favList[i]->getGroup()) + 1);
+			int groupID = -((INT_PTR)Clist_GroupExists(it->getGroup()) + 1);
 
 			AppendMenu(hMenu,
 				MF_OWNERDRAW | MF_SEPARATOR | ((prevGroup && g_Options.bUseColumns) ? MF_MENUBREAK : 0),
@@ -493,7 +493,7 @@ int ShowMenu(bool centered)
 		szColumn.cx = max(szColumn.cx, (int)mis.itemWidth);
 		szColumn.cy += mis.itemHeight;
 
-		prevGroup = favList[i]->getGroup();
+		prevGroup = it->getGroup();
 	}
 	szMenu.cx += szColumn.cx;
 	szMenu.cy = max(szMenu.cy, szColumn.cy);

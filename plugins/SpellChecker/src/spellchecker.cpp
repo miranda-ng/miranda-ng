@@ -145,7 +145,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 		// Get language flags
 		for (int i = 0; i < languages.getCount(); i++) {
-			Dictionary *p = languages[i];
+			auto *p = languages[i];
 			sid.description.w = p->full_name;
 
 			char lang[32];
@@ -179,9 +179,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		FreeLibrary(hFlagsDll);
 	}
 
-	for (int j = 0; j < languages.getCount(); j++) {
-		Dictionary *dict = languages[j];
-
+	for (auto &dict : languages) {
 		wchar_t filename[MAX_PATH];
 		mir_snwprintf(filename, L"%s\\%s.ar", customDictionariesFolder, dict->language);
 		dict->autoReplace = new AutoReplaceMap(filename, dict);

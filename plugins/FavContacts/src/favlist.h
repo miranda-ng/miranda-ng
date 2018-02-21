@@ -99,8 +99,8 @@ public:
 
 	~TFavContacts()
 	{
-		for (int i = 0; i < this->getCount(); ++i)
-			delete (*this)[i];
+		for (auto &it : *this)
+			delete it;
 	}
 
 	__forceinline int groupCount() const { return nGroups; }

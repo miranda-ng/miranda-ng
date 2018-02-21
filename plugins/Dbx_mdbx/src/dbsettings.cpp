@@ -399,8 +399,8 @@ STDMETHODIMP_(BOOL) CDbxMDBX::EnumContactSettings(MCONTACT hContact, DBSETTINGEN
 	}
 
 	int result = -1;
-	for (int i=0; i < arKeys.getCount(); i++)
-		result = pfnEnumProc(arKeys[i], param);
+	for (auto &it : arKeys)
+		result = pfnEnumProc(it, param);
 
 	return result;
 }

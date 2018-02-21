@@ -36,9 +36,9 @@ static ALIASREGISTER* searchAliasRegister(wchar_t *szAlias)
 		return nullptr;
 
 	mir_cslock lck(csAliasRegister);
-	for (int i = 0; i < arAliases.getCount(); i++)
-	if (!mir_wstrcmp(arAliases[i]->szAlias, szAlias))
-		return arAliases[i];
+	for (auto &it : arAliases)
+		if (!mir_wstrcmp(it->szAlias, szAlias))
+			return it;
 
 	return nullptr;
 }
@@ -93,8 +93,7 @@ static int addToAliasRegister(wchar_t *szAlias, unsigned int argc, wchar_t** arg
 		return -1;
 
 	mir_cslock lck(csAliasRegister);
-	for (int i = 0; i < arAliases.getCount(); i++) {
-		ALIASREGISTER *p = arAliases[i];
+	for (auto &p : arAliases) {
 		if (mir_wstrcmp(p->szAlias, szAlias))
 			continue;
 
@@ -194,8 +193,7 @@ void registerAliasTokens()
 
 void unregisterAliasTokens()
 {
-	for (int i = 0; i < arAliases.getCount(); i++) {
-		ALIASREGISTER *p = arAliases[i];
+	for (auto &p : arAliases) {
 		for (unsigned j = 0; j < p->argc; j++)
 			mir_free(p->argv[j]);
 		mir_free(p->argv);

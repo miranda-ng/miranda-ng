@@ -19,8 +19,8 @@ CContactCache::CContactCache() :
 
 CContactCache::~CContactCache()
 {
-	for (int i = 0; i < m_cache.getCount(); i++)
-		delete m_cache[i];
+	for (auto &it : m_cache)
+		delete it;
 }
 
 int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)

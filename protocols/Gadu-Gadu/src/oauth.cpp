@@ -82,7 +82,6 @@ char *oauth_uri_escape(const char *str)
 char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmethod, const char *url)
 {
 	char *res;
-	OAUTHPARAMETER *p;
 	int ix = 0;
 
 	if (httpmethod == nullptr || url == nullptr || !params.getCount()) return mir_strdup("");
@@ -103,10 +102,9 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 	mir_free(urlnorm);
 	int size = (int)mir_strlen(httpmethod) + (int)mir_strlen(urlenc) + 1 + 2;
 
-	for (int i = 0; i < params.getCount(); i++) {
-		p = params[i];
+	for (auto &p : params) {
 		if (!mir_strcmp(p->name, "oauth_signature")) continue;
-		if (i > 0) size += 3;
+		if (p != params[0]) size += 3;
 		size += (int)mir_strlen(p->name) + (int)mir_strlen(p->value) + 3;
 	}
 
@@ -117,10 +115,9 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 	mir_free(urlenc);
 	mir_strcat(res, "&");
 
-	for (int i = 0; i < params.getCount(); i++) {
-		p = params[i];
+	for (auto &p : params) {
 		if (!mir_strcmp(p->name, "oauth_signature")) continue;
-		if (i > 0) mir_strcat(res, "%26");
+		if (p != params[0]) mir_strcat(res, "%26");
 		mir_strcat(res, p->name);
 		mir_strcat(res, "%3D");
 		mir_strcat(res, p->value);
@@ -136,11 +133,9 @@ char *oauth_getparam(LIST<OAUTHPARAMETER> &params, const char *name)
 	if (name == nullptr)
 		return nullptr;
 
-	for (int i = 0; i < params.getCount(); i++) {
-		p = params[i];
+	for (auto &p : params)
 		if (!mir_strcmp(p->name, name))
 			return p->value;
-	}
 
 	return nullptr;
 }
@@ -152,14 +147,12 @@ void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *
 	if (name == nullptr)
 		return;
 
-	for (int i = 0; i < params.getCount(); i++) {
-		p = params[i];
+	for (auto &p : params)
 		if (!mir_strcmp(p->name, name)) {
 			mir_free(p->value);
 			p->value = oauth_uri_escape(value);
 			return;
 		}
-	}
 
 	p = (OAUTHPARAMETER*)mir_alloc(sizeof(OAUTHPARAMETER));
 	p->name = oauth_uri_escape(name);
@@ -169,10 +162,7 @@ void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *
 
 void oauth_freeparams(LIST<OAUTHPARAMETER> &params)
 {
-	OAUTHPARAMETER *p;
-
-	for (int i = 0; i < params.getCount(); i++) {
-		p = params[i];
+	for (auto &p : params) {
 		mir_free(p->name);
 		mir_free(p->value);
 	}
@@ -236,8 +226,6 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	const char *consumer_key, const char *consumer_secret,
 	const char *token, const char *token_secret)
 {
-	char *res, timestamp[22];
-
 	if (httpmethod == nullptr || url == nullptr)
 		return nullptr;
 
@@ -257,6 +245,8 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 		oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT");
 		break;
 	};
+
+	char timestamp[22];
 	mir_snprintf(timestamp, "%ld", time(nullptr));
 	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
 	oauth_setparam(oauth_parameters, "oauth_nonce", ptrA(oauth_generate_nonce()));
@@ -268,27 +258,18 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 		return nullptr;
 	}
 
-	int size = 7;
-	for (int i = 0; i < oauth_parameters.getCount(); i++) {
-		OAUTHPARAMETER *p = oauth_parameters[i];
-		if (i > 0) size++;
-		size += (int)mir_strlen(p->name) + (int)mir_strlen(p->value) + 3;
-	}
-
-	res = (char *)mir_alloc(size);
-	mir_strcpy(res, "OAuth ");
-
-	for (int i = 0; i < oauth_parameters.getCount(); i++) {
-		OAUTHPARAMETER *p = oauth_parameters[i];
-		if (i > 0) mir_strcat(res, ",");
-		mir_strcat(res, p->name);
-		mir_strcat(res, "=\"");
-		mir_strcat(res, p->value);
-		mir_strcat(res, "\"");
+	CMStringA res("OAuth ");
+	for (auto &p : oauth_parameters) {
+		if (res.GetLength() > 6)
+			res.AppendChar(',');
+		res.Append(p->name);
+		res.Append("=\"");
+		res.Append(p->value);
+		res.Append("\"");
 	}
 
 	oauth_freeparams(oauth_parameters);
-	return res;
+	return res.Detach();
 }
 
 int GaduProto::oauth_receivetoken()

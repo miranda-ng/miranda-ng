@@ -27,9 +27,9 @@ CSteamProto* CSteamProto::GetContactAccount(MCONTACT hContact)
 	if (proto == nullptr)
 		return nullptr;
 
-	for (int i = 0; i < Accounts.getCount(); i++)
-		if (!mir_strcmp(proto, Accounts[i]->m_szModuleName))
-			return Accounts[i];
+	for (auto &it : Accounts)
+		if (!mir_strcmp(proto, it->m_szModuleName))
+			return it;
 
 	return nullptr;
 }

@@ -728,11 +728,8 @@ void GetUserProtoLanguageSetting(Dialog *dlg, MCONTACT hContact, char *group, ch
 	if (dbv.type == DBVT_WCHAR && dbv.ptszVal != nullptr) {
 		wchar_t *lang = dbv.ptszVal;
 
-		for (int i = 0; i < languages.getCount(); i++) {
-			Dictionary *dict = languages[i];
-			if (mir_wstrcmpi(dict->localized_name, lang) == 0
-				|| mir_wstrcmpi(dict->english_name, lang) == 0
-				|| mir_wstrcmpi(dict->language, lang) == 0) {
+		for (auto &dict : languages) {
+			if (mir_wstrcmpi(dict->localized_name, lang) == 0 || mir_wstrcmpi(dict->english_name, lang) == 0 || mir_wstrcmpi(dict->language, lang) == 0) {
 				mir_wstrncpy(dlg->lang_name, dict->language, _countof(dlg->lang_name));
 				break;
 			}

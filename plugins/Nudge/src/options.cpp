@@ -21,11 +21,9 @@ static void UpdateControls(HWND hwnd)
 	if (GlobalNudge.useByProtocol) {
 		proto = GetSelProto(hwnd, nullptr);
 		ActualNudge = nullptr;
-		for (int i = 0; i < arNudges.getCount(); i++) {
-			CNudgeElement &p = arNudges[i];
-			if (p.iProtoNumber == proto)
-				ActualNudge = &p;
-		}
+		for (auto &p : arNudges)
+			if (p->iProtoNumber == proto)
+				ActualNudge = p;
 	}
 	else ActualNudge = &DefaultNudge;
 
@@ -71,11 +69,9 @@ static void CheckChange(HWND hwnd, HTREEITEM hItem)
 	if (GlobalNudge.useByProtocol) {
 		proto = GetSelProto(hwnd, hItem);
 		ActualNudge = nullptr;
-		for (int i = 0; i < arNudges.getCount(); i++) {
-			CNudgeElement &p = arNudges[i];
-			if (p.iProtoNumber == proto)
-				ActualNudge = &p;
-		}
+		for (auto &p : arNudges)
+			if (p->iProtoNumber == proto)
+				ActualNudge = p;
 	}
 	else ActualNudge = &DefaultNudge;
 
@@ -208,9 +204,8 @@ static void CreateImageList(HWND hWnd)
 	// Create and populate image list
 	HIMAGELIST hImList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, nProtocol, 0);
 
-	for (int i = 0; i < arNudges.getCount(); i++) {
-		CNudgeElement &p = arNudges[i];
-		INT_PTR res = CallProtoService(p.ProtocolName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL | PLIF_ICOLIB, 0);
+	for (auto &p : arNudges) {
+		INT_PTR res = CallProtoService(p->ProtocolName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL | PLIF_ICOLIB, 0);
 		if (res == CALLSERVICE_NOTFOUND)
 			res = (INT_PTR)IcoLib_GetIcon("Nudge_Default");
 

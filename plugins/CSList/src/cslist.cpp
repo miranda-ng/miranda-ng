@@ -106,8 +106,8 @@ static int OnCreateMenuItems(WPARAM, LPARAM)
 
 static int OnPreshutdown(WPARAM, LPARAM)
 {
-	for (int i = 0; i < arWindows.getCount(); i++)
-		DestroyWindow(arWindows[i]->m_handle);
+	for (auto &it : arWindows)
+		DestroyWindow(it->m_handle);
 	return 0;
 }
 
@@ -208,8 +208,7 @@ void SetStatus(WORD code, StatusItem* item, char *szAccName)
 INT_PTR showList(WPARAM, LPARAM, LPARAM param)
 {
 	char* szProto = (char*)param;
-	for (int i = 0; i < arWindows.getCount(); i++) {
-		CSWindow *p = arWindows[i];
+	for (auto &p : arWindows) {
 		if (!mir_strcmp(szProto, p->m_protoName)) {
 			ShowWindow(p->m_handle, SW_SHOW);
 			SetForegroundWindow(p->m_handle);

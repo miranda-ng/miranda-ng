@@ -19,9 +19,9 @@ static ICON_CACHE& getCacheItem(int mode, int type)
 	int m = mode & 0x0f, s = (mode & SECURED) >> 4, i; // разобрали на части - режим и состояние
 	HICON icon;
 
-	for (i = 0; i < arIcoList.getCount(); i++)
-		if (arIcoList[i].mode == ((type << 8) | mode))
-			return arIcoList[i];
+	for (auto &it : arIcoList)
+		if (it->mode == ((type << 8) | mode))
+			return *it;
 
 	i = s;
 	switch (type) {
@@ -106,8 +106,8 @@ void ShowStatusIconNotify(MCONTACT hContact)
 
 void RefreshContactListIcons(void)
 {
-	for (int i = 0; i < arIcoList.getCount(); i++)
-		arIcoList[i].hCLIcon = nullptr;
+	for (auto &it : arIcoList)
+		it->hCLIcon = nullptr;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (isSecureProtocol(hContact))

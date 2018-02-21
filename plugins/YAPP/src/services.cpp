@@ -381,9 +381,9 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	if (wParam)
 		pc = (POPUPCLASS *)wParam;
 	else {
-		for (int i = 0; i < arClasses.getCount(); i++) {
-			if (mir_strcmp(arClasses[i]->pszName, pdc->pszClassName) == 0) {
-				pc = arClasses[i];
+		for (auto &it : arClasses) {
+			if (mir_strcmp(it->pszName, pdc->pszClassName) == 0) {
+				pc = it;
 				break;
 			}
 		}
@@ -446,6 +446,6 @@ void DeinitServices()
 {
 	DestroyHookableEvent(hEventNotify);
 
-	for (int i = 0; i < arClasses.getCount(); i++)
-		FreePopupClass(arClasses[i]);
+	for (auto &it : arClasses)
+		FreePopupClass(it);
 }

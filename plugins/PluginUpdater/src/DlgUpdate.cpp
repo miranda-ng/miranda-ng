@@ -97,27 +97,26 @@ static void ApplyUpdates(void *param)
 
 	// 3) Unpack all zips
 	VARSW tszMirandaPath(L"%miranda_path%");
-	for (int i = 0; i < todo.getCount(); i++) {
-		FILEINFO& p = todo[i];
-		if (p.bEnabled) {
-			if (p.bDeleteOnly) {
+	for (auto &it : todo) {
+		if (it->bEnabled) {
+			if (it->bDeleteOnly) {
 				// we need only to backup the old file
-				wchar_t *ptszRelPath = p.tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
+				wchar_t *ptszRelPath = it->tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
 				mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
-				BackupFile(p.tszNewName, tszBackFile);
+				BackupFile(it->tszNewName, tszBackFile);
 			}
 			else {
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
-				if (_wcsicmp(p.tszOldName, p.tszNewName)) {
+				if (_wcsicmp(it->tszOldName, it->tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
-					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
+					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, it->tszOldName);
+					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
-				if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack,true))
-					SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
+				if ( unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack,true))
+					SafeDeleteFile(it->File.tszDiskPath);  // remove .zip after successful update
 			}
 		}
 	}
@@ -449,28 +448,27 @@ static void DlgUpdateSilent(void *param)
 
 	// 3) Unpack all zips
 	VARSW tszMirandaPath(L"%miranda_path%");
-	for (int i = 0; i < UpdateFiles.getCount(); i++) {
-		FILEINFO& p = UpdateFiles[i];
-		if (p.bEnabled) {
-			if (p.bDeleteOnly) {
+	for (auto &it : UpdateFiles) {
+		if (it->bEnabled) {
+			if (it->bDeleteOnly) {
 				// we need only to backup the old file
-				wchar_t *ptszRelPath = p.tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
+				wchar_t *ptszRelPath = it->tszNewName + wcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
 				mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, ptszRelPath);
-				BackupFile(p.tszNewName, tszBackFile);
+				BackupFile(it->tszNewName, tszBackFile);
 			}
 			else {
 				// if file name differs, we also need to backup the old file here
 				// otherwise it would be replaced by unzip
-				if (_wcsicmp(p.tszOldName, p.tszNewName)) {
+				if (_wcsicmp(it->tszOldName, it->tszNewName)) {
 					wchar_t tszSrcPath[MAX_PATH], tszBackFile[MAX_PATH];
-					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, p.tszOldName);
-					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, p.tszOldName);
+					mir_snwprintf(tszSrcPath, L"%s\\%s", tszMirandaPath, it->tszOldName);
+					mir_snwprintf(tszBackFile, L"%s\\%s", tszFileBack, it->tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
 
 				// remove .zip after successful update
-				if (unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack, true))
-					SafeDeleteFile(p.File.tszDiskPath);
+				if (unzip(it->File.tszDiskPath, tszMirandaPath, tszFileBack, true))
+					SafeDeleteFile(it->File.tszDiskPath);
 			}
 		}
 	}
@@ -532,9 +530,9 @@ struct
 }
 static renameTable[] =
 {
-	{ L"svc_dbepp.dll",                  L"Plugins\\dbeditorpp.dll" },
-	{ L"svc_crshdmp.dll",                L"Plugins\\crashdumper.dll" },
-	{ L"crashdmp.dll",                   L"Plugins\\crashdumper.dll" },
+	{ L"svc_dbepit->dll",                  L"Plugins\\dbeditorpit->dll" },
+	{ L"svc_crshdmit->dll",                L"Plugins\\crashdumper.dll" },
+	{ L"crashdmit->dll",                   L"Plugins\\crashdumper.dll" },
 	{ L"crashrpt.dll",                   L"Plugins\\crashdumper.dll" },
 	{ L"attache.dll",                    L"Plugins\\crashdumper.dll" },
 	{ L"svc_vi.dll",                     L"Plugins\\crashdumper.dll" },
@@ -551,7 +549,7 @@ static renameTable[] =
 	{ L"ttnotify.dll",                   L"Plugins\\tooltipnotify.dll" },
 	{ L"newstatusnotify.dll",            L"Plugins\\newxstatusnotify.dll" },
 	{ L"rss.dll",                        L"Plugins\\newsaggregator.dll" },
-	{ L"dbx_3x.dll",                     L"Plugins\\dbx_mmap.dll" },
+	{ L"dbx_3x.dll",                     L"Plugins\\dbx_mmait->dll" },
 	{ L"actman30.dll",                   L"Plugins\\actman.dll" },
 	{ L"skype.dll",                      L"Plugins\\skypeweb.dll" },
 	{ L"skypeclassic.dll",               L"Plugins\\skypeweb.dll" },
@@ -561,12 +559,12 @@ static renameTable[] =
 	{ L"startupstatus.dll",              L"Plugins\\statusmanager.dll" },
 
 #if MIRANDA_VER >= 0x0A00
-	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },
-	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmap.dll" },
+	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmait->dll" },
+	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmait->dll" },
 	{ L"rc4.dll",                        nullptr },
 	{ L"athena.dll",                     nullptr },
 	{ L"skypekit.exe",                   nullptr },
-	{ L"mir_app.dll",                    nullptr },
+	{ L"mir_apit->dll",                    nullptr },
 	{ L"mir_core.dll",                   nullptr },
 	{ L"zlib.dll",                       nullptr },
 #endif
@@ -598,7 +596,7 @@ static renameTable[] =
 	{ L"msvcp100.dll",                   nullptr },
 	{ L"msvcr100.dll",                   nullptr },
 	{ L"tlen.dll",                       nullptr },
-	{ L"whatsapp.dll",                   nullptr },
+	{ L"whatsapit->dll",                   nullptr },
 	{ L"xfire.dll",                      nullptr },
 	{ L"yahoo.dll",                      nullptr },
 	{ L"yahoogroups.dll",                nullptr },
@@ -643,7 +641,7 @@ static bool isValidDirectory(const wchar_t *ptszDirName)
 }
 
 // Scans folders recursively
-static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t *tszBaseUrl, SERVLIST& hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
+static int ScanFolder(const wchar_t *tszFolder, size_t cbBaseLen, const wchar_t *tszBaseUrl, SERVLIST &hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
 {
 	wchar_t tszBuf[MAX_PATH];
 	mir_snwprintf(tszBuf, L"%s\\*", tszFolder);

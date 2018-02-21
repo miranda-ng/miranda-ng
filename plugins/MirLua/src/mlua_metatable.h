@@ -217,14 +217,12 @@ private:
 		CMStringA data(MT::name);
 		data += "(";
 
-		for (int i = 0; i < fields.getCount(); i++) {
-			CMTField &field = fields[i];
-
-			data += field.GetName();
+		for (auto &it : fields) {
+			data += it->GetName();
 			data += "=";
 
-			MTValue value = field.GetValue(obj);
-			int type = field.GetType();
+			MTValue value = it->GetValue(obj);
+			int type = it->GetType();
 			switch (type) {
 			case LUA_TNIL:
 				data.Append("nil");

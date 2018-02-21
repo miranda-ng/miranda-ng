@@ -31,8 +31,7 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO *cu
 		if (currSession == prevSession)
 			pszCurrent = pszOriginal;
 
-		for (int i = 0; i < pci->arSessions.getCount(); i++) {
-			SESSION_INFO *si = pci->arSessions[i];
+		for (auto &si : pci->arSessions) {
 			if (si != currSession && !mir_strcmpi(pszModule, si->pszModule)) {
 				if (my_strstri(si->ptszName, pszOriginal) == si->ptszName) {
 					if (prevSession != si && mir_wstrcmpi(si->ptszName, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(si->ptszName, pszName) < 0)) {

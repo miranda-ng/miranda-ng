@@ -63,9 +63,9 @@ static TwitterProto* GetInstanceByHContact(MCONTACT hContact)
 	if (!proto)
 		return nullptr;
 
-	for (int i = 0; i < g_Instances.getCount(); i++)
-		if (!mir_strcmp(proto, g_Instances[i].m_szModuleName))
-			return &g_Instances[i];
+	for (auto &it : g_Instances)
+		if (!mir_strcmp(proto, it->m_szModuleName))
+			return it;
 
 	return nullptr;
 }

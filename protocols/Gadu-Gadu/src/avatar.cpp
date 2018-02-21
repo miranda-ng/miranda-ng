@@ -291,14 +291,14 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 		gg_sleep(100, FALSE, "avatarrequestthread", 101, 1);
 	}
 
-	for (int i = 0; i < avatar_requests.getCount(); i++)
-		mir_free(avatar_requests[i]);
-
-	for (int k = 0; k < avatar_transfers.getCount(); k++)
-		mir_free(avatar_transfers[k]);
-
+	for (auto &it : avatar_requests)
+		mir_free(it);
 	avatar_requests.destroy();
+
+	for (auto &it : avatar_transfers)
+		mir_free(it);
 	avatar_transfers.destroy();
+
 	debugLogA("avatarrequestthread(): end. Avatar Request Thread Ending");
 }
 

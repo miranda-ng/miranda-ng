@@ -34,12 +34,11 @@ CMLuaOptions::CMLuaOptions(int idDialog)
 
 void CMLuaOptions::LoadScripts()
 {
-	for (int i = 0; i < g_mLua->Scripts.getCount(); i++)
+	for (auto &it : g_mLua->Scripts)
 	{
-		CMLuaScript *script = g_mLua->Scripts[i];
-		wchar_t *fileName = NEWWSTR_ALLOCA(script->GetFileName());
-		int iIcon = script->GetStatus() - 1;
-		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)script);
+		wchar_t *fileName = NEWWSTR_ALLOCA(it->GetFileName());
+		int iIcon = it->GetStatus() - 1;
+		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)it);
 		if (db_get_b(NULL, MODULE, _T2A(fileName), 1))
 			m_scripts.SetCheckState(iItem, TRUE);
 		m_scripts.SetItem(iItem, 1, TranslateT("Open"), 2);

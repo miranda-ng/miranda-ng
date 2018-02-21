@@ -103,9 +103,8 @@ int LoadResidentSettings()
 
 void FreeResidentSettings()
 {
-	for (int i = 0; i < m_lResidentSettings.getCount(); i++)
-		mir_free(m_lResidentSettings[i]);
-
+	for (auto &it : m_lResidentSettings)
+		mir_free(it);
 	m_lResidentSettings.destroy();
 }
 
@@ -132,13 +131,14 @@ int EnumResidentSettings(const char *module, ModuleSettingLL *msll)
 	int len = (int)mir_strlen(module);
 	int cnt = 0;
 
-	for (int i = 0; i < m_lResidentSettings.getCount(); i++) {
-		if (strncmp(module, m_lResidentSettings[i], len))
+	for (auto &it : m_lResidentSettings) {
+		if (strncmp(module, it, len))
 			continue;
 
-		if (m_lResidentSettings[i][len] != '/' || m_lResidentSettings[i][len + 1] == 0) continue;
+		if (it[len] != '/' || it[len + 1] == 0)
+			continue;
 
-		enumModulesSettingsProc(&m_lResidentSettings[i][len + 1], msll);
+		enumModulesSettingsProc(&it[len + 1], msll);
 		cnt++;
 	}
 	return cnt;

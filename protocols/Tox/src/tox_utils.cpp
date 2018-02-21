@@ -150,9 +150,9 @@ INT_PTR CToxProto::ParseToxUri(WPARAM, LPARAM lParam)
 		return 1;
 
 	CToxProto *proto = nullptr;
-	for (int i = 0; i < Accounts.getCount(); i++) {
-		if (Accounts[i]->IsOnline()) {
-			proto = Accounts[i];
+	for (auto &it : Accounts) {
+		if (it->IsOnline()) {
+			proto = it;
 			break;
 		}
 	}

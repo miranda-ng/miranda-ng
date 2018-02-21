@@ -115,8 +115,8 @@ int SaveAllButtonsOptions()
 	int LaunchCnt = 0;
 	{
 		mir_cslock lck(csButtonsHook);
-		for (int i = 0; i < Buttons.getCount(); i++)
-			Buttons[i]->SaveSettings(&SeparatorCnt, &LaunchCnt);
+		for (auto &it : Buttons)
+			it->SaveSettings(&SeparatorCnt, &LaunchCnt);
 	}
 	db_set_b(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
 	db_set_b(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);
@@ -128,8 +128,8 @@ static bool nameexists(const char *name)
 	if (name == nullptr)
 		return false;
 
-	for (int i = 0; i < Buttons.getCount(); i++)
-		if (!mir_strcmp(Buttons[i]->pszName, name))
+	for (auto &it : Buttons)
+		if (!mir_strcmp(it->pszName, name))
 			return true;
 
 	return false;
@@ -210,8 +210,8 @@ int ArrangeButtons()
 	int i, nextX = 0, y = 0;
 	int nButtonCount = 0;
 
-	for (i = 0; i < Buttons.getCount(); i++)
-		if (Buttons[i]->hwnd)
+	for (auto &it : Buttons)
+		if (it->hwnd)
 			nButtonCount++;
 
 	if (nButtonCount == 0)
@@ -492,8 +492,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 int OnIconChange(WPARAM, LPARAM)
 {
 	mir_cslock lck(csButtonsHook);
-	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt *b = Buttons[i];
+	for (auto &b : Buttons) {
 		if (!b->hIconHandleUp && !b->hIconHandleDn)
 			continue;
 
@@ -678,8 +677,8 @@ int UnloadToolbarModule()
 {
 	DestroyHookableEvent(hTTBModuleLoaded);
 
-	for (int i = 0; i < Buttons.getCount(); i++)
-		delete Buttons[i];
+	for (auto &it : Buttons)
+		delete it;
 
 	mir_free(g_ctrl);
 	return 0;

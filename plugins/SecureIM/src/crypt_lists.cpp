@@ -56,9 +56,9 @@ void loadSupportedProtocols()
 
 void freeSupportedProtocols()
 {
-	for (int j = 0; j < arProto.getCount(); j++) {
-		mir_free(arProto[j]->name);
-		mir_free(arProto[j]);
+	for (auto &it : arProto) {
+		mir_free(it->name);
+		mir_free(it);
 	}
 
 	arProto.destroy();
@@ -66,9 +66,9 @@ void freeSupportedProtocols()
 
 pSupPro getSupPro(MCONTACT hContact)
 {
-	for (int j = 0; j < arProto.getCount(); j++)
-		if (Proto_IsProtoOnContact(hContact, arProto[j]->name))
-			return arProto[j];
+	for (auto &it : arProto)
+		if (Proto_IsProtoOnContact(hContact, it->name))
+			return it;
 
 	return nullptr;
 }
@@ -127,8 +127,7 @@ void loadContactList()
 // free list of secureIM users
 void freeContactList()
 {
-	for (int j = 0; j < arClist.getCount(); j++) {
-		pUinKey p = arClist[j];
+	for (auto &p : arClist) {
 		cpp_delete_context(p->cntx); p->cntx = nullptr;
 		mir_free(p->tmp);
 		mir_free(p->msgSplitted);
@@ -153,9 +152,9 @@ pUinKey getUinKey(MCONTACT hContact)
 
 pUinKey getUinCtx(HANDLE cntx)
 {
-	for (int j = 0; j < arClist.getCount(); j++)
-		if (arClist[j]->cntx == cntx)
-			return arClist[j];
+	for (auto &it : arClist)
+		if (it->cntx == cntx)
+			return it;
 
 	return nullptr;
 }

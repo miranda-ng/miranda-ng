@@ -317,22 +317,22 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		NMHDR *hdr = (NMHDR *)lParam;
 		switch (hdr->code) {
 		case PSN_APPLY:
-			for (int i = 0; i < XSN_Users.getCount(); i++) {
-				if (mir_wstrcmpi(XSN_Users[i]->path, L"")) {
+			for (auto &it : XSN_Users) {
+				if (mir_wstrcmpi(it->path, L"")) {
 					wchar_t shortpath[MAX_PATH];
-					PathToRelativeW(XSN_Users[i]->path, shortpath);
-					if (XSN_Users[i]->iscontact)
-						db_set_ws(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
+					PathToRelativeW(it->path, shortpath);
+					if (it->iscontact)
+						db_set_ws(it->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
 					else
-						db_set_ws(NULL, SETTINGSNAME, (LPCSTR)XSN_Users[i]->hContact, shortpath);
+						db_set_ws(NULL, SETTINGSNAME, (LPCSTR)it->hContact, shortpath);
 				}
-				if (XSN_Users[i]->iscontact)
-					db_set_b(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSIGNOREKEY, XSN_Users[i]->ignore);
+				if (it->iscontact)
+					db_set_b(it->hContact, SETTINGSNAME, SETTINGSIGNOREKEY, it->ignore);
 				else {
-					size_t value_max_len = mir_strlen((const char*)XSN_Users[i]->hContact) + 8;
+					size_t value_max_len = mir_strlen((const char*)it->hContact) + 8;
 					char *value = (char *)mir_alloc(sizeof(char) * value_max_len);
-					mir_snprintf(value, value_max_len, "%s_ignore", (const char*)XSN_Users[i]->hContact);
-					db_set_b(NULL, SETTINGSNAME, value, XSN_Users[i]->ignore);
+					mir_snprintf(value, value_max_len, "%s_ignore", (const char*)it->hContact);
+					db_set_b(NULL, SETTINGSNAME, value, it->ignore);
 					mir_free(value);
 				}
 			}

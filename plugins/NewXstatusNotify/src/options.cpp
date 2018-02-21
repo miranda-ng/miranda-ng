@@ -132,13 +132,12 @@ void SaveTemplates()
 	db_set_b(0, MODULE, "TLogXFlags", templates.LogXFlags);
 	db_set_b(0, MODULE, "TLogSMsgFlags", templates.LogSMsgFlags);
 
-	for (int i = 0; i < ProtoTemplates.getCount(); i++) {
-		PROTOTEMPLATE *prototemplate = ProtoTemplates[i];
+	for (auto &it : ProtoTemplates) {
 		char str[MAX_PATH];
-		mir_snprintf(str, "%s_TPopupSMsgChanged", prototemplate->ProtoName);
-		db_set_ws(0, MODULE, str, prototemplate->ProtoTemplateMsg);
-		mir_snprintf(str, "%s_TPopupSMsgRemoved", prototemplate->ProtoName);
-		db_set_ws(0, MODULE, str, prototemplate->ProtoTemplateRemoved);
+		mir_snprintf(str, "%s_TPopupSMsgChanged", it->ProtoName);
+		db_set_ws(0, MODULE, str, it->ProtoTemplateMsg);
+		mir_snprintf(str, "%s_TPopupSMsgRemoved", it->ProtoName);
+		db_set_ws(0, MODULE, str, it->ProtoTemplateRemoved);
 	}
 }
 

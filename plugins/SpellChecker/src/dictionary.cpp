@@ -733,8 +733,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 	wchar_t name[64];
 	mir_snwprintf(name, L"%s_%s", ini, end);
 
-	for (int i = 0; i < tmp_dicts->getCount(); i++) {
-		Dictionary *dict = (*tmp_dicts)[i];
+	for (auto &dict : *tmp_dicts) {
 		if (mir_wstrcmpi(dict->language, name) == 0) {
 			GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SENGLANGUAGE, dict->english_name, _countof(dict->english_name));
 
@@ -772,9 +771,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 	EnumSystemLocales(EnumLocalesProc, LCID_SUPPORTED);
 
 	// Try to get name from DB
-	for (int i = 0; i < dicts.getCount(); i++) {
-		Dictionary *dict = dicts[i];
-
+	for (auto &dict : dicts) {
 		if (dict->full_name[0] == '\0') {
 			DBVARIANT dbv;
 
@@ -931,9 +928,8 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 // Free the list returned by GetAvaibleDictionaries
 void FreeDictionaries(LIST<Dictionary> &dicts)
 {
-	for (int i = 0; i < dicts.getCount(); i++)
-		delete dicts[i];
-
+	for (auto &it : dicts)
+		delete it;
 	dicts.destroy();
 }
 

@@ -9,17 +9,14 @@ int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std:
 	zip_fileinfo fi = { 0 };
 
 	int ret = 0;
-	for (int i = 0; i < lstFiles.getCount(); i++)
-	{
+	for (int i = 0; i < lstFiles.getCount(); i++) {
 		ZipFile &zf = lstFiles[i];
 
 		HANDLE hSrcFile = CreateFileA(zf.sPath.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-		if (hSrcFile != INVALID_HANDLE_VALUE)
-		{
+		if (hSrcFile != INVALID_HANDLE_VALUE) {
 			int iOpenRes = zipOpenNewFileInZip(hZip, zf.sZipPath.c_str(), &fi, nullptr, 0, nullptr, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION);
 
-			if (iOpenRes == ZIP_OK)
-			{
+			if (iOpenRes == ZIP_OK) {
 				DWORD dwRead;
 				BYTE buf[0x40000];
 
@@ -27,14 +24,12 @@ int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std:
 				zipCloseFileInZip(hZip);
 				CloseHandle(hSrcFile);
 
-				if (!fnCallback(i))
-				{
+				if (!fnCallback(i)) {
 					ret = 3;
 					break;
 				}
 			}
-			else
-				CloseHandle(hSrcFile);
+			else CloseHandle(hSrcFile);
 		}
 	}
 

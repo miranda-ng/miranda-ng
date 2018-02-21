@@ -35,12 +35,11 @@ static void LoadRegisteredFolderSections(HWND hWnd)
 {
 	HWND hwndList = GetDlgItem(hWnd, IDC_FOLDERS_SECTIONS_LIST);
 
-	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
-		CFolderItem &tmp = lstRegisteredFolders[i];
-		wchar_t *translated = mir_a2u(tmp.GetSection());
+	for (auto &it : lstRegisteredFolders) {
+		wchar_t *translated = mir_a2u(it->GetSection());
 		if (!ContainsSection(hWnd, TranslateW(translated))) {
 			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateW(translated));
-			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)tmp.GetSection());
+			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)it->GetSection());
 		}
 
 		mir_free(translated);
@@ -58,11 +57,10 @@ static void LoadRegisteredFolderItems(HWND hWnd)
 	HWND hwndItems = GetDlgItem(hWnd, IDC_FOLDERS_ITEMS_LIST);
 	SendMessage(hwndItems, LB_RESETCONTENT, 0, 0);
 
-	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
-		CFolderItem &item = lstRegisteredFolders[i];
-		if (!mir_strcmp(szSection, item.GetSection())) {
-			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateW(item.GetUserName()));
-			SendMessage(hwndItems, LB_SETITEMDATA, idx, (LPARAM)&item);
+	for (auto &it : lstRegisteredFolders) {
+		if (!mir_strcmp(szSection, it->GetSection())) {
+			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateW(it->GetUserName()));
+			SendMessage(hwndItems, LB_SETITEMDATA, idx, (LPARAM)it);
 		}
 	}
 	SendMessage(hwndItems, LB_SETCURSEL, 0, 0); //select the first item
@@ -234,8 +232,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 					LoadItem(hWnd, item);
 				}
 
-				for (int i = 0; i < lstRegisteredFolders.getCount(); i++)
-					lstRegisteredFolders[i].Save();
+				for (auto &it : lstRegisteredFolders)
+					it->Save();
 				CallPathChangedEvents();
 			}
 		}

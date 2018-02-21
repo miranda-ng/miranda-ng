@@ -97,8 +97,8 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	for (int i = 0; i < replyList.getCount(); i++)
-		mir_free(replyList[i]);
+	for (auto &it : replyList)
+		mir_free(it);
 	replyList.destroy();
 
 	return 1;

@@ -141,11 +141,10 @@ void __cdecl Check_ThreadFunc(void *lpParam)
 		NotifyUser((Account *)lpParam);
 	}
 	else {
-		for (int i = 0; i < g_accs.getCount(); i++) {
-			Account &acc = g_accs[i];
-			if (GetContactProto(acc.hContact)) {
-				CheckMailInbox(&acc);
-				NotifyUser(&acc);
+		for (auto &it : g_accs) {
+			if (GetContactProto(it->hContact)) {
+				CheckMailInbox(it);
+				NotifyUser(it);
 			}
 		}
 	}

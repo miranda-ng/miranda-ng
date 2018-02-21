@@ -160,8 +160,8 @@ void SaveSettings(HWND hwndDlg)
 			db_unset(hContact, ModuleName, "SweepHistory");
 	}
 
-	for (int i = 0; i < g_hWindows.getCount(); i++)
-		SetSrmmIcon(UINT_PTR(g_hWindows[i]));
+	for (auto &it : g_hWindows)
+		SetSrmmIcon(UINT_PTR(it));
 
 	// set tooltips
 	int st = db_get_b(NULL, ModuleName, "SweepHistory", 0);

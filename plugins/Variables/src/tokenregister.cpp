@@ -238,8 +238,7 @@ int initTokenRegister()
 
 int deinitTokenRegister()
 {
-	for (int i = 0; i < tokens.getCount(); i++) {
-		TokenRegisterEntry *tre = tokens[i];
+	for (auto &tre : tokens) {
 		if (!(tre->tr.flags & TRF_PARSEFUNC) && tre->tr.szService != nullptr)
 			mir_free(tre->tr.szService);
 

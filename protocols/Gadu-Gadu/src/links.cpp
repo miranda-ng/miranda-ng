@@ -60,15 +60,13 @@ static INT_PTR gg_parselink(WPARAM, LPARAM lParam)
 
 	GaduProto *gg = nullptr;
 	int items = 0;
-	for (int i = 0; i < g_Instances.getCount(); i++) {
-		gg = g_Instances[i];
-
-		if (gg->m_iStatus > ID_STATUS_OFFLINE) {
+	for (auto &it : g_Instances) {
+		gg = it;
+		if (it->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;
-			Menu_ModifyItem(gg->hInstanceMenuItem, nullptr, Skin_LoadProtoIcon(gg->m_szModuleName, gg->m_iStatus));
+			Menu_ModifyItem(it->hInstanceMenuItem, nullptr, Skin_LoadProtoIcon(it->m_szModuleName, it->m_iStatus));
 		}
-		else
-			Menu_ShowItem(gg->hInstanceMenuItem, false);
+		else Menu_ShowItem(it->hInstanceMenuItem, false);
 	}
 
 	if (items > 1) {

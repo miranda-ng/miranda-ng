@@ -451,8 +451,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			arClasses = arNewClasses;
 			char setting[256];
-			for (int i = 0; i < arClasses.getCount(); i++) {
-				POPUPCLASS *pc = arClasses[i];
+			for (auto &pc : arClasses) {
 				mir_snprintf(setting, "%s/Timeout", pc->pszName);
 				db_set_w(0, MODULE, setting, pc->iSeconds);
 				mir_snprintf(setting, "%s/TextCol", pc->pszName);
