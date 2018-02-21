@@ -37,9 +37,9 @@ static BYTE showDialogOnStartup = 0;
 
 static PROTOCOLSETTINGEX* IsValidProtocol(TProtoSettings &protoSettings, const char *protoName)
 {
-	for (int i = 0; i < protoSettings.getCount(); i++)
-		if (!strncmp(protoSettings[i].m_szName, protoName, mir_strlen(protoSettings[i].m_szName)))
-			return &protoSettings[i];
+	for (auto &it : protoSettings)
+		if (!strncmp(it->m_szName, protoName, mir_strlen(it->m_szName)))
+			return it;
 
 	return nullptr;
 }
@@ -117,13 +117,13 @@ static void ProcessCommandLineOptions(TProtoSettings& protoSettings)
 
 static void SetLastStatusMessages(TProtoSettings &ps)
 {
-	for (int i = 0; i < ps.getCount(); i++) {
-		if (ps[i].m_status != ID_STATUS_LAST)
+	for (auto &it : ps) {
+		if (it->m_status != ID_STATUS_LAST)
 			continue;
 
 		char dbSetting[128];
-		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, ps[i].m_szName);
-		ps[i].m_szMsg = db_get_wsa(0, SSMODULENAME, dbSetting);
+		mir_snprintf(dbSetting, "%s%s", PREFIX_LASTMSG, it->m_szName);
+		it->m_szMsg = db_get_wsa(0, SSMODULENAME, dbSetting);
 	}
 }
 
@@ -141,9 +141,9 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	if (!db_get_b(0, SSMODULENAME, SETTING_OVERRIDE, 1) || protoList.getCount() == 0)
 		return 0;
 
-	for (int i = 0; i < protoList.getCount(); i++) {
-		if (!mir_strcmp(ack->szModule, protoList[i].m_szName)) {
-			protoList[i].m_szName = "";
+	for (auto &it : protoList) {
+		if (!mir_strcmp(ack->szModule, it->m_szName)) {
+			it->m_szName = "";
 			log_debugA("StartupStatus: %s overridden by ME_PROTO_ACK, status will not be set", ack->szModule);
 		}
 	}
@@ -159,15 +159,15 @@ static int StatusChange(WPARAM, LPARAM lParam)
 
 	char *szProto = (char *)lParam;
 	if (szProto == nullptr) { // global status change
-		for (int i = 0; i < protoList.getCount(); i++) {
-			protoList[i].m_szName = "";
+		for (auto &it : protoList) {
+			it->m_szName = "";
 			log_debugA("StartupStatus: all protos overridden by ME_CLIST_STATUSMODECHANGE, status will not be set");
 		}
 	}
 	else {
-		for (int i = 0; i < protoList.getCount(); i++) {
-			if (!mir_strcmp(protoList[i].m_szName, szProto)) {
-				protoList[i].m_szName = "";
+		for (auto &it : protoList) {
+			if (!mir_strcmp(it->m_szName, szProto)) {
+				it->m_szName = "";
 				log_debugA("StartupStatus: %s overridden by ME_CLIST_STATUSMODECHANGE, status will not be set", szProto);
 			}
 		}

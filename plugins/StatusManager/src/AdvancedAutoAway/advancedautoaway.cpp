@@ -91,15 +91,15 @@ void AAALoadOptions()
 	monitorKeyboard = db_get_b(0, AAAMODULENAME, SETTING_MONITORKEYBOARD, TRUE);
 	lastInput = lastMirandaInput = GetTickCount();
 
-	for (int i = 0; i < protoList.getCount(); i++) {
+	for (auto &it : protoList) {
 		char* protoName;
 		if ((db_get_b(0, AAAMODULENAME, SETTING_SAMESETTINGS, 0)))
 			protoName = SETTING_ALL;
 		else
-			protoName = protoList[i].m_szName;
-		LoadAutoAwaySetting(protoList[i], protoName);
+			protoName = it->m_szName;
+		LoadAutoAwaySetting(*it, protoName);
 
-		if (protoList[i].optionFlags & FLAG_MONITORMIRANDA)
+		if (it->optionFlags & FLAG_MONITORMIRANDA)
 			monitorMiranda = TRUE;
 		else if (ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
 			monitorAll = TRUE;
@@ -207,13 +207,12 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	int statusChanged = FALSE;
 	int confirm = FALSE;
 
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto& aas = protoList[i];
-		aas.m_status = ID_STATUS_DISABLED;
+	for (auto &it : protoList) {
+		it->m_status = ID_STATUS_DISABLED;
 
 		BOOL bTrigger = false;
 
-		if (aas.optionFlags & FLAG_MONITORMIRANDA)
+		if (it->optionFlags & FLAG_MONITORMIRANDA)
 			mouseStationaryTimer = (GetTickCount() - lastMirandaInput) / 1000;
 		else {
 			LASTINPUTINFO ii = { sizeof(ii) };
@@ -221,108 +220,108 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			mouseStationaryTimer = (GetTickCount() - ii.dwTime) / 1000;
 		}
 
-		int sts1Time = aas.awayTime * SECS_PER_MINUTE;
-		int sts2Time = aas.naTime * SECS_PER_MINUTE;
-		int sts1setTime = aas.sts1setTimer == 0 ? 0 : (GetTickCount() - aas.sts1setTimer) / 1000;
-		int currentMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+		int sts1Time = it->awayTime * SECS_PER_MINUTE;
+		int sts2Time = it->naTime * SECS_PER_MINUTE;
+		int sts1setTime = it->sts1setTimer == 0 ? 0 : (GetTickCount() - it->sts1setTimer) / 1000;
+		int currentMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
 
-		if (aas.optionFlags & FLAG_ONSAVER)
+		if (it->optionFlags & FLAG_ONSAVER)
 			bTrigger |= IsScreenSaverRunning();
-		if (aas.optionFlags & FLAG_ONLOCK)
+		if (it->optionFlags & FLAG_ONLOCK)
 			bTrigger |= IsWorkstationLocked();
-		if (aas.optionFlags & FLAG_FULLSCREEN)
+		if (it->optionFlags & FLAG_FULLSCREEN)
 			bTrigger |= IsFullScreen();
 
 		/* check states */
-		if (aas.curState == ACTIVE) {
-			if (((mouseStationaryTimer >= sts1Time && (aas.optionFlags & FLAG_ONMOUSE)) || bTrigger) && currentMode != aas.lv1Status && aas.statusFlags&StatusModeToProtoFlag(currentMode)) {
+		if (it->curState == ACTIVE) {
+			if (((mouseStationaryTimer >= sts1Time && (it->optionFlags & FLAG_ONMOUSE)) || bTrigger) && currentMode != it->lv1Status && it->statusFlags&StatusModeToProtoFlag(currentMode)) {
 				/* from ACTIVE to STATUS1_SET */
-				aas.m_lastStatus = aas.originalStatusMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
-				aas.m_status = aas.lv1Status;
-				aas.sts1setTimer = GetTickCount();
+				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_status = it->lv1Status;
+				it->sts1setTimer = GetTickCount();
 				sts1setTime = 0;
-				aas.statusChanged = statusChanged = TRUE;
-				changeState(aas, STATUS1_SET);
+				it->statusChanged = statusChanged = TRUE;
+				changeState(*it, STATUS1_SET);
 			}
-			else if (mouseStationaryTimer >= sts2Time && currentMode == aas.lv1Status && currentMode != aas.lv2Status && (aas.optionFlags & FLAG_SETNA) && (aas.statusFlags & StatusModeToProtoFlag(currentMode))) {
+			else if (mouseStationaryTimer >= sts2Time && currentMode == it->lv1Status && currentMode != it->lv2Status && (it->optionFlags & FLAG_SETNA) && (it->statusFlags & StatusModeToProtoFlag(currentMode))) {
 				/* from ACTIVE to STATUS2_SET */
-				aas.m_lastStatus = aas.originalStatusMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
-				aas.m_status = aas.lv2Status;
-				aas.statusChanged = statusChanged = TRUE;
-				changeState(aas, STATUS2_SET);
+				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_status = it->lv2Status;
+				it->statusChanged = statusChanged = TRUE;
+				changeState(*it, STATUS2_SET);
 			}
 		}
 
-		if (aas.curState == STATUS1_SET) {
-			if ((mouseStationaryTimer < sts1Time && !bTrigger) && !(aas.optionFlags & FLAG_RESET)) {
+		if (it->curState == STATUS1_SET) {
+			if ((mouseStationaryTimer < sts1Time && !bTrigger) && !(it->optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to HIDDEN_ACTIVE */
-				changeState(aas, HIDDEN_ACTIVE);
-				aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+				changeState(*it, HIDDEN_ACTIVE);
+				it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
 			}
 			else if (((mouseStationaryTimer < sts1Time) && !bTrigger) &&
-				((aas.optionFlags & FLAG_LV2ONINACTIVE) || (!(aas.optionFlags&FLAG_SETNA))) &&
-				(aas.optionFlags & FLAG_RESET)) {
+				((it->optionFlags & FLAG_LV2ONINACTIVE) || (!(it->optionFlags&FLAG_SETNA))) &&
+				(it->optionFlags & FLAG_RESET)) {
 				/* from STATUS1_SET to SET_ORGSTATUS */
-				changeState(aas, SET_ORGSTATUS);
+				changeState(*it, SET_ORGSTATUS);
 			}
-			else if ((aas.optionFlags & FLAG_SETNA) && sts1setTime >= sts2Time) {
+			else if ((it->optionFlags & FLAG_SETNA) && sts1setTime >= sts2Time) {
 				/* when set STATUS2, currentMode doesn't have to be in the selected status list (statusFlags) */
 				/* from STATUS1_SET to STATUS2_SET */
-				aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
-				aas.m_status = aas.lv2Status;
-				aas.statusChanged = statusChanged = TRUE;
-				changeState(aas, STATUS2_SET);
+				it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_status = it->lv2Status;
+				it->statusChanged = statusChanged = TRUE;
+				changeState(*it, STATUS2_SET);
 			}
 		}
 
-		if (aas.curState == STATUS2_SET) {
-			if (mouseStationaryTimer < sts2Time && !bTrigger && (aas.optionFlags & FLAG_RESET)) {
+		if (it->curState == STATUS2_SET) {
+			if (mouseStationaryTimer < sts2Time && !bTrigger && (it->optionFlags & FLAG_RESET)) {
 				/* from STATUS2_SET to SET_ORGSTATUS */
-				changeState(aas, SET_ORGSTATUS);
+				changeState(*it, SET_ORGSTATUS);
 			}
-			else if (mouseStationaryTimer < sts2Time && !bTrigger && !(aas.optionFlags & FLAG_RESET)) {
+			else if (mouseStationaryTimer < sts2Time && !bTrigger && !(it->optionFlags & FLAG_RESET)) {
 				/* from STATUS2_SET to HIDDEN_ACTIVE */
 				/* Remember: after status1 is set, and "only on inactive" is NOT set, it implies !reset. */
-				changeState(aas, HIDDEN_ACTIVE);
-				aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
+				changeState(*it, HIDDEN_ACTIVE);
+				it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
 			}
 		}
 
-		if (aas.curState == HIDDEN_ACTIVE) {
-			if (aas.mStatus) {
+		if (it->curState == HIDDEN_ACTIVE) {
+			if (it->mStatus) {
 				/* HIDDEN_ACTIVE to ACTIVE */
-				//aas.statusChanged = FALSE;
-				changeState(aas, ACTIVE);
-				aas.sts1setTimer = 0;
-				aas.mStatus = FALSE;
+				//it->statusChanged = FALSE;
+				changeState(*it, ACTIVE);
+				it->sts1setTimer = 0;
+				it->mStatus = FALSE;
 			}
-			else if ((aas.optionFlags & FLAG_SETNA) && currentMode == aas.lv1Status &&
-				currentMode != aas.lv2Status && (aas.statusFlags & StatusModeToProtoFlag(currentMode)) &&
-				(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(aas.optionFlags & FLAG_LV2ONINACTIVE)))) {
+			else if ((it->optionFlags & FLAG_SETNA) && currentMode == it->lv1Status &&
+				currentMode != it->lv2Status && (it->statusFlags & StatusModeToProtoFlag(currentMode)) &&
+				(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(it->optionFlags & FLAG_LV2ONINACTIVE)))) {
 				/* HIDDEN_ACTIVE to STATUS2_SET */
-				aas.m_lastStatus = aas.originalStatusMode = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
-				aas.m_status = aas.lv2Status;
-				aas.statusChanged = statusChanged = TRUE;
-				changeState(aas, STATUS2_SET);
+				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+				it->m_status = it->lv2Status;
+				it->statusChanged = statusChanged = TRUE;
+				changeState(*it, STATUS2_SET);
 			}
 		}
-		if (aas.curState == SET_ORGSTATUS) {
+		if (it->curState == SET_ORGSTATUS) {
 			/* SET_ORGSTATUS to ACTIVE */
-			aas.m_lastStatus = CallProtoService(aas.m_szName, PS_GETSTATUS, 0, 0);
-			aas.m_status = aas.originalStatusMode;
-			confirm = (aas.optionFlags & FLAG_CONFIRM) ? TRUE : confirm;
-			aas.statusChanged = statusChanged = TRUE;
-			changeState(aas, ACTIVE);
-			aas.sts1setTimer = 0;
+			it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+			it->m_status = it->originalStatusMode;
+			confirm = (it->optionFlags & FLAG_CONFIRM) ? TRUE : confirm;
+			it->statusChanged = statusChanged = TRUE;
+			changeState(*it, ACTIVE);
+			it->sts1setTimer = 0;
 		}
-		protoList[i].mStatus = FALSE;
+		it->mStatus = FALSE;
 	}
 
 	if (confirm || statusChanged) {
 		TProtoSettings ps = protoList;
-		for (int i = 0; i < ps.getCount(); i++)
-			if (ps[i].m_status == ID_STATUS_DISABLED)
-				ps[i].m_szName = "";
+		for (auto &it : ps)
+			if (it->m_status == ID_STATUS_DISABLED)
+				it->m_szName = "";
 
 		if (confirm)
 			confirmDialog = ShowConfirmDialogEx(&ps, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));

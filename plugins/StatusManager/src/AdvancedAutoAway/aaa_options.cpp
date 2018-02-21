@@ -140,10 +140,9 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 		// fill list from currentProtoSettings
 		{
-			for (int i = 0; i < optionSettings.getCount(); i++) {
-				SMProto &p = optionSettings[i];
-				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)p.m_tszAccName);
-				SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_SETITEMDATA, item, (LPARAM)&p);
+			for (auto &p : optionSettings) {
+				int item = SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, (LPARAM)p->m_tszAccName);
+				SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, CB_SETITEMDATA, item, (LPARAM)p);
 			}
 		}
 		// set cursor to first protocol
@@ -334,8 +333,8 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			if (bSettingSame)
 				WriteAutoAwaySetting(*sameSetting, SETTING_ALL);
 			else {
-				for (int i = 0; i < optionSettings.getCount(); i++)
-					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].m_szName);
+				for (auto &it : optionSettings)
+					WriteAutoAwaySetting(*it, it->m_szName);
 			}
 			AAALoadOptions();
 		}

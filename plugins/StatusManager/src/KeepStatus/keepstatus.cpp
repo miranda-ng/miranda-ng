@@ -131,9 +131,9 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 {
 	mir_cslock lck(GenStatusCS);
 	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)mir_alloc(protoList.getCount() * sizeof(PROTOCOLSETTINGEX *));
-	if (ps == nullptr) {
+	if (ps == nullptr)
 		return nullptr;
-	}
+
 	for (int i = 0; i < protoList.getCount(); i++) {
 		ps[i] = (PROTOCOLSETTINGEX*)mir_calloc(sizeof(PROTOCOLSETTINGEX));
 		if (ps[i] == nullptr) {
@@ -243,17 +243,13 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 {
 	char *szProto = (char *)lParam;
 	if (szProto == nullptr) { // global status change
-		for (int i = 0; i < protoList.getCount(); i++) {
-			SMProto &cs = protoList[i];
-			cs.AssignStatus(wParam, 0, cs.m_szMsg);
-		}
+		for (auto &it : protoList)
+			it->AssignStatus(wParam, 0, it->m_szMsg);
 	}
 	else {
-		for (int i = 0; i < protoList.getCount(); i++) {
-			SMProto &cs = protoList[i];
-			if (!mir_strcmp(cs.m_szName, szProto))
-				cs.AssignStatus(wParam, 0, cs.m_szMsg);
-		}
+		for (auto &it : protoList)
+			if (!mir_strcmp(it->m_szName, szProto))
+				it->AssignStatus(wParam, 0, it->m_szMsg);
 	}
 
 	return 0;
@@ -272,13 +268,12 @@ static int CSStatusChange(WPARAM wParam, LPARAM)
 			if (psi->szName == nullptr)
 				continue;
 
-			for (int j = 0; j < protoList.getCount(); j++) {
-				SMProto &cs = protoList[i];
-				if (cs.m_szName == nullptr)
+			for (auto &it : protoList) {
+				if (it->m_szName == nullptr)
 					continue;
 
-				if (!mir_strcmp(psi->szName, cs.m_szName))
-					cs.AssignStatus(psi->status, psi->lastStatus, cs.m_szMsg);
+				if (!mir_strcmp(psi->szName, it->m_szName))
+					it->AssignStatus(psi->status, psi->lastStatus, it->m_szMsg);
 			}
 		}
 	}
@@ -299,13 +294,12 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 			if (psi->m_szName == nullptr)
 				continue;
 
-			for (int j = 0; j < protoList.getCount(); j++) {
-				SMProto &cs = protoList[i];
-				if (cs.m_szName == nullptr)
+			for (auto &it : protoList) {
+				if (it->m_szName == nullptr)
 					continue;
 
-				if (!mir_strcmp(psi->m_szName, cs.m_szName))
-					cs.AssignStatus(psi->m_status, psi->m_lastStatus, psi->m_szMsg);
+				if (!mir_strcmp(psi->m_szName, it->m_szName))
+					it->AssignStatus(psi->m_status, psi->m_lastStatus, psi->m_szMsg);
 			}
 		}
 	}
@@ -482,28 +476,26 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	if (ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
-		for (int i = 0; i < protoList.getCount(); i++) {
-			SMProto &cs = protoList[i];
-			if (!mir_strcmp(cs.m_szName, ack->szModule))
-				cs.lastStatusAckTime = GetTickCount();
-		}
+		for (auto &it : protoList)
+			if (!mir_strcmp(it->m_szName, ack->szModule))
+				it->lastStatusAckTime = GetTickCount();
+
 		StartTimer(IDT_PROCESSACK, 0, FALSE);
 		return 0;
 	}
 
 	if (ack->type == ACKTYPE_LOGIN) {
 		if (ack->lParam == LOGINERR_OTHERLOCATION) {
-			for (int i = 0; i < protoList.getCount(); i++) {
-				SMProto &cs = protoList[i];
-				if (!mir_strcmp(ack->szModule, cs.m_szName)) {
-					cs.AssignStatus(ID_STATUS_OFFLINE);
+			for (auto &it : protoList) {
+				if (!mir_strcmp(ack->szModule, it->m_szName)) {
+					it->AssignStatus(ID_STATUS_OFFLINE);
 					if (db_get_b(0, KSMODULENAME, SETTING_CNCOTHERLOC, 0)) {
 						StopTimer(IDT_PROCESSACK);
-						for (int j = 0; j < protoList.getCount(); j++)
-							protoList[j].AssignStatus(ID_STATUS_OFFLINE);
+						for (auto &jt : protoList)
+							jt->AssignStatus(ID_STATUS_OFFLINE);
 					}
 
-					NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_OTHERLOCATION, (LPARAM)cs.m_szName);
+					NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_OTHERLOCATION, (LPARAM)it->m_szName);
 					ProcessPopup(KS_CONN_STATE_OTHERLOCATION, (LPARAM)ack->szModule);
 				}
 			}
@@ -515,11 +507,10 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 			switch (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING)) {
 			case LOGINERR_CANCEL:
 				log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
-				for (int i = 0; i < protoList.getCount(); i++) {
-					SMProto &cs = protoList[i];
-					if (!mir_strcmp(ack->szModule, cs.m_szName))
-						cs.AssignStatus(ID_STATUS_OFFLINE);
-				}
+				for (auto &it : protoList)
+					if (!mir_strcmp(ack->szModule, it->m_szName))
+						it->AssignStatus(ID_STATUS_OFFLINE);
+
 				ProcessPopup(KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
 				StopChecking();
 				break;
@@ -548,17 +539,15 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	StopTimer(IDT_CHECKCONNECTING);
 
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &cs = protoList[i];
-
-		int curStatus = cs.GetStatus();
+	for (auto &it : protoList) {
+		int curStatus = it->GetStatus();
 		if (IsStatusConnecting(curStatus)) { // connecting
 			int maxConnectingTime = db_get_dw(0, KSMODULENAME, SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0) {
-				if ((unsigned int)maxConnectingTime <= ((GetTickCount() - cs.lastStatusAckTime) / 1000)) {
+				if ((unsigned int)maxConnectingTime <= ((GetTickCount() - it->lastStatusAckTime) / 1000)) {
 					// set offline
-					log_infoA("KeepStatus: %s is too long connecting; setting offline", cs.m_szName);
-					CallProtoService(cs.m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
+					log_infoA("KeepStatus: %s is too long connecting; setting offline", it->m_szName);
+					CallProtoService(it->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 				}
 			}
 		}
@@ -570,11 +559,9 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 	bool needChecking = false;
 
 	StopTimer(IDT_PROCESSACK);
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &cs = protoList[i];
-
-		int curStatus = cs.GetStatus();
-		int newStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
+	for (auto &it : protoList) {
+		int curStatus = it->GetStatus();
+		int newStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
 		// ok, np
 		if (curStatus == ID_STATUS_CURRENT || curStatus == ID_STATUS_DISABLED || curStatus == newStatus || newStatus > MAX_STATUS)
 			continue;
@@ -582,19 +569,19 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 		if (IsStatusConnecting(newStatus)) { // connecting
 			int maxConnectingTime = db_get_dw(0, KSMODULENAME, SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0)
-				StartTimer(IDT_CHECKCONNECTING, (maxConnectingTime * 1000 - (GetTickCount() - cs.lastStatusAckTime)), FALSE);
+				StartTimer(IDT_CHECKCONNECTING, (maxConnectingTime * 1000 - (GetTickCount() - it->lastStatusAckTime)), FALSE);
 		}
 		// keepstatus' administration was wrong!
 		else if (newStatus != ID_STATUS_OFFLINE)
-			cs.AssignStatus(newStatus);
+			it->AssignStatus(newStatus);
 
 		// connection lost
 		else if (newStatus == ID_STATUS_OFFLINE) {// start checking connection
 			if (!StartTimer(IDT_CHECKCONN, -1, FALSE)) { /* check if not already checking */
 				needChecking = true;
-				log_infoA("KeepStatus: connection lost! (%s)", cs.m_szName);
-				NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, (LPARAM)cs.m_szName);
-				ProcessPopup(KS_CONN_STATE_LOST, (LPARAM)cs.m_szName);
+				log_infoA("KeepStatus: connection lost! (%s)", it->m_szName);
+				NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, (LPARAM)it->m_szName);
+				ProcessPopup(KS_CONN_STATE_LOST, (LPARAM)it->m_szName);
 			}
 		}
 	}
@@ -608,16 +595,17 @@ static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 	log_debugA("CheckConnectionTimer");
 	bool setStatus = false;
 
-	for (int i = 0; i < protoList.getCount() && !setStatus; i++) {
-		SMProto &cs = protoList[i];
-		int realStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
-		int shouldBeStatus = cs.GetStatus();
+	for (auto &it : protoList) {
+		int realStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+		int shouldBeStatus = it->GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST)
-			shouldBeStatus = cs.m_lastStatus;
+			shouldBeStatus = it->m_lastStatus;
 		if (shouldBeStatus == ID_STATUS_DISABLED)
 			continue;
-		if ((shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS))
+		if ((shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS)) {
 			setStatus = true;
+			break;
+		}
 	}
 
 	// one of the status was wrong
@@ -649,13 +637,13 @@ static int StopChecking()
 	StopTimer(IDT_CHECKCONN | IDT_PROCESSACK | IDT_AFTERCHECK | IDT_CHECKCONNECTING);
 
 	BOOL isOk = TRUE;
-	for (int i = 0; i < protoList.getCount() && isOk; i++) {
-		SMProto &cs = protoList[i];
-		int curStatus = cs.GetStatus();
-		int newStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
+	for (auto &it : protoList) {
+		int curStatus = it->GetStatus();
+		int newStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
 		if (newStatus != curStatus) {
-			cs.AssignStatus(newStatus);
+			it->AssignStatus(newStatus);
 			isOk = FALSE;
+			break;
 		}
 	}
 
@@ -675,12 +663,11 @@ static VOID CALLBACK AfterCheckTimer(HWND, UINT, UINT_PTR, DWORD)
 
 	bool setStatus = false;
 
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &cs = protoList[i];
-		int realStatus = CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0);
-		int shouldBeStatus = cs.GetStatus();
+	for (auto &it : protoList) {
+		int realStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
+		int shouldBeStatus = it->GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST) // this should never happen
-			shouldBeStatus = cs.m_lastStatus;
+			shouldBeStatus = it->m_lastStatus;
 		if (shouldBeStatus == ID_STATUS_DISABLED) //  (on ignoring proto)
 			continue;
 		if ((shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS))
@@ -702,17 +689,16 @@ static void CheckContinuouslyFunction(void *)
 
 	// do a ping, even if reconnecting
 	bool doPing = false;
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &cs = protoList[i];
-		int shouldBeStatus = cs.GetStatus();
+	for (auto &it : protoList) {
+		int shouldBeStatus = it->GetStatus();
 		if (shouldBeStatus == ID_STATUS_LAST)
-			shouldBeStatus = cs.m_lastStatus;
+			shouldBeStatus = it->m_lastStatus;
 
 		if (shouldBeStatus == ID_STATUS_DISABLED)
 			continue;
 
 		if (shouldBeStatus != ID_STATUS_OFFLINE) {
-			log_debugA("CheckContinuouslyFunction: %s should be %d", cs.m_szName, shouldBeStatus);
+			log_debugA("CheckContinuouslyFunction: %s should be %d", it->m_szName, shouldBeStatus);
 			doPing = true;
 		}
 	}
@@ -1005,13 +991,12 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	int ret = -2;
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &cs = protoList[i];
-		if (!mir_strcmp(szProto, cs.m_szName)) {
+	for (auto &it : protoList) {
+		if (!mir_strcmp(szProto, it->m_szName)) {
 			if (wParam)
-				cs.AssignStatus(CallProtoService(cs.m_szName, PS_GETSTATUS, 0, 0));
+				it->AssignStatus(CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0));
 			else
-				cs.AssignStatus(ID_STATUS_DISABLED);
+				it->AssignStatus(ID_STATUS_DISABLED);
 
 			ret = 0;
 			break;
@@ -1029,11 +1014,9 @@ INT_PTR IsProtocolEnabledService(WPARAM, LPARAM lParam)
 	if (!db_get_b(0, KSMODULENAME, dbSetting, 1))
 		return FALSE;
 
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &cs = protoList[i];
-		if (!mir_strcmp(szProto, cs.m_szName))
-			return cs.GetStatus() != ID_STATUS_DISABLED;
-	}
+	for (auto &it : protoList)
+		if (!mir_strcmp(szProto, it->m_szName))
+			return it->GetStatus() != ID_STATUS_DISABLED;
 
 	return FALSE;
 }
@@ -1043,11 +1026,9 @@ INT_PTR AnnounceStatusChangeService(WPARAM, LPARAM lParam)
 	PROTOCOLSETTINGEX *newSituation = (PROTOCOLSETTINGEX *)lParam;
 	log_infoA("Another plugin announced a status change to %d for %s", newSituation->m_status, newSituation->m_szName == nullptr ? "all" : newSituation->m_szName);
 
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &cs = protoList[i];
-		if (!mir_strcmp(cs.m_szName, newSituation->m_szName))
-			cs.AssignStatus(newSituation->m_status, newSituation->m_lastStatus, newSituation->m_szMsg);
-	}
+	for (auto &it : protoList)
+		if (!mir_strcmp(it->m_szName, newSituation->m_szName))
+			it->AssignStatus(newSituation->m_status, newSituation->m_lastStatus, newSituation->m_szMsg);
 
 	return 0;
 }

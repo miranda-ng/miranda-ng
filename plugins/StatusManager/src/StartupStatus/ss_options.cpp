@@ -109,23 +109,21 @@ static wchar_t* GetLinkDescription(TProtoSettings& protoSettings)
 		return nullptr;
 
 	CMStringW result(SHORTCUT_DESC);
-	for (int i = 0; i < protoSettings.getCount(); i++) {
-		SMProto &p = protoSettings[i];
-
+	for (auto &p : protoSettings) {
 		wchar_t *status;
-		if (p.m_status == ID_STATUS_LAST)
+		if (p->m_status == ID_STATUS_LAST)
 			status = TranslateT("<last>");
-		else if (p.m_status == ID_STATUS_CURRENT)
+		else if (p->m_status == ID_STATUS_CURRENT)
 			status = TranslateT("<current>");
-		else if (p.m_status >= MIN_STATUS && p.m_status <= MAX_STATUS)
-			status = pcli->pfnGetStatusModeDescription(p.m_status, 0);
+		else if (p->m_status >= MIN_STATUS && p->m_status <= MAX_STATUS)
+			status = pcli->pfnGetStatusModeDescription(p->m_status, 0);
 		else
 			status = nullptr;
 		if (status == nullptr)
 			status = TranslateT("<unknown>");
 
 		result.AppendChar('\r');
-		result.Append(p.m_tszAccName);
+		result.Append(p->m_tszAccName);
 		result.AppendChar(':');
 		result.AppendChar(' ');
 		result.Append(status);
@@ -525,9 +523,8 @@ class CSSAdvancedOptDlg : public CDlgBase
 
 		// fill proto list
 		lstAccount.ResetContent();
-		TProtoSettings &ar = arProfiles[sel].ps;
-		for (int i = 0; i < ar.getCount(); i++)
-			lstAccount.AddString(ar[i].m_tszAccName, (LPARAM)&ar[i]);
+		for (auto &it : arProfiles[sel].ps)
+			lstAccount.AddString(it->m_tszAccName, (LPARAM)it);
 		lstAccount.SetCurSel(0);
 
 		SetProtocol();
@@ -684,10 +681,10 @@ public:
 
 			char setting[128];
 			int len = mir_snprintf(setting, "%d_", i);
-			for (int k = 0; k < arSettings.getCount(); k++) {
-				if (!strncmp(setting, arSettings[k], len))
-					db_unset(0, SSMODULENAME, arSettings[k]);
-				mir_free(arSettings[k]);
+			for (auto &it : arSettings) {
+				if (!strncmp(setting, it, len))
+					db_unset(0, SSMODULENAME, it);
+				mir_free(it);
 			}
 		}
 

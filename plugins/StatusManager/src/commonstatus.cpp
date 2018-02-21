@@ -60,8 +60,8 @@ TProtoSettings::TProtoSettings()
 TProtoSettings::TProtoSettings(const TProtoSettings &p)
 	: OBJLIST<SMProto>(p.getCount(), CompareProtoSettings)
 {
-	for (int i = 0; i < p.getCount(); i++)
-		insert(new SMProto(p[i]));
+	for (auto &it : p)
+		insert(new SMProto(*it));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -145,17 +145,17 @@ wchar_t* GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int newstatus)
 
 static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps)
 {
-	int i, j, pstatus = 0, gstatus = 0;
+	int j, pstatus = 0, gstatus = 0;
 
-	for (i = 0; i < protoList.getCount(); i++)
-		if (ps[i]->m_szMsg != nullptr && GetActualStatus(ps[i]) != ID_STATUS_OFFLINE)
+	for (auto &it : protoList)
+		if (it->m_szMsg != nullptr && GetActualStatus(it) != ID_STATUS_OFFLINE)
 			return 0;
 
 	int count;
 	PROTOACCOUNT **protos;
 	Proto_EnumAccounts(&count, &protos);
 
-	for (i = 0; i < count; i++) {
+	for (int i = 0; i < count; i++) {
 		if (!IsSuitableProto(protos[i]))
 			continue;
 

@@ -133,11 +133,10 @@ wchar_t* GetStatusMessage(int profile, const char *szProto)
 	char dbSetting[80];
 	mir_snprintf(dbSetting, "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 
-	for (int i = 0; i < arProfiles.getCount(); i++) {
-		auto &p = arProfiles[i];
-		if (p.profile == profile && !mir_strcmp(p.szProto, szProto)) {
-			p.msg = db_get_wsa(0, SSMODULENAME, dbSetting);
-			return p.msg;
+	for (auto &p : arProfiles) {
+		if (p->profile == profile && !mir_strcmp(p->szProto, szProto)) {
+			p->msg = db_get_wsa(0, SSMODULENAME, dbSetting);
+			return p->msg;
 		}
 	}
 
@@ -181,8 +180,8 @@ int GetProfile(int profile, TProtoSettings &arSettings)
 	if (profile >= count && count > 0)
 		return -1;
 
-	for (int i = 0; i < arSettings.getCount(); i++)
-		FillStatus(arSettings[i], profile);
+	for (auto &it : arSettings)
+		FillStatus(*it, profile);
 
 	return (arSettings.getCount() == 0) ? -1 : 0;
 }

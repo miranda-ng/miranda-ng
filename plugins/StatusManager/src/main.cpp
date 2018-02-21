@@ -103,9 +103,9 @@ int OnAccChanged(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case PRAC_REMOVED:
-		for (int i = 0; i < protoList.getCount(); i++) {
-			if (!mir_strcmp(protoList[i].m_szName, pa->szModuleName)) {
-				protoList.remove(i);
+		for (auto &it : protoList) {
+			if (!mir_strcmp(it->m_szName, pa->szModuleName)) {
+				protoList.remove(it);
 				break;
 			}
 		}
