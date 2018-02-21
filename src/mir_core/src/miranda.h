@@ -39,7 +39,7 @@ HINSTANCE ProtoGetInstance(const char *szModuleName);
 
 extern HINSTANCE g_hInst;
 extern HWND hAPCWindow;
-extern HANDLE hStackMutex, hThreadQueueEmpty;
+extern HANDLE hThreadQueueEmpty;
 extern HCURSOR g_hCursorNS, g_hCursorWE;
 extern MIDatabase *currDb;
 

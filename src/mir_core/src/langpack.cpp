@@ -720,13 +720,12 @@ void UnloadLangPackModule()
 {
 	if (!bModuleInitialized) return;
 
-	int i;
-	for (i = 0; i < lMuuids.getCount(); i++)
-		mir_free(lMuuids[i]);
+	for (auto &it : lMuuids)
+		mir_free(it);
 	lMuuids.destroy();
 
 	LangPackEntry *p = g_pEntries;
-	for (i = 0; i < g_entryCount; i++, p++) {
+	for (int i = 0; i < g_entryCount; i++, p++) {
 		if (p->pNext != nullptr) {
 			for (LangPackEntry *p1 = p->pNext; p1 != nullptr;) {
 				LangPackEntry *p2 = p1; p1 = p1->pNext;

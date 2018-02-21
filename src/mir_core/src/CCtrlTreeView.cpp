@@ -169,14 +169,14 @@ LRESULT CCtrlTreeView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				GetSelected(arItems);
 
 				// Proceed moving
-				for (int i = 0; i < arItems.getCount(); i++) {
+				for (auto &it : arItems) {
 					if (!insertAfter)
 						break;
-					if (GetParent(arItems[i]) != hParent) // prevent subitems from being inserted at the same level
+					if (GetParent(it) != hParent) // prevent subitems from being inserted at the same level
 						continue;
 
-					insertAfter = MoveItemAbove(arItems[i], insertAfter, hParent);
-					if (!i)
+					insertAfter = MoveItemAbove(it, insertAfter, hParent);
+					if (it == arItems[0])
 						FirstItem = insertAfter;
 				}
 			}
@@ -511,9 +511,9 @@ void CCtrlTreeView::GetSelected(LIST<_TREEITEM> &selected)
 
 void CCtrlTreeView::Select(LIST<_TREEITEM> &selected)
 {
-	for (int i = 0; i < selected.getCount(); i++)
-		if (selected[i] != nullptr)
-			Select(selected[i]);
+	for (auto &it : selected)
+		if (it != nullptr)
+			Select(it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

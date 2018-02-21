@@ -165,7 +165,7 @@ MIR_CORE_DLL(LPCTSTR) TimeZone_GetName(HANDLE hTZ)
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 	if (tz == nullptr)
 		return myInfo.myTZ.tszName;
-	else if (tz == UTC_TIME_HANDLE)
+	if (tz == UTC_TIME_HANDLE)
 		return L"UTC";
 
 	return tz->tszName;
@@ -173,12 +173,10 @@ MIR_CORE_DLL(LPCTSTR) TimeZone_GetName(HANDLE hTZ)
 
 MIR_CORE_DLL(LPCTSTR) TimeZone_GetDescription(LPCTSTR TZname)
 {
-	for (int i = 0; i < g_timezonesBias.getCount(); i++) {
-		MIM_TIMEZONE *tz = g_timezonesBias[i];
-
+	for (auto &tz : g_timezonesBias)
 		if (!mir_wstrcmp(tz->tszName, TZname))
 			return tz->szDisplay;
-	}
+
 	return L"";
 }
 
@@ -386,12 +384,12 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 		else if (!mir_wstrcmpi(tszClassName, L"LISTBOX"))
 			dwFlags |= TZF_PLF_LB;
 	}
+	
 	if (dwFlags & TZF_PLF_CB)
 		return &cbMessages;
-	else if (dwFlags & TZF_PLF_LB)
+	if (dwFlags & TZF_PLF_LB)
 		return &lbMessages;
-	else
-		return nullptr;
+	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -510,14 +508,13 @@ void RecalculateTime(void)
 		found = true;
 	}
 
-	for (int i = 0; i < g_timezones.getCount(); i++) {
-		MIM_TIMEZONE &tz = g_timezones[i];
-		if (tz.offset != INT_MIN)
-			tz.offset = INT_MIN;
+	for (auto &tz : g_timezones) {
+		if (tz->offset != INT_MIN)
+			tz->offset = INT_MIN;
 
 		if (!found) {
-			if (!mir_wstrcmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName) || !mir_wstrcmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName)) {
-				wcsncpy_s(myInfo.myTZ.tszName, tz.tszName, _TRUNCATE);
+			if (!mir_wstrcmp(tz->tzi.StandardName, myInfo.myTZ.tzi.StandardName) || !mir_wstrcmp(tz->tzi.DaylightName, myInfo.myTZ.tzi.DaylightName)) {
+				wcsncpy_s(myInfo.myTZ.tszName, tz->tszName, _TRUNCATE);
 				found = true;
 			}
 		}

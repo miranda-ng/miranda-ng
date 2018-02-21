@@ -27,6 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_netlib.h>
 
+static mir_cs csThreads;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // APC and mutex functions
 
@@ -211,23 +213,23 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 	if (owner == nullptr)
 		return;
 
-	WaitForSingleObject(hStackMutex, INFINITE);
-
 	HANDLE *threadPool = (HANDLE*)alloca(threads.getCount()*sizeof(HANDLE));
 	int threadCount = 0;
+	{
+		mir_cslock lck(csThreads);
 
-	for (int j = threads.getCount(); j--;) {
-		THREAD_WAIT_ENTRY *p = threads[j];
-		if (p->pObject == owner)
-			threadPool[threadCount++] = p->hThread;
+		for (int j = threads.getCount(); j--;) {
+			THREAD_WAIT_ENTRY *p = threads[j];
+			if (p->pObject == owner)
+				threadPool[threadCount++] = p->hThread;
+		}
 	}
-	ReleaseMutex(hStackMutex);
 
 	// is there anything to kill?
 	if (threadCount > 0) {
 		if (WaitForMultipleObjects(threadCount, threadPool, TRUE, 5000) == WAIT_TIMEOUT) {
 			// forcibly kill all remaining threads after 5 secs
-			WaitForSingleObject(hStackMutex, INFINITE);
+			mir_cslock lck(csThreads);
 			for (int j = threads.getCount() - 1; j >= 0; j--) {
 				THREAD_WAIT_ENTRY *p = threads[j];
 				if (p->pObject == owner) {
@@ -240,7 +242,6 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 					mir_free(p);
 				}
 			}
-			ReleaseMutex(hStackMutex);
 		}
 	}
 }
@@ -249,9 +250,9 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 
 static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 {
-	if (MirandaWaitForMutex(hStackMutex)) {
-		for (int j = 0; j < threads.getCount(); j++) {
-			THREAD_WAIT_ENTRY *p = threads[j];
+	{
+		mir_cslock lck(csThreads);
+		for (auto &p : threads) {
 			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
 			Netlib_Logf(nullptr, "Killing thread %s:%p (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
@@ -261,19 +262,18 @@ static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 		}
 
 		threads.destroy();
-
-		ReleaseMutex(hStackMutex);
-		SetEvent(hThreadQueueEmpty);
 	}
+
+	SetEvent(hThreadQueueEmpty);
 }
 
 MIR_CORE_DLL(void) Thread_Wait(void)
 {
 	// acquire the list and wake up any alertable threads
-	if (MirandaWaitForMutex(hStackMutex)) {
-		for (int j = 0; j < threads.getCount(); j++)
-			QueueUserAPC(DummyAPCFunc, threads[j]->hThread, 0);
-		ReleaseMutex(hStackMutex);
+	{
+		mir_cslock lck(csThreads);
+		for (auto &p : threads)
+			QueueUserAPC(DummyAPCFunc, p->hThread, 0);
 	}
 
 	// give all unclosed threads 5 seconds to close
@@ -310,22 +310,20 @@ static void* GetCurrentThreadEntryPoint()
 MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 {
 	ResetEvent(hThreadQueueEmpty); // thread list is not empty
-	if (WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
-		THREAD_WAIT_ENTRY *p = (THREAD_WAIT_ENTRY*)mir_calloc(sizeof(THREAD_WAIT_ENTRY));
+	
+	mir_cslock lck(csThreads);
+	
+	THREAD_WAIT_ENTRY *p = (THREAD_WAIT_ENTRY*)mir_calloc(sizeof(THREAD_WAIT_ENTRY));
+	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &p->hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
+	p->dwThreadId = GetCurrentThreadId();
+	p->pObject = pOwner;
+	if (pluginListAddr.getIndex(hInst) != -1)
+		p->hOwner = hInst;
+	else
+		p->hOwner = GetInstByAddress((hInst != nullptr) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
+	p->pEntryPoint = hInst;
 
-		DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &p->hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
-		p->dwThreadId = GetCurrentThreadId();
-		p->pObject = pOwner;
-		if (pluginListAddr.getIndex(hInst) != -1)
-			p->hOwner = hInst;
-		else
-			p->hOwner = GetInstByAddress((hInst != nullptr) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
-		p->pEntryPoint = hInst;
-
-		threads.insert(p);
-
-		ReleaseMutex(hStackMutex);
-	}
+	threads.insert(p);
 	return 0;
 }
 
@@ -333,30 +331,24 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 
 MIR_CORE_DLL(INT_PTR) Thread_Pop()
 {
-	if (WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0) {
-		DWORD dwThreadId = GetCurrentThreadId();
-		for (int j = 0; j < threads.getCount(); j++) {
-			THREAD_WAIT_ENTRY *p = threads[j];
-			if (p->dwThreadId == dwThreadId) {
-				SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-				CloseHandle(p->hThread);
-				threads.remove(j);
-				mir_free(p);
+	DWORD dwThreadId = GetCurrentThreadId();
 
-				if (!threads.getCount()) {
-					threads.destroy();
-					ReleaseMutex(hStackMutex);
-					SetEvent(hThreadQueueEmpty); // thread list is empty now
-					return 0;
-				}
+	mir_cslock lck(csThreads);
+	THREAD_WAIT_ENTRY *p = threads.find((THREAD_WAIT_ENTRY*)&dwThreadId);
+	if (p == nullptr)
+		return 1;
 
-				ReleaseMutex(hStackMutex);
-				return 0;
-			}
-		}
-		ReleaseMutex(hStackMutex);
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+	CloseHandle(p->hThread);
+	threads.remove(p);
+	mir_free(p);
+
+	if (!threads.getCount()) {
+		threads.destroy();
+		SetEvent(hThreadQueueEmpty); // thread list is empty now
 	}
-	return 1;
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

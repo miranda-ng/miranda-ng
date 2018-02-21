@@ -349,8 +349,8 @@ void CDlgBase::AddControl(CCtrlBase *ctrl)
 
 void CDlgBase::NotifyControls(void (CCtrlBase::*fn)())
 {
-	for (int i = 0; i < m_controls.getCount(); i++)
-		(m_controls[i]->*fn)();
+	for (auto &it : m_controls)
+		(it->*fn)();
 }
 
 CCtrlBase* CDlgBase::FindControl(int idCtrl)
@@ -361,9 +361,9 @@ CCtrlBase* CDlgBase::FindControl(int idCtrl)
 
 CCtrlBase* CDlgBase::FindControl(HWND hwnd)
 {
-	for (int i = 0; i < m_controls.getCount(); i++)
-		if (m_controls[i]->GetHwnd() == hwnd)
-			return m_controls[i];
+	for (auto &it : m_controls)
+		if (it->GetHwnd() == hwnd)
+			return it;
 
 	return nullptr;
 }

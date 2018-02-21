@@ -385,9 +385,9 @@ MIR_CORE_DLL(int) UnhookEvent(HANDLE hHook)
 	mir_cslock lck(csHooks);
 
 	THook *p = nullptr;
-	for (int i = 0; i < hooks.getCount(); i++)
-		if (hooks[i]->id == hookId) {
-			p = hooks[i];
+	for (auto &it : hooks)
+		if (it->id == hookId) {
+			p = it;
 			break;
 		}
 
@@ -452,8 +452,7 @@ static void DestroyHooks()
 {
 	mir_cslock lck(csHooks);
 
-	for (int i = 0; i < hooks.getCount(); i++) {
-		THook *p = hooks[i];
+	for (auto &p : hooks) {
 		if (p->subscriberCount)
 			mir_free(p->subscriber);
 		DeleteCriticalSection(&p->csHook);
@@ -662,8 +661,8 @@ static void DestroyServices()
 {
 	mir_cslock lck(csServices);
 
-	for (int j = 0; j < services.getCount(); j++)
-		mir_free(services[j]);
+	for (auto &it : services)
+		mir_free(it);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

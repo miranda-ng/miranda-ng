@@ -79,15 +79,13 @@ void CheckLogs()
 	LARGE_INTEGER li;
 	QueryPerformanceCounter(&li);
 
-	for (int i=0; i < arLoggers.getCount(); i++) {
-		Logger &p = arLoggers[i];
-
-		mir_cslock lck(p.m_cs);
-		if (p.m_out && li.QuadPart - p.m_lastwrite > llIdlePeriod) {
-			fclose(p.m_out);
-			p.m_out = nullptr;
+	for (auto &p : arLoggers) {
+		mir_cslock lck(p->m_cs);
+		if (p->m_out && li.QuadPart - p->m_lastwrite > llIdlePeriod) {
+			fclose(p->m_out);
+			p->m_out = nullptr;
 		}
-		else fflush(p.m_out);
+		else fflush(p->m_out);
 	}
 }
 

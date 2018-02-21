@@ -44,7 +44,7 @@ int hLangpack = 0;
 HINSTANCE g_hInst = nullptr;
 
 HCURSOR g_hCursorNS, g_hCursorWE;
-HANDLE hStackMutex, hThreadQueueEmpty;
+HANDLE hThreadQueueEmpty;
 DWORD mir_tls = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,6 @@ static void LoadCoreModule(void)
 	hAPCWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
 	SetTimer(hAPCWindow, 1, 1000, nullptr);
-	hStackMutex = CreateMutex(nullptr, FALSE, nullptr);
 	hThreadQueueEmpty = CreateEvent(nullptr, TRUE, TRUE, nullptr);
 
 	InitWinver();
@@ -126,7 +125,6 @@ static void LoadCoreModule(void)
 MIR_CORE_DLL(void) UnloadCoreModule(void)
 {
 	DestroyWindow(hAPCWindow);
-	CloseHandle(hStackMutex);
 	CloseHandle(hThreadQueueEmpty);
 	TlsFree(mir_tls);
 

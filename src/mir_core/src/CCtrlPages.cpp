@@ -51,8 +51,8 @@ void CCtrlPages::OnInit()
 	CSuper::OnInit();
 	Subclass();
 
-	for (int i = 0; i < m_pages.getCount(); i++)
-		InsertPage(m_pages[i]);
+	for (auto &it : m_pages)
+		InsertPage(it);
 	m_pages.destroy();
 
 	::SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ::GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_CONTROLPARENT);
