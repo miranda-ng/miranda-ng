@@ -52,14 +52,14 @@ void LookupAllSmileys(SmileyPackType *smileyPack, SmileyPackCType *smileyCPack, 
 	int i = 0;
 
 	if (sml)
-		for (int j=0; j < sml->getCount(); j++) {
-			(*sml)[j].Find(tmpstr, smileys[i], false);
+		for (auto &it : *sml) {
+			it->Find(tmpstr, smileys[i], false);
 			i++;
 		}
 
 	if (smlc)
-		for (int j=0; j < smlc->getCount(); j++) {
-			(*smlc)[j].Find(tmpstr, smileys[i], false);
+		for (auto &it : *smlc) {
+			it->Find(tmpstr, smileys[i], false);
 			i++;
 		}
 

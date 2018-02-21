@@ -281,13 +281,13 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 	bool usePhysProto = IsDlgButtonChecked(m_hwndDialog, IDC_USEPHYSPROTO) == BST_CHECKED;
 
 	SmileyCategoryListType::SmileyCategoryVectorType &smc = *tmpsmcat.GetSmileyCategoryList();
-	for (int i = 0; i < smc.getCount(); i++) {
-		bool visiblecat = usePhysProto ? !smc[i].IsAcc() : !smc[i].IsPhysProto();
-		bool visible = useOne ? !smc[i].IsProto() : visiblecat;
+	for (auto &it : smc) {
+		bool visiblecat = usePhysProto ? !it->IsAcc() : !it->IsPhysProto();
+		bool visible = useOne ? !it->IsProto() : visiblecat;
 
-		if (!visible && smc[i].IsAcc() && !useOne) {
+		if (!visible && it->IsAcc() && !useOne) {
 			CMStringW PhysProtoName = L"AllProto";
-			CMStringW ProtoName = smc[i].GetName();
+			CMStringW ProtoName = it->GetName();
 			DBVARIANT dbv;
 			if (db_get_ws(NULL, _T2A(ProtoName.GetBuffer()), "AM_BaseProto", &dbv) == 0) {
 				ProtoName = dbv.ptszVal;
@@ -307,7 +307,7 @@ void OptionsDialogType::UpdateVisibleSmPackList(void)
 			}
 		}
 
-		smc[i].SetVisible(visible);
+		it->SetVisible(visible);
 	}
 }
 
@@ -388,12 +388,12 @@ void OptionsDialogType::InitDialog(void)
 	tmpsmcat = g_SmileyCategories;
 
 	SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
-	for (int i = 0; i < smc.getCount(); i++) {
+	for (auto &it : smc) {
 		HICON hIcon = nullptr;
-		if (smc[i].IsProto()) {
-			hIcon = (HICON)CallProtoService(_T2A(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		if (it->IsProto()) {
+			hIcon = (HICON)CallProtoService(_T2A(it->GetName().c_str()), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 			if (hIcon == nullptr || (INT_PTR)hIcon == CALLSERVICE_NOTFOUND)
-				hIcon = (HICON)CallProtoService(_T2A(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL, 0);
+				hIcon = (HICON)CallProtoService(_T2A(it->GetName().c_str()), PS_LOADICON, PLI_PROTOCOL, 0);
 		}
 		if (hIcon == nullptr || hIcon == (HICON)CALLSERVICE_NOTFOUND)
 			hIcon = GetDefaultIcon();
@@ -445,9 +445,9 @@ void OptionsDialogType::ApplyChanges(void)
 	// Cleanup database
 	CMStringW empty;
 	SmileyCategoryListType::SmileyCategoryVectorType &smc = *g_SmileyCategories.GetSmileyCategoryList();
-	for (int i = 0; i < smc.getCount(); i++)
-		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == nullptr)
-			opt.WritePackFileName(empty, smc[i].GetName());
+	for (auto &it : smc)
+		if (tmpsmcat.GetSmileyCategory(it->GetName()) == nullptr)
+			opt.WritePackFileName(empty, it->GetName());
 
 	g_SmileyCategories = tmpsmcat;
 	g_SmileyCategories.SaveSettings();

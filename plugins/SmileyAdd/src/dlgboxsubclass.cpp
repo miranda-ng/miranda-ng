@@ -62,11 +62,11 @@ int UpdateSrmmDlg(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(csWndList);
 	
-	for (int i = 0; i < g_MsgWndList.getCount(); ++i) {
-		if (wParam == 0 || g_MsgWndList[i]->hContact == wParam) {
-			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, FALSE, 0);
-			SendMessage(g_MsgWndList[i]->hwnd, DM_OPTIONSAPPLIED, 0, 0);
-			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, TRUE, 0);
+	for (auto &it : g_MsgWndList) {
+		if (wParam == 0 || it->hContact == wParam) {
+			SendMessage(it->hwnd, WM_SETREDRAW, FALSE, 0);
+			SendMessage(it->hwnd, DM_OPTIONSAPPLIED, 0, 0);
+			SendMessage(it->hwnd, WM_SETREDRAW, TRUE, 0);
 		}
 	}
 	return 0;
@@ -256,7 +256,7 @@ void InstallDialogBoxHook(void)
 void RemoveDialogBoxHook(void)
 {
 	mir_cslock lck(csWndList);
-	for (int i = 0; i < g_MsgWndList.getCount(); i++)
-		delete g_MsgWndList[i];
+	for (auto &it : g_MsgWndList)
+		delete it;
 	g_MsgWndList.destroy();
 }

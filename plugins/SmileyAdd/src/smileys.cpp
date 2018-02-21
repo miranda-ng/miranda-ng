@@ -109,8 +109,8 @@ void SmileyType::MoveToNextFrame()
 {
 	m_index = m_xepimg->SelectNextFrame(m_index);
 
-	for (int i = 0; i < m_arSmileys.getCount(); i++)
-		m_arSmileys[i]->Draw();
+	for (auto &it : m_arSmileys)
+		it->Draw();
 
 	SetFrameDelay(); // reset timer
 }
@@ -260,18 +260,19 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 	m_SmileyLookup.insert(new SmileyLookup(timeRegEx, true, -1, emptystr));
 
 	for (int dist = 0; dist < m_SmileyList.getCount(); dist++) {
-		if (m_SmileyList[dist].IsRegEx()) {
-			SmileyLookup *dats = new SmileyLookup(m_SmileyList[dist].GetTriggerText(), true, dist, GetFilename());
+		auto &p = m_SmileyList[dist];
+		if (p.IsRegEx()) {
+			SmileyLookup *dats = new SmileyLookup(p.GetTriggerText(), true, dist, GetFilename());
 			if (dats->IsValid())
 				m_SmileyLookup.insert(dats);
 			else
 				errorFound = true;
-			if (m_SmileyList[dist].m_InsertText.IsEmpty())
-				m_SmileyList[dist].m_InsertText = m_SmileyList[dist].m_ToolText;
+			if (p.m_InsertText.IsEmpty())
+				p.m_InsertText = p.m_ToolText;
 		}
-		else if (!m_SmileyList[dist].IsService()) {
+		else if (!p.IsService()) {
 			bool first = true;
-			const CMStringW &text = m_SmileyList[dist].GetTriggerText();
+			const CMStringW &text = p.GetTriggerText();
 			int iStart = 0;
 			while (true) {
 				CMStringW wszWord = text.Tokenize(L" \t", iStart);
@@ -283,7 +284,7 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 				if (dats->IsValid()) {
 					m_SmileyLookup.insert(dats);
 					if (first) {
-						m_SmileyList[dist].m_InsertText = wszWord;
+						p.m_InsertText = wszWord;
 						first = false;
 					}
 				}
@@ -528,10 +529,11 @@ SmileyPackType* SmileyPackListType::GetSmileyPack(CMStringW &filename)
 	CMStringW modpath;
 	pathToAbsolute(filename, modpath);
 
-	for (int i = 0; i < m_SmileyPacks.getCount(); i++) {
+	for (auto &it : m_SmileyPacks) {
 		CMStringW modpath1;
-		pathToAbsolute(m_SmileyPacks[i].GetFilename(), modpath1);
-		if (mir_wstrcmpi(modpath.c_str(), modpath1.c_str()) == 0) return &m_SmileyPacks[i];
+		pathToAbsolute(it->GetFilename(), modpath1);
+		if (mir_wstrcmpi(modpath.c_str(), modpath1.c_str()) == 0)
+			return it;
 	}
 	return nullptr;
 }
@@ -587,15 +589,15 @@ void SmileyCategoryListType::ClearAndLoadAll(void)
 {
 	m_pSmileyPackStore->ClearAndFreeAll();
 
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
-		m_SmileyCategories[i].Load();
+	for (auto &it : m_SmileyCategories)
+		it->Load();
 }
 
 SmileyCategoryType* SmileyCategoryListType::GetSmileyCategory(const CMStringW &name)
 {
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
-		if (name.CompareNoCase(m_SmileyCategories[i].GetName()) == 0)
-			return &m_SmileyCategories[i];
+	for (auto &it : m_SmileyCategories)
+		if (name.CompareNoCase(it->GetName()) == 0)
+			return it;
 
 	return nullptr;
 }
@@ -614,11 +616,12 @@ SmileyPackType* SmileyCategoryListType::GetSmileyPack(CMStringW &categoryname)
 void SmileyCategoryListType::SaveSettings(void)
 {
 	CMStringW catstr;
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++) {
-		m_SmileyCategories[i].SaveSettings();
-		if (m_SmileyCategories[i].IsCustom()) {
-			if (!catstr.IsEmpty()) catstr += '#';
-			catstr += m_SmileyCategories[i].GetName();
+	for (auto &it : m_SmileyCategories) {
+		it->SaveSettings();
+		if (it->IsCustom()) {
+			if (!catstr.IsEmpty())
+				catstr += '#';
+			catstr += it->GetName();
 		}
 	}
 	opt.WriteCustomCategories(catstr);

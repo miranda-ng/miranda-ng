@@ -51,9 +51,9 @@ bool SmileyPackCListType::AddSmiley(MCONTACT hContact, wchar_t *path)
 
 SmileyPackCType* SmileyPackCListType::GetSmileyPack(MCONTACT id)
 {
-	for (int i = 0; i < m_SmileyPacks.getCount(); i++)
-		if (m_SmileyPacks[i].GetId() == id)
-			return &m_SmileyPacks[i];
+	for (auto &it : m_SmileyPacks)
+		if (it->GetId() == id)
+			return it;
 
 	return nullptr;
 }
@@ -131,9 +131,9 @@ bool SmileyPackCType::LoadSmiley(wchar_t *path)
 
 	CMStringW name = dirs.Mid(slash + 1, dot - slash - 1);
 
-	for (int i = 0; i < m_SmileyList.getCount(); i++)
-		if (m_SmileyList[i].GetTriggerText() == name) {
-			m_SmileyList[i].LoadFromResource(dirs, 0);
+	for (auto &it : m_SmileyList)
+		if (it->GetTriggerText() == name) {
+			it->LoadFromResource(dirs, 0);
 			return true;
 		}
 

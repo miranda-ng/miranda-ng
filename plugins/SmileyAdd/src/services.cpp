@@ -195,20 +195,20 @@ INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 
 	SMADD_BATCHPARSERES *res = new SMADD_BATCHPARSERES[smllist.getCount()];
 	SMADD_BATCHPARSERES *cres = res;
-	for (int j = 0; j < smllist.getCount(); j++) {
-		cres->startChar = smllist[j].loc.cpMin;
-		cres->size = smllist[j].loc.cpMax - smllist[j].loc.cpMin;
-		if (smllist[j].sml) {
+	for (auto &it : smllist) {
+		cres->startChar = it->loc.cpMin;
+		cres->size = it->loc.cpMax - it->loc.cpMin;
+		if (it->sml) {
 			if (smre->flag & SAFL_PATH)
-				cres->filepath = smllist[j].sml->GetFilePath().c_str();
+				cres->filepath = it->sml->GetFilePath().c_str();
 			else
-				cres->hIcon = smllist[j].sml->GetIconDup();
+				cres->hIcon = it->sml->GetIconDup();
 		}
 		else {
 			if (smre->flag & SAFL_PATH)
-				cres->filepath = smllist[j].smlc->GetFilePath().c_str();
+				cres->filepath = it->smlc->GetFilePath().c_str();
 			else
-				cres->hIcon = smllist[j].smlc->GetIcon();
+				cres->hIcon = it->smlc->GetIcon();
 		}
 
 		cres++;
@@ -256,8 +256,8 @@ INT_PTR CustomCatMenu(WPARAM hContact, LPARAM lParam)
 		NotifyEventHooks(hEvent1, hContact, 0);
 	}
 
-	for (int i = 0; i < menuHandleArray.getCount(); i++)
-		Menu_RemoveItem((HGENMENU)menuHandleArray[i]);
+	for (auto &it : menuHandleArray)
+		Menu_RemoveItem((HGENMENU)it);
 	menuHandleArray.destroy();
 
 	return TRUE;
@@ -272,8 +272,8 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 	bool haveMenu = IsSmileyProto(protnam);
 	if (haveMenu && opt.UseOneForAll) {
 		unsigned cnt = 0;
-		for (int i = 0; i < smc.getCount(); i++)
-			cnt += smc[i].IsCustom();
+		for (auto &it : smc)
+			cnt += it->IsCustom();
 		haveMenu = cnt != 0;
 	}
 
