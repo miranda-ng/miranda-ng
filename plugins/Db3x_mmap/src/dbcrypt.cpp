@@ -91,13 +91,11 @@ void sttContactEnum(MCONTACT contactID, const char *szModule, CDb3Mmap *db)
 	SettingUgraderParam param = { db, szModule, contactID, &arSettings };
 	db->EnumContactSettings(0, sttSettingUgrader, szModule, &param);
 
-	for (int i = 0; i < arSettings.getCount(); i++) {
-		VarDescr &p = arSettings[i];
-
+	for (auto &p : arSettings) {
 		size_t len;
-		BYTE *pResult = db->m_crypto->encodeString(p.szValue, &len);
+		BYTE *pResult = db->m_crypto->encodeString(p->szValue, &len);
 		if (pResult != nullptr) {
-			DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
+			DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
 			dbcws.value.type = DBVT_ENCRYPTED;
 			dbcws.value.pbVal = pResult;
 			dbcws.value.cpbVal = (WORD)len;
@@ -340,13 +338,12 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 			NeedBytes(1);
 		}
 
-		for (int i = 0; i < arSettings.getCount(); i++) {
-			VarDescr &p = arSettings[i];
+		for (auto &p : arSettings) {
 			if (!m_bEncrypted) {
 				size_t encodedLen;
-				BYTE *pResult = m_crypto->encodeString(p.szValue, &encodedLen);
+				BYTE *pResult = m_crypto->encodeString(p->szValue, &encodedLen);
 				if (pResult != nullptr) {
-					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
+					DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
 					dbcws.value.type = DBVT_ENCRYPTED;
 					dbcws.value.pbVal = pResult;
 					dbcws.value.cpbVal = (WORD)encodedLen;
@@ -357,9 +354,9 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 			}
 			else {
 				size_t realLen;
-				ptrA decoded(m_crypto->decodeString((PBYTE)(char*)p.szValue, p.iLen, &realLen));
+				ptrA decoded(m_crypto->decodeString((PBYTE)(char*)p->szValue, p->iLen, &realLen));
 				if (decoded != nullptr) {
-					DBCONTACTWRITESETTING dbcws = { szModule, p.szVar };
+					DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
 					dbcws.value.type = DBVT_UNENCRYPTED;
 					dbcws.value.pszVal = decoded;
 					dbcws.value.cchVal = (WORD)realLen;

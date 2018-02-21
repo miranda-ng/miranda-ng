@@ -123,8 +123,7 @@ void CDb3Mmap::DBFill(DWORD ofs, int bytes)
 
 static VOID CALLBACK DoBufferFlushTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
-	for (int i = 0; i < g_Dbs.getCount(); i++) {
-		CDb3Mmap *db = g_Dbs[i];
+	for (auto &db : g_Dbs) {
 		if (db->m_flushBuffersTimerId != idEvent)
 			continue;
 

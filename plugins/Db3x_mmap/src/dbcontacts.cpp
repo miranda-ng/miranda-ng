@@ -420,9 +420,8 @@ void CDb3Mmap::FillContacts()
 		DeleteContactSetting(hh, META_PROTO, "MetaLink");
 	}
 
-	for (int i = 0; i < arMetas.getCount(); i++) {
-		COldMeta &p = arMetas[i];
-		DBCachedContact *ccMeta = p.cc;
+	for (auto &p : arMetas) {
+		DBCachedContact *ccMeta = p->cc;
 		MCONTACT hContact = ccMeta->contactID;
 
 		// we don't need it anymore

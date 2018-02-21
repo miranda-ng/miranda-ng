@@ -129,8 +129,7 @@ char* CDb3Mmap::GetModuleNameByOfs(DWORD ofs)
 
 STDMETHODIMP_(BOOL) CDb3Mmap::EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam)
 {
-	for (int i = 0; i < m_lMods.getCount(); i++) {
-		ModuleName *pmn = m_lMods[i];
+	for (auto &pmn : m_lMods) {
 		int ret = pFunc(pmn->name, pParam);
 		if (ret)
 			return ret;
