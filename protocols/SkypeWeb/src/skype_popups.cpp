@@ -41,8 +41,8 @@ void CSkypeProto::InitPopups()
 
 void CSkypeProto::UninitPopups()
 {
-	for (int i = 0; i < m_PopupClasses.getCount(); i++)
-		Popup_UnregisterClass(m_PopupClasses[i]);
+	for (auto &it : m_PopupClasses)
+		Popup_UnregisterClass(it);
 }
 
 void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact, int type)

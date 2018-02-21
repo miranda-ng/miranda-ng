@@ -367,8 +367,8 @@ private:
 	template <typename T>
 	__inline static void FreeList(const LIST<T> &lst)
 	{
-		for (int i = 0; i < lst.getCount(); i++)
-			mir_free(lst[i]);
+		for (auto &it : lst)
+			mir_free(it);
 	}
 
 	__forceinline bool IsOnline() const

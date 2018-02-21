@@ -20,13 +20,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CSkypeProto::CloseDialogs()
 {
 	{	mir_cslock lck(m_GCCreateDialogsLock);
-		for (int i = 0; i < m_GCCreateDialogs.getCount(); i++)
-			m_GCCreateDialogs[i]->Close();
+		for (auto &it : m_GCCreateDialogs)
+			it->Close();
 	}
 
 	{	mir_cslock lck(m_InviteDialogsLock);
-		for (int i = 0; i < m_InviteDialogs.getCount(); i++)
-			m_InviteDialogs[i]->Close();
+		for (auto &it : m_InviteDialogs)
+			it->Close();
 	}
 }
 

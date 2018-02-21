@@ -61,10 +61,10 @@ public:
 		JSONNode node;
 		JSONNode contacts(JSON_ARRAY); contacts.set_name("contacts");
 
-		for (int i = 0; i < skypenames.getCount(); i++)
+		for (auto &it : skypenames)
 		{
 			JSONNode contact;
-			contact << JSONNode("id", CMStringA(::FORMAT, "8:%s", skypenames[i]));
+			contact << JSONNode("id", CMStringA(::FORMAT, "8:%s", it));
 			contacts << contact;
 		}
 		node << contacts;

@@ -97,12 +97,12 @@ public:
 		JSONNode node;
 		JSONNode members(JSON_ARRAY); members.set_name("members");
 
-		for (int i = 0; i < skypenames.getCount(); i++)
+		for (auto &it : skypenames)
 		{
 			JSONNode member;
 			member 
-				<< JSONNode("id", CMStringA(::FORMAT, "8:%s", skypenames[i]).GetBuffer())
-				<< JSONNode("role", !mir_strcmpi(skypenames[i], li.szSkypename) ? "Admin" : "User");
+				<< JSONNode("id", CMStringA(::FORMAT, "8:%s", it).GetBuffer())
+				<< JSONNode("role", !mir_strcmpi(it, li.szSkypename) ? "Admin" : "User");
 			members << member;
 		}
 		node << members;

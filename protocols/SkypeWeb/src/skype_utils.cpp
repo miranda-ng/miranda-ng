@@ -593,9 +593,9 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(accountsLock);
-	for (int i = 0; i < Accounts.getCount(); i++)
-		if (Accounts[i]->IsOnline())
-			return Accounts[i]->ParseSkypeUriService(wParam, lParam);
+	for (auto &it : Accounts)
+		if (it->IsOnline())
+			return it->ParseSkypeUriService(wParam, lParam);
 
 	return 1;
 }

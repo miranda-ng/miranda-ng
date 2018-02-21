@@ -31,8 +31,8 @@ void CSkypeProto::ProcessTimer()
 void CALLBACK CSkypeProto::TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	mir_cslock lck(accountsLock);
-	for (int i = 0; i < Accounts.getCount(); i++)
-		Accounts[i]->ProcessTimer();
+	for (auto &it : Accounts)
+		it->ProcessTimer();
 }
 
 void CSkypeProto::SkypeSetTimer()

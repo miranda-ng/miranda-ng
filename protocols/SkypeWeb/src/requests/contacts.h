@@ -45,8 +45,8 @@ public:
 			<< CHAR_VALUE("X-Skypetoken", li.api.szToken)
 			<< CHAR_VALUE("Accept", "application/json");
 
-		for (int i = 0; i < skypenames.getCount(); i++)
-			Body << CHAR_VALUE("contacts[]", skypenames[i]);
+		for (auto &it : skypenames)
+			Body << CHAR_VALUE("contacts[]", it);
 	}
 };
 
