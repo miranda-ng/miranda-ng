@@ -122,18 +122,11 @@ struct CIcqProto : public PROTO<CIcqProto>
 	INT_PTR  __cdecl OnCreateAccMgrUI(WPARAM, LPARAM);
 
     //====| Events |======================================================================
-	void __cdecl OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONTACT hContact);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int  __cdecl OnPreBuildContactMenu(WPARAM, LPARAM);
-	int  __cdecl OnMsgUserTyping(WPARAM, LPARAM);
-	int  __cdecl OnProcessSrmmIconClick(WPARAM, LPARAM);
-	int  __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
-	int  __cdecl OnReloadIcons(WPARAM, LPARAM);
-	void __cdecl OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT hContact);
-	void __cdecl OnRenameGroup( DBCONTACTWRITESETTING *cws, MCONTACT hContact);
 	int  __cdecl OnUserInfoInit(WPARAM, LPARAM);
 
 	int  __cdecl OnPreBuildStatusMenu(WPARAM, LPARAM);

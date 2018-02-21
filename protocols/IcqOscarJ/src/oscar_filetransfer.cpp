@@ -122,9 +122,9 @@ oscar_filetransfer* CIcqProto::FindOscarTransfer(MCONTACT hContact, DWORD dwID1,
 {
 	mir_cslock l(oftMutex);
 
-	for (int i = 0; i < m_arFileTransfers.getCount(); i++) {
-		if (m_arFileTransfers[i]->ft_magic == FT_MAGIC_OSCAR) {
-			oscar_filetransfer *oft = (oscar_filetransfer*)m_arFileTransfers[i];
+	for (auto &it : m_arFileTransfers) {
+		if (it->ft_magic == FT_MAGIC_OSCAR) {
+			oscar_filetransfer *oft = (oscar_filetransfer*)it;
 			if (oft->hContact == hContact && oft->pMessage.dwMsgID1 == dwID1 && oft->pMessage.dwMsgID2 == dwID2)
 				return oft;
 		}

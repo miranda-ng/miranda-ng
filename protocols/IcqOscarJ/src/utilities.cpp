@@ -373,11 +373,9 @@ void CIcqProto::UninitContactsCache(void)
 	mir_cslock l(contactsCacheMutex);
 
 	// cleanup the cache
-	for (int i = 0; i < contactsCache.getCount(); i++) {
-		icq_contacts_cache *cache_item = contactsCache[i];
-
-		SAFE_FREE((void**)&cache_item->szUid);
-		SAFE_FREE((void**)&cache_item);
+	for (auto &it : contactsCache) {
+		SAFE_FREE((void**)&it->szUid);
+		SAFE_FREE((void**)&it);
 	}
 
 	contactsCache.destroy();
@@ -388,14 +386,12 @@ void CIcqProto::DeleteFromContactsCache(MCONTACT hContact)
 {
 	mir_cslock l(contactsCacheMutex);
 
-	for (int i = 0; i < contactsCache.getCount(); i++) {
-		icq_contacts_cache *cache_item = contactsCache[i];
-
-		if (cache_item->hContact == hContact) {
-			contactsCache.remove(i);
+	for (auto &it : contactsCache) {
+		if (it->hContact == hContact) {
+			contactsCache.remove(it);
 			// Release memory
-			SAFE_FREE((void**)&cache_item->szUid);
-			SAFE_FREE((void**)&cache_item);
+			SAFE_FREE((void**)&it->szUid);
+			SAFE_FREE((void**)&it);
 			break;
 		}
 	}

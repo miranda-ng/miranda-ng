@@ -622,8 +622,7 @@ int CIcqProto::SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, siz
 	// we failed to send request, or avatar thread not ready
 
 	// check if any request for this user is not already in the queue
-	for (int i = 0; i < m_arAvatars.getCount(); i++) {
-		avatars_request *ar = m_arAvatars[i];
+	for (auto ar : m_arAvatars) {
 		if (ar->hContact == hContact && ar->type == ART_UPLOAD) { // we found it, return error
 			alck.unlock();
 			debugLogA("Avatars: Ignoring duplicate upload avatar request.");

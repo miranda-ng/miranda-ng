@@ -101,13 +101,12 @@ int CIcqProto::FindCookieByData(void *pvExtra, DWORD *pdwCookie, MCONTACT *phCon
 {
 	mir_cslock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++) {
-		icq_cookie_info &cookie = cookies[i];
-		if (pvExtra == cookie.pvExtra) {
+	for (auto &it : cookies) {
+		if (pvExtra == it->pvExtra) {
 			if (phContact)
-				*phContact = cookie.hContact;
+				*phContact = it->hContact;
 			if (pdwCookie)
-				*pdwCookie = cookie.dwCookie;
+				*pdwCookie = it->dwCookie;
 
 			// Cookie found
 			return 1;
@@ -121,16 +120,14 @@ int CIcqProto::FindCookieByType(BYTE bType, DWORD *pdwCookie, MCONTACT *phContac
 {
 	mir_cslock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++) {
-		icq_cookie_info &cookie = cookies[i];
-
-		if (bType == cookie.bType) {
+	for (auto &it : cookies) {
+		if (bType == it->bType) {
 			if (pdwCookie)
-				*pdwCookie = cookie.dwCookie;
+				*pdwCookie = it->dwCookie;
 			if (phContact)
-				*phContact = cookie.hContact;
+				*phContact = it->hContact;
 			if (ppvExtra)
-				*ppvExtra = cookie.pvExtra;
+				*ppvExtra = it->pvExtra;
 
 			// Cookie found
 			return 1;
@@ -144,17 +141,16 @@ int CIcqProto::FindMessageCookie(DWORD dwMsgID1, DWORD dwMsgID2, DWORD *pdwCooki
 {
 	mir_cslock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++) {
-		icq_cookie_info &cookie = cookies[i];
-		if (cookie.bType == CKT_MESSAGE || cookie.bType == CKT_FILE || cookie.bType == CKT_REVERSEDIRECT) {
+	for (auto &it : cookies) {
+		if (it->bType == CKT_MESSAGE || it->bType == CKT_FILE || it->bType == CKT_REVERSEDIRECT) {
 			// message cookie found
-			cookie_message_data *pCookie = (cookie_message_data*)cookie.pvExtra;
+			cookie_message_data *pCookie = (cookie_message_data*)it->pvExtra;
 
 			if (pCookie->dwMsgID1 == dwMsgID1 && pCookie->dwMsgID2 == dwMsgID2) {
 				if (phContact)
-					*phContact = cookie.hContact;
+					*phContact = it->hContact;
 				if (pdwCookie)
-					*pdwCookie = cookie.dwCookie;
+					*pdwCookie = it->dwCookie;
 				if (ppvExtra)
 					*ppvExtra = pCookie;
 
@@ -182,11 +178,10 @@ void CIcqProto::FreeCookieByData(BYTE bType, void *pvExtra)
 {
 	mir_cslock l(cookieMutex);
 
-	for (int i = 0; i < cookies.getCount(); i++) {
-		icq_cookie_info &cookie = cookies[i];
-		if (bType == cookie.bType && pvExtra == cookie.pvExtra) {
+	for (auto &it : cookies) {
+		if (bType == it->bType && pvExtra == it->pvExtra) {
 			// Cookie found, remove from list
-			cookies.remove(i);
+			cookies.remove(it);
 			break;
 		}
 	}

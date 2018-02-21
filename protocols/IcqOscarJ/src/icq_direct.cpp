@@ -48,11 +48,11 @@ void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 {
 	mir_cslock l(directConnListMutex);
 
-	for (int i = 0; i < directConns.getCount(); i++) {
-		if (!hContact || directConns[i]->hContact == hContact) {
-			HNETLIBCONN hConnection = directConns[i]->hConnection;
+	for (auto &it : directConns) {
+		if (!hContact || it->hContact == hContact) {
+			HNETLIBCONN hConnection = it->hConnection;
 
-			directConns[i]->hConnection = nullptr; // do not allow reuse
+			it->hConnection = nullptr; // do not allow reuse
 			NetLib_CloseConnection(&hConnection, FALSE);
 		}
 	}
@@ -61,34 +61,27 @@ void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 
 directconnect* CIcqProto::FindFileTransferDC(filetransfer* ft)
 {
-	directconnect* dc = nullptr;
 	mir_cslock l(directConnListMutex);
 
-	for (int i = 0; i < directConns.getCount(); i++) {
-		if (directConns[i]->ft == ft) {
-			dc = directConns[i];
-			break;
-		}
-	}
+	for (auto &it : directConns)
+		if (it->ft == ft)
+			return it;
 
-	return dc;
+	return nullptr;
 }
 
 
 filetransfer* CIcqProto::FindExpectedFileRecv(DWORD dwUin, DWORD dwTotalSize)
 {
-	filetransfer* pFt = nullptr;
 	mir_cslock l(expectedFileRecvMutex);
 
-	for (int i = 0; i < expectedFileRecvs.getCount(); i++) {
-		if (expectedFileRecvs[i]->dwUin == dwUin && expectedFileRecvs[i]->dwTotalSize == dwTotalSize) {
-			pFt = expectedFileRecvs[i];
-			expectedFileRecvs.remove(i);
-			break;
+	for (auto &it : expectedFileRecvs)
+		if (it->dwUin == dwUin && it->dwTotalSize == dwTotalSize) {
+			expectedFileRecvs.remove(it);
+			return it;
 		}
-	}
 
-	return pFt;
+	return nullptr;
 }
 
 
@@ -123,22 +116,21 @@ directthreadstartinfo* CreateDTSI(MCONTACT hContact, HNETLIBCONN hConnection, in
 BOOL CIcqProto::IsDirectConnectionOpen(MCONTACT hContact, int type, int bPassive)
 {
 	BOOL bIsOpen = FALSE, bIsCreated = FALSE;
-
 	{
 		mir_cslock l(directConnListMutex);
 
-		for (int i = 0; i < directConns.getCount(); i++) {
-			if (directConns[i] && (directConns[i]->type == type)) {
-				if (directConns[i]->hContact == hContact)
-					if (directConns[i]->initialised) {
-					// Connection is OK
-					bIsOpen = TRUE;
-					// we are going to use the conn, so prevent timeout
-					directConns[i]->packetPending = 1;
-					break;
+		for (auto &it : directConns) {
+			if (it && it->type == type) {
+				if (it->hContact == hContact) {
+					if (it->initialised) {
+						// Connection is OK
+						bIsOpen = TRUE;
+						// we are going to use the conn, so prevent timeout
+						it->packetPending = 1;
+						break;
 					}
-					else
-						bIsCreated = TRUE; // we found pending connection
+					else bIsCreated = TRUE; // we found pending connection
+				}
 			}
 		}
 	}
@@ -823,20 +815,20 @@ int CIcqProto::SendDirectMessage(MCONTACT hContact, icq_packet *pkt)
 {
 	mir_cslock l(directConnListMutex);
 
-	for (int i = 0; i < directConns.getCount(); i++) {
-		if (directConns[i] == nullptr)
+	for (auto &it : directConns) {
+		if (it == nullptr)
 			continue;
 
-		if (directConns[i]->hContact == hContact) {
-			if (directConns[i]->initialised) {
+		if (it->hContact == hContact) {
+			if (it->initialised) {
 				// This connection can be reused, send packet and exit
 				NetLog_Direct("Sending direct message");
 
 				if (pkt->pData[2] == 2)
-					EncryptDirectPacket(directConns[i], pkt);
+					EncryptDirectPacket(it, pkt);
 
-				sendDirectPacket(directConns[i], pkt);
-				directConns[i]->packetPending = 0; // packet done
+				sendDirectPacket(it, pkt);
+				it->packetPending = 0; // packet done
 
 				return TRUE; // Success
 			}

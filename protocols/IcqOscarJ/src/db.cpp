@@ -111,57 +111,6 @@ void ChangeInfoData::ClearChangeFlags(void)
 		settingData[i].changed = 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct PwConfirmDlgParam
-{
-	CIcqProto* ppro;
-	char* Pass;
-};
-
-static INT_PTR CALLBACK PwConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	PwConfirmDlgParam* dat = (PwConfirmDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, PASSWORDMAXLEN, 0);
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			{
-				char szTest[16];
-
-				GetDlgItemTextA(hwndDlg, IDC_OLDPASS, szTest, _countof(szTest));
-
-				if (mir_strcmp(szTest, dat->ppro->GetUserPassword(TRUE))) {
-					MessageBox(hwndDlg, TranslateT("The password does not match your current password. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
-					SendDlgItemMessage(hwndDlg, IDC_OLDPASS, EM_SETSEL, 0, (LPARAM)-1);
-					SetFocus(GetDlgItem(hwndDlg, IDC_OLDPASS));
-					break;
-				}
-
-				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szTest, _countof(szTest));
-				if (mir_strcmp(szTest, dat->Pass)) {
-					MessageBox(hwndDlg, TranslateT("The password does not match the password you originally entered. Check Caps Lock and try again."), TranslateT("Change ICQ Details"), MB_OK);
-					SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_SETSEL, 0, (LPARAM)-1);
-					SetFocus(GetDlgItem(hwndDlg, IDC_PASSWORD));
-					break;
-				}
-			}
-		case IDCANCEL:
-			EndDialog(hwndDlg, wParam);
-			break;
-		}
-		break;
-	}
-	return FALSE;
-}
-
 int ChangeInfoData::SaveSettingsToDb()
 {
 	int ret = 1;

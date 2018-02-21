@@ -208,8 +208,8 @@ CIcqProto::~CIcqProto()
 	SAFE_FREE((void**)&servlistQueueList);
 
 	// Finalize avatars
-	for (int i = 0; i < m_arAvatars.getCount(); i++)
-		delete m_arAvatars[i];
+	for (auto &it : m_arAvatars)
+		delete it;
 
 	// NetLib clean-up
 	Netlib_CloseHandle(m_hDirectNetlibUser);

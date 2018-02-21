@@ -661,9 +661,8 @@ void CIcqProto::setUserInfo()
 		db_free(&dbv);
 	}
 
-	if (CustomCapList.getCount())
-		for (int i = 0; i < CustomCapList.getCount(); i++)
-			packBuffer(&packet, (PBYTE)CustomCapList[i].caps, 0x10);
+	for (auto &it : CustomCapList)
+		packBuffer(&packet, (PBYTE)it->caps, 0x10);
 
 	sendServPacket(&packet);
 }

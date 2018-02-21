@@ -325,8 +325,8 @@ void rates_queue::handleDelay()
 void rates_queue::cleanup()
 {
 	mir_cslock l(csLists);
-	for (int i = 0; i < lstPending.getCount(); i++)
-		delete lstPending[i];
+	for (auto &it : lstPending)
+		delete it;
 	lstPending.destroy();
 }
 
