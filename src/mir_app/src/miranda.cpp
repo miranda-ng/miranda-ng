@@ -25,6 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#if defined(VLD_ENABLED)
+#include "msapi\vld.h"
+#endif
+
 #pragma comment(lib, "version.lib")
 
 int LoadDefaultModules(void);
@@ -97,6 +101,11 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
 		g_iIconY = GetSystemMetrics(SM_CYICON);
 		g_iIconSX = GetSystemMetrics(SM_CXSMICON);
 		g_iIconSY = GetSystemMetrics(SM_CYSMICON);
+
+		#if defined(VLD_ENABLED)
+			VLDSetOptions(VLD_OPT_SKIP_HEAPFREE_LEAKS, -1, -1);
+			VLDSetReportOptions(VLD_OPT_REPORT_TO_FILE, L"C:\\temp\\vld.txt");
+		#endif
 	}
 	return TRUE;
 }
