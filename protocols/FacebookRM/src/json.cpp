@@ -283,74 +283,109 @@ void FacebookProto::ParseAttachments(std::string &message_text, const JSONNode &
 	std::wstring newText;
 	bool hasAttachement = false;
 
-	// TODO refactor
+	// define parsing methods by type
+	// sticker
+	auto parseSticker = [this, &newText, &attachments_text, other_user_fbid](JSONNode sticker_) {
+		newText = TranslateT("a sticker");
+		attachments_text += "\n";
 
+		std::string link = sticker_["url"].as_string();
+		if (!link.empty())
+			attachments_text += absolutizeUrl(link) + "\n";
+
+		std::string label = sticker_["label"].as_string();
+		if (!label.empty())
+			attachments_text += label + "\n";
+
+		const JSONNode &stickerId_ = sticker_["id"];
+		if (stickerId_) {
+			// Stickers as smileys
+			if (getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS) && !facy.loading_history) {
+				// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
+				if (!other_user_fbid.empty()) {
+					std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]";
+					StickerAsSmiley(sticker, link, ContactIDToHContact(other_user_fbid));
+				}
+			}
+		}
+	};
+	// blob attachment
+	auto parseBlobAttachment = [this, &newText, &attachments_text](JSONNode blob_) {
+		std::string type = blob_["__typename"].as_string();
+		if (type == "MessageAnimatedImage") { // a GIF
+			newText = TranslateT("a GIF");
+
+			std::string link = blob_["animated_image"]["uri"].as_string();
+			if (!link.empty())
+				attachments_text += "\n" + absolutizeUrl(link) + "\n";
+		}
+		else if (type == "MessageVideo" || type == "MessageAudio") { // a video or audio attachement
+			std::string filename = blob_["filename"].as_string();
+			// playable_duration_in_ms=;video_type=FILE_ATTACHMENT
+
+			std::string link = blob_["playable_url"].as_string();
+			if (!link.empty())
+				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
+		}
+		else if (type == "MessageImage") { // an image
+			std::string filename = blob_["filename"].as_string();
+
+			std::string link = blob_["large_preview"]["uri"].as_string();
+			if (!link.empty())
+				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
+		}
+		else { // other
+			// newText = (attachments_.size() > 1) ? TranslateT("files") : TranslateT("a file"); // pull
+			std::string filename = blob_["filename"].as_string();
+			/*std::string filesize = attach_["fileSize"].as_string(); // pull
+			if (!filesize.empty())
+			filename += ", " + filesize + " bytes";*/
+
+			std::string link = blob_["url"].as_string();
+			if (!link.empty())
+				attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
+		}
+	};
+	// link
+	auto parseLink = [this, &newText, &attachments_text](JSONNode story_) {
+		newText = TranslateT("a link");
+
+		std::string title = story_["title_with_entities"]["text"].as_string();
+		std::string description = story_["description"]["text"].as_string();
+		std::string link = story_["url"].as_string();
+
+		// shorten long descriptions
+		description = utils::text::truncate_utf8(description, MAX_LINK_DESCRIPTION_LEN);
+
+		if (link.find("//www." FACEBOOK_SERVER_DOMAIN "/l.php") != std::string::npos || link.find("//l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
+			// de-facebook this link
+			link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
+		}
+
+		if (!link.empty()) {
+			attachments_text += "\n";
+			if (!title.empty())
+				attachments_text += title + "\n";
+			if (!description.empty())
+				attachments_text += description + "\n";
+			attachments_text += absolutizeUrl(link) + "\n";
+		}
+	};
+
+	// do parsing
 	if (legacy) {
 		// api graph.. request
 		const JSONNode sticker_ = delta_["sticker"];
 		if (!sticker_.empty()) {
 			hasAttachement = true;
-			newText = TranslateT("a sticker");
-			attachments_text += "\n";
-
-			std::string link = sticker_["url"].as_string();
-			if (!link.empty())
-				attachments_text += absolutizeUrl(link) + "\n";
-
-			std::string label = sticker_["label"].as_string();
-			if (!label.empty())
-				attachments_text += label + "\n";
-
-			const JSONNode &stickerId_ = sticker_["id"];
-			if (stickerId_) {
-				// Stickers as smileys
-				if (getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS) && !facy.loading_history) {
-					// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
-					if (!other_user_fbid.empty()) {
-						std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]";
-						StickerAsSmiley(sticker, link, ContactIDToHContact(other_user_fbid));
-					}
-				}
-			}
+			parseSticker(sticker_);
 		}
 		const JSONNode blobs_ = delta_["blob_attachments"];
 		if (!blobs_.empty()) {
 			hasAttachement = true;
 			newText = (blobs_.size() > 1) ? TranslateT("files") : TranslateT("a file");
 			for (auto &blob_ : blobs_) {
-				std::string type = blob_["__typename"].as_string();
-				if (type == "MessageAnimatedImage") { // a GIF
-					newText = TranslateT("a GIF");
-
-					std::string link = blob_["animated_image"]["uri"].as_string();
-					if (!link.empty())
-						attachments_text += "\n" + absolutizeUrl(link) + "\n";
-				}
-				else if (type == "MessageVideo") { // a video attachement
-					std::string filename = blob_["filename"].as_string();
-					// playable_duration_in_ms=;video_type=FILE_ATTACHMENT
-
-					std::string link = blob_["playable_url"].as_string();
-					if (!link.empty())
-						attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-				}
-				else if (type == "MessageImage") { // an image
-					std::string filename = blob_["filename"].as_string();
-
-					std::string link = blob_["large_preview"]["uri"].as_string();
-					if (!link.empty())
-						attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-				}
-				else { // other
-					std::string filename = blob_["filename"].as_string();
-					/*std::string filesize = attach_["fileSize"].as_string();
-					if (!filesize.empty())
-					filename += ", " + filesize + " bytes";*/
-
-					std::string link = blob_["url"].as_string();
-					if (!link.empty())
-						attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-				}
+				parseBlobAttachment(blob_);
 			}
 		}
 		const JSONNode story_ = delta_["extensible_attachment"]["story_attachment"];
@@ -358,28 +393,7 @@ void FacebookProto::ParseAttachments(std::string &message_text, const JSONNode &
 			hasAttachement = true;
 			std::string type = story_["target"]["__typename"].as_string();
 			if (type == "ExternalUrl" || type == "Story" || type == "QuickInvite") {
-				newText = TranslateT("a link");
-
-				std::string title = story_["title_with_entities"]["text"].as_string();
-				std::string description = story_["description"]["text"].as_string();
-				std::string link = story_["url"].as_string();
-
-				// shorten long descriptions
-				description = utils::text::truncate_utf8(description, MAX_LINK_DESCRIPTION_LEN);
-
-				if (link.find("//www." FACEBOOK_SERVER_DOMAIN "/l.php") != std::string::npos || link.find("//l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
-					// de-facebook this link
-					link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
-				}
-
-				if (!link.empty()) {
-					attachments_text += "\n";
-					if (!title.empty())
-						attachments_text += title + "\n";
-					if (!description.empty())
-						attachments_text += description + "\n";
-					attachments_text += absolutizeUrl(link) + "\n";
-				}
+				parseLink(story_);
 			} 
 			else debugLogA("json::parseAttachments (%s) - Unknown extensible attachment type %s", legacy ? "legacy" : "not legacy", type.c_str());
 		}
@@ -395,91 +409,15 @@ void FacebookProto::ParseAttachments(std::string &message_text, const JSONNode &
 			for (auto &itAttachment : attachments_) {
 				const JSONNode &attach_ = itAttachment["mercury"];
 				if (const JSONNode sticker_ = attach_["sticker_attachment"]) {
-					newText = TranslateT("a sticker");
-					attachments_text += "\n";
-
-					std::string link = sticker_["url"].as_string();
-					if (!link.empty())
-						attachments_text += absolutizeUrl(link) + "\n";
-
-					std::string label = sticker_["label"].as_string();
-					if (!label.empty())
-						attachments_text += label + "\n";
-
-					const JSONNode &stickerId_ = sticker_["id"];
-					if (stickerId_) {
-						// Stickers as smileys
-						if (getByte(FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS) && !facy.loading_history) {
-							// FIXME: rewrite smileyadd to use custom smileys per protocol and not per contact and then remove this ugliness
-							if (!other_user_fbid.empty()) {
-								std::string sticker = "[[sticker:" + stickerId_.as_string() + "]]";
-								StickerAsSmiley(sticker, link, ContactIDToHContact(other_user_fbid));
-							}
-						}
-					}
+					parseSticker(sticker_);
 				}
 				else if (const JSONNode blob_ = attach_["blob_attachment"]) {
-					std::string type = blob_["__typename"].as_string();
-					if (type == "MessageAnimatedImage") { // a GIF
-						newText = TranslateT("a GIF");
-
-						std::string link = blob_["animated_image"]["uri"].as_string();
-						if (!link.empty())
-							attachments_text += "\n" + absolutizeUrl(link) + "\n";
-					}
-					else if (type == "MessageVideo") { // a video attachement
-						std::string filename = blob_["filename"].as_string();
-						// playable_duration_in_ms=;video_type=FILE_ATTACHMENT
-
-						std::string link = blob_["playable_url"].as_string();
-						if (!link.empty())
-							attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-					}
-					else if (type == "MessageImage") { // an image
-						std::string filename = blob_["filename"].as_string();
-
-						std::string link = blob_["large_preview"]["uri"].as_string();
-						if (!link.empty())
-							attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-					}
-					else {
-						newText = (attachments_.size() > 1) ? TranslateT("files") : TranslateT("a file");
-
-						std::string filename = blob_["filename"].as_string();
-						std::string filesize = attach_["fileSize"].as_string();
-						if (!filesize.empty())
-							filename += ", " + filesize + " bytes";
-
-						std::string link = blob_["url"].as_string();
-						if (!link.empty())
-							attachments_text += "\n" + (!filename.empty() ? "<" + filename + "> " : "") + absolutizeUrl(link) + "\n";
-					}
+					parseBlobAttachment(blob_);
 				}
 				else if (const JSONNode story_ = attach_["extensible_attachment"]["story_attachment"]) {
 					std::string type = story_["target"]["__typename"].as_string();
 					if (type == "ExternalUrl" || type == "Story" || type == "QuickInvite") {
-						newText = TranslateT("a link");
-
-						std::string title = story_["title_with_entities"]["text"].as_string();
-						std::string description = story_["description"]["text"].as_string();
-						std::string link = story_["url"].as_string();
-
-						// shorten long descriptions
-						description = utils::text::truncate_utf8(description, MAX_LINK_DESCRIPTION_LEN);
-
-						if (link.find("//www." FACEBOOK_SERVER_DOMAIN "/l.php") != std::string::npos || link.find("//l." FACEBOOK_SERVER_DOMAIN) != std::string::npos) {
-							// de-facebook this link
-							link = utils::url::decode(utils::text::source_get_value2(&link, "l.php?u=", "&", true));
-						}
-
-						if (!link.empty()) {
-							attachments_text += "\n";
-							if (!title.empty())
-								attachments_text += title + "\n";
-							if (!description.empty())
-								attachments_text += description + "\n";
-							attachments_text += absolutizeUrl(link) + "\n";
-						}
+						parseLink(story_);
 					}
 					else debugLogA("json::parseAttachments (%s) - Unknown extensible attachment type %s", legacy ? "legacy" : "not legacy", type.c_str());
 				}
