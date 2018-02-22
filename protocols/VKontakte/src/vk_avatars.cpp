@@ -152,7 +152,7 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cb
 
 void CVkProto::SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl)
 {
-	CMStringW oldUrl(getWStringA(hContact, "AvatarUrl"));
+	ptrW oldUrl(getWStringA(hContact, "AvatarUrl"));
 
 	if (wszUrl == oldUrl)
 		return;
