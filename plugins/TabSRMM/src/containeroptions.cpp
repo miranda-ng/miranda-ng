@@ -276,7 +276,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 		case IDC_O_ENABLESOUNDS:
 			SendMessage(hwndDlg, DM_SC_CONFIG, 0, 0);
-			break;
+			goto do_apply;
 
 		case IDC_TITLEFORMAT:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
