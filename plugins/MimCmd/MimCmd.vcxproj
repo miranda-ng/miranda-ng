@@ -31,8 +31,7 @@
   <ItemDefinitionGroup>
     <Link>
       <SubSystem>Console</SubSystem>
-      <DelayLoadDLLs>mir_core.mir</DelayLoadDLLs>
-      <AdditionalDependencies>delayimp.lib;comctl32.lib;ws2_32.lib;UxTheme.lib;Iphlpapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>api-ms-win-crt-heap-l1-1-0.dll;api-ms-win-crt-locale-l1-1-0.dll;api-ms-win-crt-math-l1-1-0.dll;api-ms-win-crt-runtime-l1-1-0.dll;api-ms-win-crt-stdio-l1-1-0.dll;api-ms-win-crt-string-l1-1-0.dll;mir_core.mir</DelayLoadDLLs>
     </Link>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>
