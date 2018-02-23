@@ -1,3 +1,5 @@
+#pragma once
+
 typedef struct
 {
 	wchar_t Alignment;	// Выравнивание. L - к левой границе, R - к правой.

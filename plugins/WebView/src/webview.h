@@ -20,6 +20,8 @@
  * Temple Place - Suite 330, Boston, MA  02111-1307, USA. 
  */
 
+#pragma once
+
 #define CFM_BACKCOLOR   0x04000000
 
 #define MODULENAME "WebView"

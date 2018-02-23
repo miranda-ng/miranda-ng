@@ -1,3 +1,5 @@
+#pragma once
+
 #define _CRT_NONSTDC_NO_DEPRECATE
 
 #include <windows.h>

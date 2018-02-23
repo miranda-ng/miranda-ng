@@ -1,3 +1,5 @@
+#pragma once
+
 //
 //  Register of plugin's user
 //

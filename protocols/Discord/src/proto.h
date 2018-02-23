@@ -1,3 +1,4 @@
+#pragma once
 
 typedef __int64 SnowFlake;
 

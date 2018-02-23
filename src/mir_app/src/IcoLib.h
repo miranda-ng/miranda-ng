@@ -22,6 +22,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#pragma once
+
 #define SECTIONPARAM_MAKE(index, level, flags) MAKELONG((index)&0xFFFF, MAKEWORD(level, flags))
 #define SECTIONPARAM_INDEX(lparam) LOWORD(lparam)
 #define SECTIONPARAM_LEVEL(lparam) LOBYTE(HIWORD(lparam))

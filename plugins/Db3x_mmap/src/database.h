@@ -21,6 +21,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#pragma once
 
 //all offsets are relative to the start of the file
 //offsets are 0 if there is nothing in the chain or this is the last in the

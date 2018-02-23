@@ -31,14 +31,12 @@
  * You might want to place this next block in a header file somewhere:
  */
 
+#pragma once
 
 # ifndef wchar_t
 #  define       wchar_t   wchar_t
 # endif /* wchar_t */
 # define        STRING  wchar_t *
-
-
-
 
 int strpos( STRING haystack, STRING needle )
 {

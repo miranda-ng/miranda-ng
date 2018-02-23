@@ -1,3 +1,5 @@
+#pragma once
+
 static IconItem iconList[] =
 {
 	{ LPGEN("Logo"), "logo", IDI_LOGO },

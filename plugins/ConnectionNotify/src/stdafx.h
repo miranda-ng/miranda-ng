@@ -1,3 +1,5 @@
+#pragma once
+
 #include <windows.h>
 #include <Commctrl.h>
 #include <assert.h>

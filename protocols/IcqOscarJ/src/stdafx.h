@@ -27,6 +27,8 @@
 // Includes all header files that should be precompiled to speed up compilation.
 // -----------------------------------------------------------------------------
 
+#pragma once
+
 // Windows includes
 #include <windows.h>
 #include <commctrl.h>

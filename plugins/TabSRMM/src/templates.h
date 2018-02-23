@@ -26,4 +26,6 @@
 //
 // templates for the message log...
 
+#pragma once
+
 void LoadDefaultTemplates();

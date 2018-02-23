@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
    the structs, and the primitives for some of the functions.
 */
 
+#pragma once
+
 //============  THE INCLUDES  ===========
 
 #include <share.h>

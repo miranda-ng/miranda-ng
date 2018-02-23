@@ -17,6 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#pragma once
+
 INT_PTR GetStatusMsgW(WPARAM wParam, LPARAM lParam);
 INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam);
 // int IgnoreNextStatusChange(WPARAM wParam, LPARAM lParam);

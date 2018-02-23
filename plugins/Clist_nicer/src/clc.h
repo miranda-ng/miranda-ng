@@ -22,6 +22,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#pragma once
+
 #define INTM_XSTATUSCHANGED		(WM_USER+26)
 #define INTM_METACHANGEDEVENT	(WM_USER+27)
 #define INTM_CODEPAGECHANGED	(WM_USER+28)

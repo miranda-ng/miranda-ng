@@ -20,8 +20,7 @@ Boston, MA 02111-1307, USA.
 
 
 // Tipper API
-// note: Tipper is internally unicode and requires unicows.dll to function correctly on 95/98/ME
-//		so you'll find a lot of wchar_t stuff in here
+# pragma once
 
 // translation function type
 // use hContact, module and setting to read your db value(s) and put the resulting string into buff

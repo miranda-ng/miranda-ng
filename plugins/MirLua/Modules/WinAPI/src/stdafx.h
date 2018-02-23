@@ -44,6 +44,8 @@
 *
 ***/
 
+#pragma once
+
 #define LUA_WINAPI_LIB extern "C" int __declspec(dllexport)
 
 #include <lua.hpp>

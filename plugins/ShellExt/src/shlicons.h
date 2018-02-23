@@ -1,3 +1,4 @@
+#pragma once
 
 IWICImagingFactory* ARGB_GetWorker();
 

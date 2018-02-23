@@ -4,6 +4,8 @@
 // TO BE INCLUDED ONLY TO modern_cluiframes.cpp
 //////////////////////////////////////////////////////////////////////////
 
+#pragma once
+
 static int _us_DoSetFramePaintProc(WPARAM wParam, LPARAM lParam);
 static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam);
 static int _us_DoRemoveFrame(WPARAM wParam, LPARAM lParam);

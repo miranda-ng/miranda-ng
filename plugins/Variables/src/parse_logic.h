@@ -17,6 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#pragma once
+
 #define AND             L"and"
 #define STR_FALSE       L"false"
 #define FOR             L"for"

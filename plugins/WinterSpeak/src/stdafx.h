@@ -1,3 +1,5 @@
+#pragma once
+
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
@@ -32,6 +34,10 @@
 
 #include "AnnounceDialog.h"
 #include "AnnounceDatabase.h"
+#include "UserInformation.h"
+#include "EventInformation.h"
+#include "ProtocolInformation.h"
+
 #include "SpeakAnnounce.h"
 
 #include "ConfigDatabase.h"
@@ -39,6 +45,3 @@
 #include "Subject.h"
 #include "SpeechInterface.h"
 #include "SpeakConfig.h"
-#include "UserInformation.h"
-#include "EventInformation.h"
-#include "ProtocolInformation.h"

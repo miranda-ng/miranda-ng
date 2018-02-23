@@ -1,3 +1,5 @@
+#pragma once
+
 #include "MirFoxCommons_pch.h"
 
 

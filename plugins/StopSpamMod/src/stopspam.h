@@ -1,3 +1,4 @@
+#pragma once
 
 extern BOOL gbDosServiceExist;
 extern BOOL gbVarsServiceExist;

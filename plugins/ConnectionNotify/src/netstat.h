@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 struct CONNECTION
 {
 	wchar_t strIntIp[16];

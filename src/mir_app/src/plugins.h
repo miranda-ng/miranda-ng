@@ -1,3 +1,4 @@
+#pragma once
 
 // returns true if the API exports were good, otherwise, passed in data is returned
 #define CHECKAPI_NONE 	 0

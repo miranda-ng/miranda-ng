@@ -2,6 +2,8 @@
 // Settings.h
 //
 
+#pragma once
+
 // Settings related
 #define DEF_LOGPIXELSY				96
 #define PROTO_TT_ON_INT_BIT			0x01

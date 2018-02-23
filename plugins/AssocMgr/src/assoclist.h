@@ -19,6 +19,8 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#pragma once
+
 /* Assoc Enabled */
 void CleanupAssocEnabledSettings(void);
 /* Mime Reg */

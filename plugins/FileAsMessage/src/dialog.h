@@ -1,3 +1,5 @@
+#pragma once
+
 extern HINSTANCE hInst;
 
 int getMsgId(char *msg);
@@ -100,7 +102,7 @@ public:
 	void cmdACCEPT();
 	void cmdDACK(char *data);
 	void sendReq();
-	int  sendCmd(int id, int cmd, char *szParam, char *szPrefix = NULL);
+	int  sendCmd(int id, int cmd, char *szParam, char *szPrefix = nullptr);
 
 	void cmdDATA(char *data);
 	void cmdEND();

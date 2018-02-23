@@ -17,6 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#pragma once
+
 #define MIR_CAPS				L"caps"
 #define MIR_CAPS2				L"caps2"
 #define MIR_CRLF				L"crlf"

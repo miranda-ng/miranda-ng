@@ -2,6 +2,8 @@
 Copyright (C) 2010, 2011 tico-tico
 */
 
+#pragma once
+
 #include <windows.h>
 #include <commctrl.h>
 #include <Uxtheme.h>

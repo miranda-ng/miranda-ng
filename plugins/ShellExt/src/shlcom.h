@@ -1,3 +1,4 @@
+#pragma once
 
 #define REPLY_FAIL 0x88888888
 #define REPLY_OK   0x00000000

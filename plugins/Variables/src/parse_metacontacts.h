@@ -17,6 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#pragma once
+
 #define MC_GETPARENT       L"mc_getparent"
 #define MC_GETDEFAULT      L"mc_getdefault"
 #define MC_GETMOSTONLINE   L"mc_getmostonline"

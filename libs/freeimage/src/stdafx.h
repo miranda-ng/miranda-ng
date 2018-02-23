@@ -1,3 +1,5 @@
+#pragma once
+
 #include <float.h>
 #include <io.h>
 #include <malloc.h>

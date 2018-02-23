@@ -1,8 +1,9 @@
 /* This file is a modification of clcfiledrop.h originally 
  written by Richard Hughes*/
 
-static HWND	hwndCurDrag	 = NULL;
+#pragma once
 
+static HWND	hwndCurDrag	 = nullptr;
 class CDropTarget: public IDropTarget
 {
 private:

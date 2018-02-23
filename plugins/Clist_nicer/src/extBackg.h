@@ -22,6 +22,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#pragma once
+
 #define ID_EXTBKIDLE            40081
 #define ID_EXTBKEXPANDEDGROUP   40082
 #define ID_EXTBKCOLLAPSEDDGROUP 40083

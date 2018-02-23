@@ -1,3 +1,5 @@
+#pragma once
+
 struct Opts
 {
 	CMOption<BYTE> bUseAuthIcon;

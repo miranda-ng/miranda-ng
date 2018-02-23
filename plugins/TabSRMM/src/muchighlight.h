@@ -26,6 +26,8 @@
 //
 // highlighter class for multi user chats
 
+#pragma once
+
 class CMUCHighlight {
 
 public:

@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include <windows.h>
 #include <lm.h>
 #include <locale.h>

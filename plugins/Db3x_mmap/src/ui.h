@@ -1,4 +1,4 @@
-
+#pragma once
 
 class CSelectCryptoDialog : public CDlgBase
 {
