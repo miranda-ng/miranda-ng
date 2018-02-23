@@ -59,9 +59,12 @@ std::string &GetProtoList()
 	return s = DBGetContactSettingStringPAN_A(NULL, pluginName, "protoList", "ICQ\r\n");
 }
 
-bool ProtoInList(std::string proto)
+bool ProtoInList(const char *szProto)
 {
-	return std::string::npos != GetProtoList().find(proto + "\r\n");
+	if (szProto == nullptr)
+		return false;
+
+	return std::string::npos != GetProtoList().find(std::string(szProto) + "\r\n");
 }
 
 void DeleteCListGroupsByName(wchar_t* szGroupName)

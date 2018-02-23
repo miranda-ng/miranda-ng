@@ -2,7 +2,7 @@ std::wstring DBGetContactSettingStringPAN(MCONTACT hContact, char const * szModu
 std::string DBGetContactSettingStringPAN_A(MCONTACT hContact, char const * szModule, char const * szSetting, std::string errorValue);
 std::wstring &GetDlgItemString(HWND hwnd, int id);
 std::string &GetProtoList();
-bool ProtoInList(std::string proto);
+bool ProtoInList(const char *szProto);
 std::wstring variables_parse(std::wstring const &tstrFormat, MCONTACT hContact);
 const int Stricmp(const wchar_t *str, const wchar_t *substr);
 //const int Stristr(const wchar_t *str, const wchar_t *substr);
