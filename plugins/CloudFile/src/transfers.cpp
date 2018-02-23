@@ -28,8 +28,7 @@ HANDLE CCloudService::SendFile(MCONTACT hContact, const wchar_t *description, wc
 {
 	FileTransferParam *ftp = new FileTransferParam(hContact);
 
-	if (description && description[0])
-		ftp->AppendFormatData(L"%s\r\n", description);
+	ftp->SetDescription(description);
 
 	ftp->SetWorkingDirectory(paths[0]);
 	for (int i = 0; paths[i]; i++) {
@@ -68,7 +67,7 @@ UINT UploadAndReportProgressThread(void *owner, void *arg)
 
 	int res = service->Upload(ftp);
 	if (res == ACKRESULT_SUCCESS)
-		service->Report(ftp->GetHContact(), ftp->GetData());
+		service->Report(ftp->GetContact(), ftp->GetData());
 
 	Transfers.remove(ftp);
 	delete ftp;

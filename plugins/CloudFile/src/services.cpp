@@ -18,15 +18,15 @@ static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 	if (!accountName || !mir_strlen(accountName))
 		accountName = db_get_sa(NULL, MODULE, "DefaultService");
 	if (accountName == nullptr)
-		return 1;
+		return 2;
 	CCloudServiceSearch search(accountName);
 	CCloudService *service = Services.find(&search);
 	if (service == nullptr)
-		return 2;
+		return 3;
 	CFSERVICEINFO *info = (CFSERVICEINFO*)lParam;
 	if (info != nullptr) {
-		info->AccountName = service->GetAccountName();
-		info->UserName = service->GetUserName();
+		info->accountName = service->GetAccountName();
+		info->userName = service->GetUserName();
 	}
 	return 0;
 }
@@ -37,13 +37,61 @@ static INT_PTR EnumServices(WPARAM wParam, LPARAM lParam)
 	enumCFServiceFunc enumFunc = (enumCFServiceFunc)wParam;
 	void *param = (void*)lParam;
 	for (auto &service : Services) {
-		info.AccountName = service->GetAccountName();
-		info.UserName = service->GetUserName();
+		info.accountName = service->GetAccountName();
+		info.userName = service->GetUserName();
 		int res = enumFunc(&info, param);
 		if (res != 0)
 			return res;
 	}
 	return 0;
+}
+
+INT_PTR Upload(WPARAM wParam, LPARAM lParam)
+{
+	CFUPLOADDATA *uploadData = (CFUPLOADDATA*)wParam;
+	if (uploadData == nullptr)
+		return 1;
+
+	ptrA accountName(mir_strdup((char*)wParam));
+	if (!accountName || !mir_strlen(uploadData->accountName))
+		accountName = db_get_sa(NULL, MODULE, "DefaultService");
+	if (accountName == nullptr)
+		return 2;
+	CCloudServiceSearch search(uploadData->accountName);
+	CCloudService *service = Services.find(&search);
+	if (service == nullptr)
+		return 3;
+
+	FileTransferParam *ftp = new FileTransferParam(0);
+	ftp->SetWorkingDirectory(uploadData->localPath);
+	ftp->SetServerFolder(uploadData->serverFolder);
+
+	if (PathIsDirectory(uploadData->localPath))
+	{
+		// temporary unsupported
+		Transfers.remove(ftp);
+		delete ftp;
+
+		return ACKRESULT_FAILED;
+	}
+	else
+		ftp->AddFile(uploadData->localPath);
+
+	int res = service->Upload(ftp);
+	if (res == ACKRESULT_SUCCESS && lParam) {
+		CFUPLOADRESULT *result = (CFUPLOADRESULT*)lParam;
+		const char **links = nullptr;
+		int linkCount = ftp->GetSharedLinks(links);
+		result->links = (char**)mir_calloc(sizeof(char*) * linkCount);
+		for (int i = 0; i < linkCount; i++)
+			result->links[i] = mir_strdup(links[i]);
+		result->description = mir_wstrdup(ftp->GetDescription());
+	}
+
+	Transfers.remove(ftp);
+	delete ftp;
+
+	return res;
 }
 
 void InitServices()
@@ -79,4 +127,5 @@ void InitServices()
 
 	CreateServiceFunction(MS_CLOUDFILE_GETSERVICE, GetService);
 	CreateServiceFunction(MS_CLOUDFILE_ENUMSERVICES, EnumServices);
+	CreateServiceFunction(MS_CLOUDFILE_UPLOAD, Upload);
 }

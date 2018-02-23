@@ -231,6 +231,7 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 			char link[MAX_PATH];
 			CreateSharedLink(path, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
+			ftp->AddSharedLink(link);
 		}
 
 		ftp->FirstFile();
@@ -275,6 +276,7 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 				char link[MAX_PATH];
 				CreateSharedLink(fileId, link);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
+				ftp->AddSharedLink(link);
 			}
 		} while (ftp->NextFile());
 	}

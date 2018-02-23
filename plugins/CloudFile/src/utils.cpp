@@ -3,12 +3,9 @@
 void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_IsTerminated())
-	{
 		return;
-	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1))
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
@@ -91,11 +88,9 @@ void PasteToClipboard(const wchar_t *data)
 		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
 		if (hClipboardData) {
 			wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
-			if (pchData) {
-				memcpy(pchData, (wchar_t*)data, size);
-				GlobalUnlock(hClipboardData);
-				SetClipboardData(CF_UNICODETEXT, hClipboardData);
-			}
+			mir_wstrcpy(pchData, data);
+			GlobalUnlock(hClipboardData);
+			SetClipboardData(CF_UNICODETEXT, hClipboardData);
 		}
 		CloseClipboard();
 	}

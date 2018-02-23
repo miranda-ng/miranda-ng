@@ -1,17 +1,15 @@
 #ifndef M_CLOUDFILE_H_
 #define M_CLOUDFILE_H_
 
-#define MIID_DROPBOX {0x9649d8e2, 0x7326, 0x4ec1, {0xb4, 0xa3, 0xf2, 0xec, 0x1a, 0x39, 0x84, 0x94}}
-
 struct CFSERVICEINFO
 {
-	const char *AccountName;
-	const wchar_t *UserName;
+	const char *accountName;
+	const wchar_t *userName;
 };
 
 // get cloud file service info by account name
-// wParam = (WPARAM)(const char*)accountName
-// lParam = (LPARAM)(CFSERVICEINFO*)serviceInfo
+// wParam = (WPARAM)(const char*)accountName (can be NULL)
+// lParam = (LPARAM)(CFSERVICEINFO*)serviceInfo (can be NULL)
 // returns 0 on success, nonzero on failure
 #define MS_CLOUDFILE_GETSERVICE "CloudFile/GetService"
 
@@ -19,9 +17,28 @@ struct CFSERVICEINFO
 typedef int(*enumCFServiceFunc)(const CFSERVICEINFO *serviceInfo, void *param);
 
 // get list of cloud file services
-// wParam = (WPARAM)(void*)param
-// lParam = (LPARAM)(enumCFServiceFunc)enumFunc
+// wParam = (WPARAM)(enumCFServiceFunc)enumFunc
+// lParam = (LPARAM)(void*)param (can be NULL)
 // returns 0 on success, nonzero on failure
 #define MS_CLOUDFILE_ENUMSERVICES "CloudFile/EnumServices"
+
+struct CFUPLOADDATA
+{
+	const char *accountName; // cloud service to upload (can be NULL)
+	const wchar_t *localPath; // local path
+	const wchar_t *serverFolder; // server folder in witch file will be placed (can be NULL)
+};
+
+struct CFUPLOADRESULT
+{
+	char **links;
+	wchar_t *description;
+};
+
+// upload file on cloud service
+// wParam = (WPARAM)(const CFUPLOADDATA*)uploadData
+// lParam = (LPARAM)(char CFUPLOADRESULT*)uploadResult (can be NULL)
+// returns 0 on success, nonzero on failure
+#define MS_CLOUDFILE_UPLOAD "CloudFile/Upload"
 
 #endif //M_CLOUDFILE_H_

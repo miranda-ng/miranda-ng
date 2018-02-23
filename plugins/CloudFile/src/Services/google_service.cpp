@@ -246,6 +246,7 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 
 			CreateSharedLink(folderId, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
+			ftp->AddSharedLink(link);
 		}
 
 		ftp->FirstFile();
@@ -290,6 +291,7 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 				char link[MAX_PATH];
 				CreateSharedLink(fileId, link);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
+				ftp->AddSharedLink(link);
 			}
 		} while (ftp->NextFile());
 	}

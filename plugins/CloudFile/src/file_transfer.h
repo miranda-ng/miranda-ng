@@ -18,9 +18,12 @@ private:
 	int relativePathStart;
 	
 	CMStringW data;
+	LIST<char> m_links;
+	CMStringW m_description;
 
 public:
 	FileTransferParam(MCONTACT hContact)
+		: m_links(1)
 	{
 		hFile = NULL;
 		id = InterlockedIncrement(&hFileProcess);
@@ -55,14 +58,15 @@ public:
 		if (pfts.tszWorkingDir)
 			mir_free(pfts.tszWorkingDir);
 
-		if (pfts.pszFiles)
-		{
+		if (pfts.pszFiles) {
 			for (int i = 0; pfts.pszFiles[i]; i++)
-			{
 				if (pfts.pszFiles[i]) mir_free(pfts.pszFiles[i]);
-			}
 			mir_free(pfts.pszFiles);
 		}
+
+		for (auto &link : m_links)
+			mir_free(link);
+		m_links.destroy();
 	}
 
 	ULONG GetId() const
@@ -70,7 +74,7 @@ public:
 		return id;
 	}
 
-	MCONTACT GetHContact() const
+	MCONTACT GetContact() const
 	{
 		return pfts.hContact;
 	}
@@ -80,6 +84,17 @@ public:
 		if (data.IsEmpty())
 			return NULL;
 		return data;
+	}
+
+	const wchar_t* GetDescription() const
+	{
+		return m_description.GetString();
+	}
+
+	const int GetSharedLinks(const char **result) const
+	{
+		result = (const char**)m_links.getArray();
+		return m_links.getCount();
 	}
 
 	void Terminate()
@@ -98,6 +113,11 @@ public:
 		if (serverFolder.IsEmpty())
 			return NULL;
 		return serverFolder;
+	}
+
+	void SetDescription(const wchar_t *description)
+	{
+		m_description = description;
 	}
 
 	void SetWorkingDirectory(const wchar_t *path)
@@ -139,6 +159,11 @@ public:
 		va_start(args, format);
 		data.AppendFormatV(format, args);
 		va_end(args);
+	}
+
+	void AddSharedLink(const char *url)
+	{
+		m_links.insert(mir_strdup(url));
 	}
 
 	const wchar_t* GetCurrentFilePath() const

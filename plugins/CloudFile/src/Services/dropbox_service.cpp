@@ -231,6 +231,7 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 			char link[MAX_PATH];
 			CreateSharedLink(path, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
+			ftp->AddSharedLink(link);
 		}
 
 		ftp->FirstFile();
@@ -294,9 +295,10 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 			}
 
 			if (!ftp->IsFolder()) {
-				char url[MAX_PATH];
-				CreateSharedLink(path, url);
-				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(url)));
+				char link[MAX_PATH];
+				CreateSharedLink(path, link);
+				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
+				ftp->AddSharedLink(link);
 			}
 		} while (ftp->NextFile());
 	}
