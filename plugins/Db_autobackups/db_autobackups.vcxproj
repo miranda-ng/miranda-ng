@@ -31,6 +31,9 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\backup.ico" />
+  </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <ExceptionHandling>Sync</ExceptionHandling>

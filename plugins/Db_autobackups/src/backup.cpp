@@ -190,11 +190,11 @@ int Backup(wchar_t *backup_filename)
 
 	if (backup_filename == nullptr) {
 		int err;
-		wchar_t *backupfolder, buffer[MAX_COMPUTERNAME_LENGTH + 1];
+		wchar_t backupfolder[MAX_PATH], buffer[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(buffer);
 
 		bZip = options.use_zip != 0;
-		backupfolder = Utils_ReplaceVarsW(options.folder);
+		PathToAbsoluteW(VARSW(options.folder), backupfolder);
 		// ensure the backup folder exists (either create it or return non-zero signifying error)
 		err = CreateDirectoryTreeW(backupfolder);
 		if (err != ERROR_ALREADY_EXISTS && err != 0) {
@@ -206,7 +206,6 @@ int Backup(wchar_t *backup_filename)
 		GetLocalTime(&st);
 		GetComputerName(buffer, &size);
 		mir_snwprintf(dest_file, L"%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s", backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? L"zip" : L"dat");
-		mir_free(backupfolder);
 	}
 	else {
 		wcsncpy_s(dest_file, backup_filename, _TRUNCATE);
@@ -221,17 +220,17 @@ int Backup(wchar_t *backup_filename)
 
 	SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Copying database file..."));
 
-	mir_snwprintf(source_file, L"%s\\%s", profilePath, dbname);
-	wchar_t *pathtmp = Utils_ReplaceVarsW(source_file);
+	VARSW profile_path(L"%miranda_userdata%");
+	mir_snwprintf(source_file, L"%s\\%s", profile_path, dbname);
 	BOOL res = 0;
 	if (bZip)
 	{
 		res = options.backup_profile 
-			? MakeZip_Dir(_T2A(profilePath), dest_file, _T2A(dbname), progress_dialog) 
-			: MakeZip(pathtmp, dest_file, dbname, progress_dialog);
+			? MakeZip_Dir(_T2A(profile_path), dest_file, _T2A(dbname), progress_dialog)
+			: MakeZip(source_file, dest_file, dbname, progress_dialog);
 	}
 	else
-		res = CopyFile(pathtmp, dest_file, 0);
+		res = CopyFile(source_file, dest_file, 0);
 	if (res) {
 		if (!bZip) { // Set the backup file to the current time for rotator's correct  work
 			FILETIME ft;
@@ -243,12 +242,17 @@ int Backup(wchar_t *backup_filename)
 		}
 		SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
-		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(nullptr));
+		db_set_dw(0, MODULE, "LastBackupTimestamp", (DWORD)time(nullptr));
 
-		if (options.use_dropbox)
+		if (options.use_cloudfile)
 		{
-			DropboxUploadInfo ui = { dest_file, L"Backups" };
-			if (CallService(MS_DROPBOX_UPLOAD, NULL, (LPARAM)&ui))
+			CFUPLOADDATA ui =
+			{
+				options.cloudfile_service,
+				dest_file,
+				L"Backups"
+			};
+			if (CallService(MS_CLOUDFILE_UPLOAD, (LPARAM)&ui))
 				ShowPopup(TranslateT("Uploading to Dropbox failed"), TranslateT("Error"), nullptr);
 		}
 
@@ -279,7 +283,6 @@ int Backup(wchar_t *backup_filename)
 	}
 	else
 		DeleteFile(dest_file);
-	mir_free(pathtmp);
 
 	DestroyWindow(progress_dialog);
 	return 0;

@@ -1,409 +1,324 @@
 #include "stdafx.h"
 
-HWND	hPathTip;
-Options	options;
-
-
-
-HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
+Options::Options() :
+	backup_types(MODULE, "BackupType", BT_PERIODIC),
+	period(MODULE, "Period", 1),
+	period_type(MODULE, "PeriodType", PT_DAYS),
+	num_backups(MODULE, "NumBackups", 3),
+	disable_progress(MODULE, "NoProgress", 0),
+	disable_popups(MODULE, "NoPopups", 0),
+	use_zip(MODULE, "UseZip", 0),
+	backup_profile(MODULE, "BackupProfile", 0),
+	use_cloudfile(MODULE, "UseCloudFile", 0),
+	cloudfile_service(MODULE, "CloudFileService", nullptr)
 {
-	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
+}
+
+Options options;
+
+COptionsDlg::COptionsDlg()
+	: CPluginDlgBase(g_hInstance, IDD_OPTIONS, MODULE),
+	m_disable(this, IDC_RAD_DISABLED), m_backupOnStart(this, IDC_RAD_START),
+	m_backupOnExit(this, IDC_RAD_EXIT), m_backupPeriodic(this, IDC_RAD_PERIODIC),
+	m_backup(this, IDC_BUT_NOW), m_backupProfile(this, IDC_BACKUPPROFILE),
+	m_period(this, SPIN_PERIOD), m_periodType(this, IDC_PT),
+	m_folder(this, IDC_ED_FOLDER), m_browseFolder(this, IDC_BUT_BROWSE),
+	m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr), m_numBackups(this, SPIN_NUMBACKUPS),
+	m_disableProgress(this, IDC_CHK_NOPROG), m_disablePopups(this, IDC_CHK_NOPOPUP),
+	m_useZip(this, IDC_CHK_USEZIP), m_useCloudFile(this, IDC_CLOUDFILE),
+	m_cloudFileService(this, IDC_CLOUDFILESEVICE)
+{
+	CreateLink(m_period, options.period);
+	CreateLink(m_periodType, options.period_type);
+	CreateLink(m_numBackups, options.num_backups);
+	CreateLink(m_disableProgress, options.disable_progress);
+	CreateLink(m_disablePopups, options.disable_popups);
+	CreateLink(m_useZip, options.use_zip);
+	CreateLink(m_backupProfile, options.backup_profile);
+	CreateLink(m_useCloudFile, options.use_cloudfile);
+
+	m_disable.OnChange = Callback(this, &COptionsDlg::Disable_OnChange);
+	m_useCloudFile.OnChange = Callback(this, &COptionsDlg::UseCloudFile_OnChange);
+
+	m_backup.OnClick = Callback(this, &COptionsDlg::Backup_OnClick);
+	m_browseFolder.OnClick = Callback(this, &COptionsDlg::BrowseFolder_OnClick);
+	m_foldersPageLink.OnClick = Callback(this, &COptionsDlg::FoldersPageLink_OnClick);
+}
+
+void COptionsDlg::OnInitDialog()
+{
+	m_disable.SetState(options.backup_types == BT_DISABLED);
+	m_backupOnStart.SetState(options.backup_types & BT_START ? TRUE : FALSE);
+	m_backupOnExit.SetState(options.backup_types & BT_EXIT ? TRUE : FALSE);
+	m_backupPeriodic.SetState(options.backup_types & BT_PERIODIC ? TRUE : FALSE);
+
+	m_period.SetRange(60, 1);
+	m_numBackups.SetRange(9999, 1);
+
+	m_periodType.AddString(TranslateT("days"));
+	m_periodType.AddString(TranslateT("hours"));
+	m_periodType.AddString(TranslateT("minutes"));
+	m_periodType.SetCurSel(options.period_type);
+
+	if (ServiceExists(MS_FOLDERS_GET_PATH)) {
+		m_folder.Hide();
+		m_browseFolder.Hide();
+		m_foldersPageLink.Show();
+	}
+	else {
+		m_folder.SetText(options.folder);
+
+		wchar_t tszTooltipText[4096];
+		mir_snwprintf(tszTooltipText, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+			L"%miranda_path%", TranslateT("path to Miranda root folder"),
+			L"%miranda_profilesdir%", TranslateT("path to folder containing Miranda profiles"),
+			L"%miranda_profilename%", TranslateT("name of current Miranda profile (filename, without extension)"),
+			L"%miranda_userdata%", TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
+			L"%appdata%", TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
+			L"%username%", TranslateT("username for currently logged-on Windows user"),
+			L"%mydocuments%", TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
+			L"%desktop%", TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
+			L"%xxxxxxx%", TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
+		CreateToolTip(tszTooltipText, TranslateT("Variables"));
+	}
+
+	m_disablePopups.Show(ServiceExists(MS_POPUP_ADDPOPUPT));
+
+	m_periodType.AddString(TranslateT("days"));
+	m_periodType.AddString(TranslateT("hours"));
+	m_periodType.AddString(TranslateT("minutes"));
+	m_periodType.SetCurSel(options.period_type);
+	
+	m_useCloudFile.Show(ServiceExists(MS_CLOUDFILE_UPLOAD));
+	m_cloudFileService.Show(ServiceExists(MS_CLOUDFILE_ENUMSERVICES));
+	if (ServiceExists(MS_CLOUDFILE_ENUMSERVICES)) {
+		m_cloudFileService.Enable();
+		m_cloudFileService.AddString(L"");
+		CallService(MS_CLOUDFILE_ENUMSERVICES, (WPARAM)&COptionsDlg::EnumCloudFileServices, (LPARAM)&m_cloudFileService);
+	}
+
+	SetDialogState();
+}
+
+void COptionsDlg::OnApply()
+{
+	BYTE backupTypes = BT_DISABLED;
+
+	if (m_backupOnStart.IsChecked())
+		backupTypes |= BT_START;
+	else
+		backupTypes &= ~BT_START;
+
+	if (m_backupOnExit.IsChecked())
+		backupTypes |= BT_EXIT;
+	else
+		backupTypes &= ~BT_EXIT;
+
+	if (m_backupPeriodic.IsChecked())
+		backupTypes |= BT_PERIODIC;
+	else
+		backupTypes &= ~BT_PERIODIC;
+
+	options.backup_types = backupTypes;
+
+	SetBackupTimer();
+
+	ptrW folder(m_folder.GetText());
+	{
+		wchar_t backupfolder[MAX_PATH];
+		PathToAbsoluteW(VARSW(folder), backupfolder);
+		int err = CreateDirectoryTreeW(backupfolder);
+		if (err != ERROR_ALREADY_EXISTS && err != 0) {
+			wchar_t msg[512];
+			FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, 0, msg, 512, nullptr);
+			MessageBox(nullptr, msg, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
+			return;
+		}
+		db_set_ws(0, MODULE, "Folder", folder);
+	}
+
+	int currentService = m_cloudFileService.GetCurSel();
+	options.cloudfile_service = currentService > 0
+		? (char*)m_cloudFileService.GetItemData(currentService)
+		: nullptr;
+}
+
+void COptionsDlg::OnTimer(CTimer*)
+{
+	if (IsWindow(m_hPathTip))
+		KillTimer(m_hwnd, 4); // It will prevent tooltip autoclosing
+}
+
+void COptionsDlg::OnDestroy()
+{
+	if (m_hPathTip) {
+		KillTimer(m_hwnd, 0);
+		DestroyWindow(m_hPathTip);
+		m_hPathTip = nullptr;
+	}
+}
+
+void COptionsDlg::Disable_OnChange(CCtrlBase*)
+{
+	SetDialogState();
+}
+
+void COptionsDlg::UseCloudFile_OnChange(CCtrlBase*)
+{
+	m_cloudFileService.Enable(m_useCloudFile.IsChecked());
+}
+
+void COptionsDlg::Backup_OnClick(CCtrlButton*)
+{
+	BackupStart(nullptr);
+}
+
+void COptionsDlg::BrowseFolder_OnClick(CCtrlButton*)
+{
+	wchar_t folder_buff[MAX_PATH] = { 0 };
+
+	BROWSEINFO bi;
+	bi.hwndOwner = m_hwnd;
+	bi.pidlRoot = nullptr;
+	bi.pszDisplayName = folder_buff;
+	bi.lpszTitle = TranslateT("Select backup folder");
+	bi.ulFlags = BIF_NEWDIALOGSTYLE;
+	bi.lpfn = BrowseProc;
+	bi.lParam = 0;
+	bi.iImage = 0;
+
+	LPCITEMIDLIST pidl = SHBrowseForFolder(&bi);
+	if (pidl != nullptr) {
+		SHGetPathFromIDList(pidl, folder_buff);
+		m_folder.SetText(folder_buff);
+		CoTaskMemFree((void*)pidl);
+	}
+}
+
+void COptionsDlg::FoldersPageLink_OnClick(CCtrlHyperlink*)
+{
+	Options_Open(L"Customize", L"Folders");
+}
+
+void COptionsDlg::SetDialogState()
+{
+	CCtrlEdit &periodText = *(CCtrlEdit*)FindControl(IDC_ED_PERIOD);
+	CCtrlEdit &numBackupsText = *(CCtrlEdit*)FindControl(IDC_ED_NUMBACKUPS);
+	if (m_disable.IsChecked()) {
+		m_disable.SetState(TRUE);
+		m_backupOnStart.Disable();
+		m_backupOnExit.Disable();
+		m_backupPeriodic.Disable();
+		m_backup.Disable();
+		numBackupsText.Disable();
+		m_numBackups.Disable();
+		m_folder.Disable();
+		m_browseFolder.Disable();
+		m_foldersPageLink.Disable();
+		m_disableProgress.Disable();
+		m_disablePopups.Disable();
+		m_useZip.Disable();
+		periodText.Disable();
+		m_period.Disable();
+		m_periodType.Disable();
+		m_backupProfile.Disable();
+		m_useCloudFile.Disable();
+		m_cloudFileService.Disable();
+
+		m_backupOnStart.SetState(FALSE);
+		m_backupOnExit.SetState(FALSE);
+		m_backupPeriodic.SetState(FALSE);
+	}
+	else {
+		m_backupOnStart.Enable();
+		m_backupOnExit.Enable();
+		m_backupPeriodic.Enable();
+		numBackupsText.Enable();
+		m_numBackups.Enable();
+		m_backup.Enable();
+		m_folder.Enable();
+		m_browseFolder.Enable();
+		m_foldersPageLink.Enable();
+		m_disableProgress.Enable();
+		m_disablePopups.Enable();
+		m_useZip.Enable();
+		periodText.Enable();
+		m_period.Enable();
+		m_periodType.Enable();
+		m_backupProfile.Enable();
+		m_useCloudFile.Enable();
+		m_cloudFileService.Enable(m_useCloudFile.IsChecked());
+
+		m_disable.SetState(FALSE);
+		m_backupOnStart.SetState(options.backup_types & BT_START ? TRUE : FALSE);
+		m_backupOnExit.SetState(options.backup_types & BT_EXIT ? TRUE : FALSE);
+		m_backupPeriodic.SetState(options.backup_types & BT_PERIODIC ? TRUE : FALSE);
+	}
+}
+
+void COptionsDlg::CreateToolTip(LPTSTR ptszText, LPTSTR ptszTitle)
+{
+	HWND hwndFolder = m_folder.GetHwnd();
+
+	m_hPathTip = CreateWindowEx(WS_EX_TOPMOST,
 		TOOLTIPS_CLASS, nullptr,
 		(WS_POPUP | TTS_NOPREFIX),
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndParent, nullptr, g_hInstance, nullptr);
+		hwndFolder, nullptr, g_hInstance, nullptr);
 
-	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0, (SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE));
+	if (m_hPathTip == nullptr)
+	{
+		return;
+	}
+
+	SetWindowPos(m_hPathTip, HWND_TOPMOST, 0, 0, 0, 0, (SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE));
 
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
-	ti.hwnd = hwndParent;
+	ti.hwnd = hwndFolder;
 	ti.hinst = g_hInstance;
 	ti.lpszText = ptszText;
-	GetClientRect(hwndParent, &ti.rect);
+	GetClientRect(hwndFolder, &ti.rect);
 	ti.rect.left = -80;
 
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)&ti);
-	SendMessage(hwndTT, TTM_SETTITLE, 1, (LPARAM)ptszTitle);
-	SendMessage(hwndTT, TTM_SETMAXTIPWIDTH, 0, (LPARAM)650);
+	SendMessage(m_hPathTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
+	SendMessage(m_hPathTip, TTM_SETTITLE, 1, (LPARAM)ptszTitle);
+	SendMessage(m_hPathTip, TTM_SETMAXTIPWIDTH, 0, (LPARAM)650);
 
-	return hwndTT;
+	SetTimer(m_hwnd, 0, 3000, nullptr);
 }
 
-
-int LoadOptions(void)
-{
-	options.backup_types = (BackupType)db_get_b(0, "AutoBackups", "BackupType", (BYTE)(BT_PERIODIC));
-	options.period = (unsigned int)db_get_w(0, "AutoBackups", "Period", 1);
-	options.period_type = (PeriodType)db_get_b(0, "AutoBackups", "PeriodType", (BYTE)PT_DAYS);
-
-	if (!ServiceExists(MS_FOLDERS_GET_PATH)) {
-		DBVARIANT dbv;
-
-		if (!db_get_ws(0, "AutoBackups", "Folder", &dbv)) {
-			wchar_t *tmp = Utils_ReplaceVarsW(dbv.ptszVal);
-
-			if (mir_wstrlen(tmp) >= 2 && tmp[1] == ':')
-				wcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
-			else
-				mir_snwprintf(options.folder, L"%s\\%s", profilePath, dbv.ptszVal);
-
-			db_free(&dbv);
-			mir_free(tmp);
-		}
-		else mir_snwprintf(options.folder, L"%s%s", DIR, SUB_DIR);
-	}
-	options.num_backups = db_get_w(0, "AutoBackups", "NumBackups", 3);
-
-	options.disable_progress = (BOOL)db_get_b(0, "AutoBackups", "NoProgress", 0);
-	options.disable_popups = (BOOL)db_get_b(0, "AutoBackups", "NoPopups", 0);
-	options.use_zip = (BOOL)db_get_b(0, "AutoBackups", "UseZip", 0);
-	options.use_dropbox = (BOOL)(db_get_b(0, "AutoBackups", "UseDropbox", 0) && ServiceExists(MS_DROPBOX_UPLOAD));
-	options.backup_profile = (BOOL)db_get_b(0, "AutoBackups", "BackupProfile", 0);
-
-	SetBackupTimer();
-	return 0;
-}
-
-int SaveOptions(void)
-{
-	wchar_t prof_dir[MAX_PATH];
-
-	db_set_b(0, "AutoBackups", "BackupType", (BYTE)options.backup_types);
-	if (options.period < 1)
-		options.period = 1;
-	db_set_w(0, "AutoBackups", "Period", (WORD)options.period);
-	db_set_b(0, "AutoBackups", "PeriodType", (BYTE)options.period_type);
-
-	mir_snwprintf(prof_dir, L"%s\\", profilePath);
-	size_t prof_len = mir_wstrlen(prof_dir);
-	size_t opt_len = mir_wstrlen(options.folder);
-
-	if (opt_len > prof_len && wcsncmp(options.folder, prof_dir, prof_len) == 0) {
-		db_set_ws(0, "AutoBackups", "Folder", (options.folder + prof_len));
-	}
-	else
-		db_set_ws(0, "AutoBackups", "Folder", options.folder);
-
-	wchar_t *tmp = Utils_ReplaceVarsW(options.folder);
-	if (mir_wstrlen(tmp) < 2 || tmp[1] != ':') {
-		wcsncpy_s(prof_dir, options.folder, _TRUNCATE);
-		mir_snwprintf(options.folder, L"%s\\%s", profilePath, prof_dir);
-	}
-	mir_free(tmp);
-	db_set_w(0, "AutoBackups", "NumBackups", options.num_backups);
-	db_set_b(0, "AutoBackups", "NoProgress", (BYTE)options.disable_progress);
-	db_set_b(0, "AutoBackups", "NoPopups", (BYTE)options.disable_popups);
-	db_set_b(0, "AutoBackups", "UseZip", (BYTE)options.use_zip);
-	db_set_b(0, "AutoBackups", "UseDropbox", (BYTE)options.use_dropbox);
-	db_set_b(0, "AutoBackups", "BackupProfile", (BYTE)options.backup_profile);
-
-	SetBackupTimer();
-	return 0;
-}
-
-Options new_options;
-
-int SetDlgState(HWND hwndDlg)
-{
-	wchar_t buff[10];
-
-	if (new_options.backup_types == BT_DISABLED) {
-		CheckDlgButton(hwndDlg, IDC_RAD_DISABLED, BST_CHECKED);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_DISABLED), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_NUMBACKUPS), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_FOLDER), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BUT_BROWSE), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPROG), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEZIP), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PERIOD), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PT), FALSE);
-
-		CheckDlgButton(hwndDlg, IDC_RAD_START, BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_RAD_EXIT, BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_RAD_PERIODIC, BST_UNCHECKED);
-	}
-	else {
-		EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_DISABLED), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_NUMBACKUPS), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_FOLDER), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BUT_BROWSE), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPROG), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_USEZIP), TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PERIOD), new_options.backup_types & BT_PERIODIC);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_PT), new_options.backup_types & BT_PERIODIC);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DROPBOX), ServiceExists(MS_DROPBOX_UPLOAD));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUPPROFILE), new_options.use_zip);
-
-		CheckDlgButton(hwndDlg, IDC_RAD_DISABLED, BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_RAD_START, new_options.backup_types & BT_START ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_RAD_EXIT, new_options.backup_types & BT_EXIT ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_RAD_PERIODIC, new_options.backup_types & BT_PERIODIC ? BST_CHECKED : BST_UNCHECKED);
-	}
-
-	SendDlgItemMessage(hwndDlg, SPIN_PERIOD, UDM_SETRANGE32, 1, (LPARAM)60);
-	SetDlgItemText(hwndDlg, IDC_ED_PERIOD, _itow(new_options.period, buff, 10));
-
-	SendDlgItemMessage(hwndDlg, SPIN_NUMBACKUPS, UDM_SETRANGE32, 1, (LPARAM)9999);
-	SetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, _itow(new_options.num_backups, buff, 10));
-
-	SetDlgItemText(hwndDlg, IDC_ED_FOLDER, new_options.folder);
-
-	CheckDlgButton(hwndDlg, IDC_CHK_NOPROG, new_options.disable_progress ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_CHK_NOPOPUP, new_options.disable_popups ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_CHK_USEZIP, new_options.use_zip ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_DROPBOX, new_options.use_dropbox && ServiceExists(MS_DROPBOX_UPLOAD) ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(hwndDlg, IDC_BACKUPPROFILE, new_options.backup_profile && new_options.use_zip ? BST_CHECKED : BST_UNCHECKED);
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
-		ShowWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), SW_HIDE);
-
-	return 0;
-}
-
-int CALLBACK BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
+int CALLBACK COptionsDlg::BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
 {
 	switch (uMsg)
 	{
 	case BFFM_INITIALIZED:
-		wchar_t *folder = Utils_ReplaceVarsW(options.folder);
-		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)folder);
-		mir_free(folder);
+		wchar_t backupfolder[MAX_PATH];
+		PathToAbsoluteW(VARSW(options.folder), backupfolder);
+		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)backupfolder);
 		break;
 	}
-	return 0;
+	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+int COptionsDlg::EnumCloudFileServices(const CFSERVICEINFO *serviceInfo, void *param)
 {
-	wchar_t folder_buff[MAX_PATH] = { 0 };
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		memcpy(&new_options, &options, sizeof(Options));
-
-		if (ServiceExists(MS_FOLDERS_GET_PATH)) {
-			ShowWindow(GetDlgItem(hwndDlg, IDC_ED_FOLDER), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_BUT_BROWSE), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), SW_SHOW);
-		}
-		else {
-			wchar_t tszTooltipText[4096];
-			mir_snwprintf(tszTooltipText, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
-				L"%miranda_path%", TranslateT("path to Miranda root folder"),
-				L"%miranda_profilesdir%", TranslateT("path to folder containing Miranda profiles"),
-				L"%miranda_profilename%", TranslateT("name of current Miranda profile (filename, without extension)"),
-				L"%miranda_userdata%", TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
-				L"%appdata%", TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
-				L"%username%", TranslateT("username for currently logged-on Windows user"),
-				L"%mydocuments%", TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
-				L"%desktop%", TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
-				L"%xxxxxxx%", TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)")
-				);
-			hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_ED_FOLDER), tszTooltipText, TranslateT("Variables"));
-		}
-
-		SetDlgState(hwndDlg);
-
-		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM)TranslateT("days"));
-		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM)TranslateT("hours"));
-		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM)TranslateT("minutes"));
-		switch (new_options.period_type) {
-		case PT_DAYS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 0, 0); break;
-		case PT_HOURS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 1, 0); break;
-		case PT_MINUTES: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 2, 0); break;
-		}
-
-		if (hPathTip)
-			SetTimer(hwndDlg, 0, 3000, nullptr);
-		return TRUE;
-
-	case WM_COMMAND:
-		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
-			switch (LOWORD(wParam)) {
-			case IDC_ED_PERIOD:
-			case IDC_ED_FOLDER:
-			case IDC_ED_NUMBACKUPS:
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
-		}
-		if (HIWORD(wParam) == CBN_SELCHANGE)
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-
-		if (HIWORD(wParam) == BN_CLICKED) {
-			switch (LOWORD(wParam)) {
-			case IDC_RAD_DISABLED:
-				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_DISABLED))
-					new_options.backup_types = BT_DISABLED;
-
-				SetDlgState(hwndDlg);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_RAD_START:
-				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_START))
-					new_options.backup_types |= BT_START;
-				else
-					new_options.backup_types &= ~BT_START;
-				SetDlgState(hwndDlg);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_RAD_EXIT:
-				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_EXIT))
-					new_options.backup_types |= BT_EXIT;
-				else
-					new_options.backup_types &= ~BT_EXIT;
-				SetDlgState(hwndDlg);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_RAD_PERIODIC:
-				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_PERIODIC))
-					new_options.backup_types |= BT_PERIODIC;
-				else
-					new_options.backup_types &= ~BT_PERIODIC;
-				SetDlgState(hwndDlg);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_BUT_BROWSE:
-			{
-				BROWSEINFO bi;
-				bi.hwndOwner = hwndDlg;
-				bi.pidlRoot = nullptr;
-				bi.pszDisplayName = folder_buff;
-				bi.lpszTitle = TranslateT("Select backup folder");
-				bi.ulFlags = BIF_NEWDIALOGSTYLE;
-				bi.lpfn = BrowseProc;
-				bi.lParam = 0;
-				bi.iImage = 0;
-
-				LPCITEMIDLIST pidl = SHBrowseForFolder(&bi);
-				if (pidl != nullptr) {
-					SHGetPathFromIDList(pidl, folder_buff);
-
-					SetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff);
-
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-
-					CoTaskMemFree((void *)pidl);
-				}
-				break;
-			}
-			case IDC_BUT_NOW:
-				BackupStart(nullptr);
-				break;
-			case IDC_CHK_NOPROG:
-				new_options.disable_progress = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOPROG);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_CHK_NOPOPUP:
-				new_options.disable_popups = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOPOPUP);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_CHK_USEZIP:
-				new_options.use_zip = IsDlgButtonChecked(hwndDlg, IDC_CHK_USEZIP);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BACKUPPROFILE), new_options.use_zip);
-				break;
-			case IDC_DROPBOX:
-				new_options.use_dropbox = IsDlgButtonChecked(hwndDlg, IDC_DROPBOX);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_BACKUPPROFILE:
-				new_options.backup_profile = IsDlgButtonChecked(hwndDlg, IDC_BACKUPPROFILE) && IsDlgButtonChecked(hwndDlg, IDC_CHK_USEZIP);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_LNK_FOLDERS:
-				Options_Open(L"Customize", L"Folders");
-				break;
-			}
-		}
-		break;
-
-	case WM_TIMER:
-		if (IsWindow(hPathTip))
-			KillTimer(hPathTip, 4); // It will prevent tooltip autoclosing
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			wchar_t buff[10];
-			GetDlgItemText(hwndDlg, IDC_ED_PERIOD, buff, _countof(buff));
-			new_options.period = _wtoi(buff);
-			GetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, buff, _countof(buff));
-			new_options.num_backups = _wtoi(buff);
-
-			switch (SendDlgItemMessage(hwndDlg, IDC_PT, CB_GETCURSEL, 0, 0)) {
-			case 0: new_options.period_type = PT_DAYS; break;
-			case 1: new_options.period_type = PT_HOURS; break;
-			case 2: new_options.period_type = PT_MINUTES; break;
-			}
-
-			GetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff, _countof(folder_buff));
-			{
-				wchar_t backupfolder[MAX_PATH] = { 0 };
-				BOOL folder_ok = TRUE;
-				wchar_t *tmp = Utils_ReplaceVarsW(folder_buff);
-
-				if (mir_wstrlen(tmp) >= 2 && tmp[1] == ':')
-					wcsncpy_s(backupfolder, tmp, _TRUNCATE);
-				else
-					mir_snwprintf(backupfolder, L"%s\\%s", profilePath, tmp);
-				mir_free(tmp);
-
-				int err = CreateDirectoryTreeW(backupfolder);
-				if (err != ERROR_ALREADY_EXISTS && err != 0) {
-					wchar_t msg_buff[512];
-					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, err, 0, msg_buff, 512, nullptr);
-					MessageBox(nullptr, msg_buff, TranslateT("Error creating backup folder"), MB_OK | MB_ICONERROR);
-					folder_ok = FALSE;
-				}
-
-				if (folder_ok) {
-					wcsncpy_s(new_options.folder, folder_buff, _TRUNCATE);
-					memcpy(&options, &new_options, sizeof(Options));
-					SaveOptions();
-				}
-				else {
-					memcpy(&new_options, &options, sizeof(Options));
-					SetDlgState(hwndDlg);
-				}
-			}
-			return TRUE;
-
-		}
-		break;
-
-	case WM_DESTROY:
-		if (hPathTip) {
-			KillTimer(hwndDlg, 0);
-			DestroyWindow(hPathTip);
-			hPathTip = nullptr;
-		}
-		return FALSE;
-	}
-
-	return FALSE;
+	CCtrlCombo &combo = *(CCtrlCombo*)param;
+	combo.AddString(serviceInfo->userName, (LPARAM)serviceInfo->accountName);
+	if (mir_strcmp(serviceInfo->accountName, options.cloudfile_service) == 0)
+		combo.SetCurSel(combo.GetCount() - 1);
+	return 0;
 }
 
 int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.position = -790000000;
-	odp.hInstance = g_hInstance;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Automatic backups");
 	odp.szGroup.a = LPGEN("Database");
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = DlgProcOptions;
+	odp.pDialog = new COptionsDlg();
 	Options_AddPage(wParam, &odp);
 
 	return 0;

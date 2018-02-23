@@ -1,9 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Miranda NG Git_orig\plugins\Db_autobackups\res\db_autobackups.rc
+// Used by D:\Projects\c++\miranda-ng\plugins\Db_autobackups\res\db_autobackups.rc
 //
 #define IDD_OPTIONS                     101
-#define IDI_ICON1                       270
+#define IDI_BACKUP                      270
 #define IDD_COPYPROGRESS                271
 #define SPIN_PERIOD                     1369
 #define SPIN_NUMBACKUPS                 1370
@@ -21,10 +21,9 @@
 #define IDC_BUT_NOW                     1671
 #define IDC_CHK_NOPOPUP                 1672
 #define IDC_CHK_USEZIP                  1673
-#define IDC_CHECK1                      1674
-#define IDC_DROPBOX                     1674
-#define IDC_CHECK2                      1675
+#define IDC_CLOUDFILE                   1674
 #define IDC_BACKUPPROFILE               1675
+#define IDC_CLOUDFILESEVICE             1676
 #define IDC_PROGRESSMESSAGE             0xDAED
 #define IDC_PROGRESS                    0xDEAD
 
@@ -34,7 +33,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        273
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1676
+#define _APS_NEXT_CONTROL_VALUE         1677
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

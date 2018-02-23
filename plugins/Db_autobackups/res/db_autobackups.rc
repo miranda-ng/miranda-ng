@@ -12,26 +12,16 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
+// Neutral (Default) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 #pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
-
-IDD_COPYPROGRESS DIALOGEX 0, 0, 186, 58
-STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
-CAPTION "Backup progress"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,24,172,9
-    CTEXT           "",IDC_PROGRESSMESSAGE,31,7,114,13
-    PUSHBUTTON      "Cancel",IDCANCEL,58,39,67,12
-END
 
 IDD_OPTIONS DIALOGEX 0, 0, 271, 220
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
@@ -50,16 +40,27 @@ BEGIN
     RTEXT           "Number of backups to keep:",IDC_STATIC,13,92,147,8
     EDITTEXT        IDC_ED_NUMBACKUPS,164,90,36,12,ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",SPIN_NUMBACKUPS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,188,90,12,12
-    LTEXT           "Backup to folder:",IDC_STATIC,18,120,124,11
-    EDITTEXT        IDC_ED_FOLDER,17,133,177,13,ES_AUTOHSCROLL
-    PUSHBUTTON      "Browse...",IDC_BUT_BROWSE,199,132,49,14
+    LTEXT           "Backup to folder:",IDC_STATIC,18,117,124,11
+    EDITTEXT        IDC_ED_FOLDER,17,130,177,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_BUT_BROWSE,199,129,49,14
     CONTROL         "Go to the ""Options -> Customize -> Folders"" to change settings",IDC_LNK_FOLDERS,
-                    "Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,18,135,231,17
-    CONTROL         "Compress backup to zip-archive",IDC_CHK_USEZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,156,231,10
-    CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,167,231,10
-    CONTROL         "Disable popups",IDC_CHK_NOPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,176,231,11
-    CONTROL         "Use Dropbox",IDC_DROPBOX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,187,176,10
-    CONTROL         "Backup profile folder",IDC_BACKUPPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,198,176,10
+                    "Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,18,132,231,17
+    CONTROL         "Compress backup to zip-archive",IDC_CHK_USEZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,153,231,10
+    CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,164,231,10
+    CONTROL         "Disable popups",IDC_CHK_NOPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,173,231,11
+    CONTROL         "Backup profile folder",IDC_BACKUPPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,184,176,10
+    CONTROL         "Use CloudFile",IDC_CLOUDFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,195,68,10
+    COMBOBOX        IDC_CLOUDFILESEVICE,131,194,117,30,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_COPYPROGRESS DIALOGEX 0, 0, 186, 58
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Backup progress"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,24,172,9
+    CTEXT           "",IDC_PROGRESSMESSAGE,31,7,114,13
+    PUSHBUTTON      "Cancel",IDCANCEL,58,39,67,12
 END
 
 
@@ -71,14 +72,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_COPYPROGRESS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 179
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 51
-    END
-
     IDD_OPTIONS, DIALOG
     BEGIN
         LEFTMARGIN, 6
@@ -88,6 +81,14 @@ BEGIN
         VERTGUIDE, 248
         TOPMARGIN, 38
         BOTTOMMARGIN, 209
+    END
+
+    IDD_COPYPROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 51
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -100,8 +101,29 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "backup.ico"
+IDI_BACKUP              ICON                    "backup.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Neutral (Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -126,17 +148,6 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_OPTIONS AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////

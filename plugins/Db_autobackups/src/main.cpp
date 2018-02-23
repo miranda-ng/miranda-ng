@@ -2,7 +2,6 @@
 
 int	hLangpack;
 HINSTANCE g_hInstance;
-wchar_t	*profilePath;
 HANDLE	hFolder;
 char g_szMirVer[100];
 
@@ -80,13 +79,18 @@ static int ModulesLoad(WPARAM, LPARAM)
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
 
-	profilePath = Utils_ReplaceVarsW(L"%miranda_userdata%");
-
 	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 		FoldersGetBackupPath(0, 0);
 	}
-	options.use_dropbox = (BOOL)(db_get_b(0, "AutoBackups", "UseDropbox", 0) && ServiceExists(MS_DROPBOX_UPLOAD));
+	else {
+		DBVARIANT dbv;
+		if (!db_get_ws(0, MODULE, "Folder", &dbv)) {
+			wcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
+			db_free(&dbv);
+		}
+		else mir_snwprintf(options.folder, L"%s%s", DIR, SUB_DIR);
+	}
 
 	if (options.backup_types & BT_START)
 		BackupStart(nullptr);
@@ -124,7 +128,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	LoadOptions();
+
+	SetBackupTimer();
 
 	return 0;
 }

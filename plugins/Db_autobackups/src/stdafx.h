@@ -25,9 +25,12 @@
 #include <m_popup.h>
 #include <m_icolib.h>
 #include <m_autobackups.h>
+#include <m_gui.h>
 
 #include <m_folders.h>
-#include <m_dropbox.h>
+#include <m_cloudfile.h>
+
+#define MODULE "AutoBackups"
 
 #include "options.h"
 #include "resource.h"
@@ -36,9 +39,11 @@
 #define SUB_DIR L"\\AutoBackups"
 #define DIR L"%miranda_userdata%"
 
+struct Options;
+extern Options options;
+
 int	SetBackupTimer(void);
 int	OptionsInit(WPARAM wParam, LPARAM lParam);
-int	LoadOptions(void);
 void BackupStart(wchar_t *backup_filename);
 
 struct ZipFile
@@ -51,7 +56,6 @@ struct ZipFile
 int CreateZipFile(const char *szDestPath, OBJLIST<ZipFile> &lstFiles, const std::function<bool(size_t)> &fnCallback);
 
 extern HINSTANCE g_hInstance;
-extern wchar_t *profilePath;
 extern char g_szMirVer[];
 
 static IconItem iconList[] = {
