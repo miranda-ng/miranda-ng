@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // CCtrlSpin class
 
 CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId)
-	: CCtrlBase(dlg, ctrlId)
+	: CCtrlData(dlg, ctrlId)
 {}
 
 BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
@@ -35,8 +35,21 @@ BOOL CCtrlSpin::OnNotify(int, NMHDR *pnmh)
 		NotifyChange();
 		return TRUE;
 	}
-
 	return FALSE;
+}
+
+void CCtrlSpin::OnApply()
+{
+	CSuper::OnApply();
+
+	if (m_dbLink != nullptr)
+		SaveInt(GetPosition());
+}
+
+void CCtrlSpin::OnReset()
+{
+	if (m_dbLink != nullptr)
+		SetPosition(LoadInt());
 }
 
 WORD CCtrlSpin::GetPosition()

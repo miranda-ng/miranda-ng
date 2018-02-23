@@ -648,8 +648,15 @@ public:
 
 	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 
+	CCallback<CCtrlHyperlink> OnClick;
+
+	void SetUrl(const char *url);
+	const char *GetUrl();
+
 protected:
 	const char* m_url;
+
+	void Default_OnClick(CCtrlHyperlink*);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -793,6 +800,8 @@ public:
 
 	int GetState();
 	void SetState(int state);
+
+	bool IsChecked();
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -840,7 +849,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlSpin
 
-class MIR_CORE_EXPORT CCtrlSpin : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
@@ -848,6 +857,9 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlBase
 
 public:
 	CCtrlSpin(CDlgBase *dlg, int ctrlId);
+
+	virtual void OnApply() override;
+	virtual void OnReset() override;
 
 	WORD GetPosition();
 	void SetPosition(WORD pos);
