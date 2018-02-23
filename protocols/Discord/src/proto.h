@@ -104,7 +104,8 @@ struct CDiscordGuild : public MZeroedObject
 	~CDiscordGuild();
 
 	__forceinline CDiscordGuildMember* FindUser(SnowFlake userId)
-	{	return arChatUsers.find((CDiscordGuildMember*)&userId);
+	{
+		return arChatUsers.find((CDiscordGuildMember*)&userId);
 	}
 
 	SnowFlake id, ownerId;
@@ -163,7 +164,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	HNETLIBCONN m_hGatewayConnection;      // gateway connection
 	
 	void __cdecl GatewayThread(void*);
-	void CDiscordProto::GatewayThreadWorker(void);
+	void  GatewayThreadWorker(void);
 	
 	void  GatewaySend(const JSONNode&, int opCode = 1);
 	void  GatewayProcess(const JSONNode&);
@@ -220,7 +221,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	OBJLIST<CDiscordGuild> arGuilds;
 
 	__forceinline CDiscordGuild* FindGuild(SnowFlake id) const
-	{	return arGuilds.find((CDiscordGuild*)&id);
+	{
+		return arGuilds.find((CDiscordGuild*)&id);
 	}
 
 	void ProcessGuild(const JSONNode&);
