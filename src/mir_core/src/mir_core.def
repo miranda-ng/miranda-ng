@@ -1057,3 +1057,9 @@ IsTerminalDisconnected @1245
 ?FindControl@CDlgBase@@QAEPAVCCtrlBase@@PAUHWND__@@@Z @1247 NONAME
 ?GlobalFieldEnum@CDlgBase@@CGHPAUHWND__@@J@Z @1248 NONAME
 ?OnDestroy@CCtrlTreeView@@MAEXXZ @1249 NONAME
+?GetUrl@CCtrlHyperlink@@QAEPBDXZ @1250 NONAME
+?IsChecked@CCtrlCheck@@QAE_NXZ @1251 NONAME
+?OnApply@CCtrlSpin@@UAEXXZ @1252 NONAME
+?OnReset@CCtrlSpin@@UAEXXZ @1253 NONAME
+?SetUrl@CCtrlHyperlink@@QAEXPBD@Z @1254 NONAME
+?Default_OnClick@CCtrlHyperlink@@IAEXPAV1@@Z @1255 NONAME

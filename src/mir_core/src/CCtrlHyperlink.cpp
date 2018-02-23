@@ -28,10 +28,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CCtrlHyperlink::CCtrlHyperlink(CDlgBase* wnd, int idCtrl, const char* url)
 	: CCtrlBase(wnd, idCtrl),
 	m_url(url)
-{}
+{
+	OnClick = Callback(this, &CCtrlHyperlink::Default_OnClick);
+}
 
-BOOL CCtrlHyperlink::OnCommand(HWND, WORD, WORD)
+BOOL CCtrlHyperlink::OnCommand(HWND, WORD, WORD idCode)
+{
+	OnClick(this);
+	return FALSE;
+}
+
+void CCtrlHyperlink::Default_OnClick(CCtrlHyperlink*)
 {
 	ShellExecuteA(m_hwnd, "open", m_url, "", "", SW_SHOW);
-	return FALSE;
+}
+
+void CCtrlHyperlink::SetUrl(const char *url)
+{
+	m_url = url;
+}
+
+const char* CCtrlHyperlink::GetUrl()
+{
+	return m_url;
 }
