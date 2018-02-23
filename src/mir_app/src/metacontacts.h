@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define META_FILTER "MetaContactsFilter"
 
-INT_PTR TranslateMenuFunc(MCONTACT hContact, int i);
-
 // contact menu items
 void InitMenus();
 extern int mcStatus;
