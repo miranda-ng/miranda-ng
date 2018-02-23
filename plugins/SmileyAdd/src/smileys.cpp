@@ -842,6 +842,8 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 static const CMStringW testString(L"Test String");
 
+static MRegexp16 isCode(L"\\&\\#(\\d*)\\;");
+
 SmileyLookup::SmileyLookup(const CMStringW &str, const bool regexs, const int ind, const CMStringW &smpt)
 {
 	m_ind = ind;
@@ -855,7 +857,19 @@ SmileyLookup::SmileyLookup(const CMStringW &str, const bool regexs, const int in
 		}
 	}
 	else {
-		m_text = str;
+		if (isCode.match(str) >= 0) {
+			uint32_t iCode = _wtoi(isCode.getGroup(1));
+			wchar_t tmp[3] = { 0, 0, 0 };
+			if (iCode < 0x10000)
+				tmp[0] = LOWORD(iCode), tmp[1] = HIWORD(iCode);
+			else {
+				iCode -= 0x10000;
+				tmp[0] = 0xD800 + (iCode >> 10);
+				tmp[1] = 0xDC00 + (iCode & 0x3FF);
+			}
+			m_text = tmp;
+		}
+		else m_text = str;
 		m_valid = !str.IsEmpty();
 	}
 }
