@@ -73,7 +73,7 @@ struct TAckData
   MCONTACT hContact;    // to whom was it sent
   MCONTACT* aContacts;  // obj
   int nContacts;      // how many
-  TAckData(MCONTACT contact) { hContact = contact; aContacts = NULL; nContacts = 0;};
+  TAckData(MCONTACT contact) { hContact = contact; aContacts = nullptr; nContacts = 0;};
   ~TAckData() { mir_free(aContacts); }
 };
 
@@ -94,10 +94,10 @@ struct gAckItem {  // some shit here
 struct gAckList {
   gAckItem** Items;
   int Count;
-  TAckData* Get(HANDLE hProcc) { for (int i=0; i<Count; i++) if (Items[i]->hProcc==hProcc) { return Items[i]->ackData; }; return NULL; };
+  TAckData* Get(HANDLE hProcc) { for (int i=0; i<Count; i++) if (Items[i]->hProcc==hProcc) { return Items[i]->ackData; }; return nullptr; };
   TAckData* Add(HANDLE hProcc, TAckData* ackData) { Items=(gAckItem**)mir_realloc(Items, (Count+1)*sizeof(gAckItem*)); Items[Count]=new gAckItem(hProcc, ackData); Count++; return ackData; };
-  TAckData* Remove(HANDLE hProcc) { for (int i=0; i<Count; i++) if (Items[i]->hProcc==hProcc) { TAckData* data=Items[i]->ackData; delete Items[i]; memmove(Items+i, Items+i+1, (Count-i-1)*sizeof(gAckItem*)); Count--; return data; }; return NULL; };
-  gAckList() { Count = 0; Items = NULL; }
+  TAckData* Remove(HANDLE hProcc) { for (int i=0; i<Count; i++) if (Items[i]->hProcc==hProcc) { TAckData* data=Items[i]->ackData; delete Items[i]; memmove(Items+i, Items+i+1, (Count-i-1)*sizeof(gAckItem*)); Count--; return data; }; return nullptr; };
+  gAckList() { Count = 0; Items = nullptr; }
   ~gAckList() { if (Count) { for (int i=0; i<Count; i++) delete Items[i]; mir_free(Items); }; }
 };
 

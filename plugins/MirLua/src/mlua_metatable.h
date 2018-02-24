@@ -120,7 +120,7 @@ private:
 
 	static void Free(lua_State* /*L*/, T **obj)
 	{
-		*obj = NULL;
+		*obj = nullptr;
 	}
 
 	static int lua__new(lua_State *L)
@@ -128,7 +128,7 @@ private:
 		T **udata = (T**)lua_newuserdata(L, sizeof(T*));
 		
 		*udata = Init(L);
-		if (*udata == NULL)
+		if (*udata == nullptr)
 		{
 			lua_pushnil(L);
 			return 1;
@@ -319,7 +319,7 @@ public:
 
 	static void Apply(lua_State *L, T *obj)
 	{
-		if (obj == NULL) {
+		if (obj == nullptr) {
 			lua_pushnil(L);
 			return;
 		}

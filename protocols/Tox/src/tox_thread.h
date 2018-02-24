@@ -7,8 +7,8 @@ private:
 	Tox *tox;
 
 public:
-	CToxThread(Tox_Options *options, TOX_ERR_NEW *error = NULL)
-		: tox(NULL)
+	CToxThread(Tox_Options *options, TOX_ERR_NEW *error = nullptr)
+		: tox(nullptr)
 	{
 		tox = tox_new(options, error);
 	}
@@ -19,7 +19,7 @@ public:
 		if (tox)
 		{
 			tox_kill(tox);
-			tox = NULL;
+			tox = nullptr;
 		}
 	}
 

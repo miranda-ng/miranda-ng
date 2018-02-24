@@ -53,7 +53,7 @@ class CAnnivEditCtrl : public CBaseCtrl
 
 public:
 
-	MAnnivDate* Current() { return CurrentItemValid() ? _pDates[_curDate] : NULL; };
+	MAnnivDate* Current() { return CurrentItemValid() ? _pDates[_curDate] : nullptr; };
 	WORD				CurrentIndex() const { return _curDate; };
 	WORD				NumDates() const { return _numDates; };
 	BYTE		 ReminderEnabled() const { return _ReminderEnabled; };

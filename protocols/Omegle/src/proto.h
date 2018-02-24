@@ -95,7 +95,7 @@ public:
 	void DeleteChatContact(const wchar_t *name);
 	void SetChatStatus(int);
 	void ClearChat();
-	void SetTopic(const wchar_t *topic = NULL);
+	void SetTopic(const wchar_t *topic = nullptr);
 	MCONTACT GetChatHandle();
 
 	// Connection client

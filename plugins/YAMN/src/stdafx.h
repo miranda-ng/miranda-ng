@@ -177,8 +177,8 @@ void   WINAPI g_ReleaseIcon(HICON hIcon);
 
 //From synchro.cpp
 void  WINAPI DeleteMessagesToEndFcn(HACCOUNT Account, HYAMNMAIL From);
-DWORD WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter = NULL);
-void  WINAPI WriteDoneFcn(PSWMRG SObject, PSCOUNTER SCounter = NULL);
+DWORD WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
+void  WINAPI WriteDoneFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
 DWORD WINAPI WaitToReadFcn(PSWMRG SObject);
 void  WINAPI ReadDoneFcn(PSWMRG SObject);
 DWORD WINAPI SCIncFcn(PSCOUNTER SCounter);

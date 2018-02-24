@@ -172,7 +172,7 @@ struct CManagerDlg : public CCoolIrcDlg
 
 struct CQuestionDlg : public CCoolIrcDlg
 {
-	CQuestionDlg(CIrcProto* _pro, CManagerDlg* owner = NULL);
+	CQuestionDlg(CIrcProto* _pro, CManagerDlg* owner = nullptr);
 
 	virtual void OnInitDialog();
 	virtual void OnClose();

@@ -28,7 +28,7 @@ template<class T> class ListNode : public Node < T >
 public:
 	ListNode<T> *next, *prev;
 
-	ListNode(const T &v) : Node<T>(v), next(0), prev(0) {}
+	ListNode(const T &v) : Node<T>(v), next(nullptr), prev(nullptr) {}
 	virtual ~ListNode()
 	{
 		if (next) next->prev = prev;
@@ -57,8 +57,8 @@ public:
 		virtual const bool has_val() { return (n ? true : false); }
 	};
 
-	LinkedList() : Collection<T>(), head(0), tail(0) {};
-	LinkedList(const LinkedList<T> &other) : Collection<T>(), head(0), tail(0)
+	LinkedList() : Collection<T>(), head(nullptr), tail(nullptr) {};
+	LinkedList(const LinkedList<T> &other) : Collection<T>(), head(nullptr), tail(nullptr)
 	{
 		for (Iterator i = other.begin(); i.has_val(); i.next())
 			add(i.val());
@@ -81,7 +81,7 @@ public:
 			head = head->next;
 			delete n;
 		}
-		tail = 0;
+		tail = nullptr;
 		Collection<T>::count = 0;
 	}
 
@@ -160,7 +160,7 @@ public:
 		ListNode<T> *n = head;
 		if (head) {
 			head = head->next;
-			if (n == tail) tail = 0;
+			if (n == tail) tail = nullptr;
 			val = n->val;
 			delete n;
 			Collection<T>::count--;
@@ -399,7 +399,7 @@ protected:
 			n->left->parent = n->parent;
 		}
 		else {
-			if (n == root) root = 0;
+			if (n == root) root = nullptr;
 		}
 		delete n;
 		Collection<T>::count--;
@@ -407,7 +407,7 @@ protected:
 
 	virtual void insert_node(N *n)
 	{
-		N *current = root, *parent = 0;
+		N *current = root, *parent = nullptr;
 		while (current) {
 			parent = current;
 			if (n->val < current->val)
@@ -482,8 +482,8 @@ public:
 		virtual const bool has_val() { return (n ? true : false); }
 	};
 
-	BinaryTree() : Collection<T>(), root(0) {};
-	BinaryTree(BinaryTree<T> &other) : Collection<T>(), root(0)
+	BinaryTree() : Collection<T>(), root(nullptr) {};
+	BinaryTree(BinaryTree<T> &other) : Collection<T>(), root(nullptr)
 	{
 		for (Iterator i = other.begin(); i != pl.end(); ++i)
 			add(i.val());
@@ -500,7 +500,7 @@ public:
 
 	virtual void clear()
 	{
-		N *current = root, *parent = 0;
+		N *current = root, *parent = nullptr;
 		while (current) {
 			if (current->left) current = current->left;
 			else if (current->right) current = current->right;
@@ -511,7 +511,7 @@ public:
 			}
 		}
 
-		root = 0;
+		root = nullptr;
 		Collection<T>::count = 0;
 	}
 
@@ -569,12 +569,12 @@ public:
 	ColouredTreeNode<T> *parent, *left, *right;
 	char color;
 
-	ColouredTreeNode(const T &v, ColouredTreeNode<T> *par) : Node<T>(v), parent(par), left(0), right(0), color(BLACK) {}
+	ColouredTreeNode(const T &v, ColouredTreeNode<T> *par) : Node<T>(v), parent(par), left(nullptr), right(nullptr), color(BLACK) {}
 	virtual ~ColouredTreeNode()
 	{
 		if (parent) {
-			if (parent->left == this) parent->left = 0;
-			if (parent->right == this)parent->right = 0;
+			if (parent->left == this) parent->left = nullptr;
+			if (parent->right == this)parent->right = nullptr;
 		}
 	}
 };

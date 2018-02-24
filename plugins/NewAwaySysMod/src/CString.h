@@ -45,9 +45,9 @@ template <class T>
 class TString
 {
 public:
-	TString(): pBuf(NULL), nBufSize(0), nAllocSize(0) {}
-	TString(const T *pStr): pBuf(NULL), nBufSize(0), nAllocSize(0) {*this = pStr;}
-  TString(const TString<T> &Str): pBuf(NULL), nBufSize(0), nAllocSize(0) {*this = Str.pBuf;}
+	TString(): pBuf(nullptr), nBufSize(0), nAllocSize(0) {}
+	TString(const T *pStr): pBuf(nullptr), nBufSize(0), nAllocSize(0) {*this = pStr;}
+  TString(const TString<T> &Str): pBuf(nullptr), nBufSize(0), nAllocSize(0) {*this = Str.pBuf;}
 	~TString() {Free();}
 
 	int GetLen() const {return (nBufSize) ? (nBufSize - 1) : 0;};
@@ -183,7 +183,7 @@ private:
 class UTF8DecodeA
 {
 public:
-	UTF8DecodeA(const char *str) { p = mir_strdup(str); mir_utf8decode(p, NULL); }
+	UTF8DecodeA(const char *str) { p = mir_strdup(str); mir_utf8decode(p, nullptr); }
 	~UTF8DecodeA() { mir_free(p); }
 	operator char*() { return p; }
 

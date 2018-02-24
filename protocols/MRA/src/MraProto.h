@@ -198,8 +198,8 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, LPBYTE lpbMultiChatData, size_t dwMultiChatDataSize);
 	DWORD  MraMessageAsk(DWORD dwMsgID, DWORD dwFlags, const CMStringA &szEmail, const CMStringW &wszMessage, const CMStringW &wszMessageRTF);
 	DWORD  MraMessageRecv(const CMStringA &szFrom, DWORD dwMsgID);
-	DWORD  MraAddContact(MCONTACT hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones = 0, const CMStringW *wszAuthMessage = 0);
-	DWORD  MraModifyContact(MCONTACT hContact, DWORD *pdwID = 0, DWORD *pdwContactFlag = 0, DWORD *pdwGroupID = 0, const CMStringA *pszEmail = 0, const CMStringW *pwszCustomName = 0, const CMStringA *pszPhones = 0);
+	DWORD  MraAddContact(MCONTACT hContact, DWORD dwContactFlag, DWORD dwGroupID, const CMStringA &szEmail, const CMStringW &wszCustomName, const CMStringA *szPhones = nullptr, const CMStringW *wszAuthMessage = nullptr);
+	DWORD  MraModifyContact(MCONTACT hContact, DWORD *pdwID = nullptr, DWORD *pdwContactFlag = nullptr, DWORD *pdwGroupID = nullptr, const CMStringA *pszEmail = nullptr, const CMStringW *pwszCustomName = nullptr, const CMStringA *pszPhones = nullptr);
 	DWORD  MraOfflineMessageDel(DWORDLONG dwMsgUIDL);
 	DWORD  MraMoveContactToGroup(MCONTACT hContact, DWORD dwGroupID, LPCTSTR ptszGroup);
 	DWORD  MraAuthorize(const CMStringA &szEmail);

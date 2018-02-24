@@ -84,7 +84,7 @@ void DeleteCListGroupsByName(wchar_t* szGroupName)
 
 int RemoveTmp(WPARAM, LPARAM)
 {
-	CleanThread(0);
+	CleanThread(nullptr);
 	return 0;
 }
 

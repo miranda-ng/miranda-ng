@@ -84,9 +84,9 @@ public:
 	~CMimAPI() {
 		if (m_haveBufferedPaint)
 			m_pfnBufferedPaintUninit();
-		if (m_hUxTheme != 0)
+		if (m_hUxTheme != nullptr)
 			FreeLibrary(m_hUxTheme);
-		if (m_hDwmApi != 0)
+		if (m_hDwmApi != nullptr)
 			FreeLibrary(m_hDwmApi);
 
 		if (m_hChatLogLock != INVALID_HANDLE_VALUE)
@@ -150,7 +150,7 @@ public:
 	INT_PTR foldersPathChanged();
 
 	void    startTimer();
-	void    stopTimer(const char *szMsg = 0);
+	void    stopTimer(const char *szMsg = nullptr);
 
 	__forceinline __int64 getTimerStart() const { return m_tStart; }
 	__forceinline __int64 getTimerStop() const { return m_tStop; }

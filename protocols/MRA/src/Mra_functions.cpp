@@ -114,7 +114,7 @@ DWORD MraAddrListGetFromBuff(const CMStringA &szAddresses, MRA_ADDR_LIST *pmalAd
 
 	while (TRUE) {
 		LPSTR lpszEndItem = strchr(lpszCurrentItem, ';');
-		if (lpszEndItem == NULL)
+		if (lpszEndItem == nullptr)
 			lpszEndItem = buf + szAddresses.GetLength();
 		if (!lpszEndItem)
 			break;
@@ -189,7 +189,7 @@ bool DB_GetStaticStringA(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueN
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0) {
 		size_t dwRetBuffSizeLocal, dwReadedStringLen = mir_wstrlen(dbv.pwszVal);
 		if (lpszRetBuff && (dwRetBuffSize > dwReadedStringLen)) {
-			dwRetBuffSizeLocal = WideCharToMultiByte(MRA_CODE_PAGE, 0, dbv.pwszVal, (int)dwReadedStringLen, lpszRetBuff, (int)dwRetBuffSize, NULL, NULL);
+			dwRetBuffSizeLocal = WideCharToMultiByte(MRA_CODE_PAGE, 0, dbv.pwszVal, (int)dwReadedStringLen, lpszRetBuff, (int)dwRetBuffSize, nullptr, nullptr);
 			(*((CHAR*)(lpszRetBuff + dwRetBuffSizeLocal))) = 0;
 			bRet = true;
 		}
@@ -305,7 +305,7 @@ bool DB_GetContactSettingBlob(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszV
 
 DWORD CMraProto::MraMoveContactToGroup(MCONTACT hContact, DWORD dwGroupID, LPCTSTR ptszName)
 {
-	MraGroupItem *p = NULL;
+	MraGroupItem *p = nullptr;
 
 	for (auto &it : m_groups)
 		if (it->m_name == ptszName) {
@@ -313,13 +313,13 @@ DWORD CMraProto::MraMoveContactToGroup(MCONTACT hContact, DWORD dwGroupID, LPCTS
 			break;
 		}
 
-	if (p == NULL) {
+	if (p == nullptr) {
 		if (m_groups.getCount() == 20)
 			return 0;
 
 		DWORD id;
 		for (id = 0; id < 20; id++)
-			if (m_groups.find((MraGroupItem*)&id) == NULL)
+			if (m_groups.find((MraGroupItem*)&id) == nullptr)
 				break;
 
 		DWORD dwContactFlags = CONTACT_FLAG_UNICODE_NAME | CONTACT_FLAG_GROUP | (id << 24);
@@ -448,7 +448,7 @@ DWORD CMraProto::SetContactBasicInfoW(MCONTACT hContact, DWORD dwSetInfoFlags, D
 	if (dwFlags & SCBIF_ID)
 		setDword(hContact, "ContactID", dwID);
 
-	if ((dwFlags & SCBIF_EMAIL) && szEmail != NULL && !szEmail->IsEmpty())
+	if ((dwFlags & SCBIF_EMAIL) && szEmail != nullptr && !szEmail->IsEmpty())
 		mraSetStringExA(hContact, "e-mail", *szEmail);
 
 	// поля изменения которых отслеживаются
@@ -463,14 +463,14 @@ DWORD CMraProto::SetContactBasicInfoW(MCONTACT hContact, DWORD dwSetInfoFlags, D
 		}
 	}
 
-	if ((dwFlags & SCBIF_NICK) && wszNick != NULL && !wszNick->IsEmpty()) {
+	if ((dwFlags & SCBIF_NICK) && wszNick != nullptr && !wszNick->IsEmpty()) {
 		if ((dwFlags & SCBIF_FLAG) && ((dwContactFlag & CONTACT_FLAG_UNICODE_NAME) == 0))
 			DB_SetStringExA(hContact, "CList", "MyHandle", CMStringA(*wszNick));
 		else
 			DB_SetStringExW(hContact, "CList", "MyHandle", *wszNick);
 	}
 
-	if ((dwFlags & SCBIF_PHONES) && szPhones != NULL && !szPhones->IsEmpty()) {
+	if ((dwFlags & SCBIF_PHONES) && szPhones != nullptr && !szPhones->IsEmpty()) {
 		int iStart = 0, i = 0;
 		while (true) {
 			CMStringA szPhone = szPhones->Tokenize(",", iStart);
@@ -525,7 +525,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 		if (IsEMailChatAgent(szEmail)) {
 			CMStringW wszEMail = szEmail;
 			GCSessionInfoBase *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszEMail, wszEMail);
-			if (si != 0) {
+			if (si != nullptr) {
 				bool bChatAdded = (si->hContact != NULL);
 				if (bChatAdded == FALSE)
 					hContact = NULL;
@@ -538,12 +538,12 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 
 		if (hContact) {
 			if (IsEMailChatAgent(szEmail))
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_ONLINE, &szEmail, 0, 0);
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_ONLINE, &szEmail, nullptr, nullptr);
 			else {
 				if (bTemporary)
 					db_set_b(hContact, "CList", "NotOnList", 1);
 				mraSetStringExA(hContact, "MirVer", MIRVER_UNKNOWN);
-				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_OFFLINE, &szEmail, 0, 0);
+				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS | SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_OFFLINE, &szEmail, nullptr, nullptr);
 			}
 		}
 	}
@@ -608,7 +608,7 @@ DWORD CMraProto::MraSetContactStatus(MCONTACT hContact, DWORD dwNewStatus)
 		}
 		else {
 			if (dwOldStatus == ID_STATUS_OFFLINE) {
-				DWORD dwTime = (DWORD)_time32(NULL);
+				DWORD dwTime = (DWORD)_time32(nullptr);
 				setDword(hContact, "LogonTS", dwTime);
 
 				if (bChatAgent)
@@ -639,7 +639,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 		if (!pszFrom.IsEmpty() || !pszSubject.IsEmpty()) {
 			CMStringA szFrom, szSubject;
 			if (GetEMailFromString(szFrom, szEmail))
-				hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, NULL);
+				hContact = MraHContactFromEmail(szEmail, FALSE, TRUE, nullptr);
 
 			mir_snwprintf(szStatusText, TranslateT("From: %S\r\nSubject: %S\r\n%s"), pszFrom.c_str(), szSubject.c_str(), szMailBoxStatus);
 		}
@@ -675,7 +675,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 			if (bTrayIconNewMailNotify)
 				pcli->pfnRemoveEvent(0, (LPARAM)m_szModuleName);
 			PUDeletePopup(hWndEMailPopupStatus);
-			hWndEMailPopupStatus = NULL;
+			hWndEMailPopupStatus = nullptr;
 		}
 		else {
 			mir_snwprintf(szStatusText, TranslateT("No unread mail is available\r\nTotal messages: %lu"), dwEmailMessagesTotal);
@@ -861,7 +861,7 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 	if (dwErrorCode == NO_ERROR)
 		wcsncpy_s(szErrorText, TranslateW(lpwszErrText), _TRUNCATE);
 	else {
-		dwErrDescriptionSize = (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrorCode, 0, szErrDescription, (_countof(szErrDescription) - sizeof(WCHAR)), NULL) - 2);
+		dwErrDescriptionSize = (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, dwErrorCode, 0, szErrDescription, (_countof(szErrDescription) - sizeof(WCHAR)), nullptr) - 2);
 		szErrDescription[dwErrDescriptionSize] = 0;
 		mir_snwprintf(szErrorText, L"%s %lu: %s", TranslateW(lpwszErrText), dwErrorCode, szErrDescription);
 	}
@@ -996,7 +996,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 				SetDlgItemText(hWndDlg, IDC_XMSG, L"");
 
 			SendMessage(hWndDlg, WM_TIMER, 0, 0);
-			SetTimer(hWndDlg, 1, 1000, 0);
+			SetTimer(hWndDlg, 1, 1000, nullptr);
 			iRet = TRUE;
 		}
 		break;
@@ -1065,7 +1065,7 @@ bool CMraProto::MraRequestXStatusDetails(DWORD dwXStatus)
 		SetXStatusData *dat = (SetXStatusData*)mir_calloc(sizeof(SetXStatusData));
 		dat->dwXStatus = dwXStatus;
 		dat->ppro = this;
-		return DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)dat) != -1;
+		return DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), nullptr, SetXStatusDlgProc, (LPARAM)dat) != -1;
 	}
 
 	return false;
@@ -1181,7 +1181,7 @@ bool CMraProto::MraSendReplyBlogStatus(MCONTACT hContact)
 	SetBlogStatusData* dat = (SetBlogStatusData*)mir_calloc(sizeof(SetBlogStatusData));
 	dat->ppro = this;
 	dat->hContact = hContact;
-	return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MINIBLOG), NULL, SendReplyBlogStatusDlgProc, (LPARAM)dat) != NULL;
+	return CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MINIBLOG), nullptr, SendReplyBlogStatusDlgProc, (LPARAM)dat) != nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1238,7 +1238,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 
 			dwRetErrorCode = ERROR_FILE_NOT_FOUND;
 			prdsiItems[dwRecDeepCurPos].dwFileNameLen = 0;
-			prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
+			prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, nullptr, 0);
 			if (prdsiItems[dwRecDeepCurPos].hFind != INVALID_HANDLE_VALUE) {
 				do {
 					dwPathLen -= prdsiItems[dwRecDeepCurPos].dwFileNameLen;
@@ -1256,13 +1256,13 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 									if (dwRecDeepCurPos == dwRecDeepAllocated) { // need more space
 										dwRecDeepAllocated += RECURSION_DATA_STACK_ITEMS_MIN;
 										prdsiItems = (RECURSION_DATA_STACK_ITEM*)mir_realloc(prdsiItems, dwRecDeepAllocated * sizeof(RECURSION_DATA_STACK_ITEM));
-										if (prdsiItems == NULL) {
+										if (prdsiItems == nullptr) {
 											dwRecDeepCurPos = 0;
 											dwRetErrorCode = GetLastError();
 											break;
 										}
 									}
-									prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
+									prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, nullptr, 0);
 								}
 						}
 						else {// file
@@ -1375,7 +1375,7 @@ static DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplac
 
 		while (dwFoundCount) {
 			for (i = 0; i < dwReplaceItemsCount; i++)
-				if (plpbtFounded[i] && (plpbtFounded[i] < plpbtFounded[dwFirstFoundIndex] || plpbtFounded[dwFirstFoundIndex] == NULL))
+				if (plpbtFounded[i] && (plpbtFounded[i] < plpbtFounded[dwFirstFoundIndex] || plpbtFounded[dwFirstFoundIndex] == nullptr))
 					dwFirstFoundIndex = i;
 
 			if (plpbtFounded[dwFirstFoundIndex]) {// in found
@@ -1388,7 +1388,7 @@ static DWORD ReplaceInBuff(LPVOID lpInBuff, size_t dwInBuffSize, size_t dwReplac
 					for (i = 0; i < dwReplaceItemsCount; i++) {// looking for in next time
 						if (plpbtFounded[i] && plpbtFounded[i] < lpbtInBuffCurPrev) {
 							plpbtFounded[i] = (LPBYTE)MemoryFind((lpbtInBuffCurPrev - (LPBYTE)lpInBuff), lpInBuff, dwInBuffSize, plpInReplaceItems[i], pdwInReplaceItemsCounts[i]);
-							if (plpbtFounded[i] == NULL) dwFoundCount--;
+							if (plpbtFounded[i] == nullptr) dwFoundCount--;
 						}
 					}
 				}

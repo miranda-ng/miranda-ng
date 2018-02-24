@@ -25,7 +25,7 @@ class ServerList
 private:
 	static ServerList *instance;
 	ServerList() { };
-	~ServerList() { instance = NULL; };
+	~ServerList() { instance = nullptr; };
 
 public:
 	class FTP

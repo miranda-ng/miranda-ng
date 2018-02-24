@@ -61,7 +61,7 @@ void ShowDebugPopup(MCONTACT hContact, const wchar_t *title, const wchar_t *desc
 void ShowTestPopup(MCONTACT hContact,const wchar_t *title, const wchar_t *description, const Options *op);
 
 // Show an error popup
-void ShowErrPopup(const char *description, const char *title = NULL);
+void ShowErrPopup(const char *description, const char *title = nullptr);
 
 void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *description, 
 			   void *plugin_data, int type, const Options *op);

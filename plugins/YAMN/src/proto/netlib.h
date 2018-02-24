@@ -4,14 +4,14 @@
 class CNLClient: public CNetClient
 {
 public:
-	CNLClient(): hConnection(NULL) {}
-	void Connect(const char* servername,const int port) throw(DWORD);
+	CNLClient(): hConnection(nullptr) {}
+	void Connect(const char* servername, const int port) throw(DWORD);
 	void Send(const char *query) throw(DWORD);
-	char* Recv(char *buf=NULL,int buflen=65536) throw(DWORD);
+	char* Recv(char *buf= nullptr, int buflen = 65536) throw(DWORD);
 	void Disconnect();
 	void SSLify()throw(DWORD);
 	
-	inline BOOL Connected() {return hConnection!=NULL;}
+	inline BOOL Connected() {return hConnection != nullptr;}
 
 protected:
 	HNETLIBCONN hConnection;

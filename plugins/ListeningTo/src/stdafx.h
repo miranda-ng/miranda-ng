@@ -100,18 +100,18 @@ void m_log(const wchar_t *function, const wchar_t *fmt, ...);
 
 static bool IsEmpty(const char *str)
 {
-	return str == NULL || str[0] == 0;
+	return str == nullptr || str[0] == 0;
 }
 static bool IsEmpty(const WCHAR *str)
 {
-	return str == NULL || str[0] == 0;
+	return str == nullptr || str[0] == 0;
 }
 
-#define DUP(_X_) ( IsEmpty(_X_) ? NULL : mir_wstrdup(_X_))
+#define DUP(_X_) ( IsEmpty(_X_) ? nullptr : mir_wstrdup(_X_))
 #define DUPD(_X_, _DEF_) ( IsEmpty(_X_) ? mir_wstrdup(_DEF_) : mir_wstrdup(_X_))
-#define U2T(_X_) ( IsEmpty(_X_) ? NULL : mir_wstrdup(_X_))
+#define U2T(_X_) ( IsEmpty(_X_) ? nullptr : mir_wstrdup(_X_))
 #define U2TD(_X_, _DEF_) ( IsEmpty(_X_) ? mir_wstrdup(_DEF_) : mir_wstrdup(_X_))
-#define UNKNOWN(_X_) ( _X_ == NULL || _X_[0] == '\0' ? opts.unknown : _X_ )
+#define UNKNOWN(_X_) ( _X_ == nullptr || _X_[0] == '\0' ? opts.unknown : _X_ )
 
 void InitServices();
 

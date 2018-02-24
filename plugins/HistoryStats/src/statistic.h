@@ -167,14 +167,14 @@ public:
 	~Statistic();
 
 public:
-	static void run(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst, HWND hWndParent = NULL);
+	static void run(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst, HWND hWndParent = nullptr);
 
 	int countContacts() const { return m_Contacts.size(); }
 	const Contact& getContact(int index) const;
 	const Contact& getTotals() const { assert(m_pTotals); return *m_pTotals; }
 	const Contact& getOmitted() const { assert(m_pOmitted); return *m_pOmitted; }
-	bool hasTotals() const { return (m_pTotals != NULL) && m_Settings.m_CalcTotals; } // MEMO: only makes sense after 'calc totals'-step
-	bool hasOmitted() const { return (m_pOmitted != NULL) && m_Settings.m_OmitContacts && m_Settings.m_OmittedInExtraRow && m_bActuallyOmitted; } // MEMO: only makes sense after 'omit'-step
+	bool hasTotals() const { return (m_pTotals != nullptr) && m_Settings.m_CalcTotals; } // MEMO: only makes sense after 'calc totals'-step
+	bool hasOmitted() const { return (m_pOmitted != nullptr) && m_Settings.m_OmitContacts && m_Settings.m_OmittedInExtraRow && m_bActuallyOmitted; } // MEMO: only makes sense after 'omit'-step
 	DWORD getFirstTime(); // MEMO: only makes sense after 'calc totals'-step
 	DWORD getLastTime(); // MEMO: only makes sense after 'calc totals'-step
 	DWORD getHistoryTime(); // MEMO: only makes sense after 'calc totals'-step

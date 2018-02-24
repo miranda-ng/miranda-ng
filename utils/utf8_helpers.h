@@ -29,14 +29,14 @@ Boston, MA 02111-1307, USA.
 class TcharToUtf8
 {
 public:
-	TcharToUtf8(const char *str) : utf8(NULL)
+	TcharToUtf8(const char *str) : utf8(nullptr)
 	{
-		int size = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
+		int size = MultiByteToWideChar(CP_ACP, 0, str, -1, nullptr, 0);
 		if (size <= 0)
 			throw L"Could not convert string to WCHAR";
 
 		WCHAR *tmp = (WCHAR *) mir_alloc(size * sizeof(WCHAR));
-		if (tmp == NULL)
+		if (tmp == nullptr)
 			throw L"mir_alloc returned NULL";
 
 		MultiByteToWideChar(CP_ACP, 0, str, -1, tmp, size);
@@ -47,7 +47,7 @@ public:
 	}
 
 
-	TcharToUtf8(const WCHAR *str) : utf8(NULL)
+	TcharToUtf8(const WCHAR *str) : utf8(nullptr)
 	{
 		init(str);
 	}
@@ -55,14 +55,14 @@ public:
 
 	~TcharToUtf8()
 	{
-		if (utf8 != NULL)
+		if (utf8 != nullptr)
 			mir_free(utf8);
 	}
 
 	char *detach()
 	{
 		char *ret = utf8;
-		utf8 = NULL;
+		utf8 = nullptr;
 		return ret;
 	}
 
@@ -86,15 +86,15 @@ private:
 
 	void init(const WCHAR *str)
 	{
-		int size = WideCharToMultiByte(CP_UTF8, 0, str, -1, NULL, 0, NULL, NULL);
+		int size = WideCharToMultiByte(CP_UTF8, 0, str, -1, nullptr, 0, nullptr, nullptr);
 		if (size <= 0)
 			throw L"Could not convert string to UTF8";
 
 		utf8 = (char *) mir_alloc(size);
-		if (utf8 == NULL)
+		if (utf8 == nullptr)
 			throw L"mir_alloc returned NULL";
 
-		WideCharToMultiByte(CP_UTF8, 0, str, -1, utf8, size, NULL, NULL);
+		WideCharToMultiByte(CP_UTF8, 0, str, -1, utf8, size, nullptr, nullptr);
 	}
 };
 
@@ -103,17 +103,17 @@ private:
 class Utf8ToTchar
 {
 public:
-	Utf8ToTchar(const char *str) : tchar(NULL)
+	Utf8ToTchar(const char *str) : tchar(nullptr)
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
-		int size = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+		int size = MultiByteToWideChar(CP_UTF8, 0, str, -1, nullptr, 0);
 		if (size <= 0)
 			throw L"Could not convert string to WCHAR";
 
 		WCHAR *tmp = (WCHAR *) mir_alloc(size * sizeof(WCHAR));
-		if (tmp == NULL)
+		if (tmp == nullptr)
 			throw L"mir_alloc returned NULL";
 
 		MultiByteToWideChar(CP_UTF8, 0, str, -1, tmp, size);
@@ -124,7 +124,7 @@ public:
 
 #else
 
-		size = WideCharToMultiByte(CP_ACP, 0, tmp, -1, NULL, 0, NULL, NULL);
+		size = WideCharToMultiByte(CP_ACP, 0, tmp, -1, nullptr, 0, nullptr, nullptr);
 		if (size <= 0)
 		{
 			mir_free(tmp);
@@ -132,13 +132,13 @@ public:
 		}
 
 		tchar = (wchar_t *) mir_alloc(size * sizeof(char));
-		if (tchar == NULL)
+		if (tchar == nullptr)
 		{
 			mir_free(tmp);
 			throw L"mir_alloc returned NULL";
 		}
 
-		WideCharToMultiByte(CP_ACP, 0, tmp, -1, tchar, size, NULL, NULL);
+		WideCharToMultiByte(CP_ACP, 0, tmp, -1, tchar, size, nullptr, nullptr);
 
 		mir_free(tmp);
 
@@ -147,14 +147,14 @@ public:
 
 	~Utf8ToTchar()
 	{
-		if (tchar != NULL)
+		if (tchar != nullptr)
 			mir_free(tchar);
 	}
 
 	wchar_t *detach()
 	{
 		wchar_t *ret = tchar;
-		tchar = NULL;
+		tchar = nullptr;
 		return ret;
 	}
 
@@ -181,9 +181,9 @@ private:
 class CharToTchar
 {
 public:
-	CharToTchar(const char *str) : tchar(NULL)
+	CharToTchar(const char *str) : tchar(nullptr)
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
 #ifdef UNICODE
@@ -201,7 +201,7 @@ public:
 	~CharToTchar()
 	{
 #ifdef UNICODE
-		if (tchar != NULL)
+		if (tchar != nullptr)
 			mir_free(tchar);
 #endif
 	}
@@ -211,10 +211,10 @@ public:
 #ifdef UNICODE
 		wchar_t *ret = tchar;
 #else
-		wchar_t *ret = (tchar == NULL ? NULL : mir_strdup(tchar));
+		wchar_t *ret = (tchar == nullptr ? nullptr : mir_strdup(tchar));
 #endif
 
-		tchar = NULL;
+		tchar = nullptr;
 		return ret;
 	}
 
@@ -245,9 +245,9 @@ private:
 class WcharToTchar
 {
 public:
-	WcharToTchar(const WCHAR *str) : tchar(NULL)
+	WcharToTchar(const WCHAR *str) : tchar(nullptr)
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
 #ifdef UNICODE
@@ -265,7 +265,7 @@ public:
 	~WcharToTchar()
 	{
 #ifndef UNICODE
-		if (tchar != NULL)
+		if (tchar != nullptr)
 			mir_free(tchar);
 #endif
 	}
@@ -273,12 +273,12 @@ public:
 	wchar_t *detach()
 	{
 #ifdef UNICODE
-		wchar_t *ret = (tchar == NULL ? NULL : mir_wstrdup(tchar));
+		wchar_t *ret = (tchar == nullptr ? nullptr : mir_wstrdup(tchar));
 #else
 		wchar_t *ret = tchar;		
 #endif
 
-		tchar = NULL;
+		tchar = nullptr;
 		return ret;
 	}
 
@@ -311,9 +311,9 @@ private:
 class CharToWchar
 {
 public:
-	CharToWchar(const char *str) : wchar(NULL)
+	CharToWchar(const char *str) : wchar(nullptr)
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
 		wchar = mir_a2u(str);
@@ -322,14 +322,14 @@ public:
 
 	~CharToWchar()
 	{
-		if (wchar != NULL)
+		if (wchar != nullptr)
 			mir_free(wchar);
 	}
 
 	WCHAR *detach()
 	{
 		WCHAR *ret = wchar;
-		wchar = NULL;
+		wchar = nullptr;
 		return ret;
 	}
 
@@ -357,9 +357,9 @@ private:
 class TcharToChar
 {
 public:
-	TcharToChar(const wchar_t *str) : val(NULL)
+	TcharToChar(const wchar_t *str) : val(nullptr)
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
 #ifdef UNICODE
@@ -377,7 +377,7 @@ public:
 	~TcharToChar()
 	{
 #ifdef UNICODE
-		if (val != NULL)
+		if (val != nullptr)
 			mir_free(val);
 #endif
 	}
@@ -387,10 +387,10 @@ public:
 #ifdef UNICODE
 		char *ret = val;
 #else
-		char *ret = (val == NULL ? NULL : mir_strdup(val));
+		char *ret = (val == nullptr ? nullptr : mir_strdup(val));
 #endif
 
-		val = NULL;
+		val = nullptr;
 		return ret;
 	}
 
@@ -421,9 +421,9 @@ private:
 class TcharToWchar
 {
 public:
-	TcharToWchar(const wchar_t *str) : val(NULL)
+	TcharToWchar(const wchar_t *str) : val(nullptr)
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
 #ifdef UNICODE
@@ -441,7 +441,7 @@ public:
 	~TcharToWchar()
 	{
 #ifndef UNICODE
-		if (val != NULL)
+		if (val != nullptr)
 			mir_free(val);
 #endif
 	}
@@ -449,12 +449,12 @@ public:
 	WCHAR *detach()
 	{
 #ifdef UNICODE
-		WCHAR *ret = (val == NULL ? NULL : mir_wstrdup(val));
+		WCHAR *ret = (val == nullptr ? nullptr : mir_wstrdup(val));
 #else
 		WCHAR *ret = val;
 #endif
 
-		val = NULL;
+		val = nullptr;
 		return ret;
 	}
 
@@ -487,30 +487,30 @@ private:
 class BstrToTchar
 {
 public:
-	BstrToTchar() : bstr(NULL)
+	BstrToTchar() : bstr(nullptr)
 #ifndef UNICODE
 		, tchar(NULL)
 #endif
 	{
 	}
 
-	BstrToTchar(const WCHAR *str) : bstr(NULL)
+	BstrToTchar(const WCHAR *str) : bstr(nullptr)
 #ifndef UNICODE
-		, tchar(NULL)
+		, tchar(nullptr)
 #endif
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
 		bstr = SysAllocString(str);
 	}
 
-	BstrToTchar(const char *str) : bstr(NULL)
+	BstrToTchar(const char *str) : bstr(nullptr)
 #ifndef UNICODE
-		, tchar(NULL)
+		, tchar(nullptr)
 #endif
 	{
-		if (str == NULL)
+		if (str == nullptr)
 			return;
 
 		bstr = SysAllocString(CharToWchar(str));
@@ -519,7 +519,7 @@ public:
 
 	~BstrToTchar()
 	{
-		if (bstr != NULL)
+		if (bstr != nullptr)
 			SysFreeString(bstr);
 
 #ifndef UNICODE
@@ -530,7 +530,7 @@ public:
 	BSTR detach()
 	{
 		BSTR ret = bstr;
-		bstr = NULL;
+		bstr = nullptr;
 		return ret;
 	}
 
@@ -542,7 +542,7 @@ public:
 
 #else
 
-		if (tchar == NULL)
+		if (tchar == nullptr)
 			tchar = mir_u2a(bstr);
 
 		return tchar;
@@ -573,10 +573,10 @@ private:
 
 	void freeTchar()
 	{
-		if (tchar != NULL)
+		if (tchar != nullptr)
 		{
 			mir_free(tchar);
-			tchar = NULL;
+			tchar = nullptr;
 		}
 	}
 

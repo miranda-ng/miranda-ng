@@ -1066,8 +1066,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 			if (!m_options.EnableCarbons)
 				return;
 
-			HXML forwarded = NULL;
-			HXML message = NULL;
+			HXML forwarded = nullptr;
+			HXML message = nullptr;
 			//Carbons MUST have forwarded/message content
 			if (!(forwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD))
 				|| !(message = XmlGetChild(forwarded, "message")))

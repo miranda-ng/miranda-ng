@@ -40,7 +40,7 @@ void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPerson
 		if (!szProto || ((szCurProto = GetContactProto(hContact)) && !mir_strcmp(szProto, szCurProto))) {
 			ResetContactSettingsOnStatusChange(hContact);
 			if (bResetPersonalMsgs) {
-				CContactSettings(Status, hContact).SetMsgFormat(SMF_PERSONAL, NULL); // TODO: delete only when SAM dialog opens?
+				CContactSettings(Status, hContact).SetMsgFormat(SMF_PERSONAL, nullptr); // TODO: delete only when SAM dialog opens?
 			}
 		}
 		hContact = db_find_next(hContact);
@@ -83,7 +83,7 @@ CProtoState::CStatus& CProtoState::CStatus::operator = (int Status)
 					bModified = true;
 				}
 				if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_RESETPROTOMSGS))
-					CProtoSettings(State.m_szProto, Status).SetMsgFormat(SMF_PERSONAL, NULL);
+					CProtoSettings(State.m_szProto, Status).SetMsgFormat(SMF_PERSONAL, nullptr);
 			}
 		}
 		if (bStatusModified)
@@ -107,12 +107,12 @@ void CProtoState::CAwaySince::Reset()
 void CContactSettings::SetMsgFormat(int Flags, TCString Message)
 {
 	if (Flags & SMF_PERSONAL) { // set a personal message for a contact. also it's used to set global status message (hContact = NULL).
-		// if Message == NULL, then the function deletes the message.
+		// if Message == nullptr, then the function deletes the message.
 		CString DBSetting(StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL));
 		if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON) && GetMsgFormat(SMF_PERSONAL) != (const wchar_t*)Message)
 			ResetContactSettingsOnStatusChange(m_hContact);
 
-		if (Message != NULL)
+		if (Message != nullptr)
 			db_set_ws(m_hContact, MOD_NAME, DBSetting, Message);
 		else
 			db_unset(m_hContact, MOD_NAME, DBSetting);
@@ -130,7 +130,7 @@ TCString CContactSettings::GetMsgFormat(int Flags, int *pOrder, char *szProtoOve
 // szProtoOverride is needed only to get status message of the right protocol when the ICQ contact is on list, but not with the same 
 // protocol on which it requests the message - this way we can still get contact details.
 {
-	TCString Message = NULL;
+	TCString Message = nullptr;
 	if (pOrder)
 		*pOrder = -1;
 
@@ -138,7 +138,7 @@ TCString CContactSettings::GetMsgFormat(int Flags, int *pOrder, char *szProtoOve
 		Message = db_get_s(m_hContact, MOD_NAME, StatusToDBSetting(Status, DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPERSONAL), (wchar_t*)NULL);
 
 	if (Flags & (GMF_LASTORDEFAULT | GMF_PROTOORGLOBAL | GMF_TEMPORARY) && Message.IsEmpty()) {
-		char *szProto = szProtoOverride ? szProtoOverride : (m_hContact ? GetContactProto(m_hContact) : NULL);
+		char *szProto = szProtoOverride ? szProtoOverride : (m_hContact ? GetContactProto(m_hContact) : nullptr);
 
 		// we mustn't pass here by GMF_TEMPORARY flag, as otherwise we'll handle GMF_TEMPORARY | GMF_PERSONAL combination incorrectly, 
 		// which is supposed to get only per-contact messages, and at the same time also may be used with NULL contact to get the global status message
@@ -159,18 +159,18 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 
 	if (Flags & SMF_TEMPORARY) {
 		_ASSERT(!Status || Status == g_ProtoStates[szProto].m_status);
-		g_ProtoStates[szProto].TempMsg = (szProto || Message != NULL) ? Message : CProtoSettings(NULL, Status).GetMsgFormat(GMF_LASTORDEFAULT);
+		g_ProtoStates[szProto].TempMsg = (szProto || Message != nullptr) ? Message : CProtoSettings(nullptr, Status).GetMsgFormat(GMF_LASTORDEFAULT);
 	}
 
 	if (Flags & SMF_PERSONAL) { // set a "personal" message for a protocol. also it's used to set global status message (hContact = NULL).
 		// if Message == NULL, then we'll use the "default" message - i.e. it's either the global message for szProto != NULL (we delete the per-proto DB setting), or it's just a default message for a given status for szProto == NULL.
 		g_ProtoStates[szProto].TempMsg.Unset();
 		CString DBSetting(ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS));
-		if (Message != NULL)
+		if (Message != nullptr)
 			db_set_ws(NULL, MOD_NAME, DBSetting, Message);
 		else {
 			if (!szProto)
-				db_set_ws(NULL, MOD_NAME, DBSetting, CProtoSettings(NULL, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
+				db_set_ws(NULL, MOD_NAME, DBSetting, CProtoSettings(nullptr, Status).GetMsgFormat(GMF_LASTORDEFAULT)); // global message can't be NULL; we can use an empty string instead if it's really necessary
 			else
 				db_unset(NULL, MOD_NAME, DBSetting);
 		}
@@ -254,7 +254,7 @@ void CProtoSettings::SetMsgFormat(int Flags, TCString Message)
 // returns the requested message; sets Order to the order of the message in the message tree, if available; or to -1 otherwise.
 TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 {
-	TCString Message = NULL;
+	TCString Message = nullptr;
 	if (pOrder)
 		*pOrder = -1;
 
@@ -265,23 +265,23 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 			Flags &= ~GMF_PERSONAL; // don't allow personal message to overwrite our NULL temporary message
 		}
 	}
-	if (Flags & GMF_PERSONAL && Message == NULL) // try getting personal message (it overrides global)
-		Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)NULL);
+	if (Flags & GMF_PERSONAL && Message == nullptr) // try getting personal message (it overrides global)
+		Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr);
 
-	if (Flags & GMF_PROTOORGLOBAL && Message == NULL) {
+	if (Flags & GMF_PROTOORGLOBAL && Message == nullptr) {
 		Message = CProtoSettings().GetMsgFormat(GMF_PERSONAL | (Flags & GMF_TEMPORARY), pOrder);
-		return (Message == NULL) ? L"" : Message; // global message can't be NULL
+		return (Message == nullptr) ? L"" : Message; // global message can't be NULL
 	}
 
-	if (Flags & GMF_LASTORDEFAULT && Message == NULL) { // try to get the last or default message, depending on current settings
+	if (Flags & GMF_LASTORDEFAULT && Message == nullptr) { // try to get the last or default message, depending on current settings
 		COptPage MsgTreeData(g_MsgTreePage);
 		COptItem_TreeCtrl *TreeCtrl = (COptItem_TreeCtrl*)MsgTreeData.Find(IDV_MSGTREE);
 		TreeCtrl->DBToMem(CString(MOD_NAME));
-		Message = NULL;
+		Message = nullptr;
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USELASTMSG)) { // if using last message by default...
-			Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)NULL); // try per-protocol message first
+			Message = db_get_s(NULL, MOD_NAME, ProtoStatusToDBSetting(DB_STATUSMSG, IDC_MOREOPTDLG_PERSTATUSPROTOMSGS), (wchar_t*)nullptr); // try per-protocol message first
 			if (Message.IsEmpty()) {
-				Message = NULL; // to be sure it's NULL, not "" - as we're checking 'Message == NULL' later
+				Message = nullptr; // to be sure it's NULL, not "" - as we're checking 'Message == NULL' later
 				int RecentGroupID = GetRecentGroupID(Status);
 				if (RecentGroupID != -1) {
 					for (int i = 0; i < TreeCtrl->m_value.GetSize(); i++) { // find first message in the group
@@ -296,7 +296,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 			}
 		} // else, if using default message by default...
 
-		if (Message == NULL) { // ...or we didn't succeed retrieving the last message
+		if (Message == nullptr) { // ...or we didn't succeed retrieving the last message
 			// get default message for this status
 			int DefMsgID = -1;
 			static struct {
@@ -330,7 +330,7 @@ TCString CProtoSettings::GetMsgFormat(int Flags, int *pOrder)
 			if (pOrder)
 				*pOrder = Order;
 		}
-		if (Message == NULL)
+		if (Message == nullptr)
 			Message = L""; // last or default message can't be NULL.. otherwise ICQ won't reply to status message requests and won't notify us of status message requests at all
 	}
 	return Message;

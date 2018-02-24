@@ -151,7 +151,7 @@ public:
 	~CPsTree();
 	
 	__inline void BeginDrag(HTREEITEM hDragItem) { _isDragging = TRUE; _hDragItem = hDragItem; };
-	__inline void EndDrag() { _isDragging = FALSE; _hDragItem = NULL; };
+	__inline void EndDrag() { _isDragging = FALSE; _hDragItem = nullptr; };
 	__inline BYTE IsDragging() const { return _isDragging; };
 	__inline HTREEITEM DragItem() const { return _hDragItem; };
 
@@ -165,8 +165,8 @@ public:
 	__inline HIMAGELIST ImageList() const { return _hImages; };
 	__inline BYTE IsIndexValid(const int index) const { return (index >= 0 && index < _numItems); };
 	
-	__inline CPsTreeItem* TreeItem(int index) const { return (IsIndexValid(index) ? _pItems[index] : NULL); };
-	__inline HTREEITEM TreeItemHandle(int index) const { return (IsIndexValid(index) ? _pItems[index]->Hti() : NULL); };
+	__inline CPsTreeItem* TreeItem(int index) const { return (IsIndexValid(index) ? _pItems[index] : nullptr); };
+	__inline HTREEITEM TreeItemHandle(int index) const { return (IsIndexValid(index) ? _pItems[index]->Hti() : nullptr); };
 
 	__inline int CurrentItemIndex() const { return _curItem; };
 	__inline CPsTreeItem* CurrentItem() const { return TreeItem(CurrentItemIndex()); };

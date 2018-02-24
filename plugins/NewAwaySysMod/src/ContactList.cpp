@@ -176,7 +176,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 		break;
 
 	case INTM_INVALIDATE:
-		InvalidateRect(hWnd, NULL, true);
+		InvalidateRect(hWnd, nullptr, true);
 		break;
 
 	case WM_RBUTTONDOWN:
@@ -317,7 +317,7 @@ LRESULT CALLBACK ContactListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPA
 					HMENU hMenu = Menu_BuildContactMenu(hContact);
 					if (hMenu) {
 						ClientToScreen(hWnd, &pt);
-						Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, NULL), MPCF_CONTACTMENU, hContact);
+						Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hWnd, nullptr), MPCF_CONTACTMENU, hContact);
 						DestroyMenu(hMenu);
 						return 0;
 					}

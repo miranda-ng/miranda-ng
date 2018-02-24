@@ -30,7 +30,7 @@ uint64_t str2int(const std::string &str);
 class mir_twitter : public twitter
 {
 public:
-	mir_twitter() : twitter(), handle_(NULL), httpPOST_(NULL) {}
+	mir_twitter() : twitter(), handle_(nullptr), httpPOST_(nullptr) {}
 	void set_handle(PROTO_INTERFACE *ppro, HNETLIBUSER h)
 	{
 		ppro_ = ppro;
@@ -73,7 +73,7 @@ public:
 	std::wstring OAuthConcatenateRequestElements( const std::wstring& httpMethod, std::wstring url, const std::wstring& parameters );
 	std::map<std::wstring, std::wstring> CrackURL(std::wstring );
 	std::wstring brook_httpsend(std::wstring, std::wstring, std::wstring, std::wstring);
-	void Disconnect(void) { if (httpPOST_) Netlib_CloseHandle(httpPOST_); httpPOST_ = NULL; }
+	void Disconnect(void) { if (httpPOST_) Netlib_CloseHandle(httpPOST_); httpPOST_ = nullptr; }
 	std::wstring OAuthNormalizeUrl( const std::wstring& url );
 	std::wstring OAuthNormalizeRequestParameters( const OAuthParameters& requestParameters );
 	OAuthParameters ParseQueryString( const std::wstring& url );

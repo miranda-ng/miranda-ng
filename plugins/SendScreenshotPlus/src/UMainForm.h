@@ -87,7 +87,7 @@ public:
 	void		Close(){ SendMessage(m_hWnd, WM_CLOSE, 0, 0); }
 	void		Show(){ ShowWindow(m_hWnd, SW_SHOW); }
 	void		Hide(){ ShowWindow(m_hWnd, SW_HIDE); }
-	void		SetTargetWindow(HWND hwnd = NULL);
+	void		SetTargetWindow(HWND hwnd = nullptr);
 	void		btnCaptureClick();
 	void		cboxSendByChange(void *param);
 

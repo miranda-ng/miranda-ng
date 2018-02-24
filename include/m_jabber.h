@@ -124,21 +124,21 @@ struct IJabberInterface
 
 
 	// Registers incoming <presence/> handler. Returns handler handle on success or NULL on error.
-	virtual HJHANDLER STDMETHODCALLTYPE	AddPresenceHandler(JABBER_HANDLER_FUNC Func, void *pUserData = NULL, int iPriority = JH_PRIORITY_DEFAULT) = 0;
+	virtual HJHANDLER STDMETHODCALLTYPE	AddPresenceHandler(JABBER_HANDLER_FUNC Func, void *pUserData = nullptr, int iPriority = JH_PRIORITY_DEFAULT) = 0;
 
 	// Registers incoming <message/> handler for messages of types specified by iMsgTypes. iMsgTypes is a combination of JABBER_MESSAGE_TYPE_* flags. Returns handler handle on success or NULL on error.
-	virtual HJHANDLER STDMETHODCALLTYPE	AddMessageHandler(JABBER_HANDLER_FUNC Func, int iMsgTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData = NULL, int iPriority = JH_PRIORITY_DEFAULT) = 0;
+	virtual HJHANDLER STDMETHODCALLTYPE	AddMessageHandler(JABBER_HANDLER_FUNC Func, int iMsgTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData = nullptr, int iPriority = JH_PRIORITY_DEFAULT) = 0;
 
 	// Registers incoming <iq/> handler. iIqTypes is a combination of JABBER_IQ_TYPE_* flags. Returns handler handle on success or NULL on error.
-	virtual HJHANDLER STDMETHODCALLTYPE	AddIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData = NULL, int iPriority = JH_PRIORITY_DEFAULT) = 0;
+	virtual HJHANDLER STDMETHODCALLTYPE	AddIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, LPCTSTR szXmlns, LPCTSTR szTag, void *pUserData = nullptr, int iPriority = JH_PRIORITY_DEFAULT) = 0;
 
 	// Registers temporary handler for incoming <iq/> stanza of type iIqType with id iIqId. iIqTypes is a combination of JABBER_IQ_TYPE_* flags. Returns handler handle on success or NULL on error.
 	// If dwTimeout milliseconds pass and no Iq stanza with the specified iIqId is received, Jabber plugin will call Func() with NULL node.
-	virtual HJHANDLER STDMETHODCALLTYPE	AddTemporaryIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, int iIqId, void *pUserData = NULL, DWORD dwTimeout = 30000, int iPriority = JH_PRIORITY_DEFAULT) = 0;
+	virtual HJHANDLER STDMETHODCALLTYPE	AddTemporaryIqHandler(JABBER_HANDLER_FUNC Func, int iIqTypes, int iIqId, void *pUserData = nullptr, DWORD dwTimeout = 30000, int iPriority = JH_PRIORITY_DEFAULT) = 0;
 
 	// Registers handler for outgoing nodes. Returns handler handle on success or NULL on error.
 	// Return FALSE in the handler to continue, or TRUE to abort sending.
-	virtual HJHANDLER STDMETHODCALLTYPE	AddSendHandler(JABBER_HANDLER_FUNC Func, void *pUserData = NULL, int iPriority = JH_PRIORITY_DEFAULT) = 0;
+	virtual HJHANDLER STDMETHODCALLTYPE	AddSendHandler(JABBER_HANDLER_FUNC Func, void *pUserData = nullptr, int iPriority = JH_PRIORITY_DEFAULT) = 0;
 
 	// Unregisters handler by its handle.
 	virtual int STDMETHODCALLTYPE RemoveHandler(HJHANDLER hHandler) = 0;

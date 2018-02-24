@@ -52,7 +52,7 @@ inline std::string toNarrowString( const std::string& str )
     }
     inline std::tstring toTstring( const wchar_t* p , int len=-1 )
     {
-		return p == NULL?L"":((len < 0) ? p : std::wstring(p,len));
+		return p == nullptr ?L"":((len < 0) ? p : std::wstring(p,len));
     }
 
 	extern tstring Utf8_Decode(const char *str);
@@ -75,7 +75,7 @@ inline std::string toNarrowString( const std::string& str )
     }
     inline std::tstring toTstring( const char* p , int len=-1 )
     {
-		if(p == NULL)
+		if(p == nullptr)
 			return "";
         return (len < 0) ? p : std::string(p,len) ;
     }

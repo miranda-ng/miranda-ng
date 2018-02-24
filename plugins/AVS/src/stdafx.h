@@ -132,13 +132,13 @@ void UnloadCache(void);
 int  CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *szProto);
 void DeleteAvatarFromCache(MCONTACT hContact, bool bForever);
 void PicLoader(LPVOID param);
-void NotifyMetaAware(MCONTACT hContact, CacheNode *node = NULL, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1);
+void NotifyMetaAware(MCONTACT hContact, CacheNode *node = nullptr, AVATARCACHEENTRY *ace = (AVATARCACHEENTRY*)-1);
 
 void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags);
 
 int ChangeAvatar(MCONTACT hContact, bool fLoad, bool fNotifyHist = false, int pa_format = 0);
 void DeleteGlobalUserAvatar();
-int  FetchAvatarFor(MCONTACT hContact, char *szProto = NULL);
+int  FetchAvatarFor(MCONTACT hContact, char *szProto = nullptr);
 CacheNode* FindAvatarInCache(MCONTACT hContact, bool add, bool findAny = false);
 void PushAvatarRequest(CacheNode *cc);
 int  SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode);

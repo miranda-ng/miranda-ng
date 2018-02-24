@@ -110,10 +110,10 @@ EXTERN_C MIR_APP_DLL(void) KillModuleExtraIcons(int hLangpack);
 #define EIF_DISABLED_BY_DEFAULT 0x0001
 
 EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterCallback(const char *name, const char *description, const char *descIcon,
-	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0, int flags = 0, int = hLangpack);
+	MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick = nullptr, LPARAM onClickParam = 0, int flags = 0, int = hLangpack);
 
-EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon = NULL,
-	MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0, int flags = 0, int = hLangpack);
+EXTERN_C MIR_APP_DLL(HANDLE) ExtraIcon_RegisterIcolib(const char *name, const char *description, const char *descIcon = nullptr,
+	MIRANDAHOOKPARAM OnClick = nullptr, LPARAM onClickParam = 0, int flags = 0, int = hLangpack);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

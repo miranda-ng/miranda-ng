@@ -183,7 +183,7 @@ public:
 	{
 		if (m_handle) {
 			::CloseHandle(m_handle);
-			m_handle = 0;
+			m_handle = nullptr;
 		}
 	}
 };

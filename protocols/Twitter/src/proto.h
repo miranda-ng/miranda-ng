@@ -98,7 +98,7 @@ private:
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	void UpdateChat(const twitter_user &update);
-	void AddChatContact(const char *name,const char *nick=0);
+	void AddChatContact(const char *name,const char *nick = nullptr);
 	void DeleteChatContact(const char *name);
 	void SetChatStatus(int);
 

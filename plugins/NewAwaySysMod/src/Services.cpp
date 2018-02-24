@@ -53,7 +53,7 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 INT_PTR GetStatusMsgW(WPARAM wParam, LPARAM)
 {
 	LogMessage("MS_AWAYMSG_GETSTATUSMSGW called. status=%d", wParam);
-	WCHAR *szMsg = mir_wstrdup(GetDynamicStatMsg(INVALID_CONTACT_ID, NULL, 0, wParam));
+	WCHAR *szMsg = mir_wstrdup(GetDynamicStatMsg(INVALID_CONTACT_ID, nullptr, 0, wParam));
 	LogMessage("returned szMsgW:\n%S", szMsg ? szMsg : L"NULL");
 	return (INT_PTR)szMsg;
 }
@@ -66,10 +66,10 @@ INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam) // called by GamerStatus and
 	g_fNoProcessing = true;
 	Clist_SetStatusMode(wParam);
 
-	_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)NULL].m_status == wParam);
+	_ASSERT(!g_fNoProcessing && g_ProtoStates[(char*)nullptr].m_status == wParam);
 	g_fNoProcessing = false;
-	CProtoSettings(NULL, wParam).SetMsgFormat(SMF_TEMPORARY, lParam ? (wchar_t*)_A2T((char*)lParam) : CProtoSettings(NULL, wParam).GetMsgFormat(GMF_LASTORDEFAULT));
-	ChangeProtoMessages(NULL, wParam, TCString());
+	CProtoSettings(nullptr, wParam).SetMsgFormat(SMF_TEMPORARY, lParam ? (wchar_t*)_A2T((char*)lParam) : CProtoSettings(nullptr, wParam).GetMsgFormat(GMF_LASTORDEFAULT));
+	ChangeProtoMessages(nullptr, wParam, TCString());
 	return 0;
 }
 
@@ -88,18 +88,18 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 		LogMessage("%d (received): cbSize=%d, status=%d, szProto=%s, Flags=0x%x", i + 1, pi->cbSize, pi->status, pi->szProto ? pi->szProto : "NULL", Flags);
 		if ((pi->status >= ID_STATUS_ONLINE && pi->status <= ID_STATUS_OUTTOLUNCH) || !pi->status) {
 			TCString Msg(pi->status ? CProtoSettings(pi->szProto, pi->status).GetMsgFormat(GMF_LASTORDEFAULT) : CProtoSettings(pi->szProto).GetMsgFormat(((Flags & PIF_NOTTEMPORARY) ? 0 : GMF_TEMPORARY) | GMF_PERSONAL));
-			if (Msg != NULL) {
+			if (Msg != nullptr) {
 				if (Widechar)
 					pi->tszMsg = mir_wstrdup(Msg);
 				else
 					pi->szMsg = mir_strdup(_T2A(Msg));
 			}
-			else pi->szMsg = NULL;
+			else pi->szMsg = nullptr;
 
 			if (!pi->status)
 				pi->status = g_ProtoStates[pi->szProto].m_status;
 		}
-		else pi->szMsg = NULL;
+		else pi->szMsg = nullptr;
 
 		LogMessage("%d (returned): status=%d, Flags=0x%x, szMsg:\n%s", i + 1, pi->status, (pi->cbSize > sizeof(NAS_PROTOINFOv1)) ? pi->Flags : 0, pi->szMsg ? (Widechar ? _T2A(pi->wszMsg) : pi->szMsg) : "NULL");
 		*(char**)&pi += pi->cbSize;

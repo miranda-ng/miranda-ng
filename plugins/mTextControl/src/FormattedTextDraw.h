@@ -59,10 +59,10 @@ public:
 	{
 		HDC hdcScreen;
 
-		hdcScreen = GetDC(NULL);
+		hdcScreen = GetDC(nullptr);
 		nPixelsPerInchX = GetDeviceCaps(hdcScreen, LOGPIXELSX);
 		nPixelsPerInchY = GetDeviceCaps(hdcScreen, LOGPIXELSY);
-		ReleaseDC(NULL, hdcScreen);
+		ReleaseDC(nullptr, hdcScreen);
 
 		SetRectEmpty(&m_rcClient);
 		SetRectEmpty(&m_rcViewInset);
@@ -71,8 +71,8 @@ public:
 
 		InitDefaultCharFormat();
 		InitDefaultParaFormat();
-		m_spTextServices = NULL;
-		m_spTextDocument = NULL;
+		m_spTextServices = nullptr;
+		m_spTextDocument = nullptr;
 
 		m_dwPropertyBits = TXTBIT_RICHTEXT | TXTBIT_MULTILINE | TXTBIT_WORDWRAP | TXTBIT_USECURRENTBKG;
 		m_dwScrollbar = 0;
@@ -82,9 +82,9 @@ public:
 	~CFormattedTextDraw()
 	{
 		free(m_pCF);
-		if (m_spTextServices != NULL)
+		if (m_spTextServices != nullptr)
 			m_spTextServices->Release();
-		if (m_spTextDocument != NULL)
+		if (m_spTextDocument != nullptr)
 			m_spTextDocument->Release();
 	}
 
@@ -93,7 +93,7 @@ public:
 		/* [in] */ REFIID,
 		/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject)
 	{
-		*ppvObject = NULL;
+		*ppvObject = nullptr;
 		return S_FALSE;
 	}
 

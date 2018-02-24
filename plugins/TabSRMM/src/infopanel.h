@@ -75,12 +75,12 @@ public:
 		LEFT_BAR_WIDTH = 20
 	};
 
-	CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszText = 0, const CInfoPanel *panel = 0);
+	CTip(const HWND hwndParent, const MCONTACT hContact, const wchar_t *pszText = nullptr, const CInfoPanel *panel = nullptr);
 	~CTip()
 	{
 		mir_free(m_pszText);
 	}
-	void						show(const RECT& rc, POINT& pt, const HICON hIcon = 0, const wchar_t *szTitle = 0);
+	void						show(const RECT& rc, POINT& pt, const HICON hIcon = nullptr, const wchar_t *szTitle = nullptr);
 	const HWND					getHwnd() const { return(m_hwnd); }
 
 	static void					registerClass();

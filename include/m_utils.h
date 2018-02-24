@@ -254,8 +254,8 @@ EXTERN_C MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen);
 // Returns number of chars copied.
 
 #if defined( __cplusplus )
-EXTERN_C MIR_CORE_DLL(int) PathToRelative(const char *pszSrc, char *pszOut, const char* pszBase = 0);
-EXTERN_C MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase = 0);
+EXTERN_C MIR_CORE_DLL(int) PathToRelative(const char *pszSrc, char *pszOut, const char* pszBase = nullptr);
+EXTERN_C MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase = nullptr);
 #else
 EXTERN_C MIR_CORE_DLL(int) PathToRelative(const char *pszSrc, char *pszOut, const char* pszBase);
 EXTERN_C MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase);
@@ -273,8 +273,8 @@ EXTERN_C MIR_CORE_DLL(int) PathToRelativeW(const wchar_t *pwszSrc, wchar_t *pwsz
 // Returns numbers of chars copied.
 
 #if defined( __cplusplus )
-EXTERN_C MIR_CORE_DLL(int) PathToAbsolute(const char *pszSrc, char *pszOut, const char* pszBase = 0);
-EXTERN_C MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase = 0);
+EXTERN_C MIR_CORE_DLL(int) PathToAbsolute(const char *pszSrc, char *pszOut, const char* pszBase = nullptr);
+EXTERN_C MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase = nullptr);
 #else
 EXTERN_C MIR_CORE_DLL(int) PathToAbsolute(const char *pszSrc, char *pszOut, const char* pszBase);
 EXTERN_C MIR_CORE_DLL(int) PathToAbsoluteW(const wchar_t *pwszSrc, wchar_t *pwszOut, const wchar_t* pwszBase);
@@ -353,8 +353,8 @@ struct REPLACEVARSARRAY
 	MAllStrings key, value;
 };
 
-EXTERN_C MIR_APP_DLL(char*) Utils_ReplaceVars(const char *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = NULL);
-EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = NULL);
+EXTERN_C MIR_APP_DLL(char*) Utils_ReplaceVars(const char *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = nullptr);
+EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTACT hContact = 0, REPLACEVARSARRAY *vars = nullptr);
 
 #if defined(__cplusplus)
 	#if !defined(M_SYSTEM_CPP_H__)

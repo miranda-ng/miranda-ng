@@ -107,7 +107,7 @@ private:
 	int        fixActions(POPUPACTION *theActions, int count, int additional);
 
 public:
-	PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions = NULL, bool renderOnly = false);
+	PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions = nullptr, bool renderOnly = false);
 	~PopupWnd2();
 
 	void	startThread();
@@ -174,7 +174,7 @@ public:
 		this->m_sz = sz;
 		if (m_hwnd)
 		{
-			SetWindowPos(m_hwnd, 0, 0, 0, sz.cx, sz.cy, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING);
+			SetWindowPos(m_hwnd, nullptr, 0, 0, sz.cx, sz.cy, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING);
 			if (!m_customPopup)
 				PopupThreadUpdateWindow(this);
 		}
@@ -189,7 +189,7 @@ public:
 		if (m_bSlide)
 			m_ptPosition1 = pt;
 		else
-			SetWindowPos(m_hwnd, 0, pt.x, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING);
+			SetWindowPos(m_hwnd, nullptr, pt.x, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING);
 	}
 
 	// Thread-related methods

@@ -41,8 +41,8 @@ public:
 	CMUCHighlight()
 	{
 		m_fInitialized = false;
-		m_TextPatternString = m_NickPatternString = 0;
-		m_NickPatterns = m_TextPatterns = 0;
+		m_TextPatternString = m_NickPatternString = nullptr;
+		m_NickPatterns = m_TextPatterns = nullptr;
 		m_iNickPatterns = m_iTextPatterns = 0;
 		m_dwFlags = 0;
 		m_Valid = true;

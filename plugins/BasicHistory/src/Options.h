@@ -115,7 +115,7 @@ struct TaskOptions
 		deltaTime = 24;
 		orderNr = 0;
 		wchar_t buf[MAX_PATH];
-		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, buf)))
+		if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PERSONAL, nullptr, SHGFP_TYPE_CURRENT, buf)))
 		{
 			filePath = buf;
 			filePath += L"\\";
@@ -123,7 +123,7 @@ struct TaskOptions
 
 		filePath += TranslateT("History");
 		filePath += L"_<contact>_<date>.<ext>";
-		lastExport = time(NULL);
+		lastExport = time(nullptr);
 	}
 };
 

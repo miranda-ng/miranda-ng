@@ -138,14 +138,14 @@ class CTaskbarInteract
 public:
 	CTaskbarInteract()
 	{
-		m_pTaskbarInterface = 0;
+		m_pTaskbarInterface = nullptr;
 		m_IconSize = 0;
 		m_isEnabled = IsWinVer7Plus() ? true : false;
 
 		if (m_isEnabled) {
 			::CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&m_pTaskbarInterface);
 			updateMetrics();
-			if (0 == m_pTaskbarInterface)
+			if (nullptr == m_pTaskbarInterface)
 				m_isEnabled = false;
 		}
 
@@ -165,7 +165,7 @@ public:
 	{
 		if (m_isEnabled && m_pTaskbarInterface) {
 			m_pTaskbarInterface->Release();
-			m_pTaskbarInterface = 0;
+			m_pTaskbarInterface = nullptr;
 			m_isEnabled = false;
 		}
 		::UnregisterClass(PROXYCLASSNAME, g_hInst);

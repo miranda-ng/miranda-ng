@@ -76,7 +76,7 @@ typedef CONST PLIST_MT_ITERATOR	PCLIST_MT_ITERATOR, LPCLIST_MT_ITERATOR;
 
 __inline size_t ListMTGetCount(PCLIST_MT pclmtListMT)
 {
-	return((size_t)InterlockedCompareExchangePointer((LPVOID*)&pclmtListMT->nCount,NULL,NULL));
+	return((size_t)InterlockedCompareExchangePointer((LPVOID*)&pclmtListMT->nCount, nullptr, nullptr));
 }
 
 
@@ -89,12 +89,12 @@ __inline size_t ListMTItemAdd(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMTIt
     if (pclmtListMT->plmtiLast) 
 	{// add node to end of list        
         pclmtListMTItem->plmtiPrev=pclmtListMT->plmtiLast;
-        pclmtListMTItem->plmtiNext=NULL;
+        pclmtListMTItem->plmtiNext= nullptr;
         pclmtListMT->plmtiLast->plmtiNext=pclmtListMTItem;
 		pclmtListMT->plmtiLast=pclmtListMTItem;
 	}else{// add the first node to the linked list
-        pclmtListMTItem->plmtiPrev=NULL;
-        pclmtListMTItem->plmtiNext=NULL;
+        pclmtListMTItem->plmtiPrev= nullptr;
+        pclmtListMTItem->plmtiNext= nullptr;
 		pclmtListMT->plmtiFirst=pclmtListMTItem;
         pclmtListMT->plmtiLast=pclmtListMTItem;
  	}
@@ -113,16 +113,16 @@ __inline DWORD ListMTItemDelete(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMT
 		
 		if (plmtiPrevNode || plmtiNextNode) 
 		{
-			if (plmtiPrevNode && plmtiNextNode==NULL) 
+			if (plmtiPrevNode && plmtiNextNode == nullptr)
 			{// This is the start node in the list to delete
 			// отключился последний подключившийся
-				plmtiPrevNode->plmtiNext=NULL;
+				plmtiPrevNode->plmtiNext = nullptr;
 				pclmtListMT->plmtiLast=plmtiPrevNode;
 			}else{
-				if (plmtiPrevNode==NULL && plmtiNextNode) 
+				if (plmtiPrevNode == nullptr && plmtiNextNode)
 				{// This is the end node in the list to delete
 				// отключился первый подключившийся
-					plmtiNextNode->plmtiPrev=NULL;
+					plmtiNextNode->plmtiPrev = nullptr;
 					pclmtListMT->plmtiFirst=plmtiNextNode;
 				}else{// оключился клиент не первый и не последний
 					//if (plmtiPrev && plmtiNext) 
@@ -133,11 +133,11 @@ __inline DWORD ListMTItemDelete(PCLIST_MT pclmtListMT,PCLIST_MT_ITEM pclmtListMT
 				}
 			}
 		}else{// This is the only node in the list to delete
-			pclmtListMT->plmtiFirst=NULL;
-			pclmtListMT->plmtiLast=NULL;
+			pclmtListMT->plmtiFirst = nullptr;
+			pclmtListMT->plmtiLast = nullptr;
 		}
 
-		pclmtListMTItem->lpListMT=NULL;
+		pclmtListMTItem->lpListMT = nullptr;
 		InterlockedDecrementPointer(&pclmtListMT->nCount);// pclmtListMT->nCount--;	
 		dwRetErrorCode=NO_ERROR;
 	}else{// попытались удалить элемент не относящийся к данному списку

@@ -33,7 +33,7 @@
 class _CWndUserData
 {
 public:
-	_CWndUserData(): MsgTree(NULL), CList(NULL) {}
+	_CWndUserData(): MsgTree(nullptr), CList(nullptr) {}
 
 	CMsgTree *MsgTree;
 	CCList *CList;
@@ -129,7 +129,7 @@ public:
 			if (Icons[i] & IL_SKINICON)
 				IconList.SetAtGrow(i) = (HICON)CopyImage(Skin_LoadIcon(Icons[i] & ~IL_SKINICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
 			else if (Icons[i] & IL_PROTOICON)
-				IconList.SetAtGrow(i) = (HICON)CopyImage(Skin_LoadProtoIcon(NULL, Icons[i] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
+				IconList.SetAtGrow(i) = (HICON)CopyImage(Skin_LoadProtoIcon(nullptr, Icons[i] & ~IL_PROTOICON), IMAGE_ICON, cxIcon, cyIcon, LR_COPYFROMRESOURCE);
 			else
 				IconList.SetAtGrow(i) = (HICON)GetIcon(Icons[i]);
 		}
@@ -178,7 +178,7 @@ public:
 	class CCurStatusMsg
 	{
 	public:
-		CCurStatusMsg() {*this = NULL;}
+		CCurStatusMsg() {*this = nullptr;}
 		CCurStatusMsg& operator = (TCString Msg)
 		{
 			CurStatusMsg = Msg;
@@ -306,7 +306,7 @@ class CProtoSettings
 	LPCSTR szProto;
 
 public:
-	CProtoSettings(LPCSTR szProto = NULL, int iStatus = 0) :
+	CProtoSettings(LPCSTR szProto = nullptr, int iStatus = 0) :
 		szProto(szProto),
 		Status(iStatus, szProto)
 	{
@@ -349,7 +349,7 @@ public:
 		{
 			_ASSERT(Parent->szProto);
 			int m_value = *this;
-			return (m_value == VAL_USEDEFAULT) ? CProtoSettings(NULL).Autoreply : m_value;
+			return (m_value == VAL_USEDEFAULT) ? CProtoSettings(nullptr).Autoreply : m_value;
 		}
 		friend class CProtoSettings;
 	private:
@@ -359,7 +359,7 @@ public:
 	class CStatus
 	{
 	public:
-		CStatus(int iStatus = 0, const char *szProto = NULL): Status(iStatus), szProto(szProto) {}
+		CStatus(int iStatus = 0, const char *szProto = nullptr): Status(iStatus), szProto(szProto) {}
 		CStatus& operator = (int _Status) {this->Status = _Status; return *this;}
 		operator int()
 		{
@@ -373,7 +373,7 @@ public:
 	} Status;
 
 	void SetMsgFormat(int Flags, TCString Message);
-	TCString GetMsgFormat(int Flags, int *pOrder = NULL);
+	TCString GetMsgFormat(int Flags, int *pOrder = nullptr);
 };
 
 
@@ -458,7 +458,7 @@ public:
 			return *this;
 		}
 		operator int() {return db_get_b((Parent->m_hContact != INVALID_CONTACT_ID) ? Parent->m_hContact : NULL, MOD_NAME, Parent->ContactStatusToDBSetting(DB_ENABLEREPLY, IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS), Parent->m_hContact ? VAL_USEDEFAULT : AUTOREPLY_DEF_REPLY);}
-		int IncludingParents(const char *szProtoOverride = NULL) // takes into account protocol and global data also, if per-contact setting is not defined
+		int IncludingParents(const char *szProtoOverride = nullptr) // takes into account protocol and global data also, if per-contact setting is not defined
 		{
 			_ASSERT((Parent->m_hContact && Parent->m_hContact != INVALID_CONTACT_ID) || szProtoOverride); // we need either correct protocol or a correct hContact to determine its protocol
 			int m_value = *this;
@@ -491,7 +491,7 @@ public:
 		{
 			if (!Status) {
 				_ASSERT(m_hContact != INVALID_CONTACT_ID);
-				char *szProto = m_hContact ? GetContactProto(m_hContact) : NULL;
+				char *szProto = m_hContact ? GetContactProto(m_hContact) : nullptr;
 				Status = (szProto || !m_hContact) ? g_ProtoStates[szProto].m_status : ID_STATUS_AWAY;
 			}
 			return Status;
@@ -504,5 +504,5 @@ public:
 	} Status;
 
 	void SetMsgFormat(int Flags, TCString Message);
-	TCString GetMsgFormat(int Flags, int *pOrder = NULL, char *szProtoOverride = NULL);
+	TCString GetMsgFormat(int Flags, int *pOrder = nullptr, char *szProtoOverride = nullptr);
 };

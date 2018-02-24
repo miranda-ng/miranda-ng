@@ -88,8 +88,8 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(void, SetCacheSafetyMode)(BOOL) PURE;
 
 	STDMETHOD_(LONG, GetContactCount)(void) PURE;
-	STDMETHOD_(MCONTACT, FindFirstContact)(const char *szProto = NULL) PURE;
-	STDMETHOD_(MCONTACT, FindNextContact)(MCONTACT contactID, const char *szProto = NULL) PURE;
+	STDMETHOD_(MCONTACT, FindFirstContact)(const char *szProto = nullptr) PURE;
+	STDMETHOD_(MCONTACT, FindNextContact)(MCONTACT contactID, const char *szProto = nullptr) PURE;
 
 	STDMETHOD_(LONG, DeleteContact)(MCONTACT contactID) PURE;
 	STDMETHOD_(MCONTACT, AddContact)(void) PURE;

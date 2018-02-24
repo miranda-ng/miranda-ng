@@ -104,7 +104,7 @@ typedef struct tagMTEXTCREATE
 
 	#ifdef __cplusplus
 		tagMTEXTCREATE():
-			text(0), hContact(0), flags(0)
+			text(nullptr), hContact(0), flags(0)
 			{
 				cbSize = sizeof(*this);
 			}
@@ -122,7 +122,7 @@ typedef struct tagMTEXTDISPLAY
 
 	#ifdef __cplusplus
 		tagMTEXTDISPLAY():
-			dc(0), text(0)
+			dc(nullptr), text(nullptr)
 			{
 				cbSize = sizeof(*this);
 				pos.x = pos.y = 0;
@@ -140,7 +140,7 @@ typedef struct tagMTEXTSETPARENT
 
 	#ifdef __cplusplus
 		tagMTEXTSETPARENT():
-			hwnd(0), text(0)
+			hwnd(nullptr), text(nullptr)
 			{
 			}
 	#endif
@@ -157,7 +157,7 @@ typedef struct tagMTEXTMESSAGE
 
 	#ifdef __cplusplus
 		tagMTEXTMESSAGE():
-			hwnd(0), text(0), msg(0), wParam(0), lParam(0)
+			hwnd(nullptr), text(nullptr), msg(0), wParam(0), lParam(0)
 			{
 			}
 	#endif

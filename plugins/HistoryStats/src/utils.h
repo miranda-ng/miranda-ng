@@ -96,7 +96,7 @@ namespace utils
 	ext::string getGUID();
 
 	// window positioning
-	void centerDialog(HWND hDlg, HWND hParent = NULL);
+	void centerDialog(HWND hDlg, HWND hParent = nullptr);
 	RECT getWindowRect(HWND hParent, HWND hWnd);
 	inline RECT getWindowRect(HWND hParent, int nID) { return getWindowRect(hParent, GetDlgItem(hParent, nID)); }
 	void moveWindow(HWND hWnd, const RECT& rWnd);

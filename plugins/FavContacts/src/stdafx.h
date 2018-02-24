@@ -84,8 +84,8 @@ extern CContactCache *g_contactCache;
 
 #include "favlist.h"
 
-BOOL MenuDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options = NULL);
-BOOL MenuMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options = NULL);
+BOOL MenuDrawItem(LPDRAWITEMSTRUCT lpdis, Options *options = nullptr);
+BOOL MenuMeasureItem(LPMEASUREITEMSTRUCT lpmis, Options *options = nullptr);
 
 int  ProcessOptInitialise(WPARAM, LPARAM);
 int  ProcessModulesLoaded(WPARAM, LPARAM);

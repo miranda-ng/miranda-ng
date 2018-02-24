@@ -124,7 +124,7 @@ int getMsgId(char *msg)
 int RetrieveFileSize(wchar_t *filename)
 {
 	FILE *hFile = _wfopen(filename, L"rb");
-	if (hFile != NULL) {
+	if (hFile != nullptr) {
 		fseek(hFile, 0, SEEK_END);
 		int size = ftell(hFile);
 		fclose(hFile);

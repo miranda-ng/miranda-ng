@@ -84,7 +84,7 @@ static __inline int DRAW_TEXT(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRe
 		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
 
 	return Smileys_DrawText(hDC, lpString, nCount, lpRect, uFormat | (opts.resize_smileys ? DT_RESIZE_SMILEYS : 0),
-		opts.use_contact_list_smileys ? "clist" : protocol, NULL);
+		opts.use_contact_list_smileys ? "clist" : protocol, nullptr);
 }
 
 #endif // __COMMONS_H__

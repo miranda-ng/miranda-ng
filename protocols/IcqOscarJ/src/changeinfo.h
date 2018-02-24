@@ -85,7 +85,7 @@ struct ChangeInfoData : public MZeroedObject
   HANDLE hAckHook;
   HANDLE hUpload[2];
 
-  ChangeInfoData() { settingData = (SettingItemData*)SAFE_MALLOC(sizeof(SettingItemData) * settingCount); hAckHook = NULL; hUpload[0] = NULL; hUpload[1] = NULL;}
+  ChangeInfoData() { settingData = (SettingItemData*)SAFE_MALLOC(sizeof(SettingItemData) * settingCount); hAckHook = nullptr; hUpload[0] = nullptr; hUpload[1] = nullptr;}
   ~ChangeInfoData() { SAFE_FREE((void**)&settingData); }
 
   char* GetItemSettingText(int i, char *buf, size_t buf_size);

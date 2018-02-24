@@ -495,7 +495,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	int NLReceive(unsigned char* buf, int cbBuf);
 	void InsertIncomingEvent(wchar_t* pszRaw);
 
-	__inline bool IsConnected() const { return con != NULL; }
+	__inline bool IsConnected() const { return con != nullptr; }
 
 	// send-to-stream operators
 	int getCodepage() const;

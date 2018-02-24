@@ -56,7 +56,7 @@ namespace utils
 
 	namespace number
 	{
-		int random(int min, int max, unsigned int *value = NULL);
+		int random(int min, int max, unsigned int *value = nullptr);
 	};
 
 	namespace text
@@ -72,7 +72,7 @@ namespace utils
 		std::string source_get_value(std::string* data, unsigned int argument_count, ...);
 		std::string source_get_value2(std::string* data, const char *term, const char *endings, bool wholeString = false);
 		std::string source_get_form_data(std::string* data, bool hiddenOnly = false);
-		std::string rand_string(int len, const char *chars = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz", unsigned int *number = NULL);
+		std::string rand_string(int len, const char *chars = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz", unsigned int *number = nullptr);
 		std::string truncate_utf8(const std::string &text, size_t maxLength);
 		void explode(std::string str, const std::string &separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);

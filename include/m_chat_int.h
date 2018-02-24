@@ -364,7 +364,7 @@ struct CHAT_MANAGER
 extern CHAT_MANAGER *pci;
 #endif
 
-EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = NULL, int = hLangpack);
+EXTERN_C MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pData = nullptr, int = hLangpack);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

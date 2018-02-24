@@ -20,7 +20,7 @@ static bool operator<(const ALARM &a1, const ALARM &a2) {
 
 class AlarmList {
 public:
-	AlarmList(): head(0), tail(0), count(0) {}
+	AlarmList(): head(nullptr), tail(nullptr), count(0) {}
 
 	virtual ~AlarmList() {clear();}
 
@@ -50,7 +50,7 @@ public:
 			delete current;
 		}
 		count = 0;
-		tail = 0;
+		tail = nullptr;
 		reset();
 	}
 
@@ -67,7 +67,7 @@ public:
 	}
 
 	void reset() {it_current = head;}
-	ALARM *current() {return (it_current ? &it_current->alarm : 0);}
+	ALARM *current() {return (it_current ? &it_current->alarm : nullptr);}
 	void next() {it_current = it_current->next;}
 	void erase() {
 		if (it_current) {
@@ -101,7 +101,7 @@ public:
 protected:
 	class Node {
 	public:
-		Node(): next(0), prev(0) {}
+		Node(): next(nullptr), prev(nullptr) {}
 		ALARM alarm;
 		Node *next, *prev;
 	};

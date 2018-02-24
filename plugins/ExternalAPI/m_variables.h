@@ -507,18 +507,16 @@ __inline static int variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags, ch
 #ifndef VARIABLES_NOHELPER
 __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 
-	int res;
-	HICON hIcon;
 	TCHAR tszClass[32];
 
-	hIcon = NULL;
-	res = 0;
+	HICON hIcon = nullptr;
+	int res = 0;
 	if (ServiceExists(MS_VARS_GETSKINITEM))
 		hIcon = (HICON)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPICON);
 
 	GetClassName(GetDlgItem(hwndDlg, uIDButton), tszClass, _countof(tszClass));
 	if (!mir_wstrcmp(tszClass, L"Button")) {
-		if (hIcon != NULL) {
+		if (hIcon != nullptr) {
 			SetWindowLongPtr(GetDlgItem(hwndDlg, uIDButton), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, uIDButton), GWL_STYLE)|BS_ICON);
 			SendMessage(GetDlgItem(hwndDlg, uIDButton), BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
 		}
@@ -528,14 +526,14 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 		}
 	}
 	else if (!mir_wstrcmp(tszClass, MIRANDABUTTONCLASS)) {
-		if (hIcon != NULL) {
-			char *szTipInfo = NULL;
+		if (hIcon != nullptr) {
+			char *szTipInfo = nullptr;
 
 			SendMessage(GetDlgItem(hwndDlg, uIDButton), BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
 			if (ServiceExists(MS_VARS_GETSKINITEM))
 				szTipInfo = (char *)CallService(MS_VARS_GETSKINITEM, 0, (LPARAM)VSI_HELPTIPTEXT);
 
-			if (szTipInfo == NULL)
+			if (szTipInfo == nullptr)
 				szTipInfo = Translate("Open String Formatting Help");
 
 			SendMessage(GetDlgItem(hwndDlg, uIDButton), BUTTONADDTOOLTIP, (WPARAM)szTipInfo, 0);

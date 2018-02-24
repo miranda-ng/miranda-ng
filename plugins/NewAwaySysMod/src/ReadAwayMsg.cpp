@@ -30,7 +30,7 @@ struct READAWAYMSGDATA
 
 #define RAMDLGSIZESETTING "ReadAwayMsgDlg"
 
-MWindowList g_hReadWndList = NULL;
+MWindowList g_hReadWndList = nullptr;
 
 static int ReadAwayMsgDlgResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {

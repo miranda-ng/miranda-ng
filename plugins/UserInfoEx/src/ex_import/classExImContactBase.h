@@ -49,12 +49,12 @@ public:
 	__inline DBVARIANT& uid()		{ return _dbvUID;	}
 	__inline MCONTACT handle() const { return _hContact; }
 	
-	__inline void	disp(LPCSTR val)			{ _pszDisp		=	val ? mir_strdup(val): NULL; }
-	__inline void	group(LPCSTR val)			{ _pszGroup		=	val ? mir_strdup(val): NULL; }
-	__inline void	nick(LPCSTR val)			{ _pszNick		=	val ? mir_strdup(val): NULL; }
-	__inline void	proto(LPCSTR val)			{ _pszProto		=	val ? mir_strdup(val): NULL; }
-	__inline void	ampro(LPCSTR val)			{ _pszAMPro		=	val ? mir_strdup(val): NULL; }
-	__inline void	uidk(LPCSTR val)			{ _pszUIDKey	=	val ? mir_strdup(val): NULL; }
+	__inline void	disp(LPCSTR val)			{ _pszDisp		=	val ? mir_strdup(val): nullptr; }
+	__inline void	group(LPCSTR val)			{ _pszGroup		=	val ? mir_strdup(val): nullptr; }
+	__inline void	nick(LPCSTR val)			{ _pszNick		=	val ? mir_strdup(val): nullptr; }
+	__inline void	proto(LPCSTR val)			{ _pszProto		=	val ? mir_strdup(val): nullptr; }
+	__inline void	ampro(LPCSTR val)			{ _pszAMPro		=	val ? mir_strdup(val): nullptr; }
+	__inline void	uidk(LPCSTR val)			{ _pszUIDKey	=	val ? mir_strdup(val): nullptr; }
 	__inline void	uid(BYTE val)				{ _dbvUID.type	= DBVT_BYTE;  _dbvUID.bVal = val; }
 	__inline void	uid(WORD val)				{ _dbvUID.type	= DBVT_WORD;  _dbvUID.wVal = val; }
 	__inline void	uid(DWORD val)				{ _dbvUID.type	= DBVT_DWORD; _dbvUID.dVal = val; }

@@ -278,12 +278,12 @@ struct CMsnProto : public PROTO<CMsnProto>
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// MSN message queue support
 
-	int         MsgQueue_Add(const char* wlid, int msgType, const char* msg, int msglen, filetransfer* ft = NULL, int flags = 0, STRLIST *cnt = NULL);
+	int         MsgQueue_Add(const char* wlid, int msgType, const char* msg, int msglen, filetransfer* ft = nullptr, int flags = 0, STRLIST *cnt = nullptr);
 	const char* MsgQueue_CheckContact(const char* wlid, time_t tsc = 0);
 	const char* MsgQueue_GetNextRecipient(void);
 	bool        MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal);
 	int         MsgQueue_NumMsg(const char* wlid);
-	void        MsgQueue_Clear(const char* wlid = NULL, bool msg = false);
+	void        MsgQueue_Clear(const char* wlid = nullptr, bool msg = false);
 
 	void MsgQueue_Init(void);
 	void MsgQueue_Uninit(void);
@@ -321,7 +321,7 @@ struct CMsnProto : public PROTO<CMsnProto>
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN contact list
 
-	int      Lists_Add(int list, int netId, const char* email, MCONTACT hContact = NULL, const char* nick = NULL, const char* invite = NULL);
+	int      Lists_Add(int list, int netId, const char* email, MCONTACT hContact = NULL, const char* nick = nullptr, const char* invite = nullptr);
 	bool     Lists_IsInList(int list, const char* email);
 	int      Lists_GetMask(const char* email);
 	int      Lists_GetNetId(const char* email);
@@ -346,11 +346,11 @@ struct CMsnProto : public PROTO<CMsnProto>
 	bool     MSN_RefreshContactList(void);
 
 	bool     MSN_IsMyContact(MCONTACT hContact);
-	bool     MSN_IsMeByContact(MCONTACT hContact, char* szEmail = NULL);
-	bool     MSN_AddUser(MCONTACT hContact, const char* email, int netId, int flags, const char *msg = NULL);
+	bool     MSN_IsMeByContact(MCONTACT hContact, char* szEmail = nullptr);
+	bool     MSN_AddUser(MCONTACT hContact, const char* email, int netId, int flags, const char *msg = nullptr);
 	void     MSN_AddAuthRequest(const char *email, const char *nick, const char *reason);
 	void     MSN_SetContactDb(MCONTACT hContact, const char *szEmail);
-	MCONTACT MSN_HContactFromEmail(const char* msnEmail, const char* msnNick = NULL, bool addIfNeeded = false, bool temporary = false);
+	MCONTACT MSN_HContactFromEmail(const char* msnEmail, const char* msnNick = nullptr, bool addIfNeeded = false, bool temporary = false);
 	MCONTACT MSN_HContactFromChatID(const char* wlid);
 	MCONTACT AddToListByEmail(const char *email, const char *nick, DWORD flags);
 

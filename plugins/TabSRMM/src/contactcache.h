@@ -104,8 +104,8 @@ struct CContactCache : public MZeroedObject
 	bool     updateNick();
 	void     updateMeta();
 	bool     updateUIN();
-	void     updateStatusMsg(const char *szKey = 0);
-	void     setWindowData(CSrmmWindow *dat = 0);
+	void     updateStatusMsg(const char *szKey = nullptr);
+	void     setWindowData(CSrmmWindow *dat = nullptr);
 	void     resetMeta();
 	void     closeWindow();
 	void     deletedHandler();

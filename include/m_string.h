@@ -626,13 +626,13 @@ public:
 	static int __stdcall GetBaseTypeLength(LPCSTR pszSrc)
 	{
 		// Returns required buffer size in wchar_ts
-		return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, -1, NULL, 0)-1;
+		return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, -1, nullptr, 0)-1;
 	}
 
 	static int __stdcall GetBaseTypeLength(LPCSTR pszSrc, int nLength)
 	{
 		// Returns required buffer size in wchar_ts
-		return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, nLength, NULL, 0);
+		return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, nLength, nullptr, 0);
 	}
 
 	static int __stdcall GetBaseTypeLength(LPCWSTR pszSrc)
@@ -677,13 +677,13 @@ public:
 	static int __stdcall SafeStringLen(LPCSTR psz)
 	{
 		// returns length in bytes
-		return (psz != NULL) ? (int)strlen(psz) : 0;
+		return (psz != nullptr) ? (int)strlen(psz) : 0;
 	}
 
 	static int __stdcall SafeStringLen(LPCWSTR psz)
 	{
 		// returns length in wchar_ts
-		return (psz != NULL) ? (int)wcslen(psz) : 0;
+		return (psz != nullptr) ? (int)wcslen(psz) : 0;
 	}
 
 	static int __stdcall GetCharLen(const wchar_t* pch)

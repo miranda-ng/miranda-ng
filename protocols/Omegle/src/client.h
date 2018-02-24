@@ -41,7 +41,7 @@ public:
 	// Client definition
 	Omegle_client()
 	{
-		nick_ = NULL;
+		nick_ = nullptr;
 		//msgid_ = 0;
 		state_ = STATE_INACTIVE;
 
@@ -49,12 +49,12 @@ public:
 
 		error_count_ = 0;
 
-		parent = NULL;
-		handle_ = NULL;
-		hConnection = NULL;
-		hEventsConnection = NULL;
-		connection_lock_ = NULL;
-		chatHandle_ = NULL;
+		parent = nullptr;
+		handle_ = nullptr;
+		hConnection = nullptr;
+		hEventsConnection = nullptr;
+		connection_lock_ = nullptr;
+		chatHandle_ = nullptr;
 	}
 
 	HNETLIBCONN hConnection;
@@ -108,10 +108,10 @@ public:
 	bool    send_message(const std::string &message_text);
 
 	// HTTP communication
-	http::response  flap(const int request_type, std::string *post_data = NULL, std::string *get_data = NULL);
+	http::response  flap(const int request_type, std::string *post_data = nullptr, std::string *get_data = nullptr);
 
 	std::string choose_server(int);
-	std::string choose_action(int, std::string *get_data = NULL);
+	std::string choose_action(int, std::string *get_data = nullptr);
 
 	NETLIBHTTPHEADER *get_request_headers(int request_type, int *headers_count);
 

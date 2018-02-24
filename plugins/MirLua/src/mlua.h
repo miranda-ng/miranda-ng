@@ -6,7 +6,7 @@ struct HandleRefParam
 	HANDLE h;
 	int ref;
 	lua_State *L;
-	HandleRefParam(HANDLE h) : L(NULL), h(h), ref(0) { }
+	HandleRefParam(HANDLE h) : L(nullptr), h(h), ref(0) { }
 	HandleRefParam(lua_State *L, HANDLE h, int ref = 0) : L(L), h(h), ref(ref) { }
 };
 

@@ -124,7 +124,7 @@ private:
 	void	drawActionBar(MyBitmap *bmp, PopupWnd2 *wnd, int x, int y) const;
 
 public:
-	PopupSkin(LPCTSTR aName = 0);
+	PopupSkin(LPCTSTR aName = nullptr);
 	~PopupSkin();
 
 	void	measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options) const;

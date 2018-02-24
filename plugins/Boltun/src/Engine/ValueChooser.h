@@ -37,7 +37,7 @@ public:
 		:data(vec), notifyOnReset(NotifyOnReset)
 	{
 		//randomize();
-		numbers = NULL;
+		numbers = nullptr;
 		UpdateLength();
 	}
 

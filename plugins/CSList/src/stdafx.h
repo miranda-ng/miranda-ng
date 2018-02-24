@@ -161,8 +161,8 @@ template< class T > struct ListItem
 
 	ListItem()
 	{
-		m_item = NULL;
-		m_next = NULL;
+		m_item = nullptr;
+		m_next = nullptr;
 	}
 
 	~ListItem()
@@ -173,13 +173,13 @@ template< class T > struct ListItem
 	ListItem(StatusItem* si)
 	{
 		m_item = si;
-		m_next = NULL;
+		m_next = nullptr;
 	}
 
 	ListItem(const ListItem& p)
 	{
 		m_item = p.item;
-		m_next = NULL;
+		m_next = nullptr;
 	}
 };
 
@@ -196,7 +196,7 @@ public:
 
 	List(compareFunc compFnc)
 	{
-		m_items = NULL;
+		m_items = nullptr;
 		m_count = 0;
 		m_compare = compFnc;
 	}
@@ -220,13 +220,13 @@ public:
 	{
 		int position = 0;
 		ListItem< T >* item = new ListItem< T >(csi);
-		if (m_items == NULL)
+		if (m_items == nullptr)
 			m_items = item;
 		else
 		{
 			ListItem< T >* help = item;
 			item->m_next = m_items;
-			while (help->m_next != NULL)
+			while (help->m_next != nullptr)
 			{
 				int cmp = m_compare(item->m_item, help->m_next->m_item);
 				if (cmp == 1)

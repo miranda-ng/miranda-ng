@@ -129,7 +129,7 @@ private:
 		char* strAwayMessage; // NULL means no away message
 		int idAckAwayMessage;
 	};
-	u_char* CreatePacket(TPacket& pak, int* pBufLen = NULL);
+	u_char* CreatePacket(TPacket& pak, int* pBufLen = nullptr);
 	void ParsePacket(TPacket& pak, u_char* buf, int len = 65536);
 	void SendPacketExt(TPacket& pak, u_long addr);
 

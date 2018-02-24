@@ -76,7 +76,7 @@ void InitUpdateMsgs()
 	}
 	else if (!g_hUpdateMsgsThread && UpdateMsgs) {
 		g_hTerminateUpdateMsgsThread = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-		g_hUpdateMsgsThread = (HANDLE)mir_forkthread(UpdateMsgsThreadProc, NULL);
+		g_hUpdateMsgsThread = (HANDLE)mir_forkthread(UpdateMsgsThreadProc, nullptr);
 	}
 }
 
@@ -85,7 +85,7 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 {
 	TCString CurMsg(Msg);
 	if (szProto) {
-		if (Msg == NULL)
+		if (Msg == nullptr)
 			CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, szProto);
 
 		CallAllowedPS_SETAWAYMSG(szProto, iMode, CurMsg);
@@ -98,7 +98,7 @@ void ChangeProtoMessages(char* szProto, int iMode, const TCString &Msg)
 		for (int i = 0; i < numAccs; i++) {
 			PROTOACCOUNT *p = accs[i];
 			if (!db_get_b(NULL, p->szModuleName, "LockMainStatus", 0)) {
-				if (Msg == NULL)
+				if (Msg == nullptr)
 					CurMsg = GetDynamicStatMsg(INVALID_CONTACT_ID, p->szModuleName);
 
 				CallAllowedPS_SETAWAYMSG(p->szModuleName, iMode, CurMsg);

@@ -176,7 +176,7 @@ static LRESULT CALLBACK ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, L
 					int x = rc.left - iSize - 5;
 					for (int i = 0; i < _countof(SettingsList); i++) {
 						if (lpNMCD->nmcd.lItemlParam == (LPARAM)dat->MsgTreePage.GetValue(SettingsList[i].DBSetting)) {
-							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, Skin_LoadProtoIcon(NULL, SettingsList[i].Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
+							DrawIconEx(lpNMCD->nmcd.hdc, x, rc.top, Skin_LoadProtoIcon(nullptr, SettingsList[i].Status), iSize, iSize, 0, GetSysColorBrush(COLOR_WINDOW), DI_NORMAL);
 							x -= iSize + 1;
 						}
 					}
@@ -506,7 +506,7 @@ bool CMsgTree::SetSelection(int ID, int Flags) // set ID = -1 to unselect; retur
 	if (Order == -1 && ID != -1)
 		return false;
 
-	TreeView_SelectItem(hTreeView, (Order == -1) ? NULL : ((Order <= TREECTRL_ROOTORDEROFFS) ? TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : TreeCtrl->m_value[Order].hItem));
+	TreeView_SelectItem(hTreeView, (Order == -1) ? nullptr : ((Order <= TREECTRL_ROOTORDEROFFS) ? TreeCtrl->RootItems[ROOT_ORDER_TO_INDEX(Order)].hItem : TreeCtrl->m_value[Order].hItem));
 	return true;
 }
 

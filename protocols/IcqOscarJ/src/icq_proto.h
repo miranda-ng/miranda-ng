@@ -588,8 +588,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	void   servlistPendingAddContactOperation(MCONTACT hContact, LPARAM param, PENDING_CONTACT_CALLBACK callback, DWORD flags);
 	void   servlistPendingAddGroupOperation(const char *pszGroup, LPARAM param, PENDING_GROUP_CALLBACK callback, DWORD flags);
-	int    servlistPendingAddContact(MCONTACT hContact, WORD wContactID, WORD wGroupID, LPARAM param, PENDING_CONTACT_CALLBACK callback, int bDoInline, LPARAM operationParam = 0, PENDING_CONTACT_CALLBACK operationCallback = NULL);
-	int    servlistPendingAddGroup(const char *pszGroup, WORD wGroupID, LPARAM param, PENDING_GROUP_CALLBACK callback, int bDoInline, LPARAM operationParam = 0, PENDING_GROUP_CALLBACK operationCallback = NULL);
+	int    servlistPendingAddContact(MCONTACT hContact, WORD wContactID, WORD wGroupID, LPARAM param, PENDING_CONTACT_CALLBACK callback, int bDoInline, LPARAM operationParam = 0, PENDING_CONTACT_CALLBACK operationCallback = nullptr);
+	int    servlistPendingAddGroup(const char *pszGroup, WORD wGroupID, LPARAM param, PENDING_GROUP_CALLBACK callback, int bDoInline, LPARAM operationParam = 0, PENDING_GROUP_CALLBACK operationCallback = nullptr);
 	void   servlistPendingRemoveContact(MCONTACT hContact, WORD wContactID, WORD wGroupID, int nResult);
 	void   servlistPendingRemoveGroup(const char *pszGroup, WORD wGroupID, int nResult);
 	void   servlistPendingFlushOperations();
@@ -673,7 +673,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   icq_requestnewfamily(WORD wFamily, void (CIcqProto::*familyhandler)(HNETLIBCONN hConn, char* cookie, size_t cookieLen));
 
 	void   icq_setidle(int bAllow);
-	void   icq_setstatus(WORD wStatus, const char *szStatusNote = NULL);
+	void   icq_setstatus(WORD wStatus, const char *szStatusNote = nullptr);
 	DWORD  icq_sendGetInfoServ(MCONTACT hContact, DWORD, int);
 	DWORD  icq_sendGetAimProfileServ(MCONTACT hContact, char *szUid);
 	DWORD  icq_sendGetAwayMsgServ(MCONTACT hContact, DWORD, int, WORD);

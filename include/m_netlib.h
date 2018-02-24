@@ -726,7 +726,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_LogfW(HNETLIBUSER hUser, const wchar_t *fmt, ..
 // Returns HANDLE = NULL on error or non-null value on success
 // Known providers: Basic, NTLM, Negotiate, Kerberos, GSSAPI - (Kerberos SASL)
 
-EXTERN_C MIR_APP_DLL(HANDLE) Netlib_InitSecurityProvider(const wchar_t *szProviderName, const wchar_t *szPrincipal = NULL);
+EXTERN_C MIR_APP_DLL(HANDLE) Netlib_InitSecurityProvider(const wchar_t *szProviderName, const wchar_t *szPrincipal = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Destroys a security provider's handle, provided by Netlib_InitSecurityProvider.

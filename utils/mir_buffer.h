@@ -85,7 +85,7 @@ inline void __bcopy(WCHAR *dest, const char *orig, size_t len)
 
 inline void __bcopy(char *dest, const WCHAR *orig, size_t len)
 {
-	WideCharToMultiByte(CallService("LangPack/GetCodePage", 0, 0), 0, orig, (int)len, dest, (int)len, NULL, NULL);
+	WideCharToMultiByte(CallService("LangPack/GetCodePage", 0, 0), 0, orig, (int)len, dest, (int)len, nullptr, nullptr);
 }
 
 
@@ -97,13 +97,13 @@ class Buffer
 		size_t len;
 		T *str;
 
-		Buffer() : str(NULL), size(0), len(0)
+		Buffer() : str(nullptr), size(0), len(0)
 		{
 			alloc(1);
 			pack();
 		}
 
-		Buffer(T in) : str(NULL), size(0), len(0)
+		Buffer(T in) : str(nullptr), size(0), len(0)
 		{
 			if (in == NULL)
 			{
@@ -124,7 +124,7 @@ class Buffer
 
 		void pack()
 		{
-			if (str != NULL)
+			if (str != nullptr)
 				memset(&str[len], 0, sizeof(str[len]));
 		}
 
@@ -133,7 +133,7 @@ class Buffer
 			if (total > size)
 			{
 				size = total + 256 - total % 256;
-				if (str == NULL)
+				if (str == nullptr)
 					str = (T *) mir_alloc(size * sizeof(T));
 				else
 					str = (T *) mir_realloc(str, size * sizeof(T));
@@ -142,10 +142,10 @@ class Buffer
 
 		void free()
 		{
-			if (str != NULL)
+			if (str != nullptr)
 			{
 				mir_free(str);
-				str = NULL;
+				str = nullptr;
 				len = size = 0;
 			}
 		}
@@ -179,7 +179,7 @@ class Buffer
 
 		void append(const char *app, size_t appLen = -1)
 		{
-			if (app == NULL)
+			if (app == nullptr)
 				return;
 			if (appLen == -1)
 				appLen = __blen(app);
@@ -194,7 +194,7 @@ class Buffer
 
 		void append(const WCHAR *app, size_t appLen = -1)
 		{
-			if (app == NULL)
+			if (app == nullptr)
 				return;
 			if (appLen == -1)
 				appLen = __blen(app);
@@ -209,7 +209,7 @@ class Buffer
 
 		void append(const Buffer<char> &app)
 		{
-			if (app.str == NULL)
+			if (app.str == nullptr)
 				return;
 			size_t appLen = app.len;
 
@@ -304,7 +304,7 @@ class Buffer
 
 		void translate()
 		{
-			if (str == NULL || len == 0)
+			if (str == nullptr || len == 0)
 				return;
 
 			str[len] = 0;
@@ -347,14 +347,14 @@ class Buffer
 		T *detach()
 		{
 			T *ret = str;
-			str = NULL;
+			str = nullptr;
 			len = 0;
 			return ret;
 		}
 
 		void trimRight()
 		{
-			if (str == NULL)
+			if (str == nullptr)
 				return;
 
 			int e;
@@ -368,7 +368,7 @@ class Buffer
 
 		void trimLeft()
 		{
-			if (str == NULL)
+			if (str == nullptr)
 				return;
 
 			int s;

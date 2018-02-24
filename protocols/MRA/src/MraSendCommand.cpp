@@ -8,7 +8,7 @@ class OutBuffer
 	size_t  m_max, m_actual;
 
 public:
-	OutBuffer() : m_buf(0), m_max(0), m_actual(0) {}
+	OutBuffer() : m_buf(nullptr), m_max(0), m_actual(0) {}
 	~OutBuffer() { if (m_buf) free(m_buf); }
 
 	void* Allocate(size_t len)
@@ -77,7 +77,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 
 	DWORD dwRet = 0;
 	LPSTR lpszMessageConverted = (LPSTR)lpwszMessage.GetString();
-	LPSTR lpszMessageRTF = NULL;
+	LPSTR lpszMessageRTF = nullptr;
 	size_t dwMessageConvertedSize = lpwszMessage.GetLength()*sizeof(WCHAR), dwMessageRTFSize = 0;
 
 	if (MraIsMessageFlashAnimation(lpwszMessage))
@@ -136,8 +136,8 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		}
 	}
 
-	if (lpszMessageRTF == NULL || dwMessageRTFSize == 0) dwFlags &= ~(MESSAGE_FLAG_RTF | MESSAGE_FLAG_FLASH);
-	if (lpbMultiChatData == NULL || dwMultiChatDataSize == 0) dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
+	if (lpszMessageRTF == nullptr || dwMessageRTFSize == 0) dwFlags &= ~(MESSAGE_FLAG_RTF | MESSAGE_FLAG_FLASH);
+	if (lpbMultiChatData == nullptr || dwMultiChatDataSize == 0) dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
 
 	OutBuffer buf;
 	buf.SetUL(dwFlags);
@@ -148,7 +148,7 @@ DWORD CMraProto::MraMessage(BOOL bAddToQueue, MCONTACT hContact, DWORD dwAckType
 		buf.SetLPS(CMStringA((LPSTR)lpbMultiChatData, (int)dwMultiChatDataSize));
 
 	if (bAddToQueue)
-		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, NULL, 0, MRIM_CS_MESSAGE, buf.Data(), buf.Len());
+		dwRet = MraSendQueueCMD(hSendQueueHandle, 0, hContact, dwAckType, nullptr, 0, MRIM_CS_MESSAGE, buf.Data(), buf.Len());
 	else
 		dwRet = MraSendCMD(MRIM_CS_MESSAGE, buf.Data(), buf.Len());
 
@@ -198,18 +198,18 @@ DWORD CMraProto::MraAddContact(MCONTACT hContact, DWORD dwContactFlag, DWORD dwG
 	buf.SetUL(dwGroupID);
 	buf.SetLPSLowerCase(szEmail);
 	buf.SetLPSW(wszCustomName);
-	buf.SetLPS((szPhones == NULL) ? "" : *szPhones);
+	buf.SetLPS((szPhones == nullptr) ? "" : *szPhones);
 
 	// pack auth message
 	OutBuffer buf2;
 	buf2.SetUL(2);
 	buf2.SetLPSW(L"");//***deb possible nick here
-	buf2.SetLPSW((wszAuthMessage == NULL) ? L"" : *wszAuthMessage);
+	buf2.SetLPSW((wszAuthMessage == nullptr) ? L"" : *wszAuthMessage);
 	buf.SetLPS(CMStringA(ptrA(mir_base64_encode(buf2.Data(), buf2.Len()))));
 
 	buf.SetUL(0);
 
-	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, NULL, 0, MRIM_CS_ADD_CONTACT, buf.Data(), buf.Len());
+	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, nullptr, 0, MRIM_CS_ADD_CONTACT, buf.Data(), buf.Len());
 }
 
 // change contact
@@ -219,7 +219,7 @@ DWORD CMraProto::MraModifyContact(MCONTACT hContact, DWORD *pdwID, DWORD *pdwCon
 	CMStringW wszNick, wszCustomName;
 	DWORD dwID, dwGroupID, dwContactFlag;
 	if (hContact)
-		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, NULL, NULL, &szEmail, &wszNick, &szPhones);
+		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, nullptr, nullptr, &szEmail, &wszNick, &szPhones);
 	else
 		dwID = dwGroupID = dwContactFlag = 0;
 
@@ -241,7 +241,7 @@ DWORD CMraProto::MraModifyContact(MCONTACT hContact, DWORD *pdwID, DWORD *pdwCon
 	buf.SetLPSW(wszCustomName);
 	buf.SetLPS(szPhones);
 
-	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, NULL, 0, MRIM_CS_MODIFY_CONTACT, buf.Data(), buf.Len());
+	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ACKTYPE_ADDED, nullptr, 0, MRIM_CS_MODIFY_CONTACT, buf.Data(), buf.Len());
 }
 
 // remove stored message
@@ -377,7 +377,7 @@ HANDLE CMraProto::MraWPRequestW(MCONTACT hContact, DWORD dwAckType, DWORD dwRequ
 		buf.SetLPS(tmp);
 	}
 
-	return (HANDLE)MraSendQueueCMD(hSendQueueHandle, dwRequestFlags, hContact, dwAckType, NULL, 0, MRIM_CS_WP_REQUEST, buf.Data(), buf.Len());
+	return (HANDLE)MraSendQueueCMD(hSendQueueHandle, dwRequestFlags, hContact, dwAckType, nullptr, 0, MRIM_CS_WP_REQUEST, buf.Data(), buf.Len());
 }
 
 // Поиск контакта по EMail
@@ -407,7 +407,7 @@ DWORD CMraProto::MraGame(const CMStringA &szEmail, DWORD dwGameSessionID, DWORD 
 	buf.SetUL(dwGameSessionID);
 	buf.SetUL(dwGameMsg);
 	buf.SetUL(dwGameMsgID);
-	buf.SetUL(_time32(NULL));
+	buf.SetUL(_time32(nullptr));
 	buf.SetLPS(szData);
 	return MraSendCMD(MRIM_CS_GAME, buf.Data(), buf.Len());
 }
@@ -449,7 +449,7 @@ DWORD CMraProto::MraSMSW(MCONTACT hContact, const CMStringA &lpszPhone, const CM
 
 	/* Save phone number for ack notify after send. */
 	LPBYTE lpbData = (LPBYTE)mir_calloc(lpszPhone.GetLength() + sizeof(size_t));
-	if (NULL == lpbData)
+	if (nullptr == lpbData)
 		return (0);
 	memcpy(lpbData, lpszPhone, lpszPhone.GetLength());
 	return MraSendQueueCMD(hSendQueueHandle, 0, hContact, ICQACKTYPE_SMS, lpbData, lpszPhone.GetLength(), MRIM_CS_SMS, buf.Data(), buf.Len());

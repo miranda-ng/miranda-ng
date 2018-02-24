@@ -48,7 +48,7 @@ protected:
 		{
 			return _Tr::not_eof(_C);
 		}
-		else if (pptr() != 0 && pptr() < epptr())
+		else if (pptr() != nullptr && pptr() < epptr())
 		{
 			*pptr() = _Tr::to_char_type(_C);
 			pbump(1);

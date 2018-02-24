@@ -20,7 +20,7 @@ public:
 		name = mir_wstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
 
 		if (g_Options.bUseGroups) {
-			if ((group = db_get_wsa(hContact, "CList", "Group")) == NULL)
+			if ((group = db_get_wsa(hContact, "CList", "Group")) == nullptr)
 				group = mir_wstrdup(TranslateT("<no group>"));
 		}
 		else group = mir_wstrdup(TranslateT("Favorite Contacts"));
@@ -72,7 +72,7 @@ private:
 	int addContact(MCONTACT hContact, bool bManual)
 	{
 		DBCachedContact *cc = db->m_cache->GetCachedContact(hContact);
-		if (cc == NULL)
+		if (cc == nullptr)
 			return 0;
 
 		if (db_mc_isEnabled()) {
@@ -107,7 +107,7 @@ public:
 
 	void build()
 	{
-		prevGroup = NULL;
+		prevGroup = nullptr;
 
 		nGroups = 1;
 

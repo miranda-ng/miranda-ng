@@ -41,7 +41,7 @@ public:
 	void MoveElem(int nIndex, int nMoveTo);
 	T& SetAtGrow(int nIndex);
 	int Find(ARG_T pElem); // returns an index of the specified item, or -1 if the array doesn't contain the item
-	int BinarySearch(int (*CmpFunc)(ARG_T pItem, LPARAM lParam), LPARAM lParam, int *pIndex = NULL); // returns an index of the specified item, or -1 if the array doesn't contain the item;
+	int BinarySearch(int (*CmpFunc)(ARG_T pItem, LPARAM lParam), LPARAM lParam, int *pIndex = nullptr); // returns an index of the specified item, or -1 if the array doesn't contain the item;
 	// also it's possible to specify pIndex so that even if the array doesn't contain the item, the function will set *pIndex to a position where the item can be inserted;
 	// CmpFunc must return -1, 0 and 1 depending whether pItem is lesser, equal or greater than needed;
 	// BinarySearch() requires the array to be sorted in an ascending order
@@ -65,7 +65,7 @@ TMyArray<T, ARG_T, GrowBy, FreeThreshold>::TMyArray()
 {
 	nElemNum = 0;
 	nAllocNum = 0;
-	pData = NULL;
+	pData = nullptr;
 }
 
 template <class T, class ARG_T, int GrowBy, int FreeThreshold>
@@ -73,7 +73,7 @@ TMyArray<T, ARG_T, GrowBy, FreeThreshold>::TMyArray(const TMyArray<T, ARG_T, Gro
 {
 	nElemNum = 0;
 	nAllocNum = 0;
-	pData = NULL;
+	pData = nullptr;
 	*this = A;
 }
 
@@ -99,7 +99,7 @@ template <class T, class ARG_T, int GrowBy, int FreeThreshold>
 __forceinline int TMyArray<T, ARG_T, GrowBy, FreeThreshold>::SetAllocNum(int nNewAllocNum)
 {
 	_ASSERT(nNewAllocNum >= nElemNum);
-	T*pNewData = (nNewAllocNum) ? (T*)malloc(sizeof(T) * nNewAllocNum) : NULL;
+	T*pNewData = (nNewAllocNum) ? (T*)malloc(sizeof(T) * nNewAllocNum) : nullptr;
 	if (pData)
 	{
 		if (pNewData)

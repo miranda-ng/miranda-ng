@@ -89,14 +89,14 @@ public:
 	int	CompareDays(MTime mt) const;
 	
 	MZodiac	Zodiac();
-	int		Age(MTime *pNow = NULL);
+	int		Age(MTime *pNow = nullptr);
 	void	Clear();
 
 	// read date from database
 	int DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
 	int DBGetDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
 	int DBGetAnniversaryDate(MCONTACT hContact, WORD iIndex);
-	int DBGetBirthDate(MCONTACT hContact, LPSTR pszProto = NULL);
+	int DBGetBirthDate(MCONTACT hContact, LPSTR pszProto = nullptr);
 	int DBGetReminderOpts(MCONTACT hContact);
 
 	// write date to database
@@ -109,7 +109,7 @@ public:
 	int DBDeleteBirthDate(MCONTACT hContact);
 
 	int DBMoveBirthDate(MCONTACT hContact, BYTE bOld, BYTE bNew);
-	int BackupBirthday (MCONTACT hContact, LPSTR pszProto = NULL, const BYTE bDontIgnoreAnything = FALSE, PWORD lastAnswer = NULL);
+	int BackupBirthday (MCONTACT hContact, LPSTR pszProto = nullptr, const BYTE bDontIgnoreAnything = FALSE, PWORD lastAnswer = nullptr);
 
 	// setting values
 	void	SetDate(const SYSTEMTIME &st);

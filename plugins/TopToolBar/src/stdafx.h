@@ -116,7 +116,7 @@ void RemoveFromOptions(int id);
 //append string
 char *AS(char *str, const char *setting, char *addstr)
 {
-	if (str != NULL) {
+	if (str != nullptr) {
 		mir_strcpy(str, setting);
 		mir_strcat(str, addstr);
 	}
@@ -125,7 +125,7 @@ char *AS(char *str, const char *setting, char *addstr)
 
 #define TTB_LAUNCHSERVICE "TTB/LaunchService"
 
-TopButtonInt* idtopos(int id, int* pPos=NULL);
+TopButtonInt* idtopos(int id, int* pPos = nullptr);
 
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);

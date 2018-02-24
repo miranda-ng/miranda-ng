@@ -27,14 +27,14 @@ private:
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		requestType = type;
 		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-		szUrl = NULL;
-		headers = NULL;
+		szUrl = nullptr;
+		headers = nullptr;
 		headersCount = 0;
-		pData = NULL;
+		pData = nullptr;
 		dataLength = 0;
 		resultCode = 0;
-		szResultDescr = NULL;
-		nlc = NULL;
+		szResultDescr = nullptr;
+		nlc = nullptr;
 		timeout = 0;
 	}
 
@@ -90,7 +90,7 @@ public:
 
 	void SetData(const char *data, size_t size)
 	{
-		if (pData != NULL)
+		if (pData != nullptr)
 			mir_free(pData);
 
 		dataLength = (int)size;

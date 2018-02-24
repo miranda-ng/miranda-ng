@@ -208,7 +208,7 @@ are no contacts in the db.
 */
 
 #if defined(__cplusplus)
-EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto = NULL);
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto = nullptr);
 #else
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto);
 #endif
@@ -222,7 +222,7 @@ hContact was the last contact in the db or hContact was invalid.
 */
 
 #if defined(__cplusplus)
-EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto = NULL);
+EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto = nullptr);
 #else
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto);
 #endif

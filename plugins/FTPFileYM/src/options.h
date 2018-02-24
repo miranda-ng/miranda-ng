@@ -27,7 +27,7 @@ private:
 	static Options *instance;
 
 	Options() { }; 
-	~Options() { instance = NULL; };
+	~Options() { instance = nullptr; };
 
 public:
 	enum ETimeRange

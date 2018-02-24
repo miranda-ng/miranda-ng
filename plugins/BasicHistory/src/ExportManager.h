@@ -54,7 +54,7 @@ public:
 	void SetDeleteWithoutExportEvents(int deltaTime, DWORD now);
 	void DeleteExportedEvents();
 	int Import(IImport::ImportType type, const std::vector<MCONTACT> &contacts);
-	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage> &eventList, std::wstring *err = NULL, bool *differentContact = NULL, std::vector<MCONTACT> *contacts = NULL);
+	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage> &eventList, std::wstring *err = nullptr, bool *differentContact = nullptr, std::vector<MCONTACT> *contacts = nullptr);
 	static const wchar_t* GetExt(IImport::ImportType type);
 };
 

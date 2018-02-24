@@ -30,7 +30,7 @@ public:
 			}
 
 			// Avatar size
-			if (contact->cFlags & ECF_AVATAR && contact->type == CLCIT_CONTACT && contact->ace != NULL && !(contact->ace->dwFlags & AVS_HIDEONCLIST))
+			if (contact->cFlags & ECF_AVATAR && contact->type == CLCIT_CONTACT && contact->ace != nullptr && !(contact->ace->dwFlags & AVS_HIDEONCLIST))
 				height = max(height, cfg::dat.avatarSize + cfg::dat.avatarPadding);
 		}
 

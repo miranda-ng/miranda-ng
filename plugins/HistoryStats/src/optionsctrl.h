@@ -31,7 +31,7 @@ private:
 	const OptionsCtrl& operator =(const OptionsCtrl& other); // no implementation
 
 public:
-	explicit OptionsCtrl(HWND hOptWnd = NULL) : m_hOptWnd(hOptWnd) { }
+	explicit OptionsCtrl(HWND hOptWnd = nullptr) : m_hOptWnd(hOptWnd) { }
 	~OptionsCtrl() { }
 
 public:
@@ -78,7 +78,7 @@ public:
 	void setScrollPos(int nBar, int nPos);
 	bool isDateTimeNone(HANDLE hDateTime);
 	void setDateTimeNone(HANDLE hDateTime);
-	DWORD getDateTime(HANDLE hDateTime, bool* pbNone = NULL);
+	DWORD getDateTime(HANDLE hDateTime, bool* pbNone = nullptr);
 	void setDateTime(HANDLE hDateTime, DWORD dwDateTime);
 	ext::string getDateTimeStr(HANDLE hDateTime);
 	void setDateTimeStr(HANDLE hDateTime, const ext::string& strDateTime);

@@ -141,7 +141,9 @@ typedef struct{
 
 __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char *name, const char *defaultPath)
 {
-	if (!ServiceExists(MS_FOLDERS_REGISTER_PATH)) return 0;
+	if (!ServiceExists(MS_FOLDERS_REGISTER_PATH))
+		return nullptr;
+
 	FOLDERSDATA fd = { sizeof(fd) };
 	fd.szSection = section;
 	fd.szName = name;
@@ -150,9 +152,11 @@ __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char
 }
 
 #ifdef _UNICODE
-__inline static HANDLE FoldersRegisterCustomPathW(const char *section, const char *name, const wchar_t *defaultPathW, const wchar_t *userNameW = NULL)
+__inline static HANDLE FoldersRegisterCustomPathW(const char *section, const char *name, const wchar_t *defaultPathW, const wchar_t *userNameW = nullptr)
 {
-	if (!ServiceExists(MS_FOLDERS_REGISTER_PATH)) return 0;
+	if (!ServiceExists(MS_FOLDERS_REGISTER_PATH))
+		return nullptr;
+
 	FOLDERSDATA fd = { sizeof(fd) };
 	fd.szSection = section;
 	fd.szName = name;

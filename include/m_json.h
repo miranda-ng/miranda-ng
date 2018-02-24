@@ -135,7 +135,7 @@ class JSONROOT
 	JSONNode *m_node;
 
 public:
-	__forceinline JSONROOT() { m_node = NULL; }
+	__forceinline JSONROOT() { m_node = nullptr; }
 	__forceinline JSONROOT(LPCSTR text) { Parse(text); }
 	__forceinline ~JSONROOT() { json_delete(m_node); }
 

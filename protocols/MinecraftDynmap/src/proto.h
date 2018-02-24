@@ -70,7 +70,7 @@ public:
 
 	// Chat handling
  	void AddChat(const char *id, const char *name);
-	void UpdateChat(const char *name, const char *message, const time_t timestamp = time(NULL), bool addtochat = true);
+	void UpdateChat(const char *name, const char *message, const time_t timestamp = time(nullptr), bool addtochat = true);
 	void AddChatContact(const char *nick);
 	void DeleteChatContact(const char *name);
 	void SetChatStatus(int);
@@ -110,8 +110,8 @@ public:
 	void __inline reset_error() { error_count_ = 0; }
 	
 	// HTTP communication
-	http::response sendRequest(const int request_type, std::string *post_data = NULL, std::string *get_data = NULL);
-	std::string chooseAction(int, std::string *get_data = NULL);
+	http::response sendRequest(const int request_type, std::string *post_data = nullptr, std::string *get_data = nullptr);
+	std::string chooseAction(int, std::string *get_data = nullptr);
 	NETLIBHTTPHEADER *get_request_headers(int request_type, int *headers_count);
 
 	// Requests and processing

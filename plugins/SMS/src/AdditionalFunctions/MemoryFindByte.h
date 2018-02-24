@@ -7,7 +7,7 @@ __inline LPVOID MemoryFindByte(size_t dwFrom,LPCVOID lpcSource,size_t dwSourceSi
 		if (dwFrom < dwSourceSize)
 			return memchr((BYTE*)lpcSource + dwFrom, chWhatFind, dwSourceSize-dwFrom);
 
-	return NULL;
+	return nullptr;
 }
 
 #endif // !defined(AFX_MEMORYFINDBYTE__H__INCLUDED_)

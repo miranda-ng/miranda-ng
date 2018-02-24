@@ -184,7 +184,7 @@ INT_PTR CToxProto::OnChangePassword(WPARAM, LPARAM)
 INT_PTR CToxProto::OnRemovePassword(WPARAM, LPARAM)
 {
 	const wchar_t *message = TranslateT("Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?");
-	int result = MessageBox(NULL, message, TranslateT("Remove password"), MB_YESNO | MB_ICONQUESTION);
+	int result = MessageBox(nullptr, message, TranslateT("Remove password"), MB_YESNO | MB_ICONQUESTION);
 	if (result == IDYES) {
 		delSetting(TOX_SETTINGS_PASSWORD);
 		SaveToxProfile(m_toxThread->Tox());

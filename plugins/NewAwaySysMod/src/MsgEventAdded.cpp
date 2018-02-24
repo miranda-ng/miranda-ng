@@ -69,7 +69,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		dbeo.eventType = EVENTTYPE_MESSAGE;
 		dbeo.flags = DBEF_SENT | DBEF_UTF;
 		dbeo.szModule = szProto;
-		dbeo.timestamp = time(NULL);
+		dbeo.timestamp = time(nullptr);
 
 		dbeo.cbBlob = ReplyLen;
 		dbeo.pBlob = (PBYTE)(char*)pszReply;
@@ -114,7 +114,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei->flags & DBEF_SENT || (dbei->eventType != EVENTTYPE_MESSAGE && dbei->eventType != EVENTTYPE_URL && dbei->eventType != EVENTTYPE_FILE))
 		return 0;
 
-	if (time(NULL) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
+	if (time(nullptr) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
 		return 0;
 
 	char *szProto = GetContactProto(hContact);
@@ -222,7 +222,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	db_set_b(hContact, MOD_NAME, DB_SENDCOUNT, db_get_b(hContact, MOD_NAME, DB_SENDCOUNT, 0) + 1);
 	GetDynamicStatMsg(hContact); // it updates VarParseData.Message needed for %extratext% in the format
 	TCString Reply(*(TCString*)AutoreplyOptData.GetValue(IDC_REPLYDLG_PREFIX));
-	if (Reply != NULL && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
+	if (Reply != nullptr && ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
 		wchar_t *szResult = variables_parse(Reply, VarParseData.Message, hContact);
 		if (szResult != nullptr) {
 			Reply = szResult;

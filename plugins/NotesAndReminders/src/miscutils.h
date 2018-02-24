@@ -31,6 +31,6 @@ static void __inline SAFE_FREE(void** p)
 	if (*p)
 	{
 		free(*p);
-		*p = NULL;
+		*p = nullptr;
 	}
 }

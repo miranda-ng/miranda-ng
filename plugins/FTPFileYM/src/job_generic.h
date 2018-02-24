@@ -28,7 +28,7 @@ private:
 	HANDLE handle;
 
 public:
-	Event() { handle = CreateEvent (0, FALSE, FALSE, 0); }
+	Event() { handle = CreateEvent(nullptr, FALSE, FALSE, nullptr); }
 	~Event() { CloseHandle (handle); }
 
 	operator HANDLE () { return handle; }

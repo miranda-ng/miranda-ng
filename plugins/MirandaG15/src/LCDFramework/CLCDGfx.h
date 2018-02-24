@@ -45,7 +45,7 @@ public:
 	BITMAPINFO *GetBitmapInfo(void);
 	HBITMAP GetHBITMAP(void);
 
-	void StartTransition(ETransitionType eType = TRANSITION_RANDOM,LPRECT rect = NULL);
+	void StartTransition(ETransitionType eType = TRANSITION_RANDOM,LPRECT rect = nullptr);
 
 protected:
 	void Cache();

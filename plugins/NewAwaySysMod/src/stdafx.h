@@ -277,7 +277,7 @@ extern bool g_fNoProcessing;
 extern int g_bIsIdle;
 
 // AwaySys.cpp
-TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto = NULL, DWORD UIN = 0, int iStatus = 0);
+TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto = nullptr, DWORD UIN = 0, int iStatus = 0);
 int IsAnICQProto(char *szProto);
 
 // Client.cpp
@@ -319,7 +319,7 @@ static __inline int LogMessage(const char *Format, ...)
 	va_start(va, Format);
 	mir_vsnprintf(szText + (_countof(LOG_PREFIX) - 1), sizeof(szText) - (_countof(LOG_PREFIX) - 1), Format, va);
 	va_end(va);
-	return Netlib_Log(NULL, szText);
+	return Netlib_Log(nullptr, szText);
 }
 
 __inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const wchar_t *szMsg)
@@ -328,7 +328,7 @@ __inline int CallAllowedPS_SETAWAYMSG(const char *szProto, int iMode, const wcha
 	return CallProtoService(szProto, PS_SETAWAYMSG, iMode, (LPARAM)szMsg);
 }
 
-static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags = 0, char *szSubjectDesc = NULL, char *szExtraDesc = NULL)
+static __inline int my_variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags = 0, char *szSubjectDesc = nullptr, char *szExtraDesc = NULL)
 {
 	if (ServiceExists(MS_VARS_SHOWHELPEX)) {
 		return variables_showhelp(hwndDlg, uIDEdit, flags, szSubjectDesc,szExtraDesc);

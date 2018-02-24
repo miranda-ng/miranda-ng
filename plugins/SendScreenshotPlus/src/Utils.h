@@ -49,7 +49,7 @@ int ComboBox_SelectItemData(HWND hwndCtl, LPARAM data);
 size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen);
 
 FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture);
-FIBITMAP* CaptureMonitor(const wchar_t *pwszDevice, const RECT *cropRect = NULL);
+FIBITMAP* CaptureMonitor(const wchar_t *pwszDevice, const RECT *cropRect = nullptr);
 
 char* GetFileNameA(const wchar_t *pwszPath);
 
@@ -64,7 +64,7 @@ class EventHandle
 {
 	HANDLE _hEvent;
 public:
-	inline EventHandle() { _hEvent = CreateEvent(NULL, 0, 0, NULL); }
+	inline EventHandle() { _hEvent = CreateEvent(nullptr, 0, 0, nullptr); }
 	inline ~EventHandle() { CloseHandle(_hEvent); }
 	inline void Set() { SetEvent(_hEvent); }
 	inline void Wait() { WaitForSingleObject(_hEvent, INFINITE); }

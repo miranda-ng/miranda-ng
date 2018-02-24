@@ -36,12 +36,12 @@ public:
 			int value;
 			Item *next;
 
-			Item(char *aName, int aValue, Item *aNext) : value(aValue), next(aNext) { name = aName ? mir_strdup(aName) : 0; }
+			Item(char *aName, int aValue, Item *aNext) : value(aValue), next(aNext) { name = aName ? mir_strdup(aName) : nullptr; }
 			~Item() { if (name) mir_free(name); }
 		};
 		Item *items;
 	public:
-		Args() :items(0){}
+		Args() :items(nullptr){}
 		~Args(){ clear(); }
 		void	add(char *name, int value)
 		{
@@ -83,7 +83,7 @@ public:
 	Formula(wchar_t *s) :m_str(mir_wstrdup(s)) {}
 	~Formula() { mir_free(m_str); }
 	void	set(wchar_t *s){ mir_free(m_str); m_str = mir_wstrdup(s); }
-	int		eval(Args *args, bool *vars = 0) const;
+	int		eval(Args *args, bool *vars = nullptr) const;
 };
 
 #endif // __formula_h__

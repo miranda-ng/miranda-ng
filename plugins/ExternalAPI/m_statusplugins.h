@@ -104,7 +104,7 @@ typedef struct {
 __inline static int announce_status_change(char *szProto, int newstatus, TCHAR *szMsg) {
 
 	PROTOCOLSETTINGEX ps = { 0 };
-	ps.m_lastStatus = szProto != NULL ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
+	ps.m_lastStatus = szProto != nullptr ? CallProtoService(szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	ps.m_status = newstatus;
 	ps.m_szMsg = szMsg;
 	ps.m_szName = szProto;

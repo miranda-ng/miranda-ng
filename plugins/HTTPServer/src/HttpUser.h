@@ -63,8 +63,8 @@ private:
 	HANDLE hFile;
 	char *apszParam[eLastParam];
 
-	void SendError(int iErrorCode, const char * pszError, const char * pszDescription = NULL);
-	void SendRedir(int iErrorCode, const char * pszError, const char * pszDescription = NULL, const char * pszRedirect = NULL);
+	void SendError(int iErrorCode, const char * pszError, const char * pszDescription = nullptr);
+	void SendRedir(int iErrorCode, const char * pszError, const char * pszDescription = nullptr, const char * pszRedirect = nullptr);
 };
 
 #endif

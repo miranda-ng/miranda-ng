@@ -57,8 +57,8 @@ public:
 	static void     DoubleAmpersands(wchar_t *pszText, size_t len);
 	static void     RTF_CTableInit();
 	static void     RTF_ColorAdd(const wchar_t *tszColname);
-	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
-	static int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
+	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
+	static int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
 	static void     SettingsToContainer(TContainerData *pContainer);
 	static void     ContainerToSettings(TContainerData *pContainer);
 	static void     ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce = false);
@@ -154,7 +154,7 @@ public:
 
 public:
 	// static function to construct and show the dialog, returns the user's choice
-	static LRESULT show(const int uId, DWORD dwFlags = 0, const wchar_t* tszTxt = 0);
+	static LRESULT show(const int uId, DWORD dwFlags = 0, const wchar_t* tszTxt = nullptr);
 	static void destroyAll();
 	LRESULT ShowDialog() const;
 

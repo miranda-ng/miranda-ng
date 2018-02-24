@@ -49,7 +49,7 @@ public:
 	void SetButtonRepeatDelay(DWORD dwDelay);
 
 	// starts a screen transition
-	void StartTransition(ETransitionType eTransition = TRANSITION_RANDOM,LPRECT rect = NULL);
+	void StartTransition(ETransitionType eTransition = TRANSITION_RANDOM,LPRECT rect = nullptr);
 	
 	// called by CLCDConnection when connected to a device
 	void OnDeviceConnected();

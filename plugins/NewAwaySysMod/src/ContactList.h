@@ -51,7 +51,7 @@ public:
 
 	HTREEITEM AddContact(MCONTACT hContact);
 	HTREEITEM AddGroup(TCString GroupName);
-	HTREEITEM AddInfo(TCString Title, HTREEITEM hParent, HTREEITEM hInsertAfter, LPARAM lParam = NULL, HICON hIcon = NULL);
+	HTREEITEM AddInfo(TCString Title, HTREEITEM hParent, HTREEITEM hInsertAfter, LPARAM lParam = NULL, HICON hIcon = nullptr);
 	void SetInfoIcon(HTREEITEM hItem, HICON hIcon);
 	int GetExtraImage(HTREEITEM hItem, int iColumn); // returns iImage, or CLC_EXTRAICON_EMPTY
 	void SetExtraImage(HTREEITEM hItem, int iColumn, int iImage); // set iImage to CLC_EXTRAICON_EMPTY to reset image
@@ -61,7 +61,7 @@ public:
 	void SortContacts();
 	MCONTACT GethContact(HTREEITEM hItem); // returns hContact, hGroup or hInfo
 	HTREEITEM HitTest(LPPOINT pt, PDWORD hitFlags); // pt is relative to control; returns hItem or NULL
-	void EnsureVisible(HTREEITEM hItem) {TreeView_EnsureVisible(hTreeView, hItem); InvalidateRect(hTreeView, NULL, false);} // sometimes horizontal scrollbar position changes too, so we must redraw extra icons - that's why here is InvalidateRect. TODO: try to find a way to invalidate it on _every_ horizontal scrollbar position change, instead of just here - unfortunately the scrollbar doesn't notify the tree control of its position change through WM_HSCROLL in some cases
+	void EnsureVisible(HTREEITEM hItem) {TreeView_EnsureVisible(hTreeView, hItem); InvalidateRect(hTreeView, nullptr, false);} // sometimes horizontal scrollbar position changes too, so we must redraw extra icons - that's why here is InvalidateRect. TODO: try to find a way to invalidate it on _every_ horizontal scrollbar position change, instead of just here - unfortunately the scrollbar doesn't notify the tree control of its position change through WM_HSCROLL in some cases
 	int SelectItem(HTREEITEM hItem) {return TreeView_SelectItem(hTreeView, hItem);}
 	void SetItemParam(HTREEITEM hItem, LPARAM lParam) {GetItemData(hItem).lParam = lParam;}
 	LPARAM GetItemParam(HTREEITEM hItem) {return GetItemData(hItem).lParam;}

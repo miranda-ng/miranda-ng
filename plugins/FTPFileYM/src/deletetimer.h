@@ -28,7 +28,7 @@ private:
 	UINT timerId;
 
 	DeleteTimer() { }; 
-	~DeleteTimer() { instance = NULL; }; 
+	~DeleteTimer() { instance = nullptr; };
 
 	static void CALLBACK AutoDeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 

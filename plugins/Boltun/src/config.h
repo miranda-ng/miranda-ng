@@ -84,7 +84,7 @@ private:
 
 public:
 	PtrProperty(Getter g, Setter s)
-		:getter(g), setter(s), cacheValid(false), cached(NULL)
+		:getter(g), setter(s), cacheValid(false), cached(nullptr)
 	{
 	}
 

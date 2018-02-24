@@ -214,7 +214,7 @@ char*    GetGlobalIp(void);
 
 template <class chartype> void UrlDecode(chartype* str);
 
-char*    MSN_GetAvatarHash(char* szContext, char** pszUrl = NULL);
+char*    MSN_GetAvatarHash(char* szContext, char** pszUrl = nullptr);
 bool     MSN_MsgWndExist(MCONTACT hContact);
 
 #define  MSN_SendNickname(a) MSN_SendNicknameUtf(UTF8(a))
@@ -238,7 +238,7 @@ time_t	MsnTSToUnixtime(const char *pszTS);
 
 wchar_t* EscapeChatTags(const wchar_t* pszText);
 
-void     overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def = NULL);
+void     overrideStr(wchar_t*& dest, const wchar_t* src, bool unicode, const wchar_t* def = nullptr);
 
 char* arrayToHex(BYTE* data, size_t datasz);
 
@@ -692,7 +692,7 @@ public:
 	bool Load();
 	void Save();
 	virtual bool Refresh(bool = false) { return false; }
-	bool Expired(time_t t = time(NULL));
+	bool Expired(time_t t = time(nullptr));
 	void Clear();
 	const char *Token();
 	__forceinline operator char*() const { return m_pszToken; }
@@ -767,7 +767,7 @@ struct MsnContact
 
 	OBJLIST<MsnPlace> places;
 
-	MsnContact() : email(0), invite(0), nick(0),
+	MsnContact() : email(nullptr), invite(nullptr), nick(nullptr),
 		hContact(0), list(0), netId(0), p2pMsgId(0),
 		cap1(0), cap2(0), places(1, CompareId) {
 	}

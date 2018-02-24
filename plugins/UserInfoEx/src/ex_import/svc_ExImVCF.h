@@ -75,13 +75,13 @@ private:
 	BYTE			 _useUtf8;
 	WORD			 _hasUtf8;
 
-	size_t	packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew = NULL);
+	size_t	packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew = nullptr);
 	BYTE GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv);
-	size_t	packDB(const CHAR *pszModule, const CHAR *pszSetting, size_t *cbRew = NULL);
-	size_t	packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BYTE bSigned = FALSE, size_t *cbRew = NULL);
+	size_t	packDB(const CHAR *pszModule, const CHAR *pszSetting, size_t *cbRew = nullptr);
+	size_t	packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BYTE bSigned = FALSE, size_t *cbRew = nullptr);
 	
-	void	writeLine(const CHAR *szSet, size_t *cbRew = NULL);
-	void	writeLineEncoded(const CHAR *szSet, size_t *cbRew = NULL);
+	void	writeLine(const CHAR *szSet, size_t *cbRew = nullptr);
+	void	writeLineEncoded(const CHAR *szSet, size_t *cbRew = nullptr);
 	int		readLine(LPSTR szVCFSetting, WORD cchSetting);
 
 public:

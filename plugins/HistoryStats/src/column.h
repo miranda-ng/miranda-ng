@@ -139,7 +139,7 @@ public:
 	Column()
 		: m_bEnabled(true), m_CustomTitle(L""),
 		m_nContactDataSlot(-1), m_nContactDataTransformSlot(-1),
-		m_pStatistic(NULL), m_pSettings(NULL), m_pCharMapper(NULL),
+		m_pStatistic(nullptr), m_pSettings(nullptr), m_pCharMapper(nullptr),
 		m_bUsePNG(false)
 	{
 	}

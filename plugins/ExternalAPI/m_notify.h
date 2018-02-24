@@ -86,7 +86,7 @@ typedef struct tagMNNOTIFYLINK
 
 	static void __inline MNotifyGetLink()
 	{
-		notifyLink = ServiceExists(MS_NOTIFY_GETLINK) ? (MNOTIFYLINK *)CallService(MS_NOTIFY_GETLINK,0,0) : 0;
+		notifyLink = ServiceExists(MS_NOTIFY_GETLINK) ? (MNOTIFYLINK *)CallService(MS_NOTIFY_GETLINK,0,0) : nullptr;
 	}
 
 	// get helpers

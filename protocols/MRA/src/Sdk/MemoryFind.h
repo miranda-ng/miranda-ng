@@ -34,7 +34,7 @@
 
 __inline void *MemoryFind(size_t dwFrom,const void *pBuff,size_t dwBuffSize,const void *pWhatFind,size_t dwWhatFindSize)
 {
-	void *pRet=NULL;
+	void *pRet = nullptr;
 
 	if (pBuff && dwBuffSize && pWhatFind && dwWhatFindSize && (dwFrom+dwWhatFindSize)<=dwBuffSize)
 	{

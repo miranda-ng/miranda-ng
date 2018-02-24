@@ -70,7 +70,7 @@ public:
 
 	~Manager();
 
-	void AddRoot(HTREEITEM h) { m_rootItems.push_back(new TreeItem(h,NULL,0)); }
+	void AddRoot(HTREEITEM h) { m_rootItems.push_back(new TreeItem(h, nullptr, 0)); }
 	void AddLeaf(HTREEITEM h, HTREEITEM p, int id) { m_items.push_back(new TreeItem(h,p,id)); }
 
 	static Manager *getInstance() 

@@ -107,16 +107,16 @@ TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iSta
 {
 	// hContact is the contact that requests the status message
 	if (hContact != INVALID_CONTACT_ID)
-		VarParseData.Message = CContactSettings(iStatus, hContact).GetMsgFormat(GMF_ANYCURRENT, NULL, szProto);
+		VarParseData.Message = CContactSettings(iStatus, hContact).GetMsgFormat(GMF_ANYCURRENT, nullptr, szProto);
 	else // contact is unknown
 		VarParseData.Message = CProtoSettings(szProto, iStatus).GetMsgFormat(iStatus ? GMF_LASTORDEFAULT : GMF_ANYCURRENT);
 
 	TCString sTime;
-	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_CONTACT_ID) ? GetContactProto(hContact) : NULL);
+	VarParseData.szProto = szProto ? szProto : ((hContact && hContact != INVALID_CONTACT_ID) ? GetContactProto(hContact) : nullptr);
 	VarParseData.UIN = UIN;
 	VarParseData.Flags = 0;
 	if (ServiceExists(MS_VARS_FORMATSTRING) && !g_SetAwayMsgPage.GetDBValueCopy(IDS_SAWAYMSG_DISABLEVARIABLES)) {
-		wchar_t *szResult = variables_parse(VarParseData.Message,  0, hContact);
+		wchar_t *szResult = variables_parse(VarParseData.Message, nullptr, hContact);
 		if (szResult) {
 			VarParseData.Message = szResult;
 			mir_free(szResult);
@@ -155,7 +155,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 		hContactForSettings = INVALID_CONTACT_ID; // INVALID_HANDLE_VALUE means the contact is not-on-list
 
 	if (g_SetAwayMsgPage.GetWnd()) {
-		CallAllowedPS_SETAWAYMSG(szProto, iMode, NULL); // we can set status messages to NULL here, as they'll be changed again when the SAM dialog closes.
+		CallAllowedPS_SETAWAYMSG(szProto, iMode, nullptr); // we can set status messages to NULL here, as they'll be changed again when the SAM dialog closes.
 		return 0;
 	}
 	if (CContactSettings(iMode, hContactForSettings).Ignore) {
@@ -345,10 +345,10 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 				case 0: hIcon = iconList[0].hIcolib; break;
 				default: iAutoreply = 1; hIcon = iconList[1].hIcolib; break;
 			}
-			Menu_ModifyItem(g_hToggleSOEContactMenuItem, NULL, hIcon, 0);
-			Menu_ModifyItem(g_hAutoreplyOnContactMenuItem, NULL, iconList[1].hIcolib, (iAutoreply == 1) ? CMIF_CHECKED : 0);
-			Menu_ModifyItem(g_hAutoreplyOffContactMenuItem, NULL, iconList[0].hIcolib, (iAutoreply == 0) ? CMIF_CHECKED : 0);
-			Menu_ModifyItem(g_hAutoreplyUseDefaultContactMenuItem, NULL, iconList[5].hIcolib, (iAutoreply == VAL_USEDEFAULT) ? CMIF_CHECKED : 0);
+			Menu_ModifyItem(g_hToggleSOEContactMenuItem, nullptr, hIcon, 0);
+			Menu_ModifyItem(g_hAutoreplyOnContactMenuItem, nullptr, iconList[1].hIcolib, (iAutoreply == 1) ? CMIF_CHECKED : 0);
+			Menu_ModifyItem(g_hAutoreplyOffContactMenuItem, nullptr, iconList[0].hIcolib, (iAutoreply == 0) ? CMIF_CHECKED : 0);
+			Menu_ModifyItem(g_hAutoreplyUseDefaultContactMenuItem, nullptr, iconList[5].hIcolib, (iAutoreply == VAL_USEDEFAULT) ? CMIF_CHECKED : 0);
 		}
 		else // hide the Autoreply menu item
 			Menu_ShowItem(g_hToggleSOEContactMenuItem, false);
@@ -389,7 +389,7 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 INT_PTR ToggleSendOnEvent(WPARAM hContact, LPARAM)
 {
 	// used only for the global setting
-	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : NULL].m_status, hContact).Autoreply.Toggle();
+	CContactSettings(g_ProtoStates[hContact ? GetContactProto(hContact) : nullptr].m_status, hContact).Autoreply.Toggle();
 
 	if (hContact == NULL) {
 		int SendOnEvent = CContactSettings(g_ProtoStates[(LPSTR)NULL].m_status).Autoreply;
@@ -490,7 +490,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_AWAYSINCE_DATE)) {
-		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : NULL, Result.GetBuffer(256), 256);
+		GetDateFormat(LOCALE_USER_DEFAULT, 0, g_ProtoStates[VarParseData.szProto].m_awaySince, (ai->argc > 1 && *ai->targv[1]) ? ai->targv[1] : nullptr, Result.GetBuffer(256), 256);
 		Result.ReleaseBuffer();
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_STATDESC)) {
@@ -498,12 +498,12 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_MYNICK)) {
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
-			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (wchar_t*)NULL);
+			Result = db_get_s(NULL, VarParseData.szProto, "Nick", (wchar_t*)nullptr);
 
-		if (Result == NULL)
+		if (Result == nullptr)
 			Result = pcli->pfnGetContactDisplayName(NULL, 0);
 
-		if (Result == NULL)
+		if (Result == nullptr)
 			Result = TranslateT("Stranger");
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_REQUESTCOUNT)) {
@@ -546,7 +546,7 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 				break;
 			}
 		}
-		if (Result == NULL) // if we didn't find a message with specified title
+		if (Result == nullptr) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
 	else if (!mir_wstrcmp(ai->targv[0], VAR_PROTOCOL)) {
@@ -556,14 +556,14 @@ INT_PTR srvVariablesHandler(WPARAM, LPARAM lParam)
 			AnsiResult.ReleaseBuffer();
 			Result = _A2T(AnsiResult);
 		}
-		if (Result == NULL) // if we didn't find a message with specified title
+		if (Result == nullptr) // if we didn't find a message with specified title
 			return NULL; // return it now, as later we change NULL to ""
 	}
 	wchar_t *szResult = (wchar_t*)malloc((Result.GetLen() + 1) * sizeof(wchar_t));
 	if (!szResult)
 		return NULL;
 
-	mir_wstrcpy(szResult, (Result != NULL) ? Result : L"");
+	mir_wstrcpy(szResult, (Result != nullptr) ? Result : L"");
 	return (INT_PTR)szResult;
 }
 
@@ -657,7 +657,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		memset(&mi, 0, sizeof(mi));
 		SET_UID(mi, 0x47a3c631, 0x8ca9, 0x4b7e, 0x84, 0x6e, 0x29, 0xbf, 0x53, 0x30, 0x6f, 0x83);
 		mi.flags = CMIF_UNICODE;
-		mi.hIcolibItem = NULL;
+		mi.hIcolibItem = nullptr;
 		mi.position = 1000020000;
 		mi.name.w = LPGENW("Autoreply");
 		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);

@@ -26,7 +26,7 @@ typedef struct SynchronisedCounter
 	SynchronisedCounter(): Number(0)
 	{
 		InitializeCriticalSection(&CounterCS);
-		Event=CreateEvent(NULL,FALSE,TRUE,NULL);
+		Event = CreateEvent(nullptr, FALSE, TRUE, nullptr);
 		SetEvent(Event);
 	}
 

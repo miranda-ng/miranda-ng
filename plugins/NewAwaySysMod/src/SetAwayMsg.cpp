@@ -259,7 +259,7 @@ void SetExtraIcon(CCList *CList, int nColumn, HTREEITEM hItem, int nIcon)
 			}
 		}
 		if (nColumn == EXTRACOLUMN_IGNORE && nIcon != EXTRAIMGLIST_IGNORE)
-			nIcon = (CContactSettings(0, hContact).GetMsgFormat(GMF_PERSONAL) == NULL) ? EXTRAIMGLIST_DOT : EXTRAIMGLIST_MSG;
+			nIcon = (CContactSettings(0, hContact).GetMsgFormat(GMF_PERSONAL) == nullptr) ? EXTRAIMGLIST_DOT : EXTRAIMGLIST_MSG;
 	}
 	else if (ItemType == MCLCIT_INFO) {
 		char *szProto = (char*)CList->GetItemParam(hItem);
@@ -272,7 +272,7 @@ void SetExtraIcon(CCList *CList, int nColumn, HTREEITEM hItem, int nIcon)
 			if (!szProto && nIcon == EXTRAIMGLIST_DOT)
 				nIcon = EXTRAIMGLIST_AUTOREPLY_OFF;
 		}
-		else nIcon = (CProtoSettings(szProto).GetMsgFormat(GMF_TEMPORARY | GMF_PERSONAL) == NULL) ? EXTRAIMGLIST_DOT : EXTRAIMGLIST_MSG;
+		else nIcon = (CProtoSettings(szProto).GetMsgFormat(GMF_TEMPORARY | GMF_PERSONAL) == nullptr) ? EXTRAIMGLIST_DOT : EXTRAIMGLIST_MSG;
 	}
 	
 	int Ignore = (nColumn == EXTRACOLUMN_IGNORE) ? (nIcon == EXTRAIMGLIST_IGNORE) : ((ItemType == MCLCIT_CONTACT) ? CContactSettings(0, hContact).Ignore : ((ItemType == MCLCIT_GROUP) ? CList->GetExtraImage(hItem, EXTRACOLUMN_IGNORE) : false));
@@ -369,7 +369,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 	GetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, Message.GetBuffer(AWAY_MSGDATA_MAX), AWAY_MSGDATA_MAX);
 	Message.ReleaseBuffer();
 	if (!mir_wstrlen(Message))
-		Message = NULL; // delete personal message if it's empty
+		Message = nullptr; // delete personal message if it's empty
 
 	if (CList) {
 		if (!Selection)
@@ -384,7 +384,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 			}
 			else if (ItemType == MCLCIT_INFO) {
 				char *szProto = (char*)CList->GetItemParam(hItem);
-				CProtoSettings(szProto).SetMsgFormat(SMF_PERSONAL, (szProto || Message != NULL) ? Message : L""); // "szProto || Message != NULL..." means that we'll set an empty message instead of NULL for the global status, if the message is empty (NULL for the global status has a special meaning - SetMsgFormat will set the default message instead of NULL)
+				CProtoSettings(szProto).SetMsgFormat(SMF_PERSONAL, (szProto || Message != nullptr) ? Message : L""); // "szProto || Message != NULL..." means that we'll set an empty message instead of NULL for the global status, if the message is empty (NULL for the global status has a special meaning - SetMsgFormat will set the default message instead of NULL)
 			}
 			else continue;
 
@@ -395,7 +395,7 @@ void ApplySelContactsMessage(SetAwayMsgData* dat, CCList *CList, PTREEITEMARRAY 
 		if (dat->hInitContact)
 			CContactSettings(0, dat->hInitContact).SetMsgFormat(SMF_PERSONAL, Message);
 		else
-			CProtoSettings(dat->szProtocol).SetMsgFormat(SMF_PERSONAL, (dat->szProtocol || Message != NULL) ? Message : L"");
+			CProtoSettings(dat->szProtocol).SetMsgFormat(SMF_PERSONAL, (dat->szProtocol || Message != nullptr) ? Message : L"");
 	}
 	SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_SETMODIFY, false, 0);
 	SetDlgItemText(hwndDlg, IDC_OK, TranslateT("OK"));
@@ -579,7 +579,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			if (Order >= 0) // so just select an appropriate message tree item; MSGDATA text is filled automatically through SELCHANGED notification
 				MsgTree->SetSelection(Order, MTSS_BYORDER);
 
-			if (dat->Message != NULL) { // this allows to override the default message
+			if (dat->Message != nullptr) { // this allows to override the default message
 				SetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, dat->Message);
 				SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_SETMODIFY, true, 0);
 			}
@@ -603,7 +603,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			// init tooltips
 			TOOLINFO ti = { 0 };
-			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
+			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, GetModuleHandleA("mir_app.mir"), nullptr);
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			for (int i = 0; i < _countof(Tooltips); i++) {
@@ -707,7 +707,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						for (int i = 0; i < pnm->NewSelection->GetSize(); i++) {
 							HTREEITEM hItem = (*pnm->NewSelection)[i];
 							MCONTACT hContact = 0;
-							char *szProto = NULL;
+							char *szProto = nullptr;
 							int ItemType = CList->GetItemType(hItem);
 							if (ItemType == MCLCIT_CONTACT) {
 								hContact = CList->GethContact(hItem);
@@ -722,10 +722,10 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								int CurStatus = g_ProtoStates[szProto].m_status;
 								if (!MessageDetermined) {
 									TCString CurMessage((ItemType == MCLCIT_CONTACT) ? CContactSettings(0, hContact).GetMsgFormat(GMF_PERSONAL) : CProtoSettings(szProto).GetMsgFormat(GMF_TEMPORARY | GMF_PERSONAL));
-									if (CurMessage == NULL)
+									if (CurMessage == nullptr)
 										CurMessage = L"";
 
-									if (Message == NULL)
+									if (Message == nullptr)
 										Message = CurMessage;
 									else if (CurMessage != (const wchar_t*)Message) {
 										Message = L"";
@@ -750,7 +750,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					}
 
 					if (!bLeaveOldMessage)
-						SetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, (Message == NULL) ? L"" : Message);
+						SetDlgItemText(hwndDlg, IDC_SAWAYMSG_MSGDATA, (Message == nullptr) ? L"" : Message);
 
 					SetDlgItemText(hwndDlg, IDC_OK, BtnTitle);
 					TCString WindowTitle(TranslateT("Set message for"));
@@ -863,7 +863,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			CList->SetExtraImageList(hil);
 
 			HTREEITEM hSelItem;
-			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, Skin_LoadProtoIcon(NULL, g_ProtoStates[(char*)NULL].m_status));
+			HTREEITEM hItem = hSelItem = CList->AddInfo(TranslateT("** All contacts **"), CLC_ROOT, CLC_ROOT, NULL, Skin_LoadProtoIcon(nullptr, g_ProtoStates[(char*)nullptr].m_status));
 			int numAccs;
 			PROTOACCOUNT **accs;
 			Proto_EnumAccounts(&numAccs, &accs);
@@ -927,13 +927,13 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				PROTOACCOUNT *p = accs[i];
 				if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 					TCString Message(CProtoSettings(p->szModuleName).GetMsgFormat(GMF_PERSONAL)); // yes, we don't specify GMF_TEMPORARY here, because we don't need to save it
-					if (Message != NULL)
+					if (Message != nullptr)
 						CProtoSettings(p->szModuleName).SetMsgFormat(SMF_LAST, Message); // if the user set a message for this protocol, save it to the recent messages
-					ChangeProtoMessages(p->szModuleName, g_ProtoStates[p->szModuleName].m_status, TCString(NULL)); // and actual setting of a status message for the protocol
+					ChangeProtoMessages(p->szModuleName, g_ProtoStates[p->szModuleName].m_status, TCString(nullptr)); // and actual setting of a status message for the protocol
 				}
 			}
 			TCString Message(CProtoSettings().GetMsgFormat(GMF_PERSONAL));
-			if (Message != NULL)
+			if (Message != nullptr)
 				CProtoSettings().SetMsgFormat(SMF_LAST, Message); // save the global message to the recent messages
 
 			if (g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_AUTOSAVEDLGSETTINGS))

@@ -146,7 +146,7 @@ static INT_PTR ChangePassword(void* obj, WPARAM, LPARAM)
 {
 	CDbxMDBX *db = (CDbxMDBX*)obj;
 	DlgChangePassParam param = { db };
-	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), 0, sttChangePassword, (LPARAM)&param);
+	DialogBoxParam(g_hInst, MAKEINTRESOURCE(db->usesPassword() ? IDD_CHANGEPASS : IDD_NEWPASS), nullptr, sttChangePassword, (LPARAM)&param);
 	return 0;
 }
 

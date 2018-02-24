@@ -116,7 +116,7 @@ COptPage& COptPage::operator = (const COptPage& Page)
 
 int COptItem::GetIntDBVal(const CString &sModule, int bSigned, CString*)
 { // default procedure for reading value from DB; used only for integral types
-	if (sDBSetting != NULL) {
+	if (sDBSetting != nullptr) {
 		_ASSERT(nValueSize == DBVT_BYTE || nValueSize == DBVT_WORD || nValueSize == DBVT_DWORD);
 		DBVARIANT dbv;
 		if (db_get(NULL, sModule, sDBSetting, &dbv))
@@ -129,7 +129,7 @@ int COptItem::GetIntDBVal(const CString &sModule, int bSigned, CString*)
 
 void COptItem::SetIntDBVal(const CString &sModule, int m_value, CString*)
 { // default procedure for writing value to the DB; used only for integral types
-	if (sDBSetting != NULL && !m_bReadOnly) {
+	if (sDBSetting != nullptr && !m_bReadOnly) {
 		_ASSERT(nValueSize == DBVT_BYTE || nValueSize == DBVT_WORD || nValueSize == DBVT_DWORD);
 
 		DBVARIANT dbv;
@@ -141,7 +141,7 @@ void COptItem::SetIntDBVal(const CString &sModule, int m_value, CString*)
 
 TCString COptItem::GetStrDBVal(const CString &sModule, CString *sDBSettingPrefix)
 {
-	if (sDBSetting != NULL) {
+	if (sDBSetting != nullptr) {
 		_ASSERT(GetDefValue());
 		return db_get_s(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, *(TCString*)GetDefValue());
 	}
@@ -150,7 +150,7 @@ TCString COptItem::GetStrDBVal(const CString &sModule, CString *sDBSettingPrefix
 
 void COptItem::SetStrDBVal(const CString &sModule, TCString &Str, CString *sDBSettingPrefix)
 {
-	if (sDBSetting != NULL && !m_bReadOnly) {
+	if (sDBSetting != nullptr && !m_bReadOnly) {
 		db_set_ws(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, Str);
 	}
 }
@@ -284,9 +284,9 @@ int TreeReadEnum(const char *szSetting, void *lParam)
 			pItem.Flags = Flags;
 			pItem.hItem = nullptr;
 			pItem.Title = db_get_s(NULL, pData->sModule, *pData->sDBSettingPrefix + szSetting, L"");
-			pItem.User_Str1 = (pData->TreeCtrl->User_Str1_DBName == NULL) ? NULL :
+			pItem.User_Str1 = (pData->TreeCtrl->User_Str1_DBName == nullptr) ? nullptr :
 				db_get_s(NULL, pData->sModule,
-				*pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + pData->TreeCtrl->User_Str1_DBName + (szSetting + Len), (wchar_t*)NULL);
+				*pData->sDBSettingPrefix + pData->TreeCtrl->sDBSetting + pData->TreeCtrl->User_Str1_DBName + (szSetting + Len), (wchar_t*)nullptr);
 		}
 	}
 	return 0;
@@ -306,7 +306,7 @@ void COptItem_TreeCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 	}
 	else {
 		for (int i = 0; i < m_value.GetSize(); i++) {
-			if (m_value[i].Title == NULL) {
+			if (m_value[i].Title == nullptr) {
 				m_value.RemoveElem(i);
 				i--;
 			}
@@ -334,7 +334,7 @@ void COptItem_TreeCtrl::MemToDB(const CString &sModule, CString *sDBSettingPrefi
 			if (!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) || TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)
 				db_set_b(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, m_value[i].Flags);
 
-			if (User_Str1_DBName != NULL && m_value[i].User_Str1 != NULL)
+			if (User_Str1_DBName != nullptr && m_value[i].User_Str1 != nullptr)
 				db_set_ws(NULL, sModule, *sDBSettingPrefix + sDBSetting + User_Str1_DBName + StrID, m_value[i].User_Str1);
 		}
 		COptItem::MemToDB(sModule, sDBSettingPrefix);
@@ -414,7 +414,7 @@ void COptItem_TreeCtrl::MemToWnd(HWND hWnd)
 			i--;
 		}
 	}
-	TreeView_SelectItem(hTreeView, (SelectOrder >= 0) ? m_value[SelectOrder].hItem : ((SelectOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(SelectOrder)].hItem : NULL));
+	TreeView_SelectItem(hTreeView, (SelectOrder >= 0) ? m_value[SelectOrder].hItem : ((SelectOrder <= TREECTRL_ROOTORDEROFFS) ? RootItems[ROOT_ORDER_TO_INDEX(SelectOrder)].hItem : nullptr));
 	SendMessage(hTreeView, WM_SETREDRAW, true, 0);
 	SCROLLBARINFO sbi;
 	sbi.cbSize = sizeof(sbi);
@@ -460,7 +460,7 @@ int TreeDeleteEnum(const char *szSetting, void *lParam)
 	if (!strncmp(szSetting, CurSetting, CurSetting.GetLen()))
 		TreeDeleteEnumData->TreeSettings.AddElem(szSetting);
 
-	if (TreeDeleteEnumData->TreeCtrl->User_Str1_DBName != NULL) {
+	if (TreeDeleteEnumData->TreeCtrl->User_Str1_DBName != nullptr) {
 		CurSetting = *TreeDeleteEnumData->sDBSettingPrefix + TreeDeleteEnumData->TreeCtrl->sDBSetting + TreeDeleteEnumData->TreeCtrl->User_Str1_DBName;
 		if (!strncmp(szSetting, CurSetting, CurSetting.GetLen()))
 			TreeDeleteEnumData->TreeSettings.AddElem(szSetting);
@@ -668,7 +668,7 @@ void COptItem_ListCtrl::DBToMem(const CString &sModule, CString *sDBSettingPrefi
 		m_value = m_defValue;
 	else {
 		for (int i = 0; i < m_value.GetSize(); i++) {
-			if (m_value[i].Text == NULL) {
+			if (m_value[i].Text == nullptr) {
 				m_value.RemoveElem(i);
 				i--;
 			}

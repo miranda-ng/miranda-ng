@@ -259,7 +259,7 @@ struct CCallbackImp
 	};
 
 public:
-	__inline CCallbackImp(): m_object(NULL), m_func(NULL) {}
+	__inline CCallbackImp(): m_object(nullptr), m_func(nullptr) {}
 
 	__inline CCallbackImp(const CCallbackImp &other): m_object(other.m_object), m_func(other.m_func) {}
 	__inline CCallbackImp &operator=(const CCallbackImp &other) { m_object = other.m_object; m_func = other.m_func; return *this; }
@@ -362,7 +362,7 @@ public:
 	__forceinline DWORD LoadInt() { return (DWORD)(T)*m_option; }
 	__forceinline void  SaveInt(DWORD value) { *m_option = (T)value; }
 
-	__forceinline wchar_t* LoadText() { return NULL; }
+	__forceinline wchar_t* LoadText() { return nullptr; }
 	__forceinline void   SaveText(wchar_t*) {}
 };
 
@@ -1453,7 +1453,7 @@ protected:
 	virtual void OnProtoCheckOnline(WPARAM, LPARAM);
 
 private:
-	void UpdateProtoTitle(const wchar_t *szText = NULL);
+	void UpdateProtoTitle(const wchar_t *szText = nullptr);
 	void UpdateStatusBar();
 };
 

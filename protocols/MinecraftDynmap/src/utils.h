@@ -56,7 +56,7 @@ public:
 	void Unlock()
 	{
 		ReleaseMutex(handle_);
-		handle_ = 0;
+		handle_ = nullptr;
 	}
 private:
 	HANDLE handle_;

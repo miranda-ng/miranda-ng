@@ -135,7 +135,7 @@ public:
 	void                  updateSession(CTabBaseDlg *dat);
 
 	void                  processScrollerButtons(UINT cmd);
-	void                  Layout(const RECT *rc = 0, bool fOnlyCalc = false);
+	void                  Layout(const RECT *rc = nullptr, bool fOnlyCalc = false);
 	void                  setVisible(bool fNewVisibility);
 	void                  showAll(int showCmd);
 
@@ -180,7 +180,7 @@ public:
 		uLayoutCount = NR_LAYOUTS;
 		return(m_layouts);
 	}
-	void                  scrollIntoView(const CSideBarButton *item = 0);
+	void                  scrollIntoView(const CSideBarButton *item = nullptr);
 	void                  resizeScrollWnd(LONG x, LONG y, LONG width, LONG height) const;
 
 private:

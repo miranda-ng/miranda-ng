@@ -25,7 +25,7 @@ void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine, bool IsErrorMsg, int Timeo
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		POPUPDATAT ppd = { 0 };
-		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
+		ppd.lchIcon = LoadIcon(nullptr, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
 		mir_wstrncpy(ppd.lptzContactName, FirstLine, MAX_CONTACTNAME);
 		mir_wstrncpy(ppd.lptzText, SecondLine, MAX_SECONDLINE);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
@@ -33,7 +33,7 @@ void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine, bool IsErrorMsg, int Timeo
 		ppd.iSeconds = Timeout;
 		PUAddPopupT(&ppd);
 	}
-	else MessageBox(NULL, SecondLine, FirstLine, MB_OK | (IsErrorMsg ? MB_ICONEXCLAMATION : MB_ICONINFORMATION));
+	else MessageBox(nullptr, SecondLine, FirstLine, MB_OK | (IsErrorMsg ? MB_ICONEXCLAMATION : MB_ICONINFORMATION));
 }
 
 
@@ -53,12 +53,12 @@ static int CALLBACK MenuWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
 {
 	POINT pt;
-	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", MOD_NAMEW L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, NULL, g_hInstance, NULL);
+	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", MOD_NAMEW L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInstance, nullptr);
 	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
 	HMENU hMenu = Menu_BuildContactMenu(hContact);
 	GetCursorPos(&pt);
 	SetForegroundWindow(hMenuWnd);
-	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, NULL), MPCF_CONTACTMENU, hContact);
+	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, nullptr), MPCF_CONTACTMENU, hContact);
 	PostMessage(hMenuWnd, WM_NULL, 0, 0);
 	DestroyMenu(hMenu);
 	DestroyWindow(hMenuWnd);
@@ -66,7 +66,7 @@ static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
 
 void ShowLog(TCString &LogFilePath)
 {
-	INT_PTR Result = (INT_PTR)ShellExecute(NULL, L"open", LogFilePath, NULL, NULL, SW_SHOW);
+	INT_PTR Result = (INT_PTR)ShellExecute(nullptr, L"open", LogFilePath, nullptr, nullptr, SW_SHOW);
 	if (Result <= 32) {
 		wchar_t szError[64];
 		mir_snwprintf(szError, TranslateT("Error #%d"), Result);

@@ -38,7 +38,7 @@ private:
 
 public:
 	CNoteItem();
-	CNoteItem(HXML hXml, wchar_t *szFrom = 0);
+	CNoteItem(HXML hXml, wchar_t *szFrom = nullptr);
 	~CNoteItem();
 
 	void SetData(wchar_t *title, wchar_t *from, wchar_t *text, wchar_t *tags);
@@ -76,7 +76,7 @@ public:
 		OBJLIST<CNoteItem>::remove(p);
 	}
 
-	void AddNote(HXML hXml, wchar_t *szFrom = 0);
+	void AddNote(HXML hXml, wchar_t *szFrom = nullptr);
 	void LoadXml(HXML hXml);
 	void SaveXml(HXML hXmlParent);
 

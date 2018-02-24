@@ -15,9 +15,9 @@ public:
 	{
 		m_iIndex = -1;
 		m_iEntryCount = 0;
-		m_Position = NULL;
+		m_Position = nullptr;
 		m_pParent = pParent;
-		if(pParent == NULL)
+		if(pParent == nullptr)
 		{
 			m_iLevel = 0;
 			m_eType = ROOT;
@@ -39,28 +39,28 @@ public:
 
 	virtual CListEntry<T,G> *GetNextEntry()
 	{
-		if(m_pParent == NULL)
-			return NULL;
+		if(m_pParent == nullptr)
+			return nullptr;
 
 		return m_pParent->GetNextEntry(this);
 	}
 	
 	virtual CListEntry<T,G> *GetPreviousEntry()
 	{
-		if(m_pParent == NULL)
-			return NULL;
+		if(m_pParent == nullptr)
+			return nullptr;
 
 		return m_pParent->GetPreviousEntry(this);
 	}
 
 	virtual CListEntry<T,G> *GetNextEntry(CListEntry<T,G>*)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	virtual CListEntry<T,G> *GetPreviousEntry(CListEntry<T,G>*)
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	EListEntryType GetType()
@@ -175,7 +175,7 @@ public:
 
 	CListContainer(CListEntry<T,G> *pParent) : CListEntry<T,G>(pParent)
 	{
-		if(m_pParent != NULL)
+		if(m_pParent != nullptr)
 		{
 			m_eType = CONTAINER;
 			m_bOpen = false;
@@ -186,7 +186,7 @@ public:
 
 	~CListContainer()
 	{
-		if(m_pRoot != NULL) {
+		if(m_pRoot != nullptr) {
 			m_pRoot->DeleteGroup(GetGroupData());
 		}
 		Clear();
@@ -202,7 +202,7 @@ public:
 			if(m_pRoot && m_pRoot->GetPosition() == *iter)
 			{
 				if(GetType() == ROOT)
-					m_pRoot->SetPosition(NULL);
+					m_pRoot->SetPosition(nullptr);
 				else
 					m_pRoot->SetPosition(this);
 			}
@@ -225,7 +225,7 @@ public:
 	CListEntry<T,G> *GetLastOwnEntry()
 	{
 		if(m_Entrys.empty())
-			return NULL;
+			return nullptr;
 
 		return *(--m_Entrys.end());
 	}
@@ -240,14 +240,14 @@ public:
 				return pEntry;
 			return ((CListContainer<T,G>*)pEntry)->GetLastEntry();
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	CListEntry<T,G> *GetFirstEntry()
 	{
 		if(!m_Entrys.empty())
 			return *(m_Entrys.begin());
-		return NULL;
+		return nullptr;
 	}
 
 	CListEntry<T,G> *GetNextEntry()
@@ -255,7 +255,7 @@ public:
 		if(!IsOpen() || m_Entrys.empty())
 		{
 			if(!m_pParent)
-				return NULL;
+				return nullptr;
 			return m_pParent->GetNextEntry(this);
 		}
 
@@ -271,8 +271,8 @@ public:
 			{
 				if(++iter == m_Entrys.end())
 				{
-					if(m_pParent == NULL)
-						return NULL;
+					if(m_pParent == nullptr)
+						return nullptr;
 					return m_pParent->GetNextEntry(this);
 				}
 				else
@@ -280,7 +280,7 @@ public:
 			}
 			iter++;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	CListEntry<T,G> *GetPreviousEntry(CListEntry<T,G> *pEntry)
@@ -293,8 +293,8 @@ public:
 			{
 				if(iter == m_Entrys.begin())
 				{
-					if(m_pParent == NULL)
-						return NULL;
+					if(m_pParent == nullptr)
+						return nullptr;
 					return this;
 				}
 				else
@@ -311,7 +311,7 @@ public:
 			}
 			iter++;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	virtual CListItem<T,G> *InsertItem(iterator _Where,T Entry)
@@ -352,7 +352,7 @@ public:
 	virtual void RemoveGroup(G Group)
 	{
 		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G> *pContainer = NULL;
+		CListContainer<T,G> *pContainer = nullptr;
 		while(iter != m_Entrys.end())
 		{
 			if((*iter)->GetType() == CONTAINER)
@@ -382,7 +382,7 @@ public:
 	virtual void RemoveItem(T Entry)
 	{
 		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListItem<T,G> *pItem = NULL;
+		CListItem<T,G> *pItem = nullptr;
 		while(iter != m_Entrys.end())
 		{
 			if((*iter)->GetType() == ITEM)
@@ -412,7 +412,7 @@ public:
 	CListContainer<T,G> *GetGroup(G Group)
 	{
 		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G> *pContainer = NULL;
+		CListContainer<T,G> *pContainer = nullptr;
 		while(iter != m_Entrys.end())
 		{
 			if((*iter)->GetType() == CONTAINER)
@@ -423,7 +423,7 @@ public:
 			}
 			iter++;
 		}
-		return NULL;
+		return nullptr;
 	}
 	
 	G GetGroupData()
@@ -462,7 +462,7 @@ public:
 	void CollapseAll()
 	{
 		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G>* pContainer = NULL;
+		CListContainer<T,G>* pContainer = nullptr;
 		while(iter != m_Entrys.end())
 		{
 			if((*iter)->GetType() == CONTAINER)
@@ -478,7 +478,7 @@ public:
 	void ExpandAll()
 	{
 		list< CListEntry<T,G>* >::iterator iter = m_Entrys.begin();
-		CListContainer<T,G>* pContainer = NULL;
+		CListContainer<T,G>* pContainer = nullptr;
 		while(iter != m_Entrys.end())
 		{
 			if((*iter)->GetType() == CONTAINER)
@@ -512,7 +512,7 @@ public:
 
 		if(GetType() == ROOT)
 		{
-			if(GetPosition() == NULL && !m_Entrys.empty())
+			if(GetPosition() == nullptr && !m_Entrys.empty())
 				SetPosition(*m_Entrys.begin());
 			else
 				SetPosition(GetPosition());
@@ -541,9 +541,9 @@ public:
 	//************************************************************************
 	// Constructor
 	//************************************************************************
-	CLCDList() : CListContainer<T,G>(NULL)
+	CLCDList() : CListContainer<T,G>(nullptr)
 	{
-		m_pScrollbar = NULL;
+		m_pScrollbar = nullptr;
 		m_iIndention = 10;
 		m_iColumns = 1;
 		m_bDrawTreeLines = true;
@@ -613,7 +613,7 @@ public:
 		CListEntry<T,G> *pPosition = m_Position;
 		
 		// if nothing is selected, skip drawing
-		if(pPosition == NULL)
+		if(pPosition == nullptr)
 			return true;
 
 		bool bDrawGroup = false;
@@ -642,7 +642,7 @@ public:
 			}
 
 			// bottom selection
-			while(pPosition != NULL )
+			while(pPosition != nullptr)
 			{
 				iYOffset = iHeight;
 
@@ -757,7 +757,7 @@ public:
 	{
 		CListContainer<T,G>::SetPosition(pEntry);
 
-		if(pEntry == NULL)
+		if(pEntry == nullptr)
 			return;
 
 		int iPerPage = (GetHeight()/m_iEntryHeight)*m_iColumns;
@@ -773,10 +773,10 @@ public:
 	//************************************************************************
 	bool ScrollUp()
 	{
-		if(m_Position != NULL)
+		if(m_Position != nullptr)
 		{
 			CListEntry<T,G> *pEntry = m_Position->GetPreviousEntry();
-			if(pEntry != NULL)
+			if(pEntry != nullptr)
 			{
 				m_Position = pEntry;
 				
@@ -793,10 +793,10 @@ public:
 	//************************************************************************
 	bool ScrollDown()
 	{		
-		if(m_Position != NULL)
+		if(m_Position != nullptr)
 		{
 			CListEntry<T,G> *pEntry = m_Position->GetNextEntry();
-			if(pEntry != NULL)
+			if(pEntry != nullptr)
 			{
 				m_Position = pEntry;
 
@@ -825,8 +825,8 @@ public:
 		m_pScrollbar = pScrollbar;
 		if(m_pScrollbar)
 		{
-			m_pScrollbar->SetRange(0,m_iEntryCount-1);
-			m_pScrollbar->ScrollTo(m_Position != NULL?m_Position->GetIndex():0);
+			m_pScrollbar->SetRange(0, m_iEntryCount - 1);
+			m_pScrollbar->ScrollTo(m_Position != nullptr ? m_Position->GetIndex() : 0);
 		
 			m_pScrollbar->SetAlignment(TOP);
 		}
@@ -892,7 +892,7 @@ protected:
 		if(m_pScrollbar)
 		{
 			m_pScrollbar->SetRange(0,m_iEntryCount-1);
-			if(GetPosition() != NULL)
+			if(GetPosition() != nullptr)
 				m_pScrollbar->ScrollTo(GetPosition()->GetIndex());
 		}
 	}

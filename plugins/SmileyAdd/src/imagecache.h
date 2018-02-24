@@ -38,7 +38,7 @@ public:
 	virtual void GetSize(SIZE&) {};
 	virtual int  GetFrameCount(void) const { return 0; }
 	virtual int  GetFrameDelay(void) const { return 0; }
-	virtual HICON GetIcon(void) { return NULL; };
+	virtual HICON GetIcon(void) { return nullptr; };
 	virtual void DrawInternal(HDC, int, int, int, int) {};
 	virtual void SelectFrame(int) {}
 

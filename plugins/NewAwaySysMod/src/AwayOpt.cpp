@@ -31,7 +31,7 @@ CIconList g_IconList;
 // Set window size and center its controls
 void MySetPos(HWND hwndParent)
 {
-	HWND hWndTab = FindWindowEx(GetParent(hwndParent), NULL, L"SysTabControl32", L"");
+	HWND hWndTab = FindWindowEx(GetParent(hwndParent), nullptr, L"SysTabControl32", L"");
 	if (!hWndTab) {
 		_ASSERT(0);
 		return;
@@ -64,7 +64,7 @@ void MySetPos(HWND hwndParent)
 
 // ================================================ Message options ================================================
 
-COptPage g_MessagesOptPage(MOD_NAME, NULL);
+COptPage g_MessagesOptPage(MOD_NAME, nullptr);
 
 void EnableMessagesOptDlgControls(CMsgTree* MsgTree)
 {
@@ -318,7 +318,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DESTROY:
 		delete MsgTree;
 		MsgTree = nullptr;
-		g_MessagesOptPage.SetWnd(NULL);
+		g_MessagesOptPage.SetWnd(nullptr);
 		break;
 	}
 	return 0;
@@ -326,7 +326,7 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 // ================================================ Main options ================================================
 
-COptPage g_MoreOptPage(MOD_NAME, NULL);
+COptPage g_MoreOptPage(MOD_NAME, nullptr);
 
 void EnableMoreOptDlgControls()
 {
@@ -337,7 +337,7 @@ void EnableMoreOptDlgControls()
 	g_MoreOptPage.Enable(IDC_MOREOPTDLG_USEDEFMSG, bEnabled);
 	g_MoreOptPage.Enable(IDC_MOREOPTDLG_PERSTATUSPERSONAL, g_MoreOptPage.GetWndValue(IDC_MOREOPTDLG_SAVEPERSONALMSGS) != 0);
 	g_MoreOptPage.Enable(IDC_MOREOPTDLG_UPDATEMSGSPERIOD, g_MoreOptPage.GetWndValue(IDC_MOREOPTDLG_UPDATEMSGS) != 0);
-	InvalidateRect(GetDlgItem(g_MoreOptPage.GetWnd(), IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN), NULL, false); // update spin control
+	InvalidateRect(GetDlgItem(g_MoreOptPage.GetWnd(), IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN), nullptr, false); // update spin control
 	g_MoreOptPage.MemToPage(true);
 }
 
@@ -438,7 +438,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_DESTROY:
-		g_MoreOptPage.SetWnd(NULL);
+		g_MoreOptPage.SetWnd(nullptr);
 		break;
 	}
 	return 0;
@@ -446,7 +446,7 @@ static INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 // ================================================ Autoreply options ================================================
 
-COptPage g_AutoreplyOptPage(MOD_NAME, NULL);
+COptPage g_AutoreplyOptPage(MOD_NAME, nullptr);
 
 void EnableAutoreplyOptDlgControls()
 {
@@ -464,7 +464,7 @@ void EnableAutoreplyOptDlgControls()
 		}
 	}
 	g_AutoreplyOptPage.MemToPage(true);
-	InvalidateRect(GetDlgItem(g_AutoreplyOptPage.GetWnd(), IDC_REPLYDLG_SENDCOUNT_SPIN), NULL, 0); // update spin control
+	InvalidateRect(GetDlgItem(g_AutoreplyOptPage.GetWnd(), IDC_REPLYDLG_SENDCOUNT_SPIN), nullptr, 0); // update spin control
 }
 
 static struct {
@@ -549,7 +549,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				IDC_MOREOPTDLG_EVNTURL, LPGENW("URL"),
 				IDC_MOREOPTDLG_EVNTFILE, LPGENW("File")
 			};
-			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, NULL, NULL, GetModuleHandleA("mir_app.mir"), NULL);
+			hWndTooltips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, L"", WS_POPUP | TTS_NOPREFIX, 0, 0, 0, 0, nullptr, nullptr, GetModuleHandleA("mir_app.mir"), nullptr);
 			TOOLINFO ti = { 0 };
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
@@ -637,7 +637,7 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_DESTROY:
-		g_AutoreplyOptPage.SetWnd(NULL);
+		g_AutoreplyOptPage.SetWnd(nullptr);
 		if (s_hDrawFont)
 			DeleteObject(s_hDrawFont);
 
@@ -1048,8 +1048,8 @@ int OptsDlgInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-COptPage g_SetAwayMsgPage(MOD_NAME, NULL);
-COptPage g_MsgTreePage(MOD_NAME, NULL);
+COptPage g_SetAwayMsgPage(MOD_NAME, nullptr);
+COptPage g_MsgTreePage(MOD_NAME, nullptr);
 
 void InitOptions()
 {
@@ -1057,15 +1057,15 @@ void InitOptions()
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_DEL));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_MSGTITLE));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_MSGDATA));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_ONL, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_AWAY, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_NA, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_OCC, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_DND, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_FFC, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_INV, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_OTP, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
-	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_OTL, NULL, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_ONL, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_AWAY, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_NA, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_OCC, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_DND, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_FFC, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_INV, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_OTP, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
+	g_MessagesOptPage.Items.AddElem(new COptItem_Checkbox(IDC_MESSAGEDLG_DEF_OTL, nullptr, DBVT_BYTE, 0, 0, IDC_MESSAGEDLG_MSGTREE));
 	TreeItemArray DefMsgTree;
 	int ParentID1;
 	int ID = 0;

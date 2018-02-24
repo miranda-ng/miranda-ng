@@ -44,7 +44,7 @@ enum
 typedef struct CNotification
 {
 //#define YAMN_NOTIFICATIONVERSION	is not implemented, use YAMN_ACCOUNTVERSION instead
-	CNotification(): PopupB(0), PopupT(0), PopupTime(0), App(NULL), AppParam(NULL), Sound(NULL), TrayIcon1(NULL), TrayIcon2(NULL) {}
+	CNotification(): PopupB(0), PopupT(0), PopupTime(0), App(nullptr), AppParam(nullptr), Sound(nullptr), TrayIcon1(nullptr), TrayIcon2(nullptr) {}
 
 #define	YAMN_ACC_SND	0x00000001	//Plays sound (1)
 #define	YAMN_ACC_MSG	0x00000002	//Shows dialog
@@ -75,7 +75,7 @@ typedef struct CNotification
 
 typedef struct CServer
 {
-	CServer(): Name(NULL),Login(NULL),Passwd(NULL) {}
+	CServer(): Name(nullptr), Login(nullptr), Passwd(nullptr) {}
 
 	char *Name;
 	DWORD Port;

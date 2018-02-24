@@ -52,7 +52,7 @@ protected:
 		_Mid1 = _First1;
 		_Mid2 = _First2;
 
-		int conv = WideCharToMultiByte(codePage, 0, _First1, _Last1 - _First1, _First2, _Last2 - _First2, NULL, NULL);
+		int conv = WideCharToMultiByte(codePage, 0, _First1, _Last1 - _First1, _First2, _Last2 - _First2, nullptr, nullptr);
 		if (conv == 0)
 		{
 			if (GetLastError() == ERROR_INSUFFICIENT_BUFFER)

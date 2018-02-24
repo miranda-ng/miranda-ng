@@ -93,7 +93,7 @@ EXTERN_C MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize);
 // when a handle gets triggered, an appopriate stub gets called
 typedef void (CALLBACK *MWaitableStub)(void);
 
-EXTERN_C MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent = NULL);
+EXTERN_C MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent = nullptr);
 
 // wParam = 0 (ignored)
 // lParam = 0 (ignored)

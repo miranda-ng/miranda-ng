@@ -33,23 +33,23 @@ public:
 
 	virtual ~COptItem() {}
 
-	virtual void DBToMem(const CString&, CString* = NULL) { m_bModified = false; }
-	virtual void MemToDB(const CString&, CString* = NULL) { m_bModified = false; }
+	virtual void DBToMem(const CString&, CString* = nullptr) { m_bModified = false; }
+	virtual void MemToDB(const CString&, CString* = nullptr) { m_bModified = false; }
 	virtual void WndToMem(HWND) {}
 	virtual void MemToWnd(HWND hWnd) { EnableWindow(GetDlgItem(hWnd, m_dlgItemID), m_bEnabled); }
-	void DBToMemToWnd(const CString &sModule, HWND hWnd, CString *sDBSettingPrefix = NULL) { DBToMem(sModule, sDBSettingPrefix); MemToWnd(hWnd); }
-	void WndToMemToDB(HWND hWnd, const CString &sModule, CString *sDBSettingPrefix = NULL) { WndToMem(hWnd); MemToDB(sModule, sDBSettingPrefix); }
-	virtual void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = NULL) { db_unset(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting); }; // TODO: also set m_value to m_defValue?
+	void DBToMemToWnd(const CString &sModule, HWND hWnd, CString *sDBSettingPrefix = nullptr) { DBToMem(sModule, sDBSettingPrefix); MemToWnd(hWnd); }
+	void WndToMemToDB(HWND hWnd, const CString &sModule, CString *sDBSettingPrefix = nullptr) { WndToMem(hWnd); MemToDB(sModule, sDBSettingPrefix); }
+	virtual void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = nullptr) { db_unset(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting); }; // TODO: also set m_value to m_defValue?
 
 	virtual void SetValue(INT_PTR) { m_bModified = true; }
 	virtual void SetDefValue(INT_PTR) {}
 	virtual INT_PTR GetValue() { return 0; }
 	virtual INT_PTR GetDefValue() { return 0; }
 	
-	INT_PTR GetDBValue(const CString &sModule, CString *sDBSettingPrefix = NULL) { DBToMem(sModule, sDBSettingPrefix); return GetValue(); }
-	void    SetDBValue(const CString &sModule, INT_PTR m_value, CString *sDBSettingPrefix = NULL) { SetValue(m_value); MemToDB(sModule, sDBSettingPrefix); }
-	INT_PTR GetDBValueCopy(const CString &sModule, CString *sDBSettingPrefix = NULL) { COptItem* Item = Copy(); Item->DBToMem(sModule, sDBSettingPrefix); INT_PTR m_value = Item->GetValue(); delete Item; return m_value; } // retrieves DB value, but doesn't affect current page/item state; beware! it doesn't work with string values / other dynamic pointers
-	void    SetDBValueCopy(const CString &sModule, INT_PTR m_value, CString *sDBSettingPrefix = NULL) { COptItem* Item = Copy(); Item->SetValue(m_value); Item->MemToDB(sModule, sDBSettingPrefix); delete Item; }
+	INT_PTR GetDBValue(const CString &sModule, CString *sDBSettingPrefix = nullptr) { DBToMem(sModule, sDBSettingPrefix); return GetValue(); }
+	void    SetDBValue(const CString &sModule, INT_PTR m_value, CString *sDBSettingPrefix = nullptr) { SetValue(m_value); MemToDB(sModule, sDBSettingPrefix); }
+	INT_PTR GetDBValueCopy(const CString &sModule, CString *sDBSettingPrefix = nullptr) { COptItem* Item = Copy(); Item->DBToMem(sModule, sDBSettingPrefix); INT_PTR m_value = Item->GetValue(); delete Item; return m_value; } // retrieves DB value, but doesn't affect current page/item state; beware! it doesn't work with string values / other dynamic pointers
+	void    SetDBValueCopy(const CString &sModule, INT_PTR m_value, CString *sDBSettingPrefix = nullptr) { COptItem* Item = Copy(); Item->SetValue(m_value); Item->MemToDB(sModule, sDBSettingPrefix); delete Item; }
 	INT_PTR GetWndValue(HWND hWnd) { WndToMem(hWnd); return GetValue(); }
 	void    SetWndValue(HWND hWnd, INT_PTR m_value) { SetValue(m_value); MemToWnd(hWnd); }
 	
@@ -62,15 +62,15 @@ public:
 	int GetID() { return m_dlgItemID; }
 
 	//	virtual COptItem& operator = (const COptItem& Item) {return *this;};
-	virtual COptItem* Copy() { _ASSERT(0); return NULL; } // Attention! Free Copy() result when it's not needed anymore!
+	virtual COptItem* Copy() { _ASSERT(0); return nullptr; } // Attention! Free Copy() result when it's not needed anymore!
 
 	CString sDBSetting;
 
 protected:
-	int GetIntDBVal(const CString &sModule, int bSigned = false, CString *sDBSettingPrefix = NULL);
-	void SetIntDBVal(const CString &sModule, int m_value, CString *sDBSettingPrefix = NULL);
-	TCString GetStrDBVal(const CString &sModule, CString *sDBSettingPrefix = NULL);
-	void SetStrDBVal(const CString &sModule, TCString &Str, CString *sDBSettingPrefix = NULL);
+	int GetIntDBVal(const CString &sModule, int bSigned = false, CString *sDBSettingPrefix = nullptr);
+	void SetIntDBVal(const CString &sModule, int m_value, CString *sDBSettingPrefix = nullptr);
+	TCString GetStrDBVal(const CString &sModule, CString *sDBSettingPrefix = nullptr);
+	void SetStrDBVal(const CString &sModule, TCString &Str, CString *sDBSettingPrefix = nullptr);
 
 	int m_dlgItemID;
 	bool m_bEnabled;
@@ -84,7 +84,7 @@ class COptItem_Generic : public COptItem
 {
 public:
 	COptItem_Generic() {}
-	COptItem_Generic(int m_dlgItemID, int lParam = 0) : COptItem(m_dlgItemID, NULL, 0, lParam) {}
+	COptItem_Generic(int m_dlgItemID, int lParam = 0) : COptItem(m_dlgItemID, nullptr, 0, lParam) {}
 	virtual COptItem* Copy() { return new COptItem_Generic(*this); }
 };
 
@@ -96,8 +96,8 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, nMaxLen, lParam, m_bReadOnly), sDefValue(szDefValue)
 		{}
 
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { sValue = GetStrDBVal(sModule, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetStrDBVal(sModule, sValue, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { sValue = GetStrDBVal(sModule, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { SetStrDBVal(sModule, sValue, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { GetDlgItemText(hWnd, m_dlgItemID, sValue.GetBuffer(nValueSize), nValueSize); sValue.ReleaseBuffer(); COptItem::MemToWnd(hWnd); }
 	void MemToWnd(HWND hWnd) { SetDlgItemText(hWnd, m_dlgItemID, sValue); COptItem::MemToWnd(hWnd); }
 	
@@ -123,9 +123,9 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), bSigned(bSigned)
 		{}
 	
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, bSigned, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
-	void WndToMem(HWND hWnd) { m_value = GetDlgItemInt(hWnd, m_dlgItemID, NULL, bSigned); COptItem::WndToMem(hWnd); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { m_value = GetIntDBVal(sModule, bSigned, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void WndToMem(HWND hWnd) { m_value = GetDlgItemInt(hWnd, m_dlgItemID, nullptr, bSigned); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SetDlgItemInt(hWnd, m_dlgItemID, m_value, bSigned); COptItem::MemToWnd(hWnd); }
 	
 	virtual void SetValue(INT_PTR _Value) { this->m_value = _Value; COptItem::SetValue(_Value); }
@@ -149,8 +149,8 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), m_valueMask(m_valueMask)
 		{}
 
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL);
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL);
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr);
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr);
 	void WndToMem(HWND hWnd);
 	void MemToWnd(HWND hWnd);
 
@@ -175,8 +175,8 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), m_valueMask(m_valueMask)
 		{}
 
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = (GetIntDBVal(sModule, false, sDBSettingPrefix) == m_valueMask) ? BST_CHECKED : BST_UNCHECKED; COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { if ((m_value == BST_CHECKED)) SetIntDBVal(sModule, m_valueMask, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { m_value = (GetIntDBVal(sModule, false, sDBSettingPrefix) == m_valueMask) ? BST_CHECKED : BST_UNCHECKED; COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { if ((m_value == BST_CHECKED)) SetIntDBVal(sModule, m_valueMask, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = IsDlgButtonChecked(hWnd, m_dlgItemID); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { CheckDlgButton(hWnd, m_dlgItemID, m_value ? BST_CHECKED : BST_UNCHECKED); COptItem::MemToWnd(hWnd); }
 
@@ -201,8 +201,8 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0)
 		{}
 	
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = SendDlgItemMessage(hWnd, m_dlgItemID, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hWnd, m_dlgItemID, CB_GETCURSEL, 0, 0), 0); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SendDlgItemMessage(hWnd, m_dlgItemID, CB_SETCURSEL, m_value, 0); COptItem::MemToWnd(hWnd); }
 	
@@ -226,8 +226,8 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, DBVT_DWORD, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0)
 		{}
 	
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = SendDlgItemMessage(hWnd, m_dlgItemID, CPM_GETCOLOUR, 0, 0); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SendDlgItemMessage(hWnd, m_dlgItemID, CPM_SETCOLOUR, 0, m_value); COptItem::MemToWnd(hWnd); }
 	
@@ -252,8 +252,8 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0)
 		{}
 	
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { m_value = GetIntDBVal(sModule, false, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { m_value = SendDlgItemMessage(hWnd, m_dlgItemID, TBM_GETPOS, 0, 0); COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { SendDlgItemMessage(hWnd, m_dlgItemID, TBM_SETPOS, true, m_value); COptItem::MemToWnd(hWnd); }
 	
@@ -277,8 +277,8 @@ public:
 		: COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), bSigned(bSigned)
 		{}
 	
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { m_value = GetIntDBVal(sModule, bSigned, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { m_value = GetIntDBVal(sModule, bSigned, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { SetIntDBVal(sModule, m_value, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { COptItem::MemToWnd(hWnd); }
 	
@@ -301,8 +301,8 @@ public:
 	COptItem_BitDBSetting() {}
 	COptItem_BitDBSetting(int m_dlgItemID, char *szDBSetting, int nValueSize = DBVT_BYTE, int m_defValue = 0, int m_valueMask = 0, int lParam = 0, bool m_bReadOnly = false) : COptItem(m_dlgItemID, szDBSetting, nValueSize, lParam, m_bReadOnly), m_defValue(m_defValue), m_value(0), m_valueMask(m_valueMask) {}
 
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL);
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL);
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr);
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr);
 	void WndToMem(HWND hWnd) { COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { COptItem::MemToWnd(hWnd); }
 
@@ -324,8 +324,8 @@ class COptItem_StrDBSetting : public COptItem
 public:
 	COptItem_StrDBSetting() {}
 	COptItem_StrDBSetting(int m_dlgItemID, char *szDBSetting, int nMaxLen, wchar_t *szDefValue, int lParam = 0, bool m_bReadOnly = false) : COptItem(m_dlgItemID, szDBSetting, nMaxLen, lParam, m_bReadOnly), sDefValue(szDefValue) {}
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL) { sValue = GetStrDBVal(sModule, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL) { SetStrDBVal(sModule, sValue, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr) { sValue = GetStrDBVal(sModule, sDBSettingPrefix); COptItem::DBToMem(sModule, sDBSettingPrefix); }
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr) { SetStrDBVal(sModule, sValue, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix); }
 	void WndToMem(HWND hWnd) { COptItem::WndToMem(hWnd); }
 	void MemToWnd(HWND hWnd) { COptItem::MemToWnd(hWnd); }
 	
@@ -352,7 +352,7 @@ class CBaseTreeItem
 {
 public:
 	CBaseTreeItem();
-	CBaseTreeItem(TCString Title, int ID, int Flags) : Title(Title), ID(ID), Flags(Flags), hItem(NULL) {}
+	CBaseTreeItem(TCString Title, int ID, int Flags) : Title(Title), ID(ID), Flags(Flags), hItem(nullptr) {}
 
 	TCString Title;
 	int ID;
@@ -364,7 +364,7 @@ class CTreeItem : public CBaseTreeItem
 {
 public:
 	CTreeItem();
-	CTreeItem(TCString Title, int ParentID, int ID, int Flags = 0, TCString User_Str1 = NULL) :
+	CTreeItem(TCString Title, int ParentID, int ID, int Flags = 0, TCString User_Str1 = nullptr) :
 		CBaseTreeItem(Title, ID, Flags & ~TIF_ROOTITEM), ParentID(ParentID), User_Str1(User_Str1)
 	{
 	}
@@ -402,7 +402,7 @@ class COptItem_TreeCtrl : public COptItem
 {
 public:
 	COptItem_TreeCtrl() {}
-	COptItem_TreeCtrl(int m_dlgItemID, char *szDBSetting, TreeItemArray &m_defValue, TreeRootItemArray RootItems, int lParam = 0, CString User_Str1_DBName = NULL, bool m_bReadOnly = false, int TreeFlags = 0) : COptItem(m_dlgItemID, szDBSetting, DBVT_DWORD, lParam, m_bReadOnly), m_defValue(m_defValue), RootItems(RootItems), User_Str1_DBName(User_Str1_DBName), TreeFlags(TreeFlags)
+	COptItem_TreeCtrl(int m_dlgItemID, char *szDBSetting, TreeItemArray &m_defValue, TreeRootItemArray RootItems, int lParam = 0, CString User_Str1_DBName = nullptr, bool m_bReadOnly = false, int TreeFlags = 0) : COptItem(m_dlgItemID, szDBSetting, DBVT_DWORD, lParam, m_bReadOnly), m_defValue(m_defValue), RootItems(RootItems), User_Str1_DBName(User_Str1_DBName), TreeFlags(TreeFlags)
 	{
 		if (TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) {
 			_ASSERT(!RootItems.GetSize()); // there can't be any root items when the tree is a plain list
@@ -411,11 +411,11 @@ public:
 		}
 	}
 	~COptItem_TreeCtrl() {}
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL);
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL);
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr);
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr);
 	void WndToMem(HWND hWnd);
 	void MemToWnd(HWND hWnd);
-	void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = NULL);
+	void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = nullptr);
 	
 	virtual void SetValue(INT_PTR _Value) { this->m_value = *(TreeItemArray*)_Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = *(TreeItemArray*)_DefValue; COptItem::SetDefValue(_DefValue); }
@@ -463,11 +463,11 @@ public:
 	COptItem_ListCtrl() {}
 	COptItem_ListCtrl(int m_dlgItemID, char *szDBSetting, ListItemArray &m_defValue, int lParam = 0, bool m_bReadOnly = false) : COptItem(m_dlgItemID, szDBSetting, DBVT_DWORD, lParam, m_bReadOnly), m_defValue(m_defValue) {}
 	~COptItem_ListCtrl() {}
-	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = NULL);
-	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = NULL);
+	void DBToMem(const CString &sModule, CString *sDBSettingPrefix = nullptr);
+	void MemToDB(const CString &sModule, CString *sDBSettingPrefix = nullptr);
 	void WndToMem(HWND hWnd);
 	void MemToWnd(HWND hWnd);
-	void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = NULL);
+	void CleanDBSettings(const CString &sModule, CString *sDBSettingPrefix = nullptr);
 	
 	virtual void SetValue(INT_PTR _Value) { this->m_value = *(ListItemArray*)_Value; COptItem::SetValue(_Value); }
 	virtual void SetDefValue(INT_PTR _DefValue) { this->m_defValue = *(ListItemArray*)_DefValue; COptItem::SetDefValue(_DefValue); }
@@ -490,7 +490,7 @@ public:
 class COptPage
 {
 public:
-	COptPage() : hWnd(NULL), sDBSettingPrefix("") {}
+	COptPage() : hWnd(nullptr), sDBSettingPrefix("") {}
 	COptPage(char *szModule, HWND hWnd, CString sDBSettingPrefix = "") : sModule(szModule), hWnd(hWnd), sDBSettingPrefix(sDBSettingPrefix) {}
 	COptPage(const COptPage &Item);
 	~COptPage();

@@ -146,7 +146,7 @@ public:
 	CImageItem(const CImageItem& From)
 	{
 		*this = From;
-		m_nextItem = 0;
+		m_nextItem = nullptr;
 	}
 	CImageItem(const wchar_t *szName)
 	{
@@ -183,8 +183,8 @@ public:
 
 	void			Clear()
 	{
-		m_hdc = 0; m_hbm = 0; m_hbmOld = 0;
-		m_fillBrush = (HBRUSH)0;
+		m_hdc = nullptr; m_hbm = nullptr; m_hbmOld = nullptr;
+		m_fillBrush = nullptr;
 	}
 
 	void			setBitmap(const HBITMAP hbm)
@@ -354,7 +354,7 @@ public:
 	 */
 	const CImageItem*		getGlyphItem() const
 	{
-		return(m_fHaveGlyph ? &m_glyphItem : 0);
+		return(m_fHaveGlyph ? &m_glyphItem : nullptr);
 	}
 	bool					warnToClose() const;
 	COLORREF				getColorKey() const { return(m_ContainerColorKey); }

@@ -101,7 +101,7 @@ protected:
 	WORD wGroup;
 
 	virtual BOOL isEqual(rates_queue_item *pItem);
-	virtual rates_queue_item* copyItem(rates_queue_item *pDest = NULL);
+	virtual rates_queue_item* copyItem(rates_queue_item *pDest = nullptr);
 public:
 	rates_queue_item(CIcqProto *ppro, WORD wGroup);
 	virtual ~rates_queue_item();

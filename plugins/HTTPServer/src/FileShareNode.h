@@ -61,7 +61,7 @@ public://, 	DWORD dwAllowedIP, DWORD dwAllowedMask, int nMaxDownloads );
 	bool bAddUser(CLShareUser * pclUser);
 	bool bRemoveUser(CLShareUser * pclUser);
 	bool bAnyUsers() {
-		return pclCurrentUsers != 0;
+		return pclCurrentUsers != nullptr;
 	}
 	void CloseAllTransfers();
 	CLShareUser *pclGetUsers() {

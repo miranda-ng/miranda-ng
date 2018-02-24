@@ -68,7 +68,7 @@ struct CMimeItem
 	char *name;
 	char *value;
 	struct CMimeItem *Next;
-	CMimeItem(): name(NULL), value(NULL), Next(NULL){}
+	CMimeItem(): name(nullptr), value(nullptr), Next(nullptr){}
 };
 
 typedef struct CMailData	//this is plugin-independent
@@ -82,7 +82,7 @@ typedef struct CMailData	//this is plugin-independent
 	struct CMimeItem *Additional;			//MIME items not read from server (custom, for filter plugins etc.)
 	char *Body;					//Message body
 
-	CMailData(): CP(-1), Size(0), TranslatedHeader(NULL), Body(NULL){}
+	CMailData(): CP(-1), Size(0), TranslatedHeader(nullptr), Body(nullptr) {}
 } MAILDATA,*PMAILDATA;
 
 typedef struct CMimeMsgQueue
@@ -146,12 +146,12 @@ typedef struct CMimeMsgQueue
 //plugins can store here its own data
 	void *PluginData;
 
-	CMimeMsgQueue(): ID(NULL), Number(0), Flags(0), MailData(NULL), MsgWindow(NULL), PluginData(NULL), Next(NULL){}
+	CMimeMsgQueue(): ID(nullptr), Number(0), Flags(0), MailData(nullptr), MsgWindow(nullptr), PluginData(nullptr), Next(nullptr){}
 	~CMimeMsgQueue() {}
 
 	struct CMimeMsgQueue *Next;
 } YAMNMAIL,*HYAMNMAIL;
-#define	LoadedMailData(x)	(x->MailData!=NULL)
+#define	LoadedMailData(x)	(x->MailData!=nullptr)
 
 //
 //================================== YAMN MAIL SERVICES ==================================

@@ -143,7 +143,7 @@ public:
 	};
 	typedef SMOBJLIST<SmileyLocType> SmileyLocVecType;
 
-	SmileyLookup() : m_pattern(L"") { m_ind = 0; m_valid = false; m_pattern = NULL; };
+	SmileyLookup() : m_pattern(L"") { m_ind = 0; m_valid = false; m_pattern = nullptr; };
 	SmileyLookup(const CMStringW &str, const bool regexs, const int ind, const CMStringW &smpt);
 	~SmileyLookup();
 
@@ -251,7 +251,7 @@ private:
 	bool visible;
 
 public:
-	SmileyCategoryType() { type = smcNone; m_pSmileyPackStore = NULL; visible = true; };
+	SmileyCategoryType() { type = smcNone; m_pSmileyPackStore = nullptr; visible = true; };
 	SmileyCategoryType(SmileyPackListType *pSPS, const CMStringW &name, const CMStringW &displayName, const CMStringW &defaultFilename, SmcType typ);
 
 	const CMStringW& GetDisplayName(void) const { return m_DisplayName; }

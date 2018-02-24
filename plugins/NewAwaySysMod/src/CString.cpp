@@ -38,7 +38,7 @@ void TString<T>::Free()
 {
 //	HeapFree(GetProcessHeap(), 0, pBuf);
 	free(pBuf);
-	pBuf = NULL;
+	pBuf = nullptr;
 	nBufSize = 0;
 	nAllocSize = 0;
 }

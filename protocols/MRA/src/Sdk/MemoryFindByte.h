@@ -34,7 +34,7 @@
 
 __inline void *MemoryFindByte(size_t dwFrom,const void *pBuff,size_t dwBuffSize,unsigned char chWhatFind)
 {
-	void *pRet=NULL;
+	void *pRet = nullptr;
 
 	if (pBuff && dwBuffSize && dwFrom<dwBuffSize)
 	{

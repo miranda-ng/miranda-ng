@@ -38,7 +38,7 @@ struct TReceivedItem {
 	wchar_t* mcaUIN;
 	wchar_t* mcaNick;
 	~TReceivedItem() { mir_free(mcaUIN); mir_free(mcaNick); }
-	TReceivedItem() { mcaUIN = NULL; mcaNick = NULL; }
+	TReceivedItem() { mcaUIN = nullptr; mcaNick = nullptr; }
 };
 
 struct TRecvContactsData

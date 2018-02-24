@@ -64,27 +64,27 @@ EXTERN_C MIR_CORE_DLL(LPCTSTR) TimeZone_GetDescription(LPCTSTR TZname);
 	
 __forceinline int printDateTimeByContact (MCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 {
-	return TimeZone_PrintDateTime(TimeZone_CreateByContact(hContact, 0, dwFlags), szFormat, szDest, cbDest, dwFlags);
+	return TimeZone_PrintDateTime(TimeZone_CreateByContact(hContact, nullptr, dwFlags), szFormat, szDest, cbDest, dwFlags);
 }
 
 __forceinline	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 {
-	return TimeZone_PrintTimeStamp(TimeZone_CreateByContact(hContact, 0, dwFlags), ts, szFormat, szDest, cbDest, dwFlags);
+	return TimeZone_PrintTimeStamp(TimeZone_CreateByContact(hContact, nullptr, dwFlags), ts, szFormat, szDest, cbDest, dwFlags);
 }
 
 __forceinline LPTIME_ZONE_INFORMATION getTziByContact(MCONTACT hContact)
 {
-	return TimeZone_GetInfo(TimeZone_CreateByContact(hContact, 0, 0));
+	return TimeZone_GetInfo(TimeZone_CreateByContact(hContact, nullptr, 0));
 }
 
 __forceinline int getTimeZoneTimeByContact(MCONTACT hContact, SYSTEMTIME *st)
 {
-	return TimeZone_GetTimeZoneTime(TimeZone_CreateByContact(hContact, 0, 0), st);
+	return TimeZone_GetTimeZoneTime(TimeZone_CreateByContact(hContact, nullptr, 0), st);
 }
 
 __forceinline mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, mir_time ts)
 {
-	return TimeZone_UtcToLocal(TimeZone_CreateByContact(hContact, 0, 0), ts);
+	return TimeZone_UtcToLocal(TimeZone_CreateByContact(hContact, nullptr, 0), ts);
 }
 
 #endif

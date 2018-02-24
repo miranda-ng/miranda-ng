@@ -794,7 +794,7 @@ int GaduProto::options_init(WPARAM wParam, LPARAM)
 
 	odp.szTab.w = LPGENW("Advanced");
 	odp.position = 2;
-	odp.pszTemplate = 0;
+	odp.pszTemplate = nullptr;
 	odp.pDialog = new GaduOptionsDlgAdvanced(this);
 	Options_AddPage(wParam, &odp);
 

@@ -172,8 +172,8 @@ typedef struct tagIconItemT
 	IconItemT;
 
 #if defined( __cplusplus )
-MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix = NULL, int = hLangpack);
-MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, char *prefix = NULL, int = hLangpack);
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix = nullptr, int = hLangpack);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, char *prefix = nullptr, int = hLangpack);
 #else
 MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix, int hLangpack);
 MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const wchar_t* szSection, IconItemT* pIcons, size_t iCount, char *prefix, int hLangpack);
@@ -187,7 +187,7 @@ MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len);
 #pragma optimize("gt", on)
 __forceinline unsigned int mir_hashstr(const char * key)
 {
-	if (key == NULL) return 0;
+	if (key == nullptr) return 0;
 	else {
 		unsigned int len = (unsigned int)strlen((const char*)key);
 		return mir_hash(key, len);
@@ -195,7 +195,7 @@ __forceinline unsigned int mir_hashstr(const char * key)
 
 __forceinline unsigned int mir_hashstrW(const wchar_t * key)
 {
-	if (key == NULL) return 0;
+	if (key == nullptr) return 0;
 	else {
 		unsigned int len = (unsigned int)wcslen((const wchar_t*)key);
 		return mir_hash(key, len * sizeof(wchar_t));
@@ -348,7 +348,7 @@ MIR_APP_DLL(int) ProtoGetAvatarFormatByMimeType(const wchar_t *pwszMimeType);
 // returns the image format and extension by the first bytes of picture
 // ptszExtension might be NULL
 #if defined( __cplusplus )
-	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const wchar_t **ptszExtension = NULL);
+	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const wchar_t **ptszExtension = nullptr);
 #else
 	MIR_APP_DLL(int) ProtoGetBufferFormat(const void *buf, const wchar_t **ptszExtension);
 #endif
@@ -467,7 +467,7 @@ typedef unsigned (__stdcall *pThreadFuncEx)(void *param);
 typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void *param);
 
 #if defined( __cplusplus )
-	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner = NULL);
+	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner = nullptr);
 #else
 	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner);
 #endif
@@ -475,9 +475,9 @@ MIR_CORE_DLL(INT_PTR) Thread_Pop(void);
 MIR_CORE_DLL(void)    Thread_Wait(void);
 
 #if defined( __cplusplus )
-MIR_CORE_DLL(HANDLE) mir_forkthread(pThreadFunc aFunc, void *arg = NULL);
-MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void *arg = NULL, unsigned *pThreadID = NULL);
-MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, void *arg = NULL, unsigned *pThreadID = NULL);
+MIR_CORE_DLL(HANDLE) mir_forkthread(pThreadFunc aFunc, void *arg = nullptr);
+MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void *arg = nullptr, unsigned *pThreadID = nullptr);
+MIR_CORE_DLL(HANDLE) mir_forkthreadowner(pThreadFuncOwner aFunc, void *owner, void *arg = nullptr, unsigned *pThreadID = nullptr);
 #else
 MIR_CORE_DLL(HANDLE) mir_forkthread(pThreadFunc aFunc, void *arg);
 MIR_CORE_DLL(HANDLE) mir_forkthreadex(pThreadFuncEx aFunc, void *arg, unsigned *pThreadID);
@@ -516,7 +516,7 @@ MIR_CORE_DLL(BOOL)  Utf8CheckString(const char* str);
 __forceinline char* mir_utf8decodeA(const char* src)
 {
     char *tmp = mir_strdup(src);
-    mir_utf8decode(tmp, NULL);
+    mir_utf8decode(tmp, nullptr);
     return tmp;
 }
 

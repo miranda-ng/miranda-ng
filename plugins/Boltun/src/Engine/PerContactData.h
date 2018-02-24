@@ -40,7 +40,7 @@ class PerContactData
 		}
 
 		inline InternalData()
-			: data(NULL)
+			: data(nullptr)
 		{
 			assert(false);
 		}
@@ -78,7 +78,7 @@ PerContactData<Source, Data, ContactHandle>::~PerContactData()
 	mir_cslock mlck(mapLock);
 	if (timerID)
 	{
-		KillTimer(NULL, timerID);
+		KillTimer(nullptr, timerID);
 		perContactDataObjects.erase(timerID);
 	}
 	while (!datas.empty())
@@ -106,7 +106,7 @@ void PerContactData<Source, Data, ContactHandle>::PutData(ContactHandle Contact)
 	::time(&(datas[Contact]->time));
 	if (!timerID)
 	{
-		timerID = SetTimer(NULL, 0, 30000, RunTimerProc<Source, Data, ContactHandle>);
+		timerID = SetTimer(nullptr, 0, 30000, RunTimerProc<Source, Data, ContactHandle>);
 		assert(timerID);
 		perContactDataObjects[timerID] = this;
 	}
@@ -138,7 +138,7 @@ void PerContactData<Source, Data, ContactHandle>::CleanupData()
 	}
 	if (timerID && datas.empty()) //timerID may become NULL before locking, so should check
 	{
-		KillTimer(NULL, timerID);
+		KillTimer(nullptr, timerID);
 		perContactDataObjects.erase(timerID);
 	}
 }

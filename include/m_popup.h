@@ -287,7 +287,7 @@ and it will work. Just look at the example I've written above (PopupDlgProc).
 */
 #define MS_POPUP_GETPLUGINDATA "Popup/GetPluginData"
 static void __inline * PUGetPluginData(HWND hPopupWindow) {
-	long * uselessPointer = NULL;
+	long * uselessPointer = nullptr;
 	return (void*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hPopupWindow, (LPARAM)uselessPointer);
 }
 
@@ -667,7 +667,7 @@ typedef struct {
 HANDLE __forceinline Popup_RegisterClass(POPUPCLASS *pc)
 {
 	if (!ServiceExists(MS_POPUP_REGISTERCLASS))
-		return NULL;
+		return nullptr;
 	return (HANDLE)CallService(MS_POPUP_REGISTERCLASS, 0, LPARAM(pc));
 }
 
