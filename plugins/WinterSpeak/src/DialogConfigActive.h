@@ -1,5 +1,5 @@
 #pragma once
-#include "mirandadialog.h"
+#include "MirandaDialog.h"
 
 class DialogConfigActive : public MirandaDialog
 {
