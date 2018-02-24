@@ -644,7 +644,7 @@ class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlHyperlink(CDlgBase *dlg, int ctrlId, const char* url);
+	CCtrlHyperlink(CDlgBase *dlg, int ctrlId, const char* url = nullptr);
 
 	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
 
