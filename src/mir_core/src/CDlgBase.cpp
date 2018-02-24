@@ -134,6 +134,8 @@ BOOL CALLBACK CDlgBase::GlobalFieldEnum(HWND hwnd, LPARAM lParam)
 
 	wchar_t wszClass[100];
 	GetClassNameW(hwnd, wszClass, _countof(wszClass));
+	if (!wcsicmp(wszClass, L"Static"))
+		new CCtrlLabel(pDlg, id);
 	if (!wcsicmp(wszClass, L"Edit"))
 		new CCtrlEdit(pDlg, id);
 	else if (!wcsicmp(wszClass, L"ComboBox"))
