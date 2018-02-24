@@ -31,7 +31,7 @@ public:
 	virtual ~CCloudService();
 
 	DWORD_PTR __cdecl GetCaps(int type, MCONTACT) override;
-	int __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
+	int __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;
 
 	static INT_PTR SendFileInterceptor(WPARAM wParam, LPARAM lParam);
@@ -56,7 +56,7 @@ public:
 class CCloudServiceSearch : public CCloudService
 {
 protected:
-	void HandleJsonError(JSONNode&) { }
+	void HandleJsonError(JSONNode&) override { }
 
 public:
 	CCloudServiceSearch(const char *search)
@@ -70,7 +70,7 @@ public:
 	void Login() override { }
 	void Logout() override { }
 
-	UINT Upload(FileTransferParam*) { return 0; }
+	UINT Upload(FileTransferParam*) override { return 0; }
 };
 
 #endif //_CLOUD_SERVICE_H_
