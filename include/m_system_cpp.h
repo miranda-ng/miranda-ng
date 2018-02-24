@@ -249,21 +249,22 @@ template<class T> struct OBJLIST : public LIST<T>
 
 	__inline void destroy(void)
 	{
-		for (int i=0; i < this->count; i++)
+		for (int i = 0; i < this->count; i++)
 			delete this->items[i];
 
 		List_Destroy((SortedList*)this);
 	}
 
-	__inline int remove(int idx) {
+	__inline int remove(int idx)
+	{
 		delete this->items[idx];
 		return List_Remove((SortedList*)this, idx);
 	}
 
 	__inline int remove(T *p)
 	{
-		int i = getIndex( p );
-		if ( i != -1 ) {
+		int i = this->getIndex(p);
+		if (i != -1) {
 			remove(i);
 			return 1;
 		}
