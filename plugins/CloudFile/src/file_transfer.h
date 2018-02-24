@@ -91,10 +91,10 @@ public:
 		return m_description.GetString();
 	}
 
-	const int GetSharedLinks(const char **result) const
+	const const char** GetSharedLinks(size_t &count) const
 	{
-		result = (const char**)m_links.getArray();
-		return m_links.getCount();
+		count = m_links.getCount();
+		return (const char**)m_links.getArray();
 	}
 
 	void Terminate()

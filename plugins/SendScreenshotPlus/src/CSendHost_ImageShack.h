@@ -37,7 +37,7 @@ public:
 	CSendHost_ImageShack(HWND Owner, MCONTACT hContact, bool bAsync);
 	~CSendHost_ImageShack();
 
-	int Send();
+	int Send() override;
 
 protected:
 	NETLIBHTTPREQUEST		m_nlhr;

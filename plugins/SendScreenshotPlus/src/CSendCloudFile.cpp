@@ -30,47 +30,56 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSendDropbox::CSendDropbox(HWND Owner, MCONTACT hContact, bool bAsync)
-	: CSend(Owner, hContact, bAsync)
+CSendCloudFile::CSendCloudFile(HWND Owner, MCONTACT hContact, bool bAsync, const char *service)
+	: CSend(Owner, hContact, bAsync), m_service(service)
 {
 	/// @todo : re-enable SS_DLG_DELETEAFTERSSEND with full implemention of Dropbox upload with progress, msg and sounds
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp = TranslateT("Dropbox transfer");
+	m_pszSendTyp = TranslateT("CloudFile transfer");
 }
 
-CSendDropbox::~CSendDropbox()
+CSendCloudFile::~CSendCloudFile()
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CSendDropbox::Send()
+int CSendCloudFile::Send()
 {
-	mir_forkthread(&CSendDropbox::SendThreadWrapper, this);
+	mir_forkthread(&CSendCloudFile::SendThreadWrapper, this);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CSendDropbox::SendThread()
+void CSendCloudFile::SendThread()
 {
 	/// @todo : SS_DLG_DESCRIPTION and SS_DLG_DELETEAFTERSSEND are of no use as of now since we don't track upload progress
 
-	DropboxUploadInfo ui = { m_pszFile, L"SendSS" };
+	CFUPLOADDATA ud = { m_service, m_pszFile, L"SendSS" };
+	CFUPLOADRESULT ur = { };
 
-	if (CallService(MS_DROPBOX_UPLOAD, (WPARAM)&m_URL, (LPARAM)&ui))
+	if (CallService(MS_CLOUDFILE_UPLOAD, (WPARAM)&ud, (LPARAM)&ur))
 	{
-		Error(LPGENW("%s (%i):\nCould not add a share to the Dropbox plugin."), TranslateW(m_pszSendTyp), 0);
+		Error(LPGENW("%s (%i):\nCould not add a share to the CloudFile plugin."), TranslateW(m_pszSendTyp), 0);
 		Exit(ACKRESULT_FAILED); return;
 	}
 
+	CMStringA message;
+	for (size_t i = 0; i < ur.linkCount; i++)
+		message.AppendFormat("%s\r\n", ur.links[i]);
+	message.Delete(message.GetLength() - 2, 2);
+
+	m_URL = mir_strdup(message.GetString());
 	if (m_URL)
 		svcSendMsgExit(m_URL);
 	else
 		Exit(ACKRESULT_FAILED);
+
+	cfur_free(&ur);
 }
 
-void CSendDropbox::SendThreadWrapper(void * Obj)
+void CSendCloudFile::SendThreadWrapper(void * Obj)
 {
-	reinterpret_cast<CSendDropbox*>(Obj)->SendThread();
+	reinterpret_cast<CSendCloudFile*>(Obj)->SendThread();
 }

@@ -31,9 +31,19 @@ struct CFUPLOADDATA
 
 struct CFUPLOADRESULT
 {
-	char **links;
-	wchar_t *description;
+	char **links; // need to be freed manually or by calling cfur_free
+	size_t linkCount;
+	wchar_t *description; // need to be freed manually or by calling cfur_free
 };
+
+// frees allocated fields of CFUPLOADRESULT
+__inline void cfur_free(CFUPLOADRESULT *ur)
+{
+	for (size_t i = 0; i < ur->linkCount; i++)
+		mir_free(ur->links[0]);
+	mir_free(ur->links);
+	mir_free(ur->description);
+}
 
 // upload file on cloud service
 // wParam = (WPARAM)(const CFUPLOADDATA*)uploadData

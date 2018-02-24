@@ -19,7 +19,9 @@ class CSendHost_UploadPie : public CSend {
 	public:
 		CSendHost_UploadPie(HWND Owner, MCONTACT hContact, bool bAsync, int expire);
 		~CSendHost_UploadPie();
-		int Send();
+
+		int Send() override;
+
 	protected:
 		int m_expire;
 		NETLIBHTTPREQUEST m_nlhr;

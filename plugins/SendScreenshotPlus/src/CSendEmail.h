@@ -37,7 +37,7 @@ public:
 	CSendEmail(HWND Owner, MCONTACT hContact, bool bAsync);
 	~CSendEmail();
 
-	int Send();
+	int Send() override;
 
 protected:
 	char* m_pszFileA;

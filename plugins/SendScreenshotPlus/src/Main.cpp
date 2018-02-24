@@ -237,7 +237,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	g_myGlobals.PopupActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 	g_myGlobals.PluginHTTPExist = ServiceExists(MS_HTTP_ACCEPT_CONNECTIONS);
 	g_myGlobals.PluginFTPExist = ServiceExists(MS_FTPFILE_UPLOAD);
-	g_myGlobals.PluginDropboxExist = ServiceExists(MS_DROPBOX_UPLOAD);
+	g_myGlobals.PluginCloudFileExist = ServiceExists(MS_CLOUDFILE_UPLOAD);
 	// Netlib register
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = __PLUGIN_NAME;

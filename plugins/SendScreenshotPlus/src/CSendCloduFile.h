@@ -31,16 +31,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "Utils.h"
 
-class CSendDropbox : public CSend
+class CSendCloudFile : public CSend
 {
 
 public:
-	CSendDropbox(HWND Owner, MCONTACT hContact, bool bAsync);
-	~CSendDropbox();
+	CSendCloudFile(HWND Owner, MCONTACT hContact, bool bAsync, const char *service);
+	~CSendCloudFile();
 
-	int Send();
+	int Send() override;
 
 protected:
+	const char *m_service;
+
 	void SendThread();
 	static void SendThreadWrapper(void *Obj);
 	static int OnDropAck(void*, WPARAM, LPARAM);

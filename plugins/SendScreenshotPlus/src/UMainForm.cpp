@@ -171,6 +171,13 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 /////////////////////////////////////////////////////////////////////////////////////////
 // WM_INITDIALOG:
 
+int EnumCloudFileServices(const CFSERVICEINFO *serviceInfo, void *param)
+{
+	HWND hCtrl = (HWND)param;
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, serviceInfo->userName), new UPLOAD_INFO(SS_CLOUDFILE, (void*)serviceInfo->accountName));
+	return 0;
+}
+
 void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 {
 	HWND hCtrl;
@@ -291,18 +298,18 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 	{
 		hCtrl = GetDlgItem(m_hWnd, ID_cboxSendBy);
 		ComboBox_ResetContent(hCtrl);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<Only save>")), SS_JUSTSAVE);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<Only save>")), new UPLOAD_INFO(SS_JUSTSAVE));
 		if (m_hContact) {
-			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("File Transfer")), SS_FILESEND);
-			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("E-mail")), SS_EMAIL);
+			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("File Transfer")), new UPLOAD_INFO(SS_FILESEND));
+			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("E-mail")), new UPLOAD_INFO(SS_EMAIL));
 			if (g_myGlobals.PluginHTTPExist) {
-				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"HTTP Server"), SS_HTTPSERVER);
+				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"HTTP Server"), new UPLOAD_INFO(SS_HTTPSERVER));
 			}
 			else if (m_opt_cboxSendBy == SS_HTTPSERVER) {
 				m_opt_cboxSendBy = SS_IMAGESHACK;
 			}
 			if (g_myGlobals.PluginFTPExist) {
-				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("FTP File")), SS_FTPFILE);
+				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("FTP File")), new UPLOAD_INFO(SS_FTPFILE));
 			}
 			else if (m_opt_cboxSendBy == SS_FTPFILE) {
 				m_opt_cboxSendBy = SS_IMAGESHACK;
@@ -311,17 +318,17 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		else if (m_opt_cboxSendBy == SS_FILESEND || m_opt_cboxSendBy == SS_EMAIL || m_opt_cboxSendBy == SS_HTTPSERVER || m_opt_cboxSendBy == SS_FTPFILE) {
 			m_opt_cboxSendBy = SS_IMAGESHACK;
 		}
-		if (g_myGlobals.PluginDropboxExist) {
-			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"Dropbox"), SS_DROPBOX);
+		if (g_myGlobals.PluginCloudFileExist) {
+			CallService(MS_CLOUDFILE_ENUMSERVICES, (WPARAM)EnumCloudFileServices, (LPARAM)hCtrl);
 		}
-		else if (m_opt_cboxSendBy == SS_DROPBOX) {
+		else if (m_opt_cboxSendBy == SS_CLOUDFILE) {
 			m_opt_cboxSendBy = SS_IMAGESHACK;
 		}
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"ImageShack"), SS_IMAGESHACK);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), SS_UPLOADPIE_30M);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), SS_UPLOADPIE_1D);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), SS_UPLOADPIE_1W);
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"imgur"), SS_IMGUR);
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"ImageShack"), new UPLOAD_INFO(SS_IMAGESHACK));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)1));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)4));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)5));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"imgur"), new UPLOAD_INFO(SS_IMGUR));
 		ComboBox_SelectItemData(hCtrl, m_opt_cboxSendBy);	//use Workaround for MS bug ComboBox_SelectItemData
 	}
 	/// init footer options
@@ -372,7 +379,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		SetWindowText(hCtrl, TranslateT("&Capture"));
 		SendMessage(hCtrl, BUTTONSETDEFAULT, 1, NULL);
 	}
-	cboxSendByChange();		//enable disable controls
+	cboxSendByChange(nullptr);		//enable disable controls
 
 	TranslateDialogDefault(m_hWnd);
 }
@@ -445,9 +452,12 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 			m_opt_cboxFormat = (BYTE)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 			break;
 		case ID_cboxSendBy:
-			m_opt_cboxSendBy = (BYTE)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-			cboxSendByChange();
+		{
+			UPLOAD_INFO *upload = (UPLOAD_INFO*)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
+			m_opt_cboxSendBy = upload->sendBy;
+			cboxSendByChange(upload->param);
 			break;
+		}
 		case ID_edtCaption:			//cboxDesktopChange
 			m_opt_cboxDesktop = (BYTE)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 			m_hTargetWindow = nullptr;
@@ -483,6 +493,12 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 //WM_CLOSE:
 void TfrmMain::wmClose(WPARAM, LPARAM)
 {
+	HWND hCtrl = GetDlgItem(m_hWnd, ID_cboxSendBy);
+	size_t count = ComboBox_GetCount(hCtrl);
+	for (size_t i = 0; i < count; i++) {
+		UPLOAD_INFO *ui = (UPLOAD_INFO*)ComboBox_GetItemData(hCtrl, i);
+		delete ui;
+	}
 	DestroyWindow(m_hWnd);
 	return;
 }
@@ -850,7 +866,7 @@ void TfrmMain::chkTimedClick()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TfrmMain::cboxSendByChange()
+void TfrmMain::cboxSendByChange(void *param)
 {
 	BOOL bState;
 	HICON hIcon;
@@ -870,20 +886,14 @@ void TfrmMain::cboxSendByChange()
 	case SS_FTPFILE:		//"FTP File"
 		m_cSend = new CSendFTPFile(m_hWnd, m_hContact, true);
 		break;
-	case SS_DROPBOX:		//"Dropbox"
-		m_cSend = new CSendDropbox(m_hWnd, m_hContact, false);
+	case SS_CLOUDFILE:		//"CloudFile"
+		m_cSend = new CSendCloudFile(m_hWnd, m_hContact, false, (char*)param);
 		break;
 	case SS_IMAGESHACK:		//"ImageShack"
 		m_cSend = new CSendHost_ImageShack(m_hWnd, m_hContact, true);
 		break;
-	case SS_UPLOADPIE_30M:		//"Upload Pie (30 minutes)"
-		m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true, 1);
-		break;
-	case SS_UPLOADPIE_1D:		//"Upload Pie (1 day)"
-		m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true, 4);
-		break;
-	case SS_UPLOADPIE_1W:		//"Upload Pie (1 week)"
-		m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true, 5);
+	case SS_UPLOADPIE:		//"Upload Pie"
+		m_cSend = new CSendHost_UploadPie(m_hWnd, m_hContact, true, (int)param);
 		break;
 	case SS_IMGUR:
 		m_cSend = new CSendHost_Imgur(m_hWnd, m_hContact, true);
@@ -1145,7 +1155,7 @@ void TfrmMain::FormClose()
 	if (send && m_cSend && m_pszFile) {
 		if (!m_cSend->Send()) // not sent now, class deletes itself later
 			m_cSend = nullptr; 
-		cboxSendByChange();
+		cboxSendByChange(nullptr);
 	}
 	else if (!send && bCanDelete)
 		DeleteFile(m_pszFile);

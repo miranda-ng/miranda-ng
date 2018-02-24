@@ -34,12 +34,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SS_EMAIL			2
 #define SS_HTTPSERVER		3
 #define SS_FTPFILE			4
-#define SS_DROPBOX			5
+#define SS_CLOUDFILE		5
 #define SS_IMAGESHACK		6
-#define SS_UPLOADPIE_30M	7
-#define SS_UPLOADPIE_1D		8
-#define SS_UPLOADPIE_1W		9
-#define SS_IMGUR			10
+#define SS_UPLOADPIE		7
+#define SS_IMGUR			8
+
+struct UPLOAD_INFO
+{
+	BYTE sendBy;		//SS_*
+	void *param;
+
+	UPLOAD_INFO(BYTE sb) : sendBy(sb), param(nullptr) { }
+	UPLOAD_INFO(BYTE sb, void *p) : sendBy(sb), param(p) { }
+};
 
 // Used for our own cheap TrackMouseEvent
 #define BUTTON_POLLDELAY    50
@@ -82,7 +89,7 @@ public:
 	void		Hide(){ ShowWindow(m_hWnd, SW_HIDE); }
 	void		SetTargetWindow(HWND hwnd = NULL);
 	void		btnCaptureClick();
-	void		cboxSendByChange();
+	void		cboxSendByChange(void *param);
 
 private:
 	HWND		m_hWnd;

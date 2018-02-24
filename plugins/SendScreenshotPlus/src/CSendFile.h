@@ -37,7 +37,7 @@ public:
 	CSendFile(HWND Owner, MCONTACT hContact, bool bAsync);
 	~CSendFile();
 
-	int Send();
+	int Send() override;
 };
 
 #endif

@@ -37,7 +37,7 @@ public:
 	CSendFTPFile(HWND Owner, MCONTACT hContact, bool bAsync);
 	~CSendFTPFile();
 
-	int Send();
+	int Send() override;
 
 protected:
 	char*					m_pszFileName;

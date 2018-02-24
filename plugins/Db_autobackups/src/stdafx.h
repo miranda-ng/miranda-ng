@@ -59,8 +59,8 @@ extern HINSTANCE g_hInstance;
 extern char g_szMirVer[];
 
 static IconItem iconList[] = {
-	{ LPGEN("Backup profile"),     "backup", IDI_ICON1 },
-	{ LPGEN("Save profile as..."), "saveas", IDI_ICON1 }
+	{ LPGEN("Backup profile"),     "backup", IDI_BACKUP },
+	{ LPGEN("Save profile as..."), "saveas", IDI_BACKUP }
 };
 
 #endif

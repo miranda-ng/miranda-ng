@@ -19,15 +19,18 @@ static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 		accountName = db_get_sa(NULL, MODULE, "DefaultService");
 	if (accountName == nullptr)
 		return 2;
+
 	CCloudServiceSearch search(accountName);
 	CCloudService *service = Services.find(&search);
 	if (service == nullptr)
 		return 3;
+
 	CFSERVICEINFO *info = (CFSERVICEINFO*)lParam;
 	if (info != nullptr) {
 		info->accountName = service->GetAccountName();
 		info->userName = service->GetUserName();
 	}
+
 	return 0;
 }
 
@@ -36,6 +39,7 @@ static INT_PTR EnumServices(WPARAM wParam, LPARAM lParam)
 	CFSERVICEINFO info = {};
 	enumCFServiceFunc enumFunc = (enumCFServiceFunc)wParam;
 	void *param = (void*)lParam;
+
 	for (auto &service : Services) {
 		info.accountName = service->GetAccountName();
 		info.userName = service->GetUserName();
@@ -43,6 +47,7 @@ static INT_PTR EnumServices(WPARAM wParam, LPARAM lParam)
 		if (res != 0)
 			return res;
 	}
+
 	return 0;
 }
 
@@ -52,11 +57,12 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 	if (uploadData == nullptr)
 		return 1;
 
-	ptrA accountName(mir_strdup((char*)wParam));
-	if (!accountName || !mir_strlen(uploadData->accountName))
+	ptrA accountName(mir_strdup(uploadData->accountName));
+	if (!mir_strlen(accountName))
 		accountName = db_get_sa(NULL, MODULE, "DefaultService");
 	if (accountName == nullptr)
 		return 2;
+
 	CCloudServiceSearch search(uploadData->accountName);
 	CCloudService *service = Services.find(&search);
 	if (service == nullptr)
@@ -80,10 +86,9 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 	int res = service->Upload(ftp);
 	if (res == ACKRESULT_SUCCESS && lParam) {
 		CFUPLOADRESULT *result = (CFUPLOADRESULT*)lParam;
-		const char **links = nullptr;
-		int linkCount = ftp->GetSharedLinks(links);
-		result->links = (char**)mir_calloc(sizeof(char*) * linkCount);
-		for (int i = 0; i < linkCount; i++)
+		const char **links = ftp->GetSharedLinks(result->linkCount);
+		result->links = (char**)mir_calloc(sizeof(char*) * result->linkCount);
+		for (int i = 0; i < result->linkCount; i++)
 			result->links[i] = mir_strdup(links[i]);
 		result->description = mir_wstrdup(ftp->GetDescription());
 	}

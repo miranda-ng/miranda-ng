@@ -20,7 +20,9 @@ class CSendHost_Imgur : public CSend {
 	public:
 		CSendHost_Imgur(HWND Owner, MCONTACT hContact, bool bAsync);
 		~CSendHost_Imgur();
-		int Send();
+
+		int Send() override;
+
 	protected:
 		NETLIBHTTPREQUEST m_nlhr;
 		static void SendThread(void* obj);

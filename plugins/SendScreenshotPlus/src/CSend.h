@@ -55,7 +55,7 @@ class CSend {
 		CSend(HWND Owner, MCONTACT hContact, bool bAsync, bool bSilent=false); // oder (TfrmMain & Owner)
 		virtual ~CSend();
 
-		virtual int Send() = NULL; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
+		virtual int Send() = 0; // returns 1 if sent (you must delete class) and 0 when still sending (class deletes itself)
 		int SendSilent() {m_bAsync=m_bSilent=true; return Send();};
 		
 		void SetFile(const wchar_t* file) { replaceStrW(m_pszFile, file); }

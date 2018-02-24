@@ -36,7 +36,7 @@ public:
 	CSendHTTPServer(HWND Owner, MCONTACT hContact, bool bAsync);
 	~CSendHTTPServer();
 
-	int Send();
+	int Send() override;
 
 protected:
 	char*  m_pszFileName;
