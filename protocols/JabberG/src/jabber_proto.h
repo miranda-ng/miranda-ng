@@ -285,14 +285,14 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_notes.c -----------------------------------------------------------------
 
-	void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok);
-	void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok);
+	void ProcessIncomingNote(CNoteItem *pNote, bool ok);
+	void ProcessOutgoingNote(CNoteItem *pNote, bool ok);
 
-	bool CJabberProto::OnIncomingNote(const wchar_t *szFrom, HXML hXml);
+	bool OnIncomingNote(const wchar_t *szFrom, HXML hXml);
 
-	INT_PTR    __cdecl CJabberProto::OnMenuSendNote(WPARAM, LPARAM);
-	INT_PTR    __cdecl CJabberProto::OnMenuHandleNotes(WPARAM, LPARAM);
-	INT_PTR    __cdecl CJabberProto::OnIncomingNoteEvent(WPARAM, LPARAM);
+	INT_PTR    __cdecl OnMenuSendNote(WPARAM, LPARAM);
+	INT_PTR    __cdecl OnMenuHandleNotes(WPARAM, LPARAM);
+	INT_PTR    __cdecl OnIncomingNoteEvent(WPARAM, LPARAM);
 
 	//---- jabber_byte.c -----------------------------------------------------------------
 

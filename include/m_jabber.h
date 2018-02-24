@@ -177,7 +177,7 @@ __forceinline IJabberInterface *getJabberApi(const char *szAccount)
 	if (!CallProtoService(szAccount, JS_GETJABBERAPI, 0, (LPARAM)&ji))
 		return ji;
 
-	return NULL;
+	return nullptr;
 }
 
 #endif // __cplusplus
