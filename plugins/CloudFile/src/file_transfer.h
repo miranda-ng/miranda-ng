@@ -91,7 +91,7 @@ public:
 		return m_description.GetString();
 	}
 
-	const const char** GetSharedLinks(size_t &count) const
+	const char** GetSharedLinks(size_t &count) const
 	{
 		count = m_links.getCount();
 		return (const char**)m_links.getArray();

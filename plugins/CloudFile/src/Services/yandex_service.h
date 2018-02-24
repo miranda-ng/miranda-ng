@@ -7,7 +7,7 @@ private:
 	static unsigned RequestAccessTokenThread(void *owner, void *param);
 	static unsigned __stdcall RevokeAccessTokenThread(void *param);
 
-	void HandleJsonError(JSONNode &node);
+	void HandleJsonError(JSONNode &node) override;
 
 	void CreateUploadSession(const char *path, char *uploadUri);
 	void UploadFile(const char *uploadUri, const char *data, size_t size);
@@ -23,13 +23,13 @@ public:
 
 	const char* GetModuleName() const override;
 
-	int GetIconId() const;
+	int GetIconId() const override;
 
-	bool IsLoggedIn();
-	void Login();
-	void Logout();
+	bool IsLoggedIn() override;
+	void Login() override;
+	void Logout() override;
 
-	UINT Upload(FileTransferParam *ftp);
+	UINT Upload(FileTransferParam *ftp) override;
 };
 
 #endif //_CLOUDFILE_YANDEX_H_

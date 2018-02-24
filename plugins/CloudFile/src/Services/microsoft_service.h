@@ -6,7 +6,7 @@ class COneDriveService : public CCloudService
 private:
 	static unsigned RequestAccessTokenThread(void *owner, void *param);
 
-	void HandleJsonError(JSONNode &node);
+	void HandleJsonError(JSONNode &node) override;
 
 	void UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId);
 	void CreateUploadSession(const char *parentId, const char *name, char *uploadUri);
@@ -22,13 +22,13 @@ public:
 
 	const char* GetModuleName() const override;
 	
-	int GetIconId() const;
+	int GetIconId() const override;
 
-	bool IsLoggedIn();
-	void Login();
-	void Logout();
+	bool IsLoggedIn() override;
+	void Login() override;
+	void Logout() override;
 
-	UINT Upload(FileTransferParam *ftp);
+	UINT Upload(FileTransferParam *ftp) override;
 };
 
 #endif //_CLOUDFILE_ONEDRIVE_H_
