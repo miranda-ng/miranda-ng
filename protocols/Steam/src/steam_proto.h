@@ -248,8 +248,8 @@ protected:
 
 	static int RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, BYTE *encrypted, DWORD &encryptedSize);
 
-	static void CSteamProto::ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
-	static void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	INT_PTR __cdecl OnGetEventTextChatStates(WPARAM wParam, LPARAM lParam);
 
