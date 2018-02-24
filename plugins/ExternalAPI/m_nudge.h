@@ -1,3 +1,5 @@
+#pragma once
+
 // protocol service that sends a nudge
 #define  PS_SEND_NUDGE  "/SendNudge"
 

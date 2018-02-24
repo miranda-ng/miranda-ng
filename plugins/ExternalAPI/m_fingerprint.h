@@ -28,7 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *   FINGERPRINT PLUGIN SERVICES HEADER
  */
 
-/*
+#pragma once
+
+ /*
  *  Service SameClientsW MS_FP_SAMECLIENTSW
  *	 wParam - LPCWSTR first MirVer value 
  *  lParam - LPCWSTR second MirVer value 

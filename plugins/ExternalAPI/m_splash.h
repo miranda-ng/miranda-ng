@@ -1,3 +1,5 @@
+#pragma once
+
 // Shows splash image
 // wParam = (char *) image filename, either relative to Miranda dir or absolute
 // lParam = (int) time to display in milliseconds, 0 - infinite (hangs on screen until clicked)

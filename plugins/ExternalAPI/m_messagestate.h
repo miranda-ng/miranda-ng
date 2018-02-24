@@ -1,3 +1,5 @@
+#pragma once
+
 struct MessageReadData
 {
 	DWORD dw_lastTime;
