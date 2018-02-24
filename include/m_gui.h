@@ -1109,6 +1109,7 @@ public:
 	CCallback<TEventInfo> OnColumnClick;
 	CCallback<TEventInfo> OnDeleteAllItems;
 	CCallback<TEventInfo> OnDeleteItem;
+	CCallback<TEventInfo> OnClick;
 	CCallback<TEventInfo> OnDoubleClick;
 	CCallback<TEventInfo> OnEndLabelEdit;
 	CCallback<TEventInfo> OnEndScroll;
