@@ -1063,3 +1063,6 @@ IsTerminalDisconnected @1245
 ?OnReset@CCtrlSpin@@UAEXXZ @1253 NONAME
 ?SetUrl@CCtrlHyperlink@@QAEXPBD@Z @1254 NONAME
 ?Default_OnClick@CCtrlHyperlink@@IAEXPAV1@@Z @1255 NONAME
+??0CCtrlLabel@@QAE@PAVCDlgBase@@H@Z @1256 NONAME
+??1CCtrlLabel@@UAE@XZ @1257 NONAME
+??_7CCtrlLabel@@6B@ @1258 NONAME
