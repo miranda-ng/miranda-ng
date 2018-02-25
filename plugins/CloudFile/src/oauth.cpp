@@ -15,14 +15,14 @@ COAuthDlg::COAuthDlg(CCloudService *service, const char *authUrl, pThreadFuncOwn
 
 void COAuthDlg::OnInitDialog()
 {
-	/*CCtrlBase *ctrl = FindControl(IDC_AUTH_TEXT);
-	ptrW format(ctrl->GetText());
+	CCtrlLabel &ctrl = *(CCtrlLabel*)FindControl(IDC_AUTH_TEXT);
+	ptrW format(ctrl.GetText());
 	wchar_t text[MAX_PATH];
 	mir_snwprintf(text, (const wchar_t*)format, m_service->GetUserName());
-	ctrl->SetText(text);*/
+	ctrl.SetText(text);
 }
 
-void COAuthDlg::Auth_OnClick(CCtrlButton*)
+void COAuthDlg::Auth_OnClick(CCtrlHyperlink*)
 {
 	if (SUCCEEDED(OleInitialize(NULL))) {
 		CComPtr<IWebBrowser2> browser;

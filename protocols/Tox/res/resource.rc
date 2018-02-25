@@ -63,7 +63,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_TOX                 ICON                    "tox.ico"
+
 IDI_ME                  ICON                    "me.ico"
+
 IDI_EDIT                ICON                    "edit.ico"
 
 
@@ -209,9 +211,9 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,101,65,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,154,65,50,14
     EDITTEXT        IDC_PASSWORD_NEW,7,14,197,12,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "New password:",-1,7,4,197,8
+    LTEXT           "New password:",IDC_STATIC,7,4,197,8
     EDITTEXT        IDC_PASSWORD_CONFIRM,7,39,197,12,ES_PASSWORD | ES_AUTOHSCROLL
-    LTEXT           "Confirm password:",-1,7,29,197,8
+    LTEXT           "Confirm password:",IDC_STATIC,7,29,197,8
     LTEXT           "",IDC_PASSWORD_VALIDATION,7,55,197,8
 END
 

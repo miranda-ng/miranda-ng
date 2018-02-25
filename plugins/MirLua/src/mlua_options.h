@@ -3,20 +3,6 @@
 
 #include <m_gui.h>
 
-class CCtrlScriptList : public CCtrlListView
-{
-private:
-	typedef CCtrlListView CSuper;
-
-protected:
-	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
-
-public:
-	CCtrlScriptList(CDlgBase* dlg, int ctrlId);
-
-	CCallback<TEventInfo> OnClick;
-};
-
 class CMLuaOptions : public CPluginDlgBase
 {
 private:
@@ -24,7 +10,7 @@ private:
 	CCtrlCheck m_popupOnObsolete;
 
 	bool isScriptListInit;
-	CCtrlScriptList m_scripts;
+	CCtrlListView m_scripts;
 	CCtrlButton m_reload;
 
 	void LoadScripts();

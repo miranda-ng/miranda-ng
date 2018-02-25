@@ -9,8 +9,7 @@ CToxOptionsMain::CToxOptionsMain(CToxProto *proto, int idDialog)
 	m_passwordRemove(this, IDC_PASSWORD_REMOVE), m_group(this, IDC_GROUP),
 	m_enableUdp(this, IDC_ENABLE_UDP), m_enableUdpHolePunching(this, IDC_ENABLE_HOLEPUNCHING),
 	m_enableIPv6(this, IDC_ENABLE_IPV6), m_enableLocalDiscovery(this, IDC_ENABLE_LOCALDISCOVERY),
-	m_maxConnectRetries(this, IDC_MAXCONNECTRETRIES), m_maxConnectRetriesSpin(this, IDC_MAXCONNECTRETRIESSPIN),
-	m_maxReconnectRetries(this, IDC_MAXRECONNECTRETRIES), m_maxReconnectRetriesSpin(this, IDC_MAXRECONNECTRETRIESSPIN)
+	m_maxConnectRetries(this, IDC_MAXCONNECTRETRIESSPIN), m_maxReconnectRetries(this, IDC_MAXRECONNECTRETRIESSPIN)
 {
 	CreateLink(m_toxAddress, TOX_SETTINGS_ID, L"");
 	CreateLink(m_nickname, "Nick", L"");
@@ -67,10 +66,8 @@ void CToxOptionsMain::OnInitDialog()
 	m_nickname.SetMaxLength(TOX_MAX_NAME_LENGTH);
 	m_group.SetMaxLength(64);
 
-	m_maxConnectRetriesSpin.SetRange(255, 1);
-	m_maxConnectRetriesSpin.SetPosition(m_proto->getByte("MaxConnectRetries", TOX_MAX_CONNECT_RETRIES));
-	m_maxReconnectRetriesSpin.SetRange(255, 1);
-	m_maxReconnectRetriesSpin.SetPosition(m_proto->getByte("MaxReconnectRetries", TOX_MAX_RECONNECT_RETRIES));
+	m_maxConnectRetries.SetRange(255, 1);
+	m_maxReconnectRetries.SetRange(255, 1);
 }
 
 void CToxOptionsMain::PasswordCreate_OnClick(CCtrlButton*)
@@ -333,21 +330,6 @@ void CToxNodeEditor::OnClose()
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, "EditNodeDlg");
 }
 
-/****************************************/
-
-CCtrlNodeList::CCtrlNodeList(CDlgBase* dlg, int ctrlId)
-	: CCtrlListView(dlg, ctrlId)
-{}
-
-BOOL CCtrlNodeList::OnNotify(int idCtrl, NMHDR *pnmh)
-{
-	if (pnmh->code == NM_CLICK) {
-		TEventInfo evt = { this, pnmh };
-		OnClick(&evt);
-		return TRUE;
-	}
-	return CCtrlListView::OnNotify(idCtrl, pnmh);
-}
 
 /****************************************/
 

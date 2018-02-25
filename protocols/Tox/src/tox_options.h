@@ -24,10 +24,8 @@ private:
 	CCtrlCheck m_enableIPv6;
 	CCtrlCheck m_enableLocalDiscovery;
 
-	CCtrlEdit m_maxConnectRetries;
-	CCtrlSpin m_maxConnectRetriesSpin;
-	CCtrlEdit m_maxReconnectRetries;
-	CCtrlSpin m_maxReconnectRetriesSpin;
+	CCtrlSpin m_maxConnectRetries;
+	CCtrlSpin m_maxReconnectRetries;
 
 protected:
 	void OnInitDialog();
@@ -85,21 +83,6 @@ public:
 	CToxNodeEditor(int iItem, CCtrlListView *m_list);
 };
 
-/****************************************/
-
-class CCtrlNodeList : public CCtrlListView
-{
-private:
-	typedef CCtrlListView CSuper;
-
-protected:
-	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
-
-public:
-	CCtrlNodeList(CDlgBase* dlg, int ctrlId);
-
-	CCallback<TEventInfo> OnClick;
-};
 
 /****************************************/
 
@@ -108,7 +91,7 @@ class CToxOptionsNodeList : public CToxDlgBase
 private:
 	typedef CToxDlgBase CSuper;
 
-	CCtrlNodeList m_nodes;
+	CCtrlListView m_nodes;
 	CCtrlButton m_addNode;
 	CCtrlButton m_updateNodes;
 

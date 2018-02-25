@@ -8,7 +8,7 @@ INT_PTR CCloudService::SendFileInterceptor(WPARAM, LPARAM lParam)
 	for (auto &service : Services) {
 		auto it = service->InterceptedContacts.find(pccsd->hContact);
 		if (it == service->InterceptedContacts.end())
-			return CALLSERVICE_NOTFOUND;
+			continue;
 		service->InterceptedContacts.erase(it);
 		return (INT_PTR)service->SendFile(pccsd->hContact, (wchar_t*)pccsd->wParam, (wchar_t**)pccsd->lParam);
 	}

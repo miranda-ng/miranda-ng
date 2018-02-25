@@ -1,23 +1,5 @@
 #include "stdafx.h"
 
-CCtrlScriptList::CCtrlScriptList(CDlgBase* dlg, int ctrlId)
-	: CCtrlListView(dlg, ctrlId)
-{
-}
-
-BOOL CCtrlScriptList::OnNotify(int idCtrl, NMHDR *pnmh)
-{
-	if (pnmh->code == NM_CLICK)
-	{
-		TEventInfo evt = { this, pnmh };
-		OnClick(&evt);
-		return TRUE;
-	}
-	return CCtrlListView::OnNotify(idCtrl, pnmh);
-}
-
-/****************************************/
-
 CMLuaOptions::CMLuaOptions(int idDialog)
 	: CPluginDlgBase(g_hInstance, idDialog, MODULE),
 	m_popupOnError(this, IDC_POPUPONERROR),

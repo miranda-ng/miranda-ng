@@ -109,8 +109,8 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,75,62,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,136,62,50,14
     LTEXT           "Enter authorization code:",IDC_STATIC,7,33,179,8
-    LTEXT           "To allow Miranda NG access to %s account:",IDC_AUTH_TEXT,7,7,140,8
-    PUSHBUTTON      "Authorize",IDC_OAUTH_AUTHORIZE,58,17,74,14
+    LTEXT           "To allow Miranda NG access to %s:",IDC_AUTH_TEXT,7,7,179,8
+    CONTROL         "Go to this link",IDC_OAUTH_AUTHORIZE,"Hyperlink",WS_GROUP | WS_TABSTOP | 0x1,7,18,179,8
 END
 
 

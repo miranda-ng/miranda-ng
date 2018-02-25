@@ -8,14 +8,14 @@ private:
 	const char *m_authUrl;
 	pThreadFuncOwner m_requestAccessTokenThread;
 
-	CCtrlButton m_authorize;
+	CCtrlHyperlink m_authorize;
 	CCtrlEdit m_code;
 	CCtrlButton m_ok;
 
 protected:
 	void OnInitDialog() override;
 
-	void Auth_OnClick(CCtrlButton*);
+	void Auth_OnClick(CCtrlHyperlink*);
 	void Code_OnChange(CCtrlBase*);
 	void Ok_OnClick(CCtrlButton*);
 

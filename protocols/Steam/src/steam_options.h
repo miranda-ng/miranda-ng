@@ -11,8 +11,7 @@ private:
 	CCtrlCheck m_biggerAvatars;
 	CCtrlCheck m_showChatEvents;
 
-	CCtrlEdit m_pollingErrorLimit;
-	CCtrlSpin m_pollingErrorLimitSpin;
+	CCtrlSpin m_pollingErrorLimit;
 
 protected:
 	CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent = NULL);

@@ -3,8 +3,8 @@
 CSteamOptionsMain::CSteamOptionsMain(CSteamProto *proto, int idDialog, HWND hwndParent)
 	: CSteamDlgBase(proto, idDialog, false),
 	m_username(this, IDC_USERNAME), m_password(this, IDC_PASSWORD),
-	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS), m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS),
-	m_pollingErrorLimit(this, IDC_POLLINGERRORLIMIT), m_pollingErrorLimitSpin(this, IDC_POLLINGERRORLIMITSPIN)
+	m_group(this, IDC_GROUP), m_biggerAvatars(this, IDC_BIGGER_AVATARS),
+	m_showChatEvents(this, IDC_SHOW_CHAT_EVENTS), m_pollingErrorLimit(this, IDC_POLLINGERRORLIMITSPIN)
 {
 	SetParent(hwndParent);
 
@@ -27,8 +27,7 @@ void CSteamOptionsMain::OnInitDialog()
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 64, 0);
 	SendMessage(m_group.GetHwnd(), EM_LIMITTEXT, 64, 0);
 
-	m_pollingErrorLimitSpin.SetRange(255, 0);
-	m_pollingErrorLimitSpin.SetPosition(m_proto->getByte("PollingErrorsLimit", STEAM_API_POLLING_ERRORS_LIMIT));
+	m_pollingErrorLimit.SetRange(255, 0);
 }
 
 void CSteamOptionsMain::OnApply()
