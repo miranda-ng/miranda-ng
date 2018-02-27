@@ -73,14 +73,12 @@ public:
 	__forceinline bool isValid() const { return m_bIsValid; }
 	__forceinline int  numMatches() const { return m_nMatches; }
 
-	int getPos() const
-	{
-		return (m_nMatches >= 0) ? m_offsets[0] : 0;
-	}
+	__forceinline int getPos() const { return m_offsets[0]; }
+	__forceinline int getLength() const { return m_offsets[1] - m_offsets[0]; }
 
 	CMStringW getMatch()
 	{
-		return CMStringW(m_prevText + m_offsets[0], m_offsets[1] - m_offsets[0]);
+		return CMStringW(m_prevText + getPos(), getLength());
 	}
 
 	CMStringW getGroup(int i)
