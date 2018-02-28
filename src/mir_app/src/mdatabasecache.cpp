@@ -44,15 +44,12 @@ MDatabaseCache::MDatabaseCache(size_t _size) :
 	m_lastSetting(nullptr),
 	m_lastVL(nullptr)
 {
-	m_hCacheHeap = HeapCreate(0, 0, 0);
 }
 
 MDatabaseCache::~MDatabaseCache()
 {
 	for (auto &it : m_lContacts)
 		mir_free(it->pSubs);
-
-	HeapDestroy(m_hCacheHeap);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +62,7 @@ DBCachedContact* MDatabaseCache::AddContactToCache(MCONTACT contactID)
 	if (index != -1)
 		return m_lContacts[index];
 
-	DBCachedContact *cc = (DBCachedContact*)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, m_contactSize);
+	DBCachedContact *cc = (DBCachedContact*)mir_calloc(m_contactSize);
 	cc->contactID = contactID;
 	cc->nSubs = -1;
 	m_lContacts.insert(cc);
@@ -107,12 +104,12 @@ void MDatabaseCache::FreeCachedContact(MCONTACT contactID)
 	while (V != nullptr) {
 		DBCachedContactValue* V1 = V->next;
 		FreeCachedVariant(&V->value);
-		HeapFree(m_hCacheHeap, 0, V);
+		mir_free(V);
 		V = V1;
 	}
 
 	mir_free(cc->pSubs);
-	HeapFree(m_hCacheHeap, 0, cc);
+	mir_free(cc);
 
 	m_lContacts.remove(index);
 }
@@ -121,7 +118,7 @@ void MDatabaseCache::FreeCachedContact(MCONTACT contactID)
 
 char* MDatabaseCache::InsertCachedSetting(const char* szName, size_t cbLen)
 {
-	char* newValue = (char*)HeapAlloc(m_hCacheHeap, 0, cbLen);
+	char* newValue = (char*)mir_alloc(cbLen);
 	*newValue++ = 0;
 	mir_strcpy(newValue, szName);
 	{
@@ -162,19 +159,19 @@ void MDatabaseCache::SetCachedVariant(DBVARIANT* s /* new */, DBVARIANT* d /* ca
 	memcpy(d, s, sizeof(DBVARIANT));
 	if ((s->type == DBVT_UTF8 || s->type == DBVT_ASCIIZ) && s->pszVal != nullptr) {
 		if (szSave != nullptr)
-			d->pszVal = (char*)HeapReAlloc(m_hCacheHeap, 0, szSave, mir_strlen(s->pszVal) + 1);
+			d->pszVal = (char*)mir_realloc(szSave, mir_strlen(s->pszVal) + 1);
 		else
-			d->pszVal = (char*)HeapAlloc(m_hCacheHeap, 0, mir_strlen(s->pszVal) + 1);
+			d->pszVal = (char*)mir_alloc(mir_strlen(s->pszVal) + 1);
 		mir_strcpy(d->pszVal, s->pszVal);
 	}
 	else if (szSave != nullptr)
-		HeapFree(m_hCacheHeap, 0, szSave);
+		mir_free(szSave);
 }
 
 void MDatabaseCache::FreeCachedVariant(DBVARIANT* V)
 {
 	if ((V->type == DBVT_ASCIIZ || V->type == DBVT_UTF8) && V->pszVal != nullptr)
-		HeapFree(m_hCacheHeap, 0, V->pszVal);
+		mir_free(V->pszVal);
 }
 
 STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, char *szSetting, int bAllocate)
@@ -190,7 +187,7 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 				mir_cslock lck(m_csVal);
 				FreeCachedVariant(&V->value);
 				m_lGlobalSettings.remove(index);
-				HeapFree(m_hCacheHeap, 0, V);
+				mir_free(V);
 				return &temp; // not null - smth were deleted
 			}
 		}
@@ -199,7 +196,7 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 				return nullptr;
 
 			mir_cslock lck(m_csVal);
-			V = (DBCachedGlobalValue*)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedGlobalValue));
+			V = (DBCachedGlobalValue*)mir_calloc(sizeof(DBCachedGlobalValue));
 			V->name = szSetting;
 			m_lGlobalSettings.insert(V);
 		}
@@ -228,7 +225,7 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 			return nullptr;
 
 		mir_cslock lck(m_csVal);
-		V = (DBCachedContactValue *)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContactValue));
+		V = (DBCachedContactValue *)mir_calloc(sizeof(DBCachedContactValue));
 		if (cc->last)
 			cc->last->next = V;
 		else
@@ -253,7 +250,7 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 						cc->last = V1;
 					break;
 				}
-		HeapFree(m_hCacheHeap, 0, V);
+		mir_free(V);
 		return &temp; // not null - smth were deleted
 	}
 

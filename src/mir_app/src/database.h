@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class MDatabaseCache : public MIDatabaseCache
 {
-	HANDLE m_hCacheHeap;
 	char* m_lastSetting;
 	size_t m_contactSize;
 	DBCachedContact *m_lastVL;
