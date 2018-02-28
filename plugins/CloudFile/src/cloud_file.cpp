@@ -3,17 +3,25 @@
 CCloudService::CCloudService(const char *protoName, const wchar_t *userName)
 	: PROTO<CCloudService>(protoName, userName)
 {
+	MUUID muidLast = MIID_LAST;
+	m_hLangpack = GetPluginLangId(muidLast, 0);
+
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = (char*)protoName;
 	nlu.szDescriptiveName.w = (wchar_t*)userName;
-	hConnection = Netlib_RegisterUser(&nlu);
+	m_hConnection = Netlib_RegisterUser(&nlu);
 }
 
 CCloudService::~CCloudService()
 {
-	Netlib_CloseHandle(hConnection);
-	hConnection = nullptr;
+	Netlib_CloseHandle(m_hConnection);
+	m_hConnection = nullptr;
+}
+
+int CCloudService::GetId() const
+{
+	return m_hLangpack;
 }
 
 const char* CCloudService::GetAccountName() const
@@ -34,6 +42,20 @@ DWORD_PTR CCloudService::GetCaps(int type, MCONTACT)
 	default:
 		return 0;
 	}
+}
+
+int CCloudService::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
+{
+	switch (iEventType) {
+	case EV_PROTO_ONLOAD:
+		AddServiceMenuItem(this);
+		return 0;
+
+	case EV_PROTO_ONERASE:
+		KillModuleMenus(m_hLangpack);
+		return 0;
+	}
+	return 1;
 }
 
 void CCloudService::Report(MCONTACT hContact, const wchar_t *data)

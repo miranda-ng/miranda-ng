@@ -46,7 +46,7 @@ void COneDriveService::Login()
 	ptrA refreshToken(db_get_sa(NULL, GetAccountName(), "RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) {
 		OneDriveAPI::RefreshTokenRequest request(refreshToken);
-		NLHR_PTR response(request.Send(hConnection));
+		NLHR_PTR response(request.Send(m_hConnection));
 		
 		JSONNode root = GetJsonResponse(response);
 
@@ -83,21 +83,21 @@ unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
 	GetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, requestToken, _countof(requestToken));
 
 	OneDriveAPI::GetAccessTokenRequest request(requestToken);
-	NLHR_PTR response(request.Send(service->hConnection));
+	NLHR_PTR response(request.Send(service->m_hConnection));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
 		const char *error = response->dataLength
 			? response->pData
 			: service->HttpStatusToError(response->resultCode);
 
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), error);
+		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), error);
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
@@ -105,7 +105,7 @@ unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
 		return 0;
 	}
@@ -143,7 +143,7 @@ void COneDriveService::UploadFile(const char *parentId, const char *name, const 
 	OneDriveAPI::UploadFileRequest *request = mir_strlen(parentId)
 		? new OneDriveAPI::UploadFileRequest(token, parentId, name, data, size, (OnConflict)strategy)
 		: new OneDriveAPI::UploadFileRequest(token, name, data, size, (OnConflict)strategy);
-	NLHR_PTR response(request->Send(hConnection));
+	NLHR_PTR response(request->Send(m_hConnection));
 	delete request;
 
 	JSONNode root = GetJsonResponse(response);
@@ -158,7 +158,7 @@ void COneDriveService::CreateUploadSession(const char *parentId, const char *nam
 	OneDriveAPI::CreateUploadSessionRequest *request = mir_strlen(parentId)
 		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId, name, (OnConflict)strategy)
 		: new OneDriveAPI::CreateUploadSessionRequest(token, name, (OnConflict)strategy);
-	NLHR_PTR response(request->Send(hConnection));
+	NLHR_PTR response(request->Send(m_hConnection));
 	delete request;
 
 	JSONNode root = GetJsonResponse(response);
@@ -169,7 +169,7 @@ void COneDriveService::CreateUploadSession(const char *parentId, const char *nam
 void COneDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId)
 {
 	OneDriveAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
 
@@ -190,7 +190,7 @@ void COneDriveService::CreateFolder(const char *path, char *folderId)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	OneDriveAPI::CreateFolderRequest request(token, path);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("id");
@@ -201,7 +201,7 @@ void COneDriveService::CreateSharedLink(const char *itemId, char *url)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	OneDriveAPI::CreateSharedLinkRequest request(token, itemId);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("link");
@@ -281,7 +281,7 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 		} while (ftp->NextFile());
 	}
 	catch (Exception &ex) {
-		Netlib_Logf(hConnection, "%s: %s", MODULE, ex.what());
+		Netlib_Logf(m_hConnection, "%s: %s", MODULE, ex.what());
 		ftp->SetStatus(ACKRESULT_FAILED);
 		return ACKRESULT_FAILED;
 	}

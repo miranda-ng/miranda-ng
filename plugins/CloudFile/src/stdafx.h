@@ -74,7 +74,7 @@ public:
 #include "Services\microsoft_service.h"
 #include "Services\yandex_service.h"
 extern LIST<CCloudService> Services;
-void InitServices();
+void InitializeServices();
 
 // events
 int OnModulesLoaded(WPARAM, LPARAM);
@@ -90,6 +90,7 @@ HICON LoadIconEx(int iconId, bool big = false);
 // menus
 extern HGENMENU hContactMenu;
 void InitializeMenus();
+void AddServiceMenuItem(const CCloudService *service);
 int OnPrebuildContactMenu(WPARAM, LPARAM);
 
 // srmm

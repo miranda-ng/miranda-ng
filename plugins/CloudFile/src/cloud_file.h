@@ -11,8 +11,8 @@ enum OnConflict
 class CCloudService : public PROTO<CCloudService>
 {
 protected:
-	int id;
-	HNETLIBUSER hConnection;
+	int m_hLangpack;
+	HNETLIBUSER m_hConnection;
 
 	// utils
 	char* PreparePath(const char *oldPath, char *newPath);
@@ -31,11 +31,14 @@ public:
 	virtual ~CCloudService();
 
 	DWORD_PTR __cdecl GetCaps(int type, MCONTACT) override;
+	int __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM) override;
+
 	int __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;
 
 	static INT_PTR SendFileInterceptor(WPARAM wParam, LPARAM lParam);
 
+	int GetId() const;
 	virtual const char* GetModuleName() const = 0;
 	const char* GetAccountName() const;
 	const wchar_t* GetUserName() const;

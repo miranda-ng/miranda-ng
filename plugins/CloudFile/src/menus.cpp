@@ -30,29 +30,35 @@ void InitializeMenus()
 	mi.hIcon = LoadIconEx(IDI_UPLOAD);
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
-	if (defaultService)
+	/*if (defaultService)
 		return;
 
 	UNSET_UID(mi);
 	
 	mi.root = hContactMenu;
 
-	for (int i = 0; i < Services.getCount(); i++) {
-		CCloudService *service = Services[i];
-		CMStringA serviceName(FORMAT, "/%s/Upload", service->GetAccountName());
-		mi.pszService = serviceName.GetBuffer();
-		mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
-		mi.name.w = (wchar_t*)service->GetUserName();
-		mi.position = i;
-		mi.hIcolibItem = GetIconHandle(service->GetIconId());
-		Menu_AddContactMenuItem(&mi);
-		CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, service);
-	}
+	for (auto &service : Services)
+		AddServiceMenuItem(service);*/
+}
+
+void AddServiceMenuItem(const CCloudService *service)
+{
+	CMenuItem mi;
+	mi.root = hContactMenu;
+	CMStringA serviceName(FORMAT, "/%s/Upload", service->GetAccountName());
+	mi.pszService = serviceName.GetBuffer();
+	mi.hLangpack = service->GetId();
+	mi.flags = CMIF_SYSTEM | CMIF_UNICODE;
+	mi.name.w = (wchar_t*)service->GetUserName();
+	mi.position = Services.getCount();
+	mi.hIcolibItem = GetIconHandle(service->GetIconId());
+	Menu_AddContactMenuItem(&mi);
+	CreateServiceFunctionObj(mi.pszService, UploadMenuCommand, (void*)service);
 }
 
 int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	Menu_ShowItem(hContactMenu, CanSendToContact(hContact));
+	//Menu_ShowItem(hContactMenu, CanSendToContact(hContact));
 
 	return 0;
 }

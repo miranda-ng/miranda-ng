@@ -2,8 +2,8 @@
 
 int OnModulesLoaded(WPARAM, LPARAM)
 {
-	InitializeIcons();
-	InitializeMenus();
+	
+	//InitializeMenus();
 
 	// options
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);

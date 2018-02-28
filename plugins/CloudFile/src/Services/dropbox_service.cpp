@@ -61,17 +61,17 @@ unsigned CDropboxService::RequestAccessTokenThread(void *owner, void *param)
 	GetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, requestToken, _countof(requestToken));
 
 	DropboxAPI::GetAccessTokenRequest request(requestToken);
-	NLHR_PTR response(request.Send(service->hConnection));
+	NLHR_PTR response(request.Send(service->m_hConnection));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError());
+		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError());
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
 		return 0;
 	}
@@ -79,7 +79,7 @@ unsigned CDropboxService::RequestAccessTokenThread(void *owner, void *param)
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
-		Netlib_Logf(service->hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
+		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
 		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
 		return 0;
 	}
@@ -101,7 +101,7 @@ unsigned CDropboxService::RevokeAccessTokenThread(void *param)
 
 	ptrA token(db_get_sa(NULL, service->GetAccountName(), "TokenSecret"));
 	DropboxAPI::RevokeAccessTokenRequest request(token);
-	NLHR_PTR response(request.Send(service->hConnection));
+	NLHR_PTR response(request.Send(service->m_hConnection));
 
 	return 0;
 }
@@ -120,7 +120,7 @@ void CDropboxService::UploadFile(const char *data, size_t size, char *path)
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	DropboxAPI::UploadFileRequest request(token, path, data, size, (OnConflict)strategy);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("path_lower");
@@ -131,7 +131,7 @@ void CDropboxService::CreateUploadSession(const char *chunk, size_t chunkSize, c
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	DropboxAPI::CreateUploadSessionRequest request(token, chunk, chunkSize);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("session_id");
@@ -142,7 +142,7 @@ void CDropboxService::UploadFileChunk(const char *chunk, size_t chunkSize, const
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	DropboxAPI::UploadFileChunkRequest request(token, sessionId, offset, chunk, chunkSize);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
 }
@@ -152,7 +152,7 @@ void CDropboxService::CommitUploadSession(const char *data, size_t size, const c
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
 	DropboxAPI::CommitUploadSessionRequest request(token, sessionId, offset, path, data, size, (OnConflict)strategy);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode node = root.at("path_lower");
@@ -163,7 +163,7 @@ void CDropboxService::CreateFolder(const char *path)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	DropboxAPI::CreateFolderRequest request(token, path);
-	NLHR_PTR response(request.Send(hConnection));
+	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
 
@@ -178,7 +178,7 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	DropboxAPI::CreateSharedLinkRequest shareRequest(token, path);
-	NLHR_PTR response(shareRequest.Send(hConnection));
+	NLHR_PTR response(shareRequest.Send(m_hConnection));
 
 	if (response == nullptr)
 		throw Exception(HttpStatusToError());
@@ -206,7 +206,7 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 		throw Exception(tag.c_str());
 
 	DropboxAPI::GetSharedLinkRequest getRequest(token, path);
-	response = getRequest.Send(hConnection);
+	response = getRequest.Send(m_hConnection);
 
 	root = GetJsonResponse(response);
 
@@ -303,7 +303,7 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 		} while (ftp->NextFile());
 	}
 	catch (Exception &ex) {
-		Netlib_Logf(hConnection, "%s: %s", MODULE, ex.what());
+		Netlib_Logf(m_hConnection, "%s: %s", MODULE, ex.what());
 		ftp->SetStatus(ACKRESULT_FAILED);
 		return ACKRESULT_FAILED;
 	}

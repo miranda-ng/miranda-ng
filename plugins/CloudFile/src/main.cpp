@@ -37,7 +37,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
-	InitServices();
+	InitializeIcons();
+	InitializeMenus();
+	InitializeServices();
 
 	return 0;
 }

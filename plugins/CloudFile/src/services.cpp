@@ -7,11 +7,6 @@ static int CompareServices(const CCloudService *p1, const CCloudService *p2)
 
 LIST<CCloudService> Services(10, CompareServices);
 
-static INT_PTR GetServiceCount(WPARAM, LPARAM)
-{
-	return Services.getCount();
-}
-
 static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 {
 	ptrA accountName(mir_strdup((char*)wParam));
@@ -88,7 +83,7 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 		CFUPLOADRESULT *result = (CFUPLOADRESULT*)lParam;
 		const char **links = ftp->GetSharedLinks(result->linkCount);
 		result->links = (char**)mir_calloc(sizeof(char*) * result->linkCount);
-		for (int i = 0; i < result->linkCount; i++)
+		for (size_t i = 0; i < result->linkCount; i++)
 			result->links[i] = mir_strdup(links[i]);
 		result->description = mir_wstrdup(ftp->GetDescription());
 	}
@@ -99,7 +94,7 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 	return res;
 }
 
-void InitServices()
+void InitializeServices()
 {
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.type = PROTOTYPE_PROTOCOL;
