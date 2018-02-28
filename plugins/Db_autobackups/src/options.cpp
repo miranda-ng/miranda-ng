@@ -93,7 +93,6 @@ void COptionsDlg::OnInitDialog()
 	m_cloudFileService.Show(ServiceExists(MS_CLOUDFILE_ENUMSERVICES));
 	if (ServiceExists(MS_CLOUDFILE_ENUMSERVICES)) {
 		m_cloudFileService.Enable();
-		m_cloudFileService.AddString(L"");
 		CallService(MS_CLOUDFILE_ENUMSERVICES, (WPARAM)&COptionsDlg::EnumCloudFileServices, (LPARAM)&m_cloudFileService);
 	}
 
