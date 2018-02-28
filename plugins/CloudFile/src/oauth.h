@@ -5,7 +5,6 @@ class COAuthDlg : public CDlgBase
 {
 private:
 	CCloudService *m_service;
-	const char *m_authUrl;
 	pThreadFuncOwner m_requestAccessTokenThread;
 
 	CCtrlHyperlink m_authorize;
@@ -15,7 +14,6 @@ private:
 protected:
 	void OnInitDialog() override;
 
-	void Auth_OnClick(CCtrlHyperlink*);
 	void Code_OnChange(CCtrlBase*);
 	void Ok_OnClick(CCtrlButton*);
 

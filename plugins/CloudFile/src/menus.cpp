@@ -29,16 +29,6 @@ void InitializeMenus()
 	mi.position = -2000019999;
 	mi.hIcon = LoadIconEx(IDI_UPLOAD);
 	hContactMenu = Menu_AddContactMenuItem(&mi);
-
-	/*if (defaultService)
-		return;
-
-	UNSET_UID(mi);
-	
-	mi.root = hContactMenu;
-
-	for (auto &service : Services)
-		AddServiceMenuItem(service);*/
 }
 
 void AddServiceMenuItem(const CCloudService *service)
@@ -58,7 +48,6 @@ void AddServiceMenuItem(const CCloudService *service)
 
 int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	//Menu_ShowItem(hContactMenu, CanSendToContact(hContact));
-
+	Menu_ShowItem(hContactMenu, CanSendToContact(hContact));
 	return 0;
 }

@@ -4,7 +4,6 @@
 CDropboxService::CDropboxService(const char *protoName, const wchar_t *userName)
 	: CCloudService(protoName, userName)
 {
-	//CreateServiceFunctionObj(MS_DROPBOX_UPLOAD, &CDropboxService::UploadToDropbox, this);
 }
 
 CDropboxService* CDropboxService::Init(const char *moduleName, const wchar_t *userName)
@@ -310,36 +309,4 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 
 	ftp->SetStatus(ACKRESULT_SUCCESS);
 	return ACKRESULT_SUCCESS;
-}
-
-INT_PTR CDropboxService::UploadToDropbox(void *obj, WPARAM wParam, LPARAM lParam)
-{
-	CDropboxService *self = (CDropboxService*)obj;
-	DropboxUploadInfo *uploadInfo = (DropboxUploadInfo*)lParam;
-
-	FileTransferParam *ftp = new FileTransferParam(0);
-	ftp->SetWorkingDirectory(uploadInfo->localPath);
-	ftp->SetServerFolder(uploadInfo->serverFolder);
-
-	if (PathIsDirectory(uploadInfo->localPath))
-	{
-		// temporary unsupported
-		Transfers.remove(ftp);
-		delete ftp;
-
-		return ACKRESULT_FAILED;
-	}
-	else
-		ftp->AddFile(uploadInfo->localPath);
-
-	int res = self->Upload(ftp);
-	if (res == ACKRESULT_SUCCESS && wParam) {
-		char **data = (char**)wParam;
-		*data = mir_utf8encodeW(ftp->GetData());
-	}
-
-	Transfers.remove(ftp);
-	delete ftp;
-
-	return res;
 }

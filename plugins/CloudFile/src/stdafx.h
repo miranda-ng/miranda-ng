@@ -5,9 +5,6 @@
 #include <shlwapi.h>
 #include <commctrl.h>
 
-#include <exdisp.h>
-#include <msapi/comptr.h>
-
 #include <malloc.h>
 #include <time.h>
 

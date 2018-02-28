@@ -31,8 +31,6 @@ public:
 	void Logout() override;
 
 	UINT Upload(FileTransferParam *ftp) override;
-
-	static INT_PTR UploadToDropbox(void*, WPARAM wParam, LPARAM lParam);
 };
 
 #endif //_CLOUDSERVICE_DROPBOX_H_
