@@ -8,14 +8,9 @@
 #include <time.h>
 #include <vector>
 #include <functional>
+#include <filesystem>
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1800)
-#	include <filesystem>
-	namespace fs = std::tr2::sys;
-#else
-#	include <boost/filesystem.hpp>
-	namespace fs = boost::filesystem;
-#endif
+namespace fs = std::experimental::filesystem;
 
 #include <newpluginapi.h>
 #include <m_clist.h>
