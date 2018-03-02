@@ -369,7 +369,7 @@ void FacebookProto::LoadHistory(void *pParam)
 		try {
 			messages.clear();
 
-			ParseHistory(&resp.data, &messages, &firstTimestamp);
+			ParseHistory(&resp.data, messages, &firstTimestamp);
 
 			// Receive messages
 			std::string previousFirstMessageId = firstMessageId;
@@ -888,38 +888,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message> &messages, boo
 		ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContacts);
 	else
 		delete hChatContacts;
-}
-
-void FacebookProto::ProcessMessages(void* data)
-{
-	if (data == nullptr)
-		return;
-
-	std::string* resp = (std::string*)data;
-
-	if (isOffline()) {
-		delete resp;
-		return;
-	}
-
-	debugLogA("*** Starting processing messages");
-
-	try {
-		std::vector<facebook_message> messages;
-		ParseMessages(resp, &messages);
-
-		ReceiveMessages(messages);
-
-		if (getBool(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
-			ShowNotifications();
-
-		debugLogA("*** Messages processed");
-	}
-	catch (const std::exception &e) {
-		debugLogA("*** Error processing messages: %s", e.what());
-	}
-
-	delete resp;
 }
 
 void FacebookProto::ShowNotifications()

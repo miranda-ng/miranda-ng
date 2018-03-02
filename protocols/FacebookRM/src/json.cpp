@@ -475,7 +475,7 @@ bool FacebookProto::ParseMessageMetadata(facebook_message &message, const JSONNo
 	return true;
 }
 
-bool FacebookProto::ProcessSpecialMessage(std::vector<facebook_message>* messages, const JSONNode &meta_, MessageType messageType, const std::string &messageData)
+bool FacebookProto::ProcessSpecialMessage(std::vector<facebook_message> &messages, const JSONNode &meta_, MessageType messageType, const std::string &messageData)
 {
 	facebook_message message;
 	message.type = messageType;
@@ -492,7 +492,7 @@ bool FacebookProto::ProcessSpecialMessage(std::vector<facebook_message>* message
 		return false;
 	}
 
-	messages->push_back(message);
+	messages.push_back(message);
 	return true;
 }
 
@@ -572,7 +572,7 @@ const char* FacebookProto::ParseIcon(const std::string &url)
 	return (itr == reactions.end()) ? nullptr : itr->second.c_str();
 }
 
-int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_message>* messages)
+int FacebookProto::ParseMessages(std::string &pData, std::vector<facebook_message> &messages)
 {
 	// remove old received messages from map		
 	for (auto it = facy.messages_ignore.begin(); it != facy.messages_ignore.end();) {
@@ -584,7 +584,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 		}
 	}
 
-	JSONNode root = JSONNode::parse(pData->substr(9).c_str());
+	JSONNode root = JSONNode::parse(pData.substr(9).c_str());
 	if (!root)
 		return EXIT_FAILURE;
 
@@ -628,7 +628,7 @@ int FacebookProto::ParseMessages(std::string *pData, std::vector<facebook_messag
 				ParseAttachments(messageText, delta_, (message.isChat ? "" : message.user_id), false);
 
 				message.message_text = utils::text::trim(messageText, true);
-				messages->push_back(message);
+				messages.push_back(message);
 			}
 			else if (cls == "ReplaceMessage") { // revised 5.3.2017
 				//const JSONNode &newMessage_ = delta_["newMessage"];
@@ -1335,7 +1335,7 @@ int FacebookProto::ParseThreadMessages(std::string *data, std::vector< facebook_
 	return hasResult ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
-int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message > *messages, std::string* firstTimestamp)
+int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message > &messages, std::string* firstTimestamp)
 {
 	size_t len = data->find("\r\n");
 	if (len != data->npos)
@@ -1417,13 +1417,13 @@ int FacebookProto::ParseHistory(std::string *data, std::vector< facebook_message
 
 		ParseMessageType(message, log_type_, log_body_, log_data_);
 
-		messages->push_back(message);
+		messages.push_back(message);
 	}
 
 	return EXIT_SUCCESS;
 }
 
-int FacebookProto::ParseThreadInfo(std::string *data, std::string* user_id)
+int FacebookProto::ParseThreadInfo(std::string *data, std::string *user_id)
 {
 	std::string jsonData = data->substr(9);
 

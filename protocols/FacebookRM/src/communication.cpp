@@ -878,8 +878,24 @@ bool facebook_client::channel()
 	}
 	else if (!type.empty()) { // for "msg", "fullReload" and maybe also other types
 		// Something has been received, throw to new thread to process
-		std::string* response_data = new std::string(resp.data);
-		parent->ForkThread(&FacebookProto::ProcessMessages, response_data);
+		{
+			parent->debugLogA("*** Starting processing messages");
+
+			try {
+				std::vector<facebook_message> messages;
+				parent->ParseMessages(resp.data, messages);
+
+				parent->ReceiveMessages(messages);
+
+				if (parent->getBool(FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+					parent->ShowNotifications();
+
+				parent->debugLogA("*** Messages processed");
+			}
+			catch (const std::exception &e) {
+				parent->debugLogA("*** Error processing messages: %s", e.what());
+			}
+		}
 
 		// Get new sequence number
 		std::string seq = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
