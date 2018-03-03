@@ -100,7 +100,7 @@ int CToxProto::OnFileResume(Tox *tox, HANDLE hTransfer, int *action, const wchar
 
 	if (*action == FILERESUME_SKIP) {
 		tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)transfer, 0);
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
 		transfers.Remove(transfer);
 		return 0;
 	}
