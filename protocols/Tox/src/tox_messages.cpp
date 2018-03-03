@@ -9,10 +9,6 @@ void CToxProto::InitCustomDbEvents()
 	dbEventType.eventType = DB_EVENT_ACTION;
 	dbEventType.descr = Translate("Action");
 	DbEvent_RegisterType(&dbEventType);
-
-	dbEventType.eventType = DB_EVENT_CORRECTION;
-	dbEventType.descr = Translate("Correction");
-	DbEvent_RegisterType(&dbEventType);
 }
 
 INT_PTR CToxProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
@@ -23,10 +19,6 @@ INT_PTR CToxProto::EventGetIcon(WPARAM wParam, LPARAM lParam)
 	switch (dbei->eventType) {
 	case DB_EVENT_ACTION:
 		icon = GetIcon(IDI_ME);
-		break;
-
-	case DB_EVENT_CORRECTION:
-		icon = GetIcon(IDI_EDIT);
 		break;
 
 	default:
@@ -68,9 +60,6 @@ void CToxProto::OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYP
 		break;
 	case TOX_MESSAGE_TYPE_ACTION:
 		recv.lParam = DB_EVENT_ACTION;
-		break;
-	case TOX_MESSAGE_TYPE_CORRECTION:
-		recv.lParam = DB_EVENT_CORRECTION;
 		break;
 	}
 	ProtoChainRecvMsg(hContact, &recv);

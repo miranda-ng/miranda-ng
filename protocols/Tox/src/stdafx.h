@@ -70,7 +70,7 @@ extern HINSTANCE g_hInstance;
 #define TOX_MAX_RECONNECT_RETRIES 10
 
 #define TOX_INI_PATH "%miranda_path%\\Plugins\\tox.ini"
-#define TOX_JSON_PATH "%miranda_userdata%\\tox.json"
+#define TOX_JSON_PATH L"%miranda_userdata%\\tox.json"
 
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_DNS "DnsID"

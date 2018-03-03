@@ -33,6 +33,7 @@
 #include "ccompat.h"
 #include "logger.h"
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,6 +62,10 @@
 #include <netdb.h>
 #include <unistd.h>
 
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 typedef short Family;
@@ -125,17 +130,16 @@ typedef enum NET_PACKET_TYPE {
 #define TCP_INET6 (TOX_AF_INET6 + 3)
 #define TCP_FAMILY (TOX_AF_INET6 + 4)
 
-typedef union {
+typedef union IP4 {
     uint32_t uint32;
     uint16_t uint16[2];
     uint8_t uint8[4];
-}
-IP4;
+} IP4;
 
 IP4 get_ip4_loopback(void);
 extern const IP4 IP4_BROADCAST;
 
-typedef union {
+typedef union IP6 {
     uint8_t uint8[16];
     uint16_t uint16[8];
     uint32_t uint32[4];
@@ -146,12 +150,12 @@ IP6 get_ip6_loopback(void);
 extern const IP6 IP6_BROADCAST;
 
 #define IP_DEFINED
-typedef struct {
+typedef struct IP {
     uint8_t family;
-    GNU_EXTENSION union {
-        IP4 ip4;
-        IP6 ip6;
-    };
+    union {
+        IP4 v4;
+        IP6 v6;
+    } ip;
 } IP;
 
 #define IP_PORT_DEFINED
@@ -167,6 +171,14 @@ uint16_t net_htons(uint16_t hostshort);
 uint32_t net_ntohl(uint32_t hostlong);
 uint16_t net_ntohs(uint16_t hostshort);
 
+size_t net_pack_u16(uint8_t *bytes, uint16_t v);
+size_t net_pack_u32(uint8_t *bytes, uint32_t v);
+size_t net_pack_u64(uint8_t *bytes, uint64_t v);
+
+size_t net_unpack_u16(const uint8_t *bytes, uint16_t *v);
+size_t net_unpack_u32(const uint8_t *bytes, uint32_t *v);
+size_t net_unpack_u64(const uint8_t *bytes, uint64_t *v);
+
 /* Does the IP6 struct a contain an IPv4 address in an IPv6 one? */
 #define IPV6_IPV4_IN_V6(a) ((a.uint64[0] == 0) && (a.uint32[2] == net_htonl (0xffff)))
 
@@ -176,7 +188,7 @@ uint16_t net_ntohs(uint16_t hostshort);
 #define SIZE_PORT 2
 #define SIZE_IPPORT (SIZE_IP + SIZE_PORT)
 
-#define TOX_ENABLE_IPV6_DEFAULT 1
+#define TOX_ENABLE_IPV6_DEFAULT true
 
 /* addr_resolve return values */
 #define TOX_ADDR_RESOLVE_INET  1
@@ -249,7 +261,7 @@ int ipport_equal(const IP_Port *a, const IP_Port *b);
 /* nulls out ip */
 void ip_reset(IP *ip);
 /* nulls out ip, sets family according to flag */
-void ip_init(IP *ip, uint8_t ipv6enabled);
+void ip_init(IP *ip, bool ipv6enabled);
 /* checks if ip is valid */
 int ip_isset(const IP *ip);
 /* checks if ip is valid */
@@ -408,5 +420,9 @@ Networking_Core *new_networking_no_udp(Logger *log);
 
 /* Function to cleanup networking stuff (doesn't do much right now). */
 void kill_networking(Networking_Core *net);
+
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 
 #endif

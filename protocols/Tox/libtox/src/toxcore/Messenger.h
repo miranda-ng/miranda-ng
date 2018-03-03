@@ -37,14 +37,16 @@
 /* This cannot be bigger than 256 */
 #define MAX_CONCURRENT_FILE_PIPES 256
 
+#if !defined(__SPLINT__) && MAX_CONCURRENT_FILE_PIPES > UINT8_MAX + 1
+#error "uint8_t cannot represent all file transfer numbers"
+#endif
+
 
 #define FRIEND_ADDRESS_SIZE (CRYPTO_PUBLIC_KEY_SIZE + sizeof(uint32_t) + sizeof(uint16_t))
 
 enum {
     MESSAGE_NORMAL,
-    MESSAGE_ACTION,
-    MESSAGE_CORRECTION,
-    MESSAGE_LAST
+    MESSAGE_ACTION
 };
 
 /* NOTE: Packet ids below 24 must never be used. */
@@ -56,7 +58,6 @@ enum {
 #define PACKET_ID_TYPING 51
 #define PACKET_ID_MESSAGE 64
 #define PACKET_ID_ACTION (PACKET_ID_MESSAGE + MESSAGE_ACTION) /* 65 */
-#define PACKET_ID_CORRECTION (PACKET_ID_MESSAGE + MESSAGE_CORRECTION) /* 66 */
 #define PACKET_ID_MSI 69
 #define PACKET_ID_FILE_SENDREQUEST 80
 #define PACKET_ID_FILE_CONTROL 81
@@ -73,13 +74,13 @@ enum {
 #define PACKET_LOSSY_AV_RESERVED 8 /* Number of lossy packet types at start of range reserved for A/V. */
 
 typedef struct {
-    uint8_t ipv6enabled;
-    uint8_t udp_disabled;
+    bool ipv6enabled;
+    bool udp_disabled;
     TCP_Proxy_Info proxy_info;
     uint16_t port_range[2];
     uint16_t tcp_server_port;
 
-    uint8_t hole_punching_enabled;
+    bool hole_punching_enabled;
     bool local_discovery_enabled;
 
     logger_cb *log_callback;
@@ -205,7 +206,7 @@ typedef struct {
     uint64_t last_seen_time;
     uint8_t last_connection_udp_tcp;
     struct File_Transfers file_sending[MAX_CONCURRENT_FILE_PIPES];
-    unsigned int num_sending_files;
+    uint32_t num_sending_files;
     struct File_Transfers file_receiving[MAX_CONCURRENT_FILE_PIPES];
 
     struct {

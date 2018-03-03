@@ -33,76 +33,57 @@ void CToxProto::BootstrapNodesFromDb(Tox *tox, bool isIPv6)
 	char module[MAX_PATH];
 	mir_snprintf(module, "%s_Nodes", m_szModuleName);
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
-	if (nodeCount > 0) {
-		char setting[MAX_PATH];
-		for (int i = 0; i < nodeCount; i++) {
-			mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
-			ptrA address(db_get_sa(NULL, module, setting));
-			mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
-			int port = db_get_w(NULL, module, setting, 33445);
-			mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
-			ptrA pubKey(db_get_sa(NULL, module, setting));
+	if (nodeCount == 0)
+		return;
+
+	char setting[MAX_PATH];
+	for (int i = 0; i < nodeCount; i++) {
+		mir_snprintf(setting, TOX_SETTINGS_NODE_IPV4, i);
+		ptrA address(db_get_sa(NULL, module, setting));
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PORT, i);
+		int port = db_get_w(NULL, module, setting, 33445);
+		mir_snprintf(setting, TOX_SETTINGS_NODE_PKEY, i);
+		ptrA pubKey(db_get_sa(NULL, module, setting));
+		BootstrapUdpNode(tox, address, port, pubKey);
+		BootstrapTcpRelay(tox, address, port, pubKey);
+		if (isIPv6) {
+			mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
+			address = db_get_sa(NULL, module, setting);
 			BootstrapUdpNode(tox, address, port, pubKey);
 			BootstrapTcpRelay(tox, address, port, pubKey);
-			if (isIPv6) {
-				mir_snprintf(setting, TOX_SETTINGS_NODE_IPV6, i);
-				address = db_get_sa(NULL, module, setting);
-				BootstrapUdpNode(tox, address, port, pubKey);
-				BootstrapTcpRelay(tox, address, port, pubKey);
-			}
 		}
 	}
 }
 
 void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 {
-	ptrA json;
-
-	VARSW path(_A2W(TOX_JSON_PATH));
-
-	if (!IsFileExists(path))
+	VARSW path(TOX_JSON_PATH);
+	long lastUpdate = getDword("NodesUpdate", 0);
+	if (!IsFileExists(path) || lastUpdate < (now() - 86400 /* 24h */))
 		UpdateNodes();
 
-	if (IsFileExists(path)) {
-		FILE *hFile = _wfopen(path, L"r");
-		if (hFile != nullptr) {
-			_fseeki64(hFile, 0, SEEK_END);
-			size_t size = _ftelli64(hFile);
-			json = (char*)mir_calloc(size);
-			rewind(hFile);
-			fread(json, sizeof(char), size, hFile);
-			fclose(hFile);
+	JSONNode nodes = ParseNodes();
+	for (const auto &node : nodes) {
+		JSONNode address = node.at("ipv4");
+		JSONNode pubKey = node.at("public_key");
+
+		if (node.at("status_udp").as_bool()) {
+			int port = node.at("port").as_int();
+			BootstrapUdpNode(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
+			if (isIPv6) {
+				address = node.at("ipv6");
+				BootstrapUdpNode(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
+			}
 		}
-	}
 
-	if (json) {
-		JSONNode root = JSONNode::parse(json);
-		if (!root.empty()) {
-			JSONNode nodes = root.at("nodes").as_array();
-			for (size_t i = 0; i < nodes.size(); i++) {
-				JSONNode node = nodes[i];
-				JSONNode address = node.at("ipv4");
-				JSONNode pubKey = node.at("public_key");
-
-				if (node.at("status_udp").as_bool()) {
-					int port = node.at("port").as_int();
-					BootstrapUdpNode(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
-					if (isIPv6) {
-						address = node.at("ipv6");
-						BootstrapUdpNode(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
-					}
-				}
-
-				if (node.at("status_tcp").as_bool()) {
-					JSONNode tcpPorts = node.at("tcp_ports").as_array();
-					for (size_t k = 0; k < tcpPorts.size(); k++) {
-						int port = tcpPorts[k].as_int();
-						BootstrapTcpRelay(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
-						if (isIPv6) {
-							address = node.at("ipv6");
-							BootstrapTcpRelay(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
-						}
-					}
+		if (node.at("status_tcp").as_bool()) {
+			JSONNode tcpPorts = node.at("tcp_ports").as_array();
+			for (size_t k = 0; k < tcpPorts.size(); k++) {
+				int port = tcpPorts[k].as_int();
+				BootstrapTcpRelay(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
+				if (isIPv6) {
+					address = node.at("ipv6");
+					BootstrapTcpRelay(tox, address.as_string().c_str(), port, pubKey.as_string().c_str());
 				}
 			}
 		}
@@ -111,16 +92,16 @@ void CToxProto::BootstrapNodesFromJson(Tox *tox, bool isIPv6)
 
 void CToxProto::BootstrapNodes(Tox *tox)
 {
-	UpdateNodes();
 	debugLogA(__FUNCTION__": bootstraping DHT");
-	// bool isUdp = getBool("EnableUDP", 1);
 	bool isIPv6 = getBool("EnableIPv6", 0);
-	BootstrapNodesFromDb(tox, isIPv6);
 	BootstrapNodesFromJson(tox, isIPv6);
+	BootstrapNodesFromDb(tox, isIPv6);
 }
 
 void CToxProto::UpdateNodes()
 {
+	VARSW path(TOX_JSON_PATH);
+
 	debugLogA(__FUNCTION__": updating nodes");
 	HttpRequest request(REQUEST_GET, "https://nodes.tox.chat/json");
 	NLHR_PTR response(request.Send(m_hNetlibUser));
@@ -139,18 +120,8 @@ void CToxProto::UpdateNodes()
 	if (lastUpdate <= getDword("NodesUpdate", 0))
 		return;
 
-	ptrW path(mir_wstrdup((wchar_t*)VARSW(_A2W(TOX_JSON_PATH))));
-	if (!IsFileExists(path)) {
-		HANDLE hProfile = CreateFile(path, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
-		if (hProfile == nullptr) {
-			debugLogA(__FUNCTION__": failed to create tox.json");
-			return;
-		}
-		CloseHandle(hProfile);
-	}
-
 	FILE *hFile = _wfopen(path, L"w");
-	if (!hFile) {
+	if (hFile == nullptr) {
 		debugLogA(__FUNCTION__": failed to open tox.json");
 		return;
 	}
@@ -161,4 +132,35 @@ void CToxProto::UpdateNodes()
 	fclose(hFile);
 
 	setDword("NodesUpdate", lastUpdate);
+}
+
+JSONNode CToxProto::ParseNodes()
+{
+	VARSW path(TOX_JSON_PATH);
+
+	if (!IsFileExists(path)) {
+		debugLogA(__FUNCTION__": could not find tox.json");
+		return JSONNode(JSON_ARRAY);
+	}
+
+	FILE *hFile = _wfopen(path, L"r");
+	if (hFile == nullptr) {
+		debugLogA(__FUNCTION__": failed to open tox.json");
+		return JSONNode(JSON_ARRAY);
+	}
+
+	_fseeki64(hFile, 0, SEEK_END);
+	size_t size = _ftelli64(hFile);
+	ptrA json((char*)mir_calloc(size));
+	rewind(hFile);
+	fread(json, sizeof(char), size, hFile);
+	fclose(hFile);
+
+	JSONNode root = JSONNode::parse(json);
+	if (root.empty()) {
+		debugLogA(__FUNCTION__": failed to parse tox.json");
+		return JSONNode(JSON_ARRAY);
+	}
+
+	return root.at("nodes").as_array();
 }

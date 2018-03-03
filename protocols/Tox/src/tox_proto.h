@@ -104,6 +104,7 @@ private:
 	void BootstrapNodes(Tox *tox);
 
 	void UpdateNodes();
+	JSONNode ParseNodes();
 
 	// tox connection
 	bool IsOnline();
