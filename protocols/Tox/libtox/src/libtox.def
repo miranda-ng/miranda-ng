@@ -7,7 +7,7 @@ tox_address_size
 tox_bootstrap
 tox_callback_conference_invite
 tox_callback_conference_message
-tox_callback_conference_namelist_change
+tox_callback_conference_peer_list_changed
 tox_callback_conference_title
 tox_callback_file_chunk_request
 tox_callback_file_recv

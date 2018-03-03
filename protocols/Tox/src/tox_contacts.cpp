@@ -299,7 +299,7 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 	proto->delSetting(hContact, "Grant");
 
 	// resume incoming transfers
-	proto->ResumeIncomingTransfers(friendNumber);
+	// proto->ResumeIncomingTransfers(friendNumber);
 
 	// update avatar
 	ptrW avatarPath(proto->GetAvatarFilePath());

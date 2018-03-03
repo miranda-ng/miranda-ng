@@ -29,9 +29,6 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\include;libtox\src\toxcore;libtox\src\toxencryptsave;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>
     <ClCompile>

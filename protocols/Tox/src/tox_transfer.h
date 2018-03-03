@@ -34,10 +34,34 @@ struct FileTransferParam
 		transferType = TOX_FILE_KIND_DATA;
 	}
 
-	bool OpenFile(const wchar_t *mode)
+	~FileTransferParam()
 	{
-		hFile = _wfopen(pfts.tszCurrentFile, mode);
+		if (pfts.tszWorkingDir)
+			mir_free(pfts.tszWorkingDir);
+		mir_free(pfts.pszFiles[0]);
+		mir_free(pfts.pszFiles);
+		if (hFile) {
+			fclose(hFile);
+			hFile = nullptr;
+		}
+	}
+
+	bool Resume()
+	{
+		if (hFile)
+			return true;
+		hFile = _wfopen(pfts.tszCurrentFile, L"wb+");
+		if (hFile)
+			_chsize_s(_fileno(hFile), pfts.currentFileSize);
 		return hFile != nullptr;
+	}
+
+	void Pause()
+	{
+		if (hFile) {
+			fclose(hFile);
+			hFile = nullptr;
+		}
 	}
 
 	void ChangeName(const wchar_t *fileName)
@@ -48,19 +72,6 @@ struct FileTransferParam
 	uint8_t GetDirection() const
 	{
 		return (pfts.flags & PFTS_SENDING) ? 0 : 1;
-	}
-
-	~FileTransferParam()
-	{
-		if (pfts.tszWorkingDir != nullptr)
-			mir_free(pfts.tszWorkingDir);
-		mir_free(pfts.pszFiles[0]);
-		mir_free(pfts.pszFiles);
-		if (hFile != nullptr)
-		{
-			fclose(hFile);
-			hFile = nullptr;
-		}
 	}
 };
 
@@ -114,8 +125,8 @@ public:
 	{
 		if (transfer == nullptr)
 			return;
-		transfers.erase(transfer->transferNumber);
-		delete transfer;
+		if (transfers.erase(transfer->transferNumber))
+			delete transfer;
 	}
 };
 

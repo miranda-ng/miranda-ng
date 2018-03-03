@@ -2,7 +2,7 @@
 #define _COMMON_H_
 
 #include <windows.h>
-#include <windns.h>
+#include <io.h>
 #include <time.h>
 #include <commctrl.h>
 #include <msapi/comptr.h>

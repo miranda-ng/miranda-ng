@@ -189,7 +189,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
+void CToxProto::OnGotFriendAvatarInfo(Tox *tox, AvatarTransferParam *transfer)
 {
 	if (transfer->pfts.totalBytes == 0) {
 		MCONTACT hConact = transfer->pfts.hContact;
@@ -215,7 +215,7 @@ void CToxProto::OnGotFriendAvatarInfo(AvatarTransferParam *transfer)
 
 	wchar_t path[MAX_PATH];
 	mir_snwprintf(path, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
-	OnFileAllow(transfer->pfts.hContact, transfer, path);
+	OnFileAllow(tox, transfer->pfts.hContact, transfer, path);
 }
 
 void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)

@@ -102,7 +102,7 @@ int CToxProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 
 HANDLE CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *tszPath)
 {
-	return OnFileAllow(hContact, hTransfer, tszPath);
+	return OnFileAllow(m_toxThread->Tox(), hContact, hTransfer, tszPath);
 }
 
 int CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
@@ -117,7 +117,7 @@ int CToxProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t*)
 
 int CToxProto::FileResume(HANDLE hTransfer, int *action, const wchar_t **szFilename)
 {
-	return OnFileResume(hTransfer, action, szFilename);
+	return OnFileResume(m_toxThread->Tox(), hTransfer, action, szFilename);
 }
 
 HWND CToxProto::SearchAdvanced(HWND owner)
@@ -137,7 +137,7 @@ int CToxProto::SendMsg(MCONTACT hContact, int, const char *msg)
 
 HANDLE CToxProto::SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles)
 {
-	return OnSendFile(hContact, msg, ppszFiles);
+	return OnSendFile(m_toxThread->Tox(), hContact, msg, ppszFiles);
 }
 
 int CToxProto::SetStatus(int iNewStatus)
