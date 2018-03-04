@@ -64,7 +64,6 @@ static VOID CALLBACK CheckContinueslyTimer(HWND hwnd, UINT message, UINT_PTR idE
 INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
 static int ProcessPopup(int reason, LPARAM lParam);
-static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon);
 LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -769,110 +768,7 @@ static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // popup
 
-static wchar_t* GetHumanName(LPARAM lParam)
-{
-	PROTOACCOUNT *ProtoAccount = Proto_GetAccount((char*)lParam);
-	return (ProtoAccount != nullptr) ? ProtoAccount->tszAccountName : TranslateT("Protocol");
-}
-
-static int ProcessPopup(int reason, LPARAM lParam)
-{
-	HICON hIcon = nullptr;
-	wchar_t text[MAX_SECONDLINE];
-
-	if (!db_get_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPT))
-		return -1;
-
-	switch (reason) {
-	case KS_CONN_STATE_OTHERLOCATION: // lParam = 1 proto
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
-			return -1;
-
-		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-		mir_snwprintf(text, TranslateT("%s connected from another location"), GetHumanName(lParam));
-		break;
-
-	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
-			return -1;
-
-		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-		if (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
-			mir_snwprintf(text, TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
-		else if (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
-			mir_snwprintf(text, TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, db_get_dw(0, KSMODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
-		else
-			return -1;
-		break;
-
-	case KS_CONN_STATE_LOST: // lParam = 1 proto, or nullptr
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUCONNLOST, TRUE))
-			return -1;
-
-		if (lParam) { // указатель на имя модуля. 
-			hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
-			mir_snwprintf(text, TranslateT("%s status error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, currentDelay / 1000);
-		}
-		else mir_snwprintf(text, TranslateT("Status error (next retry (%d) in %d s)"), retryCount + 1, currentDelay / 1000);
-		break;
-
-	case KS_CONN_STATE_RETRY:  // lParam = PROTOCOLSETTINGEX**
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUCONNRETRY, TRUE))
-			return -1;
-		
-		if (lParam) {
-			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
-
-			CMStringW wszProtoInfo(L"\r\n");
-			for (int i = 0; i < protoList.getCount(); i++) {
-				PROTOCOLSETTINGEX *p = ps[i];
-				if (p->m_status == ID_STATUS_DISABLED)
-					continue;
-				
-				if (mir_wstrlen(p->m_tszAccName) > 0)
-					if (db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE))
-						wszProtoInfo.AppendFormat(TranslateT("%s\t(will be set to %s)\r\n"), p->m_tszAccName, pcli->pfnGetStatusModeDescription(p->m_status, 0));
-			}
-
-			hIcon = Skin_LoadProtoIcon(ps[0]->m_szName, SKINICON_STATUS_OFFLINE);
-			wszProtoInfo.TrimRight();
-
-			if (retryCount == maxRetries - 1)
-				mir_snwprintf(text, TranslateT("Resetting status... (last try (%d))%s"), retryCount + 1, wszProtoInfo.c_str());
-			else
-				mir_snwprintf(text, TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount + 2, currentDelay / 1000, wszProtoInfo.c_str());
-		}
-		break;
-
-	case KS_CONN_STATE_RETRYNOCONN: // lParam = nullptr
-		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
-			return -1;
-
-		if (retryCount == maxRetries - 1)
-			mir_snwprintf(text, TranslateT("No internet connection seems available... (last try (%d))"), retryCount + 1);
-		else
-			mir_snwprintf(text, TranslateT("No internet connection seems available... (next retry (%d) in %d s)"), retryCount + 2, currentDelay / 1000);
-		break;
-
-	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
-		if (!db_get_b(0, KSMODULENAME, SETTING_PURESULT, TRUE))
-			return -1;
-
-		if (lParam) {
-			hIcon = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
-			mir_snwprintf(text, TranslateT("Status was set ok"));
-		}
-		else mir_snwprintf(text, TranslateT("Giving up"));
-		break;
-	}
-	if (hIcon == nullptr)
-		hIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
-
-	log_info(L"KeepStatus: %s", text);
-	return ShowPopup(text, hIcon);
-}
-
-static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon)
+static INT_PTR ShowPopup(const wchar_t *msg, HICON hIcon)
 {
 	POPUPDATAT ppd = {};
 	ppd.lchIcon = hIcon;
@@ -905,6 +801,108 @@ static INT_PTR ShowPopup(wchar_t *msg, HICON hIcon)
 		break;
 	}
 	return PUAddPopupT(&ppd);
+}
+
+static wchar_t* GetHumanName(LPARAM lParam)
+{
+	PROTOACCOUNT *ProtoAccount = Proto_GetAccount((char*)lParam);
+	return (ProtoAccount != nullptr) ? ProtoAccount->tszAccountName : TranslateT("Protocol");
+}
+
+static int ProcessPopup(int reason, LPARAM lParam)
+{
+	if (!db_get_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, FALSE) || !ServiceExists(MS_POPUP_ADDPOPUPT))
+		return -1;
+
+	HICON hIcon = nullptr;
+	CMStringW wszText;
+
+	switch (reason) {
+	case KS_CONN_STATE_OTHERLOCATION: // lParam = 1 proto
+		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
+			return -1;
+
+		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+		wszText.Format(TranslateT("%s connected from another location"), GetHumanName(lParam));
+		break;
+
+	case KS_CONN_STATE_LOGINERROR:	// lParam = 1 proto
+		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
+			return -1;
+
+		hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+		if (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
+			wszText.Format(TranslateT("%s login error, cancel reconnecting"), GetHumanName(lParam));
+		else if (db_get_b(0, KSMODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
+			wszText.Format(TranslateT("%s login error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, db_get_dw(0, KSMODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
+		else
+			return -1;
+		break;
+
+	case KS_CONN_STATE_LOST: // lParam = 1 proto, or nullptr
+		if (!db_get_b(0, KSMODULENAME, SETTING_PUCONNLOST, TRUE))
+			return -1;
+
+		if (lParam) { // указатель на имя модуля. 
+			hIcon = Skin_LoadProtoIcon((char*)lParam, SKINICON_STATUS_OFFLINE);
+			wszText.Format(TranslateT("%s status error (next retry (%d) in %d s)"), GetHumanName(lParam), retryCount + 1, currentDelay / 1000);
+		}
+		else wszText.Format(TranslateT("Status error (next retry (%d) in %d s)"), retryCount + 1, currentDelay / 1000);
+		break;
+
+	case KS_CONN_STATE_RETRY:  // lParam = PROTOCOLSETTINGEX**
+		if (!db_get_b(0, KSMODULENAME, SETTING_PUCONNRETRY, TRUE))
+			return -1;
+		
+		if (lParam) {
+			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
+
+			if (retryCount == maxRetries - 1)
+				wszText.Format(TranslateT("Resetting status... (last try (%d))"), retryCount + 1);
+			else
+				wszText.Format(TranslateT("Resetting status... (next retry (%d) in %d s)"), retryCount + 2, currentDelay / 1000);
+			wszText.Append(L"\r\n");
+			for (int i = 0; i < protoList.getCount(); i++) {
+				PROTOCOLSETTINGEX *p = ps[i];
+				if (p->m_status == ID_STATUS_DISABLED)
+					continue;
+				
+				if (mir_wstrlen(p->m_tszAccName) > 0)
+					if (db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE))
+						wszText.AppendFormat(TranslateT("%s\t(will be set to %s)\r\n"), p->m_tszAccName, pcli->pfnGetStatusModeDescription(p->m_status, 0));
+			}
+
+			hIcon = Skin_LoadProtoIcon(ps[0]->m_szName, SKINICON_STATUS_OFFLINE);
+			wszText.TrimRight();
+		}
+		break;
+
+	case KS_CONN_STATE_RETRYNOCONN: // lParam = nullptr
+		if (!db_get_b(0, KSMODULENAME, SETTING_PUOTHER, TRUE))
+			return -1;
+
+		if (retryCount == maxRetries - 1)
+			wszText.Format(TranslateT("No internet connection seems available... (last try (%d))"), retryCount + 1);
+		else
+			wszText.Format(TranslateT("No internet connection seems available... (next retry (%d) in %d s)"), retryCount + 2, currentDelay / 1000);
+		break;
+
+	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
+		if (!db_get_b(0, KSMODULENAME, SETTING_PURESULT, TRUE))
+			return -1;
+
+		if (lParam) {
+			hIcon = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
+			wszText.Format(TranslateT("Status was set ok"));
+		}
+		else wszText.Format(TranslateT("Giving up"));
+		break;
+	}
+	if (hIcon == nullptr)
+		hIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
+
+	log_info(L"KeepStatus: %s", wszText.c_str());
+	return ShowPopup(wszText, hIcon);
 }
 
 LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
