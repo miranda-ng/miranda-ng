@@ -215,7 +215,7 @@ static void CALLBACK SetStatusTimed(HWND, UINT, UINT_PTR, DWORD)
 		if (it->ssDisabled)
 			it->m_status = ID_STATUS_DISABLED;
 
-	CallService(MS_CS_SETSTATUSEX, (WPARAM)ps.getArray(), 0);
+	CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 }
 
 static int OnOkToExit(WPARAM, LPARAM)

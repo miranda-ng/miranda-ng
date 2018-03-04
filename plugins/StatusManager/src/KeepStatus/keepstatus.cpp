@@ -199,7 +199,7 @@ static int SetCurrentStatus()
 		}
 	}
 	ProcessPopup(KS_CONN_STATE_RETRY, (LPARAM)ps.getArray());
-	return CallService(MS_CS_SETSTATUSEX, (WPARAM)ps.getArray(), 0);
+	return CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 }
 
 static int StatusChange(WPARAM wParam, LPARAM lParam)
@@ -822,25 +822,25 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		
 		if (lParam) {
 			PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX **)lParam;
-			wchar_t protoInfoLine[512], protoInfo[MAX_SECONDLINE];
-			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
-			memset(protoInfo, '\0', sizeof(protoInfo));
-			mir_wstrcpy(protoInfo, L"\r\n");
-			for (int i = 0; i < protoList.getCount(); i++) {
-				if (mir_wstrlen(ps[i]->m_tszAccName) > 0 && mir_strlen(ps[i]->m_szName) > 0) {
-					if (db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
-						mir_snwprintf(protoInfoLine, TranslateT("%s\t(will be set to %s)\r\n"), ps[i]->m_tszAccName, pcli->pfnGetStatusModeDescription(ps[i]->m_status, 0));
-						mir_wstrncat(protoInfo, protoInfoLine, _countof(protoInfo) - mir_wstrlen(protoInfo) - 1);
-					}
-				}
-			}
-			hIcon = Skin_LoadProtoIcon(ps[0]->m_szName, SKINICON_STATUS_OFFLINE);
 
-			rtrimw(protoInfo);
-			if (retryCount == (maxRetries - 1))
-				mir_snwprintf(text, TranslateT("Resetting status... (last try (%d))%s"), retryCount + 1, protoInfo);
+			CMStringW wszProtoInfo(L"\r\n");
+			for (int i = 0; i < protoList.getCount(); i++) {
+				PROTOCOLSETTINGEX *p = ps[i];
+				if (p->m_status == ID_STATUS_DISABLED)
+					continue;
+				
+				if (mir_wstrlen(p->m_tszAccName) > 0)
+					if (db_get_b(0, KSMODULENAME, SETTING_PUSHOWEXTRA, TRUE))
+						wszProtoInfo.AppendFormat(TranslateT("%s\t(will be set to %s)\r\n"), p->m_tszAccName, pcli->pfnGetStatusModeDescription(p->m_status, 0));
+			}
+
+			hIcon = Skin_LoadProtoIcon(ps[0]->m_szName, SKINICON_STATUS_OFFLINE);
+			wszProtoInfo.TrimRight();
+
+			if (retryCount == maxRetries - 1)
+				mir_snwprintf(text, TranslateT("Resetting status... (last try (%d))%s"), retryCount + 1, wszProtoInfo.c_str());
 			else
-				mir_snwprintf(text, TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount + 2, currentDelay / 1000, protoInfo);
+				mir_snwprintf(text, TranslateT("Resetting status... (next retry (%d) in %d s)%s"), retryCount + 2, currentDelay / 1000, wszProtoInfo.c_str());
 		}
 		break;
 

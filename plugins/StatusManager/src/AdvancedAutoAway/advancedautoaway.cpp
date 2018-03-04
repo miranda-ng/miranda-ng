@@ -317,7 +317,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	}
 
 	if (confirm || statusChanged) {
-		TProtoSettings ps = protoList; // make a copy of data not to pollute main array
+		TProtoSettings ps(protoList); // make a copy of data not to pollute main array
 		for (auto &it : ps)
 			it->m_status = it->aaaStatus;
 

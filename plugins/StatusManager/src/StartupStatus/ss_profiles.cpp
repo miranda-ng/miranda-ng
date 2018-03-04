@@ -197,16 +197,16 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 {
 	// wParam == profile no.
 	int profile = (int)iProfileNo;
-	TProtoSettings profileSettings = protoList;
-	if (!GetProfile(profile, profileSettings)) {
+	TProtoSettings ps(protoList);
+	if (!GetProfile(profile, ps)) {
 		profile = (profile >= 0) ? profile : db_get_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, 0);
 
 		char setting[64];
 		mir_snprintf(setting, "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
 		if (!db_get_b(0, SSMODULENAME, setting, 0))
-			CallService(MS_CS_SETSTATUSEX, (WPARAM)&profileSettings, 0);
+			CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 		else
-			ShowConfirmDialogEx((TProtoSettings*)&profileSettings, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
+			ShowConfirmDialogEx(&ps, db_get_dw(0, SSMODULENAME, SETTING_DLGTIMEOUT, 5));
 	}
 
 	// add timer here
