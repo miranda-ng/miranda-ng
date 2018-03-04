@@ -1021,8 +1021,11 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 		// case PBT_APMRESUMEAUTOMATIC: ?
 			log_infoA("KeepStatus: resume from suspend state");
 			if (ps != nullptr) {
-				for (auto &it : *ps)
-					it->AssignStatus(it->m_status, it->m_lastStatus, it->m_szMsg);
+				for (auto &it : *ps) {
+					SMProto *p = protoList.find(it);
+					if (p)
+						p->AssignStatus(it->m_status, it->m_lastStatus, it->m_szMsg);
+				}
 				delete ps;
 				ps = nullptr;
 			}
