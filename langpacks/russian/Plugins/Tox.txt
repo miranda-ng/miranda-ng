@@ -97,8 +97,6 @@ IPv6 адрес (необязательно)
 Создать пароль
 [Action]
 Действие
-[Correction]
-Исправление
 [You cannot send when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
 [%s connection]

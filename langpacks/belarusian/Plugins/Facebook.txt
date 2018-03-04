@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -125,6 +125,20 @@ URL:
 Адправіць SMS
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
+[&Invite user...]
+&Запрасіць кантакт...
+[E&xit chat session]
+
+[&Destroy chat session]
+
+[User &details]
+&Дадзеныя кантакта
+[User &history]
+&Гісторыя кантакта
+[Delete conversation]
+
+[This will permanently delete the conversation history]
+
 [Former]
 
 [Myself]
@@ -133,14 +147,6 @@ URL:
 
 [User]
 Карыстач
-[&Invite user...]
-&Запрасіць кантакт...
-[&Leave chat session]
-&Пакінуць чат
-[User &details]
-&Дадзеныя кантакта
-[User &history]
-&Гісторыя кантакта
 [Notifications]
 Абвесткі
 [%s and more (%d)]
@@ -191,6 +197,26 @@ URL:
 Калі ласка, увядзіце імя карыстача.
 [Please enter a password.]
 Калі ласка, увядзіце пароль.
+[Contact was removed from your server list.]
+Кантакт быў выдалены з вашага спісу на серверы.
+[Error occurred when removing contact from server.]
+Памылка пры выдаленні кантакта з сервера.
+[Request for friendship was sent.]
+Запыт на сяброўства адпраўлены.
+[Error occurred when requesting friendship.]
+Адбылася памылка пры запыце сяброўства.
+[Request for friendship was accepted.]
+
+[Error occurred when accepting friendship request.]
+
+[Request for friendship was canceled.]
+Запыт на сяброўства быў адменены.
+[Error occurred when canceling friendship request.]
+Адбылася памылка пры скасаванні запыта сяброўства.
+[Request for friendship was ignored.]
+
+[Error occurred when ignoring friendship request.]
+
 [Top News]
 Папулярныя навіны
 [Most Recent]
@@ -213,26 +239,6 @@ URL:
 Сябрам, акр. знаёмых
 [Only me]
 Толькі мне
-[Contact was removed from your server list.]
-Кантакт быў выдалены з вашага спісу на серверы.
-[Error occurred when removing contact from server.]
-Памылка пры выдаленні кантакта з сервера.
-[Request for friendship was sent.]
-Запыт на сяброўства адпраўлены.
-[Error occurred when requesting friendship.]
-Адбылася памылка пры запыце сяброўства.
-[Request for friendship was accepted.]
-
-[Error occurred when accepting friendship request.]
-
-[Request for friendship was canceled.]
-Запыт на сяброўства быў адменены.
-[Error occurred when canceling friendship request.]
-Адбылася памылка пры скасаванні запыта сяброўства.
-[Request for friendship was ignored.]
-
-[Error occurred when ignoring friendship request.]
-
 [Default]
 Змаўчанні
 [<< Contacts]
@@ -243,20 +249,20 @@ URL:
 сцікер
 [a GIF]
 
+[a link]
+
 [files]
 файлы
 [a file]
 файл
-[a link]
-
 [User sent %s:]
 Кантакт паслаў вам %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Кантакт паслаў непадтрымліваемае ўкладанне. Каб прагледзець, перайдзіце на сайт.
+[Reaction]
+
 [%s is typing a message...]
 %s набірае тэкст...
-[This message is no longer available, because it was marked as abusive or spam.]
-Паведамленне недасяжна,таму што было адзначана як спам.
 [You cannot send messages when you are offline.]
 Вы не можаце адпраўляць паведамленні без далучэння.
 [Contact is back on server-list.]
@@ -383,14 +389,8 @@ Facebook ID павінна быць лічбавым значэннем.
 Гутарка на сайце
 [Load history]
 
-[Cancel friendship]
-Выдаліць з сяброў
 [Cancel friendship request]
 Скасаваць запыт сяброўства
-[Request friendship]
-Дадаць ў сябры
-[Approve friendship]
-Дадаць ў сябры
 [Deny friendship request]
 
 [Services...]

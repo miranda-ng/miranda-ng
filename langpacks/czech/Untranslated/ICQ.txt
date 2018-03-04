@@ -4,8 +4,6 @@
 [Unable to connect to ICQ communication server]
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 [Connection failed.\nSecure (MD5) login is not supported on this account.]
-[The password does not match your current password. Check Caps Lock and try again.]
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 [Failed to request offline messages. They may be received next time you log in.]
 [The contact does not support receiving offline messages.]

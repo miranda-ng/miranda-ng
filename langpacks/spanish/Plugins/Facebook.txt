@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -69,8 +69,6 @@ Activar soporte para emoticonos personalizados (EXPERIMENTAL)
 Introduzca el texto que aparece
 [&Invite user...]
 &Invitar usuario...
-[&Leave chat session]
-&Abandonar sesión de charla
 [User &details]
 &Detalles del usuario
 [User &history]
@@ -95,6 +93,18 @@ Estado actualizado con un éxito.
 Por favor, introduzca un nombre de usuario.
 [Please enter a password.]
 Por favor, introduzca una contraseña.
+[Contact was removed from your server list.]
+El contacto fue eliminado de la lista de servidores.
+[Error occurred when removing contact from server.]
+Se produjo un error al quitar el contacto del servidor.
+[Request for friendship was sent.]
+La solicitud de amistad se ha enviado.
+[Error occurred when requesting friendship.]
+Se produjo un error al solicitar la amistad.
+[Request for friendship was canceled.]
+La solicitud de amistad fue cancelada.
+[Error occurred when canceling friendship request.]
+Se produjo un error al cancelar la solicitud de amistad.
 [Top News]
 Noticias principales
 [Most Recent]
@@ -115,18 +125,6 @@ Amigos
 Amigos menos conocidos
 [Only me]
 Sólo para mí
-[Contact was removed from your server list.]
-El contacto fue eliminado de la lista de servidores.
-[Error occurred when removing contact from server.]
-Se produjo un error al quitar el contacto del servidor.
-[Request for friendship was sent.]
-La solicitud de amistad se ha enviado.
-[Error occurred when requesting friendship.]
-Se produjo un error al solicitar la amistad.
-[Request for friendship was canceled.]
-La solicitud de amistad fue cancelada.
-[Error occurred when canceling friendship request.]
-Se produjo un error al cancelar la solicitud de amistad.
 [Default]
 Por defecto
 [<< Contacts]
@@ -143,8 +141,6 @@ un archivo
 El usuario le envió %s:
 [%s is typing a message...]
 %s está escribiendo un mensaje...
-[This message is no longer available, because it was marked as abusive or spam.]
-Este mensaje ya no está disponible, porque estaba marcado como abusivo o correo no deseado.
 [You cannot send messages when you are offline.]
 No puede enviar mensajes cuando no esté conectado.
 [Contact is back on server-list.]
@@ -209,14 +205,8 @@ Me entristece
 Me asombra
 [Visit friendship details]
 Visitar detalles de amistad
-[Cancel friendship]
-Cancelar amistad
 [Cancel friendship request]
 Cancelar solicitud de amistad
-[Request friendship]
-Solicitud de amistad
-[Approve friendship]
-Aprobar amistad
 [Services...]
 Servicios...
 [Check friendship requests]

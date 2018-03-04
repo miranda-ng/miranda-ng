@@ -487,8 +487,6 @@ E-Mail
 Вашыя дэталі не загружаныя.\nЯны захаваныя лакальна.
 [updating]
 абнаўленне
-[Fatal error, image services not found. Flags module will be disabled.]
-
 [IM naming]
 Імя ў IM
 [Password]

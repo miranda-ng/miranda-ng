@@ -8,7 +8,7 @@
 [Plugin supports starting position of Contact List relative to the taskbar and screen side.]
 
 ;file \plugins\StartPosition\res\resource.rc
-[Contact List Window Start Position]
+[Contact list window start position]
 Définir la position de la liste de contact au démarrage
 [Pixels from Top]
 Pixels du haut
@@ -24,10 +24,10 @@ Droite
 Largeur
 [Always start...]
 Toujours lancer...
-[Minimized to System Tray]
-Minimisé dans le Systray
-[Opened]
-Ouvert
+[minimized to system tray]
+minimisé dans le Systray
+[opened]
+ouvert
 ;file \plugins\StartPosition\src\startposition.cpp
 [Contact list]
 Liste de contacts

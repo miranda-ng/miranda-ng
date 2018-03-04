@@ -4,6 +4,7 @@
 [Enable local network peer discovery]
 [Remove password]
 [Old password:]
+[Correction icon]
 [Create password]
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]
 [New password is empty]

@@ -96,11 +96,11 @@ MAPI-Fehler (%i):\n%s.
 Unbekannte Antwort von %s (%i)
 [Got no response from %s (%i)]
 Keine Antwort von %s erhalten. (%i)
-;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
-[Dropbox transfer]
-Dropbox-Übertragung
-[%s (%i):\nCould not add a share to the Dropbox plugin.]
-%s (%i):\nKonnte freigegebene Datei nicht zum Dropbox-Plugin hinzufügen.
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
+[CloudFile transfer]
+CloudFile-Übertragung
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
+%s (%i):\nKonnte freigegebene Datei nicht zum CloudFile-Plugin hinzufügen.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
 E-Mail-Übertragung
@@ -206,8 +206,6 @@ SendSS-HTTP-Verbindungen
 SendSS
 [Screenshots]
 Screenshots
-[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
-Bilderdienste (AdvaImg-Plugin) nicht gefunden.\nSendSS deaktiviert.
 [Buttons]
 Schaltflächen
 [Could not register Miranda service.]

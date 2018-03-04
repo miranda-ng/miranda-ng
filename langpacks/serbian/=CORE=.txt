@@ -2590,6 +2590,13 @@ Protokol nije učitan.
 ;file \src\mir_app\src\proto_ui.cpp
 [Account]
 
+;file \src\mir_app\src\proto_utils.cpp
+[Request authorization]
+Zatraži autorizaciju
+[Grant authorization]
+Autorizuj
+[Revoke authorization]
+Ukloni autorizaciju
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Pretraga '%s' bez uspeha, primećen problem - da li je %s na vezi?
@@ -2671,12 +2678,6 @@ Jezgarni plug-inovi koji se ne učitavaju
 Okviri
 [Add group]
 
-[Request authorization]
-Zatraži autorizaciju
-[Grant authorization]
-Autorizuj
-[Revoke authorization]
-Ukloni autorizaciju
 [Warning]
 Upozorenje
 [Always visible]

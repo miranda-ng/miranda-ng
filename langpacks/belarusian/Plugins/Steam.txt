@@ -23,6 +23,10 @@
 Гутаркі
 [Show chat state events (i.e., user closed chat session)]
 
+[Connection]
+
+[Error limit before logout:]
+
 [Captcha]
 
 [Cancel]
@@ -55,34 +59,26 @@
 
 [Playing]
 Грае
-[%s has been removed from your contact list]
-
 [%s is back in your contact list]
 
-[%s has added you to his or her Friend List]
+[%s has been removed from your contact list]
 
-[Fatal error, image services not found. Avatar services will be disabled.]
-Фатальная памылка, служба малюнкаў не знойдзена. Служба аватараў будзе адключана.
-[Avatar Service]
-Служба аватар
-[Network]
-Сеціва
-[Blocked contacts]
+[%s has added you to contact list]
 
 [Cannot obtain connection token.]
 
-[Unknown login error.]
-
 [Steam menu chooser]
 
-[Request authorization]
-Запытаць аўтарызацыю
+[Unblock]
+
 [Join to game]
 
 [Unknown error]
 Невядомая памылка
 [Name]
 Імя
+[Network]
+Сеціва
 [Protocols]
 Пратаколы
 [Protocol icon]

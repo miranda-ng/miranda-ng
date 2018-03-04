@@ -152,10 +152,6 @@ Příliš mnoho neúspěšných pokusů o ověření pro dané uživatelské jm�
 [Authentication failed. Unknown error.]
 Ověření selhalo. Neznámá chyba.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Request authorization]
-Požádat o autorizaci
-[Grant authorization]
-Udělit autorizaci
 [Get server history]
 Načíst historii ze serveru
 [Block contact]

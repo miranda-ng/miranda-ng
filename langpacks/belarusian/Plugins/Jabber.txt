@@ -385,8 +385,6 @@ XML Кансоль
 Загаловак фрэйма
 [Frame text]
 Тэкст фрэйма
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-
 [Jabber Activity]
 Занятак Jabber
 [Jabber Mood]
@@ -518,6 +516,8 @@ xHTML фармат чат-паведамленняў
 [Supports direct chat invitations (XEP-0249)]
 Падтрымка прамых запрашэнняў ш чат (XEP-0249)
 [Receives information about OMEMO devices]
+
+[Supports message carbons (XEP-0280)]
 
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
@@ -893,12 +893,6 @@ Jabber памылка
 Атрыманы запыт HTTP аўтарызацыі
 [Jabber account chooser]
 Выбар конту Jabber
-[Request authorization]
-Запытаць аўтарызацыю
-[Grant authorization]
-Аўтарызаваць
-[Revoke authorization]
-Адклікаць аўтарызацыю
 [Convert]
 Канвертаваць
 [Add to Bookmarks]
@@ -1385,6 +1379,8 @@ Jabber Рэсурс
 Аўтаматычна захоўваць прынятыя нататкі
 [Enable server-side history (XEP-0136)]
 Уключыць гісторыю на серверы (XEP-0136)
+[Receive conversations from other devices (XEP-0280)]
+
 [Server options]
 Налады сервера
 [Disable SASL authentication (for old servers)]

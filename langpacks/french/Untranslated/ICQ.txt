@@ -43,8 +43,6 @@
 [Degree]
 [Graduation Year]
 [Company industry]
-[The password does not match your current password. Check Caps Lock and try again.]
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
 [<empty>]
 [Failed to request offline messages. They may be received next time you log in.]
 [Incoming URL:]

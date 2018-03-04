@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -61,20 +61,18 @@ URL:
 Съобщения
 [Enter the text you see]
 Въведете текста, който виждате
+[&Invite user...]
+Покани потребител...
+[User &details]
+Подробности за потребителя
+[User &history]
+История на потребителя
 [Myself]
 Аз
 [Friend]
 Приятел
 [User]
 Потребител
-[&Invite user...]
-Покани потребител...
-[&Leave chat session]
-Напускане от разговора
-[User &details]
-Подробности за потребителя
-[User &history]
-История на потребителя
 [Notifications]
 Уведомявания
 [Unknown error]
@@ -139,7 +137,5 @@ URL:
 Тъжно
 [Wow]
 Еха
-[Request friendship]
-Молба за приятелство
 [Services...]
 Услуги...

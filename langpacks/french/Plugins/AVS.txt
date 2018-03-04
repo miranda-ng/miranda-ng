@@ -90,10 +90,6 @@ Avatars
 Mon avatar
 [My Global Avatar Cache]
 Cache de l'avatar général
-[Fatal error, image services not found. Avatar services will be disabled.]
-Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
-[Avatar service]
-
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Définir les options d'avatar pour %s

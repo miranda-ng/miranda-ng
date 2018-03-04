@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
-[Backup progress]
-
-[Cancel]
-Annuler
 [Automatic backups]
 Sauvegardes automatiques
 [Backup NOW]
@@ -38,10 +34,14 @@ Dossier de sauvegarde :
 Désactiver la barre de progression
 [Disable popups]
 
-[Use Dropbox]
-
 [Backup profile folder]
 
+[Use CloudFile]
+
+[Backup progress]
+
+[Cancel]
+Annuler
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 Sauvegarde en cours
@@ -73,6 +73,12 @@ Profil sauvegardé
 [Backup folder]
 
 ;file \plugins\Db_autobackups\src\options.cpp
+[days]
+jours
+[hours]
+heures
+[minutes]
+minutes
 [path to Miranda root folder]
 
 [path to folder containing Miranda profiles]
@@ -93,16 +99,10 @@ Profil sauvegardé
 
 [Variables]
 
-[days]
-jours
-[hours]
-heures
-[minutes]
-minutes
-[Select backup folder]
-Sélectionner le répertoire de sauvegarde
 [Error creating backup folder]
 Erreur à la création du répertoire de sauvegarde
+[Select backup folder]
+Sélectionner le répertoire de sauvegarde
 ;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]

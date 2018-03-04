@@ -41,14 +41,14 @@ segundos
 nombre de usuario
 [nick]
 apodo
-[Group]
-Grupo
-[Status]
-Estado
-[Protocol]
-Protocolo
-[Account]
-Cuenta
+[group]
+grupo
+[status]
+estado
+[protocol]
+protocolo
+[account]
+cuenta
 [Contacts]
 Contactos
 [Popups]

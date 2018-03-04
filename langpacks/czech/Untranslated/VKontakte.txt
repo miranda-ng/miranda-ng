@@ -165,6 +165,8 @@
 [Loading messages for all contacts is completed.]
 [Loading history]
 [Error loading message history for %s from server.]
+[%x at %X]
+[Edited message (updated %s):\n]
 [Loading messages for %s is completed.]
 [Edited message:\n]
 [\nOriginal message:\n]

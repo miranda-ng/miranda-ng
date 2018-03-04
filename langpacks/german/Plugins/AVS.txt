@@ -90,10 +90,6 @@ Avatare
 Meine Avatare
 [My Global Avatar Cache]
 Mein globaler Avatar-Cache
-[Fatal error, image services not found. Avatar services will be disabled.]
-Schwerwiegender Fehler, Bilddienste-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
-[Avatar service]
-Avatardienst
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Avatar-Einstellungen für %s

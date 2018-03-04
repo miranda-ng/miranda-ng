@@ -7,7 +7,7 @@
 ;============================================================
 [Plugin supports starting position of Contact List relative to the taskbar and screen side.]
 Plugin de soporte de la posición de inicio de la lista de contactos en relación con la barra de tareas y el lado de la pantalla.
-[Contact List Window Start Position]
+[Contact list window start position]
 Posición inicial de la ventana de lista de contactos
 [Pixels from Top]
 Píxeles de la parte superior
@@ -23,10 +23,10 @@ Right
 Ancho
 [Always start...]
 Siempre iniciar...
-[Minimized to System Tray]
-Minimizar a la bandeja del sistema
-[Opened]
-Abierto
+[minimized to system tray]
+minimizar a la bandeja del sistema
+[opened]
+abierto
 [Contact list]
 Lista de contactos
 [Start position]

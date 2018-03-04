@@ -31,6 +31,8 @@
 [Tox URI scheme]
 [Unable to initialize Tox core]
 [Protocol icon]
+[Action icon]
+[Correction icon]
 [Create password]
 [Action]
 [You cannot send when you are offline.]

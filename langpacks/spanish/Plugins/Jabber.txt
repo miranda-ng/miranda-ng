@@ -251,12 +251,6 @@ Notas
 Añadir contacto
 [Protocols]
 Protocolos
-[Request authorization]
-Solicitar autorización
-[Grant authorization]
-Conceder autorización
-[Revoke authorization]
-Revocar autorización
 [Services...]
 Servicios...
 [Roster editor]

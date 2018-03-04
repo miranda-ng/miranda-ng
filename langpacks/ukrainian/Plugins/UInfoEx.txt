@@ -487,8 +487,6 @@
 Ваші дані не завантажено.\nВони збережені в локальній базі даних.
 [updating]
 оновлення
-[Fatal error, image services not found. Flags module will be disabled.]
-Фатальна помилка: службу зображень не знайдено. Плагін Flags буде вимкнено.
 [IM naming]
 Ім'я в IM
 [Password]

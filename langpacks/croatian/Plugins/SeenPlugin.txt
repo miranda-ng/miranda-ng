@@ -98,8 +98,6 @@ tekst
 [Last seen]
 
 ;file \plugins\SeenPlugin\src\options.cpp
-[-- Date --]
-
 [year (4 digits)]
 
 [year (2 digits)]
@@ -116,8 +114,6 @@ tekst
 
 [weekday (abbreviated)]
 
-[-- Time --]
-
 [hours (24)]
 
 [hours (12)]
@@ -128,47 +124,49 @@ tekst
 
 [seconds]
 sekundi
-[-- User --]
-
 [username]
 
 [nick]
 
 [UIN/handle]
 
-[Group]
+[group]
 
-[Status]
+[status]
 
-[Status message]
+[status message]
 
-[Old status]
+[old status]
 
 [external IP]
 
 [internal IP]
 
-[Client info]
+[client info]
 
-[Protocol]
+[protocol]
 
-[Account]
-
-[-- Format --]
+[account]
 
 [tabulator]
 
 [line break]
 
+[-- Date --]
+
+[-- Time --]
+
+[-- User --]
+
+[-- Format --]
+
 [Note:]
 
-[Use]
+[Use # for empty string]
 
-[for empty string]
+[instead of <unknown>]
 
-[instead of]
-
-[Last Seen Variables]
+[Last Seen variables]
 
 [Contacts]
 

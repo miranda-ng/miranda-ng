@@ -73,8 +73,6 @@
 Аватари
 [My Avatars]
 Моите аватари
-[Avatar service]
-Услуга за аватари
 [Set avatar options for %s]
 Конфигуриране на аватар за %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]

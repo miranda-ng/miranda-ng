@@ -96,10 +96,10 @@ Chyba MAPI (%s):\n%s.
 Neznámá odpověď od %s (%i)
 [Got no response from %s (%i)]
 Žádná odpověď od %s (%i)
-;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
-[Dropbox transfer]
-Přenos přes Dropbox
-[%s (%i):\nCould not add a share to the Dropbox plugin.]
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
+[CloudFile transfer]
+Přenos přes CloudFile
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
@@ -205,8 +205,6 @@ Aktualizovat
 [SendSS]
 
 [Screenshots]
-
-[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
 
 [Buttons]
 Tlačítka

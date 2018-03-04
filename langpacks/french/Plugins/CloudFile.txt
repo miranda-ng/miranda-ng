@@ -34,7 +34,7 @@ Envoyer automatiquement l'URL au contact
 Annuler
 [Enter authorization code:]
 
-[Allow access to team]
+[To allow Miranda NG access to %s:]
 
 [Go to this link]
 
@@ -62,7 +62,3 @@ Services
 ;file \plugins\CloudFile\src\srmm.cpp
 [Upload files to...]
 
-;file \plugins\CloudFile\src\Services\dropbox_service.cpp
-;file \plugins\CloudFile\src\Services\google_service.cpp
-;file \plugins\CloudFile\src\Services\microsoft_service.cpp
-;file \plugins\CloudFile\src\Services\yandex_service.cpp

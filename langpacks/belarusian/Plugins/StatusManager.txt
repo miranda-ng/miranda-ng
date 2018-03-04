@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.0.1.1
+;  Version: 1.1.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -317,12 +317,12 @@ Dial-up (эксперыментальна)
 %s памылка статусу (наступны паўтор (%d) праз %d з.)
 [Status error (next retry (%d) in %d s)]
 Памылка статусу (спроба № %d праз % з.)
+[Resetting status... (last try (%d))]
+Скід статусу.. (апошняя спроба (%d))
+[Resetting status... (next retry (%d) in %d s)]
+Скід статусу.. (спроба № %d праз %d з.)
 [%s\t(will be set to %s)\r\n]
 будзе
-[Resetting status... (last try (%d))%s]
-Скід статусу.. (апошняя спроба (%d))%s
-[Resetting status... (next retry (%d) in %d s)%s]
-Скід статусу.. (спроба № %d праз %d з.)%s
 [No internet connection seems available... (last try (%d))]
 Няма доступу да Інтэрнэту (апошняя спроба (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]

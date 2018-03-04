@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.7
+;  Version: 0.1.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
@@ -68,15 +68,13 @@ Chyba
 
 [Failed to change status for account '%s' to '%s'.]
 
-[Failed to set '%S' status message to '%s' (status is '%s').]
+[Failed to set '%s' status message to '%s' (status is '%s').]
 
-[Successfully set '%S' status message to '%s' (status is '%s').]
-
-[Account '%S' does not support away messages, skipping.]
-
-[Changed '%s' status message to '%s' (status is '%s').]
+[Successfully set '%s' status message to '%s' (status is '%s').]
 
 [Account '%s' does not support away messages, skipping.]
+
+[Changed '%s' status message to '%s' (status is '%s').]
 
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 
@@ -164,27 +162,27 @@ Word
 Dword
 [wide string]
 
-[Wrote '%s:%s' to database entry '%s/%s'.]
+[Wrote '%S:%s' to database entry '%S/%S'.]
 
-[Could not retrieve setting '%s/%s': %s.]
+[Could not retrieve setting '%S/%S': %S.]
 
-[Setting '%s/%s' was not found.]
+[Setting '%S/%S' was not found.]
 
-['%s' proxy was disabled.]
+['%S' proxy was disabled.]
 
-['%s' proxy was enabled.]
+['%S' proxy was enabled.]
 
-[%s proxy server: %s %s:%d.]
+[%S proxy server: %S %S:%d.]
 
-[%s proxy set to %s %s:%d.]
+[%S proxy set to %s %S:%d.]
 
-[%s The port or the proxy type parameter is invalid.]
+[%S The port or the proxy type parameter is invalid.]
 
 [[me]]
 
 [No unread messages found.]
 
-[%s:%s - %d unread events.]
+[%s:%S - %d unread events.]
 
 [Contact '%s' has %d events in history.]
 

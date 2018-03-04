@@ -1,0 +1,2 @@
+[Supports message carbons (XEP-0280)]
+[Receive conversations from other devices (XEP-0280)]

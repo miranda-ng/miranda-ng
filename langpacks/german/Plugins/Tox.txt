@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.0
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -91,13 +91,13 @@ Konnte Tox-Core nicht initialisieren.
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 Protokollicon
+[Action icon]
+Aktionsicon
+[Correction icon]
+
 [Protocols]
 Protokolle
 ;file \protocols\Tox\src\tox_menus.cpp
-[Request authorization]
-Autorisierung anfragen
-[Grant authorization]
-Autorisierung gewähren
 [Password]
 Passwort
 [Create password]

@@ -2,13 +2,9 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Backup progress]
-Създаване на резервно копие
-[Cancel]
-Отказ
 [Automatic backups]
 Автоматично създаване на резервни копия
 [Backup NOW]
@@ -35,6 +31,10 @@
 Изключване на лентата за напредък
 [Disable popups]
 Изключване на Popups
+[Backup progress]
+Създаване на резервно копие
+[Cancel]
+Отказ
 [Backup in progress]
 Създава се резервно копие
 [Copying database file...]
@@ -57,6 +57,12 @@
 Създаване резервно копие на профила
 [Save profile as...]
 Запис на профила като...
+[days]
+дни
+[hours]
+часа
+[minutes]
+минути
 [path to Miranda root folder]
 път до главната папка на Miranda
 [path to folder containing Miranda profiles]
@@ -73,13 +79,7 @@
 Папка "Desktop" на потребителя, вписан в Windows
 [Variables]
 Променливи
-[days]
-дни
-[hours]
-часа
-[minutes]
-минути
-[Select backup folder]
-Избор на папка за резервните копия
 [Error creating backup folder]
 Грешка при създаването на папка за резервните копия
+[Select backup folder]
+Избор на папка за резервните копия

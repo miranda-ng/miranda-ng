@@ -375,8 +375,6 @@ Jabber Link Protocol
 Заглавие на рамката
 [Frame text]
 Текст в рамката
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-Фатална грешка - услугата за изображения не е открита. Протоколът Jabber ще бъде изключен.
 [Jabber Activity]
 Jabber дейност
 [Jabber Mood]
@@ -831,12 +829,6 @@ Jabber удостоверяване
 Получена е HTTP молба за удостоверяване
 [Jabber account chooser]
 Избор на Jabber акаунт
-[Request authorization]
-Молба за упълномощаване
-[Grant authorization]
-Даване на пълномощно
-[Revoke authorization]
-Отнемане на пълномощното
 [Convert]
 Превръщане
 [Add to Bookmarks]

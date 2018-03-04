@@ -53,34 +53,22 @@
  на сервері %s
 [Playing]
 Граю
-[%s has been removed from your contact list]
-%s видалений з вашого списку контактів
 [%s is back in your contact list]
 %s знову у вашому списку контактів
-[%s has added you to his or her Friend List]
-%s додав(ла) вас до списку друзів
-[Fatal error, image services not found. Avatar services will be disabled.]
-Невиправна помилка: не знайдено службу зображень. Аватари будуть вимкнені.
-[Avatar Service]
-Служба аватарів
-[Network]
-Мережа
-[Blocked contacts]
-Заблоковані контакти
+[%s has been removed from your contact list]
+%s видалений з вашого списку контактів
 [Cannot obtain connection token.]
 Не вдалося отримати токен з'єднання.
-[Unknown login error.]
-Невідома помилка входу.
 [Steam menu chooser]
 Вибір меню Steam
-[Request authorization]
-Запитати авторизацію
 [Join to game]
 Приєднатися до гри
 [Unknown error]
 Невідома помилка
 [Name]
 Ім'я
+[Network]
+Мережа
 [Protocols]
 Протоколи
 [Protocol icon]

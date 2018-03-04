@@ -1064,6 +1064,8 @@ Záznam skupinových rozhovorů
 Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
+[Chat rooms]
+Místnosti chatu
 [Voiced]
 Zvýrazněný
 [Half operators]
@@ -1705,10 +1707,6 @@ Funkce povolena (použito jako překrytí)
 
 [Disable typing notification]
 
-[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
-Doplněk pro práci s obrázky (AdvaImg) není nainstalován.\n\nTabSRMM je zakázáno.
-[TabSRMM fatal error]
-TabSRMM kritická chyba
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Komunikační okna - klasické rozhovory

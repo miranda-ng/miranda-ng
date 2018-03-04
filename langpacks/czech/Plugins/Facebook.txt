@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -128,6 +128,20 @@ Poslat SMS
 [Enter the text you see]
 Zadejte text, který vidíte
 ;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+Pozvat k d&iskusi...
+[E&xit chat session]
+
+[&Destroy chat session]
+
+[User &details]
+&Detaily uživatele
+[User &history]
+Zobrazit &historii
+[Delete conversation]
+
+[This will permanently delete the conversation history]
+
 [Former]
 Bývalý účastník
 [Myself]
@@ -136,14 +150,6 @@ Já
 Přítel
 [User]
 Uživatel
-[&Invite user...]
-Pozvat k d&iskusi...
-[&Leave chat session]
-&Opustit diskusi
-[User &details]
-&Detaily uživatele
-[User &history]
-Zobrazit &historii
 [Notifications]
 Upozornění
 [%s and more (%d)]
@@ -196,29 +202,6 @@ Ověřovací SMS kód byl odeslán na váš mobilní telefon.
 Zadejte uživatelské jméno.
 [Please enter a password.]
 Zadejte heslo.
-;file \protocols\FacebookRM\src\constants.h
-[Top News]
-Hlavní zprávy
-[Most Recent]
-Nejnovější
-[Pages]
-Stránky
-[Classic website]
-Klasické stránky
-[Mobile website]
-Mobilní stránky
-[Smartphone website]
-Smartphone stránky
-[Public]
-Veřejný
-[Friends of friends]
-Přátelé přátel
-[Friends]
-Přátelé
-[Friends except acquaintances]
-Přátelé kromě známých
-[Only me]
-Jenom já
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt byl odebrán z vašeho seznamu přátel.
@@ -241,6 +224,28 @@ Požadavek o přátelství byl ignorován.
 [Error occurred when ignoring friendship request.]
 Nastala chyba při pokusu o ignorování požadavku o přátelství.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Top News]
+Hlavní zprávy
+[Most Recent]
+Nejnovější
+[Pages]
+Stránky
+[Classic website]
+Klasické stránky
+[Mobile website]
+Mobilní stránky
+[Smartphone website]
+Smartphone stránky
+[Public]
+Veřejný
+[Friends of friends]
+Přátelé přátel
+[Friends]
+Přátelé
+[Friends except acquaintances]
+Přátelé kromě známých
+[Only me]
+Jenom já
 [Default]
 Výchozí
 [<< Contacts]
@@ -252,20 +257,20 @@ Co se vám honí hlavou, %s?
 samolepku
 [a GIF]
 GIF
+[a link]
+odkaz
 [files]
 soubory
 [a file]
 soubor
-[a link]
-odkaz
 [User sent %s:]
 Uživatel odeslal %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Uživatel odeslal nepodporovanou přílohu. Otevřte webový prohlížeč pro její zobrazení.
+[Reaction]
+
 [%s is typing a message...]
 %s píše zprávu...
-[This message is no longer available, because it was marked as abusive or spam.]
-Tato zpráva již není dostupná, protože byla označena jako urážlivá nebo spam.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.
@@ -396,14 +401,8 @@ Zobrazit podrobnosti o přátelství
 Zobrazit konverzaci
 [Load history]
 Načíst historii
-[Cancel friendship]
-Zrušit přátelství
 [Cancel friendship request]
 Zrušit požadavek o přátelství
-[Request friendship]
-Požádat o přátelství
-[Approve friendship]
-Potvrdit přátelství
 [Deny friendship request]
 Odmítnout požadavek o přátelství
 [Services...]

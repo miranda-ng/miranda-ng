@@ -496,9 +496,6 @@ Hochladen fehlgeschlagen
 Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
 [updating]
 Aktualisieren
-;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags module will be disabled.]
-Schwerer Fehler, Bilddienste nicht gefunden. Flaggenmodul wird deaktiviert.
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [IM naming]
 IM-Benennung

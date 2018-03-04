@@ -2,24 +2,24 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Cancel]
-Cancelar
 [Disabled]
 Desabilitado
+[Cancel]
+Cancelar
 [Error]
 Error
 [All files]
 Todos los archivos
 [Database]
 Base de datos
-[Variables]
-Variables
 [days]
 días
 [hours]
 horas
 [minutes]
 minutos
+[Variables]
+Variables

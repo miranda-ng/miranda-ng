@@ -7,7 +7,7 @@
 ;============================================================
 [Plugin supports starting position of Contact List relative to the taskbar and screen side.]
 Дозволяє встановити початкову позицію списку контактів щодо панелі завдань і країв екрану.
-[Contact List Window Start Position]
+[Contact list window start position]
 Початкова позиція списку контактів
 [Pixels from Top]
 Точок зверху
@@ -23,10 +23,10 @@
 Ширина
 [Always start...]
 При запуску...
-[Minimized to System Tray]
-Згорнутий до трею
-[Opened]
-Відкритий
+[minimized to system tray]
+згорнутий до трею
+[opened]
+відкритий
 [Contact list]
 Список контактів
 [Start position]

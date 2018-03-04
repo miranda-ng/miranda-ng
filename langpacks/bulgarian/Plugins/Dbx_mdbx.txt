@@ -1,0 +1,11 @@
+#muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
+;============================================================
+;  File: Dbx_mdbx.dll
+;  Plugin: Miranda NG MDBX database driver
+;  Version: 0.95.8.3
+;  Authors: Miranda-NG project
+;============================================================
+[Cancel]
+Отказ
+[Remove]
+Премахване

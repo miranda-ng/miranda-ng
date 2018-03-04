@@ -29,16 +29,12 @@
 Запис на паролата
 [Playing]
 Играе
-[Avatar Service]
-Услуга за аватари
-[Network]
-Мрежа
-[Request authorization]
-Молба за упълномощаване
 [Unknown error]
 Непозната грешка
 [Name]
 Име
+[Network]
+Мрежа
 [Protocols]
 Протоколи
 [Protocol icon]

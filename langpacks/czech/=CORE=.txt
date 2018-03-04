@@ -2590,6 +2590,13 @@ Protokol není načtený.
 ;file \src\mir_app\src\proto_ui.cpp
 [Account]
 Účet
+;file \src\mir_app\src\proto_utils.cpp
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Revoke authorization]
+Odvolat autorizaci
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
@@ -2671,12 +2678,6 @@ Nenačitatelný doplněk
 Rámečky
 [Add group]
 Přidat skupinu
-[Request authorization]
-Požádat o autorizaci
-[Grant authorization]
-Udělit autorizaci
-[Revoke authorization]
-Odvolat autorizaci
 [Warning]
 Upozornění
 [Always visible]

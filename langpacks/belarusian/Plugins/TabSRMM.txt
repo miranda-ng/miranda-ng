@@ -1057,6 +1057,8 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 Выгляд і функцыянальнасць вокнаў чата
 [Appearance of the message log]
 Вонкавы выгляд лога паведамленняў
+[Chat rooms]
+
 [Voiced]
 Карыстачы з правам голасу
 [Half operators]
@@ -1681,10 +1683,6 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 
 [Disable typing notification]
 
-[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
-Не ўстаноўлены плагін службы малюнкаў (AdvaImg)\n\nTabSRMM адключаны.
-[TabSRMM fatal error]
-Крытычная памылка TabSRMM
 [Message windows - IM]
 Вокны паведамленняў - IM
 [Message windows - all]

@@ -2443,6 +2443,12 @@ ID облікового запису
 Облікові записи...
 [Account]
 Обліковий запис
+[Request authorization]
+Запитати авторизацію
+[Grant authorization]
+Авторизувати
+[Revoke authorization]
+Відкликати авторизацію
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не можу запустити пошук у мережі %s. Перевірте з'єднання з %s.
 [Could not search on any of the protocols, are you online?]
@@ -2521,12 +2527,6 @@ ANSI-плагін
 Фрейми
 [Add group]
 Додати групу
-[Request authorization]
-Запитати авторизацію
-[Grant authorization]
-Авторизувати
-[Revoke authorization]
-Відкликати авторизацію
 [Warning]
 Попередження
 [Always visible]

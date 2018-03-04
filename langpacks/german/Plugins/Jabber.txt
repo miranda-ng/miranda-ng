@@ -387,8 +387,6 @@ Jabber-Link-Protokoll
 Frame Titel
 [Frame text]
 Frame Text
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-Schwerer Fehler, Bilddienste nicht gefunden. Jabber-Protokoll wird deaktiviert.
 [Jabber Activity]
 Jabber-Aktivität
 [Jabber Mood]
@@ -526,6 +524,8 @@ Unterstützt Kontaktlistenaustausch
 Unterstützt direkte Chateinladungen (XEP-0249)
 [Receives information about OMEMO devices]
 Empfängt Informationen über OMEMO-Geräte
+[Supports message carbons (XEP-0280)]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -912,12 +912,6 @@ HTTP-Authentifizierungsanfrage empfangen
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Jabber-Kontenauswahl
-[Request authorization]
-Autorisierung anfragen
-[Grant authorization]
-Autorisierung gewähren
-[Revoke authorization]
-Autorisierung widerrufen
 [Convert]
 Umwandeln
 [Add to Bookmarks]
@@ -1409,6 +1403,8 @@ Notizen empfangen
 Empfangene Notizen automatisch speichern
 [Enable server-side history (XEP-0136)]
 Server-seitigen Verlauf aktivieren
+[Receive conversations from other devices (XEP-0280)]
+
 [Server options]
 Servereinstellungen
 [Disable SASL authentication (for old servers)]

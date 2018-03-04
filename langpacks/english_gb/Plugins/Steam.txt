@@ -7,5 +7,3 @@
 ;============================================================
 [Show chat state events (i.e., user closed chat session)]
 Show chat state events (i.e. user closed chat session)
-[Request authorization]
-Request authorisation

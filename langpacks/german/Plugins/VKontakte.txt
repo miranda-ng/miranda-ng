@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.4.0
+;  Version: 0.1.4.3
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -474,6 +474,10 @@ Nachrichten für alle Kontakte wurden komplett geladen.
 Verlauf laden
 [Error loading message history for %s from server.]
 Fehler beim Laden des Nachrichtenverlaufes von %s vom Server.
+[%x at %X]
+
+[Edited message (updated %s):\n]
+
 [Loading messages for %s is completed.]
 Laden der Nachrichten von %s ist fertig.
 ;file \protocols\VKontakte\src\vk_messages.cpp

@@ -187,7 +187,6 @@
 [Upload ICQ details]
 [Upload failed]
 [Your details were not uploaded successfully.\nThey were written to database only.]
-[Fatal error, image services not found. Flags module will be disabled.]
 [IM naming]
 [Password]
 [Timezone]

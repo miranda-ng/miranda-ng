@@ -93,8 +93,6 @@
 <невядома>
 [Last seen]
 Апошняе з'яўленне
-[-- Date --]
--- Дата --
 [year (4 digits)]
 год (4 лічбы)
 [year (2 digits)]
@@ -111,8 +109,6 @@
 дзень тыдня (full)
 [weekday (abbreviated)]
 дзень тыдня (abbreviated)
-[-- Time --]
--- Час --
 [hours (24)]
 гадзіны (24)
 [hours (12)]
@@ -123,47 +119,49 @@
 хвілін(ы)
 [seconds]
 секунд(ы)
-[-- User --]
--- Кантакт --
 [username]
 імя карыстача
 [nick]
 мянушка
 [UIN/handle]
 нумар/апрацоўнік
-[Group]
-Гурт
-[Status]
-Статус
-[Status message]
-Паведамленне статусу
-[Old status]
-Стары статус
+[group]
+гурт
+[status]
+статус
+[status message]
+паведамленне статусу
+[old status]
+стары статус
 [external IP]
 вонкавы IP
 [internal IP]
 унутраны IP
-[Client info]
-Кліент
-[Protocol]
-Пратакол
-[Account]
-Конт
-[-- Format --]
--- Фармат --
+[client info]
+кліент
+[protocol]
+пратакол
+[account]
+конт
 [tabulator]
 табуляцыя
 [line break]
 з новага радка
+[-- Date --]
+-- Дата --
+[-- Time --]
+-- Час --
+[-- User --]
+-- Кантакт --
+[-- Format --]
+-- Фармат --
 [Note:]
 Нататка:
-[Use]
-Выкарыстоўваць
-[for empty string]
-для пустога радка
-[instead of]
-замест
-[Last Seen Variables]
+[Use # for empty string]
+Выкарыстоўваць # для пустога радка
+[instead of <unknown>]
+замест <невядома>
+[Last Seen variables]
 Зменныя
 [Contacts]
 Кантакты

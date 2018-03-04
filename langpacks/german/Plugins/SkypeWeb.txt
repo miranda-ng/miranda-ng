@@ -152,10 +152,6 @@ Zu viele fehlgeschlagene Autorisierungsversuche mit dem angegebenen Benutzername
 [Authentication failed. Unknown error.]
 Autorisierung fehlgeschlagen. Unbekannter Fehler.
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Request authorization]
-Autorisierung anfragen
-[Grant authorization]
-Autorisierung gewähren
 [Get server history]
 Serververlauf abrufen
 [Block contact]

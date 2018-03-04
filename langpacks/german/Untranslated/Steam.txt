@@ -1,0 +1,3 @@
+[Error limit before logout:]
+[%s has added you to contact list]
+[Unblock]

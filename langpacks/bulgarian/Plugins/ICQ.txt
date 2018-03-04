@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -419,12 +419,6 @@ UIN:
 Категория 4
 [Interest areas 4]
 Интерес 4
-[The password does not match your current password. Check Caps Lock and try again.]
-Паролата не съвпада с вашата текуща парола. Проверете "Caps Lock"-а и опитайте пак.
-[Change ICQ Details]
-Промяна на ICQ подробностите
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Паролата не съвпада с първоначално въведената. Проверете "Caps Lock"-а и опитайте пак.
 [<unremovable once applied>]
 <несменяемо след задаване>
 [<empty>]
@@ -433,6 +427,8 @@ UIN:
 Неисвестна стойност
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
 Направили сте промени по ICQ подробностите, но те не са запаметени на сървъра. Желаете прозорецът да бъде затворен?
+[Change ICQ Details]
+Промяна на ICQ подробностите
 [Upload in progress...]
 В процес на качване...
 [Upload in progress...%d%%]
@@ -1413,12 +1409,6 @@ Web изграждане
 Прехвърлянето е прекратено поради липса на един от избраните файлове. Вероятно сте изтрили или преместили файла.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Прехвърлянето е прекратено защото Miranda не може да отвори файла за писане. Вероятно сте задали файлът да се съхрани в папка, която е само за четене.
-[Request authorization]
-Молба за упълномощаване
-[Grant authorization]
-Даване на пълномощно
-[Revoke authorization]
-Отнемане на пълномощното
 [Add to server list]
 Добавяне в списъка на сървъра
 [Show custom status details]

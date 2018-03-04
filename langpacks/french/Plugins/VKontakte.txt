@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.4.0
+;  Version: 0.1.4.3
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -473,6 +473,10 @@ Avertissement
 [Loading history]
 
 [Error loading message history for %s from server.]
+
+[%x at %X]
+
+[Edited message (updated %s):\n]
 
 [Loading messages for %s is completed.]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.0.1.1
+;  Version: 1.1.0.4
 ;  Authors: P Boon
 ;============================================================
 [Startup status]
@@ -247,10 +247,10 @@ Dial-up (експериментално)
 Текст за състояние
 [%s\t(will be set to %s)\r\n]
 %s\t(ще бъде зададено %s)\r\n
-[Resetting status... (last try (%d))%s]
-Задаване на състояние... (последен опит (%d))%s
-[Resetting status... (next retry (%d) in %d s)%s]
-Задаване на състояние... (нов опит (%d) след %dсек)%s
+[Resetting status... (last try (%d))]
+Задаване на състояние... (последен опит (%d))
+[Resetting status... (next retry (%d) in %d s)]
+Задаване на състояние... (нов опит (%d) след %dсек)
 [No internet connection seems available... (last try (%d))]
 Няма налична връзка с интернет... (нов опит (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [Password:]
@@ -521,12 +521,6 @@ Masculino
 Inicio
 [Separated]
 Separado
-[Request authorization]
-Solicitar autorización
-[Grant authorization]
-Conceder autorización
-[Revoke authorization]
-Revocar autorización
 [Network]
 Red
 [Account]

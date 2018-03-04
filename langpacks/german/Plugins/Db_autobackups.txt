@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 Automatische Sicherungen der Datenbank.
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
-[Backup progress]
-Fortschritt der Sicherung
-[Cancel]
-Abbrechen
 [Automatic backups]
 Automatische Sicherungen
 [Backup NOW]
@@ -38,10 +34,14 @@ Sicherungen in Zip-Archiven komprimieren
 Fortschrittsanzeige deaktivieren
 [Disable popups]
 Popups deaktivieren
-[Use Dropbox]
-Dropbox verwenden
 [Backup profile folder]
 Profilverzeichnis sichern
+[Use CloudFile]
+CloudFile verwenden
+[Backup progress]
+Fortschritt der Sicherung
+[Cancel]
+Abbrechen
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 Sicherheitskopie wird erstellt
@@ -73,6 +73,12 @@ Datenbanksicherung
 [Backup folder]
 Sicherungsordner
 ;file \plugins\Db_autobackups\src\options.cpp
+[days]
+Tage
+[hours]
+Stunden
+[minutes]
+Minuten
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to folder containing Miranda profiles]
@@ -93,16 +99,10 @@ Benutzername für den aktuell angemeldeten Windows-Benutzer.
 Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %systemroot%, %allusersprofile% usw.)
 [Variables]
 Variablen
-[days]
-Tage
-[hours]
-Stunden
-[minutes]
-Minuten
-[Select backup folder]
-Backup-Verzeichnis auswählen
 [Error creating backup folder]
 Fehler beim Erstellen des Backup-Verzeichnisses.
+[Select backup folder]
+Backup-Verzeichnis auswählen
 ;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]

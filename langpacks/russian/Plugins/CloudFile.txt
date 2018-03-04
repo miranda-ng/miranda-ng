@@ -33,8 +33,8 @@
 Отмена
 [Enter authorization code:]
 Введите код авторизации:
-[Allow access to team]
-Разрешить доступ к группе
+[To allow Miranda NG access to %s:]
+Разрешить Miranda NG доступ к %s:
 [Go to this link]
 Перейти по этой ссылке
 [Upload file(s)]

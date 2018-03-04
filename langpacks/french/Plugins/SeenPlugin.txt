@@ -98,8 +98,6 @@ Envoyer un message instantané
 [Last seen]
 
 ;file \plugins\SeenPlugin\src\options.cpp
-[-- Date --]
-
 [year (4 digits)]
 année (4 chiffres)
 [year (2 digits)]
@@ -116,8 +114,6 @@ jour
 jour (long)
 [weekday (abbreviated)]
 jour (court)
-[-- Time --]
--- Heure --
 [hours (24)]
 heure (24)
 [hours (12)]
@@ -128,47 +124,49 @@ heure (12)
 minutes
 [seconds]
 secondes
-[-- User --]
-
 [username]
-Identifiant
+identifiant
 [nick]
-Speudo
+speudo
 [UIN/handle]
 
-[Group]
-Groupe
-[Status]
-État
-[Status message]
+[group]
+groupe
+[status]
+état
+[status message]
 
-[Old status]
+[old status]
 
 [external IP]
 
 [internal IP]
 
-[Client info]
+[client info]
 
-[Protocol]
-Protocole
-[Account]
-Compte
-[-- Format --]
-
+[protocol]
+protocole
+[account]
+compte
 [tabulator]
 tabulation
 [line break]
 limite
+[-- Date --]
+
+[-- Time --]
+-- Heure --
+[-- User --]
+
+[-- Format --]
+
 [Note:]
 
-[Use]
-Utiliser
-[for empty string]
+[Use # for empty string]
 
-[instead of]
+[instead of <unknown>]
 
-[Last Seen Variables]
+[Last Seen variables]
 
 [Contacts]
 Contacts

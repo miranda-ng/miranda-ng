@@ -29,10 +29,6 @@ Advertencia
 Archivo
 [Protocols]
 Protocolos
-[Request authorization]
-Solicitar autorización
-[Grant authorization]
-Conceder autorización
 [Network]
 Red
 [Notifications]

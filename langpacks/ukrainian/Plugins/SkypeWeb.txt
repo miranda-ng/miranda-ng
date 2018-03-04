@@ -143,10 +143,6 @@
 Перевищено допустиму кількість невдалих спроб авторизації з таким ім'ям користувача або з цього IP.
 [Authentication failed. Unknown error.]
 Не вдалося авторизуватися через невідому помилку.
-[Request authorization]
-Запитати авторизацію
-[Grant authorization]
-Авторизувати
 [Get server history]
 Синхронізувати історію
 [Block contact]

@@ -90,10 +90,6 @@ Pozadina
 
 [My Global Avatar Cache]
 
-[Fatal error, image services not found. Avatar services will be disabled.]
-
-[Avatar service]
-
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 

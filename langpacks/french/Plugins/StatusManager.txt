@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.0.1.1
+;  Version: 1.1.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -322,11 +322,11 @@ Erreur d'indentification, annulation de la reconnexion
 
 [Status error (next retry (%d) in %d s)]
 
-[%s\t(will be set to %s)\r\n]
+[Resetting status... (last try (%d))]
+RAZ de l'état... (dernière tentative (%d))
+[Resetting status... (next retry (%d) in %d s)]
 
-[Resetting status... (last try (%d))%s]
-RAZ de l'état... (dernière tentative (%d))%s
-[Resetting status... (next retry (%d) in %d s)%s]
+[%s\t(will be set to %s)\r\n]
 
 [No internet connection seems available... (last try (%d))]
 Pas de connexion Internet... (dernière tentative (%d))

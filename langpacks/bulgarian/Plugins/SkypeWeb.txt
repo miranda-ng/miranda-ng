@@ -57,10 +57,6 @@
 Икона на протокола
 [Protocols]
 Протоколи
-[Request authorization]
-Молба за упълномощаване
-[Grant authorization]
-Даване на пълномощно
 [Block contact]
 Блокиране на контакта
 [%s connection]

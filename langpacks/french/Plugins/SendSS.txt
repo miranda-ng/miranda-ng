@@ -96,10 +96,10 @@ Une erreur inconnue s'est produite.
 
 [Got no response from %s (%i)]
 
-;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
-[Dropbox transfer]
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
+[CloudFile transfer]
 
-[%s (%i):\nCould not add a share to the Dropbox plugin.]
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
 
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
@@ -205,8 +205,6 @@ Flèche bas
 [SendSS]
 
 [Screenshots]
-
-[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
 
 [Buttons]
 

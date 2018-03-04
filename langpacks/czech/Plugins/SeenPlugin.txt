@@ -98,8 +98,6 @@ Uživatel se přihlásil
 [Last seen]
 Naposledy spatřen
 ;file \plugins\SeenPlugin\src\options.cpp
-[-- Date --]
--- Datum --
 [year (4 digits)]
 rok (4 číslice)
 [year (2 digits)]
@@ -116,8 +114,6 @@ den
 název dne (celý)
 [weekday (abbreviated)]
 název dne (zkrácený)
-[-- Time --]
--- Čas --
 [hours (24)]
 hodiny (24)
 [hours (12)]
@@ -128,47 +124,49 @@ dop./odp.
 min.
 [seconds]
 sek.
-[-- User --]
--- Uživatel --
 [username]
 uživatelské jméno
 [nick]
 přezdívka
 [UIN/handle]
 UIN (ident. číslo)
-[Group]
-Skupina
-[Status]
-Stavy
-[Status message]
-Zpráva stavu
-[Old status]
+[group]
+skupina
+[status]
+stav
+[status message]
+zpráva stavu
+[old status]
 původní stav
 [external IP]
 externí IP
 [internal IP]
 interní IP
-[Client info]
+[client info]
 klient
-[Protocol]
-Protokol
-[Account]
-Účet
-[-- Format --]
--- Formátování --
+[protocol]
+protokol
+[account]
+účet
 [tabulator]
 tabulátor
 [line break]
 další řádek
+[-- Date --]
+-- Datum --
+[-- Time --]
+-- Čas --
+[-- User --]
+-- Uživatel --
+[-- Format --]
+-- Formátování --
 [Note:]
 Pozn.:
-[Use]
-Použít
-[for empty string]
-pro prázdné řetězce
-[instead of]
-namísto
-[Last Seen Variables]
+[Use # for empty string]
+Použít # pro prázdné řetězce
+[instead of <unknown>]
+namísto <neznámý>
+[Last Seen variables]
 Last Seen - seznam proměnných
 [Contacts]
 Kontakty

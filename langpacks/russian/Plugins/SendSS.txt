@@ -85,6 +85,10 @@
 Неизвестный ответ от %s (%i)
 [Got no response from %s (%i)]
 Нет ответа от %s (%i)
+[CloudFile transfer]
+Передача через CloudFile
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
+%s (%i):\nНе удалось поделиться файлом через плагин CloudFile.
 [The specified attachment was not found]
 Вложение не найдено
 [The specified attachment could not be opened]

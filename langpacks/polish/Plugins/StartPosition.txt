@@ -8,7 +8,7 @@
 [Plugin supports starting position of Contact List relative to the taskbar and screen side.]
 Wtyczka wspiera początkową pozycję listy kontaktów w stosunku do paska zadań oraz boku ekranu.
 ;file \plugins\StartPosition\res\resource.rc
-[Contact List Window Start Position]
+[Contact list window start position]
 Pozycja startowa listy kontaktów
 [Pixels from Top]
 Pikseli od góry
@@ -24,9 +24,9 @@ prawej
 Szerokość
 [Always start...]
 Startuj z listą...
-[Minimized to System Tray]
+[minimized to system tray]
 zminimalizowaną do zasobnika
-[Opened]
+[opened]
 otwartą
 ;file \plugins\StartPosition\src\startposition.cpp
 [Contact list]

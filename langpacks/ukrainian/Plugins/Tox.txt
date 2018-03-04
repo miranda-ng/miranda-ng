@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.0
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -67,10 +67,6 @@ IPv6 адреса (необов'язково)
 Значок протоколу
 [Protocols]
 Протоколи
-[Request authorization]
-Запитати авторизацію
-[Grant authorization]
-Авторизувати
 [Action]
 Дія
 [You cannot send when you are offline.]

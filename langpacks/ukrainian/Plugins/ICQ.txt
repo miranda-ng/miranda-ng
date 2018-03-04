@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -433,12 +433,6 @@ xСтатус "%s"
 Категорія 4
 [Interest areas 4]
 Цікавлюся 4
-[The password does not match your current password. Check Caps Lock and try again.]
-Пароль не збігається з наявним. Перевірте Caps Lock і спробуйте знову.
-[Change ICQ Details]
-Змінити дані ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не збігається з паролем, введеним раніше. Перевірте Caps Lock і спробуйте знову.
 [<unremovable once applied>]
 <не можна видалити після введення>
 [<empty>]
@@ -447,6 +441,8 @@ xСтатус "%s"
 Невідоме значення
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
 Ви зробили зміни, але не зберегли їх на сервері. Закрити вікно?
+[Change ICQ Details]
+Змінити дані ICQ
 [Upload in progress...]
 Завантаження...
 [Upload in progress...%d%%]
@@ -1445,12 +1441,6 @@ Web-дизайн
 Передачу файлів скасовано, тому що один з вибраних файлів не читається з диска. Можливо, його було переміщено або видалено.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Передачу файлів скасовано, неможливо відкрити локальний файл на запис. Імовірно, ви намагаєтесь зберегти файл у папку, де немає права на запис.
-[Request authorization]
-Запитати авторизацію
-[Grant authorization]
-Авторизувати
-[Revoke authorization]
-Відкликати авторизацію
 [Add to server list]
 Додати в список на сервері
 [Show custom status details]

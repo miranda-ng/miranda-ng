@@ -5,4 +5,3 @@
 [Use defaults]
 [Color diff:]
 [My Global Avatar Cache]
-[Fatal error, image services not found. Avatar services will be disabled.]

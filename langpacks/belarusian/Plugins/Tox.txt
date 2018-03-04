@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.0
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -87,12 +87,12 @@
 
 [Protocol icon]
 Абразок пратаколу
+[Action icon]
+
+[Correction icon]
+
 [Protocols]
 Пратаколы
-[Request authorization]
-Запытаць аўтарызацыю
-[Grant authorization]
-Аўтарызаваць
 [Password]
 Пароль
 [Create password]

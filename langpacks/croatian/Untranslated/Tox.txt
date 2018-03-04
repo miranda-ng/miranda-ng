@@ -39,6 +39,8 @@
 [Tox URI scheme]
 [Unable to initialize Tox core]
 [Protocol icon]
+[Action icon]
+[Correction icon]
 [Protocols]
 [Password]
 [Create password]

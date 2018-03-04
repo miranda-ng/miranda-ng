@@ -2239,6 +2239,12 @@ Protocolo no está cargado.
 &Cuentas...
 [Account]
 Cuenta
+[Request authorization]
+Solicitar autorización
+[Grant authorization]
+Conceder autorización
+[Revoke authorization]
+Revocar autorización
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
 [Could not search on any of the protocols, are you online?]
@@ -2315,12 +2321,6 @@ Ejecutando plugin del núcleo
 Plugin no cargable
 [Frames]
 Marcos
-[Request authorization]
-Solicitar autorización
-[Grant authorization]
-Conceder autorización
-[Revoke authorization]
-Revocar autorización
 [Warning]
 Advertencia
 [Always visible]

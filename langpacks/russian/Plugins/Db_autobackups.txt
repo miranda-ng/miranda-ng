@@ -2,15 +2,11 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 Авторезервирование базы данных.
-[Backup progress]
-Процесс резервного копирования
-[Cancel]
-Отменить
 [Automatic backups]
 Авторезервирование базы данных
 [Backup NOW]
@@ -37,10 +33,14 @@
 Отключить индикатор выполнения
 [Disable popups]
 Отключить всплывающие окна
-[Use Dropbox]
-Использовать Dropbox
 [Backup profile folder]
 Резервировать папку профиля
+[Use CloudFile]
+Использовать CloudFile
+[Backup progress]
+Процесс резервного копирования
+[Cancel]
+Отменить
 [Backup in progress]
 Резервирование в процессе
 [Copying database file...]
@@ -69,6 +69,12 @@
 Резервирование базы данных
 [Backup folder]
 Папка резервирования
+[days]
+дней
+[hours]
+часов
+[minutes]
+минут(ы)
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]
@@ -89,15 +95,9 @@
 любая переменная среды, определённая в текущей сессии Windows (например, %systemroot%, %allusersprofile% и т.д.)
 [Variables]
 Переменные
-[days]
-дней
-[hours]
-часов
-[minutes]
-минут(ы)
-[Select backup folder]
-Выберите папку для хранения резервных копий
 [Error creating backup folder]
 Ошибка при создании папки для резервного копирования
+[Select backup folder]
+Выберите папку для хранения резервных копий
 [Miranda NG [%s] database backup]
 Резервная копия базы Miranda NG [%s]

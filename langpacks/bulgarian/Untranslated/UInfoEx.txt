@@ -20,7 +20,6 @@
 [Abort]
 [Creating the image list failed!]
 [No pages have been added. Canceling dialog creation!]
-[Fatal error, image services not found. Flags module will be disabled.]
 [IM naming]
 [Goto]
 [No valid date selected for editing!]

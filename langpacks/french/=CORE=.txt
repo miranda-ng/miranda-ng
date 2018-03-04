@@ -2590,6 +2590,13 @@ Le protocole n'a pas été chargé.
 ;file \src\mir_app\src\proto_ui.cpp
 [Account]
 Compte
+;file \src\mir_app\src\proto_utils.cpp
+[Request authorization]
+Demander l'autorisation
+[Grant authorization]
+Accorder l'autorisation
+[Revoke authorization]
+Enlever l'autorisation
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Impossible de lancer une recherche sur '%s', êtes-vous sûr que %s est connecté ?
@@ -2671,12 +2678,6 @@ Déplacer vers le groupe
 Cadres
 [Add group]
 
-[Request authorization]
-Demander l'autorisation
-[Grant authorization]
-Accorder l'autorisation
-[Revoke authorization]
-Enlever l'autorisation
 [Warning]
 Avertissement
 [Always visible]

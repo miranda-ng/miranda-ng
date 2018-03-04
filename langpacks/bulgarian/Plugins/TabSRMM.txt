@@ -1599,10 +1599,6 @@ Latin I
 Изключена функция (насложена икона)
 [Feature enabled (used as overlay)]
 Включена функция (насложена икона)
-[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
-Приставката осигуряваща услуги за изображения (AdvaImg) не е инсталирана правилно.\n\nTabSRMM е изключена.
-[TabSRMM fatal error]
-TabSRMM - фатална грешка
 [Message windows - IM]
 Прозорци за съобщения - IM
 [Message windows - all]

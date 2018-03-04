@@ -255,14 +255,14 @@ O czym teraz myślisz, %s?
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 naklejka
-[files]
-pliki
-[a file]
-plik
 [a GIF]
 GIF
 [a link]
 link
+[files]
+pliki
+[a file]
+plik
 [User sent %s:]
 Użytkownik wysłał %s:
 [User sent an unsupported attachment. Open your browser to see it.]

@@ -1,0 +1,67 @@
+#muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
+;============================================================
+;  File: Dbx_mdbx.dll
+;  Plugin: Miranda NG MDBX database driver
+;  Version: 0.95.8.3
+;  Authors: Miranda-NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
+;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
+[Select crypto provider]
+Zvolit způsob šifrování
+[Cancel]
+Zrušit
+[Total encryption (Recommended only for paranoid users)]
+
+[Login to Miranda NG]
+Přihlášení do Mirandy NG
+[New password]
+Nové heslo
+[Please enter your new password]
+Prosím zadejte nové heslo
+[Enter password]
+Zadejte heslo
+[Change password]
+Změnit heslo
+[Change]
+Změnit
+[Remove]
+Odebrat
+[Old password]
+Aktuální heslo
+[Database encryption mode]
+Režim šifrování databáze
+[Standard]
+Standardní
+[Total]
+Celkem
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
+Všechny řetězce a události v historii jsou šifrovány. To v důsledku způsobí pomalejší běh Mirandy a riziko ztráty veškerých dat v profilu při zapomenutí hesla. Doporučeno pouze pro paranoidní uživatele.
+[Set password]
+Nastavit heslo
+;file \plugins\Dbx_mdbx\src\dbintf.h
+[Change/remove password]
+Změnit/zrušit heslo
+;file \plugins\Dbx_mdbx\src\ui.cpp
+[Wrong old password entered!]
+Zadané původní heslo není správné!
+[Password is too short!]
+Heslo je příliš krátké!
+[Passwords do not match!]
+Zadaná hesla se neshodují!
+[Database]
+Databáze
+;file \plugins\Dbx_mdbx\src\ui.h
+[Logo]
+Logo
+[Password]
+Heslo
+[Too many errors!]
+Příliš mnoho chybných pokusů!
+[Password is not correct!]
+Zadané heslo není správné!
+[Please type in your password]
+Zadejte prosím své heslo

@@ -2497,6 +2497,12 @@ ID конта
 Уліковыя запісы...
 [Account]
 Уліковы запіс
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
+[Revoke authorization]
+Адазваць аўтарызацыю
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Не магу запусціць пошук па %s. Калі ласка, праверце далучэнне да пратакола %s.
 [Could not search on any of the protocols, are you online?]
@@ -2575,12 +2581,6 @@ ANSI плагін
 Фрэймы
 [Add group]
 Дадаць групу
-[Request authorization]
-Запытаць аўтарызацыю
-[Grant authorization]
-Аўтарызаваць
-[Revoke authorization]
-Адазваць аўтарызацыю
 [Warning]
 Увага
 [Always visible]

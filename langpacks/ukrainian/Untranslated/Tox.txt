@@ -9,6 +9,8 @@
 [Old password:]
 [New password:]
 [Confirm password:]
+[Action icon]
+[Correction icon]
 [Password]
 [Create password]
 [Removing the password will lead to decryption of the profile.\r\nAre you sure to remove password?]

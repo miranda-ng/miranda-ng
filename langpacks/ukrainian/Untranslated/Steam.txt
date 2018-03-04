@@ -1,1 +1,5 @@
+[Connection]
+[Error limit before logout:]
 [Security code]
+[%s has added you to contact list]
+[Unblock]

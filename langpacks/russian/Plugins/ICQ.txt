@@ -433,12 +433,6 @@ xСтатус "%s"
 Категория 4
 [Interest areas 4]
 Интересуюсь 4
-[The password does not match your current password. Check Caps Lock and try again.]
-Пароль не совпадает с существующим. Проверьте Caps Lock и попробуйте снова.
-[Change ICQ Details]
-Изменить данные ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не совпадает с паролем, введённым ранее. Проверьте Caps Lock и попробуйте снова.
 [<unremovable once applied>]
 <нельзя удалить после ввода>
 [<empty>]
@@ -447,6 +441,8 @@ xСтатус "%s"
 Неизвестное значение
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
 Вы сделали изменения, но не сохранили их на сервере. Закрыть окно?
+[Change ICQ Details]
+Изменить данные ICQ
 [Upload in progress...]
 Загрузка...
 [Upload in progress...%d%%]

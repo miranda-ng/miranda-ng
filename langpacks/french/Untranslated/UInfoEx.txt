@@ -70,7 +70,6 @@
 [No pages have been added. Canceling dialog creation!]
 [Details dialog failed to be created. Returning error is %d.]
 [About]
-[Fatal error, image services not found. Flags module will be disabled.]
 [Timezone]
 [Export: modules]
 [Export: folder]

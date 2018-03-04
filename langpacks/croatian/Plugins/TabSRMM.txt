@@ -1064,6 +1064,8 @@ kartice
 
 [Appearance of the message log]
 
+[Chat rooms]
+
 [Voiced]
 
 [Half operators]
@@ -1704,10 +1706,6 @@ drugo
 [Enable typing notification]
 
 [Disable typing notification]
-
-[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
-
-[TabSRMM fatal error]
 
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]

@@ -96,11 +96,11 @@ Błąd MAPI (%i):\n%s.
 Nieznana odpowiedź %s (%i)
 [Got no response from %s (%i)]
 Brak odpowiedzi od %s (%i)
-;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
-[Dropbox transfer]
-Wyślij do Dropbox'a
-[%s (%i):\nCould not add a share to the Dropbox plugin.]
-%s (%i):\nNie można udostępnić przez wtyczkę Dropbox.
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
+[CloudFile transfer]
+
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
+%s (%i):\nNie można udostępnić przez wtyczkę CloudFile.
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
 Wyślij przez e-mail

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -437,13 +437,6 @@ Interessen Text 4
 Interessengebiete 4
 [Interest areas 4]
 Interessen Text 4
-;file \protocols\IcqOscarJ\src\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-Passwort stimmt nicht mit Ihrem aktuellen überein. Ist die Feststelltaste aktiviert?
-[Change ICQ Details]
-ICQ-Profil ändern
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Das Passwort stimmt nicht mit dem Original Passwort überein. Prüfen Sie Caps-Lock und versuchen Sie es nochmal.
 ;file \protocols\IcqOscarJ\src\dlgproc.cpp
 [<unremovable once applied>]
 <nicht mehr entfernbar>
@@ -453,6 +446,8 @@ Das Passwort stimmt nicht mit dem Original Passwort überein. Prüfen Sie Caps-L
 Unbekannter Wert
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
 Sie haben Änderungen an Ihren ICQ-Details vorgenommen, diese wurden aber noch nicht auf dem Server gespeichert. Trotzdem schließen und nicht speichern?
+[Change ICQ Details]
+ICQ-Profil ändern
 [Upload in progress...]
 Upload erfolgt...
 [Upload in progress...%d%%]
@@ -1462,12 +1457,6 @@ Dateiübertragung abgebrochen, da eine der ausgewählten Dateien nicht mehr vorh
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Dateiübertragung abgebrochen, da Miranda die Zieldatei nicht schreiben kann. Sie haben vielleicht einen schreibgeschützten Ordner angegeben.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
-[Request authorization]
-Autorisierung anfragen
-[Grant authorization]
-Autorisierung gewähren
-[Revoke authorization]
-Autorisierung widerrufen
 [Add to server list]
 Zur Serverliste hinzufügen
 [Show custom status details]

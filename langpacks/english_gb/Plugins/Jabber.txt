@@ -23,12 +23,6 @@ Browse all favourites
 Remove all favourites
 [Add to favorites]
 Add to favourites
-[Request authorization]
-Request authorisation
-[Grant authorization]
-Grant authorisation
-[Revoke authorization]
-Revoke authorisation
 [Send messages slower, but with full acknowledgment]
 Send messages slower, but with full acknowledgement
 [Automatically add contact when accept authorization]

@@ -2,15 +2,11 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 Плагін стварэння рэзервовых копій профілю.
-[Backup progress]
-Ход працэсу рэзервавання
-[Cancel]
-Скасаваць
 [Automatic backups]
 Аўтаматычнае рэзерваванне
 [Backup NOW]
@@ -37,10 +33,14 @@
 Адключыць індыкатар выканання
 [Disable popups]
 Адключыць усплывальныя вокны
-[Use Dropbox]
-
 [Backup profile folder]
 
+[Use CloudFile]
+
+[Backup progress]
+Ход працэсу рэзервавання
+[Cancel]
+Скасаваць
 [Backup in progress]
 Рэзерваванне падчас
 [Copying database file...]
@@ -69,6 +69,12 @@
 Рэзерваванне профіля
 [Backup folder]
 Тэчка рэзервавання
+[days]
+дзён
+[hours]
+гадзін
+[minutes]
+хвілін
 [path to Miranda root folder]
 шлях да тэчкі праграмы
 [path to folder containing Miranda profiles]
@@ -89,15 +95,9 @@
 любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
 [Variables]
 Зменныя
-[days]
-дзён
-[hours]
-гадзін
-[minutes]
-хвілін
-[Select backup folder]
-Абярыце тэчку для рэзервовых копій
 [Error creating backup folder]
 Памылка пры стварэнні тэчкі для рэзервовага капіравання
+[Select backup folder]
+Абярыце тэчку для рэзервовых копій
 [Miranda NG [%s] database backup]
 Рэзервовая копія профіля Miranda NG [%s]

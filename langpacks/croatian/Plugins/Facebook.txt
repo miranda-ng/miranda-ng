@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -128,6 +128,20 @@ poruke
 [Enter the text you see]
 
 ;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+
+[E&xit chat session]
+
+[&Destroy chat session]
+
+[User &details]
+Detalji o &Korisniku
+[User &history]
+
+[Delete conversation]
+
+[This will permanently delete the conversation history]
+
 [Former]
 
 [Myself]
@@ -135,14 +149,6 @@ poruke
 [Friend]
 
 [User]
-
-[&Invite user...]
-
-[&Leave chat session]
-
-[User &details]
-Detalji o &Korisniku
-[User &history]
 
 [Notifications]
 
@@ -196,29 +202,6 @@ Detalji o &Korisniku
 
 [Please enter a password.]
 
-;file \protocols\FacebookRM\src\constants.h
-[Top News]
-
-[Most Recent]
-
-[Pages]
-
-[Classic website]
-
-[Mobile website]
-
-[Smartphone website]
-
-[Public]
-
-[Friends of friends]
-
-[Friends]
-
-[Friends except acquaintances]
-
-[Only me]
-
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 
@@ -241,6 +224,28 @@ Detalji o &Korisniku
 [Error occurred when ignoring friendship request.]
 
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Top News]
+
+[Most Recent]
+
+[Pages]
+
+[Classic website]
+
+[Mobile website]
+
+[Smartphone website]
+
+[Public]
+
+[Friends of friends]
+
+[Friends]
+
+[Friends except acquaintances]
+
+[Only me]
+
 [Default]
 
 [<< Contacts]
@@ -252,19 +257,19 @@ Detalji o &Korisniku
 
 [a GIF]
 
+[a link]
+
 [files]
 
 [a file]
-
-[a link]
 
 [User sent %s:]
 
 [User sent an unsupported attachment. Open your browser to see it.]
 
-[%s is typing a message...]
+[Reaction]
 
-[This message is no longer available, because it was marked as abusive or spam.]
+[%s is typing a message...]
 
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
@@ -396,13 +401,7 @@ Tužno
 
 [Load history]
 
-[Cancel friendship]
-
 [Cancel friendship request]
-
-[Request friendship]
-
-[Approve friendship]
 
 [Deny friendship request]
 

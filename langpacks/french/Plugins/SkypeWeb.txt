@@ -152,10 +152,6 @@ Protocoles
 [Authentication failed. Unknown error.]
 
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Request authorization]
-Demander l'autorisation
-[Grant authorization]
-Accorder l'autorisation
 [Get server history]
 
 [Block contact]

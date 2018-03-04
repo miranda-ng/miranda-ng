@@ -34,8 +34,8 @@ Autorisierung
 Abbrechen
 [Enter authorization code:]
 Autorisierungscode eingeben:
-[Allow access to team]
-Zugang zum Team erlauben
+[To allow Miranda NG access to %s:]
+
 [Go to this link]
 Gehen Sie auf diesen Link
 ;file \plugins\CloudFile\src\icons.cpp
@@ -62,7 +62,3 @@ Dienste
 ;file \plugins\CloudFile\src\srmm.cpp
 [Upload files to...]
 Dateien hochladen auf...
-;file \plugins\CloudFile\src\Services\dropbox_service.cpp
-;file \plugins\CloudFile\src\Services\google_service.cpp
-;file \plugins\CloudFile\src\Services\microsoft_service.cpp
-;file \plugins\CloudFile\src\Services\yandex_service.cpp

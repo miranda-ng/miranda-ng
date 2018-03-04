@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 Doplněk pro zálohování databáze.
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
-[Backup progress]
-Průběh zálohování
-[Cancel]
-Zrušit
 [Automatic backups]
 Automatické zálohování
 [Backup NOW]
@@ -38,10 +34,14 @@ Komprimovat zálohu do zip-archivu
 Vypnout ukazatel průběhu
 [Disable popups]
 Vypnout oznámení
-[Use Dropbox]
-Použít Dropbox
 [Backup profile folder]
 Složka pro zálohy profilu
+[Use CloudFile]
+Použít CloudFile
+[Backup progress]
+Průběh zálohování
+[Cancel]
+Zrušit
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 Probíhá zálohování
@@ -73,6 +73,12 @@ Zálohování databáze
 [Backup folder]
 Složka pro zálohování profilů
 ;file \plugins\Db_autobackups\src\options.cpp
+[days]
+dnů
+[hours]
+hodin
+[minutes]
+minut
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
 [path to folder containing Miranda profiles]
@@ -93,16 +99,10 @@ složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
 [Variables]
 Proměnné
-[days]
-dnů
-[hours]
-hodin
-[minutes]
-minut
-[Select backup folder]
-Vyberte složku pro zálohování profilů
 [Error creating backup folder]
 Chyba při vytváření složky pro zálohování
+[Select backup folder]
+Vyberte složku pro zálohování profilů
 ;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp
 [Miranda NG [%s] database backup]

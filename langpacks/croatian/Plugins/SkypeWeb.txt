@@ -152,10 +152,6 @@ Upozorenje
 [Authentication failed. Unknown error.]
 
 ;file \protocols\SkypeWeb\src\skype_menus.cpp
-[Request authorization]
-Zahtjevaj autorizaciju
-[Grant authorization]
-Autoriziraj
 [Get server history]
 
 [Block contact]

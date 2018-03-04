@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.0
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Name:]
@@ -23,10 +23,6 @@ Actualizar
 Puerto
 [Protocols]
 Protocolos
-[Request authorization]
-Solicitar autorización
-[Grant authorization]
-Conceder autorización
 [Password]
 Contraseña
 [All files]

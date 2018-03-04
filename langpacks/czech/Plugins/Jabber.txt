@@ -387,8 +387,6 @@ Odkaz protokolu Jabber
 Záhlaví rámečku
 [Frame text]
 Text rámečku
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-
 [Jabber Activity]
 Jabber aktivita
 [Jabber Mood]
@@ -525,6 +523,8 @@ Podporuje výměnu seznamů na serveru
 [Supports direct chat invitations (XEP-0249)]
 Podporuje přímé pozvánky do diskuzí (XEP-0249)
 [Receives information about OMEMO devices]
+
+[Supports message carbons (XEP-0280)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -912,12 +912,6 @@ Odebrání %s?
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Volba účtu protokolu Jabber
-[Request authorization]
-Požádat o autorizaci
-[Grant authorization]
-Udělit autorizaci
-[Revoke authorization]
-Odvolat autorizaci
 [Convert]
 Nahradit
 [Add to Bookmarks]
@@ -1409,6 +1403,8 @@ Přijímat poznámky
 Automaticky uložit obdržené poznámky
 [Enable server-side history (XEP-0136)]
 Povolit historii na serveru
+[Receive conversations from other devices (XEP-0280)]
+
 [Server options]
 Možnosti serveru
 [Disable SASL authentication (for old servers)]

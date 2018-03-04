@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.7
+;  Version: 0.1.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
@@ -68,16 +68,14 @@ Zmieniono status "%s" na "%s" (poprzedni status to "%s").
 "%s" nie jest poprawnym kontem.
 [Failed to change status for account '%s' to '%s'.]
 Nie udało się zmienić statusu konta "%s" na "%s".
-[Failed to set '%S' status message to '%s' (status is '%s').]
-Nie udało się zmienić opisu "%S" na "%s" (status to "%s").
-[Successfully set '%S' status message to '%s' (status is '%s').]
-Pomyślnie zmieniono opis "%S" na "%s" (status to "%s").
-[Account '%S' does not support away messages, skipping.]
-Konto "%S" nie wspiera opisów. Pominięto.
-[Changed '%s' status message to '%s' (status is '%s').]
-Zmieniono opis "%s" na "%s" (status to "%s").
+[Failed to set '%s' status message to '%s' (status is '%s').]
+Nie udało się zmienić opisu "%s" na "%s" (status to "%s").
+[Successfully set '%s' status message to '%s' (status is '%s').]
+Pomyślnie zmieniono opis "%s" na "%s" (status to "%s").
 [Account '%s' does not support away messages, skipping.]
 Konto "%s" nie wspiera opisów. Pominięto.
+[Changed '%s' status message to '%s' (status is '%s').]
+Zmieniono opis "%s" na "%s" (status to "%s").
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Nie udało się zmienić opisu dla konta "%s" na "%s" (status to "%s").
 [Popups are currently enabled.]
@@ -164,28 +162,28 @@ word
 dword
 [wide string]
 szeroki ciąg
-[Wrote '%s:%s' to database entry '%s/%s'.]
-Zapisano "%s/%s" we wpisie bazy danych "%s/%s".
-[Could not retrieve setting '%s/%s': %s.]
-Nie udało się pobrać ustawienia "%s/%s": %s.
-[Setting '%s/%s' was not found.]
-Ustawienie "%s/%s" nie zostało znalezione.
-['%s' proxy was disabled.]
-Proxy "%s" zostało wyłączone.
-['%s' proxy was enabled.]
-Proxy "%s" zostało włączone.
-[%s proxy server: %s %s:%d.]
-Serwer proxy %s: %s %s:%d.
-[%s proxy set to %s %s:%d.]
-Ustawiono proxy %s na %s %s:%d.
-[%s The port or the proxy type parameter is invalid.]
-%s parametr typu lub portu proxy jest nieprawidłowy.
+[Wrote '%S:%s' to database entry '%S/%S'.]
+Zapisano "%S/%s" we wpisie bazy danych "%S/%S".
+[Could not retrieve setting '%S/%S': %S.]
+Nie udało się pobrać ustawienia "%S/%S": %S.
+[Setting '%S/%S' was not found.]
+Ustawienie "%S/%S" nie zostało znalezione.
+['%S' proxy was disabled.]
+Proxy "%S" zostało wyłączone.
+['%S' proxy was enabled.]
+Proxy "%S" zostało włączone.
+[%S proxy server: %S %S:%d.]
+Serwer proxy %S: %S %S:%d.
+[%S proxy set to %s %S:%d.]
+Ustawiono proxy %S na %s %S:%d.
+[%S The port or the proxy type parameter is invalid.]
+%S parametr typu lub portu proxy jest nieprawidłowy.
 [[me]]
 \[ja]
 [No unread messages found.]
 Nie znaleziono nieprzeczytanych wiadomości.
-[%s:%s - %d unread events.]
-%s:%s - %d nieprzeczytanych zdarzeń.
+[%s:%S - %d unread events.]
+%s:%S - %d nieprzeczytanych zdarzeń.
 [Contact '%s' has %d events in history.]
 Kontakt "%s" ma %d zdarzeń w historii.
 [Error setting nickname to '%s' for protocol '%s']

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [Enter an authorization request]
@@ -43,12 +43,6 @@ Past Organisation
 Non-Profit Organisation Management
 [Non-Government Organization]
 Non-Government Organisation
-[Request authorization]
-Request authorisation
-[Grant authorization]
-Grant authorisation
-[Revoke authorization]
-Revoke authorisation
 [You have to be online to synchronize the server-list!]
 You have to be online to synchronise the server-list!
 [Failed to Initialize File Transfer. No valid files were specified.]

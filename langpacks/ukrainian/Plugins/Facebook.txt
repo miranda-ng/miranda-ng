@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -117,20 +117,18 @@
 Надіслати SMS
 [Enter the text you see]
 Введіть текст, який бачите
+[&Invite user...]
+&Запросити користувача...
+[User &details]
+&Дані контакту
+[User &history]
+&Історія користувача
 [Myself]
 Я
 [Friend]
 Друг
 [User]
 Користувач
-[&Invite user...]
-&Запросити користувача...
-[&Leave chat session]
-&Вийти з чату
-[User &details]
-&Дані контакту
-[User &history]
-&Історія користувача
 [Notifications]
 Сповіщення
 [%s and more (%d)]
@@ -181,6 +179,26 @@ SMS з кодом підтвердження відправлено на ваш 
 Будь ласка, введіть ім'я користувача.
 [Please enter a password.]
 Будь ласка, введіть пароль.
+[Contact was removed from your server list.]
+Контакт видалено зі списку на сервері.
+[Error occurred when removing contact from server.]
+Помилка при видаленні контакту зі списку на сервері.
+[Request for friendship was sent.]
+Запит дружби надіслано.
+[Error occurred when requesting friendship.]
+Помилка при надсиланні запиту дружби.
+[Request for friendship was accepted.]
+Запит дружби підтверджено.
+[Error occurred when accepting friendship request.]
+Помилка під час підтвердження запиту дружби.
+[Request for friendship was canceled.]
+Запит дружби відкликано.
+[Error occurred when canceling friendship request.]
+Помилка під час відкликання запиту дружби.
+[Request for friendship was ignored.]
+Запит дружби проігноровано.
+[Error occurred when ignoring friendship request.]
+Помилка під час ігнорування запиту дружби.
 [Top News]
 Популярні новини
 [Most Recent]
@@ -203,26 +221,6 @@ SMS з кодом підтвердження відправлено на ваш 
 Друзям, крім знайомих
 [Only me]
 Тільки мені
-[Contact was removed from your server list.]
-Контакт видалено зі списку на сервері.
-[Error occurred when removing contact from server.]
-Помилка при видаленні контакту зі списку на сервері.
-[Request for friendship was sent.]
-Запит дружби надіслано.
-[Error occurred when requesting friendship.]
-Помилка при надсиланні запиту дружби.
-[Request for friendship was accepted.]
-Запит дружби підтверджено.
-[Error occurred when accepting friendship request.]
-Помилка під час підтвердження запиту дружби.
-[Request for friendship was canceled.]
-Запит дружби відкликано.
-[Error occurred when canceling friendship request.]
-Помилка під час відкликання запиту дружби.
-[Request for friendship was ignored.]
-Запит дружби проігноровано.
-[Error occurred when ignoring friendship request.]
-Помилка під час ігнорування запиту дружби.
 [Default]
 За замовчанням
 [<< Contacts]
@@ -233,20 +231,18 @@ SMS з кодом підтвердження відправлено на ваш 
 стікер
 [a GIF]
 анімоване зображення
+[a link]
+посилання
 [files]
 файли
 [a file]
 файл
-[a link]
-посилання
 [User sent %s:]
 Контакт надіслав %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Контакт надіслав вкладення, що не підримується. Для перегляду перейдіть на сайт.
 [%s is typing a message...]
 %s друкує вам повідомлення...
-[This message is no longer available, because it was marked as abusive or spam.]
-Повідомлення недоступне, оскільки було відзначене як образа або спам.
 [You cannot send messages when you are offline.]
 Для надсилання повідомлень необхідно підключитися до мережі.
 [Contact is back on server-list.]
@@ -363,14 +359,8 @@ SMS з кодом підтвердження відправлено на ваш 
 Бесіда на сайті
 [Load history]
 Завантажити історію
-[Cancel friendship]
-Видалити із друзів
 [Cancel friendship request]
 Відкликати запит дружби
-[Request friendship]
-Запитати додавання в друзі
-[Approve friendship]
-Підтвердити додавання в друзі
 [Deny friendship request]
 Відхилити додавання в друзі
 [Services...]

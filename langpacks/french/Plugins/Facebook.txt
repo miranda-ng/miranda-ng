@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -128,6 +128,20 @@ Envoyer SMS
 [Enter the text you see]
 
 ;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+&Inviter l'utilisateur...
+[E&xit chat session]
+
+[&Destroy chat session]
+
+[User &details]
+&Détails du contact
+[User &history]
+
+[Delete conversation]
+
+[This will permanently delete the conversation history]
+
 [Former]
 
 [Myself]
@@ -136,14 +150,6 @@ Envoyer SMS
 
 [User]
 Utilisateur
-[&Invite user...]
-&Inviter l'utilisateur...
-[&Leave chat session]
-
-[User &details]
-&Détails du contact
-[User &history]
-
 [Notifications]
 Notifications
 [%s and more (%d)]
@@ -196,29 +202,6 @@ Mise à jour du statut avec succès.
 Veuillez entrer un nom d'utilisateur.
 [Please enter a password.]
 S'il vous plaît entrer un mot de passe.
-;file \protocols\FacebookRM\src\constants.h
-[Top News]
-
-[Most Recent]
-
-[Pages]
-
-[Classic website]
-Site internet classique
-[Mobile website]
-Site internet Mobile
-[Smartphone website]
-Site internet Mobile
-[Public]
-Public
-[Friends of friends]
-
-[Friends]
-
-[Friends except acquaintances]
-
-[Only me]
-
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Le contact a été supprimé de votre liste sur le serveur.
@@ -241,6 +224,28 @@ Le contact a été supprimé de votre liste sur le serveur.
 [Error occurred when ignoring friendship request.]
 
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Top News]
+
+[Most Recent]
+
+[Pages]
+
+[Classic website]
+Site internet classique
+[Mobile website]
+Site internet Mobile
+[Smartphone website]
+Site internet Mobile
+[Public]
+Public
+[Friends of friends]
+
+[Friends]
+
+[Friends except acquaintances]
+
+[Only me]
+
 [Default]
 Défaut
 [<< Contacts]
@@ -252,20 +257,20 @@ Défaut
 un autocollant
 [a GIF]
 
+[a link]
+
 [files]
 Fichiers
 [a file]
 un fichier
-[a link]
-
 [User sent %s:]
 
 [User sent an unsupported attachment. Open your browser to see it.]
 
+[Reaction]
+
 [%s is typing a message...]
 %s vous écrit un message...
-[This message is no longer available, because it was marked as abusive or spam.]
-Ce message n'est plus disponible, car il a été marqué comme injurieux ou indésirable.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Vous ne pouvez pas envoyer de message si vous êtes Hors ligne.
@@ -396,13 +401,7 @@ Voir les détails
 
 [Load history]
 
-[Cancel friendship]
-Supprimer
 [Cancel friendship request]
-
-[Request friendship]
-
-[Approve friendship]
 
 [Deny friendship request]
 

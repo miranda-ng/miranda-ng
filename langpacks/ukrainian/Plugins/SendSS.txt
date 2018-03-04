@@ -83,8 +83,8 @@
 Невідома відповідь від %s (%i)
 [Got no response from %s (%i)]
 Немає відповіді від %s (%i)
-[%s (%i):\nCould not add a share to the Dropbox plugin.]
-%s (%i):\nНеможливо додати ресурс у плагін Dropbox.
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
+%s (%i):\nНеможливо додати ресурс у плагін CloudFile.
 [The specified attachment was not found]
 Вкладення не знайдено
 [The specified attachment could not be opened]
@@ -167,8 +167,6 @@ HTTP-з'єднання SendSS
 Надіслати скріншот
 [Screenshots]
 Знімки екрану
-[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
-Відсутня служба зображень (плагін AdvaImg).\nПлагін SendSS буде відключено.
 [Buttons]
 Кнопки
 [Could not register Miranda service.]

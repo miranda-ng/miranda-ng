@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.3.0
+;  Version: 0.11.3.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -91,13 +91,13 @@ Confirmer le passe :
 ;file \protocols\Tox\src\tox_icons.cpp
 [Protocol icon]
 
+[Action icon]
+
+[Correction icon]
+
 [Protocols]
 Protocoles
 ;file \protocols\Tox\src\tox_menus.cpp
-[Request authorization]
-Demander l'autorisation
-[Grant authorization]
-Accorder l'autorisation
 [Password]
 Mot de passe
 [Create password]

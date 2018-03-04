@@ -387,8 +387,6 @@ Raccourci du protocole Jabber
 
 [Frame text]
 
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-
 [Jabber Activity]
 
 [Jabber Mood]
@@ -525,6 +523,8 @@ Liens
 [Supports direct chat invitations (XEP-0249)]
 
 [Receives information about OMEMO devices]
+
+[Supports message carbons (XEP-0280)]
 
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
@@ -912,12 +912,6 @@ Raison du ban
 ;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 
-[Request authorization]
-Demander l'autorisation
-[Grant authorization]
-Accorder l'autorisation
-[Revoke authorization]
-Enlever l'autorisation
 [Convert]
 
 [Add to Bookmarks]
@@ -1408,6 +1402,8 @@ Envoi de message
 [Automatically save received notes]
 
 [Enable server-side history (XEP-0136)]
+
+[Receive conversations from other devices (XEP-0280)]
 
 [Server options]
 Options du serveur

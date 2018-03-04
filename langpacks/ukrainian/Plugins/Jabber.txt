@@ -383,8 +383,6 @@ XML-консоль
 Заголовок фрейму
 [Frame text]
 Текст фрейму
-[Fatal error, image services not found. Jabber Protocol will be disabled.]
-Невиправна помилка, відсутня служба зображень. Протокол Jabber буде відключено.
 [Jabber Activity]
 Заняття Jabber
 [Jabber Mood]
@@ -889,12 +887,6 @@ xHTML-формат повідомлень чату
 Отримано запит HTTP-авторизації
 [Jabber account chooser]
 Вибір облікового запису Jabber
-[Request authorization]
-Запитати авторизацію
-[Grant authorization]
-Авторизувати
-[Revoke authorization]
-Відкликати авторизацію
 [Convert]
 Конвертувати
 [Add to Bookmarks]

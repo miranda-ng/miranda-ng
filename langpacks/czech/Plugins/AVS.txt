@@ -90,10 +90,6 @@ Avatary
 Osobní avatary
 [My Global Avatar Cache]
 Úložiště avatarů
-[Fatal error, image services not found. Avatar services will be disabled.]
-Závažná chyba, nebyly nalezeny služby pro obrázky. Avatary budou vypnuty.
-[Avatar service]
-Avatary
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 %s: avatar

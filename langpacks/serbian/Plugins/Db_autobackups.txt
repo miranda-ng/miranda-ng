@@ -2,16 +2,12 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.0.0.10
+;  Version: 0.0.0.11
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
-[Backup progress]
-
-[Cancel]
-Otkazivanje
 [Automatic backups]
 
 [Backup NOW]
@@ -38,10 +34,14 @@ Otkazivanje
 
 [Disable popups]
 
-[Use Dropbox]
-
 [Backup profile folder]
 
+[Use CloudFile]
+
+[Backup progress]
+
+[Cancel]
+Otkazivanje
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Backup in progress]
 
@@ -73,6 +73,12 @@ Sve datoteke
 [Backup folder]
 
 ;file \plugins\Db_autobackups\src\options.cpp
+[days]
+
+[hours]
+
+[minutes]
+
 [path to Miranda root folder]
 
 [path to folder containing Miranda profiles]
@@ -93,15 +99,9 @@ Sve datoteke
 
 [Variables]
 
-[days]
-
-[hours]
-
-[minutes]
+[Error creating backup folder]
 
 [Select backup folder]
-
-[Error creating backup folder]
 
 ;file \plugins\Db_autobackups\src\stdafx.h
 ;file \plugins\Db_autobackups\src\zip.cpp

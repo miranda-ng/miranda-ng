@@ -93,8 +93,6 @@
 <невідомо>
 [Last seen]
 Остання поява
-[-- Date --]
--- Дата --
 [year (4 digits)]
 рік (4 цифри)
 [year (2 digits)]
@@ -111,8 +109,6 @@
 день тижня (повн.)
 [weekday (abbreviated)]
 день тижня (скор.)
-[-- Time --]
--- Час --
 [hours (24)]
 години (24)
 [hours (12)]
@@ -121,47 +117,49 @@
 хвилини
 [seconds]
 секунди
-[-- User --]
--- Користувач --
 [username]
 користувач
 [nick]
 нік
 [UIN/handle]
 номер/обробник
-[Group]
-Група
-[Status]
-Статус
-[Status message]
-Повідомлення статусу
-[Old status]
-Старий статус
+[group]
+група
+[status]
+статус
+[status message]
+повідомлення статусу
+[old status]
+старий статус
 [external IP]
 зовнішній IP
 [internal IP]
 внутрішній IP
-[Client info]
-Клієнт
-[Protocol]
-Протокол
-[Account]
-Обліковий запис
-[-- Format --]
--- Формат --
+[client info]
+клієнт
+[protocol]
+протокол
+[account]
+обліковий запис
 [tabulator]
 табуляція
 [line break]
 з нового рядка
+[-- Date --]
+-- Дата --
+[-- Time --]
+-- Час --
+[-- User --]
+-- Користувач --
+[-- Format --]
+-- Формат --
 [Note:]
 Примітка:
-[Use]
-Використовувати
-[for empty string]
-для порожнього рядка
-[instead of]
-замість
-[Last Seen Variables]
+[Use # for empty string]
+Використовувати # для порожнього рядка
+[instead of <unknown>]
+замість <невідомо>
+[Last Seen variables]
 Змінні
 [Contacts]
 Контакти

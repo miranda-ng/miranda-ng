@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.7
+;  Version: 0.1.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
@@ -63,16 +63,14 @@
 Учётная запись '%s' указана неправильно или не существует.
 [Failed to change status for account '%s' to '%s'.]
 Не удалось изменить статус для учётной записи '%s' на '%s'.
-[Failed to set '%S' status message to '%s' (status is '%s').]
-Не удалось установить сообщение статуса '%S' для '%s' (статус '%s').
-[Successfully set '%S' status message to '%s' (status is '%s').]
-Успешно установлено '%S' сообщение статуса для '%s' (статус '%s').
-[Account '%S' does not support away messages, skipping.]
-Учётная запись '%S' не поддерживает сообщения статуса, пропуск.
-[Changed '%s' status message to '%s' (status is '%s').]
-Изменено '%s' сообщение статуса на '%s' (статус '%s').
+[Failed to set '%s' status message to '%s' (status is '%s').]
+Не удалось установить сообщение статуса '%s' для '%s' (статус '%s').
+[Successfully set '%s' status message to '%s' (status is '%s').]
+Успешно установлено сообщение статуса '%s' для '%s' (статус '%s').
 [Account '%s' does not support away messages, skipping.]
 Учётная запись '%s' не поддерживает сообщения статуса, пропуск.
+[Changed '%s' status message to '%s' (status is '%s').]
+Изменено сообщение статуса '%s' на '%s' (статус '%s').
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Не удалось изменить сообщение статуса для учётной записи '%s' на '%s' (статус '%s').
 [Popups are currently enabled.]
@@ -153,28 +151,28 @@
 дв. слово
 [wide string]
 юникод
-[Wrote '%s:%s' to database entry '%s/%s'.]
-Записано '%s:%s' в ключ '%s/%s' базы данных.
-[Could not retrieve setting '%s/%s': %s.]
-Невозможно прочитать настройку '%s/%s': %s.
-[Setting '%s/%s' was not found.]
-Настройка '%s/%s' не найдена.
-['%s' proxy was disabled.]
-'%s' прокси выключен.
-['%s' proxy was enabled.]
-'%s' прокси включён.
-[%s proxy server: %s %s:%d.]
-%s прокси-сервер: %s %s:%d.
-[%s proxy set to %s %s:%d.]
-%s прокси установлен на %s %s:%d.
-[%s The port or the proxy type parameter is invalid.]
-%s Порт или тип прокси неправильный.
+[Wrote '%S:%s' to database entry '%S/%S'.]
+Записано '%S:%s' в ключ '%S/%S' базы данных.
+[Could not retrieve setting '%S/%S': %S.]
+Невозможно прочитать настройку '%S/%S': %S.
+[Setting '%S/%S' was not found.]
+Настройка '%S/%S' не найдена.
+['%S' proxy was disabled.]
+'%S' прокси-сервер выключен.
+['%S' proxy was enabled.]
+'%S' прокси-сервер включён.
+[%S proxy server: %S %S:%d.]
+%S прокси-сервер: %S %S:%d.
+[%S proxy set to %s %S:%d.]
+%S прокси-сервер установлен на %s %S:%d.
+[%S The port or the proxy type parameter is invalid.]
+%S Неправильный порт или тип прокси-сервера.
 [[me]]
 \[Я]
 [No unread messages found.]
 Нет непрочитанных сообщений.
-[%s:%s - %d unread events.]
-%s:%s - %d непрочитанные сообщения.
+[%s:%S - %d unread events.]
+%s:%Ы - %d непрочитанные сообщения.
 [Contact '%s' has %d events in history.]
 Контакт '%s' имеет %d событий в истории.
 [Error setting nickname to '%s' for protocol '%s']

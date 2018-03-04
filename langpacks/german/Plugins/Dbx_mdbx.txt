@@ -1,0 +1,67 @@
+#muuid {7c3d0a33-2646-4001-9107-f35ea299d292}
+;============================================================
+;  File: Dbx_mdbx.dll
+;  Plugin: Miranda NG MDBX database driver
+;  Version: 0.95.8.3
+;  Authors: Miranda-NG project
+;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
+;file \plugins\Dbx_mdbx\res\dbx_mdbx.rc
+[Select crypto provider]
+Verschlüsselungsmodul auswählen
+[Cancel]
+Abbrechen
+[Total encryption (Recommended only for paranoid users)]
+
+[Login to Miranda NG]
+Einloggen bei Miranda NG
+[New password]
+Neues Passwort
+[Please enter your new password]
+Bitte geben Sie ein neues Passwort ein
+[Enter password]
+Passwort eingeben
+[Change password]
+Passwort ändern
+[Change]
+Ändern
+[Remove]
+Entfernen
+[Old password]
+Altes Passwort
+[Database encryption mode]
+Datenbank-Verschlüsselungsmodus
+[Standard]
+Standard
+[Total]
+Komplett
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt. Schnell und effektiv, für die meisten Anwendungsfälle geeignet.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
+Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen. Nur für paranoide Nutzer empfohlen.
+[Set password]
+Passwort setzen
+;file \plugins\Dbx_mdbx\src\dbintf.h
+[Change/remove password]
+Passwort ändern/entfernen
+;file \plugins\Dbx_mdbx\src\ui.cpp
+[Wrong old password entered!]
+Falsches altes Passwort eingegeben!
+[Password is too short!]
+Passwort ist zu kurz!
+[Passwords do not match!]
+Passwörter stimmen nicht überein!
+[Database]
+Datenbank
+;file \plugins\Dbx_mdbx\src\ui.h
+[Logo]
+Logo
+[Password]
+Passwort
+[Too many errors!]
+Zu viele Fehler!
+[Password is not correct!]
+Das Passwort ist inkorrekt!
+[Please type in your password]
+Bitte vergeben Sie ein Passwort!

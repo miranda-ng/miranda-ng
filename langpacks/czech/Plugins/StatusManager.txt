@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.0.1.1
+;  Version: 1.1.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -322,12 +322,12 @@ Chyba při přihlášení (%s), další pokus (č.%d) za %d sek.
 Chyba stavu (%s), další pokus (č.%d) za %d sek.
 [Status error (next retry (%d) in %d s)]
 Chyba stavu, další pokus (č.%d) za %d sek.
+[Resetting status... (last try (%d))]
+Reset stavu... (poslední pokus (č.%d))
+[Resetting status... (next retry (%d) in %d s)]
+Reset stavu... (další pokus (č.%d) za %d sek.)
 [%s\t(will be set to %s)\r\n]
 %s\t(stav bude změněn na '%s')\r\n
-[Resetting status... (last try (%d))%s]
-Reset stavu... (poslední pokus (č.%d))%s
-[Resetting status... (next retry (%d) in %d s)%s]
-Reset stavu... (další pokus (č.%d) za %d sek.)%s
 [No internet connection seems available... (last try (%d))]
 Nefunguje připojení k internetu... (poslední pokus (č.%d))
 [No internet connection seems available... (next retry (%d) in %d s)]

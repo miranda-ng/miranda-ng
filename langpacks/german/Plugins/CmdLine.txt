@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.7
+;  Version: 0.1.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
@@ -68,16 +68,14 @@ Globaler Status zu '%s' geändert (vorheriger Status war '%s').
 '%s' scheint kein gültiges Konto zu sein.
 [Failed to change status for account '%s' to '%s'.]
 Konnte Status von Konto '%s' nicht auf '%s' ändern.
-[Failed to set '%S' status message to '%s' (status is '%s').]
-Konnte '%S' Statusnachricht nicht auf '%s' ändern (Status ist '%s').
-[Successfully set '%S' status message to '%s' (status is '%s').]
-'%S' Statusnachricht erfolgreich auf '%s' geändert (Status ist '%s').
-[Account '%S' does not support away messages, skipping.]
-Konto '%S' unterstützt keine Abwesenheitsnachrichten, überspringen.
-[Changed '%s' status message to '%s' (status is '%s').]
-Statusnachricht '%s' auf '%s' geändert (Status ist '%s').
+[Failed to set '%s' status message to '%s' (status is '%s').]
+Konnte '%s' Statusnachricht nicht auf '%s' ändern (Status ist '%s').
+[Successfully set '%s' status message to '%s' (status is '%s').]
+'%s' Statusnachricht erfolgreich auf '%s' geändert (Status ist '%s').
 [Account '%s' does not support away messages, skipping.]
 Konto '%s' unterstützt keine Abwesenheitsnachrichten, überspringen.
+[Changed '%s' status message to '%s' (status is '%s').]
+Statusnachricht '%s' auf '%s' geändert (Status ist '%s').
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
 Konnte Statusnachricht für Konto '%s' nicht auf '%s' ändern (Status ist '%s').
 [Popups are currently enabled.]
@@ -164,28 +162,28 @@ Word
 Dword
 [wide string]
 Unicodestring
-[Wrote '%s:%s' to database entry '%s/%s'.]
-'%s:%s' in Datenbank-Eintrag '%s/%s' geschrieben.
-[Could not retrieve setting '%s/%s': %s.]
-Konnte Einstellung '%s/%s': %s nicht abrufen
-[Setting '%s/%s' was not found.]
-Einstellung '%s/%s' wurde nicht gefunden.
-['%s' proxy was disabled.]
-'%s' Proxy wurde deaktiviert.
-['%s' proxy was enabled.]
-'%s' Proxy wurde aktiviert.
-[%s proxy server: %s %s:%d.]
-%s Proxy-Server: %s %s:%d.
-[%s proxy set to %s %s:%d.]
-%s Proxy gesetzt auf: %s %s:%d.
-[%s The port or the proxy type parameter is invalid.]
-%s Der Port- oder Proxy-Typ-Parameter ist ungültig.
+[Wrote '%S:%s' to database entry '%S/%S'.]
+'%S:%s' in Datenbank-Eintrag '%S/%S' geschrieben.
+[Could not retrieve setting '%S/%S': %S.]
+Konnte Einstellung '%S/%S': %S nicht abrufen
+[Setting '%S/%S' was not found.]
+Einstellung '%S/%S' wurde nicht gefunden.
+['%S' proxy was disabled.]
+'%S' Proxy wurde deaktiviert.
+['%S' proxy was enabled.]
+'%S' Proxy wurde aktiviert.
+[%S proxy server: %S %S:%d.]
+%S Proxy-Server: %S %S:%d.
+[%S proxy set to %s %S:%d.]
+%S Proxy gesetzt auf: %s %S:%d.
+[%S The port or the proxy type parameter is invalid.]
+%S Der Port- oder Proxy-Typ-Parameter ist ungültig.
 [[me]]
 \[ich]
 [No unread messages found.]
 Keine ungelesenen Nachrichten gefunden.
-[%s:%s - %d unread events.]
-%s:%s - %d ungelesene Ereignisse.
+[%s:%S - %d unread events.]
+%s:%S - %d ungelesene Ereignisse.
 [Contact '%s' has %d events in history.]
 Kontakt '%s' hat %d Ereignisse im Verlauf.
 [Error setting nickname to '%s' for protocol '%s']

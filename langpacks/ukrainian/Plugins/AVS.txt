@@ -87,10 +87,6 @@
 Мої аватари
 [My Global Avatar Cache]
 Мій глобальний кеш аватарів
-[Fatal error, image services not found. Avatar services will be disabled.]
-Фатальна помилка, службу зображень не знайдено. Служба аватарів буде вимкнена.
-[Avatar service]
-Служба аватарів
 [Set avatar options for %s]
 Налаштування аватара для %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]

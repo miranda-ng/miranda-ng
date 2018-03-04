@@ -24,6 +24,10 @@ Utiliser des grands avatars
 Sessions de message
 [Show chat state events (i.e., user closed chat session)]
 
+[Connection]
+
+[Error limit before logout:]
+
 [Captcha]
 
 [Cancel]
@@ -58,32 +62,20 @@ Enregistrer le passe
 
 [Playing]
 en lecture
-[%s has been removed from your contact list]
-
 [%s is back in your contact list]
 
-[%s has added you to his or her Friend List]
+[%s has been removed from your contact list]
 
-;file \protocols\Steam\src\steam_dialogs.cpp
-[Fatal error, image services not found. Avatar services will be disabled.]
-Erreur critique, aucun service d'image trouvé. Avatar Services sera désactivé.
-[Avatar Service]
-
-;file \protocols\Steam\src\steam_events.cpp
-[Network]
-Réseau
-[Blocked contacts]
+[%s has added you to contact list]
 
 ;file \protocols\Steam\src\steam_login.cpp
 [Cannot obtain connection token.]
 
-[Unknown login error.]
-
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 
-[Request authorization]
-Demander l'autorisation
+[Unblock]
+
 [Join to game]
 
 ;file \protocols\Steam\src\steam_messages.cpp
@@ -92,6 +84,8 @@ Erreur inconnue
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Nom
+[Network]
+Réseau
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protocoles

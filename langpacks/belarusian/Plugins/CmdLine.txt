@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: Command line
-;  Version: 0.0.4.7
+;  Version: 0.1.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [This plugin lets you control Miranda from the command line.]
@@ -65,18 +65,16 @@
 '%s' не мае быць дапушчальным контам.
 [Failed to change status for account '%s' to '%s'.]
 Не атрымалася змяніць статус конту '%s' на '%s'.
-[Failed to set '%S' status message to '%s' (status is '%s').]
-Не атрымалася ўсталяваць паведамленне статусу '%S' для '%S' (статус '%S').
-[Successfully set '%S' status message to '%s' (status is '%s').]
+[Failed to set '%s' status message to '%s' (status is '%s').]
+Не атрымалася ўсталяваць паведамленне статусу '%s' для '%s' (статус '%s').
+[Successfully set '%s' status message to '%s' (status is '%s').]
 Папяхова ўсталявана '%s' паведамленне статуса для '%s' (статус '%s').
-[Account '%S' does not support away messages, skipping.]
-Конт '%S' не падтрымлівае паведамленні адсутнасці, пропуск.
+[Account '%s' does not support away messages, skipping.]
+Конт '%s' не падтрымлівае паведамленні адсутнасці, пропуск.
 [Changed '%s' status message to '%s' (status is '%s').]
 Зменена '%s' паведамленне статусу на '%s' (статус '%s').
-[Account '%s' does not support away messages, skipping.]
-Конт '%S' не падтрымлівае паведамленні адсутнасці, пропуск.
 [Failed to change status message for account '%s' to '%s' (status is '%s').]
-Не атрымалася змяніць паведамленне статуса для конту '% S' у '% S' (статус '% S').
+Не атрымалася змяніць паведамленне статуса для конту '% s' у '% s' (статус '% s').
 [Popups are currently enabled.]
 
 [Popups are currently disabled.]
@@ -161,28 +159,28 @@ CallService выклік паспяховы: служба '%S' вярнула %�
 дв. слова
 [wide string]
 
-[Wrote '%s:%s' to database entry '%s/%s'.]
-Запісана '%s:%s' у запіс '%s/%s' базы дадзеных.
-[Could not retrieve setting '%s/%s': %s.]
-Немагчыма прачытаць наладу '%s/%s': %s.
-[Setting '%s/%s' was not found.]
-Налада '%s/%s' не знойдзена.
-['%s' proxy was disabled.]
-'%s' проксі выключаны.
-['%s' proxy was enabled.]
-'%s' проксі ўключаны.
-[%s proxy server: %s %s:%d.]
-%s проксі сервер: %s %s:%d.
-[%s proxy set to %s %s:%d.]
-%s проксі ўсталяваны на %s %s:%d.
-[%s The port or the proxy type parameter is invalid.]
-%s Порт ці тып проксі няслушны.
+[Wrote '%S:%s' to database entry '%S/%S'.]
+Запісана '%S:%s' у запіс '%S/%S' базы дадзеных.
+[Could not retrieve setting '%S/%S': %S.]
+Немагчыма прачытаць наладу '%S/%S': %S.
+[Setting '%S/%S' was not found.]
+Налада '%S/%S' не знойдзена.
+['%S' proxy was disabled.]
+'%S' проксі выключаны.
+['%S' proxy was enabled.]
+'%S' проксі ўключаны.
+[%S proxy server: %S %S:%d.]
+%S проксі сервер: %S %S:%d.
+[%S proxy set to %s %S:%d.]
+%S проксі ўсталяваны на %s %S:%d.
+[%S The port or the proxy type parameter is invalid.]
+%S Порт ці тып проксі няслушны.
 [[me]]
 \[Я]
 [No unread messages found.]
 Няма непрачытаных паведамленняў.
-[%s:%s - %d unread events.]
-%s:%s - %d непрачытаныя паведамленні.
+[%s:%S - %d unread events.]
+%s:%S - %d непрачытаныя паведамленні.
 [Contact '%s' has %d events in history.]
 Кантакт '%s' мае %d падзей у гісторыі.
 [Error setting nickname to '%s' for protocol '%s']

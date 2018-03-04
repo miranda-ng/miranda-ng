@@ -9,7 +9,7 @@
 [On conflict when upload]
 [Authorization]
 [Enter authorization code:]
-[Allow access to team]
+[To allow Miranda NG access to %s:]
 [Go to this link]
 [Dropbox]
 [Google Drive]

@@ -105,8 +105,6 @@ Utwórz hasło
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
 Działanie
-[Correction]
-Korekta
 [You cannot send when you are offline.]
 Nie możesz wysyłać będąc rozłączonym.
 ;file \protocols\Tox\src\tox_netlib.cpp

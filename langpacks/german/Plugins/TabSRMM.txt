@@ -1064,6 +1064,8 @@ Gruppenchat-Verlauf
 Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
 Aussehen des Verlaufsfensters
+[Chat rooms]
+
 [Voiced]
 Stimmhaft
 [Half operators]
@@ -1705,10 +1707,6 @@ Funktion aktiviert (als Overlay)
 Tippbenachrichtigungen aktivieren
 [Disable typing notification]
 Tippbenachrichtigungen deaktivieren
-[The image service plugin (AdvaImg) is not properly installed.\n\nTabSRMM is disabled.]
-Das Bilddiensteplugin (AdvaImg) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
-[TabSRMM fatal error]
-Schwerwiegender TabSRMM-Fehler
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Nachrichtenfenster - Instant Messaging

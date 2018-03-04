@@ -93,9 +93,9 @@
 Невядомы адказ ад %s (%i)
 [Got no response from %s (%i)]
 Няма адказу ад %s (%i)
-[Dropbox transfer]
+[CloudFile transfer]
 
-[%s (%i):\nCould not add a share to the Dropbox plugin.]
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
 
 [Email transfer]
 
@@ -193,8 +193,6 @@ HTTP далучэнне SendSS
 Адправіць скрыншот
 [Screenshots]
 Здымкі экрана
-[Image services (AdvaImg plugin) not found.\nSendSS disabled.]
-
 [Buttons]
 Кнопкі
 [Could not register Miranda service.]

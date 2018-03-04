@@ -2383,6 +2383,12 @@ ID на акаунта
 Акаунти...
 [Account]
 Акаунт
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
+[Revoke authorization]
+Отнемане на пълномощното
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
 [Could not search on any of the protocols, are you online?]
@@ -2457,12 +2463,6 @@ ANSI приставка
 Приставка, която не може да се зареди
 [Frames]
 Рамки
-[Request authorization]
-Молба за упълномощаване
-[Grant authorization]
-Даване на пълномощно
-[Revoke authorization]
-Отнемане на пълномощното
 [Warning]
 Предупреждение
 [Always visible]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -437,13 +437,6 @@ Mots-clés 3
 Catégorie 4
 [Interest areas 4]
 Mots-clés 4
-;file \protocols\IcqOscarJ\src\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-
-[Change ICQ Details]
-Changer Détails ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-
 ;file \protocols\IcqOscarJ\src\dlgproc.cpp
 [<unremovable once applied>]
 <définitif une fois appliqué>
@@ -453,6 +446,8 @@ Changer Détails ICQ
 Valeur inconnue
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
 Vous avez fait des modifications de vos détails ICQ mais elles n'ont pu être sauvegardé sur le serveur. Voulez-vous vraiment fermer cette fenêtre ?
+[Change ICQ Details]
+Changer Détails ICQ
 [Upload in progress...]
 Sauvegarde en cours...
 [Upload in progress...%d%%]
@@ -1462,12 +1457,6 @@ Le transfert de fichier a été avorté parce que l'un des fichiers que vous ave
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 La réception de fichier a été avortée parce que Miranda ne pouvait ouvrir le fichier de destination afin de l'écrire. Il se peut que vous tentiez de sauvegarder dans un dossier en lecture seule.
 ;file \protocols\IcqOscarJ\src\icq_menu.cpp
-[Request authorization]
-Demander l'autorisation
-[Grant authorization]
-Accorder l'autorisation
-[Revoke authorization]
-Enlever l'autorisation
 [Add to server list]
 Ajouter à la liste serveur
 [Show custom status details]

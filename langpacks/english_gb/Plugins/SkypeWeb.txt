@@ -7,9 +7,5 @@
 ;============================================================
 [Automatic messages synchronization]
 Automatic messages synchronisation
-[Request authorization]
-Request authorisation
-[Grant authorization]
-Grant authorisation
 [Incoming call canceled sound]
 Incoming call cancelled sound

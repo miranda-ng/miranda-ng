@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: IcqOscarJ protocol
-;  Version: 0.11.3.6
+;  Version: 0.95.8.1
 ;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -433,12 +433,6 @@ xСтатус "%s"
 Катэгорыя 4
 [Interest areas 4]
 Цікаўлюся 4
-[The password does not match your current password. Check Caps Lock and try again.]
-Пароль не супадае з існым. Праверце Caps Lock і паспрабуйце зноў.
-[Change ICQ Details]
-Змяніць дадзеныя ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Пароль не супадае з паролем, уведзеным раней. Праверце Caps Lock і паспрабуйце зноў.
 [<unremovable once applied>]
 <нельга выдаліць пасля ўводу>
 [<empty>]
@@ -447,6 +441,8 @@ xСтатус "%s"
 Невядомае значэнне
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
 Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць вакно?
+[Change ICQ Details]
+Змяніць дадзеныя ICQ
 [Upload in progress...]
 Загрузка...
 [Upload in progress...%d%%]
@@ -1445,12 +1441,6 @@ Web-службы
 Перадача файла была адменена, таму што адзін з абраных файлаў не чытаецца з дыска, бо быў перамешчаны ці выдалены.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Перадача файла была адменена, таму што немагчыма адкрыць лакальны файл на запіс. Хутчэй за ўсё, вы спрабуеце захаваць файл у тэчку дзе няма права на запіс.
-[Request authorization]
-Запытаць аўтарызацыю
-[Grant authorization]
-Аўтарызаваць
-[Revoke authorization]
-Адклікаць аўтарызацыю
 [Add to server list]
 Дадаць у спіс на серверы
 [Show custom status details]

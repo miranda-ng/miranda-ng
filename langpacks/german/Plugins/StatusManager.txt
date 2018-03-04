@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StatusManager.dll
 ;  Plugin: Status manager
-;  Version: 1.0.1.1
+;  Version: 1.1.0.4
 ;  Authors: P Boon
 ;============================================================
 [A connection checker and auto away module. Also allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -322,12 +322,12 @@ Statusnachrichten
 %s Statusfehler (nächster Versuch (%d) in %d Sek.)
 [Status error (next retry (%d) in %d s)]
 Statusfehler (nächster Versuch (%d) in %d Sek.)
+[Resetting status... (last try (%d))]
+Status zurücksetzen... (letzer Versuch (%d))
+[Resetting status... (next retry (%d) in %d s)]
+Status zurücksetzen... (nächster Versuch (%d) in %d Sek.)
 [%s\t(will be set to %s)\r\n]
 %s\t(wird auf %s gesetzt)\r\n
-[Resetting status... (last try (%d))%s]
-Status zurücksetzen... (letzer Versuch (%d))%s
-[Resetting status... (next retry (%d) in %d s)%s]
-Status zurücksetzen... (nächster Versuch (%d) in %d Sek.)%s
 [No internet connection seems available... (last try (%d))]
 Keine Internetverbindung verfügbar... (letzer Versuch (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]

@@ -1,8 +1,8 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
-;  Plugin: Facebook RM
-;  Version: 0.4.0.1
+;  Plugin: Facebook
+;  Version: 0.4.1.1
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -128,6 +128,20 @@ SMS senden
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
 ;file \protocols\FacebookRM\src\chat.cpp
+[&Invite user...]
+Kontakt e&inladen...
+[E&xit chat session]
+
+[&Destroy chat session]
+
+[User &details]
+Benutzer&details
+[User &history]
+Kontakt&verlauf
+[Delete conversation]
+
+[This will permanently delete the conversation history]
+
 [Former]
 Ehemaliger
 [Myself]
@@ -136,14 +150,6 @@ Ich
 Freund
 [User]
 Benutzer
-[&Invite user...]
-Kontakt e&inladen...
-[&Leave chat session]
-Chatsitzung ver&lassen
-[User &details]
-Benutzer&details
-[User &history]
-Kontakt&verlauf
 [Notifications]
 Benachrichtigungen
 [%s and more (%d)]
@@ -196,29 +202,6 @@ Fehler beim Anfordern des Überprüfungscodes per SMS.
 Bitte geben Sie einen Benutzernamen ein.
 [Please enter a password.]
 Bitte geben Sie das Kennwort ein.
-;file \protocols\FacebookRM\src\constants.h
-[Top News]
-Aktuelle Nachrichten
-[Most Recent]
-Jüngste Nachrichten
-[Pages]
-Seiten
-[Classic website]
-Klassische Webseite
-[Mobile website]
-Mobile Webseite
-[Smartphone website]
-Smartphone-Webseite
-[Public]
-Öffentlich
-[Friends of friends]
-Freunde von Freunden
-[Friends]
-Freunde
-[Friends except acquaintances]
-Freunde ohne Bekannte
-[Only me]
-Nur ich
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
@@ -241,6 +224,28 @@ Freundschaftsanfrage wurde ignoriert.
 [Error occurred when ignoring friendship request.]
 Fehler beim Ignorieren der Freundschaftsanfrage.
 ;file \protocols\FacebookRM\src\dialogs.cpp
+[Top News]
+Aktuelle Nachrichten
+[Most Recent]
+Jüngste Nachrichten
+[Pages]
+Seiten
+[Classic website]
+Klassische Webseite
+[Mobile website]
+Mobile Webseite
+[Smartphone website]
+Smartphone-Webseite
+[Public]
+Öffentlich
+[Friends of friends]
+Freunde von Freunden
+[Friends]
+Freunde
+[Friends except acquaintances]
+Freunde ohne Bekannte
+[Only me]
+Nur ich
 [Default]
 Standard
 [<< Contacts]
@@ -252,20 +257,20 @@ Was machen Sie gerade, %s?
 ein Sticker
 [a GIF]
 ein GIF
+[a link]
+ein Link
 [files]
 Dateien
 [a file]
 eine Datei
-[a link]
-ein Link
 [User sent %s:]
 Benutzer hat Ihnen %s gesendet:
 [User sent an unsupported attachment. Open your browser to see it.]
 Benutzer hat Ihnen einen nicht unterstützten Anhang gesendet. Öffnen Sie Ihren Browser, um ihn anzusehen.
+[Reaction]
+
 [%s is typing a message...]
 %s tippt eine Nachricht...
-[This message is no longer available, because it was marked as abusive or spam.]
-Diese Nachricht ist nicht mehr verfügbar, da sie als Missbrauch oder Spam markiert wurde.
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.
@@ -396,14 +401,8 @@ Freundschaft-Details besuchen
 Unterhaltung besuchen
 [Load history]
 Verlauf laden
-[Cancel friendship]
-Freundschaft beenden
 [Cancel friendship request]
 Freundschaftsanfrage abbrechen
-[Request friendship]
-Freundschaftsanfrage
-[Approve friendship]
-Freundschaft genehmigen
 [Deny friendship request]
 Freundschaftsanfrage ablehnen
 [Services...]

@@ -3,7 +3,7 @@
 [Copy BBCode]
 [Copy BBCode w/ link]
 [%s requires a valid contact!]
-[Dropbox transfer]
+[CloudFile transfer]
 [Email transfer]
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 [Image upload]

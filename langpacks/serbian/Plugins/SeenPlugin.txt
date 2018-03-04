@@ -98,8 +98,6 @@ Pregled detalja o korisniku
 [Last seen]
 
 ;file \plugins\SeenPlugin\src\options.cpp
-[-- Date --]
-
 [year (4 digits)]
 
 [year (2 digits)]
@@ -116,8 +114,6 @@ Pregled detalja o korisniku
 
 [weekday (abbreviated)]
 
-[-- Time --]
-
 [hours (24)]
 
 [hours (12)]
@@ -128,47 +124,49 @@ Pregled detalja o korisniku
 
 [seconds]
 sekundi
-[-- User --]
-
 [username]
-Korisničko ime
+korisničko ime
 [nick]
-Nadimak
+nadimak
 [UIN/handle]
 
-[Group]
-Grupa
-[Status]
-Status
-[Status message]
+[group]
+grupa
+[status]
+status
+[status message]
 
-[Old status]
+[old status]
 
 [external IP]
 
 [internal IP]
 
-[Client info]
+[client info]
 
-[Protocol]
-Protokol
-[Account]
-
-[-- Format --]
+[protocol]
+protokol
+[account]
 
 [tabulator]
 
 [line break]
 
+[-- Date --]
+
+[-- Time --]
+
+[-- User --]
+
+[-- Format --]
+
 [Note:]
 
-[Use]
+[Use # for empty string]
 
-[for empty string]
+[instead of <unknown>]
 
-[instead of]
-
-[Last Seen Variables]
+[Last Seen variables]
 
 [Contacts]
 Kontakti

@@ -437,13 +437,6 @@ Zainteresowania 3
 Kat. zainteresowań 4
 [Interest areas 4]
 Zainteresowania 4
-;file \protocols\IcqOscarJ\src\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-To hasło nie odpowiada obecnemu. Sprawdź klawisz Caps Lock i spróbuj ponownie.
-[Change ICQ Details]
-Zmień dane ICQ
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-Hasło nie odpowiada temu wprowadzonemu wcześniej. Sprawdź klawisz Caps Lock i spróbuj ponownie.
 ;file \protocols\IcqOscarJ\src\dlgproc.cpp
 [<unremovable once applied>]
 <nieusuwalne po zastosowaniu>
@@ -453,6 +446,8 @@ Hasło nie odpowiada temu wprowadzonemu wcześniej. Sprawdź klawisz Caps Lock i
 Nieznana wartość
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
 Wprowadziłeś zmiany w szczegółach ICQ, ale nie zapisałeś ich na serwer. Czy na pewno chcesz zamknąć to okno?
+[Change ICQ Details]
+Zmień dane ICQ
 [Upload in progress...]
 Wysyłanie w trakcie...
 [Upload in progress...%d%%]
