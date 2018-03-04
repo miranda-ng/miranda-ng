@@ -356,6 +356,11 @@ void CDiscordProto::GatewaySendHeartbeat()
 
 void CDiscordProto::GatewaySendIdentify()
 {
+	if (m_szAccessToken == nullptr) {
+		ConnectionFailed(LOGINERR_WRONGPASSWORD);
+		return;
+	}
+
 	wchar_t wszOs[256];
 	GetOSDisplayString(wszOs, _countof(wszOs));
 	
