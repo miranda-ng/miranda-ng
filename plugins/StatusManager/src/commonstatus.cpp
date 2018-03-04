@@ -233,38 +233,41 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 
 	// set all status messages first
 	for (int i = 0; i < protoList.getCount(); i++) {
-		char *szProto = protoSettings[i]->m_szName;
-		if (!Proto_GetAccount(szProto)) {
-			log_debugA("CommonStatus: %s is not loaded", szProto);
+		PROTOCOLSETTINGEX *p = protoSettings[i];
+		if (p->m_status == ID_STATUS_DISABLED)
+			continue;
+
+		if (!Proto_GetAccount(p->m_szName)) {
+			log_debugA("CommonStatus: %s is not loaded", p->m_szName);
 			continue;
 		}
 		// some checks
 		int newstatus = GetActualStatus(protoSettings[i]);
 		if (newstatus == 0) {
-			log_debugA("CommonStatus: incorrect status for %s (%d)", szProto, protoSettings[i]->m_status);
+			log_debugA("CommonStatus: incorrect status for %s (%d)", p->m_szName, p->m_status);
 			continue;
 		}
-		int oldstatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+		int oldstatus = CallProtoService(p->m_szName, PS_GETSTATUS, 0, 0);
 		// set last status
-		protoSettings[i]->m_lastStatus = oldstatus;
+		p->m_lastStatus = oldstatus;
 		if (IsStatusConnecting(oldstatus)) {
 			// ignore if connecting, but it didn't came this far if it did
-			log_debugA("CommonStatus: %s is already connecting", szProto);
+			log_debugA("CommonStatus: %s is already connecting", p->m_szName);
 			continue;
 		}
 
 		// status checks
 		long protoFlag = Proto_Status2Flag(newstatus);
-		int b_Caps2 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) & protoFlag;
-		int b_Caps5 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_5, 0) & protoFlag;
+		int b_Caps2 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_2, 0) & protoFlag;
+		int b_Caps5 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_5, 0) & protoFlag;
 		if (newstatus != ID_STATUS_OFFLINE && (!b_Caps2 || b_Caps5)) {
 			// status and status message for this status not supported
 			//log_debug("CommonStatus: status not supported %s", szProto);
 			continue;
 		}
 
-		int b_Caps1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG;
-		int b_Caps3 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & protoFlag;
+		int b_Caps1 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG;
+		int b_Caps3 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_3, 0) & protoFlag;
 		if (newstatus == oldstatus && (!b_Caps1 || !b_Caps3)) {
 			// no status change and status messages are not supported
 			//log_debug("CommonStatus: no change, %s (%d %d)", szProto, oldstatus, newstatus);
@@ -277,8 +280,8 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 
 		// set the status
 		if (newstatus != oldstatus /*&& !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))*/) {
-			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
-			CallProtoService(szProto, PS_SETSTATUS, newstatus, 0);
+			log_debugA("CommonStatus sets status for %s to %d", p->m_szName, newstatus);
+			CallProtoService(p->m_szName, PS_SETSTATUS, newstatus, 0);
 		}
 	}
 

@@ -127,41 +127,6 @@ int KSLoadOptions()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
-{
-	mir_cslock lck(GenStatusCS);
-	PROTOCOLSETTINGEX **ps = (PROTOCOLSETTINGEX**)mir_alloc(protoList.getCount() * sizeof(PROTOCOLSETTINGEX *));
-	if (ps == nullptr)
-		return nullptr;
-
-	for (int i = 0; i < protoList.getCount(); i++) {
-		ps[i] = (PROTOCOLSETTINGEX*)mir_calloc(sizeof(PROTOCOLSETTINGEX));
-		if (ps[i] == nullptr) {
-			mir_free(ps);
-			return nullptr;
-		}
-
-		SMProto &cs = protoList[i];
-		ps[i]->m_lastStatus = cs.m_lastStatus;
-		ps[i]->m_status = cs.m_status;
-		ps[i]->m_szMsg = nullptr;
-		ps[i]->m_szName = cs.m_szName;
-		ps[i]->m_tszAccName = cs.m_tszAccName;
-	}
-
-	return ps;
-}
-
-static void FreeProtoSettings(PROTOCOLSETTINGEX** ps)
-{
-	for (int i = 0; i < protoList.getCount(); i++) {
-		if (ps[i]->m_szMsg != nullptr)
-			mir_free(ps[i]->m_szMsg);
-		mir_free(ps[i]);
-	}
-	mir_free(ps);
-}
-
 int SMProto::AssignStatus(int iStatus, int iLastStatus, wchar_t *pwszMsg)
 {
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
@@ -214,29 +179,27 @@ int SMProto::GetStatus() const
 
 static int SetCurrentStatus()
 {
-	PROTOCOLSETTINGEX **ps = GetCurrentProtoSettingsCopy();
-	for (int i = 0; i < protoList.getCount(); i++) {
-		auto p = ps[i];
+	TProtoSettings ps(protoList);
+	for (auto &p : ps) {
 		int realStatus = CallProtoService(p->m_szName, PS_GETSTATUS, 0, 0);
-		int curStatus = protoList[i].GetStatus();
-		if (curStatus == ID_STATUS_DISABLED || curStatus == realStatus) { // ignore this proto by removing it's name (not so nice)
-			p->m_szName = "";
+		int curStatus = p->GetStatus();
+		if (curStatus == ID_STATUS_DISABLED)
+			continue;
+		if (curStatus == realStatus) {
+			p->m_status = ID_STATUS_DISABLED;
+			continue;
 		}
-		else {
-			log_infoA("KeepStatus: status for %s differs: stored = %d, real = %d", p->m_szName, curStatus, realStatus);
 
-			// force offline before reconnecting?
-			if (realStatus != ID_STATUS_OFFLINE && db_get_b(0, KSMODULENAME, SETTING_FIRSTOFFLINE, FALSE)) {
-				log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", p->m_szName);
-				CallProtoService(p->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
-			}
+		log_infoA("KeepStatus: status for %s differs: stored = %d, real = %d", p->m_szName, curStatus, realStatus);
+
+		// force offline before reconnecting?
+		if (realStatus != ID_STATUS_OFFLINE && db_get_b(0, KSMODULENAME, SETTING_FIRSTOFFLINE, FALSE)) {
+			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", p->m_szName);
+			CallProtoService(p->m_szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
 		}
 	}
-	ProcessPopup(KS_CONN_STATE_RETRY, (LPARAM)ps);
-	INT_PTR ret = CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
-	FreeProtoSettings(ps);
-
-	return ret;
+	ProcessPopup(KS_CONN_STATE_RETRY, (LPARAM)ps.getArray());
+	return CallService(MS_CS_SETSTATUSEX, (WPARAM)ps.getArray(), 0);
 }
 
 static int StatusChange(WPARAM wParam, LPARAM lParam)
@@ -1038,7 +1001,7 @@ INT_PTR AnnounceStatusChangeService(WPARAM, LPARAM lParam)
 
 static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static PROTOCOLSETTINGEX** ps = nullptr;
+	static TProtoSettings *ps = nullptr;
 
 	switch (msg) {
 	case WM_POWERBROADCAST:
@@ -1046,23 +1009,23 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 		case PBT_APMSUSPEND:
 			log_infoA("KeepStatus: suspend state detected: %08X %08X", wParam, lParam);
 			if (ps == nullptr) {
-				ps = GetCurrentProtoSettingsCopy();
-				for (int i = 0; i < protoList.getCount(); i++)
-					EnableProtocolService(0, (LPARAM)ps[i]->m_szName);
+				ps = new TProtoSettings(protoList);
+				for (auto &it : *ps)
+					EnableProtocolService(0, (LPARAM)it->m_szName);
 
 				// set proto's offline, the clist will not try to reconnect in that case
 				Clist_SetStatusMode(ID_STATUS_OFFLINE);
 			}
 			break;
 
-			//case PBT_APMRESUMEAUTOMATIC: ?
 		case PBT_APMRESUMESUSPEND:
 		case PBT_APMRESUMECRITICAL:
+		// case PBT_APMRESUMEAUTOMATIC: ?
 			log_infoA("KeepStatus: resume from suspend state");
 			if (ps != nullptr) {
-				for (int i = 0; i < protoList.getCount(); i++)
-					protoList[i].AssignStatus(ps[i]->m_status, ps[i]->m_lastStatus, ps[i]->m_szMsg);
-				FreeProtoSettings(ps);
+				for (auto &it : *ps)
+					it->AssignStatus(it->m_status, it->m_lastStatus, it->m_szMsg);
+				delete ps;
 				ps = nullptr;
 			}
 			StartTimer(IDT_PROCESSACK, 0, FALSE);
@@ -1072,7 +1035,7 @@ static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_DESTROY:
 		if (ps != nullptr) {
-			FreeProtoSettings(ps);
+			delete ps;
 			ps = nullptr;
 		}
 		break;

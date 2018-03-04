@@ -403,7 +403,8 @@ HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout)
 	confirmSettings = new OBJLIST<TConfirmSetting>(10, CompareSettings);
 
 	for (auto &it : *params)
-		confirmSettings->insert(new TConfirmSetting(*it));
+		if (it->m_status != ID_STATUS_DISABLED)
+			confirmSettings->insert(new TConfirmSetting(*it));
 
 	timeOut = _timeout;
 	if (timeOut < 0)

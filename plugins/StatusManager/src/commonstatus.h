@@ -106,17 +106,15 @@ struct SMProto : public PROTOCOLSETTINGEX, public MZeroedObject
 
 	// AdvancedAutoAway settings
 	int originalStatusMode = ID_STATUS_CURRENT;
-	STATES
-		oldState,
-		curState = ACTIVE;
-	BOOL statusChanged; // AAA changed the status, don't update mStatus
-	BOOL mStatus; // status changed manually or not ?
-	int optionFlags, // db: see above
-		awayTime, // db: time to wait for inactivity
-		naTime, // db: time to wait after away is set
-		statusFlags; // db: set lv1 status if this is original status
-	WORD lv1Status, // db
-		lv2Status; // db
+	int aaaStatus;
+	STATES oldState, curState = ACTIVE;
+	bool bStatusChanged; // AAA changed the status, don't update bManualStatus
+	bool bManualStatus; // status changed manually or not ?
+	int  optionFlags; // db: see above
+	int  awayTime; // db: time to wait for inactivity
+	int  naTime; // db: time to wait after away is set
+	int  statusFlags; // db: set lv1 status if this is original status
+	WORD lv1Status, lv2Status; // db: statuses to switch protocol to
 	unsigned int sts1setTimer;
 
 	// KeepStatus
@@ -124,6 +122,9 @@ struct SMProto : public PROTOCOLSETTINGEX, public MZeroedObject
 	int GetStatus() const;
 
 	int lastStatusAckTime; // the time the last status ack was received
+
+	// StartupStatus
+	bool ssDisabled;  // prohibits status restoration at startup
 };
 
 struct TProtoSettings : public OBJLIST<SMProto>

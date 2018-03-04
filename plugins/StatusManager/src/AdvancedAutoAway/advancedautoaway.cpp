@@ -144,15 +144,14 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 		return 0;
 
 	log_debugA("ProcessProtoAck: ack->szModule: %s", ack->szModule);
-	for (int i = 0; i < protoList.getCount(); i++) {
-		SMProto &p = protoList[i];
-		log_debugA("chk: %s", p.m_szName);
-		if (!mir_strcmp(p.m_szName, ack->szModule)) {
-			log_debugA("ack->szModule: %s p.statusChanged: %d", ack->szModule, p.statusChanged);
-			if (!p.statusChanged)
-				p.mStatus = TRUE;
+	for (auto &it : protoList) {
+		log_debugA("chk: %s", it->m_szName);
+		if (!mir_strcmp(it->m_szName, ack->szModule)) {
+			log_debugA("ack->szModule: %s p.statusChanged: %d", ack->szModule, it->bStatusChanged);
+			if (!it->bStatusChanged)
+				it->bManualStatus = true;
 
-			p.statusChanged = FALSE;
+			it->bStatusChanged = false;
 		}
 	}
 
@@ -184,15 +183,15 @@ static int changeState(SMProto &setting, STATES newState)
 
 	log_debugA("%s state change: %s -> %s", setting.m_szName, status2descr(setting.oldState), status2descr(setting.curState));
 
-	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.statusChanged) {
+	if (setting.curState != SET_ORGSTATUS && setting.curState != ACTIVE && setting.bStatusChanged) {
 		/* change the awaymessage */
 		if (setting.m_szMsg != nullptr) {
 			mir_free(setting.m_szMsg);
 			setting.m_szMsg = nullptr;
 		}
 
-		if (db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_MSGCUSTOM), FALSE))
-			setting.m_szMsg = db_get_wsa(0, AAAMODULENAME, StatusModeToDbSetting(setting.m_status, SETTING_STATUSMSG));
+		if (db_get_b(0, AAAMODULENAME, StatusModeToDbSetting(setting.aaaStatus, SETTING_MSGCUSTOM), FALSE))
+			setting.m_szMsg = db_get_wsa(0, AAAMODULENAME, StatusModeToDbSetting(setting.aaaStatus, SETTING_STATUSMSG));
 	}
 	else if (setting.m_szMsg != nullptr) {
 		mir_free(setting.m_szMsg);
@@ -208,7 +207,7 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 	int confirm = FALSE;
 
 	for (auto &it : protoList) {
-		it->m_status = ID_STATUS_DISABLED;
+		it->aaaStatus = ID_STATUS_DISABLED;
 
 		BOOL bTrigger = false;
 
@@ -237,17 +236,17 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 			if (((mouseStationaryTimer >= sts1Time && (it->optionFlags & FLAG_ONMOUSE)) || bTrigger) && currentMode != it->lv1Status && it->statusFlags&StatusModeToProtoFlag(currentMode)) {
 				/* from ACTIVE to STATUS1_SET */
 				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
-				it->m_status = it->lv1Status;
+				it->aaaStatus = it->lv1Status;
 				it->sts1setTimer = GetTickCount();
 				sts1setTime = 0;
-				it->statusChanged = statusChanged = TRUE;
+				it->bStatusChanged = statusChanged = true;
 				changeState(*it, STATUS1_SET);
 			}
 			else if (mouseStationaryTimer >= sts2Time && currentMode == it->lv1Status && currentMode != it->lv2Status && (it->optionFlags & FLAG_SETNA) && (it->statusFlags & StatusModeToProtoFlag(currentMode))) {
 				/* from ACTIVE to STATUS2_SET */
 				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
-				it->m_status = it->lv2Status;
-				it->statusChanged = statusChanged = TRUE;
+				it->aaaStatus = it->lv2Status;
+				it->bStatusChanged = statusChanged = true;
 				changeState(*it, STATUS2_SET);
 			}
 		}
@@ -268,8 +267,8 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 				/* when set STATUS2, currentMode doesn't have to be in the selected status list (statusFlags) */
 				/* from STATUS1_SET to STATUS2_SET */
 				it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
-				it->m_status = it->lv2Status;
-				it->statusChanged = statusChanged = TRUE;
+				it->aaaStatus = it->lv2Status;
+				it->bStatusChanged = statusChanged = true;
 				changeState(*it, STATUS2_SET);
 			}
 		}
@@ -288,40 +287,39 @@ static VOID CALLBACK AutoAwayTimer(HWND, UINT, UINT_PTR, DWORD)
 		}
 
 		if (it->curState == HIDDEN_ACTIVE) {
-			if (it->mStatus) {
+			if (it->bManualStatus) {
 				/* HIDDEN_ACTIVE to ACTIVE */
-				//it->statusChanged = FALSE;
+				// it->bStatusChanged = false;
 				changeState(*it, ACTIVE);
 				it->sts1setTimer = 0;
-				it->mStatus = FALSE;
+				it->bManualStatus = false;
 			}
 			else if ((it->optionFlags & FLAG_SETNA) && currentMode == it->lv1Status &&
 				currentMode != it->lv2Status && (it->statusFlags & StatusModeToProtoFlag(currentMode)) &&
 				(mouseStationaryTimer >= sts2Time || (sts1setTime >= sts2Time && !(it->optionFlags & FLAG_LV2ONINACTIVE)))) {
 				/* HIDDEN_ACTIVE to STATUS2_SET */
 				it->m_lastStatus = it->originalStatusMode = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
-				it->m_status = it->lv2Status;
-				it->statusChanged = statusChanged = TRUE;
+				it->aaaStatus = it->lv2Status;
+				it->bStatusChanged = statusChanged = true;
 				changeState(*it, STATUS2_SET);
 			}
 		}
 		if (it->curState == SET_ORGSTATUS) {
 			/* SET_ORGSTATUS to ACTIVE */
 			it->m_lastStatus = CallProtoService(it->m_szName, PS_GETSTATUS, 0, 0);
-			it->m_status = it->originalStatusMode;
+			it->aaaStatus = it->originalStatusMode;
 			confirm = (it->optionFlags & FLAG_CONFIRM) ? TRUE : confirm;
-			it->statusChanged = statusChanged = TRUE;
+			it->bStatusChanged = statusChanged = true;
 			changeState(*it, ACTIVE);
 			it->sts1setTimer = 0;
 		}
-		it->mStatus = FALSE;
+		it->bManualStatus = false;
 	}
 
 	if (confirm || statusChanged) {
-		TProtoSettings ps = protoList;
+		TProtoSettings ps = protoList; // make a copy of data not to pollute main array
 		for (auto &it : ps)
-			if (it->m_status == ID_STATUS_DISABLED)
-				it->m_szName = "";
+			it->m_status = it->aaaStatus;
 
 		if (confirm)
 			confirmDialog = ShowConfirmDialogEx(&ps, db_get_w(0, AAAMODULENAME, SETTING_CONFIRMDELAY, 5));

@@ -38,7 +38,7 @@ static BYTE showDialogOnStartup = 0;
 static PROTOCOLSETTINGEX* IsValidProtocol(TProtoSettings &protoSettings, const char *protoName)
 {
 	for (auto &it : protoSettings)
-		if (!strncmp(it->m_szName, protoName, mir_strlen(it->m_szName)))
+		if (!it->ssDisabled && !strncmp(it->m_szName, protoName, mir_strlen(it->m_szName)))
 			return it;
 
 	return nullptr;
@@ -143,7 +143,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 
 	for (auto &it : protoList) {
 		if (!mir_strcmp(ack->szModule, it->m_szName)) {
-			it->m_szName = "";
+			it->ssDisabled = true;
 			log_debugA("StartupStatus: %s overridden by ME_PROTO_ACK, status will not be set", ack->szModule);
 		}
 	}
@@ -160,14 +160,14 @@ static int StatusChange(WPARAM, LPARAM lParam)
 	char *szProto = (char *)lParam;
 	if (szProto == nullptr) { // global status change
 		for (auto &it : protoList) {
-			it->m_szName = "";
+			it->ssDisabled = true;
 			log_debugA("StartupStatus: all protos overridden by ME_CLIST_STATUSMODECHANGE, status will not be set");
 		}
 	}
 	else {
 		for (auto &it : protoList) {
 			if (!mir_strcmp(it->m_szName, szProto)) {
-				it->m_szName = "";
+				it->ssDisabled = true;
 				log_debugA("StartupStatus: %s overridden by ME_CLIST_STATUSMODECHANGE, status will not be set", szProto);
 			}
 		}
@@ -188,14 +188,13 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM)
 			return -1;
 
 		for (int i = 0; i < protoList.getCount(); i++) {
-			for (int j = 0; j < protoList.getCount(); j++) {
-				if (ps[i]->m_szName == nullptr || protoList[j].m_szName == nullptr)
+			for (auto &it : protoList) {
+				if (ps[i]->m_szName == nullptr || it->m_szName == nullptr)
 					continue;
 
-				if (!mir_strcmp(ps[i]->m_szName, protoList[j].m_szName)) {
+				if (!mir_strcmp(ps[i]->m_szName, it->m_szName)) {
 					log_debugA("StartupStatus: %s overridden by MS_CS_SETSTATUSEX, status will not be set", ps[i]->m_szName);
-					// use a hack to disable this proto
-					protoList[j].m_szName = "";
+					it->ssDisabled = true;
 				}
 			}
 		}
@@ -210,7 +209,13 @@ static void CALLBACK SetStatusTimed(HWND, UINT, UINT_PTR, DWORD)
 	UnhookEvent(hProtoAckHook);
 	UnhookEvent(hCSStatusChangeHook);
 	UnhookEvent(hStatusChangeHook);
-	CallService(MS_CS_SETSTATUSEX, (WPARAM)&protoList, 0);
+
+	TProtoSettings ps(protoList);
+	for (auto &it : ps)
+		if (it->ssDisabled)
+			it->m_status = ID_STATUS_DISABLED;
+
+	CallService(MS_CS_SETSTATUSEX, (WPARAM)ps.getArray(), 0);
 }
 
 static int OnOkToExit(WPARAM, LPARAM)
