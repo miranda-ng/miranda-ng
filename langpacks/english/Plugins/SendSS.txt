@@ -52,9 +52,9 @@
 [MAPI error (%i):\n%s.]
 [Unknown response from %s (%i)]
 [Got no response from %s (%i)]
-;file \plugins\SendScreenshotPlus\src\CSendDropbox.cpp
-[Dropbox transfer]
-[%s (%i):\nCould not add a share to the Dropbox plugin.]
+;file \plugins\SendScreenshotPlus\src\CSendCloudFile.cpp
+[CloudFile transfer]
+[%s (%i):\nCould not add a share to the CloudFile plugin.]
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]

@@ -134,10 +134,10 @@
 [What's on your mind, %s?]
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
-[files]
-[a file]
 [a GIF]
 [a link]
+[files]
+[a file]
 [User sent %s:]
 [User sent an unsupported attachment. Open your browser to see it.]
 [Reaction]

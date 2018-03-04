@@ -58,7 +58,6 @@
 [Create password]
 ;file \protocols\Tox\src\tox_messages.cpp
 [Action]
-[Correction]
 [You cannot send when you are offline.]
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
