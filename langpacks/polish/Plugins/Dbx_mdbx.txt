@@ -13,7 +13,7 @@ Wybierz dostawcę kryptograficznego
 [Cancel]
 Anuluj
 [Total encryption (Recommended only for paranoid users)]
-
+Całkowite szyfrowanie (Zalecane wyłącznie obsesyjnym użytkownikom)
 [Login to Miranda NG]
 Logowanie do Mirandy NG
 [New password]

@@ -35,9 +35,9 @@ Anuluj
 [Enter authorization code:]
 Wprowadź kod autoryzacyjny:
 [To allow Miranda NG access to %s:]
-
+Aby umożliwić Miranda NG dostęp do %s:
 [Go to this link]
-Otwórz link
+Otwórz ten link
 ;file \plugins\CloudFile\src\icons.cpp
 [Upload file(s)]
 Wyślij plik(i)

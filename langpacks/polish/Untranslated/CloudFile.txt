@@ -1,1 +1,0 @@
-[To allow Miranda NG access to %s:]
