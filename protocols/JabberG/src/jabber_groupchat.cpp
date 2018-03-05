@@ -847,7 +847,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 		// Update status of room participant
 		int status = ID_STATUS_ONLINE;
-		LPCTSTR ptszShow = XmlGetText(XmlGetChild(node, "show"));
+		const wchar_t *ptszShow = XmlGetText(XmlGetChild(node, "show"));
 		if (ptszShow) {
 			if (!mir_wstrcmp(ptszShow, L"away")) status = ID_STATUS_AWAY;
 			else if (!mir_wstrcmp(ptszShow, L"xa")) status = ID_STATUS_NA;
@@ -855,10 +855,10 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 			else if (!mir_wstrcmp(ptszShow, L"chat")) status = ID_STATUS_FREECHAT;
 		}
 
-		LPCTSTR str = XmlGetText(XmlGetChild(node, "status"));
+		const wchar_t *str = XmlGetText(XmlGetChild(node, "status"));
 
 		char priority = 0;
-		if (LPCTSTR ptszPriority = XmlGetText(XmlGetChild(node, "priority")))
+		if (const wchar_t *ptszPriority = XmlGetText(XmlGetChild(node, "priority")))
 			priority = (char)_wtoi(ptszPriority);
 
 		bool bStatusChanged = false, bRoomCreated = false, bAffiliationChanged = false, bRoleChanged = false;
@@ -1118,7 +1118,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	if (!isHistory)
 		gce.dwFlags |= GCEF_ADDTOLOG;
 
-	if (m_options.GcLogChatHistory && isHistory)
+	if (m_bGcLogChatHistory && isHistory)
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 
 	Chat_Event(&gce);
@@ -1187,7 +1187,7 @@ void CJabberProto::GroupchatProcessInvite(const wchar_t *roomJid, const wchar_t 
 	if (ListGetItemPtr(LIST_CHATROOM, roomJid))
 		return;
 
-	if (m_options.AutoAcceptMUC) {
+	if (m_bAutoAcceptMUC) {
 		ptrW nick(getWStringA(HContactFromJID(m_szJabberJID), "MyNick"));
 		if (nick == nullptr)
 			nick = getWStringA("Nick");

@@ -104,7 +104,7 @@ pResourceStatus CJabberProto::ResourceInfoFromJID(const wchar_t *jid)
 	return item->findResource(p + 1);
 }
 
-wchar_t* JabberPrepareJid(LPCTSTR jid)
+wchar_t* JabberPrepareJid(const wchar_t *jid)
 {
 	if (jid == nullptr) return nullptr;
 	wchar_t *szNewJid = mir_wstrdup(jid);
@@ -300,7 +300,7 @@ wchar_t* __stdcall JabberErrorMsg(HXML errorNode, int* pErrorCode)
 	return errorStr;
 }
 
-void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
+void CJabberProto::SendVisibleInvisiblePresence(bool invisible)
 {
 	if (!m_bJabberOnline) return;
 
@@ -315,9 +315,9 @@ void CJabberProto::SendVisibleInvisiblePresence(BOOL invisible)
 			continue;
 
 		WORD apparentMode = getWord(hContact, "ApparentMode", 0);
-		if (invisible == TRUE && apparentMode == ID_STATUS_OFFLINE)
+		if (invisible && apparentMode == ID_STATUS_OFFLINE)
 			m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", item->jid) << XATTR(L"type", L"invisible"));
-		else if (invisible == FALSE && apparentMode == ID_STATUS_ONLINE)
+		else if (!invisible && apparentMode == ID_STATUS_ONLINE)
 			SendPresenceTo(m_iStatus, item->jid, nullptr);
 	}
 }
@@ -392,7 +392,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 		XmlAddChild(p, extra);
 
 	// XEP-0115:Entity Capabilities
-	if (m_options.AllowVersionRequests) {
+	if (m_bAllowVersionRequests) {
 		HXML c = p << XCHILDNS(L"c", JABBER_FEAT_ENTITY_CAPS) << XATTR(L"hash", L"sha-1") 
 			<< XATTR(L"node", JABBER_CAPS_MIRANDA_NODE) << XATTR(L"ver", m_clientCapsManager.GetFeaturesCrc());
 
@@ -406,7 +406,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 		if (bNewGPG)
 			arrExtCaps.insert(JABBER_EXT_NEWGPG);
 
-		if(m_options.UseOMEMO)
+		if(m_bUseOMEMO)
 			arrExtCaps.insert(JABBER_EXT_OMEMO);
 
 		if (bPlatform)
@@ -414,19 +414,19 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 		else
 			arrExtCaps.insert(JABBER_EXT_PLATFORMX86);
 
-		if (m_options.EnableRemoteControl)
+		if (m_bEnableRemoteControl)
 			arrExtCaps.insert(JABBER_EXT_COMMANDS);
 
-		if (m_options.EnableUserMood)
+		if (m_bEnableUserMood)
 			arrExtCaps.insert(JABBER_EXT_USER_MOOD);
 
-		if (m_options.EnableUserTune)
+		if (m_bEnableUserTune)
 			arrExtCaps.insert(JABBER_EXT_USER_TUNE);
 
-		if (m_options.EnableUserActivity)
+		if (m_bEnableUserActivity)
 			arrExtCaps.insert(JABBER_EXT_USER_ACTIVITY);
 
-		if (m_options.AcceptNotes)
+		if (m_bAcceptNotes)
 			arrExtCaps.insert(JABBER_EXT_MIR_NOTES);
 
 		NotifyFastHook(hExtListInit, (WPARAM)&arrExtCaps, (LPARAM)(IJabberInterface*)this);
@@ -449,7 +449,7 @@ void CJabberProto::SendPresenceTo(int status, const wchar_t* to, HXML extra, con
 	if (m_tmJabberIdleStartTime)
 		p << XQUERY(JABBER_FEAT_LAST_ACTIVITY) << XATTRI(L"seconds", time(nullptr) - m_tmJabberIdleStartTime);
 
-	if (m_options.EnableAvatars) {
+	if (m_bEnableAvatars) {
 		HXML x = p << XCHILDNS(L"x", L"vcard-temp:x:update");
 
 		ptrA hashValue(getStringA("AvatarHash"));
@@ -590,9 +590,9 @@ wchar_t* __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size_t dest
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberGetPictureType - tries to autodetect the picture type from the buffer
 
-LPCTSTR __stdcall JabberGetPictureType(HXML node, const char *picBuf)
+const wchar_t *__stdcall JabberGetPictureType(HXML node, const char *picBuf)
 {
-	if (LPCTSTR ptszType = XmlGetText(XmlGetChild(node, "TYPE")))
+	if (const wchar_t *ptszType = XmlGetText(XmlGetChild(node, "TYPE")))
 		if (ProtoGetAvatarFormatByMimeType(ptszType) != PA_FORMAT_UNKNOWN)
 			return ptszType;
 
@@ -811,7 +811,7 @@ void JabberCopyText(HWND hwnd, const wchar_t *text)
 	}
 }
 
-BOOL CJabberProto::EnterString(CMStringW &result, LPCTSTR caption, int type, char *windowName, int recentCount, int timeout)
+BOOL CJabberProto::EnterString(CMStringW &result, const wchar_t *caption, int type, char *windowName, int recentCount, int timeout)
 {
 	if (caption == nullptr) {
 		caption = NEWWSTR_ALLOCA(result.GetString());
@@ -860,7 +860,7 @@ bool JabberReadXep203delay(HXML node, time_t &msgTime)
 	return msgTime != 0;
 }
 
-bool CJabberProto::IsMyOwnJID(LPCTSTR szJID)
+bool CJabberProto::IsMyOwnJID(const wchar_t *szJID)
 {
 	if (m_ThreadInfo == nullptr)
 		return false;

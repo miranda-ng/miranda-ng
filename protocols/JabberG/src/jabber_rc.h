@@ -74,7 +74,7 @@ public:
 	{
 		return m_dwStartTime;
 	}
-	LPCTSTR GetSessionId()
+	const wchar_t *GetSessionId()
 	{
 		return m_szSessionId;
 	}

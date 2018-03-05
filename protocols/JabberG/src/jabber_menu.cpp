@@ -455,7 +455,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM hContact, LPARAM)
 		ptrW nick(getWStringA(hContact, "Nick"));
 
 		AddContactToRoster(roomID, nick, group);
-		if (m_options.AddRoster2Bookmarks == TRUE) {
+		if (m_bAddRoster2Bookmarks == TRUE) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_BOOKMARK, roomID);
 			if (item == nullptr) {
 				item = new JABBER_LIST_ITEM();
@@ -899,7 +899,7 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		ptrW jid(getWStringA(event->hContact, "jid"));
 		if (jid != nullptr) {
 			JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, jid);
-			if (pItem && m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
+			if (pItem && m_ThreadInfo && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_bEnableMsgArchive)
 				RetrieveMessageArchive(event->hContact, pItem);
 		}
 	}
@@ -1063,7 +1063,7 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 
 	if (bIsLink)
 		for (auto &it : g_Instances)
-			if (it->m_options.ProcessXMPPLinks)
+			if (it->m_bProcessXMPPLinks)
 				return it;
 
 	int nItems = 0, lastItemId = 0;

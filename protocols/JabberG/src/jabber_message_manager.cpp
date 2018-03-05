@@ -55,7 +55,7 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 		// have to get all data here, in the loop, because there's always possibility that previous handler modified it
 		CJabberMessageInfo messageInfo;
 
-		LPCTSTR szType = XmlGetAttrValue(node, L"type");
+		const wchar_t *szType = XmlGetAttrValue(node, L"type");
 		if (szType) {
 			if (!mir_wstrcmpi(szType, L"normal"))
 				messageInfo.m_nMessageType = JABBER_MESSAGE_TYPE_NORMAL;
@@ -77,8 +77,8 @@ bool CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 				// enumerate all children and see whether this node suits handler criteria
 				HXML child = XmlGetChild(node, i);
 
-				LPCTSTR szTagName = XmlGetName(child);
-				LPCTSTR szXmlns = XmlGetAttrValue(child, L"xmlns");
+				const wchar_t *szTagName = XmlGetName(child);
+				const wchar_t *szXmlns = XmlGetAttrValue(child, L"xmlns");
 
 				if ((!it->m_szXmlns || (szXmlns && !mir_wstrcmp(it->m_szXmlns, szXmlns))) && (!it->m_szTag || !mir_wstrcmp(it->m_szTag, szTagName))) {
 					// node suits handler criteria, call the handler

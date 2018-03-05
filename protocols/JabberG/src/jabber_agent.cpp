@@ -155,7 +155,7 @@ public:
 
 				if ((xNode=XmlGetChild(queryNode , "x")) != nullptr) {
 					// use new jabber:x:data form
-					if (LPCTSTR ptszInstr = XmlGetText( XmlGetChild(xNode, "instructions")))
+					if (const wchar_t *ptszInstr = XmlGetText( XmlGetChild(xNode, "instructions")))
 						JabberFormSetInstruction(m_hwnd, ptszInstr);
 
 					JabberFormCreateUI(hFrame, xNode, &m_formHeight /*dummy*/);
@@ -197,7 +197,7 @@ public:
 			}
 			else if (wParam == 0) {
 				// lParam = error message
-				SetDlgItemText(m_hwnd, IDC_FRAME_TEXT, (LPCTSTR) lParam);
+				SetDlgItemText(m_hwnd, IDC_FRAME_TEXT, (const wchar_t *) lParam);
 			}
 			return TRUE;
 

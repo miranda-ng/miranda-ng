@@ -112,8 +112,8 @@ void CJabberProto::FtInitiate(wchar_t* jid, filetransfer *ft)
 		<< XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"form")
 		<< XCHILD(L"field") << XATTR(L"var", L"stream-method") << XATTR(L"type", L"list-single");
 
-	BOOL bDirect = m_options.BsDirect;
-	BOOL bProxy = m_options.BsProxyManual;
+	BOOL bDirect = m_bBsDirect;
+	BOOL bProxy = m_bBsProxyManual;
 
 	// bytestreams support?
 	if (bDirect || bProxy)
@@ -133,8 +133,8 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 		if ((siNode = XmlGetChild(iqNode, "si")) != nullptr) {
 
 			// fix for very smart clients, like gajim
-			BOOL bDirect = m_options.BsDirect;
-			BOOL bProxy = m_options.BsProxyManual;
+			BOOL bDirect = m_bBsDirect;
+			BOOL bProxy = m_bBsProxyManual;
 
 			if ((featureNode = XmlGetChild(siNode, "feature")) != nullptr) {
 				if ((xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != nullptr) {
@@ -322,7 +322,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 			(xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != nullptr &&
 			(fieldNode = XmlGetChildByTag(xNode, "field", "var", L"stream-method")) != nullptr) {
 
-			BOOL bIbbOnly = m_options.BsOnlyIBB;
+			BOOL bIbbOnly = m_bBsOnlyIBB;
 			HXML optionNode = nullptr;
 			JABBER_FT_TYPE ftType = FT_OOB;
 

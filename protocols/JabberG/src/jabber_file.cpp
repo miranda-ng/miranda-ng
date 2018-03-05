@@ -284,7 +284,7 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 				ft->szId = JabberId2string(SerialNext());
 
 				ptrA myAddr;
-				if (m_options.BsDirect && m_options.BsDirectManual)
+				if (m_bBsDirect && m_bBsDirectManual)
 					myAddr = getStringA("BsDirectAddr");
 				if (myAddr == nullptr) {
 					sockaddr_in sin = {};

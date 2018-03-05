@@ -33,7 +33,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 	if (!pInfo->GetFrom())
 		return TRUE;
 
-	if (!m_options.AllowVersionRequests)
+	if (!m_bAllowVersionRequests)
 		return FALSE;
 
 	XmlNodeIq iq(L"result", pInfo);
@@ -41,7 +41,7 @@ BOOL CJabberProto::OnIqRequestVersion(HXML, CJabberIqInfo *pInfo)
 	query << XCHILD(L"name", L"Miranda NG Jabber");
 	query << XCHILD(L"version", szCoreVersion);
 
-	if (m_options.ShowOSVersion) {
+	if (m_bShowOSVersion) {
 		wchar_t os[256] = { 0 };
 		if (!GetOSDisplayString(os, _countof(os)))
 			mir_wstrncpy(os, L"Microsoft Windows", _countof(os));
@@ -109,7 +109,7 @@ BOOL CJabberProto::OnIqRequestTime(HXML, CJabberIqInfo *pInfo)
 	XmlNodeIq iq(L"result", pInfo);
 	HXML timeNode = iq << XCHILDNS(L"time", JABBER_FEAT_ENTITY_TIME);
 	timeNode << XCHILD(L"utc", stime); timeNode << XCHILD(L"tzo", szTZ);
-	LPCTSTR szTZName = TimeZone_GetName(nullptr);
+	const wchar_t *szTZName = TimeZone_GetName(nullptr);
 	if (szTZName)
 		timeNode << XCHILD(L"tz", szTZName);
 	m_ThreadInfo->send(iq);
@@ -134,7 +134,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 	XmlNodeIq iq(L"result", pInfo);
 	HXML queryNode = iq << XQUERY(JABBER_FEAT_ENTITY_TIME_OLD);
 	queryNode << XCHILD(L"utc", stime);
-	LPCTSTR szTZName = TimeZone_GetName(nullptr);
+	const wchar_t *szTZName = TimeZone_GetName(nullptr);
 	if (szTZName)
 		queryNode << XCHILD(L"tz", szTZName);
 	queryNode << XCHILD(L"display", dtime);
@@ -144,10 +144,10 @@ BOOL CJabberProto::OnIqProcessIqOldTime(HXML, CJabberIqInfo *pInfo)
 
 BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 {
-	if (!m_options.EnableAvatars)
+	if (!m_bEnableAvatars)
 		return TRUE;
 
-	int pictureType = m_options.AvatarType;
+	int pictureType = m_bAvatarType;
 	if (pictureType == PA_FORMAT_UNKNOWN)
 		return TRUE;
 
@@ -272,7 +272,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 				}
 				else db_unset(hContact, "CList", "MyHandle");
 
-				if (!m_options.IgnoreRosterGroups) {
+				if (!m_bIgnoreRosterGroups) {
 					if (item->group != nullptr) {
 						Clist_GroupCreate(0, item->group);
 						db_set_ws(hContact, "CList", "Group", item->group);
@@ -321,7 +321,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 	if (!n || !XmlGetText(n))
 		return TRUE;
 
-	if (m_options.BsOnlyIBB) {
+	if (m_bBsOnlyIBB) {
 		// reject
 		XmlNodeIq iq(L"error", pInfo);
 		HXML e = XmlAddChild(iq, L"error", L"File transfer refused"); XmlAddAttr(e, L"code", 406);
@@ -433,7 +433,7 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo *pInfo)
 	if (szNode)
 		XmlAddAttr(resultQuery, L"node", szNode);
 
-	if (!szNode && m_options.EnableRemoteControl)
+	if (!szNode && m_bEnableRemoteControl)
 		resultQuery << XCHILD(L"item") << XATTR(L"jid", m_ThreadInfo->fullJID)
 		<< XATTR(L"node", JABBER_FEAT_COMMANDS) << XATTR(L"name", L"Ad-hoc commands");
 
@@ -459,7 +459,7 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 
 BOOL CJabberProto::OnIqHttpAuth(HXML node, CJabberIqInfo *pInfo)
 {
-	if (!m_options.AcceptHttpAuth)
+	if (!m_bAcceptHttpAuth)
 		return TRUE;
 
 	if (!node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr())

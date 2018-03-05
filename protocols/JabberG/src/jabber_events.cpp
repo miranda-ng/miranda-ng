@@ -145,10 +145,10 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONT
 
 	AddContactToRoster(jid, nick, ptrW(db_get_wsa(hContact, "CList", "Group")));
 
-	XmlNode xPresence(L"presence"); xPresence << XATTR(L"to", LPCTSTR(jid)) << XATTR(L"type", L"subscribe");
+	XmlNode xPresence(L"presence"); xPresence << XATTR(L"to", jid) << XATTR(L"type", L"subscribe");
 	ptrW myNick(getWStringA(0, "Nick"));
 	if (myNick != nullptr)
-		xPresence << XCHILD(L"nick", LPCTSTR(myNick)) << XATTR(L"xmlns", JABBER_FEAT_NICK);
+		xPresence << XCHILD(L"nick", myNick) << XATTR(L"xmlns", JABBER_FEAT_NICK);
 	m_ThreadInfo->send(xPresence);
 
 	SendGetVcard(jid);

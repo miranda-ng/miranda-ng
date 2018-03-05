@@ -390,19 +390,19 @@ public:
 	{
 		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_txtPriority, "Priority", DBVT_DWORD, 0);
-		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
+		CreateLink(m_chkSavePassword, proto->m_bSavePassword);
 		CreateLink(m_cbResource, "Resource", L"Miranda");
-		CreateLink(m_chkUseHostnameAsResource, proto->m_options.HostNameAsResource);
-		CreateLink(m_chkUseDomainLogin, proto->m_options.UseDomainLogin);
+		CreateLink(m_chkUseHostnameAsResource, proto->m_bHostNameAsResource);
+		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
 		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
-		CreateLink(m_chkUseSsl, proto->m_options.UseSSL);
-		CreateLink(m_chkUseTls, proto->m_options.UseTLS);
-		CreateLink(m_chkManualHost, proto->m_options.ManualConnect);
+		CreateLink(m_chkUseSsl, proto->m_bUseSSL);
+		CreateLink(m_chkUseTls, proto->m_bUseTLS);
+		CreateLink(m_chkManualHost, proto->m_bManualConnect);
 		CreateLink(m_txtManualHost, "ManualHost", L"");
 		CreateLink(m_txtManualPort, "ManualPort", DBVT_WORD, 0);
-		CreateLink(m_chkKeepAlive, proto->m_options.KeepAlive);
-		CreateLink(m_chkAutoDeleteContacts, proto->m_options.RosterSync);
+		CreateLink(m_chkKeepAlive, proto->m_bKeepAlive);
+		CreateLink(m_chkAutoDeleteContacts, proto->m_bRosterSync);
 		CreateLink(m_txtUserDirectory, "Jud", L"");
 
 		// Bind events
@@ -461,17 +461,17 @@ protected:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_COMBO_RESOURCE), m_chkUseHostnameAsResource.GetState() != BST_CHECKED);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_UNREGISTER), m_proto->m_bJabberOnline);
 
-		m_chkUseTls.Enable(!m_proto->m_options.Disable3920auth && (m_proto->m_options.UseSSL ? false : true));
-		if (m_proto->m_options.Disable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
-		m_chkUseSsl.Enable(m_proto->m_options.Disable3920auth || (m_proto->m_options.UseTLS ? false : true));
+		m_chkUseTls.Enable(!m_proto->m_bDisable3920auth && (m_proto->m_bUseSSL ? false : true));
+		if (m_proto->m_bDisable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
+		m_chkUseSsl.Enable(m_proto->m_bDisable3920auth || (m_proto->m_bUseTLS ? false : true));
 
-		if (m_proto->m_options.ManualConnect) {
+		if (m_proto->m_bManualConnect) {
 			m_txtManualHost.Enable();
 			m_txtManualPort.Enable();
 			m_txtPort.Disable();
 		}
 
-		if (m_proto->m_options.UseDomainLogin)
+		if (m_proto->m_bUseDomainLogin)
 			chkUseDomainLogin_OnChange(&m_chkUseDomainLogin);
 
 		CheckRegistration();
@@ -523,8 +523,8 @@ protected:
 	{
 		switch (msg) {
 		case WM_ACTIVATE:
-			m_chkUseTls.Enable(!m_proto->m_options.Disable3920auth && (m_proto->m_options.UseSSL ? false : true));
-			if (m_proto->m_options.Disable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
+			m_chkUseTls.Enable(!m_proto->m_bDisable3920auth && (m_proto->m_bUseSSL ? false : true));
+			if (m_proto->m_bDisable3920auth) m_chkUseTls.SetState(BST_UNCHECKED);
 			break;
 
 		case WM_JABBER_REFRESH:
@@ -646,7 +646,7 @@ private:
 				m_txtPort.SetInt(5223);
 		}
 		else {
-			if (!m_proto->m_options.Disable3920auth)
+			if (!m_proto->m_bDisable3920auth)
 				m_chkUseTls.Enable();
 			if (!bManualHost)
 				m_txtPort.SetInt(5222);
@@ -771,11 +771,11 @@ public:
 		m_txtDirect(this, IDC_DIRECT_ADDR),
 		m_txtProxy(this, IDC_PROXY_ADDR),
 		m_otvOptions(this, IDC_OPTTREE),
-		m_oldFrameValue(proto->m_options.DisableFrame)
+		m_oldFrameValue(proto->m_bDisableFrame)
 	{
-		CreateLink(m_chkDirect, proto->m_options.BsDirect);
-		CreateLink(m_chkDirectManual, proto->m_options.BsDirectManual);
-		CreateLink(m_chkProxy, proto->m_options.BsProxyManual);
+		CreateLink(m_chkDirect, proto->m_bBsDirect);
+		CreateLink(m_chkDirectManual, proto->m_bBsDirectManual);
+		CreateLink(m_chkProxy, proto->m_bBsProxyManual);
 		CreateLink(m_txtDirect, "BsDirectAddr", L"");
 		CreateLink(m_txtProxy, "BsProxyServer", L"");
 
@@ -783,36 +783,36 @@ public:
 			m_chkDirectManual.OnChange = Callback(this, &CDlgOptAdvanced::chkDirect_OnChange);
 		m_chkProxy.OnChange = Callback(this, &CDlgOptAdvanced::chkProxy_OnChange);
 
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Send messages slower, but with full acknowledgment"), m_proto->m_options.MsgAck);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable avatars"), m_proto->m_options.EnableAvatars);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log chat state changes"), m_proto->m_options.LogChatstates);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log presence subscription state changes"), m_proto->m_options.LogPresence);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log presence errors"), m_proto->m_options.LogPresenceErrors);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user moods receiving"), m_proto->m_options.EnableUserMood);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user tunes receiving"), m_proto->m_options.EnableUserTune);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user activity receiving"), m_proto->m_options.EnableUserActivity);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive notes"), m_proto->m_options.AcceptNotes);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Automatically save received notes"), m_proto->m_options.AutosaveNotes);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_options.EnableMsgArchive);
-		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive conversations from other devices (XEP-0280)"), m_proto->m_options.EnableCarbons);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Send messages slower, but with full acknowledgment"), m_proto->m_bMsgAck);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable avatars"), m_proto->m_bEnableAvatars);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log chat state changes"), m_proto->m_bLogChatstates);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log presence subscription state changes"), m_proto->m_bLogPresence);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Log presence errors"), m_proto->m_bLogPresenceErrors);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user moods receiving"), m_proto->m_bEnableUserMood);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user tunes receiving"), m_proto->m_bEnableUserTune);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable user activity receiving"), m_proto->m_bEnableUserActivity);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive notes"), m_proto->m_bAcceptNotes);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
+		m_otvOptions.AddOption(LPGENW("Messaging") L"/" LPGENW("Receive conversations from other devices (XEP-0280)"), m_proto->m_bEnableCarbons);
 
-		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_options.Disable3920auth);
-		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Enable stream compression (if possible)"), m_proto->m_options.EnableZlib);
+		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
+		m_otvOptions.AddOption(LPGENW("Server options") L"/" LPGENW("Enable stream compression (if possible)"), m_proto->m_bEnableZlib);
 
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable remote controlling (from another resource of same JID only)"), m_proto->m_options.EnableRemoteControl);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Show transport agents on contact list"), m_proto->m_options.ShowTransport);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Automatically add contact when accept authorization"), m_proto->m_options.AutoAdd);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Automatically accept authorization requests"), m_proto->m_options.AutoAcceptAuthorization);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_options.FixIncorrectTimestamps);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Disable frame"), m_proto->m_options.DisableFrame);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_options.ProcessXMPPLinks);
-		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Keep contacts assigned to local groups (ignore roster group)"), m_proto->m_options.IgnoreRosterGroups);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable remote controlling (from another resource of same JID only)"), m_proto->m_bEnableRemoteControl);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Show transport agents on contact list"), m_proto->m_bShowTransport);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Automatically add contact when accept authorization"), m_proto->m_bAutoAdd);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Automatically accept authorization requests"), m_proto->m_bAutoAcceptAuthorization);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Disable frame"), m_proto->m_bDisableFrame);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
+		m_otvOptions.AddOption(LPGENW("Other") L"/" LPGENW("Keep contacts assigned to local groups (ignore roster group)"), m_proto->m_bIgnoreRosterGroups);
 
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_options.AllowVersionRequests);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Show information about operating system in version replies"), m_proto->m_options.ShowOSVersion);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_options.BsOnlyIBB);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_options.AcceptHttpAuth);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Use OMEMO encryption for messages if possible (Experimental! WIP!)"), m_proto->m_options.UseOMEMO);
+		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);
+		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
+		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_bBsOnlyIBB);
+		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_bAcceptHttpAuth);
+		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Use OMEMO encryption for messages if possible (Experimental! WIP!)"), m_proto->m_bUseOMEMO);
 	}
 
 	void OnInitDialog()
@@ -825,12 +825,12 @@ public:
 
 	void OnApply()
 	{
-		if (m_proto->m_options.DisableFrame != m_oldFrameValue) {
+		if (m_proto->m_bDisableFrame != m_oldFrameValue) {
 			m_proto->InitInfoFrame(); // create or destroy a frame
-			m_oldFrameValue = m_proto->m_options.DisableFrame;
+			m_oldFrameValue = m_proto->m_bDisableFrame;
 		}
 
-		BOOL bChecked = m_proto->m_options.ShowTransport;
+		BOOL bChecked = m_proto->m_bShowTransport;
 		LISTFOREACH(index, m_proto, LIST_ROSTER)
 		{
 			JABBER_LIST_ITEM *item = m_proto->ListGetItemPtrFromIndex(index);
@@ -849,7 +849,7 @@ public:
 				}
 			}
 		}
-		if (m_proto->m_options.UseOMEMO)
+		if (m_proto->m_bUseOMEMO)
 			m_proto->m_omemo.init();
 		else
 			m_proto->m_omemo.deinit();
@@ -906,17 +906,17 @@ public:
 		CreateLink(m_txtSlap, "GcMsgSlap", TranslateW(JABBER_GC_MSG_SLAP));
 		CreateLink(m_txtQuit, "GcMsgQuit", TranslateW(JABBER_GC_MSG_QUIT));
 
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_options.AutoAcceptMUC);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join bookmarks on login"),   m_proto->m_options.AutoJoinBookmarks);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join conferences on login"), m_proto->m_options.AutoJoinConferences);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Hide conference windows at startup"),      m_proto->m_options.AutoJoinHidden);
-		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not show multiuser chat invitations"),  m_proto->m_options.IgnoreMUCInvites);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Ban notifications"),                    m_proto->m_options.GcLogBans);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Room configuration changes"),           m_proto->m_options.GcLogConfig);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Affiliation changes"),                  m_proto->m_options.GcLogAffiliations);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Role changes"),                         m_proto->m_options.GcLogRoles);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Status changes"),                       m_proto->m_options.GcLogStatuses);
-		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Don't notify history messages"),        m_proto->m_options.GcLogChatHistory);
+		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Autoaccept multiuser chat invitations"),   m_proto->m_bAutoAcceptMUC);
+		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join bookmarks on login"),   m_proto->m_bAutoJoinBookmarks);
+		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Automatically join conferences on login"), m_proto->m_bAutoJoinConferences);
+		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Hide conference windows at startup"),      m_proto->m_bAutoJoinHidden);
+		m_otvOptions.AddOption(LPGENW("General") L"/" LPGENW("Do not show multiuser chat invitations"),  m_proto->m_bIgnoreMUCInvites);
+		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Ban notifications"),                    m_proto->m_bGcLogBans);
+		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Room configuration changes"),           m_proto->m_bGcLogConfig);
+		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Affiliation changes"),                  m_proto->m_bGcLogAffiliations);
+		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Role changes"),                         m_proto->m_bGcLogRoles);
+		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Status changes"),                       m_proto->m_bGcLogStatuses);
+		m_otvOptions.AddOption(LPGENW("Log events") L"/" LPGENW("Don't notify history messages"),        m_proto->m_bGcLogChatHistory);
 	}
 };
 
@@ -942,7 +942,7 @@ struct ROSTEREDITDAT
 	int subindex;
 };
 
-static int	_RosterInsertListItem(HWND hList, const wchar_t * jid, const wchar_t * nick, const wchar_t * group, const wchar_t * subscr, BOOL bChecked)
+static int	_RosterInsertListItem(HWND hList, const wchar_t *jid, const wchar_t *nick, const wchar_t *group, const wchar_t *subscr, BOOL bChecked)
 {
 	LVITEM item = { 0 };
 	item.mask = LVIF_TEXT | LVIF_STATE;
@@ -1552,11 +1552,11 @@ public:
 		SetParent(hwndParent);
 
 		CreateLink(m_txtUsername, "LoginName", L"");
-		CreateLink(m_chkSavePassword, proto->m_options.SavePassword);
+		CreateLink(m_chkSavePassword, proto->m_bSavePassword);
 		CreateLink(m_cbResource, "Resource", L"Miranda");
 		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
-		CreateLink(m_chkUseDomainLogin, proto->m_options.UseDomainLogin);
+		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
 
 		// Bind events
 		m_cbType.OnChange = Callback(this, &CJabberDlgAccMgrUI::cbType_OnChange);
@@ -1654,16 +1654,16 @@ protected:
 			m_cbType.SetCurSel(ACC_SMS);
 			m_canregister = false;
 		}
-		else if (m_proto->m_options.UseSSL)
+		else if (m_proto->m_bUseSSL)
 			m_cbType.SetCurSel(ACC_SSL);
-		else if (m_proto->m_options.UseTLS) {
+		else if (m_proto->m_bUseTLS) {
 			m_cbType.SetCurSel(ACC_TLS);
 			m_txtPort.SetInt(5222);
 		}
 		else m_cbType.SetCurSel(ACC_PUBLIC);
 
 		if (m_chkManualHost.Enabled()) {
-			if (m_proto->m_options.ManualConnect) {
+			if (m_proto->m_bManualConnect) {
 				m_chkManualHost.SetState(BST_CHECKED);
 				m_txtManualHost.Enable();
 				m_txtPort.Enable();
@@ -1694,7 +1694,7 @@ protected:
 			}
 		}
 
-		if (m_proto->m_options.UseDomainLogin)
+		if (m_proto->m_bUseDomainLogin)
 			chkUseDomainLogin_OnChange(&m_chkUseDomainLogin);
 
 		CheckRegistration();
@@ -1713,7 +1713,7 @@ protected:
 			if (!mir_wstrcmp(szCompName, szResource))
 				bUseHostnameAsResource = TRUE;
 		}
-		m_proto->m_options.HostNameAsResource = bUseHostnameAsResource;
+		m_proto->m_bHostNameAsResource = bUseHostnameAsResource;
 
 		if (m_chkSavePassword.GetState() == BST_CHECKED) {
 			wchar_t *text = m_txtPassword.GetText();
@@ -1724,7 +1724,7 @@ protected:
 
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
 		case ACC_PUBLIC:
-			m_proto->m_options.UseSSL = m_proto->m_options.UseTLS = FALSE;
+			m_proto->m_bUseSSL = m_proto->m_bUseTLS = FALSE;
 			break;
 
 		case ACC_GTALK:
@@ -1732,26 +1732,26 @@ protected:
 			{
 				int port = m_txtPort.GetInt();
 				if (port == 443 || port == 5223) {
-					m_proto->m_options.UseSSL = TRUE;
-					m_proto->m_options.UseTLS = FALSE;
+					m_proto->m_bUseSSL = TRUE;
+					m_proto->m_bUseTLS = FALSE;
 				}
 				else if (port == 5222) {
-					m_proto->m_options.UseSSL = FALSE;
-					m_proto->m_options.UseTLS = TRUE;
+					m_proto->m_bUseSSL = FALSE;
+					m_proto->m_bUseTLS = TRUE;
 				}
 			}
 			break;
 
 		case ACC_OK:
-			m_proto->m_options.IgnoreRosterGroups = TRUE;
-			m_proto->m_options.UseSSL = FALSE;
-			m_proto->m_options.UseTLS = TRUE;
+			m_proto->m_bIgnoreRosterGroups = TRUE;
+			m_proto->m_bUseSSL = FALSE;
+			m_proto->m_bUseTLS = TRUE;
 
 		case ACC_TLS:
 		case ACC_LJTALK:
 		case ACC_SMS:
-			m_proto->m_options.UseSSL = FALSE;
-			m_proto->m_options.UseTLS = TRUE;
+			m_proto->m_bUseSSL = FALSE;
+			m_proto->m_bUseTLS = TRUE;
 			break;
 
 		case ACC_LOL_EN:
@@ -1759,13 +1759,13 @@ protected:
 		case ACC_LOL_OC:
 		case ACC_LOL_US:
 			m_proto->setDword("Priority", -2);
-			m_proto->m_options.UseSSL = TRUE;
-			m_proto->m_options.UseTLS = FALSE;
+			m_proto->m_bUseSSL = TRUE;
+			m_proto->m_bUseTLS = FALSE;
 			break;
 
 		case ACC_SSL:
-			m_proto->m_options.UseSSL = TRUE;
-			m_proto->m_options.UseTLS = FALSE;
+			m_proto->m_bUseSSL = TRUE;
+			m_proto->m_bUseTLS = FALSE;
 			break;
 		}
 
@@ -1776,13 +1776,13 @@ protected:
 		m_txtManualHost.GetTextA(manualServer, _countof(manualServer));
 
 		if ((m_chkManualHost.GetState() == BST_CHECKED) && mir_strcmp(server, manualServer)) {
-			m_proto->m_options.ManualConnect = TRUE;
+			m_proto->m_bManualConnect = TRUE;
 			m_proto->setString("ManualHost", manualServer);
 			m_proto->setWord("ManualPort", m_txtPort.GetInt());
 			m_proto->setWord("Port", m_txtPort.GetInt());
 		}
 		else {
-			m_proto->m_options.ManualConnect = FALSE;
+			m_proto->m_bManualConnect = FALSE;
 			m_proto->delSetting("ManualHost");
 			m_proto->delSetting("ManualPort");
 			m_proto->setWord("Port", m_txtPort.GetInt());

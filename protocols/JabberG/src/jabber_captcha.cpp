@@ -27,12 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CAPTCHA_FORM_PARAMS
 {
-	LPCTSTR from;
-	LPCTSTR challenge;
-	LPCTSTR fromjid;
-	LPCTSTR sid;
-	LPCTSTR to;
-	LPCTSTR hint;
+	const wchar_t *from;
+	const wchar_t *challenge;
+	const wchar_t *fromjid;
+	const wchar_t *sid;
+	const wchar_t *to;
+	const wchar_t *hint;
 	HBITMAP bmp;
 	int w,h;
 	wchar_t Result[MAX_PATH];
@@ -47,7 +47,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		Window_SetSkinIcon_IcoLib(hwndDlg, IDI_KEYS);
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
-		LPCTSTR hint = params->hint;
+		const wchar_t *hint = params->hint;
 		if (hint == nullptr)
 			hint = TranslateT("Enter the text you see");
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateW(hint));
@@ -147,7 +147,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 		return false;
 	
 	IMGSRVC_MEMIO memio;
-	memio.iLen = bufferLen;
+	memio.iLen = (long)bufferLen;
 	memio.pBuf = (void *)buffer;
 	memio.fif = FIF_UNKNOWN; /* detect */
 	memio.flags = 0;
@@ -165,7 +165,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	return true;
 }
 
-void CJabberProto::sendCaptchaResult(wchar_t* buf, ThreadData *info, LPCTSTR from, LPCTSTR challenge, LPCTSTR fromjid,  LPCTSTR sid)
+void CJabberProto::sendCaptchaResult(wchar_t* buf, ThreadData *info, const wchar_t *from, const wchar_t *challenge, const wchar_t *fromjid,  const wchar_t *sid)
 {
 	XmlNodeIq iq(L"set", SerialNext());
 	HXML query= iq <<XATTR(L"to", from) << XCHILDNS(L"captcha", L"urn:xmpp:captcha") << XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"submit");
@@ -177,7 +177,7 @@ void CJabberProto::sendCaptchaResult(wchar_t* buf, ThreadData *info, LPCTSTR fro
 	info -> send (iq);
 }
 
-void CJabberProto::sendCaptchaError(ThreadData *info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge)
+void CJabberProto::sendCaptchaError(ThreadData *info, const wchar_t *from, const wchar_t *to, const wchar_t *challenge)
 {
 	XmlNode message(L"message");
 	message << XATTR(L"type", L"error") << XATTR(L"to", from) << XATTR(L"id", challenge) << XATTR(L"from", to)

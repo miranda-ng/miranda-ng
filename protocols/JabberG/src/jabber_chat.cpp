@@ -162,7 +162,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
 		Chat_AddGroup(m_szModuleName, item->jid, TranslateW(sttStatuses[i]));
 
-	Chat_Control(m_szModuleName, item->jid, (item->bAutoJoin && m_options.AutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(m_szModuleName, item->jid, (item->bAutoJoin && m_bAutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, item->jid, SESSION_ONLINE);
 	return 0;
 }
@@ -175,12 +175,12 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 
 	switch (type) {
 	case INFO_BAN:
-		if (m_options.GcLogBans)
+		if (m_bGcLogBans)
 			buf.Format(TranslateT("User %s is now banned."), user->m_tszResourceName);
 		break;
 
 	case INFO_STATUS:
-		if (m_options.GcLogStatuses) {
+		if (m_bGcLogStatuses) {
 			wchar_t *ptszDescr = pcli->pfnGetStatusModeDescription(user->m_iStatus, 0);
 			if (user->m_tszStatusMessage)
 				buf.Format(TranslateT("User %s changed status to %s with message: %s"),
@@ -191,12 +191,12 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 		break;
 
 	case INFO_CONFIG:
-		if (m_options.GcLogConfig)
+		if (m_bGcLogConfig)
 			buf.Format(TranslateT("Room configuration was changed."));
 		break;
 
 	case INFO_AFFILIATION:
-		if (m_options.GcLogAffiliations) {
+		if (m_bGcLogAffiliations) {
 			wchar_t *name = nullptr;
 			switch (user->m_affiliation) {
 			case AFFILIATION_NONE:		name = TranslateT("None"); break;
@@ -211,7 +211,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 		break;
 
 	case INFO_ROLE:
-		if (m_options.GcLogRoles) {
+		if (m_bGcLogRoles) {
 			wchar_t *name = nullptr;
 			switch (user->m_role) {
 			case ROLE_NONE:			name = TranslateT("None"); break;

@@ -760,7 +760,7 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 
 bool CJabberProto::OnIncomingNote(const wchar_t *szFrom, HXML hXml)
 {
-	if (!m_options.AcceptNotes)
+	if (!m_bAcceptNotes)
 		return false;
 
 	if (!szFrom || !hXml) return true;
@@ -770,7 +770,7 @@ bool CJabberProto::OnIncomingNote(const wchar_t *szFrom, HXML hXml)
 		return true;
 	}
 
-	if (m_options.AutosaveNotes && HContactFromJID(szFrom)) {
+	if (m_bAutosaveNotes && HContactFromJID(szFrom)) {
 		ProcessIncomingNote(pItem, true);
 		return false;
 	}

@@ -434,7 +434,7 @@ namespace omemo {
 
 	omemo_impl::omemo_impl(CJabberProto *p) : proto(p), signal_mutex(nullptr), provider(nullptr)
 	{
-		if (proto->m_options.UseOMEMO)
+		if (proto->m_bUseOMEMO)
 			init();
 	}
 	void omemo_impl::init()
@@ -475,7 +475,7 @@ namespace omemo {
 	}
 	omemo_impl::~omemo_impl()
 	{
-		if (proto->m_options.UseOMEMO)
+		if (proto->m_bUseOMEMO)
 		{
 			deinit();
 		}
@@ -1317,7 +1317,7 @@ namespace omemo {
 	}
 	//void(*destroy_func)(void *user_data); //use first one as we have nothing special to destroy
 
-	bool omemo_impl::create_session_store(MCONTACT hContact, LPCTSTR device_id)
+	bool omemo_impl::create_session_store(MCONTACT hContact, const wchar_t *device_id)
 	{
 		signal_store_backend_user_data *data[4];
 		char *device_id_a = mir_u2a(device_id);
@@ -1373,8 +1373,8 @@ namespace omemo {
 
 		return true; //success
 	}
-	bool omemo_impl::build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR dev_id, LPCTSTR key_id, LPCTSTR pre_key_public, LPCTSTR signed_pre_key_id,
-		LPCTSTR signed_pre_key_public, LPCTSTR signed_pre_key_signature, LPCTSTR identity_key)
+	bool omemo_impl::build_session(MCONTACT hContact, const wchar_t *jid, const wchar_t *dev_id, const wchar_t *key_id, const wchar_t *pre_key_public, const wchar_t *signed_pre_key_id,
+		const wchar_t *signed_pre_key_public, const wchar_t *signed_pre_key_signature, const wchar_t *identity_key)
 	{
 		/* Instantiate a session_builder for a recipient address. */
 		char *jid_str = mir_u2a(jid);
@@ -1570,7 +1570,7 @@ void CJabberProto::OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int unused_
 	((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.push_back(omemo::outgoing_message(hContact, unused_unknown, msg));
 }
 
-void CJabberProto::OmemoPutMessageToIncommingQueue(HXML node, LPCTSTR jid, time_t msgTime)
+void CJabberProto::OmemoPutMessageToIncommingQueue(HXML node, const wchar_t *jid, time_t msgTime)
 {
 	wchar_t *jid_ = mir_wstrdup(jid);
 	HXML node_ = xmlCopyNode(node);
@@ -1620,19 +1620,19 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		debugLogA("Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
 		return; //this is "KeyTransportElement" which is currently unused
 	}
-	LPCTSTR payload_base64w = XmlGetText(payload_node);
+	const wchar_t *payload_base64w = XmlGetText(payload_node);
 	if (!payload_base64w)
 	{
 		debugLogA("Jabber OMEMO: error: failed to get payload data");
 		return;
 	}
-	LPCTSTR iv_base64 = XmlGetText(XmlGetChild(header_node, L"iv"));
+	const wchar_t *iv_base64 = XmlGetText(XmlGetChild(header_node, L"iv"));
 	if (!iv_base64)
 	{
 		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get iv data");
 		return;
 	}
-	LPCTSTR sender_dev_id = XmlGetAttrValue(header_node, L"sid");
+	const wchar_t *sender_dev_id = XmlGetAttrValue(header_node, L"sid");
 	if (!sender_dev_id)
 	{
 		debugLogA("Jabber OMEMO: error: failed to get sender device id");
@@ -1652,10 +1652,10 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	}
 	HXML key_node;
 	DWORD own_id = m_omemo.GetOwnDeviceId();
-	LPCTSTR encrypted_key_base64 = nullptr;
+	const wchar_t *encrypted_key_base64 = nullptr;
 	for (int p = 1; (key_node = XmlGetNthChild(header_node, L"key", p)) != nullptr; p++)
 	{
-		LPCTSTR dev_id = xmlGetAttrValue(key_node, L"rid");
+		const wchar_t *dev_id = xmlGetAttrValue(key_node, L"rid");
 		char *dev_id_a = mir_u2a(dev_id);
 		DWORD dev_id_int = strtoul(dev_id_a, nullptr, 10);
 		mir_free(dev_id_a);
@@ -1822,12 +1822,12 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 
 		for (;;)
 		{
-			EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, (payload_len >= 128) ? 128 : payload_len);
+			EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int((payload_len >= 128) ? 128 : payload_len));
 			outl += round_len;
 			if (outl >= (int)payload_len - 128)
 				break;
 		}
-		EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, payload_len - outl);
+		EVP_DecryptUpdate(ctx, (unsigned char*)out + outl, &round_len, payload + outl, int(payload_len - outl));
 		outl += round_len;
 		out[outl] = 0;
 		mir_free(payload);
@@ -1845,14 +1845,14 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	if (!msgTime)
 		msgTime = now;
 
-	if (m_options.FixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
+	if (m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
 		msgTime = now;
 
 	pResourceStatus pFromResource(ResourceInfoFromJID(jid));
 	PROTORECVEVENT recv = { 0 };
 	recv.timestamp = (DWORD)msgTime;
 	recv.szMessage = mir_utf8encode(out);
-	recv.lParam = (LPARAM)((pFromResource != nullptr && m_options.EnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
+	recv.lParam = (LPARAM)((pFromResource != nullptr && m_bEnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
 	ProtoChainRecvMsg(hContact, &recv);
 	mir_free(out);
 }
@@ -1863,7 +1863,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 		return;
 	HXML message = xmlGetParent(node);
 	message = xmlGetParent(message);
-	LPCTSTR jid = XmlGetAttrValue(message, L"from");
+	const wchar_t *jid = XmlGetAttrValue(message, L"from");
 	MCONTACT hContact = HContactFromJID(jid);
 	node = XmlGetChild(node, "item"); //get <item> node
 	if (!node)
@@ -1881,7 +1881,7 @@ void CJabberProto::OmemoHandleDeviceList(HXML node)
 	if (wcsstr(m_ThreadInfo->fullJID, jid))
 		own_jid = true;
 	DWORD current_id;
-	LPCTSTR current_id_str;
+	const wchar_t *current_id_str;
 	if (own_jid)
 	{
 		//check if our device exist
@@ -2133,7 +2133,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 	if (iqNode == nullptr)
 		return;
 	
-	LPCTSTR jid = XmlGetAttrValue(iqNode, L"from");
+	const wchar_t *jid = XmlGetAttrValue(iqNode, L"from");
 	MCONTACT hContact = HContactFromJID(jid);
 
 	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
@@ -2176,8 +2176,8 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 	}
 	HXML items = XmlGetChild(pubsub, L"items");
-	LPCTSTR items_node_val = XmlGetAttrValue(items, L"node");
-	LPCTSTR device_id = items_node_val;
+	const wchar_t *items_node_val = XmlGetAttrValue(items, L"node");
+	const wchar_t *device_id = items_node_val;
 	device_id += mir_wstrlen(JABBER_FEAT_OMEMO L".bundles:");
 	HXML bundle = XmlGetChild(XmlGetChild(items, L"item"), L"bundle");
 	if (!bundle)
@@ -2185,25 +2185,25 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 		debugLogA("Jabber OMEMO: error: device bundle does not contain bundle node");
 		return;
 	}
-	LPCTSTR signedPreKeyPublic = XmlGetText(XmlGetChild(bundle, L"signedPreKeyPublic"));
+	const wchar_t *signedPreKeyPublic = XmlGetText(XmlGetChild(bundle, L"signedPreKeyPublic"));
 	if (!signedPreKeyPublic)
 	{
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
 	}
-	LPCTSTR signedPreKeyId = XmlGetAttrValue(XmlGetChild(bundle, L"signedPreKeyPublic"), L"signedPreKeyId");
+	const wchar_t *signedPreKeyId = XmlGetAttrValue(XmlGetChild(bundle, L"signedPreKeyPublic"), L"signedPreKeyId");
 	if (!signedPreKeyId)
 	{
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeyPublic node");
 		return;
 	}
-	LPCTSTR signedPreKeySignature = XmlGetText(XmlGetChild(bundle, L"signedPreKeySignature"));
+	const wchar_t *signedPreKeySignature = XmlGetText(XmlGetChild(bundle, L"signedPreKeySignature"));
 	if (!signedPreKeySignature)
 	{
 		debugLogA("Jabber OMEMO: error: device bundle does not contain signedPreKeySignature node");
 		return;
 	}
-	LPCTSTR identityKey = XmlGetText(XmlGetChild(bundle, L"identityKey"));
+	const wchar_t *identityKey = XmlGetText(XmlGetChild(bundle, L"identityKey"));
 	if (!identityKey)
 	{
 		debugLogA("Jabber OMEMO: error: device bundle does not contain identityKey node");
@@ -2232,13 +2232,13 @@ void CJabberProto::OmemoOnIqResultGetBundle(HXML iqNode, CJabberIqInfo *pInfo)
 		return;
 	}
 
-	LPCTSTR preKeyPublic = XmlGetText(prekey_node);
+	const wchar_t *preKeyPublic = XmlGetText(prekey_node);
 	if (!preKeyPublic)
 	{
 		debugLogA("Jabber OMEMO: error: failed to get preKeyPublic data");
 		return;
 	}
-	LPCTSTR preKeyId = XmlGetAttrValue(prekey_node, L"preKeyId");
+	const wchar_t *preKeyId = XmlGetAttrValue(prekey_node, L"preKeyId");
 	if (!preKeyId)
 	{
 		debugLogA("Jabber OMEMO: error: failed to get preKeyId data");

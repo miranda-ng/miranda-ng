@@ -105,8 +105,8 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 
 	int Order = (FieldDat->bHidden) ? -1 : FieldDat->Order;
 
-	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (LPCTSTR)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, nullptr, hInst, nullptr);
-	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (LPCTSTR)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, nullptr, hInst, nullptr);
+	HWND hwndLabel = CreateWindowEx(0, L"STATIC", (const wchar_t *)TranslateW(FieldDat->Label), WS_CHILD, CornerX, CornerY + Order * 40, width, 13, hwndParent, nullptr, hInst, nullptr);
+	HWND hwndVar = CreateWindowEx(0 | WS_EX_CLIENTEDGE, L"EDIT", (const wchar_t *)FieldDat->defValue, WS_CHILD | WS_TABSTOP, CornerX + 5, CornerY + Order * 40 + 14, width, 20, hwndParent, nullptr, hInst, nullptr);
 	SendMessage(hwndLabel, WM_SETFONT, (WPARAM)hFont, 0);
 	SendMessage(hwndVar, WM_SETFONT, (WPARAM)hFont, 0);
 	if (!FieldDat->bHidden) {
@@ -137,7 +137,7 @@ void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 	if (!searchHandleDlg)
 		return;
 
-	LPCTSTR type = XmlGetAttrValue(iqNode, L"type");
+	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
 	if (type == nullptr)
 		return;
 
@@ -366,7 +366,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 
 					const wchar_t *szColumnName = XmlGetName(child);
 					if (szColumnName) {
-						LPCTSTR ptszChild = XmlGetText(child);
+						const wchar_t *ptszChild = XmlGetText(child);
 						if (ptszChild && *ptszChild) {
 							mColumnsNames.insertCopyKey((wchar_t*)szColumnName, L"", &keyReturned, CopyKey, DestroyKey);
 							mColumnsNames.insert((wchar_t*)szColumnName, keyReturned);

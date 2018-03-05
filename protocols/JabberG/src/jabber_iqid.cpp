@@ -52,7 +52,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode, CJabberIqInfo*)
 		if (!mir_wstrcmp(tmp.category, L"pubsub") && !mir_wstrcmp(tmp.type, L"pep")) {
 			m_bPepSupported = true;
 
-			if (m_options.UseOMEMO)
+			if (m_bUseOMEMO)
 			{
 				//publish ndes, precreation is not required
 				OmemoPublishNodes();
@@ -133,12 +133,12 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 	DWORD dwMask = JABBER_LOGIN_ROSTER | JABBER_LOGIN_BOOKMARKS | JABBER_LOGIN_SERVERINFO;
 	if ((info->dwLoginRqs & dwMask) == dwMask && !(info->dwLoginRqs & JABBER_LOGIN_BOOKMARKS_AJ)) {
 		if (info->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO)
-			EnableArchive(m_options.EnableMsgArchive != 0);
+			EnableArchive(m_bEnableMsgArchive != 0);
 
 		if (info->jabberServerCaps & JABBER_CAPS_CARBONS)
-			EnableCarbons(m_options.EnableCarbons != 0);
+			EnableCarbons(m_bEnableCarbons != 0);
 
-		if (m_options.AutoJoinBookmarks) {
+		if (m_bAutoJoinBookmarks) {
 			LIST<JABBER_LIST_ITEM> ll(10);
 			LISTFOREACH(i, this, LIST_BOOKMARK)
 			{
@@ -295,7 +295,7 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 	if (!m_ThreadInfo || !iqNode)
 		return;
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		LPCTSTR szJid = XPathT(iqNode, "bind[@xmlns='urn:ietf:params:xml:ns:xmpp-bind']/jid");
+		const wchar_t *szJid = XPathT(iqNode, "bind[@xmlns='urn:ietf:params:xml:ns:xmpp-bind']/jid");
 		if (szJid) {
 			if (!wcsncmp(m_ThreadInfo->fullJID, szJid, _countof(m_ThreadInfo->fullJID)))
 				debugLogW(L"Result Bind: %s confirmed ", m_ThreadInfo->fullJID);
@@ -457,7 +457,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		}
 		else UpdateSubscriptionInfo(hContact, item);
 
-		if (!m_options.IgnoreRosterGroups) {
+		if (!m_bIgnoreRosterGroups) {
 			if (item->group != nullptr) {
 				Clist_GroupCreate(0, item->group);
 
@@ -490,7 +490,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		delete httpavatars;
 
 	// Delete orphaned contacts (if roster sync is enabled)
-	if (m_options.RosterSync) {
+	if (m_bRosterSync) {
 		LISTFOREACH(i, this, LIST_ROSTER)
 		{
 			JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i);
@@ -506,7 +506,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 	debugLogA("Status changed via THREADSTART");
 	SetServerStatus(m_iDesiredStatus);
 
-	if (m_options.AutoJoinConferences)
+	if (m_bAutoJoinConferences)
 		for (auto &it : chatRooms)
 			GroupchatJoinByHContact((DWORD_PTR)it, true);
 
@@ -585,7 +585,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 		return;
 
 	HXML o = XmlGetChild(n, "BINVAL");
-	LPCTSTR ptszBinval = XmlGetText(o);
+	const wchar_t *ptszBinval = XmlGetText(o);
 	if (o == nullptr || ptszBinval == nullptr)
 		return;
 
@@ -608,7 +608,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 
 	debugLogA("Writing %d bytes", bufferLen);
 	DWORD nWritten;
-	bool bRes = WriteFile(hFile, buffer, bufferLen, &nWritten, nullptr) != 0;
+	bool bRes = WriteFile(hFile, buffer, (DWORD)bufferLen, &nWritten, nullptr) != 0;
 	CloseHandle(hFile);
 	if (!bRes)
 		return;
@@ -1480,7 +1480,7 @@ void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 
 			HXML itemNode;
 			for (int i = 0; itemNode = XmlGetChild(storageNode, i); i++) {
-				if (LPCTSTR name = XmlGetName(itemNode)) {
+				if (const wchar_t *name = XmlGetName(itemNode)) {
 					if (!mir_wstrcmp(name, L"conference") && (jid = XmlGetAttrValue(itemNode, L"jid"))) {
 						JABBER_LIST_ITEM *item = ListAdd(LIST_BOOKMARK, jid);
 						item->name = mir_wstrdup(XmlGetAttrValue(itemNode, L"name"));
@@ -1579,14 +1579,14 @@ void CJabberProto::OnIqResultLastActivity(HXML iqNode, CJabberIqInfo *pInfo)
 
 	time_t lastActivity = -1;
 	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
-		LPCTSTR szSeconds = XPathT(iqNode, "query[@xmlns='jabber:iq:last']/@seconds");
+		const wchar_t *szSeconds = XPathT(iqNode, "query[@xmlns='jabber:iq:last']/@seconds");
 		if (szSeconds) {
 			int nSeconds = _wtoi(szSeconds);
 			if (nSeconds > 0)
 				lastActivity = time(nullptr) - nSeconds;
 		}
 
-		LPCTSTR szLastStatusMessage = XPathT(iqNode, "query[@xmlns='jabber:iq:last']");
+		const wchar_t *szLastStatusMessage = XPathT(iqNode, "query[@xmlns='jabber:iq:last']");
 		if (szLastStatusMessage) // replace only if it exists
 			r->m_tszStatusMessage = mir_wstrdup(szLastStatusMessage);
 	}
@@ -1603,9 +1603,9 @@ void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo *pInfo)
 		return;
 
 	if (pInfo->m_nIqType == JABBER_IQ_TYPE_RESULT) {
-		LPCTSTR szTzo = XPathFmt(pIqNode, L"time[@xmlns='%s']/tzo", JABBER_FEAT_ENTITY_TIME);
+		const wchar_t *szTzo = XPathFmt(pIqNode, L"time[@xmlns='%s']/tzo", JABBER_FEAT_ENTITY_TIME);
 		if (szTzo && szTzo[0]) {
-			LPCTSTR szMin = wcschr(szTzo, ':');
+			const wchar_t *szMin = wcschr(szTzo, ':');
 			int nTz = _wtoi(szTzo) * -2;
 			nTz += (nTz < 0 ? -1 : 1) * (szMin ? _wtoi(szMin + 1) / 30 : 0);
 
@@ -1615,7 +1615,7 @@ void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo *pInfo)
 
 			setByte(pInfo->m_hContact, "Timezone", (signed char)nTz);
 
-			LPCTSTR szTz = XPathFmt(pIqNode, L"time[@xmlns='%s']/tz", JABBER_FEAT_ENTITY_TIME);
+			const wchar_t *szTz = XPathFmt(pIqNode, L"time[@xmlns='%s']/tz", JABBER_FEAT_ENTITY_TIME);
 			if (szTz)
 				setWString(pInfo->m_hContact, "TzName", szTz);
 			else

@@ -1364,8 +1364,8 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		break;
 
 	case SD_ACT_PROXY:
-		m_options.BsDirect = FALSE;
-		m_options.BsProxyManual = TRUE;
+		m_bBsDirect = FALSE;
+		m_bBsProxyManual = TRUE;
 		setWString("BsProxyServer", pNode->GetJid());
 		break;
 

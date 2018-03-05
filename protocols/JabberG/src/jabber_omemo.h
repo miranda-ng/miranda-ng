@@ -38,9 +38,9 @@ namespace omemo {
 		unsigned long GetOwnDeviceId();
 		void RefreshDevice();
 		omemo_device* create_device();
-		bool create_session_store(MCONTACT hContact, LPCTSTR device_id);
-		bool build_session(MCONTACT hContact, LPCTSTR jid, LPCTSTR dev_id, LPCTSTR key_id, LPCTSTR pre_key_public, LPCTSTR signed_pre_key_id,
-			LPCTSTR signed_pre_key_public, LPCTSTR signed_pre_key_signature, LPCTSTR identity_key);
+		bool create_session_store(MCONTACT hContact, const wchar_t *device_id);
+		bool build_session(MCONTACT hContact, const wchar_t *jid, const wchar_t *dev_id, const wchar_t *key_id, const wchar_t *pre_key_public, const wchar_t *signed_pre_key_id,
+			const wchar_t *signed_pre_key_public, const wchar_t *signed_pre_key_signature, const wchar_t *identity_key);
 
 
 		mir_cslockfull *signal_mutex;

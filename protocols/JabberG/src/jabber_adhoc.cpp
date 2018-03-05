@@ -142,7 +142,7 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, wchar_t*, JabberAdHocData* 
 int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, JabberAdHocData* dat)
 {
 	int nodeIdx = 0;
-	const wchar_t * type = XmlGetAttrValue(iqNode, L"type");
+	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
 	if (!type || !mir_wstrcmp(type, L"error")) {
 		// error occurred here
 		wchar_t buff[255];
@@ -227,9 +227,9 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			// use jabber:x:data form
 			HWND hFrame = GetDlgItem(hwndDlg, IDC_FRAME);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
-			if (LPCTSTR ptszInstr = XmlGetText(XmlGetChild(xNode, "instructions")))
+			if (const wchar_t *ptszInstr = XmlGetText(XmlGetChild(xNode, "instructions")))
 				JabberFormSetInstruction(hwndDlg, ptszInstr);
-			else if (LPCTSTR ptszTitle = XmlGetText(XmlGetChild(xNode, "title")))
+			else if (const wchar_t *ptszTitle = XmlGetText(XmlGetChild(xNode, "title")))
 				JabberFormSetInstruction(hwndDlg, ptszTitle);
 			else
 				JabberFormSetInstruction(hwndDlg, TranslateW(status));
@@ -241,7 +241,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 			int toHide[] = { IDC_FRAME_TEXT, IDC_FRAME, IDC_VSCROLL, 0 };
 			sttShowControls(hwndDlg, FALSE, toHide);
 
-			LPCTSTR noteText = XmlGetText(XmlGetChild(commandNode, "note"));
+			const wchar_t *noteText = XmlGetText(XmlGetChild(commandNode, "note"));
 			JabberFormSetInstruction(hwndDlg, noteText ? noteText : TranslateW(status));
 		}
 
@@ -295,7 +295,7 @@ int CJabberProto::AdHoc_SubmitCommandForm(HWND hwndDlg, JabberAdHocData* dat, wc
 	HXML xNode = XmlGetChild(commandNode, "x");
 	HXML dataNode = JabberFormGetData(GetDlgItem(hwndDlg, IDC_FRAME), xNode);
 
-	LPCTSTR jid2 = XmlGetAttrValue(dat->AdHocNode, L"from");
+	const wchar_t *jid2 = XmlGetAttrValue(dat->AdHocNode, L"from");
 	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResult_CommandExecution, JABBER_IQ_TYPE_SET, jid2, 0, -1, hwndDlg));
 	HXML command = iq << XCHILDNS(L"command", JABBER_FEAT_COMMANDS);
 

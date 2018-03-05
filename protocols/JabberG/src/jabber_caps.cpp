@@ -102,7 +102,7 @@ const JabberFeatCapPairExt g_JabberFeatCapPairsExt[] = {
 void CJabberProto::AddDefaultCaps()
 {
 	JabberCapsBits myCaps = JABBER_CAPS_MIRANDA_ALL;
-	if (m_options.UseOMEMO)
+	if (m_bUseOMEMO)
 		myCaps |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 	for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++)
 		if (g_JabberFeatCapPairsExt[i].Valid())
@@ -469,10 +469,10 @@ void CJabberClientCapsManager::UpdateFeatHash()
 	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
 	for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic)
 		jcb |= it->jcbCap;
-	if (!ppro->m_options.AllowVersionRequests)
+	if (!ppro->m_bAllowVersionRequests)
 		jcb &= ~JABBER_CAPS_VERSION;
 
-	if (ppro->m_options.UseOMEMO)
+	if (ppro->m_bUseOMEMO)
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 
 	CMStringA feat_buf(FORMAT, "client/pc//Miranda %d.%d.%d.%d<", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
@@ -599,10 +599,10 @@ LBL_All:
 			jcb |= it->jcbCap;
 	}
 
-	if (ppro->m_options.UseOMEMO)
+	if (ppro->m_bUseOMEMO)
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 
-	if (!ppro->m_options.AllowVersionRequests)
+	if (!ppro->m_bAllowVersionRequests)
 		jcb &= ~JABBER_CAPS_VERSION;
 
 	XmlNodeIq iq(L"result", pInfo);
@@ -622,13 +622,13 @@ LBL_All:
 		if (jcb & it->jcbCap)
 			query << XCHILD(L"feature") << XATTR(L"var", it->szFeature);
 
-	if (ppro->m_options.AllowVersionRequests && !szNode) {
+	if (ppro->m_bAllowVersionRequests && !szNode) {
 		HXML form = query << XCHILDNS(L"x", JABBER_FEAT_DATA_FORMS) << XATTR(L"type", L"result");
 		form << XCHILD(L"field") << XATTR(L"var", L"FORM_TYPE") << XATTR(L"type", L"hidden")
 			<< XCHILD(L"value", L"urn:xmpp:dataforms:softwareinfo");
 
 		CJabberClientPartialCaps *pCaps = GetPartialCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc);
-		if (ppro->m_options.ShowOSVersion) {
+		if (ppro->m_bShowOSVersion) {
 			form << XCHILD(L"field") << XATTR(L"var", L"os") << XCHILD(L"value", pCaps->GetOs());
 			form << XCHILD(L"field") << XATTR(L"var", L"os_version") << XCHILD(L"value", pCaps->GetOsVer());
 		}

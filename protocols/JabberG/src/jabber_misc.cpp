@@ -108,12 +108,12 @@ BOOL CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
 	case JABBER_DB_EVENT_PRESENCE_SUBSCRIBED:
 	case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBE:
 	case JABBER_DB_EVENT_PRESENCE_UNSUBSCRIBED:
-		if (!m_options.LogPresence)
+		if (!m_bLogPresence)
 			return FALSE;
 		break;
 
 	case JABBER_DB_EVENT_PRESENCE_ERROR:
-		if (!m_options.LogPresenceErrors)
+		if (!m_bLogPresenceErrors)
 			return FALSE;
 		break;
 	}
@@ -330,7 +330,7 @@ void CJabberProto::FormatMirVer(const pResourceStatus &resource, CMStringW &res)
 	}
 
 	if (resource->m_tszResourceName && !wcsstr(res, resource->m_tszResourceName))
-		if (wcsstr(res, L"Miranda IM") || wcsstr(res, L"Miranda NG") || m_options.ShowForeignResourceInMirVer)
+		if (wcsstr(res, L"Miranda IM") || wcsstr(res, L"Miranda NG") || m_bShowForeignResourceInMirVer)
 			res.AppendFormat(L" [%s]", resource->m_tszResourceName);
 }
 
@@ -444,7 +444,7 @@ void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar
 CMStringW CJabberProto::ExtractImage(HXML node)
 {
 	HXML nHtml, nBody, nImg;
-	LPCTSTR src;
+	const wchar_t *src;
 	CMStringW link;
 
 	if ((nHtml = XmlGetChild(node, "html")) != nullptr &&
@@ -478,7 +478,7 @@ CMStringW CJabberProto::ExtractImage(HXML node)
 						DWORD n;
 						size_t bufferLen;
 						ptrA buffer((char*)mir_base64_decode(_T2A(image), &bufferLen));
-						WriteFile(h, buffer, bufferLen, &n, nullptr);
+						WriteFile(h, buffer, (DWORD)bufferLen, &n, nullptr);
 						CloseHandle(h);
 
 						link = L" file:///";

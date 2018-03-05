@@ -42,17 +42,17 @@ void CJabberProto::SetMucConfig(HXML node, void *from)
 void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdGetMuc");
-	LPCTSTR type = XmlGetAttrValue(iqNode, L"type");
+	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
 	if (type == nullptr)
 		return;
-	LPCTSTR from = XmlGetAttrValue(iqNode, L"from");
+	const wchar_t *from = XmlGetAttrValue(iqNode, L"from");
 	if (from == nullptr)
 		return;
 
 	if (!mir_wstrcmp(type, L"result")) {
 		HXML queryNode = XmlGetChild(iqNode, L"query");
 		if (queryNode != nullptr) {
-			LPCTSTR str = XmlGetAttrValue(queryNode, L"xmlns");
+			const wchar_t *str = XmlGetAttrValue(queryNode, L"xmlns");
 			if (!mir_wstrcmp(str, JABBER_FEAT_MUC_OWNER)) {
 				HXML xNode = XmlGetChild(queryNode, L"x");
 				if (xNode != nullptr) {
@@ -98,7 +98,7 @@ static void sttFillJidList(HWND hwndDlg)
 	wchar_t tszItemText[JABBER_MAX_JID_LEN + 256];
 	HXML iqNode = jidListInfo->iqNode;
 	if (iqNode != nullptr) {
-		LPCTSTR from = XmlGetAttrValue(iqNode, L"from");
+		const wchar_t *from = XmlGetAttrValue(iqNode, L"from");
 		if (from != nullptr) {
 			HXML queryNode = XmlGetChild(iqNode, L"query");
 			if (queryNode != nullptr) {
@@ -110,18 +110,18 @@ static void sttFillJidList(HWND hwndDlg)
 					if (!itemNode)
 						break;
 
-					LPCTSTR jid = XmlGetAttrValue(itemNode, L"jid");
+					const wchar_t *jid = XmlGetAttrValue(itemNode, L"jid");
 					if (jid != nullptr) {
 						lvi.pszText = (wchar_t*)jid;
 						if (jidListInfo->type == MUC_BANLIST) {
-							LPCTSTR reason = XmlGetText(XmlGetChild(itemNode, L"reason"));
+							const wchar_t *reason = XmlGetText(XmlGetChild(itemNode, L"reason"));
 							if (reason != nullptr) {
 								mir_snwprintf(tszItemText, L"%s (%s)", jid, reason);
 								lvi.pszText = tszItemText;
 							}
 						}
 						else if (jidListInfo->type == MUC_VOICELIST || jidListInfo->type == MUC_MODERATORLIST) {
-							LPCTSTR nick = XmlGetAttrValue(itemNode, L"nick");
+							const wchar_t *nick = XmlGetAttrValue(itemNode, L"nick");
 							if (nick != nullptr) {
 								mir_snwprintf(tszItemText, L"%s (%s)", nick, jid);
 								lvi.pszText = tszItemText;
@@ -239,7 +239,7 @@ static INT_PTR CALLBACK JabberMucJidListDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			if ((dat = (JABBER_MUC_JIDLIST_INFO *)lParam) != nullptr) {
 				HXML iqNode = dat->iqNode;
 				if (iqNode != nullptr) {
-					LPCTSTR from = XmlGetAttrValue(iqNode, L"from");
+					const wchar_t *from = XmlGetAttrValue(iqNode, L"from");
 					if (from != nullptr) {
 						dat->roomJid = mir_wstrdup(from);
 						HXML queryNode = XmlGetChild(iqNode, L"query");
@@ -434,7 +434,7 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 	if (iqNode == nullptr)
 		return;
 
-	LPCTSTR from = XmlGetAttrValue(iqNode, L"from");
+	const wchar_t *from = XmlGetAttrValue(iqNode, L"from");
 	if (from == nullptr)
 		return;
 
@@ -477,7 +477,7 @@ static void CALLBACK JabberMucJidListCreateDialogApcProc(void* param)
 
 void CJabberProto::OnIqResultMucGetJidList(HXML iqNode, JABBER_MUC_JIDLIST_TYPE listType)
 {
-	LPCTSTR type = XmlGetAttrValue(iqNode, L"type");
+	const wchar_t *type = XmlGetAttrValue(iqNode, L"type");
 	if (type == nullptr)
 		return;
 

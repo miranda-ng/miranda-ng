@@ -79,7 +79,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatar(WPARAM wParam, LPARAM lParam)
 	if (buf == nullptr || size <= 0)
 		return -1;
 
-	if (!m_options.EnableAvatars)
+	if (!m_bEnableAvatars)
 		return -2;
 
 	GetAvatarFileName(0, buf, size);
@@ -107,7 +107,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	case AF_ENABLED:
-		return m_options.EnableAvatars;
+		return m_bEnableAvatars;
 	}
 	return -1;
 }
@@ -117,7 +117,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
-	if (!m_options.EnableAvatars)
+	if (!m_bEnableAvatars)
 		return GAIR_NOAVATAR;
 
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
@@ -283,7 +283,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 		char buf[MIR_SHA1_HASH_SIZE*2+1];
 		bin2hex(digest, sizeof(digest), buf);
 
-		m_options.AvatarType = ProtoGetBufferFormat(pResult);
+		m_bAvatarType = ProtoGetBufferFormat(pResult);
 
 		GetAvatarFileName(0, tFileName, MAX_PATH);
 		FILE *out = _wfopen(tFileName, L"wb");

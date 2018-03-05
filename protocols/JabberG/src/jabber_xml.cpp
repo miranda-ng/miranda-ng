@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // XmlNodeIq class members
 
-XmlNodeIq::XmlNodeIq(const wchar_t *type, int id, LPCTSTR to) :
+XmlNodeIq::XmlNodeIq(const wchar_t *type, int id, const wchar_t *to) :
 	XmlNode(L"iq")
 {
 	if (type != nullptr) *this << XATTR(L"type", type);
@@ -41,7 +41,7 @@ XmlNodeIq::XmlNodeIq(const wchar_t *type, int id, LPCTSTR to) :
 	if (id   != -1  ) *this << XATTRID(id);
 }
 
-XmlNodeIq::XmlNodeIq(const wchar_t *type, LPCTSTR idStr, LPCTSTR to) :
+XmlNodeIq::XmlNodeIq(const wchar_t *type, const wchar_t *idStr, const wchar_t *to) :
 	XmlNode(L"iq")
 {
 	if (type  != nullptr) *this << XATTR(L"type", type );
@@ -49,7 +49,7 @@ XmlNodeIq::XmlNodeIq(const wchar_t *type, LPCTSTR idStr, LPCTSTR to) :
 	if (idStr != nullptr) *this << XATTR(L"id",   idStr);
 }
 
-XmlNodeIq::XmlNodeIq(const wchar_t *type, HXML node, LPCTSTR to) :
+XmlNodeIq::XmlNodeIq(const wchar_t *type, HXML node, const wchar_t *to) :
 	XmlNode(L"iq")
 {
 	if (type  != nullptr) *this << XATTR(L"type", type );
@@ -83,12 +83,12 @@ XmlNodeIq::XmlNodeIq(const wchar_t *type, CJabberIqInfo *pInfo) :
 /////////////////////////////////////////////////////////////////////////////////////////
 // XmlNode class members
 
-XmlNode::XmlNode(LPCTSTR pszName)
+XmlNode::XmlNode(const wchar_t *pszName)
 {
 	m_hXml = xmlCreateNode(T2UTF(pszName), nullptr, 0);
 }
 
-XmlNode::XmlNode(LPCTSTR pszName, LPCTSTR ptszText)
+XmlNode::XmlNode(const wchar_t *pszName, const wchar_t *ptszText)
 {
 	m_hXml = xmlCreateNode(T2UTF(pszName), ptszText, 0);
 }
@@ -132,18 +132,18 @@ HXML __fastcall operator<<(HXML node, const XQUERY& child)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void __fastcall XmlAddAttr(HXML hXml, LPCTSTR name, LPCTSTR value)
+void __fastcall XmlAddAttr(HXML hXml, const wchar_t *name, const wchar_t *value)
 {
 	if (value)
 		xmlAddAttr(hXml, name, T2UTF(value));
 }
 
-void __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, int value)
+void __fastcall XmlAddAttr(HXML hXml, const wchar_t *pszName, int value)
 {
 	xmlAddAttrInt(hXml, T2UTF(pszName), value);
 }
 
-void __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value)
+void __fastcall XmlAddAttr(HXML hXml, const wchar_t *pszName, unsigned __int64 value)
 {
 	wchar_t buf[60];
 	_ui64tot(value, buf, 10);
@@ -160,7 +160,7 @@ void __fastcall XmlAddAttrID(HXML hXml, int id)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LPCTSTR __fastcall XmlGetAttr(HXML hXml, int n)
+const wchar_t *__fastcall XmlGetAttr(HXML hXml, int n)
 {
 	return xmlGetAttr(hXml, n);
 }
@@ -170,7 +170,7 @@ int __fastcall XmlGetAttrCount(HXML hXml)
 	return xmlGetAttrCount(hXml);
 }
 
-LPCTSTR __fastcall XmlGetAttrName(HXML hXml, int n)
+const wchar_t *__fastcall XmlGetAttrName(HXML hXml, int n)
 {
 	return xmlGetAttrName(hXml, n);
 }
@@ -182,17 +182,17 @@ void __fastcall XmlAddChild(HXML hXml, HXML n)
 	xmlAddChild2(n, hXml);
 }
 
-HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name)
+HXML __fastcall XmlAddChild(HXML hXml, const wchar_t *name)
 {
 	return xmlAddChild(hXml, T2UTF(name), nullptr);
 }
 
-HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name, LPCTSTR value)
+HXML __fastcall XmlAddChild(HXML hXml, const wchar_t *name, const wchar_t *value)
 {
 	return xmlAddChild(hXml, T2UTF(name), T2UTF(value));
 }
 
-HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name, int value)
+HXML __fastcall XmlAddChild(HXML hXml, const wchar_t *name, int value)
 {
 	wchar_t buf[40];
 	_itow(value, buf, 10);
@@ -201,7 +201,7 @@ HXML __fastcall XmlAddChild(HXML hXml, LPCTSTR name, int value)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LPCTSTR __fastcall XmlGetAttrValue(HXML hXml, LPCTSTR key)
+const wchar_t *__fastcall XmlGetAttrValue(HXML hXml, const wchar_t *key)
 {
 	return xmlGetAttrValue(hXml, key);
 }
@@ -211,7 +211,7 @@ HXML __fastcall XmlGetChild(HXML hXml, int n)
 	return xmlGetChild(hXml, n);
 }
 
-HXML __fastcall XmlGetChild(HXML hXml, LPCTSTR key)
+HXML __fastcall XmlGetChild(HXML hXml, const wchar_t *key)
 {
 	return xmlGetNthChild(hXml, key, 0);
 }
@@ -224,12 +224,12 @@ HXML __fastcall XmlGetChild(HXML hXml, LPCSTR key)
 	return result;
 }
 
-HXML __fastcall XmlGetChildByTag(HXML hXml, LPCTSTR key, LPCTSTR attrName, LPCTSTR attrValue)
+HXML __fastcall XmlGetChildByTag(HXML hXml, const wchar_t *key, const wchar_t *attrName, const wchar_t *attrValue)
 {
 	return xmlGetChildByAttrValue(hXml, key, attrName, attrValue);
 }
 
-HXML __fastcall XmlGetChildByTag(HXML hXml, LPCSTR key, LPCSTR attrName, LPCTSTR attrValue)
+HXML __fastcall XmlGetChildByTag(HXML hXml, LPCSTR key, LPCSTR attrName, const wchar_t *attrValue)
 {
 	LPTSTR wszKey = mir_a2u(key), wszName = mir_a2u(attrName);
 	HXML result = xmlGetChildByAttrValue(hXml, wszKey, wszName, attrValue);
@@ -242,7 +242,7 @@ int __fastcall XmlGetChildCount(HXML hXml)
 	return xmlGetChildCount(hXml);
 }
 
-HXML __fastcall XmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
+HXML __fastcall XmlGetNthChild(HXML hXml, const wchar_t *tag, int nth)
 {
 	int i, num;
 
@@ -264,12 +264,12 @@ HXML __fastcall XmlGetNthChild(HXML hXml, LPCTSTR tag, int nth)
 	return nullptr;
 }
 
-LPCTSTR __fastcall XmlGetName(HXML xml)
+const wchar_t *__fastcall XmlGetName(HXML xml)
 {
 	return xmlGetName(xml);
 }
 
-LPCTSTR __fastcall XmlGetText(HXML xml)
+const wchar_t *__fastcall XmlGetText(HXML xml)
 {
 	return (xml) ? xmlGetText(xml) : nullptr;
 }
@@ -309,7 +309,7 @@ XPath::PathType XPath::LookupImpl(bool bCreate)
 	LookupState state = S_START;
 	LookupInfo info = {};
 
-	for (LPCTSTR p = m_szPath; state < S_FINAL; ++p) {
+	for (const wchar_t *p = m_szPath; state < S_FINAL; ++p) {
 		switch (state) {
 		case S_START:
 			ProcessPath(info, bCreate);

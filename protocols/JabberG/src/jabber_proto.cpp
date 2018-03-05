@@ -55,7 +55,6 @@ static int compareListItems(const JABBER_LIST_ITEM *p1, const JABBER_LIST_ITEM *
 CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	PROTO<CJabberProto>(aProtoName, aUserName),
 	m_omemo(this),
-	m_options(this),
 	m_lstTransports(50, compareTransports),
 	m_lstRoster(50, compareListItems),
 	m_iqManager(this),
@@ -71,7 +70,64 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_hPrivacyMenuRoot(nullptr),
 	m_hPrivacyMenuItems(10),
 	m_lstJabberFeatCapPairsDynamic(2),
-	m_uEnabledFeatCapsDynamic(0)
+	m_uEnabledFeatCapsDynamic(0),
+
+	m_bBsDirect(this, "BsDirect", TRUE),
+	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", TRUE),
+	m_bAcceptHttpAuth(this, "m_bAcceptHttpAuth", TRUE),
+	m_bAddRoster2Bookmarks(this, "m_bAddRoster2Bookmarks", TRUE),
+	m_bAutoAcceptAuthorization(this, "AutoAcceptAuthorization", FALSE),
+	m_bAutoAcceptMUC(this, "AutoAcceptMUC", FALSE),
+	m_bAutoAdd(this, "AutoAdd", TRUE),
+	m_bAutoJoinBookmarks(this, "AutoJoinBookmarks", TRUE),
+	m_bAutoJoinConferences(this, "AutoJoinConferences", 0),
+	m_bAutoJoinHidden(this, "AutoJoinHidden", TRUE),
+	m_bAvatarType(this, "AvatarType", PA_FORMAT_UNKNOWN),
+	m_bBsDirectManual(this, "BsDirectManual", FALSE),
+	m_bBsOnlyIBB(this, "BsOnlyIBB", FALSE),
+	m_bBsProxyManual(this, "BsProxyManual", FALSE),
+	m_bDisable3920auth(this, "Disable3920auth", FALSE),
+	m_bDisableFrame(this, "DisableFrame", TRUE),
+	m_bEnableAvatars(this, "EnableAvatars", TRUE),
+	m_bEnableRemoteControl(this, "EnableRemoteControl", FALSE),
+	m_bEnableMsgArchive(this, "EnableMsgArchive", FALSE),
+	m_bEnableUserActivity(this, "EnableUserActivity", TRUE),
+	m_bEnableUserMood(this, "EnableUserMood", TRUE),
+	m_bEnableUserTune(this, "EnableUserTune", FALSE),
+	m_bEnableZlib(this, "EnableZlib", TRUE),
+	m_bExtendedSearch(this, "ExtendedSearch", TRUE),
+	m_bFixIncorrectTimestamps(this, "FixIncorrectTimestamps", TRUE),
+	m_bGcLogAffiliations(this, "GcLogAffiliations", FALSE),
+	m_bGcLogBans(this, "GcLogBans", TRUE),
+	m_bGcLogConfig(this, "GcLogConfig", FALSE),
+	m_bGcLogRoles(this, "GcLogRoles", FALSE),
+	m_bGcLogStatuses(this, "GcLogStatuses", FALSE),
+	m_bGcLogChatHistory(this, "GcLogChatHistory", TRUE),
+	m_bHostNameAsResource(this, "HostNameAsResource", FALSE),
+	m_bIgnoreMUCInvites(this, "IgnoreMUCInvites", FALSE),
+	m_bKeepAlive(this, "KeepAlive", TRUE),
+	m_bLogChatstates(this, "LogChatstates", FALSE),
+	m_bLogPresence(this, "LogPresence", TRUE),
+	m_bLogPresenceErrors(this, "LogPresenceErrors", FALSE),
+	m_bManualConnect(this, "ManualConnect", FALSE),
+	m_bMsgAck(this, "MsgAck", FALSE),
+	m_bRosterSync(this, "RosterSync", FALSE),
+	m_bSavePassword(this, "SavePassword", TRUE),
+	m_bShowForeignResourceInMirVer(this, "ShowForeignResourceInMirVer", FALSE),
+	m_bShowOSVersion(this, "ShowOSVersion", TRUE),
+	m_bShowTransport(this, "ShowTransport", TRUE),
+	m_bUseSSL(this, "UseSSL", FALSE),
+	m_bUseTLS(this, "UseTLS", TRUE),
+	m_bUseDomainLogin(this, "UseDomainLogin", FALSE),
+	m_bAcceptNotes(this, "AcceptNotes", TRUE),
+	m_bAutosaveNotes(this, "AutosaveNotes", FALSE),
+	m_bRcMarkMessagesAsRead(this, "RcMarkMessagesAsRead", 1),
+	m_iConnectionKeepAliveInterval(this, "ConnectionKeepAliveInterval", 60000),
+	m_iConnectionKeepAliveTimeout(this, "ConnectionKeepAliveTimeout", 50000),
+	m_bProcessXMPPLinks(this, "ProcessXMPPLinks", FALSE),
+	m_bIgnoreRosterGroups(this, "IgnoreRosterGroups", FALSE),
+	m_bEnableCarbons(this, "EnableCarbons", TRUE),
+	m_bUseOMEMO(this, "UseOMEMO", FALSE)
 {
 	m_szXmlStreamToBeInitialized = nullptr;
 
@@ -142,8 +198,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));
 
-	if (m_options.UseOMEMO)
-	{
+	if (m_bUseOMEMO) {
 		db_set_resident(m_szModuleName, "OmemoSessionChecked");
 		OmemoInitDevice();
 	}
@@ -368,7 +423,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	m_ThreadInfo->send(XmlNode(L"presence") << XATTR(L"to", newJid) << XATTR(L"type", L"subscribed"));
 
 	// Automatically add this user to my roster if option is enabled
-	if (m_options.AutoAdd == TRUE) {
+	if (m_bAutoAdd == TRUE) {
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, newJid);
 		if (item == nullptr || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
 			debugLogW(L"Try adding contact automatically jid = %s", blob.get_email());
@@ -709,7 +764,7 @@ HANDLE __cdecl CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *fi
 	if (!m_bJabberOnline)
 		return nullptr;
 
-	BOOL bIsExtFormat = m_options.ExtendedSearch;
+	BOOL bIsExtFormat = m_bExtendedSearch;
 
 	ptrA szServerName(getStringA("Jud"));
 
@@ -753,7 +808,7 @@ HANDLE __cdecl CJabberProto::SearchByName(const wchar_t *nick, const wchar_t *fi
 
 int __cdecl CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
-	T2Utf szResUtf((LPCTSTR)evt->lParam);
+	T2Utf szResUtf((const wchar_t *)evt->lParam);
 	evt->pCustomData = (char*)szResUtf;
 	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
 	return CSuper::RecvMsg(hContact, evt);
@@ -819,7 +874,7 @@ HANDLE __cdecl CJabberProto::SendFile(MCONTACT hContact, const wchar_t *szDescri
 	}
 
 	// fix for very smart clients, like gajim
-	if (!m_options.BsDirect && !m_options.BsProxyManual) {
+	if (!m_bBsDirect && !m_bBsProxyManual) {
 		// disable bytestreams
 		jcb &= ~JABBER_CAPS_BYTESTREAMS;
 	}
@@ -912,7 +967,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const c
 		return 1;
 	}
 
-	if (m_options.UseOMEMO)
+	if (m_bUseOMEMO)
 	{
 		if (!OmemoCheckSession(hContact))
 		{
@@ -948,7 +1003,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const c
 		msgType = L"chat";
 	XmlNode m(L"message");
 
-	if(m_options.UseOMEMO && OmemoIsEnabled(hContact) && !mir_wstrcmp(msgType, L"chat")) //omemo enabled in options, omemo enabled for contact
+	if(m_bUseOMEMO && OmemoIsEnabled(hContact) && !mir_wstrcmp(msgType, L"chat")) //omemo enabled in options, omemo enabled for contact
 	{
 		//TODO: check if message encrypted for at least one session and return error if not
 		if (!OmemoEncryptMessage(m, msg, hContact))
@@ -991,7 +1046,7 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const c
 		// if message sent to groupchat
 		!mir_wstrcmp(msgType, L"groupchat") ||
 		// if message delivery check disabled in settings
-		!m_options.MsgAck || !getByte(hContact, "MsgAck", true))
+		!m_bMsgAck || !getByte(hContact, "MsgAck", true))
 	{
 		if (!mir_wstrcmp(msgType, L"groupchat"))
 			XmlAddAttr(m, L"to", szClientJid);

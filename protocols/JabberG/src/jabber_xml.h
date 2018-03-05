@@ -29,44 +29,44 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_xml.h>
 
 void    __fastcall XmlAddChild(HXML, HXML);
-HXML    __fastcall XmlAddChild(HXML, LPCTSTR pszName);
-HXML    __fastcall XmlAddChild(HXML, LPCTSTR pszName, LPCTSTR ptszValue);
-HXML    __fastcall XmlAddChild(HXML, LPCTSTR pszName, int iValue);
+HXML    __fastcall XmlAddChild(HXML, const wchar_t *pszName);
+HXML    __fastcall XmlAddChild(HXML, const wchar_t *pszName, const wchar_t *ptszValue);
+HXML    __fastcall XmlAddChild(HXML, const wchar_t *pszName, int iValue);
 
-LPCTSTR __fastcall XmlGetAttrValue(HXML, LPCTSTR key);
+const wchar_t *__fastcall XmlGetAttrValue(HXML, const wchar_t *key);
 HXML    __fastcall XmlGetChild(HXML, int n = 0);
 HXML    __fastcall XmlGetChild(HXML, LPCSTR key);
-HXML    __fastcall XmlGetChild(HXML, LPCTSTR key);
+HXML    __fastcall XmlGetChild(HXML, const wchar_t *key);
 int     __fastcall XmlGetChildCount(HXML);
-HXML    __fastcall XmlGetChildByTag(HXML, LPCTSTR key, LPCTSTR attrName, LPCTSTR attrValue);
-HXML    __fastcall XmlGetChildByTag(HXML, LPCSTR key, LPCSTR attrName, LPCTSTR attrValue);
-HXML    __fastcall XmlGetNthChild(HXML, LPCTSTR key, int n = 0);
+HXML    __fastcall XmlGetChildByTag(HXML, const wchar_t *key, const wchar_t *attrName, const wchar_t *attrValue);
+HXML    __fastcall XmlGetChildByTag(HXML, LPCSTR key, LPCSTR attrName, const wchar_t *attrValue);
+HXML    __fastcall XmlGetNthChild(HXML, const wchar_t *key, int n = 0);
 
-LPCTSTR __fastcall XmlGetName(HXML);
-LPCTSTR __fastcall XmlGetText(HXML);
+const wchar_t *__fastcall XmlGetName(HXML);
+const wchar_t *__fastcall XmlGetText(HXML);
 
-void    __fastcall XmlAddAttr(HXML, LPCTSTR pszName, LPCTSTR ptszValue);
-void    __fastcall XmlAddAttr(HXML, LPCTSTR pszName, int value);
-void    __fastcall XmlAddAttr(HXML hXml, LPCTSTR pszName, unsigned __int64 value);
+void    __fastcall XmlAddAttr(HXML, const wchar_t *pszName, const wchar_t *ptszValue);
+void    __fastcall XmlAddAttr(HXML, const wchar_t *pszName, int value);
+void    __fastcall XmlAddAttr(HXML hXml, const wchar_t *pszName, unsigned __int64 value);
 void    __fastcall XmlAddAttrID(HXML, int id);
 
 int     __fastcall XmlGetAttrCount(HXML);
-LPCTSTR __fastcall XmlGetAttr(HXML, int n);
-LPCTSTR __fastcall XmlGetAttrName(HXML, int n);
-LPCTSTR __fastcall XmlGetAttrValue(HXML, LPCTSTR key);
+const wchar_t *__fastcall XmlGetAttr(HXML, int n);
+const wchar_t *__fastcall XmlGetAttrName(HXML, int n);
+const wchar_t *__fastcall XmlGetAttrValue(HXML, const wchar_t *key);
 
 struct XmlNode
 {
 	__forceinline XmlNode() { m_hXml = nullptr; }
 
-	__forceinline XmlNode(LPCTSTR pszString, int* numBytes, LPCTSTR ptszTag)
+	__forceinline XmlNode(const wchar_t *pszString, int* numBytes, const wchar_t *ptszTag)
 	{
 		m_hXml = xmlParseString(pszString, numBytes, ptszTag);
 	}
 
 	XmlNode(const XmlNode& n);
-	XmlNode(LPCTSTR name);
-	XmlNode(LPCTSTR pszName, LPCTSTR ptszText);
+	XmlNode(const wchar_t *name);
+	XmlNode(const wchar_t *pszName, const wchar_t *ptszText);
 	~XmlNode();
 
 	XmlNode& operator =(const XmlNode& n);
@@ -98,9 +98,9 @@ typedef void (*JABBER_XML_CALLBACK)(HXML, void*);
 
 struct XATTR
 {
-	LPCTSTR name, value;
+	const wchar_t *name, *value;
 
-	__forceinline XATTR(LPCTSTR _name, LPCTSTR _value) :
+	__forceinline XATTR(const wchar_t *_name, const wchar_t *_value) :
 		name(_name),
 		value(_value)
 		{}
@@ -115,10 +115,10 @@ HXML __forceinline operator<<(HXML node, const XATTR& attr)
 
 struct XATTRI
 {
-	LPCTSTR name;
+	const wchar_t *name;
 	int value;
 
-	__forceinline XATTRI(LPCTSTR _name, int _value) :
+	__forceinline XATTRI(const wchar_t *_name, int _value) :
 		name(_name),
 		value(_value)
 		{}
@@ -133,10 +133,10 @@ HXML __forceinline operator<<(HXML node, const XATTRI& attr)
 
 struct XATTRI64
 {
-	LPCTSTR name;
+	const wchar_t *name;
 	unsigned __int64 value;
 
-	__forceinline XATTRI64(LPCTSTR _name, unsigned __int64 _value) :
+	__forceinline XATTRI64(const wchar_t *_name, unsigned __int64 _value) :
 		name(_name),
 		value(_value)
 		{}
@@ -167,9 +167,9 @@ HXML __forceinline operator<<(HXML node, const XATTRID& attr)
 
 struct XCHILD
 {
-	LPCTSTR name, value;
+	const wchar_t *name, *value;
 
-	__forceinline XCHILD(LPCTSTR _name, LPCTSTR _value = nullptr) :
+	__forceinline XCHILD(const wchar_t *_name, const wchar_t *_value = nullptr) :
 		name(_name),
 		value(_value)
 		{}
@@ -183,9 +183,9 @@ HXML __forceinline operator<<(HXML node, const XCHILD& child)
 
 struct XCHILDNS
 {
-	LPCTSTR name, ns;
+	const wchar_t *name, *ns;
 
-	__forceinline XCHILDNS(LPCTSTR _name, LPCTSTR _ns = nullptr) :
+	__forceinline XCHILDNS(const wchar_t *_name, const wchar_t *_ns = nullptr) :
 		name(_name),
 		ns(_ns)
 		{}
@@ -197,9 +197,9 @@ HXML __fastcall operator<<(HXML node, const XCHILDNS& child);
 
 struct XQUERY
 {
-	LPCTSTR ns;
+	const wchar_t *ns;
 
-	__forceinline XQUERY(LPCTSTR _ns) :
+	__forceinline XQUERY(const wchar_t *_ns) :
 		ns(_ns)
 		{}
 };
@@ -213,8 +213,8 @@ HXML __fastcall operator<<(HXML node, const XQUERY& child);
 //     result may be either "node-spec", or "@attr-name"
 //
 // Samples:
-//    LPCTSTR s = XPathT(node, "child/subchild[@attr='value']");          // get node text
-//    LPCTSTR s = XPathT(node, "child/subchild[2]/@attr");                // get attribute value
+//    const wchar_t *s = XPathT(node, "child/subchild[@attr='value']");          // get node text
+//    const wchar_t *s = XPathT(node, "child/subchild[2]/@attr");                // get attribute value
 //    XPathT(node, "child/subchild[@name='test']/@attr") = L"Hello";   // create path if needed and set attribute value
 //
 //    XPathT(node, "child/subchild[@name='test']") = L"Hello";         // TODO: create path if needed and set node text
@@ -258,11 +258,11 @@ public:
 	}
 	__forceinline bool operator== (wchar_t *str)
 	{
-		return !mir_wstrcmp((LPCTSTR)*this, str);
+		return !mir_wstrcmp((const wchar_t *)*this, str);
 	}
 	__forceinline bool operator!= (wchar_t *str)
 	{
-		return mir_wstrcmp((LPCTSTR)*this, str) ? true : false;
+		return mir_wstrcmp((const wchar_t *)*this, str) ? true : false;
 	}
 	HXML operator[] (int idx)
 	{
@@ -270,7 +270,7 @@ public:
 	}
 
 	// Write data
-	void operator= (LPCTSTR value)
+	void operator= (const wchar_t *value)
 	{
 		switch (Lookup(true))
 		{
@@ -345,8 +345,8 @@ private:
 
 	PathType m_type;
 	HXML m_hXml;
-	LPCTSTR m_szPath;
-	LPCTSTR m_szParam;
+	const wchar_t *m_szPath;
+	const wchar_t *m_szParam;
 };
 
 class XPathFmt: public XPath

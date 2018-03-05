@@ -630,7 +630,7 @@ void CPepMood::ProcessItems(const wchar_t *from, HXML itemsNode)
 	HXML n, moodNode = XPath(itemsNode, L"item/mood[@xmlns='" JABBER_FEAT_USER_MOOD L"']");
 	if (!moodNode) return;
 
-	LPCTSTR moodType = nullptr, moodText = nullptr;
+	const wchar_t *moodType = nullptr, *moodText = nullptr;
 	for (int i=0; n = XmlGetChild(moodNode, i); i++) {
 		if (!mir_wstrcmp(XmlGetName(n), L"text"))
 			moodText = XmlGetText(n);
@@ -861,7 +861,7 @@ inline char *ActivityGetId(int id)
 }
 
 // -1 if not found, otherwise activity number
-static int ActivityCheck(LPCTSTR szFirstNode, LPCTSTR szSecondNode)
+static int ActivityCheck(const wchar_t *szFirstNode, const wchar_t *szSecondNode)
 {
 	if (!szFirstNode) return 0;
 
@@ -1011,8 +1011,8 @@ void CPepActivity::ProcessItems(const wchar_t *from, HXML itemsNode)
 	if (!actNode)
 		return;
 
-	LPCTSTR szText = XPathT(actNode, "text");
-	LPCTSTR szFirstNode = nullptr, szSecondNode = nullptr;
+	const wchar_t *szText = XPathT(actNode, "text");
+	const wchar_t *szFirstNode = nullptr, *szSecondNode = nullptr;
 
 	HXML n;
 	for (int i=0; n = XmlGetChild(actNode, i); i++) {
@@ -1062,7 +1062,7 @@ void CPepActivity::SetExtraIcon(MCONTACT hContact, char *szActivity)
 	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == nullptr ? nullptr : g_ActivityIcons.GetIcolibHandle(szActivity));
 }
 
-void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText)
+void CPepActivity::SetActivity(MCONTACT hContact, const wchar_t *szFirst, const wchar_t *szSecond, const wchar_t *szText)
 {
 	int activity = -1;
 	if (szFirst || szSecond) {
@@ -1192,7 +1192,7 @@ BOOL CJabberProto::SendPepTune(wchar_t* szArtist, wchar_t* szLength, wchar_t* sz
 	return TRUE;
 }
 
-void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack)
+void CJabberProto::SetContactTune(MCONTACT hContact, const wchar_t *szArtist, const wchar_t *szLength, const wchar_t *szSource, const wchar_t *szTitle, const wchar_t *szTrack)
 {
 	if (!szArtist && !szTitle) {
 		delSetting(hContact, "ListeningTo");

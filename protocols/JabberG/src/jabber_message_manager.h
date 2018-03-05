@@ -53,13 +53,13 @@ public:
 	void *m_pUserData;
 // parsed data
 	int m_nMessageType;
-	LPCTSTR m_szFrom;
-	LPCTSTR m_szChildTagXmlns;
-	LPCTSTR m_szChildTagName;
+	const wchar_t *m_szFrom;
+	const wchar_t *m_szChildTagXmlns;
+	const wchar_t *m_szChildTagName;
 	HXML m_hChildNode;
 	MCONTACT m_hContact;
-	LPCTSTR m_szTo;
-	LPCTSTR m_szId;
+	const wchar_t *m_szTo;
+	const wchar_t *m_szId;
 
 public:
 	__forceinline int GetMessageType()
@@ -68,13 +68,13 @@ public:
 	__forceinline void* GetUserData()
 	{	return m_pUserData;
 	}
-	__forceinline LPCTSTR GetFrom()
+	__forceinline const wchar_t *GetFrom()
 	{	return m_szFrom;
 	}
-	__forceinline LPCTSTR GetTo()
+	__forceinline const wchar_t *GetTo()
 	{	return m_szTo;
 	}
-	__forceinline LPCTSTR GetIdStr()
+	__forceinline const wchar_t *GetIdStr()
 	{	return m_szId;
 	}
 	__forceinline MCONTACT GetHContact()
@@ -83,7 +83,7 @@ public:
 	__forceinline HXML GetChildNode()
 	{	return m_hChildNode;
 	}
-	__forceinline LPCTSTR GetChildNodeName()
+	__forceinline const wchar_t *GetChildNodeName()
 	{	return m_szChildTagName;
 	}
 };

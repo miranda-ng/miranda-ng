@@ -53,7 +53,7 @@ BOOL CJabberProto::HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo *pInfo)
 	if (!pInfo->GetChildNode())
 		return TRUE;
 
-	if (!m_options.EnableRemoteControl || !IsRcRequestAllowedByACL(pInfo)) {
+	if (!m_bEnableRemoteControl || !IsRcRequestAllowedByACL(pInfo)) {
 		// FIXME: send error and return
 		return TRUE;
 	}
@@ -68,7 +68,7 @@ BOOL CJabberProto::HandleAdhocCommandRequest(HXML iqNode, CJabberIqInfo *pInfo)
 
 BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const wchar_t *szNode)
 {
-	if (!szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
+	if (!szNode || !m_pProto->m_bEnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
 		return FALSE;
 
 	if (!mir_wstrcmp(szNode, JABBER_FEAT_COMMANDS)) {
@@ -98,7 +98,7 @@ BOOL CJabberAdhocManager::HandleItemsRequest(HXML, CJabberIqInfo *pInfo, const w
 
 BOOL CJabberAdhocManager::HandleInfoRequest(HXML, CJabberIqInfo *pInfo, const wchar_t *szNode)
 {
-	if (!szNode || !m_pProto->m_options.EnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
+	if (!szNode || !m_pProto->m_bEnableRemoteControl || !m_pProto->IsRcRequestAllowedByACL(pInfo))
 		return FALSE;
 
 	// FIXME: same code twice
@@ -341,7 +341,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 		if (!fieldNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		LPCTSTR ptszValue = XmlGetText( XmlGetChild(fieldNode , "value"));
+		const wchar_t *ptszValue = XmlGetText( XmlGetChild(fieldNode , "value"));
 		if (ptszValue == nullptr)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
@@ -454,7 +454,7 @@ int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 		fieldNode = XmlGetChildByTag(xNode, "field", "var", L"enable-rc");
 		if (fieldNode && (valueNode = XmlGetChild(fieldNode , "value")))
 			if (XmlGetText(valueNode) && _wtoi(XmlGetText(valueNode)))
-				m_options.EnableRemoteControl = 0;
+				m_bEnableRemoteControl = 0;
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;
 	}
@@ -526,7 +526,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 		// remove clist events
 		xNode << XCHILD(L"field") << XATTR(L"label", TranslateT("Mark messages as read")) << XATTR(L"type", L"boolean")
 			<< XATTR(L"var", L"remove-clist-events") << XCHILD(L"value",
-			m_options.RcMarkMessagesAsRead == 1 ? L"1" : L"0");
+			m_bRcMarkMessagesAsRead == 1 ? L"1" : L"0");
 
 		m_ThreadInfo->send(iq);
 		return JABBER_ADHOC_HANDLER_STATUS_EXECUTING;
@@ -547,7 +547,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 			if (XmlGetText(valueNode) && !_wtoi(XmlGetText(valueNode)))
 				bRemoveCListEvents = FALSE;
 
-		m_options.RcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
+		m_bRcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
 		int nEventsSent = 0;
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {

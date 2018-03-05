@@ -304,14 +304,14 @@ public:
 
 struct JabberFeatCapPair
 {
-	LPCTSTR szFeature;
+	const wchar_t *szFeature;
 	JabberCapsBits jcbCap;
-	LPCTSTR tszDescription;
+	const wchar_t *tszDescription;
 };
 
 struct JabberFeatCapPairExt
 {
-	LPCTSTR szFeature;
+	const wchar_t *szFeature;
 	JabberCapsBits jcbCap;
 	LPCSTR szService;
 

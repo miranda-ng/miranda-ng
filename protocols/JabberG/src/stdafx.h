@@ -105,7 +105,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_xml.h"
 #include "jabber_byte.h"
 #include "jabber_ibb.h"
-#include "jabber_db_utils.h"
 
 struct SESSION_INFO : public GCSessionInfoBase {};
 
@@ -680,12 +679,12 @@ struct CJabberAdhocStartupParams
 struct JabberAdHocData
 {
 	CJabberProto *proto;
-	int    CurrentHeight;
-	int    curPos;
-	int    frameHeight;
-	RECT   frameRect;
-	HXML   AdHocNode;
-	HXML   CommandsNode;
+	int      CurrentHeight;
+	int      curPos;
+	int      frameHeight;
+	RECT     frameRect;
+	HXML     AdHocNode;
+	HXML     CommandsNode;
 	wchar_t *ResponderJID;
 };
 
@@ -710,7 +709,7 @@ struct TStringPairs
 typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
 
 wchar_t*        __stdcall JabberNickFromJID(const wchar_t *jid);
-wchar_t*                  JabberPrepareJid(LPCTSTR jid);
+wchar_t*                  JabberPrepareJid(const wchar_t *jid);
 void          __stdcall JabberUrlDecodeW(WCHAR *str);
 char*         __stdcall JabberSha1(const char *str, JabberShaStrBuf buf);
 wchar_t*        __stdcall JabberStrFixLines(const wchar_t *str);
@@ -723,7 +722,7 @@ wchar_t*        __stdcall JabberStripJid(const wchar_t *jid, wchar_t *dest, size
 int           __stdcall JabberGetPacketID(HXML n);
 wchar_t*        __stdcall JabberId2string(int id);
 
-LPCTSTR       __stdcall JabberGetPictureType(HXML node, const char *picBuf);
+const wchar_t *      __stdcall JabberGetPictureType(HXML node, const char *picBuf);
 
 wchar_t* time2str(time_t _time, wchar_t *buf, size_t bufLen);
 time_t str2time(const wchar_t*);

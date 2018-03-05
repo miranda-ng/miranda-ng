@@ -183,7 +183,7 @@ BOOL CJabberProto::OnIbbRecvdData(const wchar_t *data, const wchar_t *sid, const
 	if (decodedData == nullptr)
 		return FALSE;
 
-	(this->*item->jibb->pfnRecv)(nullptr, item->ft, decodedData, length);
+	(this->*item->jibb->pfnRecv)(nullptr, item->ft, decodedData, (int)length);
 	item->jibb->dwTransferredSize += (DWORD)length;
 	return TRUE;
 }

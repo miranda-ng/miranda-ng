@@ -180,7 +180,7 @@ protected:
 	void ShowSetDialog(BYTE bQuiet);
 	void SetExtraIcon(MCONTACT hContact, char *szActivity);
 
-	void SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText);
+	void SetActivity(MCONTACT hContact, const wchar_t *szFirst, const wchar_t *szSecond, const wchar_t *szText);
 };
 
 #endif // _JABBER_XSTATUS_H_

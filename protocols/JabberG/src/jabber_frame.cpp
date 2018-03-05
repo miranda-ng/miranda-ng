@@ -497,7 +497,7 @@ void CJabberProto::InitInfoFrame()
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 		return;
 
-	if (!m_options.DisableFrame)
+	if (!m_bDisableFrame)
 		m_pInfoFrame = new CJabberInfoFrame(this);
 	else {
 		delete m_pInfoFrame;

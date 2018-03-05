@@ -149,9 +149,9 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 	debugLogA("Thread started: type=bytestream_send");
 	Thread_SetName("Jabber: ByteSendThread");
 
-	BOOL bDirect = m_options.BsDirect;
+	BOOL bDirect = m_bBsDirect;
 
-	if (m_options.BsProxyManual) {
+	if (m_bBsProxyManual) {
 		ptrW proxyJid( getWStringA("BsProxyServer"));
 		if (proxyJid) {
 			jbt->bProxyDiscovered = FALSE;
@@ -189,7 +189,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 
 		if (bDirect) {
 			ptrA localAddr;
-			if (m_options.BsDirectManual)
+			if (m_bBsDirectManual)
 				localAddr = getStringA("BsDirectAddr");
 
 			NETLIBBIND nlb = {};
