@@ -184,7 +184,6 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 		if (index != -1) {
 			V = m_lGlobalSettings[index];
 			if (bAllocate == -1) {
-				mir_cslock lck(m_csVal);
 				FreeCachedVariant(&V->value);
 				m_lGlobalSettings.remove(index);
 				mir_free(V);
@@ -195,7 +194,6 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 			if (bAllocate != 1)
 				return nullptr;
 
-			mir_cslock lck(m_csVal);
 			V = (DBCachedGlobalValue*)mir_calloc(sizeof(DBCachedGlobalValue));
 			V->name = szSetting;
 			m_lGlobalSettings.insert(V);
@@ -224,7 +222,6 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 		if (bAllocate != 1)
 			return nullptr;
 
-		mir_cslock lck(m_csVal);
 		V = (DBCachedContactValue *)mir_calloc(sizeof(DBCachedContactValue));
 		if (cc->last)
 			cc->last->next = V;
@@ -234,7 +231,6 @@ STDMETHODIMP_(DBVARIANT*) MDatabaseCache::GetCachedValuePtr(MCONTACT contactID, 
 		V->name = szSetting;
 	}
 	else if (bAllocate == -1) {
-		mir_cslock lck(m_csVal);
 		m_lastVL = nullptr;
 		FreeCachedVariant(&V->value);
 		if (cc->first == V) {

@@ -44,6 +44,8 @@ int CDbxMDBX::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCST
 	size_t settingNameLen = strlen(szSetting);
 	size_t moduleNameLen = strlen(szModule);
 
+	mir_cslock lck(m_csDbAccess);
+
 LBL_Seek:
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 
@@ -259,6 +261,7 @@ LBL_WriteString:
 		return 1;
 	}
 
+	mir_cslockfull lck(m_csDbAccess);
 	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
 
 	// we don't cache blobs and passwords
@@ -280,6 +283,7 @@ LBL_WriteString:
 			m_cache->SetCachedVariant(&dbcwWork.value, pCachedValue);
 		}
 		if (szCachedSettingName[-1] != 0) {
+			lck.unlock();
 			NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwWork);
 			return 0;
 		}
@@ -339,6 +343,7 @@ LBL_WriteString:
 	}
 
 	// notify
+	lck.unlock();
 	NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwNotif);
 	return 0;
 }
@@ -350,25 +355,27 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 
 	size_t settingNameLen = strlen(szSetting);
 	size_t moduleNameLen = strlen(szModule);
-
-	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
-
-	if (szCachedSettingName[-1] == 0)  // it's not a resident variable
 	{
-		DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen);
-		keyVal->hContact = contactID;
-		keyVal->dwModuleId = GetModuleID(szModule);
-		memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
+		mir_cslock lck(m_csDbAccess);
+		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 
-		txn_ptr trnlck(m_env);
-		MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
-		if (mdbx_del(trnlck, m_dbSettings, &key, nullptr) != MDBX_SUCCESS)
-			return 1;
-		if (trnlck.commit() != MDBX_SUCCESS)
-			return 1;
+		if (szCachedSettingName[-1] == 0)  // it's not a resident variable
+		{
+			DBSettingKey *keyVal = (DBSettingKey*)_alloca(sizeof(DBSettingKey) + settingNameLen);
+			keyVal->hContact = contactID;
+			keyVal->dwModuleId = GetModuleID(szModule);
+			memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
+
+			txn_ptr trnlck(m_env);
+			MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
+			if (mdbx_del(trnlck, m_dbSettings, &key, nullptr) != MDBX_SUCCESS)
+				return 1;
+			if (trnlck.commit() != MDBX_SUCCESS)
+				return 1;
+		}
+
+		m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 	}
-
-	m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 
 	// notify
 	DBCONTACTWRITESETTING dbcws = { 0 };
