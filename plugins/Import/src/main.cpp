@@ -134,6 +134,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	icex.dwSize = sizeof(icex);
 	icex.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&icex);
+
+	RegisterDbrw();
+
 	return 0;
 }
 
