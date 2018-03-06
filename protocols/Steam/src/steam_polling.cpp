@@ -147,6 +147,7 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 		// bad response
 		debugLogA(__FUNCTION__ ": server returns bad response (%d)", response.GetStatusCode());
 		param->errors++;
+		Sleep(STEAM_API_TIMEOUT * 1000);
 		return;
 	}
 
@@ -167,8 +168,9 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 			return;
 
 		default:
-			debugLogA(__FUNCTION__ ": server returns bad status code (%d)", response.GetStatusCode());
+			debugLogA(__FUNCTION__ ": server returns unexpected status code (%d)", response.GetStatusCode());
 			param->errors++;
+			Sleep(STEAM_API_TIMEOUT * 1000);
 			return;
 		}
 	}
