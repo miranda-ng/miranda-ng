@@ -67,7 +67,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(HINSTANCE hInst, int idDialog, SESSION_INFO *si
 		m_hContact = si->hContact;
 
 		MODULEINFO *mi = chatApi.MM_FindModule(si->pszModule);
-		if (mi == nullptr) {
+		if (mi != nullptr) {
 			if (mi->bColor) {
 				m_iFG = 4;
 				m_bFGSet = true;
