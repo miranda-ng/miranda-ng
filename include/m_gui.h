@@ -454,6 +454,8 @@ protected:
 	// main dialog procedure
 	virtual INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
+	CCallback<void> m_OnFinishWizard;
+
 	// register controls
 	void AddControl(CCtrlBase *ctrl);
 	void AddTimer(CTimer *timer);

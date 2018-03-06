@@ -28,6 +28,8 @@
 
 #include "stdafx.h"
 
+void Chat_ApplyOptions();
+
 void CMUCHighlight::cleanup()
 {
 	mir_free(m_NickPatternString);
@@ -238,8 +240,11 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				Chat_ApplyOptions();
+				break;
+
 			case PSN_APPLY:
-			{
 				wchar_t*	szBuf = nullptr;
 				int iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTNICKPATTERN));
 				if (iLen) {
@@ -267,8 +272,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				db_set_b(0, CHAT_MODULE, "HighlightEnabled", dwFlags);
 				db_set_b(0, CHAT_MODULE, "HighlightMe", ::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTME) ? 1 : 0);
 				g_Settings.Highlight->init();
-			}
-			return TRUE;
+				return TRUE;
 			}
 		}
 		break;

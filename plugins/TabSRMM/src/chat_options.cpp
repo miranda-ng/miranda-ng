@@ -302,6 +302,19 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM)
 	return 0;
 }
 
+void Chat_ApplyOptions()
+{
+	pci->ReloadSettings();
+	pci->MM_IconsChanged();
+	pci->MM_FontsChanged();
+	Chat_UpdateOptions();
+	SM_ReconfigureFilters();
+
+	PluginConfig.reloadSettings();
+	CacheMsgLogIcons();
+	CacheLogFonts();
+}
+
 static IconItem _icons[] =
 {
 	{ LPGEN("Window Icon"), "chat_window", IDI_CHANMGR },
@@ -422,6 +435,10 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				Chat_ApplyOptions();
+				break;
+
 			case PSN_APPLY:
 				int iLen;
 				wchar_t *pszText = nullptr;
@@ -440,12 +457,6 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				b = M.GetByte(CHAT_MODULE, "Tabs", 1);
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, _countof(branch1));
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, _countof(branch2));
-
-				pci->ReloadSettings();
-				pci->MM_IconsChanged();
-				pci->MM_FontsChanged();
-				Chat_UpdateOptions();
-				SM_ReconfigureFilters();
 				return TRUE;
 			}
 		}
@@ -804,12 +815,20 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
+		if (((LPNMHDR)lParam)->idFrom != 0)
+			break;
+
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_WIZFINISH:
+			Chat_ApplyOptions();
+			break;
+
+		case PSN_APPLY:
 			char *pszText = nullptr;
 
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 			if (iLen > 0) {
-				wchar_t *pszText1 = (wchar_t*)mir_alloc(iLen*sizeof(wchar_t) + 2);
+				wchar_t *pszText1 = (wchar_t*)mir_alloc(iLen * sizeof(wchar_t) + 2);
 				GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
 				db_set_ws(0, CHAT_MODULE, "LogDirectory", pszText1);
 				mir_free(pszText1);
@@ -870,14 +889,6 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (pci->hListBkgBrush)
 				DeleteObject(pci->hListBkgBrush);
 			pci->hListBkgBrush = CreateSolidBrush(M.GetDword(CHAT_MODULE, "ColorNicklistBG", SRMSGDEFSET_BKGCOLOUR));
-
-			pci->ReloadSettings();
-			pci->MM_FontsChanged();
-			Chat_UpdateOptions();
-
-			PluginConfig.reloadSettings();
-			CacheMsgLogIcons();
-			CacheLogFonts();
 			return TRUE;
 		}
 		break;
@@ -955,6 +966,10 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				Chat_ApplyOptions();
+				break;
+
 			case PSN_APPLY:
 				DWORD dwFilterFlags = 0, dwTrayFlags = 0,
 					dwPopupFlags = 0, dwLogFlags = 0;
@@ -978,11 +993,6 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 				db_set_b(0, CHAT_MODULE, "LogSymbols", lr == 2 ? 1 : 0);
 
 				db_set_b(0, CHAT_MODULE, "TrayIconInactiveOnly", IsDlgButtonChecked(hwndDlg, IDC_TRAYONLYFORINACTIVE) ? 1 : 0);
-
-				pci->ReloadSettings();
-				pci->MM_FontsChanged();
-				Chat_UpdateOptions();
-				SM_ReconfigureFilters();
 				return TRUE;
 			}
 		}

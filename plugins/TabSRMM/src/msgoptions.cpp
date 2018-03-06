@@ -1371,8 +1371,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcTabConfig;
 	Options_AddPage(wParam, &odp);
 
-	/* group chats */
-
+	// group chats
 	odp.szGroup.a = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
 	odp.szTitle.a = LPGEN("Group chats");

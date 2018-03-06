@@ -394,16 +394,18 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			int val;
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_WIZFINISH:
+			SSLoadMainOptions();
+			break;
 
+		case PSN_APPLY:
 			db_set_b(0, SSMODULENAME, SETTING_SETPROFILE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE));
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE))
 				db_set_dw(0, SSMODULENAME, SETTING_SETPROFILEDELAY, GetDlgItemInt(hwndDlg, IDC_SETPROFILEDELAY, nullptr, FALSE));
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETPROFILE) || IsDlgButtonChecked(hwndDlg, IDC_SHOWDIALOG)) {
-				val = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
-					SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
+				int val = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
 				db_set_w(0, SSMODULENAME, SETTING_DEFAULTPROFILE, (WORD)val);
 			}
 			db_set_b(0, SSMODULENAME, SETTING_OVERRIDE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE));
@@ -413,14 +415,12 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 
 			db_set_b(0, SSMODULENAME, SETTING_SETWINSTATE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SETWINSTATE));
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETWINSTATE)) {
-				val = (int)SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_GETITEMDATA,
-					SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_GETCURSEL, 0, 0), 0);
+				int val = (int)SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_WINSTATE, CB_GETCURSEL, 0, 0), 0);
 				db_set_b(0, SSMODULENAME, SETTING_WINSTATE, (BYTE)val);
 			}
 			db_set_b(0, SSMODULENAME, SETTING_SETDOCKED, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SETDOCKED));
 			if (IsDlgButtonChecked(hwndDlg, IDC_SETDOCKED)) {
-				val = (int)SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_GETITEMDATA,
-					SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_GETCURSEL, 0, 0), 0);
+				int val = (int)SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_DOCKED, CB_GETCURSEL, 0, 0), 0);
 				db_set_b(0, SSMODULENAME, SETTING_DOCKED, (BYTE)val);
 			}
 			db_set_b(0, SSMODULENAME, SETTING_SETWINLOCATION, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SETWINLOCATION));
@@ -623,6 +623,13 @@ public:
 
 		lstStatus.OnSelChange = Callback(this, &CSSAdvancedOptDlg::onChange_Status);
 		lstAccount.OnSelChange = Callback(this, &CSSAdvancedOptDlg::onChange_Account);
+
+		m_OnFinishWizard = Callback(this, &CSSAdvancedOptDlg::OnFinishWizard);
+	}
+
+	void OnFinishWizard(void*)
+	{
+		SSLoadMainOptions();
 	}
 
 	virtual void OnInitDialog() override
@@ -713,8 +720,6 @@ public:
 		// Rebuild status menu
 		if (bNeedRebuildMenu)
 			pcli->pfnReloadProtoMenus();
-
-		SSLoadMainOptions();
 	}
 
 	// add a profile

@@ -160,6 +160,10 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
+		case PSN_WIZFINISH:
+			AAALoadOptions();
+			break;
+
 		case PSN_APPLY:
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
 			for (int i = 0; i < count; i++) {

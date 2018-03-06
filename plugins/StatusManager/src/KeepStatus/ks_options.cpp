@@ -111,19 +111,19 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		if (((NMHDR*)lParam)->idFrom == IDC_PROTOCOLLIST) {
 			switch (((NMHDR*)lParam)->code) {
 			case LVN_ITEMCHANGED:
-				{
-					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-					if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_PROTOCOLLIST)) && ((nmlv->uNewState^nmlv->uOldState)&LVIS_STATEIMAGEMASK))
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
+				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+				if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_PROTOCOLLIST)) && ((nmlv->uNewState^nmlv->uOldState)&LVIS_STATEIMAGEMASK))
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
 		}
 
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			int i;
-			LVITEM lvItem;
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_WIZFINISH:
+			KSLoadOptions();
+			break;
 
+		case PSN_APPLY:
 			db_set_b(0, KSMODULENAME, SETTING_MAXRETRIES, (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXRETRIES, nullptr, FALSE));
 			db_set_b(0, KSMODULENAME, SETTING_CHECKCONNECTION, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
 			db_set_b(0, KSMODULENAME, SETTING_SHOWCONNECTIONPOPUPS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWCONNECTIONPOPUPS));
@@ -132,22 +132,18 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			db_set_b(0, KSMODULENAME, SETTING_CONTCHECK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK));
 			db_set_b(0, KSMODULENAME, SETTING_BYPING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BYPING));
 			if (IsDlgButtonChecked(hwndDlg, IDC_BYPING)) {
-				char *host;
-
 				int len = SendDlgItemMessage(hwndDlg, IDC_PINGHOST, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
-					host = (char*)mir_alloc(len + 1);
-					if (host != nullptr) {
-						memset(host, '\0', len + 1);
-						GetDlgItemTextA(hwndDlg, IDC_PINGHOST, host, len + 1);
-						db_set_s(0, KSMODULENAME, SETTING_PINGHOST, host);
-					}
+					ptrA host((char*)mir_alloc(len + 1));
+					GetDlgItemTextA(hwndDlg, IDC_PINGHOST, host, len + 1);
+					db_set_s(0, KSMODULENAME, SETTING_PINGHOST, host);
 				}
 			}
+
 			HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
-			memset(&lvItem, 0, sizeof(lvItem));
+			LVITEM lvItem;
 			lvItem.mask = LVIF_PARAM;
-			for (i = 0; i < ListView_GetItemCount(hList); i++) {
+			for (int i = 0; i < ListView_GetItemCount(hList); i++) {
 				lvItem.iItem = i;
 				lvItem.iSubItem = 0;
 				ListView_GetItem(hList, &lvItem);
@@ -196,7 +192,6 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_CANCEL), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_SETDELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_DELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY) && IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
-
 		break;
 
 	case WM_COMMAND:
@@ -210,6 +205,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_SETDELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LOGINERR_DELAY), IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY) && IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
 			break;
+
 		case IDC_LOGINERR_CANCEL:
 		case IDC_LOGINERR_SETDELAY:
 			CheckRadioButton(hwndDlg, IDC_LOGINERR_CANCEL, IDC_LOGINERR_SETDELAY, LOWORD(wParam));
@@ -219,7 +215,12 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+		switch (((LPNMHDR)lParam)->code) {
+		case PSN_WIZFINISH:
+			KSLoadOptions();
+			break;
+
+		case PSN_APPLY:
 			db_set_b(0, KSMODULENAME, SETTING_INCREASEEXPONENTIAL, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_INCREASEEXPONENTIAL));
 			db_set_dw(0, KSMODULENAME, SETTING_MAXDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXDELAY, nullptr, FALSE));
 			db_set_dw(0, KSMODULENAME, SETTING_MAXCONNECTINGTIME, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXCONNECTINGTIME, nullptr, FALSE));
@@ -274,6 +275,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CheckDlgButton(hwndDlg, IDC_LNOTHING, BST_CHECKED);
 			break;
 		}
+
 		// right action
 		switch (db_get_b(0, KSMODULENAME, SETTING_POPUP_RIGHTCLICK, POPUP_ACT_CANCEL)) {
 		case POPUP_ACT_CLOSEPOPUP:
@@ -289,6 +291,7 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CheckDlgButton(hwndDlg, IDC_RNOTHING, BST_CHECKED);
 			break;
 		}
+
 		// delay
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYCUSTOM), ServiceExists(MS_POPUP_ADDPOPUPT));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAYFROMPU), ServiceExists(MS_POPUP_ADDPOPUPT));

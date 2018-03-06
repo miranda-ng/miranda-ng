@@ -230,23 +230,12 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 	return flags;
 }
 
-static int changed = 0;
-
-static void ApplyChanges(int i)
+static void ApplyOptions()
 {
-	changed &= ~i;
-	if (changed == 0) {
-		ReloadGlobals();
-		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
-		Chat_UpdateOptions();
-	}
-}
-
-static void MarkChanges(int i, HWND hWnd)
-{
-	SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-	changed |= i;
+	ReloadGlobals();
+	WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
+	Srmm_Broadcast(DM_OPTIONSAPPLIED, 0, 0);
+	Chat_UpdateOptions();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -341,13 +330,17 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				return 0;
 			break;
 		}
-		MarkChanges(8, hwndDlg);
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				ApplyOptions();
+				break;
+
 			case PSN_APPLY:
 				db_set_b(0, SRMM_MODULE, SRMSGSET_USETABS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USETABS));
 				db_set_b(0, SRMM_MODULE, SRMSGSET_TABSATBOTTOM, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TABSATBOTTOM));
@@ -363,8 +356,6 @@ static INT_PTR CALLBACK DlgProcTabsOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				db_set_b(0, SRMM_MODULE, SRMSGSET_SWITCHTOACTIVE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWITCHTOACTIVE));
 				db_set_b(0, SRMM_MODULE, SRMSGSET_TABCLOSEBUTTON, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_TABCLOSEBUTTON));
 				db_set_b(0, SRMM_MODULE, SRMSGSET_SEPARATECHATSCONTAINERS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATECHATSCONTAINERS));
-
-				ApplyChanges(8);
 				return TRUE;
 			}
 		}
@@ -429,7 +420,7 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				return 0;
 			break;
 		}
-		MarkChanges(16, hwndDlg);
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_HSCROLL:
@@ -437,13 +428,17 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		SetDlgItemTextA(hwndDlg, IDC_ATRANSPARENCYPERC, str);
 		mir_snprintf(str, "%d%%", (int)(100 * SendDlgItemMessage(hwndDlg, IDC_ITRANSPARENCYVALUE, TBM_GETPOS, 0, 0) / 256));
 		SetDlgItemTextA(hwndDlg, IDC_ITRANSPARENCYPERC, str);
-		MarkChanges(16, hwndDlg);
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				ApplyOptions();
+				break;
+
 			case PSN_APPLY:
 				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWSTATUSBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSBAR));
 				db_set_b(0, SRMM_MODULE, SRMSGSET_SHOWTITLEBAR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTITLEBAR));
@@ -461,8 +456,6 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				db_set_w(0, SRMM_MODULE, SRMSGSET_AUTORESIZELINES, (WORD)SendDlgItemMessage(hwndDlg, IDC_INPUTLINESSPIN, UDM_GETPOS, 0, 0));
 				LoadInfobarFonts();
-
-				ApplyChanges(16);
 				return TRUE;
 			}
 		}
@@ -527,7 +520,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg, IDC_CASCADE, BST_UNCHECKED);
 			break;
 		}
-		MarkChanges(2, hwndDlg);
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_NOTIFY:
@@ -546,18 +539,22 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 						tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
 						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						MarkChanges(2, hwndDlg);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
 				}
 			}
 			else if (((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
 				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)
-					MarkChanges(2, hwndDlg);
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;
 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				ApplyOptions();
+				break;
+
 			case PSN_APPLY:
 				db_set_dw(0, SRMM_MODULE, SRMSGSET_POPFLAGS, MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_POPLIST)));
 				db_set_b(0, SRMM_MODULE, SRMSGSET_AUTOPOPUP, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOPOPUP));
@@ -574,9 +571,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_b(0, SRMM_MODULE, SRMSGSET_CASCADE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CASCADE));
 
 				db_set_b(0, SRMM_MODULE, SRMSGSET_HIDECONTAINERS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDECONTAINERS));
-
-				ApplyChanges(2);
-
 				return TRUE;
 			}
 		}
@@ -768,13 +762,17 @@ public:
 			case IDC_SRMM_LOG:
 				return 0;
 			}
-			MarkChanges(4, m_hwnd);
+			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
 			break;
 
 		case WM_NOTIFY:
 			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
 				switch (((LPNMHDR)lParam)->code) {
+				case PSN_WIZFINISH:
+					ApplyOptions();
+					break;
+
 				case PSN_APPLY:
 					if (IsDlgButtonChecked(m_hwnd, IDC_LOADCOUNT))
 						db_set_b(0, SRMM_MODULE, SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
@@ -801,7 +799,6 @@ public:
 
 					FreeMsgLogIcons();
 					LoadMsgLogIcons();
-					ApplyChanges(4);
 					return TRUE;
 				}
 			}
@@ -895,7 +892,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYTRAY), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), FALSE);
 			}
-			MarkChanges(4, hwndDlg);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_SHOWNOTIFY:
@@ -909,7 +906,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDC_NOTIFYTRAY:
 		case IDC_NOTIFYBALLOON:
 		case IDC_TYPINGSWITCH:
-			MarkChanges(4, hwndDlg);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}
 		break;
@@ -922,7 +919,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				ResetCList(hwndDlg);
 				break;
 			case CLN_CHECKCHANGED:
-				MarkChanges(4, hwndDlg);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case CLN_LISTREBUILT:
 				RebuildList(hwndDlg, hItemNew, hItemUnknown);
@@ -983,16 +980,17 @@ int OptInitialise(WPARAM wParam, LPARAM)
 	odp.pDialog = nullptr;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
 	odp.pfnDlgProc = DlgProcOptions1;
-	odp.szTab.a = LPGEN("Group chat");
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Group chats");
+	odp.szTab.a = LPGEN("General");
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
 	odp.pfnDlgProc = DlgProcOptions2;
-	odp.szTab.a = LPGEN("Group chat log");
+	odp.szTab.a = LPGEN("Event log");
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.szGroup.a = LPGEN("Message sessions");
 	odp.szTitle.a = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	odp.szTab.a = nullptr;

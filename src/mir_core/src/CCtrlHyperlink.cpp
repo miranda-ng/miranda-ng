@@ -32,7 +32,7 @@ CCtrlHyperlink::CCtrlHyperlink(CDlgBase* wnd, int idCtrl, const char* url)
 	OnClick = Callback(this, &CCtrlHyperlink::Default_OnClick);
 }
 
-BOOL CCtrlHyperlink::OnCommand(HWND, WORD, WORD idCode)
+BOOL CCtrlHyperlink::OnCommand(HWND, WORD, WORD)
 {
 	OnClick(this);
 	return FALSE;

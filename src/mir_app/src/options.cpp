@@ -289,6 +289,16 @@ struct OptionsPageData : public MZeroedObject
 	}
 };
 
+static int CompareOPD(const OptionsPageData *p1, const OptionsPageData *p2)
+{
+	int res = mir_wstrcmp(p1->ptszGroup, p2->ptszGroup);
+	if (!res)
+		res = mir_wstrcmp(p1->ptszTitle, p2->ptszTitle);
+	if (!res)
+		res = mir_wstrcmp(p1->ptszTab, p2->ptszTab);
+	return res;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Options dialog
 
@@ -812,13 +822,12 @@ public:
 
 	virtual void OnApply() override
 	{
-		PSHNOTIFY pshn;
 		m_btnApply.Disable();
 		SetFocus(m_pageTree.GetHwnd());
 
 		OptionsPageData *opd = getCurrent();
 		if (opd != nullptr) {
-			pshn.hdr.idFrom = 0;
+			PSHNOTIFY pshn = {};
 			pshn.lParam = IDC_APPLY;
 			pshn.hdr.code = PSN_KILLACTIVE;
 			pshn.hdr.hwndFrom = opd->getHwnd();
@@ -826,10 +835,16 @@ public:
 				return;
 		}
 
+		LIST<OptionsPageData> arChanged(10, CompareOPD);
+
+		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
 		for (int i = 0; i < m_arOpd.getCount(); i++) {
 			OptionsPageData *p = m_arOpd[i];
-			if (p->getHwnd() == nullptr || !p->changed) continue;
+			if (p->getHwnd() == nullptr || !p->changed)
+				continue;
+
+			arChanged.insert(p);
 			p->changed = 0;
 			pshn.hdr.hwndFrom = p->getHwnd();
 			if (SendMessage(p->getHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
@@ -842,6 +857,20 @@ public:
 					opd->pDialog->Show();
 				return;
 			}
+		}
+
+		pshn.hdr.code = PSN_WIZFINISH;
+		for (int i = 0; i < arChanged.getCount(); i++) {
+			OptionsPageData *p = arChanged[i];
+			if (p->ptszTab == nullptr)
+				continue;
+
+			// calculate last changed tab
+			OptionsPageData *p2 = arChanged[i+1];
+			if (p2 != nullptr && !mir_wstrcmp(p->ptszTitle, p2->ptszTitle) && !mir_wstrcmp(p->ptszGroup, p2->ptszGroup))
+				continue;
+
+			SendMessage(p->pDialog->GetHwnd(), WM_NOTIFY, 0, (LPARAM)&pshn);
 		}
 	}
 

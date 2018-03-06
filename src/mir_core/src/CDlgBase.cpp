@@ -247,7 +247,8 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			int idCtrl = wParam;
 			NMHDR *pnmh = (NMHDR *)lParam;
 			if (pnmh->idFrom == 0) {
-				if (pnmh->code == PSN_APPLY) {
+				switch (pnmh->code) {
+				case PSN_APPLY:
 					if (LPPSHNOTIFY(lParam)->lParam != 3) // IDC_APPLY
 						m_bExiting = true;
 
@@ -255,10 +256,16 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					NotifyControls(&CCtrlBase::OnApply);
 					if (m_lresult)
 						OnApply();
-				}
-				else if (pnmh->code == PSN_RESET) {
+					break;
+
+				case PSN_RESET:
 					NotifyControls(&CCtrlBase::OnReset);
 					OnReset();
+					break;
+
+				case PSN_WIZFINISH:
+					m_OnFinishWizard(this);
+					break;
 				}
 			}
 

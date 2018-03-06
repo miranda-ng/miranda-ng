@@ -309,6 +309,11 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				pci->ReloadSettings();
+				Chat_UpdateOptions();
+				break;
+
 			case PSN_APPLY:
 				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_GROUP));
 				if (iLen > 0) {
@@ -325,9 +330,6 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					db_unset(0, CHAT_MODULE, "NicklistRowDist");
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch1, _countof(branch1));
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch4, _countof(branch4));
-
-				pci->ReloadSettings();
-				Chat_UpdateOptions();
 			}
 			return TRUE;
 		}
@@ -502,112 +504,115 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
-					if (hti.flags&TVHT_ONITEMSTATEICON) {
+					if (hti.flags & TVHT_ONITEMSTATEICON)
 						SendMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)hti.hItem);
-					}
 			}
 			else if (((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
-				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE) {
-					SendMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom,
-						(LPARAM)TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom));
-				}
+				if (((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)
+					SendMessage(hwndDlg, UM_CHECKSTATECHANGE, (WPARAM)((LPNMHDR)lParam)->hwndFrom, (LPARAM)TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom));
 			}
 		}
-		else if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
-			char *pszText = nullptr;
-			int iLen;
+		else if (((LPNMHDR)lParam)->idFrom == 0) {
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_WIZFINISH:
+				pci->ReloadSettings();
+				Chat_UpdateOptions();
+				break;
 
-			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_HIGHLIGHTWORDS));
-			if (iLen > 0) {
-				wchar_t *ptszText = (wchar_t*)mir_alloc((iLen + 2) * sizeof(wchar_t));
-				wchar_t *p2 = nullptr;
+			case PSN_APPLY:
+				char *pszText = nullptr;
+				int iLen;
 
-				if (ptszText) {
-					GetDlgItemText(hwndDlg, IDC_CHAT_HIGHLIGHTWORDS, ptszText, iLen + 1);
-					p2 = wcschr(ptszText, (wchar_t)',');
-					while (p2) {
-						*p2 = ' ';
+				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_HIGHLIGHTWORDS));
+				if (iLen > 0) {
+					wchar_t *ptszText = (wchar_t*)mir_alloc((iLen + 2) * sizeof(wchar_t));
+					wchar_t *p2 = nullptr;
+
+					if (ptszText) {
+						GetDlgItemText(hwndDlg, IDC_CHAT_HIGHLIGHTWORDS, ptszText, iLen + 1);
 						p2 = wcschr(ptszText, (wchar_t)',');
+						while (p2) {
+							*p2 = ' ';
+							p2 = wcschr(ptszText, (wchar_t)',');
+						}
+						db_set_ws(0, CHAT_MODULE, "HighlightWords", ptszText);
+						mir_free(ptszText);
 					}
-					db_set_ws(0, CHAT_MODULE, "HighlightWords", ptszText);
-					mir_free(ptszText);
 				}
+				else db_unset(0, CHAT_MODULE, "HighlightWords");
+
+				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY));
+				if (iLen > 0) {
+					wchar_t *pszText1 = (wchar_t*)malloc(iLen * sizeof(wchar_t) + 2);
+					GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
+					db_set_ws(0, CHAT_MODULE, "LogDirectory", pszText1);
+					free(pszText1);
+				}
+				else {
+					mir_wstrncpy(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
+					db_unset(0, CHAT_MODULE, "LogDirectory");
+				}
+				pci->SM_InvalidateLogDirectories();
+
+				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGTIMESTAMP));
+				if (iLen > 0) {
+					pszText = (char*)mir_realloc(pszText, iLen + 1);
+					GetDlgItemTextA(hwndDlg, IDC_CHAT_LOGTIMESTAMP, pszText, iLen + 1);
+					db_set_s(0, CHAT_MODULE, "LogTimestamp", pszText);
+				}
+				else db_unset(0, CHAT_MODULE, "LogTimestamp");
+
+				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_TIMESTAMP));
+				if (iLen > 0) {
+					pszText = (char*)mir_realloc(pszText, iLen + 1);
+					GetDlgItemTextA(hwndDlg, IDC_CHAT_TIMESTAMP, pszText, iLen + 1);
+					db_set_s(0, CHAT_MODULE, "HeaderTime", pszText);
+				}
+				else db_unset(0, CHAT_MODULE, "HeaderTime");
+
+				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_INSTAMP));
+				if (iLen > 0) {
+					pszText = (char*)mir_realloc(pszText, iLen + 1);
+					GetDlgItemTextA(hwndDlg, IDC_CHAT_INSTAMP, pszText, iLen + 1);
+					db_set_s(0, CHAT_MODULE, "HeaderIncoming", pszText);
+				}
+				else db_unset(0, CHAT_MODULE, "HeaderIncoming");
+
+				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_OUTSTAMP));
+				if (iLen > 0) {
+					pszText = (char*)mir_realloc(pszText, iLen + 1);
+					GetDlgItemTextA(hwndDlg, IDC_CHAT_OUTSTAMP, pszText, iLen + 1);
+					db_set_s(0, CHAT_MODULE, "HeaderOutgoing", pszText);
+				}
+				else db_unset(0, CHAT_MODULE, "HeaderOutgoing");
+
+				g_Settings.bHighlightEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHAT_HIGHLIGHT) == BST_CHECKED ? TRUE : FALSE;
+				db_set_b(0, CHAT_MODULE, "HighlightEnabled", (BYTE)g_Settings.bHighlightEnabled);
+
+				g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHAT_LOGGING) == BST_CHECKED ? TRUE : FALSE;
+				db_set_b(0, CHAT_MODULE, "LoggingEnabled", (BYTE)g_Settings.bLoggingEnabled);
+
+				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
+				db_set_w(0, CHAT_MODULE, "LogLimit", (WORD)iLen);
+				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_GETPOS, 0, 0);
+				db_set_w(0, CHAT_MODULE, "LoggingLimit", (WORD)iLen);
+
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch2, _countof(branch2));
+				SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch3, _countof(branch3));
+
+				mir_free(pszText);
+
+				g_Settings.dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
+				g_Settings.dwTrayIconFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", 0x1000);
+				g_Settings.dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", 0x0000);
+				g_Settings.bStripFormat = db_get_b(0, CHAT_MODULE, "TrimFormatting", 0) != 0;
+				g_Settings.bTrayIconInactiveOnly = db_get_b(0, CHAT_MODULE, "TrayIconInactiveOnly", 1) != 0;
+				g_Settings.bPopupInactiveOnly = db_get_b(0, CHAT_MODULE, "PopUpInactiveOnly", 1) != 0;
+				g_Settings.bLogIndentEnabled = (db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
+
+				pci->MM_FontsChanged();
+				return TRUE;
 			}
-			else db_unset(0, CHAT_MODULE, "HighlightWords");
-
-			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY));
-			if (iLen > 0) {
-				wchar_t *pszText1 = (wchar_t*)malloc(iLen*sizeof(wchar_t) + 2);
-				GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
-				db_set_ws(0, CHAT_MODULE, "LogDirectory", pszText1);
-				free(pszText1);
-			}
-			else {
-				mir_wstrncpy(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
-				db_unset(0, CHAT_MODULE, "LogDirectory");
-			}
-			pci->SM_InvalidateLogDirectories();
-
-			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGTIMESTAMP));
-			if (iLen > 0) {
-				pszText = (char*)mir_realloc(pszText, iLen + 1);
-				GetDlgItemTextA(hwndDlg, IDC_CHAT_LOGTIMESTAMP, pszText, iLen + 1);
-				db_set_s(0, CHAT_MODULE, "LogTimestamp", pszText);
-			}
-			else db_unset(0, CHAT_MODULE, "LogTimestamp");
-
-			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_TIMESTAMP));
-			if (iLen > 0) {
-				pszText = (char*)mir_realloc(pszText, iLen + 1);
-				GetDlgItemTextA(hwndDlg, IDC_CHAT_TIMESTAMP, pszText, iLen + 1);
-				db_set_s(0, CHAT_MODULE, "HeaderTime", pszText);
-			}
-			else db_unset(0, CHAT_MODULE, "HeaderTime");
-
-			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_INSTAMP));
-			if (iLen > 0) {
-				pszText = (char*)mir_realloc(pszText, iLen + 1);
-				GetDlgItemTextA(hwndDlg, IDC_CHAT_INSTAMP, pszText, iLen + 1);
-				db_set_s(0, CHAT_MODULE, "HeaderIncoming", pszText);
-			}
-			else db_unset(0, CHAT_MODULE, "HeaderIncoming");
-
-			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_OUTSTAMP));
-			if (iLen > 0) {
-				pszText = (char*)mir_realloc(pszText, iLen + 1);
-				GetDlgItemTextA(hwndDlg, IDC_CHAT_OUTSTAMP, pszText, iLen + 1);
-				db_set_s(0, CHAT_MODULE, "HeaderOutgoing", pszText);
-			}
-			else db_unset(0, CHAT_MODULE, "HeaderOutgoing");
-
-			g_Settings.bHighlightEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHAT_HIGHLIGHT) == BST_CHECKED ? TRUE : FALSE;
-			db_set_b(0, CHAT_MODULE, "HighlightEnabled", (BYTE)g_Settings.bHighlightEnabled);
-
-			g_Settings.bLoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_CHAT_LOGGING) == BST_CHECKED ? TRUE : FALSE;
-			db_set_b(0, CHAT_MODULE, "LoggingEnabled", (BYTE)g_Settings.bLoggingEnabled);
-
-			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
-			db_set_w(0, CHAT_MODULE, "LogLimit", (WORD)iLen);
-			iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_GETPOS, 0, 0);
-			db_set_w(0, CHAT_MODULE, "LoggingLimit", (WORD)iLen);
-
-			SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch2, _countof(branch2));
-			SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch3, _countof(branch3));
-
-			mir_free(pszText);
-
-			g_Settings.dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
-			g_Settings.dwTrayIconFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", 0x1000);
-			g_Settings.dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", 0x0000);
-			g_Settings.bStripFormat = db_get_b(0, CHAT_MODULE, "TrimFormatting", 0) != 0;
-			g_Settings.bTrayIconInactiveOnly = db_get_b(0, CHAT_MODULE, "TrayIconInactiveOnly", 1) != 0;
-			g_Settings.bPopupInactiveOnly = db_get_b(0, CHAT_MODULE, "PopUpInactiveOnly", 1) != 0;
-			g_Settings.bLogIndentEnabled = (db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0) ? TRUE : FALSE;
-
-			pci->MM_FontsChanged();
-			pci->ReloadSettings();
-			Chat_UpdateOptions();
-			return TRUE;
 		}
 		break;
 
