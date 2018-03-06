@@ -74,7 +74,8 @@ static int SendAuthentificationBlobLS(Skype_Inst *pInst, LSConnection *pConn, co
 	uchar				*Browser;
 	uchar				*Mark;
 	uchar				*MarkObjL;
-	uint				Idx, Size, Crc, BSize, ret = 0;
+	uint				Size, Crc, BSize, ret = 0;
+	int					Idx;
 	HttpsPacketHeader	*HSHeader;
 	uchar				HSHeaderBuf[sizeof(HttpsPacketHeader)], RecvBuf[0x1000];
 	AES_KEY				AesKey;

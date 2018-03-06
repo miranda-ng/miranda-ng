@@ -193,7 +193,7 @@ time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 	else {
 		wchar_t *weekday, monthstr[4], timezonesign[2];
 		int day, month = 0, year, hour, min, sec, timezoneh, timezonem;
-		if (wcsstr(p, L",")) {
+		if (wcschr(p, L',')) {
 			weekday = wcstok(p, L",");
 			p = wcstok(nullptr, L",");
 			swscanf(p + 1, L"%d %3s %d %d:%d:%d %1s%02d%02d", &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
@@ -230,7 +230,7 @@ time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)
 			else
 				mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}
-		else if (wcsstr(p, L"T")) {
+		else if (wcschr(p, L'T')) {
 			swscanf(p, L"%d-%d-%dT%d:%d:%d", &year, &month, &day, &hour, &min, &sec);
 			mir_snwprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, L"%04d%02d%02dT%02d:%02d:%02d", year, month, day, hour, min, sec);
 		}

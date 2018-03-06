@@ -53,7 +53,6 @@ void CSkypeProto::InitLanguages()
 	result[L"km"] = L"Central Khmer";
 	result[L"ch"] = L"Chamorro";
 	result[L"ce"] = L"Chechen";
-	result[L"ny"] = L"Chewa";
 	result[L"ny"] = L"Chichewa";
 	result[L"zh"] = L"Chinese";
 	result[L"za"] = L"Chuang";
@@ -66,7 +65,6 @@ void CSkypeProto::InitLanguages()
 	result[L"hr"] = L"Croatian";
 	result[L"cs"] = L"Czech";
 	result[L"da"] = L"Danish";
-	result[L"dv"] = L"Dhivehi";
 	result[L"dv"] = L"Divehi";
 	result[L"nl"] = L"Dutch";
 	result[L"dz"] = L"Dzongkha";
@@ -90,7 +88,6 @@ void CSkypeProto::InitLanguages()
 	result[L"kl"] = L"Greenlandic";
 	result[L"gn"] = L"Guarani";
 	result[L"gu"] = L"Gujarati";
-	result[L"ht"] = L"Haitian";
 	result[L"ht"] = L"Haitian Creole";
 	result[L"ha"] = L"Hausa";
 	result[L"he"] = L"Hebrew";
@@ -146,11 +143,9 @@ void CSkypeProto::InitLanguages()
 	result[L"mi"] = L"Maori";
 	result[L"mr"] = L"Marathi";
 	result[L"mh"] = L"Marshallese";
-	result[L"ro"] = L"Moldavian";
 	result[L"ro"] = L"Moldovan";
 	result[L"mn"] = L"Mongolian";
 	result[L"na"] = L"Nauru";
-	result[L"nv"] = L"Navaho";
 	result[L"nv"] = L"Navajo";
 	result[L"nd"] = L"Ndebele, North";
 	result[L"nr"] = L"Ndebele, South";
@@ -172,7 +167,6 @@ void CSkypeProto::InitLanguages()
 	result[L"cu"] = L"Old Slavonic";
 	result[L"or"] = L"Oriya";
 	result[L"om"] = L"Oromo";
-	result[L"os"] = L"Ossetian";
 	result[L"os"] = L"Ossetic";
 	result[L"pi"] = L"Pali";
 	result[L"pa"] = L"Panjabi";
@@ -196,7 +190,6 @@ void CSkypeProto::InitLanguages()
 	result[L"sn"] = L"Shona";
 	result[L"ii"] = L"Sichuan Yi";
 	result[L"sd"] = L"Sindhi";
-	result[L"si"] = L"Sinhala";
 	result[L"si"] = L"Sinhalese";
 	result[L"sk"] = L"Slovak";
 	result[L"sl"] = L"Slovenian";

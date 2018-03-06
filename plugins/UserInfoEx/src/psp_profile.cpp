@@ -697,10 +697,7 @@ static LRESULT CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wP
 					lvi.iSubItem = iSubItem;
 					lvi.mask = LVIF_PARAM;
 					do {
-						if (wParam == VK_UP)
-							lvi.iItem--;
-						else
-							lvi.iItem++;
+						lvi.iItem++;
 
 						if (lvi.iItem == -1 || !ListView_GetItem(pList->hList, &lvi))
 							return 0;

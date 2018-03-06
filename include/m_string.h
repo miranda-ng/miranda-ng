@@ -436,18 +436,12 @@ public:
 
 	static void ConvertToOem(_CharType* pstrString, size_t size)
 	{
-		if (size > UINT_MAX) {
-			return;
-		}
 		DWORD dwSize = static_cast<DWORD>(size);
 		::CharToOemBuffA(pstrString, pstrString, dwSize);
 	}
 
 	static void ConvertToAnsi(_CharType* pstrString, size_t size)
 	{
-		if (size > UINT_MAX)
-			return;
-
 		DWORD dwSize = static_cast<DWORD>(size);
 		::OemToCharBuffA(pstrString, pstrString, dwSize);
 	}

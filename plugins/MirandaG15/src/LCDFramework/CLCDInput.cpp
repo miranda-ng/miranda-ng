@@ -212,7 +212,6 @@ void CLCDInput::OnFontChanged()
 		m_pScrollbar->SetSliderSize(m_iLineCount);
 
 	m_Marker[0].iLine = 0;
-	m_Marker[0].iPosition = 0;
 	m_Marker[0].iPosition = (int)m_strText.length();
 	
 	// Delete all offsets and recalculate them
@@ -429,9 +428,6 @@ LRESULT CLCDInput::ProcessKeyEvent(int Code, WPARAM wParam, LPARAM lParam)
 			}
 			if(res != 0)
 			{
-				if(dir != MARKER_HOLD) {
-					MoveMarker(dir,res);
-				}
 				UpdateOffsets(size);
 				UpdateMarker();
 				ScrollToMarker();

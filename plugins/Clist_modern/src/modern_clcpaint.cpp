@@ -753,7 +753,6 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 					SetRect(&rc, fr_rc.right - x, p_rect.top, fr_rc.right - x + ICON_HEIGHT, p_rect.bottom);
 					if (dat->text_rtl != 0) _RTLRect(&rc, free_row_rc.right);
 					Drawing->pos_extra[iImage] = rc;
-					Drawing->pos_extra[iImage] = rc;
 					if (Drawing->iExtraImage[iImage] != EMPTY_EXTRA_ICON)
 						ske_ImageList_DrawEx(dat->himlExtraColumns, Drawing->iExtraImage[iImage], hdcMem, rc.left, rc.top, 0, 0, CLR_NONE, colourFg, mode);
 				}

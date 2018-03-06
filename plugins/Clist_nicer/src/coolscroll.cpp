@@ -3010,17 +3010,10 @@ LRESULT CALLBACK CoolSBWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
 	case WM_STYLECHANGED:
 
 		if (swnd->bPreventStyleChange)
-		{
 			// the NCPAINT handler has told us to eat this message!
 			return 0;
-		}
 		else
-		{
-            if (message == WM_STYLECHANGED) 
-				return CoolSB_StyleChange(swnd, hwnd, WM_STYLECHANGED, wParam, lParam);
-			else
-				break;
-		}
+			return CoolSB_StyleChange(swnd, hwnd, WM_STYLECHANGED, wParam, lParam);
 
 	case WM_NCMOUSEMOVE: 
 		{

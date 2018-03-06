@@ -40,7 +40,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 			}
 		}
 		if (!ThreadRunning && HaveUpdates)
-			mir_forkthread(UpdateThreadProc, nullptr);
+			mir_forkthread(UpdateThreadProc);
 	}
 }
 

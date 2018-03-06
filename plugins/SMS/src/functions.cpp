@@ -163,7 +163,7 @@ BOOL IsContactPhone(MCONTACT hContact, LPWSTR lpwszPhone, size_t dwPhoneSize)
 	size_t dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal, lpwszPhone, dwPhoneSize);
 	LPSTR lpszProto = GetContactProto(hContact);
 	if (lpszProto) {
-		if (bRet == FALSE) bRet = IsContactPhoneParam(hContact, lpszProto, "Phone", wszPhoneLocal, dwPhoneSizeLocal);
+		bRet = IsContactPhoneParam(hContact, lpszProto, "Phone", wszPhoneLocal, dwPhoneSizeLocal);
 		if (bRet == FALSE) bRet = IsContactPhoneParam(hContact, lpszProto, "Cellular", wszPhoneLocal, dwPhoneSizeLocal);
 		if (bRet == FALSE) bRet = IsContactPhoneParam(hContact, lpszProto, "Fax", wszPhoneLocal, dwPhoneSizeLocal);
 	}

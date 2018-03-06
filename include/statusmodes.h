@@ -40,7 +40,7 @@ __forceinline bool IsStatusConnecting(int iStatus)
 	return iStatus >= ID_STATUS_CONNECTING && iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES;
 }
 #else
-	#define IsStatusConnecting(X) (X >= ID_STATUS_CONNECTING && X < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+	#define IsStatusConnecting(X) ((X) >= ID_STATUS_CONNECTING && (X) < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 #endif
 
 #define ID_STATUS_OFFLINE         40071

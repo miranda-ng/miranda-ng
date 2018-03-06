@@ -1133,7 +1133,7 @@ int CMsnProto::MSN_AuthOAuth(void)
 						int loginRet;
 						/* Do Login via Skype login server, if not possible switch to SkypeWebExperience login */
 						if ((loginRet = LoginSkypeOAuth(pRefreshToken)) < 1) {
-							if (loginRet < 0) bLogin = true; else retVal = 0;
+							retVal = 0;
 						}
 						else {
 							/* SkyLogin succeeded, request required tokens */

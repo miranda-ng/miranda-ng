@@ -1016,11 +1016,9 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 		membmp = ske_CreateDIB32(PRect.right - PRect.left, PRect.bottom - PRect.top);
 		oldbmp = (HBITMAP)SelectObject(memdc, membmp);
 		if (oldbmp == nullptr) {
-			if (mode == 2) {
-				SelectObject(memdc, oldbmp);
-				DeleteDC(memdc);
-				DeleteObject(membmp);
-			}
+			SelectObject(memdc, oldbmp);
+			DeleteDC(memdc);
+			DeleteObject(membmp);
 			return 0;
 		}
 	}
@@ -1244,8 +1242,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 			if ((k > 0 || k == -1) && mode == 2) {
 				{
 					BLENDFUNCTION bf = { AC_SRC_OVER, 0, pobj->dwAlpha, BYTE(pobj->bmBitsPixel == 32 && pobj->Style != ST_BRUSH ? AC_SRC_ALPHA : 0) };
-					if (mode == 2)
-						OffsetRect(&PRect, mode2offset.x, mode2offset.y);
+					OffsetRect(&PRect, mode2offset.x, mode2offset.y);
 					ske_AlphaBlend(preq->hDC, PRect.left, PRect.top, PRect.right - PRect.left, PRect.bottom - PRect.top,
 						memdc, 0, 0, PRect.right - PRect.left, PRect.bottom - PRect.top, bf);
 				}

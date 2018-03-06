@@ -177,16 +177,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		else {
 			// Init combo
-			int total = EXTRA_ICON_COUNT, first = 0;
+			int first = 0;
 
 			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)L"1");
 			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)L"2");
 
-			if (total > 0) {
-				wchar_t tmp[10];
-				for (int i = first; i <= total; i++)
-					SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)_itow(i - first + 3, tmp, 10));
-			}
+			wchar_t tmp[10];
+			for (int i = first; i <= EXTRA_ICON_COUNT; i++)
+				SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM)_itow(i - first + 3, tmp, 10));
 		}
 
 		ret = SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);

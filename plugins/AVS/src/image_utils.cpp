@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "image_utils.h"
 
-#define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__))
+#define GET_PIXEL(__P__, __X__, __Y__) ( (__P__) + width * 4 * (__Y__) + 4 * (__X__))
 
 // Make a bitmap all transparent, but only if it is a 32bpp
 void MakeBmpTransparent(HBITMAP hBitmap)

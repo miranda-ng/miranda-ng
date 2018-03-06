@@ -278,12 +278,8 @@ int CIcqProto::ShowPopupMsg(MCONTACT hContact, const char *szTitle, const char *
 		make_unicode_string_static( ICQTranslateUtfStatic(szTitle, str, sizeof(str)), ppd.lpwzContactName, MAX_CONTACTNAME);
 		make_unicode_string_static( ICQTranslateUtfStatic(szMsg, str, sizeof(str)), ppd.lpwzText, MAX_SECONDLINE);
 		ppd.lchContact = hContact;
-		ppd.lchIcon = ppd.lchIcon;
-		ppd.colorBack = ppd.colorBack;
-		ppd.colorText = ppd.colorText;
 		ppd.PluginWindowProc = nullptr;
 		ppd.PluginData = nullptr;
-		ppd.iSeconds = ppd.iSeconds;
 		return PUAddPopupT(&ppd);
 	}
 	return -1; // Failure

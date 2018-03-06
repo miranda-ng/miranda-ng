@@ -145,7 +145,7 @@ INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 			UpdateListAdd(hContact);
 	}
 	if (!ThreadRunning)
-		mir_forkthread(UpdateThreadProc, nullptr);
+		mir_forkthread(UpdateThreadProc);
 
 	return 0;
 }
@@ -188,7 +188,7 @@ INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 	if(IsMyContact(hContact))
 		UpdateListAdd(hContact);
 	if ( !ThreadRunning)
-		mir_forkthread(UpdateThreadProc, FALSE);
+		mir_forkthread(UpdateThreadProc);
 	return 0;
 }
 

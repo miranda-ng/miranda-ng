@@ -367,11 +367,8 @@ BOOL TreeList_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, UINT id
 				nmtv.itemNew.hItem = (HTREEITEM)lvi.lParam;
 				SendMessage(hwnd, WM_NOTIFY, lpnmia->hdr.idFrom, (LPARAM)&nmtv);
 
-				if (data->mode == TLM_REPORT)
-				{
-					ListView_DeleteAllItems(lpnmia->hdr.hwndFrom);
-					TreeList_Update(lpnmia->hdr.hwndFrom);
-				}
+				ListView_DeleteAllItems(lpnmia->hdr.hwndFrom);
+				TreeList_Update(lpnmia->hdr.hwndFrom);
 			}
 			break;
 

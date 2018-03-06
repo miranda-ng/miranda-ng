@@ -1025,13 +1025,11 @@ char* TWinErrorCode::getText()
 	if (mErrorText == nullptr)
 		return nullptr;
 
-	int tBytes = 0;
 	mErrorText = (char*)mir_alloc(256);
 
-	if (tBytes == 0)
-		tBytes = FormatMessageA(
-		FORMAT_MESSAGE_FROM_SYSTEM, nullptr,
-		mErrorCode, LANG_NEUTRAL, mErrorText, 256, nullptr);
+	int tBytes = FormatMessageA(
+	FORMAT_MESSAGE_FROM_SYSTEM, nullptr,
+	mErrorCode, LANG_NEUTRAL, mErrorText, 256, nullptr);
 
 	if (tBytes == 0)
 		tBytes = mir_snprintf(mErrorText, 256, "unknown Windows error code %d", mErrorCode);

@@ -855,7 +855,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 					if (nm->pt.x >= rc.left) {
 						CScriverWindow *pDlg = GetChildFromHWND(dat, dat->hwndActive);
 						if (pDlg != nullptr)
-							CheckStatusIconClick(pDlg->m_hContact, dat->hwndStatus, nm->pt, rc, 2, (pNMHDR->code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0));
+							CheckStatusIconClick(pDlg->m_hContact, dat->hwndStatus, nm->pt, rc, 2, 0);
 					}
 					return TRUE;
 				}

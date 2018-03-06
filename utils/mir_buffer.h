@@ -241,8 +241,6 @@ class Buffer
 			va_list arg;
 			va_start(arg, app);
 			total = __bvsnprintf<T>(&str[len], size - len - 1, app, arg); //!!!!!!!!!!!!
-			if (total < 0)
-				total = size - len - 1;
 			len += total;
 			pack();
 		}
@@ -251,8 +249,6 @@ class Buffer
 		{
 			if (pos > len)
 				pos = len;
-			if (pos < 0)
-				pos = 0;
 
 			if (appLen == -1)
 				appLen = __blen(app);
@@ -271,9 +267,7 @@ class Buffer
 		{
 			if (start > len)
 				start = len;
-			if (start < 0)
-				start = 0;
-
+			
 			if (end > len)
 				end = len;
 			if (end < start)

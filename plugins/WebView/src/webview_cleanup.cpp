@@ -375,8 +375,7 @@ void CodetoSymbol(char *truncated)
 			Sleep(1); // avoid 100% CPU
 
 			if ( strstr(truncated, CharacterCodes[n]) != nullptr) { // does character code exist?
-				if (strstr(truncated, CharacterCodes[n]) != nullptr)
-					stringfrompos = strstr(truncated, CharacterCodes[n]);
+				stringfrompos = strstr(truncated, CharacterCodes[n]);
 
 				position = stringfrompos - truncated;
 				counter = 0;

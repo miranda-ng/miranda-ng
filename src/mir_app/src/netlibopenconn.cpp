@@ -845,10 +845,8 @@ MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPEN
 
 	if (iUPnPCleanup == 0) {
 		mir_cslock lck(csNetlibUser);
-		if (iUPnPCleanup == 0) {
-			iUPnPCleanup = 1;
-			mir_forkthread(NetlibUPnPCleanup);
-		}
+		iUPnPCleanup = 1;
+		mir_forkthread(NetlibUPnPCleanup);
 	}
 
 	return nlc;

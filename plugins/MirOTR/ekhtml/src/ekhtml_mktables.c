@@ -68,9 +68,8 @@ static EKHTML_CHARMAP_TYPE valid_attrvalue(char in){
        in == '/' || in == ':' || in == '+' || in == '*' ||
        in == '%' || in == '?' || in == '!' || in == '&' ||
        in == '(' || in == ')' || in == '#' || in == '=' ||
-       in == '~' || in == ']' || in == '*' || in == '@' ||
-       in == '$' || in == '_' || in == ',' || in == ';' ||
-       in == '|')
+       in == '~' || in == ']' || in == '@' || in == '$' ||
+	   in == '_' || in == ',' || in == ';' || in == '|')
         return 1;
     return 0;
 }
