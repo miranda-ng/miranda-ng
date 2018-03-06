@@ -58,41 +58,41 @@ static const wchar_t *szColumnNames[] = { nullptr, nullptr, L"Nick", L"First Nam
 static int defaultColumnSizes[] = { 0, 90, 100, 100, 100, 2000 };
 void LoadColumnSizes(HWND hwndResults, const char *szProto)
 {
-	char szSetting[32];
-
 	defaultColumnSizes[COLUMNID_PROTO] = g_iIconSX + 4;
 	FindAddDlgData *dat = (FindAddDlgData*)GetWindowLongPtr(GetParent(hwndResults), GWLP_USERDATA);
 
-	int columnCount = NUM_COLUMNID, columnOrder[NUM_COLUMNID];
+	LVCOLUMN lvc;
+	lvc.mask = LVCF_TEXT | LVCF_WIDTH;
+
+	int columnOrder[NUM_COLUMNID];
 	bool colOrdersValid = true;
 	for (int i = 0; i < NUM_COLUMNID; i++) {
-		LVCOLUMN lvc;
-		if (i < columnCount) {
-			bool bNeedsFree = false;
-			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
-			if (szColumnNames[i] != nullptr)
-				lvc.pszText = TranslateW(szColumnNames[i]);
-			else {
-				if (i == COLUMNID_HANDLE) {
-					lvc.pszText = L"ID";
-					if (szProto) {
-						INT_PTR ret = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
-						if (ret != CALLSERVICE_NOTFOUND) {
-							bNeedsFree = true;
-							lvc.pszText = mir_a2u((char*)ret);
-						}
+		bool bNeedsFree = false;
+
+		if (szColumnNames[i] != nullptr)
+			lvc.pszText = TranslateW(szColumnNames[i]);
+		else {
+			if (i == COLUMNID_HANDLE) {
+				lvc.pszText = L"ID";
+				if (szProto) {
+					INT_PTR ret = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+					if (ret != CALLSERVICE_NOTFOUND) {
+						bNeedsFree = true;
+						lvc.pszText = mir_a2u((char*)ret);
 					}
 				}
-				else lvc.mask &= ~LVCF_TEXT;
 			}
-			
-			mir_snprintf(szSetting, "ColWidth%d", i);
-			lvc.cx = db_get_w(0, "FindAdd", szSetting, defaultColumnSizes[i]);
-			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
-
-			if (bNeedsFree)
-				mir_free(lvc.pszText);
+			else lvc.mask &= ~LVCF_TEXT;
 		}
+			
+		char szSetting[32];
+		mir_snprintf(szSetting, "ColWidth%d", i);
+		lvc.cx = db_get_w(0, "FindAdd", szSetting, defaultColumnSizes[i]);
+		ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
+
+		if (bNeedsFree)
+			mir_free(lvc.pszText);
+
 		mir_snprintf(szSetting, "ColOrder%d", i);
 		columnOrder[i] = db_get_b(0, "FindAdd", szSetting, -1);
 		if (columnOrder[i] == -1 || columnOrder[i] >= NUM_COLUMNID)
@@ -100,10 +100,10 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 	}
 
 	if (colOrdersValid)
-		ListView_SetColumnOrderArray(hwndResults, columnCount, columnOrder);
+		ListView_SetColumnOrderArray(hwndResults, NUM_COLUMNID, columnOrder);
 
 	dat->iLastColumnSortIndex = db_get_b(0, "FindAdd", "SortColumn", COLUMNID_NICK);
-	if (dat->iLastColumnSortIndex >= columnCount)
+	if (dat->iLastColumnSortIndex >= NUM_COLUMNID)
 		dat->iLastColumnSortIndex = COLUMNID_NICK;
 	dat->bSortAscending = db_get_b(0, "FindAdd", "SortAscending", TRUE);
 
