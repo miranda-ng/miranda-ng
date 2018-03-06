@@ -420,24 +420,24 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	ti.uId = 1;
 	ti.rect = clientRect;
 
-	wchar_t tszBuf[1024]; tszBuf[0] = 0;
+	CMStringW wszBuf;
 
 	USERINFO *ui1 = chatApi.SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
 	if (ui1) {
 		if (ProtoServiceExists(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
 			wchar_t *p = (wchar_t*)CallProtoService(parentdat->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)parentdat->ptszID, (LPARAM)ui1->pszUID);
 			if (p != nullptr) {
-				wcsncpy_s(tszBuf, p, _TRUNCATE);
+				wszBuf = p;
 				mir_free(p);
 			}
 		}
 
-		if (tszBuf[0] == 0)
-			mir_snwprintf(tszBuf, L"%s: %s\r\n%s: %s\r\n%s: %s",
+		if (wszBuf.IsEmpty())
+			wszBuf.Format(L"%s: %s\r\n%s: %s\r\n%s: %s",
 				TranslateT("Nickname"), ui1->pszNick,
 				TranslateT("Unique ID"), ui1->pszUID,
 				TranslateT("Status"), chatApi.TM_WordToString(parentdat->pStatuses, ui1->Status));
-		ti.lpszText = tszBuf;
+		ti.lpszText = wszBuf.GetBuffer();
 	}
 
 	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
