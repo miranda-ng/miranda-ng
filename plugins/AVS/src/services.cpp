@@ -397,15 +397,8 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilen
 	int num_tries = 0;
 	do {
 		// Lets do it
-		ResizeBitmap rb;
-		rb.size = sizeof(ResizeBitmap);
-		rb.hBmp = hBmp;
-		rb.max_height = d.height;
-		rb.max_width = d.width;
-		rb.fit = (grow ? 0 : RESIZEBITMAP_FLAG_DONT_GROW)
-			| (square ? RESIZEBITMAP_MAKE_SQUARE : RESIZEBITMAP_KEEP_PROPORTIONS);
-
-		d.hBmpProto = (HBITMAP)CallService(MS_IMG_RESIZE, WPARAM(&rb), 0);
+		int fit = (grow ? 0 : RESIZEBITMAP_FLAG_DONT_GROW) | (square ? RESIZEBITMAP_MAKE_SQUARE : RESIZEBITMAP_KEEP_PROPORTIONS);
+		d.hBmpProto = Image_Resize(hBmp, fit, d.height, d.width);
 
 		if (d.hBmpProto == nullptr) {
 			if (d.temp_file[0] != '\0')
@@ -552,17 +545,8 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 			}
 			else {
 				// Resize (to avoid too big avatars)
-				ResizeBitmap rb = { 0 };
-				rb.size = sizeof(ResizeBitmap);
-				rb.hBmp = hBmp;
-				rb.max_height = 300;
-				rb.max_width = 300;
-				rb.fit = (data.grow ? 0 : RESIZEBITMAP_FLAG_DONT_GROW)
-					| (data.square ? RESIZEBITMAP_MAKE_SQUARE : RESIZEBITMAP_KEEP_PROPORTIONS);
-
-				HBITMAP hBmpTmp = (HBITMAP)CallService(MS_IMG_RESIZE, WPARAM(&rb), 0);
-
-				// Check if need to resize
+				int fit = (data.grow ? 0 : RESIZEBITMAP_FLAG_DONT_GROW) | (data.square ? RESIZEBITMAP_MAKE_SQUARE : RESIZEBITMAP_KEEP_PROPORTIONS);
+				HBITMAP hBmpTmp = Image_Resize(hBmp, fit, 300, 300);
 				if (hBmpTmp == hBmp || hBmpTmp == nullptr) {
 					// Use original image
 					mir_snwprintf(globalFile, L"%s\\my_global_avatar%s", globalFile, ext);

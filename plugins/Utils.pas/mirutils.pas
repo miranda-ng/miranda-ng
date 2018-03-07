@@ -590,7 +590,6 @@ var
   req :TNETLIBHTTPREQUEST;
   resp:PNETLIBHTTPREQUEST;
   hNetLib:THANDLE;
-  im:TIMGSRVC_MEMIO;
 begin
   result:=0;
   if (url=nil) or (url^=#0) then
@@ -611,15 +610,8 @@ begin
   if resp<>nil then
   begin
     if resp^.resultCode=200 then
-    begin
-      im.iLen :=resp.dataLength;
-      im.pBuf :=resp.pData;
-      im.flags:=size shl 16;
-      im.fif  :=FIF_JPEG;
-      result  :=CallService(MS_IMG_LOADFROMMEM,wparam(@im),0);
-//      if result<>0 then
-//        DeleteObject(SendMessage(wnd,STM_SETIMAGE,IMAGE_BITMAP,result)); //!!
-    end;
+      result  := Image_LoadFromMem(resp.pData, resp.dataLength, FIF_JPEG);
+
     Netlib_FreeHttpRequest(resp);
   end;
   Netlib_CloseHandle(hNetLib);

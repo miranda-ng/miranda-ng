@@ -483,3 +483,7 @@ Contact_AddBySearch @499
 ??0PROTO_INTERFACE@@QEAA@PEBDPEB_W@Z @501 NONAME
 ??1PROTO_INTERFACE@@QEAA@XZ @502 NONAME
 Proto_AuthRecv @503
+Image_Load @504
+Image_LoadFromMem @505
+Image_Resize @506
+Image_Save @507

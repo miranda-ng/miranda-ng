@@ -38,9 +38,9 @@ by the FreeImage project (http://freeimage.sourceforge.net)
 
 #include "../libs/freeimage/src/FreeImage.h"
 
+#include <m_core.h>
+
 // load an image from disk
-// wParam = full path and filename to the image
-// lParam = IMGL_* flags
 // returns a valid HBITMAP or 0 if image cannot be loaded
 // if IMGL_RETURNDIB is set, it returns a pointer to a freeimage bitmap (FIBITMAP *)
 
@@ -50,19 +50,11 @@ by the FreeImage project (http://freeimage.sourceforge.net)
 
 #define IMGL_WCHAR     2        // filename is wchar_t
 
-#define MS_IMG_LOAD "IMG/Load"
+EXTERN_C MIR_APP_DLL(HBITMAP) Image_Load(const wchar_t *pwszPath, int iFlags /* one of IMGL_*/ );
 
 /*
  * control structure for loading images from memory buffers (e.g. network buffers, memory mapped files).
  */
-
-struct IMGSRVC_MEMIO
-{
-    long iLen;					// length of the buffer
-    void *pBuf;					// the buffer itself (you are responsible for allocating and free'ing it)
-    FREE_IMAGE_FORMAT fif;		// -1 to detect the format or one of the FIF_* image format constants
-    UINT flags;                 // flags to pass to FreeImage_LoadFromMemory()  (see freeimage docs)
-};
 
 // load an image from a memory buffer
 // wParam = IMGSRVC_MEMIO *
@@ -70,44 +62,36 @@ struct IMGSRVC_MEMIO
 // you must popupate iLen (buffer length) and pBuf (pointer to memory buffer)
 // you must also specify the format in IMGSRVC_MEMIO.fif using one of the FIF_* constants defined in m_freeimage.h
 
-#define MS_IMG_LOADFROMMEM "IMG/LoadFromMem"
-
-// flags for IMGSRVC_INFO.dwMask
-
-#define IMGI_FBITMAP  1  // the dib member is valid
-#define IMGI_HBITMAP  2  // the hbm member is valid
+EXTERN_C MIR_APP_DLL(HBITMAP) Image_LoadFromMem(const void *pBuf, size_t cbLen, FREE_IMAGE_FORMAT fif);
 
 /*
  * generic structure for various img functions
  * you must populate the fields as required, set the mask bits to indicate which member is valid
  */
 
+// flags for IMGSRVC_INFO.dwMask
+#define IMGI_FBITMAP  1  // the dib member is valid
+#define IMGI_HBITMAP  2  // the hbm member is valid
+
 struct IMGSRVC_INFO
 {
     DWORD cbSize;
-    union {
-        char *szName;
-        wchar_t *wszName;
-        wchar_t *tszName;
-    };
+	 MAllStrings szName;
     HBITMAP hbm;
     FIBITMAP *dib;
     DWORD    dwMask;
     FREE_IMAGE_FORMAT fif;
 };
 
-// save image to disk
-// wParam = IMGSRVC_INFO *  (szName/wszName, hbm OR dib, cbSize, dwMask mandatory. fif optional, if FIF_UNKNOWN is given
-//                           it will be determined from the filename).
-// lParam = low word: IMG_* flags     (IMGL_WCHAR is the only valid - filename will be assumed to be wchar_t and wszName must be used)
-//          high word: FreeImage_Save flags
-// set IMGSRVC_INFO.dwMask to indicate whether the HBITMAP of FIBITMAP member is valid
-
-#define MS_IMG_SAVE  "IMG/Save"
+EXTERN_C MIR_APP_DLL(int) Image_Save(const IMGSRVC_INFO *pInfo, int iFlags);
 
 /*
  * resizer from loadavatars moved to image service plugin
 */
+
+// Returns a copy of the bitmap with the size especified or the original bitmap if nothing has to be changed
+// returns NULL on error, hBmp if don't need to resize or a new HBITMAP if resized
+// You are responsible for calling DestroyObject() on the original HBITMAP
 
 #define RESIZEBITMAP_STRETCH 0				// Distort bitmap to size in (max_width, max_height)
 #define RESIZEBITMAP_KEEP_PROPORTIONS 1		// Keep bitmap proportions (probabily only one of the
@@ -120,36 +104,6 @@ struct IMGSRVC_INFO
 
 #define RESIZEBITMAP_FLAG_DONT_GROW	0x1000	// If set, the image will not grow. Else, it will grow to fit the max width/height
 
-typedef struct {
-	size_t size; // sizeof(ResizeBitmap);
-
-	HBITMAP hBmp;
-
-	int max_width;
-	int max_height;
-
-	int fit; // One of RESIZEBITMAP_* with an OR with RESIZEBITMAP_FLAG_DONT_GROW if needed
-} ResizeBitmap;
-
-// Returns a copy of the bitmap with the size especified or the original bitmap if nothing has to be changed
-// wParam = ResizeBitmap *
-// lParam = NULL
-// return NULL on error, ResizeBitmap->hBmp if don't need to resize or a new HBITMAP if resized
-// You are responsible for calling DestroyObject() on the original HBITMAP
-
-#define MS_IMG_RESIZE "IMG/ResizeBitmap"
-
-
-/*
- * format conversion helpers
- *
- * these helper macros allow converting HBITMAP to FIBITMAP * format and vice vera. In any case,
- * the caller is responsible for freeing or deleting the original object.
- * These macros wrap around the FI_CreateHBITMAPFromDib() and FI_CreateDIBFromHBITMAP() interface
- * functions.
- */
-
-//#define FI_HBM2DIB(x) (FI_CreateDIBFromHBITMAP((x)))
-//#define FI_DIB2HBM(x) (FI_CreateHBITMAPFromDIB((x)))
+EXTERN_C MIR_APP_DLL(HBITMAP) Image_Resize(HBITMAP hBmp, int fit /* RESIZEBITMAP_*/, int max_width, int max_height);
 
 #endif // __M_IMGSRVC_H

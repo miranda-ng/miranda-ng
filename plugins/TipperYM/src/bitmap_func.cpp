@@ -154,7 +154,7 @@ void CreateFromBitmaps(bool bServiceTip)
 		if (tszFileName && *tszFileName != 0) {
 			FIBITMAP *fib = nullptr;
 			if (!skin.bCached) {
-				FIBITMAP *fibLoad = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFileName, IMGL_WCHAR | IMGL_RETURNDIB);
+				FIBITMAP *fibLoad = (FIBITMAP *)Image_Load(tszFileName, IMGL_WCHAR | IMGL_RETURNDIB);
 				if (!fibLoad) continue;
 
 				if (FreeImage_GetBPP(fibLoad) != 32) 

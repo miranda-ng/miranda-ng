@@ -137,14 +137,8 @@ int GaduProto::gettoken(GGTOKEN *token)
 	dat.height = t->height;
 
 	// Load bitmap
-	IMGSRVC_MEMIO memio = { 0 };
-	memio.iLen = h->body_size;
-	memio.pBuf = h->body;
-	memio.fif = FIF_UNKNOWN; /* detect */
-	memio.flags = 0;
-	dat.hBitmap = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
-	if (dat.hBitmap == nullptr)
-	{
+	dat.hBitmap = Image_LoadFromMem(h->body, h->body_size, FIF_UNKNOWN);
+	if (dat.hBitmap == nullptr) {
 		MessageBox(nullptr, TranslateT("Could not load token image."), m_tszUserName, MB_OK | MB_ICONSTOP);
 		gg_free_pubdir(h);
 		return FALSE;

@@ -34,24 +34,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // lParam = NULL
 // return NULL on error, ResizeBitmap->hBmp if don't need to resize or a new HBITMAP if resized
 
-static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam, LPARAM)
+MIR_APP_DLL(HBITMAP) Image_Resize(HBITMAP hBmp, int fit /* RESIZEBITMAP_*/, int max_width, int max_height)
 {
-	ResizeBitmap *info = (ResizeBitmap *)wParam;
-	if (info == nullptr || info->size != sizeof(ResizeBitmap)
-		|| info->hBmp == nullptr
-		|| info->max_width < 0 || info->max_height < 0
-		|| (info->fit & ~RESIZEBITMAP_FLAG_DONT_GROW) < RESIZEBITMAP_STRETCH
-		|| (info->fit & ~RESIZEBITMAP_FLAG_DONT_GROW) > RESIZEBITMAP_MAKE_SQUARE)
+	if (hBmp == nullptr
+		|| max_width < 0 || max_height < 0
+		|| (fit & ~RESIZEBITMAP_FLAG_DONT_GROW) < RESIZEBITMAP_STRETCH
+		|| (fit & ~RESIZEBITMAP_FLAG_DONT_GROW) > RESIZEBITMAP_MAKE_SQUARE)
 		return 0;
 
 	// Well, lets do it
 
 	// Calc final size
 	BITMAP bminfo;
-	GetObject(info->hBmp, sizeof(bminfo), &bminfo);
+	GetObject(hBmp, sizeof(bminfo), &bminfo);
 
-	int width = info->max_width == 0 ? bminfo.bmWidth : info->max_width;
-	int height = info->max_height == 0 ? bminfo.bmHeight : info->max_height;
+	int width = max_width == 0 ? bminfo.bmWidth : max_width;
+	int height = max_height == 0 ? bminfo.bmHeight : max_height;
 
 	int xOrig = 0;
 	int yOrig = 0;
@@ -61,26 +59,26 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam, LPARAM)
 	if (widthOrig == 0 || heightOrig == 0)
 		return 0;
 
-	switch (info->fit & ~RESIZEBITMAP_FLAG_DONT_GROW) {
+	switch (fit & ~RESIZEBITMAP_FLAG_DONT_GROW) {
 	case RESIZEBITMAP_STRETCH:
 		// Do nothing
 		break;
 
 	case RESIZEBITMAP_KEEP_PROPORTIONS:
 		if (height * widthOrig / heightOrig <= width) {
-			if (info->fit & RESIZEBITMAP_FLAG_DONT_GROW)
+			if (fit & RESIZEBITMAP_FLAG_DONT_GROW)
 				height = min(height, bminfo.bmHeight);
 			width = height * widthOrig / heightOrig;
 		}
 		else {
-			if (info->fit & RESIZEBITMAP_FLAG_DONT_GROW)
+			if (fit & RESIZEBITMAP_FLAG_DONT_GROW)
 				width = min(width, bminfo.bmWidth);
 			height = width * heightOrig / widthOrig;
 		}
 		break;
 
 	case RESIZEBITMAP_MAKE_SQUARE:
-		if (info->fit & RESIZEBITMAP_FLAG_DONT_GROW) {
+		if (fit & RESIZEBITMAP_FLAG_DONT_GROW) {
 			width = min(width, bminfo.bmWidth);
 			height = min(height, bminfo.bmHeight);
 		}
@@ -101,12 +99,12 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam, LPARAM)
 	}
 
 	if ((width == bminfo.bmWidth && height == bminfo.bmHeight) ||
-		 ((info->fit & RESIZEBITMAP_FLAG_DONT_GROW) && !(info->fit & RESIZEBITMAP_MAKE_SQUARE) && width > bminfo.bmWidth && height > bminfo.bmHeight)) {
+		 ((fit & RESIZEBITMAP_FLAG_DONT_GROW) && !(fit & RESIZEBITMAP_MAKE_SQUARE) && width > bminfo.bmWidth && height > bminfo.bmHeight)) {
 		// Do nothing
-		return (INT_PTR)info->hBmp;
+		return hBmp;
 	}
 
-	FIBITMAP *dib = FreeImage_CreateDIBFromHBITMAP(info->hBmp);
+	FIBITMAP *dib = FreeImage_CreateDIBFromHBITMAP(hBmp);
 	if (dib == nullptr)
 		return 0;
 
@@ -130,79 +128,81 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam, LPARAM)
 		FreeImage_Unload(dib_tmp);
 	FreeImage_Unload(dib);
 
-	return (INT_PTR)bitmap_new;
+	return bitmap_new;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Load - initializes the plugin instance
+// Image_Load - initializes the plugin instance
 
-static INT_PTR serviceLoad(WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(HBITMAP) Image_Load(const wchar_t *pwszPath, int iFlags)
 {
-	char *lpszFilename = (char *)wParam;
-	if (lpszFilename == nullptr)
+	if (pwszPath == nullptr)
 		return 0;
 	
 	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	if (lParam & IMGL_WCHAR)
-		fif = FreeImage_GetFileTypeU((wchar_t *)lpszFilename, 0);
+	if (iFlags & IMGL_WCHAR)
+		fif = FreeImage_GetFileTypeU(pwszPath, 0);
 	else
-		fif = FreeImage_GetFileType(lpszFilename, 0);
+		fif = FreeImage_GetFileType((char*)pwszPath, 0);
 
 	if (fif == FIF_UNKNOWN) {
-		if (lParam & IMGL_WCHAR)
-			fif = FreeImage_GetFIFFromFilenameU((wchar_t *)lpszFilename);
+		if (iFlags & IMGL_WCHAR)
+			fif = FreeImage_GetFIFFromFilenameU(pwszPath);
 		else
-			fif = FreeImage_GetFIFFromFilename(lpszFilename);
+			fif = FreeImage_GetFIFFromFilename((char*)pwszPath);
 	}
+	
 	// check that the plugin has reading capabilities ...
-
-	if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
+	if (fif != FIF_UNKNOWN && FreeImage_FIFSupportsReading(fif)) {
 		// ok, let's load the file
 		FIBITMAP *dib;
-		if (lParam & IMGL_WCHAR)
-			dib = FreeImage_LoadU(fif, (wchar_t *)lpszFilename, 0);
+		if (iFlags & IMGL_WCHAR)
+			dib = FreeImage_LoadU(fif, pwszPath, 0);
 		else
-			dib = FreeImage_Load(fif, lpszFilename, 0);
+			dib = FreeImage_Load(fif, (char*)pwszPath, 0);
 
-		if (dib == nullptr || (lParam & IMGL_RETURNDIB))
-			return (INT_PTR)dib;
+		if (dib == nullptr || (iFlags & IMGL_RETURNDIB))
+			return HBITMAP(dib);
 
 		HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(dib);
 		FreeImage_Unload(dib);
 		FreeImage_CorrectBitmap32Alpha(hbm, FALSE);
-		return (INT_PTR)hbm;
+		return hbm;
 	}
-	return NULL;
+	return nullptr;
 }
 
-static INT_PTR serviceLoadFromMem(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Image_LoadFromMem - loads an image from memory
+
+MIR_APP_DLL(HBITMAP) Image_LoadFromMem(const void *pBuf, size_t cbLen, FREE_IMAGE_FORMAT fif)
 {
-	IMGSRVC_MEMIO *mio = (IMGSRVC_MEMIO *)wParam;
-	if (mio->iLen == 0 || mio->pBuf == nullptr)
+	if (cbLen == 0 || pBuf == nullptr)
 		return 0;
 
-	FIMEMORY *hmem = FreeImage_OpenMemory((BYTE *)mio->pBuf, mio->iLen);
-	FREE_IMAGE_FORMAT fif = (mio->fif != FIF_UNKNOWN) ? mio->fif : mio->fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
-	FIBITMAP *dib = FreeImage_LoadFromMemory(fif, hmem, mio->flags);
-	FreeImage_CloseMemory(hmem);
+	FIMEMORY *hmem = FreeImage_OpenMemory((BYTE *)pBuf, (DWORD)cbLen);
+	if (fif == FIF_UNKNOWN)
+		fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
 
-	if (dib == nullptr || (lParam & IMGL_RETURNDIB))
-		return (INT_PTR)dib;
+	FIBITMAP *dib = FreeImage_LoadFromMemory(fif, hmem, 0);
+	FreeImage_CloseMemory(hmem);
+	if (dib == nullptr)
+		return nullptr;
 
 	HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(dib);
-
 	FreeImage_Unload(dib);
-	return (INT_PTR)hbm;
+	return hbm;
 }
 
-static INT_PTR serviceSave(WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(int) Image_Save(const IMGSRVC_INFO *isi, int iFlags)
 {
-	IMGSRVC_INFO *isi = (IMGSRVC_INFO*)wParam;
 	if (isi == nullptr)
 		return 0;
 	if (isi->cbSize != sizeof(IMGSRVC_INFO))
 		return 0;
-	if (isi->szName == nullptr)
+	if (isi->szName.a == nullptr)
 		return 0;
 
 	FREE_IMAGE_FORMAT fif;
@@ -210,10 +210,10 @@ static INT_PTR serviceSave(WPARAM wParam, LPARAM lParam)
 	FIBITMAP *dib = nullptr;
 
 	if (isi->fif == FIF_UNKNOWN) {
-		if (lParam & IMGL_WCHAR)
-			fif = FreeImage_GetFIFFromFilenameU(isi->wszName);
+		if (iFlags & IMGL_WCHAR)
+			fif = FreeImage_GetFIFFromFilenameU(isi->szName.w);
 		else
-			fif = FreeImage_GetFIFFromFilename(isi->szName);
+			fif = FreeImage_GetFIFFromFilename(isi->szName.a);
 	}
 	else
 		fif = isi->fif;
@@ -233,33 +233,25 @@ static INT_PTR serviceSave(WPARAM wParam, LPARAM lParam)
 	if (dib == nullptr)
 		return 0;
 
-	int flags = HIWORD(lParam);
+	int flags = HIWORD(iFlags);
 
 	int ret = 0;
 	if (fif == FIF_PNG || fif == FIF_BMP || fif == FIF_JNG) {
-		if (lParam & IMGL_WCHAR)
-			ret = FreeImage_SaveU(fif, dib, isi->wszName, flags);
+		if (iFlags & IMGL_WCHAR)
+			ret = FreeImage_SaveU(fif, dib, isi->szName.w, flags);
 		else
-			ret = FreeImage_Save(fif, dib, isi->szName, flags);
+			ret = FreeImage_Save(fif, dib, isi->szName.a, flags);
 	}
 	else {
 		FIBITMAP *dib_new = FreeImage_ConvertTo24Bits(dib);
-		if (lParam & IMGL_WCHAR)
-			ret = FreeImage_SaveU(fif, dib_new, isi->wszName, flags);
+		if (iFlags & IMGL_WCHAR)
+			ret = FreeImage_SaveU(fif, dib_new, isi->szName.w, flags);
 		else
-			ret = FreeImage_Save(fif, dib_new, isi->szName, flags);
+			ret = FreeImage_Save(fif, dib_new, isi->szName.a, flags);
 		FreeImage_Unload(dib_new);
 	}
 
 	if (fUnload)
 		FreeImage_Unload(dib);
 	return ret;
-}
-
-void LoadImageUtils(void)
-{
-	CreateServiceFunction(MS_IMG_LOAD, serviceLoad);
-	CreateServiceFunction(MS_IMG_LOADFROMMEM, serviceLoadFromMem);
-	CreateServiceFunction(MS_IMG_SAVE, serviceSave);
-	CreateServiceFunction(MS_IMG_RESIZE, serviceBmpFilterResizeBitmap);
 }

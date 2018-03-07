@@ -1723,13 +1723,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					int iWidth = dis->rcItem.right - dis->rcItem.left;
 					int iHeight = dis->rcItem.bottom - dis->rcItem.top;
 
-					ResizeBitmap rb = { 0 };
-					rb.size = sizeof(rb);
-					rb.hBmp = hbmpPreview;
-					rb.max_width = iWidth;
-					rb.max_height = iHeight;
-					rb.fit = RESIZEBITMAP_KEEP_PROPORTIONS;
-					HBITMAP hbmpRes = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
+					HBITMAP hbmpRes = Image_Resize(hbmpPreview, RESIZEBITMAP_KEEP_PROPORTIONS, iWidth, iHeight);
 					if (hbmpRes) {
 						BITMAP bmp;
 						GetObject(hbmpRes, sizeof(bmp), &bmp);

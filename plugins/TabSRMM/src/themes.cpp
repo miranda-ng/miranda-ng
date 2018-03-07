@@ -1722,7 +1722,7 @@ void CSkin::setupAeroSkins()
 
 	m_dwmColorRGB = RGB((BYTE)fr, (BYTE)fg, (BYTE)fb);
 
-	FIBITMAP *fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
+	FIBITMAP *fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
 
 	HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(fib);
 
@@ -1764,7 +1764,7 @@ void CSkin::setupAeroSkins()
 	if (!PathFileExists(tszFilename))
 		mir_snwprintf(tszFilename, L"%stabskin_aero_glow.png", tszBasePath);
 
-	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
+	fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
 
 	COLORREF glowColor = M.GetDword(FONTMODULE, "aeroGlow", RGB(40, 40, 255));
 	hbm = FreeImage_CreateHBITMAPFromDIB(fib);
@@ -2078,14 +2078,7 @@ HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &must
 
 	GetObject(hBmpSrc, sizeof(bm), &bm);
 	if (bm.bmHeight != height || bm.bmWidth != width) {
-		::ResizeBitmap rb;
-		rb.size = sizeof(rb);
-		rb.fit = RESIZEBITMAP_STRETCH;
-		rb.max_height = height;
-		rb.max_width = width;
-		rb.hBmp = hBmpSrc;
-
-		HBITMAP hbmNew = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
+		HBITMAP hbmNew = Image_Resize(hBmpSrc, RESIZEBITMAP_STRETCH, height, width);
 		if (hbmNew != hBmpSrc)
 			mustFree = true;
 		return(hbmNew);

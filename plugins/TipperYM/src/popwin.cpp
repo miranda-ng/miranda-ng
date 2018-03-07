@@ -498,14 +498,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)pwd->clcit.szProto);
 
 				if (ace && ace->hbmPic && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST)) {
-					ResizeBitmap rb = { 0 };
-					rb.size = sizeof(rb);
-					rb.max_width = pwd->iRealAvatarWidth;
-					rb.max_height = pwd->iRealAvatarHeight;
-					rb.fit = RESIZEBITMAP_STRETCH | RESIZEBITMAP_KEEP_PROPORTIONS;
-					rb.hBmp = ace->hbmPic;
-					HBITMAP hbmpAvatar = (HBITMAP)CallService(MS_IMG_RESIZE, (WPARAM)&rb, 0);
-
+					HBITMAP hbmpAvatar = Image_Resize(ace->hbmPic, RESIZEBITMAP_STRETCH | RESIZEBITMAP_KEEP_PROPORTIONS, pwd->iRealAvatarWidth, pwd->iRealAvatarHeight);
 					if (hbmpAvatar) {
 						HRGN hrgnAvatar = nullptr;
 						if (opt.bAvatarRound) {

@@ -138,6 +138,6 @@ bool Canvas::writePNG(const wchar_t* szFileName)
 	img.dwMask = IMGI_HBITMAP;
 	img.hbm = m_hBmp;
 	img.fif = FIF_PNG;
-	img.tszName = (wchar_t*)szFileName;
-	return CallService(MS_IMG_SAVE, (WPARAM)&img, IMGL_WCHAR) == 0;
+	img.szName.w = (wchar_t*)szFileName;
+	return Image_Save(&img, IMGL_WCHAR) == 0;
 }

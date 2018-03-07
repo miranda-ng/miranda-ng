@@ -1054,19 +1054,10 @@ void* GaduProto::img_loadpicture(gg_event* e, wchar_t *szFileName)
 	////////////////////////////////////////////////////////////////////
 	// Loading picture using Miranda Image services
 
-	// Load image from memory
-	if (!szFileName)
-	{
-		IMGSRVC_MEMIO memio;
-		memio.iLen = dat->nSize;
-		memio.pBuf = (void *)dat->lpData;
-		memio.fif = FIF_UNKNOWN; /* detect */
-		memio.flags = 0;
-		dat->hBitmap = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
-	}
-	// Load image from file
+	if (!szFileName) // Load image from memory
+		dat->hBitmap = Image_LoadFromMem(dat->lpData, dat->nSize, FIF_UNKNOWN);
 	else
-		dat->hBitmap = Bitmap_Load(szFileName);
+		dat->hBitmap = Bitmap_Load(szFileName); // Load image from file
 
 	// If everything is fine return the handle
 	if (dat->hBitmap)

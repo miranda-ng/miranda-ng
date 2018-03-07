@@ -212,10 +212,7 @@ begin
 
         if si.cover<>nil then
         begin
-          if IsFreeImagePresent then
-            hbmAvatar:=CallService(MS_IMG_LOAD,wparam(si.cover),IMGL_WCHAR)
-          else
-            hbmAvatar:=0;
+          hbmAvatar:=Image_Load(si.cover, IMGL_WCHAR);
           if hbmAvatar=0 then
           begin
             hbmAvatar:=CallService(MS_UTILS_LOADBITMAPW,0,lparam(si.cover));
@@ -397,7 +394,6 @@ begin
   PopupPresent:=newstate;
   if PopupPresent then
   begin
-    IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD);
     IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2);
     opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
 
@@ -481,8 +477,7 @@ begin
   ActionList:=nil;
   if ServiceExists(MS_POPUP_ADDPOPUPW) then
   begin
-    IsFreeImagePresent:=ServiceExists(MS_IMG_LOAD);
-    IsPopup2Present   :=ServiceExists(MS_POPUP_ADDPOPUP2);
+    IsPopup2Present := ServiceExists(MS_POPUP_ADDPOPUP2);
     PopupPresent:=true;
     opthook:=HookEvent(ME_OPT_INITIALISE,@OnOptInitialise);
     loadpopup;

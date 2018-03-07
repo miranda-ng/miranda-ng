@@ -47,11 +47,7 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 			return false;
 		}
 
-		IMGSRVC_MEMIO memio = { 0 };
-		memio.iLen = reply->dataLength;
-		memio.pBuf = reply->pData;
-		memio.fif = FIF_UNKNOWN; /* detect */
-		param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
+		param.bmp = Image_LoadFromMem(reply->pData, reply->dataLength, FIF_UNKNOWN);
 
 		BITMAP bmp = { 0 };
 		GetObject(param.bmp, sizeof(bmp), &bmp);

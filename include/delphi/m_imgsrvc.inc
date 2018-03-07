@@ -47,7 +47,8 @@ by the FreeImage project (http://freeimage.sourceforge.net)
   returns a valid HBITMAP or 0 if image cannot be loaded
   if IMGL_RETURNDIB is set, it returns a pointer to a freeimage bitmap (FIBITMAP *)
 }
-  MS_IMG_LOAD:PAnsiChar = 'IMG/Load';
+
+function Image_Load(fileName:PWideChar; flags:int): HBITMAP; stdcall; external AppDll;
 
 {
   control structure for loading images from memory buffers (e.g. network buffers,
@@ -96,17 +97,6 @@ const
   FIF_PICT    = 33;
   FIF_RAW     = 34;
 
-type
-  TIMGSRVC_MEMIO = record
-    iLen:cardinal; // length of the buffer
-    pBuf:pointer;  // the buffer itself (you are responsible for allocating and free'ing it)
-    fif:integer;   // FREE_IMAGE_FORMAT,-1 to detect the format or one of the FIF_* image
-                   // format constant. Make sure to provide the right one.
-    flags:dword;   // flags to pass to FreeImage_LoadFromMem()  (see freeimage docs)
-  end;
-  _tagIMGSRVC_MEMIO = TIMGSRVC_MEMIO;
-
-const
 {
   load an image from a memory buffer
   wParam = IMGSRVC_MEMIO *
@@ -114,106 +104,7 @@ const
   you must popupate iLen (buffer length) and pBuf (pointer to memory buffer)
   you must also specify the format in IMGSRVC_MEMIO.fif using one of the FIF_* constants
 }
-  MS_IMG_LOADFROMMEM:PAnsiChar = 'IMG/LoadFromMem';
 
-// flags for IMGSRVC_INFO.dwMask
-
-  IMGI_FBITMAP = 1;  // the dib member is valid
-  IMGI_HBITMAP = 2;  // the hbm member is valid
-
-{
-  generic structure for various img functions
-  you must populate the fields as required, set the mask bits to indicate which member is valid
-}
-
-type
-//!!
-{
-  FIBITMAP = record
-    data : pointer;
-  end;
-  PFIBITMAP = ^FIBITMAP;
-}
-  TIMGSRVC_INFO = record
-    cbSize:dword;
-    szName:TChar;
-    hbm:HBITMAP;
-    dib:pointer; // PFIBITMAP
-    dwMask:dword;
-    fif:integer; // FREE_IMAGE_FORMAT
-  end;
-  _tagIMGSRVC_INFO = TIMGSRVC_INFO;
-
-const
-{
-  save image to disk
-  wParam = pointer to IMGSRVC_INFO (szName/wszName, hbm OR dib, cbSize, dwMask
-           mandatory. fif optional, if FIF_UNKNOWN is given it will be determined
-           from the filename).
-  lParam = low word: IMG_* flags (IMGL_WCHAR is the only valid - filename will be assumed
-           to be wchar_t and wszName must be used)
-           high word: FreeImage_Save flags
-  set IMGSRVC_INFO.dwMask to indicate whether the HBITMAP of FIBITMAP member is valid
-}
-  MS_IMG_SAVE:PAnsiChar = 'IMG/Save';
-
-{
-  unload a FIFBITMAP
-  wParam = FIFBITMAP *
-  lParam = 0;
-  this service is useful when you have loaded a bitmap with IMGL_RETURNDIB in
-  which case you do not get a HBITMAP but instead a FBITMAP * which describes
-  the freeimage-internal representation of a bitmap.
-}
-  MS_IMG_UNLOAD:PAnsiChar = 'IMG/Unload';
-
-{
- resizer from loadavatars moved to image service plugin
-}
-
-  RESIZEBITMAP_STRETCH          = 0;   // Distort bitmap to size in (max_width, max_height)
-  RESIZEBITMAP_KEEP_PROPORTIONS = 1;   // Keep bitmap proportions (probabily only
-                                       // one of the max_width/max_height will be
-                                       // respected, and the other will be smaller)
-  RESIZEBITMAP_CROP             = 2;   // Keep bitmap proportions but crop it to
-                                       // fix exactly in (max_width, max_height)
-                                       // Some image info outside will be lost
-  RESIZEBITMAP_MAKE_SQUARE      = 3;   // Image will be allways square. Image will
-                                       // be croped and the size returned will be
-                                       // min(max_width, max_height)
-  RESIZEBITMAP_FLAG_DONT_GROW  = $1000; // If set, the image will not grow. Else,
-                                       // it will grow to fit the max width/height
-
-type
-  TResizeBitmap = record
-    size      :size_t;   // sizeof(ResizeBitmap);
-    hBmp      :HBITMAP;
-    max_width :int;
-    max_height:int;
-    fit       :int;      // One of RESIZEBITMAP_* with an OR with RESIZEBITMAP_FLAG_DONT_GROW if needed
-  end;
-
-const
-{
-  Returns a copy of the bitmap with the size especified or the original bitmap
-  if nothing has to be changed
-  wParam = ResizeBitmap *
-  lParam = NULL
-  return NULL on error, ResizeBitmap->hBmp if don't need to resize or a new HBITMAP if resized
-  You are responsible for calling DestroyObject() on the original HBITMAP
-}
-  MS_IMG_RESIZE:PAnsiChar = 'IMG/ResizeBitmap';
-
-{
- * format conversion helpers
- *
- * these helper macros allow converting HBITMAP to FIBITMAP * format and vice vera. In any case,
- * the caller is responsible for freeing or deleting the original object.
- * These macros wrap around the FI_CreateHBITMAPFromDib() and FI_CreateDIBFromHBITMAP() interface
- * functions.
-}
-
-//#define FI_HBM2DIB(x) (FI_CreateDIBFromHBITMAP((x)))
-//#define FI_DIB2HBM(x) (FI_CreateHBITMAPFromDIB((x)))
+function Image_LoadFromMem(pData:pointer; cbLen:cardinal; format:int): HBITMAP; stdcall; external AppDll;
 
 {$ENDIF}

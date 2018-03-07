@@ -525,19 +525,14 @@ const char* FacebookProto::ParseIcon(const std::string &url)
 
 			NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(facy.handle_, &req);
 			if (reply != nullptr && reply->resultCode == HTTP_CODE_OK) {
-				IMGSRVC_MEMIO memio = { 0 };
-				memio.iLen = reply->dataLength;
-				memio.pBuf = reply->pData;
-				memio.fif = FIF_UNKNOWN; /* detect */
-
-				HBITMAP hBmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio);
+				HBITMAP hBmp = Image_LoadFromMem(reply->pData, reply->dataLength, FIF_UNKNOWN);
 				if (hBmp != nullptr) {
 					IMGSRVC_INFO info = { sizeof(info) };
-					info.wszName = wszFileName;
+					info.szName.w = wszFileName;
 					info.fif = FIF_ICO;
 					info.dwMask = IMGI_HBITMAP;
 					info.hbm = hBmp;
-					CallService(MS_IMG_SAVE, (WPARAM)&info, IMGL_WCHAR);
+					Image_Save(&info, IMGL_WCHAR);
 				}
 			}
 		}

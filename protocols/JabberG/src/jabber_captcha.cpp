@@ -146,12 +146,7 @@ bool CJabberProto::ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info)
 	if (buffer == nullptr)
 		return false;
 	
-	IMGSRVC_MEMIO memio;
-	memio.iLen = (long)bufferLen;
-	memio.pBuf = (void *)buffer;
-	memio.fif = FIF_UNKNOWN; /* detect */
-	memio.flags = 0;
-	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
+	param.bmp = Image_LoadFromMem(buffer, bufferLen, FIF_UNKNOWN);
 
 	BITMAP bmp = {0};
 	GetObject(param.bmp, sizeof(bmp), &bmp);
