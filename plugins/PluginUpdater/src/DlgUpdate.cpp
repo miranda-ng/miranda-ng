@@ -530,9 +530,9 @@ struct
 }
 static renameTable[] =
 {
-	{ L"svc_dbepit->dll",                  L"Plugins\\dbeditorpit->dll" },
-	{ L"svc_crshdmit->dll",                L"Plugins\\crashdumper.dll" },
-	{ L"crashdmit->dll",                   L"Plugins\\crashdumper.dll" },
+	{ L"svc_dbepp.dll",                  L"Plugins\\dbeditorpp.dll" },
+	{ L"svc_crshdmp.dll",                L"Plugins\\crashdumper.dll" },
+	{ L"crashdmp.dll",                   L"Plugins\\crashdumper.dll" },
 	{ L"crashrpt.dll",                   L"Plugins\\crashdumper.dll" },
 	{ L"attache.dll",                    L"Plugins\\crashdumper.dll" },
 	{ L"svc_vi.dll",                     L"Plugins\\crashdumper.dll" },
@@ -549,7 +549,7 @@ static renameTable[] =
 	{ L"ttnotify.dll",                   L"Plugins\\tooltipnotify.dll" },
 	{ L"newstatusnotify.dll",            L"Plugins\\newxstatusnotify.dll" },
 	{ L"rss.dll",                        L"Plugins\\newsaggregator.dll" },
-	{ L"dbx_3x.dll",                     L"Plugins\\dbx_mmait->dll" },
+	{ L"dbx_3x.dll",                     L"Plugins\\dbx_mmap.dll" },
 	{ L"actman30.dll",                   L"Plugins\\actman.dll" },
 	{ L"skype.dll",                      L"Plugins\\skypeweb.dll" },
 	{ L"skypeclassic.dll",               L"Plugins\\skypeweb.dll" },
@@ -559,12 +559,12 @@ static renameTable[] =
 	{ L"startupstatus.dll",              L"Plugins\\statusmanager.dll" },
 
 #if MIRANDA_VER >= 0x0A00
-	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmait->dll" },
-	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmait->dll" },
+	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },
+	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmap.dll" },
 	{ L"rc4.dll",                        nullptr },
 	{ L"athena.dll",                     nullptr },
 	{ L"skypekit.exe",                   nullptr },
-	{ L"mir_apit->dll",                    nullptr },
+	{ L"mir_app.dll",                    nullptr },
 	{ L"mir_core.dll",                   nullptr },
 	{ L"zlib.dll",                       nullptr },
 #endif
@@ -598,7 +598,7 @@ static renameTable[] =
 	{ L"msvcp100.dll",                   nullptr },
 	{ L"msvcr100.dll",                   nullptr },
 	{ L"tlen.dll",                       nullptr },
-	{ L"whatsapit->dll",                 nullptr },
+	{ L"whatsapp.dll",                   nullptr },
 	{ L"xfire.dll",                      nullptr },
 	{ L"yahoo.dll",                      nullptr },
 	{ L"yahoogroups.dll",                nullptr },
