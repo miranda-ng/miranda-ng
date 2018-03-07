@@ -125,7 +125,7 @@ static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lP
 /////////////////////////////////////////////////////////////////////////////////////////
 // saves a contact picture to disk
 // takes hbm (bitmap handle) and bool isOwnPic (1 == save the picture as your own avatar)
-// requires AVS and ADVAIMG services (Miranda 0.7+)
+// requires AVS service (Miranda 0.7+)
 
 static void SaveAvatarToFile(CTabBaseDlg *dat, HBITMAP hbm, int isOwnPic)
 {

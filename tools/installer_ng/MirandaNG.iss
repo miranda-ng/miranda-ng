@@ -96,7 +96,6 @@ Source: "Files\Languages\langpack_polish.txt"; DestDir: "{app}\Languages"; Compo
 Source: "Files\Languages\langpack_russian.txt"; DestDir: "{app}\Languages"; Components: lang\russian; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ;Plugins - not selectable
-Source: "Files\Plugins\AdvaImg.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\AVS.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\DbChecker.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\CrashDumper.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
