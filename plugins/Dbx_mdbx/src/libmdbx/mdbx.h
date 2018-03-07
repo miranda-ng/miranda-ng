@@ -1,4 +1,4 @@
-﻿/* LICENSE AND COPYRUSTING *****************************************************
+/* LICENSE AND COPYRUSTING *****************************************************
  *
  * Copyright 2015-2018 Leonid Yuriev <leo@yuriev.ru>
  * and other libmdbx authors: please see AUTHORS file.
@@ -165,7 +165,7 @@ typedef pthread_t mdbx_tid_t;
 /*--------------------------------------------------------------------------*/
 
 #define MDBX_VERSION_MAJOR 0
-#define MDBX_VERSION_MINOR 0
+#define MDBX_VERSION_MINOR 1
 
 #if defined(LIBMDBX_EXPORTS)
 #define LIBMDBX_API __dll_export
