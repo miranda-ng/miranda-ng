@@ -115,6 +115,8 @@ private:
 	int sql_prepare(sqlite3 *sql, const char *query, sqlite3_stmt **stmt);
 	int sql_finalize(sqlite3_stmt *stmt);
 
+	void FillContacts();
+
 public:
 	CDbxSQLite();
 	~CDbxSQLite();

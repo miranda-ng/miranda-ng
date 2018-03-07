@@ -46,7 +46,7 @@ static int dbrw_grokHeader(const wchar_t *profile)
 			char *szPath = mir_utf8encodeW(profile);
 
 			rc = sqlite3_open(szPath, &sqlcheck);
-			free(szPath);
+			mir_free(szPath);
 			if (rc == SQLITE_OK) {
 				sqlite3_stmt *stmt;
 				err = EGROKPRF_UNKHEADER;

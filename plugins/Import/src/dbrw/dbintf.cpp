@@ -61,6 +61,8 @@ int CDbxSQLite::Open(const wchar_t *profile)
 
 	sql_prepare_statements();
 
+	FillContacts();
+
 	return 0;
 }
 
