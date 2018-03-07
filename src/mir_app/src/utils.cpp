@@ -317,6 +317,8 @@ static INT_PTR GetCountryList(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void LoadImageUtils(void);
+
 int LoadUtilsModule(void)
 {
 	bModuleInitialized = TRUE;
@@ -328,6 +330,7 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_ENTERSTRING, svcEnterString);
 
 	InitCrypt();
+	LoadImageUtils();
 	return 0;
 }
 

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32\miranda32.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -145,8 +145,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protocols", "Protocols", "{812EF24D-9B76-4A94-ABE0-6F80C381C203}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{6221EF9E-F53A-4381-B760-4C0208E5D597}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvaImg", "..\plugins\AdvaImg\AdvaImg.vcxproj", "{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -532,14 +530,6 @@ Global
 		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Release|Win32.Build.0 = Release|Win32
 		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Release|x64.ActiveCfg = Release|x64
 		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}.Release|x64.Build.0 = Release|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|Win32.Build.0 = Debug|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|x64.ActiveCfg = Debug|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Debug|x64.Build.0 = Debug|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|Win32.ActiveCfg = Release|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|Win32.Build.0 = Release|Win32
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|x64.ActiveCfg = Release|x64
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -591,7 +581,6 @@ Global
 		{793B6174-89B0-4682-A957-A32BE7F61502} = {949AF443-676D-4B48-B21E-9B6FC3A4808D}
 		{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18} = {6221EF9E-F53A-4381-B760-4C0208E5D597}
 		{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E} = {52282CDE-49DF-4662-B582-CCF971A9FEC2}
-		{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A} = {6221EF9E-F53A-4381-B760-4C0208E5D597}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A4CD630-DD83-4096-AA4D-7A141E43E853}

@@ -7,7 +7,6 @@ sendlogwin.exe
 
 Plugins\actman.dll
 Plugins\addcontactplus.dll
-Plugins\advaimg.dll
 Plugins\alarms.dll
 Plugins\assinglewindow.dll
 Plugins\assocmgr.dll

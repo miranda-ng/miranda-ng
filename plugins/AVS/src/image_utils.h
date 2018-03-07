@@ -6,7 +6,6 @@ int     BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags);
 
 HBITMAP CopyBitmapTo32(HBITMAP hBitmap);
 
-BOOL PreMultiply(HBITMAP hBitmap);
 BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap);
 HBITMAP MakeGrayscale(HBITMAP hBitmap);
 DWORD GetImgHash(HBITMAP hBitmap);
