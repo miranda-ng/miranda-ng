@@ -557,6 +557,7 @@ static renameTable[] =
 	{ L"advancedautoaway.dll",           L"Plugins\\statusmanager.dll" },
 	{ L"keepstatus.dll",                 L"Plugins\\statusmanager.dll" },
 	{ L"startupstatus.dll",              L"Plugins\\statusmanager.dll" },
+	{ L"dropbox.dll",                    L"Plugins\\cloudfile.dll" },
 
 #if MIRANDA_VER >= 0x0A00
 	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },
@@ -585,7 +586,6 @@ static renameTable[] =
 	{ L"advaimg.dll",                    nullptr },
 	{ L"aim.dll",                 	     nullptr },	
 	{ L"dbx_sqlite.dll",                 nullptr },
-	{ L"dropbox.dll",                    nullptr },	
 	{ L"extraicons.dll",                 nullptr },
 	{ L"firstrun.dll",                   nullptr },
 	{ L"flashavatars.dll",               nullptr },
