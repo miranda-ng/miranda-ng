@@ -30,7 +30,6 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 	m_maxContactId(0)
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
-	InitDbInstance(this);
 
 	mdbx_env_create(&m_env);
 	mdbx_env_set_maxdbs(m_env, 10);
@@ -57,7 +56,6 @@ CDbxMDBX::~CDbxMDBX()
 	DestroyHookableEvent(hEventDeletedEvent);
 	DestroyHookableEvent(hEventFilterAddedEvent);
 
-	DestroyDbInstance(this);
 	mir_free(m_tszProfileName);
 }
 

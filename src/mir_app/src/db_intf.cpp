@@ -46,21 +46,6 @@ MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName)
 	return nullptr;
 }
 
-MIR_APP_DLL(void) InitDbInstance(MIDatabase *pDatabase)
-{
-	if (pDatabase != nullptr)
-		pDatabase->m_cache = new MDatabaseCache(pDatabase->GetContactSize());
-}
-
-MIR_APP_DLL(void) DestroyDbInstance(MIDatabase *pDatabase)
-{
-	if (pDatabase != nullptr) {
-		MDatabaseCache *pCache = (MDatabaseCache*)pDatabase->m_cache;
-		pDatabase->m_cache = nullptr;
-		delete pCache;
-	}
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 int LoadDbintfModule()

@@ -49,7 +49,6 @@ CDb3Mmap::CDb3Mmap(const wchar_t *tszFileName, int iMode) :
 	m_lOfs(50, OfsCompare)
 {
 	m_tszProfileName = mir_wstrdup(tszFileName);
-	InitDbInstance(this);
 
 	SYSTEM_INFO sinf;
 	GetSystemInfo(&sinf);
@@ -98,7 +97,6 @@ CDb3Mmap::~CDb3Mmap()
 	DestroyHookableEvent(hEventDeletedEvent);
 	DestroyHookableEvent(hEventFilterAddedEvent);
 
-	DestroyDbInstance(this);
 	mir_free(m_tszProfileName);
 
 	free(m_pNull);

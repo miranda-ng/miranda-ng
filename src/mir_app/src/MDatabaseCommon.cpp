@@ -33,6 +33,12 @@ MDatabaseCommon::MDatabaseCommon() :
 	m_lResidentSettings(50, stringCompare2)
 {
 	m_codePage = Langpack_GetDefaultCodePage();
+	m_cache = new MDatabaseCache(this);
+}
+
+MDatabaseCommon::~MDatabaseCommon()
+{
+	delete (MDatabaseCache*)m_cache;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

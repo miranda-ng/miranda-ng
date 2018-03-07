@@ -140,6 +140,7 @@ protected:
 
 protected:
 	MDatabaseCommon();
+	~MDatabaseCommon();
 
 	int CheckProto(DBCachedContact *cc, const char *proto);
 
@@ -273,13 +274,5 @@ EXTERN_C MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr);
 // returns DATABASELINK* of the required plugin or NULL on error
 
 EXTERN_C MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName);
-
-// initializes a database instance
-
-EXTERN_C MIR_APP_DLL(void) InitDbInstance(MIDatabase *pDatabase);
-
-// destroys a database instance
-
-EXTERN_C MIR_APP_DLL(void) DestroyDbInstance(MIDatabase *pDatabase);
 
 #endif // M_DB_INT_H__

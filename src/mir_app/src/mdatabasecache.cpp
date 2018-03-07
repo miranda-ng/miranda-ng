@@ -36,8 +36,8 @@ static int compareGlobals(const DBCachedGlobalValue *p1, const DBCachedGlobalVal
 	return mir_strcmp(p1->name, p2->name);
 }
 
-MDatabaseCache::MDatabaseCache(size_t _size) :
-	m_contactSize(_size),
+MDatabaseCache::MDatabaseCache(MIDatabase *_db) :
+	m_db(_db),
 	m_lSettings(100, stringCompare),
 	m_lContacts(50, NumericKeySortT),
 	m_lGlobalSettings(50, compareGlobals),
@@ -62,7 +62,7 @@ DBCachedContact* MDatabaseCache::AddContactToCache(MCONTACT contactID)
 	if (index != -1)
 		return m_lContacts[index];
 
-	DBCachedContact *cc = (DBCachedContact*)mir_calloc(m_contactSize);
+	DBCachedContact *cc = (DBCachedContact*)mir_calloc(m_db->GetContactSize());
 	cc->contactID = contactID;
 	cc->nSubs = -1;
 	m_lContacts.insert(cc);

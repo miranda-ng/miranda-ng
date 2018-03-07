@@ -284,9 +284,7 @@ Profile_GetNameW @291
 Profile_GetPathA @292
 Profile_GetPathW @293
 Profile_SetDefault @294
-DestroyDbInstance @295
 FindDatabasePlugin @296
-InitDbInstance @297
 RegisterDatabasePlugin @298
 Chat_GetInterface @299
 Chat_Event @300 
@@ -452,14 +450,12 @@ Skin_PlaySoundFile @463
 Clist_SetStatusMode @464
 ??0CProtoIntDlgBase@@QAE@$$QAV0@@Z @465 NONAME
 ??0MDatabaseCommon@@IAE@XZ @466 NONAME
-??0MDatabaseCommon@@QAE@$$QAV0@@Z @467 NONAME
 ??0MDatabaseCommon@@QAE@ABV0@@Z @468 NONAME
 ??0MIDatabase@@QAE@$$QAU0@@Z @469 NONAME
 ??0MIDatabase@@QAE@ABU0@@Z @470 NONAME
 ??0MIDatabase@@QAE@XZ @471 NONAME
-??1MDatabaseCommon@@QAE@XZ @473 NONAME
+??1MDatabaseCommon@@IAE@XZ @473 NONAME
 ??4CProtoIntDlgBase@@QAEAAV0@$$QAV0@@Z @474 NONAME
-??4MDatabaseCommon@@QAEAAV0@$$QAV0@@Z @475 NONAME
 ??4MDatabaseCommon@@QAEAAV0@ABV0@@Z @476 NONAME
 ??4MIDatabase@@QAEAAU0@$$QAU0@@Z @477 NONAME
 ??4MIDatabase@@QAEAAU0@ABU0@@Z @478 NONAME
