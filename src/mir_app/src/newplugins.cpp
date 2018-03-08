@@ -39,9 +39,9 @@ static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
 }
 
 LIST<pluginEntry>
-pluginList(10, sttComparePluginsByName),
-servicePlugins(5, sttComparePluginsByName),
-clistPlugins(5, sttComparePluginsByName);
+	pluginList(10, sttComparePluginsByName),
+	servicePlugins(5, sttComparePluginsByName),
+	clistPlugins(5, sttComparePluginsByName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,7 +59,7 @@ static int sttFakeID = -100;
 static HANDLE hPluginListHeap = nullptr;
 static int askAboutIgnoredPlugins;
 
-static pluginEntry *plugin_freeimg, *plugin_crshdmp, *serviceModePlugin, *plugin_ssl;
+static pluginEntry *plugin_crshdmp, *serviceModePlugin, *plugin_ssl;
 
 #define PLUGINDISABLELIST "PluginDisable"
 
@@ -780,7 +780,7 @@ void UnloadNewPlugins(void)
 int LoadNewPluginsModule(void)
 {
 	// make full path to the plugin
-	wchar_t exe[MAX_PATH], fullPath[MAX_PATH];
+	wchar_t exe[MAX_PATH];
 	GetModuleFileName(nullptr, exe, _countof(exe));
 	wchar_t *slice = wcsrchr(exe, '\\');
 	if (slice)
@@ -793,20 +793,6 @@ int LoadNewPluginsModule(void)
 	if (plugin_crshdmp != nullptr && isPluginOnWhiteList(plugin_crshdmp->pluginname))
 		if (!TryLoadPlugin(plugin_crshdmp, false))
 			Plugin_Uninit(plugin_crshdmp);
-
-	// if freeimage is present, load it to provide the basic core functions
-	if (plugin_freeimg != nullptr) {
-		BASIC_PLUGIN_INFO bpi;
-		mir_snwprintf(fullPath, L"%s\\Plugins\\%s", exe, plugin_freeimg->pluginname);
-		if (checkAPI(fullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
-			plugin_freeimg->bpi = bpi;
-			plugin_freeimg->pclass |= PCLASS_OK | PCLASS_BASICAPI;
-			if (bpi.Load() == 0)
-				plugin_freeimg->pclass |= PCLASS_LOADED;
-			else
-				Plugin_Uninit(plugin_freeimg);
-		}
-	}
 
 	// first load the clist cos alot of plugins need that to be present at Load(void)
 	pluginEntry* clist = getCListModule(exe);
@@ -846,11 +832,6 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM)
 {
 	pluginEntry *p = OpenPlugin(fd->cFileName, L"Plugins", path);
 	if (!(p->pclass & PCLASS_FAILED)) {
-		if (plugin_freeimg == nullptr && mir_wstrcmpi(fd->cFileName, L"advaimg.dll") == 0) {
-			plugin_freeimg = p;
-			p->pclass |= PCLASS_LAST;
-		}
-
 		if (plugin_crshdmp == nullptr && mir_wstrcmpi(fd->cFileName, L"crashdumper.dll") == 0) {
 			plugin_crshdmp = p;
 			p->pclass |= PCLASS_LAST;
