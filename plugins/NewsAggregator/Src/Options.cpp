@@ -19,576 +19,1033 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+CExportFeed::CExportFeed()
+	: CSuper(hInst, IDD_FEEDEXPORT),
+	m_feedslist(this, IDC_FEEDSLIST), m_feedsexportlist(this, IDC_FEEDSEXPORTLIST),
+	m_addfeed(this, IDC_ADDFEED), m_removefeed(this, IDC_REMOVEFEED), 
+	m_addallfeeds(this, IDC_ADDALLFEEDS), m_removeallfeeds(this, IDC_REMOVEALLFEEDS),
+	m_ok(this, IDOK)
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		SetWindowText(hwndDlg, TranslateT("Add Feed"));
-		SetDlgItemText(hwndDlg, IDC_FEEDURL, L"http://");
-		SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
-		SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
-		SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DEFAULT_UPDATE_TIME, TRUE);
-		SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
-		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "AddDlg");
-		return TRUE;
+	m_addfeed.OnClick = Callback(this, &CExportFeed::OnAddFeed);
+	m_removefeed.OnClick = Callback(this, &CExportFeed::OnRemoveFeed);
+	m_addallfeeds.OnClick = Callback(this, &CExportFeed::OnAddAllFeeds);
+	m_removeallfeeds.OnClick = Callback(this, &CExportFeed::OnRemoveAllFeeds);
+	m_ok.OnClick = Callback(this, &CExportFeed::OnOk);
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			wchar_t str[MAX_PATH];
-			char passw[MAX_PATH];
-			{
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_wstrcmp(str, L"http://") == 0) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
-					break;
-				}
-
-				MCONTACT hContact = db_add_contact();
-				Proto_AddToContact(hContact, MODULE);
-				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
-				db_set_ws(hContact, MODULE, "Nick", str);
-
-				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
-				db_set_ws(hContact, MODULE, "URL", str);
-				db_set_b(hContact, MODULE, "CheckState", 1);
-				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, nullptr, false));
-				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
-				db_set_ws(hContact, MODULE, "MsgFormat", str);
-				db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
-				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-					db_set_b(hContact, MODULE, "UseAuth", 1);
-					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-					db_set_ws(hContact, MODULE, "Login", str);
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
-					db_set_s(hContact, MODULE, "Password", passw);
-				}
-				DeleteAllItems(hwndList);
-				UpdateList(hwndList);
-			}
-			// fall through
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDC_USEAUTH:
-			if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
-			}
-			break;
-
-		case IDC_TAGHELP:
-			wchar_t tszTagHelp[1024];
-			mir_snwprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
-				L"#<title>#", TranslateT("The title of the item."),
-				L"#<description>#", TranslateT("The item synopsis."),
-				L"#<link>#", TranslateT("The URL of the item."),
-				L"#<author>#", TranslateT("Email address of the author of the item."),
-				L"#<comments>#", TranslateT("URL of a page for comments relating to the item."),
-				L"#<guid>#", TranslateT("A string that uniquely identifies the item."),
-				L"#<category>#", TranslateT("Specify one or more categories that the item belongs to."));
-			MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
-			break;
-
-		case IDC_RESET:
-			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Tags Mask Reset"), MB_YESNO | MB_ICONWARNING) == IDYES)
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
-			break;
-
-		case IDC_DISCOVERY:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
-			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-			wchar_t tszURL[MAX_PATH] = { 0 };
-			wchar_t *tszTitle = nullptr;
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_wstrcmp(tszURL, L"http://") != 0)
-				tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
-			else
-				MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-			SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-			mir_free(tszTitle);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
-			SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		hAddFeedDlg = nullptr;
-		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "AddDlg");
-		break;
-	}
-
-	return FALSE;
+	m_feedslist.OnDblClick = Callback(this, &CExportFeed::OnFeedsList);
+	m_feedsexportlist.OnDblClick = Callback(this, &CExportFeed::OnFeedsExportList);
 }
 
-INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+void CExportFeed::OnInitDialog()
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			ItemInfo &SelItem = *(ItemInfo*)lParam;
-			SetWindowText(hwndDlg, TranslateT("Change Feed"));
-			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
-			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
+	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "ExportDlg");
+	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		wchar_t *message = db_get_wsa(hContact, MODULE, "Nick");
+		if (message != nullptr) {
+			m_feedslist.AddString(message);
+			mir_free(message);
+		}
+	}
+	m_removefeed.Disable();
+	m_removeallfeeds.Disable();
+	m_ok.Disable();
+	if (!m_feedslist.GetCount()) {
+		m_addfeed.Disable();
+		m_addallfeeds.Disable();
+	}
+}
 
-			for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-				ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
-				if ((dbNick == NULL) || (mir_wstrcmp(dbNick, SelItem.nick) != 0))
-					continue;
+void CExportFeed::OnAddFeed(CCtrlBase*)
+{
+	if (!m_removefeed.Enabled())
+		m_removefeed.Enable();
+	if (!m_removeallfeeds.Enabled())
+		m_removeallfeeds.Enable();
+	if (!m_ok.Enabled())
+		m_ok.Enable();
+	int cursel = m_feedslist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedslist.GetItemText(cursel, item, _countof(item));
+	m_feedsexportlist.AddString(item);
+	m_feedslist.DeleteString(cursel);
+	if (!m_feedslist.GetCount()) {
+		m_addfeed.Disable();
+		m_addallfeeds.Disable();
+	}
+}
 
-				ptrW dbURL(db_get_wsa(hContact, MODULE, "URL"));
-				if ((dbURL == NULL) || (mir_wstrcmp(dbURL, SelItem.url) != 0))
-					continue;
+void CExportFeed::OnRemoveFeed(CCtrlBase*)
+{
+	if (!m_addfeed.Enabled())
+		m_addfeed.Enable();
+	if (!m_addallfeeds.Enabled())
+		m_addallfeeds.Enable();
+	int cursel = m_feedsexportlist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedsexportlist.GetItemText(cursel, item, _countof(item));
+	m_feedslist.AddString(item);
+	m_feedsexportlist.DeleteString(cursel);
+	if (!m_feedsexportlist.GetCount()) {
+		m_removefeed.Disable();
+		m_removeallfeeds.Disable();
+		m_ok.Disable();
+	}
+}
 
-				ItemInfo *nSelItem = new ItemInfo(SelItem);
-				nSelItem->hContact = hContact;
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)nSelItem);
-				SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
-				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
-				SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
+void CExportFeed::OnAddAllFeeds(CCtrlBase*)
+{
+	if (!m_removefeed.Enabled())
+		m_removefeed.Enable();
+	if (!m_removeallfeeds.Enabled())
+		m_removeallfeeds.Enable();
+	if (!m_ok.Enabled())
+		m_ok.Enable();
+	int count = m_feedslist.GetCount();
+	for (int i = 0; i < count; i++) {
+		wchar_t item[MAX_PATH];
+		m_feedslist.GetItemText(i, item, _countof(item));
+		m_feedsexportlist.AddString(item);
+	}
+	for (int i = count - 1; i > -1; i--)
+		m_feedslist.DeleteString(i);
+	m_addfeed.Disable();
+	m_addallfeeds.Disable();
+}
 
-				wchar_t *szMsgFormat = db_get_wsa(hContact, MODULE, "MsgFormat");
-				if (szMsgFormat) {
-					SetDlgItemText(hwndDlg, IDC_TAGSEDIT, szMsgFormat);
-					mir_free(szMsgFormat);
-				}
-				if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
-					CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
+void CExportFeed::OnRemoveAllFeeds(CCtrlBase*)
+{
+	if (!m_addfeed.Enabled())
+		m_addfeed.Enable();
+	if (!m_addallfeeds.Enabled())
+		m_addallfeeds.Enable();
+	int count = m_feedsexportlist.GetCount();
+	for (int i = 0; i < count; i++) {
+		wchar_t item[MAX_PATH];
+		m_feedsexportlist.GetItemText(i, item, _countof(item));
+		m_feedslist.AddString(item);
+	}
+	for (int i = count - 1; i > -1; i--)
+		m_feedsexportlist.DeleteString(i);
+	m_removefeed.Disable();
+	m_removeallfeeds.Disable();
+	m_ok.Disable();
+}
 
-					wchar_t *szLogin = db_get_wsa(hContact, MODULE, "Login");
-					if (szLogin) {
-						SetDlgItemText(hwndDlg, IDC_LOGIN, szLogin);
-						mir_free(szLogin);
+void CExportFeed::OnFeedsList(CCtrlBase*)
+{
+	if (!m_removefeed.Enabled())
+		m_removefeed.Enable();
+	if (!m_removeallfeeds.Enabled())
+		m_removeallfeeds.Enable();
+	if (!m_ok.Enabled())
+		m_ok.Enable();
+	int cursel = m_feedslist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedslist.GetItemText(cursel, item, _countof(item));
+	m_feedsexportlist.AddString(item);
+	m_feedslist.DeleteString(cursel);
+	if (!m_feedslist.GetCount()) {
+		m_addfeed.Disable();
+		m_addallfeeds.Disable();
+	}
+}
+
+void CExportFeed::OnFeedsExportList(CCtrlBase*)
+{
+	if (!m_addfeed.Enabled())
+		m_addfeed.Enable();
+	if (!m_addallfeeds.Enabled())
+		m_addallfeeds.Enable();
+	int cursel = m_feedsexportlist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedsexportlist.GetItemText(cursel, item, _countof(item));
+	m_feedslist.AddString(item);
+	m_feedsexportlist.DeleteString(cursel);
+	if (!m_feedsexportlist.GetCount()) {
+		m_removefeed.Disable();
+		m_removeallfeeds.Disable();
+		m_ok.Disable();
+	}
+}
+
+void CExportFeed::OnOk(CCtrlBase*)
+{
+	wchar_t FileName[MAX_PATH];
+	VARSW tszMirDir(L"%miranda_path%");
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = sizeof(ofn);
+	wchar_t tmp[MAX_PATH];
+	mir_snwprintf(tmp, L"%s (*.opml)%c*.opml%c%c", TranslateT("OPML files"), 0, 0, 0);
+	ofn.lpstrFilter = tmp;
+	ofn.hwndOwner = nullptr;
+	ofn.lpstrFile = FileName;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.nMaxFileTitle = MAX_PATH;
+	ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+	ofn.lpstrInitialDir = tszMirDir;
+	*FileName = '\0';
+	ofn.lpstrDefExt = L"";
+
+	if (GetSaveFileName(&ofn)) {
+		HXML hXml = xmlCreateNode(L"opml", nullptr, FALSE);
+		xmlAddAttr(hXml, L"version", L"1.0");
+		HXML header = xmlAddChild(hXml, L"head", nullptr);
+		xmlAddChild(header, L"title", L"Miranda NG NewsAggregator plugin export");
+		header = xmlAddChild(hXml, L"body", nullptr);
+
+		int count = m_feedsexportlist.GetCount();
+		for (int i = 0; i < count; i++) {
+			wchar_t item[MAX_PATH];
+			m_feedsexportlist.GetItemText(i, item, _countof(item));
+			MCONTACT hContact = GetContactByNick(item);
+			wchar_t
+				*title = db_get_wsa(hContact, MODULE, "Nick"),
+				*url = db_get_wsa(hContact, MODULE, "URL"),
+				*siteurl = db_get_wsa(hContact, MODULE, "Homepage"),
+				*group = db_get_wsa(hContact, "CList", "Group");
+
+			HXML elem = header;
+			if (group)
+			{
+				wchar_t *section = wcstok(group, L"\\");
+				while (section != nullptr)
+				{
+					HXML existgroup = xmlGetChildByAttrValue(header, L"outline", L"title", section);
+					if (!existgroup)
+					{
+						elem = xmlAddChild(elem, L"outline", nullptr);
+						xmlAddAttr(elem, L"title", section);
+						xmlAddAttr(elem, L"text", section);
 					}
-					pass_ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
-					SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
+					else {
+						elem = existgroup;
+					}
+					section = wcstok(nullptr, L"\\");
 				}
-				WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
-				Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
-				break;
+				elem = xmlAddChild(elem, L"outline", nullptr);
 			}
+			else
+				elem = xmlAddChild(elem, L"outline", nullptr);
+			xmlAddAttr(elem, L"text", title);
+			xmlAddAttr(elem, L"title", title);
+			xmlAddAttr(elem, L"type", L"rss");
+			xmlAddAttr(elem, L"xmlUrl", url);
+			xmlAddAttr(elem, L"htmlUrl", siteurl);
+
+			mir_free(title);
+			mir_free(url);
+			mir_free(siteurl);
+			mir_free(group);
 		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			wchar_t str[MAX_PATH];
-			{
-				ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				char passw[MAX_PATH];
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_wstrcmp(str, L"http://") == 0) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
-					break;
-				}
-
-				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
-				db_set_ws(SelItem->hContact, MODULE, "URL", str);
-				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
-				db_set_ws(SelItem->hContact, MODULE, "Nick", str);
-				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, nullptr, false));
-				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
-				db_set_ws(SelItem->hContact, MODULE, "MsgFormat", str);
-				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-					db_set_b(SelItem->hContact, MODULE, "UseAuth", 1);
-
-					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-					db_set_ws(SelItem->hContact, MODULE, "Login", str);
-
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
-					db_set_s(SelItem->hContact, MODULE, "Password", passw);
-				}
-				else {
-					db_unset(SelItem->hContact, MODULE, "UseAuth");
-					db_unset(SelItem->hContact, MODULE, "Login");
-					db_unset(SelItem->hContact, MODULE, "Password");
-				}
-				DeleteAllItems(SelItem->hwndList);
-				UpdateList(SelItem->hwndList);
-			}
-			// fall through
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDC_USEAUTH:
-			if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
-			}
-			break;
-
-		case IDC_TAGHELP:
-			wchar_t tszTagHelp[1024];
-			mir_snwprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
-				L"#<title>#", TranslateT("The title of the item."),
-				L"#<description>#", TranslateT("The item synopsis."),
-				L"#<link>#", TranslateT("The URL of the item."),
-				L"#<author>#", TranslateT("Email address of the author of the item."),
-				L"#<comments>#", TranslateT("URL of a page for comments relating to the item."),
-				L"#<guid>#", TranslateT("A string that uniquely identifies the item."),
-				L"#<category>#", TranslateT("Specify one or more categories that the item belongs to."));
-			MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
-			break;
-
-		case IDC_RESET:
-			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Tags Mask Reset"), MB_YESNO | MB_ICONWARNING) == IDYES)
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
-			break;
-
-		case IDC_DISCOVERY:
-			wchar_t tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_wstrcmp(tszURL, L"http://") != 0) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
-				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				wchar_t *tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
-				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-				mir_free(tszTitle);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
-				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
-			}
-			else MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		ItemInfo *SelItem = (ItemInfo *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		Utils_SaveWindowPosition(hwndDlg, SelItem->hContact, MODULE, "ChangeDlg");
-		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
-		delete SelItem;
-		break;
+		xmlToFile(hXml, FileName, 1);
+		xmlDestroyNode(hXml);
 	}
-
-	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+void CExportFeed::OnClose()
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			SetWindowText(hwndDlg, TranslateT("Change Feed"));
-			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, UDM_SETRANGE32, 0, 999);
+	Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, "ExportDlg");
+	if (pExportDialog)
+		pExportDialog = nullptr;
+}
 
-			MCONTACT hContact = (MCONTACT)lParam;
-			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
-			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
+CImportFeed::CImportFeed(CCtrlListView *m_feeds)
+	: CSuper(hInst, IDD_FEEDIMPORT),
+	m_importfile(this, IDC_IMPORTFILEPATH), m_browsefile(this, IDC_BROWSEIMPORTFILE),
+	m_feedslist(this, IDC_FEEDSLIST), m_feedsimportlist(this, IDC_FEEDSIMPORTLIST),
+	m_addfeed(this, IDC_ADDFEED), m_removefeed(this, IDC_REMOVEFEED),
+	m_addallfeeds(this, IDC_ADDALLFEEDS), m_removeallfeeds(this, IDC_REMOVEALLFEEDS),
+	m_ok(this, IDOK)
+{
+	m_list = m_feeds;
+	m_browsefile.OnClick = Callback(this, &CImportFeed::OnBrowseFile);
+	m_addfeed.OnClick = Callback(this, &CImportFeed::OnAddFeed);
+	m_removefeed.OnClick = Callback(this, &CImportFeed::OnRemoveFeed);
+	m_addallfeeds.OnClick = Callback(this, &CImportFeed::OnAddAllFeeds);
+	m_removeallfeeds.OnClick = Callback(this, &CImportFeed::OnRemoveAllFeeds);
+	m_ok.OnClick = Callback(this, &CImportFeed::OnOk);
 
-			wchar_t *ptszNick = db_get_wsa(hContact, MODULE, "Nick");
-			if (ptszNick) {
-				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, ptszNick);
-				mir_free(ptszNick);
+	m_feedslist.OnDblClick = Callback(this, &CImportFeed::OnFeedsList);
+	m_feedsimportlist.OnDblClick = Callback(this, &CImportFeed::OnFeedsImportList);
+}
+
+void CImportFeed::OnInitDialog()
+{
+	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "ImportDlg");
+	m_removefeed.Disable();
+	m_removeallfeeds.Disable();
+	m_ok.Disable();
+	m_addfeed.Disable();
+	m_addallfeeds.Disable();
+}
+
+void CImportFeed::OnBrowseFile(CCtrlBase*)
+{
+	wchar_t FileName[MAX_PATH];
+	VARSW tszMirDir(L"%miranda_path%");
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = sizeof(ofn);
+	wchar_t tmp[MAX_PATH];
+	mir_snwprintf(tmp, L"%s (*.opml, *.xml)%c*.opml;*.xml%c%c", TranslateT("OPML files"), 0, 0, 0);
+	ofn.lpstrFilter = tmp;
+	ofn.hwndOwner = nullptr;
+	ofn.lpstrFile = FileName;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.nMaxFileTitle = MAX_PATH;
+	ofn.Flags = OFN_HIDEREADONLY;
+	ofn.lpstrInitialDir = tszMirDir;
+	*FileName = '\0';
+	ofn.lpstrDefExt = L"";
+
+	if (GetOpenFileName(&ofn)) {
+		int bytesParsed = 0;
+		HXML hXml = xmlParseFile(FileName, &bytesParsed, nullptr);
+		if (hXml != nullptr) {
+			HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
+			if (!node)
+				node = xmlGetChildByPath(hXml, L"body/outline", 0);
+			if (node) {
+				while (node) {
+					int outlineAttr = xmlGetAttrCount(node);
+					int outlineChildsCount = xmlGetChildCount(node);
+					wchar_t *xmlUrl = (wchar_t *)xmlGetAttrValue(node, L"xmlUrl");
+					if (!xmlUrl && !outlineChildsCount) {
+						HXML tmpnode = node;
+						node = xmlGetNextNode(node);
+						if (!node) {
+							do {
+								node = tmpnode;
+								node = xmlGetParent(node);
+								tmpnode = node;
+								node = xmlGetNextNode(node);
+								if (node)
+									break;
+							} while (mir_wstrcmpi(xmlGetName(node), L"body"));
+						}
+					}
+					else if (!xmlUrl && outlineChildsCount)
+						node = xmlGetFirstChild(node);
+					else if (xmlUrl) {
+						for (int i = 0; i < outlineAttr; i++) {
+							if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"text")) {
+								wchar_t *text = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+								bool isTextUTF;
+								if (!text) {
+									isTextUTF = false;
+									text = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
+								}
+								else
+									isTextUTF = true;
+								m_feedslist.AddString(text);
+								m_addfeed.Enable();
+								m_addallfeeds.Enable();
+								if (isTextUTF)
+									mir_free(text);
+							}
+						}
+
+						HXML tmpnode = node;
+						node = xmlGetNextNode(node);
+						if (!node) {
+							do {
+								node = tmpnode;
+								node = xmlGetParent(node);
+								tmpnode = node;
+								node = xmlGetNextNode(node);
+								if (node)
+									break;
+							} while (mir_wstrcmpi(xmlGetName(tmpnode), L"body"));
+						}
+					}
+				}
 			}
+			else
+				MessageBox(m_hwnd, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+			xmlDestroyNode(hXml);
+			m_importfile.SetText(FileName);
+		}
+		else
+			MessageBox(m_hwnd, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+	}
+}
 
-			wchar_t *ptszURL = db_get_wsa(hContact, MODULE, "URL");
-			if (ptszNick) {
-				SetDlgItemText(hwndDlg, IDC_FEEDURL, ptszURL);
-				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-				mir_free(ptszURL);
+void CImportFeed::OnAddFeed(CCtrlBase*)
+{
+	if (!m_removefeed.Enabled())
+		m_removefeed.Enable();
+	if (!m_removeallfeeds.Enabled())
+		m_removeallfeeds.Enable();
+	if (!m_ok.Enabled())
+		m_ok.Enable();
+	int cursel =  m_feedslist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedslist.GetItemText(cursel, item, _countof(item));
+	m_feedsimportlist.AddString(item);
+	m_feedslist.DeleteString(cursel);
+	if (!m_feedslist.GetCount()) {
+		m_addfeed.Disable();
+		m_addallfeeds.Disable();
+	}
+}
+
+void CImportFeed::OnRemoveFeed(CCtrlBase*)
+{
+	if (!m_addfeed.Enabled())
+		m_addfeed.Enable();
+	if (!m_addallfeeds.Enabled())
+		m_addallfeeds.Enable();
+	int cursel = m_feedsimportlist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedsimportlist.GetItemText(cursel, item, _countof(item));
+	m_feedslist.AddString(item);
+	m_feedsimportlist.DeleteString(cursel);
+	if (!m_feedsimportlist.GetCount()) {
+		m_removefeed.Disable();
+		m_removeallfeeds.Disable();
+		m_ok.Disable();
+	}
+}
+
+void CImportFeed::OnAddAllFeeds(CCtrlBase*)
+{
+	if (!m_removefeed.Enabled())
+		m_removefeed.Enable();
+	if (!m_removeallfeeds.Enabled())
+		m_removeallfeeds.Enable();
+	if (!m_ok.Enabled())
+		m_ok.Enable();
+	int count = m_feedslist.GetCount();
+	for (int i = 0; i < count; i++) {
+		wchar_t item[MAX_PATH];
+		m_feedslist.GetItemText(i, item, _countof(item));
+		m_feedsimportlist.AddString(item);
+	}
+	for (int i = count - 1; i > -1; i--)
+		m_feedslist.DeleteString(i);
+	m_addfeed.Disable();
+	m_addallfeeds.Disable();
+}
+
+void CImportFeed::OnRemoveAllFeeds(CCtrlBase*)
+{
+	if (!m_addfeed.Enabled())
+		m_addfeed.Enable();
+	if (!m_addallfeeds.Enabled())
+		m_addallfeeds.Enable();
+	int count = m_feedsimportlist.GetCount();
+	for (int i = 0; i < count; i++) {
+		wchar_t item[MAX_PATH];
+		m_feedsimportlist.GetItemText(i, item, _countof(item));
+		m_feedslist.AddString(item);
+	}
+	for (int i = count - 1; i > -1; i--)
+		m_feedsimportlist.DeleteString(i);
+	m_removefeed.Disable();
+	m_removeallfeeds.Disable();
+	m_ok.Disable();
+}
+
+void CImportFeed::OnFeedsList(CCtrlBase*)
+{
+	if (!m_removefeed.Enabled())
+		m_removefeed.Enable();
+	if (!m_removeallfeeds.Enabled())
+		m_removeallfeeds.Enable();
+	if (!m_ok.Enabled())
+		m_ok.Enable();
+	int cursel = m_feedslist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedslist.GetItemText(cursel, item, _countof(item));
+	m_feedsimportlist.AddString(item);
+	m_feedslist.DeleteString(cursel);
+	if (!m_feedslist.GetCount()) {
+		m_addfeed.Disable();
+		m_addallfeeds.Disable();
+	}
+}
+
+void CImportFeed::OnFeedsImportList(CCtrlBase*)
+{
+	if (!m_addfeed.Enabled())
+		m_addfeed.Enable();
+	if (!m_addallfeeds.Enabled())
+		m_addallfeeds.Enable();
+	int cursel = m_feedsimportlist.GetCurSel();
+	wchar_t item[MAX_PATH];
+	m_feedsimportlist.GetItemText(cursel, item, _countof(item));
+	m_feedslist.AddString(item);
+	m_feedsimportlist.DeleteString(cursel);
+	if (!m_feedsimportlist.GetCount()) {
+		m_removefeed.Disable();
+		m_removeallfeeds.Disable();
+		m_ok.Disable();
+	}
+}
+
+void CImportFeed::OnOk(CCtrlBase*)
+{
+	wchar_t FileName[MAX_PATH];
+	m_importfile.GetText(FileName, _countof(FileName));
+	int bytesParsed = 0;
+	HXML hXml = xmlParseFile(FileName, &bytesParsed, nullptr);
+	if (hXml != nullptr) {
+		bool isTextUTF = false, isURLUTF = false, isSiteURLUTF = false, isGroupUTF = false;
+		HXML node = xmlGetChildByPath(hXml, L"opml/body/outline", 0);
+		if (!node)
+			node = xmlGetChildByPath(hXml, L"body/outline", 0);
+		int count = m_feedsimportlist.GetCount();
+		int DUPES = 0;
+		if (node) {
+			while (node) {
+				int outlineAttr = xmlGetAttrCount(node);
+				int outlineChildsCount = xmlGetChildCount(node);
+				wchar_t *xmlUrl = (wchar_t *)xmlGetAttrValue(node, L"xmlUrl");
+				if (!xmlUrl && !outlineChildsCount) {
+					HXML tmpnode = node;
+					node = xmlGetNextNode(node);
+					if (!node) {
+						do {
+							node = tmpnode;
+							node = xmlGetParent(node);
+							tmpnode = node;
+							node = xmlGetNextNode(node);
+							if (node)
+								break;
+						} while (mir_wstrcmpi(xmlGetName(node), L"body"));
+					}
+				}
+				else if (!xmlUrl && outlineChildsCount)
+					node = xmlGetFirstChild(node);
+				else if (xmlUrl) {
+					wchar_t *text = nullptr, *url = nullptr, *siteurl = nullptr, *group = nullptr;
+					BYTE NeedToImport = FALSE;
+					for (int i = 0; i < outlineAttr; i++) {
+						if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"text")) {
+							text = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+							if (!text) {
+								isTextUTF = 0;
+								text = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
+							}
+							else
+								isTextUTF = 1;
+
+							for (int j = 0; j < count; j++) {
+								wchar_t item[MAX_PATH];
+								m_feedsimportlist.GetItemText(j, item, _countof(item));
+								if (!mir_wstrcmpi(item, text)) {
+									NeedToImport = TRUE;
+									break;
+								}
+							}
+							continue;
+						}
+						if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"xmlUrl")) {
+							url = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+							if (!url) {
+								isURLUTF = false;
+								url = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
+							}
+							else
+								isURLUTF = true;
+							if (GetContactByURL(url) && NeedToImport) {
+								NeedToImport = FALSE;
+								DUPES++;
+							}
+							continue;
+						}
+						if (!mir_wstrcmpi(xmlGetAttrName(node, i), L"htmlUrl")) {
+							siteurl = mir_utf8decodeW(_T2A(xmlGetAttrValue(node, xmlGetAttrName(node, i))));
+							if (!siteurl) {
+								isSiteURLUTF = false;
+								siteurl = (wchar_t *)xmlGetAttrValue(node, xmlGetAttrName(node, i));
+							}
+							else
+								isSiteURLUTF = true;
+							continue;
+						}
+						if (text && url && siteurl)
+							break;
+					}
+
+					if (NeedToImport) {
+						HXML parent = xmlGetParent(node);
+						wchar_t tmpgroup[1024];
+						while (mir_wstrcmpi(xmlGetName(parent), L"body")) {
+							for (int i = 0; i < xmlGetAttrCount(parent); i++) {
+								if (!mir_wstrcmpi(xmlGetAttrName(parent, i), L"text")) {
+									if (!group)
+										group = (wchar_t *)xmlGetAttrValue(parent, xmlGetAttrName(parent, i));
+									else {
+										mir_snwprintf(tmpgroup, L"%s\\%s", xmlGetAttrValue(parent, xmlGetAttrName(parent, i)), group);
+										group = tmpgroup;
+									}
+									break;
+								}
+							}
+							parent = xmlGetParent(parent);
+						}
+
+						wchar_t *ptszGroup = nullptr;
+						if (group) {
+							ptszGroup = mir_utf8decodeW(_T2A(group));
+							if (!ptszGroup) {
+								isGroupUTF = false;
+								ptszGroup = group;
+							}
+							else
+								isGroupUTF = 1;
+						}
+
+						MCONTACT hContact = db_add_contact();
+						Proto_AddToContact(hContact, MODULE);
+						db_set_ws(hContact, MODULE, "Nick", text);
+						db_set_ws(hContact, MODULE, "URL", url);
+						db_set_ws(hContact, MODULE, "Homepage", siteurl);
+						db_set_b(hContact, MODULE, "CheckState", 1);
+						db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
+						db_set_ws(hContact, MODULE, "MsgFormat", TAGSDEFAULT);
+						db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
+
+						if (m_list != nullptr) {
+							int iItem = m_list->AddItem(text, -1);
+							m_list->SetItem(iItem, 1, url);
+							m_list->SetCheckState(iItem, 1);
+						}
+
+						if (ptszGroup) {
+							db_set_ws(hContact, "CList", "Group", ptszGroup);
+							Clist_GroupCreate(0, ptszGroup);
+						}
+						if (isGroupUTF)
+							mir_free(ptszGroup);
+					}
+					if (isTextUTF)
+						mir_free(text);
+					if (isURLUTF)
+						mir_free(url);
+					if (isSiteURLUTF)
+						mir_free(siteurl);
+
+					HXML tmpnode = node;
+					node = xmlGetNextNode(node);
+					if (!node) {
+						do {
+							node = tmpnode;
+							node = xmlGetParent(node);
+							tmpnode = node;
+							node = xmlGetNextNode(node);
+							if (node)
+								break;
+						} while (mir_wstrcmpi(xmlGetName(tmpnode), L"body"));
+					}
+				}
 			}
+		}
+		xmlDestroyNode(hXml);
+		wchar_t mes[MAX_PATH];
+		if (DUPES)
+			mir_snwprintf(mes, TranslateT("Imported %d feed(s)\r\nNot imported %d duplicate(s)."), count - DUPES, DUPES);
+		else
+			mir_snwprintf(mes, TranslateT("Imported %d feed(s)."), count);
+		MessageBox(m_hwnd, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
+	}
+}
 
-			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
+void CImportFeed::OnClose()
+{
+	Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, "ImportDlg");
+	if (pImportDialog)
+		pImportDialog = nullptr;
+}
 
-			wchar_t *ptszMsgFormat = db_get_wsa(hContact, MODULE, "MsgFormat");
-			if (ptszMsgFormat) {
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, ptszMsgFormat);
-				mir_free(ptszMsgFormat);
+CFeedEditor::CFeedEditor(int iItem, CCtrlListView *m_feeds, MCONTACT Contact)
+	: CSuper(hInst, IDD_ADDFEED),
+	m_feedtitle(this, IDC_FEEDTITLE), m_feedurl(this, IDC_FEEDURL),
+	m_checktime(this, IDC_CHECKTIME), m_checktimespin(this, IDC_TIMEOUT_VALUE_SPIN),
+	m_checkfeed(this, IDC_DISCOVERY), m_useauth(this, IDC_USEAUTH),
+	m_login(this, IDC_LOGIN), m_password(this, IDC_PASSWORD),
+	m_tagedit(this, IDC_TAGSEDIT), m_reset(this, IDC_RESET),
+	m_help(this, IDC_TAGHELP), m_ok(this, IDOK), m_iItem(iItem)
+{
+	m_list = m_feeds;
+	m_hContact = Contact;
+	m_checkfeed.OnClick = Callback(this, &CFeedEditor::OnCheckFeed);
+	m_useauth.OnChange = Callback(this, &CFeedEditor::OnUseAuth);
+	m_reset.OnClick = Callback(this, &CFeedEditor::OnReset);
+	m_help.OnClick = Callback(this, &CFeedEditor::OnHelp);
+	m_ok.OnClick = Callback(this, &CFeedEditor::OnOk);
+}
+
+void CFeedEditor::OnInitDialog()
+{
+	if (m_iItem == -1 && m_hContact == NULL)
+		SetWindowText(m_hwnd, TranslateT("Add Feed"));
+	else
+		SetWindowText(m_hwnd, TranslateT("Change Feed"));
+	m_checktime.SetMaxLength(3);
+	m_checktimespin.SetRange(999, 0);
+
+	if (m_iItem > -1 && m_hContact == NULL) {
+		wchar_t SelNick[MAX_PATH], SelUrl[MAX_PACKAGE_NAME];
+		m_list->GetItemText(m_iItem, 0, SelNick, _countof(SelNick));
+		m_list->GetItemText(m_iItem, 1, SelUrl, _countof(SelNick));
+
+		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+			ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
+			if ((dbNick == NULL) || (mir_wstrcmp(dbNick, SelNick) != 0))
+				continue;
+
+			ptrW dbURL(db_get_wsa(hContact, MODULE, "URL"));
+			if ((dbURL == NULL) || (mir_wstrcmp(dbURL, SelUrl) != 0))
+				continue;
+
+			m_hContact = hContact;
+			m_feedtitle.SetText(SelNick);
+			m_feedurl.SetText(SelUrl);
+			m_checktime.SetInt(db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME));
+
+			wchar_t *szMsgFormat = db_get_wsa(hContact, MODULE, "MsgFormat");
+			if (szMsgFormat) {
+				m_tagedit.SetText(szMsgFormat);
+				mir_free(szMsgFormat);
 			}
-
 			if (db_get_b(hContact, MODULE, "UseAuth", 0)) {
-				CheckDlgButton(hwndDlg, IDC_USEAUTH, BST_CHECKED);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-				wchar_t *ptszLogin = db_get_wsa(hContact, MODULE, "Login");
-				if (ptszLogin) {
-					SetDlgItemText(hwndDlg, IDC_LOGIN, ptszLogin);
-					mir_free(ptszLogin);
+				m_useauth.SetState(1);
+				m_login.Enable();
+				m_password.Enable();
+
+				wchar_t *szLogin = db_get_wsa(hContact, MODULE, "Login");
+				if (szLogin) {
+					m_login.SetText(szLogin);
+					mir_free(szLogin);
 				}
 				pass_ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
-				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, pwd);
+				m_password.SetTextA(pwd);
 			}
+			//WindowList_Add(hChangeFeedDlgList, m_hwnd, hContact);
+			Utils_RestoreWindowPositionNoSize(m_hwnd, hContact, MODULE, "ChangeDlg");
+			break;
 		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			wchar_t str[MAX_PATH];
-			{
-				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				char passw[MAX_PATH];
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str)) || mir_wstrcmp(str, L"http://") == 0) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
-					break;
-				}
-
-				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, _countof(str));
-				db_set_ws(hContact, MODULE, "URL", str);
-				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, _countof(str));
-				db_set_ws(hContact, MODULE, "Nick", str);
-				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, nullptr, false));
-				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, _countof(str));
-				db_set_ws(hContact, MODULE, "MsgFormat", str);
-				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-					db_set_b(hContact, MODULE, "UseAuth", 1);
-
-					GetDlgItemText(hwndDlg, IDC_LOGIN, str, _countof(str));
-					db_set_ws(hContact, MODULE, "Login", str);
-
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, _countof(passw));
-					db_set_s(hContact, MODULE, "Password", passw);
-				}
-				else {
-					db_unset(hContact, MODULE, "UseAuth");
-					db_unset(hContact, MODULE, "Login");
-					db_unset(hContact, MODULE, "Password");
-				}
-			}
-			// fall through
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDC_USEAUTH:
-			if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_LOGIN), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
-			}
-			break;
-
-		case IDC_TAGHELP:
-			wchar_t tszTagHelp[1024];
-			mir_snwprintf(tszTagHelp, L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
-				L"#<title>#", TranslateT("The title of the item."),
-				L"#<description>#", TranslateT("The item synopsis."),
-				L"#<link>#", TranslateT("The URL of the item."),
-				L"#<author>#", TranslateT("Email address of the author of the item."),
-				L"#<comments>#", TranslateT("URL of a page for comments relating to the item."),
-				L"#<guid>#", TranslateT("A string that uniquely identifies the item."),
-				L"#<category>#", TranslateT("Specify one or more categories that the item belongs to."));
-			MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
-			break;
-
-		case IDC_RESET:
-			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Tags Mask Reset"), MB_YESNO | MB_ICONWARNING) == IDYES)
-				SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
-			break;
-
-		case IDC_DISCOVERY:
-			wchar_t tszURL[MAX_PATH] = { 0 };
-			if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, _countof(tszURL)) || mir_wstrcmp(tszURL, L"http://") != 0) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
-				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-				wchar_t *tszTitle = (wchar_t*)CheckFeed(tszURL, hwndDlg);
-				SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-				mir_free(tszTitle);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
-				SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
-			}
-			else MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		Utils_SaveWindowPosition(hwndDlg, hContact, MODULE, "ChangeDlg");
-		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 	}
+	else if (m_iItem == -1 && m_hContact == NULL) {
+		m_feedurl.SetText(L"http://");
+		m_tagedit.SetText(TAGSDEFAULT);
+		m_checktime.SetInt(DEFAULT_UPDATE_TIME);
+		Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "AddDlg");
+	}
+	else if (m_hContact != NULL) {
+		ptrW dbNick(db_get_wsa(m_hContact, MODULE, "Nick"));
+		ptrW dbURL(db_get_wsa(m_hContact, MODULE, "URL"));
 
-	return FALSE;
+		m_feedtitle.SetText(dbNick);
+		m_feedurl.SetText(dbURL);
+		m_checktime.SetInt(db_get_dw(m_hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME));
+
+		wchar_t *szMsgFormat = db_get_wsa(m_hContact, MODULE, "MsgFormat");
+		if (szMsgFormat) {
+			m_tagedit.SetText(szMsgFormat);
+			mir_free(szMsgFormat);
+		}
+		if (db_get_b(m_hContact, MODULE, "UseAuth", 0)) {
+			m_useauth.SetState(1);
+			m_login.Enable();
+			m_password.Enable();
+
+			wchar_t *szLogin = db_get_wsa(m_hContact, MODULE, "Login");
+			if (szLogin) {
+				m_login.SetText(szLogin);
+				mir_free(szLogin);
+			}
+			pass_ptrA pwd(db_get_sa(m_hContact, MODULE, "Password"));
+			m_password.SetTextA(pwd);
+		}
+		//WindowList_Add(hChangeFeedDlgList, m_hwnd, m_hContact);
+		Utils_RestoreWindowPositionNoSize(m_hwnd, m_hContact, MODULE, "ChangeDlg");
+	}
 }
 
-INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+void CFeedEditor::OnCheckFeed(CCtrlBase*)
 {
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_FEEDLIST);
-	int sel;
+	m_checkfeed.Disable();
+	m_checkfeed.SetText(TranslateT("Wait..."));
+	wchar_t *tszTitle = nullptr;
+	ptrW strfeedurl(m_feedurl.GetText());
+	if (strfeedurl || mir_wstrcmp(strfeedurl, L"http://") != 0 || mir_wstrcmp(strfeedurl, L"") != 0)
+		tszTitle = (wchar_t*)CheckFeed(strfeedurl, m_hwnd);
+	else
+		MessageBox(m_hwnd, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
+	m_feedtitle.SetText(tszTitle);
+	mir_free(tszTitle);
+	m_checkfeed.Enable();
+	m_checkfeed.SetText(TranslateT("Check Feed"));
+}
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
-		CreateList(hwndList);
-		UpdateList(hwndList);
-		CheckDlgButton(hwndDlg, IDC_STARTUPRETRIEVE, db_get_b(NULL, MODULE, "StartupRetrieve", 1) ? BST_CHECKED : BST_UNCHECKED);
-		return TRUE;
+void CFeedEditor::OnReset(CCtrlBase*)
+{
+	if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Tags Mask Reset"), MB_YESNO | MB_ICONWARNING) == IDYES)
+		m_tagedit.SetText(TAGSDEFAULT);
+}
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_ADD:
-			if (hAddFeedDlg == nullptr)
-				hAddFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcAddFeedOpts, (LPARAM)hwndList);
-			return FALSE;
+void CFeedEditor::OnHelp(CCtrlBase*)
+{
+	CMStringW wszTagHelp;
+	wszTagHelp.Format(L"%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s",
+		L"#<title>#", TranslateT("The title of the item."),
+		L"#<description>#", TranslateT("The item synopsis."),
+		L"#<link>#", TranslateT("The URL of the item."),
+		L"#<author>#", TranslateT("Email address of the author of the item."),
+		L"#<comments>#", TranslateT("URL of a page for comments relating to the item."),
+		L"#<guid>#", TranslateT("A string that uniquely identifies the item."),
+		L"#<category>#", TranslateT("Specify one or more categories that the item belongs to."));
+	MessageBox(m_hwnd, wszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
+}
 
-		case IDC_CHANGE:
-			sel = ListView_GetSelectionMark(hwndList);
-			{
-				ItemInfo SelItem = {};
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, _countof(SelItem.nick));
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, _countof(SelItem.url));
-				SelItem.hwndList = hwndList;
-				SelItem.SelNumber = sel;
-				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
+void CFeedEditor::OnOk(CCtrlBase*)
+{
+	ptrW strfeedtitle(m_feedtitle.GetText());
+	if (!strfeedtitle || mir_wstrcmp(strfeedtitle, L"") == 0) {
+		MessageBox(m_hwnd, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
+		return;
+	}
+
+	ptrW strfeedurl(m_feedurl.GetText());
+	if (!strfeedurl || mir_wstrcmp(strfeedurl, L"http://") == 0 || mir_wstrcmp(strfeedurl, L"") == 0) {
+		MessageBox(m_hwnd, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
+		return;
+	}
+
+	ptrW strtagedit(m_tagedit.GetText());
+	if (!strtagedit || mir_wstrcmp(strtagedit, L"") == 0) {
+		MessageBox(m_hwnd, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
+		return;
+	}
+
+	MCONTACT hContact;
+	if (m_iItem == -1 && m_hContact == NULL) {
+		hContact = db_add_contact();
+		Proto_AddToContact(hContact, MODULE);
+		db_set_b(hContact, MODULE, "CheckState", 1);
+	}
+	else
+		hContact = m_hContact;
+
+	db_set_ws(hContact, MODULE, "Nick", strfeedtitle);
+	db_set_ws(hContact, MODULE, "URL", strfeedurl);
+	db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)m_checktime.GetInt());
+	db_set_ws(hContact, MODULE, "MsgFormat", strtagedit);
+	db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
+	if (m_useauth.IsChecked()) {
+		db_set_b(hContact, MODULE, "UseAuth", 1);
+		db_set_ws(hContact, MODULE, "Login", m_login.GetText());
+		db_set_s(hContact, MODULE, "Password", m_password.GetTextA());
+	}
+	else {
+		db_unset(hContact, MODULE, "UseAuth");
+		db_unset(hContact, MODULE, "Login");
+		db_unset(hContact, MODULE, "Password");
+	}
+
+	if (m_iItem == -1 && m_list != nullptr && m_hContact == NULL) {
+		int iItem = m_list->AddItem(strfeedtitle, -1);
+		m_list->SetItem(iItem, 1, strfeedurl);
+		m_list->SetCheckState(iItem, 1);
+	}
+	else if (m_iItem > -1) {
+		m_list->SetItem(m_iItem, 0, strfeedtitle);
+		m_list->SetItem(m_iItem, 1, strfeedurl);
+	}
+}
+
+void CFeedEditor::OnClose()
+{
+	Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, m_iItem == -1 ? "AddDlg" : "ChangeDlg");
+	if (pChangeFeedDialog)
+		pChangeFeedDialog = nullptr;
+	if (pAddFeedDialog)
+		pAddFeedDialog = nullptr;
+}
+
+void CFeedEditor::OnUseAuth(CCtrlBase*)
+{
+	m_login.Enable(m_useauth.GetState());
+	m_password.Enable(m_useauth.GetState());
+}
+
+void COptionsMain::UpdateList()
+{
+	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		UpdateListFlag = TRUE;
+		wchar_t *ptszNick = db_get_wsa(hContact, MODULE, "Nick");
+		if (ptszNick) {
+			int iItem = m_feeds.AddItem(ptszNick, -1);
+
+			wchar_t *ptszURL = db_get_wsa(hContact, MODULE, "URL");
+			if (ptszURL) {
+				m_feeds.SetItem(iItem, 1, ptszURL);
+				m_feeds.SetCheckState(iItem, db_get_b(hContact, MODULE, "CheckState", 1));
+				mir_free(ptszURL);
 			}
-			return FALSE;
-
-		case IDC_REMOVE:
-			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
-				wchar_t nick[MAX_PATH], url[MAX_PATH];
-				sel = ListView_GetSelectionMark(hwndList);
-				ListView_GetItemText(hwndList, sel, 0, nick, _countof(nick));
-				ListView_GetItemText(hwndList, sel, 1, url, _countof(url));
-
-				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-					ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
-					if (dbNick == NULL)
-						break;
-					if (mir_wstrcmp(dbNick, nick))
-						continue;
-
-					ptrW dbURL(db_get_wsa(hContact, MODULE, "URL"));
-					if (dbURL == NULL)
-						break;
-					if (mir_wstrcmp(dbURL, url))
-						continue;
-
-					db_delete_contact(hContact);
-					ListView_DeleteItem(hwndList, sel);
-					break;
-				}
-			}
-			return FALSE;
-
-		case IDC_IMPORT:
-			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), hwndDlg, DlgProcImportOpts, (LPARAM)hwndList);
-			return FALSE;
-
-		case IDC_EXPORT:
-			CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), hwndDlg, DlgProcExportOpts);
-			return FALSE;
-
-		case IDC_STARTUPRETRIEVE:
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
+			mir_free(ptszNick);
 		}
-		break;
+	}
+	UpdateListFlag = FALSE;
+}
 
-	case WM_NOTIFY:
-		NMHDR *hdr = (NMHDR *)lParam;
-		switch (hdr->code) {
-		case PSN_APPLY:
-			db_set_b(NULL, MODULE, "StartupRetrieve", IsDlgButtonChecked(hwndDlg, IDC_STARTUPRETRIEVE));
+COptionsMain::COptionsMain()
+	: CPluginDlgBase(hInst, IDD_OPTIONS, MODULE),
+	m_feeds(this, IDC_FEEDLIST),
+	m_add(this, IDC_ADD),
+	m_change(this, IDC_CHANGE),
+	m_delete(this, IDC_REMOVE),
+	m_import(this, IDC_IMPORT),
+	m_export(this, IDC_EXPORT),
+	m_checkonstartup(this, IDC_STARTUPRETRIEVE)
+{
+	CreateLink(m_checkonstartup, "AutoUpdate", DBVT_BYTE, 1);
+
+	m_add.OnClick = Callback(this, &COptionsMain::OnAddButtonClick);
+	m_change.OnClick = Callback(this, &COptionsMain::OnChangeButtonClick);
+	m_delete.OnClick = Callback(this, &COptionsMain::OnDeleteButtonClick);
+	m_import.OnClick = Callback(this, &COptionsMain::OnImportButtonClick);
+	m_export.OnClick = Callback(this, &COptionsMain::OnExportButtonClick);
+
+	m_feeds.OnItemChanged = Callback(this, &COptionsMain::OnFeedListItemChanged);
+	m_feeds.OnDoubleClick = Callback(this, &COptionsMain::OnFeedListDoubleClick);
+
+}
+
+void COptionsMain::OnInitDialog()
+{
+	CDlgBase::OnInitDialog();
+	m_change.Disable();
+	m_delete.Disable();
+	m_feeds.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+	m_feeds.AddColumn(0, TranslateT("Feed"), 160);
+	m_feeds.AddColumn(1, TranslateT("URL"), 276);
+	UpdateList();
+}
+
+void COptionsMain::OnApply()
+{
+	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
+		for (int i = 0; i < m_feeds.GetItemCount(); i++) {
+			wchar_t nick[MAX_PATH];
+			m_feeds.GetItemText(i, 0, nick, _countof(nick));
+			if (mir_wstrcmp(dbNick, nick) == 0)
 			{
-				int i = 0;
-				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-					db_set_b(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
-					if (!ListView_GetCheckState(hwndList, i))
-						db_set_b(hContact, "CList", "Hidden", 1);
-					else
-						db_unset(hContact, "CList", "Hidden");
-					i++;
-				}
+				db_set_b(hContact, MODULE, "CheckState", m_feeds.GetCheckState(i));
+				if (!m_feeds.GetCheckState(i))
+					db_set_b(hContact, "CList", "Hidden", 1);
+				else
+					db_unset(hContact, "CList", "Hidden");
 			}
-			break;
+		}
+	}
+}
 
-		case NM_DBLCLK:
-			sel = ListView_GetHotItem(hwndList);
-			if (sel != -1) {
-				ItemInfo SelItem = {};
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, _countof(SelItem.nick));
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, _countof(SelItem.url));
-				SelItem.hwndList = hwndList;
-				SelItem.SelNumber = sel;
-				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
-			}
-			break;
+void COptionsMain::OnAddButtonClick(CCtrlBase*)
+{
+	if (pAddFeedDialog == nullptr) {
+		pAddFeedDialog = new CFeedEditor(-1, &m_feeds, NULL);
+		pAddFeedDialog->Show();
+		pAddFeedDialog->SetParent(m_hwnd);
+	}
+}
 
-		case LVN_ITEMCHANGED:
-			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-			sel = ListView_GetSelectionMark(hwndList);
-			if (sel == -1) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), TRUE);
-			}
-			if (((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) && !UpdateListFlag)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+void COptionsMain::OnChangeButtonClick(CCtrlBase*)
+{
+	if (pChangeFeedDialog == nullptr) {
+		int isel = m_feeds.GetSelectionMark();
+		pChangeFeedDialog = new CFeedEditor(isel, &m_feeds, NULL);
+		pChangeFeedDialog->Show();
+		pChangeFeedDialog->SetParent(m_hwnd);
+	}
+}
+
+void COptionsMain::OnDeleteButtonClick(CCtrlBase*)
+{
+	if (MessageBox(m_hwnd, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
+		wchar_t nick[MAX_PATH], url[MAX_PATH];
+		int isel = m_feeds.GetSelectionMark();
+		m_feeds.GetItemText(isel, 0, nick, _countof(nick));
+		m_feeds.GetItemText(isel, 1, url, _countof(url));
+
+		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+			ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
+			if (dbNick == NULL)
+				break;
+			if (mir_wstrcmp(dbNick, nick))
+				continue;
+
+			ptrW dbURL(db_get_wsa(hContact, MODULE, "URL"));
+			if (dbURL == NULL)
+				break;
+			if (mir_wstrcmp(dbURL, url))
+				continue;
+
+			db_delete_contact(hContact);
+			m_feeds.DeleteItem(isel);
 			break;
 		}
 	}
-	return FALSE;
+}
+
+void COptionsMain::OnImportButtonClick(CCtrlBase*)
+{
+	if (pImportDialog == nullptr) {
+		pImportDialog = new CImportFeed(&m_feeds);
+		pImportDialog->Show();
+		pImportDialog->SetParent(m_hwnd);
+	}
+}
+
+void COptionsMain::OnExportButtonClick(CCtrlBase*)
+{
+	if (pExportDialog == nullptr) {
+		pExportDialog = new CExportFeed();
+		pExportDialog->Show();
+		pExportDialog->SetParent(m_hwnd);
+	}
+}
+
+void COptionsMain::OnFeedListItemChanged(CCtrlListView::TEventInfo *evt)
+{
+	int isel = m_feeds.GetSelectionMark();
+	if (isel == -1) {
+		m_change.Disable();
+		m_delete.Disable();
+	}
+	else {
+		m_change.Enable();
+		m_delete.Enable();
+	}
+	if (((evt->nmlv->uNewState ^ evt->nmlv->uOldState) & LVIS_STATEIMAGEMASK) && !UpdateListFlag)
+		NotifyChange();
+}
+
+void COptionsMain::OnFeedListDoubleClick(CCtrlBase*)
+{
+	if (pChangeFeedDialog == nullptr) {
+		int isel = m_feeds.GetHotItem();
+		if (isel != -1) {
+			pChangeFeedDialog = new CFeedEditor(isel, &m_feeds, NULL);
+			pChangeFeedDialog->Show();
+			pChangeFeedDialog->SetParent(m_hwnd);
+		}
+	}
 }
 
 int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szGroup.a = LPGEN("Network");
-	odp.szTitle.a = LPGEN("News Aggregator");
-	odp.pfnDlgProc = UpdateNotifyOptsProc;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = LPGENW("News Aggregator");
+	odp.pDialog = new COptionsMain();
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

@@ -44,11 +44,13 @@ Boston, MA 02111-1307, USA.
 #include <m_xml.h>
 #include <m_avatars.h>
 #include <m_hotkeys.h>
+#include <m_gui.h>
 
 #include <m_folders.h>
 #include <m_toptoolbar.h>
 #include <m_string.h>
 
+#include "Options.h"
 #include "version.h"
 #include "resource.h"
 
@@ -58,8 +60,8 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_UPDATE_TIME 60
 
 extern HINSTANCE hInst;
-extern HWND hAddFeedDlg;
-extern MWindowList hChangeFeedDlgList;
+extern CDlgBase *pAddFeedDialog, *pChangeFeedDialog, *pImportDialog, *pExportDialog;
+//extern MWindowList hChangeFeedDlgList;
 extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR timerId;
 // check if Feeds is currently updating
@@ -121,17 +123,11 @@ INT_PTR  ExportFeeds(WPARAM wParam, LPARAM lParam);
 INT_PTR  CheckFeed(WPARAM wParam, LPARAM lParam);
 INT_PTR  EnableDisable(WPARAM wParam, LPARAM lParam);
 int      OnToolbarLoaded(WPARAM wParam, LPARAM lParam);
-INT_PTR  CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR  CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR  CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void     CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 void     CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 bool     IsMyContact(MCONTACT hContact);
 void     GetNewsData(wchar_t *szUrl, char **szData, MCONTACT hContact, HWND hwndDlg);
-void     CreateList(HWND hwndList);
-void     UpdateList(HWND hwndList);
-void     DeleteAllItems(HWND hwndList);
 time_t   __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType);
 void     CheckCurrentFeed(MCONTACT hContact);
 void     CheckCurrentFeedAvatar(MCONTACT hContact);
@@ -141,8 +137,6 @@ LPCTSTR  ClearText(CMStringW &value, const wchar_t *message);
 bool     DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 void     CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg);
 INT_PTR  CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR  CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR  CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 MCONTACT GetContactByNick(const wchar_t *nick);
 MCONTACT GetContactByURL(const wchar_t *url);
 

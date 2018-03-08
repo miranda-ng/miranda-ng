@@ -23,8 +23,8 @@ HINSTANCE hInst = nullptr;
 
 int hLangpack;
 HANDLE hPrebuildMenuHook = nullptr;
-HWND hAddFeedDlg;
-MWindowList hChangeFeedDlgList = nullptr;
+CDlgBase *pAddFeedDialog = nullptr, *pChangeFeedDialog = nullptr, *pImportDialog = nullptr, *pExportDialog = nullptr;
+//MWindowList hChangeFeedDlgList = nullptr;
 wchar_t tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
 
@@ -62,7 +62,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, NewsAggrPreShutdown);
 
 	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
-	hChangeFeedDlgList = WindowList_Create();
+	//hChangeFeedDlgList = WindowList_Create();
 
 	// register weather protocol
 	PROTOCOLDESCRIPTOR pd = { 0 };
@@ -104,7 +104,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	WindowList_Destroy(hChangeFeedDlgList);
+	//WindowList_Destroy(hChangeFeedDlgList);
 	DestroyUpdateList();
 	CloseHandle(hUpdateMutex);
 	return 0;

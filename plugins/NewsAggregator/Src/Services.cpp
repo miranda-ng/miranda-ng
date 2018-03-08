@@ -56,10 +56,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 
 int NewsAggrPreShutdown(WPARAM, LPARAM)
 {
-	if (hAddFeedDlg)
-		SendMessage(hAddFeedDlg, WM_CLOSE, 0, 0);
-
-	WindowList_Broadcast(hChangeFeedDlgList, WM_CLOSE, 0, 0);
+	//WindowList_Broadcast(hChangeFeedDlgList, WM_CLOSE, 0, 0);
 
 	KillTimer(nullptr, timerId);
 	NetlibUnInit();
@@ -152,34 +149,48 @@ INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 
 INT_PTR AddFeed(WPARAM, LPARAM)
 {
-	if (hAddFeedDlg == nullptr)
-		hAddFeedDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ADDFEED), nullptr, DlgProcAddFeedOpts);
-	ShowWindow(hAddFeedDlg, SW_SHOW);
+	if (pAddFeedDialog == nullptr)
+		pAddFeedDialog = new CFeedEditor(-1, nullptr, NULL);
+	pAddFeedDialog->Show();
 	return 0;
 }
 
 INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
 {
-	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
-	if (!hChangeFeedDlg) {
+	//HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
+
+	if (pChangeFeedDialog == nullptr) {
+		pChangeFeedDialog = new CFeedEditor(-1, nullptr, hContact);
+		pChangeFeedDialog->Show();
+	}
+
+	/*if (!hChangeFeedDlg) {
 		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), nullptr, DlgProcChangeFeedMenu, hContact);
 		ShowWindow(hChangeFeedDlg, SW_SHOW);
 	} else {
 		SetForegroundWindow(hChangeFeedDlg);
 		SetFocus(hChangeFeedDlg);
-	}
+	}*/
 	return 0;
 }
 
 INT_PTR ImportFeeds(WPARAM, LPARAM)
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), nullptr, DlgProcImportOpts);
+	if (pImportDialog == nullptr)
+		pImportDialog = new CImportFeed(nullptr);
+	pImportDialog->Show();
+
+	//CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), nullptr, DlgProcImportOpts);
 	return 0;
 }
 
 INT_PTR ExportFeeds(WPARAM, LPARAM)
 {
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), nullptr, DlgProcExportOpts);
+	if (pExportDialog == nullptr)
+		pExportDialog = new CExportFeed();
+	pExportDialog->Show();
+
+	//CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), nullptr, DlgProcExportOpts);
 	return 0;
 }
 
