@@ -23,7 +23,6 @@
 #define IDC_LOOPSOUND                   1022
 #define IDC_SHOWVERSION                 1023
 #define IDC_VERSIONPREFIX               1024
-#define IDC_PNG2DIBWARN                 1025
 
 // Next default values for new objects
 // 

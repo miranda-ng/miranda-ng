@@ -70,7 +70,6 @@ void SplashMain()
 		logMessage(L"Miranda version", mirandaVerString);
 		mir_free(mirandaVerString);
 		logMessage(L"Dll Name", _A2W(__FILENAME));
-		logMessage(L"Advaimg path", szhAdvaimgPath);
 		#endif
 
 		ReadDbConfig();
