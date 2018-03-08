@@ -125,10 +125,18 @@
 Введите текст, который видите
 [&Invite user...]
 &Пригласить пользователя...
+[E&xit chat session]
+По&кинуть чат
+[&Destroy chat session]
+&Удалить чат
 [User &details]
 &Данные контакта
 [User &history]
 &История пользователя
+[Delete conversation]
+Удалить беседу
+[This will permanently delete the conversation history]
+Это необратимо удалит историю беседы
 [Former]
 Бывший
 [Myself]
@@ -249,6 +257,8 @@ SMS с кодом подтверждения отправлено на ваш м
 Контакт послал %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Контакт послал неподдерживаемое вложение. Для просмотра перейдите на сайт.
+[Reaction]
+Реакция
 [%s is typing a message...]
 %s набирает текст...
 [You cannot send messages when you are offline.]

@@ -86,9 +86,9 @@
 [Changed to Online]
 Смена: В сети
 [User Logged Off]
-Пользователь Отключён
+Пользователь отключён
 [User Logged In]
-Пользователь Подключён
+Пользователь подключён
 [<unknown>]
 <неизвестно>
 [Last seen]
@@ -126,23 +126,23 @@
 [UIN/handle]
 номер/обработчик
 [group]
-Группа
+группа
 [status]
-Статус
+статус
 [status message]
-Сообщение статуса
+сообщение статуса
 [old status]
-Старый статус
+старый статус
 [external IP]
 внешний IP
 [internal IP]
 внутренний IP
 [client info]
-Клиент
+клиент
 [protocol]
-Протокол
+протокол
 [account]
-Учётная запись
+учётная запись
 [tabulator]
 табуляция
 [line break]
@@ -157,6 +157,10 @@
 -- Формат --
 [Note:]
 Примечание:
+[Use # for empty string]
+Использовать # для пустой строки
+[instead of <unknown>]
+вместо <неизвестно>
 [Last Seen variables]
 Переменные
 [Contacts]

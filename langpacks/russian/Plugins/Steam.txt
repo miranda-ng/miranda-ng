@@ -23,6 +23,10 @@
 Беседы
 [Show chat state events (i.e., user closed chat session)]
 Отображать изменения состояния чата (напр., пользователь закрыл окно)
+[Connection]
+Подключение
+[Error limit before logout:]
+Максимум ошибок перед выходом:
 [Captcha]
 Проверочный код
 [Cancel]
@@ -59,10 +63,14 @@
 %s возвращён в ваш список контактов
 [%s has been removed from your contact list]
 %s удалён из вашего списка контактов
+[%s has added you to contact list]
+%s добавил(а) вас в список контактов
 [Cannot obtain connection token.]
 Не удалось получить токен соединения.
 [Steam menu chooser]
 Выбор меню Steam
+[Unblock]
+Разблокировать
 [Join to game]
 Присоединиться к игре
 [Unknown error]

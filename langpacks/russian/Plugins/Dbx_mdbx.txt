@@ -5,7 +5,59 @@
 ;  Version: 0.95.8.3
 ;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
+[Select crypto provider]
+Выберите поставщика криптографии
 [Cancel]
 Отмена
+[Total encryption (Recommended only for paranoid users)]
+Полное шифрование (только для параноидальных пользователей)
+[Login to Miranda NG]
+Вход в Miranda NG
+[New password]
+Новый пароль
+[Please enter your new password]
+Пожалуйста, введите новый пароль
+[Enter password]
+Введите пароль
+[Change password]
+Изменить пароль
+[Change]
+Изменить
 [Remove]
 Удалить
+[Old password]
+Старый пароль
+[Database encryption mode]
+Режим шифрования базы
+[Standard]
+Стандартный
+[Total]
+Полный
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+Шифрование только критических данных (пароли, токены авторизации и т.д.). Остальные настройки, включая историю, остаются незашифрованными. Быстрый и эффективный, подходит в большинстве случаев
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a profile in case of losing password. Recommended only for paranoid users]
+Все настройки и все события истории зашифрованы. Замедляет работу программы, а также создаёт риск потери всего сохранённого в профиле в случае утери пароля. Рекомендуется только параноидальным пользователям
+[Set password]
+Установить пароль
+[Change/remove password]
+Изменить/удалить пароль
+[Wrong old password entered!]
+Введён ошибочный старый пароль!
+[Password is too short!]
+Слишком короткий пароль!
+[Passwords do not match!]
+Пароли не совпадают!
+[Database]
+База данных
+[Logo]
+Логотип
+[Password]
+Пароль
+[Too many errors!]
+Слишком много ошибок!
+[Password is not correct!]
+Неверный пароль!
+[Please type in your password]
+Пожалуйста, введите свой пароль
