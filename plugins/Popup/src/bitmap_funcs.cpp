@@ -730,7 +730,7 @@ bool MyBitmap::loadFromFile(const wchar_t *fn)
 	if (!wcsncmp(fn, L"gradient:", mir_wstrlen(L"gradient:")))
 		return loadFromFile_gradient(fn);
 
-	HBITMAP hBmpLoaded = Image_Load(fn, IMGL_WCHAR);
+	HBITMAP hBmpLoaded = Image_Load(fn);
 	if (!hBmpLoaded)
 		return false;
 

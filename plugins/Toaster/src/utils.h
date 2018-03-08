@@ -44,11 +44,11 @@ public:
 
 		if (!(GetFileAttributes(wszSavePath) < 0xFFFFFFF)) {
 			IMGSRVC_INFO isi = { sizeof(isi) };
-			isi.szName.w = wszSavePath;
+			isi.pwszName = wszSavePath;
 			isi.hbm = _hBitmap;
 			isi.dwMask = IMGI_HBITMAP;
 			isi.fif = FREE_IMAGE_FORMAT::FIF_PNG;
-			Image_Save(&isi, IMGL_WCHAR);
+			Image_Save(&isi);
 		}
 		return mir_wstrdup(wszSavePath);
 	}

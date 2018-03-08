@@ -183,11 +183,11 @@ static void SaveAvatarToFile(CTabBaseDlg *dat, HBITMAP hbm, int isOwnPic)
 
 		IMGSRVC_INFO ii;
 		ii.cbSize = sizeof(ii);
-		ii.szName.w = szFinalFilename;
+		ii.pwszName = szFinalFilename;
 		ii.hbm = hbm;
 		ii.dwMask = IMGI_HBITMAP;
 		ii.fif = FIF_UNKNOWN;			// get the format from the filename extension. png is default.
-		Image_Save(&ii, IMGL_WCHAR);
+		Image_Save(&ii);
 	}
 }
 
@@ -1813,10 +1813,10 @@ void CTabBaseDlg::SendHBitmapAsFile(HBITMAP hbmp) const
 	IMGSRVC_INFO ii;
 	ii.cbSize = sizeof(ii);
 	ii.hbm = hbmp;
-	ii.szName.w = filename;
+	ii.pwszName = filename;
 	ii.dwMask = IMGI_HBITMAP;
 	ii.fif = FIF_JPEG;
-	Image_Save(&ii, IMGL_WCHAR);
+	Image_Save(&ii);
 
 	int totalCount = 0;
 	wchar_t **ppFiles = nullptr;

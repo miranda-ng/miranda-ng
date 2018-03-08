@@ -528,11 +528,11 @@ const char* FacebookProto::ParseIcon(const std::string &url)
 				HBITMAP hBmp = Image_LoadFromMem(reply->pData, reply->dataLength, FIF_UNKNOWN);
 				if (hBmp != nullptr) {
 					IMGSRVC_INFO info = { sizeof(info) };
-					info.szName.w = wszFileName;
+					info.pwszName = wszFileName;
 					info.fif = FIF_ICO;
 					info.dwMask = IMGI_HBITMAP;
 					info.hbm = hBmp;
-					Image_Save(&info, IMGL_WCHAR);
+					Image_Save(&info);
 				}
 			}
 		}

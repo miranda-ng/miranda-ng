@@ -1722,7 +1722,7 @@ void CSkin::setupAeroSkins()
 
 	m_dwmColorRGB = RGB((BYTE)fr, (BYTE)fg, (BYTE)fb);
 
-	FIBITMAP *fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
+	FIBITMAP *fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_RETURNDIB);
 
 	HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(fib);
 
@@ -1764,7 +1764,7 @@ void CSkin::setupAeroSkins()
 	if (!PathFileExists(tszFilename))
 		mir_snwprintf(tszFilename, L"%stabskin_aero_glow.png", tszBasePath);
 
-	fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_WCHAR | IMGL_RETURNDIB);
+	fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_RETURNDIB);
 
 	COLORREF glowColor = M.GetDword(FONTMODULE, "aeroGlow", RGB(40, 40, 255));
 	hbm = FreeImage_CreateHBITMAPFromDIB(fib);

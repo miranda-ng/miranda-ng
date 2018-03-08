@@ -48,9 +48,7 @@ by the FreeImage project (http://freeimage.sourceforge.net)
                                 // want to do further image manipulations before converting to a Win32 bitmap
                                 // caller MUST then free the FIBITMAP * using fii->FI_Unload() or MS_IMG_UNLOAD (see below)
 
-#define IMGL_WCHAR     2        // filename is wchar_t
-
-EXTERN_C MIR_APP_DLL(HBITMAP) Image_Load(const wchar_t *pwszPath, int iFlags /* one of IMGL_*/ );
+EXTERN_C MIR_APP_DLL(HBITMAP) Image_Load(const wchar_t *pwszPath, int iFlags = 0 /* one of IMGL_*/ );
 
 /*
  * control structure for loading images from memory buffers (e.g. network buffers, memory mapped files).
@@ -69,21 +67,21 @@ EXTERN_C MIR_APP_DLL(HBITMAP) Image_LoadFromMem(const void *pBuf, size_t cbLen, 
  * you must populate the fields as required, set the mask bits to indicate which member is valid
  */
 
-// flags for IMGSRVC_INFO.dwMask
+// flags for IMGSRVC_INFO::dwMask
 #define IMGI_FBITMAP  1  // the dib member is valid
 #define IMGI_HBITMAP  2  // the hbm member is valid
 
 struct IMGSRVC_INFO
 {
     DWORD cbSize;
-	 MAllStrings szName;
+	 const wchar_t *pwszName;
     HBITMAP hbm;
     FIBITMAP *dib;
     DWORD    dwMask;
     FREE_IMAGE_FORMAT fif;
 };
 
-EXTERN_C MIR_APP_DLL(int) Image_Save(const IMGSRVC_INFO *pInfo, int iFlags);
+EXTERN_C MIR_APP_DLL(int) Image_Save(const IMGSRVC_INFO *pInfo, int iFlags = 0);
 
 /*
  * resizer from loadavatars moved to image service plugin

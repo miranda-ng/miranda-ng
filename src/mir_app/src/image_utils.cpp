@@ -139,28 +139,14 @@ MIR_APP_DLL(HBITMAP) Image_Load(const wchar_t *pwszPath, int iFlags)
 	if (pwszPath == nullptr)
 		return 0;
 	
-	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	if (iFlags & IMGL_WCHAR)
-		fif = FreeImage_GetFileTypeU(pwszPath, 0);
-	else
-		fif = FreeImage_GetFileType((char*)pwszPath, 0);
-
-	if (fif == FIF_UNKNOWN) {
-		if (iFlags & IMGL_WCHAR)
-			fif = FreeImage_GetFIFFromFilenameU(pwszPath);
-		else
-			fif = FreeImage_GetFIFFromFilename((char*)pwszPath);
-	}
+	FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeU(pwszPath, 0);
+	if (fif == FIF_UNKNOWN)
+		fif = FreeImage_GetFIFFromFilenameU(pwszPath);
 	
 	// check that the plugin has reading capabilities ...
 	if (fif != FIF_UNKNOWN && FreeImage_FIFSupportsReading(fif)) {
 		// ok, let's load the file
-		FIBITMAP *dib;
-		if (iFlags & IMGL_WCHAR)
-			dib = FreeImage_LoadU(fif, pwszPath, 0);
-		else
-			dib = FreeImage_Load(fif, (char*)pwszPath, 0);
-
+		FIBITMAP *dib = FreeImage_LoadU(fif, pwszPath, 0);
 		if (dib == nullptr || (iFlags & IMGL_RETURNDIB))
 			return HBITMAP(dib);
 
@@ -202,19 +188,15 @@ MIR_APP_DLL(int) Image_Save(const IMGSRVC_INFO *isi, int iFlags)
 		return 0;
 	if (isi->cbSize != sizeof(IMGSRVC_INFO))
 		return 0;
-	if (isi->szName.a == nullptr)
+	if (isi->pwszName == nullptr)
 		return 0;
 
 	FREE_IMAGE_FORMAT fif;
 	BOOL fUnload = FALSE;
 	FIBITMAP *dib = nullptr;
 
-	if (isi->fif == FIF_UNKNOWN) {
-		if (iFlags & IMGL_WCHAR)
-			fif = FreeImage_GetFIFFromFilenameU(isi->szName.w);
-		else
-			fif = FreeImage_GetFIFFromFilename(isi->szName.a);
-	}
+	if (isi->fif == FIF_UNKNOWN)
+		fif = FreeImage_GetFIFFromFilenameU(isi->pwszName);
 	else
 		fif = isi->fif;
 
@@ -233,21 +215,12 @@ MIR_APP_DLL(int) Image_Save(const IMGSRVC_INFO *isi, int iFlags)
 	if (dib == nullptr)
 		return 0;
 
-	int flags = HIWORD(iFlags);
-
 	int ret = 0;
-	if (fif == FIF_PNG || fif == FIF_BMP || fif == FIF_JNG) {
-		if (iFlags & IMGL_WCHAR)
-			ret = FreeImage_SaveU(fif, dib, isi->szName.w, flags);
-		else
-			ret = FreeImage_Save(fif, dib, isi->szName.a, flags);
-	}
+	if (fif == FIF_PNG || fif == FIF_BMP || fif == FIF_JNG)
+		ret = FreeImage_SaveU(fif, dib, isi->pwszName, iFlags);
 	else {
 		FIBITMAP *dib_new = FreeImage_ConvertTo24Bits(dib);
-		if (iFlags & IMGL_WCHAR)
-			ret = FreeImage_SaveU(fif, dib_new, isi->szName.w, flags);
-		else
-			ret = FreeImage_Save(fif, dib_new, isi->szName.a, flags);
+		ret = FreeImage_SaveU(fif, dib_new, isi->pwszName, iFlags);
 		FreeImage_Unload(dib_new);
 	}
 

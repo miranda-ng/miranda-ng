@@ -161,7 +161,7 @@ void SetHIMETRICtoDP(HDC hdc, SIZE* sz)
 
 HBITMAP BmpFilterLoadBitmap(BOOL *bIsTransparent, const wchar_t *ptszFilename)
 {
-	FIBITMAP *dib = (FIBITMAP*)Image_Load(ptszFilename, IMGL_RETURNDIB | IMGL_WCHAR);
+	FIBITMAP *dib = (FIBITMAP*)Image_Load(ptszFilename, IMGL_RETURNDIB);
 	if (dib == nullptr)
 		return nullptr;
 
@@ -211,11 +211,11 @@ int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 
 	IMGSRVC_INFO i = { 0 };
 	i.cbSize = sizeof(IMGSRVC_INFO);
-	i.szName.w = tszFilename;
+	i.pwszName = tszFilename;
 	i.hbm = hBmp;
 	i.dwMask = IMGI_HBITMAP;
 	i.fif = FIF_UNKNOWN;
-	return !Image_Save(&i, MAKELONG(IMGL_WCHAR, flags));
+	return !Image_Save(&i, flags);
 }
 
 // Other utilities ////////////////////////////////////////////////////////////////////////////////
