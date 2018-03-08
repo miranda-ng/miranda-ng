@@ -880,6 +880,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	char   *setStatusNoteText, *setStatusMoodData;
 	void   __cdecl SetStatusNoteThread(void *pArguments);
+	int    SetStatusNote(const char *szStatusNote, DWORD dwDelay, int bForced);
 	int    SetStatusMood(const char *szMoodData, DWORD dwDelay);
 
 	void   writeDbInfoSettingTLVStringUtf(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv);

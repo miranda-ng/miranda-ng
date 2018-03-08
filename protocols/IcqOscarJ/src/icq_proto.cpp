@@ -1505,6 +1505,12 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 
 	// New status is OFFLINE
 	if (nNewStatus == ID_STATUS_OFFLINE) { // for quick logoff
+		if (icqOnline()) { // set offline status note (otherwise the old will remain)
+			char *szOfflineNote = PrepareStatusNote(nNewStatus);
+			SetStatusNote(szOfflineNote, 0, FALSE);
+			SAFE_FREE(&szOfflineNote);
+		}
+
 		m_iDesiredStatus = nNewStatus;
 
 		if (hServerConn) { // Connected, Send disconnect packet
@@ -1556,6 +1562,11 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 			SetCurrentStatus(nNewStatus);
 
 			char *szStatusNote = PrepareStatusNote(nNewStatus);
+
+			//! This is a bit tricky, we do trigger status note change thread and then
+			// change the status note right away (this spares one packet) - so SetStatusNote()
+			// will only change User Details Directory
+			SetStatusNote(szStatusNote, 6000, FALSE);
 
 			if (m_iStatus == ID_STATUS_INVISIBLE) {
 				if (m_bSsiEnabled)
@@ -1730,8 +1741,15 @@ int __cdecl CIcqProto::SetAwayMsg(int status, const wchar_t* msg)
 		*ppszMsg = szNewUtf;
 		szNewUtf = nullptr;
 
-		if ((m_iStatus == status) && icqOnline()) // update current status note
+		if ((m_iStatus == status) && icqOnline()) {	// update current status note
+			char *szNote = *ppszMsg ? *ppszMsg : "";
+
+			BYTE bXStatus = getContactXStatus(NULL);
+			if (!bXStatus)
+				SetStatusNote(szNote, 1000, FALSE);
+
 			icq_sendSetAimAwayMsgServ(*ppszMsg);
+		}
 	}
 	SAFE_FREE(&szNewUtf);
 
