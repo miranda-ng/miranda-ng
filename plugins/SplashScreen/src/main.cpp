@@ -23,15 +23,12 @@ CLIST_INTERFACE *pcli;
 HINSTANCE hInst = nullptr;
 int hLangpack;
 
-static HMODULE hAdvaimg = nullptr;
-
 BOOL bstartup = true; // startup?
 BOOL bserviceinvoked = false;
 BOOL bmodulesloaded = false; // modules are loaded
-BOOL png2dibavail = true; // can we use png2dib service?
 
 // path to miranda's dir, config file path, splash path, sound path
-wchar_t szDllName[MAX_PATH], szSplashFile[MAX_PATH], szSoundFile[MAX_PATH], szhAdvaimgPath[MAX_PATH], szPrefix[128], inBuf[80];
+wchar_t szDllName[MAX_PATH], szSplashFile[MAX_PATH], szSoundFile[MAX_PATH], szPrefix[128], inBuf[80];
 wchar_t *szMirDir;
 char szVersion[MAX_PATH];
 #ifdef _DEBUG
@@ -64,7 +61,6 @@ void SplashMain()
 	if (bstartup) {
 		// Retrive path to exe of current running Miranda is located
 		szMirDir = Utils_ReplaceVarsW(L"%miranda_path%");
-		mir_snwprintf(szhAdvaimgPath, L"%s\\plugins\\advaimg.dll", szMirDir);
 		Miranda_GetVersionText(szVersion, MAX_PATH);
 
 		#ifdef _DEBUG
@@ -269,10 +265,6 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	UnregisterClass(SPLASH_CLASS, hInst);
-
-	// Freeing loaded libraries
-	if (hAdvaimg)
-		FreeLibrary(hAdvaimg);
 
 	#ifdef _DEBUG
 	logMessage(L"Unload", L"Job done");
