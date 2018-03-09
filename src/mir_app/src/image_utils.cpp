@@ -216,7 +216,7 @@ MIR_APP_DLL(int) Image_Save(const IMGSRVC_INFO *isi, int iFlags)
 		return 0;
 
 	int ret = 0;
-	if (fif == FIF_PNG || fif == FIF_BMP || fif == FIF_JNG)
+	if (fif == FIF_PNG || fif == FIF_BMP/* || fif == FIF_JNG*/)
 		ret = FreeImage_SaveU(fif, dib, isi->pwszName, iFlags);
 	else {
 		FIBITMAP *dib_new = FreeImage_ConvertTo24Bits(dib);
