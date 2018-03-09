@@ -381,39 +381,40 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 
 static void sttBuildHotkeyList(HWND hwndList)
 {
-	int i, nItems = 0;
 	ListView_DeleteAllItems(hwndList);
 
-	for (i = 0; i < hotkeys.getCount(); i++) {
+	int nItems = 0;
+	THotkeyItem *prevItem = nullptr;
+	for (auto &item : hotkeys) {
 		LVITEM lvi = { 0 };
-		THotkeyItem *item = hotkeys[i];
 
-		if (item->OptDeleted)
-			continue;
+		if (!item->OptDeleted) {
+			if (!prevItem || mir_wstrcmp(item->pwszSection, prevItem->pwszSection)) {
+				lvi.mask = LVIF_TEXT | LVIF_PARAM;
+				lvi.iItem = nItems++;
+				lvi.iSubItem = 0;
+				lvi.lParam = 0;
+				lvi.pszText = item->getSection();
+				ListView_InsertItem(hwndList, &lvi);
+				ListView_SetCheckState(hwndList, lvi.iItem, TRUE);
 
-		if (!i || mir_wstrcmp(item->pwszSection, hotkeys[i - 1]->pwszSection)) {
-			lvi.mask = LVIF_TEXT | LVIF_PARAM;
+				lvi.mask = LVIF_TEXT;
+				lvi.iSubItem = 1;
+				lvi.pszText = item->pwszSection;
+				ListView_SetItem(hwndList, &lvi);
+
+				lvi.iSubItem = 0;
+			}
+
+			lvi.mask = LVIF_PARAM | LVIF_INDENT;
+			lvi.iIndent = 1;
 			lvi.iItem = nItems++;
-			lvi.iSubItem = 0;
-			lvi.lParam = 0;
-			lvi.pszText = item->getSection();
+			lvi.lParam = (LPARAM)item;
 			ListView_InsertItem(hwndList, &lvi);
-			ListView_SetCheckState(hwndList, lvi.iItem, TRUE);
-
-			lvi.mask = LVIF_TEXT;
-			lvi.iSubItem = 1;
-			lvi.pszText = item->pwszSection;
-			ListView_SetItem(hwndList, &lvi);
-
-			lvi.iSubItem = 0;
+			sttOptionsSetupItem(hwndList, nItems - 1, item);
 		}
 
-		lvi.mask = LVIF_PARAM | LVIF_INDENT;
-		lvi.iIndent = 1;
-		lvi.iItem = nItems++;
-		lvi.lParam = (LPARAM)item;
-		ListView_InsertItem(hwndList, &lvi);
-		sttOptionsSetupItem(hwndList, nItems - 1, item);
+		prevItem = item;
 	}
 
 	ListView_SortItemsEx(hwndList, sttOptionsSortList, (LPARAM)hwndList);

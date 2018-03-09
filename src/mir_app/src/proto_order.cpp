@@ -47,7 +47,8 @@ bool CheckProtocolOrder(void)
 	for (;;) {
 		// Find account with this id
 		for (i = 0; i < accounts.getCount(); i++)
-			if (accounts[i]->iOrder == id) break;
+			if (accounts[i]->iOrder == id)
+				break;
 
 		// Account with id not found
 		if (i == accounts.getCount()) {

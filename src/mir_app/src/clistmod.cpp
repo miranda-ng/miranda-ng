@@ -52,7 +52,7 @@ struct ProtoIconIndex
 	int iIconBase;
 };
 
-OBJLIST<ProtoIconIndex> protoIconIndex(5);
+OBJLIST<ProtoIconIndex> protoIconIndex(5, PtrKeySortT);
 
 wchar_t* fnGetStatusModeDescription(int mode, int flags)
 {
@@ -180,9 +180,9 @@ static void AddProtoIconIndex(PROTOACCOUNT *pa)
 
 static void RemoveProtoIconIndex(PROTOACCOUNT *pa)
 {
-	for (int i = 0; i < protoIconIndex.getCount(); i++)
-		if (mir_strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
-			protoIconIndex.remove(i);
+	for (auto &it : protoIconIndex)
+		if (mir_strcmp(it->szProto, pa->szModuleName) == 0) {
+			protoIconIndex.remove(it);
 			break;
 		}
 }

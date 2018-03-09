@@ -159,8 +159,8 @@ static void LoadGroups(LIST<ExtraIconGroup> &groups)
 static ExtraIconGroup* IsInGroup(LIST<ExtraIconGroup> &groups, BaseExtraIcon *extra)
 {
 	for (auto &group : groups)
-		for (int j = 0; j < group->m_items.getCount(); j++)
-			if (extra == group->m_items[j])
+		for (auto &it : group->m_items)
+			if (extra == it)
 				return group;
 
 	return nullptr;
@@ -179,8 +179,8 @@ void RebuildListsBasedOnGroups(LIST<ExtraIconGroup> &groups)
 	extraIconsBySlot.destroy();
 
 	for (auto &group : groups) {
-		for (int j = 0; j < group->m_items.getCount(); j++)
-			extraIconsByHandle.put(group->m_items[j]->getID() - 1, group);
+		for (auto &it : group->m_items)
+			extraIconsByHandle.put(it->getID()-1, group);
 
 		extraIconsBySlot.insert(group);
 	}

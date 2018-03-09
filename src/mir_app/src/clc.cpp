@@ -384,18 +384,19 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
 			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
 				int groupId = atoi(dbcws->szSetting) + 1;
-				int i, eq;
-				//check name of group and ignore message if just being expanded/collapsed
+
+				// check name of group and ignore message if just being expanded/collapsed
 				if (Clist_FindItem(hwnd, dat, groupId | HCONTACT_ISGROUP, &contact, &group, nullptr)) {
 					CMStringW szFullName(contact->szText);
 					while (group->parent) {
 						ClcContact *cc = nullptr;
-						for (i = 0; i < group->parent->cl.getCount(); i++) {
-							cc = group->parent->cl[i];
-							if (cc->group == group)
+						for (auto &it : group->parent->cl)
+							if (it->group == group) {
+								cc = it;
 								break;
-						}
-						if (i == group->parent->cl.getCount()) {
+							}
+
+						if (cc == nullptr) {
 							szFullName.Empty();
 							break;
 						}
@@ -403,6 +404,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 						group = group->parent;
 					}
 
+					int eq;
 					if (dbcws->value.type == DBVT_ASCIIZ)
 						eq = !mir_wstrcmp(szFullName, _A2T(dbcws->value.pszVal+1));
 					else
