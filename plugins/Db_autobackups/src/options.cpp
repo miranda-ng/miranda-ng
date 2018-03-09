@@ -137,7 +137,7 @@ void COptionsDlg::OnApply()
 	}
 
 	int currentService = m_cloudFileService.GetCurSel();
-	options.cloudfile_service = currentService > 0
+	options.cloudfile_service = currentService >= 0
 		? (char*)m_cloudFileService.GetItemData(currentService)
 		: nullptr;
 }
