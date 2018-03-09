@@ -16,8 +16,8 @@ protected:
 		: m_moduleName(moduleName)
 	{
 		wchar_t path[MAX_PATH];
-		mir_snwprintf(path, "%s\%s.txt", VARSW("%miranda_logpath%"), moduleName);
-		m_hLogger = mir_createLog(moduleName, nullptr, path)
+		mir_snwprintf(path, L"%s\%s.txt", VARSW(L"%miranda_logpath%"), moduleName);
+		m_hLogger = mir_createLog(moduleName, nullptr, path, 0);
 	}
 
 	~PLUGIN()
@@ -32,7 +32,7 @@ protected:
 	{
 		va_list args;
 		va_start(args, szFormat);
-		mir_writeLogVA(m_hLogger, args);
+		mir_writeLogVA(m_hLogger, szFormat, args);
 		va_end(args);
 	}
 
@@ -40,7 +40,7 @@ protected:
 	{
 		va_list args;
 		va_start(args, wszFormat);
-		mir_writeLogVW(m_hLogger, args);
+		mir_writeLogVW(m_hLogger, wszFormat, args);
 		va_end(args);
 	}
 
