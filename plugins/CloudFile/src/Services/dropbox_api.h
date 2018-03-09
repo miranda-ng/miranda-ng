@@ -4,8 +4,8 @@
 namespace DropboxAPI
 {
 #define DROPBOX_API_VER "/2"
-#define DROPBOX_WWW_URL "https://www.dropbox.com"
 #define DROPBOX_API "https://api.dropboxapi.com"
+#define DROPBOX_API_OAUTH DROPBOX_API "/oauth2"
 #define DROPBOX_API_RPC DROPBOX_API DROPBOX_API_VER
 #define DROPBOX_CONTENT "https://content.dropboxapi.com"
 #define DROPBOX_API_CU DROPBOX_CONTENT DROPBOX_API_VER
@@ -13,11 +13,13 @@ namespace DropboxAPI
 #define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
 #include "../../../miranda-private-keys/Dropbox/secret_key.h"
 
+#define DROPBOX_API_AUTH "https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY
+
 	class GetAccessTokenRequest : public HttpRequest
 	{
 	public:
 		GetAccessTokenRequest(const char *requestToken) :
-			HttpRequest(REQUEST_POST, DROPBOX_API "/oauth2/token")
+			HttpRequest(REQUEST_POST, DROPBOX_API_OAUTH "/token")
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -32,7 +34,7 @@ namespace DropboxAPI
 	{
 	public:
 		RevokeAccessTokenRequest(const char *token) :
-			HttpRequest(REQUEST_POST, DROPBOX_API "/oauth2/token/revoke")
+			HttpRequest(REQUEST_POST, DROPBOX_API_OAUTH "/token/revoke")
 		{
 			AddBearerAuthHeader(token);
 		}
@@ -150,7 +152,7 @@ namespace DropboxAPI
 	{
 	public:
 		CreateFolderRequest(const char *token, const char *path) :
-			HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/create_folder")
+			HttpRequest(REQUEST_POST, DROPBOX_API_RPC "/files/create_folder_v2")
 		{
 			AddBearerAuthHeader(token);
 			AddHeader("Content-Type", "application/json");

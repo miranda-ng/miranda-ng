@@ -63,7 +63,7 @@ void CYandexService::Login()
 		return;
 	}
 
-	COAuthDlg dlg(this, YANDEX_OAUTH "/authorize?response_type=code&client_id=" YANDEX_APP_ID, RequestAccessTokenThread);
+	COAuthDlg dlg(this, YANDEX_AUTH, RequestAccessTokenThread);
 	dlg.DoModal();
 }
 

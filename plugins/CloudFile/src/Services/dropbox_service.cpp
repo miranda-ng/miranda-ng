@@ -40,7 +40,7 @@ bool CDropboxService::IsLoggedIn()
 
 void CDropboxService::Login()
 {
-	COAuthDlg(this, DROPBOX_WWW_URL "/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY, RequestAccessTokenThread).DoModal();
+	COAuthDlg(this, DROPBOX_API_AUTH, RequestAccessTokenThread).DoModal();
 }
 
 void CDropboxService::Logout()

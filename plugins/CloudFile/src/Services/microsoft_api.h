@@ -3,17 +3,19 @@
 
 namespace OneDriveAPI
 {
-#define MS_OAUTH "https://login.microsoftonline.com/common/oauth2/v2.0"
+#define MICROSOFT_OAUTH "https://login.microsoftonline.com/common/oauth2/v2.0"
 #define ONEDRIVE_API "https://graph.microsoft.com/v1.0/drive"
 
 #define MS_APP_ID "72b87ac7-42eb-4a97-a620-91a7f8d8b5ae"
 #include "../../../miranda-private-keys/Microsoft/client_secret.h"
 
+#define MICROSOFT_AUTH MICROSOFT_OAUTH "/authorize?response_type=code&scope=offline_access%20https%3A%2F%2Fgraph.microsoft.com%2Ffiles.readWrite&redirect_uri=https%3A%2F%2Foauth.miranda-ng.org%2Fverification&client_id=" MS_APP_ID
+
 	class GetAccessTokenRequest : public HttpRequest
 	{
 	public:
 		GetAccessTokenRequest(const char *code) :
-			HttpRequest(REQUEST_POST, MS_OAUTH "/token")
+			HttpRequest(REQUEST_POST, MICROSOFT_OAUTH "/token")
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -29,7 +31,7 @@ namespace OneDriveAPI
 	{
 	public:
 		RefreshTokenRequest(const char *refreshToken) :
-			HttpRequest(REQUEST_POST, MS_OAUTH "/token")
+			HttpRequest(REQUEST_POST, MICROSOFT_OAUTH "/token")
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 

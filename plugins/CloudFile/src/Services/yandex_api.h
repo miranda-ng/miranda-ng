@@ -4,10 +4,13 @@
 namespace YandexAPI
 {
 #define YANDEX_OAUTH "https://oauth.yandex.ru"
-#define YADISK_API "https://cloud-api.yandex.net/v1/disk/resources"
+#define YADISK_API_VER "/v1"
+#define YADISK_API "https://cloud-api.yandex.net" YADISK_API_VER "/disk/resources"
 
 #define YANDEX_APP_ID "c311a5967cae4efa88d1af97d01ea0e8"
 #include "../../../miranda-private-keys/Yandex/client_secret.h"
+
+#define YANDEX_AUTH YANDEX_OAUTH "/authorize?response_type=code&client_id=" YANDEX_APP_ID
 
 	class GetAccessTokenRequest : public HttpRequest
 	{

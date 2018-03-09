@@ -4,24 +4,29 @@
 namespace GDriveAPI
 {
 #define GOOGLE_OAUTH "https://accounts.google.com/o/oauth2/v2"
-#define GDRIVE_API "https://www.googleapis.com/drive/v3/files"
-#define GDRIVE_UPLOAD "https://www.googleapis.com/upload/drive/v3/files"
+#define GOOGLE_API "https://www.googleapis.com"
+#define GDRIVE_API_OAUTH GOOGLE_API "/oauth2/v4"
+#define GDRIVE_API_VER "/v3"
+#define GDRIVE_API GOOGLE_API "/drive" GDRIVE_API_VER "/files"
+#define GDRIVE_UPLOAD GOOGLE_API "/upload/drive" GDRIVE_API_VER "/files"
 #define GDRIVE_SHARE "https://drive.google.com/open?id=%s"
 
-#define GOOGLE_APP_ID "528761318515-9hp30q3pcsk7c3qhbajs5ntvi7aiqp0b.apps.googleusercontent.com"
+#define GOOGLE_APP_ID "528761318515-h1etlccvk5vjsbjuuj8i73cud8do4adi.apps.googleusercontent.com"
 #include "../../../miranda-private-keys/Google/client_secret.h"
+
+#define GOOGLE_AUTH GOOGLE_OAUTH "/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&redirect_uri=https%3A%2F%2Foauth.miranda-ng.org%2Fverification&client_id=" GOOGLE_APP_ID
 
 	class GetAccessTokenRequest : public HttpRequest
 	{
 	public:
 		GetAccessTokenRequest(const char *code) :
-			HttpRequest(REQUEST_POST, "https://www.googleapis.com/oauth2/v4/token")
+			HttpRequest(REQUEST_POST, GDRIVE_API_OAUTH "/token")
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-			CMStringA data(CMStringDataFormat::FORMAT,
-				"redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id=%s&client_secret=%s&grant_type=authorization_code&code=%s",
-				GOOGLE_APP_ID, GOOGLE_CLIENT_SECRET, code);
+			CMStringA data = "redirect_uri=https://oauth.miranda-ng.org/verification";
+			data.AppendFormat("&client_id=%s&client_secret=%s", GOOGLE_APP_ID, GOOGLE_CLIENT_SECRET);
+			data.AppendFormat("&grant_type=authorization_code&code=%s", code);
 			SetData(data.GetBuffer(), data.GetLength());
 		}
 	};
@@ -30,7 +35,7 @@ namespace GDriveAPI
 	{
 	public:
 		RefreshTokenRequest(const char *refreshToken) :
-			HttpRequest(REQUEST_POST, "https://www.googleapis.com/oauth2/v4/token")
+			HttpRequest(REQUEST_POST, GDRIVE_API_OAUTH "/token")
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -76,8 +81,10 @@ namespace GDriveAPI
 			body.AppendChar(0x0A);
 			body.Append("Content-Type: application/octet-stream");
 			body.AppendChar(0x0A);
+			body.Append("Content-Transfer-Encoding: base64");
 			body.AppendChar(0x0A);
-			body.Append(data, size);
+			body.AppendChar(0x0A);
+			body.Append(ptrA(mir_base64_encode(data, size)));
 			body.AppendChar(0x0A);
 			body.Append("--upload--");
 

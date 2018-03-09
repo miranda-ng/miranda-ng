@@ -60,7 +60,7 @@ void CGDriveService::Login()
 		return;
 	}
 	
-	COAuthDlg dlg(this, GOOGLE_OAUTH "/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.file&redirect_uri=urn:ietf:wg:oauth:2.0:oob&client_id=" GOOGLE_APP_ID, RequestAccessTokenThread);
+	COAuthDlg dlg(this, GOOGLE_AUTH, RequestAccessTokenThread);
 	dlg.DoModal();
 }
 
@@ -84,9 +84,9 @@ unsigned CGDriveService::RequestAccessTokenThread(void *owner, void *param)
 	NLHR_PTR response(request.Send(service->m_hConnection));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
-		const char *error = response->dataLength
+		const char *error = response && response->dataLength
 			? response->pData
-			: service->HttpStatusToError(response->resultCode);
+			: service->HttpStatusToError(response ? response->resultCode : 0);
 
 		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), error);
 		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
