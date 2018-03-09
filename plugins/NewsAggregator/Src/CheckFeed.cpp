@@ -19,11 +19,11 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
+LPCTSTR CheckFeed(wchar_t *tszURL, CFeedEditor *pEditDlg)
 {
 	Netlib_LogfW(hNetlibUser, L"Started validating feed %s.", tszURL);
 	char *szData = nullptr;
-	GetNewsData(tszURL, &szData, NULL, hwndDlg);
+	GetNewsData(tszURL, &szData, NULL, pEditDlg);
 	if (szData) {
 		wchar_t *tszData = mir_utf8decodeW(szData);
 		if (!tszData)
@@ -70,7 +70,7 @@ LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 						if (!mir_wstrcmpi(xmlGetName(child), L"title")) {
 							wchar_t mes[MAX_PATH];
 							mir_snwprintf(mes, TranslateT("%s\nis a valid feed's address."), tszURL);
-							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
+							MessageBox(pEditDlg->GetHwnd(), mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -87,7 +87,7 @@ LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 						if (!mir_wstrcmpi(xmlGetName(child), L"title")) {
 							wchar_t mes[MAX_PATH];
 							mir_snwprintf(mes, TranslateT("%s\nis a valid feed's address."), tszURL);
-							MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
+							MessageBox(pEditDlg->GetHwnd(), mes, TranslateT("News Aggregator"), MB_OK | MB_ICONINFORMATION);
 							if (!mir_wstrcmpi(codepage, L"koi8-r")) {
 								wchar_t buf[MAX_PATH];
 								MultiByteToWideChar(20866, 0, _T2A(xmlGetText(child)), -1, buf, _countof(buf));
@@ -106,7 +106,7 @@ LPCTSTR CheckFeed(wchar_t *tszURL, HWND hwndDlg)
 	Netlib_LogfW(hNetlibUser, L"%s is not a valid feed's address.", tszURL);
 	wchar_t mes[MAX_PATH];
 	mir_snwprintf(mes, TranslateT("%s\nis not a valid feed's address."), tszURL);
-	MessageBox(hwndDlg, mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
+	MessageBox(pEditDlg->GetHwnd(), mes, TranslateT("News Aggregator"), MB_OK | MB_ICONERROR);
 	return nullptr;
 }
 

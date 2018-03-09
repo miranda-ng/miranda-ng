@@ -128,15 +128,15 @@ void     CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime
 void     CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 bool     IsMyContact(MCONTACT hContact);
-void     GetNewsData(wchar_t *szUrl, char **szData, MCONTACT hContact, HWND hwndDlg);
+void     GetNewsData(wchar_t *szUrl, char **szData, MCONTACT hContact, CFeedEditor *pEditDlg);
 time_t   __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType);
 void     CheckCurrentFeed(MCONTACT hContact);
 void     CheckCurrentFeedAvatar(MCONTACT hContact);
-LPCTSTR  CheckFeed(wchar_t* tszURL, HWND hwndDlg);
+LPCTSTR  CheckFeed(wchar_t* tszURL, CFeedEditor *pEditDlg);
 void     UpdateMenu(bool State);
 LPCTSTR  ClearText(CMStringW &value, const wchar_t *message);
 bool     DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
-void     CreateAuthString(char *auth, MCONTACT hContact, HWND hwndDlg);
+void     CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg);
 INT_PTR  CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 MCONTACT GetContactByNick(const wchar_t *nick);
 MCONTACT GetContactByURL(const wchar_t *url);

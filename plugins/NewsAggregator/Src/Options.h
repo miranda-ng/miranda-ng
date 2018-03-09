@@ -33,6 +33,8 @@ public:
 
 class CFeedEditor : public CDlgBase
 {
+	friend class CAuthRequest;
+
 private:
 	typedef CDlgBase CSuper;
 
@@ -45,9 +47,6 @@ private:
 	CCtrlEdit m_checktime; 
 	CCtrlSpin m_checktimespin;
 	CCtrlButton m_checkfeed;
-	CCtrlCheck m_useauth;
-	CCtrlEdit m_login;
-	CCtrlEdit m_password;
 	CCtrlEdit m_tagedit;
 	CCtrlButton m_reset;
 	CCtrlButton m_help;
@@ -63,6 +62,10 @@ protected:
 	void OnUseAuth(CCtrlBase*);
 
 public:
+	CCtrlCheck m_useauth;
+	CCtrlEdit m_login;
+	CCtrlEdit m_password;
+
 	CFeedEditor(int iItem, CCtrlListView *m_list, MCONTACT Contact);
 
 	__inline MCONTACT getContact() const { return m_hContact; }
@@ -129,6 +132,27 @@ protected:
 
 public:
 	CExportFeed();
+};
+
+class CAuthRequest : public CDlgBase
+{
+private:
+	typedef CDlgBase CSuper;
+
+	CFeedEditor *m_pDlg;
+	MCONTACT m_hContact;
+
+	CCtrlLabel m_feedname;
+	CCtrlEdit m_username;
+	CCtrlEdit m_password;
+	CCtrlButton m_ok;
+
+protected:
+	void OnInitDialog();
+	void OnOk(CCtrlBase*);
+
+public:
+	CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact);
 };
 
 #endif //_OPTIONS_H_

@@ -44,7 +44,7 @@ void NetlibUnInit()
 	hNetlibUser = nullptr;
 }
 
-void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
+void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor *pEditDlg)
 {
 	Netlib_LogfW(hNetlibUser, L"Getting feed data %s.", tszUrl);
 	NETLIBHTTPREQUEST nlhr = { 0 };
@@ -72,11 +72,11 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg
 	nlhr.headers[3].szName = "Connection";
 	nlhr.headers[3].szValue = "close";
 	char auth[256];
-	if (db_get_b(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
+	if (db_get_b(hContact, MODULE, "UseAuth", 0) || pEditDlg->m_useauth.IsChecked() /*IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)*/) {
 		nlhr.headersCount++;
 		nlhr.headers[4].szName = "Authorization";
 
-		CreateAuthString(auth, hContact, hwndDlg);
+		CreateAuthString(auth, hContact, pEditDlg);
 		nlhr.headers[4].szValue = auth;
 	}
 
@@ -93,11 +93,17 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg
 		}
 		else if (nlhrReply->resultCode == 401) {
 			Netlib_LogfW(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
-			ItemInfo SelItem = {};
-			SelItem.hwndList = hwndDlg;
-			SelItem.hContact = hContact;
-			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
-				GetNewsData(tszUrl, szData, hContact, hwndDlg);
+
+			CAuthRequest *pDlg = new CAuthRequest(pEditDlg, hContact);
+			if (pDlg->DoModal() == IDOK)
+				GetNewsData(tszUrl, szData, hContact, pEditDlg);
+
+
+			//ItemInfo SelItem = {};
+			//SelItem.hwndList = hwndDlg;
+			//SelItem.hContact = hContact;
+			//if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
+				//GetNewsData(tszUrl, szData, hContact, hwndDlg);
 		}
 		else Netlib_LogfW(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
 		
