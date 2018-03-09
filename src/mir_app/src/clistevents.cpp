@@ -317,6 +317,10 @@ int fnEventsProcessTrayDoubleClick(int index)
 		}
 	}
 
+	// by default use the first event
+	if (pEvent == nullptr)
+		pEvent = &g_cliEvents[0];
+
 	// copy info in case that events' array could be shifted by the service call
 	MCONTACT hContact = pEvent->hContact;
 	MEVENT hDbEvent = pEvent->hDbEvent;
