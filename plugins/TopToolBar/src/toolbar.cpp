@@ -273,12 +273,12 @@ int ArrangeButtons()
 		nextX = 0;
 		if (g_ctrl->bSingleLine)
 			break;
-	} while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
+	}
+		while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
 
-	for (i = iLastButtonId; i < Buttons.getCount(); i++) {
+	for (i = iLastButtonId; i < Buttons.getCount(); i++)
 		if (nullptr != Buttons[i]->hwnd) /* Wine fix. */
 			hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, nullptr, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
-	}
 
 	if (hdwp)
 		EndDeferWindowPos(hdwp);

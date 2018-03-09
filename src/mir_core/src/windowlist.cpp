@@ -66,12 +66,12 @@ MIR_CORE_DLL(int) WindowList_Remove(MWindowList hList, HWND hwnd)
 {
 	if (hList == nullptr) return 1;
 	
-	for (int i = 0; i < hList->getCount(); i++) {
-		if ((*hList)[i].hWnd == hwnd) {
-			hList->remove(i);
+	for (auto &it : *hList)
+		if (it->hWnd == hwnd) {
+			hList->remove(it);
 			return 0;
 		}
-	}
+
 	return 1;
 }
 

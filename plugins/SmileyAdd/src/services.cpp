@@ -279,8 +279,8 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 	Menu_ShowItem(hContactMenuItem, haveMenu);
 
-	for (int i = 0; i < menuHandleArray.getCount(); i++)
-		Menu_RemoveItem((HGENMENU)menuHandleArray[i]);
+	for (auto &it : menuHandleArray)
+		Menu_RemoveItem((HGENMENU)it);
 	menuHandleArray.destroy();
 
 	if (haveMenu) {

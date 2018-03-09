@@ -297,21 +297,9 @@ void CMsnProto::MSN_CreateContList(void)
 					cxml.AppendFormat("<c n=\"%s\" t=\"%d\"><s l=\"%d\" n=\"PE\"/><s l=\"%d\" n=\"IM\"/><s l=\"%d\" n=\"SKP\"/><s l=\"%d\" n=\"PUB\"/></c>", C.email, C.netId, list, list, list, list);
 					used[j] = true;
 				}
-				/* Seems to be unused in Skype and causing errors
-				else if (dom != NULL && lastds != NULL && _stricmp(lastds, dom) == 0) {
-					if (newdom) {
-						cxml.AppendFormat("<d n=\"%s\">", lastds + 1);
-						newdom = false;
-					}
-
-					*(char*)dom = 0;
-					cxml.AppendFormat("<c n=\"%s\" t=\"%d\"><s n=\"IM\" l=\"%d\"/></c>", C.email, C.netId, C.list & ~(LIST_RL | LIST_LL));
-					*(char*)dom = '@';
-					used[j] = true;
-				}
-				*/
 			}
-			if (!newdom) cxml.Append(lastds ? "</d>" : "</skp>");
+			if (!newdom)
+				cxml.Append(lastds ? "</d>" : "</skp>");
 		}
 	}
 

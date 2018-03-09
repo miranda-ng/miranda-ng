@@ -209,12 +209,10 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 {
 	LIST<wchar_t> ListOfNonEmptyFields(20, (LIST<wchar_t>::FTSortFunc)TCharKeyCmp);
 	LIST<wchar_t> ListOfFields(20);
-	LIST<void>* plUsersInfo = (LIST<void>*)pvUsersInfo;
-	int i, nUsersFound = plUsersInfo->getCount();
+	LIST<U_TCHAR_MAP> *plUsersInfo = (LIST<U_TCHAR_MAP>*)pvUsersInfo;
 
 	// lets fill the ListOfNonEmptyFields but in users order
-	for (i = 0; i < nUsersFound; i++) {
-		U_TCHAR_MAP* pmUserData = (U_TCHAR_MAP*)plUsersInfo->operator [](i);
+	for (auto &pmUserData : *plUsersInfo) {
 		int nUserFields = pmUserData->getCount();
 		for (int j = 0; j < nUserFields; j++) {
 			wchar_t *var = pmUserData->getKeyName(j);
@@ -225,7 +223,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 
 	// now fill the ListOfFields but order is from pmAllFields
 	int nAllCount = pmAllFields->getCount();
-	for (i = 0; i < nAllCount; i++) {
+	for (int i = 0; i < nAllCount; i++) {
 		wchar_t *var = pmAllFields->getUnOrderedKeyName(i);
 		if (var && ListOfNonEmptyFields.getIndex(var) < 0)
 			continue;
@@ -241,7 +239,7 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	Results.nFieldCount = nFieldCount;
 
 	/* Sending Columns Titles */
-	for (i = 0; i < nFieldCount; i++) {
+	for (int i = 0; i < nFieldCount; i++) {
 		wchar_t *var = ListOfFields[i];
 		if (var)
 			Results.pszFields[i] = pmAllFields->operator [](var);
@@ -253,10 +251,9 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 	/* Sending Users Data */
 	Results.psr.cbSize = sizeof(Results.psr); // sending user data
 
-	for (i = 0; i < nUsersFound; i++) {
+	for (auto &pmUserData : *plUsersInfo) {
 		wchar_t buff[200];
 		buff[0] = 0;
-		U_TCHAR_MAP *pmUserData = (U_TCHAR_MAP *)plUsersInfo->operator [](i);
 		for (int j = 0; j < nFieldCount; j++) {
 			wchar_t *var = ListOfFields[j];
 			wchar_t *value = pmUserData->operator [](var);
@@ -554,14 +551,11 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 			SetDlgItemTextA(hwndDlg, IDC_SERVER, szServerName);
 			SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)szServerName);
 			//TO DO: Add Transports here
-			int i, transpCount = dat->ppro->m_lstTransports.getCount();
-			for (i = 0; i < transpCount; i++) {
-				wchar_t *szTransp = dat->ppro->m_lstTransports[i];
-				if (szTransp)
-					JabberSearchAddUrlToRecentCombo(hwndDlg, szTransp);
-			}
+			for (auto &it : dat->ppro->m_lstTransports)
+				if (it != nullptr)
+					JabberSearchAddUrlToRecentCombo(hwndDlg, it);
 
-			for (i = 0; i < 10; i++) {
+			for (int i = 0; i < 10; i++) {
 				char key[30];
 				mir_snprintf(key, "RecentlySearched_%d", i);
 				ptrW szValue(dat->ppro->getWStringA(key));

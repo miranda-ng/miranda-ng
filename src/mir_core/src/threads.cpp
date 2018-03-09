@@ -218,11 +218,9 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 	{
 		mir_cslock lck(csThreads);
 
-		for (int j = threads.getCount(); j--;) {
-			THREAD_WAIT_ENTRY *p = threads[j];
-			if (p->pObject == owner)
-				threadPool[threadCount++] = p->hThread;
-		}
+		for (auto &it : threads)
+			if (it->pObject == owner)
+				threadPool[threadCount++] = it->hThread;
 	}
 
 	// is there anything to kill?
@@ -250,19 +248,17 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 
 static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 {
-	{
-		mir_cslock lck(csThreads);
-		for (auto &p : threads) {
-			char szModuleName[MAX_PATH];
-			GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
-			Netlib_Logf(nullptr, "Killing thread %s:%p (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
-			TerminateThread(p->hThread, 9999);
-			CloseHandle(p->hThread);
-			mir_free(p);
-		}
-
-		threads.destroy();
+	mir_cslock lck(csThreads);
+	for (auto &p : threads) {
+		char szModuleName[MAX_PATH];
+		GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
+		Netlib_Logf(nullptr, "Killing thread %s:%p (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
+		TerminateThread(p->hThread, 9999);
+		CloseHandle(p->hThread);
+		mir_free(p);
 	}
+
+	threads.destroy();
 
 	SetEvent(hThreadQueueEmpty);
 }

@@ -27,9 +27,8 @@ static void SelectAll(HWND hDlg, bool bEnable)
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 
-	for (int i = 0; i < todo.getCount(); i++) {
+	for (int i = 0; i < todo.getCount(); i++)
 		ListView_SetCheckState(hwndList, i, todo[i].bEnabled = bEnable);
-	}
 }
 
 static void ApplyDownloads(void *param)

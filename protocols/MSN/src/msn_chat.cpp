@@ -152,9 +152,9 @@ void CMsnProto::MSN_Promoteuser(GCHOOK *gch, const char *pszRole)
 const wchar_t *CMsnProto::MSN_GCGetRole(GCThreadData* thread, const char *pszWLID) 
 {
 	if (thread)
-		for (int j = 0; j < thread->mJoinedContacts.getCount(); j++)
-			if (!mir_strcmp(thread->mJoinedContacts[j]->WLID, pszWLID))
-				return thread->mJoinedContacts[j]->role;
+		for (auto &it : thread->mJoinedContacts)
+			if (!mir_strcmp(it->WLID, pszWLID))
+				return it->role;
 
 	return nullptr;
 }

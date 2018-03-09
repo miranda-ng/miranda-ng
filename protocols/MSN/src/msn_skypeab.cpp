@@ -405,33 +405,3 @@ bool CMsnProto::MSN_SKYABSearch(const char *keyWord, HANDLE hSearch)
 	else hHttpsConnection = nullptr;
 	return bRet;
 }
-
-/*
-class GetContactsInfoRequest : public HttpRequest
-{
-public:
-	GetContactsInfoRequest(const char *token, const LIST<char> &skypenames, const char *skypename = "self") :
-		HttpRequest(REQUEST_POST, FORMAT, "api.skype.com/users/%s/contacts/profiles", skypename)
-	{
-		Headers
-			<< CHAR_VALUE("X-Skypetoken", token)
-			<< CHAR_VALUE("Accept", "application/json");
-
-		for (int i = 0; i < skypenames.getCount(); i++)
-			Body << CHAR_VALUE("contacts[]", skypenames[i]);
-	}
-};
-
-class GetContactStatusRequest : public HttpRequest
-{
-public:
-	GetContactStatusRequest(const char *regToken, const char *skypename, const char *server = SKYPE_ENDPOINTS_HOST) :
-		HttpRequest(REQUEST_GET, FORMAT, "%s/v1/users/ME/contacts/8:%s/presenceDocs/messagingService", server, skypename)
-	{
-		Headers
-			<< CHAR_VALUE("Accept", "application/json, text/javascript")
-			<< FORMAT_VALUE("RegistrationToken", "registrationToken=%s", regToken);
-	}
-};
-
-*/

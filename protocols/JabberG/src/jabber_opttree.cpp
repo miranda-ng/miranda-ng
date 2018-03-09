@@ -175,10 +175,10 @@ void CCtrlTreeOpts::OnApply()
 {
 	CCtrlTreeView::OnApply();
 
-	for (int i = 0; i < m_options.getCount(); i++) {
+	for (auto &it : m_options) {
 		TVITEMEX tvi;
-		GetItem(m_options[i]->m_hItem, &tvi);
-		*m_options[i]->m_option = ((tvi.iImage == IMG_CHECK) || (tvi.iImage == IMG_RCHECK)) ? 1 : 0;
+		GetItem(it->m_hItem, &tvi);
+		*it->m_option = ((tvi.iImage == IMG_CHECK) || (tvi.iImage == IMG_RCHECK)) ? 1 : 0;
 	}
 }
 
@@ -208,11 +208,11 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 		break;
 
 	case IMG_NORCHECK:
-		for (int i = 0; i < m_options.getCount(); i++) {
-			if (m_options[i]->m_groupId == m_options[tvi.lParam]->m_groupId) {
+		for (auto &it : m_options) {
+			if (it->m_groupId == m_options[tvi.lParam]->m_groupId) {
 				TVITEMEX tvi_tmp;
 				tvi_tmp.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-				tvi_tmp.hItem = m_options[i]->m_hItem;
+				tvi_tmp.hItem = it->m_hItem;
 				tvi_tmp.iImage = tvi_tmp.iSelectedImage = IMG_NORCHECK;
 				SetItem(&tvi_tmp);
 			}

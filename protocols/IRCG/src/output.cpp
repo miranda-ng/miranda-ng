@@ -21,39 +21,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static CMStringW FormatOutput(const CIrcMessage* pmsg)
+static CMStringW FormatOutput(const CIrcMessage *pmsg)
 {
 	CMStringW sMessage;
 
 	if (pmsg->m_bIncoming) { // Is it an incoming message?
 		if (pmsg->sCommand == L"WALLOPS" && pmsg->parameters.getCount() > 0) {
 			sMessage.Format(TranslateT("WallOps from %s: "), pmsg->prefix.sNick.c_str());
-			for (int i = 0; i < pmsg->parameters.getCount(); i++) {
-				sMessage += pmsg->parameters[i];
-				if (i != pmsg->parameters.getCount() - 1)
-					sMessage += L" ";
-			}
+			for (auto &it : pmsg->parameters)
+				sMessage += *it + L" ";
 			goto THE_END;
 		}
 
 		if (pmsg->sCommand == L"INVITE" && pmsg->parameters.getCount() > 1) {
 			sMessage.Format(TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
-			for (int i = 2; i < pmsg->parameters.getCount(); i++) {
-				sMessage += L": " + pmsg->parameters[i];
-				if (i != pmsg->parameters.getCount() - 1)
-					sMessage += L" ";
-			}
+			for (int i = 2; i < pmsg->parameters.getCount(); i++)
+				sMessage += L": " + pmsg->parameters[i] + L" ";
 			goto THE_END;
 		}
 
 		int index = _wtoi(pmsg->sCommand.c_str());
 		if (index == 301 && pmsg->parameters.getCount() > 0) {
 			sMessage.Format(TranslateT("%s is away"), pmsg->parameters[1].c_str());
-			for (int i = 2; i < pmsg->parameters.getCount(); i++) {
-				sMessage += L": " + pmsg->parameters[i];
-				if (i != pmsg->parameters.getCount() - 1)
-					sMessage += L" ";
-			}
+			for (int i = 2; i < pmsg->parameters.getCount(); i++)
+				sMessage += L": " + pmsg->parameters[i] + L" ";
 			goto THE_END;
 		}
 
@@ -62,11 +53,8 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 
 		if (index == 303) {  // ISON command
 			sMessage = TranslateT("These are online: ");
-			for (int i = 1; i < pmsg->parameters.getCount(); i++) {
-				sMessage += pmsg->parameters[i];
-				if (i != pmsg->parameters.getCount() - 1)
-					sMessage += L", ";
-			}
+			for (int i = 1; i < pmsg->parameters.getCount(); i++)
+				sMessage += pmsg->parameters[i] + L", ";
 			goto THE_END;
 		}
 
@@ -88,11 +76,8 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 		}
 		else {
 			sMessage.Format(TranslateT("Notice to %s: "), pmsg->parameters[0].c_str());
-			for (int i = 1; i < pmsg->parameters.getCount(); i++) {
-				sMessage += pmsg->parameters[i];
-				if (i != pmsg->parameters.getCount() - 1)
-					sMessage += L" ";
-			}
+			for (int i = 1; i < pmsg->parameters.getCount(); i++)
+				sMessage += pmsg->parameters[i] + L" ";
 		}
 		goto THE_END;
 	}
@@ -116,6 +101,7 @@ static CMStringW FormatOutput(const CIrcMessage* pmsg)
 	}
 
 THE_END:
+	sMessage.TrimRight();
 	return sMessage;
 }
 

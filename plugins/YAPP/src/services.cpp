@@ -323,7 +323,7 @@ INT_PTR Popup_ShowHistory(WPARAM, LPARAM)
 	return 0;
 }
 
-LIST<POPUPCLASS> arClasses(3);
+LIST<POPUPCLASS> arClasses(3, PtrKeySortT);
 
 static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 {
@@ -361,15 +361,12 @@ static INT_PTR UnregisterPopupClass(WPARAM, LPARAM lParam)
 	POPUPCLASS *pc = (POPUPCLASS*)lParam;
 	if (pc == nullptr)
 		return 1;
+	if (arClasses.find(pc) == nullptr)
+		return 1;
 
-	for (int i=0; i < arClasses.getCount(); i++)
-		if (arClasses[i] == pc) {
-			arClasses.remove(i);
-			FreePopupClass(pc);
-			return 0;
-		}
-
-	return 1;
+	arClasses.remove(pc);
+	FreePopupClass(pc);
+	return 0;
 }
 
 static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)

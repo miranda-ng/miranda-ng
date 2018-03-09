@@ -65,17 +65,16 @@ TMsgQueue* msgQueue_find(MCONTACT hContact, int id)
 	MCONTACT hMeta = db_mc_getMeta(hContact);
 
 	mir_cslockfull lck(csMsgQueue);
-	for (int i = 0; i < msgQueue.getCount(); i++) {
-		TMsgQueue *item = msgQueue[i];
-		if ((item->hContact == hContact || item->hContact == hMeta) && item->id == id) {
-			msgQueue.remove(i);
+	for (auto &it : msgQueue) {
+		if ((it->hContact == hContact || it->hContact == hMeta) && it->id == id) {
+			msgQueue.remove(it);
 
 			if (!msgQueue.getCount() && timerId) {
 				KillTimer(nullptr, timerId);
 				timerId = 0;
 			}
 
-			return item;
+			return it;
 		}
 	}
 	return nullptr;

@@ -292,15 +292,16 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 				sttFillInfoLine(hwndTree, htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
 			}
 
-		for (int j = 0; j < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); j++, i++)
-			if (jcb & ppro->m_lstJabberFeatCapPairsDynamic[j]->jcbCap) {
+		for (auto &it : ppro->m_lstJabberFeatCapPairsDynamic) {
+			if (jcb & it->jcbCap) {
 				wchar_t szDescription[1024];
-				if (ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription)
-					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
+				if (it->szDescription)
+					mir_snwprintf(szDescription, L"%s (%s)", TranslateW(it->szDescription), it->szFeature);
 				else
-					wcsncpy_s(szDescription, ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature, _TRUNCATE);
-				sttFillInfoLine(hwndTree, htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
+					wcsncpy_s(szDescription, it->szFeature, _TRUNCATE);
+				sttFillInfoLine(hwndTree, htiCaps, nullptr, nullptr, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i++));
 			}
+		}
 	}
 
 	// Software info

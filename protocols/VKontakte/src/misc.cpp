@@ -519,14 +519,15 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 		}
 
 		if (!szCookieName.IsEmpty() && !szDomain.IsEmpty()) {
-			int k;
-			for (k = 0; k < m_cookies.getCount(); k++) {
-				if (m_cookies[k].m_name == szCookieName) {
-					m_cookies[k].m_value = szCookieVal;
+			bool bFound = false;
+			for (auto &it : m_cookies)
+				if (it->m_name == szCookieName) {
+					bFound = true;
+					it->m_value = szCookieVal;
 					break;
 				}
-			}
-			if (k == m_cookies.getCount())
+
+			if (!bFound)
 				m_cookies.insert(new CVkCookie(szCookieName, szCookieVal, szDomain));
 		}
 	}

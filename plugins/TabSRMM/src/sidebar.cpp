@@ -592,8 +592,8 @@ HRESULT CSideBar::removeSession(CTabBaseDlg *dat)
  */
 void CSideBar::scrollIntoView(const CSideBarButton *item)
 {
-	LONG	spaceUsed = 0, itemHeight = 0;
-	bool	fNeedLayout = false;
+	LONG spaceUsed = 0, itemHeight = 0;
+	bool fNeedLayout = false, bFound = false;
 
 	if (!m_isActive)
 		return;
@@ -601,45 +601,36 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
 	if (item == nullptr)
 		item = m_activeItem;
 
-	int i;
-	for (i = 0; i < m_buttonlist.getCount(); i++) {
-		CSideBarButton &p = m_buttonlist[i];
-		itemHeight = p.getHeight();
-		spaceUsed += (itemHeight + 1);
-		if (&p == item)
+	for (auto &it : m_buttonlist) {
+		itemHeight = it->getHeight();
+		spaceUsed += itemHeight;
+		if (it == item) {
+			bFound = true;
 			break;
+		}
 	}
 
 	RECT rc;
 	GetClientRect(m_hwndScrollWnd, &rc);
-
-	if (m_topHeight <= rc.bottom) {
+	if (m_topHeight <= rc.bottom)
 		m_firstVisibleOffset = 0;
-		Layout();
-		return;
-	}
 
-	if (i == m_buttonlist.getCount() || (i == 0 && m_firstVisibleOffset == 0)) {
-		Layout();
-		return;   // do nothing for the first item and .end() should not really happen
-	}
+	else if (!bFound || (item == &m_buttonlist[0] && m_firstVisibleOffset == 0))
+		; // do nothing for the first item and .end() should not really happen
 
-	if (spaceUsed <= rc.bottom && spaceUsed - (itemHeight + 1) >= m_firstVisibleOffset) {
-		Layout();
-		return;   // item fully visible, do nothing
-	}
+	else if (spaceUsed <= rc.bottom && spaceUsed - (itemHeight +1) >= m_firstVisibleOffset)
+		; // item fully visible, do nothing
 
-	/*
-	* button partially or not at all visible at the top
-	*/
-	if (spaceUsed < m_firstVisibleOffset || spaceUsed - (itemHeight + 1) < m_firstVisibleOffset) {
-		m_firstVisibleOffset = spaceUsed - (itemHeight + 1);
-		fNeedLayout = true;
-	}
-	else {
-		if (spaceUsed > rc.bottom) {				// partially or not at all visible at the bottom
+	else { // button partially or not at all visible at the top
+		if (spaceUsed < m_firstVisibleOffset || spaceUsed - (itemHeight + 1) < m_firstVisibleOffset) {
+			m_firstVisibleOffset = spaceUsed - (itemHeight + 1);
 			fNeedLayout = true;
-			m_firstVisibleOffset = spaceUsed - rc.bottom;
+		}
+		else {
+			if (spaceUsed > rc.bottom) {				// partially or not at all visible at the bottom
+				fNeedLayout = true;
+				m_firstVisibleOffset = spaceUsed - rc.bottom;
+			}
 		}
 	}
 

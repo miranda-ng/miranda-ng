@@ -255,12 +255,9 @@ void SvcFlagsOnModulesLoaded()
 
 void SvcFlagsUnloadModule()
 {
-	//Uninit message winsow
-	for (int i = 0; i < gMsgWndList.getCount(); i++) {
-		//this should not happen
-		delete gMsgWndList[i];
-		gMsgWndList.remove(i);
-	}
+	// Uninit message window
+	for (auto &it : gMsgWndList)
+		delete it;
 	gMsgWndList.destroy();
 
 	// Uninit misc

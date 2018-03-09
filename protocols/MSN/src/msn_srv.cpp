@@ -177,19 +177,22 @@ void CMsnProto::MSN_RemoveEmptyGroups(void)
 	int count = -1;
 	for (;;) {
 		MsnContact *msc = Lists_GetNext(count);
-		if (msc == nullptr) break;
+		if (msc == nullptr)
+			break;
 
 		char szGroupID[100];
 		if (!db_get_static(msc->hContact, m_szModuleName, "GroupID", szGroupID, sizeof(szGroupID))) {
 			const char *pId = szGroupID;
 			int i = m_arGroups.getIndex((ServerGroupItem*)&pId);
-			if (i > -1) ++cCount[i];
+			if (i > -1)
+				++cCount[i];
 		}
 	}
 
-	for (int i = m_arGroups.getCount(); i--;) {
-		if (cCount[i] == 0) MSN_DeleteServerGroup(m_arGroups[i]->id);
-	}
+	for (int i = m_arGroups.getCount(); i--;)
+		if (cCount[i] == 0)
+			MSN_DeleteServerGroup(m_arGroups[i]->id);
+
 	mir_free(cCount);
 }
 

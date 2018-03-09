@@ -315,8 +315,8 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 						// Toggle the Download button
 						bool enableOk = false;
 						OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-						for (int i=0; i < todo.getCount(); ++i) {
-							if (todo[i].bEnabled) {
+						for (auto &it : todo) {
+							if (it->bEnabled) {
 								enableOk = true;
 								break;
 							}
@@ -423,11 +423,10 @@ static void DlgUpdateSilent(void *param)
 	HNETLIBCONN nlc = nullptr;
 	// Count all updates that have been enabled
 	int count = 0;
-	for (int i = 0; i < UpdateFiles.getCount(); i++) {
-		if (UpdateFiles[i].bEnabled && !UpdateFiles[i].bDeleteOnly) {
+	for (auto &it : UpdateFiles) {
+		if (it->bEnabled && !it->bDeleteOnly) {
 			// download update
-			FILEURL *pFileUrl = &UpdateFiles[i].File;
-			if (!DownloadFile(pFileUrl, nlc)) {
+			if (!DownloadFile(&it->File, nlc)) {
 				// interrupt update as we require all components to be updated
 				Netlib_CloseHandle(nlc);
 				Skin_PlaySound("updatefailed");
