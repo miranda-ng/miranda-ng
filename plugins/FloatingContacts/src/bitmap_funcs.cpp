@@ -53,16 +53,6 @@ MyBitmap::MyBitmap(int w, int h)
 	allocate(w, h);
 }
 
-MyBitmap::MyBitmap(const char *fn, const char *fnAlpha)
-{
-	dcBmp = nullptr;
-	hBmp = nullptr;
-	bits = nullptr;
-	width = height = 0;
-	bitsSave = nullptr;
-	loadFromFile(fn, fnAlpha);
-}
-
 MyBitmap::~MyBitmap()
 {
 	delete[] bitsSave;
@@ -875,105 +865,6 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 	HRGN hRgn = ExtCreateRegion(nullptr, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
 	delete[] pRgnData;
 	return hRgn;
-}
-
-static int hex2dec(char hex)
-{
-	if ((hex >= '0') && (hex <= '9'))
-		return hex - '0';
-	if ((hex >= 'a') && (hex <= 'f'))
-		return hex - 'a' + 0xa;
-	if ((hex >= 'A') && (hex <= 'F'))
-		return hex - 'A' + 0xa;
-	return 0;
-}
-
-bool MyBitmap::loadFromFile_pixel(const char *fn)
-{
-	allocate(1, 1);
-	int r, g, b, a = 255;
-	const char *p = fn + mir_strlen("pixel:");
-	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
-	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
-	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
-	*bits = rgba(r, g, b, a);
-	return true;
-}
-
-bool MyBitmap::loadFromFile_gradient(const char *fn)
-{
-	const char *p = fn + mir_strlen("gradient:");
-
-	if (*p == 'h') allocate(256, 1);
-	else allocate(1, 256);
-
-	int r, g, b, a = 255;
-
-	p += 2;
-	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
-	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
-	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
-	COLOR32 from = rgba(r, g, b, a);
-
-	p += 7;
-	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
-	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
-	b = (hex2dec(p[4]) << 4) + hex2dec(p[5]);
-	COLOR32 to = rgba(r, g, b, a);
-
-	for (int i = 0; i < 256; ++i) {
-		bits[i] = rgba(
-			((255 - i) * getr(from) + i * getr(to)) / 255,
-			((255 - i) * getg(from) + i * getg(to)) / 255,
-			((255 - i) * getb(from) + i * getb(to)) / 255,
-			255);
-	}
-
-	return true;
-}
-
-bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
-{
-	SIZE sz;
-	HBITMAP hBmpLoaded = Image_Load(_A2T(fn));
-	if (!hBmpLoaded)
-		return false;
-
-	BITMAP bm; GetObject(hBmpLoaded, sizeof(bm), &bm);
-	SetBitmapDimensionEx(hBmpLoaded, bm.bmWidth, bm.bmHeight, nullptr);
-
-	HDC dcTmp = CreateCompatibleDC(nullptr);
-	GetBitmapDimensionEx(hBmpLoaded, &sz);
-	HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp, hBmpLoaded);
-
-	allocate(sz.cx, sz.cy);
-	BitBlt(dcBmp, 0, 0, width, height, dcTmp, 0, 0, SRCCOPY);
-
-	DeleteObject(SelectObject(dcTmp, hBmpDcSave));
-	DeleteDC(dcTmp);
-
-	MyBitmap alpha;
-	if (fnAlpha && alpha.loadFromFile(fnAlpha) && (alpha.getWidth() == width) && (alpha.getHeight() == height)) {
-		for (int i = 0; i < width*height; i++)
-			bits[i] = (bits[i] & 0x00ffffff) | ((alpha.bits[i] & 0x000000ff) << 24);
-		premultipleChannels();
-	}
-	else makeOpaque();
-
-	return true;
-}
-
-bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
-{
-	if (bits) free();
-
-	if (!strncmp(fn, "pixel:", mir_strlen("pixel:")))
-		return loadFromFile_pixel(fn);
-
-	if (!strncmp(fn, "gradient:", mir_strlen("gradient:")))
-		return loadFromFile_gradient(fn);
-
-	return loadFromFile_default(fn, fnAlpha);
 }
 
 void MyBitmap::allocate(int w, int h)
