@@ -2,8 +2,6 @@
 
 #include <m_core.h>
 #include <m_database.h>
-#include <m_netlib.h>
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic class for plugins (not protocols) written in C++
@@ -11,11 +9,11 @@
 template<class T> class PLUGIN
 {
 protected:
-	CMStringA m_moduleName;
+	const char *m_moduleName;
 	HANDLE m_hLogger = nullptr;
 
-	PLUGIN(const char *moduleName) :
-		m_moduleName(moduleName)
+	PLUGIN(const char *moduleName)
+		: m_moduleName(moduleName)
 	{
 		wchar_t path[MAX_PATH];
 		mir_snwprintf(path, "%s\%s.txt", VARSW("%miranda_logpath%"), moduleName);
