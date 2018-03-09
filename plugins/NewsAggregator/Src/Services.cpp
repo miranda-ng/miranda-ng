@@ -157,20 +157,19 @@ INT_PTR AddFeed(WPARAM, LPARAM)
 
 INT_PTR ChangeFeed(WPARAM hContact, LPARAM)
 {
-	//HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList, hContact);
+	CFeedEditor *pDlg = nullptr;
+	for (auto &it : g_arFeeds)
+		if (it->getContact() == hContact)
+			pDlg = it;
 
-	if (pChangeFeedDialog == nullptr) {
-		pChangeFeedDialog = new CFeedEditor(-1, nullptr, hContact);
-		pChangeFeedDialog->Show();
+	if (pDlg == nullptr) {
+		pDlg = new CFeedEditor(-1, nullptr, hContact);
+		pDlg->Show();
 	}
-
-	/*if (!hChangeFeedDlg) {
-		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), nullptr, DlgProcChangeFeedMenu, hContact);
-		ShowWindow(hChangeFeedDlg, SW_SHOW);
-	} else {
-		SetForegroundWindow(hChangeFeedDlg);
-		SetFocus(hChangeFeedDlg);
-	}*/
+	else {
+		SetForegroundWindow(pDlg->GetHwnd());
+		SetFocus(pDlg->GetHwnd());
+	}
 	return 0;
 }
 
@@ -179,8 +178,6 @@ INT_PTR ImportFeeds(WPARAM, LPARAM)
 	if (pImportDialog == nullptr)
 		pImportDialog = new CImportFeed(nullptr);
 	pImportDialog->Show();
-
-	//CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDIMPORT), nullptr, DlgProcImportOpts);
 	return 0;
 }
 
@@ -189,8 +186,6 @@ INT_PTR ExportFeeds(WPARAM, LPARAM)
 	if (pExportDialog == nullptr)
 		pExportDialog = new CExportFeed();
 	pExportDialog->Show();
-
-	//CreateDialog(hInst, MAKEINTRESOURCE(IDD_FEEDEXPORT), nullptr, DlgProcExportOpts);
 	return 0;
 }
 

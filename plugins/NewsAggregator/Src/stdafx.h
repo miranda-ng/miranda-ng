@@ -60,14 +60,15 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_UPDATE_TIME 60
 
 extern HINSTANCE hInst;
-extern CDlgBase *pAddFeedDialog, *pChangeFeedDialog, *pImportDialog, *pExportDialog;
-//extern MWindowList hChangeFeedDlgList;
+extern CDlgBase *pAddFeedDialog, *pImportDialog, *pExportDialog;
 extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR timerId;
+extern LIST<CFeedEditor> g_arFeeds;
 // check if Feeds is currently updating
 extern bool ThreadRunning;
 extern bool UpdateListFlag;
 extern wchar_t tszRoot[MAX_PATH];
+
 struct ItemInfo
 {
 	HWND hwndList;
@@ -90,7 +91,7 @@ extern UPDATELIST *UpdateListHead;
 extern UPDATELIST *UpdateListTail;
 
 void UpdateListAdd(MCONTACT hContact);
-void UpdateThreadProc(LPVOID AvatarCheck);
+void UpdateThreadProc(void*);
 void DestroyUpdateList(void);
 
 extern   HANDLE hUpdateMutex;

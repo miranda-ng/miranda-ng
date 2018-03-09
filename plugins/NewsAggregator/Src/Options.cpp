@@ -687,7 +687,7 @@ void CFeedEditor::OnInitDialog()
 	m_checktime.SetMaxLength(3);
 	m_checktimespin.SetRange(999, 0);
 
-	if (m_iItem > -1 && m_hContact == NULL) {
+	if (m_iItem > -1 && m_hContact == 0) {
 		wchar_t SelNick[MAX_PATH], SelUrl[MAX_PACKAGE_NAME];
 		m_list->GetItemText(m_iItem, 0, SelNick, _countof(SelNick));
 		m_list->GetItemText(m_iItem, 1, SelUrl, _countof(SelNick));
@@ -724,7 +724,7 @@ void CFeedEditor::OnInitDialog()
 				pass_ptrA pwd(db_get_sa(hContact, MODULE, "Password"));
 				m_password.SetTextA(pwd);
 			}
-			//WindowList_Add(hChangeFeedDlgList, m_hwnd, hContact);
+			g_arFeeds.insert(this);
 			Utils_RestoreWindowPositionNoSize(m_hwnd, hContact, MODULE, "ChangeDlg");
 			break;
 		}
@@ -761,7 +761,7 @@ void CFeedEditor::OnInitDialog()
 			pass_ptrA pwd(db_get_sa(m_hContact, MODULE, "Password"));
 			m_password.SetTextA(pwd);
 		}
-		//WindowList_Add(hChangeFeedDlgList, m_hwnd, m_hContact);
+		g_arFeeds.insert(this);
 		Utils_RestoreWindowPositionNoSize(m_hwnd, m_hContact, MODULE, "ChangeDlg");
 	}
 }
@@ -860,10 +860,9 @@ void CFeedEditor::OnOk(CCtrlBase*)
 
 void CFeedEditor::OnClose()
 {
+	g_arFeeds.remove(this);
 	Utils_SaveWindowPosition(m_hwnd, NULL, MODULE, m_iItem == -1 ? "AddDlg" : "ChangeDlg");
-	if (pChangeFeedDialog)
-		pChangeFeedDialog = nullptr;
-	if (pAddFeedDialog)
+	if (pAddFeedDialog == this)
 		pAddFeedDialog = nullptr;
 }
 
@@ -950,19 +949,17 @@ void COptionsMain::OnAddButtonClick(CCtrlBase*)
 {
 	if (pAddFeedDialog == nullptr) {
 		pAddFeedDialog = new CFeedEditor(-1, &m_feeds, NULL);
-		pAddFeedDialog->Show();
 		pAddFeedDialog->SetParent(m_hwnd);
+		pAddFeedDialog->Show();
 	}
 }
 
 void COptionsMain::OnChangeButtonClick(CCtrlBase*)
 {
-	if (pChangeFeedDialog == nullptr) {
-		int isel = m_feeds.GetSelectionMark();
-		pChangeFeedDialog = new CFeedEditor(isel, &m_feeds, NULL);
-		pChangeFeedDialog->Show();
-		pChangeFeedDialog->SetParent(m_hwnd);
-	}
+	int isel = m_feeds.GetSelectionMark();
+	CFeedEditor *pDlg = new CFeedEditor(isel, &m_feeds, NULL);
+	pDlg->SetParent(m_hwnd);
+	pDlg->Show();
 }
 
 void COptionsMain::OnDeleteButtonClick(CCtrlBase*)
@@ -1028,13 +1025,11 @@ void COptionsMain::OnFeedListItemChanged(CCtrlListView::TEventInfo *evt)
 
 void COptionsMain::OnFeedListDoubleClick(CCtrlBase*)
 {
-	if (pChangeFeedDialog == nullptr) {
-		int isel = m_feeds.GetHotItem();
-		if (isel != -1) {
-			pChangeFeedDialog = new CFeedEditor(isel, &m_feeds, NULL);
-			pChangeFeedDialog->Show();
-			pChangeFeedDialog->SetParent(m_hwnd);
-		}
+	int isel = m_feeds.GetHotItem();
+	if (isel != -1) {
+		CFeedEditor *pDlg = new CFeedEditor(isel, &m_feeds, 0);
+		pDlg->SetParent(m_hwnd);
+		pDlg->Show();
 	}
 }
 

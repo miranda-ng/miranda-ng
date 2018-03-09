@@ -64,6 +64,8 @@ protected:
 
 public:
 	CFeedEditor(int iItem, CCtrlListView *m_list, MCONTACT Contact);
+
+	__inline MCONTACT getContact() const { return m_hContact; }
 };
 
 class CImportFeed : public CDlgBase
