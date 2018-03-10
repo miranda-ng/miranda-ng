@@ -49,24 +49,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "dbrw\dbrw.h"
 #include "dbrw\dbintf.h"
 
-// ** Global constants
+// Global constants
 
 #define IMPORT_MODULE  "MIMImport"        // Module name
 #define IMPORT_SERVICE "MIMImport/Import" // Service for menu item
 
 // Keys
-#define IMP_KEY_FR      "FirstRun"   // First run
+#define IMP_KEY_FR     "FirstRun"         // First run
 
+#define WIZM_GOTOPAGE       (WM_USER+10)  // wParam=resource id, lParam=dlgproc
+#define WIZM_DISABLEBUTTON  (WM_USER+11)  // wParam=0:back, 1:next, 2:cancel
+#define WIZM_SETCANCELTEXT  (WM_USER+12)  // lParam=(char*)newText
+#define WIZM_ENABLEBUTTON   (WM_USER+13)  // wParam=0:back, 1:next, 2:cancel
 
-#define WIZM_GOTOPAGE    (WM_USER+10)	//wParam=resource id, lParam=dlgproc
-#define WIZM_DISABLEBUTTON  (WM_USER+11)    //wParam=0:back, 1:next, 2:cancel
-#define WIZM_SETCANCELTEXT  (WM_USER+12)    //lParam=(char*)newText
-#define WIZM_ENABLEBUTTON   (WM_USER+13)    //wParam=0:back, 1:next, 2:cancel
-
-#define PROGM_SETPROGRESS  (WM_USER+10)   //wParam=0..100
-#define PROGM_ADDMESSAGE   (WM_USER+11)   //lParam=(char*)szText
-
-#define ICQOSCPROTONAME  "ICQ"
+#define PROGM_SETPROGRESS   (WM_USER+10)  // wParam=0..100
+#define PROGM_ADDMESSAGE    (WM_USER+11)  // lParam=(char*)szText
 
 void AddMessage(const wchar_t* fmt, ...);
 
@@ -79,7 +76,7 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 
 bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
-int CreateGroup(const wchar_t* name, MCONTACT hContact);
+int CreateGroup(const wchar_t *name, MCONTACT hContact);
 
 extern HINSTANCE hInst;
 extern HWND hwndAccMerge;
@@ -88,6 +85,5 @@ extern wchar_t importFile[];
 extern time_t dwSinceDate;
 extern bool g_bServiceMode;
 
-HICON  GetIcon(int iIconId, bool size = false);
 HANDLE GetIconHandle(int iIconId);
 void   RegisterIcons(void);

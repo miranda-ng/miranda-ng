@@ -195,15 +195,6 @@ static IconItem iconList[] =
 	{ LPGEN("Import..."), "import_main", IDI_IMPORT }
 };
 
-HICON GetIcon(int iIconId, bool size)
-{
-	for (auto &it : iconList)
-		if (it.defIconID == iIconId)
-			return IcoLib_GetIconByHandle(it.hIcolib, size);
-
-	return nullptr;
-}
-
 HANDLE GetIconHandle(int iIconId)
 {
 	for (auto &it : iconList)
