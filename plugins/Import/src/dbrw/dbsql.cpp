@@ -50,7 +50,7 @@ void CDbxSQLite::sql_prepare_statements()
 		sql_prepare(m_sqlite, sql_prepare_text[i], sql_prepare_stmt[i]);
 }
 
-void CALLBACK CDbxSQLite::sql_server_sync_apc(DWORD dwParam)
+void CALLBACK CDbxSQLite::sql_server_sync_apc(UINT_PTR dwParam)
 {
 	TSqlMessage *msg = (TSqlMessage*)dwParam;
 
@@ -88,7 +88,7 @@ void CALLBACK CDbxSQLite::sql_server_sync_apc(DWORD dwParam)
 void CDbxSQLite::sql_server_sync(TSqlMessage *msg)
 {
 	msg->hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	sql_server_sync_apc((DWORD)msg);
+	sql_server_sync_apc((UINT_PTR)msg);
 	PostMessage(m_hAPCWindow, WM_NULL, 0, 0);
 	WaitForSingleObject(msg->hDoneEvent, INFINITE);
 	CloseHandle(msg->hDoneEvent);

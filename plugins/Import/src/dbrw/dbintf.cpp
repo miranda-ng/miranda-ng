@@ -74,12 +74,12 @@ STDMETHODIMP_(void) CDbxSQLite::SetCacheSafetyMode(BOOL safeMode)
 		sql_exec(m_sqlite, "PRAGMA synchronous = OFF;");
 }
 
-STDMETHODIMP_(BOOL) CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
+STDMETHODIMP_(BOOL) CDbxSQLite::MetaMergeHistory(DBCachedContact*, DBCachedContact*)
 {
 	return FALSE;
 }
 
-STDMETHODIMP_(BOOL) CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
+STDMETHODIMP_(BOOL) CDbxSQLite::MetaSplitHistory(DBCachedContact*, DBCachedContact*)
 {
 	return FALSE;
 }

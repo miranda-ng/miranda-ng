@@ -105,7 +105,7 @@ private:
 
 	void sql_prepare_add(char **text, sqlite3_stmt **stmts, int len);
 	void sql_prepare_statements();
-	static void CALLBACK sql_server_sync_apc(DWORD dwParam);
+	static void CALLBACK sql_server_sync_apc(UINT_PTR dwParam);
 	void sql_server_sync(TSqlMessage *msg);
 	int sql_step(sqlite3_stmt *stmt);
 	int sql_reset(sqlite3_stmt *stmt);
