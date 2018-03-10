@@ -56,8 +56,6 @@ int NewsAggrInit(WPARAM, LPARAM)
 
 int NewsAggrPreShutdown(WPARAM, LPARAM)
 {
-	//WindowList_Broadcast(hChangeFeedDlgList, WM_CLOSE, 0, 0);
-
 	KillTimer(nullptr, timerId);
 	NetlibUnInit();
 	return 0;
@@ -149,9 +147,14 @@ INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 
 INT_PTR AddFeed(WPARAM, LPARAM)
 {
-	if (pAddFeedDialog == nullptr)
+	if (pAddFeedDialog == nullptr) {
 		pAddFeedDialog = new CFeedEditor(-1, nullptr, NULL);
-	pAddFeedDialog->Show();
+		pAddFeedDialog->Show();
+	}
+	else {
+		SetForegroundWindow(pAddFeedDialog->GetHwnd());
+		SetFocus(pAddFeedDialog->GetHwnd());
+	}
 	return 0;
 }
 

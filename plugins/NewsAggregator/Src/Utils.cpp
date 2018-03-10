@@ -72,7 +72,7 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 	nlhr.headers[3].szName = "Connection";
 	nlhr.headers[3].szValue = "close";
 	char auth[256];
-	if (db_get_b(hContact, MODULE, "UseAuth", 0) || pEditDlg->m_useauth.IsChecked() /*IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)*/) {
+	if (db_get_b(hContact, MODULE, "UseAuth", 0) || (pEditDlg && pEditDlg->m_useauth.IsChecked()) /*IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)*/) {
 		nlhr.headersCount++;
 		nlhr.headers[4].szName = "Authorization";
 
@@ -94,16 +94,8 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 		else if (nlhrReply->resultCode == 401) {
 			Netlib_LogfW(hNetlibUser, L"Code 401: feed %s needs auth data.", tszUrl);
 
-			CAuthRequest *pDlg = new CAuthRequest(pEditDlg, hContact);
-			if (pDlg->DoModal() == IDOK)
+			if (CAuthRequest(pEditDlg, hContact).DoModal() == IDOK)
 				GetNewsData(tszUrl, szData, hContact, pEditDlg);
-
-
-			//ItemInfo SelItem = {};
-			//SelItem.hwndList = hwndDlg;
-			//SelItem.hContact = hContact;
-			//if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
-				//GetNewsData(tszUrl, szData, hContact, hwndDlg);
 		}
 		else Netlib_LogfW(hNetlibUser, L"Code %d: Failed getting feed data %s.", nlhrReply->resultCode, tszUrl);
 		
@@ -112,66 +104,6 @@ void GetNewsData(wchar_t *tszUrl, char **szData, MCONTACT hContact, CFeedEditor 
 	else Netlib_LogfW(hNetlibUser, L"Failed getting feed data %s, no response.", tszUrl);
 
 	mir_free(szUrl);
-}
-
-void CreateList(HWND hwndList)
-{
-	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
-
-	LVCOLUMN lvc = { 0 };
-	// Initialize the LVCOLUMN structure.
-	// The mask specifies that the format, width, text, and
-	// subitem members of the structure are valid.
-	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-	lvc.fmt = LVCFMT_LEFT;
-
-	lvc.iSubItem = 0;
-	lvc.pszText = TranslateT("Feed");
-	lvc.cx = 160;     // width of column in pixels
-	ListView_InsertColumn(hwndList, 0, &lvc);
-
-	lvc.iSubItem = 1;
-	lvc.pszText = TranslateT("URL");
-	lvc.cx = 276;     // width of column in pixels
-	ListView_InsertColumn(hwndList, 1, &lvc);
-}
-
-void UpdateList(HWND hwndList)
-{
-	LVITEM lvI = { 0 };
-
-	// Some code to create the list-view control.
-	// Initialize LVITEM members that are common to all
-	// items.
-	int i = 0;
-	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-		UpdateListFlag = TRUE;
-		lvI.mask = LVIF_TEXT;
-		lvI.iSubItem = 0;
-		wchar_t *ptszNick = db_get_wsa(hContact, MODULE, "Nick");
-		if (ptszNick) {
-			lvI.pszText = ptszNick;
-			lvI.iItem = i;
-			ListView_InsertItem(hwndList, &lvI);
-			lvI.iSubItem = 1;
-
-			wchar_t *ptszURL = db_get_wsa(hContact, MODULE, "URL");
-			if (ptszURL) {
-				lvI.pszText = ptszURL;
-				ListView_SetItem(hwndList, &lvI);
-				i++;
-				ListView_SetCheckState(hwndList, lvI.iItem, db_get_b(hContact, MODULE, "CheckState", 1));
-				mir_free(ptszURL);
-			}
-			mir_free(ptszNick);
-		}
-	}
-	UpdateListFlag = FALSE;
-}
-
-void DeleteAllItems(HWND hwndList)
-{
-	ListView_DeleteAllItems(hwndList);
 }
 
 time_t __stdcall DateToUnixTime(const wchar_t *stamp, bool FeedType)

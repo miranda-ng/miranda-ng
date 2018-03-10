@@ -142,7 +142,7 @@ private:
 	CFeedEditor *m_pDlg;
 	MCONTACT m_hContact;
 
-	CCtrlLabel m_feedname;
+	CCtrlBase m_feedname;
 	CCtrlEdit m_username;
 	CCtrlEdit m_password;
 	CCtrlButton m_ok;

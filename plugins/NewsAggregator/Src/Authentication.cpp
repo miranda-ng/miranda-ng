@@ -27,13 +27,8 @@ void CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg)
 		tpass = db_get_wsa(hContact, MODULE, "Password");
 	}
 	else if (pDlg && pDlg->m_useauth.IsChecked()) {
-		ptrW strlogin(pDlg->m_login.GetText());
-		//wchar_t buf[MAX_PATH] = {0};
-		//GetDlgItemText(hwndDlg, IDC_LOGIN, buf, _countof(buf));
-		tlogin = mir_wstrdup(strlogin);
-		ptrW strpass(pDlg->m_password.GetText());
-		//GetDlgItemText(hwndDlg, IDC_PASSWORD, buf, _countof(buf));
-		tpass = mir_wstrdup(strpass);
+		tlogin = pDlg->m_login.GetText();
+		tpass = pDlg->m_password.GetText();
 	}
 	char *user = mir_u2a(tlogin), *pass = mir_u2a(tpass);
 
@@ -60,7 +55,6 @@ CAuthRequest::CAuthRequest(CFeedEditor *pDlg, MCONTACT hContact)
 void CAuthRequest::OnInitDialog()
 {
 	if (m_pDlg) {
-		//wchar_t str[MAX_PATH];
 		ptrW strfeedtitle(m_pDlg->m_feedtitle.GetText());
 		
 		if (strfeedtitle)
@@ -69,26 +63,17 @@ void CAuthRequest::OnInitDialog()
 			ptrW strfeedurl(m_pDlg->m_feedurl.GetText());
 			m_feedname.SetText(strfeedurl);
 		}
-
-		/*if (GetDlgItemText(SelItem.hwndList, IDC_FEEDTITLE, str, _countof(str)))
-			SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
-		else {
-			GetDlgItemText(SelItem.hwndList, IDC_FEEDURL, str, _countof(str));
-			SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
-		}*/
 	}
 	else if (m_hContact) {
 		wchar_t *ptszNick = db_get_wsa(m_hContact, MODULE, "Nick");
 		if (ptszNick) {
 			m_feedname.SetText(ptszNick);
-			//SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszNick);
 			mir_free(ptszNick);
 		}
 		else {
 			wchar_t *ptszURL = db_get_wsa(m_hContact, MODULE, "URL");
 			if (ptszURL) {
 				m_feedname.SetText(ptszURL);
-				//SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszURL);
 				mir_free(ptszURL);
 			}
 		}
@@ -97,10 +82,6 @@ void CAuthRequest::OnInitDialog()
 
 void CAuthRequest::OnOk(CCtrlBase*)
 {
-	//ItemInfo &SelItem = *(ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	//wchar_t username[MAX_PATH];
-	//char passw[MAX_PATH];
-
 	ptrW strfeedusername(m_username.GetText());
 	if (!strfeedusername || mir_wstrcmp(strfeedusername, L"") == 0) {
 		MessageBox(m_hwnd, TranslateT("Enter your username"), TranslateT("Error"), MB_OK | MB_ICONERROR);
@@ -111,14 +92,6 @@ void CAuthRequest::OnOk(CCtrlBase*)
 		MessageBox(m_hwnd, TranslateT("Enter your password"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return;
 	}
-	/*if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, username, _countof(username))) {
-		MessageBox(hwndDlg, TranslateT("Enter your username"), TranslateT("Error"), MB_OK | MB_ICONERROR);
-		break;
-	}
-	if (!GetDlgItemTextA(hwndDlg, IDC_FEEDPASSWORD, passw, _countof(passw))) {
-		MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK | MB_ICONERROR);
-		break;
-	}*/
 	if (m_pDlg) {
 		m_pDlg->m_useauth.SetState(1);
 		m_pDlg->m_login.Enable(1);
@@ -132,93 +105,4 @@ void CAuthRequest::OnOk(CCtrlBase*)
 		db_set_s(m_hContact, MODULE, "Password", strfeedpassword);
 
 	}
-	/*if (SelItem.hwndList) {
-		CheckDlgButton(SelItem.hwndList, IDC_USEAUTH, BST_CHECKED);
-		EnableWindow(GetDlgItem(SelItem.hwndList, IDC_LOGIN), TRUE);
-		EnableWindow(GetDlgItem(SelItem.hwndList, IDC_PASSWORD), TRUE);
-		SetDlgItemText(SelItem.hwndList, IDC_LOGIN, username);
-		SetDlgItemTextA(SelItem.hwndList, IDC_PASSWORD, passw);
-	}
-	else if (SelItem.hContact) {
-		db_set_b(SelItem.hContact, MODULE, "UseAuth", 1);
-		db_set_ws(SelItem.hContact, MODULE, "Login", username);
-		db_set_s(SelItem.hContact, MODULE, "Password", passw);
-	}*/
 }
-
-/*INT_PTR CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			ItemInfo &SelItem = *(ItemInfo*)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)&SelItem);
-
-			if (SelItem.hwndList) {
-				wchar_t str[MAX_PATH];
-				if (GetDlgItemText(SelItem.hwndList, IDC_FEEDTITLE, str, _countof(str)))
-					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
-				else {
-					GetDlgItemText(SelItem.hwndList, IDC_FEEDURL, str, _countof(str));
-					SetDlgItemText(hwndDlg, IDC_FEEDNAME, str);
-				}
-			}
-			else if (SelItem.hContact) {
-				wchar_t *ptszNick = db_get_wsa(SelItem.hContact, MODULE, "Nick");
-				if (ptszNick) {
-					SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszNick);
-					mir_free(ptszNick);
-				}
-				else {
-					wchar_t *ptszURL = db_get_wsa(SelItem.hContact, MODULE, "URL");
-					if (ptszURL) {
-						SetDlgItemText(hwndDlg, IDC_FEEDNAME, ptszURL);
-						mir_free(ptszURL);
-					}
-				}
-			}
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-			case IDOK:
-			{
-				ItemInfo &SelItem = *(ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				wchar_t username[MAX_PATH];
-				char passw[MAX_PATH];
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDUSERNAME, username, _countof(username))) {
-					MessageBox(hwndDlg, TranslateT("Enter your username"), TranslateT("Error"), MB_OK | MB_ICONERROR);
-					break;
-				}
-				if (!GetDlgItemTextA(hwndDlg, IDC_FEEDPASSWORD, passw, _countof(passw))) {
-					MessageBox(hwndDlg, TranslateT("Enter your password"), TranslateT("Error"), MB_OK | MB_ICONERROR);
-					break;
-				}
-				if (SelItem.hwndList) {
-					CheckDlgButton(SelItem.hwndList, IDC_USEAUTH, BST_CHECKED);
-					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_LOGIN), TRUE);
-					EnableWindow(GetDlgItem(SelItem.hwndList, IDC_PASSWORD), TRUE);
-					SetDlgItemText(SelItem.hwndList, IDC_LOGIN, username);
-					SetDlgItemTextA(SelItem.hwndList, IDC_PASSWORD, passw);
-				}
-				else if (SelItem.hContact) {
-					db_set_b(SelItem.hContact, MODULE, "UseAuth", 1);
-					db_set_ws(SelItem.hContact, MODULE, "Login", username);
-					db_set_s(SelItem.hContact, MODULE, "Password", passw);
-				}
-				EndDialog(hwndDlg, IDOK);
-				return TRUE;
-			}
-
-			case IDCANCEL:
-			{
-				EndDialog(hwndDlg, IDCANCEL);
-				return TRUE;
-			}
-		}
-		break;
-	}
-	return FALSE;
-}*/

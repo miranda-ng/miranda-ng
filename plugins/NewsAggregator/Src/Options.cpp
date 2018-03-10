@@ -952,14 +952,42 @@ void COptionsMain::OnAddButtonClick(CCtrlBase*)
 		pAddFeedDialog->SetParent(m_hwnd);
 		pAddFeedDialog->Show();
 	}
+	else {
+		SetForegroundWindow(pAddFeedDialog->GetHwnd());
+		SetFocus(pAddFeedDialog->GetHwnd());
+	}
 }
 
 void COptionsMain::OnChangeButtonClick(CCtrlBase*)
 {
 	int isel = m_feeds.GetSelectionMark();
-	CFeedEditor *pDlg = new CFeedEditor(isel, &m_feeds, NULL);
-	pDlg->SetParent(m_hwnd);
-	pDlg->Show();
+	CFeedEditor *pDlg = nullptr;
+	for (auto &it : g_arFeeds)
+	{
+		wchar_t nick[MAX_PATH], url[MAX_PATH];
+		m_feeds.GetItemText(isel, 0, nick, _countof(nick));
+		m_feeds.GetItemText(isel, 1, url, _countof(url));
+
+		ptrW dbNick(db_get_wsa(it->getContact(), MODULE, "Nick"));
+		if ((dbNick == NULL) || (mir_wstrcmp(dbNick, nick) != 0))
+			continue;
+
+		ptrW dbURL(db_get_wsa(it->getContact(), MODULE, "URL"));
+		if ((dbURL == NULL) || (mir_wstrcmp(dbURL, url) != 0))
+			continue;
+
+		pDlg = it;
+	}
+
+	if (pDlg == nullptr) {
+		pDlg = new CFeedEditor(isel, &m_feeds, NULL);
+		pDlg->SetParent(m_hwnd);
+		pDlg->Show();
+	}
+	else {
+		SetForegroundWindow(pDlg->GetHwnd());
+		SetFocus(pDlg->GetHwnd());
+	}
 }
 
 void COptionsMain::OnDeleteButtonClick(CCtrlBase*)

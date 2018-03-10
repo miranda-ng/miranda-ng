@@ -69,15 +69,6 @@ extern bool ThreadRunning;
 extern bool UpdateListFlag;
 extern wchar_t tszRoot[MAX_PATH];
 
-struct ItemInfo
-{
-	HWND hwndList;
-	MCONTACT hContact;
-	int SelNumber;
-	wchar_t nick[MAX_PATH];
-	wchar_t url[MAX_PATH];
-};
-
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============
 
 struct NEWSCONTACTLIST {
@@ -137,7 +128,6 @@ void     UpdateMenu(bool State);
 LPCTSTR  ClearText(CMStringW &value, const wchar_t *message);
 bool     DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 void     CreateAuthString(char *auth, MCONTACT hContact, CFeedEditor *pDlg);
-INT_PTR  CALLBACK AuthenticationProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 MCONTACT GetContactByNick(const wchar_t *nick);
 MCONTACT GetContactByURL(const wchar_t *url);
 
