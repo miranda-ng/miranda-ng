@@ -358,17 +358,16 @@ char* makeFileName(const wchar_t* tszOriginalName)
 
 int touchDatabase(const wchar_t *tszProfile, DATABASELINK **dblink)
 {
-	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
-		DATABASELINK *p = arDbPlugins[i];
-		int iErrorCode = p->grokHeader(tszProfile);
+	for (auto &it : arDbPlugins) {
+		int iErrorCode = it->grokHeader(tszProfile);
 		if (iErrorCode == 0) {
 			if (dblink)
-				*dblink = p;
+				*dblink = it;
 			return 0;
 		}
 		if (iErrorCode == EGROKPRF_OBSOLETE) {
 			if (dblink)
-				*dblink = p;
+				*dblink = it;
 			return EGROKPRF_OBSOLETE;
 		}
 	}
@@ -381,11 +380,9 @@ int touchDatabase(const wchar_t *tszProfile, DATABASELINK **dblink)
 // enumerate all plugins that had valid DatabasePluginInfo()
 int tryOpenDatabase(const wchar_t *tszProfile)
 {
-	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
-		DATABASELINK *p = arDbPlugins[i];
-
+	for (auto &it : arDbPlugins) {
 		// liked the profile?
-		int err = p->grokHeader(tszProfile);
+		int err = it->grokHeader(tszProfile);
 		if (err != ERROR_SUCCESS) { // smth went wrong
 			switch (err) {
 			case EGROKPRF_CANTREAD:
@@ -404,12 +401,12 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 		}
 
 		// try to load database
-		MIDatabase *pDb = p->Load(tszProfile, FALSE);
+		MIDatabase *pDb = it->Load(tszProfile, FALSE);
 		if (pDb == nullptr)
 			return EGROKPRF_CANTREAD;
 
 		fillProfileName(tszProfile);
-		currDblink = p;
+		currDblink = it;
 		db_setCurrent(currDb = pDb);
 		return 0;
 	}
