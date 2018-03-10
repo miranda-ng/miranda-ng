@@ -31,7 +31,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\*.cxx">
+    <ClCompile Include="src\*.c++">
       <PreprocessorDefinitions>BUILDING_LIBHUNSPELL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
