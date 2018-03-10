@@ -90,20 +90,18 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static HWND hwndPage;
+	static HWND hwndPage = nullptr;
+	bool bFirstLaunch = hwndPage == nullptr;
 
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
-		hwndPage = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARDINTRO), hdlg, WizardIntroPageProc);
-		SetWindowPos(hwndPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-		ShowWindow(hwndPage, SW_SHOW);
-		ShowWindow(hdlg, SW_SHOW);
 		Window_SetIcon_IcoLib(hdlg, GetIconHandle(IDI_IMPORT));
 		return TRUE;
 
 	case WIZM_GOTOPAGE:
-		DestroyWindow(hwndPage);
+		if (hwndPage)
+			DestroyWindow(hwndPage);
 		EnableWindow(GetDlgItem(hdlg, IDC_BACK), TRUE);
 		EnableWindow(GetDlgItem(hdlg, IDOK), TRUE);
 		EnableWindow(GetDlgItem(hdlg, IDCANCEL), TRUE);
@@ -111,6 +109,8 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		hwndPage = CreateDialog(hInst, MAKEINTRESOURCE(wParam), hdlg, (DLGPROC)lParam);
 		SetWindowPos(hwndPage, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		ShowWindow(hwndPage, SW_SHOW);
+		if (bFirstLaunch)
+			ShowWindow(hdlg, SW_SHOW);
 		break;
 
 	case WIZM_DISABLEBUTTON:

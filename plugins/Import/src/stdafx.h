@@ -40,6 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clist.h>
 #include <m_db_int.h>
 #include <m_metacontacts.h>
+#include <m_import.h>
 
 #include "version.h"
 #include "resource.h"
@@ -66,30 +67,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PROGM_ADDMESSAGE   (WM_USER+11)   //lParam=(char*)szText
 
 #define ICQOSCPROTONAME  "ICQ"
-#define MSNPROTONAME     "MSN"
-#define YAHOOPROTONAME   "YAHOO"
-#define NSPPROTONAME     "NET_SEND"
-#define ICQCORPPROTONAME "ICQ Corp"
-#define AIMPROTONAME     "AIM"
-
-// Custom import options
-#define IOPT_ADDUNKNOWN    0x00000001
-#define IOPT_MSGSENT       0x00000002
-#define IOPT_MSGRECV       0x00000004
-#define IOPT_URLSENT       0x00000008
-#define IOPT_URLRECV       0x00000010
-#define IOPT_AUTHREQ       0x00000020
-#define IOPT_ADDED         0x00000040
-#define IOPT_FILESENT      0x00000080
-#define IOPT_FILERECV      0x00000100
-#define IOPT_OTHERSENT     0x00000200
-#define IOPT_OTHERRECV     0x00000400
-#define IOPT_SYSTEM        0x00000800
-#define IOPT_CONTACTS      0x00001000
-#define IOPT_GROUPS        0x00002000
-#define IOPT_SYS_SETTINGS  0x00004000
-
-#define IOPT_HISTORY 		0x000007FE
 
 void AddMessage(const wchar_t* fmt, ...);
 

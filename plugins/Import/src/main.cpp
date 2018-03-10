@@ -57,7 +57,10 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 		SetForegroundWindow(hwndWizard);
 		SetFocus(hwndWizard);
 	}
-	else hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
+	else {
+		hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
+		PostMessage(hwndWizard, WIZM_GOTOPAGE, IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc);
+	}
 
 	return 0;
 }
@@ -106,8 +109,20 @@ static int OnExit(WPARAM, LPARAM)
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	g_bServiceMode = true;
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
+	hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
+	PostMessage(hwndWizard, WIZM_GOTOPAGE, IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc);
 	return SERVICE_ONLYDB;
+}
+
+static INT_PTR CustomImport(WPARAM wParam, LPARAM)
+{
+	MImportOptions *param = (MImportOptions*)wParam;
+	wcsncpy_s(importFile, MAX_PATH, param->pwszFileName, _TRUNCATE);
+	nImportOptions = param->dwFlags;
+
+	hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
+	PostMessage(hwndWizard, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Load(void)
@@ -116,6 +131,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
+	CreateServiceFunction(MS_IMPORT_RUN, CustomImport);
 	RegisterIcons();
 
 	// menu item
