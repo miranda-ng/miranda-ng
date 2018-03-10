@@ -35,12 +35,21 @@ MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr)
 		arDbPlugins.insert(pDescr);
 }
 
+MIR_APP_DLL(DATABASELINK*) GetDatabasePlugin(const char *pszDriverName)
+{
+	for (auto &it : arDbPlugins)
+		if (!mir_strcmp(pszDriverName, it->szShortName))
+			return it;
+
+	return nullptr;
+}
+
 MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName)
 {
-	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
-		int error = arDbPlugins[i]->grokHeader(ptszFileName);
+	for (auto &it : arDbPlugins) {
+		int error = it->grokHeader(ptszFileName);
 		if (error == ERROR_SUCCESS || error == EGROKPRF_OBSOLETE)
-			return arDbPlugins[i];
+			return it;
 	}
 
 	return nullptr;

@@ -487,3 +487,4 @@ Image_Load @504
 Image_LoadFromMem @505
 Image_Resize @506
 Image_Save @507
+GetDatabasePlugin @508

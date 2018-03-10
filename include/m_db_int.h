@@ -267,12 +267,14 @@ EXTERN_C MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT);
 EXTERN_C MIR_CORE_DLL(MIDatabase*) db_get_current(void);
 
 // registers a database plugin
-
 EXTERN_C MIR_APP_DLL(void) RegisterDatabasePlugin(DATABASELINK *pDescr);
 
-// looks for a database plugin suitable to open this file
-// returns DATABASELINK* of the required plugin or NULL on error
+// looks for a database plugin by its short name
+// returns DATABASELINK* of the required plugin or nullptr on error
+EXTERN_C MIR_APP_DLL(DATABASELINK*) GetDatabasePlugin(const char *pszDriverName);
 
+// looks for a database plugin suitable to open this file
+// returns DATABASELINK* of the required plugin or nullptr on error
 EXTERN_C MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName);
 
 #endif // M_DB_INT_H__
