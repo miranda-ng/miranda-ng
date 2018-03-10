@@ -180,7 +180,6 @@ int     ClcDoProtoAck(ACKDATA *ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
 int     GetContactCachedStatus(MCONTACT hContact);                                 //clistsettings.c
 int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c
-int     GetContactIndex(ClcGroup *group, ClcContact *contact);               //clcidents.c
 int     GetStatusForContact(MCONTACT hContact, char *szProto);                           //clistsettings.c
 int     InitCustomMenus(void);                                                //clistmenus.c
 int     LoadMoveToGroup();                                                   //movetogroup.c

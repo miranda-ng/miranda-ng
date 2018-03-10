@@ -24,15 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int GetContactIndex(ClcGroup *group, ClcContact *contact)
-{
-	for (int i = 0; i < group->cl.getCount(); i++)
-		if (group->cl[i]->hContact == contact->hContact)
-			return i;
-	
-	return -1;
-}
-
 int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 {
 	int count = 0;
