@@ -798,7 +798,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 			NotifyEventHooks(hMyAvatarChanged, (WPARAM)myAvatarProto, 0);
 	}
 
-	free(lpParam);
+	mir_free(lpParam);
 }
 
 INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
@@ -812,9 +812,7 @@ INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
 			continue;
 
 		if (!mir_strcmp(it->szProtoname, proto)) {
-			LPVOID lpParam = (void *)malloc(mir_strlen(it->szProtoname) + 2);
-			mir_strcpy((char *)lpParam, it->szProtoname);
-			mir_forkthread(ReloadMyAvatar, lpParam);
+			mir_forkthread(ReloadMyAvatar, mir_strdup(it->szProtoname));
 			return 0;
 		}
 	}
