@@ -617,17 +617,17 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	missyouactions[0].cbSize = sizeof(POPUPACTION);
 	missyouactions[0].lchIcon = IcoLib_GetIcon("disabled_icon");
-	mir_strcpy(missyouactions[0].lpzTitle, LPGEN("Disable Miss You"));
+	strncpy_s(missyouactions[0].lpzTitle, LPGEN("Disable Miss You"), _TRUNCATE);
 	missyouactions[0].wParam = missyouactions[0].lParam = 1;
 
 	hideactions[0].cbSize = sizeof(POPUPACTION);
 	hideactions[0].lchIcon = IcoLib_GetIcon("hide_icon");
-	mir_strcpy(hideactions[0].lpzTitle, LPGEN("Hide contact"));
+	strncpy_s(hideactions[0].lpzTitle, LPGEN("Hide contact"), _TRUNCATE);
 	hideactions[0].wParam = hideactions[0].lParam = 2;
 
 	hideactions[1].cbSize = sizeof(POPUPACTION);
 	hideactions[1].lchIcon = IcoLib_GetIcon("neverhide_icon");
-	mir_strcpy(hideactions[1].lpzTitle, LPGEN("Never hide this contact"));
+	strncpy_s(hideactions[1].lpzTitle, LPGEN("Never hide this contact"), _TRUNCATE);
 	hideactions[1].wParam = hideactions[1].lParam = 3;
 
 	return 0;
