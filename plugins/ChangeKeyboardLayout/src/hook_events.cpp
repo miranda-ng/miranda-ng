@@ -76,8 +76,8 @@ void RegPopupActions()
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		poOptions.paActions[0].cbSize = sizeof(POPUPACTION);
-		mir_strcpy(poOptions.paActions[0].lpzTitle, ModuleName);
-		mir_strcat(poOptions.paActions[0].lpzTitle, "/Copy to clipboard");
+		strncpy_s(poOptions.paActions[0].lpzTitle, ModuleName, _TRUNCATE);
+		strncat_s(poOptions.paActions[0].lpzTitle, _countof(poOptions.paActions[0].lpzTitle), "/Copy to clipboard", _TRUNCATE);
 		poOptions.paActions[0].flags = PAF_ENABLED;
 		poOptions.paActions[0].wParam = poOptions.paActions[0].lParam = 0;
 		poOptions.paActions[0].lchIcon = hCopyIcon;
