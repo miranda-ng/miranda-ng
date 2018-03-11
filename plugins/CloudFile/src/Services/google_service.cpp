@@ -3,7 +3,9 @@
 
 CGDriveService::CGDriveService(const char *protoName, const wchar_t *userName)
 	: CCloudService(protoName, userName)
-{}
+{
+	m_hProtoIcon = GetIconHandle(IDI_GDRIVE);
+}
 
 CGDriveService* CGDriveService::Init(const char *moduleName, const wchar_t *userName)
 {

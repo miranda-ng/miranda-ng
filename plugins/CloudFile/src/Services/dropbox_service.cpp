@@ -4,6 +4,7 @@
 CDropboxService::CDropboxService(const char *protoName, const wchar_t *userName)
 	: CCloudService(protoName, userName)
 {
+	m_hProtoIcon = GetIconHandle(IDI_DROPBOX);
 }
 
 CDropboxService* CDropboxService::Init(const char *moduleName, const wchar_t *userName)
