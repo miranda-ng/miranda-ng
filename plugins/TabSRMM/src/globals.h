@@ -60,7 +60,6 @@ public:
 	void        reloadSettings(bool fReloadSkins = true);
 
 	void        hookSystemEvents();
-	bool        haveAutoSwitch();
 
 	const HMENU getMenuBar();
 

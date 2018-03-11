@@ -1278,7 +1278,7 @@ void CTabBaseDlg::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 	// autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
 	// never switch for status changes...
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
-		if (PluginConfig.haveAutoSwitch() && m_pContainer->m_hwndActive != m_hwnd) {
+		if (PluginConfig.m_bAutoSwitchTabs && m_pContainer->m_hwndActive != m_hwnd) {
 			if ((IsIconic(m_pContainer->m_hwnd) && !IsZoomed(m_pContainer->m_hwnd)) || (PluginConfig.m_bHideOnClose && !IsWindowVisible(m_pContainer->m_hwnd))) {
 				int iItem = GetTabIndexFromHWND(GetParent(m_hwnd), m_hwnd);
 				if (iItem >= 0) {

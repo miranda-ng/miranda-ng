@@ -580,17 +580,3 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.szModule = (char*)c->getProto();
 	dat->StreamInEvents(0, 1, 1, &dbei);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// on Windows 7, when using new task bar features (grouping mode and per tab
-// previews), autoswitching does not work relieably, so it is disabled.
-//
-// @return: true if configuration dictates autoswitch
-
-bool CGlobals::haveAutoSwitch()
-{
-	if (m_bIsWin7 && m_useAeroPeek && !CSkin::m_skinEnabled)
-		return false;
-
-	return m_bAutoSwitchTabs;
-}
