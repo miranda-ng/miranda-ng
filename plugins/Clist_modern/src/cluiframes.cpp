@@ -596,15 +596,6 @@ static void GetBorderSize(HWND hwnd, RECT *rect)
 
 };
 
-static char __inline *AS(char *str, const char *setting, char *addstr)
-{
-	if (str != nullptr) {
-		mir_strcpy(str, setting);
-		mir_strcat(str, addstr);
-	}
-	return str;
-}
-
 static int LocateStorePosition(int Frameid, int maxstored)
 {
 	if (g_pfwFrames[Frameid].name == nullptr)
@@ -643,29 +634,26 @@ static int CLUIFramesLoadFrameSettings(int Frameid)
 		return 0;
 
 	FRAMEWND &F = g_pfwFrames[Frameid];
-	char sadd[15];
-	_itoa(storpos, sadd, 10);
+	CMStringA buf;
+	F.collapsed = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Collapse%d", storpos), F.collapsed);
 
-	char buf[255];
-	F.collapsed = 0 != db_get_b(0, CLUIFrameModule, AS(buf, "Collapse", sadd), F.collapsed);
+	F.Locked = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Locked%d", storpos), F.Locked);
+	F.visible = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Visible%d", storpos), F.visible);
+	F.TitleBar.ShowTitleBar = 0 != db_get_b(0, CLUIFrameModule, buf.Format("TBVisile%d", storpos), F.TitleBar.ShowTitleBar);
 
-	F.Locked = 0 != db_get_b(0, CLUIFrameModule, AS(buf, "Locked", sadd), F.Locked);
-	F.visible = 0 != db_get_b(0, CLUIFrameModule, AS(buf, "Visible", sadd), F.visible);
-	F.TitleBar.ShowTitleBar = 0 != db_get_b(0, CLUIFrameModule, AS(buf, "TBVisile", sadd), F.TitleBar.ShowTitleBar);
+	F.height = db_get_w(0, CLUIFrameModule, buf.Format("Height%d", storpos), F.height);
+	F.HeightWhenCollapsed = db_get_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", storpos), 0);
+	F.align = db_get_w(0, CLUIFrameModule, buf.Format("Align%d", storpos), F.align);
 
-	F.height = db_get_w(0, CLUIFrameModule, AS(buf, "Height", sadd), F.height);
-	F.HeightWhenCollapsed = db_get_w(0, CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
-	F.align = db_get_w(0, CLUIFrameModule, AS(buf, "Align", sadd), F.align);
+	F.FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatX%d", storpos), 100, 0, 2048);
+	F.FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatY%d", storpos), 100, 0, 2048);
+	F.FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatW%d", storpos), 100, 0, 2048);
+	F.FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatH%d", storpos), 100, 0, 2048);
 
-	F.FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatX", sadd), 100, 0, 2048);
-	F.FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatY", sadd), 100, 0, 2048);
-	F.FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatW", sadd), 100, 0, 2048);
-	F.FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), 100, 0, 2048);
+	F.floating = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Floating%d", storpos), 0);
+	F.order = db_get_w(0, CLUIFrameModule, buf.Format("Order%d", storpos), 0);
 
-	F.floating = 0 != db_get_b(0, CLUIFrameModule, AS(buf, "Floating", sadd), 0);
-	F.order = db_get_w(0, CLUIFrameModule, AS(buf, "Order", sadd), 0);
-
-	F.UseBorder = 0 != db_get_b(0, CLUIFrameModule, AS(buf, "UseBorder", sadd), F.UseBorder);
+	F.UseBorder = 0 != db_get_b(0, CLUIFrameModule, buf.Format("UseBorder%d", storpos), F.UseBorder);
 	return 0;
 }
 
@@ -688,29 +676,26 @@ static int CLUIFramesStoreFrameSettings(int Frameid)
 	}
 
 	FRAMEWND &F = g_pfwFrames[Frameid];
-	char sadd[16];
-	_itoa(storpos, sadd, 10);
+	CMStringA buf;
+	db_set_ws(0, CLUIFrameModule, buf.Format("Name%d", storpos), F.name);
 
-	char buf[255];
-	db_set_ws(0, CLUIFrameModule, AS(buf, "Name", sadd), F.name);
+	db_set_b(0, CLUIFrameModule, buf.Format("Collapse%d", storpos), (BYTE)btoint(F.collapsed));
+	db_set_b(0, CLUIFrameModule, buf.Format("Locked%d", storpos), (BYTE)btoint(F.Locked));
+	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", storpos), (BYTE)btoint(F.visible));
+	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", storpos), (BYTE)btoint(F.TitleBar.ShowTitleBar));
 
-	db_set_b(0, CLUIFrameModule, AS(buf, "Collapse", sadd), (BYTE)btoint(F.collapsed));
-	db_set_b(0, CLUIFrameModule, AS(buf, "Locked", sadd), (BYTE)btoint(F.Locked));
-	db_set_b(0, CLUIFrameModule, AS(buf, "Visible", sadd), (BYTE)btoint(F.visible));
-	db_set_b(0, CLUIFrameModule, AS(buf, "TBVisile", sadd), (BYTE)btoint(F.TitleBar.ShowTitleBar));
+	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", storpos), (WORD)F.height);
+	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", storpos), (WORD)F.HeightWhenCollapsed);
+	db_set_w(0, CLUIFrameModule, buf.Format("Align%d", storpos), (WORD)F.align);
 
-	db_set_w(0, CLUIFrameModule, AS(buf, "Height", sadd), (WORD)F.height);
-	db_set_w(0, CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), (WORD)F.HeightWhenCollapsed);
-	db_set_w(0, CLUIFrameModule, AS(buf, "Align", sadd), (WORD)F.align);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatX%d", storpos), (WORD)F.FloatingPos.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatY%d", storpos), (WORD)F.FloatingPos.y);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", storpos), (WORD)F.FloatingSize.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", storpos), (WORD)F.FloatingSize.y);
 
-	db_set_w(0, CLUIFrameModule, AS(buf, "FloatX", sadd), (WORD)F.FloatingPos.x);
-	db_set_w(0, CLUIFrameModule, AS(buf, "FloatY", sadd), (WORD)F.FloatingPos.y);
-	db_set_w(0, CLUIFrameModule, AS(buf, "FloatW", sadd), (WORD)F.FloatingSize.x);
-	db_set_w(0, CLUIFrameModule, AS(buf, "FloatH", sadd), (WORD)F.FloatingSize.y);
-
-	db_set_b(0, CLUIFrameModule, AS(buf, "Floating", sadd), (BYTE)btoint(F.floating));
-	db_set_b(0, CLUIFrameModule, AS(buf, "UseBorder", sadd), (BYTE)btoint(F.UseBorder));
-	db_set_w(0, CLUIFrameModule, AS(buf, "Order", sadd), (WORD)F.order);
+	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", storpos), (BYTE)btoint(F.floating));
+	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", storpos), (BYTE)btoint(F.UseBorder));
+	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", storpos), (WORD)F.order);
 
 	db_set_w(0, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
 	return 0;
