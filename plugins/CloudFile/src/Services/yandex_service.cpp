@@ -124,7 +124,6 @@ unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
 	EndDialog(hwndDlg, 1);
-
 	return 0;
 }
 
@@ -148,7 +147,7 @@ void CYandexService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CYandexService::CreateUploadSession(const char *path, char *uploadUri)
+void CYandexService::CreateUploadSession(const char *path, CMStringA &uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
@@ -156,8 +155,8 @@ void CYandexService::CreateUploadSession(const char *path, char *uploadUri)
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("href");
-	mir_strcpy(uploadUri, node.as_string().c_str());
+	if (root)
+		uploadUri = root["href"].as_string().c_str();
 }
 
 void CYandexService::UploadFile(const char *uploadUri, const char *data, size_t size)
@@ -196,7 +195,7 @@ void CYandexService::CreateFolder(const char *path)
 	GetJsonResponse(response);
 }
 
-void CYandexService::CreateSharedLink(const char *path, char *url)
+void CYandexService::CreateSharedLink(const char *path, CMStringA &url)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	YandexAPI::PublishRequest publishRequest(token, path);
@@ -208,9 +207,8 @@ void CYandexService::CreateSharedLink(const char *path, char *url)
 	response = resourcesRequest.Send(m_hConnection);
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode link = root.at("public_url");
-
-	mir_strcpy(url, link.as_string().c_str());
+	if (root)
+		url = root["public_url"].as_string().c_str();
 }
 
 UINT CYandexService::Upload(FileTransferParam *ftp)
@@ -227,11 +225,11 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 		if (ftp->IsFolder()) {
 			T2Utf folderName(ftp->GetFolderName());
 
-			char path[MAX_PATH]; 
+			CMStringA path; 
 			PreparePath(folderName, path);
 			CreateFolder(path);
 
-			char link[MAX_PATH];
+			CMStringA link;
 			CreateSharedLink(path, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 			ftp->AddSharedLink(link);
@@ -243,10 +241,10 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
-			char path[MAX_PATH];
+			CMStringA path;
 			PreparePath(fileName, path);
 			
-			char uploadUri[1024];
+			CMStringA uploadUri;
 			CreateUploadSession(path, uploadUri);
 
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
@@ -276,7 +274,7 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 			}
 
 			if (!ftp->IsFolder()) {
-				char link[MAX_PATH];
+				CMStringA link;
 				CreateSharedLink(path, link);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 				ftp->AddSharedLink(link);

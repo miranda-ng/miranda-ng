@@ -9,11 +9,11 @@ private:
 
 	void HandleJsonError(JSONNode &node) override;
 
-	void CreateUploadSession(const char *path, char *uploadUri);
+	void CreateUploadSession(const char *path, CMStringA &uploadUri);
 	void UploadFile(const char *uploadUri, const char *data, size_t size);
 	void UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize);
 	void CreateFolder(const char *path);
-	void CreateSharedLink(const char *path, char *url);
+	void CreateSharedLink(const char *path, CMStringA &url);
 
 public:
 	CYandexService(const char *protoName, const wchar_t *userName);

@@ -47,7 +47,7 @@ void COneDriveService::Login()
 	if (token && refreshToken && refreshToken[0]) {
 		OneDriveAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(m_hConnection));
-		
+
 		JSONNode root = GetJsonResponse(response);
 
 		JSONNode node = root.at("access_token");
@@ -56,10 +56,10 @@ void COneDriveService::Login()
 		node = root.at("expires_in");
 		time_t expiresIn = time(nullptr) + node.as_int();
 		db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
-		
+
 		return;
 	}
-	
+
 	COAuthDlg dlg(this, MICROSOFT_AUTH, RequestAccessTokenThread);
 	dlg.DoModal();
 }
@@ -136,7 +136,7 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void COneDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId)
+void COneDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, CMStringA &fileId)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
@@ -147,11 +147,10 @@ void COneDriveService::UploadFile(const char *parentId, const char *name, const 
 	delete request;
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("id");
-	mir_strcpy(fileId, node.as_string().c_str());
+	fileId = root["id"].as_string().c_str();
 }
 
-void COneDriveService::CreateUploadSession(const char *parentId, const char *name, char *uploadUri)
+void COneDriveService::CreateUploadSession(const char *parentId, const char *name, CMStringA &uploadUri)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
@@ -162,11 +161,10 @@ void COneDriveService::CreateUploadSession(const char *parentId, const char *nam
 	delete request;
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("uploadUrl");
-	mir_strcpy(uploadUri, node.as_string().c_str());
+	uploadUri = root["uploadUrl"].as_string().c_str();
 }
 
-void COneDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId)
+void COneDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, CMStringA &fileId)
 {
 	OneDriveAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(m_hConnection));
@@ -178,35 +176,32 @@ void COneDriveService::UploadFileChunk(const char *uploadUri, const char *chunk,
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		JSONNode root = GetJsonResponse(response);
-		JSONNode node = root.at("id");
-		mir_strcpy(fileId, node.as_string().c_str());
-		return;
+		if (root)
+			fileId = root["id"].as_string().c_str();
 	}
-
-	HttpResponseToError(response);
+	else HttpResponseToError(response);
 }
 
-void COneDriveService::CreateFolder(const char *path, char *folderId)
+void COneDriveService::CreateFolder(const char *path, CMStringA &folderId)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	OneDriveAPI::CreateFolderRequest request(token, path);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("id");
-	mir_strcpy(folderId, node.as_string().c_str());
+	if (root)
+		folderId = root["id"].as_string().c_str();
 }
 
-void COneDriveService::CreateSharedLink(const char *itemId, char *url)
+void COneDriveService::CreateSharedLink(const char *itemId, CMStringA &url)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	OneDriveAPI::CreateSharedLinkRequest request(token, itemId);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("link");
-	JSONNode webUrl = node.at("webUrl");
-	mir_strcpy(url, webUrl.as_string().c_str());
+	if (root)
+		url = root["link"]["webUrl"].as_string().c_str();
 }
 
 UINT COneDriveService::Upload(FileTransferParam *ftp)
@@ -220,33 +215,30 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 			return ACKRESULT_FAILED;
 		}
 
-		char folderId[32] = { 0 };
+		CMStringA folderId;
 		if (ftp->IsFolder()) {
-			T2Utf folderName(ftp->GetFolderName());
+			CMStringA folderName(T2Utf(ftp->GetFolderName()).get());
 
-			char path[MAX_PATH];
+			CMStringA path;
 			PreparePath(folderName, path);
 			CreateFolder(path, folderId);
 
-			char link[MAX_PATH];
+			CMStringA link;
 			CreateSharedLink(path, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 			ftp->AddSharedLink(link);
 		}
 
 		ftp->FirstFile();
-		do
-		{
+		do {
 			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
-			char fileId[32];
-
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
-			
-			if (chunkSize == fileSize)
-			{
+
+			CMStringA fileId;
+			if (chunkSize == fileSize) {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
@@ -254,8 +246,7 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 
 				ftp->Progress(size);
 			}
-			else
-			{
+			else {
 				char uploadUri[1024];
 				CreateUploadSession(uploadUri, T2Utf(fileName), folderId);
 
@@ -273,7 +264,7 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 			}
 
 			if (!ftp->IsFolder()) {
-				char link[MAX_PATH];
+				CMStringA link;
 				CreateSharedLink(fileId, link);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 				ftp->AddSharedLink(link);

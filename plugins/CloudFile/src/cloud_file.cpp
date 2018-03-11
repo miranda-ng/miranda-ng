@@ -70,19 +70,17 @@ void CCloudService::Report(MCONTACT hContact, const wchar_t *data)
 		PasteToClipboard(data);
 }
 
-char* CCloudService::PreparePath(const char *oldPath, char *newPath)
+const char* CCloudService::PreparePath(const char *oldPath, CMStringA &newPath)
 {
 	if (oldPath == nullptr)
-		mir_strcpy(newPath, "");
-	else if (*oldPath != '/')
-	{
-		CMStringA result("/");
-		result.Append(oldPath);
-		result.Replace("\\", "/");
-		mir_strcpy(newPath, result);
+		newPath = "";
+	else if (*oldPath != '/') {
+		newPath = "/";
+		newPath.Append(oldPath);
+		newPath.Replace("\\", "/");
 	}
-	else
-		mir_strcpy(newPath, oldPath);
+	else newPath = oldPath;
+	
 	return newPath;
 }
 

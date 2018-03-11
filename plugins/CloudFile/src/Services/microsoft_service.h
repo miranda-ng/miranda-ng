@@ -8,11 +8,11 @@ private:
 
 	void HandleJsonError(JSONNode &node) override;
 
-	void UploadFile(const char *parentId, const char *name, const char *data, size_t size, char *fileId);
-	void CreateUploadSession(const char *parentId, const char *name, char *uploadUri);
-	void UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, char *fileId);
-	void CreateFolder(const char *path, char *folderId);
-	void CreateSharedLink(const char *itemId, char *url);
+	void UploadFile(const char *parentId, const char *name, const char *data, size_t size, CMStringA &fileId);
+	void CreateUploadSession(const char *parentId, const char *name, CMStringA &uploadUri);
+	void UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, CMStringA &fileId);
+	void CreateFolder(const char *path, CMStringA &folderId);
+	void CreateSharedLink(const char *itemId, CMStringA &url);
 
 public:
 	COneDriveService(const char *protoName, const wchar_t *userName);

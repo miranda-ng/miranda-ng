@@ -90,7 +90,6 @@ unsigned CDropboxService::RequestAccessTokenThread(void *owner, void *param)
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
 	EndDialog(hwndDlg, 1);
-
 	return 0;
 }
 
@@ -114,7 +113,7 @@ void CDropboxService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CDropboxService::UploadFile(const char *data, size_t size, char *path)
+void CDropboxService::UploadFile(const char *data, size_t size, CMStringA &path)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
@@ -122,19 +121,19 @@ void CDropboxService::UploadFile(const char *data, size_t size, char *path)
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("path_lower");
-	mir_strcpy(path, node.as_string().c_str());
+	if (root)
+		path = root["path_lower"].as_string().c_str();
 }
 
-void CDropboxService::CreateUploadSession(const char *chunk, size_t chunkSize, char *sessionId)
+void CDropboxService::CreateUploadSession(const char *chunk, size_t chunkSize, CMStringA &sessionId)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	DropboxAPI::CreateUploadSessionRequest request(token, chunk, chunkSize);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("session_id");
-	mir_strcpy(sessionId, node.as_string().c_str());
+	if (root)
+		sessionId = root["session_id"].as_string().c_str();
 }
 
 void CDropboxService::UploadFileChunk(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset)
@@ -142,11 +141,10 @@ void CDropboxService::UploadFileChunk(const char *chunk, size_t chunkSize, const
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	DropboxAPI::UploadFileChunkRequest request(token, sessionId, offset, chunk, chunkSize);
 	NLHR_PTR response(request.Send(m_hConnection));
-
 	HandleHttpError(response);
 }
 
-void CDropboxService::CommitUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, char *path)
+void CDropboxService::CommitUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, CMStringA &path)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
@@ -154,8 +152,8 @@ void CDropboxService::CommitUploadSession(const char *data, size_t size, const c
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	JSONNode node = root.at("path_lower");
-	mir_strcpy(path, node.as_string().c_str());
+	if (root)
+		path = root["path_lower"].as_string().c_str();
 }
 
 void CDropboxService::CreateFolder(const char *path)
@@ -173,7 +171,7 @@ void CDropboxService::CreateFolder(const char *path)
 	GetJsonResponse(response);
 }
 
-void CDropboxService::CreateSharedLink(const char *path, char *url)
+void CDropboxService::CreateSharedLink(const char *path, CMStringA &url)
 {
 	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
 	DropboxAPI::CreateSharedLinkRequest shareRequest(token, path);
@@ -196,7 +194,7 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 	JSONNode error = root.at("error");
 	if (error.isnull()) {
 		JSONNode link = root.at("url");
-		mir_strcpy(url, link.as_string().c_str());
+		url = link.as_string().c_str();
 		return;
 	}
 
@@ -211,7 +209,7 @@ void CDropboxService::CreateSharedLink(const char *path, char *url)
 
 	JSONNode links = root.at("links").as_array();
 	JSONNode link = links[(size_t)0].at("url");
-	mir_strcpy(url, link.as_string().c_str());
+	url = link.as_string().c_str();
 }
 
 UINT CDropboxService::Upload(FileTransferParam *ftp)
@@ -223,11 +221,11 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 		if (ftp->IsFolder()) {
 			T2Utf folderName(ftp->GetFolderName());
 
-			char path[MAX_PATH];
+			CMStringA path;
 			PreparePath(folderName, path);
 			CreateFolder(path);
 
-			char link[MAX_PATH];
+			CMStringA link;
 			CreateSharedLink(path, link);
 			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 			ftp->AddSharedLink(link);
@@ -239,18 +237,17 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
-			int chunkSize = ftp->GetCurrentFileChunkSize();
+			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
 
-			char path[MAX_PATH];
+			CMStringA path;
 			const wchar_t *serverFolder = ftp->GetServerFolder();
 			if (serverFolder) {
 				char serverPath[MAX_PATH] = { 0 };
 				mir_snprintf(serverPath, "%s\\%s", T2Utf(serverFolder), fileName);
 				PreparePath(serverPath, path);
 			}
-			else
-				PreparePath(fileName, path);
+			else PreparePath(fileName, path);
 
 			if (chunkSize == fileSize)
 			{
@@ -266,7 +263,7 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-				char sessionId[64];
+				CMStringA sessionId;
 				CreateUploadSession(chunk, size, sessionId);
 
 				ftp->Progress(size);
@@ -294,7 +291,7 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 			}
 
 			if (!ftp->IsFolder()) {
-				char link[MAX_PATH];
+				CMStringA link;
 				CreateSharedLink(path, link);
 				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
 				ftp->AddSharedLink(link);
