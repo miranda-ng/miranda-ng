@@ -32,7 +32,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	InitializeIcons();

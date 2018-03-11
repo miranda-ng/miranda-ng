@@ -2,7 +2,7 @@
 
 LIST<FileTransferParam> Transfers(1, HandleKeySortT);
 
-INT_PTR CCloudService::SendFileInterceptor(WPARAM, LPARAM lParam)
+INT_PTR SendFileInterceptor(WPARAM, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 	for (auto &service : Services) {
@@ -13,51 +13,6 @@ INT_PTR CCloudService::SendFileInterceptor(WPARAM, LPARAM lParam)
 		return (INT_PTR)service->SendFile(pccsd->hContact, (wchar_t*)pccsd->wParam, (wchar_t**)pccsd->lParam);
 	}
 	return CALLSERVICE_NOTFOUND;
-}
-
-int CCloudService::FileCancel(MCONTACT, HANDLE hTransfer)
-{
-	FileTransferParam *ftp = Transfers.find((FileTransferParam*)&hTransfer);
-	if (ftp)
-		ftp->Terminate();
-
-	return 0;
-}
-
-HANDLE CCloudService::SendFile(MCONTACT hContact, const wchar_t *description, wchar_t **paths)
-{
-	FileTransferParam *ftp = new FileTransferParam(hContact);
-
-	ftp->SetDescription(description);
-
-	ftp->SetWorkingDirectory(paths[0]);
-	for (int i = 0; paths[i]; i++) {
-		if (PathIsDirectory(paths[i]))
-			continue;
-		ftp->AddFile(paths[i]);
-	}
-
-	Transfers.insert(ftp);
-
-	mir_forkthreadowner(UploadAndReportProgressThread, this, ftp);
-
-	return (HANDLE)ftp->GetId();
-}
-
-void CCloudService::OpenUploadDialog(MCONTACT hContact)
-{
-	char *proto = GetContactProto(hContact);
-	if (!mir_strcmpi(proto, META_PROTO))
-		hContact = CallService(MS_MC_GETMOSTONLINECONTACT, hContact);
-
-	auto it = InterceptedContacts.find(hContact);
-	if (it == InterceptedContacts.end())
-	{
-		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, hContact, 0);
-		InterceptedContacts[hContact] = hwnd;
-	}
-	else
-		SetActiveWindow(it->second);
 }
 
 UINT UploadAndReportProgressThread(void *owner, void *arg)
@@ -74,7 +29,7 @@ UINT UploadAndReportProgressThread(void *owner, void *arg)
 			data.Append(ptrW(mir_utf8decodeW(links[i])));
 			data.AppendChar(0x0A);
 		}
-		service->Report(ftp->GetContact(), data);
+		Report(ftp->GetContact(), data);
 	}
 
 	Transfers.remove(ftp);

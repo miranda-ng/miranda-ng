@@ -44,6 +44,45 @@ DWORD_PTR CCloudService::GetCaps(int type, MCONTACT)
 	}
 }
 
+int CCloudService::FileCancel(MCONTACT, HANDLE hTransfer)
+{
+	FileTransferParam *ftp = Transfers.find((FileTransferParam*)&hTransfer);
+	if (ftp)
+		ftp->Terminate();
+
+	return 0;
+}
+
+HANDLE CCloudService::SendFile(MCONTACT hContact, const wchar_t *description, wchar_t **paths)
+{
+	FileTransferParam *ftp = new FileTransferParam(hContact);
+	ftp->SetDescription(description);
+	ftp->SetWorkingDirectory(paths[0]);
+	for (int i = 0; paths[i]; i++) {
+		if (PathIsDirectory(paths[i]))
+			continue;
+		ftp->AddFile(paths[i]);
+	}
+	Transfers.insert(ftp);
+	mir_forkthreadowner(UploadAndReportProgressThread, this, ftp);
+	return (HANDLE)ftp->GetId();
+}
+
+void CCloudService::OpenUploadDialog(MCONTACT hContact)
+{
+	char *proto = GetContactProto(hContact);
+	if (!mir_strcmpi(proto, META_PROTO))
+		hContact = CallService(MS_MC_GETMOSTONLINECONTACT, hContact);
+
+	auto it = InterceptedContacts.find(hContact);
+	if (it == InterceptedContacts.end()) {
+		HWND hwnd = (HWND)CallService(MS_FILE_SENDFILE, hContact, 0);
+		InterceptedContacts[hContact] = hwnd;
+	}
+	else
+		SetActiveWindow(it->second);
+}
+
 int CCloudService::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
 {
 	switch (iEventType) {
@@ -56,18 +95,6 @@ int CCloudService::OnEvent(PROTOEVENTTYPE iEventType, WPARAM, LPARAM)
 		return 0;
 	}
 	return 1;
-}
-
-void CCloudService::Report(MCONTACT hContact, const wchar_t *data)
-{
-	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
-		SendToContact(hContact, data);
-
-	if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
-		PasteToInputArea(hContact, data);
-
-	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
-		PasteToClipboard(data);
 }
 
 std::string CCloudService::PreparePath(const char *path)

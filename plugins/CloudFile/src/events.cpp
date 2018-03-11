@@ -1,28 +1,6 @@
 #include "stdafx.h"
 
-int OnModulesLoaded(WPARAM, LPARAM)
-{
-	
-	//InitializeMenus();
-
-	// options
-	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
-
-	// srfile
-	for (auto &service : Services)
-		HookEventObj(ME_FILEDLG_CANCELED, OnFileDialogCanceled, service);
-
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
-
-	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);
-	HookEvent(ME_MSG_BUTTONPRESSED, OnSrmmButtonPressed);
-
-	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);
-
-	return 0;
-}
-
-int OnProtoAck(WPARAM, LPARAM lParam)
+static int OnProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 
@@ -46,13 +24,33 @@ int OnProtoAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int OnFileDialogCanceled(void* obj, WPARAM hContact, LPARAM)
+static int OnFileDialogCanceled(WPARAM hContact, LPARAM)
 {
-	CCloudService *service = (CCloudService*)obj;
+	for (auto &service : Services) {
+		auto it = service->InterceptedContacts.find(hContact);
+		if (it != service->InterceptedContacts.end())
+			service->InterceptedContacts.erase(it);
+	}
+	return 0;
+}
 
-	auto it = service->InterceptedContacts.find(hContact);
-	if (it != service->InterceptedContacts.end())
-		service->InterceptedContacts.erase(it);
+int OnModulesLoaded(WPARAM, LPARAM)
+{
+	
+	HookEvent(ME_PROTO_ACK, OnProtoAck);
+
+	// options
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
+
+	// srfile
+	HookEvent(ME_FILEDLG_CANCELED, OnFileDialogCanceled);
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
+
+	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);
+	HookEvent(ME_MSG_BUTTONPRESSED, OnSrmmButtonPressed);
+
+	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);
 
 	return 0;
 }

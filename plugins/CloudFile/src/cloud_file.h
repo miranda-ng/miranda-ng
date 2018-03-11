@@ -36,8 +36,6 @@ public:
 	int __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
 	HANDLE __cdecl SendFile(MCONTACT hContact, const wchar_t *msg, wchar_t **ppszFiles) override;
 
-	static INT_PTR SendFileInterceptor(WPARAM wParam, LPARAM lParam);
-
 	int GetId() const;
 	virtual const char* GetModuleName() const = 0;
 	const char* GetAccountName() const;
@@ -52,8 +50,6 @@ public:
 	void OpenUploadDialog(MCONTACT hContact);
 
 	virtual UINT Upload(FileTransferParam *ftp) = 0;
-
-	void Report(MCONTACT hContact, const wchar_t *data);
 };
 
 class CCloudServiceSearch : public CCloudService

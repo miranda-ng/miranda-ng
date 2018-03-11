@@ -13,19 +13,19 @@ namespace DropboxAPI
 #define DROPBOX_APP_KEY "fa8du7gkf2q8xzg"
 #include "../../../miranda-private-keys/Dropbox/secret_key.h"
 
-#define DROPBOX_API_AUTH "https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=" DROPBOX_APP_KEY
+#define DROPBOX_API_AUTH "https://www.dropbox.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Foauth.miranda-ng.org%2Fverification&client_id=" DROPBOX_APP_KEY
 
 	class GetAccessTokenRequest : public HttpRequest
 	{
 	public:
-		GetAccessTokenRequest(const char *requestToken) :
+		GetAccessTokenRequest(const char *code) :
 			HttpRequest(REQUEST_POST, DROPBOX_API_OAUTH "/token")
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-			CMStringA data(CMStringDataFormat::FORMAT,
-				"client_id=%s&client_secret=%s&grant_type=authorization_code&code=%s",
-				DROPBOX_APP_KEY, DROPBOX_API_SECRET, requestToken);
+			CMStringA data = "redirect_uri=https://oauth.miranda-ng.org/verification";
+			data.AppendFormat("&client_id=%s&client_secret=%s", DROPBOX_APP_KEY, DROPBOX_API_SECRET);
+			data.AppendFormat("&grant_type=authorization_code&code=%s", code);
 			SetData(data.GetBuffer(), data.GetLength());
 		}
 	};

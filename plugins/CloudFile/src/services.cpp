@@ -63,33 +63,25 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 	if (service == nullptr)
 		return 3;
 
-	FileTransferParam *ftp = new FileTransferParam(0);
-	ftp->SetWorkingDirectory(uploadData->localPath);
-	ftp->SetServerFolder(uploadData->serverFolder);
-
-	if (PathIsDirectory(uploadData->localPath))
-	{
+	if (PathIsDirectory(uploadData->localPath)) {
 		// temporary unsupported
-		Transfers.remove(ftp);
-		delete ftp;
-
-		return ACKRESULT_FAILED;
+		return 4;
 	}
-	else
-		ftp->AddFile(uploadData->localPath);
 
-	int res = service->Upload(ftp);
+	FileTransferParam ftp(0);
+	ftp.SetWorkingDirectory(uploadData->localPath);
+	ftp.SetServerFolder(uploadData->serverFolder);
+	ftp.AddFile(uploadData->localPath);
+
+	int res = service->Upload(&ftp);
 	if (res == ACKRESULT_SUCCESS && lParam) {
 		CFUPLOADRESULT *result = (CFUPLOADRESULT*)lParam;
-		const char **links = ftp->GetSharedLinks(result->linkCount);
+		const char **links = ftp.GetSharedLinks(result->linkCount);
 		result->links = (char**)mir_calloc(sizeof(char*) * result->linkCount);
 		for (size_t i = 0; i < result->linkCount; i++)
 			result->links[i] = mir_strdup(links[i]);
-		result->description = mir_wstrdup(ftp->GetDescription());
+		result->description = mir_wstrdup(ftp.GetDescription());
 	}
-
-	Transfers.remove(ftp);
-	delete ftp;
 
 	return res;
 }
@@ -123,7 +115,7 @@ void InitializeServices()
 	pd.type = PROTOTYPE_FILTER;
 	Proto_RegisterModule(&pd);
 
-	CreateServiceFunction(MODULE PSS_FILE, &CCloudService::SendFileInterceptor);
+	CreateServiceFunction(MODULE PSS_FILE, SendFileInterceptor);
 
 	CreateServiceFunction(MS_CLOUDFILE_GETSERVICE, GetService);
 	CreateServiceFunction(MS_CLOUDFILE_ENUMSERVICES, EnumServices);

@@ -95,3 +95,15 @@ void PasteToClipboard(const wchar_t *data)
 		CloseClipboard();
 	}
 }
+
+void Report(MCONTACT hContact, const wchar_t *data)
+{
+	if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
+		SendToContact(hContact, data);
+
+	if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 0))
+		PasteToInputArea(hContact, data);
+
+	if (db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0))
+		PasteToClipboard(data);
+}

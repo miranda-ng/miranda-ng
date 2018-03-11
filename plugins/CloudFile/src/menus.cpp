@@ -2,7 +2,7 @@
 
 HGENMENU hContactMenu;
 
-INT_PTR UploadMenuCommand(void *obj, WPARAM hContact, LPARAM)
+static INT_PTR UploadMenuCommand(void *obj, WPARAM hContact, LPARAM)
 {
 	CCloudService *service = (CCloudService*)obj;
 	service->OpenUploadDialog(hContact);

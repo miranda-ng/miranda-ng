@@ -75,8 +75,6 @@ void InitializeServices();
 
 // events
 int OnModulesLoaded(WPARAM, LPARAM);
-int OnProtoAck(WPARAM, LPARAM);
-int OnFileDialogCanceled(void* obj, WPARAM hContact, LPARAM);
 
 // icons
 void InitializeIcons();
@@ -101,6 +99,8 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM);
 
 // transfers
 extern LIST<FileTransferParam> Transfers;
+
+INT_PTR SendFileInterceptor(WPARAM wParam, LPARAM lParam);
 UINT UploadAndReportProgressThread(void *owner, void *arg);
 
 // utils
@@ -110,5 +110,6 @@ bool CanSendToContact(MCONTACT hContact);
 void SendToContact(MCONTACT hContact, const wchar_t *data);
 void PasteToInputArea(MCONTACT hContact, const wchar_t *data);
 void PasteToClipboard(const wchar_t *data);
+void Report(MCONTACT hContact, const wchar_t *data);
 
 #endif //_COMMON_H_
