@@ -635,39 +635,25 @@ static int CLUIFramesLoadFrameSettings(int Frameid)
 
 	FRAMEWND &F = g_pfwFrames[Frameid];
 	CMStringA buf;
-	F.collapsed = 0 != db_get_b(0, CLUIFrameModule, buf.AppendFormat("Collapse%d", storpos), F.collapsed);
-	buf.Empty();
+	F.collapsed = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Collapse%d", storpos), F.collapsed);
 
-	F.Locked = 0 != db_get_b(0, CLUIFrameModule, buf.AppendFormat("Locked%d", storpos), F.Locked);
-	buf.Empty();
-	F.visible = 0 != db_get_b(0, CLUIFrameModule, buf.AppendFormat("Visible%d", storpos), F.visible);
-	buf.Empty();
-	F.TitleBar.ShowTitleBar = 0 != db_get_b(0, CLUIFrameModule, buf.AppendFormat("TBVisile%d", storpos), F.TitleBar.ShowTitleBar);
-	buf.Empty();
+	F.Locked = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Locked%d", storpos), F.Locked);
+	F.visible = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Visible%d", storpos), F.visible);
+	F.TitleBar.ShowTitleBar = 0 != db_get_b(0, CLUIFrameModule, buf.Format("TBVisile%d", storpos), F.TitleBar.ShowTitleBar);
 
-	F.height = db_get_w(0, CLUIFrameModule, buf.AppendFormat("Height%d", storpos), F.height);
-	buf.Empty();
-	F.HeightWhenCollapsed = db_get_w(0, CLUIFrameModule, buf.AppendFormat("HeightCollapsed%d", storpos), 0);
-	buf.Empty();
-	F.align = db_get_w(0, CLUIFrameModule, buf.AppendFormat("Align%d", storpos), F.align);
-	buf.Empty();
+	F.height = db_get_w(0, CLUIFrameModule, buf.Format("Height%d", storpos), F.height);
+	F.HeightWhenCollapsed = db_get_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", storpos), 0);
+	F.align = db_get_w(0, CLUIFrameModule, buf.Format("Align%d", storpos), F.align);
 
-	F.FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.AppendFormat("FloatX%d", storpos), 100, 0, 2048);
-	buf.Empty();
-	F.FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.AppendFormat("FloatY%d", storpos), 100, 0, 2048);
-	buf.Empty();
-	F.FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.AppendFormat("FloatW%d", storpos), 100, 0, 2048);
-	buf.Empty();
-	F.FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.AppendFormat("FloatH%d", storpos), 100, 0, 2048);
-	buf.Empty();
+	F.FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatX%d", storpos), 100, 0, 2048);
+	F.FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatY%d", storpos), 100, 0, 2048);
+	F.FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatW%d", storpos), 100, 0, 2048);
+	F.FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatH%d", storpos), 100, 0, 2048);
 
-	F.floating = 0 != db_get_b(0, CLUIFrameModule, buf.AppendFormat("Floating%d", storpos), 0);
-	buf.Empty();
-	F.order = db_get_w(0, CLUIFrameModule, buf.AppendFormat("Order%d", storpos), 0);
-	buf.Empty();
+	F.floating = 0 != db_get_b(0, CLUIFrameModule, buf.Format("Floating%d", storpos), 0);
+	F.order = db_get_w(0, CLUIFrameModule, buf.Format("Order%d", storpos), 0);
 
-	F.UseBorder = 0 != db_get_b(0, CLUIFrameModule, buf.AppendFormat("UseBorder%d", storpos), F.UseBorder);
-	buf.Empty();
+	F.UseBorder = 0 != db_get_b(0, CLUIFrameModule, buf.Format("UseBorder%d", storpos), F.UseBorder);
 	return 0;
 }
 
@@ -691,40 +677,25 @@ static int CLUIFramesStoreFrameSettings(int Frameid)
 
 	FRAMEWND &F = g_pfwFrames[Frameid];
 	CMStringA buf;
-	db_set_ws(0, CLUIFrameModule, buf.AppendFormat("Name%d", storpos), F.name);
-	buf.Empty();
+	db_set_ws(0, CLUIFrameModule, buf.Format("Name%d", storpos), F.name);
 
-	db_set_b(0, CLUIFrameModule, buf.AppendFormat("Collapse%d", storpos), (BYTE)btoint(F.collapsed));
-	buf.Empty();
-	db_set_b(0, CLUIFrameModule, buf.AppendFormat("Locked%d", storpos), (BYTE)btoint(F.Locked));
-	buf.Empty();
-	db_set_b(0, CLUIFrameModule, buf.AppendFormat("Visible%d", storpos), (BYTE)btoint(F.visible));
-	buf.Empty();
-	db_set_b(0, CLUIFrameModule, buf.AppendFormat("TBVisile%d", storpos), (BYTE)btoint(F.TitleBar.ShowTitleBar));
-	buf.Empty();
+	db_set_b(0, CLUIFrameModule, buf.Format("Collapse%d", storpos), (BYTE)btoint(F.collapsed));
+	db_set_b(0, CLUIFrameModule, buf.Format("Locked%d", storpos), (BYTE)btoint(F.Locked));
+	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", storpos), (BYTE)btoint(F.visible));
+	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", storpos), (BYTE)btoint(F.TitleBar.ShowTitleBar));
 
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("Height%d", storpos), (WORD)F.height);
-	buf.Empty();
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("HeightCollapsed%d", storpos), (WORD)F.HeightWhenCollapsed);
-	buf.Empty();
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("Align%d", storpos), (WORD)F.align);
-	buf.Empty();
+	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", storpos), (WORD)F.height);
+	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", storpos), (WORD)F.HeightWhenCollapsed);
+	db_set_w(0, CLUIFrameModule, buf.Format("Align%d", storpos), (WORD)F.align);
 
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("FloatX%d", storpos), (WORD)F.FloatingPos.x);
-	buf.Empty();
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("FloatY%d", storpos), (WORD)F.FloatingPos.y);
-	buf.Empty();
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("FloatW%d", storpos), (WORD)F.FloatingSize.x);
-	buf.Empty();
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("FloatH%d", storpos), (WORD)F.FloatingSize.y);
-	buf.Empty();
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatX%d", storpos), (WORD)F.FloatingPos.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatY%d", storpos), (WORD)F.FloatingPos.y);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", storpos), (WORD)F.FloatingSize.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", storpos), (WORD)F.FloatingSize.y);
 
-	db_set_b(0, CLUIFrameModule, buf.AppendFormat("Floating%d", storpos), (BYTE)btoint(F.floating));
-	buf.Empty();
-	db_set_b(0, CLUIFrameModule, buf.AppendFormat("UseBorder%d", storpos), (BYTE)btoint(F.UseBorder));
-	buf.Empty();
-	db_set_w(0, CLUIFrameModule, buf.AppendFormat("Order%d", storpos), (WORD)F.order);
-	buf.Empty();
+	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", storpos), (BYTE)btoint(F.floating));
+	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", storpos), (BYTE)btoint(F.UseBorder));
+	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", storpos), (WORD)F.order);
 
 	db_set_w(0, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
 	return 0;
