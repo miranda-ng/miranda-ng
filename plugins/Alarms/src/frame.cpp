@@ -557,18 +557,18 @@ int CreateFrame()
 	SendMessage(hwnd_plugin, WMU_INITIALIZE, 0, 0);
 
 	font_id.cbSize = sizeof(font_id);
-	strncpy(font_id.group, LPGEN("Frames"), sizeof(font_id.group));
-	strncpy(font_id.name, LPGEN("Alarm reminders"), sizeof(font_id.name));
-	strncpy(font_id.dbSettingsGroup, MODULE, sizeof(font_id.dbSettingsGroup));
-	strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
+	strncpy_s(font_id.group, LPGEN("Frames"), _TRUNCATE);
+	strncpy_s(font_id.name, LPGEN("Alarm reminders"), _TRUNCATE);
+	strncpy_s(font_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(font_id.prefix, "Font", _TRUNCATE);
 	font_id.order = 0;
 	Font_Register(&font_id);
 
 	framebk_colour_id.cbSize = sizeof(ColourID);
-	mir_strcpy(framebk_colour_id.dbSettingsGroup, MODULE);
-	mir_strcpy(framebk_colour_id.group, LPGEN("Frames"));
-	mir_strcpy(framebk_colour_id.name, LPGEN("Alarm reminders"));
-	mir_strcpy(framebk_colour_id.setting, "clFrameBack");
+	strncpy_s(framebk_colour_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(framebk_colour_id.group, LPGEN("Frames"), _TRUNCATE);
+	strncpy_s(framebk_colour_id.name, LPGEN("Alarm reminders"), _TRUNCATE);
+	strncpy_s(framebk_colour_id.setting, "clFrameBack", _TRUNCATE);
 	framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	framebk_colour_id.flags = 0;
 	framebk_colour_id.order = 0;

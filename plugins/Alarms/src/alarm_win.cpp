@@ -349,32 +349,32 @@ int ReloadFonts(WPARAM, LPARAM)
 int AlarmWinModulesLoaded(WPARAM, LPARAM)
 {
 	title_font_id.cbSize = sizeof(FontIDW);
-	mir_wstrcpy(title_font_id.group, LPGENW("Alarms"));
-	mir_wstrcpy(title_font_id.name, LPGENW("Title"));
-	mir_strcpy(title_font_id.dbSettingsGroup, MODULE);
-	mir_strcpy(title_font_id.prefix, "FontTitle");
-	mir_wstrcpy(title_font_id.backgroundGroup, LPGENW("Alarms"));
-	mir_wstrcpy(title_font_id.backgroundName, LPGENW("Background"));
+	wcsncpy_s(title_font_id.group, LPGENW("Alarms"), _TRUNCATE);
+	wcsncpy_s(title_font_id.name, LPGENW("Title"), _TRUNCATE);
+	strncpy_s(title_font_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(title_font_id.prefix, "FontTitle", _TRUNCATE);
+	wcsncpy_s(title_font_id.backgroundGroup, LPGENW("Alarms"), _TRUNCATE);
+	wcsncpy_s(title_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
 	title_font_id.flags = 0;
 	title_font_id.order = 0;
 	Font_RegisterW(&title_font_id);
 
 	window_font_id.cbSize = sizeof(FontIDW);
-	mir_wstrcpy(window_font_id.group, LPGENW("Alarms"));
-	mir_wstrcpy(window_font_id.name, LPGENW("Window"));
-	mir_strcpy(window_font_id.dbSettingsGroup, MODULE);
-	mir_strcpy(window_font_id.prefix, "FontWindow");
-	mir_wstrcpy(window_font_id.backgroundGroup, LPGENW("Alarms"));
-	mir_wstrcpy(window_font_id.backgroundName, LPGENW("Background"));
+	wcsncpy_s(window_font_id.group, LPGENW("Alarms"), _TRUNCATE);
+	wcsncpy_s(window_font_id.name, LPGENW("Window"), _TRUNCATE);
+	strncpy_s(window_font_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	strncpy_s(window_font_id.prefix, "FontWindow", _TRUNCATE);
+	wcsncpy_s(window_font_id.backgroundGroup, LPGENW("Alarms"), _TRUNCATE);
+	wcsncpy_s(window_font_id.backgroundName, LPGENW("Background"), _TRUNCATE);
 	window_font_id.flags = 0;
 	window_font_id.order = 1;
 	Font_RegisterW(&window_font_id);
 
 	bk_colour_id.cbSize = sizeof(ColourIDW);
-	mir_strcpy(bk_colour_id.dbSettingsGroup, MODULE);
-	mir_wstrcpy(bk_colour_id.group, LPGENW("Alarms"));
-	mir_wstrcpy(bk_colour_id.name, LPGENW("Background"));
-	mir_strcpy(bk_colour_id.setting, "BkColour");
+	strncpy_s(bk_colour_id.dbSettingsGroup, MODULE, _TRUNCATE);
+	wcsncpy_s(bk_colour_id.group, LPGENW("Alarms"), _TRUNCATE);
+	wcsncpy_s(bk_colour_id.name, LPGENW("Background"), _TRUNCATE);
+	strncpy_s(bk_colour_id.setting, "BkColour", _TRUNCATE);
 	bk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
 	bk_colour_id.flags = 0;
 	bk_colour_id.order = 0;
