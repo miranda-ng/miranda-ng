@@ -33,18 +33,18 @@ int COneDriveService::GetIconId() const
 
 bool COneDriveService::IsLoggedIn()
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
 	time_t now = time(nullptr);
-	time_t expiresIn = db_get_dw(NULL, GetAccountName(), "ExpiresIn");
+	time_t expiresIn = getWord("ExpiresIn");
 	return now < expiresIn;
 }
 
 void COneDriveService::Login()
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	ptrA refreshToken(db_get_sa(NULL, GetAccountName(), "RefreshToken"));
+	ptrA token(getStringA("TokenSecret"));
+	ptrA refreshToken(getStringA("RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) {
 		OneDriveAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(m_hConnection));
@@ -56,7 +56,7 @@ void COneDriveService::Login()
 
 		node = root.at("expires_in");
 		time_t expiresIn = time(nullptr) + node.as_int();
-		db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
+		setDword("ExpiresIn", expiresIn);
 
 		return;
 	}
@@ -67,9 +67,9 @@ void COneDriveService::Login()
 
 void COneDriveService::Logout()
 {
-	db_unset(NULL, GetAccountName(), "TokenSecret");
-	db_unset(NULL, GetAccountName(), "ExpiresIn");
-	db_unset(NULL, GetAccountName(), "RefreshToken");
+	delSetting("ExpiresIn");
+	delSetting("TokenSecret");
+	delSetting("RefreshToken");
 }
 
 unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
@@ -112,14 +112,14 @@ unsigned COneDriveService::RequestAccessTokenThread(void *owner, void *param)
 	}
 
 	node = root.at("access_token");
-	db_set_s(NULL, service->GetAccountName(), "TokenSecret", node.as_string().c_str());
+	service->setString("TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
 	time_t expiresIn = time(nullptr) + node.as_int();
-	db_set_dw(NULL, service->GetAccountName(), "ExpiresIn", expiresIn);
+	service->setDword("ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");
-	db_set_s(NULL, service->GetAccountName(), "RefreshToken", node.as_string().c_str());
+	service->setString("RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -137,72 +137,70 @@ void COneDriveService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void COneDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, CMStringA &fileId)
+auto COneDriveService::UploadFile(const std::string &parentId, const std::string &fileName, const char *data, size_t size)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
-	OneDriveAPI::UploadFileRequest *request = mir_strlen(parentId)
-		? new OneDriveAPI::UploadFileRequest(token, parentId, name, data, size, (OnConflict)strategy)
-		: new OneDriveAPI::UploadFileRequest(token, name, data, size, (OnConflict)strategy);
+	OneDriveAPI::UploadFileRequest *request = !parentId.empty()
+		? new OneDriveAPI::UploadFileRequest(token, parentId.c_str(), fileName.c_str(), data, size, (OnConflict)strategy)
+		: new OneDriveAPI::UploadFileRequest(token, fileName.c_str(), data, size, (OnConflict)strategy);
 	NLHR_PTR response(request->Send(m_hConnection));
 	delete request;
 
 	JSONNode root = GetJsonResponse(response);
-	fileId = root["id"].as_string().c_str();
+	return root["id"].as_string();
 }
 
-void COneDriveService::CreateUploadSession(const char *parentId, const char *name, CMStringA &uploadUri)
+auto COneDriveService::CreateUploadSession(const std::string &parentId, const std::string &fileName)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
-	OneDriveAPI::CreateUploadSessionRequest *request = mir_strlen(parentId)
-		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId, name, (OnConflict)strategy)
-		: new OneDriveAPI::CreateUploadSessionRequest(token, name, (OnConflict)strategy);
+	OneDriveAPI::CreateUploadSessionRequest *request = !parentId.empty()
+		? new OneDriveAPI::CreateUploadSessionRequest(token, parentId.c_str(), fileName.c_str(), (OnConflict)strategy)
+		: new OneDriveAPI::CreateUploadSessionRequest(token, fileName.c_str(), (OnConflict)strategy);
 	NLHR_PTR response(request->Send(m_hConnection));
 	delete request;
 
 	JSONNode root = GetJsonResponse(response);
-	uploadUri = root["uploadUrl"].as_string().c_str();
+	return root["uploadUrl"].as_string();
 }
 
-void COneDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, CMStringA &fileId)
+auto COneDriveService::UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
 {
-	OneDriveAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
+	OneDriveAPI::UploadFileChunkRequest request(uploadUri.c_str(), chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
 
 	if (response->resultCode == HTTP_CODE_ACCEPTED)
-		return;
+		return std::string();
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		JSONNode root = GetJsonResponse(response);
-		if (root)
-			fileId = root["id"].as_string().c_str();
+		return root["id"].as_string();
 	}
-	else HttpResponseToError(response);
+
+	HttpResponseToError(response);
 }
 
-void COneDriveService::CreateFolder(const char *path, CMStringA &folderId)
+auto COneDriveService::CreateFolder(const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	OneDriveAPI::CreateFolderRequest request(token, path);
+	ptrA token(getStringA("TokenSecret"));
+	OneDriveAPI::CreateFolderRequest request(token, path.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		folderId = root["id"].as_string().c_str();
+	return root["id"].as_string();
 }
 
-void COneDriveService::CreateSharedLink(const char *itemId, CMStringA &url)
+auto COneDriveService::CreateSharedLink(const std::string &itemId)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	OneDriveAPI::CreateSharedLinkRequest request(token, itemId);
+	ptrA token(getStringA("TokenSecret"));
+	OneDriveAPI::CreateSharedLinkRequest request(token, itemId.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		url = root["link"]["webUrl"].as_string().c_str();
+	return root["link"]["webUrl"].as_string();
 }
 
 UINT COneDriveService::Upload(FileTransferParam *ftp)
@@ -216,40 +214,36 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 			return ACKRESULT_FAILED;
 		}
 
-		CMStringA folderId;
+		std::string folderId;
 		if (ftp->IsFolder()) {
-			CMStringA folderName(T2Utf(ftp->GetFolderName()).get());
+			T2Utf folderName(ftp->GetFolderName());
 
-			CMStringA path;
-			PreparePath(folderName, path);
-			CreateFolder(path, folderId);
+			auto path = PreparePath(folderName);
+			folderId = CreateFolder(path);
 
-			CMStringA link;
-			CreateSharedLink(path, link);
-			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-			ftp->AddSharedLink(link);
+			auto link = CreateSharedLink(path);
+			ftp->AddSharedLink(link.c_str());
 		}
 
 		ftp->FirstFile();
 		do {
-			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
+			std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
 
-			CMStringA fileId;
+			std::string fileId;
 			if (chunkSize == fileSize) {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-				UploadFile(folderId, T2Utf(fileName), chunk, size, fileId);
+				fileId = UploadFile(folderId, fileName, chunk, size);
 
 				ftp->Progress(size);
 			}
 			else {
-				char uploadUri[1024];
-				CreateUploadSession(uploadUri, T2Utf(fileName), folderId);
+				auto uploadUri = CreateUploadSession(folderId, fileName);
 
 				uint64_t offset = 0;
 				double chunkCount = ceil(double(fileSize) / chunkSize);
@@ -257,7 +251,7 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 					ftp->CheckCurrentFile();
 					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-					UploadFileChunk(uploadUri, chunk, size, offset, fileSize, fileId);
+					fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
 
 					offset += size;
 					ftp->Progress(size);
@@ -265,15 +259,13 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 			}
 
 			if (!ftp->IsFolder()) {
-				CMStringA link;
-				CreateSharedLink(fileId, link);
-				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-				ftp->AddSharedLink(link);
+				auto link = CreateSharedLink(fileId);
+				ftp->AddSharedLink(link.c_str());
 			}
 		} while (ftp->NextFile());
 	}
 	catch (Exception &ex) {
-		Netlib_Logf(m_hConnection, "%s: %s", MODULE, ex.what());
+		debugLogA("%s: %s", GetAccountName(), ex.what());
 		ftp->SetStatus(ACKRESULT_FAILED);
 		return ACKRESULT_FAILED;
 	}

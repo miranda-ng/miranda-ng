@@ -70,17 +70,17 @@ void CCloudService::Report(MCONTACT hContact, const wchar_t *data)
 		PasteToClipboard(data);
 }
 
-const char* CCloudService::PreparePath(const char *oldPath, CMStringA &newPath)
+std::string CCloudService::PreparePath(const char *path)
 {
-	if (oldPath == nullptr)
-		newPath = "";
-	else if (*oldPath != '/') {
-		newPath = "/";
-		newPath.Append(oldPath);
-		newPath.Replace("\\", "/");
+	std::string newPath = path;
+	if (newPath[0] != '/')
+		newPath.insert(0, "/");
+	std::replace(newPath.begin(), newPath.end(), '\\', '/');
+	size_t pos = newPath.find("//");
+	while (pos != std::string::npos) {
+		newPath.replace(pos, 2, "/");
+		pos = newPath.find("//", pos + 1);
 	}
-	else newPath = oldPath;
-	
 	return newPath;
 }
 
@@ -120,8 +120,13 @@ void CCloudService::HandleHttpError(NETLIBHTTPREQUEST *response)
 	if (response == nullptr)
 		throw Exception(HttpStatusToError());
 
-	if (!HTTP_CODE_SUCCESS(response->resultCode))
-		HttpResponseToError(response);
+	if (HTTP_CODE_SUCCESS(response->resultCode))
+		return;
+
+	if (response->resultCode == HTTP_CODE_UNAUTHORIZED)
+		delSetting("TokenSecret");
+
+	HttpResponseToError(response);
 }
 
 JSONNode CCloudService::GetJsonResponse(NETLIBHTTPREQUEST *response)

@@ -9,11 +9,11 @@ private:
 
 	void HandleJsonError(JSONNode &node) override;
 
-	void UploadFile(const char *parentId, const char *name, const char *data, size_t size, CMStringA &fileId);
-	void CreateUploadSession(const char *parentId, const char *name, CMStringA &uploadUri);
-	void UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, CMStringA &fileId);
-	void CreateFolder(const char *path, CMStringA &folderId);
-	void CreateSharedLink(const char *itemId, CMStringA &url);
+	auto UploadFile(const std::string &parentId, const std::string &fileName, const char *data, size_t size);
+	auto CreateUploadSession(const std::string &parentId, const std::string &fileName);
+	auto UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize);
+	auto CreateFolder(const char *path);
+	auto CreateSharedLink(const std::string &itemId);
 
 public:
 	CGDriveService(const char *protoName, const wchar_t *userName);

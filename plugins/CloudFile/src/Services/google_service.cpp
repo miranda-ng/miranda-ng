@@ -33,18 +33,18 @@ int CGDriveService::GetIconId() const
 
 bool CGDriveService::IsLoggedIn()
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
 	time_t now = time(nullptr);
-	time_t expiresIn = db_get_dw(NULL, GetAccountName(), "ExpiresIn");
+	time_t expiresIn = getDword("ExpiresIn");
 	return now < expiresIn;
 }
 
 void CGDriveService::Login()
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	ptrA refreshToken(db_get_sa(NULL, GetAccountName(), "RefreshToken"));
+	ptrA token(getStringA("TokenSecret"));
+	ptrA refreshToken(getStringA("RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) {
 		GDriveAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(m_hConnection));
@@ -52,11 +52,11 @@ void CGDriveService::Login()
 		JSONNode root = GetJsonResponse(response);
 
 		JSONNode node = root.at("access_token");
-		db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
+		setString("TokenSecret", node.as_string().c_str());
 
 		node = root.at("expires_in");
 		time_t expiresIn = time(nullptr) + node.as_int();
-		db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
+		setDword("ExpiresIn", expiresIn);
 
 		return;
 	}
@@ -146,21 +146,19 @@ void CGDriveService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CGDriveService::UploadFile(const char *parentId, const char *name, const char *data, size_t size, CMStringA &fileId)
+auto CGDriveService::UploadFile(const std::string &parentId, const std::string &fileName, const char *data, size_t size)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	GDriveAPI::UploadFileRequest request(token, parentId, name, data, size);
+	ptrA token(getStringA("TokenSecret"));
+	GDriveAPI::UploadFileRequest request(token, parentId.c_str(), fileName.c_str(), data, size);
 	NLHR_PTR response(request.Send(m_hConnection));
-
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		fileId = root["id"].as_string().c_str();
+	return root["id"].as_string();
 }
 
-void CGDriveService::CreateUploadSession(const char *parentId, const char *name, CMStringA &uploadUri)
+auto CGDriveService::CreateUploadSession(const std::string &parentId, const std::string &fileName)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	GDriveAPI::CreateUploadSessionRequest request(token, parentId, name);
+	ptrA token(getStringA("TokenSecret"));
+	GDriveAPI::CreateUploadSessionRequest request(token, parentId.c_str(), fileName.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
@@ -169,57 +167,56 @@ void CGDriveService::CreateUploadSession(const char *parentId, const char *name,
 		for (int i = 0; i < response->headersCount; i++) {
 			if (mir_strcmpi(response->headers[i].szName, "Location"))
 				continue;
-
-			uploadUri = response->headers[i].szValue;
-			return;
+			return std::string(response->headers[i].szValue);
 		}
 	}
 
 	HttpResponseToError(response);
 }
 
-void CGDriveService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize, CMStringA &fileId)
+auto CGDriveService::UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
 {
-	GDriveAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
+	GDriveAPI::UploadFileChunkRequest request(uploadUri.c_str(), chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
 
 	if (response->resultCode == HTTP_CODE_PERMANENT_REDIRECT)
-		return;
+		return std::string();
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		JSONNode root = GetJsonResponse(response);
-		if (root)
-			fileId = root["id"].as_string().c_str();
+		return root["id"].as_string();
 	}
-	else HttpResponseToError(response);
+
+	HttpResponseToError(response);
 }
 
-void CGDriveService::CreateFolder(const char *path, CMStringA &folderId)
+auto CGDriveService::CreateFolder(const char *path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	GDriveAPI::CreateFolderRequest request(token, path);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		folderId = root["id"].as_string().c_str();
+	return root["id"].as_string();
 }
 
-void CGDriveService::CreateSharedLink(const char *itemId, CMStringA &url)
+auto CGDriveService::CreateSharedLink(const std::string &itemId)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	GDriveAPI::GrantPermissionsRequest request(token, itemId);
+	ptrA token(getStringA("TokenSecret"));
+	GDriveAPI::GrantPermissionsRequest request(token, itemId.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
-		CMStringA sharedUrl(CMStringDataFormat::FORMAT, GDRIVE_SHARE, itemId);
-		url = sharedUrl;
+		std::string url = GDRIVE_SHARE;
+		url += itemId;
+		return url;
 	}
-	else HttpResponseToError(response);
+
+	HttpResponseToError(response);
 }
 
 UINT CGDriveService::Upload(FileTransferParam *ftp)
@@ -233,61 +230,50 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 			return ACKRESULT_FAILED;
 		}
 
-		CMStringA folderId;
+		std::string folderId;
 		if (ftp->IsFolder()) {
-			CreateFolder(T2Utf(ftp->GetFolderName()), folderId);
-
-			CMStringA link;
-			CreateSharedLink(folderId, link);
-
-			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-			ftp->AddSharedLink(link);
+			folderId = CreateFolder(T2Utf(ftp->GetFolderName()));
+			auto link = CreateSharedLink(folderId);
+			ftp->AddSharedLink(link.c_str());
 		}
 
 		ftp->FirstFile();
 		do {
-			CMStringA fileName(T2Utf(ftp->GetCurrentRelativeFilePath()).get());
+			std::string fileName = T2Utf(ftp->GetCurrentRelativeFilePath()).get();
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
 
-			CMStringA fileId;
+			std::string fileId;
 			if (chunkSize == fileSize) {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
-				UploadFile(folderId, fileName, chunk, size, fileId);
-
+				fileId = UploadFile(folderId, fileName, chunk, size);
 				ftp->Progress(size);
 			}
 			else {
-				CMStringA uploadUri;
-				CreateUploadSession(uploadUri, folderId, fileName);
+				auto uploadUri = CreateUploadSession(folderId, fileName);
 
 				uint64_t offset = 0;
 				double chunkCount = ceil(double(fileSize) / chunkSize);
 				while (chunkCount > 0) {
 					ftp->CheckCurrentFile();
 					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
-					UploadFileChunk(uploadUri, chunk, size, offset, fileSize, fileId);
-
+					auto fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
 					offset += size;
 					ftp->Progress(size);
 				}
 			}
 
 			if (!ftp->IsFolder()) {
-				CMStringA link;
-				CreateSharedLink(fileId, link);
-				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-				ftp->AddSharedLink(link);
+				auto link = CreateSharedLink(fileId);
+				ftp->AddSharedLink(link.c_str());
 			}
 		} while (ftp->NextFile());
 	}
 	catch (Exception &ex) {
-		Netlib_Logf(m_hConnection, "%s: %s", MODULE, ex.what());
+		debugLogA("%s: %s", GetAccountName(), ex.what());
 		ftp->SetStatus(ACKRESULT_FAILED);
 		return ACKRESULT_FAILED;
 	}

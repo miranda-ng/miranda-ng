@@ -9,12 +9,12 @@ private:
 
 	void HandleJsonError(JSONNode &node) override;
 
-	void UploadFile(const char *data, size_t size, CMStringA &path);
-	void CreateUploadSession(const char *chunk, size_t chunkSize, CMStringA &sessionId);
-	void UploadFileChunk(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset);
-	void CommitUploadSession(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset, CMStringA &path);
-	void CreateFolder(const char *path);
-	void CreateSharedLink(const char *path, CMStringA &url);
+	auto UploadFile(const char *data, size_t size, const std::string &path);
+	auto CreateUploadSession(const char *chunk, size_t chunkSize);
+	void UploadFileChunk(const std::string &sessionId, const char *chunk, size_t chunkSize, size_t offset);
+	auto CommitUploadSession(const std::string &sessionId, const char *chunk, size_t chunkSize, size_t offset, const std::string &path);
+	void CreateFolder(const std::string &path);
+	auto CreateSharedLink(const std::string &path);
 
 public:
 	CDropboxService(const char *protoName, const wchar_t *userName);

@@ -33,18 +33,18 @@ int CYandexService::GetIconId() const
 
 bool CYandexService::IsLoggedIn()
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
 	time_t now = time(nullptr);
-	time_t expiresIn = db_get_dw(NULL, GetAccountName(), "ExpiresIn");
+	time_t expiresIn = getDword("ExpiresIn");
 	return now < expiresIn;
 }
 
 void CYandexService::Login()
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	ptrA refreshToken(db_get_sa(NULL, GetAccountName(), "RefreshToken"));
+	ptrA token(getStringA("TokenSecret"));
+	ptrA refreshToken(getStringA("RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) {
 		YandexAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(m_hConnection));
@@ -52,14 +52,14 @@ void CYandexService::Login()
 		JSONNode root = GetJsonResponse(response);
 
 		JSONNode node = root.at("access_token");
-		db_set_s(NULL, GetAccountName(), "TokenSecret", node.as_string().c_str());
+		setString("TokenSecret", node.as_string().c_str());
 
 		node = root.at("expires_in");
 		time_t expiresIn = time(nullptr) + node.as_int();
-		db_set_dw(NULL, GetAccountName(), "ExpiresIn", expiresIn);
+		setDword("ExpiresIn", expiresIn);
 
 		node = root.at("refresh_token");
-		db_set_s(NULL, GetAccountName(), "RefreshToken", node.as_string().c_str());
+		setString("RefreshToken", node.as_string().c_str());
 
 		return;
 	}
@@ -113,14 +113,14 @@ unsigned CYandexService::RequestAccessTokenThread(void *owner, void *param)
 	}
 
 	node = root.at("access_token");
-	db_set_s(NULL, service->GetAccountName(), "TokenSecret", node.as_string().c_str());
+	service->setString("TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
 	time_t expiresIn = time(nullptr) + node.as_int();
-	db_set_dw(NULL, service->GetAccountName(), "ExpiresIn", expiresIn);
+	service->setDword("ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");
-	db_set_s(NULL, service->GetAccountName(), "RefreshToken", node.as_string().c_str());
+	service->setString("RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -148,21 +148,20 @@ void CYandexService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CYandexService::CreateUploadSession(const char *path, CMStringA &uploadUri)
+auto CYandexService::CreateUploadSession(const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
-	YandexAPI::GetUploadUrlRequest request(token, path, (OnConflict)strategy);
+	YandexAPI::GetUploadUrlRequest request(token, path.c_str(), (OnConflict)strategy);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		uploadUri = root["href"].as_string().c_str();
+	return root["href"].as_string();
 }
 
-void CYandexService::UploadFile(const char *uploadUri, const char *data, size_t size)
+void CYandexService::UploadFile(const std::string &uploadUri, const char *data, size_t size)
 {
-	YandexAPI::UploadFileRequest request(uploadUri, data, size);
+	YandexAPI::UploadFileRequest request(uploadUri.c_str(), data, size);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
@@ -173,9 +172,9 @@ void CYandexService::UploadFile(const char *uploadUri, const char *data, size_t 
 	HttpResponseToError(response);
 }
 
-void CYandexService::UploadFileChunk(const char *uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
+void CYandexService::UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
 {
-	YandexAPI::UploadFileChunkRequest request(uploadUri, chunk, chunkSize, offset, fileSize);
+	YandexAPI::UploadFileChunkRequest request(uploadUri.c_str(), chunk, chunkSize, offset, fileSize);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
@@ -187,29 +186,28 @@ void CYandexService::UploadFileChunk(const char *uploadUri, const char *chunk, s
 	HttpResponseToError(response);
 }
 
-void CYandexService::CreateFolder(const char *path)
+void CYandexService::CreateFolder(const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	YandexAPI::CreateFolderRequest request(token, path);
+	ptrA token(getStringA("TokenSecret"));
+	YandexAPI::CreateFolderRequest request(token, path.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	GetJsonResponse(response);
 }
 
-void CYandexService::CreateSharedLink(const char *path, CMStringA &url)
+auto CYandexService::CreateSharedLink(const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	YandexAPI::PublishRequest publishRequest(token, path);
+	ptrA token(getStringA("TokenSecret"));
+	YandexAPI::PublishRequest publishRequest(token, path.c_str());
 	NLHR_PTR response(publishRequest.Send(m_hConnection));
 
 	GetJsonResponse(response);
 
-	YandexAPI::GetResourcesRequest resourcesRequest(token, path);
+	YandexAPI::GetResourcesRequest resourcesRequest(token, path.c_str());
 	response = resourcesRequest.Send(m_hConnection);
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		url = root["public_url"].as_string().c_str();
+	return root["public_url"].as_string();
 }
 
 UINT CYandexService::Upload(FileTransferParam *ftp)
@@ -226,14 +224,11 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 		if (ftp->IsFolder()) {
 			T2Utf folderName(ftp->GetFolderName());
 
-			CMStringA path; 
-			PreparePath(folderName, path);
+			auto path = PreparePath(folderName);
 			CreateFolder(path);
 
-			CMStringA link;
-			CreateSharedLink(path, link);
-			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-			ftp->AddSharedLink(link);
+			auto link = CreateSharedLink(path);
+			ftp->AddSharedLink(link.c_str());
 		}
 
 		ftp->FirstFile();
@@ -242,11 +237,8 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 			T2Utf fileName(ftp->GetCurrentRelativeFilePath());
 			uint64_t fileSize = ftp->GetCurrentFileSize();
 
-			CMStringA path;
-			PreparePath(fileName, path);
-			
-			CMStringA uploadUri;
-			CreateUploadSession(path, uploadUri);
+			auto path = PreparePath(fileName);
+			auto uploadUri = CreateUploadSession(path);
 
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
@@ -254,36 +246,29 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 			if (chunkSize == fileSize) {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
 				UploadFile(uploadUri, chunk, size);
-
 				ftp->Progress(size);
 			}
-			else
-			{
+			else {
 				uint64_t offset = 0;
 				double chunkCount = ceil(double(fileSize) / chunkSize);
 				while (chunkCount > 0) {
 					ftp->CheckCurrentFile();
 					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
 					UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
-
 					offset += size;
 					ftp->Progress(size);
 				}
 			}
 
 			if (!ftp->IsFolder()) {
-				CMStringA link;
-				CreateSharedLink(path, link);
-				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-				ftp->AddSharedLink(link);
+				auto link = CreateSharedLink(path);
+				ftp->AddSharedLink(link.c_str());
 			}
 		} while (ftp->NextFile());
 	}
 	catch (Exception &ex) {
-		Netlib_Logf(m_hConnection, "%s: %s", MODULE, ex.what());
+		debugLogA("%s: %s", GetAccountName(), ex.what());
 		ftp->SetStatus(ACKRESULT_FAILED);
 		return ACKRESULT_FAILED;
 	}

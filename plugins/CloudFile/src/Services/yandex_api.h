@@ -59,7 +59,7 @@ namespace YandexAPI
 			HttpRequest(REQUEST_GET, YADISK_API "/upload")
 		{
 			AddOAuthHeader(token);
-			AddUrlParameter("path=%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
 			if (strategy == OnConflict::REPLACE)
 				AddUrlParameter("overwrite=true");
 		}
@@ -97,7 +97,7 @@ namespace YandexAPI
 			HttpRequest(REQUEST_PUT, YADISK_API)
 		{
 			AddOAuthHeader(token);
-			AddUrlParameter("path=%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
 		}
 	};
 
@@ -108,7 +108,7 @@ namespace YandexAPI
 			HttpRequest(REQUEST_PUT, YADISK_API "/publish")
 		{
 			AddOAuthHeader(token);
-			AddUrlParameter("path=%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
 		}
 	};
 
@@ -119,7 +119,7 @@ namespace YandexAPI
 			HttpRequest(REQUEST_GET, YADISK_API)
 		{
 			AddOAuthHeader(token);
-			AddUrlParameter("path=%s", ptrA(mir_urlEncode(path)));
+			AddUrlParameter("path=app:%s", ptrA(mir_urlEncode(path)));
 		}
 	};
 };

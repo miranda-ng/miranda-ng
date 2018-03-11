@@ -15,7 +15,7 @@ protected:
 	HNETLIBUSER m_hConnection;
 
 	// utils
-	const char* PreparePath(const char *oldPath, CMStringA &newPath);
+	std::string PreparePath(const char *path);
 
 	virtual char* HttpStatusToError(int status = 0);
 	virtual void HttpResponseToError(NETLIBHTTPREQUEST *response);

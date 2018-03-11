@@ -33,7 +33,7 @@ int CDropboxService::GetIconId() const
 
 bool CDropboxService::IsLoggedIn()
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	if (!token || token[0] == 0)
 		return false;
 	return true;
@@ -98,7 +98,7 @@ unsigned CDropboxService::RevokeAccessTokenThread(void *param)
 {
 	CDropboxService *service = (CDropboxService*)param;
 
-	ptrA token(db_get_sa(NULL, service->GetAccountName(), "TokenSecret"));
+	ptrA token(service->getStringA("TokenSecret"));
 	DropboxAPI::RevokeAccessTokenRequest request(token);
 	NLHR_PTR response(request.Send(service->m_hConnection));
 
@@ -114,53 +114,50 @@ void CDropboxService::HandleJsonError(JSONNode &node)
 	}
 }
 
-void CDropboxService::UploadFile(const char *data, size_t size, CMStringA &path)
+auto CDropboxService::UploadFile(const char *data, size_t size, const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
-	DropboxAPI::UploadFileRequest request(token, path, data, size, (OnConflict)strategy);
+	DropboxAPI::UploadFileRequest request(token, path.c_str(), data, size, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		path = root["path_lower"].as_string().c_str();
+	return root["path_lower"].as_string();
 }
 
-void CDropboxService::CreateUploadSession(const char *chunk, size_t chunkSize, CMStringA &sessionId)
+auto CDropboxService::CreateUploadSession(const char *chunk, size_t chunkSize)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	DropboxAPI::CreateUploadSessionRequest request(token, chunk, chunkSize);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		sessionId = root["session_id"].as_string().c_str();
+	return root["session_id"].as_string();
 }
 
-void CDropboxService::UploadFileChunk(const char *chunk, size_t chunkSize, const char *sessionId, size_t offset)
+void CDropboxService::UploadFileChunk(const std::string &sessionId, const char *chunk, size_t chunkSize, size_t offset)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	DropboxAPI::UploadFileChunkRequest request(token, sessionId, offset, chunk, chunkSize);
+	ptrA token(getStringA("TokenSecret"));
+	DropboxAPI::UploadFileChunkRequest request(token, sessionId.c_str(), offset, chunk, chunkSize);
 	NLHR_PTR response(request.Send(m_hConnection));
 	HandleHttpError(response);
 }
 
-void CDropboxService::CommitUploadSession(const char *data, size_t size, const char *sessionId, size_t offset, CMStringA &path)
+auto CDropboxService::CommitUploadSession(const std::string &sessionId, const char *data, size_t size, size_t offset, const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
+	ptrA token(getStringA("TokenSecret"));
 	BYTE strategy = db_get_b(NULL, MODULE, "ConflictStrategy", OnConflict::REPLACE);
-	DropboxAPI::CommitUploadSessionRequest request(token, sessionId, offset, path, data, size, (OnConflict)strategy);
+	DropboxAPI::CommitUploadSessionRequest request(token, sessionId.c_str(), offset, path.c_str(), data, size, (OnConflict)strategy);
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	JSONNode root = GetJsonResponse(response);
-	if (root)
-		path = root["path_lower"].as_string().c_str();
+	return root["path_lower"].as_string();
 }
 
-void CDropboxService::CreateFolder(const char *path)
+void CDropboxService::CreateFolder(const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	DropboxAPI::CreateFolderRequest request(token, path);
+	ptrA token(getStringA("TokenSecret"));
+	DropboxAPI::CreateFolderRequest request(token, path.c_str());
 	NLHR_PTR response(request.Send(m_hConnection));
 
 	HandleHttpError(response);
@@ -172,10 +169,10 @@ void CDropboxService::CreateFolder(const char *path)
 	GetJsonResponse(response);
 }
 
-void CDropboxService::CreateSharedLink(const char *path, CMStringA &url)
+auto CDropboxService::CreateSharedLink(const std::string &path)
 {
-	ptrA token(db_get_sa(NULL, GetAccountName(), "TokenSecret"));
-	DropboxAPI::CreateSharedLinkRequest shareRequest(token, path);
+	ptrA token(getStringA("TokenSecret"));
+	DropboxAPI::CreateSharedLinkRequest shareRequest(token, path.c_str());
 	NLHR_PTR response(shareRequest.Send(m_hConnection));
 
 	if (response == nullptr)
@@ -195,22 +192,21 @@ void CDropboxService::CreateSharedLink(const char *path, CMStringA &url)
 	JSONNode error = root.at("error");
 	if (error.isnull()) {
 		JSONNode link = root.at("url");
-		url = link.as_string().c_str();
-		return;
+		return link.as_string();
 	}
 
 	json_string tag = error.at(".tag").as_string();
 	if (tag != "shared_link_already_exists")
 		throw Exception(tag.c_str());
 
-	DropboxAPI::GetSharedLinkRequest getRequest(token, path);
+	DropboxAPI::GetSharedLinkRequest getRequest(token, path.c_str());
 	response = getRequest.Send(m_hConnection);
 
 	root = GetJsonResponse(response);
 
 	JSONNode links = root.at("links").as_array();
 	JSONNode link = links[(size_t)0].at("url");
-	url = link.as_string().c_str();
+	return link.as_string();
 }
 
 UINT CDropboxService::Upload(FileTransferParam *ftp)
@@ -222,14 +218,11 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 		if (ftp->IsFolder()) {
 			T2Utf folderName(ftp->GetFolderName());
 
-			CMStringA path;
-			PreparePath(folderName, path);
+			auto path = PreparePath(folderName);
 			CreateFolder(path);
 
-			CMStringA link;
-			CreateSharedLink(path, link);
-			ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-			ftp->AddSharedLink(link);
+			auto link = CreateSharedLink(path);
+			ftp->AddSharedLink(link.c_str());
 		}
 
 		ftp->FirstFile();
@@ -241,31 +234,29 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 			size_t chunkSize = ftp->GetCurrentFileChunkSize();
 			mir_ptr<char>chunk((char*)mir_calloc(chunkSize));
 
-			CMStringA path;
-			const wchar_t *serverFolder = ftp->GetServerFolder();
+			std::string path;
+			auto serverFolder = ftp->GetServerFolder();
 			if (serverFolder) {
 				char serverPath[MAX_PATH] = { 0 };
 				mir_snprintf(serverPath, "%s\\%s", T2Utf(serverFolder), fileName);
-				PreparePath(serverPath, path);
+				path = PreparePath(serverPath);
 			}
-			else PreparePath(fileName, path);
+			else
+				path = PreparePath(fileName);
 
-			if (chunkSize == fileSize)
-			{
+			if (chunkSize == fileSize) {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-				UploadFile(chunk, size, path);
+				path = UploadFile(chunk, size, path);
 
 				ftp->Progress(size);
 			}
-			else
-			{
+			else {
 				ftp->CheckCurrentFile();
 				size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
 
-				CMStringA sessionId;
-				CreateUploadSession(chunk, size, sessionId);
+				auto sessionId = CreateUploadSession(chunk, size);
 
 				ftp->Progress(size);
 
@@ -275,7 +266,7 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 					ftp->CheckCurrentFile();
 
 					size = ftp->ReadCurrentFile(chunk, chunkSize);
-					UploadFileChunk(chunk, size, sessionId, offset);
+					UploadFileChunk(sessionId, chunk, size, offset);
 
 					offset += size;
 					ftp->Progress(size);
@@ -286,21 +277,19 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 					? ftp->ReadCurrentFile(chunk, fileSize - offset)
 					: 0;
 
-				CommitUploadSession(chunk, size, sessionId, offset, path);
+				path = CommitUploadSession(sessionId, chunk, size, offset, path);
 
 				ftp->Progress(size);
 			}
 
 			if (!ftp->IsFolder()) {
-				CMStringA link;
-				CreateSharedLink(path, link);
-				ftp->AppendFormatData(L"%s\r\n", ptrW(mir_utf8decodeW(link)));
-				ftp->AddSharedLink(link);
+				auto link = CreateSharedLink(path);
+				ftp->AddSharedLink(link.c_str());
 			}
 		} while (ftp->NextFile());
 	}
 	catch (Exception &ex) {
-		Netlib_Logf(m_hConnection, "%s: %s", MODULE, ex.what());
+		debugLogA("%s: %s", GetModuleName(), ex.what());
 		ftp->SetStatus(ACKRESULT_FAILED);
 		return ACKRESULT_FAILED;
 	}

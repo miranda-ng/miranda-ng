@@ -9,6 +9,7 @@
 #include <time.h>
 
 #include <map>
+#include <algorithm>
 
 #include <newpluginapi.h>
 

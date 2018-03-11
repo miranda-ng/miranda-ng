@@ -17,7 +17,6 @@ private:
 	const wchar_t* folderName;
 	int relativePathStart;
 	
-	CMStringW data;
 	LIST<char> m_links;
 	CMStringW m_description;
 
@@ -77,13 +76,6 @@ public:
 	MCONTACT GetContact() const
 	{
 		return pfts.hContact;
-	}
-
-	const wchar_t* GetData() const
-	{
-		if (data.IsEmpty())
-			return NULL;
-		return data;
 	}
 
 	const wchar_t* GetDescription() const
@@ -151,14 +143,6 @@ public:
 			pfts.totalBytes += _ftelli64(file);
 			fclose(file);
 		}
-	}
-
-	void AppendFormatData(const wchar_t *format, ...)
-	{
-		va_list args;
-		va_start(args, format);
-		data.AppendFormatV(format, args);
-		va_end(args);
 	}
 
 	void AddSharedLink(const char *url)

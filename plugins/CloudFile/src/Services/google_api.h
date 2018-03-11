@@ -9,7 +9,7 @@ namespace GDriveAPI
 #define GDRIVE_API_VER "/v3"
 #define GDRIVE_API GOOGLE_API "/drive" GDRIVE_API_VER "/files"
 #define GDRIVE_UPLOAD GOOGLE_API "/upload/drive" GDRIVE_API_VER "/files"
-#define GDRIVE_SHARE "https://drive.google.com/open?id=%s"
+#define GDRIVE_SHARE "https://drive.google.com/open?id="
 
 #define GOOGLE_APP_ID "528761318515-h1etlccvk5vjsbjuuj8i73cud8do4adi.apps.googleusercontent.com"
 #include "../../../miranda-private-keys/Google/client_secret.h"

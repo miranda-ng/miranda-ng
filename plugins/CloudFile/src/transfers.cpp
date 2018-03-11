@@ -66,8 +66,16 @@ UINT UploadAndReportProgressThread(void *owner, void *arg)
 	FileTransferParam *ftp = (FileTransferParam*)arg;
 
 	int res = service->Upload(ftp);
-	if (res == ACKRESULT_SUCCESS)
-		service->Report(ftp->GetContact(), ftp->GetData());
+	if (res == ACKRESULT_SUCCESS) {
+		CMStringW data = ftp->GetDescription();
+		size_t linkCount;
+		auto links = ftp->GetSharedLinks(linkCount);
+		for (size_t i = 0; i < linkCount; i++) {
+			data.Append(ptrW(mir_utf8decodeW(links[i])));
+			data.AppendChar(0x0A);
+		}
+		service->Report(ftp->GetContact(), data);
+	}
 
 	Transfers.remove(ftp);
 	delete ftp;
