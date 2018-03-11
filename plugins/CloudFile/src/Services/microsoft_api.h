@@ -35,9 +35,10 @@ namespace OneDriveAPI
 		{
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
-			CMStringA data(CMStringDataFormat::FORMAT,
-				"client_id=%s&grant_type=refresh_token&refresh_token=%s",
-				MS_APP_ID, refreshToken);
+			CMStringA data = "redirect_uri=https://oauth.miranda-ng.org/verification";
+			data.Append("&scope=offline_access https://graph.microsoft.com/files.readWrite");
+			data.AppendFormat("&client_id=%s&client_secret=%s", MS_APP_ID, MS_CLIENT_SECRET);
+			data.AppendFormat("&grant_type=refresh_token&refresh_token=%s", refreshToken);
 			SetData(data.GetBuffer(), data.GetLength());
 		}
 	};

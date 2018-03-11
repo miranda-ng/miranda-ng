@@ -37,15 +37,14 @@ bool COneDriveService::IsLoggedIn()
 	if (!token || token[0] == 0)
 		return false;
 	time_t now = time(nullptr);
-	time_t expiresIn = getWord("ExpiresIn");
+	time_t expiresIn = getDword("ExpiresIn");
 	return now < expiresIn;
 }
 
 void COneDriveService::Login()
 {
-	ptrA token(getStringA("TokenSecret"));
 	ptrA refreshToken(getStringA("RefreshToken"));
-	if (token && refreshToken && refreshToken[0]) {
+	if (refreshToken && refreshToken[0]) {
 		OneDriveAPI::RefreshTokenRequest request(refreshToken);
 		NLHR_PTR response(request.Send(m_hConnection));
 
