@@ -64,9 +64,10 @@ static void RemoveProtoPic(const char *szProto)
 	}
 
 	if (strstr(szProto, "Global avatar for")) {
-		char szProtoname[MAX_PATH] = { 0 };
-		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
-		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
+		CMStringA szProtoname;
+		szProtoname = szProto;
+		szProtoname.Delete(0, mir_strlen("Global avatar for "));
+		szProtoname.Delete(mir_strlen(szProtoname) - mir_strlen(" accounts"), mir_strlen(" accounts"));
 		for (auto &p : g_ProtoPictures) {
 			if (p->szProtoname == nullptr)
 				continue;
@@ -129,9 +130,10 @@ static void SetProtoPic(char *szProto)
 		}
 	}
 	else if (strstr(szProto, "Global avatar for")) {
-		char szProtoname[MAX_PATH] = { 0 };
-		mir_strncpy(szProtoname, szProto, mir_strlen(szProto) - mir_strlen("accounts"));
-		mir_strcpy(szProtoname, strrchr(szProtoname, ' ') + 1);
+		CMStringA szProtoname;
+		szProtoname = szProto;
+		szProtoname.Delete(0, mir_strlen("Global avatar for "));
+		szProtoname.Delete(mir_strlen(szProtoname) - mir_strlen(" accounts"), mir_strlen(" accounts"));
 		for (auto &p : g_ProtoPictures) {
 			PROTOACCOUNT* pdescr = Proto_GetAccount(p->szProtoname);
 			if (pdescr == nullptr && mir_strcmp(p->szProtoname, szProto))
