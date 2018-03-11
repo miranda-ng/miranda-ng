@@ -394,74 +394,58 @@ void GetBorderSize(HWND hwnd, RECT *rect)
 	rect->bottom = wr.bottom - cr.bottom;
 }
 
-//append string
-char __forceinline *AS(char *str, const char *setting, char *addstr)
-{
-	if (str != nullptr) {
-		mir_strcpy(str, setting);
-		mir_strcat(str, addstr);
-	}
-	return str;
-}
-
 int DBLoadFrameSettingsAtPos(int pos, int Frameid)
 {
-	char sadd[15];
-	char buf[255];
+	CMStringA buf;
 
-	_itoa(pos, sadd, 10);
+	Frames[Frameid].collapsed = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Collapse%d", pos), Frames[Frameid].collapsed);
 
-	Frames[Frameid].collapsed = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Collapse", sadd), Frames[Frameid].collapsed);
+	Frames[Frameid].Locked = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Locked%d", pos), Frames[Frameid].Locked);
+	Frames[Frameid].visible = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Visible%d", pos), Frames[Frameid].visible);
+	Frames[Frameid].TitleBar.ShowTitleBar = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("TBVisile%d", pos), Frames[Frameid].TitleBar.ShowTitleBar);
 
-	Frames[Frameid].Locked = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Locked", sadd), Frames[Frameid].Locked);
-	Frames[Frameid].visible = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Visible", sadd), Frames[Frameid].visible);
-	Frames[Frameid].TitleBar.ShowTitleBar = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "TBVisile", sadd), Frames[Frameid].TitleBar.ShowTitleBar);
+	Frames[Frameid].height = db_get_w(NULL, CLUIFrameModule, buf.Format("Height%d", pos), Frames[Frameid].height);
+	Frames[Frameid].HeightWhenCollapsed = db_get_w(NULL, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), 0);
+	Frames[Frameid].align = db_get_w(NULL, CLUIFrameModule, buf.Format("Align%d", pos), Frames[Frameid].align);
 
-	Frames[Frameid].height = db_get_w(NULL, CLUIFrameModule, AS(buf, "Height", sadd), Frames[Frameid].height);
-	Frames[Frameid].HeightWhenCollapsed = db_get_w(NULL, CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), 0);
-	Frames[Frameid].align = db_get_w(NULL, CLUIFrameModule, AS(buf, "Align", sadd), Frames[Frameid].align);
+	Frames[Frameid].FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatX%d", pos), 100, 0, 1024);
+	Frames[Frameid].FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatY%d", pos), 100, 0, 1024);
+	Frames[Frameid].FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatW%d", pos), 100, 0, 1024);
+	Frames[Frameid].FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, buf.Format("FloatH%d", pos), 100, 0, 1024);
 
-	Frames[Frameid].FloatingPos.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatX", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingPos.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatY", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingSize.x = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatW", sadd), 100, 0, 1024);
-	Frames[Frameid].FloatingSize.y = DBGetContactSettingRangedWord(0, CLUIFrameModule, AS(buf, "FloatH", sadd), 100, 0, 1024);
+	Frames[Frameid].floating = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Floating%d", pos), 0);
+	Frames[Frameid].order = db_get_w(NULL, CLUIFrameModule, buf.Format("Order%d", pos), 0);
 
-	Frames[Frameid].floating = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Floating", sadd), 0);
-	Frames[Frameid].order = db_get_w(NULL, CLUIFrameModule, AS(buf, "Order", sadd), 0);
-
-	Frames[Frameid].UseBorder = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "UseBorder", sadd), Frames[Frameid].UseBorder);
-	Frames[Frameid].Skinned = 0 != db_get_b(NULL, CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
+	Frames[Frameid].UseBorder = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("UseBorder%d", pos), Frames[Frameid].UseBorder);
+	Frames[Frameid].Skinned = 0 != db_get_b(NULL, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);
 	return 0;
 }
 
 int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 {
-	char sadd[16];
-	char buf[255];
+	CMStringA buf;
 
-	_itoa(pos, sadd, 10);
-
-	db_set_ws(0, CLUIFrameModule, AS(buf, "Name", sadd), Frames[Frameid].name);
+	db_set_ws(0, CLUIFrameModule, buf.Format("Name%d", pos), Frames[Frameid].name);
 	//boolean
-	db_set_b(0, CLUIFrameModule, AS(buf, "Collapse", sadd), (BYTE)btoint(Frames[Frameid].collapsed));
-	db_set_b(0, CLUIFrameModule, AS(buf, "Locked", sadd), (BYTE)btoint(Frames[Frameid].Locked));
-	db_set_b(0, CLUIFrameModule, AS(buf, "Visible", sadd), (BYTE)btoint(Frames[Frameid].visible));
-	db_set_b(0, CLUIFrameModule, AS(buf, "TBVisile", sadd), (BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
+	db_set_b(0, CLUIFrameModule, buf.Format("Collapse%d", pos), (BYTE)btoint(Frames[Frameid].collapsed));
+	db_set_b(0, CLUIFrameModule, buf.Format("Locked%d", pos), (BYTE)btoint(Frames[Frameid].Locked));
+	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", pos), (BYTE)btoint(Frames[Frameid].visible));
+	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", pos), (BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
 
-	db_set_w(NULL, CLUIFrameModule, AS(buf, "Height", sadd), (WORD)Frames[Frameid].height);
-	db_set_w(NULL, CLUIFrameModule, AS(buf, "HeightCollapsed", sadd), (WORD)Frames[Frameid].HeightWhenCollapsed);
-	db_set_w(NULL, CLUIFrameModule, AS(buf, "Align", sadd), (WORD)Frames[Frameid].align);
+	db_set_w(NULL, CLUIFrameModule, buf.Format("Height%d", pos), (WORD)Frames[Frameid].height);
+	db_set_w(NULL, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), (WORD)Frames[Frameid].HeightWhenCollapsed);
+	db_set_w(NULL, CLUIFrameModule, buf.Format("Align%d", pos), (WORD)Frames[Frameid].align);
 	//FloatingPos
-	db_set_w(NULL, CLUIFrameModule, AS(buf, "FloatX", sadd), (WORD)Frames[Frameid].FloatingPos.x);
-	db_set_w(NULL, CLUIFrameModule, AS(buf, "FloatY", sadd), (WORD)Frames[Frameid].FloatingPos.y);
-	db_set_w(NULL, CLUIFrameModule, AS(buf, "FloatW", sadd), (WORD)Frames[Frameid].FloatingSize.x);
-	db_set_w(0, CLUIFrameModule, AS(buf, "FloatH", sadd), (WORD)Frames[Frameid].FloatingSize.y);
+	db_set_w(NULL, CLUIFrameModule, buf.Format("FloatX%d", pos), (WORD)Frames[Frameid].FloatingPos.x);
+	db_set_w(NULL, CLUIFrameModule, buf.Format("FloatY%d", pos), (WORD)Frames[Frameid].FloatingPos.y);
+	db_set_w(NULL, CLUIFrameModule, buf.Format("FloatW%d", pos), (WORD)Frames[Frameid].FloatingSize.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", pos), (WORD)Frames[Frameid].FloatingSize.y);
 
-	db_set_b(0, CLUIFrameModule, AS(buf, "Floating", sadd), (BYTE)btoint(Frames[Frameid].floating));
-	db_set_b(0, CLUIFrameModule, AS(buf, "UseBorder", sadd), (BYTE)btoint(Frames[Frameid].UseBorder));
-	db_set_w(0, CLUIFrameModule, AS(buf, "Order", sadd), (WORD)Frames[Frameid].order);
+	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", pos), (BYTE)btoint(Frames[Frameid].floating));
+	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", pos), (BYTE)btoint(Frames[Frameid].UseBorder));
+	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", pos), (WORD)Frames[Frameid].order);
 
-	db_set_b(NULL, CLUIFrameModule, AS(buf, "Skinned", sadd), Frames[Frameid].Skinned);
+	db_set_b(NULL, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);
 	return 0;
 }
 
