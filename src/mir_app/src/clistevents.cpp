@@ -38,7 +38,7 @@ static int iconsOn;
 static int disableTrayFlash;
 static int disableIconFlash;
 
-OBJLIST<CListEvent> g_cliEvents(10);
+OBJLIST<CListEvent> g_cliEvents(10, PtrKeySortT);
 
 int fnGetImlIconIndex(HICON hIcon)
 {
@@ -176,28 +176,29 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 {
 	// Find the event that should be removed
-	int i;
-	for (i = 0; i < g_cliEvents.getCount(); i++) {
-		CListEvent &e = g_cliEvents[i];
-		if (e.hContact == hContact && e.hDbEvent == dbEvent)
+	CListEvent *pEvent = nullptr;
+	for (auto &it : g_cliEvents) {
+		if (it->hContact == hContact && it->hDbEvent == dbEvent) {
+			pEvent = it;
 			break;
+		}
 	}
 
 	// Event was not found
-	if (i == g_cliEvents.getCount())
+	if (pEvent == nullptr)
 		return 1;
 
 	// Update contact's icon
 	char *szProto = GetContactProto(hContact);
-	cli.pfnChangeContactIcon(g_cliEvents[i].hContact, cli.pfnGetContactIcon(g_cliEvents[i].hContact));
+	cli.pfnChangeContactIcon(pEvent->hContact, cli.pfnGetContactIcon(pEvent->hContact));
 
 	// Free any memory allocated to the event
-	g_cliEvents.remove(i);
+	g_cliEvents.remove(pEvent);
 
 	// count same protocoled events
 	int nSameProto = 0;
-	char *szEventProto;
 	for (auto &it : g_cliEvents) {
+		char *szEventProto;
 		if (it->hContact)
 			szEventProto = GetContactProto((it->hContact));
 		else if (it->flags & CLEF_PROTOCOLGLOBAL)
