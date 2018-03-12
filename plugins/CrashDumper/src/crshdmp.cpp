@@ -67,7 +67,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	CreateDirectoryTreeW(VersionInfoFolder);
 
 	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+	mir_snwprintf(path, L"%s\\VersionInfo.txt", VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hDumpFile != INVALID_HANDLE_VALUE) {
@@ -143,7 +143,7 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
 	case 0:
-		ShellExecute(nullptr, TEXT("explore"), CrashLogFolder, nullptr, nullptr, SW_SHOW);
+		ShellExecute(nullptr, L"explore", CrashLogFolder, nullptr, nullptr, SW_SHOW);
 		break;
 
 	case 1:
@@ -184,7 +184,7 @@ INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 
 static int FoldersPathChanged(WPARAM, LPARAM)
 {
-	FOLDERSGETDATA fgd = { 0 };
+	FOLDERSGETDATA fgd = {};
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH;
 	fgd.flags = FF_TCHAR;
@@ -198,7 +198,7 @@ static int FoldersPathChanged(WPARAM, LPARAM)
 
 int OptionsInit(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
+	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -790000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
@@ -366,9 +366,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	profname = Utils_ReplaceVarsW(L"%miranda_profilename%.dat");
 	profpath = Utils_ReplaceVarsW(L"%miranda_userdata%");
 	if (catchcrashes && !needrestart)
-		mir_snwprintf(CrashLogFolder, TEXT("%s\\CrashLog"), profpath);
+		mir_snwprintf(CrashLogFolder, L"%s\\CrashLog", profpath);
 	wcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
-
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);

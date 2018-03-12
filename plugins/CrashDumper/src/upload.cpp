@@ -91,7 +91,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 {
 	int result = 0xBADBAD;
 	char* szRedirUrl = nullptr;
-	NETLIBHTTPREQUEST nlhr = { 0 };
+	NETLIBHTTPREQUEST nlhr = {};
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);

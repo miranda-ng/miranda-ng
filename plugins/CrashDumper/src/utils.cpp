@@ -22,7 +22,7 @@ static HINSTANCE hKernel = GetModuleHandleA("kernel32.dll");
 
 int GetTZOffset(void)
 {
-	TIME_ZONE_INFORMATION tzInfo = { 0 };
+	TIME_ZONE_INFORMATION tzInfo = {};
 	DWORD type = GetTimeZoneInformation(&tzInfo);
 
 	int offset = 0;
@@ -51,15 +51,15 @@ void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
 	}
 
 	if (clsdates) {
-		GetDateFormat(LOCALE_INVARIANT, 0, stLocal, TEXT("d MMM yyyy"), lpszString, dwSize);
+		GetDateFormat(LOCALE_INVARIANT, 0, stLocal, L"d MMM yyyy", lpszString, dwSize);
 		int dlen = (int)mir_wstrlen(lpszString);
-		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, TEXT(" H:mm:ss"), lpszString + dlen, dwSize - dlen);
+		GetTimeFormat(LOCALE_INVARIANT, 0, stLocal, L" H:mm:ss", lpszString + dlen, dwSize - dlen);
 	}
 	else {
 		int offset = GetTZOffset();
 
 		// Build a string showing the date and time.
-		mir_snwprintf(lpszString, dwSize, TEXT("%d-%02d-%02d %02d:%02d:%02d%+03d%02d"),
+		mir_snwprintf(lpszString, dwSize, L"%d-%02d-%02d %02d:%02d:%02d%+03d%02d",
 			stLocal->wYear, stLocal->wMonth, stLocal->wDay,
 			stLocal->wHour, stLocal->wMinute, stLocal->wSecond,
 			offset / 60, offset % 60);
@@ -105,43 +105,43 @@ void GetInternetExplorerVersion(CMStringW &buffer)
 	HKEY hKey;
 	DWORD size;
 
-	wchar_t ieVersion[1024] = { 0 };
-	wchar_t ieBuild[512] = { 0 };
-	wchar_t iVer[64] = { 0 };
+	wchar_t ieVersion[1024] = {};
+	wchar_t ieBuild[512] = {};
+	wchar_t iVer[64] = {};
 
-	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey)) {
+	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Internet Explorer", 0, KEY_QUERY_VALUE, &hKey)) {
 		size = _countof(ieBuild);
-		if (RegQueryValueEx(hKey, TEXT("Build"), nullptr, nullptr, (LPBYTE)ieBuild, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, L"Build", nullptr, nullptr, (LPBYTE)ieBuild, &size) != ERROR_SUCCESS)
 			ieBuild[0] = 0;
 
 		size = _countof(ieVersion);
-		if (RegQueryValueEx(hKey, TEXT("Version"), nullptr, nullptr, (LPBYTE)ieVersion, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, L"Version", nullptr, nullptr, (LPBYTE)ieVersion, &size) != ERROR_SUCCESS)
 			ieVersion[0] = 0;
 
 		size = _countof(iVer);
-		if (RegQueryValueEx(hKey, TEXT("IVer"), nullptr, nullptr, (LPBYTE)iVer, &size) != ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, L"IVer", nullptr, nullptr, (LPBYTE)iVer, &size) != ERROR_SUCCESS)
 			iVer[0] = 0;
 
 		RegCloseKey(hKey);
 	}
 
-	buffer.Append(TEXT("Internet Explorer: "));
+	buffer.Append(L"Internet Explorer: ");
 	if (ieVersion[0] == 0) {
 		if (iVer[0] == 0)
-			buffer.Append(TEXT("<not installed>"));
-		else if (mir_wstrcmp(iVer, TEXT("100")) == 0)
-			buffer.Append(TEXT("1.0"));
-		else if (mir_wstrcmp(iVer, TEXT("101")) == 0)
-			buffer.Append(TEXT("NT"));
-		else if (mir_wstrcmp(iVer, TEXT("102")) == 0)
-			buffer.Append(TEXT("2.0"));
-		else if (mir_wstrcmp(iVer, TEXT("103")) == 0)
-			buffer.Append(TEXT("3.0"));
+			buffer.Append(L"<not installed>");
+		else if (mir_wstrcmp(iVer, L"100") == 0)
+			buffer.Append(L"1.0");
+		else if (mir_wstrcmp(iVer, L"101") == 0)
+			buffer.Append(L"NT");
+		else if (mir_wstrcmp(iVer, L"102") == 0)
+			buffer.Append(L"2.0");
+		else if (mir_wstrcmp(iVer, L"103") == 0)
+			buffer.Append(L"3.0");
 	}
 	else buffer.Append(ieVersion);
 
 	if (ieBuild[0] != 0)
-		buffer.AppendFormat(TEXT(" (build %s)"), ieBuild);
+		buffer.AppendFormat(L" (build %s)", ieBuild);
 }
 
 void TrimMultiSpaces(wchar_t *str)
@@ -150,7 +150,7 @@ void TrimMultiSpaces(wchar_t *str)
 	bool trimst = false;
 
 	for (;;) {
-		if (*src == TEXT(' ')) {
+		if (*src == ' ') {
 			if (!trimst) {
 				trimst = true;
 				*dest++ = *src;
@@ -166,152 +166,150 @@ void TrimMultiSpaces(wchar_t *str)
 
 void GetProcessorString(CMStringW &buffer)
 {
+	wchar_t cpuIdent[512] = {};
+	wchar_t cpuName[512] = {};
+
 	HKEY hKey;
-	DWORD size;
-
-	wchar_t cpuIdent[512] = { 0 };
-	wchar_t cpuName[512] = { 0 };
-
-	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("Hardware\\Description\\System\\CentralProcessor\\0"), 0, KEY_QUERY_VALUE, &hKey)) {
-		size = _countof(cpuName);
-		if (RegQueryValueEx(hKey, TEXT("ProcessorNameString"), nullptr, nullptr, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
-			mir_wstrcpy(cpuName, TEXT("Unknown"));
+	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey)) {
+		DWORD size = _countof(cpuName);
+		if (RegQueryValueEx(hKey, L"ProcessorNameString", nullptr, nullptr, (LPBYTE)cpuName, &size) != ERROR_SUCCESS)
+			mir_wstrcpy(cpuName, L"Unknown");
 
 		size = _countof(cpuIdent);
-		if (RegQueryValueEx(hKey, TEXT("Identifier"), nullptr, nullptr, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
-			if (RegQueryValueEx(hKey, TEXT("VendorIdentifier"), nullptr, nullptr, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
-				mir_wstrcpy(cpuIdent, TEXT("Unknown"));
+		if (RegQueryValueEx(hKey, L"Identifier", nullptr, nullptr, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
+			if (RegQueryValueEx(hKey, L"VendorIdentifier", nullptr, nullptr, (LPBYTE)cpuIdent, &size) != ERROR_SUCCESS)
+				mir_wstrcpy(cpuIdent, L"Unknown");
 
 		RegCloseKey(hKey);
 	}
 	TrimMultiSpaces(cpuName);
-	buffer.AppendFormat(TEXT("CPU: %s [%s]"), cpuName, cpuIdent);
+	buffer.AppendFormat(L"CPU: %s [%s]", cpuName, cpuIdent);
 
 	if (IsProcessorFeaturePresent(PF_NX_ENABLED))
-		buffer.Append(TEXT(" [DEP Enabled]"));
+		buffer.Append(L" [DEP Enabled]");
 
-	SYSTEM_INFO si = { 0 };
+	SYSTEM_INFO si = {};
 	GetSystemInfo(&si);
 
 	if (si.dwNumberOfProcessors > 1)
-		buffer.AppendFormat(TEXT(" [%u CPUs]"), si.dwNumberOfProcessors);
+		buffer.AppendFormat(L" [%u CPUs]", si.dwNumberOfProcessors);
 }
 
 void GetFreeMemoryString(CMStringW &buffer)
 {
 	unsigned ram;
-	MEMORYSTATUSEX ms = { 0 };
+	MEMORYSTATUSEX ms = {};
 	ms.dwLength = sizeof(ms);
 	GlobalMemoryStatusEx(&ms);
 	ram = (unsigned int)((ms.ullTotalPhys / (1024 * 1024)) + 1);
-	buffer.AppendFormat(TEXT("Installed RAM: %u MBytes"), ram);
+	buffer.AppendFormat(L"Installed RAM: %u MBytes", ram);
 }
 
 void GetFreeDiskString(LPCTSTR dirname, CMStringW &buffer)
 {
-	ULARGE_INTEGER tnb, tfb, fs = { 0 };
+	ULARGE_INTEGER tnb, tfb, fs = {};
 	GetDiskFreeSpaceEx(dirname, &fs, &tnb, &tfb);
 	fs.QuadPart /= (1024 * 1024);
 
-	buffer.AppendFormat(TEXT("Free disk space on Miranda partition: %u MBytes"), fs.LowPart);
+	buffer.AppendFormat(L"Free disk space on Miranda partition: %u MBytes", fs.LowPart);
 }
 
 void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMStringW& buffer)
 {
-	buffer.Append(TEXT("Exception: "));
+	buffer.Append(L"Exception: ");
 
 	switch (excrec->ExceptionCode) {
 	case EXCEPTION_BREAKPOINT:
-		buffer.Append(TEXT("User Defined Breakpoint"));
+		buffer.Append(L"User Defined Breakpoint");
 		break;
 
 	case EXCEPTION_ACCESS_VIOLATION:
-		buffer.Append(TEXT("Access Violation"));
+		buffer.Append(L"Access Violation");
 		break;
 
 	case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-		buffer.Append(TEXT("Array Bounds Exceeded"));
+		buffer.Append(L"Array Bounds Exceeded");
 		break;
 
 	case EXCEPTION_DATATYPE_MISALIGNMENT:
-		buffer.Append(TEXT("Datatype Misalignment"));
+		buffer.Append(L"Datatype Misalignment");
 		break;
 
 	case EXCEPTION_FLT_DENORMAL_OPERAND:
-		buffer.Append(TEXT("Floating Point denormlized operand"));
+		buffer.Append(L"Floating Point denormlized operand");
 		break;
 
 	case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-		buffer.Append(TEXT("Floating Point divide by 0"));
+		buffer.Append(L"Floating Point divide by 0");
 		break;
 
 	case EXCEPTION_FLT_INEXACT_RESULT:
-		buffer.Append(TEXT("Floating Point inexact result"));
+		buffer.Append(L"Floating Point inexact result");
 		break;
 
 	case EXCEPTION_FLT_INVALID_OPERATION:
-		buffer.Append(TEXT("Floating Point invalid operation"));
+		buffer.Append(L"Floating Point invalid operation");
 		break;
 
 	case EXCEPTION_FLT_OVERFLOW:
-		buffer.Append(TEXT("Floating Point overflow"));
+		buffer.Append(L"Floating Point overflow");
 		break;
 
 	case EXCEPTION_FLT_STACK_CHECK:
-		buffer.Append(TEXT("Floating Point stack overflow/underflow"));
+		buffer.Append(L"Floating Point stack overflow/underflow");
 		break;
 
 	case EXCEPTION_FLT_UNDERFLOW:
-		buffer.Append(TEXT("Floating Point underflow"));
+		buffer.Append(L"Floating Point underflow");
 		break;
 
 	case EXCEPTION_ILLEGAL_INSTRUCTION:
-		buffer.Append(TEXT("Invalid instruction executed"));
+		buffer.Append(L"Invalid instruction executed");
 		break;
 
 	case EXCEPTION_IN_PAGE_ERROR:
-		buffer.Append(TEXT("Access to the not present page"));
+		buffer.Append(L"Access to the not present page");
 		break;
 
 	case EXCEPTION_INT_DIVIDE_BY_ZERO:
-		buffer.Append(TEXT("Integer divide by zero"));
+		buffer.Append(L"Integer divide by zero");
 		break;
 
 	case EXCEPTION_INT_OVERFLOW:
-		buffer.Append(TEXT("Integer overflow"));
+		buffer.Append(L"Integer overflow");
 		break;
 
 	case EXCEPTION_PRIV_INSTRUCTION:
-		buffer.Append(TEXT("Priveleged instruction executed"));
+		buffer.Append(L"Priveleged instruction executed");
 		break;
 
 	case EXCEPTION_STACK_OVERFLOW:
-		buffer.Append(TEXT("Stack overflow"));
+		buffer.Append(L"Stack overflow");
 		break;
 
 	case 0xe06d7363:
-		buffer.Append(TEXT("Unhandled C++ software exception"));
+		buffer.Append(L"Unhandled C++ software exception");
 		break;
 
 	default:
-		buffer.AppendFormat(TEXT("%x"), excrec->ExceptionCode);
+		buffer.AppendFormat(L"%x", excrec->ExceptionCode);
 		break;
 	}
 
-	buffer.AppendFormat(TEXT(" at address %p."), excrec->ExceptionAddress);
+	buffer.AppendFormat(L" at address %p.", excrec->ExceptionAddress);
 
 	if (excrec->ExceptionCode == EXCEPTION_ACCESS_VIOLATION || excrec->ExceptionCode == EXCEPTION_IN_PAGE_ERROR) {
 		switch (excrec->ExceptionInformation[0]) {
 		case 0:
-			buffer.AppendFormat(TEXT(" Reading from address %p."), (LPVOID)excrec->ExceptionInformation[1]);
+			buffer.AppendFormat(L" Reading from address %p.", (LPVOID)excrec->ExceptionInformation[1]);
 			break;
 
 		case 1:
-			buffer.AppendFormat(TEXT(" Writing to address %p."), (LPVOID)excrec->ExceptionInformation[1]);
+			buffer.AppendFormat(L" Writing to address %p.", (LPVOID)excrec->ExceptionInformation[1]);
 			break;
 
 		case 8:
-			buffer.AppendFormat(TEXT(" DEP at address %p."), (LPVOID)excrec->ExceptionInformation[1]);
+			buffer.AppendFormat(L" DEP at address %p.", (LPVOID)excrec->ExceptionInformation[1]);
 			break;
 		}
 	}
@@ -338,7 +336,7 @@ void GetAdminString(CMStringW &buffer)
 		b = TRUE;
 	}
 
-	buffer.AppendFormat(TEXT("Administrator privileges: %s"), b ? TEXT("Yes") : TEXT("No"));
+	buffer.AppendFormat(L"Administrator privileges: %s", b ? L"Yes" : L"No");
 }
 
 void GetLanguageString(CMStringW &buffer)
@@ -351,25 +349,25 @@ void GetLanguageString(CMStringW &buffer)
 	GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, name3, 256);
 	GetLocaleInfo(MAKELCID(GetSystemDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, name4, 256);
 
-	buffer.AppendFormat(TEXT("OS Languages: (UI | Locale (User/System)) : %s/%s | %s/%s"), name3, name4, name1, name2);
+	buffer.AppendFormat(L"OS Languages: (UI | Locale (User/System)) : %s/%s | %s/%s", name3, name4, name1, name2);
 }
 
 void GetLanguagePackString(CMStringW &buffer)
 {
-	buffer.Append(TEXT("Language pack: "));
+	buffer.Append(L"Language pack: ");
 	if (packlcid != LOCALE_USER_DEFAULT) {
 		wchar_t lang[MAX_PATH], ctry[MAX_PATH];
 		if (GetLocaleInfo(packlcid, LOCALE_SENGLANGUAGE, lang, MAX_PATH)) {
 			if (GetLocaleInfo(packlcid, LOCALE_SISO3166CTRYNAME, ctry, MAX_PATH))
-				buffer.AppendFormat(TEXT("%s (%s) [%04x]"), lang, ctry, packlcid);
+				buffer.AppendFormat(L"%s (%s) [%04x]", lang, ctry, packlcid);
 			else
 				buffer.Append(lang);
 		}
 		else
-			buffer.Append(TEXT("Locale id invalid"));
+			buffer.Append(L"Locale id invalid");
 	}
 	else
-		buffer.Append(TEXT("No language pack installed"));
+		buffer.Append(L"No language pack installed");
 }
 
 void GetWow64String(CMStringW &buffer)
@@ -379,7 +377,7 @@ void GetWow64String(CMStringW &buffer)
 		wow64 = 0;
 
 	if (wow64)
-		buffer.Append(TEXT(" [running inside WOW64]"));
+		buffer.Append(L" [running inside WOW64]");
 }
 
 void GetVersionInfo(HMODULE hLib, CMStringW& buffer)
@@ -396,7 +394,7 @@ void GetVersionInfo(HMODULE hLib, CMStringW& buffer)
 
 				if (((char*)res - (char*)versionInfo) < vl) {
 					VS_FIXEDFILEINFO *vsInfo = (VS_FIXEDFILEINFO*)res;
-					buffer.AppendFormat(TEXT(" v.%u.%u.%u.%u"),
+					buffer.AppendFormat(L" v.%u.%u.%u.%u",
 						HIWORD(vsInfo->dwFileVersionMS), LOWORD(vsInfo->dwFileVersionMS),
 						HIWORD(vsInfo->dwFileVersionLS), LOWORD(vsInfo->dwFileVersionLS));
 				}

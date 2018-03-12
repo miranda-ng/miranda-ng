@@ -47,30 +47,28 @@ int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 {
 	wchar_t path[MAX_PATH];
-	SYSTEMTIME st;
 	HANDLE hDumpFile = nullptr;
 
+	SYSTEMTIME st;
 	GetLocalTime(&st);
 	CreateDirectoryTreeW(CrashLogFolder);
 
 	__try {
 		if (dtsubfldr) {
-			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
+			mir_snwprintf(path, L"%s\\%02d.%02d.%02d", CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, nullptr);
-			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
+			mir_snwprintf(path, L"%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp", CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
 		else
-			mir_snwprintf(path, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder,
-			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+			mir_snwprintf(path, L"%s\\crash%02d%02d%02d%02d%02d%02d.mdmp", CrashLogFolder,
+				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (hDumpFile != INVALID_HANDLE_VALUE)
 			CreateMiniDump(hDumpFile, exc_ptr);
 		else if (GetLastError() != ERROR_ALREADY_EXISTS)
-			MessageBox(nullptr, TranslateT("Crash Report write location is not available"),
-			TEXT("Miranda Crash Dumper"), MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
-
+			MessageBox(nullptr, TranslateT("Crash Report write location is not available"), L"Miranda Crash Dumper", MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_TOPMOST);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -78,18 +76,19 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 
 	bool empty = GetFileSize(hDumpFile, nullptr) == 0;
 	CloseHandle(hDumpFile);
-	if (empty) DeleteFile(path);
+	if (empty)
+		DeleteFile(path);
 
 	__try {
 		if (dtsubfldr) {
-			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
+			mir_snwprintf(path, L"%s\\%02d.%02d.%02d", CrashLogFolder, st.wYear, st.wMonth, st.wDay);
 			CreateDirectory(path, nullptr);
-			mir_snwprintf(path, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
+			mir_snwprintf(path, L"%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt", CrashLogFolder,
 				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 		}
-		else
-			mir_snwprintf(path, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder,
-			st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		else 
+			mir_snwprintf(path, L"%s\\crash%02d%02d%02d%02d%02d%02d.txt", CrashLogFolder,
+				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
 
@@ -100,27 +99,29 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 	}
 	__except (myDebugFilter(GetExceptionCode(), GetExceptionInformation())) {}
 
-	bool empty1 = GetFileSize(hDumpFile, nullptr) == 0;
+	empty = GetFileSize(hDumpFile, nullptr) == 0;
 	CloseHandle(hDumpFile);
-	if (empty1) DeleteFile(path);
+	if (empty)
+		DeleteFile(path);
 }
 
 LONG WINAPI myfilter(PEXCEPTION_POINTERS exc_ptr)
 {
-	if (exc_ptr == lastptr) return EXCEPTION_EXECUTE_HANDLER;
+	if (exc_ptr == lastptr)
+		return EXCEPTION_EXECUTE_HANDLER;
+	
 	lastptr = exc_ptr;
-
 	myfilterWorker(exc_ptr, true);
-
 	return exchndlr ? ((LPTOP_LEVEL_EXCEPTION_FILTER)exchndlr)(exc_ptr) : EXCEPTION_CONTINUE_SEARCH;
 }
 
 LONG WINAPI myfilterv(PEXCEPTION_POINTERS exc_ptr)
 {
 	if (0xC0000000L <= exc_ptr->ExceptionRecord->ExceptionCode && 0xC0000500L >= exc_ptr->ExceptionRecord->ExceptionCode) {
-		if (exc_ptr == lastptr) return EXCEPTION_EXECUTE_HANDLER;
+		if (exc_ptr == lastptr)
+			return EXCEPTION_EXECUTE_HANDLER;
+		
 		lastptr = exc_ptr;
-
 		myfilterWorker(exc_ptr, true);
 	}
 	return EXCEPTION_CONTINUE_SEARCH;
