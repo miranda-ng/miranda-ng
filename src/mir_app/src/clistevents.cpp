@@ -27,32 +27,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CListImlIcon
 {
-	int index;
+	CListImlIcon(HICON _icon) :
+		hIcon(_icon),
+		index(-1)
+	{}
+
 	HICON hIcon;
+	int index;
 };
-static struct CListImlIcon *imlIcon;
-static int imlIconCount;
+
+static int CompareImlIcons(const CListImlIcon *p1, const CListImlIcon *p2)
+{
+	if (p1->hIcon == p2->hIcon)
+		return 0;
+	return (UINT_PTR(p1->hIcon) < UINT_PTR(p2->hIcon)) ? -1 : 1;
+}
+
+static OBJLIST<CListImlIcon> arImlIcons(10, CompareImlIcons);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static UINT_PTR flashTimerId;
 static int iconsOn;
 static int disableTrayFlash;
 static int disableIconFlash;
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 OBJLIST<CListEvent> g_cliEvents(10, PtrKeySortT);
-
-int fnGetImlIconIndex(HICON hIcon)
-{
-	int i;
-	for (i=0; i < imlIconCount; i++)
-		if (imlIcon[i].hIcon == hIcon)
-			return imlIcon[i].index;
-
-	imlIcon = (struct CListImlIcon *) mir_realloc(imlIcon, sizeof(struct CListImlIcon) * (imlIconCount + 1));
-	imlIconCount++;
-	imlIcon[i].hIcon = hIcon;
-	imlIcon[i].index = ImageList_AddIcon(hCListImages, hIcon);
-	return imlIcon[i].index;
-}
 
 static char* GetEventProtocol(int idx)
 {
@@ -62,8 +64,21 @@ static char* GetEventProtocol(int idx)
 	CListEvent &ev = g_cliEvents[idx];
 	if (ev.hContact != 0)
 		return GetContactProto(ev.hContact);
-		
+
 	return (ev.flags & CLEF_PROTOCOLGLOBAL) ? ev.lpszProtocol : nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int fnGetImlIconIndex(HICON hIcon)
+{
+	auto *p = arImlIcons.find((CListImlIcon*)&hIcon);
+	if (p != nullptr)
+		return p->index;
+
+	p = new CListImlIcon(hIcon);
+	arImlIcons.insert(p);
+	return p->index = ImageList_AddIcon(hCListImages, hIcon);
 }
 
 static void ShowOneEventInTray(int idx)
@@ -361,6 +376,5 @@ void UninitCListEvents(void)
 		KillTimer(nullptr, flashTimerId);
 	g_cliEvents.destroy();
 
-	if (imlIcon != nullptr)
-		mir_free(imlIcon);
+	arImlIcons.destroy();
 }
