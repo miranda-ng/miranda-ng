@@ -70,8 +70,6 @@ static void fnReloadProtoMenus(void)
 
 MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
 {
-	int rc;
-
 	if (interfaceInited == 0) {
 		cli.version = 6;
 		cli.bDisplayLocked = TRUE;
@@ -206,7 +204,7 @@ MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
 		cli.pfnGetAverageMode                  = fnGetAverageMode;
 		cli.pfnInitAutoRebuild                 = fnInitAutoRebuild;
 
-		rc = LoadContactListModule2();
+		int rc = LoadContactListModule2();
 		if (rc == 0)
 			rc = LoadCLCModule();
 		interfaceInited = 1;
