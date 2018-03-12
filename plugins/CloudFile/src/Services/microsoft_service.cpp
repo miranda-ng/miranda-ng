@@ -246,12 +246,10 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 
 				uint64_t offset = 0;
 				double chunkCount = ceil(double(fileSize) / chunkSize);
-				while (chunkCount > 0) {
+				for (size_t i = 0; i < chunkCount; i++) {
 					ftp->CheckCurrentFile();
 					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-
 					fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
-
 					offset += size;
 					ftp->Progress(size);
 				}

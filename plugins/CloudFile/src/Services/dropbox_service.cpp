@@ -262,7 +262,7 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 
 				size_t offset = size;
 				double chunkCount = ceil(double(fileSize) / chunkSize) - 2;
-				while (chunkCount > 0) {
+				for (size_t i = 0; i < chunkCount; i++) {
 					ftp->CheckCurrentFile();
 
 					size = ftp->ReadCurrentFile(chunk, chunkSize);

@@ -26,7 +26,7 @@ private:
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 		requestType = type;
-		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 		szUrl = NULL;
 		headers = NULL;
 		headersCount = 0;
