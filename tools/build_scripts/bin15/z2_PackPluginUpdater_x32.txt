@@ -73,6 +73,7 @@ Plugins\keyboardnotify.dll
 Plugins\linklist.dll
 Plugins\listeningto.dll
 Plugins\lotusnotify.dll
+Plugins\MagneticWindows.dll
 Plugins\menuex.dll
 Plugins\messagestate.dll
 Plugins\minecraftdynmap.dll
