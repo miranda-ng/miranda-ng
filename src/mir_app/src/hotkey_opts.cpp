@@ -755,10 +755,13 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				UnregisterHotkeys();
 
-				for (auto &it : hotkeys)
-					if (it->OptNew && it->OptDeleted || it->rootHotkey && !it->OptHotkey || (lpnmhdr->code == PSN_APPLY) && it->OptDeleted || (lpnmhdr->code == PSN_RESET) && it->OptNew)
-						FreeHotkey(it);
-				hotkeys.destroy();
+				for (int i = hotkeys.getCount()-1; i--;) {
+					THotkeyItem *p = hotkeys[i];
+					if (p->OptNew && p->OptDeleted || p->rootHotkey && !p->OptHotkey || (lpnmhdr->code == PSN_APPLY) && p->OptDeleted || (lpnmhdr->code == PSN_RESET) && p->OptNew) {
+						FreeHotkey(p);
+						hotkeys.remove(i);
+					}
+				}
 
 				if (lpnmhdr->code == PSN_APPLY) {
 					LVITEM lvi = { 0 };
