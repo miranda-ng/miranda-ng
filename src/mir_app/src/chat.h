@@ -76,6 +76,9 @@ BOOL     SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_
 
 SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule);
 
+STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount);
+WORD     TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
+
 // clist.c
 BOOL     AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* fmt, ...);
 MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType);

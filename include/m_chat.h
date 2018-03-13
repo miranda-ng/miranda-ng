@@ -372,7 +372,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT*);
 EXTERN_C MIR_APP_DLL(void*) Chat_GetUserInfo(const char *szModule, const wchar_t *wszId);
 EXTERN_C MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, void *pItemData);
 
-EXTERN_C MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const wchar_t *wszText, HICON hIcon = nullptr);
+EXTERN_C MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const wchar_t *wszText);
 EXTERN_C MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wszId, const wchar_t *wszNewName);
 EXTERN_C MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, const wchar_t *wszOldId, const wchar_t *wszNewId);
 EXTERN_C MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId, const wchar_t *wszText);

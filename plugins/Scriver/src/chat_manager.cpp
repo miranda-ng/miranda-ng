@@ -52,23 +52,14 @@ char SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui)
 
 	STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
 	if (ti) {
-		if ((INT_PTR)ti->hIcon < STATUSICONCOUNT) {
-			INT_PTR id = si->iStatusCount - (INT_PTR)ti->hIcon - 1;
-			if (id == 0)
-				return '\0';
-			if (id == 1)
-				return '+';
-			if (id == 2)
-				return '%';
-			if (id == 3)
-				return '@';
-			if (id == 4)
-				return '!';
-			if (id == 5)
-				return '*';
+		switch (si->iStatusCount - ti->iIconIndex - 1) {
+		case 0: return '\0';
+		case 1: return '+';
+		case 2: return '%';
+		case 3: return '@';
+		case 4: return '!';
+		case 5: return '*';
 		}
-		else
-			return '\0';
 	}
 	return '\0';
 }

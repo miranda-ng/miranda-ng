@@ -261,8 +261,8 @@ static void SetInitDone(SESSION_INFO *si)
 
 	si->bInitDone = true;
 	for (STATUSINFO *p = si->pStatuses; p; p = p->next)
-		if ((UINT_PTR)p->hIcon < STATUSICONCOUNT)
-			p->hIcon = HICON(si->iStatusCount - (INT_PTR)p->hIcon - 1);
+		if (p->iIconIndex < STATUSICONCOUNT)
+			p->iIconIndex = si->iStatusCount - p->iIconIndex - 1;
 }
 
 static INT_PTR __stdcall stubRoomControl(void *param)
@@ -369,7 +369,7 @@ static void AddUser(GCEVENT *gce)
 	if (si == nullptr)
 		return;
 
-	WORD status = chatApi.TM_StringToWord(si->pStatuses, gce->ptszStatus);
+	WORD status = TM_StringToWord(si->pStatuses, gce->ptszStatus);
 
 	USERINFO *ui = chatApi.UM_AddUser(si->pStatuses, &si->pUsers, gce->ptszUID, gce->ptszNick, status);
 	if (ui == nullptr)
@@ -383,7 +383,7 @@ static void AddUser(GCEVENT *gce)
 	if (gce->bIsMe)
 		si->pMe = ui;
 	ui->Status = status;
-	ui->Status |= si->pStatuses->Status;
+	ui->Status |= si->pStatuses->iStatus;
 
 	if (si->pDlg)
 		si->pDlg->UpdateNickList();
@@ -579,7 +579,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT *gce)
 /////////////////////////////////////////////////////////////////////////////////////////
 // chat control functions
 
-MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const wchar_t *wszText, HICON hIcon)
+MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const wchar_t *wszText)
 {
 	if (wszText == nullptr)
 		return GC_EVENT_ERROR;
@@ -589,12 +589,9 @@ MIR_APP_DLL(int) Chat_AddGroup(const char *szModule, const wchar_t *wszId, const
 	if (si == nullptr)
 		return 0;
 
-	STATUSINFO *ti = chatApi.TM_AddStatus(&si->pStatuses, wszText, &si->iStatusCount);
-	if (ti) {
+	STATUSINFO *ti = TM_AddStatus(&si->pStatuses, wszText, &si->iStatusCount);
+	if (ti)
 		si->iStatusCount++;
-		if (hIcon)
-			ti->hIcon = CopyIcon(hIcon);
-	}
 
 	if (chatApi.OnAddStatus)
 		chatApi.OnAddStatus(si, ti);

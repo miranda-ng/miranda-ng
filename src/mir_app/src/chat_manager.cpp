@@ -188,12 +188,9 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 		return nullptr;
 
 	STATUSINFO *ti = chatApi.TM_FindStatus(si->pStatuses, chatApi.TM_WordToString(si->pStatuses, ui->Status));
-	if (ti != nullptr) {
-		if ((UINT_PTR)ti->hIcon >= STATUSICONCOUNT)
-			return ti->hIcon;
-
-		return chatApi.hIcons[ICON_STATUS0 + (INT_PTR)ti->hIcon];
-	}
+	if (ti != nullptr)
+		return chatApi.hIcons[ICON_STATUS0 + ti->iIconIndex];
+	
 	return chatApi.hIcons[ICON_STATUS0];
 }
 
@@ -280,7 +277,7 @@ BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (si == nullptr)
 		return FALSE;
 	
-	USERINFO *ui = chatApi.UM_GiveStatus(si->pUsers, pszUID, chatApi.TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = chatApi.UM_GiveStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
@@ -310,7 +307,7 @@ BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = chatApi.UM_TakeStatus(si->pUsers, pszUID, chatApi.TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = chatApi.UM_TakeStatus(si->pUsers, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
 	if (ui) {
 		SM_MoveUser(si->ptszID, si->pszModule, ui->pszUID);
 		if (si->pDlg)
@@ -590,26 +587,25 @@ static BOOL MM_RemoveAll(void)
 // Status manager functions
 // Necessary to keep track of what user statuses per window nicklist that is available
 
-static STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount)
+STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount)
 {
 	if (!ppStatusList || !pszStatus)
 		return nullptr;
 
 	if (!chatApi.TM_FindStatus(*ppStatusList, pszStatus)) {
-		STATUSINFO *node = (STATUSINFO*)mir_alloc(sizeof(STATUSINFO));
-		memset(node, 0, sizeof(STATUSINFO));
+		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
 		replaceStrW(node->pszGroup, pszStatus);
-		node->hIcon = (HICON)(*iCount);
-		while ((INT_PTR)node->hIcon > STATUSICONCOUNT - 1)
-			node->hIcon--;
+		node->iIconIndex = *iCount;
+		while (node->iIconIndex > STATUSICONCOUNT - 1)
+			node->iIconIndex--;
 
 		if (*ppStatusList == nullptr) { // list is empty
-			node->Status = 1;
+			node->iStatus = 1;
 			*ppStatusList = node;
 			node->next = nullptr;
 		}
 		else {
-			node->Status = ppStatusList[0]->Status * 2;
+			node->iStatus = ppStatusList[0]->iStatus * 2;
 			node->next = *ppStatusList;
 			*ppStatusList = node;
 		}
@@ -631,17 +627,17 @@ static STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStat
 	return nullptr;
 }
 
-static WORD TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus)
+WORD TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus)
 {
 	if (!pStatusList || !pszStatus)
 		return 0;
 
 	for (STATUSINFO *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next) {
 		if (mir_wstrcmpi(pTemp->pszGroup, pszStatus) == 0)
-			return pTemp->Status;
+			return pTemp->iStatus;
 
 		if (pTemp->next == nullptr)
-			return pStatusList->Status;
+			return pStatusList->iStatus;
 	}
 	return 0;
 }
@@ -652,8 +648,8 @@ static wchar_t* TM_WordToString(STATUSINFO *pStatusList, WORD Status)
 		return nullptr;
 
 	for (STATUSINFO *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next) {
-		if (pTemp->Status & Status) {
-			Status -= pTemp->Status;
+		if (pTemp->iStatus & Status) {
+			Status -= pTemp->iStatus;
 			if (Status == 0)
 				return pTemp->pszGroup;
 		}
@@ -669,8 +665,6 @@ static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)
 	while (*ppStatusList != nullptr) {
 		STATUSINFO *pLast = ppStatusList[0]->next;
 		mir_free(ppStatusList[0]->pszGroup);
-		if ((INT_PTR)ppStatusList[0]->hIcon > 10)
-			DestroyIcon(ppStatusList[0]->hIcon);
 		mir_free(*ppStatusList);
 		*ppStatusList = pLast;
 	}
@@ -1035,9 +1029,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_GetInterface(CHAT_MANAGER_INITDATA *pInit, int _
 	chatApi.MM_IconsChanged = MM_IconsChanged;
 	chatApi.MM_RemoveAll = MM_RemoveAll;
 
-	chatApi.TM_AddStatus = TM_AddStatus;
 	chatApi.TM_FindStatus = TM_FindStatus;
-	chatApi.TM_StringToWord = TM_StringToWord;
 	chatApi.TM_WordToString = TM_WordToString;
 	chatApi.TM_RemoveAll = TM_RemoveAll;
 

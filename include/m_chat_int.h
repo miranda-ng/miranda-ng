@@ -126,8 +126,8 @@ struct LOGINFO
 struct STATUSINFO
 {
 	wchar_t    *pszGroup;
-	HICON       hIcon;
-	WORD        Status;
+	int         iIconIndex;
+	int         iStatus;
 	STATUSINFO *next;
 };
 
@@ -276,9 +276,7 @@ struct CHAT_MANAGER
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
 
-	STATUSINFO*   (*TM_AddStatus)(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int* iCount);
 	STATUSINFO*   (*TM_FindStatus)(STATUSINFO *pStatusList, const wchar_t *pszStatus);
-	WORD          (*TM_StringToWord)(STATUSINFO *pStatusList, const wchar_t *pszStatus);
 	wchar_t*      (*TM_WordToString)(STATUSINFO *pStatusList, WORD Status);
 	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
 

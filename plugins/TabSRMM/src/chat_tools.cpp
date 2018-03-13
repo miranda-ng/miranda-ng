@@ -538,10 +538,10 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 	for (USERINFO *ui = si->pUsers; ui; ui = ui->next) {
 		if (!mir_wstrcmp(ui->pszNick, ptszNick)) {
 			STATUSINFO *ti = pci->TM_FindStatus(si->pStatuses, pci->TM_WordToString(si->pStatuses, ui->Status));
-			if (ti && (INT_PTR)ti->hIcon < si->iStatusCount) {
+			if (ti) {
 				if (iNickIndex)
-					*iNickIndex = (INT_PTR)ti->hIcon; // color table's index is not zero-based
-				return szIndicators[(INT_PTR)ti->hIcon];
+					*iNickIndex = ti->iIconIndex; // color table's index is not zero-based
+				return szIndicators[ti->iIconIndex];
 			}
 			break;
 		}
