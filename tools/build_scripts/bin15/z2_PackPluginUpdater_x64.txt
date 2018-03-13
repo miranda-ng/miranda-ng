@@ -71,7 +71,7 @@ Plugins\jabber.dll
 Plugins\keyboardnotify.dll
 Plugins\linklist.dll
 Plugins\listeningto.dll
-Plugins\MagneticWindows.dll
+Plugins\magneticwindows.dll
 Plugins\menuex.dll
 Plugins\messagestate.dll
 Plugins\minecraftdynmap.dll
