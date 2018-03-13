@@ -742,7 +742,8 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 			if (hContact) {
 				bShouldProcessAcks = TRUE;
-				HANDLE hProcess = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, ptrA(Utf8EncodeW(message)));
+				ptrA szMessage(Utf8EncodeW(message));
+				HANDLE hProcess = (HANDLE)ProtoChainSend(hContact, PSS_MESSAGE, 0, szMessage);
 				const int MAX_COUNT = 60;
 				int counter = 0;
 				while (((ack = GetAck(hProcess)) == nullptr) && (counter < MAX_COUNT)) {
@@ -759,10 +760,10 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							DBEVENTINFO e = {};
 							char module[128];
 							e.eventType = EVENTTYPE_MESSAGE;
-							e.flags = DBEF_SENT;
+							e.flags = DBEF_SENT | DBEF_UTF;
 
-							e.pBlob = (PBYTE)message;
-							e.cbBlob = (DWORD)mir_strlen((char *)message) + 1;
+							e.pBlob = (PBYTE)szMessage.get();
+							e.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
 
 							strncpy_s(module, ack->szModule, _countof(module));
 							e.szModule = module;
