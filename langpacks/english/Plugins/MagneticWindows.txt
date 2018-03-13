@@ -1,0 +1,15 @@
+#muuid {08c01613-24c8-486f-bdae-2c3ddcaf9347}
+;============================================================
+;  File: MagneticWindows.dll
+;  Plugin: Magnetic Windows
+;  Version: 0.0.3.2
+;  Authors: Michael Kunz
+;============================================================
+[Makes the contact list and the chat windows snapping to the desktop border and to each other.]
+;file \plugins\MagneticWindows\res\Options.rc
+[Magnetic Windows]
+[Snap windows]
+[%d pix]
+[For Scriver users: automatically hold down the Ctrl key while moving/sizing. (Make sure you use Scriver!)]
+;file \plugins\MagneticWindows\src\Options.cpp
+[Customize]

@@ -371,7 +371,6 @@
 [Message sessions]
 [General]
 [Event log]
-[Group chat log]
 [Typing notify]
 [Popups]
 ;file \plugins\Scriver\src\msgs.cpp
