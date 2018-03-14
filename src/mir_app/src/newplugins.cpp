@@ -653,11 +653,10 @@ static pluginEntry* getCListModule(wchar_t *exe)
 
 int UnloadPlugin(wchar_t* buf, int bufLen)
 {
-	for (int i = pluginList.getCount() - 1; i >= 0; i--) {
-		pluginEntry *p = pluginList[i];
-		if (!mir_wstrcmpi(p->pluginname, buf)) {
-			GetModuleFileName(p->bpi.hInst, buf, bufLen);
-			Plugin_Uninit(p);
+	for (auto &it : pluginList.rev_iter()) {
+		if (!mir_wstrcmpi(it->pluginname, buf)) {
+			GetModuleFileName(it->bpi.hInst, buf, bufLen);
+			Plugin_Uninit(it);
 			return TRUE;
 		}
 	}
@@ -767,11 +766,9 @@ int LoadSslModule(void)
 void UnloadNewPlugins(void)
 {
 	// unload everything but the special db/clist plugins
-	for (int i = pluginList.getCount() - 1; i >= 0; i--) {
-		pluginEntry *p = pluginList[i];
-		if (!(p->pclass & PCLASS_LAST) && (p->pclass & PCLASS_OK))
-			Plugin_Uninit(p);
-	}
+	for (auto &it : pluginList.rev_iter())
+		if (!(it->pclass & PCLASS_LAST) && (it->pclass & PCLASS_OK))
+			Plugin_Uninit(it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -885,21 +882,17 @@ void UnloadNewPluginsModule(void)
 	UnloadPluginOptions();
 
 	// unload everything but the DB
-	for (int i = pluginList.getCount() - 1; i >= 0; i--) {
-		pluginEntry *p = pluginList[i];
-		if (!(p->pclass & (PCLASS_DB | PCLASS_CRYPT)) && p != plugin_crshdmp)
-			Plugin_Uninit(p);
-	}
+	for (auto &it : pluginList.rev_iter())
+		if (!(it->pclass & (PCLASS_DB | PCLASS_CRYPT)) && it != plugin_crshdmp)
+			Plugin_Uninit(it);
 
 	if (plugin_crshdmp)
 		Plugin_Uninit(plugin_crshdmp);
 
 	UnloadDatabase();
 
-	for (int k = pluginList.getCount() - 1; k >= 0; k--) {
-		pluginEntry *p = pluginList[k];
-		Plugin_Uninit(p);
-	}
+	for (auto &it : pluginList.rev_iter())
+		Plugin_Uninit(it);
 
 	if (hPluginListHeap)
 		HeapDestroy(hPluginListHeap);

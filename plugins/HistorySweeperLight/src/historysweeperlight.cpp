@@ -224,9 +224,9 @@ int OnWindowEvent(WPARAM, LPARAM lParam)
 			SweepHistoryFromContact(msgEvData->hContact, Criteria, TRUE);
 		}
 
-		for (int i = g_hWindows.getCount() - 1; i >= 0; i--)
-			if (g_hWindows[i] == PVOID(msgEvData->hContact))
-				g_hWindows.remove(i);
+		for (auto &it : g_hWindows.rev_iter())
+			if (it == PVOID(msgEvData->hContact))
+				g_hWindows.remove(it);
 		break;
 	}
 

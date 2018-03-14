@@ -196,6 +196,35 @@ template<class T> struct LIST
 		return (!List_GetIndex((SortedList*)this, p, &idx)) ? -1 : idx;
 	}
 
+	class reverse_iterator
+	{
+		int index;
+		T **base;
+
+	public:
+		reverse_iterator(const LIST &_lst) :
+			index(_lst.getCount()),
+			base(_lst.getArray())
+		{
+			if (index > 0)
+				index--;
+		}
+
+		class iterator
+		{
+			T** ptr;
+		
+		public:
+			iterator(T **_p) : ptr(_p) {}
+			iterator operator++() { --ptr; return *this; }
+			bool operator!=(const iterator &p) { return ptr != p.ptr; }
+			operator T**() const { return ptr; }
+		};
+
+		__inline iterator begin() const { return iterator(base + index); }
+		__inline iterator end() const { return iterator(base); }
+	};
+
 	__inline void destroy(void)         { List_Destroy((SortedList*)this); }
 	__inline T*   find(T *p) const      { return (T*)List_Find((SortedList*)this, p); }
 	__inline int  indexOf(T *p) const   { return List_IndexOf((SortedList*)this, p); }
@@ -209,6 +238,8 @@ template<class T> struct LIST
 
 	__inline T** begin() const { return items; }
 	__inline T** end() const { return items + count; }
+
+	__inline reverse_iterator rev_iter() const { return reverse_iterator(*this); }
 
 protected:
 	T**        items;

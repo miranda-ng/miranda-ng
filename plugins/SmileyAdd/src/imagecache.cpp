@@ -36,8 +36,8 @@ static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 		lastdllname.Empty();
 	}
 
-	for (int i = g_imagecache.getCount() - 1; i >= 0; i--)
-		g_imagecache[i].ProcessTimerTick(ts);
+	for (auto &it : g_imagecache.rev_iter())
+		it->ProcessTimerTick(ts);
 
 	if (g_imagecache.getCount() == 0) {
 		g_imagecache.destroy();

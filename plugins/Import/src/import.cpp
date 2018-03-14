@@ -165,11 +165,11 @@ void CopySettings(MCONTACT srcID, const char *szSrcModule, MCONTACT dstID, const
 	LIST<char> arSettings(50);
 	srcDb->EnumContactSettings(srcID, CopySettingsEnum, szSrcModule, &arSettings);
 
-	for (int i = arSettings.getCount() - 1; i >= 0; i--) {
+	for (auto &it : arSettings.rev_iter()) {
 		DBVARIANT dbv = { 0 };
-		if (!srcDb->GetContactSetting(srcID, szSrcModule, arSettings[i], &dbv))
-			db_set(dstID, szDstModule, arSettings[i], &dbv);
-		mir_free(arSettings[i]);
+		if (!srcDb->GetContactSetting(srcID, szSrcModule, it, &dbv))
+			db_set(dstID, szDstModule, it, &dbv);
+		mir_free(it);
 	}
 }
 

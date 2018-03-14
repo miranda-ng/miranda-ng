@@ -52,14 +52,6 @@ int dwSepCount = 0;
 static mir_cs csToolBar;
 static HANDLE hHookToolBarLoadedEvt, hHookButtonPressedEvt;
 
-static void wipeList(LIST<CustomButtonData> &list)
-{
-	for (int i = list.getCount() - 1; i >= 0; i--) {
-		delete list[i];
-		list.remove(i);
-	}
-}
-
 static int sstSortButtons(const void *p1, const void *p2)
 {
 	return SortButtons(*(CustomButtonData**)p1, *(CustomButtonData**)p2);
@@ -228,13 +220,11 @@ MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
 	{
 		mir_cslock lck(csToolBar);
 
-		for (int i = arButtonsList.getCount() - 1; i >= 0; i--) {
-			CustomButtonData *cbd = arButtonsList[i];
+		for (auto &cbd : arButtonsList.rev_iter())
 			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonID == bbdi->dwButtonID) {
 				pFound = cbd;
-				arButtonsList.remove(i);
+				arButtonsList.remove(cbd);
 			}
-		}
 	}
 
 	if (pFound) {
@@ -432,14 +422,12 @@ MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg)
 
 static void CB_ReInitCustomButtons()
 {
-	for (int i = arButtonsList.getCount() - 1; i >= 0; i--) {
-		CustomButtonData *cbd = arButtonsList[i];
-
+	for (auto &cbd : arButtonsList.rev_iter()) {
 		if (cbd->m_opFlags & (BBSF_NTBSWAPED | BBSF_NTBDESTRUCT)) {
 			cbd->m_opFlags ^= BBSF_NTBSWAPED;
 
 			if (cbd->m_opFlags & BBSF_NTBDESTRUCT)
-				arButtonsList.remove(i);
+				arButtonsList.remove(cbd);
 		}
 	}
 	qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
@@ -793,13 +781,11 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 
 void KillModuleToolbarIcons(int _hLang)
 {
-	for (int i = arButtonsList.getCount() - 1; i >= 0; i--) {
-		CustomButtonData *cbd = arButtonsList[i];
+	for (auto &cbd : arButtonsList.rev_iter())
 		if (cbd->m_hLangpack == _hLang) {
-			arButtonsList.remove(i);
+			arButtonsList.remove(cbd);
 			delete cbd;
 		}
-	}
 }
 
 static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
@@ -860,5 +846,7 @@ void UnloadSrmmToolbarModule()
 {
 	DestroyHookableEvent(hHookButtonPressedEvt);
 
-	wipeList(arButtonsList);
+	for (auto &it : arButtonsList)
+		delete it;
+	arButtonsList.destroy();
 }

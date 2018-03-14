@@ -413,18 +413,18 @@ MIR_CORE_DLL(void) KillModuleEventHooks(HINSTANCE hInst)
 {
 	mir_cslock lck(csHooks);
 
-	for (int i = hooks.getCount() - 1; i >= 0; i--) {
-		if (hooks[i]->subscriberCount == 0)
+	for (auto &it : hooks.rev_iter()) {
+		if (it->subscriberCount == 0)
 			continue;
 
-		for (int j = hooks[i]->subscriberCount - 1; j >= 0; j--) {
-			if (hooks[i]->subscriber[j].hOwner != hInst)
+		for (int j = it->subscriberCount - 1; j >= 0; j--) {
+			if (it->subscriber[j].hOwner != hInst)
 				continue;
 
 			char szModuleName[MAX_PATH];
-			GetModuleFileNameA(hooks[i]->subscriber[j].hOwner, szModuleName, sizeof(szModuleName));
-			UnhookEvent((HANDLE)((hooks[i]->id << 16) + j + 1));
-			if (hooks[i]->subscriberCount == 0)
+			GetModuleFileNameA(it->subscriber[j].hOwner, szModuleName, sizeof(szModuleName));
+			UnhookEvent((HANDLE)((it->id << 16) + j + 1));
+			if (it->subscriberCount == 0)
 				break;
 		}
 	}
@@ -434,14 +434,14 @@ MIR_CORE_DLL(void) KillObjectEventHooks(void* pObject)
 {
 	mir_cslock lck(csHooks);
 
-	for (int i = hooks.getCount() - 1; i >= 0; i--) {
-		if (hooks[i]->subscriberCount == 0)
+	for (auto &it : hooks.rev_iter()) {
+		if (it->subscriberCount == 0)
 			continue;
 
-		for (int j = hooks[i]->subscriberCount - 1; j >= 0; j--) {
-			if (hooks[i]->subscriber[j].object == pObject) {
-				UnhookEvent((HANDLE)((hooks[i]->id << 16) + j + 1));
-				if (hooks[i]->subscriberCount == 0)
+		for (int j = it->subscriberCount - 1; j >= 0; j--) {
+			if (it->subscriber[j].object == pObject) {
+				UnhookEvent((HANDLE)((it->id << 16) + j + 1));
+				if (it->subscriberCount == 0)
 					break;
 			}
 		}
@@ -452,11 +452,11 @@ static void DestroyHooks()
 {
 	mir_cslock lck(csHooks);
 
-	for (auto &p : hooks) {
-		if (p->subscriberCount)
-			mir_free(p->subscriber);
-		DeleteCriticalSection(&p->csHook);
-		mir_free(p);
+	for (auto &it : hooks) {
+		if (it->subscriberCount)
+			mir_free(it->subscriber);
+		DeleteCriticalSection(&it->csHook);
+		mir_free(it);
 	}
 }
 
@@ -639,11 +639,11 @@ MIR_CORE_DLL(void) KillModuleServices(HINSTANCE hInst)
 {
 	mir_cslock lck(csServices);
 
-	for (int i = services.getCount() - 1; i >= 0; i--) {
-		if (services[i]->hOwner == hInst) {
+	for (auto &it : services.rev_iter()) {
+		if (it->hOwner == hInst) {
 			char szModuleName[MAX_PATH];
-			GetModuleFileNameA(services[i]->hOwner, szModuleName, sizeof(szModuleName));
-			DestroyServiceFunction((HANDLE)services[i]->nameHash);
+			GetModuleFileNameA(it->hOwner, szModuleName, sizeof(szModuleName));
+			DestroyServiceFunction((HANDLE)it->nameHash);
 		}
 	}
 }
@@ -652,9 +652,9 @@ MIR_CORE_DLL(void) KillObjectServices(void* pObject)
 {
 	mir_cslock lck(csServices);
 
-	for (int i = services.getCount() - 1; i >= 0; i--)
-		if (services[i]->object == pObject)
-			DestroyServiceFunction((HANDLE)services[i]->nameHash);
+	for (auto &it : services.rev_iter())
+		if (it->object == pObject)
+			DestroyServiceFunction((HANDLE)it->nameHash);
 }
 
 static void DestroyServices()

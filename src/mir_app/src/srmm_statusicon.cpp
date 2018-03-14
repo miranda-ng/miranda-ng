@@ -163,19 +163,18 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 {
 	static StatusIconData res;
 
-	for (int i=arIcons.getCount()-1, nVis = 0; i >= 0; i--) {
-		StatusIconMain &p = arIcons[i];
-
-		StatusIconChild *pc = p.arChildren.find((StatusIconChild*)&hContact);
+	int nVis = 0;
+	for (auto &it : arIcons.rev_iter()) {
+		StatusIconChild *pc = it->arChildren.find((StatusIconChild*)&hContact);
 		if (pc) {
 			if (pc->flags & MBF_HIDDEN)
 				continue;
 		}
-		else if (p.sid.flags & MBF_HIDDEN)
+		else if (it->sid.flags & MBF_HIDDEN)
 			continue;
 
 		if (nVis == index) {
-			memcpy(&res, &p, sizeof(res));
+			memcpy(&res, it, sizeof(res));
 			if (pc) {
 				if (pc->hIcon) res.hIcon = pc->hIcon;
 				if (pc->hIconDisabled)
@@ -185,7 +184,7 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 				if (pc->tszTooltip) res.tszTooltip = pc->tszTooltip;
 				res.flags = pc->flags;
 			}
-			res.tszTooltip = TranslateW_LP(res.tszTooltip, p.hLangpack);
+			res.tszTooltip = TranslateW_LP(res.tszTooltip, it->hLangpack);
 			return &res;
 		}
 		nVis++;
@@ -198,11 +197,9 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 
 void KillModuleSrmmIcons(int _hLang)
 {
-	for (int i = arIcons.getCount()-1; i >= 0; i--) {
-		StatusIconMain &p = arIcons[i];
-		if (p.hLangpack == _hLang)
-			arIcons.remove(i);
-	}
+	for (auto &it : arIcons.rev_iter())
+		if (it->hLangpack == _hLang)
+			arIcons.remove(it);
 }
 
 int LoadSrmmModule()

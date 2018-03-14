@@ -75,9 +75,9 @@ BOOL MDatabaseCommon::DeleteModule(MCONTACT hContact, LPCSTR szModule)
 	LIST<char> vars(20);
 	EnumContactSettings(hContact, sttEnumVars, szModule, &vars);
 
-	for (int i = vars.getCount() - 1; i >= 0; i--) {
-		DeleteContactSetting(hContact, szModule, vars[i]);
-		mir_free(vars[i]);
+	for (auto &it : vars.rev_iter()) {
+		DeleteContactSetting(hContact, szModule, it);
+		mir_free(it);
 	}
 	return 0;
 }

@@ -179,16 +179,15 @@ MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg
 
 MIR_CORE_DLL(void) KillModuleSubclassing(HMODULE hInst)
 {
-	for (int i = arSubclass.getCount() - 1; i >= 0; i--) {
-		MSubclassData *p = arSubclass[i];
-		for (int j = 0; j < p->m_iHooks; j++) {
-			if (GetInstByAddress(p->m_hooks[j]) == hInst) {
-				removeHook(p, j);
+	for (auto &it : arSubclass.rev_iter()) {
+		for (int j = 0; j < it->m_iHooks; j++) {
+			if (GetInstByAddress(it->m_hooks[j]) == hInst) {
+				removeHook(it, j);
 				j--;
 			}
 		}
 
-		if (p->m_iHooks == 0)
-			finalizeSubclassing(p->m_hWnd, p);
+		if (it->m_iHooks == 0)
+			finalizeSubclassing(it->m_hWnd, it);
 	}
 }

@@ -84,11 +84,10 @@ void RemoveIcon(const char *icolibName)
 
 void ResetIcons()
 {
-	for (int i = usedIcons.getCount()-1; i >= 0; i--) {
-		Icon &p = usedIcons[i];
-		if (p.refCount <= 0)
-			usedIcons.remove(i);
+	for (auto &it : usedIcons.rev_iter()) {
+		if (it->refCount <= 0)
+			usedIcons.remove(it);
 		else
-			p.hImage = INVALID_HANDLE_VALUE;
+			it->hImage = INVALID_HANDLE_VALUE;
 	}
 }

@@ -174,8 +174,7 @@ static void CheckUpdate()
 		db_enum_settings(0, CopyChatSetting, CHAT_OLDFONTMODULE, &szSettings);
 
 		DBVARIANT dbv;
-		for (int i = szSettings.getCount() - 1; i >= 0; i--) {
-			char *p = szSettings[i];
+		for (auto &p : szSettings.rev_iter()) {
 			db_get(0, CHAT_OLDFONTMODULE, p, &dbv);
 			db_set(0, CHATFONT_MODULE, p, &dbv);
 			db_free(&dbv);

@@ -25,9 +25,9 @@ CLIST_INTERFACE *pcli;
 
 HINSTANCE hInst;
 
-LIST<DBEVENT> eventListXStatus(10);
-LIST<DBEVENT> eventListStatus(10);
-LIST<DBEVENT> eventListSMsg(10);
+LIST<DBEVENT> eventListXStatus(10, PtrKeySortT);
+LIST<DBEVENT> eventListStatus(10, PtrKeySortT);
+LIST<DBEVENT> eventListSMsg(10, PtrKeySortT);
 
 HANDLE hStatusModeChange, hHookContactStatusChanged, hToolbarButton;
 HGENMENU hEnableDisableMenu;

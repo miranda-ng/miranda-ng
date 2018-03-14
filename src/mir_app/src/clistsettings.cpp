@@ -147,11 +147,10 @@ int ContactDeleted(WPARAM hContact, LPARAM)
 	}
 
 	// remove events for a contact
-	for (int i = g_cliEvents.getCount() - 1; i >= 0; i--) {
-		CListEvent &e = g_cliEvents[i];
-		if (e.hContact == hContact)
-			cli.pfnRemoveEvent(hContact, e.hDbEvent);
-	}
+	for (auto &it : g_cliEvents.rev_iter())
+		if (it->hContact == hContact)
+			cli.pfnRemoveEvent(hContact, it->hDbEvent);
+
 	return 0;
 }
 

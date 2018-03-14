@@ -25,7 +25,7 @@ HINSTANCE hInst;
 
 int hLangpack;
 
-LIST<void> g_hWindows(5);
+LIST<void> g_hWindows(5, PtrKeySortT);
 
 static PLUGININFOEX pluginInfoEx =
 {

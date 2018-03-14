@@ -42,38 +42,32 @@ void FreeXSC(XSTATUSCHANGE *xsc)
 
 void RemoveLoggedEventsXStatus(MCONTACT hContact)
 {
-	for (int i = eventListXStatus.getCount() - 1; i >= 0; i--) {
-		DBEVENT *dbevent = eventListXStatus[i];
-		if (dbevent->hContact == hContact) {
-			db_event_delete(dbevent->hContact, dbevent->hDBEvent);
-			eventListXStatus.remove(i);
-			mir_free(dbevent);
+	for (auto &it : eventListXStatus.rev_iter())
+		if (it->hContact == hContact) {
+			db_event_delete(it->hContact, it->hDBEvent);
+			eventListXStatus.remove(it);
+			mir_free(it);
 		}
-	}
 }
 
 void RemoveLoggedEventsStatus(MCONTACT hContact)
 {
-	for (int i = eventListStatus.getCount() - 1; i >= 0; i--) {
-		DBEVENT *dbevent = eventListStatus[i];
-		if (dbevent->hContact == hContact) {
-			db_event_delete(dbevent->hContact, dbevent->hDBEvent);
-			eventListStatus.remove(i);
-			mir_free(dbevent);
+	for (auto &it : eventListStatus.rev_iter())
+		if (it->hContact == hContact) {
+			db_event_delete(it->hContact, it->hDBEvent);
+			eventListStatus.remove(it);
+			mir_free(it);
 		}
-	}
 }
 
 void RemoveLoggedEventsSMsg(MCONTACT hContact)
 {
-	for (int i = eventListSMsg.getCount() - 1; i >= 0; i--) {
-		DBEVENT *dbevent = eventListSMsg[i];
-		if (dbevent->hContact == hContact) {
-			db_event_delete(dbevent->hContact, dbevent->hDBEvent);
-			eventListSMsg.remove(i);
-			mir_free(dbevent);
+	for (auto &it : eventListSMsg.rev_iter())
+		if (it->hContact == hContact) {
+			db_event_delete(it->hContact, it->hDBEvent);
+			eventListSMsg.remove(it);
+			mir_free(it);
 		}
-	}
 }
 
 wchar_t* GetStatusTypeAsString(int type, wchar_t *buff)

@@ -33,9 +33,9 @@ void CIcqProto::RemoveExpiredCookies()
 {
 	time_t tNow = time(nullptr);
 
-	for (int i = cookies.getCount() - 1; i >= 0; i--)
-		if ((cookies[i].dwTime + COOKIE_TIMEOUT) < tNow)
-			cookies.remove(i);
+	for (auto &it : cookies.rev_iter())
+		if (it->dwTime + COOKIE_TIMEOUT < tNow)
+			cookies.remove(it);
 }
 
 // Generate and allocate cookie

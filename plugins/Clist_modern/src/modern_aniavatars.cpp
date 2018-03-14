@@ -265,11 +265,10 @@ static void _AniAva_ResumePainting()
 
 static void _AniAva_ReduceAvatarImages(int startY, int dY, BOOL bDestroyWindow)
 {
-	for (int i = s_Objects.getCount() - 1; i >= 0; i--) {
-		ANIAVA_OBJECT &pai = s_Objects[i];
-		int res = SendMessage(pai.hWindow, AAM_REMOVEAVATAR, (WPARAM)startY, (LPARAM)dY);
+	for (auto &it : s_Objects.rev_iter()) {
+		int res = SendMessage(it->hWindow, AAM_REMOVEAVATAR, (WPARAM)startY, (LPARAM)dY);
 		if (res == 0xDEAD && bDestroyWindow)
-			s_Objects.remove(i);
+			s_Objects.remove(it);
 	}
 }
 

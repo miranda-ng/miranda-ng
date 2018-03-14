@@ -421,8 +421,7 @@ void CloseRichOwnerCallback(HWND hwnd)
 
 void ProcessAllInputAreas(bool restoreText)
 {
-	for (int i = g_RichEditList.getCount() - 1; i >= 0; i--) {
-		RichEditData *rdt = g_RichEditList[i];
+	for (auto &rdt : g_RichEditList.rev_iter())
 		if (rdt->inputarea) {
 			if (restoreText) {
 				CHARRANGE sel = allsel;
@@ -430,16 +429,15 @@ void ProcessAllInputAreas(bool restoreText)
 			}
 			else ReplaceContactSmileys(rdt, allsel, false, false);
 		}
-	}
 }
 
 void RichEditData_Destroy(void)
 {
-	for (int i = g_RichEditList.getCount() - 1; i >= 0; i--)
-		CloseRichCallback(g_RichEditList[i]->hwnd);
+	for (auto &it : g_RichEditList.rev_iter())
+		CloseRichCallback(it->hwnd);
 	g_RichEditList.destroy();
 
-	for (int i = g_RichEditOwnerList.getCount() - 1; i >= 0; i--)
-		CloseRichOwnerCallback(g_RichEditOwnerList[i]->hwnd);
+	for (auto &it : g_RichEditOwnerList.rev_iter())
+		CloseRichOwnerCallback(it->hwnd);
 	g_RichEditOwnerList.destroy();
 }

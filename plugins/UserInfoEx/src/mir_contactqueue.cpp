@@ -71,8 +71,8 @@ void CContactQueue::RemoveAll()
 {
 	mir_cslock lck(_cs);
 
-	for (int i = _queue.getCount() - 1; i >= 0; --i)
-		mir_free(_queue[i]);
+	for (auto &it : _queue)
+		mir_free(it);
 	_queue.destroy();
 }
 
@@ -83,10 +83,9 @@ void CContactQueue::RemoveAll(MCONTACT hContact)
 {
 	mir_cslock lck(_cs);
 
-	for (int i = _queue.getCount() - 1; i >= 0; --i) {
-		CQueueItem *qi = _queue[i];
+	for (auto &qi : _queue.rev_iter()) {
 		if (qi->hContact == hContact) {
-			_queue.remove(i);
+			_queue.remove(qi);
 			mir_free(qi);
 		}
 	}
@@ -99,13 +98,11 @@ void CContactQueue::RemoveAllConsiderParam(MCONTACT hContact, PVOID param)
 {
 	mir_cslock lck(_cs);
 
-	for (int i = _queue.getCount() - 1; i >= 0; --i) {
-		CQueueItem *qi = _queue[i];
+	for (auto &qi : _queue.rev_iter())
 		if (qi->hContact == hContact && qi->param == param) {
-			_queue.remove(i);
+			_queue.remove(qi);
 			mir_free(qi);
 		}
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -125,8 +122,8 @@ BOOL CContactQueue::AddIfDontHave(int waitTime, MCONTACT hContact, PVOID param)
 {
 	mir_cslock lck(_cs);
 
-	for (int i = _queue.getCount() - 1; i >= 0; --i)
-		if (_queue[i]->hContact == hContact)
+	for (auto &qi : _queue.rev_iter())
+		if (qi->hContact == hContact)
 			return FALSE;
 
 	return InternalAdd(waitTime, hContact, param);

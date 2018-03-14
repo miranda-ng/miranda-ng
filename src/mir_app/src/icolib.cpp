@@ -570,20 +570,15 @@ MIR_APP_DLL(int) IcoLib_Release(const char *szIconName, bool big)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_RemoveIcon
 
-__inline void IcoLib_RemoveIcon_Internal(int i)
-{
-	IcolibItem *item = iconList[i];
-	iconList.remove(i);
-	delete item;
-}
-
 MIR_APP_DLL(void) IcoLib_RemoveIcon(const char *pszIconName)
 {
 	mir_cslock lck(csIconList);
 
 	int i = iconList.indexOf((IcolibItem*)&pszIconName);
-	if (i != -1)
-		IcoLib_RemoveIcon_Internal(i);
+	if (i != -1) {
+		iconList.remove(i);
+		delete iconList[i];
+	}
 }
 
 MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
@@ -591,8 +586,10 @@ MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
 	mir_cslock lck(csIconList);
 
 	int i = iconList.getIndex((IcolibItem*)hIcoLib);
-	if (i != -1)
-		IcoLib_RemoveIcon_Internal(i);
+	if (i != -1) {
+		iconList.remove(i);
+		delete iconList[i];
+	}
 }
 
 MIR_APP_DLL(void) KillModuleIcons(int _hLang)
@@ -601,11 +598,11 @@ MIR_APP_DLL(void) KillModuleIcons(int _hLang)
 		return;
 
 	mir_cslock lck(csIconList);
-	for (int i = iconList.getCount() - 1; i >= 0; i--) {
-		IcolibItem *item = iconList[i];
-		if (item->hLangpack == _hLang)
-			IcoLib_RemoveIcon_Internal(i);
-	}
+	for (auto &it : iconList.rev_iter())
+		if (it->hLangpack == _hLang) {
+			iconList.remove(it);
+			delete it;
+		}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -804,8 +801,9 @@ void UnloadIcoLibModule(void)
 	DestroyHookableEvent(hIconsChangedEvent);
 	DestroyHookableEvent(hIcons2ChangedEvent);
 
-	while (iconList.getCount() > 0)
-		IcoLib_RemoveIcon_Internal(0);
+	for (auto &p : iconList)
+		delete p;		
+	iconList.destroy();
 
 	for (auto &p : iconSourceList)
 		delete p;

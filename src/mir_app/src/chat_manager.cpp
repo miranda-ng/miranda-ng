@@ -136,11 +136,10 @@ int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeCon
 		return TRUE;
 	}
 
-	for (int i = g_arSessions.getCount() - 1; i >= 0; i--) {
-		SESSION_INFO *si = g_arSessions[i];
+	for (auto &si : g_arSessions.rev_iter()) {
 		if (si->iType != GCW_SERVER && !mir_strcmpi(si->pszModule, pszModule)) {
 			SM_FreeSession(si, removeContact);
-			g_arSessions.remove(i);
+			g_arSessions.remove(si);
 		}
 	}
 	return TRUE;

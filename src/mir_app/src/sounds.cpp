@@ -28,22 +28,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct SoundItem
 {
-	char*  name;
-	wchar_t* pwszSection;
-	wchar_t* pwszDescription;
-	wchar_t* ptszTempFile;
-	int    hLangpack;
+	ptrA name;
+	ptrW pwszSection;
+	ptrW pwszDescription;
+	ptrW ptszTempFile;
+	int  hLangpack;
 
 	__inline wchar_t* getSection() const { return TranslateW_LP(pwszSection, hLangpack); }
 	__inline wchar_t* getDescr() const { return TranslateW_LP(pwszDescription, hLangpack); }
-
-	__inline void clear(void)
-	{
-		mir_free(name);
-		mir_free(pwszSection);
-		mir_free(pwszDescription);
-		mir_free(ptszTempFile);
-	}
 };
 
 static int CompareSounds(const SoundItem* p1, const SoundItem* p2)
@@ -57,13 +49,9 @@ static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
 MIR_APP_DLL(void) KillModuleSounds(int _hLang)
 {
-	for (int i = arSounds.getCount() - 1; i >= 0; i--) {
-		SoundItem &p = arSounds[i];
-		if (p.hLangpack == _hLang) {
-			p.clear();
-			arSounds.remove(i);
-		}
-	}
+	for (auto &it : arSounds.rev_iter())
+		if (it->hLangpack == _hLang)
+			arSounds.remove(it);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -118,8 +106,7 @@ MIR_APP_DLL(int) Skin_PlaySound(const char *pszSoundName)
 	if (pszSoundName == nullptr)
 		return 1;
 
-	SoundItem tmp = { (char*)pszSoundName };
-	int idx = arSounds.getIndex(&tmp);
+	int idx = arSounds.getIndex((SoundItem*)&pszSoundName);
 	if (idx == -1)
 		return 1;
 
@@ -472,6 +459,5 @@ int LoadSkinSounds(void)
 
 void UnloadSkinSounds(void)
 {
-	for (auto &p : arSounds)
-		p->clear();
+	arSounds.destroy();
 }

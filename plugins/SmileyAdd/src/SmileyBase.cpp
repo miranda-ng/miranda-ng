@@ -368,9 +368,9 @@ HRESULT ISmileyBase::GetTooltip(BSTR *bstrHint)
 
 void CloseSmileys(void)
 {
-	for (int i = regSmileys.getCount() - 1; i >= 0; i--) {
-		regSmileys[i]->OnClose();
-		regSmileys[i]->Close(OLECLOSE_NOSAVE);
+	for (auto &it : regSmileys.rev_iter()) {
+		it->OnClose();
+		it->Close(OLECLOSE_NOSAVE);
 	}
 }
 

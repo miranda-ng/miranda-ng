@@ -104,11 +104,9 @@ static void QueueRemove(MCONTACT hContact)
 {
 	mir_cslock lck(cs);
 
-	for (int i = queue.getCount() - 1; i >= 0; i--) {
-		QueueItem& item = queue[i];
-		if (item.hContact == hContact)
-			queue.remove(i);
-	}
+	for (auto &it : queue.rev_iter())
+		if (it->hContact == hContact)
+			queue.remove(it);
 }
 
 // Add an contact to a queue
@@ -120,8 +118,8 @@ void QueueAdd(MCONTACT hContact, int waitTime)
 	mir_cslock lck(cs);
 
 	// Only add if not exists yet
-	for (int i = queue.getCount() - 1; i >= 0; i--)
-		if (queue[i].hContact == hContact)
+	for (auto &it : queue)
+		if (it->hContact == hContact)
 			return;
 
 	QueueItem *item = new QueueItem;

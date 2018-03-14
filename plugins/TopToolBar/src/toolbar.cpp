@@ -550,9 +550,9 @@ int OnPluginUnload(WPARAM, LPARAM lParam)
 		bool bNeedUpdate = false;
 		mir_cslock lck(csButtonsHook);
 
-		for (int i = Buttons.getCount() - 1; i >= 0; i--)
-			if (Buttons[i]->hLangpack == lang) {
-				TTBRemoveButton(Buttons[i]->id, 0);
+		for (auto &it : Buttons.rev_iter())
+			if (it->hLangpack == lang) {
+				TTBRemoveButton(it->id, 0);
 				bNeedUpdate = true;
 			}
 
