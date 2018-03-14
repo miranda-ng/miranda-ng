@@ -409,7 +409,7 @@ int Meta_HideMetaContacts(bool bHide)
 	return 0;
 }
 
-int Meta_SuppressStatus(BOOL suppress)
+int Meta_SuppressStatus(bool suppress)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		if (db_mc_isSub(hContact))

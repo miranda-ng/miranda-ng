@@ -51,7 +51,7 @@ int  Meta_SetNick(char *proto);
 int  Meta_HideLinkedContacts(void);
 int  Meta_GetContactNumber(DBCachedContact *cc, MCONTACT hContact);
 int  Meta_HideMetaContacts(bool hide);
-int  Meta_SuppressStatus(int suppress);
+int  Meta_SuppressStatus(bool suppress);
 int  Meta_CopyContactNick(DBCachedContact *cc, MCONTACT hContact);
 int  Meta_SetAllNicks();
 int  Meta_SwapContacts(DBCachedContact *cc, int contact_number1, int contact_number2);

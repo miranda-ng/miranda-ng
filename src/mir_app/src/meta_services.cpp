@@ -823,7 +823,7 @@ int Meta_CallMostOnline(WPARAM hContact, LPARAM)
 int Meta_PreShutdown(WPARAM, LPARAM)
 {
 	Meta_SetStatus(ID_STATUS_OFFLINE, 0);
-	Meta_SuppressStatus(FALSE);
+	Meta_SuppressStatus(false);
 	if (setStatusTimerId)
 		KillTimer(nullptr, setStatusTimerId);
 	return 0;
