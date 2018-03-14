@@ -355,7 +355,7 @@ void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy)
 
 int CheckContactVisibility(MCONTACT hContact)
 {
-	return !db_get_b(hContact, "CList", "Hidden", 0);
+	return db_mc_isSub(hContact) || !db_get_b(hContact, "CList", "Hidden", 0);
 }
 
 void RenameUserDefSession(int ses_count, wchar_t* ptszNewName)
