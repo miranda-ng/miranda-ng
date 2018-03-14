@@ -202,18 +202,10 @@ int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 struct event_area_t
 {
-	HBITMAP  hBmpBackground;
-	COLORREF bkColour;
-	int      useWinColors;
-	int      backgroundBmpUse;
-
-	event_area_t() :
-		hBmpBackground(nullptr),
-		bkColour(CLCDEFAULT_BKCOLOUR),
-		useWinColors(CLCDEFAULT_USEWINDOWSCOLOURS),
-		backgroundBmpUse(CLCDEFAULT_USEBITMAP)
-	{
-	}
+	HBITMAP  hBmpBackground = nullptr;
+	COLORREF bkColour = CLCDEFAULT_BKCOLOUR;
+	int      useWinColors = CLCDEFAULT_USEWINDOWSCOLOURS;
+	int      backgroundBmpUse = CLCDEFAULT_USEBITMAP;
 };
 
 static event_area_t event_area;
