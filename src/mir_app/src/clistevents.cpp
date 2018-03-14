@@ -51,10 +51,20 @@ static UINT_PTR flashTimerId;
 static int iconsOn;
 static int disableTrayFlash;
 static int disableIconFlash;
+static volatile long iEventOrder = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-OBJLIST<CListEvent> g_cliEvents(10, PtrKeySortT);
+static int CompareEvents(const CListEvent *p1, const CListEvent *p2)
+{
+	int flag1 = p1->flags & CLEF_URGENT, flag2 = p2->flags & CLEF_URGENT;
+	if (flag1 != flag2)
+		return flag2 - flag1; // reverse sort order
+
+	return p1->iOrder - p2->iOrder;
+}
+
+OBJLIST<CListEvent> g_cliEvents(10, CompareEvents);
 
 static char* GetEventProtocol(int idx)
 {
@@ -124,17 +134,18 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 	ShowEventsInTray();
 
 	for (int i=0; i < g_cliEvents.getCount(); i++) {
+		auto &e = g_cliEvents[i];
 		int j;
 		for (j = 0; j < i; j++)
-			if (g_cliEvents[j].hContact == g_cliEvents[i].hContact)
+			if (g_cliEvents[j].hContact == e.hContact)
 				break;
 		if (j >= i)
-			cli.pfnChangeContactIcon(g_cliEvents[i].hContact, iconsOn || disableIconFlash ? g_cliEvents[i].imlIconIndex : 0);
+			cli.pfnChangeContactIcon(e.hContact, iconsOn || disableIconFlash ? e.imlIconIndex : 0);
 		
 		// decrease eflashes in any case - no need to collect all events
-		if (g_cliEvents[i].flags & CLEF_ONLYAFEW)
-			if (0 >= --g_cliEvents[i].flashesDone)
-				cli.pfnRemoveEvent(g_cliEvents[i].hContact, g_cliEvents[i].hDbEvent);
+		if (e.flags & CLEF_ONLYAFEW)
+			if (0 >= --e.flashesDone)
+				cli.pfnRemoveEvent(e.hContact, e.hDbEvent);
 	}
 
 	if (g_cliEvents.getCount() == 0) {
@@ -150,24 +161,18 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 	if (cle == nullptr)
 		return nullptr;
 
-	int i;
-	if (cle->flags & CLEF_URGENT) {
-		for (i=0; i < g_cliEvents.getCount(); i++)
-			if (!(g_cliEvents[i].flags & CLEF_URGENT))
-				break;
-	}
-	else i = g_cliEvents.getCount();
-
 	CListEvent *p = new CListEvent();
-	g_cliEvents.insert(p, i);
 	memcpy(p, cle, sizeof(*cle));
-	p->imlIconIndex = fnGetImlIconIndex(g_cliEvents[i].hIcon);
+	p->iOrder = InterlockedIncrement(&iEventOrder);
+	p->imlIconIndex = fnGetImlIconIndex(p->hIcon);
 	p->flashesDone = 12;
-	p->pszService = mir_strdup(g_cliEvents[i].pszService);
+	p->pszService = mir_strdup(p->pszService);
 	if (p->flags & CLEF_UNICODE)
 		p->szTooltip.w = mir_wstrdup(p->szTooltip.w);
 	else
 		p->szTooltip.w = mir_a2u(p->szTooltip.a); //if no flag defined it handled as unicode
+	g_cliEvents.insert(p);
+
 	if (g_cliEvents.getCount() == 1) {
 		char *szProto;
 		if (cle->hContact == 0) {

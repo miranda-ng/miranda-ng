@@ -174,6 +174,8 @@ struct CListEvent : public CLISTEVENT, public MZeroedObject
 
 	int menuId;
 	int imlIconOverlayIndex;
+
+	long iOrder;
 };
 
 struct trayIconInfo_t
