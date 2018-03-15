@@ -224,7 +224,7 @@ public:
 
 				int iThisRow = 1;
 				int iThisColumn = 0;
-				for (int i = 0; i < 16; i++) {
+				for (unsigned int i = 0; i < 16; i++) {
 					// decide place to draw the color block in the window
 					iThisColumn++;
 					if (iThisColumn > iColumns) {
