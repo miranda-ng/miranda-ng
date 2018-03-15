@@ -220,9 +220,10 @@ MIR_APP_DLL(int) Hotkey_Unregister(const char *pszName)
 	if (g_hwndHkOptions)
 		SendMessage(g_hwndHkOptions, WM_HOTKEYUNREGISTERED, 0, 0);
 
-	for (auto &it : hotkeys.rev_iter())
+	auto T = hotkeys.rev_iter();
+	for (auto &it : T)
 		if (it->UnregisterHotkey) {
-			hotkeys.remove(it);
+			hotkeys.remove(T.indexOf(&it));
 			FreeHotkey(it);
 		}
 
@@ -287,9 +288,10 @@ void RegisterHotkeys()
 
 MIR_APP_DLL(void) KillModuleHotkeys(int _hLang)
 {
-	for (auto &it : hotkeys.rev_iter()) 
+	auto T = hotkeys.rev_iter();
+	for (auto &it : T)
 		if (it->hLangpack == _hLang) {
-			hotkeys.remove(it);
+			hotkeys.remove(T.indexOf(&it));
 			FreeHotkey(it);
 		}
 }

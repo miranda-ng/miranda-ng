@@ -754,12 +754,15 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					break;
 
 				UnregisterHotkeys();
-
-				for (auto &p : hotkeys.rev_iter())
-					if (p->OptNew && p->OptDeleted || p->rootHotkey && !p->OptHotkey || (lpnmhdr->code == PSN_APPLY) && p->OptDeleted || (lpnmhdr->code == PSN_RESET) && p->OptNew) {
-						hotkeys.remove(p);
-						FreeHotkey(p);
+				{
+					auto T = hotkeys.rev_iter();
+					for (auto &p : T) {
+						if (p->OptNew && p->OptDeleted || p->rootHotkey && !p->OptHotkey || (lpnmhdr->code == PSN_APPLY) && p->OptDeleted || (lpnmhdr->code == PSN_RESET) && p->OptNew) {
+							hotkeys.remove(T.indexOf(&p));
+							FreeHotkey(p);
+						}
 					}
+				}
 
 				if (lpnmhdr->code == PSN_APPLY) {
 					LVITEM lvi = { 0 };

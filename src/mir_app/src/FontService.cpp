@@ -326,9 +326,10 @@ static INT_PTR ReloadFonts(WPARAM, LPARAM)
 
 MIR_APP_DLL(void) KillModuleFonts(int _hLang)
 {
-	for (auto &it : font_id_list.rev_iter())
+	auto T = font_id_list.rev_iter();
+	for (auto &it : T)
 		if (it->hLangpack == _hLang)
-			font_id_list.remove(it);
+			font_id_list.remove(T.indexOf(&it));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -401,9 +402,10 @@ static INT_PTR ReloadColours(WPARAM, LPARAM)
 
 MIR_APP_DLL(void) KillModuleColours(int _hLang)
 {
-	for (auto &it : colour_id_list.rev_iter())
+	auto T = colour_id_list.rev_iter();
+	for (auto &it : T)
 		if (it->hLangpack == _hLang)
-			colour_id_list.remove(it);
+			colour_id_list.remove(T.indexOf(&it));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -484,9 +486,10 @@ MIR_APP_DLL(int) Effect_Get(const char *szGroup, const char *szName, FONTEFFECT 
 
 MIR_APP_DLL(void) KillModuleEffects(int _hLang)
 {
-	for (auto &it : effect_id_list.rev_iter())
+	auto T = colour_id_list.rev_iter();
+	for (auto &it : T)
 		if (it->hLangpack == _hLang)
-			effect_id_list.remove(it);
+			effect_id_list.remove(T.indexOf(&it));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

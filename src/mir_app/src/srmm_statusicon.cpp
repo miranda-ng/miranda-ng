@@ -197,9 +197,10 @@ MIR_APP_DLL(StatusIconData*) Srmm_GetNthIcon(MCONTACT hContact, int index)
 
 void KillModuleSrmmIcons(int _hLang)
 {
-	for (auto &it : arIcons.rev_iter())
+	auto T = arIcons.rev_iter();
+	for (auto &it : T)
 		if (it->hLangpack == _hLang)
-			arIcons.remove(it);
+			arIcons.remove(T.indexOf(&it));
 }
 
 int LoadSrmmModule()

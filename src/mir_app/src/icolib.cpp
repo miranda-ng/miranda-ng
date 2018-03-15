@@ -598,9 +598,10 @@ MIR_APP_DLL(void) KillModuleIcons(int _hLang)
 		return;
 
 	mir_cslock lck(csIconList);
-	for (auto &it : iconList.rev_iter())
+	auto T = iconList.rev_iter();
+	for (auto &it : T)
 		if (it->hLangpack == _hLang) {
-			iconList.remove(it);
+			iconList.remove(T.indexOf(&it));
 			delete it;
 		}
 }

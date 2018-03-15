@@ -49,9 +49,10 @@ static OBJLIST<SoundItem> arSounds(10, CompareSounds);
 
 MIR_APP_DLL(void) KillModuleSounds(int _hLang)
 {
-	for (auto &it : arSounds.rev_iter())
+	auto T = arSounds.rev_iter();
+	for (auto &it : T)
 		if (it->hLangpack == _hLang)
-			arSounds.remove(it);
+			arSounds.remove(T.indexOf(&it));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

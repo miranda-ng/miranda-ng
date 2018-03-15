@@ -104,9 +104,10 @@ static void QueueRemove(MCONTACT hContact)
 {
 	mir_cslock lck(cs);
 
-	for (auto &it : queue.rev_iter())
+	auto T = queue.rev_iter();
+	for (auto &it : T)
 		if (it->hContact == hContact)
-			queue.remove(it);
+			queue.remove(T.indexOf(&it));
 }
 
 // Add an contact to a queue

@@ -32,10 +32,11 @@ static VOID CALLBACK MsgTimer(HWND, UINT, UINT_PTR, DWORD dwTime)
 	LIST<TMsgQueue> arTimedOut(1);
 	{
 		mir_cslock lck(csMsgQueue);
-		for (auto &it : msgQueue.rev_iter())
+		auto T = msgQueue.rev_iter();
+		for (auto &it : T)
 			if (dwTime - it->ts > g_dat.msgTimeout) {
 				arTimedOut.insert(it);
-				msgQueue.remove(it);
+				msgQueue.remove(T.indexOf(&it));
 			}
 	}
 

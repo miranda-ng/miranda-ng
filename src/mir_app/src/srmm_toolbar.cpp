@@ -220,10 +220,11 @@ MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
 	{
 		mir_cslock lck(csToolBar);
 
-		for (auto &cbd : arButtonsList.rev_iter())
+		auto T = arButtonsList.rev_iter();
+		for (auto &cbd : T)
 			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonID == bbdi->dwButtonID) {
 				pFound = cbd;
-				arButtonsList.remove(cbd);
+				arButtonsList.remove(T.indexOf(&cbd));
 			}
 	}
 
@@ -422,12 +423,13 @@ MIR_APP_DLL(void) Srmm_RedrawToolbarIcons(HWND hwndDlg)
 
 static void CB_ReInitCustomButtons()
 {
-	for (auto &cbd : arButtonsList.rev_iter()) {
+	auto T = arButtonsList.rev_iter();
+	for (auto &cbd : T) {
 		if (cbd->m_opFlags & (BBSF_NTBSWAPED | BBSF_NTBDESTRUCT)) {
 			cbd->m_opFlags ^= BBSF_NTBSWAPED;
 
 			if (cbd->m_opFlags & BBSF_NTBDESTRUCT)
-				arButtonsList.remove(cbd);
+				arButtonsList.remove(T.indexOf(&cbd));
 		}
 	}
 	qsort(arButtonsList.getArray(), arButtonsList.getCount(), sizeof(void*), sstSortButtons);
@@ -781,9 +783,10 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 
 void KillModuleToolbarIcons(int _hLang)
 {
-	for (auto &cbd : arButtonsList.rev_iter())
+	auto T = arButtonsList.rev_iter();
+	for (auto &cbd : T)
 		if (cbd->m_hLangpack == _hLang) {
-			arButtonsList.remove(cbd);
+			arButtonsList.remove(T.indexOf(&cbd));
 			delete cbd;
 		}
 }

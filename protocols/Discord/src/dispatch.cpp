@@ -194,10 +194,11 @@ void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 	if (pGuild == nullptr)
 		return;
 
-	for (auto &it : arUsers.rev_iter())
+	auto T = arUsers.rev_iter();
+	for (auto &it : T)
 		if (it->guildId == pGuild->id) {
 			Chat_Terminate(m_szModuleName, it->wszUsername, true);
-			arUsers.remove(it);
+			arUsers.remove(T.indexOf(&it));
 		}
 
 	Chat_Terminate(m_szModuleName, pRoot["name"].as_mstring(), true);

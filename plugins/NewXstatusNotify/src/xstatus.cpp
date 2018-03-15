@@ -42,30 +42,33 @@ void FreeXSC(XSTATUSCHANGE *xsc)
 
 void RemoveLoggedEventsXStatus(MCONTACT hContact)
 {
-	for (auto &it : eventListXStatus.rev_iter())
+	auto T = eventListXStatus.rev_iter();
+	for (auto &it : T)
 		if (it->hContact == hContact) {
 			db_event_delete(it->hContact, it->hDBEvent);
-			eventListXStatus.remove(it);
+			eventListXStatus.remove(T.indexOf(&it));
 			mir_free(it);
 		}
 }
 
 void RemoveLoggedEventsStatus(MCONTACT hContact)
 {
-	for (auto &it : eventListStatus.rev_iter())
+	auto T = eventListStatus.rev_iter();
+	for (auto &it : T)
 		if (it->hContact == hContact) {
 			db_event_delete(it->hContact, it->hDBEvent);
-			eventListStatus.remove(it);
+			eventListStatus.remove(T.indexOf(&it));
 			mir_free(it);
 		}
 }
 
 void RemoveLoggedEventsSMsg(MCONTACT hContact)
 {
-	for (auto &it : eventListSMsg.rev_iter())
+	auto T = eventListSMsg.rev_iter();
+	for (auto &it : T)
 		if (it->hContact == hContact) {
 			db_event_delete(it->hContact, it->hDBEvent);
-			eventListSMsg.remove(it);
+			eventListSMsg.remove(T.indexOf(&it));
 			mir_free(it);
 		}
 }

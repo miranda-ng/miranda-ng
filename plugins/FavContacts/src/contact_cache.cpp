@@ -38,12 +38,13 @@ int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
 
 	TContactInfo *pFound = nullptr;
 	mir_cslock lck(m_cs);
-	for (auto &it : m_cache.rev_iter()) {
+	auto T = m_cache.rev_iter();
+	for (auto &it : T) {
 		it->rate *= q;
 		if (it->hContact == hContact) {
 			it->rate += weight;
 			pFound = it;
-			m_cache.remove(it); // reinsert to maintain the sort order
+			m_cache.remove(T.indexOf(&it)); // reinsert to maintain the sort order
 		}
 	}
 

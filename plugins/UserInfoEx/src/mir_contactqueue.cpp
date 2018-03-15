@@ -83,9 +83,10 @@ void CContactQueue::RemoveAll(MCONTACT hContact)
 {
 	mir_cslock lck(_cs);
 
-	for (auto &qi : _queue.rev_iter()) {
+	auto T = _queue.rev_iter();
+	for (auto &qi : T) {
 		if (qi->hContact == hContact) {
-			_queue.remove(qi);
+			_queue.remove(T.indexOf(&qi));
 			mir_free(qi);
 		}
 	}
@@ -98,9 +99,10 @@ void CContactQueue::RemoveAllConsiderParam(MCONTACT hContact, PVOID param)
 {
 	mir_cslock lck(_cs);
 
-	for (auto &qi : _queue.rev_iter())
+	auto T = _queue.rev_iter();
+	for (auto &qi : T)
 		if (qi->hContact == hContact && qi->param == param) {
-			_queue.remove(qi);
+			_queue.remove(T.indexOf(&qi));
 			mir_free(qi);
 		}
 }

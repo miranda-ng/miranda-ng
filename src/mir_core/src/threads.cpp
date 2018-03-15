@@ -228,14 +228,15 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 		if (WaitForMultipleObjects(threadCount, threadPool, TRUE, 5000) == WAIT_TIMEOUT) {
 			// forcibly kill all remaining threads after 5 secs
 			mir_cslock lck(csThreads);
-			for (auto &it : threads.rev_iter()) {
+			auto T = threads.rev_iter();
+			for (auto &it : T) {
 				if (it->pObject == owner) {
 					char szModuleName[MAX_PATH];
 					GetModuleFileNameA(it->hOwner, szModuleName, sizeof(szModuleName));
 					Netlib_Logf(nullptr, "Killing object thread %s:%p", szModuleName, it->dwThreadId);
 					TerminateThread(it->hThread, 9999);
 					CloseHandle(it->hThread);
-					threads.remove(it);
+					threads.remove(T.indexOf(&it));
 					mir_free(it);
 				}
 			}

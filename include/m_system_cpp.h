@@ -221,6 +221,7 @@ template<class T> struct LIST
 
 		__inline iterator begin() const { return iterator(base + index); }
 		__inline iterator end() const { return iterator(base-1); }
+		__inline int indexOf(T **p) const { return int(p - base); }
 	};
 
 	__inline void destroy(void)         { List_Destroy((SortedList*)this); }
