@@ -189,7 +189,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 			loaded = true;
 		}
 
-		if (hModule == nullptr && wcsicmp(FindFileData.cFileName, L"dbchecker.dll")) {
+		if (hModule == nullptr) {
 			if ((flags & VI_FLAG_PRNVAR) && IsPluginEnabled(FindFileData.cFileName)) {
 				wchar_t timebuf[30] = L"";
 				GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);

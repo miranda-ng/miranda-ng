@@ -32,7 +32,6 @@ DATABASELINK *currDblink = nullptr;
 bool g_bDbCreated;
 wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 wchar_t* g_defaultProfile;
-void EnsureCheckerLoaded(bool);
 
 bool fileExist(const wchar_t *fname)
 {
@@ -528,7 +527,9 @@ int LoadDatabaseModule(void)
 		}
 	} while (retry);
 
-	EnsureCheckerLoaded(false); // unload dbchecker
+	// if there is a service mode plugin to start, disable dbchecker
+	if (mir_wstrlen(CmdLine_GetOption(L"svc")) > 0)
+		EnsureCheckerLoaded(false); // unload dbchecker
 
 	if (rc == ERROR_SUCCESS) {
 		InitIni();
