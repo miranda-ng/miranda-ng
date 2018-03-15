@@ -769,7 +769,7 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 				return 0;
 		}
 	}
-	if (nen_options.bNoRSS && szProto != nullptr && !strncmp(szProto, "RSS", 3))
+	if (nen_options.bNoRSS && szProto != nullptr && !strncmp(szProto, "NewsAggregator", 3))
 		return 0;                                        // filter out RSS popups
 
 	if (windowOpen && pContainer != nullptr) {               // message window is open, need to check the container config if we want to see a popup nonetheless
