@@ -91,13 +91,11 @@ void CSteamProto::RequestQueueThread(void*)
 		ProcessRequestQueue();
 		WaitForSingleObject(m_hRequestsQueueEvent, 1000);
 	} while (!m_isTerminated);
-	{
-		mir_cslock lock(m_requestQueueLock);
-		for (int i = 0; i < m_requestQueue.getCount(); i++) {
-			delete m_requestQueue[i];
-			m_requestQueue.remove(i);
-		}
-	}
+
 	m_hRequestQueueThread = nullptr;
 
+	mir_cslock lock(m_requestQueueLock);
+	for (auto &it : m_requestQueue)
+		delete it;
+	m_requestQueue.destroy();
 }

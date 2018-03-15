@@ -68,7 +68,7 @@ MIR_CORE_DLL(int) WindowList_Remove(MWindowList hList, HWND hwnd)
 	
 	for (auto &it : *hList)
 		if (it->hWnd == hwnd) {
-			hList->remove(it);
+			hList->removeItem(&it);
 			return 0;
 		}
 

@@ -388,10 +388,10 @@ void CIcqProto::DeleteFromContactsCache(MCONTACT hContact)
 
 	for (auto &it : contactsCache) {
 		if (it->hContact == hContact) {
-			contactsCache.remove(it);
 			// Release memory
 			SAFE_FREE((void**)&it->szUid);
 			SAFE_FREE((void**)&it);
+			contactsCache.removeItem(&it);
 			break;
 		}
 	}

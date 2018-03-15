@@ -728,7 +728,7 @@ void EnsureCheckerLoaded(bool bEnable)
 					Plugin_Uninit(p);
 				else {
 					p->pclass |= PCLASS_LOADED;
-					servicePlugins.remove(p);
+					servicePlugins.removeItem(&p);
 				}
 			}
 		}

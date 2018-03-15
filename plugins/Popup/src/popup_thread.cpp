@@ -179,9 +179,12 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		break;
 
 	case UTM_REMOVE_WINDOW:
-		for (int i = popupList.getCount() - 1; i >= 0; i--)
-			if (popupList[i] == wnd)
-				popupList.remove(i);
+		{
+			auto T = popupList.rev_iter();
+			for (auto &it : T)
+				if (it == wnd)
+					popupList.remove(T.indexOf(&it));
+		}
 
 		RepositionPopups();
 		--nPopups;

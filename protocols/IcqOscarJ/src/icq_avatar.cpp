@@ -187,19 +187,18 @@ void CIcqProto::StartAvatarThread(HNETLIBCONN hConn, char *cookie, size_t cookie
 		// check if any upload request are waiting in the queue
 		int bYet = 0;
 
-		for (int i = 0; i < m_arAvatars.getCount();) {
-			avatars_request *ar = m_arAvatars[i];
-			if (ar->type == ART_UPLOAD) { // we found it, return error
+		auto T = m_arAvatars.rev_iter();
+		for (auto &it : T) {
+			if (it->type == ART_UPLOAD) { // we found it, return error
 				if (!bYet) {
 					icq_LogMessage(LOG_WARNING, LPGEN("Error uploading avatar to server, server temporarily unavailable."));
 					bYet = 1;
 				}
 
 				// remove upload request from queue
-				m_arAvatars.remove(i);
-				delete ar;
+				delete it;
+				m_arAvatars.remove(T.indexOf(&it));
 			}
-			else i++;
 		}
 
 		SAFE_FREE((void**)&cookie);
@@ -489,11 +488,10 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 			if (bJob == TRUE) { // Remove possible block - hash changed, try again.
 				mir_cslock l(m_avatarsMutex);
 
-				for (int i = 0; i < m_arAvatars.getCount(); i++) {
-					avatars_request *ar = m_arAvatars[i];
-					if (ar->hContact == hContact && ar->type == ART_BLOCK) { // found one, remove
-						m_arAvatars.remove(i);
-						delete ar;
+				for (auto &it : m_arAvatars) {
+					if (it->hContact == hContact && it->type == ART_BLOCK) { // found one, remove
+						delete it;
+						m_arAvatars.removeItem(&it);
 						break;
 					}
 				}
@@ -536,18 +534,17 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 
 	if (m_avatarsConnection && m_avatarsConnection->isReady()) { // check if we are ready
 		// check if requests for this user are not blocked
-		for (int i = 0; i < m_arAvatars.getCount();) {
-			avatars_request *ar = m_arAvatars[i];
+		auto T = m_arAvatars.rev_iter();
+		for (auto &ar : T) {
 			if (ar->hContact == hContact && ar->type == ART_BLOCK) { // found a block item
 				if (GetTickCount() > ar->timeOut) { // remove timeouted block
-					m_arAvatars.remove(i);
 					delete ar;
+					m_arAvatars.remove(T.indexOf(&ar));
 					continue;
 				}
 				debugLogA("Avatars: Requests for %s avatar are blocked.", strUID(dwUin, pszUid));
 				return 0;
 			}
-			i++;
 		}
 
 		mir_cslock l(m_avatarsConnection->getLock());
@@ -562,12 +559,12 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 	// we failed to send request, or avatar thread not ready
 
 	// check if any request for this user is not already in the queue
-	for (int i = 0; i < m_arAvatars.getCount();) {
-		avatars_request *ar = m_arAvatars[i];
+	auto T = m_arAvatars.rev_iter();
+	for (auto &ar : T) {
 		if (ar->hContact == hContact) { // we found it, return error
 			if (ar->type == ART_BLOCK && GetTickCount() > ar->timeOut) { // remove timeouted block
-				m_arAvatars.remove(i);
 				delete ar;
+				m_arAvatars.remove(T.indexOf(&ar));
 				continue;
 			}
 			alck.unlock();
@@ -577,7 +574,6 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 			requestAvatarConnection();
 			return 0;
 		}
-		i++;
 	}
 
 	// add request to queue, processed after successful login
@@ -728,12 +724,11 @@ void avatars_server_connection::shutdownConnection()
 
 DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const wchar_t *file)
 {
-	int i;
 	DWORD dwNow = GetTickCount();
 
 	mir_cslockfull alck(ppro->m_avatarsMutex);
 
-	for (i = 0; i < runCount;) { // look for timeouted requests
+	for (int i = 0; i < runCount;) { // look for timeouted requests
 		if (runTime[i] < dwNow) { // found outdated, remove
 			runContact[i] = runContact[runCount - 1];
 			runTime[i] = runTime[runCount - 1];
@@ -742,7 +737,7 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 		else i++;
 	}
 
-	for (i = 0; i < runCount; i++) {
+	for (int i = 0; i < runCount; i++) {
 		if (runContact[i] == hContact) {
 			ppro->debugLogA("Ignoring duplicate get %s image request.", strUID(dwUin, szUid));
 			return -1; // Success: request ignored
@@ -849,11 +844,11 @@ void avatars_server_connection::checkRequestQueue()
 		}
 
 		if (pRequest->type == ART_BLOCK) { // block contact processing
-			for (int i = 0; i < ppro->m_arAvatars.getCount(); i++) {
-				avatars_request *ar = ppro->m_arAvatars[i];
+			auto T = ppro->m_arAvatars.rev_iter();
+			for (auto &ar : T) {
 				if (GetTickCount() > ar->timeOut) { // expired contact block, remove
-					ppro->m_arAvatars.remove(i);
 					delete ar;
+					ppro->m_arAvatars.remove(T.indexOf(&ar));
 				}
 			}
 			return; // end processing

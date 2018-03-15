@@ -236,8 +236,8 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 					Netlib_Logf(nullptr, "Killing object thread %s:%p", szModuleName, it->dwThreadId);
 					TerminateThread(it->hThread, 9999);
 					CloseHandle(it->hThread);
-					threads.remove(T.indexOf(&it));
 					mir_free(it);
+					threads.remove(T.indexOf(&it));
 				}
 			}
 		}

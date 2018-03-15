@@ -143,7 +143,7 @@ void CJabberIqManager::ExpirerThread()
 	Thread_SetName("Jabber: ExpirerThread");
 
 	while (!m_bExpirerThreadShutdownRequest) {
-		CJabberIqInfo *pInfo = DetouchExpired();
+		CJabberIqInfo *pInfo = DetachExpired();
 		if (!pInfo) {
 			for (int i=0; !m_bExpirerThreadShutdownRequest && (i < 10); i++)
 				Sleep(50);
@@ -181,14 +181,14 @@ void CJabberIqManager::ExpireInfo(CJabberIqInfo *pInfo)
 
 void CJabberIqManager::ExpireIq(int nIqId)
 {
-	while (CJabberIqInfo *pInfo = DetouchInfo(nIqId))
+	while (CJabberIqInfo *pInfo = DetachInfo(nIqId))
 		ExpireInfo(pInfo);
 }
 	
 bool CJabberIqManager::ExpireByUserData(void *pUserData)
 {
 	bool bRet = false;
-	while (CJabberIqInfo *pInfo = DetouchInfo(pUserData)) {
+	while (CJabberIqInfo *pInfo = DetachInfo(pUserData)) {
 		ExpireInfo(pInfo);
 		bRet = true;
 	}
@@ -197,7 +197,7 @@ bool CJabberIqManager::ExpireByUserData(void *pUserData)
 
 void CJabberIqManager::ExpireAll()
 {
-	while (CJabberIqInfo *pInfo = DetouchInfo())
+	while (CJabberIqInfo *pInfo = DetachInfo())
 		ExpireInfo(pInfo);
 }
 
@@ -226,9 +226,9 @@ bool CJabberIqManager::DeleteHandler(CJabberIqInfo *pInfo)
 	// returns TRUE when pInfo found, or FALSE otherwise
 	mir_cslockfull lck(m_cs);
 
-	for (int i = 0; i < m_arIqs.getCount(); i++) {
-		if (m_arIqs[i] == pInfo) {
-			m_arIqs.remove(i);
+	for (auto &it : m_arIqs) {
+		if (it == pInfo) {
+			m_arIqs.removeItem(&it);
 			lck.unlock();
 			ExpireInfo(pInfo); // must expire it to allow the handler to free m_pUserData if necessary
 			return true;
@@ -255,7 +255,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 	else
 		return false;
 
-	CJabberIqInfo *pInfo = DetouchInfo(nIqId);
+	CJabberIqInfo *pInfo = DetachInfo(nIqId);
 	if (pInfo == nullptr)
 		return false;
 
@@ -285,7 +285,7 @@ bool CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
 	}
-		while ((pInfo = DetouchInfo(nIqId)) != nullptr);
+		while ((pInfo = DetachInfo(nIqId)) != nullptr);
 	return true;
 }
 
@@ -344,7 +344,7 @@ bool CJabberIqManager::HandleIqPermanent(HXML pNode)
 	return false;
 }
 
-CJabberIqInfo* CJabberIqManager::DetouchInfo()
+CJabberIqInfo* CJabberIqManager::DetachInfo()
 {
 	mir_cslock lck(m_cs);
 	
@@ -354,48 +354,37 @@ CJabberIqInfo* CJabberIqManager::DetouchInfo()
 	return pInfo;
 }
 
-CJabberIqInfo* CJabberIqManager::DetouchInfo(int nIqId)
+CJabberIqInfo* CJabberIqManager::DetachInfo(int nIqId)
 {
 	mir_cslock lck(m_cs);
 
-	for (int i = 0; i < m_arIqs.getCount(); i++) {
-		CJabberIqInfo *pInfo = m_arIqs[i];
-		if (pInfo->m_nIqId == nIqId) {
-			m_arIqs.remove(i);
-			return pInfo;
-		}
-	}
+	for (auto &it : m_arIqs)
+		if (it->m_nIqId == nIqId)
+			return m_arIqs.removeItem(&it);
 
 	return nullptr;
 }
 
-CJabberIqInfo* CJabberIqManager::DetouchInfo(void *pUserData)
+CJabberIqInfo* CJabberIqManager::DetachInfo(void *pUserData)
 {
 	mir_cslock lck(m_cs);
 
-	for (int i = 0; i < m_arIqs.getCount(); i++) {
-		CJabberIqInfo *pInfo = m_arIqs[i];
-		if (pInfo->m_pUserData == pUserData) {
-			m_arIqs.remove(i);
-			return pInfo;
-		}
-	}
+	for (auto &it : m_arIqs)
+		if (it->m_pUserData == pUserData)
+			return m_arIqs.removeItem(&it);
+
 	return nullptr;
 }
 
-CJabberIqInfo* CJabberIqManager::DetouchExpired()
+CJabberIqInfo* CJabberIqManager::DetachExpired()
 {
 	DWORD dwCurrentTime = GetTickCount();
 
 	mir_cslock lck(m_cs);
 
-	for (int i = 0; i < m_arIqs.getCount(); i++) {
-		CJabberIqInfo *pInfo = m_arIqs[i];
-		if (dwCurrentTime - pInfo->m_dwRequestTime > pInfo->m_dwTimeout) {
-			m_arIqs.remove(i);
-			return pInfo;
-		}
-	}
+	for (auto &it : m_arIqs)
+		if (dwCurrentTime - it->m_dwRequestTime > it->m_dwTimeout)
+			return m_arIqs.removeItem(&it);
 
 	return nullptr;
 }

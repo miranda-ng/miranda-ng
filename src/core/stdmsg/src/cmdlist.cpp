@@ -66,14 +66,12 @@ TMsgQueue* msgQueue_find(MCONTACT hContact, int id)
 	mir_cslockfull lck(csMsgQueue);
 	for (auto &it : msgQueue) {
 		if ((it->hContact == hContact || it->hContact == hMeta) && it->id == id) {
-			msgQueue.remove(it);
-
-			if (!msgQueue.getCount() && timerId) {
+			if (msgQueue.getCount() == 1 && timerId) {
 				KillTimer(nullptr, timerId);
 				timerId = 0;
 			}
 
-			return it;
+			return msgQueue.removeItem(&it);
 		}
 	}
 	return nullptr;

@@ -762,9 +762,9 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 		}
 	}
 
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++) {
-		if (tname.CompareNoCase(m_SmileyCategories[i].GetName()) == 0) {
-			m_SmileyCategories.remove(i);
+	for (auto &it : m_SmileyCategories) {
+		if (tname.CompareNoCase(it->GetName()) == 0) {
+			m_SmileyCategories.removeItem(&it);
 			break;
 		}
 	}

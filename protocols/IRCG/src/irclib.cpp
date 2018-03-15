@@ -470,7 +470,7 @@ void CIrcProto::RemoveDCCSession(MCONTACT hContact)
 
 	for (auto &it : m_dcc_chats)
 		if (it->di->hContact == hContact) {
-			m_dcc_chats.remove(it);
+			m_dcc_chats.removeItem(&it);
 			break;
 		}
 }
@@ -481,7 +481,7 @@ void CIrcProto::RemoveDCCSession(DCCINFO *pdci)
 
 	for (auto &it : m_dcc_xfers) {
 		if (it->di == pdci) {
-			m_dcc_xfers.remove(it);
+			m_dcc_xfers.removeItem(&it);
 			break;
 		}
 	}

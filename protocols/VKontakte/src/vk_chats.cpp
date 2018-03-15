@@ -174,22 +174,22 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			}
 		}
 
-		for (int i = cc->m_users.getCount() - 1; i >= 0; i--) {
-			CVkChatUser &cu = cc->m_users[i];
-			if (!cu.m_bDel)
+		auto T = cc->m_users.rev_iter();
+		for (auto &cu : T) {
+			if (!cu->m_bDel)
 				continue;
 
 			wchar_t wszId[20];
-			_itow(cu.m_uid, wszId, 10);
+			_itow(cu->m_uid, wszId, 10);
 
 			GCEVENT gce = { m_szModuleName, cc->m_wszId, GC_EVENT_PART };
 			gce.ptszUID = wszId;
 			gce.dwFlags = GCEF_NOTNOTIFY;
 			gce.time = time(nullptr);
-			gce.ptszNick = mir_wstrdup(CMStringW(FORMAT, L"%s (https://vk.com/id%s)", cu.m_wszNick, wszId));
+			gce.ptszNick = mir_wstrdup(CMStringW(FORMAT, L"%s (https://vk.com/id%s)", cu->m_wszNick, wszId));
 			Chat_Event(&gce);
 
-			cc->m_users.remove(i);
+			cc->m_users.remove(T.indexOf(&cu));
 		}
 	}
 

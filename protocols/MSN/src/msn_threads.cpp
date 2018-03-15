@@ -453,9 +453,8 @@ void __cdecl CMsnProto::ThreadStub(void* arg)
 	debugLogA("Leaving thread %08X (%08X)", GetCurrentThreadId(), info->mFunc);
 	{
 		mir_cslock lck(m_csThreads);
-		m_arThreads.LIST<ThreadData>::remove(info);
+		m_arThreads.remove(info);
 	}
-	delete info;
 }
 
 void ThreadData::startThread(MsnThreadFunc parFunc, CMsnProto *prt)

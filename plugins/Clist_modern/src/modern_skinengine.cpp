@@ -527,21 +527,20 @@ int ske_ReleaseBufferDC(HDC hDC, int keepTime)
 
 	//Try to find DC in buffer list - set flag to be release after time;
 	mir_cslock lck(BufferListCS);
-	for (int i = 0; i < BufferList.getCount(); i++) {
-		DCBUFFER *pBuf = BufferList[i];
-		if (pBuf) {
-			if (hDC != nullptr && pBuf->hDC == hDC) {
-				pBuf->dwDestroyAfterTime = dwCurrentTime + keepTime;
+	auto T = BufferList.rev_iter();
+	for (auto &it : T) {
+		if (it) {
+			if (hDC != nullptr && it->hDC == hDC) {
+				it->dwDestroyAfterTime = dwCurrentTime + keepTime;
 				break;
 			}
 
-			if ((pBuf->dwDestroyAfterTime && pBuf->dwDestroyAfterTime < dwCurrentTime) || keepTime == -1) {
-				SelectObject(pBuf->hDC, pBuf->oldBitmap);
-				DeleteObject(pBuf->hBitmap);
-				DeleteDC(pBuf->hDC);
-				mir_free(pBuf);
-				BufferList.remove(i);
-				i--;
+			if ((it->dwDestroyAfterTime && it->dwDestroyAfterTime < dwCurrentTime) || keepTime == -1) {
+				SelectObject(it->hDC, it->oldBitmap);
+				DeleteObject(it->hBitmap);
+				DeleteDC(it->hDC);
+				mir_free(it);
+				BufferList.remove(T.indexOf(&it));
 			}
 		}
 	}

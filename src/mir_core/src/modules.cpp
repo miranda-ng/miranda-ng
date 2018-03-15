@@ -526,8 +526,8 @@ MIR_CORE_DLL(int) DestroyServiceFunction(HANDLE hService)
 {
 	mir_cslock lck(csServices);
 
-	int idx;
-	if ((idx = services.getIndex((TService*)&hService)) != -1) {
+	int idx = services.getIndex((TService*)&hService);
+	if (idx != -1) {
 		mir_free(services[idx]);
 		services.remove(idx);
 	}

@@ -118,12 +118,12 @@ void CMsnProto::MSN_ChatStart(ezxml_t xmli)
 	}
 
 	// Remove contacts not on list (not tagged)
-	for (int j = 0; j < info->mJoinedContacts.getCount(); j++) {
-		if (!info->mJoinedContacts[j]->btag) {
-			info->mJoinedContacts.remove(j);
-			j--;
-		}
-		else info->mJoinedContacts[j]->btag = 0;
+	auto T = info->mJoinedContacts.rev_iter();
+	for (auto &it : T) {
+		if (!it->btag)
+			info->mJoinedContacts.remove(T.indexOf(&it));
+		else
+			it->btag = 0;
 	}
 }
 
@@ -458,12 +458,13 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 	case GC_SESSION_TERMINATE:
 		{
 			GCThreadData* thread = MSN_GetThreadByChatId(gch->ptszID);
-			if (thread != nullptr) {
-				m_arGCThreads.remove(thread);
-				for (auto &it : thread->mJoinedContacts)
-					delete it;
-				delete thread;
-			}
+			if (thread == nullptr)
+				break;
+
+			m_arGCThreads.remove(thread);
+			for (auto &it : thread->mJoinedContacts)
+				delete it;
+			delete thread;
 		}
 		break;
 

@@ -121,8 +121,7 @@ void __cdecl CMsnProto::MSN_AvatarsThread(void*)
 	}
 
 	mir_cslock lck(csAvatarQueue);
-	while (lsAvatarQueue.getCount() > 0) {
-		delete lsAvatarQueue[0];
-		lsAvatarQueue.remove(0);
-	}
+	for (auto &it : lsAvatarQueue)
+		delete it;
+	lsAvatarQueue.destroy();
 }

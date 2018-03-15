@@ -72,14 +72,12 @@ void xpt_FreeThemeHandle(XPTHANDLE xptHandle)
 void xpt_FreeThemeForWindow(HWND hwnd)
 {
 	mir_cslock lck(xptCS);
-	for (int i = 0; i < xptObjectList.getCount();) {
-		XPTObject& xptObject = xptObjectList[i];
-		if (xptObject.hOwnerWindow == hwnd) {
-			_sttXptCloseThemeData(&xptObject);
-			xptObjectList.remove(i);
+	auto T = xptObjectList.rev_iter();
+	for (auto &xptObject : T)
+		if (xptObject->hOwnerWindow == hwnd) {
+			_sttXptCloseThemeData(xptObject);
+			xptObjectList.remove(T.indexOf(&xptObject));
 		}
-		else i++;
-	}
 }
 
 void xpt_OnWM_THEMECHANGED()

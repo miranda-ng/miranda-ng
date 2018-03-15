@@ -386,16 +386,16 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 	ppro->debugLogA("Rates: Delaying %s.", szDescr);
 	{
 		mir_cslock l(csLists);
-		if (lstPending.getCount()) {
-			for (int i = 0; i < lstPending.getCount(); i++) {
-				if (lstPending[i]->isEqual(pItem)) {
-					if (duplicates == 1) // keep existing, ignore new
-						return;
 
-					if (duplicates == -1) { // discard existing, append new item
-						delete lstPending[i];
-						lstPending.remove(i);
-					}
+		auto T = lstPending.rev_iter();
+		for (auto &it : T) {
+			if (it->isEqual(pItem)) {
+				if (duplicates == 1) // keep existing, ignore new
+					return;
+
+				if (duplicates == -1) { // discard existing, append new item
+					delete it;
+					lstPending.remove(T.indexOf(&it));
 				}
 			}
 		}

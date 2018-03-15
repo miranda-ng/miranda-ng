@@ -164,10 +164,10 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 	SnowFlake id = ::getId(pRoot["id"]);
 	CDiscordUser *pUser = FindUser(id);
 	if (pUser != nullptr) {
-		if (pUser->hContact) {
+		if (pUser->hContact)
 			if (pUser->bIsPrivate)
 				db_delete_contact(pUser->hContact);
-		}
+
 		arUsers.remove(pUser);
 	}
 }

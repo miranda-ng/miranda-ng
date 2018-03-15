@@ -310,10 +310,9 @@ int GetStatus(MCONTACT hContact, char *proto = nullptr)
 
 void FreeContacts()
 {
-	for (int i = contacts.getCount() - 1; i >= 0; i--) {
-		delete contacts[i];
-		contacts.remove(i);
-	}
+	for (auto &it : contacts)
+		delete it;
+	contacts.destroy();
 }
 
 

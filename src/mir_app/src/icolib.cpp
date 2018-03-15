@@ -601,8 +601,8 @@ MIR_APP_DLL(void) KillModuleIcons(int _hLang)
 	auto T = iconList.rev_iter();
 	for (auto &it : T)
 		if (it->hLangpack == _hLang) {
-			iconList.remove(T.indexOf(&it));
 			delete it;
+			iconList.remove(T.indexOf(&it));
 		}
 }
 
@@ -810,11 +810,9 @@ void UnloadIcoLibModule(void)
 		delete p;
 	iconSourceList.destroy();
 
-	while (iconSourceFileList.getCount() > 0) {
-		IconSourceFile *p = iconSourceFileList[0];
-		iconSourceFileList.remove(0);
+	for (auto &p : iconSourceFileList)
 		mir_free(p);
-	}
+	iconSourceFileList.destroy();
 
 	for (auto &p : sectionList)
 		delete p;

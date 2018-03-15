@@ -404,8 +404,8 @@ void UnloadAccountsModule()
 
 	auto T = accounts.rev_iter();
 	for (auto &it : T) {
-		accounts.remove(T.indexOf(&it));
 		UnloadAccount(it, false, false);
+		accounts.remove(T.indexOf(&it));
 	}
 	accounts.destroy();
 

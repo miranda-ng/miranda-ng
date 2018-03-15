@@ -48,7 +48,7 @@ void CMsnProto::MSN_DeleteGroup(const char* pId)
 {
 	int i = m_arGroups.getIndex((ServerGroupItem*)&pId);
 	if (i > -1) {
-		ServerGroupItem* p = m_arGroups[i];
+		ServerGroupItem *p = m_arGroups[i];
 		mir_free(p->id);
 		mir_free(p->name);
 		mir_free(p);

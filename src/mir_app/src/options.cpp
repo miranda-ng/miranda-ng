@@ -1108,16 +1108,17 @@ public:
 
 	void KillModule(int _hLang)
 	{
-		for (int i = m_arOpd.getCount() - 1; i >= 0; i--) {
-			OptionsPageData *opd = m_arOpd[i];
+		auto T = m_arOpd.rev_iter();
+		for (auto &opd : T) {
 			if (opd->hLangpack != _hLang)
 				continue;
 
-			if (m_currentPage > i)
+			int idx = T.indexOf(&opd);
+			if (m_currentPage > idx)
 				m_currentPage--;
 
-			m_arOpd.remove(i);
 			delete opd;
+			m_arOpd.remove(idx);
 			m_timerRebuild.Start(50);
 		}
 	}

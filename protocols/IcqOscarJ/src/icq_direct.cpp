@@ -76,10 +76,8 @@ filetransfer* CIcqProto::FindExpectedFileRecv(DWORD dwUin, DWORD dwTotalSize)
 	mir_cslock l(expectedFileRecvMutex);
 
 	for (auto &it : expectedFileRecvs)
-		if (it->dwUin == dwUin && it->dwTotalSize == dwTotalSize) {
-			expectedFileRecvs.remove(it);
-			return it;
-		}
+		if (it->dwUin == dwUin && it->dwTotalSize == dwTotalSize)
+			return expectedFileRecvs.removeItem(&it);
 
 	return nullptr;
 }

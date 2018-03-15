@@ -46,8 +46,8 @@ void RemoveLoggedEventsXStatus(MCONTACT hContact)
 	for (auto &it : T)
 		if (it->hContact == hContact) {
 			db_event_delete(it->hContact, it->hDBEvent);
-			eventListXStatus.remove(T.indexOf(&it));
 			mir_free(it);
+			eventListXStatus.remove(T.indexOf(&it));
 		}
 }
 
@@ -57,8 +57,8 @@ void RemoveLoggedEventsStatus(MCONTACT hContact)
 	for (auto &it : T)
 		if (it->hContact == hContact) {
 			db_event_delete(it->hContact, it->hDBEvent);
-			eventListStatus.remove(T.indexOf(&it));
 			mir_free(it);
+			eventListStatus.remove(T.indexOf(&it));
 		}
 }
 
@@ -68,8 +68,8 @@ void RemoveLoggedEventsSMsg(MCONTACT hContact)
 	for (auto &it : T)
 		if (it->hContact == hContact) {
 			db_event_delete(it->hContact, it->hDBEvent);
-			eventListSMsg.remove(T.indexOf(&it));
 			mir_free(it);
+			eventListSMsg.remove(T.indexOf(&it));
 		}
 }
 

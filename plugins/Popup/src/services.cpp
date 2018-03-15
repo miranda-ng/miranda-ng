@@ -419,7 +419,7 @@ INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 
 	for (auto &it : gTreeData)
 		if (it == ptd) {
-			gTreeData.remove(it);
+			gTreeData.removeItem(&it);
 			FreePopupClass(ptd);
 			return 0;
 		}

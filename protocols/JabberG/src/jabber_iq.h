@@ -150,10 +150,10 @@ protected:
 	LIST<CJabberIqInfo> m_arIqs;
 	OBJLIST<CJabberIqPermanentInfo> m_arHandlers;
 
-	CJabberIqInfo* DetouchInfo();
-	CJabberIqInfo* DetouchInfo(int nIqId);
-	CJabberIqInfo* DetouchInfo(void *pUserData);
-	CJabberIqInfo* DetouchExpired();
+	CJabberIqInfo* DetachInfo();
+	CJabberIqInfo* DetachInfo(int nIqId);
+	CJabberIqInfo* DetachInfo(void *pUserData);
+	CJabberIqInfo* DetachExpired();
 
 	void ExpireInfo(CJabberIqInfo *pInfo);
 

@@ -182,7 +182,7 @@ void CIcqProto::FreeCookieByData(BYTE bType, void *pvExtra)
 	for (auto &it : cookies) {
 		if (bType == it->bType && pvExtra == it->pvExtra) {
 			// Cookie found, remove from list
-			cookies.remove(it);
+			cookies.removeItem(&it);
 			break;
 		}
 	}

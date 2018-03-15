@@ -196,13 +196,12 @@ MIR_APP_DLL(void) KillModuleExtraIcons(int _hLang)
 {
 	LIST<ExtraIcon> arDeleted(1);
 
-	for (int i = registeredExtraIcons.getCount() - 1; i >= 0; i--) {
-		BaseExtraIcon *p = registeredExtraIcons[i];
-		if (p->m_hLangpack == _hLang) {
-			registeredExtraIcons.remove(i);
-			arDeleted.insert(p);
+	auto T = registeredExtraIcons.rev_iter();
+	for (auto &it : T)
+		if (it->m_hLangpack == _hLang) {
+			arDeleted.insert(it);
+			registeredExtraIcons.remove(T.indexOf(&it));
 		}
-	}
 
 	if (arDeleted.getCount() == 0)
 		return;

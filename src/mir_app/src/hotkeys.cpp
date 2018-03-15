@@ -223,8 +223,8 @@ MIR_APP_DLL(int) Hotkey_Unregister(const char *pszName)
 	auto T = hotkeys.rev_iter();
 	for (auto &it : T)
 		if (it->UnregisterHotkey) {
-			hotkeys.remove(T.indexOf(&it));
 			FreeHotkey(it);
+			hotkeys.remove(T.indexOf(&it));
 		}
 
 	return 0;
@@ -291,8 +291,8 @@ MIR_APP_DLL(void) KillModuleHotkeys(int _hLang)
 	auto T = hotkeys.rev_iter();
 	for (auto &it : T)
 		if (it->hLangpack == _hLang) {
-			hotkeys.remove(T.indexOf(&it));
 			FreeHotkey(it);
+			hotkeys.remove(T.indexOf(&it));
 		}
 }
 

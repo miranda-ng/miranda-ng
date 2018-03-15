@@ -786,8 +786,8 @@ void KillModuleToolbarIcons(int _hLang)
 	auto T = arButtonsList.rev_iter();
 	for (auto &cbd : T)
 		if (cbd->m_hLangpack == _hLang) {
-			arButtonsList.remove(T.indexOf(&cbd));
 			delete cbd;
+			arButtonsList.remove(T.indexOf(&cbd));
 		}
 }
 

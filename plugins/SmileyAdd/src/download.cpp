@@ -136,7 +136,10 @@ void __cdecl SmileyDownloadThread(void*)
 			WaitForSingleObject(g_hDlMutex, 3000);
 
 			CMStringW fname(dlQueue[0].fname);
-			if (dlQueue[0].needext) { fname += GetImageExt(fname); needext = true; }
+			if (dlQueue[0].needext) {
+				fname += GetImageExt(fname);
+				needext = true;
+			}
 			_wrename(dlQueue[0].fname.c_str(), fname.c_str());
 		}
 		else WaitForSingleObject(g_hDlMutex, 3000);
