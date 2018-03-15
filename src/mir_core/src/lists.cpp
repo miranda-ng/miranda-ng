@@ -207,11 +207,9 @@ MIR_CORE_DLL(int) List_Remove(SortedList* p_list, int index)
 		return 0;
 
 	p_list->realCount--;
-	if (p_list->realCount > index) {
+	if (p_list->realCount > index)
 		memmove(p_list->items + index, p_list->items + index + 1, sizeof(void*)*(p_list->realCount - index));
-		p_list->items[p_list->realCount] = nullptr;
-	}
-
+	p_list->items[p_list->realCount] = nullptr;
 	return 1;
 }
 
