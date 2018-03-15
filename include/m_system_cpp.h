@@ -203,11 +203,9 @@ template<class T> struct LIST
 
 	public:
 		reverse_iterator(const LIST &_lst) :
-			index(_lst.getCount()),
+			index(_lst.getCount()-1),
 			base(_lst.getArray())
 		{
-			if (index > 0)
-				index--;
 		}
 
 		class iterator
@@ -222,7 +220,7 @@ template<class T> struct LIST
 		};
 
 		__inline iterator begin() const { return iterator(base + index); }
-		__inline iterator end() const { return iterator(base); }
+		__inline iterator end() const { return iterator(base-1); }
 	};
 
 	__inline void destroy(void)         { List_Destroy((SortedList*)this); }
