@@ -159,39 +159,39 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	FontIDW fontid = { sizeof(fontid) };
-	mir_wstrcpy(fontid.group, LPGENW("Favorite Contacts"));
-	mir_strcpy(fontid.dbSettingsGroup, "FavContacts");
-	mir_wstrcpy(fontid.backgroundGroup, LPGENW("Favorite Contacts"));
+	wcsncpy_s(fontid.group, LPGENW("Favorite Contacts"), _TRUNCATE);
+	strncpy_s(fontid.dbSettingsGroup, "FavContacts", _TRUNCATE);
+	wcsncpy_s(fontid.backgroundGroup, LPGENW("Favorite Contacts"), _TRUNCATE);
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.size = -11;
-	mir_wstrcpy(fontid.deffontsettings.szFace, L"MS Shell Dlg");
+	wcsncpy_s(fontid.deffontsettings.szFace, L"MS Shell Dlg", _TRUNCATE);
 	fontid.deffontsettings.style = 0;
 
-	mir_wstrcpy(fontid.backgroundName, LPGENW("Background"));
+	wcsncpy_s(fontid.backgroundName, LPGENW("Background"), _TRUNCATE);
 
-	mir_wstrcpy(fontid.name, LPGENW("Contact name"));
-	mir_strcpy(fontid.prefix, "fntName");
+	wcsncpy_s(fontid.name, LPGENW("Contact name"), _TRUNCATE);
+	strncpy_s(fontid.prefix, "fntName", _TRUNCATE);
 	fontid.deffontsettings.colour = GetSysColor(COLOR_MENUTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	Font_RegisterW(&fontid);
 
-	mir_wstrcpy(fontid.name, LPGENW("Second line"));
-	mir_strcpy(fontid.prefix, "fntSecond");
+	wcsncpy_s(fontid.name, LPGENW("Second line"), _TRUNCATE);
+	strncpy_s(fontid.prefix, "fntSecond", _TRUNCATE);
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_MENUTEXT), GetSysColor(COLOR_MENU));
 	fontid.deffontsettings.style = 0;
 	Font_RegisterW(&fontid);
 
-	mir_wstrcpy(fontid.backgroundName, LPGENW("Selected background"));
+	wcsncpy_s(fontid.backgroundName, LPGENW("Selected background"), _TRUNCATE);
 
-	mir_wstrcpy(fontid.name, LPGENW("Selected contact name (color)"));
-	mir_strcpy(fontid.prefix, "fntNameSel");
+	wcsncpy_s(fontid.name, LPGENW("Selected contact name (color)"), _TRUNCATE);
+	strncpy_s(fontid.prefix, "fntNameSel", _TRUNCATE);
 	fontid.deffontsettings.colour = GetSysColor(COLOR_HIGHLIGHTTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	Font_RegisterW(&fontid);
 
-	mir_wstrcpy(fontid.name, LPGENW("Selected second line (color)"));
-	mir_strcpy(fontid.prefix, "fntSecondSel");
+	wcsncpy_s(fontid.name, LPGENW("Selected second line (color)"), _TRUNCATE);
+	strncpy_s(fontid.prefix, "fntSecondSel", _TRUNCATE);
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_HIGHLIGHTTEXT), GetSysColor(COLOR_HIGHLIGHT));
 	fontid.deffontsettings.style = 0;
 	Font_RegisterW(&fontid);
@@ -199,16 +199,16 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	/////////////////////////////////////////////////////////////////////////////////////
 
 	ColourIDW colourid = { sizeof(colourid) };
-	mir_wstrcpy(colourid.group, LPGENW("Favorite Contacts"));
-	mir_strcpy(colourid.dbSettingsGroup, "FavContacts");
+	wcsncpy_s(colourid.group, LPGENW("Favorite Contacts"), _TRUNCATE);
+	strncpy_s(colourid.dbSettingsGroup, "FavContacts", _TRUNCATE);
 
-	mir_wstrcpy(colourid.name, LPGENW("Background"));
-	mir_strcpy(colourid.setting, "BackColour");
+	wcsncpy_s(colourid.name, LPGENW("Background"), _TRUNCATE);
+	strncpy_s(colourid.setting, "BackColour", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_MENU);
 	Colour_RegisterW(&colourid);
 
-	mir_wstrcpy(colourid.name, LPGENW("Selected background"));
-	mir_strcpy(colourid.setting, "SelectedColour");
+	wcsncpy_s(colourid.name, LPGENW("Selected background"), _TRUNCATE);
+	strncpy_s(colourid.setting, "SelectedColour", _TRUNCATE);
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
 	Colour_RegisterW(&colourid);
 

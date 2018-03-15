@@ -177,7 +177,7 @@ bool CContactCache::filter(int rate, wchar_t *str)
 
 	for (int iLayout = 0; iLayout < nKbdLayouts; ++iLayout) {
 		if (kbdLayoutActive == kbdLayouts[iLayout])
-			mir_wstrcpy(buf, str);
+			wcsncpy_s(buf, str, _TRUNCATE);
 		else {
 			int i;
 			for (i = 0; str[i]; ++i) {
