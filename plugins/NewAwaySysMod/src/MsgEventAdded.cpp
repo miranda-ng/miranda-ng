@@ -82,7 +82,7 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 }
 
 
-int IsSRMsgWindowOpen(MCONTACT hContact, int DefaultRetVal)
+int IsSRMsgWindowOpen(MCONTACT hContact)
 {
 	MessageWindowData mwd;
 	return !Srmm_GetWindowData(hContact, mwd) && mwd.hwndWindow;
@@ -161,7 +161,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 				MetacontactEvents.RemoveElem(i);
 
 		// add the new event and wait for a subcontact's event
-		MetacontactEvents.AddElem(CMetacontactEvent(hContact, dbei->timestamp, IsSRMsgWindowOpen(hContact, false)));
+		MetacontactEvents.AddElem(CMetacontactEvent(hContact, dbei->timestamp, IsSRMsgWindowOpen(hContact)));
 		return 0;
 	}
 
@@ -199,7 +199,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		// we never get here for a metacontact; we did check for metacontact's window earlier, and here we need to check only for subcontact's window
-		if (IsSRMsgWindowOpen(hContact, false))
+		if (IsSRMsgWindowOpen(hContact))
 			return 0;
 	}
 	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_ONLYIDLEREPLY) && !g_bIsIdle)
