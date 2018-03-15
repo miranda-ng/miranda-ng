@@ -33,7 +33,7 @@ struct CDropTarget : IDropTarget
 
 	ULONG STDMETHODCALLTYPE AddRef(void);
 	ULONG STDMETHODCALLTYPE Release(void);
-	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, void ** ppvObject);
+	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, void **ppvObject);
 
 	HRESULT STDMETHODCALLTYPE DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
 	HRESULT STDMETHODCALLTYPE DragOver(DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
@@ -45,7 +45,7 @@ static dropTarget;
 static HWND hwndCurrentDrag = nullptr;
 static int originalSelection;
 
-HRESULT CDropTarget::QueryInterface(REFIID riid, LPVOID * ppvObj)
+HRESULT CDropTarget::QueryInterface(REFIID riid, void **ppvObj)
 {
 	if (riid == IID_IDropTarget) {
 		*ppvObj = this;
