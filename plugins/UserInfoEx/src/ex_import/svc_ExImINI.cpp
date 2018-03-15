@@ -39,61 +39,55 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE* file)
 {
-	DB::CEnumList	Settings;
+	DB::CEnumList Settings;
 
-	if (!Settings.EnumSettings(hContact, pszModule))
-	{
-		DBVARIANT dbv;
-		LPSTR here;
-		WORD j;
-		int i;
-		//char tmp[32];
-
+	if (!Settings.EnumSettings(hContact, pszModule)) {
 		// print the module header..
 		fprintf(file, "\n[%s]\n", pszModule);
 
 		for (auto &it : Settings) {
+			DBVARIANT dbv;
 			if (!DB::Setting::GetAsIs(hContact, pszModule, it, &dbv)) {
 				switch (dbv.type) {
-					case DBVT_BYTE:
-						fprintf(file, "%s=b%u\n", it, dbv.bVal);
-						break;
+				case DBVT_BYTE:
+					fprintf(file, "%s=b%u\n", it, dbv.bVal);
+					break;
 
-					case DBVT_WORD:
-						fprintf(file, "%s=w%u\n", it, dbv.wVal);
-						break;
+				case DBVT_WORD:
+					fprintf(file, "%s=w%u\n", it, dbv.wVal);
+					break;
 
-					case DBVT_DWORD:
-						fprintf(file, "%s=d%u\n", it, dbv.dVal);
-						break;
+				case DBVT_DWORD:
+					fprintf(file, "%s=d%u\n", it, dbv.dVal);
+					break;
 
-					case DBVT_ASCIIZ:
-					case DBVT_UTF8:
-						for (here = dbv.pszVal; here && *here; here++) 
-						{
-							switch (*here) {
-								// convert \r to STX
-								case '\r':
-									*here = 2;
-									break;
+				case DBVT_ASCIIZ:
+				case DBVT_UTF8:
+					for (LPSTR here = dbv.pszVal; here && *here; here++) {
+						switch (*here) {
+							// convert \r to STX
+						case '\r':
+							*here = 2;
+							break;
 
-								// convert \n to ETX
-								case '\n':
-									*here = 3;
-							}
+							// convert \n to ETX
+						case '\n':
+							*here = 3;
 						}
-						if (dbv.type == DBVT_UTF8) 
-							fprintf(file, "%s=u%s\n", it, dbv.pszVal);
-						else
-							fprintf(file, "%s=s%s\n", it, dbv.pszVal);
-						break;
+					}
+					
+					if (dbv.type == DBVT_UTF8)
+						fprintf(file, "%s=u%s\n", it, dbv.pszVal);
+					else
+						fprintf(file, "%s=s%s\n", it, dbv.pszVal);
+					break;
 
-					case DBVT_BLOB:
-						fprintf(file, "%s=n", it);
-						for (j = 0; j < dbv.cpbVal; j++)
-							fprintf(file, "%02X ", (BYTE)dbv.pbVal[j]);
-						fputc('\n', file);
-						break;
+				case DBVT_BLOB:
+					fprintf(file, "%s=n", it);
+					for (WORD j = 0; j < dbv.cpbVal; j++)
+						fprintf(file, "%02X ", (BYTE)dbv.pbVal[j]);
+					fputc('\n', file);
+					break;
 				}
 				db_free(&dbv);
 			}

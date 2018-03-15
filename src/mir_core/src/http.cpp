@@ -66,7 +66,7 @@ MIR_CORE_DLL(char*) mir_base64_encode(const void *input, size_t inputLen)
 	if (input == nullptr)
 		return nullptr;
 
-	unsigned outputLen = mir_base64_encode_bufsize(inputLen);
+	size_t outputLen = mir_base64_encode_bufsize(inputLen);
 	char *output = (char*)mir_alloc(outputLen);
 	if (output == nullptr)
 		return nullptr;

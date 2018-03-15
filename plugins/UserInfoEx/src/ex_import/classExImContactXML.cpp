@@ -532,9 +532,6 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 			LPCSTR pUID = xContact->Attribute("uidv");
 
 			if (pUID != nullptr) {
-				size_t valLen;
-				PBYTE	pbVal = nullptr;
-
 				switch (*(pUID++)) {
 				case 'b':
 					uid((BYTE)atoi(pUID));
@@ -553,9 +550,12 @@ int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 					uidu(pUID);
 					break;
 				case 'n':
-					pbVal = (PBYTE)mir_base64_decode(pUID, &valLen);
-					if (pbVal != nullptr)
-						uidn(pbVal, valLen);
+					size_t valLen;
+					{
+						PBYTE	pbVal = (PBYTE)mir_base64_decode(pUID, &valLen);
+						if (pbVal != nullptr)
+							uidn(pbVal, (DWORD)valLen);
+					}
 					break;
 				default:
 					uidu((LPCSTR)nullptr);
@@ -888,7 +888,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 		dbv.type = DBVT_BLOB;
 		dbv.pbVal = (PBYTE)mir_base64_decode(value + 1, &baselen);
 		if (dbv.pbVal != nullptr)
-			dbv.cpbVal = baselen;
+			dbv.cpbVal = (WORD)baselen;
 		else {
 			mir_free(dbv.pbVal);
 			return ERROR_NOT_ADDED;
@@ -952,7 +952,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 	if (tmpVal != NULL) {
 		// event owning module
 		dbei.pBlob = tmpVal;
-		dbei.cbBlob = baselen;
+		dbei.cbBlob = (WORD)baselen;
 		dbei.szModule = (LPSTR)pszModule;
 
 		xmlEvent->Attribute("type", (LPINT)&dbei.eventType);
