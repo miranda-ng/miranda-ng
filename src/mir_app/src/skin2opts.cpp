@@ -783,15 +783,14 @@ public:
 			{
 				mir_cslock lck(csIconList);
 
-				for (int indx = 0; indx < iconList.getCount(); indx++) {
-					IcolibItem *item = iconList[indx];
+				for (auto &item : iconList) {
 					if (item->section == sectionActive) {
 						lvi.pszText = item->getDescr();
 						HICON hIcon = item->temp_icon;
 						if (!hIcon)
 							hIcon = IconItem_GetIcon_Preview(item);
 						lvi.iImage = ImageList_AddIcon(hIml, hIcon);
-						lvi.lParam = indx;
+						lvi.lParam = iconList.indexOf(&item);
 						m_preview.InsertItem(&lvi);
 						if (hIcon != item->temp_icon)
 							SafeDestroyIcon(hIcon);

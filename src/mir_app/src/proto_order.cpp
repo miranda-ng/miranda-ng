@@ -42,26 +42,30 @@ int isProtoSuitable(PROTO_INTERFACE* ppi)
 bool CheckProtocolOrder(void)
 {
 	bool changed = false;
-	int i, id = 0;
+	int id = 0;
 
 	for (;;) {
 		// Find account with this id
-		for (i = 0; i < accounts.getCount(); i++)
-			if (accounts[i]->iOrder == id)
+		bool bFound = false;
+		for (auto &pa : accounts)
+			if (pa->iOrder == id) {
+				bFound = true;
 				break;
+			}
 
 		// Account with id not found
-		if (i == accounts.getCount()) {
+		if (!bFound) {
 			// Check if this is skipped id, if it is decrement all other ids
-			bool found = false;
 			for (auto &pa : accounts) {
 				if (pa->iOrder < 1000000 && pa->iOrder > id) {
 					--pa->iOrder;
-					found = true;
+					bFound = true;
 				}
 			}
-			if (found) changed = true;
-			else break;
+			if (!bFound)
+				break;
+			
+			changed = true;
 		}
 		else id++;
 	}
@@ -77,7 +81,7 @@ bool CheckProtocolOrder(void)
 
 	if (id < accounts.getCount()) {
 		// Remove duplicate ids
-		for (i = 0; i < accounts.getCount(); i++) {
+		for (int i = 0; i < accounts.getCount(); i++) {
 			bool found = false;
 			for (int j = 0; j < accounts.getCount(); j++) {
 				if (accounts[j]->iOrder == i) {

@@ -393,8 +393,8 @@ void UnloadNetlibModule(void)
 	DestroyHookableEvent(hRecvEvent); hRecvEvent = nullptr;
 	DestroyHookableEvent(hSendEvent); hSendEvent = nullptr;
 
-	for (int i = netlibUser.getCount(); i > 0; i--)
-		Netlib_CloseHandle(netlibUser[i-1]);
+	for (auto &it : netlibUser.rev_iter())
+		Netlib_CloseHandle(it);
 
 	CloseHandle(hConnectionHeaderMutex);
 	if (hConnectionOpenMutex)

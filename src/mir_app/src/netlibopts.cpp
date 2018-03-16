@@ -262,20 +262,19 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			int iItem = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_ADDSTRING, 0, (LPARAM)TranslateT("<All connections>"));
 			SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_SETITEMDATA, iItem, (LPARAM)-1);
 			SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_SETCURSEL, iItem, 0);
-			{
-				mir_cslock lck(csNetlibUser);
-				for (int i = 0; i < netlibUser.getCount(); ++i) {
-					NetlibTempSettings *thisSettings = (NetlibTempSettings*)mir_calloc(sizeof(NetlibTempSettings));
-					thisSettings->flags = netlibUser[i]->user.flags;
-					thisSettings->szSettingsModule = mir_strdup(netlibUser[i]->user.szSettingsModule);
-					CopySettingsStruct(&thisSettings->settings, &netlibUser[i]->settings);
-					tempSettings.insert(thisSettings);
 
-					if (netlibUser[i]->user.flags & NUF_NOOPTIONS)
-						continue;
-					iItem = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_ADDSTRING, 0, (LPARAM)netlibUser[i]->user.szDescriptiveName.w);
-					SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_SETITEMDATA, iItem, i);
-				}
+			mir_cslock lck(csNetlibUser);
+			for (auto &it : netlibUser) {
+				NetlibTempSettings *thisSettings = (NetlibTempSettings*)mir_calloc(sizeof(NetlibTempSettings));
+				thisSettings->flags = it->user.flags;
+				thisSettings->szSettingsModule = mir_strdup(it->user.szSettingsModule);
+				CopySettingsStruct(&thisSettings->settings, &it->settings);
+				tempSettings.insert(thisSettings);
+
+				if (it->user.flags & NUF_NOOPTIONS)
+					continue;
+				iItem = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_ADDSTRING, 0, (LPARAM)it->user.szDescriptiveName.w);
+				SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_SETITEMDATA, iItem, netlibUser.indexOf(&it));
 			}
 		}
 

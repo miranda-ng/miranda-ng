@@ -400,15 +400,16 @@ MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HW
 	if (lstMsg == nullptr)
 		return -1;
 
-	if (szModule == nullptr) szModule = "UserInfo";
+	if (szModule == nullptr)
+		szModule = "UserInfo";
 
 	int iSelection = 0;
 	ptrW tszName(db_get_wsa(hContact, szModule, "TzName"));
 	if (tszName != NULL) {
 		unsigned hash = mir_hashstrT(tszName);
-		for (int i = 0; i < g_timezonesBias.getCount(); i++) {
-			if (hash == g_timezonesBias[i]->hash) {
-				iSelection = i + 1;
+		for (auto &it : g_timezonesBias) {
+			if (hash == it->hash) {
+				iSelection = g_timezonesBias.indexOf(&it) + 1;
 				break;
 			}
 		}
@@ -417,9 +418,9 @@ MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HW
 		signed char cBias = db_get_b(hContact, szModule, "Timezone", -100);
 		if (cBias != -100) {
 			int iBias = cBias * 30;
-			for (int i = 0; i < g_timezonesBias.getCount(); i++) {
-				if (iBias == g_timezonesBias[i]->tzi.Bias) {
-					iSelection = i + 1;
+			for (auto &it : g_timezonesBias) {
+				if (iBias == it->tzi.Bias) {
+					iSelection = g_timezonesBias.indexOf(&it) + 1;
 					break;
 				}
 			}
@@ -438,11 +439,9 @@ MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND 
 
 	SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)TranslateT("<unspecified>"));
 
-	for (int i = 0; i < g_timezonesBias.getCount(); i++) {
-		MIM_TIMEZONE *tz = g_timezonesBias[i];
-
-		SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)tz->szDisplay);
-		SendMessage(hWnd, lstMsg->setData, i + 1, (LPARAM)tz);
+	for (auto &it : g_timezonesBias) {
+		SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)it->szDisplay);
+		SendMessage(hWnd, lstMsg->setData, g_timezonesBias.indexOf(&it) + 1, (LPARAM)it);
 	}
 
 	return TimeZone_SelectListItem(hContact, szModule, hWnd, dwFlags);

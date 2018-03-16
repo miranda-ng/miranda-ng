@@ -54,10 +54,8 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 	}
 
 	HMENU hMenu = CreatePopupMenu();
-	for (int i = 0; i < Services.getCount(); i++) {
-		CCloudService *service = Services[i];
-		AppendMenu(hMenu, MF_STRING, i + 1, TranslateW(service->GetUserName()));
-	}
+	for (auto &it : Services)
+		AppendMenu(hMenu, MF_STRING, Services.indexOf(&it) + 1, TranslateW(it->GetUserName()));
 
 	int pos = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbc->pt.x, cbc->pt.y, 0, cbc->hwndFrom, nullptr);
 	DestroyMenu(hMenu);

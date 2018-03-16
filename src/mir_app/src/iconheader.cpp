@@ -415,7 +415,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				newIdx--;
 				break;
 			}
-			if ((newIdx >= 0) && (newIdx < itc->pList.getCount()) && (newIdx != itc->nSelectedIdx)) {
+			if (newIdx >= 0 && newIdx < itc->pList.getCount() && newIdx != itc->nSelectedIdx) {
 				itc->nSelectedIdx = newIdx;
 				SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
 				RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE);

@@ -668,39 +668,38 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int GetClosestLanguage(wchar_t *lang_name)
 {
-	int i;
-
 	// Search the language by name
-	for (i = 0; i < languages.getCount(); i++)
-		if (mir_wstrcmpi(languages[i]->language, lang_name) == 0)
-			return i;
+	for (auto &it : languages)
+		if (mir_wstrcmpi(it->language, lang_name) == 0)
+			return languages.indexOf(&it);
 
 	// Try searching by the prefix only
 	wchar_t lang[128];
 	mir_wstrncpy(lang, lang_name, _countof(lang));
 	{
 		wchar_t *p = wcschr(lang, '_');
-		if (p != nullptr) *p = '\0';
+		if (p != nullptr)
+			*p = '\0';
 	}
 
 	// First check if there is a language that is only the prefix
-	for (i = 0; i < languages.getCount(); i++)
-		if (mir_wstrcmpi(languages[i]->language, lang) == 0)
-			return i;
+	for (auto &it : languages)
+		if (mir_wstrcmpi(it->language, lang) == 0)
+			return languages.indexOf(&it);
 
 	// Now try any suffix
 	size_t len = mir_wstrlen(lang);
-	for (i = 0; i < languages.getCount(); i++) {
-		wchar_t *p = wcschr(languages[i]->language, '_');
+	for (auto &it : languages) {
+		wchar_t *p = wcschr(it->language, '_');
 		if (p == nullptr)
 			continue;
 
-		size_t prefix_len = p - languages[i]->language;
+		size_t prefix_len = p - it->language;
 		if (prefix_len != len)
 			continue;
 
-		if (wcsnicmp(languages[i]->language, lang_name, len) == 0)
-			return i;
+		if (wcsnicmp(it->language, lang_name, len) == 0)
+			return languages.indexOf(&it);
 	}
 
 	return -1;

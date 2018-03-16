@@ -599,16 +599,16 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				SendDlgItemMessage(hwndDlg, IDC_FONTLIST, WM_SETREDRAW, FALSE, 0);
 
-				for (int fontId = 0; fontId < font_id_list_w2.getCount(); fontId++) {
-					FontInternal &F = font_id_list_w2[fontId];
-					if (!wcsncmp(F.group, group_buff, 64)) {
-						FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
-						itemData->colour_id = -1;
-						itemData->effect_id = -1;
-						itemData->font_id = fontId;
-						SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
-						need_restart |= (F.flags & FIDF_NEEDRESTART);
-					}
+				for (auto &it : font_id_list_w2) {
+					if (wcsncmp(it->group, group_buff, 64))
+						continue;
+
+					FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
+					itemData->colour_id = -1;
+					itemData->effect_id = -1;
+					itemData->font_id = font_id_list_w2.indexOf(&it);
+					SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
+					need_restart |= (it->flags & FIDF_NEEDRESTART);
 				}
 
 				if (hBkgColourBrush) {
@@ -616,37 +616,39 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					hBkgColourBrush = nullptr;
 				}
 
-				for (int colourId = 0; colourId < colour_id_list_w2.getCount(); colourId++) {
-					ColourInternal &C = colour_id_list_w2[colourId];
-					if (!wcsncmp(C.group, group_buff, 64)) {
-						if (!sttFsuiBindColourIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), C.name, C.group, C.name, colourId)) {
-							FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
-							itemData->colour_id = colourId;
-							itemData->font_id = -1;
-							itemData->effect_id = -1;
+				for (auto &it : colour_id_list_w2) {
+					if (wcsncmp(it->group, group_buff, 64))
+						continue;
 
-							SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
-						}
+					int colourId = colour_id_list_w2.indexOf(&it);
+					if (!sttFsuiBindColourIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), it->name, it->group, it->name, colourId)) {
+						FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
+						itemData->colour_id = colourId;
+						itemData->font_id = -1;
+						itemData->effect_id = -1;
 
-						if (mir_wstrcmp(C.name, L"Background") == 0)
-							hBkgColourBrush = CreateSolidBrush(C.value);
+						SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
 					}
+
+					if (mir_wstrcmp(it->name, L"Background") == 0)
+						hBkgColourBrush = CreateSolidBrush(it->value);
 				}
 
 				if (!hBkgColourBrush)
 					hBkgColourBrush = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
 
-				for (int effectId = 0; effectId < effect_id_list_w2.getCount(); effectId++) {
-					EffectInternal& E = effect_id_list_w2[effectId];
-					if (!wcsncmp(E.group, group_buff, 64)) {
-						if (!sttFsuiBindEffectIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), E.name, effectId)) {
-							FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
-							itemData->effect_id = effectId;
-							itemData->font_id = -1;
-							itemData->colour_id = -1;
+				for (auto &it : effect_id_list_w2) {
+					if (wcsncmp(it->group, group_buff, 64))
+						continue;
 
-							SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
-						}
+					int effectId = effect_id_list_w2.indexOf(&it);
+					if (!sttFsuiBindEffectIdToFonts(GetDlgItem(hwndDlg, IDC_FONTLIST), it->name, effectId)) {
+						FSUIListItemData *itemData = (FSUIListItemData*)mir_alloc(sizeof(FSUIListItemData));
+						itemData->effect_id = effectId;
+						itemData->font_id = -1;
+						itemData->colour_id = -1;
+
+						SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
 					}
 				}
 

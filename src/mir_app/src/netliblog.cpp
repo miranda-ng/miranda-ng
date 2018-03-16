@@ -127,10 +127,10 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
-			for (int i = 0; i < netlibUser.getCount(); i++) {
-				tvis.item.pszText = netlibUser[i]->user.szDescriptiveName.w;
-				tvis.item.lParam = i;
-				tvis.item.state = INDEXTOSTATEIMAGEMASK((netlibUser[i]->toLog) ? 2 : 1);
+			for (auto &it : netlibUser) {
+				tvis.item.pszText = it->user.szDescriptiveName.w;
+				tvis.item.lParam = netlibUser.indexOf(&it);
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(it->toLog ? 2 : 1);
 				TreeView_InsertItem(hwndFilter, &tvis);
 			}
 			tvis.item.lParam = -1;

@@ -190,9 +190,9 @@ LRESULT CJabberInfoFrame::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		{
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			for (int i=0; i < m_pItems.getCount(); i++)
-				if (m_pItems[i].m_onEvent && PtInRect(&m_pItems[i].m_rcItem, pt)) {
-					m_clickedItem = i;
+			for (auto &it : m_pItems)
+				if (it->m_onEvent && PtInRect(&it->m_rcItem, pt)) {
+					m_clickedItem = m_pItems.indexOf(&it);
 					return 0;
 				}
 		}
@@ -339,19 +339,17 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 	int cy_icon = GetSystemMetrics(SM_CYSMICON);
 
 	int cx = rc.right - cx_icon - SZ_FRAMEPADDING;
-	for (int i = m_pItems.getCount(); i--;) {
-		CJabberInfoFrameItem &item = m_pItems[i];
-
-		SetRect(&item.m_rcItem, 0, 0, 0, 0);
-		if (!item.m_bShow) continue;
-		if (!item.m_bCompact) continue;
+	for (auto &it : m_pItems.rev_iter()) {
+		SetRect(&it->m_rcItem, 0, 0, 0, 0);
+		if (!it->m_bShow) continue;
+		if (!it->m_bCompact) continue;
 
 		int depth = 0;
-		for (char *p = item.m_pszName; p = strchr(p+1, '/'); ++depth) ;
+		for (char *p = it->m_pszName; p = strchr(p+1, '/'); ++depth) ;
 
 		if (depth == 0) {
-			if (item.m_hIcolibIcon) {
-				HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
+			if (it->m_hIcolibIcon) {
+				HICON hIcon = IcoLib_GetIconByHandle(it->m_hIcolibIcon);
 				if (hIcon) {
 					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 					IcoLib_ReleaseIcon(hIcon);
@@ -359,19 +357,19 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 			}
 
 			RECT rcText; SetRect(&rcText, cx_icon + SZ_FRAMEPADDING + SZ_ICONSPACING, 0, rc.right - SZ_FRAMEPADDING, rc.bottom);
-			DrawText(hdc, item.m_pszText, -1, &rcText, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS);
+			DrawText(hdc, it->m_pszText, -1, &rcText, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS);
 		}
 		else {
-			if (item.m_hIcolibIcon) {
-				HICON hIcon = IcoLib_GetIconByHandle(item.m_hIcolibIcon);
+			if (it->m_hIcolibIcon) {
+				HICON hIcon = IcoLib_GetIconByHandle(it->m_hIcolibIcon);
 				if (hIcon) {
-					SetRect(&item.m_rcItem, cx, (rc.bottom-cy_icon)/2, cx+cx_icon, (rc.bottom-cy_icon)/2+cy_icon);
+					SetRect(&it->m_rcItem, cx, (rc.bottom-cy_icon)/2, cx+cx_icon, (rc.bottom-cy_icon)/2+cy_icon);
 					DrawIconEx(hdc, cx, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, nullptr, DI_NORMAL);
 					cx -= cx_icon;
 
 					IcoLib_ReleaseIcon(hIcon);
 
-					SetToolTip(item.m_tooltipId, &item.m_rcItem, item.m_pszText);
+					SetToolTip(it->m_tooltipId, &it->m_rcItem, it->m_pszText);
 				}
 			}
 		}

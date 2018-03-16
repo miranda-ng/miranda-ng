@@ -30,9 +30,9 @@ static void SelectAll(HWND hDlg, bool bEnable)
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 
-	for (int i=0; i < todo.getCount(); i++) {
-		ListView_SetCheckState(hwndList, i, bEnable);
-		db_set_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(todo[i].tszOldName)), todo[i].bEnabled = bEnable);
+	for (auto &it : todo) {
+		ListView_SetCheckState(hwndList, todo.indexOf(&it), bEnable);
+		db_set_b(NULL, DB_MODULE_FILES, StrToLower(_T2A(it->tszOldName)), it->bEnabled = bEnable);
 	}
 }
 
@@ -266,23 +266,23 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 
 			bool enableOk = false;
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
-			for (int i = 0; i < todo.getCount(); ++i) {
+			for (auto &it : todo) {
 				LVITEM lvI = {0};
 				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-				lvI.iGroupId = (wcsstr(todo[i].tszOldName, L"Plugins") != nullptr) ? 1 :
-					((wcsstr(todo[i].tszOldName, L"Languages") != nullptr) ? 3 :
-						((wcsstr(todo[i].tszOldName, L"Icons") != nullptr) ? 4 : 2));
+				lvI.iGroupId = (wcsstr(it->tszOldName, L"Plugins") != nullptr) ? 1 :
+					((wcsstr(it->tszOldName, L"Languages") != nullptr) ? 3 :
+						((wcsstr(it->tszOldName, L"Icons") != nullptr) ? 4 : 2));
 				lvI.iSubItem = 0;
-				lvI.lParam = (LPARAM)&todo[i];
-				lvI.pszText = todo[i].tszOldName;
-				lvI.iItem = i;
+				lvI.lParam = (LPARAM)it;
+				lvI.pszText = it->tszOldName;
+				lvI.iItem = todo.indexOf(&it);
 				ListView_InsertItem(hwndList, &lvI);
 
-				ListView_SetCheckState(hwndList, lvI.iItem, todo[i].bEnabled);
-				if (todo[i].bEnabled)
+				ListView_SetCheckState(hwndList, lvI.iItem, it->bEnabled);
+				if (it->bEnabled)
 					enableOk = true;
 
-				SetStringText(hwndList,i,todo[i].bDeleteOnly ? TranslateT("Deprecated!") : TranslateT("Update found!"));
+				SetStringText(hwndList, lvI.iItem, it->bDeleteOnly ? TranslateT("Deprecated!") : TranslateT("Update found!"));
 			}
 			if(enableOk)
 				EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);

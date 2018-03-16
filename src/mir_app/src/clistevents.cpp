@@ -99,7 +99,9 @@ static void ShowOneEventInTray(int idx)
 static void ShowEventsInTray()
 {
 	int nTrayCnt = cli.trayIconCount;
-	if (!g_cliEvents.getCount() || !nTrayCnt)  return;
+	if (!g_cliEvents.getCount() || !nTrayCnt)
+		return;
+
 	if (g_cliEvents.getCount() == 1 || nTrayCnt == 1) {
 		ShowOneEventInTray(0); //for only one icon in tray show topmost event
 		return;
@@ -133,7 +135,7 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	ShowEventsInTray();
 
-	for (int i=0; i < g_cliEvents.getCount(); i++) {
+	for (int i = 0; i < g_cliEvents.getCount(); i++) {
 		auto &e = g_cliEvents[i];
 		int j;
 		for (j = 0; j < i; j++)
@@ -141,7 +143,7 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 				break;
 		if (j >= i)
 			cli.pfnChangeContactIcon(e.hContact, iconsOn || disableIconFlash ? e.imlIconIndex : 0);
-		
+
 		// decrease eflashes in any case - no need to collect all events
 		if (e.flags & CLEF_ONLYAFEW)
 			if (0 >= --e.flashesDone)
@@ -257,7 +259,7 @@ CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 		if (it->hContact == hContact)
 			if (idx-- == 0)
 				return it;
-	
+
 	return nullptr;
 }
 

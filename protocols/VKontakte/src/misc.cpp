@@ -229,9 +229,9 @@ bool CVkProto::IsGroupUser(MCONTACT hContact)
 
 bool CVkProto::CheckMid(LIST<void> &lList, int guid)
 {
-	for (int i = lList.getCount() - 1; i >= 0; i--)
-		if ((INT_PTR)lList[i] == guid) {
-			lList.remove(i);
+	for (auto &it : lList)
+		if ((INT_PTR)it == guid) {
+			lList.remove(lList.indexOf(&it));
 			return true;
 		}
 

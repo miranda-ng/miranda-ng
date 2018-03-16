@@ -33,8 +33,8 @@ static IconItem iconList[] =
 
 void RemoveTopToolbarButtons()
 {
-	for (int i = ttbButtons.getCount() - 1; i >= 0; i--)
-		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)ttbButtons[i], 0);
+	for (auto &it : ttbButtons.rev_iter())
+		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)it, 0);
 	ttbButtons.destroy();
 }
 

@@ -470,9 +470,9 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 		cli.cycleTimerId = 0;
 	}
 
-	for (int i = 0; i < accounts.getCount(); i++)
-		if (!mir_strcmp(szChangedProto, accounts[i]->szModuleName))
-			cli.cycleStep = i;
+	for (auto &it : accounts)
+		if (!mir_strcmp(szChangedProto, it->szModuleName))
+			cli.cycleStep = accounts.indexOf(&it);
 
 	int changed = cli.pfnTrayCalcChanged(szChangedProto, averageMode, netProtoCount);
 	if (changed != -1 && cli.trayIcon[changed].isBase)

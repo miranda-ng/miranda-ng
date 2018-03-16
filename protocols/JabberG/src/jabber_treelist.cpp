@@ -320,8 +320,9 @@ void TreeList_Update(HWND hwnd)
 	if (data->mode == TLM_TREE)
 		TreeList_RecursiveApply(hItem, sttTreeList_CreateItems, (LPARAM)hwnd);
 	else {
-		for (int i = data->hItemSelected->subItems.getCount(); i--;)
-			sttTreeList_CreateItems_List(data->hItemSelected->subItems[i], (LPARAM)hwnd);
+		for (auto &it : data->hItemSelected->subItems)
+			sttTreeList_CreateItems_List(it, (LPARAM)hwnd);
+		
 		for (HTREELISTITEM p = data->hItemSelected; !(p->flags & TLIF_ROOT); p = p->parent)
 			sttTreeList_CreateItems_List(p, (LPARAM)hwnd);
 	}
@@ -504,7 +505,7 @@ static void sttTreeList_ResetIndex(HTREELISTITEM hItem, LPARAM data)
 
 static void sttTreeList_FilterItems(HTREELISTITEM hItem, LPARAM data)
 {
-	int i = 0;
+	int i;
 	for (i=0; i < hItem->text.getCount(); i++)
 		if (JabberStrIStr(hItem->text[i], (wchar_t *)data))
 			break;

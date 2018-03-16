@@ -1067,11 +1067,10 @@ CJabberProto* JabberChooseInstance(bool bIsLink)
 				return it;
 
 	int nItems = 0, lastItemId = 0;
-	for (int i = 0; i < g_Instances.getCount(); i++) {
-		CJabberProto *ppro = g_Instances[i];
+	for (auto &ppro : g_Instances) {
 		if (ppro->m_iStatus != ID_STATUS_OFFLINE && ppro->m_iStatus != ID_STATUS_CONNECTING) {
 			++nItems;
-			lastItemId = i + 1;
+			lastItemId = g_Instances.indexOf(&ppro) + 1;
 			Menu_ModifyItem(ppro->m_hChooseMenuItem, nullptr, Skin_LoadProtoIcon(ppro->m_szModuleName, ppro->m_iStatus));
 		}
 		else Menu_ShowItem(ppro->m_hChooseMenuItem, false);

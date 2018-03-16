@@ -107,12 +107,12 @@ void CCtrlTreeOpts::OnInit()
 	SetImageList(hImgLst, TVSIL_NORMAL);
 
 	/* build options tree. based on code from IcoLib */
-	for (int i = 0; i < m_options.getCount(); i++) {
+	for (auto &it : m_options) {
 		wchar_t *sectionName;
 		int sectionLevel = 0;
 
 		HTREEITEM hSection = nullptr;
-		mir_wstrcpy(itemName, m_options[i]->m_szOptionName);
+		mir_wstrcpy(itemName, it->m_szOptionName);
 		sectionName = itemName;
 
 		while (sectionName) {
@@ -142,18 +142,18 @@ void CCtrlTreeOpts::OnInit()
 						tvis.item.iImage = tvis.item.iSelectedImage = IMG_GRPOPEN;
 					}
 					else {
-						tvis.item.lParam = i;
+						tvis.item.lParam = m_options.indexOf(&it);
 
-						BYTE val = *m_options[i]->m_option;
+						BYTE val = *it->m_option;
 
-						if (m_options[i]->m_groupId == OPTTREE_CHECK)
+						if (it->m_groupId == OPTTREE_CHECK)
 							tvis.item.iImage = tvis.item.iSelectedImage = val ? IMG_CHECK : IMG_NOCHECK;
 						else
 							tvis.item.iImage = tvis.item.iSelectedImage = val ? IMG_RCHECK : IMG_NORCHECK;
 					}
 					hItem = InsertItem(&tvis);
 					if (!sectionName)
-						m_options[i]->m_hItem = hItem;
+						it->m_hItem = hItem;
 				}
 			}
 			sectionLevel++;

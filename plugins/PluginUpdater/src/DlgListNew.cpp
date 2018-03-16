@@ -224,24 +224,22 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			///
 			bool enableOk = false;
 			OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)lParam;
-			for (int i = 0; i < todo.getCount(); i++) {
-				auto &p = todo[i];
-
+			for (auto &p : todo) {
 				LVITEM lvi = { 0 };
 				lvi.mask = LVIF_PARAM | LVIF_GROUPID | LVIF_TEXT | LVIF_IMAGE;
 
 				int groupId = 4;
-				if (wcschr(p.tszOldName, L'\\') != nullptr)
-					groupId = (wcsstr(p.tszOldName, L"Plugins") != nullptr) ? 1 : ((wcsstr(p.tszOldName, L"Languages") != nullptr) ? 3 : 2);
+				if (wcschr(p->tszOldName, L'\\') != nullptr)
+					groupId = (wcsstr(p->tszOldName, L"Plugins") != nullptr) ? 1 : ((wcsstr(p->tszOldName, L"Languages") != nullptr) ? 3 : 2);
 
-				lvi.iItem = i;
-				lvi.lParam = (LPARAM)&todo[i];
+				lvi.iItem = todo.indexOf(&p);
+				lvi.lParam = (LPARAM)p;
 				lvi.iGroupId = groupId;
 				lvi.iImage = ((groupId == 1) ? 0 : -1);
-				lvi.pszText = p.tszOldName;
+				lvi.pszText = p->tszOldName;
 				ListView_InsertItem(hwndList, &lvi);
 
-				if (p.bEnabled) {
+				if (p->bEnabled) {
 					enableOk = true;
 					ListView_SetCheckState(hwndList, lvi.iItem, 1);
 				}
@@ -273,8 +271,8 @@ INT_PTR CALLBACK DlgList(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 						p->bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem);
 
 						bool enableOk = false;
-						for (int i = 0; i < todo.getCount(); ++i) {
-							if (p->bEnabled) {
+						for (auto &it : todo) {
+							if (it->bEnabled) {
 								enableOk = true;
 								break;
 							}
@@ -396,14 +394,12 @@ static void GetList(void *)
 	FILELIST *UpdateFiles = new FILELIST(20);
 	VARSW dirname(L"%miranda_path%");
 
-	for (int i = 0; i < hashes.getCount(); i++) {
-		ServListEntry &hash = hashes[i];
-
+	for (auto &it : hashes) {
 		wchar_t tszPath[MAX_PATH];
-		mir_snwprintf(tszPath, L"%s\\%s", dirname, hash.m_name);
+		mir_snwprintf(tszPath, L"%s\\%s", dirname, it->m_name);
 
 		if (GetFileAttributes(tszPath) == INVALID_FILE_ATTRIBUTES) {
-			FILEINFO *FileInfo = ServerEntryToFileInfo(hash, baseUrl, tszPath);
+			FILEINFO *FileInfo = ServerEntryToFileInfo(*it, baseUrl, tszPath);
 			UpdateFiles->insert(FileInfo);
 		}
 	}

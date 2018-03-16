@@ -25,11 +25,11 @@ LIST<TopButtonInt> Buttons(8, sortfunc);
 
 TopButtonInt *idtopos(int id, int *pPos)
 {
-	for (int i = 0; i < Buttons.getCount(); i++)
-		if (Buttons[i]->id == id) {
+	for (auto &it : Buttons)
+		if (it->id == id) {
 			if (pPos)
-				*pPos = i;
-			return Buttons[i];
+				*pPos = Buttons.indexOf(&it);
+			return it;
 		}
 
 	if (pPos)

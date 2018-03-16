@@ -404,12 +404,8 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 	SortArray();
 
 	SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_RESETCONTENT, 0, 0);
-	for (int loop = 0; loop < contacts.getCount(); loop++) {
-		SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETITEMDATA,
-			(WPARAM)SendDlgItemMessage(hwndDlg, IDC_USERNAME,
-				CB_ADDSTRING, 0, (LPARAM)GetListName(contacts[loop])),
-				(LPARAM)loop);
-	}
+	for (int loop = 0; loop < contacts.getCount(); loop++)
+		SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_USERNAME, CB_ADDSTRING, 0, (LPARAM)GetListName(contacts[loop])), loop);
 }
 
 
@@ -511,9 +507,9 @@ MCONTACT GetSelectedContact(HWND hwndDlg)
 // get array position from handle
 int GetItemPos(MCONTACT hcontact)
 {
-	for (int loop = 0; loop < contacts.getCount(); loop++)
-		if (hcontact == contacts[loop]->hcontact)
-			return loop;
+	for (auto &it : contacts)
+		if (hcontact == it->hcontact)
+			return contacts.indexOf(&it);
 
 	return -1;
 }

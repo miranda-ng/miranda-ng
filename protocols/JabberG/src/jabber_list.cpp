@@ -362,13 +362,11 @@ pResourceStatus JABBER_LIST_ITEM::getBestResource() const
 		return m_pManualResource;
 
 	int nBestPos = -1, nBestPri = -200;
-	for (int i = 0; i < arResources.getCount(); i++) {
-		JABBER_RESOURCE_STATUS *r = arResources[i];
+	for (auto &r : arResources)
 		if (r->m_iPriority > nBestPri) {
 			nBestPri = r->m_iPriority;
-			nBestPos = i;
+			nBestPos = arResources.indexOf(&r);
 		}
-	}
 
 	return (nBestPos != -1) ? arResources[nBestPos] : nullptr;
 }

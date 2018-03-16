@@ -426,10 +426,9 @@ LBL_NewLine:
 				ESFDParam param = { &arSettings, szName };
 				db_enum_settings(0, EnumSettingsForDeletion, szSection, &param);
 				
-				while (arSettings.getCount()) {
-					db_unset(0, szSection, arSettings[0]);
-					mir_free(arSettings[0]);
-					arSettings.remove(0);
+				for (auto &it : arSettings) {
+					db_unset(0, szSection, it);
+					mir_free(it);
 				}
 			}
 			db_unset(0, szSection, szName);

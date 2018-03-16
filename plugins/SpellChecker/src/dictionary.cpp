@@ -836,9 +836,11 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, w
 
 			// Check if dict is new
 			bool exists = false;
-			for (int i = 0; i < dicts.getCount() && !exists; i++)
-				if (mir_wstrcmp(dicts[i]->language, lang) == 0)
+			for (auto &it : dicts)
+				if (mir_wstrcmp(it->language, lang) == 0) {
 					exists = true;
+					break;
+				}
 
 			if (!exists) {
 				found = TRUE;

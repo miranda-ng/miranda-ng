@@ -502,8 +502,8 @@ class CSSAdvancedOptDlg : public CDlgBase
 	{
 		// creates profile combo box according to 'dat'
 		cmbProfile.ResetContent();
-		for (int i = 0; i < arProfiles.getCount(); i++) 
-			cmbProfile.AddString(arProfiles[i].tszName, i);
+		for (auto &it : arProfiles) 
+			cmbProfile.AddString(it->tszName, arProfiles.indexOf(&it));
 
 		cmbProfile.SetCurSel(0);
 		SetProfile();
@@ -695,24 +695,23 @@ public:
 			}
 		}
 
-		for (int i = 0; i < arProfiles.getCount(); i++) {
-			PROFILEOPTIONS& po = arProfiles[i];
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), po.showDialog);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_CREATETTBBUTTON), po.createTtb);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), po.createMmi);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_INSUBMENU), po.inSubMenu);
-			db_set_b(0, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), po.regHotkey);
-			db_set_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), po.hotKey);
-			db_set_ws(0, SSMODULENAME, OptName(i, SETTING_PROFILENAME), po.tszName);
+		for (auto &it : arProfiles) {
+			int i = arProfiles.indexOf(&it);
+			db_set_b(0, SSMODULENAME, OptName(i, SETTING_SHOWCONFIRMDIALOG), it->showDialog);
+			db_set_b(0, SSMODULENAME, OptName(i, SETTING_CREATETTBBUTTON), it->createTtb);
+			db_set_b(0, SSMODULENAME, OptName(i, SETTING_CREATEMMITEM), it->createMmi);
+			db_set_b(0, SSMODULENAME, OptName(i, SETTING_INSUBMENU), it->inSubMenu);
+			db_set_b(0, SSMODULENAME, OptName(i, SETTING_REGHOTKEY), it->regHotkey);
+			db_set_w(0, SSMODULENAME, OptName(i, SETTING_HOTKEY), it->hotKey);
+			db_set_ws(0, SSMODULENAME, OptName(i, SETTING_PROFILENAME), it->tszName);
 
-			TProtoSettings &ar = po.ps;
-			for (int j = 0; j < ar.getCount(); j++) {
-				if (ar[j].m_szMsg != nullptr) {
+			for (auto jt : it->ps) {
+				if (jt->m_szMsg != nullptr) {
 					char setting[128];
-					mir_snprintf(setting, "%s_%s", ar[j].m_szName, SETTING_PROFILE_STSMSG);
-					db_set_ws(0, SSMODULENAME, OptName(i, setting), ar[j].m_szMsg);
+					mir_snprintf(setting, "%s_%s", jt->m_szName, SETTING_PROFILE_STSMSG);
+					db_set_ws(0, SSMODULENAME, OptName(i, setting), jt->m_szMsg);
 				}
-				db_set_w(0, SSMODULENAME, OptName(i, ar[j].m_szName), ar[j].m_status);
+				db_set_w(0, SSMODULENAME, OptName(i, jt->m_szName), jt->m_status);
 			}
 		}
 		db_set_w(0, SSMODULENAME, SETTING_PROFILECOUNT, (WORD)arProfiles.getCount());

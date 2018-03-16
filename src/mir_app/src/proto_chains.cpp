@@ -170,9 +170,9 @@ MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *szProto)
 		if (!_stricmp(szProto, szContactProto))
 			return -1;
 
-	for (int i = 0; i < filters.getCount(); i++)
-		if (!mir_strcmp(szProto, filters[i]->szName))
-			return i + 1;
+	for (auto &it : filters)
+		if (!mir_strcmp(szProto, it->szName))
+			return filters.indexOf(&it) + 1;
 
 	return 0;
 }

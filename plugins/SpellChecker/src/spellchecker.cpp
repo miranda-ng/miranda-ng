@@ -144,12 +144,11 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		sid.section.w = LPGENW("Spell Checker") L"/" LPGENW("Flags");
 
 		// Get language flags
-		for (int i = 0; i < languages.getCount(); i++) {
-			auto *p = languages[i];
+		for (auto &p : languages) {
 			sid.description.w = p->full_name;
 
 			char lang[32];
-			mir_snprintf(lang, "spell_lang_%d", i);
+			mir_snprintf(lang, "spell_lang_%d", languages.indexOf(&p));
 			sid.pszName = lang;
 
 			HICON hFlag = nullptr, hFlagIcoLib = nullptr;

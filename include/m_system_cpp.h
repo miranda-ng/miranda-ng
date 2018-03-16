@@ -233,6 +233,7 @@ template<class T> struct LIST
 	__inline int  insert(T *p)          { return List_InsertPtr((SortedList*)this, p); }
 	__inline int  remove(T *p)          { return List_RemovePtr((SortedList*)this, p); }
 
+	__inline int  indexOf(T **p) const  { return int(p - items); }
 	__inline T* removeItem(T **p)
 	{
 		T *savePtr = *p;

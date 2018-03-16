@@ -315,19 +315,19 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
 	// Find the event that should be removed
-	int i;
-	for (i = 0; i < pcli->events->getCount(); i++) {
-		CListEvent &e = (*pcli->events)[i];
-		if (e.hContact == hContact && e.hDbEvent == hDbEvent)
+	CListEvent *e = nullptr;
+	for (auto &it : *pcli->events)
+		if (it->hContact == hContact && it->hDbEvent == hDbEvent) {
+			e = it;
 			break;
-	}
+		}
 
 	// Event was not found
-	if (i == pcli->events->getCount())
+	if (e == nullptr)
 		return 1;
 
 	// remove event from the notify menu
-	int iMenuId = (*pcli->events)[i].menuId;
+	int iMenuId = e->menuId;
 	if (iMenuId > 0) {
 		MENUITEMINFO mii = { 0 };
 		mii.cbSize = sizeof(mii);

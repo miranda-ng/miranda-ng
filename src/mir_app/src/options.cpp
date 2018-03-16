@@ -582,7 +582,9 @@ class COptionsDlg : public CDlgBase
 			else {
 				tvi.hItem = FindNamedTreeItem(nullptr, useTitle);
 				if (tvi.hItem != nullptr) {
-					if (i == m_currentPage) m_hCurrentPage = tvi.hItem;
+					if (i == m_currentPage)
+						m_hCurrentPage = tvi.hItem;
+					
 					tvi.mask = TVIF_PARAM;
 					m_pageTree.GetItem(&tvi);
 					if (tvi.lParam == -1) {
@@ -754,17 +756,16 @@ public:
 		else
 			lastTab = mir_wstrdup(m_szTab);
 
-		for (int i = 0; i < m_pages.getCount(); i++) {
-			const OPTIONSDIALOGPAGE &odp = m_pages[i];
-			OptionsPageData *opd = new OptionsPageData(odp);
+		for (auto &it : m_pages) {
+			OptionsPageData *opd = new OptionsPageData(*it);
 			if (opd->pDialog == nullptr) // smth went wrong
 				delete opd;
 			else
 				m_arOpd.insert(opd);
 
-			if (!mir_wstrcmp(lastPage, odp.szTitle.w) && !mir_wstrcmp(lastGroup, odp.szGroup.w))
-				if ((m_szTab == nullptr && m_currentPage == -1) || !mir_wstrcmp(lastTab, odp.szTab.w))
-					m_currentPage = i;
+			if (!mir_wstrcmp(lastPage, it->szTitle.w) && !mir_wstrcmp(lastGroup, it->szGroup.w))
+				if ((m_szTab == nullptr && m_currentPage == -1) || !mir_wstrcmp(lastTab, it->szTab.w))
+					m_currentPage = m_pages.indexOf(&it);
 		}
 
 		GetWindowRect(GetDlgItem(m_hwnd, IDC_STNOPAGE), &m_rcDisplay);
@@ -839,8 +840,7 @@ public:
 
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
-		for (int i = 0; i < m_arOpd.getCount(); i++) {
-			OptionsPageData *p = m_arOpd[i];
+		for (auto &p : m_arOpd) {
 			if (p->getHwnd() == nullptr || !p->changed)
 				continue;
 
@@ -852,7 +852,7 @@ public:
 				m_pageTree.SelectItem(m_hCurrentPage);
 				if (opd)
 					opd->pDialog->Hide();
-				m_currentPage = i;
+				m_currentPage = m_arOpd.indexOf(&p);
 				if (opd)
 					opd->pDialog->Show();
 				return;
