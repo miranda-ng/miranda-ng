@@ -422,7 +422,7 @@ public:
 
 			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
 			{
-				for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+				for (auto &hContact : m_proto->acc_contact_iter()) {
 					ptrW jid( m_proto->getWStringA(hContact, "jid"));
 					if (jid != nullptr)
 						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, jid);
@@ -1304,7 +1304,7 @@ void CJabberDlgPrivacyLists::CListResetOptions(HWND)
 
 void CJabberDlgPrivacyLists::CListFilter(HWND)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		char *proto = GetContactProto(hContact);
 		if (!proto || mir_strcmp(proto, m_proto->m_szModuleName))
 			if (HANDLE hItem = m_clcClist.FindContact(hContact))
@@ -1361,7 +1361,7 @@ void CJabberDlgPrivacyLists::CListApplyList(HWND hwndList, CPrivacyList *pList)
 			CListResetIcons(hwndList, hItem, bHideIcons);
 	}
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		HANDLE hItem = m_clcClist.FindContact(hContact);
 		if (hItem)
 			CListResetIcons(hwndList, hItem, bHideIcons);
@@ -1459,7 +1459,7 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 			pList->AddRule(Jid, szJid, FALSE, dwOrder++, dwPackets);
 	}
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		hItem = m_clcClist.FindContact(hContact);
 
 		ptrW jid( m_proto->getWStringA(hContact, "jid"));

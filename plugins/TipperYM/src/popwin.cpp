@@ -1470,7 +1470,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (dwItems & TRAYTIP_NUMCONTACTS) {
 				int iCount = 0, iCountOnline = 0;
-				for (MCONTACT hContact = db_find_first(pa->szModuleName); hContact; hContact = db_find_next(hContact, pa->szModuleName)) {
+				for (auto &hContact : contact_iter(pa->szModuleName)) {
 					if (db_get_w(hContact, pa->szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 						iCountOnline++;
 					iCount++;
@@ -1588,7 +1588,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				bool bTitlePainted = false;
 				int iCount = 0, iCountOnline = 0;
 
-				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (auto &hContact : contact_iter()) {
 					if (db_get_b(hContact, MODULE, "FavouriteContact", 0)) {
 						char *proto = GetContactProto(hContact);
 						if (proto == nullptr)

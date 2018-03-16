@@ -858,9 +858,7 @@ void CIcqProto::LoadServerIDs()
 
 	nGroups = nServerIDListCount - nStart;
 
-	MCONTACT hContact = db_find_first(m_szModuleName);
-
-	while (hContact) { // search all our contacts, reserve their server IDs
+	for (auto &hContact : acc_contact_iter()) {
 		if (wSrvID = getWord(hContact, DBSETTING_SERVLIST_ID, 0)) {
 			ReserveServerID(wSrvID, SSIT_ITEM, 0);
 			nContacts++;
@@ -877,8 +875,6 @@ void CIcqProto::LoadServerIDs()
 			ReserveServerID(wSrvID, SSIT_ITEM, 0);
 			nIgnores++;
 		}
-
-		hContact = db_find_next(hContact, m_szModuleName);
 	}
 	l.unlock();
 
@@ -1201,9 +1197,7 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 	MCONTACT hContact;
 	WORD wItemID;
 
-	hContact = db_find_first(m_szModuleName);
-
-	while (hContact) { // search all contacts
+	for (auto &hContact : acc_contact_iter()) {
 		if (wGroupID == getWord(hContact, DBSETTING_SERVLIST_GROUP, 0)) { // add only buddys from specified group
 			wItemID = getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 
@@ -1214,8 +1208,6 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 				if (!count) break;
 			}
 		}
-
-		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	if (count)
@@ -1231,8 +1223,7 @@ void* CIcqProto::collectGroups(int *count)
 	int i;
 	WORD wGroupID;
 
-	MCONTACT hContact = db_find_first(m_szModuleName);
-	while (hContact) { // search all contacts
+	for (auto &hContact : acc_contact_iter()) {
 		if (wGroupID = getWord(hContact, DBSETTING_SERVLIST_GROUP, 0)) { // add only valid IDs
 			for (i = 0; i < cnt; i++) // check for already added ids
 				if (buf[i] == wGroupID)
@@ -1244,8 +1235,6 @@ void* CIcqProto::collectGroups(int *count)
 				buf[i] = wGroupID;
 			}
 		}
-
-		hContact = db_find_next(hContact, m_szModuleName);
 	}
 
 	*count = cnt << 1;

@@ -704,7 +704,7 @@ int LoadBirthdays(HWND hWnd, int bShowAll)
 	ListView_DeleteAllItems(hList);
 
 	int count = 0;
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		count = UpdateBirthdayEntry(hList, hContact, count, bShowAll, commonData.cShowAgeMode, 1);
 
 	SetBirthdaysCount(hWnd);

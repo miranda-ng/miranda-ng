@@ -151,7 +151,7 @@ wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		char *m_szProto = GetContactProto(hContact);
 		wchar_t *szHandle = GetContactID(hContact, szProto);
 		if (szHandle) {

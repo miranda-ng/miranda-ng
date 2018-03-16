@@ -301,7 +301,7 @@ void SetAllContactsIcons(HWND hwndList)
 {
 	BYTE EnableSounds, EnablePopups, EnableXStatus, EnableXLogging, EnableStatusMsg, EnableSMsgLogging;
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			char *szProto = GetContactProto(hContact);
@@ -542,7 +542,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (auto &hContact : contact_iter()) {
 					HANDLE hItem = (HANDLE)SendMessage(hList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) {
 						if (GetExtraImage(hList, hItem, EXTRA_IMAGE_SOUND) == EXTRA_IMAGE_SOUND)

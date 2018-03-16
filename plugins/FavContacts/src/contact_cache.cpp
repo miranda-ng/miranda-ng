@@ -80,7 +80,7 @@ void CContactCache::Rebuild()
 	unsigned long timestamp = time(nullptr);
 	m_lastUpdate = time(nullptr);
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		TContactInfo *info = new TContactInfo;
 		info->hContact = hContact;
 		info->rate = 0;

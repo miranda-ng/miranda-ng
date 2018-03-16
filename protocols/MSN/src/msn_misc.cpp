@@ -674,11 +674,8 @@ void CMsnProto::MSN_FetchRecentMessages(time_t since)
 		/* Assuming that you want all messages that were sent after the last
 		 * user conversation according to DB 
 		 */
-		MCONTACT hContact;
 		MEVENT hDbEvent;
-		for (hContact = db_find_first(m_szModuleName); hContact; 
-			 hContact = db_find_next(hContact, m_szModuleName)) 
-		{
+		for (auto &hContact : acc_contact_iter()) {
 			if (!(hDbEvent = db_event_last(hContact)))
 				continue;
 

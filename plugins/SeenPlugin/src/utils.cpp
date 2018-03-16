@@ -654,7 +654,7 @@ static void cleanThread(void *param)
 
 	// I hope in 10 secons all logged-in contacts will be listed
 	if (WaitForSingleObject(g_hShutdownEvent, 10000) == WAIT_TIMEOUT) {
-		for (MCONTACT hContact = db_find_first(szProto); hContact; hContact = db_find_next(hContact, szProto)) {
+		for (auto &hContact : contact_iter(szProto)) {
 			WORD oldStatus = db_get_w(hContact, S_MOD, "StatusTriger", ID_STATUS_OFFLINE) | 0x8000;
 			if (oldStatus > ID_STATUS_OFFLINE) {
 				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {

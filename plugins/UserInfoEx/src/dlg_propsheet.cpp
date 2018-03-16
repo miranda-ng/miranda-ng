@@ -543,7 +543,6 @@ void DlgContactInfoInitTreeIcons()
 	if (!(bInitIcons & INIT_ICONS_ALL)) {
 		CPsHdr psh;
 		POINT metrics = {0};
-		int i = 0;
 
 		psh._dwFlags = PSTVF_INITICONS;
 
@@ -566,7 +565,7 @@ void DlgContactInfoInitTreeIcons()
 			PROTOACCOUNT **pd;
 			int ProtoCount = 0;
 			Proto_EnumAccounts(&ProtoCount, &pd);
-			for (i = 0; i < ProtoCount; i++) {
+			for (int i = 0; i < ProtoCount; i++) {
 				// enumerate all contacts
 				for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact)) {
 					// compare contact's protocol to the current one, to add

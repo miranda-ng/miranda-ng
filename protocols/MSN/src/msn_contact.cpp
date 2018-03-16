@@ -53,11 +53,7 @@ MCONTACT CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick,
 
 MCONTACT CMsnProto::MSN_HContactFromChatID(const char* wlid)
 {
-	MCONTACT hContact = NULL;
-
-	for (hContact = db_find_first(m_szModuleName); hContact; 
-			hContact = db_find_next(hContact, m_szModuleName)) 
-	{
+	for (auto &hContact : acc_contact_iter()) {
 		if (isChatRoom(hContact) != 0) {
 			DBVARIANT dbv;
 			if (getString(hContact, "ChatRoomID", &dbv) == 0) {

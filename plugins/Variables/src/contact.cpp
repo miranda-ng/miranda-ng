@@ -197,7 +197,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 	MCONTACT hContact;
 	LIST<void> arResults(1);
 
-	for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		// <_HANDLE_:hContact>
 		tmp.Format(L"<%s:%d>", _A2W(PROTOID_HANDLE), hContact);
 		bool bMatch = (tmp == tszContact);

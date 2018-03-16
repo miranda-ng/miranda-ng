@@ -39,7 +39,7 @@ CExportFeed::CExportFeed()
 void CExportFeed::OnInitDialog()
 {
 	Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULE, "ExportDlg");
-	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (auto &hContact : contact_iter(MODULE)) {
 		wchar_t *message = db_get_wsa(hContact, MODULE, "Nick");
 		if (message != nullptr) {
 			m_feedslist.AddString(message);
@@ -692,7 +692,7 @@ void CFeedEditor::OnInitDialog()
 		m_list->GetItemText(m_iItem, 0, SelNick, _countof(SelNick));
 		m_list->GetItemText(m_iItem, 1, SelUrl, _countof(SelNick));
 
-		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		for (auto &hContact : contact_iter(MODULE)) {
 			ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
 			if ((dbNick == NULL) || (mir_wstrcmp(dbNick, SelNick) != 0))
 				continue;
@@ -874,7 +874,7 @@ void CFeedEditor::OnUseAuth(CCtrlBase*)
 
 void COptionsMain::UpdateList()
 {
-	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (auto &hContact : contact_iter(MODULE)) {
 		UpdateListFlag = TRUE;
 		wchar_t *ptszNick = db_get_wsa(hContact, MODULE, "Nick");
 		if (ptszNick) {
@@ -928,7 +928,7 @@ void COptionsMain::OnInitDialog()
 
 void COptionsMain::OnApply()
 {
-	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (auto &hContact : contact_iter(MODULE)) {
 		ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
 		for (int i = 0; i < m_feeds.GetItemCount(); i++) {
 			wchar_t nick[MAX_PATH];
@@ -998,7 +998,7 @@ void COptionsMain::OnDeleteButtonClick(CCtrlBase*)
 		m_feeds.GetItemText(isel, 0, nick, _countof(nick));
 		m_feeds.GetItemText(isel, 1, url, _countof(url));
 
-		for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+		for (auto &hContact : contact_iter(MODULE)) {
 			ptrW dbNick(db_get_wsa(hContact, MODULE, "Nick"));
 			if (dbNick == NULL)
 				break;

@@ -40,7 +40,7 @@ public:
 
 	void OnApply() override
 	{
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (auto &hContact : contact_iter())
 			onExtraImageApplying((WPARAM)hContact, 0);
 	}
 

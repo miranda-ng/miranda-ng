@@ -248,7 +248,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	DWORD hitFlags;
 	int hit;
 
-	ClcData *dat = (ClcData *) GetWindowLongPtr(hwnd, 0);
+	ClcData *dat = (ClcData *)GetWindowLongPtr(hwnd, 0);
 	if (uMsg >= CLM_FIRST && uMsg < CLM_LAST)
 		return cli.pfnProcessExternalMessages(hwnd, dat, uMsg, wParam, lParam);
 
@@ -406,7 +406,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 					int eq;
 					if (dbcws->value.type == DBVT_ASCIIZ)
-						eq = !mir_wstrcmp(szFullName, _A2T(dbcws->value.pszVal+1));
+						eq = !mir_wstrcmp(szFullName, _A2T(dbcws->value.pszVal + 1));
 					else
 						eq = !mir_wstrcmp(szFullName, ptrW(mir_utf8decodeW(dbcws->value.pszVal + 1)));
 
@@ -722,7 +722,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				if (!dat->bFilterSearch)
 					dat->szQuickSearch[0] = 0;
 				hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
-				if (hit == -1) 
+				if (hit == -1)
 					return 0;
 
 				if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
@@ -1043,7 +1043,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			case DROPTARGET_OUTSIDE:
 				if (pt.x >= 0 && pt.x < clRect.right
 					&& ((pt.y < 0 && pt.y > -dat->dragAutoScrollHeight)
-					|| (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
+						|| (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
 					if (!dat->dragAutoScrolling) {
 						if (pt.y < 0)
 							dat->dragAutoScrolling = -1;
@@ -1172,7 +1172,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		cli.pfnInvalidateRect(hwnd, nullptr, FALSE);
 		if (dat->selection != -1)
 			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-		
+
 		if (hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)) {
 			UpdateWindow(hwnd);
 			cli.pfnDoSelectionDefaultAction(hwnd, dat);
@@ -1236,7 +1236,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 		hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
 		if (hit == -1)
 			break;
-		
+
 		if (contact->type == CLCIT_CONTACT)
 			if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, contact->hContact))
 				break;

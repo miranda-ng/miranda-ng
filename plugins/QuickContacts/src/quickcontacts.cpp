@@ -328,7 +328,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 	// item data of listbox-strings is the array position
 	FreeContacts();
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		char *pszProto = GetContactProto(hContact);
 		if (pszProto == nullptr)
 			continue;

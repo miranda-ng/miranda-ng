@@ -431,7 +431,7 @@ MCONTACT GetContactByNick(const wchar_t *nick)
 {
 	MCONTACT hContact = NULL;
 
-	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (auto &hContact : contact_iter(MODULE)) {
 		ptrW contactNick(::db_get_wsa(hContact, MODULE, "Nick"));
 		if (!mir_wstrcmpi(contactNick, nick))
 			break;
@@ -443,7 +443,7 @@ MCONTACT GetContactByURL(const wchar_t *url)
 {
 	MCONTACT hContact = NULL;
 
-	for (hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (auto &hContact : contact_iter(MODULE)) {
 		ptrW contactURL(::db_get_wsa(hContact, MODULE, "URL"));
 		if (!mir_wstrcmpi(contactURL, url))
 			break;

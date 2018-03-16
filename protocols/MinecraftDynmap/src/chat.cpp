@@ -189,7 +189,7 @@ MCONTACT MinecraftDynmapProto::GetChatHandle()
 	/*if (chatHandle_ != NULL)
 		return chatHandle_;
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0) {
 			ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomId");
 			if (id != NULL && !strcmp(id, m_szModuleName))

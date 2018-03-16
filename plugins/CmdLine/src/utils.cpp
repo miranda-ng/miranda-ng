@@ -171,7 +171,7 @@ MCONTACT GetContactFromID(wchar_t *szID, char *szProto)
 	char cProtocol[256];
 
 	int found = 0;
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
 		ptrW szHandle(GetContactID(hContact, cProtocol));
 

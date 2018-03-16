@@ -160,7 +160,7 @@ int fixResidentSettings()
 	fixing = 1;
 	int cnt = 0;
 
-	for (MCONTACT hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		for (ModSetLinkLinkItem *module = ModuleList.first; module; module = module->next) {
 			if (IsModuleEmpty(hContact, module->name))
 				continue;

@@ -787,7 +787,7 @@ void UpdateFileToColWidth()
 {
 	clFileTo1ColWidth.clear();
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		tstring sNick = pcli->pfnGetContactDisplayName(hContact, 0);
 		string::size_type &rnValue = clFileTo1ColWidth[GetFilePathFromUser(hContact)];
 		if (rnValue < sNick.size())
@@ -1395,7 +1395,7 @@ int nContactDeleted(WPARAM wparam, LPARAM /*lparam*/)
 	tstring sFilePath = GetFilePathFromUser(hContact);
 
 	// Test if there is another user using this file
-	for (MCONTACT hOtherContact = db_find_first(); hOtherContact; hOtherContact = db_find_next(hOtherContact))
+	for (auto &hOtherContact : contact_iter())
 		if (hContact != hOtherContact && sFilePath == GetFilePathFromUser(hOtherContact))
 			return 0; // we found another contact abort mission :-)
 

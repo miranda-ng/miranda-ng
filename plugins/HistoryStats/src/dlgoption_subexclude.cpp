@@ -169,8 +169,7 @@ void DlgOption::SubExclude::saveSettings()
 
 		db.setModule(con::ModHistoryStats);
 
-		MCONTACT hContact = db_find_first();
-		while (hContact) {
+		for (auto &hContact : contact_iter()) {
 			HANDLE hItem = reinterpret_cast<HANDLE>(SendMessage(hCList, CLM_FINDCONTACT, hContact, 0));
 			if (hItem) {
 				db.setContact(hContact);
@@ -183,8 +182,6 @@ void DlgOption::SubExclude::saveSettings()
 				else if (!bExcludeOld && iImage == 1)
 					db.writeBool(con::SettExclude, true);
 			}
-
-			hContact = db_find_next(hContact);
 		}
 
 		// reset dirty flag
@@ -243,8 +240,7 @@ void DlgOption::SubExclude::updateAllContacts(HWND hCList)
 
 	db.setModule(con::ModHistoryStats);
 
-	MCONTACT hContact = db_find_first();
-	while (hContact) {
+	for (auto &hContact : contact_iter()) {
 		HANDLE hItem = reinterpret_cast<HANDLE>(SendMessage(hCList, CLM_FINDCONTACT, hContact, 0));
 		if (hItem) {
 			db.setContact(hContact);
@@ -252,8 +248,6 @@ void DlgOption::SubExclude::updateAllContacts(HWND hCList)
 			if (SendMessage(hCList, CLM_GETEXTRAIMAGE, reinterpret_cast<WPARAM>(hItem), MAKELPARAM(0, 0)) == 0xFF)
 				SendMessage(hCList, CLM_SETEXTRAIMAGE, reinterpret_cast<WPARAM>(hItem), MAKELPARAM(0, db.settingExists(con::SettExclude) ? 1 : 0));
 		}
-
-		hContact = db_find_next(hContact);
 	}
 }
 

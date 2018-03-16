@@ -461,7 +461,7 @@ public:
 		if (hItemUnknown && g_dat.bTypingUnknown)
 			clist.SetCheck(hItemUnknown, 1);
 
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			HANDLE hItem = clist.FindContact(hContact);
 			if (hItem && db_get_b(hContact, SRMMMOD, SRMSGSET_TYPING, defType))
 				clist.SetCheck(hItem, 1);
@@ -476,7 +476,7 @@ public:
 		if (hItemUnknown)
 			g_dat.bTypingUnknown = clist.GetCheck(hItemUnknown);
 
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			HANDLE hItem = clist.FindContact(hContact);
 			if (hItem)
 				db_set_b(hContact, SRMMMOD, SRMSGSET_TYPING, clist.GetCheck(hItem));

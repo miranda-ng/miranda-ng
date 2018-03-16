@@ -109,7 +109,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	InitClistExtraIcon();
 	
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		IconsUpdate(hContact);
 
 	return 0;

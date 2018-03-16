@@ -38,7 +38,7 @@ static int GetContactStatus(MCONTACT hContact)
 void fnLoadContactTree(void)
 {
 	int hideOffline = db_get_b(0, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		int status = GetContactStatus(hContact);
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
 			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact));

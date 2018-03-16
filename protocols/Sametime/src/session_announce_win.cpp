@@ -40,7 +40,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 				lvI.iItem = 0;
 				lvI.iSubItem = 0;
 
-				for (MCONTACT hContact = db_find_first(proto->m_szModuleName); hContact; hContact = db_find_next(hContact, proto->m_szModuleName)) {
+				for (auto &hContact : proto->acc_contact_iter()) {
 					if (db_get_b(hContact, proto->m_szModuleName, "ChatRoom", 0) == 0
 						&& db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 						lvI.lParam = (LPARAM)hContact;

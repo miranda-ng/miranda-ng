@@ -36,7 +36,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 	else
 		mir_wstrncpy(tszRoot, VARSW(L"%miranda_userdata%\\Avatars\\" _A2W(DEFAULT_AVATARS_FOLDER)), _countof(tszRoot));
 
-	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (auto &hContact : contact_iter(MODULE)) {
 		if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 			db_set_dw(hContact, MODULE, "LastCheck", time(nullptr));
 		db_set_w(hContact, MODULE, "Status", ID_STATUS_ONLINE);
@@ -98,7 +98,7 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 		if(nStatus != g_nStatus) {
 			g_nStatus = nStatus;
 
-			for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE))
+			for (auto &hContact : contact_iter(MODULE))
 				db_set_w(hContact, MODULE, "Status", nStatus);
 
 			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
@@ -133,7 +133,7 @@ INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)
 
 INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 {
-	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
+	for (auto &hContact : contact_iter(MODULE)) {
 		if (lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
 		else if (!lParam)

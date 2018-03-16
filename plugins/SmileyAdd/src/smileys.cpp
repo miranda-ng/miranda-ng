@@ -748,7 +748,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 {
 	CMStringW tname(_A2T(acc->szModuleName));
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		char *proto = GetContactProto(hContact);
 		if (proto == nullptr)
 			continue;
@@ -841,7 +841,7 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 	for (int i = 0; i < protoCount; i++)
 		AddAccountAsCategory(accList[i], defaultFile);
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		AddContactTransportAsCategory(hContact, defaultFile);
 
 	CMStringW cats;

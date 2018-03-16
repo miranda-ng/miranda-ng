@@ -50,7 +50,7 @@ void FacebookProto::ProcessFriendList(void*)
 		ParseFriends(&resp.data, &friends, loadAllContacts);
 
 		// Check and update old contacts
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (auto &hContact : acc_contact_iter()) {
 			if (isChatRoom(hContact))
 				continue;
 

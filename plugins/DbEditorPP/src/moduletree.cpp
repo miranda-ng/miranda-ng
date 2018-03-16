@@ -46,9 +46,9 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 	char szProto[FLD_SIZE];
 	wchar_t name[NAME_SIZE];
 
-	for (MCONTACT hContact = db_find_first(); hContact && hwnd2mainWindow; hContact = db_find_next(hContact)) {
-		
-		if (ApplyProtoFilter(hContact)) continue;
+	for (auto &hContact : contact_iter()) {
+		if (ApplyProtoFilter(hContact))
+			continue;
 
 		// add the contact
 		lParam = (ModuleTreeInfoStruct *)mir_calloc(sizeof(ModuleTreeInfoStruct));

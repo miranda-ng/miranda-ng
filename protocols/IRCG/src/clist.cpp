@@ -140,7 +140,7 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 
 	DisconnectAllDCCSessions(false);
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (isChatRoom(hContact))
 			continue;
 
@@ -168,7 +168,7 @@ MCONTACT CIrcProto::CList_FindContact(CONTACT *user)
 	wchar_t* lowercasename = mir_wstrdup(user->name);
 	CharLower(lowercasename);
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (isChatRoom(hContact))
 			continue;
 

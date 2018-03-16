@@ -31,7 +31,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			mir_snwprintf(msg, TranslateT("Copy module \"%s\""), _A2T(mac->module));
 			SetWindowText(hwnd, msg);
 
-			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (auto &hContact : contact_iter()) {
 				if (ApplyProtoFilter(hContact))
 					continue;
 
@@ -61,7 +61,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 			else {
 				SetCursor(LoadCursor(nullptr, IDC_WAIT));
-				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+				for (auto &hContact : contact_iter())
 					copyModule(mac->module, mac->hContact, hContact);
 
 				SetCursor(LoadCursor(nullptr, IDC_ARROW));

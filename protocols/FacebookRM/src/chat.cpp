@@ -500,7 +500,7 @@ void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
 
 void FacebookProto::JoinChatrooms()
 {
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (!isChatRoom(hContact))
 			continue;
 

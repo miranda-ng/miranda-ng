@@ -111,7 +111,7 @@ void CMLan::SetMirandaStatus(u_int status)
 
 void CMLan::SetAllOffline()
 {
-	for (MCONTACT hContact = db_find_first(PROTONAME); hContact; hContact = db_find_next(hContact, PROTONAME)) {
+	for (auto &hContact : contact_iter(PROTONAME)) {
 		db_set_w(hContact, PROTONAME, "Status", ID_STATUS_OFFLINE);
 		db_unset(hContact, PROTONAME, "IP");
 	}
@@ -205,7 +205,7 @@ void CMLan::SendPacketExt(TPacket& pak, u_long addr)
 
 MCONTACT CMLan::FindContact(in_addr addr, const char* nick, bool add_to_list, bool make_permanent, bool make_visible, u_int status)
 {
-	for (MCONTACT res = db_find_first(PROTONAME); res; res = db_find_next(res, PROTONAME)) {
+	for (auto &res : contact_iter(PROTONAME)) {
 		u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
 		if (caddr == addr.S_un.S_addr) {
 			if (make_permanent)

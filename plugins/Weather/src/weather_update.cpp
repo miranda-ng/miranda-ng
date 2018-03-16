@@ -307,7 +307,7 @@ static void UpdateThreadProc(void *)
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 {
 	// add all weather contact to the update queue list
-	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME))
+	for (auto &hContact : contact_iter(WEATHERPROTONAME))
 		if (!db_get_b(hContact, WEATHERPROTONAME, "AutoUpdate", FALSE) || !AutoUpdate) {
 			if (RemoveData)
 				DBDataManage(hContact, WDBM_REMOVE, 0, 0);

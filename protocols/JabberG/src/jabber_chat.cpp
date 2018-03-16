@@ -654,7 +654,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 
 	void FilterList(CCtrlClc *)
 	{
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			char *proto = GetContactProto(hContact);
 			if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
@@ -763,7 +763,7 @@ public:
 		HWND hwndList = GetDlgItem(m_hwnd, IDC_CLIST);
 
 		// invite users from roster
-		for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+		for (auto &hContact : m_proto->acc_contact_iter()) {
 			if (m_proto->isChatRoom(hContact))
 				continue;
 

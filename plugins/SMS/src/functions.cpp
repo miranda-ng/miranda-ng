@@ -183,7 +183,7 @@ MCONTACT HContactFromPhone(LPWSTR lpwszPhone, size_t dwPhoneSize)
 {
 	if (lpwszPhone && dwPhoneSize) {
 		//check not already on list
-		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		for (auto &hContact : contact_iter())
 			if (IsContactPhone(hContact, lpwszPhone, dwPhoneSize))
 				return hContact;
 	}

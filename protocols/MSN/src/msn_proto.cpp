@@ -88,7 +88,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const wchar_t* aUserName) :
 
 	LoadOptions();
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		delSetting(hContact, "Status");
 		delSetting(hContact, "IdleTS");
 		delSetting(hContact, "p2pMsgId");

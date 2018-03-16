@@ -49,7 +49,7 @@ MCONTACT CToxProto::GetContact(const Tox *tox, const int friendNumber)
 MCONTACT CToxProto::GetContact(const char *pubKey)
 {
 	MCONTACT hContact = NULL;
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		ptrA contactPubKey(getStringA(hContact, TOX_SETTINGS_ID));
 		// check only public key part of address
 		if (mir_strncmpi(pubKey, contactPubKey, TOX_PUBLIC_KEY_SIZE) == 0)

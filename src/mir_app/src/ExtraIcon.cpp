@@ -67,7 +67,7 @@ void ExtraIcon::applyIcons()
 	if (!isEnabled())
 		return;
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		// Clear to assert that it will be cleared
 		Clist_SetExtraIcon(hContact, m_slot, INVALID_HANDLE_VALUE);
 		applyIcon(hContact);

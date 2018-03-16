@@ -878,9 +878,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				}
 			}
 
-			MCONTACT hContact = db_find_first();
 			CList->SetRedraw(false);
-			do {
+			for (auto &hContact : contact_iter()) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto) {
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -891,7 +890,6 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					}
 				}
 			}
-				while (hContact = db_find_next(hContact));
 
 			CList->SortContacts();
 			hItem = CLC_ROOT;

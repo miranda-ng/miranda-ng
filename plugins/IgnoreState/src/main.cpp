@@ -135,7 +135,7 @@ int onModulesLoaded(WPARAM, LPARAM)
 	fill_filter();
 
 	// Set initial value for all contacts
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		applyExtraImage(hContact);
 
 	return 0;

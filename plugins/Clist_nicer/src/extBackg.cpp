@@ -1281,7 +1281,7 @@ void LoadPerContactSkins(wchar_t *tszFileName)
 	}
 
 	if (items) {
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			char *szProto = GetContactProto(hContact);
 			if (szProto == nullptr)
 				continue;

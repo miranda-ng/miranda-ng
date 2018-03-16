@@ -252,7 +252,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 	TSlotInfo *pContacts = (TSlotInfo*)mir_alloc((dwContacts + 2) * sizeof(TSlotInfo));
 	int i = 0;
 	int dwOnline = 0;
-	for (MCONTACT hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		if (i >= dwContacts)
 			break;
 
@@ -342,7 +342,7 @@ bool ipcGetSortedContacts(THeaderIPC *ipch, int *pSlot, bool bGroupMode)
 // worker thread to clear MRU, called by the IPC bridge
 void __cdecl ClearMRUThread(void*)
 {
-	for (MCONTACT hContact = db_find_first(); hContact != 0; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		if (db_get_b(hContact, SHLExt_Name, SHLExt_MRU, 0) > 0)
 			db_set_b(hContact, SHLExt_Name, SHLExt_MRU, 0);
 }

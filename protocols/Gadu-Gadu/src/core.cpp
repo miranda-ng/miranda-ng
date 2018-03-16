@@ -1373,7 +1373,7 @@ void GaduProto::setalloffline()
 	debugLogA("setalloffline(): started. Setting buddies offline");
 	setWord(GG_KEY_STATUS, ID_STATUS_OFFLINE);
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		setWord(hContact, GG_KEY_STATUS, ID_STATUS_OFFLINE);
 		// Clear IP and port settings
 		delSetting(hContact, GG_KEY_CLIENTIP);
@@ -1437,7 +1437,7 @@ void GaduProto::notifyall()
 	debugLogA("notifyall(): Subscribing notification to all users");
 	// Readup count
 	int count = 0;
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for (auto &hContact : acc_contact_iter())
 		count++;
 
 	// Readup list
@@ -1454,7 +1454,7 @@ void GaduProto::notifyall()
 	char *types = (char*)calloc(sizeof(char), count);
 
 	int cc = 0;
-	for (hContact = db_find_first(m_szModuleName); hContact && cc < count; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (uins[cc] = getDword(hContact, GG_KEY_UIN, 0)) {
 			if ((getWord(hContact, GG_KEY_APPARENT, (WORD)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) ||
 				db_get_b(hContact, "CList", "NotOnList", 0))
@@ -1490,7 +1490,7 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 	debugLogA("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
 #endif
 	// Look for contact in DB
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if ((uin_t)getDword(hContact, GG_KEY_UIN, 0) == uin && !isChatRoom(hContact)) {
 			if (inlist) {
 				db_unset(hContact, "CList", "NotOnList");

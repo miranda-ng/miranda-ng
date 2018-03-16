@@ -4,7 +4,7 @@
 MCONTACT CSametimeProto::FindContactByUserId(const char* id)
 {
 	DBVARIANT dbv;
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 			if (dbv.pszVal && mir_strcmp(id, dbv.pszVal) == 0) {
 				db_free(&dbv);
@@ -204,7 +204,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 	mwIdBlock uid;
 
 	GList* gl = nullptr;
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 			if (dbv.pszVal) {
 				if (GetAwareIdFromContact(hContact, &id_block)) {
@@ -223,7 +223,6 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 							db_free(&dbv);
 							free(id_block.user);
 							free(group_alias);
-							hContact = db_find_next(hContact, m_szModuleName);
 							continue;
 						}
 
@@ -595,7 +594,7 @@ void CSametimeProto::UserListCreate()
 	mwAwareIdBlock id_block;
 	GList *gl = nullptr;
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
 			if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 				if (dbv.pszVal) {

@@ -1716,7 +1716,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	Proto_RegisterModule(&pd);
 
 	// set all contacts to offline
-	for (MCONTACT hContact = db_find_first(PLUGINNAME); hContact; hContact = db_find_next(hContact, PLUGINNAME))
+	for (auto &hContact : contact_iter(PLUGINNAME))
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
 
 	CreateProtoServiceFunction(PLUGINNAME, PS_GETCAPS, GetCaps);

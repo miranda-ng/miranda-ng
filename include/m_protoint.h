@@ -169,6 +169,8 @@ public:
 	__forceinline void setWString(const char *name, const wchar_t* value) { db_set_ws(NULL, m_szModuleName, name, value); }
 	__forceinline void setWString(MCONTACT hContact, const char *name, const wchar_t* value) { db_set_ws(hContact, m_szModuleName, name, value); }
 
+	__forceinline contact_iter acc_contact_iter() const { return contact_iter(m_szModuleName); }
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Service functions
 

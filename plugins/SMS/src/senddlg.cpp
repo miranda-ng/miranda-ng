@@ -1051,7 +1051,7 @@ void SendSMSWindowFillTreeView(HWND hWnd)
 	HWND hWndTreeView = GetDlgItem(hWnd, IDC_NUMBERSLIST);
 	TreeView_DeleteAllItems(hWndTreeView);
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		HTREEITEM hParent = nullptr;
 		LPSTR lpszProto = GetContactProto(hContact);
 		if (lpszProto) {

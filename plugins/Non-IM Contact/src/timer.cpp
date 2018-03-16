@@ -40,7 +40,7 @@ void timerFunc(void*)
 	}
 
 	/* update all the contacts */
-	for (MCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact, MODNAME)) {
+	for (auto &hContact : contact_iter(MODNAME)) {
 		int timer = db_get_w(hContact, MODNAME, "Timer", 15);
 		if (timer && !(timerCount % timer))
 			if (!db_get_static(hContact, MODNAME, "Name", text, _countof(text)))

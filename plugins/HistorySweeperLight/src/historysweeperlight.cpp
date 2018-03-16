@@ -201,7 +201,7 @@ void ShutdownAction(void)
 
 	SweepHistoryFromContact(NULL, Criteria, FALSE);				// sweep system history, keepunread==0
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		SweepHistoryFromContact(hContact, Criteria, TRUE);		// sweep contact history, keepunread==1
 }
 

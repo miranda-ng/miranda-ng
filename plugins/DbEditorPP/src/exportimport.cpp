@@ -187,7 +187,6 @@ void exportDB(MCONTACT hContact, const char *module)
 				fprintf(file, "\n\n");
 
 			while (hContact) {
-
 				if (ApplyProtoFilter(hContact)) {
 					hContact = db_find_next(hContact);
 					continue;
@@ -257,7 +256,7 @@ MCONTACT CheckNewContact(const char *myProto, const char *uid, const char *myNam
 {
 	char szProto[FLD_SIZE], szName[NAME_SIZE];
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
 			if (!mir_strcmp(szProto, myProto))
 				if (GetValueA(hContact, szProto, uid, szName, _countof(szName)) && !mir_strcmp(szName, myName))

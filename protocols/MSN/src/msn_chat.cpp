@@ -241,10 +241,9 @@ void CMsnProto::MSN_GCProcessThreadActivity(ezxml_t xmli, const wchar_t *mChatID
 void CMsnProto::MSN_GCRefreshThreadsInfo(void)
 {
 	CMStringA buf;
-	MCONTACT hContact;
 	int nThreads = 0;
 
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (isChatRoom(hContact) != 0) {
 			DBVARIANT dbv;
 			if (getString(hContact, "ChatRoomID", &dbv) == 0) {

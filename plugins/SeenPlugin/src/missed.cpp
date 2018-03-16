@@ -42,7 +42,7 @@ int RemoveUser(int pos)
 
 int ResetMissed(void)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		db_set_b(hContact, S_MOD, "Missed", 0);
 
 	memset(&mcs, 0, sizeof(mcs));
@@ -51,7 +51,7 @@ int ResetMissed(void)
 
 int CheckIfOnline(void)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		if (pcli->pfnGetContactIcon(hContact) != ICON_OFFLINE)
 			db_set_b(hContact, S_MOD, "Missed", 2);
 

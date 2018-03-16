@@ -232,7 +232,7 @@ void CSkypeProto::OnCapabilitiesSended(const NETLIBHTTPREQUEST *response)
 	SendRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus), li), &CSkypeProto::OnStatusChanged);
 
 	LIST<char> skypenames(1);
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	for (auto &hContact : acc_contact_iter())
 		if (!isChatRoom(hContact))
 			skypenames.insert(getStringA(hContact, SKYPE_SETTINGS_ID));
 

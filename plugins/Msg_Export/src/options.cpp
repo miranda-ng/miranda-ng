@@ -626,7 +626,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				int nUser = 0;
 				tstring sTmp;
 				LVITEM sItem = { 0 };
-				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (auto &hContact : contact_iter()) {
 					PROTOACCOUNT *pa = Proto_GetAccount(GetContactProto(hContact));
 					if (pa == nullptr)
 						continue;

@@ -444,7 +444,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const wchar_t *jid, MCONTACT hCon
 
 void CJabberProto::CheckAllContactsAreTransported()
 {
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		ptrW jid(getWStringA(hContact, "jid"));
 		if (jid)
 			DBCheckIsTransportedContact(jid, hContact);

@@ -46,7 +46,8 @@ void __cdecl PopulateModuleDropListThreadFunc(void *param)
 			module = module->next;
 			continue;
 		}
-		for (MCONTACT hContact = db_find_first(); moduleEmpty && hContact; hContact = db_find_next(hContact)) {
+
+		for (auto &hContact : contact_iter()) {
 			if (!IsModuleEmpty(hContact, module->name)) {
 				SendDlgItemMessageA(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)module->name);
 				moduleEmpty = 0;
@@ -93,7 +94,7 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 			char module[FLD_SIZE];
 			GetDlgItemTextA(hwnd, IDC_CONTACTS, module, _countof(module));
 			SetCursor(LoadCursor(nullptr, IDC_WAIT));
-			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+			for (auto &hContact : contact_iter())
 				deleteModule(hContact, module, 0);
 
 			// do the null

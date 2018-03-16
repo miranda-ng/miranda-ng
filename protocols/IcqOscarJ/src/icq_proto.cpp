@@ -259,7 +259,7 @@ int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
 	ModuleLoad(0, 0);
 	InitXStatusItems(FALSE);
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		DWORD bXStatus = getContactXStatus(hContact);
 		if (bXStatus > 0)
 			setContactExtraIcon(hContact, bXStatus);

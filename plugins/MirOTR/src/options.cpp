@@ -548,7 +548,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			// items.
 			lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
-			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+			for (auto &hContact : contact_iter()) {
 				const char *proto = GetContactProto(hContact);
 				if (proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && Proto_IsProtoOnContact(hContact, MODULENAME) // ignore chatrooms
 					&& mir_strcmp(proto, META_PROTO) != 0) // and MetaContacts

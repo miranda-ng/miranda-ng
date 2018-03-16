@@ -7,7 +7,7 @@ static int OnProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type != ACKTYPE_STATUS)
 		return 0;
 
-	for (MCONTACT hContact = db_find_first(ack->szModule); hContact; hContact = db_find_next(hContact, ack->szModule)) {
+	for (auto &hContact : contact_iter(ack->szModule)) {
 		MessageWindowData msgw;
 		if (Srmm_GetWindowData(hContact, msgw) || !(msgw.uState & MSG_WINDOW_STATE_EXISTS))
 			continue;

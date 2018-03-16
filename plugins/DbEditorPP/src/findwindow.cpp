@@ -404,8 +404,7 @@ void __cdecl FindSettings(LPVOID param)
 				hContact = db_find_first();
 			}
 		}
-		else 
-			hContact = db_find_next(hContact);
+		else hContact = db_find_next(hContact);
 
 		for (module = ModuleList.first; module; module = module->next) {
 

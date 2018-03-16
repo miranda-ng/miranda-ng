@@ -68,7 +68,7 @@ void setSrmmIcon(MCONTACT h)
 
 void RefreshContactListIcons() 
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		setClistIcon(hContact);
 
 	Clist_EndRebuild();

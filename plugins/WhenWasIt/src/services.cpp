@@ -299,7 +299,7 @@ int DoExport(wchar_t *fileName)
 	fwprintf(fout, L"%c%s", COMMENT_CHAR, TranslateT("Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n"));
 	fwprintf(fout, L"%c%s", COMMENT_CHAR, TranslateT("This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n"));
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		int year, month, day;
 		GetContactDOB(hContact, year, month, day);
 		if (IsDOBValid(year, month, day)) {

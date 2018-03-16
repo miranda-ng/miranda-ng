@@ -46,7 +46,7 @@ int OpLoadSessionContacts(WPARAM, LPARAM lparam)
 {
 	memset(session_list_t, 0, sizeof(session_list_t));
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		if (LoadContactsFromMask(hContact, 1, lparam)) {
 			int i = GetInSessionOrder(hContact, 1, lparam);
 			session_list_t[i] = hContact;
@@ -314,7 +314,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 						if (!hOpClistControl)
 							EnableWindow(GetDlgItem(hdlg, IDC_DEL), TRUE);
 						else {
-							for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+							for (auto &hContact : contact_iter())
 								SendMessage(hOpClistControl, CLM_SETCHECKMARK, hContact, 0);
 
 							for (int i = 0; session_list_t[i] > 0; i++) {
@@ -361,7 +361,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 		case IDC_SAVE:
 			{
 				int i = 0;
-				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (auto &hContact : contact_iter()) {
 					BYTE res = (BYTE)SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_GETCHECKMARK,
 						SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_FINDCONTACT, hContact, 0), 0);
 					if (res) {

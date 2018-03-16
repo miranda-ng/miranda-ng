@@ -64,7 +64,7 @@ MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, 
 
 void PROTO_INTERFACE::setAllContactStatuses(int iStatus, bool bSkipChats)
 {
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		if (isChatRoom(hContact)) {
 			if (!bSkipChats && iStatus == ID_STATUS_OFFLINE) {
 				ptrW wszRoom(getWStringA(hContact, "ChatRoomID"));

@@ -63,14 +63,14 @@ static void CALLBACK SetExtraImage(MCONTACT hContact)
 // always call in context of main thread
 static void RemoveExtraImages(void)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		ExtraIcon_Clear(hExtraIcon, hContact);
 }
 
 // always call in context of main thread
 static void EnsureExtraImages(void)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+	for (auto &hContact : contact_iter())
 		SetExtraImage(hContact);
 }
 
@@ -135,8 +135,7 @@ static int MsgWndEvent(WPARAM, LPARAM lParam)
 
 void CALLBACK UpdateStatusIcons(LPARAM)
 {
-	MCONTACT hContact = db_find_first();
-	while (hContact != NULL) {
+	for (auto &hContact : contact_iter()) {
 		/* is a message window opened for this contact? */
 		MessageWindowData msgw; /* output */
 		if (!Srmm_GetWindowData(hContact, msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {
@@ -146,7 +145,6 @@ void CALLBACK UpdateStatusIcons(LPARAM)
 			}
 			else UnsetStatusIcon(hContact);
 		}
-		hContact = db_find_next(hContact);
 	}
 }
 

@@ -504,7 +504,7 @@ void MirandaUtils::translateOldDBNames() {
 	}
 
 	//contacts "state"
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)){
+	for (auto &hContact : contact_iter()){
 		logger->log_p(L"TranslateOldDBNames: found CONTACT: [" SCNuPTR L"]", hContact);
 
 		int keyValue = db_get_b(hContact, OLD_PLUGIN_DB_ID, "state", 0);

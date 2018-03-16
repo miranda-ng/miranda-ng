@@ -77,7 +77,7 @@ int SendSMSMenuCommand(WPARAM wParam, LPARAM)
 		EnableWindow(GetDlgItem(hwndSendSms, IDC_NAME), TRUE);
 		EnableWindow(GetDlgItem(hwndSendSms, IDC_SAVENUMBER), FALSE);
 
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			if (GetContactPhonesCount(hContact)) {
 				SendDlgItemMessage(hwndSendSms, IDC_NAME, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetContactDisplayName(hContact, 0));
 				SendSMSWindowSMSContactAdd(hwndSendSms, hContact);

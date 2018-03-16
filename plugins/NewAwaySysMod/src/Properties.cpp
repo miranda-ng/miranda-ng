@@ -34,16 +34,13 @@ void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPerson
 	if (bResetPersonalMsgs)
 		bResetPersonalMsgs = !g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_SAVEPERSONALMSGS);
 
-	MCONTACT hContact = db_find_first();
-	while (hContact) {
+	for (auto &hContact : contact_iter()) {
 		const char *szCurProto;
 		if (!szProto || ((szCurProto = GetContactProto(hContact)) && !mir_strcmp(szProto, szCurProto))) {
 			ResetContactSettingsOnStatusChange(hContact);
-			if (bResetPersonalMsgs) {
+			if (bResetPersonalMsgs)
 				CContactSettings(Status, hContact).SetMsgFormat(SMF_PERSONAL, nullptr); // TODO: delete only when SAM dialog opens?
-			}
 		}
-		hContact = db_find_next(hContact);
 	}
 }
 

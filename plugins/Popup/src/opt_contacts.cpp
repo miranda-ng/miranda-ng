@@ -30,7 +30,7 @@ static void sttResetListOptions(HWND hwndList)
 
 static void sttSetAllContactIcons(HWND hwndList)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
 		for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i)
@@ -99,7 +99,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				HWND hwndList = GetDlgItem(hwnd, IDC_LIST);
-				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (auto &hContact : contact_iter()) {
 					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i) {
 						if (SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0))) {

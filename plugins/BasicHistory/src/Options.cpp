@@ -550,7 +550,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		db_set_s(0, MODULE, buf, it->zipPassword.c_str());
 
 		mir_snprintf(buf, "IsInTask_%d", i);
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (auto &hContact : contact_iter())
 			db_unset(hContact, MODULE, buf);
 
 		for (size_t j = 0; j < it->contacts.size(); ++j)
@@ -605,7 +605,7 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 		db_unset(NULL, MODULE, buf);
 
 		mir_snprintf(buf, "IsInTask_%d", i);
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (auto &hContact : contact_iter())
 			db_unset(hContact, MODULE, buf);
 	}
 }
@@ -691,7 +691,7 @@ void Options::LoadTasks()
 		}
 
 		mir_snprintf(buf, "IsInTask_%d", i);
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (auto &hContact : contact_iter())
 			if (db_get_b(hContact, MODULE, buf, 0) == 1)
 				to.contacts.push_back(hContact);
 
@@ -1562,7 +1562,7 @@ void SaveList(HWND hwnd, MCONTACT hSystem, TaskOptions* to)
 	if (hSystem)
 		to->isSystem = SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM)hSystem, 0) != 0;
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwnd, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwnd, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 			to->contacts.push_back(hContact);

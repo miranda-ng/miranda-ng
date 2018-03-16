@@ -301,7 +301,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	CheckAllContactsAreTransported();
 
 	// Set all contacts to offline
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter()) {
 		SetContactOfflineStatus(hContact);
 
 		if (getByte(hContact, "IsTransport", 0)) {

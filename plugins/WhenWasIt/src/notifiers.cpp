@@ -205,7 +205,7 @@ int SoundNotifyBirthday(int dtb)
 //called with oldClistIcon != -1 from dlg_handlers whtn the extra icon slot changes.
 int RefreshAllContactListIcons(int oldClistIcon)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		if (oldClistIcon != -1)
 			ExtraIcon_Clear(hWWIExtraIcons, hContact);
 

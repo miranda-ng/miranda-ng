@@ -50,7 +50,6 @@ static void OptionsFrameEnableControls(HWND hwndDlg)
 */
 static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact;
 	int idx;
 	switch (uMsg) {
 	case WM_INITDIALOG:	
@@ -68,7 +67,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_SETITEMDATA, (WPARAM)idx, 0);
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_SETCURSEL, (WPARAM)idx, 0);
 
-		for (hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (ptszNick){
 				idx = SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_ADDSTRING, 0, (LPARAM)ptszNick);

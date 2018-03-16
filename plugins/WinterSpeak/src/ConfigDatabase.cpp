@@ -89,12 +89,9 @@ void ConfigDatabase::load()
 	m_welcome_msg = DBGetContactSettingString(SPEAK, WELCOME_MSG, L"Welcome to Miranda");
 
 	// iterate through all the users and add them to the list if active
-	MCONTACT contact = db_find_first();
-	while (NULL != contact) {
+	for (auto &contact : contact_iter()) {
 		m_active_users[contact].status = (db_get_b(contact, SPEAK, ACTIVE_STATE, true) != 0);
 		m_active_users[contact].message = (db_get_b(contact, SPEAK, ACTIVE_MSG, true) != 0);
-
-		contact = db_find_next(contact); 
 	}
 
 	// load unknown users setting

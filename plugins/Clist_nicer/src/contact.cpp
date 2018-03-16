@@ -113,7 +113,7 @@ void MF_UpdateThread(LPVOID)
 	ResetEvent(hEvent);
 
 	while (mf_updatethread_running) {
-		for (MCONTACT hContact = db_find_first(); hContact && mf_updatethread_running; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			MF_CalcFrequency(hContact, 50, 1);
 			if (mf_updatethread_running)
 				WaitForSingleObject(hEvent, 5000);
@@ -130,7 +130,7 @@ void MF_InitCheck(void)
 {
 	BYTE bMsgFrequency = db_get_b(NULL, "CList", "fhistdata", 0);
 	if (!bMsgFrequency) {
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (auto &hContact : contact_iter())
 			MF_CalcFrequency(hContact, 100, 0);
 		db_set_b(NULL, "CList", "fhistdata", 1);
 	}

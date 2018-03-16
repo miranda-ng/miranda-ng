@@ -59,12 +59,11 @@ MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 
 MCONTACT CSkypeProto::FindContact(const char *skypename)
 {
-	MCONTACT hContact = NULL;
-	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	for (auto &hContact : acc_contact_iter())
 		if (!mir_strcmpi(skypename, Contacts[hContact]))
-			break;
-	}
-	return hContact;
+			return hContact;
+
+	return 0;
 }
 
 MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)

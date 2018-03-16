@@ -444,7 +444,7 @@ int ContactDeleted(WPARAM wParam, LPARAM)
 	// now the default station is deleted, try to get a new one
 
 	// start looking for other weather stations
-	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+	for (auto &hContact : contact_iter(WEATHERPROTONAME)) {
 		tszID = db_get_wsa(hContact, WEATHERPROTONAME, "ID");
 		if (tszID == NULL)
 			continue;

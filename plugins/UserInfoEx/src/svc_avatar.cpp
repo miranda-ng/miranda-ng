@@ -102,7 +102,7 @@ namespace NServices
 			if (bEnable && !ghChangedHook) {
 
 				// walk through all the contacts stored in the DB
-				for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+				for (auto &hContact : contact_iter()) {
 					// don't set if avatar is locked!
 					if (!db_get_b(hContact, "ContactPhoto", "Locked", 0)) {
 						BYTE bInvalidAvatar = TRUE;
@@ -144,7 +144,7 @@ namespace NServices
 				ghChangedHook = nullptr;
 
 				// walk through all the contacts stored in the DB
-				for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+				for (auto &hContact : contact_iter())
 					DeleteAvatar(hContact);
 			}
 		}

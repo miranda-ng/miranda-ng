@@ -39,7 +39,7 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		return 0;
 
 	// search for existing contact
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		// check if it is a weather contact
 		if (IsMyContact(hContact)) {
 			DBVARIANT dbv;

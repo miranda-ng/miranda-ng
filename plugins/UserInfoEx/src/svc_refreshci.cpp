@@ -692,7 +692,7 @@ public:
 	{
 		int iWait = 100;
 
-		for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+		for (auto &hContact : contact_iter())
 			if (QueueAddRefreshContact(hContact, iWait))
 				iWait += 5000;
 

@@ -250,7 +250,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM)
 
 	// Make sure no contact has offline status for any reason on first time run     
 	if ( db_get_b(NULL, MODULENAME, "FirstTime", 100) == 100) {
-		for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
+		for (auto &hContact : contact_iter(MODULENAME))
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 
 		db_set_b(NULL, MODULENAME, "FirstTime", 1);
@@ -332,7 +332,6 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT *) lParam;
 	DBVARIANT dbv;
-	MCONTACT hContact;
 	int sameurl = 0;
 	int samename = 0;
 
@@ -346,7 +345,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return NULL;
 	// search for existing contact
-	for (hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
+	for (auto &hContact : contact_iter(MODULENAME)) {
 		// check ID to see if the contact already exist in the database
 		if (db_get_ws(hContact, MODULENAME, "URL", &dbv))
 			continue;
@@ -363,7 +362,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 		db_free(&dbv);
 	}
 
-	hContact = db_add_contact();
+	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODULENAME);
 
 	/////////write to db
@@ -399,7 +398,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	wchar_t *Nend = wcschr(Newnick, '.');
 	if (Nend) *Nend = '\0';
 
-	for (MCONTACT hContact2 = db_find_first(MODULENAME); hContact2 != NULL; hContact2 = db_find_next(hContact2, MODULENAME)) {
+	for (auto &hContact2 : contact_iter(MODULENAME)) {
 		if (!db_get_ws(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			if (!mir_wstrcmpi(Newnick, dbv.ptszVal)) {
 				// remove the flag for not on list and hidden, thus make the
@@ -457,6 +456,6 @@ INT_PTR GetInfo(WPARAM, LPARAM)
 /*****************************************************************************/
 void AckFunc(void*)
 {
-	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME))
+	for (auto &hContact : contact_iter(MODULENAME))
 		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }

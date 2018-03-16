@@ -203,7 +203,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 			szNewParent[0] = '\0';
 	}
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		ptrW tszGroupName(db_get_wsa(hContact, "CList", "Group"));
 		if (mir_wstrcmp(tszGroupName, pGroup->groupName+1))
 			continue;
@@ -342,7 +342,7 @@ static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 	arByName.insert(pGroup);
 
 	// must rename setting in all child contacts too
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
 		if (!mir_wstrcmp(cache->tszGroup, oldName)) {
 			db_set_ws(hContact, "CList", "Group", szName);

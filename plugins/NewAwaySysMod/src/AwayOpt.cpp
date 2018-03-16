@@ -853,8 +853,7 @@ static void SetAllContactIcons(HWND hwndList, HANDLE hItemUnknown)
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(IGNORECOLUMN, DBValueToIgnoreIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_CONTACT_ID).Ignore)));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(AUTOREPLYCOLUMN, DBValueToOptReplyIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_CONTACT_ID).Autoreply)));
 
-	MCONTACT hContact = db_find_first();
-	do {
+	for (auto &hContact : contact_iter()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			int Ignore = CContactSettings(ID_STATUS_ONLINE, hContact).Ignore;
@@ -873,7 +872,6 @@ static void SetAllContactIcons(HWND hwndList, HANDLE hItemUnknown)
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(AUTOREPLYCOLUMN, DBValueToOptReplyIcon(Reply)));
 		}
 	}
-		while (hContact = db_find_next(hContact));
 }
 
 static LRESULT CALLBACK ContactsSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
@@ -922,8 +920,8 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 			hItemAll = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 			cii.pszText = TranslateT("** Not-on-list contacts **"); // == Unknown contacts
 			hItemUnknown = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-			MCONTACT hContact = db_find_first();
-			do {
+
+			for (auto &hContact : contact_iter()) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto) {
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -931,7 +929,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 						SendMessage(hwndList, CLM_DELETEITEM, SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0), 0);
 				}
 			}
-				while (hContact = db_find_next(hContact));
+
 			SetAllContactIcons(hwndList, hItemUnknown);
 			SetListGroupIcons(hwndList, (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0), hItemAll);
 			g_OrigContactsProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)ContactsSubclassProc);
@@ -997,7 +995,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+				for (auto &hContact : contact_iter()) {
 					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem)
 						SaveItemState(hwndList, hContact, hItem);

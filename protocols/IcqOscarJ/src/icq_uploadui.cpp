@@ -52,8 +52,7 @@ static void UpdateAllContactsCheckmark(HWND hwndList, CIcqProto* ppro, HANDLE ph
 {
 	int check = 1;
 
-	MCONTACT hContact = db_find_first(ppro->m_szModuleName);
-	while (hContact) {
+	for (auto &hContact : ppro->acc_contact_iter()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			if (!SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) { // if any of our contacts is unchecked, uncheck all contacts as well
@@ -61,7 +60,6 @@ static void UpdateAllContactsCheckmark(HWND hwndList, CIcqProto* ppro, HANDLE ph
 				break;
 			}
 		}
-		hContact = db_find_next(hContact, ppro->m_szModuleName);
 	}
 
 	SendMessage(hwndList, CLM_SETCHECKMARK, (WPARAM)phItemAll, check);
@@ -74,8 +72,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 	int bAll = 1;
 	bListInit = 1; // lock CLC events
 
-	MCONTACT hContact = db_find_first(ppro->m_szModuleName);
-	while (hContact) {
+	for (auto &hContact : ppro->acc_contact_iter()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			if (ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0))
@@ -83,7 +80,6 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 			else
 				bAll = 0;
 		}
-		hContact = db_find_next(hContact, ppro->m_szModuleName);
 	}
 
 	// Update the "All contacts" checkmark
@@ -97,7 +93,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 
 static void DeleteOtherContactsFromControl(HWND hCtrl, CIcqProto* ppro)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		HANDLE hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 			if (!ppro->IsICQContact(hContact))
@@ -835,12 +831,10 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 					if (nm->flags&CLNF_ISINFO) {
 						int check = SendMessage(hClist, CLM_GETCHECKMARK, (WPARAM)hItemAll, 0);
 
-						hContact = db_find_first(ppro->m_szModuleName);
-						while (hContact) {
+						for (auto &hContact : ppro->acc_contact_iter()) {
 							HANDLE hItem = (HANDLE)SendMessage(hClist, CLM_FINDCONTACT, hContact, 0);
 							if (hItem)
 								SendMessage(hClist, CLM_SETCHECKMARK, (WPARAM)hItem, check);
-							hContact = db_find_next(hContact, ppro->m_szModuleName);
 						}
 					}
 					else UpdateAllContactsCheckmark(hClist, ppro, hItemAll);

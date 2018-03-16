@@ -64,7 +64,7 @@ void CToxProto::SetToxAvatar(const wchar_t* path)
 	db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, (void*)hash, TOX_HASH_LENGTH);
 
 	if (IsOnline()) {
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (auto &hContact : acc_contact_iter()) {
 			if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
 				continue;
 
@@ -162,7 +162,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 	}
 
 	if (IsOnline()) {
-		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+		for (auto &hContact : acc_contact_iter()) {
 			if (GetContactStatus(hContact) == ID_STATUS_OFFLINE)
 				continue;
 

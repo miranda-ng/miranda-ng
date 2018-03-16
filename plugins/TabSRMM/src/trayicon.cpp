@@ -287,7 +287,7 @@ void TSAPI LoadFavoritesAndRecent()
 	if (recentEntries == nullptr)
 		return;
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		if (M.GetByte(hContact, "isFavorite", 0))
 			AddContactToFavorites(hContact, nullptr, nullptr, nullptr, 0, nullptr, 1, PluginConfig.g_hMenuFavorites);
 		if ((dwRecent = M.GetDword(hContact, "isRecent", 0)) != 0 && iIndex < nen_options.wMaxRecent) {

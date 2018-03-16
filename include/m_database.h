@@ -227,6 +227,37 @@ EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szPr
 EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto);
 #endif
 
+#if defined(__cplusplus)
+class contact_iter
+{
+	const char *m_szModule;
+
+public:
+	contact_iter(const char *m = nullptr) :
+		m_szModule(m)
+	{}
+
+	class iterator
+	{
+		MCONTACT hContact;
+		const char *m_szModule;
+
+	public:
+		__inline iterator(const char *_m, MCONTACT _h) :
+			hContact(_h),
+			m_szModule(_m)
+		{}
+		
+		__inline iterator operator++() { hContact = ::db_find_next(hContact, m_szModule); return *this; }
+		__inline bool operator!=(const iterator &p) { return hContact != p.hContact; }
+		__inline operator const MCONTACT*() const { return &hContact; }
+	};
+
+	__inline iterator begin() const { return iterator(m_szModule, ::db_find_first(m_szModule)); }
+	__inline iterator end() const { return iterator(m_szModule, 0); }
+};
+#endif
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database events
 

@@ -157,7 +157,7 @@ CVkInviteChatForm::CVkInviteChatForm(CVkProto *proto) :
 
 void CVkInviteChatForm::OnInitDialog()
 {
-	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+	for (auto &hContact : m_proto->acc_contact_iter()) {
 		if (!m_proto->isChatRoom(hContact)) {
 			wchar_t *pwszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			m_cbxCombo.AddString(pwszNick, hContact);
@@ -195,7 +195,7 @@ void CVkGCCreateForm::OnInitDialog()
 void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 {
 	CMStringA szUIds;
-	for (MCONTACT hContact = db_find_first(m_proto->m_szModuleName); hContact; hContact = db_find_next(hContact, m_proto->m_szModuleName)) {
+	for (auto &hContact : m_proto->acc_contact_iter()) {
 		if (m_proto->isChatRoom(hContact))
 			continue;
 
@@ -219,7 +219,7 @@ void CVkGCCreateForm::btnOk_OnOk(CCtrlButton*)
 
 void CVkGCCreateForm::FilterList(CCtrlClc*)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		char *proto = GetContactProto(hContact);
 		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact) || m_proto->getDword(hContact, "ID") == VK_FEED_USER)
 			if (HANDLE hItem = m_clCList.FindContact(hContact))

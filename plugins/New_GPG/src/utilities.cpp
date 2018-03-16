@@ -1249,7 +1249,7 @@ void ExportGpGKeysFunc(int type)
 	if (!file.is_open())
 		return; //TODO: handle error
 	if (!type || type == 2) {
-		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		for (auto &hContact : contact_iter()) {
 			char *k = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
 			std::string key;
 			if (!k[0]) {
@@ -1531,7 +1531,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 			}
 			if (acc.length()) {
 				const char * uid = (const char*)CallProtoService(acc.c_str(), PS_GETCAPS, (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
-				for (MCONTACT hContact = db_find_first(acc.c_str()); hContact; hContact = db_find_next(hContact, acc.c_str())) {
+				for (auto &hContact : contact_iter(acc.c_str())) {
 					DBVARIANT dbv = { 0 };
 					db_get(hContact, acc.c_str(), uid, &dbv);
 					std::string id;

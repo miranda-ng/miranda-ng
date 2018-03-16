@@ -4,7 +4,7 @@ void BuildList(void)
 {
 	g_accs.destroy();
 
-	for (MCONTACT hContact = db_find_first(MODULE_NAME); hContact; hContact = db_find_next(hContact, MODULE_NAME)) {
+	for (auto &hContact : contact_iter(MODULE_NAME)) {
 		ptrA szName(db_get_sa(hContact, MODULE_NAME, "name"));
 		if (szName != nullptr) {
 			Account *p = new Account;

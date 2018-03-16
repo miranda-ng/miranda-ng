@@ -112,7 +112,7 @@ void EraseAllInfo()
 	MCONTACT LastContact = NULL;
 	DBVARIANT dbv;
 	// loop through all contacts
-	for (MCONTACT hContact = db_find_first(WEATHERPROTONAME); hContact; hContact = db_find_next(hContact, WEATHERPROTONAME)) {
+	for (auto &hContact : contact_iter(WEATHERPROTONAME)) {
 		db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
 		db_set_w(hContact, WEATHERPROTONAME, "StatusIcon", ID_STATUS_OFFLINE);
 		db_unset(hContact, "CList", "MyHandle");

@@ -176,7 +176,7 @@ static BOOL CheckAllContactsOffline(void)
 {
 	BOOL fSmartCheck, fAllOffline = TRUE; /* tentatively */
 	fSmartCheck = db_get_b(NULL, "AutoShutdown", "SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT);
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		char *pszProto = GetContactProto(hContact);
 		if (pszProto != nullptr && CallProtoService(pszProto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
 			if (db_get_b(hContact, pszProto, "ChatRoom", 0)) continue;

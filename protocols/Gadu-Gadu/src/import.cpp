@@ -25,7 +25,7 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 	string_t s = string_init(nullptr);
 
 	// Readup contacts
-	for (MCONTACT hContact = db_find_first(gg->m_szModuleName); hContact; hContact = db_find_next(hContact, gg->m_szModuleName)) {
+	for (auto &hContact : gg->acc_contact_iter()) {
 		if (gg->isChatRoom(hContact))
 			continue;
 

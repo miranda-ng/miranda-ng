@@ -542,7 +542,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		char *proto = GetContactProto(hContact);
 		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0) == 0))
 		{
@@ -672,7 +672,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	DBVARIANT dbv;
 	DWORD current_time = (DWORD)time(nullptr);
 
-	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+	for (auto &hContact : contact_iter()) {
 		if (!db_get(hContact, MODULE_NAME, "CreationTime", &dbv))
 			db_free(&dbv);
 		else
