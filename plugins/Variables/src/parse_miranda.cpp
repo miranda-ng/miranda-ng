@@ -439,7 +439,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 
 			DBEVENTINFO dbe = {};
 			if (flags & DBE_FIRST) {
-				for (auto &hSearchContact : contact_iter()) {
+				for (auto &hSearchContact : Contacts()) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
@@ -452,7 +452,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 				hDbEvent = hMatchEvent;
 			}
 			else if (flags & DBE_LAST) {
-				for (auto &hSearchContact : contact_iter()) {
+				for (auto &hSearchContact : Contacts()) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
@@ -468,7 +468,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 				dbe.cbBlob = 0;
 				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
-					for (auto &hSearchContact : contact_iter()) {
+					for (auto &hSearchContact : Contacts()) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {
@@ -484,7 +484,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 			else if (flags & DBE_PREV) {
 				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
-					for (auto &hSearchContact : contact_iter()) {
+					for (auto &hSearchContact : Contacts()) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {

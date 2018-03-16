@@ -61,7 +61,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM, LPARAM)
 	if (IDNO == MessageBoxW(nullptr, str, TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 		return 0;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 		if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
 			continue;

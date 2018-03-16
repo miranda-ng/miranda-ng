@@ -488,4 +488,4 @@ Image_LoadFromMem @505
 Image_Resize @506
 Image_Save @507
 GetDatabasePlugin @508
-?acc_contact_iter@PROTO_INTERFACE@@QBE?AVcontact_iter@@XZ @509 NONAME
+?AccContacts@PROTO_INTERFACE@@QBE?AVContacts@@XZ @509 NONAME

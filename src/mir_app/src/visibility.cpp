@@ -100,7 +100,7 @@ static void ResetListOptions(HWND hwndList)
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem == nullptr)
 			continue;
@@ -235,7 +235,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem == nullptr)
 						continue;

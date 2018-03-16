@@ -1308,7 +1308,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 			if (mraGetStringW(NULL, "AuthMessage", wszAuthMessage) == FALSE) // def auth message
 				wszAuthMessage = TranslateW(MRA_DEFAULT_AUTH_MESSAGE);
 
-			for (auto &hContact : acc_contact_iter()) {
+			for (auto &hContact : AccContacts()) {
 				if (GetContactBasicInfoW(hContact, &dwID, nullptr, nullptr, nullptr, nullptr, &email, nullptr, nullptr) == NO_ERROR)
 				if (dwID == -1) {
 					if (IsEMailChatAgent(email)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
@@ -1337,7 +1337,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 	}
 	else { // контакт лист почемуто не получили
 		// всех в offline и id в нестандарт
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS),
 				-1, -2, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
 			// request user info from server

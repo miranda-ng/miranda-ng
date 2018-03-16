@@ -83,7 +83,7 @@ BOOL SetOffline(MCONTACT hContact, BOOL)
 
 BOOL SetAllOffline(BOOL, const char *pszModule)
 {
-	for (auto &hContact : contact_iter(pszModule)) {
+	for (auto &hContact : Contacts(pszModule)) {
 		char *szProto = GetContactProto(hContact);
 		if (!chatApi.MM_FindModule(szProto))
 			continue;
@@ -223,7 +223,7 @@ BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, wchar_t* 
 
 MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 {
-	for (auto &hContact : contact_iter(pszModule)) {
+	for (auto &hContact : Contacts(pszModule)) {
 		if (!db_get_b(hContact, pszModule, "ChatRoom", 0))
 			continue;
 

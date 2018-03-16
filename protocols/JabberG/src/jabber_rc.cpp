@@ -464,7 +464,7 @@ int CJabberProto::AdhocOptionsHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 int CJabberProto::RcGetUnreadEventsCount()
 {
 	int nEventsSent = 0;
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		ptrW jid( getWStringA(hContact, "jid"));
 		if (jid == nullptr) continue;
 
@@ -550,7 +550,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 		m_bRcMarkMessagesAsRead = bRemoveCListEvents ? 1 : 0;
 
 		int nEventsSent = 0;
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			ptrW tszJid( getWStringA(hContact, "jid"));
 			if (tszJid == nullptr)
 				continue;

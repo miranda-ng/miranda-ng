@@ -89,7 +89,7 @@ void JABBER_RESOURCE_STATUS::Release()
 
 void CJabberProto::ListInit(void)
 {
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (isChatRoom(hContact)) {
 			ptrW jid(getWStringA(hContact, "ChatRoomID"));
 			if (jid != nullptr)

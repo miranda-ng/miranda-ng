@@ -77,7 +77,7 @@ int LoadMetacontacts(void)
 	db_set_resident(META_PROTO, "IdleTS");
 
 	// set all contacts to 'offline', and initialize subcontact counter for db consistency check
-	for (auto &hContact : contact_iter(META_PROTO)) {
+	for (auto &hContact : Contacts(META_PROTO)) {
 		db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
 		db_set_dw(hContact, META_PROTO, "IdleTS", 0);
 	}	

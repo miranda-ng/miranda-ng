@@ -90,7 +90,7 @@ int CMraProto::OnModulesLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CMraProto::OnGroupChanged);
 
 	// всех в offline // тк unsaved values сохран¤ютс¤ их нужно инициализировать
-	for (auto &hContact : acc_contact_iter())
+	for (auto &hContact : AccContacts())
 		SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
 
 	// unsaved values
@@ -462,7 +462,7 @@ int CMraProto::SetStatus(int iNewStatus)
 
 		// всех в offline, только если мы бывали подключены
 		if (dwOldStatusMode > ID_STATUS_OFFLINE)
-			for (auto &hContact : acc_contact_iter())
+			for (auto &hContact : AccContacts())
 				SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID | SCBIF_GROUP_ID | SCBIF_SERVER_FLAG | SCBIF_STATUS), -1, -1, 0, 0, ID_STATUS_OFFLINE, nullptr, nullptr, nullptr);
 
 		if (m_hConnection != nullptr)

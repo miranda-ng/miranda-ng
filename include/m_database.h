@@ -228,12 +228,12 @@ EXTERN_C MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szPr
 #endif
 
 #if defined(__cplusplus)
-class contact_iter
+class Contacts
 {
 	const char *m_szModule;
 
 public:
-	contact_iter(const char *m = nullptr) :
+	Contacts(const char *m = nullptr) :
 		m_szModule(m)
 	{}
 

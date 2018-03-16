@@ -205,7 +205,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 
 		size_t iSendLength = getSendLength(iEntry);
 
-		for (auto &hContact : contact_iter()) {
+		for (auto &hContact : Contacts()) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				CContactCache *c = CContactCache::getContactCache(hContact);
@@ -221,7 +221,7 @@ int SendQueue::sendQueued(CTabBaseDlg *dat, const int iEntry)
 			return 0;
 		}
 
-		for (auto &hContact : contact_iter()) {
+		for (auto &hContact : Contacts()) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				doSendLater(iEntry, nullptr, hContact, false);

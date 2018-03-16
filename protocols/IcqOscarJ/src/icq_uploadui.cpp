@@ -52,7 +52,7 @@ static void UpdateAllContactsCheckmark(HWND hwndList, CIcqProto* ppro, HANDLE ph
 {
 	int check = 1;
 
-	for (auto &hContact : ppro->acc_contact_iter()) {
+	for (auto &hContact : ppro->AccContacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			if (!SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) { // if any of our contacts is unchecked, uncheck all contacts as well
@@ -72,7 +72,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 	int bAll = 1;
 	bListInit = 1; // lock CLC events
 
-	for (auto &hContact : ppro->acc_contact_iter()) {
+	for (auto &hContact : ppro->AccContacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			if (ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0))
@@ -93,7 +93,7 @@ static int UpdateCheckmarks(HWND hwndList, CIcqProto* ppro, HANDLE phItemAll)
 
 static void DeleteOtherContactsFromControl(HWND hCtrl, CIcqProto* ppro)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hCtrl, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 			if (!ppro->IsICQContact(hContact))
@@ -831,7 +831,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 					if (nm->flags&CLNF_ISINFO) {
 						int check = SendMessage(hClist, CLM_GETCHECKMARK, (WPARAM)hItemAll, 0);
 
-						for (auto &hContact : ppro->acc_contact_iter()) {
+						for (auto &hContact : ppro->AccContacts()) {
 							HANDLE hItem = (HANDLE)SendMessage(hClist, CLM_FINDCONTACT, hContact, 0);
 							if (hItem)
 								SendMessage(hClist, CLM_SETCHECKMARK, (WPARAM)hItem, check);

@@ -283,7 +283,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 
 	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		Finder->hContact = NULL;
-		for (auto &hContact : contact_iter(YAMN_DBMODULE)) {
+		for (auto &hContact : Contacts(YAMN_DBMODULE)) {
 			if (!db_get_s(hContact, YAMN_DBMODULE, "Id", &dbv)) {
 				if (mir_strcmp(dbv.pszVal, Finder->Name) == 0) {
 					Finder->hContact = hContact;

@@ -1496,7 +1496,7 @@ void HistoryWindow::ReloadContacts()
 		}
 	}
 
-	for (auto &_hContact : contact_iter()) {
+	for (auto &_hContact : Contacts()) {
 		if (HistoryEventList::GetContactMessageNumber(_hContact) && (metaContactProto == nullptr || !db_mc_isSub(_hContact))) {
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
 			if (hItem == nullptr)
@@ -1627,7 +1627,7 @@ void HistoryWindow::SavePos(bool all)
 {
 	MCONTACT contactToSave = m_hContact;
 	if (all) {
-		for (auto &_hContact : contact_iter()) {
+		for (auto &_hContact : Contacts()) {
 			db_unset(_hContact, MODULE, "history_x");
 			db_unset(_hContact, MODULE, "history_y");
 			db_unset(_hContact, MODULE, "history_width");
@@ -1825,7 +1825,7 @@ void HistoryWindow::DoImport(IImport::ImportType type)
 	std::wstring err;
 	std::vector<MCONTACT> contacts;
 
-	for (auto &_hContact : contact_iter())
+	for (auto &_hContact : Contacts())
 		contacts.push_back(_hContact);
 
 	bool changeContact = false;
@@ -2049,7 +2049,7 @@ MCONTACT HistoryWindow::GetNextContact(MCONTACT hContact, int adder)
 	HWND contactList = GetDlgItem(m_hWnd, IDC_LIST_CONTACTS);
 	if (adder > 0) {
 		if (hContact != NULL) {
-			for (auto &cc : contact_iter())
+			for (auto &cc : Contacts())
 				if (SendMessage(contactList, CLM_FINDCONTACT, cc, 0) != NULL)
 					return cc;
 
@@ -2057,7 +2057,7 @@ MCONTACT HistoryWindow::GetNextContact(MCONTACT hContact, int adder)
 				return NULL;
 		}
 
-		for (auto &cc : contact_iter()) {
+		for (auto &cc : Contacts()) {
 			if (cc == hContact)
 				break;
 
@@ -2067,7 +2067,7 @@ MCONTACT HistoryWindow::GetNextContact(MCONTACT hContact, int adder)
 	}
 	else {
 		MCONTACT lastContact = NULL;
-		for (auto &cc : contact_iter()) {
+		for (auto &cc : Contacts()) {
 			if (cc == hContact)
 				break;
 
@@ -2077,7 +2077,7 @@ MCONTACT HistoryWindow::GetNextContact(MCONTACT hContact, int adder)
 
 		if (hContact != NULL) {
 			if (lastContact == NULL && !HistoryEventList::GetContactMessageNumber(NULL)) {
-				for (auto &cc : contact_iter())
+				for (auto &cc : Contacts())
 					if (SendMessage(contactList, CLM_FINDCONTACT, cc, 0) != NULL)
 						lastContact = cc;
 			}

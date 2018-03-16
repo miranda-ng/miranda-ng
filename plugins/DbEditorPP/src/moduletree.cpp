@@ -46,7 +46,7 @@ int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelec
 	char szProto[FLD_SIZE];
 	wchar_t name[NAME_SIZE];
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		if (ApplyProtoFilter(hContact))
 			continue;
 

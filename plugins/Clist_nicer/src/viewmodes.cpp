@@ -134,7 +134,7 @@ static DWORD GetMaskForItem(HANDLE hItem)
 
 static void UpdateStickies()
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		MCONTACT hItem = (MCONTACT)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 			SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, db_get_b(hContact, "CLVM", sttModeName, 0) ? 1 : 0);
@@ -374,7 +374,7 @@ void SaveState()
 			DWORD dwGlobalMask = GetMaskForItem(hInfoItem);
 
 			unsigned int stickies = 0;
-			for (auto &hContact : contact_iter()) {
+			for (auto &hContact : Contacts()) {
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 				if (hItem) {
 					if (SendDlgItemMessage(sttClvmHwnd, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
@@ -652,7 +652,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 							SetWindowText(hwndSelector, TranslateT("No view mode"));
 						}
-						for (auto &hContact : contact_iter())
+						for (auto &hContact : Contacts())
 							if (db_get_dw(hContact, "CLVM", szBuf, -1) != -1)
 								db_set_dw(hContact, "CLVM", szBuf, 0);
 
@@ -695,7 +695,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_CLEARALL:
-			for (auto &hContact : contact_iter()) {
+			for (auto &hContact : Contacts()) {
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 				if (hItem)
 					SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 0);

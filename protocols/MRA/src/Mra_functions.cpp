@@ -510,7 +510,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 
 	//check not already on list
 	CMStringA szEMailLocal;
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (mraGetStringA(hContact, "e-mail", szEMailLocal))
 			if (szEMailLocal == szEmail) {
 				if (bTemporary == FALSE)

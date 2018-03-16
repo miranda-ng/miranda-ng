@@ -145,7 +145,7 @@ void TwitterProto::SetChatStatus(int status)
 {
 	if (status == ID_STATUS_ONLINE) {
 		// Add all friends to contact list
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			if (isChatRoom(hContact))
 				continue;
 

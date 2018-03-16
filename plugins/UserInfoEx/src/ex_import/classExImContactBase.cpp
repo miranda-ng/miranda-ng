@@ -499,7 +499,7 @@ BYTE CExImContactBase::isHandle(MCONTACT hContact)
  **/
 MCONTACT CExImContactBase::findHandle()
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		if (isHandle(hContact)) {
 			_hContact = hContact;
 			_isNewContact = FALSE;

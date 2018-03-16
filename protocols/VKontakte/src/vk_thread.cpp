@@ -550,7 +550,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 
 	CMStringA userIDs;
 	int i = 0;
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
 		if (userID == VK_INVALID_USER || userID == VK_FEED_USER || userID < 0)
 			continue;
@@ -602,7 +602,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	MCONTACT hContact;
 	LIST<void> arContacts(10, PtrKeySortT);
 
-	for (auto &hContact : acc_contact_iter())
+	for (auto &hContact : AccContacts())
 		if (!isChatRoom(hContact) && !IsGroupUser(hContact))
 			arContacts.insert((HANDLE)hContact);
 
@@ -755,7 +755,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 	LIST<void> arContacts(10, PtrKeySortT);
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (!isChatRoom(hContact) && !IsGroupUser(hContact))
 			setByte(hContact, "Auth", 1);
 		db_unset(hContact, m_szModuleName, "ReqAuth");

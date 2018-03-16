@@ -355,7 +355,7 @@ void CIcqProto::InitContactsCache()
 	// build cache
 	mir_cslock l(contactsCacheMutex);
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		DWORD dwUin;
 		uid_str szUid;
 		if (!getContactUid(hContact, &dwUin, &szUid))
@@ -417,7 +417,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 	if (hContact)
 		return hContact;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		DWORD dwContactUin = getContactUin(hContact);
 		if (dwContactUin == dwUin) {
 			AddToContactsCache(hContact, dwUin, nullptr);
@@ -480,7 +480,7 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	if (hContact)
 		return hContact;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		DWORD dwContactUin;
 		uid_str szContactUid;
 		if (!getContactUid(hContact, &dwContactUin, &szContactUid)) {
@@ -800,7 +800,7 @@ void CIcqProto::ResetSettingsOnListReload()
 	setWord("SrvRecordCount", 0);
 	delSetting(DBSETTING_SERVLIST_UNHANDLED);
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		// All these values will be restored during the serv-list receive
 		setWord(hContact, DBSETTING_SERVLIST_ID, 0);
 		setWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
@@ -820,7 +820,7 @@ void CIcqProto::ResetSettingsOnConnect()
 	setByte("SrvVisibility", 0);
 	setDword("IdleTS", 0);
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		setDword(hContact, "LogonTS", 0);
 		setDword(hContact, "IdleTS", 0);
 		setDword(hContact, "TickTS", 0);
@@ -837,7 +837,7 @@ void CIcqProto::ResetSettingsOnLoad()
 	setDword("IdleTS", 0);
 	setDword("LogonTS", 0);
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		setDword(hContact, "LogonTS", 0);
 		setDword(hContact, "IdleTS", 0);
 		setDword(hContact, "TickTS", 0);

@@ -141,7 +141,7 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	if (name.IsEmpty() && name2.IsEmpty()) {
 		DBVARIANT dbv;
-		for (auto &hContact : ppro->acc_contact_iter()) {
+		for (auto &hContact : ppro->AccContacts()) {
 			if (ppro->isChatRoom(hContact))
 				continue;
 

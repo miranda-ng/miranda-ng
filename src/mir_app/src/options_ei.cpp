@@ -77,7 +77,7 @@ BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
 
 static void RemoveExtraIcons(int slot)
 {
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		Clist_SetExtraIcon(hContact, slot, INVALID_HANDLE_VALUE);
 }
 

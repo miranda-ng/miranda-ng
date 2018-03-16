@@ -1227,7 +1227,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 			int count = 0;
 
 			reply->code = MIMRES_SUCCESS;
-			for (auto &hContact : contact_iter()) {
+			for (auto &hContact : Contacts()) {
 				GetContactProto(hContact, protocol, _countof(protocol));
 
 				ptrW contact(GetContactName(hContact, protocol));
@@ -1257,7 +1257,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 
 				reply->code = MIMRES_SUCCESS;
 				*reply->message = 0;
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					GetContactProto(hContact, protocol, _countof(protocol));
 
 					ptrW contact(GetContactName(hContact, protocol));
@@ -1270,7 +1270,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				reply->code = MIMRES_SUCCESS;
 				*reply->message = 0;
 
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					MEVENT hUnreadEvent = db_event_firstUnread(hContact);
 					if (hUnreadEvent != NULL)
 						mir_forkthread(OpenMessageWindowThread, (void*)hContact);
@@ -1324,7 +1324,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 				reply->code = MIMRES_SUCCESS;
 				mir_snwprintf(reply->message, TranslateT("No unread messages found."));
 
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					MEVENT hEvent = db_event_firstUnread(hContact);
 					if (hEvent != NULL) {
 						count = 0;

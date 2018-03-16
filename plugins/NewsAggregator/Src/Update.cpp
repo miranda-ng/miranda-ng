@@ -30,7 +30,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 	// only run if it is not current updating and the auto update option is enabled
 	if (!ThreadRunning && !Miranda_IsTerminated()) {
 		bool HaveUpdates = FALSE;
-		for (auto &hContact : contact_iter(MODULE)) {
+		for (auto &hContact : Contacts(MODULE)) {
 			if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
 				double diff = difftime(time(nullptr), (time_t)db_get_dw(hContact, MODULE, "LastCheck", 0));
 				if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {

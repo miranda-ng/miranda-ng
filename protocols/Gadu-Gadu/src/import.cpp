@@ -25,7 +25,7 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 	string_t s = string_init(nullptr);
 
 	// Readup contacts
-	for (auto &hContact : gg->acc_contact_iter()) {
+	for (auto &hContact : gg->AccContacts()) {
 		if (gg->isChatRoom(hContact))
 			continue;
 

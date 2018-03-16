@@ -158,7 +158,7 @@ wchar_t* CVkProto::GetUserStoredPassword()
 void CVkProto::SetAllContactStatuses(int iStatus)
 {
 	debugLogA("CVkProto::SetAllContactStatuses (%d)", iStatus);
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (isChatRoom(hContact))
 			SetChatStatus(hContact, iStatus);
 		else if (getWord(hContact, "Status") != iStatus)
@@ -178,7 +178,7 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 	if (!dwUserid)
 		return 0;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
 		if (dbUserid == VK_INVALID_USER)
 			continue;
@@ -204,7 +204,7 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 	if (!dwUserid)
 		return 0;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		LONG dbUserid = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
 		if (dbUserid == VK_INVALID_USER)
 			continue;

@@ -675,7 +675,7 @@ void CMsnProto::MSN_FetchRecentMessages(time_t since)
 		 * user conversation according to DB 
 		 */
 		MEVENT hDbEvent;
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			if (!(hDbEvent = db_event_last(hContact)))
 				continue;
 

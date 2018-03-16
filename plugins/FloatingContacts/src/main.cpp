@@ -669,7 +669,7 @@ void SaveContactsPos()
 
 static void LoadContacts()
 {
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		LoadContact(hContact);
 }
 

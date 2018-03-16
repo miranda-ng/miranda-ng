@@ -204,7 +204,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 					GetDlgItemText(hdlg, IDC_LIST, szUserSessionName, _countof(szUserSessionName));
 					szUserSessionName[length + 1] = '\0';
 					if (IsDlgButtonChecked(hdlg, IDC_SELCONTACTS) && bSC) {
-						for (auto &hContact : contact_iter()) {
+						for (auto &hContact : Contacts()) {
 							BYTE res = (BYTE)SendMessage(hClistControl, CLM_GETCHECKMARK, SendMessage(hClistControl, CLM_FINDCONTACT, hContact, 0), 0);
 							if (res) {
 								user_session_list[i] = hContact;
@@ -408,7 +408,7 @@ int SaveSessionHandles(WPARAM, LPARAM lparam)
 		return 1;
 
 	int k = 0;
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		if ((k = CheckForDuplicate(session_list, hContact)) != -1 && !(g_bExclHidden && !CheckContactVisibility(hContact))) {
 			AddSessionMark(hContact, lparam, '1');
 			AddInSessionOrder(hContact, lparam, k, 1);
@@ -528,7 +528,7 @@ int LoadSession(WPARAM, LPARAM lparam)
 	if (session_list_recovered[0] && lparam == 256 && mode == 0)
 		memcpy(session_list_t, session_list_recovered, sizeof(session_list_t));
 	else
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			if (LoadContactsFromMask(hContact, mode, lparam)) {
 				int i = GetInSessionOrder(hContact, mode, lparam);
 				session_list_t[i] = hContact;
@@ -577,7 +577,7 @@ int LoadSession(WPARAM, LPARAM lparam)
 
 int DelUserDefSession(int ses_count)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		RemoveSessionMark(hContact, 1, ses_count);
 		SetInSessionOrder(hContact, 1, ses_count, 0);
 	}
@@ -613,7 +613,7 @@ int DelUserDefSession(int ses_count)
 
 int DeleteAutoSession(int ses_count)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		RemoveSessionMark(hContact, 0, ses_count);
 		SetInSessionOrder(hContact, 0, ses_count, 0);
 	}
@@ -841,7 +841,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		int i = 0;
 		memset(session_list_recovered, 0, sizeof(session_list_recovered));
 
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			if (db_get_b(hContact, MODNAME, "wasInLastSession", 0))
 				session_list_recovered[i++] = hContact;
 	}

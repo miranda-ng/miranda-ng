@@ -2191,7 +2191,7 @@ void TSAPI DeleteContainer(int iIndex)
 
 	db_set_ws(0, CONTAINER_KEY, szIndex, L"**free**");
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		ptrW tszValue(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
 		if (!mir_wstrcmp(tszValue, tszContainerName))
 			db_unset(hContact, SRMSGMOD_T, CONTAINER_SUBKEY);
@@ -2225,7 +2225,7 @@ void TSAPI RenameContainer(int iIndex, const wchar_t *szNew)
 
 	db_set_ws(0, CONTAINER_KEY, szIndex, szNew);
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		ptrW tszValue(db_get_wsa(hContact, SRMSGMOD_T, CONTAINER_SUBKEY));
 		if (!mir_wstrcmp(tszValue, tszContainerName))
 			db_set_ws(hContact, SRMSGMOD_T, CONTAINER_SUBKEY, szNew);

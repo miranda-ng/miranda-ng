@@ -1111,7 +1111,7 @@ void ICQ::updateContactList()
 	//HANDLE hContact;
 	ICQUser *u;
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		proto = GetContactProto(hContact);
 		if (proto && !mir_strcmp(proto, protoName)) {
 			if ((u = getUserByContact(hContact)) == nullptr) {

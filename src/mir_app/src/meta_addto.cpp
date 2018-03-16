@@ -43,7 +43,7 @@ static int FillList(HWND list, BOOL sort)
 	int i = 0;
 
 	// The DB is searched through, to get all the metacontacts
-	for (auto &hMetaUser : contact_iter()) {
+	for (auto &hMetaUser : Contacts()) {
 		// if it's not a MetaContact, go to the next
 		DBCachedContact *cc = CheckMeta(hMetaUser);
 		if (cc == nullptr)

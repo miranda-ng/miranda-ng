@@ -39,7 +39,7 @@ CSkypeInviteDlg::CSkypeInviteDlg(CSkypeProto *proto) :
 
 void CSkypeInviteDlg::OnInitDialog()
 {
-	for (auto &hContact : m_proto->acc_contact_iter()) {
+	for (auto &hContact : m_proto->AccContacts()) {
 		if (!m_proto->isChatRoom(hContact)) {
 			wchar_t *ptszNick = pcli->pfnGetContactDisplayName(hContact, 0);
 			m_combo.AddString(ptszNick, hContact);
@@ -77,7 +77,7 @@ void CSkypeGCCreateDlg::OnInitDialog()
 
 void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 {
-	for (auto &hContact : m_proto->acc_contact_iter()) {
+	for (auto &hContact : m_proto->AccContacts()) {
 		if (!m_proto->isChatRoom(hContact)) {
 			if (HANDLE hItem = m_clc.FindContact(hContact)) {
 				if (m_clc.GetCheck(hItem)) {
@@ -94,7 +94,7 @@ void CSkypeGCCreateDlg::btnOk_OnOk(CCtrlButton*)
 
 void CSkypeGCCreateDlg::FilterList(CCtrlClc *)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		char *proto = GetContactProto(hContact);
 		if (mir_strcmp(proto, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
 			if (HANDLE hItem = m_clc.FindContact(hContact))

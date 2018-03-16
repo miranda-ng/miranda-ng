@@ -105,7 +105,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 			group->totalMembers = 0;
 			if (flags != (DWORD)-1 && pNextField == nullptr && calcTotalMembers) {
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					ClcCacheEntry *cache = cli.pfnGetCacheEntry(hContact);
 					if (!mir_wstrcmp(cache->tszGroup, szName) && (style & CLS_SHOWHIDDEN || !cache->bIsHidden))
 						group->totalMembers++;
@@ -359,7 +359,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 		cli.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
 	}
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		int nHiddenStatus = cli.pfnGetContactHiddenStatus(hContact, nullptr, dat);
 		if (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus) {
 			ClcCacheEntry *pce = cli.pfnGetCacheEntry(hContact);

@@ -31,7 +31,7 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM, LPARAM)
 		return 0;
 
 	if (MessageBox(nullptr, TranslateT("Are you sure?"), TranslateT(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
 				MraWPRequestByEMail(hContact, ACKTYPE_GETINFO, szEmail);
@@ -43,7 +43,7 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM, LPARAM)
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM, LPARAM)
 {
 	if (MessageBox(nullptr, TranslateT("Are you sure?"), TranslateT(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
 			if (!IsEMailChatAgent(szEmail))
@@ -59,7 +59,7 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM, LPARAM)
 		return 0;
 
 	if (MessageBox(nullptr, TranslateT("Are you sure?"), TranslateT(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, nullptr, nullptr, nullptr, &dwContactSeverFlags, nullptr, nullptr, nullptr, nullptr) == NO_ERROR)
 			if (dwContactSeverFlags & CONTACT_INTFLAG_NOT_AUTHORIZED && dwContactSeverFlags != -1)

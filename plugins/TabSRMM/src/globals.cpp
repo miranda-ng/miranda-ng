@@ -454,7 +454,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 	::TN_ModuleDeInit();
 	::CloseAllContainers();
 
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);
 
 	::SI_DeinitStatusIcons();
@@ -501,7 +501,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 {
 	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		if (db_get_dw(hContact, "SendLater", "count", 0))
 			sendLater->addContact(hContact);
 

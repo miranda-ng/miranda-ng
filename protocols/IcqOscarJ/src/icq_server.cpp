@@ -178,7 +178,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	StopAvatarThread();
 
 	// Offline all contacts
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (getContactStatus(hContact) == ID_STATUS_OFFLINE)
 			continue;
 				

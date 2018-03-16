@@ -312,7 +312,7 @@ void DefaultExtraIcons_Load()
 			p.hExtraIcon = ExtraIcon_RegisterIcolib(p.name, p.desc, Skin_GetIconName(p.iSkinIcon), nullptr, 0, p.flags);
 	}
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		SetExtraIcons(hContact);
 		SetVisibility(hContact, -1, false);
 		SetGender(hContact, -1, false);

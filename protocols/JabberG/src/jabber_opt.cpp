@@ -1021,7 +1021,7 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 		}
 
 		// now it is require to process whole contact list to add not in roster contacts
-		for (auto &hContact : acc_contact_iter()) {
+		for (auto &hContact : AccContacts()) {
 			ptrW tszJid(getWStringA(hContact, "jid"));
 			if (tszJid == nullptr)
 				continue;

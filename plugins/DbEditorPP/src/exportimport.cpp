@@ -256,7 +256,7 @@ MCONTACT CheckNewContact(const char *myProto, const char *uid, const char *myNam
 {
 	char szProto[FLD_SIZE], szName[NAME_SIZE];
 
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		if (!db_get_static(hContact, "Protocol", "p", szProto, _countof(szProto)))
 			if (!mir_strcmp(szProto, myProto))
 				if (GetValueA(hContact, szProto, uid, szName, _countof(szName)) && !mir_strcmp(szName, myName))

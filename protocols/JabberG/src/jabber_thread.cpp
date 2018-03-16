@@ -521,7 +521,7 @@ recvRest:
 
 			// Set all contacts to offline
 			debugLogA("1");
-			for (auto &hContact : acc_contact_iter())
+			for (auto &hContact : AccContacts())
 				SetContactOfflineStatus(hContact);
 			debugLogA("2");
 

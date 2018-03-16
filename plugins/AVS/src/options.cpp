@@ -406,7 +406,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 					BOOL newVal = ListView_GetCheckState(hwndList, i);
 
 					if (oldVal && !newVal)
-						for (auto &hContact : contact_iter(szProto))
+						for (auto &hContact : Contacts(szProto))
 							DeleteAvatarFromCache(hContact, TRUE);
 
 					if (newVal)

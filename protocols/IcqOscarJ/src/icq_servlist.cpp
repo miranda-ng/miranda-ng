@@ -858,7 +858,7 @@ void CIcqProto::LoadServerIDs()
 
 	nGroups = nServerIDListCount - nStart;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (wSrvID = getWord(hContact, DBSETTING_SERVLIST_ID, 0)) {
 			ReserveServerID(wSrvID, SSIT_ITEM, 0);
 			nContacts++;
@@ -1197,7 +1197,7 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 	MCONTACT hContact;
 	WORD wItemID;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (wGroupID == getWord(hContact, DBSETTING_SERVLIST_GROUP, 0)) { // add only buddys from specified group
 			wItemID = getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 
@@ -1223,7 +1223,7 @@ void* CIcqProto::collectGroups(int *count)
 	int i;
 	WORD wGroupID;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (wGroupID = getWord(hContact, DBSETTING_SERVLIST_GROUP, 0)) { // add only valid IDs
 			for (i = 0; i < cnt; i++) // check for already added ids
 				if (buf[i] == wGroupID)

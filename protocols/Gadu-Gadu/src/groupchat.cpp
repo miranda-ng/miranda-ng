@@ -407,7 +407,7 @@ static void gg_gc_resetclistopts(HWND hwndList)
 static int gg_gc_countcheckmarks(HWND hwndList)
 {
 	int count = 0;
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 			++count;
@@ -459,7 +459,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 				// Create new participiants table
 				uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
 				gg->debugLogA("gg_gc_openconfdlg(): WM_COMMAND IDOK Opening new conference for %d contacts.", count);
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem && SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 						MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support
@@ -508,7 +508,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 					break;
 
 				// Delete non-gg contacts
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					MCONTACT hItem = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) {
 						MCONTACT hMetaContact = gg_getsubcontact(gg, hContact); // MetaContacts support

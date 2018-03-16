@@ -564,7 +564,7 @@ void SvcReminderCheckAll(const ENotify notify)
 	// walk through all the contacts stored in the DB
 	CEvent evt;
 	WORD a1 = 0;
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		CheckContact(hContact, now, evt, notify != NOTIFY_CLIST, &a1);
 
 	if (notify != NOTIFY_CLIST) {
@@ -727,7 +727,7 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 		WORD a1 = 0;
 
 		//walk through all the contacts stored in the DB
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			if (!db_mc_isSub(hContact) && !mdb.DBGetBirthDate(hContact))
 				mdb.BackupBirthday(hContact, nullptr, TRUE, &a1);
 	}
@@ -858,7 +858,7 @@ void SvcReminderEnable(BYTE bEnable)
 		UpdateTimer(TRUE);
 	}
 	else { // Reminder is off
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			NotifyWithExtraIcon(hContact, CEvent());
 
 		gRemindOpts.RemindState	= REMIND_OFF;

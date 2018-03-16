@@ -126,7 +126,7 @@ void CIcqProto::icq_RescanInfoUpdate()
 	bInfoUpdateEnabled = 0; // freeze thread
 
 	// Queue all outdated users
-	for (auto &hContact : acc_contact_iter())
+	for (auto &hContact : AccContacts())
 		if (IsMetaInfoChanged(hContact)) // Queue user
 			if (!icq_QueueUser(hContact)) { // The queue is full, pause queuing contacts
 				bInfoPendingUsers = 1;

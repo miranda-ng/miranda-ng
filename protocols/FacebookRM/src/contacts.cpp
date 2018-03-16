@@ -90,7 +90,7 @@ MCONTACT FacebookProto::ChatIDToHContact(const std::string &chat_id)
 	}
 
 	// Go through all local contacts
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (!IsMyContact(hContact, true))
 			continue;
 
@@ -122,7 +122,7 @@ MCONTACT FacebookProto::ContactIDToHContact(const std::string &user_id)
 	}
 
 	// Go through all local contacts
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (isChatRoom(hContact))
 			continue;
 
@@ -150,7 +150,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 	}
 
 	// Go through all local contacts
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (!IsMyContact(hContact))
 			continue;
 

@@ -392,7 +392,7 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 	BYTE buf[1];
 	dbe.pBlob = buf;
 
-	for (auto &curContact : contact_iter()) {
+	for (auto &curContact : Contacts()) {
 		__time64_t curTime = GetLastUsedTimeStamp(curContact);
 
 		MEVENT curEvent = db_event_last(curContact);

@@ -44,7 +44,7 @@ static INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 				if (IsDlgButtonChecked(hwnd, CHK_ADD2ALL)) {
 					// null contact
 					db_set_b(NULL, modulename, "(Default)", 0);
-					for (auto &hContact : contact_iter())
+					for (auto &hContact : Contacts())
 						db_set_b(hContact, modulename, "(Default)", 0);
 				}
 				else db_set_b((MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), modulename, "(Default)", 0);

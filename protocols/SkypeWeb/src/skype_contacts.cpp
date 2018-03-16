@@ -59,7 +59,7 @@ MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
 
 MCONTACT CSkypeProto::FindContact(const char *skypename)
 {
-	for (auto &hContact : acc_contact_iter())
+	for (auto &hContact : AccContacts())
 		if (!mir_strcmpi(skypename, Contacts[hContact]))
 			return hContact;
 

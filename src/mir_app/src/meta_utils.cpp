@@ -321,7 +321,7 @@ int Meta_HideLinkedContacts(void)
 	DBVARIANT dbv, dbv2;
 	char buffer[512];
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 		if (cc == nullptr || cc->parentID == 0)
 			continue;
@@ -385,7 +385,7 @@ int Meta_HideMetaContacts(bool bHide)
 	// set status suppression
 	bool bSuppress = bHide ? FALSE : g_metaOptions.bSuppressStatus;
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		bool bSet;
 		DBCachedContact *cc = currDb->m_cache->GetCachedContact(hContact);
 		if (cc->IsSub()) { // show on hide, reverse flag
@@ -411,7 +411,7 @@ int Meta_HideMetaContacts(bool bHide)
 
 int Meta_SuppressStatus(bool suppress)
 {
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		if (db_mc_isSub(hContact))
 			CallService((suppress) ? MS_IGNORE_IGNORE : MS_IGNORE_UNIGNORE, hContact, IGNOREEVENT_USERONLINE);
 
@@ -449,7 +449,7 @@ int Meta_CopyContactNick(DBCachedContact *ccMeta, MCONTACT hContact)
 
 int Meta_SetAllNicks()
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		DBCachedContact *cc = CheckMeta(hContact);
 		if (cc == nullptr)
 			continue;

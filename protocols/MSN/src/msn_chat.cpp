@@ -243,7 +243,7 @@ void CMsnProto::MSN_GCRefreshThreadsInfo(void)
 	CMStringA buf;
 	int nThreads = 0;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (isChatRoom(hContact) != 0) {
 			DBVARIANT dbv;
 			if (getString(hContact, "ChatRoomID", &dbv) == 0) {

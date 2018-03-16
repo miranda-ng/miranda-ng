@@ -69,7 +69,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	Clist_GroupCreate(0, m_wszDefaultGroup);
 
 	// Fill users list
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
 		pNew->hContact = hContact;
 		pNew->channelId = getId(hContact, DB_KEY_CHANNELID);

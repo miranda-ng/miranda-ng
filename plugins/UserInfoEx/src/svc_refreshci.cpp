@@ -692,7 +692,7 @@ public:
 	{
 		int iWait = 100;
 
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			if (QueueAddRefreshContact(hContact, iWait))
 				iWait += 5000;
 

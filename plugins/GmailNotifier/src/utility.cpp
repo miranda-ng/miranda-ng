@@ -4,7 +4,7 @@ void BuildList(void)
 {
 	g_accs.destroy();
 
-	for (auto &hContact : contact_iter(MODULE_NAME)) {
+	for (auto &hContact : Contacts(MODULE_NAME)) {
 		ptrA szName(db_get_sa(hContact, MODULE_NAME, "name"));
 		if (szName != nullptr) {
 			Account *p = new Account;

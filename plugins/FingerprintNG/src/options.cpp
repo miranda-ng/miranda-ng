@@ -101,7 +101,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ClearFI();
 			RegisterIcons();
 
-			for (auto &hContact : contact_iter())
+			for (auto &hContact : Contacts())
 				OnExtraImageApply(hContact, 0);
 		}
 		break;

@@ -248,7 +248,7 @@ static void RestoreUnreadMessageAlerts(void)
 {
 	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = {};
 			dbei.cbBlob = 0;

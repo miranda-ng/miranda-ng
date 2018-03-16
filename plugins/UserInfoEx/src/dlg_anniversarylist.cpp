@@ -741,7 +741,7 @@ class CAnnivList
 		mtNow.GetLocalTime();
 
 		// insert the items into the list
-		for (auto &hContact : contact_iter()) {
+		for (auto &hContact : Contacts()) {
 			// ignore meta subcontacts here, as they are not interesting.
 			if (!db_mc_isSub(hContact)) {
 				// filter protocol

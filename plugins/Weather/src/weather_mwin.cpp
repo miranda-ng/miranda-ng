@@ -348,7 +348,7 @@ void InitMwin(void)
 	mir_strcpy(fontid.prefix, "fnt1");
 	Font_RegisterW(&fontid);
 
-	for (auto &hContact : contact_iter(WEATHERPROTONAME))
+	for (auto &hContact : Contacts(WEATHERPROTONAME))
 		if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))
 			addWindow(hContact);
 
@@ -357,7 +357,7 @@ void InitMwin(void)
 
 void DestroyMwin(void)
 {
-	for (auto &hContact : contact_iter(WEATHERPROTONAME)) {
+	for (auto &hContact : Contacts(WEATHERPROTONAME)) {
 		DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
 		if (frameId)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);

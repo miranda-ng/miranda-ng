@@ -466,7 +466,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				DB::Module::Delete(NULL, USERINFO"ExW");
 
 				// delete old contactsettings
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					db_unset(hContact, USERINFO, "PListColWidth0");
 					db_unset(hContact, USERINFO, "PListColWidth1");
 					db_unset(hContact, USERINFO, "PListColWidth2");
@@ -669,7 +669,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 					
 					// walk through all the contacts stored in the DB
 					MAnnivDate mdb;
-					for (auto &hContact : contact_iter())
+					for (auto &hContact : Contacts())
 						mdb.DBMoveBirthDate(hContact, bOld, bNew);
 				}
 

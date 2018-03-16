@@ -211,7 +211,7 @@ bool TwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
 
 MCONTACT TwitterProto::UsernameToHContact(const char *name)
 {
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (getByte(hContact, "ChatRoom"))
 			continue;
 
