@@ -227,8 +227,6 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		}
 	}
 
-	const wchar_t *jid, *str;
-
 	debugLogA("<iq/> Got roster push, query has %d children", XmlGetChildCount(queryNode));
 	for (int i = 0;; i++) {
 		HXML itemNode = XmlGetChild(queryNode, i);
@@ -237,9 +235,9 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 		if (mir_wstrcmp(XmlGetName(itemNode), L"item") != 0)
 			continue;
-		if ((jid = XmlGetAttrValue(itemNode, L"jid")) == nullptr)
-			continue;
-		if ((str = XmlGetAttrValue(itemNode, L"subscription")) == nullptr)
+
+		const wchar_t *jid = XmlGetAttrValue(itemNode, L"jid"), *str = XmlGetAttrValue(itemNode, L"subscription");
+		if (jid == nullptr || str == nullptr)
 			continue;
 
 		// we will not add new account when subscription=remove
@@ -283,27 +281,28 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 		}
 
 		if (JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid)) {
-			if (!mir_wstrcmp(str, L"both")) item->subscription = SUB_BOTH;
-			else if (!mir_wstrcmp(str, L"to")) item->subscription = SUB_TO;
-			else if (!mir_wstrcmp(str, L"from")) item->subscription = SUB_FROM;
-			else item->subscription = SUB_NONE;
-			debugLogW(L"Roster push for jid=%s, set subscription to %s", jid, str);
+			if (!mir_wstrcmp(str, L"both"))
+				item->subscription = SUB_BOTH;
+			else if (!mir_wstrcmp(str, L"to"))
+				item->subscription = SUB_TO;
+			else if (!mir_wstrcmp(str, L"from"))
+				item->subscription = SUB_FROM;
+			else
+				item->subscription = SUB_NONE;
 
-			MCONTACT hContact = HContactFromJID(jid);
+			debugLogW(L"Roster push for jid=%s (hContact=%d), set subscription to %s", jid, item->hContact, str);
 
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
 			if (!mir_wstrcmp(str, L"remove")) {
-				if (hContact) {
-					SetContactOfflineStatus(hContact);
-					ListRemove(LIST_ROSTER, jid);
-				}
+				SetContactOfflineStatus(item->hContact);
+				UpdateSubscriptionInfo(item->hContact, item);
 			}
-			else if (isChatRoom(hContact))
-				db_unset(hContact, "CList", "Hidden");
+			else if (isChatRoom(item->hContact))
+				db_unset(item->hContact, "CList", "Hidden");
 			else
-				UpdateSubscriptionInfo(hContact, item);
+				UpdateSubscriptionInfo(item->hContact, item);
 		}
 	}
 

@@ -116,7 +116,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR  __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
 	//====| Events |======================================================================
-	void __cdecl OnAddContactForever(DBCONTACTWRITESETTING* cws, MCONTACT hContact);
+	void __cdecl OnAddContactForever(MCONTACT hContact);
 	int  __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);

@@ -1167,8 +1167,6 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 		JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 		if (item != nullptr) {
 			if (item->arResources.getCount() > 0) {
-				debugLogA("arResources.getCount() > 0");
-
 				CMStringW str;
 				for (auto &r : item->arResources)
 					if (r->m_tszStatusMessage)
@@ -1192,8 +1190,6 @@ void __cdecl CJabberProto::GetAwayMsgThread(void *param)
 
 HANDLE __cdecl CJabberProto::GetAwayMsg(MCONTACT hContact)
 {
-	debugLogA("GetAwayMsg called, hContact=%08X", hContact);
-
 	ForkThread(&CJabberProto::GetAwayMsgThread, (void*)hContact);
 	return (HANDLE)1;
 }
@@ -1203,8 +1199,6 @@ HANDLE __cdecl CJabberProto::GetAwayMsg(MCONTACT hContact)
 
 int __cdecl CJabberProto::SetAwayMsg(int status, const wchar_t *msg)
 {
-	debugLogW(L"SetAwayMsg called, wParam=%d lParam=%s", status, msg);
-
 	wchar_t **szMsg;
 	mir_cslockfull lck(m_csModeMsgMutex);
 

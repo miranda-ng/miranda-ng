@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_list.h"
 
-void MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // List item constructor & destructor
 
@@ -87,20 +85,21 @@ void JABBER_RESOURCE_STATUS::Release()
 			delete this;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CJabberProto::ListInit(void)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (!isChatRoom(hContact)) continue;
-		ptrW jid(getWStringA(hContact, "ChatRoomID"));
-		if (jid != nullptr)
-			ListAdd(LIST_CHATROOM, jid, hContact);
-	}
-
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (isChatRoom(hContact)) continue;
-		ptrW jid(getWStringA(hContact, "jid"));
-		if (jid != nullptr)
-			ListAdd(LIST_ROSTER, jid, hContact);
+		if (isChatRoom(hContact)) {
+			ptrW jid(getWStringA(hContact, "ChatRoomID"));
+			if (jid != nullptr)
+				ListAdd(LIST_CHATROOM, jid, hContact);
+		}
+		else {
+			ptrW jid(getWStringA(hContact, "jid"));
+			if (jid != nullptr)
+				ListAdd(LIST_ROSTER, jid, hContact);
+		}
 	}
 }
 
@@ -130,8 +129,8 @@ JABBER_LIST_ITEM* CJabberProto::ListAdd(JABBER_LIST list, const wchar_t *jid, MC
 
 	wchar_t *s = mir_wstrdup(jid);
 	wchar_t *q = nullptr;
+
 	// strip resource name if any
-	//fyr
 	if (!((list == LIST_ROSTER) && ListGetItemPtr(LIST_CHATROOM, jid))) { // but only if it is not chat room contact
 		if (list != LIST_VCARD_TEMP) {
 			wchar_t *p;
@@ -143,7 +142,7 @@ JABBER_LIST_ITEM* CJabberProto::ListAdd(JABBER_LIST list, const wchar_t *jid, MC
 	else bUseResource = true;
 
 	if (!bUseResource && list == LIST_ROSTER) {
-		//if it is a chat room keep resource and made it resource sensitive
+		// if it is a chat room keep resource and made it resource sensitive
 		if (ChatRoomHContactFromJID(s)) {
 			if (q != nullptr)
 				*q = '/';

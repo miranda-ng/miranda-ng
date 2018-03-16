@@ -125,11 +125,8 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING *cws, MCONTACT 
 	}
 }
 
-void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
+void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
 {
-	if (cws->value.type != DBVT_DELETED && !(cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
-		return;
-
 	ptrW jid(getWStringA(hContact, "jid"));
 	if (jid == nullptr)
 		return;
@@ -169,8 +166,10 @@ int __cdecl CJabberProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 		OnRenameGroup(cws, hContact);
 	else if (!strcmp(cws->szSetting, "MyHandle"))
 		OnRenameContact(cws, hContact);
-	else if (!strcmp(cws->szSetting, "NotOnList"))
-		OnAddContactForever(cws, hContact);
+	else if (!strcmp(cws->szSetting, "NotOnList")) {
+		if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
+			OnAddContactForever(hContact);
+	}
 
 	return 0;
 }
