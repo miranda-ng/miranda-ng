@@ -133,7 +133,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 	// find the contact
 	char *szFoundProto;
 	MCONTACT hFoundContact = NULL; // if we'll find the contact only on some other protocol, but not on szProto, then we'll use that hContact.
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		char *szCurProto = GetContactProto(hContact);
 		if (db_get_dw(hContact, szCurProto, "UIN", 0) == lParam) {
 			szFoundProto = szCurProto;

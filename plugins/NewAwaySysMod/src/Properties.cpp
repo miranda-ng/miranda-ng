@@ -34,7 +34,7 @@ void ResetSettingsOnStatusChange(const char *szProto = nullptr, int bResetPerson
 	if (bResetPersonalMsgs)
 		bResetPersonalMsgs = !g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_SAVEPERSONALMSGS);
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		const char *szCurProto;
 		if (!szProto || ((szCurProto = GetContactProto(hContact)) && !mir_strcmp(szProto, szCurProto))) {
 			ResetContactSettingsOnStatusChange(hContact);

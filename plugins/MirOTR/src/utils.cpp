@@ -9,7 +9,7 @@ void lib_cs_lock()
 
 MCONTACT find_contact(const char* userid, const char* protocol)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		const char *proto = GetContactProto(hContact);
 		if(proto && mir_strcmp(proto, protocol) == 0) {
 			char *name = contact_get_id(hContact);

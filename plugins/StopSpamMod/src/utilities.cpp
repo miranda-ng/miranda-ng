@@ -255,7 +255,7 @@ void __cdecl CleanProtocolTmpThread(void *param)
 	}
 
 	std::list<MCONTACT> contacts;
-	for (auto &hContact : contact_iter(szProto))
+	for (auto &hContact : Contacts(szProto))
 		if (db_get_b(hContact, "CList", "NotOnList", 0) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
 			contacts.push_back(hContact);
 
@@ -285,7 +285,7 @@ void __cdecl CleanProtocolExclThread(void *param)
 	}
 
 	std::list<MCONTACT> contacts;
-	for (auto &hContact : contact_iter(szProto))
+	for (auto &hContact : Contacts(szProto))
 		if (db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
 			contacts.push_back(hContact);
 

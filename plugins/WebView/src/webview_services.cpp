@@ -250,7 +250,7 @@ INT_PTR SetStatus(WPARAM wParam, LPARAM)
 
 	// Make sure no contact has offline status for any reason on first time run     
 	if ( db_get_b(NULL, MODULENAME, "FirstTime", 100) == 100) {
-		for (auto &hContact : contact_iter(MODULENAME))
+		for (auto &hContact : Contacts(MODULENAME))
 			db_set_w(hContact, MODULENAME, "Status", ID_STATUS_ONLINE);
 
 		db_set_b(NULL, MODULENAME, "FirstTime", 1);
@@ -345,7 +345,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return NULL;
 	// search for existing contact
-	for (auto &hContact : contact_iter(MODULENAME)) {
+	for (auto &hContact : Contacts(MODULENAME)) {
 		// check ID to see if the contact already exist in the database
 		if (db_get_ws(hContact, MODULENAME, "URL", &dbv))
 			continue;
@@ -398,7 +398,7 @@ INT_PTR AddToList(WPARAM, LPARAM lParam)
 	wchar_t *Nend = wcschr(Newnick, '.');
 	if (Nend) *Nend = '\0';
 
-	for (auto &hContact2 : contact_iter(MODULENAME)) {
+	for (auto &hContact2 : Contacts(MODULENAME)) {
 		if (!db_get_ws(hContact2, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 			if (!mir_wstrcmpi(Newnick, dbv.ptszVal)) {
 				// remove the flag for not on list and hidden, thus make the
@@ -456,6 +456,6 @@ INT_PTR GetInfo(WPARAM, LPARAM)
 /*****************************************************************************/
 void AckFunc(void*)
 {
-	for (auto &hContact : contact_iter(MODULENAME))
+	for (auto &hContact : Contacts(MODULENAME))
 		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }

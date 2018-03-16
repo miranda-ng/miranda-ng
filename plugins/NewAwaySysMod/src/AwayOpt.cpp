@@ -853,7 +853,7 @@ static void SetAllContactIcons(HWND hwndList, HANDLE hItemUnknown)
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(IGNORECOLUMN, DBValueToIgnoreIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_CONTACT_ID).Ignore)));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItemUnknown, MAKELPARAM(AUTOREPLYCOLUMN, DBValueToOptReplyIcon(CContactSettings(ID_STATUS_ONLINE, INVALID_CONTACT_ID).Autoreply)));
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
 			int Ignore = CContactSettings(ID_STATUS_ONLINE, hContact).Ignore;
@@ -921,7 +921,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 			cii.pszText = TranslateT("** Not-on-list contacts **"); // == Unknown contacts
 			hItemUnknown = (HANDLE)SendMessage(hwndList, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 
-			for (auto &hContact : contact_iter()) {
+			for (auto &hContact : Contacts()) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto) {
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -995,7 +995,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 					if (hItem)
 						SaveItemState(hwndList, hContact, hItem);

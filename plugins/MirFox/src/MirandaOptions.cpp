@@ -464,7 +464,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				case PSN_APPLY:
 				{
 
-					for (auto &hContact : contact_iter()){
+					for (auto &hContact : Contacts()){
 
 						HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_FINDCONTACT, hContact, 0);
 						if(hItem) {

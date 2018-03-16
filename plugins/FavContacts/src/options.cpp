@@ -91,7 +91,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 		hSelectedContact = db_find_first();
 		{
-			for (auto &hContact : contact_iter())
+			for (auto &hContact : Contacts())
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK,
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0),
 				db_get_b(hContact, "FavContacts", "IsFavourite", 0));
@@ -207,7 +207,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			sttSaveOptions();
 
-			for (auto &hContact : contact_iter()) {
+			for (auto &hContact : Contacts()) {
 				BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
 														SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0), 0);
 				if (fav != db_get_b(hContact, "FavContacts", "IsFavourite", 0))
@@ -225,7 +225,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			case CLN_NEWCONTACT:
 				iSelection = (INT_PTR)((NMCLISTCONTROL *)lParam)->hItem;
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
 						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection,
 												 db_get_b(hContact, "FavContacts", "IsFavourite", 0));
@@ -236,7 +236,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			case CLN_CHECKCHANGED:
 				iSelection = (INT_PTR)((NMCLISTCONTROL *)lParam)->hItem;
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0) == iSelection) {
 						hSelectedContact = hContact;
 						RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), nullptr, nullptr, RDW_INVALIDATE);

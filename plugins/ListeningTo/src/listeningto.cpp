@@ -178,7 +178,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	EnableDisablePlayers();
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		char *proto = GetContactProto(hContact);
 		if (proto != nullptr) {
 			DBVARIANT dbv;

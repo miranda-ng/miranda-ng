@@ -485,7 +485,7 @@ void RemoveNotOnListSettings()
 	DBVARIANT dbv;
 	char protoName[256] = { 0 };
 	mir_strcpy(protoName, "proto_");
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		if (db_get_s(hContact, "Protocol", "p", &dbv) == 0) {
 			mir_strcat(protoName, dbv.pszVal);
 			if (_getOptB(protoName, 0) != 0) {

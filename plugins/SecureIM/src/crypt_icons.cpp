@@ -109,7 +109,7 @@ void RefreshContactListIcons(void)
 	for (auto &it : arIcoList)
 		it->hCLIcon = nullptr;
 
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		if (isSecureProtocol(hContact))
 			ShowStatusIcon(hContact);
 }

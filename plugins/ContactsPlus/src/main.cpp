@@ -89,7 +89,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 
 static void ProcessUnreadEvents(void)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);

@@ -96,7 +96,7 @@ int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
 int onModulesLoaded(WPARAM, LPARAM)
 {
 	// Set initial value for all contacts
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		ExtraIconsApply(hContact, 1);
 
 	return 0;

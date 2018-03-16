@@ -51,7 +51,7 @@ void CQuotesProviders::InitProviders()
 	const WORD nCurrentVersion = 17;
 	WORD nVersion = db_get_w(NULL, QUOTES_MODULE_NAME, LAST_RUN_VERSION, 1);
 
-	for (auto &hContact : contact_iter(QUOTES_MODULE_NAME)) {
+	for (auto &hContact : Contacts(QUOTES_MODULE_NAME)) {
 		TQuotesProviderPtr pProvider = GetContactProviderPtr(hContact);
 		if (pProvider) {
 			pProvider->AddContact(hContact);

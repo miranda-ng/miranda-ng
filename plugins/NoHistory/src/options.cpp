@@ -77,7 +77,7 @@ static void ResetListOptions(HWND hwndList)
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		char *proto = GetContactProto(hContact);
 		bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
@@ -191,7 +191,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					char *proto = GetContactProto(hContact);
 					bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 

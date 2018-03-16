@@ -61,7 +61,7 @@ void MirandaHistory::readContacts()
 
 	std::vector<MCONTACT> sources;
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		db.setContact(hContact);
 
 		const char* pProtoName = GetContactProto(hContact);

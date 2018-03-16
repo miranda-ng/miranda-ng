@@ -12,7 +12,7 @@ void populateSettingsList(HWND hwnd2List)
 
 void populateContacts(MCONTACT BPhContact, HWND hwnd2CB)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 			wchar_t name[300];

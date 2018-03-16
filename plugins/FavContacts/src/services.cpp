@@ -227,7 +227,7 @@ int ProcessModulesLoaded(WPARAM, LPARAM)
 	Hotkey_Register(&hotkey);
 
 	if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 				CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 	}

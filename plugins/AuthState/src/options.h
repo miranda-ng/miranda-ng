@@ -40,7 +40,7 @@ public:
 
 	void OnApply() override
 	{
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			onExtraImageApplying((WPARAM)hContact, 0);
 	}
 

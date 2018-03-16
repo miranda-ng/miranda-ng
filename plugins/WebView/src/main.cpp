@@ -70,7 +70,7 @@ void ChangeContactStatus(int con_stat)
    if (con_stat == 3)
       status_code = ID_STATUS_NA;
 
-	for (auto &hContact : contact_iter(MODULENAME))
+	for (auto &hContact : Contacts(MODULENAME))
 		db_set_w(hContact, MODULENAME, "Status", status_code);
 }
 

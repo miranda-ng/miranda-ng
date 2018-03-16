@@ -246,7 +246,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			SaveOptions();
 
 			// clear all notified settings
-			for (auto &hContact : contact_iter())
+			for (auto &hContact : Contacts())
 				if (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0))
 					db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 0);
 

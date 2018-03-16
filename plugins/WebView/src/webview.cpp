@@ -94,7 +94,7 @@ void FillFontListThread(void *param)
 /*****************************************************************************/
 void TxtclrLoop()
 {
-	for (auto &hContact : contact_iter(MODULENAME)) {
+	for (auto &hContact : Contacts(MODULENAME)) {
 		HWND hwndDlg = WindowList_Find(hWindowList, hContact);
 		SetDlgItemText(hwndDlg, IDC_DATA, L"");
 		InvalidateRect(hwndDlg, nullptr, 1);
@@ -104,7 +104,7 @@ void TxtclrLoop()
 /*****************************************************************************/
 void BGclrLoop()
 {
-	for (auto &hContact : contact_iter(MODULENAME)) {
+	for (auto &hContact : Contacts(MODULENAME)) {
 		HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 		SetDlgItemText(hwndDlg, IDC_DATA, L"");
 		SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETBKGNDCOLOR, 0, BackgoundClr);
@@ -118,7 +118,7 @@ void StartUpdate(void*)
 	StartUpDelay = 1;
 	Sleep(((db_get_dw(NULL, MODULENAME, START_DELAY_KEY, 0)) * SECOND));
 
-	for (auto &hContact : contact_iter(MODULENAME))
+	for (auto &hContact : Contacts(MODULENAME))
 		GetData((void*)hContact);
 
 	StartUpDelay = 0;
@@ -128,7 +128,7 @@ void StartUpdate(void*)
 void ContactLoop(void*)
 {
 	if (StartUpDelay == 0) {
-		for (auto &hContact : contact_iter(MODULENAME)) {
+		for (auto &hContact : Contacts(MODULENAME)) {
 			GetData((void*)hContact);
 			Sleep(10); // avoid 100% CPU
 		}

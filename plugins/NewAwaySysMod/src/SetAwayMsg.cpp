@@ -879,7 +879,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			}
 
 			CList->SetRedraw(false);
-			for (auto &hContact : contact_iter()) {
+			for (auto &hContact : Contacts()) {
 				char *szProto = GetContactProto(hContact);
 				if (szProto) {
 					int Flag1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);

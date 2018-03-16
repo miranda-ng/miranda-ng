@@ -1617,7 +1617,7 @@ static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
 	BOOL bContactFound = FALSE;
 	MCONTACT hContact;
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		if (db_get_dw(hContact, szProto, "UIN", 0) == (DWORD)lParam) {
 			bContactFound = TRUE;
 			break;

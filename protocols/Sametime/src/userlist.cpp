@@ -4,7 +4,7 @@
 MCONTACT CSametimeProto::FindContactByUserId(const char* id)
 {
 	DBVARIANT dbv;
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 			if (dbv.pszVal && mir_strcmp(id, dbv.pszVal) == 0) {
 				db_free(&dbv);
@@ -204,7 +204,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 	mwIdBlock uid;
 
 	GList* gl = nullptr;
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 			if (dbv.pszVal) {
 				if (GetAwareIdFromContact(hContact, &id_block)) {
@@ -594,7 +594,7 @@ void CSametimeProto::UserListCreate()
 	mwAwareIdBlock id_block;
 	GList *gl = nullptr;
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
 			if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 				if (dbv.pszVal) {

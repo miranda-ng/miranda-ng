@@ -111,7 +111,7 @@ public:
 
 		nGroups = 1;
 
-		for (auto &hContact : contact_iter())
+		for (auto &hContact : Contacts())
 			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 				addContact(hContact, true);
 

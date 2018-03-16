@@ -51,7 +51,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_GETITEMDATA, cursel, 0);
 
 				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)TranslateT("All contacts")), cursel);
-				for (auto &hContact : contact_iter()) {
+				for (auto &hContact : Contacts()) {
 					char *szUniqueId = nullptr;
 					if (db_get_b(hContact, pa->szModuleName, "ChatRoom", 0))
 						szUniqueId = "ChatRoomID";

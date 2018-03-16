@@ -62,7 +62,7 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 	else if (db_get_w(NULL, MODNAME, "Timer", 1))
 		startTimer(TIMER);
 
-	for (auto &hContact : contact_iter(MODNAME)) {
+	for (auto &hContact : Contacts(MODNAME)) {
 		if (LCStatus != ID_STATUS_OFFLINE)
 			replaceAllStrings(hContact);
 

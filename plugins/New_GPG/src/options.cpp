@@ -59,7 +59,7 @@ public:
 		list_USERLIST.AddColumn(4, TranslateT("Protocol"), 60);
 		list_USERLIST.SetExtendedListViewStyle(LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SINGLEROW);
 		int i = 1;
-		for (auto &hContact : contact_iter()) {
+		for (auto &hContact : Contacts()) {
 			if (isContactHaveKey(hContact)) {
 				wchar_t *name = pcli->pfnGetContactDisplayName(hContact, 0);
 
@@ -171,7 +171,7 @@ public:
 				ismetacontact = true;
 			}
 			tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
-			for (auto &hcnttmp : contact_iter()) {
+			for (auto &hcnttmp : Contacts()) {
 				if (hcnttmp != hContact) {
 					char *tmp2 = UniGetContactSettingUtf(hcnttmp, szGPGModuleName, "KeyID", "");
 					if (!mir_strcmp(tmp, tmp2)) {

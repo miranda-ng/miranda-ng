@@ -222,7 +222,7 @@ INT_PTR Quotes_Export(WPARAM wp, LPARAM lp)
 		}
 	}
 	else {
-		for (auto &hContact : contact_iter(QUOTES_MODULE_NAME)) {
+		for (auto &hContact : Contacts(QUOTES_MODULE_NAME)) {
 			CQuotesProviders::TQuotesProviderPtr pProvider = pProviders->GetContactProviderPtr(hContact);
 			if (pProvider) {
 				IXMLNode::TXMLNodePtr pNode = export_contact(hContact, pXmlEngine);

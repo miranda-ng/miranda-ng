@@ -223,7 +223,7 @@ void CSametimeProto::SetAllOffline()
 {
 	debugLogW(L"SetAllOffline() start");
 
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0)) {
 			db_delete_contact(hContact);
 			continue;

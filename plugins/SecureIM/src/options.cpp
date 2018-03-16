@@ -975,7 +975,7 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 
 	char tmp[NAMSIZE];
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
 			if (iInit) {
@@ -1061,7 +1061,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 
 	char tmp[NAMSIZE];
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && ptr->mode == MODE_PGP && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
 			LPSTR szKeyID = db_get_sa(hContact, MODULENAME, "pgp_abbr");
@@ -1121,7 +1121,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 
 	char tmp[NAMSIZE];
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && ptr->mode == MODE_GPG && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
 			if (iInit)
@@ -1174,7 +1174,7 @@ void ResetGeneralDlg(HWND hDlg)
 	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 
 	char tmp[NAMSIZE];
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		if (!isSecureProtocol(hContact) || isChatRoom(hContact))
 			continue;
 

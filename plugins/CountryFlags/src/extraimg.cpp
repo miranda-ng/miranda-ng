@@ -63,14 +63,14 @@ static void CALLBACK SetExtraImage(MCONTACT hContact)
 // always call in context of main thread
 static void RemoveExtraImages(void)
 {
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		ExtraIcon_Clear(hExtraIcon, hContact);
 }
 
 // always call in context of main thread
 static void EnsureExtraImages(void)
 {
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		SetExtraImage(hContact);
 }
 
@@ -135,7 +135,7 @@ static int MsgWndEvent(WPARAM, LPARAM lParam)
 
 void CALLBACK UpdateStatusIcons(LPARAM)
 {
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		/* is a message window opened for this contact? */
 		MessageWindowData msgw; /* output */
 		if (!Srmm_GetWindowData(hContact, msgw) && msgw.uState & MSG_WINDOW_STATE_EXISTS) {

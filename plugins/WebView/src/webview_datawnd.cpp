@@ -128,7 +128,7 @@ static MCONTACT FindContactByUrl(HWND hwndDlg)
 	GetDlgItemText(hwndDlg, IDC_OPEN_URL, urltext, _countof(urltext));
 	GetWindowText(hwndDlg, titlebartxt, _countof(titlebartxt));
 
-	for (auto &hContact : contact_iter(MODULENAME)) {
+	for (auto &hContact : Contacts(MODULENAME)) {
 		ptrW db1( db_get_wsa(hContact, MODULENAME, URL_KEY));
 		ptrW db2( db_get_wsa(hContact, MODULENAME, PRESERVE_NAME_KEY));
 

@@ -99,7 +99,7 @@ static IconItem iconList[] =
 int onModulesLoaded(WPARAM, LPARAM)
 {
 	// Set initial value for all contacts
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		setExtraIcon(hContact, -1, FALSE);
 
 	return 0;

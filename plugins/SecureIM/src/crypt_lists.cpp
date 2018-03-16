@@ -120,7 +120,7 @@ void loadContactList()
 	freeContactList();
 	loadSupportedProtocols();
 
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		addContact(hContact);
 }
 

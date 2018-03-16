@@ -169,7 +169,7 @@ void DlgOption::SubExclude::saveSettings()
 
 		db.setModule(con::ModHistoryStats);
 
-		for (auto &hContact : contact_iter()) {
+		for (auto &hContact : Contacts()) {
 			HANDLE hItem = reinterpret_cast<HANDLE>(SendMessage(hCList, CLM_FINDCONTACT, hContact, 0));
 			if (hItem) {
 				db.setContact(hContact);
@@ -240,7 +240,7 @@ void DlgOption::SubExclude::updateAllContacts(HWND hCList)
 
 	db.setModule(con::ModHistoryStats);
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		HANDLE hItem = reinterpret_cast<HANDLE>(SendMessage(hCList, CLM_FINDCONTACT, hContact, 0));
 		if (hItem) {
 			db.setContact(hContact);

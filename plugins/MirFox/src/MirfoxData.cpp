@@ -631,7 +631,7 @@ void MirfoxData::initializeMirandaContacts()
 
 
 	//get contects from miranda
-	for (auto &hContact : contact_iter()){
+	for (auto &hContact : Contacts()){
 
 		//"Hidden" contacts not allowed in MirfoxData and SM, "NotOnList" contacts allowed and enabled
 		if (db_get_b(hContact, "CList", "Hidden", 0) == 1) continue;

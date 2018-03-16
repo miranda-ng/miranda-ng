@@ -325,7 +325,7 @@ void DialogConfigActive::save(HWND window)
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat, (IsDlgButtonChecked(window, IDC_ACTIVE_FREEFORCHAT) != 0));
 	m_db.setActiveFlag(ConfigDatabase::ActiveFlag_Invisible, (IsDlgButtonChecked(window, IDC_ACTIVE_INVISIBLE) != 0));
 
-	for (auto &hContact : contact_iter()) {
+	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(window, IDC_ACTIVE_USERS, CLM_FINDCONTACT, hContact, 0);
 		if (hItem)
 			SaveItemMask(GetDlgItem(window, IDC_ACTIVE_USERS), hContact, hItem);

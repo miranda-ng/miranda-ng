@@ -157,7 +157,7 @@ int onModulesLoaded(WPARAM, LPARAM)
 	hExtraIcon = ExtraIcon_RegisterIcolib("authstate", LPGEN("Auth state"), iconList[ICON_BOTH].szName);
 
 	// Set initial value for all contacts
-	for (auto &hContact : contact_iter())
+	for (auto &hContact : Contacts())
 		onExtraImageApplying((WPARAM)hContact, 1);
 
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);

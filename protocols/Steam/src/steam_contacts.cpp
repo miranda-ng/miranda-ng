@@ -2,7 +2,7 @@
 
 void CSteamProto::SetAllContactStatuses(int status)
 {
-	for (auto &hContact : acc_contact_iter())
+	for (auto &hContact : AccContacts())
 		SetContactStatus(hContact, status);
 }
 
@@ -71,7 +71,7 @@ MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
 
 MCONTACT CSteamProto::GetContact(const char *steamId)
 {
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		ptrA cSteamId(getStringA(hContact, "SteamID"));
 		if (!mir_strcmp(cSteamId, steamId))
 			return hContact;
@@ -428,7 +428,7 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void*)
 	}
 
 	// Check and update contacts in database
-	for (auto &hContact : acc_contact_iter()) {
+	for (auto &hContact : AccContacts()) {
 		ptrA steamId(getStringA(hContact, "SteamID"));
 		if (steamId == nullptr)
 			continue;
