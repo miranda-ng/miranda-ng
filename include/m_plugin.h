@@ -16,7 +16,7 @@ protected:
 		: m_moduleName(moduleName)
 	{
 		wchar_t path[MAX_PATH];
-		mir_snwprintf(path, L"%s\%s.txt", VARSW(L"%miranda_logpath%"), moduleName);
+		mir_snwprintf(path, L"%s\\%s.txt", VARSW(L"%miranda_logpath%"), moduleName);
 		m_hLogger = mir_createLog(moduleName, nullptr, path, 0);
 	}
 
@@ -172,7 +172,7 @@ protected:
 
 	__forceinline HANDLE CreatePluginEvent(const char *name)
 	{
-		CMStringA str(FORMAT, "%s\%s", m_moduleName, name);
+		CMStringA str(FORMAT, "%s\\%s", m_moduleName, name);
 		return CreateHookableEvent(str);
 	}
 
@@ -185,14 +185,14 @@ protected:
 	typedef INT_PTR(__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
 	__forceinline void CreatePluginService(const char *name, MyServiceFunc pFunc)
 	{
-		CMStringA str(FORMAT, "%s\%s", m_moduleName, name);
+		CMStringA str(FORMAT, "%s\\%s", m_moduleName, name);
 		CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*(void**)&pFunc, this);
 	}
 
 	typedef INT_PTR(__cdecl T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 	__forceinline void CreatePluginServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
 	{
-		CMStringA str(FORMAT, "%s\%s", m_moduleName, name);
+		CMStringA str(FORMAT, "%s\\%s", m_moduleName, name);
 		CreateServiceFunctionObjParam(str, (MIRANDASERVICEOBJPARAM)*(void**)&pFunc, this, param);
 	}
 };
