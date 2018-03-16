@@ -63,22 +63,6 @@ static void (*gg_global_resolver_cleanup)(void **private_data, int force);
 
 #include <pthread.h>
 
-/**
- * \internal Funkcja pomocnicza zwalniająca zasoby po rozwiązywaniu nazwy
- * w wątku.
- *
- * \param data Wskaźnik na wskaźnik bufora zaalokowanego w wątku
- */
-static void gg_gethostbyname_cleaner(void *data)
-{
-	char **buf_ptr = (char**) data;
-
-	if (buf_ptr != NULL) {
-		free(*buf_ptr);
-		*buf_ptr = NULL;
-	}
-}
-
 #endif /* GG_CONFIG_HAVE_PTHREAD */
 
 /**

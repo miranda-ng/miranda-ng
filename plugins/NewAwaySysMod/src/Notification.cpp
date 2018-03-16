@@ -36,34 +36,6 @@ void ShowMsg(wchar_t *FirstLine, wchar_t *SecondLine, bool IsErrorMsg, int Timeo
 	else MessageBox(nullptr, SecondLine, FirstLine, MB_OK | (IsErrorMsg ? MB_ICONEXCLAMATION : MB_ICONINFORMATION));
 }
 
-
-static int CALLBACK MenuWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	switch (uMsg) {
-	case WM_MEASUREITEM:
-		return Menu_MeasureItem(lParam);
-
-	case WM_DRAWITEM:
-		return Menu_DrawItem(lParam);
-	}
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
-}
-
-
-static VOID CALLBACK ShowContactMenu(MCONTACT hContact)
-{
-	POINT pt;
-	HWND hMenuWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", MOD_NAMEW L"_MenuWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_hInstance, nullptr);
-	SetWindowLongPtr(hMenuWnd, GWLP_WNDPROC, (LONG_PTR)MenuWndProc);
-	HMENU hMenu = Menu_BuildContactMenu(hContact);
-	GetCursorPos(&pt);
-	SetForegroundWindow(hMenuWnd);
-	Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hMenuWnd, nullptr), MPCF_CONTACTMENU, hContact);
-	PostMessage(hMenuWnd, WM_NULL, 0, 0);
-	DestroyMenu(hMenu);
-	DestroyWindow(hMenuWnd);
-}
-
 void ShowLog(TCString &LogFilePath)
 {
 	INT_PTR Result = (INT_PTR)ShellExecute(nullptr, L"open", LogFilePath, nullptr, nullptr, SW_SHOW);
