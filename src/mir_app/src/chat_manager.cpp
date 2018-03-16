@@ -471,9 +471,11 @@ static int SM_GetCount(const char *pszModule)
 	return count;
 }
 
-static SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem)
+SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem)
 {
 	int count = 0;
+
+	mir_cslock lck(csChat);
 	for (auto &si : g_arSessions) {
 		if (!mir_strcmpi(pszModule, si->pszModule)) {
 			if (iItem == count)

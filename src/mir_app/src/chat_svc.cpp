@@ -131,13 +131,11 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO *gci)
 	if (!gci || !gci->pszModule)
 		return 1;
 
-	mir_cslock lck(csChat);
-
 	SESSION_INFO *si;
 	if (gci->Flags & GCF_BYINDEX)
-		si = chatApi.SM_FindSessionByIndex(gci->pszModule, gci->iItem);
+		si = SM_FindSessionByIndex(gci->pszModule, gci->iItem);
 	else
-		si = chatApi.SM_FindSession(gci->pszID, gci->pszModule);
+		si = SM_FindSession(gci->pszID, gci->pszModule);
 	if (si == nullptr)
 		return 1;
 
@@ -195,7 +193,7 @@ EXTERN_C MIR_APP_DLL(GCSessionInfoBase*) Chat_NewSession(
 		return nullptr;
 
 	// try to restart a session first
-	SESSION_INFO *si = chatApi.SM_FindSession(ptszID, pszModule);
+	SESSION_INFO *si = SM_FindSession(ptszID, pszModule);
 	if (si != nullptr) {
 		chatApi.UM_RemoveAll(&si->pUsers);
 		chatApi.TM_RemoveAll(&si->pStatuses);
@@ -272,7 +270,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 	mir_cslock lck(csChat);
 	SESSION_INFO *si = nullptr;
 	if (p->szModule)
-		si = chatApi.SM_FindSession(p->wszId, p->szModule);
+		si = SM_FindSession(p->wszId, p->szModule);
 
 	switch (p->command) {
 	case WINDOW_HIDDEN:
@@ -365,7 +363,7 @@ MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *wszId, bool
 
 static void AddUser(GCEVENT *gce)
 {
-	SESSION_INFO *si = chatApi.SM_FindSession(gce->ptszID, gce->pszModule);
+	SESSION_INFO *si = SM_FindSession(gce->ptszID, gce->pszModule);
 	if (si == nullptr)
 		return;
 
@@ -438,7 +436,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 		return SM_SetContactStatus(gce->ptszID, gce->pszModule, gce->ptszUID, (WORD)gce->dwItemData);
 
 	case GC_EVENT_TOPIC:
-		if (SESSION_INFO *si = chatApi.SM_FindSession(gce->ptszID, gce->pszModule)) {
+		if (SESSION_INFO *si = SM_FindSession(gce->ptszID, gce->pszModule)) {
 			wchar_t *pwszNew = RemoveFormatting(gce->ptszText);
 			if (!mir_wstrcmp(si->ptszTopic, pwszNew)) // nothing changed? exiting
 				return 0;
@@ -474,7 +472,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_ACTION:
 		if (!gce->bIsMe && gce->ptszID && gce->ptszText) {
-			SESSION_INFO *si = chatApi.SM_FindSession(gce->ptszID, gce->pszModule);
+			SESSION_INFO *si = SM_FindSession(gce->ptszID, gce->pszModule);
 			bIsHighlighted = chatApi.IsHighlighted(si, gce);
 		}
 		break;
@@ -524,7 +522,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 		if (gce->dwFlags & GCEF_SILENT)
 			return 0;
 
-		SESSION_INFO *si = chatApi.SM_FindSession(pWnd, pMod);
+		SESSION_INFO *si = SM_FindSession(pWnd, pMod);
 
 		// fix for IRC's old style mode notifications. Should not affect any other protocol
 		if ((gce->iType == GC_EVENT_ADDSTATUS || gce->iType == GC_EVENT_REMOVESTATUS) && !(gce->dwFlags & GCEF_ADDTOLOG))
@@ -603,11 +601,7 @@ MIR_APP_DLL(int) Chat_ChangeSessionName(const char *szModule, const wchar_t *wsz
 	if (wszNewName == nullptr)
 		return GC_EVENT_ERROR;
 
-	SESSION_INFO *si;
-	{
-		mir_cslock lck(csChat);
-		si = chatApi.SM_FindSession(wszId, szModule);
-	}
+	SESSION_INFO *si = SM_FindSession(wszId, szModule);
 	if (si != nullptr) {
 		// nothing really changed? exiting
 		if (!mir_wstrcmp(si->ptszName, wszNewName))
@@ -642,8 +636,7 @@ MIR_APP_DLL(int) Chat_ChangeUserId(const char *szModule, const wchar_t *wszId, c
 
 MIR_APP_DLL(void*) Chat_GetUserInfo(const char *szModule, const wchar_t *wszId)
 {
-	mir_cslock lck(csChat);
-	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule))
+	if (SESSION_INFO *si = SM_FindSession(wszId, szModule))
 		return si->pItemData;
 	return nullptr;
 }
@@ -652,27 +645,29 @@ MIR_APP_DLL(int) Chat_SendUserMessage(const char *szModule, const wchar_t *wszId
 {
 	if (wszText == nullptr || szModule == nullptr)
 		return GC_EVENT_ERROR;
-	
+
+	if (wszId != nullptr) {
+		SESSION_INFO *si = SM_FindSession(wszId, szModule);
+		if (si)
+			if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
+				Chat_DoEventHook(si, GC_USER_MESSAGE, nullptr, wszText, 0);
+		return 0;
+	}
+
 	mir_cslock lck(csChat);
 	for (auto &si : g_arSessions) {
-		if ((wszId && mir_wstrcmpi(si->ptszID, wszId)) || mir_strcmpi(si->pszModule, szModule))
+		if (mir_strcmpi(si->pszModule, szModule))
 			continue;
 
 		if (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS)
 			Chat_DoEventHook(si, GC_USER_MESSAGE, nullptr, wszText, 0);
-		if (wszId)
-			break;
 	}
 	return 0;
 }
 
 MIR_APP_DLL(int) Chat_SetStatusbarText(const char *szModule, const wchar_t *wszId, const wchar_t *wszText)
 {
-	SESSION_INFO *si;
-	{
-		mir_cslock lck(csChat);
-		si = chatApi.SM_FindSession(wszId, szModule);
-	}
+	SESSION_INFO *si = SM_FindSession(wszId, szModule);
 	if (si != nullptr) {
 		replaceStrW(si->ptszStatusbarText, wszText);
 		if (si->ptszStatusbarText)
@@ -707,7 +702,6 @@ MIR_APP_DLL(int) Chat_SetStatusEx(const char *szModule, const wchar_t *wszId, in
 
 MIR_APP_DLL(int) Chat_SetUserInfo(const char *szModule, const wchar_t *wszId, void *pItemData)
 {
-	mir_cslock lck(csChat);
 	if (SESSION_INFO *si = chatApi.SM_FindSession(wszId, szModule)) {
 		si->pItemData = pItemData;
 		return 0;
