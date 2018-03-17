@@ -194,8 +194,8 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 	// contact was not in cache, do a search
 	CMStringW tmp;
 	int count = 0;
-	MCONTACT hContact;
 	LIST<void> arResults(1);
+	MCONTACT hMatch = 0;
 
 	for (auto &hContact : Contacts()) {
 		// <_HANDLE_:hContact>
@@ -268,8 +268,10 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 		if (bMatch) {
 			if (nMatch == -1)
 				arResults.insert((HANDLE)hContact);
-			else if (nMatch == count)
+			else if (nMatch == count) {
+				hMatch = hContact;
 				break;
+			}
 			count++;
 		}
 	}
@@ -277,7 +279,7 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 	if (bReturnCount)
 		return count;
 
-	if (hContact == 0)
+	if (hMatch == 0)
 		return INVALID_CONTACT_ID;
 
 	// return random contact
@@ -289,13 +291,13 @@ MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMat
 		mir_cslock lck(csContactCache);
 
 		CONTACTCE *cce = new CONTACTCE();
-		cce->hContact = hContact;
+		cce->hContact = hMatch;
 		cce->flags = dwFlags;
 		cce->tszContact = mir_wstrdup(tszContact);
 		arContactCache.insert(cce);
 	}
 
-	return hContact;
+	return hMatch;
 }
 
 /* keep cache consistent */

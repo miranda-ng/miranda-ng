@@ -23,6 +23,8 @@
 #include <errno.h>
 #include <io.h>
 
+#pragma warning(disable : 4189)
+
 ////////////////////////////////////////////////////////////
 // Swap bits in DWORD
 uint32_t swap32(uint32_t x)
@@ -1433,7 +1435,6 @@ void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 
 void GaduProto::notifyall()
 {
-	MCONTACT hContact;
 	debugLogA("notifyall(): Subscribing notification to all users");
 	// Readup count
 	int count = 0;

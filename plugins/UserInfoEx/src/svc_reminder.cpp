@@ -726,10 +726,10 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 	else {
 		WORD a1 = 0;
 
-		//walk through all the contacts stored in the DB
-		for (auto &hContact : Contacts())
-			if (!db_mc_isSub(hContact) && !mdb.DBGetBirthDate(hContact))
-				mdb.BackupBirthday(hContact, nullptr, TRUE, &a1);
+		// walk through all the contacts stored in the DB
+		for (auto &cc : Contacts())
+			if (!db_mc_isSub(cc) && !mdb.DBGetBirthDate(cc))
+				mdb.BackupBirthday(cc, nullptr, TRUE, &a1);
 	}
 
 	if (lParam != TRUE) {

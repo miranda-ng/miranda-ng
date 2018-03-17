@@ -226,7 +226,6 @@ static char* getServerResultDesc(int wCode)
 static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	MCONTACT hContact;
 
 	static int working;
 	static HANDLE hProtoAckHook;
@@ -468,6 +467,7 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 			case STATE_ITEMS:
 				// Iterate over all contacts until one is found that
 				// needs to be updated on the server
+				MCONTACT hContact;
 				if (hCurrentContact == NULL)
 					hContact = db_find_first(ppro->m_szModuleName);
 				else { // we do not want to go thru all contacts over and over again

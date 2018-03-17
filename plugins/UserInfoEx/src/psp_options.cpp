@@ -452,8 +452,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				LPGENW("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?"));
 
 			if (WantReset) {
-				MCONTACT hContact;
-				DB::CEnumList	Settings;
+				DB::CEnumList Settings;
 
 				// delete all skin icons
 				if (!Settings.EnumSettings(NULL, "SkinIcons"))

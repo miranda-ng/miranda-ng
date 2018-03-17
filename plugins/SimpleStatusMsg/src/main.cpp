@@ -1614,16 +1614,15 @@ static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
 		return 0;
 
 	char *szProto = (char *)lMirParam;
-	BOOL bContactFound = FALSE;
-	MCONTACT hContact;
+	MCONTACT hContact = 0;
 
-	for (auto &hContact : Contacts()) {
-		if (db_get_dw(hContact, szProto, "UIN", 0) == (DWORD)lParam) {
-			bContactFound = TRUE;
+	for (auto &cc : Contacts()) {
+		if (db_get_dw(cc, szProto, "UIN", 0) == (DWORD)lParam) {
+			hContact = cc;
 			break;
 		}
 	}
-	if (!bContactFound)
+	if (!hContact)
 		return 0;
 
 	int iStatus = ICQMsgTypeToStatus(wParam);

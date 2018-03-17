@@ -128,8 +128,6 @@ char *oauth_generate_signature(LIST<OAUTHPARAMETER> &params, const char *httpmet
 
 char *oauth_getparam(LIST<OAUTHPARAMETER> &params, const char *name)
 {
-	OAUTHPARAMETER *p;
-
 	if (name == nullptr)
 		return nullptr;
 
@@ -142,8 +140,6 @@ char *oauth_getparam(LIST<OAUTHPARAMETER> &params, const char *name)
 
 void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *value)
 {
-	OAUTHPARAMETER *p;
-
 	if (name == nullptr)
 		return;
 
@@ -154,7 +150,7 @@ void oauth_setparam(LIST<OAUTHPARAMETER> &params, const char *name, const char *
 			return;
 		}
 
-	p = (OAUTHPARAMETER*)mir_alloc(sizeof(OAUTHPARAMETER));
+	OAUTHPARAMETER *p = (OAUTHPARAMETER*)mir_alloc(sizeof(OAUTHPARAMETER));
 	p->name = oauth_uri_escape(name);
 	p->value = oauth_uri_escape(value);
 	params.insert(p);

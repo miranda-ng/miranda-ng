@@ -413,9 +413,9 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 	if (Added)
 		*Added = 0;
 
-	MCONTACT hContact = HandleFromCacheByUid(dwUin, nullptr);
-	if (hContact)
-		return hContact;
+	MCONTACT cc = HandleFromCacheByUid(dwUin, nullptr);
+	if (cc)
+		return cc;
 
 	for (auto &hContact : AccContacts()) {
 		DWORD dwContactUin = getContactUin(hContact);
@@ -429,7 +429,7 @@ MCONTACT CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 	if (Added) {
 		debugLogA("Attempt to create ICQ contact %u", dwUin);
 
-		hContact = db_add_contact();
+		MCONTACT hContact = db_add_contact();
 		if (!hContact) {
 			debugLogA("Failed to create ICQ contact %u", dwUin);
 			return INVALID_CONTACT_ID;
@@ -476,9 +476,9 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	if (Added)
 		*Added = 0;
 
-	MCONTACT hContact = HandleFromCacheByUid(dwUin, szUid);
-	if (hContact)
-		return hContact;
+	MCONTACT cc = HandleFromCacheByUid(dwUin, szUid);
+	if (cc)
+		return cc;
 
 	for (auto &hContact : AccContacts()) {
 		DWORD dwContactUin;
@@ -493,11 +493,11 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 		}
 	}
 
-	//not present: add
+	// not present: add
 	if (Added) {
 		debugLogA("Attempt to create ICQ contact by string <%s>", szUid);
 
-		hContact = db_add_contact();
+		MCONTACT hContact = db_add_contact();
 		Proto_AddToContact(hContact, m_szModuleName);
 
 		setString(hContact, UNIQUEIDSETTING, szUid);

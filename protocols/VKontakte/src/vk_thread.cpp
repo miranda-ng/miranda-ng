@@ -599,7 +599,6 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		return;
 	}
 
-	MCONTACT hContact;
 	LIST<void> arContacts(10, PtrKeySortT);
 
 	for (auto &hContact : AccContacts())
@@ -607,7 +606,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			arContacts.insert((HANDLE)hContact);
 
 	for (auto &it : jnUsers) {
-		hContact = SetContactInfo(it);
+		MCONTACT hContact = SetContactInfo(it);
 		if (hContact)
 			arContacts.remove((HANDLE)hContact);
 	}
@@ -646,7 +645,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		LONG userid = it.as_int();
 		if (userid == 0)
 			break;
-		hContact = FindUser(userid, true);
+		
+		MCONTACT hContact = FindUser(userid, true);
 		if (!getBool(hContact, "ReqAuth")) {
 			RetrieveUserInfo(userid);
 			setByte(hContact, "ReqAuth", 1);

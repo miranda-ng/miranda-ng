@@ -508,16 +508,18 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 	MCONTACT hContact = NULL;
 	bool bFound = false;
 
-	//check not already on list
+	// check not already on list
 	CMStringA szEMailLocal;
-	for (auto &hContact : AccContacts()) {
-		if (mraGetStringA(hContact, "e-mail", szEMailLocal))
+	for (auto &cc : AccContacts()) {
+		if (mraGetStringA(cc, "e-mail", szEMailLocal)) {
 			if (szEMailLocal == szEmail) {
 				if (bTemporary == FALSE)
-					db_unset(hContact, "CList", "NotOnList");
+					db_unset(cc, "CList", "NotOnList");
+				hContact = cc;
 				bFound = true;
 				break;
 			}
+		}
 	}
 
 	if (!bFound && bAddIfNeeded) {
@@ -549,7 +551,7 @@ MCONTACT CMraProto::MraHContactFromEmail(const CMStringA &szEmail, BOOL bAddIfNe
 	}
 
 	if (pbAdded)
-		*pbAdded = (bFound == FALSE && bAddIfNeeded && hContact);
+		*pbAdded = (bFound == false && bAddIfNeeded && hContact);
 
 	return hContact;
 }

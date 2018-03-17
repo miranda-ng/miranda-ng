@@ -1194,7 +1194,6 @@ void* CIcqProto::collectBuddyGroup(WORD wGroupID, int *count)
 {
 	WORD* buf = nullptr;
 	int cnt = 0;
-	MCONTACT hContact;
 	WORD wItemID;
 
 	for (auto &hContact : AccContacts()) {
