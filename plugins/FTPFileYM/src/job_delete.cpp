@@ -90,7 +90,7 @@ void DeleteJob::run()
 		}
 		else if (manDlg != nullptr && m_treeItem) {
 			wchar_t *error = mir_a2u(szError);
-			mir_wstrcpy(m_treeItem->m_tszToolTip, error);
+			wcsncpy_s(m_treeItem->m_tszToolTip, error, _TRUNCATE);
 			m_treeItem->setState(Manager::TreeItem::_ERROR());
 			FREE(error);
 		}

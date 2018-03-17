@@ -35,13 +35,11 @@ public:
 	static HANDLE getIconHandle(const char *szName);
 
 	static wchar_t *getFileNameFromPath(wchar_t *stzPath);
-	static wchar_t *getTextFragment(wchar_t *stzText, size_t length, wchar_t *buff);
-	static char *makeSafeString(wchar_t *input, char *output);
+	static CMStringA makeSafeString(CMStringA &input);
 
 	static void createFileDownloadLink(char *szUrl, char *fileName, char *buff, int buffSize);
 	static void copyToClipboard(char *szText);
 	static void curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl_slist *headerList, char *errorBuff);
 
 	static bool setFileNameDlg(wchar_t *nameBuff);
-	static bool setFileNameDlgA(char *nameBuff);
 };

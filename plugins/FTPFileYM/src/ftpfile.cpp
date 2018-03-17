@@ -109,7 +109,10 @@ void InitMenuItems()
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
-		if (DB::getStringF(0, MODULE, "Name%d", i, stzName))
+		CMStringA frmt;
+		frmt.Format("Name%d", i);
+		ptrA Name(db_get_sa(NULL, MODULE, frmt));
+		if (Name)
 			mir_snwprintf(stzName, TranslateT("FTP Server %d"), i + 1);
 
 		mi.root = (opt.bUseSubmenu) ? hMenu : nullptr;

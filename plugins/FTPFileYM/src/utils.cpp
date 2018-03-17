@@ -65,24 +65,12 @@ wchar_t* Utils::getFileNameFromPath(wchar_t *stzPath)
 	else return L"file.zip";
 }
 
-wchar_t* Utils::getTextFragment(wchar_t *stzText, size_t length, wchar_t *buff)
-{
-	if (mir_wstrlen(stzText) > length) {
-		mir_wstrcpy(buff, stzText);
-		buff[length - 1] = 0;
-		mir_wstrcat(buff, L"...");
-		return buff;
-	}
-
-	return stzText;
-}
-
 void Utils::copyToClipboard(char *szText)
 {
 	if (szText) {
 		if (OpenClipboard(nullptr)) {
 			EmptyClipboard();
-			HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, 1024);
+			HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, mir_strlen(szText) + 1);
 			char *pchData = (char *)GlobalLock(hClipboardData);
 			mir_strcpy(pchData, szText);
 			GlobalUnlock(hClipboardData);
@@ -95,24 +83,12 @@ void Utils::copyToClipboard(char *szText)
 const char from_chars[] = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ !@#$%^&=,{}[];'`";
 const char to_chars[] = "abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUFHCCWWQYQEUA_________________";
 
-char* Utils::makeSafeString(wchar_t *input, char *output)
+CMStringA Utils::makeSafeString(CMStringA &input)
 {
-	char *buff = mir_u2a(input);
-	size_t length = mir_strlen(buff);
-
-	for (UINT i = 0; i < length; i++) {
-		for (int j = 0; from_chars[j] != 0; j++) {
-			if (buff[i] == from_chars[j]) {
-				buff[i] = to_chars[j];
-				break;
-			}
-		}
-	}
-
-	mir_strcpy(output, buff);
-	FREE(buff);
-
-	return output;
+	int len = mir_strlen(from_chars);
+	for (int i = 0; i < len; i++)
+		input.Replace(from_chars[i], to_chars[i]);
+	return input;
 }
 
 void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl_slist *headerList, char *errorBuff)
@@ -134,10 +110,13 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 
 	if (ftp->m_bPassive)
 		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, 0);
-	else if (!DB::getAString(0, MODULE, "LocalIP", buff))
-		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, buff);
-	else
-		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, "-");
+	else {
+		ptrA localip(db_get_sa(NULL, MODULE, "LocalIP"));
+		if (localip)
+			curl_easy_setopt(hCurl, CURLOPT_FTPPORT, localip);
+		else
+			curl_easy_setopt(hCurl, CURLOPT_FTPPORT, "-");
+	}
 
 	mir_snprintf(buff, "%s:%s", ftp->m_szUser, ftp->m_szPass);
 	curl_easy_setopt(hCurl, CURLOPT_USERPWD, buff);
@@ -195,23 +174,6 @@ bool Utils::setFileNameDlg(wchar_t *nameBuff)
 		return true;
 	else
 		return false;
-}
-
-bool Utils::setFileNameDlgA(char *nameBuff)
-{
-	wchar_t buff[64];
-	wchar_t *tmp = mir_a2u(nameBuff);
-	mir_wstrcpy(buff, tmp);
-	FREE(tmp);
-
-	bool res = setFileNameDlg(buff);
-	if (res) {
-		char *p = mir_u2a(buff);
-		mir_strcpy(nameBuff, p);
-		FREE(p);
-	}
-
-	return res;
 }
 
 void Utils::createFileDownloadLink(char *szUrl, char *fileName, char *buff, int buffSize)

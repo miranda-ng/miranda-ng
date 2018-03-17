@@ -79,10 +79,14 @@ UploadDialog::Tab::Tab(GenericJob *Job) :
 	m_stzComplet[0] = 0;
 	m_stzRemain[0] = 0;
 
-	wchar_t buff[256];
+	CMStringW buff = m_job->m_tszFileName;
 	TCITEM tab = { 0 };
 	tab.mask = TCIF_TEXT;
-	tab.pszText = Utils::getTextFragment(m_job->m_tszFileName, 20, buff);
+	if (mir_wstrlen(buff) > 20) {
+		buff = buff.Left(20);
+		buff.Append(L"...");
+	}
+	tab.pszText = buff.GetBuffer();
 	TabCtrl_InsertItem(uDlg->m_hwndTabs, uDlg->m_tabs.size(), &tab);
 	{
 		mir_cslock lock(mutexTabs);
@@ -130,12 +134,15 @@ void UploadDialog::Tab::select()
 
 void UploadDialog::Tab::labelCompleted()
 {
-	wchar_t buff[64], buff2[256];
-	mir_snwprintf(buff2, L"* %s", Utils::getTextFragment(m_job->m_tszFileName, 20, buff));
+	CMStringW buff(FORMAT, L"* %s", m_job->m_tszFileName);
+	if (mir_wstrlen(buff) > 20) {
+		buff = buff.Left(22);
+		buff.Append(L"...");
+	}
 
 	TCITEM tab = { 0 };
 	tab.mask = TCIF_TEXT;
-	tab.pszText = buff2;
+	tab.pszText = buff.GetBuffer();
 	TabCtrl_SetItem(uDlg->m_hwndTabs, index(), &tab);
 }
 

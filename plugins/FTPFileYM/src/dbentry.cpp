@@ -29,7 +29,7 @@ DBEntry::DBEntry(DBEntry *entry)
 {
 	m_fileID = entry->m_fileID;
 	m_iFtpNum = entry->m_iFtpNum;
-	mir_strcpy(m_szFileName, entry->m_szFileName);
+	strncpy_s(m_szFileName, entry->m_szFileName, _TRUNCATE);
 }
 
 DBEntry* DBEntry::getFirst()
@@ -47,10 +47,14 @@ DBEntry *DBEntry::getNext(DBEntry *entry)
 	for (; entryID < count; entryID++) { 
 		int ftpNum = DB::getByteF(0, MODULE_FILES, "Ftp%d", entryID, -1);
 		if (ftpNum != -1) {
-			if (!DB::getAStringF(0, MODULE_FILES, "Filename%d", entryID, szValue)) {
+			CMStringA frmt;
+			frmt.Format("Filename%d", entryID);
+			ptrA Value(db_get_sa(NULL, MODULE, frmt));
+			if (Value) {
+				strncpy_s(szValue, Value, _TRUNCATE);
 				entry->m_fileID = entryID;
 				entry->m_iFtpNum = ftpNum;
-				mir_strcpy(entry->m_szFileName, szValue);
+				strncpy_s(entry->m_szFileName, szValue, _TRUNCATE);
 				entry->m_deleteTS = DB::getDwordF(0, MODULE_FILES, "DeleteTS%d", entryID, 0);
 				entryID++;
 				return entry;
@@ -87,10 +91,14 @@ DBEntry* DBEntry::get(int fileID)
 
 	int ftpNum = DB::getByteF(0, MODULE_FILES, "Ftp%d", fileID, -1);
 	if (ftpNum != -1) {
-		if (!DB::getAStringF(0, MODULE_FILES, "Filename%d", fileID, szValue)) {
+		CMStringA frmt;
+		frmt.Format("Filename%d", fileID);
+		ptrA Value(db_get_sa(NULL, MODULE, frmt));
+		if (Value) {
+			strncpy_s(szValue, Value, _TRUNCATE);
 			entry->m_fileID = fileID;
 			entry->m_iFtpNum = ftpNum;
-			mir_strcpy(entry->m_szFileName, szValue);
+			strncpy_s(entry->m_szFileName, szValue, _TRUNCATE);
 			entry->m_deleteTS = DB::getDwordF(0, MODULE_FILES, "DeleteTS%d", fileID, 0);
 			return entry;
 		}

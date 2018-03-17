@@ -41,9 +41,9 @@ GenericJob::GenericJob(GenericJob *job) :
 	m_ftp(job->m_ftp),
 	m_tab(job->m_tab)
 {
-	mir_wstrcpy(m_tszFilePath, job->m_tszFilePath);
-	mir_wstrcpy(m_tszFileName, job->m_tszFileName);
-	mir_strcpy(m_szSafeFileName, job->m_szSafeFileName);
+	wcsncpy_s(m_tszFilePath, job->m_tszFilePath, _TRUNCATE);
+	wcsncpy_s(m_tszFileName, job->m_tszFileName, _TRUNCATE);
+	strncpy_s(m_szSafeFileName, job->m_szSafeFileName, _TRUNCATE);
 }
 
 GenericJob::~GenericJob()

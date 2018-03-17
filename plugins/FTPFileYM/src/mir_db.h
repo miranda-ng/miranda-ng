@@ -34,11 +34,5 @@ public:
 	static int getWordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
 	static int getDwordF(MCONTACT hContact, char *szModule, char *szSetting, int id, int iErrorValue = -1);
 
-	// !!!!!!!!!!!!!!!!!!! dangerous as hell
-	static int getAString(MCONTACT hContact, char *szModule, char *szSetting, char *buff); 
-	static int getAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, char *buff);
-	static int getString(MCONTACT hContact, char *szModule, char *szSetting, wchar_t *buff);
-	static int getStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, wchar_t *buff);
-
 	static int deleteSettingF(MCONTACT hContact, char *szModule, char *szSetting, int id);
 };

@@ -74,46 +74,6 @@ int DB::getDwordF(MCONTACT hContact, char *szModule, char *szSetting, int id, in
 	return db_get_dw(hContact, szModule, formSet, iErrorValue);
 }
 
-int DB::getAString(MCONTACT hContact, char *szModule, char *szSetting, char *buff)
-{
-	DBVARIANT dbv;
-	if (!db_get_s(hContact, szModule, szSetting, &dbv)) {
-		mir_strcpy(buff, dbv.pszVal);
-		db_free(&dbv);
-		return 0;
-	}
-
-	buff[0] = 0;
-	return 1;
-}
-
-int DB::getAStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, char *buff)
-{
-	char formSet[256];
-	mir_snprintf(formSet, szSetting, id);
-	return getAString(hContact, szModule, formSet, buff);
-}
-
-int DB::getString(MCONTACT hContact, char *szModule, char *szSetting, wchar_t *buff)
-{
-	DBVARIANT dbv;
-	if (!db_get_ws(hContact, szModule, szSetting, &dbv)) {
-		mir_wstrcpy(buff, dbv.ptszVal);
-		db_free(&dbv);
-		return 0;
-	}
-
-	buff[0] = 0;
-	return 1;
-}
-
-int DB::getStringF(MCONTACT hContact, char *szModule, char *szSetting, int id, wchar_t *buff)
-{
-	char formSet[256];
-	mir_snprintf(formSet, szSetting, id);
-	return getString(hContact, szModule, formSet, buff);
-}
-
 int DB::deleteSettingF(MCONTACT hContact, char *szModule, char *szSetting, int id)
 {
 	char formSet[256];

@@ -36,7 +36,7 @@ UploadJob::UploadJob(UploadJob *job) :
 	GenericJob(job),
 	m_fp(nullptr), m_uiSent(0), m_uiTotalSent(0), m_uiFileSize(0)
 {
-	mir_strcpy(m_szFileLink, job->m_szFileLink);
+	strncpy_s(m_szFileLink, job->m_szFileLink, _TRUNCATE);
 	for (int i = 0; i < _countof(m_lastSpeed); i++)
 		m_lastSpeed[i] = 0;
 }
@@ -47,7 +47,10 @@ UploadJob::UploadJob(PackerJob *job) :
 	for (int i = 0; i < _countof(m_lastSpeed); i++)
 		m_lastSpeed[i] = 0;
 
-	Utils::makeSafeString(job->m_tszFileName, m_szSafeFileName);
+	CMStringA buf = _T2A(job->m_tszFileName);
+	Utils::makeSafeString(buf);
+	strncpy_s(m_szSafeFileName, buf.c_str(), _TRUNCATE);
+
 	m_status = STATUS_CREATED;
 }
 
@@ -64,9 +67,12 @@ void UploadJob::addToUploadDlg()
 {
 	for (UINT i = 0; i < m_files.size(); i++) {
 		UploadJob *jobCopy = new UploadJob(this);
-		mir_wstrcpy(jobCopy->m_tszFilePath, m_files[i]);
-		mir_wstrcpy(jobCopy->m_tszFileName, Utils::getFileNameFromPath(jobCopy->m_tszFilePath));
-		Utils::makeSafeString(jobCopy->m_tszFileName, jobCopy->m_szSafeFileName);
+		wcsncpy_s(jobCopy->m_tszFilePath, m_files[i], _TRUNCATE);
+		wcsncpy_s(jobCopy->m_tszFileName, Utils::getFileNameFromPath(jobCopy->m_tszFilePath), _TRUNCATE);
+
+		CMStringA buf = jobCopy->m_tszFileName;
+		Utils::makeSafeString(buf);
+		strncpy_s(jobCopy->m_szSafeFileName, buf.c_str(), _TRUNCATE);
 
 		UploadDialog::Tab *newTab = new UploadDialog::Tab(jobCopy);
 		jobCopy->m_tab = newTab;
@@ -290,7 +296,7 @@ void UploadJob::upload()
 	if (fileExistsOnServer()) {
 		int res = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DLG_FILEEXISTS), nullptr, DlgProcFileExists, (LPARAM)m_szSafeFileName);
 		if (res == IDC_RENAME) {
-			if (Utils::setFileNameDlgA(m_szSafeFileName) == true)
+			if (Utils::setFileNameDlg(_A2T(m_szSafeFileName)) == true)
 				curl_easy_setopt(hCurl, CURLOPT_URL, getUrlString());
 		}
 		else if (res == IDC_COPYURL) {

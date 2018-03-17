@@ -63,15 +63,35 @@ void ServerList::saveToDb() const
 
 ServerList::FTP::FTP(int index)
 {
-	if (DB::getStringF(0, MODULE, "Name%d", index, m_stzName))
+	CMStringA frmt;
+	frmt.Format("Name%d", index);
+	ptrA Name(db_get_sa(NULL, MODULE, frmt));
+	if (Name)
 		mir_snwprintf(m_stzName, TranslateT("FTP Server %d"), index + 1);
-
-	DB::getAStringF(0, MODULE, "Password%d", index, m_szPass);
-	DB::getAStringF(0, MODULE, "Server%d", index, m_szServer);
-	DB::getAStringF(0, MODULE, "User%d", index, m_szUser);
-	DB::getAStringF(0, MODULE, "Url%d", index, m_szUrl);
-	DB::getAStringF(0, MODULE, "Dir%d", index, m_szDir);
-	DB::getAStringF(0, MODULE, "Chmod%d", index, m_szChmod);
+	frmt.Format("Password%d", index);
+	ptrA Pass(db_get_sa(NULL, MODULE, frmt));
+	if (Pass)
+		strncpy_s(m_szPass, Pass, _TRUNCATE);
+	frmt.Format("Server%d", index);
+	ptrA Server(db_get_sa(NULL, MODULE, frmt));
+	if (Server)
+		strncpy_s(m_szServer, Server, _TRUNCATE);
+	frmt.Format("User%d", index);
+	ptrA User(db_get_sa(NULL, MODULE, frmt));
+	if (User)
+		strncpy_s(m_szUser, User, _TRUNCATE);
+	frmt.Format("Url%d", index);
+	ptrA Url(db_get_sa(NULL, MODULE, frmt));
+	if (Url)
+		strncpy_s(m_szUrl, Url, _TRUNCATE);
+	frmt.Format("Dir%d", index);
+	ptrA Dir(db_get_sa(NULL, MODULE, frmt));
+	if (Dir)
+		strncpy_s(m_szDir, Dir, _TRUNCATE);
+	frmt.Format("Chmod%d", index);
+	ptrA Chmod(db_get_sa(NULL, MODULE, frmt));
+	if (Chmod)
+		strncpy_s(m_szChmod, Chmod, _TRUNCATE);
 	m_ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULE, "FtpProto%d", index, FTP::FT_STANDARD);
 	m_iPort = DB::getWordF(0, MODULE, "Port%d", index, 21);
 	m_bPassive = DB::getByteF(0, MODULE, "Passive%d", index, 0) ? true : false;
