@@ -48,14 +48,13 @@ MCONTACT CToxProto::GetContact(const Tox *tox, const int friendNumber)
 
 MCONTACT CToxProto::GetContact(const char *pubKey)
 {
-	MCONTACT hContact = NULL;
 	for (auto &hContact : AccContacts()) {
 		ptrA contactPubKey(getStringA(hContact, TOX_SETTINGS_ID));
 		// check only public key part of address
 		if (mir_strncmpi(pubKey, contactPubKey, TOX_PUBLIC_KEY_SIZE) == 0)
-			break;
+			return hContact;
 	}
-	return hContact;
+	return 0;
 }
 
 ToxHexAddress CToxProto::GetContactPublicKey(const Tox *tox, const int friendNumber)
@@ -160,7 +159,7 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 	ToxBinAddress address(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
 
 	TOX_ERR_FRIEND_ADD addFriendResult;
-	int32_t friendNumber = tox_friend_add(m_toxThread->Tox(), address, (uint8_t*)reason, length, &addFriendResult);
+	/*int32_t friendNumber = */tox_friend_add(m_toxThread->Tox(), address, (uint8_t*)reason, length, &addFriendResult);
 	if (addFriendResult != TOX_ERR_FRIEND_ADD_OK) {
 		debugLogA(__FUNCTION__": failed to request auth(%d)", addFriendResult);
 		return addFriendResult;
