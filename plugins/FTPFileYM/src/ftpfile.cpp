@@ -108,10 +108,9 @@ void InitMenuItems()
 	mi2.flags = CMIF_UNICODE | CMIF_SYSTEM;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 
+	CMStringA frmt;
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) {
-		CMStringA frmt;
-		frmt.Format("Name%d", i);
-		ptrA Name(db_get_sa(NULL, MODULE, frmt));
+		ptrA Name(db_get_sa(NULL, MODULE, frmt.Format("Name%d", i)));
 		if (Name)
 			mir_snwprintf(stzName, TranslateT("FTP Server %d"), i + 1);
 
