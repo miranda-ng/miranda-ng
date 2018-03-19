@@ -18,7 +18,7 @@ __forceinline UINT_PTR luaM_tomparam(lua_State *L, int idx)
 		lua_Integer res = 0;
 		lua_Number num = lua_tonumber(L, idx);
 		if (lua_numbertointeger(num, &res))
-			return res;
+			return (UINT_PTR)res;
 	}
 	}
 	return NULL;

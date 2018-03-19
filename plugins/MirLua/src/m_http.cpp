@@ -294,10 +294,10 @@ static void request_SetContent(lua_State *L, int idx, NETLIBHTTPREQUEST *request
 
 static void request_SetContentType(lua_State *L, int idx, NETLIBHTTPREQUEST *request)
 {
-	if (!lua_isstring(L, 2))
+	if (!lua_isstring(L, idx))
 		return;
 
-	const char *type = lua_tostring(L, 2);
+	const char *type = lua_tostring(L, idx);
 	SetHeader(request, "Content-Type", type);
 }
 
@@ -389,7 +389,7 @@ static int request__gc(lua_State *L)
 	NETLIBHTTPREQUEST **request = (NETLIBHTTPREQUEST**)luaL_checkudata(L, 1, MT_NETLIBHTTPREQUEST);
 
 	mir_free((*request)->szUrl);
-	for (size_t i = 0; i < (*request)->headersCount; i++) {
+	for (int i = 0; i < (*request)->headersCount; i++) {
 		mir_free((*request)->headers[i].szName);
 		mir_free((*request)->headers[i].szValue);
 	}

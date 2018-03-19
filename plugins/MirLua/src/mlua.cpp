@@ -27,10 +27,8 @@ static int mlua_print(lua_State *L)
 {
 	CMStringA data;
 	int nargs = lua_gettop(L);
-	for (int i = 1; i <= nargs; i++)
-	{
-		switch (lua_type(L, i))
-		{
+	for (int i = 1; i <= nargs; i++) {
+		switch (lua_type(L, i)) {
 		case LUA_TNIL:
 			data.Append("nil");
 			break;
@@ -95,11 +93,9 @@ static int mlua_topointer(lua_State *L)
 		lua_pushlightuserdata(L, (void*)lua_toboolean(L, 1));
 		break;
 	case LUA_TNUMBER:
-		if (lua_isinteger(L, 1))
-		{
+		if (lua_isinteger(L, 1)) {
 			lua_Integer value = lua_tointeger(L, 1);
-			if (value > INTPTR_MAX)
-			{
+			if (value > INTPTR_MAX) {
 				const char *msg = lua_pushfstring(L, "%f is larger than %d", value, INTPTR_MAX);
 				return luaL_argerror(L, 1, msg);
 			}
@@ -120,8 +116,7 @@ static int mlua_topointer(lua_State *L)
 
 static int mlua_tonumber(lua_State *L)
 {
-	if (lua_islightuserdata(L, 1))
-	{
+	if (lua_islightuserdata(L, 1)) {
 		lua_Integer value = (lua_Integer)lua_touserdata(L, 1);
 		lua_pushinteger(L, value);
 		return 1;
@@ -168,14 +163,11 @@ static int mlua_interpolate(lua_State *L)
 
 	size_t level = 1;
 
-	while (lua_getstack(L, level++, &ar))
-	{
+	while (lua_getstack(L, level++, &ar)) {
 		size_t i = 1;
-		while (const char *name = lua_getlocal(L, &ar, i++))
-		{
+		while (const char *name = lua_getlocal(L, &ar, i++)) {
 			const char *val = lua_tostring(L, -1);
-			if (val)
-			{
+			if (val) {
 				mir_snprintf(pattern, "${%s}", name);
 				string = luaL_gsub(L, string, pattern, val);
 				lua_pop(L, 1);
@@ -217,7 +209,9 @@ void CMLua::Load()
 
 	lua_register(L, "print", mlua_print);
 	lua_register(L, "a", mlua_toansi);
+	lua_register(L, "toansi", mlua_toansi);
 	lua_register(L, "u", mlua_toucs2);
+	lua_register(L, "toucs2", mlua_toucs2);
 	lua_register(L, "topointer", mlua_topointer);
 
 	lua_getglobal(L, "tonumber");
@@ -267,22 +261,18 @@ void CMLua::Unload()
 
 void CMLua::KillLuaRefs()
 {
-	while (HookRefs.getCount())
-	{
+	while (HookRefs.getCount()) {
 		HandleRefParam *param = (HandleRefParam*)HookRefs[0];
-		if (param != nullptr)
-		{
+		if (param != nullptr) {
 			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
 			HookRefs.remove(0);
 			delete param;
 		}
 	}
 
-	while (ServiceRefs.getCount())
-	{
+	while (ServiceRefs.getCount()) {
 		HandleRefParam *param = (HandleRefParam*)ServiceRefs[0];
-		if (param != nullptr)
-		{
+		if (param != nullptr) {
 			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
 			ServiceRefs.remove(0);
 			delete param;
@@ -297,8 +287,7 @@ static int mlua_call(lua_State *L)
 	const char *module = luaL_checkstring(L, -3);
 	const char *function = luaL_checkstring(L, -2);
 
-	if (module && module[0])
-	{
+	if (module && module[0]) {
 		lua_getglobal(L, "require");
 		lua_pushstring(L, module);
 		lua_pcall(L, 1, 1, 0);

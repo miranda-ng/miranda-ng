@@ -237,7 +237,7 @@ static luaL_Reg protocolsApi[] =
 {
 	{ "GetProtocol", lua_GetProtocol },
 	{ "Protocols", lua_Protocols },
-	{ "RegisterProtocol", lua_Protocols },
+	{ "RegisterProtocol", lua_RegisterProtocol },
 
 	{ "CallSendChain", lua_ChainSend },
 	{ "CallReceiveChain", lua_ChainRecv },
