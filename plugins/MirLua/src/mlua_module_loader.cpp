@@ -6,17 +6,12 @@ CMLuaModuleLoader::CMLuaModuleLoader(lua_State *L) : L(L)
 
 void CMLuaModuleLoader::Load(const char *name, lua_CFunction loader)
 {
-	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
-	lua_pushcfunction(L, loader);
-	lua_pushstring(L, name);
-	luaM_pcall(L, 1, 1);
-	lua_setfield(L, -2, name);
-	lua_pop(L, 1);
+	luaL_requiref(L, name, loader, 0);
 }
 
 void CMLuaModuleLoader::Preload(const char *name, lua_CFunction loader)
 {
-	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_PRELOAD");
+	luaL_getsubtable(L, LUA_REGISTRYINDEX, LUA_PRELOAD_TABLE);
 	lua_pushcfunction(L, loader);
 	lua_setfield(L, -2, name);
 	lua_pop(L, 1);

@@ -4,7 +4,9 @@
 class CMLuaEnvironment
 {
 private:
-	int id;
+	int m_id;
+	std::map<HANDLE, int> m_hookRefs;
+	std::map<HANDLE, int> m_serviceRefs;
 
 	void CreateEnvironmentTable();
 
@@ -18,6 +20,12 @@ public:
 	static int GetEnvironmentId(lua_State *L);
 
 	int GetId() const;
+
+	void AddHookRef(HANDLE h, int ref);
+	void ReleaseHookRef(HANDLE h);
+
+	void AddServiceRef(HANDLE h, int ref);
+	void ReleaseServiceRef(HANDLE h);
 
 	bool Load();
 };

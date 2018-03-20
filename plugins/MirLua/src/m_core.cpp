@@ -13,7 +13,7 @@ static int core_CreateHookableEvent(lua_State *L)
 	return 1;
 }
 
-int HookEventLuaStateParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
+int HookEventLuaParam(void *obj, WPARAM wParam, LPARAM lParam, LPARAM param)
 {
 	lua_State *L = (lua_State*)obj;
 
@@ -67,19 +67,20 @@ static int core_HookEvent(lua_State *L)
 
 	HANDLE res = nullptr;
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
-	if (env)
+	if (env) {
 		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
+		if (res)
+			env->AddHookRef(res, ref);
+	}
 	else
-		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
-	if (res == nullptr)
-	{
+		res = HookEventObjParam(name, HookEventLuaParam, L, ref);
+
+	if (res == nullptr) {
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
 
 		return 1;
 	}
-
-	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	lua_pushlightuserdata(L, res);
 
@@ -96,20 +97,22 @@ static int core_HookTemporaryEvent(lua_State *L)
 
 	HANDLE res = nullptr;
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
-	if (env)
+	if (env) {
 		res = HookEventObjParam(name, HookEventEnvParam, env, ref);
+		if (res)
+			env->AddHookRef(res, ref);
+	}
 	else
-		res = HookEventObjParam(name, HookEventLuaStateParam, L, ref);
+		res = HookEventObjParam(name, HookEventLuaParam, L, ref);
+
 	// event does not exists, call hook immideatelly
-	if (res == nullptr)
-	{
+	if (res == nullptr) {
+		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
 		lua_pushnil(L);
 		luaM_pcall(L, 2, 1);
 		return lua_tointeger(env->L, -1);
 	}
-
-	CMLua::HookRefs.insert(new HandleRefParam(L, res, ref));
 
 	lua_pushlightuserdata(L, res);
 
@@ -122,15 +125,10 @@ static int core_UnhookEvent(lua_State *L)
 	HANDLE hEvent = lua_touserdata(L, 1);
 
 	int res = UnhookEvent(hEvent);
-	if (!res)
-	{
-		HandleRefParam *param = (HandleRefParam*)CMLua::HookRefs.find(&hEvent);
-		if (param != nullptr)
-		{
-			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-			CMLua::HookRefs.remove(param);
-			delete param;
-		}
+	if (!res) {
+		CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
+		if (env)
+			env->ReleaseHookRef(hEvent);
 	}
 	lua_pushboolean(L, !res);
 
@@ -196,18 +194,19 @@ static int core_CreateServiceFunction(lua_State *L)
 
 	HANDLE res = nullptr;
 	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
-	if (env)
+	if (env) {
 		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionEnvParam, env, ref);
+		if (res)
+			env->AddServiceRef(res, ref);
+	}
 	else
 		res = CreateServiceFunctionObjParam(name, CreateServiceFunctionLuaStateParam, L, ref);
-	if (!res)
-	{
+
+	if (!res) {
 		luaL_unref(L, LUA_REGISTRYINDEX, ref);
 		lua_pushnil(L);
 		return 1;
 	}
-
-	CMLua::ServiceRefs.insert(new HandleRefParam(L, res, ref));
 
 	lua_pushlightuserdata(L, res);
 
@@ -241,13 +240,9 @@ static int core_DestroyServiceFunction(lua_State *L)
 	luaL_checktype(L, 1, LUA_TLIGHTUSERDATA);
 	HANDLE hService = lua_touserdata(L, 1);
 
-	HandleRefParam *param = (HandleRefParam*)CMLua::ServiceRefs.find(&hService);
-	if (param != nullptr)
-	{
-		luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-		CMLua::ServiceRefs.remove(param);
-		delete param;
-	}
+	CMLuaEnvironment *env = CMLuaEnvironment::GetEnvironment(L);
+	if (env)
+		env->ReleaseHookRef(hService);
 
 	DestroyServiceFunction(hService);
 
@@ -364,8 +359,7 @@ static int core_TerminateThread(lua_State *L)
 	HANDLE hThread = (HANDLE)lua_touserdata(L, 1);
 
 	auto it = lstThreads.find(hThread);
-	if (it != lstThreads.end())
-	{
+	if (it != lstThreads.end()) {
 		DestroyThread(it->second);
 		lua_pushboolean(L, TerminateThread(hThread, 0));
 	}

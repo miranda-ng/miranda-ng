@@ -16,8 +16,7 @@ CMLuaOptions::CMLuaOptions(int idDialog)
 
 void CMLuaOptions::LoadScripts()
 {
-	for (auto &it : g_mLua->Scripts)
-	{
+	for (auto &it : g_mLua->Scripts) {
 		wchar_t *fileName = NEWWSTR_ALLOCA(it->GetFileName());
 		int iIcon = it->GetStatus() - 1;
 		int iItem = m_scripts.AddItem(fileName, iIcon, (LPARAM)it);
@@ -57,8 +56,7 @@ void CMLuaOptions::OnInitDialog()
 void CMLuaOptions::OnApply()
 {
 	int count = m_scripts.GetItemCount();
-	for (int iItem = 0; iItem < count; iItem++)
-	{
+	for (int iItem = 0; iItem < count; iItem++) {
 		wchar_t fileName[MAX_PATH];
 		m_scripts.GetItemText(iItem, 0, fileName, _countof(fileName));
 		if (!m_scripts.GetCheckState(iItem))
@@ -70,16 +68,13 @@ void CMLuaOptions::OnApply()
 
 INT_PTR CMLuaOptions::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_NOTIFY:
 	{
 		LPNMHDR lpnmHdr = (LPNMHDR)lParam;
-		if (lpnmHdr->idFrom == (UINT_PTR)m_scripts.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED)
-		{
+		if (lpnmHdr->idFrom == (UINT_PTR)m_scripts.GetCtrlId() && lpnmHdr->code == LVN_ITEMCHANGED) {
 			LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
-			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK)
-			{
+			if (pnmv->uChanged & LVIF_STATE && pnmv->uNewState & LVIS_STATEIMAGEMASK) {
 				if (isScriptListInit)
 					NotifyChange();
 			}
@@ -111,13 +106,14 @@ void CMLuaOptions::OnScriptListClick(CCtrlListView::TEventInfo *evt)
 		break;
 
 	case 2:
-		lvi.lParam = (LPARAM)new CMLuaScript(*script);
-		delete script;
-		script = (CMLuaScript*)lvi.lParam;
+		CMLuaScript *oldScript = script;
+		script = new CMLuaScript(*script);
+		delete oldScript;
 		script->Load();
 
-		lvi.mask = LVIF_IMAGE;
+		lvi.mask = LVIF_PARAM | LVIF_IMAGE;
 		lvi.iSubItem = 0;
+		lvi.lParam = (LPARAM)script;
 		lvi.iImage = script->GetStatus() - 1;
 		ListView_SetItem(m_scripts.GetHwnd(), &lvi);
 		m_scripts.Update(evt->nmlvia->iItem);

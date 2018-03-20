@@ -126,8 +126,7 @@ private:
 		T **udata = (T**)lua_newuserdata(L, sizeof(T*));
 		
 		*udata = Init(L);
-		if (*udata == nullptr)
-		{
+		if (*udata == nullptr) {
 			lua_pushnil(L);
 			return 1;
 		}

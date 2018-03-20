@@ -2,15 +2,7 @@
 
 int hMLuaLangpack;
 
-LIST<void> CMLua::HookRefs(1, HandleKeySortT);
-LIST<void> CMLua::ServiceRefs(1, HandleKeySortT);
-
-static int CompareScripts(const CMLuaScript* p1, const CMLuaScript* p2)
-{
-	return mir_strcmpi(p1->GetModuleName(), p2->GetModuleName());
-}
-
-CMLua::CMLua() : L(nullptr), Scripts(10, CompareScripts)
+CMLua::CMLua() : L(nullptr), Scripts(1)
 {
 	MUUID muidLast = MIID_LAST;
 	hMLuaLangpack = GetPluginLangId(muidLast, 0);
@@ -139,13 +131,13 @@ static int mlua_interpolate(lua_State *L)
 	char pattern[128];
 
 	if (lua_istable(L, 2)) {
-		for (lua_pushnil(L); lua_next(L, 2); lua_pop(L, 2)) {
+		for (lua_pushnil(L); lua_next(L, 2); lua_pop(L, 3)) {
 			lua_pushvalue(L, -2);
 			const char *key = lua_tostring(L, -1);
 			const char *val = lua_tostring(L, -2);
 
 			mir_snprintf(pattern, "{%s}", key);
-			string = luaL_gsub(L, string, pattern, val);
+			string = luaL_gsub(L, string, pattern, val ? val : "");
 		}
 	}
 	else {
@@ -154,26 +146,23 @@ static int mlua_interpolate(lua_State *L)
 			const char *val = lua_tostring(L, i);
 
 			mir_snprintf(pattern, "{%d}", i - 1);
-			string = luaL_gsub(L, string, pattern, val);
+			string = luaL_gsub(L, string, pattern, val ? val : "");
 			lua_pop(L, 1);
 		}
 	}
 
 	lua_Debug ar;
-
-	size_t level = 1;
-
+	int level = 1;
 	while (lua_getstack(L, level++, &ar)) {
-		size_t i = 1;
+		int i = 1;
 		while (const char *name = lua_getlocal(L, &ar, i++)) {
 			const char *val = lua_tostring(L, -1);
-			if (val) {
-				mir_snprintf(pattern, "${%s}", name);
-				string = luaL_gsub(L, string, pattern, val);
-				lua_pop(L, 1);
-			}
+			mir_snprintf(pattern, "{%s}", name);
+			string = luaL_gsub(L, string, pattern, val ? val : "");
+			lua_pop(L, 1);
 		}
 	}
+
 	lua_pushstring(L, string);
 
 	return 1;
@@ -241,12 +230,7 @@ void CMLua::Unload()
 {
 	Log("Unloading lua engine");
 
-	while (int last = Scripts.getCount())
-	{
-		CMLuaScript *script = g_mLua->Scripts[last - 1];
-		Scripts.remove(script);
-		delete script;
-	}
+	Scripts.destroy();
 
 	KillModuleIcons(hMLuaLangpack);
 	KillModuleSounds(hMLuaLangpack);
@@ -257,27 +241,6 @@ void CMLua::Unload()
 	KillObjectServices(L);
 
 	lua_close(L);
-}
-
-void CMLua::KillLuaRefs()
-{
-	while (HookRefs.getCount()) {
-		HandleRefParam *param = (HandleRefParam*)HookRefs[0];
-		if (param != nullptr) {
-			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-			HookRefs.remove(0);
-			delete param;
-		}
-	}
-
-	while (ServiceRefs.getCount()) {
-		HandleRefParam *param = (HandleRefParam*)ServiceRefs[0];
-		if (param != nullptr) {
-			luaL_unref(param->L, LUA_REGISTRYINDEX, param->ref);
-			ServiceRefs.remove(0);
-			delete param;
-		}
-	}
 }
 
 /***********************************************/

@@ -5,6 +5,8 @@
 #include <time.h>
 #include <wchar.h>
 
+#include <map>
+
 #include <newpluginapi.h>
 #include <m_core.h>
 #include <m_utils.h>

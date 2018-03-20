@@ -6,8 +6,7 @@ static int lua_GetProtocol(lua_State *L)
 {
 	const char *szProto = nullptr;
 
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TNUMBER:
 	{
 		const char *szModule = GetContactProto(lua_tonumber(L, 1));
@@ -38,8 +37,7 @@ static int lua_ProtocolIterator(lua_State *L)
 	int count = lua_tointeger(L, lua_upvalueindex(2));
 	PROTOCOLDESCRIPTOR **protos = (PROTOCOLDESCRIPTOR**)lua_touserdata(L, lua_upvalueindex(3));
 
-	if (i < count)
-	{
+	if (i < count) {
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
 		MT<PROTOCOLDESCRIPTOR>::Apply(L, protos[i]);
@@ -60,21 +58,6 @@ static int lua_Protocols(lua_State *L)
 	lua_pushinteger(L, count);
 	lua_pushlightuserdata(L, protos);
 	lua_pushcclosure(L, lua_ProtocolIterator, 3);
-
-	return 1;
-}
-
-static int lua_RegisterProtocol(lua_State *L)
-{
-	ptrA name(mir_utf8decodeA(luaL_checkstring(L, 1)));
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = name;
-	pd.type = PROTOTYPE_PROTOCOL;
-	int res = Proto_RegisterModule(&pd);
-
-	lua_pushboolean(L, res == 0);
 
 	return 1;
 }
@@ -237,7 +220,6 @@ static luaL_Reg protocolsApi[] =
 {
 	{ "GetProtocol", lua_GetProtocol },
 	{ "Protocols", lua_Protocols },
-	{ "RegisterProtocol", lua_RegisterProtocol },
 
 	{ "CallSendChain", lua_ChainSend },
 	{ "CallReceiveChain", lua_ChainRecv },

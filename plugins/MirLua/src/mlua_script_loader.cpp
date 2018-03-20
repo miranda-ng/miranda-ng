@@ -13,8 +13,7 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 	CMLuaScript *script = new CMLuaScript(L, path);
 	g_mLua->Scripts.insert(script);
 
-	if (db_get_b(NULL, MODULE, _T2A(file), 1) == FALSE)
-	{
+	if (db_get_b(NULL, MODULE, _T2A(file), 1) == FALSE) {
 		Log(L"%s:PASS", path);
 		return;
 	}
@@ -35,10 +34,8 @@ void CMLuaScriptLoader::LoadScripts()
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(searchMask, &fd);
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
 			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				continue;
 			LoadScript(scriptDir, fd.cFileName);

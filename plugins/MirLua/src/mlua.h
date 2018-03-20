@@ -1,15 +1,6 @@
 #ifndef _LUA_CORE_H_
 #define _LUA_CORE_H_
 
-struct HandleRefParam
-{
-	HANDLE h;
-	int ref;
-	lua_State *L;
-	HandleRefParam(HANDLE h) : L(nullptr), h(h), ref(0) { }
-	HandleRefParam(lua_State *L, HANDLE h, int ref = 0) : L(L), h(h), ref(ref) { }
-};
-
 class CMLua
 {
 private:
@@ -17,13 +8,8 @@ private:
 
 	void SetPaths();
 
-	static void KillLuaRefs();
-
 public:
-	static LIST<void> HookRefs;
-	static LIST<void> ServiceRefs;
-
-	LIST<CMLuaScript> Scripts;
+	OBJLIST<CMLuaScript> Scripts;
 
 	CMLua();
 	~CMLua();

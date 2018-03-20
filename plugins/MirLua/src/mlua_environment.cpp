@@ -6,18 +6,24 @@ CMLuaEnvironment::CMLuaEnvironment(lua_State *L)
 	: L(L)
 {
 	MUUID muidLast = MIID_LAST;
-	id = GetPluginLangId(muidLast, 0);
+	m_id = GetPluginLangId(muidLast, 0);
 }
 
 CMLuaEnvironment::~CMLuaEnvironment()
 {
-	KillModuleIcons(id);
-	KillModuleSounds(id);
-	KillModuleMenus(id);
-	KillModuleHotkeys(id);
+	KillModuleIcons(m_id);
+	KillModuleSounds(m_id);
+	KillModuleMenus(m_id);
+	KillModuleHotkeys(m_id);
 
 	KillObjectEventHooks(this);
 	KillObjectServices(this);
+
+	for (auto &it : m_hookRefs)
+		luaL_unref(L, LUA_REGISTRYINDEX, it.second);
+
+	for (auto &it : m_serviceRefs)
+		luaL_unref(L, LUA_REGISTRYINDEX, it.second);
 }
 
 CMLuaEnvironment* CMLuaEnvironment::GetEnvironment(lua_State *L)
@@ -42,7 +48,31 @@ int CMLuaEnvironment::GetEnvironmentId(lua_State *L)
 
 int CMLuaEnvironment::GetId() const
 {
-	return id;
+	return m_id;
+}
+
+void CMLuaEnvironment::AddHookRef(HANDLE h, int ref)
+{
+	m_hookRefs[h] = ref;
+}
+
+void CMLuaEnvironment::ReleaseHookRef(HANDLE h)
+{
+	auto it = m_hookRefs.find(h);
+	if (it != m_hookRefs.end())
+		luaL_unref(L, LUA_REGISTRYINDEX, it->second);
+}
+
+void CMLuaEnvironment::AddServiceRef(HANDLE h, int ref)
+{
+	m_serviceRefs[h] = ref;
+}
+
+void CMLuaEnvironment::ReleaseServiceRef(HANDLE h)
+{
+	auto it = m_serviceRefs.find(h);
+	if (it != m_serviceRefs.end())
+		luaL_unref(L, LUA_REGISTRYINDEX, it->second);
 }
 
 void CMLuaEnvironment::CreateEnvironmentTable()

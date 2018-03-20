@@ -19,7 +19,7 @@ CMLuaScript::CMLuaScript(lua_State *L, const wchar_t *path)
 }
 
 CMLuaScript::CMLuaScript(const CMLuaScript &script)
-	: CMLuaEnvironment(L), status(None), unloadRef(LUA_NOREF)
+	: CMLuaEnvironment(script.L), status(None), unloadRef(LUA_NOREF)
 {
 	mir_wstrcpy(filePath, script.filePath);
 	fileName = mir_wstrdup(script.fileName);
