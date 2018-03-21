@@ -97,6 +97,12 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		Window_SetIcon_IcoLib(hdlg, GetIconHandle(IDI_IMPORT));
+		hwndWizard = hdlg;
+		{
+			WizardDlgParam *param = (WizardDlgParam*)lParam;
+			if (param)
+				PostMessage(hdlg, WIZM_GOTOPAGE, param->wParam, param->lParam);
+		}
 		return TRUE;
 
 	case WIZM_GOTOPAGE:

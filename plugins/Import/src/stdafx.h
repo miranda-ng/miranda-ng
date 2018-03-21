@@ -67,6 +67,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddMessage(const wchar_t* fmt, ...);
 
+struct WizardDlgParam
+{
+	WPARAM wParam;
+	LPARAM lParam;
+};
+
 INT_PTR CALLBACK WizardIntroPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK MirandaPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
@@ -79,7 +85,7 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 int CreateGroup(const wchar_t *name, MCONTACT hContact);
 
 extern HINSTANCE hInst;
-extern HWND hwndAccMerge;
+extern HWND hwndWizard, hwndAccMerge;
 extern int nImportOptions;
 extern wchar_t importFile[];
 extern time_t dwSinceDate;

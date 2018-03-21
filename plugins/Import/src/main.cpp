@@ -58,8 +58,8 @@ static INT_PTR ImportCommand(WPARAM, LPARAM)
 		SetFocus(hwndWizard);
 	}
 	else {
-		hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
-		PostMessage(hwndWizard, WIZM_GOTOPAGE, IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc);
+		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
 	}
 
 	return 0;
@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT, MIID_SERVICEMODE, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT, MIID_DATABASE, MIID_SERVICEMODE, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
@@ -109,20 +109,20 @@ static int OnExit(WPARAM, LPARAM)
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	g_bServiceMode = true;
-	hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
-	PostMessage(hwndWizard, WIZM_GOTOPAGE, IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc);
+
+	WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
 	return SERVICE_ONLYDB;
 }
 
 static INT_PTR CustomImport(WPARAM wParam, LPARAM)
 {
-	MImportOptions *param = (MImportOptions*)wParam;
-	wcsncpy_s(importFile, MAX_PATH, param->pwszFileName, _TRUNCATE);
-	nImportOptions = param->dwFlags;
+	MImportOptions *opts = (MImportOptions*)wParam;
+	wcsncpy_s(importFile, MAX_PATH, opts->pwszFileName, _TRUNCATE);
+	nImportOptions = opts->dwFlags;
 
-	hwndWizard = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc);
-	PostMessage(hwndWizard, WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
-	return 0;
+	WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
+	return DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
 }
 
 extern "C" __declspec(dllexport) int Load(void)
