@@ -28,27 +28,8 @@ CMLuaScript::CMLuaScript(const CMLuaScript &script)
 
 CMLuaScript::~CMLuaScript()
 {
-	if (status == Loaded)
-	{
-		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
-		if (lua_isfunction(L, -1))
-			luaM_pcall(L);
-		lua_pushnil(L);
-		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
-		status = None;
-	}
-
-	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
-	lua_pushnil(L);
-	lua_setfield(L, -2, moduleName);
-	lua_pop(L, 1);
-
+	Unload();
 	mir_free(moduleName);
-}
-
-const char* CMLuaScript::GetModuleName() const
-{
-	return moduleName;
 }
 
 const wchar_t* CMLuaScript::GetFilePath() const
@@ -59,6 +40,21 @@ const wchar_t* CMLuaScript::GetFilePath() const
 const wchar_t* CMLuaScript::GetFileName() const
 {
 	return fileName;
+}
+
+bool CMLuaScript::IsEnabled()
+{
+	return db_get_b(NULL, MODULE, _T2A(fileName), 1);
+}
+
+void CMLuaScript::Enable()
+{
+	db_unset(NULL, MODULE, _T2A(fileName));
+}
+
+void CMLuaScript::Disable()
+{
+	db_set_b(NULL, MODULE, _T2A(fileName), 0);
 }
 
 CMLuaScript::Status CMLuaScript::GetStatus() const
@@ -85,7 +81,7 @@ bool CMLuaScript::Load()
 	if (lua_isnoneornil(L, -1))
 		return true;
 
-	luaL_getsubtable(L, LUA_REGISTRYINDEX, "_LOADED");
+	luaL_getsubtable(L, LUA_REGISTRYINDEX, LUA_LOADED_TABLE);
 	lua_getfield(L, -1, moduleName);
 	if (!lua_toboolean(L, -1)) {
 		lua_pop(L, 1);
@@ -115,4 +111,27 @@ bool CMLuaScript::Load()
 	lua_pop(L, 1);
 
 	return true;
+}
+
+void CMLuaScript::Unload()
+{
+	if (status == Loaded) {
+		lua_rawgeti(L, LUA_REGISTRYINDEX, unloadRef);
+		if (lua_isfunction(L, -1))
+			luaM_pcall(L);
+		lua_pushnil(L);
+		lua_rawsetp(L, LUA_REGISTRYINDEX, this);
+		status = None;
+	}
+
+	luaL_getsubtable(L, LUA_REGISTRYINDEX, LUA_LOADED_TABLE);
+	lua_pushnil(L);
+	lua_setfield(L, -2, moduleName);
+	lua_pop(L, 1);
+}
+
+bool CMLuaScript::Reload()
+{
+	Unload();
+	return Load();
 }

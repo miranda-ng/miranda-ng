@@ -1,5 +1,4 @@
-#ifndef _LUA_MODULE_LOADER_H_
-#define _LUA_MODULE_LOADER_H_
+#pragma once
 
 class CMLuaModuleLoader
 {
@@ -16,5 +15,3 @@ private:
 public:
 	static void Load(lua_State *L);
 };
-
-#endif //_LUA_MODULE_LOADER_H_

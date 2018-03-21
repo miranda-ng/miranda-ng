@@ -38,41 +38,35 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
+int OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.hInstance = g_hInstance;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
+	odp.szGroup.w = LPGENW("Services");
+	odp.szTitle.w = L"Lua";
+	odp.szTab.w = LPGENW("Scripts");
+	odp.pDialog = new CMLuaOptions(g_mLua);
+	Options_AddPage(wParam, &odp);
+
+	return 0;
+}
+
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	g_hCLibsFolder = FoldersRegisterCustomPathT(MODULE, "CLibsFolder", MIRLUA_PATHT, TranslateT("C libs folder"));
 	g_hScriptsFolder = FoldersRegisterCustomPathT(MODULE, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
 
-	HookEvent(ME_OPT_INITIALISE, CMLuaOptions::OnOptionsInit);
-
-	InitIcons();
-
-	g_mLua = new CMLua();
-	g_mLua->Load();
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInit);
 
 	return 0;
-}
-
-INT_PTR Call(WPARAM wParam, LPARAM lParam)
-{
-	return g_mLua->Call(wParam, lParam);
-}
-
-INT_PTR Exec(WPARAM wParam, LPARAM lParam)
-{
-	return g_mLua->Exec(wParam, lParam);
-}
-
-INT_PTR Eval(WPARAM wParam, LPARAM lParam)
-{
-	return g_mLua->Eval(wParam, lParam);
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	InitIcons();
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
@@ -89,9 +83,10 @@ extern "C" int __declspec(dllexport) Load(void)
 	hRecvMessage = CreateHookableEvent(MODULE PSR_MESSAGE);
 	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, FilterRecvMessage);
 
-	CreateServiceFunction(MS_LUA_CALL, Call);
-	CreateServiceFunction(MS_LUA_EXEC, Exec);
-	CreateServiceFunction(MS_LUA_EVAL, Eval);
+	g_mLua = new CMLua();
+	g_mLua->Load();
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	return 0;
 }
@@ -100,8 +95,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	delete g_mLua;
 
-	if (hNetlib)
-	{
+	if (hNetlib) {
 		Netlib_CloseHandle(hNetlib);
 		hNetlib = nullptr;
 	}

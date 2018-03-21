@@ -2,8 +2,7 @@
 
 static void lua2json(lua_State *L, JSONNode &node)
 {
-	switch (lua_type(L, -1))
-	{
+	switch (lua_type(L, -1)) {
 	case LUA_TNIL:
 		node.nullify();
 		break;
@@ -54,25 +53,36 @@ static void lua2json(lua_State *L, JSONNode &node)
 
 static int json__index(lua_State *L)
 {
-	JSONNode &node = *((JSON*)luaL_checkudata(L, 1, MT_JSON))->node;
+	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
 
-	switch (node.type())
+	JSONNode *child;
+	if (node->type() == JSON_ARRAY) {
+		int idx = lua_tointeger(L, 2);
+		child = &node->at(idx - 1);
+	}
+	else {
+		const char *key = lua_tostring(L, 2);
+		child = &node->at(key);
+	}
+
+	switch (child->type())
 	{
 	case JSON_NULL:
 		lua_pushnil(L);
 		break;
 	case JSON_STRING:
-		lua_pushstring(L, node.as_string().c_str());
+		lua_pushstring(L, child->as_string().c_str());
 		break;
 	case JSON_NUMBER:
-		lua_pushnumber(L, node.as_int());
+		lua_pushnumber(L, child->as_int());
 		break;
 	case JSON_BOOL:
-		lua_pushboolean(L, node.as_bool());
+		lua_pushboolean(L, child->as_bool());
 		break;
-	case JSON_NODE:
 	case JSON_ARRAY:
-		new (L) JSONNode(node);
+	case JSON_NODE:
+		JSONNode **udata = (JSONNode**)lua_newuserdata(L, sizeof(JSONNode*));
+		*udata = child;
 		luaL_setmetatable(L, MT_JSON);
 	}
 
@@ -81,46 +91,51 @@ static int json__index(lua_State *L)
 
 static int json__newindex(lua_State *L)
 {
-	JSONNode &node = *((JSON*)luaL_checkudata(L, 1, MT_JSON))->node;
+	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
 	const char *key = lua_tostring(L, 2);
 
-	JSONNode child = node[key];
-	if (child.isnull()) {
-		child.set_name(key);
-		lua2json(L, child);
-		node << child;
+	if (json_type(node) == JSON_ARRAY) {
+		int idx = lua_tointeger(L, 2);
+		JSONNode *child = json_at(node, idx - 1);
+		lua2json(L, *child);
 		return 0;
 	}
 
-	lua2json(L, child);
-	node[key] = child;
+	JSONNode *child = json_get(node, key);
+	if (json_type(child) == JSON_NULL) {
+		json_set_name(child, key);
+		lua2json(L, *child);
+		json_push_back(node, child);
+		return 0;
+	}
+
+	lua2json(L, *child);
 
 	return 0;
 }
 
 static int json__len(lua_State *L)
 {
-	JSONNode &node = *((JSON*)luaL_checkudata(L, 1, MT_JSON))->node;
-
-	lua_pushnumber(L, node.size());
+	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
+	lua_pushnumber(L, json_size(node));
 
 	return 1;
 }
 
 static int json__tostring(lua_State *L)
 {
-	JSONNode &node = *((JSON*)luaL_checkudata(L, 1, MT_JSON))->node;
+	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
 
-	lua_pushstring(L, node.write().c_str());
+	lua_pushstring(L, node->write().c_str());
 
 	return 1;
 }
 
 static int json__gc(lua_State *L)
 {
-	JSON *json = (JSON*)luaL_checkudata(L, 1, MT_JSON);
+	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
 
-	delete json;
+	json_delete(node);
 
 	return 0;
 }
@@ -143,8 +158,8 @@ static int lua_Decode(lua_State *L)
 {
 	const char *string = luaL_checkstring(L, 1);
 
-	JSONNode *node = json_parse(string);
-	new (L) JSON(node);
+	JSONNode **udata = (JSONNode**)lua_newuserdata(L, sizeof(JSONNode*));
+	*udata = json_parse(string);
 	luaL_setmetatable(L, MT_JSON);
 
 	return 1;
@@ -152,8 +167,7 @@ static int lua_Decode(lua_State *L)
 
 static int lua_Encode(lua_State *L)
 {
-	switch (lua_type(L, 1))
-	{
+	switch (lua_type(L, 1)) {
 	case LUA_TNIL:
 		lua_pushliteral(L, "null");
 		break;
@@ -190,8 +204,8 @@ static int lua_Encode(lua_State *L)
 	}
 	case LUA_TUSERDATA:
 	{
-		JSONNode &node = *((JSON*)luaL_checkudata(L, 1, MT_JSON))->node;
-		lua_pushstring(L, node.write().c_str());
+		JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
+		lua_pushstring(L, node->write().c_str());
 		break;
 	}
 	case LUA_TLIGHTUSERDATA:

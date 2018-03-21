@@ -1,5 +1,4 @@
-#ifndef _COMMON_H_
-#define _COMMON_H_
+#pragma once
 
 #include <windows.h>
 #include <time.h>
@@ -25,6 +24,9 @@
 #include <m_folders.h>
 #include <m_popup.h>
 #include <m_toptoolbar.h>
+#include <m_json.h>
+#include <m_gui.h>
+#include <m_plugin.h>
 
 #include <m_lua.h>
 #include <mirlua.h>
@@ -37,6 +39,7 @@ class CMLuaScript;
 #include "mlua.h"
 #include "mlua_environment.h"
 #include "mlua_script.h"
+#include "mlua_function_loader.h"
 #include "mlua_module_loader.h"
 #include "mlua_script_loader.h"
 #include "mlua_options.h"
@@ -98,10 +101,6 @@ LUAMOD_API int (luaopen_m_sounds)(lua_State *L);
 #define MLUA_SRMM	"m_srmm"
 LUAMOD_API int (luaopen_m_srmm)(lua_State *L);
 
-/* services */
-
-INT_PTR Call(WPARAM wParam, LPARAM lParam);
-
 /* utils */
 
 extern HNETLIBUSER hNetlib;
@@ -124,5 +123,3 @@ bool luaM_toboolean(lua_State *L, int idx);
 void InitIcons();
 HICON GetIcon(int iconId);
 HANDLE GetIconHandle(int iconId);
-
-#endif //_COMMON_H_

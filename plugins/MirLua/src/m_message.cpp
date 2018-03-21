@@ -27,15 +27,13 @@ static int message_Send(lua_State *L)
 	INT_PTR res = 1;
 
 	const char *szProto = GetContactProto(hContact);
-	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE)
-	{
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE) {
 		ptrW wszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
 		ptrW wszMessage(mir_utf8decodeW(message));
 		res = Chat_SendUserMessage(szProto, wszChatRoom, wszMessage);
 		lua_pushinteger(L, res);
 	}
-	else if ((res = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED)
-	{
+	else if ((res = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED) {
 		DBEVENTINFO dbei = {};
 		dbei.szModule = MODULE;
 		dbei.timestamp = time(nullptr);

@@ -44,7 +44,7 @@ static int lua_AddButton(lua_State *L)
 {
 	luaL_checktype(L, 1, LUA_TTABLE);
 
-	BBButton bbb = { };
+	BBButton bbb = {};
 	MakeBBButton(L, bbb);
 
 	int hScriptLangpack = CMLuaEnvironment::GetEnvironmentId(L);

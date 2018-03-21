@@ -1,12 +1,18 @@
 #ifndef _LUA_CORE_H_
 #define _LUA_CORE_H_
 
-class CMLua
+class CMLua : private PLUGIN<CMLua>
 {
+	friend class CMLuaOptions;
+
 private:
 	lua_State *L;
 
-	void SetPaths();
+	void Unload();
+
+	INT_PTR __cdecl Eval(WPARAM, LPARAM);
+	INT_PTR __cdecl Call(WPARAM, LPARAM);
+	INT_PTR __cdecl Exec(WPARAM, LPARAM);
 
 public:
 	OBJLIST<CMLuaScript> Scripts;
@@ -15,11 +21,7 @@ public:
 	~CMLua();
 
 	void Load();
-	void Unload();
-
-	INT_PTR Call(WPARAM, LPARAM);
-	INT_PTR Exec(WPARAM, LPARAM);
-	INT_PTR Eval(WPARAM, LPARAM);
+	void Reload();
 };
 
 #endif //_LUA_CORE_H_

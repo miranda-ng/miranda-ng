@@ -19,6 +19,8 @@ void CMLuaModuleLoader::Preload(const char *name, lua_CFunction loader)
 
 void CMLuaModuleLoader::LoadModules()
 {
+	Log("Loading miranda modules");
+
 	// load m_core module
 	Load(MLUA_CORE, luaopen_m_core);
 	// load all internal modules

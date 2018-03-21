@@ -1,7 +1,25 @@
 #include "stdafx.h"
 
-CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L) : L(L)
+CMLuaScriptLoader::CMLuaScriptLoader(lua_State *L)
+	: L(L)
 {
+}
+
+void CMLuaScriptLoader::SetPaths()
+{
+	wchar_t path[MAX_PATH];
+
+	lua_getglobal(L, LUA_LOADLIBNAME);
+
+	FoldersGetCustomPathT(g_hCLibsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
+	lua_pushfstring(L, "%s\\?.dll", T2Utf(path));
+	lua_setfield(L, -2, "cpath");
+
+	FoldersGetCustomPathT(g_hScriptsFolder, path, _countof(path), VARSW(MIRLUA_PATHT));
+	lua_pushfstring(L, "%s\\?.lua", T2Utf(path));
+	lua_setfield(L, -2, "path");
+
+	lua_pop(L, 1);
 }
 
 void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file)
@@ -13,7 +31,7 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 	CMLuaScript *script = new CMLuaScript(L, path);
 	g_mLua->Scripts.insert(script);
 
-	if (db_get_b(NULL, MODULE, _T2A(file), 1) == FALSE) {
+	if (!script->IsEnabled()) {
 		Log(L"%s:PASS", path);
 		return;
 	}
@@ -24,6 +42,8 @@ void CMLuaScriptLoader::LoadScript(const wchar_t *scriptDir, const wchar_t *file
 
 void CMLuaScriptLoader::LoadScripts()
 {
+	SetPaths();
+
 	wchar_t scriptDir[MAX_PATH];
 	FoldersGetCustomPathT(g_hScriptsFolder, scriptDir, _countof(scriptDir), VARSW(MIRLUA_PATHT));
 
