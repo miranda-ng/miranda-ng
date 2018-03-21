@@ -66,7 +66,6 @@ static int grokHeader(const wchar_t *profile)
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static MIDatabase* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
 	// set the memory, lists & UTF8 manager
