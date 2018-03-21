@@ -164,7 +164,7 @@ void CVkProto::WorkerThread(void*)
 				m_arRequestsQueue.remove(0);
 
 				ULONG utime = GetTickCount();
-				lWaitingTime = (utime - uTime[0]) > 1000 ? 0 : 1100 - (utime - uTime[0]);
+				lWaitingTime = (utime - uTime[0]) > 1500 ? 0 : 1500 - (utime - uTime[0]);
 
 				if (!(pReq->m_bApiReq) || lWaitingTime < 0)
 					lWaitingTime = 0;
