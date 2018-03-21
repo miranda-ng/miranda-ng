@@ -59,6 +59,8 @@ CDb3Mmap::CDb3Mmap(const wchar_t *tszFileName, int iMode) :
 
 CDb3Mmap::~CDb3Mmap()
 {
+	g_Dbs.remove(this);
+
 	// destroy modules
 	HeapDestroy(m_hModHeap);
 

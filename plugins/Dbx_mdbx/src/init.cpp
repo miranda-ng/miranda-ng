@@ -62,7 +62,7 @@ static int grokHeader(const TCHAR *profile)
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
-static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
+static MDatabaseCommon* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 {
 	// set the memory, lists & UTF8 manager
 	mir_getLP(&pluginInfo);
@@ -73,13 +73,6 @@ static MIDatabase* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 
 	g_Dbs.insert(db.get());
 	return db.release();
-}
-
-static int UnloadDatabase(MIDatabase *db)
-{
-	g_Dbs.remove((CDbxMDBX*)db);
-	delete (CDbxMDBX*)db;
-	return 0;
 }
 
 MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
@@ -101,7 +94,6 @@ static DATABASELINK dblink =
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
-	UnloadDatabase,
 	CheckDb
 };
 

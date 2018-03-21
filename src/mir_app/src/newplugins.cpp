@@ -866,7 +866,7 @@ void UnloadDatabase(void)
 {
 	if (currDb != nullptr) {
 		db_setCurrent(nullptr);
-		currDblink->Unload(currDb);
+		delete currDb;
 		currDb = nullptr;
 		currDblink = nullptr;
 	}

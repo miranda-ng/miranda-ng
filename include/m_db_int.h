@@ -139,14 +139,14 @@ protected:
 	LIST<char> m_lResidentSettings;
 
 protected:
-	MDatabaseCommon();
-	~MDatabaseCommon();
-
 	int CheckProto(DBCachedContact *cc, const char *proto);
 
 	STDMETHOD_(BOOL, GetContactSettingWorker)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic) PURE;
 
 public:
+	MDatabaseCommon();
+	virtual ~MDatabaseCommon();
+
 	STDMETHODIMP_(BOOL) DeleteModule(MCONTACT contactID, LPCSTR szModule);
 
 	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = nullptr);
@@ -240,14 +240,7 @@ struct DATABASELINK
 		which is a PLUGINLINK structure
 	Returns: 0 on success, nonzero on failure
 	*/
-	MIDatabase* (*Load)(const wchar_t *profile, BOOL bReadOnly);
-
-	/*
-	Affect: The database plugin should shutdown, unloading things from the core and freeing internal structures
-	Returns: 0 on success, nonzero on failure
-	Note: Unload() might be called even if Load(void) was never called, wasLoaded is set to 1 if Load(void) was ever called.
-	*/
-	int (*Unload)(MIDatabase*);
+	MDatabaseCommon* (*Load)(const wchar_t *profile, BOOL bReadOnly);
 
 	/*
 	Returns a pointer to the database checker or NULL if a database doesn't support checking

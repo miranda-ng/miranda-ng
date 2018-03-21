@@ -54,8 +54,8 @@ extern struct CHAT_MANAGER chatApi;
 
 /**** database.cpp *********************************************************************/
 
-extern MIDatabase* currDb;
-extern DATABASELINK* currDblink;
+extern MDatabaseCommon *currDb;
+extern DATABASELINK *currDblink;
 extern LIST<DATABASELINK> arDbPlugins;
 
 int  InitIni(void);

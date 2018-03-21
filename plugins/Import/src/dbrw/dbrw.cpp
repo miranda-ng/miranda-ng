@@ -77,17 +77,11 @@ static int dbrw_grokHeader(const wchar_t *profile)
 	return rc;
 }
 
-static MIDatabase* dbrw_Load(const wchar_t *profile, BOOL)
+static MDatabaseCommon* dbrw_Load(const wchar_t *profile, BOOL)
 {
 	CDbxSQLite *db = new CDbxSQLite();
 	db->Open(profile);
 	return db;
-}
-
-static int dbrw_Unload(MIDatabase *db)
-{
-	delete (CDbxSQLite*)db;
-	return 0;
 }
 
 static DATABASELINK dblink =
@@ -97,8 +91,7 @@ static DATABASELINK dblink =
 	L"dbx SQLite driver",
 	dbrw_makeDatabase,
 	dbrw_grokHeader,
-	dbrw_Load,
-	dbrw_Unload
+	dbrw_Load
 };
 
 void RegisterDbrw()

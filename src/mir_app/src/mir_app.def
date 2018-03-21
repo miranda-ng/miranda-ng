@@ -449,12 +449,12 @@ Skin_PlaySound @462
 Skin_PlaySoundFile @463
 Clist_SetStatusMode @464
 ??0CProtoIntDlgBase@@QAE@$$QAV0@@Z @465 NONAME
-??0MDatabaseCommon@@IAE@XZ @466 NONAME
+??0MDatabaseCommon@@QAE@XZ @466 NONAME
 ??0MDatabaseCommon@@QAE@ABV0@@Z @468 NONAME
 ??0MIDatabase@@QAE@$$QAU0@@Z @469 NONAME
 ??0MIDatabase@@QAE@ABU0@@Z @470 NONAME
 ??0MIDatabase@@QAE@XZ @471 NONAME
-??1MDatabaseCommon@@IAE@XZ @473 NONAME
+??1MDatabaseCommon@@UAE@XZ @472 NONAME
 ??4CProtoIntDlgBase@@QAEAAV0@$$QAV0@@Z @474 NONAME
 ??4MDatabaseCommon@@QAEAAV0@ABV0@@Z @476 NONAME
 ??4MIDatabase@@QAEAAU0@$$QAU0@@Z @477 NONAME

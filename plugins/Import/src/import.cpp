@@ -68,7 +68,8 @@ static LIST<DBCachedContact> arMetas(10);
 
 static HWND hdlgProgress;
 static DWORD nDupes, nContactsCount, nMessagesCount, nGroupsCount, nSkippedEvents, nSkippedContacts;
-static MIDatabase *srcDb, *dstDb;
+static MDatabaseCommon *srcDb;
+static MIDatabase *dstDb;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1090,7 +1091,7 @@ void MirandaImport(HWND hdlg)
 	dstDb->SetCacheSafetyMode(TRUE);
 
 	// Clean up before exit
-	dblink->Unload(srcDb);
+	delete srcDb;
 
 	// Stop timer
 	dwTimer = time(nullptr) - dwTimer;

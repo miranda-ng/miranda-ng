@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "profilemanager.h"
 
-MIDatabase *currDb = nullptr;
+MDatabaseCommon *currDb = nullptr;
 DATABASELINK *currDblink = nullptr;
 
 // contains the location of mirandaboot.ini
@@ -400,7 +400,7 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 		}
 
 		// try to load database
-		MIDatabase *pDb = it->Load(tszProfile, FALSE);
+		MDatabaseCommon *pDb = it->Load(tszProfile, FALSE);
 		if (pDb == nullptr)
 			return EGROKPRF_CANTREAD;
 
@@ -423,7 +423,7 @@ static int tryCreateDatabase(const wchar_t *ptszProfile)
 		int err = p->makeDatabase(tszProfile);
 		if (err == ERROR_SUCCESS) {
 			g_bDbCreated = true;
-			MIDatabase *pDb = p->Load(tszProfile, FALSE);
+			MDatabaseCommon *pDb = p->Load(tszProfile, FALSE);
 			if (pDb == nullptr) // driver was found but smth went wrong
 				return EGROKPRF_CANTREAD;
 

@@ -39,6 +39,7 @@ CDbxMDBX::CDbxMDBX(const TCHAR *tszFileName, int iMode) :
 
 CDbxMDBX::~CDbxMDBX()
 {
+	g_Dbs.remove(this);
 	mdbx_env_close(m_env);
 
 	DestroyServiceFunction(hService);
