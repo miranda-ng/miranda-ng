@@ -228,8 +228,8 @@ void ICQTransfer::sendPacket0x02()
 	Packet packet;
 	packet << (unsigned char)0x02
 		<< directory
-		<< ptrA(mir_utf8encodeW(wcsrchr(fileName, '\\') + 1)).get()
-		<< ptrA(mir_utf8encodeW(directoryName + mir_wstrlen(path) + 1)).get()
+		<< _T2A(wcsrchr(fileName, '\\') + 1)
+		<< _T2A(directoryName + mir_wstrlen(path) + 1)
 		<< fileSize
 		<< fileDate
 		<< speed;
@@ -327,8 +327,7 @@ void ICQTransfer::ack(unsigned int result)
 		ProtoBroadcastAck(protoName, hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, this, 0);
 		socket.closeConnection();
 
-		unsigned int i;
-		for (i = 0; i < icqTransfers.size(); i++) {
+		for (size_t i = 0; i < icqTransfers.size(); i++) {
 			if (icqTransfers[i] == this) {
 				delete icqTransfers[i];
 				icqTransfers[i] = icqTransfers[icqTransfers.size() - 1];

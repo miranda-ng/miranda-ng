@@ -1547,13 +1547,13 @@ ICQTransfer *ICQ::sendFile(ICQUser *u, char *description, char *filename, unsign
 	if (!u->socket.connected() && !openConnection(u->socket))
 		return nullptr;
 
-	unsigned int i;
-
 	ICQTransfer *transfer = new ICQTransfer(u, tcpSequenceVal);
 
+	int i;
 	for (i = 0; files[i]; i++);
 	transfer->files = new wchar_t*[i + 1];
-	for (i = 0; files[i]; i++) transfer->files[i] = _wcsdup(files[i]);
+	for (i = 0; files[i]; i++)
+		transfer->files[i] = _wcsdup(files[i]);
 	transfer->files[i] = nullptr;
 
 	transfer->description = _strdup(description);
