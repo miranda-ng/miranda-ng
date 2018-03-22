@@ -459,7 +459,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 	bool bImportSysAll = (nImportOptions & IOPT_SYS_SETTINGS) != 0;
 
 	for (auto &p : arAccountMap) {
-		if (p->pa != nullptr || p->szBaseProto == NULL || !mir_strcmp(p->szSrcAcc, META_PROTO))
+		if (p->szBaseProto == NULL || !mir_strcmp(p->szSrcAcc, META_PROTO))
 			continue;
 
 		if (!Proto_IsProtocolLoaded(p->szBaseProto)) {
@@ -467,15 +467,17 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 			continue;
 		}
 
-		ACC_CREATE newacc;
-		newacc.pszBaseProto = p->szBaseProto;
-		newacc.pszInternal = nullptr;
-		newacc.ptszAccountName = p->tszSrcName;
-
-		p->pa = ProtoCreateAccount(&newacc);
 		if (p->pa == nullptr) {
-			AddMessage(LPGENW("Unable to create an account %s of protocol %S"), p->tszSrcName, p->szBaseProto);
-			return false;
+			ACC_CREATE newacc;
+			newacc.pszBaseProto = p->szBaseProto;
+			newacc.pszInternal = nullptr;
+			newacc.ptszAccountName = p->tszSrcName;
+
+			p->pa = ProtoCreateAccount(&newacc);
+			if (p->pa == nullptr) {
+				AddMessage(LPGENW("Unable to create an account %s of protocol %S"), p->tszSrcName, p->szBaseProto);
+				continue;
+			}
 		}
 
 		char szSetting[100];
