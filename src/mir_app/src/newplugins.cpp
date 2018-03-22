@@ -318,9 +318,9 @@ LBL_Ok:
 void Plugin_Uninit(pluginEntry *p)
 {
 	// if the basic API check had passed, call Unload if Load(void) was ever called
-	if (p->pclass & PCLASS_LOADED) {
+	if (p->bLoaded) {
 		p->bpi.Unload();
-		p->pclass &= ~PCLASS_LOADED;
+		p->bLoaded = false;
 	}
 
 	// release the library
@@ -375,7 +375,7 @@ int Plugin_UnloadDyn(pluginEntry *p)
 	Plugin_Uninit(p);
 
 	// mark default plugins to be loaded
-	if (!(p->pclass & PCLASS_CORE))
+	if (!p->bIsCore)
 		for (auto &it : pluginDefault)
 			if (it.pImpl == p)
 				it.pImpl = nullptr;
@@ -433,7 +433,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	bool bIsPlugin = false;
 	mir_ptr<MUUID> pIds(GetPluginInterfaces(tszFullPath, bIsPlugin));
 	if (!bIsPlugin) {
-		p->pclass |= PCLASS_FAILED;  // piece of shit
+		p->bFailed = true;  // piece of shit
 		return p;
 	}
 
@@ -443,45 +443,52 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 		BASIC_PLUGIN_INFO bpi;
 		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			// plugin is valid
-			p->pclass |= ((bIsDb ? PCLASS_DB : PCLASS_CRYPT) | PCLASS_BASICAPI);
+			p->bHasBasicApi = true;
+			if (bIsDb)
+				p->bIsDatabase = true;
+			else
+				p->bIsCrypto = true;
+
 			// copy the dblink stuff
 			p->bpi = bpi;
 
 			RegisterModule(p->bpi.hInst);
 			if (bpi.Load() != 0)
-				p->pclass |= PCLASS_FAILED;
+				p->bFailed = true;
 			else
-				p->pclass |= PCLASS_LOADED;
+				p->bLoaded = true;
 		}
-		else p->pclass |= PCLASS_FAILED;
+		else p->bFailed = true;
 	}
 	// plugin declared that it's a contact list. mark it for the future load
 	else if (hasMuuid(pIds, MIID_CLIST)) {
 		// keep a note of this plugin for later
 		clistPlugins.insert(p);
-		p->pclass |= PCLASS_CLIST;
+		p->bIsClist = true;
 	}
 	// plugin declared that it's a ssl provider. mark it for the future load
 	else if (hasMuuid(pIds, MIID_SSL)) {
 		plugin_ssl = p;
-		p->pclass |= PCLASS_LAST;
+		p->bIsLast = true;
 	}
 	// plugin declared that it's a service mode plugin.
 	// load it for a profile manager's window
 	else if (hasMuuid(pIds, MIID_SERVICEMODE)) {
 		BASIC_PLUGIN_INFO bpi;
 		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
-			p->pclass |= (PCLASS_OK | PCLASS_BASICAPI);
+			p->bOk = p->bHasBasicApi = true;
 			p->bpi = bpi;
 			if (hasMuuid(bpi, MIID_SERVICEMODE)) {
-				p->pclass |= (PCLASS_SERVICE);
+				p->bIsService = true;
 				servicePlugins.insert(p);
 			}
 		}
 		else
 			// didn't have basic APIs or DB exports - failed.
-			p->pclass |= PCLASS_FAILED;
+			p->bFailed = true;
 	}
+	else if (hasMuuid(pIds, MIID_DATABASE))
+		p->bIsProtocol = true;
 	return p;
 }
 
@@ -514,20 +521,20 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 	if (slice)
 		*slice = 0;
 
-	if (!(p->pclass & (PCLASS_LOADED | PCLASS_DB | PCLASS_CLIST))) {
+	if (!p->bLoaded && !p->bIsDatabase && !p->bIsClist) {
 		if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
 			return false;
 
-		if (!(p->pclass & PCLASS_BASICAPI)) {
+		if (!p->bHasBasicApi) {
 			BASIC_PLUGIN_INFO bpi;
-			mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->pclass & PCLASS_CORE) ? L"Core" : L"Plugins", p->pluginname);
+			mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
 			if (!checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
-				p->pclass |= PCLASS_FAILED;
+				p->bFailed = true;
 				return false;
 			}
 
 			p->bpi = bpi;
-			p->pclass |= PCLASS_OK | PCLASS_BASICAPI;
+			p->bOk = p->bHasBasicApi = true;
 		}
 
 		if (p->bpi.Interfaces) {
@@ -541,7 +548,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 					}
 
 					// we're loading new implementation dynamically, let the old one die
-					if (!(p->pclass & PCLASS_CORE))
+					if (!p->bIsCore)
 						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
 				}
 			}
@@ -551,7 +558,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		if (p->bpi.Load() != 0)
 			return false;
 
-		p->pclass |= PCLASS_LOADED;
+		p->bLoaded = true;
 		if (p->bpi.Interfaces) {
 			MUUID *piface = p->bpi.Interfaces;
 			for (int i = 0; piface[i] != miid_last; i++) {
@@ -563,7 +570,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 	}
 	else if (p->bpi.hInst != nullptr) {
 		RegisterModule(p->bpi.hInst);
-		p->pclass |= PCLASS_LOADED;
+		p->bLoaded = true;
 	}
 	return true;
 }
@@ -581,7 +588,7 @@ bool LoadCorePlugin(MuuidReplacement &mr)
 
 	mir_snwprintf(tszPlugName, L"%s.dll", mr.stdplugname);
 	pluginEntry* pPlug = OpenPlugin(tszPlugName, L"Core", exe);
-	if (pPlug->pclass & PCLASS_FAILED) {
+	if (pPlug->bFailed) {
 LBL_Error:
 		MessageBox(nullptr, CMStringW(FORMAT, TranslateW(tszCoreErr), mr.stdplugname), TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
 
@@ -590,7 +597,7 @@ LBL_Error:
 		return false;
 	}
 
-	pPlug->pclass |= PCLASS_CORE;
+	pPlug->bIsCore = true;
 
 	if (!TryLoadPlugin(pPlug, true))
 		goto LBL_Error;
@@ -613,11 +620,11 @@ static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 	BASIC_PLUGIN_INFO bpi;
 	if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
 		p->bpi = bpi;
-		p->pclass |= PCLASS_LAST | PCLASS_OK | PCLASS_BASICAPI;
+		p->bIsLast = p->bOk = p->bHasBasicApi = true;
 		RegisterModule(p->bpi.hInst);
 		if (bpi.clistlink() == 0) {
 			p->bpi = bpi;
-			p->pclass |= PCLASS_LOADED;
+			p->bLoaded = true;
 			pluginDefault[0].pImpl = p;
 
 			LoadExtraIconsModule();
@@ -670,12 +677,12 @@ int UnloadPlugin(wchar_t* buf, int bufLen)
 static int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
-	if (!(p->pclass & PCLASS_LOADED)) {
+	if (!p->bLoaded) {
 		if (p->bpi.Load() != ERROR_SUCCESS) {
 			Plugin_Uninit(p);
 			return SERVICE_FAILED;
 		}
-		p->pclass |= PCLASS_LOADED;
+		p->bLoaded = true;
 	}
 
 	INT_PTR res = CallService(MS_SERVICEMODE_LAUNCH, 0, 0);
@@ -717,11 +724,11 @@ void EnsureCheckerLoaded(bool bEnable)
 			continue;
 
 		if (bEnable) {
-			if (!(p->pclass & PCLASS_LOADED)) {
+			if (!p->bLoaded) {
 				if (p->bpi.Load() != ERROR_SUCCESS)
 					Plugin_Uninit(p);
 				else {
-					p->pclass |= PCLASS_LOADED;
+					p->bLoaded = true;
 					servicePlugins.removeItem(&p);
 				}
 			}
@@ -761,7 +768,7 @@ void UnloadNewPlugins(void)
 {
 	// unload everything but the special db/clist plugins
 	for (auto &it : pluginList.rev_iter())
-		if (!(it->pclass & PCLASS_LAST) && (it->pclass & PCLASS_OK))
+		if (!it->bIsLast && it->bOk)
 			Plugin_Uninit(it);
 }
 
@@ -822,10 +829,10 @@ int LoadNewPluginsModule(void)
 static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM)
 {
 	pluginEntry *p = OpenPlugin(fd->cFileName, L"Plugins", path);
-	if (!(p->pclass & PCLASS_FAILED)) {
+	if (!p->bFailed) {
 		if (plugin_crshdmp == nullptr && mir_wstrcmpi(fd->cFileName, L"crashdumper.dll") == 0) {
 			plugin_crshdmp = p;
-			p->pclass |= PCLASS_LAST;
+			p->bIsLast = true;
 		}
 	}
 
@@ -877,7 +884,7 @@ void UnloadNewPluginsModule(void)
 
 	// unload everything but the DB
 	for (auto &it : pluginList.rev_iter())
-		if (!(it->pclass & (PCLASS_DB | PCLASS_CRYPT)) && it != plugin_crshdmp)
+		if (!it->bIsDatabase && !it->bIsCrypto && it != plugin_crshdmp)
 			Plugin_Uninit(it);
 
 	if (plugin_crshdmp)

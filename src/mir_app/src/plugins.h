@@ -28,22 +28,29 @@ struct BASIC_PLUGIN_INFO
 	MUUID *Interfaces;          // array of supported interfaces
 };
 
-#define PCLASS_FAILED     0x1   // not a valid plugin, or API is invalid, pluginname is valid
-#define PCLASS_BASICAPI   0x2   // has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
-#define PCLASS_DB         0x4   // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
-#define PCLASS_LAST       0x8   // this plugin should be unloaded after everything else
-#define PCLASS_OK        0x10   // plugin should be loaded, if DB means nothing
-#define PCLASS_LOADED    0x20   // Load(void) has been called, Unload() should be called.
-#define PCLASS_STOPPED   0x40   // wasn't loaded cos plugin name not on white list
-#define PCLASS_CLIST     0x80   // a CList implementation
-#define PCLASS_SERVICE  0x100   // has Service Mode implementation
-#define PCLASS_CORE     0x200   // a plugin from the /Core directory
-#define PCLASS_CRYPT    0x400   // crypto provider
-
 struct pluginEntry
 {
 	wchar_t pluginname[64];
-	unsigned int pclass; // PCLASS_*
+	union {
+		unsigned int pclass;
+		struct {
+			bool bFailed : 1;      // not a valid plugin, or API is invalid, pluginname is valid
+			bool bOk : 1;			  // plugin should be loaded, if DB means nothing
+			bool bLoaded : 1;      // Load(void) has been called, Unload() should be called.
+			bool bStopped : 1;     // wasn't loaded cos plugin name not on white list
+
+			bool bIsCore : 1;		  // a plugin from the /Core directory
+			bool bIsService : 1;	  // has Service Mode implementation
+			bool bIsLast : 1;		  // this plugin should be unloaded after everything else
+
+			bool bHasBasicApi : 1; // has Load, Unload, MirandaPluginInfo() -> PLUGININFO seems valid, this dll is in memory.
+			bool bIsProtocol : 1;  // protocol module
+			bool bIsDatabase : 1;  // has DatabasePluginInfo() and is valid as can be, and PCLASS_BASICAPI has to be set too
+			bool bIsClist : 1;	  // a CList implementation
+			bool bIsCrypto : 1;	  // crypto provider
+		};
+	};
+		
 	int hLangpack;
 	BASIC_PLUGIN_INFO bpi;
 };

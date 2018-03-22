@@ -192,7 +192,7 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
 
 	pluginEntry* pPlug = OpenPlugin(dat->fileName, L"Plugins", exe);
-	if (pPlug->pclass & PCLASS_FAILED) {
+	if (pPlug->bFailed) {
 	LBL_Error:
 		Plugin_UnloadDyn(pPlug);
 		return false;
