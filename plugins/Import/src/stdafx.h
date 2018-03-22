@@ -89,7 +89,7 @@ extern HWND hwndWizard, hwndAccMerge;
 extern int nImportOptions;
 extern wchar_t importFile[];
 extern time_t dwSinceDate;
-extern bool g_bServiceMode;
+extern bool g_bServiceMode, g_bSendQuit;
 
 HANDLE GetIconHandle(int iIconId);
 void   RegisterIcons(void);

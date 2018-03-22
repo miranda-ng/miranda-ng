@@ -51,8 +51,12 @@ INT_PTR CALLBACK ProgressPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 
 	case PROGM_START:
 		MirandaImport(hdlg);
-		SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 1, 0);
-		SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 2, 0);
+		if (g_bServiceMode && !g_bSendQuit)
+			DestroyWindow(hwndWizard);
+		else {
+			SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 1, 0);
+			SendMessage(GetParent(hdlg), WIZM_ENABLEBUTTON, 2, 0);
+		}
 		break;
 
 	case WM_COMMAND:

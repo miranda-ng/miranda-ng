@@ -27,7 +27,7 @@ int nImportOptions;
 HINSTANCE hInst;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-bool g_bServiceMode = false;
+bool g_bServiceMode = false, g_bSendQuit = false;
 HWND hwndWizard, hwndAccMerge;
 int hLangpack;
 
@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaInterfaces - returns the protocol interface to the core
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT, MIID_DATABASE, MIID_SERVICEMODE, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT, MIID_SERVICEMODE, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
@@ -108,11 +108,27 @@ static int OnExit(WPARAM, LPARAM)
 
 static INT_PTR ServiceMode(WPARAM, LPARAM)
 {
-	g_bServiceMode = true;
+	if (!g_bServiceMode) {
+		g_bServiceMode = true;
+		return SERVICE_ONLYDB;
+	}
 
-	WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
-	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
-	return SERVICE_ONLYDB;
+	ptrW wszFullName(Utils_ReplaceVarsW(L"%miranda_userdata%\\%miranda_profilename%.dat.bak"));
+	if (!_waccess(wszFullName, 0)) {
+		nImportOptions = IOPT_ADDUNKNOWN + IOPT_COMPLETE;
+		wcsncpy_s(importFile, MAX_PATH, wszFullName, _TRUNCATE);
+
+		WizardDlgParam param = { IDD_PROGRESS, (LPARAM)ProgressPageProc };
+		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, LPARAM(&param));
+	}
+	else {
+		g_bSendQuit = true;
+
+		WizardDlgParam param = { IDD_WIZARDINTRO, (LPARAM)WizardIntroPageProc };
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_WIZARD), nullptr, WizardDlgProc, (LPARAM)&param);
+	}
+
+	return SERVICE_CONTINUE;
 }
 
 static INT_PTR CustomImport(WPARAM wParam, LPARAM)

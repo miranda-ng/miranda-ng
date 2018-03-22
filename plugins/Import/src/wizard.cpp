@@ -163,8 +163,9 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lP
 		DestroyWindow(hwndPage);
 		DestroyWindow(hdlg);
 		break;
+
 	case WM_DESTROY:
-		if (g_bServiceMode)
+		if (g_bSendQuit)
 			PostQuitMessage(0);
 	}
 
