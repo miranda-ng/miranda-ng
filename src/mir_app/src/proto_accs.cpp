@@ -98,7 +98,10 @@ void LoadDbAccounts(void)
 
 			_itoa(OFFSET_ENABLED + i, buf, 10);
 			pa->bIsEnabled = db_get_dw(0, "Protocols", buf, 1) != 0;
-
+			if (!pa->bIsEnabled && !mir_strcmp(pa->szModuleName, META_PROTO)) {
+				pa->bIsEnabled = true;
+				db_set_dw(0, "Protocols", buf, 1);
+			}
 			pa->szProtoName = db_get_sa(0, szModuleName, "AM_BaseProto");
 		}
 		else pa->bIsEnabled = true;
