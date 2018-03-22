@@ -67,14 +67,15 @@ extern HINSTANCE g_hInst;
 extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
 extern wchar_t mirandabootini[MAX_PATH];
-extern struct pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl;
-
+extern struct pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
+extern bool bModulesLoadedFired;
 
 /**** newplugins.cpp *******************************************************************/
 
 char* GetPluginNameByLangpack(int _hLang);
 char* GetPluginNameByInstance(HINSTANCE hInstance);
 int   LoadStdPlugins(void);
+int   LaunchServicePlugin(pluginEntry *p);
 
 /**** path.cpp *************************************************************************/
 

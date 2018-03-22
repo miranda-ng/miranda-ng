@@ -31,8 +31,6 @@ CLIST_INTERFACE cli = { 0 };
 
 static wchar_t szTip[MAX_TIP_SIZE+1];
 
-int LoadContactListModule2(void);
-int LoadCLCModule(void);
 void BuildProtoMenus(void);
 
 static int interfaceInited = 0;
@@ -203,10 +201,6 @@ MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
 		cli.pfnGetContactIcon                  = fnGetContactIcon;
 		cli.pfnGetAverageMode                  = fnGetAverageMode;
 		cli.pfnInitAutoRebuild                 = fnInitAutoRebuild;
-
-		int rc = LoadContactListModule2();
-		if (rc == 0)
-			rc = LoadCLCModule();
 		interfaceInited = 1;
 	}
 

@@ -33,8 +33,6 @@ void UninitGroupServices(void);
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
 int ContactAdded(WPARAM hContact, LPARAM);
 int ContactDeleted(WPARAM hContact, LPARAM);
-INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam);
-INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM lParam);
 int InitGroupServices(void);
 INT_PTR Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 int LoadCLUIModule(void);
@@ -429,18 +427,7 @@ int LoadContactListModule2(void)
 	InitGroupServices();
 	cli.pfnInitTray();
 
-	hCListImages = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 13, 0);
 	HookEvent(ME_SKIN_ICONSCHANGED, CListIconsChanged);
-
-	ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
-
-	// now all core skin icons are loaded via icon lib. so lets release them
-	for (auto &it : skinIconStatusList)
-		ImageList_AddIcon_IconLibLoaded(hCListImages, it);
-
-	// see IMAGE_GROUP... in clist.h if you add more images above here
-	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
-	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT);
 	return 0;
 }
 

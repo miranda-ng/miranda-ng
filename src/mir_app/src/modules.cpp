@@ -41,6 +41,7 @@ int  LoadIgnoreModule(void);		// protocol filter: ignore
 int  LoadDbintfModule(void);
 int  LoadSrmmModule(void);
 int  LoadHelpModule(void);
+int  LoadProtocolPlugins(void);
 
 int  LoadContactsModule(void);
 int  LoadDatabaseModule(void);
@@ -58,7 +59,6 @@ int  LoadCLCModule(void);		// window class: CLC control
 int  LoadButtonModule(void);		// window class: button class
 int  LoadFontserviceModule(void); // ui: font manager
 int  LoadIcoLibModule(void);   // ui: icons manager
-int  LoadServiceModePlugin(void);
 
 void UnloadAccountsModule(void);
 void UnloadClcModule(void);
@@ -95,12 +95,10 @@ int LoadDefaultModules(void)
 	if (LoadNewPluginsModuleInfos()) return 1;
 
 	if (GetPrivateProfileInt(L"Interface", L"DpiAware", 0, mirandabootini) == 1) {
-		typedef BOOL (WINAPI  * SetProcessDPIAware_t)(void);
-
+		typedef BOOL (WINAPI *SetProcessDPIAware_t)(void);
 		SetProcessDPIAware_t pfn = (SetProcessDPIAware_t)GetProcAddress(GetModuleHandleW(L"user32"), "SetProcessDPIAware");
-		if (pfn != nullptr) {
+		if (pfn != nullptr)
 			pfn();
-		}
 	}
 	
 	switch (SetServiceModePlugin(CmdLine_GetOption(L"svc"))) {
@@ -121,20 +119,6 @@ int LoadDefaultModules(void)
 	if (LoadIcoLibModule()) return 1;
 	if (LoadSkinIcons()) return 1;
 
-	//	if (LoadErrorsModule()) return 1;
-
-	switch (LoadServiceModePlugin()) {
-	case SERVICE_CONTINUE:  // continue loading Miranda normally
-		break;
-	case SERVICE_ONLYDB:    // load database and go to the message cycle
-		return 0;
-	case SERVICE_MONOPOLY:  // unload database and go to the message cycle
-		UnloadDatabase();
-		return 0;
-	default:                // smth went wrong, terminating
-		return 1;
-	}
-
 	if (LoadSkinSounds()) return 1;
 	if (LoadSkinHotkeys()) return 1;
 	if (LoadFontserviceModule()) return 1;
@@ -146,6 +130,26 @@ int LoadDefaultModules(void)
 	if (LoadNetlibModule()) return 1;
 	if (LoadSslModule()) return 1;
 	if (LoadProtocolsModule()) return 1;
+
+	// check if a service plugin is scheduled to execution
+	if (plugin_service != nullptr) {
+		if (LoadProtocolPlugins()) return 1;
+
+		switch (LaunchServicePlugin(plugin_service)) {
+		case SERVICE_CONTINUE:  // continue loading Miranda normally
+			break;
+		case SERVICE_ONLYDB:    // load database and go to the message cycle
+			return 0;
+		case SERVICE_MONOPOLY:  // unload database and go to the message cycle
+			UnloadDatabase();
+			return 0;
+		default:                // smth went wrong, terminating
+			return 1;
+		}
+
+		plugin_service = nullptr;
+	}
+
 	LoadDbAccounts();                    // retrieves the account array from a database
 	if (LoadContactsModule()) return 1;
 	if (LoadMetacontacts()) return 1;

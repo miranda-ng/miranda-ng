@@ -31,7 +31,7 @@ void BuildProtoMenus();
 
 HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex);
 
-static BOOL bModuleInitialized = FALSE;
+static bool bModuleInitialized = false;
 static HANDLE hHooks[4];
 
 static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
@@ -53,8 +53,8 @@ static int EnumDbModules(const char *szModuleName, void*)
 			pa->szModuleName = mir_strdup(szModuleName);
 			pa->szProtoName = szProtoName.detach();
 			pa->tszAccountName = mir_a2u(szModuleName);
-			pa->bIsVisible = TRUE;
-			pa->bIsEnabled = FALSE;
+			pa->bIsVisible = true;
+			pa->bIsEnabled = false;
 			pa->iOrder = accounts.getCount();
 			accounts.insert(pa);
 		}
@@ -74,13 +74,17 @@ void LoadDbAccounts(void)
 		if (szModuleName == nullptr)
 			continue;
 
-		PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
+		PROTOACCOUNT *pa = Proto_GetAccount(szModuleName);
 		if (pa == nullptr) {
-			mir_free(szModuleName);
-			continue;
+			pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
+			pa->cbSize = sizeof(*pa);
+			pa->szModuleName = szModuleName;
+			accounts.insert(pa);
 		}
-		pa->cbSize = sizeof(*pa);
-		pa->szModuleName = szModuleName;
+		else {
+			mir_free(szModuleName);
+			szModuleName = pa->szModuleName;
+		}
 
 		_itoa(OFFSET_VISIBLE + i, buf, 10);
 		pa->bIsVisible = db_get_dw(0, "Protocols", buf, 1) != 0;
@@ -106,8 +110,6 @@ void LoadDbAccounts(void)
 
 		if (!pa->tszAccountName)
 			pa->tszAccountName = mir_a2u(szModuleName);
-
-		accounts.insert(pa);
 	}
 
 	if (CheckProtocolOrder())
@@ -249,7 +251,7 @@ static int UninitializeStaticAccounts(WPARAM, LPARAM)
 
 int LoadAccountsModule(void)
 {
-	bModuleInitialized = TRUE;
+	bModuleInitialized = true;
 
 	for (auto &pa : accounts) {
 		pa->bDynDisabled = !Proto_IsProtocolLoaded(pa->szProtoName);
@@ -260,7 +262,7 @@ int LoadAccountsModule(void)
 			continue;
 
 		if (!ActivateAccount(pa))
-			pa->bDynDisabled = TRUE;
+			pa->bDynDisabled = true;
 	}
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);

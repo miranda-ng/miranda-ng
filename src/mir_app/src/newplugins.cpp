@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+#include "clc.h"
 #include "plugins.h"
 #include "profilemanager.h"
 #include "langpack.h"
@@ -31,9 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 void LoadExtraIconsModule();
 
-extern bool bModulesLoadedFired;
-
-static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
+static int sttComparePluginsByName(const pluginEntry *p1, const pluginEntry *p2)
 {
 	return mir_wstrcmpi(p1->pluginname, p2->pluginname);
 }
@@ -59,7 +58,7 @@ static int sttFakeID = -100;
 static HANDLE hPluginListHeap = nullptr;
 static int askAboutIgnoredPlugins;
 
-pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl;
+pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
 
 #define PLUGINDISABLELIST "PluginDisable"
 
@@ -250,7 +249,7 @@ static bool validInterfaceList(MUUID *piface)
 	return true;
 }
 
-static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
+static int checkPI(BASIC_PLUGIN_INFO *bpi, PLUGININFOEX *pi)
 {
 	if (pi == nullptr)
 		return FALSE;
@@ -487,7 +486,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 			// didn't have basic APIs or DB exports - failed.
 			p->bFailed = true;
 	}
-	else if (hasMuuid(pIds, MIID_DATABASE))
+	else if (hasMuuid(pIds, MIID_PROTOCOL))
 		p->bIsProtocol = true;
 	return p;
 }
@@ -615,17 +614,36 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact list plugins support
 
+int LoadContactListModule2(void);
+int LoadCLCModule(void);
+
 static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 {
 	BASIC_PLUGIN_INFO bpi;
 	if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
 		p->bpi = bpi;
 		p->bIsLast = p->bOk = p->bHasBasicApi = true;
+
+		hCListImages = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 13, 0);
+		ImageList_AddIcon_NotShared(hCListImages, MAKEINTRESOURCE(IDI_BLANK));
+
+		// now all core skin icons are loaded via icon lib. so lets release them
+		for (auto &it : skinIconStatusList)
+			ImageList_AddIcon_IconLibLoaded(hCListImages, it);
+
+		// see IMAGE_GROUP... in clist.h if you add more images above here
+		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
+		ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT);
+
 		RegisterModule(p->bpi.hInst);
 		if (bpi.clistlink() == 0) {
 			p->bpi = bpi;
 			p->bLoaded = true;
 			pluginDefault[0].pImpl = p;
+
+			int rc = LoadContactListModule2();
+			if (rc == 0)
+				rc = LoadCLCModule();
 
 			LoadExtraIconsModule();
 			return true;
@@ -674,7 +692,7 @@ int UnloadPlugin(wchar_t* buf, int bufLen)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service plugins functions
 
-static int LaunchServicePlugin(pluginEntry *p)
+int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
 	if (!p->bLoaded) {
@@ -710,11 +728,6 @@ MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName)
 	}
 
 	return SERVICE_CONTINUE;
-}
-
-int LoadServiceModePlugin()
-{
-	return (plugin_service == nullptr) ? SERVICE_CONTINUE : LaunchServicePlugin(plugin_service);
 }
 
 void EnsureCheckerLoaded(bool bEnable)
@@ -772,6 +785,23 @@ void UnloadNewPlugins(void)
 			Plugin_Uninit(it);
 }
 
+int LoadProtocolPlugins(void)
+{
+	/* now loop thru and load all the other plugins, do this in one pass */
+	for (int i = 0; i < pluginList.getCount(); i++) {
+		pluginEntry *p = pluginList[i];
+		if (!p->bIsProtocol)
+			continue;
+
+		if (!TryLoadPlugin(p, false)) {
+			Plugin_Uninit(p);
+			i--;
+		}
+	}
+
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Loads all plugins
 
@@ -793,10 +823,10 @@ int LoadNewPluginsModule(void)
 			Plugin_Uninit(plugin_crshdmp);
 
 	// first load the clist cos alot of plugins need that to be present at Load(void)
-	pluginEntry* clist = getCListModule(exe);
+	plugin_clist = getCListModule(exe);
 
 	/* the loop above will try and get one clist DLL to work, if all fail then just bail now */
-	if (clist == nullptr) {
+	if (plugin_clist == nullptr) {
 		// result = 0, no clist_* can be found
 		if (clistPlugins.getCount())
 			MessageBox(nullptr, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), L"Miranda NG", MB_OK | MB_ICONERROR);
@@ -807,7 +837,7 @@ int LoadNewPluginsModule(void)
 
 	/* enable and disable as needed  */
 	for (auto &p : clistPlugins)
-		SetPluginOnWhiteList(p->pluginname, clist != p ? 0 : 1);
+		SetPluginOnWhiteList(p->pluginname, plugin_clist != p ? 0 : 1);
 
 	/* now loop thru and load all the other plugins, do this in one pass */
 	for (int i = 0; i < pluginList.getCount(); i++) {

@@ -59,9 +59,6 @@ int UnloadPlugin(wchar_t* buf, int bufLen);
 PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const wchar_t *tszAccountName)
 {
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
-	if (pa == nullptr)
-		return nullptr;
-
 	pa->cbSize = sizeof(PROTOACCOUNT);
 	pa->bIsEnabled = pa->bIsVisible = true;
 	pa->iOrder = accounts.getCount();
@@ -86,7 +83,8 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 	accounts.insert(pa);
 
 	if (ActivateAccount(pa)) {
-		pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+		if (bModulesLoadedFired)
+			pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
 		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
 			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 	}
@@ -547,7 +545,8 @@ public:
 		pa->bIsEnabled = !pa->bIsEnabled;
 		if (pa->bIsEnabled) {
 			if (ActivateAccount(pa)) {
-				pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
+				if (bModulesLoadedFired)
+					pa->ppro->OnEvent(EV_PROTO_ONLOAD, 0, 0);
 				if (!db_get_b(0, "CList", "MoveProtoMenus", TRUE))
 					pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 			}

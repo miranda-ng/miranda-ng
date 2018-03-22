@@ -24,7 +24,7 @@ struct BASIC_PLUGIN_INFO
 	Miranda_Plugin_Unload Unload;
 	Miranda_Plugin_InfoEx InfoEx;
 	CList_Initialise clistlink;
-	PLUGININFOEX * pluginInfo;	 // must be freed if hInst = = nullptr then its a copy
+	PLUGININFOEX *pluginInfo;	 // must be freed if hInst = = nullptr then its a copy
 	MUUID *Interfaces;          // array of supported interfaces
 };
 
