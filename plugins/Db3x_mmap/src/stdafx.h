@@ -45,6 +45,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_metacontacts.h>
 #include <m_protocols.h>
 #include <m_gui.h>
+#include <m_netlib.h>
+#include <m_import.h>
 
 #include "database.h"
 #include "dbintf.h"

@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+EXTERN_C MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
+
 int hLangpack;
 
 static PLUGININFOEX pluginInfo =
@@ -46,13 +48,9 @@ LIST<CDb3Mmap> g_Dbs(1, HandleKeySortT);
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
-static int makeDatabase(const wchar_t *profile)
+static int makeDatabase(const wchar_t*)
 {
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, 0));
-	if (db->Create() != ERROR_SUCCESS)
-		return EMKPRF_CREATEFAILED;
-
-	return db->CreateDbHeaders(dbSignatureU);
+	return EMKPRF_CREATEFAILED;
 }
 
 // returns 0 if the given profile has a valid header
@@ -66,12 +64,52 @@ static int grokHeader(const wchar_t *profile)
 }
 
 // returns 0 if all the APIs are injected otherwise, 1
+#define CONVERT_MSG LPGEN("This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back")
+#define MISSING_DB_MSG LPGEN("To open this database you need to install the dbx_mdbx plugin. Install it using Plugin Updater")
+#define MISSING_PLUG_MSG LPGEN("To open this database you need to install the Import plugin. Install it using Plugin Updater")
+
 static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
 	// set the memory, lists & UTF8 manager
 	mir_getLP(&pluginInfo);
 
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, (bReadOnly) ? DBMODE_READONLY : 0));
+	////////////////////////////////////////////////////////////////////////////////////////
+	// if not read only, convert the old profile to libmdbx
+	if (!bReadOnly) {
+		DATABASELINK *pLink = GetDatabasePlugin("dbx_mdbx");
+		if (pLink == nullptr) {
+			MessageBoxW(nullptr, TranslateT(MISSING_DB_MSG), L"Miranda NG", MB_OK);
+			return nullptr;
+		}
+
+		if (IDYES != MessageBoxW(nullptr, TranslateT(CONVERT_MSG), L"Miranda NG", MB_YESNOCANCEL))
+			return nullptr;
+
+		int errorCode;
+		CMStringW wszBackupName(profile);
+		wszBackupName.Append(L".bak");
+		if (!MoveFileExW(profile, wszBackupName, MOVEFILE_WRITE_THROUGH | MOVEFILE_REPLACE_EXISTING)) {
+			Netlib_LogfW(nullptr, L"Cannot move old profile '%s' to '%s': error %d", profile, wszBackupName.c_str(), GetLastError());
+			return nullptr;
+		}
+
+		if ((errorCode = pLink->makeDatabase(profile)) != 0) {
+			Netlib_LogfW(nullptr, L"Database creation '%s' failed with error code %d", profile, errorCode);
+LBL_Error: 
+			DeleteFileW(profile);
+			MoveFileW(wszBackupName, profile);
+			return nullptr;
+		}
+
+		if (SetServiceModePlugin(L"import") != SERVICE_ONLYDB) {
+			MessageBoxW(nullptr, TranslateT(MISSING_PLUG_MSG), L"Miranda NG", MB_OK);
+			goto LBL_Error;
+		}
+
+		return pLink->Load(profile, false);
+	}
+
+	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_READONLY));
 	if (db->Load(false) != ERROR_SUCCESS)
 		return nullptr;
 
