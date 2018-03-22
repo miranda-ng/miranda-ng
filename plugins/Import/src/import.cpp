@@ -468,12 +468,7 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		}
 
 		if (p->pa == nullptr) {
-			ACC_CREATE newacc;
-			newacc.pszBaseProto = p->szBaseProto;
-			newacc.pszInternal = nullptr;
-			newacc.ptszAccountName = p->tszSrcName;
-
-			p->pa = ProtoCreateAccount(&newacc);
+			p->pa = Proto_CreateAccount(nullptr, p->szBaseProto, p->tszSrcName);
 			if (p->pa == nullptr) {
 				AddMessage(LPGENW("Unable to create an account %s of protocol %S"), p->tszSrcName, p->szBaseProto);
 				continue;
