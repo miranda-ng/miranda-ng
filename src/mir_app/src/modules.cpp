@@ -59,7 +59,6 @@ int  LoadButtonModule(void);		// window class: button class
 int  LoadFontserviceModule(void); // ui: font manager
 int  LoadIcoLibModule(void);   // ui: icons manager
 int  LoadServiceModePlugin(void);
-int  LoadDefaultServiceModePlugin(void);
 
 void UnloadAccountsModule(void);
 void UnloadClcModule(void);
@@ -104,7 +103,7 @@ int LoadDefaultModules(void)
 		}
 	}
 	
-	switch (LoadDefaultServiceModePlugin()) {
+	switch (SetServiceModePlugin(CmdLine_GetOption(L"svc"))) {
 	case SERVICE_CONTINUE:  // continue loading Miranda normally
 	case SERVICE_ONLYDB:    // load database and go to the message cycle
 		break;

@@ -35,8 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef BOOL (__cdecl *ENUMPROFILECALLBACK) (wchar_t *tszFullPath, wchar_t *profile, LPARAM lParam);
 
-void SetServiceModePlugin(pluginEntry *p);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Profile creator
 
@@ -622,7 +620,7 @@ public:
 		if (curSel != -1) {
 			int idx = m_servicePlugs.GetItemData(curSel);
 			if (idx != -1)
-				SetServiceModePlugin(servicePlugins[idx]);
+				plugin_service = servicePlugins[idx];
 		}
 
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));

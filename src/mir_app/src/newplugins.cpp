@@ -59,7 +59,7 @@ static int sttFakeID = -100;
 static HANDLE hPluginListHeap = nullptr;
 static int askAboutIgnoredPlugins;
 
-static pluginEntry *plugin_crshdmp, *serviceModePlugin, *plugin_ssl;
+pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl;
 
 #define PLUGINDISABLELIST "PluginDisable"
 
@@ -667,11 +667,6 @@ int UnloadPlugin(wchar_t* buf, int bufLen)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service plugins functions
 
-void SetServiceModePlugin(pluginEntry *p)
-{
-	serviceModePlugin = p;
-}
-
 static int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
@@ -692,18 +687,17 @@ static int LaunchServicePlugin(pluginEntry *p)
 	return SERVICE_FAILED;
 }
 
-int LoadDefaultServiceModePlugin()
+MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName)
 {
-	LPCTSTR param = CmdLine_GetOption(L"svc");
-	if (param == nullptr || *param == 0)
+	size_t cbLen = mir_wstrlen(wszPluginName);
+	if (cbLen == 0)
 		return SERVICE_CONTINUE;
 
-	size_t cbLen = mir_wstrlen(param);
 	for (auto &p : servicePlugins) {
-		if (!wcsnicmp(p->pluginname, param, cbLen)) {
+		if (!wcsnicmp(p->pluginname, wszPluginName, cbLen)) {
 			int res = LaunchServicePlugin(p);
 			if (res == SERVICE_ONLYDB) // load it later
-				serviceModePlugin = p;
+				plugin_service = p;
 			return res;
 		}
 	}
@@ -713,7 +707,7 @@ int LoadDefaultServiceModePlugin()
 
 int LoadServiceModePlugin()
 {
-	return (serviceModePlugin == nullptr) ? SERVICE_CONTINUE : LaunchServicePlugin(serviceModePlugin);
+	return (plugin_service == nullptr) ? SERVICE_CONTINUE : LaunchServicePlugin(plugin_service);
 }
 
 void EnsureCheckerLoaded(bool bEnable)

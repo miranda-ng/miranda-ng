@@ -489,3 +489,4 @@ Image_Resize @506
 Image_Save @507
 GetDatabasePlugin @508
 ?AccContacts@PROTO_INTERFACE@@QEBA?AVContacts@@XZ @509 NONAME
+SetServiceModePlugin @510

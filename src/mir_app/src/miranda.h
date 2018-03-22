@@ -67,6 +67,8 @@ extern HINSTANCE g_hInst;
 extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
 extern wchar_t mirandabootini[MAX_PATH];
+extern struct pluginEntry *plugin_crshdmp, *plugin_service, *plugin_ssl;
+
 
 /**** newplugins.cpp *******************************************************************/
 
