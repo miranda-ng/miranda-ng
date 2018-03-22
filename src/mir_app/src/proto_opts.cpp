@@ -56,30 +56,33 @@ extern HANDLE hAccListChanged;
 
 int UnloadPlugin(wchar_t* buf, int bufLen);
 
-PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const wchar_t *tszAccountName)
+MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const char *pszBaseProto, const wchar_t *tszAccountName)
 {
+	if (pszBaseProto == nullptr || tszAccountName == nullptr)
+		return nullptr;
+
 	PROTOACCOUNT *pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 	pa->cbSize = sizeof(PROTOACCOUNT);
 	pa->bIsEnabled = pa->bIsVisible = true;
 	pa->iOrder = accounts.getCount();
-	pa->szProtoName = mir_strdup(szBaseProto);
+	pa->szProtoName = mir_strdup(pszBaseProto);
 
 	// if the internal name is empty, generate new one
-	if (mir_strlen(szModuleName) == 0) {
+	if (mir_strlen(pszInternal) == 0) {
 		char buf[100];
 		int count = 1;
 		while (true) {
-			mir_snprintf(buf, "%s_%d", szBaseProto, count++);
+			mir_snprintf(buf, "%s_%d", pszBaseProto, count++);
 			if (ptrA(db_get_sa(0, buf, "AM_BaseProto")) == nullptr)
 				break;
 		}
 		pa->szModuleName = mir_strdup(buf);
 	}
-	else pa->szModuleName = mir_strdup(szModuleName);
+	else pa->szModuleName = mir_strdup(pszInternal);
 
 	pa->tszAccountName = mir_wstrdup(tszAccountName);
 
-	db_set_s(0, pa->szModuleName, "AM_BaseProto", szBaseProto);
+	db_set_s(0, pa->szModuleName, "AM_BaseProto", pszBaseProto);
 	accounts.insert(pa);
 
 	if (ActivateAccount(pa)) {
@@ -89,6 +92,8 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 			pa->ppro->OnEvent(EV_PROTO_ONMENU, 0, 0);
 	}
 
+	WriteDbAccounts();
+	NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
 	return pa;
 }
 
@@ -211,10 +216,12 @@ public:
 
 			m_pa = Proto_CreateAccount(buf, szBaseProto, tszAccName);
 		}
-		else replaceStrW(m_pa->tszAccountName, tszAccName);
+		else {
+			replaceStrW(m_pa->tszAccountName, tszAccName);
 
-		WriteDbAccounts();
-		NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
+			WriteDbAccounts();
+			NotifyEventHooks(hAccListChanged, m_action, (LPARAM)m_pa);
+		}
 
 		SendMessage(GetParent(m_hwnd), WM_MY_REFRESH, 0, 0);
 		EndModal(IDOK);

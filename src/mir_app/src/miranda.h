@@ -138,8 +138,6 @@ extern LIST<PROTOCOLDESCRIPTOR> protos;
 
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
-PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBaseProto, const wchar_t *tszAccountName);
-
 PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
 
 PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName);

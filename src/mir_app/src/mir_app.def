@@ -490,3 +490,4 @@ Image_Save @507
 GetDatabasePlugin @508
 ?AccContacts@PROTO_INTERFACE@@QBE?AVContacts@@XZ @509 NONAME
 SetServiceModePlugin @510
+Proto_CreateAccount @511

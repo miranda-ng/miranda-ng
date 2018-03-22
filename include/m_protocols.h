@@ -295,22 +295,9 @@ MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // creates new account
-// wParam = 0
-// lParam = (LPARAM)(ACC_CREATE*) account definition
 // return value = PROTOACCOUNT* or NULL
 
-#define MS_PROTO_CREATEACCOUNT "Proto/CreateAccount"
-
-typedef struct tagACC_CREATE
-{
-	const char *pszBaseProto;
-	const char *pszInternal;
-	const wchar_t *ptszAccountName;
-} ACC_CREATE;
-
-__forceinline PROTOACCOUNT* ProtoCreateAccount(ACC_CREATE *pAccountDef)
-{	return (PROTOACCOUNT*)CallService(MS_PROTO_CREATEACCOUNT, 0, (LPARAM)pAccountDef);
-}
+MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const char *pszBaseProto, const wchar_t *ptszAccountName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves an account's interface by its physical name (database module)

@@ -279,20 +279,6 @@ MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 	return accounts[idx];
 }
 
-static INT_PTR srvProto_CreateAccount(WPARAM, LPARAM lParam)
-{
-	ACC_CREATE *p = (ACC_CREATE*)lParam;
-	if (p == nullptr)
-		return 0;
-
-	PROTOACCOUNT *pa = Proto_CreateAccount(p->pszInternal, p->pszBaseProto, p->ptszAccountName);
-	if (pa) {
-		WriteDbAccounts();
-		NotifyEventHooks(hAccListChanged, PRAC_ADDED, (LPARAM)pa);
-	}
-	return (INT_PTR)pa;
-}
-
 MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs)
 {
 	if (nAccs) *nAccs = accounts.getCount();
@@ -425,8 +411,6 @@ int LoadProtocolsModule(void)
 
 	CreateServiceFunction(MS_PROTO_SELFISTYPING, Proto_SelfIsTyping);
 	CreateServiceFunction(MS_PROTO_CONTACTISTYPING, Proto_ContactIsTyping);
-
-	CreateServiceFunction(MS_PROTO_CREATEACCOUNT, srvProto_CreateAccount);
 
 	// just to make QuickSearch happy
 	CreateServiceFunction("Proto/GetContactBaseAccount", srvProto_GetContactBaseAccount);
