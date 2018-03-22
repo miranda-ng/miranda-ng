@@ -655,7 +655,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 		// do we need to add a new metacontact?
 		if (hDest == INVALID_CONTACT_ID) {
 			hDest = db_add_contact();
-			Proto_AddToContact(hDest, META_PROTO);
+			db_set_s(hDest, "Protocol", "p", META_PROTO);
 			CopySettings(ccSrc->contactID, META_PROTO, hDest, META_PROTO);
 
 			ccDst = dstDb->m_cache->GetCachedContact(hDest);
