@@ -16,7 +16,6 @@ CSteamProto::CSteamProto(const char* protoName, const wchar_t* userName)
 	m_defaultGroup = getWStringA("DefaultGroup");
 	if (m_defaultGroup == nullptr)
 		m_defaultGroup = mir_wstrdup(L"Steam");
-	Clist_GroupCreate(0, m_defaultGroup);
 
 	// icons
 	wchar_t filePath[MAX_PATH];

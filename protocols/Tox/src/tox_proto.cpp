@@ -12,8 +12,7 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	m_defaultGroup = getWStringA(TOX_SETTINGS_GROUP);
 	if (m_defaultGroup == nullptr)
 		m_defaultGroup = mir_wstrdup(L"Tox");
-	Clist_GroupCreate(0, m_defaultGroup);
-
+	
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
 
 	setAllContactStatuses(ID_STATUS_OFFLINE);

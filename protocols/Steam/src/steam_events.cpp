@@ -2,6 +2,8 @@
 
 int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	Clist_GroupCreate(0, m_defaultGroup);
+
 	HookProtoEvent(ME_OPT_INITIALISE, &CSteamProto::OnOptionsInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CSteamProto::OnPreCreateMessage);

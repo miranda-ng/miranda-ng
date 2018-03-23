@@ -65,9 +65,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	// database
 	db_set_resident(m_szModuleName, "XStatusMsg");
 
-	// Clist
-	Clist_GroupCreate(0, m_wszDefaultGroup);
-
 	// Fill users list
 	for (auto &hContact : AccContacts()) {
 		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
@@ -578,6 +575,9 @@ int CDiscordProto::OnModulesLoaded(WPARAM, LPARAM)
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
+
+	// Clist
+	Clist_GroupCreate(0, m_wszDefaultGroup);
 
 	HookProtoEvent(ME_GC_EVENT, &CDiscordProto::GroupchatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);

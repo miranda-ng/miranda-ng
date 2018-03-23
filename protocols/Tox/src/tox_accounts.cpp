@@ -32,6 +32,8 @@ CToxProto* CToxProto::GetContactAccount(MCONTACT hContact)
 
 int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
+	Clist_GroupCreate(0, m_defaultGroup);
+
 	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);

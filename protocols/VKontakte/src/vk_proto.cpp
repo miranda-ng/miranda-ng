@@ -70,8 +70,6 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	Clist_GroupCreate(0, m_vkOptions.pwszDefaultGroup);
-
 	CMStringA szListeningTo(FORMAT, "%sEnabled", m_szModuleName);
 	db_set_b(0, "ListeningTo", szListeningTo, m_vkOptions.iMusicSendMetod == 0 ? 0 : 1);
 
@@ -105,6 +103,8 @@ CVkProto::~CVkProto()
 
 int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	Clist_GroupCreate(0, m_vkOptions.pwszDefaultGroup);
+
 	// Chats
 	GCREGISTER gcr = {};
 	gcr.ptszDispName = m_tszUserName;
