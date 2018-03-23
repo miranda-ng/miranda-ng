@@ -65,8 +65,8 @@ static int grokHeader(const wchar_t *profile)
 
 // returns 0 if all the APIs are injected otherwise, 1
 #define CONVERT_MSG LPGEN("This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back")
-#define MISSING_DB_MSG LPGEN("To open this database you need to install the dbx_mdbx plugin. Install it using Plugin Updater")
-#define MISSING_PLUG_MSG LPGEN("To open this database you need to install the Import plugin. Install it using Plugin Updater")
+#define MISSING_DB_MSG LPGEN("To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site")
+#define MISSING_PLUG_MSG LPGEN("To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site")
 
 static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
@@ -78,7 +78,8 @@ static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 	if (!bReadOnly) {
 		DATABASELINK *pLink = GetDatabasePlugin("dbx_mdbx");
 		if (pLink == nullptr) {
-			MessageBoxW(nullptr, TranslateT(MISSING_DB_MSG), L"Miranda NG", MB_OK);
+			if (IDYES == MessageBoxW(nullptr, TranslateT(MISSING_DB_MSG), L"Miranda NG", MB_YESNOCANCEL))
+				Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:Dbx_mdbx");
 			return nullptr;
 		}
 
@@ -102,7 +103,8 @@ LBL_Error:
 		}
 
 		if (SetServiceModePlugin(L"import") != SERVICE_ONLYDB) {
-			MessageBoxW(nullptr, TranslateT(MISSING_PLUG_MSG), L"Miranda NG", MB_OK);
+			if (IDYES == MessageBoxW(nullptr, TranslateT(MISSING_PLUG_MSG), L"Miranda NG", MB_OK))
+				Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:Import");
 			goto LBL_Error;
 		}
 
