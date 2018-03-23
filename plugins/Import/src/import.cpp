@@ -127,27 +127,35 @@ static BOOL myGetS(MCONTACT hContact, const char *szModule, const char *szSettin
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static MCONTACT HContactFromChatID(char *pszProtoName, const wchar_t *pszChatID)
+{
+	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
+		if (!db_get_b(hContact, pszProtoName, "ChatRoom", 0))
+			continue;
+
+		ptrW wszChatId(db_get_wsa(hContact, pszProtoName, "ChatRoomID"));
+		if (!mir_wstrcmp(pszChatID, wszChatId))
+			return hContact;
+	}
+
+	return INVALID_CONTACT_ID;
+}
+
 static MCONTACT HContactFromNumericID(char *pszProtoName, char *pszSetting, DWORD dwID)
 {
-	for (MCONTACT hContact = dstDb->FindFirstContact(); hContact; hContact = dstDb->FindNextContact(hContact)) {
-		if (db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID) {
-			char* szProto = GetContactProto(hContact);
-			if (szProto != nullptr && !mir_strcmp(szProto, pszProtoName))
-				return hContact;
-		}
-	}
+	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName))
+		if (db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID)
+			return hContact;
+
 	return INVALID_CONTACT_ID;
 }
 
 static MCONTACT HContactFromID(char *pszProtoName, char *pszSetting, wchar_t *pwszID)
 {
-	for (MCONTACT hContact = dstDb->FindFirstContact(); hContact; hContact = dstDb->FindNextContact(hContact)) {
-		char *szProto = GetContactProto(hContact);
-		if (!mir_strcmp(szProto, pszProtoName)) {
-			ptrW id(db_get_wsa(hContact, pszProtoName, pszSetting));
-			if (!mir_wstrcmp(pwszID, id))
-				return hContact;
-		}
+	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
+		ptrW id(db_get_wsa(hContact, pszProtoName, pszSetting));
+		if (!mir_wstrcmp(pwszID, id))
+			return hContact;
 	}
 	return INVALID_CONTACT_ID;
 }
@@ -771,11 +779,18 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		return NULL;
 	}
 
-	// Skip protocols with no unique id setting (some non IM protocols return NULL)
-	char *pszUniqueSetting = (char*)CallProtoService(pda->pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if (!pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND) {
-		AddMessage(LPGENW("Skipping non-IM contact (%S)"), cc->szProto);
-		return NULL;
+	// group chat?
+	char *pszUniqueSetting;
+	bool bIsChat = myGetD(hSrc, cc->szProto, "ChatRoom", 0) != 0;
+	if (bIsChat)
+		pszUniqueSetting = "ChatRoomID";
+	else {
+		// Skip protocols with no unique id setting (some non IM protocols return NULL)
+		pszUniqueSetting = (char*)CallProtoService(pda->pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		if (!pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND) {
+			AddMessage(LPGENW("Skipping non-IM contact (%S)"), cc->szProto);
+			return NULL;
+		}
 	}
 
 	DBVARIANT dbv;
@@ -785,8 +800,8 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	// Does the contact already exist?
-	wchar_t id[40], *pszUniqueID;
 	MCONTACT hDst;
+	wchar_t id[40], *pszUniqueID;
 	switch (dbv.type) {
 	case DBVT_DWORD:
 		pszUniqueID = _ltow(dbv.dVal, id, 10);
@@ -796,7 +811,10 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
 		pszUniqueID = NEWWSTR_ALLOCA(_A2T(dbv.pszVal));
-		hDst = HContactFromID(pda->pa->szModuleName, pszUniqueSetting, pszUniqueID);
+		if (bIsChat)
+			hDst = HContactFromChatID(pda->pa->szModuleName, pszUniqueID);
+		else
+			hDst = HContactFromID(pda->pa->szModuleName, pszUniqueSetting, pszUniqueID);
 		break;
 
 	default:
