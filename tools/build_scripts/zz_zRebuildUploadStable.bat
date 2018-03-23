@@ -11,6 +11,8 @@ set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error
 
+copy /S /Y tools\build_scripts\*.* .
+
 del /F /Q version.txt
 
 pushd build
