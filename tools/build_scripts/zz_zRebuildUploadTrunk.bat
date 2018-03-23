@@ -5,7 +5,7 @@ set GIT_STATUS=%ERRORLEVEL%
 if %GIT_STATUS%==0 echo Git update success
 if not %GIT_STATUS%==0 goto :Error
 
-copy /S /Y tools\build_scripts\*.* .
+xcopy /S /Y tools\build_scripts\*.* . >nul
 
 start /min /wait z1_ReBuild_Full.bat 32 %comp%
 
