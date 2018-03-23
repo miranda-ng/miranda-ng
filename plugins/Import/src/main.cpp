@@ -83,16 +83,24 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_IMPORT
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	if (db_get_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 0))
-		return 0;
+	// menu item
+	CMenuItem mi;
+	SET_UID(mi, 0x20ffaf55, 0xafa0, 0x4da3, 0xa9, 0x46, 0x20, 0x51, 0xa0, 0x24, 0xb, 0x41);
+	mi.hIcolibItem = GetIconHandle(IDI_IMPORT);
+	mi.name.a = LPGEN("&Import...");
+	mi.position = 500050000;
+	mi.pszService = IMPORT_SERVICE;
+	Menu_AddMainMenuItem(&mi);
 
-	// Only autorun import wizard if at least one protocol is installed
-	int nProtocols = 0;
-	PROTOACCOUNT **ppProtos = nullptr;
-	Proto_EnumAccounts(&nProtocols, &ppProtos);
-	if (nProtocols > 0) {
-		CallService(IMPORT_SERVICE, 0, 0);
-		db_set_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
+	if (!db_get_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 0)) {
+		// Only autorun import wizard if at least one protocol is installed
+		int nProtocols = 0;
+		PROTOACCOUNT **ppProtos = nullptr;
+		Proto_EnumAccounts(&nProtocols, &ppProtos);
+		if (nProtocols > 0) {
+			CallService(IMPORT_SERVICE, 0, 0);
+			db_set_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
+		}
 	}
 	return 0;
 }
@@ -149,15 +157,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 	CreateServiceFunction(MS_IMPORT_RUN, CustomImport);
 	RegisterIcons();
-
-	// menu item
-	CMenuItem mi;
-	SET_UID(mi, 0x20ffaf55, 0xafa0, 0x4da3, 0xa9, 0x46, 0x20, 0x51, 0xa0, 0x24, 0xb, 0x41);
-	mi.hIcolibItem = GetIconHandle(IDI_IMPORT);
-	mi.name.a = LPGEN("&Import...");
-	mi.position = 500050000;
-	mi.pszService = IMPORT_SERVICE;
-	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_OKTOEXIT, OnExit);
