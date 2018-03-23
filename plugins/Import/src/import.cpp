@@ -568,23 +568,43 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct MImportGroup
+{
+	MImportGroup(int _n, wchar_t *_nm) :
+		wszName(_nm),
+		iNumber(_n)
+	{}
+
+	int iNumber;
+	ptrW wszName;
+};
+
 static int ImportGroup(const char* szSettingName, void *param)
 {
-	int *pnGroups = (int*)param;
-
-	wchar_t *tszGroup = myGetWs(NULL, "CListGroups", szSettingName);
-	if (tszGroup != nullptr) {
-		if (CreateGroup(tszGroup + 1, NULL))
-			pnGroups[0]++;
-		mir_free(tszGroup);
-	}
+	OBJLIST<MImportGroup> *pArray = (OBJLIST<MImportGroup>*)param;
+	pArray->insert(new MImportGroup(atoi(szSettingName), myGetWs(NULL, "CListGroups", szSettingName)));
 	return 0;
 }
 
 static int ImportGroups()
 {
+	OBJLIST<MImportGroup> arGroups(10, NumericKeySortT);
+	srcDb->EnumContactSettings(NULL, ImportGroup, "CListGroups", &arGroups);
+
 	int nGroups = 0;
-	db_enum_settings(NULL, ImportGroup, "CListGroups", &nGroups);
+	for (auto &it : arGroups) {
+		if (Clist_GroupExists(it->wszName.get() + 1))
+			continue;
+
+		MGROUP group_id = Clist_GroupCreate(0, it->wszName.get() + 1);
+		if (group_id > 0) {
+			char szSetting[20];
+			_itoa_s(group_id - 1, szSetting, 10);
+			db_set_ws(0, "CListGroups", szSetting, it->wszName);
+			nGroups++;
+		}
+	}
+
 	return nGroups;
 }
 
@@ -1005,6 +1025,7 @@ void MirandaImport(HWND hdlg)
 	DWORD dwTimer = time(nullptr);
 
 	OBJLIST<char> arSkippedAccs(1, CompareModules);
+	arSkippedAccs.insert(newStr("CListGroups"));
 	if (!ImportAccounts(arSkippedAccs)) {
 		AddMessage(LPGENW("Error mapping accounts, exiting."));
 		return;
