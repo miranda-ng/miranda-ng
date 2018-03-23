@@ -143,7 +143,6 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
 PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName);
 int  FreeDefaultAccount(PROTO_INTERFACE* ppi);
 
-BOOL ActivateAccount(PROTOACCOUNT *pa);
 void EraseAccount(const char *pszProtoName);
 void DeactivateAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);
 void UnloadAccount(PROTOACCOUNT *pa, bool bIsDynamic, bool bErase);

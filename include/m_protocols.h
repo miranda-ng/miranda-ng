@@ -300,6 +300,12 @@ MIR_APP_DLL(void) Proto_EnumAccounts(int *nAccs, PROTOACCOUNT ***pAccs);
 MIR_APP_DLL(PROTOACCOUNT*) Proto_CreateAccount(const char *pszInternal, const char *pszBaseProto, const wchar_t *ptszAccountName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// constructs the appropriate PROTOACCOUNT::ppro member if needed
+// returns true if succeeded
+
+MIR_APP_DLL(bool) Proto_ActivateAccount(PROTOACCOUNT *pAccount);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // retrieves an account's interface by its physical name (database module)
 // return value = PROTOACCOUNT* or NULL
 

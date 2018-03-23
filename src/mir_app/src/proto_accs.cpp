@@ -264,7 +264,7 @@ int LoadAccountsModule(void)
 		if (!Proto_IsAccountEnabled(pa))
 			continue;
 
-		if (!ActivateAccount(pa))
+		if (!Proto_ActivateAccount(pa))
 			pa->bDynDisabled = true;
 	}
 
@@ -284,22 +284,22 @@ static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, 
 	return CreateServiceFunctionObj(tmp, pFunc, param);
 }
 
-BOOL ActivateAccount(PROTOACCOUNT *pa)
+MIR_APP_DLL(bool) Proto_ActivateAccount(PROTOACCOUNT *pa)
 {
 	PROTOCOLDESCRIPTOR* ppd = Proto_IsProtocolLoaded(pa->szProtoName);
 	if (ppd == nullptr)
-		return FALSE;
+		return false;
 
 	if (ppd->fnInit == nullptr)
-		return FALSE;
+		return false;
 
 	PROTO_INTERFACE *ppi = ppd->fnInit(pa->szModuleName, pa->tszAccountName);
 	if (ppi == nullptr)
-		return FALSE;
+		return false;
 
 	pa->ppro = ppi;
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
-	return TRUE;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
