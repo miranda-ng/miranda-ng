@@ -28,21 +28,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_clui.h"
 
 int OnLoadLangpack(WPARAM, LPARAM);
-int UnloadFavoriteContactMenu();
+void UnloadFavoriteContactMenu();
 
 int CListMod_HideWindow();
 
-int AddMainMenuItem(WPARAM wParam, LPARAM lParam);
-int AddContactMenuItem(WPARAM wParam, LPARAM lParam);
 void UninitCListEvents(void);
 int ContactAdded(WPARAM wParam, LPARAM lParam);
-int GetContactDisplayName(WPARAM wParam, LPARAM lParam);
 int CListOptInit(WPARAM wParam, LPARAM lParam);
 int SkinOptInit(WPARAM wParam, LPARAM lParam);
-int ModernSkinOptInit(WPARAM wParam, LPARAM lParam);
-int EventsProcessContactDoubleClick(MCONTACT hContact);
-
-INT_PTR TrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);
 
 // returns normal icon or combined with status overlay. Needs to be destroyed.
 

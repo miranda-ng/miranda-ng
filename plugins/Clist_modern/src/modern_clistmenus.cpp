@@ -24,32 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int LoadFavoriteContactMenu();
-
 #pragma hdrstop
-
-INT_PTR CloseAction(WPARAM, LPARAM)
-{
-	g_CluiData.bSTATE = STATE_PREPARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
-
-	bool k;
-	do {
-		k = Miranda_OkToExit();
-	}
-		while (!k);
-
-	if (k)
-		DestroyWindow(pcli->hwndContactList);
-
-	return 0;
-}
-
-int InitCustomMenus(void)
-{
-	CreateServiceFunction("CloseAction", CloseAction);
-	LoadFavoriteContactMenu();
-	return 0;
-}
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -116,14 +91,8 @@ INT_PTR FAV_ToggleShowOffline(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int LoadFavoriteContactMenu()
+void LoadFavoriteContactMenu()
 {
-	Icon_Register(g_hInst, LPGEN("Contact list"), iconList, _countof(iconList));
-
-	CreateServiceFunction(CLUI_FAVSETRATE, FAV_SetRate);
-	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE, FAV_ToggleShowOffline);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, FAV_OnContactMenuBuild);
-
 	CMenuItem mi;
 	SET_UID(mi, 0xf99a2320, 0xc024, 0x48bd, 0x81, 0xf7, 0x9f, 0xa2, 0x5, 0xb0, 0x7f, 0xdc);
 	mi.name.w = FAVMENUROOTNAME;
@@ -148,11 +117,38 @@ int LoadFavoriteContactMenu()
 	mi.name.w = LPGENW("Show even if offline");
 	hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hShowIfOflineItem, MCI_OPT_EXECPARAM, _countof(rates) + 100000000);
+}
+
+void UnloadFavoriteContactMenu()
+{
+	Menu_RemoveItem(hFavoriteContactMenu); hFavoriteContactMenu = nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR CloseAction(WPARAM, LPARAM)
+{
+	g_CluiData.bSTATE = STATE_PREPARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
+
+	bool k;
+	do {
+		k = Miranda_OkToExit();
+	} while (!k);
+
+	if (k)
+		DestroyWindow(pcli->hwndContactList);
+
 	return 0;
 }
 
-int UnloadFavoriteContactMenu()
+int InitCustomMenus(void)
 {
-	Menu_RemoveItem(hFavoriteContactMenu); hFavoriteContactMenu = nullptr;
+	CreateServiceFunction("CloseAction", CloseAction);
+
+	Icon_Register(g_hInst, LPGEN("Contact list"), iconList, _countof(iconList));
+
+	CreateServiceFunction(CLUI_FAVSETRATE, FAV_SetRate);
+	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE, FAV_ToggleShowOffline);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, FAV_OnContactMenuBuild);
 	return 0;
 }

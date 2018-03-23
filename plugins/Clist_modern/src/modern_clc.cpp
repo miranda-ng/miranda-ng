@@ -42,6 +42,7 @@ static BOOL		g_bSortTimerIsSet = FALSE;
 static ClcContact *hitcontact = nullptr;
 HANDLE hSkinFolder;
 wchar_t SkinsFolder[MAX_PATH];
+void LoadFavoriteContactMenu();
 
 int ReloadSkinFolder(WPARAM, LPARAM)
 {
@@ -1553,6 +1554,10 @@ static int clcHookModulesLoaded(WPARAM, LPARAM)
 	wchar_t szMyPath[MAX_PATH];
 	GetModuleFileName(g_hInst, szMyPath, _countof(szMyPath));
 
+	// Menus
+	LoadFavoriteContactMenu();
+
+	// Icons
 	SKINICONDESC sid = {};
 	sid.defaultFile.w = szMyPath;
 	sid.flags = SIDF_PATH_UNICODE;
