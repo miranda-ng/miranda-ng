@@ -79,7 +79,7 @@ static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 		DATABASELINK *pLink = GetDatabasePlugin("dbx_mdbx");
 		if (pLink == nullptr) {
 			if (IDYES == MessageBoxW(nullptr, TranslateT(MISSING_DB_MSG), L"Miranda NG", MB_YESNO))
-				Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:Dbx_mdbx");
+				Utils_OpenUrl("https://miranda-ng.org/p/Dbx_mdbx");
 			return nullptr;
 		}
 
@@ -104,7 +104,7 @@ LBL_Error:
 
 		if (SetServiceModePlugin(L"import") != SERVICE_ONLYDB) {
 			if (IDYES == MessageBoxW(nullptr, TranslateT(MISSING_PLUG_MSG), L"Miranda NG", MB_YESNO))
-				Utils_OpenUrl("https://wiki.miranda-ng.org/index.php?title=Plugin:Import");
+				Utils_OpenUrl("https://miranda-ng.org/p/Import");
 			goto LBL_Error;
 		}
 
