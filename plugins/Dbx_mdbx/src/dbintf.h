@@ -137,6 +137,16 @@ struct CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZero
 	int Create(void);
 	int Check(void);
 
+	__forceinline MDBX_txn* StartTran() const
+	{
+		MDBX_txn *res = 0;
+		int rc = mdbx_txn_begin(m_env, nullptr, (m_bReadOnly) ? MDBX_RDONLY : 0, &res);
+		/* FIXME: throw an exception */
+		_ASSERT(rc == MDBX_SUCCESS);
+		UNREFERENCED_PARAMETER(rc);
+		return res;
+	}
+
 	void StoreKey(void);
 	void SetPassword(const wchar_t *ptszPassword);
 	void UpdateMenuItem(void);

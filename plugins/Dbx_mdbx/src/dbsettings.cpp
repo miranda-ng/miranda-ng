@@ -313,7 +313,7 @@ LBL_WriteString:
 	}
 
 	{
-		txn_ptr trnlck(m_env);
+		txn_ptr trnlck(StartTran());
 		if (mdbx_put(trnlck, m_dbSettings, &key, &data, MDBX_RESERVE) != MDBX_SUCCESS)
 			return 1;
 
@@ -366,7 +366,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 			keyVal->dwModuleId = GetModuleID(szModule);
 			memcpy(&keyVal->szSettingName, szSetting, settingNameLen + 1);
 
-			txn_ptr trnlck(m_env);
+			txn_ptr trnlck(StartTran());
 			MDBX_val key = { keyVal,  sizeof(DBSettingKey) + settingNameLen };
 			if (mdbx_del(trnlck, m_dbSettings, &key, nullptr) != MDBX_SUCCESS)
 				return 1;

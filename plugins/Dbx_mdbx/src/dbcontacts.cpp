@@ -51,8 +51,8 @@ STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
 		MDBX_val key, data;
 		DBSettingKey keyS = { contactID, 0, 0 };
 
-		txn_ptr txn(m_env);
-		cursor_ptr cursor(txn, m_dbSettings);
+		txn_ptr trnlck(StartTran());
+		cursor_ptr cursor(trnlck, m_dbSettings);
 
 		key.iov_len = sizeof(keyS); key.iov_base = &keyS;
 
@@ -63,12 +63,12 @@ STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
 			mdbx_cursor_del(cursor, 0);
 		}
 
-		txn.commit();
+		trnlck.commit();
 	}
 
 	MDBX_val key = { &contactID, sizeof(MCONTACT) };
 	{
-		txn_ptr trnlck(m_env);
+		txn_ptr trnlck(StartTran());
 		if (mdbx_del(trnlck, m_dbContacts, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
 		if (trnlck.commit() != MDBX_SUCCESS)
@@ -88,7 +88,7 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::AddContact()
 		MDBX_val key = { &dwContactId, sizeof(MCONTACT) };
 		MDBX_val data = { &cc->dbc, sizeof(cc->dbc) };
 
-		txn_ptr trnlck(m_env);
+		txn_ptr trnlck(StartTran());
 		if (mdbx_put(trnlck, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
 			return 0;
 		if (trnlck.commit() != MDBX_SUCCESS)
@@ -132,7 +132,7 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 	for (auto &EI : list) {
 		{
-			txn_ptr trnlck(m_env);
+			txn_ptr trnlck(StartTran());
 
 			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
 			MDBX_val key = { &insVal, sizeof(insVal) }, data = { (void*)"", 1 };
@@ -147,7 +147,7 @@ BOOL CDbxMDBX::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	}
 
 	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
-	txn_ptr trnlck(m_env);
+	txn_ptr trnlck(StartTran());
 	if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
 		return 1;
 	if (trnlck.commit() != MDBX_SUCCESS)
@@ -164,7 +164,7 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 	for (auto &EI : list) {
 		{
-			txn_ptr trnlck(m_env);
+			txn_ptr trnlck(StartTran());
 			DBEventSortingKey insVal = { ccMeta->contactID, EI->eventId, EI->ts };
 			MDBX_val key = { &insVal, sizeof(insVal) };
 			if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
@@ -176,7 +176,7 @@ BOOL CDbxMDBX::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		delete EI;
 	}
 
-	txn_ptr trnlck(m_env);
+	txn_ptr trnlck(StartTran());
 	MDBX_val keyc = { &ccMeta->contactID, sizeof(MCONTACT) }, datac = { &ccMeta->dbc, sizeof(ccMeta->dbc) };
 	if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
 		return 1;

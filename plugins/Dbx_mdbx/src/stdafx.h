@@ -57,13 +57,9 @@ class txn_ptr
 {
 	MDBX_txn *txn;
 public:
-	__forceinline txn_ptr(MDBX_env *pEnv)
-	{
-		int rc = mdbx_txn_begin(pEnv, nullptr, 0, &txn);
-		/* FIXME: throw an exception */
-		_ASSERT(rc == MDBX_SUCCESS);
-		UNREFERENCED_PARAMETER(rc);
-	}
+	__forceinline txn_ptr(MDBX_txn *_txn) :
+		txn(_txn)
+	{}
 
 	__forceinline ~txn_ptr()
 	{

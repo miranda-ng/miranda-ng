@@ -66,7 +66,7 @@ int CDbxMDBX::Load(bool bSkipInit)
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
-		txn_ptr trnlck(m_env);
+		txn_ptr trnlck(StartTran());
 
 		unsigned int defFlags = MDBX_CREATE;
 
