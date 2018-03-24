@@ -113,7 +113,10 @@ struct DBCachedContact : public DBCachedContactBase
 	void Advance(MEVENT id, DBEvent &dbe);
 	void Snapshot();
 	void Revert();
+	
 	DBContact dbc, tmp_dbc;
+	uint64_t t_tsLast;
+	MEVENT t_evLast;
 };
 
 struct EventItem
