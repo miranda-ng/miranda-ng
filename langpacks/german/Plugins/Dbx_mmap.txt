@@ -61,11 +61,11 @@ Veraltetes Datenbankformat
 Passwort ändern/entfernen
 ;file \plugins\Db3x_mmap\src\init.cpp
 [This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
-
+Diese Datenbank ist in einem alten Format, welches nicht mehr unterstützt wird. Klicken Sie Ja um es in das neue Format zu konvertieren, oder Nein um abzubrechen.
 [To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
-
+Um diese Datenbank zu öffnen müssen Sie das dbx_mdbx-Plugin installieren. Klicken Sie Ja um es von der Miranda-NG-Seite zu laden, oder Nein um abzubrechen.
 [To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
-
+Um diese Datenbank zu öffnen müssen Sie das Import-Plugin installieren. Klicken Sie Ja um es von der Miranda-NG-Seite zu laden, oder Nein um abzubrechen.
 ;file \plugins\Db3x_mmap\src\ui.cpp
 [Logo]
 Logo
