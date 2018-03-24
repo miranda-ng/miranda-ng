@@ -371,7 +371,7 @@ class COptionsDlg : public CDlgBase
 {
 	int m_currentPage;
 	HTREEITEM m_hCurrentPage;
-	LIST<OptionsPageData> m_arOpd;
+	LIST<OptionsPageData> m_arOpd, m_arDeleted;
 	RECT m_rcDisplay;
 	RECT m_rcTab;
 	HFONT m_hBoldFont;
@@ -692,6 +692,7 @@ public:
 		m_timerFilter(this, FILTER_TIMEOUT_TIMER),
 		m_timerRebuild(this, NEW_PAGE_TIMER),
 		m_arOpd(10),
+		m_arDeleted(1),
 		m_szCaption(pszCaption),
 		m_szGroup(pszGroup),
 		m_szPage(pszPage),
@@ -1074,6 +1075,20 @@ public:
 	void onNewPageTimer(CTimer *pTimer)
 	{
 		pTimer->Stop();
+
+		for (auto &it : m_arDeleted) {
+			int idx = m_arOpd.indexOf(it);
+			if (idx == -1)
+				continue;
+
+			if (m_currentPage > idx)
+				m_currentPage--;
+
+			delete it;
+			m_arOpd.remove(idx);
+		}
+		m_arDeleted.destroy();
+
 		RebuildPageTree();
 	}
 
@@ -1108,17 +1123,11 @@ public:
 
 	void KillModule(int _hLang)
 	{
-		auto T = m_arOpd.rev_iter();
-		for (auto &opd : T) {
+		for (auto &opd : m_arOpd) {
 			if (opd->hLangpack != _hLang)
 				continue;
 
-			int idx = T.indexOf(&opd);
-			if (m_currentPage > idx)
-				m_currentPage--;
-
-			delete opd;
-			m_arOpd.remove(idx);
+			m_arDeleted.insert(opd);
 			m_timerRebuild.Start(50);
 		}
 	}
