@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mdbx.dll
 ;  Plugin: Miranda NG MDBX database driver
-;  Version: 0.95.8.3
+;  Version: 0.95.8.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
