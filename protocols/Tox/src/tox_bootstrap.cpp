@@ -116,7 +116,7 @@ void CToxProto::UpdateNodes()
 		return;
 	}
 
-	long lastUpdate = root.at("last_scan").as_int();
+	DWORD lastUpdate = root.at("last_scan").as_int();
 	if (lastUpdate <= getDword("NodesUpdate", 0))
 		return;
 

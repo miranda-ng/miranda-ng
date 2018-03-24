@@ -260,7 +260,7 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 				for (size_t i = 0; i < chunkCount; i++) {
 					ftp->CheckCurrentFile();
 					size_t size = ftp->ReadCurrentFile(chunk, chunkSize);
-					auto fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
+					fileId = UploadFileChunk(uploadUri, chunk, size, offset, fileSize);
 					offset += size;
 					ftp->Progress(size);
 				}

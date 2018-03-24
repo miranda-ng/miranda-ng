@@ -142,7 +142,7 @@ namespace GDriveAPI
 			JSONNode params(JSON_NODE);
 			params
 				<< JSONNode("name", path)
-				<< JSONNode("mimeType", "pplication/vnd.google-apps.folder");
+				<< JSONNode("mimeType", "application/vnd.google-apps.folder");
 
 			json_string data = params.write();
 			SetData(data.c_str(), data.length());
