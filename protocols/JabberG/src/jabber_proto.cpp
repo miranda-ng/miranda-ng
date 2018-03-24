@@ -127,7 +127,8 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bProcessXMPPLinks(this, "ProcessXMPPLinks", FALSE),
 	m_bIgnoreRosterGroups(this, "IgnoreRosterGroups", FALSE),
 	m_bEnableCarbons(this, "EnableCarbons", TRUE),
-	m_bUseOMEMO(this, "UseOMEMO", FALSE)
+	m_bUseOMEMO(this, "UseOMEMO", FALSE),
+	m_bEnableStreamMgmt(this, "UseStreamMgmt", FALSE)  //TODO: this should be true once implemented
 {
 	m_szXmlStreamToBeInitialized = nullptr;
 

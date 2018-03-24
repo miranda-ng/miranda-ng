@@ -192,6 +192,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<BYTE> m_bIgnoreRosterGroups;
 	CMOption<BYTE> m_bEnableCarbons;
 	CMOption<BYTE> m_bUseOMEMO;
+	CMOption<BYTE> m_bEnableStreamMgmt;
 
 	CMOption<DWORD> m_iConnectionKeepAliveInterval;
 	CMOption<DWORD> m_iConnectionKeepAliveTimeout;
