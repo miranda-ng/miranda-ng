@@ -728,8 +728,6 @@ očisti
 
 [Event log]
 
-[Group chat log]
-
 [Typing notify]
 
 [Popups]

@@ -699,8 +699,6 @@ Latin I
 Основни
 [Event log]
 Дневник на събития
-[Group chat log]
-Дневник за груповите чатове
 [Typing notify]
 Уведомяване при писане
 [Popups]

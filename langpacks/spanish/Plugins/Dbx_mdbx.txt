@@ -2,10 +2,16 @@
 ;============================================================
 ;  File: Dbx_mdbx.dll
 ;  Plugin: Miranda NG MDBX database driver
-;  Version: 0.95.8.3
+;  Version: 0.95.8.4
 ;  Authors: Miranda-NG project
 ;============================================================
 [Cancel]
 Cancelar
+[Change password]
+Cambiar contraseña
 [Remove]
 Eliminar
+[Database]
+Base de datos
+[Password]
+Contraseña

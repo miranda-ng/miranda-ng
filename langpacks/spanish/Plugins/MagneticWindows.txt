@@ -1,0 +1,9 @@
+#muuid {08c01613-24c8-486f-bdae-2c3ddcaf9347}
+;============================================================
+;  File: MagneticWindows.dll
+;  Plugin: Magnetic Windows
+;  Version: 0.0.3.2
+;  Authors: Michael Kunz
+;============================================================
+[Customize]
+Personalizar

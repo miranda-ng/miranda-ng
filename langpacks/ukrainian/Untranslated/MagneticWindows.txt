@@ -1,0 +1,1 @@
+[Makes the contact list and the chat windows snapping to the desktop border and to each other.]

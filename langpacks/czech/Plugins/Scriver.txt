@@ -728,8 +728,6 @@ Komunikace
 Obecné
 [Event log]
 Záznam událostí
-[Group chat log]
-Záznam rozhovorů
 [Typing notify]
 Psaní zprávy
 [Popups]

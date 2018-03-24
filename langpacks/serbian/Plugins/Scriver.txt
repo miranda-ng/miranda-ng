@@ -728,8 +728,6 @@ Celi razgovori
 Uopšteno
 [Event log]
 
-[Group chat log]
-
 [Typing notify]
 Obaveštenja o kucanju
 [Popups]

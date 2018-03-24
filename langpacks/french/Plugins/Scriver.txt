@@ -728,8 +728,6 @@ Sessions de message
 Général
 [Event log]
 
-[Group chat log]
-
 [Typing notify]
 Notification de frappe
 [Popups]

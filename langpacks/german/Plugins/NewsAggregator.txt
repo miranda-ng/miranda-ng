@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,15 +88,6 @@ News-Aggregator
 %s\nist keine gültige Feed-Adresse
 [empty]
 leer
-;file \plugins\NewsAggregator\Src\ExportImport.cpp
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-%d Feed(s) wurden importiert.\r\n%d Duplikate wurden nicht importiert.
-[Imported %d feed(s).]
-%d Feed(s) wurden importiert.
-[OPML files]
-OPML-Dateien
-[Not valid import file.]
-Keine gültige Import-Datei.
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Protokollicon
@@ -119,12 +110,24 @@ Feed prüfen
 Feed ändern
 ;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
-[Enter Feed name]
-Feednamen eingeben:
+[OPML files]
+OPML-Dateien
+[Not valid import file.]
+Keine gültige Import-Datei.
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+%d Feed(s) wurden importiert.\r\n%d Duplikate wurden nicht importiert.
+[Imported %d feed(s).]
+%d Feed(s) wurden importiert.
+[Change Feed]
+Feed ändern
+[Wait...]
+Warten...
 [Enter Feed URL]
 Feed-URL eingeben:
-[Enter message format]
-Nachrichtenformat eingeben
+[Are you sure?]
+Sind Sie sich sicher?
+[Tags Mask Reset]
+Maske zurücksetzen
 [The title of the item.]
 Titel des Eintrages.
 [The item synopsis.]
@@ -141,14 +144,12 @@ Ein String, der den Beitrag eindeutig identifiziert.
 Ordnet den Beitrag einer oder mehreren Kategorien zu.
 [Feed Tag Help]
 Feed-Tag-Hilfe
-[Are you sure?]
-Sind Sie sich sicher?
-[Tags Mask Reset]
-Maske zurücksetzen
-[Wait...]
-Warten...
-[Change Feed]
-Feed ändern
+[Enter Feed name]
+Feednamen eingeben:
+[Enter message format]
+Nachrichtenformat eingeben
+[Feed]
+Feed
 [Contact deleting]
 Kontakt löschen
 [Network]
@@ -161,5 +162,3 @@ Auto-Update de-/aktivieren
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 News-Aggregator-HTTP-Verbindung
-[Feed]
-Feed

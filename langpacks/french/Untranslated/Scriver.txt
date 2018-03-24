@@ -95,7 +95,6 @@
 [Info bar status message]
 [Line between messages]
 [Event log]
-[Group chat log]
 [Quote]
 [&Room settings]
 [&Show/hide nick list]

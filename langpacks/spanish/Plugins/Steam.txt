@@ -19,6 +19,8 @@ Contactos
 Usar avatares grandes
 [Message sessions]
 Sesiones de mensaje
+[Connection]
+Conexión
 [Cancel]
 Cancelar
 [Save password]

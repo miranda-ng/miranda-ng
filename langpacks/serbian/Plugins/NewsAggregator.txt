@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,15 +88,6 @@ Greška
 
 [empty]
 
-;file \plugins\NewsAggregator\Src\ExportImport.cpp
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-
-[Imported %d feed(s).]
-
-[OPML files]
-
-[Not valid import file.]
-
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 
@@ -119,11 +110,23 @@ Greška
 
 ;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
-[Enter Feed name]
+[OPML files]
+
+[Not valid import file.]
+
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+
+[Imported %d feed(s).]
+
+[Change Feed]
+
+[Wait...]
 
 [Enter Feed URL]
 
-[Enter message format]
+[Are you sure?]
+Potpuno ste sigurni?
+[Tags Mask Reset]
 
 [The title of the item.]
 
@@ -141,13 +144,11 @@ Greška
 
 [Feed Tag Help]
 
-[Are you sure?]
-Potpuno ste sigurni?
-[Tags Mask Reset]
+[Enter Feed name]
 
-[Wait...]
+[Enter message format]
 
-[Change Feed]
+[Feed]
 
 [Contact deleting]
 
@@ -160,6 +161,4 @@ Avatari
 
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-
-[Feed]
 

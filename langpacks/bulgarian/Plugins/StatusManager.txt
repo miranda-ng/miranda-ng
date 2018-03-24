@@ -245,12 +245,12 @@ Dial-up (експериментално)
 Правила
 [Status messages]
 Текст за състояние
-[%s\t(will be set to %s)\r\n]
-%s\t(ще бъде зададено %s)\r\n
 [Resetting status... (last try (%d))]
 Задаване на състояние... (последен опит (%d))
 [Resetting status... (next retry (%d) in %d s)]
 Задаване на състояние... (нов опит (%d) след %dсек)
+[%s\t(will be set to %s)\r\n]
+%s\t(ще бъде зададено %s)\r\n
 [No internet connection seems available... (last try (%d))]
 Няма налична връзка с интернет... (нов опит (%d))
 [No internet connection seems available... (next retry (%d) in %d s)]

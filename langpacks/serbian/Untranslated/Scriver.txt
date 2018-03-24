@@ -161,7 +161,6 @@
 [Info bar status message]
 [Line between messages]
 [Event log]
-[Group chat log]
 [&Quote]
 [Quote]
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

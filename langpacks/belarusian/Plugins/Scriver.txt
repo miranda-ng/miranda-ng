@@ -719,8 +719,6 @@ URL атрыманы
 Агульнае
 [Event log]
 Лог падзей
-[Group chat log]
-Лог чата
 [Typing notify]
 Набірае тэкст
 [Popups]

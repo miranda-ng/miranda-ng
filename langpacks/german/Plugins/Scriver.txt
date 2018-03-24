@@ -728,8 +728,6 @@ Nachrichtensitzungen
 Allgemein
 [Event log]
 Ereignisverlauf
-[Group chat log]
-Gruppenchatverlauf
 [Typing notify]
 Tippbenachrichtigungen
 [Popups]

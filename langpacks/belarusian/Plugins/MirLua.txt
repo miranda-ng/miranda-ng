@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirLua.dll
 ;  Plugin: MirLua
-;  Version: 0.11.8.5
+;  Version: 0.11.8.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Extends Miranda NG functionality with Lua scripts.]
@@ -17,6 +17,8 @@
 Агульнае
 [Popup on obsolete methods]
 
+[Services]
+Службы
 [C libs folder]
 
 [Scripts folder]
@@ -33,5 +35,3 @@
 Перагрузіць
 [Common scripts]
 Агульныя скрыпты
-[Services]
-Службы

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -85,14 +85,6 @@
 %s\nнеправильна адреса каналу
 [empty]
 Порожній
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-Імпортовано каналів: %d \r\nНе імпортовано дублікатів: %d
-[Imported %d feed(s).]
-Імпортовано каналів: %d.
-[OPML files]
-Файли OPML
-[Not valid import file.]
-Неправильний файл для імпорту
 [Protocol icon]
 Значок протоколу
 [Check All Feeds]
@@ -111,12 +103,24 @@
 Перевірити канал
 [Change feed]
 Змінити канал
-[Enter Feed name]
-Введіть ім'я каналу
+[OPML files]
+Файли OPML
+[Not valid import file.]
+Неправильний файл для імпорту
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Імпортовано каналів: %d \r\nНе імпортовано дублікатів: %d
+[Imported %d feed(s).]
+Імпортовано каналів: %d.
+[Change Feed]
+Змінити канал
+[Wait...]
+Зачекайте...
 [Enter Feed URL]
 Введіть URL каналу
-[Enter message format]
-Введіть формат повідомлення
+[Are you sure?]
+Ви впевнені?
+[Tags Mask Reset]
+Скидання тегів
 [The title of the item.]
 Заголовок новини.
 [The item synopsis.]
@@ -133,14 +137,12 @@ URL сторінки з коментарями до новини.
 Категорії новини.
 [Feed Tag Help]
 Допомога по тегам каналу
-[Are you sure?]
-Ви впевнені?
-[Tags Mask Reset]
-Скидання тегів
-[Wait...]
-Зачекайте...
-[Change Feed]
-Змінити канал
+[Enter Feed name]
+Введіть ім'я каналу
+[Enter message format]
+Введіть формат повідомлення
+[Feed]
+Канал
 [Contact deleting]
 Видалення контакту
 [Network]
@@ -151,5 +153,3 @@ URL сторінки з коментарями до новини.
 Увімк./вимк. автооновлення
 [NewsAggregator HTTP connection]
 HTTP-з'єднання NewsAggregator
-[Feed]
-Канал

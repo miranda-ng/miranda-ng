@@ -4,6 +4,7 @@
 [Popup on script error]
 [General]
 [Popup on obsolete methods]
+[Services]
 [C libs folder]
 [Scripts folder]
 [Script]
@@ -12,4 +13,3 @@
 [Open]
 [Reload]
 [Common scripts]
-[Services]

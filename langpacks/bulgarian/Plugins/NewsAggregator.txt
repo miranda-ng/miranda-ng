@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -81,12 +81,6 @@ URL
 %s\nне е валиден адрес на емисия.
 [empty]
 празно
-[Imported %d feed(s).]
-Внесени са %d емисии.
-[OPML files]
-OPML файлове
-[Not valid import file.]
-Файлът за импортиране не е валиден.
 [Protocol icon]
 Икона на протокола
 [Check All Feeds]
@@ -105,12 +99,20 @@ OPML файлове
 Проверка за новини
 [Change feed]
 Редактиране на емисията
-[Enter Feed name]
-Въведете име на емисията
+[OPML files]
+OPML файлове
+[Not valid import file.]
+Файлът за импортиране не е валиден.
+[Imported %d feed(s).]
+Внесени са %d емисии.
+[Change Feed]
+Редактиране на емисията
+[Wait...]
+Изчакайте...
 [Enter Feed URL]
 Въведете URL адрес на емисията
-[Enter message format]
-Въведете формат за съобщенията
+[Are you sure?]
+Сигурни ли сте?
 [The title of the item.]
 Заглавие на новината.
 [The item synopsis.]
@@ -125,12 +127,12 @@ URL адрес на страницата за коментари към нови
 Низ, уникален идентификатор за новината.
 [Specify one or more categories that the item belongs to.]
 Определя една или повече категории към които принадлежи новината.
-[Are you sure?]
-Сигурни ли сте?
-[Wait...]
-Изчакайте...
-[Change Feed]
-Редактиране на емисията
+[Enter Feed name]
+Въведете име на емисията
+[Enter message format]
+Въведете формат за съобщенията
+[Feed]
+Емисия
 [Contact deleting]
 Изтриване на контакт
 [Network]
@@ -141,5 +143,3 @@ URL адрес на страницата за коментари към нови
 Вкл / Изкл на автоматично обновяване
 [NewsAggregator HTTP connection]
 HTTP връзки на NewsAggregator
-[Feed]
-Емисия

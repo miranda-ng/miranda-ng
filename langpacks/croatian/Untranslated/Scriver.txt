@@ -310,7 +310,6 @@
 [Message sessions]
 [General]
 [Event log]
-[Group chat log]
 [Typing notify]
 [Popups]
 [Message from %s]

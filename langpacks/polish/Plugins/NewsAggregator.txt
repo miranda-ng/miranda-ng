@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,15 +88,6 @@ RSS/Atom
 %s\nnie jest poprawnym adresem RSS.
 [empty]
 pusty
-;file \plugins\NewsAggregator\Src\ExportImport.cpp
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-Zaimportowano %d kanałów\r\nNie zaimportowano %d duplikatów
-[Imported %d feed(s).]
-Zaimportowano %d kanałów
-[OPML files]
-Pliki OPML
-[Not valid import file.]
-Plik importu nieprawidłowy.
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokołu
@@ -119,12 +110,24 @@ Sprawdź kanał
 Zmień ustawienia kanału
 ;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
-[Enter Feed name]
-Wpisz nazwę kanału
+[OPML files]
+Pliki OPML
+[Not valid import file.]
+Plik importu nieprawidłowy.
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Zaimportowano %d kanałów\r\nNie zaimportowano %d duplikatów
+[Imported %d feed(s).]
+Zaimportowano %d kanałów
+[Change Feed]
+Edycja kanału
+[Wait...]
+Czekaj...
 [Enter Feed URL]
 Wprowadź adres kanału
-[Enter message format]
-Format wpisywanej wiadomości
+[Are you sure?]
+Jesteś pewien?
+[Tags Mask Reset]
+Przywracanie domyślnych tagów
 [The title of the item.]
 Nazwa kanału.
 [The item synopsis.]
@@ -141,14 +144,12 @@ Identyfikator kanału.
 Kategoria kanału.
 [Feed Tag Help]
 Pomoc
-[Are you sure?]
-Jesteś pewien?
-[Tags Mask Reset]
-Przywracanie domyślnych tagów
-[Wait...]
-Czekaj...
-[Change Feed]
-Edycja kanału
+[Enter Feed name]
+Wpisz nazwę kanału
+[Enter message format]
+Format wpisywanej wiadomości
+[Feed]
+Kanał
 [Contact deleting]
 Usuwanie kontaktu
 [Network]
@@ -161,5 +162,3 @@ Włącz/Wyłącz autoaktualizacje
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 Połączenie HTTP NewsAggregator
-[Feed]
-Kanał

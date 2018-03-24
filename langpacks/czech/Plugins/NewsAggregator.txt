@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.3
+;  Version: 0.1.0.4
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,15 +88,6 @@ Zadejte vaše heslo
 %s\nnení platná adresa zdroje.
 [empty]
 prázdné
-;file \plugins\NewsAggregator\Src\ExportImport.cpp
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-
-[Imported %d feed(s).]
-
-[OPML files]
-
-[Not valid import file.]
-
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokolu
@@ -119,11 +110,23 @@ Zkont. zdroj
 Změnit zdroj
 ;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 ;file \plugins\NewsAggregator\Src\Options.cpp
-[Enter Feed name]
+[OPML files]
 
+[Not valid import file.]
+
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+
+[Imported %d feed(s).]
+
+[Change Feed]
+Změnit zdroj
+[Wait...]
+Počkejte...
 [Enter Feed URL]
 Zadejte URL zdroje
-[Enter message format]
+[Are you sure?]
+Opravdu chcete pokračovat?
+[Tags Mask Reset]
 
 [The title of the item.]
 
@@ -141,14 +144,12 @@ Zadejte URL zdroje
 
 [Feed Tag Help]
 
-[Are you sure?]
-Opravdu chcete pokračovat?
-[Tags Mask Reset]
+[Enter Feed name]
 
-[Wait...]
-Počkejte...
-[Change Feed]
-Změnit zdroj
+[Enter message format]
+
+[Feed]
+Zdroj
 [Contact deleting]
 
 [Network]
@@ -161,5 +162,3 @@ Povolit/zakázat automatickou aktualizaci
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 
-[Feed]
-Zdroj

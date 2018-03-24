@@ -728,8 +728,6 @@ Okno rozmowy
 Ogólne
 [Event log]
 Dziennik zdarzeń
-[Group chat log]
-Dziennik rozmów grupowych
 [Typing notify]
 Powiadomienie o pisaniu
 [Popups]

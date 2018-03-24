@@ -1,0 +1,5 @@
+[Makes the contact list and the chat windows snapping to the desktop border and to each other.]
+[Magnetic Windows]
+[Snap windows]
+[%d pix]
+[For Scriver users: automatically hold down the Ctrl key while moving/sizing. (Make sure you use Scriver!)]
