@@ -175,7 +175,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				tvis.item.state = TVIS_EXPANDED;
 				tvis.hParent = FindNamedTreeItemAtRoot(hwndTree, p->getSection());
 				if (tvis.hParent == nullptr) {
-					tvis.item.lParam = -1;
+					tvis.item.lParam = 0;
 					tvis.item.pszText = p->getSection();
 					tvis.hParent = tvis.item.hItem = TreeView_InsertItem(hwndTree, &tvis);
 					tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			while (tvi.hItem != nullptr) {
 				tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 				TreeView_GetItem(hwndTree, &tvi);
-				if (tvi.lParam == -1)
+				if (tvi.lParam == 0)
 					TreeView_SetItemState(hwndTree, tvi.hItem, INDEXTOSTATEIMAGEMASK(0), TVIS_STATEIMAGEMASK);
 
 				tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
@@ -249,7 +249,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			tvi.hItem = hti;
 			if (TreeView_GetItem(hwndTree, &tvi) == FALSE)
 				break;
-			if (tvi.lParam == -1)
+			if (tvi.lParam == 0)
 				break;
 
 			SoundItem *p = (SoundItem *)tvi.lParam;
@@ -277,25 +277,25 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			tvi.hItem = hti;
 			if (TreeView_GetItem(hwndTree, &tvi) == FALSE)
 				break;
-			if (tvi.lParam == -1)
+			if (tvi.lParam == 0)
 				break;
 
-			SoundItem &snd = arSounds[tvi.lParam];
+			SoundItem *p = (SoundItem *)tvi.lParam;
 
 			wchar_t str[MAX_PATH], strFull[MAX_PATH], strdir[MAX_PATH], filter[MAX_PATH];
-			if (snd.ptszTempFile)
-				wcsncpy_s(strFull, snd.ptszTempFile, _TRUNCATE);
+			if (p->ptszTempFile)
+				wcsncpy_s(strFull, p->ptszTempFile, _TRUNCATE);
 			else {
-				if (db_get_b(0, "SkinSoundsOff", snd.name, 0) == 0) {
+				if (db_get_b(0, "SkinSoundsOff", p->name, 0) == 0) {
 					DBVARIANT dbv;
-					if (db_get_ws(0, "SkinSounds", snd.name, &dbv) == 0) {
+					if (db_get_ws(0, "SkinSounds", p->name, &dbv) == 0) {
 						PathToAbsoluteW(dbv.ptszVal, strdir);
 						db_free(&dbv);
 					}
 				}
 			}
 
-			wcsncpy_s(strFull, (snd.ptszTempFile ? snd.ptszTempFile : L""), _TRUNCATE);
+			wcsncpy_s(strFull, (p->ptszTempFile ? p->ptszTempFile : L""), _TRUNCATE);
 			PathToAbsoluteW(strFull, strdir);
 
 			OPENFILENAME ofn;
@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			PathToRelativeW(str, strFull);
-			snd.ptszTempFile = mir_wstrdup(strFull);
+			p->ptszTempFile = mir_wstrdup(strFull);
 			SetDlgItemText(hwndDlg, IDC_LOCATION, strFull);
 		}
 		if (LOWORD(wParam) == IDC_GETMORE) {
@@ -353,15 +353,16 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				while (tvi.hItem != nullptr) {
 					tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 					TreeView_GetItem(hwndTree, &tvi);
-					if (tvi.lParam == -1) {
+					if (tvi.lParam == 0) {
 						tvic.hItem = TreeView_GetChild(hwndTree, tvi.hItem);
 						while (tvic.hItem != nullptr) {
 							tvic.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 							TreeView_GetItem(hwndTree, &tvic);
+							SoundItem *p = (SoundItem *)tvic.lParam;
 							if (((tvic.state & TVIS_STATEIMAGEMASK) >> 12 == 2))
-								db_unset(0, "SkinSoundsOff", arSounds[tvic.lParam].name);
+								db_unset(0, "SkinSoundsOff", p->name);
 							else
-								db_set_b(0, "SkinSoundsOff", arSounds[tvic.lParam].name, 1);
+								db_set_b(0, "SkinSoundsOff", p->name, 1);
 							tvic.hItem = TreeView_GetNextSibling(hwndTree, tvic.hItem);
 						}
 					}
@@ -379,7 +380,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					NMTREEVIEW *pnmtv = (NMTREEVIEW*)lParam;
 					TVITEM tvi = pnmtv->itemNew;
 
-					if (tvi.lParam == -1)
+					if (tvi.lParam == 0)
 						SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 					else {
 						SoundItem *p = (SoundItem *)tvi.lParam;
