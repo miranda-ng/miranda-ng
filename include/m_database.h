@@ -457,13 +457,6 @@ EXTERN_C MIR_APP_DLL(int) Profile_GetPathW(size_t cbLen, wchar_t *pwszDest);
 
 EXTERN_C MIR_APP_DLL(void) Profile_SetDefault(const wchar_t *pwszPath);
 
-// Checks the specified profile like dbtool did.
-// Implemented in the dbchecker plugins, thus it might not exist
-//  wParam = (WPARAM)(wchar_t*)ptszProfileName
-//  lParam = (BOOL)bConversionMode
-
-#define MS_DB_CHECKPROFILE "DB/CheckProfile"
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact services
 

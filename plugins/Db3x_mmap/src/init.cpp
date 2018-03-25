@@ -119,20 +119,6 @@ LBL_Error:
 	return db.release();
 }
 
-MIDatabaseChecker* CheckDb(const wchar_t *profile, int *error)
-{
-	std::auto_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_READONLY));
-	if (db->Load(true) != ERROR_SUCCESS) {
-		*error = ERROR_ACCESS_DENIED;
-		return nullptr;
-	}
-
-	if (db->PrepareCheck(error))
-		return nullptr;
-
-	return db.release();
-}
-
 static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
@@ -140,8 +126,7 @@ static DATABASELINK dblink =
 	L"dbx mmap driver",
 	makeDatabase,
 	grokHeader,
-	LoadDatabase,
-	CheckDb
+	LoadDatabase
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -241,12 +241,6 @@ struct DATABASELINK
 	Returns: 0 on success, nonzero on failure
 	*/
 	MDatabaseCommon* (*Load)(const wchar_t *profile, BOOL bReadOnly);
-
-	/*
-	Returns a pointer to the database checker or NULL if a database doesn't support checking
-	When you don't need this object aanymore,  call its Destroy() method
-	*/
-	MIDatabaseChecker* (*CheckDB)(const wchar_t *profile, int *error);
 };
 
 ///////////////////////////////////////////////////////////////////////////////

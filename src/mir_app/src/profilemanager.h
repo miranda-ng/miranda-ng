@@ -43,7 +43,5 @@ int isValidProfileName(const wchar_t *name);
 bool fileExist(const wchar_t *fname);
 bool shouldAutoCreate(wchar_t *szProfile);
 
-void EnsureCheckerLoaded(bool);
-
 extern wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 extern bool  g_bDbCreated;

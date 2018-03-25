@@ -319,9 +319,6 @@ LBL_Show:
 		if (!getProfileManager(&pd))
 			return 0;
 
-		if (!pd.bRun)
-			return CallService(MS_DB_CHECKPROFILE, WPARAM(szProfile), TRUE);
-
 		return 1;
 	}
 
@@ -388,11 +385,6 @@ int tryOpenDatabase(const wchar_t *tszProfile)
 			case EGROKPRF_UNKHEADER:
 				// just not supported.
 				continue;
-
-			case EGROKPRF_OBSOLETE:
-				EnsureCheckerLoaded(true);
-				CallService(MS_DB_CHECKPROFILE, (WPARAM)tszProfile, 2);
-				break;
 
 			default:
 				return err;
@@ -526,10 +518,6 @@ int LoadDatabaseModule(void)
 			}
 		}
 	} while (retry);
-
-	// if there is a service mode plugin to start, disable dbchecker
-	if (mir_wstrlen(CmdLine_GetOption(L"svc")) > 0)
-		EnsureCheckerLoaded(false); // unload dbchecker
 
 	if (rc == ERROR_SUCCESS) {
 		InitIni();

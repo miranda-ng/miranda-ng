@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-//the cache has not been loaded when these functions are used
+// the cache is not loaded when these functions are used
 
 int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 {

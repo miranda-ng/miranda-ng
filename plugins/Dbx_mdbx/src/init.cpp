@@ -75,17 +75,6 @@ static MDatabaseCommon* LoadDatabase(const TCHAR *profile, BOOL bReadOnly)
 	return db.release();
 }
 
-MIDatabaseChecker* CheckDb(const TCHAR *profile, int *error)
-{
-	std::unique_ptr<CDbxMDBX> db(new CDbxMDBX(profile, DBMODE_READONLY));
-	if (db->Load(true) != ERROR_SUCCESS) {
-		*error = ERROR_ACCESS_DENIED;
-		return nullptr;
-	}
-
-	return db.release();
-}
-
 static DATABASELINK dblink =
 {
 	sizeof(DATABASELINK),
@@ -93,8 +82,7 @@ static DATABASELINK dblink =
 	L"MDBX database driver",
 	makeDatabase,
 	grokHeader,
-	LoadDatabase,
-	CheckDb
+	LoadDatabase
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

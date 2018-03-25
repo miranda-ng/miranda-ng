@@ -303,24 +303,6 @@ class CChooseProfileDlg : public CDlgBase
 		return TRUE;
 	}
 
-	void CheckProfile(int iItem)
-	{
-		if (iItem < 0)
-			return;
-
-		wchar_t profile[MAX_PATH], fullName[MAX_PATH];
-		LVITEM item = { 0 };
-		item.mask = LVIF_TEXT | LVIF_IMAGE;
-		item.iItem = iItem;
-		item.pszText = profile;
-		item.cchTextMax = _countof(profile);
-		if (!m_profileList.GetItem(&item))
-			return;
-
-		mir_snwprintf(fullName, L"%s\\%s\\%s.dat", m_pd->ptszProfileDir, profile, profile);
-		CallService(MS_DB_CHECKPROFILE, (WPARAM)fullName, item.iImage == 2);
-	}
-
 	void DeleteProfile(int iItem)
 	{
 		if (iItem < 0)
@@ -407,8 +389,6 @@ class CChooseProfileDlg : public CDlgBase
 		if (!m_profileList.GetItem(&tvi))
 			return;
 
-		bool bConvert = (tvi.iImage == 2);
-
 		lvht.pt.x = GET_X_LPARAM(lParam);
 		lvht.pt.y = GET_Y_LPARAM(lParam);
 
@@ -417,14 +397,8 @@ class CChooseProfileDlg : public CDlgBase
 			AppendMenu(hMenu, MF_STRING, 1, TranslateT("Run"));
 			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
 		}
-		if (tvi.iImage != 3 && ServiceExists(MS_DB_CHECKPROFILE)) {
-			if (bConvert)
-				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Convert database"));
-			else
-				AppendMenu(hMenu, MF_STRING, 2, TranslateT("Check database"));
-			AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
-		}
-		AppendMenu(hMenu, MF_STRING, 3, TranslateT("Delete"));
+
+		AppendMenu(hMenu, MF_STRING, 2, TranslateT("Delete"));
 		int index = TrackPopupMenu(hMenu, TPM_RETURNCMD, lvht.pt.x, lvht.pt.y, 0, m_hwnd, nullptr);
 		switch (index) {
 		case 1:
@@ -432,10 +406,6 @@ class CChooseProfileDlg : public CDlgBase
 			break;
 
 		case 2:
-			CheckProfile(lvht.iItem);
-			break;
-
-		case 3:
 			DeleteProfile(lvht.iItem);
 			break;
 		}
@@ -635,7 +605,5 @@ public:
 
 int getProfileManager(PROFILEMANAGERDATA *pd)
 {
-	EnsureCheckerLoaded(true);
-
 	return CProfileManager(pd).DoModal();
 }

@@ -157,27 +157,6 @@ int CDb3Mmap::Create()
 	return (m_hDbFile == INVALID_HANDLE_VALUE);
 }
 
-int CDb3Mmap::PrepareCheck(int *error)
-{
-	int ret = CheckDbHeaders(true);
-	switch (ret) {
-	case ERROR_SUCCESS:
-	case EGROKPRF_OBSOLETE:
-		*error = ret;
-		break;
-
-	default:
-		return ret;
-	}
-
-	InitMap();
-	InitModuleNames();
-	if ((ret = InitCrypt()) != ERROR_SUCCESS)
-		return ret;
-
-	return ERROR_SUCCESS;
-}
-
 STDMETHODIMP_(void) CDb3Mmap::SetCacheSafetyMode(BOOL bIsSet)
 {
 	{	mir_cslock lck(m_csDbAccess);

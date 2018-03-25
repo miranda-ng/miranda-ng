@@ -198,8 +198,6 @@ struct CDb3Mmap : public MDatabaseCommon, public MIDatabaseChecker, public MZero
 	void SetPassword(const wchar_t *ptszPassword);
 	void UpdateMenuItem(void);
 
-	int  PrepareCheck(int*);
-
 	__forceinline LPTSTR GetMenuTitle() const { return m_bUsesPassword ? LPGENW("Change/remove password") : LPGENW("Set password"); }
 
 	void DatabaseCorruption(wchar_t *text);

@@ -117,6 +117,7 @@ static const MUUID pluginBannedList[] =
 	{ 0x1e64fd80, 0x299e, 0x48a0, { 0x94, 0x41, 0xde, 0x28, 0x68, 0x56, 0x3b, 0x6f } },  // stdhelp
 	{ 0x3750a5a3, 0xbf0d, 0x490e, { 0xb6, 0x5d, 0x41, 0xac, 0x4d, 0x29, 0xae, 0xb3 } },  // aim
 	{ 0x7c070f7c, 0x459e, 0x46b7, { 0x8e, 0x6d, 0xbc, 0x6e, 0xfa, 0xa2, 0x2f, 0x78 } },  // advaimg
+	{ 0xa0138fc6, 0x4c52, 0x4501, { 0xaf, 0x93, 0x7d, 0x3e, 0x20, 0xbc, 0xae, 0x5b } },  // dbchecker
 };
 
 static bool isPluginBanned(const MUUID& u1)
@@ -728,27 +729,6 @@ MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName)
 	}
 
 	return SERVICE_CONTINUE;
-}
-
-void EnsureCheckerLoaded(bool bEnable)
-{
-	for (auto &p : pluginList) {
-		if (mir_wstrcmpi(p->pluginname, L"dbchecker.dll"))
-			continue;
-
-		if (bEnable) {
-			if (!p->bLoaded) {
-				if (p->bpi.Load() != ERROR_SUCCESS)
-					Plugin_Uninit(p);
-				else {
-					p->bLoaded = true;
-					servicePlugins.removeItem(&p);
-				}
-			}
-		}
-		else Plugin_Uninit(p);
-		break;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
