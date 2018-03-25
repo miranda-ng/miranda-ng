@@ -294,7 +294,7 @@ namespace Langpack_Suite
                         s = ReadFile.ReadLine().Trim();
                         while (s != "")
                         {
-                            if (s.StartsWith(" ") || s.StartsWith("¤") || s.Contains("DbChecker.dll"))
+                            if (s.StartsWith(" ") || s.StartsWith("¤"))
                             {
                                 int l = s.IndexOf(".");
                                 if (s.StartsWith(" ") || s.StartsWith("¤"))

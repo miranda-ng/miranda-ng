@@ -31,7 +31,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDI_ChangePM               ICON                    "ChangePM.ico"
 IDI_LoadPM              ICON                    "LoadPM.ico"
 IDI_Restart              ICON                    "Restart.ico"
-IDI_Dbchecker              ICON                    "Dbchecker.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
