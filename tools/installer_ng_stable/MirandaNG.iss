@@ -65,7 +65,6 @@ Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: cli
 
 ; Core and core modules
 Source: "Files\{#MirName}"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\DbChecker.bat"; DestDir: "{app}"; Components: program; Check: IsPortable(); Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\*.dll"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\FreeImage.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libeay32.mir"; DestDir: "{app}\Libs"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -97,7 +96,6 @@ Source: "Files\Languages\langpack_russian.txt"; DestDir: "{app}\Languages"; Comp
 
 ;Plugins - not selectable
 Source: "Files\Plugins\AVS.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\DbChecker.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\CrashDumper.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Import.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\PluginUpdater.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -175,7 +173,6 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked 
 
 [Icons]
-Name: "{app}\DbChecker"; Filename: "{app}\{#MirName}"; Parameters: "/svc:dbchecker"; Check: IsDefault() 
 Name: "{group}\{#MirGroupName}"; Filename: "{app}\{#MirName}" 
 Name: "{group}\{cm:UninstallProgram,Miranda NG}"; Filename: {app}\Uninstall\Unins000.exe 
 Name: "{userdesktop}\{#MirGroupName}"; Filename: "{app}\{#MirName}"; WorkingDir: {app}; Tasks: desktopicon 
@@ -619,7 +616,7 @@ const
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
   // don't forget to increment it after adding new components!
-  COMPONENTS_COUNT = 21; // Index of the first language
+  COMPONENTS_COUNT = 19; // Index of the first language
 
 // Default installation check
 function IsDefault: Boolean;
