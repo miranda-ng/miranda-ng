@@ -56,7 +56,6 @@ Core\StdUserInfo.dll
 Core\StdUserOnline.dll
 Plugins\Dbx_mmap.dll
 Plugins\Dbx_mdbx.dll
-Plugins\DbChecker.dll
 Plugins\Import.dll
 Icons\Proto_MetaContacts.dll
 Libs\FreeImage.mir

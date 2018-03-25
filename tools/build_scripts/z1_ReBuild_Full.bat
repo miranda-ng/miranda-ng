@@ -109,7 +109,6 @@ call :checksum Plugins dll
 call :checksum Icons dll
 
 copy /V /Y ..\..\docs\mirandaboot.ini
-copy /V /Y %SourceDir%\tools\build_scripts\redist\x%tp%\DbChecker.bat
 copy /V /Y %SourceDir%\tools\build_scripts\redist\x%tp%\bass\*.dll "Plugins\BASS"
 
 popd

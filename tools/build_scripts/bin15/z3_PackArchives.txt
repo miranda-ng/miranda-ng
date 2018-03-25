@@ -81,7 +81,6 @@ Icons\xStatus_Jabber.dll
 Plugins\AVS.dll
 Plugins\Clist_modern.dll
 Plugins\CrashDumper.dll
-Plugins\DbChecker.dll
 Plugins\Dbx_mdbx.dll
 Plugins\Dbx_mmap.dll
 Plugins\Facebook.dll
