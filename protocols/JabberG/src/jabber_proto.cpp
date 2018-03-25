@@ -71,6 +71,8 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_hPrivacyMenuItems(10),
 	m_lstJabberFeatCapPairsDynamic(2),
 	m_uEnabledFeatCapsDynamic(0),
+	m_bStrmMgmtPendingEnable(false),
+	m_bStrmMgmtEnabled(false),
 
 	m_bBsDirect(this, "BsDirect", TRUE),
 	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", TRUE),
@@ -1340,4 +1342,10 @@ int __cdecl CJabberProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 		return OnDbSettingChanged(wParam, lParam);
 	}
 	return 1;
+}
+
+
+void CJabberProto::m_nStrmMgmtLocalSCount_incr()
+{
+	m_nStrmMgmtLocalSCount++;
 }

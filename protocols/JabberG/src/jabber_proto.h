@@ -284,6 +284,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int m_nIqIdRegGetReg;
 	int m_nIqIdRegSetReg;
 
+	//xep-0198 handled nodes count
+	uint32_t m_nStrmMgmtSrvHCount, m_nStrmMgmtLocalHCount, m_nStrmMgmtLocalSCount;
+	bool m_bStrmMgmtPendingEnable, m_bStrmMgmtEnabled;
+
 	int m_nSDBrowseMode;
 	DWORD m_dwSDLastRefresh;
 	DWORD m_dwSDLastAutoDisco;
@@ -800,6 +804,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info);
 
 	void   EnableCarbons(bool bEnable);
+	void   EnableStrmMgmt();
 
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const wchar_t *jid);
@@ -924,6 +929,8 @@ public:
 	LPTSTR    STDMETHODCALLTYPE GetResourceFeatures(const wchar_t *jid);   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
 	
 	HNETLIBUSER STDMETHODCALLTYPE GetHandle();  // Returns connection handle
+
+	void m_nStrmMgmtLocalSCount_incr();
 
 private:
 	JabberFeatCapPairDynamic *FindFeature(const wchar_t *szFeature);

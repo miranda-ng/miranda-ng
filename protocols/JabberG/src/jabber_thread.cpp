@@ -663,6 +663,8 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 	info->send(XmlNode(L"auth", _A2T(request)) << XATTR(L"xmlns", L"urn:ietf:params:xml:ns:xmpp-sasl")
 		<< XATTR(L"mechanism", _A2T(auth->getName())));
 	mir_free(request);
+	if (m_bEnableStreamMgmt && m_bStrmMgmtPendingEnable)
+		EnableStrmMgmt();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -741,17 +743,9 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 			if (!mir_wstrcmp(XmlGetAttrValue(n, L"xmlns"), L"urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
 			{
 				if (!(info->auth))
-				{
-					//TODO: queue sm after successfully auth
-				}
+					m_bStrmMgmtPendingEnable = true;
 				else
-				{
-					XmlNode enable_sm(L"enable");
-					XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-					XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
-					info->send(enable_sm);
-					//TODO: reset counters ?
-				}
+					EnableStrmMgmt();
 			}
 		}
 	}
@@ -803,6 +797,7 @@ void CJabberProto::OnProcessEnabled(HXML node, ThreadData * /*info*/)
 {
 	if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
+		m_bStrmMgmtEnabled = true;
 		//TODO: handle 'id', 'resume' attrs
 	}
 }
@@ -899,6 +894,8 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 {
 	OnConsoleProcessXml(node, JCPF_IN);
 
+	if (m_bEnableStreamMgmt && m_bStrmMgmtEnabled)
+		m_nStrmMgmtLocalHCount++;
 	if (!mir_wstrcmp(XmlGetName(node), L"proceed"))
 		OnProcessProceed(node, info);
 	else if (!mir_wstrcmp(XmlGetName(node), L"compressed"))
@@ -2053,6 +2050,17 @@ void CJabberProto::EnableCarbons(bool bEnable)
 		<< XCHILDNS((bEnable) ? L"enable" : L"disable", JABBER_FEAT_CARBONS));
 }
 
+void CJabberProto::EnableStrmMgmt()
+{
+	XmlNode enable_sm(L"enable");
+	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+	XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
+	m_ThreadInfo->send(enable_sm);
+	m_nStrmMgmtLocalHCount = 0;
+	m_nStrmMgmtSrvHCount = 0; //?
+	m_nStrmMgmtLocalSCount = 0;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // ThreadData constructor & destructor
@@ -2136,6 +2144,10 @@ int ThreadData::send(char* buf, int bufsize)
 		result = sendws(buf, bufsize, MSG_DUMPASTEXT);
 
 	ReleaseMutex(iomutex);
+
+	if (proto->m_bEnableStreamMgmt && proto->m_bStrmMgmtEnabled)
+		proto->m_nStrmMgmtLocalSCount_incr();
+
 	return result;
 }
 
@@ -2172,5 +2184,7 @@ int ThreadData::send(HXML node)
 	int result = send(utfStr, (int)mir_strlen(utfStr));
 
 	xmlFree(str);
+	if (proto->m_bEnableStreamMgmt && proto->m_bStrmMgmtEnabled)
+		proto->m_nStrmMgmtLocalSCount_incr();
 	return result;
 }
