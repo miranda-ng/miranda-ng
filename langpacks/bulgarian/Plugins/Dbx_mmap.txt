@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.3.1
+;  Version: 0.95.8.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -37,8 +37,8 @@
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от профила!
 [Set password]
 Задаване на парола
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Засечена е повреда в базата от данни. Има шанш за отстраняването ѝ от приставката DbChecker. Моля, свалете я от https://miranda-ng.org/p/DbChecker/. Сега Miranda ще бъде изключена.
+[Miranda has detected corruption in your database. Miranda will now shut down.]
+Засечена е повреда в базата от данни. Сега Miranda ще бъде изключена.
 [Disk is full. Miranda will now shut down.]
 Дискът е пълен. Miranda ще бъде изключена сега.
 [Database failure. Miranda will now shut down.]
@@ -69,23 +69,3 @@
 Паролите не са еднакви!
 [Database]
 База от данни
-[Can't write to output file - disk full? (%u)]
-Файлът не може да бъде записан - пълен диск? (%u)
-[Event count marked wrongly: correcting]
-Грешно маркиран брой на събитията: поправяне
-[First event not marked as such: correcting]
-Първо събитие не е маркирано като такова: поправяне
-[First unread event marked wrong: fixing]
-Грешно маркирано първо непрочетено събитие: поправяне
-[Duplicate event was found: skipping]
-Открито е повтарящо се събитие: пропускане
-[Processing final tasks]
-Изпълнение на последните задачи
-[Database version doesn't match this driver's one. Convert a database first]
-Несъответствие между версията на базата от данни и драйвъра. Конвертирайте базата от данни.
-[Database is newly created and has no data to process]
-Базата от данни е нова и не съдържа данни за обработване
-[Processing completed successfully]
-Обработването завърши успешно
-[Processing user data]
-Обработване на потребителските данни

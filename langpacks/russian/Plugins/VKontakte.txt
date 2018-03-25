@@ -455,8 +455,8 @@ ID получателя ошибочен или неизвестен
 Неизвестная ошибка
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
-[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
-Вы уверены, что хотите перезагрузить все сообщения для всех контактов из vk.com?\nЛокальная история контактов будет удалена и перезагружена с сервера.\nЭто может занять продолжительное время и/или повредить базу данных.\nРекомендуем проверить вашу базу данных (Miranda32.exe /svc:dbchecker или Miranda64.exe /svc:dbchecker) перед повторной загрузкой сообщений и после её.\nХотите продолжить?
+[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
+Вы уверены, что хотите заново загрузить с vk.com все сообщения, полученные от всех контактов?\nЛокальная история контактов будет удалена и загружена с сервера.\nЭто может занять продолжительное время и/или повредить базу.\nПродолжить?
 [Error loading message history from server.]
 Ошибка загрузки истории сообщений с сервера.
 [Loading messages for all contacts is completed.]

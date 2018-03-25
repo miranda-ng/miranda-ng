@@ -1381,6 +1381,8 @@ Jabber Рэсурс
 Уключыць гісторыю на серверы (XEP-0136)
 [Receive conversations from other devices (XEP-0280)]
 
+[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+
 [Server options]
 Налады сервера
 [Disable SASL authentication (for old servers)]

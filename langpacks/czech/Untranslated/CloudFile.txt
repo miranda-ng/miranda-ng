@@ -11,3 +11,4 @@
 [Yandex.Disk]
 [Upload to...]
 [Upload files to...]
+[Server does not respond]

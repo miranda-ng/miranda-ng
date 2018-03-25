@@ -1405,6 +1405,8 @@ Automaticky uložit obdržené poznámky
 Povolit historii na serveru
 [Receive conversations from other devices (XEP-0280)]
 
+[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+
 [Server options]
 Možnosti serveru
 [Disable SASL authentication (for old servers)]

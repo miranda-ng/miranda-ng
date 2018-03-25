@@ -1979,8 +1979,8 @@ Popups за изобразяване
 Не може да съхранявате профили в основната директория на Miranda NG.\nМоля, преместете профила в друга папка.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mmap.dll
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-"%s" не може да бъде отворен - неизвестен формат.\nВероятно профилът е повреден. Пробвайте да го поправите с DbChecker.
+[Miranda was unable to open '%s', it's in an unknown format.]
+"%s" не може да бъде отворен - неизвестен формат.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Профилът "%s" не може да бъде отворен.\nФайлът е недостъпен или се използва от друго приложение или инстанция на Miranda.
 [No profile support installed!]
@@ -2317,10 +2317,6 @@ Win +\s
 Конвертиране
 [Run]
 Изпълнение
-[Convert database]
-Конвертиране на базата данни
-[Check database]
-Проверка на базата данни
 [Size]
 Размер
 [Created]

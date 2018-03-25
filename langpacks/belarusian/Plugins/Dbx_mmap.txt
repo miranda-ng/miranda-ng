@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.3.1
+;  Version: 0.95.8.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -39,8 +39,8 @@
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў профілі ў выпадку згубы пароль. Рэкамендуем толькі для паранаідальных карыстальнікаў
 [Set password]
 Усталяваць пароль
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Міранда знайшла пашкоджанні ў базе дадзеных. Яны могуць быць выпраўленыя плагінам DbChecker. Калі ласка, загрузіце яго з https://miranda-ng.org/p/DbChecker/. Міранда будзе зачынена.
+[Miranda has detected corruption in your database. Miranda will now shut down.]
+Міранда знайшла пашкоджанні ў базе дадзеных. Міранда будзе зачынена.
 [Disk is full. Miranda will now shut down.]
 Дыск перапоўнены. Miranda будзе зачынена.
 [Database failure. Miranda will now shut down.]
@@ -79,81 +79,3 @@
 Паролі не супадаюць!
 [Database]
 Профіль
-[Performing aggressive pass]
-Выкананне агрэсіўнага праходу
-[Aggressive: random junk at %08X: skipping]
-Агрэсіўна: выпадковыя дадзеныя на %08X: прапусканы
-[Aggressive: unlinked data at %08X: can't automatically place]
-Агрэсіўна: незвязаныя дадзеныя на %08X: немагчыма аўтаматычна ўсталяваць іх месца
-[Processing contact chain]
-Апрацоўка ланцужка кантактаў
-[Contact count marked wrongly: correcting]
-Лік кантактаў пазначаны няслушна: выпраўленне
-[Contact chain corrupted, further entries ignored]
-Ланцужок кантактаў пашкоджана, наступныя дадзеныя праігнараваны
-[Invalid offset found (database truncated?)]
-Няслушнае зрушэнне (база няпоўная?)
-[Invalid offset found]
-Знойдзена няслушнае зрушэнне
-[Error reading, database truncated? (%u)]
-Памылка чытання, база дадзеных абрэзана? (%u)
-[Can't write to working file, aggressive mode may be too aggressive now]
-Немагчыма запісаць у працоўны файл, агрэсіўны рэжым зараз можа быць занадта агрэсіўны
-[Can't write to output file - disk full? (%u)]
-Немагчыма запісаць файл - дыск перапоўнены? (%u)
-[Event count marked wrongly: correcting]
-Лік падзей пазначаны няслушна: выпраўленне
-[Event chain corrupted, trying to recover...]
-Ланцужок падзей пашкоджана, спрабую выправіць...
-[Event chain corrupted, further entries ignored]
-Ланцужок падзей пашкоджана, наступныя дадзеныя ігнараваны
-[First event not marked as such: correcting]
-Першая падзея не пазначана: выпраўленне
-[Extra flags found in event: removing]
-Дадатковыя сцягі знойдзены ў падзеі: выдаленне
-[First unread event marked wrong: fixing]
-Першая непрачытаная падзея пазначана няслушна: выпраўленне
-[Infeasibly large event blob: skipping]
-Падзея займае занадта шмат месца: прапусканы
-[Event not backlinked correctly: fixing]
-Падзея некарэктна злучана з папярэднім: выпраўленне
-[Duplicate event was found: skipping]
-Знойдзены дубль падзеі: прапускаю
-[Event position in chain is not correct]
-Хібная пазіцыя падзеі ў ланцужку
-[Event position in chain is not correct: fixing]
-Хібная пазіцыя падзеі ў ланцужку: выпраўляемы
-[Event position in chain is not correct: unable to fix]
-Хібная пазіцыя падзеі ў ланцужку: немагчыма выправіць
-[Processing final tasks]
-Выкананне завяршальных прац
-[Database signature is corrupted, automatic repair is impossible]
-Загаловак базы дадзеных пашкоджаны, аўтаматычнае выпраўленне немагчыма
-[Database version doesn't match this driver's one. Convert a database first]
-Версія базы несумяшчальна з новай версіяй рухавіка. Канвертуйце базу ў новы фармат
-[Database is newly created and has no data to process]
-База дадзеных новая, і ў ёй няма дадзеных для апрацоўкі
-[Processing completed successfully]
-Апрацоўка завершана паспяхова
-[Can't create map view of file (%u)]
-Не магу стварыць карту файла (%u)
-[Processing module name chain]
-Апрацоўка ланцужка імёнаў плагінаў
-[Module chain corrupted, further entries ignored]
-Ланцужок плагінаў пашкоджаны, наступныя дадзеныя ігнараваны
-[Module name '%s' is not unique: %d duplicates found]
-Імя плагіна '%s' не паўторана: знойдзена %d дублікатаў
-[Invalid module name offset, skipping data]
-Няслушнае зрушэнне імя плагіна, прапушчаны дадзеныя
-[Settings chain corrupted, further entries ignored]
-Ланцужок налад пашкоджана, наступныя дадзеныя ігнараваны
-[Infeasibly large settings blob: skipping]
-Налада займае занадта шмат месца: прапусканы
-[Empty settings group at %08X: skipping]
-Гурт пустых значэнняў на %08X: прапускаю
-[Processing user data]
-Апрацоўка карыстацкіх дадзеных
-[User corrupted, this could cause major problems]
-Кантакт пашкоджаны, гэта можа быць сур'ёзнай праблемай
-[More than one user contact: keeping only first]
-Больш чым адзін кантакт: захоўваем толькі першы

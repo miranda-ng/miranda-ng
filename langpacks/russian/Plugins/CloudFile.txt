@@ -51,3 +51,5 @@
 Службы
 [Upload files to...]
 Загрузить файл в...
+[Server does not respond]
+Сервер не отвечает

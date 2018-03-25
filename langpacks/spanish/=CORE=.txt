@@ -1935,8 +1935,8 @@ Miranda está tratando de actualizar su estructura de perfil.\nNo puede mover el
 El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva el perfil Miranda a otro lugar.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mmap.dll
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-Miranda no pudo abrir '%s', está en un formato desconocido.\nEste perfil también puede estar dañado, Por favor, ejecute DbChecker que debe instalarse.
+[Miranda was unable to open '%s', it's in an unknown format.]
+Miranda no pudo abrir '%s', está en un formato desconocido.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda no pudo abrir '%s'\nEs inaccesible o utilizado por otra aplicación o instancia Miranda
 [No profile support installed!]
@@ -2175,8 +2175,6 @@ Problema al crear el perfil
 ¿Está seguro que desea eliminar el perfil "%s"?
 [Run]
 Ejecutar
-[Check database]
-Comprobar bases de datos
 [Size]
 Tamaño
 [Created]

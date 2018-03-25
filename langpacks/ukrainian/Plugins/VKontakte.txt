@@ -425,8 +425,6 @@ ID отримувача помилковий або невідомий
 Невідома помилка
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Ви впевнені, що хочете завантажити всі повідомлення з сайту vk.com?\nЛокальну історію контакту буде видалено і завантажено з сервера. Це може забрати багато часу.\nПродовжити?
-[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
-Ви впевнені, що хочете перезавантажити повідомлення для всіх контактів із сайту vk.com?\nЛокальну історію контактів буде видалено і заново завантажено з сервера.\nЦе може забрати багато часу і/або пошкодити базу даних.\nРекомендуємо перевірити вашу базу даних (Miranda32.exe /svc:dbchecker або Miranda64.exe /svc:dbchecker) перед повторним завантаженням повідомлень та після нього.\nПродовжити?
 [Error loading message history from server.]
 Помилка при завантаженні повідомлень з сервера.
 [Loading messages for all contacts is completed.]

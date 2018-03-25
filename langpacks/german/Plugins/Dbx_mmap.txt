@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.3.1
+;  Version: 0.95.8.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -41,8 +41,8 @@ Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht 
 [Set password]
 Passwort setzen
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von https://miranda-ng.org/p/DbChecker/ herunterladen. Miranda NG wird beendet.
+[Miranda has detected corruption in your database. Miranda will now shut down.]
+Miranda hat Fehler in der Datenbank entdeckt. Miranda NG wird beendet.
 [Disk is full. Miranda will now shut down.]
 Festplatte ist voll. Miranda wird nun beendet.
 [Database failure. Miranda will now shut down.]
@@ -85,90 +85,3 @@ Passwort ist zu kurz!
 Passwörter stimmen nicht überein!
 [Database]
 Datenbank
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
-[Performing aggressive pass]
-Ausführen: Gründliche Fehlersuche
-[Aggressive: random junk at %08X: skipping]
-Aggressiv: unnutzer Verweis an %08X: Ubersprungen
-[Aggressive: unlinked data at %08X: can't automatically place]
-Aggressiv: Daten ohne Verweis an %08X: konnte nicht autom. platziert werden.
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
-[Processing contact chain]
-Verarbeite Kontaktstrukturen
-[Contact count marked wrongly: correcting]
-Fehler in der Kontaktanzahl: Korrigiert
-[Contact chain corrupted, further entries ignored]
-Kontaktstrukturen beschädigt, nachfolgende Einträge wurden ignoriert
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
-[Invalid offset found (database truncated?)]
-Ungültiger Offset gefunden (Datenbank beschädigt?)
-[Invalid offset found]
-Ungültiger Offset gefunden
-[Error reading, database truncated? (%u)]
-Fehler beim Einlesen, Datenbank unvollständig (%u)
-[Can't write to working file, aggressive mode may be too aggressive now]
-Kann nicht in Arbeitsdatei schreiben, aggressiver Modus könnte jetzt zu aggressiv sein.
-[Can't write to output file - disk full? (%u)]
-Kann Ausgabedatei nicht erzeugen, Festplatte voll? (%u)
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
-[Event count marked wrongly: correcting]
-Fehler in der Ereignisanzahl: Korrigiert
-[Event chain corrupted, trying to recover...]
-Ereignisstrukturen beschädigt, versuche wiederherzustellen...
-[Event chain corrupted, further entries ignored]
-Ereignisstrukturen beschädigt, nachfolgende Einträge wurden ignoriert
-[First event not marked as such: correcting]
-Erstes Ereignis nicht als solches markiert: Korrigiert
-[Extra flags found in event: removing]
-Uberflussige Ereigniseigenschaften gefunden: Entfernt
-[First unread event marked wrong: fixing]
-Erstes ungelesenes Ereignis falsch markiert: Korrigiert
-[Infeasibly large event blob: skipping]
-Nicht überprüfbarer Ereignisblob: Übersprungen
-[Event not backlinked correctly: fixing]
-Ereignis enthält ungültigen Verweis auf Vorgänger: Korrigiert
-[Duplicate event was found: skipping]
-Doppeltes Ereignis wurde gefunden: übersprungen
-[Event position in chain is not correct]
-Ereignisposition in der Struktur ist nicht korrekt
-[Event position in chain is not correct: fixing]
-Ereignisposition in der Struktur ist nicht korrekt: behoben
-[Event position in chain is not correct: unable to fix]
-Ereignisposition in der Struktur ist nicht korrekt: beheben nicht möglich
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
-[Processing final tasks]
-Verarbeite: Abschließende Arbeitsschritte
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
-[Database signature is corrupted, automatic repair is impossible]
-Datenbanksignatur ist beschädigt, automatische Reparatur nicht möglich
-[Database version doesn't match this driver's one. Convert a database first]
-Die Datenbankversion passt nicht zu der des Treibers. Konvertieren Sie zuerst die Datenbank
-[Database is newly created and has no data to process]
-Datenbank wurde neu erstellt und hat keine Daten zum Verarbeiten
-[Processing completed successfully]
-Verarbeitung wurde erfolgreich beendet
-[Can't create map view of file (%u)]
-Kann Map-File-View der Datei nicht erstellen (%u)
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
-[Processing module name chain]
-Verarbeite Modulnamenskette
-[Module chain corrupted, further entries ignored]
-Modulkette beschädigt, nachfolgende Einträge wurden ignoriert
-[Module name '%s' is not unique: %d duplicates found]
-Modulname '%s' ist mehrmals vorhanden, %d Duplikate gefunden.
-[Invalid module name offset, skipping data]
-Ungültiger Modulnamenoffset: Übersprungen
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
-[Settings chain corrupted, further entries ignored]
-Einstellungsstrukturen beschadigt, nachfolgende Eintrage wurden ignoriert
-[Infeasibly large settings blob: skipping]
-Nicht überprüfbarer Einstellungsblob: Übersprungen
-[Empty settings group at %08X: skipping]
-Leere Einstellungsgruppe an %08X: Übersprungen
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp
-[Processing user data]
-Verarbeite Benutzerdaten
-[User corrupted, this could cause major problems]
-Benutzerdaten beschädigt, dies kann größere Probleme verursachen
-[More than one user contact: keeping only first]
-Mehr als ein Benutzerkontakt: Nur den ersten beibehalten.

@@ -464,7 +464,7 @@ Wystąpił nieznany błąd
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Czy na pewno chcesz ponownie załadować wszystkie wiadomości z vk.com?\nLokalna historia kontaktu zostanie usunięta i ponownie załadowana z serwera.\nTo może zająć dużo czasu.\nCzy chcesz kontynuować?
-[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
+[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 
 [Error loading message history from server.]
 Błąd w trakcie pobierania historii wiadomości z serwera.

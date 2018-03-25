@@ -2090,8 +2090,8 @@ Miranda se snaží aktualizovat strukturu vašeho profilu.\nProfil %s nemůže b
 Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte profil Mirandy na jiné místo.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mmap.dll.
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-Miranda nemůže otevřít '%s', který má neznámý formát.\nTento profil může být také poškozen, spusťte prosím DbChecker.
+[Miranda was unable to open '%s', it's in an unknown format.]
+Miranda nemůže otevřít '%s', který má neznámý formát.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Profil '%s' nelze otevřít. Zkontrolujte,\nzda máte oprávnění ke čtení dat z adresáře s profilem.
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
@@ -2519,10 +2519,6 @@ Opravdu si přejete odstranit profil "%s"?
 &Zkonvertovat
 [Run]
 Spustit
-[Convert database]
-Zkonvertovat databázi
-[Check database]
-Zkontrolovat databázi
 [Size]
 Velikost
 [Created]

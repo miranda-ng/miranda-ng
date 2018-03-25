@@ -464,8 +464,8 @@ Unbekannter Fehler aufgetreten
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Möchten Sie wirklich alle Nachrichten von vk.com neu laden?\nDer lokale Verlauf des Kontaktes wird gelöscht und vom Server neu geladen.\nDas kann lange dauern.\nMöchten Sie fortfahren?
-[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nWe recommend check your database before reloading messages and after it (Miranda32.exe /svc:dbchecker or Miranda64.exe /svc:dbchecker).\nDo you want to continue?]
-Sind Sie sich sicher, dass Sie alle Nachrichten für alle Kontakte von vk.com laden wollen?\nDer lokale Verlauf Ihrer Kontakte wird gelöscht und vom Server neu geladen.\nDies kann sehr lange Zeit dauern und/oder die Miranda-Datenbank beschädigen.\nWir empfehlen Ihnen eine Überprüfung Ihrer Datenbank vorher und nachher (Miranda32.exe /svc:dbchecker oder Miranda64.exe /svc:dbchecker).\nMöchten Sie fortfahren?
+[Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
+
 [Error loading message history from server.]
 Fehler beim Laden des Verlaufes vom Server.
 [Loading messages for all contacts is completed.]

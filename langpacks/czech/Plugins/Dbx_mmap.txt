@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.3.1
+;  Version: 0.95.8.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -41,8 +41,8 @@ Všechny řetězce a události v historii jsou šifrovány. To v důsledku způs
 [Set password]
 Nastavit heslo
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Miranda zjistila poškození vaší databáze. Toto poškození může být možná opraveno doplňkem DbChecker. Stáhněte si jej z https://miranda-ng.org/p/DbChecker/. Miranda bude nyní ukončena.
+[Miranda has detected corruption in your database. Miranda will now shut down.]
+Miranda zjistila poškození vaší databáze. Miranda bude nyní ukončena.
 [Disk is full. Miranda will now shut down.]
 Disk je plný. Miranda bude nyní ukončena.
 [Database failure. Miranda will now shut down.]
@@ -85,90 +85,3 @@ Heslo je příliš krátké!
 Zadaná hesla se neshodují!
 [Database]
 Databáze
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
-[Performing aggressive pass]
-Důkladný průchod databází
-[Aggressive: random junk at %08X: skipping]
-Důkladně; náhodná data na pozici %08X: vynecháno
-[Aggressive: unlinked data at %08X: can't automatically place]
-Důkladně; nepropojená data na pozici %08X: nelze automaticky umístit
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
-[Processing contact chain]
-Procházení seznamem kontaktů
-[Contact count marked wrongly: correcting]
-Neplatný počet kontaktů: opraveno
-[Contact chain corrupted, further entries ignored]
-Seznam kontaktů je poškozen; ignorování dalších položek
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
-[Invalid offset found (database truncated?)]
-Nalezen neplatný offset (nekompletní databáze?)
-[Invalid offset found]
-Nalezen neplatný offset
-[Error reading, database truncated? (%u)]
-Chyba při čtení databáze; nekompletní soubor? (%u)
-[Can't write to working file, aggressive mode may be too aggressive now]
-Nelze zapsat do pracovní kopie databáze; důkladný režim až příliš důkladný?
-[Can't write to output file - disk full? (%u)]
-Nelze zapsat do výstupního souboru; nedostatek místa na disku? (%u)
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
-[Event count marked wrongly: correcting]
-Neplatný počet událostí: opraveno
-[Event chain corrupted, trying to recover...]
-Seznam událostí je poškozen; pokus o opravu...
-[Event chain corrupted, further entries ignored]
-Seznam událostí je poškozen; ignorování dalších položek
-[First event not marked as such: correcting]
-První událost nebyla označena jako první: opraveno
-[Extra flags found in event: removing]
-Neplatná značka události: odstraněno
-[First unread event marked wrong: fixing]
-Špatně označená první nepřečtená zpráva: opraveno
-[Infeasibly large event blob: skipping]
-Příliš velký slot pro události: vynecháno
-[Event not backlinked correctly: fixing]
-Nesprávné propojení seznamu událostí: opraveno
-[Duplicate event was found: skipping]
-Duplicitní událost: vynecháno
-[Event position in chain is not correct]
-Neplatná pozice v seznamu událostí
-[Event position in chain is not correct: fixing]
-Neplatná pozice v seznamu událostí: opraveno
-[Event position in chain is not correct: unable to fix]
-Neplatná pozice v seznamu událostí: nelze opravit
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
-[Processing final tasks]
-Dokončení závěrečných úloh
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
-[Database signature is corrupted, automatic repair is impossible]
-Podpis databáze je poškozen; automatickou opravu nelze provést
-[Database version doesn't match this driver's one. Convert a database first]
-Verze databáze se neshoduje s verzí tohoto ovladače. Aktualizujte vaši databázi
-[Database is newly created and has no data to process]
-Vybrali jste nově vytvořenou databázi, která neobsahuje žádná data.
-[Processing completed successfully]
-Databáze byla úspěšně zkon
-[Can't create map view of file (%u)]
-Nelze vytvořit mapa přehledu souboru (%u)
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
-[Processing module name chain]
-Procházení seznamu modulů
-[Module chain corrupted, further entries ignored]
-Seznam modulů je poškozen; ignorování dalších položek
-[Module name '%s' is not unique: %d duplicates found]
-Název modulu '%s' není jedinečný. Počet duplicit: %d
-[Invalid module name offset, skipping data]
-Neplatný offset názvu modulu; vynechání příslušných dat
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
-[Settings chain corrupted, further entries ignored]
-Seznam nastavení je poškozen; ignorování dalších položek
-[Infeasibly large settings blob: skipping]
-Příliš velký slot pro nastavení: vynecháno
-[Empty settings group at %08X: skipping]
-Prázdná skupina nastavení (pozice: %08X): vynecháno
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp
-[Processing user data]
-Procházení uživatelských dat
-[User corrupted, this could cause major problems]
-Data jednoho z kontaktů jsou poškozena; může jít o závažný problém
-[More than one user contact: keeping only first]
-Více kontaktů téhož jména: ponechán první výskyt

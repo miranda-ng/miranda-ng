@@ -5,12 +5,8 @@
 ;  Version: 0.0.0.5
 ;  Authors: Roman Gemini
 ;============================================================
-[Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker.]
-Добавляет пункты меню, для смены или загрузки другого профиля Miranda NG, перезагрузки и проверки базы.
-[Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
-Miranda NG будет закрыта.\n\nВы уверены, что хотите начать проверку базы?
-[Check database]
-Проверить базу
+[Adds a menu item to change or load a different profile of Miranda NG or restart.]
+Добавляет пункты меню, для смены или загрузки другого профиля Miranda NG, а также перезагрузки.
 [Load profile]
 Загрузить профиль
 [Change profile]

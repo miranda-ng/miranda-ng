@@ -2090,8 +2090,8 @@ Miranda tente de mettre à jour la structure de votre profil.\nIl ne peut pas d�
 Le profil ne peut être placé dans le dossier racine de Miranda.\nVeuillez déplacer le profil à un autre endroit.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de profil installés.\nVous devez installer dbx_mmap.dll
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.\nCe profil peut également être endommagé, s'il vous plaît exécuter DbChecker qui doit être installé.
+[Miranda was unable to open '%s', it's in an unknown format.]
+Miranda n'a pas pu ouvrir '%s', ce fichier est dans un format inconnu.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda n'a pas pu ouvrir '%s'\nC'est inaccessible ou utilisé par une autre application ou instance de Miranda
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
@@ -2519,10 +2519,6 @@ Souci à la création de profil
 
 [Run]
 Lancer
-[Convert database]
-
-[Check database]
-Vérifiez la base de données
 [Size]
 Taille
 [Created]

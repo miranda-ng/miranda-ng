@@ -2090,8 +2090,8 @@ Miranda próbuje zaktualizować strukturę twojego profilu.\nNie można przenie�
 Profil nie może być umieszczony w folderze głównym Mirandy.\Proszę przenieść profil do innej lokalizacji.
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda nie może otworzyć "%s", ponieważ nie masz zainstalowanej wtyczki do obsługi profili.\nMusisz zainstalować dbx_mmap.dll
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DbChecker which should be installed.]
-Miranda nie mogła otworzyć "%s", jest w nieznanym formacie.\nTen profil może być uszkodzony, należy uruchomić DBChecker, który powinien być zainstalowany.
+[Miranda was unable to open '%s', it's in an unknown format.]
+Miranda nie mogła otworzyć "%s", jest w nieznanym formacie.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda nie może uruchomić profilu "%s"\nProgram jest już uruchomiony lub profil został uszkodzony!
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
@@ -2519,10 +2519,6 @@ Czy na pewno chcesz usunąć profil "%s"?
 &Konwertuj
 [Run]
 Uruchom
-[Convert database]
-Konwertuj bazę danych
-[Check database]
-Sprawdź profil
 [Size]
 Rozmiar
 [Created]

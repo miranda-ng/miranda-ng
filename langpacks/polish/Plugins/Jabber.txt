@@ -1405,6 +1405,8 @@ Automatycznie zapisuj otrzymane notatki
 Włącz historię po stronie serwera
 [Receive conversations from other devices (XEP-0280)]
 Otrzymuj konwersacje z innych urządzeń (XEP-0280)
+[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
+
 [Server options]
 Opcje serwera
 [Disable SASL authentication (for old servers)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.3.1
+;  Version: 0.95.8.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -41,8 +41,8 @@ Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, �
 [Set password]
 Ustaw/Zmień hasło
 ;file \plugins\Db3x_mmap\src\database.cpp
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Miranda wykryła błąd w twojej bazie danych. Może być naprawiony przez wtyczkę DbChecker. Pobierz go z https://miranda-ng.org/p/DbChecker/. Miranda zostanie teraz zamknięta.
+[Miranda has detected corruption in your database. Miranda will now shut down.]
+Miranda wykryła błąd w twojej bazie danych. Miranda zostanie teraz zamknięta.
 [Disk is full. Miranda will now shut down.]
 Dysk jest pełny. Miranda zostanie zamknięta.
 [Database failure. Miranda will now shut down.]
@@ -85,90 +85,3 @@ Hasło jest za krótkie!
 Hasła nie pasują!
 [Database]
 Baza danych
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
-[Performing aggressive pass]
-Wykonywanie agresywnego przejścia
-[Aggressive: random junk at %08X: skipping]
-Agresywny: losowe śmieci w %08X: pomijam
-[Aggressive: unlinked data at %08X: can't automatically place]
-Agresywny: nieoznaczone dane w %08X: nie można automatycznie rozmieścić
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
-[Processing contact chain]
-Przetwarzanie łańcucha kontaktu
-[Contact count marked wrongly: correcting]
-Źle oznaczone dane kontaktów: poprawianie
-[Contact chain corrupted, further entries ignored]
-Uszkodzony łańcuch kontaktu, dalsze wpisy będą ignorowane
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
-[Invalid offset found (database truncated?)]
-Znaleziono nieprawidłowe przesunięcie (baza danych obcięta?)
-[Invalid offset found]
-Znaleziono nieprawidłową przesunięcie
-[Error reading, database truncated? (%u)]
-Błąd odczytu, niekompletny plik profilu? (%u)
-[Can't write to working file, aggressive mode may be too aggressive now]
-Zapis do pliku roboczego niemożliwy, tryb agresywny może być teraz zbyt agresywny
-[Can't write to output file - disk full? (%u)]
-Nie można zapisać do pliku - dysk jest pełen? (%u)
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
-[Event count marked wrongly: correcting]
-Źle oznaczone dane zdarzeń: poprawianie
-[Event chain corrupted, trying to recover...]
-Łańcuch zdarzeń uszkodzony, próbuję odzyskać...
-[Event chain corrupted, further entries ignored]
-Uszkodzony łańcuch zdarzeń, dalsze wpisy ignorowane
-[First event not marked as such: correcting]
-Pierwsze zdarzenie nie oznaczone jako: poprawianie
-[Extra flags found in event: removing]
-Dodatkowe flagi w przypadku: usuwanie
-[First unread event marked wrong: fixing]
-Źle oznaczone pierwsze nieprzeczytane zdarzenie: naprawianie
-[Infeasibly large event blob: skipping]
-Niewiarygodnie duży blok zdarzenia: pomijanie
-[Event not backlinked correctly: fixing]
-Niepoprawnie olinkowane zdarzenie: naprawianie
-[Duplicate event was found: skipping]
-Znaleziono duplikat zdarzenia: pomijanie
-[Event position in chain is not correct]
-Pozycja zdarzenia w łańcuchu jest niewłaściwa
-[Event position in chain is not correct: fixing]
-Pozycja zdarzenia w łańcuchu jest niewłaściwa: naprawianie
-[Event position in chain is not correct: unable to fix]
-Pozycja zdarzenia w łańcuchu niemożliwa: naprawa niemożliwa
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
-[Processing final tasks]
-Wykonywanie końcowych zadań
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
-[Database signature is corrupted, automatic repair is impossible]
-Profil jest uszkodzona, automatyczna naprawa jest niemożliwa
-[Database version doesn't match this driver's one. Convert a database first]
-Wersja bazy danych nie pokrywa się z wersją sterownika. Najpierw przekonwertuj bazę danych.
-[Database is newly created and has no data to process]
-Profil nie zawiera żadnych danych
-[Processing completed successfully]
-Przetwarzanie zakończone sukcesem
-[Can't create map view of file (%u)]
-Nie udało się utworzyć widoku mapy pliku (%u)
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
-[Processing module name chain]
-Przetwarzanie łańcucha nazwy modułu
-[Module chain corrupted, further entries ignored]
-Uszkodzony łańcuch modułu, dalsze wpisy będą ignorowane
-[Module name '%s' is not unique: %d duplicates found]
-Nazwa modułu "%s" nie jest unikalna: znaleziono %d duplikatów
-[Invalid module name offset, skipping data]
-Nieprawidłowy offset nazwy modułu, pomijam dane
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
-[Settings chain corrupted, further entries ignored]
-Uszkodzony ciąg ustawień, dalsze wpisy będą ignorowane
-[Infeasibly large settings blob: skipping]
-Zbyt duży blob ustawień: pomijam
-[Empty settings group at %08X: skipping]
-Pusta grupa ustawień na %08X: pomijanie
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp
-[Processing user data]
-Przetwarzanie danych użytkownika
-[User corrupted, this could cause major problems]
-Uszkodzony kontakt - to może spowodować poważne problemy
-[More than one user contact: keeping only first]
-Więcej niż jeden kontakt użytkownika: zatrzymuję tylko pierwszy

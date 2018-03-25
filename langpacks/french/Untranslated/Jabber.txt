@@ -353,6 +353,7 @@
 [Automatically save received notes]
 [Enable server-side history (XEP-0136)]
 [Receive conversations from other devices (XEP-0280)]
+[Use Stream Management (XEP-0198) if possible (PLACEHOLDER OPTION)]
 [Enable remote controlling (from another resource of same JID only)]
 [Automatically accept authorization requests]
 [Fix incorrect timestamps in incoming messages]

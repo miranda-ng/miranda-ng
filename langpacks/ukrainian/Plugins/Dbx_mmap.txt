@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.3.1
+;  Version: 0.95.8.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -37,8 +37,8 @@
 Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в профілі в разі втрати пароля. Рекомендується тільки параноїдальним користувачам.
 [Set password]
 Встановити пароль
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Виявлено пошкодження вашої бази даних. Це пошкодження можна виправити за допомогою плагіна DbChecker. Будь ласка, завантажте його з https://miranda-ng.org/p/DbChecker/. Miranda NG буде закрита.
+[Miranda has detected corruption in your database. Miranda will now shut down.]
+Виявлено пошкодження вашої бази даних. Miranda NG буде закрита.
 [Disk is full. Miranda will now shut down.]
 Диск переповнений. Miranda NG буде закрита.
 [Database failure. Miranda will now shut down.]
@@ -71,81 +71,3 @@
 Паролі не збігаються!
 [Database]
 База даних
-[Performing aggressive pass]
-Виконання агресивного проходу
-[Aggressive: random junk at %08X: skipping]
-Агресивний: випадкові дані на %08X: пропуск
-[Aggressive: unlinked data at %08X: can't automatically place]
-Агресивний: незв'язані дані на %08X: неможливо автоматично визначити їх місце
-[Processing contact chain]
-Обробка ланцюжка контактів
-[Contact count marked wrongly: correcting]
-Кількість контактів вказано помилково: виправлення
-[Contact chain corrupted, further entries ignored]
-Ланцюжок контактів пошкоджений, подальші дані ігноруються
-[Invalid offset found (database truncated?)]
-Знайдено неправильне зміщення (база даних пошкоджена?)
-[Invalid offset found]
-Знайдено неправильне зміщення
-[Error reading, database truncated? (%u)]
-Помилка при читанні, бази даних пошкоджена? (%u)
-[Can't write to working file, aggressive mode may be too aggressive now]
-Неможливо записати в робочий файл, агресивний режим може бути занадто агресивним
-[Can't write to output file - disk full? (%u)]
-Неможливо записати файл - диск переповнений? (%u)
-[Event count marked wrongly: correcting]
-Кількість подій вказано помилково: виправлення
-[Event chain corrupted, trying to recover...]
-Ланцюжок подій пошкоджений, спроба відновити...
-[Event chain corrupted, further entries ignored]
-Ланцюжок подій пошкоджений, подальші дані ігноруються
-[First event not marked as such: correcting]
-Перша подія не позначена як така: виправлення
-[Extra flags found in event: removing]
-У події знайдені додаткові прапори: видалення
-[First unread event marked wrong: fixing]
-Першу непрочитану подію позначено неправильно: виправлення
-[Infeasibly large event blob: skipping]
-Подія займає забагато місця: пропуск
-[Event not backlinked correctly: fixing]
-Подія з неправильним зворотним посиланням: виправлення
-[Duplicate event was found: skipping]
-Знайдено дубль події: пропуск
-[Event position in chain is not correct]
-Позиція події в ланцюжку не є коректною
-[Event position in chain is not correct: fixing]
-Позиція події в ланцюжку не є коректною: виправлення
-[Event position in chain is not correct: unable to fix]
-Позиція події в ланцюжку не є коректною: неможливо виправити
-[Processing final tasks]
-Виконання завершальних робіт
-[Database signature is corrupted, automatic repair is impossible]
-Заголовок бази даних пошкоджений, автоматичне виправлення неможливе
-[Database version doesn't match this driver's one. Convert a database first]
-Версія бази даних несумісна з версією драйвера бази. Будь ласка, конвертуйте базу в новий формат.
-[Database is newly created and has no data to process]
-База даних нова і не має даних для обробки
-[Processing completed successfully]
-Обробка завершена успішно
-[Can't create map view of file (%u)]
-Неможливо створити карту файлу (%u)
-[Processing module name chain]
-Обробка ланцюжка імен модулів
-[Module chain corrupted, further entries ignored]
-Ланцюжок модулів пошкоджений, подальші дані ігноруються
-[Module name '%s' is not unique: %d duplicates found]
-Ім'я модуля "%s" не є унікальним: знайдено %d дублікатів
-[Invalid module name offset, skipping data]
-Неправильне зміщення імені модуля, пропуск даних
-[Settings chain corrupted, further entries ignored]
-Ланцюжок налаштувань пошкоджений, подальші дані ігноруються
-[Infeasibly large settings blob: skipping]
-Налаштування займає забагато місця: пропуск
-[Empty settings group at %08X: skipping]
-Група порожніх параметрів на %08X: пропуск
-[Processing user data]
-Обробка даних користувача
-[User corrupted, this could cause major problems]
-Користувач пошкоджений, це може викликати серйозні проблеми
-[More than one user contact: keeping only first]
-Більше ніж один контакт користувача: збережено тільки перший

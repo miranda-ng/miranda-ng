@@ -62,3 +62,9 @@ Usługi
 ;file \plugins\CloudFile\src\srmm.cpp
 [Upload files to...]
 Wyślij pliki do...
+;file \plugins\CloudFile\src\Services\dropbox_service.cpp
+[Server does not respond]
+serwer nie odpowiada
+;file \plugins\CloudFile\src\Services\google_service.cpp
+;file \plugins\CloudFile\src\Services\microsoft_service.cpp
+;file \plugins\CloudFile\src\Services\yandex_service.cpp
