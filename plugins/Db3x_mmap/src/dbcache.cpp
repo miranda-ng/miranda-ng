@@ -26,9 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void CDb3Mmap::Map()
 {
 	DWORD dwProtectMode, dwAccess;
-	if (cb && cb->bAggressive)
-		dwProtectMode = PAGE_WRITECOPY, dwAccess = FILE_MAP_COPY;
-	else if (m_bReadOnly)
+	if (m_bReadOnly)
 		dwProtectMode = PAGE_READONLY, dwAccess = FILE_MAP_READ;
 	else
 		dwProtectMode = PAGE_READWRITE, dwAccess = FILE_MAP_ALL_ACCESS;

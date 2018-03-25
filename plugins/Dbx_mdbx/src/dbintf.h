@@ -129,7 +129,7 @@ struct EventItem
 	MEVENT eventId;
 };
 
-struct CDbxMDBX : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
+struct CDbxMDBX : public MDatabaseCommon, public MZeroedObject
 {
 	friend class MDBXEventCursor;
 
@@ -193,11 +193,6 @@ public:
 
 	STDMETHODIMP_(BOOL)     MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
-
-protected:
-	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);
-	STDMETHODIMP_(BOOL)     CheckDb(int phase, int firstTime);
-	STDMETHODIMP_(VOID)     Destroy();
 
 protected:
 
@@ -271,8 +266,6 @@ protected:
 	
 	uint32_t GetModuleID(const char *szName);
 	char*    GetModuleName(uint32_t dwId);
-
-	DBCHeckCallback *cb;
 
 	////////////////////////////////////////////////////////////////////////////
 	// encryption

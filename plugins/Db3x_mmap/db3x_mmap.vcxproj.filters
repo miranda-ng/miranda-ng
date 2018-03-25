@@ -5,10 +5,5 @@
       <UniqueIdentifier>{18e1a858-92e5-48e6-98f1-e08f4b562ea8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\dbtool\*.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-  </ItemGroup>
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
 </Project>

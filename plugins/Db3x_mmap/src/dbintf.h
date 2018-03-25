@@ -183,7 +183,7 @@ struct DBCachedContact : public DBCachedContactBase
 	DWORD dwOfsContact;
 };
 
-struct CDb3Mmap : public MDatabaseCommon, public MIDatabaseChecker, public MZeroedObject
+struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
 {
 	CDb3Mmap(const wchar_t *tszFileName, int mode);
 	~CDb3Mmap();
@@ -241,11 +241,6 @@ public:
 	STDMETHODIMP_(BOOL)     MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub);
 
 protected:
-	STDMETHODIMP_(BOOL)     Start(DBCHeckCallback *callback);
-	STDMETHODIMP_(BOOL)     CheckDb(int phase, int firstTime);
-	STDMETHODIMP_(VOID)     Destroy();
-
-protected:
 	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
 	void  InvalidateSettingsGroupOfsCacheEntry(DWORD) {}
 	int   WorkInitialCheckHeaders(void);
@@ -262,14 +257,6 @@ protected:
 
 	void  Map();
 	void  ReMap(DWORD needed);
-
-public:  // Check functions
-	int WorkInitialChecks(int);
-	int WorkModuleChain(int);
-	int WorkUser(int);
-	int WorkContactChain(int);
-	int WorkAggressive(int);
-	int WorkFinalTasks(int);
 
 protected:
 	wchar_t*   m_tszProfileName;
@@ -350,7 +337,6 @@ protected:
 	void     WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext);
 	void     FinishUp(DWORD ofsLast, DBContact *dbc);
 
-	DBCHeckCallback *cb;
 	DWORD    sourceFileSize, ofsAggrCur;
 
 	////////////////////////////////////////////////////////////////////////////

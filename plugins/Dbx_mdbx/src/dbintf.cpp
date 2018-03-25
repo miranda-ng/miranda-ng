@@ -196,33 +196,3 @@ int CDbxMDBX::Map()
 		mode |= MDBX_RDONLY;
 	return mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
 }
-
-///////////////////////////////////////////////////////////////////////////////
-// MIDatabaseChecker
-
-typedef int (CDbxMDBX::*CheckWorker)(void);
-
-int CDbxMDBX::Start(DBCHeckCallback *callback)
-{
-	cb = callback;
-	return ERROR_SUCCESS;
-}
-
-static CheckWorker Workers[6] =
-{
-	&CDbxMDBX::CheckEvents1,
-	&CDbxMDBX::CheckEvents2,
-};
-
-int CDbxMDBX::CheckDb(int phase, int)
-{
-	if (phase >= _countof(Workers))
-		return ERROR_OUT_OF_PAPER;
-
-	return (this->*Workers[phase])();
-}
-
-void CDbxMDBX::Destroy()
-{
-	delete this;
-}

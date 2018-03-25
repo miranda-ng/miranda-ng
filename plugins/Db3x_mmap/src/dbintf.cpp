@@ -159,43 +159,9 @@ int CDb3Mmap::Create()
 
 STDMETHODIMP_(void) CDb3Mmap::SetCacheSafetyMode(BOOL bIsSet)
 {
-	{	mir_cslock lck(m_csDbAccess);
-	m_safetyMode = bIsSet != 0;
+	{
+		mir_cslock lck(m_csDbAccess);
+		m_safetyMode = bIsSet != 0;
 	}
 	DBFlush(1);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-// MIDatabaseChecker
-
-typedef int (CDb3Mmap::*CheckWorker)(int);
-
-static CheckWorker Workers[6] =
-{
-	&CDb3Mmap::WorkInitialChecks,
-	&CDb3Mmap::WorkModuleChain,
-	&CDb3Mmap::WorkUser,
-	&CDb3Mmap::WorkContactChain,
-	&CDb3Mmap::WorkAggressive,
-	&CDb3Mmap::WorkFinalTasks
-};
-
-int CDb3Mmap::Start(DBCHeckCallback *callback)
-{
-	cb = callback;
-	ReMap(0);
-	return ERROR_SUCCESS;
-}
-
-int CDb3Mmap::CheckDb(int phase, int firstTime)
-{
-	if (phase >= _countof(Workers))
-		return ERROR_OUT_OF_PAPER;
-
-	return (this->*Workers[phase])(firstTime);
-}
-
-void CDb3Mmap::Destroy()
-{
-	delete this;
 }

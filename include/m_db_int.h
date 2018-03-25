@@ -166,32 +166,6 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// basic database checker interface
-
-#define STATUS_MESSAGE    0
-#define STATUS_WARNING    1
-#define STATUS_ERROR      2
-#define STATUS_FATAL      3
-#define STATUS_SUCCESS    4
-
-struct DBCHeckCallback
-{
-	int    cbSize;
-	DWORD  spaceProcessed, spaceUsed;
-	HANDLE hOutFile;
-	int    bCheckOnly, bBackup, bAggressive, bEraseHistory, bMarkRead, bConvertUtf;
-
-	void (*pfnAddLogMessage)(int type, const wchar_t* ptszFormat, ...);
-};
-
-interface MIDatabaseChecker
-{
-	STDMETHOD_(BOOL,Start)(DBCHeckCallback *callback) PURE;
-	STDMETHOD_(BOOL,CheckDb)(int phase, int firstTime) PURE;
-	STDMETHOD_(VOID,Destroy)() PURE;
-};
-
-///////////////////////////////////////////////////////////////////////////////
 // Each database plugin should register itself using this structure
 
 /*
