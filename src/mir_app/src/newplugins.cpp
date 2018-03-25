@@ -176,7 +176,7 @@ int LoadStdPlugins()
 
 char* GetPluginNameByLangpack(int _hLang)
 {
-	if (pluginList.getCount() == 0)
+	if (pluginList.getCount() == 0 || _hLang == 0)
 		return "";
 
 	for (auto &p : pluginList)
