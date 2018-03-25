@@ -736,6 +736,24 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 		else if (!mir_wstrcmp(XmlGetName(n), L"register")) isRegisterAvailable = true;
 		else if (!mir_wstrcmp(XmlGetName(n), L"auth")) m_AuthMechs.isAuthAvailable = true;
 		else if (!mir_wstrcmp(XmlGetName(n), L"session")) m_AuthMechs.isSessionAvailable = true;
+		else if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetName(n), L"sm"))
+		{
+			if (mir_wstrcmp(XmlGetAttrValue(n, L"xmlns"), L"urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
+			{
+				if (!(info->auth))
+				{
+					//TODO: queue sm after successfully auth
+				}
+				else
+				{
+					XmlNode enable_sm(L"enable");
+					XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+					XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
+					info->send(enable_sm);
+					//TODO: reset counters ?
+				}
+			}
+		}
 	}
 
 	if (areMechanismsDefined) {
@@ -770,6 +788,38 @@ void CJabberProto::OnProcessFailure(HXML node, ThreadData *info)
 	if ((type = XmlGetAttrValue(node, L"xmlns")) == nullptr) return;
 	if (!mir_wstrcmp(type, L"urn:ietf:params:xml:ns:xmpp-sasl")) {
 		PerformAuthentication(info);
+	}
+}
+
+void CJabberProto::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
+{
+	if (m_bEnableStreamMgmt && mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	{
+		//TODO: handle failure
+	}
+}
+
+void CJabberProto::OnProcessEnabled(HXML node, ThreadData * /*info*/)
+{
+	if (m_bEnableStreamMgmt && mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	{
+		//TODO: handle 'id', 'resume' attrs
+	}
+}
+
+void CJabberProto::OnProcessSMa(HXML node, ThreadData * /*info*/)
+{
+	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	{
+		//TODO:
+	}
+}
+
+void CJabberProto::OnProcessSMr(HXML node, ThreadData * /*info*/)
+{
+	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	{
+		//TODO: reply with ack with currently handled nodes for session
 	}
 }
 
@@ -872,6 +922,17 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 			OnProcessPresence(node, info);
 		else if (!mir_wstrcmp(XmlGetName(node), L"iq"))
 			OnProcessIq(node);
+		else if (!mir_wstrcmp(XmlGetName(node), L"failed"))
+			OnProcessFailed(node, info);
+		else if (!mir_wstrcmp(XmlGetName(node), L"enabled"))
+			OnProcessEnabled(node, info);
+		else if (m_bEnableStreamMgmt)
+		{
+			if (!mir_wstrcmp(XmlGetName(node), L"r"))
+				OnProcessSMr(node, info);
+			else if (!mir_wstrcmp(XmlGetName(node), L"a"))
+				OnProcessSMa(node, info);
+		}
 		else
 			debugLogA("Invalid top-level tag (only <message/> <presence/> and <iq/> allowed)");
 	}

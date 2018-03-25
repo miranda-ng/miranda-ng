@@ -762,6 +762,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   __cdecl ServerThread(JABBER_CONN_DATA *info);
 
 	void   OnProcessFailure(HXML node, ThreadData *info);
+	void   OnProcessFailed(HXML node, ThreadData *info);
+	void   OnProcessEnabled(HXML node, ThreadData *info);
 	void   OnProcessError(HXML node, ThreadData *info);
 	void   OnProcessSuccess(HXML node, ThreadData *info);
 	void   OnProcessChallenge(HXML node, ThreadData *info);
@@ -771,6 +773,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   OnProcessPresence(HXML node, ThreadData *info);
 	void   OnProcessPresenceCapabilites(HXML node, pResourceStatus &resource);
 	void   OnProcessPubsubEvent(HXML node);
+	//XEP-0198 specific types handlers
+	void   OnProcessSMa(HXML node, ThreadData *info);
+	void   OnProcessSMr(HXML node, ThreadData *info);
 
 	void   OnProcessStreamOpening(HXML node, ThreadData *info);
 	void   OnProcessProtocol(HXML node, ThreadData *info);
