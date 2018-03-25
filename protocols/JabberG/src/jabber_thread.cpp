@@ -738,7 +738,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 		else if (!mir_wstrcmp(XmlGetName(n), L"session")) m_AuthMechs.isSessionAvailable = true;
 		else if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetName(n), L"sm"))
 		{
-			if (mir_wstrcmp(XmlGetAttrValue(n, L"xmlns"), L"urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
+			if (!mir_wstrcmp(XmlGetAttrValue(n, L"xmlns"), L"urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
 			{
 				if (!(info->auth))
 				{
@@ -793,7 +793,7 @@ void CJabberProto::OnProcessFailure(HXML node, ThreadData *info)
 
 void CJabberProto::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
 {
-	if (m_bEnableStreamMgmt && mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
 		//TODO: handle failure
 	}
@@ -801,7 +801,7 @@ void CJabberProto::OnProcessFailed(HXML node, ThreadData * /*info*/) //used fail
 
 void CJabberProto::OnProcessEnabled(HXML node, ThreadData * /*info*/)
 {
-	if (m_bEnableStreamMgmt && mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
 		//TODO: handle 'id', 'resume' attrs
 	}
@@ -809,7 +809,7 @@ void CJabberProto::OnProcessEnabled(HXML node, ThreadData * /*info*/)
 
 void CJabberProto::OnProcessSMa(HXML node, ThreadData * /*info*/)
 {
-	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
 		//TODO:
 	}
@@ -817,7 +817,7 @@ void CJabberProto::OnProcessSMa(HXML node, ThreadData * /*info*/)
 
 void CJabberProto::OnProcessSMr(HXML node, ThreadData * /*info*/)
 {
-	if (mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
+	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
 		//TODO: reply with ack with currently handled nodes for session
 	}
