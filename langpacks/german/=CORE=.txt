@@ -2091,7 +2091,7 @@ Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschiebe
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mmap.dll]
 Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mmap.dll oder ein vergleichbares Plugin installiert sein.
 [Miranda was unable to open '%s', it's in an unknown format.]
-Miranda konnte Profil '%s' nicht öffnen, da es in einem unbekannten Format vorliegt. 
+Miranda konnte Profil '%s' nicht öffnen, da es in einem unbekannten Format vorliegt.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda kann Profil '%s' nicht öffnen.\nAuf dieses Profil kann nicht zugegriffen werden oder es wird von einer anderen Anwendung verwendet.
 [Miranda was unable to open '%s'\nThere is no suitable database driver installed]
