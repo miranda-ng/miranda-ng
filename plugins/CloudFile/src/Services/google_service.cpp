@@ -90,22 +90,25 @@ unsigned CGDriveService::RequestAccessTokenThread(void *owner, void *param)
 			: service->HttpStatusToError(response ? response->resultCode : 0);
 
 		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), error);
-		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
+		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
+		EndDialog(hwndDlg, 0);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
 		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
-		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
+		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
+		EndDialog(hwndDlg, 0);
 		return 0;
 	}
 
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
-		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
+		CMStringW error_description = node.as_mstring();
 		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
-		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+		ShowNotification(error_description, MB_ICONERROR);
+		EndDialog(hwndDlg, 0);
 		return 0;
 	}
 

@@ -65,28 +65,30 @@ unsigned CDropboxService::RequestAccessTokenThread(void *owner, void *param)
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
 		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError());
-		//ShowNotification(TranslateT("server does not respond"), MB_ICONERROR);
+		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
+		EndDialog(hwndDlg, 0);
 		return 0;
 	}
 
 	JSONNode root = JSONNode::parse(response->pData);
 	if (root.empty()) {
 		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
-		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
+		EndDialog(hwndDlg, 0);
 		return 0;
 	}
 
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
-		ptrW error_description(mir_a2u_cp(node.as_string().c_str(), CP_UTF8));
+		CMStringW error_description = node.as_mstring();
 		Netlib_Logf(service->m_hConnection, "%s: %s", service->GetAccountName(), service->HttpStatusToError(response->resultCode));
-		//ShowNotification((wchar_t*)error_description, MB_ICONERROR);
+		ShowNotification(error_description, MB_ICONERROR);
+		EndDialog(hwndDlg, 0);
 		return 0;
 	}
 
 	node = root.at("access_token");
 	db_set_s(NULL, service->GetAccountName(), "TokenSecret", node.as_string().c_str());
-	//ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, (WPARAM)ID_STATUS_ONLINE);
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
