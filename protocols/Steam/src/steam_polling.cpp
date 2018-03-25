@@ -209,8 +209,8 @@ void CSteamProto::OnGotPoll(const HttpResponse &response, void *arg)
 
 	if (error == "Not Logged On") {
 		// need to relogin
-		debugLogA(__FUNCTION__ ": not Logged On");
-
+		debugLogA(__FUNCTION__ ": not logged on");
+		param->errors = param->errorsLimit;
 		// try to reconnect only when we're actually online (during normal logout we will still got this error anyway, but in that case our status is already offline)
 		if (IsOnline()) {
 			ptrA token(getStringA("TokenSecret"));
