@@ -317,29 +317,6 @@ protected:
 	char*    GetModuleNameByOfs(DWORD ofs);
 
 	////////////////////////////////////////////////////////////////////////////
-	// checker
-
-	int      PeekSegment(DWORD ofs, PVOID buf, int cbBytes);
-	int      ReadSegment(DWORD ofs, PVOID buf, int cbBytes);
-	int      ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes);
-	int      SignatureValid(DWORD ofs, DWORD signature);
-	void     FreeModuleChain();
-
-	DWORD    ConvertModuleNameOfs(DWORD ofsOld);
-	void     ConvertOldEvent(DBEvent*& dbei);
-
-	int      WorkSettingsChain(DBContact *dbc, int firstTime);
-	int      WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime);
-
-	DWORD    WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
-	DWORD    WriteEvent(DBEvent *dbe);
-	DWORD    PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent &dbe);
-	void     WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext);
-	void     FinishUp(DWORD ofsLast, DBContact *dbc);
-
-	DWORD    sourceFileSize, ofsAggrCur;
-
-	////////////////////////////////////////////////////////////////////////////
 	// encryption
 
 	int      InitCrypt(void);

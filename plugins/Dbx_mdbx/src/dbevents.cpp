@@ -463,35 +463,3 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEven
 	cc->t_tsLast = pKey->ts;
 	return cc->t_evLast = (pKey->hContact == contactID) ? pKey->hEvent : 0;
 }
-
-///////////////////////////////////////////////////////////////////////////////
-// checker 
-
-int CDbxMDBX::CheckEvents1()
-{
-/*	txn_ptr_ro trnlck(m_txn_ro);
-	cursor_ptr_ro cursor(m_curEvents);
-
-	uint32_t eventID = 0;
-	MDBX_val key = { &eventID, sizeof(eventID) }, data;
-
-	while (mdbx_cursor_get(cursor, &key, &data, MDBX_NEXT) == MDBX_SUCCESS) {
-		const DBEvent *dbe = (const DBEvent*)data.iov_base;
-
-		DBEventSortingKey lookupkey = { dbe->contactID, eventID, dbe->timestamp };
-		MDBX_val key2 = { &lookupkey, sizeof(lookupkey) }, data2;
-		if (!mdbx_get(m_txn_ro, m_dbEventsSort, &key, nullptr))
-			continue;
-
-		txn_ptr trnlck(StartTran());
-		if (mdbx_del(txn, m_dbEvents, &key, nullptr) == MDBX_SUCCESS)
-			txn.commit();
-	}
-  */
-	return ERROR_NO_MORE_ITEMS;
-}
-
-int CDbxMDBX::CheckEvents2()
-{
-	return ERROR_NO_MORE_ITEMS;
-}

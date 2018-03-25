@@ -76,7 +76,7 @@ DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 static DWORD DatabaseCorrupted = 0;
 static wchar_t *msg = nullptr;
 static DWORD dwErr = 0;
-static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from https://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
+static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. Miranda will now shut down.");
 
 void __cdecl dbpanic(void *)
 {
