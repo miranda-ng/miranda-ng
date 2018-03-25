@@ -194,5 +194,7 @@ int CDbxMDBX::Map()
 	unsigned int mode = MDBX_NOSUBDIR | MDBX_MAPASYNC | MDBX_WRITEMAP | MDBX_NOSYNC;
 	if (m_bReadOnly)
 		mode |= MDBX_RDONLY;
-	return mdbx_env_open(m_env, _T2A(m_tszProfileName), mode, 0664);
+
+	int exclusive = (m_bShared) ? 1 : 2;
+	return mdbx_env_open_ex(m_env, _T2A(m_tszProfileName), mode, 0664, &exclusive);
 }
