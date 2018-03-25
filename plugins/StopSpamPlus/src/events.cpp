@@ -52,7 +52,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 {
 	MCONTACT hContact = (MCONTACT)w;
 	DBEVENTINFO *dbei = (DBEVENTINFO*)l;
-	if (dbei == nullptr) //fix potential DEP crash
+	if (dbei == nullptr || dbei->szModule == nullptr) //fix potential DEP crash
 		return 0;
 
 	// if event is in protocol that is not despammed
