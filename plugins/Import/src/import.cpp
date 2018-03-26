@@ -476,7 +476,11 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		}
 
 		if (p->pa == nullptr) {
-			p->pa = Proto_CreateAccount(nullptr, p->szBaseProto, p->tszSrcName);
+			char *szNewInternalName = nullptr; // create a new internal name by default
+			if (!Proto_GetAccount(p->szSrcAcc))
+				szNewInternalName = p->szSrcAcc; // but if the original internal name is available, keep it
+
+			p->pa = Proto_CreateAccount(szNewInternalName, p->szBaseProto, p->tszSrcName);
 			if (p->pa == nullptr) {
 				AddMessage(LPGENW("Unable to create an account %s of protocol %S"), p->tszSrcName, p->szBaseProto);
 				continue;
