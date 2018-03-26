@@ -694,7 +694,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 			DWORD code;
 			std::vector<wstring> cmd;
 			{
-				ptrA inkeyid;
+				char* inkeyid = nullptr;
 
 				char setting[64];
 				mir_snprintf(setting, sizeof(setting) - 1, "%s_KeyID", ji->GetModuleName());
@@ -711,8 +711,10 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					dbsetting += "_Password";
 					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), L"");
 					if (pass[0] && globals.bDebugLog)
-						globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid.get() + ", trying to encrypt message from self with password");
+						globals.debuglog << std::string(time_str() + ": info: found password in database for key ID: " + inkeyid + ", trying to encrypt message from self with password");
 				}
+				if (inkeyid && inkeyid[0])
+					mir_free(inkeyid);
 				else {
 					pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", L"");
 					if (pass[0] && globals.bDebugLog)
@@ -722,7 +724,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void*)
 					cmd.push_back(L"--passphrase");
 					cmd.push_back(pass.get());
 				}
-				else if (globals.password) {
+				else if (globals.password && globals.password[0]) {
 					if (globals.bDebugLog)
 						globals.debuglog << std::string(time_str() + ": info: found password in memory, trying to encrypt message from self with password");
 					cmd.push_back(L"--passphrase");
