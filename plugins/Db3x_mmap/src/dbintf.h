@@ -243,7 +243,6 @@ public:
 protected:
 	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
 	void  InvalidateSettingsGroupOfsCacheEntry(DWORD) {}
-	int   WorkInitialCheckHeaders(void);
 
 	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
 	PBYTE DBRead(DWORD ofs, int *bytesAvail);
