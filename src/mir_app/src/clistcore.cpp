@@ -27,6 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "genmenu.h"
 #include "extraicons.h"
 
+int LoadContactListModule2(void);
+int LoadCLCModule(void);
+
 CLIST_INTERFACE cli = { 0 };
 
 static wchar_t szTip[MAX_TIP_SIZE+1];
@@ -202,6 +205,12 @@ MIR_APP_DLL(CLIST_INTERFACE*) Clist_GetInterface(void)
 		cli.pfnGetAverageMode                  = fnGetAverageMode;
 		cli.pfnInitAutoRebuild                 = fnInitAutoRebuild;
 		interfaceInited = 1;
+	}
+
+	if (g_bReadyToInitClist) {
+		LoadContactListModule2();
+		LoadCLCModule();
+		g_bReadyToInitClist = false;
 	}
 
 	return &cli;

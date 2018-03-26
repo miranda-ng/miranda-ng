@@ -39,6 +39,7 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 /* clc.c */
 extern int g_IconWidth, g_IconHeight;
 extern HIMAGELIST hCListImages;
+extern bool g_bReadyToInitClist;
 
 void fnClcOptionsChanged(void);
 void fnInitAutoRebuild(HWND hWnd);

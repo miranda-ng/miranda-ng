@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "langpack.h"
 #include "netlib.h"
 
+bool g_bReadyToInitClist = false;
+
 void LoadExtraIconsModule();
 
 static int sttComparePluginsByName(const pluginEntry *p1, const pluginEntry *p2)
@@ -615,11 +617,10 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact list plugins support
 
-int LoadContactListModule2(void);
-int LoadCLCModule(void);
-
 static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 {
+	g_bReadyToInitClist = true;
+
 	BASIC_PLUGIN_INFO bpi;
 	if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
 		p->bpi = bpi;
@@ -641,10 +642,6 @@ static bool loadClistModule(wchar_t* exe, pluginEntry *p)
 			p->bpi = bpi;
 			p->bLoaded = true;
 			pluginDefault[0].pImpl = p;
-
-			int rc = LoadContactListModule2();
-			if (rc == 0)
-				rc = LoadCLCModule();
 
 			LoadExtraIconsModule();
 			return true;
