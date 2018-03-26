@@ -73,6 +73,8 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_uEnabledFeatCapsDynamic(0),
 	m_bStrmMgmtPendingEnable(false),
 	m_bStrmMgmtEnabled(false),
+	m_bStrmMgmtResumeSupported(false),
+	m_sStrmMgmtResumeId(nullptr),
 
 	m_bBsDirect(this, "BsDirect", TRUE),
 	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", TRUE),
@@ -257,6 +259,9 @@ CJabberProto::~CJabberProto()
 		mir_free(it->szDescription);
 		delete it;
 	}
+
+	if (m_sStrmMgmtResumeId)
+		mir_free(m_sStrmMgmtResumeId);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

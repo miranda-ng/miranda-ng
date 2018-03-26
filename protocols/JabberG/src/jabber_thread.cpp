@@ -519,6 +519,13 @@ recvRest:
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
+			//TODO: following should be redone once resumption implemented
+			//reset state of stream management
+			m_bStrmMgmtEnabled = false;
+			m_bStrmMgmtPendingEnable = false;
+			//reset stream management h counters
+			m_nStrmMgmtLocalHCount = m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount = 0;
+
 			// Set all contacts to offline
 			debugLogA("1");
 			for (auto &hContact : AccContacts())
@@ -663,8 +670,6 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 	info->send(XmlNode(L"auth", _A2T(request)) << XATTR(L"xmlns", L"urn:ietf:params:xml:ns:xmpp-sasl")
 		<< XATTR(L"mechanism", _A2T(auth->getName())));
 	mir_free(request);
-	if (m_bEnableStreamMgmt && m_bStrmMgmtPendingEnable)
-		EnableStrmMgmt();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -742,7 +747,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 		{
 			if (!mir_wstrcmp(XmlGetAttrValue(n, L"xmlns"), L"urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
 			{
-				if (!(info->auth))
+				if (!m_bJabberOnline)
 					m_bStrmMgmtPendingEnable = true;
 				else
 					EnableStrmMgmt();
@@ -798,7 +803,18 @@ void CJabberProto::OnProcessEnabled(HXML node, ThreadData * /*info*/)
 	if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
 		m_bStrmMgmtEnabled = true;
-		//TODO: handle 'id', 'resume' attrs
+		auto val = XmlGetAttrValue(node, L"max");
+		m_nStrmMgmtResumeMaxSeconds = _wtoi(val);
+		val = XmlGetAttrValue(node, L"resume");
+		if (mir_wstrcmp(val, L"true") || mir_wstrcmp(val, L"1"))
+			m_bStrmMgmtResumeSupported = true;
+
+		if (m_sStrmMgmtResumeId)
+			mir_free(m_sStrmMgmtResumeId);
+		m_sStrmMgmtResumeId = mir_wstrdup(XmlGetAttrValue(node, L"id"));
+		m_nStrmMgmtLocalHCount = 0;
+		m_nStrmMgmtSrvHCount = 0; //?
+		m_nStrmMgmtLocalSCount = 0;
 	}
 }
 
@@ -806,7 +822,13 @@ void CJabberProto::OnProcessSMa(HXML node, ThreadData * /*info*/)
 {
 	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
-		//TODO:
+		auto val = XmlGetAttrValue(node, L"h");
+		uint32_t iVal = _wtoi(val);
+		m_nStrmMgmtSrvHCount = iVal;
+		if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) > 0)
+		{
+			//TODO: server have not handled some of sent nodes, handle situation
+		}
 	}
 }
 
@@ -814,7 +836,10 @@ void CJabberProto::OnProcessSMr(HXML node, ThreadData * /*info*/)
 {
 	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
 	{
-		//TODO: reply with ack with currently handled nodes for session
+		XmlNode enable_sm(L"a");
+		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+		xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
+		m_ThreadInfo->send(enable_sm);
 	}
 }
 
@@ -894,7 +919,7 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 {
 	OnConsoleProcessXml(node, JCPF_IN);
 
-	if (m_bEnableStreamMgmt && m_bStrmMgmtEnabled)
+	if (m_bEnableStreamMgmt && m_bStrmMgmtEnabled && mir_wstrcmp(XmlGetName(node), L"r") && mir_wstrcmp(XmlGetName(node), L"a")) //TODO: something better
 		m_nStrmMgmtLocalHCount++;
 	if (!mir_wstrcmp(XmlGetName(node), L"proceed"))
 		OnProcessProceed(node, info);
@@ -2056,9 +2081,6 @@ void CJabberProto::EnableStrmMgmt()
 	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
 	XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
 	m_ThreadInfo->send(enable_sm);
-	m_nStrmMgmtLocalHCount = 0;
-	m_nStrmMgmtSrvHCount = 0; //?
-	m_nStrmMgmtLocalSCount = 0;
 }
 
 
@@ -2145,9 +2167,6 @@ int ThreadData::send(char* buf, int bufsize)
 
 	ReleaseMutex(iomutex);
 
-	if (proto->m_bEnableStreamMgmt && proto->m_bStrmMgmtEnabled)
-		proto->m_nStrmMgmtLocalSCount_incr();
-
 	return result;
 }
 
@@ -2185,6 +2204,10 @@ int ThreadData::send(HXML node)
 
 	xmlFree(str);
 	if (proto->m_bEnableStreamMgmt && proto->m_bStrmMgmtEnabled)
-		proto->m_nStrmMgmtLocalSCount_incr();
+	{
+		auto name = XmlGetName(node);
+		if(mir_wstrcmp(name, L"a") && mir_wstrcmp(name, L"r"))
+			proto->m_nStrmMgmtLocalSCount_incr();
+	}
 	return result;
 }

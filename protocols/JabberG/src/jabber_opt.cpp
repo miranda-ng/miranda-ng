@@ -813,7 +813,7 @@ public:
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_bBsOnlyIBB);
 		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Accept HTTP Authentication requests (XEP-0070)"), m_proto->m_bAcceptHttpAuth);
-		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Use OMEMO encryption for messages if possible (Basic support, no gui)"), m_proto->m_bUseOMEMO);
+		m_otvOptions.AddOption(LPGENW("Security") L"/" LPGENW("Use OMEMO encryption for messages if possible (XEP-0384) (Basic support, no gui)"), m_proto->m_bUseOMEMO);
 	}
 
 	void OnInitDialog()

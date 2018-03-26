@@ -284,9 +284,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int m_nIqIdRegGetReg;
 	int m_nIqIdRegSetReg;
 
-	//xep-0198 handled nodes count
-	uint32_t m_nStrmMgmtSrvHCount, m_nStrmMgmtLocalHCount, m_nStrmMgmtLocalSCount;
-	bool m_bStrmMgmtPendingEnable, m_bStrmMgmtEnabled;
+	//xep-0198 related vars
+	uint32_t m_nStrmMgmtSrvHCount, m_nStrmMgmtLocalHCount, m_nStrmMgmtLocalSCount, m_nStrmMgmtResumeMaxSeconds;
+	bool m_bStrmMgmtPendingEnable, m_bStrmMgmtEnabled, m_bStrmMgmtResumeSupported;
+	wchar_t *m_sStrmMgmtResumeId;
 
 	int m_nSDBrowseMode;
 	DWORD m_dwSDLastRefresh;
