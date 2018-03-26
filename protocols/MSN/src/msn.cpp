@@ -54,9 +54,6 @@ static const PLUGININFOEX pluginInfo =
 	{0x97724af9, 0xf3fb, 0x47d3, {0xa3, 0xbf, 0xea, 0xa9, 0x35, 0xc7, 0x4e, 0x6d}}
 };
 
-int MSN_GCEventHook(WPARAM wParam, LPARAM lParam);
-int MSN_GCMenuHook(WPARAM wParam, LPARAM lParam);
-
 // Protocol instances
 static int sttCompareProtocols(const CMsnProto *p1, const CMsnProto *p2)
 {

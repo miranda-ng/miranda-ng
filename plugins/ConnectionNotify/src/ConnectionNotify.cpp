@@ -54,7 +54,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0x4bb5b4aa, 0xc364, 0x4f23, { 0x97, 0x46, 0xd5, 0xb7, 0x8, 0xa2, 0x86, 0xa5 } }
 };
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CONNECTIONNOTIFY, MIID_PROTOCOL, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 // authentication callback futnction from extension manager
 // ======================================

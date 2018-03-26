@@ -121,7 +121,7 @@ static int OnShutdown(WPARAM, LPARAM)
  *
  * @return	pointer to pluginInfo struct
  **/
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	myGlobals.mirandaVersion = mirandaVersion;
 	return &pluginInfo;

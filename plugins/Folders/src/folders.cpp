@@ -39,7 +39,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0x2f129563, 0x2c7d, 0x4a9a, { 0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7 } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }

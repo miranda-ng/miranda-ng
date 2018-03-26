@@ -36,15 +36,12 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 		g_hInstance = hInstance;
 		DisableThreadLibraryCalls(hInstance);
 		break;
-	case DLL_PROCESS_DETACH:
-		/* Nothink to do. */
-		break;
 	}
 
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
