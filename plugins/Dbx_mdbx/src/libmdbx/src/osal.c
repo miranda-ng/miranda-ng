@@ -782,17 +782,6 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
   if (GetFileType(map->fd) != FILE_TYPE_DISK)
     return ERROR_FILE_OFFLINE;
 
-  pfnGetFileInformationByHandleEx pfunc = (pfnGetFileInformationByHandleEx)GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetFileInformationByHandleEx");
-  if (pfunc) {
-	  FILE_REMOTE_PROTOCOL_INFO RemoteProtocolInfo;
-	  if (pfunc(map->fd, FileRemoteProtocolInfo,
-		  &RemoteProtocolInfo,
-		  sizeof(RemoteProtocolInfo))) {
-		  if ((RemoteProtocolInfo.Flags & (REMOTE_PROTOCOL_INFO_FLAG_LOOPBACK | REMOTE_PROTOCOL_INFO_FLAG_OFFLINE)) != REMOTE_PROTOCOL_INFO_FLAG_LOOPBACK)
-			  return ERROR_FILE_OFFLINE;
-	  }
-  }
-
 #if defined(_WIN64) && defined(WOF_CURRENT_VERSION)
   struct {
     WOF_EXTERNAL_INFO wof_info;
