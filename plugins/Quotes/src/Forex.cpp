@@ -236,6 +236,18 @@ int QuotesEventFunc_OnContactDeleted(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+INT_PTR QuoteProtoFunc_GetCaps(WPARAM wParam, LPARAM)
+{
+	switch (wParam) {
+	case PFLAG_UNIQUEIDTEXT:
+		return (INT_PTR)Translate("Quote Symbol");
+	case PFLAG_UNIQUEIDSETTING:
+		return (INT_PTR)DB_STR_QUOTE_SYMBOL;
+	}
+
+	return 0;
+}
+
 INT_PTR QuoteProtoFunc_GetStatus(WPARAM, LPARAM)
 {
 	return g_bAutoUpdate ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
@@ -286,6 +298,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 	return TRUE;
 }
 
+EXTERN_C __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
 EXTERN_C __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &Global_pluginInfo;
@@ -307,6 +321,7 @@ EXTERN_C int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_VIRTUAL;
 	Proto_RegisterModule(&pd);
 
+	CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETCAPS, QuoteProtoFunc_GetCaps);
 	CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETSTATUS, QuoteProtoFunc_GetStatus);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, QuotesEventFunc_OnModulesLoaded);

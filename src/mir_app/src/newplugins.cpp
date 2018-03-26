@@ -487,7 +487,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 			// didn't have basic APIs or DB exports - failed.
 			p->bFailed = true;
 	}
-	else if (hasMuuid(pIds, MIID_PROTOCOL))
+	else if (hasMuuid(pIds, MIID_PROTOCOL) || !mir_wstrcmpi(tszFileName, L"mradio.dll") || !mir_wstrcmpi(tszFileName, L"watrack.dll"))
 		p->bIsProtocol = true;
 	return p;
 }
