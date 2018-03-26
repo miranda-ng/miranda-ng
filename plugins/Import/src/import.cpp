@@ -38,11 +38,16 @@ struct AccountMap
 	ptrA szSrcAcc, szBaseProto;
 	ptrW tszSrcName;
 	int iSrcIndex;
+	int iOrder;
 	PROTOACCOUNT *pa;
 };
 
 static int CompareAccs(const AccountMap *p1, const AccountMap *p2)
 {	return mir_strcmpi(p1->szSrcAcc, p2->szSrcAcc);
+}
+
+static int CompareAccByIds(const AccountMap *p1, const AccountMap *p2)
+{	return p1->iOrder - p2->iOrder;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -437,6 +442,9 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 		AccountMap *pNew = new AccountMap(szProto, i, tszName);
 		arAccountMap.insert(pNew);
 
+		itoa(200 + i, szSetting, 10);
+		pNew->iOrder = myGetD(NULL, "Protocols", szSetting, 0);
+
 		// check if it's an account-based proto or an old style proto
 		char szBaseProto[100];
 		if (myGetS(NULL, szProto, "AM_BaseProto", szBaseProto))
@@ -466,7 +474,11 @@ bool ImportAccounts(OBJLIST<char> &arSkippedModules)
 
 	bool bImportSysAll = (nImportOptions & IOPT_SYS_SETTINGS) != 0;
 
-	for (auto &p : arAccountMap) {
+	LIST<AccountMap> arIndexedMap(arAccountMap.getCount(), CompareAccByIds);
+	for (auto &it : arAccountMap)
+		arIndexedMap.insert(it);
+
+	for (auto &p : arIndexedMap) {
 		if (p->szBaseProto == NULL || !mir_strcmp(p->szSrcAcc, META_PROTO))
 			continue;
 
