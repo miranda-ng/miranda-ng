@@ -841,6 +841,9 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		return INVALID_CONTACT_ID;
 	}
 
+	if (bIsChat)
+		db_set_b(hDst, pda->pa->szModuleName, "ChatRoom", 1);
+
 	arContactMap.insert(new ContactMap(hSrc, hDst));
 	ImportContactSettings(pda, hSrc, hDst);
 	return hDst;
