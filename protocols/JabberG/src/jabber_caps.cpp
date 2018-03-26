@@ -628,13 +628,16 @@ LBL_All:
 			<< XCHILD(L"value", L"urn:xmpp:dataforms:softwareinfo");
 
 		CJabberClientPartialCaps *pCaps = GetPartialCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc);
-		if (ppro->m_bShowOSVersion) {
-			form << XCHILD(L"field") << XATTR(L"var", L"os") << XCHILD(L"value", pCaps->GetOs());
-			form << XCHILD(L"field") << XATTR(L"var", L"os_version") << XCHILD(L"value", pCaps->GetOsVer());
+		if (pCaps)
+		{
+			if (ppro->m_bShowOSVersion) {
+				form << XCHILD(L"field") << XATTR(L"var", L"os") << XCHILD(L"value", pCaps->GetOs());
+				form << XCHILD(L"field") << XATTR(L"var", L"os_version") << XCHILD(L"value", pCaps->GetOsVer());
+			}
+			form << XCHILD(L"field") << XATTR(L"var", L"software") << XCHILD(L"value", pCaps->GetSoft());
+			form << XCHILD(L"field") << XATTR(L"var", L"software_version") << XCHILD(L"value", pCaps->GetSoftVer());
+			form << XCHILD(L"field") << XATTR(L"var", L"x-miranda-core-version") << XCHILD(L"value", pCaps->GetSoftMir());
 		}
-		form << XCHILD(L"field") << XATTR(L"var", L"software") << XCHILD(L"value", pCaps->GetSoft());
-		form << XCHILD(L"field") << XATTR(L"var", L"software_version") << XCHILD(L"value", pCaps->GetSoftVer());
-		form << XCHILD(L"field") << XATTR(L"var", L"x-miranda-core-version") << XCHILD(L"value", pCaps->GetSoftMir());
 	}
 
 	ppro->m_ThreadInfo->send(iq);
