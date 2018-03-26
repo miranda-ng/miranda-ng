@@ -39,9 +39,6 @@ static HANDLE hStatusMenuInit;
 static int hChooserMenu;
 static int iChooserMenuPos = 30000;
 
-static HGENMENU g_hMenuRequestAuth;
-static HGENMENU g_hMenuGrantAuth;
-static HGENMENU g_hMenuRevokeAuth;
 static HGENMENU g_hMenuConvert;
 static HGENMENU g_hMenuRosterAdd;
 static HGENMENU g_hMenuAddBookmark;
@@ -144,9 +141,6 @@ static INT_PTR JabberMenuHandleDirectPresence(WPARAM wParam, LPARAM lParam, LPAR
 
 static int JabberPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	Menu_ShowItem(g_hMenuRequestAuth, FALSE);
-	Menu_ShowItem(g_hMenuGrantAuth, FALSE);
-	Menu_ShowItem(g_hMenuRevokeAuth, FALSE);
 	Menu_ShowItem(g_hMenuCommands, FALSE);
 	Menu_ShowItem(g_hMenuSendNote, FALSE);
 	Menu_ShowItem(g_hMenuConvert, FALSE);
@@ -305,9 +299,6 @@ void g_MenuUninit(void)
 {
 	DestroyHookableEvent(hStatusMenuInit);
 
-	Menu_RemoveItem(g_hMenuRequestAuth);
-	Menu_RemoveItem(g_hMenuGrantAuth);
-	Menu_RemoveItem(g_hMenuRevokeAuth);
 	Menu_RemoveItem(g_hMenuConvert);
 	Menu_RemoveItem(g_hMenuRosterAdd);
 	Menu_RemoveItem(g_hMenuLogin);
@@ -371,9 +362,9 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		return 0;
 
 	bool bCtrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-	Menu_ShowItem(g_hMenuRequestAuth, item->subscription == SUB_FROM || item->subscription == SUB_NONE || bCtrlPressed);
-	Menu_ShowItem(g_hMenuGrantAuth, bCtrlPressed);
-	Menu_ShowItem(g_hMenuRevokeAuth, item->subscription == SUB_FROM || item->subscription == SUB_BOTH || bCtrlPressed);
+	Menu_ShowItem(m_hmiReqAuth, item->subscription == SUB_FROM || item->subscription == SUB_NONE || bCtrlPressed);
+	Menu_ShowItem(m_hmiGrantAuth, bCtrlPressed);
+	Menu_ShowItem(m_hmiRevokeAuth, item->subscription == SUB_FROM || item->subscription == SUB_BOTH || bCtrlPressed);
 	Menu_ShowItem(g_hMenuCommands, ((jcb & JABBER_CAPS_COMMANDS) != 0) || bCtrlPressed);
 	Menu_ShowItem(g_hMenuSendNote, TRUE);
 
