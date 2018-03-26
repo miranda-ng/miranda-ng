@@ -96,6 +96,11 @@ int CDbxMDBX::Load(bool bSkipInit)
 				data.iov_base = &m_header; data.iov_len = sizeof(m_header);
 				mdbx_put(trnlck, m_dbGlobal, &key, &data, 0);
 			}
+
+			keyVal = 2;
+			if (mdbx_get(trnlck, m_dbGlobal, &key, &data) == MDBX_SUCCESS)
+				m_ccDummy.dbc = *(const DBContact*)data.iov_base;
+
 			trnlck.commit();
 		}
 		{

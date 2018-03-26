@@ -213,10 +213,11 @@ protected:
 	MDBX_env *m_env;
 	CMDBX_txn_ro m_txn_ro;
 
-	MDBX_dbi  m_dbGlobal;
+	MDBX_dbi m_dbGlobal;
 	DBHeader m_header;
-
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
+
+	DBCachedContact m_ccDummy; // dummy contact to serve a cache item for MCONTACT = 0
 
 	////////////////////////////////////////////////////////////////////////////
 	// settings

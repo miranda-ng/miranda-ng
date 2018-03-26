@@ -25,6 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 STDMETHODIMP_(LONG) CDbxMDBX::GetEventCount(MCONTACT contactID)
 {
+	if (!contactID)
+		return m_ccDummy.dbc.dwEventCount;
+
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	return (cc == nullptr) ? 0 : cc->dbc.dwEventCount;
 }
@@ -42,21 +45,24 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	MCONTACT contactNotifyID = contactID;
 	DBCachedContact *cc, *ccSub = nullptr;
-	if ((cc = m_cache->GetCachedContact(contactID)) == nullptr)
-		return 0;
-
-	if (cc->IsSub()) {
-		ccSub = cc;
-		if ((cc = m_cache->GetCachedContact(cc->parentID)) == nullptr)
+	if (contactID != 0) {
+		if ((cc = m_cache->GetCachedContact(contactID)) == nullptr)
 			return 0;
 
-		// set default sub to the event's source
-		if (!(dbei->flags & DBEF_SENT))
-			db_mc_setDefault(cc->contactID, contactID, false);
-		contactID = cc->contactID; // and add an event to a metahistory
-		if (db_mc_isEnabled())
-			contactNotifyID = contactID;
+		if (cc->IsSub()) {
+			ccSub = cc;
+			if ((cc = m_cache->GetCachedContact(cc->parentID)) == nullptr)
+				return 0;
+
+			// set default sub to the event's source
+			if (!(dbei->flags & DBEF_SENT))
+				db_mc_setDefault(cc->contactID, contactID, false);
+			contactID = cc->contactID; // and add an event to a metahistory
+			if (db_mc_isEnabled())
+				contactNotifyID = contactID;
+		}
 	}
+	else cc = &m_ccDummy;
 
 	if (m_safetyMode)
 		if (NotifyEventHooks(hEventFilterAddedEvent, contactNotifyID, (LPARAM)dbei))
@@ -99,20 +105,28 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 			return 0;
 
 		cc->Advance(dwEventId, dbe);
-		MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
-		if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
-			return 0;
-
-		// insert an event into a sub's history too
-		if (ccSub != nullptr) {
-			key2.hContact = ccSub->contactID;
-			if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+		if (contactID != 0) {
+				MDBX_val keyc = { &contactID, sizeof(MCONTACT) }, datac = { &cc->dbc, sizeof(DBContact) };
+			if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
 				return 0;
 
-			ccSub->Advance(dwEventId, dbe);
-			datac.iov_base = &ccSub->dbc;
-			keyc.iov_base = &ccSub->contactID;
-			if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
+			// insert an event into a sub's history too
+			if (ccSub != nullptr) {
+				key2.hContact = ccSub->contactID;
+				if (mdbx_put(trnlck, m_dbEventsSort, &key, &data, 0) != MDBX_SUCCESS)
+					return 0;
+
+				ccSub->Advance(dwEventId, dbe);
+				datac.iov_base = &ccSub->dbc;
+				keyc.iov_base = &ccSub->contactID;
+				if (mdbx_put(trnlck, m_dbContacts, &keyc, &datac, 0) != MDBX_SUCCESS)
+					return 0;
+			}
+		}
+		else {
+			uint32_t keyVal = 2;
+			MDBX_val keyc = { &keyVal, sizeof(keyVal) }, datac = { &m_ccDummy.dbc, sizeof(m_ccDummy.dbc) };
+			if (mdbx_put(trnlck, m_dbGlobal, &keyc, &datac, 0) != MDBX_SUCCESS)
 				return 0;
 		}
 
@@ -131,7 +145,7 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID), *cc2 = nullptr;
+	DBCachedContact *cc = (contactID != 0) ? m_cache->GetCachedContact(contactID) : &m_ccDummy, *cc2 = nullptr;
 	if (cc == nullptr || cc->dbc.dwEventCount == 0)
 		return 1;
 
@@ -155,7 +169,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 		if (mdbx_del(trnlck, m_dbEventsSort, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
 
-		{
+		if (contactID != 0) {
 			key.iov_len = sizeof(MCONTACT); key.iov_base = &contactID;
 			cc->dbc.dwEventCount--;
 			if (cc->dbc.evFirstUnread == hDbEvent)
@@ -164,6 +178,16 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 			data.iov_len = sizeof(DBContact); data.iov_base = &cc->dbc;
 			if (mdbx_put(trnlck, m_dbContacts, &key, &data, 0) != MDBX_SUCCESS)
 				return 1;
+		}
+		else {
+			m_ccDummy.dbc.dwEventCount--;
+			if (m_ccDummy.dbc.evFirstUnread == hDbEvent)
+				FindNextUnread(trnlck, &m_ccDummy, key2);
+
+			uint32_t keyVal = 2;
+			MDBX_val keyc = { &keyVal, sizeof(keyVal) }, datac = { &m_ccDummy.dbc, sizeof(m_ccDummy.dbc) };
+			if (mdbx_put(trnlck, m_dbGlobal, &keyc, &datac, 0) != MDBX_SUCCESS)
+				return 0;
 		}
 
 		if (cc2) {
@@ -181,7 +205,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 				return 1;
 		}
 
-		// remove a event
+		// remove an event
 		key.iov_len = sizeof(MEVENT); key.iov_base = &hDbEvent;
 		if (mdbx_del(trnlck, m_dbEvents, &key, nullptr) != MDBX_SUCCESS)
 			return 1;
@@ -338,9 +362,13 @@ STDMETHODIMP_(MCONTACT) CDbxMDBX::GetEventContact(MEVENT hDbEvent)
 
 STDMETHODIMP_(MEVENT) CDbxMDBX::FindFirstEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == nullptr)
-		return 0;
+	DBCachedContact *cc;
+	if (contactID != 0) {
+		cc = m_cache->GetCachedContact(contactID);
+		if (cc == nullptr)
+			return 0;
+	}
+	else cc = &m_ccDummy;
 
 	DBEventSortingKey keyVal = { contactID, 0, 0 };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
@@ -368,9 +396,13 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindFirstUnreadEvent(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDbxMDBX::FindLastEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == nullptr)
-		return 0;
+	DBCachedContact *cc;
+	if (contactID != 0) {
+		cc = m_cache->GetCachedContact(contactID);
+		if (cc == nullptr)
+			return 0;
+	}
+	else cc = &m_ccDummy;
 
 	DBEventSortingKey keyVal = { contactID, 0xFFFFFFFF, 0xFFFFFFFFFFFFFFFF };
 	MDBX_val key = { &keyVal, sizeof(keyVal) }, data;
@@ -396,9 +428,13 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindLastEvent(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == nullptr)
-		return 0;
+	DBCachedContact *cc;
+	if (contactID != 0) {
+		cc = m_cache->GetCachedContact(contactID);
+		if (cc == nullptr)
+			return 0;
+	}
+	else cc = &m_ccDummy;
 
 	if (hDbEvent == 0)
 		return cc->t_evLast = 0;
@@ -431,9 +467,13 @@ STDMETHODIMP_(MEVENT) CDbxMDBX::FindNextEvent(MCONTACT contactID, MEVENT hDbEven
 
 STDMETHODIMP_(MEVENT) CDbxMDBX::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == nullptr)
-		return 0;
+	DBCachedContact *cc;
+	if (contactID != 0) {
+		cc = m_cache->GetCachedContact(contactID);
+		if (cc == nullptr)
+			return 0;
+	}
+	else cc = &m_ccDummy;
 
 	if (hDbEvent == 0)
 		return cc->t_evLast = 0;
