@@ -827,41 +827,6 @@ int mdbx_mmap(int flags, mdbx_mmap_t *map, size_t size, size_t limit) {
     }
   }
 
-  typedef DWORD (WINAPI *pfnGetFinalPathNameByHandle)(HANDLE, LPWSTR, DWORD, DWORD);
-  pfnGetFinalPathNameByHandle pfname = (pfnGetFinalPathNameByHandle)GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetFinalPathNameByHandleW");
-  if (pfname) {
-	 if (!pfname(map->fd, PathBuffer, INT16_MAX, FILE_NAME_NORMALIZED | VOLUME_NAME_NT))
-      return GetLastError();
-
-    if (_wcsnicmp(PathBuffer, L"\\Device\\Mup\\", 12) == 0)
-      return ERROR_FILE_OFFLINE;
-
-    if (pfname(map->fd, PathBuffer, INT16_MAX, FILE_NAME_NORMALIZED | VOLUME_NAME_DOS)) {
-      UINT DriveType = GetDriveTypeW(PathBuffer);
-      if (DriveType == DRIVE_NO_ROOT_DIR &&
-          wcsncmp(PathBuffer, L"\\\\?\\", 4) == 0 &&
-          wcsncmp(PathBuffer + 5, L":\\", 2) == 0) {
-        PathBuffer[7] = 0;
-        DriveType = GetDriveTypeW(PathBuffer + 4);
-      }
-      switch (DriveType) {
-      case DRIVE_CDROM:
-        if (flags & MDBX_RDONLY)
-          break;
-      // fall through
-      case DRIVE_UNKNOWN:
-      case DRIVE_NO_ROOT_DIR:
-      case DRIVE_REMOTE:
-      default:
-        return ERROR_FILE_OFFLINE;
-      case DRIVE_REMOVABLE:
-      case DRIVE_FIXED:
-      case DRIVE_RAMDISK:
-        break;
-      }
-	 }
-  }
-
   rc = mdbx_filesize(map->fd, &map->filesize);
   if (rc != MDBX_SUCCESS)
     return rc;
