@@ -46,7 +46,7 @@ static int GetDatabaseString(MCONTACT hContact, const char *szProto, const char 
 		DBCONTACTGETSETTING cgs = { szProto, szSetting, dbv };
 		dbv->type = DBVT_WCHAR;
 
-		int res = CallProtoService(szProto, PS_GETINFOSETTING, (WPARAM)hContact, (LPARAM)&cgs);
+		INT_PTR res = CallProtoService(szProto, PS_GETINFOSETTING, (WPARAM)hContact, (LPARAM)&cgs);
 		if (res != CALLSERVICE_NOTFOUND)
 			return res;
 	}
