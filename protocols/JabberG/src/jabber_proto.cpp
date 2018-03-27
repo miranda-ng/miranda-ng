@@ -188,7 +188,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	HookProtoEvent(ME_SKIN2_ICONSCHANGED, &CJabberProto::OnReloadIcons);
 
 	m_iqManager.FillPermanentHandlers();
-	m_iqManager.Start();
 	m_messageManager.FillPermanentHandlers();
 	m_adhocManager.FillDefaultNodes();
 	
@@ -198,7 +197,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	InitPopups();
 	GlobalMenuInit();
 	WsInit();
-	ConsoleInit();
 
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));
@@ -273,6 +271,9 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	XStatusInit();
 	m_pepServices.InitGui();
 
+	m_iqManager.Start();
+
+	ConsoleInit();
 	InitInfoFrame();
 
 	GCREGISTER gcr = {};

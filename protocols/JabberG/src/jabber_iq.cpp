@@ -140,8 +140,6 @@ void __cdecl CJabberProto::ExpirerThread(void* pParam)
 
 void CJabberIqManager::ExpirerThread()
 {
-	Thread_SetName("Jabber: ExpirerThread");
-
 	while (!m_bExpirerThreadShutdownRequest) {
 		CJabberIqInfo *pInfo = DetachExpired();
 		if (!pInfo) {

@@ -151,9 +151,6 @@ CIcqProto::CIcqProto(const char* aProtoName, const wchar_t* aUserName) :
 	// Initialize Contacts Cache
 	InitContactsCache();
 
-	// Startup Auto Info-Update thread
-	icq_InitInfoUpdate();
-
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CIcqProto::OnPreBuildStatusMenu);
 
 	// Register netlib users
@@ -251,6 +248,9 @@ int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
 	modules[3] = pszSrvGroupsName;
 	CallService("DBEditorpp/RegisterModule", (WPARAM)modules, (LPARAM)4);
 
+	// Startup Auto Info-Update thread
+	icq_InitInfoUpdate();
+
 	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 	HookProtoEvent(ME_IDLE_CHANGED, &CIcqProto::OnIdleChanged);
@@ -264,7 +264,6 @@ int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
 		if (bXStatus > 0)
 			setContactExtraIcon(hContact, bXStatus);
 	}
-
 	return 0;
 }
 
