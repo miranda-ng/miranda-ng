@@ -173,7 +173,6 @@ extern UINT SecTimer;
 
 HANDLE WINAPI g_GetIconHandle(int idx);
 HICON  WINAPI g_LoadIconEx(int idx, bool big = false);
-void   WINAPI g_ReleaseIcon(HICON hIcon);
 
 //From synchro.cpp
 void  WINAPI DeleteMessagesToEndFcn(HACCOUNT Account, HYAMNMAIL From);

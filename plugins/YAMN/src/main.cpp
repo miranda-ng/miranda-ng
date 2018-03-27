@@ -10,7 +10,7 @@
 
 #include "stdafx.h"
 
-//--------------------------------------------------------------------------------------------------
+ //--------------------------------------------------------------------------------------------------
 
 wchar_t ProfileName[MAX_PATH];
 wchar_t UserDirectory[MAX_PATH];
@@ -64,7 +64,7 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 	Profile_GetPathW(_countof(tszOldPath), tszOldPath);
 	mir_wstrcat(tszOldPath, L"\\*.book");
 
-	VARSW ptszNewPath( L"%miranda_userdata%");
+	VARSW ptszNewPath(L"%miranda_userdata%");
 
 	SHFILEOPSTRUCT file_op = {
 		nullptr,
@@ -99,39 +99,24 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
-static wchar_t unknownCP[1500] = {0};
-#endif
 // The callback function
 BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 {
-    //Convert code page string to number
-    UINT cp = _wtoi(cpStr);
-    if (!IsValidCodePage(cp))
-        return TRUE;
+	// Convert code page string to number
+	UINT cp = _wtoi(cpStr);
+	if (!IsValidCodePage(cp))
+		return TRUE;
 
-    //Get Code Page name
-    CPINFOEX info;
-    if (GetCPInfoEx(cp, 0, &info)) {
-		#ifdef _DEBUG
-		BOOLEAN found = FALSE;
-		#endif
-		for (int i = 1;i<CPLENALL;i++) if (CodePageNamesAll[i].CP == cp) {
+	// Get Code Page name
+	CPINFOEX info;
+	if (GetCPInfoEx(cp, 0, &info)) {
+		for (int i = 1; i < CPLENALL; i++) if (CodePageNamesAll[i].CP == cp) {
 			CodePageNamesAll[i].isValid = TRUE;
 			CPLENSUPP++;
-			#ifdef _DEBUG
-			found = TRUE;
-			#endif
 			break;
 		}
-		#ifdef _DEBUG
-		if (!found) {
-			mir_wstrcat(unknownCP, info.CodePageName);
-			mir_wstrcat(unknownCP, L"\n");
-		}
-		#endif
 	}
-    return TRUE;
+	return TRUE;
 }
 
 void CheckMenuItems()
@@ -143,7 +128,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 {
 	//Insert "Check mail (YAMN)" item to Miranda's menu
 	CMenuItem mi;
-	
+
 	SET_UID(mi, 0xa01ff3d9, 0x53cb, 0x4406, 0x85, 0xd9, 0xf1, 0x90, 0x3a, 0x94, 0xed, 0xf4);
 	mi.position = 0xb0000000;
 	mi.hIcolibItem = g_GetIconHandle(0);
@@ -186,23 +171,18 @@ void LoadIcons()
 	Icon_Register(YAMNVar.hInst, "YAMN", iconList, _countof(iconList));
 }
 
-HANDLE WINAPI g_GetIconHandle( int idx )
+HANDLE WINAPI g_GetIconHandle(int idx)
 {
-	if ( idx >= _countof(iconList))
+	if (idx >= _countof(iconList))
 		return nullptr;
 	return iconList[idx].hIcolib;
 }
 
-HICON WINAPI g_LoadIconEx( int idx, bool big )
+HICON WINAPI g_LoadIconEx(int idx, bool big)
 {
-	if ( idx >= _countof(iconList))
+	if (idx >= _countof(iconList))
 		return nullptr;
 	return IcoLib_GetIcon(iconList[idx].szName, big);
-}
-
-void WINAPI g_ReleaseIcon( HICON hIcon )
-{
-	if ( hIcon ) IcoLib_ReleaseIcon(hIcon);
 }
 
 static void LoadPlugins()
@@ -218,15 +198,15 @@ static void LoadPlugins()
 		do {
 			//rewritten from Miranda sources... Needed because Win32 API has a bug in FindFirstFile, search is done for *.dlllllll... too
 			wchar_t *dot = wcsrchr(fd.cFileName, '.');
-			if (dot == nullptr )
+			if (dot == nullptr)
 				continue;
 
 			// we have a dot
 			int len = (int)mir_wstrlen(fd.cFileName); // find the length of the string
-			wchar_t* end = fd.cFileName+len; // get a pointer to the NULL
-			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
+			wchar_t* end = fd.cFileName + len; // get a pointer to the NULL
+			int safe = (end - dot) - 1;	// figure out how many chars after the dot are "safe", not including NULL
 
-			if ((safe != 3) || (mir_wstrcmpi(dot+1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
+			if ((safe != 3) || (mir_wstrcmpi(dot + 1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
 
 			wchar_t szPluginPath[MAX_PATH];
@@ -235,7 +215,7 @@ static void LoadPlugins()
 			if (hDll == nullptr)
 				continue;
 
-			LOADFILTERFCN LoadFilter = (LOADFILTERFCN) GetProcAddress(hDll, "LoadFilter");
+			LOADFILTERFCN LoadFilter = (LOADFILTERFCN)GetProcAddress(hDll, "LoadFilter");
 			if (nullptr == LoadFilter) {
 				FreeLibrary(hDll);
 				hDll = nullptr;
@@ -248,11 +228,10 @@ static void LoadPlugins()
 			}
 
 			if (hDll != nullptr) {
-				hDllPlugins = (HINSTANCE *)realloc(hDllPlugins, (iDllPlugins+1)*sizeof(HINSTANCE));
+				hDllPlugins = (HINSTANCE *)realloc(hDllPlugins, (iDllPlugins + 1) * sizeof(HINSTANCE));
 				hDllPlugins[iDllPlugins++] = hDll;
 			}
-		}
-			while(FindNextFile(hFind, &fd));
+		} while (FindNextFile(hFind, &fd));
 
 		FindClose(hFind);
 	}
@@ -266,12 +245,12 @@ extern "C" int __declspec(dllexport) Load(void)
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
 	//	we get the Miranda Root Path
-	PathToAbsoluteW( L".", szMirandaDir);
+	PathToAbsoluteW(L".", szMirandaDir);
 
 	// retrieve the current profile name
 	Profile_GetNameW(_countof(ProfileName), ProfileName);
 	wchar_t *fc = wcsrchr(ProfileName, '.');
-	if ( fc != nullptr ) *fc = 0;
+	if (fc != nullptr) *fc = 0;
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file
 	GetProfileDirectory(UserDirectory, _countof(UserDirectory));
@@ -283,7 +262,8 @@ extern "C" int __declspec(dllexport) Load(void)
 		if (CodePageNamesAll[i].isValid) {
 			CodePageNamesSupp[k] = CodePageNamesAll[i];
 			k++;
-	}	}
+		}
+	}
 
 	// Registering YAMN as protocol
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
@@ -325,7 +305,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	CreateServiceFunctions();
 
-	Skin_AddSound(YAMN_NEWMAILSOUND,  L"YAMN", YAMN_NEWMAILSNDDESC);
+	Skin_AddSound(YAMN_NEWMAILSOUND, L"YAMN", YAMN_NEWMAILSNDDESC);
 	Skin_AddSound(YAMN_CONNECTFAILSOUND, L"YAMN", YAMN_CONNECTFAILSNDDESC);
 
 	HookEvents();
@@ -354,10 +334,10 @@ static void UnloadPlugins()
 {
 	if (hDllPlugins == nullptr)
 		return;
-	for (int i = iDllPlugins - 1; i >= 0; i --) {
+	for (int i = iDllPlugins - 1; i >= 0; i--) {
 		if (FreeLibrary(hDllPlugins[i])) {
 			hDllPlugins[i] = nullptr;				//for safety
-			iDllPlugins --;
+			iDllPlugins--;
 		}
 	}
 	free((void *)hDllPlugins);
@@ -382,6 +362,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	UnloadPlugins();
 
-	delete [] CodePageNamesSupp;
+	delete[] CodePageNamesSupp;
 	return 0;
 }
