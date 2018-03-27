@@ -310,8 +310,8 @@ BOOL CJabberDlgPepSimple::OnWmMeasureItem(UINT, WPARAM, LPARAM lParam)
 	ReleaseDC(m_cbModes.GetHwnd(), hdc);
 
 	lpmis->itemHeight = max(tm.tmHeight, 18);
-	if (lpmis->itemHeight < 18) lpmis->itemHeight = 18;
-
+	if (lpmis->itemHeight < 18)
+		lpmis->itemHeight = 18;
 	return TRUE;
 }
 
@@ -324,7 +324,7 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 	if (lpdis->itemData == -1)
 		return FALSE;
 
-	CStatusMode *mode = &m_modes[lpdis->itemData];
+	CStatusMode *mode = (CStatusMode *)lpdis->itemData;
 
 	TEXTMETRIC tm = { 0 };
 	GetTextMetrics(lpdis->hDC, &tm);
