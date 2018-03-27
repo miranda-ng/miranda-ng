@@ -401,7 +401,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_omemo.cpp --------------------------------------------------------------
 	
-	void OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime);
+	bool OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime);
 	void OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int, const char* pszSrc);
 	void OmemoPutMessageToIncommingQueue(HXML node, const wchar_t *jid, time_t msgTime);
 	void OmemoHandleMessageQueue();

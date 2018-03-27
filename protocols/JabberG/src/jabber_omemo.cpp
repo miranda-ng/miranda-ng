@@ -1580,63 +1580,62 @@ void CJabberProto::OmemoPutMessageToIncommingQueue(HXML node, const wchar_t *jid
 
 void CJabberProto::OmemoHandleMessageQueue()
 {
-	for (std::list<omemo::outgoing_message>::iterator i = ((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.begin(), 
-		end = ((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.end();	i != end; ++i)
+	for (auto i : ((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages)
 	{
-		SendMsg(i->hContact, i->unused_unknown, i->pszSrc);
-		mir_free(i->pszSrc);
+		SendMsg(i.hContact, i.unused_unknown, i.pszSrc);
+		mir_free(i.pszSrc);
 	}
 	((omemo::message_queue*)m_omemo.message_queue_internal)->outgoing_messages.clear();
-	for (std::list<omemo::incomming_message>::iterator i = ((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages.begin(),
-		end = ((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages.end(); i != end; ++i)
-	{
-		OmemoHandleMessage(i->node, i->jid, i->msgTime);
-		xmlFree(i->node);
-		mir_free(i->jid);
-	}
+	std::list<omemo::incomming_message> tmp = ((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages;
 	((omemo::message_queue*)m_omemo.message_queue_internal)->incomming_messages.clear();
+	for (auto i : tmp)
+	{
+		if (!OmemoHandleMessage(i.node, i.jid, i.msgTime))
+			OmemoPutMessageToIncommingQueue(i.node, i.jid, i.msgTime);
+		xmlFree(i.node);
+		mir_free(i.jid);
+	}
 }
 
 DWORD JabberGetLastContactMessageTime(MCONTACT hContact);
 
-void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
+bool CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 {
 	MCONTACT hContact = HContactFromJID(jid);
 	if (!OmemoCheckSession(hContact))
 	{
-		OmemoPutMessageToIncommingQueue(node, jid, msgTime);
 		debugLogA("Jabber OMEMO: sessions not yet created, session creation launched");
-		return;
+		return false;
 	}
 	HXML header_node = XmlGetChild(node, L"header");
 	if (!header_node)
 	{
 		debugLogA("Jabber OMEMO: error: omemo message does not contain header");
-		return;
+		return true; //this should never happen
 	}
 	HXML payload_node = XmlGetChild(node, L"payload");
 	if (!payload_node)
 	{
 		debugLogA("Jabber OMEMO: omemo message does not contain payload, it's may be \"KeyTransportElement\" which is currently unused by our implementation");
-		return; //this is "KeyTransportElement" which is currently unused
+		return true; //this is "KeyTransportElement" which is currently unused
 	}
 	const wchar_t *payload_base64w = XmlGetText(payload_node);
 	if (!payload_base64w)
 	{
 		debugLogA("Jabber OMEMO: error: failed to get payload data");
-		return;
+		return true; //this should never happen
 	}
 	const wchar_t *iv_base64 = XmlGetText(XmlGetChild(header_node, L"iv"));
 	if (!iv_base64)
 	{
 		Netlib_Log(nullptr, "Jabber OMEMO: error: failed to get iv data");
-		return;
+		return true;
 	}
 	const wchar_t *sender_dev_id = XmlGetAttrValue(header_node, L"sid");
 	if (!sender_dev_id)
 	{
 		debugLogA("Jabber OMEMO: error: failed to get sender device id");
-		return;
+		return true;
 	}
 	char *sender_device_id_a = mir_u2a(sender_dev_id);
 	DWORD sender_dev_id_int = strtoul(sender_device_id_a, nullptr, 10);
@@ -1646,9 +1645,8 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		|| !(*(std::map<MCONTACT, std::map<unsigned int, omemo::omemo_session_jabber_internal_ptrs> >*)m_omemo.sessions_internal)[hContact][sender_dev_id_int].store_context)
 	{
 		OmemoCheckSession(hContact); //this should not normally happened
-		OmemoPutMessageToIncommingQueue(node, jid, msgTime);
 		debugLogA("Jabber OMEMO: bug: omemo session does not exist or broken");
-		return;
+		return false;
 	}
 	HXML key_node;
 	DWORD own_id = m_omemo.GetOwnDeviceId();
@@ -1668,7 +1666,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	if (!encrypted_key_base64)
 	{
 		debugLogA("Jabber OMEMO: message does not have decryption key for our device");
-		return; //node does not contain key for our device
+		return true; //node does not contain key for our device
 	}
 	size_t encrypted_key_len;
 	unsigned char *encrypted_key;
@@ -1794,7 +1792,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	if(!decrypted)
 	{
 		debugLogA("Jabber OMEMO: error: failed to decrypt incomming message");
-		return; //TODO: cleanup
+		return true; //TODO: cleanup
 	}
 	char *out = nullptr;
 	{
@@ -1836,7 +1834,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 		if (dec_success <= 0) //TODO: check this... omemo xep have no info about tag
 		{
 			debugLogA("Jabber OMEMO: error: aes_128_gcm verification failed");
-			return;
+			return true;
 		}
 
 	}
@@ -1855,6 +1853,7 @@ void CJabberProto::OmemoHandleMessage(HXML node, wchar_t *jid, time_t msgTime)
 	recv.lParam = (LPARAM)((pFromResource != nullptr && m_bEnableRemoteControl) ? pFromResource->m_tszResourceName : 0);
 	ProtoChainRecvMsg(hContact, &recv);
 	mir_free(out);
+	return true;
 }
 
 void CJabberProto::OmemoHandleDeviceList(HXML node)

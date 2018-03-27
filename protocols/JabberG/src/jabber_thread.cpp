@@ -1321,7 +1321,8 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 					const wchar_t *jid = xmlGetAttrValue(node, L"from");
 					if (jid)
 					{
-						OmemoHandleMessage(xNode, (wchar_t*)jid, msgTime);
+						if (!OmemoHandleMessage(xNode, (wchar_t*)jid, msgTime))
+							OmemoPutMessageToIncommingQueue(xNode, (wchar_t*)jid, msgTime);
 						continue;
 					}
 				}
