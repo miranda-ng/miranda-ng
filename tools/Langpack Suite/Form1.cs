@@ -838,7 +838,7 @@ namespace Langpack_Suite
 
         private void LangpacksComboBoxChange()
         {
-            LangpackNameEdit.Text = "Langpack_" + LangpacksComboBox.Text;
+            LangpackNameEdit.Text = "langpack_" + LangpacksComboBox.Text;
             CreateLangpackBtn.Enabled = true;
         }
 
