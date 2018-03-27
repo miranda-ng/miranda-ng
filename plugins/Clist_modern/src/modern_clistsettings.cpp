@@ -47,9 +47,9 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		return;
 	}
 
-	if (pdnce->m_pszProto == nullptr) {
-		pdnce->m_pszProto = GetContactProto(pdnce->hContact);
-		if (pdnce->m_pszProto && pdnce->tszName)
+	if (pdnce->szProto == nullptr) {
+		pdnce->szProto = GetContactProto(pdnce->hContact);
+		if (pdnce->szProto && pdnce->tszName)
 			mir_free_and_nil(pdnce->tszName);
 	}
 
@@ -59,7 +59,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	}
 
 	if (pdnce->m_iStatus == 0) //very strange look status sort is broken let always reread status
-		pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->m_pszProto);
+		pdnce->m_iStatus = GetStatusForContact(pdnce->hContact, pdnce->szProto);
 
 	// this variable isn't filled inside cliCreateCacheItem() because the filter could be changed dynamically
 	if (pdnce->dwLastMsgTime == -1 && g_CluiData.bFilterEffective & (CLVM_FILTER_LASTMSG | CLVM_FILTER_LASTMSG_NEWERTHAN | CLVM_FILTER_LASTMSG_OLDERTHAN)) {
@@ -80,7 +80,7 @@ int GetContactInfosForSort(MCONTACT hContact, char **Proto, wchar_t **Name, int 
 {
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hContact);
 	if (cacheEntry != nullptr) {
-		if (Proto != nullptr)  *Proto = cacheEntry->m_pszProto;
+		if (Proto != nullptr)  *Proto = cacheEntry->szProto;
 		if (Name != nullptr)   *Name = cacheEntry->tszName;
 		if (Status != nullptr) *Status = cacheEntry->m_iStatus;
 	}
@@ -120,11 +120,11 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	if (pdnce->m_pszProto == nullptr)
+	if (pdnce->szProto == nullptr)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (!strcmp(cws->szModule, pdnce->m_pszProto)) {
+	if (!strcmp(cws->szModule, pdnce->szProto)) {
 		if (!strcmp(cws->szSetting, "Status")) {
 			pdnce->m_iStatus = cws->value.wVal;
 			if (pdnce->bIsHidden)
@@ -134,7 +134,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (g_CluiData.bRemoveAwayMessageForOffline)
 					db_set_s(hContact, "CList", "StatusMsg", "");
 
-			if ((db_get_w(0, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
+			if ((db_get_w(0, "CList", "SecondLineType", 0) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", 0) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 
 			Clist_Broadcast(INTM_STATUSCHANGED, hContact, 0);
@@ -143,7 +143,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
 				pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 
-			if ((db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->m_pszProto)
+			if ((db_get_w(0, "CList", "SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE || db_get_w(0, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT) == TEXT_STATUS_MESSAGE) && pdnce->hContact && pdnce->szProto)
 				amRequestAwayMsg(hContact);
 		}
 		else if (!strcmp(cws->szSetting, "ApparentMode"))
@@ -170,7 +170,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		else if (!strcmp(cws->szSetting, "Hidden")) {
 			pdnce->bIsHidden = cws->value.bVal;
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0)
-				pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(pdnce->m_pszProto, pdnce->getStatus(), hContact));
+				pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(pdnce->szProto, pdnce->getStatus(), hContact));
 
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		}
@@ -181,7 +181,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 	else if (!strcmp(cws->szModule, "Protocol")) {
 		if (!strcmp(cws->szSetting, "p")) {
-			pdnce->m_pszProto = GetContactProto(hContact);
+			pdnce->szProto = GetContactProto(hContact);
 			char *szProto = (cws->value.type == DBVT_DELETED) ? nullptr : cws->value.pszVal;
 			pcli->pfnChangeContactIcon(hContact, pcli->pfnIconFromStatusMode(szProto, pdnce->getStatus(), hContact));
 		}

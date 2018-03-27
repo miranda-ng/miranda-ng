@@ -49,6 +49,7 @@ ClcCacheEntry* fnCreateCacheItem(MCONTACT hContact)
 		return nullptr;
 
 	p->hContact = hContact;
+	p->szProto = GetContactProto(hContact);
 	return p;
 }
 

@@ -187,9 +187,9 @@ void CSmileyString::ReplaceSmileys(ClcData *dat, ClcCacheEntry *pdnce, wchar_t *
 	sp.cbSize = sizeof(sp);
 
 	if (dat->text_use_protocol_smileys) {
-		sp.Protocolname = pdnce->m_pszProto;
+		sp.Protocolname = pdnce->szProto;
 
-		if (db_get_b(0, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_pszProto != nullptr && mir_strcmp(pdnce->m_pszProto, META_PROTO) == 0) {
+		if (db_get_b(0, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->szProto != nullptr && mir_strcmp(pdnce->szProto, META_PROTO) == 0) {
 			MCONTACT hContact = db_mc_getMostOnline(pdnce->hContact);
 			if (hContact != 0)
 				sp.Protocolname = GetContactProto(hContact);
@@ -280,9 +280,9 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	if (nStatus == ID_STATUS_OFFLINE || nStatus == 0) noXstatus = TRUE;
 	text[0] = '\0';
 	// Get XStatusName
-	if (!noAwayMsg && !noXstatus &&  xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto) {
+	if (!noAwayMsg && !noXstatus &&  xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ws(pdnce->hContact, pdnce->m_pszProto, "XStatusName", &dbv)) {
+		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "XStatusName", &dbv)) {
 			//mir_wstrncpy(text, dbv.pszVal, text_size);
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
@@ -300,9 +300,9 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xstat
 	}
 
 	// Get XStatusName
-	if (!noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto) {
+	if (!noAwayMsg && !noXstatus && !xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ws(pdnce->hContact, pdnce->m_pszProto, "XStatusName", &dbv)) {
+		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "XStatusName", &dbv)) {
 			CopySkipUnprintableChars(text, dbv.ptszVal, text_size - 1);
 			db_free(&dbv);
 
@@ -324,7 +324,7 @@ void GetListeningTo(wchar_t *text, int text_size, ClcCacheEntry *pdnce)
 	if (pdnce->m_iStatus == ID_STATUS_OFFLINE || pdnce->m_iStatus == 0)
 		return;
 
-	ptrW tszValue(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "ListeningTo"));
+	ptrW tszValue(db_get_wsa(pdnce->hContact, pdnce->szProto, "ListeningTo"));
 	if (tszValue != nullptr)
 		CopySkipUnprintableChars(text, tszValue, text_size - 1);
 }
@@ -344,8 +344,8 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 		noAwayMsg = TRUE;
 
 	// Get XStatusMsg
-	if (!noAwayMsg  && xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto) {
-		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
+	if (!noAwayMsg  && xstatus_has_priority && pdnce->hContact && pdnce->szProto) {
+		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusMsg"));
 		if (tszXStatusMsg != nullptr) {
 			CopySkipUnprintableChars(text, tszXStatusMsg, text_size - 1);
 			if (text[0] != '\0')
@@ -364,9 +364,9 @@ int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL xs
 	}
 
 	// Get XStatusMsg
-	if (!noAwayMsg && !xstatus_has_priority && pdnce->hContact && pdnce->m_pszProto && text[0] == '\0') {
+	if (!noAwayMsg && !xstatus_has_priority && pdnce->hContact && pdnce->szProto && text[0] == '\0') {
 		// Try to get XStatusMsg
-		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
+		ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusMsg"));
 		if (tszXStatusMsg != nullptr) {
 			CopySkipUnprintableChars(text, tszXStatusMsg, text_size - 1);
 			if (text[0] != '\0')
@@ -391,7 +391,7 @@ int Cache_GetLineText(ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size
 LBL_Status:
 		if (GetStatusName(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
 			// Try to get XStatusMsg
-			ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusMsg"));
+			ptrW tszXStatusMsg(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusMsg"));
 			if (tszXStatusMsg != nullptr && tszXStatusMsg[0] != 0) {
 				wchar_t *tmp = NEWWSTR_ALLOCA(text);
 				mir_snwprintf(text, text_size, L"%s: %s", tmp, tszXStatusMsg);
@@ -401,8 +401,8 @@ LBL_Status:
 		return TEXT_STATUS;
 
 	case TEXT_NICKNAME:
-		if (pdnce->hContact && pdnce->m_pszProto) {
-			ptrW tszNick(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "Nick"));
+		if (pdnce->hContact && pdnce->szProto) {
+			ptrW tszNick(db_get_wsa(pdnce->hContact, pdnce->szProto, "Nick"));
 			if (tszNick != nullptr) {
 				mir_wstrncpy(text, tszNick, text_size);
 				CopySkipUnprintableChars(text, text, text_size - 1);
@@ -413,7 +413,7 @@ LBL_Status:
 	case TEXT_STATUS_MESSAGE:
 		if (GetStatusMessage(text, text_size, pdnce, line.xstatus_has_priority) == -1 && line.use_name_and_message_for_xstatus) {
 			// Try to get XStatusName
-			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
+			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusName"));
 			if (tszXStatusName != nullptr && tszXStatusName[0] != 0) {
 				wchar_t *tmp = NEWWSTR_ALLOCA(text);
 				mir_snwprintf(text, text_size, L"%s: %s", tszXStatusName, tmp);
@@ -422,7 +422,7 @@ LBL_Status:
 		}
 		else if (line.use_name_and_message_for_xstatus && line.xstatus_has_priority) {
 			// Try to get XStatusName
-			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->m_pszProto, "XStatusName"));
+			ptrW tszXStatusName(db_get_wsa(pdnce->hContact, pdnce->szProto, "XStatusName"));
 			if (tszXStatusName != nullptr && tszXStatusName[0] != 0) {
 				mir_wstrncpy(text, tszXStatusName, text_size);
 				CopySkipUnprintableChars(text, text, text_size - 1);
@@ -477,7 +477,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 	wchar_t *name = pcli->pfnGetContactDisplayName(contact->hContact, 0);
 	if (dat->first_line_append_nick && !dat->bForceInDialog) {
 		DBVARIANT dbv = { 0 };
-		if (!db_get_ws(pdnce->hContact, pdnce->m_pszProto, "Nick", &dbv)) {
+		if (!db_get_ws(pdnce->hContact, pdnce->szProto, "Nick", &dbv)) {
 			wchar_t nick[_countof(contact->szText)];
 			mir_wstrncpy(nick, dbv.ptszVal, _countof(contact->szText));
 			db_free(&dbv);

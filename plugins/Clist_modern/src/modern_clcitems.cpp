@@ -61,7 +61,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 
 		p.iImage = corecli.pfnGetContactIcon(pdnce->hContact);
 		memset(p.iExtraImage, 0xFF, sizeof(p.iExtraImage));
-		p.proto = pdnce->m_pszProto;
+		p.proto = pdnce->szProto;
 		p.type = CLCIT_CONTACT;
 		p.flags = 0;
 		p.iSubNumber = i + 1;
@@ -71,7 +71,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		Cache_GetTimezone(dat, (&p)->hContact);
 		Cache_GetText(dat, &p);
 
-		char *szProto = pdnce->m_pszProto;
+		char *szProto = pdnce->szProto;
 		if (szProto != nullptr && !pcli->pfnIsHiddenMode(dat, wStatus))
 			p.flags |= CONTACTF_ONLINE;
 		int apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
@@ -116,7 +116,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	if (!cont)
 		return;
 
-	char *szProto = pdnce->m_pszProto;
+	char *szProto = pdnce->szProto;
 
 	cont->type = CLCIT_CONTACT;
 	cont->pce = pdnce;
@@ -182,7 +182,7 @@ void cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int update
 	if (dat->IsMetaContactsEnabled && pdnce->m_bIsSub)
 		return;		//contact should not be added
 
-	if (!dat->IsMetaContactsEnabled && !mir_strcmp(pdnce->m_pszProto, META_PROTO))
+	if (!dat->IsMetaContactsEnabled && !mir_strcmp(pdnce->szProto, META_PROTO))
 		return;
 
 	corecli.pfnAddContactToTree(hwnd, dat, hContact, updateTotalCount, checkHideOffline);
@@ -325,12 +325,12 @@ ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact)
 		return nullptr;
 
 	pdnce->hContact = hContact;
-	pdnce->m_pszProto = GetContactProto(hContact);
+	pdnce->szProto = GetContactProto(hContact);
 	pdnce->bIsHidden = db_get_b(hContact, "CList", "Hidden", 0);
 	pdnce->m_bIsSub = db_mc_isSub(hContact) != 0;
 	pdnce->m_bNoHiddenOffline = db_get_b(hContact, "CList", "noOffline", 0);
-	pdnce->IdleTS = db_get_dw(hContact, pdnce->m_pszProto, "IdleTS", 0);
-	pdnce->ApparentMode = db_get_w(hContact, pdnce->m_pszProto, "ApparentMode", 0);
+	pdnce->IdleTS = db_get_dw(hContact, pdnce->szProto, "IdleTS", 0);
+	pdnce->ApparentMode = db_get_w(hContact, pdnce->szProto, "ApparentMode", 0);
 	pdnce->NotOnList = db_get_b(hContact, "CList", "NotOnList", 0);
 	pdnce->IsExpanded = db_get_b(hContact, "CList", "Expanded", 0);
 	pdnce->dwLastMsgTime = -1;

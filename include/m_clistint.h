@@ -268,7 +268,8 @@ struct ClcCacheEntryBase
 	MCONTACT hContact;
 	wchar_t* tszName;
 	wchar_t* tszGroup;
-	int    bIsHidden;
+	int      bIsHidden;
+	char*    szProto;
 };
 
 struct CLIST_INTERFACE

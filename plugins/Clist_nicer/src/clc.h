@@ -372,35 +372,29 @@ DWORD INTSORT_GetLastMsgTime(MCONTACT hContact);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // clcutils.c
-void 	SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
-void 	DoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
-int 	FindRowByText(HWND hwnd, struct ClcData *dat, const wchar_t *text, int prefixOk);
-void 	BeginRenameSelection(HWND hwnd, struct ClcData *dat);
-int 	HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
-void 	ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
-void 	RecalcScrollBar(HWND hwnd, struct ClcData *dat);
-size_t 	MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut);
-size_t 	MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut);
+void   SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
+void   BeginRenameSelection(HWND hwnd, struct ClcData *dat);
+int    HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
+void   ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
+void   RecalcScrollBar(HWND hwnd, struct ClcData *dat);
+size_t MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut);
+size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut);
 
-int GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
-void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
-void RecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
-void SetGroupChildCheckboxes(ClcGroup *group, int checked);
-BYTE GetCachedStatusMsg(TExtraCache* p, char *szProto);
-int __fastcall GetStatusOnlineness(int status);
-void GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
-extern LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void HideShowNotifyFrame();
-DWORD GetCLUIWindowStyle(BYTE style);
-void ApplyCLUIBorderStyle();
+int    GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
+void   LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
+BYTE   GetCachedStatusMsg(TExtraCache* p, char *szProto);
+int    __fastcall GetStatusOnlineness(int status);
+void   GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
+LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+void   HideShowNotifyFrame();
+DWORD  GetCLUIWindowStyle(BYTE style);
+void   ApplyCLUIBorderStyle();
 
 int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);
 int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);
 
 void FreeProtocolData( void );
 
-void GetClientID(ClcContact *contact, char *client);
-int  LoadCLCButtonModule(void);
 void SetButtonStates();
 void ConfigureCLUIGeometry(int mode);
 void IcoLibReloadIcons();
@@ -414,7 +408,6 @@ void SkinDrawBg(HWND hwnd, HDC hdc);
 int  GetBasicFontID(ClcContact *contact);
 int  CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szStatus, struct ClcData *dat);
 void CreateViewModeFrame();
-int  GetExtraCache(MCONTACT hContact, char *szProto);
 void ReloadExtraInfo(MCONTACT hContact);
 void LoadAvatarForContact(ClcContact *p);
 void ApplyViewMode(const char *name);
@@ -434,8 +427,7 @@ void CLN_LoadAllIcons(BOOL mode);
 void ReloadSkinItemsToCache();
 
 // clcopts.c
-int ClcOptInit(WPARAM wParam, LPARAM lParam);
-void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
+int  ClcOptInit(WPARAM wParam, LPARAM lParam);
 void CluiProtocolStatusChanged(int, const char*);
 
 void LoadSkinItemToCache(struct TExtraCache *cEntry);

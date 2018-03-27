@@ -1507,7 +1507,7 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 		ClcContact *contact;
 		if (Clist_FindItem(hwnd, dat, wParam, &contact, nullptr, nullptr)) { /////////////////// ??
 			ClcCacheEntry *pdnce = contact->pce;
-			if (pdnce && pdnce->m_pszProto) {
+			if (pdnce && pdnce->szProto) {
 				if (!dat->bForceInDialog) {
 					Cache_GetNthLineText(dat, pdnce, 2);
 					Cache_GetNthLineText(dat, pdnce, 3);

@@ -98,7 +98,7 @@ static void amThreadProc(void *)
 				ack.hContact = hContact;
 				ack.type = ACKTYPE_AWAYMSG;
 				ack.result = ACKRESULT_FAILED;
-				ack.szModule = pdnce->m_pszProto;
+				ack.szModule = pdnce->szProto;
 				ClcDoProtoAck(&ack);
 			}
 			amRequestTick = time;

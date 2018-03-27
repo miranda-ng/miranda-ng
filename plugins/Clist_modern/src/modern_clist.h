@@ -76,7 +76,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	int      m_bNoHiddenOffline;
 
 	int      m_iStatus;
-	char*    m_pszProto;
 	bool     m_bIsSub;
 	bool     m_bIsUnknown;
 

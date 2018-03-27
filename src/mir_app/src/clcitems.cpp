@@ -363,6 +363,8 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 		int nHiddenStatus = cli.pfnGetContactHiddenStatus(hContact, nullptr, dat);
 		if (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus) {
 			ClcCacheEntry *pce = cli.pfnGetCacheEntry(hContact);
+			if (pce->szProto == nullptr)
+				continue;
 
 			ClcGroup *group;
 			ptrW tszGroupName(db_get_wsa(hContact, "CList", "Group"));
