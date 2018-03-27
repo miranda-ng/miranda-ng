@@ -98,7 +98,7 @@ CIconPool::CPoolItem::~CPoolItem()
 		mir_free(m_szIcolibName);
 	}
 
-	if (m_name) mir_free(m_name);
+	mir_free(m_name);
 }
 
 CIconPool::CIconPool() :

@@ -640,6 +640,7 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode);
 
 void   g_IconsInit();
 void   g_XstatusIconsInit();
+void   g_XstatusIconsUninit();
 HANDLE g_GetIconHandle(int iconId);
 HICON  g_LoadIconEx(const char* name, bool big = false);
 

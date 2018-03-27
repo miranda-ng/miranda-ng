@@ -1524,3 +1524,9 @@ void g_XstatusIconsInit()
 			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szSecond, szFile, g_arrActivities[k].iconid, szSection, TranslateW(g_arrActivities[k].szTitle));
 	}
 }
+
+void g_XstatusIconsUninit()
+{
+	g_MoodIcons.Clear();
+	g_ActivityIcons.Clear();
+}

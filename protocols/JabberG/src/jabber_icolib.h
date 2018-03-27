@@ -38,8 +38,12 @@ public:
 	void RegisterIcon(const char *name, wchar_t *filename, int iconid, wchar_t *szSection, wchar_t *szDescription);
 
 	HANDLE GetIcolibHandle(const char *name);
-	char *GetIcolibName(const char *name);
-	HICON GetIcon(const char *name, bool big = false);
+	char*  GetIcolibName(const char *name);
+	HICON  GetIcon(const char *name, bool big = false);
+
+	__forceinline void Clear()
+	{	m_items.destroy();
+	}
 
 private:
 	struct CPoolItem
@@ -56,7 +60,7 @@ private:
 
 	OBJLIST<CPoolItem> m_items;
 
-	CPoolItem *FindItemByName(const char *name);
+	CPoolItem* FindItemByName(const char *name);
 };
 
 #endif // _JABBER_ICOLIB_H_

@@ -222,6 +222,7 @@ extern "C" int __declspec(dllexport) Load()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	g_XstatusIconsUninit();
 	JabberUserInfoUninit();
 
 	if (hMsftedit != nullptr)
