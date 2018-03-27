@@ -146,6 +146,10 @@ int LoadDefaultModules(void)
 		default:                // smth went wrong, terminating
 			return 1;
 		}
+		
+		for (auto &it : pluginList.rev_iter())
+			if (!it->bIsLast && it->bOk)
+				Plugin_UnloadDyn(it, false);
 
 		plugin_service = nullptr;
 	}

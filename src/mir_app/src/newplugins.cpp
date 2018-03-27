@@ -342,7 +342,7 @@ void Plugin_Uninit(pluginEntry *p)
 	pluginList.remove(p);
 }
 
-int Plugin_UnloadDyn(pluginEntry *p)
+int Plugin_UnloadDyn(pluginEntry *p, bool bFreeDll)
 {
 	if (p->bpi.hInst) {
 		if (CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
@@ -374,13 +374,19 @@ int Plugin_UnloadDyn(pluginEntry *p)
 
 	NotifyFastHook(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
 
-	Plugin_Uninit(p);
+	if (bFreeDll) {
+		Plugin_Uninit(p);
 
-	// mark default plugins to be loaded
-	if (!p->bIsCore)
-		for (auto &it : pluginDefault)
-			if (it.pImpl == p)
-				it.pImpl = nullptr;
+		// mark default plugins to be loaded
+		if (!p->bIsCore)
+			for (auto &it : pluginDefault)
+				if (it.pImpl == p)
+					it.pImpl = nullptr;
+	}
+	else if (p->bLoaded) {
+		p->bpi.Unload();
+		p->bLoaded = false;
+	}
 
 	return TRUE;
 }
@@ -445,7 +451,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 		BASIC_PLUGIN_INFO bpi;
 		if (checkAPI(tszFullPath, &bpi, mirandaVersion, CHECKAPI_NONE)) {
 			// plugin is valid
-			p->bHasBasicApi = true;
+			p->bHasBasicApi = p->bIsLast = true;
 			if (bIsDb)
 				p->bIsDatabase = true;
 			else
@@ -694,6 +700,7 @@ int LaunchServicePlugin(pluginEntry *p)
 {
 	// plugin load failed - terminating Miranda
 	if (!p->bLoaded) {
+		RegisterModule(p->bpi.hInst);
 		if (p->bpi.Load() != ERROR_SUCCESS) {
 			Plugin_Uninit(p);
 			return SERVICE_FAILED;
@@ -855,6 +862,8 @@ int LoadNewPluginsModuleInfos(void)
 
 	hPluginListHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
 	mirandaVersion = Miranda_GetVersion();
+
+	RegisterModule(g_hInst);
 
 	// remember where the mirandaboot.ini goes
 	PathToAbsoluteW(L"mirandaboot.ini", mirandabootini);
