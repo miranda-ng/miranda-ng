@@ -75,6 +75,9 @@ STDMETHODIMP_(LONG) CDbxMDBX::DeleteContact(MCONTACT contactID)
 			return 1;
 	}
 
+	// free cache item
+	m_cache->FreeCachedContact(contactID);
+
 	InterlockedDecrement(&m_contactCount);
 	return 0;
 }
