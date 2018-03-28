@@ -214,11 +214,7 @@ void CJabberProto::OnLoggedIn()
 	setString("LastLoggedServer", m_ThreadInfo->conn.server);
 	m_pepServices.ResetPublishAll();
 	if (m_bEnableStreamMgmt)
-	{
-		if (m_bStrmMgmtPendingEnable && !m_bStrmMgmtEnabled)
-			EnableStrmMgmt();
-	}
-
+		m_StrmMgmt.CheckState();
 }
 
 void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)

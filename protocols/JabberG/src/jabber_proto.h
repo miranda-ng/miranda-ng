@@ -38,6 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_presence_manager.h"
 #include "jabber_send_manager.h"
 #include "jabber_omemo.h"
+#include "jabber_strm_mgmt.h"
 
 struct CJabberProto;
 
@@ -285,9 +286,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int m_nIqIdRegSetReg;
 
 	//xep-0198 related vars
-	uint32_t m_nStrmMgmtSrvHCount, m_nStrmMgmtLocalHCount, m_nStrmMgmtLocalSCount, m_nStrmMgmtResumeMaxSeconds;
-	bool m_bStrmMgmtPendingEnable, m_bStrmMgmtEnabled, m_bStrmMgmtResumeSupported;
-	wchar_t *m_sStrmMgmtResumeId;
+	strm_mgmt m_StrmMgmt;
 
 	int m_nSDBrowseMode;
 	DWORD m_dwSDLastRefresh;
@@ -805,7 +804,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   ProcessCaptcha(HXML node, HXML parentNode, ThreadData *info);
 
 	void   EnableCarbons(bool bEnable);
-	void   EnableStrmMgmt();
 
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const wchar_t *jid);
@@ -930,8 +928,6 @@ public:
 	LPTSTR    STDMETHODCALLTYPE GetResourceFeatures(const wchar_t *jid);   // Returns all features supported by JID in format "feature1\0feature2\0...\0featureN\0\0". You must free returned string using mir_free().
 	
 	HNETLIBUSER STDMETHODCALLTYPE GetHandle();  // Returns connection handle
-
-	void m_nStrmMgmtLocalSCount_incr();
 
 private:
 	JabberFeatCapPairDynamic *FindFeature(const wchar_t *szFeature);

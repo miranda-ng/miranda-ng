@@ -519,12 +519,8 @@ recvRest:
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
-			//TODO: following should be redone once resumption implemented
-			//reset state of stream management
-			m_bStrmMgmtEnabled = false;
-			m_bStrmMgmtPendingEnable = false;
-			//reset stream management h counters
-			m_nStrmMgmtLocalHCount = m_nStrmMgmtLocalSCount = m_nStrmMgmtSrvHCount = 0;
+
+			m_StrmMgmt.OnDisconnect();
 
 			// Set all contacts to offline
 			debugLogA("1");
@@ -744,15 +740,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData *info)
 		else if (!mir_wstrcmp(XmlGetName(n), L"auth")) m_AuthMechs.isAuthAvailable = true;
 		else if (!mir_wstrcmp(XmlGetName(n), L"session")) m_AuthMechs.isSessionAvailable = true;
 		else if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetName(n), L"sm"))
-		{
-			if (!mir_wstrcmp(XmlGetAttrValue(n, L"xmlns"), L"urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
-			{
-				if (!m_bJabberOnline)
-					m_bStrmMgmtPendingEnable = true;
-				else
-					EnableStrmMgmt();
-			}
-		}
+			m_StrmMgmt.CheckStreamFeatures(n);
 	}
 
 	if (areMechanismsDefined) {
@@ -790,58 +778,18 @@ void CJabberProto::OnProcessFailure(HXML node, ThreadData *info)
 	}
 }
 
-void CJabberProto::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
+void CJabberProto::OnProcessFailed(HXML node, ThreadData *info) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
+{
+	m_StrmMgmt.OnProcessFailed(node, info);
+}
+
+
+void CJabberProto::OnProcessEnabled(HXML node, ThreadData * info)
 {
 	if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
-	{
-		//TODO: handle failure
-	}
+		m_StrmMgmt.OnProcessEnabled(node, info);
 }
 
-void CJabberProto::OnProcessEnabled(HXML node, ThreadData * /*info*/)
-{
-	if (m_bEnableStreamMgmt && !mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
-	{
-		m_bStrmMgmtEnabled = true;
-		auto val = XmlGetAttrValue(node, L"max");
-		m_nStrmMgmtResumeMaxSeconds = _wtoi(val);
-		val = XmlGetAttrValue(node, L"resume");
-		if (mir_wstrcmp(val, L"true") || mir_wstrcmp(val, L"1"))
-			m_bStrmMgmtResumeSupported = true;
-
-		if (m_sStrmMgmtResumeId)
-			mir_free(m_sStrmMgmtResumeId);
-		m_sStrmMgmtResumeId = mir_wstrdup(XmlGetAttrValue(node, L"id"));
-		m_nStrmMgmtLocalHCount = 0;
-		m_nStrmMgmtSrvHCount = 0; //?
-		m_nStrmMgmtLocalSCount = 0;
-	}
-}
-
-void CJabberProto::OnProcessSMa(HXML node, ThreadData * /*info*/)
-{
-	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
-	{
-		auto val = XmlGetAttrValue(node, L"h");
-		uint32_t iVal = _wtoi(val);
-		m_nStrmMgmtSrvHCount = iVal;
-		if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) > 0)
-		{
-			//TODO: server have not handled some of sent nodes, handle situation
-		}
-	}
-}
-
-void CJabberProto::OnProcessSMr(HXML node, ThreadData * /*info*/)
-{
-	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
-	{
-		XmlNode enable_sm(L"a");
-		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-		xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
-		m_ThreadInfo->send(enable_sm);
-	}
-}
 
 void CJabberProto::OnProcessError(HXML node, ThreadData *info)
 {
@@ -919,8 +867,8 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 {
 	OnConsoleProcessXml(node, JCPF_IN);
 
-	if (m_bEnableStreamMgmt && m_bStrmMgmtEnabled && mir_wstrcmp(XmlGetName(node), L"r") && mir_wstrcmp(XmlGetName(node), L"a")) //TODO: something better
-		m_nStrmMgmtLocalHCount++;
+	if (m_bEnableStreamMgmt)
+		m_StrmMgmt.HandleIncommingNode(node);
 	if (!mir_wstrcmp(XmlGetName(node), L"proceed"))
 		OnProcessProceed(node, info);
 	else if (!mir_wstrcmp(XmlGetName(node), L"compressed"))
@@ -948,13 +896,6 @@ void CJabberProto::OnProcessProtocol(HXML node, ThreadData *info)
 			OnProcessFailed(node, info);
 		else if (!mir_wstrcmp(XmlGetName(node), L"enabled"))
 			OnProcessEnabled(node, info);
-		else if (m_bEnableStreamMgmt)
-		{
-			if (!mir_wstrcmp(XmlGetName(node), L"r"))
-				OnProcessSMr(node, info);
-			else if (!mir_wstrcmp(XmlGetName(node), L"a"))
-				OnProcessSMa(node, info);
-		}
 		else
 			debugLogA("Invalid top-level tag (only <message/> <presence/> and <iq/> allowed)");
 	}
@@ -2076,14 +2017,6 @@ void CJabberProto::EnableCarbons(bool bEnable)
 		<< XCHILDNS((bEnable) ? L"enable" : L"disable", JABBER_FEAT_CARBONS));
 }
 
-void CJabberProto::EnableStrmMgmt()
-{
-	XmlNode enable_sm(L"enable");
-	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-	XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
-	m_ThreadInfo->send(enable_sm);
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // ThreadData constructor & destructor
@@ -2204,11 +2137,7 @@ int ThreadData::send(HXML node)
 	int result = send(utfStr, (int)mir_strlen(utfStr));
 
 	xmlFree(str);
-	if (proto->m_bEnableStreamMgmt && proto->m_bStrmMgmtEnabled)
-	{
-		auto name = XmlGetName(node);
-		if(mir_wstrcmp(name, L"a") && mir_wstrcmp(name, L"r"))
-			proto->m_nStrmMgmtLocalSCount_incr();
-	}
+	if (proto->m_bEnableStreamMgmt)
+		proto->m_StrmMgmt.HandleOutgoingNode(node); //TODO: is this a correct place ?
 	return result;
 }
