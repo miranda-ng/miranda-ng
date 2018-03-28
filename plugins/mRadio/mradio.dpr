@@ -156,16 +156,8 @@ begin
 end;
 
 function Load: int; cdecl;
-var
-  desc:TPROTOCOLDESCRIPTOR;
 begin
   Langpack_register;
-
-  // register protocol
-  desc.cbSize:=SizeOf(desc);
-  desc.szName:=PluginName;
-  desc._type :=PROTOTYPE_VIRTUAL;
-  Proto_RegisterModule(@desc);
 
   // hooks and services
   hhRadioStatus:=CreateHookableEvent(ME_RADIO_STATUS);
@@ -209,6 +201,15 @@ exports
   Load, Unload,
   MirandaPluginInfoEx;
 
+var
+  desc:TPROTOCOLDESCRIPTOR;
+
 begin
+  // register protocol
+  desc.cbSize:=SizeOf(desc);
+  desc.szName:=PluginName;
+  desc._type :=PROTOTYPE_VIRTUAL;
+  Proto_RegisterModule(@desc);
+
   DisableThreadLibraryCalls(hInstance);
 end.
