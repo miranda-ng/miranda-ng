@@ -1,7 +1,7 @@
 #ifndef _LUA_CORE_H_
 #define _LUA_CORE_H_
 
-class CMLua : private PLUGIN<CMLua>
+class CMLua : public PLUGIN<CMLua>
 {
 	friend class CMLuaOptions;
 

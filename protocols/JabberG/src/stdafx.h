@@ -87,6 +87,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <win2k.h>
 #include <m_imgsrvc.h>
 #include <m_clc.h>
+#include <m_plugin.h>
 
 #include <m_folders.h>
 #include <m_fingerprint.h>
