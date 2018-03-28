@@ -568,7 +568,9 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 		}
 	}
 
-	if (!p->bLoaded) {
+	// contact list is loaded via clistlink, db - via DATABASELINK
+	// so we should call Load() only for usual plugins
+	if (!p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
 		RegisterModule(p->bpi.hInst);
 		if (p->bpi.Load() != 0)
 			return false;
