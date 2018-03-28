@@ -38,14 +38,10 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
   {0x2fd0df15, 0x7098, 0x41ce, {0xaa, 0x92, 0xff, 0x62, 0x18, 0x06, 0xe3, 0x8b}} //{2fd0df15-7098-41ce-aa92-ff621806e38b}
-}; //not used
-
-//OLD_MIRANDAPLUGININFO_SUPPORT;
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD) 
 {
-//	Log("%s", "Entering function " __FUNCTION__);
-//	Log("%s", "Leaving function " __FUNCTION__);
 	return &pluginInfo;
 }
 
@@ -53,39 +49,27 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_EXCHANG
 
 extern "C" int __declspec(dllexport) Load()
 {
-//	Log("%s", "Entering function " __FUNCTION__);
-	//pluginLink = link;
 	mir_getLP( &pluginInfo );
-//	Log("%s", "Initialising miranda memory functions");
-//	InitializeMirandaMemFunctions();
 	hiMailIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIL));
-//	Log("%s", "Creating service functions ...");
 	InitServices();
-//	Log("%s", "Hooking events ...");	
 	HookEvents();
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload()
 {
-//	Log("%s", "Entering function " __FUNCTION__);
-//	Log("%s", "Unhooking events ...");
-	
-//	Log("%s", "Destroying service functions ...");
 	DestroyServices();
-//	DestroyEvents();
 	UnhookEvents();
-	
-//	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
 }
 
-extern "C" bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID)
 {
 	hInstance = hinstDLL; //save global instance
 	if (fdwReason == DLL_PROCESS_ATTACH)
-		{
-			DisableThreadLibraryCalls(hinstDLL);
-		}
+		DisableThreadLibraryCalls(hinstDLL);
+
 	return TRUE;
 }
