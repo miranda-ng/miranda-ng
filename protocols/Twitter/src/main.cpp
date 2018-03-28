@@ -69,31 +69,10 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	TwitterProto *proto = new TwitterProto(proto_name, username);
-	g_Instances.insert(proto);
-	return proto;
-}
-
-static int protoUninit(PROTO_INTERFACE *proto)
-{
-	g_Instances.remove(static_cast<TwitterProto*>(proto));
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "Twitter";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = protoInit;
-	pd.fnUninit = protoUninit;
-	Proto_RegisterModule(&pd);
 
 	InitIcons();
 	InitContactMenus();
@@ -108,3 +87,28 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
+{
+	TwitterProto *proto = new TwitterProto(proto_name, username);
+	g_Instances.insert(proto);
+	return proto;
+}
+
+static int protoUninit(PROTO_INTERFACE *proto)
+{
+	g_Instances.remove(static_cast<TwitterProto*>(proto));
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("Twitter")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
+	}
+}
+	g_plugin;

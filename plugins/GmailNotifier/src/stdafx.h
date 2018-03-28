@@ -20,6 +20,7 @@
 #include "m_clc.h"
 #include "m_popup.h"
 #include "m_netlib.h"
+#include <m_plugin.h>
 
 #define WM_SHELLNOTIFY 	WM_USER+5
 #define IDI_TRAY		WM_USER+6

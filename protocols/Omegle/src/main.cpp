@@ -73,33 +73,12 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	OmegleProto *proto = new OmegleProto(proto_name, username);
-	g_Instances.insert(proto);
-	return proto;
-}
-
-static int protoUninit(PROTO_INTERFACE* proto)
-{
-	g_Instances.remove((OmegleProto*)proto);
-	return EXIT_SUCCESS;
-}
-
 static HANDLE g_hEvents[1];
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "Omegle";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = protoInit;
-	pd.fnUninit = protoUninit;
-	Proto_RegisterModule(&pd);
 
 	InitIcons();
 	//InitContactMenus();
@@ -138,3 +117,28 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
+{
+	OmegleProto *proto = new OmegleProto(proto_name, username);
+	g_Instances.insert(proto);
+	return proto;
+}
+
+static int protoUninit(PROTO_INTERFACE* proto)
+{
+	g_Instances.remove((OmegleProto*)proto);
+	return EXIT_SUCCESS;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("Omegle")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
+	}
+}
+	g_plugin;

@@ -299,3 +299,15 @@ UINT CDropboxService::Upload(FileTransferParam *ftp)
 	ftp->SetStatus(ACKRESULT_SUCCESS);
 	return ACKRESULT_SUCCESS;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODULE "/Dropbox")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
+	}
+}
+static g_plugin;

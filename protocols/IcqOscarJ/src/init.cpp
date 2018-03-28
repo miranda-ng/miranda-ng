@@ -64,20 +64,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PROTO_INTERFACE* icqProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CIcqProto *ppro = new CIcqProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int icqProtoUninit(PROTO_INTERFACE* ppro)
-{
-	g_Instances.remove((CIcqProto*)ppro);
-	delete (CIcqProto*)ppro;
-	return 0;
-}
-
 int ModuleLoad(WPARAM, LPARAM)
 {
 	bPopupService = ServiceExists(MS_POPUP_ADDPOPUPT);
@@ -102,15 +88,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	srand(time(nullptr));
 	_tzset();
-
-	// Register the module
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = ICQ_PROTOCOL_NAME;
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = icqProtoInit;
-	pd.fnUninit = icqProtoUninit;
-	Proto_RegisterModule(&pd);
 
 	// Initialize charset conversion routines
 	InitI18N();
@@ -183,3 +160,29 @@ void CIcqProto::UpdateGlobalSettings()
 	m_bXStatusEnabled = getByte("XStatusEnabled", DEFAULT_XSTATUS_ENABLED);
 	m_bMoodsEnabled = getByte("MoodsEnabled", DEFAULT_MOODS_ENABLED);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* icqProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
+{
+	CIcqProto *ppro = new CIcqProto(pszProtoName, tszUserName);
+	g_Instances.insert(ppro);
+	return ppro;
+}
+
+static int icqProtoUninit(PROTO_INTERFACE* ppro)
+{
+	g_Instances.remove((CIcqProto*)ppro);
+	delete (CIcqProto*)ppro;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(ICQ_PROTOCOL_NAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, icqProtoInit, icqProtoUninit);
+	}
+}
+	g_plugin;

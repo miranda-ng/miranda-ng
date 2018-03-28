@@ -54,14 +54,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pci = Chat_GetInterface();
 	pcli = Clist_GetInterface();
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "TOX";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;
-	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;
-	Proto_RegisterModule(&pd);
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	return 0;
@@ -71,3 +63,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("TOX")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CToxProto::InitAccount, (pfnUninitProto)CToxProto::UninitAccount);
+	}
+}
+	g_plugin;

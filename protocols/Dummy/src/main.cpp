@@ -62,31 +62,10 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-static CDummyProto* dummyProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
-{
-	CDummyProto *ppro = new CDummyProto(pszProtoName, tszUserName);
-	return ppro;
-}
-
-static int dummyProtoUninit(CDummyProto *ppro)
-{
-	delete ppro;
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
-
-	// Register protocol module
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "Dummy";
-	pd.fnInit = (pfnInitProto)dummyProtoInit;
-	pd.fnUninit = (pfnUninitProto)dummyProtoUninit;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
@@ -99,3 +78,27 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* dummyProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
+{
+	CDummyProto *ppro = new CDummyProto(pszProtoName, tszUserName);
+	return ppro;
+}
+
+static int dummyProtoUninit(PROTO_INTERFACE *ppro)
+{
+	delete (CDummyProto*)ppro;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("Dummy")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, dummyProtoInit, dummyProtoUninit);
+	}
+}
+	g_plugin;

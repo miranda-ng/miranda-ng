@@ -91,14 +91,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = FACEBOOK_NAME;
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = protoInit;
-	pd.fnUninit = protoUninit;
-	Proto_RegisterModule(&pd);
-
 	InitIcons();
 	InitContactMenus();
 
@@ -128,3 +120,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(FACEBOOK_NAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
+	}
+}
+	g_plugin;

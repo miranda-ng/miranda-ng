@@ -82,19 +82,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static CMsnProto* msnProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CMsnProto *ppro = new CMsnProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int msnProtoUninit(CMsnProto* ppro)
-{
-	g_Instances.remove(ppro);
-	return 0;
-}
-
 // Performs a primary set of actions upon plugin loading
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -102,14 +89,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "MSN";
-	pd.fnInit = (pfnInitProto)msnProtoInit;
-	pd.fnUninit = (pfnUninitProto)msnProtoUninit;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
 
 	MsnInitIcons();
 	MSN_InitContactMenu();
@@ -135,3 +114,28 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 // MirandaInterfaces - returns the protocol interface to the core
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* msnProtoInit(const char *pszProtoName, const wchar_t *tszUserName)
+{
+	CMsnProto *ppro = new CMsnProto(pszProtoName, tszUserName);
+	g_Instances.insert(ppro);
+	return ppro;
+}
+
+static int msnProtoUninit(PROTO_INTERFACE *ppro)
+{
+	g_Instances.remove((CMsnProto*)ppro);
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("MSN")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, msnProtoInit, msnProtoUninit);
+	}
+}
+	g_plugin;

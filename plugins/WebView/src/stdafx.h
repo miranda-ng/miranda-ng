@@ -31,6 +31,7 @@
 #include <m_netlib.h>
 #include <m_langpack.h>
 #include <m_findadd.h>
+#include <m_plugin.h>
 
 #include "resource.h"
 #include "version.h"

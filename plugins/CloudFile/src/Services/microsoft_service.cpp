@@ -273,3 +273,15 @@ UINT COneDriveService::Upload(FileTransferParam *ftp)
 	ftp->SetStatus(ACKRESULT_SUCCESS);
 	return ACKRESULT_SUCCESS;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODULE "/OneDrive")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
+	}
+}
+static g_plugin;

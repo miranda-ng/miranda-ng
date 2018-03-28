@@ -31,19 +31,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "STEAM";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = (pfnInitProto)CSteamProto::InitAccount;
-	pd.fnUninit = (pfnUninitProto)CSteamProto::UninitAccount;
-	Proto_RegisterModule(&pd);
 
 	char iconName[100];
 	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
@@ -60,3 +52,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("STEAM")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CSteamProto::InitAccount, (pfnUninitProto)CSteamProto::UninitAccount);
+	}
+}
+	g_plugin;

@@ -284,3 +284,15 @@ UINT CGDriveService::Upload(FileTransferParam *ftp)
 	ftp->SetStatus(ACKRESULT_SUCCESS);
 	return ACKRESULT_SUCCESS;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODULE "/GDrive")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
+	}
+}
+static g_plugin;

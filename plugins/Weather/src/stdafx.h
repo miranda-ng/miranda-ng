@@ -54,6 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_popup.h>
 #include <win2k.h>
 #include <m_acc.h>
+#include <m_plugin.h>
 
 #include <m_weather.h>
 #include <m_toptoolbar.h>

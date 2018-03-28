@@ -332,11 +332,6 @@ extern "C" int __declspec(dllexport) __cdecl Load()
 	mir_getLP(&pluginInfo);
 	g_lan = new CMLan();
 
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-	pd.szName = PROTONAME;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
-
 	CreateProtoServiceFunction(PROTONAME, PS_GETCAPS, EMPGetCaps);
 	CreateProtoServiceFunction(PROTONAME, PS_GETNAME, EMPGetName);
 	CreateProtoServiceFunction(PROTONAME, PS_LOADICON, EMPLoadIcon);
@@ -367,3 +362,15 @@ extern "C" int __declspec(dllexport) __cdecl Unload()
 	delete g_lan;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(PROTONAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+	}
+}
+	g_plugin;

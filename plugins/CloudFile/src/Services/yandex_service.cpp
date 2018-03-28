@@ -279,3 +279,15 @@ UINT CYandexService::Upload(FileTransferParam *ftp)
 	ftp->SetStatus(ACKRESULT_SUCCESS);
 	return ACKRESULT_SUCCESS;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODULE "/YandexDisk")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
+	}
+}
+static g_plugin;

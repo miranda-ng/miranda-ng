@@ -310,27 +310,6 @@ void GaduProto::menus_init()
 }
 
 //////////////////////////////////////////////////////////
-// Module instance initialization
-//
-static GaduProto *gg_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	GaduProto *gg = new GaduProto(pszProtoName, tszUserName);
-	g_Instances.insert(gg);
-	return gg;
-}
-
-//////////////////////////////////////////////////////////
-// Module instance uninitialization
-//
-static int gg_proto_uninit(PROTO_INTERFACE *proto)
-{
-	GaduProto *gg = (GaduProto *)proto;
-	g_Instances.remove(gg);
-	delete gg;
-	return 0;
-}
-
-//////////////////////////////////////////////////////////
 // When plugin is loaded
 //
 extern "C" int __declspec(dllexport) Load(void)
@@ -339,15 +318,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pcli = Clist_GetInterface();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
-
-	// Prepare protocol name
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = GGDEF_PROTO;
-	pd.fnInit = (pfnInitProto)gg_proto_init;
-	pd.fnUninit = (pfnUninitProto)gg_proto_uninit;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
 
 	gg_links_instancemenu_init();
 	return 0;
@@ -467,3 +437,30 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD, LPVOID)
 #endif
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* gg_proto_init(const char *pszProtoName, const wchar_t *tszUserName)
+{
+	GaduProto *gg = new GaduProto(pszProtoName, tszUserName);
+	g_Instances.insert(gg);
+	return gg;
+}
+
+static int gg_proto_uninit(PROTO_INTERFACE *proto)
+{
+	GaduProto *gg = (GaduProto*)proto;
+	g_Instances.remove(gg);
+	delete gg;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(GGDEF_PROTO)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, gg_proto_init, gg_proto_uninit);
+	}
+}
+	g_plugin;

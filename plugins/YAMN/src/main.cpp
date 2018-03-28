@@ -265,12 +265,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		}
 	}
 
-	// Registering YAMN as protocol
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-	pd.szName = YAMN_DBMODULE;
-	pd.type = PROTOTYPE_VIRTUAL;
-	Proto_RegisterModule(&pd);
-
 	if (nullptr == (NoWriterEV = CreateEvent(nullptr, TRUE, TRUE, nullptr)))
 		return 1;
 	if (nullptr == (WriteToFileEV = CreateEvent(nullptr, FALSE, FALSE, nullptr)))
@@ -365,3 +359,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 	delete[] CodePageNamesSupp;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(YAMN_DBMODULE)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+	}
+}
+	g_plugin;

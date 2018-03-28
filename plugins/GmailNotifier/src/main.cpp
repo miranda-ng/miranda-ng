@@ -94,11 +94,6 @@ extern "C" int __declspec(dllexport) Load()
 	Skin_AddSound("Gmail", LPGENW("Other"), LPGENW("Gmail: New thread(s)"));
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
 
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-	pd.szName = MODULE_NAME;
-	pd.type = PROTOTYPE_VIRTUAL;
-	Proto_RegisterModule(&pd);
-
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULE_NAME;
@@ -172,3 +167,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UnhookEvent(hOptionsInitial);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODULE_NAME)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+	}
+}
+	g_plugin;

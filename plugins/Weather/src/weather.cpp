@@ -216,13 +216,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
 
-	// register weather protocol
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = WEATHERPROTONAME;
-	pd.type = (opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
-
 	// initialize weather protocol services
 	InitServices();
 
@@ -238,3 +231,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(WEATHERPROTONAME)
+	{
+		opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
+		RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
+	}
+}
+	g_plugin;

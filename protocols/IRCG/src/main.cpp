@@ -73,20 +73,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static CIrcProto* ircProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CIrcProto *ppro = new CIrcProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int ircProtoUninit(CIrcProto *ppro)
-{
-	g_Instances.remove((CIrcProto*)ppro);
-	delete ppro;
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
@@ -96,15 +82,6 @@ extern "C" int __declspec(dllexport) Load()
 	InitIcons();
 	InitServers();
 	InitContactMenus();
-
-	// register protocol
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "IRC";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = (pfnInitProto)ircProtoInit;
-	pd.fnUninit = (pfnUninitProto)ircProtoUninit;
-	Proto_RegisterModule(&pd);
 	return 0;
 }
 
@@ -116,3 +93,29 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UninitTimers();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* ircProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
+{
+	CIrcProto *ppro = new CIrcProto(pszProtoName, tszUserName);
+	g_Instances.insert(ppro);
+	return ppro;
+}
+
+static int ircProtoUninit(PROTO_INTERFACE *ppro)
+{
+	g_Instances.remove((CIrcProto*)ppro);
+	delete (CIrcProto*)ppro;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("IRC")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, ircProtoInit, ircProtoUninit);
+	}
+}
+	g_plugin;

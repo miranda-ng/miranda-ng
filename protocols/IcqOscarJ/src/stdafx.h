@@ -80,6 +80,7 @@
 #include <m_timezones.h>
 #include <win2k.h>
 #include <m_gui.h>
+#include <m_plugin.h>
 
 // Project resources
 #include "resource.h"

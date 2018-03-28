@@ -246,7 +246,22 @@ void CSametimeProto::BroadcastNewStatus(int iNewStatus)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)previous_status, m_iStatus);
 }
 
-static CSametimeProto* sametime_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
+extern "C" int __declspec(dllexport) Load(void)
+{
+	mir_getLP(&pluginInfo);
+	pcli = Clist_GetInterface();
+	return 0;
+}
+
+extern "C" int __declspec(dllexport) Unload()
+{
+	g_Instances.destroy();
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* sametime_proto_init(const char* pszProtoName, const wchar_t* tszUserName)
 {
 	CSametimeProto* proto = new CSametimeProto(pszProtoName, tszUserName);
 	g_Instances.insert(proto);
@@ -261,24 +276,12 @@ static int sametime_proto_uninit(PROTO_INTERFACE* ppro)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void)
+struct CMPlugin : public CMPluginBase
 {
-	mir_getLP(&pluginInfo);
-	pcli = Clist_GetInterface();
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.szName = "Sametime";
-	pd.fnInit = (pfnInitProto)sametime_proto_init;
-	pd.fnUninit = (pfnUninitProto)sametime_proto_uninit;
-	Proto_RegisterModule(&pd);
-	return 0;
+	CMPlugin() :
+		CMPluginBase("Sametime")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, sametime_proto_init, sametime_proto_uninit);
+	}
 }
-
-extern "C" int __declspec(dllexport) Unload()
-{
-	g_Instances.destroy();
-	return 0;
-}
-
+	g_plugin;

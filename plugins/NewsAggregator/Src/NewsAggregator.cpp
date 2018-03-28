@@ -66,13 +66,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
 
-	// register weather protocol
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = MODULE;
-	pd.type = PROTOTYPE_VIRTUAL;
-	Proto_RegisterModule(&pd);
-
 	CreateProtoServiceFunction(MODULE, PS_GETNAME, NewsAggrGetName);
 	CreateProtoServiceFunction(MODULE, PS_GETCAPS, NewsAggrGetCaps);
 	CreateProtoServiceFunction(MODULE, PS_SETSTATUS, NewsAggrSetStatus);
@@ -110,3 +103,15 @@ extern "C" __declspec(dllexport) int Unload(void)
 	CloseHandle(hUpdateMutex);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODULE)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+	}
+}
+	g_plugin;

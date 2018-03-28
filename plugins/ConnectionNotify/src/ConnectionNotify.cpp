@@ -859,13 +859,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	LoadSettings();
 	connExceptions = LoadSettingsConnections();
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = PLUGINNAME;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
-
-	//set all contacts to offline
+	// set all contacts to offline
 	for (auto &hContact : Contacts(PLUGINNAME))
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
 
@@ -903,3 +897,15 @@ extern "C" int __declspec(dllexport) Unload(void)
 	#endif
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(PLUGINNAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+	}
+}
+	g_plugin;

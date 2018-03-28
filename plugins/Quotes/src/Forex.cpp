@@ -315,12 +315,6 @@ EXTERN_C int __declspec(dllexport) Load(void)
 	Quotes_IconsInit();
 	Quotes_InitExtraIcons();
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
-	pd.szName = QUOTES_PROTOCOL_NAME;
-	pd.type = PROTOTYPE_VIRTUAL;
-	Proto_RegisterModule(&pd);
-
 	CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETCAPS, QuoteProtoFunc_GetCaps);
 	CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETSTATUS, QuoteProtoFunc_GetStatus);
 
@@ -343,3 +337,15 @@ EXTERN_C __declspec(dllexport) int Unload(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(QUOTES_PROTOCOL_NAME)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+	}
+}
+	g_plugin;

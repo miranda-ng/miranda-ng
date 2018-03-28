@@ -62,6 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_http.h>
 #include <m_messagestate.h>
 #include <m_gui.h>
+#include <m_plugin.h>
 
 class FacebookProto;
 

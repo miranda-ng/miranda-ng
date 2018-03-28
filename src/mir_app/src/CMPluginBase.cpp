@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CMPlugin::CMPlugin(const char *moduleName) :
+CMPluginBase::CMPluginBase(const char *moduleName) :
 	m_szModuleName(moduleName)
 {
 }
 
-CMPlugin::~CMPlugin()
+CMPluginBase::~CMPluginBase()
 {
 	if (m_hLogger) {
 		mir_closeLog(m_hLogger);
@@ -37,14 +37,14 @@ CMPlugin::~CMPlugin()
 	}
 }
 
-void CMPlugin::tryOpenLog()
+void CMPluginBase::tryOpenLog()
 {
 	wchar_t path[MAX_PATH];
 	mir_snwprintf(path, L"%s\\%s.txt", VARSW(L"%miranda_logpath%"), m_szModuleName);
 	m_hLogger = mir_createLog(m_szModuleName, nullptr, path, 0);
 }
 
-void CMPlugin::debugLogA(LPCSTR szFormat, ...)
+void CMPluginBase::debugLogA(LPCSTR szFormat, ...)
 {
 	if (m_hLogger == nullptr)
 		tryOpenLog();
@@ -55,7 +55,7 @@ void CMPlugin::debugLogA(LPCSTR szFormat, ...)
 	va_end(args);
 }
 
-void CMPlugin::debugLogW(LPCWSTR wszFormat, ...)
+void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 {
 	if (m_hLogger == nullptr)
 		tryOpenLog();
@@ -64,4 +64,15 @@ void CMPlugin::debugLogW(LPCWSTR wszFormat, ...)
 	va_start(args, wszFormat);
 	mir_writeLogVW(m_hLogger, wszFormat, args);
 	va_end(args);
+}
+
+void CMPluginBase::RegisterProtocol(int type, pfnInitProto fnInit, pfnUninitProto fnUninit)
+{
+	PROTOCOLDESCRIPTOR pd = {};
+	pd.cbSize = (fnInit == nullptr) ? PROTOCOLDESCRIPTOR_V3_SIZE : sizeof(pd);
+	pd.szName = (char*)m_szModuleName;
+	pd.type = type;
+	pd.fnInit = fnInit;
+	pd.fnUninit = fnUninit;
+	Proto_RegisterModule(&pd);
 }

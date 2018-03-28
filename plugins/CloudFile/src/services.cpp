@@ -89,30 +89,8 @@ INT_PTR Upload(WPARAM wParam, LPARAM lParam)
 void InitializeServices()
 {
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.type = PROTOTYPE_PROTOCOL;
-
-	pd.szName = MODULE "/Dropbox";
-	pd.fnInit = (pfnInitProto)CDropboxService::Init;
-	pd.fnUninit = (pfnUninitProto)CDropboxService::UnInit;
-	Proto_RegisterModule(&pd);
-
-	pd.szName = MODULE "/GDrive";
-	pd.fnInit = (pfnInitProto)CGDriveService::Init;
-	pd.fnUninit = (pfnUninitProto)CGDriveService::UnInit;
-	Proto_RegisterModule(&pd);
-
-	pd.szName = MODULE "/OneDrivre";
-	pd.fnInit = (pfnInitProto)COneDriveService::Init;
-	pd.fnUninit = (pfnUninitProto)COneDriveService::UnInit;
-	Proto_RegisterModule(&pd);
-
-	pd.szName = MODULE "/YandexDisk";
-	pd.fnInit = (pfnInitProto)CYandexService::Init;
-	pd.fnUninit = (pfnUninitProto)CYandexService::UnInit;
-	Proto_RegisterModule(&pd);
-
-	pd.szName = MODULE;
 	pd.type = PROTOTYPE_FILTER;
+	pd.szName = MODULE;
 	Proto_RegisterModule(&pd);
 
 	CreateServiceFunction(MODULE PSS_FILE, SendFileInterceptor);

@@ -50,6 +50,7 @@
 #include <m_xstatus.h>
 #include <m_nudge.h>
 #include <m_proto_listeningto.h>
+#include <m_plugin.h>
 
 #define PROTO_VERSION_MAJOR     1
 #define PROTO_VERSION_MINOR     21

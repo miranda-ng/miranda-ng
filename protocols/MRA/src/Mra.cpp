@@ -50,22 +50,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static CMraProto* mraProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
-{
-	CMraProto *ppro = new CMraProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int mraProtoUninit(CMraProto *ppro)
-{
-	g_Instances.remove(ppro);
-	delete ppro;
-	return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 static int __cdecl OnPreShutdown(WPARAM, LPARAM)
 {
 	g_bShutdown = true;
@@ -81,14 +65,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitXStatusIcons();
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "MRA";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = (pfnInitProto)mraProtoInit;
-	pd.fnUninit = (pfnUninitProto)mraProtoUninit;
-	Proto_RegisterModule(&pd);
 	return 0;
 }
 
@@ -102,3 +78,29 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* mraProtoInit(const char* pszProtoName, const wchar_t* tszUserName)
+{
+	CMraProto *ppro = new CMraProto(pszProtoName, tszUserName);
+	g_Instances.insert(ppro);
+	return ppro;
+}
+
+static int mraProtoUninit(PROTO_INTERFACE *ppro)
+{
+	g_Instances.remove((CMraProto*)ppro);
+	delete (CMraProto*)ppro;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("MRA")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, mraProtoInit, mraProtoUninit);
+	}
+}
+	g_plugin;

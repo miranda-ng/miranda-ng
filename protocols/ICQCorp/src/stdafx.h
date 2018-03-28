@@ -37,6 +37,7 @@
 #include <m_clist.h>
 #include <m_userinfo.h>
 #include <m_timezones.h>
+#include <m_plugin.h>
 
 #include "user.h"
 #include "transfer.h"

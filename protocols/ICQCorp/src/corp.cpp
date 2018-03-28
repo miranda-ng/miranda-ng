@@ -61,19 +61,6 @@ extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
 
-	char fileName[MAX_PATH];
-	GetModuleFileNameA(hInstance, fileName, MAX_PATH);
-
-	WIN32_FIND_DATAA findData;
-	FindClose(FindFirstFileA(fileName, &findData));
-	findData.cFileName[strlen(findData.cFileName) - 4] = 0;
-	strncpy_s(protoName, findData.cFileName, _TRUNCATE);
-
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-	pd.szName = protoName;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
-
 	LoadServices();
 	return 0;
 }
@@ -84,6 +71,26 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(protoName)
+	{
+		char fileName[MAX_PATH];
+		GetModuleFileNameA(hInstance, fileName, MAX_PATH);
+
+		WIN32_FIND_DATAA findData;
+		FindClose(FindFirstFileA(fileName, &findData));
+		findData.cFileName[strlen(findData.cFileName) - 4] = 0;
+		strncpy_s(protoName, findData.cFileName, _TRUNCATE);
+
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+	}
+}
+	g_plugin;
 
 ///////////////////////////////////////////////////////////////////////////////
 

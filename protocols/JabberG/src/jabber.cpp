@@ -163,21 +163,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 ///////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-static CJabberProto* jabberProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
-{
-	CJabberProto *ppro = new CJabberProto(pszProtoName, tszUserName);
-	g_Instances.insert(ppro);
-	return ppro;
-}
-
-static int jabberProtoUninit(CJabberProto *ppro)
-{
-	g_Instances.remove(ppro);
-	delete ppro;
-	return 0;
-}
-
-
 extern "C" int __declspec(dllexport) Load()
 {
 	// set the memory, lists & utf8 managers
@@ -195,15 +180,6 @@ extern "C" int __declspec(dllexport) Load()
 
 	hExtListInit = CreateHookableEvent(ME_JABBER_EXTLISTINIT);
 	hDiscoInfoResult = CreateHookableEvent(ME_JABBER_SRVDISCOINFO);
-
-	// Register protocol module
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "JABBER";
-	pd.fnInit = (pfnInitProto)jabberProtoInit;
-	pd.fnUninit = (pfnUninitProto)jabberProtoUninit;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
 
 	g_IconsInit();
 	g_XstatusIconsInit();
@@ -251,3 +227,29 @@ extern "C" int __declspec(dllexport) Unload(void)
 	g_MenuUninit();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* jabberProtoInit(const char* pszProtoName, const wchar_t *tszUserName)
+{
+	CJabberProto *ppro = new CJabberProto(pszProtoName, tszUserName);
+	g_Instances.insert(ppro);
+	return ppro;
+}
+
+static int jabberProtoUninit(PROTO_INTERFACE *ppro)
+{
+	g_Instances.remove((CJabberProto*)ppro);
+	delete (CJabberProto*)ppro;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(GLOBAL_SETTING_MODULE)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, jabberProtoInit, jabberProtoUninit);
+	}
+}
+	g_plugin;

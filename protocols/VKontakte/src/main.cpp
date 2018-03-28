@@ -54,33 +54,12 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
-static CVkProto* vkProtoInit(const char *pszProtoName, const wchar_t *wszUserName)
-{
-	CVkProto *ppro = new CVkProto(pszProtoName, wszUserName);
-	return ppro;
-}
-
-static int vkProtoUninit(CVkProto *ppro)
-{
-	delete ppro;
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 	pcli = Clist_GetInterface();
 
 	InitIcons();
-
-	// Register protocol module
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "VKontakte";
-	pd.fnInit = (pfnInitProto)vkProtoInit;
-	pd.fnUninit = (pfnUninitProto)vkProtoUninit;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
 	return 0;
 }
 
@@ -91,3 +70,27 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* protoInit(const char *pszProtoName, const wchar_t *wszUserName)
+{
+	CVkProto *ppro = new CVkProto(pszProtoName, wszUserName);
+	return ppro;
+}
+
+static int protoUninit(PROTO_INTERFACE *ppro)
+{
+	delete (CVkProto*)ppro;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("VKontakte")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
+	}
+}
+	g_plugin;

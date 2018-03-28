@@ -1708,13 +1708,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		Menu_EnableItem(hMenuHandle, FALSE);
 	}
 
-	// create protocol
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = PLUGINNAME;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
-
 	// set all contacts to offline
 	for (auto &hContact : Contacts(PLUGINNAME))
 		db_set_w(hContact, PLUGINNAME, "status", ID_STATUS_OFFLINE);
@@ -1777,3 +1770,15 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID )
 	}
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(PLUGINNAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+	}
+}
+	g_plugin;

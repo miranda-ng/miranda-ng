@@ -152,13 +152,6 @@ extern "C" int __declspec(dllexport) Load()
 	nlu.szDescriptiveName.a = tempNdesc;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	// register webview protocol
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = MODULENAME;
-	pd.type = PROTOTYPE_PROTOCOL;
-	Proto_RegisterModule(&pd);
-
 	//protocol services
 	InitServices();
 
@@ -290,3 +283,15 @@ extern "C" int __declspec(dllexport) Load()
 	db_set_b(NULL, MODULENAME, HAS_CRASHED_KEY, 1);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODULENAME)
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL);
+	}
+}
+	g_plugin;

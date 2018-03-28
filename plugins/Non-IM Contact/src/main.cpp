@@ -127,10 +127,7 @@ extern "C" __declspec(dllexport) int Load()
 	HookEvent(ME_OPT_INITIALISE, NimcOptInit);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, SetLCStatus);
 
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE, MODNAME, PROTOTYPE_VIRTUAL };
-	Proto_RegisterModule(&pd);
-
-	//load services (the first 5 are the basic ones needed to make a new protocol)
+	// load services (the first 5 are the basic ones needed to make a new protocol)
 	CreateProtoServiceFunction(MODNAME, PS_GETCAPS, GetLCCaps);
 	CreateProtoServiceFunction(MODNAME, PS_GETNAME, GetLCName);
 	CreateProtoServiceFunction(MODNAME, PS_LOADICON, LoadLCIcon);
@@ -204,3 +201,15 @@ extern "C" __declspec(dllexport) int Unload(void)
 	killTimer();
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase(MODNAME)
+	{
+		RegisterProtocol(PROTOTYPE_VIRTUAL);
+	}
+}
+	g_plugin;

@@ -59,14 +59,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	pci = Chat_GetInterface();
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "SKYPE";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = (pfnInitProto)CSkypeProto::InitAccount;
-	pd.fnUninit = (pfnUninitProto)CSkypeProto::UninitAccount;
-	Proto_RegisterModule(&pd);
-
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitMenus();
 	CSkypeProto::InitLanguages();
@@ -99,3 +91,15 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 	}
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("SKYPE")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, (pfnInitProto)CSkypeProto::InitAccount, (pfnUninitProto)CSkypeProto::UninitAccount);
+	}
+}
+	g_plugin;

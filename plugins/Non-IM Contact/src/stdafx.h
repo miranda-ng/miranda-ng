@@ -44,6 +44,7 @@ struct DLGTEMPLATEEX
 #include <m_utils.h>
 #include <m_ignore.h>
 #include <m_netlib.h>
+#include <m_plugin.h>
 #include <m_string.h>
 #include <win2k.h>
 

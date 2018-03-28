@@ -29,6 +29,7 @@
 #include <m_yamn.h>
 #include <m_protoplugin.h>
 #include <m_folders.h>
+#include <m_plugin.h>
 
 #include "main.h"
 #include "mails/decode.h"

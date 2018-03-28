@@ -2,8 +2,9 @@
 
 #include <m_core.h>
 #include <m_database.h>
+#include <m_protocols.h>
 
-class MIR_APP_EXPORT CMPlugin
+class MIR_APP_EXPORT CMPluginBase
 {
 	void tryOpenLog();
 
@@ -11,8 +12,11 @@ protected:
 	const char *m_szModuleName;
 	HANDLE m_hLogger = nullptr;
 
-	CMPlugin(const char *moduleName);
-	~CMPlugin();
+	CMPluginBase(const char *moduleName);
+	~CMPluginBase();
+
+	// pass one of PROTOTYPE_* constants as type
+	void RegisterProtocol(int type, pfnInitProto = nullptr, pfnUninitProto = nullptr);
 
 public:
 	void debugLogA(LPCSTR szFormat, ...);
@@ -145,14 +149,14 @@ public:
 	}
 };
 
-extern CMPlugin g_plugin;
+extern struct CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic class for plugins (not protocols) written in C++
 
-template<class T> class PLUGIN : public CMPlugin
+template<class T> class PLUGIN : public CMPluginBase
 {
-	typedef CMPlugin CSuper;
+	typedef CMPluginBase CSuper;
 
 protected:
 	PLUGIN(const char *moduleName)

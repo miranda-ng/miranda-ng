@@ -60,17 +60,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
-{
-	return new CDiscordProto(proto_name, username);
-}
-
-static int protoUninit(PROTO_INTERFACE *proto)
-{
-	delete proto;
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -79,14 +68,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	g_hwndHeartbeat = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
 
 	Icon_Register(g_hInstance, "Discord", g_iconList, _countof(g_iconList));
-
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
-	pd.szName = "Discord";
-	pd.type = PROTOTYPE_PROTOCOL;
-	pd.fnInit = protoInit;
-	pd.fnUninit = protoUninit;
-	Proto_RegisterModule(&pd);
 	return 0;
 }
 
@@ -98,3 +79,27 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyWindow(g_hwndHeartbeat);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static PROTO_INTERFACE* protoInit(const char *proto_name, const wchar_t *username)
+{
+	return new CDiscordProto(proto_name, username);
+}
+
+static int protoUninit(PROTO_INTERFACE *proto)
+{
+	delete (CDiscordProto*)proto;
+	return 0;
+}
+
+struct CMPlugin : public CMPluginBase
+{
+	CMPlugin() :
+		CMPluginBase("Discord")
+	{
+		RegisterProtocol(PROTOTYPE_PROTOCOL, protoInit, protoUninit);
+	}
+}
+	g_plugin;
+
