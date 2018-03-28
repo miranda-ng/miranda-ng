@@ -50,6 +50,7 @@ public:
 	void CheckStreamFeatures(HXML node);
 	void CheckState();
 	void OnDisconnect();
+	void SendAck();
 };
 
 #endif //JABBER_STRM_MGMT_H

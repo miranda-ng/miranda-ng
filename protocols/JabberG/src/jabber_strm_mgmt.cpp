@@ -54,46 +54,54 @@ void strm_mgmt::OnProcessSMa(HXML node)
 		int size = m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount;
 		if (size < 0)
 		{
-			//TODO: this should never happen, indicate server side bug
-			//TODO: once our side implementation good enough abort strem in this case, noop for now
+			//TODO: this should never happen, indicates server side bug
+			//TODO: once our client side implementation good enough, abort stream in this case, noop for now
 		}
-		else if (size > 0)
+		else if (size > 0 && !NodeCache.empty()) //TODO: NodeCache cannot be empty if size >0, it's a bug
 		{
-			const size_t diff = NodeCache.size() - size;
-			if (diff)
+			if (size <= NodeCache.size()) //TODO: size should not be larger than NodeCache.size(), another bug
 			{
-				size_t diff_tmp = diff;
-				for (auto i : NodeCache)
+				const size_t diff = NodeCache.size() - size;
+				if (diff)
 				{
-					if (diff_tmp > 0)
+					size_t diff_tmp = diff;
+					for (auto i : NodeCache)
 					{
-						xmlFree(i);
+						if (diff_tmp > 0)
+						{
+							xmlFree(i);
+							diff_tmp--;
+						}
+					}
+					diff_tmp = diff;
+					while (diff_tmp)
+					{
+						NodeCache.pop_front();
 						diff_tmp--;
 					}
 				}
-				diff_tmp = diff;
-				while (diff_tmp)
-				{
-					NodeCache.pop_front();
-					diff_tmp--;
-				}
 			}
-			for (auto i : NodeCache)
-				proto->m_ThreadInfo->send(i);
+			std::list<HXML> tmp_list = NodeCache;
+			NodeCache.clear();
+			for (auto i : tmp_list)
+			{
+				proto->m_ThreadInfo->send_no_strm_mgmt(i); //freed by send ?
+				//xmlFree(i);
+			}
 		}
-		NodeCache.clear();
+		else
+		{
+			for (auto i : NodeCache)
+				xmlFree(i);
+			NodeCache.clear();
+		}
 	}
 }
 
 void strm_mgmt::OnProcessSMr(HXML node)
 {
 	if (!mir_wstrcmp(XmlGetAttrValue(node, L"xmlns"), L"urn:xmpp:sm:3"))
-	{
-		XmlNode enable_sm(L"a");
-		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-		xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
-		proto->m_ThreadInfo->send(enable_sm);
-	}
+		SendAck();
 }
 
 void strm_mgmt::OnProcessFailed(HXML node, ThreadData * /*info*/) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
@@ -129,16 +137,13 @@ void strm_mgmt::HandleOutgoingNode(HXML node)
 {
 	if (!m_bStrmMgmtEnabled)
 		return;
-	auto name = XmlGetName(node);
-	if (mir_wstrcmp(name, L"a") && mir_wstrcmp(name, L"r"))
+	m_nStrmMgmtLocalSCount++;
+	NodeCache.push_back(xmlCopyNode(node));
+	if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) >= m_nStrmMgmtCacheSize)
 	{
-		m_nStrmMgmtLocalSCount++;
-		if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) >= m_nStrmMgmtCacheSize)
-		{
-			XmlNode enable_sm(L"r");
-			XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
-			proto->m_ThreadInfo->send(enable_sm);
-		}
+		XmlNode enable_sm(L"r");
+		XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+		proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
 	}
 }
 
@@ -155,10 +160,7 @@ void strm_mgmt::OnDisconnect()
 void strm_mgmt::HandleIncommingNode(HXML node)
 {
 	if (m_bStrmMgmtEnabled && mir_wstrcmp(XmlGetName(node), L"r") && mir_wstrcmp(XmlGetName(node), L"a")) //TODO: something better
-	{
-		NodeCache.push_back(xmlCopyNode(node));
 		m_nStrmMgmtLocalHCount++;
-	}
 	else if (!mir_wstrcmp(XmlGetName(node), L"r"))
 		OnProcessSMr(node);
 	else if (!mir_wstrcmp(XmlGetName(node), L"a"))
@@ -172,4 +174,14 @@ void strm_mgmt::EnableStrmMgmt()
 	XmlAddAttr(enable_sm, L"resume", L"true"); //enable resumption (most useful part of this xep)
 	proto->m_ThreadInfo->send(enable_sm);
 	m_nStrmMgmtLocalSCount = 1; //TODO: this MUST be 0, i have bug somewhere.
+}
+
+void strm_mgmt::SendAck()
+{
+	if (!m_bStrmMgmtEnabled)
+		return;
+	XmlNode enable_sm(L"a");
+	XmlAddAttr(enable_sm, L"xmlns", L"urn:xmpp:sm:3");
+	xmlAddAttrInt(enable_sm, L"h", m_nStrmMgmtLocalHCount);
+	proto->m_ThreadInfo->send_no_strm_mgmt(enable_sm);
 }

@@ -403,6 +403,7 @@ struct ThreadData
 	int   recv(char* buf, size_t len);
 	int   send(char* buffer, int bufsize = -1);
 	int   send(HXML node);
+	int   send_no_strm_mgmt(HXML node);
 
 	int   recvws(char* buffer, size_t bufsize, int flags);
 	int   sendws(char* buffer, size_t bufsize, int flags);

@@ -128,6 +128,8 @@ void CJabberProto::OnPingReply(HXML, CJabberIqInfo *pInfo)
 		return;
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_FAIL) {
 		// disconnect because of timeout
+		if (m_bEnableStreamMgmt)
+			m_StrmMgmt.SendAck();
 		m_ThreadInfo->send("</stream:stream>");
 		m_ThreadInfo->shutdown();
 	}
@@ -820,6 +822,8 @@ void CJabberProto::OnProcessError(HXML node, ThreadData *info)
 	if (!skipMsg)
 		MsgPopup(0, buff, TranslateT("Jabber Error"));
 
+	if (m_bEnableStreamMgmt) //TODO: check if needed/work here
+		m_StrmMgmt.SendAck();
 	info->send("</stream:stream>");
 }
 
@@ -2113,6 +2117,18 @@ int ThreadData::send(HXML node)
 	while (HXML parent = xmlGetParent(node))
 		node = parent;
 
+	int result = send_no_strm_mgmt(node);
+
+	if (proto->m_bEnableStreamMgmt)
+		proto->m_StrmMgmt.HandleOutgoingNode(node); //TODO: is this a correct place ?, looks like some nodes does not goes here...
+
+	return result;
+}
+
+// this function required for send <r/>, <a/> and more important, for resend stuck nodes by strm_mgmt (xep-0198)
+int ThreadData::send_no_strm_mgmt(HXML node)
+{
+
 	if (proto->m_sendManager.HandleSendPermanent(node, this))
 		return 0;
 
@@ -2132,12 +2148,10 @@ int ThreadData::send(HXML node)
 	}
 	*q = 0;
 
-
 	T2Utf utfStr(str);
 	int result = send(utfStr, (int)mir_strlen(utfStr));
-
 	xmlFree(str);
-	if (proto->m_bEnableStreamMgmt)
-		proto->m_StrmMgmt.HandleOutgoingNode(node); //TODO: is this a correct place ?
+
 	return result;
+
 }

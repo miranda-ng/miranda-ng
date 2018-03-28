@@ -1134,6 +1134,8 @@ int __cdecl CJabberProto::SetStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		if (m_ThreadInfo) {
+			if(m_bEnableStreamMgmt)
+				m_StrmMgmt.SendAck();
 			m_ThreadInfo->send("</stream:stream>");
 			m_ThreadInfo->shutdown();
 			RebuildInfoFrame();
